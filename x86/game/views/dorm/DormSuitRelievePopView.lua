@@ -1,47 +1,46 @@
-local var_0_0 = class("DormSuitRelievePopView", ReduxView)
+slot0 = class("DormSuitRelievePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormRedactPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.suitEid = arg_6_0.params_.suitEid
+function slot0.OnEnter(slot0)
+	slot0.suitEid = slot0.params_.suitEid
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0.suitEid = nil
+function slot0.OnExit(slot0)
+	slot0.suitEid = nil
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.maskBtn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.cancelBtn, nil, function()
+	slot0:AddBtnListener(slot0.cancelBtn, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.confirmBtn, nil, function()
-		if arg_8_0.suitEid then
-			DormSuitTools:RelieveSuit(arg_8_0.suitEid)
+	slot0:AddBtnListener(slot0.confirmBtn, nil, function ()
+		if uv0.suitEid then
+			DormSuitTools:RelieveSuit(uv0.suitEid)
 			JumpTools.Back(2)
 		end
 	end)
 end
 
-return var_0_0
+return slot0

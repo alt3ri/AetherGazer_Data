@@ -1,44 +1,42 @@
-local var_0_0 = class("CultureGravureEquipPopItem", ReduxView)
+slot0 = class("CultureGravureEquipPopItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = arg_3_0.itemControl_:GetController("state")
-	arg_3_0.previewItems = {}
+	slot4 = "state"
+	slot0.stateController_ = slot0.itemControl_:GetController(slot4)
+	slot0.previewItems = {}
 
-	for iter_3_0 = 1, 2 do
-		arg_3_0.previewItems[iter_3_0] = CultureGravureEquipPreviewItem.New(arg_3_0["previewItem_" .. iter_3_0])
+	for slot4 = 1, 2 do
+		slot0.previewItems[slot4] = CultureGravureEquipPreviewItem.New(slot0["previewItem_" .. slot4])
 	end
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = arg_4_1.equipedData
-	local var_4_1 = arg_4_1.recommendData
-
-	arg_4_0.previewItems[1]:SetData(var_4_0, arg_4_1.state, false, arg_4_2)
-	arg_4_0.previewItems[2]:SetData(var_4_1, arg_4_1.state, true, arg_4_2)
-	arg_4_0.stateController_:SetSelectedState(arg_4_1.state == "had" and "had" or "nothad")
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.previewItems[1]:SetData(slot1.equipedData, slot1.state, false, slot2)
+	slot0.previewItems[2]:SetData(slot1.recommendData, slot1.state, true, slot2)
+	slot0.stateController_:SetSelectedState(slot1.state == "had" and "had" or "nothad")
 end
 
-function var_0_0.Dispose(arg_5_0)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.previewItems) do
-		iter_5_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.previewItems) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.previewItems = nil
+	slot0.previewItems = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

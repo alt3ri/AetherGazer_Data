@@ -1,45 +1,45 @@
-local var_0_0 = class("HellaParkourView", ReduxView)
+slot0 = class("HellaParkourView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/HellaUI/Parkour/HellaParkourUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_rewardBtn, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_5_0.parkour_activity_id) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.parkour_activity_id) then
 			JumpTools.OpenPageByJump("hellaParkourReward", {
-				parkour_activity_id = arg_5_0.parkour_activity_id
+				parkour_activity_id = uv0.parkour_activity_id
 			})
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_entrustBtn, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_5_0.parkour_activity_id) then
+	slot0:AddBtnListener(slot0.m_entrustBtn, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.parkour_activity_id) then
 			JumpTools.OpenPageByJump("/hellaParkourEntrust", {
-				parkour_activity_id = arg_5_0.parkour_activity_id
+				parkour_activity_id = uv0.parkour_activity_id
 			})
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_loseBtn, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_5_0.parkour_activity_id) then
+	slot0:AddBtnListener(slot0.m_loseBtn, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.parkour_activity_id) then
 			JumpTools.OpenPageByJump("/hellaParkourLose", {
-				parkour_activity_id = arg_5_0.parkour_activity_id
+				parkour_activity_id = uv0.parkour_activity_id
 			})
 		else
 			ShowTips("TIME_OVER")
@@ -47,7 +47,7 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -56,45 +56,41 @@ function var_0_0.OnTop(arg_9_0)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_HELLA_PARKOUR_DESCRIPE")
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.parkour_activity_id = arg_10_0.params_.parkour_activity_id or 61101
+function slot0.OnEnter(slot0)
+	slot0.parkour_activity_id = slot0.params_.parkour_activity_id or 61101
 
-	arg_10_0:RefreshTime()
+	slot0:RefreshTime()
 
-	arg_10_0.timer = Timer.New(function()
-		arg_10_0:RefreshTime()
+	slot0.timer = Timer.New(function ()
+		uv0:RefreshTime()
 	end, 1, -1)
 
-	arg_10_0.timer:Start()
-	manager.redPoint:bindUIandKey(arg_10_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_REWARD, arg_10_0.parkour_activity_id))
-	manager.redPoint:bindUIandKey(arg_10_0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_ENTRUST_ALL, arg_10_0.parkour_activity_id))
-	manager.redPoint:bindUIandKey(arg_10_0.m_loseBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, arg_10_0.parkour_activity_id))
+	slot0.timer:Start()
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_REWARD, slot0.parkour_activity_id))
+	manager.redPoint:bindUIandKey(slot0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_ENTRUST_ALL, slot0.parkour_activity_id))
+	manager.redPoint:bindUIandKey(slot0.m_loseBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, slot0.parkour_activity_id))
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_12_0.timer then
-		arg_12_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_12_0.timer = nil
+		slot0.timer = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_12_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_REWARD, arg_12_0.parkour_activity_id))
-	manager.redPoint:unbindUIandKey(arg_12_0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_ENTRUST_ALL, arg_12_0.parkour_activity_id))
-	manager.redPoint:unbindUIandKey(arg_12_0.m_loseBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, arg_12_0.parkour_activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_REWARD, slot0.parkour_activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_ENTRUST_ALL, slot0.parkour_activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_loseBtn.transform, string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, slot0.parkour_activity_id))
 end
 
-function var_0_0.RefreshTime(arg_13_0)
-	local var_13_0 = ActivityData:GetActivityData(arg_13_0.parkour_activity_id)
-
-	if var_13_0 and var_13_0:IsActivitying() then
-		local var_13_1 = var_13_0.stopTime
-
-		arg_13_0.m_timer.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr(var_13_1)
+function slot0.RefreshTime(slot0)
+	if ActivityData:GetActivityData(slot0.parkour_activity_id) and slot1:IsActivitying() then
+		slot0.m_timer.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr(slot1.stopTime)
 	else
-		arg_13_0.m_timer.text = GetTips("TIME_OUT")
+		slot0.m_timer.text = GetTips("TIME_OUT")
 	end
 end
 
-return var_0_0
+return slot0

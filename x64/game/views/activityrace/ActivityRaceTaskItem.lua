@@ -1,122 +1,120 @@
-local var_0_0 = class("ActivityRaceTaskItem", ReduxView)
+slot0 = class("ActivityRaceTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.rewardItemList_ = {}
-	arg_2_0.rewardController_ = ControllerUtil.GetController(arg_2_0.transform_, "reward")
+	slot0.rewardItemList_ = {}
+	slot0.rewardController_ = ControllerUtil.GetController(slot0.transform_, "reward")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		if manager.time:GetServerTime() >= arg_4_0.stopTime_ then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		ActivityRaceAction.RequireReceive(arg_4_0.activityID_, arg_4_0.taskID_, function(arg_6_0)
-			ActivityRaceData:SetReceivedTaskList(arg_4_0.activityID_, arg_4_0.taskID_)
-			getReward2(arg_6_0.reward_list)
-			arg_4_0:RefreshRewardState()
+		ActivityRaceAction.RequireReceive(uv0.activityID_, uv0.taskID_, function (slot0)
+			ActivityRaceData:SetReceivedTaskList(uv0.activityID_, uv0.taskID_)
+			getReward2(slot0.reward_list)
+			uv0:RefreshRewardState()
 		end)
 	end)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.rewardItemList_) do
-		iter_7_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_7_0.rewardItemList_ = nil
+	slot0.rewardItemList_ = nil
 
-	Object.Destroy(arg_7_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.transform_ = nil
-	arg_7_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.taskID_ = arg_8_1
-	arg_8_0.isAccumulated_ = arg_8_3
-	arg_8_0.activityID_ = arg_8_2
-	arg_8_0.stopTime_ = ActivityData:GetActivityData(arg_8_0.activityID_).stopTime
-	arg_8_0.rewardList_ = ActivityPointRewardCfg[arg_8_1].reward_item_list
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.taskID_ = slot1
+	slot0.isAccumulated_ = slot3
+	slot0.activityID_ = slot2
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
+	slot0.rewardList_ = ActivityPointRewardCfg[slot1].reward_item_list
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	if arg_9_0.isAccumulated_ then
-		arg_9_0.desctext_.text = string.format(GetTips("ACTIVITY_RACE_AMOUNT_REWARD"), tostring(ActivityPointRewardCfg[arg_9_0.taskID_].need))
+function slot0.RefreshUI(slot0)
+	if slot0.isAccumulated_ then
+		slot0.desctext_.text = string.format(GetTips("ACTIVITY_RACE_AMOUNT_REWARD"), tostring(ActivityPointRewardCfg[slot0.taskID_].need))
 	else
-		arg_9_0.desctext_.text = string.format(GetTips("ACTIVITY_RACE_HIGHEST_REWARD"), tostring(ActivityPointRewardCfg[arg_9_0.taskID_].need))
+		slot0.desctext_.text = string.format(GetTips("ACTIVITY_RACE_HIGHEST_REWARD"), tostring(ActivityPointRewardCfg[slot0.taskID_].need))
 	end
 
-	arg_9_0:RefreshRewardItem()
-	arg_9_0:RefreshRewardState()
+	slot0:RefreshRewardItem()
+	slot0:RefreshRewardState()
 end
 
-function var_0_0.RefreshRewardItem(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.rewardList_) do
-		if arg_10_0.rewardItemList_[iter_10_0] then
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(iter_10_1, false)
+function slot0.RefreshRewardItem(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardList_) do
+		if slot0.rewardItemList_[slot4] then
+			slot0.rewardItemList_[slot4]:SetData(slot5, false)
 		else
-			arg_10_0.rewardItemList_[iter_10_0] = RewardPoolItem.New(arg_10_0.goRewardPanel_, iter_10_1)
+			slot0.rewardItemList_[slot4] = RewardPoolItem.New(slot0.goRewardPanel_, slot5)
 		end
 	end
 
-	for iter_10_2 = #arg_10_0.rewardList_ + 1, #arg_10_0.rewardItemList_ do
-		arg_10_0.rewardItemList_[iter_10_2]:Show(false)
+	for slot4 = #slot0.rewardList_ + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.OnReceiveReward(arg_11_0, arg_11_1)
-	ActivityRaceData:SetReceivedTaskList(arg_11_0.activityID_, arg_11_0.taskID_)
-	getReward2(arg_11_1)
-	arg_11_0:RefreshRewardState()
+function slot0.OnReceiveReward(slot0, slot1)
+	ActivityRaceData:SetReceivedTaskList(slot0.activityID_, slot0.taskID_)
+	getReward2(slot1)
+	slot0:RefreshRewardState()
 end
 
-function var_0_0.RefreshRewardState(arg_12_0)
-	local var_12_0 = ActivityRaceData:GetReceivedTaskList(arg_12_0.activityID_)[arg_12_0.taskID_]
-	local var_12_1 = ActivityRaceData:GetStateList()[arg_12_0.activityID_]
+function slot0.RefreshRewardState(slot0)
+	slot2 = ActivityRaceData:GetReceivedTaskList(slot0.activityID_)[slot0.taskID_]
+	slot0.score_ = 0
 
-	arg_12_0.score_ = 0
-
-	if var_12_1 then
-		if not arg_12_0.isAccumulated_ then
-			arg_12_0.score_ = var_12_1.score
+	if ActivityRaceData:GetStateList()[slot0.activityID_] then
+		if not slot0.isAccumulated_ then
+			slot0.score_ = slot3.score
 		else
-			arg_12_0.score_ = tonumber(var_12_1.accumulativeScore)
+			slot0.score_ = tonumber(slot3.accumulativeScore)
 		end
 	end
 
-	if var_12_0 then
-		arg_12_0.rewardController_:SetSelectedState("received")
-	elseif arg_12_0.score_ >= ActivityPointRewardCfg[arg_12_0.taskID_].need then
-		arg_12_0.rewardController_:SetSelectedState("complete")
-	elseif not arg_12_0.isAccumulated_ then
-		arg_12_0.rewardController_:SetSelectedState("incomplete")
+	if slot2 then
+		slot0.rewardController_:SetSelectedState("received")
+	elseif ActivityPointRewardCfg[slot0.taskID_].need <= slot0.score_ then
+		slot0.rewardController_:SetSelectedState("complete")
+	elseif not slot0.isAccumulated_ then
+		slot0.rewardController_:SetSelectedState("incomplete")
 	else
-		arg_12_0.rewardController_:SetSelectedState("accumulateIncomplete")
+		slot0.rewardController_:SetSelectedState("accumulateIncomplete")
 
-		arg_12_0.processText_.text = string.format("%d/%d", arg_12_0.score_, ActivityPointRewardCfg[arg_12_0.taskID_].need)
+		slot0.processText_.text = string.format("%d/%d", slot0.score_, ActivityPointRewardCfg[slot0.taskID_].need)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,5 +1,5 @@
-local var_0_0 = class("HeroSurpassPreviewItem", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroSurpassPreviewItem", ReduxView)
+slot1 = {
 	lockState = {
 		lock = "lock",
 		normal = "normal"
@@ -10,115 +10,105 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.isBigNode_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.isBigNode_ = slot2
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.SetClickCheckCallback(arg_2_0, arg_2_1)
-	arg_2_0.clickCheckCallback = arg_2_1
+function slot0.SetClickCheckCallback(slot0, slot1)
+	slot0.clickCheckCallback = slot1
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.lockController = arg_3_0.controllerexcollection_:GetController("lock")
+	slot0.lockController = slot0.controllerexcollection_:GetController("lock")
 
-	if arg_3_0.isBigNode_ then
-		arg_3_0.showController = arg_3_0.controllerexcollection_:GetController("showType")
+	if slot0.isBigNode_ then
+		slot0.showController = slot0.controllerexcollection_:GetController("showType")
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	if arg_4_0.isBigNode_ then
-		arg_4_0:AddBtnListener(arg_4_0.checkbtnBtn_, nil, function()
-			if arg_4_0.clickCheckCallback then
-				arg_4_0:clickCheckCallback()
+function slot0.AddUIListener(slot0)
+	if slot0.isBigNode_ then
+		slot0:AddBtnListener(slot0.checkbtnBtn_, nil, function ()
+			if uv0.clickCheckCallback then
+				uv0:clickCheckCallback()
 			end
 		end)
 	end
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1)
-	if not arg_6_1 then
+function slot0.RefreshUI(slot0, slot1)
+	if not slot1 then
 		return
 	end
 
-	local var_6_0 = arg_6_1.isBeginStar
+	slot2 = slot1.isBeginStar
 
-	if arg_6_0.showController then
-		local var_6_1 = arg_6_1.isBeginStar and var_0_1.showTypeState.special or var_0_1.showTypeState.normal
-
-		arg_6_0.showController:SetSelectedState(var_6_1)
+	if slot0.showController then
+		slot0.showController:SetSelectedState(slot1.isBeginStar and uv0.showTypeState.special or uv0.showTypeState.normal)
 	end
 
-	local var_6_2 = arg_6_1.isLock and var_0_1.lockState.lock or var_0_1.lockState.normal
+	slot0.lockController:SetSelectedState(slot1.isLock and uv0.lockState.lock or uv0.lockState.normal)
 
-	arg_6_0.lockController:SetSelectedState(var_6_2)
+	slot4 = slot1.cfg
+	slot0.heroStarCfg = slot4
+	slot0.textText_.text, slot6 = slot0:UpdateDescShow(slot1.heroCfg, slot4)
 
-	local var_6_3 = arg_6_1.cfg
-
-	arg_6_0.heroStarCfg = var_6_3
-
-	local var_6_4, var_6_5 = arg_6_0:UpdateDescShow(arg_6_1.heroCfg, var_6_3)
-
-	if not arg_6_0.isBigNode_ then
-		arg_6_0.textText_.text = var_6_4
+	if not slot0.isBigNode_ then
+		-- Nothing
 	else
-		SurpassTools.ChangeIconStarSpirte(arg_6_0.iconImg_, var_6_3.star)
+		SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, slot4.star)
 
-		if var_6_5 == "" then
-			SetActive(arg_6_0.additem2Go_, false)
+		if slot6 == "" then
+			SetActive(slot0.additem2Go_, false)
 		else
-			SetActive(arg_6_0.additem2Go_, true)
+			SetActive(slot0.additem2Go_, true)
 
-			arg_6_0.addtext2Text_.text = var_6_5
+			slot0.addtext2Text_.text = slot6
 		end
 
-		local var_6_6 = HeroTools.IsSpHero(arg_6_1.heroCfg and arg_6_1.heroCfg.id or 0)
+		slot7 = HeroTools.IsSpHero(slot1.heroCfg and slot1.heroCfg.id or 0)
 
-		SetActive(additem3Go_, var_6_6)
+		SetActive(additem3Go_, slot7)
 
-		if var_6_6 then
-			local var_6_7 = AstrolabeTools.GetSpAstrolabeNodeBySurpass(arg_6_1.heroCfg.id, var_6_3)
+		if slot7 then
+			SetActive(slot0.additem3Go_, AstrolabeTools.GetSpAstrolabeNodeBySurpass(slot1.heroCfg.id, slot4) ~= 0)
 
-			SetActive(arg_6_0.additem3Go_, var_6_7 ~= 0)
-
-			if HeroAstrolabeCfg[var_6_7] then
-				arg_6_0.addtext3Text_.text = string.format("解锁[%s]神格", HeroAstrolabeCfg[var_6_7].name)
+			if HeroAstrolabeCfg[slot8] then
+				slot0.addtext3Text_.text = string.format("解锁[%s]神格", HeroAstrolabeCfg[slot8].name)
 			end
 		end
 
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.showgroupTrs_)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.showgroupTrs_)
 
-		local var_6_8 = arg_6_0.checkbtnTrs_.position
-
-		var_6_8.y = arg_6_0.additem1Go_.transform.position.y
-		arg_6_0.checkbtnTrs_.position = var_6_8
+		slot8 = slot0.checkbtnTrs_.position
+		slot8.y = slot0.additem1Go_.transform.position.y
+		slot0.checkbtnTrs_.position = slot8
 	end
 end
 
-function var_0_0.UpdateDescShow(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = ""
-	local var_7_1, var_7_2 = SurpassTools.GetStarUpAttrShowDesc(arg_7_1, arg_7_2.id)
+function slot0.UpdateDescShow(slot0, slot1, slot2)
+	slot4, slot5 = SurpassTools.GetStarUpAttrShowDesc(slot1, slot2.id)
 
-	for iter_7_0, iter_7_1 in pairs(var_7_1) do
-		var_7_0 = string.format("%s%s\n", var_7_0, iter_7_1)
+	for slot9, slot10 in pairs(slot4) do
+		slot3 = string.format("%s%s\n", "", slot10)
 	end
 
-	return var_7_0, var_7_2
+	return slot3, slot5
 end
 
-function var_0_0.SetActive(arg_8_0, arg_8_1)
-	arg_8_0.gameObject_:SetActive(arg_8_1)
+function slot0.SetActive(slot0, slot1)
+	slot0.gameObject_:SetActive(slot1)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

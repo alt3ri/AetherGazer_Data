@@ -1,17 +1,16 @@
 SummerStageBaseView = import("game.views.activity.Submodule.storyStage.summer.stage.SummerStageBaseView")
+slot0 = class("SummerStageMainView", SummerStageBaseView)
 
-local var_0_0 = class("SummerStageMainView", SummerStageBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/SummerUI/SummerMainStoryUI"
 end
 
-function var_0_0.GetStageItemClass(arg_2_0)
+function slot0.GetStageItemClass(slot0)
 	return SummerStageMainItem
 end
 
-function var_0_0.GetActivityID(arg_3_0)
+function slot0.GetActivityID(slot0)
 	return ActivityConst.SUMMER_STORY_ISLAND
 end
 
-return var_0_0
+return slot0

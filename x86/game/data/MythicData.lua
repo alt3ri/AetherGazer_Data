@@ -1,319 +1,311 @@
 require("game.data.MythicDataTemplate")
 
-local var_0_0 = singletonClass("MythicData")
-local var_0_1 = false
-local var_0_2 = 0
-local var_0_3 = {}
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7 = 0
-local var_0_8 = 1001
-local var_0_9 = {}
-local var_0_10 = {}
-local var_0_11 = 0
-local var_0_12 = {}
-local var_0_13 = {}
-local var_0_14 = {}
-local var_0_15 = false
-local var_0_16 = {}
-local var_0_17 = 1
-local var_0_18 = {}
-local var_0_19 = {}
-local var_0_20 = 0
-local var_0_21 = false
-local var_0_22 = 1
-local var_0_23 = 0
-local var_0_24 = {}
-local var_0_25 = 0
-local var_0_26 = {}
-local var_0_27 = {}
-local var_0_28 = {
+slot0 = singletonClass("MythicData")
+slot1 = false
+slot2 = 0
+slot3 = {}
+slot4 = {}
+slot5 = {}
+slot6 = {}
+slot7 = 0
+slot8 = 1001
+slot9 = {}
+slot10 = {}
+slot11 = 0
+slot12 = {}
+slot13 = {}
+slot14 = {}
+slot15 = false
+slot16 = {}
+slot17 = 1
+slot18 = {}
+slot19 = {}
+slot20 = 0
+slot21 = false
+slot22 = 1
+slot23 = 0
+slot24 = {}
+slot25 = 0
+slot26 = {}
+slot27 = {}
+slot28 = {
 	CHIP = 2,
 	HERO = 1,
 	COMBO = 3
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_3 = {}
-	var_0_4 = {}
-	var_0_5 = {}
-	var_0_6 = {}
-	var_0_9 = {}
-	var_0_10 = {}
-	var_0_11 = 0
-	var_0_12 = {}
-	var_0_13 = {}
-	var_0_14 = {}
-	var_0_15 = false
-	var_0_21 = false
-	var_0_16 = {}
-	var_0_22 = 1
-	var_0_17 = 1
-	var_0_18 = {}
-	var_0_19 = {}
-	var_0_20 = 0
-	arg_1_0.teamData_ = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
+	uv5 = {}
+	uv6 = 0
+	uv7 = {}
+	uv8 = {}
+	uv9 = {}
+	uv10 = false
+	uv11 = false
+	uv12 = {}
+	uv13 = 1
+	uv14 = 1
+	uv15 = {}
+	uv16 = {}
+	uv17 = 0
+	slot0.teamData_ = {}
 end
 
-function var_0_0.InitMythicData(arg_2_0, arg_2_1)
-	var_0_3 = {}
+function slot0.InitMythicData(slot0, slot1)
+	uv0 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.difficulty_list) do
-		local var_2_0 = {}
-		local var_2_1 = iter_2_1.difficulty
+	for slot5, slot6 in ipairs(slot1.difficulty_list) do
+		slot7 = {
+			difficulty = slot6.difficulty,
+			main_partition = MythicDifficultyTemplate.New(slot6.main_partition),
+			sub_partition_list = {}
+		}
 
-		var_2_0.difficulty = var_2_1
-		var_2_0.main_partition = MythicDifficultyTemplate.New(iter_2_1.main_partition)
-		var_2_0.sub_partition_list = {}
-
-		for iter_2_2, iter_2_3 in ipairs(iter_2_1.sub_partition_list) do
-			table.insert(var_2_0.sub_partition_list, MythicDifficultyTemplate.New(iter_2_3))
+		for slot12, slot13 in ipairs(slot6.sub_partition_list) do
+			table.insert(slot7.sub_partition_list, MythicDifficultyTemplate.New(slot13))
 		end
 
-		var_0_3[var_2_1] = var_2_0
+		uv0[slot8] = slot7
 	end
 
-	var_0_4 = {}
+	uv1 = {}
 
-	for iter_2_4, iter_2_5 in ipairs(arg_2_1.superiority_affix_list) do
-		table.insert(var_0_4, {
-			iter_2_5.id,
-			iter_2_5.level,
-			iter_2_5.type
+	for slot5, slot6 in ipairs(slot1.superiority_affix_list) do
+		table.insert(uv1, {
+			slot6.id,
+			slot6.level,
+			slot6.type
 		})
 	end
 
-	var_0_5 = {}
+	uv2 = {}
 
-	for iter_2_6, iter_2_7 in ipairs(arg_2_1.inferiority_affix_list) do
-		table.insert(var_0_5, {
-			iter_2_7.id,
-			iter_2_7.level,
-			iter_2_7.type
+	for slot5, slot6 in ipairs(slot1.inferiority_affix_list) do
+		table.insert(uv2, {
+			slot6.id,
+			slot6.level,
+			slot6.type
 		})
 	end
 
-	var_0_6 = {}
+	uv3 = {}
 
-	for iter_2_8, iter_2_9 in ipairs(arg_2_1.mythic_ultimate_affix_list) do
-		table.insert(var_0_6, {
-			iter_2_9.id,
-			iter_2_9.level,
-			iter_2_9.type
+	for slot5, slot6 in ipairs(slot1.mythic_ultimate_affix_list) do
+		table.insert(uv3, {
+			slot6.id,
+			slot6.level,
+			slot6.type
 		})
 	end
 
-	if arg_2_1.next_refresh_timestamp ~= var_0_7 then
-		var_0_1 = true
+	if slot1.next_refresh_timestamp ~= uv4 then
+		uv5 = true
 	end
 
-	var_0_7 = arg_2_1.next_refresh_timestamp
+	uv4 = slot1.next_refresh_timestamp
 end
 
-function var_0_0.InitFinalMythicData(arg_3_0, arg_3_1)
-	var_0_9 = {}
+function slot0.InitFinalMythicData(slot0, slot1)
+	uv0 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.stage_list) do
-		var_0_9[iter_3_1.difficulty_id] = {}
+	for slot5, slot6 in ipairs(slot1.stage_list) do
+		uv0[slot6.difficulty_id] = {}
 
-		for iter_3_2, iter_3_3 in ipairs(iter_3_1.stage_id) do
-			table.insert(var_0_9[iter_3_1.difficulty_id], iter_3_3)
+		for slot10, slot11 in ipairs(slot6.stage_id) do
+			table.insert(uv0[slot6.difficulty_id], slot11)
 		end
 	end
 end
 
-function var_0_0.InitFinalMythicUserData(arg_4_0, arg_4_1)
-	var_0_16 = {}
+function slot0.InitFinalMythicUserData(slot0, slot1)
+	uv0 = {}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.difficulty_id_can_choose) do
-		if iter_4_1 > var_0_22 then
-			var_0_22 = iter_4_1
+	for slot5, slot6 in ipairs(slot1.difficulty_id_can_choose) do
+		if uv1 < slot6 then
+			uv1 = slot6
 		end
 
-		table.insert(var_0_16, iter_4_1)
+		table.insert(uv0, slot6)
 	end
 
-	var_0_17 = arg_4_1.now_difficulty
-	var_0_18 = {}
+	uv2 = slot1.now_difficulty
+	uv3 = {}
 
-	for iter_4_2, iter_4_3 in ipairs(arg_4_1.receive_reward) do
-		table.insert(var_0_18, iter_4_3)
+	for slot5, slot6 in ipairs(slot1.receive_reward) do
+		table.insert(uv3, slot6)
 	end
 
-	var_0_20 = 0
-	var_0_19 = {}
+	uv4 = 0
+	uv5 = {}
 
-	for iter_4_4, iter_4_5 in ipairs(arg_4_1.clear_list) do
-		if iter_4_5 > var_0_20 then
-			var_0_20 = iter_4_5
+	for slot5, slot6 in ipairs(slot1.clear_list) do
+		if uv4 < slot6 then
+			uv4 = slot6
 		end
 
-		table.insert(var_0_19, iter_4_5)
+		table.insert(uv5, slot6)
 	end
 
-	var_0_21 = arg_4_1.is_new_difficulty
-	var_0_25 = 0
-	var_0_26 = {}
+	uv6 = slot1.is_new_difficulty
+	uv7 = 0
+	uv8 = {}
 
-	if arg_4_1.challenge_info[1] then
-		for iter_4_6, iter_4_7 in ipairs(arg_4_1.challenge_info) do
-			var_0_26[iter_4_7.team_id] = {}
-			var_0_26[iter_4_7.team_id].team_id = iter_4_7.team_id
-			var_0_26[iter_4_7.team_id].clear_state = iter_4_7.clear_state
-			var_0_26[iter_4_7.team_id].use_time = iter_4_7.use_time
+	if slot1.challenge_info[1] then
+		for slot5, slot6 in ipairs(slot1.challenge_info) do
+			uv8[slot6.team_id] = {
+				team_id = slot6.team_id,
+				clear_state = slot6.clear_state,
+				use_time = slot6.use_time
+			}
 
-			if var_0_25 == 0 and iter_4_7.clear_state == 0 then
-				var_0_25 = iter_4_7.team_id
+			if uv7 == 0 and slot6.clear_state == 0 then
+				uv7 = slot6.team_id
 			end
 		end
 	else
-		var_0_25 = 1
+		uv7 = 1
 	end
 end
 
-function var_0_0.InitMythicUserPublicData(arg_5_0, arg_5_1)
-	var_0_10 = {}
+function slot0.InitMythicUserPublicData(slot0, slot1)
+	uv0 = {}
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1.open_difficulty_list) do
-		table.insert(var_0_10, iter_5_1)
+	for slot5, slot6 in ipairs(slot1.open_difficulty_list) do
+		table.insert(uv0, slot6)
 	end
 
-	var_0_11 = arg_5_1.difficulty
-	var_0_15 = arg_5_1.is_new_difficulty
+	uv1 = slot1.difficulty
+	uv2 = slot1.is_new_difficulty
 end
 
-function var_0_0.InitMythicUserData(arg_6_0, arg_6_1)
-	var_0_12 = {}
+function slot0.InitMythicUserData(slot0, slot1)
+	uv0 = {}
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1.clear_partition_id_list) do
-		table.insert(var_0_12, iter_6_1)
+	for slot5, slot6 in ipairs(slot1.clear_partition_id_list) do
+		table.insert(uv0, slot6)
 	end
 
-	var_0_13 = {}
+	uv1 = {}
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_1.main_partition_star_list) do
-		table.insert(var_0_13, iter_6_3)
+	for slot5, slot6 in ipairs(slot1.main_partition_star_list) do
+		table.insert(uv1, slot6)
 	end
 
-	var_0_14 = {}
+	uv2 = {}
 
-	for iter_6_4, iter_6_5 in ipairs(arg_6_1.star_reward_provide_list) do
-		table.insert(var_0_14, iter_6_5)
+	for slot5, slot6 in ipairs(slot1.star_reward_provide_list) do
+		table.insert(uv2, slot6)
 	end
 end
 
-function var_0_0.GetHeroAffix(arg_7_0)
-	local var_7_0 = {}
+function slot0.GetHeroAffix(slot0)
+	slot1 = {}
 
-	if var_0_11 ~= 0 then
-		local var_7_1 = MythicNormalCfg[var_0_11] and MythicNormalCfg[var_0_11].sub_partition_list or {}
-
-		for iter_7_0, iter_7_1 in ipairs(var_7_1) do
-			if table.indexof(var_0_12, iter_7_1) and var_0_4[iter_7_0] then
-				table.insert(var_7_0, var_0_4[iter_7_0])
+	if uv0 ~= 0 then
+		for slot6, slot7 in ipairs(MythicNormalCfg[uv0] and MythicNormalCfg[uv0].sub_partition_list or {}) do
+			if table.indexof(uv1, slot7) and uv2[slot6] then
+				table.insert(slot1, uv2[slot6])
 			end
 		end
 	end
 
-	return var_7_0
+	return slot1
 end
 
-function var_0_0.GetAllHeroAffix(arg_8_0)
-	return var_0_4
+function slot0.GetAllHeroAffix(slot0)
+	return uv0
 end
 
-function var_0_0.GetHeroAffixWithStatus(arg_9_0)
-	local var_9_0 = {}
+function slot0.GetHeroAffixWithStatus(slot0)
+	slot1 = {}
 
-	if var_0_11 ~= 0 then
-		local var_9_1 = MythicNormalCfg[var_0_11] and MythicNormalCfg[var_0_11].sub_partition_list or {}
+	if uv0 ~= 0 then
+		for slot6, slot7 in ipairs(MythicNormalCfg[uv0] and MythicNormalCfg[uv0].sub_partition_list or {}) do
+			slot8 = true
 
-		for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-			local var_9_2 = true
-
-			if table.indexof(var_0_12, iter_9_1) and var_0_4[iter_9_0] then
-				var_9_2 = false
+			if table.indexof(uv1, slot7) and uv2[slot6] then
+				slot8 = false
 			end
 
-			local var_9_3 = var_0_4[iter_9_0]
+			slot9 = uv2[slot6]
+			slot9.isLock = slot8
 
-			var_9_3.isLock = var_9_2
-
-			table.insert(var_9_0, var_9_3)
+			table.insert(slot1, slot9)
 		end
 	end
 
-	return var_9_0
+	return slot1
 end
 
-function var_0_0.GetMonsterAffix(arg_10_0)
-	return var_0_5 or {}
+function slot0.GetMonsterAffix(slot0)
+	return uv0 or {}
 end
 
-function var_0_0.GetFinalMonsterAffix(arg_11_0)
-	return var_0_6 or {}
+function slot0.GetFinalMonsterAffix(slot0)
+	return uv0 or {}
 end
 
-function var_0_0.GetDifficulty(arg_12_0)
-	return var_0_11 or 1
+function slot0.GetDifficulty(slot0)
+	return uv0 or 1
 end
 
-function var_0_0.SetDifficulty(arg_13_0, arg_13_1)
-	var_0_12 = {}
-	var_0_13 = {}
-	var_0_14 = {}
-	var_0_11 = arg_13_1
+function slot0.SetDifficulty(slot0, slot1)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = slot1
 end
 
-function var_0_0.GetIsOpenDifficulty(arg_14_0, arg_14_1)
-	return table.indexof(var_0_10, arg_14_1)
+function slot0.GetIsOpenDifficulty(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetNextRefreshTime(arg_15_0)
-	return var_0_7
+function slot0.GetNextRefreshTime(slot0)
+	return uv0
 end
 
-function var_0_0.GetDifficultyData(arg_16_0, arg_16_1)
-	return var_0_3[arg_16_1]
+function slot0.GetDifficultyData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetIsOver(arg_17_0)
-	if var_0_11 == 0 then
+function slot0.GetIsOver(slot0)
+	if uv0 == 0 then
 		return false
 	end
 
-	local var_17_0 = var_0_3[var_0_11]
-	local var_17_1 = var_17_0 and var_17_0.main_partition.partition or -1
-
-	return not not var_0_3[var_17_1]
+	return not not uv1[uv1[uv0] and slot1.main_partition.partition or -1]
 end
 
-function var_0_0.GetIsFirstClear(arg_18_0, arg_18_1)
-	return not table.indexof(var_0_12, arg_18_1)
+function slot0.GetIsFirstClear(slot0, slot1)
+	return not table.indexof(uv0, slot1)
 end
 
-function var_0_0.UpdatePartitionState(arg_19_0, arg_19_1)
-	if not table.indexof(var_0_12, arg_19_1) then
-		table.insert(var_0_12, arg_19_1)
+function slot0.UpdatePartitionState(slot0, slot1)
+	if not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
 	end
 
 	SendMessageManagerToSDK("blackzone_clear", {
-		partition = arg_19_1
+		partition = slot1
 	})
 end
 
-function var_0_0.GetPartitionCount(arg_20_0)
-	return #var_0_12
+function slot0.GetPartitionCount(slot0)
+	return #uv0
 end
 
-function var_0_0.GetStarCount(arg_21_0)
-	return #var_0_13
+function slot0.GetStarCount(slot0)
+	return #uv0
 end
 
-function var_0_0.GetStarOpen(arg_22_0, arg_22_1)
-	for iter_22_0, iter_22_1 in ipairs(var_0_13) do
-		if iter_22_1 == arg_22_1 then
+function slot0.GetStarOpen(slot0, slot1)
+	for slot5, slot6 in ipairs(uv0) do
+		if slot6 == slot1 then
 			return true
 		end
 	end
@@ -321,19 +313,19 @@ function var_0_0.GetStarOpen(arg_22_0, arg_22_1)
 	return false
 end
 
-function var_0_0.UpdateStarIndex(arg_23_0, arg_23_1)
-	for iter_23_0, iter_23_1 in ipairs(var_0_13) do
-		if iter_23_1 == arg_23_1 then
+function slot0.UpdateStarIndex(slot0, slot1)
+	for slot5, slot6 in ipairs(uv0) do
+		if slot6 == slot1 then
 			return
 		end
 	end
 
-	table.insert(var_0_13, arg_23_1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetStarRewardState(arg_24_0, arg_24_1)
-	for iter_24_0, iter_24_1 in ipairs(var_0_14) do
-		if iter_24_1 == arg_24_1 then
+function slot0.GetStarRewardState(slot0, slot1)
+	for slot5, slot6 in ipairs(uv0) do
+		if slot6 == slot1 then
 			return true
 		end
 	end
@@ -341,91 +333,85 @@ function var_0_0.GetStarRewardState(arg_24_0, arg_24_1)
 	return false
 end
 
-function var_0_0.SetStarRewardState(arg_25_0, arg_25_1)
-	table.insert(var_0_14, arg_25_1)
+function slot0.SetStarRewardState(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetStarRewardCount(arg_26_0)
-	return table.length(var_0_14)
+function slot0.GetStarRewardCount(slot0)
+	return table.length(uv0)
 end
 
-function var_0_0.GetAttributeFactor(arg_27_0, arg_27_1)
-	local var_27_0 = MythicPartitionCfg[arg_27_1]
-
-	if var_27_0.attribute_factor and var_27_0.attribute_factor[3] then
-		local var_27_1 = var_27_0.attribute_factor[1] / 1000
-		local var_27_2 = var_27_0.attribute_factor[2] / 1000
-		local var_27_3 = var_27_0.attribute_factor[3] / 1000
-
-		return Vector3.New(var_27_1, var_27_2, var_27_3)
+function slot0.GetAttributeFactor(slot0, slot1)
+	if MythicPartitionCfg[slot1].attribute_factor and slot2.attribute_factor[3] then
+		return Vector3.New(slot2.attribute_factor[1] / 1000, slot2.attribute_factor[2] / 1000, slot2.attribute_factor[3] / 1000)
 	end
 
 	return Vector3.New(1, 1, 1)
 end
 
-function var_0_0.GetMonsterLevel(arg_28_0, arg_28_1)
-	return MythicPartitionCfg[arg_28_1] and MythicPartitionCfg[arg_28_1].monster_level or 0
+function slot0.GetMonsterLevel(slot0, slot1)
+	return MythicPartitionCfg[slot1] and MythicPartitionCfg[slot1].monster_level or 0
 end
 
-function var_0_0.SetIsNewDifficulty(arg_29_0, arg_29_1)
-	var_0_15 = arg_29_1
+function slot0.SetIsNewDifficulty(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetIsNewDifficulty(arg_30_0)
-	return var_0_15
+function slot0.GetIsNewDifficulty(slot0)
+	return uv0
 end
 
-function var_0_0.SetIsNew(arg_31_0, arg_31_1)
-	var_0_1 = arg_31_1
+function slot0.SetIsNew(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetIsNew(arg_32_0)
-	return var_0_1
+function slot0.GetIsNew(slot0)
+	return uv0
 end
 
-function var_0_0.GetMaxDifficulty(arg_33_0)
-	local var_33_0 = 1
+function slot0.GetMaxDifficulty(slot0)
+	slot1 = 1
 
-	for iter_33_0, iter_33_1 in ipairs(var_0_10) do
-		if iter_33_1 == var_0_8 then
-			if arg_33_0:GetIsOpenDifficulty(var_0_8) then
-				var_33_0 = iter_33_1
+	for slot5, slot6 in ipairs(uv0) do
+		if slot6 == uv1 then
+			if slot0:GetIsOpenDifficulty(uv1) then
+				slot1 = slot6
 			end
-		elseif var_33_0 < iter_33_1 then
-			var_33_0 = iter_33_1
+		elseif slot1 < slot6 then
+			slot1 = slot6
 		end
 	end
 
-	return var_33_0
+	return slot1
 end
 
-function var_0_0.IsShowDifficultySelectView(arg_34_0)
-	if var_0_11 == 0 then
+function slot0.IsShowDifficultySelectView(slot0)
+	if uv0 == 0 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsShowDifficultySelectView_Guide(arg_35_0)
-	if var_0_11 == 0 then
+function slot0.IsShowDifficultySelectView_Guide(slot0)
+	if uv0 == 0 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetFinalId(arg_36_0)
-	return var_0_8
+function slot0.GetFinalId(slot0)
+	return uv0
 end
 
-function var_0_0.GetFinalIsReward(arg_37_0)
-	return table.length(var_0_18)
+function slot0.GetFinalIsReward(slot0)
+	return table.length(uv0)
 end
 
-function var_0_0.GetFinalRewardNotGet(arg_38_0)
-	for iter_38_0 = 1, var_0_20 do
-		if table.indexof(var_0_18, iter_38_0) == false then
+function slot0.GetFinalRewardNotGet(slot0)
+	for slot4 = 1, uv0 do
+		if table.indexof(uv1, slot4) == false then
 			return true
 		end
 	end
@@ -433,44 +419,41 @@ function var_0_0.GetFinalRewardNotGet(arg_38_0)
 	return false
 end
 
-function var_0_0.GetPassHotLevel(arg_39_0)
-	return var_0_20
+function slot0.GetPassHotLevel(slot0)
+	return uv0
 end
 
-function var_0_0.GetFinalRewardStateByHotLevel(arg_40_0, arg_40_1)
-	return table.keyof(var_0_18, arg_40_1)
+function slot0.GetFinalRewardStateByHotLevel(slot0, slot1)
+	return table.keyof(uv0, slot1)
 end
 
-function var_0_0.GetFinalReward(arg_41_0, arg_41_1)
-	table.insert(var_0_18, arg_41_1)
+function slot0.GetFinalReward(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetPassHotLevelStatu(arg_42_0)
-	return table.length(var_0_19)
+function slot0.GetPassHotLevelStatu(slot0)
+	return table.length(uv0)
 end
 
-function var_0_0.GetHotLevelIsPass(arg_43_0, arg_43_1)
-	return table.indexof(var_0_19, arg_43_1)
+function slot0.GetHotLevelIsPass(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.SetCurHotLevelId(arg_44_0, arg_44_1)
-	var_0_17 = arg_44_1
+function slot0.SetCurHotLevelId(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCurHotLevelId(arg_45_0)
-	return var_0_17
+function slot0.GetCurHotLevelId(slot0)
+	return uv0
 end
 
-function var_0_0.GetCurLevelIdList(arg_46_0)
-	return var_0_9[var_0_17]
+function slot0.GetCurLevelIdList(slot0)
+	return uv0[uv1]
 end
 
-function var_0_0.CheckCanEnterMutiBattle(arg_47_0, arg_47_1)
-	for iter_47_0 = 1, arg_47_1 do
-		local var_47_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.MYTHIC_FINAL, ReserveConst.MYTHIC_CONT_ID.FINAL_MULTI, iter_47_0)
-		local var_47_1 = ReserveTools.GetHeroList(var_47_0)
-
-		if #var_47_1 == 0 or var_47_1[1] == 0 then
+function slot0.CheckCanEnterMutiBattle(slot0, slot1)
+	for slot5 = 1, slot1 do
+		if #ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.MYTHIC_FINAL, ReserveConst.MYTHIC_CONT_ID.FINAL_MULTI, slot5)) == 0 or slot7[1] == 0 then
 			return false
 		end
 	end
@@ -478,82 +461,79 @@ function var_0_0.CheckCanEnterMutiBattle(arg_47_0, arg_47_1)
 	return true
 end
 
-function var_0_0.ReSetTeam(arg_48_0)
+function slot0.ReSetTeam(slot0)
 	BattleTeamData:ReSetMythicTeamData()
 end
 
-function var_0_0.GetLevelIsOpen(arg_49_0, arg_49_1)
-	return table.indexof(var_0_16, arg_49_1)
+function slot0.GetLevelIsOpen(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetAllFinalReward(arg_50_0)
-	for iter_50_0 = 1, var_0_20 do
-		if table.indexof(var_0_18, iter_50_0) == false then
-			table.insert(var_0_18, iter_50_0)
+function slot0.GetAllFinalReward(slot0)
+	for slot4 = 1, uv0 do
+		if table.indexof(uv1, slot4) == false then
+			table.insert(uv1, slot4)
 		end
 	end
 end
 
-function var_0_0.GetRemainTime(arg_51_0)
-	local var_51_0 = var_0_2
-
-	for iter_51_0, iter_51_1 in pairs(var_0_26) do
-		if iter_51_1.clear_state == 1 then
-			var_51_0 = var_51_0 - iter_51_1.use_time
+function slot0.GetRemainTime(slot0)
+	for slot5, slot6 in pairs(uv1) do
+		if slot6.clear_state == 1 then
+			slot1 = uv0 - slot6.use_time
 		end
 	end
 
-	return var_51_0
+	return slot1
 end
 
-function var_0_0.SetRemainTime(arg_52_0, arg_52_1)
-	var_0_2 = arg_52_1
+function slot0.SetRemainTime(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetIsNewHotLevel(arg_53_0)
-	return var_0_21
+function slot0.GetIsNewHotLevel(slot0)
+	return uv0
 end
 
-function var_0_0.SetIsNewHotLevel(arg_54_0, arg_54_1)
-	var_0_21 = arg_54_1
+function slot0.SetIsNewHotLevel(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.SubLevel(arg_55_0, arg_55_1)
-	local var_55_0 = var_0_17 + arg_55_1
-	local var_55_1 = true
+function slot0.SubLevel(slot0, slot1)
+	slot3 = true
 
-	if arg_55_1 > 0 then
-		if var_55_0 > var_0_22 then
+	if slot1 > 0 then
+		if uv1 < uv0 + slot1 then
 			return
 		end
-	elseif var_55_0 <= 0 then
+	elseif slot2 <= 0 then
 		return
 	end
 
-	MythicAction:SelectLevel(var_55_0)
+	MythicAction:SelectLevel(slot2)
 end
 
-function var_0_0.SetCurHotLevelIdMax(arg_56_0)
-	MythicAction:SelectLevel(var_0_22)
+function slot0.SetCurHotLevelIdMax(slot0)
+	MythicAction:SelectLevel(uv0)
 end
 
-function var_0_0.GetLevelStatus(arg_57_0)
-	if var_0_17 == 1 then
+function slot0.GetLevelStatus(slot0)
+	if uv0 == 1 then
 		return "nofront"
-	elseif var_0_17 == var_0_22 then
+	elseif uv0 == uv1 then
 		return "nonext"
 	else
 		return "mid"
 	end
 end
 
-function var_0_0.GetLevelMax(arg_58_0)
-	return var_0_22
+function slot0.GetLevelMax(slot0)
+	return uv0
 end
 
-function var_0_0.GetIsHaveRewardNotGet(arg_59_0)
-	for iter_59_0 = 1, var_0_20 do
-		if table.indexof(var_0_18, iter_59_0) == false then
+function slot0.GetIsHaveRewardNotGet(slot0)
+	for slot4 = 1, uv0 do
+		if table.indexof(uv1, slot4) == false then
 			return true
 		end
 	end
@@ -561,186 +541,182 @@ function var_0_0.GetIsHaveRewardNotGet(arg_59_0)
 	return false
 end
 
-function var_0_0.SortRewards(arg_60_0)
-	local var_60_0 = {}
-	local var_60_1 = {}
-	local var_60_2 = {}
+function slot0.SortRewards(slot0)
+	slot1 = {}
+	slot2 = {}
 
-	for iter_60_0, iter_60_1 in ipairs(MythicFinalCfg.all) do
-		if iter_60_1 > var_0_20 then
-			table.insert(var_60_2, iter_60_1)
-		elseif table.indexof(var_0_18, iter_60_1) then
-			table.insert(var_60_1, iter_60_1)
+	for slot7, slot8 in ipairs(MythicFinalCfg.all) do
+		if uv0 < slot8 then
+			table.insert({}, slot8)
+		elseif table.indexof(uv1, slot8) then
+			table.insert(slot2, slot8)
 		else
-			table.insert(var_60_0, iter_60_1)
+			table.insert(slot1, slot8)
 		end
 	end
 
-	local var_60_3 = 1
+	slot4 = 1
 
-	for iter_60_2, iter_60_3 in pairs(var_60_0) do
-		var_0_24[var_60_3] = iter_60_3
-		var_60_3 = var_60_3 + 1
+	for slot8, slot9 in pairs(slot1) do
+		uv2[slot4] = slot9
+		slot4 = slot4 + 1
 	end
 
-	for iter_60_4, iter_60_5 in pairs(var_60_2) do
-		var_0_24[var_60_3] = iter_60_5
-		var_60_3 = var_60_3 + 1
+	for slot8, slot9 in pairs(slot3) do
+		uv2[slot4] = slot9
+		slot4 = slot4 + 1
 	end
 
-	for iter_60_6, iter_60_7 in pairs(var_60_1) do
-		var_0_24[var_60_3] = iter_60_7
-		var_60_3 = var_60_3 + 1
+	for slot8, slot9 in pairs(slot2) do
+		uv2[slot4] = slot9
+		slot4 = slot4 + 1
 	end
 end
 
-function var_0_0.GetRealIndex(arg_61_0, arg_61_1)
-	return var_0_24[arg_61_1]
+function slot0.GetRealIndex(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.SetCurPoint(arg_62_0, arg_62_1)
-	var_0_23 = arg_62_1
+function slot0.SetCurPoint(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCurPoint(arg_63_0)
-	return var_0_23
+function slot0.GetCurPoint(slot0)
+	return uv0
 end
 
-function var_0_0.GetCurBattleIndex(arg_64_0)
-	return var_0_25
+function slot0.GetCurBattleIndex(slot0)
+	return uv0
 end
 
-function var_0_0.GetIsBattleIng(arg_65_0)
-	if var_0_25 > 1 then
+function slot0.GetIsBattleIng(slot0)
+	if uv0 > 1 then
 		return true
 	else
 		return false
 	end
 end
 
-function var_0_0.InitSeverTeamData(arg_66_0, arg_66_1)
-	var_0_27 = {}
+function slot0.InitSeverTeamData(slot0, slot1)
+	uv0 = {}
 
-	if arg_66_1.teams_info_list[1] and arg_66_1.teams_info_list[1].stage_type == BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL then
-		for iter_66_0, iter_66_1 in ipairs(arg_66_1.teams_info_list) do
-			for iter_66_2, iter_66_3 in ipairs(iter_66_1.teams) do
-				var_0_27[iter_66_3.id] = {}
-				var_0_27[iter_66_3.id].heroList = {}
+	if slot1.teams_info_list[1] and slot1.teams_info_list[1].stage_type == BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL then
+		for slot5, slot6 in ipairs(slot1.teams_info_list) do
+			for slot10, slot11 in ipairs(slot6.teams) do
+				uv0[slot11.id] = {
+					heroList = {}
+				}
 
-				for iter_66_4, iter_66_5 in ipairs(iter_66_3.hero_list) do
-					table.insert(var_0_27[iter_66_3.id].heroList, iter_66_5.hero_id)
+				for slot15, slot16 in ipairs(slot11.hero_list) do
+					table.insert(uv0[slot11.id].heroList, slot16.hero_id)
 				end
 
-				if iter_66_3.ai_chip_list[1] then
-					var_0_27[iter_66_3.id].chipManagerID = iter_66_3.ai_chip_list[1]
-					var_0_27[iter_66_3.id].chipList = {}
+				if slot11.ai_chip_list[1] then
+					uv0[slot11.id].chipManagerID = slot11.ai_chip_list[1]
+					uv0[slot11.id].chipList = {}
 
-					for iter_66_6, iter_66_7 in ipairs(iter_66_3.ai_chip_list) do
-						if iter_66_6 > 1 then
-							table.insert(var_0_27[iter_66_3.id].chipList, iter_66_7)
+					for slot15, slot16 in ipairs(slot11.ai_chip_list) do
+						if slot15 > 1 then
+							table.insert(uv0[slot11.id].chipList, slot16)
 						end
 					end
 				else
-					var_0_27[iter_66_3.id].chipManagerID = 0
+					uv0[slot11.id].chipManagerID = 0
 				end
 
-				var_0_27[iter_66_3.id].uniqueSkillID = iter_66_3.cooperate_unique_skill_id
+				uv0[slot11.id].uniqueSkillID = slot11.cooperate_unique_skill_id
 			end
 		end
 	end
 end
 
-function var_0_0.TryToSaveCurTeamData(arg_67_0, arg_67_1)
-	var_0_27 = {}
+function slot0.TryToSaveCurTeamData(slot0, slot1)
+	uv0 = {}
 
-	if arg_67_1.teams_info_list and arg_67_1.teams_info_list.stage_type == BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL then
-		for iter_67_0, iter_67_1 in ipairs(arg_67_1.teams_info_list.teams) do
-			var_0_27[iter_67_1.id] = {}
-			var_0_27[iter_67_1.id].heroList = {}
+	if slot1.teams_info_list and slot1.teams_info_list.stage_type == BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL then
+		for slot5, slot6 in ipairs(slot1.teams_info_list.teams) do
+			uv0[slot6.id] = {
+				heroList = {}
+			}
 
-			for iter_67_2, iter_67_3 in ipairs(iter_67_1.hero_list) do
-				table.insert(var_0_27[iter_67_1.id].heroList, iter_67_3.hero_id)
+			for slot10, slot11 in ipairs(slot6.hero_list) do
+				table.insert(uv0[slot6.id].heroList, slot11.hero_id)
 			end
 
-			if iter_67_1.ai_chip_list[1] then
-				var_0_27[iter_67_1.id].chipManagerID = iter_67_1.ai_chip_list[1]
-				var_0_27[iter_67_1.id].chipList = {}
+			if slot6.ai_chip_list[1] then
+				uv0[slot6.id].chipManagerID = slot6.ai_chip_list[1]
+				uv0[slot6.id].chipList = {}
 
-				for iter_67_4, iter_67_5 in ipairs(iter_67_1.ai_chip_list) do
-					if iter_67_4 > 1 then
-						table.insert(var_0_27[iter_67_1.id].chipList, iter_67_5)
+				for slot10, slot11 in ipairs(slot6.ai_chip_list) do
+					if slot10 > 1 then
+						table.insert(uv0[slot6.id].chipList, slot11)
 					end
 				end
 			else
-				var_0_27[iter_67_1.id].chipManagerID = 0
+				uv0[slot6.id].chipManagerID = 0
 			end
 
-			var_0_27[iter_67_1.id].uniqueSkillID = iter_67_1.cooperate_unique_skill_id
+			uv0[slot6.id].uniqueSkillID = slot6.cooperate_unique_skill_id
 		end
 	end
 end
 
-function var_0_0.GetChipListByTeamID(arg_68_0, arg_68_1)
-	return var_0_27[arg_68_1].chipList
+function slot0.GetChipListByTeamID(slot0, slot1)
+	return uv0[slot1].chipList
 end
 
-function var_0_0.ClearBattleData(arg_69_0)
-	var_0_25 = 0
-	var_0_26 = {}
+function slot0.ClearBattleData(slot0)
+	uv0 = 0
+	uv1 = {}
 end
 
-local var_0_29 = {
+slot30 = ({
 	ALL = 1,
 	GUILD = 2
-}
-local var_0_30 = var_0_29.ALL
+}).ALL
 
-function var_0_0.GetRankTypeConst(arg_70_0)
-	return var_0_29
+function slot0.GetRankTypeConst(slot0)
+	return uv0
 end
 
-function var_0_0.GetCurRankType(arg_71_0)
-	return var_0_30
+function slot0.GetCurRankType(slot0)
+	return uv0
 end
 
-function var_0_0.SetCurRankType(arg_72_0, arg_72_1)
-	var_0_30 = arg_72_1
+function slot0.SetCurRankType(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCurTime(arg_73_0)
-	local var_73_0 = MythicFinalCfg[var_0_17].time
+function slot0.GetCurTime(slot0)
+	slot1 = MythicFinalCfg[uv0].time
 
-	if arg_73_0:GetIsBattleIng() then
-		for iter_73_0, iter_73_1 in pairs(var_0_26) do
-			if iter_73_1.clear_state == 1 then
-				var_73_0 = var_73_0 - iter_73_1.use_time
+	if slot0:GetIsBattleIng() then
+		for slot5, slot6 in pairs(uv1) do
+			if slot6.clear_state == 1 then
+				slot1 = slot1 - slot6.use_time
 			end
 		end
 	end
 
-	return var_73_0
+	return slot1
 end
 
-function var_0_0.GetBattlingTime(arg_74_0)
-	local var_74_0 = MythicFinalCfg[var_0_17].time
-
-	for iter_74_0, iter_74_1 in pairs(var_0_26) do
-		if iter_74_1.clear_state == 1 then
-			var_74_0 = var_74_0 - iter_74_1.use_time
+function slot0.GetBattlingTime(slot0)
+	for slot5, slot6 in pairs(uv1) do
+		if slot6.clear_state == 1 then
+			slot1 = MythicFinalCfg[uv0].time - slot6.use_time
 		end
 	end
 
-	return var_74_0
+	return slot1
 end
 
-function var_0_0.GetBattleRemainTime(arg_75_0, arg_75_1)
-	local var_75_0 = MythicFinalCfg[var_0_17].time
-
-	for iter_75_0 = 1, arg_75_1 - 1 do
-		var_75_0 = var_75_0 - var_0_26[iter_75_0].use_time
+function slot0.GetBattleRemainTime(slot0, slot1)
+	for slot6 = 1, slot1 - 1 do
+		slot2 = MythicFinalCfg[uv0].time - uv1[slot6].use_time
 	end
 
-	return var_75_0
+	return slot2
 end
 
-return var_0_0
+return slot0

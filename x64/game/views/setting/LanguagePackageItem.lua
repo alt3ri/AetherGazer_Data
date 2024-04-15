@@ -1,104 +1,94 @@
-local var_0_0 = class("LanguagePackageItem", ReduxView)
+slot0 = class("LanguagePackageItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.statusController_ = arg_2_0.comps_:GetController("status")
+	slot0.statusController_ = slot0.comps_:GetController("status")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListenerScale(arg_3_0.downloadBtn_, nil, function()
-		if VoicePackageManager.Instance:GetPackageSize(arg_3_0.info_.affix) + 200 > LuaForUtil.GetFreeDiskSpace() then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.downloadBtn_, nil, function ()
+		if LuaForUtil.GetFreeDiskSpace() < VoicePackageManager.Instance:GetPackageSize(uv0.info_.affix) + 200 then
 			ShowMessageBox({
 				content = GetTips("VOICE_STORAGE_FULL"),
-				OkCallback = function()
-					return
+				OkCallback = function ()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end,
-				MaskCallback = function()
-					return
+				MaskCallback = function ()
 				end
 			})
 		else
-			OpenDownLoadPage(nil, arg_3_0.info_.affix)
+			OpenDownLoadPage(nil, uv0.info_.affix)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.deleteBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.deleteBtn_, nil, function ()
 		ShowMessageBox({
-			content = string.format(GetTips("VOICE_DELETE_INFO"), GetI18NText(arg_3_0.info_.name)),
-			OkCallback = function()
-				VoicePackageManager.Instance:DeleteDownLoadPackage(arg_3_0.info_.affix)
-				manager.notify:CallUpdateFunc(LANGUAGE_PACKAGE_DELETED, arg_3_0.info_.affix)
-				arg_3_0:RefreshData(arg_3_0.info_)
+			content = string.format(GetTips("VOICE_DELETE_INFO"), GetI18NText(uv0.info_.name)),
+			OkCallback = function ()
+				VoicePackageManager.Instance:DeleteDownLoadPackage(uv0.info_.affix)
+				manager.notify:CallUpdateFunc(LANGUAGE_PACKAGE_DELETED, uv0.info_.affix)
+				uv0:RefreshData(uv0.info_)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end,
-			MaskCallback = function()
-				return
+			MaskCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.Init(arg_12_0)
-	arg_12_0:InitUI()
-	arg_12_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.Render(arg_13_0)
-	arg_13_0:RefreshData(arg_13_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshData(slot0.info_)
 end
 
-function var_0_0.RefreshData(arg_14_0, arg_14_1)
-	if arg_14_1 then
-		arg_14_0.info_ = arg_14_1
-		arg_14_0.nameText_.text = GetI18NText(arg_14_1.name)
+function slot0.RefreshData(slot0, slot1)
+	if slot1 then
+		slot0.info_ = slot1
+		slot0.nameText_.text = GetI18NText(slot1.name)
+		slot4 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
 
-		local var_14_0 = VoicePackageManager.Instance:IsHavePackage(arg_14_1.affix)
-		local var_14_1 = SettingData:GetSoundSettingData().voice_language
-		local var_14_2 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
+		if VoicePackageManager.Instance:IsHavePackage(slot1.affix) then
+			slot0.spaceText_.text = ""
 
-		if var_14_0 then
-			arg_14_0.spaceText_.text = ""
+			if SettingData:GetSoundSettingData().voice_language == slot1.id then
+				slot0.statusController_:SetSelectedState("in_use")
 
-			if var_14_1 == arg_14_1.id then
-				arg_14_0.statusController_:SetSelectedState("in_use")
-
-				arg_14_0.tipText_.text = GetTips("TIP_USING")
+				slot0.tipText_.text = GetTips("TIP_USING")
 			else
-				arg_14_0.statusController_:SetSelectedState("downloaded")
+				slot0.statusController_:SetSelectedState("downloaded")
 
-				if table.indexof(var_14_2.voice_list, arg_14_1.id) == 1 then
-					SetActive(arg_14_0.deleteBtn_.gameObject, false)
+				if table.indexof(slot4.voice_list, slot1.id) == 1 then
+					SetActive(slot0.deleteBtn_.gameObject, false)
 				end
 
-				arg_14_0.tipText_.text = GetTips("DOWNLOADED")
+				slot0.tipText_.text = GetTips("DOWNLOADED")
 			end
 		else
-			arg_14_0.statusController_:SetSelectedState("not_downloaded")
+			slot0.statusController_:SetSelectedState("not_downloaded")
 
-			local var_14_3 = string.format("(%.2fMB)", VoicePackageManager.Instance:GetPackageSize(arg_14_1.affix))
-
-			arg_14_0.spaceText_.text = var_14_3
-			arg_14_0.tipText_.text = GetTips("NOT_DOWNLOADED")
+			slot0.spaceText_.text = string.format("(%.2fMB)", VoicePackageManager.Instance:GetPackageSize(slot1.affix))
+			slot0.tipText_.text = GetTips("NOT_DOWNLOADED")
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.params_ = nil
+function slot0.Dispose(slot0)
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

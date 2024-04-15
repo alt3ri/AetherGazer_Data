@@ -1,73 +1,67 @@
-local var_0_0 = class("HeroBreakSuccessView", ReduxView)
+slot0 = class("HeroBreakSuccessView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_arrt/HeroArrtBreakPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	local var_5_0, var_5_1, var_5_2 = SkillTools.GetAttr({
+	slot1, slot2, slot0.iconImg_.sprite = SkillTools.GetAttr({
 		HeroConst.HERO_ATTRIBUTE.CRITICAL,
 		0
 	})
-
-	arg_5_0.propName_.text = GetI18NText(var_5_0)
-	arg_5_0.iconImg_.sprite = var_5_2
+	slot0.propName_.text = GetI18NText(slot1)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateBar(arg_8_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.heroInfo_ = HeroData:GetHeroList()[arg_9_0.params_.heroId]
-	arg_9_0.heroCfg_ = HeroCfg[arg_9_0.params_.heroId]
-	arg_9_0.breakCfg_ = HeroTools.GetHeroBreakConfig(arg_9_0.heroCfg_.race, arg_9_0.params_.breakLevel)
-	arg_9_0.oldBreakCfg_ = HeroTools.GetHeroBreakConfig(arg_9_0.heroCfg_.race, arg_9_0.params_.breakLevel - 1)
-	arg_9_0.heroViewProxy_ = arg_9_0.params_.proxy
+function slot0.OnEnter(slot0)
+	slot0.heroInfo_ = HeroData:GetHeroList()[slot0.params_.heroId]
+	slot0.heroCfg_ = HeroCfg[slot0.params_.heroId]
+	slot0.breakCfg_ = HeroTools.GetHeroBreakConfig(slot0.heroCfg_.race, slot0.params_.breakLevel)
+	slot0.oldBreakCfg_ = HeroTools.GetHeroBreakConfig(slot0.heroCfg_.race, slot0.params_.breakLevel - 1)
+	slot0.heroViewProxy_ = slot0.params_.proxy
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	arg_10_0.levelFromText_.text = tostring(arg_10_0.oldBreakCfg_.max_level)
-	arg_10_0.levelTopText_.text = tostring(arg_10_0.breakCfg_.max_level)
-	arg_10_0.fromCritText_.text = string.format("%.2f", arg_10_0.params_.oldCrit / 10) .. (PublicAttrCfg[HeroConst.HERO_ATTRIBUTE.CRITICAL].percent == 1 and "%" or "")
+function slot0.UpdateView(slot0)
+	slot0.levelFromText_.text = tostring(slot0.oldBreakCfg_.max_level)
+	slot0.levelTopText_.text = tostring(slot0.breakCfg_.max_level)
+	slot0.fromCritText_.text = string.format("%.2f", slot0.params_.oldCrit / 10) .. (PublicAttrCfg[HeroConst.HERO_ATTRIBUTE.CRITICAL].percent == 1 and "%" or "")
+	slot1 = HeroTools.CaculateHeroAttribute(slot0.heroInfo_, {})
 
-	local var_10_0 = HeroTools.CaculateHeroAttribute(arg_10_0.heroInfo_, {})
+	HeroTools.CalFinalAttribute(slot1)
 
-	HeroTools.CalFinalAttribute(var_10_0)
-
-	arg_10_0.toCritText_.text = string.format("%.2f", var_10_0[HeroConst.HERO_ATTRIBUTE.CRITICAL] / 10) .. (PublicAttrCfg[HeroConst.HERO_ATTRIBUTE.CRITICAL].percent == 1 and "%" or "")
+	slot0.toCritText_.text = string.format("%.2f", slot1[HeroConst.HERO_ATTRIBUTE.CRITICAL] / 10) .. (PublicAttrCfg[HeroConst.HERO_ATTRIBUTE.CRITICAL].percent == 1 and "%" or "")
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

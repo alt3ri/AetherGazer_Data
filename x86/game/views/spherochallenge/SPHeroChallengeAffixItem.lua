@@ -1,91 +1,83 @@
-local var_0_0 = class("SPHeroChallengeAffixItem", ReduxView)
+slot0 = class("SPHeroChallengeAffixItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = arg_3_0.controller:GetController("state")
-	arg_3_0.showTipsController = arg_3_0.controller:GetController("showTips")
+	slot0.stateController = slot0.controller:GetController("state")
+	slot0.showTipsController = slot0.controller:GetController("showTips")
 
-	arg_3_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.infoBtn_, nil, function()
-		if arg_4_0.timer then
-			arg_4_0.timer:Stop()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+		if uv0.timer then
+			uv0.timer:Stop()
 
-			arg_4_0.timer = nil
+			uv0.timer = nil
 		end
 
-		arg_4_0.showTipsController:SetSelectedState("show")
-		arg_4_0:RefreshDesc()
+		uv0.showTipsController:SetSelectedState("show")
+		uv0:RefreshDesc()
 
-		arg_4_0.timer = Timer.New(function()
-			arg_4_0.showTipsController:SetSelectedState("close")
-			arg_4_0.timer:Stop()
+		uv0.timer = Timer.New(function ()
+			uv0.showTipsController:SetSelectedState("close")
+			uv0.timer:Stop()
 
-			arg_4_0.timer = nil
+			uv0.timer = nil
 		end, 3, 1)
 
-		arg_4_0.timer:Start()
+		uv0.timer:Start()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activityID = SPHeroChallengeData:GetActivityID()
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.activityID = SPHeroChallengeData:GetActivityID()
 
-	local var_7_0 = ActivityHeroChallengeCfg[arg_7_0.activityID]
+	slot0.showTipsController:SetSelectedState("close")
 
-	arg_7_0.showTipsController:SetSelectedState("close")
+	if ActivityHeroChallengeCfg[slot0.activityID] then
+		slot6 = slot3["affix_group_" .. SpHeroChallengeConst.trainIndex[slot1]][slot2]
+		slot0.affixID = slot6[2]
+		slot0.nameText.text = GetTips("TIP_CLEARTIMES") .. slot6[1]
+		slot0.skillText.text = ActivityAffixPoolCfg[slot6[2]].name
+		slot0.skillIcon.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. PublicBuffCfg[slot6[2]].icon)
 
-	if var_7_0 then
-		local var_7_1 = SpHeroChallengeConst.trainIndex[arg_7_1]
-		local var_7_2 = var_7_0["affix_group_" .. var_7_1][arg_7_2]
-		local var_7_3 = SPHeroChallengeData:GetCurActivityInfo():GetTrainNumByType(arg_7_1)
-
-		arg_7_0.affixID = var_7_2[2]
-		arg_7_0.nameText.text = GetTips("TIP_CLEARTIMES") .. var_7_2[1]
-		arg_7_0.skillText.text = ActivityAffixPoolCfg[var_7_2[2]].name
-		arg_7_0.skillIcon.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. PublicBuffCfg[var_7_2[2]].icon)
-
-		if var_7_3 <= var_7_2[1] then
-			arg_7_0.stateController:SetSelectedState("lock")
+		if SPHeroChallengeData:GetCurActivityInfo():GetTrainNumByType(slot1) <= slot6[1] then
+			slot0.stateController:SetSelectedState("lock")
 		else
-			arg_7_0.stateController:SetSelectedState("unlock")
+			slot0.stateController:SetSelectedState("unlock")
 		end
 	end
 end
 
-function var_0_0.RefreshDesc(arg_8_0)
-	arg_8_0.name.text = ActivityAffixPoolCfg[arg_8_0.affixID].name
-
-	local var_8_0 = GetCfgDescription(AffixTypeCfg[arg_8_0.affixID].description[1])
-
-	arg_8_0.desc.text = var_8_0
+function slot0.RefreshDesc(slot0)
+	slot0.name.text = ActivityAffixPoolCfg[slot0.affixID].name
+	slot0.desc.text = GetCfgDescription(AffixTypeCfg[slot0.affixID].description[1])
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.timer then
-		arg_9_0.timer:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_9_0.timer = nil
+		slot0.timer = nil
 	end
 
-	arg_9_0.gameObject_ = nil
-	arg_9_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

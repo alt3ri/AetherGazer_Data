@@ -1,69 +1,60 @@
-local var_0_0 = singletonClass("NewChessBuffManager")
+slot0 = singletonClass("NewChessBuffManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.ActiveBuffList = {}
-	arg_1_0.EntityCount = 0
+function slot0.Ctor(slot0)
+	slot0.ActiveBuffList = {}
+	slot0.EntityCount = 0
 end
 
-function var_0_0.SetServerData(arg_2_0, arg_2_1)
-	arg_2_0.ActiveBuffList = {}
+function slot0.SetServerData(slot0, slot1)
+	slot0.ActiveBuffList = {}
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_1) do
-		arg_2_0.EntityCount = arg_2_0.EntityCount + 1
+	for slot5, slot6 in pairs(slot1) do
+		slot0.EntityCount = slot0.EntityCount + 1
+		slot7 = NewWarChessBuffPoolCfg[slot6.buffID]
 
-		local var_2_0 = NewWarChessBuffPoolCfg[iter_2_1.buffID]
-		local var_2_1 = var_2_0.updateround - iter_2_1.duration % var_2_0.updateround
-		local var_2_2 = var_2_0.remainround - iter_2_1.duration
-		local var_2_3 = NewChessBuffConfig[var_2_0.type].New(iter_2_1.buffID, arg_2_0.EntityCount, var_2_0.updateround, var_2_0.remainround, var_2_0.param, {
-			updateRound = var_2_1,
-			remainRound = var_2_2
-		})
-
-		table.insert(arg_2_0.ActiveBuffList, var_2_3)
+		table.insert(slot0.ActiveBuffList, NewChessBuffConfig[slot7.type].New(slot6.buffID, slot0.EntityCount, slot7.updateround, slot7.remainround, slot7.param, {
+			updateRound = slot7.updateround - slot6.duration % slot7.updateround,
+			remainRound = slot7.remainround - slot6.duration
+		}))
 	end
 end
 
-function var_0_0.AddBuff(arg_3_0, arg_3_1)
-	arg_3_0.EntityCount = arg_3_0.EntityCount + 1
+function slot0.AddBuff(slot0, slot1)
+	slot0.EntityCount = slot0.EntityCount + 1
+	slot2 = NewWarChessBuffPoolCfg[slot1]
+	slot3 = NewChessBuffConfig[slot2.type].New(slot1, slot0.EntityCount, slot2.updateround, slot2.remainround, slot2.param)
 
-	local var_3_0 = NewWarChessBuffPoolCfg[arg_3_1]
-	local var_3_1 = NewChessBuffConfig[var_3_0.type].New(arg_3_1, arg_3_0.EntityCount, var_3_0.updateround, var_3_0.remainround, var_3_0.param)
-
-	var_3_1:OnBuffAwake()
-	table.insert(arg_3_0.ActiveBuffList, var_3_1)
-	var_3_1:OnBuffStart()
-
-	local var_3_2 = string.format(GetTips("ACTIVITY_NEW_WARCHESS_GET_BUFF"), var_3_0.name)
-	local var_3_3 = {
+	slot3:OnBuffAwake()
+	table.insert(slot0.ActiveBuffList, slot3)
+	slot3:OnBuffStart()
+	manager.NewChessManager:CreateTips({
 		tipsType = NewChessConst.TIPS_TYPE.BUFF,
-		tipsText = var_3_2,
-		tipsBuffEntity = var_3_1
-	}
-
-	manager.NewChessManager:CreateTips(var_3_3)
+		tipsText = string.format(GetTips("ACTIVITY_NEW_WARCHESS_GET_BUFF"), slot2.name),
+		tipsBuffEntity = slot3
+	})
 	manager.notify:CallUpdateFunc(NEWWARCHESS_BUFF_UPDATE)
 
-	return var_3_1
+	return slot3
 end
 
-function var_0_0.UpdateBuff(arg_4_0)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.ActiveBuffList) do
-		iter_4_1:OnBuffUpdate()
+function slot0.UpdateBuff(slot0)
+	for slot4, slot5 in pairs(slot0.ActiveBuffList) do
+		slot5:OnBuffUpdate()
 	end
 
 	manager.notify:CallUpdateFunc(NEWWARCHESS_BUFF_UPDATE)
 end
 
-function var_0_0.RemoveBuff(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.ActiveBuffList) do
-		if iter_5_1:GetBuffEntityID() == arg_5_1 then
-			local var_5_0 = iter_5_1
+function slot0.RemoveBuff(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.ActiveBuffList) do
+		if slot6:GetBuffEntityID() == slot1 then
+			slot7 = slot6
 
-			var_5_0:OnBuffDisable()
+			slot7:OnBuffDisable()
 
-			arg_5_0.ActiveBuffList[iter_5_0] = nil
+			slot0.ActiveBuffList[slot5] = nil
 
-			var_5_0:OnBuffDestroy()
+			slot7:OnBuffDestroy()
 
 			return
 		end
@@ -72,27 +63,27 @@ function var_0_0.RemoveBuff(arg_5_0, arg_5_1)
 	manager.notify:CallUpdateFunc(NEWWARCHESS_BUFF_UPDATE)
 end
 
-function var_0_0.GetActiveBuffEntityList(arg_6_0)
-	local var_6_0 = {}
+function slot0.GetActiveBuffEntityList(slot0)
+	slot1 = {}
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.ActiveBuffList) do
-		table.insert(var_6_0, iter_6_1)
+	for slot5, slot6 in pairs(slot0.ActiveBuffList) do
+		table.insert(slot1, slot6)
 	end
 
-	return var_6_0
+	return slot1
 end
 
-function var_0_0.GetBuffEntity(arg_7_0, arg_7_1)
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.ActiveBuffList) do
-		if iter_7_1.buffPoolID == arg_7_1 then
-			return iter_7_1
+function slot0.GetBuffEntity(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.ActiveBuffList) do
+		if slot6.buffPoolID == slot1 then
+			return slot6
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.ActiveBuffList = {}
-	arg_8_0.EntityCount = 0
+function slot0.Dispose(slot0)
+	slot0.ActiveBuffList = {}
+	slot0.EntityCount = 0
 end
 
-return var_0_0
+return slot0

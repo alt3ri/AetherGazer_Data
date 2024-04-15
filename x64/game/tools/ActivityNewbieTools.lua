@@ -1,404 +1,346 @@
-local var_0_0 = {}
+return {
+	initedConst_ = false,
+	InitConst = function ()
+		uv0.advanceTaskCfgDic_ = {}
 
-var_0_0.initedConst_ = false
-
-function var_0_0.InitConst()
-	var_0_0.advanceTaskCfgDic_ = {}
-
-	for iter_1_0, iter_1_1 in ipairs(NoobVersionCfg.all) do
-		local var_1_0 = NoobVersionCfg[iter_1_1]
-
-		if type(var_1_0.noob_advance_task_type) == "table" then
-			for iter_1_2, iter_1_3 in ipairs(var_1_0.noob_advance_task_type) do
-				var_0_0.advanceTaskCfgDic_[iter_1_3] = {}
-				var_0_0.advanceTaskCfgDic_[iter_1_3].versionID = iter_1_1
-				var_0_0.advanceTaskCfgDic_[iter_1_3].index = iter_1_2
+		for slot3, slot4 in ipairs(NoobVersionCfg.all) do
+			if type(NoobVersionCfg[slot4].noob_advance_task_type) == "table" then
+				for slot9, slot10 in ipairs(slot5.noob_advance_task_type) do
+					uv0.advanceTaskCfgDic_[slot10] = {
+						versionID = slot4,
+						index = slot9
+					}
+				end
 			end
 		end
-	end
-end
+	end,
+	GetAdvanceTaskCfg = function (slot0)
+		if not uv0.initedConst_ then
+			uv0.InitConst()
 
-function var_0_0.GetAdvanceTaskCfg(arg_2_0)
-	if not var_0_0.initedConst_ then
-		var_0_0.InitConst()
+			uv0.initedConst_ = true
+		end
 
-		var_0_0.initedConst_ = true
-	end
+		return uv0.advanceTaskCfgDic_[slot0] or {}
+	end,
+	GetVersionID = function ()
+		return uv0.GetCurData():GetVersionID()
+	end,
+	GetSignCfg = function ()
+		return NoobVersionCfg[uv0.GetVersionID()].noob_sign
+	end,
+	GetNoobPorgressRewardList = function ()
+		return NoobVersionCfg[uv0.GetVersionID()].noob_task_progress_reward
+	end,
+	GetNoobTaskType = function ()
+		return NoobVersionCfg[uv0.GetVersionID()].noob_task_type
+	end,
+	IsDataInited = function ()
+		return uv0.GetCurData() ~= nil
+	end,
+	GetCurData = function ()
+		slot0 = nil
 
-	return var_0_0.advanceTaskCfgDic_[arg_2_0] or {}
-end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-function var_0_0.GetVersionID()
-	return var_0_0.GetCurData():GetVersionID()
-end
+		return slot0
+	end,
+	CheckAdvanceTaskOpen = function ()
+		slot0 = false
+		slot1 = nil
+		slot2 = uv0.GetVersionID()
+		slot3 = NoobVersionCfg[slot2].noob_advance_task_type
 
-function var_0_0.GetSignCfg()
-	local var_4_0 = var_0_0.GetVersionID()
+		if type(NoobVersionCfg[slot2].noob_advance_task_open) == "table" then
+			for slot9 = #slot4, 1, -1 do
+				if uv0.CheckAdvanceTaskTypeOpen(slot3[slot9]) then
+					if slot9 == slot5 and TaskTools:IsCompletedAllNoobAdvanceTask(slot3[slot9]) then
+						slot0 = false
+					else
+						slot0 = true
+						slot1 = slot3[slot9]
+					end
 
-	return NoobVersionCfg[var_4_0].noob_sign
-end
-
-function var_0_0.GetNoobPorgressRewardList()
-	local var_5_0 = var_0_0.GetVersionID()
-
-	return NoobVersionCfg[var_5_0].noob_task_progress_reward
-end
-
-function var_0_0.GetNoobTaskType()
-	local var_6_0 = var_0_0.GetVersionID()
-
-	return NoobVersionCfg[var_6_0].noob_task_type
-end
-
-function var_0_0.IsDataInited()
-	return var_0_0.GetCurData() ~= nil
-end
-
-function var_0_0.GetCurData()
-	local var_8_0
-
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_8_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_8_0 = ActivityNewbieData
-	end
-
-	return var_8_0
-end
-
-function var_0_0.CheckAdvanceTaskOpen()
-	local var_9_0 = false
-	local var_9_1
-	local var_9_2 = var_0_0.GetVersionID()
-	local var_9_3 = NoobVersionCfg[var_9_2].noob_advance_task_type
-	local var_9_4 = NoobVersionCfg[var_9_2].noob_advance_task_open
-
-	if type(var_9_4) == "table" then
-		local var_9_5 = #var_9_4
-
-		for iter_9_0 = var_9_5, 1, -1 do
-			if var_0_0.CheckAdvanceTaskTypeOpen(var_9_3[iter_9_0]) then
-				if iter_9_0 == var_9_5 and TaskTools:IsCompletedAllNoobAdvanceTask(var_9_3[iter_9_0]) then
-					var_9_0 = false
-				else
-					var_9_0 = true
-					var_9_1 = var_9_3[iter_9_0]
+					return slot0, slot1
 				end
-
-				return var_9_0, var_9_1
 			end
 		end
-	end
 
-	return var_9_0, var_9_1
-end
+		return slot0, slot1
+	end,
+	CheckAdvanceTaskTypeOpen = function (slot0)
+		slot4 = uv0.GetAdvanceTaskCfg(slot0)
 
-function var_0_0.CheckAdvanceTaskTypeOpen(arg_10_0)
-	local var_10_0 = PlayerData:GetPlayerInfo().userLevel
-	local var_10_1 = var_0_0.GetVersionID()
-	local var_10_2 = NoobVersionCfg[var_10_1].noob_advance_task_open
-	local var_10_3 = var_0_0.GetAdvanceTaskCfg(arg_10_0)
-	local var_10_4 = var_10_3.index
-	local var_10_5 = var_10_2[var_10_3.index]
-
-	if var_10_4 == 1 then
-		return var_10_5 <= var_10_0
-	else
-		local var_10_6 = NoobVersionCfg[var_10_1].noob_advance_task_type
-
-		if TaskTools:IsCompletedAllNoobAdvanceTask(var_10_6[var_10_4 - 1]) then
-			return var_10_5 <= var_10_0
+		if slot4.index == 1 then
+			return NoobVersionCfg[uv0.GetVersionID()].noob_advance_task_open[slot4.index] <= PlayerData:GetPlayerInfo().userLevel
+		elseif TaskTools:IsCompletedAllNoobAdvanceTask(NoobVersionCfg[slot2].noob_advance_task_type[slot5 - 1]) then
+			return slot6 <= slot1
 		end
-	end
-end
+	end,
+	GotoNoobAdvanceTaskView = function ()
+		slot0 = ""
 
-function var_0_0.GotoNoobAdvanceTaskView()
-	local var_11_0 = ""
-	local var_11_1 = var_0_0.GetVersionID() <= 2 and "/noobAdvanceTask" or "/noobAdvanceTaskNew"
+		JumpTools.OpenPageByJump(uv0.GetVersionID() <= 2 and "/noobAdvanceTask" or "/noobAdvanceTaskNew", {
+			isEnter = true
+		})
+	end,
+	GotoMainView = function ()
+		slot0 = ""
 
-	JumpTools.OpenPageByJump(var_11_1, {
-		isEnter = true
-	})
-end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = "/activityNoob"
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = "/activityNewbie"
+		end
 
-function var_0_0.GotoMainView()
-	local var_12_0 = ""
+		JumpTools.OpenPageByJump(slot0, nil, ViewConst.SYSTEM_ID.NEWBIE_ACTIVITY)
+	end,
+	IsFinishAllActivity = function ()
+		slot0 = nil
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_12_0 = "/activityNoob"
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_12_0 = "/activityNewbie"
-	end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-	JumpTools.OpenPageByJump(var_12_0, nil, ViewConst.SYSTEM_ID.NEWBIE_ACTIVITY)
-end
+		return slot0:IsFinishAllActivity()
+	end,
+	GetRechargeIsOpen = function (slot0)
+		slot1 = nil
 
-function var_0_0.IsFinishAllActivity()
-	local var_13_0
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot1 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot1 = ActivityNewbieData
+		end
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_13_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_13_0 = ActivityNewbieData
-	end
+		if slot1 == nil then
+			return false
+		end
 
-	return var_13_0:IsFinishAllActivity()
-end
-
-function var_0_0.GetRechargeIsOpen(arg_14_0)
-	local var_14_0
-
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_14_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_14_0 = ActivityNewbieData
-	end
-
-	if var_14_0 == nil then
-		return false
-	end
-
-	if arg_14_0 == 1 then
-		local var_14_1 = var_14_0:GetFirstRechargeStatus()
-
-		return var_14_1.signTimes < 3 or var_14_1.firstGearStatus < 1
-	elseif arg_14_0 == 2 then
-		return not var_14_0:GetFirstMonthlyCardStatus().heroRewardFlag
-	else
-		return var_14_0:GetBpRewardStatus() <= 1
-	end
-end
-
-function var_0_0.ReceiveRechargeReward(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0
-	local var_15_1
-
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_15_0 = ActivityNoobAction
-		var_15_1 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_15_0 = ActivityNewbieAction
-		var_15_1 = ActivityNewbieData
-	end
-
-	var_15_0.ReceiveRechargeReward(arg_15_0, arg_15_1, function(arg_16_0)
-		if isSuccess(arg_16_0.result) then
-			if arg_15_0 == 1 then
-				if arg_15_1 == 0 then
-					var_15_1:ReceiveFirstRecharge(0)
-				else
-					var_15_1:ReceiveFirstRecharge(1)
-				end
-
-				var_0_0.RefreshFirstRechargeRedPoint()
-			elseif arg_15_0 == 2 then
-				if arg_15_1 == 0 then
-					var_15_1:ReceiveMonthlyCard(0)
-				else
-					var_15_1:ReceiveMonthlyCard(1)
-				end
-
-				var_0_0.RefreshMonthlyCardRedPoint()
-			elseif arg_15_0 == 3 then
-				var_15_1:SetBpRewardStatus()
-				var_0_0.RefreshBpRedPoint()
-			end
-
-			getReward2(arg_16_0.reward_list, {
-				ItemConst.ITEM_TYPE.HERO,
-				ItemConst.ITEM_TYPE.HERO_SKIN
-			})
-
-			if arg_15_2 then
-				arg_15_2(arg_16_0)
-			end
+		if slot0 == 1 then
+			return slot1:GetFirstRechargeStatus().signTimes < 3 or slot2.firstGearStatus < 1
+		elseif slot0 == 2 then
+			return not slot1:GetFirstMonthlyCardStatus().heroRewardFlag
 		else
-			ShowTips(arg_16_0.result)
+			return slot1:GetBpRewardStatus() <= 1
 		end
-	end)
-end
+	end,
+	ReceiveRechargeReward = function (slot0, slot1, slot2)
+		slot3, slot4 = nil
 
-function var_0_0.GetFirstRechargeStatus()
-	if ActivityNoobData:IsOpenCurVersion() then
-		return ActivityNoobData:GetFirstRechargeStatus()
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		return ActivityNewbieData:GetFirstRechargeStatus()
-	end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot3 = ActivityNoobAction
+			slot4 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot3 = ActivityNewbieAction
+			slot4 = ActivityNewbieData
+		end
 
-	return nil
-end
+		slot3.ReceiveRechargeReward(slot0, slot1, function (slot0)
+			if isSuccess(slot0.result) then
+				if uv0 == 1 then
+					if uv1 == 0 then
+						uv2:ReceiveFirstRecharge(0)
+					else
+						uv2:ReceiveFirstRecharge(1)
+					end
 
-function var_0_0.RefreshFirstRechargeRedPoint()
-	local var_18_0
+					uv3.RefreshFirstRechargeRedPoint()
+				elseif uv0 == 2 then
+					if uv1 == 0 then
+						uv2:ReceiveMonthlyCard(0)
+					else
+						uv2:ReceiveMonthlyCard(1)
+					end
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_18_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_18_0 = ActivityNewbieData
-	end
+					uv3.RefreshMonthlyCardRedPoint()
+				elseif uv0 == 3 then
+					uv2:SetBpRewardStatus()
+					uv3.RefreshBpRedPoint()
+				end
 
-	local var_18_1 = var_18_0:GetFirstRechargeStatus()
-	local var_18_2 = var_0_0.GetSelectFirstRecharge(1)
-	local var_18_3 = 0
+				getReward2(slot0.reward_list, {
+					ItemConst.ITEM_TYPE.HERO,
+					ItemConst.ITEM_TYPE.HERO_SKIN
+				})
 
-	if not var_0_0.GetRechargeIsOpen(1) then
-		var_18_3 = 0
-	elseif not var_18_2 or var_18_1.firstGearStatus == 1 then
-		var_18_3 = 1
-	end
+				if uv4 then
+					uv4(slot0)
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	GetFirstRechargeStatus = function ()
+		if ActivityNoobData:IsOpenCurVersion() then
+			return ActivityNoobData:GetFirstRechargeStatus()
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			return ActivityNewbieData:GetFirstRechargeStatus()
+		end
 
-	manager.redPoint:setTip(RedPointConst.NOOB_FIRST_RECHARGE_1, var_18_3)
+		return nil
+	end,
+	RefreshFirstRechargeRedPoint = function ()
+		slot0 = nil
 
-	local var_18_4 = #GameSetting.newbie_first_charge_reward_18.value[3]
-	local var_18_5 = var_18_1.secondGearStatus
-	local var_18_6 = var_18_1.signTimes
-	local var_18_7 = var_18_1.lastSignTimestamp
-	local var_18_8 = var_0_0.GetSelectFirstRecharge(2)
-	local var_18_9 = 0
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-	if not var_0_0.GetRechargeIsOpen(1) then
-		var_18_9 = 0
-	elseif not var_18_8 then
-		var_18_9 = 1
-	elseif not var_18_5 then
-		var_18_9 = 0
-	elseif var_18_6 < var_18_4 and var_18_7 < manager.time:GetTodayFreshTime() then
-		var_18_9 = 1
-	end
+		slot1 = slot0:GetFirstRechargeStatus()
+		slot2 = uv0.GetSelectFirstRecharge(1)
+		slot3 = 0
 
-	manager.redPoint:setTip(RedPointConst.NOOB_FIRST_RECHARGE_2, var_18_9)
-end
+		if not uv0.GetRechargeIsOpen(1) then
+			slot3 = 0
+		elseif not slot2 or slot1.firstGearStatus == 1 then
+			slot3 = 1
+		end
 
-function var_0_0.SetSelectFirstRecharge(arg_19_0)
-	saveData(string.format("newbie_first_recharge_%d", arg_19_0), "select", true)
-	var_0_0.RefreshFirstRechargeRedPoint()
-end
+		manager.redPoint:setTip(RedPointConst.NOOB_FIRST_RECHARGE_1, slot3)
 
-function var_0_0.GetSelectFirstRecharge(arg_20_0)
-	return getData(string.format("newbie_first_recharge_%d", arg_20_0), "select")
-end
+		slot4 = #GameSetting.newbie_first_charge_reward_18.value[3]
+		slot5 = slot1.secondGearStatus
+		slot6 = slot1.signTimes
+		slot7 = slot1.lastSignTimestamp
+		slot2 = uv0.GetSelectFirstRecharge(2)
+		slot8 = 0
 
-function var_0_0.GetFirstMonthlyCardStatus()
-	if ActivityNoobData:IsOpenCurVersion() then
-		return ActivityNoobData:GetFirstMonthlyCardStatus()
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		return ActivityNewbieData:GetFirstMonthlyCardStatus()
-	end
+		if not uv0.GetRechargeIsOpen(1) then
+			slot8 = 0
+		elseif not slot2 then
+			slot8 = 1
+		elseif not slot5 then
+			slot8 = 0
+		elseif slot6 < slot4 and slot7 < manager.time:GetTodayFreshTime() then
+			slot8 = 1
+		end
 
-	return nil
-end
+		manager.redPoint:setTip(RedPointConst.NOOB_FIRST_RECHARGE_2, slot8)
+	end,
+	SetSelectFirstRecharge = function (slot0)
+		saveData(string.format("newbie_first_recharge_%d", slot0), "select", true)
+		uv0.RefreshFirstRechargeRedPoint()
+	end,
+	GetSelectFirstRecharge = function (slot0)
+		return getData(string.format("newbie_first_recharge_%d", slot0), "select")
+	end,
+	GetFirstMonthlyCardStatus = function ()
+		if ActivityNoobData:IsOpenCurVersion() then
+			return ActivityNoobData:GetFirstMonthlyCardStatus()
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			return ActivityNewbieData:GetFirstMonthlyCardStatus()
+		end
 
-function var_0_0.SetMonthlyCardSign()
-	local var_22_0
+		return nil
+	end,
+	SetMonthlyCardSign = function ()
+		slot0 = nil
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_22_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_22_0 = ActivityNewbieData
-	end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-	if var_22_0 == nil then
-		return
-	end
+		if slot0 == nil then
+			return
+		end
 
-	var_22_0:SetMonthlyCardSign()
-	var_0_0.RefreshMonthlyCardRedPoint()
-end
+		slot0:SetMonthlyCardSign()
+		uv0.RefreshMonthlyCardRedPoint()
+	end,
+	RefreshMonthlyCardRedPoint = function ()
+		slot0 = nil
 
-function var_0_0.RefreshMonthlyCardRedPoint()
-	local var_23_0
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_23_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_23_0 = ActivityNewbieData
-	end
+		slot2 = uv0.GetSelectMonthlyRecharge()
 
-	local var_23_1 = var_23_0:GetFirstMonthlyCardStatus()
-	local var_23_2 = var_0_0.GetSelectMonthlyRecharge()
+		if GameSetting.newbie_first_monthly_card_cumulative.value[1] <= slot0:GetFirstMonthlyCardStatus().signTimes and slot1.signRewardFlag == false then
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE_SIGN, 1)
+		else
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE_SIGN, 0)
+		end
 
-	if GameSetting.newbie_first_monthly_card_cumulative.value[1] <= var_23_1.signTimes and var_23_1.signRewardFlag == false then
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE_SIGN, 1)
-	else
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE_SIGN, 0)
-	end
+		if not uv0.GetRechargeIsOpen(2) then
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 0)
+		elseif not slot2 then
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 1)
+		elseif slot1.isRecharged and not slot1.heroRewardFlag then
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 1)
+		else
+			manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 0)
+		end
+	end,
+	SetSelectMonthlyRecharge = function ()
+		saveData("newbie_monthly_card", "select", true)
+		uv0.RefreshMonthlyCardRedPoint()
+	end,
+	GetSelectMonthlyRecharge = function ()
+		return getData("newbie_monthly_card", "select")
+	end,
+	GetBpRewardStatus = function ()
+		if ActivityNoobData:IsOpenCurVersion() then
+			return ActivityNoobData:GetBpRewardStatus()
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			return ActivityNewbieData:GetBpRewardStatus()
+		end
 
-	if not var_0_0.GetRechargeIsOpen(2) then
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 0)
-	elseif not var_23_2 then
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 1)
-	elseif var_23_1.isRecharged and not var_23_1.heroRewardFlag then
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 1)
-	else
-		manager.redPoint:setTip(RedPointConst.NOOB_MONTHLY_RECHARGE, 0)
-	end
-end
+		return nil
+	end,
+	RefreshBpRedPoint = function ()
+		slot0 = nil
 
-function var_0_0.SetSelectMonthlyRecharge()
-	saveData("newbie_monthly_card", "select", true)
-	var_0_0.RefreshMonthlyCardRedPoint()
-end
+		if ActivityNoobData:IsOpenCurVersion() then
+			slot0 = ActivityNoobData
+		elseif ActivityNewbieData:IsOpenCurVersion() then
+			slot0 = ActivityNewbieData
+		end
 
-function var_0_0.GetSelectMonthlyRecharge()
-	return getData("newbie_monthly_card", "select")
-end
+		slot1 = slot0:GetBpRewardStatus()
+		slot2 = uv0.GetSelectBpRecharge()
+		slot3 = 0
 
-function var_0_0.GetBpRewardStatus()
-	if ActivityNoobData:IsOpenCurVersion() then
-		return ActivityNoobData:GetBpRewardStatus()
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		return ActivityNewbieData:GetBpRewardStatus()
-	end
+		if not uv0.GetRechargeIsOpen(3) then
+			slot3 = 0
+		elseif not slot2 or slot1 == 1 then
+			slot3 = 1
+		end
 
-	return nil
-end
+		manager.redPoint:setTip(RedPointConst.NOOB_BP_RECHARGE, slot3)
+	end,
+	SetSelectBpRecharge = function ()
+		saveData("newbie_bp", "select", true)
+		uv0.RefreshBpRedPoint()
+	end,
+	GetSelectBpRecharge = function ()
+		return getData("newbie_bp", "select")
+	end,
+	RefreshAdvanceTaskRedPoint = function ()
+		slot0, slot1 = ActivityNewbieTools.CheckAdvanceTaskOpen()
 
-function var_0_0.RefreshBpRedPoint()
-	local var_27_0
+		if slot0 then
+			slot2 = ActivityNewbieTools.GetAdvanceTaskCfg(slot1)
 
-	if ActivityNoobData:IsOpenCurVersion() then
-		var_27_0 = ActivityNoobData
-	elseif ActivityNewbieData:IsOpenCurVersion() then
-		var_27_0 = ActivityNewbieData
-	end
-
-	local var_27_1 = var_27_0:GetBpRewardStatus()
-	local var_27_2 = var_0_0.GetSelectBpRecharge()
-	local var_27_3 = 0
-
-	if not var_0_0.GetRechargeIsOpen(3) then
-		var_27_3 = 0
-	elseif not var_27_2 or var_27_1 == 1 then
-		var_27_3 = 1
-	end
-
-	manager.redPoint:setTip(RedPointConst.NOOB_BP_RECHARGE, var_27_3)
-end
-
-function var_0_0.SetSelectBpRecharge()
-	saveData("newbie_bp", "select", true)
-	var_0_0.RefreshBpRedPoint()
-end
-
-function var_0_0.GetSelectBpRecharge()
-	return getData("newbie_bp", "select")
-end
-
-function var_0_0.RefreshAdvanceTaskRedPoint()
-	local var_30_0, var_30_1 = ActivityNewbieTools.CheckAdvanceTaskOpen()
-
-	if var_30_0 then
-		local var_30_2 = ActivityNewbieTools.GetAdvanceTaskCfg(var_30_1)
-		local var_30_3 = var_30_2.versionID
-		local var_30_4 = var_30_2.index
-		local var_30_5 = NoobVersionCfg[var_30_3].noob_advance_task_phase[var_30_4]
-
-		for iter_30_0, iter_30_1 in ipairs(NoobAdvanceTaskPhaseListCfg[var_30_5].phase_list) do
-			for iter_30_2, iter_30_3 in ipairs(iter_30_1[2]) do
-				TaskRedPoint:UpdateNoobAdvanceTaskRed(var_30_1, iter_30_3[1])
+			for slot9, slot10 in ipairs(NoobAdvanceTaskPhaseListCfg[NoobVersionCfg[slot2.versionID].noob_advance_task_phase[slot2.index]].phase_list) do
+				for slot14, slot15 in ipairs(slot10[2]) do
+					TaskRedPoint:UpdateNoobAdvanceTaskRed(slot1, slot15[1])
+				end
 			end
 		end
 	end
-end
-
-return var_0_0
+}

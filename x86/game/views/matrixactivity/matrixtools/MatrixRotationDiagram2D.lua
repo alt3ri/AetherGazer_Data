@@ -1,88 +1,80 @@
-local var_0_0 = class("MatrixRotationDiagram2D", ReduxView)
+slot0 = class("MatrixRotationDiagram2D", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.particle = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.particle = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemSize = Vector2.New(650, 700)
-	arg_3_0.itemOffset = 350
-	arg_3_0.itemCount = 6
+	slot0.itemSize = Vector2.New(650, 700)
+	slot0.itemOffset = 350
+	slot0.itemCount = 6
 
-	arg_3_0:CalulateDataStatic()
-	arg_3_0:CreatItem()
+	slot0:CalulateDataStatic()
+	slot0:CreatItem()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0:Change(arg_4_1, true)
+function slot0.SetData(slot0, slot1)
+	slot0:Change(slot1, true)
 end
 
-function var_0_0.CreatItem(arg_5_0)
-	arg_5_0.itemList = {}
+function slot0.CreatItem(slot0)
+	slot0.itemList = {}
 
-	for iter_5_0 = 1, arg_5_0.itemCount do
-		local var_5_0 = MatrixRotationDiagramItem.New(arg_5_0.m_ratationItem, arg_5_0.m_ratationContent)
+	for slot4 = 1, slot0.itemCount do
+		slot5 = MatrixRotationDiagramItem.New(slot0.m_ratationItem, slot0.m_ratationContent)
 
-		var_5_0:SetData(iter_5_0)
-		table.insert(arg_5_0.itemList, var_5_0)
+		slot5:SetData(slot4)
+		table.insert(slot0.itemList, slot5)
 	end
 end
 
-function var_0_0.Change(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = #arg_6_0.itemList
+function slot0.Change(slot0, slot1, slot2)
+	slot3 = #slot0.itemList
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.itemList) do
-		local var_6_1 = (iter_6_1:GetIndex() - arg_6_1 + var_6_0) % var_6_0 + 1
-
-		iter_6_1:SetPosId(var_6_1)
+	for slot7, slot8 in ipairs(slot0.itemList) do
+		slot8:SetPosId((slot8:GetIndex() - slot1 + slot3) % slot3 + 1)
 	end
 
-	table.sort(arg_6_0.itemList, function(arg_7_0, arg_7_1)
-		local var_7_0 = arg_7_0:GetPosId()
-		local var_7_1 = arg_7_1:GetPosId()
-
-		return arg_6_0.itemPosList[var_7_0].order < arg_6_0.itemPosList[var_7_1].order
+	table.sort(slot0.itemList, function (slot0, slot1)
+		return uv0.itemPosList[slot0:GetPosId()].order < uv0.itemPosList[slot1:GetPosId()].order
 	end)
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_0.itemList) do
-		local var_6_2 = iter_6_3:GetPosId()
-		local var_6_3 = arg_6_0.itemPosList[var_6_2]
-
-		if arg_6_2 then
-			SetActive(arg_6_0.particle, true)
-			iter_6_3:InitPosData(var_6_3)
+	for slot7, slot8 in ipairs(slot0.itemList) do
+		if slot2 then
+			SetActive(slot0.particle, true)
+			slot8:InitPosData(slot0.itemPosList[slot8:GetPosId()])
 		else
-			SetActive(arg_6_0.particle, false)
-			TimeTools.StartAfterSeconds(0.5, function()
-				if arg_6_0.particle then
-					SetActive(arg_6_0.particle, true)
+			SetActive(slot0.particle, false)
+			TimeTools.StartAfterSeconds(0.5, function ()
+				if uv0.particle then
+					SetActive(uv0.particle, true)
 				end
 			end, {})
-			iter_6_3:SetPosData(var_6_3)
+			slot8:SetPosData(slot10)
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.itemList) do
-		iter_9_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.CalulateDataStatic(arg_10_0)
-	arg_10_0.itemPosList = {
+function slot0.CalulateDataStatic(slot0)
+	slot0.itemPosList = {
 		{
 			scale = 1,
 			order = 6,
@@ -122,4 +114,4 @@ function var_0_0.CalulateDataStatic(arg_10_0)
 	}
 end
 
-return var_0_0
+return slot0

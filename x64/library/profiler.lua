@@ -1,51 +1,39 @@
-local var_0_0 = LuaProfiler
-local var_0_1 = debug
-local var_0_2 = {}
-local var_0_3 = 0
+slot0 = LuaProfiler
+slot1 = debug
+slot2 = {}
+slot3 = 0
 
-local function var_0_4(arg_1_0, arg_1_1)
-	local var_1_0 = var_0_1.getinfo(2, "Sn")
-
-	if var_1_0.what ~= "Lua" then
+function slot4(slot0, slot1)
+	if uv0.getinfo(2, "Sn").what ~= "Lua" then
 		return
 	end
 
-	local var_1_1 = var_1_0.name or "[unknown]"
-
-	if var_1_1 == "lua_profiler_attach" or var_1_1 == "lua_profiler_detach" then
+	if (slot2.name or "[unknown]") == "lua_profiler_attach" or slot3 == "lua_profiler_detach" then
 		return
 	end
 
-	local var_1_2 = var_1_0.linedefined
-	local var_1_3 = var_1_0.lastlinedefined
-	local var_1_4 = var_1_0.short_src
-	local var_1_5 = var_1_4 .. ":" .. var_1_2 .. ":" .. var_1_3
-	local var_1_6 = var_0_2[var_1_5]
+	if slot0 == "call" then
+		if not uv1[slot2.short_src .. ":" .. slot2.linedefined .. ":" .. slot2.lastlinedefined] then
+			uv2.BeginSample(uv3, slot3 .. ":" .. slot4 .. ":" .. slot6)
 
-	if arg_1_0 == "call" then
-		if not var_1_6 then
-			local var_1_7 = var_1_1 .. ":" .. var_1_2 .. ":" .. var_1_4
-
-			var_0_0.BeginSample(var_0_3, var_1_7)
-
-			var_0_2[var_1_5] = var_0_3
-			var_0_3 = var_0_3 + 1
+			uv1[slot7] = uv3
+			uv3 = uv3 + 1
 		else
-			var_0_0.BeginSample(var_1_6)
+			uv2.BeginSample(slot8)
 		end
-	elseif arg_1_0 == "return" or arg_1_0 == "tail return" then
-		var_0_0.EndSample()
+	elseif slot0 == "return" or slot0 == "tail return" then
+		uv2.EndSample()
 	end
 end
 
 function lua_profiler_attach()
-	var_0_1.sethook(var_0_4, "cr", 0)
+	uv0.sethook(uv1, "cr", 0)
 end
 
 function lua_profiler_detach()
-	var_0_1.sethook()
+	uv0.sethook()
 
-	var_0_2 = {}
+	uv1 = {}
 
-	var_0_0.Clear()
+	uv2.Clear()
 end

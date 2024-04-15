@@ -1,24 +1,22 @@
-local var_0_0 = class("PosterGirlBaseState")
+slot0 = class("PosterGirlBaseState")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.actor = arg_1_1
-	arg_1_0.state_key = nil
+function slot0.Ctor(slot0, slot1)
+	slot0.actor = slot1
+	slot0.state_key = nil
 end
 
-function var_0_0.Enter(arg_2_0)
-	return
+function slot0.Enter(slot0)
 end
 
-function var_0_0.Exit(arg_3_0, arg_3_1)
-	return
+function slot0.Exit(slot0, slot1)
 end
 
-function var_0_0.SetStateKey(arg_4_0, arg_4_1)
-	arg_4_0.state_key = arg_4_1
+function slot0.SetStateKey(slot0, slot1)
+	slot0.state_key = slot1
 end
 
-function var_0_0.GetStateKey(arg_5_0)
-	return arg_5_0.state_key
+function slot0.GetStateKey(slot0)
+	return slot0.state_key
 end
 
-return var_0_0
+return slot0

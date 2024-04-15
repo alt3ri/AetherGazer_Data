@@ -1,97 +1,94 @@
-local var_0_0 = class("NorseSurpriseGiftChooseItem", ReduxView)
+slot0 = class("NorseSurpriseGiftChooseItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateCtrl = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("state")
-	arg_3_0.heartCtrl = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("heart")
+	slot0.stateCtrl = slot0.transform_:GetComponent("ControllerExCollection"):GetController("state")
+	slot0.heartCtrl = slot0.transform_:GetComponent("ControllerExCollection"):GetController("heart")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btnLook_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnLook_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewMain", {
 			isEnter = true,
-			hid = arg_4_0.heroId
+			hid = uv0.heroId
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0:UpdateView(arg_6_1)
+function slot0.SetData(slot0, slot1)
+	slot0:UpdateView(slot1)
 end
 
-function var_0_0.UpdateView(arg_7_0, arg_7_1)
-	arg_7_0.heroId = arg_7_1
+function slot0.UpdateView(slot0, slot1)
+	slot0.heroId = slot1
+	slot2 = HeroCfg[slot0.heroId]
+	slot3 = slot0.heroViewProxy_:GetHeroUsingSkinInfo(slot0.heroId).id
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite(slot0.heroId)
+	slot0.atkImg_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroId)
+	slot0.raceImg_.sprite = HeroTools.GetHeroRaceIcon(slot0.heroId)
 
-	local var_7_0 = HeroCfg[arg_7_0.heroId]
-	local var_7_1 = arg_7_0.heroViewProxy_:GetHeroUsingSkinInfo(arg_7_0.heroId).id
-
-	arg_7_0.headIcon_.sprite = HeroTools.GetHeadSprite(arg_7_0.heroId)
-	arg_7_0.atkImg_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_7_0.heroId)
-	arg_7_0.raceImg_.sprite = HeroTools.GetHeroRaceIcon(arg_7_0.heroId)
-
-	arg_7_0.stateCtrl:SetSelectedIndex(0)
-	arg_7_0.heartCtrl:SetSelectedIndex(0)
+	slot0.stateCtrl:SetSelectedIndex(0)
+	slot0.heartCtrl:SetSelectedIndex(0)
 end
 
-function var_0_0.SetHeart(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_1) do
-		if arg_8_0.heroId == iter_8_1 then
-			arg_8_0.heartCtrl:SetSelectedIndex(1)
+function slot0.SetHeart(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.heroId == slot6 then
+			slot0.heartCtrl:SetSelectedIndex(1)
 
 			break
 		end
 	end
 end
 
-function var_0_0.SetDelete(arg_9_0, arg_9_1)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_1) do
-		if arg_9_0.heroId == iter_9_1 then
-			arg_9_0.stateCtrl:SetSelectedIndex(1)
+function slot0.SetDelete(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.heroId == slot6 then
+			slot0.stateCtrl:SetSelectedIndex(1)
 
 			break
 		end
 	end
 end
 
-function var_0_0.SetDraw(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_1) do
-		if arg_10_0.heroId == iter_10_1 then
-			arg_10_0.stateCtrl:SetSelectedIndex(2)
+function slot0.SetDraw(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.heroId == slot6 then
+			slot0.stateCtrl:SetSelectedIndex(2)
 
 			break
 		end
 	end
 end
 
-function var_0_0.SetResultRoleId(arg_11_0, arg_11_1)
-	if arg_11_0.heroId == arg_11_1 then
-		arg_11_0.stateCtrl:SetSelectedIndex(3)
+function slot0.SetResultRoleId(slot0, slot1)
+	if slot0.heroId == slot1 then
+		slot0.stateCtrl:SetSelectedIndex(3)
 	end
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	var_0_0.super.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

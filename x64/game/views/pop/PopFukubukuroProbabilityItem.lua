@@ -1,53 +1,44 @@
-local var_0_0 = class("PopFukubukuroProbabilityItem", ReduxView)
+slot0 = class("PopFukubukuroProbabilityItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	local var_5_0 = arg_5_1[1]
-	local var_5_1 = arg_5_1[2]
-	local var_5_2 = arg_5_1[3]
-	local var_5_3 = ItemCfg[var_5_0]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot4 = slot1[1]
+	slot7 = ItemCfg[slot4]
+	slot0.m_name.text = ItemTools.getItemName(slot4) .. "x" .. slot1[2]
+	slot8 = slot1[3] / slot3
 
-	arg_5_0.m_name.text = ItemTools.getItemName(var_5_0) .. "x" .. var_5_1
+	for slot13, slot14 in ipairs(slot2) do
+		slot16 = slot14[2]
+		slot18 = slot14[3] / slot3
 
-	local var_5_4 = var_5_2 / arg_5_3
-	local var_5_5 = 0
-
-	for iter_5_0, iter_5_1 in ipairs(arg_5_2) do
-		local var_5_6 = iter_5_1[1]
-		local var_5_7 = iter_5_1[2]
-		local var_5_8 = iter_5_1[3] / arg_5_3
-
-		if var_5_6 ~= var_5_0 then
-			var_5_5 = var_5_4 / (1 - var_5_4) * var_5_8 + var_5_8 / (1 - var_5_8) * var_5_4 + var_5_5
+		if slot14[1] ~= slot4 then
+			slot9 = slot8 / (1 - slot8) * slot18 + slot18 / (1 - slot18) * slot8 + 0
 		end
 	end
 
-	local var_5_9 = math.floor(var_5_5 * 10000) / 100
-
-	arg_5_0.m_probability.text = string.format("%.2f", var_5_9) .. "%"
+	slot0.m_probability.text = string.format("%.2f", math.floor(slot9 * 10000) / 100) .. "%"
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

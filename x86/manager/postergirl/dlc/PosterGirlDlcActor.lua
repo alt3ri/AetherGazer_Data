@@ -1,285 +1,249 @@
-local var_0_0 = class("PosterGirlDlcActor", PosterGirlBaseActor)
+slot0 = class("PosterGirlDlcActor", PosterGirlBaseActor)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 	manager.ui:AddMainCameraCom(typeof(CinemachineBrain))
 
-	arg_1_0.playable_list = {}
+	slot0.playable_list = {}
 
-	arg_1_0:Init()
+	slot0:Init()
 
-	local var_1_0, var_1_1 = PosterGirlTools.GetLoadLightEffect(arg_1_0.view_direct, arg_1_0.view_direct)
+	slot3, slot4 = PosterGirlTools.GetLoadLightEffect(slot0.view_direct, slot0.view_direct)
 
-	if var_1_0 then
-		manager.ui:SetSceneLightEffect(var_1_1)
+	if slot3 then
+		manager.ui:SetSceneLightEffect(slot4)
 	end
 
-	arg_1_0:UpdateCameraParams()
+	slot0:UpdateCameraParams()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.view_direct = PosterGirlConst.ViewDirect.center
+function slot0.Init(slot0)
+	slot0.view_direct = PosterGirlConst.ViewDirect.center
 end
 
-function var_0_0.LoadModel(arg_3_0)
-	var_0_0.super.LoadModel(arg_3_0)
+function slot0.LoadModel(slot0)
+	uv0.super.LoadModel(slot0)
 
-	local var_3_0 = arg_3_0.tpose.transform:Find("camera")
-
-	if var_3_0 then
-		arg_3_0.cameraManager_ = var_3_0:GetComponent("CharacterCameraManager")
+	if slot0.tpose.transform:Find("camera") then
+		slot0.cameraManager_ = slot1:GetComponent("CharacterCameraManager")
 	else
-		arg_3_0.cameraManager_ = nil
+		slot0.cameraManager_ = nil
 	end
 end
 
-function var_0_0.GetHeroPosAndRotCfg(arg_4_0)
-	local var_4_0 = arg_4_0.skinId * 100
-
-	return HeroPosAndRotCfg[var_4_0]
+function slot0.GetHeroPosAndRotCfg(slot0)
+	return HeroPosAndRotCfg[slot0.skinId * 100]
 end
 
-function var_0_0.GetTag(arg_5_0)
+function slot0.GetTag(slot0)
 	return PosterGirlConst.PosterGirlTag.t0
 end
 
-function var_0_0.CheckDebut(arg_6_0)
-	if HomeSceneSettingData:GetIsPlay(arg_6_0.skinId) then
+function slot0.CheckDebut(slot0)
+	if HomeSceneSettingData:GetIsPlay(slot0.skinId) then
 		return false
 	end
 
-	arg_6_0:ChangeState(PosterGirlConst.StateKay.debut)
+	slot0:ChangeState(PosterGirlConst.StateKay.debut)
 
 	return true
 end
 
-function var_0_0.SkipDebut(arg_7_0)
-	local var_7_0 = arg_7_0:GetCurrentState()
-
-	if not var_7_0 or var_7_0:GetStateKey() ~= PosterGirlConst.StateKay.debut then
+function slot0.SkipDebut(slot0)
+	if not slot0:GetCurrentState() or slot1:GetStateKey() ~= PosterGirlConst.StateKay.debut then
 		return false
 	end
 
-	arg_7_0:ChangeState(PosterGirlConst.StateKay.init, true)
+	slot0:ChangeState(PosterGirlConst.StateKay.init, true)
 
 	return true
 end
 
-function var_0_0.CheckInitState(arg_8_0)
-	local var_8_0 = arg_8_0:GetCurrentState()
-
-	return var_8_0 and var_8_0:GetStateKey() == PosterGirlConst.StateKay.init or false
+function slot0.CheckInitState(slot0)
+	return slot0:GetCurrentState() and slot1:GetStateKey() == PosterGirlConst.StateKay.init or false
 end
 
-function var_0_0.InitTouchHelp(arg_9_0, arg_9_1)
-	arg_9_0.cameraManager_.touchHelper = arg_9_1
+function slot0.InitTouchHelp(slot0, slot1)
+	slot0.cameraManager_.touchHelper = slot1
 end
 
-function var_0_0.TouchHelpIdle(arg_10_0)
-	arg_10_0.cameraManager_:TweenToDefaultCameraPos()
+function slot0.TouchHelpIdle(slot0)
+	slot0.cameraManager_:TweenToDefaultCameraPos()
 end
 
-function var_0_0.TouchHelpSingleDrag(arg_11_0, arg_11_1, arg_11_2)
-	if not arg_11_0:CheckInitState() then
+function slot0.TouchHelpSingleDrag(slot0, slot1, slot2)
+	if not slot0:CheckInitState() then
 		return
 	end
 
-	arg_11_0.cameraManager_:RotateCamera(arg_11_1, arg_11_2)
+	slot0.cameraManager_:RotateCamera(slot1, slot2)
 end
 
-function var_0_0.TouchHelpMutiDrag(arg_12_0, arg_12_1)
-	local var_12_0 = GameSetting.delta_to_zoom and GameSetting.delta_to_zoom.value[1] or 10
-
-	if var_12_0 < arg_12_1 then
-		arg_12_0.cameraManager_:SetActiveCamera(1)
-	elseif arg_12_1 < -1 * var_12_0 then
-		arg_12_0.cameraManager_:SetActiveCamera(0)
+function slot0.TouchHelpMutiDrag(slot0, slot1)
+	if slot1 > (GameSetting.delta_to_zoom and GameSetting.delta_to_zoom.value[1] or 10) then
+		slot0.cameraManager_:SetActiveCamera(1)
+	elseif slot1 < -1 * slot2 then
+		slot0.cameraManager_:SetActiveCamera(0)
 	end
 end
 
-function var_0_0.SetSelfCamera(arg_13_0, arg_13_1)
-	if arg_13_1 == -1 then
-		arg_13_0.cameraManager_:RemoveActiveCamera()
+function slot0.SetSelfCamera(slot0, slot1)
+	if slot1 == -1 then
+		slot0.cameraManager_:RemoveActiveCamera()
 	else
-		arg_13_0.cameraManager_:SetActiveCamera(arg_13_1)
+		slot0.cameraManager_:SetActiveCamera(slot1)
 	end
 
-	arg_13_0:ResetCameraPos()
+	slot0:ResetCameraPos()
 end
 
-function var_0_0.ResetCameraPos(arg_14_0)
-	arg_14_0.cameraManager_:ResetCameraDefaultCfg()
+function slot0.ResetCameraPos(slot0)
+	slot0.cameraManager_:ResetCameraDefaultCfg()
 end
 
-function var_0_0.UpdateCameraParams(arg_15_0)
-	arg_15_0.cameraManager_:SetCameraParams(0)
-	arg_15_0:SetSelfCamera(0)
+function slot0.UpdateCameraParams(slot0)
+	slot0.cameraManager_:SetCameraParams(0)
+	slot0:SetSelfCamera(0)
 end
 
-function var_0_0.MuteCamera(arg_16_0, arg_16_1)
-	SetActive(arg_16_0.cameraManager_.gameObject, not arg_16_1)
+function slot0.MuteCamera(slot0, slot1)
+	SetActive(slot0.cameraManager_.gameObject, not slot1)
 end
 
-function var_0_0.GetState(arg_17_0, arg_17_1)
-	if arg_17_0._states[arg_17_1] then
-		return arg_17_0._states[arg_17_1]
+function slot0.GetState(slot0, slot1)
+	if slot0._states[slot1] then
+		return slot0._states[slot1]
 	end
 
-	local var_17_0 = PosterGirlTools.ProduceDlcState(arg_17_1, arg_17_0)
+	if PosterGirlTools.ProduceDlcState(slot1, slot0) ~= nil then
+		slot2:SetStateKey(slot1)
 
-	if var_17_0 ~= nil then
-		var_17_0:SetStateKey(arg_17_1)
+		slot0._states[slot1] = slot2
 
-		arg_17_0._states[arg_17_1] = var_17_0
-
-		return var_17_0
+		return slot2
 	end
 end
 
-function var_0_0.GetInteractionCfg(arg_18_0)
-	return HeroTools:GetUnlockInteractionCfg(arg_18_0.skinId)
+function slot0.GetInteractionCfg(slot0)
+	return HeroTools:GetUnlockInteractionCfg(slot0.skinId)
 end
 
-function var_0_0.DoShacking(arg_19_0)
-	if not arg_19_0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= arg_19_0.view_direct then
+function slot0.DoShacking(slot0)
+	if not slot0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= slot0.view_direct then
 		return
 	end
 
-	arg_19_0:ChangeState(PosterGirlConst.StateKay.shake)
+	slot0:ChangeState(PosterGirlConst.StateKay.shake)
 end
 
-function var_0_0.DoTouch(arg_20_0)
-	if not arg_20_0:CheckInitState() then
+function slot0.DoTouch(slot0)
+	if not slot0:CheckInitState() then
 		return
 	end
 
-	arg_20_0:ChangeState(PosterGirlConst.StateKay.touch)
+	slot0:ChangeState(PosterGirlConst.StateKay.touch)
 end
 
-function var_0_0.DoQuickTouch(arg_21_0)
-	if not arg_21_0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= arg_21_0.view_direct then
+function slot0.DoQuickTouch(slot0)
+	if not slot0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= slot0.view_direct then
 		return
 	end
 
-	arg_21_0:ChangeState(PosterGirlConst.StateKay.quickclick)
+	slot0:ChangeState(PosterGirlConst.StateKay.quickclick)
 end
 
-function var_0_0.DoShowing(arg_22_0)
-	if not arg_22_0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= arg_22_0.view_direct then
+function slot0.DoShowing(slot0)
+	if not slot0:CheckInitState() or PosterGirlConst.ViewDirect.center ~= slot0.view_direct then
 		return
 	end
 
-	arg_22_0:ChangeState(PosterGirlConst.StateKay.show)
+	slot0:ChangeState(PosterGirlConst.StateKay.show)
 end
 
-function var_0_0.DoInit(arg_23_0, arg_23_1)
-	if arg_23_1 == PosterGirlConst.ViewTag.home then
-		arg_23_0:ChangeState(PosterGirlConst.StateKay.init)
+function slot0.DoInit(slot0, slot1)
+	if slot1 == PosterGirlConst.ViewTag.home then
+		slot0:ChangeState(PosterGirlConst.StateKay.init)
 	else
-		arg_23_0:ChangeState(PosterGirlConst.StateKay.init_spec, true)
+		slot0:ChangeState(PosterGirlConst.StateKay.init_spec, true)
 	end
 end
 
-function var_0_0.DoIdle(arg_24_0)
-	if not arg_24_0:CheckInitState() then
+function slot0.DoIdle(slot0)
+	if not slot0:CheckInitState() then
 		return
 	end
 
-	arg_24_0:ChangeState(PosterGirlConst.StateKay.idle)
+	slot0:ChangeState(PosterGirlConst.StateKay.idle)
 end
 
-function var_0_0.GetPlayable(arg_25_0, arg_25_1)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.playable_list) do
-		if arg_25_1 == iter_25_1.name then
-			return iter_25_1.playable, iter_25_1.timeLintGo
+function slot0.GetPlayable(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.playable_list) do
+		if slot1 == slot6.name then
+			return slot6.playable, slot6.timeLintGo
 		end
 	end
 
-	local var_25_0, var_25_1 = arg_25_0:CreatPlayable(arg_25_1)
+	slot2, slot3 = slot0:CreatPlayable(slot1)
 
-	if var_25_0 then
-		local var_25_2 = {
-			name = arg_25_1,
-			timeLintGo = var_25_1,
-			playable = var_25_0
-		}
-
-		table.insert(arg_25_0.playable_list, var_25_2)
+	if slot2 then
+		table.insert(slot0.playable_list, {
+			name = slot1,
+			timeLintGo = slot3,
+			playable = slot2
+		})
 	end
 
-	if #arg_25_0.playable_list > 2 then
-		local var_25_3 = table.remove(arg_25_0.playable_list, 1)
-
-		Object.Destroy(var_25_3.timeLintGo)
+	if #slot0.playable_list > 2 then
+		Object.Destroy(table.remove(slot0.playable_list, 1).timeLintGo)
 	end
 
-	return var_25_0, var_25_1
+	return slot2, slot3
 end
 
-function var_0_0.CreatPlayable(arg_26_0, arg_26_1)
-	local var_26_0 = string.format("UITimeLine/Charactor/%s/%s", tostring(arg_26_0.skinId), arg_26_1)
-	local var_26_1 = Asset.Load(var_26_0)
-	local var_26_2 = Object.Instantiate(var_26_1, arg_26_0.tpose.transform)
-	local var_26_3 = var_26_2:GetComponent("PlayableDirector")
+function slot0.CreatPlayable(slot0, slot1)
+	if Object.Instantiate(Asset.Load(string.format("UITimeLine/Charactor/%s/%s", tostring(slot0.skinId), slot1)), slot0.tpose.transform):GetComponent("PlayableDirector") then
+		for slot11 = 0, slot5.playableAsset.outputTrackCount - 1 do
+			if slot5:GetGenericBinding(slot6:GetOutputTrack(slot11)) == nil then
+				if string.sub(slot12.name, 1, 1) == "@" then
+					slot15 = nil
 
-	if var_26_3 then
-		local var_26_4 = var_26_3.playableAsset
-		local var_26_5 = var_26_4.outputTrackCount
-
-		for iter_26_0 = 0, var_26_5 - 1 do
-			local var_26_6 = var_26_4:GetOutputTrack(iter_26_0)
-
-			if var_26_3:GetGenericBinding(var_26_6) == nil then
-				local var_26_7 = string.sub(var_26_6.name, 1, 1)
-
-				if var_26_7 == "@" then
-					local var_26_8 = string.sub(var_26_6.name, 2)
-					local var_26_9
-					local var_26_10 = arg_26_0.tpose.transform:Find(var_26_8)
-
-					if var_26_10 == nil then
-						local var_26_11 = GameObject.Find(var_26_8)
-
-						if var_26_11 ~= nil then
-							var_26_9 = var_26_11:GetComponent(typeof(Animator))
+					if slot0.tpose.transform:Find(string.sub(slot12.name, 2)) == nil then
+						if GameObject.Find(slot14) ~= nil then
+							slot15 = slot17:GetComponent(typeof(Animator))
 						end
 					else
-						var_26_9 = var_26_10:GetComponent(typeof(Animator))
+						slot15 = slot16:GetComponent(typeof(Animator))
 					end
 
-					if var_26_9 ~= nil then
-						var_26_3:SetGenericBinding(var_26_6, var_26_9)
+					if slot15 ~= nil then
+						slot5:SetGenericBinding(slot12, slot15)
 					end
-				elseif var_26_7 == "#" then
-					local var_26_12 = string.sub(var_26_6.name, 2)
-					local var_26_13
-					local var_26_14 = arg_26_0.tpose.transform:Find(var_26_12):GetComponent("CharacterEffect")
+				elseif slot13 == "#" then
+					slot15 = nil
 
-					if var_26_14 ~= nil then
-						var_26_3:SetGenericBinding(var_26_6, var_26_14)
+					if slot0.tpose.transform:Find(string.sub(slot12.name, 2)):GetComponent("CharacterEffect") ~= nil then
+						slot5:SetGenericBinding(slot12, slot15)
 					end
-				elseif var_26_7 == "&" then
-					local var_26_15 = string.sub(var_26_6.name, 2)
-					local var_26_16
-					local var_26_17 = arg_26_0.tpose.transform:Find(var_26_15):GetComponent("CriLipsExPlayer")
+				elseif slot13 == "&" then
+					slot15 = nil
 
-					if var_26_17 ~= nil then
-						var_26_3:SetGenericBinding(var_26_6, var_26_17)
+					if slot0.tpose.transform:Find(string.sub(slot12.name, 2)):GetComponent("CriLipsExPlayer") ~= nil then
+						slot5:SetGenericBinding(slot12, slot15)
 					end
 				end
 			end
 		end
 	end
 
-	return var_26_3, var_26_2
+	return slot5, slot4
 end
 
-function var_0_0.Dispose(arg_27_0)
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.playable_list) do
-		Object.Destroy(iter_27_1.timeLintGo)
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.playable_list) do
+		Object.Destroy(slot5.timeLintGo)
 	end
 
-	var_0_0.super.Dispose(arg_27_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

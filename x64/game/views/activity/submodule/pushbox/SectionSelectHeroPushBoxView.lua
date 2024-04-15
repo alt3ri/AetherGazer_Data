@@ -1,10 +1,7 @@
-local var_0_0 = import("game.views.sectionSelectHero.SectionSelectHeroBaseView")
-local var_0_1 = class("SectionSelectHeroPushBoxView", var_0_0)
+slot1 = class("SectionSelectHeroPushBoxView", import("game.views.sectionSelectHero.SectionSelectHeroBaseView"))
 
-function var_0_1.StartBattle(arg_1_0)
-	local var_1_0 = BattleActivityPushBoxTemplate.New(arg_1_0.stageID_, arg_1_0.params_.activityID, arg_1_0.params_.dest_id)
-
-	BattleController.GetInstance():LaunchBattle(var_1_0)
+function slot1.StartBattle(slot0)
+	BattleController.GetInstance():LaunchBattle(BattleActivityPushBoxTemplate.New(slot0.stageID_, slot0.params_.activityID, slot0.params_.dest_id))
 end
 
-return var_0_1
+return slot1

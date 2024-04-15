@@ -1,82 +1,76 @@
-local var_0_0 = class("HeroClueTaskView", ReduxView)
+slot0 = class("HeroClueTaskView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return HeroClueTools.GetTaskViewUIName(arg_1_0.params_.activtiyID)
+function slot0.UIName(slot0)
+	return HeroClueTools.GetTaskViewUIName(slot0.params_.activtiyID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.scrollView_, HeroClueTaskItem)
-	arg_4_0.taskUpdateHandler_ = handler(arg_4_0, arg_4_0.UpdateData)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.scrollView_, HeroClueTaskItem)
+	slot0.taskUpdateHandler_ = handler(slot0, slot0.UpdateData)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.taskActivityID_ = arg_7_0.params_.activityID
-	arg_7_0.mainActivityID_ = arg_7_0.params_.mainActivityID
+function slot0.OnEnter(slot0)
+	slot0.taskActivityID_ = slot0.params_.activityID
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
 
-	arg_7_0:RefreshUI()
-	arg_7_0:RegistEventListener(OSIRIS_TASK_UPDATE, arg_7_0.taskUpdateHandler_)
+	slot0:RefreshUI()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, slot0.taskUpdateHandler_)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.scrollHelper_ then
-		arg_9_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_9_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.taskDataList_ = TaskData2:GetActivityTaskSortList(arg_10_0.taskActivityID_)
+function slot0.RefreshUI(slot0)
+	slot0.taskDataList_ = TaskData2:GetActivityTaskSortList(slot0.taskActivityID_)
 
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.taskDataList_)
+	slot0.scrollHelper_:StartScroll(#slot0.taskDataList_)
 
-	local var_10_0 = #arg_10_0.taskDataList_
-	local var_10_1 = 0
+	slot1 = #slot0.taskDataList_
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.taskDataList_) do
-		local var_10_2 = iter_10_1.id
-		local var_10_3 = AssignmentCfg[var_10_2]
-
-		if iter_10_1.progress >= var_10_3.need and TaskData2:GetTaskComplete(var_10_2) then
-			var_10_1 = var_10_1 + 1
+	for slot6, slot7 in ipairs(slot0.taskDataList_) do
+		if AssignmentCfg[slot7.id].need <= slot7.progress and TaskData2:GetTaskComplete(slot8) then
+			slot2 = 0 + 1
 		end
 	end
 
-	arg_10_0.progressText_.text = string.format("%s/%s", var_10_1, var_10_0)
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot1)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.taskDataList_[arg_11_1].id
-
-	arg_11_2:SetData(var_11_0, arg_11_0.taskActivityID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskDataList_[slot1].id, slot0.taskActivityID_)
 end
 
-function var_0_0.UpdateData(arg_12_0)
-	arg_12_0:RefreshUI()
-	HeroClueAction.UpdateDrawRedPoint(arg_12_0.mainActivityID_)
+function slot0.UpdateData(slot0)
+	slot0:RefreshUI()
+	HeroClueAction.UpdateDrawRedPoint(slot0.mainActivityID_)
 end
 
-return var_0_0
+return slot0

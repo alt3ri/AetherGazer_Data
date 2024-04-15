@@ -1,148 +1,145 @@
-local var_0_0 = class("PolyhedronTaskItem", ReduxView)
+slot0 = class("PolyhedronTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_2, arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot2, slot1)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.rewardItemList_ = {}
-	arg_2_0.itemDataList_ = {}
-	arg_2_0.rewardState_ = arg_2_0.allBtnController_:GetController("all")
+	slot0.rewardItemList_ = {}
+	slot0.itemDataList_ = {}
+	slot0.rewardState_ = slot0.allBtnController_:GetController("all")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		TaskAction:SubmitTaskList({
-			arg_4_0.taskID_
+			uv0.taskID_
 		})
 	end)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.rewardItemList_) do
-		iter_6_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.rewardItemList_ = nil
-	arg_6_0.itemDataList_ = nil
+	slot0.rewardItemList_ = nil
+	slot0.itemDataList_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.taskID_ = arg_7_1
-	arg_7_0.maxRewardNum_ = arg_7_2
-	arg_7_0.activityID_ = AssignmentCfg[arg_7_0.taskID_].activity_id
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.taskID_ = slot1
+	slot0.maxRewardNum_ = slot2
+	slot0.activityID_ = AssignmentCfg[slot0.taskID_].activity_id
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:RefreshDesc()
-	arg_8_0:RefreshItem()
-	arg_8_0:RefreshState()
-	arg_8_0:Show(true)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshDesc()
+	slot0:RefreshItem()
+	slot0:RefreshState()
+	slot0:Show(true)
 end
 
-function var_0_0.RefreshDesc(arg_9_0)
-	local var_9_0 = AssignmentCfg[arg_9_0.taskID_]
+function slot0.RefreshDesc(slot0)
+	slot1 = AssignmentCfg[slot0.taskID_]
+	slot0.titleText_.text = GetI18NText(slot1.desc)
+	slot4 = slot1.need
 
-	arg_9_0.titleText_.text = GetI18NText(var_9_0.desc)
-
-	local var_9_1 = var_9_0.need
-	local var_9_2 = TaskData2:GetTask(arg_9_0.taskID_)
-	local var_9_3 = var_9_1
-
-	if var_9_2 and var_9_2.progress and var_9_1 > var_9_2.progress then
-		var_9_3 = var_9_2.progress
+	if TaskData2:GetTask(slot0.taskID_) and slot3.progress and slot3.progress < slot2 then
+		slot4 = slot3.progress
 	end
 
-	var_9_3 = var_9_1 < var_9_3 and var_9_1 or var_9_3
-	arg_9_0.progressBar_.value = var_9_3 / var_9_1
-	arg_9_0.progressText_.text = string.format("%s/%s", var_9_3, var_9_1)
+	if slot2 < slot4 then
+		slot4 = slot2 or slot4
+	end
+
+	slot0.progressBar_.value = slot4 / slot2
+	slot0.progressText_.text = string.format("%s/%s", slot4, slot2)
 end
 
-function var_0_0.RefreshItem(arg_10_0)
-	arg_10_0.rewardCfg_ = AssignmentCfg[arg_10_0.taskID_].reward
+function slot0.RefreshItem(slot0)
+	slot0.rewardCfg_ = AssignmentCfg[slot0.taskID_].reward
 
-	for iter_10_0 = 1, arg_10_0.maxRewardNum_ do
-		local var_10_0 = arg_10_0.rewardCfg_[iter_10_0]
+	for slot4 = 1, slot0.maxRewardNum_ do
+		slot5 = slot0.rewardCfg_[slot4]
 
-		if not arg_10_0.rewardItemList_[iter_10_0] then
-			arg_10_0.rewardItemList_[iter_10_0] = CommonItemView.New(arg_10_0[string.format("awardItem%sObj_", iter_10_0)])
+		if not slot0.rewardItemList_[slot4] then
+			slot0.rewardItemList_[slot4] = CommonItemView.New(slot0[string.format("awardItem%sObj_", slot4)])
 		end
 
-		arg_10_0.rewardItemList_[iter_10_0]:Show(true)
+		slot0.rewardItemList_[slot4]:Show(true)
 
-		if not arg_10_0.itemDataList_[iter_10_0] then
-			arg_10_0.itemDataList_[iter_10_0] = clone(ItemTemplateData)
-			arg_10_0.itemDataList_[iter_10_0].clickFun = function(arg_11_0)
+		if not slot0.itemDataList_[slot4] then
+			slot0.itemDataList_[slot4] = clone(ItemTemplateData)
+
+			slot0.itemDataList_[slot4].clickFun = function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_11_0.id,
-					arg_11_0.number
+					slot0.id,
+					slot0.number
 				})
 			end
 		end
 
-		local var_10_1 = true
+		slot6 = true
 
-		if var_10_0 then
-			arg_10_0.itemDataList_[iter_10_0].id = var_10_0[1]
-			arg_10_0.itemDataList_[iter_10_0].number = var_10_0[2]
-			var_10_1 = false
+		if slot5 then
+			slot0.itemDataList_[slot4].id = slot5[1]
+			slot0.itemDataList_[slot4].number = slot5[2]
+			slot6 = false
 		end
 
-		if not var_10_1 then
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(arg_10_0.itemDataList_[iter_10_0])
+		if not slot6 then
+			slot0.rewardItemList_[slot4]:SetData(slot0.itemDataList_[slot4])
 		else
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(nil)
+			slot0.rewardItemList_[slot4]:SetData(nil)
 		end
 	end
 
-	for iter_10_1 = arg_10_0.maxRewardNum_ + 1, #arg_10_0.rewardItemList_ do
-		arg_10_0.rewardItemList_[iter_10_1]:Show(false)
+	for slot4 = slot0.maxRewardNum_ + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.RefreshState(arg_12_0)
-	local var_12_0 = AssignmentCfg[arg_12_0.taskID_].need
-	local var_12_1 = TaskData2:GetTask(arg_12_0.taskID_)
-	local var_12_2 = var_12_0
+function slot0.RefreshState(slot0)
+	slot4 = AssignmentCfg[slot0.taskID_].need
 
-	if var_12_1 and var_12_1.progress then
-		var_12_2 = var_12_1.progress
+	if TaskData2:GetTask(slot0.taskID_) and slot3.progress then
+		slot4 = slot3.progress
 	end
 
-	local var_12_3 = var_12_0 <= var_12_2
-	local var_12_4 = TaskData2:GetTaskComplete(arg_12_0.taskID_)
+	slot6 = TaskData2:GetTaskComplete(slot0.taskID_)
 
-	if not var_12_3 then
-		arg_12_0.rewardState_:SetSelectedState("go")
-	elseif not var_12_4 then
-		arg_12_0.rewardState_:SetSelectedState("receive")
+	if not (slot2 <= slot4) then
+		slot0.rewardState_:SetSelectedState("go")
+	elseif not slot6 then
+		slot0.rewardState_:SetSelectedState("receive")
 	else
-		arg_12_0.rewardState_:SetSelectedState("complete")
+		slot0.rewardState_:SetSelectedState("complete")
 	end
 end
 
-function var_0_0.Show(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.gameObject_, arg_13_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

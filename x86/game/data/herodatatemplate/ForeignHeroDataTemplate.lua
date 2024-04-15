@@ -1,126 +1,124 @@
-local var_0_0 = class("ForeignHeroDataTemplate", BaseHeroDataTemplate)
+slot0 = class("ForeignHeroDataTemplate", BaseHeroDataTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.relation = HeroTrustRelationNet.New(arg_1_1)
-	arg_1_0.trust = {
+	slot0.relation = HeroTrustRelationNet.New(slot1)
+	slot0.trust = {
 		exp = 0,
 		mood = 1,
 		level = 0
 	}
-	arg_1_0.clear_mission_list = {}
-	arg_1_0.clear_times = 0
-	arg_1_0.piece = 0
-	arg_1_0.unlocked_skin = {}
-	arg_1_0.equipDataList = {}
-	arg_1_0.dormLevel = 0
-	arg_1_0.equip_list = {}
+	slot0.clear_mission_list = {}
+	slot0.clear_times = 0
+	slot0.piece = 0
+	slot0.unlocked_skin = {}
+	slot0.equipDataList = {}
+	slot0.dormLevel = 0
+	slot0.equip_list = {}
 end
 
-function var_0_0.Init(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.hero_base_info
-
-	arg_2_0.id = var_2_0.id
-	arg_2_0.exp = var_2_0.exp
-	arg_2_0.level = var_2_0.level
-	arg_2_0.star = var_2_0.star
-	arg_2_0.skill = cleanProtoTable(var_2_0.skill, {
+function slot0.Init(slot0, slot1)
+	slot2 = slot1.hero_base_info
+	slot0.id = slot2.id
+	slot0.exp = slot2.exp
+	slot0.level = slot2.level
+	slot0.star = slot2.star
+	slot0.skill = cleanProtoTable(slot2.skill, {
 		"skill_id",
 		"skill_level"
 	})
-	arg_2_0.skillAttrList = cleanProtoTable(var_2_0.skill_intensify_attribute_list, {
+	slot0.skillAttrList = cleanProtoTable(slot2.skill_intensify_attribute_list, {
 		"index",
 		"level"
 	})
-	arg_2_0.unlocked_astrolabe = cleanProtoTable(var_2_0.unlock_astrolabe)
-	arg_2_0.using_astrolabe = cleanProtoTable(var_2_0.using_astrolabe)
-	arg_2_0.break_level = var_2_0.break_level
-	arg_2_0.weapon_info = {
-		level = WeaponTools.ExpToLv(var_2_0.weapon.exp),
-		exp = var_2_0.weapon.exp,
-		breakthrough = var_2_0.weapon.breakthrough
+	slot0.unlocked_astrolabe = cleanProtoTable(slot2.unlock_astrolabe)
+	slot0.using_astrolabe = cleanProtoTable(slot2.using_astrolabe)
+	slot0.break_level = slot2.break_level
+	slot0.weapon_info = {
+		level = WeaponTools.ExpToLv(slot2.weapon.exp),
+		exp = slot2.weapon.exp,
+		breakthrough = slot2.weapon.breakthrough
 	}
-	arg_2_0.using_skin = var_2_0.using_skin
-	arg_2_0.moduleLevel = var_2_0.weapon_module_level
-	arg_2_0.servantInfo = {
+	slot0.using_skin = slot2.using_skin
+	slot0.moduleLevel = slot2.weapon_module_level
+	slot0.servantInfo = {
 		uid = 0,
 		locked = true,
-		id = var_2_0.servant.id,
-		stage = var_2_0.servant.stage
+		id = slot2.servant.id,
+		stage = slot2.servant.stage
 	}
-	arg_2_0.transition = arg_2_0:InitTransition(var_2_0.exclusive_skill_list or {})
-	arg_2_0.unlock = 1
-	arg_2_0.using_hero_chip = cleanProtoTable(arg_2_1.using_hero_chip)
-	arg_2_0.equip = arg_2_0:InitHeroEquip(var_2_0.id, arg_2_1.equip_list)
-	arg_2_0.servant_uid = 0
-	arg_2_0.moduleAssignment = {}
-	arg_2_0.unlocked_skin = {}
-	arg_2_0.dormLevel = arg_2_1.dorm_level
-	arg_2_0.trust = {
-		level = arg_2_1.trust.level,
-		exp = arg_2_1.trust.exp,
-		mood = arg_2_1.trust.mood
+	slot0.transition = slot0:InitTransition(slot2.exclusive_skill_list or {})
+	slot0.unlock = 1
+	slot0.using_hero_chip = cleanProtoTable(slot1.using_hero_chip)
+	slot0.equip = slot0:InitHeroEquip(slot2.id, slot1.equip_list)
+	slot0.servant_uid = 0
+	slot0.moduleAssignment = {}
+	slot0.unlocked_skin = {}
+	slot0.dormLevel = slot1.dorm_level
+	slot0.trust = {
+		level = slot1.trust.level,
+		exp = slot1.trust.exp,
+		mood = slot1.trust.mood
 	}
+	slot3 = HeroTrustRelationNet.New(slot1.id)
 
-	local var_2_1 = HeroTrustRelationNet.New(arg_2_1.id)
+	slot3:InitData(slot1.trust.relation)
 
-	var_2_1:InitData(arg_2_1.trust.relation)
-
-	arg_2_0.relation = var_2_1
+	slot0.relation = slot3
 end
 
-function var_0_0.ModifyHero(arg_3_0, arg_3_1)
-	arg_3_0:Init(arg_3_1)
+function slot0.ModifyHero(slot0, slot1)
+	slot0:Init(slot1)
 end
 
-function var_0_0.GetServantInfo(arg_4_0)
-	return arg_4_0.servantInfo
+function slot0.GetServantInfo(slot0)
+	return slot0.servantInfo
 end
 
-function var_0_0.GetWeaponInfo(arg_5_0)
-	return arg_5_0.weapon_info
+function slot0.GetWeaponInfo(slot0)
+	return slot0.weapon_info
 end
 
-function var_0_0.GetEquipInfoList(arg_6_0)
-	return arg_6_0.equip
+function slot0.GetEquipInfoList(slot0)
+	return slot0.equip
 end
 
-function var_0_0.GetSkillInfoList(arg_7_0)
-	return arg_7_0.skill
+function slot0.GetSkillInfoList(slot0)
+	return slot0.skill
 end
 
-function var_0_0.GetSkillAttrList(arg_8_0)
-	return arg_8_0.skillAttrList
+function slot0.GetSkillAttrList(slot0)
+	return slot0.skillAttrList
 end
 
-function var_0_0.GetTransitionInfoList(arg_9_0)
-	return arg_9_0.transition
+function slot0.GetTransitionInfoList(slot0)
+	return slot0.transition
 end
 
-function var_0_0.InitTransition(arg_10_0, arg_10_1)
-	local var_10_0 = {}
+function slot0.InitTransition(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1) do
+		-- Nothing
+	end
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_1) do
-		var_10_0[iter_10_0] = {
-			slot_id = iter_10_1.slot_id,
-			skill_list = cleanProtoTable(iter_10_1.skill_list, {
+	return {
+		[slot6] = {
+			slot_id = slot7.slot_id,
+			skill_list = cleanProtoTable(slot7.skill_list, {
 				"skill_id",
 				"skill_level"
 			}),
-			talent_points = iter_10_1.talent_points
+			talent_points = slot7.talent_points
 		}
-	end
-
-	return var_10_0
+	}
 end
 
-function var_0_0.GetType(arg_11_0)
+function slot0.GetType(slot0)
 	return HeroConst.HERO_DATA_TYPE.FOREIGN
 end
 
-function var_0_0.InitHeroEquip(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = {
+function slot0.InitHeroEquip(slot0, slot1, slot2)
+	slot3 = {
 		{
 			pos = 1,
 			equip_id = 0
@@ -147,47 +145,45 @@ function var_0_0.InitHeroEquip(arg_12_0, arg_12_1, arg_12_2)
 		}
 	}
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_2) do
-		local var_12_1 = iter_12_1.equip_id
-
-		var_12_0[EquipCfg[var_12_1].pos].equip_id = var_12_1
-
-		local var_12_2 = {
+	for slot7, slot8 in ipairs(slot2) do
+		slot9 = slot8.equip_id
+		slot3[EquipCfg[slot9].pos].equip_id = slot9
+		slot11 = {
 			race_preview = 0,
 			is_lock = true,
-			equip_id = iter_12_0,
-			prefab_id = var_12_1,
-			exp = iter_12_1.exp,
-			hero_id = arg_12_1,
-			now_break_level = iter_12_1.now_break_level,
-			enchant_slot_list = arg_12_0:InitEnchantInfo(iter_12_1.enchant_slot_list),
-			race = iter_12_1.race
+			equip_id = slot7,
+			prefab_id = slot9,
+			exp = slot8.exp,
+			hero_id = slot1,
+			now_break_level = slot8.now_break_level,
+			enchant_slot_list = slot0:InitEnchantInfo(slot8.enchant_slot_list),
+			race = slot8.race
 		}
-		local var_12_3 = EquipStruct.New(var_12_2.equip_id, var_12_2.prefab_id)
+		slot12 = EquipStruct.New(slot11.equip_id, slot11.prefab_id)
 
-		var_12_3:ParseServerData(var_12_2)
+		slot12:ParseServerData(slot11)
 
-		arg_12_0.equip_list[iter_12_0] = var_12_3
+		slot0.equip_list[slot7] = slot12
 	end
 
-	return var_12_0
+	return slot3
 end
 
-function var_0_0.InitEnchantInfo(arg_13_0, arg_13_1)
-	local var_13_0 = {}
+function slot0.InitEnchantInfo(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1) do
+		-- Nothing
+	end
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_1) do
-		var_13_0[iter_13_1.id] = {
-			id = iter_13_1.id,
-			effect_list = cleanProtoTable(iter_13_1.effect_list, {
+	return {
+		[slot7.id] = {
+			id = slot7.id,
+			effect_list = cleanProtoTable(slot7.effect_list, {
 				"id",
 				"level"
 			}),
 			preview_list = {}
 		}
-	end
-
-	return var_13_0
+	}
 end
 
-return var_0_0
+return slot0

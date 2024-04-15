@@ -1,47 +1,44 @@
-local var_0_0 = class("MatrixProcessIncidentItem", ReduxView)
+slot0 = class("MatrixProcessIncidentItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.m_clickBtn, nil, function()
-		if arg_2_0.clickFunc then
-			arg_2_0.clickFunc(arg_2_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_clickBtn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.initUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectedController_ = ControllerUtil.GetController(arg_4_0.m_controller, "selected")
+	slot0.selectedController_ = ControllerUtil.GetController(slot0.m_controller, "selected")
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.id = arg_5_1
-	arg_5_0.index = arg_5_2
-
-	local var_5_0 = MatrixDescCfg[arg_5_1]
-
-	arg_5_0.m_tipLab.text = arg_5_2
-	arg_5_0.m_desLab.text = var_5_0 and GetI18NText(var_5_0.desc) or ""
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.id = slot1
+	slot0.index = slot2
+	slot0.m_tipLab.text = slot2
+	slot0.m_desLab.text = MatrixDescCfg[slot1] and GetI18NText(slot3.desc) or ""
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	arg_6_0.clickFunc = arg_6_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.SetSelected(arg_7_0, arg_7_1)
-	arg_7_0.selectedController_:SetSelectedIndex(arg_7_1 and 1 or 0)
+function slot0.SetSelected(slot0, slot1)
+	slot0.selectedController_:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.GetIndex(arg_8_0)
-	return arg_8_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-return var_0_0
+return slot0

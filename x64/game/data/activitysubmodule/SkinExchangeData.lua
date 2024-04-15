@@ -1,33 +1,32 @@
-local var_0_0 = singletonClass("SkinExchangeData")
-local var_0_1 = {}
+slot0 = singletonClass("SkinExchangeData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-
-	if not var_0_1[var_2_0] then
-		var_0_1[var_2_0] = {}
-		var_0_1[var_2_0].activityID = var_2_0
+function slot0.SetData(slot0, slot1)
+	if not uv0[slot1.activity_id] then
+		uv0[slot2] = {
+			activityID = slot2
+		}
 	end
 
-	var_0_1[var_2_0].state = arg_2_1.received_state
+	uv0[slot2].state = slot1.received_state
 end
 
-function var_0_0.SetState(arg_3_0, arg_3_1)
-	if var_0_1[arg_3_1] then
-		var_0_1[arg_3_1].state = 1
+function slot0.SetState(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].state = 1
 	end
 end
 
-function var_0_0.GetState(arg_4_0, arg_4_1)
-	if var_0_1[arg_4_1] then
-		return var_0_1[arg_4_1].state
+function slot0.GetState(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].state
 	end
 
 	return 1
 end
 
-return var_0_0
+return slot0

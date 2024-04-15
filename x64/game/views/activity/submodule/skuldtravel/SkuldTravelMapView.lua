@@ -1,62 +1,55 @@
-local var_0_0 = class("SkuldTravelMapView", ReduxView)
+slot0 = class("SkuldTravelMapView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/EDream_travelled/EDream_travelmap"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	for iter_5_0 = 1, 3 do
-		local var_5_0 = "btn_" .. iter_5_0
-
-		arg_5_0:AddBtnListener(arg_5_0[var_5_0], nil, function()
+function slot0.AddUIListeners(slot0)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["btn_" .. slot4], nil, function ()
 			JumpTools.OpenPageByJump("skuldTravelItemSelectView", {
-				mapindex = iter_5_0
+				mapindex = uv0
 			})
 		end)
 	end
 
-	arg_5_0:AddBtnListener(arg_5_0.bgbtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgbtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	for iter_9_0, iter_9_1 in pairs(TravelSkuldStoryCfg.get_id_list_by_location_id) do
-		local var_9_0 = RedPointConst.TRAVEL_SKULD_TRAVELMAP .. iter_9_0
-
-		manager.redPoint:bindUIandKey(arg_9_0["btn_" .. iter_9_0].transform, var_9_0)
+function slot0.RefreshUI(slot0)
+	for slot4, slot5 in pairs(TravelSkuldStoryCfg.get_id_list_by_location_id) do
+		manager.redPoint:bindUIandKey(slot0["btn_" .. slot4].transform, RedPointConst.TRAVEL_SKULD_TRAVELMAP .. slot4)
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(TravelSkuldStoryCfg.get_id_list_by_location_id) do
-		local var_11_0 = RedPointConst.TRAVEL_SKULD_TRAVELMAP .. iter_11_0
-
-		manager.redPoint:unbindUIandKey(arg_11_0["btn_" .. iter_11_0].transform, var_11_0)
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(TravelSkuldStoryCfg.get_id_list_by_location_id) do
+		manager.redPoint:unbindUIandKey(slot0["btn_" .. slot4].transform, RedPointConst.TRAVEL_SKULD_TRAVELMAP .. slot4)
 	end
 
-	arg_11_0.super.Dispose(arg_11_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

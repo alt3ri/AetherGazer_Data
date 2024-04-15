@@ -1,69 +1,65 @@
-local var_0_0 = class("ChessForceBattleModel")
+slot0 = class("ChessForceBattleModel")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.battleStart_ = false
-	arg_1_0.battleResult_ = 0
-	arg_1_0.battleID_ = nil
+function slot0.Ctor(slot0)
+	slot0.battleStart_ = false
+	slot0.battleResult_ = 0
+	slot0.battleID_ = nil
 end
 
-function var_0_0.SetUp(arg_2_0, arg_2_1)
-	arg_2_0.width_ = arg_2_1
+function slot0.SetUp(slot0, slot1)
+	slot0.width_ = slot1
 end
 
-function var_0_0.BattleStart(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.battleStart_ = true
-	arg_3_0.battleResult_ = 0
-	arg_3_0.battleID_ = arg_3_3
+function slot0.BattleStart(slot0, slot1, slot2, slot3)
+	slot0.battleStart_ = true
+	slot0.battleResult_ = 0
+	slot0.battleID_ = slot3
 
-	arg_3_0:SetBattleIndex(arg_3_1, arg_3_2)
+	slot0:SetBattleIndex(slot1, slot2)
 
-	local var_3_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-	if var_3_0 then
-		arg_3_0.originShadowRotationImmediately = var_3_0.shadowRotationImmediately
-		var_3_0.shadowRotationImmediately = true
+	if manager.ui.mainCamera:GetComponent("CameraExtension") then
+		slot0.originShadowRotationImmediately = slot4.shadowRotationImmediately
+		slot4.shadowRotationImmediately = true
 	end
 
 	ChessLuaBridge.SetCameraControlEnable(false)
 end
 
-function var_0_0.SetBattleIndex(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = arg_4_2 * arg_4_0.width_ + arg_4_1 + 1
-
-	WarChessData:SetBattleIndex(var_4_0)
+function slot0.SetBattleIndex(slot0, slot1, slot2)
+	WarChessData:SetBattleIndex(slot2 * slot0.width_ + slot1 + 1)
 end
 
-function var_0_0.BattleResult(arg_5_0, arg_5_1)
-	if not arg_5_0.battleStart_ then
+function slot0.BattleResult(slot0, slot1)
+	if not slot0.battleStart_ then
 		return
 	end
 
-	arg_5_0.battleResult_ = arg_5_1 and 1 or 2
+	slot0.battleResult_ = slot1 and 1 or 2
 end
 
-function var_0_0.IsForcingBattle(arg_6_0)
-	return arg_6_0.battleStart_
+function slot0.IsForcingBattle(slot0)
+	return slot0.battleStart_
 end
 
-function var_0_0.ForceEnterBossBattle(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.battleID_ = arg_7_1
+function slot0.ForceEnterBossBattle(slot0, slot1)
+	if slot1 then
+		slot0.battleID_ = slot1
 	else
-		arg_7_1 = arg_7_0.battleID_
+		slot1 = slot0.battleID_
 	end
 
-	if not BattleChessStageCfg[arg_7_1] then
-		-- block empty
+	if not BattleChessStageCfg[slot1] then
+		-- Nothing
 	end
 
-	local var_7_0 = WarChessData:GetBossPos()
-	local var_7_1 = var_7_0[1]
-	local var_7_2 = var_7_0[2]
-	local var_7_3 = WarChessData:GetGridLua(var_7_1, var_7_2)
+	slot2 = WarChessData:GetBossPos()
+	slot3 = slot2[1]
+	slot4 = slot2[2]
+	slot5 = WarChessData:GetGridLua(slot3, slot4)
 
-	arg_7_0:BattleStart(var_7_1, var_7_2, arg_7_1)
+	slot0:BattleStart(slot3, slot4, slot1)
 	gameContext:Go("/sectionSelectHero", {
-		section = arg_7_1,
+		section = slot1,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS,
 		activityID = WarChessData:GetCurrentActivity(),
 		customBarList = {
@@ -72,19 +68,17 @@ function var_0_0.ForceEnterBossBattle(arg_7_0, arg_7_1)
 	})
 end
 
-function var_0_0.BattleFinish(arg_8_0)
-	if arg_8_0.battleStart_ then
+function slot0.BattleFinish(slot0)
+	if slot0.battleStart_ then
 		ChessLuaBridge.SetCameraControlEnable(true)
 
-		local var_8_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-		if var_8_0 then
-			var_8_0.shadowRotationImmediately = arg_8_0.originShadowRotationImmediately
+		if manager.ui.mainCamera:GetComponent("CameraExtension") then
+			slot1.shadowRotationImmediately = slot0.originShadowRotationImmediately
 		end
 
-		if arg_8_0.battleResult_ == 0 then
-			-- block empty
-		elseif arg_8_0.battleResult_ == 1 then
+		if slot0.battleResult_ == 0 then
+			-- Nothing
+		elseif slot0.battleResult_ == 1 then
 			WarChessAction.CostShipHp(-30)
 
 			if manager.ChessManager.current:ShipImmediatelyDie() then
@@ -93,9 +87,9 @@ function var_0_0.BattleFinish(arg_8_0)
 
 			manager.ChessManager:DoNextEvent()
 
-			arg_8_0.battleStart_ = false
-			arg_8_0.battleResult_ = 0
-		elseif arg_8_0.battleResult_ == 2 then
+			slot0.battleStart_ = false
+			slot0.battleResult_ = 0
+		elseif slot0.battleResult_ == 2 then
 			WarChessAction.CostShipHp(-50)
 
 			if manager.ChessManager.current:ShipImmediatelyDie() then
@@ -104,15 +98,15 @@ function var_0_0.BattleFinish(arg_8_0)
 
 			manager.ChessManager:DoNextEvent()
 
-			arg_8_0.battleStart_ = false
-			arg_8_0.battleResult_ = 0
+			slot0.battleStart_ = false
+			slot0.battleResult_ = 0
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.battleStart_ = false
-	arg_9_0.battleResult_ = 0
+function slot0.Dispose(slot0)
+	slot0.battleStart_ = false
+	slot0.battleResult_ = 0
 end
 
-return var_0_0
+return slot0

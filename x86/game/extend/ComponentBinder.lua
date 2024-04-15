@@ -1,28 +1,17 @@
-local var_0_0 = singletonClass("ComponentBinder")
+slot0 = singletonClass("ComponentBinder")
 
-function var_0_0.BindCfgUI(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = arg_1_2:GetComponent("ComponentCfger")
-
-	if var_1_0 then
-		local var_1_1 = var_1_0:GetLuaNames()
-		local var_1_2 = var_1_0:GetComponentValues()
-
-		for iter_1_0 = 0, var_1_1.Length - 1 do
-			arg_1_1[var_1_1[iter_1_0]] = var_1_2[iter_1_0]
+function slot0.BindCfgUI(slot0, slot1, slot2)
+	if slot2:GetComponent("ComponentCfger") then
+		for slot9 = 0, slot3:GetLuaNames().Length - 1 do
+			slot1[slot4[slot9]] = slot3:GetComponentValues()[slot9]
 		end
 
-		arg_1_1.guideComponents = {}
+		slot1.guideComponents = {}
 
-		local var_1_3 = var_1_0:GetGuideLuaNames()
-		local var_1_4 = var_1_0:GetGuideComponentValues()
-
-		for iter_1_1 = 0, var_1_3.Length - 1 do
-			local var_1_5 = var_1_3[iter_1_1]
-			local var_1_6 = var_1_4[iter_1_1]
-
-			arg_1_1.guideComponents[var_1_5] = var_1_6
+		for slot11 = 0, slot3:GetGuideLuaNames().Length - 1 do
+			slot1.guideComponents[slot6[slot11]] = slot3:GetGuideComponentValues()[slot11]
 		end
 	end
 end
 
-return var_0_0
+return slot0

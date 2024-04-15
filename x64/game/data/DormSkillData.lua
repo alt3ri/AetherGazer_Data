@@ -1,49 +1,46 @@
-local var_0_0 = singletonClass("DormSkillData")
-local var_0_1
+slot0 = singletonClass("DormSkillData")
+slot1 = nil
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 
-	for iter_1_0 = 1, 20 do
-		var_0_1[iter_1_0] = {}
+	for slot4 = 1, 20 do
+		uv0[slot4] = {}
 	end
 
-	arg_1_0:UpdataAllHeroSkill()
-	arg_1_0:UpdataAllFurSkill()
-	arg_1_0:UpdataAllNpcSkill()
-	arg_1_0:CalInComeStorageMaxNum()
-	arg_1_0:CalCanSignFoodNum()
+	slot0:UpdataAllHeroSkill()
+	slot0:UpdataAllFurSkill()
+	slot0:UpdataAllNpcSkill()
+	slot0:CalInComeStorageMaxNum()
+	slot0:CalCanSignFoodNum()
 end
 
-function var_0_0.CheckSkillIsOpen(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	if var_0_1 then
-		local var_2_0 = BackHomeHeroSkillCfg[arg_2_2]
-		local var_2_1 = var_2_0.type
-		local var_2_2 = var_2_0.condition
+function slot0.CheckSkillIsOpen(slot0, slot1, slot2, slot3)
+	if uv0 then
+		slot4 = BackHomeHeroSkillCfg[slot2]
+		slot5 = slot4.type
 
-		if not var_2_2 or #var_2_2 == 0 then
+		if not slot4.condition or #slot6 == 0 then
 			return true
 		end
 
-		if arg_2_3 == DormEnum.EntityType.Character then
-			if var_2_2 and #var_2_2 > 0 then
-				if var_2_2[1] == 1 then
-					if DormData:GetCharacterInfo(arg_2_1).jobType ~= var_2_2[2] then
+		if slot3 == DormEnum.EntityType.Character then
+			if slot6 and #slot6 > 0 then
+				if slot6[1] == 1 then
+					if DormData:GetCharacterInfo(slot1).jobType ~= slot6[2] then
 						return false
 					end
-				elseif var_2_2[1] == 2 then
-					local var_2_3 = DormData:GetCharacterInfo(arg_2_1):GetCurRoomID()
-
-					if not var_2_3 then
+				elseif slot6[1] == 2 then
+					if not DormData:GetCharacterInfo(slot1):GetCurRoomID() then
 						return false
 					end
 
-					if BackHomeCfg[var_2_3].type ~= var_2_2[2] then
+					if BackHomeCfg[slot7].type ~= slot6[2] then
 						return false
 					end
 				end
 			end
-		elseif arg_2_3 == DormEnum.EntityType.Furniture then
+		elseif slot3 == DormEnum.EntityType.Furniture then
 			return true
 		end
 
@@ -51,13 +48,11 @@ function var_0_0.CheckSkillIsOpen(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
 	end
 end
 
-function var_0_0.CheckSkillIsRun(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if var_0_1 then
-		local var_3_0 = BackHomeHeroSkillCfg[arg_3_2].type
-
-		if var_0_1[var_3_0] then
-			for iter_3_0, iter_3_1 in ipairs(var_0_1[var_3_0]) do
-				if iter_3_1.type == arg_3_3 and iter_3_1.id == arg_3_1 and iter_3_1.skillID == arg_3_2 then
+function slot0.CheckSkillIsRun(slot0, slot1, slot2, slot3)
+	if uv0 then
+		if uv0[BackHomeHeroSkillCfg[slot2].type] then
+			for slot8, slot9 in ipairs(uv0[slot4]) do
+				if slot9.type == slot3 and slot9.id == slot1 and slot9.skillID == slot2 then
 					return true
 				end
 			end
@@ -67,372 +62,314 @@ function var_0_0.CheckSkillIsRun(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
 	end
 end
 
-function var_0_0.AddSkillComponent(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = BackHomeHeroSkillCfg[arg_4_2].type
-
-	if not var_0_1[var_4_0] then
-		var_0_1[var_4_0] = {}
+function slot0.AddSkillComponent(slot0, slot1, slot2, slot3)
+	if not uv0[BackHomeHeroSkillCfg[slot2].type] then
+		uv0[slot4] = {}
 	end
 
-	local var_4_1 = {
-		type = arg_4_3,
-		id = arg_4_1,
-		skillID = arg_4_2
-	}
-
-	table.insert(var_0_1[var_4_0], var_4_1)
+	table.insert(uv0[slot4], {
+		type = slot3,
+		id = slot1,
+		skillID = slot2
+	})
 end
 
-function var_0_0.DisposeSkillComponent(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	local var_5_0 = BackHomeHeroSkillCfg[arg_5_2].type
-
-	for iter_5_0 = 1, #var_0_1[var_5_0] do
-		local var_5_1 = var_0_1[var_5_0][iter_5_0]
-
-		if var_5_1 and var_5_1.type == arg_5_3 and var_5_1.id == arg_5_1 and var_5_1.skillID == arg_5_2 then
-			table.remove(var_0_1[var_5_0], iter_5_0)
+function slot0.DisposeSkillComponent(slot0, slot1, slot2, slot3)
+	for slot8 = 1, #uv0[BackHomeHeroSkillCfg[slot2].type] do
+		if uv0[slot4][slot8] and slot9.type == slot3 and slot9.id == slot1 and slot9.skillID == slot2 then
+			table.remove(uv0[slot4], slot8)
 		end
 	end
 end
 
-local var_0_2
+slot2 = nil
 
-function var_0_0.GetCanSignFoodNum(arg_6_0)
-	return var_0_2
+function slot0.GetCanSignFoodNum(slot0)
+	return uv0
 end
 
-function var_0_0.CalCanSignFoodNum(arg_7_0)
-	local var_7_0 = GameSetting.dorm_canteen_sell_default.value[1]
-	local var_7_1 = CanteenData:GetFurInfoList()
-	local var_7_2 = 0
+function slot0.CalCanSignFoodNum(slot0)
+	slot1 = GameSetting.dorm_canteen_sell_default.value[1]
 
-	for iter_7_0, iter_7_1 in pairs(var_7_1) do
-		local var_7_3 = iter_7_1.level
-		local var_7_4 = BackHomeCanteenFurnitureIDCfg[iter_7_0].type_id
-
-		if BackHomeCanteenFurnitureCfg[var_7_4] then
-			var_7_2 = var_7_2 + BackHomeCanteenFurnitureCfg[var_7_4].canteen_sell_max[var_7_3]
+	for slot7, slot8 in pairs(CanteenData:GetFurInfoList()) do
+		if BackHomeCanteenFurnitureCfg[BackHomeCanteenFurnitureIDCfg[slot7].type_id] then
+			slot3 = 0 + BackHomeCanteenFurnitureCfg[slot10].canteen_sell_max[slot8.level]
 		end
 	end
 
-	var_0_2 = var_7_0 + var_7_2
+	uv0 = slot1 + slot3
 end
 
-local var_0_3
+slot3 = nil
 
-function var_0_0.GetInComeStorageMax(arg_8_0)
-	if var_0_3 then
-		return var_0_3
+function slot0.GetInComeStorageMax(slot0)
+	if uv0 then
+		return uv0
 	else
 		print("存储上限不存在")
 	end
 end
 
-function var_0_0.CalInComeStorageMaxNum(arg_9_0)
-	local var_9_0 = GameSetting.dorm_canteen_storage_default.value[1]
-	local var_9_1 = CanteenData:GetFurInfoList()
-	local var_9_2 = 0
+function slot0.CalInComeStorageMaxNum(slot0)
+	slot1 = GameSetting.dorm_canteen_storage_default.value[1]
 
-	for iter_9_0, iter_9_1 in pairs(var_9_1) do
-		local var_9_3 = iter_9_1.level
-		local var_9_4 = BackHomeCanteenFurnitureIDCfg[iter_9_0].type_id
-
-		if BackHomeCanteenFurnitureCfg[var_9_4] then
-			var_9_2 = var_9_2 + BackHomeCanteenFurnitureCfg[var_9_4].canteen_storage_max[var_9_3]
+	for slot7, slot8 in pairs(CanteenData:GetFurInfoList()) do
+		if BackHomeCanteenFurnitureCfg[BackHomeCanteenFurnitureIDCfg[slot7].type_id] then
+			slot3 = 0 + BackHomeCanteenFurnitureCfg[slot10].canteen_storage_max[slot8.level]
 		end
 	end
 
-	var_0_3 = var_9_0 + var_9_2
+	uv0 = slot1 + slot3
 end
 
-function var_0_0.GetSkillEffect(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
-	if var_0_1 then
-		local var_10_0 = var_0_1[arg_10_1]
+function slot0.GetSkillEffect(slot0, slot1, slot2, slot3, slot4)
+	if uv0 then
+		slot5 = uv0[slot1]
 
-		if arg_10_1 == CanteenConst.HeroSkillType.FoodCostQucik then
-			local var_10_1 = 0
+		if slot1 == CanteenConst.HeroSkillType.FoodCostQucik then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-					local var_10_2 = iter_10_1.skillID
-
-					if arg_10_4 == BackHomeHeroSkillCfg[var_10_2].param[1] or BackHomeHeroSkillCfg[var_10_2].param[1] == 0 then
-						var_10_1 = var_10_1 + BackHomeHeroSkillCfg[var_10_2].param[2]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot4 == BackHomeHeroSkillCfg[slot11.skillID].param[1] or BackHomeHeroSkillCfg[slot12].param[1] == 0 then
+						slot6 = slot6 + BackHomeHeroSkillCfg[slot12].param[2]
 					end
 				end
 			end
 
-			return var_10_1
-		elseif arg_10_1 == CanteenConst.HeroSkillType.FoodCostRise then
-			local var_10_3 = 0
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.FoodCostRise then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_2, iter_10_3 in ipairs(var_10_0) do
-					local var_10_4 = iter_10_3.skillID
-
-					if arg_10_4 == BackHomeHeroSkillCfg[var_10_4].param[1] or BackHomeHeroSkillCfg[var_10_4].param[1] == 0 then
-						var_10_3 = var_10_3 + BackHomeHeroSkillCfg[var_10_4].param[2]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot4 == BackHomeHeroSkillCfg[slot11.skillID].param[1] or BackHomeHeroSkillCfg[slot12].param[1] == 0 then
+						slot6 = slot6 + BackHomeHeroSkillCfg[slot12].param[2]
 					end
 				end
 			end
 
-			return var_10_3
-		elseif arg_10_1 == CanteenConst.HeroSkillType.FatigueRecuse then
-			local var_10_5 = 100
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.FatigueRecuse then
+			slot6 = 100
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_4, iter_10_5 in ipairs(var_10_0) do
-					if arg_10_2 == iter_10_5.id then
-						var_10_5 = var_10_5 - BackHomeHeroSkillCfg[iter_10_5.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot2 == slot11.id then
+						slot6 = slot6 - BackHomeHeroSkillCfg[slot11.skillID].param[1]
 					end
 				end
 			end
 
-			return var_10_5
-		elseif arg_10_1 == CanteenConst.HeroSkillType.PopularRise then
-			local var_10_6 = 0
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.PopularRise then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_6, iter_10_7 in ipairs(var_10_0) do
-					local var_10_7 = iter_10_7.skillID
-
-					var_10_6 = var_10_6 + BackHomeHeroSkillCfg[var_10_7].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					slot6 = slot6 + BackHomeHeroSkillCfg[slot11.skillID].param[1]
 				end
 			end
 
-			return var_10_6
-		elseif arg_10_1 == CanteenConst.HeroSkillType.FatigueRecoverSelfFast then
-			local var_10_8 = 0
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.FatigueRecoverSelfFast then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_8, iter_10_9 in ipairs(var_10_0) do
-					if arg_10_2 == iter_10_9.id then
-						var_10_8 = var_10_8 + BackHomeHeroSkillCfg[iter_10_9.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot2 == slot11.id then
+						slot6 = slot6 + BackHomeHeroSkillCfg[slot11.skillID].param[1]
 					end
 				end
 			end
 
-			return var_10_8
-		elseif arg_10_1 == CanteenConst.HeroSkillType.FatigueRecoverAllFast then
-			local var_10_9 = 0
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.FatigueRecoverAllFast then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_10, iter_10_11 in ipairs(var_10_0) do
-					var_10_9 = var_10_9 + BackHomeHeroSkillCfg[iter_10_11.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					slot6 = slot6 + BackHomeHeroSkillCfg[slot11.skillID].param[1]
 				end
 			end
 
-			return var_10_9
-		elseif arg_10_1 == CanteenConst.HeroSkillType.EntrustFatigueSelfReduce then
-			local var_10_10 = 100
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.EntrustFatigueSelfReduce then
+			slot6 = 100
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_12, iter_10_13 in ipairs(var_10_0) do
-					if arg_10_2 == iter_10_13.id then
-						var_10_10 = var_10_10 - BackHomeHeroSkillCfg[iter_10_13.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot2 == slot11.id then
+						slot6 = slot6 - BackHomeHeroSkillCfg[slot11.skillID].param[1]
 					end
 				end
 			end
 
-			return var_10_10
-		elseif arg_10_1 == CanteenConst.HeroSkillType.EntrustExternSucceedAdd then
-			local var_10_11 = 0
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.EntrustExternSucceedAdd then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_14, iter_10_15 in ipairs(var_10_0) do
-					if arg_10_2 == iter_10_15.id then
-						var_10_11 = var_10_11 + BackHomeHeroSkillCfg[iter_10_15.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot2 == slot11.id then
+						slot6 = slot6 + BackHomeHeroSkillCfg[slot11.skillID].param[1]
 					end
 				end
 			end
 
-			return var_10_11
-		elseif arg_10_1 == CanteenConst.HeroSkillType.EntrustExternAwardAdd then
-			local var_10_12 = CanteenEntrustData:GetEntrustByPos(arg_10_3).hero_list
-			local var_10_13 = 100
+			return slot6
+		elseif slot1 == CanteenConst.HeroSkillType.EntrustExternAwardAdd then
+			slot7 = CanteenEntrustData:GetEntrustByPos(slot3).hero_list
+			slot8 = 100
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_16, iter_10_17 in ipairs(var_10_0) do
-					for iter_10_18, iter_10_19 in ipairs(var_10_12) do
-						if iter_10_19 == iter_10_17.id then
-							var_10_13 = var_10_13 + BackHomeHeroSkillCfg[iter_10_17.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot12, slot13 in ipairs(slot5) do
+					for slot17, slot18 in ipairs(slot7) do
+						if slot18 == slot13.id then
+							slot8 = slot8 + BackHomeHeroSkillCfg[slot13.skillID].param[1]
 						end
 					end
 				end
 			end
 
-			return var_10_13
-		elseif arg_10_1 == CanteenConst.HeroSkillType.EntrustTotalFatigueReduce then
-			local var_10_14 = 0
+			return slot8
+		elseif slot1 == CanteenConst.HeroSkillType.EntrustTotalFatigueReduce then
+			slot6 = 0
 
-			if var_10_0 and #var_10_0 > 0 then
-				for iter_10_20, iter_10_21 in ipairs(var_10_0) do
-					if arg_10_2 == iter_10_21.id then
-						var_10_14 = var_10_14 + BackHomeHeroSkillCfg[iter_10_21.skillID].param[1]
+			if slot5 and #slot5 > 0 then
+				for slot10, slot11 in ipairs(slot5) do
+					if slot2 == slot11.id then
+						slot6 = slot6 + BackHomeHeroSkillCfg[slot11.skillID].param[1]
 					end
 				end
 			end
 
-			return var_10_14
+			return slot6
 		else
 			print("未找到对应类型技能")
 		end
 	end
 end
 
-function var_0_0.UpdataAllHeroSkill(arg_11_0)
-	local var_11_0 = DormData:GetHeroInfoList()
-
-	if var_11_0 then
-		for iter_11_0, iter_11_1 in pairs(var_11_0) do
-			iter_11_1:DisposeRunSkill()
-			iter_11_1:OpenHeroSkill()
+function slot0.UpdataAllHeroSkill(slot0)
+	if DormData:GetHeroInfoList() then
+		for slot5, slot6 in pairs(slot1) do
+			slot6:DisposeRunSkill()
+			slot6:OpenHeroSkill()
 		end
 	end
 end
 
-function var_0_0.UpdataAllNpcSkill(arg_12_0)
-	local var_12_0 = BackHomeNpcData:GetBackHomeNpcInfoList()
-
-	if var_12_0 then
-		for iter_12_0, iter_12_1 in pairs(var_12_0) do
-			iter_12_1:DisposeRunSkill()
-			iter_12_1:OpenHeroSkill()
+function slot0.UpdataAllNpcSkill(slot0)
+	if BackHomeNpcData:GetBackHomeNpcInfoList() then
+		for slot5, slot6 in pairs(slot1) do
+			slot6:DisposeRunSkill()
+			slot6:OpenHeroSkill()
 		end
 	end
 end
 
-function var_0_0.UpdataAllFurSkill(arg_13_0)
-	local var_13_0 = CanteenData:GetFurInfoList()
-
-	if var_13_0 then
-		for iter_13_0, iter_13_1 in pairs(var_13_0) do
-			local var_13_1 = BackHomeCanteenFurnitureIDCfg[iter_13_0].type_id
-			local var_13_2 = BackHomeCanteenFurnitureCfg[var_13_1].skill[iter_13_1.level]
-
-			for iter_13_2, iter_13_3 in ipairs(var_13_2) do
-				if arg_13_0:CheckSkillIsOpen(iter_13_0, iter_13_3, DormEnum.EntityType.Furniture) and not arg_13_0:CheckSkillIsRun(iter_13_0, iter_13_3, DormEnum.EntityType.Furniture) then
-					arg_13_0:AddSkillComponent(iter_13_0, iter_13_3, DormEnum.EntityType.Furniture)
+function slot0.UpdataAllFurSkill(slot0)
+	if CanteenData:GetFurInfoList() then
+		for slot5, slot6 in pairs(slot1) do
+			for slot14, slot15 in ipairs(BackHomeCanteenFurnitureCfg[BackHomeCanteenFurnitureIDCfg[slot5].type_id].skill[slot6.level]) do
+				if slot0:CheckSkillIsOpen(slot5, slot15, DormEnum.EntityType.Furniture) and not slot0:CheckSkillIsRun(slot5, slot15, DormEnum.EntityType.Furniture) then
+					slot0:AddSkillComponent(slot5, slot15, DormEnum.EntityType.Furniture)
 				end
 			end
 		end
 	end
 end
 
-function var_0_0.GetSkillDesc(arg_14_0, arg_14_1)
-	local var_14_0 = BackHomeHeroSkillCfg[arg_14_1]
-	local var_14_1 = ""
-	local var_14_2 = arg_14_0:GetSkillEffectDesc(arg_14_1)
+function slot0.GetSkillDesc(slot0, slot1)
+	slot3 = ""
+	slot4 = slot0:GetSkillEffectDesc(slot1)
 
-	if var_14_0.condition[1] == 1 then
-		local var_14_3 = CanteenTools:GetJobName(var_14_0.condition[2])
-
-		var_14_1 = string.format(var_14_0.desc, var_14_3)
-	elseif var_14_0.condition[1] == 2 then
-		local var_14_4 = GetTips("DORM_LOBBY_NAME")
-
-		var_14_1 = string.format(var_14_0.desc, var_14_4)
-	elseif var_14_0.condition[1] == 3 then
-		var_14_1 = string.format(var_14_0.desc, GetTips("DORM_CANTEEN_TASK_NAME"))
+	if BackHomeHeroSkillCfg[slot1].condition[1] == 1 then
+		slot3 = string.format(slot2.desc, CanteenTools:GetJobName(slot2.condition[2]))
+	elseif slot2.condition[1] == 2 then
+		slot3 = string.format(slot2.desc, GetTips("DORM_LOBBY_NAME"))
+	elseif slot2.condition[1] == 3 then
+		slot3 = string.format(slot2.desc, GetTips("DORM_CANTEEN_TASK_NAME"))
 	end
 
-	return var_14_1 .. var_14_2
+	return slot3 .. slot4
 end
 
-function var_0_0.GetSkillEffectDesc(arg_15_0, arg_15_1)
-	local var_15_0 = ""
-	local var_15_1 = BackHomeHeroSkillCfg[arg_15_1]
-	local var_15_2 = var_15_1.type
-	local var_15_3 = ""
+function slot0.GetSkillEffectDesc(slot0, slot1)
+	slot2 = ""
+	slot3 = BackHomeHeroSkillCfg[slot1]
+	slot4 = slot3.type
+	slot5 = ""
 
-	if var_15_1.param[2] then
-		local var_15_4 = CanteenTools:GetFootTypeName(var_15_1.param[1])
+	if slot3.param[2] then
+		slot2 = string.format(BackHomeHeroSkillDescCfg[slot4].desc, tostring(CanteenTools:GetFootTypeName(slot3.param[1])))
 
-		var_15_0 = string.format(BackHomeHeroSkillDescCfg[var_15_2].desc, tostring(var_15_4))
-
-		if var_15_1.param[2] >= 0 then
-			var_15_3 = string.format(BackHomeHeroSkillDescCfg[var_15_2].pos_desc, tostring(var_15_1.param[2]))
+		if slot3.param[2] >= 0 then
+			slot5 = string.format(BackHomeHeroSkillDescCfg[slot4].pos_desc, tostring(slot3.param[2]))
 		else
-			var_15_3 = string.format(BackHomeHeroSkillDescCfg[var_15_2].neg_desc, tostring(-var_15_1.param[2]))
+			slot5 = string.format(BackHomeHeroSkillDescCfg[slot4].neg_desc, tostring(-slot3.param[2]))
 		end
 	else
-		var_15_0 = string.format(BackHomeHeroSkillDescCfg[var_15_2].desc)
-
-		if var_15_1.param[1] >= 0 then
-			var_15_3 = string.format(BackHomeHeroSkillDescCfg[var_15_2].pos_desc, tostring(var_15_1.param[1]))
-		else
-			var_15_3 = string.format(BackHomeHeroSkillDescCfg[var_15_2].neg_desc, tostring(-var_15_1.param[1]))
-		end
+		slot2 = string.format(BackHomeHeroSkillDescCfg[slot4].desc)
+		slot5 = (slot3.param[1] < 0 or string.format(BackHomeHeroSkillDescCfg[slot4].pos_desc, tostring(slot3.param[1]))) and string.format(BackHomeHeroSkillDescCfg[slot4].neg_desc, tostring(-slot3.param[1]))
 	end
 
-	return var_15_0 .. var_15_3
+	return slot2 .. slot5
 end
 
-function var_0_0.GetCookCanUnlockFoodList(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = BackHomeFurniture[arg_16_1]
-	local var_16_1 = {}
+function slot0.GetCookCanUnlockFoodList(slot0, slot1, slot2)
+	slot4 = {}
 
-	if var_16_0 then
-		for iter_16_0, iter_16_1 in ipairs(BackHomeCanteenFoodCfg.all) do
-			if BackHomeCanteenFoodCfg[iter_16_1].cook_type == var_16_0.type then
-				local var_16_2 = BackHomeCanteenFoodCfg[iter_16_1].unlock
-
-				if var_16_2 > 0 then
-					local var_16_3 = ConditionCfg[var_16_2]
-
-					if var_16_3.type == CanteenConst.UnLockCon.CookLevel and arg_16_2 >= var_16_3.params[2] then
-						table.insert(var_16_1, iter_16_1)
+	if BackHomeFurniture[slot1] then
+		for slot8, slot9 in ipairs(BackHomeCanteenFoodCfg.all) do
+			if BackHomeCanteenFoodCfg[slot9].cook_type == slot3.type then
+				if BackHomeCanteenFoodCfg[slot9].unlock > 0 then
+					if ConditionCfg[slot10].type == CanteenConst.UnLockCon.CookLevel and slot11.params[2] <= slot2 then
+						table.insert(slot4, slot9)
 					end
 				else
-					table.insert(var_16_1, iter_16_1)
+					table.insert(slot4, slot9)
 				end
 			end
 		end
 	end
 
-	return var_16_1
+	return slot4
 end
 
-function var_0_0.CheckSkillCanOpen(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = {}
+function slot0.CheckSkillCanOpen(slot0, slot1, slot2)
+	slot3 = {}
 
-	if DormNpcTools:CheckIDIsNpc(arg_17_2) then
-		local var_17_1 = BackHomeNpcCfg[arg_17_2].skill_list
-
-		for iter_17_0 = 1, #var_17_1 do
-			table.insert(var_17_0, var_17_1[iter_17_0])
+	if DormNpcTools:CheckIDIsNpc(slot2) then
+		for slot8 = 1, #BackHomeNpcCfg[slot2].skill_list do
+			table.insert(slot3, slot4[slot8])
 		end
 	else
-		local var_17_2 = BackHomeHeroCfg[arg_17_2].skill_list
-		local var_17_3 = GameSetting.dorm_hero_skill_unlock.value
-		local var_17_4 = HeroData:GetHeroData(arg_17_2).level
-
-		for iter_17_1 = 1, #var_17_2 do
-			if var_17_4 >= var_17_3[iter_17_1] then
-				table.insert(var_17_0, var_17_2[iter_17_1])
+		for slot10 = 1, #BackHomeHeroCfg[slot2].skill_list do
+			if GameSetting.dorm_hero_skill_unlock.value[slot10] <= HeroData:GetHeroData(slot2).level then
+				table.insert(slot3, slot4[slot10])
 			end
 		end
 	end
 
-	local var_17_5 = {}
+	slot4 = {}
 
-	for iter_17_2, iter_17_3 in ipairs(var_17_0) do
-		local var_17_6 = BackHomeHeroSkillCfg[iter_17_3].condition
-
-		if var_17_6 and #var_17_6 > 0 then
-			if var_17_6[1] == 1 and arg_17_1 == var_17_6[2] then
-				table.insert(var_17_5, iter_17_3)
+	for slot8, slot9 in ipairs(slot3) do
+		if BackHomeHeroSkillCfg[slot9].condition and #slot11 > 0 then
+			if slot11[1] == 1 and slot1 == slot11[2] then
+				table.insert(slot4, slot9)
 			end
 		else
-			table.insert(var_17_5, iter_17_3)
+			table.insert(slot4, slot9)
 		end
 	end
 
-	return var_17_5
+	return slot4
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_1 = nil
+function slot0.Dispose(slot0)
+	uv0 = nil
 end
 
-return var_0_0
+return slot0

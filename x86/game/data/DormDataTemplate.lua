@@ -1,44 +1,39 @@
 DormHeroTemplate = class("DormDataTemplate")
 
-function DormHeroTemplate.Ctor(arg_1_0, arg_1_1)
-	local var_1_0 = DormHeroTools:GetAllCanUseHeroIDInDorm(arg_1_1.archives_id)[1]
+function DormHeroTemplate.Ctor(slot0, slot1)
+	slot2 = DormHeroTools:GetAllCanUseHeroIDInDorm(slot1.archives_id)[1]
 
-	if not arg_1_1.hero_id then
-		if var_1_0 then
-			arg_1_0.hero_id = var_1_0
+	if not slot1.hero_id then
+		if slot2 then
+			slot0.hero_id = slot2
 		else
-			print(debug.traceback("无可用人物,档案id为" .. arg_1_1.archives_id))
+			print(debug.traceback("无可用人物,档案id为" .. slot1.archives_id))
 
 			return
 		end
 	else
-		arg_1_0.hero_id = arg_1_1.hero_id
+		slot0.hero_id = slot1.hero_id
 	end
 
-	arg_1_0.fatigue = arg_1_1.fatigue or GameSetting.canteen_hero_fatigue_max.value[1]
-	arg_1_0.feed_times = arg_1_1.feed_times or 0
-	arg_1_0.archives_id = arg_1_1.archives_id
-	arg_1_0.feedTotalTime = arg_1_1.totalFeedTime or 0
+	slot0.fatigue = slot1.fatigue or GameSetting.canteen_hero_fatigue_max.value[1]
+	slot0.feed_times = slot1.feed_times or 0
+	slot0.archives_id = slot1.archives_id
+	slot0.feedTotalTime = slot1.totalFeedTime or 0
 
-	arg_1_0:InitHeroSkinData(arg_1_1.skinID)
+	slot0:InitHeroSkinData(slot1.skinID)
 end
 
-function DormHeroTemplate.InitHeroSkinData(arg_2_0, arg_2_1)
-	arg_2_0.skinInfo = {}
+function DormHeroTemplate.InitHeroSkinData(slot0, slot1)
+	slot0.skinInfo = {}
 
-	local var_2_0 = arg_2_0:GetCanUseHeroList()
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		arg_2_0.skinInfo[iter_2_1] = iter_2_1
+	for slot6, slot7 in ipairs(slot0:GetCanUseHeroList()) do
+		slot0.skinInfo[slot7] = slot7
 	end
 
-	if arg_2_1 then
-		for iter_2_2, iter_2_3 in ipairs(arg_2_1) do
-			local var_2_1 = iter_2_3.hero_id
-			local var_2_2 = iter_2_3.skin_id
-
-			if arg_2_0.skinInfo[var_2_1] then
-				arg_2_0.skinInfo[var_2_1] = var_2_2
+	if slot1 then
+		for slot6, slot7 in ipairs(slot1) do
+			if slot0.skinInfo[slot7.hero_id] then
+				slot0.skinInfo[slot8] = slot7.skin_id
 			else
 				print("未找到对应角色")
 			end
@@ -46,161 +41,149 @@ function DormHeroTemplate.InitHeroSkinData(arg_2_0, arg_2_1)
 	end
 end
 
-function DormHeroTemplate.InitHeroRoomID(arg_3_0, arg_3_1)
-	arg_3_0.roomID = arg_3_1
+function DormHeroTemplate.InitHeroRoomID(slot0, slot1)
+	slot0.roomID = slot1
 end
 
-function DormHeroTemplate.Dispose(arg_4_0)
-	return
+function DormHeroTemplate.Dispose(slot0)
 end
 
-function DormHeroTemplate.GetHeroId(arg_5_0)
-	if BackHomeHeroCfg[arg_5_0.hero_id] then
-		return arg_5_0.hero_id
-	else
-		local var_5_0 = arg_5_0:GetCanUseHeroList()
-
-		if #var_5_0 > 0 then
-			return var_5_0[1]
-		end
+function DormHeroTemplate.GetHeroId(slot0)
+	if BackHomeHeroCfg[slot0.hero_id] then
+		return slot0.hero_id
+	elseif #slot0:GetCanUseHeroList() > 0 then
+		return slot1[1]
 	end
 end
 
-function DormHeroTemplate.GetHeroTotalFeedTime(arg_6_0)
-	return arg_6_0.feedTotalTime
+function DormHeroTemplate.GetHeroTotalFeedTime(slot0)
+	return slot0.feedTotalTime
 end
 
-function DormHeroTemplate.GetRoomID(arg_7_0)
-	return arg_7_0.roomID
+function DormHeroTemplate.GetRoomID(slot0)
+	return slot0.roomID
 end
 
-function DormHeroTemplate.SetCurHeroID(arg_8_0, arg_8_1)
-	if arg_8_1 == nil then
-		arg_8_0.hero_id = nil
+function DormHeroTemplate.SetCurHeroID(slot0, slot1)
+	if slot1 == nil then
+		slot0.hero_id = nil
 
 		return
 	end
 
-	if arg_8_0.archives_id == DormData:GetHeroArchiveID(arg_8_1) then
-		arg_8_0.hero_id = arg_8_1
+	if slot0.archives_id == DormData:GetHeroArchiveID(slot1) then
+		slot0.hero_id = slot1
 	else
 		print("传入角色id不是本档案角色")
 	end
 end
 
-function DormHeroTemplate.GetHeroCurSkinID(arg_9_0, arg_9_1)
-	if arg_9_0.skinInfo then
-		if not arg_9_0.skinInfo[arg_9_1] and DormData:GetHeroArchiveID(arg_9_1) == arg_9_0.archives_id and BackHomeHeroCfg[arg_9_1] and HeroTools.GetHeroIsUnlock(arg_9_1) then
-			arg_9_0.skinInfo[arg_9_1] = arg_9_1
+function DormHeroTemplate.GetHeroCurSkinID(slot0, slot1)
+	if slot0.skinInfo then
+		if not slot0.skinInfo[slot1] and DormData:GetHeroArchiveID(slot1) == slot0.archives_id and BackHomeHeroCfg[slot1] and HeroTools.GetHeroIsUnlock(slot1) then
+			slot0.skinInfo[slot1] = slot1
 		end
 
-		if arg_9_0.skinInfo[arg_9_1] then
-			return arg_9_0.skinInfo[arg_9_1]
+		if slot0.skinInfo[slot1] then
+			return slot0.skinInfo[slot1]
 		end
 	end
 
-	return arg_9_1
+	return slot1
 end
 
-function DormHeroTemplate.SetHeroSkinID(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_0.skinInfo then
-		arg_10_0.skinInfo[arg_10_1] = arg_10_2
+function DormHeroTemplate.SetHeroSkinID(slot0, slot1, slot2)
+	if slot0.skinInfo then
+		slot0.skinInfo[slot1] = slot2
 	end
 end
 
-function DormHeroTemplate.GetCanUseHeroList(arg_11_0)
-	return DormHeroTools:GetAllCanUseHeroIDInDorm(arg_11_0.archives_id) or {}
+function DormHeroTemplate.GetCanUseHeroList(slot0)
+	return DormHeroTools:GetAllCanUseHeroIDInDorm(slot0.archives_id) or {}
 end
 
-function DormHeroTemplate.GetFatigue(arg_12_0)
-	return arg_12_0.fatigue
+function DormHeroTemplate.GetFatigue(slot0)
+	return slot0.fatigue
 end
 
-function DormHeroTemplate.SetFatigue(arg_13_0, arg_13_1)
-	if arg_13_1 < 0 then
+function DormHeroTemplate.SetFatigue(slot0, slot1)
+	if slot1 < 0 then
 		print("设置体力越界")
 
 		return
 	end
 
-	arg_13_0.fatigue = arg_13_1
+	slot0.fatigue = slot1
 
-	arg_13_0:UpdataHeroState()
+	slot0:UpdataHeroState()
 end
 
-function DormHeroTemplate.CalFatigue(arg_14_0, arg_14_1)
-	arg_14_0.fatigue = arg_14_0.fatigue + arg_14_1
+function DormHeroTemplate.CalFatigue(slot0, slot1)
+	slot0.fatigue = slot0.fatigue + slot1
 
-	if arg_14_0.fatigue < 0 then
-		arg_14_0.fatigue = 0
+	if slot0.fatigue < 0 then
+		slot0.fatigue = 0
 	end
 
-	arg_14_0:UpdataHeroState()
+	slot0:UpdataHeroState()
 end
 
-function DormHeroTemplate.UpdataHeroState(arg_15_0)
-	local var_15_0 = GameSetting.dorm_canteen_work_fatigue.value[1] / 100
+function DormHeroTemplate.UpdataHeroState(slot0)
+	slot1 = GameSetting.dorm_canteen_work_fatigue.value[1] / 100
 
-	if arg_15_0.fatigue < var_15_0 - var_15_0 % 0.1 then
-		if arg_15_0.jobType then
-			arg_15_0.jobType = nil
+	if slot0.fatigue < slot1 - slot1 % 0.1 then
+		if slot0.jobType then
+			slot0.jobType = nil
 		end
 
-		arg_15_0:BackToDorm()
+		slot0:BackToDorm()
 	end
 end
 
-function DormHeroTemplate.GetRecoverFatigueNum(arg_16_0)
-	local var_16_0 = arg_16_0:GetHeroState()
-	local var_16_1 = 3600 / GameSetting.dorm_fatigue_time.value[1]
+function DormHeroTemplate.GetRecoverFatigueNum(slot0)
+	slot3 = 3600 / GameSetting.dorm_fatigue_time.value[1]
 
-	if var_16_0 == DormEnum.DormHeroState.InCanteenEntrust or var_16_0 == DormEnum.DormHeroState.InCanteenJob then
+	if slot0:GetHeroState() == DormEnum.DormHeroState.InCanteenEntrust or slot1 == DormEnum.DormHeroState.InCanteenJob then
 		return 0
-	elseif var_16_0 == DormEnum.DormHeroState.OutDorm then
+	elseif slot1 == DormEnum.DormHeroState.OutDorm then
 		return GameSetting.dorm_base_fatigue_increase.value[1] / 100
-	elseif var_16_0 == DormEnum.DormHeroState.InPublicDorm then
-		local var_16_2 = GameSetting.dorm_lobby_fatigue_increase.value[1] / 100
-		local var_16_3 = 0
+	elseif slot1 == DormEnum.DormHeroState.InPublicDorm then
+		slot4 = GameSetting.dorm_lobby_fatigue_increase.value[1] / 100
+		slot5 = 0
 
-		if arg_16_0.hero_id then
-			var_16_3 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, arg_16_0.hero_id)
-			var_16_3 = var_16_3 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, arg_16_0.hero_id)
+		if slot0.hero_id then
+			slot5 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, slot0.hero_id) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, slot0.hero_id)
 		end
 
-		return var_16_2 * ((100 + var_16_3) / 100) * var_16_1
-	elseif var_16_0 == DormEnum.DormHeroState.InPrivateDorm then
-		local var_16_4 = DormHeroTools:GetDormLevelByHeroID(arg_16_0.archives_id)
-		local var_16_5 = GameSetting.dorm_fatigue_increase.value[var_16_4][2] / 100
-		local var_16_6 = 0
+		return slot4 * (100 + slot5) / 100 * slot3
+	elseif slot1 == DormEnum.DormHeroState.InPrivateDorm then
+		slot5 = GameSetting.dorm_fatigue_increase.value[DormHeroTools:GetDormLevelByHeroID(slot0.archives_id)][2] / 100
+		slot6 = 0
 
-		if arg_16_0.hero_id then
-			var_16_6 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, arg_16_0.hero_id)
-			var_16_6 = var_16_6 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, arg_16_0.hero_id)
+		if slot0.hero_id then
+			slot6 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, slot0.hero_id) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, slot0.hero_id)
 		end
 
-		return var_16_5 * ((100 + var_16_6) / 100) * var_16_1
-	elseif var_16_0 == DormEnum.DormHeroState.InIdolTraineeCamp then
-		if arg_16_0.roomID then
-			local var_16_7 = DormHeroTools:GetDormLevelByHeroID(arg_16_0.archives_id)
-			local var_16_8 = GameSetting.dorm_fatigue_increase.value[var_16_7][2] / 100
-			local var_16_9 = 0
+		return slot5 * (100 + slot6) / 100 * slot3
+	elseif slot1 == DormEnum.DormHeroState.InIdolTraineeCamp then
+		if slot0.roomID then
+			slot5 = GameSetting.dorm_fatigue_increase.value[DormHeroTools:GetDormLevelByHeroID(slot0.archives_id)][2] / 100
+			slot6 = 0
 
-			if arg_16_0.hero_id then
-				var_16_9 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, arg_16_0.hero_id)
-				var_16_9 = var_16_9 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, arg_16_0.hero_id)
+			if slot0.hero_id then
+				slot6 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, slot0.hero_id) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, slot0.hero_id)
 			end
 
-			return var_16_8 * ((100 + var_16_9) / 100) * var_16_1
+			return slot5 * (100 + slot6) / 100 * slot3
 		else
-			local var_16_10 = GameSetting.dorm_lobby_fatigue_increase.value[1] / 100
-			local var_16_11 = 0
+			slot4 = GameSetting.dorm_lobby_fatigue_increase.value[1] / 100
+			slot5 = 0
 
-			if arg_16_0.hero_id then
-				var_16_11 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, arg_16_0.hero_id)
-				var_16_11 = var_16_11 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, arg_16_0.hero_id)
+			if slot0.hero_id then
+				slot5 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverSelfFast, slot0.hero_id) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FatigueRecoverAllFast, slot0.hero_id)
 			end
 
-			return var_16_10 * ((100 + var_16_11) / 100) * var_16_1
+			return slot4 * (100 + slot5) / 100 * slot3
 		end
 	else
 		return 0
@@ -209,49 +192,43 @@ function DormHeroTemplate.GetRecoverFatigueNum(arg_16_0)
 	print("人物处于未知状态")
 end
 
-function DormHeroTemplate.GetCurRoomID(arg_17_0)
-	local var_17_0 = arg_17_0:GetHeroState()
-
-	if var_17_0 == DormEnum.DormHeroState.InCanteenEntrust or var_17_0 == DormEnum.DormHeroState.InCanteenJob then
+function DormHeroTemplate.GetCurRoomID(slot0)
+	if slot0:GetHeroState() == DormEnum.DormHeroState.InCanteenEntrust or slot1 == DormEnum.DormHeroState.InCanteenJob then
 		return DormConst.CANTEEN_ID
 	end
 
-	if var_17_0 == DormEnum.DormHeroState.InPublicDorm then
+	if slot1 == DormEnum.DormHeroState.InPublicDorm then
 		return DormConst.PUBLIC_DORM_ID
-	elseif var_17_0 == DormEnum.DormHeroState.InPrivateDorm then
-		return DormRoomTools:GetDormIDViaArchive(arg_17_0.archives_id)
+	elseif slot1 == DormEnum.DormHeroState.InPrivateDorm then
+		return DormRoomTools:GetDormIDViaArchive(slot0.archives_id)
 	end
 
 	return nil
 end
 
-function DormHeroTemplate.GetHeroState(arg_18_0)
-	local var_18_0 = DormRoomTools:GetDormIDViaArchive(arg_18_0.archives_id)
+function DormHeroTemplate.GetHeroState(slot0)
+	slot1 = DormRoomTools:GetDormIDViaArchive(slot0.archives_id)
 
-	if arg_18_0.dancePos then
+	if slot0.dancePos then
 		return DormEnum.DormHeroState.InIdolTraineeCamp
 	end
 
-	if CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_18_0.archives_id) then
+	if CanteenEntrustData:CheckHasChooseEntrustCharacter(slot0.archives_id) then
 		return DormEnum.DormHeroState.InCanteenEntrust
 	end
 
-	if arg_18_0.jobType then
+	if slot0.jobType then
 		return DormEnum.DormHeroState.InCanteenJob
 	end
 
-	local var_18_1 = DormConst.PUBLIC_DORM_ID
-
-	if var_18_1 then
-		local var_18_2 = DormData:GetDormSceneData(var_18_1)
-
-		for iter_18_0, iter_18_1 in ipairs(var_18_2.archiveIDList) do
-			if iter_18_1 == arg_18_0.archives_id then
+	if DormConst.PUBLIC_DORM_ID then
+		for slot7, slot8 in ipairs(DormData:GetDormSceneData(slot2).archiveIDList) do
+			if slot8 == slot0.archives_id then
 				return DormEnum.DormHeroState.InPublicDorm
 			end
 		end
 
-		if var_18_0 then
+		if slot1 then
 			return DormEnum.DormHeroState.InPrivateDorm
 		end
 
@@ -259,112 +236,98 @@ function DormHeroTemplate.GetHeroState(arg_18_0)
 	end
 end
 
-function DormHeroTemplate.GetHeroFavorability(arg_19_0)
-	return ArchiveData:GetArchive(arg_19_0.archives_id).lv
+function DormHeroTemplate.GetHeroFavorability(slot0)
+	return ArchiveData:GetArchive(slot0.archives_id).lv
 end
 
-function DormHeroTemplate.GetGiftNum(arg_20_0, arg_20_1)
-	local var_20_0 = DormRoomTools:GetDormIDViaArchive(arg_20_0.archives_id)
-	local var_20_1 = DormitoryData:GetDormSceneData(var_20_0)
-
-	if var_20_1 and var_20_1.give_furnitures then
-		return var_20_1.give_furnitures[arg_20_1] or 0
+function DormHeroTemplate.GetGiftNum(slot0, slot1)
+	if DormitoryData:GetDormSceneData(DormRoomTools:GetDormIDViaArchive(slot0.archives_id)) and slot3.give_furnitures then
+		return slot3.give_furnitures[slot1] or 0
 	else
 		return 0
 	end
 end
 
-function DormHeroTemplate.GetCanGiftNum(arg_21_0, arg_21_1)
-	local var_21_0 = 0
+function DormHeroTemplate.GetCanGiftNum(slot0, slot1)
+	slot2 = 0
 
-	if DormRoomTools:GetDormIDViaArchive(arg_21_0.archives_id) then
-		local var_21_1 = arg_21_0:GetGiftNum(arg_21_1)
-		local var_21_2 = DormData:GetFurNumInfo(arg_21_1).num
-		local var_21_3 = DormData:GetFurNumInfo(arg_21_1).give_num
-		local var_21_4 = BackHomeFurniture[arg_21_1].give_max
+	if DormRoomTools:GetDormIDViaArchive(slot0.archives_id) then
+		slot4 = slot0:GetGiftNum(slot1)
+		slot5 = DormData:GetFurNumInfo(slot1).num
+		slot6 = DormData:GetFurNumInfo(slot1).give_num
+		slot7 = BackHomeFurniture[slot1].give_max
 
-		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_21_1) then
-			var_21_4 = 1
+		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot1) then
+			slot7 = 1
 		end
 
-		var_21_0 = math.min(var_21_2 - var_21_3, var_21_4 - var_21_1)
-
-		if var_21_0 < 0 then
-			var_21_0 = 0
+		if math.min(slot5 - slot6, slot7 - slot4) < 0 then
+			slot2 = 0
 		end
 	end
 
-	return var_21_0
+	return slot2
 end
 
-function DormHeroTemplate.GetCanBuyAndGiftNum(arg_22_0, arg_22_1)
-	local var_22_0 = 0
+function DormHeroTemplate.GetCanBuyAndGiftNum(slot0, slot1)
+	slot2 = 0
 
-	if DormRoomTools:GetDormIDViaArchive(arg_22_0.archives_id) then
-		local var_22_1 = arg_22_0:GetGiftNum(arg_22_1)
-		local var_22_2 = BackHomeFurniture[arg_22_1].give_max
+	if DormRoomTools:GetDormIDViaArchive(slot0.archives_id) then
+		slot4 = slot0:GetGiftNum(slot1)
+		slot5 = BackHomeFurniture[slot1].give_max
 
-		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_22_1) then
-			var_22_2 = 1
+		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot1) then
+			slot5 = 1
 		end
 
-		var_22_0 = math.min(var_22_2, var_22_2 - var_22_1)
-
-		if var_22_0 < 0 then
-			var_22_0 = 0
+		if math.min(slot5, slot5 - slot4) < 0 then
+			slot2 = 0
 		end
 	end
 
-	return var_22_0
+	return slot2
 end
 
-function DormHeroTemplate.CheckCanFeedFood(arg_23_0)
-	if arg_23_0.feed_times >= GameSetting.dorm_feed_max.value[1] then
+function DormHeroTemplate.CheckCanFeedFood(slot0)
+	if GameSetting.dorm_feed_max.value[1] <= slot0.feed_times then
 		return false, "feedTime"
 	end
 
-	if arg_23_0.fatigue > GameSetting.canteen_hero_fatigue_max.value[1] then
+	if GameSetting.canteen_hero_fatigue_max.value[1] < slot0.fatigue then
 		return false, "fatigue"
 	end
 
-	if DormHeroTools:GetDormLevelByHeroID(arg_23_0.archives_id) < GameSetting.dorm_menu_feed_unlock.value[1] then
+	if DormHeroTools:GetDormLevelByHeroID(slot0.archives_id) < GameSetting.dorm_menu_feed_unlock.value[1] then
 		return false, "unlock"
 	end
 
 	return true
 end
 
-function DormHeroTemplate.ResetFeedTime(arg_24_0)
-	arg_24_0.feed_times = 0
+function DormHeroTemplate.ResetFeedTime(slot0)
+	slot0.feed_times = 0
 end
 
-local function var_0_0(arg_25_0)
-	if type(arg_25_0) == "number" then
-		return arg_25_0, 1
+function slot0(slot0)
+	if type(slot0) == "number" then
+		return slot0, 1
 	else
-		return arg_25_0[1], arg_25_0[2]
+		return slot0[1], slot0[2]
 	end
 end
 
-function DormHeroTemplate.PickInteractAction(arg_26_0)
-	if arg_26_0 and next(arg_26_0) then
-		local var_26_0 = 0
-
-		for iter_26_0, iter_26_1 in ipairs(arg_26_0) do
-			local var_26_1, var_26_2 = var_0_0(iter_26_1)
-
-			var_26_0 = var_26_0 + var_26_2
+function DormHeroTemplate.PickInteractAction(slot0)
+	if slot0 and next(slot0) then
+		for slot5, slot6 in ipairs(slot0) do
+			slot7, slot8 = uv0(slot6)
+			slot1 = 0 + slot8
 		end
 
-		local var_26_3 = math.random() * var_26_0
+		for slot6, slot7 in ipairs(slot0) do
+			slot8, slot9 = uv0(slot7)
 
-		for iter_26_2, iter_26_3 in ipairs(arg_26_0) do
-			local var_26_4, var_26_5 = var_0_0(iter_26_3)
-
-			var_26_3 = var_26_3 - var_26_5
-
-			if var_26_3 < 0 then
-				return var_26_4
+			if math.random() * slot1 - slot9 < 0 then
+				return slot8
 			end
 		end
 	end
@@ -372,315 +335,276 @@ function DormHeroTemplate.PickInteractAction(arg_26_0)
 	return nil
 end
 
-function DormHeroTemplate.FeedFood(arg_27_0, arg_27_1, arg_27_2)
-	arg_27_0.feed_times = arg_27_0.feed_times + 1
-	arg_27_0.feedTotalTime = arg_27_0.feedTotalTime + 1
+function DormHeroTemplate.FeedFood(slot0, slot1, slot2)
+	slot0.feed_times = slot0.feed_times + 1
+	slot0.feedTotalTime = slot0.feedTotalTime + 1
 
-	if arg_27_1 and not Dorm.DormEntityManager.TestDuringInteract(arg_27_1, true) then
-		local var_27_0
+	if slot1 and not Dorm.DormEntityManager.TestDuringInteract(slot1, true) then
+		slot3 = nil
 
-		if arg_27_2 then
-			Dorm.DormEntityManager.SendInteractToEntityCMD(arg_27_1, arg_27_1, arg_27_2, false)
+		if slot2 then
+			Dorm.DormEntityManager.SendInteractToEntityCMD(slot1, slot1, slot2, false)
 
-			local var_27_1 = DormInteractSequence[arg_27_2].name
-			local var_27_2 = arg_27_0:GetHeroCurSkinID(arg_27_0.hero_id)
-			local var_27_3 = DormCharacterInteractBehaviour.GetSequence(var_27_2, nil, var_27_1)
-
-			if var_27_3 then
-				var_27_0 = var_27_3.duration
+			if DormCharacterInteractBehaviour.GetSequence(slot0:GetHeroCurSkinID(slot0.hero_id), nil, DormInteractSequence[slot2].name) then
+				slot3 = slot6.duration
 			end
 		end
 
-		DormUtils.ClearSingleSpecialVfx(arg_27_1, DormEnum.SpecialVfx.Hungry)
+		DormUtils.ClearSingleSpecialVfx(slot1, DormEnum.SpecialVfx.Hungry)
 
-		return var_27_0
+		return slot3
 	end
 end
 
-function DormHeroTemplate.GiftFur(arg_28_0, arg_28_1, arg_28_2, arg_28_3)
-	if arg_28_1 and arg_28_2 then
-		local var_28_0 = DormRoomTools:GetDormIDViaArchive(arg_28_0.archives_id)
-		local var_28_1 = DormData:GetDormSceneData(var_28_0)
-
-		if not var_28_1.give_furnitures then
-			var_28_1.give_furnitures = {}
+function DormHeroTemplate.GiftFur(slot0, slot1, slot2, slot3)
+	if slot1 and slot2 then
+		if not DormData:GetDormSceneData(DormRoomTools:GetDormIDViaArchive(slot0.archives_id)).give_furnitures then
+			slot5.give_furnitures = {}
 		end
 
-		if not var_28_1.give_furnitures[arg_28_1] then
-			var_28_1.give_furnitures[arg_28_1] = 0
+		if not slot5.give_furnitures[slot1] then
+			slot5.give_furnitures[slot1] = 0
 		end
 
-		var_28_1.give_furnitures[arg_28_1] = var_28_1.give_furnitures[arg_28_1] + arg_28_2
+		slot5.give_furnitures[slot1] = slot5.give_furnitures[slot1] + slot2
+		slot6 = DormData:GetFurnitureInfoList()
+		slot6[slot1].give_num = slot6[slot1].give_num + slot2
 
-		local var_28_2 = DormData:GetFurnitureInfoList()
-
-		var_28_2[arg_28_1].give_num = var_28_2[arg_28_1].give_num + arg_28_2
-
-		if var_28_2[arg_28_1].give_num > var_28_2[arg_28_1].num then
+		if slot6[slot1].num < slot6[slot1].give_num then
 			print("家具礼物数量大于拥有数量")
 		end
 
-		if arg_28_3 then
-			local var_28_3 = GameDisplayCfg.dorm_interaction_gift.value
-			local var_28_4 = DormHeroTemplate.PickInteractAction(var_28_3)
-
-			Dorm.DormEntityManager.SendInteractToEntityCMD(arg_28_3, arg_28_3, var_28_4, false)
+		if slot3 then
+			Dorm.DormEntityManager.SendInteractToEntityCMD(slot3, slot3, DormHeroTemplate.PickInteractAction(GameDisplayCfg.dorm_interaction_gift.value), false)
 		end
 	else
 		Debug.LogError("赠送家具id或数量为空")
 	end
 end
 
-function DormHeroTemplate.TouchHero(arg_29_0, arg_29_1, arg_29_2)
-	Dorm.DormEntityManager.SendInteractToEntityCMD(arg_29_1, arg_29_1, arg_29_2, false)
+function DormHeroTemplate.TouchHero(slot0, slot1, slot2)
+	Dorm.DormEntityManager.SendInteractToEntityCMD(slot1, slot1, slot2, false)
 
-	if arg_29_0.hero_id then
+	if slot0.hero_id then
 		SDKTools.SendMessageToSDK("backhome_dorm_stroke", {
-			hero_id = arg_29_0.hero_id
+			hero_id = slot0.hero_id
 		})
 	end
 
-	local var_29_0 = DormInteractSequence[arg_29_2].name
-	local var_29_1 = arg_29_0:GetHeroCurSkinID(arg_29_0.hero_id)
-	local var_29_2 = DormCharacterInteractBehaviour.GetSequence(var_29_1, nil, var_29_0)
-	local var_29_3
+	slot6 = nil
 
-	if var_29_2 then
-		var_29_3 = var_29_2.duration
+	if DormCharacterInteractBehaviour.GetSequence(slot0:GetHeroCurSkinID(slot0.hero_id), nil, DormInteractSequence[slot2].name) then
+		slot6 = slot5.duration
 	end
 
-	return var_29_3
+	return slot6
 end
 
-function DormHeroTemplate.BackToDorm(arg_30_0)
-	local var_30_0 = arg_30_0:GetHeroState()
+function DormHeroTemplate.BackToDorm(slot0)
+	slot0.jobType = nil
+	slot0.dancePos = nil
 
-	arg_30_0.jobType = nil
-	arg_30_0.dancePos = nil
-
-	if var_30_0 == DormEnum.DormHeroState.InPublicDorm or var_30_0 == DormEnum.DormHeroState.InPrivateDorm then
+	if slot0:GetHeroState() == DormEnum.DormHeroState.InPublicDorm or slot1 == DormEnum.DormHeroState.InPrivateDorm then
 		return
 	end
 
-	local var_30_1 = DormRoomTools:GetDormIDViaArchive(arg_30_0.archives_id)
-	local var_30_2 = DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID)
-
-	if var_30_2 then
-		local var_30_3 = var_30_2.archiveIDList
-
-		if var_30_3 then
-			local var_30_4 = #var_30_3
-
-			if not var_30_1 and var_30_4 < GameSetting.dorm_lobby_hero_max.value[1] then
-				table.insert(var_30_3, arg_30_0.archives_id)
+	if DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID) then
+		if slot3.archiveIDList then
+			if not DormRoomTools:GetDormIDViaArchive(slot0.archives_id) and #slot4 < GameSetting.dorm_lobby_hero_max.value[1] then
+				table.insert(slot4, slot0.archives_id)
 			end
 		end
 
-		arg_30_0:ResetHeroSkill()
+		slot0:ResetHeroSkill()
 		CanteenHeroTools:RefreshCanteenJobList()
 	end
 
-	arg_30_0:ResetHeroSkill()
+	slot0:ResetHeroSkill()
 end
 
-function DormHeroTemplate.GoToCanteen(arg_31_0)
-	arg_31_0.dancePos = nil
+function DormHeroTemplate.GoToCanteen(slot0)
+	slot0.dancePos = nil
 
-	local var_31_0 = DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID).archiveIDList
-
-	if #var_31_0 > 0 then
-		for iter_31_0 = 1, #var_31_0 do
-			if var_31_0[iter_31_0] == arg_31_0.archives_id then
-				table.remove(var_31_0, iter_31_0)
+	if #DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID).archiveIDList > 0 then
+		for slot5 = 1, #slot1 do
+			if slot1[slot5] == slot0.archives_id then
+				table.remove(slot1, slot5)
 
 				break
 			end
 		end
 	end
 
-	arg_31_0:ResetHeroSkill()
+	slot0:ResetHeroSkill()
 end
 
-function DormHeroTemplate.GoToDance(arg_32_0, arg_32_1)
-	local var_32_0 = arg_32_0:GetHeroState()
-
-	if var_32_0 == DormEnum.DormHeroState.InCanteenEntrust or var_32_0 == DormEnum.DormHeroState.InCanteenJob then
+function DormHeroTemplate.GoToDance(slot0, slot1)
+	if slot0:GetHeroState() == DormEnum.DormHeroState.InCanteenEntrust or slot2 == DormEnum.DormHeroState.InCanteenJob then
 		return
 	end
 
-	if arg_32_1 and var_32_0 == DormEnum.DormHeroState.InPublicDorm then
-		local var_32_1 = DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID).archiveIDList
+	if slot1 and slot2 == DormEnum.DormHeroState.InPublicDorm and #DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID).archiveIDList > 0 then
+		for slot7 = 1, #slot3 do
+			if slot3[slot7] == slot0.archives_id then
+				table.remove(slot3, slot7)
 
-		if #var_32_1 > 0 then
-			for iter_32_0 = 1, #var_32_1 do
-				if var_32_1[iter_32_0] == arg_32_0.archives_id then
-					table.remove(var_32_1, iter_32_0)
-
-					break
-				end
+				break
 			end
 		end
 	end
 
-	arg_32_0.dancePos = arg_32_1
+	slot0.dancePos = slot1
 
-	if not arg_32_0.dancePos then
-		arg_32_0:BackToDorm()
+	if not slot0.dancePos then
+		slot0:BackToDorm()
 	end
 
-	arg_32_0:ResetHeroSkill()
+	slot0:ResetHeroSkill()
 end
 
-function DormHeroTemplate.DisposeRunSkill(arg_33_0)
-	if arg_33_0.hero_id then
-		if not BackHomeHeroCfg[arg_33_0.hero_id] then
+function DormHeroTemplate.DisposeRunSkill(slot0)
+	if slot0.hero_id then
+		if not BackHomeHeroCfg[slot0.hero_id] then
 			return
 		end
 
-		local var_33_0 = BackHomeHeroCfg[arg_33_0.hero_id].skill_list
-
-		for iter_33_0, iter_33_1 in ipairs(var_33_0) do
-			if DormSkillData:CheckSkillIsRun(arg_33_0.hero_id, iter_33_1, DormEnum.EntityType.Character) then
-				DormSkillData:DisposeSkillComponent(arg_33_0.hero_id, iter_33_1, DormEnum.EntityType.Character)
+		for slot5, slot6 in ipairs(BackHomeHeroCfg[slot0.hero_id].skill_list) do
+			if DormSkillData:CheckSkillIsRun(slot0.hero_id, slot6, DormEnum.EntityType.Character) then
+				DormSkillData:DisposeSkillComponent(slot0.hero_id, slot6, DormEnum.EntityType.Character)
 			end
 		end
 	end
 end
 
-function DormHeroTemplate.OpenHeroSkill(arg_34_0)
-	if arg_34_0.hero_id then
-		local var_34_0 = BackHomeHeroCfg[arg_34_0.hero_id].skill_list
-		local var_34_1 = GameSetting.dorm_hero_skill_unlock.value
-		local var_34_2 = {}
-		local var_34_3 = HeroData:GetHeroData(arg_34_0.hero_id).level
+function DormHeroTemplate.OpenHeroSkill(slot0)
+	if slot0.hero_id then
+		slot3 = {}
 
-		for iter_34_0 = 1, #var_34_0 do
-			if var_34_3 >= var_34_1[iter_34_0] then
-				table.insert(var_34_2, var_34_0[iter_34_0])
+		for slot8 = 1, #BackHomeHeroCfg[slot0.hero_id].skill_list do
+			if GameSetting.dorm_hero_skill_unlock.value[slot8] <= HeroData:GetHeroData(slot0.hero_id).level then
+				table.insert(slot3, slot1[slot8])
 			end
 		end
 
-		for iter_34_1, iter_34_2 in ipairs(var_34_2) do
-			if DormSkillData:CheckSkillIsOpen(arg_34_0.hero_id, iter_34_2, DormEnum.EntityType.Character) then
-				DormSkillData:AddSkillComponent(arg_34_0.hero_id, iter_34_2, DormEnum.EntityType.Character)
+		for slot8, slot9 in ipairs(slot3) do
+			if DormSkillData:CheckSkillIsOpen(slot0.hero_id, slot9, DormEnum.EntityType.Character) then
+				DormSkillData:AddSkillComponent(slot0.hero_id, slot9, DormEnum.EntityType.Character)
 			end
 		end
 	end
 end
 
-function DormHeroTemplate.ResetHeroSkill(arg_35_0)
-	arg_35_0:DisposeRunSkill()
-	arg_35_0:OpenHeroSkill()
+function DormHeroTemplate.ResetHeroSkill(slot0)
+	slot0:DisposeRunSkill()
+	slot0:OpenHeroSkill()
 end
 
-function DormHeroTemplate.SetJob(arg_36_0, arg_36_1)
-	arg_36_0.jobType = arg_36_1
+function DormHeroTemplate.SetJob(slot0, slot1)
+	slot0.jobType = slot1
 end
 
-function DormHeroTemplate.InitDanceTrainData(arg_37_0, arg_37_1)
-	if not arg_37_0.property then
-		arg_37_0.property = {}
+function DormHeroTemplate.InitDanceTrainData(slot0, slot1)
+	if not slot0.property then
+		slot0.property = {}
 	end
 
-	arg_37_0.property[arg_37_1.hero_id] = IdolTraineeData:ParseIdolProperty(arg_37_1.attribute_list, arg_37_1.hero_id)
+	slot0.property[slot1.hero_id] = IdolTraineeData:ParseIdolProperty(slot1.attribute_list, slot1.hero_id)
 end
 
-function DormHeroTemplate.UpdataDanceTrainData(arg_38_0, arg_38_1, arg_38_2)
-	local var_38_0 = arg_38_2.hero_id
+function DormHeroTemplate.UpdataDanceTrainData(slot0, slot1, slot2)
+	slot3 = slot2.hero_id
 
-	if not arg_38_0.property and BackHomeHeroCfg[var_38_0].idol_usable == 1 then
-		arg_38_0:InitDanceTrainData({
-			hero_id = var_38_0
+	if not slot0.property and BackHomeHeroCfg[slot3].idol_usable == 1 then
+		slot0:InitDanceTrainData({
+			hero_id = slot3
 		})
 	end
 
-	arg_38_0.property[var_38_0][arg_38_2.attribute_index] = arg_38_1.attribute_value
+	slot0.property[slot3][slot2.attribute_index] = slot1.attribute_value
 end
 
-function DormHeroTemplate.GetDanceProperty(arg_39_0, arg_39_1)
-	if arg_39_1 then
-		local var_39_0 = arg_39_1 or arg_39_0.hero_id
+function DormHeroTemplate.GetDanceProperty(slot0, slot1)
+	if slot1 then
+		slot2 = slot1 or slot0.hero_id
 
-		if not arg_39_0.property then
-			arg_39_0:InitDanceTrainData({
-				hero_id = var_39_0
+		if not slot0.property then
+			slot0:InitDanceTrainData({
+				hero_id = slot2
 			})
 		end
 
-		return arg_39_0.property[var_39_0]
+		return slot0.property[slot2]
 	end
 end
 
 DormRoomTemplate = class("DormRoomTemplate")
 
-function DormRoomTemplate.Ctor(arg_40_0, arg_40_1)
-	arg_40_0.id = arg_40_1.id
-	arg_40_0.type = arg_40_1.type
-	arg_40_0.name = arg_40_1.name
-	arg_40_0.posID = arg_40_1.pos
-	arg_40_0.furnitureInfoS = arg_40_1.furnitureInfoS
-	arg_40_0.specialFur = arg_40_1.specialFur
+function DormRoomTemplate.Ctor(slot0, slot1)
+	slot0.id = slot1.id
+	slot0.type = slot1.type
+	slot0.name = slot1.name
+	slot0.posID = slot1.pos
+	slot0.furnitureInfoS = slot1.furnitureInfoS
+	slot0.specialFur = slot1.specialFur
 end
 
-function DormRoomTemplate.GetDormTemplateFurList(arg_41_0)
-	if arg_41_0.furnitureInfoS then
-		return arg_41_0.furnitureInfoS
+function DormRoomTemplate.GetDormTemplateFurList(slot0)
+	if slot0.furnitureInfoS then
+		return slot0.furnitureInfoS
 	else
 		print("模板家具列表为空")
 	end
 end
 
-function DormRoomTemplate.GetDormTemplateType(arg_42_0)
-	if arg_42_0.type then
-		return arg_42_0.type
+function DormRoomTemplate.GetDormTemplateType(slot0)
+	if slot0.type then
+		return slot0.type
 	end
 
 	print("模板家具类型为空")
 end
 
-function DormRoomTemplate.GetDormTemplateFurNumInfo(arg_43_0)
-	local var_43_0 = 0
-	local var_43_1 = {}
+function DormRoomTemplate.GetDormTemplateFurNumInfo(slot0)
+	slot1 = 0
+	slot2 = {}
 
-	if arg_43_0.furnitureInfoS then
-		for iter_43_0 = 0, arg_43_0.furnitureInfoS.Length - 1 do
-			var_43_0 = var_43_0 + 1
+	if slot0.furnitureInfoS then
+		for slot6 = 0, slot0.furnitureInfoS.Length - 1 do
+			slot1 = slot1 + 1
 
-			local var_43_2 = arg_43_0.furnitureInfoS[iter_43_0]
-
-			if not var_43_1[var_43_2.id] then
-				var_43_1[var_43_2.id] = 0
+			if not slot2[slot0.furnitureInfoS[slot6].id] then
+				slot2[slot7.id] = 0
 			end
 
-			var_43_1[var_43_2.id] = var_43_1[var_43_2.id] + 1
+			slot2[slot7.id] = slot2[slot7.id] + 1
 		end
 	end
 
-	for iter_43_1, iter_43_2 in pairs(arg_43_0.specialFur) do
-		var_43_1[iter_43_2] = 1
+	for slot6, slot7 in pairs(slot0.specialFur) do
+		slot2[slot7] = 1
 	end
 
-	return var_43_0 + DormConst.DORM_SPECIAL_FURNITURE_NUM, var_43_1
+	return slot1 + DormConst.DORM_SPECIAL_FURNITURE_NUM, slot2
 end
 
-function DormRoomTemplate.ReviseFurTemplateNameInfo(arg_44_0, arg_44_1)
-	arg_44_0.name = arg_44_1
+function DormRoomTemplate.ReviseFurTemplateNameInfo(slot0, slot1)
+	slot0.name = slot1
 end
 
-function DormRoomTemplate.GetTemplateName(arg_45_0)
-	return arg_45_0.name
+function DormRoomTemplate.GetTemplateName(slot0)
+	return slot0.name
 end
 
-function DormRoomTemplate.GetTemplateWallAndFloorInfo(arg_46_0)
-	return arg_46_0.specialFur
+function DormRoomTemplate.GetTemplateWallAndFloorInfo(slot0)
+	return slot0.specialFur
 end
 
-function DormRoomTemplate.Dispose(arg_47_0)
-	arg_47_0.id = nil
-	arg_47_0.type = nil
-	arg_47_0.name = nil
-	arg_47_0.posID = nil
-	arg_47_0.furnitureInfoS = nil
-	arg_47_0.specialFur = nil
-	arg_47_0.hasHit = false
+function DormRoomTemplate.Dispose(slot0)
+	slot0.id = nil
+	slot0.type = nil
+	slot0.name = nil
+	slot0.posID = nil
+	slot0.furnitureInfoS = nil
+	slot0.specialFur = nil
+	slot0.hasHit = false
 end

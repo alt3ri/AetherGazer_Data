@@ -1,113 +1,100 @@
-local var_0_0 = class("MatrixProcessAstrolabeReplaceView", ReduxView)
+slot0 = class("MatrixProcessAstrolabeReplaceView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Process/MatrixProcessAstrolabeReplaceUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.item_ = MatrixProcessRewardItem.New(arg_4_0.m_item)
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.m_list, MatrixProcessAstrolabeRewardItem)
+	slot0.item_ = MatrixProcessRewardItem.New(slot0.m_item)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, MatrixProcessAstrolabeRewardItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_okBtn, nil, function()
-		if arg_5_0.params_.callback then
-			local var_6_0 = arg_5_0.astrolabeList[arg_5_0.selectItemIndex]
-
-			arg_5_0.params_.callback(var_6_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_okBtn, nil, function ()
+		if uv0.params_.callback then
+			uv0.params_.callback(uv0.astrolabeList[uv0.selectItemIndex])
 		end
 
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_cancelBtn, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.m_cancelBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.heroId = arg_8_0.params_.heroId
-	arg_8_0.astrolabeId = arg_8_0.params_.astrolabeId
+function slot0.OnEnter(slot0)
+	slot0.heroId = slot0.params_.heroId
+	slot0.astrolabeId = slot0.params_.astrolabeId
 
-	local var_8_0 = arg_8_0:GetHeroData(arg_8_0.heroId)
-	local var_8_1 = MatrixItemCfg[arg_8_0.astrolabeId].params[1]
-	local var_8_2 = var_8_0:GetAstrolabeList()
-	local var_8_3 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-		local var_8_4 = MatrixItemCfg[iter_8_1].params[1]
-
-		if var_8_4 ~= var_8_1 then
-			var_8_3[var_8_4] = iter_8_1
+	for slot8, slot9 in ipairs(slot0:GetHeroData(slot0.heroId):GetAstrolabeList()) do
+		if MatrixItemCfg[slot9].params[1] ~= MatrixItemCfg[slot0.astrolabeId].params[1] then
+			-- Nothing
 		end
 	end
 
-	arg_8_0.astrolabeList = {}
+	slot0.astrolabeList = {}
 
-	for iter_8_2, iter_8_3 in pairs(var_8_3) do
-		table.insert(arg_8_0.astrolabeList, iter_8_3)
+	for slot8, slot9 in pairs({
+		[slot11] = slot9
+	}) do
+		table.insert(slot0.astrolabeList, slot9)
 	end
 
-	arg_8_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Refresh(arg_11_0)
-	arg_11_0.selectItemIndex = 1
+function slot0.Refresh(slot0)
+	slot0.selectItemIndex = 1
 
-	arg_11_0.item_:Refresh(arg_11_0.astrolabeId)
-	arg_11_0.list_:StartScroll(#arg_11_0.astrolabeList)
+	slot0.item_:Refresh(slot0.astrolabeId)
+	slot0.list_:StartScroll(#slot0.astrolabeList)
 end
 
-function var_0_0.indexItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.astrolabeList[arg_12_1]
-
-	arg_12_2:RegistCallBack(handler(arg_12_0, arg_12_0.OnItemClick))
-	arg_12_2:Refresh(var_12_0, arg_12_1, arg_12_0.astrolabeId)
-	arg_12_2:SetSelected(arg_12_1 == arg_12_0.selectItemIndex)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
+	slot2:Refresh(slot0.astrolabeList[slot1], slot1, slot0.astrolabeId)
+	slot2:SetSelected(slot1 == slot0.selectItemIndex)
 end
 
-function var_0_0.OnItemClick(arg_13_0, arg_13_1)
-	if arg_13_1 == arg_13_0.selectItemIndex then
+function slot0.OnItemClick(slot0, slot1)
+	if slot1 == slot0.selectItemIndex then
 		return
 	end
 
-	arg_13_0.selectItemIndex = arg_13_1
+	slot0.selectItemIndex = slot1
 
-	local var_13_0 = arg_13_0.list_:GetItemList()
-
-	for iter_13_0, iter_13_1 in pairs(var_13_0) do
-		local var_13_1 = iter_13_1:GetIndex()
-
-		iter_13_1:SetSelected(var_13_1 == arg_13_0.selectItemIndex)
+	for slot6, slot7 in pairs(slot0.list_:GetItemList()) do
+		slot7:SetSelected(slot7:GetIndex() == slot0.selectItemIndex)
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.item_:Dispose()
-	arg_14_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0.item_:Dispose()
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetHeroData(arg_15_0, arg_15_1)
-	return MatrixData:GetHeroData(arg_15_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-return var_0_0
+return slot0

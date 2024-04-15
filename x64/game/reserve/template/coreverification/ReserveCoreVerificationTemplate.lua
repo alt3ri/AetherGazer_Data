@@ -1,13 +1,9 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveCoreVerificationTemplate", var_0_0)
+slot1 = class("ReserveCoreVerificationTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.GetLockHero(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = arg_1_1.customData.activityID
-	local var_1_1 = CoreVerificationData:GetLockHeroByInfoID(var_1_0)
-
-	for iter_1_0, iter_1_1 in pairs(var_1_1) do
-		table.insert(arg_1_2.lockHeroList, iter_1_1)
+function slot1.GetLockHero(slot0, slot1, slot2)
+	for slot8, slot9 in pairs(CoreVerificationData:GetLockHeroByInfoID(slot1.customData.activityID)) do
+		table.insert(slot2.lockHeroList, slot9)
 	end
 end
 
-return var_0_1
+return slot1

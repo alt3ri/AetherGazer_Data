@@ -1,39 +1,38 @@
-local var_0_0 = require("game.views.Sticker.ChooseStickersView")
-local var_0_1 = class("SpringPreheatChooseStickersView", var_0_0)
+slot1 = class("SpringPreheatChooseStickersView", require("game.views.Sticker.ChooseStickersView"))
 
-function var_0_1.AddUIListeners(arg_1_0)
-	for iter_1_0, iter_1_1 in ipairs(arg_1_0.sizeTgl_) do
-		arg_1_0:AddBtnListener(iter_1_1, nil, function()
-			arg_1_0.curSize_ = iter_1_0
+function slot1.AddUIListeners(slot0)
+	for slot4, slot5 in ipairs(slot0.sizeTgl_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0.curSize_ = uv1
 
-			arg_1_0:RefreshIcon()
-			arg_1_0:RefreshBtn()
-			arg_1_0:RefreshSize()
+			uv0:RefreshIcon()
+			uv0:RefreshBtn()
+			uv0:RefreshSize()
 
-			if arg_1_0.curID_ == arg_1_0.oldStickerID_ then
-				if arg_1_0.params_.onChangeStickerSize then
-					arg_1_0.params_.onChangeStickerSize(arg_1_0.curIndex_, arg_1_0.curID_, arg_1_0.curSize_)
+			if uv0.curID_ == uv0.oldStickerID_ then
+				if uv0.params_.onChangeStickerSize then
+					uv0.params_.onChangeStickerSize(uv0.curIndex_, uv0.curID_, uv0.curSize_)
 				end
 
-				arg_1_0:Back()
+				uv0:Back()
 			end
 		end)
 	end
 
-	arg_1_0:AddBtnListener(arg_1_0.useBtn_, nil, function()
-		if arg_1_0.curID_ == arg_1_0.oldStickerID_ and arg_1_0.curSize_ == arg_1_0.info_.size then
-			arg_1_0.curID_ = 0
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		if uv0.curID_ == uv0.oldStickerID_ and uv0.curSize_ == uv0.info_.size then
+			uv0.curID_ = 0
 		end
 
-		if arg_1_0.params_.onChangeSticker then
-			arg_1_0.params_.onChangeSticker(arg_1_0.curIndex_, arg_1_0.curID_, arg_1_0.curSize_)
+		if uv0.params_.onChangeSticker then
+			uv0.params_.onChangeSticker(uv0.curIndex_, uv0.curID_, uv0.curSize_)
 		end
 
-		arg_1_0:Back()
+		uv0:Back()
 	end)
-	arg_1_0:AddBtnListener(arg_1_0.bgBtn_, nil, function()
-		arg_1_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_1
+return slot1

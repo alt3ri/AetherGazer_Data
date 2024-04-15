@@ -1,58 +1,55 @@
-local var_0_0 = class("matrixBeaconOperateItem", ReduxView)
+slot0 = class("matrixBeaconOperateItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.stateController_ = ControllerUtil.GetController(arg_2_0.m_stateController, "state")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.m_stateController, "state")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_unlockBtn, nil, function()
-		MatrixAction.QueryUnlockBeacon(arg_3_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_unlockBtn, nil, function ()
+		MatrixAction.QueryUnlockBeacon(uv0.id)
 	end)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1)
-	arg_5_0.id = arg_5_1
-	arg_5_0.transform_.name = arg_5_1
+function slot0.Refresh(slot0, slot1)
+	slot0.id = slot1
+	slot0.transform_.name = slot1
 
-	arg_5_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_6_0)
-	local var_6_0 = MatrixBeaconCfg[arg_6_0.id]
+function slot0.UpdateView(slot0)
+	slot1 = MatrixBeaconCfg[slot0.id]
+	slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. slot1.icon)
+	slot0.m_name.text = GetI18NText(slot1.name)
+	slot0.m_des.text = GetI18NText(slot1.desc)
 
-	arg_6_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. var_6_0.icon)
-	arg_6_0.m_name.text = GetI18NText(var_6_0.name)
-	arg_6_0.m_des.text = GetI18NText(var_6_0.desc)
+	if MatrixData:GetBeaconIsLock(slot0.id) then
+		slot3, slot4, slot5 = MatrixTools.GetBeaconIsUnlockCondition(slot0.id)
 
-	if MatrixData:GetBeaconIsLock(arg_6_0.id) then
-		local var_6_1, var_6_2, var_6_3 = MatrixTools.GetBeaconIsUnlockCondition(arg_6_0.id)
+		if not slot3 then
+			slot0.stateController_:SetSelectedIndex(0)
 
-		if not var_6_1 then
-			arg_6_0.stateController_:SetSelectedIndex(0)
-
-			local var_6_4 = var_6_0.new_condition
-
-			var_6_2 = var_6_2 or 0
-			var_6_3 = var_6_3 or 0
-			arg_6_0.m_processText.text = var_6_2 .. "/" .. var_6_3
-			arg_6_0.m_processImg.fillAmount = var_6_3 == 0 and 0 or var_6_2 / var_6_3
-			arg_6_0.m_lockTip.text = GetI18NText(ConditionCfg[var_6_4].desc)
+			slot4 = slot4 or 0
+			slot5 = slot5 or 0
+			slot0.m_processText.text = slot4 .. "/" .. slot5
+			slot0.m_processImg.fillAmount = slot5 == 0 and 0 or slot4 / slot5
+			slot0.m_lockTip.text = GetI18NText(ConditionCfg[slot1.new_condition].desc)
 		else
-			arg_6_0.stateController_:SetSelectedIndex(2)
+			slot0.stateController_:SetSelectedIndex(2)
 		end
 	else
-		arg_6_0.stateController_:SetSelectedIndex(1)
+		slot0.stateController_:SetSelectedIndex(1)
 	end
 end
 
-return var_0_0
+return slot0

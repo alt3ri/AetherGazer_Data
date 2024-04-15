@@ -1,72 +1,70 @@
-local var_0_0 = class("CultivateAccumulateRewardView", ReduxView)
+slot0 = class("CultivateAccumulateRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return CultivateHeroTools.GetRewardUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return CultivateHeroTools.GetRewardUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, CultivateAccumulateRewardItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, CultivateAccumulateRewardItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.scoreText_.text = ItemTools.getItemNum(ActivityCultivateHeroCfg[arg_8_0.activityID_].coin_id)
-	arg_8_0.icon_.sprite = ItemTools.getItemSprite(ActivityCultivateHeroCfg[arg_8_0.activityID_].coin_id)
+function slot0.RefreshUI(slot0)
+	slot0.scoreText_.text = ItemTools.getItemNum(ActivityCultivateHeroCfg[slot0.activityID_].coin_id)
+	slot0.icon_.sprite = ItemTools.getItemSprite(ActivityCultivateHeroCfg[slot0.activityID_].coin_id)
 
-	arg_8_0:RefreshScroll()
+	slot0:RefreshScroll()
 end
 
-function var_0_0.RefreshScroll(arg_9_0)
-	arg_9_0.scrollHelper_:StartScroll(arg_9_0:GetAwardListLength())
+function slot0.RefreshScroll(slot0)
+	slot0.scrollHelper_:StartScroll(slot0:GetAwardListLength())
 end
 
-function var_0_0.GetAwardListLength(arg_10_0)
-	arg_10_0.taskIDList_ = ActivityPointRewardCfg.get_id_list_by_activity_id[arg_10_0.activityID_]
-	arg_10_0.maxRewardNum_ = 0
+function slot0.GetAwardListLength(slot0)
+	slot0.taskIDList_ = ActivityPointRewardCfg.get_id_list_by_activity_id[slot0.activityID_]
+	slot0.maxRewardNum_ = 0
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.taskIDList_) do
-		local var_10_0 = #ActivityPointRewardCfg[iter_10_1].reward_item_list
-
-		arg_10_0.maxRewardNum_ = var_10_0 > arg_10_0.maxRewardNum_ and var_10_0 or arg_10_0.maxRewardNum_
+	for slot4, slot5 in ipairs(slot0.taskIDList_) do
+		slot0.maxRewardNum_ = slot0.maxRewardNum_ < #ActivityPointRewardCfg[slot5].reward_item_list and slot6 or slot0.maxRewardNum_
 	end
 
-	return #arg_10_0.taskIDList_
+	return #slot0.taskIDList_
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:SetData(arg_11_1, arg_11_0.taskIDList_[arg_11_1], arg_11_0.activityID_, arg_11_0.maxRewardNum_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.taskIDList_[slot1], slot0.activityID_, slot0.maxRewardNum_)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.scrollHelper_ then
-		arg_12_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_12_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

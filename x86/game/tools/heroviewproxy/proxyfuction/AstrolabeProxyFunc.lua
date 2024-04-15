@@ -1,287 +1,266 @@
 return {
-	GetHeroAstrolabeS = function(arg_1_0, arg_1_1)
-		if HeroTools.IsSpHero(arg_1_1) then
-			return arg_1_0:GetSpHeroAstrolabeS(arg_1_1)
+	GetHeroAstrolabeS = function (slot0, slot1)
+		if HeroTools.IsSpHero(slot1) then
+			return slot0:GetSpHeroAstrolabeS(slot1)
 		end
 
-		local var_1_0 = arg_1_0:GetHeroData(arg_1_1)
-		local var_1_1 = {}
+		slot3 = {}
 
-		for iter_1_0, iter_1_1 in ipairs(HeroCfg[var_1_0.id].astrolabe) do
-			local var_1_2 = {
-				suitId = iter_1_1,
+		for slot7, slot8 in ipairs(HeroCfg[slot0:GetHeroData(slot1).id].astrolabe) do
+			slot9 = {
+				suitId = slot8,
 				astrolabe = {}
 			}
 
-			for iter_1_2, iter_1_3 in ipairs(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[iter_1_1]) do
-				local var_1_3 = false
-				local var_1_4 = false
+			for slot13, slot14 in ipairs(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot8]) do
+				slot15 = false
+				slot16 = false
 
-				if HeroTools.IsSpHero(var_1_0.id) then
-					var_1_3 = AstrolabeTools.GetIsUnlock(var_1_0.unlocked_astrolabe, iter_1_3)
-
-					local var_1_5 = false
+				if HeroTools.IsSpHero(slot2.id) then
+					slot15 = AstrolabeTools.GetIsUnlock(slot2.unlocked_astrolabe, slot14)
+					slot16 = false
 				else
-					var_1_3 = AstrolabeTools.GetIsUnlock(var_1_0.unlocked_astrolabe, iter_1_3)
-
-					local var_1_6
-
-					var_1_6 = AstrolabeTools.GetIsCanUnlock(iter_1_3, var_1_0.id) and var_1_0.unlock == 1
+					slot15 = AstrolabeTools.GetIsUnlock(slot2.unlocked_astrolabe, slot14)
+					slot16 = AstrolabeTools.GetIsCanUnlock(slot14, slot2.id) and slot2.unlock == 1
 				end
 
-				local var_1_7 = {
-					id = iter_1_3,
-					heroId = var_1_0.id,
-					isUnlock = var_1_3,
-					isEquiped = AstrolabeTools.GetIsEquiped(var_1_0.using_astrolabe, iter_1_3),
-					isCanLock = AstrolabeTools.GetIsCanUnlock(iter_1_3, var_1_0.id) and var_1_0.unlock == 1,
-					posX = iter_1_0,
-					posY = iter_1_2
-				}
-
-				if arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
-					var_1_7.isUnlock = true
-					var_1_7.isEquiped = false
-					var_1_7.isCanLock = false
-				elseif arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-					var_1_7.isCanLock = false
+				if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+					-- Nothing
+				elseif slot0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
+					slot17.isCanLock = false
 				end
 
-				table.insert(var_1_2.astrolabe, var_1_7)
+				table.insert(slot9.astrolabe, {
+					id = slot14,
+					heroId = slot2.id,
+					isUnlock = slot15,
+					isEquiped = AstrolabeTools.GetIsEquiped(slot2.using_astrolabe, slot14),
+					isCanLock = AstrolabeTools.GetIsCanUnlock(slot14, slot2.id) and slot2.unlock == 1,
+					posX = slot7,
+					posY = slot13,
+					isUnlock = true,
+					isEquiped = false,
+					isCanLock = false
+				})
 			end
 
-			table.insert(var_1_1, var_1_2)
+			table.insert(slot3, slot9)
 		end
 
-		return var_1_1
+		return slot3
 	end,
-	GetSpHeroAstrolabeS = function(arg_2_0, arg_2_1)
-		local var_2_0 = arg_2_0:GetHeroData(arg_2_1)
-		local var_2_1 = {}
-		local var_2_2 = HeroCfg[var_2_0.id].astrolabe[1]
-		local var_2_3 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[var_2_2] or {}
-		local var_2_4 = {}
+	GetSpHeroAstrolabeS = function (slot0, slot1)
+		slot3 = {}
+		slot6 = {}
 
-		for iter_2_0, iter_2_1 in ipairs(var_2_3) do
-			if HeroAstrolabeCfg[iter_2_1].pos == 1 then
-				table.insert(var_2_4, iter_2_1)
+		for slot10, slot11 in ipairs(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[HeroCfg[slot0:GetHeroData(slot1).id].astrolabe[1]] or {}) do
+			if HeroAstrolabeCfg[slot11].pos == 1 then
+				table.insert(slot6, slot11)
 			end
 		end
 
-		for iter_2_2, iter_2_3 in ipairs(var_2_4) do
-			local var_2_5 = {
-				suitId = var_2_2,
+		for slot10, slot11 in ipairs(slot6) do
+			slot12 = {
+				suitId = slot4,
 				astrolabe = {}
 			}
-			local var_2_6 = {}
-			local var_2_7 = 1
 
-			table.insert(var_2_6, iter_2_3)
+			table.insert({}, slot11)
 
-			for iter_2_4, iter_2_5 in ipairs(var_2_3) do
-				if iter_2_3 == HeroAstrolabeCfg[iter_2_5].pre_astrolabe_id then
-					table.insert(var_2_6, iter_2_5)
+			for slot18, slot19 in ipairs(slot5) do
+				if slot11 == HeroAstrolabeCfg[slot19].pre_astrolabe_id then
+					table.insert(slot13, slot19)
 
-					var_2_7 = var_2_7 + 1
+					slot14 = 1 + 1
 				end
 			end
 
-			for iter_2_6, iter_2_7 in ipairs(var_2_6) do
-				local var_2_8 = HeroAstrolabeCfg[iter_2_7]
-				local var_2_9 = false
-				local var_2_10 = false
+			for slot18, slot19 in ipairs(slot13) do
+				slot20 = HeroAstrolabeCfg[slot19]
+				slot21 = false
+				slot22 = false
 
-				if HeroTools.IsSpHero(var_2_0.id) then
-					var_2_9 = AstrolabeTools.GetIsUnlock(var_2_0.unlocked_astrolabe, iter_2_7)
-
-					local var_2_11 = false
+				if HeroTools.IsSpHero(slot2.id) then
+					slot21 = AstrolabeTools.GetIsUnlock(slot2.unlocked_astrolabe, slot19)
+					slot22 = false
 				end
 
-				local var_2_12 = {
-					id = iter_2_7,
-					heroId = var_2_0.id,
-					isUnlock = var_2_9,
-					isEquiped = AstrolabeTools.GetIsEquiped(var_2_0.using_astrolabe, iter_2_7),
-					isCanLock = AstrolabeTools.GetIsCanUnlock(iter_2_7, var_2_0.id) and var_2_0.unlock == 1,
-					posX = iter_2_2,
-					posY = iter_2_6
-				}
-
-				if arg_2_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
-					var_2_12.isUnlock = true
-					var_2_12.isEquiped = false
-					var_2_12.isCanLock = false
-				elseif arg_2_0.viewDataType == HeroConst.HERO_DATA_TYPE.ISPOLYHEDRON then
-					var_2_12.isUnlock = true
-					var_2_12.isCanLock = true
+				if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+					-- Nothing
+				elseif slot0.viewDataType == HeroConst.HERO_DATA_TYPE.ISPOLYHEDRON then
+					slot23.isUnlock = true
+					slot23.isCanLock = true
 				end
 
-				table.insert(var_2_5.astrolabe, var_2_12)
+				table.insert(slot12.astrolabe, {
+					id = slot19,
+					heroId = slot2.id,
+					isUnlock = slot21,
+					isEquiped = AstrolabeTools.GetIsEquiped(slot2.using_astrolabe, slot19),
+					isCanLock = AstrolabeTools.GetIsCanUnlock(slot19, slot2.id) and slot2.unlock == 1,
+					posX = slot10,
+					posY = slot18,
+					isUnlock = true,
+					isEquiped = false,
+					isCanLock = false
+				})
 			end
 
-			table.insert(var_2_1, var_2_5)
+			table.insert(slot3, slot12)
 		end
 
-		return var_2_1
+		return slot3
 	end,
-	GetAcitveEffect = function(arg_3_0, arg_3_1)
-		if arg_3_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+	GetAcitveEffect = function (slot0, slot1)
+		if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
 			return {}
 		end
 
-		local var_3_0 = {}
+		slot2 = {}
 
-		for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-			if iter_3_1 ~= 0 then
-				local var_3_1 = HeroAstrolabeCfg[iter_3_1].hero_astrolabe_suit_id
-
-				if var_3_0[var_3_1] == nil then
-					var_3_0[var_3_1] = {
+		for slot6, slot7 in ipairs(slot1) do
+			if slot7 ~= 0 then
+				if slot2[HeroAstrolabeCfg[slot7].hero_astrolabe_suit_id] == nil then
+					slot2[slot9] = {
 						num = 1,
-						id = var_3_1
+						id = slot9
 					}
 				else
-					var_3_0[var_3_1].num = var_3_0[var_3_1].num + 1
+					slot2[slot9].num = slot2[slot9].num + 1
 				end
 			end
 		end
 
-		local var_3_2 = {}
+		slot3 = {}
 
-		for iter_3_2, iter_3_3 in pairs(var_3_0) do
-			table.insert(var_3_2, iter_3_3)
+		for slot7, slot8 in pairs(slot2) do
+			table.insert(slot3, slot8)
 		end
 
-		return var_3_2
+		return slot3
 	end,
-	GetUsingAstrolabe = function(arg_4_0, arg_4_1)
-		local var_4_0 = arg_4_0:GetHeroData(arg_4_1)
+	GetUsingAstrolabe = function (slot0, slot1)
+		slot2 = slot0:GetHeroData(slot1)
 
-		if arg_4_0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
+		if slot0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
 			return {}
 		else
-			return var_4_0.using_astrolabe
+			return slot2.using_astrolabe
 		end
 	end,
-	GetAstrolabeDesc = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = AstrolabeEffectCfg[arg_5_1]
-
-		if not var_5_0 then
-			print("id:" .. arg_5_1 .. "没有配置")
+	GetAstrolabeDesc = function (slot0, slot1, slot2)
+		if not AstrolabeEffectCfg[slot1] then
+			print("id:" .. slot1 .. "没有配置")
 		end
 
-		if var_5_0 and var_5_0.desc and type(var_5_0.desc) == "table" then
-			local var_5_1 = var_5_0.desc[1]
-			local var_5_2 = arg_5_0:GetServantId(arg_5_2)
-			local var_5_3 = arg_5_0:GetModuleEffectList(arg_5_2)
-			local var_5_4 = false
+		if slot3 and slot3.desc and type(slot3.desc) == "table" then
+			slot4 = slot3.desc[1]
+			slot5 = slot0:GetServantId(slot2)
+			slot6 = slot0:GetModuleEffectList(slot2)
+			slot7 = false
 
-			if var_5_0.equip_orange_desc and type(var_5_0.equip_orange_desc) == "table" then
-				for iter_5_0, iter_5_1 in ipairs(var_5_0.equip_orange_desc) do
-					if iter_5_1[1] > 0 and iter_5_1[3] > 0 and iter_5_1[1] == var_5_2 and table.indexof(var_5_3, iter_5_1[3]) then
-						var_5_1 = iter_5_1[2]
-						var_5_4 = true
+			if slot3.equip_orange_desc and type(slot3.equip_orange_desc) == "table" then
+				for slot11, slot12 in ipairs(slot3.equip_orange_desc) do
+					if slot12[1] > 0 and slot12[3] > 0 and slot12[1] == slot5 and table.indexof(slot6, slot12[3]) then
+						slot4 = slot12[2]
+						slot7 = true
 					end
 				end
 
-				if not var_5_4 then
-					for iter_5_2, iter_5_3 in ipairs(var_5_0.equip_orange_desc) do
-						if iter_5_3[1] > 0 and iter_5_3[3] == 0 and iter_5_3[1] == var_5_2 then
-							var_5_1 = iter_5_3[2]
-							var_5_4 = true
+				if not slot7 then
+					for slot11, slot12 in ipairs(slot3.equip_orange_desc) do
+						if slot12[1] > 0 and slot12[3] == 0 and slot12[1] == slot5 then
+							slot4 = slot12[2]
+							slot7 = true
 						end
 					end
 
-					if not var_5_4 then
-						for iter_5_4, iter_5_5 in ipairs(var_5_0.equip_orange_desc) do
-							if iter_5_5[1] == 0 and iter_5_5[3] > 0 and table.indexof(var_5_3, iter_5_5[3]) then
-								var_5_1 = iter_5_5[2]
-
-								local var_5_5 = true
+					if not slot7 then
+						for slot11, slot12 in ipairs(slot3.equip_orange_desc) do
+							if slot12[1] == 0 and slot12[3] > 0 and table.indexof(slot6, slot12[3]) then
+								slot4 = slot12[2]
+								slot7 = true
 							end
 						end
 					end
 				end
 			end
 
-			return GetCfgDescription(var_5_1, 1)
+			return GetCfgDescription(slot4, 1)
 		end
 
 		return ""
 	end,
-	GetServantId = function(arg_6_0, arg_6_1)
-		local var_6_0 = 0
-		local var_6_1 = arg_6_0:GetHeroServantInfo(arg_6_1)
+	GetServantId = function (slot0, slot1)
+		slot2 = 0
 
-		if var_6_1 then
-			var_6_0 = var_6_1.id
+		if slot0:GetHeroServantInfo(slot1) then
+			slot2 = slot3.id
 		end
 
-		return var_6_0
+		return slot2
 	end,
-	GetModuleEffectList = function(arg_7_0, arg_7_1)
-		local var_7_0 = arg_7_0:GetHeroData(arg_7_1)
-		local var_7_1 = {}
+	GetModuleEffectList = function (slot0, slot1)
+		slot2 = slot0:GetHeroData(slot1)
+		slot3 = {}
 
-		return (HeroTools:GetModulePowersByHeroIDAndLevel(var_7_0.id, var_7_0.moduleLevel))
+		return HeroTools:GetModulePowersByHeroIDAndLevel(slot2.id, slot2.moduleLevel)
 	end,
-	GetAstrolabeAction = function(arg_8_0, arg_8_1)
-		local var_8_0 = AstrolabeAction
+	GetAstrolabeAction = function (slot0, slot1)
+		slot2 = AstrolabeAction
 
-		if arg_8_0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-			var_8_0 = PolyhedronAction
+		if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
+			slot2 = PolyhedronAction
 		end
 
-		return var_8_0
+		return slot2
 	end,
-	AstrolabeUnlock = function(arg_9_0, arg_9_1, arg_9_2)
-		AstrolabeAction.AstrolabeUnlock(arg_9_1, arg_9_2)
+	AstrolabeUnlock = function (slot0, slot1, slot2)
+		AstrolabeAction.AstrolabeUnlock(slot1, slot2)
 	end,
-	AstrolabeEquip = function(arg_10_0, arg_10_1, arg_10_2)
-		arg_10_0:GetAstrolabeAction().AstrolabeEquip(arg_10_1, arg_10_2)
+	AstrolabeEquip = function (slot0, slot1, slot2)
+		slot0:GetAstrolabeAction().AstrolabeEquip(slot1, slot2)
 	end,
-	AstrolabeUnload = function(arg_11_0, arg_11_1, arg_11_2)
-		arg_11_0:GetAstrolabeAction().AstrolabeUnload(arg_11_1, arg_11_2)
+	AstrolabeUnload = function (slot0, slot1, slot2)
+		slot0:GetAstrolabeAction().AstrolabeUnload(slot1, slot2)
 	end,
-	AstrolabeEquipAll = function(arg_12_0, arg_12_1, arg_12_2)
-		arg_12_0:GetAstrolabeAction().AstrolabeEquipAll(arg_12_1, arg_12_2)
+	AstrolabeEquipAll = function (slot0, slot1, slot2)
+		slot0:GetAstrolabeAction().AstrolabeEquipAll(slot1, slot2)
 	end,
-	AstrolabeUnlock = function(arg_13_0, arg_13_1, arg_13_2)
-		AstrolabeAction.AstrolabeUnlock(arg_13_1, arg_13_2)
+	AstrolabeUnlock = function (slot0, slot1, slot2)
+		AstrolabeAction.AstrolabeUnlock(slot1, slot2)
 	end,
-	AstrolabeUnloadAll = function(arg_14_0, arg_14_1)
-		arg_14_0:GetAstrolabeAction().AstrolabeUnloadAll(arg_14_1)
+	AstrolabeUnloadAll = function (slot0, slot1)
+		slot0:GetAstrolabeAction().AstrolabeUnloadAll(slot1)
 	end,
-	GetNextIsEquiped = function(arg_15_0, arg_15_1, arg_15_2)
-		local var_15_0 = HeroAstrolabeCfg[arg_15_1]
-		local var_15_1 = HeroAstrolabeCfg.get_id_list_by_pre_astrolabe_id[arg_15_1] or {}
+	GetNextIsEquiped = function (slot0, slot1, slot2)
+		slot4 = HeroAstrolabeCfg.get_id_list_by_pre_astrolabe_id[slot1] or {}
 
-		if var_15_0.pos == 3 then
+		if HeroAstrolabeCfg[slot1].pos == 3 then
 			return false
 		end
 
-		local var_15_2 = arg_15_0:GetHeroData(arg_15_2)
+		slot5 = slot0:GetHeroData(slot2)
 
-		for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-			if not HeroAstrolabeCfg[iter_15_1] then
+		for slot9, slot10 in ipairs(slot4) do
+			if not HeroAstrolabeCfg[slot10] then
 				return false
 			else
-				return AstrolabeTools.GetIsEquiped(var_15_2.using_astrolabe, iter_15_1)
+				return AstrolabeTools.GetIsEquiped(slot5.using_astrolabe, slot10)
 			end
 		end
 
 		return false
 	end,
-	GetLastIsEquiped = function(arg_16_0, arg_16_1, arg_16_2)
-		local var_16_0 = HeroAstrolabeCfg[arg_16_1].pre_astrolabe_id
-		local var_16_1 = arg_16_0:GetHeroData(arg_16_2)
+	GetLastIsEquiped = function (slot0, slot1, slot2)
+		slot5 = slot0:GetHeroData(slot2)
 
-		if var_16_0 == 0 then
+		if HeroAstrolabeCfg[slot1].pre_astrolabe_id == 0 then
 			return true
 		end
 
-		if HeroAstrolabeCfg[var_16_0] then
-			return AstrolabeTools.GetIsEquiped(var_16_1.using_astrolabe, var_16_0)
+		if HeroAstrolabeCfg[slot4] then
+			return AstrolabeTools.GetIsEquiped(slot5.using_astrolabe, slot4)
 		end
 
 		return false

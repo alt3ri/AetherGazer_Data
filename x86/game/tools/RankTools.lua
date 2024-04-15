@@ -1,41 +1,35 @@
 return {
-	GetRankHeroList = function(arg_1_0, arg_1_1)
-		local var_1_0 = {}
-		local var_1_1 = {}
-		local var_1_2
+	GetRankHeroList = function (slot0, slot1)
+		slot2 = {}
+		slot3 = {}
+		slot4 = nil
 
-		if arg_1_1 then
-			var_1_2 = ActivityCfg[arg_1_1].activity_template
+		if slot1 then
+			slot4 = ActivityCfg[slot1].activity_template
 		end
 
-		if var_1_2 == ActivityTemplateConst.DESTROY_BOX_GAME_RANK then
-			local var_1_3 = ActivityCfg.get_id_list_by_sub_activity_list[arg_1_1][1]
-			local var_1_4 = DestroyBoxGameCfg.get_id_list_by_activity_id[var_1_3][1]
-			local var_1_5 = clone(DestroyBoxGameCfg[var_1_4].trial_hero)
+		if slot4 == ActivityTemplateConst.DESTROY_BOX_GAME_RANK then
+			slot7 = clone(DestroyBoxGameCfg[DestroyBoxGameCfg.get_id_list_by_activity_id[ActivityCfg.get_id_list_by_sub_activity_list[slot1][1]][1]].trial_hero)
 
-			table.sort(var_1_5, function(arg_2_0, arg_2_1)
-				local var_2_0 = RankData:GetActivityRank(arg_1_1, arg_2_0)
-				local var_2_1 = var_2_0 and var_2_0.curRank
-				local var_2_2 = var_2_1 and var_2_1.score or 0
-				local var_2_3 = RankData:GetActivityRank(arg_1_1, arg_2_1)
-				local var_2_4 = var_2_3 and var_2_3.curRank
-				local var_2_5 = var_2_4 and var_2_4.score or 0
+			table.sort(slot7, function (slot0, slot1)
+				slot3 = RankData:GetActivityRank(uv0, slot0) and slot2.curRank
+				slot6 = RankData:GetActivityRank(uv0, slot1) and slot5.curRank
 
-				if var_2_2 ~= var_2_5 then
-					print("xxxxxx", arg_2_0, arg_2_1)
+				if (slot3 and slot3.score or 0) ~= (slot6 and slot6.score or 0) then
+					print("xxxxxx", slot0, slot1)
 
-					return var_2_5 < var_2_2
+					return slot7 < slot4
 				else
-					return arg_2_0 < arg_2_1
+					return slot0 < slot1
 				end
 			end)
 
-			for iter_1_0, iter_1_1 in ipairs(var_1_5) do
-				table.insert(var_1_0, HeroStandardSystemCfg[iter_1_1].hero_id)
-				table.insert(var_1_1, iter_1_1)
+			for slot11, slot12 in ipairs(slot7) do
+				table.insert(slot2, HeroStandardSystemCfg[slot12].hero_id)
+				table.insert(slot3, slot12)
 			end
 		end
 
-		return var_1_0, var_1_1
+		return slot2, slot3
 	end
 }

@@ -1,41 +1,38 @@
-local var_0_0 = class("DanceGameTaskRunner", DormTaskRunner)
+slot0 = class("DanceGameTaskRunner", DormTaskRunner)
 
-function var_0_0.Ctor(arg_1_0)
-	var_0_0.super.Ctor(arg_1_0)
+function slot0.Ctor(slot0)
+	uv0.super.Ctor(slot0)
 
-	arg_1_0.offset = 0
+	slot0.offset = 0
 end
 
-function var_0_0.SetPlayback(arg_2_0, arg_2_1)
-	arg_2_0.playSrc = arg_2_1
-	arg_2_0.offset = 0
+function slot0.SetPlayback(slot0, slot1)
+	slot0.playSrc = slot1
+	slot0.offset = 0
 end
 
-function var_0_0.Time(arg_3_0)
-	if arg_3_0.playSrc == nil then
+function slot0.Time(slot0)
+	if slot0.playSrc == nil then
 		return 0
 	end
 
-	local var_3_0
-	local var_3_1
-	local var_3_2, var_3_3 = int64.tonum2(arg_3_0.playSrc:GetTimeSyncedWithAudio())
-	local var_3_4 = var_3_3
-	local var_3_5 = var_3_2 + arg_3_0.offset
+	slot1, slot2 = nil
+	slot3, slot2 = int64.tonum2(slot0.playSrc:GetTimeSyncedWithAudio())
 
-	if arg_3_0.lastUpdate and var_3_5 < arg_3_0.lastUpdate then
-		local var_3_6, var_3_7 = int64.tonum2(arg_3_0.playSrc:GetTime())
-
-		arg_3_0.offset, var_3_5 = var_3_6 - var_3_5, var_3_6
+	if slot0.lastUpdate and slot3 + slot0.offset < slot0.lastUpdate then
+		slot3, slot4 = int64.tonum2(slot0.playSrc:GetTime())
+		slot1 = slot3
+		slot0.offset = slot3 - slot1
 	end
 
-	return var_3_5 / 1000
+	return slot1 / 1000
 end
 
-function var_0_0.Reset(arg_4_0)
-	arg_4_0.playSrc = nil
-	arg_4_0.offset = 0
+function slot0.Reset(slot0)
+	slot0.playSrc = nil
+	slot0.offset = 0
 
-	var_0_0.super.Reset(arg_4_0)
+	uv0.super.Reset(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,85 +1,84 @@
-local var_0_0 = class("ActivityReforgeChapterView", ReduxView)
+slot0 = class("ActivityReforgeChapterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_ActivityReforge/NorseUI_3_0_ActivityReforgeChapterUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0.gameHelpKey_ = "ACTIVITY_REFORGE_GAMEHELPKEY"
+function slot0.InitUI(slot0)
+	slot0.gameHelpKey_ = "ACTIVITY_REFORGE_GAMEHELPKEY"
 
-	arg_4_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_4_0.curSelectIndex_ = 1
-	arg_4_0.btnControllerList_ = {}
+	slot0.curSelectIndex_ = 1
+	slot0.btnControllerList_ = {}
 
-	for iter_4_0 = 1, 4 do
-		arg_4_0.btnControllerList_[iter_4_0] = arg_4_0["chapterListContEx" .. iter_4_0 .. "_"]:GetController("status")
+	for slot4 = 1, 4 do
+		slot0.btnControllerList_[slot4] = slot0["chapterListContEx" .. slot4 .. "_"]:GetController("status")
 	end
 
-	arg_4_0.bossChartController_ = arg_4_0.controllerEx_:GetController("bosschart")
+	slot0.bossChartController_ = slot0.controllerEx_:GetController("bosschart")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.goldInfoBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.goldInfoBtn_, nil, function ()
 		JumpTools.OpenPageByJump("activityReforgeGoldInfoView")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.taskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/activityReforgeTaskView", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.skillBtn_, nil, function()
+	slot0:AddBtnListener(slot0.skillBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/activityReforgeSkillView", {
 			viewType = 1,
-			activityID = arg_5_0.activityID_,
-			chapterActivityID = arg_5_0.chapterActivityID_,
-			levelID = arg_5_0.levelID_
-		})
-	end)
-	arg_5_0:AddBtnListener(arg_5_0.levelBtn_, nil, function()
-		JumpTools.OpenPageByJump("/activityReforgeLevelView", {
-			activityID = arg_5_0.activityID_,
-			chapterActivityID = arg_5_0.chapterIDList_[arg_5_0.curSelectIndex_]
+			activityID = uv0.activityID_,
+			chapterActivityID = uv0.chapterActivityID_,
+			levelID = uv0.levelID_
 		})
 	end)
 
-	for iter_5_0 = 1, 4 do
-		arg_5_0:AddBtnListener(arg_5_0["chapterBtn" .. iter_5_0 .. "_"], nil, function()
-			if iter_5_0 ~= arg_5_0.curSelectIndex_ then
+	slot4 = nil
+
+	slot0:AddBtnListener(slot0.levelBtn_, slot4, function ()
+		JumpTools.OpenPageByJump("/activityReforgeLevelView", {
+			activityID = uv0.activityID_,
+			chapterActivityID = uv0.chapterIDList_[uv0.curSelectIndex_]
+		})
+	end)
+
+	for slot4 = 1, 4 do
+		slot0:AddBtnListener(slot0["chapterBtn" .. slot4 .. "_"], nil, function ()
+			if uv0 ~= uv1.curSelectIndex_ then
 				return
 			end
 
 			JumpTools.OpenPageByJump("/activityReforgeLevelView", {
-				activityID = arg_5_0.activityID_,
-				chapterActivityID = arg_5_0.chapterIDList_[iter_5_0]
+				activityID = uv1.activityID_,
+				chapterActivityID = uv1.chapterIDList_[uv0]
 			})
 		end)
-		arg_5_0:AddBtnListener(arg_5_0["chapterListBtn" .. iter_5_0 .. "_"], nil, function()
-			if iter_5_0 == arg_5_0.curSelectIndex_ then
+		slot0:AddBtnListener(slot0["chapterListBtn" .. slot4 .. "_"], nil, function ()
+			if uv0 == uv1.curSelectIndex_ then
 				return
 			end
 
-			local var_11_0 = arg_5_0.chapterIDList_[iter_5_0]
+			if ActivityData:GetActivityIsOpen(uv1.chapterIDList_[uv0]) then
+				if ActivityReforgeData:GetChapterIsUnlock(slot0) then
+					manager.redPoint:setTip(RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. slot0, 0)
 
-			if ActivityData:GetActivityIsOpen(var_11_0) then
-				if ActivityReforgeData:GetChapterIsUnlock(var_11_0) then
-					local var_11_1 = RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. var_11_0
+					uv1.curSelectIndex_ = uv0
 
-					manager.redPoint:setTip(var_11_1, 0)
-
-					arg_5_0.curSelectIndex_ = iter_5_0
-
-					arg_5_0:RefreshUI()
-					arg_5_0.bossAni_:Play("boss02_refresh")
+					uv1:RefreshUI()
+					uv1.bossAni_:Play("boss02_refresh")
 				else
 					ShowTips("ACTIVITY_REFORGE_CHPATER_LOCK")
 				end
@@ -90,162 +89,146 @@ function var_0_0.AddUIListeners(arg_5_0)
 	end
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.activityID_ = arg_12_0.params_.ActivityID
-	arg_12_0.chapterIDList_ = ActivityCfg[arg_12_0.activityID_].sub_activity_list
-	arg_12_0.goldMaxNum_.text = ActivityReforgeData:GetGoldMaxNum(arg_12_0.activityID_)
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.ActivityID
+	slot0.chapterIDList_ = ActivityCfg[slot0.activityID_].sub_activity_list
+	slot0.goldMaxNum_.text = ActivityReforgeData:GetGoldMaxNum(slot0.activityID_)
 
-	arg_12_0:CreateTimer()
-	arg_12_0:RefreshUI()
-	arg_12_0:BindRedPoint()
-	arg_12_0:CheckCacheAddGoldNum()
+	slot0:CreateTimer()
+	slot0:RefreshUI()
+	slot0:BindRedPoint()
+	slot0:CheckCacheAddGoldNum()
 end
 
-function var_0_0.BindRedPoint(arg_13_0)
-	local var_13_0 = RedPointConst.ACTIVITY_REFORGE_SKILL .. arg_13_0.activityID_
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.skillBtn_.transform, RedPointConst.ACTIVITY_REFORGE_SKILL .. slot0.activityID_)
 
-	manager.redPoint:bindUIandKey(arg_13_0.skillBtn_.transform, var_13_0)
+	slot6 = RedPointConst.ACTIVITY_REFORGE_TASK .. slot0.activityID_
 
-	local var_13_1 = RedPointConst.ACTIVITY_REFORGE_TASK .. arg_13_0.activityID_
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, slot6)
 
-	manager.redPoint:bindUIandKey(arg_13_0.taskBtn_.transform, var_13_1)
-
-	for iter_13_0 = 1, 4 do
-		local var_13_2 = arg_13_0.chapterIDList_[iter_13_0]
-		local var_13_3 = RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. var_13_2
-
-		manager.redPoint:bindUIandKey(arg_13_0["chapterListBtn" .. iter_13_0 .. "_"].transform, var_13_3)
+	for slot6 = 1, 4 do
+		manager.redPoint:bindUIandKey(slot0["chapterListBtn" .. slot6 .. "_"].transform, RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. slot0.chapterIDList_[slot6])
 	end
 end
 
-function var_0_0.UnBindRedPoint(arg_14_0)
-	local var_14_0 = RedPointConst.ACTIVITY_REFORGE_SKILL .. arg_14_0.activityID_
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.skillBtn_.transform, RedPointConst.ACTIVITY_REFORGE_SKILL .. slot0.activityID_)
 
-	manager.redPoint:unbindUIandKey(arg_14_0.skillBtn_.transform, var_14_0)
+	slot6 = RedPointConst.ACTIVITY_REFORGE_TASK .. slot0.activityID_
 
-	local var_14_1 = RedPointConst.ACTIVITY_REFORGE_TASK .. arg_14_0.activityID_
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, slot6)
 
-	manager.redPoint:unbindUIandKey(arg_14_0.taskBtn_.transform, var_14_1)
-
-	for iter_14_0 = 1, 4 do
-		local var_14_2 = arg_14_0.chapterIDList_[iter_14_0]
-		local var_14_3 = RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. var_14_2
-
-		manager.redPoint:unbindUIandKey(arg_14_0["chapterListBtn" .. iter_14_0 .. "_"].transform, var_14_3)
+	for slot6 = 1, 4 do
+		manager.redPoint:unbindUIandKey(slot0["chapterListBtn" .. slot6 .. "_"].transform, RedPointConst.ACTIVITY_REFORGE_NEW_CHPATER .. slot0.chapterIDList_[slot6])
 	end
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
-	manager.windowBar:SetGameHelpKey(arg_15_0.gameHelpKey_)
+	manager.windowBar:SetGameHelpKey(slot0.gameHelpKey_)
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_16_0:UnBindRedPoint()
-	arg_16_0:StopTimer()
-	arg_16_0:StopAddGoldNumTimer()
+	slot0:UnBindRedPoint()
+	slot0:StopTimer()
+	slot0:StopAddGoldNumTimer()
 end
 
-function var_0_0.CreateTimer(arg_17_0)
-	arg_17_0.activityID_ = arg_17_0.activityID_
-	arg_17_0.stopTime_ = ActivityData:GetActivityData(arg_17_0.activityID_).stopTime
+function slot0.CreateTimer(slot0)
+	slot0.activityID_ = slot0.activityID_
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	if manager.time:GetServerTime() < arg_17_0.stopTime_ then
-		arg_17_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_17_0.stopTime_)
+	if manager.time:GetServerTime() < slot0.stopTime_ then
+		slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
 	else
-		arg_17_0:StopTimer()
+		slot0:StopTimer()
 
-		arg_17_0.timeText_.text = GetTips("TIME_OVER")
+		slot0.timeText_.text = GetTips("TIME_OVER")
 	end
 
-	if arg_17_0.timer_ == nil then
-		arg_17_0.timer_ = Timer.New(function()
-			if manager.time:GetServerTime() < arg_17_0.stopTime_ then
-				arg_17_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_17_0.stopTime_)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			if manager.time:GetServerTime() < uv0.stopTime_ then
+				uv0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(uv0.stopTime_)
 			else
-				arg_17_0:StopTimer()
+				uv0:StopTimer()
 
-				arg_17_0.timeText_.text = GetTips("TIME_OVER")
+				uv0.timeText_.text = GetTips("TIME_OVER")
 			end
 		end, 1, -1)
 
-		arg_17_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.StopAddGoldNumTimer(arg_20_0)
-	if arg_20_0.addGoldNumCacheTimer_ then
-		arg_20_0.addGoldNumCacheTimer_:Stop()
+function slot0.StopAddGoldNumTimer(slot0)
+	if slot0.addGoldNumCacheTimer_ then
+		slot0.addGoldNumCacheTimer_:Stop()
 
-		arg_20_0.addGoldNumCacheTimer_ = nil
+		slot0.addGoldNumCacheTimer_ = nil
 	end
 end
 
-function var_0_0.RefreshUI(arg_21_0)
-	for iter_21_0 = 1, 4 do
-		local var_21_0 = arg_21_0.chapterIDList_[iter_21_0]
-
-		if ActivityReforgeData:GetChapterIsUnlock(var_21_0) then
-			if arg_21_0.curSelectIndex_ == iter_21_0 then
-				arg_21_0.btnControllerList_[iter_21_0]:SetSelectedState("on")
+function slot0.RefreshUI(slot0)
+	for slot4 = 1, 4 do
+		if ActivityReforgeData:GetChapterIsUnlock(slot0.chapterIDList_[slot4]) then
+			if slot0.curSelectIndex_ == slot4 then
+				slot0.btnControllerList_[slot4]:SetSelectedState("on")
 			else
-				arg_21_0.btnControllerList_[iter_21_0]:SetSelectedState("off")
+				slot0.btnControllerList_[slot4]:SetSelectedState("off")
 			end
 		else
-			arg_21_0.btnControllerList_[iter_21_0]:SetSelectedState("lock")
+			slot0.btnControllerList_[slot4]:SetSelectedState("lock")
 		end
 	end
 
-	local var_21_1 = arg_21_0.chapterIDList_[arg_21_0.curSelectIndex_]
-	local var_21_2 = ActivityReforgeChapterCfg[var_21_1]
+	slot2 = ActivityReforgeChapterCfg[slot0.chapterIDList_[slot0.curSelectIndex_]]
+	slot0.nameText_.text = slot2.chapter_name
+	slot0.desText_.text = slot2.chapter_des
 
-	arg_21_0.nameText_.text = var_21_2.chapter_name
-	arg_21_0.desText_.text = var_21_2.chapter_des
-
-	arg_21_0.bossChartController_:SetSelectedState(arg_21_0.curSelectIndex_)
+	slot0.bossChartController_:SetSelectedState(slot0.curSelectIndex_)
 end
 
-function var_0_0.CheckCacheAddGoldNum(arg_22_0)
-	local var_22_0 = ActivityReforgeData:GetCacheAddGoldNum()
+function slot0.CheckCacheAddGoldNum(slot0)
+	if ActivityReforgeData:GetCacheAddGoldNum() > 0 then
+		slot0.goldAddText_.text = "+" .. slot1
 
-	if var_22_0 > 0 then
-		arg_22_0.goldAddText_.text = "+" .. var_22_0
+		SetActive(slot0.goldAddGo_, true)
+		slot0:StopAddGoldNumTimer()
 
-		SetActive(arg_22_0.goldAddGo_, true)
-		arg_22_0:StopAddGoldNumTimer()
+		slot0.addGoldNumCacheTimer_ = Timer.New(function ()
+			uv0:StopAddGoldNumTimer()
+			SetActive(uv0.goldAddGo_, false)
 
-		arg_22_0.addGoldNumCacheTimer_ = Timer.New(function()
-			arg_22_0:StopAddGoldNumTimer()
-			SetActive(arg_22_0.goldAddGo_, false)
-
-			arg_22_0.goldMaxNum_.text = ActivityReforgeData:SubGoldMaxNum(arg_22_0.activityID_, var_22_0)
+			uv0.goldMaxNum_.text = ActivityReforgeData:SubGoldMaxNum(uv0.activityID_, uv1)
 
 			ActivityReforgeData:ClearCacheAddGoldNum()
 		end, 2, 1)
 
-		arg_22_0.addGoldNumCacheTimer_:Start()
+		slot0.addGoldNumCacheTimer_:Start()
 	else
-		SetActive(arg_22_0.goldAddGo_, false)
+		SetActive(slot0.goldAddGo_, false)
 	end
 end
 
-function var_0_0.Dispose(arg_24_0)
-	arg_24_0:StopTimer()
-	arg_24_0:StopAddGoldNumTimer()
-	arg_24_0.super.Dispose(arg_24_0)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	slot0:StopAddGoldNumTimer()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

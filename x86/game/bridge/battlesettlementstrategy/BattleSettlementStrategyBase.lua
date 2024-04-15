@@ -1,65 +1,57 @@
-local var_0_0 = class("BattleSettlementStrategyBase")
+slot0 = class("BattleSettlementStrategyBase")
 
-function var_0_0.BuildTempData(arg_1_0, arg_1_1)
-	arg_1_0.tempData = {
-		isHalfWay_ = arg_1_1.isHalfWay_
+function slot0.BuildTempData(slot0, slot1)
+	slot0.tempData = {
+		isHalfWay_ = slot1.isHalfWay_
 	}
 end
 
-function var_0_0.GotoSettlement(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	arg_2_0:BuildTempData({
-		isHalfWay_ = arg_2_5
+function slot0.GotoSettlement(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:BuildTempData({
+		isHalfWay_ = slot5
 	})
 
-	local var_2_0 = {}
-	local var_2_1 = arg_2_1:GetThreeStar()
+	slot6 = {}
 
-	if var_2_1 and type(var_2_1) == "table" then
-		for iter_2_0 = 1, #var_2_1 do
-			local var_2_2 = arg_2_1:GetType()
-			local var_2_3 = var_2_1[iter_2_0]
+	if slot1:GetThreeStar() and type(slot7) == "table" then
+		for slot11 = 1, #slot7 do
+			slot13 = slot7[slot11]
 
-			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == var_2_2 then
-				if arg_2_3 and arg_2_3[iter_2_0] then
-					table.insert(var_2_0, {
-						id = var_2_3[1],
-						total = arg_2_3[iter_2_0].need_progress,
-						current = arg_2_3[iter_2_0].now_progress,
-						xData = var_2_3[2],
-						yData = var_2_3[3],
-						isComplete = arg_2_3[iter_2_0].is_achieve == 1 and true or false
+			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == slot1:GetType() then
+				if slot3 and slot3[slot11] then
+					table.insert(slot6, {
+						id = slot13[1],
+						total = slot3[slot11].need_progress,
+						current = slot3[slot11].now_progress,
+						xData = slot13[2],
+						yData = slot13[3],
+						isComplete = slot3[slot11].is_achieve == 1 and true or false
 					})
 
-					if arg_2_3[iter_2_0].is_achieve == 1 and (isSuccess(arg_2_2) or var_2_3[1] == 15 or var_2_3[1] == 16) then
-						MythicData:UpdateStarIndex(iter_2_0)
+					if slot3[slot11].is_achieve == 1 and (isSuccess(slot2) or slot13[1] == 15 or slot13[1] == 16) then
+						MythicData:UpdateStarIndex(slot11)
 					end
 				end
-			elseif arg_2_3 and arg_2_3[iter_2_0] then
-				table.insert(var_2_0, {
-					id = var_2_3[1],
-					total = arg_2_3[iter_2_0].need_progress,
-					current = arg_2_3[iter_2_0].now_progress,
-					xData = var_2_3[2],
-					yData = var_2_3[3],
-					isComplete = arg_2_3[iter_2_0].is_achieve == 1 and true or false
+			elseif slot3 and slot3[slot11] then
+				table.insert(slot6, {
+					id = slot13[1],
+					total = slot3[slot11].need_progress,
+					current = slot3[slot11].now_progress,
+					xData = slot13[2],
+					yData = slot13[3],
+					isComplete = slot3[slot11].is_achieve == 1 and true or false
 				})
 			end
 		end
 	end
 
-	if isSuccess(arg_2_2) and isSuccess(arg_2_4.errorCode) then
-		local var_2_4, var_2_5 = arg_2_1:GetHeroTeam()
-		local var_2_6 = arg_2_1:GetSystemHeroTeam()
-		local var_2_7 = arg_2_1:GetMultiple()
-		local var_2_8 = arg_2_4.clear_times * GameSetting.mastery_gain.value[1]
+	if isSuccess(slot2) and isSuccess(slot4.errorCode) then
+		slot8, slot9 = slot1:GetHeroTeam()
 
-		for iter_2_1 = 1, #var_2_4 do
-			if var_2_6[iter_2_1] == nil and var_2_4[iter_2_1] ~= 0 and (var_2_5[iter_2_1] == nil or var_2_5[iter_2_1] == 0) then
-				HeroData:HeroClearTimesModify(var_2_4[iter_2_1], var_2_8)
-
-				local var_2_9 = HeroTools.GetHeroOntologyID(var_2_4[iter_2_1])
-
-				ArchiveData:AddExp(var_2_9, GameSetting.hero_love_exp_gain.value[1] * var_2_7)
+		for slot16 = 1, #slot8 do
+			if slot1:GetSystemHeroTeam()[slot16] == nil and slot8[slot16] ~= 0 and (slot9[slot16] == nil or slot9[slot16] == 0) then
+				HeroData:HeroClearTimesModify(slot8[slot16], slot4.clear_times * GameSetting.mastery_gain.value[1])
+				ArchiveData:AddExp(HeroTools.GetHeroOntologyID(slot8[slot16]), GameSetting.hero_love_exp_gain.value[1] * slot1:GetMultiple())
 			end
 		end
 
@@ -68,37 +60,34 @@ function var_0_0.GotoSettlement(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg
 		HeroAction.UpdateSuperStoryRedPoint()
 	end
 
-	arg_2_0:OnGotoSettlement({
-		num = arg_2_2,
-		starList = arg_2_3,
-		battleResult = arg_2_4,
-		stageData = arg_2_1,
-		starMissionData = var_2_0,
-		isHalfWay_ = arg_2_5
+	slot0:OnGotoSettlement({
+		num = slot2,
+		starList = slot3,
+		battleResult = slot4,
+		stageData = slot1,
+		starMissionData = slot6,
+		isHalfWay_ = slot5
 	})
 end
 
-function var_0_0.OnGotoSettlement(arg_3_0, arg_3_1)
-	return
+function slot0.OnGotoSettlement(slot0, slot1)
 end
 
-function var_0_0.GotoStage(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0, var_4_1 = GetResultReward()
+function slot0.GotoStage(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	local function var_4_2()
-		local var_5_0 = {}
+	function slot7()
+		slot0 = {}
 
-		for iter_5_0, iter_5_1 in pairs(var_4_0) do
-			local var_5_1 = ItemCfg[iter_5_1[1]]
-
-			if var_5_1 then
-				if ItemConst.ITEM_TYPE.HERO == var_5_1.type then
-					table.insert(var_5_0, {
-						id = iter_5_1[1]
+		for slot4, slot5 in pairs(uv0) do
+			if ItemCfg[slot5[1]] then
+				if ItemConst.ITEM_TYPE.HERO == slot6.type then
+					table.insert(slot0, {
+						id = slot5[1]
 					})
-				elseif ItemConst.ITEM_TYPE.WEAPON_SERVANT == var_5_1.type and (not IllustratedData:GetExistServant(iter_5_1[1]) or var_5_1.display_rare > 3) then
-					table.insert(var_5_0, {
-						id = iter_5_1[1]
+				elseif ItemConst.ITEM_TYPE.WEAPON_SERVANT == slot6.type and (not IllustratedData:GetExistServant(slot5[1]) or slot6.display_rare > 3) then
+					table.insert(slot0, {
+						id = slot5[1]
 					})
 				end
 			end
@@ -106,68 +95,60 @@ function var_0_0.GotoStage(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
 
 		manager.story:RemovePlayer()
 
-		local function var_5_2()
-			JumpTools.OpenPageByJump("/newSettlement", {
-				result = arg_4_1,
-				rewardList = var_4_0,
-				stageData = arg_4_2,
-				starMissionData = arg_4_3,
-				battleResult = arg_4_4
+		if #slot0 > 0 then
+			gameContext:Go("obtainView", {
+				doNextHandler = function ()
+					JumpTools.OpenPageByJump("/newSettlement", {
+						result = uv0,
+						rewardList = uv1,
+						stageData = uv2,
+						starMissionData = uv3,
+						battleResult = uv4
+					})
+					EndBattleLogic(uv0)
+				end,
+				itemList = slot0
 			})
-			EndBattleLogic(arg_4_1)
-		end
-
-		if #var_5_0 > 0 then
-			local var_5_3 = {
-				doNextHandler = var_5_2,
-				itemList = var_5_0
-			}
-
-			gameContext:Go("obtainView", var_5_3)
 		else
-			var_5_2()
+			slot1()
 		end
 	end
 
-	if isSuccess(arg_4_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
-			if arg_4_2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-				manager.story:CheckChessBattleStory(manager.story.WIN, var_4_2)
+			if uv0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+				manager.story:CheckChessBattleStory(manager.story.WIN, uv1)
 			else
-				local var_7_0 = arg_4_2:GetStageId()
-
-				manager.story:CheckBattleStory(var_7_0, manager.story.WIN, var_4_2)
+				manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.WIN, uv1)
 			end
 		end
 	else
-		arg_4_0:GotoBattleFaild(arg_4_1, arg_4_2, arg_4_3, arg_4_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-function var_0_0.GotoBattleFaild(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4)
+function slot0.GotoBattleFaild(slot0, slot1, slot2, slot3, slot4)
 	function BattleCallLuaCallBack()
-		local var_9_0 = arg_8_2:GetStageId()
-
-		manager.story:CheckBattleStory(var_9_0, manager.story.LOSE, function()
-			if arg_8_2 and arg_8_2:GetType() == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
+		manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
+			if uv0 and uv0:GetType() == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
 				JumpTools.OpenPageByJump("/battlefailedWithButton", {
-					stageData = arg_8_2,
-					battleResult = arg_8_4,
-					isHalfWay_ = arg_8_0.tempData.isHalfWay_
+					stageData = uv0,
+					battleResult = uv1,
+					isHalfWay_ = uv2.tempData.isHalfWay_
 				})
 			else
 				JumpTools.OpenPageByJump("/battlefailed", {
-					stageData = arg_8_2,
-					starMissionData = arg_8_3,
-					battleResult = arg_8_4,
-					isHalfWay_ = arg_8_0.tempData.isHalfWay_
+					stageData = uv0,
+					starMissionData = uv3,
+					battleResult = uv1,
+					isHalfWay_ = uv2.tempData.isHalfWay_
 				})
 			end
 
 			manager.story:RemovePlayer()
-			EndBattleLogic(arg_8_1)
+			EndBattleLogic(uv4)
 		end)
 	end
 end
 
-return var_0_0
+return slot0

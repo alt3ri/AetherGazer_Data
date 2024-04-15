@@ -1,109 +1,88 @@
-local function var_0_0(arg_1_0)
-	local var_1_0 = BackHomeHeroSkinCfg[arg_1_0].hero_id
-
-	return DormHeroTools:GetDormHeroNextCanUseSkin(var_1_0, arg_1_0)
+function slot0(slot0)
+	return DormHeroTools:GetDormHeroNextCanUseSkin(BackHomeHeroSkinCfg[slot0].hero_id, slot0)
 end
 
-local var_0_1 = "change_skin_end"
-local var_0_2 = {}
+slot1 = "change_skin_end"
+slot2 = {
+	fps = 30
+}
+slot3 = 43 / slot2.fps
+slot2.duration = slot3
+slot2.sequence = {
+	[0] = function (slot0)
+		slot2 = slot0.entityID
+		slot3, slot4 = DormCharacterManager.GetInstance():Generate(slot0.nextSkin, true)
+		slot0.newCharaEID = slot3
 
-var_0_2.fps = 30
+		Dorm.DormEntityManager.PutEntityAt(slot3, slot2, "root")
 
-local var_0_3 = 43 / var_0_2.fps
-local var_0_4 = 1.18
+		slot6 = nullable(DormUtils.GetEntityData(slot2), "interactCtx", "exitPos")
 
-var_0_2.duration = var_0_3
-var_0_2.sequence = {
-	[0] = function(arg_2_0)
-		local var_2_0 = arg_2_0.nextSkin
-		local var_2_1 = arg_2_0.entityID
-		local var_2_2, var_2_3 = DormCharacterManager.GetInstance():Generate(var_2_0, true)
+		DormUtils.SetEntityInteractContext(slot3, DormCharacterInteractBehaviour.MakeCtxForInternalAction(slot3, slot0.targetID, uv0, {
+			oldCharaEID = slot2,
+			exitPos = slot6,
+			startTime = nullable(slot0.curActionTask, "taskDataCtx", "start")
+		}))
+		Dorm.DormEntityManager.TryExecuteInteractToEntityImmediate(slot3, slot0.targetID)
 
-		arg_2_0.newCharaEID = var_2_2
-
-		local var_2_4 = DormUtils.GetEntityData(var_2_1)
-
-		Dorm.DormEntityManager.PutEntityAt(var_2_2, var_2_1, "root")
-
-		local var_2_5 = nullable(var_2_4, "interactCtx", "exitPos")
-		local var_2_6 = DormCharacterInteractBehaviour.MakeCtxForInternalAction(var_2_2, arg_2_0.targetID, var_0_1, {
-			oldCharaEID = var_2_1,
-			exitPos = var_2_5,
-			startTime = nullable(arg_2_0.curActionTask, "taskDataCtx", "start")
-		})
-
-		DormUtils.SetEntityInteractContext(var_2_2, var_2_6)
-		Dorm.DormEntityManager.TryExecuteInteractToEntityImmediate(var_2_2, arg_2_0.targetID)
-
-		if var_2_5 then
-			Dorm.DormEntityManager.SendMoveLookToDirCMD(var_2_2, var_2_5, true, true)
+		if slot6 then
+			Dorm.DormEntityManager.SendMoveLookToDirCMD(slot3, slot6, true, true)
 		end
 
-		DormHeroAI:SwitchControl(var_2_1, DormEnum.ControlType.Player)
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(var_2_1, "dressingroom", "01", 0)
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_2_0.targetID, "dressingroom", "01", 0)
+		DormHeroAI:SwitchControl(slot2, DormEnum.ControlType.Player)
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(slot2, "dressingroom", "01", 0)
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.targetID, "dressingroom", "01", 0)
 	end,
-	[var_0_4] = function(arg_3_0)
-		local var_3_0 = arg_3_0.entityID
-
-		Dorm.DormEntityManager.SetPlayerMainColliderEnabled(var_3_0, false)
+	[1.18] = function (slot0)
+		Dorm.DormEntityManager.SetPlayerMainColliderEnabled(slot0.entityID, false)
 	end,
-	[var_0_3] = function(arg_4_0)
-		if arg_4_0.newCharaEID then
-			local var_4_0 = arg_4_0.entityID
-			local var_4_1 = arg_4_0.newCharaEID
+	[slot3] = function (slot0)
+		if slot0.newCharaEID then
+			slot0.newCharaEID = nil
 
-			arg_4_0.newCharaEID = nil
-
-			Dorm.DormEntityManager.SetFadeCMD(var_4_0, 0)
-			Dorm.DormEntityManager.SetFadeCMD(var_4_1, 1)
+			Dorm.DormEntityManager.SetFadeCMD(slot0.entityID, 0)
+			Dorm.DormEntityManager.SetFadeCMD(slot0.newCharaEID, 1)
 		end
 	end
 }
 
-function var_0_2.onAbort(arg_5_0)
-	DormUtils.CallOnNextUpdate(function()
-		if arg_5_0.newCharaEID then
-			DormCharacterManager.FindAndRemove(arg_5_0.newCharaEID)
+function slot2.onAbort(slot0)
+	DormUtils.CallOnNextUpdate(function ()
+		if uv0.newCharaEID then
+			DormCharacterManager.FindAndRemove(uv0.newCharaEID)
 		end
 	end)
 end
 
-function var_0_2.onComplete(arg_7_0)
-	DormUtils.CallOnNextUpdate(function()
-		DormCharacterManager.FindAndRemove(arg_7_0.entityID)
+function slot2.onComplete(slot0)
+	DormUtils.CallOnNextUpdate(function ()
+		DormCharacterManager.FindAndRemove(uv0.entityID)
 	end)
 end
 
-local var_0_5 = {
+slot6 = {
 	sequence = {
-		[0] = function(arg_9_0)
-			Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_9_0.entityID, "dressingroom", "02", 0)
-			Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_9_0.targetID, "dressingroom", "02", 0)
+		[0] = function (slot0)
+			Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.entityID, "dressingroom", "02", 0)
+			Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.targetID, "dressingroom", "02", 0)
 		end
-	}
+	},
+	duration = 3.467
 }
 
-var_0_5.duration = 3.467
+function slot8(slot0)
+	if uv0(slot0.entityCfg or DormUtils.GetEntityData(slot0.entityID).cfgID) then
+		slot0.nextSkin = slot2
+		slot0.continuous = true
 
-local function var_0_6(arg_10_0)
-	local var_10_0 = arg_10_0.entityCfg or DormUtils.GetEntityData(arg_10_0.entityID).cfgID
-	local var_10_1 = var_0_0(var_10_0)
-
-	if var_10_1 then
-		arg_10_0.nextSkin = var_10_1
-		arg_10_0.continuous = true
-
-		return var_0_2
+		return uv1
 	else
-		arg_10_0.continuous = false
+		slot0.continuous = false
 
-		return var_0_5
+		return uv2
 	end
 end
 
-return function(arg_11_0)
-	local var_11_0 = var_0_6(arg_11_0)
-
-	return DormCharacterInteractBehaviour.MakeInteractTask(var_11_0, arg_11_0)
+return function (slot0)
+	return DormCharacterInteractBehaviour.MakeInteractTask(uv0(slot0), slot0)
 end

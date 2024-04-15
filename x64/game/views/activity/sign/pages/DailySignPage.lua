@@ -1,121 +1,111 @@
-local var_0_0 = class("DailySignPage", BaseSignPage)
+slot0 = class("DailySignPage", BaseSignPage)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.hander_ = arg_1_1
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.hander_ = slot1
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/ActivitySign/SignUI"), slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load("Widget/System/ActivitySign/SignUI")
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.animPlaying = false
-	arg_3_0.signItem_ = {}
+	slot0.animPlaying = false
+	slot0.signItem_ = {}
 end
 
-function var_0_0.OnShow(arg_4_0)
-	arg_4_0:RefreshSignItem()
+function slot0.OnShow(slot0)
+	slot0:RefreshSignItem()
 end
 
-function var_0_0.OnHide(arg_5_0)
-	if arg_5_0.timer_ then
-		arg_5_0.timer_:Stop()
+function slot0.OnHide(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_5_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshSignItem(arg_6_0)
-	local var_6_0 = SignData:GetDailySignInfo().month
-	local var_6_1 = manager.time:CalcMonthDays(manager.time:STimeDescS(manager.time:GetServerTime(), "!%Y"), var_6_0)
+function slot0.RefreshSignItem(slot0)
+	slot6 = SignData:GetDailySignInfo().month
 
-	for iter_6_0 = #arg_6_0.signItem_, var_6_1 + 1, -1 do
-		arg_6_0.signItem_[iter_6_0]:Show(false)
+	for slot6 = #slot0.signItem_, manager.time:CalcMonthDays(manager.time:STimeDescS(manager.time:GetServerTime(), "!%Y"), slot6) + 1, -1 do
+		slot0.signItem_[slot6]:Show(false)
 	end
 
-	for iter_6_1 = 1, var_6_1 do
-		if not arg_6_0.signItem_[iter_6_1] then
-			local var_6_2 = Object.Instantiate(arg_6_0.itemGo_, arg_6_0.contentParent_)
-
-			arg_6_0.signItem_[iter_6_1] = DailySignItem.New(arg_6_0, var_6_2)
+	for slot6 = 1, slot2 do
+		if not slot0.signItem_[slot6] then
+			slot0.signItem_[slot6] = DailySignItem.New(slot0, Object.Instantiate(slot0.itemGo_, slot0.contentParent_))
 		end
 
-		local var_6_3 = {
-			month = var_6_0,
-			day = iter_6_1,
-			state = SignTools.GetDailySignState(iter_6_1)
-		}
-
-		arg_6_0.signItem_[iter_6_1]:SetData(var_6_3)
+		slot0.signItem_[slot6]:SetData({
+			month = slot1,
+			day = slot6,
+			state = SignTools.GetDailySignState(slot6)
+		})
 	end
 end
 
-function var_0_0.AutoGetReward(arg_7_0)
-	arg_7_0.signIndex_ = SignTools.GetDailySignIndex()
+function slot0.AutoGetReward(slot0)
+	slot0.signIndex_ = SignTools.GetDailySignIndex()
 
-	if arg_7_0.signIndex_ > 0 then
+	if slot0.signIndex_ > 0 then
 		manager.ui:UIEventEnabledByUI(false, true)
 
-		arg_7_0.timer_ = Timer.New(function()
+		slot0.timer_ = Timer.New(function ()
 			SignAction.QueryDailySign()
 		end, 0.033, 1)
 
-		arg_7_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.OnSign(arg_9_0, arg_9_1)
-	if isSuccess(arg_9_1.result) then
-		if arg_9_0.signIndex_ <= 0 then
+function slot0.OnSign(slot0, slot1)
+	if isSuccess(slot1.result) then
+		if slot0.signIndex_ <= 0 then
 			return
 		end
 
-		arg_9_0.signItem_[arg_9_0.signIndex_]:StartPlayAnimator()
+		slot0.signItem_[slot0.signIndex_]:StartPlayAnimator()
 
-		arg_9_0.timer_ = Timer.New(function()
-			if arg_9_0.signItem_[arg_9_0.signIndex_]:GetAnimator():GetCurrentAnimatorStateInfo(0).normalizedTime >= 2 or not arg_9_0.animPlaying then
-				if arg_9_0.animPlaying then
+		slot0.timer_ = Timer.New(function ()
+			if uv0.signItem_[uv0.signIndex_]:GetAnimator():GetCurrentAnimatorStateInfo(0).normalizedTime >= 2 or not uv0.animPlaying then
+				if uv0.animPlaying then
 					manager.notify:CallUpdateFunc(READY_TO_SKIP_SIGN_ANIMATION, true)
 				end
 
-				local var_10_0 = arg_9_1.item_list
-
-				getReward2(var_10_0, {
+				getReward2(uv1.item_list, {
 					ItemConst.ITEM_TYPE.HERO,
 					ItemConst.ITEM_TYPE.WEAPON_SERVANT
-				}, handler(arg_9_0.hander_, arg_9_0.hander_.CheckSign))
-				arg_9_0.timer_:Stop()
+				}, handler(uv0.hander_, uv0.hander_.CheckSign))
+				uv0.timer_:Stop()
 
-				arg_9_0.timer_ = nil
+				uv0.timer_ = nil
 			end
 		end, 0.033, -1)
 
 		manager.ui:UIEventEnabledByUI(true, false)
 		manager.notify:CallUpdateFunc(READY_TO_SKIP_SIGN_ANIMATION, false)
-		arg_9_0.timer_:Start()
+		slot0.timer_:Start()
 	else
 		manager.ui:UIEventEnabledByUI(true, false)
-		ShowTips(arg_9_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.signItem_) do
-		iter_11_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.signItem_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.signItem_ = {}
+	slot0.signItem_ = {}
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

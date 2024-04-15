@@ -66,883 +66,742 @@ PolyhedronConst = {
 	},
 	REVIVE_COIN_EFFECT = {
 		BEACON = {
-			[5] = true
+			[5.0] = true
 		},
 		TERMINAL = {
-			[1101] = true
+			[1101.0] = true
 		}
 	},
 	POLYHEDRON_SETTING_ID = {
 		SHOP_RECOVER = 15
-	}
+	},
+	SPECIAL_ATTR_DESC = {}
 }
-PolyhedronConst.SPECIAL_ATTR_DESC = {}
 
-local var_0_0 = GameSetting.polyhedron_difficulty_affixes.value
-
-for iter_0_0, iter_0_1 in ipairs(var_0_0) do
-	PolyhedronConst.SPECIAL_ATTR_DESC[iter_0_1[1]] = iter_0_1
+for slot4, slot5 in ipairs(GameSetting.polyhedron_difficulty_affixes.value) do
+	PolyhedronConst.SPECIAL_ATTR_DESC[slot5[1]] = slot5
 end
 
-PolyhedronTools = {}
-
-function PolyhedronTools.PolyhedronPolicyExpToLevel()
-	local var_1_0 = PolyhedronData:GetActivityID()
-	local var_1_1 = ActivityCfg[var_1_0] and ActivityCfg[var_1_0].policy_activity_id
-
-	if var_1_1 == nil then
-		return 0, 0
-	end
-
-	local var_1_2 = PolyhedronPolicyCfg.get_id_list_by_activity_id[var_1_1]
-	local var_1_3 = #var_1_2
-	local var_1_4 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SHIFTING_EXP)
-	local var_1_5 = 0
-	local var_1_6 = var_1_4
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_2) do
-		if var_1_4 < PolyhedronPolicyCfg[iter_1_1].exp then
-			return var_1_5, var_1_6
-		else
-			var_1_5 = iter_1_0
-
-			if iter_1_0 < var_1_3 then
-				var_1_6 = var_1_4 - PolyhedronPolicyCfg[iter_1_1].exp
-			end
-		end
-	end
-
-	return var_1_5, var_1_6
-end
-
-function PolyhedronTools.PolyhedronTerminalExpToLevel(arg_2_0)
-	local var_2_0 = PolyhedronTerminalLevelCfg.all
-	local var_2_1 = 1
-	local var_2_2 = #var_2_0
-	local var_2_3 = -1
-
-	while var_2_1 <= var_2_2 do
-		local var_2_4 = var_2_1 + math.floor((var_2_2 - var_2_1) / 2)
-
-		if arg_2_0 < PolyhedronTerminalLevelCfg[var_2_0[var_2_4]].exp then
-			var_2_2 = var_2_4 - 1
-		else
-			var_2_3 = var_2_4
-			var_2_1 = var_2_4 + 1
-		end
-	end
-
-	local var_2_5 = arg_2_0 - PolyhedronTerminalLevelCfg[var_2_0[var_2_3]].exp
-
-	return var_2_0[var_2_3], var_2_5
-end
-
-function PolyhedronTools.GetRaceEffect(arg_3_0)
-	local var_3_0 = {}
-	local var_3_1 = 0
-	local var_3_2 = false
-	local var_3_3 = 3
-	local var_3_4 = PolyhedronData:GetPolyhedronInfo():GetTotalAffix()
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_4) do
-		if iter_3_1[1] == PolyhedronConst.AFFIX_TYPE.MATRIX_BEACON then
-			var_3_3 = 2
-		end
-	end
-
-	for iter_3_2, iter_3_3 in pairs(arg_3_0) do
-		if iter_3_3 ~= 0 then
-			local var_3_5 = HeroCfg[iter_3_3].race
-
-			var_3_0[var_3_5] = (var_3_0[var_3_5] or 0) + 1
-
-			if var_3_0[var_3_5] == 2 then
-				var_3_1 = var_3_5
-			end
-
-			if var_3_3 <= var_3_0[var_3_5] then
-				var_3_2 = true
-			end
-		end
-	end
-
-	return var_3_1, var_3_2, var_3_0[var_3_1] or 1
-end
-
-function PolyhedronTools.GetBeaconIsUnlockCondition(arg_4_0)
-	local var_4_0 = PolyhedronBeaconCfg[arg_4_0]
-
-	if var_4_0 and var_4_0.condition ~= 0 then
-		return IsConditionAchieved(var_4_0.condition)
-	end
-
-	return true
-end
-
-function PolyhedronTools.CalPolyhedronDifficultyAttr(arg_5_0, arg_5_1)
-	for iter_5_0 = 1, arg_5_1 do
-		local var_5_0 = PolyhedronDifficultyCfg[iter_5_0].params
-
-		for iter_5_1, iter_5_2 in ipairs(var_5_0) do
-			if iter_5_2[1] == 2 then
-				local var_5_1 = iter_5_2[2]
-				local var_5_2 = iter_5_2[3]
-
-				arg_5_0[var_5_1] = HeroTools.AttributeAdd(var_5_1, arg_5_0[var_5_1], var_5_2)
-			end
-		end
-	end
-
-	return arg_5_0
-end
-
-function PolyhedronTools.GetPolyhedronDifficultyAffixDir(arg_6_0)
-	local var_6_0 = {}
-
-	for iter_6_0 = 1, arg_6_0 do
-		local var_6_1 = PolyhedronDifficultyCfg[iter_6_0].params
-
-		for iter_6_1, iter_6_2 in ipairs(var_6_1) do
-			if iter_6_2[1] == 1 then
-				local var_6_2 = iter_6_2[2]
-				local var_6_3 = iter_6_2[3]
-				local var_6_4 = iter_6_2[4]
-
-				var_6_0[var_6_2] = {
-					var_6_2,
-					var_6_3,
-					var_6_4
-				}
-			end
-		end
-	end
-
-	return var_6_0
-end
-
-function PolyhedronTools.GetPolyhedronTerminalClassifyDes(arg_7_0)
-	return GetTips("POLYHEDRON_TERMINAL_CLASSIFY_" .. arg_7_0)
-end
-
-function PolyhedronTools.GetPolyhedronArtifactSubTypeDes(arg_8_0)
-	return GetTips("POLYHEDRON_ARTIFACT_SUB_TYPE_" .. arg_8_0)
-end
-
-function PolyhedronTools.GetGateCfg(arg_9_0, arg_9_1)
-	local var_9_0 = PolyhedronEventCfg[arg_9_0]
-
-	for iter_9_0, iter_9_1 in ipairs(PolyhedronGateCfg.all) do
-		local var_9_1 = PolyhedronGateCfg[iter_9_1]
-
-		if (var_9_1.event_type == 0 or var_9_0.event_type == var_9_1.event_type) and (var_9_1.reward_type == 0 or arg_9_1 == var_9_1.reward_type) then
-			return var_9_1
-		end
-	end
-
-	print("polyhedron error cant find gate index by" .. arg_9_0 .. ":" .. arg_9_1)
-
-	return {
-		reward_type = 0,
-		gate_index = 999,
-		event_type = 0,
-		gate_des = ""
-	}
-end
-
-function PolyhedronTools.getAffixUpLvDes(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = AffixTypeCfg[arg_10_0]
-
-	if var_10_0 == nil then
-		-- block empty
-	end
-
-	local var_10_1 = var_10_0.description[1]
-	local var_10_2 = DescriptionCfg[var_10_1]
-
-	if not var_10_2 then
-		return ""
-	end
-
-	local function var_10_3(arg_11_0, arg_11_1)
-		if arg_11_1 then
-			return math.floor(arg_11_0 * 10^arg_11_1 + 0.5) / 10^arg_11_1
-		else
-			return math.floor(arg_11_0 + 0.5)
-		end
-	end
-
-	local var_10_4 = GetI18NText(var_10_2.description)
-
-	if var_10_2.type == 1 then
-		if arg_10_2 > var_10_2.maxLv or arg_10_2 < 1 then
-			return ""
+PolyhedronTools = {
+	PolyhedronPolicyExpToLevel = function ()
+		if (ActivityCfg[PolyhedronData:GetActivityID()] and ActivityCfg[slot0].policy_activity_id) == nil then
+			return 0, 0
 		end
 
-		if arg_10_1 > var_10_2.maxLv or arg_10_1 < 1 then
-			return ""
-		end
+		slot2 = PolyhedronPolicyCfg.get_id_list_by_activity_id[slot1]
+		slot3 = #slot2
+		slot5 = 0
+		slot6 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SHIFTING_EXP)
 
-		local var_10_5 = var_10_2.param
-
-		if #var_10_5 >= 1 then
-			local var_10_6 = {
-				"0"
-			}
-
-			for iter_10_0, iter_10_1 in ipairs(var_10_5) do
-				local var_10_7 = iter_10_1[1]
-				local var_10_8 = iter_10_1[2]
-				local var_10_9 = iter_10_1[4]
-				local var_10_10 = var_10_3(var_10_7 + var_10_8 * (arg_10_1 - 1), 1)
-
-				if var_10_10 % 1 == 0 then
-					var_10_10 = string.format("%.0f", var_10_10) .. var_10_9
-				else
-					var_10_10 = string.format("%.1f", var_10_10) .. var_10_9
-				end
-
-				local var_10_11 = var_10_3(var_10_7 + var_10_8 * (arg_10_2 - 1), 1)
-
-				if var_10_11 % 1 == 0 then
-					var_10_11 = string.format("%.0f", var_10_11) .. var_10_9
-				else
-					var_10_11 = string.format("%.1f", var_10_11) .. var_10_9
-				end
-
-				if var_10_10 ~= var_10_11 then
-					table.insert(var_10_6, var_10_10 .. "->" .. var_10_11)
-				else
-					table.insert(var_10_6, var_10_10)
-				end
-			end
-
-			return LuaExchangeHelper.GetDescription(var_10_4, var_10_6)
-		else
-			return var_10_4
-		end
-	else
-		local var_10_12 = var_10_2.param[arg_10_1]
-		local var_10_13 = var_10_2.param[arg_10_2]
-
-		if not var_10_12 or not var_10_13 then
-			return ""
-		end
-
-		local var_10_14 = {}
-		local var_10_15 = #var_10_12
-
-		for iter_10_2 = 1, var_10_15 do
-			local var_10_16
-
-			if var_10_12[iter_10_2] ~= var_10_13[iter_10_2] then
-				var_10_16 = var_10_12[iter_10_2] .. "->" .. var_10_13[iter_10_2]
+		for slot10, slot11 in ipairs(slot2) do
+			if slot4 < PolyhedronPolicyCfg[slot11].exp then
+				return slot5, slot6
 			else
-				var_10_16 = var_10_12[iter_10_2]
+				slot5 = slot10
+
+				if slot10 < slot3 then
+					slot6 = slot4 - PolyhedronPolicyCfg[slot11].exp
+				end
+			end
+		end
+
+		return slot5, slot6
+	end,
+	PolyhedronTerminalExpToLevel = function (slot0)
+		slot2 = 1
+		slot3 = #PolyhedronTerminalLevelCfg.all
+		slot4 = -1
+
+		while slot2 <= slot3 do
+			if slot0 < PolyhedronTerminalLevelCfg[slot1[slot2 + math.floor((slot3 - slot2) / 2)]].exp then
+				slot3 = slot5 - 1
+			else
+				slot4 = slot5
+				slot2 = slot5 + 1
+			end
+		end
+
+		return slot1[slot4], slot0 - PolyhedronTerminalLevelCfg[slot1[slot4]].exp
+	end,
+	GetRaceEffect = function (slot0)
+		slot1 = {}
+		slot2 = 0
+		slot3 = false
+		slot4 = 3
+
+		for slot10, slot11 in ipairs(PolyhedronData:GetPolyhedronInfo():GetTotalAffix()) do
+			if slot11[1] == PolyhedronConst.AFFIX_TYPE.MATRIX_BEACON then
+				slot4 = 2
+			end
+		end
+
+		for slot10, slot11 in pairs(slot0) do
+			if slot11 ~= 0 then
+				slot1[slot12] = (slot1[HeroCfg[slot11].race] or 0) + 1
+
+				if slot1[slot12] == 2 then
+					slot2 = slot12
+				end
+
+				if slot4 <= slot1[slot12] then
+					slot3 = true
+				end
+			end
+		end
+
+		return slot2, slot3, slot1[slot2] or 1
+	end,
+	GetBeaconIsUnlockCondition = function (slot0)
+		if PolyhedronBeaconCfg[slot0] and slot1.condition ~= 0 then
+			return IsConditionAchieved(slot1.condition)
+		end
+
+		return true
+	end,
+	CalPolyhedronDifficultyAttr = function (slot0, slot1)
+		for slot5 = 1, slot1 do
+			for slot10, slot11 in ipairs(PolyhedronDifficultyCfg[slot5].params) do
+				if slot11[1] == 2 then
+					slot13 = slot11[2]
+					slot0[slot13] = HeroTools.AttributeAdd(slot13, slot0[slot13], slot11[3])
+				end
+			end
+		end
+
+		return slot0
+	end,
+	GetPolyhedronDifficultyAffixDir = function (slot0)
+		slot1 = {}
+
+		for slot5 = 1, slot0 do
+			for slot10, slot11 in ipairs(PolyhedronDifficultyCfg[slot5].params) do
+				if slot11[1] == 1 then
+					slot13 = slot11[2]
+					slot1[slot13] = {
+						slot13,
+						slot11[3],
+						slot11[4]
+					}
+				end
+			end
+		end
+
+		return slot1
+	end,
+	GetPolyhedronTerminalClassifyDes = function (slot0)
+		return GetTips("POLYHEDRON_TERMINAL_CLASSIFY_" .. slot0)
+	end,
+	GetPolyhedronArtifactSubTypeDes = function (slot0)
+		return GetTips("POLYHEDRON_ARTIFACT_SUB_TYPE_" .. slot0)
+	end,
+	GetGateCfg = function (slot0, slot1)
+		for slot6, slot7 in ipairs(PolyhedronGateCfg.all) do
+			if (PolyhedronGateCfg[slot7].event_type == 0 or PolyhedronEventCfg[slot0].event_type == slot8.event_type) and (slot8.reward_type == 0 or slot1 == slot8.reward_type) then
+				return slot8
+			end
+		end
+
+		print("polyhedron error cant find gate index by" .. slot0 .. ":" .. slot1)
+
+		return {
+			reward_type = 0,
+			gate_index = 999,
+			event_type = 0,
+			gate_des = ""
+		}
+	end,
+	getAffixUpLvDes = function (slot0, slot1, slot2)
+		if AffixTypeCfg[slot0] == nil then
+			-- Nothing
+		end
+
+		if not DescriptionCfg[slot3.description[1]] then
+			return ""
+		end
+
+		function slot6(slot0, slot1)
+			if slot1 then
+				return math.floor(slot0 * 10^slot1 + 0.5) / 10^slot1
+			else
+				return math.floor(slot0 + 0.5)
+			end
+		end
+
+		slot7 = GetI18NText(slot5.description)
+
+		if slot5.type == 1 then
+			if slot5.maxLv < slot2 or slot2 < 1 then
+				return ""
 			end
 
-			table.insert(var_10_14, var_10_16)
-		end
+			if slot5.maxLv < slot1 or slot1 < 1 then
+				return ""
+			end
 
-		if #var_10_14 > 1 then
-			return LuaExchangeHelper.GetDescription(var_10_4, var_10_14)
+			if #slot5.param >= 1 then
+				slot9 = {
+					"0"
+				}
+
+				for slot13, slot14 in ipairs(slot8) do
+					slot17 = slot14[4]
+
+					if (slot6(slot14[1] + slot14[2] * (slot1 - 1), 1) % 1 == 0 and string.format("%.0f", slot18) .. slot17 or string.format("%.1f", slot18) .. slot17) ~= (slot6(slot15 + slot16 * (slot2 - 1), 1) % 1 == 0 and string.format("%.0f", slot19) .. slot17 or string.format("%.1f", slot19) .. slot17) then
+						table.insert(slot9, slot18 .. "->" .. slot19)
+					else
+						table.insert(slot9, slot18)
+					end
+				end
+
+				return LuaExchangeHelper.GetDescription(slot7, slot9)
+			else
+				return slot7
+			end
 		else
-			return var_10_4
+			if not slot5.param[slot1] or not slot5.param[slot2] then
+				return ""
+			end
+
+			slot10 = {}
+
+			for slot15 = 1, #slot8 do
+				slot16 = nil
+
+				table.insert(slot10, slot8[slot15] ~= slot9[slot15] and slot8[slot15] .. "->" .. slot9[slot15] or slot8[slot15])
+			end
+
+			if #slot10 > 1 then
+				return LuaExchangeHelper.GetDescription(slot7, slot10)
+			else
+				return slot7
+			end
 		end
+	end,
+	ArtifactSubTypeSorter = function (slot0, slot1)
+		if slot0 == 3007 or slot1 == slot2 then
+			return slot0 == slot2
+		end
+
+		return slot1 < slot0
 	end
-end
-
-function PolyhedronTools.ArtifactSubTypeSorter(arg_12_0, arg_12_1)
-	local var_12_0 = 3007
-
-	if arg_12_0 == var_12_0 or arg_12_1 == var_12_0 then
-		return arg_12_0 == var_12_0
-	end
-
-	return arg_12_1 < arg_12_0
-end
-
+}
 PolyhedronTemplate = class("PolyhedronProcessTemplate")
 
-function PolyhedronTemplate.Ctor(arg_13_0, arg_13_1)
-	arg_13_0:UpdateGame(arg_13_1)
+function PolyhedronTemplate.Ctor(slot0, slot1)
+	slot0:UpdateGame(slot1)
 end
 
-function PolyhedronTemplate.UpdateGame(arg_14_0, arg_14_1)
-	arg_14_0.state = arg_14_1.state
+function PolyhedronTemplate.UpdateGame(slot0, slot1)
+	slot0.state = slot1.state
+	slot2 = slot1.start_info
+	slot0.leader = PolyhedronSnapShotTemplate.New(slot2.leader)
+	slot0.beacon_id_list = {}
 
-	local var_14_0 = arg_14_1.start_info
-
-	arg_14_0.leader = PolyhedronSnapShotTemplate.New(var_14_0.leader)
-	arg_14_0.beacon_id_list = {}
-
-	for iter_14_0, iter_14_1 in ipairs(var_14_0.beacon_id_list) do
-		table.insert(arg_14_0.beacon_id_list, iter_14_1)
+	for slot6, slot7 in ipairs(slot2.beacon_id_list) do
+		table.insert(slot0.beacon_id_list, slot7)
 	end
 
-	arg_14_0.difficulty = var_14_0.difficulty
-	arg_14_0.terminal_id_list = {}
+	slot0.difficulty = slot2.difficulty
+	slot0.terminal_id_list = {}
 
-	for iter_14_2, iter_14_3 in ipairs(var_14_0.terminal_id_list) do
-		table.insert(arg_14_0.terminal_id_list, iter_14_3)
+	for slot6, slot7 in ipairs(slot2.terminal_id_list) do
+		table.insert(slot0.terminal_id_list, slot7)
 	end
 
-	arg_14_0:UpdatePocess(arg_14_1.progress)
+	slot0:UpdatePocess(slot1.progress)
 end
 
-function PolyhedronTemplate.UpdatePocess(arg_15_0, arg_15_1)
-	arg_15_0.tier_id = arg_15_1.tier_id
-	arg_15_0.event = PolyhedronEventTemplate.New(arg_15_1.event)
-	arg_15_0.stage = PolyhedronStageTemplate.New(arg_15_1.stage)
-	arg_15_0.hero_list = {}
+function PolyhedronTemplate.UpdatePocess(slot0, slot1)
+	slot0.tier_id = slot1.tier_id
+	slot0.event = PolyhedronEventTemplate.New(slot1.event)
+	slot0.stage = PolyhedronStageTemplate.New(slot1.stage)
+	slot0.hero_list = {}
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_1.hero_list) do
-		arg_15_0.hero_list[iter_15_1.hero_id] = PolyhedronHeroTemplate.New(iter_15_1)
+	for slot5, slot6 in ipairs(slot1.hero_list) do
+		slot0.hero_list[slot6.hero_id] = PolyhedronHeroTemplate.New(slot6)
 	end
 
-	arg_15_0.fight_hero_id_list = {}
+	slot0.fight_hero_id_list = {}
 
-	for iter_15_2, iter_15_3 in ipairs(arg_15_1.fight_hero_id_list) do
-		table.insert(arg_15_0.fight_hero_id_list, iter_15_3)
+	for slot5, slot6 in ipairs(slot1.fight_hero_id_list) do
+		table.insert(slot0.fight_hero_id_list, slot6)
 	end
 
-	arg_15_0.artifact_list = {}
+	slot0.artifact_list = {}
 
-	for iter_15_4, iter_15_5 in ipairs(arg_15_1.artifact_list) do
-		table.insert(arg_15_0.artifact_list, {
-			id = iter_15_5.id,
-			level = iter_15_5.level
+	for slot5, slot6 in ipairs(slot1.artifact_list) do
+		table.insert(slot0.artifact_list, {
+			id = slot6.id,
+			level = slot6.level
 		})
 	end
 
-	arg_15_0.effect_list = {}
+	slot0.effect_list = {}
 
-	for iter_15_6, iter_15_7 in ipairs(arg_15_1.effect_list) do
-		table.insert(arg_15_0.effect_list, {
-			id = iter_15_7.id
+	for slot5, slot6 in ipairs(slot1.effect_list) do
+		table.insert(slot0.effect_list, {
+			id = slot6.id
 		})
 	end
 
-	arg_15_0.attribute_list = {}
+	slot0.attribute_list = {}
 
-	for iter_15_8, iter_15_9 in ipairs(arg_15_1.attribute_list) do
-		local var_15_0 = iter_15_9.id
-		local var_15_1 = iter_15_9.value
-
-		arg_15_0.attribute_list[var_15_0] = var_15_1
+	for slot5, slot6 in ipairs(slot1.attribute_list) do
+		slot0.attribute_list[slot6.id] = slot6.value
 	end
 
-	arg_15_0.stackable_item_list = {}
+	slot0.stackable_item_list = {}
 
-	for iter_15_10, iter_15_11 in ipairs(arg_15_1.stackable_item_list) do
-		local var_15_2 = iter_15_11.id
-		local var_15_3 = iter_15_11.num
-
-		arg_15_0.stackable_item_list[var_15_2] = var_15_3
+	for slot5, slot6 in ipairs(slot1.stackable_item_list) do
+		slot0.stackable_item_list[slot6.id] = slot6.num
 	end
 end
 
-function PolyhedronTemplate.GetState(arg_16_0)
-	return arg_16_0.state
+function PolyhedronTemplate.GetState(slot0)
+	return slot0.state
 end
 
-function PolyhedronTemplate.GetTierId(arg_17_0)
-	return arg_17_0.tier_id
+function PolyhedronTemplate.GetTierId(slot0)
+	return slot0.tier_id
 end
 
-function PolyhedronTemplate.GetDifficulty(arg_18_0)
-	return arg_18_0.difficulty
+function PolyhedronTemplate.GetDifficulty(slot0)
+	return slot0.difficulty
 end
 
-function PolyhedronTemplate.GetArtifact(arg_19_0, arg_19_1)
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0.artifact_list) do
-		if iter_19_1.id == arg_19_1 then
-			return iter_19_1
+function PolyhedronTemplate.GetArtifact(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.artifact_list) do
+		if slot6.id == slot1 then
+			return slot6
 		end
 	end
 end
 
-function PolyhedronTemplate.GetBeaconList(arg_20_0)
-	return arg_20_0.beacon_id_list
+function PolyhedronTemplate.GetBeaconList(slot0)
+	return slot0.beacon_id_list
 end
 
-function PolyhedronTemplate.GetArtifactList(arg_21_0)
-	return arg_21_0.artifact_list
+function PolyhedronTemplate.GetArtifactList(slot0)
+	return slot0.artifact_list
 end
 
-function PolyhedronTemplate.GetTerminalIdList(arg_22_0)
-	return arg_22_0.terminal_id_list
+function PolyhedronTemplate.GetTerminalIdList(slot0)
+	return slot0.terminal_id_list
 end
 
-function PolyhedronTemplate.GetSavePoint(arg_23_0)
-	return arg_23_0.stage.save_point
+function PolyhedronTemplate.GetSavePoint(slot0)
+	return slot0.stage.save_point
 end
 
-function PolyhedronTemplate.GetStageId(arg_24_0)
-	return arg_24_0.stage.stage_id
+function PolyhedronTemplate.GetStageId(slot0)
+	return slot0.stage.stage_id
 end
 
-function PolyhedronTemplate.GetGateData(arg_25_0, arg_25_1)
-	return arg_25_0.stage.gate_list[arg_25_1]
+function PolyhedronTemplate.GetGateData(slot0, slot1)
+	return slot0.stage.gate_list[slot1]
 end
 
-function PolyhedronTemplate.GetRewardList(arg_26_0)
-	return arg_26_0.stage:GetRewardList()
+function PolyhedronTemplate.GetRewardList(slot0)
+	return slot0.stage:GetRewardList()
 end
 
-function PolyhedronTemplate.GetTipsList(arg_27_0)
-	return arg_27_0.stage:GetTipsList()
+function PolyhedronTemplate.GetTipsList(slot0)
+	return slot0.stage:GetTipsList()
 end
 
-function PolyhedronTemplate.GetEnlistHeroList(arg_28_0)
-	local var_28_0 = arg_28_0.stage.params
-	local var_28_1 = math.floor(#var_28_0 / 2)
-	local var_28_2 = {}
+function PolyhedronTemplate.GetEnlistHeroList(slot0)
+	slot3 = {}
 
-	for iter_28_0 = 1, var_28_1 do
-		table.insert(var_28_2, {
-			heroId = var_28_0[iter_28_0 * 2 - 1],
-			enlist_type = var_28_0[iter_28_0 * 2]
+	for slot7 = 1, math.floor(#slot0.stage.params / 2) do
+		table.insert(slot3, {
+			heroId = slot1[slot7 * 2 - 1],
+			enlist_type = slot1[slot7 * 2]
 		})
 	end
 
-	return var_28_2
+	return slot3
 end
 
-function PolyhedronTemplate.GetShopItemList(arg_29_0)
-	return arg_29_0.stage.shop_item_list
+function PolyhedronTemplate.GetShopItemList(slot0)
+	return slot0.stage.shop_item_list
 end
 
-function PolyhedronTemplate.GetShopRefreshTimes(arg_30_0)
-	return arg_30_0.stage.refresh_times
+function PolyhedronTemplate.GetShopRefreshTimes(slot0)
+	return slot0.stage.refresh_times
 end
 
-function PolyhedronTemplate.GetShopRecoverTimes(arg_31_0)
-	return arg_31_0.stage.recover_times
+function PolyhedronTemplate.GetShopRecoverTimes(slot0)
+	return slot0.stage.recover_times
 end
 
-function PolyhedronTemplate.GetRewardType(arg_32_0)
-	return arg_32_0.event.reward_type
+function PolyhedronTemplate.GetRewardType(slot0)
+	return slot0.event.reward_type
 end
 
-function PolyhedronTemplate.GetPolyhedronLeader(arg_33_0)
-	return arg_33_0.leader
+function PolyhedronTemplate.GetPolyhedronLeader(slot0)
+	return slot0.leader
 end
 
-function PolyhedronTemplate.GetLeaderHeroId(arg_34_0)
-	return arg_34_0.leader:GetHeroId()
+function PolyhedronTemplate.GetLeaderHeroId(slot0)
+	return slot0.leader:GetHeroId()
 end
 
-function PolyhedronTemplate.GetFightHeroList(arg_35_0)
-	return arg_35_0.fight_hero_id_list
+function PolyhedronTemplate.GetFightHeroList(slot0)
+	return slot0.fight_hero_id_list
 end
 
-function PolyhedronTemplate.GetHeroList(arg_36_0)
-	return table.keys(arg_36_0.hero_list)
+function PolyhedronTemplate.GetHeroList(slot0)
+	return table.keys(slot0.hero_list)
 end
 
-function PolyhedronTemplate.GetHeroPolyData(arg_37_0, arg_37_1)
-	return arg_37_0.hero_list[arg_37_1]
+function PolyhedronTemplate.GetHeroPolyData(slot0, slot1)
+	return slot0.hero_list[slot1]
 end
 
-function PolyhedronTemplate.GetCoinCount(arg_38_0)
-	return arg_38_0.stackable_item_list[1] or 0
+function PolyhedronTemplate.GetCoinCount(slot0)
+	return slot0.stackable_item_list[1] or 0
 end
 
-function PolyhedronTemplate.GetAttribulteValue(arg_39_0, arg_39_1)
-	local var_39_0 = PolyhedronAttributeIdCfg[arg_39_1]
-
-	return arg_39_0.attribute_list[var_39_0.id]
+function PolyhedronTemplate.GetAttribulteValue(slot0, slot1)
+	return slot0.attribute_list[PolyhedronAttributeIdCfg[slot1].id]
 end
 
-function PolyhedronTemplate.GetReviveCount(arg_40_0)
-	local var_40_0 = 3
-
-	for iter_40_0, iter_40_1 in ipairs(arg_40_0.beacon_id_list) do
-		if PolyhedronConst.REVIVE_COIN_EFFECT.BEACON[iter_40_1] == true then
-			var_40_0 = var_40_0 + 1
+function PolyhedronTemplate.GetReviveCount(slot0)
+	for slot5, slot6 in ipairs(slot0.beacon_id_list) do
+		if PolyhedronConst.REVIVE_COIN_EFFECT.BEACON[slot6] == true then
+			slot1 = 3 + 1
 		end
 	end
 
-	for iter_40_2, iter_40_3 in ipairs(arg_40_0.terminal_id_list) do
-		if PolyhedronConst.REVIVE_COIN_EFFECT.TERMINAL[iter_40_3] == true then
-			var_40_0 = var_40_0 + 1
+	for slot5, slot6 in ipairs(slot0.terminal_id_list) do
+		if PolyhedronConst.REVIVE_COIN_EFFECT.TERMINAL[slot6] == true then
+			slot1 = slot1 + 1
 		end
 	end
 
-	return arg_40_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_LEADER_REBORN_TIMES") or 0, var_40_0
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_LEADER_REBORN_TIMES") or 0, slot1
 end
 
-function PolyhedronTemplate.GetReviveHp(arg_41_0)
-	local var_41_0 = arg_41_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_REBORN_HEALTH_PERCENT")
-
-	if var_41_0 then
-		return var_41_0 / 10
+function PolyhedronTemplate.GetReviveHp(slot0)
+	if slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_REBORN_HEALTH_PERCENT") then
+		return slot1 / 10
 	else
 		return 100
 	end
 end
 
-function PolyhedronTemplate.ReviveMaxCount(arg_42_0)
-	return arg_42_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_LEADER_REBORN_MAX_TIMES") or 0
+function PolyhedronTemplate.ReviveMaxCount(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_LEADER_REBORN_MAX_TIMES") or 0
 end
 
-function PolyhedronTemplate.GetRollGateCount(arg_43_0)
-	return arg_43_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_RE_ROLL_GATE_TIMES") or 0
+function PolyhedronTemplate.GetRollGateCount(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_RE_ROLL_GATE_TIMES") or 0
 end
 
-function PolyhedronTemplate.GetRollRewardCount(arg_44_0)
-	return arg_44_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_RE_ROLL_ARTIFACT_REWARD_TIMES") or 0
+function PolyhedronTemplate.GetRollRewardCount(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_RE_ROLL_ARTIFACT_REWARD_TIMES") or 0
 end
 
-function PolyhedronTemplate.GetShopFressRefreshTimes(arg_45_0)
-	return arg_45_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_FREE_REFRESH_TIME") or 0
+function PolyhedronTemplate.GetShopFressRefreshTimes(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_FREE_REFRESH_TIME") or 0
 end
 
-function PolyhedronTemplate.GetShopMaxRefreshTimes(arg_46_0)
-	return arg_46_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_REFRESH_TIME") or 0
+function PolyhedronTemplate.GetShopMaxRefreshTimes(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_REFRESH_TIME") or 0
 end
 
-function PolyhedronTemplate.GetShopRecoverMaxTimes(arg_47_0)
-	return arg_47_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_RECOVER_TIME") or 0
+function PolyhedronTemplate.GetShopRecoverMaxTimes(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_SHOP_RECOVER_TIME") or 0
 end
 
-function PolyhedronTemplate.GetRewardGiveUpCoinAdd(arg_48_0)
-	return arg_48_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_GIVE_UP_ADD_COIN_NUM") or 0
+function PolyhedronTemplate.GetRewardGiveUpCoinAdd(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_GIVE_UP_ADD_COIN_NUM") or 0
 end
 
-function PolyhedronTemplate.GetTeamateRebornMaxColdDown(arg_49_0)
-	return arg_49_0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_TEAMMATE_REBORN_MAX_COLD_DOWN") or 0
+function PolyhedronTemplate.GetTeamateRebornMaxColdDown(slot0)
+	return slot0:GetAttribulteValue("GAME_POLYHEDRON_ATTRIBUTE_TEAMMATE_REBORN_MAX_COLD_DOWN") or 0
 end
 
-function PolyhedronTemplate.GetPolyhedronCoinId(arg_50_0)
+function PolyhedronTemplate.GetPolyhedronCoinId(slot0)
 	return 26
 end
 
-function PolyhedronTemplate.GetShopRefreshCost(arg_51_0, arg_51_1)
-	local var_51_0 = PolyhedronSettingCfg[14]
-
-	for iter_51_0, iter_51_1 in ipairs(var_51_0.value) do
-		if iter_51_1[1] == arg_51_1 then
-			return iter_51_1[2]
+function PolyhedronTemplate.GetShopRefreshCost(slot0, slot1)
+	for slot6, slot7 in ipairs(PolyhedronSettingCfg[14].value) do
+		if slot7[1] == slot1 then
+			return slot7[2]
 		end
 	end
 
-	local var_51_1 = #var_51_0.value
-
-	return var_51_0.value[var_51_1][2]
+	return slot2.value[#slot2.value][2]
 end
 
-function PolyhedronTemplate.GetRewardGiveUpCoin(arg_52_0)
-	return PolyhedronSettingCfg[21].value[1] + arg_52_0:GetRewardGiveUpCoinAdd()
+function PolyhedronTemplate.GetRewardGiveUpCoin(slot0)
+	return PolyhedronSettingCfg[21].value[1] + slot0:GetRewardGiveUpCoinAdd()
 end
 
-function PolyhedronTemplate.GetShopOriginalPrice(arg_53_0, arg_53_1)
-	local var_53_0 = PolyhedronSettingCfg[13]
-
-	for iter_53_0, iter_53_1 in ipairs(var_53_0.value) do
-		if iter_53_1[1] == arg_53_1 then
-			return iter_53_1[2]
+function PolyhedronTemplate.GetShopOriginalPrice(slot0, slot1)
+	for slot6, slot7 in ipairs(PolyhedronSettingCfg[13].value) do
+		if slot7[1] == slot1 then
+			return slot7[2]
 		end
 	end
 
 	return 0
 end
 
-function PolyhedronTemplate.GetTotalAffix(arg_54_0)
-	local var_54_0 = {}
-	local var_54_1 = PolyhedronTools.GetPolyhedronDifficultyAffixDir(arg_54_0.difficulty)
-
-	for iter_54_0, iter_54_1 in pairs(var_54_1) do
-		table.insert(var_54_0, iter_54_1)
+function PolyhedronTemplate.GetTotalAffix(slot0)
+	for slot6, slot7 in pairs(PolyhedronTools.GetPolyhedronDifficultyAffixDir(slot0.difficulty)) do
+		table.insert({}, slot7)
 	end
 
-	for iter_54_2, iter_54_3 in ipairs(arg_54_0.effect_list) do
-		local var_54_2 = PolyhedronEffectCfg[iter_54_3.id]
-
-		if PolyhedronConst.EFFECT_ACTION.AFFIX == var_54_2.action then
-			for iter_54_4, iter_54_5 in ipairs(var_54_2.params) do
-				table.insert(var_54_0, iter_54_5)
+	for slot6, slot7 in ipairs(slot0.effect_list) do
+		if PolyhedronConst.EFFECT_ACTION.AFFIX == PolyhedronEffectCfg[slot7.id].action then
+			for slot12, slot13 in ipairs(slot8.params) do
+				table.insert(slot1, slot13)
 			end
 		end
 	end
 
-	local var_54_3 = arg_54_0:GetCoinCount()
-
-	for iter_54_6, iter_54_7 in ipairs(arg_54_0.artifact_list) do
-		local var_54_4 = iter_54_7.id
-		local var_54_5 = iter_54_7.level
-
-		if var_54_4 >= 70701 and var_54_4 <= 70750 then
-			var_54_5 = var_54_5 * var_54_3
+	for slot7, slot8 in ipairs(slot0.artifact_list) do
+		if slot8.id >= 70701 and slot9 <= 70750 then
+			slot10 = slot8.level * slot0:GetCoinCount()
 		end
 
-		local var_54_6 = PolyhedronArtifactCfg[var_54_4]
+		slot11 = PolyhedronArtifactCfg[slot9]
 
-		table.insert(var_54_0, {
-			var_54_6.affix_id,
-			var_54_5,
-			var_54_6.affix_target
+		table.insert(slot1, {
+			slot11.affix_id,
+			slot10,
+			slot11.affix_target
 		})
 	end
 
-	return var_54_0
+	return slot1
 end
 
-function PolyhedronTemplate.CalPolyhedronAttribute(arg_55_0, arg_55_1)
-	local var_55_0 = {}
-	local var_55_1 = #arg_55_0.artifact_list
+function PolyhedronTemplate.CalPolyhedronAttribute(slot0, slot1)
+	slot2 = {}
+	slot3 = #slot0.artifact_list
 
-	for iter_55_0, iter_55_1 in ipairs(arg_55_0.effect_list) do
-		if iter_55_1.id == 2014 then
+	for slot7, slot8 in ipairs(slot0.effect_list) do
+		if slot8.id == 2014 then
 			CustomLog.Log(debug.traceback(string.format("2014")))
 		end
 
-		local var_55_2 = PolyhedronEffectCfg[iter_55_1.id]
-
-		if PolyhedronConst.EFFECT_MOMENT.FOREVER == var_55_2.moment then
-			if PolyhedronConst.EFFECT_ACTION.ATTRIBUTE == var_55_2.action then
-				for iter_55_2, iter_55_3 in ipairs(var_55_2.params) do
-					local var_55_3 = iter_55_3[1]
-					local var_55_4 = iter_55_3[2]
-
-					var_55_0[var_55_3] = HeroTools.AttributeAdd(var_55_3, var_55_0[var_55_3], var_55_4)
+		if PolyhedronConst.EFFECT_MOMENT.FOREVER == PolyhedronEffectCfg[slot8.id].moment then
+			if PolyhedronConst.EFFECT_ACTION.ATTRIBUTE == slot9.action then
+				for slot13, slot14 in ipairs(slot9.params) do
+					slot15 = slot14[1]
+					slot2[slot15] = HeroTools.AttributeAdd(slot15, slot2[slot15], slot14[2])
 				end
-			elseif PolyhedronConst.EFFECT_ACTION.ATTRIBUTE_MULTIPLE_ARTIFACT_NUM == var_55_2.action then
-				for iter_55_4, iter_55_5 in ipairs(var_55_2.params) do
-					local var_55_5 = iter_55_5[1]
-					local var_55_6 = iter_55_5[2] * var_55_1
-
-					var_55_0[var_55_5] = HeroTools.AttributeAdd(var_55_5, var_55_0[var_55_5], var_55_6)
+			elseif PolyhedronConst.EFFECT_ACTION.ATTRIBUTE_MULTIPLE_ARTIFACT_NUM == slot9.action then
+				for slot13, slot14 in ipairs(slot9.params) do
+					slot15 = slot14[1]
+					slot2[slot15] = HeroTools.AttributeAdd(slot15, slot2[slot15], slot14[2] * slot3)
 				end
 			end
 		end
 	end
 
-	local var_55_7 = arg_55_0.hero_list[arg_55_1]
-
-	if var_55_7 then
-		for iter_55_6, iter_55_7 in ipairs(var_55_7.difference_attribute_list) do
-			local var_55_8 = iter_55_7.id
-			local var_55_9 = iter_55_7.value
-
-			var_55_0[var_55_8] = HeroTools.AttributeAdd(var_55_8, var_55_0[var_55_8], var_55_9)
+	if slot0.hero_list[slot1] then
+		for slot8, slot9 in ipairs(slot4.difference_attribute_list) do
+			slot10 = slot9.id
+			slot2[slot10] = HeroTools.AttributeAdd(slot10, slot2[slot10], slot9.value)
 		end
 	end
 
-	return var_55_0
+	return slot2
 end
 
 PolyhedronSnapShotTemplate = class("PolyhedronSnapShotTemplate")
 
-function PolyhedronSnapShotTemplate.Ctor(arg_56_0, arg_56_1)
-	arg_56_0.hero_id = arg_56_1.hero_id
-	arg_56_0.astrolabe_list = {}
+function PolyhedronSnapShotTemplate.Ctor(slot0, slot1)
+	slot0.hero_id = slot1.hero_id
+	slot0.astrolabe_list = {}
 
-	for iter_56_0, iter_56_1 in ipairs(arg_56_1.astrolabe_list) do
-		table.insert(arg_56_0.astrolabe_list, iter_56_1)
+	for slot5, slot6 in ipairs(slot1.astrolabe_list) do
+		table.insert(slot0.astrolabe_list, slot6)
 	end
 end
 
-function PolyhedronSnapShotTemplate.GetHeroId(arg_57_0)
-	return arg_57_0.hero_id
+function PolyhedronSnapShotTemplate.GetHeroId(slot0)
+	return slot0.hero_id
 end
 
-function PolyhedronSnapShotTemplate.GetVirtualData(arg_58_0)
-	local var_58_0 = PolyhedronHeroCfg[arg_58_0.hero_id].standard_id
-	local var_58_1 = deepClone(TempHeroData:GetTempHeroDataByTempID(var_58_0))
-	local var_58_2 = var_58_1.equip_list
+function PolyhedronSnapShotTemplate.GetVirtualData(slot0)
+	slot3 = deepClone(TempHeroData:GetTempHeroDataByTempID(PolyhedronHeroCfg[slot0.hero_id].standard_id))
+	slot4 = slot3.equip_list
+	slot3.using_astrolabe = slot0.astrolabe_list
+	slot8 = slot0.hero_id
+	slot3.using_skin = PolyhedronData:GetHeroUsingSkinInfo(slot8).id
 
-	var_58_1.using_astrolabe = arg_58_0.astrolabe_list
-	var_58_1.using_skin = PolyhedronData:GetHeroUsingSkinInfo(arg_58_0.hero_id).id
-
-	for iter_58_0, iter_58_1 in ipairs(var_58_1.skill) do
-		local var_58_3 = HeroTools.GetHeroSkillAddLevel(var_58_1, iter_58_1.skill_id)
-
-		iter_58_1.skill_level = iter_58_1.skill_level + var_58_3
+	for slot8, slot9 in ipairs(slot3.skill) do
+		slot9.skill_level = slot9.skill_level + HeroTools.GetHeroSkillAddLevel(slot3, slot9.skill_id)
 	end
 
-	return var_58_1, var_58_2
+	return slot3, slot4
 end
 
 PolyhedronHeroTemplate = class("PolyhedronHeroTemplate")
 
-function PolyhedronHeroTemplate.Ctor(arg_59_0, arg_59_1)
-	arg_59_0.hero_id = arg_59_1.hero_id
-	arg_59_0.template_id = arg_59_1.template_id
-	arg_59_0.health = arg_59_1.health
-	arg_59_0.max_health = arg_59_1.max_health
-	arg_59_0.reborn_cold_down = arg_59_1.reborn_cold_down
-	arg_59_0.difference_attribute_list = {}
+function PolyhedronHeroTemplate.Ctor(slot0, slot1)
+	slot0.hero_id = slot1.hero_id
+	slot0.template_id = slot1.template_id
+	slot0.health = slot1.health
+	slot0.max_health = slot1.max_health
+	slot0.reborn_cold_down = slot1.reborn_cold_down
+	slot0.difference_attribute_list = {}
 
-	for iter_59_0, iter_59_1 in ipairs(arg_59_1.difference_attribute_list) do
-		local var_59_0 = iter_59_1.id
-		local var_59_1 = iter_59_1.value
-
-		table.insert(arg_59_0.difference_attribute_list, {
-			id = var_59_0,
-			value = var_59_1
+	for slot5, slot6 in ipairs(slot1.difference_attribute_list) do
+		table.insert(slot0.difference_attribute_list, {
+			id = slot6.id,
+			value = slot6.value
 		})
 	end
 
-	arg_59_0.injured = arg_59_1.injured
-	arg_59_0.heal = arg_59_1.heal
-	arg_59_0.damage = arg_59_1.damage
+	slot0.injured = slot1.injured
+	slot0.heal = slot1.heal
+	slot0.damage = slot1.damage
 end
 
-function PolyhedronHeroTemplate.IsDead(arg_60_0)
-	return arg_60_0.health <= 0
+function PolyhedronHeroTemplate.IsDead(slot0)
+	return slot0.health <= 0
 end
 
-function PolyhedronHeroTemplate.GetHeroMaxHP(arg_61_0)
-	return arg_61_0.max_health
+function PolyhedronHeroTemplate.GetHeroMaxHP(slot0)
+	return slot0.max_health
 end
 
-function PolyhedronHeroTemplate.GetHeroHP(arg_62_0)
-	return math.ceil(arg_62_0.health)
+function PolyhedronHeroTemplate.GetHeroHP(slot0)
+	return math.ceil(slot0.health)
 end
 
 PolyhedronEventTemplate = class("PolyhedronHeroTemplate")
 
-function PolyhedronEventTemplate.Ctor(arg_63_0, arg_63_1)
-	arg_63_0.id = arg_63_1.id
-	arg_63_0.stage_id = arg_63_1.stage_id
-	arg_63_0.reward_type = arg_63_1.reward_type
+function PolyhedronEventTemplate.Ctor(slot0, slot1)
+	slot0.id = slot1.id
+	slot0.stage_id = slot1.stage_id
+	slot0.reward_type = slot1.reward_type
 end
 
 PolyhedronStageTemplate = class("PolyhedronStageTemplate")
 
-function PolyhedronStageTemplate.Ctor(arg_64_0, arg_64_1)
-	arg_64_0.stage_id = arg_64_1.stage_id
-	arg_64_0.save_point = arg_64_1.save_point
+function PolyhedronStageTemplate.Ctor(slot0, slot1)
+	slot0.stage_id = slot1.stage_id
+	slot0.save_point = slot1.save_point
 
-	print("更新保存点" .. arg_64_0.save_point)
+	print("更新保存点" .. slot0.save_point)
 
-	local var_64_0 = arg_64_1.reward
+	slot2 = slot1.reward
+	slot0.rewardRound = slot2.round
+	slot0.item_list = {}
 
-	arg_64_0.rewardRound = var_64_0.round
-	arg_64_0.item_list = {}
+	for slot6, slot7 in ipairs(slot2.item_list) do
+		slot8 = {}
 
-	for iter_64_0, iter_64_1 in ipairs(var_64_0.item_list) do
-		local var_64_1 = {}
-
-		for iter_64_2, iter_64_3 in ipairs(iter_64_1.params) do
-			table.insert(var_64_1, iter_64_3)
+		for slot12, slot13 in ipairs(slot7.params) do
+			table.insert(slot8, slot13)
 		end
 
-		table.insert(arg_64_0.item_list, {
-			class = iter_64_1.class,
-			params = var_64_1
+		table.insert(slot0.item_list, {
+			class = slot7.class,
+			params = slot8
 		})
 	end
 
-	arg_64_0.params = {}
+	slot0.params = {}
 
-	for iter_64_4, iter_64_5 in ipairs(arg_64_1.params) do
-		table.insert(arg_64_0.params, iter_64_5)
+	for slot6, slot7 in ipairs(slot1.params) do
+		table.insert(slot0.params, slot7)
 	end
 
-	arg_64_0.gate_list = {}
+	slot0.gate_list = {}
 
-	for iter_64_6, iter_64_7 in ipairs(arg_64_1.gate_list) do
-		local var_64_2 = iter_64_7.index
-		local var_64_3 = PolyhedronEventTemplate.New(iter_64_7.event)
-
-		arg_64_0.gate_list[var_64_2] = var_64_3
+	for slot6, slot7 in ipairs(slot1.gate_list) do
+		slot0.gate_list[slot7.index] = PolyhedronEventTemplate.New(slot7.event)
 	end
 
-	local var_64_4 = arg_64_1.shop
+	if slot1.shop then
+		slot0.refresh_times = slot3.refresh_times
+		slot0.recover_times = slot3.recover_times
+		slot0.shop_item_list = {}
 
-	if var_64_4 then
-		arg_64_0.refresh_times = var_64_4.refresh_times
-		arg_64_0.recover_times = var_64_4.recover_times
-		arg_64_0.shop_item_list = {}
-
-		for iter_64_8, iter_64_9 in ipairs(var_64_4.item_list) do
-			local var_64_5 = {}
-			local var_64_6 = iter_64_9.item
-
-			for iter_64_10, iter_64_11 in ipairs(var_64_6.params) do
-				table.insert(var_64_5, iter_64_11)
+		for slot7, slot8 in ipairs(slot3.item_list) do
+			for slot14, slot15 in ipairs(slot8.item.params) do
+				table.insert({}, slot15)
 			end
 
-			local var_64_7 = var_64_6.class
-			local var_64_8 = iter_64_9.price
-
-			if iter_64_9.is_available == 1 then
-				table.insert(arg_64_0.shop_item_list, {
-					class = var_64_7,
-					params = var_64_5,
-					price = var_64_8,
-					shop_index = iter_64_8
+			if slot8.is_available == 1 then
+				table.insert(slot0.shop_item_list, {
+					class = slot10.class,
+					params = slot9,
+					price = slot8.price,
+					shop_index = slot7
 				})
 			end
 		end
 	else
-		arg_64_0.refresh_times = 0
-		arg_64_0.recover_times = 0
-		arg_64_0.shop_item_list = {}
+		slot0.refresh_times = 0
+		slot0.recover_times = 0
+		slot0.shop_item_list = {}
 	end
 
-	arg_64_0.attribute_modify_list = {}
+	slot0.attribute_modify_list = {}
 
-	for iter_64_12, iter_64_13 in ipairs(arg_64_1.attribute_modify_list) do
-		local var_64_9 = {
-			attribute_id = iter_64_13.attribute_id
-		}
-
-		if iter_64_13.target_id then
-			var_64_9.target_id = iter_64_13.target_id
+	for slot7, slot8 in ipairs(slot1.attribute_modify_list) do
+		if slot8.target_id then
+			-- Nothing
 		end
 
-		if iter_64_13.delta then
-			var_64_9.delta = iter_64_13.delta
+		if slot8.delta then
+			slot9.delta = slot8.delta
 		end
 
-		table.insert(arg_64_0.attribute_modify_list, var_64_9)
+		table.insert(slot0.attribute_modify_list, {
+			attribute_id = slot8.attribute_id,
+			target_id = slot8.target_id
+		})
 	end
 end
 
-function PolyhedronStageTemplate.GetRewardList(arg_65_0)
-	if PolyhedronConst.SAVE_POINT_TYPE.REWARD == arg_65_0.save_point then
-		return arg_65_0.item_list
+function PolyhedronStageTemplate.GetRewardList(slot0)
+	if PolyhedronConst.SAVE_POINT_TYPE.REWARD == slot0.save_point then
+		return slot0.item_list
 	end
 
 	return {}
 end
 
-function PolyhedronStageTemplate.GetTipsList(arg_66_0)
-	return arg_66_0.attribute_modify_list
+function PolyhedronStageTemplate.GetTipsList(slot0)
+	return slot0.attribute_modify_list
 end
 
 PolyhedronRankTemplate = class("PolyhedronRankTemplate")
 
-function PolyhedronRankTemplate.Ctor(arg_67_0, arg_67_1)
-	arg_67_0.user_id = arg_67_1.user_id
-	arg_67_0.score = arg_67_1.score
-	arg_67_0.difficulty = arg_67_1.difficulty
-	arg_67_0.rank = arg_67_1.rank
-	arg_67_0.timestamp = arg_67_1.timestamp
+function PolyhedronRankTemplate.Ctor(slot0, slot1)
+	slot0.user_id = slot1.user_id
+	slot0.score = slot1.score
+	slot0.difficulty = slot1.difficulty
+	slot0.rank = slot1.rank
+	slot0.timestamp = slot1.timestamp
 
-	local var_67_0 = PlayerData:GetPlayerInfo()
-
-	if var_67_0 and arg_67_0.user_id == var_67_0.userID then
-		arg_67_0.nick = var_67_0.nick
-		arg_67_0.icon = var_67_0.portrait
-		arg_67_0.icon_frame = var_67_0.icon_frame
+	if PlayerData:GetPlayerInfo() and slot0.user_id == slot2.userID then
+		slot0.nick = slot2.nick
+		slot0.icon = slot2.portrait
+		slot0.icon_frame = slot2.icon_frame
 	else
-		arg_67_0.nick = arg_67_1.nick
-		arg_67_0.icon = arg_67_1.portrait
-		arg_67_0.icon_frame = arg_67_1.frame
+		slot0.nick = slot1.nick
+		slot0.icon = slot1.portrait
+		slot0.icon_frame = slot1.frame
 	end
 
-	arg_67_0.select_hero_id_list = {}
+	slot0.select_hero_id_list = {}
 
-	local var_67_1 = arg_67_1.team_info[1] and arg_67_1.team_info[1].hero_info_list or {}
-
-	for iter_67_0, iter_67_1 in ipairs(var_67_1) do
-		table.insert(arg_67_0.select_hero_id_list, {
-			id = iter_67_1.hero_id,
-			skin_id = iter_67_1.skin_id
+	for slot7, slot8 in ipairs(slot1.team_info[1] and slot1.team_info[1].hero_info_list or {}) do
+		table.insert(slot0.select_hero_id_list, {
+			id = slot8.hero_id,
+			skin_id = slot8.skin_id
 		})
 	end
 end

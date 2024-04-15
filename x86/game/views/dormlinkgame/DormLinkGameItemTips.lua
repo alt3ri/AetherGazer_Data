@@ -1,52 +1,48 @@
-local var_0_0 = class("DormLinkGameItemTips", ReduxView)
+slot0 = class("DormLinkGameItemTips", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng2ndUI/XH2ndLinkGameUI/XH2ndLGTips"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListenerScale(arg_6_0.bgmaskBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.bgmaskBtn_, nil, function ()
 		JumpTools:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.itemID = arg_8_0.params_.itemID
+function slot0.OnEnter(slot0)
+	slot0.itemID = slot0.params_.itemID
 
-	arg_8_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.RefreshView(arg_9_0)
-	local var_9_0 = ActivityLinkGameGoodsCfg[arg_9_0.itemID]
-
-	if var_9_0 then
-		arg_9_0.textText_.text = var_9_0.goods_des
+function slot0.RefreshView(slot0)
+	if ActivityLinkGameGoodsCfg[slot0.itemID] then
+		slot0.textText_.text = slot1.goods_des
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

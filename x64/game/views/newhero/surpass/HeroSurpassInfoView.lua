@@ -1,5 +1,5 @@
-local var_0_0 = class("HeroSurpassInfoView", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroSurpassInfoView", ReduxView)
+slot1 = {
 	infoEx = {
 		upState = {
 			finish = "finish",
@@ -10,54 +10,52 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.upBtnController = arg_2_0.rootControllerexcollection_:GetController(var_0_1.infoEx.upState.name)
-	arg_2_0.costItem = CommonItemView.New(arg_2_0.costitem_)
-	arg_2_0.attrItemGrowList = {}
+	slot4 = uv0.infoEx.upState.name
+	slot0.upBtnController = slot0.rootControllerexcollection_:GetController(slot4)
+	slot0.costItem = CommonItemView.New(slot0.costitem_)
+	slot0.attrItemGrowList = {}
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0.attrItemGrowList[iter_2_0] = HeroSurpassAttrItem.New(arg_2_0["attr" .. iter_2_0 .. "Go_"])
+	for slot4 = 1, 3 do
+		slot0.attrItemGrowList[slot4] = HeroSurpassAttrItem.New(slot0["attr" .. slot4 .. "Go_"])
 	end
 
-	arg_2_0.attrItemBaseList = {}
+	slot0.attrItemBaseList = {}
 
-	for iter_2_1 = 1, 5 do
-		arg_2_0.attrItemBaseList[iter_2_1] = HeroSurpassAttrItem.New(arg_2_0["attrbase" .. iter_2_1 .. "Go_"])
+	for slot4 = 1, 5 do
+		slot0.attrItemBaseList[slot4] = HeroSurpassAttrItem.New(slot0["attrbase" .. slot4 .. "Go_"])
 	end
 end
 
-function var_0_0.OnTop(arg_3_0)
-	arg_3_0:ChangeBar()
+function slot0.OnTop(slot0)
+	slot0:ChangeBar()
 end
 
-function var_0_0.CheckIsShowGold(arg_4_0)
-	if not arg_4_0.heroInfo then
+function slot0.CheckIsShowGold(slot0)
+	if not slot0.heroInfo then
 		return false
 	end
 
-	local var_4_0 = arg_4_0.heroInfo.star
-	local var_4_1 = SurpassTools.GetNextSurpassStarID(var_4_0)
-
-	if var_4_1 and var_4_1 > arg_4_0.selectStarID then
+	if SurpassTools.GetNextSurpassStarID(slot0.heroInfo.star) and slot0.selectStarID < slot2 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.ChangeBar(arg_5_0)
-	if arg_5_0:CheckIsShowGold() then
+function slot0.ChangeBar(slot0)
+	if slot0:CheckIsShowGold() then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR
@@ -72,209 +70,186 @@ function var_0_0.ChangeBar(arg_5_0)
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.upbtnBtn_, nil, function()
-		arg_6_0:OnUpBtn()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.upbtnBtn_, nil, function ()
+		uv0:OnUpBtn()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnnodeBtn_, nil, function()
-		arg_6_0:OnGoToAstrolabe()
+	slot0:AddBtnListener(slot0.btnnodeBtn_, nil, function ()
+		uv0:OnGoToAstrolabe()
 	end)
 end
 
-function var_0_0.OnGoldChange(arg_9_0)
-	if arg_9_0.selectStarID then
-		arg_9_0:UpdateCost(arg_9_0.selectStarID)
+function slot0.OnGoldChange(slot0)
+	if slot0.selectStarID then
+		slot0:UpdateCost(slot0.selectStarID)
 	end
 end
 
-function var_0_0.OnGoToAstrolabe(arg_10_0)
+function slot0.OnGoToAstrolabe(slot0)
 	JumpTools.OpenPageByJump("/newHero", {
 		isEnter = true,
 		pageIndex = 6,
-		hid = arg_10_0.heroInfo.id,
+		hid = slot0.heroInfo.id,
 		type = HeroConst.HERO_DATA_TYPE.DEFAULT
 	})
 end
 
-function var_0_0.OnUpBtn(arg_11_0)
-	local var_11_0 = HeroStarCfg[arg_11_0.heroInfo.star]
-
-	if var_11_0.star_up > arg_11_0.heroInfo.piece then
+function slot0.OnUpBtn(slot0)
+	if slot0.heroInfo.piece < HeroStarCfg[slot0.heroInfo.star].star_up then
 		ShowTips("ERROR_ITEM_NOT_ENOUGH_HERO_PIECE")
 
 		return
 	end
 
-	if not checkGold(var_11_0.gold_cost, true) then
+	if not checkGold(slot1.gold_cost, true) then
 		return
 	end
 
-	HeroAction.HeroStarUp(arg_11_0.heroInfo.id)
+	HeroAction.HeroStarUp(slot0.heroInfo.id)
 end
 
-function var_0_0.SetDataProxy(arg_12_0, arg_12_1)
-	arg_12_0.dataProxy = arg_12_1
+function slot0.SetDataProxy(slot0, slot1)
+	slot0.dataProxy = slot1
 end
 
-function var_0_0.SetHeroId(arg_13_0, arg_13_1)
-	arg_13_0.heroID = arg_13_1
-	arg_13_0.heroCfg = HeroCfg[arg_13_0.heroID]
-	arg_13_0.titlenameText_.text = arg_13_0.heroCfg.name
-	arg_13_0.nameText_.text = arg_13_0.heroCfg.suffix
+function slot0.SetHeroId(slot0, slot1)
+	slot0.heroID = slot1
+	slot0.heroCfg = HeroCfg[slot0.heroID]
+	slot0.titlenameText_.text = slot0.heroCfg.name
+	slot0.nameText_.text = slot0.heroCfg.suffix
 end
 
-function var_0_0.RefreshUi(arg_14_0, arg_14_1)
-	arg_14_1 = arg_14_1 or arg_14_0.selectStarID
-	arg_14_0.heroInfo = arg_14_0.dataProxy:GetHeroData(arg_14_0.heroID)
+function slot0.RefreshUi(slot0, slot1)
+	slot0.heroInfo = slot0.dataProxy:GetHeroData(slot0.heroID)
 
-	local var_14_0 = arg_14_0.heroInfo.star
-	local var_14_1 = SurpassTools.GetNextSurpassStarID(var_14_0)
-	local var_14_2 = HeroStarCfg[arg_14_1]
+	SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, HeroStarCfg[slot1 or slot0.selectStarID].star)
 
-	SurpassTools.ChangeIconStarSpirte(arg_14_0.iconImg_, var_14_2.star)
-
-	if var_14_1 and var_14_1 == arg_14_1 then
-		arg_14_0.upBtnController:SetSelectedState(var_0_1.infoEx.upState.up)
-	elseif var_14_1 and arg_14_1 < var_14_1 then
-		arg_14_0.upBtnController:SetSelectedState(var_0_1.infoEx.upState.finish)
+	if SurpassTools.GetNextSurpassStarID(slot0.heroInfo.star) and slot3 == slot1 then
+		slot0.upBtnController:SetSelectedState(uv0.infoEx.upState.up)
+	elseif slot3 and slot1 < slot3 then
+		slot0.upBtnController:SetSelectedState(uv0.infoEx.upState.finish)
 	else
-		arg_14_0.upBtnController:SetSelectedState(var_0_1.infoEx.upState.lock)
+		slot0.upBtnController:SetSelectedState(uv0.infoEx.upState.lock)
 	end
 
-	arg_14_0:RefreshDescInfo(arg_14_1)
-	arg_14_0:UpdateCost(arg_14_1)
+	slot0:RefreshDescInfo(slot1)
+	slot0:UpdateCost(slot1)
 
-	local var_14_3 = SurpassTools.GetSmallStageShow(arg_14_1)
+	slot5 = SurpassTools.GetSmallStageShow(slot1)
+	slot0.lvtextText_.text = slot5
 
-	arg_14_0.lvtextText_.text = var_14_3
+	SetActive(slot0.lvnodeGo_, slot5 ~= "" and true or false)
 
-	SetActive(arg_14_0.lvnodeGo_, var_14_3 ~= "" and true or false)
-
-	if arg_14_1 ~= arg_14_0.selectStarID then
-		arg_14_0.rootAni_:Play("Fx_Common_right_cx", 0, 0)
+	if slot1 ~= slot0.selectStarID then
+		slot0.rootAni_:Play("Fx_Common_right_cx", 0, 0)
 	end
 
-	arg_14_0.selectStarID = arg_14_1
+	slot0.selectStarID = slot1
 
-	arg_14_0:ChangeBar()
+	slot0:ChangeBar()
 end
 
-function var_0_0.UpdateCost(arg_15_0, arg_15_1)
-	local var_15_0 = table.indexof(HeroStarCfg.all, arg_15_1)
-	local var_15_1 = HeroStarCfg[HeroStarCfg.all[var_15_0 - 1]]
+function slot0.UpdateCost(slot0, slot1)
+	if HeroStarCfg[HeroStarCfg.all[table.indexof(HeroStarCfg.all, slot1) - 1]] then
+		slot4 = ItemCfg[slot0.heroID].fragment
+		slot6 = slot3.star_up
+		slot7 = clone(ItemTemplateData)
+		slot7.id = slot4
+		slot7.number = slot6
 
-	if var_15_1 then
-		local var_15_2 = ItemCfg[arg_15_0.heroID].fragment
-		local var_15_3 = ItemTools.getItemNum(var_15_2)
-		local var_15_4 = var_15_1.star_up
-		local var_15_5 = clone(ItemTemplateData)
-
-		var_15_5.id = var_15_2
-		var_15_5.number = var_15_4
-
-		function var_15_5.clickFun(arg_16_0)
+		function slot7.clickFun(slot0)
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_16_0.id,
-				arg_16_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 
-		arg_15_0.costItem:SetData(var_15_5)
-		arg_15_0.costItem:RefreshBottomText({
-			var_15_3,
-			var_15_4
+		slot0.costItem:SetData(slot7)
+		slot0.costItem:RefreshBottomText({
+			ItemTools.getItemNum(slot4),
+			slot6
 		})
-		arg_15_0.costItem:RefreshBottomRightText(true)
+		slot0.costItem:RefreshBottomRightText(true)
 
-		if not checkGold(var_15_1.gold_cost, false) then
-			arg_15_0.goldCostText_.text = string.format("<color=#FF000B>%d</color>", var_15_1.gold_cost)
+		if not checkGold(slot3.gold_cost, false) then
+			slot0.goldCostText_.text = string.format("<color=#FF000B>%d</color>", slot3.gold_cost)
 		else
-			arg_15_0.goldCostText_.text = string.format("%d", var_15_1.gold_cost)
+			slot0.goldCostText_.text = string.format("%d", slot3.gold_cost)
 		end
 	end
 end
 
-function var_0_0.RefreshDescInfo(arg_17_0, arg_17_1)
-	local var_17_0 = HeroStarCfg[arg_17_1]
-	local var_17_1 = var_17_0.star
+function slot0.RefreshDescInfo(slot0, slot1)
+	slot3 = HeroStarCfg[slot1].star
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.attrItemGrowList) do
-		iter_17_1:SetActive(false)
+	for slot7, slot8 in pairs(slot0.attrItemGrowList) do
+		slot8:SetActive(false)
 	end
 
-	for iter_17_2, iter_17_3 in pairs(arg_17_0.attrItemBaseList) do
-		iter_17_3:SetActive(false)
+	for slot7, slot8 in pairs(slot0.attrItemBaseList) do
+		slot8:SetActive(false)
 	end
 
-	local var_17_2, var_17_3, var_17_4, var_17_5 = SurpassTools.GetStarUpAttrShowDesc(arg_17_0.heroCfg, arg_17_1, true)
+	slot4, slot5, slot6, slot7 = SurpassTools.GetStarUpAttrShowDesc(slot0.heroCfg, slot1, true)
 
-	if var_17_0.phase == 0 then
-		local var_17_6 = math.max(var_17_1 - 1, 0)
+	if slot2.phase == 0 then
+		slot8 = math.max(slot3 - 1, 0)
 
-		arg_17_0.attrItemGrowList[1]:RefreshUI(arg_17_0.heroCfg.atk_ratio[var_17_6], arg_17_0.heroCfg.atk_ratio[var_17_1], 1, true)
-		arg_17_0.attrItemGrowList[2]:RefreshUI(arg_17_0.heroCfg.arm_ratio[var_17_6], arg_17_0.heroCfg.arm_ratio[var_17_1], 2, true)
-		arg_17_0.attrItemGrowList[3]:RefreshUI(arg_17_0.heroCfg.sta_ratio[var_17_6], arg_17_0.heroCfg.sta_ratio[var_17_1], 3, true)
+		slot0.attrItemGrowList[1]:RefreshUI(slot0.heroCfg.atk_ratio[slot8], slot0.heroCfg.atk_ratio[slot3], 1, true)
+		slot0.attrItemGrowList[2]:RefreshUI(slot0.heroCfg.arm_ratio[slot8], slot0.heroCfg.arm_ratio[slot3], 2, true)
+		slot0.attrItemGrowList[3]:RefreshUI(slot0.heroCfg.sta_ratio[slot8], slot0.heroCfg.sta_ratio[slot3], 3, true)
 	end
 
-	for iter_17_4, iter_17_5 in pairs(var_17_5) do
-		if arg_17_0.attrItemBaseList[iter_17_4] then
-			arg_17_0.attrItemBaseList[iter_17_4]:RefreshUI(nil, iter_17_5.value, iter_17_5.attrId)
+	for slot11, slot12 in pairs(slot7) do
+		if slot0.attrItemBaseList[slot11] then
+			slot0.attrItemBaseList[slot11]:RefreshUI(nil, slot12.value, slot12.attrId)
 		end
 	end
 
-	SetActive(arg_17_0.attributeGo_, var_17_0.phase == 0)
-	SetActive(arg_17_0.attrbasenodeGo_, var_17_5 and #var_17_5 > 0)
+	SetActive(slot0.attributeGo_, slot2.phase == 0)
+	SetActive(slot0.attrbasenodeGo_, slot7 and #slot7 > 0)
+	SetActive(slot0.btnnodeGo_, false)
 
-	local var_17_7 = HeroTools.IsSpHero(arg_17_0.heroInfo.id)
+	slot9 = false
 
-	SetActive(arg_17_0.btnnodeGo_, false)
+	if HeroTools.IsSpHero(slot0.heroInfo.id) then
+		SetActive(slot0.btnnodeGo_, AstrolabeTools.GetSpAstrolabeNodeBySurpass(slot0.heroInfo.id, slot1) ~= 0)
 
-	local var_17_8 = false
-
-	if var_17_7 then
-		local var_17_9 = AstrolabeTools.GetSpAstrolabeNodeBySurpass(arg_17_0.heroInfo.id, arg_17_1)
-
-		SetActive(arg_17_0.btnnodeGo_, var_17_9 ~= 0)
-
-		if HeroAstrolabeCfg[var_17_9] then
-			var_17_8 = true
-			arg_17_0.txt_dyn_name02Text_.text = string.format(GetTips("SP_SURPASS_DES"), HeroAstrolabeCfg[var_17_9].name)
+		if HeroAstrolabeCfg[slot10] then
+			slot9 = true
+			slot0.txt_dyn_name02Text_.text = string.format(GetTips("SP_SURPASS_DES"), HeroAstrolabeCfg[slot10].name)
 		end
 	end
 
-	local var_17_10 = ""
-
-	for iter_17_6, iter_17_7 in pairs(var_17_2) do
-		var_17_10 = string.format("%s%s\n", var_17_10, iter_17_7)
+	for slot14, slot15 in pairs(slot4) do
+		slot10 = string.format("%s%s\n", "", slot15)
 	end
 
-	local var_17_11 = string.format("%s%s\n", var_17_10, var_17_3)
+	slot0.describetextText_.text = string.format("%s%s\n", slot10, slot5)
 
-	arg_17_0.describetextText_.text = var_17_11
-
-	SetActive(arg_17_0.specialGo_, #var_17_2 > 0 or var_17_3 ~= "" or var_17_8)
+	SetActive(slot0.specialGo_, #slot4 > 0 or slot5 ~= "" or slot9)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.costItem then
-		arg_18_0.costItem:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.costItem then
+		slot0.costItem:Dispose()
 
-		arg_18_0.costItem = nil
+		slot0.costItem = nil
 	end
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.attrItemGrowList) do
-		if iter_18_1 then
-			iter_18_1:Dispose()
+	for slot4, slot5 in pairs(slot0.attrItemGrowList) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	for iter_18_2, iter_18_3 in pairs(arg_18_0.attrItemBaseList) do
-		if iter_18_3 then
-			iter_18_3:Dispose()
+	for slot4, slot5 in pairs(slot0.attrItemBaseList) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

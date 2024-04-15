@@ -1,102 +1,93 @@
-local var_0_0 = class("MythicFinalRankItem", ReduxView)
+slot0 = class("MythicFinalRankItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddListeners()
+	slot0:initUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.rankController_ = arg_2_0.conExCollection_:GetController("rank")
+	slot0.rankController_ = slot0.conExCollection_:GetController("rank")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.viewBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.viewBtn_, nil, function ()
 		JumpTools.OpenPageByJump("mythicFinalRankHeroView", {
-			herolist = arg_3_0.team_list_,
-			name = arg_3_0.name_,
-			userID = arg_3_0.user_id
+			herolist = uv0.team_list_,
+			name = uv0.name_,
+			userID = uv0.user_id
 		})
 	end)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1)
-	arg_5_0.user_id = arg_5_1.user_id
-	arg_5_0.rankText_.text = arg_5_1.rank
-	arg_5_0.scoreText_.text = arg_5_1.score
-	arg_5_0.layerText_.text = arg_5_1.difficulty
+function slot0.Refresh(slot0, slot1)
+	slot0.user_id = slot1.user_id
+	slot0.rankText_.text = slot1.rank
+	slot0.scoreText_.text = slot1.score
+	slot0.layerText_.text = slot1.difficulty
 
-	if arg_5_1.rank <= 3 then
-		arg_5_0.rankController_:SetSelectedIndex(arg_5_1.rank)
+	if slot1.rank <= 3 then
+		slot0.rankController_:SetSelectedIndex(slot1.rank)
 	else
-		arg_5_0.rankController_:SetSelectedIndex(0)
+		slot0.rankController_:SetSelectedIndex(0)
 	end
 
-	arg_5_0.name_ = arg_5_1.nick
-	arg_5_0.nickText_.text = arg_5_1.nick
-	arg_5_0.headImg_.sprite = ItemTools.getItemSprite(arg_5_1.portrait)
-	arg_5_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_5_1.frame)
-	arg_5_0.team_list_ = {}
+	slot0.name_ = slot1.nick
+	slot0.nickText_.text = slot1.nick
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot1.portrait)
+	slot6 = slot1.frame
+	slot5 = "TextureConfig/Frame/" .. slot6
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas(slot5)
+	slot0.team_list_ = {}
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1.stage_team_list[0]) do
-		arg_5_0.team_list_[iter_5_0] = {}
+	for slot5, slot6 in ipairs(slot1.stage_team_list[0]) do
+		slot0.team_list_[slot5] = {}
 
-		for iter_5_2, iter_5_3 in ipairs(iter_5_1) do
-			table.insert(arg_5_0.team_list_[iter_5_0], {
-				id = iter_5_3.hero_id,
-				skin_id = iter_5_3.skin_id
+		for slot10, slot11 in ipairs(slot6) do
+			table.insert(slot0.team_list_[slot5], {
+				id = slot11.hero_id,
+				skin_id = slot11.skin_id
 			})
 		end
 	end
 end
 
-function firstLargeSize(arg_6_0, arg_6_1)
-	if #arg_6_0 <= 0 then
-		return arg_6_0
+function firstLargeSize(slot0, slot1)
+	if #slot0 <= 0 then
+		return slot0
 	end
 
-	local var_6_0, var_6_1, var_6_2, var_6_3 = string.find(arg_6_0, "<(.-)>(.+)")
+	slot2, slot3, slot4, slot5 = string.find(slot0, "<(.-)>(.+)")
+	slot7 = 0
+	slot8 = nil
+	slot12 = slot5 or slot0
 
-	var_6_3 = var_6_3 or arg_6_0
-
-	local var_6_4 = {
-		"“",
-		"《"
-	}
-	local var_6_5 = 0
-	local var_6_6
-
-	for iter_6_0 = 1, var_6_3:getWCharCount() do
-		local var_6_7 = var_6_3:getWChar(iter_6_0)
-
-		if table.indexOf(var_6_4, var_6_7) == -1 then
-			local var_6_8 = string.sub(var_6_3, 1, var_6_5)
-
-			var_6_5 = var_6_5 + string.len(var_6_7)
-
-			local var_6_9 = string.sub(var_6_3, var_6_5 + 1, -1)
-
-			var_6_6 = string.format("%s<size=%d>%s</size>%s", var_6_8, arg_6_1, var_6_7, var_6_9)
+	for slot12 = 1, slot5.getWCharCount(slot12) do
+		if table.indexOf({
+			"“",
+			"《"
+		}, slot5:getWChar(slot12)) == -1 then
+			slot8 = string.format("%s<size=%d>%s</size>%s", string.sub(slot5, 1, slot7), slot1, slot13, string.sub(slot5, slot7 + string.len(slot13) + 1, -1))
 
 			break
 		else
-			var_6_5 = var_6_5 + string.len(var_6_7)
+			slot7 = slot7 + string.len(slot13)
 		end
 	end
 
-	if not var_6_6 then
-		return arg_6_0
+	if not slot8 then
+		return slot0
 	end
 
-	if var_6_2 then
-		var_6_6 = string.format("<%s>%s", var_6_2, var_6_6)
+	if slot4 then
+		slot8 = string.format("<%s>%s", slot4, slot8)
 	end
 
-	return var_6_6
+	return slot8
 end
 
-return var_0_0
+return slot0

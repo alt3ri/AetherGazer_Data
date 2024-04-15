@@ -1,93 +1,82 @@
-local var_0_0 = class("CultureGravureEquipPopView", ReduxView)
+slot0 = class("CultureGravureEquipPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero/HeroCultureGravurepopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_3_0.equipPreviewList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.previewListGo_, CultureGravureEquipPopItem)
+	slot0.equipPreviewList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.previewListGo_, CultureGravureEquipPopItem)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnConfirm_, nil, function()
-		if arg_5_0.params_.index and arg_5_0.params_.index ~= 0 then
-			if CultureGravureAction.EquipByEquiptID(arg_5_0.heroId_, arg_5_0.selectId_) then
-				arg_5_0:UpdateData(arg_5_0.params_.index)
-				arg_5_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnConfirm_, nil, function ()
+		if uv0.params_.index and uv0.params_.index ~= 0 then
+			if CultureGravureAction.EquipByEquiptID(uv0.heroId_, uv0.selectId_) then
+				uv0:UpdateData(uv0.params_.index)
+				uv0:Back()
 				ShowTips("EQUIP_BIND")
 			else
 				ShowTips("ERROR_NO_EQUIP")
 			end
 		else
-			CultureGravureAction.EquipByList(arg_5_0.heroId_, arg_5_0.params_.recommendIdList)
-			arg_5_0:Back()
+			CultureGravureAction.EquipByList(uv0.heroId_, uv0.params_.recommendIdList)
+			uv0:Back()
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnBack_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.heroId_ = arg_8_0.params_.heroId
-	arg_8_0.stateList_ = arg_8_0.params_.stateList
-	arg_8_0.equiptDataList_ = {}
+function slot0.OnEnter(slot0)
+	slot0.heroId_ = slot0.params_.heroId
+	slot0.stateList_ = slot0.params_.stateList
+	slot0.equiptDataList_ = {}
 
-	arg_8_0:UpdateData(arg_8_0.params_.index)
-	arg_8_0.equipPreviewList_:StartScroll(#arg_8_0.equiptDataList_)
+	slot0:UpdateData(slot0.params_.index)
+	slot0.equipPreviewList_:StartScroll(#slot0.equiptDataList_)
 end
 
-function var_0_0.UpdateData(arg_9_0, arg_9_1)
-	local var_9_0 = HeroTools.GetHeroEquipS(arg_9_0.heroId_)
-	local var_9_1 = arg_9_0.params_.recommendIdList
+function slot0.UpdateData(slot0, slot1)
+	slot3 = slot0.params_.recommendIdList
 
-	if arg_9_1 and arg_9_1 ~= 0 then
-		local var_9_2 = {
-			equipedData = EquipData:GetEquipData(var_9_0[arg_9_1].equip_id)
-		}
-		local var_9_3 = CultureGravureAction.GetRecommendEquip(arg_9_0.heroId_, var_9_1[arg_9_1]).id
+	if slot1 and slot1 ~= 0 then
+		table.insert(slot0.equiptDataList_, {
+			equipedData = EquipData:GetEquipData(HeroTools.GetHeroEquipS(slot0.heroId_)[slot1].equip_id),
+			recommendData = EquipData:GetEquipData(CultureGravureAction.GetRecommendEquip(slot0.heroId_, slot3[slot1]).id),
+			state = slot0.stateList_[slot1]
+		})
 
-		var_9_2.recommendData = EquipData:GetEquipData(var_9_3)
-		var_9_2.state = arg_9_0.stateList_[arg_9_1]
-
-		table.insert(arg_9_0.equiptDataList_, var_9_2)
-
-		arg_9_0.selectId_ = var_9_1[arg_9_1]
+		slot0.selectId_ = slot3[slot1]
 	else
-		local var_9_4 = CultureGravureAction.GetRecommendEquipList(arg_9_0.heroId_, var_9_1)
-
-		for iter_9_0 = 1, 6 do
-			local var_9_5 = {
-				equipedData = EquipData:GetEquipData(var_9_0[iter_9_0].equip_id),
-				recommendData = EquipData:GetEquipData(var_9_4[iter_9_0].equip_id),
-				state = arg_9_0.stateList_[iter_9_0]
-			}
-
-			table.insert(arg_9_0.equiptDataList_, var_9_5)
+		for slot8 = 1, 6 do
+			table.insert(slot0.equiptDataList_, {
+				equipedData = EquipData:GetEquipData(slot2[slot8].equip_id),
+				recommendData = EquipData:GetEquipData(CultureGravureAction.GetRecommendEquipList(slot0.heroId_, slot3)[slot8].equip_id),
+				state = slot0.stateList_[slot8]
+			})
 		end
 	end
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.params_.index ~= 0 and arg_10_0.params_.index or arg_10_1
-
-	arg_10_2:SetData(arg_10_0.equiptDataList_[arg_10_1], var_10_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.equiptDataList_[slot1], slot0.params_.index ~= 0 and slot0.params_.index or slot1)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.equipPreviewList_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.equipPreviewList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

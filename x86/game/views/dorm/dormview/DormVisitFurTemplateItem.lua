@@ -1,66 +1,63 @@
-local var_0_0 = class("DormVisitFurTemplateItem", ReduxView)
+slot0 = class("DormVisitFurTemplateItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.stateController = ControllerUtil.GetController(arg_2_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.chooseBtn, nil, function()
-		if arg_3_0.clickCallBack then
-			arg_3_0.clickCallBack(arg_3_0.templateID, arg_3_0.pos)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.chooseBtn, nil, function ()
+		if uv0.clickCallBack then
+			uv0.clickCallBack(uv0.templateID, uv0.pos)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.templateID = arg_5_1
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.templateID = slot1
+	slot4 = 0
 
-	local var_5_0 = 0
-
-	if arg_5_0.templateID >= 0 then
-		local var_5_1 = DormFurnitureTemplateData:GetDormTemplateInfo(arg_5_1)
-		local var_5_2 = var_5_1.name
-
-		arg_5_0.name.text = var_5_2
-		var_5_0 = var_5_1:GetDormTemplateFurNumInfo()
+	if slot0.templateID >= 0 then
+		slot5 = DormFurnitureTemplateData:GetDormTemplateInfo(slot1)
+		slot0.name.text = slot5.name
+		slot4 = slot5:GetDormTemplateFurNumInfo()
 	else
-		arg_5_0.name.text = string.format(GetTips("DORM_MOULD_DEFAULT_NAME"), arg_5_3)
+		slot0.name.text = string.format(GetTips("DORM_MOULD_DEFAULT_NAME"), slot3)
 	end
 
-	arg_5_0.num.text = string.format(GetTips("DORM_MOULD_FURNITURE_NUM"), var_5_0)
-	arg_5_0.pos = arg_5_3
+	slot0.num.text = string.format(GetTips("DORM_MOULD_FURNITURE_NUM"), slot4)
+	slot0.pos = slot3
 
-	if arg_5_0.pos == arg_5_2 then
-		if var_5_0 <= 0 then
-			arg_5_0.stateController:SetSelectedState("select1_0")
+	if slot0.pos == slot2 then
+		if slot4 <= 0 then
+			slot0.stateController:SetSelectedState("select1_0")
 		else
-			arg_5_0.stateController:SetSelectedState("select_1")
+			slot0.stateController:SetSelectedState("select_1")
 		end
-	elseif var_5_0 <= 0 then
-		arg_5_0.stateController:SetSelectedState("normal_0")
+	elseif slot4 <= 0 then
+		slot0.stateController:SetSelectedState("normal_0")
 	else
-		arg_5_0.stateController:SetSelectedState("normal_1")
+		slot0.stateController:SetSelectedState("normal_1")
 	end
 end
 
-function var_0_0.ClickCallBack(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0.clickCallBack = arg_6_1
+function slot0.ClickCallBack(slot0, slot1)
+	if slot1 then
+		slot0.clickCallBack = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

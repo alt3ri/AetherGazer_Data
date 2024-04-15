@@ -1,349 +1,327 @@
-local var_0_0 = require("cjson")
-local var_0_1 = class("FishingGameView", ReduxView)
+slot0 = require("cjson")
+slot1 = class("FishingGameView", ReduxView)
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/Fishing/Game/FishingGameUI"
 end
 
-function var_0_1.UIParent(arg_2_0)
+function slot1.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_1.OnCtor(arg_3_0)
-	return
+function slot1.OnCtor(slot0)
 end
 
-function var_0_1.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.bubbleNumController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "bubbleNum")
-	arg_5_0.buffController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "buff")
-	arg_5_0.pauseController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "pause")
-	arg_5_0.hook_ = FishHook.New(arg_5_0.hookGo_)
-	arg_5_0.roleSpine_ = arg_5_0.roleGo_:GetComponent("Spine.Unity.SkeletonGraphic")
-	arg_5_0.waterSpine_ = arg_5_0.seaWeaterGo_:GetComponent("Spine.Unity.SkeletonGraphic")
+	slot0.bubbleNumController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "bubbleNum")
+	slot0.buffController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "buff")
+	slot0.pauseController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "pause")
+	slot0.hook_ = FishHook.New(slot0.hookGo_)
+	slot0.roleSpine_ = slot0.roleGo_:GetComponent("Spine.Unity.SkeletonGraphic")
+	slot0.waterSpine_ = slot0.seaWeaterGo_:GetComponent("Spine.Unity.SkeletonGraphic")
 
-	arg_5_0:PlayRoleAnimation("idle", true)
+	slot0:PlayRoleAnimation("idle", true)
 end
 
-function var_0_1.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.hookBtn_, nil, function()
-		if arg_6_0.hook_ then
-			arg_6_0.hook_:StartHooking()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.hookBtn_, nil, function ()
+		if uv0.hook_ then
+			uv0.hook_:StartHooking()
 		end
 	end)
-	FishGameManager.GetInstance():SetPauseHandler(handler(arg_6_0, arg_6_0.OnPause))
-	FishGameManager.GetInstance():SetContinueHandler(handler(arg_6_0, arg_6_0.OnContinue))
-	FishGameManager.GetInstance():SetScoreChangeHandler(handler(arg_6_0, arg_6_0.OnScoreChange))
-	FishGameManager.GetInstance():SetScoreAddHandler(handler(arg_6_0, arg_6_0.OnScoreAdd))
-	FishGameManager.GetInstance():AddBuffHandler(handler(arg_6_0, arg_6_0.OnBuffChange))
-	arg_6_0:AddBtnListener(arg_6_0.pauseBtn_, nil, function()
+	FishGameManager.GetInstance():SetPauseHandler(handler(slot0, slot0.OnPause))
+	FishGameManager.GetInstance():SetContinueHandler(handler(slot0, slot0.OnContinue))
+	FishGameManager.GetInstance():SetScoreChangeHandler(handler(slot0, slot0.OnScoreChange))
+	FishGameManager.GetInstance():SetScoreAddHandler(handler(slot0, slot0.OnScoreAdd))
+	FishGameManager.GetInstance():AddBuffHandler(handler(slot0, slot0.OnBuffChange))
+	slot0:AddBtnListener(slot0.pauseBtn_, nil, function ()
 		FishGameManager.GetInstance():Pause()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.continueBtn_, nil, function()
+	slot0:AddBtnListener(slot0.continueBtn_, nil, function ()
 		FishGameManager.GetInstance():Continue()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.exitBtn_, nil, function()
-		arg_6_0.pauseController_:SetSelectedState("false")
+	slot0:AddBtnListener(slot0.exitBtn_, nil, function ()
+		uv0.pauseController_:SetSelectedState("false")
 		manager.audio:PlayEffect("minigame_fishing", "fishing_stopall", "")
-		arg_6_0:Back()
+		uv0:Back()
 	end)
 
-	arg_6_0.onAnimationCompleteHandler_ = handler(arg_6_0, arg_6_0.OnAnimationComplete)
-	arg_6_0.roleSpine_.AnimationState.Complete = arg_6_0.roleSpine_.AnimationState.Complete + arg_6_0.onAnimationCompleteHandler_
+	slot0.onAnimationCompleteHandler_ = handler(slot0, slot0.OnAnimationComplete)
+	slot0.roleSpine_.AnimationState.Complete = slot0.roleSpine_.AnimationState.Complete + slot0.onAnimationCompleteHandler_
 end
 
-function var_0_1.OnAnimationComplete(arg_11_0, arg_11_1)
-	if arg_11_1.Animation.Name == "PushButton" then
-		arg_11_0:PlayRoleAnimation("look", true)
+function slot1.OnAnimationComplete(slot0, slot1)
+	if slot1.Animation.Name == "PushButton" then
+		slot0:PlayRoleAnimation("look", true)
 	end
 end
 
-function var_0_1.PlayRoleAnimation(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_0.curName_ ~= nil and arg_12_0.curName_ == arg_12_1 then
+function slot1.PlayRoleAnimation(slot0, slot1, slot2)
+	if slot0.curName_ ~= nil and slot0.curName_ == slot1 then
 		return
 	end
 
-	arg_12_0.curName_ = arg_12_1
+	slot0.curName_ = slot1
 
-	arg_12_0.roleSpine_.AnimationState:SetAnimation(0, arg_12_1, arg_12_2)
+	slot0.roleSpine_.AnimationState:SetAnimation(0, slot1, slot2)
 end
 
-function var_0_1.AddEventListeners(arg_13_0)
-	return
+function slot1.AddEventListeners(slot0)
 end
 
-function var_0_1.OnPause(arg_14_0)
-	arg_14_0.pauseController_:SetSelectedState("true")
+function slot1.OnPause(slot0)
+	slot0.pauseController_:SetSelectedState("true")
 
-	arg_14_0.roleSpine_.AnimationState.TimeScale = 0
-	arg_14_0.waterSpine_.AnimationState.TimeScale = 0
+	slot0.roleSpine_.AnimationState.TimeScale = 0
+	slot0.waterSpine_.AnimationState.TimeScale = 0
 end
 
-function var_0_1.OnContinue(arg_15_0)
-	arg_15_0.pauseController_:SetSelectedState("false")
+function slot1.OnContinue(slot0)
+	slot0.pauseController_:SetSelectedState("false")
 
-	arg_15_0.roleSpine_.AnimationState.TimeScale = 1
-	arg_15_0.waterSpine_.AnimationState.TimeScale = 1
+	slot0.roleSpine_.AnimationState.TimeScale = 1
+	slot0.waterSpine_.AnimationState.TimeScale = 1
 end
 
-function var_0_1.OnScoreChange(arg_16_0)
-	local var_16_0 = tonumber(arg_16_0.scoreLabel_.text)
-	local var_16_1 = FishGameManager.GetInstance():GetScore()
+function slot1.OnScoreChange(slot0)
+	slot1 = tonumber(slot0.scoreLabel_.text)
+	slot2 = FishGameManager.GetInstance():GetScore()
+	slot0.tween_ = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		slot1 = uv0 or 0
+		slot3 = math.floor(slot1 + (uv1 - slot1) * slot0)
+		uv2.scoreLabel_.text = tostring(slot3)
+		uv2.scoreLabelAnimation_.text = tostring(slot3)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0.tween_ then
+			uv0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
 
-	arg_16_0.tween_ = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_17_0)
-		local var_17_0 = var_16_0 or 0
-		local var_17_1 = var_16_1
-		local var_17_2 = math.floor(var_17_0 + (var_17_1 - var_17_0) * arg_17_0)
-
-		arg_16_0.scoreLabel_.text = tostring(var_17_2)
-		arg_16_0.scoreLabelAnimation_.text = tostring(var_17_2)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_16_0.tween_ then
-			arg_16_0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-
-			arg_16_0.tween_ = nil
+			uv0.tween_ = nil
 		end
 
-		arg_16_0.scoreLabel_.text = tostring(FishGameManager.GetInstance():GetScore())
-		arg_16_0.scoreLabelAnimation_.text = tostring(FishGameManager.GetInstance():GetScore())
+		uv0.scoreLabel_.text = tostring(FishGameManager.GetInstance():GetScore())
+		uv0.scoreLabelAnimation_.text = tostring(FishGameManager.GetInstance():GetScore())
 
-		arg_16_0.scoreAnimator_:Play("fishing_scoring", -1, 0)
+		uv0.scoreAnimator_:Play("fishing_scoring", -1, 0)
 	end)):setEase(LeanTweenType.easeOutQuad)
 
-	arg_16_0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
+	slot0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
 end
 
-function var_0_1.OnScoreAdd(arg_19_0, arg_19_1)
-	SetActive(arg_19_0.scoreGo_, true)
-	arg_19_0.goalAnimator_:Play("FishGoal", -1, 0)
+function slot1.OnScoreAdd(slot0, slot1)
+	SetActive(slot0.scoreGo_, true)
+	slot0.goalAnimator_:Play("FishGoal", -1, 0)
 
-	arg_19_0.scoreAddLabel_.text = arg_19_1
+	slot0.scoreAddLabel_.text = slot1
 
 	manager.audio:PlayEffect("minigame_fishing", "fishing_gain", "")
 end
 
-function var_0_1.OnBuffChange(arg_20_0, arg_20_1, arg_20_2, arg_20_3)
-	if arg_20_2 == 1 then
-		arg_20_0.curBuff_ = arg_20_1
-		arg_20_0.curBuffMilliseconds_ = 20
+function slot1.OnBuffChange(slot0, slot1, slot2, slot3)
+	if slot2 == 1 then
+		slot0.curBuff_ = slot1
+		slot0.curBuffMilliseconds_ = 20
 
-		SetActive(arg_20_0.buffGo_, true)
+		SetActive(slot0.buffGo_, true)
 
-		arg_20_0.buffNameLabel_.text = GetTips("ACTIVITY_FISHING_BUFF_NAME_" .. arg_20_1)
-		arg_20_0.buffDescLabel_.text = GetTips("ACTIVITY_FISHING_BUFF_DESC_" .. arg_20_1)
-		arg_20_0.buffProgress_.fillAmount = 1
+		slot0.buffNameLabel_.text = GetTips("ACTIVITY_FISHING_BUFF_NAME_" .. slot1)
+		slot0.buffDescLabel_.text = GetTips("ACTIVITY_FISHING_BUFF_DESC_" .. slot1)
+		slot0.buffProgress_.fillAmount = 1
 
-		arg_20_0.buffController_:SetSelectedState(tostring(arg_20_1))
+		slot0.buffController_:SetSelectedState(tostring(slot1))
 
-		if arg_20_1 == 1 then
-			arg_20_0.doubleAnimator_:Play("ef_ui_buff_double", -1, 0)
-		elseif arg_20_1 == 3 then
-			arg_20_0.timeAnimator_:Play("ef_ui_buff_double", -1, 0)
+		if slot1 == 1 then
+			slot0.doubleAnimator_:Play("ef_ui_buff_double", -1, 0)
+		elseif slot1 == 3 then
+			slot0.timeAnimator_:Play("ef_ui_buff_double", -1, 0)
 		end
-	elseif arg_20_2 == 0 then
-		arg_20_0.buffController_:SetSelectedState("0")
+	elseif slot2 == 0 then
+		slot0.buffController_:SetSelectedState("0")
 
-		arg_20_0.curBuff_ = 0
-		arg_20_0.curBuffMilliseconds_ = 0
-		arg_20_0.buffProgress_.fillAmount = 0
+		slot0.curBuff_ = 0
+		slot0.curBuffMilliseconds_ = 0
+		slot0.buffProgress_.fillAmount = 0
 
-		SetActive(arg_20_0.buffGo_, false)
-	elseif arg_20_2 == 2 then
-		if arg_20_0.curBuffMilliseconds_ > 0 then
-			arg_20_0.curBuffMilliseconds_ = arg_20_0.curBuffMilliseconds_ - Time.deltaTime
-		end
-
-		if arg_20_0.curBuffMilliseconds_ < 0 then
-			arg_20_0.curBuffMilliseconds_ = 0
+		SetActive(slot0.buffGo_, false)
+	elseif slot2 == 2 then
+		if slot0.curBuffMilliseconds_ > 0 then
+			slot0.curBuffMilliseconds_ = slot0.curBuffMilliseconds_ - Time.deltaTime
 		end
 
-		arg_20_0.buffProgress_.fillAmount = arg_20_0.curBuffMilliseconds_ / 20
+		if slot0.curBuffMilliseconds_ < 0 then
+			slot0.curBuffMilliseconds_ = 0
+		end
+
+		slot0.buffProgress_.fillAmount = slot0.curBuffMilliseconds_ / 20
 	end
 end
 
-function var_0_1.OnTop(arg_21_0)
-	arg_21_0:UpdateBar()
+function slot1.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_1.UpdateBar(arg_22_0)
-	return
+function slot1.UpdateBar(slot0)
 end
 
-function var_0_1.RegisterEvents(arg_23_0)
-	return
+function slot1.RegisterEvents(slot0)
 end
 
-function var_0_1.OnEnter(arg_24_0)
-	arg_24_0:AddEventListeners()
+function slot1.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	local var_24_0 = AssetEx.LoadText("Fishing/fishData.json")
+	slot0.fishData_ = uv0.decode(AssetEx.LoadText("Fishing/fishData.json"))
 
-	arg_24_0.fishData_ = var_0_0.decode(var_24_0)
+	FishGameManager.GetInstance():Init(slot0, slot0.container_)
+	FishGameManager.GetInstance():SetHook(slot0.hook_)
 
-	FishGameManager.GetInstance():Init(arg_24_0, arg_24_0.container_)
-	FishGameManager.GetInstance():SetHook(arg_24_0.hook_)
+	for slot7, slot8 in ipairs(slot0.fishData_.LevelInfos[math.random(1, slot0.fishData_.levelNum)].fishes) do
+		slot10 = Object.Instantiate(Asset.Load("UI/Fishing/Game/Fishes/" .. slot8.fishId), slot0.container_)
+		slot10.transform.localPosition = Vector2(slot8.posX + slot10.transform.rect.width / 2, -slot8.posY - slot10.transform.rect.height / 2)
+		slot10.transform.localScale = Vector3.New(slot8.scaleX / 1000, slot8.scaleY / 1000, 0)
+		slot11 = FishItem.New(slot10)
 
-	local var_24_1 = math.random(1, arg_24_0.fishData_.levelNum)
-	local var_24_2 = arg_24_0.fishData_.LevelInfos[var_24_1].fishes
-
-	for iter_24_0, iter_24_1 in ipairs(var_24_2) do
-		local var_24_3 = Asset.Load("UI/Fishing/Game/Fishes/" .. iter_24_1.fishId)
-		local var_24_4 = Object.Instantiate(var_24_3, arg_24_0.container_)
-
-		var_24_4.transform.localPosition = Vector2(iter_24_1.posX + var_24_4.transform.rect.width / 2, -iter_24_1.posY - var_24_4.transform.rect.height / 2)
-		var_24_4.transform.localScale = Vector3.New(iter_24_1.scaleX / 1000, iter_24_1.scaleY / 1000, 0)
-
-		local var_24_5 = FishItem.New(var_24_4)
-
-		var_24_5:SetData(iter_24_1)
-		FishGameManager.GetInstance():AddFish(var_24_5)
+		slot11:SetData(slot8)
+		FishGameManager.GetInstance():AddFish(slot11)
 	end
 
-	arg_24_0:RegisterEvents()
-	SetActive(arg_24_0.buffGo_, false)
+	slot0:RegisterEvents()
+	SetActive(slot0.buffGo_, false)
 
-	arg_24_0.scoreLabel_.text = "0"
-	arg_24_0.scoreLabelAnimation_.text = "0"
+	slot0.scoreLabel_.text = "0"
+	slot0.scoreLabelAnimation_.text = "0"
 
 	FishGameManager.GetInstance():Start()
 	manager.audio:PlayBGM("bgm_activity_1_2_summer1_minigame_fishing", "bgm_activity_1_2_summer1_minigame_fishing", "bgm_activity_1_2_summer1_minigame_fishing.awb")
 	manager.audio:PlayEffect("minigame_fishing", "fishing_wave", "")
 
-	arg_24_0.levelId_ = arg_24_0.fishData_.LevelInfos[var_24_1].levelId
-	arg_24_0.oriFrame_ = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
+	slot0.levelId_ = slot0.fishData_.LevelInfos[slot2].levelId
+	slot0.oriFrame_ = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
 
-	if arg_24_0.oriFrame_ ~= 1 then
+	if slot0.oriFrame_ ~= 1 then
 		SettingAction.ChangePicSetting("frame", 1)
 	end
 end
 
-local var_0_2 = "notPlayed"
+slot2 = "notPlayed"
 
-function var_0_1.Update(arg_25_0)
-	if arg_25_0.end_ then
-		arg_25_0.roleSpine_.AnimationState.TimeScale = 0
-		arg_25_0.waterSpine_.AnimationState.TimeScale = 0
+function slot1.Update(slot0)
+	if slot0.end_ then
+		slot0.roleSpine_.AnimationState.TimeScale = 0
+		slot0.waterSpine_.AnimationState.TimeScale = 0
 
 		return
 	end
 
-	local var_25_0 = FishGameManager.GetInstance():GetStatus()
+	if FishGameManager.GetInstance():GetStatus() == "cast" then
+		if uv0 == "notPlayed" then
+			slot0:PlayRoleAnimation("PushButton", false)
 
-	if var_25_0 == "cast" then
-		if var_0_2 == "notPlayed" then
-			arg_25_0:PlayRoleAnimation("PushButton", false)
-
-			var_0_2 = "playing"
+			uv0 = "playing"
 		end
-	elseif var_25_0 == "catch" then
-		var_0_2 = "notPlayed"
+	elseif slot1 == "catch" then
+		uv0 = "notPlayed"
 
-		arg_25_0:PlayRoleAnimation("Happy", true)
-	elseif var_25_0 == "fail" then
-		var_0_2 = "notPlayed"
+		slot0:PlayRoleAnimation("Happy", true)
+	elseif slot1 == "fail" then
+		uv0 = "notPlayed"
 
-		arg_25_0:PlayRoleAnimation("Sad", true)
-	elseif var_25_0 == "idle" then
-		var_0_2 = "notPlayed"
+		slot0:PlayRoleAnimation("Sad", true)
+	elseif slot1 == "idle" then
+		uv0 = "notPlayed"
 
-		arg_25_0:PlayRoleAnimation("idle", true)
+		slot0:PlayRoleAnimation("idle", true)
 	end
 
-	local var_25_1 = FishGameManager.GetInstance():GetSeconds()
-
-	if var_25_1 < 0 then
-		var_25_1 = 0
+	if FishGameManager.GetInstance():GetSeconds() < 0 then
+		slot2 = 0
 	end
 
-	arg_25_0.countdownLabel_.text = tostring(math.floor(var_25_1))
+	slot0.countdownLabel_.text = tostring(math.floor(slot2))
 
 	if FishGameManager.GetInstance():GetIsEnd() then
-		arg_25_0.end_ = true
+		slot0.end_ = true
 
-		if ActivityTools.ActivityOpenCheckByMessageBox(ActivityConst.SUMMER_FISHING, function()
+		if ActivityTools.ActivityOpenCheckByMessageBox(ActivityConst.SUMMER_FISHING, function ()
 			JumpTools.OpenPageByJump("/fishingEnter", {
 				activityId = ActivityConst.SUMMER_FISHING
 			})
 		end) then
-			FishingAction.EndingFishing(ActivityConst.SUMMER_FISHING, FishGameManager.GetInstance():GetScore(), FishGameManager.GetInstance():GetTreasureNum(), function(arg_27_0, arg_27_1)
-				local var_27_0 = {}
+			FishingAction.EndingFishing(ActivityConst.SUMMER_FISHING, FishGameManager.GetInstance():GetScore(), FishGameManager.GetInstance():GetTreasureNum(), function (slot0, slot1)
+				slot2 = {}
 
-				for iter_27_0, iter_27_1 in ipairs(arg_27_1) do
-					local var_27_1 = {
-						id = iter_27_1.id,
-						num = iter_27_1.num,
-						len = iter_27_1.length
-					}
-
-					table.insert(var_27_0, var_27_1)
+				for slot6, slot7 in ipairs(slot1) do
+					table.insert(slot2, {
+						id = slot7.id,
+						num = slot7.num,
+						len = slot7.length
+					})
 				end
 
 				JumpTools.OpenPageByJump("fishEnding", {
 					score = FishGameManager.GetInstance():GetScore(),
-					gainScore = arg_27_0,
-					fishes = var_27_0,
-					callback = function()
-						arg_25_0:Back()
+					gainScore = slot0,
+					fishes = slot2,
+					callback = function ()
+						uv0:Back()
 					end
 				})
 			end)
 		end
 	end
 
-	arg_25_0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
+	slot0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
 end
 
-function var_0_1.GetBubbleTarget(arg_29_0)
+function slot1.GetBubbleTarget(slot0)
 	if FishGameManager.GetInstance():GetTreasureLimitNum() == 1 then
-		return arg_29_0.iconTransform1_
+		return slot0.iconTransform1_
 	end
 
-	return arg_29_0.iconTransform2_
+	return slot0.iconTransform2_
 end
 
-function var_0_1.AppearBubble(arg_30_0, arg_30_1)
-	arg_30_0[string.format("iconTransform%d_", arg_30_1)]:GetComponent(typeof(CanvasGroup)).alpha = 1
+function slot1.AppearBubble(slot0, slot1)
+	slot0[string.format("iconTransform%d_", slot1)]:GetComponent(typeof(CanvasGroup)).alpha = 1
 end
 
-function var_0_1.OnExit(arg_31_0)
-	arg_31_0:RemoveAllEventListener()
+function slot1.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	FishGameManager.GetInstance():Dispose()
 	manager.windowBar:HideBar()
 	manager.audio:StopEffect()
 
-	if arg_31_0.oriFrame_ and arg_31_0.oriFrame_ ~= 1 then
-		SettingAction.ChangePicSetting("frame", arg_31_0.oriFrame_)
+	if slot0.oriFrame_ and slot0.oriFrame_ ~= 1 then
+		SettingAction.ChangePicSetting("frame", slot0.oriFrame_)
 	end
 end
 
-function var_0_1.OnMainHomeViewTop(arg_32_0)
-	return
+function slot1.OnMainHomeViewTop(slot0)
 end
 
-function var_0_1.Cacheable(arg_33_0)
+function slot1.Cacheable(slot0)
 	return false
 end
 
-function var_0_1.Dispose(arg_34_0)
+function slot1.Dispose(slot0)
 	AnimatorTools.Stop()
 	FishGameManager.GetInstance():Dispose()
 
-	arg_34_0.roleSpine_.AnimationState.Complete = arg_34_0.roleSpine_.AnimationState.Complete - arg_34_0.onAnimationCompleteHandler_
+	slot0.roleSpine_.AnimationState.Complete = slot0.roleSpine_.AnimationState.Complete - slot0.onAnimationCompleteHandler_
 
-	if arg_34_0.tween_ then
-		arg_34_0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_34_0.tween_.id)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.tween_.id)
 
-		arg_34_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 
-	var_0_1.super.Dispose(arg_34_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

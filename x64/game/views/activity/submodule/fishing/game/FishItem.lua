@@ -1,104 +1,95 @@
-local var_0_0 = class("FishItem", ReduxView)
+slot0 = class("FishItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.oriX_ = arg_3_0.transform_.localPosition.x
-	arg_3_0.direct_ = -1
+	slot0.oriX_ = slot0.transform_.localPosition.x
+	slot0.direct_ = -1
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_5_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.data_ = arg_6_1
-	arg_6_0.fishCfg_ = GameFishCfg[arg_6_1.fishId]
+function slot0.SetData(slot0, slot1)
+	slot0.data_ = slot1
+	slot0.fishCfg_ = GameFishCfg[slot1.fishId]
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.GetData(arg_7_0)
-	return arg_7_0.data_
+function slot0.GetData(slot0)
+	return slot0.data_
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	arg_8_0.hitArea_.sizeDelta = Vector2(arg_8_0.data_.hitWidth, arg_8_0.data_.hitHeight)
+function slot0.UpdateView(slot0)
+	slot0.hitArea_.sizeDelta = Vector2(slot0.data_.hitWidth, slot0.data_.hitHeight)
 
-	arg_8_0:DrawDebug()
+	slot0:DrawDebug()
 end
 
-function var_0_0.DrawDebug(arg_9_0)
-	return
+function slot0.DrawDebug(slot0)
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_11_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Update(arg_14_0, arg_14_1)
-	if arg_14_0.data_.moveable == 1 and FishGameManager.GetInstance():GetBuff() ~= 3 then
-		local var_14_0 = arg_14_0.transform_.localPosition
+function slot0.Update(slot0, slot1)
+	if slot0.data_.moveable == 1 and FishGameManager.GetInstance():GetBuff() ~= 3 then
+		slot2 = slot0.transform_.localPosition
+		slot2.x = slot2.x + slot1 * slot0.direct_ * slot0.fishCfg_.speed / 10 * 60
 
-		var_14_0.x = var_14_0.x + arg_14_1 * arg_14_0.direct_ * arg_14_0.fishCfg_.speed / 10 * 60
+		if slot2.x < slot0.oriX_ - slot0.data_.radius then
+			slot2.x = slot0.oriX_ - slot0.data_.radius
+			slot0.direct_ = 1
 
-		if var_14_0.x < arg_14_0.oriX_ - arg_14_0.data_.radius then
-			var_14_0.x = arg_14_0.oriX_ - arg_14_0.data_.radius
-			arg_14_0.direct_ = 1
-
-			local var_14_1 = arg_14_0.imageTransform_.localScale
-
-			if var_14_1 == nil then
+			if slot0.imageTransform_.localScale == nil then
 				CustomLog.Log(string.format("scale is nil"))
 			end
 
-			var_14_1.x = -1
-			arg_14_0.imageTransform_.localScale = var_14_1
-		elseif var_14_0.x > arg_14_0.oriX_ + arg_14_0.data_.radius then
-			var_14_0.x = arg_14_0.oriX_ + arg_14_0.data_.radius
-			arg_14_0.direct_ = -1
-
-			local var_14_2 = arg_14_0.imageTransform_.localScale
-
-			var_14_2.x = 1
-			arg_14_0.imageTransform_.localScale = var_14_2
+			slot3.x = -1
+			slot0.imageTransform_.localScale = slot3
+		elseif slot2.x > slot0.oriX_ + slot0.data_.radius then
+			slot2.x = slot0.oriX_ + slot0.data_.radius
+			slot0.direct_ = -1
+			slot3 = slot0.imageTransform_.localScale
+			slot3.x = 1
+			slot0.imageTransform_.localScale = slot3
 		end
 
-		arg_14_0.transform_.localPosition = var_14_0
+		slot0.transform_.localPosition = slot2
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	Object.Destroy(arg_15_0.gameObject_)
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,109 +1,108 @@
-local var_0_0 = class("DormFurTemplateItem", ReduxView)
+slot0 = class("DormFurTemplateItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.canUseController = ControllerUtil.GetController(arg_2_0.transform_, "btnuse")
-	arg_2_0.preViewController = ControllerUtil.GetController(arg_2_0.transform_, "ues")
+	slot0.canUseController = ControllerUtil.GetController(slot0.transform_, "btnuse")
+	slot0.preViewController = ControllerUtil.GetController(slot0.transform_, "ues")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListenerScale(arg_3_0.previewBtn_, nil, function()
-		if arg_3_0.previewCallBack then
-			arg_3_0.previewCallBack(arg_3_0.templateID, arg_3_0.pos)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.previewBtn_, nil, function ()
+		if uv0.previewCallBack then
+			uv0.previewCallBack(uv0.templateID, uv0.pos)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.useBtn_, nil, function()
-		if arg_3_0.useTemplateCallBack then
-			arg_3_0.useTemplateCallBack(arg_3_0.templateID, arg_3_0.pos)
+	slot0:AddBtnListenerScale(slot0.useBtn_, nil, function ()
+		if uv0.useTemplateCallBack then
+			uv0.useTemplateCallBack(uv0.templateID, uv0.pos)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.btn_editnameBtn_, nil, function()
-		if arg_3_0.ReviseCallBack then
-			arg_3_0.ReviseCallBack(arg_3_0.templateID, arg_3_0.pos)
+	slot0:AddBtnListenerScale(slot0.btn_editnameBtn_, nil, function ()
+		if uv0.ReviseCallBack then
+			uv0.ReviseCallBack(uv0.templateID, uv0.pos)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.saveBtn_, nil, function()
-		if arg_3_0.SaveTemplate then
-			arg_3_0.SaveTemplate(arg_3_0.templateID, arg_3_0.pos)
+	slot0:AddBtnListenerScale(slot0.saveBtn_, nil, function ()
+		if uv0.SaveTemplate then
+			uv0.SaveTemplate(uv0.templateID, uv0.pos)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.deleteBtn_, nil, function()
-		if arg_3_0.DelTemplate then
-			arg_3_0.DelTemplate(arg_3_0.templateID, arg_3_0.pos)
+	slot0:AddBtnListenerScale(slot0.deleteBtn_, nil, function ()
+		if uv0.DelTemplate then
+			uv0.DelTemplate(uv0.templateID, uv0.pos)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.templateID = arg_9_1
-	arg_9_0.pos = arg_9_2
-	arg_9_0.canPreView = arg_9_3
-	arg_9_0.indexText_.text = arg_9_2
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.templateID = slot1
+	slot0.pos = slot2
+	slot0.canPreView = slot3
+	slot0.indexText_.text = slot2
 
-	if arg_9_1 < 0 then
-		arg_9_0.nameText_.text = string.format(GetTips("DORM_MOULD_DEFAULT_NAME"), tostring(arg_9_2))
-		arg_9_0.furNumText_.text = 0
+	if slot1 < 0 then
+		slot0.nameText_.text = string.format(GetTips("DORM_MOULD_DEFAULT_NAME"), tostring(slot2))
+		slot0.furNumText_.text = 0
 
-		arg_9_0.preViewController:SetSelectedState("unedited")
+		slot0.preViewController:SetSelectedState("unedited")
 
 		return
 	end
 
-	arg_9_0.canUseController:SetSelectedState("on")
-	arg_9_0.preViewController:SetSelectedState("normal")
+	slot0.canUseController:SetSelectedState("on")
+	slot0.preViewController:SetSelectedState("normal")
 
-	local var_9_0 = DormFurnitureTemplateData:GetDormTemplateInfo(arg_9_1)
+	slot4 = DormFurnitureTemplateData:GetDormTemplateInfo(slot1)
+	slot0.nameText_.text = GetI18NText(slot4.name)
+	slot0.furNumText_.text = slot4:GetDormTemplateFurNumInfo()
 
-	arg_9_0.nameText_.text = GetI18NText(var_9_0.name)
-	arg_9_0.furNumText_.text = var_9_0:GetDormTemplateFurNumInfo()
-
-	if not arg_9_3 then
-		arg_9_0.canUseController:SetSelectedState("off")
+	if not slot3 then
+		slot0.canUseController:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RegisterUseTemplateCallBack(arg_10_0, arg_10_1)
-	if arg_10_1 and arg_10_0.canPreView ~= false then
-		arg_10_0.useTemplateCallBack = arg_10_1
+function slot0.RegisterUseTemplateCallBack(slot0, slot1)
+	if slot1 and slot0.canPreView ~= false then
+		slot0.useTemplateCallBack = slot1
 	end
 end
 
-function var_0_0.RegisterPreviewCallBack(arg_11_0, arg_11_1)
-	if arg_11_1 and arg_11_0.canPreView ~= false then
-		arg_11_0.previewCallBack = arg_11_1
+function slot0.RegisterPreviewCallBack(slot0, slot1)
+	if slot1 and slot0.canPreView ~= false then
+		slot0.previewCallBack = slot1
 	end
 end
 
-function var_0_0.DelTemplateCallBack(arg_12_0, arg_12_1)
-	if arg_12_1 then
-		arg_12_0.DelTemplate = arg_12_1
+function slot0.DelTemplateCallBack(slot0, slot1)
+	if slot1 then
+		slot0.DelTemplate = slot1
 	end
 end
 
-function var_0_0.SaveTemplateCallBack(arg_13_0, arg_13_1)
-	if arg_13_1 then
-		arg_13_0.SaveTemplate = arg_13_1
+function slot0.SaveTemplateCallBack(slot0, slot1)
+	if slot1 then
+		slot0.SaveTemplate = slot1
 	end
 end
 
-function var_0_0.ReviseNameCallBack(arg_14_0, arg_14_1)
-	if arg_14_1 then
-		arg_14_0.ReviseCallBack = arg_14_1
+function slot0.ReviseNameCallBack(slot0, slot1)
+	if slot1 then
+		slot0.ReviseCallBack = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

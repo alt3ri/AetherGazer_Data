@@ -1,68 +1,63 @@
-local var_0_0 = class("BaseStep")
+slot0 = class("BaseStep")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0._starTime = 0
-	arg_1_0._guide = arg_1_1
-	arg_1_0._stepId = arg_1_2
-	arg_1_0._isFinish = GuideStepCfg[arg_1_0._stepId].is_finish or false
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0._starTime = 0
+	slot0._guide = slot1
+	slot0._stepId = slot2
+	slot0._isFinish = GuideStepCfg[slot0._stepId].is_finish or false
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.Check(arg_3_0)
+function slot0.Check(slot0)
 	return true
 end
 
-function var_0_0.Play(arg_4_0)
-	return
+function slot0.Play(slot0)
 end
 
-function var_0_0.OnStepEnd(arg_5_0)
-	if arg_5_0._guide ~= nil then
-		arg_5_0._guide:OnStepEnd(arg_5_0)
+function slot0.OnStepEnd(slot0)
+	if slot0._guide ~= nil then
+		slot0._guide:OnStepEnd(slot0)
 	end
 
-	arg_5_0._guide = nil
+	slot0._guide = nil
 end
 
-function var_0_0.Guide(arg_6_0)
-	return arg_6_0._guide
+function slot0.Guide(slot0)
+	return slot0._guide
 end
 
-function var_0_0.IsFinish(arg_7_0)
-	return arg_7_0._isFinish
+function slot0.IsFinish(slot0)
+	return slot0._isFinish
 end
 
-function var_0_0.GetStepId(arg_8_0)
-	return arg_8_0._stepId
+function slot0.GetStepId(slot0)
+	return slot0._stepId
 end
 
-function var_0_0.GetShowMask(arg_9_0)
+function slot0.GetShowMask(slot0)
 	return false
 end
 
-function var_0_0.Click(arg_10_0)
-	return
+function slot0.Click(slot0)
 end
 
-function var_0_0.EventTrigger(arg_11_0, arg_11_1, arg_11_2)
-	return
+function slot0.EventTrigger(slot0, slot1, slot2)
 end
 
-function var_0_0.BattleFinish(arg_12_0, arg_12_1)
-	return
+function slot0.BattleFinish(slot0, slot1)
 end
 
-function var_0_0.UpdateStarTime(arg_13_0)
-	arg_13_0._starTime = Time.realtimeSinceStartup
+function slot0.UpdateStarTime(slot0)
+	slot0._starTime = Time.realtimeSinceStartup
 end
 
-function var_0_0.GetStarTime(arg_14_0)
-	return arg_14_0._starTime
+function slot0.GetStarTime(slot0)
+	return slot0._starTime
 end
 
-return var_0_0
+return slot0

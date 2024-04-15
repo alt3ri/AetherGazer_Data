@@ -1,32 +1,27 @@
-local var_0_0 = import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode")
-local var_0_1 = class("TangramRotateRegionNode", var_0_0)
+slot1 = class("TangramRotateRegionNode", import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode"))
 
-function var_0_1.RunFunc(arg_1_0)
-	local var_1_0 = arg_1_0.blackboard_.rotateRegionID_
-	local var_1_1 = arg_1_0.blackboard_.rotateTimes_
+function slot1.RunFunc(slot0)
+	slot1 = slot0.blackboard_.rotateRegionID_
 
-	if var_1_1 == 0 then
-		arg_1_0.root_:SetNodeRunComplete()
+	if slot0.blackboard_.rotateTimes_ == 0 then
+		slot0.root_:SetNodeRunComplete()
 
 		return
 	end
 
-	local var_1_2 = arg_1_0.manager_.regionItemList_[var_1_0]
-	local var_1_3 = TangramPuzzleTools.GetRegionRotateAngle(arg_1_0.manager_.activityID_, var_1_0) * var_1_1
+	slot3 = slot0.manager_.regionItemList_[slot1]
 
-	var_1_2:SetTransParent(arg_1_0.manager_.editPanelTrans_)
-	var_1_2:Rotate(var_1_3, function()
-		var_1_2:RecoverTrans()
+	slot3:SetTransParent(slot0.manager_.editPanelTrans_)
+	slot3:Rotate(TangramPuzzleTools.GetRegionRotateAngle(slot0.manager_.activityID_, slot1) * slot2, function ()
+		uv0:RecoverTrans()
 
-		local var_2_0 = TangramPuzzleTools.GetPuzzleGlobalIndexListByRegionID(arg_1_0.manager_.activityID_)[var_1_0]
-
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			arg_1_0.manager_:UpdatePuzzleData(iter_2_1)
+		for slot4, slot5 in ipairs(TangramPuzzleTools.GetPuzzleGlobalIndexListByRegionID(uv1.manager_.activityID_)[uv2]) do
+			uv1.manager_:UpdatePuzzleData(slot5)
 		end
 
-		arg_1_0.root_:SetNodeRunComplete()
+		uv1.root_:SetNodeRunComplete()
 	end)
 	manager.audio:PlayEffect("minigame_activity_2_5", "minigame_activity_2_5_Puzzle_rotate", "")
 end
 
-return var_0_1
+return slot1

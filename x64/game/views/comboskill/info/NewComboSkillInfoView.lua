@@ -1,73 +1,65 @@
-local var_0_0 = class("NewComboSkillInfoView", ReduxView)
+slot0 = class("NewComboSkillInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_skill/HeroSkillPopUPUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.comboSkillList = {}
+	slot0.comboSkillList = {}
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.backBtn_, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(nil, slot0.backBtn_, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.CreatComboSkill(arg_6_0, arg_6_1)
-	local var_6_0
+function slot0.CreatComboSkill(slot0, slot1)
+	slot2 = nil
+	slot0.comboSkillList[slot1] = NewComboSkillItem.New((slot1 ~= 1 or slot0.empoweringskillGo_) and Object.Instantiate(slot0.empoweringskillGo_, slot0.contentTrs_))
 
-	if arg_6_1 == 1 then
-		var_6_0 = arg_6_0.empoweringskillGo_
-	else
-		var_6_0 = Object.Instantiate(arg_6_0.empoweringskillGo_, arg_6_0.contentTrs_)
-	end
-
-	arg_6_0.comboSkillList[arg_6_1] = NewComboSkillItem.New(var_6_0)
-
-	return arg_6_0.comboSkillList[arg_6_1]
+	return slot0.comboSkillList[slot1]
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroId = arg_7_0.params_.heroID
+function slot0.OnEnter(slot0)
+	slot0.heroId = slot0.params_.heroID
 
-	arg_7_0:UpdateSkillList()
+	slot0:UpdateSkillList()
 end
 
-function var_0_0.UpdateSkillList(arg_8_0)
-	arg_8_0.comboSkillList_ = ComboSkillTools.GetHeroComboSkill(arg_8_0.params_.heroID)
+function slot0.UpdateSkillList(slot0)
+	slot0.comboSkillList_ = ComboSkillTools.GetHeroComboSkill(slot0.params_.heroID)
 
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.comboSkillList) do
-		SetActive(iter_8_1.gameObject_, false)
+	for slot4, slot5 in pairs(slot0.comboSkillList) do
+		SetActive(slot5.gameObject_, false)
 	end
 
-	for iter_8_2, iter_8_3 in pairs(arg_8_0.comboSkillList_) do
-		local var_8_0 = arg_8_0.comboSkillList[iter_8_2] or arg_8_0:CreatComboSkill(iter_8_2)
+	for slot4, slot5 in pairs(slot0.comboSkillList_) do
+		slot6 = slot0.comboSkillList[slot4] or slot0:CreatComboSkill(slot4)
 
-		SetActive(var_8_0.gameObject_, true)
-		var_8_0:RefreshUI(iter_8_3, arg_8_0.heroId)
+		SetActive(slot6.gameObject_, true)
+		slot6:RefreshUI(slot5, slot0.heroId)
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.comboSkillList) do
-		if iter_10_1 then
-			iter_10_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.comboSkillList) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

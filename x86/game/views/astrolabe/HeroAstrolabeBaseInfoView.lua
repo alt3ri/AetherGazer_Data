@@ -1,40 +1,39 @@
-local var_0_0 = class("HeroAstrolabeBaseInfoView", ReduxView)
+slot0 = class("HeroAstrolabeBaseInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_5_0)
-	if arg_5_0.itemS_ then
-		for iter_5_0, iter_5_1 in ipairs(arg_5_0.itemS_) do
-			for iter_5_2, iter_5_3 in ipairs(iter_5_1) do
-				iter_5_3:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemS_ then
+		for slot4, slot5 in ipairs(slot0.itemS_) do
+			for slot9, slot10 in ipairs(slot5) do
+				slot10:Dispose()
 			end
 		end
 	end
 
-	arg_5_0.itemSGo_ = nil
-	arg_5_0.itemS_ = nil
-	arg_5_0.astrolabeInfo_ = nil
+	slot0.itemSGo_ = nil
+	slot0.itemS_ = nil
+	slot0.astrolabeInfo_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

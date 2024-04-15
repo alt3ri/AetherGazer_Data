@@ -1,103 +1,98 @@
-local var_0_0 = require("cjson")
-local var_0_1 = class("profiler")
-local var_0_2 = {}
-local var_0_3
+slot0 = require("cjson")
+slot1 = class("profiler")
+slot2 = {}
+slot3 = nil
 
-function var_0_1.Start()
-	for iter_1_0, iter_1_1 in pairs(_G) do
-		local var_1_0, var_1_1 = string.find(iter_1_0, "Tools")
+function slot1.Start()
+	for slot3, slot4 in pairs(_G) do
+		slot5, slot6 = string.find(slot3, "Tools")
 
-		if type(iter_1_1) == "table" and rawget(iter_1_1, "__ctype") ~= nil and iter_1_1.__ctype == 2 then
-			if var_0_1.InstanceOf(iter_1_1, "BaseView") then
-				iter_1_1.New = var_0_1.OverrideConstructor(iter_1_1.New)
+		if type(slot4) == "table" and rawget(slot4, "__ctype") ~= nil and slot4.__ctype == 2 then
+			if uv0.InstanceOf(slot4, "BaseView") then
+				slot4.New = uv0.OverrideConstructor(slot4.New)
 			end
-		elseif type(iter_1_1) == "table" and rawget(iter_1_1, "_singletonInstance") ~= nil and iter_1_1._singletonInstance ~= nil then
-			iter_1_1.GetInstance = var_0_1.OverrideConstructor(iter_1_1.GetInstance)
-		elseif var_1_0 and type(iter_1_1) == "table" then
-			local var_1_2 = iter_1_1
-
-			for iter_1_2, iter_1_3 in pairs(var_1_2) do
-				if type(iter_1_3) == "function" then
-					var_1_2[iter_1_2] = var_0_1.ProfilerDecorator(var_1_2[iter_1_2], iter_1_0 .. ":" .. iter_1_2)
+		elseif type(slot4) == "table" and rawget(slot4, "_singletonInstance") ~= nil and slot4._singletonInstance ~= nil then
+			slot4.GetInstance = uv0.OverrideConstructor(slot4.GetInstance)
+		elseif slot5 and type(slot4) == "table" then
+			for slot11, slot12 in pairs(slot4) do
+				if type(slot12) == "function" then
+					slot7[slot11] = uv0.ProfilerDecorator(slot7[slot11], slot3 .. ":" .. slot11)
 				end
 			end
-		elseif type(iter_1_1) == "function" and iter_1_0 ~= "unpack" and iter_1_0 ~= "import" and iter_1_0 ~= "require" and iter_1_0 ~= "module" and iter_1_0 ~= "setmetatable" and iter_1_0 ~= "getmetatable" and iter_1_0 ~= "clone" then
-			_G[iter_1_0] = var_0_1.ProfilerDecorator(iter_1_1, iter_1_0)
+		elseif type(slot4) == "function" and slot3 ~= "unpack" and slot3 ~= "import" and slot3 ~= "require" and slot3 ~= "module" and slot3 ~= "setmetatable" and slot3 ~= "getmetatable" and slot3 ~= "clone" then
+			_G[slot3] = uv0.ProfilerDecorator(slot4, slot3)
 		end
 	end
 
-	var_0_3 = os.clock()
+	uv1 = os.clock()
 end
 
-function var_0_1.GetStatJson()
-	local var_2_0 = {}
-	local var_2_1 = {}
+function slot1.GetStatJson()
+	slot0 = {}
+	slot1 = {}
 
-	for iter_2_0, iter_2_1 in pairs(var_0_2) do
-		table.insert(var_2_1, iter_2_1)
+	for slot5, slot6 in pairs(uv0) do
+		table.insert(slot1, slot6)
 	end
 
-	local var_2_2 = {
-		infos = var_2_1,
-		seconds = math.floor(os.clock() - (var_0_3 or 0))
-	}
-
-	return (var_0_0.encode(var_2_2))
+	return uv2.encode({
+		infos = slot1,
+		seconds = math.floor(os.clock() - (uv1 or 0))
+	})
 end
 
-function var_0_1.Reset()
-	var_0_2 = {}
-	var_0_3 = os.clock()
+function slot1.Reset()
+	uv0 = {}
+	uv1 = os.clock()
 end
 
-function var_0_1.OverrideConstructor(arg_4_0)
-	return function(...)
-		local var_5_0 = arg_4_0(...)
+function slot1.OverrideConstructor(slot0)
+	return function (...)
+		slot5 = uv0(...)
 
-		for iter_5_0, iter_5_1 in pairs(getmetatable(var_5_0).__index) do
-			if type(iter_5_1) == "function" then
-				var_5_0[iter_5_0] = var_0_1.ProfilerDecorator(var_5_0[iter_5_0], var_5_0.class.__cname .. ":" .. iter_5_0)
+		for slot4, slot5 in pairs(getmetatable(slot5).__index) do
+			if type(slot5) == "function" then
+				slot0[slot4] = uv1.ProfilerDecorator(slot0[slot4], slot0.class.__cname .. ":" .. slot4)
 			end
 		end
 
-		return var_5_0
+		return slot0
 	end
 end
 
-function var_0_1.ProfilerDecorator(arg_6_0, arg_6_1)
-	return function(...)
-		local var_7_0 = os.clock()
-		local var_7_1 = {
-			arg_6_0(...)
+function slot1.ProfilerDecorator(slot0, slot1)
+	return function (...)
+		slot1 = {
+			uv0(...)
 		}
-		local var_7_2 = (os.clock() - var_7_0) * 1000
+		slot3 = (os.clock() - os.clock()) * 1000
 
-		if not var_0_2[arg_6_1] then
-			var_0_2[arg_6_1] = {
+		if not uv1[uv2] then
+			uv1[uv2] = {
 				time = 0,
 				count = 0,
-				name = arg_6_1,
-				firstTime = var_7_2
+				name = uv2,
+				firstTime = slot3
 			}
 		end
 
-		var_0_2[arg_6_1].count = var_0_2[arg_6_1].count + 1
-		var_0_2[arg_6_1].time = var_0_2[arg_6_1].time + var_7_2
+		uv1[uv2].count = uv1[uv2].count + 1
+		uv1[uv2].time = uv1[uv2].time + slot3
 
-		return unpack(var_7_1)
+		return unpack(slot1)
 	end
 end
 
-function var_0_1.InstanceOf(arg_8_0, arg_8_1)
-	while arg_8_0 do
-		if arg_8_0.__cname == arg_8_1 then
+function slot1.InstanceOf(slot0, slot1)
+	while slot0 do
+		if slot0.__cname == slot1 then
 			return true
 		end
 
-		arg_8_0 = arg_8_0.super
+		slot0 = slot0.super
 	end
 
 	return false
 end
 
-return var_0_1
+return slot1

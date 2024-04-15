@@ -1,133 +1,124 @@
-local var_0_0 = class("DormHeroGiftView", ReduxView)
+slot0 = class("DormHeroGiftView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormGiftFurnitureUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.giftScroll = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uilistGo_, FurnitureItem)
-	arg_5_0.fullController = ControllerUtil.GetController(arg_5_0.transform_, "state")
-	arg_5_0.btnState = arg_5_0.btn_okControllerexcollection_:GetController("default0")
+	slot0.giftScroll = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, FurnitureItem)
+	slot0.fullController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.btnState = slot0.btn_okControllerexcollection_:GetController("default0")
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.archiveID = arg_6_0.params_.archiveID
-	arg_6_0.heroInfo = DormData:GetHeroInfoList()[arg_6_0.archiveID]
+function slot0.OnEnter(slot0)
+	slot0.archiveID = slot0.params_.archiveID
+	slot0.heroInfo = DormData:GetHeroInfoList()[slot0.archiveID]
 
-	arg_6_0:RegisterEvents()
-	arg_6_0:RefreshHeroGiftList()
-	arg_6_0:ResetView()
+	slot0:RegisterEvents()
+	slot0:RefreshHeroGiftList()
+	slot0:ResetView()
 
-	if not arg_6_0.heroInfo then
+	if not slot0.heroInfo then
 		Debug.LogError("未找到对应角色档案信息")
 	end
 
-	if arg_6_0.params_.heroEID then
-		arg_6_0.heroEID = arg_6_0.params_.heroEID
+	if slot0.params_.heroEID then
+		slot0.heroEID = slot0.params_.heroEID
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0.heroEID = nil
-	arg_7_0.selFurID = nil
-	arg_7_0.itemIndex = nil
+function slot0.OnExit(slot0)
+	slot0.heroEID = nil
+	slot0.selFurID = nil
+	slot0.itemIndex = nil
 
-	arg_7_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshUI(arg_8_0.dataList_[arg_8_1], arg_8_0.selFurID, DormEnum.FurItemType.Gift, arg_8_0.archiveID, arg_8_1)
-	arg_8_2:OnPointerDown(function(arg_9_0, arg_9_1)
-		if arg_8_0.selFurID == arg_9_0 then
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.dataList_[slot1], slot0.selFurID, DormEnum.FurItemType.Gift, slot0.archiveID, slot1)
+	slot2:OnPointerDown(function (slot0, slot1)
+		if uv0.selFurID == slot0 then
 			return
 		end
 
-		arg_8_0.selFurID = arg_9_0
-		arg_8_0.itemIndex = arg_9_1
+		uv0.selFurID = slot0
+		uv0.itemIndex = slot1
 
-		local var_9_0 = arg_8_0.heroInfo:GetCanGiftNum(arg_8_0.selFurID)
+		if uv0.heroInfo:GetCanGiftNum(uv0.selFurID) <= 0 then
+			uv0.fullController:SetSelectedState("false")
+			uv0.btnState:SetSelectedState("off")
 
-		if var_9_0 <= 0 then
-			arg_8_0.fullController:SetSelectedState("false")
-			arg_8_0.btnState:SetSelectedState("off")
-
-			arg_8_0.fullText.text = GetTips("DORM_GIFT_MAX_TIPS")
+			uv0.fullText.text = GetTips("DORM_GIFT_MAX_TIPS")
 		else
-			arg_8_0.furNumMax = math.max(var_9_0, 1)
-			arg_8_0.progressSlr_.maxValue = arg_8_0.furNumMax
+			uv0.furNumMax = math.max(slot2, 1)
+			uv0.progressSlr_.maxValue = uv0.furNumMax
 
-			arg_8_0.fullController:SetSelectedState("true")
-			arg_8_0.btnState:SetSelectedState("on")
-			arg_8_0:SetfurNum(1)
+			uv0.fullController:SetSelectedState("true")
+			uv0.btnState:SetSelectedState("on")
+			uv0:SetfurNum(1)
 		end
 
-		arg_8_0.giftScroll:Refresh()
+		uv0.giftScroll:Refresh()
 	end)
 end
 
-function var_0_0.RegisterEvents(arg_10_0)
-	arg_10_0:RegistEventListener(DORM_REFRESH_GIFT_FUR_LIST, function()
-		arg_10_0:RefreshHeroGiftList()
-		arg_10_0:ResetView()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_REFRESH_GIFT_FUR_LIST, function ()
+		uv0:RefreshHeroGiftList()
+		uv0:ResetView()
 	end)
-	arg_10_0:RegistEventListener(DORM_PRIVATE_LEVEL_UP, function()
+	slot0:RegistEventListener(DORM_PRIVATE_LEVEL_UP, function ()
 		ShowTips(GetTips("DORM_LEVEL_UP_TIPS"))
 	end)
 end
 
-function var_0_0.AddUIListener(arg_13_0)
-	arg_13_0:AddBtnListenerScale(arg_13_0.giftBtn_, nil, function()
-		if arg_13_0.selFurID and arg_13_0.progressSlr_.value > 0 then
-			local var_14_0 = {
-				[arg_13_0.selFurID] = arg_13_0.progressSlr_.value
-			}
-
-			DormAction:GiftFurToHero(arg_13_0.archiveID, var_14_0, arg_13_0.heroEID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.giftBtn_, nil, function ()
+		if uv0.selFurID and uv0.progressSlr_.value > 0 then
+			DormAction:GiftFurToHero(uv0.archiveID, {
+				[uv0.selFurID] = uv0.progressSlr_.value
+			}, uv0.heroEID)
 		end
 	end)
-	arg_13_0:AddBtnListenerScale(arg_13_0.cancelBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.cancelBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_13_0:AddToggleListener(arg_13_0.progressSlr_, function()
-		if arg_13_0.progressSlr_.value < 1 then
-			arg_13_0.progressSlr_.value = 1
+	slot0:AddToggleListener(slot0.progressSlr_, function ()
+		if uv0.progressSlr_.value < 1 then
+			uv0.progressSlr_.value = 1
 		end
 
-		if arg_13_0.selFurID then
-			arg_13_0:SetfurNum(arg_13_0.progressSlr_.value)
+		if uv0.selFurID then
+			uv0:SetfurNum(uv0.progressSlr_.value)
 		end
 	end)
-	arg_13_0:AddPressingByTimeListener(arg_13_0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_13_0.selFurID and arg_13_0.progressSlr_.value > 1 then
-			local var_17_0 = arg_13_0.progressSlr_.value - 1
-
-			arg_13_0:SetfurNum(var_17_0)
+	slot0:AddPressingByTimeListener(slot0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.selFurID and uv0.progressSlr_.value > 1 then
+			uv0:SetfurNum(uv0.progressSlr_.value - 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_13_0:AddPressingByTimeListener(arg_13_0.addNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_13_0.selFurID and arg_13_0.progressSlr_.value < arg_13_0.furNumMax then
-			local var_18_0 = arg_13_0.progressSlr_.value + 1
-
-			arg_13_0:SetfurNum(var_18_0)
+	slot0:AddPressingByTimeListener(slot0.addNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.selFurID and uv0.progressSlr_.value < uv0.furNumMax then
+			uv0:SetfurNum(uv0.progressSlr_.value + 1)
 
 			return true
 		end
@@ -136,27 +127,25 @@ function var_0_0.AddUIListener(arg_13_0)
 	end)
 end
 
-function var_0_0.SetfurNum(arg_19_0, arg_19_1)
-	arg_19_0.numText_.text = arg_19_1
-	arg_19_0.progressSlr_.value = arg_19_1
-	arg_19_0.reduceNumBtn_.interactable = arg_19_1 > 1
-	arg_19_0.addNumBtn_.interactable = arg_19_1 < arg_19_0.progressSlr_.maxValue
+function slot0.SetfurNum(slot0, slot1)
+	slot0.numText_.text = slot1
+	slot0.progressSlr_.value = slot1
+	slot0.reduceNumBtn_.interactable = slot1 > 1
+	slot0.addNumBtn_.interactable = slot1 < slot0.progressSlr_.maxValue
 end
 
-function var_0_0.RefreshHeroGiftList(arg_20_0)
-	arg_20_0.dataList_ = {}
+function slot0.RefreshHeroGiftList(slot0)
+	slot0.dataList_ = {}
 
-	local var_20_0 = DormData:GetFurnitureInfoList()
-
-	for iter_20_0, iter_20_1 in pairs(var_20_0) do
-		if BackHomeFurniture[iter_20_0].is_give == 1 and iter_20_1.num > iter_20_1.give_num then
-			table.insert(arg_20_0.dataList_, iter_20_0)
+	for slot5, slot6 in pairs(DormData:GetFurnitureInfoList()) do
+		if BackHomeFurniture[slot5].is_give == 1 and slot6.give_num < slot6.num then
+			table.insert(slot0.dataList_, slot5)
 		end
 	end
 
-	CommonTools.UniversalSortEx(arg_20_0.dataList_, {
-		map = function(arg_21_0)
-			if DormData:GetHeroInfo(arg_20_0.archiveID):GetCanGiftNum(arg_21_0) == 0 then
+	CommonTools.UniversalSortEx(slot0.dataList_, {
+		map = function (slot0)
+			if DormData:GetHeroInfo(uv0.archiveID):GetCanGiftNum(slot0) == 0 then
 				return 1
 			else
 				return 2
@@ -164,80 +153,78 @@ function var_0_0.RefreshHeroGiftList(arg_20_0)
 		end
 	}, {
 		ascend = true,
-		map = function(arg_22_0)
-			return arg_22_0
+		map = function (slot0)
+			return slot0
 		end
 	})
 
-	if not arg_20_0.selFurID and #arg_20_0.dataList_ > 0 then
-		arg_20_0.selFurID = arg_20_0.dataList_[1]
+	if not slot0.selFurID and #slot0.dataList_ > 0 then
+		slot0.selFurID = slot0.dataList_[1]
 	end
 
-	arg_20_0.giftScroll:StartScroll(#arg_20_0.dataList_)
+	slot0.giftScroll:StartScroll(#slot0.dataList_)
 
-	if arg_20_0.itemIndex then
-		arg_20_0.giftScroll:ScrollToIndex(arg_20_0.itemIndex, true, false)
+	if slot0.itemIndex then
+		slot0.giftScroll:ScrollToIndex(slot0.itemIndex, true, false)
 	end
 
-	if #arg_20_0.dataList_ == 0 then
-		arg_20_0.listText.text = ""
+	if #slot0.dataList_ == 0 then
+		slot0.listText.text = ""
 
-		arg_20_0.fullController:SetSelectedState("false")
-		arg_20_0.btnState:SetSelectedState("off")
+		slot0.fullController:SetSelectedState("false")
+		slot0.btnState:SetSelectedState("off")
 	end
 end
 
-function var_0_0.ResetView(arg_23_0)
-	if arg_23_0.selFurID then
-		local var_23_0 = false
+function slot0.ResetView(slot0)
+	if slot0.selFurID then
+		slot1 = false
 
-		for iter_23_0, iter_23_1 in ipairs(arg_23_0.dataList_) do
-			if iter_23_1 == arg_23_0.selFurID then
-				var_23_0 = true
+		for slot5, slot6 in ipairs(slot0.dataList_) do
+			if slot6 == slot0.selFurID then
+				slot1 = true
 
 				break
 			end
 		end
 
-		if not var_23_0 then
-			arg_23_0.fullController:SetSelectedState("false")
-			arg_23_0.btnState:SetSelectedState("off")
+		if not slot1 then
+			slot0.fullController:SetSelectedState("false")
+			slot0.btnState:SetSelectedState("off")
 
-			arg_23_0.fullText.text = ""
+			slot0.fullText.text = ""
 
 			return
 		end
 
-		local var_23_1 = arg_23_0.heroInfo:GetCanGiftNum(arg_23_0.selFurID)
+		if slot0.heroInfo:GetCanGiftNum(slot0.selFurID) <= 0 then
+			slot0.fullController:SetSelectedState("false")
+			slot0.btnState:SetSelectedState("off")
 
-		if var_23_1 <= 0 then
-			arg_23_0.fullController:SetSelectedState("false")
-			arg_23_0.btnState:SetSelectedState("off")
-
-			arg_23_0.fullText.text = GetTips("DORM_GIFT_MAX_TIPS")
+			slot0.fullText.text = GetTips("DORM_GIFT_MAX_TIPS")
 		else
-			arg_23_0.progressSlr_.minValue = 0
-			arg_23_0.furNumMax = var_23_1
-			arg_23_0.progressSlr_.maxValue = arg_23_0.furNumMax
+			slot0.progressSlr_.minValue = 0
+			slot0.furNumMax = slot2
+			slot0.progressSlr_.maxValue = slot0.furNumMax
 
-			arg_23_0.fullController:SetSelectedState("true")
-			arg_23_0.btnState:SetSelectedState("on")
-			arg_23_0:SetfurNum(1)
+			slot0.fullController:SetSelectedState("true")
+			slot0.btnState:SetSelectedState("on")
+			slot0:SetfurNum(1)
 		end
 	else
-		arg_23_0.fullController:SetSelectedState("false")
-		arg_23_0.btnState:SetSelectedState("off")
+		slot0.fullController:SetSelectedState("false")
+		slot0.btnState:SetSelectedState("off")
 
-		arg_23_0.fullText.text = ""
+		slot0.fullText.text = ""
 	end
 end
 
-function var_0_0.Dispose(arg_24_0)
-	if arg_24_0.giftScroll then
-		arg_24_0.giftScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.giftScroll then
+		slot0.giftScroll:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_24_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

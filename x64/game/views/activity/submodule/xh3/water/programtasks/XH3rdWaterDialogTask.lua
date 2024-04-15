@@ -1,176 +1,168 @@
-local var_0_0 = class("XH3rdWaterDialogTask")
+slot0 = class("XH3rdWaterDialogTask")
 
-function var_0_0.Init(arg_1_0, arg_1_1)
-	arg_1_0.activityId_ = arg_1_1
-	arg_1_0.unSelectDialogGroupIndex_ = 0
-	arg_1_0.talkGroupIdList_ = {}
+function slot0.Init(slot0, slot1)
+	slot0.activityId_ = slot1
+	slot0.unSelectDialogGroupIndex_ = 0
+	slot0.talkGroupIdList_ = {}
 
-	if ActivityWaterData:GetCurrentSchedule(arg_1_0.activityId_) then
-		local var_1_0 = ActivityWaterData:GetCurrentSchedule(arg_1_0.activityId_).schedule_id
-
-		arg_1_0.talkGroupIdList_ = ActivityWaterCfg[var_1_0].groups
+	if ActivityWaterData:GetCurrentSchedule(slot0.activityId_) then
+		slot0.talkGroupIdList_ = ActivityWaterCfg[ActivityWaterData:GetCurrentSchedule(slot0.activityId_).schedule_id].groups
 	end
 end
 
-function var_0_0.StartDialogTimer(arg_2_0)
-	arg_2_0:StopDialogTimer()
+function slot0.StartDialogTimer(slot0)
+	slot0:StopDialogTimer()
 
-	arg_2_0.selectDialogIndex_ = 0
-	arg_2_0.unselectDialogIndex_ = 0
-	arg_2_0.dialogTimer_ = Timer.New(function()
-		arg_2_0:ShowDialog()
+	slot0.selectDialogIndex_ = 0
+	slot0.unselectDialogIndex_ = 0
+	slot0.dialogTimer_ = Timer.New(function ()
+		uv0:ShowDialog()
 	end, 3, -1)
 
-	arg_2_0.dialogTimer_:Start()
-	arg_2_0:ShowDialog()
+	slot0.dialogTimer_:Start()
+	slot0:ShowDialog()
 end
 
-function var_0_0.StopDialogTimer(arg_4_0)
-	if arg_4_0.dialogTimer_ then
-		arg_4_0.dialogTimer_:Stop()
+function slot0.StopDialogTimer(slot0)
+	if slot0.dialogTimer_ then
+		slot0.dialogTimer_:Stop()
 
-		arg_4_0.dialogTimer_ = nil
+		slot0.dialogTimer_ = nil
 	end
 end
 
-function var_0_0.StartScheduleTimer(arg_5_0)
-	arg_5_0:StopScheduleTimer()
+function slot0.StartScheduleTimer(slot0)
+	slot0:StopScheduleTimer()
 
-	arg_5_0.scheduleTimer_ = Timer.New(function()
-		if ActivityWaterData:GetCurrentAssistantRole(arg_5_0.activityId_) == 0 then
-			local var_6_0 = ActivityWaterCfg[ActivityWaterData:GetCurrentSchedule(arg_5_0.activityId_).schedule_id]
+	slot0.scheduleTimer_ = Timer.New(function ()
+		if ActivityWaterData:GetCurrentAssistantRole(uv0.activityId_) == 0 then
+			uv0.unSelectDialogGroupIndex_ = uv0.unSelectDialogGroupIndex_ % #ActivityWaterCfg[ActivityWaterData:GetCurrentSchedule(uv0.activityId_).schedule_id].groups + 1
 
-			arg_5_0.unSelectDialogGroupIndex_ = arg_5_0.unSelectDialogGroupIndex_ % #var_6_0.groups + 1
-
-			arg_5_0:StartDialogTimer()
+			uv0:StartDialogTimer()
 		end
 
-		arg_5_0:StopScheduleTimer()
+		uv0:StopScheduleTimer()
 	end, 30, 1)
 
-	arg_5_0.scheduleTimer_:Start()
+	slot0.scheduleTimer_:Start()
 end
 
-function var_0_0.StopScheduleTimer(arg_7_0)
-	if arg_7_0.scheduleTimer_ then
-		arg_7_0.scheduleTimer_:Stop()
+function slot0.StopScheduleTimer(slot0)
+	if slot0.scheduleTimer_ then
+		slot0.scheduleTimer_:Stop()
 
-		arg_7_0.scheduleTimer_ = nil
-	end
-end
-
-function var_0_0.SetOnDialogHandler(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4)
-	arg_8_0.onSinglePlayerDialog_ = arg_8_1
-	arg_8_0.onMultiPlayerDialog_ = arg_8_3
-	arg_8_0.onSinglePlayerStop_ = arg_8_2
-	arg_8_0.onMultiPlayerStop_ = arg_8_4
-end
-
-function var_0_0.ShowDialog(arg_9_0)
-	if ActivityWaterData:GetCurrentAssistantRole(arg_9_0.activityId_) == 0 then
-		arg_9_0:NextUnSelectTalk()
+		slot0.scheduleTimer_ = nil
 	end
 end
 
-function var_0_0.NextSelectTalk(arg_10_0)
-	local var_10_0 = ActivityWaterData:GetCurrentAssistantRole(arg_10_0.activityId_)
+function slot0.SetOnDialogHandler(slot0, slot1, slot2, slot3, slot4)
+	slot0.onSinglePlayerDialog_ = slot1
+	slot0.onMultiPlayerDialog_ = slot3
+	slot0.onSinglePlayerStop_ = slot2
+	slot0.onMultiPlayerStop_ = slot4
+end
 
-	if not arg_10_0.selectDialogGroup_ or var_10_0 ~= arg_10_0.currentCompetitionId_ then
-		arg_10_0.currentCompetitionId_ = ActivityWaterData:GetCurrentAssistantRole(arg_10_0.activityId_)
-		arg_10_0.selectDialogGroup_ = ActivityWaterCompetitionCfg[arg_10_0.currentCompetitionId_].dialog_group
-		arg_10_0.currentSelectDialogIdList_ = ActivityWaterDialogCfg.get_id_list_by_dialog_group[arg_10_0.selectDialogGroup_]
+function slot0.ShowDialog(slot0)
+	if ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_) == 0 then
+		slot0:NextUnSelectTalk()
+	end
+end
+
+function slot0.NextSelectTalk(slot0)
+	if not slot0.selectDialogGroup_ or ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_) ~= slot0.currentCompetitionId_ then
+		slot0.currentCompetitionId_ = ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_)
+		slot0.selectDialogGroup_ = ActivityWaterCompetitionCfg[slot0.currentCompetitionId_].dialog_group
+		slot0.currentSelectDialogIdList_ = ActivityWaterDialogCfg.get_id_list_by_dialog_group[slot0.selectDialogGroup_]
 	end
 
-	if arg_10_0.selectTimer_ then
-		arg_10_0.selectTimer_:Stop()
+	if slot0.selectTimer_ then
+		slot0.selectTimer_:Stop()
 	end
 
-	if not arg_10_0.selectDialogIndex_ then
-		arg_10_0.selectDialogIndex_ = 0
+	if not slot0.selectDialogIndex_ then
+		slot0.selectDialogIndex_ = 0
 	end
 
-	arg_10_0.selectDialogIndex_ = arg_10_0.selectDialogIndex_ % #arg_10_0.currentSelectDialogIdList_ + 1
+	slot0.selectDialogIndex_ = slot0.selectDialogIndex_ % #slot0.currentSelectDialogIdList_ + 1
 
-	if arg_10_0.onSinglePlayerDialog_ ~= nil then
-		local var_10_1 = ActivityWaterData:GetCurrentAssistantRole(arg_10_0.activityId_)
-
-		arg_10_0.onSinglePlayerDialog_(var_10_1, arg_10_0.currentSelectDialogIdList_[arg_10_0.selectDialogIndex_])
+	if slot0.onSinglePlayerDialog_ ~= nil then
+		slot0.onSinglePlayerDialog_(ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_), slot0.currentSelectDialogIdList_[slot0.selectDialogIndex_])
 	end
 
-	arg_10_0.selectTimer_ = TimeTools.StartAfterSeconds(3, function()
-		if arg_10_0.onSinglePlayerStop_ ~= nil then
-			arg_10_0.onSinglePlayerStop_()
+	slot0.selectTimer_ = TimeTools.StartAfterSeconds(3, function ()
+		if uv0.onSinglePlayerStop_ ~= nil then
+			uv0.onSinglePlayerStop_()
 		end
 
-		arg_10_0.selectTimer_ = nil
+		uv0.selectTimer_ = nil
 	end, {})
 end
 
-function var_0_0.NextUnSelectTalk(arg_12_0)
-	if not arg_12_0.unselectDialogGroup_ then
-		arg_12_0.unselectDialogGroup_ = ActivityWaterCfg[ActivityWaterData:GetCurrentSchedule(arg_12_0.activityId_).schedule_id].groups[arg_12_0.unSelectDialogGroupIndex_]
-		arg_12_0.currentUnselectDialogIdList_ = ActivityWaterDialogCfg.get_id_list_by_dialog_group[arg_12_0.unselectDialogGroup_]
+function slot0.NextUnSelectTalk(slot0)
+	if not slot0.unselectDialogGroup_ then
+		slot0.unselectDialogGroup_ = ActivityWaterCfg[ActivityWaterData:GetCurrentSchedule(slot0.activityId_).schedule_id].groups[slot0.unSelectDialogGroupIndex_]
+		slot0.currentUnselectDialogIdList_ = ActivityWaterDialogCfg.get_id_list_by_dialog_group[slot0.unselectDialogGroup_]
 	end
 
-	if not arg_12_0.unselectDialogIndex_ then
-		arg_12_0.unselectDialogIndex_ = 0
+	if not slot0.unselectDialogIndex_ then
+		slot0.unselectDialogIndex_ = 0
 	end
 
-	if arg_12_0.unselectDialogIndex_ >= #arg_12_0.currentUnselectDialogIdList_ then
-		if arg_12_0.onMultiPlayerStop_ ~= nil then
-			arg_12_0.onMultiPlayerStop_()
+	if slot0.unselectDialogIndex_ >= #slot0.currentUnselectDialogIdList_ then
+		if slot0.onMultiPlayerStop_ ~= nil then
+			slot0.onMultiPlayerStop_()
 		end
 
-		arg_12_0.unselectDialogIndex_ = 0
+		slot0.unselectDialogIndex_ = 0
 
-		arg_12_0:StopDialogTimer()
-		arg_12_0:StartScheduleTimer()
+		slot0:StopDialogTimer()
+		slot0:StartScheduleTimer()
 
 		return
 	end
 
-	arg_12_0.unselectDialogIndex_ = arg_12_0.unselectDialogIndex_ + 1
+	slot0.unselectDialogIndex_ = slot0.unselectDialogIndex_ + 1
 
-	if arg_12_0.onMultiPlayerDialog_ ~= nil then
-		arg_12_0.onMultiPlayerDialog_(arg_12_0.currentUnselectDialogIdList_[arg_12_0.unselectDialogIndex_])
+	if slot0.onMultiPlayerDialog_ ~= nil then
+		slot0.onMultiPlayerDialog_(slot0.currentUnselectDialogIdList_[slot0.unselectDialogIndex_])
 	end
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	if ActivityWaterData:GetCurrentAssistantRole(arg_13_0.activityId_) == 0 then
-		arg_13_0:StartScheduleTimer()
+function slot0.OnEnter(slot0)
+	if ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_) == 0 then
+		slot0:StartScheduleTimer()
 	end
 end
 
-function var_0_0.OnExit(arg_14_0)
-	if ActivityWaterData:GetCurrentAssistantRole(arg_14_0.activityId_) ~= 0 then
-		if arg_14_0.onSinglePlayerStop_ ~= nil then
-			arg_14_0.onSinglePlayerStop_()
+function slot0.OnExit(slot0)
+	if ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_) ~= 0 then
+		if slot0.onSinglePlayerStop_ ~= nil then
+			slot0.onSinglePlayerStop_()
 		end
-	elseif arg_14_0.onMultiPlayerStop_ ~= nil then
-		arg_14_0.onMultiPlayerStop_()
+	elseif slot0.onMultiPlayerStop_ ~= nil then
+		slot0.onMultiPlayerStop_()
 	end
 
-	arg_14_0:StopDialogTimer()
-	arg_14_0:StopScheduleTimer()
+	slot0:StopDialogTimer()
+	slot0:StopScheduleTimer()
 end
 
-function var_0_0.Disturb(arg_15_0)
-	if ActivityWaterData:GetCurrentAssistantRole(arg_15_0.activityId_) ~= 0 then
-		if arg_15_0.onSinglePlayerStop_ ~= nil then
-			arg_15_0.onSinglePlayerStop_()
+function slot0.Disturb(slot0)
+	if ActivityWaterData:GetCurrentAssistantRole(slot0.activityId_) ~= 0 then
+		if slot0.onSinglePlayerStop_ ~= nil then
+			slot0.onSinglePlayerStop_()
 		end
-	elseif arg_15_0.onMultiPlayerStop_ ~= nil then
-		arg_15_0.onMultiPlayerStop_()
+	elseif slot0.onMultiPlayerStop_ ~= nil then
+		slot0.onMultiPlayerStop_()
 	end
 
-	arg_15_0:StopDialogTimer()
-	arg_15_0:StartScheduleTimer()
+	slot0:StopDialogTimer()
+	slot0:StartScheduleTimer()
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:StopDialogTimer()
-	arg_16_0:StopScheduleTimer()
+function slot0.Dispose(slot0)
+	slot0:StopDialogTimer()
+	slot0:StopScheduleTimer()
 end
 
-return var_0_0
+return slot0

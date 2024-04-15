@@ -1,205 +1,166 @@
-local var_0_0 = class("StrongholdBattleStatisticsHeroItem", ReduxView)
+slot0 = class("StrongholdBattleStatisticsHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.haveHeroController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "haveHero")
-	arg_3_0.reportController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "report")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
-	arg_3_0.friendController = ControllerUtil.GetController(arg_3_0.m_addFriendBtn.transform, "state")
-	arg_3_0.showThumbController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "showThumb")
+	slot0.haveHeroController = ControllerUtil.GetController(slot0.gameObject_.transform, "haveHero")
+	slot0.reportController = ControllerUtil.GetController(slot0.gameObject_.transform, "report")
+	slot0.stateController = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.friendController = ControllerUtil.GetController(slot0.m_addFriendBtn.transform, "state")
+	slot0.showThumbController = ControllerUtil.GetController(slot0.gameObject_.transform, "showThumb")
 
-	arg_3_0.reportController:SetSelectedIndex(0)
+	slot0.reportController:SetSelectedIndex(0)
 
-	arg_3_0.isThumbsUp = false
-	arg_3_0.isReport = false
+	slot0.isThumbsUp = false
+	slot0.isReport = false
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_reportBtn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_reportBtn, nil, function ()
 		ShowMessageBox({
 			isTop = true,
 			title = GetTips("PROMPT"),
 			content = GetTips("ACTIVITY_STRONGHOLD_CONFIRM_REPORT_TIPS"),
-			OkCallback = function()
-				arg_4_0.isReport = true
+			OkCallback = function ()
+				uv0.isReport = true
 
-				arg_4_0.reportController:SetSelectedIndex(2)
-
-				local var_6_0 = BattleFieldData:GetServerBattleID()
-
-				CooperationAction.CooperationReport(arg_4_0.player_id, var_6_0)
+				uv0.reportController:SetSelectedIndex(2)
+				CooperationAction.CooperationReport(uv0.player_id, BattleFieldData:GetServerBattleID())
 			end
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_addFriendBtn, nil, function()
-		arg_4_0.isAddFriend = true
-		arg_4_0.m_addFriendBtn.interactable = false
+	slot0:AddBtnListener(slot0.m_addFriendBtn, nil, function ()
+		uv0.isAddFriend = true
+		uv0.m_addFriendBtn.interactable = false
 
-		arg_4_0.friendController:SetSelectedIndex(1)
-		FriendsAction:TryToRequestToFriend(arg_4_0.player_id, FriendConst.ADD_FRIEND_SOURCE.COOPERATION_RESULT)
+		uv0.friendController:SetSelectedIndex(1)
+		FriendsAction:TryToRequestToFriend(uv0.player_id, FriendConst.ADD_FRIEND_SOURCE.COOPERATION_RESULT)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_thumbsUpBtn, nil, function()
-		arg_4_0.isThumbsUp = true
+	slot0:AddBtnListener(slot0.m_thumbsUpBtn, nil, function ()
+		uv0.isThumbsUp = true
 
-		CooperationAction.ThumbsUp(arg_4_0.player_id)
+		CooperationAction.ThumbsUp(uv0.player_id)
 	end)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	if arg_9_1 and arg_9_2 then
-		arg_9_0.battleCountDamageNum_.text = tostring(arg_9_2.damage)
-		arg_9_0.battleCountCureNum_.text = tostring(arg_9_2.cure)
-		arg_9_0.battleCountDamageImg_.enabled = int64.equals(arg_9_3.damage, arg_9_2.damage) and arg_9_3.damage > int64.zero
-		arg_9_0.battleCountCureNumImg_.enabled = int64.equals(arg_9_3.cure, arg_9_2.cure) and arg_9_3.cure > int64.zero
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	if slot1 and slot2 then
+		slot0.battleCountDamageNum_.text = tostring(slot2.damage)
+		slot0.battleCountCureNum_.text = tostring(slot2.cure)
+		slot0.battleCountDamageImg_.enabled = int64.equals(slot3.damage, slot2.damage) and int64.zero < slot3.damage
+		slot0.battleCountCureNumImg_.enabled = int64.equals(slot3.cure, slot2.cure) and int64.zero < slot3.cure
+		slot4 = slot1.playerID
+		slot0.player_id = slot4
 
-		local var_9_0 = arg_9_1.playerID
-
-		arg_9_0.player_id = var_9_0
-
-		local var_9_1 = StrongholdData:GetStrongholdResultData(var_9_0)
-		local var_9_2 = StrongholdData:GetStrongholdResultMaxEffectNum()
-
-		if var_9_1 then
-			local var_9_3 = var_9_1.select_effect_num
-
-			arg_9_0.battleCountEffectNum_.text = var_9_3
-			arg_9_0.battleCountEffectImg_.enabled = var_9_3 == var_9_2 and var_9_3 > 0
+		if StrongholdData:GetStrongholdResultData(slot4) then
+			slot7 = slot5.select_effect_num
+			slot0.battleCountEffectNum_.text = slot7
+			slot0.battleCountEffectImg_.enabled = slot7 == StrongholdData:GetStrongholdResultMaxEffectNum() and slot7 > 0
 		else
-			arg_9_0.battleCountEffectNum_.text = "0"
-			arg_9_0.battleCountEffectImg_.enabled = false
+			slot0.battleCountEffectNum_.text = "0"
+			slot0.battleCountEffectImg_.enabled = false
 		end
 
-		local var_9_4 = "--/--"
-		local var_9_5 = BattleFieldData:GetBattleResultData().battle_record_dir
-		local var_9_6 = var_9_5 and var_9_5[var_9_0]
+		slot7 = "--/--"
 
-		if var_9_6 then
-			local var_9_7 = var_9_6[51]
+		if BattleFieldData:GetBattleResultData().battle_record_dir and slot8[slot4] then
+			slot0.m_defenseTime1.text = slot9[51] and manager.time:DescCdTime2(slot10) or slot7
+			slot0.m_defenseTime2.text = slot9[52] and manager.time:DescCdTime2(slot10) or slot7
+			slot0.m_defenseTime3.text = slot9[53] and manager.time:DescCdTime2(slot10) or slot7
 
-			arg_9_0.m_defenseTime1.text = var_9_7 and manager.time:DescCdTime2(var_9_7) or var_9_4
-
-			local var_9_8 = var_9_6[52]
-
-			arg_9_0.m_defenseTime2.text = var_9_8 and manager.time:DescCdTime2(var_9_8) or var_9_4
-
-			local var_9_9 = var_9_6[53]
-
-			arg_9_0.m_defenseTime3.text = var_9_9 and manager.time:DescCdTime2(var_9_9) or var_9_4
-
-			arg_9_0.haveHeroController:SetSelectedIndex(2)
+			slot0.haveHeroController:SetSelectedIndex(2)
 		else
-			arg_9_0.m_defenseTime1.text = var_9_4
-			arg_9_0.m_defenseTime2.text = var_9_4
-			arg_9_0.m_defenseTime3.text = var_9_4
+			slot0.m_defenseTime1.text = slot7
+			slot0.m_defenseTime2.text = slot7
+			slot0.m_defenseTime3.text = slot7
 
-			arg_9_0.haveHeroController:SetSelectedIndex(1)
+			slot0.haveHeroController:SetSelectedIndex(1)
 		end
 
-		local var_9_10 = arg_9_1.heroList[1]
-
-		arg_9_0.m_name.text = arg_9_1.nick
-		arg_9_0.m_lvLab.text = var_9_10.level
-
-		local var_9_11 = var_9_10.skin == 0 and var_9_10.id or var_9_10.skin
-		local var_9_12 = SkinCfg[var_9_11]
-
-		arg_9_0.m_heroIcon.sprite = getSpriteViaConfig("HeroIcon", var_9_12.picture_id)
+		slot10 = slot1.heroList[1]
+		slot0.m_name.text = slot1.nick
+		slot0.m_lvLab.text = slot10.level
+		slot0.m_heroIcon.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[slot10.skin == 0 and slot10.id or slot10.skin].picture_id)
 	else
-		arg_9_0.haveHeroController:SetSelectedIndex(0)
+		slot0.haveHeroController:SetSelectedIndex(0)
 	end
 
-	arg_9_0:RefreshState()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshState(arg_10_0)
-	if PlayerData:GetPlayerInfo().userID == arg_10_0.player_id then
-		arg_10_0.reportController:SetSelectedIndex(0)
-		arg_10_0.stateController:SetSelectedIndex(0)
+function slot0.RefreshState(slot0)
+	if PlayerData:GetPlayerInfo().userID == slot0.player_id then
+		slot0.reportController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 	else
-		if arg_10_0.isAddFriend then
-			arg_10_0.m_addFriendBtn.interactable = false
+		if slot0.isAddFriend then
+			slot0.m_addFriendBtn.interactable = false
 
-			arg_10_0.friendController:SetSelectedIndex(1)
+			slot0.friendController:SetSelectedIndex(1)
+		elseif table.indexof(FriendsData:GetList(1), tostring(slot0.player_id)) then
+			slot0.m_addFriendLab.text = GetTips("COOPERATION_ALREADY_FRIEND")
+			slot0.m_addFriendBtn.interactable = false
+
+			slot0.friendController:SetSelectedIndex(2)
 		else
-			local var_10_0 = FriendsData:GetList(1)
+			slot0.m_addFriendLab.text = GetTips("COOPERATION_ADD_FRIEND")
+			slot0.m_addFriendBtn.interactable = true
 
-			if table.indexof(var_10_0, tostring(arg_10_0.player_id)) then
-				arg_10_0.m_addFriendLab.text = GetTips("COOPERATION_ALREADY_FRIEND")
-				arg_10_0.m_addFriendBtn.interactable = false
-
-				arg_10_0.friendController:SetSelectedIndex(2)
-			else
-				arg_10_0.m_addFriendLab.text = GetTips("COOPERATION_ADD_FRIEND")
-				arg_10_0.m_addFriendBtn.interactable = true
-
-				arg_10_0.friendController:SetSelectedIndex(0)
-			end
+			slot0.friendController:SetSelectedIndex(0)
 		end
 
-		if arg_10_0.isThumbsUp then
-			arg_10_0.stateController:SetSelectedIndex(1)
+		if slot0.isThumbsUp then
+			slot0.stateController:SetSelectedIndex(1)
 		else
-			arg_10_0.stateController:SetSelectedIndex(2)
+			slot0.stateController:SetSelectedIndex(2)
 		end
 
-		if arg_10_0.isReport then
-			arg_10_0.reportController:SetSelectedIndex(2)
+		if slot0.isReport then
+			slot0.reportController:SetSelectedIndex(2)
 		else
-			arg_10_0.reportController:SetSelectedIndex(1)
+			slot0.reportController:SetSelectedIndex(1)
 		end
 	end
 
-	arg_10_0:RefreshThumb()
+	slot0:RefreshThumb()
 end
 
-function var_0_0.RefreshThumb(arg_11_0)
-	local var_11_0 = CooperationData:GetRoomData()
-	local var_11_1 = PlayerData:GetPlayerInfo().userID == arg_11_0.player_id
+function slot0.RefreshThumb(slot0)
+	slot3 = PlayerData:GetPlayerInfo().userID == slot0.player_id
 
-	if var_11_0 then
-		local var_11_2 = var_11_0:GetBeLikedPlayerIds(arg_11_0.player_id) or {}
-
-		if #var_11_2 > 0 then
-			local var_11_3
-
-			for iter_11_0, iter_11_1 in ipairs(var_11_2) do
-				local var_11_4 = var_11_0:GetRoomPlayerData(iter_11_1)
-
-				if var_11_4 then
-					if var_11_3 == nil then
-						var_11_3 = var_11_4.nick
-					else
-						var_11_3 = var_11_3 .. "," .. var_11_4.nick
-					end
+	if CooperationData:GetRoomData() then
+		if #(slot1:GetBeLikedPlayerIds(slot0.player_id) or {}) > 0 then
+			for slot9, slot10 in ipairs(slot4) do
+				if slot1:GetRoomPlayerData(slot10) then
+					slot5 = (nil ~= nil or slot11.nick) and slot11.nick .. "," .. slot11.nick
 				end
 			end
 
-			arg_11_0.m_thumbsUpLab.text = var_11_3 or ""
+			slot0.m_thumbsUpLab.text = slot5 or ""
 
-			if var_11_1 or arg_11_0.isThumbsUp then
-				arg_11_0.showThumbController:SetSelectedIndex(1)
+			if slot3 or slot0.isThumbsUp then
+				slot0.showThumbController:SetSelectedIndex(1)
 			else
-				arg_11_0.showThumbController:SetSelectedIndex(0)
+				slot0.showThumbController:SetSelectedIndex(0)
 			end
 		else
-			arg_11_0.showThumbController:SetSelectedIndex(0)
+			slot0.showThumbController:SetSelectedIndex(0)
 		end
 	else
-		arg_11_0.showThumbController:SetSelectedIndex(0)
+		slot0.showThumbController:SetSelectedIndex(0)
 	end
 end
 
-return var_0_0
+return slot0

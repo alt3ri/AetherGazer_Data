@@ -1,110 +1,97 @@
-local var_0_0 = import("game.tools.KagutsuchiMap")
+slot0 = import("game.tools.KagutsuchiMap")
 
 return {
-	Ctor = function(arg_1_0)
-		arg_1_0.dirty_ = true
+	Ctor = function (slot0)
+		slot0.dirty_ = true
 	end,
-	SetMapSize = function(arg_2_0, arg_2_1, arg_2_2)
-		if arg_2_0.width_ == arg_2_1 and arg_2_0.height_ == arg_2_2 then
+	SetMapSize = function (slot0, slot1, slot2)
+		if slot0.width_ == slot1 and slot0.height_ == slot2 then
 			return
 		end
 
-		arg_2_0.width_ = arg_2_1
-		arg_2_0.height_ = arg_2_2
-		arg_2_0.dirty_ = true
+		slot0.width_ = slot1
+		slot0.height_ = slot2
+		slot0.dirty_ = true
 	end,
-	SetMapSeed = function(arg_3_0, arg_3_1)
-		if arg_3_0.seed_ == arg_3_1 then
+	SetMapSeed = function (slot0, slot1)
+		if slot0.seed_ == slot1 then
 			return
 		end
 
-		arg_3_0.seed_ = arg_3_1
-		arg_3_0.dirty_ = true
+		slot0.seed_ = slot1
+		slot0.dirty_ = true
 	end,
-	SetMapGrids = function(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-		if arg_4_0.transformList_ == arg_4_1 then
+	SetMapGrids = function (slot0, slot1, slot2, slot3)
+		if slot0.transformList_ == slot1 then
 			return
 		end
 
-		arg_4_0.transformList_ = arg_4_1
+		slot0.transformList_ = slot1
+		slot4 = uv0.New(slot0.width_, slot0.height_)
 
-		local var_4_0 = var_0_0.New(arg_4_0.width_, arg_4_0.height_)
-
-		for iter_4_0, iter_4_1 in ipairs(arg_4_1) do
-			local var_4_1, var_4_2 = arg_4_3(iter_4_1)
-			local var_4_3 = {
-				x = var_4_1,
-				y = var_4_2,
-				transform = iter_4_1,
-				idx = iter_4_0
+		for slot8, slot9 in ipairs(slot1) do
+			slot10, slot11 = slot3(slot9)
+			slot12 = {
+				x = slot10,
+				y = slot11,
+				transform = slot9,
+				idx = slot8
 			}
 
-			if var_4_0:IsOverbound(var_4_1, var_4_2) then
-				Debug.LogError(string.format("(%d,%d)超出范围", var_4_1, var_4_2))
+			if slot4:IsOverbound(slot10, slot11) then
+				Debug.LogError(string.format("(%d,%d)超出范围", slot10, slot11))
 			end
 
-			local var_4_4 = arg_4_2(var_4_3)
-
-			var_4_0:PutGrid(var_4_1, var_4_2, var_4_4)
+			slot4:PutGrid(slot10, slot11, slot2(slot12))
 		end
 
-		arg_4_0.map_ = var_4_0
-		arg_4_0.dirty_ = true
+		slot0.map_ = slot4
+		slot0.dirty_ = true
 	end,
-	GeneratePlaceableGrids = function(arg_5_0, arg_5_1, arg_5_2)
-		if not arg_5_0.dirty_ and #arg_5_0.placeableGrids_ == arg_5_1 then
-			return arg_5_0.placeableGrids_
+	GeneratePlaceableGrids = function (slot0, slot1, slot2)
+		if not slot0.dirty_ and #slot0.placeableGrids_ == slot1 then
+			return slot0.placeableGrids_
 		end
 
-		local var_5_0 = arg_5_0.map_:GetGridCount()
-
-		if var_5_0 < arg_5_1 then
+		if slot0.map_:GetGridCount() < slot1 then
 			Debug.LogError("超出格子数目")
 		end
 
-		local var_5_1 = RandomUtil.GenRandom(arg_5_0.seed_)
-		local var_5_2 = {}
-		local var_5_3 = 0
+		slot5 = RandomUtil.GenRandom(slot0.seed_)
+		slot6 = {}
+		slot7 = 0
 
-		for iter_5_0 = 1, arg_5_1 do
-			local var_5_4 = var_5_1:NextInt(var_5_0) + 1
+		for slot11 = 1, slot1 do
+			while not slot0:CheckGrid(slot5:NextInt(slot4) + 1) do
+				slot12 = slot5:NextInt(slot4) + 1
 
-			while not arg_5_0:CheckGrid(var_5_4) do
-				var_5_4 = var_5_1:NextInt(var_5_0) + 1
-				var_5_3 = var_5_3 + 1
-
-				if var_5_3 > 1000 then
+				if slot7 + 1 > 1000 then
 					Debug.LogError("无法生成放置格子")
 				end
 			end
 
-			local var_5_5 = arg_5_0.map_:GetGridByIndex(var_5_4)
-			local var_5_6 = {
-				grid = var_5_5,
-				index = iter_5_0
-			}
-
-			arg_5_2(var_5_6)
-			table.insert(var_5_2, var_5_4)
+			slot2({
+				grid = slot0.map_:GetGridByIndex(slot12),
+				index = slot11
+			})
+			table.insert(slot6, slot12)
 		end
 
-		arg_5_0.placeableGrids_ = var_5_2
-		arg_5_0.dirty_ = false
+		slot0.placeableGrids_ = slot6
+		slot0.dirty_ = false
 
-		return var_5_2
+		return slot6
 	end,
-	CheckGrid = function(arg_6_0, arg_6_1)
-		local var_6_0, var_6_1 = arg_6_0.map_:GetGridXY(arg_6_1)
+	CheckGrid = function (slot0, slot1)
+		slot3, slot4 = slot0.map_:GetGridXY(slot1)
 
-		return not arg_6_0:IsGridOccupied(var_6_0, var_6_1) and not arg_6_0:IsGridOccupied(var_6_0 - 1, var_6_1) and not arg_6_0:IsGridOccupied(var_6_0 + 1, var_6_1) and not arg_6_0:IsGridOccupied(var_6_0, var_6_1 - 1) and not arg_6_0:IsGridOccupied(var_6_0, var_6_1 + 1)
+		return not slot0:IsGridOccupied(slot3, slot4) and not slot0:IsGridOccupied(slot3 - 1, slot4) and not slot0:IsGridOccupied(slot3 + 1, slot4) and not slot0:IsGridOccupied(slot3, slot4 - 1) and not slot0:IsGridOccupied(slot3, slot4 + 1)
 	end,
-	IsGridOccupied = function(arg_7_0, arg_7_1, arg_7_2)
-		local var_7_0 = arg_7_0.map_:GetGrid(arg_7_1, arg_7_2)
-
-		return var_7_0 and var_7_0.playGrid
+	IsGridOccupied = function (slot0, slot1, slot2)
+		return slot0.map_:GetGrid(slot1, slot2) and slot3.playGrid
 	end,
-	Clear = function(arg_8_0)
-		arg_8_0.transformList_ = nil
-		arg_8_0.dirty_ = true
+	Clear = function (slot0)
+		slot0.transformList_ = nil
+		slot0.dirty_ = true
 	end
 }

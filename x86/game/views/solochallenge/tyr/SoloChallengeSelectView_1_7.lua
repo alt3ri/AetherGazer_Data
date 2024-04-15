@@ -1,44 +1,37 @@
-local var_0_0 = import("game.views.soloChallenge.Factory.FactorySoloChallengeSelectView")
-local var_0_1 = class("SoloChallengeSelectView_1_7", var_0_0)
+slot1 = class("SoloChallengeSelectView_1_7", import("game.views.soloChallenge.Factory.FactorySoloChallengeSelectView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/DarkFlameUI/DFSoloChallengeUI/DFSoloChallengeConfigUI"
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	var_0_1.super.OnEnter(arg_2_0)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	arg_2_0.activityID_ = arg_2_0.params_.activityID
-	arg_2_0.difficultyIndex_ = arg_2_0.params_.difficultyIndex
-	arg_2_0.stageList_ = ActivitySoloChallengeCfg[arg_2_0.activityID_].stage_id[arg_2_0.difficultyIndex_][2]
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.difficultyIndex_ = slot0.params_.difficultyIndex
+	slot0.stageList_ = ActivitySoloChallengeCfg[slot0.activityID_].stage_id[slot0.difficultyIndex_][2]
 
-	arg_2_0:SetDefaultCustom()
+	slot0:SetDefaultCustom()
 end
 
-function var_0_1.SetDefaultCustom(arg_3_0)
-	return
+function slot1.SetDefaultCustom(slot0)
 end
 
-function var_0_1.OnResetData(arg_4_0, arg_4_1, arg_4_2)
-	if isSuccess(arg_4_1.result) then
-		SoloChallengeData:ResetLockData(arg_4_2)
-
-		local var_4_0 = ActivitySoloChallengeCfg[arg_4_0.activityID_].main_activity_id
-
+function slot1.OnResetData(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		SoloChallengeData:ResetLockData(slot2)
 		JumpTools.OpenPageByJump("/soloChallengeMainView_1_7", {
-			activityID = var_4_0
+			activityID = ActivitySoloChallengeCfg[slot0.activityID_].main_activity_id
 		})
 	else
-		ShowTips(arg_4_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_1.OnGoBack(arg_5_0)
-	local var_5_0 = ActivitySoloChallengeCfg[arg_5_0.activityID_].main_activity_id
-
+function slot1.OnGoBack(slot0)
 	JumpTools.OpenPageByJump("/soloChallengeMainView_1_7", {
-		activityID = var_5_0
+		activityID = ActivitySoloChallengeCfg[slot0.activityID_].main_activity_id
 	})
 end
 
-return var_0_1
+return slot1

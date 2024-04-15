@@ -1,16 +1,13 @@
-local var_0_0 = require("cjson")
+slot0 = require("cjson")
 
 return {
-	GetLoginList = function(arg_1_0)
-		local var_1_0 = Resources.Load("innerLoginInfo")
-		local var_1_1 = tostring(var_1_0)
-		local var_1_2 = var_0_0.decode(var_1_1)
-		local var_1_3 = {}
-
-		for iter_1_0, iter_1_1 in pairs(var_1_2) do
-			var_1_3[tonumber(iter_1_0)] = iter_1_1
+	GetLoginList = function (slot0)
+		for slot8, slot9 in pairs(uv0.decode(tostring(Resources.Load("innerLoginInfo")))) do
+			-- Nothing
 		end
 
-		return var_1_3
+		return {
+			[tonumber(slot8)] = slot9
+		}
 	end
 }

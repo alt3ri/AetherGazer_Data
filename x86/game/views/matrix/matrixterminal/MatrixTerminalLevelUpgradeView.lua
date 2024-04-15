@@ -1,44 +1,43 @@
-local var_0_0 = class("MatrixTerminalLevelUpgradeView", ReduxView)
+slot0 = class("MatrixTerminalLevelUpgradeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Terminal/MatrixTerminalLevelUpgradeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.desController_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
+	slot0.desController_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	local var_7_0 = arg_7_0.params_.newLv
-	local var_7_1 = MatrixTerminalLevelCfg[var_7_0]
+function slot0.OnEnter(slot0)
+	slot1 = slot0.params_.newLv
+	slot2 = MatrixTerminalLevelCfg[slot1]
+	slot0.m_levelLab.text = "" .. slot1
+	slot0.m_giftLab.text = slot2.point
 
-	arg_7_0.m_levelLab.text = "" .. var_7_0
-	arg_7_0.m_giftLab.text = var_7_1.point
+	if slot2.desc and slot2.desc ~= "" then
+		slot0.desController_:SetSelectedIndex(1)
 
-	if var_7_1.desc and var_7_1.desc ~= "" then
-		arg_7_0.desController_:SetSelectedIndex(1)
-
-		arg_7_0.m_desLab.text = GetI18NText(var_7_1.desc)
+		slot0.m_desLab.text = GetI18NText(slot2.desc)
 	else
-		arg_7_0.desController_:SetSelectedIndex(0)
+		slot0.desController_:SetSelectedIndex(0)
 	end
 end
 
-return var_0_0
+return slot0

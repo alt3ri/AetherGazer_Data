@@ -1,214 +1,201 @@
-local var_0_0 = class("IdolTraineeCampDeployCharacterView", ReduxView)
+slot0 = class("IdolTraineeCampDeployCharacterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/IdolTrainee/IdolTraineeCampDeployCharaView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.selHeroID = nil
-	arg_3_0.dataList = nil
+function slot0.OnCtor(slot0)
+	slot0.selHeroID = nil
+	slot0.dataList = nil
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.characterScroll = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.heroList_, IdolTraineeCampCharacterItem)
-	arg_4_0.targets = {}
+	slot4 = slot0.heroList_
+	slot0.characterScroll = LuaList.New(handler(slot0, slot0.IndexItem), slot4, IdolTraineeCampCharacterItem)
+	slot0.targets = {}
 
-	for iter_4_0 = 1, arg_4_0.targets_.childCount do
-		local var_4_0 = arg_4_0.targets_:GetChild(iter_4_0 - 1)
-		local var_4_1 = {}
+	for slot4 = 1, slot0.targets_.childCount do
+		slot5 = slot0.targets_:GetChild(slot4 - 1)
+		slot6 = {}
 
-		arg_4_0:BindCfgUI(var_4_0.gameObject, var_4_1)
+		slot0:BindCfgUI(slot5.gameObject, slot6)
 
-		var_4_1.stateController = var_4_1.controllers_:GetController("state")
+		slot6.stateController = slot6.controllers_:GetController("state")
 
-		table.insert(arg_4_0.targets, {
-			trs = var_4_0,
-			com = var_4_1
+		table.insert(slot0.targets, {
+			trs = slot5,
+			com = slot6
 		})
 	end
 
-	arg_4_0:RegisterEvents()
-	arg_4_0:UpdateCurHeroNum()
+	slot0:RegisterEvents()
+	slot0:UpdateCurHeroNum()
 
-	function arg_4_0.selectCharaFunc(arg_5_0)
-		local var_5_0 = IdolTraineeCampCharacterItem.curGrabbing
+	function slot0.selectCharaFunc(slot0)
+		uv0.selHeroID = IdolTraineeCampCharacterItem.curGrabbing and IdolTraineeCampBridge.GetCharacterHeroID(slot1) or slot0
 
-		arg_4_0.selHeroID = var_5_0 and IdolTraineeCampBridge.GetCharacterHeroID(var_5_0) or arg_5_0
-
-		arg_4_0.characterScroll:Refresh()
+		uv0.characterScroll:Refresh()
 	end
 
-	arg_4_0.recallHeroFunc = handler(arg_4_0, arg_4_0.RecallHero)
+	slot0.recallHeroFunc = handler(slot0, slot0.RecallHero)
 
-	arg_4_0:AddBtnListenerScale(arg_4_0.backBtn_, nil, function()
-		local var_6_0 = {}
-		local var_6_1 = IdolTraineeCampBridge.charaAtPos
+	slot0:AddBtnListenerScale(slot0.backBtn_, nil, function ()
+		slot0 = {}
 
-		for iter_6_0, iter_6_1 in pairs(var_6_1) do
-			local var_6_2 = IdolTraineeCampBridge.GetCharacterHeroID(iter_6_1)
-
-			table.insert(var_6_0, {
-				hero_id = var_6_2,
-				pos = iter_6_0
+		for slot5, slot6 in pairs(IdolTraineeCampBridge.charaAtPos) do
+			table.insert(slot0, {
+				hero_id = IdolTraineeCampBridge.GetCharacterHeroID(slot6),
+				pos = slot5
 			})
 		end
 
-		IdolTraineeAction.RequestSetHeroPos(var_6_0, function()
+		IdolTraineeAction.RequestSetHeroPos(slot0, function ()
 			JumpTools.Back()
 		end)
 	end)
-	arg_4_0:AddBtnListenerScale(arg_4_0.quickRecall_, nil, function()
-		local var_8_0 = {}
+	slot0:AddBtnListenerScale(slot0.quickRecall_, nil, function ()
+		slot0 = {}
 
-		for iter_8_0, iter_8_1 in pairs(IdolTraineeCampBridge.charaAtPos) do
-			local var_8_1 = IdolTraineeCampBridge.GetCharacterHeroID(iter_8_1)
-
-			if DormData:GetHeroFatigue(var_8_1) < GameSetting.canteen_hero_fatigue_max.value[1] then
-				table.insert(var_8_0, {
-					hero_id = var_8_1,
-					pos = iter_8_0
+		for slot4, slot5 in pairs(IdolTraineeCampBridge.charaAtPos) do
+			if DormData:GetHeroFatigue(IdolTraineeCampBridge.GetCharacterHeroID(slot5)) < GameSetting.canteen_hero_fatigue_max.value[1] then
+				table.insert(slot0, {
+					hero_id = slot6,
+					pos = slot4
 				})
 			end
 		end
 
-		IdolTraineeAction.RequestSetHeroPos(var_8_0, function()
+		IdolTraineeAction.RequestSetHeroPos(slot0, function ()
 			IdolTraineeCampBridge.RefreshCharacterAtPos(false)
-			arg_4_0:UpdateCurHeroNum()
+			uv0:UpdateCurHeroNum()
 		end)
 	end)
 end
 
-function var_0_0.RecallHero(arg_10_0, arg_10_1)
-	local var_10_0 = {}
+function slot0.RecallHero(slot0, slot1)
+	slot2 = {}
 
-	for iter_10_0, iter_10_1 in pairs(IdolTraineeCampBridge.charaAtPos) do
-		local var_10_1 = IdolTraineeCampBridge.GetCharacterHeroID(iter_10_1)
-
-		if arg_10_1 ~= var_10_1 then
-			table.insert(var_10_0, {
-				hero_id = var_10_1,
-				pos = iter_10_0
+	for slot6, slot7 in pairs(IdolTraineeCampBridge.charaAtPos) do
+		if slot1 ~= IdolTraineeCampBridge.GetCharacterHeroID(slot7) then
+			table.insert(slot2, {
+				hero_id = slot8,
+				pos = slot6
 			})
 		end
 	end
 
-	IdolTraineeAction.RequestSetHeroPos(var_10_0, function()
+	IdolTraineeAction.RequestSetHeroPos(slot2, function ()
 		IdolTraineeCampBridge.RefreshCharacterAtPos(false)
-		arg_10_0:UpdateCurHeroNum()
+		uv0:UpdateCurHeroNum()
 	end)
 end
 
-function var_0_0.IndexItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.dataList[arg_12_1]
-
-	arg_12_2:RefreshUI(arg_12_0, var_12_0)
-	arg_12_2:InDragFunc(arg_12_0.selectCharaFunc)
-	arg_12_2:RecallHero(arg_12_0.recallHeroFunc)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0, slot0.dataList[slot1])
+	slot2:InDragFunc(slot0.selectCharaFunc)
+	slot2:RecallHero(slot0.recallHeroFunc)
 end
 
-function var_0_0.IndexOf(arg_13_0, arg_13_1)
-	return table.indexof(arg_13_0.dataList, arg_13_0.heroID)
+function slot0.IndexOf(slot0, slot1)
+	return table.indexof(slot0.dataList, slot0.heroID)
 end
 
-function var_0_0.RefreshDormHeroList(arg_14_0)
-	arg_14_0.dataList = IdolTraineeData:GetIdolHeroList()
+function slot0.RefreshDormHeroList(slot0)
+	slot0.dataList = IdolTraineeData:GetIdolHeroList()
 
-	arg_14_0.characterScroll:StartScroll(#arg_14_0.dataList)
+	slot0.characterScroll:StartScroll(#slot0.dataList)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:RefreshDormHeroList()
-	arg_15_0:UpdateCurHeroNum()
+function slot0.OnEnter(slot0)
+	slot0:RefreshDormHeroList()
+	slot0:UpdateCurHeroNum()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0.selHeroID = nil
+function slot0.OnExit(slot0)
+	slot0.selHeroID = nil
 end
 
-function var_0_0.OnTop(arg_17_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
 	IdolTraineeCampCharacterItem.curDragging = nil
 
-	arg_18_0.characterScroll:Dispose()
-	var_0_0.super.Dispose(arg_18_0)
+	slot0.characterScroll:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegisterEvents(arg_19_0)
-	arg_19_0:RegistEventListener(DORM_REFRESH_HERO_DEPLOY_LIST, function()
-		arg_19_0.characterScroll:Refresh()
-		arg_19_0:UpdateCurHeroNum()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_REFRESH_HERO_DEPLOY_LIST, function ()
+		uv0.characterScroll:Refresh()
+		uv0:UpdateCurHeroNum()
 	end)
-	arg_19_0:RegistEventListener(BACKHOME_HERO_FATIGUR_REFRESH, function()
-		arg_19_0.characterScroll:Refresh()
+	slot0:RegistEventListener(BACKHOME_HERO_FATIGUR_REFRESH, function ()
+		uv0.characterScroll:Refresh()
 	end)
 end
 
-function var_0_0.UpdateCurHeroNum(arg_22_0)
-	arg_22_0.curnumText_.text = IdolTraineeCampBridge.entityManager:EntityNum()
+function slot0.UpdateCurHeroNum(slot0)
+	slot0.curnumText_.text = IdolTraineeCampBridge.entityManager:EntityNum()
 end
 
-function var_0_0.SetCharacterAtPos(arg_23_0, arg_23_1, arg_23_2)
-	IdolTraineeCampBridge.SetPosOfCharacter(arg_23_1, arg_23_2)
+function slot0.SetCharacterAtPos(slot0, slot1, slot2)
+	IdolTraineeCampBridge.SetPosOfCharacter(slot1, slot2)
 end
 
-function var_0_0.SnapCharacterOnTarget(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = nullable(Dorm.storage:PickData("idol.camp.pos." .. arg_24_2), "transform")
-
-	if var_24_0 then
-		Dorm.DormEntityManager.PutEntityAt(arg_24_1, var_24_0)
+function slot0.SnapCharacterOnTarget(slot0, slot1, slot2)
+	if nullable(Dorm.storage:PickData("idol.camp.pos." .. slot2), "transform") then
+		Dorm.DormEntityManager.PutEntityAt(slot1, slot3)
 
 		return true
 	end
 end
 
-function var_0_0.NotDragOutYet(arg_25_0, arg_25_1)
-	local var_25_0 = arg_25_1.position
-	local var_25_1 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-
-	return UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(arg_25_0.dragOutRect_, var_25_0, var_25_1)
+function slot0.NotDragOutYet(slot0, slot1)
+	return UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(slot0.dragOutRect_, slot1.position, manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera)
 end
 
-function var_0_0.BeginDragHeroList(arg_26_0, arg_26_1, arg_26_2)
-	arg_26_0.heroList_:OnBeginDrag(arg_26_1)
+function slot0.BeginDragHeroList(slot0, slot1, slot2)
+	slot0.heroList_:OnBeginDrag(slot1)
 
-	arg_26_0.isDraggingHeroList = true
+	slot0.isDraggingHeroList = true
 
-	if arg_26_2 and arg_26_2:IsDragBlocked() then
+	if slot2 and slot2:IsDragBlocked() then
 		return
 	end
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0.targets) do
-		iter_26_1.com.stateController:SetSelectedState("show")
+	for slot6, slot7 in pairs(slot0.targets) do
+		slot7.com.stateController:SetSelectedState("show")
 	end
 end
 
-function var_0_0.DragHeroList(arg_27_0, arg_27_1, arg_27_2)
-	arg_27_0.heroList_:OnDrag(arg_27_1)
+function slot0.DragHeroList(slot0, slot1, slot2)
+	slot0.heroList_:OnDrag(slot1)
 end
 
-function var_0_0.EndDragHeroList(arg_28_0, arg_28_1, arg_28_2)
-	if arg_28_0.isDraggingHeroList then
-		arg_28_0.heroList_:OnEndDrag(arg_28_1)
+function slot0.EndDragHeroList(slot0, slot1, slot2)
+	if slot0.isDraggingHeroList then
+		slot6 = slot1
 
-		for iter_28_0, iter_28_1 in pairs(arg_28_0.targets) do
-			iter_28_1.com.stateController:SetSelectedState("hide")
+		slot0.heroList_:OnEndDrag(slot6)
+
+		for slot6, slot7 in pairs(slot0.targets) do
+			slot7.com.stateController:SetSelectedState("hide")
 		end
 	end
 end
 
-function var_0_0.HoverHightDragOnTarget(arg_29_0, arg_29_1, arg_29_2)
-	for iter_29_0 = 1, #arg_29_0.targets do
-		arg_29_0.targets[iter_29_0].com.stateController:SetSelectedState(iter_29_0 == arg_29_2 and "highlight" or "show")
+function slot0.HoverHightDragOnTarget(slot0, slot1, slot2)
+	for slot6 = 1, #slot0.targets do
+		slot0.targets[slot6].com.stateController:SetSelectedState(slot6 == slot2 and "highlight" or "show")
 	end
 end
 
-return var_0_0
+return slot0

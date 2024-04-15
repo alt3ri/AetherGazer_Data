@@ -1,99 +1,94 @@
-local var_0_0 = class("ModuleItemResolveView", ReduxView)
-local var_0_1 = GameSetting.weapon_module_break_return
+slot0 = class("ModuleItemResolveView", ReduxView)
+slot1 = GameSetting.weapon_module_break_return
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Shop/ShopExchangePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, CommonItemView)
-	arg_4_0.resultList = LuaList.New(handler(arg_4_0, arg_4_0.indexItem2), arg_4_0.list2Go_, FragmentExchangeItem)
-	arg_4_0.controller = arg_4_0.controller_:GetController("state")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, CommonItemView)
+	slot0.resultList = LuaList.New(handler(slot0, slot0.indexItem2), slot0.list2Go_, FragmentExchangeItem)
+	slot0.controller = slot0.controller_:GetController("state")
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.titleTxt_.text = GetTips("FILE_EXCHANGE")
-	arg_5_0.bottleTxt_.text = GetTips("SHOP_EXCHANGE_CONFIRM_1")
-	arg_5_0.curModulePieceList_ = {}
+function slot0.OnEnter(slot0)
+	slot0.titleTxt_.text = GetTips("FILE_EXCHANGE")
+	slot0.bottleTxt_.text = GetTips("SHOP_EXCHANGE_CONFIRM_1")
+	slot0.curModulePieceList_ = {}
 
-	arg_5_0.controller:SetSelectedState(HeroTools.CheckModulePieceCanEnter() and "have" or "none")
+	slot0.controller:SetSelectedState(HeroTools.CheckModulePieceCanEnter() and "have" or "none")
 
-	arg_5_0.noneTxt_.text = GetTips("WEAPON_MODULE_MATERIAL_NOT_ENOUGH")
+	slot0.noneTxt_.text = GetTips("WEAPON_MODULE_MATERIAL_NOT_ENOUGH")
 
 	if HeroTools.CheckModulePieceCanEnter() == false then
 		return
 	end
 
-	local var_5_0 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MODULE_PIECE]
-	local var_5_1 = 1
+	slot2 = 1
 
-	for iter_5_0, iter_5_1 in pairs(var_5_0) do
-		local var_5_2 = ItemTools.getItemNum(iter_5_1)
-
-		if var_5_2 > 0 then
-			local var_5_3 = {
+	for slot6, slot7 in pairs(ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MODULE_PIECE]) do
+		if ItemTools.getItemNum(slot7) > 0 then
+			table.insert(slot0.curModulePieceList_, {
 				select = 0,
-				id = iter_5_1,
-				number = var_5_2,
-				index = var_5_1
-			}
+				id = slot7,
+				number = slot8,
+				index = slot2
+			})
 
-			table.insert(arg_5_0.curModulePieceList_, var_5_3)
-
-			var_5_1 = var_5_1 + 1
+			slot2 = slot2 + 1
 		end
 	end
 
-	arg_5_0.list_:StartScroll(#arg_5_0.curModulePieceList_)
-	arg_5_0.resultList:StartScroll(1)
-	arg_5_0:RefreshReward()
+	slot0.list_:StartScroll(#slot0.curModulePieceList_)
+	slot0.resultList:StartScroll(1)
+	slot0:RefreshReward()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnOK_, nil, function()
-		if arg_6_0.getNum_ == 0 then
+	slot0:AddBtnListener(slot0.btnOK_, nil, function ()
+		if uv0.getNum_ == 0 then
 			ShowTips(GetTips("WEAPON_MODULE_MATERIAL_SELECT"))
 		else
-			local var_8_0 = {}
+			slot0 = {}
 
-			for iter_8_0, iter_8_1 in pairs(arg_6_0.curModulePieceList_) do
-				if iter_8_1.select > 0 then
-					table.insert(var_8_0, {
-						id = iter_8_1.id,
-						num = iter_8_1.select
+			for slot4, slot5 in pairs(uv0.curModulePieceList_) do
+				if slot5.select > 0 then
+					table.insert(slot0, {
+						id = slot5.id,
+						num = slot5.select
 					})
 				end
 			end
 
-			HeroAction.ResolveModuleItem(var_8_0)
+			HeroAction.ResolveModuleItem(slot0)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnCancel_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.btnCancel_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnItemSelect(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	if arg_10_1.number > arg_10_1.topAmountValue then
-		arg_10_1.topAmountValue = arg_10_1.topAmountValue + 1
-		arg_10_0.curModulePieceList_[arg_10_3].select = arg_10_1.topAmountValue
+function slot0.OnItemSelect(slot0, slot1, slot2, slot3)
+	if slot1.topAmountValue < slot1.number then
+		slot1.topAmountValue = slot1.topAmountValue + 1
+		slot0.curModulePieceList_[slot3].select = slot1.topAmountValue
 
-		arg_10_2:SetData(arg_10_1)
-		arg_10_0:RefreshReward()
+		slot2:SetData(slot1)
+		slot0:RefreshReward()
 
 		return true
 	end
@@ -101,18 +96,18 @@ function var_0_0.OnItemSelect(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
 	return false
 end
 
-function var_0_0.OnItemCut(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	if arg_11_1.topAmountValue > 0 then
-		arg_11_1.topAmountValue = arg_11_1.topAmountValue - 1
+function slot0.OnItemCut(slot0, slot1, slot2, slot3)
+	if slot1.topAmountValue > 0 then
+		slot1.topAmountValue = slot1.topAmountValue - 1
 
-		if arg_11_1.topAmountValue == 0 then
-			arg_11_1.grayFlag = false
+		if slot1.topAmountValue == 0 then
+			slot1.grayFlag = false
 		end
 
-		arg_11_0.curModulePieceList_[arg_11_3].select = arg_11_1.topAmountValue
+		slot0.curModulePieceList_[slot3].select = slot1.topAmountValue
 
-		arg_11_2:SetData(arg_11_1)
-		arg_11_0:RefreshReward()
+		slot2:SetData(slot1)
+		slot0:RefreshReward()
 
 		return true
 	end
@@ -120,101 +115,97 @@ function var_0_0.OnItemCut(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
 	return false
 end
 
-function var_0_0.IndexItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.curModulePieceList_[arg_12_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.curModulePieceList_[slot1]
+	slot3.topAmountValue = slot3.select
 
-	var_12_0.topAmountValue = var_12_0.select
-
-	function var_12_0.clickFun(arg_13_0)
-		arg_12_0:OnItemSelect(arg_13_0, arg_12_2, arg_12_1)
+	function slot3.clickFun(slot0)
+		uv0:OnItemSelect(slot0, uv1, uv2)
 	end
 
-	function var_12_0.clickAmountFun(arg_14_0)
-		return arg_12_0:OnItemCut(arg_14_0, arg_12_2, arg_12_1)
+	function slot3.clickAmountFun(slot0)
+		return uv0:OnItemCut(slot0, uv1, uv2)
 	end
 
-	function var_12_0.longClickFun(arg_15_0)
-		return arg_12_0:OnItemSelect(arg_15_0, arg_12_2, arg_12_1)
+	function slot3.longClickFun(slot0)
+		return uv0:OnItemSelect(slot0, uv1, uv2)
 	end
 
-	CommonTools.SetCommonData(arg_12_2, var_12_0)
+	CommonTools.SetCommonData(slot2, slot3)
 end
 
-function var_0_0.indexItem2(arg_16_0, arg_16_1, arg_16_2)
-	arg_16_0.item = arg_16_2
-	arg_16_0.info = {
+function slot0.indexItem2(slot0, slot1, slot2)
+	slot0.item = slot2
+	slot0.info = {
 		number = 1,
-		id = var_0_1.value[1],
-		clickFun = function()
+		id = uv0.value[1],
+		clickFun = function ()
 			ShowPopItem(POP_SOURCE_ITEM, {
-				var_0_1.value[1]
+				uv0.value[1]
 			})
 		end
 	}
 
-	arg_16_2:SetData(arg_16_0.info, arg_16_0.getNum_ or 0)
+	slot2:SetData(slot0.info, slot0.getNum_ or 0)
 end
 
-function var_0_0.RefreshReward(arg_18_0)
-	arg_18_0.getNum_ = 0
+function slot0.RefreshReward(slot0)
+	slot0.getNum_ = 0
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.curModulePieceList_) do
-		arg_18_0.getNum_ = arg_18_0.getNum_ + iter_18_1.select
+	for slot4, slot5 in pairs(slot0.curModulePieceList_) do
+		slot0.getNum_ = slot0.getNum_ + slot5.select
 	end
 
-	arg_18_0.getNum_ = arg_18_0.getNum_ * var_0_1.value[2]
-	arg_18_0.info = {
+	slot0.getNum_ = slot0.getNum_ * uv0.value[2]
+	slot0.info = {
 		number = 1,
-		id = var_0_1.value[1],
-		clickFun = function()
+		id = uv0.value[1],
+		clickFun = function ()
 			ShowPopItem(POP_SOURCE_ITEM, {
-				var_0_1.value[1]
+				uv0.value[1]
 			})
 		end
 	}
 
-	if arg_18_0.item then
-		arg_18_0.item:SetData(arg_18_0.info, arg_18_0.getNum_)
+	if slot0.item then
+		slot0.item:SetData(slot0.info, slot0.getNum_)
 	end
 end
 
-function var_0_0.OnResolveModuleItem(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_0.getNum_ == 0 then
+function slot0.OnResolveModuleItem(slot0, slot1, slot2)
+	if slot0.getNum_ == 0 then
 		return
 	end
 
-	if arg_20_1.result == 0 then
+	if slot1.result == 0 then
 		JumpTools:Back()
-
-		local var_20_0 = {
+		getReward({
 			{
-				id = var_0_1.value[1],
-				num = arg_20_0.getNum_
+				id = uv0.value[1],
+				num = slot0.getNum_
 			}
-		}
-
-		getReward(var_20_0)
+		})
 	else
-		ShowTips(arg_20_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.Dispose(arg_21_0)
-	arg_21_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_21_0.list_ then
-		arg_21_0.list_:Dispose()
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_21_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	if arg_21_0.resultList then
-		arg_21_0.resultList:Dispose()
+	if slot0.resultList then
+		slot0.resultList:Dispose()
 
-		arg_21_0.resultList = nil
+		slot0.resultList = nil
 	end
 
-	var_0_0.super.Dispose(arg_21_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

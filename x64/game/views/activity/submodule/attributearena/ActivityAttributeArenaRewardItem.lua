@@ -1,112 +1,105 @@
-local var_0_0 = class("ActivityAttributeArenaRewardItem", ReduxView)
+slot0 = class("ActivityAttributeArenaRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.awardList_ = {}
-	arg_3_0.buttonController = arg_3_0.allBtnController_:GetController("all")
+	slot0.awardList_ = {}
+	slot4 = "all"
+	slot0.buttonController = slot0.allBtnController_:GetController(slot4)
 
-	for iter_3_0 = 1, 3 do
-		local var_3_0 = CommonItemView.New(arg_3_0["awardItem" .. iter_3_0 .. "Obj_"])
-
-		table.insert(arg_3_0.awardList_, var_3_0)
+	for slot4 = 1, 3 do
+		table.insert(slot0.awardList_, CommonItemView.New(slot0["awardItem" .. slot4 .. "Obj_"]))
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_4_0.taskID_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.taskID_ = arg_6_1.id
-	arg_6_0.taskProgress = arg_6_1.progress
-	arg_6_0.taskComplete_ = arg_6_1.complete_flag >= 1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.taskID_ = slot1.id
+	slot0.taskProgress = slot1.progress
+	slot0.taskComplete_ = slot1.complete_flag >= 1
 
-	arg_6_0:RefreshUI(arg_6_2)
-	arg_6_0:RefreshProgress()
+	slot0:RefreshUI(slot2)
+	slot0:RefreshProgress()
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.rewards = AssignmentCfg[arg_7_0.taskID_].reward or {}
+function slot0.RefreshUI(slot0, slot1)
+	slot0.rewards = AssignmentCfg[slot0.taskID_].reward or {}
 
-	arg_7_0:RefreshItems()
+	slot0:RefreshItems()
 end
 
-function var_0_0.RefreshProgress(arg_8_0)
-	local var_8_0 = AssignmentCfg[arg_8_0.taskID_]
-	local var_8_1 = arg_8_0.taskProgress
+function slot0.RefreshProgress(slot0)
+	slot2 = slot0.taskProgress
 
-	if arg_8_0.taskProgress > var_8_0.need then
-		var_8_1 = var_8_0.need
+	if AssignmentCfg[slot0.taskID_].need < slot0.taskProgress then
+		slot2 = slot1.need
 	end
 
-	local var_8_2 = AssignmentCfg[arg_8_0.taskID_]
+	slot3 = AssignmentCfg[slot0.taskID_]
+	slot0.titleText_.text = slot3.desc
+	slot0.progressBar_.value = slot2 / slot3.need
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot3.need)
+	slot4 = slot3.need <= slot0.taskProgress
 
-	arg_8_0.titleText_.text = var_8_2.desc
-	arg_8_0.progressBar_.value = var_8_1 / var_8_2.need
-	arg_8_0.progressText_.text = string.format("%s/%s", var_8_1, var_8_2.need)
-
-	local var_8_3 = arg_8_0.taskProgress >= var_8_2.need
-
-	if arg_8_0.taskComplete_ then
-		arg_8_0.buttonController:SetSelectedIndex("2")
-	elseif var_8_3 then
-		arg_8_0.buttonController:SetSelectedIndex("1")
+	if slot0.taskComplete_ then
+		slot0.buttonController:SetSelectedIndex("2")
+	elseif slot4 then
+		slot0.buttonController:SetSelectedIndex("1")
 	else
-		arg_8_0.buttonController:SetSelectedIndex("3")
+		slot0.buttonController:SetSelectedIndex("3")
 	end
 end
 
-function var_0_0.RefreshItems(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.awardList_) do
-		local var_9_0 = arg_9_0.rewards[iter_9_0]
+function slot0.RefreshItems(slot0)
+	for slot4, slot5 in ipairs(slot0.awardList_) do
+		if slot0.rewards[slot4] then
+			slot7 = clone(ItemTemplateData)
+			slot7.id = slot6[1]
+			slot7.number = slot6[2]
 
-		if var_9_0 then
-			local var_9_1 = clone(ItemTemplateData)
-
-			var_9_1.id = var_9_0[1]
-			var_9_1.number = var_9_0[2]
-
-			function var_9_1.clickFun(arg_10_0)
+			function slot7.clickFun(slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_10_0.id,
-					arg_10_0.number
+					slot0.id,
+					slot0.number
 				})
 			end
 
-			iter_9_1:SetData(var_9_1)
+			slot5:SetData(slot7)
 		else
-			iter_9_1:SetData(nil)
+			slot5:SetData(nil)
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.awardList_ then
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.awardList_) do
-			iter_11_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.awardList_ then
+		for slot4, slot5 in ipairs(slot0.awardList_) do
+			slot5:Dispose()
 
-			iter_11_1 = nil
+			slot5 = nil
 		end
 
-		arg_11_0.awardList_ = nil
+		slot0.awardList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

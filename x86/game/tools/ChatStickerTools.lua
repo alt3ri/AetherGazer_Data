@@ -1,34 +1,23 @@
-local var_0_0 = {}
+return {
+	SortChatSticker = function (slot0)
+		return uv0.SortFunction(clone(ChatStickerCfg.get_id_list_by_category[slot0]))
+	end,
+	SortAllChatSticker = function ()
+		slot0 = clone(ChatStickerCfg.all)
 
-function var_0_0.SortChatSticker(arg_1_0)
-	local var_1_0 = clone(ChatStickerCfg.get_id_list_by_category[arg_1_0])
+		table.removebyvalue(slot0, 0)
 
-	return var_0_0.SortFunction(var_1_0)
-end
+		return uv0.SortFunction(slot0)
+	end,
+	SortFunction = function (slot0)
+		table.sort(slot0, function (slot0, slot1)
+			if (ChatStickerCfg[slot0].free == 0 and ChatStickerData:IsLockSticker(slot0)) == (ChatStickerCfg[slot1].free == 0 and ChatStickerData:IsLockSticker(slot1)) then
+				return slot0 < slot1
+			end
 
-function var_0_0.SortAllChatSticker()
-	local var_2_0 = clone(ChatStickerCfg.all)
+			return slot5 and true or false
+		end)
 
-	table.removebyvalue(var_2_0, 0)
-
-	return var_0_0.SortFunction(var_2_0)
-end
-
-function var_0_0.SortFunction(arg_3_0)
-	table.sort(arg_3_0, function(arg_4_0, arg_4_1)
-		local var_4_0 = ChatStickerCfg[arg_4_0]
-		local var_4_1 = ChatStickerCfg[arg_4_1]
-		local var_4_2 = var_4_0.free == 0 and ChatStickerData:IsLockSticker(arg_4_0)
-		local var_4_3 = var_4_1.free == 0 and ChatStickerData:IsLockSticker(arg_4_1)
-
-		if var_4_2 == var_4_3 then
-			return arg_4_0 < arg_4_1
-		end
-
-		return var_4_3 and true or false
-	end)
-
-	return arg_3_0
-end
-
-return var_0_0
+		return slot0
+	end
+}

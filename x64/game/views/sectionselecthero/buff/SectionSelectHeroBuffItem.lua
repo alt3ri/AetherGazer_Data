@@ -1,22 +1,18 @@
-local var_0_0 = class("SectionSelectHeroBuffItem", ReduxView)
+slot0 = class("SectionSelectHeroBuffItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	local var_3_0 = SequentialBattleBuffCfg[arg_3_1].affix_id
-	local var_3_1 = AffixTypeCfg[var_3_0]
-	local var_3_2 = PublicBuffCfg[var_3_1.affix_buff_id].icon
-
-	arg_3_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/maedukAffix/" .. var_3_2)
+function slot0.SetData(slot0, slot1)
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/maedukAffix/" .. PublicBuffCfg[AffixTypeCfg[SequentialBattleBuffCfg[slot1].affix_id].affix_buff_id].icon)
 end
 
-return var_0_0
+return slot0

@@ -1,129 +1,126 @@
-local var_0_0 = class("HeroClueTaskItem", ReduxView)
+slot0 = class("HeroClueTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.rewardItems_ = {}
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.rewardItems_ = {}
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.statusController_ = ControllerUtil.GetController(arg_2_0.transform_, "status")
-	arg_2_0.typeController_ = ControllerUtil.GetController(arg_2_0.transform_, "type")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		TaskAction:SubmitTaskList({
-			arg_3_0.taskID_
+			uv0.taskID_
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.activityID_ = arg_5_2
-	arg_5_0.taskID_ = arg_5_1
-	arg_5_0.taskProgress_ = TaskData2:GetTask(arg_5_1).progress
-	arg_5_0.taskComplete_ = TaskData2:GetTaskComplete(arg_5_1)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.taskID_ = slot1
+	slot0.taskProgress_ = TaskData2:GetTask(slot1).progress
+	slot0.taskComplete_ = TaskData2:GetTaskComplete(slot1)
 
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.rewardItems_) do
-		iter_6_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshReward()
-	arg_7_0:RefreshProgress()
-	arg_7_0:RefreshType()
-	arg_7_0:RefreshDesc()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReward()
+	slot0:RefreshProgress()
+	slot0:RefreshType()
+	slot0:RefreshDesc()
 end
 
-function var_0_0.RefreshReward(arg_8_0)
-	local var_8_0 = AssignmentCfg[arg_8_0.taskID_].reward or {}
+function slot0.RefreshReward(slot0)
+	slot2 = AssignmentCfg[slot0.taskID_].reward or {}
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not arg_8_0.rewardItems_[iter_8_0] then
-			local var_8_1 = Object.Instantiate(arg_8_0.rewardItem_, arg_8_0.rewardParent_)
+	for slot6, slot7 in ipairs(slot2) do
+		if not slot0.rewardItems_[slot6] then
+			slot8 = Object.Instantiate(slot0.rewardItem_, slot0.rewardParent_)
 
-			SetActive(var_8_1, true)
+			SetActive(slot8, true)
 
-			arg_8_0.rewardItems_[iter_8_0] = CommonItem.New(var_8_1)
+			slot0.rewardItems_[slot6] = CommonItem.New(slot8)
 
-			arg_8_0.rewardItems_[iter_8_0]:RegistCallBack(function(arg_9_0)
+			slot0.rewardItems_[slot6]:RegistCallBack(function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_9_0.id,
-					arg_9_0.number
+					slot0.id,
+					slot0.number
 				})
 			end)
 		end
 
-		arg_8_0.rewardItems_[iter_8_0]:RefreshData(formatReward(iter_8_1))
+		slot0.rewardItems_[slot6]:RefreshData(formatReward(slot7))
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.rewardItems_ do
-		arg_8_0.rewardItems_[iter_8_2]:Show(false)
+	for slot6 = #slot2 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot6]:Show(false)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_10_0)
-	local var_10_0 = AssignmentCfg[arg_10_0.taskID_]
-	local var_10_1 = arg_10_0.taskProgress_
+function slot0.RefreshProgress(slot0)
+	slot2 = slot0.taskProgress_
 
-	if arg_10_0.taskProgress_ > var_10_0.need then
-		var_10_1 = var_10_0.need
+	if AssignmentCfg[slot0.taskID_].need < slot0.taskProgress_ then
+		slot2 = slot1.need
 	end
 
-	if arg_10_0.progressBar_ then
-		arg_10_0.progressBar_.value = var_10_1 / var_10_0.need
+	if slot0.progressBar_ then
+		slot0.progressBar_.value = slot2 / slot1.need
 	end
 
-	if arg_10_0.progressText_ then
-		arg_10_0.progressText_.text = string.format("%s/%s", var_10_1, var_10_0.need)
+	if slot0.progressText_ then
+		slot0.progressText_.text = string.format("%s/%s", slot2, slot1.need)
 	end
 
-	local var_10_2 = arg_10_0.taskProgress_ >= var_10_0.need
+	slot3 = slot1.need <= slot0.taskProgress_
 
-	if arg_10_0.taskComplete_ == true then
-		arg_10_0.statusController_:SetSelectedState("received")
-	elseif var_10_2 then
-		arg_10_0.statusController_:SetSelectedState("completed")
+	if slot0.taskComplete_ == true then
+		slot0.statusController_:SetSelectedState("received")
+	elseif slot3 then
+		slot0.statusController_:SetSelectedState("completed")
 	else
-		arg_10_0.statusController_:SetSelectedState("uncomplete")
+		slot0.statusController_:SetSelectedState("uncomplete")
 	end
 end
 
-function var_0_0.RefreshType(arg_11_0)
-	if arg_11_0.typeController_ then
-		if AssignmentCfg[arg_11_0.taskID_].type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
-			arg_11_0.typeController_:SetSelectedState("daily")
+function slot0.RefreshType(slot0)
+	if slot0.typeController_ then
+		if AssignmentCfg[slot0.taskID_].type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
+			slot0.typeController_:SetSelectedState("daily")
 		else
-			arg_11_0.typeController_:SetSelectedState("challenge")
+			slot0.typeController_:SetSelectedState("challenge")
 		end
 	end
 end
 
-function var_0_0.RefreshDesc(arg_12_0)
-	local var_12_0 = AssignmentCfg[arg_12_0.taskID_]
-
-	arg_12_0.descText_.text = var_12_0.desc
+function slot0.RefreshDesc(slot0)
+	slot0.descText_.text = AssignmentCfg[slot0.taskID_].desc
 end
 
-return var_0_0
+return slot0

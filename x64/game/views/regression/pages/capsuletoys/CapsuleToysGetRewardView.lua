@@ -1,87 +1,86 @@
-local var_0_0 = class("CapsuleToysGetRewardView", ReduxView)
+slot0 = class("CapsuleToysGetRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ReturnTwo/RT2stBonusWindowsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardItemList_ = {}
-	arg_4_0.itemDataList_ = {}
-	arg_4_0.typeController_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
+	slot0.rewardItemList_ = {}
+	slot0.itemDataList_ = {}
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = arg_8_0.params_.list
+function slot0.RefreshUI(slot0)
+	for slot5, slot6 in ipairs(slot0.params_.list) do
+		if not slot0.itemDataList_[slot5] then
+			slot0.itemDataList_[slot5] = clone(ItemTemplateData)
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not arg_8_0.itemDataList_[iter_8_0] then
-			arg_8_0.itemDataList_[iter_8_0] = clone(ItemTemplateData)
-			arg_8_0.itemDataList_[iter_8_0].clickFun = function(arg_9_0)
+			slot0.itemDataList_[slot5].clickFun = function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_9_0.id,
-					arg_9_0.number
+					slot0.id,
+					slot0.number
 				})
 			end
 		end
 
-		arg_8_0.itemDataList_[iter_8_0].id = iter_8_1[1]
-		arg_8_0.itemDataList_[iter_8_0].number = iter_8_1[2]
+		slot0.itemDataList_[slot5].id = slot6[1]
+		slot0.itemDataList_[slot5].number = slot6[2]
 
-		if arg_8_0.rewardItemList_[iter_8_0] then
-			arg_8_0.rewardItemList_[iter_8_0]:SetData(arg_8_0.itemDataList_[iter_8_0], false)
+		if slot0.rewardItemList_[slot5] then
+			slot0.rewardItemList_[slot5]:SetData(slot0.itemDataList_[slot5], false)
 		else
-			arg_8_0.rewardItemList_[iter_8_0] = arg_8_0:GetRewardItem(arg_8_0.itemDataList_[iter_8_0])
+			slot0.rewardItemList_[slot5] = slot0:GetRewardItem(slot0.itemDataList_[slot5])
 		end
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.rewardItemList_ do
-		arg_8_0.rewardItemList_[iter_8_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot5]:Show(false)
 	end
 
-	if #var_8_0 > 5 then
-		arg_8_0.typeController_:SetSelectedIndex(1)
+	if #slot1 > 5 then
+		slot0.typeController_:SetSelectedIndex(1)
 	else
-		arg_8_0.typeController_:SetSelectedIndex(0)
+		slot0.typeController_:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.GetRewardItem(arg_10_0, arg_10_1)
-	return CommonItemPool.New(arg_10_0.goRewardPanel_, arg_10_1, false)
+function slot0.GetRewardItem(slot0, slot1)
+	return CommonItemPool.New(slot0.goRewardPanel_, slot1, false)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_11_0.rewardItemList_ then
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.rewardItemList_) do
-			iter_11_1:Dispose()
+	if slot0.rewardItemList_ then
+		for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_11_0.rewardItemList_ = nil
+		slot0.rewardItemList_ = nil
 	end
 
-	arg_11_0.itemDataList_ = nil
+	slot0.itemDataList_ = nil
 end
 
-return var_0_0
+return slot0

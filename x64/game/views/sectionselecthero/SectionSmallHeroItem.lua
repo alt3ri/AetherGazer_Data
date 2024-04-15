@@ -1,47 +1,47 @@
-local var_0_0 = class("SectionSmallHeroItem", ReduxView)
+slot0 = class("SectionSmallHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = arg_3_0.controllerExCollection_:GetController("state")
-	arg_3_0.emptyController_ = arg_3_0.controllerExCollection_:GetController("empty")
+	slot0.stateController_ = slot0.controllerExCollection_:GetController("state")
+	slot0.emptyController_ = slot0.controllerExCollection_:GetController("empty")
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0:Show(true)
+function slot0.SetData(slot0, slot1)
+	slot0:Show(true)
 
-	arg_4_0.heroID_ = arg_4_1
+	slot0.heroID_ = slot1
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	if arg_5_0.heroID_ and arg_5_0.heroID_ ~= 0 then
-		arg_5_0.heroIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", arg_5_0.heroID_)
+function slot0.RefreshUI(slot0)
+	if slot0.heroID_ and slot0.heroID_ ~= 0 then
+		slot0.heroIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", slot0.heroID_)
 
-		arg_5_0.emptyController_:SetSelectedState("false")
+		slot0.emptyController_:SetSelectedState("false")
 	else
-		arg_5_0.emptyController_:SetSelectedState("true")
+		slot0.emptyController_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.RefreshState(arg_6_0, arg_6_1)
-	arg_6_0.stateController_:SetSelectedState(arg_6_1 == true and "on" or "off")
+function slot0.RefreshState(slot0, slot1)
+	slot0.stateController_:SetSelectedState(slot1 == true and "on" or "off")
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

@@ -1,103 +1,93 @@
-local var_0_0 = singletonClass("ColorPuzzleData")
+slot0 = singletonClass("ColorPuzzleData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.levelClear = {}
-	arg_1_0.clearedLevelCnt = 0
+function slot0.Init(slot0)
+	slot0.levelClear = {}
+	slot0.clearedLevelCnt = 0
 end
 
-function var_0_0.SetFinishedLevels(arg_2_0, arg_2_1)
-	arg_2_0.levelClear = {}
+function slot0.SetFinishedLevels(slot0, slot1)
+	slot0.levelClear = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		arg_2_0.levelClear[iter_2_1] = true
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.levelClear[slot6] = true
 	end
 
-	arg_2_0.clearedLevelCnt = #arg_2_1
+	slot0.clearedLevelCnt = #slot1
 end
 
-function var_0_0.GetClearedLevelCount(arg_3_0)
-	return arg_3_0.clearedLevelCnt
+function slot0.GetClearedLevelCount(slot0)
+	return slot0.clearedLevelCnt
 end
 
-function var_0_0.IsLevelCleared(arg_4_0, arg_4_1)
-	return arg_4_0.levelClear[arg_4_1] ~= nil
+function slot0.IsLevelCleared(slot0, slot1)
+	return slot0.levelClear[slot1] ~= nil
 end
 
-function var_0_0.IsLevelUnlocked(arg_5_0, arg_5_1)
-	local var_5_0 = ActivityHeroChallengeColor[arg_5_1].pre_stage
-	local var_5_1
+function slot0.IsLevelUnlocked(slot0, slot1)
+	slot4 = nil
 
-	if var_5_0 ~= 0 and not arg_5_0:IsLevelCleared(var_5_0) then
-		local var_5_2 = "ERROR_ACTIVITY_ZM_GAME_PRE_MISSION_UNLOCK"
-
-		return false, var_5_2
+	if ActivityHeroChallengeColor[slot1].pre_stage ~= 0 and not slot0:IsLevelCleared(slot3) then
+		return false, "ERROR_ACTIVITY_ZM_GAME_PRE_MISSION_UNLOCK"
 	end
 
 	return true
 end
 
-function var_0_0.IsLevelCanNotChallenge(arg_6_0, arg_6_1)
-	if arg_6_0:IsLevelCleared(arg_6_1) then
+function slot0.IsLevelCanNotChallenge(slot0, slot1)
+	if slot0:IsLevelCleared(slot1) then
 		return false
 	end
 
-	local var_6_0
-	local var_6_1, var_6_2 = SPHeroChallengeData:GetCurActivityInfo():GetStartBattelScheduleByType(SpHeroChallengeConst.ScheduleSubType.decode)
+	slot2 = nil
+	slot4, slot5 = SPHeroChallengeData:GetCurActivityInfo():GetStartBattelScheduleByType(SpHeroChallengeConst.ScheduleSubType.decode)
 
-	if var_6_1 <= var_6_2 then
-		local var_6_3 = GetTips("ACTIVITY_HERO_CHALLENGE_TIME_NULL")
-
-		return true, var_6_3
+	if slot4 <= slot5 then
+		return true, GetTips("ACTIVITY_HERO_CHALLENGE_TIME_NULL")
 	end
 end
 
-function var_0_0.GetLevelClearTime(arg_7_0, arg_7_1)
-	return getData("colorPuzzleLevel", tostring(arg_7_1))
+function slot0.GetLevelClearTime(slot0, slot1)
+	return getData("colorPuzzleLevel", tostring(slot1))
 end
 
-function var_0_0.UpdateLevelClearTime(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	local var_8_0 = true
+function slot0.UpdateLevelClearTime(slot0, slot1, slot2, slot3)
+	slot4 = true
 
-	if not arg_8_3 then
-		var_8_0 = arg_8_2 < (arg_8_0:GetLevelClearTime(arg_8_1) or math.huge)
+	if not slot3 then
+		slot4 = slot2 < (slot0:GetLevelClearTime(slot1) or math.huge)
 	end
 
-	if var_8_0 then
-		saveData("colorPuzzleLevel", tostring(arg_8_1), arg_8_2)
+	if slot4 then
+		saveData("colorPuzzleLevel", tostring(slot1), slot2)
 	end
 end
 
-function var_0_0.GetNextStage(arg_9_0)
-	local var_9_0 = ActivityHeroChallengeColor.all[1]
-
-	if not next(arg_9_0.levelClear) then
-		return var_9_0
+function slot0.GetNextStage(slot0)
+	if not next(slot0.levelClear) then
+		return ActivityHeroChallengeColor.all[1]
 	end
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.levelClear) do
-		var_9_0 = math.max(var_9_0, iter_9_0)
+	for slot5, slot6 in pairs(slot0.levelClear) do
+		slot1 = math.max(slot1, slot5)
 	end
 
-	local var_9_1 = ActivityHeroChallengeColor.all[#ActivityHeroChallengeColor.all]
+	slot2 = ActivityHeroChallengeColor.all[#ActivityHeroChallengeColor.all]
 
-	for iter_9_2, iter_9_3 in ipairs(ActivityHeroChallengeColor.all) do
-		if ActivityHeroChallengeColor[iter_9_3].pre_stage == var_9_0 then
-			var_9_1 = iter_9_3
+	for slot6, slot7 in ipairs(ActivityHeroChallengeColor.all) do
+		if ActivityHeroChallengeColor[slot7].pre_stage == slot1 then
+			slot2 = slot7
 
 			break
 		end
 	end
 
-	return var_9_1
+	return slot2
 end
 
-function var_0_0.GetNextStageName(arg_10_0)
-	local var_10_0 = #arg_10_0.levelClear + 1
-	local var_10_1 = ActivityHeroChallengeColor.all[var_10_0]
-
-	if var_10_1 then
-		return ActivityHeroChallengeColor[var_10_1].name
+function slot0.GetNextStageName(slot0)
+	if ActivityHeroChallengeColor.all[#slot0.levelClear + 1] then
+		return ActivityHeroChallengeColor[slot2].name
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,567 +1,542 @@
-local var_0_0 = class("CommonItemView", ReduxView)
+slot0 = class("CommonItemView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.info_ = {}
-	arg_1_0.oldInfo_ = {}
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.info_ = {}
+	slot0.oldInfo_ = {}
 
-	arg_1_0:InitUI(arg_1_2)
+	slot0:InitUI(slot2)
 end
 
-function var_0_0.InitUI(arg_2_0, arg_2_1)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.InitUI(slot0, slot1)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.emptyController_ = arg_2_0.controllerExCollection_:GetController("empty")
-	arg_2_0.typeController_ = arg_2_0.controllerExCollection_:GetController("type")
-	arg_2_0.rareController_ = arg_2_0.controllerExCollection_:GetController("quality")
-	arg_2_0.starController_ = arg_2_0.controllerExCollection_:GetController("star")
-	arg_2_0.grayController_ = arg_2_0.controllerExCollection_:GetController("gray")
-	arg_2_0.bottomAmountController_ = arg_2_0.controllerExCollection_:GetController("textcom")
-	arg_2_0.raceController_ = arg_2_0.controllerExCollection_:GetController("camp")
-	arg_2_0.lockController_ = arg_2_0.controllerExCollection_:GetController("notunlock")
-	arg_2_0.lockEquipController_ = arg_2_0.controllerExCollection_:GetController("lock")
-	arg_2_0.leftHeroController_ = arg_2_0.controllerExCollection_:GetController("heroHead")
-	arg_2_0.selectController_ = arg_2_0.controllerExCollection_:GetController("select")
-	arg_2_0.selectController2_ = arg_2_0.controllerExCollection_:GetController("select2")
-	arg_2_0.highLightController_ = arg_2_0.controllerExCollection_:GetController("award")
-	arg_2_0.completedController_ = arg_2_0.controllerExCollection_:GetController("completed")
-	arg_2_0.rightHeroController_ = arg_2_0.controllerExCollection_:GetController("using")
-	arg_2_0.countdownController_ = arg_2_0.controllerExCollection_:GetController("time")
-	arg_2_0.favouriteController_ = arg_2_0.controllerExCollection_:GetController("like")
-	arg_2_0.topAmountController_ = arg_2_0.controllerExCollection_:GetController("btnamount")
-	arg_2_0.infoBtnController_ = arg_2_0.controllerExCollection_:GetController("btnlook")
-	arg_2_0.gradeController_ = arg_2_0.controllerExCollection_:GetController("grade")
-	arg_2_0.surpassController_ = arg_2_0.controllerExCollection_:GetController("surpass")
-	arg_2_0.bottomTextController_ = arg_2_0.controllerExCollection_:GetController("deplete")
-	arg_2_0.ownedController_ = arg_2_0.controllerExCollection_:GetController("owned")
-	arg_2_0.equipPosController_ = arg_2_0.controllerExCollection_:GetController("bgequip")
+	slot0.emptyController_ = slot0.controllerExCollection_:GetController("empty")
+	slot0.typeController_ = slot0.controllerExCollection_:GetController("type")
+	slot0.rareController_ = slot0.controllerExCollection_:GetController("quality")
+	slot0.starController_ = slot0.controllerExCollection_:GetController("star")
+	slot0.grayController_ = slot0.controllerExCollection_:GetController("gray")
+	slot0.bottomAmountController_ = slot0.controllerExCollection_:GetController("textcom")
+	slot0.raceController_ = slot0.controllerExCollection_:GetController("camp")
+	slot0.lockController_ = slot0.controllerExCollection_:GetController("notunlock")
+	slot0.lockEquipController_ = slot0.controllerExCollection_:GetController("lock")
+	slot0.leftHeroController_ = slot0.controllerExCollection_:GetController("heroHead")
+	slot0.selectController_ = slot0.controllerExCollection_:GetController("select")
+	slot0.selectController2_ = slot0.controllerExCollection_:GetController("select2")
+	slot0.highLightController_ = slot0.controllerExCollection_:GetController("award")
+	slot0.completedController_ = slot0.controllerExCollection_:GetController("completed")
+	slot0.rightHeroController_ = slot0.controllerExCollection_:GetController("using")
+	slot0.countdownController_ = slot0.controllerExCollection_:GetController("time")
+	slot0.favouriteController_ = slot0.controllerExCollection_:GetController("like")
+	slot0.topAmountController_ = slot0.controllerExCollection_:GetController("btnamount")
+	slot0.infoBtnController_ = slot0.controllerExCollection_:GetController("btnlook")
+	slot0.gradeController_ = slot0.controllerExCollection_:GetController("grade")
+	slot0.surpassController_ = slot0.controllerExCollection_:GetController("surpass")
+	slot0.bottomTextController_ = slot0.controllerExCollection_:GetController("deplete")
+	slot0.ownedController_ = slot0.controllerExCollection_:GetController("owned")
+	slot0.equipPosController_ = slot0.controllerExCollection_:GetController("bgequip")
 
-	if not arg_2_1 then
-		arg_2_0:ResetTransform()
+	if not slot1 then
+		slot0:ResetTransform()
 	end
 
-	arg_2_0:AddDragEvent()
+	slot0:AddDragEvent()
 end
 
-local function var_0_1(arg_3_0)
-	if not arg_3_0 then
+function slot1(slot0)
+	if not slot0 then
 		return nil
 	end
 
-	if arg_3_0[1] ~= nil and arg_3_0.id == nil then
-		return cfgToItemTemplate(arg_3_0)
+	if slot0[1] ~= nil and slot0.id == nil then
+		return cfgToItemTemplate(slot0)
 	end
 
-	if arg_3_0.num ~= nil and arg_3_0.number == nil then
-		return rewardToItemTemplate(arg_3_0)
+	if slot0.num ~= nil and slot0.number == nil then
+		return rewardToItemTemplate(slot0)
 	end
 
-	return arg_3_0
+	return slot0
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.oldInfo_ = arg_4_0.info_
-	arg_4_0.info_ = clone(var_0_1(arg_4_1))
+function slot0.SetData(slot0, slot1)
+	slot0.oldInfo_ = slot0.info_
+	slot0.info_ = clone(uv0(slot1))
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.GetData(arg_5_0)
-	return arg_5_0.info_
+function slot0.GetData(slot0)
+	return slot0.info_
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	arg_6_0:RefreshEmptyState()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshEmptyState()
 
-	if arg_6_0.info_ == nil then
+	if slot0.info_ == nil then
 		return
 	end
 
-	if arg_6_0.info_.id == nil then
+	if slot0.info_.id == nil then
 		return
 	end
 
-	arg_6_0:RefreshRace(arg_6_0.info_.race or 0)
-	arg_6_0:RefreshLeftHeroHead(arg_6_0.info_.bindHeroID or 0)
-	arg_6_0:RefreshEquipLock(arg_6_0.info_.equipedLocked)
-	arg_6_0:RefreshFavourite(arg_6_0.info_.favouriteFlag)
-	arg_6_0:RefreshLock(arg_6_0.info_.locked)
-	arg_6_0:RefreshRightHeroHead(arg_6_0.info_.equipedHeroID)
-	arg_6_0:RefreshInfoBtn(arg_6_0.info_.infoBtnFlag)
-	arg_6_0:RefreshTopAmount(arg_6_0.info_.topAmountValue)
-	arg_6_0:RefreshCountdown(arg_6_0.info_)
+	slot0:RefreshRace(slot0.info_.race or 0)
+	slot0:RefreshLeftHeroHead(slot0.info_.bindHeroID or 0)
+	slot0:RefreshEquipLock(slot0.info_.equipedLocked)
+	slot0:RefreshFavourite(slot0.info_.favouriteFlag)
+	slot0:RefreshLock(slot0.info_.locked)
+	slot0:RefreshRightHeroHead(slot0.info_.equipedHeroID)
+	slot0:RefreshInfoBtn(slot0.info_.infoBtnFlag)
+	slot0:RefreshTopAmount(slot0.info_.topAmountValue)
+	slot0:RefreshCountdown(slot0.info_)
 
-	if not arg_6_0.oldInfo_ or arg_6_0.oldInfo_.id ~= arg_6_0.info_.id then
-		arg_6_0:RefreshGrade()
-		arg_6_0:RefreshStar()
-		arg_6_0:RefreshType()
-		arg_6_0:RefreshEquipPos()
-		arg_6_0:RefreshIcon()
-		arg_6_0:RefreshRareBg()
+	if not slot0.oldInfo_ or slot0.oldInfo_.id ~= slot0.info_.id then
+		slot0:RefreshGrade()
+		slot0:RefreshStar()
+		slot0:RefreshType()
+		slot0:RefreshEquipPos()
+		slot0:RefreshIcon()
+		slot0:RefreshRareBg()
 	end
 
-	arg_6_0:RefreshHighLight(arg_6_0.info_.highLight)
-	arg_6_0:RefreshSelectState(arg_6_0.info_.selectStyle)
-	arg_6_0:RefreshSelectState2(arg_6_0.info_.selectStyle2)
-	arg_6_0:RefreshCompleted(arg_6_0.info_.completedFlag)
-	arg_6_0:RefreshOwned(arg_6_0.info_.ownedFlag)
-	arg_6_0:RefreshGray(arg_6_0.info_.grayFlag)
-	arg_6_0:RefreshBottomAmountText()
-	arg_6_0:RefreshBottomText(arg_6_0.info_.bottomText)
-	arg_6_0:RefreshSurpass(arg_6_0.info_.addLevel)
-	arg_6_0:RefreshBottomRightText(arg_6_0.info_.hideBottomRightTextFlag)
-	arg_6_0:RefreshClickBtn()
-	arg_6_0:RefreshAnimator(arg_6_0.info_.animatorType)
+	slot0:RefreshHighLight(slot0.info_.highLight)
+	slot0:RefreshSelectState(slot0.info_.selectStyle)
+	slot0:RefreshSelectState2(slot0.info_.selectStyle2)
+	slot0:RefreshCompleted(slot0.info_.completedFlag)
+	slot0:RefreshOwned(slot0.info_.ownedFlag)
+	slot0:RefreshGray(slot0.info_.grayFlag)
+	slot0:RefreshBottomAmountText()
+	slot0:RefreshBottomText(slot0.info_.bottomText)
+	slot0:RefreshSurpass(slot0.info_.addLevel)
+	slot0:RefreshBottomRightText(slot0.info_.hideBottomRightTextFlag)
+	slot0:RefreshClickBtn()
+	slot0:RefreshAnimator(slot0.info_.animatorType)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.clickBtn_, nil, function()
-		if arg_7_0.info_.clickFun then
-			arg_7_0.info_.clickFun(arg_7_0.info_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.clickBtn_, nil, function ()
+		if uv0.info_.clickFun then
+			uv0.info_.clickFun(uv0.info_)
 		end
 	end)
-	arg_7_0:AddPressingByTimeListener(arg_7_0.longClickGo_, 3, 0.5, 0.2, function(arg_9_0, arg_9_1)
-		if arg_7_0.info_.longClickFun then
-			return (arg_7_0.info_.longClickFun(arg_7_0.info_, arg_9_0, arg_9_1))
+	slot0:AddPressingByTimeListener(slot0.longClickGo_, 3, 0.5, 0.2, function (slot0, slot1)
+		if uv0.info_.longClickFun then
+			return uv0.info_.longClickFun(uv0.info_, slot0, slot1)
 		end
 
 		return false
 	end)
-	arg_7_0:AddPressingByTimeListener(arg_7_0.topAmountGo_, 3, 0.5, 0.2, function(arg_10_0, arg_10_1)
-		if arg_7_0.info_.clickAmountFun then
-			return (arg_7_0.info_.clickAmountFun(arg_7_0.info_, arg_10_0, arg_10_1))
+	slot0:AddPressingByTimeListener(slot0.topAmountGo_, 3, 0.5, 0.2, function (slot0, slot1)
+		if uv0.info_.clickAmountFun then
+			return uv0.info_.clickAmountFun(uv0.info_, slot0, slot1)
 		end
 
 		return false
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.infoBtn_, nil, function(arg_11_0, arg_11_1)
-		if arg_7_0.info_.clickInfoFun then
-			return (arg_7_0.info_.clickInfoFun(arg_7_0.info_, arg_11_0, arg_11_1))
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function (slot0, slot1)
+		if uv0.info_.clickInfoFun then
+			return uv0.info_.clickInfoFun(uv0.info_, slot0, slot1)
 		end
 	end)
 end
 
-function var_0_0.ResetTransform(arg_12_0)
-	arg_12_0.transform_.localPosition = Vector3.zero
-	arg_12_0.transform_.localScale = Vector3(1, 1, 1)
-	arg_12_0.transform_.localEulerAngles = Vector3.zero
+function slot0.ResetTransform(slot0)
+	slot0.transform_.localPosition = Vector3.zero
+	slot0.transform_.localScale = Vector3(1, 1, 1)
+	slot0.transform_.localEulerAngles = Vector3.zero
 end
 
-function var_0_0.RefreshEmptyState(arg_13_0)
-	if arg_13_0.info_ == nil then
-		arg_13_0.emptyController_:SetSelectedState("on")
+function slot0.RefreshEmptyState(slot0)
+	if slot0.info_ == nil then
+		slot0.emptyController_:SetSelectedState("on")
 	else
-		arg_13_0.emptyController_:SetSelectedState("off")
+		slot0.emptyController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshType(arg_14_0)
-	local var_14_0 = ItemCfg[arg_14_0.info_.id].type
-	local var_14_1 = "material"
+function slot0.RefreshType(slot0)
+	slot2 = "material"
 
-	var_14_1 = (var_14_0 == ItemConst.ITEM_TYPE.CURRENCY or var_14_0 == ItemConst.ITEM_TYPE.MATERIAL or var_14_0 == ItemConst.ITEM_TYPE.PROPS or var_14_0 == ItemConst.ITEM_TYPE.GIFT or var_14_0 == ItemConst.ITEM_TYPE.ARCHIVE_GIFT or var_14_0 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER or var_14_0 == ItemConst.ITEM_TYPE.DORM_FURNITURE or var_14_0 == ItemConst.ITEM_TYPE.CANTEEN_INGREDIENTS) and "material" or var_14_0 == ItemConst.ITEM_TYPE.HERO_PIECE and "heroPiece" or var_14_0 == ItemConst.ITEM_TYPE.EQUIP and "equip" or var_14_0 == ItemConst.ITEM_TYPE.HERO and "hero" or var_14_0 == ItemConst.ITEM_TYPE.HERO_SKIN and "heroSkin" or var_14_0 == ItemConst.ITEM_TYPE.WEAPON_SERVANT and "weaponServant" or var_14_1
-
-	arg_14_0.typeController_:SetSelectedState(var_14_1)
-end
-
-function var_0_0.RefreshIcon(arg_15_0)
-	local var_15_0 = false
-
-	if ItemCfg[arg_15_0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP then
-		var_15_0 = true
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.CURRENCY or slot1 == ItemConst.ITEM_TYPE.MATERIAL or slot1 == ItemConst.ITEM_TYPE.PROPS or slot1 == ItemConst.ITEM_TYPE.GIFT or slot1 == ItemConst.ITEM_TYPE.ARCHIVE_GIFT or slot1 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER or slot1 == ItemConst.ITEM_TYPE.DORM_FURNITURE or slot1 == ItemConst.ITEM_TYPE.CANTEEN_INGREDIENTS then
+		slot2 = "material"
+	elseif slot1 == ItemConst.ITEM_TYPE.HERO_PIECE then
+		slot2 = "heroPiece"
+	elseif slot1 == ItemConst.ITEM_TYPE.EQUIP then
+		slot2 = "equip"
+	elseif slot1 == ItemConst.ITEM_TYPE.HERO then
+		slot2 = "hero"
+	elseif slot1 == ItemConst.ITEM_TYPE.HERO_SKIN then
+		slot2 = "heroSkin"
+	elseif slot1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot2 = "weaponServant"
 	end
 
-	ItemTools.GetItemSpriteAsync(arg_15_0.info_.id, function(arg_16_0, arg_16_1)
-		if arg_15_0.gameObject_ == nil then
+	slot0.typeController_:SetSelectedState(slot2)
+end
+
+function slot0.RefreshIcon(slot0)
+	slot1 = false
+
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP then
+		slot1 = true
+	end
+
+	ItemTools.GetItemSpriteAsync(slot0.info_.id, function (slot0, slot1)
+		if uv0.gameObject_ == nil then
 			return
 		end
 
-		if arg_15_0.info_ and arg_16_0 == arg_15_0.info_.id then
-			arg_15_0.iconImage_.sprite = arg_16_1
+		if uv0.info_ and slot0 == uv0.info_.id then
+			uv0.iconImage_.sprite = slot1
 		end
-	end, nil, var_15_0)
+	end, nil, slot1)
 end
 
-function var_0_0.RefreshEquipPos(arg_17_0)
-	local var_17_0 = ItemCfg[arg_17_0.info_.id].type
-	local var_17_1 = "material"
+function slot0.RefreshEquipPos(slot0)
+	slot2 = "material"
 
-	if var_17_0 == ItemConst.ITEM_TYPE.EQUIP then
-		arg_17_0.equipPosController_:SetSelectedState(tostring(EquipCfg[arg_17_0.info_.id].pos))
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP then
+		slot0.equipPosController_:SetSelectedState(tostring(EquipCfg[slot0.info_.id].pos))
 	else
-		arg_17_0.equipPosController_:SetSelectedState("off")
+		slot0.equipPosController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshRareBg(arg_18_0)
-	local var_18_0 = ItemCfg[arg_18_0.info_.id]
-
-	arg_18_0.rareController_:SetSelectedState(var_18_0.display_rare)
+function slot0.RefreshRareBg(slot0)
+	slot0.rareController_:SetSelectedState(ItemCfg[slot0.info_.id].display_rare)
 end
 
-function var_0_0.RefreshStar(arg_19_0)
-	local var_19_0 = ItemCfg[arg_19_0.info_.id]
-
-	if var_19_0.type == ItemConst.ITEM_TYPE.EQUIP or var_19_0.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		local var_19_1 = var_19_0.display_rare
-
-		arg_19_0.starController_:SetSelectedState("0" .. tostring(var_19_1))
+function slot0.RefreshStar(slot0)
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP or slot1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot0.starController_:SetSelectedState("0" .. tostring(slot1.display_rare))
 	else
-		arg_19_0.starController_:SetSelectedState("off")
+		slot0.starController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshGrade(arg_20_0)
-	if ItemCfg[arg_20_0.info_.id].type == ItemConst.ITEM_TYPE.HERO then
-		arg_20_0.gradeController_:SetSelectedState("on")
+function slot0.RefreshGrade(slot0)
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.HERO then
+		slot0.gradeController_:SetSelectedState("on")
 
-		local var_20_0 = HeroStarCfg[HeroCfg[arg_20_0.info_.id].unlock_star].star
-
-		arg_20_0.gradeImage_.sprite = getSprite("Atlas/SystemHeroGradeAtlas", "com_grade_" .. var_20_0)
+		slot0.gradeImage_.sprite = getSprite("Atlas/SystemHeroGradeAtlas", "com_grade_" .. HeroStarCfg[HeroCfg[slot0.info_.id].unlock_star].star)
 	else
-		arg_20_0.gradeController_:SetSelectedState("off")
+		slot0.gradeController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshTopAmount(arg_21_0, arg_21_1)
-	if arg_21_1 and arg_21_1 > 0 then
-		arg_21_0.topAmountController_:SetSelectedState("on")
+function slot0.RefreshTopAmount(slot0, slot1)
+	if slot1 and slot1 > 0 then
+		slot0.topAmountController_:SetSelectedState("on")
 	else
-		arg_21_0.topAmountController_:SetSelectedState("off")
-		arg_21_0:StopLongClickTimer()
+		slot0.topAmountController_:SetSelectedState("off")
+		slot0:StopLongClickTimer()
 	end
 
-	arg_21_0.topAmountText_.text = arg_21_1
-	arg_21_0.info_.topAmountValue = arg_21_1
+	slot0.topAmountText_.text = slot1
+	slot0.info_.topAmountValue = slot1
 
-	arg_21_0:RefreshGrayInner()
+	slot0:RefreshGrayInner()
 end
 
-function var_0_0.RefreshBottomAmountText(arg_22_0)
-	arg_22_0:RefreshBottomRightText()
+function slot0.RefreshBottomAmountText(slot0)
+	slot0:RefreshBottomRightText()
 
-	local var_22_0 = ItemCfg[arg_22_0.info_.id].type
-
-	if var_22_0 == ItemConst.ITEM_TYPE.EQUIP then
-		if arg_22_0.info_.equipLevel then
-			arg_22_0:SetBottomAmountText(GetTips("LEVEL") .. arg_22_0.info_.equipLevel)
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP then
+		if slot0.info_.equipLevel then
+			slot0:SetBottomAmountText(GetTips("LEVEL") .. slot0.info_.equipLevel)
 		end
-	elseif var_22_0 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		-- block empty
-	elseif arg_22_0.info_.number ~= nil then
-		arg_22_0:SetBottomAmountText(arg_22_0.info_.number)
+	elseif slot1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		-- Nothing
+	elseif slot0.info_.number ~= nil then
+		slot0:SetBottomAmountText(slot0.info_.number)
 	end
 end
 
-function var_0_0.SetBottomAmountText(arg_23_0, arg_23_1)
-	arg_23_0.info_.number = arg_23_1
+function slot0.SetBottomAmountText(slot0, slot1)
+	slot0.info_.number = slot1
 
-	if type(arg_23_1) == "number" then
-		arg_23_1 = formatNumber(arg_23_1)
+	if type(slot1) == "number" then
+		slot1 = formatNumber(slot1)
 	end
 
-	arg_23_0.bottomAmountText_.text = arg_23_1
+	slot0.bottomAmountText_.text = slot1
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_23_0.bottomAmountText_.transform)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.bottomAmountText_.transform)
 end
 
-function var_0_0.RefreshBottomRightText(arg_24_0, arg_24_1)
-	local var_24_0 = ItemCfg[arg_24_0.info_.id].type
+function slot0.RefreshBottomRightText(slot0, slot1)
+	slot0.bottomAmountController_:SetSelectedState((ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP and (slot0.info_.equipLevel and (slot1 or false) or true) or slot2 == ItemConst.ITEM_TYPE.WEAPON_SERVANT and true or slot1 or slot0.info_.number == nil) and "off" or "on")
+end
 
-	if var_24_0 == ItemConst.ITEM_TYPE.EQUIP then
-		if arg_24_0.info_.equipLevel then
-			arg_24_1 = arg_24_1 or false
+function slot0.RefreshBottomText(slot0, slot1)
+	if type(slot1) == "table" and #slot1 > 0 then
+		if slot1[2] == nil or slot3 == 0 then
+			slot0.bottomText_.text = slot1[1]
+		elseif slot2 < slot3 then
+			slot0.bottomText_.text = string.format("<color=#%s>%s</color>/%s", slot1[3] and slot1[3] or ColorConst.RED_HEX, formatNumber(slot2), formatNumber(slot3))
 		else
-			arg_24_1 = true
+			slot0.bottomText_.text = string.format("%s/%s", formatNumber(slot2), formatNumber(slot3))
 		end
+	elseif type(slot1) == "number" then
+		slot0.bottomText_.text = formatNumber(slot1)
+	elseif type(slot1) == "string" then
+		slot0.bottomText_.text = slot1
 	else
-		arg_24_1 = var_24_0 == ItemConst.ITEM_TYPE.WEAPON_SERVANT and true or arg_24_1 or arg_24_0.info_.number == nil
-	end
-
-	arg_24_0.bottomAmountController_:SetSelectedState(arg_24_1 and "off" or "on")
-end
-
-function var_0_0.RefreshBottomText(arg_25_0, arg_25_1)
-	if type(arg_25_1) == "table" and #arg_25_1 > 0 then
-		local var_25_0 = arg_25_1[1]
-		local var_25_1 = arg_25_1[2]
-
-		if var_25_1 == nil or var_25_1 == 0 then
-			arg_25_0.bottomText_.text = var_25_0
-		elseif var_25_0 < var_25_1 then
-			local var_25_2 = arg_25_1[3] and arg_25_1[3] or ColorConst.RED_HEX
-
-			arg_25_0.bottomText_.text = string.format("<color=#%s>%s</color>/%s", var_25_2, formatNumber(var_25_0), formatNumber(var_25_1))
-		else
-			arg_25_0.bottomText_.text = string.format("%s/%s", formatNumber(var_25_0), formatNumber(var_25_1))
-		end
-	elseif type(arg_25_1) == "number" then
-		arg_25_0.bottomText_.text = formatNumber(arg_25_1)
-	elseif type(arg_25_1) == "string" then
-		arg_25_0.bottomText_.text = arg_25_1
-	else
-		arg_25_0.bottomTextController_:SetSelectedState("off")
+		slot0.bottomTextController_:SetSelectedState("off")
 
 		return
 	end
 
-	arg_25_0.bottomTextController_:SetSelectedState("on")
+	slot0.bottomTextController_:SetSelectedState("on")
 end
 
-function var_0_0.RefreshSurpass(arg_26_0, arg_26_1)
-	if arg_26_1 and arg_26_1 > 0 then
-		arg_26_0.surpassController_:SetSelectedState("on")
+function slot0.RefreshSurpass(slot0, slot1)
+	if slot1 and slot1 > 0 then
+		slot0.surpassController_:SetSelectedState("on")
 
-		arg_26_0.surpassText_.text = arg_26_1
+		slot0.surpassText_.text = slot1
 	else
-		arg_26_0.surpassController_:SetSelectedState("off")
+		slot0.surpassController_:SetSelectedState("off")
 	end
 
-	arg_26_0.info_.addLevel = arg_26_1
+	slot0.info_.addLevel = slot1
 end
 
-function var_0_0.RefreshRace(arg_27_0, arg_27_1)
-	local var_27_0 = ItemCfg[arg_27_0.info_.id].type
-
-	if var_27_0 == ItemConst.ITEM_TYPE.HERO then
-		arg_27_1 = HeroCfg[arg_27_0.info_.id].race
-	elseif var_27_0 == ItemConst.ITEM_TYPE.HERO_PIECE then
-		local var_27_1 = ItemCfg[arg_27_0.info_.id].hero_id
-
-		arg_27_1 = HeroCfg[var_27_1].race
-	elseif var_27_0 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		arg_27_1 = WeaponServantCfg[arg_27_0.info_.id].race
+function slot0.RefreshRace(slot0, slot1)
+	if ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.HERO then
+		slot1 = HeroCfg[slot0.info_.id].race
+	elseif slot2 == ItemConst.ITEM_TYPE.HERO_PIECE then
+		slot1 = HeroCfg[ItemCfg[slot0.info_.id].hero_id].race
+	elseif slot2 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot1 = WeaponServantCfg[slot0.info_.id].race
 	end
 
-	if arg_27_1 == 0 then
-		arg_27_0.raceController_:SetSelectedState("off")
+	if slot1 == 0 then
+		slot0.raceController_:SetSelectedState("off")
 	else
-		arg_27_0.raceController_:SetSelectedState("on")
+		slot0.raceController_:SetSelectedState("on")
 
-		arg_27_0.raceImage_.sprite = getSprite("Atlas/SystemGroupAtlas", RaceEffectCfg[arg_27_1].icon2)
+		slot0.raceImage_.sprite = getSprite("Atlas/SystemGroupAtlas", RaceEffectCfg[slot1].icon2)
 	end
 
-	arg_27_0.info_.race = arg_27_1
+	slot0.info_.race = slot1
 end
 
-function var_0_0.RefreshRightHeroHead(arg_28_0, arg_28_1)
-	if arg_28_1 and arg_28_1 ~= 0 then
-		arg_28_0.rightHeroController_:SetSelectedState("true")
+function slot0.RefreshRightHeroHead(slot0, slot1)
+	if slot1 and slot1 ~= 0 then
+		slot0.rightHeroController_:SetSelectedState("true")
 
-		arg_28_0.rightHeroImage_.sprite = HeroTools.GetSmallHeadSprite(arg_28_1)
+		slot0.rightHeroImage_.sprite = HeroTools.GetSmallHeadSprite(slot1)
 	else
-		arg_28_0.rightHeroController_:SetSelectedState("false")
+		slot0.rightHeroController_:SetSelectedState("false")
 	end
 
-	arg_28_0.info_.equipedHeroID = arg_28_1
+	slot0.info_.equipedHeroID = slot1
 end
 
-function var_0_0.RefreshLeftHeroHead(arg_29_0, arg_29_1)
-	if arg_29_1 ~= 0 then
-		arg_29_0.leftHeroController_:SetSelectedState("on")
+function slot0.RefreshLeftHeroHead(slot0, slot1)
+	if slot1 ~= 0 then
+		slot0.leftHeroController_:SetSelectedState("on")
 
-		arg_29_0.leftHeroImage_.sprite = HeroTools.GetSmallHeadSprite(arg_29_1)
+		slot0.leftHeroImage_.sprite = HeroTools.GetSmallHeadSprite(slot1)
 
-		local var_29_0 = ItemCfg[arg_29_0.info_.id].type
-
-		if arg_29_0.info_.race ~= 0 and var_29_0 == ItemConst.ITEM_TYPE.EQUIP then
-			arg_29_0.raceController_:SetSelectedState("off")
+		if slot0.info_.race ~= 0 and ItemCfg[slot0.info_.id].type == ItemConst.ITEM_TYPE.EQUIP then
+			slot0.raceController_:SetSelectedState("off")
 		end
 	else
-		arg_29_0.leftHeroController_:SetSelectedState("off")
+		slot0.leftHeroController_:SetSelectedState("off")
 	end
 
-	arg_29_0.info_.bindHeroID = arg_29_1
+	slot0.info_.bindHeroID = slot1
 end
 
-function var_0_0.RefreshLock(arg_30_0, arg_30_1)
-	arg_30_0.lockController_:SetSelectedState(arg_30_1 and "on" or "off")
+function slot0.RefreshLock(slot0, slot1)
+	slot0.lockController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_30_0.info_.locked = arg_30_1
+	slot0.info_.locked = slot1
 
-	arg_30_0:RefreshGrayInner()
+	slot0:RefreshGrayInner()
 end
 
-function var_0_0.RefreshEquipLock(arg_31_0, arg_31_1)
-	arg_31_0.lockEquipController_:SetSelectedState(arg_31_1 and "on" or "off")
+function slot0.RefreshEquipLock(slot0, slot1)
+	slot0.lockEquipController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_31_0.info_.equipedLocked = arg_31_1
+	slot0.info_.equipedLocked = slot1
 end
 
-function var_0_0.RefreshCountdown(arg_32_0, arg_32_1)
-	local var_32_0 = ItemTools.GetItemExpiredTimeByInfo(arg_32_1)
+function slot0.RefreshCountdown(slot0, slot1)
+	if ItemTools.GetItemExpiredTimeByInfo(slot1) and slot2 > 0 and slot1.need_count_down then
+		slot0.countdownController_:SetSelectedState("on")
 
-	if var_32_0 and var_32_0 > 0 and arg_32_1.need_count_down then
-		arg_32_0.countdownController_:SetSelectedState("on")
-
-		arg_32_0.timeText_.text = ItemTools.GetItemCountdownText(var_32_0)
+		slot0.timeText_.text = ItemTools.GetItemCountdownText(slot2)
 	else
-		arg_32_0.countdownController_:SetSelectedState("false")
+		slot0.countdownController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshFavourite(arg_33_0, arg_33_1)
-	arg_33_0.favouriteController_:SetSelectedState(arg_33_1 and "on" or "off")
+function slot0.RefreshFavourite(slot0, slot1)
+	slot0.favouriteController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_33_0.info_.favouriteFlag = arg_33_1
+	slot0.info_.favouriteFlag = slot1
 end
 
-function var_0_0.RefreshInfoBtn(arg_34_0, arg_34_1)
-	arg_34_0.infoBtnController_:SetSelectedState(arg_34_1 and "on" or "off")
+function slot0.RefreshInfoBtn(slot0, slot1)
+	slot0.infoBtnController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_34_0.info_.infoBtnFlag = arg_34_1
+	slot0.info_.infoBtnFlag = slot1
 end
 
-function var_0_0.RefreshGray(arg_35_0, arg_35_1)
-	arg_35_0.grayController_:SetSelectedState(arg_35_1 and "on" or "off")
+function slot0.RefreshGray(slot0, slot1)
+	slot0.grayController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_35_0.info_.grayFlag = arg_35_1
+	slot0.info_.grayFlag = slot1
 end
 
-function var_0_0.RefreshGrayInner(arg_36_0)
-	local var_36_0
+function slot0.RefreshGrayInner(slot0)
+	slot1 = nil
 
-	if arg_36_0.info_.locked or arg_36_0.info_.completedFlag or arg_36_0.info_.selectStyle or tonumber(arg_36_0.info_.topAmountValue or 0) > 0 or arg_36_0.info_.ownedFlag then
-		var_36_0 = true
+	if slot0.info_.locked or slot0.info_.completedFlag or slot0.info_.selectStyle or tonumber(slot0.info_.topAmountValue or 0) > 0 or slot0.info_.ownedFlag then
+		slot1 = true
 	end
 
-	arg_36_0.info_.grayFlag = var_36_0 or arg_36_0.info_.grayFlag
+	slot0.info_.grayFlag = slot1 or slot0.info_.grayFlag
 
-	arg_36_0.grayController_:SetSelectedState(var_36_0 and "on" or "off")
+	slot0.grayController_:SetSelectedState(slot1 and "on" or "off")
 end
 
-function var_0_0.RefreshHighLight(arg_37_0, arg_37_1)
-	arg_37_0.highLightController_:SetSelectedState(arg_37_1 and "on" or "off")
+function slot0.RefreshHighLight(slot0, slot1)
+	slot0.highLightController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_37_0.info_.highLight = highLight
+	slot0.info_.highLight = highLight
 end
 
-function var_0_0.RefreshSelectState(arg_38_0, arg_38_1)
-	if arg_38_1 == true then
-		arg_38_0.selectController_:SetSelectedState("1")
+function slot0.RefreshSelectState(slot0, slot1)
+	if slot1 == true then
+		slot0.selectController_:SetSelectedState("1")
 	else
-		arg_38_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 
-	arg_38_0.info_.selectStyle = arg_38_1
+	slot0.info_.selectStyle = slot1
 
-	arg_38_0:RefreshGrayInner()
+	slot0:RefreshGrayInner()
 end
 
-function var_0_0.RefreshSelectState2(arg_39_0, arg_39_1)
-	if arg_39_1 == true then
-		arg_39_0.selectController2_:SetSelectedState("true")
+function slot0.RefreshSelectState2(slot0, slot1)
+	if slot1 == true then
+		slot0.selectController2_:SetSelectedState("true")
 	else
-		arg_39_0.selectController2_:SetSelectedState("false")
+		slot0.selectController2_:SetSelectedState("false")
 	end
 
-	arg_39_0.info_.selectStyle2 = arg_39_1
+	slot0.info_.selectStyle2 = slot1
 end
 
-function var_0_0.RefreshCompleted(arg_40_0, arg_40_1)
-	arg_40_0.completedController_:SetSelectedState(arg_40_1 and "on" or "off")
+function slot0.RefreshCompleted(slot0, slot1)
+	slot0.completedController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_40_0.info_.completedFlag = arg_40_1
+	slot0.info_.completedFlag = slot1
 
-	arg_40_0:RefreshGrayInner()
+	slot0:RefreshGrayInner()
 end
 
-function var_0_0.RefreshOwned(arg_41_0, arg_41_1)
-	arg_41_0.ownedController_:SetSelectedState(arg_41_1 and "on" or "off")
+function slot0.RefreshOwned(slot0, slot1)
+	slot0.ownedController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_41_0.info_.ownedFlag = arg_41_1
+	slot0.info_.ownedFlag = slot1
 
-	arg_41_0:RefreshGrayInner()
+	slot0:RefreshGrayInner()
 end
 
-function var_0_0.RefreshClickBtn(arg_42_0)
-	if arg_42_0.info_.clickFun then
-		SetActive(arg_42_0.clickBtn_.gameObject, true)
+function slot0.RefreshClickBtn(slot0)
+	if slot0.info_.clickFun then
+		SetActive(slot0.clickBtn_.gameObject, true)
 	else
-		SetActive(arg_42_0.clickBtn_.gameObject, false)
+		SetActive(slot0.clickBtn_.gameObject, false)
 	end
 
-	if arg_42_0.info_.longClickFun then
-		SetActive(arg_42_0.longClickGo_, true)
+	if slot0.info_.longClickFun then
+		SetActive(slot0.longClickGo_, true)
 	else
-		SetActive(arg_42_0.longClickGo_, false)
+		SetActive(slot0.longClickGo_, false)
 	end
 end
 
-function var_0_0.RefreshAnimator(arg_43_0, arg_43_1)
-	if arg_43_0.oldAnimatorType_ == arg_43_1 then
+function slot0.RefreshAnimator(slot0, slot1)
+	if slot0.oldAnimatorType_ == slot1 then
 		return
 	end
 
-	if arg_43_1 == ItemConst.ITEM_ANIMATOR_TYPE.NULL then
-		arg_43_0.animator_.enabled = false
+	if slot1 == ItemConst.ITEM_ANIMATOR_TYPE.NULL then
+		slot0.animator_.enabled = false
 	else
-		arg_43_0.animator_.enabled = true
+		slot0.animator_.enabled = true
 
-		if arg_43_1 == ItemConst.ITEM_ANIMATOR_TYPE.NORMAL then
-			arg_43_0.animator_.runtimeAnimatorController = Asset.Load("AnimatorController/CommonItem/CommonItem")
+		if slot1 == ItemConst.ITEM_ANIMATOR_TYPE.NORMAL then
+			slot0.animator_.runtimeAnimatorController = Asset.Load("AnimatorController/CommonItem/CommonItem")
 
-			if arg_43_0.gameObject_.activeInHierarchy == true then
-				arg_43_0.animator_:Update(0)
+			if slot0.gameObject_.activeInHierarchy == true then
+				slot0.animator_:Update(0)
 			end
-		elseif arg_43_1 == ItemConst.ITEM_ANIMATOR_TYPE.ADVANCED then
-			arg_43_0.animator_.runtimeAnimatorController = Asset.Load("AnimatorController/CommonItem/CommonItem2")
+		elseif slot1 == ItemConst.ITEM_ANIMATOR_TYPE.ADVANCED then
+			slot0.animator_.runtimeAnimatorController = Asset.Load("AnimatorController/CommonItem/CommonItem2")
 
-			if arg_43_0.gameObject_.activeInHierarchy == true then
-				arg_43_0.animator_:Update(0)
+			if slot0.gameObject_.activeInHierarchy == true then
+				slot0.animator_:Update(0)
 			end
 		end
 	end
 
-	arg_43_0.oldAnimatorType_ = arg_43_1
+	slot0.oldAnimatorType_ = slot1
 
-	if arg_43_0.info_ then
-		arg_43_0.info_.animatorType = arg_43_1
+	if slot0.info_ then
+		slot0.info_.animatorType = slot1
 	end
 end
 
-function var_0_0.AddDragEvent(arg_44_0)
-	arg_44_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_44_0, arg_44_0.BeginDragFun)))
-	arg_44_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(arg_44_0, arg_44_0.DragFun)))
-	arg_44_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_44_0, arg_44_0.EndDragFun)))
+function slot0.AddDragEvent(slot0)
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.DragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
 end
 
-function var_0_0.RemoveDragEvent(arg_45_0)
-	arg_45_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	arg_45_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
-	arg_45_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
+function slot0.RemoveDragEvent(slot0)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
 end
 
-function var_0_0.BeginDragFun(arg_46_0, arg_46_1, arg_46_2)
-	if arg_46_0.info_.beginDragFun then
-		arg_46_0.info_.beginDragFun(arg_46_1, arg_46_2)
+function slot0.BeginDragFun(slot0, slot1, slot2)
+	if slot0.info_.beginDragFun then
+		slot0.info_.beginDragFun(slot1, slot2)
 	end
 end
 
-function var_0_0.DragFun(arg_47_0, arg_47_1, arg_47_2)
-	if arg_47_0.info_.dragFun then
-		arg_47_0.info_.dragFun(arg_47_1, arg_47_2)
+function slot0.DragFun(slot0, slot1, slot2)
+	if slot0.info_.dragFun then
+		slot0.info_.dragFun(slot1, slot2)
 	end
 end
 
-function var_0_0.EndDragFun(arg_48_0, arg_48_1, arg_48_2)
-	if arg_48_0.info_.endDragFun then
-		arg_48_0.info_.endDragFun(arg_48_1, arg_48_2)
+function slot0.EndDragFun(slot0, slot1, slot2)
+	if slot0.info_.endDragFun then
+		slot0.info_.endDragFun(slot1, slot2)
 	end
 end
 
-function var_0_0.Show(arg_49_0, arg_49_1)
-	SetActive(arg_49_0.gameObject_, arg_49_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_50_0)
-	arg_50_0:RemoveDragEvent()
-	var_0_0.super.Dispose(arg_50_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveDragEvent()
+	uv0.super.Dispose(slot0)
 
-	arg_50_0.transform_ = nil
-	arg_50_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

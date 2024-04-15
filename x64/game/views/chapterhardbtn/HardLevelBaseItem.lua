@@ -1,65 +1,63 @@
-local var_0_0 = class("HardLevelBaseItem", ReduxView)
+slot0 = class("HardLevelBaseItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.hardLevel_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.hardLevel_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.lockController_ = arg_2_0.controllerEx_:GetController("lock")
+	slot0.lockController_ = slot0.controllerEx_:GetController("lock")
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	arg_3_0:IsLock()
-	arg_3_0:RefreshItem()
+function slot0.OnEnter(slot0)
+	slot0:IsLock()
+	slot0:RefreshItem()
 end
 
-function var_0_0.OnExit(arg_4_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.btn_, nil, function()
-		if arg_6_0.isLock_ then
-			arg_6_0:LockTips()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.isLock_ then
+			uv0:LockTips()
 
 			return
 		end
 
-		arg_6_0:ClickBtn()
+		uv0:ClickBtn()
 	end)
 end
 
-function var_0_0.LockTips(arg_8_0)
+function slot0.LockTips(slot0)
 	ShowTips("ERROR_FUNCTION_NOT_OPEN")
 end
 
-function var_0_0.ClickBtn(arg_9_0)
-	return
+function slot0.ClickBtn(slot0)
 end
 
-function var_0_0.RefreshItem(arg_10_0)
-	arg_10_0.lockController_:SetSelectedState(tostring(arg_10_0.isLock_))
+function slot0.RefreshItem(slot0)
+	slot0.lockController_:SetSelectedState(tostring(slot0.isLock_))
 
-	arg_10_0.hardText_.text = GetTips(BattleConst.HARD_LANGUAGE[arg_10_0.hardLevel_])
+	slot0.hardText_.text = GetTips(BattleConst.HARD_LANGUAGE[slot0.hardLevel_])
 end
 
-function var_0_0.SetSiblingIndex(arg_11_0, arg_11_1)
-	arg_11_0.transform_:SetSiblingIndex(arg_11_1)
+function slot0.SetSiblingIndex(slot0, slot1)
+	slot0.transform_:SetSiblingIndex(slot1)
 end
 
-function var_0_0.IsLock(arg_12_0)
-	arg_12_0.isLock_ = false
+function slot0.IsLock(slot0)
+	slot0.isLock_ = false
 end
 
-return var_0_0
+return slot0

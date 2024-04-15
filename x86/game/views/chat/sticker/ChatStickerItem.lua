@@ -1,87 +1,83 @@
-local var_0_0 = class("ChatStickerItem", ReduxView)
+slot0 = class("ChatStickerItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.lockController_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.RefreshData(arg_2_0, arg_2_1)
-	local var_2_0 = ChatStickerCfg[arg_2_1]
-
-	if not var_2_0 then
+function slot0.RefreshData(slot0, slot1)
+	if not ChatStickerCfg[slot1] then
 		return
 	end
 
-	arg_2_0.isLock_ = var_2_0.free == 0 and ChatStickerData:IsLockSticker(arg_2_1) or false
+	slot0.isLock_ = slot2.free == 0 and ChatStickerData:IsLockSticker(slot1) or false
 
-	if arg_2_0.isLock_ then
-		arg_2_0.lockController_:SetSelectedState("true")
+	if slot0.isLock_ then
+		slot0.lockController_:SetSelectedState("true")
 	else
-		arg_2_0.lockController_:SetSelectedState("false")
+		slot0.lockController_:SetSelectedState("false")
 	end
 
-	if arg_2_0.id_ == arg_2_1 then
+	if slot0.id_ == slot1 then
 		return
 	end
 
-	arg_2_0.id_ = arg_2_1
-	arg_2_0.descSource_ = var_2_0.desc_source
+	slot0.id_ = slot1
+	slot0.descSource_ = slot2.desc_source
 
-	arg_2_0:DestroySticker()
+	slot0:DestroySticker()
 
-	local var_2_1 = var_2_0.icon .. SettingData:GetCurrentLanguageKey()
-
-	if var_2_0.type == 1 then
-		arg_2_0.imageIcon_.sprite = getSpriteViaConfig("ChatSticker", var_2_1)
-		arg_2_0.imageIcon_.enabled = true
+	if slot2.type == 1 then
+		slot0.imageIcon_.sprite = getSpriteViaConfig("ChatSticker", slot2.icon .. SettingData:GetCurrentLanguageKey())
+		slot0.imageIcon_.enabled = true
 	else
-		arg_2_0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(var_2_1), arg_2_0.dynamicTf_)
-		arg_2_0.imageIcon_.enabled = false
+		slot0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(slot3), slot0.dynamicTf_)
+		slot0.imageIcon_.enabled = false
 	end
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.buttonItem_, nil, function()
-		if arg_3_0.id_ == 0 then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonItem_, nil, function ()
+		if uv0.id_ == 0 then
 			ChatStickerData:InitStickerUIList()
 			JumpTools.OpenPageByJump("chatCustomSticker")
 
 			return
 		end
 
-		if arg_3_0.isLock_ then
-			if arg_3_0.descSource_ == "" then
+		if uv0.isLock_ then
+			if uv0.descSource_ == "" then
 				ShowTips("CHAT_DYNAMIC_STICKER_LOCK")
 			else
-				ShowTips(arg_3_0.descSource_)
+				ShowTips(uv0.descSource_)
 			end
 
 			return
 		end
 
-		manager.notify:Invoke(CHAT_SEND_STICKER, arg_3_0.id_)
+		manager.notify:Invoke(CHAT_SEND_STICKER, uv0.id_)
 	end)
 end
 
-function var_0_0.DestroySticker(arg_5_0)
-	if arg_5_0.dynamicStickerGo_ then
-		Object.Destroy(arg_5_0.dynamicStickerGo_)
+function slot0.DestroySticker(slot0)
+	if slot0.dynamicStickerGo_ then
+		Object.Destroy(slot0.dynamicStickerGo_)
 
-		arg_5_0.dynamicStickerGo_ = nil
+		slot0.dynamicStickerGo_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0:DestroySticker()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:DestroySticker()
 
-	arg_6_0.transform_ = nil
-	arg_6_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

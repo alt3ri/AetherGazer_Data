@@ -1,76 +1,76 @@
-local var_0_0 = class("ScenePreviewItem", ReduxView)
+slot0 = class("ScenePreviewItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.typeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "type")
-	arg_3_0.selectCon_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.selectCon_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickFunc_ then
-			arg_4_0.clickFunc_()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickFunc_ then
+			uv0.clickFunc_()
 		end
 	end)
 end
 
-function var_0_0.RefreshData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.id_ = arg_6_1
-	arg_6_0.cfg_ = HomeSceneSettingCfg[arg_6_0.id_]
-	arg_6_0.title_.text = arg_6_0.cfg_.title
-	arg_6_0.source_.text = arg_6_0.cfg_.obtain_word
-	arg_6_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/SceneChangeUI/item/" .. arg_6_0.id_)
+function slot0.RefreshData(slot0, slot1, slot2, slot3)
+	slot0.id_ = slot1
+	slot0.cfg_ = HomeSceneSettingCfg[slot0.id_]
+	slot0.title_.text = slot0.cfg_.title
+	slot0.source_.text = slot0.cfg_.obtain_word
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/SceneChangeUI/item/" .. slot0.id_)
 
-	arg_6_0:RefreshType(arg_6_2, arg_6_3)
-	manager.redPoint:bindUIandKey(arg_6_0.transform_, RedPointConst.SCENE .. "_" .. arg_6_0.id_)
+	slot0:RefreshType(slot2, slot3)
+	manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.SCENE .. "_" .. slot0.id_)
 end
 
-function var_0_0.RefreshType(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.selectCon_:SetSelectedState(arg_7_2 and "true" or "false")
+function slot0.RefreshType(slot0, slot1, slot2)
+	slot0.selectCon_:SetSelectedState(slot2 and "true" or "false")
 
-	local var_7_0 = HomeSceneSettingData:GetCurScene()
+	slot3 = HomeSceneSettingData:GetCurScene()
 
-	if arg_7_1 == 0 then
-		if #arg_7_0.cfg_.obtain_way > 0 and not JumpTools.NeedHide(arg_7_0.cfg_.obtain_way, arg_7_0.id_) then
-			arg_7_0.typeCon_:SetSelectedState("get")
+	if slot1 == 0 then
+		if #slot0.cfg_.obtain_way > 0 and not JumpTools.NeedHide(slot0.cfg_.obtain_way, slot0.id_) then
+			slot0.typeCon_:SetSelectedState("get")
 		else
-			arg_7_0.typeCon_:SetSelectedState("ban")
+			slot0.typeCon_:SetSelectedState("ban")
 		end
-	elseif var_7_0 == arg_7_0.id_ then
-		if arg_7_1 == 1 then
-			arg_7_0.typeCon_:SetSelectedState("trial")
-		elseif arg_7_1 == 2 then
-			arg_7_0.typeCon_:SetSelectedState("using")
+	elseif slot3 == slot0.id_ then
+		if slot1 == 1 then
+			slot0.typeCon_:SetSelectedState("trial")
+		elseif slot1 == 2 then
+			slot0.typeCon_:SetSelectedState("using")
 		end
 	else
-		arg_7_0.typeCon_:SetSelectedState("normal")
+		slot0.typeCon_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.RegistClickFunc(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc_ = arg_8_1
+function slot0.RegistClickFunc(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-function var_0_0.OnExit(arg_9_0)
-	manager.redPoint:unbindUIandKey(arg_9_0.transform_)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

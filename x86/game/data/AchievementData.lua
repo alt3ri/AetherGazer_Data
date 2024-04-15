@@ -1,378 +1,346 @@
-local var_0_0 = singletonClass("AchievementData")
+slot0 = singletonClass("AchievementData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.achievementData_ = {}
+function slot0.Init(slot0)
+	slot0.achievementData_ = {}
 
-	for iter_1_0, iter_1_1 in ipairs(AchievementCfg.all) do
-		arg_1_0.achievementData_[iter_1_1] = {
+	for slot4, slot5 in ipairs(AchievementCfg.all) do
+		slot0.achievementData_[slot5] = {
 			process = 0,
 			timestamp = 0,
 			rewardState = 0,
-			id = iter_1_1
+			id = slot5
 		}
 	end
 
-	arg_1_0.achievementSortData_ = {}
+	slot0.achievementSortData_ = {}
 
-	for iter_1_2, iter_1_3 in ipairs(AchievementCfg.get_id_list_by_type_id) do
-		arg_1_0.achievementSortData_[iter_1_2] = {}
+	for slot4, slot5 in ipairs(AchievementCfg.get_id_list_by_type_id) do
+		slot0.achievementSortData_[slot4] = {}
 
-		for iter_1_4, iter_1_5 in ipairs(iter_1_3) do
-			if AchievementCfg[iter_1_5].is_hide ~= 1 then
-				table.insert(arg_1_0.achievementSortData_[iter_1_2], iter_1_5)
+		for slot9, slot10 in ipairs(slot5) do
+			if AchievementCfg[slot10].is_hide ~= 1 then
+				table.insert(slot0.achievementSortData_[slot4], slot10)
 			end
 		end
 	end
 
-	arg_1_0.needSortFlag_ = {}
-	arg_1_0.canReceiveReward_ = {}
-	arg_1_0.finishAchievementList_ = {}
-	arg_1_0.achievementPoint_ = 0
-	arg_1_0.storyReadList_ = {}
-	arg_1_0.achievementLevel_ = 0
-	arg_1_0.achievementOldLevel_ = 0
-	arg_1_0.readyAchievementList_ = {}
-	arg_1_0.hadCheckShield_ = {}
-	arg_1_0.finishShieldList_ = {}
-	arg_1_0.canReceiveShieldList_ = {}
+	slot0.needSortFlag_ = {}
+	slot0.canReceiveReward_ = {}
+	slot0.finishAchievementList_ = {}
+	slot0.achievementPoint_ = 0
+	slot0.storyReadList_ = {}
+	slot0.achievementLevel_ = 0
+	slot0.achievementOldLevel_ = 0
+	slot0.readyAchievementList_ = {}
+	slot0.hadCheckShield_ = {}
+	slot0.finishShieldList_ = {}
+	slot0.canReceiveShieldList_ = {}
 end
 
-function var_0_0.GetFinishAchievementCnt(arg_2_0, arg_2_1)
-	if arg_2_1 == nil then
-		local var_2_0 = 0
-
-		for iter_2_0, iter_2_1 in pairs(arg_2_0.finishAchievementList_) do
-			var_2_0 = var_2_0 + #iter_2_1
+function slot0.GetFinishAchievementCnt(slot0, slot1)
+	if slot1 == nil then
+		for slot6, slot7 in pairs(slot0.finishAchievementList_) do
+			slot2 = 0 + #slot7
 		end
 
-		local var_2_1 = 0
-
-		for iter_2_2, iter_2_3 in pairs(arg_2_0.finishShieldList_) do
-			var_2_1 = var_2_1 + #iter_2_3
+		for slot7, slot8 in pairs(slot0.finishShieldList_) do
+			slot3 = 0 + #slot8
 		end
 
-		for iter_2_4, iter_2_5 in pairs(arg_2_0.canReceiveShieldList_) do
-			var_2_1 = var_2_1 + #iter_2_5
+		for slot7, slot8 in pairs(slot0.canReceiveShieldList_) do
+			slot3 = slot3 + #slot8
 		end
 
-		return var_2_0 - var_2_1
+		return slot2 - slot3
 	else
-		local var_2_2 = arg_2_0.finishShieldList_[arg_2_1] and #arg_2_0.finishShieldList_[arg_2_1] or 0
-
-		return (arg_2_0.finishAchievementList_[arg_2_1] and #arg_2_0.finishAchievementList_[arg_2_1] or 0) - var_2_2
+		return (slot0.finishAchievementList_[slot1] and #slot0.finishAchievementList_[slot1] or 0) - (slot0.finishShieldList_[slot1] and #slot0.finishShieldList_[slot1] or 0)
 	end
 end
 
-function var_0_0.GetReadyAchievementList(arg_3_0, arg_3_1)
-	if arg_3_1 == nil then
-		return arg_3_0.readyAchievementList_
+function slot0.GetReadyAchievementList(slot0, slot1)
+	if slot1 == nil then
+		return slot0.readyAchievementList_
 	else
-		return arg_3_0.readyAchievementList_[arg_3_1] or {}
+		return slot0.readyAchievementList_[slot1] or {}
 	end
 end
 
-function var_0_0.UpdateAchievementList(arg_4_0, arg_4_1, arg_4_2)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1) do
-		arg_4_0:UpdateAchievement(iter_4_1, arg_4_2)
+function slot0.UpdateAchievementList(slot0, slot1, slot2)
+	for slot6, slot7 in ipairs(slot1) do
+		slot0:UpdateAchievement(slot7, slot2)
 	end
 end
 
-function var_0_0.UpdateAchievement(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_1.id
-	local var_5_1 = arg_5_1.progress
-	local var_5_2 = AchievementCfg[var_5_0]
+function slot0.UpdateAchievement(slot0, slot1, slot2)
+	slot4 = slot1.progress
 
-	if not var_5_2 then
+	if not AchievementCfg[slot1.id] then
 		return
 	end
 
-	local var_5_3 = var_5_2.type_id
-	local var_5_4 = 0
+	slot6 = slot5.type_id
+	slot7 = 0
 
-	if arg_5_1.complete_flag == 1 then
-		var_5_4 = -1
-	elseif var_5_1 >= var_5_2.need then
-		var_5_4 = 1
+	if slot1.complete_flag == 1 then
+		slot7 = -1
+	elseif slot5.need <= slot4 then
+		slot7 = 1
 	end
 
-	if not arg_5_0.hadCheckShield_[var_5_0] then
-		arg_5_0.hadCheckShield_[var_5_0] = true
+	if not slot0.hadCheckShield_[slot3] then
+		slot0.hadCheckShield_[slot3] = true
+		slot8 = false
 
-		local var_5_5 = false
-		local var_5_6 = AchievementCfg[var_5_0].system
-
-		if type(var_5_6) == "table" then
-			for iter_5_0, iter_5_1 in ipairs(var_5_6) do
-				if SystemCfg[iter_5_1].system_hide == 1 then
-					var_5_5 = true
+		if type(AchievementCfg[slot3].system) == "table" then
+			for slot13, slot14 in ipairs(slot9) do
+				if SystemCfg[slot14].system_hide == 1 then
+					slot8 = true
 
 					break
 				end
 			end
 		end
 
-		if var_5_5 then
-			local var_5_7 = AchievementCfg[var_5_0].type_id
+		if slot8 then
+			slot10 = AchievementCfg[slot3].type_id
 
-			if var_5_4 == 0 then
-				if arg_5_0.achievementSortData_[var_5_7] then
-					local var_5_8 = table.indexof(arg_5_0.achievementSortData_[var_5_7], var_5_0)
-
-					if var_5_8 then
-						table.remove(arg_5_0.achievementSortData_[var_5_7], var_5_8)
-					end
+			if slot7 == 0 then
+				if slot0.achievementSortData_[slot10] and table.indexof(slot0.achievementSortData_[slot10], slot3) then
+					table.remove(slot0.achievementSortData_[slot10], slot11)
 				end
-			elseif var_5_4 == -1 then
-				if not arg_5_0.finishShieldList_[var_5_7] then
-					arg_5_0.finishShieldList_[var_5_7] = {}
+			elseif slot7 == -1 then
+				if not slot0.finishShieldList_[slot10] then
+					slot0.finishShieldList_[slot10] = {}
 				end
 
-				table.insert(arg_5_0.finishShieldList_[var_5_7], var_5_0)
-			elseif var_5_4 == 1 then
-				if not arg_5_0.canReceiveShieldList_[var_5_7] then
-					arg_5_0.canReceiveShieldList_[var_5_7] = {}
+				table.insert(slot0.finishShieldList_[slot10], slot3)
+			elseif slot7 == 1 then
+				if not slot0.canReceiveShieldList_[slot10] then
+					slot0.canReceiveShieldList_[slot10] = {}
 				end
 
-				table.insert(arg_5_0.canReceiveShieldList_[var_5_7], var_5_0)
+				table.insert(slot0.canReceiveShieldList_[slot10], slot3)
 			end
 		end
 	end
 
-	if var_5_4 == 1 or var_5_4 == -1 then
-		if var_5_4 == 1 then
-			if arg_5_0.readyAchievementList_[var_5_3] then
-				if not table.keyof(arg_5_0.readyAchievementList_[var_5_3], var_5_0) then
-					table.insert(arg_5_0.readyAchievementList_[var_5_3], var_5_0)
+	if slot7 == 1 or slot7 == -1 then
+		if slot7 == 1 then
+			if slot0.readyAchievementList_[slot6] then
+				if not table.keyof(slot0.readyAchievementList_[slot6], slot3) then
+					table.insert(slot0.readyAchievementList_[slot6], slot3)
 				end
 			else
-				arg_5_0.readyAchievementList_[var_5_3] = {
-					var_5_0
+				slot0.readyAchievementList_[slot6] = {
+					slot3
 				}
 			end
 		end
 
-		if arg_5_0.finishAchievementList_[var_5_3] then
-			if not table.keyof(arg_5_0.finishAchievementList_[var_5_3], var_5_0) then
-				table.insert(arg_5_0.finishAchievementList_[var_5_3], var_5_0)
+		if slot0.finishAchievementList_[slot6] then
+			if not table.keyof(slot0.finishAchievementList_[slot6], slot3) then
+				table.insert(slot0.finishAchievementList_[slot6], slot3)
 			end
 		else
-			arg_5_0.finishAchievementList_[var_5_3] = {
-				var_5_0
+			slot0.finishAchievementList_[slot6] = {
+				slot3
 			}
 		end
 
-		if AchievementCfg[var_5_0].is_hide ~= 0 and not table.keyof(arg_5_0.achievementSortData_[var_5_3], var_5_0) then
-			table.insert(arg_5_0.achievementSortData_[var_5_3], var_5_0)
+		if AchievementCfg[slot3].is_hide ~= 0 and not table.keyof(slot0.achievementSortData_[slot6], slot3) then
+			table.insert(slot0.achievementSortData_[slot6], slot3)
 		end
 	end
 
-	local var_5_9 = true
+	slot8 = true
 
-	if var_5_4 == 1 and arg_5_0.achievementData_[var_5_0] and arg_5_0.achievementData_[var_5_0].rewardState == var_5_4 then
-		var_5_9 = false
+	if slot7 == 1 and slot0.achievementData_[slot3] and slot0.achievementData_[slot3].rewardState == slot7 then
+		slot8 = false
 	end
 
-	if var_5_9 == true then
-		arg_5_0.achievementData_[var_5_0] = {
-			id = var_5_0,
-			process = var_5_1 > var_5_2.need and var_5_2.need or var_5_1,
-			rewardState = var_5_4,
-			timestamp = arg_5_1.achieve_time + manager.time:GetDeltaTimeZone()
+	if slot8 == true then
+		slot0.achievementData_[slot3] = {
+			id = slot3,
+			process = slot5.need < slot4 and slot5.need or slot4,
+			rewardState = slot7,
+			timestamp = slot1.achieve_time + manager.time:GetDeltaTimeZone()
 		}
 
-		if var_5_4 == 1 then
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT, var_5_3), 1)
+		if slot7 == 1 then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT, slot6), 1)
 
-			if not arg_5_0.canReceiveReward_[var_5_3] then
-				arg_5_0.canReceiveReward_[var_5_3] = {}
+			if not slot0.canReceiveReward_[slot6] then
+				slot0.canReceiveReward_[slot6] = {}
 			end
 
-			if not table.keyof(arg_5_0.canReceiveReward_[var_5_3], var_5_0) then
-				table.insert(arg_5_0.canReceiveReward_[var_5_3], var_5_0)
+			if not table.keyof(slot0.canReceiveReward_[slot6], slot3) then
+				table.insert(slot0.canReceiveReward_[slot6], slot3)
 			end
 
-			if arg_5_2 == false then
-				manager.achievementTips:AddAchievementID(var_5_0)
+			if slot2 == false then
+				manager.achievementTips:AddAchievementID(slot3)
 			end
 		end
 	end
 
-	arg_5_0.needSortFlag_[var_5_3] = true
+	slot0.needSortFlag_[slot6] = true
 end
 
-function var_0_0.GetAchievementIDList(arg_6_0, arg_6_1)
-	if arg_6_0.needSortFlag_[arg_6_1] then
-		table.sort(arg_6_0.achievementSortData_[arg_6_1], function(arg_7_0, arg_7_1)
-			local var_7_0 = arg_6_0.achievementData_[arg_7_0].rewardState
-			local var_7_1 = arg_6_0.achievementData_[arg_7_1].rewardState
-
-			if var_7_0 == var_7_1 then
-				return arg_7_0 < arg_7_1
+function slot0.GetAchievementIDList(slot0, slot1)
+	if slot0.needSortFlag_[slot1] then
+		table.sort(slot0.achievementSortData_[slot1], function (slot0, slot1)
+			if uv0.achievementData_[slot0].rewardState == uv0.achievementData_[slot1].rewardState then
+				return slot0 < slot1
 			else
-				return var_7_1 < var_7_0
+				return slot3 < slot2
 			end
 		end)
 
-		arg_6_0.needSortFlag_[arg_6_1] = false
+		slot0.needSortFlag_[slot1] = false
 	end
 
-	return arg_6_0.achievementSortData_[arg_6_1]
+	return slot0.achievementSortData_[slot1]
 end
 
-function var_0_0.GetAchievementTotalCnt(arg_8_0)
-	local var_8_0 = 0
-
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.achievementSortData_) do
-		var_8_0 = var_8_0 + #iter_8_1
+function slot0.GetAchievementTotalCnt(slot0)
+	for slot5, slot6 in pairs(slot0.achievementSortData_) do
+		slot1 = 0 + #slot6
 	end
 
-	local var_8_1 = 0
-
-	for iter_8_2, iter_8_3 in pairs(arg_8_0.finishShieldList_) do
-		var_8_1 = var_8_1 + #iter_8_3
+	for slot6, slot7 in pairs(slot0.finishShieldList_) do
+		slot2 = 0 + #slot7
 	end
 
-	for iter_8_4, iter_8_5 in pairs(arg_8_0.canReceiveShieldList_) do
-		var_8_1 = var_8_1 + #iter_8_5
+	for slot6, slot7 in pairs(slot0.canReceiveShieldList_) do
+		slot2 = slot2 + #slot7
 	end
 
-	return var_8_0 - var_8_1
+	return slot1 - slot2
 end
 
-function var_0_0.GetAchievementCnt(arg_9_0, arg_9_1)
-	return #arg_9_0.achievementSortData_[arg_9_1]
+function slot0.GetAchievementCnt(slot0, slot1)
+	return #slot0.achievementSortData_[slot1]
 end
 
-function var_0_0.GetAchievementData(arg_10_0, arg_10_1)
-	if not arg_10_0.achievementData_[arg_10_1] then
-		arg_10_0.achievementData_[arg_10_1] = {
+function slot0.GetAchievementData(slot0, slot1)
+	if not slot0.achievementData_[slot1] then
+		slot0.achievementData_[slot1] = {
 			process = 0,
 			timestamp = 0,
 			rewardState = 0,
-			id = arg_10_1
+			id = slot1
 		}
 	end
 
-	return arg_10_0.achievementData_[arg_10_1]
+	return slot0.achievementData_[slot1]
 end
 
-function var_0_0.ChangedAchievementState(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.achievementData_[arg_11_1].rewardState = arg_11_2
+function slot0.ChangedAchievementState(slot0, slot1, slot2)
+	slot0.achievementData_[slot1].rewardState = slot2
+	slot3 = AchievementCfg[slot1].type_id
+	slot0.needSortFlag_[slot3] = true
 
-	local var_11_0 = AchievementCfg[arg_11_1].type_id
+	table.remove(slot0.canReceiveReward_[slot3], table.keyof(slot0.canReceiveReward_[slot3], slot1))
+	table.remove(slot0.readyAchievementList_[slot3], table.keyof(slot0.readyAchievementList_[slot3], slot1))
 
-	arg_11_0.needSortFlag_[var_11_0] = true
-
-	local var_11_1 = table.keyof(arg_11_0.canReceiveReward_[var_11_0], arg_11_1)
-
-	table.remove(arg_11_0.canReceiveReward_[var_11_0], var_11_1)
-
-	local var_11_2 = table.keyof(arg_11_0.readyAchievementList_[var_11_0], arg_11_1)
-
-	table.remove(arg_11_0.readyAchievementList_[var_11_0], var_11_2)
-
-	if table.length(arg_11_0.canReceiveReward_[var_11_0]) <= 0 then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT, var_11_0), 0)
+	if table.length(slot0.canReceiveReward_[slot3]) <= 0 then
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT, slot3), 0)
 	end
 end
 
-function var_0_0.InitAchievementPoint(arg_12_0, arg_12_1)
-	arg_12_0.achievementPoint_ = arg_12_1
-	arg_12_0.achievementLevel_ = arg_12_0:CalcAchievementLevel(arg_12_1)
-	arg_12_0.achievementOldLevel_ = arg_12_0.achievementLevel_
+function slot0.InitAchievementPoint(slot0, slot1)
+	slot0.achievementPoint_ = slot1
+	slot0.achievementLevel_ = slot0:CalcAchievementLevel(slot1)
+	slot0.achievementOldLevel_ = slot0.achievementLevel_
 
-	for iter_12_0 = 1, arg_12_0.achievementLevel_ do
-		if not arg_12_0.storyReadList_[iter_12_0] then
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, iter_12_0), 1)
+	for slot5 = 1, slot0.achievementLevel_ do
+		if not slot0.storyReadList_[slot5] then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, slot5), 1)
 		end
 	end
 end
 
-function var_0_0.SetAchievementPoint(arg_13_0, arg_13_1)
-	arg_13_0.achievementPoint_ = arg_13_1
-	arg_13_0.achievementLevel_ = arg_13_0:CalcAchievementLevel(arg_13_0.achievementPoint_)
+function slot0.SetAchievementPoint(slot0, slot1)
+	slot0.achievementPoint_ = slot1
+	slot0.achievementLevel_ = slot0:CalcAchievementLevel(slot0.achievementPoint_)
 
-	for iter_13_0 = arg_13_0.achievementOldLevel_, arg_13_0.achievementLevel_ do
-		if not arg_13_0.storyReadList_[iter_13_0] then
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, iter_13_0), 1)
+	for slot5 = slot0.achievementOldLevel_, slot0.achievementLevel_ do
+		if not slot0.storyReadList_[slot5] then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, slot5), 1)
 		end
 	end
 end
 
-function var_0_0.GetAchievementPoint(arg_14_0)
-	return arg_14_0.achievementPoint_
+function slot0.GetAchievementPoint(slot0)
+	return slot0.achievementPoint_
 end
 
-function var_0_0.InitAchievementStoryReadList(arg_15_0, arg_15_1)
-	for iter_15_0, iter_15_1 in ipairs(arg_15_1) do
-		arg_15_0.storyReadList_[iter_15_1] = true
+function slot0.InitAchievementStoryReadList(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.storyReadList_[slot6] = true
 
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, iter_15_1), 0)
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, slot6), 0)
 	end
 end
 
-function var_0_0.UpdateStoryRead(arg_16_0, arg_16_1)
-	arg_16_0.storyReadList_[arg_16_1] = true
+function slot0.UpdateStoryRead(slot0, slot1)
+	slot0.storyReadList_[slot1] = true
 
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, arg_16_1), 0)
+	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACHIEVEMENT_STORY, slot1), 0)
 end
 
-function var_0_0.GetStoryReadFlag(arg_17_0, arg_17_1)
-	return arg_17_0.storyReadList_[arg_17_1]
+function slot0.GetStoryReadFlag(slot0, slot1)
+	return slot0.storyReadList_[slot1]
 end
 
-function var_0_0.NeedUpgradeLevel(arg_18_0)
-	return arg_18_0.achievementOldLevel_ < arg_18_0.achievementLevel_
+function slot0.NeedUpgradeLevel(slot0)
+	return slot0.achievementOldLevel_ < slot0.achievementLevel_
 end
 
-function var_0_0.RefreshOldLevel(arg_19_0)
-	arg_19_0.achievementOldLevel_ = arg_19_0.achievementLevel_
+function slot0.RefreshOldLevel(slot0)
+	slot0.achievementOldLevel_ = slot0.achievementLevel_
 end
 
-function var_0_0.GetCurrentPoint(arg_20_0)
-	local var_20_0 = arg_20_0.achievementLevel_ + 1
-
-	if var_20_0 > #AchievementStoryCfg.all then
-		return arg_20_0.achievementPoint_ - AchievementStoryCfg[arg_20_0.achievementLevel_ - 1].unlock_point
-	elseif var_20_0 == 1 then
-		return arg_20_0.achievementPoint_
-	elseif var_20_0 > 1 then
-		return arg_20_0.achievementPoint_ - AchievementStoryCfg[var_20_0 - 1].unlock_point
+function slot0.GetCurrentPoint(slot0)
+	if slot0.achievementLevel_ + 1 > #AchievementStoryCfg.all then
+		return slot0.achievementPoint_ - AchievementStoryCfg[slot0.achievementLevel_ - 1].unlock_point
+	elseif slot1 == 1 then
+		return slot0.achievementPoint_
+	elseif slot1 > 1 then
+		return slot0.achievementPoint_ - AchievementStoryCfg[slot1 - 1].unlock_point
 	end
 end
 
-function var_0_0.GetCurrentLevelPoint(arg_21_0)
-	local var_21_0 = arg_21_0.achievementLevel_ + 1
-
-	if var_21_0 > #AchievementStoryCfg.all then
-		return AchievementStoryCfg[arg_21_0.achievementLevel_].unlock_point - AchievementStoryCfg[arg_21_0.achievementLevel_ - 1].unlock_point
-	elseif var_21_0 == 1 then
-		return AchievementStoryCfg[var_21_0].unlock_point
-	elseif var_21_0 > 1 then
-		return AchievementStoryCfg[var_21_0].unlock_point - AchievementStoryCfg[var_21_0 - 1].unlock_point
+function slot0.GetCurrentLevelPoint(slot0)
+	if slot0.achievementLevel_ + 1 > #AchievementStoryCfg.all then
+		return AchievementStoryCfg[slot0.achievementLevel_].unlock_point - AchievementStoryCfg[slot0.achievementLevel_ - 1].unlock_point
+	elseif slot1 == 1 then
+		return AchievementStoryCfg[slot1].unlock_point
+	elseif slot1 > 1 then
+		return AchievementStoryCfg[slot1].unlock_point - AchievementStoryCfg[slot1 - 1].unlock_point
 	end
 end
 
-function var_0_0.CalcAchievementLevel(arg_22_0, arg_22_1)
-	local var_22_0 = 0
+function slot0.CalcAchievementLevel(slot0, slot1)
+	slot2 = 0
 
-	for iter_22_0, iter_22_1 in ipairs(AchievementStoryCfg.all) do
-		if arg_22_1 - AchievementStoryCfg[iter_22_1].unlock_point < 0 then
-			return iter_22_1 - 1
+	for slot6, slot7 in ipairs(AchievementStoryCfg.all) do
+		if slot1 - AchievementStoryCfg[slot7].unlock_point < 0 then
+			return slot7 - 1
 		end
 
-		var_22_0 = iter_22_1
+		slot2 = slot7
 	end
 
-	return var_22_0
+	return slot2
 end
 
-function var_0_0.SetScrollRecord(arg_23_0, arg_23_1)
-	arg_23_0.scrollRecord_ = arg_23_1
+function slot0.SetScrollRecord(slot0, slot1)
+	slot0.scrollRecord_ = slot1
 end
 
-function var_0_0.GetScrollRecord(arg_24_0)
-	return arg_24_0.scrollRecord_
+function slot0.GetScrollRecord(slot0)
+	return slot0.scrollRecord_
 end
 
-return var_0_0
+return slot0

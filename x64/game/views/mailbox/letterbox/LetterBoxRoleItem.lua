@@ -1,82 +1,79 @@
-local var_0_0 = class("LetterBoxRoleItem", ReduxView)
+slot0 = class("LetterBoxRoleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.isSelectedController_ = ControllerUtil.GetController(arg_3_0.transform_, "isSelected")
+	slot0.isSelectedController_ = ControllerUtil.GetController(slot0.transform_, "isSelected")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.normalBtn_, nil, function()
-		if arg_4_0.handler_ ~= nil then
-			arg_4_0.handler_(arg_4_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.normalBtn_, nil, function ()
+		if uv0.handler_ ~= nil then
+			uv0:handler_()
 		end
 	end)
 end
 
-function var_0_0.AddEventListener(arg_6_0)
-	return
+function slot0.AddEventListener(slot0)
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.nameText_.text = GetI18NText(arg_7_0.data_.sender)
-	arg_7_0.headIcon_.sprite = ItemTools.getItemSprite(arg_7_0.data_.sender_face)
+function slot0.UpdateView(slot0)
+	slot0.nameText_.text = GetI18NText(slot0.data_.sender)
+	slot0.headIcon_.sprite = ItemTools.getItemSprite(slot0.data_.sender_face)
 
-	arg_7_0.headIcon_:SetNativeSize()
+	slot0.headIcon_:SetNativeSize()
 end
 
-function var_0_0.SetSelected(arg_8_0, arg_8_1)
-	arg_8_0.isSelectedController_:SetSelectedState(arg_8_1 and "true" or "false")
+function slot0.SetSelected(slot0, slot1)
+	slot0.isSelectedController_:SetSelectedState(slot1 and "true" or "false")
 end
 
-function var_0_0.BindRedPoint(arg_9_0)
-	manager.redPoint:bindUIandKey(arg_9_0.noticePos_, RedPointConst.LETTER_SENDER_ID .. arg_9_0.data_.id, {
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.noticePos_, RedPointConst.LETTER_SENDER_ID .. slot0.data_.id, {
 		x = 0,
 		y = 0
 	})
 end
 
-function var_0_0.UnBindRedPoint(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.noticePos_)
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.noticePos_)
 end
 
-function var_0_0.SetData(arg_11_0, arg_11_1)
-	arg_11_0.data_ = arg_11_1
+function slot0.SetData(slot0, slot1)
+	slot0.data_ = slot1
 
-	arg_11_0:UpdateView()
-	arg_11_0:BindRedPoint()
+	slot0:UpdateView()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.GetData(arg_12_0)
-	return arg_12_0.data_
+function slot0.GetData(slot0)
+	return slot0.data_
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:UnBindRedPoint()
-	arg_15_0:RemoveAllListeners()
-	arg_15_0:RemoveAllEventListener()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0:UnBindRedPoint()
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

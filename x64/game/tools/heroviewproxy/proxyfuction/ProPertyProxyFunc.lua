@@ -1,62 +1,33 @@
 return {
-	GetBattlePower = function(arg_1_0, arg_1_1)
-		local var_1_0 = arg_1_0:GetHeroData(arg_1_1)
-		local var_1_1 = arg_1_0:GetEquipDataList(arg_1_1)
-		local var_1_2 = arg_1_0:GetHeroServantInfo(arg_1_1)
-		local var_1_3
-		local var_1_4 = 0
+	GetBattlePower = function (slot0, slot1)
+		slot2 = slot0:GetHeroData(slot1)
+		slot3 = slot0:GetEquipDataList(slot1)
+		slot4 = slot0:GetHeroServantInfo(slot1)
+		slot5 = nil
+		slot6 = 0
 
-		if arg_1_0.tempHeroList then
-			var_1_4 = var_1_0.tempID
+		if slot0.tempHeroList then
+			slot6 = slot2.tempID
 		end
 
-		if arg_1_0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-			var_1_3 = GetPolyhedronHeroPracticalAttr(PolyhedronData:GetPolyhedronInfo(), var_1_0, var_1_1, var_1_4)
-		else
-			var_1_3 = GetHeroFinalAttr(var_1_0, var_1_0:GetServantInfo(), var_1_1, var_1_4, true)
-		end
-
-		return calcBattlePower(var_1_0, var_1_2, var_1_1, var_1_0.tempID, var_1_3)
+		return calcBattlePower(slot2, slot4, slot3, slot2.tempID, (slot0:GetViewDataType() ~= HeroConst.HERO_DATA_TYPE.POLYHEDRON or GetPolyhedronHeroPracticalAttr(PolyhedronData:GetPolyhedronInfo(), slot2, slot3, slot6)) and GetHeroFinalAttr(slot2, slot2:GetServantInfo(), slot3, slot6, true))
 	end,
-	GetHeroAllAttribute = function(arg_2_0, arg_2_1, arg_2_2)
-		local var_2_0 = 0
-		local var_2_1
+	GetHeroAllAttribute = function (slot0, slot1, slot2)
+		slot3 = 0
+		slot4 = nil
+		slot4 = (slot2 or slot0:GetHeroData(slot1)) and slot2
+		slot5 = slot0:GetEquipDataList(slot1)
 
-		if not arg_2_2 then
-			var_2_1 = arg_2_0:GetHeroData(arg_2_1)
-		else
-			var_2_1 = arg_2_2
+		if slot0.tempHeroList then
+			slot3 = slot4.tempID
 		end
 
-		local var_2_2 = arg_2_0:GetEquipDataList(arg_2_1)
+		slot6 = nil
+		slot6 = (slot0:GetViewDataType() ~= HeroConst.HERO_DATA_TYPE.POLYHEDRON or GetPolyhedronHeroPracticalAttr(PolyhedronData:GetPolyhedronInfo(), slot4, slot5, slot3)) and GetHeroFinalAttr(slot4, slot4:GetServantInfo(), slot5, slot3, false)
+		slot6[HeroConst.HERO_ATTRIBUTE.ATK] = (slot6[HeroConst.HERO_ATTRIBUTE.ATK] or 0) * (1 + (slot6[11] or 0) / 1000 + (slot6[13] or 0) / 1000) + (slot6[12] or 0)
+		slot6[HeroConst.HERO_ATTRIBUTE.ARM] = (slot6[HeroConst.HERO_ATTRIBUTE.ARM] or 0) * (1 + (slot6[21] or 0) / 1000) + (slot6[22] or 0)
+		slot6[HeroConst.HERO_ATTRIBUTE.STA] = (slot6[HeroConst.HERO_ATTRIBUTE.STA] or 0) * (1 + (slot6[31] or 0) / 1000) + (slot6[32] or 0)
 
-		if arg_2_0.tempHeroList then
-			var_2_0 = var_2_1.tempID
-		end
-
-		local var_2_3
-
-		if arg_2_0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-			var_2_3 = GetPolyhedronHeroPracticalAttr(PolyhedronData:GetPolyhedronInfo(), var_2_1, var_2_2, var_2_0)
-		else
-			var_2_3 = GetHeroFinalAttr(var_2_1, var_2_1:GetServantInfo(), var_2_2, var_2_0, false)
-		end
-
-		local var_2_4 = var_2_3[HeroConst.HERO_ATTRIBUTE.ATK] or 0
-		local var_2_5 = var_2_3[HeroConst.HERO_ATTRIBUTE.ARM] or 0
-		local var_2_6 = var_2_3[HeroConst.HERO_ATTRIBUTE.STA] or 0
-		local var_2_7 = var_2_3[11] or 0
-		local var_2_8 = var_2_3[12] or 0
-		local var_2_9 = var_2_3[13] or 0
-		local var_2_10 = var_2_3[21] or 0
-		local var_2_11 = var_2_3[22] or 0
-		local var_2_12 = var_2_3[31] or 0
-		local var_2_13 = var_2_3[32] or 0
-
-		var_2_3[HeroConst.HERO_ATTRIBUTE.ATK] = var_2_4 * (1 + var_2_7 / 1000 + var_2_9 / 1000) + var_2_8
-		var_2_3[HeroConst.HERO_ATTRIBUTE.ARM] = var_2_5 * (1 + var_2_10 / 1000) + var_2_11
-		var_2_3[HeroConst.HERO_ATTRIBUTE.STA] = var_2_6 * (1 + var_2_12 / 1000) + var_2_13
-
-		return var_2_3
+		return slot6
 	end
 }

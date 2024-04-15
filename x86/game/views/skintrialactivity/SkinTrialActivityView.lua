@@ -1,129 +1,126 @@
-local var_0_0 = class("SkinTrialActivityView", ReduxView)
+slot0 = class("SkinTrialActivityView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/OsirisUI/OsirisSkinTrialMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.skinItemList_ = {}
+	slot0.skinItemList_ = {}
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_4_0.activityID_ = arg_4_0.params_.activityID
-	arg_4_0.stopTime_ = ActivityData:GetActivityData(arg_4_0.activityID_).stopTime
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	arg_4_0:RefreshUI()
-	arg_4_0:AddTimer()
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_5_0:StopTimer()
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.skinItemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.skinItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.skinItemList_ = nil
+	slot0.skinItemList_ = nil
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.skinTrialIDList_ = arg_7_0:GetskinTrialIDList()
+function slot0.RefreshUI(slot0)
+	slot0.skinTrialIDList_ = slot0:GetskinTrialIDList()
 
-	arg_7_0:RefreshSkinItem()
+	slot0:RefreshSkinItem()
 end
 
-function var_0_0.RefreshSkinItem(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.skinTrialIDList_) do
-		if arg_8_0.skinItemList_[iter_8_0] then
-			arg_8_0.skinItemList_[iter_8_0]:SetSkinTrialID(iter_8_1)
+function slot0.RefreshSkinItem(slot0)
+	for slot4, slot5 in ipairs(slot0.skinTrialIDList_) do
+		if slot0.skinItemList_[slot4] then
+			slot0.skinItemList_[slot4]:SetSkinTrialID(slot5)
 		else
-			arg_8_0.skinItemList_[iter_8_0] = arg_8_0:GetItemClass().New(arg_8_0.skinItem_, arg_8_0.skinItemPanel_, iter_8_1, arg_8_0.activityID_)
+			slot0.skinItemList_[slot4] = slot0:GetItemClass().New(slot0.skinItem_, slot0.skinItemPanel_, slot5, slot0.activityID_)
 		end
 	end
 
-	for iter_8_2 = #arg_8_0.skinItemList_, #arg_8_0.skinTrialIDList_ + 1, -1 do
-		arg_8_0.skinItemList_[iter_8_2]:Dispose()
+	for slot4 = #slot0.skinItemList_, #slot0.skinTrialIDList_ + 1, -1 do
+		slot0.skinItemList_[slot4]:Dispose()
 
-		arg_8_0.skinItemList_[iter_8_2] = nil
+		slot0.skinItemList_[slot4] = nil
 	end
 end
 
-function var_0_0.GetskinTrialIDList(arg_9_0)
-	local var_9_0 = {}
-	local var_9_1 = ActivityData:GetActivityData(arg_9_0.activityID_).subActivityIdList
+function slot0.GetskinTrialIDList(slot0)
+	slot1 = {}
 
-	for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-		local var_9_2 = ActivitySkinTrialCfg.get_id_list_by_activity_id[iter_9_1]
-
-		for iter_9_2, iter_9_3 in ipairs(var_9_2) do
-			table.insert(var_9_0, iter_9_3)
+	for slot6, slot7 in ipairs(ActivityData:GetActivityData(slot0.activityID_).subActivityIdList) do
+		for slot12, slot13 in ipairs(ActivitySkinTrialCfg.get_id_list_by_activity_id[slot7]) do
+			table.insert(slot1, slot13)
 		end
 	end
 
-	return var_9_0
+	return slot1
 end
 
-function var_0_0.AddTimer(arg_10_0)
-	if manager.time:GetServerTime() >= arg_10_0.stopTime_ then
-		arg_10_0.textTime_.text = GetTips("TIME_OVER")
+function slot0.AddTimer(slot0)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
+		slot0.textTime_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.skinTrialIDList_) do
-		if arg_10_0.skinItemList_[iter_10_0] and arg_10_0.skinItemList_[iter_10_0].RefreshTime ~= nil then
-			arg_10_0.skinItemList_[iter_10_0]:RefreshTime()
+	for slot4, slot5 in ipairs(slot0.skinTrialIDList_) do
+		if slot0.skinItemList_[slot4] and slot0.skinItemList_[slot4].RefreshTime ~= nil then
+			slot0.skinItemList_[slot4]:RefreshTime()
 		end
 	end
 
-	arg_10_0.textTime_.text = string.format(GetTips("LEFT_TIME"), GetI18NText(manager.time:GetLostTimeStr(arg_10_0.stopTime_)))
-	arg_10_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_10_0.stopTime_ then
-			arg_10_0:StopTimer()
+	slot0.textTime_.text = string.format(GetTips("LEFT_TIME"), GetI18NText(manager.time:GetLostTimeStr(slot0.stopTime_)))
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
-			arg_10_0.textTime_.text = GetTips("TIME_OVER")
+			uv0.textTime_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		for iter_11_0, iter_11_1 in ipairs(arg_10_0.skinTrialIDList_) do
-			if arg_10_0.skinItemList_[iter_11_0] and arg_10_0.skinItemList_[iter_11_0].RefreshTime ~= nil then
-				arg_10_0.skinItemList_[iter_11_0]:RefreshTime()
+		for slot3, slot4 in ipairs(uv0.skinTrialIDList_) do
+			if uv0.skinItemList_[slot3] and uv0.skinItemList_[slot3].RefreshTime ~= nil then
+				uv0.skinItemList_[slot3]:RefreshTime()
 			end
 		end
 
-		arg_10_0.textTime_.text = string.format(GetTips("LEFT_TIME"), GetI18NText(manager.time:GetLostTimeStr(arg_10_0.stopTime_)))
+		uv0.textTime_.text = string.format(GetTips("LEFT_TIME"), GetI18NText(manager.time:GetLostTimeStr(uv0.stopTime_)))
 	end, 1, -1)
 
-	arg_10_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.GetItemClass(arg_13_0)
+function slot0.GetItemClass(slot0)
 	return SkinTrialActivityItem
 end
 
-return var_0_0
+return slot0

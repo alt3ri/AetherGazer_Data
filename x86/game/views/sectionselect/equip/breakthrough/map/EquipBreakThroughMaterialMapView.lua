@@ -1,28 +1,28 @@
-local var_0_0 = class("EquipBreakThroughMaterialMapView", ReduxView)
+slot0 = class("EquipBreakThroughMaterialMapView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Stage/EquipBreakThroughMaterial/EquipBreakThroughMaterialMapUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.scrollMoveView_ = ScrollMoveView.New(arg_3_0, arg_3_0.scrollViewGo_)
-	arg_3_0.itemList_ = {}
-	arg_3_0.lineList_ = {}
-	arg_3_0.affixItemList_ = {}
-	arg_3_0.updateHandler_ = handler(arg_3_0, arg_3_0.UpdateBreakThroughData)
-	arg_3_0.refreshHandler_ = handler(arg_3_0, arg_3_0.RefreshUI)
-	arg_3_0.refreshItemHandler_ = handler(arg_3_0, arg_3_0.RefreshItem)
-	arg_3_0.showController_ = ControllerUtil.GetController(arg_3_0.transform_, "show")
+	slot0.scrollMoveView_ = ScrollMoveView.New(slot0, slot0.scrollViewGo_)
+	slot0.itemList_ = {}
+	slot0.lineList_ = {}
+	slot0.affixItemList_ = {}
+	slot0.updateHandler_ = handler(slot0, slot0.UpdateBreakThroughData)
+	slot0.refreshHandler_ = handler(slot0, slot0.RefreshUI)
+	slot0.refreshItemHandler_ = handler(slot0, slot0.RefreshItem)
+	slot0.showController_ = ControllerUtil.GetController(slot0.transform_, "show")
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -30,122 +30,127 @@ function var_0_0.OnEnter(arg_4_0)
 	})
 	manager.windowBar:SetGameHelpKey("EQUIP_BREAK_THROUGH_INFO")
 	EquipBreakThroughMaterialAction.CheckTimeout()
-	arg_4_0:RefreshUI()
-	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_UPDATE, arg_4_0.updateHandler_)
-	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_CHANGE, arg_4_0.refreshHandler_)
-	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_STAGE_UPDATE, arg_4_0.refreshItemHandler_)
-	manager.redPoint:bindUIandKey(arg_4_0.rewardBtn_.transform, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL_REWARD)
+	slot0:RefreshUI()
+	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_UPDATE, slot0.updateHandler_)
+	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_CHANGE, slot0.refreshHandler_)
+	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_MATERIAL_STAGE_UPDATE, slot0.refreshItemHandler_)
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL_REWARD)
 end
 
-function var_0_0.OnTop(arg_5_0)
+function slot0.OnTop(slot0)
+	slot4 = INFO_BAR
+
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		INFO_BAR
+		slot4
 	})
 
-	arg_5_0.selectMapStageID_ = nil
+	slot0.selectMapStageID_ = nil
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.itemList_) do
-		iter_5_1:OnTop()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnTop()
 	end
 
-	SetActive(arg_5_0.difficultyPanel_, true)
+	SetActive(slot0.difficultyPanel_, true)
 end
 
-function var_0_0.OnUpdate(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.itemList_) do
-		iter_6_1:OnBehind()
+function slot0.OnUpdate(slot0)
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnBehind()
 	end
 
-	if arg_6_0:IsOpenSectionInfo() then
-		arg_6_0:RefreshScroll()
+	if slot0:IsOpenSectionInfo() then
+		slot0:RefreshScroll()
 	else
-		arg_6_0.scrollView_.enabled = true
+		slot0.scrollView_.enabled = true
 	end
 end
 
-function var_0_0.OnBehind(arg_7_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	SetActive(arg_7_0.difficultyPanel_, false)
+	SetActive(slot0.difficultyPanel_, false)
 end
 
-function var_0_0.OnExit(arg_8_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_UPDATE, arg_8_0.updateHandler_)
-	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_CHANGE, arg_8_0.refreshHandler_)
-	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_STAGE_UPDATE, arg_8_0.refreshItemHandler_)
-	manager.redPoint:unbindUIandKey(arg_8_0.rewardBtn_.transform, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL_REWARD)
+	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_UPDATE, slot0.updateHandler_)
+	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_CHANGE, slot0.refreshHandler_)
+	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_MATERIAL_STAGE_UPDATE, slot0.refreshItemHandler_)
 
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.itemList_) do
-		iter_8_1:OnExit()
+	slot4 = RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL_REWARD
+
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, slot4)
+
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnExit()
 	end
 
-	arg_8_0.scrollMoveView_:OnExit()
+	slot0.scrollMoveView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
-	arg_9_0.scrollMoveView_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.scrollMoveView_:Dispose()
 
-	arg_9_0.scrollMoveView_ = nil
-	arg_9_0.updateHandler_ = nil
-	arg_9_0.refreshHandler_ = nil
-	arg_9_0.refreshItemHandler_ = nil
+	slot0.scrollMoveView_ = nil
+	slot0.updateHandler_ = nil
+	slot0.refreshHandler_ = nil
+	slot0.refreshItemHandler_ = nil
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.itemList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.itemList_ = nil
+	slot0.itemList_ = nil
 
-	for iter_9_2, iter_9_3 in pairs(arg_9_0.lineList_) do
-		iter_9_3:Dispose()
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.lineList_ = nil
+	slot0.lineList_ = nil
 
-	for iter_9_4, iter_9_5 in pairs(arg_9_0.affixItemList_) do
-		iter_9_5:Dispose()
+	for slot4, slot5 in pairs(slot0.affixItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.affixItemList_ = nil
+	slot0.affixItemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.resetBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.resetBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("EQUIP_BREAK_THROUGH_RESET_MAP"),
-			OkCallback = function()
-				EquipBreakThroughMaterialAction.ResetMap(function(arg_13_0)
-					if isSuccess(arg_13_0.result) then
+			OkCallback = function ()
+				EquipBreakThroughMaterialAction.ResetMap(function (slot0)
+					if isSuccess(slot0.result) then
 						ShowTips("ASTROLABE_RESET")
-						arg_10_0:RefreshUI()
+						uv0:RefreshUI()
 					end
 				end)
 			end
 		})
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.difficultyBtn_, nil, function()
-		if arg_10_0:IsOpenSectionInfo() then
+	slot0:AddBtnListener(slot0.difficultyBtn_, nil, function ()
+		if uv0:IsOpenSectionInfo() then
 			JumpTools.Back()
-			arg_10_0:RefreshScroll()
+			uv0:RefreshScroll()
 
 			return
 		end
 
 		if table.length(EquipBreakThroughMaterialData:GetReceivedList()) <= 0 then
-			arg_10_0:Go("equipBreakThroughMaterialMode")
+			uv0:Go("equipBreakThroughMaterialMode")
 		end
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.teamInfoBtn_, nil, function()
-		if arg_10_0:IsOpenSectionInfo() then
+	slot0:AddBtnListener(slot0.teamInfoBtn_, nil, function ()
+		if uv0:IsOpenSectionInfo() then
 			JumpTools.Back()
-			arg_10_0:RefreshScroll()
+			uv0:RefreshScroll()
 
 			return
 		end
@@ -154,10 +159,10 @@ function var_0_0.AddListeners(arg_10_0)
 			toggleType = EquipBreakThroughMaterialConst.TOGGLE_TYPE.TEAM
 		})
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.buffInfoBtn_, nil, function()
-		if arg_10_0:IsOpenSectionInfo() then
+	slot0:AddBtnListener(slot0.buffInfoBtn_, nil, function ()
+		if uv0:IsOpenSectionInfo() then
 			JumpTools.Back()
-			arg_10_0:RefreshScroll()
+			uv0:RefreshScroll()
 
 			return
 		end
@@ -166,149 +171,128 @@ function var_0_0.AddListeners(arg_10_0)
 			toggleType = EquipBreakThroughMaterialConst.TOGGLE_TYPE.BUFF
 		})
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.rewardBtn_, nil, function()
-		if arg_10_0:IsOpenSectionInfo() then
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if uv0:IsOpenSectionInfo() then
 			JumpTools.Back()
-			arg_10_0:RefreshScroll()
+			uv0:RefreshScroll()
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("equipBreakThroughMaterialTask", {})
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.bgBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
 		manager.notify:Invoke(CLICK_AFFIX)
 	end)
 end
 
-function var_0_0.UpdateBreakThroughData(arg_19_0)
+function slot0.UpdateBreakThroughData(slot0)
 	EquipBreakThroughMaterialAction.EquipBTMaterialBackEntrace()
 end
 
-function var_0_0.RefreshUI(arg_20_0)
-	arg_20_0:RefreshDifficultyBtn()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshDifficultyBtn()
 
-	arg_20_0.pointText_.text = EquipBreakThroughMaterialData:GetTotalPoint()
+	slot0.pointText_.text = EquipBreakThroughMaterialData:GetTotalPoint()
 
-	arg_20_0:RefreshItem()
-	arg_20_0:CreateLineItemList()
-	arg_20_0:RefreshAffix()
-	arg_20_0:RefreshScroll()
-	arg_20_0:RefreshButton()
+	slot0:RefreshItem()
+	slot0:CreateLineItemList()
+	slot0:RefreshAffix()
+	slot0:RefreshScroll()
+	slot0:RefreshButton()
 end
 
-function var_0_0.RefreshScroll(arg_21_0)
-	arg_21_0.selectMapStageID_ = EquipBreakThroughMaterialData:GetChooseMapStageID()
+function slot0.RefreshScroll(slot0)
+	slot0.selectMapStageID_ = EquipBreakThroughMaterialData:GetChooseMapStageID()
 
-	if arg_21_0.selectMapStageID_ == nil then
-		local var_21_0 = EquipBreakThroughMaterialData:GetFinishStageList()
-		local var_21_1 = var_21_0[#var_21_0]
+	if slot0.selectMapStageID_ == nil then
+		slot1 = EquipBreakThroughMaterialData:GetFinishStageList()
 
-		if var_21_1 == nil then
-			local var_21_2 = EquipBreakThroughMaterialData:GetMapID()
-
-			var_21_1 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[var_21_2][1]
+		if slot1[#slot1] == nil then
+			slot2 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[EquipBreakThroughMaterialData:GetMapID()][1]
 		end
 
-		arg_21_0.selectMapStageID_ = var_21_1
+		slot0.selectMapStageID_ = slot2
 	end
 
-	local var_21_3 = arg_21_0:GetScrollPos()
-	local var_21_4 = arg_21_0:GetScrollWidth()
-
-	arg_21_0.scrollMoveView_:RefreshUI(var_21_3, var_21_4)
+	slot0.scrollMoveView_:RefreshUI(slot0:GetScrollPos(), slot0:GetScrollWidth())
 end
 
-function var_0_0.RefreshDifficultyBtn(arg_22_0)
-	local var_22_0 = EquipBreakThroughMaterialData:GetSelectModeID()
-	local var_22_1 = EquipBreakThroughMaterialDifficultyCfg[var_22_0]
-
-	arg_22_0.difficultyText_.text = GetI18NText(var_22_1.name)
-	arg_22_0.difficultyBtn_.interactable = table.length(EquipBreakThroughMaterialData:GetReceivedList()) <= 0
-	arg_22_0.difficultyImage_.sprite = getSprite("Atlas/Switch", string.format("bg_n%s", var_22_0))
+function slot0.RefreshDifficultyBtn(slot0)
+	slot0.difficultyText_.text = GetI18NText(EquipBreakThroughMaterialDifficultyCfg[EquipBreakThroughMaterialData:GetSelectModeID()].name)
+	slot0.difficultyBtn_.interactable = table.length(EquipBreakThroughMaterialData:GetReceivedList()) <= 0
+	slot0.difficultyImage_.sprite = getSprite("Atlas/Switch", string.format("bg_n%s", slot1))
 end
 
-function var_0_0.RefreshItem(arg_23_0)
-	local var_23_0 = EquipBreakThroughMaterialData:GetMapID()
-	local var_23_1 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[var_23_0]
+function slot0.RefreshItem(slot0)
+	for slot6, slot7 in ipairs(EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[EquipBreakThroughMaterialData:GetMapID()]) do
+		slot0.itemList_[slot6] = slot0.itemList_[slot6] or EquipBreakThroughMaterialMapItem.New(slot0.item_, slot0.itemParent_)
 
-	for iter_23_0, iter_23_1 in ipairs(var_23_1) do
-		arg_23_0.itemList_[iter_23_0] = arg_23_0.itemList_[iter_23_0] or EquipBreakThroughMaterialMapItem.New(arg_23_0.item_, arg_23_0.itemParent_)
-
-		arg_23_0.itemList_[iter_23_0]:SetData(iter_23_1)
+		slot0.itemList_[slot6]:SetData(slot7)
 	end
 
-	for iter_23_2 = #arg_23_0.itemList_, #var_23_1 + 1, -1 do
-		arg_23_0.itemList_[iter_23_2]:Dispose()
+	for slot6 = #slot0.itemList_, #slot2 + 1, -1 do
+		slot0.itemList_[slot6]:Dispose()
 
-		arg_23_0.itemList_[iter_23_2] = nil
+		slot0.itemList_[slot6] = nil
 	end
 end
 
-function var_0_0.RefreshButton(arg_24_0)
+function slot0.RefreshButton(slot0)
 	if table.length(EquipBreakThroughMaterialData:GetFinishStageList()) > 0 then
-		arg_24_0.showController_:SetSelectedState("true")
+		slot0.showController_:SetSelectedState("true")
 	else
-		arg_24_0.showController_:SetSelectedState("false")
+		slot0.showController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshAffix(arg_25_0)
-	local var_25_0 = EquipBreakThroughMaterialData:GetGlobalAffixList()
-
-	for iter_25_0, iter_25_1 in ipairs(var_25_0) do
-		if arg_25_0.affixItemList_[iter_25_0] then
-			arg_25_0.affixItemList_[iter_25_0]:SetData(iter_25_1)
+function slot0.RefreshAffix(slot0)
+	for slot5, slot6 in ipairs(EquipBreakThroughMaterialData:GetGlobalAffixList()) do
+		if slot0.affixItemList_[slot5] then
+			slot0.affixItemList_[slot5]:SetData(slot6)
 		else
-			arg_25_0.affixItemList_[iter_25_0] = AffixItemView.New(arg_25_0.affixItem_, arg_25_0.affixPanel_, iter_25_1)
+			slot0.affixItemList_[slot5] = AffixItemView.New(slot0.affixItem_, slot0.affixPanel_, slot6)
 		end
 	end
 
-	for iter_25_2 = #arg_25_0.affixItemList_, #var_25_0 + 1, -1 do
-		arg_25_0.affixItemList_[iter_25_2]:Show(false)
+	for slot5 = #slot0.affixItemList_, #slot1 + 1, -1 do
+		slot0.affixItemList_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.GetScrollWidth(arg_26_0)
-	local var_26_0 = EquipBreakThroughMaterialData:GetMapID()
-	local var_26_1 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[var_26_0]
-	local var_26_2 = EquipBreakThroughMaterialMapCfg[var_26_1[#var_26_1]]
+function slot0.GetScrollWidth(slot0)
+	slot2 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[EquipBreakThroughMaterialData:GetMapID()]
 
-	return EquipBreakThroughMaterialStagePositionCfg[0].row_position * var_26_2.col
+	return EquipBreakThroughMaterialStagePositionCfg[0].row_position * EquipBreakThroughMaterialMapCfg[slot2[#slot2]].col
 end
 
-function var_0_0.GetScrollPos(arg_27_0)
-	return EquipBreakThroughMaterialMapCfg[arg_27_0.selectMapStageID_].col * EquipBreakThroughMaterialStagePositionCfg[0].row_position
+function slot0.GetScrollPos(slot0)
+	return EquipBreakThroughMaterialMapCfg[slot0.selectMapStageID_].col * EquipBreakThroughMaterialStagePositionCfg[0].row_position
 end
 
-function var_0_0.CreateLineItemList(arg_28_0)
-	for iter_28_0, iter_28_1 in pairs(arg_28_0.lineList_) do
-		iter_28_1:Show(false)
+function slot0.CreateLineItemList(slot0)
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		slot5:Show(false)
 	end
 
-	local var_28_0 = 1
-	local var_28_1 = EquipBreakThroughMaterialData:GetMapID()
-	local var_28_2 = EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[var_28_1]
+	slot1 = 1
 
-	for iter_28_2, iter_28_3 in pairs(var_28_2) do
-		local var_28_3 = arg_28_0.itemList_[iter_28_2]:GetLocalPosition() + Vector3(50, 10, 0)
+	for slot7, slot8 in pairs(EquipBreakThroughMaterialMapCfg.get_id_list_by_map_id[EquipBreakThroughMaterialData:GetMapID()]) do
+		slot13 = 0
 
-		for iter_28_4, iter_28_5 in ipairs(EquipBreakThroughMaterialMapCfg[iter_28_3].next_id_list) do
-			local var_28_4 = table.keyof(var_28_2, iter_28_5)
-			local var_28_5 = arg_28_0.itemList_[var_28_4]:GetLocalPosition() + Vector3(-50, 10, 0)
+		for slot13, slot14 in ipairs(EquipBreakThroughMaterialMapCfg[slot8].next_id_list) do
+			slot0.lineList_[slot1] = slot0.lineList_[slot1] or EquipBreakThroughMaterialLine.New(slot0.lineGo_, slot0.itemParent_, slot0.pointGo_)
 
-			arg_28_0.lineList_[var_28_0] = arg_28_0.lineList_[var_28_0] or EquipBreakThroughMaterialLine.New(arg_28_0.lineGo_, arg_28_0.itemParent_, arg_28_0.pointGo_)
+			slot0.lineList_[slot1]:Show(true)
+			slot0.lineList_[slot1]:RefreshUI(slot0.itemList_[slot7]:GetLocalPosition() + Vector3(50, 10, slot13), slot0.itemList_[table.keyof(slot3, slot14)]:GetLocalPosition() + Vector3(-50, 10, 0))
 
-			arg_28_0.lineList_[var_28_0]:Show(true)
-			arg_28_0.lineList_[var_28_0]:RefreshUI(var_28_3, var_28_5)
-
-			var_28_0 = var_28_0 + 1
+			slot1 = slot1 + 1
 		end
 	end
 end
 
-function var_0_0.IsOpenSectionInfo(arg_29_0)
-	return arg_29_0:IsOpenRoute("equipBreakThroughMaterialStageInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("equipBreakThroughMaterialStageInfo")
 end
 
-return var_0_0
+return slot0

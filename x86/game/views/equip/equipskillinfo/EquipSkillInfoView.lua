@@ -1,66 +1,62 @@
-local var_0_0 = class("EquipSkillInfoView", ReduxView)
+slot0 = class("EquipSkillInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/EquipSkillPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.uiListGo_, EquipSkillInfoItem2)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, EquipSkillInfoItem2)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	if arg_4_0.equipSkillData_ and arg_4_0.equipSkillData_.id == arg_4_0.params_.equipSkillData.id then
+function slot0.OnEnter(slot0)
+	if slot0.equipSkillData_ and slot0.equipSkillData_.id == slot0.params_.equipSkillData.id then
 		return
 	end
 
-	arg_4_0.equipSkillData_ = arg_4_0.params_.equipSkillData
+	slot0.equipSkillData_ = slot0.params_.equipSkillData
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.uiList_:Dispose()
 
-	arg_6_0.uiList_ = nil
+	slot0.uiList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0.selectItem_:ShowSelect(false)
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0.selectItem_:ShowSelect(false)
+		uv0:Back()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = EquipSkillCfg[arg_9_0.equipSkillData_.id]
+function slot0.RefreshUI(slot0)
+	slot1 = EquipSkillCfg[slot0.equipSkillData_.id]
+	slot0.selectItem_ = slot0.equipSkillData_.selectItem
 
-	arg_9_0.selectItem_ = arg_9_0.equipSkillData_.selectItem
+	slot0.selectItem_:ShowSelect(true)
 
-	arg_9_0.selectItem_:ShowSelect(true)
+	slot0.iconImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. slot1.icon)
+	slot0.nameText_.text = GetI18NText(slot1.name)
+	slot0.lvText_.text = string.format("%s/%s", slot0.equipSkillData_.skillLevel, slot1.lvmax)
 
-	arg_9_0.iconImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. var_9_0.icon)
-	arg_9_0.nameText_.text = GetI18NText(var_9_0.name)
-	arg_9_0.lvText_.text = string.format("%s/%s", arg_9_0.equipSkillData_.skillLevel, var_9_0.lvmax)
-
-	local var_9_1 = EquipSkillCfg[arg_9_0.equipSkillData_.id]
-
-	arg_9_0.uiList_:StartScroll(var_9_1.lvmax)
+	slot0.uiList_:StartScroll(EquipSkillCfg[slot0.equipSkillData_.id].lvmax)
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:SetData(arg_10_0.equipSkillData_.id, arg_10_0.equipSkillData_.skillLevel, arg_10_1)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.equipSkillData_.id, slot0.equipSkillData_.skillLevel, slot1)
 end
 
-return var_0_0
+return slot0

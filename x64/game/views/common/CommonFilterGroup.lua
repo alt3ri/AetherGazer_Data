@@ -1,89 +1,71 @@
-local var_0_0 = class("CommonFilterGroup", ReduxView)
+slot0 = class("CommonFilterGroup", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.items = {}
-	arg_1_0.alreadyBuild = false
-	arg_1_0.filterContext = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.items = {}
+	slot0.alreadyBuild = false
+	slot0.filterContext = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Refresh(arg_2_0, arg_2_1, arg_2_2)
-	local var_2_0 = CommonFilterConst.GetGroupCfg(arg_2_2)
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.titleTxt_.text = GetTips(CommonFilterConst.GetGroupCfg(slot2).title)
 
-	arg_2_0.titleTxt_.text = GetTips(var_2_0.title)
-
-	local var_2_1 = CommonFilterConst.GetFilterList(arg_2_2)
-
-	if not var_2_1 then
+	if not CommonFilterConst.GetFilterList(slot2) then
 		return
 	end
 
-	local var_2_2 = #var_2_1
-	local var_2_3 = var_2_0.mode or Filter_Group_Mode.MultiMode
+	slot0:BuildLayout(#slot4, slot3.mode or Filter_Group_Mode.MultiMode)
 
-	arg_2_0:BuildLayout(var_2_2, var_2_3)
-
-	for iter_2_0 = 1, var_2_2 do
-		local var_2_4 = var_2_1[iter_2_0]
-
-		arg_2_0.items[iter_2_0]:Refresh(arg_2_1, arg_2_2, var_2_4)
+	for slot10 = 1, slot5 do
+		slot0.items[slot10]:Refresh(slot1, slot2, slot4[slot10])
 	end
 end
 
-function var_0_0.BuildLayout(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_0.alreadyBuild then
+function slot0.BuildLayout(slot0, slot1, slot2)
+	if slot0.alreadyBuild then
 		return
 	end
 
-	arg_3_0.alreadyBuild = true
+	slot0.alreadyBuild = true
 
-	local var_3_0 = #arg_3_0.items
-
-	for iter_3_0 = 1, var_3_0 do
-		arg_3_0.items[iter_3_0]:Dispose()
+	for slot7 = 1, #slot0.items do
+		slot0.items[slot7]:Dispose()
 	end
 
-	arg_3_0.items = {}
+	slot0.items = {}
 
-	for iter_3_1 = 1, arg_3_1 do
-		if arg_3_2 == Filter_Group_Mode.SingleMode then
-			local var_3_1 = Object.Instantiate(arg_3_0.singleFilterItemObj_, arg_3_0.singleContent_)
-			local var_3_2 = CommonSingleFilterItem.New(var_3_1, arg_3_0.filterContext)
-
-			table.insert(arg_3_0.items, var_3_2)
+	for slot7 = 1, slot1 do
+		if slot2 == Filter_Group_Mode.SingleMode then
+			table.insert(slot0.items, CommonSingleFilterItem.New(Object.Instantiate(slot0.singleFilterItemObj_, slot0.singleContent_), slot0.filterContext))
 		else
-			local var_3_3 = Object.Instantiate(arg_3_0.commonFilterItemObj_, arg_3_0.content_)
-			local var_3_4 = CommonFilterItem.New(var_3_3, arg_3_0.filterContext)
-
-			table.insert(arg_3_0.items, var_3_4)
+			table.insert(slot0.items, CommonFilterItem.New(Object.Instantiate(slot0.commonFilterItemObj_, slot0.content_), slot0.filterContext))
 		end
 	end
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	for iter_7_0 = 1, #arg_7_0.items do
-		arg_7_0.items[iter_7_0]:Dispose()
+	for slot4 = 1, #slot0.items do
+		slot0.items[slot4]:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

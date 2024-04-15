@@ -1,90 +1,83 @@
-local var_0_0 = class("GameKeyBindingContent", ReduxView)
+slot0 = class("GameKeyBindingContent", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.items_ = {}
+	slot0.items_ = {}
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	SetActive(arg_3_0.templateItem_, false)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	SetActive(slot0.templateItem_, false)
 end
 
-function var_0_0.IndexItem(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = arg_4_0.groupData_.items[arg_4_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.layoutName_, slot0.groupData_.items[slot1], slot0.gamepadType_)
+	slot2:RefreshUI()
+	slot2:SetKeyChangedCallback(function (slot0, slot1)
+		slot1.controlType = uv0.groupData_.controlType
+		slot1.conflictGroup = uv0.groupData_.conflictGroup
 
-	arg_4_2:SetData(arg_4_0.layoutName_, var_4_0, arg_4_0.gamepadType_)
-	arg_4_2:RefreshUI()
-	arg_4_2:SetKeyChangedCallback(function(arg_5_0, arg_5_1)
-		arg_5_1.controlType = arg_4_0.groupData_.controlType
-		arg_5_1.conflictGroup = arg_4_0.groupData_.conflictGroup
-
-		if arg_4_0.onKeyChanged_ then
-			arg_4_0.onKeyChanged_(arg_4_0, arg_5_0, arg_5_1)
+		if uv0.onKeyChanged_ then
+			uv0:onKeyChanged_(slot0, slot1)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.layoutName_ = arg_6_1
-	arg_6_0.title_ = arg_6_2
-	arg_6_0.groupData_ = arg_6_3
-	arg_6_0.gamepadType_ = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.layoutName_ = slot1
+	slot0.title_ = slot2
+	slot0.groupData_ = slot3
+	slot0.gamepadType_ = slot4
 end
 
-function var_0_0.SetKeyChangedCallback(arg_7_0, arg_7_1)
-	arg_7_0.onKeyChanged_ = arg_7_1
+function slot0.SetKeyChangedCallback(slot0, slot1)
+	slot0.onKeyChanged_ = slot1
 end
 
-function var_0_0.OnExit(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.items_) do
-		iter_8_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.items_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.items_) do
-		iter_9_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.items_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.super.Dispose(arg_9_0)
+	slot0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = #arg_10_0.groupData_.items
+function slot0.RefreshUI(slot0)
+	SetActive(slot0.gameObject_, #slot0.groupData_.items ~= 0)
 
-	SetActive(arg_10_0.gameObject_, var_10_0 ~= 0)
-
-	if var_10_0 == 0 then
+	if slot1 == 0 then
 		return
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.items_) do
-		SetActive(iter_10_1.gameObject_, iter_10_0 <= var_10_0)
+	for slot5, slot6 in ipairs(slot0.items_) do
+		SetActive(slot6.gameObject_, slot5 <= slot1)
 	end
 
-	for iter_10_2 = 1, var_10_0 do
-		local var_10_1 = arg_10_0.items_[iter_10_2]
+	for slot5 = 1, slot1 do
+		if not slot0.items_[slot5] then
+			slot7 = Object.Instantiate(slot0.templateItem_, slot0.contentTrans_)
 
-		if not var_10_1 then
-			local var_10_2 = Object.Instantiate(arg_10_0.templateItem_, arg_10_0.contentTrans_)
+			SetActive(slot7, true)
 
-			SetActive(var_10_2, true)
-
-			var_10_1 = GameKeyBindingItem.New(var_10_2)
-			arg_10_0.items_[iter_10_2] = var_10_1
+			slot0.items_[slot5] = GameKeyBindingItem.New(slot7)
 		end
 
-		arg_10_0:IndexItem(iter_10_2, var_10_1)
+		slot0:IndexItem(slot5, slot6)
 	end
 end
 
-return var_0_0
+return slot0

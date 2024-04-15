@@ -1,152 +1,131 @@
-local var_0_0 = {}
-local var_0_1 = false
+slot1 = false
 
-manager.net:Bind(59011, function(arg_1_0)
-	if not var_0_1 then
-		var_0_0.InitRedPointConst(arg_1_0.version_id)
+manager.net:Bind(59011, function (slot0)
+	if not uv0 then
+		uv1.InitRedPointConst(slot0.version_id)
 	end
 
-	var_0_1 = true
+	uv0 = true
 
-	ActivityNoobData:InitData(arg_1_0)
-	var_0_0.PlayerUpgradeRedPoint()
-	var_0_0.RefreshAccumulateRedPoint()
+	ActivityNoobData:InitData(slot0)
+	uv1.PlayerUpgradeRedPoint()
+	uv1.RefreshAccumulateRedPoint()
 	ActivityNewbieTools.RefreshFirstRechargeRedPoint()
 	ActivityNewbieTools.RefreshMonthlyCardRedPoint()
 	ActivityNewbieTools.RefreshBpRedPoint()
 	TaskRedPoint:UpdateNoobTaskRedFull(ActivityNewbieTools.GetNoobTaskType())
 	ActivityNewbieTools.RefreshAdvanceTaskRedPoint()
 end)
-manager.net:Bind(59009, function(arg_2_0)
-	if var_0_1 == true then
-		ActivityNoobData:UpdateRecharge(arg_2_0.newbie_recharge_reward)
+manager.net:Bind(59009, function (slot0)
+	if uv0 == true then
+		ActivityNoobData:UpdateRecharge(slot0.newbie_recharge_reward)
 		manager.notify:Invoke(NEWBIE_RECHARGE_UPDATE)
 		ActivityNewbieTools.RefreshFirstRechargeRedPoint()
 		ActivityNewbieTools.RefreshMonthlyCardRedPoint()
 		ActivityNewbieTools.RefreshBpRedPoint()
 	end
 end)
-manager.notify:RegistListener(PLAYER_LEVEL_UP, function()
-	if var_0_1 == true then
-		var_0_0.PlayerUpgradeRedPoint()
+manager.notify:RegistListener(PLAYER_LEVEL_UP, function ()
+	if uv0 == true then
+		uv1.PlayerUpgradeRedPoint()
 		ActivityNewbieTools.RefreshAdvanceTaskRedPoint()
 	end
 end)
 
-function var_0_0.PlayerUpgradeRedPoint()
-	if not var_0_1 then
-		return
-	end
-
-	local var_4_0 = PlayerData:GetPlayerInfo().userLevel
-	local var_4_1 = ActivityNoobData:GetUpgradeFinishList()
-
-	for iter_4_0, iter_4_1 in ipairs(GameSetting.levelup_reward.value) do
-		local var_4_2 = iter_4_1[1]
-
-		if var_4_0 < var_4_2 then
-			manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 0)
-
+return {
+	PlayerUpgradeRedPoint = function ()
+		if not uv0 then
 			return
 		end
 
-		if not table.keyof(var_4_1, var_4_2) then
-			manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 1)
+		slot1 = ActivityNoobData:GetUpgradeFinishList()
 
-			return
-		end
-	end
+		for slot5, slot6 in ipairs(GameSetting.levelup_reward.value) do
+			if PlayerData:GetPlayerInfo().userLevel < slot6[1] then
+				manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 0)
 
-	manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 0)
-end
+				return
+			end
 
-function var_0_0.NoobSignIn(arg_5_0)
-	manager.net:SendWithLoadingNew(59012, {}, 59013, function(arg_6_0)
-		arg_5_0(arg_6_0)
-	end)
-end
+			if not table.keyof(slot1, slot7) then
+				manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 1)
 
-function var_0_0.ReceiveUpgradeReward(arg_7_0, arg_7_1)
-	manager.net:SendWithLoadingNew(59004, {
-		level = arg_7_0
-	}, 59005, function(arg_8_0)
-		arg_7_1(arg_8_0)
-	end)
-end
-
-function var_0_0.ReceiveRechargeReward(arg_9_0, arg_9_1, arg_9_2)
-	manager.net:SendWithLoadingNew(59006, {
-		type = arg_9_0,
-		reward_type = arg_9_1
-	}, 59007, function(arg_10_0)
-		if arg_9_2 then
-			arg_9_2(arg_10_0)
-		end
-	end)
-end
-
-function var_0_0.ReceiveAccumulateReward(arg_11_0)
-	manager.net:SendWithLoadingNew(59014, {
-		id = arg_11_0
-	}, 59015, function(arg_12_0)
-		if isSuccess(arg_12_0.result) then
-			ActivityNoobData:SetAccumulateReceivedList(arg_11_0)
-			var_0_0.RefreshAccumulateRedPoint()
-			getReward2(arg_12_0.reward_list)
-			manager.notify:Invoke(NOOB_ACCUMULATE_RECEIVE)
-		else
-			ShowTips(arg_12_0.result)
-		end
-	end)
-end
-
-function var_0_0.InitRedPointConst(arg_13_0)
-	local var_13_0 = {}
-
-	for iter_13_0 = 1, 2 do
-		var_13_0[#var_13_0 + 1] = string.format("%s_%d", RedPointConst.NEWBIE_SIGN, iter_13_0)
-	end
-
-	manager.redPoint:addGroup(RedPointConst.NEWBIE_SIGN, var_13_0)
-
-	local var_13_1 = NoobVersionCfg[arg_13_0] or NoobVersionCfg[2]
-
-	if var_13_1.noob_task_type ~= 0 then
-		local var_13_2 = #TaskTools:GetNoobPhaseTask(var_13_1.noob_task_type)
-		local var_13_3 = {}
-
-		for iter_13_1 = 1, var_13_2 do
-			var_13_3[#var_13_3 + 1] = string.format("%s_%d", RedPointConst.NEWBIE_TASK, iter_13_1)
+				return
+			end
 		end
 
-		var_13_3[#var_13_3 + 1] = RedPointConst.NOOB_TASK_ACCUMULATE
+		manager.redPoint:setTip(RedPointConst.NEWBIE_UPGRADE, 0)
+	end,
+	NoobSignIn = function (slot0)
+		manager.net:SendWithLoadingNew(59012, {}, 59013, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	ReceiveUpgradeReward = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(59004, {
+			level = slot0
+		}, 59005, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	ReceiveRechargeReward = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(59006, {
+			type = slot0,
+			reward_type = slot1
+		}, 59007, function (slot0)
+			if uv0 then
+				uv0(slot0)
+			end
+		end)
+	end,
+	ReceiveAccumulateReward = function (slot0)
+		manager.net:SendWithLoadingNew(59014, {
+			id = slot0
+		}, 59015, function (slot0)
+			if isSuccess(slot0.result) then
+				ActivityNoobData:SetAccumulateReceivedList(uv0)
+				uv1.RefreshAccumulateRedPoint()
+				getReward2(slot0.reward_list)
+				manager.notify:Invoke(NOOB_ACCUMULATE_RECEIVE)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	InitRedPointConst = function (slot0)
+		slot1 = {}
 
-		manager.redPoint:addGroup(RedPointConst.NEWBIE_TASK, var_13_3)
-	end
-end
-
-function var_0_0.RefreshAccumulateRedPoint()
-	local var_14_0 = ActivityNewbieTools.GetVersionID()
-	local var_14_1 = NoobVersionCfg[var_14_0].noob_task_type
-	local var_14_2 = TaskTools:GetNoobCompletedList(var_14_1)
-	local var_14_3 = 0
-
-	for iter_14_0, iter_14_1 in pairs(var_14_2) do
-		var_14_3 = var_14_3 + iter_14_1
-	end
-
-	local var_14_4 = ActivityNoobData:GetAccumulateReceivedList() or {}
-	local var_14_5 = ActivityNewbieTools.GetNoobPorgressRewardList()
-
-	for iter_14_2, iter_14_3 in ipairs(var_14_5) do
-		if var_14_3 >= iter_14_3[1] and not var_14_4[iter_14_2] then
-			manager.redPoint:setTip(RedPointConst.NOOB_TASK_ACCUMULATE, 1)
-
-			return
+		for slot5 = 1, 2 do
+			slot1[#slot1 + 1] = string.format("%s_%d", RedPointConst.NEWBIE_SIGN, slot5)
 		end
+
+		manager.redPoint:addGroup(RedPointConst.NEWBIE_SIGN, slot1)
+
+		if (NoobVersionCfg[slot0] or NoobVersionCfg[2]).noob_task_type ~= 0 then
+			slot5 = {}
+
+			for slot9 = 1, #TaskTools:GetNoobPhaseTask(slot2.noob_task_type) do
+				slot5[#slot5 + 1] = string.format("%s_%d", RedPointConst.NEWBIE_TASK, slot9)
+			end
+
+			slot5[#slot5 + 1] = RedPointConst.NOOB_TASK_ACCUMULATE
+
+			manager.redPoint:addGroup(RedPointConst.NEWBIE_TASK, slot5)
+		end
+	end,
+	RefreshAccumulateRedPoint = function ()
+		for slot7, slot8 in pairs(TaskTools:GetNoobCompletedList(NoobVersionCfg[ActivityNewbieTools.GetVersionID()].noob_task_type)) do
+			slot3 = 0 + slot8
+		end
+
+		for slot9, slot10 in ipairs(ActivityNewbieTools.GetNoobPorgressRewardList()) do
+			if slot10[1] <= slot3 and not (ActivityNoobData:GetAccumulateReceivedList() or {})[slot9] then
+				manager.redPoint:setTip(RedPointConst.NOOB_TASK_ACCUMULATE, 1)
+
+				return
+			end
+		end
+
+		manager.redPoint:setTip(RedPointConst.NOOB_TASK_ACCUMULATE, 0)
 	end
-
-	manager.redPoint:setTip(RedPointConst.NOOB_TASK_ACCUMULATE, 0)
-end
-
-return var_0_0
+}

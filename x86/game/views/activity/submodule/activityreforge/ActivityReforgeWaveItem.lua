@@ -1,78 +1,76 @@
-local var_0_0 = class("ActivityReforgeWaveItem", ReduxView)
+slot0 = class("ActivityReforgeWaveItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = arg_3_0.controllerEx_:GetController("status")
-	arg_3_0.selectController_ = arg_3_0.controllerEx_:GetController("isselect")
-	arg_3_0.heroHeadItemList_ = {}
+	slot0.statusController_ = slot0.controllerEx_:GetController("status")
+	slot0.selectController_ = slot0.controllerEx_:GetController("isselect")
+	slot0.heroHeadItemList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.heroHeadItemList_[iter_3_0] = ActivityReforgeHeroHeadItem.New(arg_3_0["heroHeadGo" .. iter_3_0 .. "_"])
+	for slot4 = 1, 3 do
+		slot0.heroHeadItemList_[slot4] = ActivityReforgeHeroHeadItem.New(slot0["heroHeadGo" .. slot4 .. "_"])
 	end
 end
 
-function var_0_0.SetClickHandle(arg_4_0, arg_4_1)
-	arg_4_0.clickHandle_ = arg_4_1
+function slot0.SetClickHandle(slot0, slot1)
+	slot0.clickHandle_ = slot1
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.index_ = arg_5_1
-	arg_5_0.waveID_ = arg_5_2
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.waveID_ = slot2
 
-	if arg_5_0.index_ == arg_5_3 then
-		arg_5_0.selectController_:SetSelectedState("true")
+	if slot0.index_ == slot3 then
+		slot0.selectController_:SetSelectedState("true")
 	else
-		arg_5_0.selectController_:SetSelectedState("false")
+		slot0.selectController_:SetSelectedState("false")
 	end
 
-	arg_5_0.waveNum_.text = arg_5_0.index_
-	arg_5_0.teamInfo_ = ActivityReforgeData:GetWaveTeamInfo(arg_5_0.waveID_)
+	slot0.waveNum_.text = slot0.index_
+	slot0.teamInfo_ = ActivityReforgeData:GetWaveTeamInfo(slot0.waveID_)
 
-	if arg_5_0.teamInfo_ == nil then
-		arg_5_0.statusController_:SetSelectedState("normal")
+	if slot0.teamInfo_ == nil then
+		slot0.statusController_:SetSelectedState("normal")
 	else
-		arg_5_0.statusController_:SetSelectedState("hero")
+		slot0.statusController_:SetSelectedState("hero")
 
-		local var_5_0 = ActivityReforgeTeamCfg[arg_5_0.teamInfo_.teamID]
-
-		for iter_5_0 = 1, 3 do
-			arg_5_0.heroHeadItemList_[iter_5_0]:SetData(var_5_0.team_info[arg_5_0.teamInfo_.level][iter_5_0])
+		for slot8 = 1, 3 do
+			slot0.heroHeadItemList_[slot8]:SetData(ActivityReforgeTeamCfg[slot0.teamInfo_.teamID].team_info[slot0.teamInfo_.level][slot8])
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.btn_, nil, function()
-		if arg_6_0.clickHandle_ then
-			arg_6_0.clickHandle_(arg_6_0.index_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandle_ then
+			uv0.clickHandle_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0 = 1, 3 do
-		arg_8_0.heroHeadItemList_[iter_8_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, 3 do
+		slot0.heroHeadItemList_[slot4]:Dispose()
 
-		arg_8_0.heroHeadItemList_[iter_8_0] = nil
+		slot0.heroHeadItemList_[slot4] = nil
 	end
 
-	arg_8_0.heroHeadItemList_ = nil
-	arg_8_0.clickHandle_ = nil
+	slot0.heroHeadItemList_ = nil
+	slot0.clickHandle_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

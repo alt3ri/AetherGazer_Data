@@ -1,122 +1,120 @@
-local var_0_0 = singletonClass("GameTimer")
-local var_0_1 = 0
-local var_0_2 = 0
-local var_0_3 = 0
-local var_0_4
-local var_0_5
-local var_0_6
+slot0 = singletonClass("GameTimer")
+slot1 = 0
+slot2 = 0
+slot3 = 0
+slot4, slot5, slot6 = nil
 
-function var_0_0.SetNextDayFreshTime(arg_1_0, arg_1_1)
-	print("nextDayFreshTime_ newTime", var_0_1, arg_1_1)
+function slot0.SetNextDayFreshTime(slot0, slot1)
+	print("nextDayFreshTime_ newTime", uv0, slot1)
 
-	if var_0_1 ~= arg_1_1 then
-		var_0_1 = arg_1_1
+	if uv0 ~= slot1 then
+		uv0 = slot1
 
-		arg_1_0:StartCountNextDay()
+		slot0:StartCountNextDay()
 	end
 end
 
-function var_0_0.GetNextDayFreshTime(arg_2_0)
-	return var_0_1
+function slot0.GetNextDayFreshTime(slot0)
+	return uv0
 end
 
-function var_0_0.StartCountNextDay(arg_3_0)
-	arg_3_0:StopCountNextDay()
+function slot0.StartCountNextDay(slot0)
+	slot0:StopCountNextDay()
 
-	var_0_4 = Timer.New(function()
-		if manager.time:GetServerTime() > var_0_1 then
-			arg_3_0:StopCountNextDay()
+	uv0 = Timer.New(function ()
+		if uv0 < manager.time:GetServerTime() then
+			uv1:StopCountNextDay()
 			PlayerAction.RequestNewDayData()
 		end
 	end, 1, -1)
 
-	var_0_4:Start()
+	uv0:Start()
 end
 
-function var_0_0.StopCountNextDay(arg_5_0)
-	if var_0_4 then
-		var_0_4:Stop()
+function slot0.StopCountNextDay(slot0)
+	if uv0 then
+		uv0:Stop()
 
-		var_0_4 = nil
+		uv0 = nil
 	end
 end
 
-function var_0_0.SetNextWeekFreshTime(arg_6_0, arg_6_1)
-	print("nextWeekFreshTime_ newTime", var_0_2, arg_6_1)
+function slot0.SetNextWeekFreshTime(slot0, slot1)
+	print("nextWeekFreshTime_ newTime", uv0, slot1)
 
-	if var_0_2 ~= arg_6_1 then
-		var_0_2 = arg_6_1
+	if uv0 ~= slot1 then
+		uv0 = slot1
 
-		arg_6_0:StartCountNextWeek()
+		slot0:StartCountNextWeek()
 	end
 end
 
-function var_0_0.GetNextWeekFreshTime(arg_7_0)
-	return var_0_2
+function slot0.GetNextWeekFreshTime(slot0)
+	return uv0
 end
 
-function var_0_0.StartCountNextWeek(arg_8_0)
-	arg_8_0:StopCountNextWeek()
+function slot0.StartCountNextWeek(slot0)
+	slot0:StopCountNextWeek()
 
-	var_0_5 = Timer.New(function()
-		if manager.time:GetServerTime() > var_0_2 then
-			arg_8_0:StopCountNextWeek()
+	uv0 = Timer.New(function ()
+		if uv0 < manager.time:GetServerTime() then
+			uv1:StopCountNextWeek()
 			PlayerAction.RequestNewDayData()
 		end
 	end, 1, -1)
 
-	var_0_5:Start()
+	uv0:Start()
 end
 
-function var_0_0.StopCountNextWeek(arg_10_0)
-	if var_0_5 then
-		var_0_5:Stop()
+function slot0.StopCountNextWeek(slot0)
+	if uv0 then
+		uv0:Stop()
 
-		var_0_5 = nil
+		uv0 = nil
 	end
 end
 
-function var_0_0.SetNextMonthFreshTime(arg_11_0, arg_11_1)
-	print("nextMonthFreshTime_ newTime", var_0_3, arg_11_1)
+function slot0.SetNextMonthFreshTime(slot0, slot1)
+	print("nextMonthFreshTime_ newTime", uv0, slot1)
 
-	if var_0_3 ~= arg_11_1 then
-		var_0_3 = arg_11_1
+	if uv0 ~= slot1 then
+		uv0 = slot1
 
-		arg_11_0:StartCountNextMonth()
+		slot0:StartCountNextMonth()
 	end
 end
 
-function var_0_0.GetNextMonthFreshTime(arg_12_0)
-	return var_0_3
+function slot0.GetNextMonthFreshTime(slot0)
+	return uv0
 end
 
-function var_0_0.StartCountNextMonth(arg_13_0)
-	arg_13_0:StopCountNextMonth()
+function slot0.StartCountNextMonth(slot0)
+	slot0:StopCountNextMonth()
 
-	var_0_6 = Timer.New(function()
-		if manager.time:GetServerTime() > var_0_3 then
-			arg_13_0:StopCountNextMonth()
+	uv0 = Timer.New(function ()
+		if uv0 < manager.time:GetServerTime() then
+			uv1:StopCountNextMonth()
 			PlayerAction.RequestNewDayData()
 		end
 	end, 1, -1)
 
-	var_0_6:Start()
+	uv0:Start()
 end
 
-function var_0_0.StopCountNextMonth(arg_15_0)
-	if var_0_6 then
-		var_0_6:Stop()
+function slot0.StopCountNextMonth(slot0)
+	if uv0 then
+		uv0:Stop()
 
-		var_0_6 = nil
+		uv0 = nil
 	end
 end
 
-function var_0_0.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
 	print("GameTimer Dispose")
 
-	var_0_1 = 0
+	uv0 = 0
 
-	arg_16_0:StopCountNextDay()
+	slot0:StopCountNextDay()
 end
 
-return var_0_0
+return slot0

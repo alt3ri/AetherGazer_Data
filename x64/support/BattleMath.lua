@@ -1,34 +1,22 @@
-local var_0_0 = {}
-local var_0_1 = RandomUtil.GenRandom(os.time())
-local var_0_2 = os.time()
+slot1 = RandomUtil.GenRandom(os.time())
+slot2 = os.time()
 
-function var_0_0.RandomSeed(arg_1_0)
-	var_0_2 = arg_1_0
-	var_0_1 = RandomUtil.GenRandom(arg_1_0)
-end
+return {
+	RandomSeed = function (slot0)
+		uv0 = slot0
+		uv1 = RandomUtil.GenRandom(slot0)
+	end,
+	GetRandomSeed = function ()
+		return uv0
+	end,
+	Random = function (slot0, slot1)
+		slot2 = nil
+		slot2 = (slot0 ~= nil or slot1 ~= nil or uv0:NextDouble()) and (slot1 == nil and 1 + uv0:NextInt(slot0) or slot0 + uv0:NextInt(slot1 - slot0 + 1))
 
-function var_0_0.GetRandomSeed()
-	return var_0_2
-end
+		if MathRandomFlag == false then
+			print("<color=#ff0000>渲染帧请使用math.random()产生随机数</color>" .. " source:" .. debug.getinfo(2, "nfS").source, debug.traceback("", 2))
+		end
 
-function var_0_0.Random(arg_3_0, arg_3_1)
-	local var_3_0
-
-	if arg_3_0 == nil and arg_3_1 == nil then
-		var_3_0 = var_0_1:NextDouble()
-	elseif arg_3_1 == nil then
-		var_3_0 = 1 + var_0_1:NextInt(arg_3_0)
-	else
-		var_3_0 = arg_3_0 + var_0_1:NextInt(arg_3_1 - arg_3_0 + 1)
+		return slot2
 	end
-
-	if MathRandomFlag == false then
-		local var_3_1 = debug.getinfo(2, "nfS")
-
-		print("<color=#ff0000>渲染帧请使用math.random()产生随机数</color>" .. " source:" .. var_3_1.source, debug.traceback("", 2))
-	end
-
-	return var_3_0
-end
-
-return var_0_0
+}

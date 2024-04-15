@@ -1,21 +1,20 @@
 ActivitySubmoduleItem = import("game.views.activity.Main.item.ActivitySubmoduleItem")
+slot0 = class("GuildActivitySubmoduleItem", ActivitySubmoduleItem)
 
-local var_0_0 = class("GuildActivitySubmoduleItem", ActivitySubmoduleItem)
+function slot0.OnEnter(slot0)
+	slot0.activiteData_ = ActivityData:GetActivityData(slot0.activityId_)
+	slot0.startTime_ = slot0.activiteData_.startTime
+	slot0.stopTime_ = slot0.activiteData_.stopTime
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.activiteData_ = ActivityData:GetActivityData(arg_1_0.activityId_)
-	arg_1_0.startTime_ = arg_1_0.activiteData_.startTime
-	arg_1_0.stopTime_ = arg_1_0.activiteData_.stopTime
-
-	manager.redPoint:bindUIandKey(arg_1_0.transform_, string.format("%s_%s", RedPointConst.GUILD_ACTIVITY, ActivityConst.GUILD_ACTIVITY_START))
-	manager.notify:RegistListener(ACTIVITY_UPDATE, arg_1_0.updateHandler_)
-	arg_1_0:RefreshLock()
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.GUILD_ACTIVITY, ActivityConst.GUILD_ACTIVITY_START))
+	manager.notify:RegistListener(ACTIVITY_UPDATE, slot0.updateHandler_)
+	slot0:RefreshLock()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.transform_, string.format("%s_%s", RedPointConst.GUILD_ACTIVITY, ActivityConst.GUILD_ACTIVITY_START))
-	manager.notify:RemoveListener(ACTIVITY_UPDATE, arg_2_0.updateHandler_)
-	arg_2_0:StopTimer()
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.GUILD_ACTIVITY, ActivityConst.GUILD_ACTIVITY_START))
+	manager.notify:RemoveListener(ACTIVITY_UPDATE, slot0.updateHandler_)
+	slot0:StopTimer()
 end
 
-return var_0_0
+return slot0

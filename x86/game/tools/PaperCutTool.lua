@@ -1,139 +1,124 @@
 return {
-	LoadScene = function(arg_1_0, arg_1_1)
-		local var_1_0 = SceneManager.GetSceneByName("X107")
-
-		if var_1_0 and var_1_0.isLoaded == true then
+	LoadScene = function (slot0, slot1)
+		if SceneManager.GetSceneByName("X107") and slot2.isLoaded == true then
 			return
 		end
 
-		if arg_1_0.operation_ then
+		if slot0.operation_ then
 			return
 		end
 
-		arg_1_0.callback_ = arg_1_1
-		arg_1_0.operation_ = Asset.LoadLevelAsync("Levels/X107", true)
+		slot0.callback_ = slot1
+		slot0.operation_ = Asset.LoadLevelAsync("Levels/X107", true)
 
-		if arg_1_0.timer_ then
-			arg_1_0.timer_:Stop()
+		if slot0.timer_ then
+			slot0.timer_:Stop()
 
-			arg_1_0.timer_ = nil
+			slot0.timer_ = nil
 		end
 
-		arg_1_0.timer_ = FrameTimer.New(handler(arg_1_0, arg_1_0.Process), 1, -1)
+		slot0.timer_ = FrameTimer.New(handler(slot0, slot0.Process), 1, -1)
 
-		arg_1_0.timer_:Start()
+		slot0.timer_:Start()
 	end,
-	Process = function(arg_2_0)
-		if arg_2_0.operation_:IsDone() then
-			if not gameContext:GetOpenPageHandler("paperCutMain") then
-				local var_2_0 = SceneManager.GetSceneByName("X107")
-
-				if var_2_0 and var_2_0.isLoaded == true then
-					SceneManager.UnloadSceneAsync("X107")
-				end
+	Process = function (slot0)
+		if slot0.operation_:IsDone() then
+			if not gameContext:GetOpenPageHandler("paperCutMain") and SceneManager.GetSceneByName("X107") and slot1.isLoaded == true then
+				SceneManager.UnloadSceneAsync("X107")
 			end
 
-			if arg_2_0.timer_ then
-				arg_2_0.timer_:Stop()
+			if slot0.timer_ then
+				slot0.timer_:Stop()
 
-				arg_2_0.timer_ = nil
+				slot0.timer_ = nil
 			end
 
-			arg_2_0.operation_ = nil
+			slot0.operation_ = nil
 
-			arg_2_0:BindCfgUI()
-			arg_2_0.paperCutManager_:SetCanvas(manager.ui.canvas)
+			slot0:BindCfgUI()
+			slot0.paperCutManager_:SetCanvas(manager.ui.canvas)
+			slot0.paperCutManager_:SetCanvasScale(Vector2(manager.ui.canvasSize_.x / Screen.width, manager.ui.canvasSize_.y / Screen.height))
+			slot0.paperCutManager_:InitialScene()
 
-			local var_2_1 = Vector2(manager.ui.canvasSize_.x / Screen.width, manager.ui.canvasSize_.y / Screen.height)
+			if slot0.callback_ then
+				slot0.callback_()
 
-			arg_2_0.paperCutManager_:SetCanvasScale(var_2_1)
-			arg_2_0.paperCutManager_:InitialScene()
-
-			if arg_2_0.callback_ then
-				arg_2_0.callback_()
-
-				arg_2_0.callback_ = nil
+				slot0.callback_ = nil
 			end
 		end
 	end,
-	UnLoadScene = function(arg_3_0)
-		if arg_3_0.operation_ then
+	UnLoadScene = function (slot0)
+		if slot0.operation_ then
 			return
 		end
 
-		if arg_3_0.paperCutManager_ ~= nil then
-			arg_3_0.paperCutManager_:ResetScene()
+		if slot0.paperCutManager_ ~= nil then
+			slot0.paperCutManager_:ResetScene()
 
-			arg_3_0.paperCutManager_ = nil
+			slot0.paperCutManager_ = nil
 		end
 
-		local var_3_0 = SceneManager.GetSceneByName("X107")
-
-		if var_3_0 and var_3_0.isLoaded == true then
+		if SceneManager.GetSceneByName("X107") and slot1.isLoaded == true then
 			SceneManager.UnloadSceneAsync("X107")
 		end
 	end,
-	LevelIsDone = function(arg_4_0)
-		if arg_4_0.operation_ then
-			return arg_4_0.operation_:IsDone()
+	LevelIsDone = function (slot0)
+		if slot0.operation_ then
+			return slot0.operation_:IsDone()
 		end
 
 		return true
 	end,
-	BindCfgUI = function(arg_5_0)
-		local var_5_0
-		local var_5_1
+	BindCfgUI = function (slot0)
+		slot1, slot2 = nil
 
 		if SceneManager.GetSceneByName("X107").rootCount > 0 then
-			var_5_0 = SceneManager.GetSceneByName("X107"):GetRootGameObjects()
+			slot1 = SceneManager.GetSceneByName("X107"):GetRootGameObjects()
 		end
 
-		if var_5_0 ~= nil then
-			for iter_5_0 = 0, var_5_0.Length - 1 do
-				if var_5_0[iter_5_0].name == "Panel" then
-					var_5_1 = var_5_0[iter_5_0]
+		if slot1 ~= nil then
+			for slot6 = 0, slot1.Length - 1 do
+				if slot1[slot6].name == "Panel" then
+					slot2 = slot1[slot6]
 				end
 			end
 		end
 
-		arg_5_0.paperCutManager_ = var_5_1:GetComponent("PaperCutManager")
+		slot0.paperCutManager_ = slot2:GetComponent("PaperCutManager")
 
-		ComponentBinder.GetInstance():BindCfgUI(arg_5_0, var_5_1)
+		ComponentBinder.GetInstance():BindCfgUI(slot0, slot2)
 	end,
-	GameStart = function(arg_6_0, arg_6_1)
-		arg_6_0:RefreshDrawSprite(arg_6_1)
-		arg_6_0:SetCheckPointPanel(arg_6_1)
-		arg_6_0.paperCutManager_:GameStart()
+	GameStart = function (slot0, slot1)
+		slot0:RefreshDrawSprite(slot1)
+		slot0:SetCheckPointPanel(slot1)
+		slot0.paperCutManager_:GameStart()
 	end,
-	GameOver = function(arg_7_0)
-		arg_7_0.paperCutManager_:GameOver()
+	GameOver = function (slot0)
+		slot0.paperCutManager_:GameOver()
 	end,
-	GetPaperRenderer = function(arg_8_0)
-		return arg_8_0.paperRenderer_
+	GetPaperRenderer = function (slot0)
+		return slot0.paperRenderer_
 	end,
-	RegisterCompleteHandler = function(arg_9_0, arg_9_1)
-		arg_9_0.paperCutManager_:SetOnComplete(arg_9_1)
+	RegisterCompleteHandler = function (slot0, slot1)
+		slot0.paperCutManager_:SetOnComplete(slot1)
 	end,
-	RegisterStartDrawHandler = function(arg_10_0, arg_10_1)
-		arg_10_0.paperCutManager_:SetOnStartDraw(arg_10_1)
+	RegisterStartDrawHandler = function (slot0, slot1)
+		slot0.paperCutManager_:SetOnStartDraw(slot1)
 	end,
-	RefreshDrawSprite = function(arg_11_0, arg_11_1)
-		local var_11_0 = PaperCutCfg[arg_11_1].cut_result_picture
-		local var_11_1 = PaperCutCfg[arg_11_1].cut_line_picture
-
-		arg_11_0.drawSpriteRenderer_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/paperCut/" .. var_11_0)
-		arg_11_0.drawOutline_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/paperCut/" .. var_11_1)
+	RefreshDrawSprite = function (slot0, slot1)
+		slot0.drawSpriteRenderer_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/paperCut/" .. PaperCutCfg[slot1].cut_result_picture)
+		slot0.drawOutline_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/paperCut/" .. PaperCutCfg[slot1].cut_line_picture)
 	end,
-	SetCheckPointPanel = function(arg_12_0, arg_12_1)
-		arg_12_0.paperCutManager_:LoadCheckPointPanel(arg_12_1)
+	SetCheckPointPanel = function (slot0, slot1)
+		slot0.paperCutManager_:LoadCheckPointPanel(slot1)
 	end,
-	DisplayResultImage = function(arg_13_0, arg_13_1)
-		arg_13_0.paperCutManager_:DisplayResultImage(arg_13_1)
+	DisplayResultImage = function (slot0, slot1)
+		slot0.paperCutManager_:DisplayResultImage(slot1)
 	end,
-	CalculateScore = function(arg_14_0)
-		return arg_14_0.paperCutManager_:CalculateScore()
+	CalculateScore = function (slot0)
+		return slot0.paperCutManager_:CalculateScore()
 	end,
-	OnLogout = function(arg_15_0)
-		arg_15_0:UnLoadScene()
+	OnLogout = function (slot0)
+		slot0:UnLoadScene()
 	end
 }

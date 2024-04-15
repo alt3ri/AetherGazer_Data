@@ -1,130 +1,130 @@
-local var_0_0 = class("AstrolabeItem", ReduxView)
+slot0 = class("AstrolabeItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.data_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.transform_.localPosition = Vector3(0, 0, 0)
-	arg_1_0.posX = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.transform_.localPosition = Vector3(0, 0, 0)
+	slot0.posX = slot3
 
-	arg_1_0:InitUI()
-	arg_1_0:Init()
+	slot0:InitUI()
+	slot0:Init()
 
-	arg_1_0.nodeState = AstrolabeConst.NODE_STATE.LOCK
+	slot0.nodeState = AstrolabeConst.NODE_STATE.LOCK
 end
 
-function var_0_0.RefreshData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.data_ = arg_2_1
-	arg_2_0.info_ = arg_2_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	arg_2_0:Render()
+	slot0:Render()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
-	arg_3_0.activeController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "name")
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.activeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "name")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "select")
 
-	arg_3_0:ShowSelect(false)
-	arg_3_0:AddBtnListener(arg_3_0.nodeitemBtn_, nil, "OnClick")
+	slot0:ShowSelect(false)
+	slot0:AddBtnListener(slot0.nodeitemBtn_, nil, "OnClick")
 end
 
-function var_0_0.Render(arg_4_0)
-	arg_4_0:RefreshUI(arg_4_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1)
-	arg_5_0.info_ = arg_5_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.info_ = slot1
 
-	if arg_5_1 then
-		if not arg_5_1.isUnlock then
-			if arg_5_1.isCanLock then
-				arg_5_0.nodeState = AstrolabeConst.NODE_STATE.CANLOCK
+	if slot1 then
+		if not slot1.isUnlock then
+			if slot1.isCanLock then
+				slot0.nodeState = AstrolabeConst.NODE_STATE.CANLOCK
 
-				arg_5_0.activeController_:SetSelectedState("canUnlock")
+				slot0.activeController_:SetSelectedState("canUnlock")
 			else
-				arg_5_0.activeController_:SetSelectedState("lock")
+				slot0.activeController_:SetSelectedState("lock")
 
-				arg_5_0.nodeState = AstrolabeConst.NODE_STATE.LOCK
+				slot0.nodeState = AstrolabeConst.NODE_STATE.LOCK
 			end
-		elseif arg_5_1.isUnlock then
-			arg_5_0.activeController_:SetSelectedState("unlock")
+		elseif slot1.isUnlock then
+			slot0.activeController_:SetSelectedState("unlock")
 
-			arg_5_0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
+			slot0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
 		end
 
-		if not arg_5_0.heroViewProxy_.isSelf then
-			arg_5_0.activeController_:SetSelectedState("unlock")
+		if not slot0.heroViewProxy_.isSelf then
+			slot0.activeController_:SetSelectedState("unlock")
 
-			arg_5_0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
+			slot0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
 		end
 
-		if arg_5_1.isEquiped then
-			if arg_5_0.posX == 1 then
-				arg_5_0.stateController_:SetSelectedState("red")
-			elseif arg_5_0.posX == 2 then
-				arg_5_0.stateController_:SetSelectedState("yellow")
-			elseif arg_5_0.posX == 3 then
-				arg_5_0.stateController_:SetSelectedState("bule")
+		if slot1.isEquiped then
+			if slot0.posX == 1 then
+				slot0.stateController_:SetSelectedState("red")
+			elseif slot0.posX == 2 then
+				slot0.stateController_:SetSelectedState("yellow")
+			elseif slot0.posX == 3 then
+				slot0.stateController_:SetSelectedState("bule")
 			end
 
-			arg_5_0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
+			slot0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
 		else
-			arg_5_0.stateController_:SetSelectedState("gray")
+			slot0.stateController_:SetSelectedState("gray")
 		end
 
-		arg_5_0.nameText_.text = GetI18NText(HeroAstrolabeCfg[arg_5_1.id].name)
+		slot0.nameText_.text = GetI18NText(HeroAstrolabeCfg[slot1.id].name)
 	end
 end
 
-function var_0_0.ShowSelect(arg_6_0, arg_6_1)
-	arg_6_0.selectController_:SetSelectedState(arg_6_1 and "true" or "false")
+function slot0.ShowSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedState(slot1 and "true" or "false")
 end
 
-function var_0_0.Init(arg_7_0)
-	arg_7_0:RefreshUI(arg_7_0.info_)
+function slot0.Init(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.SetNodeNameIsHide(arg_8_0, arg_8_1)
-	if arg_8_0.nameText_ then
-		SetActive(arg_8_0.nameText_.gameObject, not arg_8_1)
+function slot0.SetNodeNameIsHide(slot0, slot1)
+	if slot0.nameText_ then
+		SetActive(slot0.nameText_.gameObject, not slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_9_0.clickFunc = nil
+	slot0.clickFunc = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnClick(arg_10_0)
-	if arg_10_0.clickFunc then
-		if not arg_10_0.heroViewProxy_.isSelf then
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		if not slot0.heroViewProxy_.isSelf then
 			return
 		end
 
-		arg_10_0.clickFunc(arg_10_0)
+		slot0:clickFunc()
 	end
 end
 
-function var_0_0.RegistCallBack(arg_11_0, arg_11_1)
-	arg_11_0.clickFunc = arg_11_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.GetItemInfo(arg_12_0)
-	return arg_12_0.info_
+function slot0.GetItemInfo(slot0)
+	return slot0.info_
 end
 
-function var_0_0.SetRedPoint(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.notice_imgGo_, arg_13_1)
+function slot0.SetRedPoint(slot0, slot1)
+	SetActive(slot0.notice_imgGo_, slot1)
 end
 
-function var_0_0.SetProxy(arg_14_0, arg_14_1)
-	arg_14_0.heroViewProxy_ = arg_14_1
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-return var_0_0
+return slot0

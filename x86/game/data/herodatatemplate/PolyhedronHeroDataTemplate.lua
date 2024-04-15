@@ -1,24 +1,21 @@
-local var_0_0 = class("PolyhedronHeroDataTemplate", TemplateHeroDataTemplate)
+slot0 = class("PolyhedronHeroDataTemplate", TemplateHeroDataTemplate)
 
-function var_0_0.Init(arg_1_0, arg_1_1)
-	var_0_0.super.Init(arg_1_0, arg_1_1)
+function slot0.Init(slot0, slot1)
+	uv0.super.Init(slot0, slot1)
 
-	local var_1_0 = HeroCfg[arg_1_0.id]
-	local var_1_1 = {}
+	slot3 = {}
 
-	for iter_1_0, iter_1_1 in pairs(var_1_0.astrolabe or {}) do
-		local var_1_2 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[iter_1_1] or {}
-
-		for iter_1_2, iter_1_3 in pairs(var_1_2) do
-			table.insert(var_1_1, iter_1_3)
+	for slot7, slot8 in pairs(HeroCfg[slot0.id].astrolabe or {}) do
+		for slot13, slot14 in pairs(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot8] or {}) do
+			table.insert(slot3, slot14)
 		end
 	end
 
-	arg_1_0.unlocked_astrolabe = var_1_1
+	slot0.unlocked_astrolabe = slot3
 end
 
-function var_0_0.GetType(arg_2_0)
+function slot0.GetType(slot0)
 	return HeroConst.HERO_DATA_TYPE.POLYHEDRON
 end
 
-return var_0_0
+return slot0

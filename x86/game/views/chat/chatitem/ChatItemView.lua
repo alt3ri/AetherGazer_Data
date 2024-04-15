@@ -1,207 +1,188 @@
-local var_0_0 = import("game.views.chat.loopScrollView.LoopScrollViewBaseItem")
-local var_0_1 = class("ChatItemView", var_0_0)
+slot1 = class("ChatItemView", import("game.views.chat.loopScrollView.LoopScrollViewBaseItem"))
+slot1.bgExtendHeight = 40
+slot1.contentMaxWidth = 540
 
-var_0_1.bgExtendHeight = 40
-var_0_1.contentMaxWidth = 540
+function slot1.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.scrollView_ = slot3
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.scrollView_ = arg_1_3
+	slot0:BindCfgUI()
 
-	arg_1_0:BindCfgUI()
+	slot0.contentSizeFitter_ = slot0.textContent_:GetComponent("ContentSizeFitter")
 
-	arg_1_0.contentSizeFitter_ = arg_1_0.textContent_:GetComponent("ContentSizeFitter")
-
-	arg_1_0:AddListeners()
-	arg_1_0:Show(true)
+	slot0:AddListeners()
+	slot0:Show(true)
 end
 
-function var_0_1.Dispose(arg_2_0)
-	var_0_1.super.Dispose(arg_2_0)
-	arg_2_0:DestroySticker()
-	Object.Destroy(arg_2_0.gameObject_)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:DestroySticker()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.gameObject_ = nil
-	arg_2_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_1.GetUserID(arg_3_0)
-	return arg_3_0.itemData_.id
+function slot1.GetUserID(slot0)
+	return slot0.itemData_.id
 end
 
-function var_0_1.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.buttonHead_, nil, function()
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonHead_, nil, function ()
 		if CooperationData:CheckInRoom() then
 			return
 		end
 
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_4_0:GetUserID())
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0:GetUserID())
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.buttonContent_, nil, function()
-		if arg_4_0.itemData_.id == USER_ID then
+	slot0:AddBtnListener(slot0.buttonContent_, nil, function ()
+		if uv0.itemData_.id == USER_ID then
 			return
 		end
 
 		manager.notify:Invoke(CHAT_REPORT, {
 			reportData = {
-				nick = arg_4_0:GetNick(),
-				msgID = arg_4_0.itemData_.msgID
+				nick = uv0:GetNick(),
+				msgID = uv0.itemData_.msgID
 			},
-			parentRect = arg_4_0.rectReportParent_,
-			x = arg_4_0:CalcOffsetX(),
-			y = arg_4_0:CalcOffsetY()
+			parentRect = uv0.rectReportParent_,
+			x = uv0:CalcOffsetX(),
+			y = uv0:CalcOffsetY()
 		})
 	end)
 end
 
-function var_0_1.GetNick(arg_7_0)
-	return arg_7_0.itemData_.nick
+function slot1.GetNick(slot0)
+	return slot0.itemData_.nick
 end
 
-function var_0_1.SetText(arg_8_0, arg_8_1)
-	if arg_8_1.id == USER_ID then
-		local var_8_0 = PlayerData:GetPlayerInfo()
+function slot1.SetText(slot0, slot1)
+	if slot1.id == USER_ID then
+		slot2 = PlayerData:GetPlayerInfo()
+		slot0.textName_.text = GetI18NText(slot2.nick)
+		slot0.imageIcon_.sprite = ItemTools.getItemSprite(slot2.portrait)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 
-		arg_8_0.textName_.text = GetI18NText(var_8_0.nick)
-		arg_8_0.imageIcon_.sprite = ItemTools.getItemSprite(var_8_0.portrait)
-		arg_8_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_8_0.icon_frame)
-
-		local var_8_1 = PlayerData:GetCurChatBubbleID() or GameSetting.profile_chat_bubble_default.value[1]
-		local var_8_2 = ChatBubbleCfg[var_8_1]
-
-		if not var_8_2 then
-			-- block empty
+		if not ChatBubbleCfg[PlayerData:GetCurChatBubbleID() or GameSetting.profile_chat_bubble_default.value[1]] then
+			-- Nothing
 		end
 
-		local var_8_3 = var_8_2.color2
-
-		arg_8_0.textContent_.color = Color(var_8_3[1], var_8_3[2], var_8_3[3])
-		arg_8_0.imageBubble_.sprite = getSpriteWithoutAtlas("TextureConfig/ChatBubble/" .. var_8_2.image2)
+		slot5 = slot4.color2
+		slot0.textContent_.color = Color(slot5[1], slot5[2], slot5[3])
+		slot0.imageBubble_.sprite = getSpriteWithoutAtlas("TextureConfig/ChatBubble/" .. slot4.image2)
 	else
-		arg_8_0.textName_.text = GetI18NText(arg_8_1.nick)
-		arg_8_0.imageIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[arg_8_1.icon].icon)
-		arg_8_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_8_1.iconFrame)
-
-		local var_8_4 = arg_8_1.bubbleID or GameSetting.profile_chat_bubble_default.value[1]
-		local var_8_5 = ChatBubbleCfg[var_8_4]
-		local var_8_6 = var_8_5.color1
-
-		arg_8_0.textContent_.color = Color(var_8_6[1], var_8_6[2], var_8_6[3])
-		arg_8_0.imageBubble_.sprite = getSpriteWithoutAtlas("TextureConfig/ChatBubble/" .. var_8_5.image1)
+		slot0.textName_.text = GetI18NText(slot1.nick)
+		slot0.imageIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[slot1.icon].icon)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.iconFrame)
+		slot3 = ChatBubbleCfg[slot1.bubbleID or GameSetting.profile_chat_bubble_default.value[1]]
+		slot4 = slot3.color1
+		slot0.textContent_.color = Color(slot4[1], slot4[2], slot4[3])
+		slot0.imageBubble_.sprite = getSpriteWithoutAtlas("TextureConfig/ChatBubble/" .. slot3.image1)
 	end
 end
 
-function var_0_1.SetData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.itemData_ = arg_9_1
-	arg_9_0.index_ = arg_9_2
+function slot1.SetData(slot0, slot1, slot2)
+	slot0.itemData_ = slot1
+	slot0.index_ = slot2
 
-	arg_9_0:SetText(arg_9_0.itemData_)
-	arg_9_0:Show(true)
-	arg_9_0:DestroySticker()
+	slot0:SetText(slot0.itemData_)
+	slot0:Show(true)
+	slot0:DestroySticker()
 
-	if arg_9_0.itemData_.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT then
-		arg_9_0.textContent_.text = GetI18NText(arg_9_0.itemData_.content)
+	if slot0.itemData_.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT then
+		slot0.textContent_.text = GetI18NText(slot0.itemData_.content)
 
-		SetActive(arg_9_0.goImage_, false)
-		SetActive(arg_9_0.goContent_, true)
-		arg_9_0:Adaption()
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectText_)
+		SetActive(slot0.goImage_, false)
+		SetActive(slot0.goContent_, true)
+		slot0:Adaption()
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectText_)
 
-		arg_9_0.imageBubble_.enabled = true
+		slot0.imageBubble_.enabled = true
 	else
-		local var_9_0 = tonumber(arg_9_0.itemData_.content)
-		local var_9_1 = ChatStickerCfg[var_9_0]
-		local var_9_2 = var_9_1.icon .. SettingData:GetCurrentLanguageKey()
+		slot4 = ChatStickerCfg[tonumber(slot0.itemData_.content)]
 
-		if var_9_1.type == 1 then
-			arg_9_0.imageSticker_.enabled = true
-			arg_9_0.imageSticker_.sprite = getSpriteViaConfig("ChatSticker", var_9_2)
+		if slot4.type == 1 then
+			slot0.imageSticker_.enabled = true
+			slot0.imageSticker_.sprite = getSpriteViaConfig("ChatSticker", slot4.icon .. SettingData:GetCurrentLanguageKey())
 		else
-			arg_9_0.imageSticker_.enabled = false
-			arg_9_0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(var_9_2), arg_9_0.imageSticker_.transform)
+			slot0.imageSticker_.enabled = false
+			slot0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(slot5), slot0.imageSticker_.transform)
 		end
 
-		SetActive(arg_9_0.goImage_, true)
-		SetActive(arg_9_0.goContent_, false)
+		SetActive(slot0.goImage_, true)
+		SetActive(slot0.goContent_, false)
 
-		arg_9_0.imageBubble_.enabled = false
+		slot0.imageBubble_.enabled = false
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectBg_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectContent_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectGo_)
-	arg_9_0:SetIP(arg_9_0.itemData_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectBg_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGo_)
+	slot0:SetIP(slot0.itemData_)
 end
 
-function var_0_1.SetIP(arg_10_0, arg_10_1)
-	if not arg_10_0.ipGo_ then
+function slot1.SetIP(slot0, slot1)
+	if not slot0.ipGo_ then
 		return
 	end
 
-	arg_10_0.ip_.text = arg_10_1.ip
+	slot0.ip_.text = slot1.ip
 
-	SetActive(arg_10_0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
+	SetActive(slot0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
 
-	if arg_10_0.gameObject_.activeSelf then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.ipGo_.transform)
+	if slot0.gameObject_.activeSelf then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.ipGo_.transform)
 	end
 end
 
-function var_0_1.Adaption(arg_11_0)
-	local var_11_0 = arg_11_0.rectText_
+function slot1.Adaption(slot0)
+	slot0.rectText_.sizeDelta = Vector2(uv0.contentMaxWidth, uv0.bgExtendHeight)
 
-	var_11_0.sizeDelta = Vector2(var_0_1.contentMaxWidth, var_0_1.bgExtendHeight)
-
-	if arg_11_0.textContent_.preferredWidth > var_0_1.contentMaxWidth then
-		arg_11_0.contentSizeFitter_.horizontalFit = ContentSizeFitter.FitMode.Unconstrained
+	if uv0.contentMaxWidth < slot0.textContent_.preferredWidth then
+		slot0.contentSizeFitter_.horizontalFit = ContentSizeFitter.FitMode.Unconstrained
 	else
-		arg_11_0.contentSizeFitter_.horizontalFit = ContentSizeFitter.FitMode.PreferredSize
+		slot0.contentSizeFitter_.horizontalFit = ContentSizeFitter.FitMode.PreferredSize
 	end
 
-	arg_11_0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
-	var_11_0.sizeDelta = Vector2(var_0_1.contentMaxWidth, var_11_0.sizeDelta.y)
+	slot0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
+	slot1.sizeDelta = Vector2(uv0.contentMaxWidth, slot1.sizeDelta.y)
 end
 
-function var_0_1.SetAsLastSibling(arg_12_0)
-	arg_12_0.transform_:SetAsLastSibling()
+function slot1.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_1.SetAsFirstSibling(arg_13_0)
-	arg_13_0.transform_:SetAsFirstSibling()
+function slot1.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-function var_0_1.Show(arg_14_0, arg_14_1)
-	if arg_14_0.gameObject_.activeSelf == false and arg_14_1 == true then
+function slot1.Show(slot0, slot1)
+	if slot0.gameObject_.activeSelf == false and slot1 == true then
 		manager.notify:Invoke(CHAT_REPORT_HIDE)
 	end
 
-	SetActive(arg_14_0.gameObject_, arg_14_1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_1.CalcOffsetX(arg_15_0)
-	local var_15_0 = arg_15_0.rectBg_.rect.width
-
-	return arg_15_0.rectReportParent_:InverseTransformPoint(arg_15_0.rectBg_:TransformPoint(Vector3(var_15_0 / 2, 0, 0))).x
+function slot1.CalcOffsetX(slot0)
+	return slot0.rectReportParent_:InverseTransformPoint(slot0.rectBg_:TransformPoint(Vector3(slot0.rectBg_.rect.width / 2, 0, 0))).x
 end
 
-function var_0_1.CalcOffsetY(arg_16_0)
-	local var_16_0 = arg_16_0.rectReportParent_:InverseTransformPoint(arg_16_0.rectScrollView_:TransformPoint(Vector3.zero))
-	local var_16_1 = arg_16_0.rectReportParent_.rect.height / 2
-
-	if var_16_1 > var_16_0.y then
-		return var_16_0.y + var_16_1 - arg_16_0.rectReportParent_:TransformPoint(Vector3(0, var_16_0.y + var_16_1, 0)).y - 20
+function slot1.CalcOffsetY(slot0)
+	if slot0.rectReportParent_:InverseTransformPoint(slot0.rectScrollView_:TransformPoint(Vector3.zero)).y < slot0.rectReportParent_.rect.height / 2 then
+		return slot1.y + slot2 - slot0.rectReportParent_:TransformPoint(Vector3(0, slot1.y + slot2, 0)).y - 20
 	else
 		return 0
 	end
 end
 
-function var_0_1.DestroySticker(arg_17_0)
-	if arg_17_0.dynamicStickerGo_ then
-		Object.Destroy(arg_17_0.dynamicStickerGo_)
+function slot1.DestroySticker(slot0)
+	if slot0.dynamicStickerGo_ then
+		Object.Destroy(slot0.dynamicStickerGo_)
 
-		arg_17_0.dynamicStickerGo_ = nil
+		slot0.dynamicStickerGo_ = nil
 	end
 end
 
-return var_0_1
+return slot1

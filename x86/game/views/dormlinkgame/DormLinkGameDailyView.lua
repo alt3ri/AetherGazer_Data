@@ -1,175 +1,156 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("DormLinkGameDailyView", ActivityMainBasePanel)
 
-local var_0_0 = class("DormLinkGameDailyView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
-	return DormLinkGameTools:GetMainUIName(arg_1_0.activityID_)
+function slot0.GetUIName(slot0)
+	return DormLinkGameTools:GetMainUIName(slot0.activityID_)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.indexDailyItemList), arg_3_0.uilistUilist_, DormLinkGameDailyItem)
-	arg_3_0.clearCon_ = ControllerUtil.GetController(arg_3_0.transform_, "oneclick")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexDailyItemList), slot0.uilistUilist_, DormLinkGameDailyItem)
+	slot0.clearCon_ = ControllerUtil.GetController(slot0.transform_, "oneclick")
 end
 
-function var_0_0.indexDailyItemList(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:RefreshUI(arg_4_0.list_[arg_4_1], arg_4_0.activityID_)
+function slot0.indexDailyItemList(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.list_[slot1], slot0.activityID_)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListenerScale(arg_5_0.btnstartBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.btnstartBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/dormLinkGameLevelView", {
-			activityID_ = arg_5_0.activityID_
+			activityID_ = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListenerScale(arg_5_0.receiveBtn_, nil, function()
-		local var_7_0 = {}
-		local var_7_1 = DormLinkGameTools:GetTaskActivityID(arg_5_0.activityID_)
+	slot0:AddBtnListenerScale(slot0.receiveBtn_, nil, function ()
+		slot0 = {}
+		slot1 = DormLinkGameTools:GetTaskActivityID(uv0.activityID_)
 
-		for iter_7_0, iter_7_1 in ipairs(arg_5_0.list_) do
-			local var_7_2 = AssignmentCfg[iter_7_1]
-			local var_7_3 = TaskData2:GetTask(iter_7_1)
-
-			if var_7_3.complete_flag < 1 and var_7_3.progress >= var_7_2.need then
-				table.insert(var_7_0, iter_7_1)
+		for slot5, slot6 in ipairs(uv0.list_) do
+			if TaskData2:GetTask(slot6).complete_flag < 1 and AssignmentCfg[slot6].need <= slot8.progress then
+				table.insert(slot0, slot6)
 			end
 		end
 
-		TaskAction:SubmitTaskList(var_7_0)
+		TaskAction:SubmitTaskList(slot0)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tipBtn_, nil, function()
-		local var_8_0 = "gameHelpPro"
-		local var_8_1 = {
+	slot0:AddBtnListener(slot0.tipBtn_, nil, function ()
+		JumpTools.OpenPageByJump("gameHelpPro", {
 			hideHomeBtn = 1,
 			pages = GameSetting.linkgame_describe.value
-		}
-
-		JumpTools.OpenPageByJump(var_8_0, var_8_1)
+		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:RefreshView()
-	arg_9_0:RegisterEvents()
+function slot0.OnEnter(slot0)
+	slot0:RefreshView()
+	slot0:RegisterEvents()
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_UNCOMPLETE_LEVEL, 0)
 end
 
-function var_0_0.UpdateBar(arg_10_0)
-	local var_10_0 = DormLinkGameTools:GetCurrencyID(arg_10_0.activityID_)
+function slot0.UpdateBar(slot0)
+	slot1 = DormLinkGameTools:GetCurrencyID(slot0.activityID_)
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		var_10_0
+		slot1
 	})
-	manager.windowBar:SetBarCanAdd(var_10_0, true)
+	manager.windowBar:SetBarCanAdd(slot1, true)
 end
 
-function var_0_0.UpdataLastTime(arg_11_0)
-	local var_11_0 = true
-	local var_11_1 = ActivityData:GetActivityData(arg_11_0.activityID_)
-	local var_11_2 = var_11_1.startTime
-	local var_11_3 = var_11_1.stopTime
-	local var_11_4 = manager.time:GetServerTime()
+function slot0.UpdataLastTime(slot0)
+	slot1 = true
+	slot2 = ActivityData:GetActivityData(slot0.activityID_)
+	slot3 = slot2.startTime
 
-	if var_11_3 < var_11_4 then
-		var_11_0 = false
+	if slot2.stopTime < manager.time:GetServerTime() then
+		slot1 = false
 	end
 
-	if not var_11_0 then
-		arg_11_0.clearCon_:SetSelectedState("off")
+	if not slot1 then
+		slot0.clearCon_:SetSelectedState("off")
 	end
 
-	if var_11_4 < var_11_2 then
-		arg_11_0.lastTimeText_.text = GetTips("SOLO_NOT_OPEN")
-	elseif var_11_4 < var_11_3 then
-		arg_11_0.lastTimeText_.text = manager.time:GetLostTimeStrWith2Unit(var_11_3)
+	if slot5 < slot3 then
+		slot0.lastTimeText_.text = GetTips("SOLO_NOT_OPEN")
+	elseif slot5 < slot4 then
+		slot0.lastTimeText_.text = manager.time:GetLostTimeStrWith2Unit(slot4)
 	else
-		arg_11_0.lastTimeText_.text = GetTips("TIME_OVER")
+		slot0.lastTimeText_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.RegisterEvents(arg_12_0)
-	arg_12_0:RegistEventListener(OSIRIS_TASK_UPDATE, function()
-		arg_12_0:RefreshTask()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, function ()
+		uv0:RefreshTask()
 	end)
 end
 
-function var_0_0.RefreshView(arg_14_0)
-	arg_14_0:RefreshTask()
-	arg_14_0:UpdataLastTime()
+function slot0.RefreshView(slot0)
+	slot0:RefreshTask()
+	slot0:UpdataLastTime()
 end
 
-function var_0_0.RefreshTask(arg_15_0)
-	local var_15_0 = DormLinkGameTools:GetTaskActivityID(arg_15_0.activityID_)
+function slot0.RefreshTask(slot0)
+	slot0.list_ = {}
 
-	arg_15_0.list_ = {}
-
-	local var_15_1 = TaskTools:GetActivityTaskList(var_15_0) or {}
-
-	local function var_15_2(arg_16_0, arg_16_1)
-		local var_16_0 = AssignmentCfg[arg_16_0]
-		local var_16_1 = AssignmentCfg[arg_16_1]
-
-		if var_16_0.type ~= var_16_1.type then
-			return var_16_0.type < var_16_1.type
+	function slot3(slot0, slot1)
+		if AssignmentCfg[slot0].type ~= AssignmentCfg[slot1].type then
+			return slot2.type < slot3.type
 		end
 
-		return arg_16_0 < arg_16_1
+		return slot0 < slot1
 	end
 
-	local var_15_3 = {}
-	local var_15_4 = {}
-	local var_15_5 = {}
+	slot4 = {}
+	slot5 = {}
+	slot6 = {}
 
-	for iter_15_0, iter_15_1 in pairs(var_15_1) do
-		local var_15_6 = iter_15_1.id
-		local var_15_7 = AssignmentCfg[var_15_6]
-
-		if var_15_7.activity_id == var_15_0 then
-			if iter_15_1.complete_flag >= 1 then
-				table.insert(var_15_5, var_15_6)
-			elseif iter_15_1.progress >= var_15_7.need then
-				table.insert(var_15_3, var_15_6)
+	for slot10, slot11 in pairs(TaskTools:GetActivityTaskList(DormLinkGameTools:GetTaskActivityID(slot0.activityID_)) or {}) do
+		if AssignmentCfg[slot11.id].activity_id == slot1 then
+			if slot11.complete_flag >= 1 then
+				table.insert(slot6, slot12)
+			elseif slot13.need <= slot11.progress then
+				table.insert(slot4, slot12)
 			else
-				table.insert(var_15_4, var_15_6)
+				table.insert(slot5, slot12)
 			end
 		end
 	end
 
-	table.sort(var_15_3, var_15_2)
-	table.sort(var_15_4, var_15_2)
-	table.sort(var_15_5, var_15_2)
-	table.insertto(arg_15_0.list_, var_15_3)
-	table.insertto(arg_15_0.list_, var_15_4)
-	table.insertto(arg_15_0.list_, var_15_5)
-	arg_15_0.scrollHelper_:StartScroll(#arg_15_0.list_)
+	table.sort(slot4, slot3)
+	table.sort(slot5, slot3)
+	table.sort(slot6, slot3)
+	table.insertto(slot0.list_, slot4)
+	table.insertto(slot0.list_, slot5)
+	table.insertto(slot0.list_, slot6)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 
-	if #var_15_3 > 0 then
-		arg_15_0.clearCon_:SetSelectedState("on")
+	if #slot4 > 0 then
+		slot0.clearCon_:SetSelectedState("on")
 	else
-		arg_15_0.clearCon_:SetSelectedState("off")
+		slot0.clearCon_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.OnExit(arg_17_0)
-	arg_17_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.scrollHelper_ then
-		arg_18_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_18_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

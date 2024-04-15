@@ -1,225 +1,193 @@
-local var_0_0 = class("StrongholdBattleResultView", ReduxView)
+slot0 = class("StrongholdBattleResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/CooperationBattleResult/CooperationResultUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.orderList = LuaList.New(handler(arg_4_0, arg_4_0.IndexOrderItem), arg_4_0.m_orderList, StrongholdBattleResultOrderItem)
-	arg_4_0.intensifyList = LuaList.New(handler(arg_4_0, arg_4_0.IndexIntensifyItem), arg_4_0.m_intensifyList, StrongholdBattleResultIntensifyItem)
-	arg_4_0.achieveList = LuaList.New(handler(arg_4_0, arg_4_0.IndexAchieveItem), arg_4_0.m_achieveList, StrongholdBattleResultAchieveItem)
-	arg_4_0.skillController = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "skill")
-	arg_4_0.resultController = ControllerUtil.GetController(arg_4_0.transform_, "result")
-	arg_4_0.itemInfoController = ControllerUtil.GetController(arg_4_0.transform_, "itemInfo")
+	slot0.orderList = LuaList.New(handler(slot0, slot0.IndexOrderItem), slot0.m_orderList, StrongholdBattleResultOrderItem)
+	slot0.intensifyList = LuaList.New(handler(slot0, slot0.IndexIntensifyItem), slot0.m_intensifyList, StrongholdBattleResultIntensifyItem)
+	slot0.achieveList = LuaList.New(handler(slot0, slot0.IndexAchieveItem), slot0.m_achieveList, StrongholdBattleResultAchieveItem)
+	slot0.skillController = ControllerUtil.GetController(slot0.gameObject_.transform, "skill")
+	slot0.resultController = ControllerUtil.GetController(slot0.transform_, "result")
+	slot0.itemInfoController = ControllerUtil.GetController(slot0.transform_, "itemInfo")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_quitBtn, nil, function()
-		BattleInstance.QuitBattle(arg_5_0.stageData)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_quitBtn, nil, function ()
+		BattleInstance.QuitBattle(uv0.stageData)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_statisticsBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_statisticsBtn, nil, function ()
 		JumpTools.OpenPageByJump("strongholdBattleStatistics", {
-			stageData = arg_5_0.stageData,
-			battleTime = arg_5_0:GetBattleTime()
+			stageData = uv0.stageData,
+			battleTime = uv0:GetBattleTime()
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_infoMask, nil, function()
-		arg_5_0.itemInfoController:SetSelectedIndex(0)
+	slot0:AddBtnListener(slot0.m_infoMask, nil, function ()
+		uv0.itemInfoController:SetSelectedIndex(0)
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.stageData = arg_10_0.params_.stageData
-	arg_10_0.rewardList = arg_10_0.params_.rewardList
+function slot0.OnEnter(slot0)
+	slot0.stageData = slot0.params_.stageData
+	slot0.rewardList = slot0.params_.rewardList
 
-	arg_10_0:RefreshUI()
+	slot0:RefreshUI()
 
-	if arg_10_0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
+	if slot0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			isTop = true,
 			content = GetTips("ACTIVITY_LOCK_SETTLEMENT_TIP"),
-			OkCallback = function()
-				arg_10_0:CloseFunc()
+			OkCallback = function ()
+				uv0:CloseFunc()
 			end
 		})
 	end
 
-	arg_10_0.itemInfoController:SetSelectedIndex(0)
+	slot0.itemInfoController:SetSelectedIndex(0)
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	local var_13_0 = PlayerData:GetPlayerInfo().userID
-	local var_13_1 = 1
-	local var_13_2, var_13_3 = arg_13_0.stageData:GetIsCooperation()
+function slot0.RefreshUI(slot0)
+	slot1 = PlayerData:GetPlayerInfo().userID
+	slot2 = 1
+	slot3, slot4 = slot0.stageData:GetIsCooperation()
 
-	if var_13_2 then
-		for iter_13_0, iter_13_1 in ipairs(var_13_3) do
-			if iter_13_1.playerID == var_13_0 then
-				var_13_1 = iter_13_0
+	if slot3 then
+		for slot8, slot9 in ipairs(slot4) do
+			if slot9.playerID == slot1 then
+				slot2 = slot8
 
 				break
 			end
 		end
 	end
 
-	local var_13_4 = arg_13_0.stageData:GetHeroDataByPos(var_13_1).using_skin
+	slot0.m_heroIcon.sprite = getSpriteViaConfig("HeroLittleIcon", slot0.stageData:GetHeroDataByPos(slot2).using_skin)
 
-	arg_13_0.m_heroIcon.sprite = getSpriteViaConfig("HeroLittleIcon", var_13_4)
+	slot0.orderList:StartScroll(3)
 
-	arg_13_0.orderList:StartScroll(3)
+	slot0.m_difficultyLab.text = ActivityStrongholdCfg[slot0.stageData:GetDest()].difficulty_des
 
-	local var_13_5 = arg_13_0.stageData:GetDest()
-
-	arg_13_0.m_difficultyLab.text = ActivityStrongholdCfg[var_13_5].difficulty_des
-
-	if isSuccess(arg_13_0.params_.result) then
-		arg_13_0.resultController:SetSelectedIndex(0)
+	if isSuccess(slot0.params_.result) then
+		slot0.resultController:SetSelectedIndex(0)
 	else
-		arg_13_0.resultController:SetSelectedIndex(1)
+		slot0.resultController:SetSelectedIndex(1)
 	end
 
-	arg_13_0.m_timeLab.text = arg_13_0:GetBattleTime()
-	arg_13_0.main_activity_id = 0
+	slot0.m_timeLab.text = slot0:GetBattleTime()
+	slot0.main_activity_id = 0
 
-	local var_13_6 = arg_13_0.stageData:GetActivityID()
-
-	for iter_13_2, iter_13_3 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.STRONGHOLD] or {}) do
-		local var_13_7 = ActivityCfg[iter_13_3]
-
-		if table.indexof(var_13_7.sub_activity_list, var_13_6) then
-			arg_13_0.main_activity_id = iter_13_3
+	for slot12, slot13 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.STRONGHOLD] or {}) do
+		if table.indexof(ActivityCfg[slot13].sub_activity_list, slot0.stageData:GetActivityID()) then
+			slot0.main_activity_id = slot13
 
 			break
 		end
 	end
 
-	local var_13_8 = LuaExchangeHelper.GetBattleStatisticsData()
+	if LuaExchangeHelper.GetBattleStatisticsData() then
+		slot11 = slot9.choosedEffectID
+		slot0.achieveDataList = {}
+		slot12 = {}
 
-	if var_13_8 then
-		local var_13_9 = var_13_8.finishedAchievement
-		local var_13_10 = var_13_8.choosedEffectID
-
-		arg_13_0.achieveDataList = {}
-
-		local var_13_11 = {}
-		local var_13_12 = var_13_9.Count
-
-		for iter_13_4 = 0, var_13_12 - 1 do
-			local var_13_13 = var_13_9[iter_13_4]
-			local var_13_14 = ActivityStrongholdAchievementCfg[var_13_13]
-
-			if var_13_14 and var_13_14.type ~= -1 then
-				local var_13_15 = var_13_14.type
-
-				if var_13_15 == 0 then
-					table.insert(arg_13_0.achieveDataList, var_13_13)
-				elseif var_13_11[var_13_15] then
-					var_13_11[var_13_15] = math.max(var_13_11[var_13_15], var_13_13)
+		for slot17 = 0, slot9.finishedAchievement.Count - 1 do
+			if ActivityStrongholdAchievementCfg[slot10[slot17]] and slot19.type ~= -1 then
+				if slot19.type == 0 then
+					table.insert(slot0.achieveDataList, slot18)
+				elseif slot12[slot20] then
+					slot12[slot20] = math.max(slot12[slot20], slot18)
 				else
-					var_13_11[var_13_15] = var_13_13
+					slot12[slot20] = slot18
 				end
 			end
 		end
 
-		for iter_13_5, iter_13_6 in pairs(var_13_11) do
-			table.insert(arg_13_0.achieveDataList, iter_13_6)
+		for slot17, slot18 in pairs(slot12) do
+			table.insert(slot0.achieveDataList, slot18)
 		end
 
-		arg_13_0.achieveList:StartScroll(#arg_13_0.achieveDataList)
+		slot0.achieveList:StartScroll(#slot0.achieveDataList)
 
-		arg_13_0.intensifyDataList = {}
+		slot0.intensifyDataList = {}
 
-		local var_13_16 = var_13_10.Count
-
-		for iter_13_7 = 0, var_13_16 - 1 do
-			local var_13_17 = var_13_8.choosedEffectID[iter_13_7]
-
-			table.insert(arg_13_0.intensifyDataList, var_13_17)
+		for slot18 = 0, slot11.Count - 1 do
+			table.insert(slot0.intensifyDataList, slot9.choosedEffectID[slot18])
 		end
 
-		arg_13_0.intensifyList:StartScroll(#arg_13_0.intensifyDataList)
+		slot0.intensifyList:StartScroll(#slot0.intensifyDataList)
 	else
-		arg_13_0.intensifyList:StartScroll(0)
-		arg_13_0.achieveList:StartScroll(0)
+		slot0.intensifyList:StartScroll(0)
+		slot0.achieveList:StartScroll(0)
 	end
 
-	local var_13_18, var_13_19 = arg_13_0.stageData:GetType()
+	slot10, slot11 = slot0.stageData:GetType()
 
-	if BattleConst.STAGE_TYPE_NEW.STRONGHOLD ~= var_13_18 then
-		var_13_19 = 0
+	if BattleConst.STAGE_TYPE_NEW.STRONGHOLD ~= slot10 then
+		slot11 = 0
 	end
 
-	if var_13_19 and var_13_19 ~= 0 then
-		arg_13_0.skillController:SetSelectedIndex(1)
+	if slot11 and slot11 ~= 0 then
+		slot0.skillController:SetSelectedIndex(1)
 
-		arg_13_0.m_skillIcon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. var_13_19)
+		slot0.m_skillIcon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. slot11)
 	else
-		arg_13_0.skillController:SetSelectedIndex(0)
+		slot0.skillController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.GetBattleTime(arg_14_0)
-	local var_14_0 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-
-	return manager.time:DescCdTime2(var_14_0)
+function slot0.GetBattleTime(slot0)
+	return manager.time:DescCdTime2(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.orderList:Dispose()
-	arg_15_0.intensifyList:Dispose()
-	arg_15_0.achieveList:Dispose()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0.orderList:Dispose()
+	slot0.intensifyList:Dispose()
+	slot0.achieveList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexOrderItem(arg_16_0, arg_16_1, arg_16_2)
-	arg_16_2:SetData(arg_16_1, arg_16_0.rewardList, arg_16_0.main_activity_id)
+function slot0.IndexOrderItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.rewardList, slot0.main_activity_id)
 end
 
-function var_0_0.IndexIntensifyItem(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = arg_17_0.intensifyDataList[arg_17_1]
-
-	arg_17_2:SetData(var_17_0)
-	arg_17_2:RegistCallBack(function(arg_18_0)
-		arg_17_0:OnItemClick(arg_18_0)
+function slot0.IndexIntensifyItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.intensifyDataList[slot1])
+	slot2:RegistCallBack(function (slot0)
+		uv0:OnItemClick(slot0)
 	end)
 end
 
-function var_0_0.IndexAchieveItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.achieveDataList[arg_19_1]
-
-	arg_19_2:SetData(var_19_0)
+function slot0.IndexAchieveItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.achieveDataList[slot1])
 end
 
-function var_0_0.OnItemClick(arg_20_0, arg_20_1)
-	arg_20_0.itemInfoController:SetSelectedIndex(1)
+function slot0.OnItemClick(slot0, slot1)
+	slot0.itemInfoController:SetSelectedIndex(1)
 
-	local var_20_0 = ActivityStrongholdArtifactCfg[arg_20_1]
+	slot2 = ActivityStrongholdArtifactCfg[slot1]
+	slot0.m_infoName.text = slot2.name
+	slot0.m_infoDes.text = slot2.desc
 
-	arg_20_0.m_infoName.text = var_20_0.name
-	arg_20_0.m_infoDes.text = var_20_0.desc
-
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_20_0.m_infoDesTrans)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_20_0.m_infoTrans)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_infoDesTrans)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_infoTrans)
 end
 
-return var_0_0
+return slot0

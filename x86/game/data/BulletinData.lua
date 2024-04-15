@@ -1,150 +1,146 @@
-local var_0_0 = singletonClass("BulletinData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = false
-local var_0_4
-local var_0_5
-local var_0_6 = false
+slot0 = singletonClass("BulletinData")
+slot1 = {}
+slot2 = {}
+slot3 = false
+slot4, slot5 = nil
+slot6 = false
 
-Timer.New(function()
-	for iter_1_0, iter_1_1 in pairs(BulletinData.GetBulletinPageList()) do
-		if manager.time:GetServerTime() > iter_1_1.endTime then
-			BulletinAction.BulletinDelete(iter_1_1.id)
+Timer.New(function ()
+	for slot3, slot4 in pairs(BulletinData.GetBulletinPageList()) do
+		if slot4.endTime < manager.time:GetServerTime() then
+			BulletinAction.BulletinDelete(slot4.id)
 		end
 	end
 end, 1, -1):Start()
 
-function var_0_0.Init()
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = false
+function slot0.Init()
+	uv0 = {}
+	uv1 = {}
+	uv2 = false
 end
 
-function var_0_0.constructImage(arg_3_0)
+function slot0.constructImage(slot0)
 	return {
-		itemType = arg_3_0.content_type,
-		spriteUrl = arg_3_0.image,
-		text = arg_3_0.text,
+		itemType = slot0.content_type,
+		spriteUrl = slot0.image,
+		text = slot0.text,
 		event = {
-			arg_3_0.event_type,
-			arg_3_0.event_arg
+			slot0.event_type,
+			slot0.event_arg
 		}
 	}
 end
 
-function var_0_0.constructText(arg_4_0)
+function slot0.constructText(slot0)
 	return {
-		itemType = arg_4_0.content_type,
-		text = arg_4_0.text
+		itemType = slot0.content_type,
+		text = slot0.text
 	}
 end
 
-function var_0_0.constructTitle(arg_5_0)
+function slot0.constructTitle(slot0)
 	return {
-		itemType = arg_5_0.content_type,
-		text = string.match(arg_5_0.text, "<title>(%a+)</title>")
+		itemType = slot0.content_type,
+		text = string.match(slot0.text, "<title>(%a+)</title>")
 	}
 end
 
-local var_0_7 = {
+slot7 = {
 	CONTENT = 2,
 	TITLE = 1
 }
 
-function var_0_0.constructBulletin(arg_6_0)
-	local var_6_0 = var_0_0.constructSingleBulletin(arg_6_0.content)
-	local var_6_1 = {
-		id = arg_6_0.id,
-		type = arg_6_0.type,
-		name = arg_6_0.title,
-		startTime = arg_6_0.start_timestamp,
-		endTime = arg_6_0.end_timestamp,
-		index = arg_6_0.index,
-		content = var_6_0,
+function slot0.constructBulletin(slot0)
+	slot2 = {
+		id = slot0.id,
+		type = slot0.type,
+		name = slot0.title,
+		startTime = slot0.start_timestamp,
+		endTime = slot0.end_timestamp,
+		index = slot0.index,
+		content = uv0.constructSingleBulletin(slot0.content),
 		i18n_info_name = {},
 		i18n_info_content = {}
 	}
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.i18n_info) do
-		if iter_6_1.type == var_0_7.TITLE then
-			var_6_1.i18n_info_name[iter_6_1.language] = iter_6_1.string
-		elseif iter_6_1.type == var_0_7.CONTENT then
-			var_6_1.i18n_info_content[iter_6_1.language] = var_0_0.constructSingleBulletin(iter_6_1.content)
+	for slot6, slot7 in pairs(slot0.i18n_info) do
+		if slot7.type == uv1.TITLE then
+			slot2.i18n_info_name[slot7.language] = slot7.string
+		elseif slot7.type == uv1.CONTENT then
+			slot2.i18n_info_content[slot7.language] = uv0.constructSingleBulletin(slot7.content)
 		end
 	end
 
-	return var_6_1
+	return slot2
 end
 
-function var_0_0.constructSingleBulletin(arg_7_0)
-	local var_7_0 = {}
-
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0) do
-		if iter_7_1.content_type == 1 then
-			var_7_0[iter_7_0] = var_0_0.constructImage(iter_7_1)
-		elseif iter_7_1.content_type == 2 then
-			if string.find(iter_7_1.text, "<title>") then
-				iter_7_1.content_type = 4
-				var_7_0[iter_7_0] = var_0_0.constructTitle(iter_7_1)
+function slot0.constructSingleBulletin(slot0)
+	for slot5, slot6 in ipairs(slot0) do
+		if slot6.content_type == 1 then
+			-- Nothing
+		elseif slot6.content_type == 2 then
+			if string.find(slot6.text, "<title>") then
+				slot6.content_type = 4
+				slot1[slot5] = uv0.constructTitle(slot6)
 			else
-				var_7_0[iter_7_0] = var_0_0.constructText(iter_7_1)
+				slot1[slot5] = uv0.constructText(slot6)
 			end
 		end
 	end
 
-	return var_7_0
+	return {
+		[slot5] = uv0.constructImage(slot6)
+	}
 end
 
-function var_0_0.constructBulletionID(arg_8_0, arg_8_1)
-	var_0_1[arg_8_0] = var_0_1[arg_8_0] or {}
+function slot0.constructBulletionID(slot0, slot1)
+	uv0[slot0] = uv0[slot0] or {}
 
-	for iter_8_0, iter_8_1 in pairs(var_0_1[arg_8_0]) do
-		if iter_8_1 == arg_8_1 then
+	for slot5, slot6 in pairs(uv0[slot0]) do
+		if slot6 == slot1 then
 			return
 		end
 	end
 
-	for iter_8_2, iter_8_3 in ipairs(var_0_1[arg_8_0]) do
-		if var_0_2[arg_8_1].index > var_0_2[iter_8_3].index then
-			table.insert(var_0_1[arg_8_0], iter_8_2, arg_8_1)
-
-			return
-		end
-	end
-
-	table.insert(var_0_1[arg_8_0], arg_8_1)
-end
-
-function var_0_0.insertBulletin(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(var_0_2) do
-		if iter_9_1.id == arg_9_0.id then
-			var_0_2[arg_9_0.id] = var_0_0.constructBulletin(arg_9_0)
+	for slot5, slot6 in ipairs(uv0[slot0]) do
+		if uv1[slot6].index < uv1[slot1].index then
+			table.insert(uv0[slot0], slot5, slot1)
 
 			return
 		end
 	end
 
-	var_0_2[arg_9_0.id] = var_0_0.constructBulletin(arg_9_0)
+	table.insert(uv0[slot0], slot1)
 end
 
-function var_0_0.refreshBulletin(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.announcement_list) do
-		var_0_0.insertBulletin(iter_10_1)
-		var_0_0.constructBulletionID(iter_10_1.type, iter_10_1.id)
+function slot0.insertBulletin(slot0)
+	for slot4, slot5 in ipairs(uv0) do
+		if slot5.id == slot0.id then
+			uv0[slot0.id] = uv1.constructBulletin(slot0)
+
+			return
+		end
+	end
+
+	uv0[slot0.id] = uv1.constructBulletin(slot0)
+end
+
+function slot0.refreshBulletin(slot0)
+	for slot4, slot5 in ipairs(slot0.announcement_list) do
+		uv0.insertBulletin(slot5)
+		uv0.constructBulletionID(slot5.type, slot5.id)
 	end
 
 	manager.notify:Invoke(BULLETIN_LIST_UPDATE)
 end
 
-function var_0_0.deleteBulletin(arg_11_0)
-	local var_11_0 = arg_11_0.id
+function slot0.deleteBulletin(slot0)
+	uv0[slot0.id] = nil
 
-	var_0_2[var_11_0] = nil
-
-	for iter_11_0, iter_11_1 in pairs(var_0_1) do
-		for iter_11_2, iter_11_3 in pairs(iter_11_1) do
-			if iter_11_3 == var_11_0 then
-				var_0_1[iter_11_0][iter_11_2] = nil
+	for slot5, slot6 in pairs(uv1) do
+		for slot10, slot11 in pairs(slot6) do
+			if slot11 == slot1 then
+				uv1[slot5][slot10] = nil
 
 				break
 			end
@@ -152,57 +148,53 @@ function var_0_0.deleteBulletin(arg_11_0)
 	end
 
 	manager.notify:Invoke(BULLETIN_LIST_UPDATE)
-	manager.notify:Invoke(BULLETIN_DELETE, var_11_0)
+	manager.notify:Invoke(BULLETIN_DELETE, slot1)
 end
 
-function var_0_0.GetBulletinIDList()
-	return var_0_1
+function slot0.GetBulletinIDList()
+	return uv0
 end
 
-function var_0_0.GetBulletinPageList()
-	return var_0_2
+function slot0.GetBulletinPageList()
+	return uv0
 end
 
-function var_0_0.GetReadFlag()
-	return var_0_3
+function slot0.GetReadFlag()
+	return uv0
 end
 
-function var_0_0.SetReadFlag(arg_15_0)
-	var_0_3 = arg_15_0
+function slot0.SetReadFlag(slot0)
+	uv0 = slot0
 end
 
-function var_0_0.SetReadFlagById(arg_16_0)
-	saveData("bulletin", "bulletin_" .. arg_16_0, "true")
+function slot0.SetReadFlagById(slot0)
+	saveData("bulletin", "bulletin_" .. slot0, "true")
 end
 
-function var_0_0.GetIslogin()
-	return var_0_6
+function slot0.GetIslogin()
+	return uv0
 end
 
-function var_0_0.SetIslogin(arg_18_0)
-	var_0_6 = arg_18_0
+function slot0.SetIslogin(slot0)
+	uv0 = slot0
 end
 
-function var_0_0.SetCacheString(arg_19_0, arg_19_1)
-	var_0_5 = arg_19_0
-	var_0_4 = arg_19_1
+function slot0.SetCacheString(slot0, slot1)
+	uv0 = slot0
+	uv1 = slot1
 end
 
-function var_0_0.GetCurCacheStringAndID()
-	return var_0_4, var_0_5
+function slot0.GetCurCacheStringAndID()
+	return uv0, uv1
 end
 
-function var_0_0.GetCacheStringIsShowByID(arg_21_0)
-	local var_21_0 = getData("BulletinData", "Id") or {
+function slot0.GetCacheStringIsShowByID(slot0)
+	if table.indexof(getData("BulletinData", "Id") or {
 		-1
-	}
-	local var_21_1 = getData("BulletinData", "Num") or {
-		-1
-	}
-	local var_21_2 = table.indexof(var_21_0, arg_21_0)
-
-	if var_21_2 then
-		if var_21_1[var_21_2] > 2 then
+	}, slot0) then
+		if (getData("BulletinData", "Num") or {
+			-1
+		})[slot3] > 2 then
 			return true
 		else
 			return false
@@ -212,30 +204,28 @@ function var_0_0.GetCacheStringIsShowByID(arg_21_0)
 	end
 end
 
-function var_0_0.SetCacheStringIsShowByID(arg_22_0)
-	local var_22_0 = getData("BulletinData", "Id") or {
+function slot0.SetCacheStringIsShowByID(slot0)
+	slot2 = getData("BulletinData", "Num") or {
 		-1
 	}
-	local var_22_1 = getData("BulletinData", "Num") or {
-		-1
-	}
-	local var_22_2 = table.indexof(var_22_0, arg_22_0)
 
-	if var_22_2 then
-		var_22_1[var_22_2] = var_22_1[var_22_2] + 1
+	if table.indexof(getData("BulletinData", "Id") or {
+		-1
+	}, slot0) then
+		slot2[slot3] = slot2[slot3] + 1
 	else
-		table.insert(var_22_0, arg_22_0)
-		table.insert(var_22_1, 1)
+		table.insert(slot1, slot0)
+		table.insert(slot2, 1)
 	end
 
-	saveData("BulletinData", "Id", var_22_0)
-	saveData("BulletinData", "Num", var_22_1)
+	saveData("BulletinData", "Id", slot1)
+	saveData("BulletinData", "Num", slot2)
 end
 
-function var_0_0.OnLogout()
-	var_0_6 = false
-	var_0_4 = nil
-	var_0_5 = nil
+function slot0.OnLogout()
+	uv0 = false
+	uv1 = nil
+	uv2 = nil
 end
 
-return var_0_0
+return slot0

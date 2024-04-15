@@ -1,66 +1,59 @@
-local var_0_0 = class("StickerBubbleView", ReduxView)
+slot0 = class("StickerBubbleView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.bubbles_ = {}
+	slot0.bubbles_ = {}
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshBubbleView(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0:GetBubble(arg_6_1):SetData(arg_6_1, arg_6_2)
+function slot0.RefreshBubbleView(slot0, slot1, slot2)
+	slot0:GetBubble(slot1):SetData(slot1, slot2)
 end
 
-function var_0_0.GetBubble(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_0.bubbles_[arg_7_1]
-
-	if not var_7_0 then
-		local var_7_1 = GameObject.Instantiate(arg_7_0.bubbleTemplate_, arg_7_0.transform_)
-
-		var_7_0 = StickerBubbleItem.New(var_7_1)
-		arg_7_0.bubbles_[arg_7_1] = var_7_0
+function slot0.GetBubble(slot0, slot1)
+	if not slot0.bubbles_[slot1] then
+		slot0.bubbles_[slot1] = StickerBubbleItem.New(GameObject.Instantiate(slot0.bubbleTemplate_, slot0.transform_))
 	end
 
-	return var_7_0
+	return slot2
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.bubbles_) do
-		iter_8_1:OnExit()
+	for slot4, slot5 in pairs(slot0.bubbles_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.bubbles_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.bubbles_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.bubbles_ = {}
+	slot0.bubbles_ = {}
 
-	arg_9_0.super.Dispose(arg_9_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

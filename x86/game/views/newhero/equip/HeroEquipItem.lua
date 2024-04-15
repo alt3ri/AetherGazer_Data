@@ -1,128 +1,118 @@
-local var_0_0 = class("HeroEquipItem", ReduxView)
+slot0 = class("HeroEquipItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.data_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.info_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.info_ = slot3
 
-	arg_1_0:InitUI()
-	arg_1_0:Init()
+	slot0:InitUI()
+	slot0:Init()
 end
 
-function var_0_0.RefreshData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.data_ = arg_2_1
-	arg_2_0.info_ = arg_2_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	arg_2_0:Render()
+	slot0:Render()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.starS_ = {}
+	slot0.starS_ = {}
 
-	for iter_3_0 = 1, 6 do
-		arg_3_0.starS_[iter_3_0] = arg_3_0[string.format("star%dGo_", iter_3_0)]
+	for slot4 = 1, 6 do
+		slot0.starS_[slot4] = slot0[string.format("star%dGo_", slot4)]
 	end
 
-	arg_3_0:AddBtnListener(nil, nil, "OnClick")
+	slot0:AddBtnListener(nil, , "OnClick")
 end
 
-function var_0_0.Init(arg_4_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.Render(arg_5_0)
-	arg_5_0:RefreshUI(arg_5_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.IgnoreAdd(arg_6_0)
-	arg_6_0.ignoreAdd_ = true
+function slot0.IgnoreAdd(slot0)
+	slot0.ignoreAdd_ = true
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_1.equip_id ~= 0
+function slot0.RefreshUI(slot0, slot1)
+	SetActive(slot0.activeGo_, slot1.equip_id ~= 0)
 
-	SetActive(arg_7_0.activeGo_, var_7_0)
-
-	if not arg_7_0.ignoreAdd_ then
-		SetActive(arg_7_0.addGo_, not var_7_0)
+	if not slot0.ignoreAdd_ then
+		SetActive(slot0.addGo_, not slot2)
 	end
 
-	if var_7_0 then
-		local var_7_1 = EquipCfg[arg_7_1.prefab_id]
+	if slot2 then
+		slot0.bgTrs_.localEulerAngles = Vector3.New(0, 0, 60 * (EquipCfg[slot1.prefab_id].pos - 1))
 
-		arg_7_0.bgTrs_.localEulerAngles = Vector3.New(0, 0, 60 * (var_7_1.pos - 1))
+		SetSpriteWithoutAtlasAsync(slot0.iconImg_, SpritePathCfg.EquipIcon_s.path .. ItemCfg[slot1.prefab_id].icon)
 
-		SetSpriteWithoutAtlasAsync(arg_7_0.iconImg_, SpritePathCfg.EquipIcon_s.path .. ItemCfg[arg_7_1.prefab_id].icon)
-
-		if arg_7_0.lvlongText_ then
-			local var_7_2 = GetTips("LEVEL") .. string.format("<color=#FFFFFF>%d</color>", arg_7_1.GetLevel and arg_7_1:GetLevel() or 1)
-
-			arg_7_0.lvlongText_.text = var_7_2
+		if slot0.lvlongText_ then
+			slot0.lvlongText_.text = GetTips("LEVEL") .. string.format("<color=#FFFFFF>%d</color>", slot1.GetLevel and slot1:GetLevel() or 1)
 		end
 
-		arg_7_0.lvText_.text = string.format("%d", arg_7_1.GetLevel and arg_7_1:GetLevel() or 1)
+		slot0.lvText_.text = string.format("%d", slot1.GetLevel and slot1:GetLevel() or 1)
 
-		local var_7_3 = arg_7_1.race or 0
-		local var_7_4 = RaceEffectCfg.all
+		if (slot1.race or 0) ~= 0 then
+			SetActive(slot0.raceImg_.transform.parent.gameObject, true)
 
-		if var_7_3 ~= 0 then
-			SetActive(arg_7_0.raceImg_.transform.parent.gameObject, true)
-
-			if table.keyof(var_7_4, var_7_3) ~= nil then
-				arg_7_0.raceImg_.sprite = getSprite("Atlas/Item", string.format("icon_group_%d_c", arg_7_1.race))
+			if table.keyof(RaceEffectCfg.all, slot4) ~= nil then
+				slot0.raceImg_.sprite = getSprite("Atlas/Item", string.format("icon_group_%d_c", slot1.race))
 			else
-				arg_7_0.raceImg_.sprite = HeroTools.GetSmallHeadSprite(var_7_3)
+				slot0.raceImg_.sprite = HeroTools.GetSmallHeadSprite(slot4)
 			end
 		else
-			SetActive(arg_7_0.raceImg_.transform.parent.gameObject, false)
+			SetActive(slot0.raceImg_.transform.parent.gameObject, false)
 		end
 
-		for iter_7_0 = 1, 6 do
-			SetActive(arg_7_0.starS_[iter_7_0], iter_7_0 <= var_7_1.starlevel)
+		for slot9 = 1, 6 do
+			SetActive(slot0.starS_[slot9], slot9 <= slot3.starlevel)
 		end
 	else
-		arg_7_0.bgTrs_.localEulerAngles = Vector3.New(0, 0, 60 * (arg_7_1.pos - 1))
+		slot0.bgTrs_.localEulerAngles = Vector3.New(0, 0, 60 * (slot1.pos - 1))
 	end
 
-	if arg_7_0.layoutTimer_ == nil then
-		arg_7_0.layoutTimer_ = Timer.New(function()
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.racePanelGo_.transform)
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.racePanelGo_:GetComponent("RectTransform"))
-			arg_7_0.layoutTimer_:Stop()
+	if slot0.layoutTimer_ == nil then
+		slot0.layoutTimer_ = Timer.New(function ()
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.racePanelGo_.transform)
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.racePanelGo_:GetComponent("RectTransform"))
+			uv0.layoutTimer_:Stop()
 
-			arg_7_0.layoutTimer_ = nil
+			uv0.layoutTimer_ = nil
 		end, 1.3)
 	end
 
-	arg_7_0.layoutTimer_:Start()
+	slot0.layoutTimer_:Start()
 end
 
-function var_0_0.ShowSelect(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.selectGo_, arg_9_1)
+function slot0.ShowSelect(slot0, slot1)
+	SetActive(slot0.selectGo_, slot1)
 end
 
-function var_0_0.OnClick(arg_10_0)
-	if arg_10_0.clickFunc then
-		arg_10_0.clickFunc(arg_10_0.info_)
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		slot0.clickFunc(slot0.info_)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_11_0, arg_11_1)
-	arg_11_0.clickFunc = arg_11_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.GetItemInfo(arg_12_0)
-	return arg_12_0.info_
+function slot0.GetItemInfo(slot0)
+	return slot0.info_
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.clickFunc = nil
+function slot0.Dispose(slot0)
+	slot0.clickFunc = nil
 
-	arg_13_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_13_0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

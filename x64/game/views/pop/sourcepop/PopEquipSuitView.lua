@@ -1,23 +1,23 @@
-local var_0_0 = class("PopEquipSuitView", import("game.views.sectionSelect.equip.SuitSelectView"))
+slot0 = class("PopEquipSuitView", import("game.views.sectionSelect.equip.SuitSelectView"))
 
-function var_0_0.InitUI(arg_1_0)
-	arg_1_0.super.InitUI(arg_1_0)
+function slot0.InitUI(slot0)
+	slot0.super.InitUI(slot0)
 
-	arg_1_0.popController = arg_1_0.controller:GetController("state")
+	slot0.popController = slot0.controller:GetController("state")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.super.OnEnter(arg_2_0)
+function slot0.OnEnter(slot0)
+	slot0.super.OnEnter(slot0)
 end
 
-function var_0_0.UpdateData(arg_3_0)
-	arg_3_0.suitList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.suitList_ = {}
 
-	table.insert(arg_3_0.suitList_, arg_3_0.params_.suitId)
+	table.insert(slot0.suitList_, slot0.params_.suitId)
 end
 
-function var_0_0.OnExit(arg_4_0)
-	arg_4_0.super.OnExit(arg_4_0)
+function slot0.OnExit(slot0)
+	slot0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

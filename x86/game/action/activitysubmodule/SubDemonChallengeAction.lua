@@ -1,113 +1,94 @@
-local var_0_0 = {}
-local var_0_1 = false
+slot1 = false
+slot2 = nil
 
-function var_0_0.Init()
-	SubDemonChallengeData:InitData()
+return {
+	Init = function ()
+		SubDemonChallengeData:InitData()
 
-	if var_0_1 then
-		return
-	end
-
-	manager.net:Bind(11031, function(arg_2_0)
-		SubDemonChallengeData:SetData(arg_2_0.activity_info)
-		var_0_0.UpdateRedPoint(arg_2_0.activity_info.activity_id)
-	end)
-
-	var_0_1 = true
-end
-
-local var_0_2
-
-function var_0_0.GetChallengeReward(arg_3_0, arg_3_1)
-	local var_3_0 = {
-		id = arg_3_0
-	}
-
-	var_0_2 = arg_3_1
-
-	manager.net:SendWithLoadingNew(11032, var_3_0, 11033, var_0_0.OnGetChallengeReward)
-end
-
-function var_0_0.OnGetChallengeReward(arg_4_0, arg_4_1)
-	if isSuccess(arg_4_0.result) then
-		if var_0_2 then
-			SubDemonChallengeData:SetRewardState(var_0_2, arg_4_1.id, ActivityConst.DEMON_CHALLENGE_REWARD_STATE.RECEIVED)
+		if uv0 then
+			return
 		end
 
-		getReward2(arg_4_0.item_list)
+		manager.net:Bind(11031, function (slot0)
+			SubDemonChallengeData:SetData(slot0.activity_info)
+			uv0.UpdateRedPoint(slot0.activity_info.activity_id)
+		end)
 
-		if var_0_2 then
-			var_0_0.UpdateRedPoint(var_0_2)
+		uv0 = true
+	end,
+	GetChallengeReward = function (slot0, slot1)
+		uv0 = slot1
+
+		manager.net:SendWithLoadingNew(11032, {
+			id = slot0
+		}, 11033, uv1.OnGetChallengeReward)
+	end,
+	OnGetChallengeReward = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			if uv0 then
+				SubDemonChallengeData:SetRewardState(uv0, slot1.id, ActivityConst.DEMON_CHALLENGE_REWARD_STATE.RECEIVED)
+			end
+
+			getReward2(slot0.item_list)
+
+			if uv0 then
+				uv1.UpdateRedPoint(uv0)
+			end
 		end
-	end
 
-	manager.notify:CallUpdateFunc(DEMON_CHALLENGE_RECEIVE_REWARD, arg_4_0, arg_4_1)
-end
+		manager.notify:CallUpdateFunc(DEMON_CHALLENGE_RECEIVE_REWARD, slot0, slot1)
+	end,
+	SetSelectedActivityId = function (slot0)
+		SubDemonChallengeData:AddSelectedActivityId(slot0)
+		uv0.UpdateRedPoint(slot0)
+	end,
+	InitRedPointKey = function (slot0)
+		slot2 = {}
 
-function var_0_0.SetSelectedActivityId(arg_5_0)
-	SubDemonChallengeData:AddSelectedActivityId(arg_5_0)
-	var_0_0.UpdateRedPoint(arg_5_0)
-end
+		for slot6 = 1, #ActivityData:GetActivityData(slot0).subActivityIdList do
+			slot7 = RedPointConst.DEMON_CHALLENGE .. slot1[slot6]
 
-function var_0_0.InitRedPointKey(arg_6_0)
-	local var_6_0 = ActivityData:GetActivityData(arg_6_0).subActivityIdList
-	local var_6_1 = {}
+			manager.redPoint:addGroup(slot7, {
+				RedPointConst.DEMON_CHALLENGE_REWARD .. slot1[slot6],
+				RedPointConst.DEMON_CHALLENGE_UNFINISH .. slot1[slot6]
+			})
+			table.insert(slot2, slot7)
+		end
 
-	for iter_6_0 = 1, #var_6_0 do
-		local var_6_2 = RedPointConst.DEMON_CHALLENGE .. var_6_0[iter_6_0]
+		manager.redPoint:addGroup(RedPointConst.DEMON_CHALLENGE .. slot0, slot2)
+	end,
+	UpdateRedPoint = function (slot0)
+		if not ActivityData:GetActivityIsOpen(slot0) then
+			return
+		end
 
-		manager.redPoint:addGroup(var_6_2, {
-			RedPointConst.DEMON_CHALLENGE_REWARD .. var_6_0[iter_6_0],
-			RedPointConst.DEMON_CHALLENGE_UNFINISH .. var_6_0[iter_6_0]
-		})
-		table.insert(var_6_1, var_6_2)
-	end
+		slot2 = false
+		slot3 = true
 
-	manager.redPoint:addGroup(RedPointConst.DEMON_CHALLENGE .. arg_6_0, var_6_1)
-end
+		if SubDemonChallengeData:GetChallengeInfo(slot0) then
+			for slot7, slot8 in pairs(slot1.challengeInfo) do
+				if ActivityConst.DEMON_CHALLENGE_STATE.UNFINISHED < slot8.challenge_state and slot8.reward_state == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.UNRECEIVE then
+					slot2 = true
+				elseif slot9 == ActivityConst.DEMON_CHALLENGE_STATE.FINISHED then
+					slot3 = false
+				end
+			end
+		end
 
-function var_0_0.UpdateRedPoint(arg_7_0)
-	if not ActivityData:GetActivityIsOpen(arg_7_0) then
-		return
-	end
+		manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. slot0, slot2 and 1 or 0)
 
-	local var_7_0 = SubDemonChallengeData:GetChallengeInfo(arg_7_0)
-	local var_7_1 = false
-	local var_7_2 = true
-
-	if var_7_0 then
-		for iter_7_0, iter_7_1 in pairs(var_7_0.challengeInfo) do
-			local var_7_3 = iter_7_1.challenge_state
-			local var_7_4 = iter_7_1.reward_state
-
-			if var_7_3 > ActivityConst.DEMON_CHALLENGE_STATE.UNFINISHED and var_7_4 == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.UNRECEIVE then
-				var_7_1 = true
-			elseif var_7_3 == ActivityConst.DEMON_CHALLENGE_STATE.FINISHED then
-				var_7_2 = false
+		if not manager.time:IsToday(getData("DemonChallenge" .. "_" .. USER_ID, tostring(slot0)) or 0) and slot3 and not SubDemonChallengeData:GetIsSelected(slot0) then
+			manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. slot0, 1)
+		else
+			manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_UNFINISH .. slot0, 0)
+		end
+	end,
+	RefreshRedPoint = function (slot0)
+		if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+			for slot5, slot6 in ipairs(ActivityData:GetActivityData(slot0).subActivityIdList) do
+				manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. slot6, 0)
+				manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_UNFINISH .. slot6, 0)
 			end
 		end
 	end
-
-	manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. arg_7_0, var_7_1 and 1 or 0)
-
-	local var_7_5 = getData("DemonChallenge" .. "_" .. USER_ID, tostring(arg_7_0)) or 0
-
-	if not manager.time:IsToday(var_7_5) and var_7_2 and not SubDemonChallengeData:GetIsSelected(arg_7_0) then
-		manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. arg_7_0, 1)
-	else
-		manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_UNFINISH .. arg_7_0, 0)
-	end
-end
-
-function var_0_0.RefreshRedPoint(arg_8_0)
-	if manager.time:GetServerTime() >= ActivityData:GetActivityData(arg_8_0).stopTime then
-		local var_8_0 = ActivityData:GetActivityData(arg_8_0).subActivityIdList
-
-		for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-			manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_REWARD .. iter_8_1, 0)
-			manager.redPoint:setTip(RedPointConst.DEMON_CHALLENGE_UNFINISH .. iter_8_1, 0)
-		end
-	end
-end
-
-return var_0_0
+}

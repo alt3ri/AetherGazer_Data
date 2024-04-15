@@ -1,123 +1,109 @@
-local var_0_0 = import("game.views.recall.pages.RecallPageBase")
-local var_0_1 = class("RecallSystemRecalledView", var_0_0)
+slot1 = class("RecallSystemRecalledView", import("game.views.recall.pages.RecallPageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot1.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.getController_ = ControllerUtil.GetController(arg_2_0.rewardGo_.transform, "get")
-	arg_2_0.list_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.listGo_, RecallSystemSignItem)
-	arg_2_0.recallRewardList_ = LuaList.New(handler(arg_2_0, arg_2_0.RecallRewardIndexItem), arg_2_0.recallRewardListGo_, CommonItemView)
+	slot0.getController_ = ControllerUtil.GetController(slot0.rewardGo_.transform, "get")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, RecallSystemSignItem)
+	slot0.recallRewardList_ = LuaList.New(handler(slot0, slot0.RecallRewardIndexItem), slot0.recallRewardListGo_, CommonItemView)
 end
 
-function var_0_1.OnReceivedCodeReward(arg_3_0)
-	arg_3_0:UpdateView()
-	arg_3_0.getController_:SetSelectedState("true")
+function slot1.OnReceivedCodeReward(slot0)
+	slot0:UpdateView()
+	slot0.getController_:SetSelectedState("true")
 end
 
-function var_0_1.OnRecallSignUpdate(arg_4_0)
-	arg_4_0:UpdateView()
+function slot1.OnRecallSignUpdate(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_1.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.inputRecalledCodeBtn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.inputRecalledCodeBtn_, nil, function ()
 		JumpTools.GoToSystem("RecallCodeInput")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.copyBtn_, nil, function()
+	slot0:AddBtnListener(slot0.copyBtn_, nil, function ()
 		ShowTips("COPY_SUCCESS")
 
-		local var_7_0 = ActivityRecallData:GetDataByPara("recallUserInfo")
-
-		UnityEngine.GUIUtility.systemCopyBuffer = var_7_0.user_id
+		UnityEngine.GUIUtility.systemCopyBuffer = ActivityRecallData:GetDataByPara("recallUserInfo").user_id
 	end)
 end
 
-function var_0_1.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = ActivityRecallData:GetDataByPara("signData")
-
-	arg_8_2:SetData(var_8_0[arg_8_1], arg_8_1)
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(ActivityRecallData:GetDataByPara("signData")[slot1], slot1)
 end
 
-function var_0_1.RecallRewardIndexItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = ActivityRecallData:GetDataByPara("recalledReward")
+function slot1.RecallRewardIndexItem(slot0, slot1, slot2)
+	slot3 = ActivityRecallData:GetDataByPara("recalledReward")
 
-	CommonTools.SetCommonData(arg_9_2, {
-		id = var_9_0[arg_9_1][1],
-		number = var_9_0[arg_9_1][2],
-		clickFun = function(arg_10_0)
+	CommonTools.SetCommonData(slot2, {
+		id = slot3[slot1][1],
+		number = slot3[slot1][2],
+		clickFun = function (slot0)
 			ShowPopItem(POP_OTHER_ITEM, {
-				arg_10_0.id,
-				arg_10_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 	})
 end
 
-function var_0_1.OnTop(arg_11_0)
-	return
+function slot1.OnTop(slot0)
 end
 
-function var_0_1.UpdateView(arg_12_0)
+function slot1.UpdateView(slot0)
 	ActivityRecallData:UpdateSignState()
+	slot0.list_:StartScroll(#ActivityRecallData:GetDataByPara("signData"))
+	slot0.recallRewardList_:StartScroll(#ActivityRecallData:GetDataByPara("recalledReward"))
 
-	local var_12_0 = ActivityRecallData:GetDataByPara("signData")
+	slot4 = ActivityRecallData:GetDataByPara("recallUserInfo")
 
-	arg_12_0.list_:StartScroll(#var_12_0)
+	slot0.getController_:SetSelectedState(ActivityRecallData:GetDataByPara("isSubmit") and "true" or "false")
 
-	local var_12_1 = ActivityRecallData:GetDataByPara("recalledReward")
+	if slot3 == true then
+		slot0.recallNameTxt_.text = slot4.base_info.nick
+		slot0.recallUIDTxt_.text = slot4.user_id
+		slot0.recallHeadshotImg_.sprite = ItemTools.getItemSprite(slot4.base_info.icon)
 
-	arg_12_0.recallRewardList_:StartScroll(#var_12_1)
+		slot0.recallHeadshotImg_:SetNativeSize()
 
-	local var_12_2 = ActivityRecallData:GetDataByPara("isSubmit")
-	local var_12_3 = ActivityRecallData:GetDataByPara("recallUserInfo")
-
-	arg_12_0.getController_:SetSelectedState(var_12_2 and "true" or "false")
-
-	if var_12_2 == true then
-		arg_12_0.recallNameTxt_.text = var_12_3.base_info.nick
-		arg_12_0.recallUIDTxt_.text = var_12_3.user_id
-		arg_12_0.recallHeadshotImg_.sprite = ItemTools.getItemSprite(var_12_3.base_info.icon)
-
-		arg_12_0.recallHeadshotImg_:SetNativeSize()
-
-		arg_12_0.serverName.text = string.format(GetTips("RECALLED_SERVER_NAME"), var_12_3.server_name)
+		slot0.serverName.text = string.format(GetTips("RECALLED_SERVER_NAME"), slot4.server_name)
 	end
 
-	arg_12_0.activityTimeTxt_.text = ActivityRecallData:GetDataByPara("recalledTime")
+	slot0.activityTimeTxt_.text = ActivityRecallData:GetDataByPara("recalledTime")
 end
 
-function var_0_1.OnEnter(arg_13_0)
-	arg_13_0:UpdateView()
+function slot1.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_1.OnExit(arg_14_0)
-	return
+function slot1.OnExit(slot0)
 end
 
-function var_0_1.Hide(arg_15_0)
-	var_0_1.super.Hide(arg_15_0)
+function slot1.Hide(slot0)
+	uv0.super.Hide(slot0)
 end
 
-function var_0_1.Dispose(arg_16_0)
-	if arg_16_0.list_ then
-		arg_16_0.list_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_16_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	if arg_16_0.recallRewardList_ then
-		arg_16_0.recallRewardList_:Dispose()
+	if slot0.recallRewardList_ then
+		slot0.recallRewardList_:Dispose()
 
-		arg_16_0.recallRewardList_ = nil
+		slot0.recallRewardList_ = nil
 	end
 
-	var_0_1.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

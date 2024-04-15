@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	RestaurantMode = {
 		Start = "Start",
 		RestaurantManual = "RestaurantManual",
@@ -116,29 +116,28 @@ local var_0_0 = {
 		Hungry = "Hungry"
 	}
 }
-
-var_0_0.RestaurantKitchenWare = {
-	[3] = var_0_0.ItemType.Pan,
-	[4] = var_0_0.ItemType.Steamer,
-	[5] = var_0_0.ItemType.Oven,
-	[6] = var_0_0.ItemType.Pot
+slot0.RestaurantKitchenWare = {
+	[3] = slot0.ItemType.Pan,
+	[4] = slot0.ItemType.Steamer,
+	[5] = slot0.ItemType.Oven,
+	[6] = slot0.ItemType.Pot
 }
-var_0_0.RestaurantJobToServerMap = {
-	[var_0_0.CharacterType.RestaurantCook] = 1,
-	[var_0_0.CharacterType.RestaurantWaiter] = 2,
-	[var_0_0.CharacterType.RestaurantCashier] = 3
+slot0.RestaurantJobToServerMap = {
+	[slot0.CharacterType.RestaurantCook] = 1,
+	[slot0.CharacterType.RestaurantWaiter] = 2,
+	[slot0.CharacterType.RestaurantCashier] = 3
 }
-var_0_0.RestaurantJobToClientMap = {
+slot0.RestaurantJobToClientMap = {
 	"RestaurantCook",
 	"RestaurantWaiter",
 	"RestaurantCashier"
 }
-var_0_0.DormRoomUseState = {
+slot0.DormRoomUseState = {
 	Lock = "Lock",
 	HadPlace = "HadPlace",
 	Unlock = "Unlock"
 }
-var_0_0.DormHeroState = {
+slot0.DormHeroState = {
 	InPublicDorm = "InPublicDorm",
 	InIdolTraineeCamp = "InIdolTraineeCamp",
 	InCanteenEntrust = "InCanteenEntrust",
@@ -146,18 +145,18 @@ var_0_0.DormHeroState = {
 	OutDorm = "OutDorm",
 	InCanteenJob = "InCanteenJob"
 }
-var_0_0.DormSystemType = {
+slot0.DormSystemType = {
 	Main = "Main",
 	CricketBattle = "CricketBattle",
 	Dormitory = "Dormitory",
 	Canteen = "Canteen"
 }
-var_0_0.DormDeployType = {
+slot0.DormDeployType = {
 	Occupy = "Occupy",
 	Place = "Place",
 	ReCall = "ReCall"
 }
-var_0_0.FurItemType = {
+slot0.FurItemType = {
 	StorageFurShow = "StorageFurShow",
 	SuitEdit = "SuitEdit",
 	TemplateShow = "TemplateShow",
@@ -165,11 +164,11 @@ var_0_0.FurItemType = {
 	Edit = "Edit",
 	Gift = "Gift"
 }
-var_0_0.FoodSellType = {
+slot0.FoodSellType = {
 	SignFood = "SignFood",
 	ForSale = "ForSale"
 }
-var_0_0.FoodType = {
+slot0.FoodType = {
 	[0] = 210171,
 	nil,
 	nil,
@@ -178,32 +177,26 @@ var_0_0.FoodType = {
 	210203,
 	210204
 }
+slot1, slot2 = pcall(require, "bit")
 
-local var_0_1, var_0_2 = pcall(require, "bit")
-
-if not var_0_1 then
-	local var_0_3
-
-	var_0_3, var_0_2 = pcall(require, "bit32")
+if not slot1 then
+	slot1, slot2 = pcall(require, "bit32")
 end
 
-var_0_0.BeginStoryFlag = {
+slot0.BeginStoryFlag = {
 	HideFurniture = 2,
 	HideCharacter = 1,
 	HideBoth = 3,
 	None = 0
 }
 
-function var_0_0.HasFlag(arg_1_0, arg_1_1)
-	local var_1_0 = var_0_2.tobit(arg_1_0)
-	local var_1_1 = var_0_2.tobit(arg_1_1)
-
-	return var_0_2.band(var_1_0, var_1_1) ~= 0
+function slot0.HasFlag(slot0, slot1)
+	return uv0.band(uv0.tobit(slot0), uv0.tobit(slot1)) ~= 0
 end
 
-var_0_0.HighlightLayer = {
+slot0.HighlightLayer = {
 	Suit = 1,
 	Available = 0
 }
 
-return var_0_0
+return slot0

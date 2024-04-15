@@ -1,40 +1,37 @@
-local var_0_0 = class("DrawHeroSelectView", ReduxView)
+slot0 = class("DrawHeroSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Pool/PoolSelectPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectController = ControllerUtil.GetController(arg_4_0.m_controller, "select")
+	slot0.selectController = ControllerUtil.GetController(slot0.m_controller, "select")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_leftBtn, nil, function()
-		arg_5_0:SetSelect(1)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_leftBtn, nil, function ()
+		uv0:SetSelect(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_rightBtn, nil, function()
-		arg_5_0:SetSelect(2)
+	slot0:AddBtnListener(slot0.m_rightBtn, nil, function ()
+		uv0:SetSelect(2)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_sureBtn, nil, function()
-		local var_8_0 = arg_5_0.optional_lists[arg_5_0.select]
-		local var_8_1 = DrawData:GetPollUpID(arg_5_0.poolId)
-
-		if var_8_0 then
-			if var_8_1 ~= var_8_0 then
-				DrawAction.SetPollUpID(arg_5_0.poolId, var_8_0)
+	slot0:AddBtnListener(slot0.m_sureBtn, nil, function ()
+		if uv0.optional_lists[uv0.select] then
+			if DrawData:GetPollUpID(uv0.poolId) ~= slot0 then
+				DrawAction.SetPollUpID(uv0.poolId, slot0)
 			else
-				arg_5_0:Back()
+				uv0:Back()
 			end
 		else
 			error("DrawHeroSelectView with empty pool up id")
@@ -42,69 +39,62 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnSetPollUpID(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0:Back()
+function slot0.OnSetPollUpID(slot0, slot1, slot2)
+	slot0:Back()
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:SetSelect(0)
+function slot0.OnEnter(slot0)
+	slot0:SetSelect(0)
 
-	arg_11_0.poolId = arg_11_0.params_.poolId
-	arg_11_0.cfg = DrawPoolCfg[arg_11_0.poolId]
+	slot0.poolId = slot0.params_.poolId
+	slot0.cfg = DrawPoolCfg[slot0.poolId]
 
-	if arg_11_0.optional_lists ~= arg_11_0.cfg.optional_lists_poolId then
-		arg_11_0.optional_lists = arg_11_0.cfg.optional_lists_poolId
+	if slot0.optional_lists ~= slot0.cfg.optional_lists_poolId then
+		slot0.optional_lists = slot0.cfg.optional_lists_poolId
 
-		arg_11_0:CreatOptionalHeroCom()
-	elseif arg_11_0.leftCom == nil or arg_11_0.rightCom == nil then
-		arg_11_0:CreatOptionalHeroCom()
+		slot0:CreatOptionalHeroCom()
+	elseif slot0.leftCom == nil or slot0.rightCom == nil then
+		slot0:CreatOptionalHeroCom()
 	end
 
-	local var_11_0 = DrawData:GetPollUpID(arg_11_0.poolId)
-
-	arg_11_0:SetSelect(table.indexof(arg_11_0.optional_lists, var_11_0) or 0)
+	slot0:SetSelect(table.indexof(slot0.optional_lists, DrawData:GetPollUpID(slot0.poolId)) or 0)
 end
 
-function var_0_0.CreatOptionalHeroCom(arg_12_0)
-	if arg_12_0.leftCom then
-		Object.Destroy(arg_12_0.leftCom)
+function slot0.CreatOptionalHeroCom(slot0)
+	if slot0.leftCom then
+		Object.Destroy(slot0.leftCom)
 	end
 
-	if arg_12_0.rightCom then
-		Object.Destroy(arg_12_0.rightCom)
+	if slot0.rightCom then
+		Object.Destroy(slot0.rightCom)
 	end
 
-	local var_12_0 = arg_12_0.cfg.optional_detail
-	local var_12_1 = Asset.Load("UI/Draw/SelectUp/select_" .. var_12_0[1])
-
-	arg_12_0.leftCom = Object.Instantiate(var_12_1, arg_12_0.m_leftContent)
-
-	local var_12_2 = Asset.Load("UI/Draw/SelectUp/select_" .. var_12_0[2])
-
-	arg_12_0.rightCom = Object.Instantiate(var_12_2, arg_12_0.m_rightContent)
+	slot1 = slot0.cfg.optional_detail
+	slot0.leftCom = Object.Instantiate(Asset.Load("UI/Draw/SelectUp/select_" .. slot1[1]), slot0.m_leftContent)
+	slot0.rightCom = Object.Instantiate(Asset.Load("UI/Draw/SelectUp/select_" .. slot1[2]), slot0.m_rightContent)
 end
 
-function var_0_0.SetSelect(arg_13_0, arg_13_1)
-	arg_13_0.select = arg_13_1
+function slot0.SetSelect(slot0, slot1)
+	slot0.select = slot1
 
-	arg_13_0.selectController:SetSelectedIndex(arg_13_1)
+	slot0.selectController:SetSelectedIndex(slot1)
 
-	arg_13_0.m_sureBtn.interactable = arg_13_1 ~= 0
+	slot0.m_sureBtn.interactable = slot1 ~= 0
 end
 
-function var_0_0.OnExit(arg_14_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.leftCom = nil
-	arg_15_0.rightCom = nil
+function slot0.Dispose(slot0)
+	slot0.leftCom = nil
+	slot0.rightCom = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

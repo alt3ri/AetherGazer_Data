@@ -1,50 +1,50 @@
-local var_0_0 = class("ChapterSectionRewardView", ReduxView)
+slot0 = class("ChapterSectionRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/ChapterSectionRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.rewardPanelItems_ = {}
+function slot0.Init(slot0)
+	slot0.rewardPanelItems_ = {}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.chapterID_ = tonumber(arg_4_0.params_.chapterID)
+function slot0.OnEnter(slot0)
+	slot0.chapterID_ = tonumber(slot0.params_.chapterID)
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.rewardPanelItems_) do
-		iter_4_1:SetData(arg_4_0.chapterID_)
+	for slot4, slot5 in ipairs(slot0.rewardPanelItems_) do
+		slot5:SetData(slot0.chapterID_)
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.rewardPanelItems_) do
-		iter_5_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardPanelItems_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.rewardPanelItems_ = nil
+	slot0.rewardPanelItems_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	for iter_6_0 = 1, 3 do
-		arg_6_0.rewardPanelItems_[iter_6_0] = ChapterSectionRewardItemPanel.New(arg_6_0[string.format("rewardPanelItem%s_", iter_6_0)], iter_6_0)
+	for slot4 = 1, 3 do
+		slot0.rewardPanelItems_[slot4] = ChapterSectionRewardItemPanel.New(slot0[string.format("rewardPanelItem%s_", slot4)], slot4)
 	end
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_0
+return slot0

@@ -1,95 +1,93 @@
-local var_0_0 = class("RechargeTotalRechargeView", ReduxView)
+slot0 = class("RechargeTotalRechargeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Recharge/RechargeTotalRechargeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.listGo_, RechargeTotalRechargeItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, RechargeTotalRechargeItem)
 
-	local var_4_0 = getData("totalRecharge", "seeToggle")
-
-	if var_4_0 ~= nil then
-		arg_4_0.seeToggle_.isOn = var_4_0 == 1 and true or false
+	if getData("totalRecharge", "seeToggle") ~= nil then
+		slot0.seeToggle_.isOn = slot1 == 1 and true or false
 	end
 end
 
-function var_0_0.indexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(table.indexof(arg_5_0.oriDataList_, arg_5_0.dataList_[arg_5_1]), arg_5_0.dataList_[arg_5_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(table.indexof(slot0.oriDataList_, slot0.dataList_[slot1]), slot0.dataList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddToggleListener(arg_6_0.seeToggle_, function(arg_7_0)
-		saveData("totalRecharge", "seeToggle", arg_7_0 and 1 or 0)
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.seeToggle_, function (slot0)
+		saveData("totalRecharge", "seeToggle", slot0 and 1 or 0)
 	end)
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:UpdateList()
-	arg_9_0:UpdateView()
-	arg_9_0:RegistEventListener(TOTAL_RECHARGE_UPDATE, function(arg_10_0)
-		arg_9_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateList()
+	slot0:UpdateView()
+	slot0:RegistEventListener(TOTAL_RECHARGE_UPDATE, function (slot0)
+		uv0:UpdateView()
 	end)
-	arg_9_0:RegistEventListener(GET_TOTAL_RECHARGE_BONUS, function(arg_11_0)
-		arg_9_0:UpdateList()
-		arg_9_0:UpdateView()
+	slot0:RegistEventListener(GET_TOTAL_RECHARGE_BONUS, function (slot0)
+		uv0:UpdateList()
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.UpdateList(arg_12_0)
-	arg_12_0.dataList_ = {}
-	arg_12_0.oriDataList_ = {}
-	arg_12_0.jumpIndex_ = 0
+function slot0.UpdateList(slot0)
+	slot0.dataList_ = {}
+	slot0.oriDataList_ = {}
+	slot0.jumpIndex_ = 0
 
-	for iter_12_0, iter_12_1 in ipairs(TotalRechargeCfg.all) do
-		table.insert(arg_12_0.dataList_, iter_12_1)
-		table.insert(arg_12_0.oriDataList_, iter_12_1)
+	for slot4, slot5 in ipairs(TotalRechargeCfg.all) do
+		table.insert(slot0.dataList_, slot5)
+		table.insert(slot0.oriDataList_, slot5)
 
-		if RechargeData:HaveGetTotalRechargeBonus(iter_12_1) == false and arg_12_0.jumpIndex_ == 0 then
-			arg_12_0.jumpIndex_ = iter_12_0
+		if RechargeData:HaveGetTotalRechargeBonus(slot5) == false and slot0.jumpIndex_ == 0 then
+			slot0.jumpIndex_ = slot4
 		end
 	end
 end
 
-function var_0_0.UpdateView(arg_13_0)
-	arg_13_0.list_:StartScroll(#arg_13_0.dataList_, arg_13_0.jumpIndex_)
+function slot0.UpdateView(slot0)
+	slot0.list_:StartScroll(#slot0.dataList_, slot0.jumpIndex_)
 
-	arg_13_0.currentLabel_.text = RechargeData:GetTotalRechargeNum()
+	slot0.currentLabel_.text = RechargeData:GetTotalRechargeNum()
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_13_0.currencyLayout_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.currencyLayout_)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	if arg_15_0.list_ then
-		arg_15_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_15_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,129 +1,118 @@
-local var_0_0 = class("BattleSettlementMissionModule", ReduxView)
+slot0 = class("BattleSettlementMissionModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_0:InstView(arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot0:InstView(slot1)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InstView(arg_2_0, arg_2_1)
-	local var_2_0 = "Widget/System/BattleResult/Common/Module/BattleResultNormalContent"
-
-	return (Object.Instantiate(Asset.Load(var_2_0), arg_2_1))
+function slot0.InstView(slot0, slot1)
+	return Object.Instantiate(Asset.Load("Widget/System/BattleResult/Common/Module/BattleResultNormalContent"), slot1)
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	arg_3_0.controller = {
-		arg_3_0.targetController1_:GetController("clear"),
-		arg_3_0.targetController2_:GetController("clear"),
-		(arg_3_0.targetController3_:GetController("clear"))
+function slot0.BuildContext(slot0)
+	slot0.controller = {
+		slot0.targetController1_:GetController("clear"),
+		slot0.targetController2_:GetController("clear"),
+		slot0.targetController3_:GetController("clear")
 	}
-	arg_3_0.rewardItemList = {}
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.RenderAwardItem), arg_3_0.rewardList_, CommonItemView)
+	slot0.rewardItemList = {}
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.RenderAwardItem), slot0.rewardList_, CommonItemView)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BuildContext()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RenderView(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	local var_7_0 = arg_7_3
-	local var_7_1 = {}
+function slot0.RenderView(slot0, slot1, slot2, slot3)
+	slot4 = slot3
+	slot5 = {}
 
-	for iter_7_0 = 1, 3 do
-		if var_7_0 ~= nil and var_7_0[iter_7_0] ~= nil then
-			local var_7_2 = ThreeStarConditionCfg[var_7_0[iter_7_0].id]
-			local var_7_3
+	for slot9 = 1, 3 do
+		if slot4 ~= nil and slot4[slot9] ~= nil then
+			slot10 = ThreeStarConditionCfg[slot4[slot9].id]
+			slot11 = nil
 
-			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_7_1 then
-				var_7_3 = BattleStageData:GetStageData()[arg_7_2]
-			elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == arg_7_1 then
-				var_7_3 = BattleBossChallengeNormalData:GetStarList(arg_7_2)
+			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot1 then
+				slot11 = BattleStageData:GetStageData()[slot2]
+			elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == slot1 then
+				slot11 = BattleBossChallengeNormalData:GetStarList(slot2)
 			end
 
-			local var_7_4 = false
+			slot12 = false
 
-			if var_7_3 and var_7_3.stars and var_7_3.stars[iter_7_0] == 1 then
-				var_7_4 = true
+			if slot11 and slot11.stars and slot11.stars[slot9] == 1 then
+				slot12 = true
 			end
 
-			local var_7_5 = var_7_0[iter_7_0].isComplete or var_7_4
+			slot0[string.format("targetText%d_", slot9)].text = GetI18NText(BattleInstance.GetStarMissionText(slot4[slot9].id, slot4[slot9].xData, slot4[slot9].yData))
 
-			arg_7_0[string.format("targetText%d_", iter_7_0)].text = GetI18NText(BattleInstance.GetStarMissionText(var_7_0[iter_7_0].id, var_7_0[iter_7_0].xData, var_7_0[iter_7_0].yData))
+			if slot4[slot9].isComplete or slot12 then
+				slot0.controller[slot9]:SetSelectedState("state1")
 
-			if var_7_5 then
-				arg_7_0.controller[iter_7_0]:SetSelectedState("state1")
-
-				arg_7_0[string.format("targetText%d_", iter_7_0)].color = Color.New(0.9102, 0.9351, 0.9408, 1)
+				slot0[string.format("targetText%d_", slot9)].color = Color.New(0.9102, 0.9351, 0.9408, 1)
 			else
-				arg_7_0.controller[iter_7_0]:SetSelectedState("state0")
+				slot0.controller[slot9]:SetSelectedState("state0")
 
-				arg_7_0[string.format("targetText%d_", iter_7_0)].color = Color.New(0.6768, 0.6853, 0.6882, 1)
+				slot0[string.format("targetText%d_", slot9)].color = Color.New(0.6768, 0.6853, 0.6882, 1)
 			end
 
-			var_7_1[iter_7_0] = var_7_5 and 1 or 0
+			slot5[slot9] = slot13 and 1 or 0
 		else
-			arg_7_0.controller[iter_7_0]:SetSelectedState("no info")
+			slot0.controller[slot9]:SetSelectedState("no info")
 		end
 	end
 
-	BattleInstance.RecordThreeStar(arg_7_0.stageType, arg_7_0.stageId, var_7_1)
+	BattleInstance.RecordThreeStar(slot0.stageType, slot0.stageId, slot5)
 end
 
-function var_0_0.RenderRewards(arg_8_0, arg_8_1)
-	local var_8_0 = {}
+function slot0.RenderRewards(slot0, slot1)
+	slot2 = {}
 
-	if arg_8_1 then
-		for iter_8_0, iter_8_1 in pairs(arg_8_1) do
-			table.insert(var_8_0, iter_8_1)
+	if slot1 then
+		for slot6, slot7 in pairs(slot1) do
+			table.insert(slot2, slot7)
 		end
 
-		var_8_0 = formatRewardCfgList(var_8_0)
-		var_8_0 = mergeReward(var_8_0)
-		var_8_0 = sortReward(var_8_0)
+		slot2 = sortReward(mergeReward(formatRewardCfgList(slot2)))
 	end
 
-	arg_8_0.rewardItemList = var_8_0
+	slot0.rewardItemList = slot2
 
-	arg_8_0.scrollHelper_:StartScroll(#var_8_0, 1)
+	slot0.scrollHelper_:StartScroll(#slot2, 1)
 end
 
-function var_0_0.RenderAwardItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.rewardItemList[arg_9_1]
-
-	if ItemCfg[var_9_0.id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[var_9_0.id].type then
-		var_9_0.race = EquipCfg[var_9_0.id] and EquipCfg[var_9_0.id].race or 0
+function slot0.RenderAwardItem(slot0, slot1, slot2)
+	if ItemCfg[slot0.rewardItemList[slot1].id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[slot3.id].type then
+		slot3.race = EquipCfg[slot3.id] and EquipCfg[slot3.id].race or 0
 	end
 
-	local var_9_1 = clone(ItemTemplateData)
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3.id
+	slot4.number = slot3.num
+	slot4.race = slot3.race
 
-	var_9_1.id = var_9_0.id
-	var_9_1.number = var_9_0.num
-	var_9_1.race = var_9_0.race
-
-	function var_9_1.clickFun(arg_10_0)
+	function slot4.clickFun(slot0)
 		ShowPopItemOnly(POP_OTHER_ITEM, {
-			arg_10_0.id,
-			arg_10_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_9_2:SetData(var_9_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

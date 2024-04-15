@@ -1,16 +1,15 @@
-local var_0_0 = singletonClass("HeroSkinRouteData")
-local var_0_1 = {}
+slot0 = singletonClass("HeroSkinRouteData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.SaveRoute(arg_2_0, arg_2_1)
-	var_0_1 = deepClone(arg_2_1)
+function slot0.SaveRoute(slot0, slot1)
+	uv0 = deepClone(slot1)
 end
 
-function var_0_0.GetRoute(arg_3_0)
-	return var_0_1
+function slot0.GetRoute(slot0)
+	return uv0
 end
 
-return var_0_0
+return slot0

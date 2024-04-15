@@ -1,11 +1,8 @@
-local var_0_0 = {
+return {
 	sequence = {
-		[0] = function(arg_1_0)
-			Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_1_0.entityID, "clothes_look", nil, 0)
+		[0] = function (slot0)
+			Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.entityID, "clothes_look", nil, 0)
 		end
-	}
+	},
+	duration = 10.8
 }
-
-var_0_0.duration = 10.8
-
-return var_0_0

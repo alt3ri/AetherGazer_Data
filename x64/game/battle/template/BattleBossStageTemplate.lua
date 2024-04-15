@@ -1,78 +1,73 @@
-local var_0_0 = class("BattleBossStageTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleBossStageTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.cfg = BattleBossStageCfg[arg_1_0.id]
-	arg_1_0.bossIndex_ = arg_1_2
+	slot0.id = slot1
+	slot0.cfg = BattleBossStageCfg[slot0.id]
+	slot0.bossIndex_ = slot2
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	return arg_3_0.id
+function slot0.GetDest(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_7_0)
-	return arg_7_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_8_0)
+function slot0.GetEnemyLevel(slot0)
 	return BattleBossChallengeNormalData:GetBossChallengeCfg().level[1]
 end
 
-function var_0_0.GetHeroTeam(arg_9_0)
-	return arg_9_0.heroList_, arg_9_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.GetStageAffix(arg_10_0)
-	local var_10_0 = {}
-	local var_10_1 = {}
-	local var_10_2 = {}
-	local var_10_3 = type(arg_10_0.cfg.affix_type) == "table" and arg_10_0.cfg.affix_type or {}
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
 
-	for iter_10_0, iter_10_1 in pairs(var_10_3 or {}) do
-		table.insert(var_10_0, iter_10_1[1])
-		table.insert(var_10_1, iter_10_1[2])
-		table.insert(var_10_2, iter_10_1[3])
+	for slot8, slot9 in pairs(type(slot0.cfg.affix_type) == "table" and slot0.cfg.affix_type or {} or {}) do
+		table.insert(slot1, slot9[1])
+		table.insert(slot2, slot9[2])
+		table.insert(slot3, slot9[3])
 	end
 
-	return var_10_0, var_10_1, var_10_2
+	return slot1, slot2, slot3
 end
 
-function var_0_0.GetThreeStar(arg_11_0)
-	if arg_11_0.cfg.three_star_need == "" then
+function slot0.GetThreeStar(slot0)
+	if slot0.cfg.three_star_need == "" then
 		return {}
 	end
 
-	return arg_11_0.cfg.three_star_need
+	return slot0.cfg.three_star_need
 end
 
-function var_0_0.GetAttributeFactor(arg_12_0)
-	local var_12_0 = BattleBossChallengeNormalData:GetSelectDifficult(arg_12_0.bossIndex_)
-	local var_12_1 = BattleBossChallengeNormalData:GetBossChallengeCfg().monster_value[var_12_0]
-	local var_12_2 = var_12_1[1] / 1000
-	local var_12_3 = var_12_1[2] / 1000
-	local var_12_4 = var_12_1[3] / 1000
+function slot0.GetAttributeFactor(slot0)
+	slot2 = BattleBossChallengeNormalData:GetBossChallengeCfg().monster_value[BattleBossChallengeNormalData:GetSelectDifficult(slot0.bossIndex_)]
 
-	return Vector3.New(var_12_2, var_12_3, var_12_4)
+	return Vector3.New(slot2[1] / 1000, slot2[2] / 1000, slot2[3] / 1000)
 end
 
-return var_0_0
+return slot0

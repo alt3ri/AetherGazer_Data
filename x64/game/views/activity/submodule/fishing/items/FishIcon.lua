@@ -1,120 +1,115 @@
-local var_0_0 = class("FishIcon", ReduxView)
+slot0 = class("FishIcon", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.iconController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "icon")
-	arg_3_0.showNumController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "showNum")
-	arg_3_0.showHaveController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "showHave")
-	arg_3_0.selectedController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "selected")
+	slot0.iconController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "icon")
+	slot0.showNumController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "showNum")
+	slot0.showHaveController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "showHave")
+	slot0.selectedController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "selected")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.iconBtn_, nil, function()
-		if arg_4_0.clickListener_ ~= nil then
-			arg_4_0.clickListener_(arg_4_0.id_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.iconBtn_, nil, function ()
+		if uv0.clickListener_ ~= nil then
+			uv0.clickListener_(uv0.id_)
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.RegisterClickListener(arg_7_0, arg_7_1)
-	arg_7_0.icon_.raycastTarget = true
-	arg_7_0.clickListener_ = arg_7_1
+function slot0.RegisterClickListener(slot0, slot1)
+	slot0.icon_.raycastTarget = true
+	slot0.clickListener_ = slot1
 end
 
-function var_0_0.SetSelected(arg_8_0, arg_8_1)
-	arg_8_0.selectedController_:SetSelectedState(arg_8_1 and "true" or "false")
+function slot0.SetSelected(slot0, slot1)
+	slot0.selectedController_:SetSelectedState(slot1 and "true" or "false")
 end
 
-function var_0_0.SetId(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.id_ = arg_9_1
-	arg_9_2 = arg_9_2 or -1
-	arg_9_3 = arg_9_3 or -1
-	arg_9_0.haveNum_ = arg_9_3
-	arg_9_0.num_ = arg_9_2
+function slot0.SetId(slot0, slot1, slot2, slot3)
+	slot0.id_ = slot1
+	slot0.haveNum_ = slot3 or -1
+	slot0.num_ = slot2 or -1
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	if arg_10_0.needUpdateHave_ then
-		arg_10_0:UpdateHaveBg()
+function slot0.UpdateView(slot0)
+	if slot0.needUpdateHave_ then
+		slot0:UpdateHaveBg()
 	end
 
-	arg_10_0.icon_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/Fishing/RareFishIcon/%d", arg_10_0.id_))
+	slot0.icon_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/Fishing/RareFishIcon/%d", slot0.id_))
 
-	if arg_10_0.num_ == -1 then
-		arg_10_0.showNumController_:SetSelectedState("false")
+	if slot0.num_ == -1 then
+		slot0.showNumController_:SetSelectedState("false")
 	else
-		arg_10_0.showNumController_:SetSelectedState("true")
+		slot0.showNumController_:SetSelectedState("true")
 
-		arg_10_0.numLabel_.text = tostring(arg_10_0.num_)
+		slot0.numLabel_.text = tostring(slot0.num_)
 	end
 
-	if arg_10_0.haveNum_ == -1 then
-		arg_10_0.showHaveController_:SetSelectedState("false")
+	if slot0.haveNum_ == -1 then
+		slot0.showHaveController_:SetSelectedState("false")
 	else
-		arg_10_0.showHaveController_:SetSelectedState("true")
+		slot0.showHaveController_:SetSelectedState("true")
 
-		arg_10_0.haveNumLabel_.text = tostring(arg_10_0.haveNum_)
+		slot0.haveNumLabel_.text = tostring(slot0.haveNum_)
 	end
 end
 
-function var_0_0.OnTop(arg_11_0)
-	arg_11_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_12_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.SetNeedUpdateHave(arg_13_0, arg_13_1)
-	arg_13_0.needUpdateHave_ = arg_13_1
+function slot0.SetNeedUpdateHave(slot0, slot1)
+	slot0.needUpdateHave_ = slot1
 end
 
-function var_0_0.UpdateHaveBg(arg_14_0)
-	local var_14_0 = 0
-	local var_14_1 = FishingData:GetFish(arg_14_0.id_)
+function slot0.UpdateHaveBg(slot0)
+	slot1 = 0
 
-	if var_14_1 ~= nil then
-		var_14_0 = var_14_1.num
+	if FishingData:GetFish(slot0.id_) ~= nil then
+		slot1 = slot2.num
 	end
 
-	if var_14_0 > 0 then
-		arg_14_0.iconController_:SetSelectedState("have")
+	if slot1 > 0 then
+		slot0.iconController_:SetSelectedState("have")
 	else
-		arg_14_0.iconController_:SetSelectedState("not")
+		slot0.iconController_:SetSelectedState("not")
 	end
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.clickListener_ = nil
+function slot0.Dispose(slot0)
+	slot0.clickListener_ = nil
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

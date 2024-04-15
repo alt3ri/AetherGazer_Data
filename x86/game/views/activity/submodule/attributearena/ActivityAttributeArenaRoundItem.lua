@@ -1,73 +1,62 @@
-local var_0_0 = class("ActivityAttributeArenaRoundItem", ReduxView)
+slot0 = class("ActivityAttributeArenaRoundItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.m_list, ActivityAttributeArenaTagItem)
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "stateBtn")
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, ActivityAttributeArenaTagItem)
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "stateBtn")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = ActivityAttributeArenaRoundCfg[arg_5_1]
+function slot0.SetData(slot0, slot1, slot2)
+	slot3 = ActivityAttributeArenaRoundCfg[slot1]
+	slot0.m_lab.text = GetTipsF("ACTIVITY_ATTRIBUTE_ARENE_ROUND", slot3.round)
+	slot5 = ActivityData:GetActivityRefreshTime(slot0.activity_id)
 
-	arg_5_0.m_lab.text = GetTipsF("ACTIVITY_ATTRIBUTE_ARENE_ROUND", var_5_0.round)
+	if ActivityAttributeArenaData:GetRound(slot2) == slot3.round then
+		slot0.stateController:SetSelectedIndex(0)
 
-	local var_5_1 = ActivityAttributeArenaData:GetRound(arg_5_2)
-	local var_5_2 = ActivityData:GetActivityRefreshTime(arg_5_0.activity_id)
+		slot0.m_timeLab.text = GetTips("ACTIVITY_ATTRIBUTE_ARENE_ROUND_START")
+	elseif slot4 < slot3.round then
+		slot0.stateController:SetSelectedIndex(1)
 
-	if var_5_1 == var_5_0.round then
-		arg_5_0.stateController:SetSelectedIndex(0)
-
-		arg_5_0.m_timeLab.text = GetTips("ACTIVITY_ATTRIBUTE_ARENE_ROUND_START")
-	elseif var_5_1 < var_5_0.round then
-		arg_5_0.stateController:SetSelectedIndex(1)
-
-		local var_5_3 = var_5_0.round - var_5_1
-		local var_5_4 = ActivityData:GetActivityRefreshTimeList(arg_5_2)
-
-		if var_5_3 <= #var_5_4 then
-			local var_5_5 = var_5_4[var_5_3]
-
-			arg_5_0.m_timeLab.text = GetTipsF("ACTIVITY_ATTRIBUTE_ARENE_ROUND_TIME", manager.time:GetLostTimeStr2(var_5_5))
+		if slot3.round - slot4 <= #ActivityData:GetActivityRefreshTimeList(slot2) then
+			slot0.m_timeLab.text = GetTipsF("ACTIVITY_ATTRIBUTE_ARENE_ROUND_TIME", manager.time:GetLostTimeStr2(slot7[slot6]))
 		else
-			arg_5_0.m_timeLab.text = ""
+			slot0.m_timeLab.text = ""
 		end
 	else
-		arg_5_0.stateController:SetSelectedIndex(2)
+		slot0.stateController:SetSelectedIndex(2)
 
-		arg_5_0.m_timeLab.text = GetTips("ACTIVITY_ATTRIBUTE_ARENE_ROUND_OVER")
+		slot0.m_timeLab.text = GetTips("ACTIVITY_ATTRIBUTE_ARENE_ROUND_OVER")
 	end
 
-	arg_5_0.listData = var_5_0.arena_id_list
+	slot0.listData = slot3.arena_id_list
 
-	arg_5_0.list:StartScroll(#arg_5_0.listData)
+	slot0.list:StartScroll(#slot0.listData)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.list:Dispose()
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.listData[arg_7_1]
-
-	arg_7_2:SetData(var_7_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.listData[slot1])
 end
 
-return var_0_0
+return slot0

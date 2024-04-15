@@ -1,23 +1,23 @@
-local var_0_0 = class("SkinTrialSelect104", SkinTrialActivitySelectView)
+slot0 = class("SkinTrialSelect104", SkinTrialActivitySelectView)
 
-function var_0_0.UIName(arg_1_0)
-	return "UI/VersionUI/SummerUI/SummerSkinTrialUI_" .. arg_1_0.params_.skinTrialID
+function slot0.UIName(slot0)
+	return "UI/VersionUI/SummerUI/SummerSkinTrialUI_" .. slot0.params_.skinTrialID
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	if arg_2_0.params_.canPlayTimeLine == true and arg_2_0.director_ ~= nil then
-		arg_2_0.params_.canPlayTimeLine = false
-		arg_2_0.director_.time = 0
+function slot0.OnEnter(slot0)
+	if slot0.params_.canPlayTimeLine == true and slot0.director_ ~= nil then
+		slot0.params_.canPlayTimeLine = false
+		slot0.director_.time = 0
 
-		arg_2_0.director_:Play()
+		slot0.director_:Play()
 	end
 
-	var_0_0.super.OnEnter(arg_2_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.director_:Stop()
-	var_0_0.super.OnExit(arg_3_0)
+function slot0.OnExit(slot0)
+	slot0.director_:Stop()
+	uv0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

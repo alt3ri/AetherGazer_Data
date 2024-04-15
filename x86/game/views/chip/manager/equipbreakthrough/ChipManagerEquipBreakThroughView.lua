@@ -1,23 +1,23 @@
-local var_0_0 = class("ChipManagerEquipBreakThroughView", import("..ChipManagerView"))
+slot0 = class("ChipManagerEquipBreakThroughView", import("..ChipManagerView"))
 
-function var_0_0.GetChipManagerList(arg_1_0)
+function slot0.GetChipManagerList(slot0)
 	return {
 		EquipBreakThroughMaterialData:GetChipManagerID()
 	}
 end
 
-function var_0_0.GetUnlockChipManagerList(arg_2_0)
+function slot0.GetUnlockChipManagerList(slot0)
 	return {
 		EquipBreakThroughMaterialData:GetChipManagerID()
 	}
 end
 
-function var_0_0.GetManagerUnlockView(arg_3_0)
+function slot0.GetManagerUnlockView(slot0)
 	return ChipManagerUnlockEquipBreakThroughView
 end
 
-function var_0_0.GetChipManagerItem(arg_4_0)
+function slot0.GetChipManagerItem(slot0)
 	return ChipManagerEquipBreakThroughItem
 end
 
-return var_0_0
+return slot0

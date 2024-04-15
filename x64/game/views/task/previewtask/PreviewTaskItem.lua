@@ -1,154 +1,145 @@
-local var_0_0 = class("PreviewTaskItem", ReduxView)
-local var_0_1 = import("game.tools.JumpTools")
+slot0 = class("PreviewTaskItem", ReduxView)
+slot1 = import("game.tools.JumpTools")
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.rewardItems_ = {}
-	arg_1_0.rewardItemGos_ = {}
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.rewardItems_ = {}
+	slot0.rewardItemGos_ = {}
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_2
-	arg_2_0.taskID_ = arg_2_1
-	arg_2_0.taskProgress = PreviewTaskData:GetTaskProgress(arg_2_1)
-	arg_2_0.taskComplete_ = PreviewTaskData:GetTaskComplete(arg_2_1)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.taskID_ = slot1
+	slot0.taskProgress = PreviewTaskData:GetTaskProgress(slot1)
+	slot0.taskComplete_ = PreviewTaskData:GetTaskComplete(slot1)
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.rewardItems_) do
-		iter_3_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	for iter_3_2, iter_3_3 in pairs(arg_3_0.rewardItemGos_) do
-		Object.Destroy(iter_3_3)
+	for slot4, slot5 in pairs(slot0.rewardItemGos_) do
+		Object.Destroy(slot5)
 	end
 
-	arg_3_0.rewardItemGos_ = nil
+	slot0.rewardItemGos_ = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.gameObject_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.controller_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.typeController_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_6_0 = AssignmentCfg[arg_5_0.taskID_]
-
-		var_0_1.JumpToPage2(var_6_0.source)
+		uv1.JumpToPage2(AssignmentCfg[uv0.taskID_].source)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		PreviewTaskAction.TryToSubmitTask(arg_5_0.taskID_)
+		PreviewTaskAction.TryToSubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_8_0)
-	arg_8_0.goBtn_.onClick:RemoveAllListeners()
-	arg_8_0.receiveBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.goBtn_.onClick:RemoveAllListeners()
+	slot0.receiveBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = AssignmentCfg[arg_9_0.taskID_]
+function slot0.RefreshUI(slot0)
+	slot1 = AssignmentCfg[slot0.taskID_]
+	slot0.titleText_.text = GetI18NText(slot1.name)
+	slot0.contentText_.text = GetI18NText(slot1.desc)
+	slot2 = slot1.reward or {}
 
-	arg_9_0.titleText_.text = GetI18NText(var_9_0.name)
-	arg_9_0.contentText_.text = GetI18NText(var_9_0.desc)
-
-	local var_9_1 = var_9_0.reward or {}
-
-	for iter_9_0 = 1, 3 do
-		if arg_9_0.rewardItems_[iter_9_0] == nil then
-			arg_9_0.rewardItems_[iter_9_0] = CommonItemPool.New(arg_9_0.rewardParent_)
+	for slot6 = 1, 3 do
+		if slot0.rewardItems_[slot6] == nil then
+			slot0.rewardItems_[slot6] = CommonItemPool.New(slot0.rewardParent_)
 		end
 
-		if var_9_1[iter_9_0] then
-			local var_9_2 = clone(ItemTemplateData)
+		if slot2[slot6] then
+			slot7 = clone(ItemTemplateData)
+			slot7.id = slot2[slot6][1]
+			slot7.number = slot2[slot6][2]
 
-			var_9_2.id = var_9_1[iter_9_0][1]
-			var_9_2.number = var_9_1[iter_9_0][2]
-
-			function var_9_2.clickFun(arg_10_0)
+			function slot7.clickFun(slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_10_0.id,
-					arg_10_0.number,
-					arg_10_0.timeValid
+					slot0.id,
+					slot0.number,
+					slot0.timeValid
 				})
 			end
 
-			arg_9_0.rewardItems_[iter_9_0]:SetData(var_9_2)
+			slot0.rewardItems_[slot6]:SetData(slot7)
 		else
-			arg_9_0.rewardItems_[iter_9_0]:SetData()
+			slot0.rewardItems_[slot6]:SetData()
 		end
 	end
 
-	arg_9_0:RefreshTime()
-	arg_9_0:RefreshProgress()
+	slot0:RefreshTime()
+	slot0:RefreshProgress()
 end
 
-function var_0_0.RefreshProgress(arg_11_0)
-	local var_11_0 = AssignmentCfg[arg_11_0.taskID_]
-	local var_11_1 = arg_11_0.taskProgress
+function slot0.RefreshProgress(slot0)
+	slot2 = slot0.taskProgress
 
-	if arg_11_0.taskProgress > var_11_0.need then
-		var_11_1 = var_11_0.need
+	if AssignmentCfg[slot0.taskID_].need < slot0.taskProgress then
+		slot2 = slot1.need
 	end
 
-	arg_11_0.progressBar_.fillAmount = var_11_1 / var_11_0.need
-	arg_11_0.progressText_.text = string.format("%s/%s", var_11_1, var_11_0.need)
+	slot0.progressBar_.fillAmount = slot2 / slot1.need
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot1.need)
+	slot3 = slot1.need <= slot0.taskProgress
 
-	local var_11_2 = arg_11_0.taskProgress >= var_11_0.need
-
-	if arg_11_0.taskComplete_ == true then
-		arg_11_0.controller_:SetSelectedState("received")
-	elseif var_11_2 then
-		arg_11_0.controller_:SetSelectedState("completed")
+	if slot0.taskComplete_ == true then
+		slot0.controller_:SetSelectedState("received")
+	elseif slot3 then
+		slot0.controller_:SetSelectedState("completed")
 	else
-		arg_11_0.controller_:SetSelectedState("incomplete")
+		slot0.controller_:SetSelectedState("incomplete")
 	end
 end
 
-function var_0_0.RefreshTime(arg_12_0)
-	if AssignmentCfg[arg_12_0.taskID_].type == TaskConst.TASK_TYPE.PREVIEW_DAILY then
-		local var_12_0 = GameSetting.refresh_time1.value[1][1]
+function slot0.RefreshTime(slot0)
+	if AssignmentCfg[slot0.taskID_].type == TaskConst.TASK_TYPE.PREVIEW_DAILY then
+		slot0.endTime_ = manager.time:GetNextTime(GameSetting.refresh_time1.value[1][1], 0, 0)
+		slot0.isDailyTask_ = true
 
-		arg_12_0.endTime_ = manager.time:GetNextTime(var_12_0, 0, 0)
-		arg_12_0.isDailyTask_ = true
-
-		arg_12_0.typeController_:SetSelectedState("daily")
+		slot0.typeController_:SetSelectedState("daily")
 	else
-		arg_12_0.isDailyTask_ = false
+		slot0.isDailyTask_ = false
 
-		arg_12_0.typeController_:SetSelectedState("normal")
+		slot0.typeController_:SetSelectedState("normal")
 	end
 end
 
-return var_0_0
+return slot0

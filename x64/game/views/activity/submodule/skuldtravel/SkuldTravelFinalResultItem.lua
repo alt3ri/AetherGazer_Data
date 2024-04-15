@@ -1,113 +1,106 @@
-local var_0_0 = class("SkuldTravelFinalResultItem", ReduxView)
-local var_0_1 = "TextureConfig/EmptyDream/travel/image/"
+slot0 = class("SkuldTravelFinalResultItem", ReduxView)
+slot1 = "TextureConfig/EmptyDream/travel/image/"
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.raskController_ = {}
+	slot0.raskController_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.raskController_[iter_3_0] = ControllerUtil.GetController(arg_3_0["rasktrans_" .. iter_3_0], "statu")
+	for slot4 = 1, 3 do
+		slot0.raskController_[slot4] = ControllerUtil.GetController(slot0["rasktrans_" .. slot4], "statu")
 	end
 
-	arg_3_0.statucontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "statu")
-	arg_3_0.isshowtaskController_ = ControllerUtil.GetController(arg_3_0.transform_, "isshowtask")
+	slot0.statucontroller_ = ControllerUtil.GetController(slot0.transform_, "statu")
+	slot0.isshowtaskController_ = ControllerUtil.GetController(slot0.transform_, "isshowtask")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.index_ > 3 then
-			if SkuldTravelData:GetEndingIsOpened(arg_4_0.endingid_) then
-				local var_5_0 = GameSetting.travel_skuld_new_ending_stage_id.value[1]
-
-				BattleController.GetInstance():LaunchStoryBattle(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, var_5_0, 0)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.index_ > 3 then
+			if SkuldTravelData:GetEndingIsOpened(uv0.endingid_) then
+				BattleController.GetInstance():LaunchStoryBattle(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, GameSetting.travel_skuld_new_ending_stage_id.value[1], 0)
 			else
-				SkuldTravelAction:OpenEnding(arg_4_0.endingid_)
+				SkuldTravelAction:OpenEnding(uv0.endingid_)
 			end
-		elseif SkuldTravelData:GetEndingIsOpened(arg_4_0.endingid_) then
+		elseif SkuldTravelData:GetEndingIsOpened(uv0.endingid_) then
 			JumpTools.OpenPageByJump("skuldTravelFinalPlotView", {
-				endingid = arg_4_0.endingid_
+				endingid = uv0.endingid_
 			})
-		elseif SkuldTravelData:GetEndingIsCanOpen(arg_4_0.endingid_) then
-			SkuldTravelAction:OpenEnding(arg_4_0.endingid_)
+		elseif SkuldTravelData:GetEndingIsCanOpen(uv0.endingid_) then
+			SkuldTravelAction:OpenEnding(uv0.endingid_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.index_ = arg_6_1
-	arg_6_0.endingid_ = TravelSkuldEndingCfg.all[arg_6_1]
-	arg_6_0.cfg_ = TravelSkuldEndingCfg[arg_6_0.endingid_]
-	arg_6_0.endingname_.text = GetI18NText(arg_6_0.cfg_.story_name)
+function slot0.SetData(slot0, slot1)
+	slot0.index_ = slot1
+	slot0.endingid_ = TravelSkuldEndingCfg.all[slot1]
+	slot0.cfg_ = TravelSkuldEndingCfg[slot0.endingid_]
+	slot0.endingname_.text = GetI18NText(slot0.cfg_.story_name)
+	slot2 = uv0
+	slot0.itemimage_.sprite = getSpriteWithoutAtlas(SkuldTravelData:GetSkuldBtnIsBreach() and slot2 .. TravelSkuldEndingCfg[slot0.endingid_].destroy_picture or slot2 .. TravelSkuldEndingCfg[slot0.endingid_].picture)
 
-	local var_6_0 = var_0_1
+	if slot1 > 3 then
+		slot0.isshowtaskController_:SetSelectedState("false")
 
-	if SkuldTravelData:GetSkuldBtnIsBreach() then
-		var_6_0 = var_6_0 .. TravelSkuldEndingCfg[arg_6_0.endingid_].destroy_picture
-	else
-		var_6_0 = var_6_0 .. TravelSkuldEndingCfg[arg_6_0.endingid_].picture
-	end
-
-	arg_6_0.itemimage_.sprite = getSpriteWithoutAtlas(var_6_0)
-
-	if arg_6_1 > 3 then
-		arg_6_0.isshowtaskController_:SetSelectedState("false")
-
-		if SkuldTravelData:GetEndingIsOpened(arg_6_0.endingid_) then
-			arg_6_0.statucontroller_:SetSelectedState("get")
+		if SkuldTravelData:GetEndingIsOpened(slot0.endingid_) then
+			slot0.statucontroller_:SetSelectedState("get")
 		else
-			arg_6_0.statucontroller_:SetSelectedState("canopen")
+			slot0.statucontroller_:SetSelectedState("canopen")
 		end
 	else
-		arg_6_0.isshowtaskController_:SetSelectedState("true")
-		arg_6_0.statucontroller_:SetSelectedState(SkuldTravelData:GetEndingStatu(arg_6_0.endingid_))
+		slot0.isshowtaskController_:SetSelectedState("true")
 
-		local var_6_1 = 1
-		local var_6_2 = SkuldTravelData:GetAttrib()
+		slot6 = SkuldTravelData
+		slot8 = slot6
+		slot9 = slot0.endingid_
 
-		for iter_6_0, iter_6_1 in pairs(arg_6_0.cfg_.unlock_attrib) do
-			if iter_6_1 > 0 then
-				if iter_6_1 <= var_6_2[iter_6_0] then
-					arg_6_0.raskController_[var_6_1]:SetSelectedState("finish")
+		slot0.statucontroller_:SetSelectedState(slot6.GetEndingStatu(slot8, slot9))
+
+		slot3 = 1
+
+		for slot8, slot9 in pairs(slot0.cfg_.unlock_attrib) do
+			if slot9 > 0 then
+				if slot9 <= SkuldTravelData:GetAttrib()[slot8] then
+					slot0.raskController_[slot3]:SetSelectedState("finish")
 				else
-					arg_6_0.raskController_[var_6_1]:SetSelectedState("unfinish")
+					slot0.raskController_[slot3]:SetSelectedState("unfinish")
 				end
 
-				arg_6_0["rasktext_" .. var_6_1].text = SkuldTravelData:AttribIndexToString(iter_6_0) .. "≥" .. iter_6_1
-				var_6_1 = var_6_1 + 1
+				slot0["rasktext_" .. slot3].text = SkuldTravelData:AttribIndexToString(slot8) .. "≥" .. slot9
+				slot3 = slot3 + 1
 			end
 		end
 
-		for iter_6_2, iter_6_3 in pairs(arg_6_0.cfg_.unlock_story_collect) do
-			arg_6_0["rasktext_" .. var_6_1].text = string.format(GetTips("TRAVEL_SKULD_STORY_GET_INFINAL"), TravelSkuldStoryCfg[iter_6_3].story_name)
+		for slot8, slot9 in pairs(slot0.cfg_.unlock_story_collect) do
+			slot0["rasktext_" .. slot3].text = string.format(GetTips("TRAVEL_SKULD_STORY_GET_INFINAL"), TravelSkuldStoryCfg[slot9].story_name)
 
-			if SkuldTravelData:GetPlotIsGeted(iter_6_3) then
-				arg_6_0.raskController_[var_6_1]:SetSelectedState("finish")
+			if SkuldTravelData:GetPlotIsGeted(slot9) then
+				slot0.raskController_[slot3]:SetSelectedState("finish")
 			else
-				arg_6_0.raskController_[var_6_1]:SetSelectedState("unfinish")
+				slot0.raskController_[slot3]:SetSelectedState("unfinish")
 			end
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

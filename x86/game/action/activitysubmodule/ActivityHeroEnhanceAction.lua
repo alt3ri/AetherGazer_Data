@@ -1,69 +1,19 @@
-local var_0_0 = {}
-local var_0_1 = {}
+slot1 = {}
 
-manager.net:Bind(83027, function(arg_1_0)
-	ActivityHeroEnhanceData:InitData(arg_1_0)
-	Timer.New(function()
-		ActivityHeroEnhanceAction.InitRedPoint(arg_1_0)
+manager.net:Bind(83027, function (slot0)
+	ActivityHeroEnhanceData:InitData(slot0)
+	Timer.New(function ()
+		ActivityHeroEnhanceAction.InitRedPoint(uv0)
 	end, 1, 0):Start()
 end)
 
-function var_0_0.ActivateTalent(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	manager.net:SendWithLoadingNew(83028, {
-		activity_id = arg_3_0,
-		hero_id = arg_3_1,
-		talent_id = arg_3_2
-	}, 83029, function(arg_4_0, arg_4_1)
-		var_0_0.OnActivateTalent(arg_4_0, arg_4_1, arg_3_3)
-	end)
-end
-
-function var_0_0.OnActivateTalent(arg_5_0, arg_5_1, arg_5_2)
-	if not isSuccess(arg_5_0.result) then
-		ShowTips(arg_5_0.result)
-
-		return
-	end
-
-	ActivityHeroEnhanceData:ActivateTalent(arg_5_1.activity_id, arg_5_1.talent_id)
-	arg_5_2(arg_5_1.activity_id, arg_5_1.talent_id)
-end
-
-function var_0_0.DeactivateTalent(arg_6_0, arg_6_1, arg_6_2)
-	manager.net:SendWithLoadingNew(83030, {
-		activity_id = arg_6_0,
-		talent_id = arg_6_1
-	}, 83031, function(arg_7_0, arg_7_1)
-		var_0_0.OnDeactivateTalent(arg_7_0, arg_7_1, arg_6_2)
-	end)
-end
-
-function var_0_0.OnDeactivateTalent(arg_8_0, arg_8_1, arg_8_2)
-	if not isSuccess(arg_8_0.result) then
-		ShowTips(arg_8_0.result)
-
-		return
-	end
-
-	ActivityHeroEnhanceData:DeactivateTalent(arg_8_1.activity_id, arg_8_1.talent_id)
-	arg_8_2(arg_8_1.activity_id, arg_8_1.talent_id)
-end
-
-function var_0_0.InitRedPoint(arg_9_0)
-	var_0_1[arg_9_0.activity_id] = {}
-
-	var_0_0.UpdateRedPoint(arg_9_0.activity_id)
-end
-
-local function var_0_2(arg_10_0)
-	if ActivityHeroEnhanceTools.IsCfgHeroLock(arg_10_0) then
+function slot2(slot0)
+	if ActivityHeroEnhanceTools.IsCfgHeroLock(slot0) then
 		return false
 	end
 
-	local var_10_0 = arg_10_0.activity_id
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.stage_list) do
-		if not ActivityHeroEnhanceData:IsStageClear(var_10_0, iter_10_1) and ActivityHeroEnhanceTools.IsCfgStageUnlock(arg_10_0, iter_10_1) then
+	for slot5, slot6 in ipairs(slot0.stage_list) do
+		if not ActivityHeroEnhanceData:IsStageClear(slot0.activity_id, slot6) and ActivityHeroEnhanceTools.IsCfgStageUnlock(slot0, slot6) then
 			return true
 		end
 	end
@@ -71,55 +21,86 @@ local function var_0_2(arg_10_0)
 	return false
 end
 
-function var_0_0.UpdateRedPoint(arg_11_0)
-	local var_11_0 = ActivityTools.GetRedPointKey(arg_11_0) .. arg_11_0
-	local var_11_1 = string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_11_0)
-
-	manager.redPoint:addGroup(var_11_0, {
-		var_11_1
-	})
-
-	local var_11_2 = ActivityHeroEnhanceCfg.get_id_list_by_activity_id[arg_11_0]
-
-	if var_11_2 == nil then
-		return
-	end
-
-	var_0_1[arg_11_0] = var_0_1[arg_11_0] or {}
-
-	local var_11_3 = {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_2) do
-		local var_11_4 = ActivityHeroEnhanceCfg[iter_11_1]
-		local var_11_5 = var_11_4.hero_id
-		local var_11_6 = string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_11_5, var_11_0)
-
-		if var_0_1[arg_11_0][var_11_6] then
-			manager.redPoint:setTip(var_11_6, 0)
-		else
-			local var_11_7 = var_0_2(var_11_4)
-
-			manager.redPoint:setTip(var_11_6, var_11_7 and 1 or 0)
-		end
-
-		table.insert(var_11_3, var_11_6)
-	end
-
-	manager.redPoint:addGroup(var_11_1, var_11_3)
-end
-
-function var_0_0.BanRedPoint(arg_12_0, arg_12_1)
-	if var_0_1[arg_12_0] then
-		var_0_1[arg_12_0][arg_12_1] = true
-
-		var_0_0.UpdateRedPoint(arg_12_0)
-	end
-end
-
-manager.notify:RegistListener(ACTIVITY_UPDATE, function(arg_13_0)
-	if ActivityTools.GetActivityType(arg_13_0) == ActivityTemplateConst.ACTIVITY_HERO_ENHANCE then
-		var_0_0.UpdateRedPoint(arg_13_0)
+manager.notify:RegistListener(ACTIVITY_UPDATE, function (slot0)
+	if ActivityTools.GetActivityType(slot0) == ActivityTemplateConst.ACTIVITY_HERO_ENHANCE then
+		uv0.UpdateRedPoint(slot0)
 	end
 end)
 
-return var_0_0
+return {
+	ActivateTalent = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(83028, {
+			activity_id = slot0,
+			hero_id = slot1,
+			talent_id = slot2
+		}, 83029, function (slot0, slot1)
+			uv0.OnActivateTalent(slot0, slot1, uv1)
+		end)
+	end,
+	OnActivateTalent = function (slot0, slot1, slot2)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+
+			return
+		end
+
+		ActivityHeroEnhanceData:ActivateTalent(slot1.activity_id, slot1.talent_id)
+		slot2(slot1.activity_id, slot1.talent_id)
+	end,
+	DeactivateTalent = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(83030, {
+			activity_id = slot0,
+			talent_id = slot1
+		}, 83031, function (slot0, slot1)
+			uv0.OnDeactivateTalent(slot0, slot1, uv1)
+		end)
+	end,
+	OnDeactivateTalent = function (slot0, slot1, slot2)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+
+			return
+		end
+
+		ActivityHeroEnhanceData:DeactivateTalent(slot1.activity_id, slot1.talent_id)
+		slot2(slot1.activity_id, slot1.talent_id)
+	end,
+	InitRedPoint = function (slot0)
+		uv0[slot0.activity_id] = {}
+
+		uv1.UpdateRedPoint(slot0.activity_id)
+	end,
+	UpdateRedPoint = function (slot0)
+		slot1 = ActivityTools.GetRedPointKey(slot0) .. slot0
+
+		manager.redPoint:addGroup(slot1, {
+			string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, slot1)
+		})
+
+		if ActivityHeroEnhanceCfg.get_id_list_by_activity_id[slot0] == nil then
+			return
+		end
+
+		uv0[slot0] = uv0[slot0] or {}
+		slot4 = {}
+
+		for slot8, slot9 in ipairs(slot3) do
+			if uv0[slot0][string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, ActivityHeroEnhanceCfg[slot9].hero_id, slot1)] then
+				manager.redPoint:setTip(slot12, 0)
+			else
+				manager.redPoint:setTip(slot12, uv1(slot10) and 1 or 0)
+			end
+
+			table.insert(slot4, slot12)
+		end
+
+		manager.redPoint:addGroup(slot2, slot4)
+	end,
+	BanRedPoint = function (slot0, slot1)
+		if uv0[slot0] then
+			uv0[slot0][slot1] = true
+
+			uv1.UpdateRedPoint(slot0)
+		end
+	end
+}

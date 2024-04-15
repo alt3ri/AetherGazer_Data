@@ -1,29 +1,23 @@
-local var_0_0 = class("TaskWeekContentView", TaskDailyContentView)
+slot0 = class("TaskWeekContentView", TaskDailyContentView)
 
-function var_0_0.RefreshTimeText(arg_1_0)
-	local var_1_0 = GameSetting.refresh_time1.value[1][1]
-	local var_1_1 = TimeMgr.GetInstance():GetNextWeekTime(1, var_1_0, 0, 0)
-	local var_1_2 = var_1_1 - TimeMgr.GetInstance():GetServerTime()
+function slot0.RefreshTimeText(slot0)
+	slot0.timeText_.text = string.format(GetTips("TIME_DISPLAY_1"), slot0:GetTimeText(TimeMgr.GetInstance():GetNextWeekTime(1, GameSetting.refresh_time1.value[1][1], 0, 0) - TimeMgr.GetInstance():GetServerTime()))
 
-	arg_1_0.timeText_.text = string.format(GetTips("TIME_DISPLAY_1"), arg_1_0:GetTimeText(var_1_2))
-
-	if arg_1_0.dailyTimer_ then
-		arg_1_0.dailyTimer_:Stop()
+	if slot0.dailyTimer_ then
+		slot0.dailyTimer_:Stop()
 	end
 
-	arg_1_0.dailyTimer_ = Timer.New(function()
-		var_1_2 = var_1_1 - TimeMgr.GetInstance():GetServerTime()
+	slot0.dailyTimer_ = Timer.New(function ()
+		uv0 = uv1 - TimeMgr.GetInstance():GetServerTime()
 
-		if var_1_2 < 0 then
-			local var_2_0 = GameSetting.refresh_time1.value[1][1]
-
-			var_1_2 = TimeMgr.GetInstance():GetNextWeekTime(1, var_2_0, 0, 0) - TimeMgr.GetInstance():GetServerTime()
+		if uv0 < 0 then
+			uv0 = TimeMgr.GetInstance():GetNextWeekTime(1, GameSetting.refresh_time1.value[1][1], 0, 0) - TimeMgr.GetInstance():GetServerTime()
 		end
 
-		arg_1_0.timeText_.text = string.format(GetTips("TIME_DISPLAY_1"), arg_1_0:GetTimeText(var_1_2))
+		uv2.timeText_.text = string.format(GetTips("TIME_DISPLAY_1"), uv2:GetTimeText(uv0))
 	end, 1, -1)
 
-	arg_1_0.dailyTimer_:Start()
+	slot0.dailyTimer_:Start()
 end
 
-return var_0_0
+return slot0

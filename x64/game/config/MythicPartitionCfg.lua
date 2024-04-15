@@ -9,6 +9,126 @@ return {
 			8620
 		}
 	},
+	{
+		id = 2,
+		name = "难度2主分区",
+		monster_level = 35,
+		attribute_factor = {
+			1000,
+			1000,
+			6088
+		}
+	},
+	{
+		id = 3,
+		name = "难度3主分区",
+		monster_level = 45,
+		attribute_factor = {
+			1000,
+			1000,
+			6072
+		}
+	},
+	{
+		id = 4,
+		name = "难度4主分区",
+		monster_level = 50,
+		attribute_factor = {
+			1000,
+			1000,
+			6274
+		}
+	},
+	{
+		id = 5,
+		name = "难度5主分区",
+		monster_level = 55,
+		attribute_factor = {
+			1000,
+			1000,
+			8323
+		}
+	},
+	{
+		id = 6,
+		name = "难度6主分区",
+		monster_level = 60,
+		attribute_factor = {
+			1000,
+			1000,
+			9391
+		}
+	},
+	{
+		id = 7,
+		name = "难度7主分区",
+		monster_level = 70,
+		attribute_factor = {
+			1000,
+			1000,
+			11392
+		}
+	},
+	{
+		id = 8,
+		name = "难度8主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			13711
+		}
+	},
+	{
+		id = 9,
+		name = "难度9主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			14927
+		}
+	},
+	{
+		id = 10,
+		name = "难度10主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			16770
+		}
+	},
+	{
+		id = 11,
+		name = "难度11主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			18038
+		}
+	},
+	{
+		id = 12,
+		name = "难度12主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			18261
+		}
+	},
+	{
+		id = 13,
+		name = "难度13主分区",
+		monster_level = 80,
+		attribute_factor = {
+			1000,
+			1000,
+			19580
+		}
+	},
 	[101] = {
 		id = 101,
 		name = "难度1次分区1",
@@ -37,16 +157,6 @@ return {
 			1000,
 			1000,
 			3448
-		}
-	},
-	{
-		id = 2,
-		name = "难度2主分区",
-		monster_level = 35,
-		attribute_factor = {
-			1000,
-			1000,
-			6088
 		}
 	},
 	[201] = {
@@ -79,16 +189,6 @@ return {
 			2435
 		}
 	},
-	{
-		id = 3,
-		name = "难度3主分区",
-		monster_level = 45,
-		attribute_factor = {
-			1000,
-			1000,
-			6072
-		}
-	},
 	[301] = {
 		id = 301,
 		name = "难度3次分区1",
@@ -117,16 +217,6 @@ return {
 			1000,
 			1000,
 			2428
-		}
-	},
-	{
-		id = 4,
-		name = "难度4主分区",
-		monster_level = 50,
-		attribute_factor = {
-			1000,
-			1000,
-			6274
 		}
 	},
 	[401] = {
@@ -159,16 +249,6 @@ return {
 			2509
 		}
 	},
-	{
-		id = 5,
-		name = "难度5主分区",
-		monster_level = 55,
-		attribute_factor = {
-			1000,
-			1000,
-			8323
-		}
-	},
 	[501] = {
 		id = 501,
 		name = "难度5次分区1",
@@ -197,16 +277,6 @@ return {
 			1000,
 			1000,
 			3329
-		}
-	},
-	{
-		id = 6,
-		name = "难度6主分区",
-		monster_level = 60,
-		attribute_factor = {
-			1000,
-			1000,
-			9391
 		}
 	},
 	[601] = {
@@ -239,16 +309,6 @@ return {
 			3756
 		}
 	},
-	{
-		id = 7,
-		name = "难度7主分区",
-		monster_level = 70,
-		attribute_factor = {
-			1000,
-			1000,
-			11392
-		}
-	},
 	[701] = {
 		id = 701,
 		name = "难度7次分区1",
@@ -277,16 +337,6 @@ return {
 			1000,
 			1000,
 			4556
-		}
-	},
-	{
-		id = 8,
-		name = "难度8主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			13711
 		}
 	},
 	[801] = {
@@ -319,16 +369,6 @@ return {
 			5484
 		}
 	},
-	{
-		id = 9,
-		name = "难度9主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			14927
-		}
-	},
 	[901] = {
 		id = 901,
 		name = "难度9次分区1",
@@ -357,16 +397,6 @@ return {
 			1000,
 			1000,
 			5970
-		}
-	},
-	{
-		id = 10,
-		name = "难度10主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			16770
 		}
 	},
 	[1001] = {
@@ -399,16 +429,6 @@ return {
 			6708
 		}
 	},
-	{
-		id = 11,
-		name = "难度11主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			18038
-		}
-	},
 	[1101] = {
 		id = 1101,
 		name = "难度11次分区1",
@@ -439,16 +459,6 @@ return {
 			7215
 		}
 	},
-	{
-		id = 12,
-		name = "难度12主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			18261
-		}
-	},
 	[1201] = {
 		id = 1201,
 		name = "难度12次分区1",
@@ -477,16 +487,6 @@ return {
 			1000,
 			1000,
 			7304
-		}
-	},
-	{
-		id = 13,
-		name = "难度13主分区",
-		monster_level = 80,
-		attribute_factor = {
-			1000,
-			1000,
-			19580
 		}
 	},
 	[1301] = {

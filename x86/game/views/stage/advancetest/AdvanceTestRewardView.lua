@@ -1,60 +1,57 @@
-local var_0_0 = class("AdvanceTestRewardView", ReduxView)
+slot0 = class("AdvanceTestRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/AdvancetestingUI/ATestingRankRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.uiList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, AdvanceTestRewardItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, AdvanceTestRewardItemView)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0
-	local var_7_1 = arg_7_1 == 1 and 1 or ActivityPointRewardCfg[arg_7_0.taskIdList[arg_7_1 - 1]].need + 1
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = nil
 
-	arg_7_2:SetData(var_7_1, arg_7_0.taskIdList[arg_7_1])
+	slot2:SetData(slot1 == 1 and 1 or ActivityPointRewardCfg[slot0.taskIdList[slot1 - 1]].need + 1, slot0.taskIdList[slot1])
 end
 
-function var_0_0.OnTop(arg_8_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activityID = arg_9_0.params_.activityID
-	arg_9_0.taskIdList = ActivityPointRewardCfg.get_id_list_by_activity_id[arg_9_0.activityID]
+function slot0.OnEnter(slot0)
+	slot0.activityID = slot0.params_.activityID
+	slot0.taskIdList = ActivityPointRewardCfg.get_id_list_by_activity_id[slot0.activityID]
 
-	arg_9_0.uiList_:StartScroll(#arg_9_0.taskIdList)
+	slot0.uiList_:StartScroll(#slot0.taskIdList)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.uiList_ then
-		arg_11_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_11_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

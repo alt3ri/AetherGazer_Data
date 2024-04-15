@@ -1,59 +1,59 @@
-local var_0_0 = class("CanteenLevelUpView", ReduxView)
+slot0 = class("CanteenLevelUpView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamCanteenLvUpPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.chooseTasteItemScroll = LuaList.New(handler(arg_4_0, arg_4_0.refreshItem), arg_4_0.awarduilistUilist_, FoodMenuItem)
+	slot0.chooseTasteItemScroll = LuaList.New(handler(slot0, slot0.refreshItem), slot0.awarduilistUilist_, FoodMenuItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.refreshItem(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2:RefreshItem(arg_7_0.materialItemList_[arg_7_1][1], DormEnum.MenuType.levelAward, arg_7_0.materialItemList_[arg_7_1][2])
-	arg_7_2:RegisterClickCallBack(function(arg_8_0, arg_8_1)
+function slot0.refreshItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.materialItemList_[slot1][1], DormEnum.MenuType.levelAward, slot0.materialItemList_[slot1][2])
+	slot2:RegisterClickCallBack(function (slot0, slot1)
 		ShowPopItem(POP_ITEM, {
-			arg_8_0
+			slot0
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
+function slot0.OnEnter(slot0)
 	manager.audio:PlayEffect("ui_system", "hero_levelup", "")
-	arg_9_0:UpdataView()
+	slot0:UpdataView()
 end
 
-function var_0_0.UpdataView(arg_10_0)
-	arg_10_0.materialItemList_ = arg_10_0.params_.awardList
-	arg_10_0.lvText_.text = CanteenData:GetInfoCanteenLevel()
+function slot0.UpdataView(slot0)
+	slot0.materialItemList_ = slot0.params_.awardList
+	slot0.lvText_.text = CanteenData:GetInfoCanteenLevel()
 
-	if arg_10_0.materialItemList_ then
-		arg_10_0.chooseTasteItemScroll:StartScroll(#arg_10_0.materialItemList_)
+	if slot0.materialItemList_ then
+		slot0.chooseTasteItemScroll:StartScroll(#slot0.materialItemList_)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.chooseTasteItemScroll then
-		arg_11_0.chooseTasteItemScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.chooseTasteItemScroll then
+		slot0.chooseTasteItemScroll:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,15 +1,14 @@
-local var_0_0 = import("game.views.activity.Submodule.slayer.HellaSlayerRewardItem")
-local var_0_1 = class("SlayerRewardItem_1_7", var_0_0)
+slot1 = class("SlayerRewardItem_1_7", import("game.views.activity.Submodule.slayer.HellaSlayerRewardItem"))
 
-function var_0_1.SetData(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.slayer_activity_id = arg_1_1
-	arg_1_0.region_activity_id = arg_1_2
-	arg_1_0.pointRewards = ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[arg_1_2] or {}
+function slot1.SetData(slot0, slot1, slot2)
+	slot0.slayer_activity_id = slot1
+	slot0.region_activity_id = slot2
+	slot0.pointRewards = ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[slot2] or {}
 
-	arg_1_0.list:StartScroll(#arg_1_0.pointRewards)
+	slot0.list:StartScroll(#slot0.pointRewards)
 
-	arg_1_0.hight = arg_1_0.transform_.sizeDelta.y
-	arg_1_0.m_title.text = ActivitySlayerCfg[arg_1_2] and GetI18NText(ActivitySlayerCfg[arg_1_2].name) or ""
+	slot0.hight = slot0.transform_.sizeDelta.y
+	slot0.m_title.text = ActivitySlayerCfg[slot2] and GetI18NText(ActivitySlayerCfg[slot2].name) or ""
 end
 
-return var_0_1
+return slot1

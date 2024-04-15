@@ -1,165 +1,146 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("NewGuildActivitySPSetFightHeroView", var_0_0)
+slot1 = class("NewGuildActivitySPSetFightHeroView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.ExtraSorter(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	local var_1_0 = arg_1_0.params_.heroId or 0
-	local var_1_1 = arg_1_1.id == var_1_0 and 1 or 0
-	local var_1_2 = arg_1_2.id == var_1_0 and 1 or 0
+function slot1.ExtraSorter(slot0, slot1, slot2, slot3, slot4)
+	slot5 = slot0.params_.heroId or 0
 
-	if var_1_1 ~= var_1_2 then
-		return true, var_1_2 < var_1_1
+	if (slot1.id == slot5 and 1 or 0) ~= (slot2.id == slot5 and 1 or 0) then
+		return true, slot7 < slot6
 	end
 
 	return false, false
 end
 
-function var_0_1.InitUI(arg_2_0)
-	var_0_1.super.InitUI(arg_2_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	local var_2_0 = Asset.Load("UI/GuildActivitySPUI/items/spenergy")
-	local var_2_1 = Object.Instantiate(var_2_0, arg_2_0.extensionContainer_)
-
-	arg_2_0.energyItem_ = GuildActivitySPTeamInfoEnergyItemView.New(var_2_1)
+	slot0.energyItem_ = GuildActivitySPTeamInfoEnergyItemView.New(Object.Instantiate(Asset.Load("UI/GuildActivitySPUI/items/spenergy"), slot0.extensionContainer_))
 end
 
-function var_0_1.UpdateHeroView(arg_3_0)
-	var_0_1.super.UpdateHeroView(arg_3_0)
-	arg_3_0.energyItem_:SetCurrent(arg_3_0:IsHeroInTeam(arg_3_0.selectHeroData_.id))
+function slot1.UpdateHeroView(slot0)
+	uv0.super.UpdateHeroView(slot0)
+	slot0.energyItem_:SetCurrent(slot0:IsHeroInTeam(slot0.selectHeroData_.id))
 
-	local var_3_0 = GameSetting.activity_club_sp_hero_fatigue_max.value[1]
-	local var_3_1
+	slot1 = GameSetting.activity_club_sp_hero_fatigue_max.value[1]
+	slot2 = nil
 
-	if GuildActivitySPData:IsFirstConfigFightRole() then
-		var_3_1 = var_3_0
-	else
-		var_3_1 = table.indexof(arg_3_0.params_.putOffList, arg_3_0.selectHeroData_.id) and 0 or GuildActivitySPData:GetHeroFatigue(arg_3_0.selectHeroData_.id)
-	end
-
-	arg_3_0.energyItem_:SetData(var_3_0, var_3_1)
+	slot0.energyItem_:SetData(slot1, GuildActivitySPData:IsFirstConfigFightRole() and slot1 or table.indexof(slot0.params_.putOffList, slot0.selectHeroData_.id) and 0 or GuildActivitySPData:GetHeroFatigue(slot0.selectHeroData_.id))
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	var_0_1.super.OnEnter(arg_4_0)
-	arg_4_0:AddEventListeners()
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_1.RefreshInfoBtn(arg_5_0)
-	SetActive(arg_5_0.infoBtn_.gameObject, false)
+function slot1.RefreshInfoBtn(slot0)
+	SetActive(slot0.infoBtn_.gameObject, false)
 end
 
-function var_0_1.OnExit(arg_6_0)
-	var_0_1.super.OnExit(arg_6_0)
-	arg_6_0:RemoveAllEventListener()
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_1.AddEventListeners(arg_7_0)
-	arg_7_0:RegistEventListener(GUILD_EXIT, function()
-		arg_7_0:Go("/home")
+function slot1.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_EXIT, function ()
+		uv0:Go("/home")
 	end)
 end
 
-function var_0_1.GetHeroTeam(arg_9_0)
-	return
+function slot1.GetHeroTeam(slot0)
 end
 
-function var_0_1.OnJoinClick(arg_10_0)
-	if arg_10_0.params_.heroId ~= nil and arg_10_0.params_.heroId > 0 then
-		if arg_10_0.selectHeroData_.id == arg_10_0.params_.heroId then
+function slot1.OnJoinClick(slot0)
+	if slot0.params_.heroId ~= nil and slot0.params_.heroId > 0 then
+		if slot0.selectHeroData_.id == slot0.params_.heroId then
 			if not GuildActivitySPData:IsFirstConfigFightRole() then
 				ShowMessageBox({
 					content = GetTips("ACTIVITY_CLUB_REMOVE_TEAM_TIP"),
-					OkCallback = function()
-						if arg_10_0.params_.callback then
-							arg_10_0.params_.callback(arg_10_0.params_.index, arg_10_0.params_.heroId, 0)
+					OkCallback = function ()
+						if uv0.params_.callback then
+							uv0.params_.callback(uv0.params_.index, uv0.params_.heroId, 0)
 						end
 
-						arg_10_0:Back()
+						uv0:Back()
 					end,
-					CancelCallback = function()
-						return
+					CancelCallback = function ()
 					end
 				})
 			else
-				if arg_10_0.params_.callback then
-					arg_10_0.params_.callback(arg_10_0.params_.index, arg_10_0.params_.heroId, 0)
+				if slot0.params_.callback then
+					slot0.params_.callback(slot0.params_.index, slot0.params_.heroId, 0)
 				end
 
-				arg_10_0:Back()
+				slot0:Back()
 			end
 		elseif not GuildActivitySPData:IsFirstConfigFightRole() then
 			ShowMessageBox({
 				content = GetTips("ACTIVITY_CLUB_JOIN_ZERO_VITALITY_TIP"),
-				OkCallback = function()
-					if arg_10_0.params_.callback then
-						arg_10_0.params_.callback(arg_10_0.params_.index, arg_10_0.params_.heroId, arg_10_0.selectHeroData_.id)
+				OkCallback = function ()
+					if uv0.params_.callback then
+						uv0.params_.callback(uv0.params_.index, uv0.params_.heroId, uv0.selectHeroData_.id)
 					end
 
-					arg_10_0:Back()
+					uv0:Back()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		else
-			if arg_10_0.params_.callback then
-				arg_10_0.params_.callback(arg_10_0.params_.index, arg_10_0.params_.heroId, arg_10_0.selectHeroData_.id)
+			if slot0.params_.callback then
+				slot0.params_.callback(slot0.params_.index, slot0.params_.heroId, slot0.selectHeroData_.id)
 			end
 
-			arg_10_0:Back()
+			slot0:Back()
 		end
 	else
-		if arg_10_0.params_.callback then
-			arg_10_0.params_.callback(arg_10_0.params_.index, 0, arg_10_0.selectHeroData_.id)
+		if slot0.params_.callback then
+			slot0.params_.callback(slot0.params_.index, 0, slot0.selectHeroData_.id)
 		end
 
-		arg_10_0:Back()
+		slot0:Back()
 	end
 end
 
-function var_0_1.RefreshJoinBtn(arg_15_0)
-	arg_15_0.joinBtn_.interactable = true
+function slot1.RefreshJoinBtn(slot0)
+	slot0.joinBtn_.interactable = true
 
-	if arg_15_0.params_.heroId ~= nil and arg_15_0.params_.heroId > 0 then
-		if arg_15_0.selectHeroData_.id == arg_15_0.params_.heroId then
-			arg_15_0.joinBtnController_:SetSelectedState("out")
+	if slot0.params_.heroId ~= nil and slot0.params_.heroId > 0 then
+		if slot0.selectHeroData_.id == slot0.params_.heroId then
+			slot0.joinBtnController_:SetSelectedState("out")
 		else
-			arg_15_0.joinBtnController_:SetSelectedState("change")
+			slot0.joinBtnController_:SetSelectedState("change")
 		end
 	else
-		arg_15_0.joinBtnController_:SetSelectedState("add")
+		slot0.joinBtnController_:SetSelectedState("add")
 	end
 end
 
-function var_0_1.IsInTeam(arg_16_0, arg_16_1, arg_16_2)
-	return arg_16_1 == arg_16_0.params_.heroId, false, -1
+function slot1.IsInTeam(slot0, slot1, slot2)
+	return slot1 == slot0.params_.heroId, false, -1
 end
 
-function var_0_1.GetDefaultHeroData(arg_17_0)
-	return arg_17_0.heroDataList_[1]
+function slot1.GetDefaultHeroData(slot0)
+	return slot0.heroDataList_[1]
 end
 
-function var_0_1.GetHeroList(arg_18_0)
-	local var_18_0 = HeroData:GetHeroList()
-	local var_18_1 = {}
-
-	for iter_18_0, iter_18_1 in pairs(var_18_0) do
-		if not arg_18_0:IsHeroInTeam(iter_18_1.id) or iter_18_1.id == arg_18_0.params_.heroId then
-			var_18_1[iter_18_1.id] = iter_18_1
+function slot1.GetHeroList(slot0)
+	for slot6, slot7 in pairs(HeroData:GetHeroList()) do
+		if not slot0:IsHeroInTeam(slot7.id) or slot7.id == slot0.params_.heroId then
+			-- Nothing
 		end
 	end
 
-	return (HeroTools.Sort(var_18_1))
+	return HeroTools.Sort({
+		[slot7.id] = slot7
+	})
 end
 
-function var_0_1.ChangeTeam(arg_19_0, arg_19_1, arg_19_2)
-	return
+function slot1.ChangeTeam(slot0, slot1, slot2)
 end
 
-function var_0_1.IsHeroInTeam(arg_20_0, arg_20_1)
-	local var_20_0 = arg_20_0.params_.heroList
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_0) do
-		if iter_20_1.id == arg_20_1 then
+function slot1.IsHeroInTeam(slot0, slot1)
+	for slot6, slot7 in ipairs(slot0.params_.heroList) do
+		if slot7.id == slot1 then
 			return true
 		end
 	end
@@ -167,14 +148,14 @@ function var_0_1.IsHeroInTeam(arg_20_0, arg_20_1)
 	return false
 end
 
-function var_0_1.Dispose(arg_21_0)
-	if arg_21_0.energyItem_ then
-		arg_21_0.energyItem_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.energyItem_ then
+		slot0.energyItem_:Dispose()
 
-		arg_21_0.energyItem_ = nil
+		slot0.energyItem_ = nil
 	end
 
-	var_0_1.super.Dispose(arg_21_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

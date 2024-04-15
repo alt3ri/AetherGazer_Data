@@ -1,70 +1,65 @@
-local var_0_0 = class("ChapterEquipItemBaseView", import("..ChapterBaseItemView"))
+slot0 = class("ChapterEquipItemBaseView", import("..ChapterBaseItemView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	arg_1_0:AddRedPoint()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:AddRedPoint()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	arg_2_0:RemoveRedPoint()
-	var_0_0.super.OnExit(arg_2_0)
+function slot0.OnExit(slot0)
+	slot0:RemoveRedPoint()
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.AddRedPoint(arg_3_0)
-	return
+function slot0.AddRedPoint(slot0)
 end
 
-function var_0_0.RemoveRedPoint(arg_4_0)
-	return
+function slot0.RemoveRedPoint(slot0)
 end
 
-function var_0_0.RefreshCustomItem(arg_5_0, arg_5_1)
-	if arg_5_0.oldCfgID_ ~= arg_5_1.id then
-		arg_5_0.nameText_.text = GetI18NText(arg_5_1.name)
+function slot0.RefreshCustomItem(slot0, slot1)
+	if slot0.oldCfgID_ ~= slot1.id then
+		slot0.nameText_.text = GetI18NText(slot1.name)
 
-		SetSpriteWithoutAtlasAsync(arg_5_0.icon_, arg_5_1.drop_icon)
+		SetSpriteWithoutAtlasAsync(slot0.icon_, slot1.drop_icon)
 
-		arg_5_0.oldCfgID_ = arg_5_1.id
+		slot0.oldCfgID_ = slot1.id
 	end
 end
 
-function var_0_0.ClickItem(arg_6_0, arg_6_1)
-	if arg_6_0.isLock_ then
-		ShowTips(arg_6_0.lockTips_)
+function slot0.ClickItem(slot0, slot1)
+	if slot0.isLock_ then
+		ShowTips(slot0.lockTips_)
 
 		return
 	end
 
-	local var_6_0 = ChapterClientCfg[arg_6_1].chapter_list[1]
-	local var_6_1 = ChapterCfg[var_6_0]
-
-	if var_6_1.type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP then
+	if ChapterCfg[ChapterClientCfg[slot1].chapter_list[1]].type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP then
 		JumpTools.OpenPageByJump("/equipSection", {
-			chapterID = var_6_0
+			chapterID = slot2
 		}, ViewConst.SYSTEM_ID.BATTLE_EQUIP_SECTION)
 
 		return
-	elseif var_6_1.type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT then
+	elseif slot3.type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT then
 		JumpTools.OpenPageByJump("/enchantment")
 
 		return
-	elseif var_6_1.type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY then
+	elseif slot3.type == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY then
 		JumpTools.OpenPageByJump("/daily", {
-			chapterID = var_6_0
+			chapterID = slot2
 		})
 
 		return
-	elseif var_6_1.type == BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL then
+	elseif slot3.type == BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL then
 		EquipBreakThroughMaterialAction.EnterEquipBTMaterial()
 
 		return
-	elseif var_6_1.type == BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE then
+	elseif slot3.type == BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE then
 		JumpTools.OpenPageByJump("/equipSeizure", {
-			chapterID = var_6_0
+			chapterID = slot2
 		})
 
 		return
 	end
 end
 
-return var_0_0
+return slot0

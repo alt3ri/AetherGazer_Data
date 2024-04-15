@@ -1,13 +1,11 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("ActivityHeroEnhanceTeamInfoView", var_0_0)
+slot1 = class("ActivityHeroEnhanceTeamInfoView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.GetHeroList(arg_1_0)
-	local var_1_0 = arg_1_0.params_.heroEnhance_CfgID
-	local var_1_1 = ActivityHeroEnhanceCfg[var_1_0].hero_id
+function slot1.GetHeroList(slot0)
+	slot3 = ActivityHeroEnhanceCfg[slot0.params_.heroEnhance_CfgID].hero_id
 
-	return (HeroTools.Sort({
-		[var_1_1] = HeroData:GetHeroData(var_1_1)
-	}))
+	return HeroTools.Sort({
+		[slot3] = HeroData:GetHeroData(slot3)
+	})
 end
 
-return var_0_1
+return slot1

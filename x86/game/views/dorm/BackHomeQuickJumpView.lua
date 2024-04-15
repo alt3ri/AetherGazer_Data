@@ -1,81 +1,79 @@
-local var_0_0 = class("BackHomeQuickJumpView", ReduxView)
+slot0 = class("BackHomeQuickJumpView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.canteenBtnController = ControllerUtil.GetController(arg_3_0.canteenBtn.transform, "position")
-	arg_3_0.publicDormBtnController = ControllerUtil.GetController(arg_3_0.publicDormBtn.transform, "position")
-	arg_3_0.chooseDormBtnBtnController = ControllerUtil.GetController(arg_3_0.chooseDormBtn.transform, "position")
-	arg_3_0.danceBtnBtnController = ControllerUtil.GetController(arg_3_0.danceRoomBtn.transform, "position")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.canteenBtnController = ControllerUtil.GetController(slot0.canteenBtn.transform, "position")
+	slot0.publicDormBtnController = ControllerUtil.GetController(slot0.publicDormBtn.transform, "position")
+	slot0.chooseDormBtnBtnController = ControllerUtil.GetController(slot0.chooseDormBtn.transform, "position")
+	slot0.danceBtnBtnController = ControllerUtil.GetController(slot0.danceRoomBtn.transform, "position")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	manager.redPoint:bindUIandKey(arg_4_0.showBtn.transform, RedPointConst.BACKHOME)
-	manager.redPoint:bindUIandKey(arg_4_0.canteenBtn.transform, RedPointConst.CANTEEN)
-	manager.redPoint:bindUIandKey(arg_4_0.chooseDormBtn.transform, RedPointConst.DORM_PLACEMENT)
+function slot0.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.showBtn.transform, RedPointConst.BACKHOME)
+	manager.redPoint:bindUIandKey(slot0.canteenBtn.transform, RedPointConst.CANTEEN)
+	manager.redPoint:bindUIandKey(slot0.chooseDormBtn.transform, RedPointConst.DORM_PLACEMENT)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	manager.redPoint:unbindUIandKey(arg_5_0.showBtn.transform, RedPointConst.BACKHOME)
-	manager.redPoint:unbindUIandKey(arg_5_0.canteenBtn.transform, RedPointConst.CANTEEN)
-	manager.redPoint:unbindUIandKey(arg_5_0.chooseDormBtn.transform, RedPointConst.DORM_PLACEMENT)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.showBtn.transform, RedPointConst.BACKHOME)
+	manager.redPoint:unbindUIandKey(slot0.canteenBtn.transform, RedPointConst.CANTEEN)
+	manager.redPoint:unbindUIandKey(slot0.chooseDormBtn.transform, RedPointConst.DORM_PLACEMENT)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgMask_, nil, function()
-		arg_6_0:ShowView(false)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgMask_, nil, function ()
+		uv0:ShowView(false)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.showBtn, nil, function()
-		arg_6_0:ShowView(true)
+	slot0:AddBtnListener(slot0.showBtn, nil, function ()
+		uv0:ShowView(true)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.visitBtn, nil, function()
+	slot0:AddBtnListener(slot0.visitBtn, nil, function ()
 		JumpTools.OpenPageByJump("/dormVisitView", {
 			enterType = "quick"
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.canteenBtn, nil, function()
+	slot0:AddBtnListener(slot0.canteenBtn, nil, function ()
 		if DormData:GetCurrectSceneID() == DormConst.CANTEEN_ID then
-			arg_6_0:ShowView(false)
+			uv0:ShowView(false)
 
 			return
 		end
 
 		BackHomeTools:GotoBackHomeRoom(DormConst.CANTEEN_ID)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.publicDormBtn, nil, function()
-		local var_11_0 = DormData:GetCurrectSceneID()
-
-		if var_11_0 == DormConst.PUBLIC_DORM_ID then
-			arg_6_0:ShowView(false)
+	slot0:AddBtnListener(slot0.publicDormBtn, nil, function ()
+		if DormData:GetCurrectSceneID() == DormConst.PUBLIC_DORM_ID then
+			uv0:ShowView(false)
 
 			return
 		end
 
-		if nullable(BackHomeCfg, var_11_0, "type") == DormConst.BACKHOME_TYPE.PrivateDorm then
+		if nullable(BackHomeCfg, slot0, "type") == DormConst.BACKHOME_TYPE.PrivateDorm then
 			JumpTools.OpenPageByJump("/dormHeroDeployView")
 		end
 
 		BackHomeTools:GotoBackHomeRoom(DormConst.PUBLIC_DORM_ID)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.chooseDormBtn, nil, function()
+	slot0:AddBtnListener(slot0.chooseDormBtn, nil, function ()
 		JumpTools.OpenPageByJump("/dormChooseRoomView")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.danceRoomBtn, nil, function()
+	slot0:AddBtnListener(slot0.danceRoomBtn, nil, function ()
 		if BackHomeDataManager:GetCurSystem() == DormEnum.DormSystemType.CricketBattle then
-			arg_6_0:ShowView(false)
+			uv0:ShowView(false)
 
 			return
 		end
@@ -84,73 +82,69 @@ function var_0_0.AddUIListener(arg_6_0)
 	end)
 end
 
-function var_0_0.ShowView(arg_14_0, arg_14_1)
-	if arg_14_0.show == arg_14_1 then
+function slot0.ShowView(slot0, slot1)
+	if slot0.show == slot1 then
 		return
 	end
 
-	arg_14_0.show = arg_14_1
+	slot0.show = slot1
 
-	if arg_14_0.show then
-		arg_14_0.stateController:SetSelectedState("true")
-		arg_14_0:RefreshView()
+	if slot0.show then
+		slot0.stateController:SetSelectedState("true")
+		slot0:RefreshView()
 
-		if arg_14_0.clickFunc then
-			arg_14_0.clickFunc()
+		if slot0.clickFunc then
+			slot0.clickFunc()
 		end
 	else
-		arg_14_0.stateController:SetSelectedState("false")
+		slot0.stateController:SetSelectedState("false")
 
-		arg_14_0.show = false
+		slot0.show = false
 
-		if arg_14_0.closeFunc then
-			arg_14_0.closeFunc()
+		if slot0.closeFunc then
+			slot0.closeFunc()
 		end
 	end
 end
 
-function var_0_0.RefreshView(arg_15_0)
+function slot0.RefreshView(slot0)
 	if BackHomeDataManager:GetCurSystem() == DormEnum.DormSystemType.CricketBattle then
-		arg_15_0.canteenBtnController:SetSelectedState("off")
-		arg_15_0.publicDormBtnController:SetSelectedState("off")
-		arg_15_0.chooseDormBtnBtnController:SetSelectedState("off")
-		arg_15_0.danceBtnBtnController:SetSelectedState("on")
-	else
-		local var_15_0 = DormData:GetCurrectSceneID()
-
-		if var_15_0 == DormConst.CANTEEN_ID then
-			arg_15_0.canteenBtnController:SetSelectedState("on")
-			arg_15_0.publicDormBtnController:SetSelectedState("off")
-			arg_15_0.chooseDormBtnBtnController:SetSelectedState("off")
-			arg_15_0.danceBtnBtnController:SetSelectedState("off")
-		elseif var_15_0 == DormConst.PUBLIC_DORM_ID then
-			arg_15_0.canteenBtnController:SetSelectedState("off")
-			arg_15_0.publicDormBtnController:SetSelectedState("on")
-			arg_15_0.chooseDormBtnBtnController:SetSelectedState("off")
-			arg_15_0.danceBtnBtnController:SetSelectedState("off")
-		elseif BackHomeCfg[var_15_0].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-			arg_15_0.canteenBtnController:SetSelectedState("off")
-			arg_15_0.publicDormBtnController:SetSelectedState("off")
-			arg_15_0.chooseDormBtnBtnController:SetSelectedState("on")
-			arg_15_0.danceBtnBtnController:SetSelectedState("off")
-		end
+		slot0.canteenBtnController:SetSelectedState("off")
+		slot0.publicDormBtnController:SetSelectedState("off")
+		slot0.chooseDormBtnBtnController:SetSelectedState("off")
+		slot0.danceBtnBtnController:SetSelectedState("on")
+	elseif DormData:GetCurrectSceneID() == DormConst.CANTEEN_ID then
+		slot0.canteenBtnController:SetSelectedState("on")
+		slot0.publicDormBtnController:SetSelectedState("off")
+		slot0.chooseDormBtnBtnController:SetSelectedState("off")
+		slot0.danceBtnBtnController:SetSelectedState("off")
+	elseif slot2 == DormConst.PUBLIC_DORM_ID then
+		slot0.canteenBtnController:SetSelectedState("off")
+		slot0.publicDormBtnController:SetSelectedState("on")
+		slot0.chooseDormBtnBtnController:SetSelectedState("off")
+		slot0.danceBtnBtnController:SetSelectedState("off")
+	elseif BackHomeCfg[slot2].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+		slot0.canteenBtnController:SetSelectedState("off")
+		slot0.publicDormBtnController:SetSelectedState("off")
+		slot0.chooseDormBtnBtnController:SetSelectedState("on")
+		slot0.danceBtnBtnController:SetSelectedState("off")
 	end
 end
 
-function var_0_0.AddClickCallBack(arg_16_0, arg_16_1)
-	if arg_16_1 then
-		arg_16_0.clickFunc = arg_16_1
+function slot0.AddClickCallBack(slot0, slot1)
+	if slot1 then
+		slot0.clickFunc = slot1
 	end
 end
 
-function var_0_0.CloseCallBack(arg_17_0, arg_17_1)
-	if arg_17_1 then
-		arg_17_0.closeFunc = arg_17_1
+function slot0.CloseCallBack(slot0, slot1)
+	if slot1 then
+		slot0.closeFunc = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,190 +1,181 @@
-local var_0_0 = class("ChessLetterView", ReduxView)
-local var_0_1 = {
+slot0 = class("ChessLetterView", ReduxView)
+slot1 = {
 	Playing = 2,
 	Stop = 3,
 	Init = 1
 }
-local var_0_2 = 40
-local var_0_3 = 1
-local var_0_4 = 1.5
-local var_0_5 = 0.5
-local var_0_6 = false
+slot2 = 40
+slot3 = 1
+slot4 = 1.5
+slot5 = 0.5
+slot6 = false
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/WarChess_Battle/WarChessLetterUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.typeTime_ = 0
-	arg_3_0.textComs = {}
+	slot0.typeTime_ = 0
+	slot0.textComs = {}
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		if arg_5_0.state_ == var_0_1.Playing then
-			-- block empty
-		elseif arg_5_0.state_ == var_0_1.Stop then
-			if arg_5_0.contentID_ == 0 then
-				arg_5_0:Back()
-				arg_5_0.callBack()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0.state_ == uv1.Playing then
+			-- Nothing
+		elseif uv0.state_ == uv1.Stop then
+			if uv0.contentID_ == 0 then
+				uv0:Back()
+				uv0.callBack()
 			else
-				arg_5_0.state_ = var_0_1.Init
-				var_0_6 = false
+				uv0.state_ = uv1.Init
+				uv2 = false
 			end
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.callBack = arg_7_0.params_.callBack
+function slot0.OnEnter(slot0)
+	slot0.callBack = slot0.params_.callBack
 
-	if not arg_7_0.handle then
-		arg_7_0.handle = FuncTimerManager.inst:CreateFuncFrameTimer(function()
-			arg_7_0:Update()
+	if not slot0.handle then
+		slot0.handle = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
+			uv0:Update()
 		end, -1, true)
 	end
 
-	var_0_6 = true
-	arg_7_0.state_ = var_0_1.Init
-	arg_7_0.contentID_ = arg_7_0.params_.ID
-	arg_7_0.scrollbar_.value = 1
+	uv0 = true
+	slot0.state_ = uv1.Init
+	slot0.contentID_ = slot0.params_.ID
+	slot0.scrollbar_.value = 1
 end
 
-function var_0_0.OnExit(arg_9_0)
-	if arg_9_0.handle then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_9_0.handle)
+function slot0.OnExit(slot0)
+	if slot0.handle then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.handle)
 
-		arg_9_0.handle = nil
+		slot0.handle = nil
 	end
 end
 
-function var_0_0.Update(arg_10_0)
-	local var_10_0 = Time.deltaTime
-
-	arg_10_0:Play(var_10_0)
+function slot0.Update(slot0)
+	slot0:Play(Time.deltaTime)
 end
 
-function var_0_0.Play(arg_11_0, arg_11_1)
-	if arg_11_0.state_ == var_0_1.Init then
-		arg_11_0.pageText_ = ""
-		arg_11_0.typeTime_ = 0
-
-		local var_11_0 = 1
-		local var_11_1 = -1
+function slot0.Play(slot0, slot1)
+	if slot0.state_ == uv0.Init then
+		slot0.pageText_ = ""
+		slot0.typeTime_ = 0
+		slot2 = 1
+		slot3 = -1
 
 		while true do
-			if arg_11_0.contentID_ == 0 then
+			if slot0.contentID_ == 0 then
 				error("WarchessContentCfg配置错误")
 			end
 
-			local var_11_2 = WarchessContentCfg[arg_11_0.contentID_]
-			local var_11_3 = var_11_2.alignment or 0
-
-			if var_11_1 == -1 then
-				arg_11_0.pageText_ = arg_11_0.pageText_ .. GetI18NText(var_11_2.content)
-				var_11_1 = var_11_3
-			elseif var_11_1 == var_11_3 then
-				arg_11_0.pageText_ = arg_11_0.pageText_ .. "\n" .. GetI18NText(var_11_2.content)
+			if slot3 == -1 then
+				slot0.pageText_ = slot0.pageText_ .. GetI18NText(slot4.content)
+				slot3 = WarchessContentCfg[slot0.contentID_].alignment or 0
+			elseif slot3 == slot5 then
+				slot0.pageText_ = slot0.pageText_ .. "\n" .. GetI18NText(slot4.content)
 			else
-				arg_11_0:CreateText(var_11_0, var_11_1, arg_11_0.pageText_)
+				slot0:CreateText(slot2, slot3, slot0.pageText_)
 
-				arg_11_0.pageText_ = GetI18NText(var_11_2.content)
-				var_11_0 = var_11_0 + 1
-				var_11_1 = var_11_3
+				slot0.pageText_ = GetI18NText(slot4.content)
+				slot2 = slot2 + 1
+				slot3 = slot5
 			end
 
-			arg_11_0.contentID_ = var_11_2.next
+			slot0.contentID_ = slot4.next
 
-			if var_11_2.page_end ~= 0 then
-				arg_11_0:CreateText(var_11_0, var_11_1, arg_11_0.pageText_)
+			if slot4.page_end ~= 0 then
+				slot0:CreateText(slot2, slot3, slot0.pageText_)
 
 				break
 			end
 		end
 
-		for iter_11_0 = var_11_0 + 1, #arg_11_0.textComs do
-			SetActive(arg_11_0.textComs[iter_11_0].gameObject, false)
+		for slot7 = slot2 + 1, #slot0.textComs do
+			SetActive(slot0.textComs[slot7].gameObject, false)
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.textContent_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.textContent_)
 
-		if var_0_6 then
-			arg_11_0:SetTextColor(Color(1, 1, 1, 0))
+		if uv1 then
+			slot0:SetTextColor(Color(1, 1, 1, 0))
 		end
 
-		arg_11_0.state_ = var_0_1.Playing
-	elseif arg_11_0.state_ == var_0_1.Playing then
-		arg_11_0.typeTime_ = arg_11_0.typeTime_ + arg_11_1
+		slot0.state_ = uv0.Playing
+	elseif slot0.state_ == uv0.Playing then
+		slot0.typeTime_ = slot0.typeTime_ + slot1
 
-		if var_0_6 then
-			if arg_11_0.typeTime_ > var_0_4 then
-				arg_11_0.state_ = var_0_1.Stop
+		if uv1 then
+			if uv2 < slot0.typeTime_ then
+				slot0.state_ = uv0.Stop
 			else
-				local var_11_4 = arg_11_0.typeTime_ / var_0_3
+				slot2 = slot0.typeTime_ / uv3
 
-				arg_11_0:SetTextColor(Color(1, 1, 1, var_11_4 * var_11_4))
+				slot0:SetTextColor(Color(1, 1, 1, slot2 * slot2))
 			end
-		elseif arg_11_0.typeTime_ > var_0_5 then
-			arg_11_0.state_ = var_0_1.Stop
+		elseif uv4 < slot0.typeTime_ then
+			slot0.state_ = uv0.Stop
 		end
-	elseif arg_11_0.state_ == var_0_1.Stop then
-		-- block empty
-	else
+	elseif slot0.state_ ~= uv0.Stop then
 		error("错误的State")
 	end
 end
 
-function var_0_0.CreateText(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if not arg_12_0.textComs[arg_12_1] then
-		local var_12_0 = Object.Instantiate(arg_12_0.textText_, arg_12_0.textContent_)
-
-		var_12_0.transform.sizeDelta = Vector2.New(arg_12_0.textContent_.rect.width, 0)
-		arg_12_0.textComs[arg_12_1] = var_12_0:GetComponent(typeof(Text))
+function slot0.CreateText(slot0, slot1, slot2, slot3)
+	if not slot0.textComs[slot1] then
+		slot4 = Object.Instantiate(slot0.textText_, slot0.textContent_)
+		slot4.transform.sizeDelta = Vector2.New(slot0.textContent_.rect.width, 0)
+		slot0.textComs[slot1] = slot4:GetComponent(typeof(Text))
 	end
 
 	print("<color=#00ff00>CreateText</color> Network connected")
 
-	local var_12_1 = arg_12_0.textComs[arg_12_1]
+	slot4 = slot0.textComs[slot1]
 
-	SetActive(var_12_1.gameObject, true)
+	SetActive(slot4.gameObject, true)
 
-	var_12_1.alignment = arg_12_0:GetAlignmentNum(arg_12_2)
-	var_12_1.text = GetI18NText(arg_12_3)
+	slot4.alignment = slot0:GetAlignmentNum(slot2)
+	slot4.text = GetI18NText(slot3)
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_12_0.textContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.textContent_)
 end
 
-function var_0_0.SetTextColor(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.textComs) do
-		iter_13_1.color = arg_13_1
+function slot0.SetTextColor(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.textComs) do
+		slot6.color = slot1
 	end
 end
 
-function var_0_0.GetAlignmentNum(arg_14_0, arg_14_1)
-	if arg_14_1 == 1 then
+function slot0.GetAlignmentNum(slot0, slot1)
+	if slot1 == 1 then
 		return UnityEngine.TextAnchor.UpperCenter
-	elseif arg_14_1 == 2 then
+	elseif slot1 == 2 then
 		return UnityEngine.TextAnchor.UpperRight
 	else
 		return UnityEngine.TextAnchor.UpperLeft
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.textComs = {}
+function slot0.Dispose(slot0)
+	slot0.textComs = {}
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

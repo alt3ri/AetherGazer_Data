@@ -1,128 +1,120 @@
-local var_0_0 = class("ShopBuyView", ReduxView)
+slot0 = class("ShopBuyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/showpopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.useNumTriggerListener_ = arg_5_0.useNumSliderGo_.transform:GetComponent(typeof(EventTriggerListener))
-	arg_5_0.bgController = arg_5_0.controller_:GetController("bg")
-	arg_5_0.groupController = arg_5_0.controller_:GetController("group")
-	arg_5_0.timeController = arg_5_0.controller_:GetController("time")
-	arg_5_0.viewController = arg_5_0.controller_:GetController("view")
-	arg_5_0.starController = arg_5_0.controller_:GetController("star")
-	arg_5_0.ndtabController = arg_5_0.controller_:GetController("ndtab")
-	arg_5_0.consumeController = arg_5_0.controller_:GetController("consume")
-	arg_5_0.furnitureController = arg_5_0.controller_:GetController("Furniture")
+	slot0.useNumTriggerListener_ = slot0.useNumSliderGo_.transform:GetComponent(typeof(EventTriggerListener))
+	slot0.bgController = slot0.controller_:GetController("bg")
+	slot0.groupController = slot0.controller_:GetController("group")
+	slot0.timeController = slot0.controller_:GetController("time")
+	slot0.viewController = slot0.controller_:GetController("view")
+	slot0.starController = slot0.controller_:GetController("star")
+	slot0.ndtabController = slot0.controller_:GetController("ndtab")
+	slot0.consumeController = slot0.controller_:GetController("consume")
+	slot0.furnitureController = slot0.controller_:GetController("Furniture")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.tipGo_, nil, function()
-		local var_7_0 = ItemCfg[arg_6_0.shopCfg.give_id].type
-
-		if var_7_0 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.tipGo_, nil, function ()
+		if ItemCfg[uv0.shopCfg.give_id].type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
 			JumpTools.OpenPageByJump("/showServantView", {
 				state = "onlydetail",
-				id = arg_6_0.shopCfg.give_id
+				id = uv0.shopCfg.give_id
 			})
 			OperationRecorder.Record("ShopItemView", "ExplaintBut")
-		elseif var_7_0 == ItemConst.ITEM_TYPE.EQUIP then
+		elseif slot1 == ItemConst.ITEM_TYPE.EQUIP then
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_6_0.shopCfg.give_id,
+				uv0.shopCfg.give_id,
 				1
 			}, nil)
 			OperationRecorder.Record("ShopItemView", "ExplaintBut")
-		elseif var_7_0 == ItemConst.ITEM_TYPE.SCENE then
+		elseif slot1 == ItemConst.ITEM_TYPE.SCENE then
 			JumpTools.OpenPageByJump("/skinDlcShow", {
-				goodId = arg_6_0.goodID
+				goodId = uv0.goodID
 			})
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddPressingByTimeListener(arg_6_0.addBtn_.gameObject, 3, 0.5, 0.2, function()
-		arg_6_0.selectNum_ = math.min(arg_6_0.selectNum_ + 1, arg_6_0:GetMaxBuyNum())
+	slot0:AddPressingByTimeListener(slot0.addBtn_.gameObject, 3, 0.5, 0.2, function ()
+		uv0.selectNum_ = math.min(uv0.selectNum_ + 1, uv0:GetMaxBuyNum())
 
-		arg_6_0:RefreshNum()
+		uv0:RefreshNum()
 
-		arg_6_0.useNumSlider_.value = arg_6_0.selectNum_
+		uv0.useNumSlider_.value = uv0.selectNum_
 	end)
-	arg_6_0:AddPressingByTimeListener(arg_6_0.delBtn_.gameObject, 3, 0.5, 0.2, function()
-		arg_6_0.selectNum_ = math.max(arg_6_0.selectNum_ - 1, 1)
+	slot0:AddPressingByTimeListener(slot0.delBtn_.gameObject, 3, 0.5, 0.2, function ()
+		uv0.selectNum_ = math.max(uv0.selectNum_ - 1, 1)
 
-		arg_6_0:RefreshNum()
+		uv0:RefreshNum()
 
-		arg_6_0.useNumSlider_.value = arg_6_0.selectNum_
+		uv0.useNumSlider_.value = uv0.selectNum_
 	end)
-	arg_6_0.useNumSlider_.onValueChanged:AddListener(function()
-		arg_6_0.selectNum_ = arg_6_0.useNumSlider_.value
-		arg_6_0.selectNum_ = Mathf.Clamp(arg_6_0.selectNum_, 1, arg_6_0:GetMaxBuyNum())
-		arg_6_0.useNumSlider_.value = arg_6_0.selectNum_
+	slot0.useNumSlider_.onValueChanged:AddListener(function ()
+		uv0.selectNum_ = uv0.useNumSlider_.value
+		uv0.selectNum_ = Mathf.Clamp(uv0.selectNum_, 1, uv0:GetMaxBuyNum())
+		uv0.useNumSlider_.value = uv0.selectNum_
 
-		arg_6_0:RefreshNum()
+		uv0:RefreshNum()
 	end)
-	arg_6_0.useNumTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function(arg_12_0, arg_12_1)
-		arg_6_0:RefreshNum()
+	slot0.useNumTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:RefreshNum()
 
-		arg_6_0.useNumSlider_.value = arg_6_0.selectNum_
+		uv0.useNumSlider_.value = uv0.selectNum_
 
 		OperationRecorder.Record("shop", "shop_number_slide")
 	end))
-	arg_6_0:AddBtnListener(arg_6_0.okBtn_, nil, function()
-		local var_13_0 = arg_6_0.goodInfo
-		local var_13_1 = arg_6_0.shopCfg
-		local var_13_2 = ShopListCfg[var_13_1.shop_id]
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		slot0 = uv0.goodInfo
 
-		if OperationData:IsFunctionStoped(var_13_2.operation_stop_id) then
+		if OperationData:IsFunctionStoped(ShopListCfg[uv0.shopCfg.shop_id].operation_stop_id) then
 			ShowTips("ERROR_FUNCTION_STOP")
 
 			return
 		end
 
-		local var_13_3 = ItemCfg[var_13_1.give_id]
+		if ItemCfg[slot1.give_id].type == ItemConst.ITEM_TYPE.HERO_PIECE or slot3.type == ItemConst.ITEM_TYPE.HERO then
+			slot5 = HeroData:GetHeroOmegaNeedPiece(slot3.id % 10000)
 
-		if var_13_3.type == ItemConst.ITEM_TYPE.HERO_PIECE or var_13_3.type == ItemConst.ITEM_TYPE.HERO then
-			local var_13_4 = var_13_3.id % 10000
-			local var_13_5 = HeroData:GetHeroOmegaNeedPiece(var_13_4)
-
-			if var_13_1.shop_id == ShopConst.SHOP_ID.REPORT_SHOP and var_13_5 <= 0 then
+			if slot1.shop_id == ShopConst.SHOP_ID.REPORT_SHOP and slot5 <= 0 then
 				ShowTips("OMEGA_ENOUGH_TIP")
 
 				return
 			end
 
-			if not _G.SkipTip.ShopOmega and var_13_5 < arg_6_0.selectNum_ then
+			if not _G.SkipTip.ShopOmega and slot5 < uv0.selectNum_ then
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
 					content = GetTips("SHOP_OMEGA_CONFIRMATION"),
-					OkCallback = function()
-						_G.SkipTip.ShopOmega = arg_6_0.ShopOmega_
+					OkCallback = function ()
+						_G.SkipTip.ShopOmega = uv0.ShopOmega_
 
 						ShopAction.BuyItem({
 							{
-								goodID = var_13_0.id,
-								buyNum = arg_6_0.selectNum_
+								goodID = uv1.id,
+								buyNum = uv0.selectNum_
 							}
 						})
 					end,
-					ToggleCallback = function(arg_15_0)
-						arg_6_0.ShopOmega_ = arg_15_0
+					ToggleCallback = function (slot0)
+						uv0.ShopOmega_ = slot0
 					end
 				})
 
@@ -130,96 +122,90 @@ function var_0_0.AddUIListener(arg_6_0)
 			end
 		end
 
-		local var_13_6 = SettingData:GetRemindSettingData()
-		local var_13_7 = var_13_1.cost_id
+		slot4 = SettingData:GetRemindSettingData()
+		slot5 = slot1.cost_id
 
-		if not _G.SkipTip.SkipDiamondBuyItemTip and var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id and var_13_6.diamond_buy_item_reminder == 1 or not _G.SkipTip.SkipCoreEquipBuyItemTip and var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id and var_13_6.core_equip_buy_item_reminder == 1 or not _G.SkipTip.SkipInfoBadageTopBuyItemTip and var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id and var_13_6.info_badge_top_buy_item_reminder == 1 or not _G.SkipTip.SkipBossChangeSBuyItemTip and var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id and var_13_6.boss_challenge_s_buy_item_reminder == 1 then
+		if not _G.SkipTip.SkipDiamondBuyItemTip and slot5 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id and slot4.diamond_buy_item_reminder == 1 or not _G.SkipTip.SkipCoreEquipBuyItemTip and slot5 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id and slot4.core_equip_buy_item_reminder == 1 or not _G.SkipTip.SkipInfoBadageTopBuyItemTip and slot5 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id and slot4.info_badge_top_buy_item_reminder == 1 or not _G.SkipTip.SkipBossChangeSBuyItemTip and slot5 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id and slot4.boss_challenge_s_buy_item_reminder == 1 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("SHOP_SECONDARY_CONFIRMATION"), ItemTools.getItemName(var_13_7), arg_6_0.cost_, ItemTools.getItemName(var_13_3.id), arg_6_0.selectNum_),
-				OkCallback = function()
-					if var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id then
-						_G.SkipTip.SkipDiamondBuyItemTip = arg_6_0.SkipDiamondBuyItemTip_
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id then
-						_G.SkipTip.SkipCoreEquipBuyItemTip = arg_6_0.SkipCoreEquipBuyItemTip_
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id then
-						_G.SkipTip.SkipInfoBadageTopBuyItemTip = arg_6_0.SkipInfoBadageTopBuyItemTip_
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id then
-						_G.SkipTip.SkipBossChangeSBuyItemTip = arg_6_0.SkipBossChangeSBuyItemTip_
+				content = string.format(GetTips("SHOP_SECONDARY_CONFIRMATION"), ItemTools.getItemName(slot5), uv0.cost_, ItemTools.getItemName(slot3.id), uv0.selectNum_),
+				OkCallback = function ()
+					if uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id then
+						_G.SkipTip.SkipDiamondBuyItemTip = uv1.SkipDiamondBuyItemTip_
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id then
+						_G.SkipTip.SkipCoreEquipBuyItemTip = uv1.SkipCoreEquipBuyItemTip_
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id then
+						_G.SkipTip.SkipInfoBadageTopBuyItemTip = uv1.SkipInfoBadageTopBuyItemTip_
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id then
+						_G.SkipTip.SkipBossChangeSBuyItemTip = uv1.SkipBossChangeSBuyItemTip_
 					end
 
 					ShopAction.BuyItem({
 						{
-							goodID = var_13_0.id,
-							buyNum = arg_6_0.selectNum_
+							goodID = uv2.id,
+							buyNum = uv1.selectNum_
 						}
 					})
 				end,
-				ToggleCallback = function(arg_17_0)
-					if var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id then
-						arg_6_0.SkipDiamondBuyItemTip_ = arg_17_0
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id then
-						arg_6_0.SkipCoreEquipBuyItemTip_ = arg_17_0
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id then
-						arg_6_0.SkipInfoBadageTopBuyItemTip_ = arg_17_0
-					elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id then
-						arg_6_0.SkipBossChangeSBuyItemTip_ = arg_17_0
+				ToggleCallback = function (slot0)
+					if uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_DIAMOND.item_id then
+						uv1.SkipDiamondBuyItemTip_ = slot0
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_SIX_STAR_EQUIP_RESOLVE.item_id then
+						uv1.SkipCoreEquipBuyItemTip_ = slot0
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_INFO_BADGE_TOP.item_id then
+						uv1.SkipInfoBadageTopBuyItemTip_ = slot0
+					elseif uv0 == CurrencyIdMapCfg.CURRENCY_TYPE_BOSS_CHALLENGE_S.item_id then
+						uv1.SkipBossChangeSBuyItemTip_ = slot0
 					end
 				end
 			})
-		elseif var_13_7 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id then
+		elseif slot5 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("SHOP_SECONDARY_CONFIRMATION"), ItemTools.getItemName(var_13_7), arg_6_0.cost_, ItemTools.getItemName(var_13_3.id), arg_6_0.selectNum_),
-				OkCallback = function()
+				content = string.format(GetTips("SHOP_SECONDARY_CONFIRMATION"), ItemTools.getItemName(slot5), uv0.cost_, ItemTools.getItemName(slot3.id), uv0.selectNum_),
+				OkCallback = function ()
 					ShopAction.BuyItem({
 						{
-							goodID = var_13_0.id,
-							buyNum = arg_6_0.selectNum_
+							goodID = uv0.id,
+							buyNum = uv1.selectNum_
 						}
 					})
 				end
 			})
-		elseif var_13_3.type == ItemConst.ITEM_TYPE.SCENE and HomeSceneSettingCfg[var_13_3.param[1]].limit_display == 0 then
-			local var_13_8 = true
-			local var_13_9
+		elseif slot3.type == ItemConst.ITEM_TYPE.SCENE and HomeSceneSettingCfg[slot3.param[1]].limit_display == 0 then
+			slot6 = true
+			slot7 = nil
 
-			for iter_13_0, iter_13_1 in ipairs(SkinSceneActionCfg.all) do
-				local var_13_10 = SkinSceneActionCfg[iter_13_1]
-
-				if var_13_10.special_scene_id == var_13_3.param[1] then
-					var_13_9 = var_13_10.skin_id
-
-					if ShopTools.HaveSkin(var_13_9) or HeroTools.CanChangeSkin(var_13_9) then
-						var_13_8 = true
+			for slot11, slot12 in ipairs(SkinSceneActionCfg.all) do
+				if SkinSceneActionCfg[slot12].special_scene_id == slot3.param[1] then
+					if ShopTools.HaveSkin(slot13.skin_id) or HeroTools.CanChangeSkin(slot7) then
+						slot6 = true
 
 						break
 					end
 
-					var_13_8 = false
+					slot6 = false
 
 					break
 				end
 			end
 
-			if var_13_8 then
+			if slot6 then
 				ShopAction.BuyItem({
 					{
-						goodID = var_13_0.id,
-						buyNum = arg_6_0.selectNum_
+						goodID = slot0.id,
+						buyNum = uv0.selectNum_
 					}
 				})
 			else
-				local var_13_11 = SkinCfg[var_13_9]
-
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
-					content = GetTipsF("BUY_SCENE_NOT_HAVE_HERO_SKIN_CONFIRM", var_13_11.name, ItemTools.getItemName(var_13_3.id)),
-					OkCallback = function()
+					content = GetTipsF("BUY_SCENE_NOT_HAVE_HERO_SKIN_CONFIRM", SkinCfg[slot7].name, ItemTools.getItemName(slot3.id)),
+					OkCallback = function ()
 						ShopAction.BuyItem({
 							{
-								goodID = var_13_0.id,
-								buyNum = arg_6_0.selectNum_
+								goodID = uv0.id,
+								buyNum = uv1.selectNum_
 							}
 						})
 					end
@@ -228,276 +214,251 @@ function var_0_0.AddUIListener(arg_6_0)
 		else
 			ShopAction.BuyItem({
 				{
-					goodID = var_13_0.id,
-					buyNum = arg_6_0.selectNum_
+					goodID = slot0.id,
+					buyNum = uv0.selectNum_
 				}
 			})
 		end
 	end)
 end
 
-function var_0_0.OnShopBuyResult(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4)
-	if arg_20_1 == 0 then
-		local var_20_0 = getShopCfg(arg_20_2)
-		local var_20_1 = var_20_0.give_id
-		local var_20_2 = var_20_0.give
-		local var_20_3 = ItemCfg[var_20_1].type
+function slot0.OnShopBuyResult(slot0, slot1, slot2, slot3, slot4)
+	if slot1 == 0 then
+		slot5 = getShopCfg(slot2)
+		slot7 = slot5.give
 
-		arg_20_0:Back()
+		slot0:Back()
 
-		if var_20_3 == ItemConst.ITEM_TYPE.HERO_SKIN then
+		if ItemCfg[slot5.give_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
 			getReward({
 				{
 					num = 1,
-					id = var_20_1
+					id = slot6
 				}
 			}, {
 				ItemConst.ITEM_TYPE.HERO_SKIN
 			})
-		elseif var_20_3 == ItemConst.ITEM_TYPE.EQUIP and EquipData:GetEquipBagFull() then
+		elseif slot8 == ItemConst.ITEM_TYPE.EQUIP and EquipData:GetEquipBagFull() then
 			showEquipSendMail(nil)
 			EquipAction.EquipBagFull(false)
 		end
 	end
 end
 
-function var_0_0.RefreshUI(arg_21_0)
-	arg_21_0.useNumSlider_.minValue = 0
-	arg_21_0.useNumSlider_.maxValue = arg_21_0:GetMaxBuyNum()
+function slot0.RefreshUI(slot0)
+	slot0.useNumSlider_.minValue = 0
+	slot0.useNumSlider_.maxValue = slot0:GetMaxBuyNum()
 
-	arg_21_0.groupController:SetSelectedState("false")
+	slot0.groupController:SetSelectedState("false")
+	SetActive(slot0.heroIcon_, false)
+	SetActive(slot0.commonIconGo_, true)
 
-	local var_21_0 = arg_21_0.shopCfg
-	local var_21_1 = ItemCfg[var_21_0.give_id]
+	if ItemCfg[slot0.shopCfg.give_id].type == ItemConst.ITEM_TYPE.EQUIP or slot2.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot0.starController:SetSelectedState(slot2.rare)
+	elseif slot2.type == ItemConst.ITEM_TYPE.HERO then
+		slot0.starController:SetSelectedState("0")
+		slot0.groupController:SetSelectedState("true")
 
-	SetActive(arg_21_0.heroIcon_, false)
-	SetActive(arg_21_0.commonIconGo_, true)
+		slot0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(slot1.give_id)
+		slot0.itemIcon_.sprite = ItemTools.getItemSprite(slot1.give_id)
 
-	if var_21_1.type == ItemConst.ITEM_TYPE.EQUIP or var_21_1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		arg_21_0.starController:SetSelectedState(var_21_1.rare)
-	elseif var_21_1.type == ItemConst.ITEM_TYPE.HERO then
-		arg_21_0.starController:SetSelectedState("0")
-		arg_21_0.groupController:SetSelectedState("true")
-
-		arg_21_0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(var_21_0.give_id)
-		arg_21_0.itemIcon_.sprite = ItemTools.getItemSprite(var_21_0.give_id)
-
-		SetActive(arg_21_0.heroIcon_, true)
-		SetActive(arg_21_0.commonIconGo_, false)
+		SetActive(slot0.heroIcon_, true)
+		SetActive(slot0.commonIconGo_, false)
 	else
-		arg_21_0.starController:SetSelectedState("0")
+		slot0.starController:SetSelectedState("0")
 	end
 
-	arg_21_0.bgController:SetSelectedState(tostring(var_21_1.display_rare))
-	arg_21_0.ndtabController:SetSelectedState("off")
-	arg_21_0.viewController:SetSelectedState(tostring(var_21_1.type == ItemConst.ITEM_TYPE.EQUIP or var_21_1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT or var_21_1.type == ItemConst.ITEM_TYPE.SCENE))
+	slot0.bgController:SetSelectedState(tostring(slot2.display_rare))
+	slot0.ndtabController:SetSelectedState("off")
+	slot0.viewController:SetSelectedState(tostring(slot2.type == ItemConst.ITEM_TYPE.EQUIP or slot2.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT or slot2.type == ItemConst.ITEM_TYPE.SCENE))
 
-	if var_21_1.type == ItemConst.ITEM_TYPE.EQUIP then
-		arg_21_0.haveNumText_.text = NumberTools.RetractNumber(#EquipTools.GetEquipListByEquipid(var_21_0.give_id))
-	elseif var_21_1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		arg_21_0.haveNumText_.text = NumberTools.RetractNumber(#(WeaponServantData:GetWeaponServantById(var_21_0.give_id) or {}))
+	if slot2.type == ItemConst.ITEM_TYPE.EQUIP then
+		slot0.haveNumText_.text = NumberTools.RetractNumber(#EquipTools.GetEquipListByEquipid(slot1.give_id))
+	elseif slot2.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot0.haveNumText_.text = NumberTools.RetractNumber(#(WeaponServantData:GetWeaponServantById(slot1.give_id) or {}))
 	else
-		arg_21_0.haveNumText_.text = NumberTools.RetractNumber(ItemTools.getItemNum(var_21_0.give_id))
+		slot0.haveNumText_.text = NumberTools.RetractNumber(ItemTools.getItemNum(slot1.give_id))
 	end
 
-	arg_21_0.commonIcon_.sprite = ItemTools.getItemSprite(var_21_0.give_id)
-	arg_21_0.discountTxt_.text = ShopTools.GetDiscountLabel(arg_21_0.goodID)
+	slot0.commonIcon_.sprite = ItemTools.getItemSprite(slot1.give_id)
+	slot0.discountTxt_.text = ShopTools.GetDiscountLabel(slot0.goodID)
 
-	if ShopTools.GetDiscount(arg_21_0.goodID) ~= 100 then
-		arg_21_0.ndtabController:SetSelectedState("discount")
+	if ShopTools.GetDiscount(slot0.goodID) ~= 100 then
+		slot0.ndtabController:SetSelectedState("discount")
 	end
 
-	if arg_21_0.shopCfg.tag == ShopConst.TAGS.NEW then
-		arg_21_0.ndtabController:SetSelectedState("new")
+	if slot0.shopCfg.tag == ShopConst.TAGS.NEW then
+		slot0.ndtabController:SetSelectedState("new")
 	end
 
-	if ShopTools.GetDiscount(arg_21_0.goodID) ~= 100 and arg_21_0.shopCfg.tag == ShopConst.TAGS.NEW then
-		arg_21_0.ndtabController:SetSelectedState("all")
+	if ShopTools.GetDiscount(slot0.goodID) ~= 100 and slot0.shopCfg.tag == ShopConst.TAGS.NEW then
+		slot0.ndtabController:SetSelectedState("all")
 	end
 
-	arg_21_0.nameText_.text = ItemTools.getItemName(var_21_1.id)
-	arg_21_0.descText_.text = ItemTools.getItemDesc(var_21_1.id)
+	slot0.nameText_.text = ItemTools.getItemName(slot2.id)
+	slot0.descText_.text = ItemTools.getItemDesc(slot2.id)
 
-	arg_21_0:RefreshNum()
+	slot0:RefreshNum()
 
-	arg_21_0.useNumSlider_.value = arg_21_0.selectNum_
-	arg_21_0.costIcon_.sprite = ItemTools.getItemLittleSprite(var_21_0.cost_id)
+	slot0.useNumSlider_.value = slot0.selectNum_
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(slot1.cost_id)
 
-	SetActive(arg_21_0.limitGo_, arg_21_0:IsLimit())
+	SetActive(slot0.limitGo_, slot0:IsLimit())
 
-	if arg_21_0:IsLimit() then
-		if arg_21_0.shopCfg.shop_refresh == 1 then
-			arg_21_0.limitText_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[var_21_0.refresh_cycle]) .. arg_21_0:GetRestNum() .. "/" .. arg_21_0:GetLimitNum()
+	if slot0:IsLimit() then
+		if slot0.shopCfg.shop_refresh == 1 then
+			slot0.limitText_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[slot1.refresh_cycle]) .. slot0:GetRestNum() .. "/" .. slot0:GetLimitNum()
 		else
-			arg_21_0.limitText_.text = GetTips("PURCHASE_LIMIT") .. arg_21_0:GetRestNum() .. "/" .. arg_21_0:GetLimitNum()
+			slot0.limitText_.text = GetTips("PURCHASE_LIMIT") .. slot0:GetRestNum() .. "/" .. slot0:GetLimitNum()
 		end
 	end
 
-	arg_21_0:CheckNeedLabel()
+	slot0:CheckNeedLabel()
 end
 
-function var_0_0.CheckNeedLabel(arg_22_0)
-	local var_22_0 = arg_22_0.shopCfg.give_id
-
-	if DormFurnitureTools:CheckFurShowExtendLable(var_22_0) then
-		arg_22_0.furnitureController:SetSelectedState("true")
-		arg_22_0:UpdateDormLabel()
+function slot0.CheckNeedLabel(slot0)
+	if DormFurnitureTools:CheckFurShowExtendLable(slot0.shopCfg.give_id) then
+		slot0.furnitureController:SetSelectedState("true")
+		slot0:UpdateDormLabel()
 	else
-		arg_22_0.furnitureController:SetSelectedState("false")
+		slot0.furnitureController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.UpdateDormLabel(arg_23_0)
-	if BackHomeFurniture[arg_23_0.shopCfg.give_id] then
-		local var_23_0 = ""
-		local var_23_1 = BackHomeFurniture[arg_23_0.shopCfg.give_id].scene_id
-
-		for iter_23_0, iter_23_1 in ipairs(var_23_1) do
-			var_23_0 = var_23_0 .. DormTools:GetRoomTypeName(iter_23_1) .. " "
+function slot0.UpdateDormLabel(slot0)
+	if BackHomeFurniture[slot0.shopCfg.give_id] then
+		for slot6, slot7 in ipairs(BackHomeFurniture[slot0.shopCfg.give_id].scene_id) do
+			slot1 = "" .. DormTools:GetRoomTypeName(slot7) .. " "
 		end
 
-		arg_23_0.dormRangeTxt_.text = var_23_0
-		arg_23_0.dormLimitTxt_.text = DormTools:GetFurGiftMaxDesc(arg_23_0.shopCfg.give_id)
-		arg_23_0.comfortableTxt_.text = DormTools:GetFurComfortDesc(arg_23_0.shopCfg.give_id)
-		arg_23_0.dormTypeTxt_.text = DormTools:GetFurGiftTypeDesc(arg_23_0.shopCfg.give_id)
+		slot0.dormRangeTxt_.text = slot1
+		slot0.dormLimitTxt_.text = DormTools:GetFurGiftMaxDesc(slot0.shopCfg.give_id)
+		slot0.comfortableTxt_.text = DormTools:GetFurComfortDesc(slot0.shopCfg.give_id)
+		slot0.dormTypeTxt_.text = DormTools:GetFurGiftTypeDesc(slot0.shopCfg.give_id)
 	else
-		arg_23_0.dormTypeTxt_.text = ""
-		arg_23_0.dormRangeTxt_.text = ""
-		arg_23_0.dormLimitTxt_.text = ""
-		arg_23_0.comfortableTxt_.text = ""
+		slot0.dormTypeTxt_.text = ""
+		slot0.dormRangeTxt_.text = ""
+		slot0.dormLimitTxt_.text = ""
+		slot0.comfortableTxt_.text = ""
 	end
 end
 
-function var_0_0.GetLabelList(arg_24_0, arg_24_1)
-	if BackHomeFurniture[arg_24_1] then
-		return DormTools:GetFurLable(arg_24_1)
+function slot0.GetLabelList(slot0, slot1)
+	if BackHomeFurniture[slot1] then
+		return DormTools:GetFurLable(slot1)
 	end
 end
 
-function var_0_0.RefreshNum(arg_25_0)
-	arg_25_0.useNumText_.text = GetTips("DORM_CAN_BUY_NUM") .. "：" .. arg_25_0.selectNum_
+function slot0.RefreshNum(slot0)
+	slot0.useNumText_.text = GetTips("DORM_CAN_BUY_NUM") .. "：" .. slot0.selectNum_
+	slot1, slot2 = ShopTools.GetPrice(slot0.goodInfo.id)
 
-	local var_25_0, var_25_1 = ShopTools.GetPrice(arg_25_0.goodInfo.id)
-
-	if var_25_0 == 0 then
-		arg_25_0.consumeController:SetSelectedState("free")
+	if slot1 == 0 then
+		slot0.consumeController:SetSelectedState("free")
 	else
-		arg_25_0.originPriceTxt_.text = var_25_1 * arg_25_0.selectNum_
+		slot0.originPriceTxt_.text = slot2 * slot0.selectNum_
 
-		arg_25_0.consumeController:SetSelectedState(var_25_1 == var_25_0 and "normal" or "discount")
+		slot0.consumeController:SetSelectedState(slot2 == slot1 and "normal" or "discount")
 	end
 
-	arg_25_0.cost_ = var_25_0 * arg_25_0.selectNum_
-	arg_25_0.totalCostText_.text = arg_25_0.cost_
-
-	local var_25_2 = arg_25_0:GetMaxBuyNum()
-
-	arg_25_0.addBtn_.interactable = var_25_2 > arg_25_0.selectNum_
-	arg_25_0.delBtn_.interactable = arg_25_0.selectNum_ > 1
+	slot0.cost_ = slot1 * slot0.selectNum_
+	slot0.totalCostText_.text = slot0.cost_
+	slot0.addBtn_.interactable = slot0.selectNum_ < slot0:GetMaxBuyNum()
+	slot0.delBtn_.interactable = slot0.selectNum_ > 1
 end
 
-function var_0_0.GetLimitNum(arg_26_0)
-	if arg_26_0.shopCfg.limit_num and arg_26_0.shopCfg.limit_num ~= -1 then
-		return arg_26_0.shopCfg.limit_num
+function slot0.GetLimitNum(slot0)
+	if slot0.shopCfg.limit_num and slot0.shopCfg.limit_num ~= -1 then
+		return slot0.shopCfg.limit_num
 	end
 
 	return -1
 end
 
-function var_0_0.GetRestNum(arg_27_0)
-	if arg_27_0:IsLimit() then
-		return arg_27_0:GetLimitNum() - arg_27_0.goodInfo.buyTime
+function slot0.GetRestNum(slot0)
+	if slot0:IsLimit() then
+		return slot0:GetLimitNum() - slot0.goodInfo.buyTime
 	end
 
 	return -1
 end
 
-function var_0_0.IsLimit(arg_28_0)
-	if arg_28_0.shopCfg.limit_num and arg_28_0.shopCfg.limit_num ~= -1 then
+function slot0.IsLimit(slot0)
+	if slot0.shopCfg.limit_num and slot0.shopCfg.limit_num ~= -1 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetMaxBuyNum(arg_29_0)
-	local var_29_0 = arg_29_0.shopCfg
-	local var_29_1 = ShopTools.GetPrice(arg_29_0.goodInfo.id)
-	local var_29_2 = ItemCfg[var_29_0.give_id]
-	local var_29_3 = -1
+function slot0.GetMaxBuyNum(slot0)
+	slot1 = slot0.shopCfg
+	slot3 = ItemCfg[slot1.give_id]
+	slot4 = -1
 
-	if var_29_0.limit_num and var_29_0.limit_num ~= -1 then
-		var_29_3 = var_29_0.limit_num - arg_29_0.goodInfo.buyTime
-
-		local var_29_4 = ItemTools.getItemNum(arg_29_0.shopCfg.cost_id)
-		local var_29_5 = math.max(math.floor(var_29_4 / var_29_1), 1)
-
-		return math.min(var_29_3, var_29_5)
+	if slot1.limit_num and slot1.limit_num ~= -1 then
+		return math.min(slot1.limit_num - slot0.goodInfo.buyTime, math.max(math.floor(ItemTools.getItemNum(slot0.shopCfg.cost_id) / ShopTools.GetPrice(slot0.goodInfo.id)), 1))
 	end
 
-	local var_29_6 = 99999
+	slot5 = 99999
 
-	if var_29_2.type == ItemConst.ITEM_TYPE.HERO_PIECE and var_29_0.shop_id == ShopConst.SHOP_ID.REPORT_SHOP then
-		local var_29_7 = var_29_2.id - 10000
-		local var_29_8 = HeroData:GetHeroOmegaNeedPiece(var_29_7)
-
-		var_29_3 = math.max(var_29_8, 1)
+	if slot3.type == ItemConst.ITEM_TYPE.HERO_PIECE and slot1.shop_id == ShopConst.SHOP_ID.REPORT_SHOP then
+		slot4 = math.max(HeroData:GetHeroOmegaNeedPiece(slot3.id - 10000), 1)
 	end
 
-	local var_29_9 = ItemTools.getItemNum(arg_29_0.shopCfg.cost_id)
-	local var_29_10 = math.max(math.floor(var_29_9 / var_29_1), 1)
-
-	if var_29_3 < var_29_10 and var_29_3 ~= -1 then
-		return var_29_3
+	if slot4 < math.max(math.floor(ItemTools.getItemNum(slot0.shopCfg.cost_id) / slot2), 1) and slot4 ~= -1 then
+		return slot4
 	else
-		return var_29_10 < 1 and 1 or var_29_10
+		return slot7 < 1 and 1 or slot7
 	end
 end
 
-function var_0_0.Init(arg_30_0)
-	arg_30_0:InitUI()
-	arg_30_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnTop(arg_31_0)
-	arg_31_0:RefreshUI()
-	arg_31_0:UpdateBarByGoodId()
+function slot0.OnTop(slot0)
+	slot0:RefreshUI()
+	slot0:UpdateBarByGoodId()
 	manager.windowBar:SetAsLastSibling()
 end
 
-function var_0_0.OnEnter(arg_32_0)
-	arg_32_0.goodInfo = arg_32_0.params_.goodInfo
-	arg_32_0.shopId = arg_32_0.goodInfo.shopId
-	arg_32_0.goodID = arg_32_0.goodInfo.id
-	arg_32_0.shopCfg = getShopCfg(arg_32_0.goodInfo.id)
-	arg_32_0.useNumSlider_.value = 1
-	arg_32_0.selectNum_ = 1
+function slot0.OnEnter(slot0)
+	slot0.goodInfo = slot0.params_.goodInfo
+	slot0.shopId = slot0.goodInfo.shopId
+	slot0.goodID = slot0.goodInfo.id
+	slot0.shopCfg = getShopCfg(slot0.goodInfo.id)
+	slot0.useNumSlider_.value = 1
+	slot0.selectNum_ = 1
 end
 
-function var_0_0.UpdateBarByGoodId(arg_33_0)
-	local var_33_0 = {}
+function slot0.UpdateBarByGoodId(slot0)
+	slot1 = {}
 
-	if arg_33_0.shopCfg.cost_id then
-		table.insert(var_33_0, arg_33_0.shopCfg.cost_id)
+	if slot0.shopCfg.cost_id then
+		table.insert(slot1, slot0.shopCfg.cost_id)
 	end
 
-	manager.windowBar:SwitchBar(var_33_0)
+	slot5 = slot1
 
-	for iter_33_0 = 1, #var_33_0 do
-		manager.windowBar:SetBarCanAdd(var_33_0[iter_33_0], ShopConst.ADD_CURRENCY[var_33_0[iter_33_0]] == true)
+	manager.windowBar:SwitchBar(slot5)
+
+	for slot5 = 1, #slot1 do
+		manager.windowBar:SetBarCanAdd(slot1[slot5], ShopConst.ADD_CURRENCY[slot1[slot5]] == true)
 	end
 end
 
-function var_0_0.Dispose(arg_34_0)
-	arg_34_0.useNumSlider_.onValueChanged:RemoveAllListeners()
-	arg_34_0.useNumTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
-	var_0_0.super.Dispose(arg_34_0)
+function slot0.Dispose(slot0)
+	slot0.useNumSlider_.onValueChanged:RemoveAllListeners()
+	slot0.useNumTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnExitInput(arg_35_0)
+function slot0.OnExitInput(slot0)
 	JumpTools.Back()
 
 	return true
 end
 
-return var_0_0
+return slot0

@@ -1,82 +1,70 @@
-local var_0_0 = class("CultivateHeroSwitchItem", ReduxView)
+slot0 = class("CultivateHeroSwitchItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_4_0.clickHandler_ then
-			arg_4_0.clickHandler_(arg_4_0.groupID_)
+		if uv0.clickHandler_ then
+			uv0.clickHandler_(uv0.groupID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_0.groupID_ == nil then
-		local var_6_0 = string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, arg_6_1, arg_6_2)
-
-		manager.redPoint:bindUIandKey(arg_6_0.transform_, var_6_0)
-	elseif arg_6_0.groupID_ ~= arg_6_2 then
-		local var_6_1 = string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, arg_6_1, arg_6_0.groupID_)
-
-		manager.redPoint:unbindUIandKey(arg_6_0.transform_, var_6_1)
-
-		local var_6_2 = string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, arg_6_1, arg_6_2)
-
-		manager.redPoint:bindUIandKey(arg_6_0.transform_, var_6_2)
+function slot0.SetData(slot0, slot1, slot2)
+	if slot0.groupID_ == nil then
+		manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, slot1, slot2))
+	elseif slot0.groupID_ ~= slot2 then
+		manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, slot1, slot0.groupID_))
+		manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, slot1, slot2))
 	end
 
-	arg_6_0.groupID_ = arg_6_2
-	arg_6_0.activityID_ = arg_6_1
+	slot0.groupID_ = slot2
+	slot0.activityID_ = slot1
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetClickCallBack(arg_7_0, arg_7_1)
-	arg_7_0.clickHandler_ = arg_7_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.clickHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.clickHandler_ = nil
 
-	local var_8_0 = string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, arg_8_0.activityID_, arg_8_0.groupID_)
-
-	manager.redPoint:unbindUIandKey(arg_8_0.transform_, var_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s_%s_Task_Reward", RedPointConst.CULTIVATE_HERO, slot0.activityID_, slot0.groupID_))
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshImage()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshImage()
 end
 
-function var_0_0.RefreshImage(arg_10_0)
-	local var_10_0 = CultivateHeroTaskCfg.get_id_list_by_group_id[arg_10_0.groupID_]
-	local var_10_1 = CultivateHeroTaskCfg[var_10_0[1]].hero
-
-	arg_10_0.icon_.sprite = getSpriteViaConfig("HeroLittleIcon", var_10_1)
+function slot0.RefreshImage(slot0)
+	slot0.icon_.sprite = getSpriteViaConfig("HeroLittleIcon", CultivateHeroTaskCfg[CultivateHeroTaskCfg.get_id_list_by_group_id[slot0.groupID_][1]].hero)
 end
 
-function var_0_0.RefreshSelect(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.selectGo_, arg_11_0.groupID_ == arg_11_1)
+function slot0.RefreshSelect(slot0, slot1)
+	SetActive(slot0.selectGo_, slot0.groupID_ == slot1)
 end
 
-return var_0_0
+return slot0

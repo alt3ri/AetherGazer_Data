@@ -1,55 +1,53 @@
-local var_0_0 = import("manager.tips.TipsLongView")
-local var_0_1 = class("TipsMgr")
+slot0 = import("manager.tips.TipsLongView")
+slot1 = class("TipsMgr")
 
-function var_0_1.Ctor(arg_1_0)
-	arg_1_0.gameObject_ = nil
+function slot1.Ctor(slot0)
+	slot0.gameObject_ = nil
 end
 
-function var_0_1.OnCtor(arg_2_0)
+function slot1.OnCtor(slot0)
 	print("initializing tip manager...")
 end
 
-function var_0_1.InitUI(arg_3_0)
-	local var_3_0 = GameObject.Find("UICamera_DontDestroy/Canvas/UITip")
-
-	arg_3_0.gameObject_ = GameObject.Instantiate(Asset.Load("UI/TipPanel"), var_3_0.transform)
-	arg_3_0.transform_ = arg_3_0.gameObject_.transform
-	arg_3_0.longTips_ = var_0_0.New(arg_3_0.gameObject_)
+function slot1.InitUI(slot0)
+	slot0.gameObject_ = GameObject.Instantiate(Asset.Load("UI/TipPanel"), GameObject.Find("UICamera_DontDestroy/Canvas/UITip").transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.longTips_ = uv0.New(slot0.gameObject_)
 end
 
-function var_0_1.ShowTips(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	if arg_4_0.gameObject_ == nil then
-		arg_4_0:InitUI()
+function slot1.ShowTips(slot0, slot1, slot2, slot3)
+	if slot0.gameObject_ == nil then
+		slot0:InitUI()
 	end
 
-	if TipsCfg[arg_4_2] then
-		arg_4_0.longTips_:ShowTips(arg_4_1)
-		manager.audio:PlayEffect("ui_system", TipsCfg[arg_4_2].audio, "")
+	if TipsCfg[slot2] then
+		slot0.longTips_:ShowTips(slot1)
+		manager.audio:PlayEffect("ui_system", TipsCfg[slot2].audio, "")
 	else
-		arg_4_0.longTips_:ShowTips(arg_4_1)
+		slot0.longTips_:ShowTips(slot1)
 		manager.audio:PlayEffect("ui_system", "success", "")
 	end
 end
 
-function var_0_1.Show(arg_5_0, arg_5_1)
-	if arg_5_0.gameObject_ then
-		SetActive(arg_5_0.gameObject_, arg_5_1)
+function slot1.Show(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_1.Dispose(arg_6_0)
-	if arg_6_0.longTips_ then
-		arg_6_0.longTips_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.longTips_ then
+		slot0.longTips_:Dispose()
 
-		arg_6_0.longTips_ = nil
+		slot0.longTips_ = nil
 	end
 
-	if arg_6_0.gameObject_ then
-		Object.Destroy(arg_6_0.gameObject_)
+	if slot0.gameObject_ then
+		Object.Destroy(slot0.gameObject_)
 
-		arg_6_0.transform_ = nil
-		arg_6_0.gameObject_ = nil
+		slot0.transform_ = nil
+		slot0.gameObject_ = nil
 	end
 end
 
-return var_0_1
+return slot1

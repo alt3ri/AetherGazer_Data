@@ -603,7 +603,11 @@ return {
 		simple_strength_description = {}
 	},
 	[425] = {
-		simple_description = "修正等级不低于<color=#E78300>B</color>时，普通攻击伤害提高；\n修正等级不低于<color=#E78300>A</color>时，技能伤害提高；\n修正等级不低于<color=#E78300>S</color>时，奥义伤害提高；\n修正等级为<color=#E78300>Ω</color>时，以上效果全部再次提高。",
+		simple_description = [[
+修正等级不低于<color=#E78300>B</color>时，普通攻击伤害提高；
+修正等级不低于<color=#E78300>A</color>时，技能伤害提高；
+修正等级不低于<color=#E78300>S</color>时，奥义伤害提高；
+修正等级为<color=#E78300>Ω</color>时，以上效果全部再次提高。]],
 		id = 425,
 		description = {
 			500000425
@@ -642,7 +646,11 @@ return {
 		simple_strength_description = {}
 	},
 	[109901] = {
-		simple_description = "当朔望·月读装备时，获得以下效果。\n技能三<color=#297DE0>「朔望·月夜见」</color>改变为<color=#297DE0>「朔望·末月」</color>。\n神能为满时，重置<color=#297DE0>「朔望·末月」</color>的冷却时间。\n<color=#297DE0>「望·末月」</color>的蓄力时间缩短，副刀波伤害提高。",
+		simple_description = [[
+当朔望·月读装备时，获得以下效果。
+技能三<color=#297DE0>「朔望·月夜见」</color>改变为<color=#297DE0>「朔望·末月」</color>。
+神能为满时，重置<color=#297DE0>「朔望·末月」</color>的冷却时间。
+<color=#297DE0>「望·末月」</color>的蓄力时间缩短，副刀波伤害提高。]],
 		id = 109901,
 		description = {
 			500109901
@@ -667,7 +675,12 @@ return {
 		},
 		simple_strength_description = {
 			109941,
-			"当朔望·月读装备时，获得以下效果。\n技能三<color=#297DE0>「朔望·月夜见」</color>改变为<color=#297DE0>「朔望·末月」</color>。\n普通攻击每次命中时额外获得神能。蓄力时获得硬直效果。\n神能为满时，重置<color=#297DE0>「朔望·末月」</color>的冷却时间。\n<color=#297DE0>「望·末月」</color>的蓄力时间缩短，基础伤害提高。"
+			[[
+当朔望·月读装备时，获得以下效果。
+技能三<color=#297DE0>「朔望·月夜见」</color>改变为<color=#297DE0>「朔望·末月」</color>。
+普通攻击每次命中时额外获得神能。蓄力时获得硬直效果。
+神能为满时，重置<color=#297DE0>「朔望·末月」</color>的冷却时间。
+<color=#297DE0>「望·末月」</color>的蓄力时间缩短，基础伤害提高。]]
 		}
 	},
 	[103801] = {
@@ -696,7 +709,11 @@ return {
 		},
 		simple_strength_description = {
 			103841,
-			"当羽灼·赫拉装备时，获得以下效果。\n技能二<color=#297DE0>「炽拥」</color>改变为<color=#297DE0>「灼舞」</color>。\n<color=#297DE0>「灼舞」</color>对处于灼烧状态的敌人命中瞬间基础伤害提高。\n<color=#297DE0>「阳炎风暴」</color>的基础伤害提高。"
+			[[
+当羽灼·赫拉装备时，获得以下效果。
+技能二<color=#297DE0>「炽拥」</color>改变为<color=#297DE0>「灼舞」</color>。
+<color=#297DE0>「灼舞」</color>对处于灼烧状态的敌人命中瞬间基础伤害提高。
+<color=#297DE0>「阳炎风暴」</color>的基础伤害提高。]]
 		}
 	},
 	[103901] = {
@@ -734,7 +751,12 @@ return {
 		},
 		simple_strength_description = {
 			103941,
-			"当潮音·波塞冬装备时，获得以下效果。\n技能一<color=#297DE0>「海之恩泽」</color>改变为<color=#297DE0>「苍澜鲸歌」</color>。\n治疗效果提高。\n出场时，根据治疗效果提高，自身技能伤害提高。\n施放<color=#297DE0>「苍澜鲸歌」</color>治疗自身或者队友时，自身或者队友对应的机制值获得率提高，并获得对应机制值。"
+			[[
+当潮音·波塞冬装备时，获得以下效果。
+技能一<color=#297DE0>「海之恩泽」</color>改变为<color=#297DE0>「苍澜鲸歌」</color>。
+治疗效果提高。
+出场时，根据治疗效果提高，自身技能伤害提高。
+施放<color=#297DE0>「苍澜鲸歌」</color>治疗自身或者队友时，自身或者队友对应的机制值获得率提高，并获得对应机制值。]]
 		}
 	},
 	[104802] = {
@@ -763,7 +785,11 @@ return {
 		},
 		simple_strength_description = {
 			104841,
-			"当彗光·前鬼坊天狗装备时，获得以下效果。\n技能一<color=#297DE0>「定点打击」</color>改变为<color=#297DE0>「多轮轰炸」</color>。\n<color=#297DE0>「多轮轰炸」</color>的轰炸次数增加，后续轰炸对同一个敌人伤害依次衰减。\n<color=#297DE0>「电导空袭」</color>、<color=#297DE0>「终焉脉冲」</color>的基础伤害提高。"
+			[[
+当彗光·前鬼坊天狗装备时，获得以下效果。
+技能一<color=#297DE0>「定点打击」</color>改变为<color=#297DE0>「多轮轰炸」</color>。
+<color=#297DE0>「多轮轰炸」</color>的轰炸次数增加，后续轰炸对同一个敌人伤害依次衰减。
+<color=#297DE0>「电导空袭」</color>、<color=#297DE0>「终焉脉冲」</color>的基础伤害提高。]]
 		}
 	},
 	[106601] = {
@@ -801,7 +827,11 @@ return {
 		},
 		simple_strength_description = {
 			106641,
-			"当早樱·大国主装备时，获得以下效果。\n将技能<color=#297DE0>「兔兔扫射」</color>替换为<color=#297DE0>「兔兔出击」</color>。\n随着专属钥从的等级提升，<color=#297DE0>「兔兔出击」</color>命中瞬间基础伤害提高，拉扯半径提高。\n当自身或者队友拥有任意<material=underline c=#297DE0 h=2 event=terminology args=(106601)>「占卜效果」</material>时，会心伤害提高。"
+			[[
+当早樱·大国主装备时，获得以下效果。
+将技能<color=#297DE0>「兔兔扫射」</color>替换为<color=#297DE0>「兔兔出击」</color>。
+随着专属钥从的等级提升，<color=#297DE0>「兔兔出击」</color>命中瞬间基础伤害提高，拉扯半径提高。
+当自身或者队友拥有任意<material=underline c=#297DE0 h=2 event=terminology args=(106601)>「占卜效果」</material>时，会心伤害提高。]]
 		}
 	},
 	[108401] = {
@@ -886,7 +916,12 @@ return {
 		},
 		simple_strength_description = {
 			109341,
-			"当觅影·国常立装备时，获得以下效果。\n<color=#297DE0>「天之持」</color>、<color=#297DE0>「地之持」</color>的冷却时间缩短。\n施放<color=#297DE0>「天之持」</color>后，对锁定敌人进行一次手里剑袭击，造成物理属性伤害；施放<color=#297DE0>「地之持」</color>后，对周围的敌人进行一次范围性的冲击，造成物理属性伤害。\n随着专属钥从等级提升，<color=#297DE0>「忍法」</color>独立伤害提高。\n施放奥义时不再需要消耗<material=underline c=#297DE0 h=2 event=terminology args=(109301)>「忍持」</material>。"
+			[[
+当觅影·国常立装备时，获得以下效果。
+<color=#297DE0>「天之持」</color>、<color=#297DE0>「地之持」</color>的冷却时间缩短。
+施放<color=#297DE0>「天之持」</color>后，对锁定敌人进行一次手里剑袭击，造成物理属性伤害；施放<color=#297DE0>「地之持」</color>后，对周围的敌人进行一次范围性的冲击，造成物理属性伤害。
+随着专属钥从等级提升，<color=#297DE0>「忍法」</color>独立伤害提高。
+施放奥义时不再需要消耗<material=underline c=#297DE0 h=2 event=terminology args=(109301)>「忍持」</material>。]]
 		}
 	},
 	[101901] = {
@@ -924,7 +959,11 @@ return {
 		},
 		simple_strength_description = {
 			101941,
-			"当疾风之枪·休装备时，获得以下效果。\n技能三<color=#297DE0>「破势」</color>改变为<color=#297DE0>「破军」</color>。\n<color=#297DE0>「破军」</color>命中瞬间会心率、会心伤害提高。\n<color=#297DE0>「破军」</color>命中时，全队伍风属性伤害提高。"
+			[[
+当疾风之枪·休装备时，获得以下效果。
+技能三<color=#297DE0>「破势」</color>改变为<color=#297DE0>「破军」</color>。
+<color=#297DE0>「破军」</color>命中瞬间会心率、会心伤害提高。
+<color=#297DE0>「破军」</color>命中时，全队伍风属性伤害提高。]]
 		}
 	},
 	[108001] = {
@@ -962,7 +1001,11 @@ return {
 		},
 		simple_strength_description = {
 			108041,
-			"当寒霜之牙·维达尔装备时，获得以下效果。\n普通攻击<color=#297DE0>「冰原狩猎」</color>改变为<color=#297DE0>「凌霜之牙」</color>。\n普通攻击时有一定的概率对命中的敌人附加冰冻状态。每次普通攻击命中处于冰冻状态的敌人后会额外获得怒气。普通攻击命中后，会对前方非自身普通攻击直接命中的敌人造成冰属性伤害，并视为技能伤害。\n普通攻击会对敌人附加冰属性抗性降低。"
+			[[
+当寒霜之牙·维达尔装备时，获得以下效果。
+普通攻击<color=#297DE0>「冰原狩猎」</color>改变为<color=#297DE0>「凌霜之牙」</color>。
+普通攻击时有一定的概率对命中的敌人附加冰冻状态。每次普通攻击命中处于冰冻状态的敌人后会额外获得怒气。普通攻击命中后，会对前方非自身普通攻击直接命中的敌人造成冰属性伤害，并视为技能伤害。
+普通攻击会对敌人附加冰属性抗性降低。]]
 		}
 	},
 	[105001] = {
@@ -1033,7 +1076,12 @@ return {
 		}
 	},
 	[102701] = {
-		simple_description = "当低吹雪·利维坦装备时，获得以下效果。\n闪避技能<color=#297DE0>「凌雪折光」</color>改变为<color=#297DE0>「暴风反击」</color>。\n触发闪避效果后或在闪避效果未处于冷却状态时受身成功后一定时间内，点击普通攻击会使用重锚施放技能攻击，造成冰属性伤害，对命中的敌人附加冰冻状态。\n受身时也可以获得闪避效果，并且不会使闪避效果进入冷却状态。\n反击的伤害提高。",
+		simple_description = [[
+当低吹雪·利维坦装备时，获得以下效果。
+闪避技能<color=#297DE0>「凌雪折光」</color>改变为<color=#297DE0>「暴风反击」</color>。
+触发闪避效果后或在闪避效果未处于冷却状态时受身成功后一定时间内，点击普通攻击会使用重锚施放技能攻击，造成冰属性伤害，对命中的敌人附加冰冻状态。
+受身时也可以获得闪避效果，并且不会使闪避效果进入冷却状态。
+反击的伤害提高。]],
 		id = 102701,
 		description = {
 			500102701
@@ -1076,7 +1124,13 @@ return {
 		},
 		simple_strength_description = {
 			102741,
-			"当低吹雪·利维坦装备时，获得以下效果。\n闪避技能<color=#297DE0>「凌雪折光」</color>改变为<color=#297DE0>「暴风反击」</color>。\n触发闪避效果后或在闪避效果未处于冷却状态时受身成功后一定时间内，点击普通攻击会使用重锚施放技能攻击，造成冰属性伤害，对命中的敌人附加冰冻状态。\n受身也可以获得闪避效果，并且不会使闪避效果进入冷却状态。\n反击的伤害提高。\n闪避必定触发闪避效果，并且闪避效果改变为持续一段时间。"
+			[[
+当低吹雪·利维坦装备时，获得以下效果。
+闪避技能<color=#297DE0>「凌雪折光」</color>改变为<color=#297DE0>「暴风反击」</color>。
+触发闪避效果后或在闪避效果未处于冷却状态时受身成功后一定时间内，点击普通攻击会使用重锚施放技能攻击，造成冰属性伤害，对命中的敌人附加冰冻状态。
+受身也可以获得闪避效果，并且不会使闪避效果进入冷却状态。
+反击的伤害提高。
+闪避必定触发闪避效果，并且闪避效果改变为持续一段时间。]]
 		}
 	},
 	[109401] = {
@@ -1174,7 +1228,11 @@ return {
 		},
 		simple_strength_description = {
 			101141,
-			"当雏心·奥西里斯装备时，获得以下效果。\n获得所有神格的第三层效果。\n技能一基础伤害提高。\n技能三基础伤害提高。"
+			[[
+当雏心·奥西里斯装备时，获得以下效果。
+获得所有神格的第三层效果。
+技能一基础伤害提高。
+技能三基础伤害提高。]]
 		}
 	},
 	[119901] = {
@@ -1300,7 +1358,12 @@ return {
 		},
 		simple_strength_description = {
 			105941,
-			"当光煌·阿波罗装备时，获得以下效果。\n被动效果中命中次数条件减少。\n自身造成会心伤害时获得能量，并有一定的概率重置<color=#297DE0>「辉光交错」</color>的冷却时间。\n追加攻击命中瞬间基础伤害提高。\n追加攻击命中时对敌人附加光属性抗性降低。"
+			[[
+当光煌·阿波罗装备时，获得以下效果。
+被动效果中命中次数条件减少。
+自身造成会心伤害时获得能量，并有一定的概率重置<color=#297DE0>「辉光交错」</color>的冷却时间。
+追加攻击命中瞬间基础伤害提高。
+追加攻击命中时对敌人附加光属性抗性降低。]]
 		}
 	},
 	[109601] = {
@@ -1333,7 +1396,11 @@ return {
 		}
 	},
 	[102601] = {
-		simple_description = "当银臂·努阿达装备时，获得以下效果。\n满蓄力的<color=#297DE0>「炎弹之雨」</color>和<color=#297DE0>「地鸣爆弹」</color>技能伤害提高。\n施放满蓄力的<color=#297DE0>「炎弹之雨」</color>或<color=#297DE0>「地鸣爆弹」</color>时，会对命中的敌人附加<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态。对处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态的敌人造成的伤害提高。\n施放满蓄力的技能，攻击处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态的敌人时，会引爆并造成范围火属性伤害。",
+		simple_description = [[
+当银臂·努阿达装备时，获得以下效果。
+满蓄力的<color=#297DE0>「炎弹之雨」</color>和<color=#297DE0>「地鸣爆弹」</color>技能伤害提高。
+施放满蓄力的<color=#297DE0>「炎弹之雨」</color>或<color=#297DE0>「地鸣爆弹」</color>时，会对命中的敌人附加<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态。对处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态的敌人造成的伤害提高。
+施放满蓄力的技能，攻击处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102602)>「燎焰」</material></color>状态的敌人时，会引爆并造成范围火属性伤害。]],
 		id = 102601,
 		description = {
 			500102601
@@ -1374,7 +1441,11 @@ return {
 		simple_strength_description = {}
 	},
 	[105801] = {
-		simple_description = "当龙切·迦具土装备时，获得以下效果。\n受击时，攻击力提高。\n施放<color=#297DE0>「绯狱舞炎·改」</color>时会施放焰浪，对沿途的敌人造成火属性伤害；<color=#297DE0>「绯狱舞炎·改」</color>命中多个敌人时会额外获得能量。\n随着专属钥从等级提升，焰浪的伤害提高。",
+		simple_description = [[
+当龙切·迦具土装备时，获得以下效果。
+受击时，攻击力提高。
+施放<color=#297DE0>「绯狱舞炎·改」</color>时会施放焰浪，对沿途的敌人造成火属性伤害；<color=#297DE0>「绯狱舞炎·改」</color>命中多个敌人时会额外获得能量。
+随着专属钥从等级提升，焰浪的伤害提高。]],
 		id = 105801,
 		description = {
 			500105801
@@ -1426,7 +1497,11 @@ return {
 		},
 		simple_strength_description = {
 			105841,
-			"当龙切·迦具土装备时，获得以下效果。\n自身被命中时，攻击力提高。\n施放<color=#297DE0>「绯狱舞炎·改」</color>时会施放焰浪，对沿途的敌人造成火属性伤害；<color=#297DE0>「绯狱舞炎·改」</color>命中多个敌人时会额外获得能量。\n随着专属钥从等级提升，焰浪的伤害提高。"
+			[[
+当龙切·迦具土装备时，获得以下效果。
+自身被命中时，攻击力提高。
+施放<color=#297DE0>「绯狱舞炎·改」</color>时会施放焰浪，对沿途的敌人造成火属性伤害；<color=#297DE0>「绯狱舞炎·改」</color>命中多个敌人时会额外获得能量。
+随着专属钥从等级提升，焰浪的伤害提高。]]
 		}
 	},
 	[109701] = {
@@ -1455,11 +1530,19 @@ return {
 		},
 		simple_strength_description = {
 			109741,
-			"当小困·俄尼里伊装备时，获得以下效果。\n技能二<color=#297DE0>「绘梦童话」</color>改变为<color=#297DE0>「幽梦乐园」</color>。\n<color=#297DE0>「幽梦乐园」</color>持续期间内，<color=#297DE0>「眠羊游行」</color>、<color=#297DE0>「梦幻泡影」</color>的基础伤害提高。\n<color=#297DE0>「幽梦乐园」</color>持续期间内，所有友方受到的伤害降低，对命中的敌人附加<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109703)>「幽梦」</material></color>状态，每隔一段时间自身会对所有处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109703)>「幽梦」</material></color>状态的敌人造成暗属性伤害。"
+			[[
+当小困·俄尼里伊装备时，获得以下效果。
+技能二<color=#297DE0>「绘梦童话」</color>改变为<color=#297DE0>「幽梦乐园」</color>。
+<color=#297DE0>「幽梦乐园」</color>持续期间内，<color=#297DE0>「眠羊游行」</color>、<color=#297DE0>「梦幻泡影」</color>的基础伤害提高。
+<color=#297DE0>「幽梦乐园」</color>持续期间内，所有友方受到的伤害降低，对命中的敌人附加<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109703)>「幽梦」</material></color>状态，每隔一段时间自身会对所有处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109703)>「幽梦」</material></color>状态的敌人造成暗属性伤害。]]
 		}
 	},
 	[113901] = {
-		simple_description = "当冰渊·波塞冬装备时，获得以下效果。\n每命中敌人一定次数，获得能量。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「零度寒芒」</color>的冰属性伤害加成效果提高，<color=#297DE0>「事象冰封」</color>对命中的敌人附加的冰属性抗性降低效果提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每次施放<color=#297DE0>「零度寒芒」</color>或<color=#297DE0>「事象冰封」</color>时，对应技能的基础伤害提高。",
+		simple_description = [[
+当冰渊·波塞冬装备时，获得以下效果。
+每命中敌人一定次数，获得能量。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「零度寒芒」</color>的冰属性伤害加成效果提高，<color=#297DE0>「事象冰封」</color>对命中的敌人附加的冰属性抗性降低效果提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每次施放<color=#297DE0>「零度寒芒」</color>或<color=#297DE0>「事象冰封」</color>时，对应技能的基础伤害提高。]],
 		id = 113901,
 		description = {
 			500113901
@@ -1493,7 +1576,13 @@ return {
 		},
 		simple_strength_description = {
 			113941,
-			"当冰渊·波塞冬装备时，获得以下效果。\n每命中敌人一定次数，获得能量。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「零度寒芒」</color>的冰属性伤害加成效果提高，<color=#297DE0>「事象冰封」</color>对命中的敌人附加的冰属性抗性降低效果提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每次施放<color=#297DE0>「零度寒芒」</color>或<color=#297DE0>「事象冰封」</color>时，对应技能的基础伤害提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每秒自动额外获得能量。\n第三次及之后退出<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「银雪回响」</color>的剩余冷却时间缩短。"
+			[[
+当冰渊·波塞冬装备时，获得以下效果。
+每命中敌人一定次数，获得能量。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「零度寒芒」</color>的冰属性伤害加成效果提高，<color=#297DE0>「事象冰封」</color>对命中的敌人附加的冰属性抗性降低效果提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每次施放<color=#297DE0>「零度寒芒」</color>或<color=#297DE0>「事象冰封」</color>时，对应技能的基础伤害提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，每秒自动额外获得能量。
+第三次及之后退出<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113903)>「临渊」</material></color>状态时，<color=#297DE0>「银雪回响」</color>的剩余冷却时间缩短。]]
 		}
 	},
 	[113801] = {
@@ -1520,7 +1609,11 @@ return {
 		simple_strength_description = {}
 	},
 	[105601] = {
-		simple_description = "当雷獠·伽梨装备时，获得以下效果。\n出场时、自身触发闪避效果时、进入修正空间时，获得一次强化效果。\n每次施放强化效果时，攻击力提高。\n强化<color=#297DE0>「神怒·雷织」</color>的额外踢击以及强化<color=#297DE0>「神怒·千雳」</color>的蓄力不会被闪避打断，闪避之后点击技能键会继续踢击和蓄力。",
+		simple_description = [[
+当雷獠·伽梨装备时，获得以下效果。
+出场时、自身触发闪避效果时、进入修正空间时，获得一次强化效果。
+每次施放强化效果时，攻击力提高。
+强化<color=#297DE0>「神怒·雷织」</color>的额外踢击以及强化<color=#297DE0>「神怒·千雳」</color>的蓄力不会被闪避打断，闪避之后点击技能键会继续踢击和蓄力。]],
 		id = 105601,
 		description = {
 			500105601
@@ -1552,7 +1645,12 @@ return {
 		simple_strength_description = {}
 	},
 	[111101] = {
-		simple_description = "当生魂·奥西里斯装备时，获得以下效果。\n印记上限增加；出场时，自身和与自身预组合连携奥义的修正者恢复奥义值。\n<color=#297DE0>「幽岚羽刃」</color>处于冷却状态时的再次施放，不再消耗印记。\n<color=#297DE0>「终灵凋落」</color>每次施放命中时，间歇恢复生命值；消耗剩余的全部印记，根据额外消耗的印记提高<color=#297DE0>「终灵凋落」</color>的伤害。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(111101)>「冥府审判模式」</material></color>下施放的<color=#297DE0>「终灵凋落」</color>的伤害提高效果和生命值恢复效果提高。",
+		simple_description = [[
+当生魂·奥西里斯装备时，获得以下效果。
+印记上限增加；出场时，自身和与自身预组合连携奥义的修正者恢复奥义值。
+<color=#297DE0>「幽岚羽刃」</color>处于冷却状态时的再次施放，不再消耗印记。
+<color=#297DE0>「终灵凋落」</color>每次施放命中时，间歇恢复生命值；消耗剩余的全部印记，根据额外消耗的印记提高<color=#297DE0>「终灵凋落」</color>的伤害。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(111101)>「冥府审判模式」</material></color>下施放的<color=#297DE0>「终灵凋落」</color>的伤害提高效果和生命值恢复效果提高。]],
 		id = 111101,
 		description = {
 			500111101
@@ -1604,7 +1702,12 @@ return {
 		},
 		simple_strength_description = {
 			111141,
-			"当生魂·奥西里斯装备时，获得以下效果。\n印记上限增加；出场时，自身和与自身预组合连携奥义的修正者恢复奥义值。\n<color=#297DE0>「幽岚羽刃」</color>处于冷却状态时的再次施放，不再消耗印记；<color=#297DE0>「永劫轮舞」</color>也不再消耗印记。\n<color=#297DE0>「终灵凋落」</color>每次施放命中时，间歇恢复生命值；消耗剩余的全部印记，根据额外消耗的印记提高<color=#297DE0>「终灵凋落」</color>的独立伤害。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(111101)>「冥府审判模式」</material></color>下施放的<color=#297DE0>「终灵凋落」</color>的伤害提高效果和生命值恢复效果提高。"
+			[[
+当生魂·奥西里斯装备时，获得以下效果。
+印记上限增加；出场时，自身和与自身预组合连携奥义的修正者恢复奥义值。
+<color=#297DE0>「幽岚羽刃」</color>处于冷却状态时的再次施放，不再消耗印记；<color=#297DE0>「永劫轮舞」</color>也不再消耗印记。
+<color=#297DE0>「终灵凋落」</color>每次施放命中时，间歇恢复生命值；消耗剩余的全部印记，根据额外消耗的印记提高<color=#297DE0>「终灵凋落」</color>的独立伤害。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(111101)>「冥府审判模式」</material></color>下施放的<color=#297DE0>「终灵凋落」</color>的伤害提高效果和生命值恢复效果提高。]]
 		}
 	},
 	[101301] = {
@@ -1660,7 +1763,11 @@ return {
 		},
 		simple_strength_description = {
 			101341,
-			"当障月·阿修罗装备时，获得以下效果。\n改变<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101301)>「缚炎」</material></color>状态与强化<color=#297DE0>「虚炎行空」</color>之间的关联关系，同时改变强化<color=#297DE0>「虚炎行空」</color>的施放时机。\n根据<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101301)>「缚炎」</material></color>状态期间普通攻击命中的次数，提高<color=#297DE0>「虚炎行空」</color>的伤害。\n<color=#297DE0>「擎天撼地」</color>的冷却时间缩短。"
+			[[
+当障月·阿修罗装备时，获得以下效果。
+改变<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101301)>「缚炎」</material></color>状态与强化<color=#297DE0>「虚炎行空」</color>之间的关联关系，同时改变强化<color=#297DE0>「虚炎行空」</color>的施放时机。
+根据<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101301)>「缚炎」</material></color>状态期间普通攻击命中的次数，提高<color=#297DE0>「虚炎行空」</color>的伤害。
+<color=#297DE0>「擎天撼地」</color>的冷却时间缩短。]]
 		}
 	},
 	[103201] = {
@@ -1698,7 +1805,11 @@ return {
 		},
 		simple_strength_description = {
 			103241,
-			"当熯天·提尔装备时，获得以下效果。\n普通攻击<color=#297DE0>「王棋闪击」</color>改变为<color=#297DE0>「王棋进军」</color>。\n印记上限增加，直接施放<color=#297DE0>「落兵升变」</color>时额外获得印记。\n巨剑类型是<color=#297DE0>「巨剑·皇后」</color>时，独立伤害提高，改变攻击模式。"
+			[[
+当熯天·提尔装备时，获得以下效果。
+普通攻击<color=#297DE0>「王棋闪击」</color>改变为<color=#297DE0>「王棋进军」</color>。
+印记上限增加，直接施放<color=#297DE0>「落兵升变」</color>时额外获得印记。
+巨剑类型是<color=#297DE0>「巨剑·皇后」</color>时，独立伤害提高，改变攻击模式。]]
 		}
 	},
 	[103501] = {
@@ -1734,7 +1845,11 @@ return {
 		simple_strength_description = {}
 	},
 	[103301] = {
-		simple_description = "当启明·海姆达尔装备时，获得以下效果。\n技能三<color=#297DE0>「极境光域」</color>改变为<color=#297DE0>「极境神域」</color>。\n<color=#297DE0>「极境神域」</color>生成的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(103301)>「真理之域」</material></color>持续时间延长、覆盖范围半径提高。\n最后一次生成的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(103301)>「真理之域」</material></color>范围内的队友每隔一段时间获得技能伤害提高。",
+		simple_description = [[
+当启明·海姆达尔装备时，获得以下效果。
+技能三<color=#297DE0>「极境光域」</color>改变为<color=#297DE0>「极境神域」</color>。
+<color=#297DE0>「极境神域」</color>生成的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(103301)>「真理之域」</material></color>持续时间延长、覆盖范围半径提高。
+最后一次生成的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(103301)>「真理之域」</material></color>范围内的队友每隔一段时间获得技能伤害提高。]],
 		id = 103301,
 		description = {
 			500103301
@@ -1838,7 +1953,12 @@ return {
 		},
 		simple_strength_description = {
 			108141,
-			"当斩浪·丝卡蒂装备时，获得以下效果。\n<color=#297DE0>「霜断」</color>和<color=#297DE0>「晶尘飞散」</color>命中时会使命中的敌人冰属性抗性降低。\n对处于冰属性抗性降低状态的敌人伤害提高，冰属性抗性降低越多伤害提高越高。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(108102)>「巡航模式」</material></color>时，会自动发射利剑式跟踪导弹。\n展开屏障期间的格挡并施放的<color=#297DE0>「霜断」</color>不再需要消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(108101)>「破冰」</material></color>标记。"
+			[[
+当斩浪·丝卡蒂装备时，获得以下效果。
+<color=#297DE0>「霜断」</color>和<color=#297DE0>「晶尘飞散」</color>命中时会使命中的敌人冰属性抗性降低。
+对处于冰属性抗性降低状态的敌人伤害提高，冰属性抗性降低越多伤害提高越高。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(108102)>「巡航模式」</material></color>时，会自动发射利剑式跟踪导弹。
+展开屏障期间的格挡并施放的<color=#297DE0>「霜断」</color>不再需要消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(108101)>「破冰」</material></color>标记。]]
 		}
 	},
 	[111901] = {
@@ -1903,7 +2023,11 @@ return {
 		simple_strength_description = {}
 	},
 	[106801] = {
-		simple_description = "当沐风·恩利尔装备时，获得以下效果。\n每次获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106801)>「风铃」</material></color>标记时，伤害提高。\n施放未强化的<color=#297DE0>「风元异变」</color>也会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106801)>「风铃」</material></color>标记。\n施放强化的<color=#297DE0>「风元异变」</color>结束后，会获得施放未强化的<color=#297DE0>「风元异变」</color>可以获得的技能强化效果。",
+		simple_description = [[
+当沐风·恩利尔装备时，获得以下效果。
+每次获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106801)>「风铃」</material></color>标记时，伤害提高。
+施放未强化的<color=#297DE0>「风元异变」</color>也会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106801)>「风铃」</material></color>标记。
+施放强化的<color=#297DE0>「风元异变」</color>结束后，会获得施放未强化的<color=#297DE0>「风元异变」</color>可以获得的技能强化效果。]],
 		id = 106801,
 		description = {
 			500106801
@@ -1958,7 +2082,11 @@ return {
 		simple_strength_description = {}
 	},
 	[104101] = {
-		simple_description = "当铃兰之弦·雅典娜装备时，获得以下效果。\n<color=#297DE0>「谐律音爆」</color>的伤害提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态时，神能的自动消耗降低。<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态期间，每段普通攻击判定成功并命中一定次数后，进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>状态。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>：状态期间内获得硬直效果，不会开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104102)>「谐律判定」</material></color>但每段普通攻击或每次施放技能都视为判定成功或完美判定成功，并且任意<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数都视为任意倍数。",
+		simple_description = [[
+当铃兰之弦·雅典娜装备时，获得以下效果。
+<color=#297DE0>「谐律音爆」</color>的伤害提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态时，神能的自动消耗降低。<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态期间，每段普通攻击判定成功并命中一定次数后，进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>状态。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>：状态期间内获得硬直效果，不会开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104102)>「谐律判定」</material></color>但每段普通攻击或每次施放技能都视为判定成功或完美判定成功，并且任意<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数都视为任意倍数。]],
 		id = 104101,
 		description = {
 			500104101
@@ -2001,11 +2129,23 @@ return {
 		},
 		simple_strength_description = {
 			104141,
-			"当铃兰之弦·雅典娜装备时，获得以下效果。\n<color=#297DE0>「谐律音爆」</color>的独立伤害提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态时，神能的自动消耗降低。<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态期间，每段普通攻击判定成功并命中一定次数后，进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>状态。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>：状态期间内获得硬直效果，，不会开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104102)>「谐律判定」</material></color>但每段普通攻击或每次施放技能都视为判定成功或完美判定成功，并且任意<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数都视为任意倍数，判定成功或完美判定成功时额外获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态施放奥义或连携奥义时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数会保留。\n完美判定的判定区间增加。"
+			[[
+当铃兰之弦·雅典娜装备时，获得以下效果。
+<color=#297DE0>「谐律音爆」</color>的独立伤害提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态时，神能的自动消耗降低。<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态期间，每段普通攻击判定成功并命中一定次数后，进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>状态。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104104)>「完美谐律」</material></color>：状态期间内获得硬直效果，，不会开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104102)>「谐律判定」</material></color>但每段普通攻击或每次施放技能都视为判定成功或完美判定成功，并且任意<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数都视为任意倍数，判定成功或完美判定成功时额外获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104101)>「鸣刃」</material></color>状态施放奥义或连携奥义时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104103)>「谐律」</material></color>层数会保留。
+完美判定的判定区间增加。]]
 		}
 	},
 	[102401] = {
-		simple_description = "当胡狼·阿努比斯装备时，获得以下效果。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>自动攻击时，有一定的概率施放特殊攻击，造成暗属性伤害，并对命中的敌人附加眩晕状态。\n施放<color=#297DE0>「狼魂疾突」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>的协同攻击会附带爆炸效果，对小范围敌人造成暗属性伤害。\n施放<color=#297DE0>「狼魂狂舞」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>的协同攻击会改变为特殊攻击。\n施放<color=#297DE0>「狼魂凝视」</color>或<color=#297DE0>「狼魂狂斩」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>会根据其与其锁定的敌人的距离，选择施放协同攻击或特殊攻击。\n特殊攻击的伤害提高。",
+		simple_description = [[
+当胡狼·阿努比斯装备时，获得以下效果。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>自动攻击时，有一定的概率施放特殊攻击，造成暗属性伤害，并对命中的敌人附加眩晕状态。
+施放<color=#297DE0>「狼魂疾突」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>的协同攻击会附带爆炸效果，对小范围敌人造成暗属性伤害。
+施放<color=#297DE0>「狼魂狂舞」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>的协同攻击会改变为特殊攻击。
+施放<color=#297DE0>「狼魂凝视」</color>或<color=#297DE0>「狼魂狂斩」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102401)>「狼魂」</material></color>会根据其与其锁定的敌人的距离，选择施放协同攻击或特殊攻击。
+特殊攻击的伤害提高。]],
 		id = 102401,
 		description = {
 			500102401
@@ -2064,7 +2204,11 @@ return {
 		simple_strength_description = {}
 	},
 	[101601] = {
-		simple_description = "当荒獠·金固装备时，获得以下效果。\n<color=#297DE0>「突击战术」</color>的电锯模式可以打断<color=#297DE0>「高压回旋斩」</color>的举剑动作并直接使用荒獠切割敌人。\n施放<color=#297DE0>「突击战术」</color>的电锯模式时，获得霸体效果；命中时，物理属性伤害提高。\n处于修正空间时，施放<color=#297DE0>「突击战术」</color>、<color=#297DE0>「攻坚战术」</color>的电锯模式时会根据消耗的神能提高技能伤害。",
+		simple_description = [[
+当荒獠·金固装备时，获得以下效果。
+<color=#297DE0>「突击战术」</color>的电锯模式可以打断<color=#297DE0>「高压回旋斩」</color>的举剑动作并直接使用荒獠切割敌人。
+施放<color=#297DE0>「突击战术」</color>的电锯模式时，获得霸体效果；命中时，物理属性伤害提高。
+处于修正空间时，施放<color=#297DE0>「突击战术」</color>、<color=#297DE0>「攻坚战术」</color>的电锯模式时会根据消耗的神能提高技能伤害。]],
 		id = 101601,
 		description = {
 			500101601
@@ -2096,7 +2240,13 @@ return {
 		simple_strength_description = {}
 	},
 	[105201] = {
-		simple_description = "当怒蛇·马尔杜克装备时，获得以下效果。\n当队友施放技能或奥义时，会随机呼叫自身<color=#297DE0>「快速反应战术」</color>或<color=#297DE0>「优势围歼战术」</color>相对应的无人机，造成对应的物理属性伤害，并提高全队伍额外攻击力。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105203)>「凶风模式」</material></color>：队友呼叫该模式无人机时能量消耗降低；全队伍技能二基础伤害提高。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105204)>「恶风模式」</material></color>：队友呼叫该模式无人机时能量获得率提高；全队伍技能三基础伤害提高。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105205)>「旋风模式」</material></color>：队友呼叫该模式无人机时，根据其队友的伤害属性种类和数量，分别对敌人附加对应属性抗性降低的状态。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105206)>「飓风模式」</material></color>：队友呼叫该模式无人机时会心率提高，当效果持续期间进入零时空间时，会刷新持续时间并将会心率提高的效果共享给其队友。",
+		simple_description = [[
+当怒蛇·马尔杜克装备时，获得以下效果。
+当队友施放技能或奥义时，会随机呼叫自身<color=#297DE0>「快速反应战术」</color>或<color=#297DE0>「优势围歼战术」</color>相对应的无人机，造成对应的物理属性伤害，并提高全队伍额外攻击力。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105203)>「凶风模式」</material></color>：队友呼叫该模式无人机时能量消耗降低；全队伍技能二基础伤害提高。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105204)>「恶风模式」</material></color>：队友呼叫该模式无人机时能量获得率提高；全队伍技能三基础伤害提高。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105205)>「旋风模式」</material></color>：队友呼叫该模式无人机时，根据其队友的伤害属性种类和数量，分别对敌人附加对应属性抗性降低的状态。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105206)>「飓风模式」</material></color>：队友呼叫该模式无人机时会心率提高，当效果持续期间进入零时空间时，会刷新持续时间并将会心率提高的效果共享给其队友。]],
 		id = 105201,
 		description = {
 			500105201
@@ -2200,7 +2350,11 @@ return {
 		simple_strength_description = {}
 	},
 	[101701] = {
-		simple_description = "当灵猫·芭丝特装备时，获得以下效果。\n自身护甲穿透提高、会心伤害提高，从敌人背后攻击时会心率大幅提高。\n施放<color=#297DE0>「猫神的愚弄」</color>时进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101703)>「夜影」</material></color>状态。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101703)>「夜影」</material></color>：隐匿身形，移动速度提高，提高进入该状态后造成的第一次伤害，命中后或者受到伤害时退出该状态。",
+		simple_description = [[
+当灵猫·芭丝特装备时，获得以下效果。
+自身护甲穿透提高、会心伤害提高，从敌人背后攻击时会心率大幅提高。
+施放<color=#297DE0>「猫神的愚弄」</color>时进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101703)>「夜影」</material></color>状态。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(101703)>「夜影」</material></color>：隐匿身形，移动速度提高，提高进入该状态后造成的第一次伤害，命中后或者受到伤害时退出该状态。]],
 		id = 101701,
 		description = {
 			500101701
@@ -2241,7 +2395,11 @@ return {
 		simple_strength_description = {}
 	},
 	[102801] = {
-		simple_description = "当轰雷·托尔装备时，获得以下效果。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102802)>「狂雷」</material></color>状态时，每次施放技能命中时都会产生一次落雷，造成雷属性伤害。使用<color=#297DE0>「妙尔尼尔」</color>每次施放非衍生技能命中时、使用<color=#297DE0>「雅恩格利佩尔」</color>每次施放最后一拳以外的技能攻击命中时，自身伤害提高，该效果可多层累加。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102803)>「怒雷」</material></color>状态施放最后一拳时，根据拥有的效果层数，该技能攻击力提高。\n施放<color=#297DE0>「落雷击」</color>命中时，根据拥有的效果层数，<color=#297DE0>「落雷击」</color>基础伤害提高；<color=#297DE0>「落雷击」</color>结束后移除所有累加的层数。",
+		simple_description = [[
+当轰雷·托尔装备时，获得以下效果。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102802)>「狂雷」</material></color>状态时，每次施放技能命中时都会产生一次落雷，造成雷属性伤害。使用<color=#297DE0>「妙尔尼尔」</color>每次施放非衍生技能命中时、使用<color=#297DE0>「雅恩格利佩尔」</color>每次施放最后一拳以外的技能攻击命中时，自身伤害提高，该效果可多层累加。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102803)>「怒雷」</material></color>状态施放最后一拳时，根据拥有的效果层数，该技能攻击力提高。
+施放<color=#297DE0>「落雷击」</color>命中时，根据拥有的效果层数，<color=#297DE0>「落雷击」</color>基础伤害提高；<color=#297DE0>「落雷击」</color>结束后移除所有累加的层数。]],
 		id = 102801,
 		description = {
 			500102801
@@ -2302,11 +2460,24 @@ return {
 		},
 		simple_strength_description = {
 			102841,
-			"当轰雷·托尔装备时，获得以下效果。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102802)>「狂雷」</material></color>状态时，每次施放技能命中时都会产生一次落雷，造成雷属性伤害。使用<color=#297DE0>「妙尔尼尔」</color>每次施放非衍生技能命中时、使用<color=#297DE0>「雅恩格利佩尔」</color>每次施放最后一拳以外的技能攻击命中时，自身伤害提高，该效果可多层累加。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102803)>「怒雷」</material></color>状态施放最后一拳时，该技能命中瞬间攻击力提高。\n施放<color=#297DE0>「落雷击」</color>命中时，根据拥有的效果层数，<color=#297DE0>「落雷击」</color>独立伤害提高；<color=#297DE0>「落雷击」</color>结束后移除所有累加的层数。"
+			[[
+当轰雷·托尔装备时，获得以下效果。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102802)>「狂雷」</material></color>状态时，每次施放技能命中时都会产生一次落雷，造成雷属性伤害。使用<color=#297DE0>「妙尔尼尔」</color>每次施放非衍生技能命中时、使用<color=#297DE0>「雅恩格利佩尔」</color>每次施放最后一拳以外的技能攻击命中时，自身伤害提高，该效果可多层累加。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(102803)>「怒雷」</material></color>状态施放最后一拳时，该技能命中瞬间攻击力提高。
+施放<color=#297DE0>「落雷击」</color>命中时，根据拥有的效果层数，<color=#297DE0>「落雷击」</color>独立伤害提高；<color=#297DE0>「落雷击」</color>结束后移除所有累加的层数。]]
 		}
 	},
 	[113201] = {
-		simple_description = "当烙焰·提尔装备时，获得以下效果。\n神格<color=#297DE0>「燃剑的制裁-瞬燃」</color>获得额外的效果：施放收回长剑后的强力攻击时，会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。\n神格<color=#297DE0>「炽甲的惩戒-凝火」</color>获得额外的效果：根据消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>的点数，<color=#297DE0>「爆烈强攻」</color>的基础伤害提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113202)>「炽甲姿态」</material></color>时，每次普通攻击命中时会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113201)>「燃剑姿态」</material></color>时，每次施放普通攻击或技能时，会触发额外技能攻击。\n施放每段普通攻击时，额外造成火属性伤害。\n施放<color=#297DE0>「爆烈强攻」</color>时，每次攻击额外造成火属性伤害，之后消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。\n施放<color=#297DE0>「焚灭掳夺」</color>时，每次攻击额外造成火属性伤害。\n触发的额外技能攻击命中时，造成的伤害提高。",
+		simple_description = [[
+当烙焰·提尔装备时，获得以下效果。
+神格<color=#297DE0>「燃剑的制裁-瞬燃」</color>获得额外的效果：施放收回长剑后的强力攻击时，会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。
+神格<color=#297DE0>「炽甲的惩戒-凝火」</color>获得额外的效果：根据消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>的点数，<color=#297DE0>「爆烈强攻」</color>的基础伤害提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113202)>「炽甲姿态」</material></color>时，每次普通攻击命中时会获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113201)>「燃剑姿态」</material></color>时，每次施放普通攻击或技能时，会触发额外技能攻击。
+施放每段普通攻击时，额外造成火属性伤害。
+施放<color=#297DE0>「爆烈强攻」</color>时，每次攻击额外造成火属性伤害，之后消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(113204)>「烙印」</material></color>。
+施放<color=#297DE0>「焚灭掳夺」</color>时，每次攻击额外造成火属性伤害。
+触发的额外技能攻击命中时，造成的伤害提高。]],
 		id = 113201,
 		description = {
 			500113201
@@ -2365,7 +2536,13 @@ return {
 		simple_strength_description = {}
 	},
 	[107501] = {
-		simple_description = "当澄心·陵光装备时，获得以下效果。\n施放<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107503)>「烈式」</material></color>时，提高全队伍会心率和全属性伤害。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107507)>「阳炽」</material></color>的概率增加。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107508)>「烈阳炽」</material></color>的持续时间延长。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107509)>「烈离」</material></color>的持续时间缩短。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107510)>「燃离」</material></color>的持续时间延长。",
+		simple_description = [[
+当澄心·陵光装备时，获得以下效果。
+施放<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107503)>「烈式」</material></color>时，提高全队伍会心率和全属性伤害。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107507)>「阳炽」</material></color>的概率增加。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107508)>「烈阳炽」</material></color>的持续时间延长。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107509)>「烈离」</material></color>的持续时间缩短。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107510)>「燃离」</material></color>的持续时间延长。]],
 		id = 107501,
 		description = {
 			500107501
@@ -2442,7 +2619,12 @@ return {
 		simple_strength_description = {}
 	},
 	[107001] = {
-		simple_description = "当十曜·金乌装备时，获得以下效果。\n腾空或者回到地面时获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107003)>「日凌」</material></color>状态的<color=#297DE0>「蓬莱剑法」</color>获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记所需命中敌人的次数减少。\n<color=#297DE0>「伏魔焚灭」</color>不再需要消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记。\n每次满标记时，会心率提高、神能上限增加、神能获得率提高。",
+		simple_description = [[
+当十曜·金乌装备时，获得以下效果。
+腾空或者回到地面时获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107003)>「日凌」</material></color>状态的<color=#297DE0>「蓬莱剑法」</color>获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记所需命中敌人的次数减少。
+<color=#297DE0>「伏魔焚灭」</color>不再需要消耗<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107001)>「曜」</material></color>标记。
+每次满标记时，会心率提高、神能上限增加、神能获得率提高。]],
 		id = 107001,
 		description = {
 			500107001
@@ -2492,7 +2674,13 @@ return {
 		simple_strength_description = {}
 	},
 	[107101] = {
-		simple_description = "当青君·孟章装备时，获得以下效果。\n风属性伤害提高。\n提高通过被动获得的属性伤害提高效果。\n受到自身或者队友风属性攻击的敌人，受到自身雷属性攻击命中时，对雷属性和风属性抗性降低。\n攻击命中处于雷属性抗性降低状态的敌人时会心率提高。\n攻击命中处于风属性抗性降低状态的敌人时会心伤害提高。",
+		simple_description = [[
+当青君·孟章装备时，获得以下效果。
+风属性伤害提高。
+提高通过被动获得的属性伤害提高效果。
+受到自身或者队友风属性攻击的敌人，受到自身雷属性攻击命中时，对雷属性和风属性抗性降低。
+攻击命中处于雷属性抗性降低状态的敌人时会心率提高。
+攻击命中处于风属性抗性降低状态的敌人时会心伤害提高。]],
 		id = 107101,
 		description = {
 			500107101
@@ -2551,7 +2739,13 @@ return {
 		simple_strength_description = {}
 	},
 	[107201] = {
-		simple_description = "当百解·禄良装备时，获得以下效果。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>的持续时间延长。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>的协同攻击附加的风属性抗性降低效果可叠加。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>效果结束时，自身以外的队友恢复奥义值，在跟随的修正者位置产生爆炸，造成风属性伤害。爆炸会对命中的敌人附加破甲状态。\n<color=#297DE0>「辟邪奇术」</color>的最后一段攻击命中后，自身奥义的剩余冷却时间缩短。\n施放奥义后或连携奥义时，获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107201)>「财运」</material></color>。",
+		simple_description = [[
+当百解·禄良装备时，获得以下效果。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>的持续时间延长。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>的协同攻击附加的风属性抗性降低效果可叠加。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107202)>「瑞币」</material></color>效果结束时，自身以外的队友恢复奥义值，在跟随的修正者位置产生爆炸，造成风属性伤害。爆炸会对命中的敌人附加破甲状态。
+<color=#297DE0>「辟邪奇术」</color>的最后一段攻击命中后，自身奥义的剩余冷却时间缩短。
+施放奥义后或连携奥义时，获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107201)>「财运」</material></color>。]],
 		id = 107201,
 		description = {
 			500107201
@@ -2637,7 +2831,11 @@ return {
 		simple_strength_description = {}
 	},
 	[107401] = {
-		simple_description = "当巡天·英招装备时，获得以下效果。\n技能一、二、三基础伤害提高。\n衍生技能可以存在三个；移动闪避后替换衍生技能不再需要神能，施放衍生技能时不再消耗神能。\n闪避后，自身独立伤害提高。",
+		simple_description = [[
+当巡天·英招装备时，获得以下效果。
+技能一、二、三基础伤害提高。
+衍生技能可以存在三个；移动闪避后替换衍生技能不再需要神能，施放衍生技能时不再消耗神能。
+闪避后，自身独立伤害提高。]],
 		id = 107401,
 		description = {
 			500107401
@@ -2678,7 +2876,14 @@ return {
 		simple_strength_description = {}
 	},
 	[107601] = {
-		simple_description = "当太一·庚辰装备时，获得以下效果。\n提高天垣神系修正者最终伤害。\n提高天垣神系修正者的近战和远程伤害。\n被投掷命中附加停滞效果的敌人，受到影响的间隔时间缩短。\n自身对全场敌人附加破甲时的效果提高。\n提高自身对浮空或<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107605)>「重渊」</material></color>状态的敌人时的独立伤害。\n具有修正值的敌人出场时，修正值增加；退出修正模式后，修正值增加。",
+		simple_description = [[
+当太一·庚辰装备时，获得以下效果。
+提高天垣神系修正者最终伤害。
+提高天垣神系修正者的近战和远程伤害。
+被投掷命中附加停滞效果的敌人，受到影响的间隔时间缩短。
+自身对全场敌人附加破甲时的效果提高。
+提高自身对浮空或<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(107605)>「重渊」</material></color>状态的敌人时的独立伤害。
+具有修正值的敌人出场时，修正值增加；退出修正模式后，修正值增加。]],
 		id = 107601,
 		description = {
 			500107601
@@ -2755,7 +2960,13 @@ return {
 		simple_strength_description = {}
 	},
 	[105501] = {
-		simple_description = "当霜影·暗御津羽装备时，获得以下效果。\n技能三基础伤害提高。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105501)>「霜结」</material></color>每层效果提高。\n衔接施放的<color=#297DE0>「破霜击」</color>附加的冰属性抗性额外降低；神格<color=#297DE0>「神之血的霜结-寒影」</color>的<color=#297DE0>「霜影击」</color>造成会心后附加的冰属性抗性额外降低。\n进入修正模式时，清除敌人全部控制抗性和控制抗性点数；处于修正模式时，每次敌人被附加控制状态时，会清除控制抗性点数并额外产生一次霜爆，造成冰属性伤害，每次修正模式有触发上限次数。\n衔接施放的<color=#297DE0>「破霜击」</color>、<color=#297DE0>「霜影击」</color>每次命中时，自身伤害提高。",
+		simple_description = [[
+当霜影·暗御津羽装备时，获得以下效果。
+技能三基础伤害提高。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(105501)>「霜结」</material></color>每层效果提高。
+衔接施放的<color=#297DE0>「破霜击」</color>附加的冰属性抗性额外降低；神格<color=#297DE0>「神之血的霜结-寒影」</color>的<color=#297DE0>「霜影击」</color>造成会心后附加的冰属性抗性额外降低。
+进入修正模式时，清除敌人全部控制抗性和控制抗性点数；处于修正模式时，每次敌人被附加控制状态时，会清除控制抗性点数并额外产生一次霜爆，造成冰属性伤害，每次修正模式有触发上限次数。
+衔接施放的<color=#297DE0>「破霜击」</color>、<color=#297DE0>「霜影击」</color>每次命中时，自身伤害提高。]],
 		id = 105501,
 		description = {
 			500105501
@@ -2832,7 +3043,12 @@ return {
 		simple_strength_description = {}
 	},
 	[104901] = {
-		simple_description = "当镜花黄泉·伊邪那美装备时，获得以下效果。\n技能一、二基础伤害提高。\n获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104902)>「镜游」</material></color>时，恢复自身生命值。\n神格<color=#297DE0>「常世冰镜-冰凝」</color>激活时，处于修正模式时不再触发该神格效果，并且处于修正模式自身每次攻击命中时，对不处于冰冻状态的敌人附加冰冻状态，持续至修正模式结束；自身攻击每命中处于冰冻状态的敌人一定次数时，移除敌人的冰冻状态，同时触发一次额外的技能攻击。\n通过闪避<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104901)>「冰镜」</material></color>破碎触发闪避效果后，接下来几次<color=#297DE0>「碎镜·冥」</color>的命中瞬间攻击力提高。通过<color=#297DE0>「彼岸·千引」</color>格挡<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104901)>「冰镜」</material></color>破碎触发闪避效果后，接下来几次<color=#297DE0>「碎镜·幽」</color>命中瞬间攻击力提高。",
+		simple_description = [[
+当镜花黄泉·伊邪那美装备时，获得以下效果。
+技能一、二基础伤害提高。
+获得<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104902)>「镜游」</material></color>时，恢复自身生命值。
+神格<color=#297DE0>「常世冰镜-冰凝」</color>激活时，处于修正模式时不再触发该神格效果，并且处于修正模式自身每次攻击命中时，对不处于冰冻状态的敌人附加冰冻状态，持续至修正模式结束；自身攻击每命中处于冰冻状态的敌人一定次数时，移除敌人的冰冻状态，同时触发一次额外的技能攻击。
+通过闪避<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104901)>「冰镜」</material></color>破碎触发闪避效果后，接下来几次<color=#297DE0>「碎镜·冥」</color>的命中瞬间攻击力提高。通过<color=#297DE0>「彼岸·千引」</color>格挡<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(104901)>「冰镜」</material></color>破碎触发闪避效果后，接下来几次<color=#297DE0>「碎镜·幽」</color>命中瞬间攻击力提高。]],
 		id = 104901,
 		description = {
 			500104901
@@ -2882,7 +3098,12 @@ return {
 		simple_strength_description = {}
 	},
 	[115801] = {
-		simple_description = "当惑火灼心·迦具土装备时，获得以下效果。\n积蓄条获得率提高。\n每次<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115801)>「熔火」</material></color>状态结束时，会心伤害提高。\n<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115802)>「焚心」</material></color>等级提升后短暂时间内衔接施放<color=#297DE0>「鸦惑一闪」</color>、<color=#297DE0>「瞬灭焰斩」</color>时，衔接施放的技能命中瞬间攻击力提高。\n<color=#297DE0>「瞬灭焰斩」</color>施放结束后，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115802)>「焚心」</material></color>等级提升至最高时，<color=#297DE0>「瞬灭焰斩」</color>的剩余冷却时间缩短。",
+		simple_description = [[
+当惑火灼心·迦具土装备时，获得以下效果。
+积蓄条获得率提高。
+每次<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115801)>「熔火」</material></color>状态结束时，会心伤害提高。
+<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115802)>「焚心」</material></color>等级提升后短暂时间内衔接施放<color=#297DE0>「鸦惑一闪」</color>、<color=#297DE0>「瞬灭焰斩」</color>时，衔接施放的技能命中瞬间攻击力提高。
+<color=#297DE0>「瞬灭焰斩」</color>施放结束后，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115802)>「焚心」</material></color>等级提升至最高时，<color=#297DE0>「瞬灭焰斩」</color>的剩余冷却时间缩短。]],
 		id = 115801,
 		description = {
 			500115801
@@ -2923,7 +3144,14 @@ return {
 		simple_strength_description = {}
 	},
 	[106001] = {
-		simple_description = "当九司·陆吾装备时，获得以下效果。\n技能三基础伤害提高。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>范围内时，<color=#297DE0>「崩枪式」</color>改变为<color=#297DE0>「崩山式」</color>。\n当自身不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>范围内，施放<color=#297DE0>「反戈一击」</color>、<color=#297DE0>「游虎啸岩」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>会移动到身边。\n第一次<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>关闭时，恢复怒气。\n<color=#297DE0>「破军枪阵·九」</color>对精英和首领敌人命中瞬间会心伤害提高。\n开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>时，独立伤害提高。",
+		simple_description = [[
+当九司·陆吾装备时，获得以下效果。
+技能三基础伤害提高。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>范围内时，<color=#297DE0>「崩枪式」</color>改变为<color=#297DE0>「崩山式」</color>。
+当自身不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>范围内，施放<color=#297DE0>「反戈一击」</color>、<color=#297DE0>「游虎啸岩」</color>时，<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>会移动到身边。
+第一次<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>关闭时，恢复怒气。
+<color=#297DE0>「破军枪阵·九」</color>对精英和首领敌人命中瞬间会心伤害提高。
+开启<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(106001)>「枪阵」</material></color>时，独立伤害提高。]],
 		id = 106001,
 		description = {
 			500106001
@@ -2982,7 +3210,12 @@ return {
 		simple_strength_description = {}
 	},
 	[106101] = {
-		simple_description = "当玄机·执明装备时，获得以下效果。\n独立伤害提高。\n技能三基础伤害提高。\n第一次施放奥义或连携奥义时，<color=#297DE0>「真武参悟」</color>替换为<color=#297DE0>「超阶演算」</color>；之后每施放二次奥义或连携奥义，<color=#297DE0>「真武参悟」</color>替换为<color=#297DE0>「超阶演算」</color>。\n神能上限增加，自动恢复神能；开启<color=#297DE0>「演算」</color>、<color=#297DE0>「超阶演算」</color>时，恢复神能。",
+		simple_description = [[
+当玄机·执明装备时，获得以下效果。
+独立伤害提高。
+技能三基础伤害提高。
+第一次施放奥义或连携奥义时，<color=#297DE0>「真武参悟」</color>替换为<color=#297DE0>「超阶演算」</color>；之后每施放二次奥义或连携奥义，<color=#297DE0>「真武参悟」</color>替换为<color=#297DE0>「超阶演算」</color>。
+神能上限增加，自动恢复神能；开启<color=#297DE0>「演算」</color>、<color=#297DE0>「超阶演算」</color>时，恢复神能。]],
 		id = 106101,
 		description = {
 			500106101
@@ -3041,7 +3274,12 @@ return {
 		simple_strength_description = {}
 	},
 	[115001] = {
-		simple_description = "当绯染·丰前坊天狗装备时，获得以下效果。\n技能一、二、三基础伤害提高。\n不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115001)>「樱弥」</material></color>状态时，普通攻击、<color=#297DE0>「一式·裂空」</color>、<color=#297DE0>「三式·苍雷」</color>获得的神能增加。\n进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115001)>「樱弥」</material></color>状态时，获得一定点数的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115002)>「妖樱」</material></color>。\n<color=#297DE0>「一式·裂空」</color>、<color=#297DE0>「三式·苍雷」</color>的最后一次攻击命中时，<color=#297DE0>「一式·决刹」</color>、<color=#297DE0>「三式·樱舞」</color>连续衔接第三次施放的最后一次攻击命中时，会触发额外攻击，造成雷属性伤害。",
+		simple_description = [[
+当绯染·丰前坊天狗装备时，获得以下效果。
+技能一、二、三基础伤害提高。
+不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115001)>「樱弥」</material></color>状态时，普通攻击、<color=#297DE0>「一式·裂空」</color>、<color=#297DE0>「三式·苍雷」</color>获得的神能增加。
+进入<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115001)>「樱弥」</material></color>状态时，获得一定点数的<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(115002)>「妖樱」</material></color>。
+<color=#297DE0>「一式·裂空」</color>、<color=#297DE0>「三式·苍雷」</color>的最后一次攻击命中时，<color=#297DE0>「一式·决刹」</color>、<color=#297DE0>「三式·樱舞」</color>连续衔接第三次施放的最后一次攻击命中时，会触发额外攻击，造成雷属性伤害。]],
 		id = 115001,
 		description = {
 			500115001
@@ -3073,7 +3311,12 @@ return {
 		simple_strength_description = {}
 	},
 	[101501] = {
-		simple_description = "当狂狮·塞赫麦特装备时，获得以下效果。\n进入修正模式时，重置<color=#297DE0>「刃爪噬敌」</color>的冷却时间，神能恢复至满值。\n<color=#297DE0>「刃爪噬敌」</color>对敌人附加的每层物理属性抗性降低提高。\n<color=#297DE0>「噬敌利爪」</color>命中瞬间基础伤害提高。\n施放奥义或连携奥义时，全队伍物理攻击命中瞬间会心率提高。",
+		simple_description = [[
+当狂狮·塞赫麦特装备时，获得以下效果。
+进入修正模式时，重置<color=#297DE0>「刃爪噬敌」</color>的冷却时间，神能恢复至满值。
+<color=#297DE0>「刃爪噬敌」</color>对敌人附加的每层物理属性抗性降低提高。
+<color=#297DE0>「噬敌利爪」</color>命中瞬间基础伤害提高。
+施放奥义或连携奥义时，全队伍物理攻击命中瞬间会心率提高。]],
 		id = 101501,
 		description = {
 			500101501
@@ -3114,7 +3357,13 @@ return {
 		simple_strength_description = {}
 	},
 	[109501] = {
-		simple_description = "当苍鹭·托特装备时，获得以下效果。\n独立伤害提高。\n技能一、二、三基础伤害提高。\n间歇恢复能量。退出<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态后，恢复能量。\n不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态时，施放<color=#297DE0>「刃舞」</color>或<color=#297DE0>「丝雨」</color>后，<color=#297DE0>「刃舞」</color>、<color=#297DE0>「丝雨」</color>会替换为<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>，并重置<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>的冷却时间，施放其中任意一个技能后<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>会替换回<color=#297DE0>「刃舞」</color>、<color=#297DE0>「丝雨」</color>。\n处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态时，施放<color=#297DE0>「刀纱」</color>后，<color=#297DE0>「刀纱」</color>会替换为<color=#297DE0>「刻韵·刃」</color>；施放<color=#297DE0>「缀影」</color>后，<color=#297DE0>「缀影」</color>会替换为<color=#297DE0>「刻韵·丝」</color>；施放<color=#297DE0>「刻韵·刃」</color>或<color=#297DE0>「刻韵·丝」</color>后，<color=#297DE0>「刻韵·刃」</color>、<color=#297DE0>「刻韵·丝」</color>会替换回<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>。",
+		simple_description = [[
+当苍鹭·托特装备时，获得以下效果。
+独立伤害提高。
+技能一、二、三基础伤害提高。
+间歇恢复能量。退出<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态后，恢复能量。
+不处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态时，施放<color=#297DE0>「刃舞」</color>或<color=#297DE0>「丝雨」</color>后，<color=#297DE0>「刃舞」</color>、<color=#297DE0>「丝雨」</color>会替换为<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>，并重置<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>的冷却时间，施放其中任意一个技能后<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>会替换回<color=#297DE0>「刃舞」</color>、<color=#297DE0>「丝雨」</color>。
+处于<color=#297DE0><material=underline c=#297DE0 h=2 event=terminology args=(109501)>「牵丝」</material></color>状态时，施放<color=#297DE0>「刀纱」</color>后，<color=#297DE0>「刀纱」</color>会替换为<color=#297DE0>「刻韵·刃」</color>；施放<color=#297DE0>「缀影」</color>后，<color=#297DE0>「缀影」</color>会替换为<color=#297DE0>「刻韵·丝」</color>；施放<color=#297DE0>「刻韵·刃」</color>或<color=#297DE0>「刻韵·丝」</color>后，<color=#297DE0>「刻韵·刃」</color>、<color=#297DE0>「刻韵·丝」</color>会替换回<color=#297DE0>「刀纱」</color>、<color=#297DE0>「缀影」</color>。]],
 		id = 109501,
 		description = {
 			500109501

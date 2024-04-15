@@ -1,22 +1,18 @@
-local var_0_0 = {
-	[0] = {
-		{
-			animeActionSubName = "",
-			crossFade = 0.05,
-			action = "play",
-			entity = 0,
-			animeActionName = "wudao_bb"
+return {
+	sequence = {
+		[0] = {
+			{
+				animeActionSubName = "",
+				crossFade = 0.05,
+				action = "play",
+				entity = 0,
+				animeActionName = "wudao_bb"
+			}
 		}
-	}
-}
-local var_0_1 = {
-	sequence = var_0_0,
+	},
 	keys = {
 		0
-	}
+	},
+	duration = 5.166667,
+	fps = 30
 }
-
-var_0_1.duration = 5.166667
-var_0_1.fps = 30
-
-return var_0_1

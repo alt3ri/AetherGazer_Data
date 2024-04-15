@@ -1,66 +1,66 @@
-local var_0_0 = class("DrawServantSelectItem", ReduxView)
+slot0 = class("DrawServantSelectItem", ReduxView)
 
-local function var_0_1(arg_1_0)
-	return DrawData:GetPollUpID(arg_1_0)
+function slot1(slot0)
+	return DrawData:GetPollUpID(slot0)
 end
 
-function var_0_0.OnCtor(arg_2_0, arg_2_1)
-	arg_2_0.gameObject_ = arg_2_1
-	arg_2_0.transform_ = arg_2_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.chooseController = arg_4_0.controller_:GetController("choose")
+	slot0.chooseController = slot0.controller_:GetController("choose")
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.id_ = arg_5_2
-	arg_5_0.servantID_ = arg_5_3
-	arg_5_0.nameText_.text = ""
-	arg_5_0.suffixText_.text = ItemTools.getItemName(arg_5_3)
-	arg_5_0.campImg_.sprite = HeroTools.GetRaceIcon(WeaponServantCfg[arg_5_0.servantID_].race)
-	arg_5_0.groupbgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/ServantUpSelect/" .. arg_5_0.id_ .. SettingData:GetCurrentLanguageKey())
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.id_ = slot2
+	slot0.servantID_ = slot3
+	slot0.nameText_.text = ""
+	slot0.suffixText_.text = ItemTools.getItemName(slot3)
+	slot0.campImg_.sprite = HeroTools.GetRaceIcon(WeaponServantCfg[slot0.servantID_].race)
+	slot0.groupbgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/ServantUpSelect/" .. slot0.id_ .. SettingData:GetCurrentLanguageKey())
 end
 
-function var_0_0.ShowSelect(arg_6_0, arg_6_1)
-	if arg_6_1 == arg_6_0.id_ then
-		arg_6_0.chooseController:SetSelectedState("true")
+function slot0.ShowSelect(slot0, slot1)
+	if slot1 == slot0.id_ then
+		slot0.chooseController:SetSelectedState("true")
 	else
-		arg_6_0.chooseController:SetSelectedState("false")
+		slot0.chooseController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.groupbgBtn_, nil, function()
-		if arg_7_0.clickHandler_ then
-			arg_7_0.clickHandler_(arg_7_0.id_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.groupbgBtn_, nil, function ()
+		if uv0.clickHandler_ then
+			uv0.clickHandler_(uv0.id_)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.lookBtn_, nil, function()
-		if arg_7_0.servantID_ then
-			arg_7_0:Go("/showServantView", {
+	slot0:AddBtnListener(slot0.lookBtn_, nil, function ()
+		if uv0.servantID_ then
+			uv0:Go("/showServantView", {
 				state = "onlydetail",
-				id = arg_7_0.servantID_
+				id = uv0.servantID_
 			})
 		end
 	end)
 end
 
-function var_0_0.RegisterListener(arg_10_0, arg_10_1)
-	arg_10_0.clickHandler_ = arg_10_1
+function slot0.RegisterListener(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

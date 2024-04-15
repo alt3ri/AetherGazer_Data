@@ -1,58 +1,52 @@
-local var_0_0 = class("PopNeedCostItemView", ReduxView)
+slot0 = class("PopNeedCostItemView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/PopUp/PopupCostUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_cancelBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_cancelBtn, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_okBtn, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.m_okBtn, nil, function ()
+		uv0:Back()
 
-		if arg_5_0.params_.popCostCallBack then
-			arg_5_0.params_.popCostCallBack()
+		if uv0.params_.popCostCallBack then
+			uv0.params_.popCostCallBack()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.text1Text_.text = arg_9_0.params_.text1
-	arg_9_0.text2Text_.text = arg_9_0.params_.text2
+function slot0.OnEnter(slot0)
+	slot0.text1Text_.text = slot0.params_.text1
+	slot0.text2Text_.text = slot0.params_.text2
+	slot0.m_costCountText.text = "x" .. (slot0.params_.costCount or 0)
+	slot0.m_costIcon.sprite = ItemTools.getItemSprite(slot0.params_.costId or 0)
 
-	local var_9_0 = arg_9_0.params_.costId or 0
-	local var_9_1 = arg_9_0.params_.costCount or 0
+	if slot0.params_.itemId then
+		SetActive(slot0.m_currency, true)
 
-	arg_9_0.m_costCountText.text = "x" .. var_9_1
-	arg_9_0.m_costIcon.sprite = ItemTools.getItemSprite(var_9_0)
-
-	local var_9_2 = arg_9_0.params_.itemId
-
-	if var_9_2 then
-		SetActive(arg_9_0.m_currency, true)
-
-		arg_9_0.m_numText.text = ItemTools.getItemNum(var_9_2)
-		arg_9_0.m_itemIcon.sprite = ItemTools.getItemSprite(var_9_2)
+		slot0.m_numText.text = ItemTools.getItemNum(slot3)
+		slot0.m_itemIcon.sprite = ItemTools.getItemSprite(slot3)
 	else
-		SetActive(arg_9_0.m_currency, false)
+		SetActive(slot0.m_currency, false)
 	end
 end
 
-return var_0_0
+return slot0

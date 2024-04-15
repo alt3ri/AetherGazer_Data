@@ -1,51 +1,51 @@
-local var_0_0 = class("SpringPreheatLetterSelectTextItem", ReduxView)
+slot0 = class("SpringPreheatLetterSelectTextItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selController = ControllerUtil.GetController(arg_2_0.transform_, "select")
+	slot0.selController = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.letterBtn_, nil, function()
-		if arg_3_0.onClickHandler_ then
-			arg_3_0.onClickHandler_(arg_3_0, arg_3_0.textId)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.letterBtn_, nil, function ()
+		if uv0.onClickHandler_ then
+			uv0:onClickHandler_(uv0.textId)
 		end
 	end)
 end
 
-function var_0_0.SetClickHandler(arg_5_0, arg_5_1)
-	if arg_5_1 then
-		arg_5_0.onClickHandler_ = arg_5_1
+function slot0.SetClickHandler(slot0, slot1)
+	if slot1 then
+		slot0.onClickHandler_ = slot1
 	end
 end
 
-function var_0_0.SetSelected(arg_6_0, arg_6_1)
-	arg_6_0.selected_ = arg_6_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.selected_ = slot1
 
-	return arg_6_0.selected_
+	return slot0.selected_
 end
 
-function var_0_0.SetLetterTextId(arg_7_0, arg_7_1)
-	arg_7_0.textId = arg_7_1
+function slot0.SetLetterTextId(slot0, slot1)
+	slot0.textId = slot1
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.letterText_.text = GetTips(arg_8_0.textId)
+function slot0.RefreshUI(slot0)
+	slot0.letterText_.text = GetTips(slot0.textId)
 
-	arg_8_0.selController:SetSelectedState(arg_8_0.selected_ and "true" or "false")
+	slot0.selController:SetSelectedState(slot0.selected_ and "true" or "false")
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

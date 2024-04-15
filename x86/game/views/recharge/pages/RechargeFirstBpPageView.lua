@@ -1,90 +1,86 @@
-local var_0_0 = import("game.views.recharge.pages.RechargePageBase")
-local var_0_1 = class("ActivityNoobBpRechargeView", var_0_0)
+slot1 = class("ActivityNoobBpRechargeView", import("game.views.recharge.pages.RechargePageBase"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot1.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
-	arg_1_0.typeController_ = ControllerUtil.GetController(arg_1_0.transform_, "type")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_1.Dispose(arg_2_0)
-	var_0_1.super.Dispose(arg_2_0)
-	Object.Destroy(arg_2_0.gameObject_)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.gameObject_ = nil
-	arg_2_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	arg_2_0.commonItem_:Dispose()
+	slot0.commonItem_:Dispose()
 
-	arg_2_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 end
 
-function var_0_1.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.sourceBtn_, nil, function()
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.sourceBtn_, nil, function ()
 		if TimeMgr.GetInstance():GetServerTime() < PassportData:GetStartTimestamp() then
 			ShowTips("SYSTEM_LOCK")
 
 			return
 		end
 
-		if TimeMgr.GetInstance():GetServerTime() >= PassportData:GetEndTimestamp() then
+		if PassportData:GetEndTimestamp() <= TimeMgr.GetInstance():GetServerTime() then
 			ShowTips("NO_ACTIVE_BATTLEPASS")
 
 			return
 		end
 
-		local var_4_0 = GameSetting.first_battle_pass_reward.value[2]
-
-		JumpTools.JumpToPage2(var_4_0)
+		JumpTools.JumpToPage2(GameSetting.first_battle_pass_reward.value[2])
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		ActivityNewbieTools.ReceiveRechargeReward(3, 0, function(arg_6_0)
-			arg_3_0:RefreshStatus()
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		ActivityNewbieTools.ReceiveRechargeReward(3, 0, function (slot0)
+			uv0:RefreshStatus()
 		end)
 	end)
 end
 
-function var_0_1.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot1.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_1.RefreshUI(arg_8_0)
-	arg_8_0.rewardCfg_ = GameSetting.first_battle_pass_reward.value[1]
+function slot1.RefreshUI(slot0)
+	slot0.rewardCfg_ = GameSetting.first_battle_pass_reward.value[1]
 
-	if not arg_8_0.commonItem_ then
-		local var_8_0 = clone(ItemTemplateData)
+	if not slot0.commonItem_ then
+		slot1 = clone(ItemTemplateData)
+		slot1.id = slot0.rewardCfg_[1]
+		slot1.number = slot0.rewardCfg_[2]
 
-		var_8_0.id = arg_8_0.rewardCfg_[1]
-		var_8_0.number = arg_8_0.rewardCfg_[2]
-
-		function var_8_0.clickFun(arg_9_0)
-			ShowPopItem(POP_ITEM, arg_8_0.rewardCfg_)
+		function slot1.clickFun(slot0)
+			ShowPopItem(POP_ITEM, uv0.rewardCfg_)
 		end
 
-		arg_8_0.commonItem_ = CommonItemView.New(arg_8_0.commonGo_)
+		slot0.commonItem_ = CommonItemView.New(slot0.commonGo_)
 
-		arg_8_0.commonItem_:SetData(var_8_0)
+		slot0.commonItem_:SetData(slot1)
 	end
 
-	arg_8_0:RefreshStatus()
-	arg_8_0.typeController_:SetSelectedIndex(1)
+	slot0:RefreshStatus()
+	slot0.typeController_:SetSelectedIndex(1)
 	ActivityNewbieTools.SetSelectBpRecharge()
 end
 
-function var_0_1.Show(arg_10_0)
-	SetActive(arg_10_0.gameObject_, true)
-	arg_10_0:RefreshUI()
+function slot1.Show(slot0)
+	SetActive(slot0.gameObject_, true)
+	slot0:RefreshUI()
 end
 
-function var_0_1.RefreshStatus(arg_11_0)
-	arg_11_0.status_ = ActivityNewbieTools.GetBpRewardStatus()
+function slot1.RefreshStatus(slot0)
+	slot0.status_ = ActivityNewbieTools.GetBpRewardStatus()
 
-	arg_11_0.statusController_:SetSelectedIndex(arg_11_0.status_)
+	slot0.statusController_:SetSelectedIndex(slot0.status_)
 end
 
-return var_0_1
+return slot1

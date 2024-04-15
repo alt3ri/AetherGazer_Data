@@ -1,87 +1,86 @@
-local var_0_0 = class("CanteenEntrustAwardView", ReduxView)
+slot0 = class("CanteenEntrustAwardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamTaskToCompletePop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.awardListScroll_ = LuaList.New(handler(arg_5_0, arg_5_0.indexAwardItem), arg_5_0.awardviewuilistUilist_, CanteenEntrustAwardItem)
+	slot0.awardListScroll_ = LuaList.New(handler(slot0, slot0.indexAwardItem), slot0.awardviewuilistUilist_, CanteenEntrustAwardItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0.awardListScroll_:SetPageChangeHandler(handler(arg_6_0, arg_6_0.UpdataButton))
-	arg_6_0:AddBtnListener(arg_6_0.leftbtnBtn_, nil, function()
-		arg_6_0.index = arg_6_0.index - 1
+function slot0.AddUIListener(slot0)
+	slot0.awardListScroll_:SetPageChangeHandler(handler(slot0, slot0.UpdataButton))
+	slot0:AddBtnListener(slot0.leftbtnBtn_, nil, function ()
+		uv0.index = uv0.index - 1
 
-		arg_6_0:UpdataButton(arg_6_0.index)
-		arg_6_0.awardListScroll_:ScrollToIndex(arg_6_0.index, true, false)
+		uv0:UpdataButton(uv0.index)
+		uv0.awardListScroll_:ScrollToIndex(uv0.index, true, false)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rightbtnBtn_, nil, function()
-		arg_6_0.index = arg_6_0.index + 1
+	slot0:AddBtnListener(slot0.rightbtnBtn_, nil, function ()
+		uv0.index = uv0.index + 1
 
-		arg_6_0:UpdataButton(arg_6_0.index)
-		arg_6_0.awardListScroll_:ScrollToIndex(arg_6_0.index, true, false)
+		uv0:UpdataButton(uv0.index)
+		uv0.awardListScroll_:ScrollToIndex(uv0.index, true, false)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.okbtnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.flag = arg_10_0.params_.flag
-	arg_10_0.index = 1
+function slot0.OnEnter(slot0)
+	slot0.flag = slot0.params_.flag
+	slot0.index = 1
 
-	arg_10_0:UpdataView()
+	slot0:UpdataView()
 end
 
-function var_0_0.UpdataButton(arg_11_0, arg_11_1)
-	arg_11_0.index = arg_11_1
+function slot0.UpdataButton(slot0, slot1)
+	slot0.index = slot1
 
-	if arg_11_1 == 1 then
-		SetActive(arg_11_0.leftbtnGo_, false)
+	if slot1 == 1 then
+		SetActive(slot0.leftbtnGo_, false)
 	else
-		SetActive(arg_11_0.leftbtnGo_, true)
+		SetActive(slot0.leftbtnGo_, true)
 	end
 
-	if arg_11_1 == #arg_11_0.awardList then
-		SetActive(arg_11_0.rightbtnGo_, false)
+	if slot1 == #slot0.awardList then
+		SetActive(slot0.rightbtnGo_, false)
 	else
-		SetActive(arg_11_0.rightbtnGo_, true)
+		SetActive(slot0.rightbtnGo_, true)
 	end
 end
 
-function var_0_0.UpdataView(arg_12_0)
-	arg_12_0.awardList = CanteenEntrustData:GetEntrustFinishAwardList()
+function slot0.UpdataView(slot0)
+	slot0.awardList = CanteenEntrustData:GetEntrustFinishAwardList()
 
-	arg_12_0.awardListScroll_:StartScroll(#arg_12_0.awardList)
-	arg_12_0:UpdataButton(arg_12_0.index)
+	slot0.awardListScroll_:StartScroll(#slot0.awardList)
+	slot0:UpdataButton(slot0.index)
 end
 
-function var_0_0.indexAwardItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_2:RefreshUI(arg_13_0.awardList[arg_13_1], arg_13_0.flag)
+function slot0.indexAwardItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.awardList[slot1], slot0.flag)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.awardListScroll_ then
-		arg_14_0.awardListScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.awardListScroll_ then
+		slot0.awardListScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

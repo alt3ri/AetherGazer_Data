@@ -1,55 +1,47 @@
-local var_0_0 = class("EquipBrealThroughResultHeroItem", ReduxView)
+slot0 = class("EquipBrealThroughResultHeroItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot2
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.stageData_ = arg_2_1
+function slot0.SetData(slot0, slot1)
+	slot0.stageData_ = slot1
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = arg_5_0.stageData_:GetHeroTeam()
-	local var_5_1 = arg_5_0.stageData_:GetSystemHeroTeam()
+function slot0.RefreshUI(slot0)
+	slot2 = slot0.stageData_:GetSystemHeroTeam()
 
-	if var_5_0[arg_5_0.index_] == nil or var_5_0[arg_5_0.index_] == 0 then
-		SetActive(arg_5_0.gameObject_, false)
+	if slot0.stageData_:GetHeroTeam()[slot0.index_] == nil or slot1[slot0.index_] == 0 then
+		SetActive(slot0.gameObject_, false)
 
 		return
 	end
 
-	SetActive(arg_5_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	local var_5_2 = HeroTools.HeroUsingSkinInfo(var_5_0[arg_5_0.index_])
+	slot0.icon_.sprite = getSpriteViaConfig("HeroIcon", HeroTools.HeroUsingSkinInfo(slot1[slot0.index_]).picture_id)
+	slot0.lvText_.text = HeroData:GetHeroData(slot1[slot0.index_]).level
+	slot4 = EquipBreakThroughMaterialData:GetHeroState()[slot0.index_] and EquipBreakThroughMaterialData:GetHeroState()[slot0.index_].rate or 10000
+	slot0.slider_.value = slot4 / 10000
 
-	arg_5_0.icon_.sprite = getSpriteViaConfig("HeroIcon", var_5_2.picture_id)
-	arg_5_0.lvText_.text = HeroData:GetHeroData(var_5_0[arg_5_0.index_]).level
-
-	local var_5_3 = EquipBreakThroughMaterialData:GetHeroState()[arg_5_0.index_] and EquipBreakThroughMaterialData:GetHeroState()[arg_5_0.index_].rate or 10000
-
-	arg_5_0.slider_.value = var_5_3 / 10000
-
-	local var_5_4 = math.ceil(var_5_3 / 100)
-
-	if var_5_3 > 0 and var_5_4 < 1 then
-		var_5_4 = 1
+	if slot4 > 0 and math.ceil(slot4 / 100) < 1 then
+		slot5 = 1
 	end
 
-	arg_5_0.rateText_.text = string.format("%s%%", var_5_4)
+	slot0.rateText_.text = string.format("%s%%", slot5)
 end
 
-return var_0_0
+return slot0

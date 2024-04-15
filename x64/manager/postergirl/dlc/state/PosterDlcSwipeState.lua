@@ -1,60 +1,58 @@
-local var_0_0 = class("PosterDlcMid2LeftState", PosterDlcTimelineState)
+slot0 = class("PosterDlcMid2LeftState", PosterDlcTimelineState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.oldDirect = arg_1_2
-	arg_1_0.newDiect = arg_1_3
-	arg_1_0.clipName = arg_1_0:GetAnimaName(arg_1_2, arg_1_3)
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.oldDirect = slot2
+	slot0.newDiect = slot3
+	slot0.clipName = slot0:GetAnimaName(slot2, slot3)
 
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+	uv0.super.Ctor(slot0, slot1)
 end
 
-function var_0_0.GetAnimaName(arg_2_0, arg_2_1, arg_2_2)
-	if PosterGirlConst.ViewDirect.center == arg_2_1 and PosterGirlConst.ViewDirect.left == arg_2_2 then
+function slot0.GetAnimaName(slot0, slot1, slot2)
+	if PosterGirlConst.ViewDirect.center == slot1 and PosterGirlConst.ViewDirect.left == slot2 then
 		return "enter2"
-	elseif PosterGirlConst.ViewDirect.center == arg_2_1 and PosterGirlConst.ViewDirect.right == arg_2_2 then
+	elseif PosterGirlConst.ViewDirect.center == slot1 and PosterGirlConst.ViewDirect.right == slot2 then
 		return "enter3"
-	elseif PosterGirlConst.ViewDirect.left == arg_2_1 and PosterGirlConst.ViewDirect.center == arg_2_2 then
+	elseif PosterGirlConst.ViewDirect.left == slot1 and PosterGirlConst.ViewDirect.center == slot2 then
 		return "return2"
 	else
 		return "return3"
 	end
 end
 
-function var_0_0.Enter(arg_3_0)
-	var_0_0.super.Enter(arg_3_0)
-	arg_3_0:PlayAni(arg_3_0.clipName)
-	arg_3_0.actor:MuteCamera(true)
+function slot0.Enter(slot0)
+	uv0.super.Enter(slot0)
+	slot0:PlayAni(slot0.clipName)
+	slot0.actor:MuteCamera(true)
 
-	local var_3_0 = arg_3_0.oldDirect
-	local var_3_1 = arg_3_0.newDiect
-	local var_3_2, var_3_3, var_3_4 = PosterGirlTools.GetLoadLightEffect(var_3_0, var_3_1)
+	slot3, slot4, slot5 = PosterGirlTools.GetLoadLightEffect(slot0.oldDirect, slot0.newDiect)
 
-	if var_3_2 then
-		if var_3_4 and var_3_4 > 0 then
-			arg_3_0.loadEffectTimer_ = Timer.New(function()
-				manager.ui:SetSceneLightEffect(var_3_3)
-			end, var_3_4)
+	if slot3 then
+		if slot5 and slot5 > 0 then
+			slot0.loadEffectTimer_ = Timer.New(function ()
+				manager.ui:SetSceneLightEffect(uv0)
+			end, slot5)
 
-			arg_3_0.loadEffectTimer_:Start()
+			slot0.loadEffectTimer_:Start()
 		else
-			manager.ui:SetSceneLightEffect(var_3_3)
+			manager.ui:SetSceneLightEffect(slot4)
 		end
 	end
 
 	PlayerAction.TouchPosterGirl()
 end
 
-function var_0_0.Exit(arg_5_0, arg_5_1)
-	arg_5_0.actor:MuteCamera(false)
+function slot0.Exit(slot0, slot1)
+	slot0.actor:MuteCamera(false)
 
-	if arg_5_0.loadEffectTimer_ then
-		arg_5_0.loadEffectTimer_:Stop()
+	if slot0.loadEffectTimer_ then
+		slot0.loadEffectTimer_:Stop()
 
-		arg_5_0.loadEffectTimer_ = nil
+		slot0.loadEffectTimer_ = nil
 	end
 
-	var_0_0.super.Exit(arg_5_0, arg_5_1)
-	arg_5_0.actor:UpdateCameraParams()
+	uv0.super.Exit(slot0, slot1)
+	slot0.actor:UpdateCameraParams()
 end
 
-return var_0_0
+return slot0

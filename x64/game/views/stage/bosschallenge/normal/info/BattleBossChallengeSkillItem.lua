@@ -1,31 +1,31 @@
-local var_0_0 = class("BattleBossChallengeSkillItem", ReduxView)
+slot0 = class("BattleBossChallengeSkillItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.gameObject_, true)
+function slot0.RefreshUI(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_2_0.textName_.text = arg_2_1.name
-	arg_2_0.textDesc_.text = arg_2_1.info
+	slot0.textName_.text = slot1.name
+	slot0.textDesc_.text = slot1.info
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.transformDesc_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transformDesc_)
 end
 
-function var_0_0.Hide(arg_3_0)
-	SetActive(arg_3_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_4_0.transform_ = nil
-	arg_4_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

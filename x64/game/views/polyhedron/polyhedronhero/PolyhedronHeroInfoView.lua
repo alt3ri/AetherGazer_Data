@@ -1,56 +1,52 @@
-local var_0_0 = class("PolyhedronHeroInfoView", HeroInfoView)
+slot0 = class("PolyhedronHeroInfoView", HeroInfoView)
 
-function var_0_0.UpdateView(arg_1_0)
-	arg_1_0.nameText_.text = GetI18NText(arg_1_0.heroCfg_.name)
-	arg_1_0.subNameText_.text = GetI18NText(arg_1_0.heroCfg_.suffix)
+function slot0.UpdateView(slot0)
+	slot0.nameText_.text = GetI18NText(slot0.heroCfg_.name)
+	slot0.subNameText_.text = GetI18NText(slot0.heroCfg_.suffix)
+	slot2 = PolyhedronData:GetPolyhedronHeroUnlock(slot0.heroInfo_.id)
 
-	local var_1_0 = HeroData:GetHeroData(arg_1_0.heroInfo_.id).unlock == 1
-	local var_1_1 = PolyhedronData:GetPolyhedronHeroUnlock(arg_1_0.heroInfo_.id)
+	slot0.lockController_:SetSelectedState(tostring(not (HeroData:GetHeroData(slot0.heroInfo_.id).unlock == 1)))
+	slot0.isSelfController_:SetSelectedState(tostring(not slot0.heroViewProxy_.isSelf))
 
-	arg_1_0.lockController_:SetSelectedState(tostring(not var_1_0))
-	arg_1_0.isSelfController_:SetSelectedState(tostring(not arg_1_0.heroViewProxy_.isSelf))
-
-	arg_1_0.campLogo_.sprite = HeroTools.GetRaceIcon(arg_1_0.heroCfg_.race)
-	arg_1_0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_1_0.heroCfg_.id)
-	arg_1_0.rangeTypeText_.text = CharactorParamCfg[arg_1_0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
+	slot0.campLogo_.sprite = HeroTools.GetRaceIcon(slot0.heroCfg_.race)
+	slot0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroCfg_.id)
+	slot0.rangeTypeText_.text = CharactorParamCfg[slot0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
 
 	if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_UNLOCK_PROPS) == 0 then
-		arg_1_0.polyhedronCurrencyText_.text = "<color=#FF0000> 1 </color>"
+		slot0.polyhedronCurrencyText_.text = "<color=#FF0000> 1 </color>"
 	else
-		arg_1_0.polyhedronCurrencyText_.text = "1"
+		slot0.polyhedronCurrencyText_.text = "1"
 	end
 
-	arg_1_0.polyhedronDesText_.text = HeroCfg[arg_1_0.heroInfo_.id].hero_desc
+	slot0.polyhedronDesText_.text = HeroCfg[slot0.heroInfo_.id].hero_desc
 
-	arg_1_0:RefreshChargeType()
-	arg_1_0.polyhedronController_:SetSelectedState(tostring(not var_1_1))
+	slot0:RefreshChargeType()
+	slot0.polyhedronController_:SetSelectedState(tostring(not slot2))
 
-	if arg_1_0.heroInfo_.unlock == 0 then
-		arg_1_0:UpdateLockedView()
+	if slot0.heroInfo_.unlock == 0 then
+		slot0:UpdateLockedView()
 	else
-		arg_1_0:UpdateUnlockedView()
+		slot0:UpdateUnlockedView()
 
-		if arg_1_0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
-			local var_1_2 = arg_1_0.heroCfg_.id
-
-			ArchiveAction.CheckAllRelationRedPoint(var_1_2)
+		if slot0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
+			ArchiveAction.CheckAllRelationRedPoint(slot0.heroCfg_.id)
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	var_0_0.super.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.polyhedronUnlockBtn_, nil, function()
-		PolyhedronAction.QueryUnlockHero(arg_2_0.heroCfg_.id)
+function slot0.AddUIListener(slot0)
+	uv0.super.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.polyhedronUnlockBtn_, nil, function ()
+		PolyhedronAction.QueryUnlockHero(uv0.heroCfg_.id)
 	end)
 end
 
-function var_0_0.UpdateUnlockBtnState(arg_4_0)
-	arg_4_0.levelStateController_:SetSelectedState("none")
+function slot0.UpdateUnlockBtnState(slot0)
+	slot0.levelStateController_:SetSelectedState("none")
 end
 
-function var_0_0.GetHeroPiece(arg_5_0)
-	return HeroData:GetHeroData(arg_5_0.heroInfo_.id).piece
+function slot0.GetHeroPiece(slot0)
+	return HeroData:GetHeroData(slot0.heroInfo_.id).piece
 end
 
-return var_0_0
+return slot0

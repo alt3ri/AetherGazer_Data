@@ -1,89 +1,80 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("ActivityHeroEnhanceMainView", var_0_0)
+slot1 = class("ActivityHeroEnhanceMainView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
-	return ActivityHeroEnhanceTools.GetEnterUI(arg_1_0.activityID_)
+function slot1.GetUIName(slot0)
+	return ActivityHeroEnhanceTools.GetEnterUI(slot0.activityID_)
 end
 
-function var_0_1.Init(arg_2_0)
-	var_0_1.super.Init(arg_2_0)
+function slot1.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_2_0.uiList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiListGo_, CommonItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, CommonItemView)
 end
 
-function var_0_1.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.goBtn_, nil, function()
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		JumpTools.GoToSystem("/activityHeroEnhanceHero", {
-			activityID = arg_3_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.descBtn_, nil, function()
-		local var_5_0 = "ACTIVITY_HERO_ENHANCE_DESC"
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
+		slot0 = "ACTIVITY_HERO_ENHANCE_DESC"
 
 		JumpTools.OpenPageByJump("gameHelp", {
-			content = GetTips(var_5_0),
-			key = var_5_0
+			content = GetTips(slot0),
+			key = slot0
 		})
 	end)
 end
 
-function var_0_1.OnEnter(arg_6_0)
-	var_0_1.super.OnEnter(arg_6_0)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	local var_6_0 = arg_6_0.activityID_
-	local var_6_1 = ActivityTools.GetRedPointKey(var_6_0) .. var_6_0
-	local var_6_2 = string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_6_1)
+	slot1 = slot0.activityID_
 
-	manager.redPoint:bindUIandKey(arg_6_0.goBtn_.transform, var_6_2)
-	arg_6_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.goBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, ActivityTools.GetRedPointKey(slot1) .. slot1))
+	slot0:RefreshUI()
 end
 
-function var_0_1.OnExit(arg_7_0)
-	var_0_1.super.OnExit(arg_7_0)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 
-	local var_7_0 = arg_7_0.activityID_
-	local var_7_1 = ActivityTools.GetRedPointKey(var_7_0) .. var_7_0
-	local var_7_2 = string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_7_1)
+	slot1 = slot0.activityID_
 
-	manager.redPoint:unbindUIandKey(arg_7_0.goBtn_.transform, var_7_2)
+	manager.redPoint:unbindUIandKey(slot0.goBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, ActivityTools.GetRedPointKey(slot1) .. slot1))
 end
 
-function var_0_1.RefreshUI(arg_8_0)
-	arg_8_0.descText_.text = GetTips("ACTIVITY_HERO_ENHANCE_ENTER_TIP")
+function slot1.RefreshUI(slot0)
+	slot0.descText_.text = GetTips("ACTIVITY_HERO_ENHANCE_ENTER_TIP")
 
-	if arg_8_0.itemList_ == nil then
-		local var_8_0 = ActivityHeroEnhanceTools.GetAllRewardList(arg_8_0.activityID_)
-		local var_8_1 = sortReward(var_8_0)
+	if slot0.itemList_ == nil then
+		slot0.itemList_ = {}
 
-		arg_8_0.itemList_ = {}
+		for slot5, slot6 in pairs(sortReward(ActivityHeroEnhanceTools.GetAllRewardList(slot0.activityID_))) do
+			slot7 = clone(ItemTemplateData)
+			slot7.id = slot6.id
+			slot7.number = slot6.num
 
-		for iter_8_0, iter_8_1 in pairs(var_8_1) do
-			local var_8_2 = clone(ItemTemplateData)
-
-			var_8_2.id = iter_8_1.id
-			var_8_2.number = iter_8_1.num
-
-			table.insert(arg_8_0.itemList_, var_8_2)
+			table.insert(slot0.itemList_, slot7)
 		end
 	end
 
-	arg_8_0.uiList_:StartScroll(#arg_8_0.itemList_, 1)
+	slot0.uiList_:StartScroll(#slot0.itemList_, 1)
 end
 
-function var_0_1.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.itemList_[arg_9_1].clickFun = function(arg_10_0)
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot0.itemList_[slot1].clickFun = function (slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_10_0.id,
-			arg_10_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_9_2:SetData(arg_9_0.itemList_[arg_9_1])
+	slot2:SetData(slot0.itemList_[slot1])
 end
 
-function var_0_1.Dispose(arg_11_0)
-	arg_11_0.uiList_:Dispose()
-	var_0_1.super.Dispose(arg_11_0)
+function slot1.Dispose(slot0)
+	slot0.uiList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

@@ -1,76 +1,71 @@
-local var_0_0 = class("ActivityMatrixScoreExchangeItem", ReduxView)
+slot0 = class("ActivityMatrixScoreExchangeItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.lockController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "lock")
-	arg_3_0.itemList = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.bonusListGo_, CommonItem)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "lock")
+	slot0.itemList = LuaList.New(handler(slot0, slot0.indexItem), slot0.bonusListGo_, CommonItem)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		return
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.rewardId = arg_6_1
-	arg_6_0.matrix_activity_id = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.rewardId = slot1
+	slot0.matrix_activity_id = slot2
+	slot3 = ActivityPointRewardCfg[slot1]
+	slot0.scoreText_.text = string.format("%d", slot3.need)
+	slot0.items = slot3.reward_item_list
 
-	local var_6_0 = ActivityPointRewardCfg[arg_6_1]
-
-	arg_6_0.scoreText_.text = string.format("%d", var_6_0.need)
-	arg_6_0.items = var_6_0.reward_item_list
-
-	arg_6_0.itemList:StartScroll(#arg_6_0.items)
-	arg_6_0:UpdateView()
+	slot0.itemList:StartScroll(#slot0.items)
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	local var_7_0 = ActivityMatrixData:GetMatrixScore(arg_7_0.matrix_activity_id)
-	local var_7_1 = ActivityPointRewardCfg[arg_7_0.rewardId]
+function slot0.UpdateView(slot0)
+	slot1 = ActivityMatrixData:GetMatrixScore(slot0.matrix_activity_id)
+	slot2 = ActivityPointRewardCfg[slot0.rewardId]
 
-	if ActivityMatrixData:GetMatrixPointRewardState(arg_7_0.matrix_activity_id, arg_7_0.rewardId) then
-		arg_7_0.statusController_:SetSelectedState("haveGet")
-	elseif var_7_0 >= var_7_1.need then
-		arg_7_0.statusController_:SetSelectedState("canGet")
+	if ActivityMatrixData:GetMatrixPointRewardState(slot0.matrix_activity_id, slot0.rewardId) then
+		slot0.statusController_:SetSelectedState("haveGet")
+	elseif slot2.need <= slot1 then
+		slot0.statusController_:SetSelectedState("canGet")
 	else
-		arg_7_0.statusController_:SetSelectedState("cannotGet")
+		slot0.statusController_:SetSelectedState("cannotGet")
 	end
 
-	arg_7_0.lockController_:SetSelectedIndex(0)
+	slot0.lockController_:SetSelectedIndex(0)
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.items[arg_8_1]
-
-	arg_8_2:RefreshData(formatReward(var_8_0))
-	arg_8_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_8_0)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.items[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	if arg_10_0.itemList then
-		arg_10_0.itemList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList then
+		slot0.itemList:Dispose()
 
-		arg_10_0.itemList = nil
+		slot0.itemList = nil
 	end
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

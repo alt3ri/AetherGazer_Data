@@ -1,98 +1,93 @@
-local var_0_0 = class("IdolTraineeQuestItem", ReduxView)
+slot0 = class("IdolTraineeQuestItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.rewardItems_ = {}
-	arg_2_0.stateController_ = arg_2_0.mainControllerEx_:GetController("state")
-	arg_2_0.typeController_ = arg_2_0.mainControllerEx_:GetController("type")
+	slot0.rewardItems_ = {}
+	slot0.stateController_ = slot0.mainControllerEx_:GetController("state")
+	slot0.typeController_ = slot0.mainControllerEx_:GetController("type")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if arg_3_0.taskID_ then
-			TaskAction:SubmitTask(arg_3_0.taskID_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.taskID_ then
+			TaskAction:SubmitTask(uv0.taskID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.taskID_ = arg_5_1
+function slot0.SetData(slot0, slot1)
+	slot0.taskID_ = slot1
 
-	local var_5_0 = AssignmentCfg[arg_5_1]
+	slot0.typeController_:SetSelectedState(AssignmentCfg[slot1].type == TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY and "day" or "week")
 
-	arg_5_0.typeController_:SetSelectedState(var_5_0.type == TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY and "day" or "week")
+	slot3 = TaskData2:GetTaskComplete(slot1)
 
-	local var_5_1 = TaskData2:GetTaskComplete(arg_5_1)
-	local var_5_2 = TaskData2:GetTaskProgress(arg_5_1)
-
-	if var_5_2 > var_5_0.need then
-		var_5_2 = var_5_0.need
+	if slot2.need < TaskData2:GetTaskProgress(slot1) then
+		slot4 = slot2.need
 	end
 
-	arg_5_0.desc_.text = var_5_0.desc
-	arg_5_0.slider_.value = var_5_2 / var_5_0.need
-	arg_5_0.progress_.text = string.format("%s/%s", var_5_2, var_5_0.need)
+	slot0.desc_.text = slot2.desc
+	slot0.slider_.value = slot4 / slot2.need
+	slot0.progress_.text = string.format("%s/%s", slot4, slot2.need)
 
-	if var_5_1 then
-		arg_5_0.stateController_:SetSelectedState("received")
-	elseif var_5_2 >= var_5_0.need then
-		arg_5_0.stateController_:SetSelectedState("complete")
+	if slot3 then
+		slot0.stateController_:SetSelectedState("received")
+	elseif slot2.need <= slot4 then
+		slot0.stateController_:SetSelectedState("complete")
 	else
-		arg_5_0.stateController_:SetSelectedState("unfinish")
+		slot0.stateController_:SetSelectedState("unfinish")
 	end
 
-	local var_5_3 = var_5_0.reward or {}
+	for slot9, slot10 in ipairs(slot2.reward or {}) do
+		slot11 = formatReward(slot10)
+		slot12 = clone(ItemTemplateData)
 
-	for iter_5_0, iter_5_1 in ipairs(var_5_3) do
-		local var_5_4 = formatReward(iter_5_1)
-		local var_5_5 = clone(ItemTemplateData)
+		if slot0.rewardItems_[slot9] == nil then
+			slot0.rewardItems_[slot9] = CommonItemView.New(slot0[string.format("awardItem%dObj_", slot9)])
 
-		if arg_5_0.rewardItems_[iter_5_0] == nil then
-			arg_5_0.rewardItems_[iter_5_0] = CommonItemView.New(arg_5_0[string.format("awardItem%dObj_", iter_5_0)])
-			arg_5_0.rewardItems_[iter_5_0].ResetTransform = function()
-				return
+			slot0.rewardItems_[slot9].ResetTransform = function ()
 			end
 		end
 
-		var_5_5.id = var_5_4.id
-		var_5_5.number = var_5_4.num
-		var_5_5.timeValid = iter_5_1.timeValid or 0
-		var_5_5.completedFlag = arg_5_0.taskComplete_
-		var_5_5.clickFun = handler(arg_5_0, arg_5_0.OnClickCommonItem)
+		slot12.id = slot11.id
+		slot12.number = slot11.num
+		slot12.timeValid = slot10.timeValid or 0
+		slot12.completedFlag = slot0.taskComplete_
+		slot12.clickFun = handler(slot0, slot0.OnClickCommonItem)
 
-		arg_5_0.rewardItems_[iter_5_0]:SetData(var_5_5)
+		slot0.rewardItems_[slot9]:SetData(slot12)
 	end
 
-	for iter_5_2 = #var_5_0.reward + 1, #arg_5_0.rewardItems_ do
-		arg_5_0.rewardItems_[iter_5_2]:SetData(nil)
+	for slot9 = #slot2.reward + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot9]:SetData(nil)
 	end
 end
 
-function var_0_0.OnClickCommonItem(arg_7_0, arg_7_1)
+function slot0.OnClickCommonItem(slot0, slot1)
 	ShowPopItem(POP_ITEM, {
-		arg_7_1.id,
-		arg_7_1.number
+		slot1.id,
+		slot1.number
 	})
 	OperationRecorder.Record("task", "task_item")
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.rewardItems_) do
-		iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.rewardItems_ = {}
+	slot0.rewardItems_ = {}
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

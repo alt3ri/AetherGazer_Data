@@ -1,94 +1,88 @@
-local var_0_0 = class("AbyssMainView", ReduxView)
+slot0 = class("AbyssMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Abyss/AbyssMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.stageController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "stage")
-	arg_5_0.unlockController_ = ControllerUtil.GetController(arg_5_0.challengeGo_.transform, "unlock")
-	arg_5_0.levelNumController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "levelNum")
-	arg_5_0.resetGrayedController_ = ControllerUtil.GetController(arg_5_0.resetBtn_.transform, "grayed")
+	slot0.stageController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "stage")
+	slot0.unlockController_ = ControllerUtil.GetController(slot0.challengeGo_.transform, "unlock")
+	slot0.levelNumController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "levelNum")
+	slot0.resetGrayedController_ = ControllerUtil.GetController(slot0.resetBtn_.transform, "grayed")
+	slot0.levelItems_ = {}
 
-	local var_5_0 = {
-		arg_5_0.levelGo1_,
-		arg_5_0.levelGo2_,
-		arg_5_0.levelGo3_,
-		arg_5_0.levelGo4_,
-		arg_5_0.levelGo5_
-	}
-
-	arg_5_0.levelItems_ = {}
-
-	for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-		local var_5_1 = AbyssLevelItemView.New(iter_5_1)
-
-		table.insert(arg_5_0.levelItems_, var_5_1)
+	for slot5, slot6 in ipairs({
+		slot0.levelGo1_,
+		slot0.levelGo2_,
+		slot0.levelGo3_,
+		slot0.levelGo4_,
+		slot0.levelGo5_
+	}) do
+		table.insert(slot0.levelItems_, AbyssLevelItemView.New(slot6))
 	end
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uiListGo_, AbyssListItemView)
-	arg_5_0.levelView_ = AbyssLevelView.New(arg_5_0.bossGo_)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, AbyssListItemView)
+	slot0.levelView_ = AbyssLevelView.New(slot0.bossGo_)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.layerCfgIdList_[arg_6_1], handler(arg_6_0, arg_6_0.OnItemClick))
-
-	local var_6_0 = AbyssCfg[arg_6_0.layerCfgIdList_[arg_6_1]].level
-
-	arg_6_2:SetSelect(var_6_0 == arg_6_0.curLayer_)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.layerCfgIdList_[slot1], handler(slot0, slot0.OnItemClick))
+	slot2:SetSelect(AbyssCfg[slot0.layerCfgIdList_[slot1]].level == slot0.curLayer_)
 end
 
-function var_0_0.OnItemClick(arg_7_0, arg_7_1)
-	if arg_7_0:SelectLayer(arg_7_1) then
-		arg_7_0:ReplayLayerTimeline()
+function slot0.OnItemClick(slot0, slot1)
+	if slot0:SelectLayer(slot1) then
+		slot0:ReplayLayerTimeline()
 	end
 end
 
-function var_0_0.ReplayLayerTimeline(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.levelItems_) do
-		iter_8_1.playableDirector_.time = 0.75
+function slot0.ReplayLayerTimeline(slot0)
+	for slot4, slot5 in ipairs(slot0.levelItems_) do
+		slot5.playableDirector_.time = 0.75
 	end
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.bonusBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bonusBtn_, nil, function ()
 		JumpTools.OpenPageByJump("abyssReward", {})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.rankBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rankBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/abyssRank", {})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.resetBtn_, nil, function()
+
+	slot4 = nil
+
+	function slot5()
 		if AbyssData:GetLayerResetTime() <= 0 then
 			ShowTips("ABYSS_LAYER_RESET_CLICK_TIP")
 
 			return
 		end
 
-		local var_12_0 = AbyssData:GetCurrentLayer()
+		slot0 = AbyssData:GetCurrentLayer()
 
-		if AbyssData:HaveUpperLevelChallenging(arg_9_0.curLayer_) then
-			local var_12_1 = var_12_0
+		if AbyssData:HaveUpperLevelChallenging(uv0.curLayer_) then
+			slot1 = slot0
 
-			if AbyssData:GetLayerStatus(var_12_0) == 1 then
-				var_12_1 = var_12_0 - 1
+			if AbyssData:GetLayerStatus(slot0) == 1 then
+				slot1 = slot0 - 1
 			end
 
-			ShowTips(string.format(GetTips("ABYSS_LAYER_CHALLENGING_RESET_TIP"), var_12_1))
+			ShowTips(string.format(GetTips("ABYSS_LAYER_CHALLENGING_RESET_TIP"), slot1))
 
 			return
 		end
@@ -99,210 +93,209 @@ function var_0_0.AddUIListener(arg_9_0)
 			content = GetTips("ABYSS_LAYER_RESET_TIP"),
 			SecondTip = GetTips("ABYSS_LAYER_RESET_TIMES"),
 			SecondValue = AbyssData:GetLayerResetTime() .. "/" .. AbyssData:GetLayerResetLimit(),
-			OkCallback = function(arg_13_0)
-				if arg_13_0 ~= AbyssData:GetActivityId() then
+			OkCallback = function (slot0)
+				if slot0 ~= AbyssData:GetActivityId() then
 					ShowTips("ERROR_ACTIVITY_NOT_OPEN")
 
 					return
 				end
 
-				AbyssAction.ResetLayer(arg_9_0.curLayer_)
+				AbyssAction.ResetLayer(uv0.curLayer_)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end,
 			Param = AbyssData:GetActivityId()
 		})
-	end)
+	end
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.levelItems_) do
-		arg_9_0:AddBtnListener(iter_9_1.gameObject_:GetComponent(typeof(Button)), nil, function()
-			arg_9_0:SelectStage(iter_9_0)
+	slot0:AddBtnListener(slot0.resetBtn_, slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.levelItems_) do
+		slot0:AddBtnListener(slot5.gameObject_:GetComponent(typeof(Button)), nil, function ()
+			uv0:SelectStage(uv1)
 		end)
 	end
 end
 
-function var_0_0.SelectLayer(arg_16_0, arg_16_1)
-	if arg_16_0.curLayer_ == arg_16_1 then
+function slot0.SelectLayer(slot0, slot1)
+	if slot0.curLayer_ == slot1 then
 		return false
 	end
 
-	arg_16_0.curLayer_ = arg_16_1
+	slot0.curLayer_ = slot1
 
-	saveData("abyss", "layer", arg_16_1)
+	saveData("abyss", "layer", slot1)
 	saveData("abyss", "refreshTime", AbyssData:GetRefreshTimestamp())
 
-	arg_16_0.curLevelCfg_ = AbyssData:GetAbyssCfg(arg_16_0.curLayer_)
+	slot0.curLevelCfg_ = AbyssData:GetAbyssCfg(slot0.curLayer_)
 
-	arg_16_0.uiList_:Refresh()
-	arg_16_0:UpdateLayerView()
+	slot0.uiList_:Refresh()
+	slot0:UpdateLayerView()
 
 	return true
 end
 
-function var_0_0.CancelSelectLevel(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.levelItems_) do
-		iter_17_1:SetSelect(false)
+function slot0.CancelSelectLevel(slot0)
+	for slot4, slot5 in ipairs(slot0.levelItems_) do
+		slot5:SetSelect(false)
 	end
 end
 
-function var_0_0.SelectStage(arg_18_0, arg_18_1)
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.levelItems_) do
-		iter_18_1:SetSelect(iter_18_0 == arg_18_1)
+function slot0.SelectStage(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.levelItems_) do
+		slot6:SetSelect(slot5 == slot1)
 	end
 
-	arg_18_0:SwitchToStage("detail", arg_18_0.curLayer_, arg_18_1)
+	slot0:SwitchToStage("detail", slot0.curLayer_, slot1)
 end
 
-function var_0_0.UpdateLayerView(arg_19_0)
-	arg_19_0.levelNumController_:SetSelectedState(tostring(#arg_19_0.curLevelCfg_.stage_list))
+function slot0.UpdateLayerView(slot0)
+	slot4 = #slot0.curLevelCfg_.stage_list
 
-	for iter_19_0 = 1, #arg_19_0.curLevelCfg_.stage_list do
-		arg_19_0.levelItems_[iter_19_0]:SetData(arg_19_0.curLevelCfg_, iter_19_0)
+	slot0.levelNumController_:SetSelectedState(tostring(slot4))
+
+	for slot4 = 1, #slot0.curLevelCfg_.stage_list do
+		slot0.levelItems_[slot4]:SetData(slot0.curLevelCfg_, slot4)
 	end
 
-	arg_19_0.currentFloorLabel_.text = arg_19_0.curLevelCfg_.level
+	slot0.currentFloorLabel_.text = slot0.curLevelCfg_.level
 
-	if AbyssData:GetLayerStatus(arg_19_0.curLayer_) == 0 then
-		arg_19_0.unlockController_:SetSelectedState("false")
+	if AbyssData:GetLayerStatus(slot0.curLayer_) == 0 then
+		slot0.unlockController_:SetSelectedState("false")
 	else
-		arg_19_0.unlockController_:SetSelectedState("true")
+		slot0.unlockController_:SetSelectedState("true")
 	end
 
-	local var_19_0 = AbyssData:IsLayerChallenging(arg_19_0.curLayer_)
-
-	SetActive(arg_19_0.resetBtn_.gameObject, var_19_0)
+	SetActive(slot0.resetBtn_.gameObject, AbyssData:IsLayerChallenging(slot0.curLayer_))
 
 	if AbyssData:GetLayerResetTime() <= 0 then
-		arg_19_0.resetGrayedController_:SetSelectedState("true")
+		slot0.resetGrayedController_:SetSelectedState("true")
 	else
-		arg_19_0.resetGrayedController_:SetSelectedState("false")
+		slot0.resetGrayedController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddEventListeners(arg_20_0)
-	arg_20_0:RegistEventListener(ABYSS_STAGE_RESET_TIME_UPDATE, function(arg_21_0, arg_21_1)
-		if arg_21_0 == arg_20_0.curLayer_ then
-			arg_20_0.uiList_:Refresh()
-			arg_20_0:UpdateLayerView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(ABYSS_STAGE_RESET_TIME_UPDATE, function (slot0, slot1)
+		if slot0 == uv0.curLayer_ then
+			uv0.uiList_:Refresh()
+			uv0:UpdateLayerView()
 		end
 	end)
-	arg_20_0:RegistEventListener(ABYSS_LAYER_RESET_TIME_UPDATE, function(arg_22_0)
-		if arg_22_0 == arg_20_0.curLayer_ then
+	slot0:RegistEventListener(ABYSS_LAYER_RESET_TIME_UPDATE, function (slot0)
+		if slot0 == uv0.curLayer_ then
 			ShowTips("ABYSS_RESET_LAYER_FINISH_TIP")
-			arg_20_0.uiList_:Refresh()
-			arg_20_0:UpdateLayerView()
+			uv0.uiList_:Refresh()
+			uv0:UpdateLayerView()
 		end
 	end)
 end
 
-function var_0_0.OnAbyssUpdate(arg_23_0)
-	arg_23_0:OnItemClick(arg_23_0:GetInitLayer())
+function slot0.OnAbyssUpdate(slot0)
+	slot0:OnItemClick(slot0:GetInitLayer())
 end
 
-function var_0_0.OnTop(arg_24_0)
-	arg_24_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 
-	if AbyssData:GetActivityId() ~= arg_24_0.enterActivityId_ and arg_24_0.curLayer_ ~= nil then
-		if arg_24_0.stageController_:GetSelectedState() == "detail" then
-			arg_24_0:CancelSelectLevel()
-			arg_24_0:SwitchToStage("list", arg_24_0.curLayer_, arg_24_0.curStageIndex_)
+	if AbyssData:GetActivityId() ~= slot0.enterActivityId_ and slot0.curLayer_ ~= nil then
+		if slot0.stageController_:GetSelectedState() == "detail" then
+			slot0:CancelSelectLevel()
+			slot0:SwitchToStage("list", slot0.curLayer_, slot0.curStageIndex_)
 		end
 
-		arg_24_0.enterActivityId_ = AbyssData:GetActivityId()
+		slot0.enterActivityId_ = AbyssData:GetActivityId()
 
-		arg_24_0.uiList_:Refresh()
-		arg_24_0:UpdateLayerView()
+		slot0.uiList_:Refresh()
+		slot0:UpdateLayerView()
 	else
-		arg_24_0:UpdateLayerView()
+		slot0:UpdateLayerView()
 	end
 end
 
-function var_0_0.OnBehind(arg_25_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_26_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
 	manager.windowBar:SetGameHelpKey("ABYSS_DESC")
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_26_0.stageController_:GetSelectedState() == "detail" then
-			arg_26_0:CancelSelectLevel()
-			arg_26_0:SwitchToStage("list", arg_26_0.curLayer_, arg_26_0.curStageIndex_)
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.stageController_:GetSelectedState() == "detail" then
+			uv0:CancelSelectLevel()
+			uv0:SwitchToStage("list", uv0.curLayer_, uv0.curStageIndex_)
 		else
 			JumpTools.Back()
 		end
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_26_0:CancelSelectLevel()
-		gameContext:Go("/home", nil, nil, true)
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0:CancelSelectLevel()
+		gameContext:Go("/home", nil, , true)
 	end)
 end
 
-function var_0_0.SwitchToStage(arg_29_0, arg_29_1, arg_29_2, arg_29_3, arg_29_4)
-	arg_29_4 = arg_29_4 or false
+function slot0.SwitchToStage(slot0, slot1, slot2, slot3, slot4)
+	slot4 = slot4 or false
 
-	if arg_29_0.stageController_:GetSelectedState() ~= arg_29_1 then
-		arg_29_0:PlaySound()
+	if slot0.stageController_:GetSelectedState() ~= slot1 then
+		slot0:PlaySound()
 	end
 
-	arg_29_0.stageController_:SetSelectedState(arg_29_1, arg_29_4)
+	slot0.stageController_:SetSelectedState(slot1, slot4)
 
-	if arg_29_0.curStageIndex_ == arg_29_3 and arg_29_2 == arg_29_0.curStageOfLayer_ then
+	if slot0.curStageIndex_ == slot3 and slot2 == slot0.curStageOfLayer_ then
 		return
 	end
 
-	arg_29_0.curStageIndex_ = arg_29_3
-	arg_29_0.curStageOfLayer_ = arg_29_2
+	slot0.curStageIndex_ = slot3
+	slot0.curStageOfLayer_ = slot2
 
-	if arg_29_0.stageController_:GetSelectedState() == "detail" and arg_29_1 == "detail" then
-		arg_29_0.levelView_.animator_:Play("AbyssLevelItemUI_right_cx", -1, 0)
+	if slot0.stageController_:GetSelectedState() == "detail" and slot1 == "detail" then
+		slot0.levelView_.animator_:Play("AbyssLevelItemUI_right_cx", -1, 0)
 	end
 
-	arg_29_0.levelView_:SetData(arg_29_0.curLayer_, arg_29_0.curStageIndex_)
+	slot0.levelView_:SetData(slot0.curLayer_, slot0.curStageIndex_)
 end
 
-function var_0_0.PlaySound(arg_30_0)
+function slot0.PlaySound(slot0)
 	manager.audio:PlayEffect("ui_system", "Challenge_whoosh", "")
 end
 
-function var_0_0.InitData(arg_31_0)
-	arg_31_0.enterActivityId_ = AbyssData:GetActivityId()
-	arg_31_0.layerCfgIdList_ = {}
+function slot0.InitData(slot0)
+	slot0.enterActivityId_ = AbyssData:GetActivityId()
+	slot0.layerCfgIdList_ = {}
 
-	local var_31_0 = AbyssData:GetCurrentIdList()
-
-	for iter_31_0 = #var_31_0, 1, -1 do
-		table.insert(arg_31_0.layerCfgIdList_, var_31_0[iter_31_0])
+	for slot5 = #AbyssData:GetCurrentIdList(), 1, -1 do
+		table.insert(slot0.layerCfgIdList_, slot1[slot5])
 	end
 end
 
-function var_0_0.OnEnter(arg_32_0)
-	arg_32_0:InitData()
-	arg_32_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:InitData()
+	slot0:AddEventListeners()
 	AbyssAction.ClickChallengeRedPoint()
 
-	if arg_32_0.levelView_ then
-		arg_32_0.levelView_:OnEnter()
+	if slot0.levelView_ then
+		slot0.levelView_:OnEnter()
 	end
 
-	for iter_32_0, iter_32_1 in ipairs(arg_32_0.levelItems_) do
-		iter_32_1:OnEnter()
+	for slot4, slot5 in ipairs(slot0.levelItems_) do
+		slot5:OnEnter()
 	end
 
-	arg_32_0.uiList_:StartScroll(#arg_32_0.layerCfgIdList_)
-	arg_32_0:SelectLayer(arg_32_0:GetInitLayer())
-	arg_32_0:SwitchToStage("list", arg_32_0.curLayer_, 1, true)
-	manager.redPoint:bindUIandKey(arg_32_0.rewardNoticeContainer_, RedPointConst.ABYSS_REWARD, {
+	slot0.uiList_:StartScroll(#slot0.layerCfgIdList_)
+	slot0:SelectLayer(slot0:GetInitLayer())
+	slot0:SwitchToStage("list", slot0.curLayer_, 1, true)
+	manager.redPoint:bindUIandKey(slot0.rewardNoticeContainer_, RedPointConst.ABYSS_REWARD, {
 		x = 0,
 		y = 0
 	})
-	arg_32_0:StartTimer()
-	arg_32_0:UpdateTimer()
+	slot0:StartTimer()
+	slot0:UpdateTimer()
 
 	if AbyssData:NeedTipBack() then
 		ShowTips(string.format(GetTips("ABYSS_BACK_TIP"), AbyssData:GetFirstLockLayer()))
@@ -314,110 +307,110 @@ function var_0_0.OnEnter(arg_32_0)
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("UNCLAIMED_BONUS_MAIL_TIP"),
-			OkCallback = function()
+			OkCallback = function ()
 				PlayerAction.ReadUnclaimedMessage(MailConst.MAIL_CHALLENGE_COMPENSATE_ID.ABYSS)
 			end
 		})
 	end
 end
 
-function var_0_0.OnExit(arg_34_0)
-	arg_34_0:CancelSelectLevel()
+function slot0.OnExit(slot0)
+	slot0:CancelSelectLevel()
 
-	arg_34_0.keepLayer_ = arg_34_0.curLayer_
+	slot0.keepLayer_ = slot0.curLayer_
 
-	manager.redPoint:unbindUIandKey(arg_34_0.rewardNoticeContainer_, RedPointConst.ABYSS_REWARD)
-	arg_34_0:StopTimer()
-	arg_34_0:RemoveAllEventListener()
+	manager.redPoint:unbindUIandKey(slot0.rewardNoticeContainer_, RedPointConst.ABYSS_REWARD)
+	slot0:StopTimer()
+	slot0:RemoveAllEventListener()
 
-	if arg_34_0.levelView_ then
-		arg_34_0.levelView_:OnExit()
+	if slot0.levelView_ then
+		slot0.levelView_:OnExit()
 	end
 
-	for iter_34_0, iter_34_1 in ipairs(arg_34_0.levelItems_) do
-		iter_34_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.levelItems_) do
+		slot5:OnExit()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.GetInitLayer(arg_35_0)
-	local var_35_0 = getData("abyss", "layer") or AbyssData:GetCurrentLayer()
+function slot0.GetInitLayer(slot0)
+	slot1 = getData("abyss", "layer") or AbyssData:GetCurrentLayer()
 
-	if arg_35_0.params_.refresh then
-		var_35_0 = AbyssData:GetCurrentLayer()
+	if slot0.params_.refresh then
+		slot1 = AbyssData:GetCurrentLayer()
 	end
 
-	if (getData("abyss", "refreshTime") or 0) > manager.time:GetServerTime() then
-		return var_35_0
+	if manager.time:GetServerTime() < (getData("abyss", "refreshTime") or 0) then
+		return slot1
 	end
 
 	return AbyssData:GetCurrentLayer()
 end
 
-function var_0_0.StartTimer(arg_36_0)
-	if arg_36_0.timer_ == nil then
-		arg_36_0.timer_ = Timer.New(function()
-			arg_36_0:UpdateTimer()
+function slot0.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_36_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_38_0)
-	if arg_38_0.timer_ then
-		arg_38_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_38_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.UpdateTimer(arg_39_0)
-	arg_39_0.lastDayLabel_.text = manager.time:GetLostTimeStr(AbyssData:GetRefreshTimestamp(), nil, true)
+function slot0.UpdateTimer(slot0)
+	slot0.lastDayLabel_.text = manager.time:GetLostTimeStr(AbyssData:GetRefreshTimestamp(), nil, true)
 end
 
-function var_0_0.OnAbyssRefresh(arg_40_0)
-	if arg_40_0:IsTop() then
-		arg_40_0.uiList_:Refresh()
-		arg_40_0:SelectLayer(AbyssData:GetCurrentLayer())
+function slot0.OnAbyssRefresh(slot0)
+	if slot0:IsTop() then
+		slot0.uiList_:Refresh()
+		slot0:SelectLayer(AbyssData:GetCurrentLayer())
 
-		if arg_40_0.stageController_:GetSelectedState() == "detail" then
-			arg_40_0:CancelSelectLevel()
-			arg_40_0:SwitchToStage("list", arg_40_0.curLayer_, arg_40_0.curStageIndex_)
+		if slot0.stageController_:GetSelectedState() == "detail" then
+			slot0:CancelSelectLevel()
+			slot0:SwitchToStage("list", slot0.curLayer_, slot0.curStageIndex_)
 		end
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_41_0)
-	arg_41_0.keepLayer_ = nil
+function slot0.OnMainHomeViewTop(slot0)
+	slot0.keepLayer_ = nil
 end
 
-function var_0_0.Dispose(arg_42_0)
+function slot0.Dispose(slot0)
 	manager.windowBar:HideBar()
-	arg_42_0:StopTimer()
+	slot0:StopTimer()
 
-	if arg_42_0.levelItems_ then
-		for iter_42_0, iter_42_1 in pairs(arg_42_0.levelItems_) do
-			iter_42_1:Dispose()
+	if slot0.levelItems_ then
+		for slot4, slot5 in pairs(slot0.levelItems_) do
+			slot5:Dispose()
 		end
 
-		arg_42_0.levelItems_ = nil
+		slot0.levelItems_ = nil
 	end
 
-	if arg_42_0.uiList_ then
-		arg_42_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_42_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	if arg_42_0.levelView_ then
-		arg_42_0.levelView_:Dispose()
+	if slot0.levelView_ then
+		slot0.levelView_:Dispose()
 
-		arg_42_0.levelView_ = nil
+		slot0.levelView_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_42_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

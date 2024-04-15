@@ -1,269 +1,239 @@
-local var_0_0 = {}
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = {}
 
-function var_0_0.InitFromServer(arg_1_0, arg_1_1)
-	for iter_1_0, iter_1_1 in ipairs(cleanProtoTable(arg_1_1.astro)) do
-		var_0_1[iter_1_1.id] = {}
+return {
+	InitFromServer = function (slot0, slot1)
+		slot6 = slot1.astro
 
-		for iter_1_2, iter_1_3 in pairs(cleanProtoTable(iter_1_1.rate_list)) do
-			local var_1_0 = {}
-			local var_1_1 = iter_1_3.rate
+		for slot5, slot6 in ipairs(cleanProtoTable(slot6)) do
+			uv0[slot6.id] = {}
+			slot11 = slot6.rate_list
 
-			for iter_1_4, iter_1_5 in pairs(cleanProtoTable(iter_1_3.id_list)) do
-				table.insert(var_1_0, iter_1_5)
+			for slot10, slot11 in pairs(cleanProtoTable(slot11)) do
+				slot12 = {}
+				slot13 = slot11.rate
+				slot18 = slot11.id_list
+
+				for slot17, slot18 in pairs(cleanProtoTable(slot18)) do
+					table.insert(slot12, slot18)
+				end
+
+				table.insert(uv0[slot6.id], {
+					list = slot12,
+					rate = slot13
+				})
 			end
 
-			table.insert(var_0_1[iter_1_1.id], {
-				list = var_1_0,
-				rate = var_1_1
-			})
+			table.sort(uv0[slot6.id], function (slot0, slot1)
+				return slot1.rate < slot0.rate
+			end)
 		end
 
-		table.sort(var_0_1[iter_1_1.id], function(arg_2_0, arg_2_1)
-			return arg_2_0.rate > arg_2_1.rate
-		end)
-	end
+		slot6 = slot1.common_equip
 
-	for iter_1_6, iter_1_7 in ipairs(cleanProtoTable(arg_1_1.common_equip)) do
-		var_0_2[iter_1_7.id] = {}
+		for slot5, slot6 in ipairs(cleanProtoTable(slot6)) do
+			uv1[slot6.id] = {}
+			slot11 = slot6.rate_list
 
-		for iter_1_8, iter_1_9 in pairs(cleanProtoTable(iter_1_7.rate_list)) do
-			local var_1_2 = {}
-			local var_1_3 = iter_1_9.rate
+			for slot10, slot11 in pairs(cleanProtoTable(slot11)) do
+				slot12 = {}
+				slot13 = slot11.rate
+				slot18 = slot11.id_list
 
-			for iter_1_10, iter_1_11 in pairs(cleanProtoTable(iter_1_9.id_list)) do
-				table.insert(var_1_2, iter_1_11)
+				for slot17, slot18 in pairs(cleanProtoTable(slot18)) do
+					table.insert(slot12, slot18)
+				end
+
+				table.insert(uv1[slot6.id], {
+					list = slot12,
+					rate = slot13
+				})
 			end
 
-			table.insert(var_0_2[iter_1_7.id], {
-				list = var_1_2,
-				rate = var_1_3
-			})
+			table.sort(uv1[slot6.id], function (slot0, slot1)
+				return slot1.rate < slot0.rate
+			end)
 		end
 
-		table.sort(var_0_2[iter_1_7.id], function(arg_3_0, arg_3_1)
-			return arg_3_0.rate > arg_3_1.rate
-		end)
-	end
+		slot6 = slot1.omega_equip
 
-	for iter_1_12, iter_1_13 in ipairs(cleanProtoTable(arg_1_1.omega_equip)) do
-		var_0_3[iter_1_13.id] = {}
+		for slot5, slot6 in ipairs(cleanProtoTable(slot6)) do
+			uv2[slot6.id] = {}
+			slot11 = slot6.rate_list
 
-		for iter_1_14, iter_1_15 in pairs(cleanProtoTable(iter_1_13.rate_list)) do
-			local var_1_4 = {}
-			local var_1_5 = iter_1_15.rate
+			for slot10, slot11 in pairs(cleanProtoTable(slot11)) do
+				slot12 = {}
+				slot13 = slot11.rate
+				slot18 = slot11.id_list
 
-			for iter_1_16, iter_1_17 in pairs(cleanProtoTable(iter_1_15.id_list)) do
-				table.insert(var_1_4, iter_1_17)
+				for slot17, slot18 in pairs(cleanProtoTable(slot18)) do
+					table.insert(slot12, slot18)
+				end
+
+				table.insert(uv2[slot6.id], {
+					list = slot12,
+					rate = slot13
+				})
 			end
 
-			table.insert(var_0_3[iter_1_13.id], {
-				list = var_1_4,
-				rate = var_1_5
-			})
+			table.sort(uv2[slot6.id], function (slot0, slot1)
+				return slot1.rate < slot0.rate
+			end)
 		end
 
-		table.sort(var_0_3[iter_1_13.id], function(arg_4_0, arg_4_1)
-			return arg_4_0.rate > arg_4_1.rate
-		end)
-	end
+		uv3:InitServantList()
+	end,
+	InitServantList = function (slot0)
+		for slot5, slot6 in pairs(EquipRecommendCfg.all) do
+			slot7 = HeroCfg[slot6]
+			uv0[slot7.id] = {}
 
-	var_0_0:InitServantList()
-end
+			if WeaponServantData:GetPrivateWeaponServantIdByHeroID(slot7.id) ~= 0 then
+				table.insert(uv0[slot7.id], slot8)
+			end
 
-function var_0_0.InitServantList(arg_5_0)
-	local var_5_0 = EquipRecommendCfg.all
-
-	for iter_5_0, iter_5_1 in pairs(var_5_0) do
-		local var_5_1 = HeroCfg[iter_5_1]
-		local var_5_2 = WeaponServantData:GetPrivateWeaponServantIdByHeroID(var_5_1.id)
-
-		var_0_4[var_5_1.id] = {}
-
-		if var_5_2 ~= 0 then
-			table.insert(var_0_4[var_5_1.id], var_5_2)
+			table.insert(uv0[slot7.id], WeaponServantData:GetPublicWeaponServantIdByRace(slot7.race))
+			table.insert(uv0[slot7.id], EquipRecommendCfg[slot7.id].weapon[1])
 		end
+	end,
+	GetServantListByID = function (slot0, slot1)
+		return uv0[slot1] or {}
+	end,
+	GetAstroListByID = function (slot0, slot1)
+		return uv0[slot1] or {}
+	end,
+	GetCommonEquiptListByID = function (slot0, slot1)
+		return uv0[slot1] or {}
+	end,
+	GetOmegaEquiptListByID = function (slot0, slot1)
+		return uv0[slot1] or {}
+	end,
+	GetServantIsEquipped = function (slot0, slot1, slot2)
+		slot4 = ServantTools.GetServantMap()
 
-		table.insert(var_0_4[var_5_1.id], WeaponServantData:GetPublicWeaponServantIdByRace(var_5_1.race))
-		table.insert(var_0_4[var_5_1.id], EquipRecommendCfg[var_5_1.id].weapon[1])
-	end
-end
-
-function var_0_0.GetServantListByID(arg_6_0, arg_6_1)
-	return var_0_4[arg_6_1] or {}
-end
-
-function var_0_0.GetAstroListByID(arg_7_0, arg_7_1)
-	return var_0_1[arg_7_1] or {}
-end
-
-function var_0_0.GetCommonEquiptListByID(arg_8_0, arg_8_1)
-	return var_0_2[arg_8_1] or {}
-end
-
-function var_0_0.GetOmegaEquiptListByID(arg_9_0, arg_9_1)
-	return var_0_3[arg_9_1] or {}
-end
-
-function var_0_0.GetServantIsEquipped(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = WeaponServantData:GetWeaponServantList()
-	local var_10_1 = ServantTools.GetServantMap()
-
-	for iter_10_0, iter_10_1 in pairs(var_10_0) do
-		if var_10_1[iter_10_1.uid] and var_10_1[iter_10_1.uid] == arg_10_1 and iter_10_1.id == arg_10_2 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetHasServant(arg_11_0, arg_11_1)
-	local var_11_0 = WeaponServantData:GetWeaponServantById(arg_11_1)
-	local var_11_1 = ServantTools.GetServantMap()
-
-	for iter_11_0, iter_11_1 in pairs(var_11_0) do
-		if not var_11_1[iter_11_1.uid] then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetEquiptIsEquipped(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = HeroData.GetEquipMap()
-
-	for iter_12_0, iter_12_1 in pairs(var_12_0) do
-		local var_12_1 = EquipData:GetEquipData(iter_12_0)
-		local var_12_2 = var_0_0:GetEquiptPrefabListByEquiptID(arg_12_2)
-
-		for iter_12_2, iter_12_3 in pairs(var_12_2) do
-			if var_12_1 and var_12_1.prefab_id == iter_12_3 and iter_12_1 == arg_12_1 then
+		for slot8, slot9 in pairs(WeaponServantData:GetWeaponServantList()) do
+			if slot4[slot9.uid] and slot4[slot9.uid] == slot1 and slot9.id == slot2 then
 				return true
 			end
 		end
-	end
 
-	return false
-end
-
-function var_0_0.GetHasEquipt(arg_13_0, arg_13_1)
-	local var_13_0 = var_0_0:GetEquiptPrefabListByEquiptID(arg_13_1)
-	local var_13_1 = HeroData:GetEquipMap()
-	local var_13_2 = {}
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_0) do
-		local var_13_3 = EquipData:GetEquipPrefabMap(iter_13_1)
-
-		for iter_13_2, iter_13_3 in ipairs(var_13_3) do
-			if not var_13_1[iter_13_3] then
-				table.insert(var_13_2, iter_13_3)
-			end
-		end
-	end
-
-	return #var_13_2 ~= 0
-end
-
-function var_0_0.ReplaceAndInsert(arg_14_0, arg_14_1)
-	local var_14_0 = tostring(arg_14_1)
-	local var_14_1 = {}
-
-	for iter_14_0 = 1, 9 do
-		local var_14_2 = var_14_0:sub(1, 2) .. iter_14_0 .. var_14_0:sub(4)
-		local var_14_3 = tonumber(var_14_2)
-
-		table.insert(var_14_1, var_14_3)
-	end
-
-	local var_14_4 = 5 .. var_14_0:sub(2, 2) .. 0 .. var_14_0:sub(4)
-	local var_14_5 = tonumber(var_14_4)
-
-	table.insert(var_14_1, var_14_5)
-
-	return var_14_1
-end
-
-function var_0_0.GetEquiptPrefabListByEquiptID(arg_15_0, arg_15_1)
-	local var_15_0 = {}
-
-	if EquipData:GetEquipCnt(arg_15_1) ~= 0 then
-		table.insert(var_15_0, arg_15_1)
-	end
-
-	local var_15_1 = var_0_0:ReplaceAndInsert(arg_15_1)
-
-	for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-		if iter_15_1 ~= arg_15_1 and EquipData:GetEquipCnt(iter_15_1) ~= 0 then
-			table.insert(var_15_0, iter_15_1)
-		end
-	end
-
-	return var_15_0
-end
-
-function var_0_0.GetIsNeedPopRecommendTipsByHeroID(arg_16_0, arg_16_1)
-	local var_16_0 = HeroData:GetHeroData(arg_16_1)
-	local var_16_1 = var_16_0.equip
-	local var_16_2 = true
-	local var_16_3 = var_16_0.servant_uid ~= 0
-	local var_16_4 = #var_16_0.using_astrolabe == 3
-
-	for iter_16_0, iter_16_1 in pairs(var_16_1) do
-		if iter_16_1.equip_id == 0 then
-			var_16_2 = false
-		end
-	end
-
-	return var_16_2 and var_16_3 and var_16_4
-end
-
-function var_0_0.GetHasEquippedAllAstro(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = HeroData:GetHeroData(arg_17_1).using_astrolabe
-
-	if #var_17_0 < #arg_17_2 then
 		return false
-	end
-
-	for iter_17_0, iter_17_1 in pairs(arg_17_2) do
-		for iter_17_2, iter_17_3 in pairs(var_17_0) do
-			if iter_17_3 == iter_17_1 then
-				break
-			end
-
-			if iter_17_2 == #var_17_0 then
-				return false
+	end,
+	GetHasServant = function (slot0, slot1)
+		for slot7, slot8 in pairs(WeaponServantData:GetWeaponServantById(slot1)) do
+			if not ServantTools.GetServantMap()[slot8.uid] then
+				return true
 			end
 		end
-	end
 
-	return true
-end
+		return false
+	end,
+	GetEquiptIsEquipped = function (slot0, slot1, slot2)
+		for slot7, slot8 in pairs(HeroData.GetEquipMap()) do
+			slot9 = EquipData:GetEquipData(slot7)
 
-function var_0_0.GetHasUnlockAllAstro(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = HeroData:GetHeroData(arg_18_1).unlocked_astrolabe
-
-	for iter_18_0, iter_18_1 in pairs(arg_18_2) do
-		if #var_18_0 < 1 then
-			return false, iter_18_1
-		end
-
-		for iter_18_2, iter_18_3 in pairs(var_18_0) do
-			if iter_18_3 == iter_18_1 then
-				break
-			end
-
-			if iter_18_2 == #var_18_0 then
-				return false, iter_18_1
+			for slot14, slot15 in pairs(uv0:GetEquiptPrefabListByEquiptID(slot2)) do
+				if slot9 and slot9.prefab_id == slot15 and slot8 == slot1 then
+					return true
+				end
 			end
 		end
+
+		return false
+	end,
+	GetHasEquipt = function (slot0, slot1)
+		slot3 = HeroData:GetEquipMap()
+		slot4 = {}
+
+		for slot8, slot9 in ipairs(uv0:GetEquiptPrefabListByEquiptID(slot1)) do
+			for slot14, slot15 in ipairs(EquipData:GetEquipPrefabMap(slot9)) do
+				if not slot3[slot15] then
+					table.insert(slot4, slot15)
+				end
+			end
+		end
+
+		return #slot4 ~= 0
+	end,
+	ReplaceAndInsert = function (slot0, slot1)
+		slot2 = tostring(slot1)
+		slot3 = {}
+
+		for slot7 = 1, 9 do
+			table.insert(slot3, tonumber(slot2:sub(1, 2) .. slot7 .. slot2:sub(4)))
+		end
+
+		table.insert(slot3, tonumber(5 .. slot2:sub(2, 2) .. 0 .. slot2:sub(4)))
+
+		return slot3
+	end,
+	GetEquiptPrefabListByEquiptID = function (slot0, slot1)
+		if EquipData:GetEquipCnt(slot1) ~= 0 then
+			table.insert({}, slot1)
+		end
+
+		for slot7, slot8 in ipairs(uv0:ReplaceAndInsert(slot1)) do
+			if slot8 ~= slot1 and EquipData:GetEquipCnt(slot8) ~= 0 then
+				table.insert(slot2, slot8)
+			end
+		end
+
+		return slot2
+	end,
+	GetIsNeedPopRecommendTipsByHeroID = function (slot0, slot1)
+		slot2 = HeroData:GetHeroData(slot1)
+		slot4 = true
+		slot5 = slot2.servant_uid ~= 0
+		slot6 = #slot2.using_astrolabe == 3
+
+		for slot10, slot11 in pairs(slot2.equip) do
+			if slot11.equip_id == 0 then
+				slot4 = false
+			end
+		end
+
+		return slot4 and slot5 and slot6
+	end,
+	GetHasEquippedAllAstro = function (slot0, slot1, slot2)
+		if #HeroData:GetHeroData(slot1).using_astrolabe < #slot2 then
+			return false
+		end
+
+		for slot8, slot9 in pairs(slot2) do
+			for slot13, slot14 in pairs(slot4) do
+				if slot14 == slot9 then
+					break
+				end
+
+				if slot13 == #slot4 then
+					return false
+				end
+			end
+		end
+
+		return true
+	end,
+	GetHasUnlockAllAstro = function (slot0, slot1, slot2)
+		slot4 = HeroData:GetHeroData(slot1).unlocked_astrolabe
+
+		for slot8, slot9 in pairs(slot2) do
+			if #slot4 < 1 then
+				return false, slot9
+			end
+
+			for slot13, slot14 in pairs(slot4) do
+				if slot14 == slot9 then
+					break
+				end
+
+				if slot13 == #slot4 then
+					return false, slot9
+				end
+			end
+		end
+
+		return true, 0
 	end
-
-	return true, 0
-end
-
-return var_0_0
+}

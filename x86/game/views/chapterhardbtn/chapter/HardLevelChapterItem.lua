@@ -1,36 +1,31 @@
-local var_0_0 = class("HardLevelChapterItem", import("..HardLevelBaseItem"))
+slot0 = class("HardLevelChapterItem", import("..HardLevelBaseItem"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	manager.redPoint:bindUIandKey(arg_1_0.transform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_LEVEL, arg_1_0.hardLevel_))
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_LEVEL, slot0.hardLevel_))
 end
 
-function var_0_0.OnExit(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.transform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_LEVEL, arg_2_0.hardLevel_))
-	var_0_0.super.OnExit(arg_2_0)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_LEVEL, slot0.hardLevel_))
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.IsLock(arg_3_0)
-	local var_3_0 = 1
+function slot0.IsLock(slot0)
+	slot1 = 1
 
-	if arg_3_0.hardLevel_ ~= 1 then
-		var_3_0 = 2
+	if slot0.hardLevel_ ~= 1 then
+		slot1 = 2
 	end
 
-	local var_3_1 = getChapterNumList(var_3_0)[arg_3_0.hardLevel_][1]
-
-	arg_3_0.isLock_ = not ChapterTools.IsFinishPreChapter(var_3_1)
+	slot0.isLock_ = not ChapterTools.IsFinishPreChapter(getChapterNumList(slot1)[slot0.hardLevel_][1])
 end
 
-function var_0_0.LockTips(arg_4_0)
-	local var_4_0 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_4_1 = BattleFieldData:GetCacheChapter(var_4_0)
-	local var_4_2 = 1
-	local var_4_3 = getChapterNumList(var_4_2)[arg_4_0.hardLevel_][1]
-	local var_4_4, var_4_5 = ChapterTools.IsFinishPreChapter(var_4_3)
+function slot0.LockTips(slot0)
+	slot2 = BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))
+	slot5, slot6 = ChapterTools.IsFinishPreChapter(getChapterNumList(1)[slot0.hardLevel_][1])
 
-	if not var_4_4 then
-		ShowTips(ChapterTools.GetChapterLockText(var_4_3, var_4_5, true))
+	if not slot5 then
+		ShowTips(ChapterTools.GetChapterLockText(slot4, slot6, true))
 
 		return
 	end
@@ -38,45 +33,34 @@ function var_0_0.LockTips(arg_4_0)
 	ShowTips("ERROR_FUNCTION_NOT_OPEN")
 end
 
-function var_0_0.ClickBtn(arg_5_0)
-	if arg_5_0.hardLevel_ == BattleFieldData:GetPlotHardLevel() then
+function slot0.ClickBtn(slot0)
+	if slot0.hardLevel_ == BattleFieldData:GetPlotHardLevel() then
 		return
 	end
 
-	BattleFieldAction.ChangePlotHardLevel(arg_5_0.hardLevel_)
+	BattleFieldAction.ChangePlotHardLevel(slot0.hardLevel_)
 
-	if not arg_5_0.isLock_ then
-		BattleFieldAction.ChangeSelectChapterID(arg_5_0:GetOpenMaxChapter())
+	if not slot0.isLock_ then
+		BattleFieldAction.ChangeSelectChapterID(slot0:GetOpenMaxChapter())
 	end
 end
 
-function var_0_0.GetOpenMaxChapter(arg_6_0)
-	local var_6_0 = arg_6_0.hardLevel_
-	local var_6_1 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_6_2 = BattleFieldData:GetCacheChapter(var_6_1)
-	local var_6_3 = ChapterCfg[var_6_2].difficulty
-	local var_6_4 = getChapterListByDifficulty(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, var_6_3)
-	local var_6_5 = getChapterList()
-	local var_6_6 = table.keyof(var_6_4, var_6_2)
+function slot0.GetOpenMaxChapter(slot0)
+	slot1 = slot0.hardLevel_
+	slot3 = BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))
+	slot6 = getChapterList()
 
-	for iter_6_0 = var_6_6, 1, -1 do
-		local var_6_7 = ChapterCfg[var_6_4[iter_6_0]].sub_type
-
-		if var_6_5[var_6_7][var_6_0] then
-			local var_6_8 = var_6_5[var_6_7][var_6_0][1]
-			local var_6_9 = ChapterCfg[var_6_8].section_id_list[1]
-
-			if var_6_9 and BattleStageData:GetStageData()[var_6_9] then
-				return var_6_8
-			end
+	for slot11 = table.keyof(getChapterListByDifficulty(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, ChapterCfg[slot3].difficulty), slot3), 1, -1 do
+		if slot6[ChapterCfg[slot5[slot11]].sub_type][slot1] and ChapterCfg[slot6[slot12][slot1][1]].section_id_list[1] and BattleStageData:GetStageData()[slot14] then
+			return slot13
 		end
 	end
 
-	if arg_6_0.hardLevel_ ~= 1 and var_6_6 <= 1 then
-		var_6_6 = 2
+	if slot0.hardLevel_ ~= 1 and slot7 <= 1 then
+		slot7 = 2
 	end
 
-	return getChapterListByDifficulty(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, var_6_0)[var_6_6]
+	return getChapterListByDifficulty(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, slot1)[slot7]
 end
 
-return var_0_0
+return slot0

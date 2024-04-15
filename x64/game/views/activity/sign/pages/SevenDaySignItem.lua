@@ -1,116 +1,112 @@
-local var_0_0 = class("SevenDaySignItem", ReduxView)
+slot0 = class("SevenDaySignItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.info_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.info_ = slot2
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.animator_ = arg_2_0.receivedpanelGo_:GetComponent(typeof(Animator))
+	slot0.animator_ = slot0.receivedpanelGo_:GetComponent(typeof(Animator))
 
-	if arg_2_0.newItemGo_ then
-		arg_2_0.commonItem_ = CommonItemView.New(arg_2_0.newItemGo_, true)
+	if slot0.newItemGo_ then
+		slot0.commonItem_ = CommonItemView.New(slot0.newItemGo_, true)
 	else
-		arg_2_0.commonItem_ = CommonItem.New(arg_2_0.commonitemGo_)
+		slot0.commonItem_ = CommonItem.New(slot0.commonitemGo_)
 
-		arg_2_0.commonItem_:RegistCallBack(function(arg_3_0)
+		slot0.commonItem_:RegistCallBack(function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_3_0.id,
-				arg_3_0.number
+				slot0.id,
+				slot0.number
 			})
-			OperationRecorder.Record(arg_2_0.class.__cname, "signItem")
+			OperationRecorder.Record(uv0.class.__cname, "signItem")
 		end)
-		arg_2_0.commonItem_:ShowFloor(ItemConst.ITEM_FLOOR.LONG)
+		slot0.commonItem_:ShowFloor(ItemConst.ITEM_FLOOR.LONG)
 	end
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = SignCfg[arg_4_2]
+function slot0.Refresh(slot0, slot1, slot2, slot3)
+	slot4 = SignCfg[slot2]
 
-	if arg_4_0.newItemGo_ then
-		local var_4_1 = clone(ItemTemplateData)
+	if slot0.newItemGo_ then
+		slot5 = clone(ItemTemplateData)
+		slot5.id = slot4.reward[1]
+		slot5.number = slot4.reward[2]
 
-		var_4_1.id = var_4_0.reward[1]
-		var_4_1.number = var_4_0.reward[2]
-
-		function var_4_1.clickFun(arg_5_0)
+		function slot5.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_5_0.id,
-				arg_5_0.number
+				slot0.id,
+				slot0.number
 			})
-			OperationRecorder.Record(arg_4_0.class.__cname, "signItem")
+			OperationRecorder.Record(uv0.class.__cname, "signItem")
 		end
 
-		arg_4_0.commonItem_:SetData(var_4_1)
+		slot0.commonItem_:SetData(slot5)
 	else
-		arg_4_0.commonItem_:RefreshData(formatReward(var_4_0.reward))
+		slot0.commonItem_:RefreshData(formatReward(slot4.reward))
 	end
 
-	local var_4_2 = var_4_0.reward[1]
-	local var_4_3 = arg_4_3
+	slot5 = slot4.reward[1]
 
-	if var_4_3 == ActivityConst.SIGN_STATE.NONE then
-		SetActive(arg_4_0.receivedpanelGo_, false)
-	elseif var_4_3 == ActivityConst.SIGN_STATE.CAN_GET then
-		SetActive(arg_4_0.receivedpanelGo_, false)
-	elseif var_4_3 == ActivityConst.SIGN_STATE.GETTED then
-		SetActive(arg_4_0.receivedpanelGo_, true)
-	elseif var_4_3 == ActivityConst.SIGN_STATE.TOMORROW_GET then
-		SetActive(arg_4_0.receivedpanelGo_, false)
+	if slot3 == ActivityConst.SIGN_STATE.NONE then
+		SetActive(slot0.receivedpanelGo_, false)
+	elseif slot6 == ActivityConst.SIGN_STATE.CAN_GET then
+		SetActive(slot0.receivedpanelGo_, false)
+	elseif slot6 == ActivityConst.SIGN_STATE.GETTED then
+		SetActive(slot0.receivedpanelGo_, true)
+	elseif slot6 == ActivityConst.SIGN_STATE.TOMORROW_GET then
+		SetActive(slot0.receivedpanelGo_, false)
 	end
 
-	arg_4_0.dayText_.text = string.format(GetTips("ACTIVITY_GREENHORN_TASK_STAGE"), arg_4_1)
+	slot0.dayText_.text = string.format(GetTips("ACTIVITY_GREENHORN_TASK_STAGE"), slot1)
 
-	local var_4_4 = arg_4_1 == 7 or arg_4_1 == 14
+	SetActive(slot0.speciaBg_, slot1 == 7 or slot1 == 14)
 
-	SetActive(arg_4_0.speciaBg_, var_4_4)
-
-	arg_4_0.index = arg_4_1
+	slot0.index = slot1
 end
 
-function var_0_0.StartPlayAnimator(arg_6_0)
-	arg_6_0.timer_ = Timer.New(function()
-		SetActive(arg_6_0.receivedpanelGo_, true)
+function slot0.StartPlayAnimator(slot0)
+	slot0.timer_ = Timer.New(function ()
+		SetActive(uv0.receivedpanelGo_, true)
 
-		arg_6_0.animator_.enabled = true
+		uv0.animator_.enabled = true
 
 		manager.audio:PlayUIAudioByVoice("sign_in")
 
-		if arg_6_0.timer_ then
-			arg_6_0.timer_:Stop()
+		if uv0.timer_ then
+			uv0.timer_:Stop()
 
-			arg_6_0.timer_ = nil
+			uv0.timer_ = nil
 		end
 	end, 0.5, 1)
 
-	arg_6_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.GetAnimator(arg_8_0)
-	return arg_8_0.animator_
+function slot0.GetAnimator(slot0)
+	return slot0.animator_
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.animator_ = nil
+function slot0.Dispose(slot0)
+	slot0.animator_ = nil
 
-	if arg_9_0.timer_ then
-		arg_9_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_9_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_9_0.commonItem_:Dispose()
+	slot0.commonItem_:Dispose()
 
-	arg_9_0.commonItem_ = nil
-	arg_9_0.transform_ = nil
-	arg_9_0.gameObject_ = nil
+	slot0.commonItem_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

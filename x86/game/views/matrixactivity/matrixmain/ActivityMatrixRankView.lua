@@ -1,154 +1,136 @@
-local var_0_0 = class("ActivityMatrixRankView", ReduxView)
-local var_0_1 = {
+slot0 = class("ActivityMatrixRankView", ReduxView)
+slot1 = {
 	ALL = 1,
 	GUILD = 2
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIUI/SoloRoguelike/VolumeSoloRoguelikeRankUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.curRankType_ = var_0_1.ALL
+function slot0.Init(slot0)
+	slot0.curRankType_ = uv0.ALL
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ActivityMatrixRankItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ActivityMatrixRankItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshUI(arg_5_0.rankList_[arg_5_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.rankList_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddToggleListener(arg_6_0.allToggle_, function(arg_7_0)
-		if arg_7_0 then
-			arg_6_0.curRankType_ = var_0_1.ALL
+function slot0.AddUIListeners(slot0)
+	slot0:AddToggleListener(slot0.allToggle_, function (slot0)
+		if slot0 then
+			uv0.curRankType_ = uv1.ALL
 
-			arg_6_0:RefreshUI()
+			uv0:RefreshUI()
 		end
 	end)
-	arg_6_0:AddToggleListener(arg_6_0.guildToggle_, function(arg_8_0)
-		if arg_8_0 then
-			arg_6_0.curRankType_ = var_0_1.GUILD
+	slot0:AddToggleListener(slot0.guildToggle_, function (slot0)
+		if slot0 then
+			uv0.curRankType_ = uv1.GUILD
 
-			arg_6_0:RefreshUI()
+			uv0:RefreshUI()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activityID_ = arg_9_0.params_.activityId
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityId
 
-	RankAction.QueryActivityRank(arg_9_0.activityID_)
+	RankAction.QueryActivityRank(slot0.activityID_)
 
 	if GuildData:GetGuildInfo().id == nil then
-		SetActive(arg_9_0.guildToggleGo_, false)
+		SetActive(slot0.guildToggleGo_, false)
 
-		arg_9_0.curRankType_ = var_0_1.ALL
+		slot0.curRankType_ = uv0.ALL
 	else
-		SetActive(arg_9_0.guildToggleGo_, true)
-		RankAction.QueryGuildActivityRank(arg_9_0.activityID_)
+		SetActive(slot0.guildToggleGo_, true)
+		RankAction.QueryGuildActivityRank(slot0.activityID_)
 	end
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0:RefreshSelfRank()
-	arg_10_0:RefreshList()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshSelfRank()
+	slot0:RefreshList()
 end
 
-function var_0_0.RefreshSelfRank(arg_11_0)
-	local var_11_0 = PlayerData:GetPlayerInfo()
+function slot0.RefreshSelfRank(slot0)
+	slot0.icon_.sprite = ItemTools.getItemSprite(PlayerData:GetPlayerInfo() and slot1.portrait)
+	slot0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.icon_frame)
+	slot0.name_.text = slot1.nick
 
-	arg_11_0.icon_.sprite = ItemTools.getItemSprite(var_11_0 and var_11_0.portrait)
-	arg_11_0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_11_0.icon_frame)
-	arg_11_0.name_.text = var_11_0.nick
-
-	if arg_11_0.curRankType_ == var_0_1.ALL then
-		local var_11_1 = RankData:GetActivityRank(arg_11_0.activityID_)
-
-		if var_11_1 then
-			local var_11_2, var_11_3 = var_11_1:GetCurRankDes()
-
-			arg_11_0.rank_.text = var_11_2
-			arg_11_0.score_.text = var_11_3
+	if slot0.curRankType_ == uv0.ALL then
+		if RankData:GetActivityRank(slot0.activityID_) then
+			slot0.rank_.text, slot0.score_.text = slot2:GetCurRankDes()
 		else
-			arg_11_0.rank_.text = ""
-			arg_11_0.score_.text = ""
+			slot0.rank_.text = ""
+			slot0.score_.text = ""
 		end
+	elseif RankData:GetGuildActivityRank(slot0.activityID_) then
+		slot0.rank_.text, slot0.score_.text = slot2:GetCurRankDes()
 	else
-		local var_11_4 = RankData:GetGuildActivityRank(arg_11_0.activityID_)
-
-		if var_11_4 then
-			local var_11_5, var_11_6 = var_11_4:GetCurRankDes()
-
-			arg_11_0.rank_.text = var_11_5
-			arg_11_0.score_.text = var_11_6
-		else
-			arg_11_0.rank_.text = ""
-			arg_11_0.score_.text = ""
-		end
+		slot0.rank_.text = ""
+		slot0.score_.text = ""
 	end
 end
 
-function var_0_0.RefreshNone(arg_12_0)
-	arg_12_0.rank_.text = GetTips("MATRIX_RANK_NO_RANK")
-	arg_12_0.score_.text = GetTips("MATRIX_RANK_NO_INFO")
+function slot0.RefreshNone(slot0)
+	slot0.rank_.text = GetTips("MATRIX_RANK_NO_RANK")
+	slot0.score_.text = GetTips("MATRIX_RANK_NO_INFO")
 end
 
-function var_0_0.RefreshList(arg_13_0)
-	if arg_13_0.curRankType_ == var_0_1.ALL then
-		local var_13_0 = RankData:GetActivityRank(arg_13_0.activityID_)
-
-		arg_13_0.rankList_ = var_13_0 and var_13_0.rankList or {}
+function slot0.RefreshList(slot0)
+	if slot0.curRankType_ == uv0.ALL then
+		slot0.rankList_ = RankData:GetActivityRank(slot0.activityID_) and slot1.rankList or {}
 	else
-		local var_13_1 = RankData:GetGuildActivityRank(arg_13_0.activityID_)
-
-		arg_13_0.rankList_ = var_13_1 and var_13_1.rankList or {}
+		slot0.rankList_ = RankData:GetGuildActivityRank(slot0.activityID_) and slot1.rankList or {}
 	end
 
-	table.sort(arg_13_0.rankList_, function(arg_14_0, arg_14_1)
-		return arg_14_0.rank < arg_14_1.rank
+	table.sort(slot0.rankList_, function (slot0, slot1)
+		return slot0.rank < slot1.rank
 	end)
-	arg_13_0.scrollHelper_:StartScroll(#arg_13_0.rankList_)
+	slot0.scrollHelper_:StartScroll(#slot0.rankList_)
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	arg_16_0.allToggle_.isOn = true
+	slot0.allToggle_.isOn = true
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0:RemoveAllListeners()
-	arg_17_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnActivityMatrixRankUpdate(arg_18_0)
-	arg_18_0:RefreshUI()
+function slot0.OnActivityMatrixRankUpdate(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnRankUpdate(arg_19_0)
-	arg_19_0:RefreshUI()
+function slot0.OnRankUpdate(slot0)
+	slot0:RefreshUI()
 end
 
-return var_0_0
+return slot0

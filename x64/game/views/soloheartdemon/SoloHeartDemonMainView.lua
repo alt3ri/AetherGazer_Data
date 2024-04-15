@@ -1,361 +1,343 @@
-local var_0_0 = class("SoloHeartDemonMainView", ReduxView)
-local var_0_1 = 11
+slot0 = class("SoloHeartDemonMainView", ReduxView)
+slot1 = 11
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_SoloHeartDemonUI/SoloHeartDemonMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.difficultyBtnControllerList = {}
-	arg_4_0.difficultyBtnControllerList[1] = ControllerUtil.GetController(arg_4_0.difficultyBtn1_.transform, "state")
-	arg_4_0.difficultyBtnControllerList[2] = ControllerUtil.GetController(arg_4_0.difficultyBtn2_.transform, "state")
-	arg_4_0.difficultyBtnControllerList[3] = ControllerUtil.GetController(arg_4_0.difficultyBtn3_.transform, "state")
-	arg_4_0.challengeController = arg_4_0.fightBtnControllerEx_:GetController("state")
-	arg_4_0.rankController = ControllerUtil.GetController(arg_4_0.rankGo_.transform, "state")
-	arg_4_0.textLimit_ = arg_4_0.chatTxt_.gameObject:GetComponent("TextExtension")
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.SetListItem), arg_4_0.list_, SoloHeartDemonListItem)
+	slot0.difficultyBtnControllerList = {
+		ControllerUtil.GetController(slot0.difficultyBtn1_.transform, "state"),
+		ControllerUtil.GetController(slot0.difficultyBtn2_.transform, "state"),
+		ControllerUtil.GetController(slot0.difficultyBtn3_.transform, "state")
+	}
+	slot0.challengeController = slot0.fightBtnControllerEx_:GetController("state")
+	slot0.rankController = ControllerUtil.GetController(slot0.rankGo_.transform, "state")
+	slot0.textLimit_ = slot0.chatTxt_.gameObject:GetComponent("TextExtension")
+	slot0.list = LuaList.New(handler(slot0, slot0.SetListItem), slot0.list_, SoloHeartDemonListItem)
 end
 
-function var_0_0.SetListItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.rankData.rankList[arg_5_1]
-
-	arg_5_2:SetData(var_5_0, arg_5_1, 1)
+function slot0.SetListItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.rankData.rankList[slot1], slot1, 1)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	for iter_6_0 = 1, 3 do
-		arg_6_0:AddBtnListener(arg_6_0["difficultyBtn" .. iter_6_0 .. "_"], nil, function()
-			arg_6_0.selectDifficulty = iter_6_0
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["difficultyBtn" .. slot4 .. "_"], nil, function ()
+			uv0.selectDifficulty = uv1
 
-			arg_6_0:UpdateView()
-			arg_6_0:UpdateDifficultyControllerState(iter_6_0)
+			uv0:UpdateView()
+			uv0:UpdateDifficultyControllerState(uv1)
 		end)
 	end
 
-	arg_6_0:AddBtnListener(arg_6_0.fightBtn_, nil, function()
+	slot0:AddBtnListener(slot0.fightBtn_, nil, function ()
 		SoloHeartDemonAction.UpdateViewRedPoint()
 
-		if arg_6_0:CheckIsChallengeTime() then
-			local var_8_0 = SoloHeartDemonCfg[arg_6_0.soloHeartDemonID].stage_id[arg_6_0.selectDifficulty][2]
-
+		if uv0:CheckIsChallengeTime() then
 			gameContext:Go("/sectionSelectHero", {
-				section = var_8_0,
+				section = SoloHeartDemonCfg[uv0.soloHeartDemonID].stage_id[uv0.selectDifficulty][2],
 				sectionType = BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON,
-				activityID = arg_6_0.activityId
+				activityID = uv0.activityId
 			})
 		else
 			ShowTips(GetTips("SOLO_HEART_DEMON_TIME_OUT"))
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.upBtn_, nil, function()
+	slot0:AddBtnListener(slot0.upBtn_, nil, function ()
 		JumpTools.GoToSystem("/draw", {
-			poolId = DrawTools:GetRoleUpPoolID(arg_6_0.roleID)
+			poolId = DrawTools:GetRoleUpPoolID(uv0.roleID)
 		}, ViewConst.SYSTEM_ID.DRAW)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.GoToSystem("/soloHeartDemonReward", {
-			activityId = arg_6_0.activityId
+			activityId = uv0.activityId
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.chatBtn_, nil, function()
+	slot0:AddBtnListener(slot0.chatBtn_, nil, function ()
 		JumpTools.OpenPageByJump("chat", {
 			ignoreBG = true,
 			soloHeartChange = true,
 			chatToggleID = ChatConst.CHAT_CHANNEL_WORLD
 		}, ViewConst.SYSTEM_ID.CHAT)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.listGoBtn_, nil, function()
+	slot0:AddBtnListener(slot0.listGoBtn_, nil, function ()
 		JumpTools.GoToSystem("/soloHeartDemonRank", {
-			activityId = arg_6_0.activityId
+			activityId = uv0.activityId
 		})
 	end)
 end
 
-function var_0_0.CheckIsChallengeTime(arg_13_0)
-	return arg_13_0.challengeStage == 0
+function slot0.CheckIsChallengeTime(slot0)
+	return slot0.challengeStage == 0
 end
 
-function var_0_0.UpdateView(arg_14_0)
-	if arg_14_0.updateTimer2_ then
-		arg_14_0.updateTimer2_:Stop()
+function slot0.UpdateView(slot0)
+	if slot0.updateTimer2_ then
+		slot0.updateTimer2_:Stop()
 
-		arg_14_0.updateTimer2_ = nil
+		slot0.updateTimer2_ = nil
 	end
 
-	for iter_14_0, iter_14_1 in pairs(ActivityCfg.get_id_list_by_activity_template[270]) do
-		if ActivityData:GetActivityIsOpen(iter_14_1) then
-			arg_14_0.activityId = iter_14_1
+	slot4 = 270
+
+	for slot4, slot5 in pairs(ActivityCfg.get_id_list_by_activity_template[slot4]) do
+		if ActivityData:GetActivityIsOpen(slot5) then
+			slot0.activityId = slot5
 
 			break
 		end
 	end
 
-	if arg_14_0.selectDifficulty == nil then
-		arg_14_0.selectDifficulty = SoloHeartDemonData:GetDataByPara("selectDifficulty") or 3
+	if slot0.selectDifficulty == nil then
+		slot0.selectDifficulty = SoloHeartDemonData:GetDataByPara("selectDifficulty") or 3
 
 		SoloHeartDemonData:ResetSelectDifficulty()
 	end
 
-	arg_14_0.difficultyData = SoloHeartDemonData:GetDataByPara("difficultyData")
-	arg_14_0.soloHeartDemonID = SoloHeartDemonData:GetDataByPara("openEditor")
-	arg_14_0.challengeStage = SoloHeartDemonData:GetDataByPara("challengeStage")
-	arg_14_0.remainTime = ActivityData:GetActivityRefreshTime(ActivityConst.SOLO_HEART_DEMON)
-	arg_14_0.maxCompleteDifficulty = SoloHeartDemonData:GetDataByPara("maxCompleteDifficulty")
-	arg_14_0.templateID = SoloHeartDemonCfg[arg_14_0.soloHeartDemonID].heart_damon_id
-	arg_14_0.roleID = SoloHeartDemonUICfg[arg_14_0.templateID].hero_id
+	slot0.difficultyData = SoloHeartDemonData:GetDataByPara("difficultyData")
+	slot0.soloHeartDemonID = SoloHeartDemonData:GetDataByPara("openEditor")
+	slot0.challengeStage = SoloHeartDemonData:GetDataByPara("challengeStage")
+	slot0.remainTime = ActivityData:GetActivityRefreshTime(ActivityConst.SOLO_HEART_DEMON)
+	slot0.maxCompleteDifficulty = SoloHeartDemonData:GetDataByPara("maxCompleteDifficulty")
+	slot0.templateID = SoloHeartDemonCfg[slot0.soloHeartDemonID].heart_damon_id
+	slot0.roleID = SoloHeartDemonUICfg[slot0.templateID].hero_id
 
-	arg_14_0:UpdateDifficultyControllerState(arg_14_0.selectDifficulty)
-	arg_14_0:OnRankUpdate()
-	arg_14_0:LoadModel()
+	slot0:UpdateDifficultyControllerState(slot0.selectDifficulty)
+	slot0:OnRankUpdate()
+	slot0:LoadModel()
 
-	local var_14_0 = arg_14_0.selectDifficulty == 3 and "SoloHeartDemonUI_00026" or "SoloHeartDemonUI_00012"
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/SoloHeartDemonUI/" .. (slot0.selectDifficulty == 3 and "SoloHeartDemonUI_00026" or "SoloHeartDemonUI_00012"))
 
-	arg_14_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/SoloHeartDemonUI/" .. var_14_0)
-
-	if arg_14_0.selectDifficulty == 3 and arg_14_0.hardEffect_.activeSelf == false then
+	if slot0.selectDifficulty == 3 and slot0.hardEffect_.activeSelf == false then
 		manager.audio:PlayEffect("minigame_activity_2_4", "minigame_activity_2_4_xinmo_turn", "")
 	end
 
-	SetActive(arg_14_0.list.gameObject, arg_14_0.selectDifficulty == 3)
-	SetActive(arg_14_0.normalEffect_, arg_14_0.selectDifficulty ~= 3)
-	SetActive(arg_14_0.hardEffect_, arg_14_0.selectDifficulty == 3)
+	SetActive(slot0.list.gameObject, slot0.selectDifficulty == 3)
+	SetActive(slot0.normalEffect_, slot0.selectDifficulty ~= 3)
+	SetActive(slot0.hardEffect_, slot0.selectDifficulty == 3)
 
-	arg_14_0.timeTxt_.text = GetTips(arg_14_0.challengeStage == 0 and "SOLO_HEART_DEMON_CHALLENGE_TIME" or "SOLO_HEART_DEMON_REFRESH_TIME")
+	slot0.timeTxt_.text = GetTips(slot0.challengeStage == 0 and "SOLO_HEART_DEMON_CHALLENGE_TIME" or "SOLO_HEART_DEMON_REFRESH_TIME")
 
-	arg_14_0.challengeController:SetSelectedState(arg_14_0.challengeStage == 0 and "normal" or "lock")
-	arg_14_0:UpdateDrawView()
+	slot0.challengeController:SetSelectedState(slot0.challengeStage == 0 and "normal" or "lock")
+	slot0:UpdateDrawView()
 
-	arg_14_0.remainTxt_.text = manager.time:GetLostTimeStr2(arg_14_0.remainTime)
-	arg_14_0.updateTimer2_ = Timer.New(function()
-		arg_14_0.remainTxt_.text = manager.time:GetLostTimeStr2(arg_14_0.remainTime)
+	slot0.remainTxt_.text = manager.time:GetLostTimeStr2(slot0.remainTime)
+	slot0.updateTimer2_ = Timer.New(function ()
+		uv0.remainTxt_.text = manager.time:GetLostTimeStr2(uv0.remainTime)
 
 		if ActivityData:GetActivityIsOpen(ActivityConst.SOLO_HEART_DEMON) == false then
-			arg_14_0:Back()
+			uv0:Back()
 			ShowTips("SOLO_HEART_DEMON_REFRESH_TIPS")
 
-			arg_14_0.currentBossTemplateID = nil
+			uv0.currentBossTemplateID = nil
 		end
 	end, 1, -1, 1)
 
-	arg_14_0.updateTimer2_:Start()
+	slot0.updateTimer2_:Start()
 end
 
-function var_0_0.UpdateDrawView(arg_16_0)
-	SetActive(arg_16_0.upBtn_.gameObject, DrawTools:GetRoleUpPoolID(arg_16_0.roleID) ~= false)
+function slot0.UpdateDrawView(slot0)
+	SetActive(slot0.upBtn_.gameObject, DrawTools:GetRoleUpPoolID(slot0.roleID) ~= false)
 
-	if arg_16_0.updateTimer_ then
-		arg_16_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_16_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	if DrawTools:GetRoleUpPoolID(arg_16_0.roleID) == false then
+	if DrawTools:GetRoleUpPoolID(slot0.roleID) == false then
 		return
 	end
 
-	local var_16_0 = 0
-	local var_16_1 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.DRAW] or {}
+	slot1 = 0
 
-	for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-		if ActivityData:GetActivityIsOpen(iter_16_1) then
-			local var_16_2 = ActivityDrawPoolCfg[iter_16_1]
-
-			for iter_16_2, iter_16_3 in ipairs(var_16_2.config_list) do
-				if iter_16_3 == DrawTools:GetRoleUpPoolID(arg_16_0.roleID) then
-					var_16_0 = ActivityData:GetActivityData(iter_16_1).stopTime
+	for slot6, slot7 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.DRAW] or {}) do
+		if ActivityData:GetActivityIsOpen(slot7) then
+			for slot12, slot13 in ipairs(ActivityDrawPoolCfg[slot7].config_list) do
+				if slot13 == DrawTools:GetRoleUpPoolID(slot0.roleID) then
+					slot1 = ActivityData:GetActivityData(slot7).stopTime
 				end
 			end
 		end
 	end
 
-	arg_16_0.drawRemainTxt_.text = manager.time:GetLostTimeStr2(var_16_0)
-	arg_16_0.updateTimer_ = Timer.New(function()
-		arg_16_0.drawRemainTxt_.text = manager.time:GetLostTimeStr2(var_16_0)
+	slot0.drawRemainTxt_.text = manager.time:GetLostTimeStr2(slot1)
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0.drawRemainTxt_.text = manager.time:GetLostTimeStr2(uv1)
 
-		if var_16_0 - manager.time:GetServerTime() <= -1 then
-			SetActive(arg_16_0.upBtn_.gameObject, false)
+		if uv1 - manager.time:GetServerTime() <= -1 then
+			SetActive(uv0.upBtn_.gameObject, false)
 		end
-	end, 1, var_16_0 - manager.time:GetServerTime(), 1)
+	end, 1, slot1 - manager.time:GetServerTime(), 1)
 
-	arg_16_0.updateTimer_:Start()
+	slot0.updateTimer_:Start()
 end
 
-function var_0_0.UpdateDifficultyControllerState(arg_18_0, arg_18_1)
-	for iter_18_0 = 1, 3 do
-		local var_18_0 = arg_18_0.difficultyData[iter_18_0]
-
-		if arg_18_1 == iter_18_0 then
-			arg_18_0.difficultyBtnControllerList[iter_18_0]:SetSelectedState(var_18_0.challengeState == 2 and "selecfinish" or "select")
+function slot0.UpdateDifficultyControllerState(slot0, slot1)
+	for slot5 = 1, 3 do
+		if slot1 == slot5 then
+			slot0.difficultyBtnControllerList[slot5]:SetSelectedState(slot0.difficultyData[slot5].challengeState == 2 and "selecfinish" or "select")
 		else
-			arg_18_0.difficultyBtnControllerList[iter_18_0]:SetSelectedState(var_18_0.challengeState == 2 and "finish" or "unSelect")
+			slot0.difficultyBtnControllerList[slot5]:SetSelectedState(slot6.challengeState == 2 and "finish" or "unSelect")
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0.exitView_ = false
-	arg_19_0.activityId = arg_19_0.params_.activityId
+function slot0.OnEnter(slot0)
+	slot0.exitView_ = false
+	slot0.activityId = slot0.params_.activityId
 
 	RankAction.QueryCommonRank(RankConst.RANK_ID.SOLOHEARTDEMON)
 	manager.ui:SetMainCamera("soloHeartDemon")
 	manager.windowBar:SetWhereTag("soloHeartDemon")
-	arg_19_0:InitBackScene()
-	arg_19_0:InitChat()
-	arg_19_0:UpdateView()
-	arg_19_0:BindRedPoint()
+	slot0:InitBackScene()
+	slot0:InitChat()
+	slot0:UpdateView()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.InitChat(arg_20_0)
-	arg_20_0.lastChatNumber = ChatData:GetWorldChannelNum()
+function slot0.InitChat(slot0)
+	slot0.lastChatNumber = ChatData:GetWorldChannelNum()
 
-	ChatAction.SetWorldChannelNum(var_0_1, function(arg_21_0)
-		if arg_21_0 == 0 then
+	ChatAction.SetWorldChannelNum(uv0, function (slot0)
+		if slot0 == 0 then
 			ChatData:SetChannelTimestamp()
 			ChatAction.EnterChatUI(3)
 		end
 	end)
-	arg_20_0:RefreshReceiveMessage()
+	slot0:RefreshReceiveMessage()
 end
 
-function var_0_0.ClearMsgTimer(arg_22_0)
-	if arg_22_0.msgTimer_ then
-		arg_22_0.msgTimer_:Stop()
+function slot0.ClearMsgTimer(slot0)
+	if slot0.msgTimer_ then
+		slot0.msgTimer_:Stop()
 
-		arg_22_0.msgTimer_ = nil
+		slot0.msgTimer_ = nil
 	end
 end
 
-function var_0_0.RefreshReceiveMessage(arg_23_0)
-	arg_23_0:ClearMsgTimer()
-	arg_23_0:RefreshWorldChat()
+function slot0.RefreshReceiveMessage(slot0)
+	slot0:ClearMsgTimer()
+	slot0:RefreshWorldChat()
 
-	arg_23_0.msgTimer_ = Timer.New(function()
-		arg_23_0:RefreshWorldChat()
+	slot0.msgTimer_ = Timer.New(function ()
+		uv0:RefreshWorldChat()
 	end, 2, -1)
 
-	arg_23_0.msgTimer_:Start()
+	slot0.msgTimer_:Start()
 end
 
-function var_0_0.RefreshWorldChat(arg_25_0)
-	local var_25_0 = ChatData:GetWorldChatData()
-	local var_25_1 = var_25_0[#var_25_0]
+function slot0.RefreshWorldChat(slot0)
+	slot1 = ChatData:GetWorldChatData()
 
-	if var_25_1 then
-		local var_25_2 = ""
-		local var_25_3 = ""
+	if slot1[#slot1] then
+		slot3 = ""
+		slot4 = ""
 
-		if var_25_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or var_25_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			if var_25_1.id == USER_ID then
-				var_25_2 = PlayerData:GetPlayerInfo().nick or ""
-			else
-				var_25_2 = var_25_1.nick or ""
-			end
-
-			if var_25_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT then
-				var_25_3 = var_25_1.content or ""
-			else
-				var_25_3 = string.format("[%s]", ChatStickerCfg[tonumber(var_25_1.content)].name)
-			end
+		if slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+			slot3 = slot2.id == USER_ID and (PlayerData:GetPlayerInfo().nick or "") or slot2.nick or ""
+			slot4 = slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and (slot2.content or "") or string.format("[%s]", ChatStickerCfg[tonumber(slot2.content)].name)
 		end
 
-		local var_25_4 = ""
+		slot5 = ""
 
-		if var_25_2 ~= "" then
-			var_25_4 = var_25_2 .. ":" .. var_25_3
+		if slot3 ~= "" then
+			slot5 = slot3 .. ":" .. slot4
 		end
 
-		arg_25_0.textLimit_:SetText(var_25_4)
+		slot0.textLimit_:SetText(slot5)
 
 		return
 	end
 
-	arg_25_0.textLimit_:SetText("")
+	slot0.textLimit_:SetText("")
 end
 
-function var_0_0.IsShowRank(arg_26_0)
-	return arg_26_0.remainTime - 86400 > manager.time:GetServerTime() and arg_26_0.challengeStage == 1
+function slot0.IsShowRank(slot0)
+	return manager.time:GetServerTime() < slot0.remainTime - 86400 and slot0.challengeStage == 1
 end
 
-function var_0_0.OnRankUpdate(arg_27_0)
-	arg_27_0.rankData = RankData:GetCommonRank(RankConst.RANK_ID.SOLOHEARTDEMON)
+function slot0.OnRankUpdate(slot0)
+	slot0.rankData = RankData:GetCommonRank(RankConst.RANK_ID.SOLOHEARTDEMON)
 
-	arg_27_0.rankController:SetSelectedState("mini")
+	slot0.rankController:SetSelectedState("mini")
 
-	if arg_27_0.selectDifficulty ~= 3 or arg_27_0.rankData == nil then
+	if slot0.selectDifficulty ~= 3 or slot0.rankData == nil then
 		return
 	end
 
-	if arg_27_0:IsShowRank() then
+	if slot0:IsShowRank() then
 		return
 	end
 
-	if #arg_27_0.rankData.rankList >= 5 then
-		arg_27_0.rankController:SetSelectedState("all")
+	if #slot0.rankData.rankList >= 5 then
+		slot0.rankController:SetSelectedState("all")
 	end
 
-	arg_27_0.list:StartScroll(5)
+	slot0.list:StartScroll(5)
 end
 
-function var_0_0.OnSoloDemonHeartUpdate(arg_28_0)
-	arg_28_0:UpdateView()
+function slot0.OnSoloDemonHeartUpdate(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.BindRedPoint(arg_29_0)
-	manager.redPoint:bindUIandKey(arg_29_0.rewardBtn_.transform, RedPointConst.SOLO_HEART_DEMON_REWARD)
-	manager.redPoint:bindUIandKey(arg_29_0.fightBtn_.transform, RedPointConst.SOLO_HEART_DEMON_FIRST_VIEW)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, RedPointConst.SOLO_HEART_DEMON_REWARD)
+	manager.redPoint:bindUIandKey(slot0.fightBtn_.transform, RedPointConst.SOLO_HEART_DEMON_FIRST_VIEW)
 end
 
-function var_0_0.UnbindRedPoint(arg_30_0)
-	manager.redPoint:unbindUIandKey(arg_30_0.rewardBtn_.transform, RedPointConst.SOLO_HEART_DEMON_REWARD)
-	manager.redPoint:unbindUIandKey(arg_30_0.fightBtn_.transform, RedPointConst.SOLO_HEART_DEMON_FIRST_VIEW)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, RedPointConst.SOLO_HEART_DEMON_REWARD)
+	manager.redPoint:unbindUIandKey(slot0.fightBtn_.transform, RedPointConst.SOLO_HEART_DEMON_FIRST_VIEW)
 end
 
-function var_0_0.OnExit(arg_31_0)
-	arg_31_0.exitView_ = true
+function slot0.OnExit(slot0)
+	slot0.exitView_ = true
 
-	arg_31_0:ClearMsgTimer()
-	arg_31_0:UnbindRedPoint()
+	slot0:ClearMsgTimer()
+	slot0:UnbindRedPoint()
 	manager.windowBar:HideBar()
-	arg_31_0:DestroyBackScene()
-	arg_31_0:UnloadModel()
+	slot0:DestroyBackScene()
+	slot0:UnloadModel()
 	manager.ui:ResetMainCamera()
 
-	if arg_31_0.updateTimer_ then
-		arg_31_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_31_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	if arg_31_0.updateTimer2_ then
-		arg_31_0.updateTimer2_:Stop()
+	if slot0.updateTimer2_ then
+		slot0.updateTimer2_:Stop()
 
-		arg_31_0.updateTimer2_ = nil
+		slot0.updateTimer2_ = nil
 	end
 
-	SetActive(arg_31_0.hardEffect_, false)
+	SetActive(slot0.hardEffect_, false)
 
-	if arg_31_0.lastChatNumber == 0 or arg_31_0.lastChatNumber == var_0_1 then
-		arg_31_0.lastChatNumber = 1
+	if slot0.lastChatNumber == 0 or slot0.lastChatNumber == uv0 then
+		slot0.lastChatNumber = 1
 	end
 
-	if ChatData:GetWorldChannelNum() ~= var_0_1 then
+	if ChatData:GetWorldChannelNum() ~= uv0 then
 		return
 	end
 
 	if manager.net.tcpConnection_:GetMachineState() == "connecting" or manager.net.tcpConnection_:GetMachineState() == "connected" then
-		ChatAction.SetWorldChannelNum(arg_31_0.lastChatNumber, function(arg_32_0)
-			if arg_32_0 == 0 then
+		ChatAction.SetWorldChannelNum(slot0.lastChatNumber, function (slot0)
+			if slot0 == 0 then
 				ChatAction.EnterChatUI(2)
 				ChatData:SetChannelTimestamp()
 			end
@@ -363,7 +345,7 @@ function var_0_0.OnExit(arg_31_0)
 	end
 end
 
-function var_0_0.OnTop(arg_33_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -373,83 +355,74 @@ function var_0_0.OnTop(arg_33_0)
 	manager.windowBar:SetGameHelpKey("SOLO_HEART_DEMON_EXPLAIN")
 end
 
-function var_0_0.Dispose(arg_34_0)
-	if arg_34_0.list then
-		arg_34_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_34_0.list = nil
+		slot0.list = nil
 	end
 
-	var_0_0.super.Dispose(arg_34_0)
-	Object.Destroy(arg_34_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-function var_0_0.InitBackScene(arg_35_0)
-	local var_35_0 = "UI/Common/BackgroundQuad"
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_35_0.backGround_ = manager.resourcePool:Get(var_35_0, ASSET_TYPE.SCENE)
-	arg_35_0.backGroundTrs_ = arg_35_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_35_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_35_1 = GameDisplayCfg.solo_heart_demon_bg_pos.value
-
-	arg_35_0.backGroundTrs_.localPosition = Vector3(var_35_1[1], var_35_1[2], var_35_1[3])
-	arg_35_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_35_2 = GameDisplayCfg.solo_heart_demon_bg_pos.scale
-
-	arg_35_0.backGroundTrs_.localScale = Vector3(var_35_2[1], var_35_2[2], var_35_2[3])
+	slot2 = GameDisplayCfg.solo_heart_demon_bg_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], slot2[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot3 = GameDisplayCfg.solo_heart_demon_bg_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(slot3[1], slot3[2], slot3[3])
 end
 
-function var_0_0.DestroyBackScene(arg_36_0)
-	if arg_36_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_36_0.backGround_, ASSET_TYPE.SCENE)
+function slot0.DestroyBackScene(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 
-		arg_36_0.backGround_ = nil
+		slot0.backGround_ = nil
 	end
 end
 
-function var_0_0.UnloadModel(arg_37_0)
-	if arg_37_0.bossModel ~= nil then
-		manager.resourcePool:DestroyOrReturn(arg_37_0.bossModel, ASSET_TYPE.TPOSE)
+function slot0.UnloadModel(slot0)
+	if slot0.bossModel ~= nil then
+		manager.resourcePool:DestroyOrReturn(slot0.bossModel, ASSET_TYPE.TPOSE)
 
-		arg_37_0.bossModel = nil
+		slot0.bossModel = nil
 
-		manager.resourcePool:StopAsyncQuest(arg_37_0.loadIndex)
+		manager.resourcePool:StopAsyncQuest(slot0.loadIndex)
 
-		arg_37_0.loadIndex = nil
-		arg_37_0.currentBossTemplateID = nil
+		slot0.loadIndex = nil
+		slot0.currentBossTemplateID = nil
 	end
 end
 
-function var_0_0.LoadModel(arg_38_0)
-	if arg_38_0.currentBossTemplateID == arg_38_0.templateID then
+function slot0.LoadModel(slot0)
+	if slot0.currentBossTemplateID == slot0.templateID then
 		return
 	end
 
-	arg_38_0:UnloadModel()
+	slot0:UnloadModel()
 
-	arg_38_0.currentBossTemplateID = arg_38_0.templateID
-
-	local var_38_0 = SoloHeartDemonUICfg[arg_38_0.templateID]
-
-	arg_38_0.loadIndex = manager.resourcePool:AsyncLoad("Char/" .. var_38_0.model, ASSET_TYPE.TPOSE, function(arg_39_0)
-		if arg_38_0.exitView_ or arg_38_0.currentBossTemplateID ~= arg_38_0.templateID then
-			manager.resourcePool:DestroyOrReturn(arg_39_0, ASSET_TYPE.TPOSE)
+	slot0.currentBossTemplateID = slot0.templateID
+	slot0.loadIndex = manager.resourcePool:AsyncLoad("Char/" .. SoloHeartDemonUICfg[slot0.templateID].model, ASSET_TYPE.TPOSE, function (slot0)
+		if uv0.exitView_ or uv0.currentBossTemplateID ~= uv0.templateID then
+			manager.resourcePool:DestroyOrReturn(slot0, ASSET_TYPE.TPOSE)
 
 			return
 		end
 
-		local var_39_0 = var_38_0.model_pos
-		local var_39_1 = var_38_0.model_rot
-		local var_39_2 = var_38_0.model_scale
-
-		arg_38_0.bossModel = arg_39_0
-		arg_39_0.transform.localPosition = Vector3(var_39_0[1], var_39_0[2], var_39_0[3])
-		arg_39_0.transform.localEulerAngles = Vector3(var_39_1[1], var_39_1[2], var_39_1[3])
-		arg_39_0.transform.localScale = Vector3(var_39_2[1], var_39_2[2], var_39_2[3])
+		slot1 = uv1.model_pos
+		slot2 = uv1.model_rot
+		slot3 = uv1.model_scale
+		uv0.bossModel = slot0
+		slot0.transform.localPosition = Vector3(slot1[1], slot1[2], slot1[3])
+		slot0.transform.localEulerAngles = Vector3(slot2[1], slot2[2], slot2[3])
+		slot0.transform.localScale = Vector3(slot3[1], slot3[2], slot3[3])
 	end)
 end
 
-return var_0_0
+return slot0

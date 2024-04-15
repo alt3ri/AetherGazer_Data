@@ -1,269 +1,238 @@
-local var_0_0 = class("ActivityQuizEnterView", ReduxView)
+slot0 = class("ActivityQuizEnterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityQuizTools.GetEnterUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivityQuizTools.GetEnterUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.clearCon_ = ControllerUtil.GetController(arg_4_0.transform_, "clear")
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ActivityQuizTaskItem)
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.clearCon_ = ControllerUtil.GetController(slot0.transform_, "clear")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ActivityQuizTaskItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:Refresh(arg_5_0.list_[arg_5_1], arg_5_0.activityID_)
-
-	local var_5_0 = manager.time:GetServerTime()
-
-	arg_5_2:RefreshTime(var_5_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.list_[slot1], slot0.activityID_)
+	slot2:RefreshTime(manager.time:GetServerTime())
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.startBtn_, nil, function()
-		if arg_6_0:IsActivitying() and arg_6_0:IsOpenTime() then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if uv0:IsActivitying() and uv0:IsOpenTime() then
 			ActivityQuizAction.StartMarch()
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.allReceiveBtn_, nil, function()
-		local var_8_0 = {}
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
+		slot0 = {}
 
-		for iter_8_0, iter_8_1 in ipairs(arg_6_0.list_) do
-			local var_8_1 = iter_8_1.id
-			local var_8_2 = AssignmentCfg[var_8_1]
-
-			if iter_8_1.complete_flag < 1 and iter_8_1.progress >= var_8_2.need then
-				table.insert(var_8_0, var_8_1)
+		for slot4, slot5 in ipairs(uv0.list_) do
+			if slot5.complete_flag < 1 and AssignmentCfg[slot5.id].need <= slot5.progress then
+				table.insert(slot0, slot6)
 			end
 		end
 
-		TaskAction:SubmitTaskList(var_8_0)
+		TaskAction:SubmitTaskList(slot0)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.tipBtn_, nil, function()
-		local var_9_0 = ActivityQuizTools.GetHelpKey(arg_6_0.activityID_)
-
-		if var_9_0 ~= "" then
+	slot0:AddBtnListener(slot0.tipBtn_, nil, function ()
+		if ActivityQuizTools.GetHelpKey(uv0.activityID_) ~= "" then
 			JumpTools.OpenPageByJump("gameHelp", {
 				icon = "icon_i",
 				iconColor = Color(1, 1, 1),
 				title = GetTips("STAGE_DESCRIPE"),
-				content = GetTips(var_9_0),
-				key = var_9_0
+				content = GetTips(slot0),
+				key = slot0
 			})
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.activityID_ = arg_10_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_10_0:RefreshUI()
-	arg_10_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_10_0, arg_10_0.RefreshTask))
+	slot0:RefreshUI()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshTask))
 
-	if arg_10_0:IsOpenTime() then
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_QUIZ_OPEN .. "_" .. arg_10_0.activityID_, 0)
-		saveData("activity_quiz_enter", tostring(arg_10_0.activityID_), manager.time:GetServerTime())
+	if slot0:IsOpenTime() then
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_QUIZ_OPEN .. "_" .. slot0.activityID_, 0)
+		saveData("activity_quiz_enter", tostring(slot0.activityID_), manager.time:GetServerTime())
 	end
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0:RefreshActivityData()
-	arg_11_0:RefreshTime()
-	arg_11_0:RefreshTask()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshActivityData()
+	slot0:RefreshTime()
+	slot0:RefreshTask()
 end
 
-function var_0_0.RefreshActivityData(arg_12_0)
-	arg_12_0.activityData_ = ActivityData:GetActivityData(arg_12_0.activityID_)
-	arg_12_0.startTime_ = arg_12_0.activityData_.startTime
-	arg_12_0.stopTime_ = arg_12_0.activityData_.stopTime
-
-	local var_12_0 = GameSetting.activity_quiz_open_time.value
-
-	arg_12_0.openTbl_, arg_12_0.closeTbl_ = var_12_0[1], var_12_0[2]
-	arg_12_0.dayOpen_.text = string.format("%02d:%02d-%02d:%02d", arg_12_0.openTbl_[1], arg_12_0.openTbl_[2], arg_12_0.closeTbl_[1], arg_12_0.closeTbl_[2])
+function slot0.RefreshActivityData(slot0)
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
+	slot1 = GameSetting.activity_quiz_open_time.value
+	slot0.closeTbl_ = slot1[2]
+	slot0.openTbl_ = slot1[1]
+	slot0.dayOpen_.text = string.format("%02d:%02d-%02d:%02d", slot0.openTbl_[1], slot0.openTbl_[2], slot0.closeTbl_[1], slot0.closeTbl_[2])
 end
 
-function var_0_0.RefreshTime(arg_13_0)
-	local var_13_0 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot0:StopTimer()
 
-	arg_13_0:StopTimer()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.stateCon_:SetSelectedState("close")
 
-	if var_13_0 < arg_13_0.startTime_ then
-		arg_13_0.stateCon_:SetSelectedState("close")
-
-		arg_13_0.timeLable_.text = GetTips("SOLO_NOT_OPEN")
-		arg_13_0.timer_ = Timer.New(function()
-			if arg_13_0.startTime_ <= manager.time:GetServerTime() then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+		slot0.timeLable_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			if uv0.startTime_ <= manager.time:GetServerTime() then
+				uv0:StopTimer()
+				uv0:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
-	elseif var_13_0 < arg_13_0.stopTime_ then
-		arg_13_0.stateCon_:SetSelectedState(arg_13_0:IsOpenTime() and "unlock" or "close")
+		slot0.timer_:Start()
+	elseif slot1 < slot0.stopTime_ then
+		slot0.stateCon_:SetSelectedState(slot0:IsOpenTime() and "unlock" or "close")
 
-		arg_13_0.timeLable_.text = manager.time:GetLostTimeStr2(arg_13_0.stopTime_)
-		arg_13_0.timer_ = Timer.New(function()
-			var_13_0 = manager.time:GetServerTime()
+		slot0.timeLable_.text = manager.time:GetLostTimeStr2(slot0.stopTime_)
+		slot0.timer_ = Timer.New(function ()
+			uv0 = manager.time:GetServerTime()
 
-			if arg_13_0.stopTime_ <= var_13_0 then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+			if uv1.stopTime_ <= uv0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			else
-				arg_13_0.stateCon_:SetSelectedState(arg_13_0:IsOpenTime() and "unlock" or "close")
+				uv1.stateCon_:SetSelectedState(uv1:IsOpenTime() and "unlock" or "close")
 
-				arg_13_0.timeLable_.text = manager.time:GetLostTimeStr2(arg_13_0.stopTime_)
+				uv1.timeLable_.text = manager.time:GetLostTimeStr2(uv1.stopTime_)
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_13_0.timeLable_.text = GetTips("TIME_OVER")
+		slot0.timeLable_.text = GetTips("TIME_OVER")
 
-		arg_13_0.stateCon_:SetSelectedState("close")
+		slot0.stateCon_:SetSelectedState("close")
 	end
 end
 
-function var_0_0.StopTimer(arg_16_0)
-	if arg_16_0.timer_ then
-		arg_16_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_16_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTask(arg_17_0)
-	local var_17_0 = ActivityQuizTools.GetTaskActivityID(arg_17_0.activityID_)
-	local var_17_1 = ActivityData:GetActivityData(var_17_0).subActivityIdList
+function slot0.RefreshTask(slot0)
+	slot1 = ActivityQuizTools.GetTaskActivityID(slot0.activityID_)
+	slot3 = ActivityData:GetActivityData(slot1).subActivityIdList
+	slot0.list_ = {}
+	slot5 = {}
 
-	arg_17_0.list_ = {}
-
-	local var_17_2 = {}
-	local var_17_3 = {}
-	local var_17_4 = TaskTools:GetActivityTaskList(var_17_0) or {}
-
-	for iter_17_0, iter_17_1 in pairs(var_17_4) do
-		table.insert(var_17_2, iter_17_1)
+	for slot10, slot11 in pairs(TaskTools:GetActivityTaskList(slot1) or {}) do
+		table.insert({}, slot11)
 	end
 
-	for iter_17_2, iter_17_3 in ipairs(var_17_1) do
-		if ActivityData:GetActivityData(iter_17_3):IsActivitying() then
-			local var_17_5 = TaskTools:GetActivityTaskList(iter_17_3) or {}
-
-			for iter_17_4, iter_17_5 in pairs(var_17_5) do
-				table.insert(var_17_2, iter_17_5)
+	for slot10, slot11 in ipairs(slot3) do
+		if ActivityData:GetActivityData(slot11):IsActivitying() then
+			for slot17, slot18 in pairs(TaskTools:GetActivityTaskList(slot11) or {}) do
+				table.insert(slot4, slot18)
 			end
 		else
-			local var_17_6 = AssignmentCfg.get_id_list_by_activity_id[iter_17_3]
-
-			for iter_17_6, iter_17_7 in ipairs(var_17_6) do
-				local var_17_7 = TaskData2:ParserData({
+			for slot17, slot18 in ipairs(AssignmentCfg.get_id_list_by_activity_id[slot11]) do
+				table.insert(slot5, TaskData2:ParserData({
 					complete_flag = 0,
 					progress = 0,
-					id = iter_17_7
-				})
-
-				table.insert(var_17_3, var_17_7)
+					id = slot18
+				}))
 			end
 		end
 	end
 
-	local var_17_8 = {}
-	local var_17_9 = {}
-	local var_17_10 = {}
+	slot7 = {}
+	slot8 = {}
+	slot9 = {}
 
-	for iter_17_8, iter_17_9 in pairs(var_17_2) do
-		local var_17_11 = iter_17_9.id
-		local var_17_12 = AssignmentCfg[var_17_11]
+	for slot13, slot14 in pairs(slot4) do
+		slot16 = AssignmentCfg[slot14.id]
 
-		if iter_17_9.complete_flag >= 1 then
-			table.insert(var_17_10, iter_17_9)
-		elseif iter_17_9.progress >= var_17_12.need then
-			table.insert(var_17_8, iter_17_9)
+		if slot14.complete_flag >= 1 then
+			table.insert(slot9, slot14)
+		elseif slot16.need <= slot14.progress then
+			table.insert(slot7, slot14)
 		else
-			table.insert(var_17_9, iter_17_9)
+			table.insert(slot8, slot14)
 		end
 	end
 
-	local function var_17_13(arg_18_0, arg_18_1)
-		local var_18_0 = AssignmentCfg[arg_18_0.id]
-		local var_18_1 = AssignmentCfg[arg_18_1.id]
-
-		if var_18_0.type ~= var_18_1.type then
-			return var_18_0.type < var_18_1.type
+	function slot10(slot0, slot1)
+		if AssignmentCfg[slot0.id].type ~= AssignmentCfg[slot1.id].type then
+			return slot2.type < slot3.type
 		end
 
-		return arg_18_0.id < arg_18_1.id
+		return slot0.id < slot1.id
 	end
 
-	table.sort(var_17_8, var_17_13)
-	table.sort(var_17_9, var_17_13)
-	table.sort(var_17_10, var_17_13)
-	table.sort(var_17_3, var_17_13)
-	table.insertto(arg_17_0.list_, var_17_8)
-	table.insertto(arg_17_0.list_, var_17_9)
-	table.insertto(arg_17_0.list_, var_17_10)
-	table.insertto(arg_17_0.list_, var_17_3)
-	arg_17_0.scrollHelper_:StartScroll(#arg_17_0.list_)
+	table.sort(slot7, slot10)
+	table.sort(slot8, slot10)
+	table.sort(slot9, slot10)
+	table.sort(slot5, slot10)
+	table.insertto(slot0.list_, slot7)
+	table.insertto(slot0.list_, slot8)
+	table.insertto(slot0.list_, slot9)
+	table.insertto(slot0.list_, slot5)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 
-	if #var_17_8 > 0 then
-		arg_17_0.clearCon_:SetSelectedState("true")
+	if #slot7 > 0 then
+		slot0.clearCon_:SetSelectedState("true")
 	else
-		arg_17_0.clearCon_:SetSelectedState("false")
+		slot0.clearCon_:SetSelectedState("false")
 	end
 
-	arg_17_0:StartTaskTimer()
+	slot0:StartTaskTimer()
 end
 
-function var_0_0.StartTaskTimer(arg_19_0)
-	arg_19_0:StopTaskTimer()
+function slot0.StartTaskTimer(slot0)
+	slot0:StopTaskTimer()
 
-	arg_19_0.taskTimer_ = Timer.New(function()
-		local var_20_0 = manager.time:GetServerTime()
-
-		for iter_20_0, iter_20_1 in ipairs(arg_19_0.scrollHelper_:GetItemList()) do
-			iter_20_1:RefreshTime(var_20_0)
+	slot0.taskTimer_ = Timer.New(function ()
+		for slot4, slot5 in ipairs(uv0.scrollHelper_:GetItemList()) do
+			slot5:RefreshTime(manager.time:GetServerTime())
 		end
 	end, 1, -1)
 
-	arg_19_0.taskTimer_:Start()
+	slot0.taskTimer_:Start()
 end
 
-function var_0_0.StopTaskTimer(arg_21_0)
-	if arg_21_0.taskTimer_ then
-		arg_21_0.taskTimer_:Stop()
+function slot0.StopTaskTimer(slot0)
+	if slot0.taskTimer_ then
+		slot0.taskTimer_:Stop()
 
-		arg_21_0.taskTimer_ = nil
+		slot0.taskTimer_ = nil
 	end
 end
 
-function var_0_0.IsActivitying(arg_22_0)
-	local var_22_0 = manager.time:GetServerTime()
-
-	if var_22_0 < arg_22_0.startTime_ then
-		local var_22_1 = GetTips("OPEN_TIME")
-
-		ShowTips(string.format(var_22_1, manager.time:GetLostTimeStr2(arg_22_0.startTime_, nil, true)))
+function slot0.IsActivitying(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(slot0.startTime_, nil, true)))
 
 		return false
 	end
 
-	if var_22_0 >= arg_22_0.stopTime_ then
+	if slot0.stopTime_ <= slot1 then
 		ShowTips("TIME_OVER")
 
 		return false
@@ -272,69 +241,65 @@ function var_0_0.IsActivitying(arg_22_0)
 	return true
 end
 
-function var_0_0.IsOpenTime(arg_23_0)
-	local var_23_0 = manager.time:GetServerTime()
-	local var_23_1 = tonumber(manager.time:STimeDescS(var_23_0, "!%Y"))
-	local var_23_2 = tonumber(manager.time:STimeDescS(var_23_0, "!%m"))
-	local var_23_3 = tonumber(manager.time:STimeDescS(var_23_0, "!%d"))
-	local var_23_4 = {
-		year = var_23_1,
-		month = var_23_2,
-		day = var_23_3,
-		hour = arg_23_0.openTbl_[1],
-		min = arg_23_0.openTbl_[2],
-		sec = arg_23_0.openTbl_[3]
-	}
-	local var_23_5 = {
-		year = var_23_1,
-		month = var_23_2,
-		day = var_23_3,
-		hour = arg_23_0.closeTbl_[1],
-		min = arg_23_0.closeTbl_[2],
-		sec = arg_23_0.closeTbl_[3]
-	}
-	local var_23_6 = manager.time:Table2ServerTime(var_23_4)
-	local var_23_7 = manager.time:Table2ServerTime(var_23_5)
+function slot0.IsOpenTime(slot0)
+	slot1 = manager.time:GetServerTime()
+	slot2 = tonumber(manager.time:STimeDescS(slot1, "!%Y"))
+	slot3 = tonumber(manager.time:STimeDescS(slot1, "!%m"))
+	slot4 = tonumber(manager.time:STimeDescS(slot1, "!%d"))
 
-	if var_23_6 <= var_23_0 and var_23_0 < var_23_7 then
+	if manager.time:Table2ServerTime({
+		year = slot2,
+		month = slot3,
+		day = slot4,
+		hour = slot0.openTbl_[1],
+		min = slot0.openTbl_[2],
+		sec = slot0.openTbl_[3]
+	}) <= slot1 and slot1 < manager.time:Table2ServerTime({
+		year = slot2,
+		month = slot3,
+		day = slot4,
+		hour = slot0.closeTbl_[1],
+		min = slot0.closeTbl_[2],
+		sec = slot0.closeTbl_[3]
+	}) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnActivityQuizStartMarch(arg_24_0)
-	ActivityQuizTools.SetCurActivityID(arg_24_0.activityID_)
+function slot0.OnActivityQuizStartMarch(slot0)
+	ActivityQuizTools.SetCurActivityID(slot0.activityID_)
 	JumpTools.OpenPageByJump("activityQuizMatchPop", {
-		activityId = arg_24_0.activityID_
+		activityId = slot0.activityID_
 	})
 end
 
-function var_0_0.OnTop(arg_25_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_26_0)
-	arg_26_0:StopTimer()
-	arg_26_0:StopTaskTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:StopTaskTimer()
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0.scrollHelper_:GetItemList()) do
-		iter_26_1:OnExit()
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_27_0)
-	arg_27_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.scrollHelper_:GetItemList()) do
-		iter_27_1:Dispose()
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:Dispose()
 	end
 
-	arg_27_0.scrollHelper_:Dispose()
-	arg_27_0.super.Dispose(arg_27_0)
+	slot0.scrollHelper_:Dispose()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

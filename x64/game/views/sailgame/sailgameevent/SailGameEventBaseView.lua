@@ -1,88 +1,84 @@
-local var_0_0 = class("SailGameEventBaseView", ReduxView)
+slot0 = class("SailGameEventBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdVoyagesUI/XH3rdVoyagesBaseEventPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	if arg_5_0.cancelBtn_ then
-		arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
-			arg_5_0:CancelEvent()
+function slot0.AddUIListener(slot0)
+	if slot0.cancelBtn_ then
+		slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+			uv0:CancelEvent()
 		end)
 	end
 
-	if arg_5_0.acceptBtn_ then
-		arg_5_0:AddBtnListener(arg_5_0.acceptBtn_, nil, function()
-			arg_5_0:AcceptEvent()
+	if slot0.acceptBtn_ then
+		slot0:AddBtnListener(slot0.acceptBtn_, nil, function ()
+			uv0:AcceptEvent()
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.curStageIndex_ = arg_8_0.params_.stageIndex
-	arg_8_0.eventID_ = arg_8_0.params_.eventID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.curStageIndex_ = slot0.params_.stageIndex
+	slot0.eventID_ = slot0.params_.eventID
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshReward()
-	arg_9_0:RefreshTitle()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReward()
+	slot0:RefreshTitle()
 end
 
-function var_0_0.RefreshReward(arg_10_0)
-	local var_10_0 = SailGameData:GetCurGameData(activityID).eventList[arg_10_0.curStageIndex_].rewardNum
+function slot0.RefreshReward(slot0)
+	if SailGameData:GetCurGameData(activityID).eventList[slot0.curStageIndex_].rewardNum > 0 then
+		slot0.rewardIcon_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_SKADI_SEA_COIN.item_id)
+		slot0.rewardNumText_.text = slot2
 
-	if var_10_0 > 0 then
-		arg_10_0.rewardIcon_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_SKADI_SEA_COIN.item_id)
-		arg_10_0.rewardNumText_.text = var_10_0
-
-		SetActive(arg_10_0.rewardPanelGo_, true)
+		SetActive(slot0.rewardPanelGo_, true)
 	else
-		SetActive(arg_10_0.rewardPanelGo_, false)
+		SetActive(slot0.rewardPanelGo_, false)
 	end
 end
 
-function var_0_0.RefreshTitle(arg_11_0)
-	arg_11_0.titleText_.text = SailGameEventCfg[arg_11_0.eventID_].name
-	arg_11_0.descText_.text = SailGameEventCfg[arg_11_0.eventID_].desc
+function slot0.RefreshTitle(slot0)
+	slot0.titleText_.text = SailGameEventCfg[slot0.eventID_].name
+	slot0.descText_.text = SailGameEventCfg[slot0.eventID_].desc
 
-	local var_11_0 = getSpriteWithoutAtlas("TextureConfig/Fishing/FishPortrait/" .. SailGameEventCfg[arg_11_0.eventID_].picture)
-
-	if var_11_0 then
-		arg_11_0.roleIcon_.sprite = var_11_0
+	if getSpriteWithoutAtlas("TextureConfig/Fishing/FishPortrait/" .. SailGameEventCfg[slot0.eventID_].picture) then
+		slot0.roleIcon_.sprite = slot1
 	end
 end
 
-function var_0_0.CancelEvent(arg_12_0)
-	arg_12_0.tipsIndex_ = nil
+function slot0.CancelEvent(slot0)
+	slot0.tipsIndex_ = nil
 
-	SailGameAction.EventOperate(arg_12_0.activityID_, arg_12_0.curStageIndex_, SailGameConst.EVENT_COMMON_OPERATE.OVER)
+	SailGameAction.EventOperate(slot0.activityID_, slot0.curStageIndex_, SailGameConst.EVENT_COMMON_OPERATE.OVER)
 end
 
-function var_0_0.AcceptEvent(arg_13_0)
-	arg_13_0.tipsIndex_ = SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS
+function slot0.AcceptEvent(slot0)
+	slot0.tipsIndex_ = SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS
 
-	SailGameAction.EventOperate(arg_13_0.activityID_, arg_13_0.curStageIndex_, SailGameConst.EVENT_COMMON_OPERATE.OVER)
+	SailGameAction.EventOperate(slot0.activityID_, slot0.curStageIndex_, SailGameConst.EVENT_COMMON_OPERATE.OVER)
 end
 
-function var_0_0.OnEventOperateSuccess(arg_14_0)
-	SailGameAction.SetEventEndMark(arg_14_0.activityID_, arg_14_0.tipsIndex_)
-	SailGameTools.GoToGameView(arg_14_0.activityID_)
+function slot0.OnEventOperateSuccess(slot0)
+	SailGameAction.SetEventEndMark(slot0.activityID_, slot0.tipsIndex_)
+	SailGameTools.GoToGameView(slot0.activityID_)
 end
 
-return var_0_0
+return slot0

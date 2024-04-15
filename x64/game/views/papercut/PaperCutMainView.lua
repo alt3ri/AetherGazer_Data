@@ -1,106 +1,106 @@
-local var_0_0 = class("PaperCutMainView", ReduxView)
+slot0 = class("PaperCutMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/PaperCut/PaperCutMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.clickSwitchItemHandler_ = handler(arg_3_0, arg_3_0.OnClickSwitchItem)
-	arg_3_0.onSenceLoadedHandler_ = handler(arg_3_0, arg_3_0.OnSceneLoaded)
+function slot0.Init(slot0)
+	slot0.clickSwitchItemHandler_ = handler(slot0, slot0.OnClickSwitchItem)
+	slot0.onSenceLoadedHandler_ = handler(slot0, slot0.OnSceneLoaded)
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.sceneLoaded_ = false
-	arg_3_0.switchList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, PaperCutSelectItem)
+	slot0.sceneLoaded_ = false
+	slot0.switchList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, PaperCutSelectItem)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_5_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("paperCutReward", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
 	manager.windowBar:SetGameHelpKey("ACTIVITY_CUT_DESCRIPE")
-	manager.windowBar:RegistBackCallBack(function()
-		arg_7_0:UnLoadPaperCutScene()
-		arg_7_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:UnLoadPaperCutScene()
+		uv0:Back()
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_7_0:UnLoadPaperCutScene()
-		gameContext:Go("/home", nil, nil, true)
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0:UnLoadPaperCutScene()
+		gameContext:Go("/home", nil, , true)
 	end)
 
-	if arg_7_0.sceneLoaded_ == false then
-		arg_7_0:LoadPaperCutScene()
+	if slot0.sceneLoaded_ == false then
+		slot0:LoadPaperCutScene()
 	end
 
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
-	arg_7_0.stopTime_ = ActivityData:GetActivityData(arg_7_0.activityID_).stopTime
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	arg_7_0:RefreshUI()
-	arg_7_0:AddTimer()
-	manager.redPoint:bindUIandKey(arg_7_0.rewardBtnTrans_, string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, arg_7_0.activityID_))
+	slot0:RefreshUI()
+	slot0:AddTimer()
+	manager.redPoint:bindUIandKey(slot0.rewardBtnTrans_, string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, slot0.activityID_))
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_10_0:StopTimer()
-	manager.redPoint:unbindUIandKey(arg_10_0.rewardBtnTrans_, string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, arg_10_0.activityID_))
+	slot0:StopTimer()
+	manager.redPoint:unbindUIandKey(slot0.rewardBtnTrans_, string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, slot0.activityID_))
 
-	arg_10_0.scrollPos_ = arg_10_0.switchList_:GetScrolledPosition()
+	slot0.scrollPos_ = slot0.switchList_:GetScrolledPosition()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.onSenceLoadedHandler_ = nil
-	arg_11_0.clickSwitchItemHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.onSenceLoadedHandler_ = nil
+	slot0.clickSwitchItemHandler_ = nil
 
-	arg_11_0.switchList_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+	slot0.switchList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.LoadPaperCutScene(arg_12_0)
+function slot0.LoadPaperCutScene(slot0)
 	manager.ui:SetMainCamera("paperCut")
 
 	manager.ui.mainCameraCom_.orthographic = true
 
-	PaperCutTool:LoadScene(arg_12_0.onSenceLoadedHandler_)
+	PaperCutTool:LoadScene(slot0.onSenceLoadedHandler_)
 end
 
-function var_0_0.OnSceneLoaded(arg_13_0)
-	arg_13_0.sceneLoaded_ = true
+function slot0.OnSceneLoaded(slot0)
+	slot0.sceneLoaded_ = true
 end
 
-function var_0_0.UnLoadPaperCutScene(arg_14_0)
-	arg_14_0.sceneLoaded_ = false
+function slot0.UnLoadPaperCutScene(slot0)
+	slot0.sceneLoaded_ = false
 
 	manager.ui:ResetMainCamera()
 
@@ -109,81 +109,80 @@ function var_0_0.UnLoadPaperCutScene(arg_14_0)
 	PaperCutTool:UnLoadScene()
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	arg_15_0.subActivityList_ = ActivityCfg[arg_15_0.activityID_].sub_activity_list
+function slot0.RefreshUI(slot0)
+	slot0.subActivityList_ = ActivityCfg[slot0.activityID_].sub_activity_list
 
-	if arg_15_0.scrollPos_ ~= nil then
-		arg_15_0.switchList_:StartScrollByPosition(#arg_15_0.subActivityList_, arg_15_0.scrollPos_)
+	if slot0.scrollPos_ ~= nil then
+		slot0.switchList_:StartScrollByPosition(#slot0.subActivityList_, slot0.scrollPos_)
 	else
-		arg_15_0.switchList_:StartScroll(#arg_15_0.subActivityList_)
+		slot0.switchList_:StartScroll(#slot0.subActivityList_)
 	end
 end
 
-function var_0_0.IndexItem(arg_16_0, arg_16_1, arg_16_2)
-	arg_16_2:SetData(arg_16_0.activityID_, arg_16_0.subActivityList_[arg_16_1])
-	arg_16_2:SetClickCallBack(arg_16_0.clickSwitchItemHandler_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityID_, slot0.subActivityList_[slot1])
+	slot2:SetClickCallBack(slot0.clickSwitchItemHandler_)
 end
 
-function var_0_0.AddTimer(arg_17_0)
-	if manager.time:GetServerTime() >= arg_17_0.stopTime_ then
-		arg_17_0.remainTimeText_.text = GetTips("TIME_OVER")
+function slot0.AddTimer(slot0)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
+		slot0.remainTimeText_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	arg_17_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_17_0.stopTime_)
+	slot5 = slot0.stopTime_
+	slot0.remainTimeText_.text = manager.time:GetLostTimeStr(slot5)
 
-	local var_17_0 = arg_17_0.switchList_:GetItemList()
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_0) do
-		iter_17_1:RefreshLock()
+	for slot5, slot6 in ipairs(slot0.switchList_:GetItemList()) do
+		slot6:RefreshLock()
 	end
 
-	arg_17_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_17_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_17_0.stopTime_ then
-			arg_17_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
-			arg_17_0.remainTimeText_.text = GetTips("TIME_OVER")
+			uv0.remainTimeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		var_17_0 = arg_17_0.switchList_:GetItemList()
+		uv1 = uv0.switchList_:GetItemList()
 
-		for iter_18_0, iter_18_1 in ipairs(var_17_0) do
-			iter_18_1:RefreshLock()
+		for slot3, slot4 in ipairs(uv1) do
+			slot4:RefreshLock()
 		end
 
-		arg_17_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_17_0.stopTime_)
+		uv0.remainTimeText_.text = manager.time:GetLostTimeStr(uv0.stopTime_)
 	end, 1, -1)
 
-	arg_17_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnClickSwitchItem(arg_20_0, arg_20_1)
-	arg_20_0.selectActivityID_ = arg_20_1
+function slot0.OnClickSwitchItem(slot0, slot1)
+	slot0.selectActivityID_ = slot1
 
-	arg_20_0:Go("/paperCutPlay", {
-		activityID = arg_20_1,
-		mainActivityID = arg_20_0.activityID_,
-		goHomeHandler = handler(arg_20_0, arg_20_0.OnGoHome)
+	slot0:Go("/paperCutPlay", {
+		activityID = slot1,
+		mainActivityID = slot0.activityID_,
+		goHomeHandler = handler(slot0, slot0.OnGoHome)
 	})
-	PaperCutTool:GameStart(arg_20_1)
+	PaperCutTool:GameStart(slot1)
 end
 
-function var_0_0.OnGoHome(arg_21_0)
-	arg_21_0:UnLoadPaperCutScene()
-	gameContext:Go("/home", nil, nil, true)
+function slot0.OnGoHome(slot0)
+	slot0:UnLoadPaperCutScene()
+	gameContext:Go("/home", nil, , true)
 end
 
-return var_0_0
+return slot0

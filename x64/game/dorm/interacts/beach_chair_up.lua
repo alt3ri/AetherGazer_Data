@@ -1,22 +1,18 @@
-local var_0_0 = {
-	[0] = {
-		{
-			animeActionSubName = "",
-			crossFade = 0.05,
-			action = "play",
-			entity = 0,
-			animeActionName = "beach_chair_up"
+return {
+	sequence = {
+		[0] = {
+			{
+				animeActionSubName = "",
+				crossFade = 0.05,
+				action = "play",
+				entity = 0,
+				animeActionName = "beach_chair_up"
+			}
 		}
-	}
-}
-local var_0_1 = {
-	sequence = var_0_0,
+	},
 	keys = {
 		0
-	}
+	},
+	duration = 5.3,
+	fps = 30
 }
-
-var_0_1.duration = 5.3
-var_0_1.fps = 30
-
-return var_0_1

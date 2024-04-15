@@ -1,107 +1,104 @@
-local var_0_0 = class("ActivityRaceSwitchItem", ReduxView)
+slot0 = class("ActivityRaceSwitchItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.lockController_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
-	arg_1_0.scoreController_ = ControllerUtil.GetController(arg_1_0.transform_, "score")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.scoreController_ = ControllerUtil.GetController(slot0.transform_, "score")
 
-	SetActive(arg_1_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.button_, nil, function()
-		if arg_2_0.isLock_ then
-			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_2_0.startTime_)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.isLock_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.startTime_)))
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_2_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		ActivityRaceData:SetSelectActivityID(arg_2_0.activityID_)
-		arg_2_0:Go("/activityRaceSwitch", {
-			activityID = arg_2_0.activityID_,
-			mainActivityID = arg_2_0.mainActivityID_
+		ActivityRaceData:SetSelectActivityID(uv0.activityID_)
+		uv0:Go("/activityRaceSwitch", {
+			activityID = uv0.activityID_,
+			mainActivityID = uv0.mainActivityID_
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.redPointStr_ = string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, arg_4_1, arg_4_2)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.redPointStr_ = string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, slot1, slot2)
 
-	manager.redPoint:bindUIandKey(arg_4_0.transform_, arg_4_0.redPointStr_)
+	manager.redPoint:bindUIandKey(slot0.transform_, slot0.redPointStr_)
 
-	arg_4_0.activityID_ = arg_4_2
-	arg_4_0.mainActivityID_ = arg_4_1
-	arg_4_0.startTime_ = ActivityData:GetActivityData(arg_4_0.activityID_).startTime
-	arg_4_0.stopTime_ = ActivityData:GetActivityData(arg_4_0.activityID_).stopTime
+	slot0.activityID_ = slot2
+	slot0.mainActivityID_ = slot1
+	slot0.startTime_ = ActivityData:GetActivityData(slot0.activityID_).startTime
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	arg_5_0.isLock_ = manager.time:GetServerTime() < arg_5_0.startTime_
+function slot0.RefreshUI(slot0)
+	slot0.isLock_ = manager.time:GetServerTime() < slot0.startTime_
 
-	arg_5_0.lockController_:SetSelectedState(tostring(arg_5_0.isLock_))
+	slot0.lockController_:SetSelectedState(tostring(slot0.isLock_))
 
-	arg_5_0.mapNameText_.text = GetI18NText(ActivityRaceCfg[arg_5_0.activityID_].map_name)
+	slot0.mapNameText_.text = GetI18NText(ActivityRaceCfg[slot0.activityID_].map_name)
 
-	arg_5_0:RefreshScore()
-	arg_5_0:RefreshCompleted()
+	slot0:RefreshScore()
+	slot0:RefreshCompleted()
 end
 
-function var_0_0.RefreshScore(arg_6_0)
-	local var_6_0 = ActivityRaceData:GetStateList()
-
-	if var_6_0[arg_6_0.activityID_] then
-		arg_6_0.score_ = var_6_0[arg_6_0.activityID_].score
+function slot0.RefreshScore(slot0)
+	if ActivityRaceData:GetStateList()[slot0.activityID_] then
+		slot0.score_ = slot1[slot0.activityID_].score
 	else
-		arg_6_0.scoreController_:SetSelectedState("false")
+		slot0.scoreController_:SetSelectedState("false")
 	end
 
-	if arg_6_0.score_ and arg_6_0.score_ ~= 0 then
-		arg_6_0.scoreController_:SetSelectedState("true")
+	if slot0.score_ and slot0.score_ ~= 0 then
+		slot0.scoreController_:SetSelectedState("true")
 
-		arg_6_0.scoreText_.text = arg_6_0.score_
+		slot0.scoreText_.text = slot0.score_
 	end
 end
 
-function var_0_0.RefreshCompleted(arg_7_0)
-	return
+function slot0.RefreshCompleted(slot0)
 end
 
-function var_0_0.RefreshLock(arg_8_0)
-	if arg_8_0.isLock_ == false then
+function slot0.RefreshLock(slot0)
+	if slot0.isLock_ == false then
 		return
 	end
 
-	arg_8_0.isLock_ = manager.time:GetServerTime() < arg_8_0.startTime_
+	slot0.isLock_ = manager.time:GetServerTime() < slot0.startTime_
 
-	if arg_8_0.isLock_ == true then
-		arg_8_0.textTime_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_8_0.startTime_))
+	if slot0.isLock_ == true then
+		slot0.textTime_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot0.startTime_))
 	else
-		arg_8_0.lockController_:SetSelectedState("false")
+		slot0.lockController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
-	manager.redPoint:unbindUIandKey(arg_9_0.transform_, arg_9_0.redPointStr_)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, slot0.redPointStr_)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.gameObject_ = nil
-	arg_10_0.transform_ = nil
+function slot0.Dispose(slot0)
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

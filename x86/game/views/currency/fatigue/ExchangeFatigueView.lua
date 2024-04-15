@@ -1,121 +1,120 @@
-local var_0_0 = class("ExchangeFatigueView", ReduxView)
+slot0 = class("ExchangeFatigueView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/AddstaminapopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.isItemExchangeController_ = arg_3_0.controllerEx_:GetController("isItemExchange")
-	arg_3_0.topBtnList_ = {}
+	slot0.isItemExchangeController_ = slot0.controllerEx_:GetController("isItemExchange")
+	slot0.topBtnList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.topBtnList_[iter_3_0] = StoreBtnView.New(arg_3_0[string.format("toggleBtnGo%s_", iter_3_0)], CommonBtnTypeConst.EXCHANGE_VITALITY, iter_3_0)
+	for slot4 = 1, 3 do
+		slot0.topBtnList_[slot4] = StoreBtnView.New(slot0[string.format("toggleBtnGo%s_", slot4)], CommonBtnTypeConst.EXCHANGE_VITALITY, slot4)
 	end
 
-	arg_3_0.exchangeFatigueByItemView_ = ExchangeFatigueByItem.New(arg_3_0.itemExchangeGo_)
-	arg_3_0.exchangeFatigueByCurrencyView_ = ExchangeFatigueByCurrency.New(arg_3_0.currencyExchangeGo_)
-	arg_3_0.dailyFatigueView_ = DailyFatiguePage.New(arg_3_0.dailyFatigueGo_)
-	arg_3_0.OnSwitchBtnTypeHandler_ = handler(arg_3_0, arg_3_0.OnSwitchBtnType)
+	slot0.exchangeFatigueByItemView_ = ExchangeFatigueByItem.New(slot0.itemExchangeGo_)
+	slot0.exchangeFatigueByCurrencyView_ = ExchangeFatigueByCurrency.New(slot0.currencyExchangeGo_)
+	slot0.dailyFatigueView_ = DailyFatiguePage.New(slot0.dailyFatigueGo_)
+	slot0.OnSwitchBtnTypeHandler_ = handler(slot0, slot0.OnSwitchBtnType)
 
-	arg_3_0:BindDailyFatigueRedPoint()
+	slot0:BindDailyFatigueRedPoint()
 end
 
-function var_0_0.BindDailyFatigueRedPoint(arg_4_0)
-	manager.redPoint:bindUIandKey(arg_4_0.toggleBtnGo3_.transform, RedPointConst.DAILY_FATIGUE)
+function slot0.BindDailyFatigueRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.toggleBtnGo3_.transform, RedPointConst.DAILY_FATIGUE)
 	manager.redPoint:updateKey(RedPointConst.DAILY_FATIGUE)
 end
 
-function var_0_0.UnbindDailyFatigueRedPoint(arg_5_0)
-	manager.redPoint:unbindUIandKey(arg_5_0.toggleBtnGo3_.transform, RedPointConst.DAILY_FATIGUE)
+function slot0.UnbindDailyFatigueRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.toggleBtnGo3_.transform, RedPointConst.DAILY_FATIGUE)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.exchangeFatigueByItemView_:InitData()
-	arg_6_0.exchangeFatigueByItemView_:OnEnter()
-	arg_6_0.exchangeFatigueByCurrencyView_:OnEnter()
-	arg_6_0.dailyFatigueView_:OnEnter()
+function slot0.OnEnter(slot0)
+	slot0.exchangeFatigueByItemView_:InitData()
+	slot0.exchangeFatigueByItemView_:OnEnter()
+	slot0.exchangeFatigueByCurrencyView_:OnEnter()
+	slot0.dailyFatigueView_:OnEnter()
 
-	local var_6_0 = arg_6_0.dailyFatigueView_:CheckEnable()
-	local var_6_1 = arg_6_0.params_.page
+	slot1 = slot0.dailyFatigueView_:CheckEnable()
 
-	if var_6_1 and var_6_1 ~= 0 then
-		arg_6_0.selectIndex_ = var_6_1
+	if slot0.params_.page and slot2 ~= 0 then
+		slot0.selectIndex_ = slot2
 	else
-		arg_6_0.selectIndex_ = var_6_0 and 3 or 1
+		slot0.selectIndex_ = slot1 and 3 or 1
 	end
 
-	arg_6_0:RefreshTopBtn()
-	arg_6_0:RefreshBottomBtn()
-	manager.notify:RegistListener(COMMON_BTN_TYPE_SWITCH, arg_6_0.OnSwitchBtnTypeHandler_)
+	slot0:RefreshTopBtn()
+	slot0:RefreshBottomBtn()
+	manager.notify:RegistListener(COMMON_BTN_TYPE_SWITCH, slot0.OnSwitchBtnTypeHandler_)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0:RestoreBar()
-	manager.notify:RemoveListener(COMMON_BTN_TYPE_SWITCH, arg_7_0.OnSwitchBtnTypeHandler_)
-	arg_7_0.exchangeFatigueByItemView_:OnExit()
-	arg_7_0.exchangeFatigueByCurrencyView_:OnExit()
-	arg_7_0.dailyFatigueView_:OnExit()
+function slot0.OnExit(slot0)
+	slot0:RestoreBar()
+	manager.notify:RemoveListener(COMMON_BTN_TYPE_SWITCH, slot0.OnSwitchBtnTypeHandler_)
+	slot0.exchangeFatigueByItemView_:OnExit()
+	slot0.exchangeFatigueByCurrencyView_:OnExit()
+	slot0.dailyFatigueView_:OnExit()
 end
 
-function var_0_0.OnTop(arg_8_0)
-	arg_8_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
-	arg_9_0:UnbindDailyFatigueRedPoint()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:UnbindDailyFatigueRedPoint()
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.topBtnList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.topBtnList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.topBtnList_ = nil
-	arg_9_0.OnSwitchBtnTypeHandler_ = nil
+	slot0.topBtnList_ = nil
+	slot0.OnSwitchBtnTypeHandler_ = nil
 
-	arg_9_0.exchangeFatigueByItemView_:Dispose()
+	slot0.exchangeFatigueByItemView_:Dispose()
 
-	arg_9_0.exchangeFatigueByItemView_ = nil
+	slot0.exchangeFatigueByItemView_ = nil
 
-	arg_9_0.exchangeFatigueByCurrencyView_:Dispose()
+	slot0.exchangeFatigueByCurrencyView_:Dispose()
 
-	arg_9_0.exchangeFatigueByCurrencyView_ = nil
+	slot0.exchangeFatigueByCurrencyView_ = nil
 
-	arg_9_0.dailyFatigueView_:Dispose()
+	slot0.dailyFatigueView_:Dispose()
 
-	arg_9_0.dailyFatigueView_ = nil
+	slot0.dailyFatigueView_ = nil
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.sureBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.sureBtn_, nil, function ()
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
 			payment_dundun_diamond_check = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY)
 		})
 
-		if arg_10_0.selectIndex_ == 1 then
-			arg_10_0.exchangeFatigueByItemView_:OnExchange()
+		if uv0.selectIndex_ == 1 then
+			uv0.exchangeFatigueByItemView_:OnExchange()
 		else
-			arg_10_0.exchangeFatigueByCurrencyView_:OnExchange()
+			uv0.exchangeFatigueByCurrencyView_:OnExchange()
 		end
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.maskBtn_, nil, function()
-		arg_10_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.cancelBtn_, nil, function()
-		arg_10_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateBar(arg_14_0)
-	arg_14_0.lastBarList_ = manager.windowBar:GetLastBarList() or {}
-	arg_14_0.lastAddBarList_ = manager.windowBar:GetLastAddBarList()
-	arg_14_0.lastCanClickBarList_ = manager.windowBar:GetLastCanClickBarList()
+function slot0.UpdateBar(slot0)
+	slot0.lastBarList_ = manager.windowBar:GetLastBarList() or {}
+	slot0.lastAddBarList_ = manager.windowBar:GetLastAddBarList()
+	slot0.lastCanClickBarList_ = manager.windowBar:GetLastCanClickBarList()
 
 	manager.windowBar:SwitchBar({
 		CurrencyConst.CURRENCY_TYPE_VITALITY,
@@ -129,85 +128,83 @@ function var_0_0.UpdateBar(arg_14_0)
 	manager.windowBar:SetAsLastSibling()
 end
 
-function var_0_0.RestoreBar(arg_15_0)
-	if arg_15_0.lastBarList_ then
-		manager.windowBar:SwitchBar(arg_15_0.lastBarList_)
+function slot0.RestoreBar(slot0)
+	if slot0.lastBarList_ then
+		manager.windowBar:SwitchBar(slot0.lastBarList_)
 	end
 
-	if arg_15_0.lastAddBarList_ then
-		for iter_15_0, iter_15_1 in ipairs(arg_15_0.lastAddBarList_) do
-			manager.windowBar:SetBarCanAdd(iter_15_1, true)
+	if slot0.lastAddBarList_ then
+		for slot4, slot5 in ipairs(slot0.lastAddBarList_) do
+			manager.windowBar:SetBarCanAdd(slot5, true)
 		end
 	end
 
-	if arg_15_0.lastCanClickBarList_ then
-		for iter_15_2, iter_15_3 in ipairs(arg_15_0.lastCanClickBarList_) do
-			manager.windowBar:SetBarCanClick(iter_15_3, true)
+	if slot0.lastCanClickBarList_ then
+		for slot4, slot5 in ipairs(slot0.lastCanClickBarList_) do
+			manager.windowBar:SetBarCanClick(slot5, true)
 		end
 	end
 end
 
-function var_0_0.OnSwitchBtnType(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_1 ~= CommonBtnTypeConst.EXCHANGE_VITALITY or arg_16_0.selectIndex_ == arg_16_2 then
+function slot0.OnSwitchBtnType(slot0, slot1, slot2)
+	if slot1 ~= CommonBtnTypeConst.EXCHANGE_VITALITY or slot0.selectIndex_ == slot2 then
 		return
 	end
 
-	arg_16_0.selectIndex_ = arg_16_2
+	slot0.selectIndex_ = slot2
 
-	arg_16_0:RefreshTopBtn()
-	arg_16_0:RefreshBottomBtn()
+	slot0:RefreshTopBtn()
+	slot0:RefreshBottomBtn()
 end
 
-function var_0_0.RefreshTopBtn(arg_17_0)
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.topBtnList_) do
-		iter_17_1:RefreshUI(arg_17_0.selectIndex_)
+function slot0.RefreshTopBtn(slot0)
+	for slot4, slot5 in pairs(slot0.topBtnList_) do
+		slot5:RefreshUI(slot0.selectIndex_)
 	end
 end
 
-function var_0_0.RefreshBottomBtn(arg_18_0)
-	local var_18_0 = true
+function slot0.RefreshBottomBtn(slot0)
+	slot1 = true
 
-	if arg_18_0.selectIndex_ == 1 then
-		arg_18_0.isItemExchangeController_:SetSelectedIndex(1)
+	if slot0.selectIndex_ == 1 then
+		slot0.isItemExchangeController_:SetSelectedIndex(1)
 
-		var_18_0 = arg_18_0.exchangeFatigueByItemView_:HasMaterial()
+		slot1 = slot0.exchangeFatigueByItemView_:HasMaterial()
 
-		arg_18_0.dailyFatigueView_:OnUnSelect()
-	elseif arg_18_0.selectIndex_ == 2 then
-		arg_18_0.isItemExchangeController_:SetSelectedIndex(0)
-		arg_18_0.dailyFatigueView_:OnUnSelect()
+		slot0.dailyFatigueView_:OnUnSelect()
+	elseif slot0.selectIndex_ == 2 then
+		slot0.isItemExchangeController_:SetSelectedIndex(0)
+		slot0.dailyFatigueView_:OnUnSelect()
 	else
-		arg_18_0.isItemExchangeController_:SetSelectedIndex(2)
-		arg_18_0.dailyFatigueView_:OnSelect()
+		slot0.isItemExchangeController_:SetSelectedIndex(2)
+		slot0.dailyFatigueView_:OnSelect()
 	end
 
-	arg_18_0.sureBtn_.interactable = var_18_0
+	slot0.sureBtn_.interactable = slot1
 end
 
-function var_0_0.OnTryToUseItem(arg_19_0, arg_19_1, arg_19_2)
-	if isSuccess(arg_19_1.result) then
-		local var_19_0 = PlayerData:GetPlayerInfo().userLevel
-
-		if GameLevelSetting[var_19_0].fatigue_max <= ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) then
+function slot0.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		if GameLevelSetting[PlayerData:GetPlayerInfo().userLevel].fatigue_max <= ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) then
 			CurrencyData:SetFatigueCallFlag(0)
 		end
 
 		ShowTips("EXCHANGE_SUCCESS")
-		arg_19_0:Back()
+		slot0:Back()
 	else
-		ShowTips(arg_19_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.OnBuyFatigue(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_1.result == 0 then
+function slot0.OnBuyFatigue(slot0, slot1, slot2)
+	if slot1.result == 0 then
 		ShowTips("TRANSACTION_SUCCESS")
-		arg_20_0:Back()
+		slot0:Back()
 	else
-		ShowTips(arg_20_1.result)
+		ShowTips(slot1.result)
 
 		return
 	end
 end
 
-return var_0_0
+return slot0

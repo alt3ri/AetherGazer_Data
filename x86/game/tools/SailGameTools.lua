@@ -1,189 +1,149 @@
-local var_0_0 = {}
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
+slot1, slot2, slot3, slot4 = nil
 
-function var_0_0.LoadScene(arg_1_0)
-	var_0_4 = false
-	var_0_1 = arg_1_0
+return {
+	LoadScene = function (slot0)
+		uv0 = false
+		uv1 = slot0
 
-	local var_1_0 = SceneManager.GetSceneByName("X222")
+		if SceneManager.GetSceneByName("X222") and slot1.isLoaded == true then
+			uv0 = true
 
-	if var_1_0 and var_1_0.isLoaded == true then
-		var_0_4 = true
+			if uv1 then
+				uv1()
 
-		if var_0_1 then
-			var_0_1()
-
-			var_0_1 = nil
-		end
-
-		return
-	end
-
-	if var_0_2 then
-		return
-	end
-
-	var_0_2 = Asset.LoadLevelAsync("Levels/X222", true)
-
-	if var_0_3 then
-		var_0_3:Stop()
-
-		var_0_3 = nil
-	end
-
-	var_0_3 = FrameTimer.New(var_0_0.Process, 1, -1)
-
-	var_0_3:Start()
-end
-
-function var_0_0.Process()
-	if var_0_2:IsDone() then
-		if var_0_1 then
-			var_0_1()
-
-			var_0_1 = nil
-		end
-
-		var_0_2 = nil
-		var_0_4 = true
-
-		if var_0_3 then
-			var_0_3:Stop()
-
-			var_0_3 = nil
-		end
-	end
-end
-
-function var_0_0.UnLoadScene()
-	if var_0_2 or not var_0_4 then
-		return
-	end
-
-	var_0_2 = nil
-
-	local var_3_0 = SceneManager.GetSceneByName("X222")
-
-	if var_3_0 and var_3_0.isLoaded == true then
-		SceneManager.UnloadSceneAsync("X222")
-	end
-
-	var_0_4 = false
-
-	manager.audio:Pause("effect", false)
-end
-
-function var_0_0.GoToGameView(arg_4_0)
-	if not isNil(SailGameManager.Instance) and SailGameManager.Instance:IsRunning() then
-		JumpTools.OpenPageByJump("/sailGame", {
-			activityID = arg_4_0
-		})
-	else
-		var_0_0.LoadScene(function()
-			local var_5_0 = SailGameData:GetCurGameData(arg_4_0)
-			local var_5_1 = GameSetting.activity_skadi_sea_total_time.value[1]
-			local var_5_2 = 0
-			local var_5_3 = GameSetting.activity_skadi_sea_event_time.value
-			local var_5_4 = var_5_0.curStageIndex
-
-			if var_5_4 - 1 > 0 then
-				var_5_2 = var_5_3[var_5_4 - 1]
+				uv1 = nil
 			end
 
-			local var_5_5 = SailGameDataForExchange.New()
+			return
+		end
 
-			var_5_5.curStageIndex = var_5_4 - 1
-			var_5_5.startTime = var_5_2
-			var_5_5.maxTime = GameSetting.activity_skadi_sea_total_time.value[1]
+		if uv2 then
+			return
+		end
 
-			local var_5_6 = {}
-			local var_5_7 = SailGameConst.STAGE_TIME[arg_4_0]
+		uv2 = Asset.LoadLevelAsync("Levels/X222", true)
 
-			for iter_5_0, iter_5_1 in pairs(var_5_7) do
-				var_5_6[iter_5_1] = iter_5_0
+		if uv3 then
+			uv3:Stop()
+
+			uv3 = nil
+		end
+
+		uv3 = FrameTimer.New(uv4.Process, 1, -1)
+
+		uv3:Start()
+	end,
+	Process = function ()
+		if uv0:IsDone() then
+			if uv1 then
+				uv1()
+
+				uv1 = nil
 			end
 
-			var_5_5.eventTimeList = var_5_6
+			uv0 = nil
+			uv2 = true
 
-			local var_5_8 = {}
-			local var_5_9 = SailGameConst.GAME_TIME_TIPS
+			if uv3 then
+				uv3:Stop()
 
-			for iter_5_2, iter_5_3 in pairs(var_5_9) do
-				var_5_8[#var_5_8 + 1] = iter_5_2
+				uv3 = nil
 			end
+		end
+	end,
+	UnLoadScene = function ()
+		if uv0 or not uv1 then
+			return
+		end
 
-			var_5_5.tipsTimeList = var_5_8
+		uv0 = nil
 
-			SailGameManager.Instance:SetExchangeData(var_5_5)
+		if SceneManager.GetSceneByName("X222") and slot0.isLoaded == true then
+			SceneManager.UnloadSceneAsync("X222")
+		end
+
+		uv1 = false
+
+		manager.audio:Pause("effect", false)
+	end,
+	GoToGameView = function (slot0)
+		if not isNil(SailGameManager.Instance) and SailGameManager.Instance:IsRunning() then
 			JumpTools.OpenPageByJump("/sailGame", {
-				activityID = arg_4_0
+				activityID = slot0
 			})
-		end)
-	end
-end
-
-function var_0_0.ShutDown()
-	if var_0_4 == true then
-		if not isNil(SailGameManager.Instance) then
-			SailGameManager.Instance:ShutDown()
-		end
-
-		var_0_0.UnLoadScene()
-	end
-end
-
-function var_0_0.GetBuildingTotalReward(arg_7_0, arg_7_1)
-	local var_7_0 = SailGameData:GetBuildingLastReceiveTimeList(arg_7_0)[arg_7_1]
-
-	if not var_7_0 then
-		return 0
-	end
-
-	local var_7_1 = manager.time:GetServerTime() - var_7_0
-	local var_7_2 = var_0_0.GetBuildingTimePerReward()
-	local var_7_3 = math.floor(var_7_1 / var_7_2)
-
-	return SailGameBuildingCfg[arg_7_1].token_get[1][2] * var_7_3
-end
-
-function var_0_0.GetNextRecoverTimeStep(arg_8_0)
-	local var_8_0 = SailGameData:GetSailCount(arg_8_0)
-	local var_8_1 = GameSetting.activity_skadi_sea_be_out_num_max.value[1]
-	local var_8_2 = -1
-
-	if var_8_0 < var_8_1 then
-		local var_8_3 = var_0_0.GetSailRecoverTime()
-		local var_8_4 = SailGameData:GetFullRecoverTimeStep(arg_8_0)
-		local var_8_5 = var_8_4 - manager.time:GetServerTime()
-		local var_8_6 = var_8_1 - var_8_0
-
-		if var_8_6 == 1 then
-			var_8_2 = var_8_4 + 1
 		else
-			var_8_2 = manager.time:GetServerTime() + (var_8_5 - var_8_3 * (var_8_6 - 1) + 1)
+			uv0.LoadScene(function ()
+				slot1 = GameSetting.activity_skadi_sea_total_time.value[1]
+				slot2 = 0
+
+				if SailGameData:GetCurGameData(uv0).curStageIndex - 1 > 0 then
+					slot2 = GameSetting.activity_skadi_sea_event_time.value[slot4 - 1]
+				end
+
+				slot5 = SailGameDataForExchange.New()
+				slot5.curStageIndex = slot4 - 1
+				slot5.startTime = slot2
+				slot5.maxTime = GameSetting.activity_skadi_sea_total_time.value[1]
+
+				for slot11, slot12 in pairs(SailGameConst.STAGE_TIME[uv0]) do
+					-- Nothing
+				end
+
+				slot5.eventTimeList = {
+					[slot12] = slot11
+				}
+				slot8 = {}
+
+				for slot13, slot14 in pairs(SailGameConst.GAME_TIME_TIPS) do
+					slot8[#slot8 + 1] = slot13
+				end
+
+				slot5.tipsTimeList = slot8
+
+				SailGameManager.Instance:SetExchangeData(slot5)
+				JumpTools.OpenPageByJump("/sailGame", {
+					activityID = uv0
+				})
+			end)
 		end
+	end,
+	ShutDown = function ()
+		if uv0 == true then
+			if not isNil(SailGameManager.Instance) then
+				SailGameManager.Instance:ShutDown()
+			end
+
+			uv1.UnLoadScene()
+		end
+	end,
+	GetBuildingTotalReward = function (slot0, slot1)
+		if not SailGameData:GetBuildingLastReceiveTimeList(slot0)[slot1] then
+			return 0
+		end
+
+		return SailGameBuildingCfg[slot1].token_get[1][2] * math.floor((manager.time:GetServerTime() - slot2) / uv0.GetBuildingTimePerReward())
+	end,
+	GetNextRecoverTimeStep = function (slot0)
+		slot3 = -1
+
+		if SailGameData:GetSailCount(slot0) < GameSetting.activity_skadi_sea_be_out_num_max.value[1] then
+			slot3 = slot2 - slot1 == 1 and slot5 + 1 or manager.time:GetServerTime() + SailGameData:GetFullRecoverTimeStep(slot0) - manager.time:GetServerTime() - uv0.GetSailRecoverTime() * (slot8 - 1) + 1
+		end
+
+		return slot3
+	end,
+	GetBuildingTimePerReward = function ()
+		if not uv0.cacheBuildingTime_ then
+			uv0.cacheBuildingTime_ = GameSetting.activity_skadi_sea_building_calculate_time.value[1] * 60
+		end
+
+		return uv0.cacheBuildingTime_
+	end,
+	GetSailRecoverTime = function ()
+		if not uv0.cacheSailRecoverTime_ then
+			uv0.cacheSailRecoverTime_ = GameSetting.activity_skadi_sea_be_out_num_recover_time.value[1] * 3600
+		end
+
+		return uv0.cacheSailRecoverTime_
 	end
-
-	return var_8_2
-end
-
-function var_0_0.GetBuildingTimePerReward()
-	if not var_0_0.cacheBuildingTime_ then
-		var_0_0.cacheBuildingTime_ = GameSetting.activity_skadi_sea_building_calculate_time.value[1] * 60
-	end
-
-	return var_0_0.cacheBuildingTime_
-end
-
-function var_0_0.GetSailRecoverTime()
-	if not var_0_0.cacheSailRecoverTime_ then
-		var_0_0.cacheSailRecoverTime_ = GameSetting.activity_skadi_sea_be_out_num_recover_time.value[1] * 3600
-	end
-
-	return var_0_0.cacheSailRecoverTime_
-end
-
-return var_0_0
+}

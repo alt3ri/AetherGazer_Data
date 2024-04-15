@@ -1,191 +1,177 @@
-local var_0_0 = class("HeroInteractionGMContentView", ReduxView)
+slot0 = class("HeroInteractionGMContentView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/HeroInteractionGMContentUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	if arg_4_0.inited == false then
-		arg_4_0:Init()
+function slot0.OnEnter(slot0)
+	if slot0.inited == false then
+		slot0:Init()
 	end
 end
 
-function var_0_0.Init(arg_5_0)
-	arg_5_0:InitUI()
-	arg_5_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_5_0.inited = true
+	slot0.inited = true
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0.skinId_ = arg_6_0.params_.skinId
+function slot0.InitUI(slot0)
+	slot0.skinId_ = slot0.params_.skinId
 
-	if SkinCfg[arg_6_0.skinId_] == nil then
+	if SkinCfg[slot0.skinId_] == nil then
 		print("SkinCfg[self.skinId_] == nil")
 	end
 
-	arg_6_0.typeName_ = arg_6_0.params_.typeName
+	slot0.typeName_ = slot0.params_.typeName
 
-	local var_6_0 = string.split(arg_6_0.typeName_, "_")
-
-	if #var_6_0 == 1 then
-		arg_6_0.actionType_ = var_6_0[1]
-		arg_6_0.voiceType_ = arg_6_0.actionType_ .. "_talk"
-		arg_6_0.voiceDelayType_ = arg_6_0.actionType_ .. "_delay"
+	if #string.split(slot0.typeName_, "_") == 1 then
+		slot0.actionType_ = slot1[1]
+		slot0.voiceType_ = slot0.actionType_ .. "_talk"
+		slot0.voiceDelayType_ = slot0.actionType_ .. "_delay"
 	else
-		arg_6_0.actionType_ = var_6_0[1]
-		arg_6_0.voiceType_ = arg_6_0.typeName_
-		arg_6_0.voiceDelayType_ = var_6_0[1] .. "_delay"
+		slot0.actionType_ = slot1[1]
+		slot0.voiceType_ = slot0.typeName_
+		slot0.voiceDelayType_ = slot1[1] .. "_delay"
 	end
 
-	arg_6_0.actionNameList = {}
-	arg_6_0.actionList_ = {}
-	arg_6_0.voiceList_ = {}
-	arg_6_0.voiceDelayList_ = {}
+	slot0.actionNameList = {}
+	slot0.actionList_ = {}
+	slot0.voiceList_ = {}
+	slot0.voiceDelayList_ = {}
+	slot0.interactionCfg_ = HeroInteractionCfg[SkinCfg[slot0.skinId_].hero]
 
-	local var_6_1 = SkinCfg[arg_6_0.skinId_].hero
-
-	arg_6_0.interactionCfg_ = HeroInteractionCfg[var_6_1]
-
-	if arg_6_0.interactionCfg_ and arg_6_0.interactionCfg_[arg_6_0.typeName_] ~= nil then
-		arg_6_0.actionNameList = arg_6_0.interactionCfg_[arg_6_0.typeName_]
+	if slot0.interactionCfg_ and slot0.interactionCfg_[slot0.typeName_] ~= nil then
+		slot0.actionNameList = slot0.interactionCfg_[slot0.typeName_]
 	end
 
-	if arg_6_0.interactionCfg_ and arg_6_0.interactionCfg_[arg_6_0.voiceType_] ~= nil then
-		arg_6_0.voiceList_ = arg_6_0.interactionCfg_[arg_6_0.voiceType_]
+	if slot0.interactionCfg_ and slot0.interactionCfg_[slot0.voiceType_] ~= nil then
+		slot0.voiceList_ = slot0.interactionCfg_[slot0.voiceType_]
 	end
 
-	if arg_6_0.interactionCfg_ and arg_6_0.interactionCfg_[arg_6_0.actionType_] ~= nil then
-		arg_6_0.actionList_ = arg_6_0.interactionCfg_[arg_6_0.actionType_]
+	if slot0.interactionCfg_ and slot0.interactionCfg_[slot0.actionType_] ~= nil then
+		slot0.actionList_ = slot0.interactionCfg_[slot0.actionType_]
 	end
 
-	if arg_6_0.interactionCfg_ and arg_6_0.interactionCfg_[arg_6_0.voiceDelayType_] ~= nil then
-		arg_6_0.voiceDelayList_ = arg_6_0.interactionCfg_[arg_6_0.voiceDelayType_]
+	if slot0.interactionCfg_ and slot0.interactionCfg_[slot0.voiceDelayType_] ~= nil then
+		slot0.voiceDelayList_ = slot0.interactionCfg_[slot0.voiceDelayType_]
 	end
 
-	if arg_6_0.backgroundBtn_ == nil then
-		arg_6_0.backgroundBtn_ = arg_6_0:FindCom("Button", "background")
+	if slot0.backgroundBtn_ == nil then
+		slot0.backgroundBtn_ = slot0:FindCom("Button", "background")
 	end
 
-	if arg_6_0.btn_prefab == nil then
-		arg_6_0.btn_prefab = arg_6_0:FindGo("HeroInteractionBut_prefab")
+	if slot0.btn_prefab == nil then
+		slot0.btn_prefab = slot0:FindGo("HeroInteractionBut_prefab")
 	end
 
-	if arg_6_0.panel_go == nil then
-		arg_6_0.panel_go = arg_6_0:FindTrs("panel")
+	if slot0.panel_go == nil then
+		slot0.panel_go = slot0:FindTrs("panel")
 	end
 
-	arg_6_0.btn_list = {}
-	arg_6_0.btnGo_list = {}
+	slot0.btn_list = {}
+	slot0.btnGo_list = {}
 
-	arg_6_0:GenBtn()
+	slot0:GenBtn()
 end
 
-function var_0_0.GenBtn(arg_7_0)
-	if arg_7_0.actionNameList ~= nil and #arg_7_0.actionNameList > 0 then
-		for iter_7_0, iter_7_1 in ipairs(arg_7_0.actionNameList) do
-			local var_7_0 = Object.Instantiate(arg_7_0.btn_prefab, arg_7_0.panel_go)
-			local var_7_1 = var_7_0:GetComponentInChildren(typeof(Text))
-
-			if var_7_1 ~= nil then
-				var_7_1.text = GetI18NText(iter_7_1)
+function slot0.GenBtn(slot0)
+	if slot0.actionNameList ~= nil and #slot0.actionNameList > 0 then
+		for slot4, slot5 in ipairs(slot0.actionNameList) do
+			if Object.Instantiate(slot0.btn_prefab, slot0.panel_go):GetComponentInChildren(typeof(Text)) ~= nil then
+				slot7.text = GetI18NText(slot5)
 			else
 				print("btn_text为空")
 			end
 
-			local var_7_2 = var_7_0:GetComponent(typeof(Button))
-
-			if var_7_2 == nil then
+			if slot6:GetComponent(typeof(Button)) == nil then
 				print("button_:按钮为空")
 			end
 
-			table.insert(arg_7_0.btn_list, var_7_2)
-			table.insert(arg_7_0.btnGo_list, var_7_0)
+			table.insert(slot0.btn_list, slot8)
+			table.insert(slot0.btnGo_list, slot6)
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.btn_list) do
-		arg_8_0:AddBtnListener(iter_8_1, nil, function()
-			arg_8_0:DelayToPlayInteractionAnimation(iter_8_0, 0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.btn_list) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:DelayToPlayInteractionAnimation(uv1, 0)
 		end)
 	end
 
-	arg_8_0:AddBtnListener(arg_8_0.backgroundBtn_, nil, function()
-		arg_8_0:Back()
+	slot0:AddBtnListener(slot0.backgroundBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.DelayToPlayInteractionAnimation(arg_11_0, arg_11_1, arg_11_2)
-	if arg_11_0.playingInteraction_ then
+function slot0.DelayToPlayInteractionAnimation(slot0, slot1, slot2)
+	if slot0.playingInteraction_ then
 		return
 	end
 
-	if arg_11_2 == nil then
-		arg_11_2 = 1
+	if slot2 == nil then
+		slot2 = 1
 	end
 
-	arg_11_0:PlayInteractionAnimation(arg_11_1)
+	slot0:PlayInteractionAnimation(slot1)
 end
 
-function var_0_0.PlayInteractionAnimation(arg_12_0, arg_12_1)
-	manager.posterGirl:SetForceRandomIndex(arg_12_1)
+function slot0.PlayInteractionAnimation(slot0, slot1)
+	manager.posterGirl:SetForceRandomIndex(slot1)
 
-	if arg_12_0.typeName_ == "greeting" then
+	if slot0.typeName_ == "greeting" then
 		manager.posterGirl:DoGreeting()
-	elseif arg_12_0.typeName_ == "mainTouch" then
+	elseif slot0.typeName_ == "mainTouch" then
 		manager.posterGirl:DoTouch()
-	elseif arg_12_0.typeName_ == "mainQuickTouch" then
+	elseif slot0.typeName_ == "mainQuickTouch" then
 		manager.posterGirl:DoQuickTouch()
-	elseif arg_12_0.typeName_ == "shaking" then
+	elseif slot0.typeName_ == "shaking" then
 		manager.posterGirl:DoShacking()
-	elseif arg_12_0.typeName_ == "showing" then
+	elseif slot0.typeName_ == "showing" then
 		manager.posterGirl:DoShowing()
-	elseif arg_12_0.typeName_ == "idle" then
+	elseif slot0.typeName_ == "idle" then
 		manager.posterGirl:DoIdle()
 	else
-		error("HeroInteractionGMContentView can not find interaction by typeName :" .. arg_12_0.typeName_)
+		error("HeroInteractionGMContentView can not find interaction by typeName :" .. slot0.typeName_)
 	end
 end
 
-function var_0_0.PlaySpecialAnimation(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	return
+function slot0.PlaySpecialAnimation(slot0, slot1, slot2, slot3)
 end
 
-function var_0_0.OnPlaySpecialCallback(arg_14_0)
-	return
+function slot0.OnPlaySpecialCallback(slot0)
 end
 
-function var_0_0.PlayIdleAni(arg_15_0)
-	return
+function slot0.PlayIdleAni(slot0)
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllListeners()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.btnGo_list) do
-		Object.Destroy(iter_16_1)
+	for slot4, slot5 in ipairs(slot0.btnGo_list) do
+		Object.Destroy(slot5)
 	end
 
-	arg_16_0.btn_list = nil
-	arg_16_0.btnGo_list = nil
-	arg_16_0.inited = false
-	arg_16_0.playingInteraction_ = false
+	slot0.btn_list = nil
+	slot0.btnGo_list = nil
+	slot0.inited = false
+	slot0.playingInteraction_ = false
 
 	HeroTools.StopTalk()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

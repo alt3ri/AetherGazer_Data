@@ -1,98 +1,89 @@
-local var_0_0 = class("EnchantSkillItem", ReduxView)
+slot0 = class("EnchantSkillItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selectController_ = arg_2_0.transCon_:GetController("select")
-	arg_2_0.lockController_ = arg_2_0.transCon_:GetController("lock")
-	arg_2_0.nullController_ = arg_2_0.transCon_:GetController("null")
-	arg_2_0.popController_ = arg_2_0.transCon_:GetController("pop")
-	arg_2_0.lelevelController_ = arg_2_0.transCon_:GetController("level")
+	slot0.selectController_ = slot0.transCon_:GetController("select")
+	slot0.lockController_ = slot0.transCon_:GetController("lock")
+	slot0.nullController_ = slot0.transCon_:GetController("null")
+	slot0.popController_ = slot0.transCon_:GetController("pop")
+	slot0.lelevelController_ = slot0.transCon_:GetController("level")
 
-	arg_2_0:AddBtnListener(nil, nil, "OnClick")
+	slot0:AddBtnListener(nil, , "OnClick")
 end
 
-function var_0_0.RefreshData(arg_3_0, arg_3_1)
-	arg_3_0.info_ = arg_3_1
+function slot0.RefreshData(slot0, slot1)
+	slot0.info_ = slot1
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	if arg_4_0.info_ then
-		local var_4_0 = EquipSkillCfg[arg_4_0.info_.id]
+function slot0.RefreshUI(slot0)
+	if slot0.info_ then
+		slot0.nullController_:SetSelectedState("skill")
 
-		arg_4_0.nullController_:SetSelectedState("skill")
+		if slot0.info_.preview then
+			slot0.lockController_:SetSelectedState("unlock")
+			slot0.popController_:SetSelectedState("pop")
+			slot0.lelevelController_:SetSelectedState("off")
 
-		if arg_4_0.info_.preview then
-			arg_4_0.lockController_:SetSelectedState("unlock")
-			arg_4_0.popController_:SetSelectedState("pop")
-			arg_4_0.lelevelController_:SetSelectedState("off")
+			slot0.lvMax_ = EquipSkillCfg[slot0.info_.id].lvmax
+		elseif slot0.info_.unlockLevel and slot0.info_.equipLevel < slot0.info_.unlockLevel then
+			slot0.lockController_:SetSelectedState("lock")
 
-			arg_4_0.lvMax_ = var_4_0.lvmax
-		elseif arg_4_0.info_.unlockLevel and arg_4_0.info_.equipLevel < arg_4_0.info_.unlockLevel then
-			arg_4_0.lockController_:SetSelectedState("lock")
-
-			arg_4_0.lockDesc_.text = string.format(GetTips("EQUIP_SKILL_LOCK_LEVEL"), arg_4_0.info_.unlockLevel)
+			slot0.lockDesc_.text = string.format(GetTips("EQUIP_SKILL_LOCK_LEVEL"), slot0.info_.unlockLevel)
 		else
-			arg_4_0.lockController_:SetSelectedState("unlock")
+			slot0.lockController_:SetSelectedState("unlock")
 		end
 
-		arg_4_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. var_4_0.icon)
-		arg_4_0.name_.text = GetI18NText(var_4_0.name)
+		slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. slot1.icon)
+		slot0.name_.text = GetI18NText(slot1.name)
+		slot0.lv_.text = string.format("%s/%s", slot1.lvmax < slot0.info_.num and string.format("<color=#FF000B>%s</color>", slot0.info_.num) or slot0.info_.num, slot1.lvmax)
 
-		local var_4_1 = arg_4_0.info_.num > var_4_0.lvmax and string.format("<color=#FF000B>%s</color>", arg_4_0.info_.num) or arg_4_0.info_.num
-
-		arg_4_0.lv_.text = string.format("%s/%s", var_4_1, var_4_0.lvmax)
-
-		local var_4_2 = arg_4_0.info_.num > var_4_0.lvmax and var_4_0.lvmax or arg_4_0.info_.num
-		local var_4_3 = var_4_0.upgrade / var_4_0.percent * var_4_2
-		local var_4_4 = GetCfgDescriptionWithValue(var_4_0.desc[1], tostring(var_4_3))
-
-		if var_4_0.desc_spec_value ~= nil and var_4_0.desc_spec_value ~= "" then
-			var_4_4 = string.gsub(var_4_4, tostring(var_4_3), var_4_0.desc_spec_value[arg_4_0.info_.num])
+		if slot1.desc_spec_value ~= nil and slot1.desc_spec_value ~= "" then
+			slot5 = string.gsub(GetCfgDescriptionWithValue(slot1.desc[1], tostring(slot1.upgrade / slot1.percent * (slot1.lvmax < slot0.info_.num and slot1.lvmax or slot0.info_.num))), tostring(slot4), slot1.desc_spec_value[slot0.info_.num])
 		end
 
-		arg_4_0.desc_.text = GetI18NText(var_4_4)
+		slot0.desc_.text = GetI18NText(slot5)
 	else
-		arg_4_0.nullController_:SetSelectedState("null")
+		slot0.nullController_:SetSelectedState("null")
 	end
 end
 
-function var_0_0.ShowSelect(arg_5_0, arg_5_1)
-	arg_5_0.selectController_:SetSelectedState(arg_5_1 and "select" or "unselect")
+function slot0.ShowSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedState(slot1 and "select" or "unselect")
 end
 
-function var_0_0.OnClick(arg_6_0)
-	if arg_6_0.clickFunc then
-		arg_6_0.clickFunc(arg_6_0, arg_6_0.info_)
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		slot0:clickFunc(slot0.info_)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	arg_7_0.clickFunc = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.GetItemInfo(arg_8_0)
-	return arg_8_0.info_
+function slot0.GetItemInfo(slot0)
+	return slot0.info_
 end
 
-function var_0_0.Show(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.clickFunc = nil
+function slot0.Dispose(slot0)
+	slot0.clickFunc = nil
 
-	arg_10_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_10_0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

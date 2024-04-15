@@ -1,57 +1,57 @@
-local var_0_0 = class("ToggleListView", ReduxView)
+slot0 = class("ToggleListView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.parentItemList_ = {}
+	slot0.parentItemList_ = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_2) do
-		arg_1_0.parentItemList_[iter_1_0] = ToggleParentView.New(arg_1_0[string.format("toggleParent%s_", iter_1_0)], iter_1_0, iter_1_1)
+	for slot6, slot7 in ipairs(slot2) do
+		slot0.parentItemList_[slot6] = ToggleParentView.New(slot0[string.format("toggleParent%s_", slot6)], slot6, slot7)
 	end
 
-	arg_1_0.childrenHandler_ = handler(arg_1_0, arg_1_0.ChildrenUpdate)
+	slot0.childrenHandler_ = handler(slot0, slot0.ChildrenUpdate)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.parentItemList_) do
-		iter_2_1:OnEnter()
+function slot0.OnEnter(slot0)
+	for slot4, slot5 in pairs(slot0.parentItemList_) do
+		slot5:OnEnter()
 	end
 
-	manager.notify:RegistListener(TOGGLE_LIST_CHILDREN_UPDATE, arg_2_0.childrenHandler_)
+	manager.notify:RegistListener(TOGGLE_LIST_CHILDREN_UPDATE, slot0.childrenHandler_)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.parentItemList_) do
-		iter_3_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in pairs(slot0.parentItemList_) do
+		slot5:OnExit()
 	end
 
-	manager.notify:RemoveListener(TOGGLE_LIST_CHILDREN_UPDATE, arg_3_0.childrenHandler_)
+	manager.notify:RemoveListener(TOGGLE_LIST_CHILDREN_UPDATE, slot0.childrenHandler_)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.parentItemList_) do
-		iter_4_1:Dispose()
+	for slot4, slot5 in pairs(slot0.parentItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.parentItemList_ = nil
-	arg_4_0.childrenHandler_ = nil
+	slot0.parentItemList_ = nil
+	slot0.childrenHandler_ = nil
 end
 
-function var_0_0.SetSelectOn(arg_5_0, arg_5_1, arg_5_2)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.parentItemList_) do
-		iter_5_1:SetSelectOn(arg_5_1, arg_5_2)
+function slot0.SetSelectOn(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot0.parentItemList_) do
+		slot7:SetSelectOn(slot1, slot2)
 	end
 
-	manager.notify:Invoke(TOGGLE_LIST_UPDATE, arg_5_1, arg_5_2)
+	manager.notify:Invoke(TOGGLE_LIST_UPDATE, slot1, slot2)
 end
 
-function var_0_0.ChildrenUpdate(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0:SetSelectOn(arg_6_1, arg_6_2)
+function slot0.ChildrenUpdate(slot0, slot1, slot2)
+	slot0:SetSelectOn(slot1, slot2)
 end
 
-return var_0_0
+return slot0

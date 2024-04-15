@@ -1,29 +1,29 @@
-local var_0_0 = class("LeviathanSectionInfoView", ReduxView)
+slot0 = class("LeviathanSectionInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Stage/ChapterSectionInfoUI"
 end
 
-function var_0_0.RefreshData(arg_2_0)
-	arg_2_0.lock_ = false
-	arg_2_0.lockTips_ = ""
-	arg_2_0.cost = 0
-	arg_2_0.isFirstClear_ = false
-	arg_2_0.drop_lib_id = 0
+function slot0.RefreshData(slot0)
+	slot0.lock_ = false
+	slot0.lockTips_ = ""
+	slot0.cost = 0
+	slot0.isFirstClear_ = false
+	slot0.drop_lib_id = 0
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_4_0.multiple_ = 1
+	slot0.multiple_ = 1
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -35,84 +35,80 @@ function var_0_0.OnEnter(arg_5_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 
-	arg_5_0.activityID_ = arg_5_0.params_.activityID
-	arg_5_0.chapterID_ = arg_5_0.params_.chapterID
-	arg_5_0.stageID_ = arg_5_0.params_.section
-	arg_5_0.stageType_ = arg_5_0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.chapterID_ = slot0.params_.chapterID
+	slot0.stageID_ = slot0.params_.section
+	slot0.stageType_ = slot0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
 
-	arg_5_0:RefreshData()
-	arg_5_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnUpdate(arg_6_0)
-	if arg_6_0.stageID_ == arg_6_0.params_.section then
+function slot0.OnUpdate(slot0)
+	if slot0.stageID_ == slot0.params_.section then
 		return
 	end
 
-	arg_6_0.stageID_ = arg_6_0.params_.section
+	slot0.stageID_ = slot0.params_.section
 
-	arg_6_0:RefreshData()
-	arg_6_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.InitUI(arg_8_0)
-	arg_8_0:BindCfgUI()
-	SetActive(arg_8_0.multiplePanel_, false)
-	SetActive(arg_8_0.tipsPanel_, false)
-	SetActive(arg_8_0.targetPanel_, false)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	SetActive(slot0.multiplePanel_, false)
+	SetActive(slot0.tipsPanel_, false)
+	SetActive(slot0.targetPanel_, false)
 
-	arg_8_0.controller_ = ControllerUtil.GetController(arg_8_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 
-	arg_8_0.controller_:SetSelectedState("leviathan")
+	slot0.controller_:SetSelectedState("leviathan")
 
-	if arg_8_0.readyTxt_ then
-		arg_8_0.readyTxt_.text = GetTips("BATTLE_READY_1")
+	if slot0.readyTxt_ then
+		slot0.readyTxt_.text = GetTips("BATTLE_READY_1")
 	end
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.battleBtn_, nil, function()
-		local var_10_0 = BattleLeviathanLittleGameTemplate.New(arg_9_0.chapterID_, arg_9_0.activityID_)
-
-		BattleController.GetInstance():LaunchBattle(var_10_0)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		BattleController.GetInstance():LaunchBattle(BattleLeviathanLittleGameTemplate.New(uv0.chapterID_, uv0.activityID_))
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_11_0)
-	arg_11_0.battleBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.battleBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	arg_12_0:RefreshStageInfo()
-	arg_12_0:RefreshCost()
-	SetActive(arg_12_0.unlockGo_, arg_12_0.lock_)
-	SetActive(arg_12_0.battleBtnGo_, not arg_12_0.lock_)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshStageInfo()
+	slot0:RefreshCost()
+	SetActive(slot0.unlockGo_, slot0.lock_)
+	SetActive(slot0.battleBtnGo_, not slot0.lock_)
 
-	arg_12_0.lockText_.text = GetI18NText(arg_12_0.lockTips_)
-	arg_12_0.rewardView_.horizontalNormalizedPosition = 0
+	slot0.lockText_.text = GetI18NText(slot0.lockTips_)
+	slot0.rewardView_.horizontalNormalizedPosition = 0
 end
 
-function var_0_0.RefreshStageInfo(arg_13_0)
-	local var_13_0 = BattleStageTools.GetStageCfg(arg_13_0.stageType_, arg_13_0.stageID_)
-
-	if arg_13_0.oldCfgID_ ~= var_13_0.id then
-		arg_13_0.sectionName_.text = GetI18NText(var_13_0.name)
-		arg_13_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, var_13_0.background_1))
-		arg_13_0.textStory_.text = GetI18NText(var_13_0.tips)
-		arg_13_0.oldCfgID_ = var_13_0.id
+function slot0.RefreshStageInfo(slot0)
+	if slot0.oldCfgID_ ~= BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).id then
+		slot0.sectionName_.text = GetI18NText(slot1.name)
+		slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot1.background_1))
+		slot0.textStory_.text = GetI18NText(slot1.tips)
+		slot0.oldCfgID_ = slot1.id
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveListeners()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

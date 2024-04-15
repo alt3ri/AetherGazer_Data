@@ -1,24 +1,23 @@
-local var_0_0 = import("game.views.AffixSelect.AffixSelectDetailView")
-local var_0_1 = class("AffixSelectDetailJapanRegionView", var_0_0)
+slot1 = class("AffixSelectDetailJapanRegionView", import("game.views.AffixSelect.AffixSelectDetailView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionAffixSelect/AffixSelectStageDetailsUI"
 end
 
-function var_0_1.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.checkBtn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
 		JumpTools.OpenPageByJump("affixSelectBossInfoJapanRegion", {
-			bossIDList = arg_2_0.cfg_.boss_id,
-			index = arg_2_0.params_.index
+			bossIDList = uv0.cfg_.boss_id,
+			index = uv0.params_.index
 		})
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.challengeBtn_, nil, function()
+	slot0:AddBtnListener(slot0.challengeBtn_, nil, function ()
 		gameContext:Go("/sectionSelectHero", {
-			section = arg_2_0.cfg_.stage_id,
+			section = uv0.cfg_.stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT,
-			activityID = arg_2_0.params_.activityId
+			activityID = uv0.params_.activityId
 		})
 	end)
 end
 
-return var_0_1
+return slot1

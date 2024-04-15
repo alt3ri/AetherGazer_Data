@@ -1,103 +1,103 @@
-local var_0_0 = class("HanafudaCheckCombineView", ReduxView)
+slot0 = class("HanafudaCheckCombineView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionHanafudaUI/JapanRegionHanafudaCheckUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.uiList = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, HanafudaCardView)
-	arg_4_0.uiCombineList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexCombineItem), arg_4_0.combineList_, HanafudaCombineItem)
-	arg_4_0.titleController_ = ControllerUtil.GetController(arg_4_0.transform_, "title")
-	arg_4_0.stateController_ = ControllerUtil.GetController(arg_4_0.transform_, "changeBtn")
-	arg_4_0.btnController_ = ControllerUtil.GetController(arg_4_0.changeBtn_.transform, "btn")
+	slot0.uiList = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, HanafudaCardView)
+	slot0.uiCombineList_ = LuaList.New(handler(slot0, slot0.IndexCombineItem), slot0.combineList_, HanafudaCombineItem)
+	slot0.titleController_ = ControllerUtil.GetController(slot0.transform_, "title")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "changeBtn")
+	slot0.btnController_ = ControllerUtil.GetController(slot0.changeBtn_.transform, "btn")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.changeBtn_, nil, function()
-		if arg_5_0.state == 1 then
-			arg_5_0.state = 2
+	slot0:AddBtnListener(slot0.changeBtn_, nil, function ()
+		if uv0.state == 1 then
+			uv0.state = 2
 		else
-			arg_5_0.state = 1
+			uv0.state = 1
 		end
 
-		arg_5_0:RefreshState()
+		uv0:RefreshState()
 	end)
 end
 
-function var_0_0.IndexCombineItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:SetData(arg_8_1, arg_8_0.cardCombineDataList_[arg_8_1], arg_8_0.playerType_)
+function slot0.IndexCombineItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.cardCombineDataList_[slot1], slot0.playerType_)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.playerType_ = arg_9_0.params_.playerType
-	arg_9_0.callback_ = arg_9_0.params_.callback
-	arg_9_0.state = 1
+function slot0.OnEnter(slot0)
+	slot0.playerType_ = slot0.params_.playerType
+	slot0.callback_ = slot0.params_.callback
+	slot0.state = 1
 
-	arg_9_0:RefreshState()
+	slot0:RefreshState()
 
-	if arg_9_0.playerType_ == HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE then
-		arg_9_0.titleController_:SetSelectedState("player")
+	if slot0.playerType_ == HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE then
+		slot0.titleController_:SetSelectedState("player")
 
-		arg_9_0.scoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
+		slot0.scoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
 	else
-		arg_9_0.titleController_:SetSelectedState("enemy")
+		slot0.titleController_:SetSelectedState("enemy")
 
-		arg_9_0.scoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
+		slot0.scoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
 	end
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:SetData(arg_10_1, arg_10_0.cardDataList_[arg_10_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.cardDataList_[slot1])
 end
 
-function var_0_0.RefreshState(arg_11_0)
-	if arg_11_0.state == 1 then
-		arg_11_0.stateController_:SetSelectedState("list")
-		arg_11_0.btnController_:SetSelectedState("combination")
+function slot0.RefreshState(slot0)
+	if slot0.state == 1 then
+		slot0.stateController_:SetSelectedState("list")
+		slot0.btnController_:SetSelectedState("combination")
 
-		arg_11_0.cardDataList_ = HanafudaData:GetCardsListByType(arg_11_0.playerType_)
+		slot0.cardDataList_ = HanafudaData:GetCardsListByType(slot0.playerType_)
 
-		arg_11_0.uiList:StartScroll(#arg_11_0.cardDataList_)
-	elseif arg_11_0.state == 2 then
-		arg_11_0.stateController_:SetSelectedState("combination")
-		arg_11_0.btnController_:SetSelectedState("deck")
+		slot0.uiList:StartScroll(#slot0.cardDataList_)
+	elseif slot0.state == 2 then
+		slot0.stateController_:SetSelectedState("combination")
+		slot0.btnController_:SetSelectedState("deck")
 
-		arg_11_0.cardCombineDataList_ = HanafudaData:GetCombineList()
+		slot0.cardCombineDataList_ = HanafudaData:GetCombineList()
 
-		arg_11_0.uiCombineList_:StartScroll(#arg_11_0.cardCombineDataList_)
+		slot0.uiCombineList_:StartScroll(#slot0.cardCombineDataList_)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	if arg_12_0.callback_ then
-		arg_12_0.callback_()
+function slot0.OnExit(slot0)
+	if slot0.callback_ then
+		slot0.callback_()
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	if arg_13_0.uiList then
-		arg_13_0.uiList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList then
+		slot0.uiList:Dispose()
 	end
 
-	if arg_13_0.uiCombineList_ then
-		arg_13_0.uiCombineList_:Dispose()
+	if slot0.uiCombineList_ then
+		slot0.uiCombineList_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,64 +1,63 @@
-local var_0_0 = class("ReserveHeroPosTemplate")
+slot0 = class("ReserveHeroPosTemplate")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.pos = arg_1_1
-	arg_1_0.hero_type = 1
-	arg_1_0.trial_id = 0
-	arg_1_0.hero_id = 0
+function slot0.Ctor(slot0, slot1)
+	slot0.pos = slot1
+	slot0.hero_type = 1
+	slot0.trial_id = 0
+	slot0.hero_id = 0
 end
 
-function var_0_0.UpdateServerData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.pos = arg_2_2
-	arg_2_0.hero_type = arg_2_1.hero_type or 1
+function slot0.UpdateServerData(slot0, slot1, slot2)
+	slot0.pos = slot2
+	slot0.hero_type = slot1.hero_type or 1
 
-	if arg_2_0.hero_type == 1 then
-		arg_2_0.trial_id = 0
-		arg_2_0.hero_id = arg_2_1.hero_id
-	elseif arg_2_0.hero_type == 2 then
-		arg_2_0.trial_id = arg_2_1.hero_id
-		arg_2_0.hero_id = HeroStandardSystemCfg[arg_2_1.hero_id].hero_id
+	if slot0.hero_type == 1 then
+		slot0.trial_id = 0
+		slot0.hero_id = slot1.hero_id
+	elseif slot0.hero_type == 2 then
+		slot0.trial_id = slot1.hero_id
+		slot0.hero_id = HeroStandardSystemCfg[slot1.hero_id].hero_id
 	end
 end
 
-function var_0_0.GetHeroID(arg_3_0)
-	return arg_3_0.hero_id
+function slot0.GetHeroID(slot0)
+	return slot0.hero_id
 end
 
-function var_0_0.SetHeroID(arg_4_0, arg_4_1)
-	arg_4_0.hero_id = arg_4_1 or 0
+function slot0.SetHeroID(slot0, slot1)
+	slot0.hero_id = slot1 or 0
 end
 
-function var_0_0.GetTrialID(arg_5_0)
-	return arg_5_0.trial_id
+function slot0.GetTrialID(slot0)
+	return slot0.trial_id
 end
 
-function var_0_0.SetTrialID(arg_6_0, arg_6_1)
-	arg_6_0.trial_id = arg_6_1 or 0
-	arg_6_0.hero_type = arg_6_0.trial_id ~= 0 and 2 or 1
+function slot0.SetTrialID(slot0, slot1)
+	slot0.trial_id = slot1 or 0
+	slot0.hero_type = slot0.trial_id ~= 0 and 2 or 1
 end
 
-function var_0_0.GetHeroType(arg_7_0)
-	return arg_7_0.hero_type
+function slot0.GetHeroType(slot0)
+	return slot0.hero_type
 end
 
-function var_0_0.ConvertToSendData(arg_8_0)
-	local var_8_0 = {}
-
-	if arg_8_0.hero_type == 1 then
-		var_8_0.hero_id = arg_8_0.hero_id
+function slot0.ConvertToSendData(slot0)
+	if slot0.hero_type == 1 then
+		-- Nothing
 	else
-		var_8_0.hero_id = arg_8_0.trial_id
+		slot1.hero_id = slot0.trial_id
 	end
 
-	var_8_0.hero_type = arg_8_0.hero_type
-
-	return var_8_0
+	return {
+		hero_id = slot0.hero_id,
+		hero_type = slot0.hero_type
+	}
 end
 
-function var_0_0.Reset(arg_9_0)
-	arg_9_0.hero_type = 1
-	arg_9_0.trial_id = 0
-	arg_9_0.hero_id = 0
+function slot0.Reset(slot0)
+	slot0.hero_type = 1
+	slot0.trial_id = 0
+	slot0.hero_id = 0
 end
 
-return var_0_0
+return slot0

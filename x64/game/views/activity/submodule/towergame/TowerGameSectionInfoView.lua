@@ -1,72 +1,69 @@
-local var_0_0 = class("TowerGameSectionInfoView", ReduxView)
+slot0 = class("TowerGameSectionInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Stage/ChapterSectionInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	SetActive(arg_4_0.rewardPanel_, false)
-	SetActive(arg_4_0.multiplePanel_, false)
-	SetActive(arg_4_0.resourcePanel_, false)
-	SetActive(arg_4_0.stageTitleGo_, false)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	SetActive(slot0.rewardPanel_, false)
+	SetActive(slot0.multiplePanel_, false)
+	SetActive(slot0.resourcePanel_, false)
+	SetActive(slot0.stageTitleGo_, false)
 
-	arg_4_0.levelid_ = 0
+	slot0.levelid_ = 0
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.battleBtn_, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_5_0.levelid_) then
-			local var_6_0 = BattleMardukeTowerGameTemplate.New(arg_5_0.stageid_, arg_5_0.levelid_)
-
-			BattleController.GetInstance():LaunchBattle(var_6_0)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.levelid_) then
+			BattleController.GetInstance():LaunchBattle(BattleMardukeTowerGameTemplate.New(uv0.stageid_, uv0.levelid_))
 		else
 			ShowTips(GetTips("TIME_OVER"))
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	if arg_7_0.levelid_ ~= arg_7_0.params_.levelid then
-		arg_7_0.levelid_ = arg_7_0.params_.levelid
-		arg_7_0.stageid_ = TowerGameCfg[arg_7_0.levelid_].stage_id
+function slot0.OnEnter(slot0)
+	if slot0.levelid_ ~= slot0.params_.levelid then
+		slot0.levelid_ = slot0.params_.levelid
+		slot0.stageid_ = TowerGameCfg[slot0.levelid_].stage_id
 
-		arg_7_0:RefreshUI()
+		slot0:RefreshUI()
 	end
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		manager.notify:CallUpdateFunc(TOWERGAME_BACK)
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = BattleTowerGameCfg[arg_10_0.stageid_]
+function slot0.RefreshUI(slot0)
+	slot1 = BattleTowerGameCfg[slot0.stageid_]
+	slot0.sectionName_.text = GetI18NText(slot1.name)
+	slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot1.background_1))
+	slot0.tipsText_.text = GetI18NText(slot1.tips)
 
-	arg_10_0.sectionName_.text = GetI18NText(var_10_0.name)
-	arg_10_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, var_10_0.background_1))
-	arg_10_0.tipsText_.text = GetI18NText(var_10_0.tips)
-
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.tipsTextContentTrans_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.tipsTextContentTrans_)
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-return var_0_0
+return slot0

@@ -1,158 +1,144 @@
-local var_0_0 = class("SpringFestivalRiddleAnswerItem", ReduxView)
-
-var_0_0.STATE = {
+slot0 = class("SpringFestivalRiddleAnswerItem", ReduxView)
+slot0.STATE = {
 	CAN_CHOICE = 1,
 	FINISH = 4,
 	LOCK = 2,
 	PENALTY = 3
 }
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "Abtn")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "Abtn")
 end
 
-function var_0_0.OnEnter(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_1
-	arg_2_0.questionID_ = arg_2_2
-
-	local var_2_0 = ActivitySpringFestivalRiddleCfg[arg_2_2].answer_list[arg_2_0.index_]
-
-	arg_2_0.answerText_.text = GetI18NText(var_2_0)
+function slot0.OnEnter(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.questionID_ = slot2
+	slot0.answerText_.text = GetI18NText(ActivitySpringFestivalRiddleCfg[slot2].answer_list[slot0.index_])
 end
 
-function var_0_0.OnExit(arg_3_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_, nil, function()
-		if arg_5_0.state_ == var_0_0.STATE.FINISH then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.state_ == uv1.STATE.FINISH then
 			return
 		end
 
-		if not SpringFestivalRiddleData:CanAnswer(arg_5_0.activityID_) then
+		if not SpringFestivalRiddleData:CanAnswer(uv0.activityID_) then
 			ShowTips("ACTIVITY_SPRING_FESTIVAL_RIDDLE_FINISH")
 
 			return
 		end
 
-		if arg_5_0.state_ == var_0_0.STATE.PENALTY then
-			local var_6_0 = GameSetting.activity_spring_festival_riddle_punish_time.value[1]
-			local var_6_1 = SpringFestivalRiddleData:GetLastAnswerTime(arg_5_0.activityID_) + var_6_0 * 60
-			local var_6_2 = GameSetting.refresh_time1.value[1][1]
-			local var_6_3 = manager.time:GetNextTime(var_6_2, 0, 0)
-
-			if var_6_3 < var_6_1 then
-				var_6_1 = var_6_3
+		if uv0.state_ == uv1.STATE.PENALTY then
+			if manager.time:GetNextTime(GameSetting.refresh_time1.value[1][1], 0, 0) < SpringFestivalRiddleData:GetLastAnswerTime(uv0.activityID_) + GameSetting.activity_spring_festival_riddle_punish_time.value[1] * 60 then
+				slot1 = slot3
 			end
 
-			if var_6_1 > manager.time:GetServerTime() then
+			if manager.time:GetServerTime() < slot1 then
 				ShowTips("ACTIVITY_SPRING_FESTIVAL_RIDDLE_BAN")
 
 				return
 			end
 		end
 
-		SpringFestivalRiddleAction.ChoiceAnswer(arg_5_0.activityID_, arg_5_0.questionID_, arg_5_0.index_, function(arg_7_0)
-			if isSuccess(arg_7_0.result) then
-				local var_7_0 = ActivitySpringFestivalRiddleCfg[arg_5_0.questionID_].correct_answer == arg_5_0.index_
+		SpringFestivalRiddleAction.ChoiceAnswer(uv0.activityID_, uv0.questionID_, uv0.index_, function (slot0)
+			if isSuccess(slot0.result) then
+				slot2 = ActivitySpringFestivalRiddleCfg[uv0.questionID_].correct_answer == uv0.index_
 
-				SpringFestivalRiddleData:SubmitRiddle(arg_5_0.activityID_, arg_5_0.questionID_, arg_5_0.index_, var_7_0)
+				SpringFestivalRiddleData:SubmitRiddle(uv0.activityID_, uv0.questionID_, uv0.index_, slot2)
 
-				if var_7_0 then
-					local var_7_1 = #SpringFestivalRiddleData:GetReceiveList(arg_5_0.activityID_)
-					local var_7_2 = ActivityPointRewardCfg.get_id_list_by_activity_id[arg_5_0.activityID_][var_7_1]
-					local var_7_3 = arg_7_0.reward_list
-
-					SpringFestivalRiddleData:ReceiveReward(arg_5_0.activityID_, var_7_2)
-					getReward2(var_7_3)
+				if slot2 then
+					SpringFestivalRiddleData:ReceiveReward(uv0.activityID_, ActivityPointRewardCfg.get_id_list_by_activity_id[uv0.activityID_][#SpringFestivalRiddleData:GetReceiveList(uv0.activityID_)])
+					getReward2(slot0.reward_list)
 				else
 					manager.audio:PlayUIAudio(7)
 					manager.notify:Invoke(SPRING_FESTIVAL_RIDDLE_ANSWER_ERROR)
 				end
 
-				SpringFestivalRiddleAction.RefreshRedPoint(arg_5_0.activityID_)
+				SpringFestivalRiddleAction.RefreshRedPoint(uv0.activityID_)
 				manager.notify:Invoke(SPRING_FESTIVAL_RIDDLE_UPDATE)
 			else
-				ShowTips(arg_7_0.result)
+				ShowTips(slot0.result)
 			end
 		end)
 	end)
 end
 
-function var_0_0.RefreshItemEnabled(arg_8_0, arg_8_1)
-	local var_8_0 = SpringFestivalRiddleData:GetQuestionAnswerList(arg_8_0.activityID_, arg_8_0.questionID_)
+function slot0.RefreshItemEnabled(slot0, slot1)
+	slot2 = SpringFestivalRiddleData:GetQuestionAnswerList(slot0.activityID_, slot0.questionID_)
 
-	if SpringFestivalRiddleData:IsCorrectAnswer(arg_8_0.activityID_, arg_8_0.questionID_) then
-		if ActivitySpringFestivalRiddleCfg[arg_8_0.questionID_].correct_answer == arg_8_0.index_ then
-			arg_8_0.controller_:SetSelectedState("correct")
+	if SpringFestivalRiddleData:IsCorrectAnswer(slot0.activityID_, slot0.questionID_) then
+		if ActivitySpringFestivalRiddleCfg[slot0.questionID_].correct_answer == slot0.index_ then
+			slot0.controller_:SetSelectedState("correct")
 		else
-			arg_8_0.controller_:SetSelectedState("normal")
+			slot0.controller_:SetSelectedState("normal")
 		end
 
-		arg_8_0:FinishState()
+		slot0:FinishState()
 
 		return
 	end
 
-	if table.keyof(var_8_0, arg_8_0.index_) then
-		if ActivitySpringFestivalRiddleCfg[arg_8_0.questionID_].correct_answer == arg_8_0.index_ then
-			arg_8_0.controller_:SetSelectedState("correct")
+	if table.keyof(slot2, slot0.index_) then
+		if ActivitySpringFestivalRiddleCfg[slot0.questionID_].correct_answer == slot0.index_ then
+			slot0.controller_:SetSelectedState("correct")
 		else
-			arg_8_0.controller_:SetSelectedState("error")
+			slot0.controller_:SetSelectedState("error")
 		end
 	else
-		arg_8_0.controller_:SetSelectedState("normal")
+		slot0.controller_:SetSelectedState("normal")
 	end
 
-	if table.keyof(var_8_0, arg_8_0.index_) then
-		arg_8_0:FinishState()
+	if table.keyof(slot2, slot0.index_) then
+		slot0:FinishState()
 
 		return
 	end
 
-	if not SpringFestivalRiddleData:CanAnswer(arg_8_0.activityID_) then
-		arg_8_0:LockState()
+	if not SpringFestivalRiddleData:CanAnswer(slot0.activityID_) then
+		slot0:LockState()
 
 		return
 	end
 
-	if arg_8_1 == false then
-		arg_8_0:PenaltyState()
+	if slot1 == false then
+		slot0:PenaltyState()
 	else
-		arg_8_0:CanChoiceState()
+		slot0:CanChoiceState()
 	end
 end
 
-function var_0_0.FinishState(arg_9_0)
-	arg_9_0.btn_.interactable = false
-	arg_9_0.state_ = var_0_0.STATE.FINISH
+function slot0.FinishState(slot0)
+	slot0.btn_.interactable = false
+	slot0.state_ = uv0.STATE.FINISH
 end
 
-function var_0_0.LockState(arg_10_0)
-	arg_10_0.btn_.interactable = true
-	arg_10_0.state_ = var_0_0.STATE.LOCK
+function slot0.LockState(slot0)
+	slot0.btn_.interactable = true
+	slot0.state_ = uv0.STATE.LOCK
 end
 
-function var_0_0.PenaltyState(arg_11_0)
-	arg_11_0.btn_.interactable = true
-	arg_11_0.state_ = var_0_0.STATE.PENALTY
+function slot0.PenaltyState(slot0)
+	slot0.btn_.interactable = true
+	slot0.state_ = uv0.STATE.PENALTY
 end
 
-function var_0_0.CanChoiceState(arg_12_0)
-	arg_12_0.btn_.interactable = true
-	arg_12_0.state_ = var_0_0.STATE.CAN_CHOICE
+function slot0.CanChoiceState(slot0)
+	slot0.btn_.interactable = true
+	slot0.state_ = uv0.STATE.CAN_CHOICE
 end
 
-return var_0_0
+return slot0

@@ -1,5 +1,5 @@
-local var_0_0 = class("HeroSkillViewItem", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroSkillViewItem", ReduxView)
+slot1 = {
 	selectState = {
 		select = "true",
 		name = "selectState",
@@ -17,119 +17,111 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:Init()
-	arg_1_0:InitController()
+	slot0:InitUI()
+	slot0:Init()
+	slot0:InitController()
 end
 
-function var_0_0.Init(arg_2_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.InitController(arg_3_0)
-	arg_3_0.selectController_ = arg_3_0.controllerEx_:GetController(var_0_1.selectState.name)
-	arg_3_0.upController_ = arg_3_0.controllerEx_:GetController(var_0_1.upState.name)
-	arg_3_0.addController_ = arg_3_0.controllerEx_:GetController(var_0_1.nameAddState.name)
+function slot0.InitController(slot0)
+	slot0.selectController_ = slot0.controllerEx_:GetController(uv0.selectState.name)
+	slot0.upController_ = slot0.controllerEx_:GetController(uv0.upState.name)
+	slot0.addController_ = slot0.controllerEx_:GetController(uv0.nameAddState.name)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:AddBtnListener(nil, nil, "OnClick")
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(nil, , "OnClick")
 end
 
-function var_0_0.RefreshData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.info = arg_5_1
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.info = slot1
 
-	if arg_5_0.upController_ then
-		if not arg_5_0.heroViewDataProxy:CheckIsSelf() then
-			arg_5_0.upController_:SetSelectedState(var_0_1.upState.normal)
+	if slot0.upController_ then
+		if not slot0.heroViewDataProxy:CheckIsSelf() then
+			slot0.upController_:SetSelectedState(uv0.upState.normal)
 		else
-			local var_5_0 = arg_5_1.isCanStarUp or arg_5_1.isCanAttrUp
+			slot3 = slot1.isCanStarUp or slot1.isCanAttrUp
 
-			if arg_5_2 and arg_5_2 == 1 then
-				var_5_0 = arg_5_1.isCanStarUp
-			elseif arg_5_2 and arg_5_2 == 2 then
-				var_5_0 = arg_5_1.isCanAttrUp
+			if slot2 and slot2 == 1 then
+				slot3 = slot1.isCanStarUp
+			elseif slot2 and slot2 == 2 then
+				slot3 = slot1.isCanAttrUp
 			end
 
-			arg_5_0.upController_:SetSelectedState(var_5_0 and var_0_1.upState.up or var_0_1.upState.normal)
+			slot0.upController_:SetSelectedState(slot3 and uv0.upState.up or uv0.upState.normal)
 		end
 	end
 
-	if arg_5_0.selectController_ then
-		arg_5_0:UpdateSelectState(arg_5_0.handler_.selectSkillId == arg_5_1.id)
+	if slot0.selectController_ then
+		slot0:UpdateSelectState(slot0.handler_.selectSkillId == slot1.id)
 	end
 
-	arg_5_0:RefreshUI(arg_5_1)
+	slot0:RefreshUI(slot1)
 end
 
-function var_0_0.UpdateSelectState(arg_6_0, arg_6_1)
-	if arg_6_0.selectController_ then
-		arg_6_0.selectController_:SetSelectedState(arg_6_1 and var_0_1.selectState.select or var_0_1.selectState.normal)
+function slot0.UpdateSelectState(slot0, slot1)
+	if slot0.selectController_ then
+		slot0.selectController_:SetSelectedState(slot1 and uv0.selectState.select or uv0.selectState.normal)
 	end
 end
 
-function var_0_0.SetProxy(arg_7_0, arg_7_1)
-	arg_7_0.heroViewDataProxy = arg_7_1
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewDataProxy = slot1
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1)
-	if arg_8_1 then
-		local var_8_0 = arg_8_0.heroViewDataProxy:GetRealSkillId(arg_8_1.heroId, arg_8_1.id)
-		local var_8_1 = HeroCfg[arg_8_1.heroId]
-		local var_8_2 = table.indexof(var_8_1.skills, arg_8_1.id)
-		local var_8_3 = HeroSkillCfg[var_8_0]
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 then
+		slot2 = slot0.heroViewDataProxy:GetRealSkillId(slot1.heroId, slot1.id)
+		slot3 = HeroCfg[slot1.heroId]
+		slot5 = HeroSkillCfg[slot2]
+		slot0.skilliconImg_.sprite = getSprite("Atlas/" .. slot1.heroId, slot2)
+		slot0.nameText_.text = slot3.skill_subhead[table.indexof(slot3.skills, slot1.id)]
 
-		arg_8_0.skilliconImg_.sprite = getSprite("Atlas/" .. arg_8_1.heroId, var_8_0)
-		arg_8_0.nameText_.text = var_8_1.skill_subhead[var_8_2]
+		slot0:RefreshLv(slot1)
 
-		arg_8_0:RefreshLv(arg_8_1)
-
-		if arg_8_0.sliderSlr_ then
-			local var_8_4 = arg_8_0.heroViewDataProxy:GetSkillAtrrProgressValue(arg_8_1.heroId, var_8_2)
-
-			arg_8_0.sliderSlr_.value = var_8_4
+		if slot0.sliderSlr_ then
+			slot0.sliderSlr_.value = slot0.heroViewDataProxy:GetSkillAtrrProgressValue(slot1.heroId, slot4)
 		end
 	end
 end
 
-function var_0_0.RefreshLv(arg_9_0, arg_9_1)
-	if arg_9_0.lvText_ then
-		local var_9_0 = arg_9_1.heroId
-		local var_9_1 = arg_9_1.id
-		local var_9_2 = arg_9_0.heroViewDataProxy:GetSkillLv(var_9_0, var_9_1) + (arg_9_1.tempAddLevel or 0)
-		local var_9_3 = arg_9_1.addEquipSkillLv or 0
+function slot0.RefreshLv(slot0, slot1)
+	if slot0.lvText_ then
+		slot5 = slot1.tempAddLevel or 0
+		slot5 = slot1.addEquipSkillLv or 0
+		slot0.lvText_.text = string.format("%d", slot0.heroViewDataProxy:GetSkillLv(slot1.heroId, slot1.id) + slot5 + slot1.addSkillLv + slot5)
 
-		arg_9_0.lvText_.text = string.format("%d", var_9_2 + arg_9_1.addSkillLv + var_9_3)
-
-		arg_9_0.addController_:SetSelectedState(var_9_3 > 0 and var_0_1.nameAddState.add or var_0_1.nameAddState.normal)
+		slot0.addController_:SetSelectedState(slot5 > 0 and uv0.nameAddState.add or uv0.nameAddState.normal)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_10_0, arg_10_1)
-	arg_10_0.clickFunc = arg_10_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.OnClick(arg_11_0)
-	if arg_11_0.clickFunc then
-		arg_11_0.clickFunc(arg_11_0.info)
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		slot0.clickFunc(slot0.info)
 	end
 end
 
-function var_0_0.SetAniState(arg_12_0, arg_12_1)
-	if arg_12_0.animator_ then
-		arg_12_0.animator_.enabled = arg_12_1
+function slot0.SetAniState(slot0, slot1)
+	if slot0.animator_ then
+		slot0.animator_.enabled = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

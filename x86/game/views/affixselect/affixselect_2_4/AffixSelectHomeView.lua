@@ -1,56 +1,51 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("AffixSelectHomeView", var_0_0)
+slot1 = class("AffixSelectHomeView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionAffixSelect/AffixSelectStageUI"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.reward_btnstateController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "reward_btnstate")
-	arg_3_0.bonusItem_ = CommonItem.New(arg_3_0.bonusItemGo_)
-	arg_3_0.items_ = {}
+	slot0.reward_btnstateController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "reward_btnstate")
+	slot0.bonusItem_ = CommonItem.New(slot0.bonusItemGo_)
+	slot0.items_ = {}
 
-	for iter_3_0 = 1, 8 do
-		local var_3_0 = AffixSelectItemView.New(arg_3_0["itemGo" .. iter_3_0 .. "_"])
-
-		table.insert(arg_3_0.items_, var_3_0)
+	for slot4 = 1, 8 do
+		table.insert(slot0.items_, AffixSelectItemView.New(slot0["itemGo" .. slot4 .. "_"]))
 	end
 end
 
-function var_0_1.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.rewardBtn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		OperationRecorder.RecordButtonTouch("activity_affixbattle_reward_firstpass")
 		JumpTools.OpenPageByJump("affixSelectFirstRewardJapanRegion", {
-			affixActivityId = arg_4_0.activityId
+			affixActivityId = uv0.activityId
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.checkBtn_, nil, function()
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
 		OperationRecorder.RecordButtonTouch("activity_affixbattle_reward_score")
 		JumpTools.OpenPageByJump("affixSelectScoreRewardJapanRegion", {
-			affixActivityId = arg_4_0.activityId
+			affixActivityId = uv0.activityId
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		local var_7_0 = ActivityAffixSelectData:GetCurrentActivityReward(arg_4_0.activityId)
-
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
 		ActivityAction.ReceivePointReward({
-			var_7_0
+			ActivityAffixSelectData:GetCurrentActivityReward(uv0.activityId)
 		})
 	end)
-	arg_4_0.bonusItem_:RegistCallBack(function(arg_8_0)
+	slot0.bonusItem_:RegistCallBack(function (slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_8_0.id
+			slot0.id
 		})
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_tipBtn, function()
-		local var_9_0 = GetTips("ACTIVITY_SKADI_SEA_DESCRIBE")
+	slot0:AddBtnListener(nil, slot0.m_tipBtn, function ()
+		slot0 = GetTips("ACTIVITY_SKADI_SEA_DESCRIBE")
 
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
@@ -61,118 +56,107 @@ function var_0_1.AddUIListener(arg_4_0)
 	end)
 end
 
-function var_0_1.OnEnter(arg_10_0)
-	arg_10_0.activityId = ActivityConst.ACTIVITY_2_4_AFFIX_SELECT
+function slot1.OnEnter(slot0)
+	slot0.activityId = ActivityConst.ACTIVITY_2_4_AFFIX_SELECT
 
-	local var_10_0 = ActivityCfg[arg_10_0.activityId].sub_activity_list
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.items_) do
-		iter_10_1:SetData(iter_10_0, var_10_0[iter_10_0])
+	for slot6, slot7 in ipairs(slot0.items_) do
+		slot7:SetData(slot6, ActivityCfg[slot0.activityId].sub_activity_list[slot6])
 	end
 
 	ActivityAffixSelectAction.ReadUnPassRedPoint()
-	manager.redPoint:bindUIandKey(arg_10_0.firstPassNoticeContainer_, string.format("%s_%s", RedPointConst.AFFIX_SELECT_FIRST_BONUS_CAN_GET, arg_10_0.activityId), {
+	manager.redPoint:bindUIandKey(slot0.firstPassNoticeContainer_, string.format("%s_%s", RedPointConst.AFFIX_SELECT_FIRST_BONUS_CAN_GET, slot0.activityId), {
 		x = 0,
 		y = 0
 	})
-	arg_10_0:UpdateView()
+	slot0:UpdateView()
 
-	local var_10_1 = getData("affixSelect", "mainScrollPos")
-
-	if var_10_1 then
-		arg_10_0.itemScrollRect_.horizontalNormalizedPosition = var_10_1
+	if getData("affixSelect", "mainScrollPos") then
+		slot0.itemScrollRect_.horizontalNormalizedPosition = slot3
 	end
 
-	arg_10_0:StartTimer()
-	arg_10_0:RegistEventListener(ACTIVITY_REWARD_GET, handler(arg_10_0, arg_10_0.UpdateView))
+	slot0:StartTimer()
+	slot0:RegistEventListener(ACTIVITY_REWARD_GET, handler(slot0, slot0.UpdateView))
 end
 
-function var_0_1.OnExit(arg_11_0)
-	arg_11_0:StopTimer()
-	arg_11_0:RemoveAllEventListener()
-	saveData("affixSelect", "mainScrollPos", arg_11_0.itemScrollRect_.horizontalNormalizedPosition)
-	manager.redPoint:unbindUIandKey(arg_11_0.firstPassNoticeContainer_)
+function slot1.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:RemoveAllEventListener()
+	saveData("affixSelect", "mainScrollPos", slot0.itemScrollRect_.horizontalNormalizedPosition)
+	manager.redPoint:unbindUIandKey(slot0.firstPassNoticeContainer_)
 	manager.windowBar:HideBar()
-	arg_11_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_1.StartTimer(arg_12_0)
-	if arg_12_0.timer_ == nil then
-		arg_12_0.timer_ = Timer.New(function()
-			arg_12_0:UpdateTimer()
+function slot1.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_12_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_1.StopTimer(arg_14_0)
-	if arg_14_0.timer_ then
-		arg_14_0.timer_:Stop()
+function slot1.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_14_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_1.UpdateTimer(arg_15_0)
-	local var_15_0 = ActivityData:GetActivityData(arg_15_0.activityId).stopTime
-
-	arg_15_0.lastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_15_0)
+function slot1.UpdateTimer(slot0)
+	slot0.lastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(ActivityData:GetActivityData(slot0.activityId).stopTime)
 end
 
-function var_0_1.UpdateView(arg_16_0)
-	local var_16_0 = ActivityAffixSelectData:GetCurrentActivityReward(arg_16_0.activityId)
-	local var_16_1 = ActivityPointRewardCfg[var_16_0]
+function slot1.UpdateView(slot0)
+	slot1 = ActivityAffixSelectData:GetCurrentActivityReward(slot0.activityId)
+	slot0.currentScoreLabel_.text = ActivityAffixSelectData:GetTotalScore(slot0.activityId)
+	slot0.totalScoreLabel_.text = "/" .. ActivityPointRewardCfg[slot1].need
 
-	arg_16_0.currentScoreLabel_.text = ActivityAffixSelectData:GetTotalScore(arg_16_0.activityId)
-	arg_16_0.totalScoreLabel_.text = "/" .. var_16_1.need
-
-	local var_16_2 = ActivityAffixSelectData:GetRewardStatus(arg_16_0.activityId, var_16_0)
-
-	if var_16_2 == 0 then
-		arg_16_0.reward_btnstateController_:SetSelectedState("received")
-	elseif var_16_2 == 1 then
-		arg_16_0.reward_btnstateController_:SetSelectedState("normal")
+	if ActivityAffixSelectData:GetRewardStatus(slot0.activityId, slot1) == 0 then
+		slot0.reward_btnstateController_:SetSelectedState("received")
+	elseif slot3 == 1 then
+		slot0.reward_btnstateController_:SetSelectedState("normal")
 	else
-		arg_16_0.reward_btnstateController_:SetSelectedState("receive")
+		slot0.reward_btnstateController_:SetSelectedState("receive")
 	end
 
-	arg_16_0.bonusItem_:RefreshData({
-		id = var_16_1.reward_item_list[1][1],
-		number = var_16_1.reward_item_list[1][2]
+	slot0.bonusItem_:RefreshData({
+		id = slot2.reward_item_list[1][1],
+		number = slot2.reward_item_list[1][2]
 	})
-	arg_16_0.bonusItem_:SetBottomText("")
+	slot0.bonusItem_:SetBottomText("")
 
-	arg_16_0.bonusNumLabel_.text = var_16_1.reward_item_list[1][2]
+	slot0.bonusNumLabel_.text = slot2.reward_item_list[1][2]
 
-	arg_16_0:UpdateTimer()
+	slot0:UpdateTimer()
 end
 
-function var_0_1.OnReceivePointReward(arg_17_0, arg_17_1)
-	arg_17_0:UpdateView()
+function slot1.OnReceivePointReward(slot0, slot1)
+	slot0:UpdateView()
 end
 
-function var_0_1.OnMainHomeViewTop(arg_18_0)
-	return
+function slot1.OnMainHomeViewTop(slot0)
 end
 
-function var_0_1.Dispose(arg_19_0)
-	if arg_19_0.bonusItem_ then
-		arg_19_0.bonusItem_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.bonusItem_ then
+		slot0.bonusItem_:Dispose()
 
-		arg_19_0.bonusItem_ = nil
+		slot0.bonusItem_ = nil
 	end
 
-	if arg_19_0.items_ then
-		for iter_19_0, iter_19_1 in pairs(arg_19_0.items_) do
-			iter_19_1:Dispose()
+	if slot0.items_ then
+		for slot4, slot5 in pairs(slot0.items_) do
+			slot5:Dispose()
 		end
 
-		arg_19_0.items_ = nil
+		slot0.items_ = nil
 	end
 
-	arg_19_0:StopTimer()
-	var_0_1.super.Dispose(arg_19_0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

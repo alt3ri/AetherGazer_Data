@@ -1,160 +1,151 @@
-local var_0_0 = class("StrategyMatrixView", ReduxView)
+slot0 = class("StrategyMatrixView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIDownUI/OceanusRoguelike/StrategyMatrixMapUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.map = nil
+	slot0.map = nil
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.m_giveUpBtn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_giveUpBtn, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_MATRIX"),
-			OkCallback = function()
-				StrategyMatrixAction.QueryMatrixGiveUp(arg_6_0.matrix_activity_id)
+			OkCallback = function ()
+				StrategyMatrixAction.QueryMatrixGiveUp(uv0.matrix_activity_id)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_infoBtn, nil, function()
-		local var_10_0 = StrategyMatrixData:GetMatrixHeroTeam(ActivityConst.OSHINAS_MATRIX)
-
+	slot0:AddBtnListener(slot0.m_infoBtn, nil, function ()
 		JumpTools.OpenPageByJump("/strategyMatrixHero", {
 			matrix_activity_id = ActivityConst.OSHINAS_MATRIX,
-			heroId = var_10_0[1]
+			heroId = StrategyMatrixData:GetMatrixHeroTeam(ActivityConst.OSHINAS_MATRIX)[1]
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_rewardBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("strategyMatrixRward", {
 			matrix_activity_id = ActivityConst.OSHINAS_MATRIX
 		})
 	end)
 end
 
-function var_0_0.OnTop(arg_12_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
 		ACTIVITY_MATRIX_COIN
 	})
-	manager.windowBar:SetGameHelpKey(StrategyMatrixTools.GetGameTipKey(arg_12_0.matrix_activity_id))
-	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, arg_12_0.matrix_activity_id)
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_12_0.map then
-			arg_12_0.map:GoBack()
+	manager.windowBar:SetGameHelpKey(StrategyMatrixTools.GetGameTipKey(slot0.matrix_activity_id))
+	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, slot0.matrix_activity_id)
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.map then
+			uv0.map:GoBack()
 		else
-			arg_12_0:Back()
+			uv0:Back()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.matrix_activity_id = arg_14_0.params_.matrix_activity_id
-	arg_14_0.mapId = StrategyMatrixData:GetMapId(arg_14_0.matrix_activity_id)
+function slot0.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
+	slot0.mapId = StrategyMatrixData:GetMapId(slot0.matrix_activity_id)
 
-	if arg_14_0.map and arg_14_0.mapId ~= arg_14_0.map:GetMapId() then
-		arg_14_0.map:Dispose()
+	if slot0.map and slot0.mapId ~= slot0.map:GetMapId() then
+		slot0.map:Dispose()
 
-		arg_14_0.map = nil
+		slot0.map = nil
 	end
 
-	arg_14_0.map = arg_14_0.map or StrategyMatrixMap.New(arg_14_0.mapId, arg_14_0.m_content)
+	slot0.map = slot0.map or StrategyMatrixMap.New(slot0.mapId, slot0.m_content)
 
-	arg_14_0.map:SetData(arg_14_0.matrix_activity_id)
+	slot0.map:SetData(slot0.matrix_activity_id)
 
-	if arg_14_0.params_.playerAnim then
-		arg_14_0.m_animator:Play("StrategyMatrixMapUI", 0, 0)
+	if slot0.params_.playerAnim then
+		slot0.m_animator:Play("StrategyMatrixMapUI", 0, 0)
 
-		arg_14_0.params_.playerAnim = nil
+		slot0.params_.playerAnim = nil
 
-		arg_14_0.map:PlayerAnim(true)
+		slot0.map:PlayerAnim(true)
 	else
-		arg_14_0.m_animator:Play("StrategyMatrixMapUI", 0, 9999999)
-		arg_14_0.map:PlayerAnim(false)
+		slot0.m_animator:Play("StrategyMatrixMapUI", 0, 9999999)
+		slot0.map:PlayerAnim(false)
 	end
 
-	arg_14_0:RefrenTime()
+	slot0:RefrenTime()
 
-	arg_14_0.timer = Timer.New(function()
-		arg_14_0:RefrenTime()
+	slot0.timer = Timer.New(function ()
+		uv0:RefrenTime()
 	end, 1, -1)
 
-	arg_14_0.timer:Start()
-	StrategyMatrixAction.SetStrategyRead(arg_14_0.matrix_activity_id)
-	manager.redPoint:bindUIandKey(arg_14_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, arg_14_0.matrix_activity_id))
+	slot0.timer:Start()
+	StrategyMatrixAction.SetStrategyRead(slot0.matrix_activity_id)
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, slot0.matrix_activity_id))
 
-	local var_14_0 = {
-		"VolumeDown_bg_00418",
-		"VolumeDown_bg_00419",
-		"VolumeDown_bg_00420",
-		"VolumeDown_bg_00421"
-	}
-	local var_14_1 = StrategyMatrixData:GetTierID(arg_14_0.matrix_activity_id)
-
-	if var_14_1 and StrategyMatrixTierTemplateCfg[var_14_1] then
-		local var_14_2 = StrategyMatrixTierTemplateCfg[var_14_1]
-
-		arg_14_0.m_title.text = GetTips("ACTIVITY_STRATEGY_TITLE_" .. var_14_2.tier)
-		arg_14_0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/VolumeIIIDownUI/" .. var_14_0[var_14_2.tier])
+	if StrategyMatrixData:GetTierID(slot0.matrix_activity_id) and StrategyMatrixTierTemplateCfg[slot2] then
+		slot3 = StrategyMatrixTierTemplateCfg[slot2]
+		slot0.m_title.text = GetTips("ACTIVITY_STRATEGY_TITLE_" .. slot3.tier)
+		slot0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/VolumeIIIDownUI/" .. ({
+			"VolumeDown_bg_00418",
+			"VolumeDown_bg_00419",
+			"VolumeDown_bg_00420",
+			"VolumeDown_bg_00421"
+		})[slot3.tier])
 	else
-		arg_14_0.m_title.text = ""
+		slot0.m_title.text = ""
 	end
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.map then
-		arg_16_0.map:Exit()
+function slot0.OnExit(slot0)
+	if slot0.map then
+		slot0.map:Exit()
 	end
 
-	if arg_16_0.timer then
-		arg_16_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_16_0.timer = nil
+		slot0.timer = nil
 	end
 
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_16_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, arg_16_0.matrix_activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, slot0.matrix_activity_id))
 end
 
-function var_0_0.RefrenTime(arg_17_0)
-	local var_17_0 = ActivityData:GetActivityData(arg_17_0.matrix_activity_id)
-
-	if var_17_0 and var_17_0:IsActivitying() then
-		arg_17_0.m_timeLab.text = manager.time:GetLostTimeStr(var_17_0.stopTime)
+function slot0.RefrenTime(slot0)
+	if ActivityData:GetActivityData(slot0.matrix_activity_id) and slot1:IsActivitying() then
+		slot0.m_timeLab.text = manager.time:GetLostTimeStr(slot1.stopTime)
 	else
-		arg_17_0.m_timeLab.text = GetTips("TIME_OVER")
+		slot0.m_timeLab.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.map then
-		arg_18_0.map:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.map then
+		slot0.map:Dispose()
 	end
 
-	arg_18_0.map = nil
+	slot0.map = nil
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

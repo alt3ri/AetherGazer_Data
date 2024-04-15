@@ -1,60 +1,59 @@
-local var_0_0 = class("ThreeButtonBoxView", ReduxView)
+slot0 = class("ThreeButtonBoxView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/PopUp/PopupmationUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.transformPanel_, "screenOrientation")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transformPanel_, "screenOrientation")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.textContent_.text = arg_4_0.params_.content
+function slot0.OnEnter(slot0)
+	slot0.textContent_.text = slot0.params_.content
 
 	if getScreenOrientation() then
-		arg_4_0.controller_:SetSelectedState("horizontal")
+		slot0.controller_:SetSelectedState("horizontal")
 	else
-		arg_4_0.controller_:SetSelectedState("vertical")
+		slot0.controller_:SetSelectedState("vertical")
 	end
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnTop(arg_6_0)
-	SetActive(arg_6_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_7_0)
-	SetActive(arg_7_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.buttonMask_, nil, function()
-		arg_9_0.params_.cancelFun()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonMask_, nil, function ()
+		uv0.params_.cancelFun()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.buttonCancel_, nil, function()
-		arg_9_0.params_.cancelFun()
+	slot0:AddBtnListener(slot0.buttonCancel_, nil, function ()
+		uv0.params_.cancelFun()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.buttonClose_, nil, function()
-		arg_9_0:Back()
-		arg_9_0.params_.closeFun()
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
+		uv0.params_.closeFun()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.buttonOk_, nil, function()
-		arg_9_0.params_.okFun()
+	slot0:AddBtnListener(slot0.buttonOk_, nil, function ()
+		uv0.params_.okFun()
 	end)
 end
 
-return var_0_0
+return slot0

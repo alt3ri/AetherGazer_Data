@@ -1,53 +1,46 @@
-local var_0_0 = class("PolyhedronSetAstrolabeItem", ReduxView)
+slot0 = class("PolyhedronSetAstrolabeItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	local var_5_0 = HeroAstrolabeCfg[arg_5_1]
-	local var_5_1 = var_5_0.hero_astrolabe_suit_id % 10
-
-	if var_5_1 == 1 then
-		arg_5_0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00097")
-	elseif var_5_1 == 2 then
-		arg_5_0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00098")
+function slot0.SetData(slot0, slot1)
+	if HeroAstrolabeCfg[slot1].hero_astrolabe_suit_id % 10 == 1 then
+		slot0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00097")
+	elseif slot4 == 2 then
+		slot0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00098")
 	else
-		arg_5_0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00096")
+		slot0.m_astrolabeIcon.sprite = getSprite("Atlas/Polyhedron_BattleAtlas", "PolyhedronBattle_00096")
 	end
 
-	local var_5_2 = AstrolabeEffectCfg[arg_5_1].desc[1]
-	local var_5_3 = GetCfgDescription(var_5_2, 1)
+	slot0.m_name.text = slot2.name
+	slot0.m_des.text = GetCfgDescription(AstrolabeEffectCfg[slot1].desc[1], 1)
 
-	arg_5_0.m_name.text = var_5_0.name
-	arg_5_0.m_des.text = var_5_3
-
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.m_des.transform)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.transform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_des.transform)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.SetActive(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

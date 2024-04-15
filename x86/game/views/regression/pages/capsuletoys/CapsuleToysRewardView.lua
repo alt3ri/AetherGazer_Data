@@ -1,99 +1,97 @@
-local var_0_0 = class("CapsuleToysRewardView", ReduxView)
+slot0 = class("CapsuleToysRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ReturnTwo/RT2stBonusPreviewUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.coreRewardList_ = {}
-	arg_4_0.normalRewardList_ = {}
+	slot0.coreRewardList_ = {}
+	slot0.normalRewardList_ = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.version_ = RegressionData:GetRegressionVersion()
+function slot0.RefreshUI(slot0)
+	slot0.version_ = RegressionData:GetRegressionVersion()
+	slot2 = {}
+	slot3 = {}
 
-	local var_8_0 = RegressionCfg[arg_8_0.version_].gashapon
-	local var_8_1 = {}
-	local var_8_2 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if RegressionCapsuleToysCfg[iter_8_1].reward_type == 1 then
-			var_8_1[#var_8_1 + 1] = iter_8_1
+	for slot7, slot8 in ipairs(RegressionCfg[slot0.version_].gashapon) do
+		if RegressionCapsuleToysCfg[slot8].reward_type == 1 then
+			slot2[#slot2 + 1] = slot8
 		else
-			var_8_2[#var_8_2 + 1] = iter_8_1
+			slot3[#slot3 + 1] = slot8
 		end
 	end
 
-	for iter_8_2, iter_8_3 in ipairs(var_8_1) do
-		if not arg_8_0.coreRewardList_[iter_8_2] then
-			arg_8_0.coreRewardList_[iter_8_2] = CapsuleToysRewardItem.New(arg_8_0.coreRewardPanel_, arg_8_0.rewardGo_, false)
+	for slot7, slot8 in ipairs(slot2) do
+		if not slot0.coreRewardList_[slot7] then
+			slot0.coreRewardList_[slot7] = CapsuleToysRewardItem.New(slot0.coreRewardPanel_, slot0.rewardGo_, false)
 		end
 
-		arg_8_0.coreRewardList_[iter_8_2]:SetData(iter_8_3, iter_8_2)
+		slot0.coreRewardList_[slot7]:SetData(slot8, slot7)
 	end
 
-	for iter_8_4 = #var_8_1 + 1, #arg_8_0.coreRewardList_ do
-		arg_8_0.coreRewardList_[iter_8_4]:Show(false)
+	for slot7 = #slot2 + 1, #slot0.coreRewardList_ do
+		slot0.coreRewardList_[slot7]:Show(false)
 	end
 
-	for iter_8_5, iter_8_6 in ipairs(var_8_2) do
-		if not arg_8_0.normalRewardList_[iter_8_5] then
-			arg_8_0.normalRewardList_[iter_8_5] = CapsuleToysRewardItem.New(arg_8_0.normalRewardPanel_, arg_8_0.rewardGo_, false)
+	for slot7, slot8 in ipairs(slot3) do
+		if not slot0.normalRewardList_[slot7] then
+			slot0.normalRewardList_[slot7] = CapsuleToysRewardItem.New(slot0.normalRewardPanel_, slot0.rewardGo_, false)
 		end
 
-		arg_8_0.normalRewardList_[iter_8_5]:SetData(iter_8_6, iter_8_5)
+		slot0.normalRewardList_[slot7]:SetData(slot8, slot7)
 	end
 
-	for iter_8_7 = #var_8_2 + 1, #arg_8_0.normalRewardList_ do
-		arg_8_0.normalRewardList_[iter_8_7]:Show(false)
+	for slot7 = #slot3 + 1, #slot0.normalRewardList_ do
+		slot0.normalRewardList_[slot7]:Show(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.coreRewardPanel_.transform)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.corRewardGroup_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.normalRewardPanel_.transform)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.normalRewardGroup_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.contentTrans_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.coreRewardPanel_.transform)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.corRewardGroup_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.normalRewardPanel_.transform)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.normalRewardGroup_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_9_0.coreRewardList_ then
-		for iter_9_0, iter_9_1 in ipairs(arg_9_0.coreRewardList_) do
-			iter_9_1:Dispose()
+	if slot0.coreRewardList_ then
+		for slot4, slot5 in ipairs(slot0.coreRewardList_) do
+			slot5:Dispose()
 		end
 
-		arg_9_0.coreRewardList_ = nil
+		slot0.coreRewardList_ = nil
 	end
 
-	if arg_9_0.normalRewardList_ then
-		for iter_9_2, iter_9_3 in ipairs(arg_9_0.normalRewardList_) do
-			iter_9_3:Dispose()
+	if slot0.normalRewardList_ then
+		for slot4, slot5 in ipairs(slot0.normalRewardList_) do
+			slot5:Dispose()
 		end
 
-		arg_9_0.normalRewardList_ = nil
+		slot0.normalRewardList_ = nil
 	end
 end
 
-return var_0_0
+return slot0

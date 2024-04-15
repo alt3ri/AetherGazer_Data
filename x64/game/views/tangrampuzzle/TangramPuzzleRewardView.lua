@@ -1,79 +1,72 @@
-local var_0_0 = class("TangramPuzzleRewardView", ReduxView)
+slot0 = class("TangramPuzzleRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return TangramPuzzleTools.GetRewardViewUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return TangramPuzzleTools.GetRewardViewUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	if arg_7_0.activityID_ ~= arg_7_0.params_.activityID then
-		arg_7_0:DispawnRegion()
-		arg_7_0:SpawnRegion(arg_7_0.params_.activityID)
+function slot0.OnEnter(slot0)
+	if slot0.activityID_ ~= slot0.params_.activityID then
+		slot0:DispawnRegion()
+		slot0:SpawnRegion(slot0.params_.activityID)
 	end
 
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:DispawnRegion()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:DispawnRegion()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = TangramPuzzleCfg[arg_9_0.activityID_]
+function slot0.RefreshUI(slot0)
+	slot1 = TangramPuzzleCfg[slot0.activityID_]
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.regionList_) do
-		iter_9_1:SetData(arg_9_0.activityID_, iter_9_0)
+	for slot5, slot6 in pairs(slot0.regionList_) do
+		slot6:SetData(slot0.activityID_, slot5)
 	end
 end
 
-function var_0_0.SpawnRegion(arg_10_0, arg_10_1)
-	local var_10_0 = TangramPuzzleCfg[arg_10_1].reward_area_list
+function slot0.SpawnRegion(slot0, slot1)
+	slot0.regionList_ = slot0.regionList_ or {}
 
-	arg_10_0.regionList_ = arg_10_0.regionList_ or {}
-
-	local var_10_1 = arg_10_0.regionContentTrans_.childCount
-
-	for iter_10_0 = 1, var_10_1 do
-		local var_10_2 = arg_10_0.regionContentTrans_:GetChild(iter_10_0 - 1)
-		local var_10_3 = var_10_0[iter_10_0][1]
-
-		if not arg_10_0.regionList_[var_10_3] then
-			arg_10_0.regionList_[var_10_3] = TangramRegionRewardItem.New(var_10_2)
+	for slot8 = 1, slot0.regionContentTrans_.childCount do
+		if not slot0.regionList_[TangramPuzzleCfg[slot1].reward_area_list[slot8][1]] then
+			slot0.regionList_[slot10] = TangramRegionRewardItem.New(slot0.regionContentTrans_:GetChild(slot8 - 1))
 		end
 	end
 end
 
-function var_0_0.DispawnRegion(arg_11_0)
-	if arg_11_0.regionList_ then
-		for iter_11_0, iter_11_1 in pairs(arg_11_0.regionList_) do
-			iter_11_1:Dispose()
+function slot0.DispawnRegion(slot0)
+	if slot0.regionList_ then
+		for slot4, slot5 in pairs(slot0.regionList_) do
+			slot5:Dispose()
 		end
 
-		arg_11_0.regionList_ = nil
+		slot0.regionList_ = nil
 	end
 
-	arg_11_0.maskList_ = nil
+	slot0.maskList_ = nil
 end
 
-return var_0_0
+return slot0

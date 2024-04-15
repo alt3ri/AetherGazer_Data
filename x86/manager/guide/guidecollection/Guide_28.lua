@@ -1,40 +1,35 @@
-local var_0_0 = class("Guide_19", BaseGuide)
+slot0 = class("Guide_19", BaseGuide)
 
-function var_0_0.InitSteps(arg_1_0)
-	local var_1_0 = {}
+function slot0.InitSteps(slot0)
+	slot1 = {}
 
-	arg_1_0:OnGuideStart()
+	slot0:OnGuideStart()
 
 	if SkuldTravelData:GetSkuldStatu() == 2 then
-		table.insert(var_1_0, 2801)
-		table.insert(var_1_0, 2802)
-		table.insert(var_1_0, 2803)
+		table.insert(slot1, 2801)
+		table.insert(slot1, 2802)
+		table.insert(slot1, 2803)
 	end
 
-	table.insert(var_1_0, 2804)
-	table.insert(var_1_0, 2805)
-	table.insert(var_1_0, 2806)
-	table.insert(var_1_0, 2807)
-	table.insert(var_1_0, 2808)
-	table.insert(var_1_0, 2809)
-	table.insert(var_1_0, 2810)
+	table.insert(slot1, 2804)
+	table.insert(slot1, 2805)
+	table.insert(slot1, 2806)
+	table.insert(slot1, 2807)
+	table.insert(slot1, 2808)
+	table.insert(slot1, 2809)
+	table.insert(slot1, 2810)
 
-	arg_1_0._steps = {}
+	slot0._steps = {}
 
-	local var_1_1 = #var_1_0
-
-	for iter_1_0 = 1, var_1_1 do
-		local var_1_2 = var_1_0[iter_1_0]
-		local var_1_3 = arg_1_0:ProduceStep(var_1_2)
-
-		if var_1_3 then
-			table.insert(arg_1_0._steps, var_1_3)
+	for slot6 = 1, #slot1 do
+		if slot0:ProduceStep(slot1[slot6]) then
+			table.insert(slot0._steps, slot8)
 		end
 	end
 end
 
-function var_0_0.CheckGuide(arg_2_0)
-	if not GuideTool.SatisfyCondition(arg_2_0.open_condition) then
+function slot0.CheckGuide(slot0)
+	if not GuideTool.SatisfyCondition(slot0.open_condition) then
 		return false
 	end
 
@@ -45,4 +40,4 @@ function var_0_0.CheckGuide(arg_2_0)
 	end
 end
 
-return var_0_0
+return slot0

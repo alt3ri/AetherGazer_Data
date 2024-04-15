@@ -1,50 +1,50 @@
-local var_0_0 = class("GameHelpProItem", ReduxView)
+slot0 = class("GameHelpProItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.showTextureController_ = arg_2_0.m_controller:GetController("showTexture")
+	slot0.showTextureController_ = slot0.m_controller:GetController("showTexture")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if arg_3_0.curPath_ == arg_3_2 then
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	if slot0.curPath_ == slot2 then
 		return
 	end
 
-	arg_3_0.curPath_ = arg_3_2
+	slot0.curPath_ = slot2
 
-	arg_3_0:DestroyGo()
+	slot0:DestroyGo()
 
-	if arg_3_3 then
-		arg_3_0.showTextureController_:SetSelectedState("false")
+	if slot3 then
+		slot0.showTextureController_:SetSelectedState("false")
 
-		arg_3_0.prefabGo_ = Object.Instantiate(Asset.Load(arg_3_2), arg_3_0.transform_)
+		slot0.prefabGo_ = Object.Instantiate(Asset.Load(slot2), slot0.transform_)
 	else
-		arg_3_0.showTextureController_:SetSelectedState("true")
-		getSpriteWithoutAtlasAsync(arg_3_2, function(arg_4_0)
-			arg_3_0.m_icon.sprite = arg_4_0
+		slot0.showTextureController_:SetSelectedState("true")
+		getSpriteWithoutAtlasAsync(slot2, function (slot0)
+			uv0.m_icon.sprite = slot0
 		end)
 	end
 end
 
-function var_0_0.DestroyGo(arg_5_0)
-	if arg_5_0.prefabGo_ then
-		Object.Destroy(arg_5_0.prefabGo_)
+function slot0.DestroyGo(slot0)
+	if slot0.prefabGo_ then
+		Object.Destroy(slot0.prefabGo_)
 
-		arg_5_0.prefabGo_ = nil
+		slot0.prefabGo_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0:DestroyGo()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:DestroyGo()
 end
 
-return var_0_0
+return slot0

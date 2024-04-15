@@ -1,87 +1,83 @@
-local var_0_0 = class("SequentialBattleBossInfoView", ReduxView)
+slot0 = class("SequentialBattleBossInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/continuousBattle/MardukBossDetailsPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.bossUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.uiList_, SequentialBattleBossInfoItem)
+	slot0.bossUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uiList_, SequentialBattleBossInfoItem)
 
-	arg_3_0.bossUIList_:SetPageChangeHandler(handler(arg_3_0, arg_3_0.OnPageChange))
+	slot0.bossUIList_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.activityID_ = arg_4_0.params_.activityID
-	arg_4_0.bossIndex_ = arg_4_0.params_.bossIndex
-	arg_4_0.pageIndex_ = arg_4_0.bossIndex_
-	arg_4_0.bossStageList_ = {}
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.bossIndex_ = slot0.params_.bossIndex
+	slot0.pageIndex_ = slot0.bossIndex_
+	slot0.bossStageList_ = {}
 
-	local var_4_0 = SequentialBattleChapterCfg[arg_4_0.activityID_].boss_list
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-		if iter_4_1 ~= 0 then
-			table.insert(arg_4_0.bossStageList_, iter_4_1)
+	for slot5, slot6 in ipairs(SequentialBattleChapterCfg[slot0.activityID_].boss_list) do
+		if slot6 ~= 0 then
+			table.insert(slot0.bossStageList_, slot6)
 		end
 	end
 
-	arg_4_0.bossUIList_:StartScroll(#arg_4_0.bossStageList_, arg_4_0.pageIndex_, true, false)
-	arg_4_0:RefreshBtn()
+	slot0.bossUIList_:StartScroll(#slot0.bossStageList_, slot0.pageIndex_, true, false)
+	slot0:RefreshBtn()
 end
 
-function var_0_0.OnExti(arg_5_0)
-	return
+function slot0.OnExti(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.bossUIList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.bossUIList_:Dispose()
 
-	arg_6_0.bossUIList_ = nil
+	slot0.bossUIList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.leftBtn_, nil, function()
-		if arg_7_0.pageIndex_ > 1 then
-			arg_7_0.pageIndex_ = arg_7_0.pageIndex_ - 1
+	slot0:AddBtnListener(slot0.leftBtn_, nil, function ()
+		if uv0.pageIndex_ > 1 then
+			uv0.pageIndex_ = uv0.pageIndex_ - 1
 
-			arg_7_0.bossUIList_:SwitchToPage(arg_7_0.pageIndex_)
+			uv0.bossUIList_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.rightBtn_, nil, function()
-		if arg_7_0.pageIndex_ < #arg_7_0.bossStageList_ then
-			arg_7_0.pageIndex_ = arg_7_0.pageIndex_ + 1
+	slot0:AddBtnListener(slot0.rightBtn_, nil, function ()
+		if uv0.pageIndex_ < #uv0.bossStageList_ then
+			uv0.pageIndex_ = uv0.pageIndex_ + 1
 
-			arg_7_0.bossUIList_:SwitchToPage(arg_7_0.pageIndex_)
+			uv0.bossUIList_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
 end
 
-function var_0_0.RefreshItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.bossStageList_[arg_11_1]
-	local var_11_1 = table.keyof(SequentialBattleChapterCfg[arg_11_0.activityID_].boss_list, var_11_0)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot3 = slot0.bossStageList_[slot1]
 
-	arg_11_2:SetBossID(var_11_0, var_11_1)
+	slot2:SetBossID(slot3, table.keyof(SequentialBattleChapterCfg[slot0.activityID_].boss_list, slot3))
 end
 
-function var_0_0.OnPageChange(arg_12_0, arg_12_1)
-	arg_12_0.pageIndex_ = arg_12_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
 
-	arg_12_0:RefreshBtn()
+	slot0:RefreshBtn()
 end
 
-function var_0_0.RefreshBtn(arg_13_0)
-	SetActive(arg_13_0.leftBtn_.gameObject, arg_13_0.pageIndex_ > 1)
-	SetActive(arg_13_0.rightBtn_.gameObject, arg_13_0.pageIndex_ < #arg_13_0.bossStageList_)
+function slot0.RefreshBtn(slot0)
+	SetActive(slot0.leftBtn_.gameObject, slot0.pageIndex_ > 1)
+	SetActive(slot0.rightBtn_.gameObject, slot0.pageIndex_ < #slot0.bossStageList_)
 end
 
-return var_0_0
+return slot0

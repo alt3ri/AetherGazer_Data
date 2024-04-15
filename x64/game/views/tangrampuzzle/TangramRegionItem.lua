@@ -1,152 +1,150 @@
-local var_0_0 = class("TangramRegionItem", ReduxView)
+slot0 = class("TangramRegionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
-	arg_1_0.rotateAxis_ = Vector3.New(0, 0, -1)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.rotateAxis_ = Vector3.New(0, 0, -1)
 end
 
-function var_0_0.OnExit(arg_2_0)
-	arg_2_0:StopLeanTween()
-	arg_2_0:StopAnim()
+function slot0.OnExit(slot0)
+	slot0:StopLeanTween()
+	slot0:StopAnim()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0:StopLeanTween()
-	arg_3_0:StopAnim()
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	slot0:StopLeanTween()
+	slot0:StopAnim()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.activityID_ = arg_4_1
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
 
-	arg_4_0:StopAnim()
+	slot0:StopAnim()
 end
 
-function var_0_0.GetPuzzleContent(arg_5_0)
-	return arg_5_0.puzzleContentTrans_
+function slot0.GetPuzzleContent(slot0)
+	return slot0.puzzleContentTrans_
 end
 
-function var_0_0.SetTransParent(arg_6_0, arg_6_1)
-	arg_6_0.originParent_ = arg_6_0.transform_.parent
+function slot0.SetTransParent(slot0, slot1)
+	slot0.originParent_ = slot0.transform_.parent
 
-	arg_6_0.transform_:SetParent(arg_6_1)
+	slot0.transform_:SetParent(slot1)
 end
 
-function var_0_0.RecoverTrans(arg_7_0)
-	if arg_7_0.originAngle_ then
-		arg_7_0.transform_:SetLocalEulerAngleOrigin(arg_7_0.originAngle_)
+function slot0.RecoverTrans(slot0)
+	if slot0.originAngle_ then
+		slot0.transform_:SetLocalEulerAngleOrigin(slot0.originAngle_)
 	end
 
-	arg_7_0.originAngle_ = nil
+	slot0.originAngle_ = nil
 
-	if arg_7_0.originParent_ then
-		arg_7_0.transform_:SetParent(arg_7_0.originParent_)
+	if slot0.originParent_ then
+		slot0.transform_:SetParent(slot0.originParent_)
 
-		arg_7_0.originParent_ = nil
+		slot0.originParent_ = nil
 	end
 end
 
-function var_0_0.PlayAutoPutAnim(arg_8_0, arg_8_1)
-	SetActive(arg_8_0.rewardAnimGo_, true)
-	arg_8_0:PlayAnim(arg_8_0.animator_, "JigsawPuzzleUI_regionItem", function()
-		SetActive(arg_8_0.rewardAnimGo_, false)
+function slot0.PlayAutoPutAnim(slot0, slot1)
+	SetActive(slot0.rewardAnimGo_, true)
+	slot0:PlayAnim(slot0.animator_, "JigsawPuzzleUI_regionItem", function ()
+		SetActive(uv0.rewardAnimGo_, false)
 
-		if arg_8_1 then
-			arg_8_1()
+		if uv1 then
+			uv1()
 		end
 	end)
 end
 
-function var_0_0.PlayRewardAnim(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.rewardAnimGo_, true)
-	arg_10_0:PlayAnim(arg_10_0.animator_, "JigsawPuzzleUI_regionItem", function()
-		SetActive(arg_10_0.rewardAnimGo_, false)
+function slot0.PlayRewardAnim(slot0, slot1)
+	SetActive(slot0.rewardAnimGo_, true)
+	slot0:PlayAnim(slot0.animator_, "JigsawPuzzleUI_regionItem", function ()
+		SetActive(uv0.rewardAnimGo_, false)
 
-		if arg_10_1 then
-			arg_10_1()
+		if uv1 then
+			uv1()
 		end
 	end)
 end
 
-function var_0_0.StopAnim(arg_12_0)
-	if arg_12_0.animtimer_ then
-		arg_12_0.animtimer_:Stop()
+function slot0.StopAnim(slot0)
+	if slot0.animtimer_ then
+		slot0.animtimer_:Stop()
 
-		arg_12_0.animtimer_ = nil
+		slot0.animtimer_ = nil
 	end
 
-	arg_12_0.animator_.enabled = false
+	slot0.animator_.enabled = false
 
-	SetActive(arg_12_0.rewardAnimGo_, false)
+	SetActive(slot0.rewardAnimGo_, false)
 end
 
-function var_0_0.Rotate(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_0.originAngle_ = arg_13_0.transform_:GetLocalEulerAngleOrigin()
+function slot0.Rotate(slot0, slot1, slot2)
+	slot0.originAngle_ = slot0.transform_:GetLocalEulerAngleOrigin()
 
-	arg_13_0:StopLeanTween()
+	slot0:StopLeanTween()
 
-	arg_13_0.rotateLeanTween_ = LeanTween.rotateAroundLocal(arg_13_0.gameObject_, arg_13_0.rotateAxis_, arg_13_1, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function()
-		arg_13_0:StopLeanTween()
+	slot0.rotateLeanTween_ = LeanTween.rotateAroundLocal(slot0.gameObject_, slot0.rotateAxis_, slot1, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function ()
+		uv0:StopLeanTween()
 
-		if arg_13_2 then
-			arg_13_2()
+		if uv1 then
+			uv1()
 		end
 	end))
 end
 
-function var_0_0.StopLeanTween(arg_15_0)
-	if arg_15_0.rotateLeanTween_ then
-		arg_15_0.rotateLeanTween_:setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_15_0.rotateLeanTween_.id)
+function slot0.StopLeanTween(slot0)
+	if slot0.rotateLeanTween_ then
+		slot0.rotateLeanTween_:setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.rotateLeanTween_.id)
 
-		arg_15_0.rotateLeanTween_ = nil
+		slot0.rotateLeanTween_ = nil
 	end
 end
 
-function var_0_0.PlayAnim(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	if not arg_16_1 then
-		if arg_16_3 then
-			arg_16_3()
+function slot0.PlayAnim(slot0, slot1, slot2, slot3)
+	if not slot1 then
+		if slot3 then
+			slot3()
 		end
 
 		return
 	end
 
-	arg_16_1.enabled = true
+	slot1.enabled = true
 
-	arg_16_1:Play(arg_16_2, -1, 0)
-	arg_16_1:Update(0)
+	slot1:Play(slot2, -1, 0)
+	slot1:Update(0)
 
-	if arg_16_0.animtimer_ then
-		arg_16_0.animtimer_:Stop()
+	if slot0.animtimer_ then
+		slot0.animtimer_:Stop()
 
-		arg_16_0.animtimer_ = nil
+		slot0.animtimer_ = nil
 	end
 
-	arg_16_0.animtimer_ = Timer.New(function()
-		local var_17_0 = arg_16_1:GetCurrentAnimatorStateInfo(0)
+	slot0.animtimer_ = Timer.New(function ()
+		if uv0:GetCurrentAnimatorStateInfo(0):IsName(uv1) and slot0.normalizedTime >= 1 then
+			if uv2.animtimer_ ~= nil then
+				uv2.animtimer_:Stop()
 
-		if var_17_0:IsName(arg_16_2) and var_17_0.normalizedTime >= 1 then
-			if arg_16_0.animtimer_ ~= nil then
-				arg_16_0.animtimer_:Stop()
-
-				arg_16_0.animtimer_ = nil
+				uv2.animtimer_ = nil
 			end
 
-			SetActive(arg_16_0.maskGo_, false)
+			SetActive(uv2.maskGo_, false)
 
-			if arg_16_3 then
-				arg_16_3()
+			if uv3 then
+				uv3()
 			end
 		end
 	end, 0.033, -1)
 
-	arg_16_0.animtimer_:Start()
+	slot0.animtimer_:Start()
 end
 
-return var_0_0
+return slot0

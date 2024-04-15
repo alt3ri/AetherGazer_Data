@@ -1,132 +1,121 @@
-local var_0_0 = class("ActivityAdvertiseItem", ReduxView)
+slot0 = class("ActivityAdvertiseItem", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	arg_1_0.cfgID_ = ActivityAdvertiseTools.GetOpenActivityCfgIDList()[1] or ActivityAdvertiseCfg.all[#ActivityAdvertiseCfg.all]
+function slot0.UIName(slot0)
+	slot0.cfgID_ = ActivityAdvertiseTools.GetOpenActivityCfgIDList()[1] or ActivityAdvertiseCfg.all[#ActivityAdvertiseCfg.all]
 
-	return ActivityAdvertiseCfg[arg_1_0.cfgID_].prefab_path
+	return ActivityAdvertiseCfg[slot0.cfgID_].prefab_path
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1)
-	arg_2_0.gameObject_ = Object.Instantiate(Asset.Load(arg_2_0:UIName()), arg_2_1.transform)
-	arg_2_0.transform_ = arg_2_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:UIName()), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.rewardItemList_ = {}
+	slot0.rewardItemList_ = {}
+	slot2 = ActivityAdvertiseData:GetDefaultPrompt()
+	slot0.promptToggle_.isOn = slot2
 
-	local var_2_0 = ActivityAdvertiseData:GetDefaultPrompt()
+	saveData("activityAdvertise", "prompt" .. slot0.cfgID_, slot2)
+	ActivityAdvertiseData:SetOpenAdvertiseFlag(slot0.cfgID_, true)
 
-	arg_2_0.promptToggle_.isOn = var_2_0
-
-	saveData("activityAdvertise", "prompt" .. arg_2_0.cfgID_, var_2_0)
-	ActivityAdvertiseData:SetOpenAdvertiseFlag(arg_2_0.cfgID_, true)
-
-	if arg_2_0.cfgID_ then
-		saveData("activityAdvertise", tostring(arg_2_0.cfgID_), manager.time:GetServerTime())
+	if slot0.cfgID_ then
+		saveData("activityAdvertise", tostring(slot0.cfgID_), manager.time:GetServerTime())
 	end
 
-	arg_2_0:RefreshUI()
-	arg_2_0:AddTimer()
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	arg_3_0:StopTimer()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:StopTimer()
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.rewardItemList_) do
-		iter_3_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.rewardItemList_ = nil
+	slot0.rewardItemList_ = nil
 
-	arg_3_0.promptToggle_.onValueChanged:RemoveAllListeners()
-	Object.Destroy(arg_3_0.gameObject_)
+	slot0.promptToggle_.onValueChanged:RemoveAllListeners()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.gameObject_ = nil
-	arg_3_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.goBtn_, nil, function()
-		local var_5_0 = ActivityAdvertiseCfg[arg_4_0.cfgID_].jump_system
-		local var_5_1, var_5_2 = JumpTools.GetSystemLockedText(var_5_0)
-		local var_5_3 = ActivityAdvertiseCfg[arg_4_0.cfgID_]
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		slot1, slot2 = JumpTools.GetSystemLockedText(ActivityAdvertiseCfg[uv0.cfgID_].jump_system)
 
-		OperationRecorder.RecordButtonTouch("homepage_jump_" .. var_5_3.activity_id)
+		OperationRecorder.RecordButtonTouch("homepage_jump_" .. ActivityAdvertiseCfg[uv0.cfgID_].activity_id)
 		SDKTools.SendMessageToSDK("activity_post_trigger", {
-			oper = var_5_1 and 2 or 1
+			oper = slot1 and 2 or 1
 		})
 
-		if var_5_1 then
-			ShowTips(var_5_2)
+		if slot1 then
+			ShowTips(slot2)
 
 			return
 		end
 
-		arg_4_0:Back()
+		uv0:Back()
 		SDKTools.SendMessageToSDK("activity_publicize_page_jump", {
 			opt = 1,
-			activity_id = var_5_3.activity_id
+			activity_id = slot3.activity_id
 		})
-		JumpTools.JumpToPage2(var_5_0)
+		JumpTools.JumpToPage2(slot0)
 		ActivityAdvertiseTools.StopAllAdvertise()
 	end)
-	arg_4_0.promptToggle_.onValueChanged:AddListener(function(arg_6_0)
-		saveData("activityAdvertise", "prompt" .. arg_4_0.cfgID_, arg_6_0)
-		ActivityAdvertiseData:SetDefaultPrompt(arg_6_0)
+	slot0.promptToggle_.onValueChanged:AddListener(function (slot0)
+		saveData("activityAdvertise", "prompt" .. uv0.cfgID_, slot0)
+		ActivityAdvertiseData:SetDefaultPrompt(slot0)
 		SDKTools.SendMessageToSDK("activity_post_shield", {
-			opt = arg_6_0 and 1 or 0
+			opt = slot0 and 1 or 0
 		})
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = ActivityAdvertiseCfg[arg_7_0.cfgID_]
+function slot0.RefreshUI(slot0)
+	for slot5, slot6 in ipairs(ActivityAdvertiseCfg[slot0.cfgID_].reward_list) do
+		if slot0.rewardItemList_[slot5] == nil then
+			slot0.rewardItemList_[slot5] = RewardPoolItem.New(slot0.rewardPanel_, {
+				slot6,
+				0
+			}, true)
 
-	for iter_7_0, iter_7_1 in ipairs(var_7_0.reward_list) do
-		local var_7_1 = {
-			iter_7_1,
-			0
-		}
-
-		if arg_7_0.rewardItemList_[iter_7_0] == nil then
-			arg_7_0.rewardItemList_[iter_7_0] = RewardPoolItem.New(arg_7_0.rewardPanel_, var_7_1, true)
-
-			arg_7_0.rewardItemList_[iter_7_0]:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
-			arg_7_0.rewardItemList_[iter_7_0]:HideNum()
+			slot0.rewardItemList_[slot5]:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
+			slot0.rewardItemList_[slot5]:HideNum()
 		else
-			arg_7_0.rewardItemList_[iter_7_0]:SetData(var_7_1)
+			slot0.rewardItemList_[slot5]:SetData(slot7)
 		end
 	end
 
-	for iter_7_2 = #arg_7_0.rewardItemList_, #var_7_0.reward_list + 1, -1 do
-		arg_7_0.rewardItemList_[iter_7_2]:Dispose()
+	for slot5 = #slot0.rewardItemList_, #slot1.reward_list + 1, -1 do
+		slot0.rewardItemList_[slot5]:Dispose()
 
-		arg_7_0.rewardItemList_[iter_7_2] = nil
+		slot0.rewardItemList_[slot5] = nil
 	end
 end
 
-function var_0_0.AddTimer(arg_8_0)
-	arg_8_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	local var_8_0 = ActivityAdvertiseCfg[arg_8_0.cfgID_].activity_id
-	local var_8_1 = ActivityData:GetActivityData(var_8_0)
-
-	arg_8_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(var_8_1.stopTime, true)
-	arg_8_0.timer_ = Timer.New(function()
-		arg_8_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(var_8_1.stopTime, true)
+	slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(ActivityData:GetActivityData(ActivityAdvertiseCfg[slot0.cfgID_].activity_id).stopTime, true)
+	slot0.timer_ = Timer.New(function ()
+		uv0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(uv1.stopTime, true)
 	end, 1, -1)
 
-	arg_8_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_10_0)
-	if arg_10_0.timer_ then
-		arg_10_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_10_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

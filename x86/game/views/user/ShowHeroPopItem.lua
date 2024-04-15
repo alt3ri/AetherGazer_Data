@@ -1,80 +1,74 @@
-local var_0_0 = class("ShowHeroPopItem", ReduxView)
+slot0 = class("ShowHeroPopItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroCampCon_ = ControllerUtil.GetController(arg_3_0.transform_, "camp")
-	arg_3_0.heroStarCon_ = ControllerUtil.GetController(arg_3_0.transform_, "grade")
-	arg_3_0.heroStateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.heroCampCon_ = ControllerUtil.GetController(slot0.transform_, "camp")
+	slot0.heroStarCon_ = ControllerUtil.GetController(slot0.transform_, "grade")
+	slot0.heroStateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.selfBtn_, nil, function()
-		if arg_4_0.clickFunc_ then
-			arg_4_0.clickFunc_()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.selfBtn_, nil, function ()
+		if uv0.clickFunc_ then
+			uv0.clickFunc_()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.data_ = arg_7_1
-	arg_7_0.isForeign_ = arg_7_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.isForeign_ = slot2
 
-	if arg_7_0.data_.hero_id == 0 then
-		if not arg_7_0.isForeign_ then
-			arg_7_0.heroStateCon_:SetSelectedState(1)
+	if slot0.data_.hero_id == 0 then
+		if not slot0.isForeign_ then
+			slot0.heroStateCon_:SetSelectedState(1)
 		else
-			arg_7_0.heroStateCon_:SetSelectedState(2)
+			slot0.heroStateCon_:SetSelectedState(2)
 		end
 	else
-		arg_7_0.heroStateCon_:SetSelectedState(0)
-		arg_7_0:RefreshUI()
+		slot0.heroStateCon_:SetSelectedState(0)
+		slot0:RefreshUI()
 	end
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.headIcon_.sprite = getSpriteViaConfig("HeroIcon", arg_8_0.data_.using_skin == 0 and arg_8_0.data_.hero_id or arg_8_0.data_.using_skin)
+function slot0.RefreshUI(slot0)
+	slot0.headIcon_.sprite = getSpriteViaConfig("HeroIcon", slot0.data_.using_skin == 0 and slot0.data_.hero_id or slot0.data_.using_skin)
 
-	local var_8_0 = HeroStarCfg[arg_8_0.data_.star]
-	local var_8_1 = var_8_0 ~= nil and var_8_0.star or 1
+	slot0.heroStarCon_:SetSelectedState(HeroStarCfg[slot0.data_.star] ~= nil and slot1.star or 1)
 
-	arg_8_0.heroStarCon_:SetSelectedState(var_8_1)
+	slot4 = HeroCfg[slot0.data_.hero_id].race
+	slot0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(slot0.data_.hero_id)
+	slot0.levelText_.text = slot0.data_.level
 
-	local var_8_2 = HeroCfg[arg_8_0.data_.hero_id].race
-
-	arg_8_0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(arg_8_0.data_.hero_id)
-	arg_8_0.levelText_.text = arg_8_0.data_.level
-
-	SetActive(arg_8_0.lvGo_, not arg_8_0.isForeign_)
+	SetActive(slot0.lvGo_, not slot0.isForeign_)
 end
 
-function var_0_0.RegistClickFunction(arg_9_0, arg_9_1)
-	arg_9_0.clickFunc_ = arg_9_1
+function slot0.RegistClickFunction(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

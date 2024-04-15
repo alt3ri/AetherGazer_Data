@@ -1,60 +1,57 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("ActivityAccumulativeView", ActivityMainBasePanel)
 
-local var_0_0 = class("ActivityAccumulativeView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_AccumulateUI/NorseUI_3_0_AccumulateUI"
 end
 
-function var_0_0.Init(arg_2_0)
-	var_0_0.super.Init(arg_2_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_2_0.nodeList = {}
-	arg_2_0.drawIndex = 0
-	arg_2_0.taskUpdateHandler_ = handler(arg_2_0, arg_2_0.TaskUpdate)
-	arg_2_0.controller_ = arg_2_0.lastControllerexcollection_:GetController("default0")
-	arg_2_0.taskScroll_ = LuaList.New(handler(arg_2_0, arg_2_0.RefreshItem), arg_2_0.uilistUilist_, AccumulativeGachaItem)
+	slot0.nodeList = {}
+	slot0.drawIndex = 0
+	slot0.taskUpdateHandler_ = handler(slot0, slot0.TaskUpdate)
+	slot0.controller_ = slot0.lastControllerexcollection_:GetController("default0")
+	slot0.taskScroll_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uilistUilist_, AccumulativeGachaItem)
 end
 
-function var_0_0.RefreshItem(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_2:SetData(arg_3_0.tasklist[arg_3_1], arg_3_1)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.tasklist[slot1], slot1)
 
-	if not arg_3_0.tasklist[arg_3_1] or not arg_3_0.tasklist[arg_3_1].state then
-		local var_3_0 = 0
-	end
+	slot3 = slot0.tasklist[slot1] and slot0.tasklist[slot1].state or 0
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	var_0_0.super.OnEnter(arg_4_0)
-	arg_4_0:TaskUpdate()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:TaskUpdate()
 
-	arg_4_0.contentTrs_.localPosition = Vector3.New(-222 * arg_4_0.drawIndex, 0, 0)
+	slot0.contentTrs_.localPosition = Vector3.New(-222 * slot0.drawIndex, 0, 0)
 
-	manager.notify:RegistListener(ACCUMULATIVEGACHA_UPDATE, arg_4_0.taskUpdateHandler_)
+	manager.notify:RegistListener(ACCUMULATIVEGACHA_UPDATE, slot0.taskUpdateHandler_)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	var_0_0.super.OnExit(arg_5_0)
-	manager.notify:RemoveListener(ACCUMULATIVEGACHA_UPDATE, arg_5_0.taskUpdateHandler_)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.notify:RemoveListener(ACCUMULATIVEGACHA_UPDATE, slot0.taskUpdateHandler_)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.taskUpdateHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.taskUpdateHandler_ = nil
 
-	arg_6_0.taskScroll_:Dispose()
+	slot0.taskScroll_:Dispose()
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.nodeList) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.nodeList) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.goBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		JumpTools.GoToSystem("/draw", nil, ViewConst.SYSTEM_ID.DRAW)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.descbtnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.descbtnBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_ACCUMULATIVE_INSTRUCTIONS",
@@ -65,21 +62,19 @@ function var_0_0.AddListeners(arg_7_0)
 	end)
 end
 
-function var_0_0.RefreshTimeText(arg_10_0)
-	arg_10_0.texttimeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_10_0.stopTime_)
+function slot0.RefreshTimeText(slot0)
+	slot0.texttimeText_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
 end
 
-function var_0_0.TaskUpdate(arg_11_0)
-	arg_11_0.tasklist = ActivityAccumulativeData:GetList(arg_11_0.activityID_)
+function slot0.TaskUpdate(slot0)
+	slot0.tasklist = ActivityAccumulativeData:GetList(slot0.activityID_)
 
-	arg_11_0.taskScroll_:StartScroll(#arg_11_0.tasklist)
+	slot0.taskScroll_:StartScroll(#slot0.tasklist)
 
-	local var_11_0 = 0
-
-	arg_11_0.descTxt_.text = ActivityAccumulativeData:GetNum()
-	arg_11_0.textText_.text = GetTips("ACTIVITY_ACCUMULATIVE_INTRODUCE")
-
-	local var_11_1 = {
+	slot1 = 0
+	slot0.descTxt_.text = ActivityAccumulativeData:GetNum()
+	slot0.textText_.text = GetTips("ACTIVITY_ACCUMULATIVE_INTRODUCE")
+	slot2 = {
 		0.08,
 		0.18,
 		0.3,
@@ -91,48 +86,38 @@ function var_0_0.TaskUpdate(arg_11_0)
 		1,
 		1
 	}
-	local var_11_2 = 1425
-	local var_11_3 = 0
-	local var_11_4 = 0.1
-	local var_11_5 = 0
-	local var_11_6 = 0
-	local var_11_7 = 9999
+	slot3 = 1425
+	slot4 = 0
+	slot5 = 0.1
+	slot6 = 0
+	slot7 = 0
+	slot8 = 9999
 
-	for iter_11_0 = 1, #arg_11_0.tasklist do
-		if not arg_11_0.nodeList[iter_11_0] then
-			local var_11_8 = arg_11_0[string.format("point%sGo_", iter_11_0)]
-
-			arg_11_0.nodeList[iter_11_0] = AccumulativeGachaPoint.New(var_11_8)
+	for slot12 = 1, #slot0.tasklist do
+		if not slot0.nodeList[slot12] then
+			slot0.nodeList[slot12] = AccumulativeGachaPoint.New(slot0[string.format("point%sGo_", slot12)])
 		end
 
-		local var_11_9 = arg_11_0.tasklist[iter_11_0]
-		local var_11_10 = ActivityPointRewardCfg[var_11_9.id]
+		if ActivityPointRewardCfg[slot0.tasklist[slot12].id] then
+			slot4 = math.max(slot4, slot14.need)
+			slot0.drawIndex = math.max(slot13.state == 2 and slot12 or 0, slot0.drawIndex)
 
-		if var_11_10 then
-			var_11_3 = math.max(var_11_3, var_11_10.need)
+			if slot14.need <= ActivityAccumulativeData:GetNum() then
+				slot5 = 0.12
+				slot6 = slot2[slot12]
 
-			local var_11_11 = var_11_9.state
+				slot0.nodeList[slot12]:SetIsDraw(true)
 
-			arg_11_0.drawIndex = math.max(var_11_11 == 2 and iter_11_0 or 0, arg_11_0.drawIndex)
-
-			if ActivityAccumulativeData:GetNum() >= var_11_10.need then
-				var_11_4 = 0.12
-				var_11_5 = var_11_1[iter_11_0]
-
-				arg_11_0.nodeList[iter_11_0]:SetIsDraw(true)
-
-				var_11_6 = math.max(var_11_6, var_11_10.need)
+				slot7 = math.max(slot7, slot14.need)
 			else
-				var_11_7 = math.min(var_11_7, var_11_10.need)
+				slot8 = math.min(slot8, slot14.need)
 
-				arg_11_0.nodeList[iter_11_0]:SetIsDraw(false)
+				slot0.nodeList[slot12]:SetIsDraw(false)
 			end
 		end
 	end
 
-	local var_11_12 = var_11_5 + (ActivityAccumulativeData:GetNum() - var_11_6) / (var_11_7 - var_11_6) * var_11_4
-
-	arg_11_0.sliderSlr_.value = var_11_12
+	slot0.sliderSlr_.value = slot6 + (ActivityAccumulativeData:GetNum() - slot7) / (slot8 - slot7) * slot5
 end
 
-return var_0_0
+return slot0

@@ -1,42 +1,42 @@
-local var_0_0 = class("HeroTrammelsSwitchNetItem", ReduxView)
+slot0 = class("HeroTrammelsSwitchNetItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index = slot2
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.indexController = ControllerUtil.GetController(arg_3_0.transform_, "index")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.indexController = ControllerUtil.GetController(slot0.transform_, "index")
 
-	arg_3_0.indexController:SetSelectedIndex(arg_3_0.index - 1)
+	slot0.indexController:SetSelectedIndex(slot0.index - 1)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_btn, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_btn, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.stateController:SetSelectedIndex(arg_6_1)
+function slot0.SetData(slot0, slot1)
+	slot0.stateController:SetSelectedIndex(slot1)
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	arg_7_0.callback_ = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-return var_0_0
+return slot0

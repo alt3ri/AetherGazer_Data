@@ -1,30 +1,25 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveBossChallengeTemplate", var_0_0)
+slot1 = class("ReserveBossChallengeTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.FilterInvalidTeamData(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = 1
-	local var_1_1 = clone(arg_1_2.resultHeroList)
+function slot1.FilterInvalidTeamData(slot0, slot1, slot2)
+	slot3 = 1
 
-	for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-		if iter_1_1 ~= 0 and not table.keyof(arg_1_2.lockHeroList, iter_1_1) then
-			arg_1_2.resultHeroList[var_1_0] = iter_1_1
-			var_1_0 = var_1_0 + 1
-		elseif table.keyof(arg_1_2.lockHeroList, iter_1_1) then
-			arg_1_2.isInVaild = true
-			arg_1_2.resultHeroList[var_1_0] = 0
+	for slot8, slot9 in ipairs(clone(slot2.resultHeroList)) do
+		if slot9 ~= 0 and not table.keyof(slot2.lockHeroList, slot9) then
+			slot2.resultHeroList[slot3] = slot9
+			slot3 = slot3 + 1
+		elseif table.keyof(slot2.lockHeroList, slot9) then
+			slot2.isInVaild = true
+			slot2.resultHeroList[slot3] = 0
 		end
 	end
 end
 
-function var_0_1.GetLockHero(arg_2_0, arg_2_1, arg_2_2)
-	local var_2_0 = arg_2_1.customData.bossIndex
-	local var_2_1 = BossTools.GetLockHero()
-
-	for iter_2_0, iter_2_1 in pairs(var_2_1) do
-		if iter_2_0 ~= var_2_0 then
-			table.insertto(arg_2_2.lockHeroList, iter_2_1)
+function slot1.GetLockHero(slot0, slot1, slot2)
+	for slot8, slot9 in pairs(BossTools.GetLockHero()) do
+		if slot8 ~= slot1.customData.bossIndex then
+			table.insertto(slot2.lockHeroList, slot9)
 		end
 	end
 end
 
-return var_0_1
+return slot1

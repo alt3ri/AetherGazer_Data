@@ -1,57 +1,52 @@
-local var_0_0 = class("WeaponStrView", ReduxView)
+slot0 = class("WeaponStrView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_key/HeroKeyLvupPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmask_, nil, function()
-		arg_5_0:Back()
-		arg_5_0.params_.callback()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmask_, nil, function ()
+		uv0:Back()
+		uv0.params_.callback()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	local var_7_0 = arg_7_0.params_
+function slot0.OnEnter(slot0)
+	slot1 = slot0.params_
 
-	arg_7_0:RefreshStrSuccess(var_7_0.oriLv, var_7_0.afterLv, var_7_0.breakthrough)
+	slot0:RefreshStrSuccess(slot1.oriLv, slot1.afterLv, slot1.breakthrough)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RefreshStrSuccess(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.descChangeText_.text = arg_9_1
-	arg_9_0.desctextText_.text = arg_9_2
-
-	local var_9_0 = WeaponTools.WeaponAtk(arg_9_1, arg_9_3)
-	local var_9_1 = WeaponTools.WeaponAtk(arg_9_2, arg_9_3)
-
-	arg_9_0.originText_.text = string.format("%d", var_9_0)
-	arg_9_0.afterText_.text = string.format("%d", var_9_1)
+function slot0.RefreshStrSuccess(slot0, slot1, slot2, slot3)
+	slot0.descChangeText_.text = slot1
+	slot0.desctextText_.text = slot2
+	slot0.originText_.text = string.format("%d", WeaponTools.WeaponAtk(slot1, slot3))
+	slot0.afterText_.text = string.format("%d", WeaponTools.WeaponAtk(slot2, slot3))
 end
 
-function var_0_0.Cacheable(arg_10_0)
+function slot0.Cacheable(slot0)
 	return false
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

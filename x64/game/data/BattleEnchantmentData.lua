@@ -1,13 +1,13 @@
-local var_0_0 = singletonClass("EnchantmentStageData")
-local var_0_1 = {
+slot0 = singletonClass("EnchantmentStageData")
+slot1 = {
 	freeRefreshTimes = 0,
 	allRefreshedTimes = 0,
 	selectLevel = 0,
 	enchantmentBattleList = {}
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {
+function slot0.Init(slot0)
+	uv0 = {
 		freeRefreshTimes = 0,
 		allRefreshedTimes = 0,
 		selectLevel = 0,
@@ -15,37 +15,37 @@ function var_0_0.Init(arg_1_0)
 	}
 end
 
-function var_0_0.GetData(arg_2_0)
-	return var_0_1
+function slot0.GetData(slot0)
+	return uv0
 end
 
-function var_0_0.InitEnchantment(arg_3_0, arg_3_1)
-	var_0_1.freeRefreshTimes = arg_3_1.free_refreshed_times
-	var_0_1.allRefreshedTimes = arg_3_1.all_buy_refreshed_times
+function slot0.InitEnchantment(slot0, slot1)
+	uv0.freeRefreshTimes = slot1.free_refreshed_times
+	uv0.allRefreshedTimes = slot1.all_buy_refreshed_times
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.enchantment_battle_list) do
-		var_0_1.enchantmentBattleList[iter_3_0] = iter_3_1
+	for slot5, slot6 in ipairs(slot1.enchantment_battle_list) do
+		uv0.enchantmentBattleList[slot5] = slot6
 	end
 end
 
-function var_0_0.EnchantmentFreeRefresh(arg_4_0, arg_4_1)
-	var_0_1.freeRefreshTimes = var_0_1.freeRefreshTimes <= 0 and 0 or var_0_1.freeRefreshTimes - 1
+function slot0.EnchantmentFreeRefresh(slot0, slot1)
+	uv0.freeRefreshTimes = uv0.freeRefreshTimes <= 0 and 0 or uv0.freeRefreshTimes - 1
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.enchantment_battle_list) do
-		var_0_1.enchantmentBattleList[iter_4_0] = iter_4_1
+	for slot5, slot6 in ipairs(slot1.enchantment_battle_list) do
+		uv0.enchantmentBattleList[slot5] = slot6
 	end
 end
 
-function var_0_0.EnchantmentBuyRefresh(arg_5_0, arg_5_1)
-	var_0_1.allRefreshedTimes = var_0_1.allRefreshedTimes + 1
+function slot0.EnchantmentBuyRefresh(slot0, slot1)
+	uv0.allRefreshedTimes = uv0.allRefreshedTimes + 1
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1.enchantment_battle_list) do
-		var_0_1.enchantmentBattleList[iter_5_0] = iter_5_1
+	for slot5, slot6 in ipairs(slot1.enchantment_battle_list) do
+		uv0.enchantmentBattleList[slot5] = slot6
 	end
 end
 
-function var_0_0.SetSelectLevel(arg_6_0, arg_6_1)
-	var_0_1.selectLevel = arg_6_1
+function slot0.SetSelectLevel(slot0, slot1)
+	uv0.selectLevel = slot1
 end
 
-return var_0_0
+return slot0

@@ -1,251 +1,228 @@
-local var_0_0 = class("HeroTeamInfoCooperationView", ReduxView)
+slot0 = class("HeroTeamInfoCooperationView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Cooperation/HeroTeamInfoCooperationUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.contorller_ = ControllerUtil.GetController(arg_4_0.joinBtn_.transform, "upgradeBtn")
-	arg_4_0.heroAvatarView_ = HeroAvatarView.New(arg_4_0, arg_4_0.displayGo_)
-	arg_4_0.heroHeadList_ = LuaList.New(handler(arg_4_0, arg_4_0.HeadRenderer), arg_4_0.uiListGo_, HeroTeamHeadItem)
-	arg_4_0.filterView_ = HeroListFilterWithTrialView.New(arg_4_0.filterGo_)
+	slot0.contorller_ = ControllerUtil.GetController(slot0.joinBtn_.transform, "upgradeBtn")
+	slot0.heroAvatarView_ = HeroAvatarView.New(slot0, slot0.displayGo_)
+	slot0.heroHeadList_ = LuaList.New(handler(slot0, slot0.HeadRenderer), slot0.uiListGo_, HeroTeamHeadItem)
+	slot0.filterView_ = HeroListFilterWithTrialView.New(slot0.filterGo_)
 
-	arg_4_0.filterView_:SetExtraSorter(function(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-		local var_5_0 = arg_4_0:CheckInTeam(arg_5_0.id, arg_5_0.trialID)
-
-		if var_5_0 ~= arg_4_0:CheckInTeam(arg_5_1.id, arg_5_1.trialID) then
-			return true, var_5_0
+	slot0.filterView_:SetExtraSorter(function (slot0, slot1, slot2, slot3)
+		if uv0:CheckInTeam(slot0.id, slot0.trialID) ~= uv0:CheckInTeam(slot1.id, slot1.trialID) then
+			return true, slot4
 		end
 
-		if arg_5_0.trialID ~= 0 or arg_5_1.trialID ~= 0 then
-			if arg_5_0.trialID ~= 0 and arg_5_1.trialID ~= 0 then
-				if arg_5_2 == 0 and arg_5_0.star ~= arg_5_1.star then
-					if arg_4_0.curOrder_ == "desc" then
-						return true, arg_5_0.star > arg_5_1.star
+		if slot0.trialID ~= 0 or slot1.trialID ~= 0 then
+			if slot0.trialID ~= 0 and slot1.trialID ~= 0 then
+				if slot2 == 0 and slot0.star ~= slot1.star then
+					if uv0.curOrder_ == "desc" then
+						return true, slot1.star < slot0.star
 					else
-						return true, arg_5_0.star < arg_5_1.star
+						return true, slot0.star < slot1.star
 					end
 				end
 
-				local var_5_1 = getHeroPower(arg_5_0.trialID, true)
-				local var_5_2 = getHeroPower(arg_5_1.trialID, true)
-
-				if var_5_1 ~= var_5_2 then
-					if arg_5_3 == "desc" then
-						return true, var_5_2 < var_5_1
+				if getHeroPower(slot0.trialID, true) ~= getHeroPower(slot1.trialID, true) then
+					if slot3 == "desc" then
+						return true, slot7 < slot6
 					else
-						return true, var_5_1 < var_5_2
+						return true, slot6 < slot7
 					end
 				else
-					return true, arg_5_0.trialID > arg_5_1.trialID
+					return true, slot1.trialID < slot0.trialID
 				end
 			else
-				return true, arg_5_0.trialID > arg_5_1.trialID
+				return true, slot1.trialID < slot0.trialID
 			end
 		end
 
 		return false, false
 	end)
-	arg_4_0.filterView_:SetListChangeHandler(handler(arg_4_0, arg_4_0.OnListChange))
+	slot0.filterView_:SetListChangeHandler(handler(slot0, slot0.OnListChange))
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.joinBtn_, nil, function()
-		arg_6_0:OnJoinClick()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.joinBtn_, nil, function ()
+		uv0:OnJoinClick()
 	end)
 end
 
-function var_0_0.OnJoinClick(arg_8_0)
-	local var_8_0 = arg_8_0.selectID_
-	local var_8_1 = 1
+function slot0.OnJoinClick(slot0)
+	slot1 = slot0.selectID_
+	slot2 = 1
 
-	if arg_8_0.selectTrialID_ ~= 0 then
-		var_8_0 = arg_8_0.selectTrialID_
-		var_8_1 = 2
+	if slot0.selectTrialID_ ~= 0 then
+		slot1 = slot0.selectTrialID_
+		slot2 = 2
 	end
 
 	CooperationAction.ChangeHero({
 		{
-			hero_id = var_8_0,
-			hero_type = var_8_1,
+			hero_id = slot1,
+			hero_type = slot2,
 			owner_id = BattleTeamData.NO_OWNER
 		}
 	})
 end
 
-function var_0_0.OnListChange(arg_9_0, arg_9_1)
-	arg_9_0.heroDataList_ = arg_9_1
+function slot0.OnListChange(slot0, slot1)
+	slot0.heroDataList_ = slot1
 
-	arg_9_0.heroHeadList_:StartScroll(#arg_9_0.heroDataList_)
+	slot0.heroHeadList_:StartScroll(#slot0.heroDataList_)
 
-	if #arg_9_0.heroDataList_ > 0 then
-		arg_9_0:SelectHero(arg_9_0.heroDataList_[1].id, arg_9_0.heroDataList_[1].trialID)
+	if #slot0.heroDataList_ > 0 then
+		slot0:SelectHero(slot0.heroDataList_[1].id, slot0.heroDataList_[1].trialID)
 	end
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	manager.ui:SetMainCamera("hero")
 
-	arg_10_0.heroViewProxy_ = HeroViewDataProxy.New(HeroConst.HERO_DATA_TYPE.COOPERATION)
+	slot0.heroViewProxy_ = HeroViewDataProxy.New(HeroConst.HERO_DATA_TYPE.COOPERATION)
 
-	if arg_10_0.params_.isEnter then
-		if arg_10_0.filterView_ then
-			arg_10_0.filterView_:Reset()
+	if slot0.params_.isEnter then
+		if slot0.filterView_ then
+			slot0.filterView_:Reset()
 		end
 
-		arg_10_0.params_.isEnter = false
+		slot0.params_.isEnter = false
 	end
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR
 	})
 
-	arg_10_0.room = CooperationData:GetRoomData()
+	slot0.room = CooperationData:GetRoomData()
 
-	if arg_10_0.heroAvatarView_ then
-		arg_10_0.heroAvatarView_:OnEnter()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:OnEnter()
 	end
 
-	local var_10_0 = CooperationTools.GetCooperationTeamHeroList(arg_10_0.room.type, arg_10_0.room.dest, arg_10_0.room.activity_id)
+	slot1 = CooperationTools.GetCooperationTeamHeroList(slot0.room.type, slot0.room.dest, slot0.room.activity_id)
 
-	if arg_10_0.room then
-		arg_10_0.selectID_, arg_10_0.selectTrialID_ = arg_10_0.room:GetSelfHero()
+	if slot0.room then
+		slot0.selectID_, slot0.selectTrialID_ = slot0.room:GetSelfHero()
 	else
-		local var_10_1 = var_10_0[1]
-
-		arg_10_0.selectID_, arg_10_0.selectTrialID_ = var_10_1.id, var_10_1.trialID
+		slot2 = slot1[1]
+		slot0.selectTrialID_ = slot2.trialID
+		slot0.selectID_ = slot2.id
 	end
 
-	arg_10_0.filterView_:SetHeroDataList(var_10_0)
-	arg_10_0:SelectHero(arg_10_0.selectID_, arg_10_0.selectTrialID_)
-	arg_10_0.heroHeadList_:StartScroll(#arg_10_0.heroDataList_, table.keyof(arg_10_0.heroDataList_, arg_10_0.selectID_))
+	slot0.filterView_:SetHeroDataList(slot1)
+	slot0:SelectHero(slot0.selectID_, slot0.selectTrialID_)
+	slot0.heroHeadList_:StartScroll(#slot0.heroDataList_, table.keyof(slot0.heroDataList_, slot0.selectID_))
 end
 
-function var_0_0.OnExit(arg_11_0)
-	if arg_11_0.heroAvatarView_ then
-		arg_11_0.heroAvatarView_:OnExit()
+function slot0.OnExit(slot0)
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:OnExit()
 	end
 
-	if #arg_11_0.heroDataList_ <= 0 then
+	if #slot0.heroDataList_ <= 0 then
 		HeroData:ResetSortValue()
-		arg_11_0.filterView_:Reset()
+		slot0.filterView_:Reset()
 	end
 end
 
-function var_0_0.UpdateHeroView(arg_12_0)
-	local var_12_0 = arg_12_0.selectID_
-	local var_12_1
+function slot0.UpdateHeroView(slot0)
+	slot1 = slot0.selectID_
+	slot2 = nil
+	slot2 = (not slot0.selectTrialID_ or slot0.selectTrialID_ == 0 or HeroStandardSystemCfg[slot0.selectTrialID_].skin_id) and HeroTools.HeroUsingSkinInfo(slot0.selectID_).id
 
-	if arg_12_0.selectTrialID_ and arg_12_0.selectTrialID_ ~= 0 then
-		var_12_1 = HeroStandardSystemCfg[arg_12_0.selectTrialID_].skin_id
+	if slot0.selectTrialID_ and slot0.selectTrialID_ ~= 0 then
+		slot0.fightPowerText_.text = getHeroPower(slot0.selectTrialID_, true)
 	else
-		var_12_1 = HeroTools.HeroUsingSkinInfo(arg_12_0.selectID_).id
+		slot0.fightPowerText_.text = getHeroPower(slot1, false)
 	end
 
-	if arg_12_0.selectTrialID_ and arg_12_0.selectTrialID_ ~= 0 then
-		arg_12_0.fightPowerText_.text = getHeroPower(arg_12_0.selectTrialID_, true)
-	else
-		arg_12_0.fightPowerText_.text = getHeroPower(var_12_0, false)
-	end
+	slot0.heroAvatarView_:SetSkinId(slot2)
 
-	arg_12_0.heroAvatarView_:SetSkinId(var_12_1)
-
-	local var_12_2 = HeroCfg[var_12_0]
-
-	arg_12_0.nameText_.text = GetI18NText(var_12_2.name)
-	arg_12_0.subNameText_.text = GetI18NText(var_12_2.suffix)
+	slot3 = HeroCfg[slot1]
+	slot0.nameText_.text = GetI18NText(slot3.name)
+	slot0.subNameText_.text = GetI18NText(slot3.suffix)
 end
 
-function var_0_0.HeadRenderer(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.heroDataList_[arg_13_1].id
-	local var_13_1 = arg_13_0.heroDataList_[arg_13_1].trialID
+function slot0.HeadRenderer(slot0, slot1, slot2)
+	slot2:SetRedPointEnable(false)
 
-	arg_13_2:SetRedPointEnable(false)
+	slot2.gameObject_.name = tostring(slot0.heroDataList_[slot1].id)
 
-	arg_13_2.gameObject_.name = tostring(var_13_0)
-
-	if var_13_1 == 0 then
-		arg_13_2:SetHeroData(var_13_0, HeroConst.HERO_DATA_TYPE.DEFAULT, {
+	if slot0.heroDataList_[slot1].trialID == 0 then
+		slot2:SetHeroData(slot3, HeroConst.HERO_DATA_TYPE.DEFAULT, {
 			tempHeroList = {
-				var_13_1
+				slot4
 			}
 		})
-		arg_13_2:SetTrial(false)
+		slot2:SetTrial(false)
 	else
-		arg_13_2:SetHeroData(var_13_1, HeroConst.HERO_DATA_TYPE.TRIAL, {
+		slot2:SetHeroData(slot4, HeroConst.HERO_DATA_TYPE.TRIAL, {
 			tempHeroList = {
-				var_13_1
+				slot4
 			}
 		})
-		arg_13_2:SetTrial(true)
+		slot2:SetTrial(true)
 	end
 
-	arg_13_2:SetSelected(arg_13_2.heroId_ == arg_13_0.selectID_ and arg_13_2.trialID_ == arg_13_0.selectTrialID_)
-
-	local var_13_2 = arg_13_0:CheckInTeam(var_13_0, var_13_1)
-
-	arg_13_2:SetInTeamFlag(var_13_2, false)
-	arg_13_2:RegisterClickListener(function()
-		arg_13_0:SelectHero(arg_13_2.heroId_, arg_13_2.trialID_)
+	slot2:SetSelected(slot2.heroId_ == slot0.selectID_ and slot2.trialID_ == slot0.selectTrialID_)
+	slot2:SetInTeamFlag(slot0:CheckInTeam(slot3, slot4), false)
+	slot2:RegisterClickListener(function ()
+		uv0:SelectHero(uv1.heroId_, uv1.trialID_)
 	end)
 end
 
-function var_0_0.SelectHero(arg_15_0, arg_15_1, arg_15_2)
-	arg_15_0.selectID_ = arg_15_1
-	arg_15_0.selectTrialID_ = arg_15_2
+function slot0.SelectHero(slot0, slot1, slot2)
+	slot0.selectID_ = slot1
+	slot0.selectTrialID_ = slot2
 
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.heroHeadList_:GetItemList()) do
-		iter_15_1:SetSelected(iter_15_1.heroId_ == arg_15_1 and iter_15_1.trialID_ == arg_15_2)
+	for slot6, slot7 in pairs(slot0.heroHeadList_:GetItemList()) do
+		slot7:SetSelected(slot7.heroId_ == slot1 and slot7.trialID_ == slot2)
 	end
 
-	if HeroData:GetHeroData(arg_15_1) then
-		arg_15_0.heroViewProxy_:GetHeroAllAttribute(arg_15_1)
+	if HeroData:GetHeroData(slot1) then
+		slot0.heroViewProxy_:GetHeroAllAttribute(slot1)
 	end
 
-	arg_15_0:UpdateHeroView()
-	arg_15_0:RefreshJoinBtn()
+	slot0:UpdateHeroView()
+	slot0:RefreshJoinBtn()
 end
 
-function var_0_0.RefreshJoinBtn(arg_16_0)
-	if arg_16_0:CheckRepeatHero(arg_16_0.selectID_, arg_16_0.selectTrialID_) then
-		arg_16_0.joinBtn_.interactable = false
-		arg_16_0.joinText_.text = string.format("<color=#222222>%s</color>", GetTips("COOPERATION_TEAM_REPEAT_HERO"))
+function slot0.RefreshJoinBtn(slot0)
+	if slot0:CheckRepeatHero(slot0.selectID_, slot0.selectTrialID_) then
+		slot0.joinBtn_.interactable = false
+		slot0.joinText_.text = string.format("<color=#222222>%s</color>", GetTips("COOPERATION_TEAM_REPEAT_HERO"))
 
-		arg_16_0.contorller_:SetSelectedState("1")
+		slot0.contorller_:SetSelectedState("1")
 	else
-		arg_16_0.joinBtn_.interactable = true
-		arg_16_0.joinText_.text = string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER"))
+		slot0.joinBtn_.interactable = true
+		slot0.joinText_.text = string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER"))
 
-		arg_16_0.contorller_:SetSelectedState("0")
+		slot0.contorller_:SetSelectedState("0")
 	end
 end
 
-function var_0_0.CheckRepeatHero(arg_17_0, arg_17_1)
-	local var_17_0 = CooperationData:GetRoomData()
-
-	if not var_17_0 then
+function slot0.CheckRepeatHero(slot0, slot1)
+	if not CooperationData:GetRoomData() then
 		return false
 	end
 
-	local var_17_1 = var_17_0:GetRoomPlayerIdList()
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_1) do
-		local var_17_2 = var_17_0:GetRoomPlayerData(iter_17_1)
-
-		if var_17_2.is_ready == 1 then
-			for iter_17_2, iter_17_3 in ipairs(var_17_2.heroList) do
-				if arg_17_1 == iter_17_3.id then
+	for slot7, slot8 in ipairs(slot2:GetRoomPlayerIdList()) do
+		if slot2:GetRoomPlayerData(slot8).is_ready == 1 then
+			for slot13, slot14 in ipairs(slot9.heroList) do
+				if slot1 == slot14.id then
 					return true
 				end
 			end
@@ -255,52 +232,50 @@ function var_0_0.CheckRepeatHero(arg_17_0, arg_17_1)
 	return false
 end
 
-function var_0_0.CheckInTeam(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = CooperationData:GetRoomData()
-
-	if not var_18_0 then
+function slot0.CheckInTeam(slot0, slot1, slot2)
+	if not CooperationData:GetRoomData() then
 		return false
 	end
 
-	local var_18_1, var_18_2 = var_18_0:GetSelfHero()
+	slot4, slot5 = slot3:GetSelfHero()
 
-	return arg_18_1 == var_18_1 and arg_18_2 == var_18_2
+	return slot1 == slot4 and slot2 == slot5
 end
 
-function var_0_0.Dispose(arg_19_0)
-	if arg_19_0.filterView_ then
-		arg_19_0.filterView_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.filterView_ then
+		slot0.filterView_:Dispose()
 
-		arg_19_0.filterView_ = nil
+		slot0.filterView_ = nil
 	end
 
-	if arg_19_0.heroHeadList_ then
-		arg_19_0.heroHeadList_:Dispose()
+	if slot0.heroHeadList_ then
+		slot0.heroHeadList_:Dispose()
 
-		arg_19_0.heroHeadList_ = nil
+		slot0.heroHeadList_ = nil
 	end
 
-	if arg_19_0.heroAvatarView_ then
-		arg_19_0.heroAvatarView_:Dispose()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:Dispose()
 
-		arg_19_0.heroAvatarView_ = nil
+		slot0.heroAvatarView_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_19_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnHeroSort(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4, arg_20_5)
-	arg_20_0.filterView_:RefreshSort(arg_20_1, arg_20_2, arg_20_3, arg_20_4, arg_20_5)
+function slot0.OnHeroSort(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.filterView_:RefreshSort(slot1, slot2, slot3, slot4, slot5)
 end
 
-function var_0_0.OnCooperationRoomInit(arg_21_0)
-	arg_21_0.heroHeadList_:Refresh()
-	arg_21_0:RefreshJoinBtn()
+function slot0.OnCooperationRoomInit(slot0)
+	slot0.heroHeadList_:Refresh()
+	slot0:RefreshJoinBtn()
 end
 
-function var_0_0.OnCooperationRoomUpdate(arg_22_0)
-	arg_22_0.heroHeadList_:Refresh()
-	arg_22_0:RefreshJoinBtn()
+function slot0.OnCooperationRoomUpdate(slot0)
+	slot0.heroHeadList_:Refresh()
+	slot0:RefreshJoinBtn()
 end
 
-return var_0_0
+return slot0

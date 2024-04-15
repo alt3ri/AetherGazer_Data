@@ -1,91 +1,87 @@
-local var_0_0 = class("HeroClueItem", ReduxView)
+slot0 = class("HeroClueItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.clueID_ = arg_1_2
-	arg_1_0.activityID_ = arg_1_3
-	arg_1_0.index_ = arg_1_4
+function slot0.OnCtor(slot0, slot1, slot2, slot3, slot4)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.clueID_ = slot2
+	slot0.activityID_ = slot3
+	slot0.index_ = slot4
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(arg_4_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0.activityID_) then
 			return
 		end
 
-		if not arg_4_0.curData_ then
+		if not uv0.curData_ then
 			ShowTips("ACTIVITY_HERO_CLUE_NULL")
 
 			return
 		end
 
-		if #HeroClueCfg[arg_4_0.clueID_].level > arg_4_0.curData_.level then
+		if uv0.curData_.level < #HeroClueCfg[uv0.clueID_].level then
 			ShowTips("ACTIVITY_HERO_CLUE_NOT_ENOUGH")
 
 			return
 		end
 
-		HeroClueData:SetSelectedClue(arg_4_0.activityID_, arg_4_0.clueID_)
+		HeroClueData:SetSelectedClue(uv0.activityID_, uv0.clueID_)
 		JumpTools.OpenPageByJump("heroClueDetail", {
-			activityID = arg_4_0.activityID_,
-			clueID = arg_4_0.clueID_
+			activityID = uv0.activityID_,
+			clueID = uv0.clueID_
 		})
 	end)
 end
 
-function var_0_0.SetActive(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.curData_ = HeroClueData:GetUnlockClueDataDic()[arg_8_0.clueID_]
+function slot0.RefreshUI(slot0)
+	slot0.curData_ = HeroClueData:GetUnlockClueDataDic()[slot0.clueID_]
 
-	if arg_8_0.curData_ == nil then
-		arg_8_0.nameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
+	if slot0.curData_ == nil then
+		slot0.nameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
 
-		arg_8_0.statusController_:SetSelectedState("lock")
+		slot0.statusController_:SetSelectedState("lock")
 	else
-		local var_8_0 = HeroClueCfg[arg_8_0.clueID_]
+		slot0.clueIcon_.sprite = getSpriteWithoutAtlas(HeroClueCfg[slot0.clueID_].icon_path)
 
-		arg_8_0.clueIcon_.sprite = getSpriteWithoutAtlas(var_8_0.icon_path)
-
-		if arg_8_0.curData_.level < 2 then
-			arg_8_0.nameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
+		if slot0.curData_.level < 2 then
+			slot0.nameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
 		else
-			arg_8_0.nameText_.text = var_8_0.name
+			slot0.nameText_.text = slot1.name
 		end
 
-		local var_8_1 = #var_8_0.level
+		slot0.progressText_.text = string.format("%d/%d", slot0.curData_.level, #slot1.level)
 
-		arg_8_0.progressText_.text = string.format("%d/%d", arg_8_0.curData_.level, var_8_1)
-
-		arg_8_0.statusController_:SetSelectedIndex(arg_8_0.curData_.level)
+		slot0.statusController_:SetSelectedIndex(slot0.curData_.level)
 	end
 
-	if arg_8_0.index_ < 10 then
-		arg_8_0.indexText_.text = "0" .. arg_8_0.index_
+	if slot0.index_ < 10 then
+		slot0.indexText_.text = "0" .. slot0.index_
 	else
-		arg_8_0.indexText_.text = arg_8_0.index_
+		slot0.indexText_.text = slot0.index_
 	end
 end
 
-return var_0_0
+return slot0

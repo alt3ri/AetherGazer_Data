@@ -1,675 +1,530 @@
-local var_0_0 = {}
-local var_0_1 = 222581
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6
-local var_0_7
-local var_0_8
-local var_0_9
-local var_0_10 = {}
-local var_0_11 = {}
-local var_0_12 = {}
-local var_0_13
-local var_0_14
-local var_0_15
-local var_0_16
-
-function var_0_0.SetGoViewStr(arg_1_0, arg_1_1)
-	var_0_5 = arg_1_1
-end
-
-function var_0_0.GetGoViewStr(arg_2_0)
-	return var_0_5
-end
-
-function var_0_0.GetActivityID(arg_3_0)
-	return var_0_1
-end
-
-function var_0_0.InitFromServer(arg_4_0, arg_4_1)
-	var_0_1 = arg_4_1.activity_id
-	var_0_9 = arg_4_1.equip
-	var_0_10 = {}
-
-	for iter_4_0, iter_4_1 in ipairs(cleanProtoTable(arg_4_1.unlock_equip)) do
-		table.insert(var_0_10, iter_4_1)
-	end
-
-	for iter_4_2, iter_4_3 in ipairs(cleanProtoTable(arg_4_1.activity_point_list)) do
-		var_0_11[iter_4_3.activity_id] = iter_4_3.point
-		var_0_12[iter_4_3.activity_id] = {}
-
-		for iter_4_4, iter_4_5 in ipairs(cleanProtoTable(iter_4_3.reward_list)) do
-			table.insert(var_0_12[iter_4_3.activity_id], iter_4_5)
-		end
-	end
-
-	var_0_2 = ActivityCfg[var_0_1].sub_activity_list[1]
-	var_0_3 = ActivityCfg[var_0_1].sub_activity_list[2]
-
-	local var_4_0 = arg_4_0:GetSingleModelActivityIDByModelAndLevel(1, 1)
-
-	var_0_8 = PushSnowBallCfg[PushSnowBallCfg.get_id_list_by_activityId[var_4_0][1]].hero_backhome
-	var_0_7 = PushSnowBallCfg[PushSnowBallCfg.get_id_list_by_activityId[var_4_0][1]].hero_list
-end
-
-function var_0_0.OnUnlockDevice(arg_5_0, arg_5_1)
-	var_0_10 = {}
-
-	for iter_5_0, iter_5_1 in pairs(arg_5_1.unlock_equip_list) do
-		table.insert(var_0_10, iter_5_1)
-	end
-end
-
-function var_0_0.GetUnlockDeviceList(arg_6_0)
-	return var_0_10
-end
-
-function var_0_0.GetIsDeviceUnlockByID(arg_7_0, arg_7_1)
-	for iter_7_0, iter_7_1 in ipairs(var_0_10) do
-		if iter_7_1 == arg_7_1 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetSingleActivityID(arg_8_0)
-	return var_0_2
-end
-
-function var_0_0.GetTeamActivityID(arg_9_0)
-	return var_0_3
-end
-
-function var_0_0.GetSingleModelActivityIDByModelAndLevel(arg_10_0, arg_10_1, arg_10_2)
-	return ActivityCfg[var_0_2].sub_activity_list[2 * ((arg_10_1 or 1) - 1) + (arg_10_2 or 1)]
-end
-
-function var_0_0.GetSingleDescTipsByModelAndSubModel(arg_11_0, arg_11_1)
-	return GetTips("ACTIVITY_SNOWBALL_PUSH_DESC_" .. arg_11_1 + 1)
-end
-
-function var_0_0.GetTeamDescTipsByModelAndSubModel(arg_12_0, arg_12_1)
-	return GetTips("ACTIVITY_SNOWBALL_PUSH_DESC_" .. 4 + arg_12_1)
-end
-
-function var_0_0.GetSingleWeeklyTaskIDList(arg_13_0)
-	local var_13_0 = {}
-
-	for iter_13_0, iter_13_1 in ipairs(ActivityCfg[var_0_2].sub_activity_list) do
-		if ActivityCfg[iter_13_1].activity_template == 4 then
-			table.insert(var_13_0, iter_13_1)
-		end
-	end
-
-	return var_13_0
-end
-
-function var_0_0.GetTeamRankActivtyID(arg_14_0)
-	local var_14_0 = 0
-
-	for iter_14_0, iter_14_1 in ipairs(ActivityCfg[var_0_3].sub_activity_list) do
-		if ActivityCfg[iter_14_1].activity_template == 271 then
-			var_14_0 = iter_14_1
-		end
-	end
-
-	return var_14_0
-end
-
-function var_0_0.GetTeamModelActivityIDByModel(arg_15_0, arg_15_1)
-	return ActivityCfg[var_0_3].sub_activity_list[arg_15_1]
-end
-
-function var_0_0.GetTeamTaskIDList(arg_16_0)
-	local var_16_0 = {}
-
-	for iter_16_0, iter_16_1 in ipairs(ActivityCfg[var_0_3].sub_activity_list) do
-		if ActivityCfg[iter_16_1].activity_template == 4 then
-			table.insert(var_16_0, iter_16_1)
-		end
-	end
-
-	return var_16_0
-end
-
-function var_0_0.GetTeamRankActivityID(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(ActivityCfg[var_0_3].sub_activity_list) do
-		if ActivityCfg[iter_17_1].activity_template == ActivityTemplateConst.ACTIVITY_PUSH_SNOW_BALL_RANK then
-			return iter_17_1
-		end
-	end
-end
-
-function var_0_0.GetDeviceDataList(arg_18_0)
-	return var_0_6
-end
-
-function var_0_0.GetHeroDataList(arg_19_0)
-	return var_0_8
-end
-
-function var_0_0.GetHeroInfoByHeroID(arg_20_0, arg_20_1)
-	local var_20_0 = DormData:GetHeroArchiveID(arg_20_1)
-
-	return (DormData:GetHeroInfo(var_20_0))
-end
-
-function var_0_0.SetSelectedHeroIndex(arg_21_0, arg_21_1)
-	saveData("pushsnowball", "selectHeroIndex", arg_21_1)
-
-	var_0_4 = arg_21_1
-end
-
-function var_0_0.GetSelectedHeroIndex(arg_22_0)
-	return var_0_4 or getData("pushsnowball", "selectHeroIndex") or 1
-end
-
-function var_0_0.GetSelectedHeroID(arg_23_0)
-	return var_0_8[arg_23_0:GetSelectedHeroIndex()]
-end
-
-function var_0_0.GetSelectedBattleModelID(arg_24_0)
-	return var_0_7[arg_24_0:GetSelectedHeroIndex()]
-end
-
-function var_0_0.SetSelectedDeviceID(arg_25_0, arg_25_1)
-	var_0_9 = arg_25_1
-end
-
-function var_0_0.GetSelectedDeviceID(arg_26_0)
-	return var_0_9 or 0
-end
-
-function var_0_0.GetNormalTaskListByType(arg_27_0, arg_27_1)
-	local var_27_0 = arg_27_0:GetSingleModelActivityIDByModelAndLevel(arg_27_1, 1)
-
-	return ActivityPointRewardCfg.get_id_list_by_activity_id[var_27_0]
-end
-
-function var_0_0.GetHardTaskListByType(arg_28_0, arg_28_1)
-	local var_28_0 = arg_28_0:GetSingleModelActivityIDByModelAndLevel(arg_28_1, 2)
-
-	return ActivityPointRewardCfg.get_id_list_by_activity_id[var_28_0]
-end
-
-function var_0_0.GetScoreTaskIsCompleteById(arg_29_0, arg_29_1)
-	local var_29_0 = ActivityPointRewardCfg[arg_29_1]
-
-	return (var_0_11[var_29_0.activity_id] or 0) >= var_29_0.need
-end
-
-function var_0_0.GetScoreByActivityID(arg_30_0, arg_30_1)
-	return var_0_11[arg_30_1] or 0
-end
-
-function var_0_0.GetScoreTaskIsRewardedById(arg_31_0, arg_31_1)
-	local var_31_0 = ActivityPointRewardCfg[arg_31_1]
-
-	if not var_0_12[var_31_0.activity_id] then
-		return false
-	end
-
-	for iter_31_0, iter_31_1 in pairs(var_0_12[var_31_0.activity_id]) do
-		if iter_31_1 == arg_31_1 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.ReceiveScoreReward(arg_32_0, arg_32_1)
-	local var_32_0 = ActivityPointRewardCfg[arg_32_1]
-
-	if not var_0_12[var_32_0.activity_id] then
-		var_0_12[var_32_0.activity_id] = {}
-	end
-
-	table.insert(var_0_12[var_32_0.activity_id], arg_32_1)
-end
-
-function var_0_0.GetScoreTaskIDListByModel(arg_33_0, arg_33_1)
-	return ActivityPointRewardCfg.get_id_list_by_activity_id[arg_33_0:GetTeamModelActivityIDByModel(arg_33_1)]
-end
-
-function var_0_0.GetWeeklyTaskList(arg_34_0)
-	local var_34_0 = arg_34_0:GetSingleWeeklyTaskIDList()
-
-	if not var_34_0 then
-		return {}
-	end
-
-	for iter_34_0, iter_34_1 in ipairs(var_34_0) do
-		if ActivityData:GetActivityData(iter_34_1).stopTime > manager.time:GetServerTime() then
-			return TaskTools:GetActivityTaskList(iter_34_1)
-		end
-	end
-
-	return {}
-end
-
-function var_0_0.GetRefreshTimeStamp(arg_35_0)
-	local var_35_0 = arg_35_0:GetSingleWeeklyTaskIDList()
-	local var_35_1 = {}
-
-	if not var_35_0 then
-		return {}
-	end
-
-	for iter_35_0, iter_35_1 in ipairs(var_35_0) do
-		local var_35_2 = ActivityData:GetActivityData(iter_35_1).startTime
-
-		if var_35_2 > manager.time:GetServerTime() then
-			table.insert(var_35_1, var_35_2)
-		end
-	end
-
-	return var_35_1
-end
-
-function var_0_0.GetTeamWinTaskList(arg_36_0)
-	local var_36_0 = arg_36_0:GetTeamTaskIDList()
-
-	if not var_36_0 then
-		return {}
-	end
-
-	return TaskTools:GetActivityTaskList(var_36_0[2])
-end
-
-function var_0_0.GetTeamParticipateTaskList(arg_37_0)
-	local var_37_0 = arg_37_0:GetTeamTaskIDList()
-	local var_37_1 = {}
-
-	if not var_37_0 then
-		return {}
-	end
-
-	local var_37_2 = TaskTools:GetActivityTaskList(var_37_0[1])
-
-	if not var_37_2 then
-		return {}
-	end
-
-	for iter_37_0, iter_37_1 in pairs(var_37_2) do
-		table.insert(var_37_1, iter_37_1)
-	end
-
-	table.sort(var_37_1, function(arg_38_0, arg_38_1)
-		return arg_38_0.id < arg_38_1.id
-	end)
-
-	return var_37_1
-end
-
-function var_0_0.GetHasCompeletedWeeklyTask(arg_39_0)
-	local var_39_0 = arg_39_0:GetWeeklyTaskList()
-	local var_39_1 = {}
-
-	if not var_39_0 then
-		return false
-	end
-
-	for iter_39_0, iter_39_1 in pairs(var_39_0) do
-		table.insert(var_39_1, iter_39_1)
-	end
-
-	table.sort(var_39_1, function(arg_40_0, arg_40_1)
-		return arg_40_0.id < arg_40_1.id
-	end)
-
-	local var_39_2 = var_39_1[1]
-
-	if not var_39_2 then
-		return false
-	end
-
-	local var_39_3 = AssignmentCfg[var_39_2.id]
-	local var_39_4 = TaskData2:GetTaskComplete(var_39_2.id)
-
-	if AssignmentCfg[var_39_2.id].need <= TaskData2:GetTaskProgress(var_39_2.id) and not var_39_4 then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.GetHasCompeletedScoreTaskByModel(arg_41_0, arg_41_1)
-	local var_41_0 = PushSnowBallData:GetNormalTaskListByType(arg_41_1)
-	local var_41_1 = PushSnowBallData:GetHardTaskListByType(arg_41_1)
-
-	if not var_41_0 and not var_41_1 then
-		return false
-	end
-
-	for iter_41_0, iter_41_1 in ipairs(var_41_0) do
-		local var_41_2 = PushSnowBallData:GetScoreTaskIsCompleteById(iter_41_1)
-
-		if not PushSnowBallData:GetScoreTaskIsRewardedById(iter_41_1) and var_41_2 then
-			return true
-		end
-	end
-
-	for iter_41_2, iter_41_3 in ipairs(var_41_1) do
-		local var_41_3 = PushSnowBallData:GetScoreTaskIsCompleteById(iter_41_3)
-
-		if not PushSnowBallData:GetScoreTaskIsRewardedById(iter_41_3) and var_41_3 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetHasCompeletedWinTaskByID(arg_42_0, arg_42_1)
-	local var_42_0 = arg_42_0:GetTeamWinTaskList()
-
-	if not var_42_0 then
-		return false
-	end
-
-	for iter_42_0, iter_42_1 in pairs(var_42_0) do
-		if arg_42_1 == iter_42_1.id then
-			local var_42_1 = iter_42_1.complete_flag >= 1
-
-			if AssignmentCfg[iter_42_1.id].need <= iter_42_1.progress and not var_42_1 then
-				return true
-			end
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetHasCompeletedTeamTask(arg_43_0)
-	local var_43_0 = arg_43_0:GetTeamParticipateTaskList()
-
-	if not var_43_0 then
-		return false
-	end
-
-	for iter_43_0, iter_43_1 in pairs(var_43_0) do
-		local var_43_1 = iter_43_1.complete_flag >= 1
-
-		if AssignmentCfg[iter_43_1.id].need <= iter_43_1.progress and not var_43_1 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetCompeletedTeamTaskNum(arg_44_0)
-	local var_44_0 = arg_44_0:GetTeamParticipateTaskList()
-	local var_44_1 = 0
-
-	if not var_44_0 then
-		return var_44_1
-	end
-
-	for iter_44_0, iter_44_1 in pairs(var_44_0) do
-		if AssignmentCfg[iter_44_1.id].need <= iter_44_1.progress then
-			var_44_1 = var_44_1 + 1
-		end
-	end
-
-	return var_44_1
-end
-
-function var_0_0.GetHasAllRewardedTeamTask(arg_45_0)
-	local var_45_0 = arg_45_0:GetTeamParticipateTaskList()
-
-	if not var_45_0 then
-		return false
-	end
-
-	for iter_45_0, iter_45_1 in pairs(var_45_0) do
-		local var_45_1
-
-		var_45_1 = iter_45_1.complete_flag == 0
-
-		return false
-	end
-
-	return true
-end
-
-function var_0_0.GetIsNewLevelUnLock(arg_46_0, arg_46_1)
-	local var_46_0 = arg_46_0:GetSingleModelActivityIDByModelAndLevel(arg_46_1, 2)
-
-	if ActivityData:GetActivityData(var_46_0).startTime < manager.time:GetServerTime() then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.OnReceviedSingleBattleResult(arg_47_0, arg_47_1)
-	var_0_14 = arg_47_1.score
-	var_0_13 = arg_47_1.use_seconds
-	var_0_11[arg_47_1.activity_id] = math.max(var_0_11[arg_47_1.activity_id] or 0, arg_47_1.score)
-end
-
-function var_0_0.OnReceviedTeamBattleResult(arg_48_0, arg_48_1)
-	var_0_16 = {}
-
-	for iter_48_0, iter_48_1 in pairs(cleanProtoTable(arg_48_1.battle_result.battle_record)) do
-		local var_48_0 = iter_48_1.user_id
-		local var_48_1
-		local var_48_2
-		local var_48_3
-
-		for iter_48_2, iter_48_3 in pairs(cleanProtoTable(iter_48_1.battle_record)) do
-			if iter_48_3.id == 66 then
-				var_48_1 = iter_48_3.value
-			end
-
-			if iter_48_3.id == 67 then
-				var_48_2 = iter_48_3.value % 2
-				var_48_3 = iter_48_3.value < 2 and 1 or 0
-			end
-		end
-
-		table.insert(var_0_16, {
-			user_id = var_48_0,
-			score = var_48_1,
-			type = var_48_2,
-			result = var_48_3
-		})
-	end
-
-	for iter_48_4, iter_48_5 in pairs(cleanProtoTable(arg_48_1.battle_result.player_list)) do
-		local var_48_4 = iter_48_5.player_id
-		local var_48_5 = iter_48_5.player_battle_info.nick
-		local var_48_6 = iter_48_5.player_battle_info.hero_list[1].hero_id
-		local var_48_7 = iter_48_5.player_battle_info.icon
-		local var_48_8 = iter_48_5.player_battle_info.frame
-
-		for iter_48_6, iter_48_7 in ipairs(var_0_16) do
-			if iter_48_7.user_id == var_48_4 then
-				iter_48_7.nick = var_48_5
-				iter_48_7.hero_id = var_48_6
-				iter_48_7.icon = var_48_7
-				iter_48_7.frame = var_48_8
-			end
-		end
-	end
-end
-
-function var_0_0.GetTeamBattleResultInfo(arg_49_0)
-	return var_0_16
-end
-
-function var_0_0.GetBattleResultScore(arg_50_0)
-	return var_0_14 or 0
-end
-
-function var_0_0.GetBattleResultSecond(arg_51_0)
-	return var_0_13 or 0
-end
-
-function var_0_0.SetPlayerList(arg_52_0, arg_52_1)
-	var_0_15 = {}
-
-	for iter_52_0, iter_52_1 in ipairs(cleanProtoTable(arg_52_1.client_player_list)) do
-		table.insert(var_0_15, {
-			uid = iter_52_1.user_id,
-			heroID = iter_52_1.hero_id
-		})
-	end
-end
-
-function var_0_0.GetPlayerList(arg_53_0)
-	return var_0_15
-end
-
+slot1 = 222581
+slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9 = nil
+slot10 = {}
+slot11 = {}
+slot12 = {}
+slot13, slot14, slot15, slot16 = nil
 PushSnowBallRankTemplate = class("PushSnowBallRankTemplate")
 
-function PushSnowBallRankTemplate.Ctor(arg_54_0, arg_54_1)
-	arg_54_0.user_id = arg_54_1.user_id
-	arg_54_0.score = arg_54_1.score
-	arg_54_0.difficulty = arg_54_1.difficulty
-	arg_54_0.rank = arg_54_1.rank
-	arg_54_0.timestamp = arg_54_1.timestamp
-	arg_54_0.team_list = {}
+function PushSnowBallRankTemplate.Ctor(slot0, slot1)
+	slot0.user_id = slot1.user_id
+	slot0.score = slot1.score
+	slot0.difficulty = slot1.difficulty
+	slot0.rank = slot1.rank
+	slot0.timestamp = slot1.timestamp
+	slot0.team_list = {}
 
-	for iter_54_0, iter_54_1 in ipairs(arg_54_1.team_info) do
-		local var_54_0 = {}
+	for slot5, slot6 in ipairs(slot1.team_info) do
+		slot7 = {}
 
-		for iter_54_2, iter_54_3 in ipairs(iter_54_1.hero_info_list) do
-			table.insert(var_54_0, {
-				id = iter_54_3.hero_id,
-				skin_id = iter_54_3.skin_id
+		for slot11, slot12 in ipairs(slot6.hero_info_list) do
+			table.insert(slot7, {
+				id = slot12.hero_id,
+				skin_id = slot12.skin_id
 			})
 		end
 
-		table.insert(arg_54_0.team_list, var_54_0)
+		table.insert(slot0.team_list, slot7)
 	end
 
-	local var_54_1 = PlayerData:GetPlayerInfo()
-
-	if var_54_1 and tonumber(arg_54_0.user_id) == var_54_1.userID then
-		arg_54_0.nick = var_54_1.nick
-		arg_54_0.icon = var_54_1.portrait
-		arg_54_0.icon_frame = var_54_1.icon_frame
+	if PlayerData:GetPlayerInfo() and tonumber(slot0.user_id) == slot2.userID then
+		slot0.nick = slot2.nick
+		slot0.icon = slot2.portrait
+		slot0.icon_frame = slot2.icon_frame
 	else
-		arg_54_0.nick = arg_54_1.nick
-		arg_54_0.icon = arg_54_1.portrait
-		arg_54_0.icon_frame = arg_54_1.frame
+		slot0.nick = slot1.nick
+		slot0.icon = slot1.portrait
+		slot0.icon_frame = slot1.frame
 	end
 end
 
-local var_0_17 = {
+slot18 = ({
 	ALL = 1,
 	GUILD = 2
-}
-local var_0_18 = var_0_17.ALL
+}).ALL
 
-function var_0_0.GetCurActivityID(arg_55_0)
-	return arg_55_0:GetTeamRankActivityID()
-end
+return {
+	SetGoViewStr = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetGoViewStr = function (slot0)
+		return uv0
+	end,
+	GetActivityID = function (slot0)
+		return uv0
+	end,
+	InitFromServer = function (slot0, slot1)
+		uv0 = slot1.activity_id
+		uv1 = slot1.equip
+		uv2 = {}
 
-function var_0_0.GetRankTypeConst(arg_56_0)
-	return var_0_17
-end
+		for slot5, slot6 in ipairs(cleanProtoTable(slot1.unlock_equip)) do
+			table.insert(uv2, slot6)
+		end
 
-function var_0_0.GetCurRankType(arg_57_0)
-	return var_0_18
-end
+		for slot5, slot6 in ipairs(cleanProtoTable(slot1.activity_point_list)) do
+			uv3[slot6.activity_id] = slot6.point
+			uv4[slot6.activity_id] = {}
 
-function var_0_0.SetCurRankType(arg_58_0, arg_58_1)
-	var_0_18 = arg_58_1
-end
-
-function var_0_0.GetRankVersion(arg_59_0)
-	return rank_version
-end
-
-function var_0_0.GetRankTotalPeople(arg_60_0)
-	return rank_total_people
-end
-
-function var_0_0.InitCurRank(arg_61_0, arg_61_1)
-	cur_rank = PushSnowBallRankTemplate.New(arg_61_1.my_rank)
-	rank_total_people = arg_61_1.total
-end
-
-function var_0_0.InitRankData(arg_62_0, arg_62_1)
-	rank_list = {}
-
-	for iter_62_0, iter_62_1 in ipairs(arg_62_1.rank_list) do
-		local var_62_0 = PushSnowBallRankTemplate.New(iter_62_1)
-
-		table.insert(rank_list, var_62_0)
-	end
-
-	table.sort(rank_list, function(arg_63_0, arg_63_1)
-		return arg_63_0.rank < arg_63_1.rank
-	end)
-
-	cur_rank = PushSnowBallRankTemplate.New(arg_62_1.my_rank)
-	rank_total_people = arg_62_1.total
-	rank_version = arg_62_1.version
-
-	manager.notify:Invoke(ADVANCE_TEST_RANK_UPGRADE)
-end
-
-function var_0_0.InitGuildRankData(arg_64_0, arg_64_1)
-	GuildAction.RequiredGuildMemberList(function()
-		guild_rank_list = {}
-
-		for iter_65_0, iter_65_1 in ipairs(arg_64_1.rank_list) do
-			if GuildData:GetGuildMemberData(iter_65_1.user_id) then
-				local var_65_0 = PushSnowBallRankTemplate.New(iter_65_1)
-
-				table.insert(guild_rank_list, var_65_0)
+			for slot10, slot11 in ipairs(cleanProtoTable(slot6.reward_list)) do
+				table.insert(uv4[slot6.activity_id], slot11)
 			end
 		end
 
-		table.sort(guild_rank_list, function(arg_66_0, arg_66_1)
-			return arg_66_0.rank < arg_66_1.rank
+		uv5 = ActivityCfg[uv0].sub_activity_list[1]
+		uv6 = ActivityCfg[uv0].sub_activity_list[2]
+		slot2 = slot0:GetSingleModelActivityIDByModelAndLevel(1, 1)
+		uv7 = PushSnowBallCfg[PushSnowBallCfg.get_id_list_by_activityId[slot2][1]].hero_backhome
+		uv8 = PushSnowBallCfg[PushSnowBallCfg.get_id_list_by_activityId[slot2][1]].hero_list
+	end,
+	OnUnlockDevice = function (slot0, slot1)
+		uv0 = {}
+
+		for slot5, slot6 in pairs(slot1.unlock_equip_list) do
+			table.insert(uv0, slot6)
+		end
+	end,
+	GetUnlockDeviceList = function (slot0)
+		return uv0
+	end,
+	GetIsDeviceUnlockByID = function (slot0, slot1)
+		for slot5, slot6 in ipairs(uv0) do
+			if slot6 == slot1 then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetSingleActivityID = function (slot0)
+		return uv0
+	end,
+	GetTeamActivityID = function (slot0)
+		return uv0
+	end,
+	GetSingleModelActivityIDByModelAndLevel = function (slot0, slot1, slot2)
+		return ActivityCfg[uv0].sub_activity_list[2 * ((slot1 or 1) - 1) + (slot2 or 1)]
+	end,
+	GetSingleDescTipsByModelAndSubModel = function (slot0, slot1)
+		return GetTips("ACTIVITY_SNOWBALL_PUSH_DESC_" .. slot1 + 1)
+	end,
+	GetTeamDescTipsByModelAndSubModel = function (slot0, slot1)
+		return GetTips("ACTIVITY_SNOWBALL_PUSH_DESC_" .. 4 + slot1)
+	end,
+	GetSingleWeeklyTaskIDList = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in ipairs(ActivityCfg[uv0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == 4 then
+				table.insert(slot1, slot6)
+			end
+		end
+
+		return slot1
+	end,
+	GetTeamRankActivtyID = function (slot0)
+		slot1 = 0
+
+		for slot5, slot6 in ipairs(ActivityCfg[uv0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == 271 then
+				slot1 = slot6
+			end
+		end
+
+		return slot1
+	end,
+	GetTeamModelActivityIDByModel = function (slot0, slot1)
+		return ActivityCfg[uv0].sub_activity_list[slot1]
+	end,
+	GetTeamTaskIDList = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in ipairs(ActivityCfg[uv0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == 4 then
+				table.insert(slot1, slot6)
+			end
+		end
+
+		return slot1
+	end,
+	GetTeamRankActivityID = function (slot0)
+		for slot4, slot5 in ipairs(ActivityCfg[uv0].sub_activity_list) do
+			if ActivityCfg[slot5].activity_template == ActivityTemplateConst.ACTIVITY_PUSH_SNOW_BALL_RANK then
+				return slot5
+			end
+		end
+	end,
+	GetDeviceDataList = function (slot0)
+		return uv0
+	end,
+	GetHeroDataList = function (slot0)
+		return uv0
+	end,
+	GetHeroInfoByHeroID = function (slot0, slot1)
+		return DormData:GetHeroInfo(DormData:GetHeroArchiveID(slot1))
+	end,
+	SetSelectedHeroIndex = function (slot0, slot1)
+		saveData("pushsnowball", "selectHeroIndex", slot1)
+
+		uv0 = slot1
+	end,
+	GetSelectedHeroIndex = function (slot0)
+		return uv0 or getData("pushsnowball", "selectHeroIndex") or 1
+	end,
+	GetSelectedHeroID = function (slot0)
+		return uv0[slot0:GetSelectedHeroIndex()]
+	end,
+	GetSelectedBattleModelID = function (slot0)
+		return uv0[slot0:GetSelectedHeroIndex()]
+	end,
+	SetSelectedDeviceID = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetSelectedDeviceID = function (slot0)
+		return uv0 or 0
+	end,
+	GetNormalTaskListByType = function (slot0, slot1)
+		return ActivityPointRewardCfg.get_id_list_by_activity_id[slot0:GetSingleModelActivityIDByModelAndLevel(slot1, 1)]
+	end,
+	GetHardTaskListByType = function (slot0, slot1)
+		return ActivityPointRewardCfg.get_id_list_by_activity_id[slot0:GetSingleModelActivityIDByModelAndLevel(slot1, 2)]
+	end,
+	GetScoreTaskIsCompleteById = function (slot0, slot1)
+		return slot2.need <= (uv0[ActivityPointRewardCfg[slot1].activity_id] or 0)
+	end,
+	GetScoreByActivityID = function (slot0, slot1)
+		return uv0[slot1] or 0
+	end,
+	GetScoreTaskIsRewardedById = function (slot0, slot1)
+		if not uv0[ActivityPointRewardCfg[slot1].activity_id] then
+			return false
+		end
+
+		for slot6, slot7 in pairs(uv0[slot2.activity_id]) do
+			if slot7 == slot1 then
+				return true
+			end
+		end
+
+		return false
+	end,
+	ReceiveScoreReward = function (slot0, slot1)
+		if not uv0[ActivityPointRewardCfg[slot1].activity_id] then
+			uv0[slot2.activity_id] = {}
+		end
+
+		table.insert(uv0[slot2.activity_id], slot1)
+	end,
+	GetScoreTaskIDListByModel = function (slot0, slot1)
+		return ActivityPointRewardCfg.get_id_list_by_activity_id[slot0:GetTeamModelActivityIDByModel(slot1)]
+	end,
+	GetWeeklyTaskList = function (slot0)
+		if not slot0:GetSingleWeeklyTaskIDList() then
+			return {}
+		end
+
+		for slot5, slot6 in ipairs(slot1) do
+			if manager.time:GetServerTime() < ActivityData:GetActivityData(slot6).stopTime then
+				return TaskTools:GetActivityTaskList(slot6)
+			end
+		end
+
+		return {}
+	end,
+	GetRefreshTimeStamp = function (slot0)
+		slot2 = {}
+
+		if not slot0:GetSingleWeeklyTaskIDList() then
+			return {}
+		end
+
+		for slot6, slot7 in ipairs(slot1) do
+			if manager.time:GetServerTime() < ActivityData:GetActivityData(slot7).startTime then
+				table.insert(slot2, slot8)
+			end
+		end
+
+		return slot2
+	end,
+	GetTeamWinTaskList = function (slot0)
+		if not slot0:GetTeamTaskIDList() then
+			return {}
+		end
+
+		return TaskTools:GetActivityTaskList(slot1[2])
+	end,
+	GetTeamParticipateTaskList = function (slot0)
+		slot2 = {}
+
+		if not slot0:GetTeamTaskIDList() then
+			return {}
+		end
+
+		if not TaskTools:GetActivityTaskList(slot1[1]) then
+			return {}
+		end
+
+		for slot7, slot8 in pairs(slot3) do
+			table.insert(slot2, slot8)
+		end
+
+		table.sort(slot2, function (slot0, slot1)
+			return slot0.id < slot1.id
 		end)
 
-		local var_65_1 = PlayerData:GetPlayerInfo().userID
+		return slot2
+	end,
+	GetHasCompeletedWeeklyTask = function (slot0)
+		slot2 = {}
 
-		guild_cur_rank = nil
+		if not slot0:GetWeeklyTaskList() then
+			return false
+		end
 
-		for iter_65_2, iter_65_3 in ipairs(guild_rank_list) do
-			iter_65_3.rank = iter_65_2
+		for slot6, slot7 in pairs(slot1) do
+			table.insert(slot2, slot7)
+		end
 
-			if tonumber(iter_65_3.user_id) == var_65_1 then
-				guild_cur_rank = iter_65_3
+		table.sort(slot2, function (slot0, slot1)
+			return slot0.id < slot1.id
+		end)
+
+		if not slot2[1] then
+			return false
+		end
+
+		slot4 = AssignmentCfg[slot3.id]
+
+		if AssignmentCfg[slot3.id].need <= TaskData2:GetTaskProgress(slot3.id) and not TaskData2:GetTaskComplete(slot3.id) then
+			return true
+		end
+
+		return false
+	end,
+	GetHasCompeletedScoreTaskByModel = function (slot0, slot1)
+		if not PushSnowBallData:GetNormalTaskListByType(slot1) and not PushSnowBallData:GetHardTaskListByType(slot1) then
+			return false
+		end
+
+		for slot7, slot8 in ipairs(slot2) do
+			if not PushSnowBallData:GetScoreTaskIsRewardedById(slot8) and PushSnowBallData:GetScoreTaskIsCompleteById(slot8) then
+				return true
 			end
 		end
 
+		for slot7, slot8 in ipairs(slot3) do
+			if not PushSnowBallData:GetScoreTaskIsRewardedById(slot8) and PushSnowBallData:GetScoreTaskIsCompleteById(slot8) then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetHasCompeletedWinTaskByID = function (slot0, slot1)
+		if not slot0:GetTeamWinTaskList() then
+			return false
+		end
+
+		for slot6, slot7 in pairs(slot2) do
+			if slot1 == slot7.id then
+				if AssignmentCfg[slot7.id].need <= slot7.progress and not (slot7.complete_flag >= 1) then
+					return true
+				end
+			end
+		end
+
+		return false
+	end,
+	GetHasCompeletedTeamTask = function (slot0)
+		if not slot0:GetTeamParticipateTaskList() then
+			return false
+		end
+
+		for slot5, slot6 in pairs(slot1) do
+			if AssignmentCfg[slot6.id].need <= slot6.progress and not (slot6.complete_flag >= 1) then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetCompeletedTeamTaskNum = function (slot0)
+		if not slot0:GetTeamParticipateTaskList() then
+			return 0
+		end
+
+		for slot6, slot7 in pairs(slot1) do
+			if AssignmentCfg[slot7.id].need <= slot7.progress then
+				slot2 = slot2 + 1
+			end
+		end
+
+		return slot2
+	end,
+	GetHasAllRewardedTeamTask = function (slot0)
+		if not slot0:GetTeamParticipateTaskList() then
+			return false
+		end
+
+		for slot5, slot6 in pairs(slot1) do
+			slot7 = slot6.complete_flag == 0
+
+			return false
+		end
+
+		return true
+	end,
+	GetIsNewLevelUnLock = function (slot0, slot1)
+		if ActivityData:GetActivityData(slot0:GetSingleModelActivityIDByModelAndLevel(slot1, 2)).startTime < manager.time:GetServerTime() then
+			return true
+		end
+
+		return false
+	end,
+	OnReceviedSingleBattleResult = function (slot0, slot1)
+		uv0 = slot1.score
+		uv1 = slot1.use_seconds
+		uv2[slot1.activity_id] = math.max(uv2[slot1.activity_id] or 0, slot1.score)
+	end,
+	OnReceviedTeamBattleResult = function (slot0, slot1)
+		uv0 = {}
+
+		for slot5, slot6 in pairs(cleanProtoTable(slot1.battle_result.battle_record)) do
+			slot7 = slot6.user_id
+			slot8, slot9, slot10 = nil
+
+			for slot14, slot15 in pairs(cleanProtoTable(slot6.battle_record)) do
+				if slot15.id == 66 then
+					slot8 = slot15.value
+				end
+
+				if slot15.id == 67 then
+					slot9 = slot15.value % 2
+					slot10 = slot15.value < 2 and 1 or 0
+				end
+			end
+
+			table.insert(uv0, {
+				user_id = slot7,
+				score = slot8,
+				type = slot9,
+				result = slot10
+			})
+		end
+
+		for slot5, slot6 in pairs(cleanProtoTable(slot1.battle_result.player_list)) do
+			for slot15, slot16 in ipairs(uv0) do
+				if slot16.user_id == slot6.player_id then
+					slot16.nick = slot6.player_battle_info.nick
+					slot16.hero_id = slot6.player_battle_info.hero_list[1].hero_id
+					slot16.icon = slot6.player_battle_info.icon
+					slot16.frame = slot6.player_battle_info.frame
+				end
+			end
+		end
+	end,
+	GetTeamBattleResultInfo = function (slot0)
+		return uv0
+	end,
+	GetBattleResultScore = function (slot0)
+		return uv0 or 0
+	end,
+	GetBattleResultSecond = function (slot0)
+		return uv0 or 0
+	end,
+	SetPlayerList = function (slot0, slot1)
+		uv0 = {}
+
+		for slot5, slot6 in ipairs(cleanProtoTable(slot1.client_player_list)) do
+			table.insert(uv0, {
+				uid = slot6.user_id,
+				heroID = slot6.hero_id
+			})
+		end
+	end,
+	GetPlayerList = function (slot0)
+		return uv0
+	end,
+	GetCurActivityID = function (slot0)
+		return slot0:GetTeamRankActivityID()
+	end,
+	GetRankTypeConst = function (slot0)
+		return uv0
+	end,
+	GetCurRankType = function (slot0)
+		return uv0
+	end,
+	SetCurRankType = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetRankVersion = function (slot0)
+		return rank_version
+	end,
+	GetRankTotalPeople = function (slot0)
+		return rank_total_people
+	end,
+	InitCurRank = function (slot0, slot1)
+		cur_rank = PushSnowBallRankTemplate.New(slot1.my_rank)
+		rank_total_people = slot1.total
+	end,
+	InitRankData = function (slot0, slot1)
+		rank_list = {}
+
+		for slot5, slot6 in ipairs(slot1.rank_list) do
+			table.insert(rank_list, PushSnowBallRankTemplate.New(slot6))
+		end
+
+		table.sort(rank_list, function (slot0, slot1)
+			return slot0.rank < slot1.rank
+		end)
+
+		cur_rank = PushSnowBallRankTemplate.New(slot1.my_rank)
+		rank_total_people = slot1.total
+		rank_version = slot1.version
+
 		manager.notify:Invoke(ADVANCE_TEST_RANK_UPGRADE)
-	end)
-end
+	end,
+	InitGuildRankData = function (slot0, slot1)
+		GuildAction.RequiredGuildMemberList(function ()
+			guild_rank_list = {}
 
-function var_0_0.ResetGuildRankData(arg_67_0)
-	guild_rank_list = {}
-	guild_cur_rank = nil
-end
+			for slot3, slot4 in ipairs(uv0.rank_list) do
+				if GuildData:GetGuildMemberData(slot4.user_id) then
+					table.insert(guild_rank_list, PushSnowBallRankTemplate.New(slot4))
+				end
+			end
 
-function var_0_0.GetRankList(arg_68_0)
-	return rank_list
-end
+			table.sort(guild_rank_list, function (slot0, slot1)
+				return slot0.rank < slot1.rank
+			end)
 
-function var_0_0.GetCurRank(arg_69_0)
-	return cur_rank
-end
+			guild_cur_rank = nil
 
-function var_0_0.GetGuildRankList(arg_70_0)
-	return guild_rank_list
-end
+			for slot5, slot6 in ipairs(guild_rank_list) do
+				slot6.rank = slot5
 
-function var_0_0.GetGuildCurRank(arg_71_0)
-	return guild_cur_rank
-end
+				if tonumber(slot6.user_id) == PlayerData:GetPlayerInfo().userID then
+					guild_cur_rank = slot6
+				end
+			end
 
-return var_0_0
+			manager.notify:Invoke(ADVANCE_TEST_RANK_UPGRADE)
+		end)
+	end,
+	ResetGuildRankData = function (slot0)
+		guild_rank_list = {}
+		guild_cur_rank = nil
+	end,
+	GetRankList = function (slot0)
+		return rank_list
+	end,
+	GetCurRank = function (slot0)
+		return cur_rank
+	end,
+	GetGuildRankList = function (slot0)
+		return guild_rank_list
+	end,
+	GetGuildCurRank = function (slot0)
+		return guild_cur_rank
+	end
+}

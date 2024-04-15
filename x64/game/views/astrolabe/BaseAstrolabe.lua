@@ -1,207 +1,202 @@
-local var_0_0 = class("BaseAstrolabe")
+slot0 = class("BaseAstrolabe")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.animationState = AstrolabeConst.AnimationState.none
-	arg_1_0.pathDic = {}
+function slot0.Ctor(slot0)
+	slot0.animationState = AstrolabeConst.AnimationState.none
+	slot0.pathDic = {}
 
-	arg_1_0:CheckLoad()
+	slot0:CheckLoad()
 end
 
-function var_0_0.LoadAstrolabeByPath(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0:CheckLoad()
+function slot0.LoadAstrolabeByPath(slot0, slot1, slot2)
+	slot0:CheckLoad()
 
-	if arg_2_0.heroID then
-		arg_2_0.lastHeroID = arg_2_0.heroID
+	if slot0.heroID then
+		slot0.lastHeroID = slot0.heroID
 	end
 
-	arg_2_0.heroID = arg_2_2
+	slot0.heroID = slot2
+	slot5 = slot0[string.format("height_%sGo_", HeroPosAndRotCfg[slot2].hero_view_height)]
+	slot9 = slot1
+	slot0.gameObject = slot0:GetPrefab(slot9)
 
-	local var_2_0 = HeroPosAndRotCfg[arg_2_2].hero_view_height
-	local var_2_1 = arg_2_0[string.format("height_%sGo_", var_2_0)]
-
-	arg_2_0.gameObject = arg_2_0:GetPrefab(arg_2_1)
-
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.pathDic) do
-		if iter_2_1 then
-			iter_2_1:SetActive(false)
+	for slot9, slot10 in pairs(slot0.pathDic) do
+		if slot10 then
+			slot10:SetActive(false)
 		end
 	end
 
-	if arg_2_0.gameObject and var_2_1 then
-		arg_2_0.gameObject.transform:SetParent(var_2_1.transform)
+	if slot0.gameObject and slot5 then
+		slot0.gameObject.transform:SetParent(slot5.transform)
 
-		arg_2_0.gameObject.transform.localPosition = Vector3(0, 0, 0)
+		slot0.gameObject.transform.localPosition = Vector3(0, 0, 0)
 
-		ComponentBinder.GetInstance():BindCfgUI(arg_2_0, arg_2_0.gameObject)
+		ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.gameObject)
 
-		arg_2_0.animator = arg_2_0.gameObject.transform:GetComponent("Animator")
+		slot0.animator = slot0.gameObject.transform:GetComponent("Animator")
 
-		SetActive(arg_2_0.gameObject, true)
-		arg_2_0:InitItem()
+		SetActive(slot0.gameObject, true)
+		slot0:InitItem()
 	end
 end
 
-function var_0_0.GetPrefab(arg_3_0, arg_3_1)
-	if not arg_3_0.pathDic[arg_3_1] then
-		arg_3_0.pathDic[arg_3_1] = Object.Instantiate(Asset.Load("UI/HeroGodHood/" .. arg_3_1))
+function slot0.GetPrefab(slot0, slot1)
+	if not slot0.pathDic[slot1] then
+		slot0.pathDic[slot1] = Object.Instantiate(Asset.Load("UI/HeroGodHood/" .. slot1))
 
-		arg_3_0.pathDic[arg_3_1].transform:SetParent(arg_3_0.baseParent.transform)
+		slot0.pathDic[slot1].transform:SetParent(slot0.baseParent.transform)
 	end
 
-	return arg_3_0.pathDic[arg_3_1]
+	return slot0.pathDic[slot1]
 end
 
-function var_0_0.InitItem(arg_4_0)
-	return
+function slot0.InitItem(slot0)
 end
 
-function var_0_0.CheckLoad(arg_5_0)
-	if isNil(arg_5_0.baseParent) then
-		arg_5_0.baseParent = Object.Instantiate(Asset.Load("UI/HeroGodHood/TX_GodHood"))
-		arg_5_0.baseParent.transform.localPosition = Vector3(500, 0, 0)
+function slot0.CheckLoad(slot0)
+	if isNil(slot0.baseParent) then
+		slot0.baseParent = Object.Instantiate(Asset.Load("UI/HeroGodHood/TX_GodHood"))
+		slot0.baseParent.transform.localPosition = Vector3(500, 0, 0)
 
-		ComponentBinder.GetInstance():BindCfgUI(arg_5_0, arg_5_0.baseParent)
+		ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.baseParent)
 
-		arg_5_0.itemS_ = {}
+		slot0.itemS_ = {}
 	end
 end
 
-function var_0_0.RefreshAnimationState(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0.animationState
-
-	if var_6_0 == arg_6_1 and arg_6_1 ~= 3 then
+function slot0.RefreshAnimationState(slot0, slot1)
+	if slot0.animationState == slot1 and slot1 ~= 3 then
 		return
 	end
 
-	arg_6_0.animationState = arg_6_1
+	slot0.animationState = slot1
 
-	if var_6_0 == 5 and arg_6_0.animationState == 1 then
-		arg_6_0:SetActive(true)
-		arg_6_0:PlayAni("TX_GodHood_01", 0, 0)
-	elseif var_6_0 == 3 and arg_6_0.animationState == 1 then
-		arg_6_0:SetActive(true)
-		arg_6_0:PlayAni("TX_GodHood_01", 0, 0)
-	elseif var_6_0 == 3 and arg_6_0.animationState == 2 then
-		arg_6_0:PlayAni("TX_GodHood_02", 0, 0)
+	if slot2 == 5 and slot0.animationState == 1 then
+		slot0:SetActive(true)
+		slot0:PlayAni("TX_GodHood_01", 0, 0)
+	elseif slot2 == 3 and slot0.animationState == 1 then
+		slot0:SetActive(true)
+		slot0:PlayAni("TX_GodHood_01", 0, 0)
+	elseif slot2 == 3 and slot0.animationState == 2 then
+		slot0:PlayAni("TX_GodHood_02", 0, 0)
 
-		arg_6_0.ClickAnimaton = false
-	elseif var_6_0 == 6 and arg_6_0.animationState == 2 then
-		arg_6_0:PlayAni("TX_GodHood_02", 0, 0)
-	elseif var_6_0 == 2 and arg_6_0.animationState == 1 then
-		arg_6_0:PlayAni("TX_GodHood_04", 0, 0)
-	elseif var_6_0 == 1 and arg_6_0.animationState == 3 and not arg_6_0.ClickAnimaton then
-		arg_6_0:PlayAni("TX_GodHood_03", 0, 0)
-	elseif var_6_0 == 4 and arg_6_0.animationState == 2 then
-		arg_6_0:SetActive(true)
-	elseif var_6_0 == 4 and arg_6_0.animationState == 1 then
-		arg_6_0:SetActive(true)
-		arg_6_0:PlayAni("TX_GodHood_04", 0, 1)
-	elseif arg_6_0.animationState == 5 then
-		arg_6_0:SetActive(false)
+		slot0.ClickAnimaton = false
+	elseif slot2 == 6 and slot0.animationState == 2 then
+		slot0:PlayAni("TX_GodHood_02", 0, 0)
+	elseif slot2 == 2 and slot0.animationState == 1 then
+		slot0:PlayAni("TX_GodHood_04", 0, 0)
+	elseif slot2 == 1 and slot0.animationState == 3 and not slot0.ClickAnimaton then
+		slot0:PlayAni("TX_GodHood_03", 0, 0)
+	elseif slot2 == 4 and slot0.animationState == 2 then
+		slot0:SetActive(true)
+	elseif slot2 == 4 and slot0.animationState == 1 then
+		slot0:SetActive(true)
+		slot0:PlayAni("TX_GodHood_04", 0, 1)
+	elseif slot0.animationState == 5 then
+		slot0:SetActive(false)
 	end
 end
 
-function var_0_0.SetClickAnimaton(arg_7_0, arg_7_1)
-	arg_7_0.ClickAnimaton = arg_7_1
+function slot0.SetClickAnimaton(slot0, slot1)
+	slot0.ClickAnimaton = slot1
 end
 
-function var_0_0.PlayAni(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	if arg_8_0.animator and not isNil(arg_8_0.animator) then
-		arg_8_0.animator:Play(arg_8_1, arg_8_2 or 0, arg_8_3 or 0)
+function slot0.PlayAni(slot0, slot1, slot2, slot3)
+	if slot0.animator and not isNil(slot0.animator) then
+		slot0.animator:Play(slot1, slot2 or 0, slot3 or 0)
 	end
 end
 
-function var_0_0.PlayAni2(arg_9_0, arg_9_1, arg_9_2)
-	if arg_9_0.animator and not isNil(arg_9_0.animator) then
-		arg_9_0.animator:CrossFade(arg_9_1, arg_9_2 or 0)
+function slot0.PlayAni2(slot0, slot1, slot2)
+	if slot0.animator and not isNil(slot0.animator) then
+		slot0.animator:CrossFade(slot1, slot2 or 0)
 	end
 end
 
-function var_0_0.UpdateAni(arg_10_0, arg_10_1)
-	if arg_10_0.animator and not isNil(arg_10_0.animator) then
-		arg_10_0.animator:Update(arg_10_1)
+function slot0.UpdateAni(slot0, slot1)
+	if slot0.animator and not isNil(slot0.animator) then
+		slot0.animator:Update(slot1)
 	end
 end
 
-function var_0_0.PlayAni1(arg_11_0, arg_11_1)
-	if arg_11_0.animator and not isNil(arg_11_0.animator) then
-		arg_11_0.animator:Play(arg_11_1)
+function slot0.PlayAni1(slot0, slot1)
+	if slot0.animator and not isNil(slot0.animator) then
+		slot0.animator:Play(slot1)
 	end
 end
 
-function var_0_0.SetActive(arg_12_0, arg_12_1)
-	if arg_12_0.baseParent then
-		arg_12_0.baseParent.gameObject:SetActive(arg_12_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.baseParent then
+		slot0.baseParent.gameObject:SetActive(slot1)
 	end
 
-	if arg_12_1 then
-		if arg_12_0.raycaster == nil then
-			arg_12_0.raycaster = manager.ui.mainCamera:AddComponent(typeof(PhysicsRaycaster))
+	if slot1 then
+		if slot0.raycaster == nil then
+			slot0.raycaster = manager.ui.mainCamera:AddComponent(typeof(PhysicsRaycaster))
 		end
-	elseif arg_12_0.raycaster then
-		Object.Destroy(arg_12_0.raycaster)
+	elseif slot0.raycaster then
+		Object.Destroy(slot0.raycaster)
 
-		arg_12_0.raycaster = nil
+		slot0.raycaster = nil
 	end
 end
 
-function var_0_0.SetProxy(arg_13_0, arg_13_1)
-	arg_13_0.heroViewProxy_ = arg_13_1
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-function var_0_0.OnClick(arg_14_0)
-	if arg_14_0.clickFunc then
-		arg_14_0.clickFunc(arg_14_0)
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		slot0:clickFunc()
 	end
 end
 
-function var_0_0.RegistCallBack(arg_15_0, arg_15_1)
-	arg_15_0.clickFunc = arg_15_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.raycaster then
-		Object.Destroy(arg_16_0.raycaster)
+function slot0.OnExit(slot0)
+	if slot0.raycaster then
+		Object.Destroy(slot0.raycaster)
 
-		arg_16_0.raycaster = nil
+		slot0.raycaster = nil
 	end
 end
 
-function var_0_0.PlayExitAnimator(arg_17_0)
-	AnimatorTools.PlayAnimationWithCallback(arg_17_0.animator, "TX_GodHood_03", function()
-		if arg_17_0.gameObject then
-			SetActive(arg_17_0.gameObject, false)
+function slot0.PlayExitAnimator(slot0)
+	AnimatorTools.PlayAnimationWithCallback(slot0.animator, "TX_GodHood_03", function ()
+		if uv0.gameObject then
+			SetActive(uv0.gameObject, false)
 		end
 
 		AnimatorTools.Stop()
 	end)
 end
 
-function var_0_0.Dispose(arg_19_0)
+function slot0.Dispose(slot0)
 	AnimatorTools.Stop()
 
-	arg_19_0.gameObject = nil
-	arg_19_0.animator = nil
+	slot0.gameObject = nil
+	slot0.animator = nil
 
-	arg_19_0:ClearItem()
+	slot0:ClearItem()
 
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0.pathDic) do
-		Object.Destroy(iter_19_1)
+	for slot4, slot5 in ipairs(slot0.pathDic) do
+		Object.Destroy(slot5)
 	end
 
-	arg_19_0.pathDic = {}
+	slot0.pathDic = {}
 
-	if arg_19_0.baseParent then
-		Object.Destroy(arg_19_0.baseParent)
+	if slot0.baseParent then
+		Object.Destroy(slot0.baseParent)
 
-		arg_19_0.baseParent = nil
+		slot0.baseParent = nil
 	end
 
-	if arg_19_0.raycaster then
-		Object.Destroy(arg_19_0.raycaster)
+	if slot0.raycaster then
+		Object.Destroy(slot0.raycaster)
 
-		arg_19_0.raycaster = nil
+		slot0.raycaster = nil
 	end
 end
 
-return var_0_0
+return slot0

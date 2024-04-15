@@ -1,6 +1,16 @@
 ActionConst = import("game.ActionConst")
 
-local var_0_0 = {
+return bindActionCreators(function (slot0)
+	slot1 = {}
+
+	for slot5, slot6 in ipairs(slot0) do
+		for slot10, slot11 in pairs(slot6) do
+			slot1[slot10] = slot11
+		end
+	end
+
+	return slot1
+end({
 	import("game.actions.AchievementActionCreators"),
 	import("game.actions.BattleFieldActionCreators"),
 	import("game.actions.BulletinActionCreators"),
@@ -21,18 +31,4 @@ local var_0_0 = {
 	import("game.actions.TeamActionCreators"),
 	import("game.actions.HeroChatActionCreators"),
 	import("game.actions.TineActionCreators")
-}
-
-local function var_0_1(arg_1_0)
-	local var_1_0 = {}
-
-	for iter_1_0, iter_1_1 in ipairs(arg_1_0) do
-		for iter_1_2, iter_1_3 in pairs(iter_1_1) do
-			var_1_0[iter_1_2] = iter_1_3
-		end
-	end
-
-	return var_1_0
-end
-
-return bindActionCreators(var_0_1(var_0_0), gameStore.dispatch)
+}), gameStore.dispatch)

@@ -1,22 +1,21 @@
-local var_0_0 = import("game.reserve.ReserveSingleTeamDataTemplate")
-local var_0_1 = class("ReserveMultiChessSingleTeamDataTemplate", var_0_0)
+slot1 = class("ReserveMultiChessSingleTeamDataTemplate", import("game.reserve.ReserveSingleTeamDataTemplate"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot1.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-	arg_1_0.aiChipList = {}
+	slot0.aiChipList = {}
 end
 
-function var_0_1.UpdateAiChip(arg_2_0, arg_2_1)
-	arg_2_0.aiChipList = cleanProtoTable(arg_2_1)
+function slot1.UpdateAiChip(slot0, slot1)
+	slot0.aiChipList = cleanProtoTable(slot1)
 end
 
-function var_0_1.GetAiChip(arg_3_0)
-	return arg_3_0.aiChipList
+function slot1.GetAiChip(slot0)
+	return slot0.aiChipList
 end
 
-function var_0_1.SetAiChip(arg_4_0, arg_4_1)
-	arg_4_0.aiChipList = clone(arg_4_1)
+function slot1.SetAiChip(slot0, slot1)
+	slot0.aiChipList = clone(slot1)
 end
 
-return var_0_1
+return slot1

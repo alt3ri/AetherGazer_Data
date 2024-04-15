@@ -1,101 +1,95 @@
-local var_0_0 = class("HeroTrustGiftDisplaceItem", ReduxView)
+slot0 = class("HeroTrustGiftDisplaceItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.choiceController = ControllerUtil.GetController(arg_3_0.transform_, "choice")
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.loveList = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.m_list, HeroTrustGiftDisplaceHeroItem)
-	arg_3_0.item = CommonItemView.New(arg_3_0.m_item, true)
+	slot0.choiceController = ControllerUtil.GetController(slot0.transform_, "choice")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.loveList = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, HeroTrustGiftDisplaceHeroItem)
+	slot0.item = CommonItemView.New(slot0.m_item, true)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_btn, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.itemId)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_btn, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.itemId)
 		end
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_choiceBtn, function()
-		if arg_4_0.callback2_ then
-			arg_4_0.callback2_(arg_4_0.itemId)
+	slot0:AddBtnListener(nil, slot0.m_choiceBtn, function ()
+		if uv0.callback2_ then
+			uv0.callback2_(uv0.itemId)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.itemId = arg_7_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.itemId = slot1
+	slot3 = clone(ItemTemplateData)
+	slot3.id = slot1
+	slot3.number = ItemTools.getItemNum(slot1)
 
-	local var_7_0 = clone(ItemTemplateData)
-
-	var_7_0.id = arg_7_1
-	var_7_0.number = ItemTools.getItemNum(arg_7_1)
-
-	function var_7_0.clickFun()
+	function slot3.clickFun()
 		ShowPopItem(POP_ITEM, {
-			arg_7_1,
-			ItemTools.getItemNum(arg_7_1)
+			uv0,
+			ItemTools.getItemNum(uv0)
 		})
 	end
 
-	arg_7_0.item:SetData(var_7_0)
+	slot0.item:SetData(slot3)
 
-	arg_7_0.m_name.text = ItemTools.getItemName(arg_7_1)
-	arg_7_0.heroIds = arg_7_0:GetLikeHeros(arg_7_1)
+	slot0.m_name.text = ItemTools.getItemName(slot1)
+	slot0.heroIds = slot0:GetLikeHeros(slot1)
 
-	arg_7_0.loveList:StartScroll(#arg_7_0.heroIds)
-	arg_7_0.choiceController:SetSelectedIndex(arg_7_2 == 0 and 0 or 1)
+	slot0.loveList:StartScroll(#slot0.heroIds)
+	slot0.choiceController:SetSelectedIndex(slot2 == 0 and 0 or 1)
 
-	arg_7_0.m_choiceLab.text = arg_7_2
+	slot0.m_choiceLab.text = slot2
 end
 
-function var_0_0.SetSelect(arg_9_0, arg_9_1)
-	arg_9_0.selectController:SetSelectedIndex(arg_9_1 == arg_9_0.itemId and 1 or 0)
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectController:SetSelectedIndex(slot1 == slot0.itemId and 1 or 0)
 end
 
-function var_0_0.GetLikeHeros(arg_10_0, arg_10_1)
-	local var_10_0 = {}
+function slot0.GetLikeHeros(slot0, slot1)
+	slot2 = {}
 
-	for iter_10_0, iter_10_1 in ipairs(HeroRecordCfg.all) do
-		local var_10_1 = HeroRecordCfg[iter_10_1]
-
-		if table.indexof(var_10_1.gift_like_id1, arg_10_1) then
-			return var_10_1.hero_id
+	for slot6, slot7 in ipairs(HeroRecordCfg.all) do
+		if table.indexof(HeroRecordCfg[slot7].gift_like_id1, slot1) then
+			return slot8.hero_id
 		end
 	end
 
-	return var_10_0
+	return slot2
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.item:Dispose()
-	arg_11_0.loveList:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.item:Dispose()
+	slot0.loveList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegistCallBack(arg_12_0, arg_12_1)
-	arg_12_0.callback_ = arg_12_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.RegistCallBack2(arg_13_0, arg_13_1)
-	arg_13_0.callback2_ = arg_13_1
+function slot0.RegistCallBack2(slot0, slot1)
+	slot0.callback2_ = slot1
 end
 
-function var_0_0.IndexItem(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_0.heroIds[arg_14_1]
-
-	arg_14_2:SetData(var_14_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.heroIds[slot1])
 end
 
-return var_0_0
+return slot0

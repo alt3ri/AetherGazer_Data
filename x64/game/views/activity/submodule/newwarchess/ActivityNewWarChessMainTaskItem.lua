@@ -1,115 +1,107 @@
-local var_0_0 = class("ActivityNewWarChessMainTaskItem", ReduxView)
+slot0 = class("ActivityNewWarChessMainTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.typeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "type")
-	arg_3_0.stateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.rewardItems_ = {}
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		TaskAction:SubmitTask(arg_4_0.taskID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.goBtn_, nil, function()
-		local var_6_0 = AssignmentCfg[arg_4_0.taskID_]
-
-		JumpTools.JumpToPage2(var_6_0.source)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		JumpTools.JumpToPage2(AssignmentCfg[uv0.taskID_].source)
 	end)
 end
 
-function var_0_0.GetTaskComplete(arg_7_0)
-	local var_7_0 = TaskData2:GetTask(arg_7_0.taskID_)
-
-	return var_7_0 == nil or var_7_0.complete_flag >= 1
+function slot0.GetTaskComplete(slot0)
+	return TaskData2:GetTask(slot0.taskID_) == nil or slot1.complete_flag >= 1
 end
 
-function var_0_0.Refresh(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.taskID_ = arg_8_1
-	arg_8_0.activityID_ = arg_8_2
-	arg_8_0.cfg_ = AssignmentCfg[arg_8_1]
-	arg_8_0.info_ = TaskData2:GetTask(arg_8_0.taskID_)
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.taskID_ = slot1
+	slot0.activityID_ = slot2
+	slot0.cfg_ = AssignmentCfg[slot1]
+	slot0.info_ = TaskData2:GetTask(slot0.taskID_)
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshReward()
-	arg_9_0:RefreshTask()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReward()
+	slot0:RefreshTask()
 end
 
-function var_0_0.RefreshReward(arg_10_0)
-	local var_10_0 = arg_10_0.cfg_.reward
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(slot0.cfg_.reward) do
+		if not slot0.rewardItems_[slot5] then
+			slot0.rewardItems_[slot5] = RewardItem.New(slot0.rewardItem_, slot0.rewardParent_)
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		if not arg_10_0.rewardItems_[iter_10_0] then
-			arg_10_0.rewardItems_[iter_10_0] = RewardItem.New(arg_10_0.rewardItem_, arg_10_0.rewardParent_)
-
-			arg_10_0.rewardItems_[iter_10_0]:UpdateCommonItemAni()
+			slot0.rewardItems_[slot5]:UpdateCommonItemAni()
 		end
 
-		arg_10_0.rewardItems_[iter_10_0]:SetData(iter_10_1)
+		slot0.rewardItems_[slot5]:SetData(slot6)
 	end
 
-	for iter_10_2 = #var_10_0 + 1, #arg_10_0.rewardItems_ do
-		arg_10_0.rewardItems_[iter_10_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.RefreshTask(arg_11_0)
-	arg_11_0.desc_.text = arg_11_0.cfg_.desc
+function slot0.RefreshTask(slot0)
+	slot0.desc_.text = slot0.cfg_.desc
+	slot1 = slot0.cfg_.need < slot0.info_.progress and slot0.cfg_.need or slot0.info_.progress
 
-	local var_11_0 = arg_11_0.info_.progress > arg_11_0.cfg_.need and arg_11_0.cfg_.need or arg_11_0.info_.progress
-
-	if arg_11_0.info_.complete_flag >= 1 then
-		var_11_0 = arg_11_0.cfg_.need
+	if slot0.info_.complete_flag >= 1 then
+		slot1 = slot0.cfg_.need
 	end
 
-	arg_11_0.progress_.text = var_11_0 .. "/" .. arg_11_0.cfg_.need
-	arg_11_0.slider_.value = var_11_0 / arg_11_0.cfg_.need
+	slot0.progress_.text = slot1 .. "/" .. slot0.cfg_.need
+	slot0.slider_.value = slot1 / slot0.cfg_.need
 
-	if arg_11_0.cfg_.type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
-		arg_11_0.typeCon_:SetSelectedState("normal")
+	if slot0.cfg_.type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
+		slot0.typeCon_:SetSelectedState("normal")
 	else
-		arg_11_0.typeCon_:SetSelectedState("challenge")
+		slot0.typeCon_:SetSelectedState("challenge")
 	end
 
-	if arg_11_0.info_.complete_flag >= 1 then
-		arg_11_0.stateCon_:SetSelectedState("received")
-	elseif arg_11_0.info_.progress >= arg_11_0.cfg_.need then
-		arg_11_0.stateCon_:SetSelectedState("complete")
+	if slot0.info_.complete_flag >= 1 then
+		slot0.stateCon_:SetSelectedState("received")
+	elseif slot0.cfg_.need <= slot0.info_.progress then
+		slot0.stateCon_:SetSelectedState("complete")
 	else
-		arg_11_0.stateCon_:SetSelectedState("go")
+		slot0.stateCon_:SetSelectedState("go")
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_13_0 = 1, #arg_13_0.rewardItems_ do
-		arg_13_0.rewardItems_[iter_13_0]:Dispose()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Dispose()
 	end
 
-	arg_13_0.rewardItems_ = {}
+	slot0.rewardItems_ = {}
 
-	arg_13_0.super.Dispose(arg_13_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

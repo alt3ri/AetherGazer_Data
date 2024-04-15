@@ -1,96 +1,83 @@
-local var_0_0 = class("BattleBaseCooperationTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleBaseCooperationTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0)
-	var_0_0.super.Ctor(arg_1_0)
+function slot0.Ctor(slot0)
+	uv0.super.Ctor(slot0)
 
-	arg_1_0.room = CooperationData:GetRoomData()
-	arg_1_0.roomId = arg_1_0.room.room_id
-	arg_1_0.heroList = {}
-	arg_1_0.heroTrialList = {}
-	arg_1_0.serverTeamPlayer = {}
-	arg_1_0.playerList = {}
+	slot0.room = CooperationData:GetRoomData()
+	slot0.roomId = slot0.room.room_id
+	slot0.heroList = {}
+	slot0.heroTrialList = {}
+	slot0.serverTeamPlayer = {}
+	slot0.playerList = {}
 end
 
-function var_0_0.UpdateRoleDatas(arg_2_0)
-	arg_2_0.roleDataInLua = {}
-	arg_2_0.heroList = {}
-	arg_2_0.heroTrialList = {}
-	arg_2_0.heroInfoList = {}
-	arg_2_0.playerList = {}
+function slot0.UpdateRoleDatas(slot0)
+	slot0.roleDataInLua = {}
+	slot0.heroList = {}
+	slot0.heroTrialList = {}
+	slot0.heroInfoList = {}
+	slot0.playerList = {}
+	slot1 = slot0:GetSystemHeroTeam()
 
-	local var_2_0 = arg_2_0:GetSystemHeroTeam()
-	local var_2_1 = arg_2_0.room
-
-	if not var_2_1 then
+	if not slot0.room then
 		return
 	end
 
-	local var_2_2 = var_2_1:GetRoomPlayerIdList()
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_2) do
-		local var_2_3 = var_2_1:GetRoomPlayerData(iter_2_1)
-
-		for iter_2_2, iter_2_3 in ipairs(var_2_3.heroList) do
-			local var_2_4 = iter_2_3.trialID ~= 0 and iter_2_3.trialID or var_2_0[iter_2_2] or 0
-			local var_2_5 = BattleController.GetInstance():SetHeroData(iter_2_3, var_2_4, var_2_3.playerID, var_2_3.level)
-
-			table.insert(arg_2_0.roleDataInLua, var_2_5)
-			table.insert(arg_2_0.heroList, iter_2_3.id)
-			table.insert(arg_2_0.heroTrialList, iter_2_3.trialID)
-			table.insert(arg_2_0.heroInfoList, iter_2_3)
+	for slot7, slot8 in ipairs(slot2:GetRoomPlayerIdList()) do
+		for slot13, slot14 in ipairs(slot2:GetRoomPlayerData(slot8).heroList) do
+			table.insert(slot0.roleDataInLua, BattleController.GetInstance():SetHeroData(slot14, slot14.trialID ~= 0 and slot14.trialID or slot1[slot13] or 0, slot9.playerID, slot9.level))
+			table.insert(slot0.heroList, slot14.id)
+			table.insert(slot0.heroTrialList, slot14.trialID)
+			table.insert(slot0.heroInfoList, slot14)
 		end
 
-		table.insert(arg_2_0.playerList, var_2_3)
+		table.insert(slot0.playerList, slot9)
 	end
 
-	arg_2_0:SetMaxRaceData()
+	slot0:SetMaxRaceData()
 end
 
-function var_0_0.GetHeroTeam(arg_3_0)
-	return arg_3_0.heroList, arg_3_0.heroTrialList
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList, slot0.heroTrialList
 end
 
-function var_0_0.GetHeroDataByPos(arg_4_0, arg_4_1)
-	local var_4_0, var_4_1 = arg_4_0:GetHeroTeam()
-	local var_4_2 = arg_4_0:GetSystemHeroTeam()
+function slot0.GetHeroDataByPos(slot0, slot1)
+	slot2, slot3 = slot0:GetHeroTeam()
+	slot4 = slot0:GetSystemHeroTeam()
 
-	if var_4_0[arg_4_1] and var_4_0[arg_4_1] ~= 0 then
-		if var_4_2[arg_4_1] or var_4_1[arg_4_1] and var_4_1[arg_4_1] ~= 0 then
-			local var_4_3 = var_4_2[arg_4_1] or var_4_1[arg_4_1]
-
-			return GetVirtualData(var_4_3)
+	if slot2[slot1] and slot2[slot1] ~= 0 then
+		if slot4[slot1] or slot3[slot1] and slot3[slot1] ~= 0 then
+			return GetVirtualData(slot4[slot1] or slot3[slot1])
 		else
-			local var_4_4 = arg_4_0.heroInfoList and arg_4_0.heroInfoList[arg_4_1]
-
-			if var_4_4 == nil then
+			if (slot0.heroInfoList and slot0.heroInfoList[slot1]) == nil then
 				return nil
 			end
 
-			return (GetPracticalData(var_4_4))
+			return GetPracticalData(slot5)
 		end
 	end
 
 	return nil
 end
 
-function var_0_0.GetIsCooperation(arg_5_0)
-	return true, arg_5_0.playerList
+function slot0.GetIsCooperation(slot0)
+	return true, slot0.playerList
 end
 
-function var_0_0.GetChipList(arg_6_0)
+function slot0.GetChipList(slot0)
 	return {}
 end
 
-function var_0_0.GetComboSkillID(arg_7_0)
+function slot0.GetComboSkillID(slot0)
 	return 0
 end
 
-function var_0_0.GetComboSkillLevel(arg_8_0)
+function slot0.GetComboSkillLevel(slot0)
 	return 0
 end
 
-function var_0_0.GetResurrectImmediately(arg_9_0)
+function slot0.GetResurrectImmediately(slot0)
 	return true
 end
 
-return var_0_0
+return slot0

@@ -1,23 +1,22 @@
-local var_0_0 = class("EquipBaseView", ReduxView)
+slot0 = class("EquipBaseView", ReduxView)
 
-function var_0_0.Init(arg_1_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.Show(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.gameObject_, true)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_2_0.params_ = arg_2_1
+	slot0.params_ = slot1
 
-	arg_2_0:OnEnter()
+	slot0:OnEnter()
 end
 
-function var_0_0.Hide(arg_3_0)
-	SetActive(arg_3_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

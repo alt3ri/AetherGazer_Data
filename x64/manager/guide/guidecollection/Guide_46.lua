@@ -1,72 +1,59 @@
-local var_0_0 = class("Guide_46", BaseGuide)
+slot0 = class("Guide_46", BaseGuide)
 
-function var_0_0.InitSteps(arg_1_0)
-	local var_1_0 = {}
+function slot0.InitSteps(slot0)
+	slot1 = {}
 
-	arg_1_0:OnGuideStart()
-	table.insert(var_1_0, 4601)
-	table.insert(var_1_0, 4602)
-	table.insert(var_1_0, 4603)
-	table.insert(var_1_0, 4604)
+	slot0:OnGuideStart()
+	table.insert(slot1, 4601)
+	table.insert(slot1, 4602)
+	table.insert(slot1, 4603)
+	table.insert(slot1, 4604)
 
-	local var_1_1 = PolyhedronData:GetUnlockBeaconList()
-
-	if var_1_1 and #var_1_1 == 0 then
-		table.insert(var_1_0, 4605)
-		table.insert(var_1_0, 4606)
-		table.insert(var_1_0, 4607)
-		table.insert(var_1_0, 4608)
+	if PolyhedronData:GetUnlockBeaconList() and #slot2 == 0 then
+		table.insert(slot1, 4605)
+		table.insert(slot1, 4606)
+		table.insert(slot1, 4607)
+		table.insert(slot1, 4608)
 	end
 
-	table.insert(var_1_0, 4609)
-	table.insert(var_1_0, 4610)
-	table.insert(var_1_0, 4611)
-	table.insert(var_1_0, 4612)
+	table.insert(slot1, 4609)
+	table.insert(slot1, 4610)
+	table.insert(slot1, 4611)
+	table.insert(slot1, 4612)
 
-	local var_1_2 = PolyhedronData:GetUnlockHeroList()
-
-	if var_1_2 and #var_1_2 <= 1 then
-		table.insert(var_1_0, 4613)
-		table.insert(var_1_0, 4614)
-		table.insert(var_1_0, 4615)
-		table.insert(var_1_0, 4616)
-		table.insert(var_1_0, 4617)
+	if PolyhedronData:GetUnlockHeroList() and #slot3 <= 1 then
+		table.insert(slot1, 4613)
+		table.insert(slot1, 4614)
+		table.insert(slot1, 4615)
+		table.insert(slot1, 4616)
+		table.insert(slot1, 4617)
 	end
 
-	table.insert(var_1_0, 4618)
-	table.insert(var_1_0, 4619)
-	table.insert(var_1_0, 4620)
-	table.insert(var_1_0, 4621)
+	table.insert(slot1, 4618)
+	table.insert(slot1, 4619)
+	table.insert(slot1, 4620)
+	table.insert(slot1, 4621)
 
-	local var_1_3 = 1
-	local var_1_4 = arg_1_0._cfg.leaps
+	slot4 = 1
 
-	for iter_1_0, iter_1_1 in ipairs(var_1_4) do
-		local var_1_5 = iter_1_1[1]
-		local var_1_6 = iter_1_1[2]
-
+	for slot9, slot10 in ipairs(slot0._cfg.leaps) do
 		if GuideTool.SatisfyCondition({
 			{
 				"uiName",
-				var_1_5
+				slot10[1]
 			}
 		}) then
-			var_1_3 = var_1_6
+			slot4 = slot10[2]
 		end
 	end
 
-	arg_1_0._steps = {}
+	slot0._steps = {}
 
-	local var_1_7 = #var_1_0
-
-	for iter_1_2 = var_1_3, var_1_7 do
-		local var_1_8 = var_1_0[iter_1_2]
-		local var_1_9 = arg_1_0:ProduceStep(var_1_8)
-
-		if var_1_9 then
-			table.insert(arg_1_0._steps, var_1_9)
+	for slot10 = slot4, #slot1 do
+		if slot0:ProduceStep(slot1[slot10]) then
+			table.insert(slot0._steps, slot12)
 		end
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,592 +1,522 @@
-local var_0_0 = {}
-
-manager.net:Bind(27005, function(arg_1_0)
-	if arg_1_0.room_id == ChatData:GetWorldChannelNum() then
+manager.net:Bind(27005, function (slot0)
+	if slot0.room_id == ChatData:GetWorldChannelNum() then
 		return
 	end
 
-	ChatData:SetWorldChannelNum(arg_1_0.room_id)
+	ChatData:SetWorldChannelNum(slot0.room_id)
 	manager.notify:Invoke(CHAT_NEW_CHANNEL)
 end)
-manager.net:Bind(27009, function(arg_2_0)
-	ChatData:UpdateMutedLevel(arg_2_0)
+manager.net:Bind(27009, function (slot0)
+	ChatData:UpdateMutedLevel(slot0)
 end)
-manager.net:Bind(27007, function(arg_3_0)
-	local var_3_0 = false
-	local var_3_1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
+manager.net:Bind(27007, function (slot0)
+	slot1 = false
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.chat_msg_list) do
-		local var_3_2 = table.keyof(var_3_1, iter_3_1.msg.id)
+	for slot6, slot7 in ipairs(slot0.chat_msg_list) do
+		slot8 = table.keyof(FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST), slot7.msg.id)
 
-		ChatData:AddWorldChat(iter_3_1, var_3_2)
+		ChatData:AddWorldChat(slot7, slot8)
 
-		if not var_3_2 then
-			var_3_0 = true
+		if not slot8 then
+			slot1 = true
 		end
 	end
 
-	if var_3_0 then
+	if slot1 then
 		manager.notify:Invoke(CHAT_NEW_MESSAGE, {
 			chatToggleID = ChatConst.CHAT_CHANNEL_WORLD
 		})
 	end
 end)
-manager.net:Bind(27019, function(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.remove_msg_list) do
-		if iter_4_1.channel_type == ChatConst.CHAT_CHANNEL_WORLD then
-			var_0_0.RemoveWorldChat(iter_4_1.msg_id)
-		elseif iter_4_1.channel_type == ChatConst.CHAT_CHANNEL_FRIEND then
-			local var_4_0 = iter_4_1.sender_uid == USER_ID and iter_4_1.channel_id or iter_4_1.sender_uid
-
-			var_0_0.RemoveFriendChat(iter_4_1.msg_id, var_4_0)
-		elseif iter_4_1.channel_type == ChatConst.CHAT_CHANNEL_GUILD then
-			var_0_0.RemoveGuildChat(iter_4_1.msg_id)
-		elseif ChatToggleCfg[iter_4_1.channel_type] ~= nil then
-			var_0_0.RemoveChannelChat(iter_4_1)
+manager.net:Bind(27019, function (slot0)
+	for slot4, slot5 in ipairs(slot0.remove_msg_list) do
+		if slot5.channel_type == ChatConst.CHAT_CHANNEL_WORLD then
+			uv0.RemoveWorldChat(slot5.msg_id)
+		elseif slot5.channel_type == ChatConst.CHAT_CHANNEL_FRIEND then
+			uv0.RemoveFriendChat(slot5.msg_id, slot5.sender_uid == USER_ID and slot5.channel_id or slot5.sender_uid)
+		elseif slot5.channel_type == ChatConst.CHAT_CHANNEL_GUILD then
+			uv0.RemoveGuildChat(slot5.msg_id)
+		elseif ChatToggleCfg[slot5.channel_type] ~= nil then
+			uv0.RemoveChannelChat(slot5)
 		end
 	end
 end)
-manager.net:Bind(27407, function(arg_5_0)
-	ChatGuildRecruitData:RemoveChatRecord(arg_5_0.club_id)
+manager.net:Bind(27407, function (slot0)
+	ChatGuildRecruitData:RemoveChatRecord(slot0.club_id)
 	manager.notify:Invoke(CHAT_NEW_MESSAGE, {
 		chatToggleID = ChatConst.CHAT_CHANNEL_GUILD_RECRUIT
 	})
 end)
-manager.net:Bind(27605, function(arg_6_0)
-	ActivityRecallData:RemoveChatRecord(arg_6_0.user_id)
+manager.net:Bind(27605, function (slot0)
+	ActivityRecallData:RemoveChatRecord(slot0.user_id)
 	manager.notify:Invoke(CHAT_NEW_MESSAGE, {
 		chatToggleID = ChatConst.CHAT_CHANNEL_RECALL
 	})
 end)
-
-function var_0_0.RemoveWorldChatAction(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	manager.net:SendWithLoadingNew(27016, {
-		msg_id = arg_7_0,
-		sender_uid = arg_7_1,
-		channel_type = arg_7_2,
-		channel_id = arg_7_3
-	}, 27017, function(arg_8_0)
-		if isSuccess(arg_8_0.result) then
-			-- block empty
-		else
-			ShowTips(arg_8_0.result)
-		end
-	end)
-end
-
-function var_0_0.RemoveWorldChat(arg_9_0)
-	ChatData:RemoveWorldChat(arg_9_0)
-	manager.notify:Invoke(CHAT_WORLD_RESET)
-end
-
-function var_0_0.RemoveFriendChatAction(arg_10_0, arg_10_1, arg_10_2)
-	manager.net:SendWithLoadingNew(27016, {
-		msg_id = arg_10_0,
-		sender_uid = arg_10_1,
-		channel_type = ChatConst.CHAT_CHANNEL_FRIEND,
-		channel_id = arg_10_2
-	}, 27017, function(arg_11_0)
-		if isSuccess(arg_11_0.result) then
-			-- block empty
-		else
-			ShowTips(arg_11_0.result)
-		end
-	end)
-end
-
-function var_0_0.RemoveFriendChat(arg_12_0, arg_12_1)
-	local var_12_0 = ChatFriendData:RemoveFriendChatContent(arg_12_0, arg_12_1)
-
-	if var_12_0 == 0 then
+manager.net:Bind(27023, function (slot0)
+	if #slot0.msg <= 0 then
 		return
 	end
 
-	if var_12_0 == #ChatFriendData:GetFriendContent(arg_12_1) then
-		local var_12_1 = ChatFriendData:GetLastMsgData(arg_12_1)
-
-		FriendsAction:RefreshChat(arg_12_1, var_12_1.content, var_12_1.timestamp)
+	for slot5, slot6 in ipairs(slot0.msg) do
+		ChatGuildData:AddChat(slot6)
+		table.insert({}, slot6.msg_id)
 	end
 
-	FriendsAction:RefreshUnread(arg_12_1, ChatFriendData:GetUnreadMsgCnt(arg_12_1))
-	manager.notify:Invoke(CHAT_FRIEND_CHAT_RESET, arg_12_1)
-end
+	slot2 = slot0.msg[#slot0.msg]
+	slot3 = slot2.content
 
-function var_0_0.RemoveGuildChat(arg_13_0)
-	if ChatGuildData:RemoveGuildChatContent(arg_13_0) == 0 then
-		return
-	end
-
-	manager.notify:Invoke(CHAT_GUILD_RESET)
-end
-
-function var_0_0.RemoveChannelChat(arg_14_0)
-	ChatChannelData:RemoveChatContent(arg_14_0)
-	manager.notify:Invoke(CHAT_WORLD_RESET)
-end
-
-function var_0_0.SetWorldChannelNum(arg_15_0, arg_15_1)
-	manager.net:SendWithLoadingNew(27010, {
-		room_id = arg_15_0
-	}, 27011, function(arg_16_0)
-		arg_15_1(arg_16_0.result)
-	end)
-end
-
-function var_0_0.EnterChatUI(arg_17_0)
-	if manager.net:GetTCPState("game") ~= "connected" then
-		return
-	end
-
-	manager.net:Push(27012, {
-		operation = arg_17_0
-	})
-end
-
-function var_0_0.SendMsg(arg_18_0, arg_18_1, arg_18_2)
-	if manager.time:GetServerTime() - ChatData:GetSendTextTimestamp() < 10 then
-		ShowTips("SEND_MESSAGE_FREQUENTLY")
-
-		return
-	end
-
-	local var_18_0 = ActivityRecallData:GetDataByPara("recallCode")
-
-	if var_18_0 ~= nil and string.find(arg_18_0, var_18_0) then
-		ShowTips("RECALL_CHAT_RECOMMEND")
-
-		return
-	end
-
-	if string.sub(arg_18_0, 1, 2) == "$ " then
-		local var_18_1 = {
-			content = arg_18_0
-		}
-
-		manager.net:SendWithLoadingNew(27100, var_18_1, 27101, PrintResult)
-	else
-		manager.net:SendWithLoadingNew(27014, {
-			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-			content = arg_18_0
-		}, 27015, function(arg_19_0)
-			arg_18_2(arg_19_0)
-		end)
-	end
-end
-
-function var_0_0.SendSticker(arg_20_0, arg_20_1)
-	manager.net:SendWithLoadingNew(27014, {
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_20_0)
-	}, 27015, function(arg_21_0)
-		arg_20_1(arg_21_0)
-	end)
-end
-
-function var_0_0.RefreshWorldChatData()
-	local var_22_0 = {}
-	local var_22_1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-
-	for iter_22_0, iter_22_1 in pairs(ChatData:GetWorldOriginChatData()) do
-		if (iter_22_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or iter_22_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) and table.keyof(var_22_1, iter_22_1.id) then
-			-- block empty
-		else
-			table.insert(var_22_0, iter_22_1)
-		end
-	end
-
-	ChatData:ResetWorldTempData(var_22_0)
-	manager.notify:Invoke(CHAT_WORLD_RESET)
-	manager.notify:Invoke(CHAT_GUILD_RESET)
-	manager.notify:Invoke(CHAT_COOPERATION_RESET)
-end
-
-manager.net:Bind(27023, function(arg_23_0)
-	if #arg_23_0.msg <= 0 then
-		return
-	end
-
-	local var_23_0 = {}
-
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.msg) do
-		ChatGuildData:AddChat(iter_23_1)
-		table.insert(var_23_0, iter_23_1.msg_id)
-	end
-
-	local var_23_1 = arg_23_0.msg[#arg_23_0.msg]
-	local var_23_2 = var_23_1.content
-
-	if var_23_1.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-		local var_23_3 = string.format("[%s]", ChatStickerCfg[tonumber(var_23_1.content)].name)
+	if slot2.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+		slot3 = string.format("[%s]", ChatStickerCfg[tonumber(slot2.content)].name)
 	end
 
 	ChatTools.SaveGuildChatCache(GuildData:GetGuildInfo().id or 0)
 	manager.notify:Invoke(CHAT_GUILD_NEW_MESSAGE)
 	manager.net:Push(19036, {
 		channel = ChatConst.CHAT_CHANNEL_GUILD,
-		msg_id_list = var_23_0
+		msg_id_list = slot1
 	})
 end)
+manager.net:Bind(19039, function (slot0)
+	slot1 = {}
+	slot2 = USER_ID
+	slot3 = {}
 
-function var_0_0.SendGuildMsg(arg_24_0, arg_24_1, arg_24_2)
-	manager.net:SendWithLoadingNew(27020, {
-		type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-		content = arg_24_0
-	}, 27021, function(arg_25_0)
-		arg_24_2(arg_25_0)
-	end)
-end
+	for slot7, slot8 in ipairs(slot0.friend_msg_list) do
+		ChatFriendData:AddChat(slot8)
 
-function var_0_0.SendGuildSticker(arg_26_0, arg_26_1)
-	manager.net:SendWithLoadingNew(27020, {
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_26_0)
-	}, 27021, function(arg_27_0)
-		arg_26_1(arg_27_0)
-	end)
-end
+		slot9 = slot8.chat_base_info.content
 
-function var_0_0.GuildChatInitData()
-	local var_28_0 = GuildData:GetGuildInfo()
-
-	if var_28_0.id == nil or var_28_0.id ~= getData("guildInfo", "guildID") then
-		ChatGuildData:RemoveChatData()
-	end
-
-	if var_28_0.id then
-		ChatTools.LoadGuildLocalChatCache(var_28_0.id)
-		ChatTools.DeleteGuildChatRecord(var_28_0.id)
-	end
-end
-
-function var_0_0.SendGuildRecruitMsg(arg_29_0, arg_29_1, arg_29_2)
-	print("功能未实现")
-	arg_29_2({
-		result = 0
-	})
-end
-
-function var_0_0.SendGuildRecruitSticker(arg_30_0, arg_30_1)
-	print("功能未实现")
-	arg_30_1({
-		result = 0
-	})
-end
-
-manager.net:Bind(19039, function(arg_31_0)
-	local var_31_0 = {}
-	local var_31_1 = USER_ID
-	local var_31_2 = {}
-
-	for iter_31_0, iter_31_1 in ipairs(arg_31_0.friend_msg_list) do
-		ChatFriendData:AddChat(iter_31_1)
-
-		local var_31_3 = iter_31_1.chat_base_info.content
-
-		if iter_31_1.chat_base_info.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			var_31_3 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(iter_31_1.chat_base_info.content)].name))
+		if slot8.chat_base_info.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+			slot9 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(slot8.chat_base_info.content)].name))
 		end
 
-		local var_31_4 = var_31_1 == iter_31_1.chat_base_info.id and iter_31_1.receive_uid or iter_31_1.chat_base_info.id
-
-		if not table.keyof(var_31_2, var_31_4) then
-			table.insert(var_31_2, var_31_4)
+		if not table.keyof(slot3, slot2 == slot8.chat_base_info.id and slot8.receive_uid or slot8.chat_base_info.id) then
+			table.insert(slot3, slot10)
 		end
 
-		FriendsAction:RefreshChat(var_31_4, var_31_3, iter_31_1.chat_base_info.timestamp)
-		FriendsAction:RefreshUnread(var_31_4, ChatFriendData:GetUnreadMsgCnt(var_31_4))
-		manager.notify:Invoke(CHAT_FRIEND_NEW_MESSAGE, var_31_4)
-		table.insert(var_31_0, iter_31_1.chat_base_info.msg_id)
+		FriendsAction:RefreshChat(slot10, slot9, slot8.chat_base_info.timestamp)
+		FriendsAction:RefreshUnread(slot10, ChatFriendData:GetUnreadMsgCnt(slot10))
+		manager.notify:Invoke(CHAT_FRIEND_NEW_MESSAGE, slot10)
+		table.insert(slot1, slot8.chat_base_info.msg_id)
 	end
 
-	ChatTools.SaveFriendsCache(var_31_2)
+	ChatTools.SaveFriendsCache(slot3)
 	manager.net:Push(19036, {
 		channel = ChatConst.CHAT_CHANNEL_FRIEND,
-		msg_id_list = var_31_0
+		msg_id_list = slot1
 	})
 end)
-
-function var_0_0.SendFriendMsg(arg_32_0, arg_32_1, arg_32_2, arg_32_3)
-	manager.net:SendWithLoadingNew(19034, {
-		receive_uid = arg_32_0,
-		type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-		content = arg_32_1
-	}, 19035, function(arg_33_0)
-		arg_32_3(arg_33_0)
-	end)
-end
-
-function var_0_0.SendFriendSticker(arg_34_0, arg_34_1, arg_34_2)
-	manager.net:SendWithLoadingNew(19034, {
-		receive_uid = arg_34_0,
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_34_1)
-	}, 19035, function(arg_35_0)
-		arg_34_2(arg_35_0)
-	end)
-end
-
-function var_0_0.FriendChatInitData()
-	local var_36_0 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.MY_FRIENDS)
-
-	for iter_36_0, iter_36_1 in pairs(var_36_0) do
-		ChatFriendData:InitReadMsgCnt(iter_36_1)
-		ChatTools.DeleteFriendChatRecord(iter_36_1)
-	end
-
-	local var_36_1 = {}
-
-	for iter_36_2, iter_36_3 in pairs(ChatFriendData:GetAllFriendContent()) do
-		if table.keyof(var_36_0, iter_36_2) then
-			var_0_0.DeleteInvalidChat(iter_36_2)
-		else
-			table.insert(var_36_1, iter_36_2)
-		end
-	end
-
-	for iter_36_4, iter_36_5 in ipairs(var_36_1) do
-		var_0_0.DeleteFriendChat(iter_36_5)
-	end
-end
-
-function var_0_0.DeleteFriendChat(arg_37_0)
-	ChatFriendData:RemoveCacheHero(arg_37_0)
-	ChatFriendData:RemoveChatData(arg_37_0)
-end
-
-function var_0_0.DeleteInvalidChat(arg_38_0)
-	local var_38_0 = FriendsData:GetInfoByID(arg_38_0).timestamp
-	local var_38_1 = ChatFriendData:GetFriendContent(arg_38_0)
-	local var_38_2 = 0
-
-	for iter_38_0 = #var_38_1, 1, -1 do
-		if var_38_0 > var_38_1[iter_38_0].timestamp then
-			var_38_2 = iter_38_0
-
-			break
-		end
-	end
-
-	ChatFriendData:DeleteInvalidContent(arg_38_0, var_38_2)
-end
-
-function var_0_0.ChatReportMsg(arg_39_0, arg_39_1, arg_39_2, arg_39_3)
-	manager.net:SendWithLoadingNew(57002, {
-		msg_uid = arg_39_0,
-		report_type = arg_39_1,
-		report_note = arg_39_2
-	}, 57003, function(arg_40_0)
-		arg_39_3(arg_40_0)
-	end)
-end
-
-function var_0_0.ChatReportUser(arg_41_0, arg_41_1, arg_41_2, arg_41_3)
-	manager.net:SendWithLoadingNew(57004, {
-		reported_user_id = arg_41_0,
-		report_type = arg_41_1,
-		report_note = arg_41_2
-	}, 57005, function(arg_42_0)
-		arg_41_3(arg_42_0)
-	end)
-end
-
-function var_0_0.DormReportUser(arg_43_0, arg_43_1)
-	manager.net:SendWithLoadingNew(57008, arg_43_0, 57009, function(arg_44_0)
-		arg_43_1(arg_44_0)
-	end)
-end
-
-function var_0_0.RequireGuildShareInfo()
-	manager.net:SendWithLoadingNew(27402, {
-		timestamp = ChatGuildRecruitData:GetLastTimestamp()
-	}, 27403, function(arg_46_0)
-		local var_46_0 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-
-		if isSuccess(arg_46_0.result) then
-			for iter_46_0, iter_46_1 in ipairs(arg_46_0.msg_list) do
-				if iter_46_1.club_base_info.id == nil or iter_46_1.club_base_info.id == GuildData.INVALID_GUILD then
-					-- block empty
-				else
-					ChatGuildRecruitData:AddChatRecord(iter_46_1)
-					GuildData:SetCacheGuildInfo(iter_46_1.club_base_info)
-				end
-			end
-
-			ChatGuildRecruitData:SortMsg(var_46_0)
-
-			if #arg_46_0.msg_list > 0 then
-				manager.notify:Invoke(CHAT_NEW_MESSAGE, {
-					chatToggleID = ChatConst.CHAT_CHANNEL_GUILD_RECRUIT
-				})
-			end
-		else
-			ShowTips(arg_46_0.result)
-		end
-	end)
-end
-
-function var_0_0.RequireRecallInfo()
-	manager.net:SendWithLoadingNew(27602, {
-		timestamp = ActivityRecallData:GetLastTimestamp()
-	}, 27603, function(arg_48_0)
-		local var_48_0 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-
-		if isSuccess(arg_48_0.result) then
-			for iter_48_0, iter_48_1 in ipairs(arg_48_0.msg_list) do
-				ActivityRecallData:AddChatRecord(iter_48_1)
-			end
-
-			ActivityRecallData:SortMsg(var_48_0)
-
-			if #arg_48_0.msg_list > 0 then
-				manager.notify:Invoke(CHAT_NEW_MESSAGE, {
-					chatToggleID = ChatConst.CHAT_CHANNEL_RECALL
-				})
-			end
-		else
-			ShowTips(arg_48_0.result)
-		end
-	end)
-end
-
-manager.net:Bind(27033, function(arg_49_0)
-	if #arg_49_0.msg <= 0 then
+manager.net:Bind(27033, function (slot0)
+	if #slot0.msg <= 0 then
 		return
 	end
 
-	local var_49_0 = {}
-	local var_49_1 = arg_49_0.channel_type
-
-	for iter_49_0, iter_49_1 in ipairs(arg_49_0.msg) do
-		ChatChannelData:AddChat(var_49_1, iter_49_1)
-		table.insert(var_49_0, iter_49_1.msg.msg_id)
+	for slot6, slot7 in ipairs(slot0.msg) do
+		ChatChannelData:AddChat(slot0.channel_type, slot7)
+		table.insert({}, slot7.msg.msg_id)
 	end
 
-	local var_49_2 = arg_49_0.msg[#arg_49_0.msg]
-	local var_49_3 = var_49_2.msg.content
+	slot3 = slot0.msg[#slot0.msg]
+	slot4 = slot3.msg.content
 
-	if var_49_2.msg.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-		local var_49_4 = string.format("[%s]", ChatStickerCfg[tonumber(var_49_2.msg.content)].name)
+	if slot3.msg.type == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+		slot4 = string.format("[%s]", ChatStickerCfg[tonumber(slot3.msg.content)].name)
 	end
 
 	manager.notify:Invoke(CHAT_NEW_MESSAGE, {
-		chatToggleID = var_49_1
+		chatToggleID = slot2
 	})
 	manager.net:Push(19036, {
-		channel = var_49_1,
-		msg_id_list = var_49_0
+		channel = slot2,
+		msg_id_list = slot1
 	})
-	ChatTools.SaveChannelChatCache(var_49_1)
+	ChatTools.SaveChannelChatCache(slot2)
 end)
-
-function var_0_0.RequireChatNormalMsg(arg_50_0)
-	manager.net:SendWithLoadingNew(27500, {
-		channel_type = arg_50_0,
-		timestamp = ChatChannelData:GetLastRequireMsgTimestamp(arg_50_0)
-	}, 27501, function(arg_51_0)
-		if isSuccess(arg_51_0.result) then
-			for iter_51_0, iter_51_1 in ipairs(arg_51_0.msg_list) do
-				ChatChannelData:AddChat(arg_50_0, iter_51_1)
-			end
-
-			ChatChannelData:SetLastRequireMsgTimestamp(arg_50_0, manager.time:GetServerTime())
-			ChatChannelData:SortMsg(arg_50_0)
-
-			if #arg_51_0.msg_list > 0 then
-				manager.notify:Invoke(CHAT_NEW_MESSAGE, {
-					chatToggleID = arg_50_0
-				})
-			end
-		else
-			ShowTips(arg_51_0.result)
-		end
-	end)
-end
-
-function var_0_0.SendChatNormalMsg(arg_52_0, arg_52_1, arg_52_2, arg_52_3)
-	manager.net:SendWithLoadingNew(27030, {
-		channel_type = arg_52_0,
-		type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-		content = arg_52_1
-	}, 27031, function(arg_53_0)
-		arg_52_3(arg_53_0)
-	end)
-end
-
-function var_0_0.SendChatNormalSticker(arg_54_0, arg_54_1, arg_54_2)
-	manager.net:SendWithLoadingNew(27030, {
-		channel_type = arg_54_0,
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_54_1)
-	}, 27031, function(arg_55_0)
-		arg_54_2(arg_55_0)
-	end)
-end
-
-function var_0_0.SendChatNormalJump(arg_56_0, arg_56_1, arg_56_2, arg_56_3, arg_56_4)
-	manager.net:SendWithLoadingNew(27030, {
-		channel_type = arg_56_0,
-		type = ChatConst.CHAT_CONTENT_TYPE.JUMP,
-		content = arg_56_1,
-		jump_link = arg_56_2
-	}, 27031, function(arg_57_0)
-		arg_56_4(arg_57_0)
-	end)
-end
-
-function var_0_0.LoadChannelChatData()
-	for iter_58_0, iter_58_1 in ipairs(ChatToggleCfg.all) do
-		local var_58_0 = ChatToggleCfg[iter_58_1].activity_id
-
-		if ActivityData:GetActivityIsOpen(var_58_0) then
-			ChatTools.LoadLocalChatCache(iter_58_1)
-			ChatTools.DeleteChannelChatRecord(iter_58_1)
-		end
-	end
-end
-
-manager.net:Bind(37033, function(arg_59_0)
-	ChatCooperationData:AddChat(arg_59_0.msg)
+manager.net:Bind(37033, function (slot0)
+	ChatCooperationData:AddChat(slot0.msg)
 	manager.notify:Invoke(CHAT_COOPERATION_NEW_MESSAGE)
 end)
-
-function var_0_0.SendCooperationdMsg(arg_60_0, arg_60_1, arg_60_2)
-	manager.net:SendWithLoadingNew(37030, {
-		type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-		content = arg_60_0
-	}, 37031, function(arg_61_0)
-		arg_60_2(arg_61_0)
-	end)
-end
-
-function var_0_0.SendCooperationSticker(arg_62_0, arg_62_1)
-	manager.net:SendWithLoadingNew(37030, {
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_62_0)
-	}, 37031, function(arg_63_0)
-		arg_62_1(arg_63_0)
-	end)
-end
-
-function var_0_0.CooperationChatInitData()
-	ChatCooperationData:RemoveChatData()
-end
-
-manager.net:Bind(12039, function(arg_65_0)
-	ChatStickerData:InitData(arg_65_0)
+manager.net:Bind(12039, function (slot0)
+	ChatStickerData:InitData(slot0)
 end)
 
-function var_0_0.SaveCustomSticker(arg_66_0)
-	local var_66_0 = ChatStickerData:GetCustomStickerUIList()
-
-	manager.net:SendWithLoadingNew(12036, {
-		emoticon_id_list = var_66_0
-	}, 12037, function(arg_67_0)
-		if isSuccess(arg_67_0.result) then
-			ChatStickerData:SaveData()
+return {
+	RemoveWorldChatAction = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(27016, {
+			msg_id = slot0,
+			sender_uid = slot1,
+			channel_type = slot2,
+			channel_id = slot3
+		}, 27017, function (slot0)
+			if not isSuccess(slot0.result) then
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	RemoveWorldChat = function (slot0)
+		ChatData:RemoveWorldChat(slot0)
+		manager.notify:Invoke(CHAT_WORLD_RESET)
+	end,
+	RemoveFriendChatAction = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(27016, {
+			msg_id = slot0,
+			sender_uid = slot1,
+			channel_type = ChatConst.CHAT_CHANNEL_FRIEND,
+			channel_id = slot2
+		}, 27017, function (slot0)
+			if not isSuccess(slot0.result) then
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	RemoveFriendChat = function (slot0, slot1)
+		if ChatFriendData:RemoveFriendChatContent(slot0, slot1) == 0 then
+			return
 		end
 
-		arg_66_0(arg_67_0)
-	end)
-end
+		if slot2 == #ChatFriendData:GetFriendContent(slot1) then
+			slot3 = ChatFriendData:GetLastMsgData(slot1)
 
-return var_0_0
+			FriendsAction:RefreshChat(slot1, slot3.content, slot3.timestamp)
+		end
+
+		FriendsAction:RefreshUnread(slot1, ChatFriendData:GetUnreadMsgCnt(slot1))
+		manager.notify:Invoke(CHAT_FRIEND_CHAT_RESET, slot1)
+	end,
+	RemoveGuildChat = function (slot0)
+		if ChatGuildData:RemoveGuildChatContent(slot0) == 0 then
+			return
+		end
+
+		manager.notify:Invoke(CHAT_GUILD_RESET)
+	end,
+	RemoveChannelChat = function (slot0)
+		ChatChannelData:RemoveChatContent(slot0)
+		manager.notify:Invoke(CHAT_WORLD_RESET)
+	end,
+	SetWorldChannelNum = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(27010, {
+			room_id = slot0
+		}, 27011, function (slot0)
+			uv0(slot0.result)
+		end)
+	end,
+	EnterChatUI = function (slot0)
+		if manager.net:GetTCPState("game") ~= "connected" then
+			return
+		end
+
+		manager.net:Push(27012, {
+			operation = slot0
+		})
+	end,
+	SendMsg = function (slot0, slot1, slot2)
+		if manager.time:GetServerTime() - ChatData:GetSendTextTimestamp() < 10 then
+			ShowTips("SEND_MESSAGE_FREQUENTLY")
+
+			return
+		end
+
+		if ActivityRecallData:GetDataByPara("recallCode") ~= nil and string.find(slot0, slot3) then
+			ShowTips("RECALL_CHAT_RECOMMEND")
+
+			return
+		end
+
+		if string.sub(slot0, 1, 2) == "$ " then
+			manager.net:SendWithLoadingNew(27100, {
+				content = slot0
+			}, 27101, PrintResult)
+		else
+			manager.net:SendWithLoadingNew(27014, {
+				type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+				content = slot0
+			}, 27015, function (slot0)
+				uv0(slot0)
+			end)
+		end
+	end,
+	SendSticker = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(27014, {
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot0)
+		}, 27015, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	RefreshWorldChatData = function ()
+		slot0 = {}
+		slot4 = ChatData
+		slot6 = slot4
+
+		for slot5, slot6 in pairs(slot4.GetWorldOriginChatData(slot6)) do
+			if slot6.contentType ~= ChatConst.CHAT_CONTENT_TYPE.TEXT and slot6.contentType ~= ChatConst.CHAT_CONTENT_TYPE.STICKER or not table.keyof(FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST), slot6.id) then
+				table.insert(slot0, slot6)
+			end
+		end
+
+		ChatData:ResetWorldTempData(slot0)
+		manager.notify:Invoke(CHAT_WORLD_RESET)
+		manager.notify:Invoke(CHAT_GUILD_RESET)
+		manager.notify:Invoke(CHAT_COOPERATION_RESET)
+	end,
+	SendGuildMsg = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(27020, {
+			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+			content = slot0
+		}, 27021, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendGuildSticker = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(27020, {
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot0)
+		}, 27021, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	GuildChatInitData = function ()
+		if GuildData:GetGuildInfo().id == nil or slot0.id ~= getData("guildInfo", "guildID") then
+			ChatGuildData:RemoveChatData()
+		end
+
+		if slot0.id then
+			ChatTools.LoadGuildLocalChatCache(slot0.id)
+			ChatTools.DeleteGuildChatRecord(slot0.id)
+		end
+	end,
+	SendGuildRecruitMsg = function (slot0, slot1, slot2)
+		print("功能未实现")
+		slot2({
+			result = 0
+		})
+	end,
+	SendGuildRecruitSticker = function (slot0, slot1)
+		print("功能未实现")
+		slot1({
+			result = 0
+		})
+	end,
+	SendFriendMsg = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(19034, {
+			receive_uid = slot0,
+			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+			content = slot1
+		}, 19035, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendFriendSticker = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(19034, {
+			receive_uid = slot0,
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot1)
+		}, 19035, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	FriendChatInitData = function ()
+		for slot4, slot5 in pairs(FriendsData:GetList(FriendsConst.FRIEND_TYPE.MY_FRIENDS)) do
+			ChatFriendData:InitReadMsgCnt(slot5)
+			ChatTools.DeleteFriendChatRecord(slot5)
+		end
+
+		slot1 = {}
+		slot4 = ChatFriendData
+		slot6 = slot4
+
+		for slot5, slot6 in pairs(slot4.GetAllFriendContent(slot6)) do
+			if table.keyof(slot0, slot5) then
+				uv0.DeleteInvalidChat(slot5)
+			else
+				table.insert(slot1, slot5)
+			end
+		end
+
+		for slot5, slot6 in ipairs(slot1) do
+			uv0.DeleteFriendChat(slot6)
+		end
+	end,
+	DeleteFriendChat = function (slot0)
+		ChatFriendData:RemoveCacheHero(slot0)
+		ChatFriendData:RemoveChatData(slot0)
+	end,
+	DeleteInvalidChat = function (slot0)
+		slot4 = 0
+
+		for slot8 = #ChatFriendData:GetFriendContent(slot0), 1, -1 do
+			if slot3[slot8].timestamp < FriendsData:GetInfoByID(slot0).timestamp then
+				slot4 = slot8
+
+				break
+			end
+		end
+
+		ChatFriendData:DeleteInvalidContent(slot0, slot4)
+	end,
+	ChatReportMsg = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(57002, {
+			msg_uid = slot0,
+			report_type = slot1,
+			report_note = slot2
+		}, 57003, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	ChatReportUser = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(57004, {
+			reported_user_id = slot0,
+			report_type = slot1,
+			report_note = slot2
+		}, 57005, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	DormReportUser = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(57008, slot0, 57009, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	RequireGuildShareInfo = function ()
+		manager.net:SendWithLoadingNew(27402, {
+			timestamp = ChatGuildRecruitData:GetLastTimestamp()
+		}, 27403, function (slot0)
+			slot1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
+
+			if isSuccess(slot0.result) then
+				for slot5, slot6 in ipairs(slot0.msg_list) do
+					if slot6.club_base_info.id ~= nil then
+						if slot6.club_base_info.id ~= GuildData.INVALID_GUILD then
+							ChatGuildRecruitData:AddChatRecord(slot6)
+							GuildData:SetCacheGuildInfo(slot6.club_base_info)
+						end
+					end
+				end
+
+				ChatGuildRecruitData:SortMsg(slot1)
+
+				if #slot0.msg_list > 0 then
+					manager.notify:Invoke(CHAT_NEW_MESSAGE, {
+						chatToggleID = ChatConst.CHAT_CHANNEL_GUILD_RECRUIT
+					})
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	RequireRecallInfo = function ()
+		manager.net:SendWithLoadingNew(27602, {
+			timestamp = ActivityRecallData:GetLastTimestamp()
+		}, 27603, function (slot0)
+			slot1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
+
+			if isSuccess(slot0.result) then
+				for slot5, slot6 in ipairs(slot0.msg_list) do
+					ActivityRecallData:AddChatRecord(slot6)
+				end
+
+				ActivityRecallData:SortMsg(slot1)
+
+				if #slot0.msg_list > 0 then
+					manager.notify:Invoke(CHAT_NEW_MESSAGE, {
+						chatToggleID = ChatConst.CHAT_CHANNEL_RECALL
+					})
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	RequireChatNormalMsg = function (slot0)
+		manager.net:SendWithLoadingNew(27500, {
+			channel_type = slot0,
+			timestamp = ChatChannelData:GetLastRequireMsgTimestamp(slot0)
+		}, 27501, function (slot0)
+			if isSuccess(slot0.result) then
+				for slot4, slot5 in ipairs(slot0.msg_list) do
+					ChatChannelData:AddChat(uv0, slot5)
+				end
+
+				ChatChannelData:SetLastRequireMsgTimestamp(uv0, manager.time:GetServerTime())
+				ChatChannelData:SortMsg(uv0)
+
+				if #slot0.msg_list > 0 then
+					manager.notify:Invoke(CHAT_NEW_MESSAGE, {
+						chatToggleID = uv0
+					})
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	SendChatNormalMsg = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(27030, {
+			channel_type = slot0,
+			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+			content = slot1
+		}, 27031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendChatNormalSticker = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(27030, {
+			channel_type = slot0,
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot1)
+		}, 27031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendChatNormalJump = function (slot0, slot1, slot2, slot3, slot4)
+		manager.net:SendWithLoadingNew(27030, {
+			channel_type = slot0,
+			type = ChatConst.CHAT_CONTENT_TYPE.JUMP,
+			content = slot1,
+			jump_link = slot2
+		}, 27031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	LoadChannelChatData = function ()
+		for slot3, slot4 in ipairs(ChatToggleCfg.all) do
+			if ActivityData:GetActivityIsOpen(ChatToggleCfg[slot4].activity_id) then
+				ChatTools.LoadLocalChatCache(slot4)
+				ChatTools.DeleteChannelChatRecord(slot4)
+			end
+		end
+	end,
+	SendCooperationdMsg = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(37030, {
+			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+			content = slot0
+		}, 37031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendCooperationSticker = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(37030, {
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot0)
+		}, 37031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	CooperationChatInitData = function ()
+		ChatCooperationData:RemoveChatData()
+	end,
+	SaveCustomSticker = function (slot0)
+		manager.net:SendWithLoadingNew(12036, {
+			emoticon_id_list = ChatStickerData:GetCustomStickerUIList()
+		}, 12037, function (slot0)
+			if isSuccess(slot0.result) then
+				ChatStickerData:SaveData()
+			end
+
+			uv0(slot0)
+		end)
+	end
+}

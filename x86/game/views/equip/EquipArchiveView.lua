@@ -1,76 +1,71 @@
-local var_0_0 = class("EquipArchiveView", ReduxView)
+slot0 = class("EquipArchiveView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluEquipDetailUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.controllers_ = {}
+	slot0.controllers_ = {}
 
-	for iter_4_0 = 1, 6 do
-		arg_4_0.controllers_[iter_4_0] = arg_4_0:GetController(arg_4_0["item" .. iter_4_0 .. "Go_"], "conName")
+	for slot4 = 1, 6 do
+		slot0.controllers_[slot4] = slot0:GetController(slot0["item" .. slot4 .. "Go_"], "conName")
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.gainBtn_, nil, function()
-		ShowPopItemSource(0, 0, arg_5_0.id_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.gainBtn_, nil, function ()
+		ShowPopItemSource(0, 0, uv0.id_)
 	end)
 end
 
-function var_0_0.GetController(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_1:GetComponent("ControllerExCollection")
-
-	if var_7_0 then
-		return var_7_0:GetController(arg_7_2)
+function slot0.GetController(slot0, slot1, slot2)
+	if slot1:GetComponent("ControllerExCollection") then
+		return slot3:GetController(slot2)
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:ShowDefaultBar()
+function slot0.OnEnter(slot0)
+	slot0:ShowDefaultBar()
 
-	arg_8_0.id_ = arg_8_0.params_.equipID
+	slot0.id_ = slot0.params_.equipID
+	slot1 = EquipSuitCfg[slot0.id_]
+	slot0.nameText_.text = GetI18NText(slot1.name)
+	slot0.descText_.text = GetI18NText(EquipTools.GetEffectDesc(slot1.suit_effect[1]))
+	slot0.imageImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/icon_l/" .. EquipSuitCfg[slot0.id_].icon)
+	slot0.backgroundText_.text = GetI18NText(slot1.desc)
 
-	local var_8_0 = EquipSuitCfg[arg_8_0.id_]
-	local var_8_1 = IllustratedData:GetEquipInfo()[arg_8_0.id_]
-
-	arg_8_0.nameText_.text = GetI18NText(var_8_0.name)
-	arg_8_0.descText_.text = GetI18NText(EquipTools.GetEffectDesc(var_8_0.suit_effect[1]))
-	arg_8_0.imageImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/icon_l/" .. EquipSuitCfg[arg_8_0.id_].icon)
-	arg_8_0.backgroundText_.text = GetI18NText(var_8_0.desc)
-
-	if var_8_1 then
-		for iter_8_0 = 1, 6 do
-			if var_8_1.pos_list[iter_8_0] == 1 then
-				arg_8_0.controllers_[iter_8_0]:SetSelectedState("0")
+	if IllustratedData:GetEquipInfo()[slot0.id_] then
+		for slot6 = 1, 6 do
+			if slot2.pos_list[slot6] == 1 then
+				slot0.controllers_[slot6]:SetSelectedState("0")
 			else
-				arg_8_0.controllers_[iter_8_0]:SetSelectedState("1")
+				slot0.controllers_[slot6]:SetSelectedState("1")
 			end
 		end
 	else
-		for iter_8_1 = 1, 6 do
-			arg_8_0.controllers_[iter_8_1]:SetSelectedState("1")
+		for slot6 = 1, 6 do
+			slot0.controllers_[slot6]:SetSelectedState("1")
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

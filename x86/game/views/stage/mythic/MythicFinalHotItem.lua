@@ -1,51 +1,51 @@
-local var_0_0 = class("MythicFinalHotItem", ReduxView)
+slot0 = class("MythicFinalHotItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "statu")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "statu")
 
-	arg_1_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		if MythicData:GetLevelIsOpen(arg_2_0.levelid_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if MythicData:GetLevelIsOpen(uv0.levelid_) then
 			manager.net:SendWithLoadingNew(44024, {
-				difficulty_id = arg_2_0.levelid_
-			}, 44025, function(arg_4_0, arg_4_1)
-				if isSuccess(arg_4_0.result) then
-					MythicData:SetCurHotLevelId(arg_4_1.difficulty_id)
-					manager.notify:Invoke(MYTHIC_FINAL_HOTITEM_CLICK, arg_2_0.selffilterid_)
+				difficulty_id = uv0.levelid_
+			}, 44025, function (slot0, slot1)
+				if isSuccess(slot0.result) then
+					MythicData:SetCurHotLevelId(slot1.difficulty_id)
+					manager.notify:Invoke(MYTHIC_FINAL_HOTITEM_CLICK, uv0.selffilterid_)
 				else
-					ShowTips(arg_4_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
 		end
 	end)
 end
 
-function var_0_0.SetSpectID(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.levelid_ = arg_5_1
-	arg_5_0.leveltext_.text = arg_5_0.levelid_
-	arg_5_0.selffilterid_ = arg_5_2
+function slot0.SetSpectID(slot0, slot1, slot2, slot3)
+	slot0.levelid_ = slot1
+	slot0.leveltext_.text = slot0.levelid_
+	slot0.selffilterid_ = slot2
 
-	if MythicData:GetLevelIsOpen(arg_5_0.levelid_) then
-		if MythicData:GetHotLevelIsPass(arg_5_0.levelid_) then
-			arg_5_0.controller_:SetSelectedState("finsh")
+	if MythicData:GetLevelIsOpen(slot0.levelid_) then
+		if MythicData:GetHotLevelIsPass(slot0.levelid_) then
+			slot0.controller_:SetSelectedState("finsh")
 		else
-			arg_5_0.controller_:SetSelectedState("on")
+			slot0.controller_:SetSelectedState("on")
 		end
 	else
-		arg_5_0.controller_:SetSelectedState("lock")
+		slot0.controller_:SetSelectedState("lock")
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

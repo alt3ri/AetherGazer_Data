@@ -1,118 +1,108 @@
-local var_0_0 = singletonClass("ShopData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
+slot0 = singletonClass("ShopData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
 
-function var_0_0.Init()
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
+function slot0.Init()
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 end
 
-function var_0_0.GetNextGoods(arg_2_0)
-	if getShopCfg(arg_2_0).next_goods_id ~= nil and #getShopCfg(arg_2_0).next_goods_id > 0 then
-		return getShopCfg(arg_2_0).next_goods_id
+function slot0.GetNextGoods(slot0)
+	if getShopCfg(slot0).next_goods_id ~= nil and #getShopCfg(slot0).next_goods_id > 0 then
+		return getShopCfg(slot0).next_goods_id
 	end
 
-	if ShopCfg[arg_2_0] then
-		return ShopCfg.get_id_list_by_pre_goods_id[arg_2_0] or {}
+	if ShopCfg[slot0] then
+		return ShopCfg.get_id_list_by_pre_goods_id[slot0] or {}
 	else
 		return {}
 	end
 end
 
-function var_0_0.ShopItemUpdate(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = arg_3_0
-	local var_3_1 = var_0_2[arg_3_1]
-
-	if not var_3_1[var_3_0] then
-		var_3_1[var_3_0] = {}
+function slot0.ShopItemUpdate(slot0, slot1, slot2)
+	if not uv0[slot1][slot0] then
+		slot4[slot3] = {}
 	end
 
-	if not var_3_1[var_3_0].buy_times then
-		var_3_1[var_3_0].buy_times = 0
+	if not slot4[slot3].buy_times then
+		slot4[slot3].buy_times = 0
 	end
 
-	var_3_1[var_3_0].buy_times = var_3_1[var_3_0].buy_times + (arg_3_2 or 1)
+	slot4[slot3].buy_times = slot4[slot3].buy_times + (slot2 or 1)
 
-	manager.notify:Invoke(SHOP_ITEM_UPDATE, arg_3_1, var_3_0)
+	manager.notify:Invoke(SHOP_ITEM_UPDATE, slot1, slot3)
 end
 
-function var_0_0.SingleShopUpdate(arg_4_0)
-	local var_4_0 = var_0_2[arg_4_0.shop_id]
-
-	if not var_4_0 then
+function slot0.SingleShopUpdate(slot0)
+	if not uv0[slot0.shop_id] then
 		return
 	end
 
-	var_4_0.shopID = arg_4_0.shop_id
-	var_0_3[var_4_0.shopID] = arg_4_0.is_need_tag
+	slot1.shopID = slot0.shop_id
+	uv1[slot1.shopID] = slot0.is_need_tag
 
-	local var_4_1 = {}
+	for slot6, slot7 in ipairs(slot0.goods_list) do
+		slot8 = slot7.goods_id
+		slot1[slot8] = slot7
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.goods_list) do
-		local var_4_2 = iter_4_1.goods_id
-
-		var_4_0[var_4_2] = iter_4_1
-
-		table.insert(var_4_1, var_4_2)
+		table.insert({}, slot8)
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(var_4_0.shopItemIDs) do
-		if not table.keyof(var_4_1, iter_4_3) then
-			var_4_0[iter_4_3] = nil
+	for slot6, slot7 in ipairs(slot1.shopItemIDs) do
+		if not table.keyof(slot2, slot7) then
+			slot1[slot7] = nil
 		end
 	end
 
-	var_4_0.shopItemIDs = var_4_1
-	var_4_0.refreshCount = arg_4_0.refresh_times
+	slot1.shopItemIDs = slot2
+	slot1.refreshCount = slot0.refresh_times
 
-	manager.notify:Invoke(SHOP_LIST_UPDATE, var_4_0.shopID)
+	manager.notify:Invoke(SHOP_LIST_UPDATE, slot1.shopID)
 end
 
-function var_0_0.AllShopUpdate(arg_5_0)
-	var_0_1 = {}
-	var_0_3 = {}
-	var_0_2 = {}
+function slot0.AllShopUpdate(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0) do
-		local var_5_0 = iter_5_1.shop_id
+	for slot4, slot5 in ipairs(slot0) do
+		slot6 = slot5.shop_id
+		uv2[slot6] = {
+			shopItemIDs = {}
+		}
+		uv1[slot6] = slot5.is_need_tag
 
-		var_0_2[var_5_0] = {}
-		var_0_2[var_5_0].shopItemIDs = {}
-		var_0_3[var_5_0] = iter_5_1.is_need_tag
+		for slot10, slot11 in ipairs(slot5.goods_list) do
+			slot13 = slot11.goods_id
 
-		for iter_5_2, iter_5_3 in ipairs(iter_5_1.goods_list) do
-			local var_5_1 = getShopCfg(iter_5_3.goods_id)
-			local var_5_2 = iter_5_3.goods_id
+			if getShopCfg(slot11.goods_id) then
+				uv2[slot6][slot13] = slot11
 
-			if var_5_1 then
-				var_0_2[var_5_0][var_5_2] = iter_5_3
-
-				if var_5_1.shop_refresh ~= 2 then
-					var_0_2[var_5_0].refreshCount = iter_5_1.refresh_times
+				if slot12.shop_refresh ~= 2 then
+					uv2[slot6].refreshCount = slot5.refresh_times
 				end
 
-				table.insert(var_0_2[var_5_0].shopItemIDs, var_5_2)
+				table.insert(uv2[slot6].shopItemIDs, slot13)
 			end
 		end
 
-		table.insert(var_0_1, var_5_0)
+		table.insert(uv0, slot6)
 	end
 
-	for iter_5_4, iter_5_5 in pairs(ShopCfg.all) do
-		local var_5_3 = ShopCfg[iter_5_5]
-
-		if var_5_3.shop_refresh == 2 then
-			if var_0_2[var_5_3.shop_id] == nil then
-				var_0_2[var_5_3.shop_id] = {}
-				var_0_2[var_5_3.shop_id].shopItemIDs = {}
+	for slot4, slot5 in pairs(ShopCfg.all) do
+		if ShopCfg[slot5].shop_refresh == 2 then
+			if uv2[slot6.shop_id] == nil then
+				uv2[slot6.shop_id] = {
+					shopItemIDs = {}
+				}
 			end
 
-			if var_0_2[var_5_3.shop_id][var_5_3.goods_id] == nil then
-				var_0_2[var_5_3.shop_id][var_5_3.goods_id] = {}
+			if uv2[slot6.shop_id][slot6.goods_id] == nil then
+				uv2[slot6.shop_id][slot6.goods_id] = {}
 
-				table.insert(var_0_2[var_5_3.shop_id].shopItemIDs, var_5_3.goods_id)
+				table.insert(uv2[slot6.shop_id].shopItemIDs, slot6.goods_id)
 			end
 		end
 	end
@@ -120,118 +110,98 @@ function var_0_0.AllShopUpdate(arg_5_0)
 	manager.notify:Invoke(SHOP_LIST_UPDATE, 0)
 end
 
-function var_0_0.GetShop(arg_6_0)
-	return var_0_2[arg_6_0]
+function slot0.GetShop(slot0)
+	return uv0[slot0]
 end
 
-function var_0_0.GetGoodInfo(arg_7_0, arg_7_1)
-	return var_0_2[arg_7_0][arg_7_1]
+function slot0.GetGoodInfo(slot0, slot1)
+	return uv0[slot0][slot1]
 end
 
-function var_0_0.GetRedPointData()
-	return var_0_3
+function slot0.GetRedPointData()
+	return uv0
 end
 
-function var_0_0.UpdateRedPoint(arg_9_0)
-	var_0_3[arg_9_0] = nil
+function slot0.UpdateRedPoint(slot0)
+	uv0[slot0] = nil
 end
 
-function var_0_0.IsGoodOutOfDate(arg_10_0)
-	local var_10_0 = getShopCfg(arg_10_0)
-	local var_10_1 = TimeMgr.GetInstance():GetServerTime()
-	local var_10_2 = false
-	local var_10_3 = false
+function slot0.IsGoodOutOfDate(slot0)
+	slot2 = TimeMgr.GetInstance():GetServerTime()
+	slot3 = false
+	slot4 = false
 
-	if #var_10_0.close_time > 0 then
-		var_10_2 = var_10_1 >= TimeMgr.GetInstance():parseTimeFromConfig(var_10_0.close_time)
-	else
-		var_10_2 = false
-	end
-
-	if #var_10_0.open_time > 0 then
-		var_10_3 = var_10_1 < TimeMgr.GetInstance():parseTimeFromConfig(var_10_0.open_time)
-	else
-		var_10_3 = false
-	end
-
-	if var_10_3 or var_10_2 then
+	if #slot1.open_time > 0 and slot2 < TimeMgr.GetInstance():parseTimeFromConfig(slot1.open_time) or false or (#getShopCfg(slot0).close_time > 0 and TimeMgr.GetInstance():parseTimeFromConfig(slot1.close_time) <= slot2 or false) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsSoldout(arg_11_0, arg_11_1)
-	local var_11_0 = ShopData.GetShop(arg_11_0)[arg_11_1]
-	local var_11_1 = getShopCfg(arg_11_1)
+function slot0.IsSoldout(slot0, slot1)
+	slot3 = getShopCfg(slot1)
 
-	if var_11_0 ~= nil and var_11_1.limit_num ~= nil and var_11_1.limit_num ~= -1 and var_11_1.limit_num - (var_11_0.buy_times or 0) <= 0 then
+	if ShopData.GetShop(slot0)[slot1] ~= nil and slot3.limit_num ~= nil and slot3.limit_num ~= -1 and slot3.limit_num - (slot2.buy_times or 0) <= 0 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetLockTypeAndCondition(arg_12_0)
-	local var_12_0 = getShopCfg(arg_12_0)
+function slot0.GetLockTypeAndCondition(slot0)
+	if #getShopCfg(slot0).level_limit > 0 then
+		for slot5, slot6 in ipairs(slot1.level_limit) do
+			slot7, slot8 = nil
 
-	if #var_12_0.level_limit > 0 then
-		for iter_12_0, iter_12_1 in ipairs(var_12_0.level_limit) do
-			local var_12_1
-			local var_12_2
-
-			if iter_12_1.type then
-				var_12_1 = iter_12_1.type
-				var_12_2 = iter_12_1.num
+			if slot6.type then
+				slot7 = slot6.type
+				slot8 = slot6.num
 			else
-				var_12_1 = iter_12_1[1]
-				var_12_2 = iter_12_1[2]
+				slot7 = slot6[1]
+				slot8 = slot6[2]
 			end
 
-			return var_12_1, var_12_2
+			return slot7, slot8
 		end
 	end
 
 	return 0, 0
 end
 
-function var_0_0.IsGoodUnlock(arg_13_0)
-	local var_13_0 = getShopCfg(arg_13_0)
+function slot0.IsGoodUnlock(slot0)
+	if #getShopCfg(slot0).level_limit > 0 then
+		for slot5, slot6 in ipairs(slot1.level_limit) do
+			slot7, slot8 = nil
 
-	if #var_13_0.level_limit > 0 then
-		for iter_13_0, iter_13_1 in ipairs(var_13_0.level_limit) do
-			local var_13_1
-			local var_13_2
-
-			if iter_13_1.type then
-				var_13_1 = iter_13_1.type
-				var_13_2 = iter_13_1.num
+			if slot6.type then
+				slot7 = slot6.type
+				slot8 = slot6.num
 			else
-				var_13_1 = iter_13_1[1]
-				var_13_2 = iter_13_1[2]
+				slot7 = slot6[1]
+				slot8 = slot6[2]
 			end
 
-			if var_13_1 == 1 then
-				if var_13_2 > PlayerData:GetPlayerInfo().userLevel then
+			if slot7 == 1 then
+				if PlayerData:GetPlayerInfo().userLevel < slot8 then
 					return 0
 				end
-			elseif var_13_1 == 2 then
-				if var_13_2 > PassportData:GetLevel() then
+			elseif slot7 == 2 then
+				if PassportData:GetLevel() < slot8 then
 					return 0
 				end
-			elseif var_13_1 == 3 then
-				if not isOpenMission(var_13_2) then
+			elseif slot7 == 3 then
+				if not isOpenMission(slot8) then
 					return 0
 				end
 
-				if BattleStageData:GetStageData()[var_13_2].clear_times <= 0 then
+				if BattleStageData:GetStageData()[slot8].clear_times <= 0 then
 					return 0
 				end
-			elseif var_13_1 == 4 then
-				if HeroData:GetHeroList()[var_13_2].unlock ~= 1 then
+			elseif slot7 == 4 then
+				if HeroData:GetHeroList()[slot8].unlock ~= 1 then
 					return 0
 				end
-			elseif var_13_1 == 5 and var_13_2 > AdminCatExploreData:GetDataByPara("level") then
+			elseif slot7 == 5 and AdminCatExploreData:GetDataByPara("level") < slot8 then
 				return 0
 			end
 		end
@@ -240,4 +210,4 @@ function var_0_0.IsGoodUnlock(arg_13_0)
 	return 1
 end
 
-return var_0_0
+return slot0

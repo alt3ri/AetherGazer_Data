@@ -1,77 +1,76 @@
-local var_0_0 = import("..BehaviourBase")
-local var_0_1 = class("Chain", var_0_0)
+slot1 = class("Chain", import("..BehaviourBase"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1.super.Ctor(arg_1_0, "ChainBehaviour")
+function slot1.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, "ChainBehaviour")
 
-	arg_1_0.father_ = arg_1_1
-	arg_1_0.children_ = {}
-	arg_1_0.active_ = true
-	arg_1_0.handleChainEventCallbackName_ = arg_1_2 or "HandleChainEvent"
+	slot0.father_ = slot1
+	slot0.children_ = {}
+	slot0.active_ = true
+	slot0.handleChainEventCallbackName_ = slot2 or "HandleChainEvent"
 end
 
-function var_0_1.AddChainChild(arg_2_0, arg_2_1)
-	table.insert(arg_2_0.children_, arg_2_1)
+function slot1.AddChainChild(slot0, slot1)
+	table.insert(slot0.children_, slot1)
 end
 
-function var_0_1.RemoveChainChild(arg_3_0, arg_3_1)
-	local var_3_0 = table.removebyvalue(arg_3_0.children_, arg_3_1)
+function slot1.RemoveChainChild(slot0, slot1)
+	slot2 = table.removebyvalue(slot0.children_, slot1)
 end
 
-function var_0_1.SetChainFather(arg_4_0, arg_4_1)
-	arg_4_0.father_ = arg_4_1
+function slot1.SetChainFather(slot0, slot1)
+	slot0.father_ = slot1
 end
 
-function var_0_1.DispatchEventInChain(arg_5_0, arg_5_1)
-	arg_5_1.stop_ = false
+function slot1.DispatchEventInChain(slot0, slot1)
+	slot1.stop_ = false
 
-	function arg_5_1.stop(arg_6_0)
-		arg_6_0.stop_ = true
+	function slot1.stop(slot0)
+		slot0.stop_ = true
 	end
 
-	arg_5_0:DoDispatchEventInChain(arg_5_1, {})
+	slot0:DoDispatchEventInChain(slot1, {})
 end
 
-function var_0_1.DoDispatchEventInChain(arg_7_0, arg_7_1, arg_7_2)
-	if table.indexof(arg_7_2, arg_7_0.target_) ~= false then
+function slot1.DoDispatchEventInChain(slot0, slot1, slot2)
+	if table.indexof(slot2, slot0.target_) ~= false then
 		return
 	end
 
-	table.insert(arg_7_2, arg_7_0.target_)
+	table.insert(slot2, slot0.target_)
 
-	if arg_7_0.active_ then
-		arg_7_0.target_[arg_7_0.handleChainEventCallbackName_](arg_7_0.target_, arg_7_1)
+	if slot0.active_ then
+		slot0.target_[slot0.handleChainEventCallbackName_](slot0.target_, slot1)
 
-		if arg_7_1.stop_ then
+		if slot1.stop_ then
 			return
 		end
 	end
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.children_) do
-		if table.indexof(arg_7_2, iter_7_1) == false then
-			iter_7_1:DoDispatchEventInChain(arg_7_1, arg_7_2)
+	for slot6, slot7 in pairs(slot0.children_) do
+		if table.indexof(slot2, slot7) == false then
+			slot7:DoDispatchEventInChain(slot1, slot2)
 
-			if arg_7_1.stop_ then
+			if slot1.stop_ then
 				return
 			end
 		end
 	end
 
-	if arg_7_0.father_ and table.indexof(arg_7_2, arg_7_0.father_) == false then
-		arg_7_0.father_:DoDispatchEventInChain(arg_7_1, arg_7_2)
+	if slot0.father_ and table.indexof(slot2, slot0.father_) == false then
+		slot0.father_:DoDispatchEventInChain(slot1, slot2)
 
-		if arg_7_1.stop_ then
+		if slot1.stop_ then
 			return
 		end
 	end
 end
 
-function var_0_1.SetHandleChainActive(arg_8_0, arg_8_1)
-	arg_8_0.active_ = arg_8_1
+function slot1.SetHandleChainActive(slot0, slot1)
+	slot0.active_ = slot1
 end
 
-function var_0_1.OnBind_(arg_9_0)
-	arg_9_0:ExportMethods_({
+function slot1.OnBind_(slot0)
+	slot0:ExportMethods_({
 		"SetHandleChainActive",
 		"AddChainChild",
 		"RemoveChainChild",
@@ -80,30 +79,30 @@ function var_0_1.OnBind_(arg_9_0)
 		"DoDispatchEventInChain"
 	})
 
-	if arg_9_0.father_ then
-		arg_9_0.father_:AddChainChild(arg_9_0.target_)
+	if slot0.father_ then
+		slot0.father_:AddChainChild(slot0.target_)
 	end
 
-	arg_9_0.target_:BindMethod(arg_9_0, "Dispose", arg_9_0.Dispose)
+	slot0.target_:BindMethod(slot0, "Dispose", slot0.Dispose)
 
-	return arg_9_0.target_
+	return slot0.target_
 end
 
-function var_0_1.OnUnbind_(arg_10_0)
-	arg_10_0:Dispose()
-	arg_10_0.target_:UnbindMethod(arg_10_0, "Dispose")
+function slot1.OnUnbind_(slot0)
+	slot0:Dispose()
+	slot0.target_:UnbindMethod(slot0, "Dispose")
 end
 
-function var_0_1.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.children_) do
-		iter_11_1:SetChainFather(arg_11_0.father_)
-		arg_11_0.father_:AddChainChild(iter_11_1)
+function slot1.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.children_) do
+		slot5:SetChainFather(slot0.father_)
+		slot0.father_:AddChainChild(slot5)
 	end
 
-	arg_11_0.father_:RemoveChainChild(arg_11_0.target_)
+	slot0.father_:RemoveChainChild(slot0.target_)
 
-	arg_11_0.father_ = nil
-	arg_11_0.children_ = nil
+	slot0.father_ = nil
+	slot0.children_ = nil
 end
 
-return var_0_1
+return slot1

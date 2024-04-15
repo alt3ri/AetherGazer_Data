@@ -1,200 +1,189 @@
-local var_0_0 = class("ActivityInviteRegionView", ReduxView)
+slot0 = class("ActivityInviteRegionView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionConserverUI/JapanRegionCarteUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.SetItem), arg_4_0.listGo_, ActivityInviteHeadItem)
-	arg_4_0.drawController = ControllerUtil.GetController(arg_4_0.drawGo_.transform, "state")
-	arg_4_0.listController = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "state")
-	arg_4_0.regionItem = {}
+	slot0.list = LuaList.New(handler(slot0, slot0.SetItem), slot0.listGo_, ActivityInviteHeadItem)
+	slot0.drawController = ControllerUtil.GetController(slot0.drawGo_.transform, "state")
+	slot4 = "state"
+	slot0.listController = ControllerUtil.GetController(slot0.gameObject_.transform, slot4)
+	slot0.regionItem = {}
 
-	for iter_4_0 = 1, 6 do
-		arg_4_0.regionItem[iter_4_0] = ActivityInviteRegionItem.New(arg_4_0["regionGo" .. iter_4_0 .. "_"])
+	for slot4 = 1, 6 do
+		slot0.regionItem[slot4] = ActivityInviteRegionItem.New(slot0["regionGo" .. slot4 .. "_"])
 	end
 end
 
-function var_0_0.SetItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = InviteData:GetDataByPara("heroPlotList")
+function slot0.SetItem(slot0, slot1, slot2)
+	slot3 = InviteData:GetDataByPara("heroPlotList")
 
-	arg_5_2:SetData({
-		heroId = var_5_0[arg_5_1][1].hero_id,
-		image = var_5_0[arg_5_1][1].hero_image_route
-	}, arg_5_1, handler(arg_5_0, arg_5_0.SelectListener), arg_5_0.selectIndex)
+	slot2:SetData({
+		heroId = slot3[slot1][1].hero_id,
+		image = slot3[slot1][1].hero_image_route
+	}, slot1, handler(slot0, slot0.SelectListener), slot0.selectIndex)
 end
 
-function var_0_0.SelectListener(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_1 == arg_6_0.selectIndex then
+function slot0.SelectListener(slot0, slot1, slot2)
+	if slot1 == slot0.selectIndex then
 		return
 	end
 
-	if arg_6_0.completeHeroTable[arg_6_2] then
-		arg_6_0.selectIndex = arg_6_1
+	if slot0.completeHeroTable[slot2] then
+		slot0.selectIndex = slot1
 
-		arg_6_0:UpdateView()
+		slot0:UpdateView()
 	else
-		arg_6_0.selectIndex = nil
+		slot0.selectIndex = nil
 
-		arg_6_0:Back()
+		slot0:Back()
 		JumpTools.GoToSystem("/ActivityInviteMain", {
 			needBack = false,
-			selectIndex = arg_6_1
+			selectIndex = slot1
 		})
 	end
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.drawBtn_, nil, function()
-		local var_8_0 = InviteData:GetDataByPara("poolID")
-
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.drawBtn_, nil, function ()
 		JumpTools.GoToSystem("/draw", {
-			poolId = var_8_0
+			poolId = InviteData:GetDataByPara("poolID")
 		}, ViewConst.SYSTEM_ID.DRAW)
 	end)
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	if arg_9_0.updateTimer_ then
-		arg_9_0.updateTimer_:Stop()
+function slot0.UpdateView(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_9_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	local var_9_0 = InviteData:GetDataByPara("heroPlotList")
-	local var_9_1 = GameSetting.activity_invite_daily_opportunities.value[1]
+	slot0.inviteTimes = InviteData:GetDataByPara("inviteTimes")
+	slot0.completeHeroTable = InviteData:GetDataByPara("completeHeroTable")
+	slot0.heroPlotList = InviteData:GetDataByPara("heroPlotList")[slot0.selectIndex]
+	slot0.heroId = slot0.heroPlotList[1].hero_id
+	slot0.InviteTime_.text = string.format(GetTips("ACTIVITY_INVITE_TIME"), slot0.inviteTimes)
+	slot0.inviteTxt_.text = string.format(GetTips("ACTIVITY_INVITE_REWARD_TIME"), GameSetting.activity_invite_daily_opportunities.value[1] - (#slot0.completeHeroTable[slot0.heroId] - 1) % 3)
+	slot0.activityId = InviteData:GetDataByPara("activityId")
+	slot0.roleIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/" .. slot0.heroPlotList[1].hero_image_route)
+	slot7 = HeroCfg[slot0.heroId].suffix
+	slot0.nameTxt_.text = GetI18NText(slot7)
 
-	arg_9_0.inviteTimes = InviteData:GetDataByPara("inviteTimes")
-	arg_9_0.completeHeroTable = InviteData:GetDataByPara("completeHeroTable")
-	arg_9_0.heroPlotList = var_9_0[arg_9_0.selectIndex]
-	arg_9_0.heroId = arg_9_0.heroPlotList[1].hero_id
-	arg_9_0.InviteTime_.text = string.format(GetTips("ACTIVITY_INVITE_TIME"), arg_9_0.inviteTimes)
-	arg_9_0.inviteTxt_.text = string.format(GetTips("ACTIVITY_INVITE_REWARD_TIME"), var_9_1 - (#arg_9_0.completeHeroTable[arg_9_0.heroId] - 1) % 3)
-	arg_9_0.activityId = InviteData:GetDataByPara("activityId")
-
-	local var_9_2 = HeroCfg[arg_9_0.heroId]
-
-	arg_9_0.roleIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/" .. arg_9_0.heroPlotList[1].hero_image_route)
-	arg_9_0.nameTxt_.text = GetI18NText(var_9_2.suffix)
-
-	for iter_9_0 = 1, 6 do
-		local var_9_3 = arg_9_0.heroPlotList[iter_9_0 + 1].id
-
-		arg_9_0.regionItem[iter_9_0]:SetData(var_9_3, iter_9_0)
+	for slot7 = 1, 6 do
+		slot0.regionItem[slot7]:SetData(slot0.heroPlotList[slot7 + 1].id, slot7)
 	end
 
-	SetActive(arg_9_0.headListGo_, #arg_9_0.completeHeroTable[arg_9_0.heroId] == 7)
-	arg_9_0.listController:SetSelectedState(#arg_9_0.completeHeroTable[arg_9_0.heroId] == 7 and "2" or "1")
+	SetActive(slot0.headListGo_, #slot0.completeHeroTable[slot0.heroId] == 7)
+	slot0.listController:SetSelectedState(#slot0.completeHeroTable[slot0.heroId] == 7 and "2" or "1")
 
-	if #arg_9_0.completeHeroTable[arg_9_0.heroId] == 7 then
-		arg_9_0.list:StartScroll(#var_9_0)
+	if #slot0.completeHeroTable[slot0.heroId] == 7 then
+		slot0.list:StartScroll(#slot1)
 	end
 
-	arg_9_0:UpdateDrawController()
+	slot0:UpdateDrawController()
 
-	local var_9_4 = ActivityData:GetActivityData(arg_9_0.activityId)
+	slot4 = ActivityData:GetActivityData(slot0.activityId)
+	slot0.remainTime_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(slot4.stopTime, nil, true)
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0.remainTime_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(uv1.stopTime, nil, true)
+	end, 1, slot4.stopTime, 1)
 
-	arg_9_0.remainTime_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(var_9_4.stopTime, nil, true)
-	arg_9_0.updateTimer_ = Timer.New(function()
-		arg_9_0.remainTime_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(var_9_4.stopTime, nil, true)
-	end, 1, var_9_4.stopTime, 1)
-
-	arg_9_0.updateTimer_:Start()
+	slot0.updateTimer_:Start()
 end
 
-function var_0_0.UpdateFreeDraw(arg_11_0)
-	arg_11_0:UpdateDrawController()
+function slot0.UpdateFreeDraw(slot0)
+	slot0:UpdateDrawController()
 end
 
-function var_0_0.UpdateDrawController(arg_12_0)
-	local var_12_0 = InviteData:GetDataByPara("drawItemId")
-	local var_12_1 = ItemTools.getItemNum(var_12_0)
-	local var_12_2 = InviteData:GetDataByPara("inviteTimes")
-	local var_12_3 = InviteData:GetDataByPara("allComplete")
+function slot0.UpdateDrawController(slot0)
+	slot3 = InviteData:GetDataByPara("inviteTimes")
+	slot4 = InviteData:GetDataByPara("allComplete")
 
-	if var_12_1 > 0 then
-		arg_12_0.drawController:SetSelectedState("2")
-	elseif var_12_2 == 0 and var_12_1 == 0 or var_12_3 then
-		arg_12_0.drawController:SetSelectedState("3")
+	if ItemTools.getItemNum(InviteData:GetDataByPara("drawItemId")) > 0 then
+		slot0.drawController:SetSelectedState("2")
+	elseif slot3 == 0 and slot2 == 0 or slot4 then
+		slot0.drawController:SetSelectedState("3")
 	else
-		arg_12_0.drawController:SetSelectedState("1")
+		slot0.drawController:SetSelectedState("1")
 	end
 end
 
-function var_0_0.OnInviteUpdate(arg_13_0, arg_13_1)
-	arg_13_0:UpdateView()
+function slot0.OnInviteUpdate(slot0, slot1)
+	slot0:UpdateView()
 
-	if arg_13_1 == nil then
+	if slot1 == nil then
 		return
 	end
 
 	JumpTools.GoToSystem("ActivityInvitePlotView", {
-		id = arg_13_1,
-		haveReward = arg_13_0.getReward
+		id = slot1,
+		haveReward = slot0.getReward
 	})
 
-	arg_13_0.getReward = nil
+	slot0.getReward = nil
 end
 
-function var_0_0.OnInviteGetReward(arg_14_0, arg_14_1)
-	arg_14_0.getReward = arg_14_1 ~= nil
+function slot0.OnInviteGetReward(slot0, slot1)
+	slot0.getReward = slot1 ~= nil
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.selectHeroIndex = 1
-	arg_15_0.selectIndex = arg_15_0.selectIndex or arg_15_0.params_.selectIndex
-	arg_15_0.params_.selectIndex = nil
+function slot0.OnEnter(slot0)
+	slot0.selectHeroIndex = 1
+	slot0.selectIndex = slot0.selectIndex or slot0.params_.selectIndex
+	slot0.params_.selectIndex = nil
 
-	manager.redPoint:bindUIandKey(arg_15_0.drawGo_.transform, RedPointConst.INVITE_DRAW, {
+	manager.redPoint:bindUIandKey(slot0.drawGo_.transform, RedPointConst.INVITE_DRAW, {
 		x = 50,
 		y = 70
 	})
-	arg_15_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.updateTimer_ then
-		arg_16_0.updateTimer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_16_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_16_0.drawGo_.transform, RedPointConst.INVITE_DRAW)
+	manager.redPoint:unbindUIandKey(slot0.drawGo_.transform, RedPointConst.INVITE_DRAW)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnTop(arg_17_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.regionItem) do
-		iter_18_1:Dispose()
+	for slot4, slot5 in pairs(slot0.regionItem) do
+		slot5:Dispose()
 	end
 
-	if arg_18_0.list then
-		arg_18_0.list:Dispose()
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_18_0.list = nil
+		slot0.list = nil
 	end
 
-	Object.Destroy(arg_18_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

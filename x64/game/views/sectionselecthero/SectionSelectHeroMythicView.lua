@@ -1,12 +1,12 @@
-local var_0_0 = class("SectionSelectHeroMythicView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroMythicView", SectionSelectHeroBaseView)
 
-function var_0_0.StartBattle(arg_1_0)
+function slot0.StartBattle(slot0)
 	if MythicData:GetIsNew() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_REFRESH_DATA"),
-			OkCallback = function()
+			OkCallback = function ()
 				JumpTools.OpenPageByJump("/mythic", nil)
 			end
 		})
@@ -14,11 +14,9 @@ function var_0_0.StartBattle(arg_1_0)
 		return
 	end
 
-	local var_1_0 = arg_1_0.params_.partition
-	local var_1_1 = arg_1_0.params_.difficulty
-	local var_1_2 = BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC, arg_1_0.stageID_, var_1_0, arg_1_0.reserveParams_)
+	slot2 = slot0.params_.difficulty
 
-	BattleController.GetInstance():LaunchBattle(var_1_2)
+	BattleController.GetInstance():LaunchBattle(BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC, slot0.stageID_, slot0.params_.partition, slot0.reserveParams_))
 end
 
-return var_0_0
+return slot0

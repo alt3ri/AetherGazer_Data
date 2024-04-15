@@ -1,81 +1,79 @@
-local var_0_0 = class("FurnitureEditView", ReduxView)
+slot0 = class("FurnitureEditView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/FurnitureEditorUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.rotateController_ = ControllerUtil.GetController(arg_5_0.transform_, "rotate")
-	arg_5_0.storageController_ = ControllerUtil.GetController(arg_5_0.transform_, "storage")
-	arg_5_0.suitController = ControllerUtil.GetController(arg_5_0.transform_, "suit")
-	arg_5_0.canResetController = ControllerUtil.GetController(arg_5_0.transform_, "canReset")
-	arg_5_0.furDescController = ControllerUtil.GetController(arg_5_0.transform_, "descState")
+	slot0.rotateController_ = ControllerUtil.GetController(slot0.transform_, "rotate")
+	slot0.storageController_ = ControllerUtil.GetController(slot0.transform_, "storage")
+	slot0.suitController = ControllerUtil.GetController(slot0.transform_, "suit")
+	slot0.canResetController = ControllerUtil.GetController(slot0.transform_, "canReset")
+	slot0.furDescController = ControllerUtil.GetController(slot0.transform_, "descState")
 end
 
-function var_0_0.OnEnter(arg_6_0)
+function slot0.OnEnter(slot0)
 	DormFurnitureTools:SetEditFurFlag(true)
 
-	arg_6_0.roomID = DormData:GetCurrectSceneID()
-	arg_6_0.itemID = arg_6_0.params_.itemId
-	arg_6_0.furEntityID = arg_6_0.params_.furEntityID
+	slot0.roomID = DormData:GetCurrectSceneID()
+	slot0.itemID = slot0.params_.itemId
+	slot0.furEntityID = slot0.params_.furEntityID
+	slot1 = DormFurnitureManager.GetInstance()
 
-	local var_6_0 = DormFurnitureManager.GetInstance()
+	if slot0.params_.type == "drag" then
+		slot2, slot3 = DormSuitData:CheckIsSuit(slot0.itemID)
 
-	if arg_6_0.params_.type == "drag" then
-		local var_6_1, var_6_2 = DormSuitData:CheckIsSuit(arg_6_0.itemID)
+		if slot2 then
+			slot4 = DormSuitTools:GenerateFurSuit(slot0.itemID)
 
-		if var_6_1 then
-			local var_6_3 = DormSuitTools:GenerateFurSuit(arg_6_0.itemID)
-
-			DormLuaBridge.ChangeFurnitureSuitState(var_6_3, DormFurnitureManager.FurnitureState.Editing, false)
-			DormLuaBridge.AddFurnitureToWallDitherAlphaControl(var_6_3)
-			DormLuaBridge.BeginDragFurniture(var_6_3)
-			arg_6_0:EnterSuitEditMode(var_6_3, false)
-		elseif DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_6_0.itemID) then
-			DormSpecialFurnitureTools:ChangeDormSpeicalFur(arg_6_0.itemID)
+			DormLuaBridge.ChangeFurnitureSuitState(slot4, DormFurnitureManager.FurnitureState.Editing, false)
+			DormLuaBridge.AddFurnitureToWallDitherAlphaControl(slot4)
+			DormLuaBridge.BeginDragFurniture(slot4)
+			slot0:EnterSuitEditMode(slot4, false)
+		elseif DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot0.itemID) then
+			DormSpecialFurnitureTools:ChangeDormSpeicalFur(slot0.itemID)
 		else
-			local var_6_4 = var_6_0:Generate(arg_6_0.itemID)
+			slot4 = slot1:Generate(slot0.itemID)
 
-			DormLuaBridge.ChangeFurnitureState(var_6_4, DormFurnitureManager.FurnitureState.Editing)
-			DormLuaBridge.AddFurnitureToWallDitherAlphaControl(var_6_4)
-			DormLuaBridge.BeginDragFurniture(var_6_4)
+			DormLuaBridge.ChangeFurnitureState(slot4, DormFurnitureManager.FurnitureState.Editing)
+			DormLuaBridge.AddFurnitureToWallDitherAlphaControl(slot4)
+			DormLuaBridge.BeginDragFurniture(slot4)
 
-			arg_6_0.furEntityID = var_6_4
-			arg_6_0.originalSelFurnitureEID = var_6_4
+			slot0.furEntityID = slot4
+			slot0.originalSelFurnitureEID = slot4
 
-			arg_6_0:HightlightAllFurnitureInSuit(true)
+			slot0:HightlightAllFurnitureInSuit(true)
 		end
-	elseif arg_6_0.params_.type == "edit" then
-		arg_6_0.originalSelFurnitureEID = arg_6_0.furEntityID
+	elseif slot0.params_.type == "edit" then
+		slot0.originalSelFurnitureEID = slot0.furEntityID
 
-		arg_6_0:HightlightAllFurnitureInSuit(true)
+		slot0:HightlightAllFurnitureInSuit(true)
 	end
 
-	arg_6_0:RefreshFurInfo()
+	slot0:RefreshFurInfo()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0:RegisterEvents()
+function slot0.OnTop(slot0)
+	slot0:RegisterEvents()
 end
 
-function var_0_0.EnterSuitEditMode(arg_8_0, arg_8_1, arg_8_2)
-	if DormLuaBridge.CheckSuitEditModeAvailabel(arg_8_1) then
-		DormLuaBridge.EnterSuitEditMode(arg_8_1, arg_8_2)
+function slot0.EnterSuitEditMode(slot0, slot1, slot2)
+	if DormLuaBridge.CheckSuitEditModeAvailabel(slot1) then
+		DormLuaBridge.EnterSuitEditMode(slot1, slot2)
 
 		return true
 	end
@@ -83,152 +81,133 @@ function var_0_0.EnterSuitEditMode(arg_8_0, arg_8_1, arg_8_2)
 	return false
 end
 
-function var_0_0.RegisterEvents(arg_9_0)
-	arg_9_0:RegistEventListener(DORM_ENTER_SUIT_EDIT_MODE, function(arg_10_0, arg_10_1, arg_10_2)
-		arg_9_0:HightlightAllFurnitureInSuit(false)
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_ENTER_SUIT_EDIT_MODE, function (slot0, slot1, slot2)
+		uv0:HightlightAllFurnitureInSuit(false)
 
-		arg_9_0.itemID = arg_10_0
-		arg_9_0.originalSelFurnitureEID = arg_9_0.furEntityID
-		arg_9_0.furEntityID = arg_10_1
-		arg_9_0.suitOriID = arg_10_2
-		arg_9_0.params_.furSuitEid = nil
+		uv0.itemID = slot0
+		uv0.originalSelFurnitureEID = uv0.furEntityID
+		uv0.furEntityID = slot1
+		uv0.suitOriID = slot2
+		uv0.params_.furSuitEid = nil
 
-		arg_9_0:RefreshFurInfo()
+		uv0:RefreshFurInfo()
 	end)
-	arg_9_0:RegistEventListener(DORM_EXIT_SUIT_EDIT_MODE, function(arg_11_0)
-		arg_9_0.furEntityID = nil
+	slot0:RegistEventListener(DORM_EXIT_SUIT_EDIT_MODE, function (slot0)
+		uv0.furEntityID = nil
 	end)
 end
 
-function var_0_0.RefreshFurInfo(arg_12_0)
-	local var_12_0 = ItemCfg[arg_12_0.itemID]
-	local var_12_1, var_12_2 = DormSuitData:CheckIsSuit(arg_12_0.itemID)
+function slot0.RefreshFurInfo(slot0)
+	slot1 = ItemCfg[slot0.itemID]
+	slot2, slot3 = DormSuitData:CheckIsSuit(slot0.itemID)
 
-	if var_12_1 then
-		arg_12_0.furDescController:SetSelectedState("suit")
+	if slot2 then
+		slot0.furDescController:SetSelectedState("suit")
 	else
-		arg_12_0.furDescController:SetSelectedState("single")
+		slot0.furDescController:SetSelectedState("single")
 
-		if var_12_0 then
-			arg_12_0.furnameText_.text = ItemTools.getItemName(arg_12_0.itemID)
+		if slot1 then
+			slot0.furnameText_.text = ItemTools.getItemName(slot0.itemID)
 		end
 	end
 
-	arg_12_0:ShowCanUseButton()
+	slot0:ShowCanUseButton()
 end
 
-local function var_0_1(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0, var_13_1 = DormLuaBridge.CheckFurnitureBelongSuit(arg_13_0, nil)
+function slot1(slot0, slot1, slot2)
+	slot3, slot4 = DormLuaBridge.CheckFurnitureBelongSuit(slot0, nil)
 
-	for iter_13_0, iter_13_1 in pairs(DormFurnitureManager.GetInstance():GetAllFurniture()) do
-		if arg_13_0 ~= iter_13_1 then
-			local var_13_2, var_13_3 = DormLuaBridge.CheckFurnitureBelongSuit(iter_13_1, nil)
+	for slot8, slot9 in pairs(DormFurnitureManager.GetInstance():GetAllFurniture()) do
+		if slot0 ~= slot9 then
+			slot10, slot11 = DormLuaBridge.CheckFurnitureBelongSuit(slot9, nil)
 
-			if var_13_0 then
-				if var_13_2 and var_13_1 == var_13_3 then
-					local var_13_4 = arg_13_2 or DormEnum.HighlightLayer.Suit
-
-					var_13_4 = arg_13_1 and var_13_4 or DormEnum.HighlightLayer.Available
-
-					Dorm.DormEntityManager.SetHighlighted(iter_13_1, arg_13_1, var_13_4)
+			if slot3 then
+				if slot10 and slot4 == slot11 then
+					Dorm.DormEntityManager.SetHighlighted(slot9, slot1, slot1 and (slot2 or DormEnum.HighlightLayer.Suit) or DormEnum.HighlightLayer.Available)
 				end
 			else
-				Dorm.DormEntityManager.SetHighlighted(iter_13_1, false)
+				Dorm.DormEntityManager.SetHighlighted(slot9, false)
 			end
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:HightlightAllFurnitureInSuit(false)
+function slot0.OnExit(slot0)
+	slot0:HightlightAllFurnitureInSuit(false)
 
-	arg_14_0.params_.type = nil
-	arg_14_0.suitOriID = nil
-	arg_14_0.cacheCustomFur = nil
-	arg_14_0.originalSelFurnitureEID = nil
+	slot0.params_.type = nil
+	slot0.suitOriID = nil
+	slot0.cacheCustomFur = nil
+	slot0.originalSelFurnitureEID = nil
 
 	DormLuaBridge.ClearEditingFurniture()
-	arg_14_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.HightlightAllFurnitureInSuit(arg_15_0, arg_15_1, arg_15_2)
-	if arg_15_0.originalSelFurnitureEID then
-		var_0_1(arg_15_0.originalSelFurnitureEID, arg_15_1, arg_15_2)
+function slot0.HightlightAllFurnitureInSuit(slot0, slot1, slot2)
+	if slot0.originalSelFurnitureEID then
+		uv0(slot0.originalSelFurnitureEID, slot1, slot2)
 	end
 end
 
-function var_0_0.AddUIListener(arg_16_0)
-	arg_16_0:AddBtnListenerScale(arg_16_0.cancelBtn_, nil, function()
-		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_16_0.itemID) then
-			local var_17_0 = BackHomeFurniture[arg_16_0.itemID]
-			local var_17_1 = DormData:GetCurrectSceneID()
-			local var_17_2 = DormFurEditStateData:GetCacheWallAndFloorInfo(var_17_0.type) or DormSpecialFurnitureTools:GetSpecialFurIDByRoom(var_17_1, var_17_0.type)
-
-			DormSpecialFurnitureTools:ChangeDormSpeicalFur(var_17_2)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.cancelBtn_, nil, function ()
+		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(uv0.itemID) then
+			DormSpecialFurnitureTools:ChangeDormSpeicalFur(DormFurEditStateData:GetCacheWallAndFloorInfo(BackHomeFurniture[uv0.itemID].type) or DormSpecialFurnitureTools:GetSpecialFurIDByRoom(DormData:GetCurrectSceneID(), slot0.type))
 		else
-			local var_17_3, var_17_4 = DormSuitData:CheckIsSuit(arg_16_0.itemID)
-			local var_17_5
-			local var_17_6
+			slot0, slot1 = DormSuitData:CheckIsSuit(uv0.itemID)
+			slot2, slot3 = nil
 
-			if var_17_3 then
-				var_17_5, var_17_6 = DormLuaBridge.CancelSuitChange(nil)
+			if slot0 then
+				slot2, slot3 = DormLuaBridge.CancelSuitChange(nil)
 			else
-				var_17_5, var_17_6 = DormLuaBridge.CancelChange(nil)
+				slot2, slot3 = DormLuaBridge.CancelChange(nil)
 			end
 
-			if var_17_5 then
-				DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(var_17_6)
+			if slot2 then
+				DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(slot3)
 
-				if var_17_3 then
-					arg_16_0:RemoveFurnitureSuit(var_17_6)
+				if slot0 then
+					uv0:RemoveFurnitureSuit(slot3)
 				else
-					DormUtils.GetEntityData(var_17_6).noOccupy = true
+					DormUtils.GetEntityData(slot3).noOccupy = true
 
-					arg_16_0:RemoveFurniture(var_17_6)
+					uv0:RemoveFurniture(slot3)
 				end
-			elseif arg_16_0.params_.type == "edit" and not var_17_3 and arg_16_0.itemID then
-				local var_17_7 = BackHomeFurniture[arg_16_0.itemID].title[1]
-				local var_17_8 = BackHomeFurniture[arg_16_0.itemID].title[2]
-				local var_17_9 = BackHomeFurniture[arg_16_0.itemID].title[3]
-
-				DormLuaBridge.RecoverRoomFurnitureOccupyByLua(arg_16_0.furEntityID, var_17_7, var_17_8, var_17_9)
+			elseif uv0.params_.type == "edit" and not slot0 and uv0.itemID then
+				DormLuaBridge.RecoverRoomFurnitureOccupyByLua(uv0.furEntityID, BackHomeFurniture[uv0.itemID].title[1], BackHomeFurniture[uv0.itemID].title[2], BackHomeFurniture[uv0.itemID].title[3])
 			end
 		end
 
 		JumpTools.Back()
 	end)
-	arg_16_0:AddBtnListenerScale(arg_16_0.rotateBtn_, nil, function()
-		local var_18_0, var_18_1 = DormSuitData:CheckIsSuit(arg_16_0.itemID)
+	slot0:AddBtnListenerScale(slot0.rotateBtn_, nil, function ()
+		slot0, slot1 = DormSuitData:CheckIsSuit(uv0.itemID)
 
-		if var_18_0 then
+		if slot0 then
 			DormLuaBridge.RotateSuitFurniture()
 		else
 			DormLuaBridge.RotateFurniture()
 		end
 	end)
-	arg_16_0:AddBtnListenerScale(arg_16_0.saveBtn_, nil, function()
-		if not arg_16_0:CheckFurOccurpy() then
+	slot0:AddBtnListenerScale(slot0.saveBtn_, nil, function ()
+		if not uv0:CheckFurOccurpy() then
 			ShowTips(GetTips("DORM_FUR_VOLUME_MAX"))
 
 			return
 		end
 
-		if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_16_0.itemID) then
-			local var_19_0, var_19_1 = DormSuitData:CheckIsSuit(arg_16_0.itemID)
-			local var_19_2
+		if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(uv0.itemID) then
+			slot0, slot1 = DormSuitData:CheckIsSuit(uv0.itemID)
+			slot2 = nil
 
-			if var_19_0 then
-				var_19_2 = DormLuaBridge.SaveSuitChange()
-			else
-				var_19_2 = DormLuaBridge.SaveChange()
-			end
-
-			if var_19_2 then
-				if arg_16_0.params_.type == "drag" then
-					if var_19_0 then
-						DormFurEditStateData:ReveseFurSuitNumInEidtRoom(arg_16_0.itemID, 1)
+			if (not slot0 or DormLuaBridge.SaveSuitChange()) and DormLuaBridge.SaveChange() then
+				if uv0.params_.type == "drag" then
+					if slot0 then
+						DormFurEditStateData:ReveseFurSuitNumInEidtRoom(uv0.itemID, 1)
 					else
-						DormFurEditStateData:ReviseFurNumInEditRoom(arg_16_0.itemID, 1)
+						DormFurEditStateData:ReviseFurNumInEditRoom(uv0.itemID, 1)
 					end
 				end
 
@@ -237,256 +216,241 @@ function var_0_0.AddUIListener(arg_16_0)
 				ShowTips("DORM_FURNITURE_CANNOT_SET")
 			end
 		else
-			if arg_16_0.params_.type == "drag" then
-				local var_19_3 = BackHomeFurniture[arg_16_0.itemID]
-				local var_19_4 = DormFurEditStateData:GetCacheWallAndFloorInfo(var_19_3.type) or DormSpecialFurnitureTools:GetSpecialFurIDByRoom(arg_16_0.roomID, var_19_3.type)
-
-				DormFurEditStateData:ReviseFurNumInEditRoom(arg_16_0.itemID, 1)
-				DormFurEditStateData:ReviseFurNumInEditRoom(var_19_4, -1)
+			if uv0.params_.type == "drag" then
+				DormFurEditStateData:ReviseFurNumInEditRoom(uv0.itemID, 1)
+				DormFurEditStateData:ReviseFurNumInEditRoom(DormFurEditStateData:GetCacheWallAndFloorInfo(BackHomeFurniture[uv0.itemID].type) or DormSpecialFurnitureTools:GetSpecialFurIDByRoom(uv0.roomID, slot0.type), -1)
 			end
 
 			JumpTools.Back()
 		end
 	end)
-	arg_16_0:AddBtnListenerScale(arg_16_0.storageBtn_, nil, function()
-		local var_20_0
-		local var_20_1
-		local var_20_2, var_20_3 = DormSuitData:CheckIsSuit(arg_16_0.itemID)
+	slot0:AddBtnListenerScale(slot0.storageBtn_, nil, function ()
+		slot0, slot1 = nil
+		slot2, slot3 = DormSuitData:CheckIsSuit(uv0.itemID)
 
-		if not var_20_2 and arg_16_0.params_.furSuitEid then
+		if not slot2 and uv0.params_.furSuitEid then
 			ShowMessageBox({
 				content = GetTips("DORM_STORAGE_CANT_SUIT"),
-				OkCallback = function()
-					var_20_0 = DormLuaBridge.StorageFurniture()
+				OkCallback = function ()
+					uv0 = DormLuaBridge.StorageFurniture()
 
-					DormSuitTools:RelieveSuit(arg_16_0.params_.furSuitEid)
+					DormSuitTools:RelieveSuit(uv1.params_.furSuitEid)
 
-					if var_20_0 ~= Dorm.DormEntityManager.INVALID_ENTITY_ID then
-						DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(var_20_0)
+					if uv0 ~= Dorm.DormEntityManager.INVALID_ENTITY_ID then
+						DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(uv0)
 
-						DormUtils.GetEntityData(var_20_0).noOccupy = true
+						DormUtils.GetEntityData(uv0).noOccupy = true
 
-						arg_16_0:RemoveFurniture(var_20_0)
+						uv1:RemoveFurniture(uv0)
 					end
 
-					if arg_16_0.params_.type == "edit" then
-						DormFurEditStateData:ReviseFurNumInEditRoom(arg_16_0.itemID, -1)
+					if uv1.params_.type == "edit" then
+						DormFurEditStateData:ReviseFurNumInEditRoom(uv1.itemID, -1)
 					end
 
-					arg_16_0.params_.furSuitEid = nil
+					uv1.params_.furSuitEid = nil
 
 					JumpTools.Back()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
-		elseif var_20_2 then
+		elseif slot2 then
 			ShowMessageBox({
 				content = GetTips("DORM_STORAGE_SUIT"),
-				OkCallback = function()
-					var_20_0 = DormLuaBridge.StorageSuitFurniture(nil)
+				OkCallback = function ()
+					uv0 = DormLuaBridge.StorageSuitFurniture(nil)
 
-					arg_16_0:RemoveFurnitureSuit(var_20_0, arg_16_0.params_.type == "edit")
+					uv1:RemoveFurnitureSuit(uv0, uv1.params_.type == "edit")
 					JumpTools.Back()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		else
-			var_20_0 = DormLuaBridge.StorageFurniture()
+			if DormLuaBridge.StorageFurniture() >= 0 then
+				DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(slot0)
 
-			if var_20_0 >= 0 then
-				DormLuaBridge.RemoveFurnitureFromWallDitherAlphaControl(var_20_0)
+				DormUtils.GetEntityData(slot0).noOccupy = true
 
-				DormUtils.GetEntityData(var_20_0).noOccupy = true
-
-				arg_16_0:RemoveFurniture(var_20_0)
+				uv0:RemoveFurniture(slot0)
 			end
 
-			if arg_16_0.params_.type == "edit" then
-				DormFurEditStateData:ReviseFurNumInEditRoom(arg_16_0.itemID, -1)
+			if uv0.params_.type == "edit" then
+				DormFurEditStateData:ReviseFurNumInEditRoom(uv0.itemID, -1)
 
-				arg_16_0.cacheCustomFur = arg_16_0.itemID
+				uv0.cacheCustomFur = uv0.itemID
 			end
 
 			JumpTools.Back()
 		end
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.infoBtn_, nil, function()
-		if arg_16_0.itemID and arg_16_0.itemID > 0 and ItemCfg[arg_16_0.itemID] then
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+		if uv0.itemID and uv0.itemID > 0 and ItemCfg[uv0.itemID] then
 			ShowPopItem(POP_ITEM, {
-				arg_16_0.itemID
+				uv0.itemID
 			})
 		end
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.enterSuit, nil, function()
-		if arg_16_0:EnterSuitEditMode(arg_16_0.furEntityID, true) then
-			arg_16_0:HightlightAllFurnitureInSuit(true, DormEnum.HighlightLayer.Available)
+	slot0:AddBtnListener(slot0.enterSuit, nil, function ()
+		if uv0:EnterSuitEditMode(uv0.furEntityID, true) then
+			uv0:HightlightAllFurnitureInSuit(true, DormEnum.HighlightLayer.Available)
 		else
 			ShowTips("DORM_CANT_ENTER_SUIT_EDIT")
 		end
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.relievesuitBtn_, nil, function()
-		if arg_16_0.furEntityID then
-			if DormLuaBridge.GetSuitOrFurnitureCanPlace(arg_16_0.furEntityID) then
+	slot0:AddBtnListener(slot0.relievesuitBtn_, nil, function ()
+		if uv0.furEntityID then
+			if DormLuaBridge.GetSuitOrFurnitureCanPlace(uv0.furEntityID) then
 				JumpTools.OpenPageByJump("dormSuitRelievePopView", {
-					suitEid = arg_16_0.furEntityID
+					suitEid = uv0.furEntityID
 				})
 			else
 				ShowTips("DORM_CANT_ENTER_SUIT_EDIT")
 			end
 		end
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.resetsuitBtn_, nil, function()
+	slot0:AddBtnListener(slot0.resetsuitBtn_, nil, function ()
 		ShowMessageBox({
 			content = GetTips("DORM_SUTI_RESET"),
-			OkCallback = function()
-				DormSuitEditData:ResetSuitPosition(arg_16_0.furEntityID, arg_16_0.itemID)
+			OkCallback = function ()
+				DormSuitEditData:ResetSuitPosition(uv0.furEntityID, uv0.itemID)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.customsuitBtn_, nil, function()
-		if DormLuaBridge.CheckSuitEditModeAvailabel(arg_16_0.furEntityID) then
-			DormLuaBridge.EnterCustomeEditMode(arg_16_0.furEntityID)
+	slot0:AddBtnListener(slot0.customsuitBtn_, nil, function ()
+		if DormLuaBridge.CheckSuitEditModeAvailabel(uv0.furEntityID) then
+			DormLuaBridge.EnterCustomeEditMode(uv0.furEntityID)
 		else
 			ShowTips("DORM_CANT_ENTER_SUIT_EDIT")
 		end
 	end)
 end
 
-function var_0_0.RemoveFurniture(arg_32_0, arg_32_1)
-	if arg_32_0.originalSelFurnitureEID == arg_32_1 then
-		arg_32_0:HightlightAllFurnitureInSuit(false)
+function slot0.RemoveFurniture(slot0, slot1)
+	if slot0.originalSelFurnitureEID == slot1 then
+		slot0:HightlightAllFurnitureInSuit(false)
 
-		arg_32_0.originalSelFurnitureEID = nil
+		slot0.originalSelFurnitureEID = nil
 	end
 
-	DormFurnitureManager.GetInstance().FindAndRemove(arg_32_1)
+	DormFurnitureManager.GetInstance().FindAndRemove(slot1)
 end
 
-function var_0_0.RemoveFurnitureSuit(arg_33_0, arg_33_1, arg_33_2)
-	if arg_33_0.originalSelFurnitureEID then
-		local var_33_0, var_33_1 = DormLuaBridge.CheckFurnitureBelongSuit(arg_33_0.originalSelFurnitureEID, nil)
+function slot0.RemoveFurnitureSuit(slot0, slot1, slot2)
+	if slot0.originalSelFurnitureEID then
+		slot3, slot4 = DormLuaBridge.CheckFurnitureBelongSuit(slot0.originalSelFurnitureEID, nil)
 
-		if var_33_1 == arg_33_1 then
-			arg_33_0:HightlightAllFurnitureInSuit(false)
+		if slot4 == slot1 then
+			slot0:HightlightAllFurnitureInSuit(false)
 
-			arg_33_0.originalSelFurnitureEID = nil
+			slot0.originalSelFurnitureEID = nil
 		end
 	end
 
-	DormSuitTools:DestoryFurSuitObject(arg_33_1, true, arg_33_2)
+	DormSuitTools:DestoryFurSuitObject(slot1, true, slot2)
 end
 
-function var_0_0.CheckFurOccurpy(arg_34_0)
-	local var_34_0 = DormRoomTools:GetDormFurOccupy(arg_34_0.roomID)
-	local var_34_1 = BackHomeCfg[arg_34_0.roomID].type
-	local var_34_2 = 0
+function slot0.CheckFurOccurpy(slot0)
+	slot1 = DormRoomTools:GetDormFurOccupy(slot0.roomID)
+	slot3 = 0
 
-	if var_34_1 == DormConst.BACKHOME_TYPE.PublicDorm then
-		var_34_2 = GameDisplayCfg.lobby_volume_max.value[1]
-	elseif var_34_1 == DormConst.BACKHOME_TYPE.PrivateDorm then
-		var_34_2 = GameDisplayCfg.dorm_volume_max.value[1]
+	if BackHomeCfg[slot0.roomID].type == DormConst.BACKHOME_TYPE.PublicDorm then
+		slot3 = GameDisplayCfg.lobby_volume_max.value[1]
+	elseif slot2 == DormConst.BACKHOME_TYPE.PrivateDorm then
+		slot3 = GameDisplayCfg.dorm_volume_max.value[1]
 	end
 
-	if var_34_2 < var_34_0 then
+	if slot3 < slot1 then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.ShowCanUseButton(arg_35_0)
-	local var_35_0, var_35_1 = DormSuitData:CheckIsSuit(arg_35_0.itemID)
+function slot0.ShowCanUseButton(slot0)
+	slot1, slot2 = DormSuitData:CheckIsSuit(slot0.itemID)
 
-	arg_35_0.canResetController:SetSelectedState("false")
+	slot0.canResetController:SetSelectedState("false")
 
-	if var_35_0 then
-		if var_35_1 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
-			if arg_35_0.params_.type == "drag" then
-				arg_35_0.suitController:SetSelectedState("false")
+	if slot1 then
+		if slot2 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
+			if slot0.params_.type == "drag" then
+				slot0.suitController:SetSelectedState("false")
 			else
-				arg_35_0.suitController:SetSelectedState("partSuit")
+				slot0.suitController:SetSelectedState("partSuit")
 			end
 		else
-			arg_35_0.suitController:SetSelectedState("custom")
+			slot0.suitController:SetSelectedState("custom")
 		end
 
-		if arg_35_0.suitOriID and arg_35_0.suitOriID ~= 0 then
-			arg_35_0.canResetController:SetSelectedState("true")
+		if slot0.suitOriID and slot0.suitOriID ~= 0 then
+			slot0.canResetController:SetSelectedState("true")
 		else
-			arg_35_0.canResetController:SetSelectedState("false")
+			slot0.canResetController:SetSelectedState("false")
 		end
 
-		arg_35_0.storageController_:SetSelectedState("true")
-		arg_35_0.rotateController_:SetSelectedState("true")
+		slot0.storageController_:SetSelectedState("true")
+		slot0.rotateController_:SetSelectedState("true")
 	else
-		local var_35_2 = BackHomeCfg[arg_35_0.roomID].type
-		local var_35_3 = BackHomeFurniture[arg_35_0.itemID].is_rotate
-		local var_35_4 = true
+		slot5 = true
 
-		for iter_35_0, iter_35_1 in ipairs(var_35_3) do
-			if var_35_2 == iter_35_1 then
-				arg_35_0.rotateController_:SetSelectedState("false")
+		for slot9, slot10 in ipairs(BackHomeFurniture[slot0.itemID].is_rotate) do
+			if BackHomeCfg[slot0.roomID].type == slot10 then
+				slot0.rotateController_:SetSelectedState("false")
 
-				var_35_4 = false
+				slot5 = false
 
 				break
 			end
 		end
 
-		if var_35_4 then
-			arg_35_0.rotateController_:SetSelectedState("true")
+		if slot5 then
+			slot0.rotateController_:SetSelectedState("true")
 		end
 
-		local var_35_5 = BackHomeFurniture[arg_35_0.itemID].is_storage
-		local var_35_6 = true
+		slot7 = true
 
-		for iter_35_2, iter_35_3 in ipairs(var_35_5) do
-			if var_35_2 == iter_35_3 then
-				arg_35_0.storageController_:SetSelectedState("false")
+		for slot11, slot12 in ipairs(BackHomeFurniture[slot0.itemID].is_storage) do
+			if slot3 == slot12 then
+				slot0.storageController_:SetSelectedState("false")
 
-				var_35_6 = false
+				slot7 = false
 
 				break
 			end
 		end
 
-		if var_35_6 then
-			arg_35_0.storageController_:SetSelectedState("true")
+		if slot7 then
+			slot0.storageController_:SetSelectedState("true")
 		end
 
-		if arg_35_0.params_.type == "edit" then
-			if arg_35_0.params_.furSuitEid then
-				arg_35_0.suitController:SetSelectedState("true")
-			elseif arg_35_0:CheckFurCanEnterCustomeSuitMode(arg_35_0.itemID) then
-				arg_35_0.suitController:SetSelectedState("establish")
+		if slot0.params_.type == "edit" then
+			if slot0.params_.furSuitEid then
+				slot0.suitController:SetSelectedState("true")
+			elseif slot0:CheckFurCanEnterCustomeSuitMode(slot0.itemID) then
+				slot0.suitController:SetSelectedState("establish")
 			else
-				arg_35_0.suitController:SetSelectedState("false")
+				slot0.suitController:SetSelectedState("false")
 			end
 		else
-			arg_35_0.suitController:SetSelectedState("false")
+			slot0.suitController:SetSelectedState("false")
 		end
 	end
 end
 
-function var_0_0.CheckFurCanEnterCustomeSuitMode(arg_36_0, arg_36_1)
-	local var_36_0 = BackHomeFurniture[arg_36_1]
-
-	if var_36_0 and var_36_0.display_type == 0 then
+function slot0.CheckFurCanEnterCustomeSuitMode(slot0, slot1)
+	if BackHomeFurniture[slot1] and slot2.display_type == 0 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.Dispose(arg_37_0)
-	var_0_0.super.Dispose(arg_37_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,153 +1,149 @@
-local var_0_0 = class("SpringPreheatPrayRewardItem", ReduxView)
-local var_0_1 = {
+slot0 = class("SpringPreheatPrayRewardItem", ReduxView)
+slot1 = {
 	GO_SELECT = 1,
 	SELECTING = 2
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 
-	arg_2_0.id_ = 0
+	slot0.id_ = 0
 
-	arg_2_0:SwitchToSelecting()
+	slot0:SwitchToSelecting()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.goSelectController_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.selectingController_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.goSelectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.selectingController_ = ControllerUtil.GetController(slot0.transform_, "select")
 
-	if arg_3_0.commonItemGo_ then
-		arg_3_0.commonItem_ = CommonItem.New(arg_3_0.commonItemGo_)
-		arg_3_0.hasCommonItem_ = true
+	if slot0.commonItemGo_ then
+		slot0.commonItem_ = CommonItem.New(slot0.commonItemGo_)
+		slot0.hasCommonItem_ = true
 	end
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.onClickHandler_ then
-			arg_4_0.onClickHandler_(arg_4_0)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.onClickHandler_ then
+			uv0:onClickHandler_()
 		end
 	end)
 
-	if arg_4_0.commonItem_ then
-		arg_4_0.commonItem_:RegistCallBack(function(arg_6_0)
-			if arg_4_0.onClickHandler_ then
-				arg_4_0.onClickHandler_(arg_4_0)
+	if slot0.commonItem_ then
+		slot0.commonItem_:RegistCallBack(function (slot0)
+			if uv0.onClickHandler_ then
+				uv0:onClickHandler_()
 			end
 		end)
 	end
 end
 
-function var_0_0.SetClickHandler(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.onClickHandler_ = arg_7_1
+function slot0.SetClickHandler(slot0, slot1)
+	if slot1 then
+		slot0.onClickHandler_ = slot1
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	if arg_10_0.commonItem_ then
-		arg_10_0.commonItem_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.commonItem_ then
+		slot0.commonItem_:Dispose()
 
-		arg_10_0.commonItem_ = nil
+		slot0.commonItem_ = nil
 	end
 
-	arg_10_0.super.Dispose(arg_10_0)
+	slot0.super.Dispose(slot0)
 end
 
-function var_0_0.SwitchToGoSelect(arg_11_0)
-	arg_11_0.mode_ = var_0_1.GO_SELECT
+function slot0.SwitchToGoSelect(slot0)
+	slot0.mode_ = uv0.GO_SELECT
 end
 
-function var_0_0.SwitchToSelecting(arg_12_0)
-	arg_12_0.mode_ = var_0_1.SELECTING
+function slot0.SwitchToSelecting(slot0)
+	slot0.mode_ = uv0.SELECTING
 end
 
-function var_0_0.SetSelected(arg_13_0, arg_13_1)
-	arg_13_0.selected_ = arg_13_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.selected_ = slot1
 
-	return arg_13_0.selected_
+	return slot0.selected_
 end
 
-function var_0_0.SetSelectable(arg_14_0, arg_14_1)
-	arg_14_0.selectable_ = arg_14_1
+function slot0.SetSelectable(slot0, slot1)
+	slot0.selectable_ = slot1
 
-	return arg_14_0.selectable_
+	return slot0.selectable_
 end
 
-function var_0_0.SetData(arg_15_0, arg_15_1)
-	arg_15_0.id_ = arg_15_1
-	arg_15_0.poolId_ = SpringPreheatData:GetPoolId()
+function slot0.SetData(slot0, slot1)
+	slot0.id_ = slot1
+	slot0.poolId_ = SpringPreheatData:GetPoolId()
 
-	arg_15_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_16_0)
-	if arg_16_0.mode_ == var_0_1.GO_SELECT then
-		arg_16_0.goSelectController_:SetSelectedState(arg_16_0:CanGoSelect() and "true" or "false")
-	elseif arg_16_0.selectable_ then
-		arg_16_0.selectingController_:SetSelectedState(arg_16_0.selected_ and "clicked" or "selectable")
+function slot0.RefreshUI(slot0)
+	if slot0.mode_ == uv0.GO_SELECT then
+		slot0.goSelectController_:SetSelectedState(slot0:CanGoSelect() and "true" or "false")
+	elseif slot0.selectable_ then
+		slot0.selectingController_:SetSelectedState(slot0.selected_ and "clicked" or "selectable")
 	else
-		arg_16_0.selectingController_:SetSelectedState("selected")
+		slot0.selectingController_:SetSelectedState("selected")
 	end
 
-	arg_16_0:RefreshItemUI()
+	slot0:RefreshItemUI()
 end
 
-function var_0_0.RefreshItemUI(arg_17_0)
-	if arg_17_0.id_ == 0 then
-		arg_17_0.itemID_ = 0
+function slot0.RefreshItemUI(slot0)
+	if slot0.id_ == 0 then
+		slot0.itemID_ = 0
 
-		if arg_17_0.hasCommonItem_ then
-			SetActive(arg_17_0.commonItemGo_, false)
+		if slot0.hasCommonItem_ then
+			SetActive(slot0.commonItemGo_, false)
 		end
 
-		SetActive(arg_17_0.iconGo_, false)
+		SetActive(slot0.iconGo_, false)
 
 		return
 	end
 
-	local var_17_0, var_17_1 = KagutsuchiGachaData:GetDrawItemReward(arg_17_0.poolId_, arg_17_0.id_)
+	slot0.itemID_, slot2 = KagutsuchiGachaData:GetDrawItemReward(slot0.poolId_, slot0.id_)
 
-	arg_17_0.itemID_ = var_17_0
-
-	if arg_17_0.hasCommonItem_ then
-		arg_17_0.commonItem_:RefreshData({
-			id = var_17_0,
-			number = var_17_1
+	if slot0.hasCommonItem_ then
+		slot0.commonItem_:RefreshData({
+			id = slot1,
+			number = slot2
 		})
-		SetActive(arg_17_0.commonItemGo_, true)
+		SetActive(slot0.commonItemGo_, true)
 	else
-		arg_17_0.icon_.sprite = ItemTools.getItemSprite(var_17_0)
+		slot0.icon_.sprite = ItemTools.getItemSprite(slot1)
 
-		SetActive(arg_17_0.iconGo_, true)
+		SetActive(slot0.iconGo_, true)
 	end
 end
 
-function var_0_0.GetItemId(arg_18_0)
-	return arg_18_0.itemID_
+function slot0.GetItemId(slot0)
+	return slot0.itemID_
 end
 
-function var_0_0.CanGoSelect(arg_19_0)
-	return arg_19_0.id_ ~= 0 and arg_19_0.mode_ == var_0_1.GO_SELECT
+function slot0.CanGoSelect(slot0)
+	return slot0.id_ ~= 0 and slot0.mode_ == uv0.GO_SELECT
 end
 
-return var_0_0
+return slot0

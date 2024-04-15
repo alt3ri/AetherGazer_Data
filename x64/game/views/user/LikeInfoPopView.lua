@@ -1,138 +1,132 @@
-local var_0_0 = class("LikeInfoPopView", ReduxView)
+slot0 = class("LikeInfoPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/LikerecordUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, LikeInfoPopItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, LikeInfoPopItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.curList_[arg_5_1]
-	local var_5_1 = var_5_0.time
-	local var_5_2 = var_5_0.id
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.curList_[slot1]
 
-	arg_5_2:RefreshData(arg_5_0.listInfo_[var_5_2], var_5_1)
+	slot2:RefreshData(slot0.listInfo_[slot3.id], slot3.time)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.leftBtn_, nil, function()
-		arg_6_0.index_ = arg_6_0.index_ - 1
-		arg_6_0.params_.index = arg_6_0.index_
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.leftBtn_, nil, function ()
+		uv0.index_ = uv0.index_ - 1
+		uv0.params_.index = uv0.index_
 
-		arg_6_0:TryGetInfo()
+		uv0:TryGetInfo()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rightBtn_, nil, function()
-		arg_6_0.index_ = arg_6_0.index_ + 1
-		arg_6_0.params_.index = arg_6_0.index_
+	slot0:AddBtnListener(slot0.rightBtn_, nil, function ()
+		uv0.index_ = uv0.index_ + 1
+		uv0.params_.index = uv0.index_
 
-		arg_6_0:TryGetInfo()
+		uv0:TryGetInfo()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.list_ = {}
-	arg_10_0.listInfo_ = {}
+function slot0.OnEnter(slot0)
+	slot0.list_ = {}
+	slot0.listInfo_ = {}
 
-	local var_10_0 = PlayerData:GetLikeInfo()
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		table.insert(arg_10_0.list_, {
-			id = iter_10_1.id,
-			time = iter_10_1.time
+	for slot5, slot6 in ipairs(PlayerData:GetLikeInfo()) do
+		table.insert(slot0.list_, {
+			id = slot6.id,
+			time = slot6.time
 		})
 	end
 
-	arg_10_0.index_ = arg_10_0.params_.index
+	slot0.index_ = slot0.params_.index
 
-	arg_10_0:TryGetInfo()
+	slot0:TryGetInfo()
 end
 
-function var_0_0.TryGetInfo(arg_11_0)
-	local var_11_0 = (arg_11_0.index_ - 1) * GameSetting.profile_like_page_num.value[1] + 1
-	local var_11_1 = arg_11_0.index_ * GameSetting.profile_like_page_num.value[1]
-	local var_11_2 = {}
+function slot0.TryGetInfo(slot0)
+	slot3 = {}
+	slot0.curList_ = {}
 
-	arg_11_0.curList_ = {}
-
-	for iter_11_0 = var_11_0, var_11_1 do
-		local var_11_3 = arg_11_0.list_[iter_11_0]
-
-		if not var_11_3 then
+	for slot7 = (slot0.index_ - 1) * GameSetting.profile_like_page_num.value[1] + 1, slot0.index_ * GameSetting.profile_like_page_num.value[1] do
+		if not slot0.list_[slot7] then
 			break
 		end
 
-		local var_11_4 = var_11_3.id
+		table.insert(slot0.curList_, slot8)
 
-		table.insert(arg_11_0.curList_, var_11_3)
-
-		if not arg_11_0.listInfo_[var_11_4] then
-			table.insert(var_11_2, var_11_4)
+		if not slot0.listInfo_[slot8.id] then
+			table.insert(slot3, slot9)
 		end
 	end
 
-	if #var_11_2 <= 0 then
-		arg_11_0:RefreshUI()
-		arg_11_0.scrollHelper_:StartScroll(#arg_11_0.curList_)
+	if #slot3 <= 0 then
+		slot0:RefreshUI()
+		slot0.scrollHelper_:StartScroll(#slot0.curList_)
 	else
-		ForeignInfoAction:GetSimpleForeignInfo(var_11_2)
+		ForeignInfoAction:GetSimpleForeignInfo(slot3)
 	end
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	arg_12_0.page_.text = arg_12_0.index_
+function slot0.RefreshUI(slot0)
+	slot0.page_.text = slot0.index_
 
-	SetActive(arg_12_0.leftBtn_.gameObject, arg_12_0.index_ ~= 1)
-	SetActive(arg_12_0.rightBtn_.gameObject, arg_12_0.index_ * GameSetting.profile_like_page_num.value[1] < #arg_12_0.list_)
+	SetActive(slot0.leftBtn_.gameObject, slot0.index_ ~= 1)
+	SetActive(slot0.rightBtn_.gameObject, slot0.index_ * GameSetting.profile_like_page_num.value[1] < #slot0.list_)
 end
 
-function var_0_0.OnGetSimpleForeignInfo(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in ipairs(arg_13_1) do
-		arg_13_0.listInfo_[iter_13_1.user_id] = {
-			id = iter_13_1.user_id,
-			nick = iter_13_1.base_info.nick,
-			icon = iter_13_1.base_info.icon,
-			frame = iter_13_1.base_info.icon_frame,
-			level = iter_13_1.level
+function slot0.OnGetSimpleForeignInfo(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.listInfo_[slot6.user_id] = {
+			id = slot6.user_id,
+			nick = slot6.base_info.nick,
+			icon = slot6.base_info.icon,
+			frame = slot6.base_info.icon_frame,
+			level = slot6.level
 		}
 	end
 
-	arg_13_0:RefreshUI()
-	arg_13_0.scrollHelper_:StartScroll(#arg_13_0.curList_)
+	slot0:RefreshUI()
+	slot0.scrollHelper_:StartScroll(#slot0.curList_)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0.curList_ = {}
+function slot0.OnExit(slot0)
+	slot0.curList_ = {}
+	slot3 = slot0.scrollHelper_
+	slot5 = slot3
 
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.scrollHelper_:GetItemList()) do
-		iter_14_1:OnExit()
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.scrollHelper_:GetItemList()) do
-		iter_15_1:Dispose()
+	slot3 = slot0.scrollHelper_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:Dispose()
 	end
 
-	arg_15_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_15_0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

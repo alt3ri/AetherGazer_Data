@@ -1,35 +1,25 @@
-local var_0_0 = class("PosterDlcInitState", PosterDlcTimelineState)
+slot0 = class("PosterDlcInitState", PosterDlcTimelineState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 end
 
-function var_0_0.Enter(arg_2_0)
-	var_0_0.super.Enter(arg_2_0)
-	arg_2_0.actor:EnableEyeController(true)
-	arg_2_0.actor:MuteCamera(true)
+function slot0.Enter(slot0)
+	uv0.super.Enter(slot0)
+	slot0.actor:EnableEyeController(true)
+	slot0.actor:MuteCamera(true)
 
-	local var_2_0 = "action1_1"
-	local var_2_1
+	slot1 = "action1_1"
 
-	if manager.posterGirl:GetViewTag() == PosterGirlConst.ViewTag.playerInfo then
-		var_2_1 = "action1_1"
-	else
-		local var_2_2 = arg_2_0.actor:GetViewDirect() + 1
-
-		var_2_1 = "action1_" .. var_2_2
-	end
-
-	arg_2_0:PlayAni(var_2_1)
+	slot0:PlayAni(manager.posterGirl:GetViewTag() == PosterGirlConst.ViewTag.playerInfo and "action1_1" or "action1_" .. slot0.actor:GetViewDirect() + 1)
 end
 
-function var_0_0.TimelineStopCallback(arg_3_0)
-	return
+function slot0.TimelineStopCallback(slot0)
 end
 
-function var_0_0.Exit(arg_4_0, arg_4_1)
-	var_0_0.super.Exit(arg_4_0, arg_4_1)
-	arg_4_0.actor:MuteCamera(false)
+function slot0.Exit(slot0, slot1)
+	uv0.super.Exit(slot0, slot1)
+	slot0.actor:MuteCamera(false)
 end
 
-return var_0_0
+return slot0

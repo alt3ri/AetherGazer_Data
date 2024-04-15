@@ -1,34 +1,31 @@
-local var_0_0 = import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode")
-local var_0_1 = class("TangramRegionReceiveNode", var_0_0)
+slot1 = class("TangramRegionReceiveNode", import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode"))
 
-function var_0_1.RunFunc(arg_1_0)
-	if arg_1_0.blackboard_.isOnlyRegionRewardPop_ == true then
-		arg_1_0:RunCompleteFunc()
+function slot1.RunFunc(slot0)
+	if slot0.blackboard_.isOnlyRegionRewardPop_ == true then
+		slot0:RunCompleteFunc()
 
 		return
 	end
 
-	local var_1_0 = arg_1_0.blackboard_.receivedRegionList_
+	slot5 = "minigame_activity_2_1_puzzle_reward"
 
-	manager.audio:PlayEffect("minigame_activity_2_1", "minigame_activity_2_1_puzzle_reward", "")
+	manager.audio:PlayEffect("minigame_activity_2_1", slot5, "")
 
-	for iter_1_0 = 1, #var_1_0 do
-		if iter_1_0 == #var_1_0 then
-			arg_1_0.manager_.regionItemList_[var_1_0[iter_1_0]]:PlayRewardAnim(function()
-				arg_1_0:RunCompleteFunc()
+	for slot5 = 1, #slot0.blackboard_.receivedRegionList_ do
+		if slot5 == #slot1 then
+			slot0.manager_.regionItemList_[slot1[slot5]]:PlayRewardAnim(function ()
+				uv0:RunCompleteFunc()
 			end)
 		else
-			arg_1_0.manager_.regionItemList_[var_1_0[iter_1_0]]:PlayRewardAnim()
+			slot0.manager_.regionItemList_[slot1[slot5]]:PlayRewardAnim()
 		end
 	end
 end
 
-function var_0_1.RunCompleteFunc(arg_3_0)
-	local var_3_0 = arg_3_0.blackboard_.rewardList_
-
-	showRewardUI(var_3_0, nil, function()
-		arg_3_0.root_:SetNodeRunComplete()
+function slot1.RunCompleteFunc(slot0)
+	showRewardUI(slot0.blackboard_.rewardList_, nil, function ()
+		uv0.root_:SetNodeRunComplete()
 	end)
 end
 
-return var_0_1
+return slot1

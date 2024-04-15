@@ -1,58 +1,56 @@
-local var_0_0 = class("GuildMemberItem", ReduxView)
+slot0 = class("GuildMemberItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transformPost_, "conName")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transformPost_, "conName")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_3_0.id_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.id_)
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.id_ = arg_5_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.id_ = slot1
+	slot3 = GuildData:GetGuildMemberData(slot1)
+	slot0.imageIcon_.sprite = ItemTools.getItemSprite(slot3.icon)
+	slot0.imageHeadBg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot3.frame)
+	slot0.textName_.text = GetI18NText(slot3.name)
+	slot0.textLevel_.text = GetTips("LEVEL") .. string.format("%s", slot3.level)
 
-	local var_5_0 = GuildData:GetGuildMemberData(arg_5_1)
-
-	arg_5_0.imageIcon_.sprite = ItemTools.getItemSprite(var_5_0.icon)
-	arg_5_0.imageHeadBg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_5_0.frame)
-	arg_5_0.textName_.text = GetI18NText(var_5_0.name)
-	arg_5_0.textLevel_.text = GetTips("LEVEL") .. string.format("%s", var_5_0.level)
-
-	if arg_5_2 then
-		arg_5_0.textContribute_.text = GetI18NText(var_5_0.weekContribute)
+	if slot2 then
+		slot0.textContribute_.text = GetI18NText(slot3.weekContribute)
 	else
-		arg_5_0.textContribute_.text = GetI18NText(var_5_0.contribute)
+		slot0.textContribute_.text = GetI18NText(slot3.contribute)
 	end
 
-	if var_5_0.offlineStamptime == 0 then
-		arg_5_0.textOnline_.text = string.format("<color=#6AA788>%s</color>", manager.time:GetOnLineText(var_5_0.offlineStamptime))
+	if slot3.offlineStamptime == 0 then
+		slot0.textOnline_.text = string.format("<color=#6AA788>%s</color>", manager.time:GetOnLineText(slot3.offlineStamptime))
 	else
-		arg_5_0.textOnline_.text = string.format("<color=#494A4F>%s</color>", manager.time:GetOnLineText(var_5_0.offlineStamptime))
+		slot0.textOnline_.text = string.format("<color=#494A4F>%s</color>", manager.time:GetOnLineText(slot3.offlineStamptime))
 	end
 
-	arg_5_0.controller_:SetSelectedState(var_5_0.post)
+	slot0.controller_:SetSelectedState(slot3.post)
 
-	if var_5_0.post == GuildConst.GUILD_POST.CAPTAIN then
-		arg_5_0.labelText_.text = GetTips("CLUB_CHAIR_MAN")
-	elseif var_5_0.post == GuildConst.GUILD_POST.DEPUTY then
-		arg_5_0.labelText_.text = GetTips("CLUB_VICE_CHAIR_MAN")
-	elseif var_5_0.post == GuildConst.GUILD_POST.MEMBER then
-		arg_5_0.labelText_.text = GetTips("CLUB_MEMBER")
-	elseif var_5_0.post == GuildConst.GUILD_POST.TRAINEE then
-		arg_5_0.labelText_.text = GetTips("CLUB_NOVICIATE")
+	if slot3.post == GuildConst.GUILD_POST.CAPTAIN then
+		slot0.labelText_.text = GetTips("CLUB_CHAIR_MAN")
+	elseif slot3.post == GuildConst.GUILD_POST.DEPUTY then
+		slot0.labelText_.text = GetTips("CLUB_VICE_CHAIR_MAN")
+	elseif slot3.post == GuildConst.GUILD_POST.MEMBER then
+		slot0.labelText_.text = GetTips("CLUB_MEMBER")
+	elseif slot3.post == GuildConst.GUILD_POST.TRAINEE then
+		slot0.labelText_.text = GetTips("CLUB_NOVICIATE")
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,50 +1,50 @@
-local var_0_0 = class("StoryForceSkipView", ReduxView)
+slot0 = class("StoryForceSkipView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.maskBtn_, nil, function()
-		if arg_4_0.handler_ then
-			arg_4_0.handler_()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		if uv0.handler_ then
+			uv0.handler_()
 
-			arg_4_0.handler_ = nil
+			uv0.handler_ = nil
 		end
 	end)
 end
 
-function var_0_0.SetCallback(arg_6_0, arg_6_1)
-	arg_6_0.handler_ = arg_6_1
+function slot0.SetCallback(slot0, slot1)
+	slot0.handler_ = slot1
 end
 
-function var_0_0.SetContentTitle(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.content_ = arg_7_2
-	arg_7_0.title_ = arg_7_1
+function slot0.SetContentTitle(slot0, slot1, slot2)
+	slot0.content_ = slot2
+	slot0.title_ = slot1
 
-	arg_7_0:OnEnter()
+	slot0:OnEnter()
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.titleText_.text = GetI18NText(arg_8_0.title_) or ""
-	arg_8_0.contentText_.text = arg_8_0.content_ or ""
+function slot0.OnEnter(slot0)
+	slot0.titleText_.text = GetI18NText(slot0.title_) or ""
+	slot0.contentText_.text = slot0.content_ or ""
 end
 
-function var_0_0.Dispose(arg_9_0)
-	Object.Destroy(arg_9_0.gameObject_)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,231 +1,204 @@
-local var_0_0 = singletonClass("ActivityRaceData")
+slot0 = singletonClass("ActivityRaceData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.affixList_ = {}
-	arg_1_0.activityStateList_ = {}
-	arg_1_0.receivedTaskList_ = {}
+function slot0.Init(slot0)
+	slot0.affixList_ = {}
+	slot0.activityStateList_ = {}
+	slot0.receivedTaskList_ = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	if arg_2_1.info ~= nil then
-		local var_2_0 = arg_2_1.activity_id
-		local var_2_1 = arg_2_1.info
+function slot0.SetData(slot0, slot1)
+	if slot1.info ~= nil then
+		slot2 = slot1.activity_id
+		slot0.activityStateList_[slot2] = {
+			unlockStageList = {}
+		}
 
-		arg_2_0.activityStateList_[var_2_0] = {}
-		arg_2_0.activityStateList_[var_2_0].unlockStageList = {}
-
-		for iter_2_0, iter_2_1 in ipairs(var_2_1.chapter_progress) do
-			arg_2_0.activityStateList_[var_2_0].unlockStageList[iter_2_1] = true
+		for slot7, slot8 in ipairs(slot1.info.chapter_progress) do
+			slot0.activityStateList_[slot2].unlockStageList[slot8] = true
 		end
 
-		arg_2_0.activityStateList_[var_2_0].completedStageList = {}
+		slot0.activityStateList_[slot2].completedStageList = {}
 
-		for iter_2_2, iter_2_3 in ipairs(var_2_1.clear_progress) do
-			arg_2_0.activityStateList_[var_2_0].completedStageList[iter_2_3] = true
+		for slot7, slot8 in ipairs(slot3.clear_progress) do
+			slot0.activityStateList_[slot2].completedStageList[slot8] = true
 		end
 
-		arg_2_0.activityStateList_[var_2_0].score = var_2_1.boss_challenge_score
-		arg_2_0.activityStateList_[var_2_0].accumulativeScore = tonumber(var_2_1.total_score)
-		arg_2_0.receivedTaskList_[var_2_0] = {}
+		slot0.activityStateList_[slot2].score = slot3.boss_challenge_score
+		slot0.activityStateList_[slot2].accumulativeScore = tonumber(slot3.total_score)
+		slot0.receivedTaskList_[slot2] = {}
 
-		for iter_2_4, iter_2_5 in ipairs(var_2_1.admitted_award_list) do
-			arg_2_0.receivedTaskList_[var_2_0][iter_2_5] = true
+		for slot7, slot8 in ipairs(slot3.admitted_award_list) do
+			slot0.receivedTaskList_[slot2][slot8] = true
 		end
 
-		arg_2_0:RefreshUnReceiveCount(var_2_0)
+		slot0:RefreshUnReceiveCount(slot2)
 
-		arg_2_0.affixList_[var_2_0] = {}
+		slot0.affixList_[slot2] = {}
 
-		for iter_2_6, iter_2_7 in ipairs(var_2_1.affix_list) do
-			local var_2_2 = ActivityAffixPoolCfg[iter_2_7].affix[1]
-
-			arg_2_0.affixList_[var_2_0][var_2_2] = iter_2_7
+		for slot7, slot8 in ipairs(slot3.affix_list) do
+			slot0.affixList_[slot2][ActivityAffixPoolCfg[slot8].affix[1]] = slot8
 		end
 
-		arg_2_0:RefreshCompleteRedPoint(var_2_0)
-		arg_2_0:RefreshRewardRedPoint(var_2_0)
+		slot0:RefreshCompleteRedPoint(slot2)
+		slot0:RefreshRewardRedPoint(slot2)
 	end
 end
 
-function var_0_0.SetCompleteStage(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = ActivityRaceCfg[arg_3_1].stage_list
-	local var_3_1 = table.keyof(var_3_0, arg_3_2)
+function slot0.SetCompleteStage(slot0, slot1, slot2)
+	slot3 = ActivityRaceCfg[slot1].stage_list
+	slot0.activityStateList_[slot1].completedStageList[slot2] = true
 
-	arg_3_0.activityStateList_[arg_3_1].completedStageList[arg_3_2] = true
-
-	local var_3_2 = var_3_1 + 1
-
-	if var_3_2 <= #var_3_0 then
-		arg_3_0.activityStateList_[arg_3_1].unlockStageList[var_3_0[var_3_2]] = true
+	if table.keyof(slot3, slot2) + 1 <= #slot3 then
+		slot0.activityStateList_[slot1].unlockStageList[slot3[slot5]] = true
 	end
 
-	arg_3_0:RefreshUnReceiveCount(arg_3_1)
-	arg_3_0:RefreshRewardRedPoint(arg_3_1)
+	slot0:RefreshUnReceiveCount(slot1)
+	slot0:RefreshRewardRedPoint(slot1)
 end
 
-function var_0_0.RefreshUnReceiveCount(arg_4_0, arg_4_1)
-	local var_4_0 = ActivityRaceCfg[arg_4_1].task_list_id
-	local var_4_1 = arg_4_0.activityStateList_[arg_4_1].accumulativeScore
-	local var_4_2 = ActivityRaceCfg[arg_4_1].task_list
-	local var_4_3 = arg_4_0.activityStateList_[arg_4_1].score
-	local var_4_4 = 0
+function slot0.RefreshUnReceiveCount(slot0, slot1)
+	slot4 = ActivityRaceCfg[slot1].task_list
+	slot5 = slot0.activityStateList_[slot1].score
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-		if var_4_1 >= ActivityPointRewardCfg[iter_4_1].need and arg_4_0.receivedTaskList_[arg_4_1][iter_4_1] == nil then
-			var_4_4 = var_4_4 + 1
+	for slot10, slot11 in ipairs(ActivityRaceCfg[slot1].task_list_id) do
+		if ActivityPointRewardCfg[slot11].need <= slot0.activityStateList_[slot1].accumulativeScore and slot0.receivedTaskList_[slot1][slot11] == nil then
+			slot6 = 0 + 1
 		end
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(var_4_2) do
-		if var_4_3 >= ActivityPointRewardCfg[iter_4_3].need and arg_4_0.receivedTaskList_[arg_4_1][iter_4_3] == nil then
-			var_4_4 = var_4_4 + 1
+	for slot10, slot11 in ipairs(slot4) do
+		if ActivityPointRewardCfg[slot11].need <= slot5 and slot0.receivedTaskList_[slot1][slot11] == nil then
+			slot6 = slot6 + 1
 		end
 	end
 
-	arg_4_0.activityStateList_[arg_4_1].unreceiveCount = var_4_4
+	slot0.activityStateList_[slot1].unreceiveCount = slot6
 end
 
-function var_0_0.GetSortedRewardList(arg_5_0, arg_5_1)
-	local var_5_0 = ActivityRaceCfg.get_id_list_by_main_activity_id[arg_5_1]
-
-	if var_5_0 == nil then
-		var_5_0 = {
-			arg_5_1
+function slot0.GetSortedRewardList(slot0, slot1)
+	if ActivityRaceCfg.get_id_list_by_main_activity_id[slot1] == nil then
+		slot2 = {
+			slot1
 		}
 	end
 
-	local var_5_1 = {}
-	local var_5_2 = {}
-	local var_5_3 = {}
+	slot3 = {}
+	slot4 = {}
+	slot5 = {}
 
-	for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-		local var_5_4 = arg_5_0.activityStateList_[iter_5_1]
-
-		if var_5_4 == nil or var_5_4.unreceiveCount == 0 then
-			var_5_2[#var_5_2 + 1] = iter_5_1
+	for slot9, slot10 in ipairs(slot2) do
+		if slot0.activityStateList_[slot10] == nil or slot11.unreceiveCount == 0 then
+			slot4[#slot4 + 1] = slot10
 		else
-			var_5_3[#var_5_3 + 1] = iter_5_1
+			slot5[#slot5 + 1] = slot10
 		end
 	end
 
-	table.insertto(var_5_1, var_5_3)
-	table.insertto(var_5_1, var_5_2)
+	table.insertto(slot3, slot5)
+	table.insertto(slot3, slot4)
 
-	return var_5_1
+	return slot3
 end
 
-function var_0_0.SetReceivedTaskList(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.receivedTaskList_[arg_6_1][arg_6_2] = true
-	arg_6_0.activityStateList_[arg_6_1].unreceiveCount = arg_6_0.activityStateList_[arg_6_1].unreceiveCount - 1
+function slot0.SetReceivedTaskList(slot0, slot1, slot2)
+	slot0.receivedTaskList_[slot1][slot2] = true
+	slot0.activityStateList_[slot1].unreceiveCount = slot0.activityStateList_[slot1].unreceiveCount - 1
 
-	arg_6_0:RefreshRewardRedPoint(arg_6_1)
+	slot0:RefreshRewardRedPoint(slot1)
 end
 
-function var_0_0.GetReceivedTaskList(arg_7_0, arg_7_1)
-	return arg_7_0.receivedTaskList_[arg_7_1] or {}
+function slot0.GetReceivedTaskList(slot0, slot1)
+	return slot0.receivedTaskList_[slot1] or {}
 end
 
-function var_0_0.GetTotalScore(arg_8_0, arg_8_1)
-	local var_8_0 = ActivityRaceCfg.get_id_list_by_main_activity_id[arg_8_1]
-	local var_8_1 = 0
-	local var_8_2
+function slot0.GetTotalScore(slot0, slot1)
+	slot4 = nil
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		var_8_1 = var_8_1 + (arg_8_0.activityStateList_[iter_8_1] and arg_8_0.activityStateList_[iter_8_1].score or 0)
+	for slot8, slot9 in ipairs(ActivityRaceCfg.get_id_list_by_main_activity_id[slot1]) do
+		slot3 = 0 + (slot0.activityStateList_[slot9] and slot0.activityStateList_[slot9].score or 0)
 	end
 
-	return var_8_1
+	return slot3
 end
 
-function var_0_0.SetScore(arg_9_0, arg_9_1, arg_9_2)
-	if arg_9_2 and arg_9_2 > arg_9_0.activityStateList_[arg_9_1].score then
-		arg_9_0.activityStateList_[arg_9_1].score = arg_9_2
+function slot0.SetScore(slot0, slot1, slot2)
+	if slot2 and slot0.activityStateList_[slot1].score < slot2 then
+		slot0.activityStateList_[slot1].score = slot2
 
-		arg_9_0:RefreshUnReceiveCount(arg_9_1)
+		slot0:RefreshUnReceiveCount(slot1)
 	end
 
-	local var_9_0 = ActivityRaceCfg[arg_9_1].task_list_id
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0) do
-		if ActivityPointRewardCfg[iter_9_1].need > arg_9_0.activityStateList_[arg_9_1].accumulativeScore then
-			arg_9_0.activityStateList_[arg_9_1].accumulativeScore = arg_9_0.activityStateList_[arg_9_1].accumulativeScore + arg_9_2
+	for slot7, slot8 in ipairs(ActivityRaceCfg[slot1].task_list_id) do
+		if slot0.activityStateList_[slot1].accumulativeScore < ActivityPointRewardCfg[slot8].need then
+			slot0.activityStateList_[slot1].accumulativeScore = slot0.activityStateList_[slot1].accumulativeScore + slot2
 
 			return
 		end
 	end
 end
 
-function var_0_0.GetStateList(arg_10_0)
-	return arg_10_0.activityStateList_
+function slot0.GetStateList(slot0)
+	return slot0.activityStateList_
 end
 
-function var_0_0.GetUnlockAffixList(arg_11_0, arg_11_1)
-	return arg_11_0.affixList_[arg_11_1] or {}
+function slot0.GetUnlockAffixList(slot0, slot1)
+	return slot0.affixList_[slot1] or {}
 end
 
-function var_0_0.SetDropAffixes(arg_12_0, arg_12_1)
-	arg_12_0.dropAffixList_ = {}
+function slot0.SetDropAffixes(slot0, slot1)
+	slot0.dropAffixList_ = {}
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1.affix_list) do
-		local var_12_0 = ActivityAffixPoolCfg[iter_12_1].affix[1]
+	for slot5, slot6 in ipairs(slot1.affix_list) do
+		slot7 = ActivityAffixPoolCfg[slot6].affix[1]
+		slot0.dropAffixList_[#slot0.dropAffixList_ + 1] = slot7
 
-		arg_12_0.dropAffixList_[#arg_12_0.dropAffixList_ + 1] = var_12_0
-
-		if arg_12_0.affixList_[arg_12_0.tempActivityID_][var_12_0] == nil then
-			arg_12_0.affixList_[arg_12_0.tempActivityID_][var_12_0] = iter_12_1
+		if slot0.affixList_[slot0.tempActivityID_][slot7] == nil then
+			slot0.affixList_[slot0.tempActivityID_][slot7] = slot6
 		else
-			local var_12_1 = ActivityRaceAffixLevelUpCfg[iter_12_1].affix_list
-			local var_12_2 = arg_12_0.affixList_[arg_12_0.tempActivityID_][var_12_0]
-			local var_12_3 = table.keyof(var_12_1, var_12_2) + 1
+			slot8 = ActivityRaceAffixLevelUpCfg[slot6].affix_list
 
-			if var_12_3 <= #var_12_1 then
-				arg_12_0.affixList_[arg_12_0.tempActivityID_][var_12_0] = var_12_1[var_12_3]
+			if table.keyof(slot8, slot0.affixList_[slot0.tempActivityID_][slot7]) + 1 <= #slot8 then
+				slot0.affixList_[slot0.tempActivityID_][slot7] = slot8[slot11]
 			end
 		end
 	end
 end
 
-function var_0_0.SetTempActivityID(arg_13_0, arg_13_1)
-	arg_13_0.tempActivityID_ = arg_13_1
+function slot0.SetTempActivityID(slot0, slot1)
+	slot0.tempActivityID_ = slot1
 end
 
-function var_0_0.GetDropAffixes(arg_14_0)
-	local var_14_0
+function slot0.GetDropAffixes(slot0)
+	slot1 = nil
 
-	if arg_14_0.dropAffixList_ ~= nil then
-		var_14_0 = deepClone(arg_14_0.dropAffixList_)
-		arg_14_0.dropAffixList_ = nil
+	if slot0.dropAffixList_ ~= nil then
+		slot1 = deepClone(slot0.dropAffixList_)
+		slot0.dropAffixList_ = nil
 	end
 
-	return var_14_0
+	return slot1
 end
 
-function var_0_0.SetSelectActivityID(arg_15_0, arg_15_1)
-	local var_15_0 = ActivityRaceCfg[arg_15_1].main_activity_id
-
-	if arg_15_0.activityStateList_[arg_15_1].unreceiveCount <= 0 then
-		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, var_15_0, arg_15_1), 0)
+function slot0.SetSelectActivityID(slot0, slot1)
+	if slot0.activityStateList_[slot1].unreceiveCount <= 0 then
+		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, ActivityRaceCfg[slot1].main_activity_id, slot1), 0)
 	end
 end
 
-function var_0_0.RefreshCompleteRedPoint(arg_16_0, arg_16_1)
-	local var_16_0 = ActivityRaceCfg[arg_16_1].main_activity_id
-
-	if ActivityData:GetActivityIsOpen(arg_16_1) and arg_16_0.activityStateList_[arg_16_1].score <= 0 then
-		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, var_16_0, arg_16_1), 1)
+function slot0.RefreshCompleteRedPoint(slot0, slot1)
+	if ActivityData:GetActivityIsOpen(slot1) and slot0.activityStateList_[slot1].score <= 0 then
+		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, ActivityRaceCfg[slot1].main_activity_id, slot1), 1)
 	else
-		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, var_16_0, arg_16_1), 0)
+		manager.redPoint:setTip(string.format("%s_%s_%s_complete", RedPointConst.ACTIVITY_RACE, slot2, slot1), 0)
 	end
 end
 
-function var_0_0.RefreshRewardRedPoint(arg_17_0, arg_17_1)
-	local var_17_0 = ActivityRaceCfg[arg_17_1].main_activity_id
-
-	if arg_17_0.activityStateList_[arg_17_1].unreceiveCount > 0 then
-		manager.redPoint:setTip(string.format("%s_%s_%s_reward", RedPointConst.ACTIVITY_RACE, var_17_0, arg_17_1), 1)
+function slot0.RefreshRewardRedPoint(slot0, slot1)
+	if slot0.activityStateList_[slot1].unreceiveCount > 0 then
+		manager.redPoint:setTip(string.format("%s_%s_%s_reward", RedPointConst.ACTIVITY_RACE, ActivityRaceCfg[slot1].main_activity_id, slot1), 1)
 	else
-		manager.redPoint:setTip(string.format("%s_%s_%s_reward", RedPointConst.ACTIVITY_RACE, var_17_0, arg_17_1), 0)
+		manager.redPoint:setTip(string.format("%s_%s_%s_reward", RedPointConst.ACTIVITY_RACE, slot2, slot1), 0)
 	end
 end
 
-return var_0_0
+return slot0

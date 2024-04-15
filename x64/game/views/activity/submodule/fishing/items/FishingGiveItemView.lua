@@ -1,97 +1,92 @@
-local var_0_0 = class("FishingGiveItemView", ReduxView)
+slot0 = class("FishingGiveItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.fishListGo_, FishIcon)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.fishListGo_, FishIcon)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetId(arg_4_0.data_.fishList[arg_4_1], 1)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetId(slot0.data_.fishList[slot1], 1)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.giveBtn_, nil, function()
-		if FishingData:IsFriendGiveMax(arg_5_0.friendInfo_.user_id) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.giveBtn_, nil, function ()
+		if FishingData:IsFriendGiveMax(uv0.friendInfo_.user_id) then
 			ShowTips("DAILY_GIVE_RARE_FISH_LIMIT_TIP")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("fishingGivePop", {
-			data = arg_5_0.data_
+			data = uv0.data_
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_8_0)
-	arg_8_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_9_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.SetData(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0.data_ = arg_10_1
-	arg_10_0.friendInfo_ = arg_10_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.friendInfo_ = slot2
 
-	arg_10_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	arg_11_0.playerNameLabel_.text = GetI18NText(arg_11_0.friendInfo_.nick)
-	arg_11_0.playerHeadIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_11_0.friendInfo_.icon)
+function slot0.UpdateView(slot0)
+	slot0.playerNameLabel_.text = GetI18NText(slot0.friendInfo_.nick)
+	slot0.playerHeadIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.friendInfo_.icon)
 
-	arg_11_0.uiList_:StartScroll(#arg_11_0.data_.fishList)
+	slot0.uiList_:StartScroll(#slot0.data_.fishList)
 
-	if FishingData:IsFriendGiveMax(arg_11_0.data_.friendId) then
-		arg_11_0.statusController_:SetSelectedState("full")
+	if FishingData:IsFriendGiveMax(slot0.data_.friendId) then
+		slot0.statusController_:SetSelectedState("full")
 	else
-		arg_11_0.statusController_:SetSelectedState("normal")
+		slot0.statusController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_14_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	if arg_15_0.uiList_ then
-		arg_15_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_15_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

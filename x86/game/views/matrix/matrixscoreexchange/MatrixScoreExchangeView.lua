@@ -1,171 +1,162 @@
-local var_0_0 = class("MatrixScoreExchangeView", ReduxView)
+slot0 = class("MatrixScoreExchangeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/ScoreExchange/MatrixScoreExchangeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.exchangeList_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.scoreListGo_, MatrixScoreExchangeItem)
-	arg_4_0.passController = ControllerUtil.GetController(arg_4_0.transform_, "pass")
+	slot0.exchangeList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.scoreListGo_, MatrixScoreExchangeItem)
+	slot0.passController = ControllerUtil.GetController(slot0.transform_, "pass")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.oneKeyGetBtn_, nil, function()
-		local var_6_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_PT)
-		local var_6_1 = false
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.oneKeyGetBtn_, nil, function ()
+		slot1 = false
 
-		for iter_6_0, iter_6_1 in pairs(MatrixData:GetPointRewardList()) do
-			if var_6_0 >= MatrixPointRankCfg[iter_6_1.rank].point and iter_6_1.is_got_reward == 0 then
-				var_6_1 = true
+		for slot5, slot6 in pairs(MatrixData:GetPointRewardList()) do
+			if MatrixPointRankCfg[slot6.rank].point <= ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_PT) and slot6.is_got_reward == 0 then
+				slot1 = true
 
 				break
 			end
 		end
 
-		if var_6_1 then
+		if slot1 then
 			MatrixAction.OneKeyGetBonus()
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	arg_7_0:RegistEventListener(CURRENCY_UPDATE, function(arg_8_0)
-		if arg_8_0 == CurrencyConst.CURRENCY_TYPE_MATRIX_PT then
-			arg_7_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		if slot0 == CurrencyConst.CURRENCY_TYPE_MATRIX_PT then
+			uv0:UpdateView()
 
-			for iter_8_0, iter_8_1 in pairs(arg_7_0.exchangeList_:GetItemList()) do
-				iter_8_1:UpdateView()
+			for slot4, slot5 in pairs(uv0.exchangeList_:GetItemList()) do
+				slot5:UpdateView()
 			end
 		end
 	end)
 end
 
-function var_0_0.indexItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = MatrixData:GetPointRewardList()
+function slot0.indexItem(slot0, slot1, slot2)
+	slot3 = MatrixData:GetPointRewardList()
 
-	arg_9_2:SetData(arg_9_1, var_9_0[arg_9_1].rank, var_9_0[arg_9_1].item_list, var_9_0[arg_9_1].is_got_reward, var_9_0[arg_9_1].need_level)
+	slot2:SetData(slot1, slot3[slot1].rank, slot3[slot1].item_list, slot3[slot1].is_got_reward, slot3[slot1].need_level)
 end
 
-function var_0_0.UpdateBar(arg_10_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnMatrixSystemUpdate(arg_11_0)
-	arg_11_0:UpdateView()
+function slot0.OnMatrixSystemUpdate(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnMatrixUserUpdate(arg_12_0)
-	arg_12_0:UpdateView()
+function slot0.OnMatrixUserUpdate(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnGetMatrixExchangeBonus(arg_13_0)
-	arg_13_0:UpdateView()
-	arg_13_0.exchangeList_:StartScrollWithoutAnimator(#MatrixData:GetPointRewardList())
+function slot0.OnGetMatrixExchangeBonus(slot0)
+	slot0:UpdateView()
+	slot0.exchangeList_:StartScrollWithoutAnimator(#MatrixData:GetPointRewardList())
 end
 
-function var_0_0.UpdateView(arg_14_0)
-	local var_14_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_PT)
+function slot0.UpdateView(slot0)
+	slot0.myScoreText_.text = string.format("%d", ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_PT))
+	slot2 = false
 
-	arg_14_0.myScoreText_.text = string.format("%d", var_14_0)
-
-	local var_14_1 = false
-	local var_14_2 = MatrixData:GetTerminalLevel()
-
-	for iter_14_0, iter_14_1 in pairs(MatrixData:GetPointRewardList()) do
-		if var_14_0 >= MatrixPointRankCfg[iter_14_1.rank].point and iter_14_1.is_got_reward == 0 and var_14_2 >= iter_14_1.need_level then
-			var_14_1 = true
+	for slot7, slot8 in pairs(MatrixData:GetPointRewardList()) do
+		if MatrixPointRankCfg[slot8.rank].point <= slot1 and slot8.is_got_reward == 0 and slot8.need_level <= MatrixData:GetTerminalLevel() then
+			slot2 = true
 
 			break
 		end
 	end
 
-	if var_14_0 == 0 then
-		arg_14_0.passController:SetSelectedIndex(0)
-	elseif var_14_1 then
-		arg_14_0.passController:SetSelectedIndex(1)
+	if slot1 == 0 then
+		slot0.passController:SetSelectedIndex(0)
+	elseif slot2 then
+		slot0.passController:SetSelectedIndex(1)
 	else
-		arg_14_0.passController:SetSelectedIndex(2)
+		slot0.passController:SetSelectedIndex(2)
 	end
 end
 
-function var_0_0.OnTop(arg_15_0)
-	arg_15_0:UpdateView()
+function slot0.OnTop(slot0)
+	slot0:UpdateView()
 
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.exchangeList_:GetItemList()) do
-		iter_15_1:UpdateView()
+	for slot4, slot5 in pairs(slot0.exchangeList_:GetItemList()) do
+		slot5:UpdateView()
 	end
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	arg_16_0:UpdateBar()
-	arg_16_0.exchangeList_:StartScroll(#MatrixData:GetPointRewardList())
+function slot0.OnEnter(slot0)
+	slot0:UpdateBar()
+	slot0.exchangeList_:StartScroll(#MatrixData:GetPointRewardList())
 
-	arg_16_0.timer_ = Timer.New(function()
-		local var_17_0 = MatrixData:GetNextRefreshTime()
-
-		arg_16_0.countdownText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(var_17_0))
+	slot0.timer_ = Timer.New(function ()
+		uv0.countdownText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(MatrixData:GetNextRefreshTime()))
 	end, 0.2, -1)
 
-	arg_16_0.timer_:Start()
-	arg_16_0:UpdateView()
+	slot0.timer_:Start()
+	slot0:UpdateView()
 
-	arg_16_0.terminalLv = MatrixData:GetTerminalLevel()
+	slot0.terminalLv = MatrixData:GetTerminalLevel()
 
-	arg_16_0:RegistEventListener(CURRENCY_UPDATE, handler(arg_16_0, arg_16_0.OnTerminalExpChange))
+	slot0:RegistEventListener(CURRENCY_UPDATE, handler(slot0, slot0.OnTerminalExpChange))
 end
 
-function var_0_0.OnTerminalExpChange(arg_18_0, arg_18_1)
-	if arg_18_1 == CurrencyConst.CURRENCY_TYPE_MATRIX_TERMINAL_EXP then
+function slot0.OnTerminalExpChange(slot0, slot1)
+	if slot1 == CurrencyConst.CURRENCY_TYPE_MATRIX_TERMINAL_EXP then
 		MatrixData:UpdateTerminalLevel()
 
-		local var_18_0 = MatrixData:GetTerminalLevel()
-
-		if arg_18_0.terminalLv ~= var_18_0 then
-			arg_18_0.terminalLv = var_18_0
+		if slot0.terminalLv ~= MatrixData:GetTerminalLevel() then
+			slot0.terminalLv = slot2
 
 			JumpTools.OpenPageByJump("matrixTerminalLevelUpgrade", {
-				newLv = var_18_0
+				newLv = slot2
 			})
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_19_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_20_0)
-	if arg_20_0.exchangeList_ then
-		arg_20_0.exchangeList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.exchangeList_ then
+		slot0.exchangeList_:Dispose()
 
-		arg_20_0.exchangeList_ = nil
+		slot0.exchangeList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_20_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnMatrixSystemOverdue(arg_21_0)
-	arg_21_0:Back()
+function slot0.OnMatrixSystemOverdue(slot0)
+	slot0:Back()
 end
 
-return var_0_0
+return slot0

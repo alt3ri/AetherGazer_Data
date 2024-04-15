@@ -1,264 +1,241 @@
-local var_0_0 = class("ValentineGameTestView", ReduxView)
+slot0 = class("ValentineGameTestView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ValentineGameTools.GetTestUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ValentineGameTools.GetTestUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.levelData_ = {}
-	arg_4_0.rewardItems_ = {}
-	arg_4_0.levelBtn_ = {}
-	arg_4_0.levelText_ = {}
-	arg_4_0.levelStateCon_ = {}
-	arg_4_0.levelCompleteCon_ = {}
+	slot0.levelData_ = {}
+	slot0.rewardItems_ = {}
+	slot0.levelBtn_ = {}
+	slot0.levelText_ = {}
+	slot0.levelStateCon_ = {}
+	slot0.levelCompleteCon_ = {}
 
-	for iter_4_0 = 1, #ActivityCfg[arg_4_0.params_.activityID].sub_activity_list do
-		arg_4_0.levelBtn_[iter_4_0] = arg_4_0["level_" .. iter_4_0]
-		arg_4_0.levelText_[iter_4_0] = arg_4_0["levelText_" .. iter_4_0]
-		arg_4_0.levelStateCon_[iter_4_0] = ControllerUtil.GetController(arg_4_0.levelBtn_[iter_4_0].transform, "state")
-		arg_4_0.levelCompleteCon_[iter_4_0] = ControllerUtil.GetController(arg_4_0.levelBtn_[iter_4_0].transform, "complet")
+	for slot4 = 1, #ActivityCfg[slot0.params_.activityID].sub_activity_list do
+		slot0.levelBtn_[slot4] = slot0["level_" .. slot4]
+		slot0.levelText_[slot4] = slot0["levelText_" .. slot4]
+		slot0.levelStateCon_[slot4] = ControllerUtil.GetController(slot0.levelBtn_[slot4].transform, "state")
+		slot0.levelCompleteCon_[slot4] = ControllerUtil.GetController(slot0.levelBtn_[slot4].transform, "complet")
 	end
 
-	arg_4_0.rewardItems_ = {
-		ValentineGameSPRewardItem.New(arg_4_0.rewardGo_1),
-		ValentineGameSPRewardItem.New(arg_4_0.rewardGo_2),
-		(ValentineGameSPRewardItem.New(arg_4_0.rewardGo_3))
+	slot0.rewardItems_ = {
+		ValentineGameSPRewardItem.New(slot0.rewardGo_1),
+		ValentineGameSPRewardItem.New(slot0.rewardGo_2),
+		ValentineGameSPRewardItem.New(slot0.rewardGo_3)
 	}
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "state")
-	arg_4_0.indexCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "index")
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.indexCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "index")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	for iter_5_0 = 1, #ActivityCfg[arg_5_0.params_.activityID].sub_activity_list do
-		arg_5_0:AddBtnListener(arg_5_0.levelBtn_[iter_5_0], nil, function()
-			if manager.time:GetServerTime() < arg_5_0.levelData_[iter_5_0].startTime then
-				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_5_0.levelData_[iter_5_0].startTime)))
+function slot0.AddUIListeners(slot0)
+	for slot4 = 1, #ActivityCfg[slot0.params_.activityID].sub_activity_list do
+		slot0:AddBtnListener(slot0.levelBtn_[slot4], nil, function ()
+			if manager.time:GetServerTime() < uv0.levelData_[uv1].startTime then
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.levelData_[uv1].startTime)))
 			else
-				ValentineGameData:SetLastLevel(arg_5_0.activityID_, arg_5_0.list_[iter_5_0])
+				ValentineGameData:SetLastLevel(uv0.activityID_, uv0.list_[uv1])
 
-				arg_5_0.curIndex_ = iter_5_0
+				uv0.curIndex_ = uv1
 
-				arg_5_0:RefreshLevelTime()
-				arg_5_0:RefreshReward()
+				uv0:RefreshLevelTime()
+				uv0:RefreshReward()
 			end
 		end)
 	end
 
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		local var_7_0 = manager.time:GetServerTime()
-		local var_7_1 = arg_5_0.list_[arg_5_0.curIndex_]
-
-		if var_7_0 >= arg_5_0.levelData_[arg_5_0.curIndex_].startTime and var_7_0 < arg_5_0.levelData_[arg_5_0.curIndex_].stopTime then
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if uv0.levelData_[uv0.curIndex_].startTime <= manager.time:GetServerTime() and slot0 < uv0.levelData_[uv0.curIndex_].stopTime then
 			JumpTools.OpenPageByJump("/valentineGameLoading", {
-				mainActivityID = arg_5_0.activityID_,
-				activityID = var_7_1
+				mainActivityID = uv0.activityID_,
+				activityID = uv0.list_[uv0.curIndex_]
 			})
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
-		local var_8_0 = manager.time:GetServerTime()
-		local var_8_1 = arg_5_0.list_[arg_5_0.curIndex_]
-
-		if var_8_0 >= arg_5_0.levelData_[arg_5_0.curIndex_].startTime and var_8_0 < arg_5_0.levelData_[arg_5_0.curIndex_].stopTime then
-			ValentineGameAction:GetReward(var_8_1)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if uv0.levelData_[uv0.curIndex_].startTime <= manager.time:GetServerTime() and slot0 < uv0.levelData_[uv0.curIndex_].stopTime then
+			ValentineGameAction:GetReward(uv0.list_[uv0.curIndex_])
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:RefreshData()
-	arg_9_0:RefreshUI()
-	arg_9_0:BindUIRedPoint()
+function slot0.OnEnter(slot0)
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0:BindUIRedPoint()
 end
 
-function var_0_0.RefreshData(arg_10_0)
-	arg_10_0.activityID_ = arg_10_0.params_.activityID
-	arg_10_0.activityData_ = ActivityData:GetActivityData(arg_10_0.activityID_)
-	arg_10_0.startTime_ = arg_10_0.activityData_.startTime
-	arg_10_0.stopTime_ = arg_10_0.activityData_.stopTime
-	arg_10_0.list_ = ActivityCfg[arg_10_0.params_.activityID].sub_activity_list
+function slot0.RefreshData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
+	slot0.list_ = ActivityCfg[slot0.params_.activityID].sub_activity_list
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.list_) do
-		arg_10_0.levelData_[iter_10_0] = ActivityData:GetActivityData(iter_10_1)
+	for slot4, slot5 in ipairs(slot0.list_) do
+		slot0.levelData_[slot4] = ActivityData:GetActivityData(slot5)
 	end
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	local var_11_0 = ValentineGameData:GetLastLevel(arg_11_0.activityID_)
+function slot0.RefreshUI(slot0)
+	slot0.curIndex_ = table.indexof(slot0.list_, ValentineGameData:GetLastLevel(slot0.activityID_)) or 1
 
-	arg_11_0.curIndex_ = table.indexof(arg_11_0.list_, var_11_0) or 1
-
-	arg_11_0:RefreshTime()
-	arg_11_0:RefreshList()
-	arg_11_0:RefreshReward()
+	slot0:RefreshTime()
+	slot0:RefreshList()
+	slot0:RefreshReward()
 end
 
-function var_0_0.RefreshTime(arg_12_0)
-	local var_12_0
-	local var_12_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_12_0:StopTimer()
-	arg_12_0:RefreshLevelTime()
+	slot0:StopTimer()
+	slot0:RefreshLevelTime()
 
-	if var_12_1 < arg_12_0.startTime_ then
-		arg_12_0.timer_ = Timer.New(function()
-			var_12_0 = arg_12_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			arg_12_0:RefreshLevelTime()
+			uv1:RefreshLevelTime()
 
-			if var_12_0 <= 0 then
-				arg_12_0:StopTimer()
-				arg_12_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_12_0.timer_:Start()
-	elseif var_12_1 < arg_12_0.stopTime_ then
-		arg_12_0.timer_ = Timer.New(function()
-			var_12_0 = arg_12_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			arg_12_0:RefreshLevelTime()
+			uv1:RefreshLevelTime()
 
-			if var_12_0 <= 0 then
-				arg_12_0:StopTimer()
-				arg_12_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_12_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.RefreshLevelTime(arg_15_0)
-	local var_15_0 = manager.time:GetServerTime()
+function slot0.RefreshLevelTime(slot0)
+	for slot5, slot6 in ipairs(slot0.list_) do
+		if manager.time:GetServerTime() < slot0.levelData_[slot5].startTime then
+			slot0.levelStateCon_[slot5]:SetSelectedState("lock")
+			slot0.levelCompleteCon_[slot5]:SetSelectedState("false")
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.list_) do
-		local var_15_1 = arg_15_0.levelData_[iter_15_0].startTime
-
-		if var_15_0 < var_15_1 then
-			arg_15_0.levelStateCon_[iter_15_0]:SetSelectedState("lock")
-			arg_15_0.levelCompleteCon_[iter_15_0]:SetSelectedState("false")
-
-			arg_15_0.levelText_[iter_15_0].text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_15_1))
-		elseif iter_15_0 ~= arg_15_0.curIndex_ then
-			arg_15_0.levelStateCon_[iter_15_0]:SetSelectedState("normal")
+			slot0.levelText_[slot5].text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(slot7))
+		elseif slot5 ~= slot0.curIndex_ then
+			slot0.levelStateCon_[slot5]:SetSelectedState("normal")
 		else
-			arg_15_0.levelStateCon_[iter_15_0]:SetSelectedState("selected")
+			slot0.levelStateCon_[slot5]:SetSelectedState("selected")
 		end
 	end
 end
 
-function var_0_0.RefreshList(arg_16_0)
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.list_) do
-		local var_16_0 = ValentineGameData:GetData(iter_16_1)
-
-		if var_16_0 and var_16_0.isClear then
-			arg_16_0.levelCompleteCon_[iter_16_0]:SetSelectedState("true")
+function slot0.RefreshList(slot0)
+	for slot4, slot5 in ipairs(slot0.list_) do
+		if ValentineGameData:GetData(slot5) and slot6.isClear then
+			slot0.levelCompleteCon_[slot4]:SetSelectedState("true")
 		else
-			arg_16_0.levelCompleteCon_[iter_16_0]:SetSelectedState("false")
+			slot0.levelCompleteCon_[slot4]:SetSelectedState("false")
 		end
 	end
 end
 
-function var_0_0.RefreshReward(arg_17_0)
-	arg_17_0.indexCon_:SetSelectedState(arg_17_0.curIndex_)
-	ValentineGameData:SetNotNewOpen(arg_17_0.list_[arg_17_0.curIndex_])
+function slot0.RefreshReward(slot0)
+	slot0.indexCon_:SetSelectedState(slot0.curIndex_)
+	ValentineGameData:SetNotNewOpen(slot0.list_[slot0.curIndex_])
 
-	local var_17_0 = arg_17_0.list_[arg_17_0.curIndex_]
-	local var_17_1 = ActivityValentineCfg[var_17_0]
-	local var_17_2 = var_17_1.reward_item_list
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_2) do
-		arg_17_0.rewardItems_[iter_17_0]:SetData(iter_17_1)
+	for slot7, slot8 in ipairs(ActivityValentineCfg[slot0.list_[slot0.curIndex_]].reward_item_list) do
+		slot0.rewardItems_[slot7]:SetData(slot8)
 	end
 
-	for iter_17_2 = #var_17_2 + 1, #arg_17_0.rewardItems_ do
-		arg_17_0.rewardItems_[iter_17_2]:Show(false)
+	for slot7 = #slot3 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot7]:Show(false)
 	end
 
-	local var_17_3 = ValentineGameData:GetData(var_17_0)
-
-	if var_17_3 and var_17_3.isReward then
-		arg_17_0:SetPoint(var_17_3.point, var_17_1)
-		arg_17_0.stateCon_:SetSelectedState("received")
-	elseif var_17_3 and var_17_3.isClear then
-		arg_17_0:SetPoint(var_17_3.point, var_17_1)
-		arg_17_0.stateCon_:SetSelectedState("complete")
+	if ValentineGameData:GetData(slot1) and slot4.isReward then
+		slot0:SetPoint(slot4.point, slot2)
+		slot0.stateCon_:SetSelectedState("received")
+	elseif slot4 and slot4.isClear then
+		slot0:SetPoint(slot4.point, slot2)
+		slot0.stateCon_:SetSelectedState("complete")
 	else
-		arg_17_0.testText_.text = GetI18NText(var_17_1.desc)
+		slot0.testText_.text = GetI18NText(slot2.desc)
 
-		arg_17_0.stateCon_:SetSelectedState("test")
+		slot0.stateCon_:SetSelectedState("test")
 	end
 end
 
-function var_0_0.SetPoint(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0, var_18_1 = ValentineGameTools.GetPointRule(arg_18_0.params_.activityID)
+function slot0.SetPoint(slot0, slot1, slot2)
+	slot3, slot4 = ValentineGameTools.GetPointRule(slot0.params_.activityID)
 
-	if arg_18_1 <= var_18_0 then
-		arg_18_0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_1")
-		arg_18_0.completeText_.text = GetI18NText(arg_18_2.result_desc[1])
-	elseif arg_18_1 <= var_18_1 then
-		arg_18_0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_2")
-		arg_18_0.completeText_.text = GetI18NText(arg_18_2.result_desc[2])
+	if slot1 <= slot3 then
+		slot0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_1")
+		slot0.completeText_.text = GetI18NText(slot2.result_desc[1])
+	elseif slot1 <= slot4 then
+		slot0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_2")
+		slot0.completeText_.text = GetI18NText(slot2.result_desc[2])
 	else
-		arg_18_0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_3")
-		arg_18_0.completeText_.text = GetI18NText(arg_18_2.result_desc[3])
+		slot0.resultText_.text = GetTips("ACTIVITY_VALENTINE_RESULT_TITLE_3")
+		slot0.completeText_.text = GetI18NText(slot2.result_desc[3])
 	end
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.BindUIRedPoint(arg_20_0)
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.list_) do
-		manager.redPoint:bindUIandKey(arg_20_0.levelBtn_[iter_20_0].transform, RedPointConst.VALENTINE_GAME .. "_" .. iter_20_1)
+function slot0.BindUIRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.list_) do
+		manager.redPoint:bindUIandKey(slot0.levelBtn_[slot4].transform, RedPointConst.VALENTINE_GAME .. "_" .. slot5)
 	end
 end
 
-function var_0_0.UnBindUIRedPoint(arg_21_0)
-	for iter_21_0, iter_21_1 in ipairs(arg_21_0.list_) do
-		manager.redPoint:unbindUIandKey(arg_21_0.levelBtn_[iter_21_0].transform, RedPointConst.VALENTINE_GAME .. "_" .. iter_21_1)
+function slot0.UnBindUIRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.list_) do
+		manager.redPoint:unbindUIandKey(slot0.levelBtn_[slot4].transform, RedPointConst.VALENTINE_GAME .. "_" .. slot5)
 	end
 end
 
-function var_0_0.OnValentineGameReward(arg_22_0)
-	arg_22_0:RefreshReward()
+function slot0.OnValentineGameReward(slot0)
+	slot0:RefreshReward()
 end
 
-function var_0_0.OnTop(arg_23_0)
-	local var_23_0 = ValentineGameTools.GetGameHelpKey(arg_23_0.activityID_)
-
-	if var_23_0 ~= "" then
+function slot0.OnTop(slot0)
+	if ValentineGameTools.GetGameHelpKey(slot0.activityID_) ~= "" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR
 		})
-		manager.windowBar:SetGameHelpKey(var_23_0)
+		manager.windowBar:SetGameHelpKey(slot1)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -267,25 +244,25 @@ function var_0_0.OnTop(arg_23_0)
 	end
 end
 
-function var_0_0.OnExit(arg_24_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_24_0:StopTimer()
+	slot0:StopTimer()
 
-	for iter_24_0 = 1, #arg_24_0.rewardItems_ do
-		arg_24_0.rewardItems_[iter_24_0]:OnExit()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:OnExit()
 	end
 
-	arg_24_0:UnBindUIRedPoint()
+	slot0:UnBindUIRedPoint()
 end
 
-function var_0_0.Dispose(arg_25_0)
-	arg_25_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_25_0 = 1, #arg_25_0.rewardItems_ do
-		arg_25_0.rewardItems_[iter_25_0]:Dispose()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Dispose()
 	end
 
-	arg_25_0.super.Dispose(arg_25_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

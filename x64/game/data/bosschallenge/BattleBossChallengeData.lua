@@ -1,90 +1,89 @@
-local var_0_0 = singletonClass("BattleBossChallengeData")
+slot0 = singletonClass("BattleBossChallengeData")
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.nextRefreshTime_ = 0
-	arg_2_0.oldTime_ = 0
-	arg_2_0.cacheSelectBossIndex_ = getData("BossChallenge", "bossIndex") or 1
-	arg_2_0.openModeList_ = {}
-	arg_2_0.selectMode_ = 0
+function slot0.Init(slot0)
+	slot0.nextRefreshTime_ = 0
+	slot0.oldTime_ = 0
+	slot0.cacheSelectBossIndex_ = getData("BossChallenge", "bossIndex") or 1
+	slot0.openModeList_ = {}
+	slot0.selectMode_ = 0
 end
 
-function var_0_0.InitData(arg_3_0, arg_3_1)
+function slot0.InitData(slot0, slot1)
 	manager.redPoint:setTip(RedPointConst.BOSS_CHALLENGE_NORMAL, 0)
 	manager.redPoint:setTip(RedPointConst.BOSS_CHALLENGE_ADVANCE, 0)
 
-	arg_3_0.selectMode_ = arg_3_1.mode
+	slot0.selectMode_ = slot1.mode
 
-	if arg_3_0.nextRefreshTime_ ~= arg_3_1.next_refresh_time then
-		arg_3_0.oldTime_ = arg_3_0.nextRefreshTime_ ~= 0 and arg_3_0.nextRefreshTime_ or arg_3_1.next_refresh_time
+	if slot0.nextRefreshTime_ ~= slot1.next_refresh_time then
+		slot0.oldTime_ = slot0.nextRefreshTime_ ~= 0 and slot0.nextRefreshTime_ or slot1.next_refresh_time
 	end
 
-	arg_3_0.nextRefreshTime_ = arg_3_1.next_refresh_time
-	arg_3_0.openModeList_ = {}
+	slot0.nextRefreshTime_ = slot1.next_refresh_time
+	slot0.openModeList_ = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.difficulty_list) do
-		table.insert(arg_3_0.openModeList_, iter_3_1)
+	for slot5, slot6 in ipairs(slot1.difficulty_list) do
+		table.insert(slot0.openModeList_, slot6)
 	end
 
-	if arg_3_0.cooldownTimer_ then
-		arg_3_0.cooldownTimer_:Stop()
+	if slot0.cooldownTimer_ then
+		slot0.cooldownTimer_:Stop()
 
-		arg_3_0.cooldownTimer_ = nil
+		slot0.cooldownTimer_ = nil
 	end
 
-	arg_3_0.cooldownTimer_ = Timer.New(function()
-		if manager.time:GetServerTime() > arg_3_0.oldTime_ or arg_3_0.oldTime_ ~= arg_3_1.next_refresh_time then
-			arg_3_0.oldTime_ = arg_3_1.next_refresh_time
+	slot0.cooldownTimer_ = Timer.New(function ()
+		if uv0.oldTime_ < manager.time:GetServerTime() or uv0.oldTime_ ~= uv1.next_refresh_time then
+			uv0.oldTime_ = uv1.next_refresh_time
 
 			manager.notify:Invoke(BOSS_CHALLENGE_BACK_ENTRACE)
-			arg_3_0.cooldownTimer_:Stop()
+			uv0.cooldownTimer_:Stop()
 
-			arg_3_0.cooldownTimer_ = nil
+			uv0.cooldownTimer_ = nil
 		end
 	end, 1, -1)
 
-	arg_3_0.cooldownTimer_:Start()
+	slot0.cooldownTimer_:Start()
 end
 
-function var_0_0.GetNextRefreshTime(arg_5_0)
-	return arg_5_0.oldTime_
+function slot0.GetNextRefreshTime(slot0)
+	return slot0.oldTime_
 end
 
-function var_0_0.Reset(arg_6_0)
-	arg_6_0.selectMode_ = 0
+function slot0.Reset(slot0)
+	slot0.selectMode_ = 0
 end
 
-function var_0_0.GetOpenModeList(arg_7_0)
-	return arg_7_0.openModeList_
+function slot0.GetOpenModeList(slot0)
+	return slot0.openModeList_
 end
 
-function var_0_0.SetSelectMode(arg_8_0, arg_8_1)
-	arg_8_0.selectMode_ = arg_8_1
+function slot0.SetSelectMode(slot0, slot1)
+	slot0.selectMode_ = slot1
 end
 
-function var_0_0.GetSelectMode(arg_9_0)
-	return arg_9_0.selectMode_
+function slot0.GetSelectMode(slot0)
+	return slot0.selectMode_
 end
 
-function var_0_0.GetCacheSelectBossIndex(arg_10_0)
-	return arg_10_0.cacheSelectBossIndex_ or 1
+function slot0.GetCacheSelectBossIndex(slot0)
+	return slot0.cacheSelectBossIndex_ or 1
 end
 
-function var_0_0.SaveCacheSelectBossIndex(arg_11_0, arg_11_1)
-	saveData("BossChallenge", "bossIndex", arg_11_1)
+function slot0.SaveCacheSelectBossIndex(slot0, slot1)
+	saveData("BossChallenge", "bossIndex", slot1)
 
-	arg_11_0.cacheSelectBossIndex_ = arg_11_1
+	slot0.cacheSelectBossIndex_ = slot1
 end
 
-function var_0_0.GetRewardPreviewLevel(arg_12_0)
-	return getData("bossChallenge", string.format("rewardPreview_", arg_12_0.oldTime_))
+function slot0.GetRewardPreviewLevel(slot0)
+	return getData("bossChallenge", string.format("rewardPreview_", slot0.oldTime_))
 end
 
-function var_0_0.SetRewardPreviewLevel(arg_13_0, arg_13_1)
-	saveData("bossChallenge", string.format("rewardPreview_", arg_13_0.oldTime_), arg_13_1)
+function slot0.SetRewardPreviewLevel(slot0, slot1)
+	saveData("bossChallenge", string.format("rewardPreview_", slot0.oldTime_), slot1)
 end
 
-return var_0_0
+return slot0

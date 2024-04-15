@@ -1,87 +1,75 @@
-local var_0_0 = import("game.views.sectionSelect.SectionBaseItem")
-local var_0_1 = class("ActivityHeroEnhanceSectionItem", var_0_0)
+slot1 = class("ActivityHeroEnhanceSectionItem", import("game.views.sectionSelect.SectionBaseItem"))
 
-function var_0_1.IsOpenSectionInfo(arg_1_0)
-	return arg_1_0:IsOpenRoute("activityHeroEnhanceSectionInfo")
+function slot1.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("activityHeroEnhanceSectionInfo")
 end
 
-function var_0_1.OnCtor(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.gameObject_ = Object.Instantiate(arg_2_1, arg_2_2.transform)
-	arg_2_0.transform_ = arg_2_0.gameObject_.transform
+function slot1.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_1.InitUI(arg_4_0)
-	var_0_1.super.InitUI(arg_4_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 end
 
-function var_0_1.RefreshStar(arg_5_0)
-	local var_5_0 = BattleHeroEnhanceCfg[arg_5_0.stageID_]
-	local var_5_1 = ActivityHeroEnhanceData:IsStageClear(arg_5_0.activityId_, arg_5_0.stageID_)
+function slot1.RefreshStar(slot0)
+	slot1 = BattleHeroEnhanceCfg[slot0.stageID_]
 
-	for iter_5_0 = 1, 3 do
-		arg_5_0.threeStarBarList_[iter_5_0]:SetData(var_5_1)
+	for slot6 = 1, 3 do
+		slot0.threeStarBarList_[slot6]:SetData(ActivityHeroEnhanceData:IsStageClear(slot0.activityId_, slot0.stageID_))
 	end
 end
 
-function var_0_1.GetTag(arg_6_0)
-	local var_6_0 = BattleHeroEnhanceCfg[arg_6_0.stageID_]
-
-	return var_6_0 and var_6_0.tag or 0
+function slot1.GetTag(slot0)
+	return BattleHeroEnhanceCfg[slot0.stageID_] and slot1.tag or 0
 end
 
-function var_0_1.GetPosition(arg_7_0)
-	local var_7_0 = BattleHeroEnhanceCfg[arg_7_0.stageID_]
-
-	return var_7_0 and var_7_0.position or {
+function slot1.GetPosition(slot0)
+	return BattleHeroEnhanceCfg[slot0.stageID_] and slot1.position or {
 		0,
 		0
 	}
 end
 
-function var_0_1.RefreshData(arg_8_0)
-	arg_8_0.enoughLevel_ = true
-	arg_8_0.isLock_ = not arg_8_0:IsUnlockPreStage()
+function slot1.RefreshData(slot0)
+	slot0.enoughLevel_ = true
+	slot0.isLock_ = not slot0:IsUnlockPreStage()
 end
 
-function var_0_1.IsUnlockPreStage(arg_9_0)
-	local var_9_0 = ActivityHeroEnhanceCfg[arg_9_0.cfgId_]
-
-	return ActivityHeroEnhanceTools.IsCfgStageUnlock(var_9_0, arg_9_0.stageID_)
+function slot1.IsUnlockPreStage(slot0)
+	return ActivityHeroEnhanceTools.IsCfgStageUnlock(ActivityHeroEnhanceCfg[slot0.cfgId_], slot0.stageID_)
 end
 
-function var_0_1.SetData(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = ActivityHeroEnhanceCfg[arg_10_1]
+function slot1.SetData(slot0, slot1, slot2)
+	slot0.cfgId_ = slot1
+	slot0.activityId_ = ActivityHeroEnhanceCfg[slot1].activity_id
+	slot0.stageID_ = slot2
+	slot0.stageType_ = BattleConst.STAGE_TYPE_NEW.ACTIVITY_HERO_ENHANCE
 
-	arg_10_0.cfgId_ = arg_10_1
-	arg_10_0.activityId_ = var_10_0.activity_id
-	arg_10_0.stageID_ = arg_10_2
-	arg_10_0.stageType_ = BattleConst.STAGE_TYPE_NEW.ACTIVITY_HERO_ENHANCE
-
-	arg_10_0:RefreshData()
-	arg_10_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_1.SetClickHandler(arg_11_0, arg_11_1)
-	arg_11_0.onClickCallback_ = arg_11_1
+function slot1.SetClickHandler(slot0, slot1)
+	slot0.onClickCallback_ = slot1
 end
 
-function var_0_1.OnClick(arg_12_0)
-	if arg_12_0.onClickCallback_ then
-		arg_12_0.onClickCallback_(arg_12_0.stageID_, arg_12_0.isLock_)
+function slot1.OnClick(slot0)
+	if slot0.onClickCallback_ then
+		slot0.onClickCallback_(slot0.stageID_, slot0.isLock_)
 	end
 end
 
-function var_0_1.RefreshText(arg_13_0)
-	local var_13_0 = BattleStageTools.GetStageCfg(arg_13_0.stageType_, arg_13_0.stageID_)
-
-	arg_13_0.text_.text = GetI18NText(var_13_0.name)
+function slot1.RefreshText(slot0)
+	slot0.text_.text = GetI18NText(BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).name)
 end
 
-return var_0_1
+return slot1

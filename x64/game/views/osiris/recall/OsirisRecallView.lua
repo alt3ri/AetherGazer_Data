@@ -1,58 +1,54 @@
-local var_0_0 = class("OsirisRecallView", ReduxView)
+slot0 = class("OsirisRecallView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/OsirisRecallUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.list = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.m_list, OsirisRecallItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, OsirisRecallItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.data = ActivityStoryCollect[ActivityConst.OSIRIS_ACTIVITY] and ActivityStoryCollect[ActivityConst.OSIRIS_ACTIVITY].story_id or {}
+function slot0.OnEnter(slot0)
+	slot0.data = ActivityStoryCollect[ActivityConst.OSIRIS_ACTIVITY] and ActivityStoryCollect[ActivityConst.OSIRIS_ACTIVITY].story_id or {}
 
-	arg_8_0.list:StartScroll(#arg_8_0.data)
+	slot0.list:StartScroll(#slot0.data)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.data[arg_10_1]
-
-	arg_10_2:SetData(var_10_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.data[slot1])
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.list:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

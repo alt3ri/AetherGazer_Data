@@ -1,8 +1,8 @@
-local var_0_0 = class("PopItemNormalView", import("game.views.pop.PopItemView"))
-local var_0_1 = import("game.tools.ItemTools")
+slot0 = class("PopItemNormalView", import("game.views.pop.PopItemView"))
+slot1 = import("game.tools.ItemTools")
 
-function var_0_0.CustomInitUI(arg_1_0)
-	arg_1_0.super.CustomInitUI(arg_1_0)
+function slot0.CustomInitUI(slot0)
+	slot0.super.CustomInitUI(slot0)
 end
 
-return var_0_0
+return slot0

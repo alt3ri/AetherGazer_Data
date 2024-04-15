@@ -1,25 +1,22 @@
-local var_0_0 = class("BaseSignPage", ReduxView)
+slot0 = class("BaseSignPage", ReduxView)
 
-function var_0_0.AutoGetReward(arg_1_0)
-	return
+function slot0.AutoGetReward(slot0)
 end
 
-function var_0_0.SetActive(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.gameObject_, arg_2_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_2_1 then
-		arg_2_0:OnShow()
+	if slot1 then
+		slot0:OnShow()
 	else
-		arg_2_0:OnHide()
+		slot0:OnHide()
 	end
 end
 
-function var_0_0.OnShow(arg_3_0)
-	return
+function slot0.OnShow(slot0)
 end
 
-function var_0_0.OnHide(arg_4_0)
-	return
+function slot0.OnHide(slot0)
 end
 
-return var_0_0
+return slot0

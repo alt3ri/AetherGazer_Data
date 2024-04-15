@@ -1,82 +1,76 @@
-local var_0_0 = {}
-local var_0_1, var_0_2 = pcall(require, "bit")
+slot0 = {}
+slot1, slot2 = pcall(require, "bit")
 
-if not var_0_1 then
-	local var_0_3, var_0_4 = pcall(require, "bit32")
+if not slot1 then
+	slot1, slot2 = pcall(require, "bit32")
 end
 
-local var_0_5 = {
+slot3 = {
 	down = -2,
 	up = 2,
 	left = -1,
 	right = 1
 }
-local var_0_6 = {
-	[var_0_5.left] = Vector2.left,
-	[var_0_5.right] = Vector2.right,
-	[var_0_5.down] = Vector2.down,
-	[var_0_5.up] = Vector2.up
+slot4 = {
+	[slot3.left] = Vector2.left,
+	[slot3.right] = Vector2.right,
+	[slot3.down] = Vector2.down,
+	[slot3.up] = Vector2.up
 }
 
-local function var_0_7(arg_1_0, arg_1_1)
-	return arg_1_0 and arg_1_1 and arg_1_0 + arg_1_1 == 0
+function slot5(slot0, slot1)
+	return slot0 and slot1 and slot0 + slot1 == 0
 end
 
-local function var_0_8(arg_2_0, arg_2_1)
-	return arg_2_0 and arg_2_1 and arg_2_0 ~= arg_2_1
+function slot6(slot0, slot1)
+	return slot0 and slot1 and slot0 ~= slot1
 end
 
-local function var_0_9(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_0:IsGridEmpty(arg_3_1, arg_3_2) then
+function slot7(slot0, slot1, slot2)
+	if slot0:IsGridEmpty(slot1, slot2) then
 		return true
 	end
 
-	local var_3_0 = arg_3_0:Get(arg_3_1, arg_3_2)
-
-	return var_3_0 and var_3_0.isPlaceholder or false
+	return slot0:Get(slot1, slot2) and slot3.isPlaceholder or false
 end
 
-local function var_0_10(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	if arg_4_4 == var_0_5.left then
-		if arg_4_0 < arg_4_2 or arg_4_1 ~= arg_4_3 then
+function slot8(slot0, slot1, slot2, slot3, slot4)
+	if slot4 == uv0.left then
+		if slot0 < slot2 or slot1 ~= slot3 then
 			return false
 		end
-	elseif arg_4_4 == var_0_5.right then
-		if arg_4_2 < arg_4_0 or arg_4_1 ~= arg_4_3 then
+	elseif slot4 == uv0.right then
+		if slot2 < slot0 or slot1 ~= slot3 then
 			return false
 		end
-	elseif arg_4_4 == var_0_5.down then
-		if arg_4_1 < arg_4_3 or arg_4_0 ~= arg_4_2 then
+	elseif slot4 == uv0.down then
+		if slot1 < slot3 or slot0 ~= slot2 then
 			return false
 		end
-	elseif arg_4_4 == var_0_5.up and (arg_4_3 < arg_4_1 or arg_4_0 ~= arg_4_2) then
+	elseif slot4 == uv0.up and (slot3 < slot1 or slot0 ~= slot2) then
 		return false
 	end
 
 	return true
 end
 
-local function var_0_11(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4, arg_5_5)
-	if arg_5_5 == nil then
-		for iter_5_0, iter_5_1 in ipairs(var_0_5) do
-			if var_0_10(arg_5_1, arg_5_2, arg_5_3, arg_5_4, arg_5_5) and var_0_11(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4, iter_5_1) then
+function slot9(slot0, slot1, slot2, slot3, slot4, slot5)
+	if slot5 == nil then
+		for slot9, slot10 in ipairs(uv0) do
+			if uv1(slot1, slot2, slot3, slot4, slot5) and uv2(slot0, slot1, slot2, slot3, slot4, slot10) then
 				return true
 			end
 		end
 	else
-		local var_5_0 = var_0_6[arg_5_5]
-		local var_5_1 = arg_5_1 + var_5_0.x
-		local var_5_2 = arg_5_2 + var_5_0.y
+		slot6 = uv3[slot5]
+		slot8 = slot2 + slot6.y
 
-		if var_5_1 == arg_5_3 and var_5_2 == arg_5_4 then
+		if slot1 + slot6.x == slot3 and slot8 == slot4 then
 			return true
 		end
 
-		while var_0_9(arg_5_0, var_5_1, var_5_2) do
-			var_5_1 = var_5_1 + var_5_0.x
-			var_5_2 = var_5_2 + var_5_0.y
-
-			if var_5_1 == arg_5_3 and var_5_2 == arg_5_4 then
+		while uv4(slot0, slot7, slot8) do
+			if slot7 + slot6.x == slot3 and slot8 + slot6.y == slot4 then
 				return true
 			end
 		end
@@ -85,78 +79,79 @@ local function var_0_11(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4, arg_5_5)
 	return false
 end
 
-local function var_0_12(arg_6_0, arg_6_1, arg_6_2)
-	table.insert(arg_6_0, Vector2(arg_6_1, arg_6_2))
+function slot10(slot0, slot1, slot2)
+	table.insert(slot0, Vector2(slot1, slot2))
 
-	return arg_6_0
+	return slot0
 end
 
-local function var_0_13(arg_7_0, arg_7_1, arg_7_2, arg_7_3, arg_7_4)
-	local var_7_0 = {}
+function slot11(slot0, slot1, slot2, slot3, slot4)
+	slot5 = {}
 
-	for iter_7_0, iter_7_1 in pairs(var_0_5) do
-		if not var_0_7(iter_7_1, arg_7_0) and iter_7_1 ~= arg_7_0 then
-			table.insert(var_7_0, iter_7_1)
+	for slot9, slot10 in pairs(uv0) do
+		if not uv1(slot10, slot0) and slot10 ~= slot0 then
+			table.insert(slot5, slot10)
 		end
 	end
 
-	local var_7_1 = Vector2(arg_7_3 - arg_7_1, arg_7_4 - arg_7_2)
+	slot6 = Vector2(slot3 - slot1, slot4 - slot2)
 
-	CommonTools.UniversalSortEx(var_7_0, {
-		map = function(arg_8_0)
-			return Vector2.Dot(var_0_6[arg_8_0], var_7_1)
+	CommonTools.UniversalSortEx(slot5, {
+		map = function (slot0)
+			return Vector2.Dot(uv0[slot0], uv1)
 		end
 	})
 
-	return ipairs(var_7_0)
+	return ipairs(slot5)
 end
 
-local function var_0_14(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4, arg_9_5, arg_9_6, arg_9_7)
-	if var_0_10(arg_9_1, arg_9_2, arg_9_3, arg_9_4, arg_9_6) and var_0_11(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4, arg_9_6) then
+function slot12(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	if uv0(slot1, slot2, slot3, slot4, slot6) and uv1(slot0, slot1, slot2, slot3, slot4, slot6) then
 		return {}
 	end
 
-	if arg_9_5 == 0 then
+	if slot5 == 0 then
 		return nil
 	end
 
-	local var_9_0 = var_0_6[arg_9_6]
-	local var_9_1 = arg_9_1 + var_9_0.x
-	local var_9_2 = arg_9_2 + var_9_0.y
+	slot8 = uv2[slot6]
+	slot9 = slot1 + slot8.x
+	slot10 = slot2 + slot8.y
 
-	while var_0_9(arg_9_0, var_9_1, var_9_2) do
-		for iter_9_0, iter_9_1 in var_0_13(arg_9_6, arg_9_1, arg_9_2, arg_9_3, arg_9_4) do
-			local var_9_3 = var_0_14(arg_9_0, var_9_1, var_9_2, arg_9_3, arg_9_4, arg_9_5 - 1, iter_9_1, arg_9_7)
+	while uv3(slot0, slot9, slot10) do
+		slot14 = slot2
+		slot15 = slot3
 
-			if var_9_3 then
-				return var_0_12(var_9_3, var_9_1, var_9_2)
+		for slot14, slot15 in uv4(slot6, slot1, slot14, slot15, slot4) do
+			if uv5(slot0, slot9, slot10, slot3, slot4, slot5 - 1, slot15, slot7) then
+				return uv6(slot16, slot9, slot10)
 			end
 		end
 
-		var_9_1, var_9_2 = var_9_1 + var_9_0.x, var_9_2 + var_9_0.y
+		slot10 = slot10 + slot8.y
+		slot9 = slot9 + slot8.x
 	end
 
-	if var_9_1 == arg_9_3 and var_9_2 == arg_9_4 then
+	if slot9 == slot3 and slot10 == slot4 then
 		return {
-			Vector2(arg_9_1, arg_9_2)
+			Vector2(slot1, slot2)
 		}
 	end
 end
 
-function var_0_0.TestConnectivity(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4, arg_10_5)
-	if arg_10_1 == arg_10_3 and arg_10_2 == arg_10_4 then
+function slot0.TestConnectivity(slot0, slot1, slot2, slot3, slot4, slot5)
+	if slot1 == slot3 and slot2 == slot4 then
 		return nil
 	else
-		local var_10_0 = {}
+		slot10 = slot4
+		slot11 = slot1
 
-		for iter_10_0, iter_10_1 in var_0_13(nil, arg_10_3, arg_10_4, arg_10_1, arg_10_2) do
-			local var_10_1 = var_0_14(arg_10_0, arg_10_3, arg_10_4, arg_10_1, arg_10_2, arg_10_5, iter_10_1, var_10_0)
-
-			if var_10_1 then
-				return var_10_1
+		for slot10, slot11 in uv0(nil, slot3, slot10, slot11, slot2) do
+			if uv1(slot0, slot3, slot4, slot1, slot2, slot5, slot11, {}) then
+				return slot12
 			end
 		end
 	end
 end
 
-return var_0_0
+return slot0

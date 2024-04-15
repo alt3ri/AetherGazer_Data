@@ -1,150 +1,141 @@
-local var_0_0 = class("ActivityMemoryInfoView", ReduxView)
+slot0 = class("ActivityMemoryInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityMemoryTools.GetInfoUIName(arg_1_0.params_.activityId)
+function slot0.UIName(slot0)
+	return ActivityMemoryTools.GetInfoUIName(slot0.params_.activityId)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardItems_ = {}
-	arg_4_0.rewardCon_ = {}
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
+	slot0.rewardItems_ = {}
+	slot0.rewardCon_ = {}
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		TaskAction.SubmitTask(arg_5_0.taskID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction.SubmitTask(uv0.taskID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		local var_7_0 = arg_5_0.cfg_.activity_jump_id
-		local var_7_1 = ActivityData:GetActivityData(var_7_0)
-		local var_7_2 = var_7_1.startTime
-		local var_7_3 = var_7_1.stopTime
-		local var_7_4 = manager.time:GetServerTime()
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		slot1 = ActivityData:GetActivityData(uv0.cfg_.activity_jump_id)
+		slot3 = slot1.stopTime
 
-		if var_7_4 < var_7_2 then
+		if manager.time:GetServerTime() < slot1.startTime then
 			ShowTips("SOLO_NOT_OPEN")
 
 			return
 		end
 
-		if var_7_3 <= var_7_4 then
+		if slot3 <= slot4 then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		JumpTools.JumpToPage2(arg_5_0.taskCfg_.source)
+		JumpTools.JumpToPage2(uv0.taskCfg_.source)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:RefreshUI()
-	arg_9_0:RefreshReward()
-	arg_9_0:RefreshState()
-	arg_9_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_9_0, arg_9_0.RefreshState))
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	slot0:RefreshReward()
+	slot0:RefreshState()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshState))
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.id_ = arg_10_0.params_.id
-	arg_10_0.activityID_ = arg_10_0.params_.activityId
-	arg_10_0.cfg_ = SpringFestivalMemoryCfg[arg_10_0.id_]
-	arg_10_0.taskID_ = arg_10_0.cfg_.task_id
-	arg_10_0.taskCfg_ = AssignmentCfg[arg_10_0.taskID_]
-
-	local var_10_0 = ActivityMemoryTools.GetTaskActivityID(arg_10_0.activityID_)
-
-	arg_10_0.info_ = TaskData2:GetTask(arg_10_0.taskID_)
-	arg_10_0.desc_.text = arg_10_0.cfg_.des
-	arg_10_0.taskDes_.text = arg_10_0.taskCfg_.desc
-	arg_10_0.icon_.sprite = getSpriteWithoutAtlas(arg_10_0.cfg_.icon)
+function slot0.RefreshUI(slot0)
+	slot0.id_ = slot0.params_.id
+	slot0.activityID_ = slot0.params_.activityId
+	slot0.cfg_ = SpringFestivalMemoryCfg[slot0.id_]
+	slot0.taskID_ = slot0.cfg_.task_id
+	slot0.taskCfg_ = AssignmentCfg[slot0.taskID_]
+	slot1 = ActivityMemoryTools.GetTaskActivityID(slot0.activityID_)
+	slot0.info_ = TaskData2:GetTask(slot0.taskID_)
+	slot0.desc_.text = slot0.cfg_.des
+	slot0.taskDes_.text = slot0.taskCfg_.desc
+	slot0.icon_.sprite = getSpriteWithoutAtlas(slot0.cfg_.icon)
 end
 
-function var_0_0.RefreshState(arg_11_0)
-	if not arg_11_0.info_ then
-		arg_11_0.progress_.text = 0 .. "/" .. arg_11_0.taskCfg_.need
+function slot0.RefreshState(slot0)
+	if not slot0.info_ then
+		slot0.progress_.text = 0 .. "/" .. slot0.taskCfg_.need
 
-		arg_11_0.stateCon_:SetSelectedState("unfinish")
+		slot0.stateCon_:SetSelectedState("unfinish")
 	end
 
-	local var_11_0 = arg_11_0.info_.progress > arg_11_0.taskCfg_.need and arg_11_0.taskCfg_.need or arg_11_0.info_.progress
+	slot0.progress_.text = (slot0.taskCfg_.need < slot0.info_.progress and slot0.taskCfg_.need or slot0.info_.progress) .. "/" .. slot0.taskCfg_.need
 
-	arg_11_0.progress_.text = var_11_0 .. "/" .. arg_11_0.taskCfg_.need
+	if slot0.info_.complete_flag >= 1 then
+		slot0.stateCon_:SetSelectedState("received")
 
-	if arg_11_0.info_.complete_flag >= 1 then
-		arg_11_0.stateCon_:SetSelectedState("received")
-
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.rewardCon_) do
-			arg_11_0.rewardCon_[iter_11_0]:SetSelectedState("true")
+		for slot5, slot6 in ipairs(slot0.rewardCon_) do
+			slot0.rewardCon_[slot5]:SetSelectedState("true")
 		end
-	elseif arg_11_0.info_.progress >= arg_11_0.taskCfg_.need then
-		arg_11_0.stateCon_:SetSelectedState("complete")
+	elseif slot0.taskCfg_.need <= slot0.info_.progress then
+		slot0.stateCon_:SetSelectedState("complete")
 
-		for iter_11_2, iter_11_3 in ipairs(arg_11_0.rewardCon_) do
-			arg_11_0.rewardCon_[iter_11_2]:SetSelectedState("false")
+		for slot5, slot6 in ipairs(slot0.rewardCon_) do
+			slot0.rewardCon_[slot5]:SetSelectedState("false")
 		end
 	else
-		arg_11_0.stateCon_:SetSelectedState("unfinish")
-		arg_11_0.animator_:Play("IndiaRecallPopUI")
+		slot0.stateCon_:SetSelectedState("unfinish")
+		slot0.animator_:Play("IndiaRecallPopUI")
 
-		for iter_11_4, iter_11_5 in ipairs(arg_11_0.rewardCon_) do
-			arg_11_0.rewardCon_[iter_11_4]:SetSelectedState("false")
+		for slot5, slot6 in ipairs(slot0.rewardCon_) do
+			slot0.rewardCon_[slot5]:SetSelectedState("false")
 		end
 	end
 end
 
-function var_0_0.RefreshReward(arg_12_0)
-	local var_12_0 = arg_12_0.taskCfg_.reward
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(slot0.taskCfg_.reward) do
+		if not slot0.rewardItems_[slot5] then
+			slot0.rewardItems_[slot5] = RewardItem.New(slot0.rewardItem_, slot0.rewardParent_)
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_0) do
-		if not arg_12_0.rewardItems_[iter_12_0] then
-			arg_12_0.rewardItems_[iter_12_0] = RewardItem.New(arg_12_0.rewardItem_, arg_12_0.rewardParent_)
+			slot0.rewardItems_[slot5]:UpdateCommonItemAni()
 
-			arg_12_0.rewardItems_[iter_12_0]:UpdateCommonItemAni()
-
-			arg_12_0.rewardCon_[iter_12_0] = ControllerUtil.GetController(arg_12_0.rewardItems_[iter_12_0].transform_, "completed")
+			slot0.rewardCon_[slot5] = ControllerUtil.GetController(slot0.rewardItems_[slot5].transform_, "completed")
 		end
 
-		arg_12_0.rewardItems_[iter_12_0]:SetData(iter_12_1)
+		slot0.rewardItems_[slot5]:SetData(slot6)
 	end
 
-	for iter_12_2 = #var_12_0 + 1, #arg_12_0.rewardItems_ do
-		arg_12_0.rewardItems_[iter_12_2]:Show(false)
-	end
-end
-
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
-
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.rewardItems_) do
-		iter_13_1:OnExit()
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveAllListeners()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.rewardItems_) do
-		iter_14_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.rewardItems_) do
+		slot5:OnExit()
 	end
-
-	arg_14_0.rewardItems_ = {}
-	arg_14_0.rewardCon_ = {}
-
-	arg_14_0.super.Dispose(arg_14_0)
 end
 
-return var_0_0
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+
+	for slot4, slot5 in ipairs(slot0.rewardItems_) do
+		slot5:Dispose()
+	end
+
+	slot0.rewardItems_ = {}
+	slot0.rewardCon_ = {}
+
+	slot0.super.Dispose(slot0)
+end
+
+return slot0

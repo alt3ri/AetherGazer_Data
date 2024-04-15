@@ -1,107 +1,103 @@
-local var_0_0 = class("SailIslandRewardItem", ReduxView)
+slot0 = class("SailIslandRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.controller_ = ControllerUtil.GetController(arg_2_0.transform_, "status")
-	arg_2_0.rewardItemList_ = {}
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.rewardItemList_ = {}
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.activityID_ = arg_3_2
-	arg_3_0.taskID_ = arg_3_1.id
-	arg_3_0.type_ = arg_3_1.type
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.taskID_ = slot1.id
+	slot0.type_ = slot1.type
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.rewardItemList_) do
-		iter_4_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.rewardItemList_ = nil
+	slot0.rewardItemList_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_5_0.type_ == SailGameConst.TASK_TYPE.BUILDING then
-			SailGameAction.ReceiveTask(arg_5_0.activityID_, arg_5_0.taskID_, arg_5_0.type_)
+		if uv0.type_ == SailGameConst.TASK_TYPE.BUILDING then
+			SailGameAction.ReceiveTask(uv0.activityID_, uv0.taskID_, uv0.type_)
 		else
-			local var_6_0 = SailGameIslandLevelCfg[arg_5_0.taskID_].level
-
-			SailGameAction.ReceiveTask(arg_5_0.activityID_, var_6_0, arg_5_0.type_)
+			SailGameAction.ReceiveTask(uv0.activityID_, SailGameIslandLevelCfg[uv0.taskID_].level, uv0.type_)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshTitle()
-	arg_7_0:RefreshReward()
-	arg_7_0:RefreshProgress()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTitle()
+	slot0:RefreshReward()
+	slot0:RefreshProgress()
 end
 
-function var_0_0.RefreshTitle(arg_8_0)
-	if arg_8_0.type_ == SailGameConst.TASK_TYPE.BUILDING then
-		arg_8_0.contentText_.text = string.format(GetTips("ACTIVITY_SKADI_SEA_BUILD_REWARD_TIP"), SailGameBuildingCfg[arg_8_0.taskID_].name)
-		arg_8_0.rewardCfg_ = SailGameBuildingCfg[arg_8_0.taskID_].reward_item_list
+function slot0.RefreshTitle(slot0)
+	if slot0.type_ == SailGameConst.TASK_TYPE.BUILDING then
+		slot0.contentText_.text = string.format(GetTips("ACTIVITY_SKADI_SEA_BUILD_REWARD_TIP"), SailGameBuildingCfg[slot0.taskID_].name)
+		slot0.rewardCfg_ = SailGameBuildingCfg[slot0.taskID_].reward_item_list
 	else
-		arg_8_0.contentText_.text = string.format(GetTips("ACTIVITY_SKADI_SEA_LEVEL_REWARD_TIP"), NumberTools.IntToRomam(SailGameIslandLevelCfg[arg_8_0.taskID_].level))
-		arg_8_0.rewardCfg_ = SailGameIslandLevelCfg[arg_8_0.taskID_].reward_item_list
+		slot0.contentText_.text = string.format(GetTips("ACTIVITY_SKADI_SEA_LEVEL_REWARD_TIP"), NumberTools.IntToRomam(SailGameIslandLevelCfg[slot0.taskID_].level))
+		slot0.rewardCfg_ = SailGameIslandLevelCfg[slot0.taskID_].reward_item_list
 	end
 end
 
-function var_0_0.RefreshReward(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.rewardCfg_) do
-		if arg_9_0.rewardItemList_[iter_9_0] then
-			arg_9_0.rewardItemList_[iter_9_0]:SetData(iter_9_1, false)
+function slot0.RefreshReward(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardCfg_) do
+		if slot0.rewardItemList_[slot4] then
+			slot0.rewardItemList_[slot4]:SetData(slot5, false)
 		else
-			arg_9_0.rewardItemList_[iter_9_0] = RewardPoolItem.New(arg_9_0.goRewardPanel_, iter_9_1, false)
+			slot0.rewardItemList_[slot4] = RewardPoolItem.New(slot0.goRewardPanel_, slot5, false)
 		end
 	end
 
-	for iter_9_2 = #arg_9_0.rewardCfg_ + 1, #arg_9_0.rewardItemList_ do
-		arg_9_0.rewardItemList_[iter_9_2]:Show(false)
+	for slot4 = #slot0.rewardCfg_ + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_10_0)
-	local var_10_0 = false
-	local var_10_1 = false
+function slot0.RefreshProgress(slot0)
+	slot1 = false
+	slot2 = false
 
-	if arg_10_0.type_ == SailGameConst.TASK_TYPE.BUILDING then
-		var_10_1 = SailGameData:GetRceivedBuilding(arg_10_0.activityID_)[arg_10_0.taskID_] == true
-		var_10_0 = SailGameData:GetUnLockBuilding(arg_10_0.activityID_)[arg_10_0.taskID_] == true
+	if slot0.type_ == SailGameConst.TASK_TYPE.BUILDING then
+		slot2 = SailGameData:GetRceivedBuilding(slot0.activityID_)[slot0.taskID_] == true
+		slot1 = SailGameData:GetUnLockBuilding(slot0.activityID_)[slot0.taskID_] == true
 	else
-		local var_10_2 = SailGameIslandLevelCfg[arg_10_0.taskID_].level
-
-		var_10_1 = SailGameData:GetReceivedIslandLevel(arg_10_0.activityID_)[var_10_2] == true
-		var_10_0 = var_10_2 <= SailGameData:GetIslandLevel(arg_10_0.activityID_)
+		slot2 = SailGameData:GetReceivedIslandLevel(slot0.activityID_)[SailGameIslandLevelCfg[slot0.taskID_].level] == true
+		slot1 = slot3 <= SailGameData:GetIslandLevel(slot0.activityID_)
 	end
 
-	if var_10_1 == true then
-		arg_10_0.controller_:SetSelectedState("received")
-	elseif var_10_0 == true then
-		arg_10_0.controller_:SetSelectedState("complete")
+	if slot2 == true then
+		slot0.controller_:SetSelectedState("received")
+	elseif slot1 == true then
+		slot0.controller_:SetSelectedState("complete")
 	else
-		arg_10_0.controller_:SetSelectedState("uncomplete")
+		slot0.controller_:SetSelectedState("uncomplete")
 	end
 end
 
-return var_0_0
+return slot0

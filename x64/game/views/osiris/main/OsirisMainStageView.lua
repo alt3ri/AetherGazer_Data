@@ -1,116 +1,112 @@
-local var_0_0 = class("OsirisMainStageView", ReduxView)
+slot0 = class("OsirisMainStageView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.type_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.type_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	local var_2_0
+function slot0.OnEnter(slot0)
+	slot1 = nil
 
-	if arg_2_0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
-		var_2_0 = ActivityData:GetActivityData(ActivityConst.OSIRIS_STROY)
-	elseif arg_2_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
-		manager.redPoint:bindUIandKey(arg_2_0.transform_, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS))
+	if slot0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
+		slot1 = ActivityData:GetActivityData(ActivityConst.OSIRIS_STROY)
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
+		manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS))
 
-		var_2_0 = ActivityData:GetActivityData(ActivityConst.OSIRIS_CHESS)
-	elseif arg_2_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
-		manager.redPoint:bindUIandKey(arg_2_0.transform_, RedPointConst.OSIRIS_DEMON)
+		slot1 = ActivityData:GetActivityData(ActivityConst.OSIRIS_CHESS)
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
+		manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.OSIRIS_DEMON)
 
-		var_2_0 = ActivityData:GetActivityData(ActivityConst.OSIRIS_DEMON)
-	elseif arg_2_0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
-		manager.redPoint:bindUIandKey(arg_2_0.transform_, RedPointConst.OSIRIS_RACE_TRIAL)
+		slot1 = ActivityData:GetActivityData(ActivityConst.OSIRIS_DEMON)
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+		manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.OSIRIS_RACE_TRIAL)
 
-		var_2_0 = ActivityData:GetActivityData(ActivityConst.OSIRIS_TRIAL)
+		slot1 = ActivityData:GetActivityData(ActivityConst.OSIRIS_TRIAL)
 	end
 
-	arg_2_0.startTime_ = var_2_0.startTime
-	arg_2_0.stopTime_ = var_2_0.stopTime
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
 
-	arg_2_0:RefreshLock()
-	arg_2_0:AddTimer()
+	slot0:RefreshLock()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	if arg_3_0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
-		-- block empty
-	elseif arg_3_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
-		manager.redPoint:unbindUIandKey(arg_3_0.transform_, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS))
-	elseif arg_3_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
-		manager.redPoint:unbindUIandKey(arg_3_0.transform_, RedPointConst.OSIRIS_DEMON)
-	elseif arg_3_0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
-		manager.redPoint:unbindUIandKey(arg_3_0.transform_, RedPointConst.OSIRIS_RACE_TRIAL)
+function slot0.OnExit(slot0)
+	if slot0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
+		-- Nothing
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
+		manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS))
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
+		manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.OSIRIS_DEMON)
+	elseif slot0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+		manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.OSIRIS_RACE_TRIAL)
 	end
 
-	arg_3_0:StopTimer()
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
-		if manager.time:GetServerTime() < arg_5_0.startTime_ then
-			local var_6_0 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_6_0, manager.time:GetLostTimeStr(arg_5_0.startTime_)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.startTime_)))
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_5_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_5_0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
-			arg_5_0:Go("/osirisStoryStage")
-		elseif arg_5_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
-			arg_5_0:Go("/osirisChess")
-		elseif arg_5_0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
+		if uv0.type_ == BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY then
+			uv0:Go("/osirisStoryStage")
+		elseif uv0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_CHESS then
+			uv0:Go("/osirisChess")
+		elseif uv0.type_ == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON then
 			ActivityTools.JumpToSubmodulePage(ActivityConst.OSIRIS_DEMON)
-		elseif arg_5_0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
-			arg_5_0:Go("/raceTrial", {
+		elseif uv0.type_ == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+			uv0:Go("/raceTrial", {
 				activityID = ActivityConst.OSIRIS_TRIAL
 			})
 		end
 	end)
 end
 
-function var_0_0.RefreshLock(arg_7_0)
-	arg_7_0.controller_:SetSelectedState(tostring(manager.time:GetServerTime() < arg_7_0.startTime_))
+function slot0.RefreshLock(slot0)
+	slot0.controller_:SetSelectedState(tostring(manager.time:GetServerTime() < slot0.startTime_))
 end
 
-function var_0_0.AddTimer(arg_8_0)
-	local var_8_0 = GetTips("OPEN_TIME")
-
-	arg_8_0.textTime_.text = string.format(var_8_0, manager.time:GetLostTimeStr(arg_8_0.startTime_))
-	arg_8_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() < arg_8_0.startTime_ then
-			arg_8_0.textTime_.text = string.format(var_8_0, manager.time:GetLostTimeStr(arg_8_0.startTime_))
+function slot0.AddTimer(slot0)
+	slot0.textTime_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot0.startTime_))
+	slot0.timer_ = Timer.New(function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			uv0.textTime_.text = string.format(uv1, manager.time:GetLostTimeStr(uv0.startTime_))
 		else
-			arg_8_0:RefreshLock()
-			arg_8_0:StopTimer()
+			uv0:RefreshLock()
+			uv0:StopTimer()
 		end
 	end, 1, -1)
 
-	arg_8_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_10_0)
-	if arg_10_0.timer_ then
-		arg_10_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_10_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

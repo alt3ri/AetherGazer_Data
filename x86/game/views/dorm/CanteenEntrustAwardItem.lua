@@ -1,57 +1,57 @@
-local var_0_0 = class("CanteenEntrustAwardItem", ReduxView)
+slot0 = class("CanteenEntrustAwardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.awardItemListScroll_ = LuaList.New(handler(arg_3_0, arg_3_0.indexAwardItem), arg_3_0.awarduilistUilist_, DormDispatchAwardItem)
-	arg_3_0.extraController = ControllerUtil.GetController(arg_3_0.transform_, "extra")
+	slot0.awardItemListScroll_ = LuaList.New(handler(slot0, slot0.indexAwardItem), slot0.awarduilistUilist_, DormDispatchAwardItem)
+	slot0.extraController = ControllerUtil.GetController(slot0.transform_, "extra")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	arg_4_0.id = arg_4_1.id
-	arg_4_0.titletextText_.text = GetI18NText(BackHomeCanteenTaskCfg[arg_4_1.id].name) .. GetTips("CANTEEN_TASK_FINISH")
-	arg_4_0.itemList = {}
+function slot0.RefreshUI(slot0, slot1)
+	slot0.id = slot1.id
+	slot0.titletextText_.text = GetI18NText(BackHomeCanteenTaskCfg[slot1.id].name) .. GetTips("CANTEEN_TASK_FINISH")
+	slot0.itemList = {}
 
-	if arg_4_1.extra_reward == 1 then
-		arg_4_0.extraController:SetSelectedState("true")
+	if slot1.extra_reward == 1 then
+		slot0.extraController:SetSelectedState("true")
 	else
-		arg_4_0.extraController:SetSelectedState("false")
+		slot0.extraController:SetSelectedState("false")
 	end
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.award) do
-		table.insert(arg_4_0.itemList, iter_4_1)
+	for slot5, slot6 in ipairs(slot1.award) do
+		table.insert(slot0.itemList, slot6)
 	end
 
-	arg_4_0.awardItemListScroll_:StartScroll(#arg_4_0.itemList)
+	slot0.awardItemListScroll_:StartScroll(#slot0.itemList)
 end
 
-function var_0_0.indexAwardItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshUI(arg_5_0.itemList[arg_5_1])
+function slot0.indexAwardItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList[slot1])
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	arg_6_0.changeListFun = arg_6_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.changeListFun = slot1
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_7_0.awardItemListScroll_ then
-		arg_7_0.awardItemListScroll_:Dispose()
+	if slot0.awardItemListScroll_ then
+		slot0.awardItemListScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

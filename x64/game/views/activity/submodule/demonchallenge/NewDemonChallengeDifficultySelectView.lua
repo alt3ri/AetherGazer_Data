@@ -1,174 +1,162 @@
-local var_0_0 = class("NewDemonChallengeDifficultySelectView", ReduxView)
+slot0 = class("NewDemonChallengeDifficultySelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return nil
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.InitGo(arg_3_0, arg_3_1)
-	if arg_3_0.gameObject_ then
-		arg_3_0:Dispose()
-		Object.Destroy(arg_3_0.gameObject_)
+function slot0.InitGo(slot0, slot1)
+	if slot0.gameObject_ then
+		slot0:Dispose()
+		Object.Destroy(slot0.gameObject_)
 	end
 
-	local var_3_0 = Asset.Load(arg_3_1)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot1), slot0:UIParent())
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_3_0.gameObject_ = Object.Instantiate(var_3_0, arg_3_0:UIParent())
-	arg_3_0.transform_ = arg_3_0.gameObject_.transform
-
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-local var_0_1 = 3
+slot1 = 3
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectController_ = ControllerUtil.GetController(arg_4_0.transform_, "selectDifficulty")
-	arg_4_0.completedUIControllerS_ = {}
+	slot4 = "selectDifficulty"
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, slot4)
+	slot0.completedUIControllerS_ = {}
 
-	for iter_4_0 = 1, var_0_1 do
-		arg_4_0.completedUIControllerS_[iter_4_0] = ControllerUtil.GetController(arg_4_0[string.format("Level%dBtn_", iter_4_0)].transform, "completed")
+	for slot4 = 1, uv0 do
+		slot0.completedUIControllerS_[slot4] = ControllerUtil.GetController(slot0[string.format("Level%dBtn_", slot4)].transform, "completed")
 	end
 
-	arg_4_0.startImg_ = arg_4_0.startBtn_.gameObject:GetComponent(typeof(Image))
-	arg_4_0.affixItemList_ = {}
+	slot0.startImg_ = slot0.startBtn_.gameObject:GetComponent(typeof(Image))
+	slot0.affixItemList_ = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.startBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityId_) then
+function slot0.AddUIListener(slot0)
+	slot4 = slot0.startBtn_
+
+	slot0:AddBtnListener(slot4, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityId_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_5_0.difficultyIndex_ == nil then
+		if uv0.difficultyIndex_ == nil then
 			ShowTips("SELECT_CURRENT")
 
 			return
 		end
 
-		local var_6_0 = DemonChallengeTools.GetChildId(arg_5_0.activityId_, arg_5_0.difficultyIndex_, true)
-		local var_6_1 = DemonChallengeTools.GetStageId(arg_5_0.activityId_, arg_5_0.difficultyIndex_, true)
-
-		arg_5_0:Go("/sectionSelectHero", {
-			section = var_6_1,
+		uv0:Go("/sectionSelectHero", {
+			section = DemonChallengeTools.GetStageId(uv0.activityId_, uv0.difficultyIndex_, true),
 			sectionType = BattleConst.STAGE_TYPE_NEW.NEW_DEMON,
-			activityID = var_6_0
+			activityID = DemonChallengeTools.GetChildId(uv0.activityId_, uv0.difficultyIndex_, true)
 		})
 	end)
 
-	for iter_5_0 = 1, var_0_1 do
-		arg_5_0:AddBtnListener(arg_5_0[string.format("Level%dBtn_", iter_5_0)], nil, function()
-			if not ActivityData:GetActivityIsOpen(arg_5_0.activityId_) then
+	for slot4 = 1, uv0 do
+		slot0:AddBtnListener(slot0[string.format("Level%dBtn_", slot4)], nil, function ()
+			if not ActivityData:GetActivityIsOpen(uv0.activityId_) then
 				ShowTips("TIME_OVER")
 
 				return
 			end
 
-			arg_5_0:RefreshDifficult(iter_5_0)
+			uv0:RefreshDifficult(uv1)
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	if not arg_8_0.activityId_ or arg_8_0.params_.selectId ~= arg_8_0.activityId_ then
-		arg_8_0.activityId_ = arg_8_0.params_.selectId
+function slot0.OnEnter(slot0)
+	if not slot0.activityId_ or slot0.params_.selectId ~= slot0.activityId_ then
+		slot0.activityId_ = slot0.params_.selectId
 
-		if not arg_8_0.mainActivityId_ or arg_8_0.params_.activityId ~= arg_8_0.mainActivityId_ then
-			arg_8_0.mainActivityId_ = arg_8_0.params_.activityId
+		if not slot0.mainActivityId_ or slot0.params_.activityId ~= slot0.mainActivityId_ then
+			slot0.mainActivityId_ = slot0.params_.activityId
 
-			arg_8_0:InitGo(DemonChallengeTools.GetDifficultyUIName(arg_8_0.params_.activityId))
+			slot0:InitGo(DemonChallengeTools.GetDifficultyUIName(slot0.params_.activityId))
 		end
 	end
 
-	arg_8_0:RefreshCompletedUI()
-	arg_8_0:RefreshUI()
+	slot0:RefreshCompletedUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshSelectedUI()
-	arg_9_0:RefreshDesc()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshSelectedUI()
+	slot0:RefreshDesc()
 
-	local var_9_0 = NewDemonChallengeData:GetChallengeInfo(arg_9_0.activityId_)
-
-	if var_9_0.challengeInfo then
-		local var_9_1 = var_9_0.challengeInfo[3].challenge_state
-		local var_9_2 = var_9_0.challengeInfo[3].hurt_state
-
-		if var_9_1 == ActivityConst.DEMON_CHALLENGE_STATE.FINISHED and var_9_2 == ActivityConst.DEMON_CHALLENGE_HURT_STATE.NO_HURT then
-			arg_9_0.completedUIControllerS_[3]:SetSelectedState("nodamag")
+	if NewDemonChallengeData:GetChallengeInfo(slot0.activityId_).challengeInfo then
+		if slot1.challengeInfo[3].challenge_state == ActivityConst.DEMON_CHALLENGE_STATE.FINISHED and slot1.challengeInfo[3].hurt_state == ActivityConst.DEMON_CHALLENGE_HURT_STATE.NO_HURT then
+			slot0.completedUIControllerS_[3]:SetSelectedState("nodamag")
 		end
 	end
 end
 
-function var_0_0.RefreshCompletedUI(arg_10_0)
-	local var_10_0 = NewDemonChallengeData:GetChallengeInfo(arg_10_0.activityId_)
+function slot0.RefreshCompletedUI(slot0)
+	slot1 = NewDemonChallengeData:GetChallengeInfo(slot0.activityId_)
 
-	for iter_10_0 = 1, var_0_1 do
-		if var_10_0.challengeInfo and var_10_0.challengeInfo[iter_10_0].challenge_state ~= ActivityConst.DEMON_CHALLENGE_STATE.FINISHED then
-			arg_10_0.completedUIControllerS_[iter_10_0]:SetSelectedState("false")
+	for slot5 = 1, uv0 do
+		if slot1.challengeInfo and slot1.challengeInfo[slot5].challenge_state ~= ActivityConst.DEMON_CHALLENGE_STATE.FINISHED then
+			slot0.completedUIControllerS_[slot5]:SetSelectedState("false")
 		else
-			arg_10_0.completedUIControllerS_[iter_10_0]:SetSelectedState("true")
+			slot0.completedUIControllerS_[slot5]:SetSelectedState("true")
 		end
 	end
 end
 
-function var_0_0.RefreshDesc(arg_11_0)
-	local var_11_0 = ""
+function slot0.RefreshDesc(slot0)
+	slot1 = ""
 
-	if arg_11_0.difficultyIndex_ ~= nil then
-		local var_11_1 = DemonChallengeTools.GetChildId(arg_11_0.activityId_, arg_11_0.difficultyIndex_, true)
-
-		if var_11_1 then
-			var_11_0 = NewDemonChallengeCfg[var_11_1].difficulty_desc
-		end
+	if slot0.difficultyIndex_ ~= nil and DemonChallengeTools.GetChildId(slot0.activityId_, slot0.difficultyIndex_, true) then
+		slot1 = NewDemonChallengeCfg[slot2].difficulty_desc
 	end
 
-	if arg_11_0.descText_ then
-		arg_11_0.descText_.text = GetI18NText(var_11_0)
+	if slot0.descText_ then
+		slot0.descText_.text = GetI18NText(slot1)
 	end
 end
 
-function var_0_0.RefreshSelectedUI(arg_12_0)
-	if arg_12_0.difficultyIndex_ == nil then
-		arg_12_0.selectController_:SetSelectedState(tostring(var_0_1 + 1))
+function slot0.RefreshSelectedUI(slot0)
+	if slot0.difficultyIndex_ == nil then
+		slot0.selectController_:SetSelectedState(tostring(uv0 + 1))
 
-		if arg_12_0.startImg_ then
-			manager.effect:SetGrey(arg_12_0.startImg_, true)
+		if slot0.startImg_ then
+			manager.effect:SetGrey(slot0.startImg_, true)
 		end
 	else
-		arg_12_0.selectController_:SetSelectedState(tostring(arg_12_0.difficultyIndex_))
+		slot0.selectController_:SetSelectedState(tostring(slot0.difficultyIndex_))
 
-		if arg_12_0.startImg_ then
-			manager.effect:SetGrey(arg_12_0.startImg_, false)
+		if slot0.startImg_ then
+			manager.effect:SetGrey(slot0.startImg_, false)
 		end
 	end
 end
 
-function var_0_0.RefreshDifficult(arg_13_0, arg_13_1)
-	arg_13_0.difficultyIndex_ = arg_13_1
+function slot0.RefreshDifficult(slot0, slot1)
+	slot0.difficultyIndex_ = slot1
 
-	arg_13_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_14_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.affixItemList_) do
-		iter_15_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.affixItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_15_0.affixItemList_ = nil
+	slot0.affixItemList_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

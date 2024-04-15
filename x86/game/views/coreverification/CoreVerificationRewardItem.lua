@@ -1,107 +1,101 @@
-local var_0_0 = class("CoreVerificationRewardItem", ReduxView)
+slot0 = class("CoreVerificationRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
 		CoreVerificationAction.GetReward({
 			reward_list = {
-				arg_3_0.data_
+				uv0.data_
 			}
 		})
-		arg_3_0.controller_:SetSelectedState("complete")
+		uv0.controller_:SetSelectedState("complete")
 	end)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.rewardItems_ = {}
-	arg_5_0.controller_ = arg_5_0.allBtnController_:GetController("all")
+	slot0.rewardItems_ = {}
+	slot0.controller_ = slot0.allBtnController_:GetController("all")
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.data_ = arg_6_1
-	arg_6_0.type_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.type_ = slot2
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	local var_7_0 = CoreVerificationRewardCfg[arg_7_0.data_]
-	local var_7_1 = ConditionCfg[var_7_0.condition]
+function slot0.UpdateView(slot0)
+	slot2 = ConditionCfg[CoreVerificationRewardCfg[slot0.data_].condition]
+	slot0.titleText_.text = string.format(GetI18NText(slot2.desc), slot2.params[1])
+	slot3, slot4, slot5, slot6 = CoreVerificationData:GetTaskProcess(slot0.data_)
+	slot0.progressBar_.value = slot3 / slot4
+	slot0.progressText_.text = string.format("%s/%s", slot3, slot4)
 
-	arg_7_0.titleText_.text = string.format(GetI18NText(var_7_1.desc), var_7_1.params[1])
-
-	local var_7_2, var_7_3, var_7_4, var_7_5 = CoreVerificationData:GetTaskProcess(arg_7_0.data_)
-
-	arg_7_0.progressBar_.value = var_7_2 / var_7_3
-	arg_7_0.progressText_.text = string.format("%s/%s", var_7_2, var_7_3)
-
-	if var_7_5 then
-		arg_7_0.controller_:SetSelectedState("complete")
-	elseif var_7_4 then
-		arg_7_0.controller_:SetSelectedState("receive")
+	if slot6 then
+		slot0.controller_:SetSelectedState("complete")
+	elseif slot5 then
+		slot0.controller_:SetSelectedState("receive")
 	else
-		arg_7_0.controller_:SetSelectedState("lock")
+		slot0.controller_:SetSelectedState("lock")
 	end
 
-	local var_7_6 = var_7_0.reward or {}
+	for slot11, slot12 in ipairs(slot1.reward or {}) do
+		slot13 = formatReward(slot12)
+		slot14 = clone(ItemTemplateData)
 
-	for iter_7_0, iter_7_1 in ipairs(var_7_6) do
-		local var_7_7 = formatReward(iter_7_1)
-		local var_7_8 = clone(ItemTemplateData)
+		if slot0.rewardItems_[slot11] == nil then
+			slot0.rewardItems_[slot11] = CommonItemView.New(slot0[string.format("awardItem%dObj_", slot11)])
 
-		if arg_7_0.rewardItems_[iter_7_0] == nil then
-			arg_7_0.rewardItems_[iter_7_0] = CommonItemView.New(arg_7_0[string.format("awardItem%dObj_", iter_7_0)])
-			arg_7_0.rewardItems_[iter_7_0].ResetTransform = function()
-				return
+			slot0.rewardItems_[slot11].ResetTransform = function ()
 			end
 		end
 
-		var_7_8.id = var_7_7.id
-		var_7_8.number = var_7_7.num
-		var_7_8.timeValid = iter_7_1.timeValid or 0
-		var_7_8.completedFlag = arg_7_0.taskComplete_
-		var_7_8.clickFun = handler(arg_7_0, arg_7_0.OnClickCommonItem)
+		slot14.id = slot13.id
+		slot14.number = slot13.num
+		slot14.timeValid = slot12.timeValid or 0
+		slot14.completedFlag = slot0.taskComplete_
+		slot14.clickFun = handler(slot0, slot0.OnClickCommonItem)
 
-		arg_7_0.rewardItems_[iter_7_0]:SetData(var_7_8)
+		slot0.rewardItems_[slot11]:SetData(slot14)
 	end
 
-	for iter_7_2 = #var_7_0.reward + 1, #arg_7_0.rewardItems_ do
-		arg_7_0.rewardItems_[iter_7_2]:SetData(nil)
+	for slot11 = #slot1.reward + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot11]:SetData(nil)
 	end
 end
 
-function var_0_0.OnClickCommonItem(arg_9_0, arg_9_1)
+function slot0.OnClickCommonItem(slot0, slot1)
 	ShowPopItem(POP_ITEM, {
-		arg_9_1.id,
-		arg_9_1.number
+		slot1.id,
+		slot1.number
 	})
 	OperationRecorder.Record("task", "task_item")
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.rewardItems_) do
-		iter_11_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.rewardItems_ = {}
+	slot0.rewardItems_ = {}
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

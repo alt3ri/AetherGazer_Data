@@ -1,207 +1,203 @@
-local var_0_0 = class("NewSectionSelectHeroBaseView", ReduxView)
+slot0 = class("NewSectionSelectHeroBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Formation/FormationMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectHeroView_ = nil
-	arg_4_0.stageInfoView_ = nil
-	arg_4_0.reserveBtnController_ = arg_4_0.controllerExCollection_:GetController("reserveActive")
-	arg_4_0.totalEnergyController_ = arg_4_0.controllerExCollection_:GetController("totalEnergy")
+	slot0.selectHeroView_ = nil
+	slot0.stageInfoView_ = nil
+	slot0.reserveBtnController_ = slot0.controllerExCollection_:GetController("reserveActive")
+	slot0.totalEnergyController_ = slot0.controllerExCollection_:GetController("totalEnergy")
 end
 
-function var_0_0.AddListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.startBtn_, nil, function()
-		arg_5_0:OnClickStartBattle()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		uv0:OnClickStartBattle()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.reservesBtn_, nil, function()
-		if not arg_5_0.sectionProxy_.canChangeReserveProposal then
+	slot0:AddBtnListener(slot0.reservesBtn_, nil, function ()
+		if not uv0.sectionProxy_.canChangeReserveProposal then
 			return
 		end
 
-		arg_5_0:GotoReservesProposalUI()
+		uv0:GotoReservesProposalUI()
 	end)
 end
 
-function var_0_0.GotoReservesProposalUI(arg_8_0)
-	arg_8_0.sectionProxy_:GotoReservesProposalUI()
+function slot0.GotoReservesProposalUI(slot0)
+	slot0.sectionProxy_:GotoReservesProposalUI()
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:UpdateDefaultParams()
-	arg_9_0:UpdateSubViewParams()
-	arg_9_0:UpdateBar()
-	arg_9_0:UpdateCamera()
-	arg_9_0:ResetTempData()
-	arg_9_0:SubViewOnEnter()
-	arg_9_0:RefreshUI()
-	arg_9_0:RefreshCustomUI()
-	print(arg_9_0.stageID_)
+function slot0.OnEnter(slot0)
+	slot0:UpdateDefaultParams()
+	slot0:UpdateSubViewParams()
+	slot0:UpdateBar()
+	slot0:UpdateCamera()
+	slot0:ResetTempData()
+	slot0:SubViewOnEnter()
+	slot0:RefreshUI()
+	slot0:RefreshCustomUI()
+	print(slot0.stageID_)
 end
 
-function var_0_0.UpdateSubViewParams(arg_10_0)
-	arg_10_0.selectHeroView_:SetProxy(arg_10_0.sectionProxy_)
-	arg_10_0.stageInfoView_:SetProxy(arg_10_0.sectionProxy_)
+function slot0.UpdateSubViewParams(slot0)
+	slot0.selectHeroView_:SetProxy(slot0.sectionProxy_)
+	slot0.stageInfoView_:SetProxy(slot0.sectionProxy_)
 end
 
-function var_0_0.SubViewOnEnter(arg_11_0)
-	arg_11_0.sectionProxy_:OnSectionSelectEnter()
-	arg_11_0.selectHeroView_:OnEnter()
-	arg_11_0.stageInfoView_:OnEnter()
+function slot0.SubViewOnEnter(slot0)
+	slot0.sectionProxy_:OnSectionSelectEnter()
+	slot0.selectHeroView_:OnEnter()
+	slot0.stageInfoView_:OnEnter()
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0:RemoveAllEventListener()
-	arg_12_0:SubViewOnExit()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	slot0:SubViewOnExit()
 
-	arg_12_0.params_.isSorted = false
+	slot0.params_.isSorted = false
 
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
 end
 
-function var_0_0.SubViewOnExit(arg_13_0)
-	arg_13_0.sectionProxy_:OnSectionSelectExit()
-	arg_13_0.selectHeroView_:OnExit()
-	arg_13_0.stageInfoView_:OnExit()
+function slot0.SubViewOnExit(slot0)
+	slot0.sectionProxy_:OnSectionSelectExit()
+	slot0.selectHeroView_:OnExit()
+	slot0.stageInfoView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.selectHeroView_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.selectHeroView_:Dispose()
 
-	arg_14_0.selectHeroView_ = nil
+	slot0.selectHeroView_ = nil
 
-	arg_14_0.stageInfoView_:Dispose()
+	slot0.stageInfoView_:Dispose()
 
-	arg_14_0.stageInfoView_ = nil
+	slot0.stageInfoView_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.UpdateCamera(arg_15_0)
+function slot0.UpdateCamera(slot0)
 	manager.ui:SetMainCamera("battleHeroSelect")
 	manager.ui:AdaptUIByFOV()
 end
 
-function var_0_0.UpdateBar(arg_16_0)
-	arg_16_0.sectionProxy_:UpdateBar()
-	manager.windowBar:RegistBackCallBack(function()
+function slot0.UpdateBar(slot0)
+	slot0.sectionProxy_:UpdateBar()
+	manager.windowBar:RegistBackCallBack(function ()
 		CommonFilterData:ClearFilter(Filter_Root_Define.Hero_Filter_List.filter_id)
-		arg_16_0:Back()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateDefaultParams(arg_18_0)
-	arg_18_0.multiple_ = arg_18_0.params_.multiple or 1
-	arg_18_0.stageID_ = arg_18_0.params_.section
-	arg_18_0.stageType_ = arg_18_0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
-	arg_18_0.activityID_ = arg_18_0.params_.activityID
+function slot0.UpdateDefaultParams(slot0)
+	slot0.multiple_ = slot0.params_.multiple or 1
+	slot0.stageID_ = slot0.params_.section
+	slot0.stageType_ = slot0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
+	slot0.activityID_ = slot0.params_.activityID
 
-	if not arg_18_0.params_.reserveParams then
-		arg_18_0.params_.reserveParams = ReserveTools.GetReserveParams(arg_18_0.stageType_, arg_18_0.stageID_, arg_18_0.activityID_)
-	elseif not arg_18_0.params_.reserveParams.customData.activityID then
-		arg_18_0.params_.reserveParams.customData.activityID = arg_18_0.activityID_
+	if not slot0.params_.reserveParams then
+		slot0.params_.reserveParams = ReserveTools.GetReserveParams(slot0.stageType_, slot0.stageID_, slot0.activityID_)
+	elseif not slot0.params_.reserveParams.customData.activityID then
+		slot0.params_.reserveParams.customData.activityID = slot0.activityID_
 	end
 
-	arg_18_0.reserveParams_ = arg_18_0.params_.reserveParams
+	slot0.reserveParams_ = slot0.params_.reserveParams
 
-	if not arg_18_0.params_.sectionProxy then
-		local var_18_0 = arg_18_0.params_.heroDataType or HeroConst.HERO_DATA_TYPE.DEFAULT
-
-		arg_18_0.params_.sectionProxy = SectionSelectHeroTools.GetProxy(arg_18_0.params_, arg_18_0.reserveParams_, var_18_0)
+	if not slot0.params_.sectionProxy then
+		slot0.params_.sectionProxy = SectionSelectHeroTools.GetProxy(slot0.params_, slot0.reserveParams_, slot0.params_.heroDataType or HeroConst.HERO_DATA_TYPE.DEFAULT)
 	end
 
-	arg_18_0.sectionProxy_ = arg_18_0.params_.sectionProxy
+	slot0.sectionProxy_ = slot0.params_.sectionProxy
 
-	arg_18_0:TryReload()
+	slot0:TryReload()
 end
 
-function var_0_0.ResetTempData(arg_19_0)
-	arg_19_0.selectHeroView_:ResetTempData()
+function slot0.ResetTempData(slot0)
+	slot0.selectHeroView_:ResetTempData()
 end
 
-function var_0_0.RefreshUI(arg_20_0)
-	arg_20_0:RefreshReservesBtn()
-	arg_20_0:RefreshSortType()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReservesBtn()
+	slot0:RefreshSortType()
 end
 
-function var_0_0.RefreshCustomUI(arg_21_0)
-	return
+function slot0.RefreshCustomUI(slot0)
 end
 
-function var_0_0.RefreshSortType(arg_22_0)
-	if not arg_22_0.params_.isSorted then
+function slot0.RefreshSortType(slot0)
+	if not slot0.params_.isSorted then
 		HeroData:ResetSortValue()
 	end
 end
 
-function var_0_0.RefreshReservesBtn(arg_23_0)
-	local var_23_0 = true
-	local var_23_1 = arg_23_0.sectionProxy_:GetLockStateList() or {}
+function slot0.RefreshReservesBtn(slot0)
+	slot1 = true
 
-	for iter_23_0 = 1, 3 do
-		if var_23_1[iter_23_0] then
-			var_23_0 = false
+	for slot6 = 1, 3 do
+		if (slot0.sectionProxy_:GetLockStateList() or {})[slot6] then
+			slot1 = false
 		end
 	end
 
-	if arg_23_0.sectionProxy_.canChangeTeam == false then
-		var_23_0 = false
+	if slot0.sectionProxy_.canChangeTeam == false then
+		slot1 = false
 	end
 
-	arg_23_0.sectionProxy_.needReserveProposalPanel = var_23_0
-	arg_23_0.sectionProxy_.canChangeReserveProposal = var_23_0
+	slot0.sectionProxy_.needReserveProposalPanel = slot1
+	slot0.sectionProxy_.canChangeReserveProposal = slot1
 
-	arg_23_0.reserveBtnController_:SetSelectedState(tostring(arg_23_0.sectionProxy_.needReserveProposalPanel))
+	slot0.reserveBtnController_:SetSelectedState(tostring(slot0.sectionProxy_.needReserveProposalPanel))
 end
 
-function var_0_0.OnSectionClickHero(arg_24_0, arg_24_1)
-	arg_24_0.sectionProxy_:GotoHeroInfoUI(arg_24_1)
+function slot0.OnSectionClickHero(slot0, slot1)
+	slot0.sectionProxy_:GotoHeroInfoUI(slot1)
 end
 
-function var_0_0.OnClickStartBattle(arg_25_0)
-	local var_25_0, var_25_1 = arg_25_0.selectHeroView_:CheckCanStartBattle()
+function slot0.OnClickStartBattle(slot0)
+	slot1, slot2 = slot0.selectHeroView_:CheckCanStartBattle()
 
-	if var_25_0 then
-		arg_25_0:StartBattle()
-	elseif var_25_1 then
-		ShowTips(var_25_1)
+	if slot1 then
+		slot0:StartBattle()
+	elseif slot2 then
+		ShowTips(slot2)
 	end
 end
 
-function var_0_0.StartBattle(arg_26_0)
-	arg_26_0.sectionProxy_:StartBattle()
+function slot0.StartBattle(slot0)
+	slot0.sectionProxy_:StartBattle()
 end
 
-function var_0_0.GetStageInfoClass(arg_27_0)
-	return arg_27_0.sectionProxy_:GetStageInfoClass()
+function slot0.GetStageInfoClass(slot0)
+	return slot0.sectionProxy_:GetStageInfoClass()
 end
 
-function var_0_0.GetSelectHeroViewClass(arg_28_0)
-	return arg_28_0.sectionProxy_:GetSelectHeroViewClass()
+function slot0.GetSelectHeroViewClass(slot0)
+	return slot0.sectionProxy_:GetSelectHeroViewClass()
 end
 
-function var_0_0.TryReload(arg_29_0)
-	if not arg_29_0.createdSubview_ then
-		arg_29_0.createdSubview_ = true
-		arg_29_0.selectHeroView_ = arg_29_0:GetSelectHeroViewClass().New(arg_29_0.selectHeroGo_)
-		arg_29_0.stageInfoView_ = arg_29_0:GetStageInfoClass().New(arg_29_0.stageInfoGo_)
+function slot0.TryReload(slot0)
+	if not slot0.createdSubview_ then
+		slot0.createdSubview_ = true
+		slot0.selectHeroView_ = slot0:GetSelectHeroViewClass().New(slot0.selectHeroGo_)
+		slot0.stageInfoView_ = slot0:GetStageInfoClass().New(slot0.stageInfoGo_)
 	end
 
-	arg_29_0.selectHeroView_ = SectionSelectHeroTools.ReloadView(arg_29_0.selectHeroView_, arg_29_0.sectionProxy_:GetSelectHeroViewClass())
-	arg_29_0.stageInfoView_ = SectionSelectHeroTools.ReloadView(arg_29_0.stageInfoView_, arg_29_0.sectionProxy_:GetStageInfoClass())
+	slot0.selectHeroView_ = SectionSelectHeroTools.ReloadView(slot0.selectHeroView_, slot0.sectionProxy_:GetSelectHeroViewClass())
+	slot0.stageInfoView_ = SectionSelectHeroTools.ReloadView(slot0.stageInfoView_, slot0.sectionProxy_:GetStageInfoClass())
 end
 
-return var_0_0
+return slot0

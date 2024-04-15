@@ -1,65 +1,64 @@
-local var_0_0 = singletonClass("SignData")
-local var_0_1
-local var_0_2 = {}
+slot0 = singletonClass("SignData")
+slot1 = nil
+slot2 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = nil
-	var_0_2 = {}
+function slot0.Init(slot0)
+	uv0 = nil
+	uv1 = {}
 end
 
-function var_0_0.InitDailySignData(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function slot0.InitDailySignData(slot0, slot1)
+	slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.sign_list) do
-		table.insert(var_2_0, iter_2_1)
+	for slot6, slot7 in ipairs(slot1.sign_list) do
+		table.insert(slot2, slot7)
 	end
 
-	var_0_1 = {
+	uv0 = {
 		id = ActivityConst.SIGN,
-		year = arg_2_1.year,
-		month = arg_2_1.month,
-		day = arg_2_1.day,
-		days = var_2_0
+		year = slot1.year,
+		month = slot1.month,
+		day = slot1.day,
+		days = slot2
 	}
 end
 
-function var_0_0.InitSevenDaySignData(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_1.activity_id
-
-	var_0_2[var_3_0] = {
-		id = var_3_0,
-		signCount = arg_3_1.sign_count,
-		lastSignTime = arg_3_1.last_sign_time
+function slot0.InitSevenDaySignData(slot0, slot1)
+	slot2 = slot1.activity_id
+	uv0[slot2] = {
+		id = slot2,
+		signCount = slot1.sign_count,
+		lastSignTime = slot1.last_sign_time
 	}
 end
 
-function var_0_0.UpdateDailySign(arg_4_0, arg_4_1)
-	table.insert(var_0_1.days, arg_4_1)
+function slot0.UpdateDailySign(slot0, slot1)
+	table.insert(uv0.days, slot1)
 end
 
-function var_0_0.UpdateSevenDaySign(arg_5_0, arg_5_1, arg_5_2)
-	if var_0_2[arg_5_1] then
-		var_0_2[arg_5_1].signCount = var_0_2[arg_5_1].signCount + 1
-		var_0_2[arg_5_1].lastSignTime = arg_5_2
+function slot0.UpdateSevenDaySign(slot0, slot1, slot2)
+	if uv0[slot1] then
+		uv0[slot1].signCount = uv0[slot1].signCount + 1
+		uv0[slot1].lastSignTime = slot2
 	end
 end
 
-function var_0_0.GetDailySignInfo(arg_6_0)
-	return var_0_1
+function slot0.GetDailySignInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetSevenDaySignInfo(arg_7_0, arg_7_1)
-	return var_0_2[arg_7_1]
+function slot0.GetSevenDaySignInfo(slot0, slot1)
+	return uv0[slot1]
 end
 
-local var_0_3 = 1
+slot3 = 1
 
-function var_0_0.GetHistoryIndex(arg_8_0)
-	return var_0_3
+function slot0.GetHistoryIndex(slot0)
+	return uv0
 end
 
-function var_0_0.SetHistoryIndex(arg_9_0, arg_9_1)
-	var_0_3 = arg_9_1
+function slot0.SetHistoryIndex(slot0, slot1)
+	uv0 = slot1
 end
 
-return var_0_0
+return slot0

@@ -1,15 +1,15 @@
-local var_0_0 = singletonClass("GuildBossAssistantHeroData", BaseHeroViewData)
+slot0 = singletonClass("GuildBossAssistantHeroData", BaseHeroViewData)
 
-function var_0_0.GetHeroList(arg_1_0)
+function slot0.GetHeroList(slot0)
 	return GuildData:GetAssistantBriefList()
 end
 
-function var_0_0.GetHeroIDList(arg_2_0)
-	return arg_2_0.dataClass:GetHeroIDList(arg_2_0.tempHeroList)
+function slot0.GetHeroIDList(slot0)
+	return slot0.dataClass:GetHeroIDList(slot0.tempHeroList)
 end
 
-function var_0_0.GetHeroUsingSkinInfo(arg_3_0, arg_3_1)
-	return arg_3_0.dataClass:GetHeroUsingSkinInfo(arg_3_1, arg_3_0.tempHeroList)
+function slot0.GetHeroUsingSkinInfo(slot0, slot1)
+	return slot0.dataClass:GetHeroUsingSkinInfo(slot1, slot0.tempHeroList)
 end
 
-return var_0_0
+return slot0

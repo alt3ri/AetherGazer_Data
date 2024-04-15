@@ -1,101 +1,90 @@
-local var_0_0 = singletonClass("SlayerData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
+slot0 = singletonClass("SlayerData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 end
 
-function var_0_0.InitSlayerData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.slayer
-	local var_2_1 = var_2_0.activity_id
-	local var_2_2 = {}
-	local var_2_3 = {}
+function slot0.InitSlayerData(slot0, slot1)
+	slot2 = slot1.slayer
+	slot3 = slot2.activity_id
+	slot5 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0.got_reward_id_list) do
-		table.insert(var_2_2, iter_2_1)
+	for slot9, slot10 in ipairs(slot2.got_reward_id_list) do
+		table.insert({}, slot10)
 	end
 
-	for iter_2_2, iter_2_3 in ipairs(var_2_0.sub_activity_list) do
-		var_2_3[iter_2_3.activity_id] = iter_2_3.point
+	for slot9, slot10 in ipairs(slot2.sub_activity_list) do
+		slot5[slot10.activity_id] = slot10.point
 	end
 
-	var_0_2[var_2_1] = clone(var_0_1[var_2_1])
-	var_0_1[var_2_1] = {
-		got_reward_id_list = var_2_2,
-		slayer_point_list = var_2_3
+	uv0[slot3] = clone(uv1[slot3])
+	uv1[slot3] = {
+		got_reward_id_list = slot4,
+		slayer_point_list = slot5
 	}
 end
 
-function var_0_0.GetPoint(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = var_0_1[arg_3_1]
-
-	if var_3_0 then
-		return var_3_0.slayer_point_list[arg_3_2] or 0
+function slot0.GetPoint(slot0, slot1, slot2)
+	if uv0[slot1] then
+		return slot3.slayer_point_list[slot2] or 0
 	end
 
 	return 0
 end
 
-function var_0_0.GetRewardCount(arg_4_0, arg_4_1)
-	if var_0_1[arg_4_1] then
-		local var_4_0 = var_0_1[arg_4_1].got_reward_id_list
-
-		return var_4_0 and #var_4_0 or 0
+function slot0.GetRewardCount(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].got_reward_id_list and #slot3 or 0
 	end
 
 	return 0
 end
 
-function var_0_0.GetReceivedReward(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = var_0_1[arg_5_1]
-
-	if var_5_0 then
-		return not not table.indexof(var_5_0.got_reward_id_list, arg_5_2)
+function slot0.GetReceivedReward(slot0, slot1, slot2)
+	if uv0[slot1] then
+		return not not table.indexof(slot3.got_reward_id_list, slot2)
 	end
 
 	return false
 end
 
-function var_0_0.SetReceivedReward(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = var_0_1[arg_6_1]
-
-	if var_6_0 then
-		table.insert(var_6_0.got_reward_id_list, arg_6_2)
+function slot0.SetReceivedReward(slot0, slot1, slot2)
+	if uv0[slot1] then
+		table.insert(slot3.got_reward_id_list, slot2)
 	end
 end
 
-function var_0_0.GetOldGetPoint(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = var_0_2[arg_7_1]
-
-	if var_7_0 then
-		return var_7_0.slayer_point_list[arg_7_2] or 0
+function slot0.GetOldGetPoint(slot0, slot1, slot2)
+	if uv0[slot1] then
+		return slot3.slayer_point_list[slot2] or 0
 	end
 
 	return 0
 end
 
-function var_0_0.GetSlayerList(arg_8_0)
-	return var_0_1
+function slot0.GetSlayerList(slot0)
+	return uv0
 end
 
-function var_0_0.SetRead(arg_9_0, arg_9_1)
-	table.insert(var_0_3, arg_9_1)
+function slot0.SetRead(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetRead(arg_10_0, arg_10_1)
-	return table.indexof(var_0_3, arg_10_1)
+function slot0.GetRead(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetSelectIndex(arg_11_0, arg_11_1)
-	return getData(string.format("Slayer_%d", arg_11_1), "selectIndex")
+function slot0.GetSelectIndex(slot0, slot1)
+	return getData(string.format("Slayer_%d", slot1), "selectIndex")
 end
 
-function var_0_0.SetSelectIndex(arg_12_0, arg_12_1, arg_12_2)
-	saveData(string.format("Slayer_%d", arg_12_1), "selectIndex", arg_12_2)
+function slot0.SetSelectIndex(slot0, slot1, slot2)
+	saveData(string.format("Slayer_%d", slot1), "selectIndex", slot2)
 end
 
-return var_0_0
+return slot0

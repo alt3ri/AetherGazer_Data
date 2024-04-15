@@ -1,119 +1,114 @@
-local var_0_0 = class("ActivityQuestSubView", BaseView)
-local var_0_1 = {
+slot0 = class("ActivityQuestSubView", BaseView)
+slot1 = {
 	inProgress = 1,
 	done = 0,
 	complete = 2
 }
 
-local function var_0_2()
+function slot2()
 	return true
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	var_0_0.super.Ctor(arg_2_0, arg_2_1)
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_2_0.gameObject_ = arg_2_1
-	arg_2_0.transform_ = arg_2_1.transform
-	arg_2_0.itemCls = arg_2_4
-	arg_2_0.activity = arg_2_2
-	arg_2_0.taskFilter = arg_2_3 or var_0_2
-	arg_2_0.showSubmitAll = arg_2_5
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.itemCls = slot4
+	slot0.activity = slot2
+	slot0.taskFilter = slot3 or uv1
+	slot0.showSubmitAll = slot5
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.questList = LuaList.New(handler(arg_3_0, arg_3_0.UpdateQuestItem), arg_3_0.questList_, arg_3_0.itemCls)
+	slot0.questList = LuaList.New(handler(slot0, slot0.UpdateQuestItem), slot0.questList_, slot0.itemCls)
 
-	if arg_3_0.showSubmitAll then
-		arg_3_0.clearController = ControllerUtil.GetController(arg_3_0.transform_, "clear")
+	if slot0.showSubmitAll then
+		slot0.clearController = ControllerUtil.GetController(slot0.transform_, "clear")
 
-		arg_3_0:AddBtnListenerScale(arg_3_0.receiveBtn_, nil, function()
-			local var_4_0 = {}
+		slot0:AddBtnListenerScale(slot0.receiveBtn_, nil, function ()
+			slot0 = {}
 
-			for iter_4_0, iter_4_1 in ipairs(arg_3_0.quests) do
-				if iter_4_1.status == var_0_1.complete then
-					table.insert(var_4_0, iter_4_1.id)
+			for slot4, slot5 in ipairs(uv0.quests) do
+				if slot5.status == uv1.complete then
+					table.insert(slot0, slot5.id)
 				end
 			end
 
-			TaskAction:SubmitTaskList(var_4_0)
+			TaskAction:SubmitTaskList(slot0)
 		end)
 	end
 end
 
-function var_0_0.UpdateQuestItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.quests[arg_5_1]
-	local var_5_1 = var_5_0.id
-	local var_5_2 = var_5_0.activityID
+function slot0.UpdateQuestItem(slot0, slot1, slot2)
+	slot3 = slot0.quests[slot1]
 
-	arg_5_2:SetData(var_5_1, var_5_2)
+	slot2:SetData(slot3.id, slot3.activityID)
 
-	if arg_5_0.OnQuestItemRender then
-		arg_5_0:OnQuestItemRender(var_5_1, arg_5_2, arg_5_1)
+	if slot0.OnQuestItemRender then
+		slot0:OnQuestItemRender(slot4, slot2, slot1)
 	end
 end
 
-function var_0_0.RefreshAllTask(arg_6_0)
-	arg_6_0.quests = {}
+function slot0.RefreshAllTask(slot0)
+	slot0.quests = {}
+	slot1 = 0
 
-	local var_6_0 = 0
-	local var_6_1 = arg_6_0.activity
-	local var_6_2 = TaskData2:GetActivityTaskSortList(var_6_1)
+	for slot7, slot8 in pairs(TaskData2:GetActivityTaskSortList(slot0.activity)) do
+		if slot0.taskFilter(slot8) then
+			slot9 = uv0.inProgress
 
-	for iter_6_0, iter_6_1 in pairs(var_6_2) do
-		if arg_6_0.taskFilter(iter_6_1) then
-			local var_6_3 = var_0_1.inProgress
-
-			if iter_6_1.complete_flag >= 1 then
-				var_6_3 = var_0_1.done
-			elseif iter_6_1.progress >= AssignmentCfg[iter_6_1.id].need then
-				var_6_3 = var_0_1.complete
-				var_6_0 = var_6_0 + 1
+			if slot8.complete_flag >= 1 then
+				slot9 = uv0.done
+			elseif AssignmentCfg[slot8.id].need <= slot8.progress then
+				slot9 = uv0.complete
+				slot1 = slot1 + 1
 			end
 
-			table.insert(arg_6_0.quests, {
-				id = iter_6_1.id,
-				activityID = AssignmentCfg[iter_6_1.id].activity_id,
-				status = var_6_3
+			table.insert(slot0.quests, {
+				id = slot8.id,
+				activityID = AssignmentCfg[slot8.id].activity_id,
+				status = slot9
 			})
 		end
 	end
 
-	arg_6_0.completeQuest = var_6_0
+	slot0.completeQuest = slot1
 
-	if arg_6_0.showSubmitAll then
-		if var_6_0 > 0 then
-			arg_6_0.clearController:SetSelectedState("true")
+	if slot0.showSubmitAll then
+		if slot1 > 0 then
+			slot0.clearController:SetSelectedState("true")
 		else
-			arg_6_0.clearController:SetSelectedState("false")
+			slot0.clearController:SetSelectedState("false")
 		end
 	end
 
-	arg_6_0.questList:StartScroll(#arg_6_0.quests)
+	slot0.questList:StartScroll(#slot0.quests)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshAllTask()
-	arg_7_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_7_0, arg_7_0.RefreshAllTask))
+function slot0.OnEnter(slot0)
+	slot0:RefreshAllTask()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshAllTask))
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.questList then
-		arg_9_0.questList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.questList then
+		slot0.questList:Dispose()
 
-		arg_9_0.questList = nil
+		slot0.questList = nil
 	end
 
-	arg_9_0.quests = nil
+	slot0.quests = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

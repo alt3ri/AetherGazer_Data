@@ -1,5 +1,5 @@
-local var_0_0 = class("CombineGameStep", ComponentStep)
-local var_0_1 = {
+slot0 = class("CombineGameStep", ComponentStep)
+slot1 = {
 	[5919] = {
 		1,
 		3,
@@ -27,63 +27,61 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_1_0._eventName = GuideStepCfg[arg_1_0._stepId].params[1]
+	slot0._eventName = GuideStepCfg[slot0._stepId].params[1]
 end
 
-function var_0_0.EventTrigger(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_0._stepId == 5918 or arg_2_0._stepId == 5923 or arg_2_0._stepId == 5929 then
+function slot0.EventTrigger(slot0, slot1, slot2)
+	if slot0._stepId == 5918 or slot0._stepId == 5923 or slot0._stepId == 5929 then
 		CombineGameWorld.Instance.canDrag = true
 
-		arg_2_0:OnStepEnd()
+		slot0:OnStepEnd()
 
 		return
 	end
 
-	if (arg_2_0._stepId == 5934 or arg_2_0._stepId == 5938) and arg_2_1 == "pointerDown" then
+	if (slot0._stepId == 5934 or slot0._stepId == 5938) and slot1 == "pointerDown" then
 		CombineGameWorld.Instance.canDrag = true
 
-		arg_2_0:OnStepEnd()
+		slot0:OnStepEnd()
 
 		return
 	end
 
-	if arg_2_0._stepId == 5943 then
+	if slot0._stepId == 5943 then
 		CombineGameWorld.Instance.isTeach = false
 		CombineGameWorld.Instance.canDrag = true
 
-		arg_2_0:OnStepEnd()
+		slot0:OnStepEnd()
 
 		return
 	end
 
-	TimeTools.StartAfterSeconds(0.1, function()
-		if arg_2_0._stepId == nil then
+	TimeTools.StartAfterSeconds(0.1, function ()
+		if uv0._stepId == nil then
 			return
 		end
 
-		local var_3_0 = var_0_1[arg_2_0._stepId]
-
-		if var_3_0 == nil then
+		if uv1[uv0._stepId] == nil then
 			return
 		end
 
-		if CombineGameWorld.Instance:CheckBlock(var_3_0[1], var_3_0[2], var_3_0[3]) then
+		if CombineGameWorld.Instance:CheckBlock(slot0[1], slot0[2], slot0[3]) then
 			CombineGameWorld.Instance.canDrag = false
 
-			arg_2_0:OnStepEnd()
-		elseif arg_2_0._stepId == 5935 or arg_2_0._stepId == 5939 then
-			if arg_2_0._guide == nil then
+			uv0:OnStepEnd()
+		elseif uv0._stepId == 5935 or uv0._stepId == 5939 then
+			if uv0._guide == nil then
 				return
 			end
 
-			arg_2_0._guide:AddNextStep(GuideStepCfg[arg_2_0._stepId])
-			arg_2_0._guide:AddNextStep(GuideStepCfg[arg_2_0._stepId - 1])
-			arg_2_0:OnStepEnd()
+			uv0._guide:AddNextStep(GuideStepCfg[uv0._stepId])
+			uv0._guide:AddNextStep(GuideStepCfg[uv0._stepId - 1])
+			uv0:OnStepEnd()
 		end
 	end, {})
 end
 
-return var_0_0
+return slot0

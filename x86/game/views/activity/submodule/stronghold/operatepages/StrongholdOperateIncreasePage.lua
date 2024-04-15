@@ -1,202 +1,178 @@
-local var_0_0 = class("StrongholdOperateSkillPage", StrongholdOperateBasePage)
+slot0 = class("StrongholdOperateSkillPage", StrongholdOperateBasePage)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.hander_ = arg_1_1
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.hander_ = slot1
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/VersionUI/XuHeng3rdUI/Stronghold/Operate/StrongholdIncreaseUI"), slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load("UI/VersionUI/XuHeng3rdUI/Stronghold/Operate/StrongholdIncreaseUI")
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:Refresh()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:Refresh()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.node_list = {}
+	slot0.node_list = {}
 
-	local var_4_0 = ActivityStrongholdIncreaseCfg.get_id_list_by_skill_id
+	for slot5, slot6 in pairs(ActivityStrongholdIncreaseCfg.get_id_list_by_skill_id) do
+		slot8 = StrongholdOperateIncreaseItem.New(slot0.m_nodes:Find(tostring(slot5)), slot5)
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0) do
-		local var_4_1 = arg_4_0.m_nodes:Find(tostring(iter_4_0))
-		local var_4_2 = StrongholdOperateIncreaseItem.New(var_4_1, iter_4_0)
+		slot8:RegistCallBack(handler(slot0, slot0.SetSelectNode))
 
-		var_4_2:RegistCallBack(handler(arg_4_0, arg_4_0.SetSelectNode))
-
-		arg_4_0.node_list[iter_4_0] = var_4_2
+		slot0.node_list[slot5] = slot8
 	end
 
-	arg_4_0.stateConotroller = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.showConotroller = ControllerUtil.GetController(arg_4_0.transform_, "show")
+	slot0.stateConotroller = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.showConotroller = ControllerUtil.GetController(slot0.transform_, "show")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_unlockBtn, nil, function()
-		if arg_5_0.curNodeId == nil then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_unlockBtn, nil, function ()
+		if uv0.curNodeId == nil then
 			return
 		end
 
-		StrongholdAction.QueryUpgradeIncrease(arg_5_0.activity_id, arg_5_0.curNodeId)
+		StrongholdAction.QueryUpgradeIncrease(uv0.activity_id, uv0.curNodeId)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_upgradeBtn, nil, function()
-		if arg_5_0.curNodeId == nil then
+	slot0:AddBtnListener(slot0.m_upgradeBtn, nil, function ()
+		if uv0.curNodeId == nil then
 			return
 		end
 
-		StrongholdAction.QueryUpgradeIncrease(arg_5_0.activity_id, arg_5_0.curNodeId)
+		StrongholdAction.QueryUpgradeIncrease(uv0.activity_id, uv0.curNodeId)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_mask, nil, function()
-		arg_5_0:SetSelectNode(nil)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0:SetSelectNode(nil)
 	end)
 end
 
-function var_0_0.Refresh(arg_9_0, arg_9_1)
-	arg_9_0.activity_id = arg_9_1
+function slot0.Refresh(slot0, slot1)
+	slot0.activity_id = slot1
 
-	arg_9_0:SetSelectNode(nil, false)
-	arg_9_0:RefreshUI()
+	slot0:SetSelectNode(nil, false)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.all_level, arg_10_0.all_poit = StrongholdData:GetStrongholdLevelAndIncreasePoint(arg_10_0.activity_id)
-	arg_10_0.m_allLvLab.text = arg_10_0.all_level
-	arg_10_0.use_point = StrongholdData:GetUsePoint(arg_10_0.activity_id)
+function slot0.RefreshUI(slot0)
+	slot0.all_level, slot0.all_poit = StrongholdData:GetStrongholdLevelAndIncreasePoint(slot0.activity_id)
+	slot0.m_allLvLab.text = slot0.all_level
+	slot0.use_point = StrongholdData:GetUsePoint(slot0.activity_id)
+	slot5 = slot0.all_poit - slot0.use_point
+	slot0.m_point.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_LEFT"), slot5)
 
-	local var_10_0 = arg_10_0.all_poit - arg_10_0.use_point
-
-	arg_10_0.m_point.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_LEFT"), var_10_0)
-
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.node_list) do
-		local var_10_1 = StrongholdData:GetIncreaseLevel(arg_10_0.activity_id, iter_10_1.node_id)
-
-		iter_10_1:Refresh(var_10_1, var_10_0)
+	for slot5, slot6 in pairs(slot0.node_list) do
+		slot6:Refresh(StrongholdData:GetIncreaseLevel(slot0.activity_id, slot6.node_id), slot1)
 	end
 end
 
-function var_0_0.SetSelectNode(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	arg_11_0.curNodeId = arg_11_1
+function slot0.SetSelectNode(slot0, slot1, slot2, slot3)
+	slot0.curNodeId = slot1
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.node_list) do
-		iter_11_1:SetSelect(arg_11_0.curNodeId)
+	for slot7, slot8 in pairs(slot0.node_list) do
+		slot8:SetSelect(slot0.curNodeId)
 	end
 
-	if arg_11_0.curNodeId == nil then
-		arg_11_0.showConotroller:SetSelectedIndex(0)
+	if slot0.curNodeId == nil then
+		slot0.showConotroller:SetSelectedIndex(0)
 
-		arg_11_0.m_scrollCom.movementType = ScrollRect.MovementType.Elastic
+		slot0.m_scrollCom.movementType = ScrollRect.MovementType.Elastic
 
-		arg_11_0:RemoveTween()
+		slot0:RemoveTween()
 
 		return
 	end
 
-	local var_11_0 = arg_11_3.transform_:TransformPoint(Vector3(0, 0, 0))
-	local var_11_1 = arg_11_0.m_scrollContent.transform:InverseTransformPoint(var_11_0)
-	local var_11_2 = Vector3.New(-var_11_1.x, 0, 0)
+	slot0:RemoveTween()
 
-	arg_11_0:RemoveTween()
+	slot0.tween_ = LeanTween.moveLocal(slot0.m_scrollContent.gameObject, Vector3.New(-slot0.m_scrollContent.transform:InverseTransformPoint(slot3.transform_:TransformPoint(Vector3(0, 0, 0))).x, 0, 0), 0.2)
+	slot0.m_scrollCom.movementType = ScrollRect.MovementType.Unrestricted
 
-	arg_11_0.tween_ = LeanTween.moveLocal(arg_11_0.m_scrollContent.gameObject, var_11_2, 0.2)
-	arg_11_0.m_scrollCom.movementType = ScrollRect.MovementType.Unrestricted
+	slot0.showConotroller:SetSelectedIndex(1)
+	slot0:RefreshRightInfo()
 
-	arg_11_0.showConotroller:SetSelectedIndex(1)
-	arg_11_0:RefreshRightInfo()
-
-	if arg_11_2 then
-		arg_11_0.m_animator:Play("Fx_messagebg_cx_01", 0, 0)
+	if slot2 then
+		slot0.m_animator:Play("Fx_messagebg_cx_01", 0, 0)
 	end
 end
 
-function var_0_0.RefreshRightInfo(arg_12_0)
-	local var_12_0 = ActivityStrongholdIncreaseCfg.get_id_list_by_skill_id[arg_12_0.curNodeId]
-	local var_12_1 = StrongholdData:GetIncreaseLevel(arg_12_0.activity_id, arg_12_0.curNodeId)
+function slot0.RefreshRightInfo(slot0)
+	if StrongholdData:GetIncreaseLevel(slot0.activity_id, slot0.curNodeId) == 0 then
+		slot0.stateConotroller:SetSelectedIndex(0)
 
-	if var_12_1 == 0 then
-		arg_12_0.stateConotroller:SetSelectedIndex(0)
+		slot4 = ActivityStrongholdIncreaseCfg[ActivityStrongholdIncreaseCfg.get_id_list_by_skill_id[slot0.curNodeId][1]]
+		slot0.m_name.text = slot4.skill_name
+		slot0.m_des.text = slot0:GetSkillDes(slot4)
+		slot0.m_lvLab.text = "Lv" .. slot4.skill_level
+		slot0.m_nextLvDes.text = ""
+		slot0.m_costLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_COST"), slot4.cost)
+		slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. slot4.skill_id)
+	elseif slot2 >= #slot1 then
+		slot0.stateConotroller:SetSelectedIndex(2)
 
-		local var_12_2 = var_12_0[1]
-		local var_12_3 = ActivityStrongholdIncreaseCfg[var_12_2]
-
-		arg_12_0.m_name.text = var_12_3.skill_name
-		arg_12_0.m_des.text = arg_12_0:GetSkillDes(var_12_3)
-		arg_12_0.m_lvLab.text = "Lv" .. var_12_3.skill_level
-		arg_12_0.m_nextLvDes.text = ""
-		arg_12_0.m_costLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_COST"), var_12_3.cost)
-		arg_12_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. var_12_3.skill_id)
-	elseif var_12_1 >= #var_12_0 then
-		arg_12_0.stateConotroller:SetSelectedIndex(2)
-
-		local var_12_4 = var_12_0[#var_12_0]
-		local var_12_5 = ActivityStrongholdIncreaseCfg[var_12_4]
-
-		arg_12_0.m_name.text = var_12_5.skill_name
-		arg_12_0.m_des.text = arg_12_0:GetSkillDes(var_12_5)
-		arg_12_0.m_lvLab.text = GetTips("ACTIVITY_STRONGHOLD_SKILL_MAX")
-		arg_12_0.m_nextLvDes.text = ""
-		arg_12_0.m_costLab.text = ""
-		arg_12_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. var_12_5.skill_id)
+		slot4 = ActivityStrongholdIncreaseCfg[slot1[#slot1]]
+		slot0.m_name.text = slot4.skill_name
+		slot0.m_des.text = slot0:GetSkillDes(slot4)
+		slot0.m_lvLab.text = GetTips("ACTIVITY_STRONGHOLD_SKILL_MAX")
+		slot0.m_nextLvDes.text = ""
+		slot0.m_costLab.text = ""
+		slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. slot4.skill_id)
 	else
-		arg_12_0.stateConotroller:SetSelectedIndex(1)
+		slot0.stateConotroller:SetSelectedIndex(1)
 
-		local var_12_6 = var_12_0[var_12_1]
-		local var_12_7 = var_12_0[var_12_1 + 1]
-		local var_12_8 = ActivityStrongholdIncreaseCfg[var_12_6]
-		local var_12_9 = ActivityStrongholdIncreaseCfg[var_12_7]
-
-		arg_12_0.m_name.text = var_12_8.skill_name
-		arg_12_0.m_des.text = arg_12_0:GetSkillDes(var_12_8)
-		arg_12_0.m_lvLab.text = "Lv" .. var_12_8.skill_level
-		arg_12_0.m_nextLvDes.text = string.format(GetTips("ACTIVITY_STRONGHOLD_INCREASE_NEXT_LV"), "", arg_12_0:GetSkillDes(var_12_9))
-		arg_12_0.m_costLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_COST"), var_12_9.cost)
-		arg_12_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. var_12_8.skill_id)
+		slot5 = ActivityStrongholdIncreaseCfg[slot1[slot2]]
+		slot6 = ActivityStrongholdIncreaseCfg[slot1[slot2 + 1]]
+		slot0.m_name.text = slot5.skill_name
+		slot0.m_des.text = slot0:GetSkillDes(slot5)
+		slot0.m_lvLab.text = "Lv" .. slot5.skill_level
+		slot0.m_nextLvDes.text = string.format(GetTips("ACTIVITY_STRONGHOLD_INCREASE_NEXT_LV"), "", slot0:GetSkillDes(slot6))
+		slot0.m_costLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_POINT_COST"), slot6.cost)
+		slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdIncrease/" .. slot5.skill_id)
 	end
 end
 
-function var_0_0.RemoveTween(arg_13_0)
-	if arg_13_0.tween_ then
-		arg_13_0.tween_:setOnUpdate(nil)
-		LeanTween.cancel(arg_13_0.m_scrollContent)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil)
+		LeanTween.cancel(slot0.m_scrollContent)
 
-		arg_13_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.GetSkillDes(arg_14_0, arg_14_1)
-	if arg_14_1.effect_type == 1 then
-		return getAffixDesc(arg_14_1.effect_params)
-	elseif arg_14_1.effect_type == 2 then
-		return string.format(GetTips("ACTIVITY_STRONGHOLD_INCREASE_REVIVAL"), arg_14_1.effect_params[1])
+function slot0.GetSkillDes(slot0, slot1)
+	if slot1.effect_type == 1 then
+		return getAffixDesc(slot1.effect_params)
+	elseif slot1.effect_type == 2 then
+		return string.format(GetTips("ACTIVITY_STRONGHOLD_INCREASE_REVIVAL"), slot1.effect_params[1])
 	else
 		rteurn("")
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.node_list) do
-		iter_15_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.node_list) do
+		slot5:Dispose()
 	end
 
-	arg_15_0:RemoveTween()
+	slot0:RemoveTween()
 
-	arg_15_0.node_list = {}
+	slot0.node_list = {}
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnStrongholdUpgradeIncrease(arg_16_0)
-	arg_16_0:RefreshUI()
-	arg_16_0:RefreshRightInfo()
+function slot0.OnStrongholdUpgradeIncrease(slot0)
+	slot0:RefreshUI()
+	slot0:RefreshRightInfo()
 end
 
-return var_0_0
+return slot0

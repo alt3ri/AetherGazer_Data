@@ -1,172 +1,145 @@
-local var_0_0 = class("RestaurantCookConditionItem", ReduxView)
+slot0 = class("RestaurantCookConditionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.stateController = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.conditionController = ControllerUtil.GetController(arg_2_0.tickTrs_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.conditionController = ControllerUtil.GetController(slot0.tickTrs_, "state")
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_1.cfgID
-	local var_3_1 = arg_3_1.type
-	local var_3_2 = arg_3_1.level
+function slot0.RefreshUI(slot0, slot1)
+	slot2 = slot1.cfgID
+	slot4 = slot1.level
 
-	if var_3_1 == 1 then
-		local var_3_3 = arg_3_1.furID
+	if slot1.type == 1 then
+		slot5 = slot1.furID
 
-		arg_3_0.stateController:SetSelectedState("skill")
+		slot0.stateController:SetSelectedState("skill")
 
-		if not var_3_0 then
-			arg_3_0.skillText_.text = ""
+		if not slot2 then
+			slot0.skillText_.text = ""
 
 			return
 		end
 
-		local var_3_4 = BackHomeHeroSkillCfg[var_3_0]
+		if BackHomeHeroSkillCfg[slot2] then
+			slot7 = false
+			slot8 = DormSkillData:GetSkillDesc(slot2)
 
-		if var_3_4 then
-			local var_3_5 = false
-			local var_3_6 = DormSkillData:GetSkillDesc(var_3_0)
-
-			if BackHomeCanteenFurnitureCfg[var_3_3].skill[var_3_2 + 1] then
-				local var_3_7 = BackHomeCanteenFurnitureCfg[var_3_3].skill[var_3_2 + 1]
-
-				for iter_3_0, iter_3_1 in ipairs(var_3_7) do
-					if BackHomeHeroSkillCfg[iter_3_1].type == var_3_4.type then
-						if var_3_4.type == 1 or var_3_4.type == 2 then
-							if var_3_4.param[1] == BackHomeHeroSkillCfg[iter_3_1].param[1] then
-								arg_3_0.skillText_.text = var_3_6 .. "<color=#e48a00> >>> " .. BackHomeHeroSkillCfg[iter_3_1].param[2] .. "%</color>"
+			if BackHomeCanteenFurnitureCfg[slot5].skill[slot4 + 1] then
+				for slot13, slot14 in ipairs(BackHomeCanteenFurnitureCfg[slot5].skill[slot4 + 1]) do
+					if BackHomeHeroSkillCfg[slot14].type == slot6.type then
+						if slot6.type == 1 or slot6.type == 2 then
+							if slot6.param[1] == BackHomeHeroSkillCfg[slot14].param[1] then
+								slot0.skillText_.text = slot8 .. "<color=#e48a00> >>> " .. BackHomeHeroSkillCfg[slot14].param[2] .. "%</color>"
 							end
 						else
-							arg_3_0.skillText_.text = var_3_6 .. "<color=#e48a00> >>> " .. BackHomeHeroSkillCfg[iter_3_1].param[1] .. "</color>"
+							slot0.skillText_.text = slot8 .. "<color=#e48a00> >>> " .. BackHomeHeroSkillCfg[slot14].param[1] .. "</color>"
 						end
 
-						var_3_5 = true
+						slot7 = true
 
 						break
 					end
 				end
 			end
 
-			if not var_3_5 then
-				arg_3_0.skillText_.text = var_3_6
+			if not slot7 then
+				slot0.skillText_.text = slot8
 			end
 		else
 			print("传入技能id错误")
 		end
-	elseif var_3_1 == 2 then
-		arg_3_0.stateController:SetSelectedState("condition")
+	elseif slot3 == 2 then
+		slot0.stateController:SetSelectedState("condition")
 
-		if not var_3_0 then
-			arg_3_0.conditionText_.text = ""
+		if not slot2 then
+			slot0.conditionText_.text = ""
 
 			return
 		end
 
-		if ConditionCfg[var_3_0] then
-			arg_3_0.conditionText_.text = BackHomeTools:GetBackHomeConditionDes(var_3_0)
+		if ConditionCfg[slot2] then
+			slot0.conditionText_.text = BackHomeTools:GetBackHomeConditionDes(slot2)
 
-			if BackHomeTools:CheckBackHomeConditionAccord(var_3_0) then
-				arg_3_0.conditionController:SetSelectedState("true")
+			if BackHomeTools:CheckBackHomeConditionAccord(slot2) then
+				slot0.conditionController:SetSelectedState("true")
 			else
-				arg_3_0.conditionController:SetSelectedState("false")
+				slot0.conditionController:SetSelectedState("false")
 
-				if arg_3_0.conFunc then
-					arg_3_0.conFunc(false)
+				if slot0.conFunc then
+					slot0.conFunc(false)
 				else
 					print("未注册升级条件方法")
 				end
 			end
 		end
-	elseif var_3_1 == 3 then
-		arg_3_0.stateController:SetSelectedState("skill")
+	elseif slot3 == 3 then
+		slot0.stateController:SetSelectedState("skill")
 
-		local var_3_8 = arg_3_1.level
+		slot5 = slot1.level
 
-		if arg_3_1.effectType == CanteenConst.FurEffectType.Storage then
-			local var_3_9 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_storage_max[var_3_8]
-			local var_3_10 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_storage_max[var_3_8 + 1]
-
-			if var_3_9 and var_3_9 > 0 then
-				if not var_3_10 then
-					arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), var_3_9)
+		if slot1.effectType == CanteenConst.FurEffectType.Storage then
+			if BackHomeCanteenFurnitureCfg[slot2].canteen_storage_max[slot5] and slot6 > 0 then
+				if not BackHomeCanteenFurnitureCfg[slot2].canteen_storage_max[slot5 + 1] then
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), slot6)
 				else
-					arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), var_3_9) .. var_0_0:GetLevelUpDesc(" >>> " .. var_3_10)
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), slot6) .. uv0:GetLevelUpDesc(" >>> " .. slot7)
 				end
 			end
-		elseif arg_3_1.effectType == CanteenConst.FurEffectType.SellMax then
-			local var_3_11 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_sell_max[var_3_8]
-			local var_3_12 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_sell_max[var_3_8 + 1]
-
-			if var_3_11 and var_3_11 > 0 then
-				if not var_3_12 then
-					arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), var_3_11)
+		elseif slot1.effectType == CanteenConst.FurEffectType.SellMax then
+			if BackHomeCanteenFurnitureCfg[slot2].canteen_sell_max[slot5] and slot6 > 0 then
+				if not BackHomeCanteenFurnitureCfg[slot2].canteen_sell_max[slot5 + 1] then
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), slot6)
 				else
-					arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), var_3_11) .. var_0_0:GetLevelUpDesc(" >>> " .. var_3_12)
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), slot6) .. uv0:GetLevelUpDesc(" >>> " .. slot7)
 				end
 			end
-		elseif arg_3_1.effectType == CanteenConst.FurEffectType.UnLockFood then
-			local var_3_13 = arg_3_1.unLockNum
-			local var_3_14 = arg_3_1.cfgID
-			local var_3_15 = CanteenTools:GetFootTypeName(BackHomeFurniture[var_3_14].type)
-
-			if not BackHomeCanteenFurnitureCfg[var_3_0].canteen_sell_max[var_3_8 + 1] then
-				arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), var_3_15, tostring(var_3_13))
-			else
-				local var_3_16 = #DormSkillData:GetCookCanUnlockFoodList(var_3_14, var_3_8 + 1)
-
-				if var_3_13 and var_3_13 > 0 then
-					if not var_3_16 then
-						arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), var_3_15, tostring(var_3_13))
-					else
-						arg_3_0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), var_3_15, tostring(var_3_13)) .. var_0_0:GetLevelUpDesc(" >>> " .. string.format(GetTips("DORM_CANTEEN_INFO_NUM"), var_3_16))
-					end
+		elseif slot1.effectType == CanteenConst.FurEffectType.UnLockFood then
+			if not BackHomeCanteenFurnitureCfg[slot2].canteen_sell_max[slot5 + 1] then
+				slot0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), CanteenTools:GetFootTypeName(BackHomeFurniture[slot1.cfgID].type), tostring(slot1.unLockNum))
+			elseif slot6 and slot6 > 0 then
+				if not #DormSkillData:GetCookCanUnlockFoodList(slot7, slot5 + 1) then
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), slot8, tostring(slot6))
+				else
+					slot0.skillText_.text = string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), slot8, tostring(slot6)) .. uv0:GetLevelUpDesc(" >>> " .. string.format(GetTips("DORM_CANTEEN_INFO_NUM"), slot10))
 				end
 			end
 		end
-	elseif var_3_1 == 4 then
-		arg_3_0.stateController:SetSelectedState("skill")
+	elseif slot3 == 4 then
+		slot0.stateController:SetSelectedState("skill")
 
-		local var_3_17 = arg_3_1.level
-
-		if BackHomeHeroSkillCfg[var_3_0] then
-			arg_3_0.skillText_.text = var_0_0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), var_3_17, BackHomeHeroSkillCfg[var_3_0].desc))
-		elseif arg_3_1.effectType == CanteenConst.FurEffectType.Storage then
-			local var_3_18 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_storage_max[var_3_17]
-
-			arg_3_0.skillText_.text = var_0_0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), var_3_17, string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), var_3_18)))
-		elseif arg_3_1.effectType == CanteenConst.FurEffectType.SellMax then
-			local var_3_19 = BackHomeCanteenFurnitureCfg[var_3_0].canteen_sell_max[var_3_17]
-
-			arg_3_0.skillText_.text = var_0_0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), var_3_17, string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), var_3_19)))
-		elseif arg_3_1.effectType == CanteenConst.FurEffectType.UnLockFood then
-			local var_3_20 = arg_3_1.unLockNum
-
-			arg_3_0.skillText_.text = var_0_0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), var_3_17, string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), tostring(var_3_20))))
+		if BackHomeHeroSkillCfg[slot2] then
+			slot0.skillText_.text = uv0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), slot1.level, BackHomeHeroSkillCfg[slot2].desc))
+		elseif slot1.effectType == CanteenConst.FurEffectType.Storage then
+			slot0.skillText_.text = uv0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), slot5, string.format(GetTips("CANTEEN_STORAGE_MAX_UP"), BackHomeCanteenFurnitureCfg[slot2].canteen_storage_max[slot5])))
+		elseif slot1.effectType == CanteenConst.FurEffectType.SellMax then
+			slot0.skillText_.text = uv0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), slot5, string.format(GetTips("CANTEEN_FOOD_SET_MAX_UP"), BackHomeCanteenFurnitureCfg[slot2].canteen_sell_max[slot5])))
+		elseif slot1.effectType == CanteenConst.FurEffectType.UnLockFood then
+			slot0.skillText_.text = uv0:GetLevelUpDesc(string.format(GetTips("CANTEEN_UNLOCK_ITEM"), slot5, string.format(GetTips("CANTEEN_FOOD_UNLOCK_NUM"), tostring(slot1.unLockNum))))
 		end
 	end
 end
 
-function var_0_0.UpdataCondition(arg_4_0, arg_4_1)
-	if arg_4_1 then
-		arg_4_0.conFunc = arg_4_1
+function slot0.UpdataCondition(slot0, slot1)
+	if slot1 then
+		slot0.conFunc = slot1
 	end
 end
 
-function var_0_0.GetLevelUpDesc(arg_5_0, arg_5_1)
-	return "<color=#e48a00>" .. arg_5_1 .. "</color>"
+function slot0.GetLevelUpDesc(slot0, slot1)
+	return "<color=#e48a00>" .. slot1 .. "</color>"
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

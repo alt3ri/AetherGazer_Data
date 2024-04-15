@@ -1,80 +1,69 @@
-local var_0_0 = class("Guide_60", BaseGuide)
+slot0 = class("Guide_60", BaseGuide)
 
-function var_0_0.InitSteps(arg_1_0)
-	local var_1_0 = {}
+function slot0.InitSteps(slot0)
+	slot1 = {}
 
-	arg_1_0:OnGuideStart()
+	slot0:OnGuideStart()
 
-	arg_1_0.nowEquipData_ = arg_1_0:CheckNowHeroData()
+	slot0.nowEquipData_ = slot0:CheckNowHeroData()
 
-	table.insert(var_1_0, 6001)
-	table.insert(var_1_0, 6002)
-	table.insert(var_1_0, 6003)
-	table.insert(var_1_0, 6004)
+	table.insert(slot1, 6001)
+	table.insert(slot1, 6002)
+	table.insert(slot1, 6003)
+	table.insert(slot1, 6004)
 
-	if arg_1_0.nowEquipData_ then
-		table.insert(var_1_0, 6005)
+	if slot0.nowEquipData_ then
+		table.insert(slot1, 6005)
 	end
 
-	local var_1_1 = not arg_1_0.nowEquipData_
+	slot2 = not slot0.nowEquipData_
 
-	if arg_1_0.nowEquipData_ and arg_1_0.nowEquipData_.star == 2 and arg_1_0.nowEquipData_.equipConfig.suit == 29 and arg_1_0.nowEquipData_.equip_id ~= arg_1_0.targetEquip_.equip_id then
-		var_1_1 = true
+	if slot0.nowEquipData_ and slot0.nowEquipData_.star == 2 and slot0.nowEquipData_.equipConfig.suit == 29 and slot0.nowEquipData_.equip_id ~= slot0.targetEquip_.equip_id then
+		slot2 = true
 	end
 
-	if var_1_1 then
-		table.insert(var_1_0, 6006)
-		table.insert(var_1_0, 6007)
+	if slot2 then
+		table.insert(slot1, 6006)
+		table.insert(slot1, 6007)
 
-		if arg_1_0.targetEquip_:GetEquipHero() then
+		if slot0.targetEquip_:GetEquipHero() then
 			print("HERO")
-			table.insert(var_1_0, 6008)
+			table.insert(slot1, 6008)
 		end
 
-		arg_1_0.nowEquipData_ = arg_1_0.targetEquip_
+		slot0.nowEquipData_ = slot0.targetEquip_
 	end
 
-	table.insert(var_1_0, 6009)
-	table.insert(var_1_0, 6010)
+	table.insert(slot1, 6009)
+	table.insert(slot1, 6010)
 
-	if arg_1_0.nowEquipData_ and arg_1_0.nowEquipData_:GetLevel() <= 1 and arg_1_0:HaveAddEquipExpMaterial() then
-		table.insert(var_1_0, 6011)
-		table.insert(var_1_0, 6012)
+	if slot0.nowEquipData_ and slot0.nowEquipData_:GetLevel() <= 1 and slot0:HaveAddEquipExpMaterial() then
+		table.insert(slot1, 6011)
+		table.insert(slot1, 6012)
 	end
 
-	arg_1_0._steps = {}
+	slot0._steps = {}
 
-	local var_1_2 = #var_1_0
-
-	for iter_1_0 = 1, var_1_2 do
-		local var_1_3 = var_1_0[iter_1_0]
-		local var_1_4 = arg_1_0:ProduceStep(var_1_3)
-
-		if var_1_4 then
-			table.insert(arg_1_0._steps, var_1_4)
+	for slot7 = 1, #slot1 do
+		if slot0:ProduceStep(slot1[slot7]) then
+			table.insert(slot0._steps, slot9)
 		end
 	end
 end
 
-function var_0_0.CheckNowHeroData(arg_2_0)
-	local var_2_0 = HeroData:GetHeroList()
-
-	if var_2_0[1084] and var_2_0[1084].equip then
-		local var_2_1 = var_2_0[1084].equip[1]
-
-		if var_2_1.equip_id and var_2_1.equip_id ~= 0 then
-			return EquipData:GetEquipData(var_2_1.equip_id)
-		end
+function slot0.CheckNowHeroData(slot0)
+	if HeroData:GetHeroList()[1084] and slot1[1084].equip and slot1[1084].equip[1].equip_id and slot2.equip_id ~= 0 then
+		return EquipData:GetEquipData(slot2.equip_id)
 	end
 
 	return nil
 end
 
-function var_0_0.HaveAddEquipExpMaterial(arg_3_0)
-	for iter_3_0, iter_3_1 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.MATERIAL]) do
-		local var_3_0 = ItemTools.getItemNum(iter_3_1)
+function slot0.HaveAddEquipExpMaterial(slot0)
+	slot4 = ItemConst.ITEM_TYPE.MATERIAL
 
-		if ItemCfg[iter_3_1].sub_type == MaterialConst.MATERIAL_TYPE.EQUIP_LEVEL_UP and var_3_0 > 0 then
+	for slot4, slot5 in ipairs(ItemCfg.get_id_list_by_type[slot4]) do
+		if ItemCfg[slot5].sub_type == MaterialConst.MATERIAL_TYPE.EQUIP_LEVEL_UP and ItemTools.getItemNum(slot5) > 0 then
 			return true
 		end
 	end
@@ -82,12 +71,10 @@ function var_0_0.HaveAddEquipExpMaterial(arg_3_0)
 	return false
 end
 
-function var_0_0.CheckGuide(arg_4_0)
-	local var_4_0 = GuideTool.SatisfyCondition(arg_4_0.open_condition)
+function slot0.CheckGuide(slot0)
+	slot0.targetEquip_ = EquipData:GetEquipListComplex(ItemConst.SORT_TYPE.DOWN, EquipConst.EQUIP_SORT.LEVEL, 1)[1]
 
-	arg_4_0.targetEquip_ = EquipData:GetEquipListComplex(ItemConst.SORT_TYPE.DOWN, EquipConst.EQUIP_SORT.LEVEL, 1)[1]
-
-	return arg_4_0.targetEquip_ ~= nil and var_4_0
+	return slot0.targetEquip_ ~= nil and GuideTool.SatisfyCondition(slot0.open_condition)
 end
 
-return var_0_0
+return slot0

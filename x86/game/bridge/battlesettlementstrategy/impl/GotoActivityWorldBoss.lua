@@ -1,46 +1,44 @@
-local var_0_0 = class("GotoActivityWorldBossStage", BattleSettlementStrategyBase)
+slot0 = class("GotoActivityWorldBossStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoActivityWorldBossStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoActivityWorldBossStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoActivityWorldBossStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	local var_2_0, var_2_1 = GetResultReward()
-	local var_2_2 = arg_2_2:GetActivityID()
-	local var_2_3 = ActivityWorldBossCfg[var_2_2]
+function slot0.GotoActivityWorldBossStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6, slot7 = GetResultReward()
+	slot9 = ActivityWorldBossCfg[slot2:GetActivityID()]
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		if var_2_3 and var_2_3.coin_id == iter_2_1[1] then
-			ActivityWorldBossData:UpdateCoinCount(var_2_2, iter_2_1[2])
+	for slot13, slot14 in ipairs(slot6) do
+		if slot9 and slot9.coin_id == slot14[1] then
+			ActivityWorldBossData:UpdateCoinCount(slot8, slot14[2])
 		end
 	end
 
-	if not arg_2_5 then
+	if not slot5 then
 		function BattleCallLuaCallBack()
-			local var_3_0 = arg_2_2:GetActivityID()
-			local var_3_1 = var_2_3.end_story_id
+			slot1 = uv1.end_story_id
 
-			if ActivityWorldBossData:GetLeftHealthPoint(var_3_0) == 0 and not manager.story:IsStoryPlayed(var_3_1) then
-				manager.story:StartStoryById(var_3_1, function(arg_4_0)
+			if ActivityWorldBossData:GetLeftHealthPoint(uv0:GetActivityID()) == 0 and not manager.story:IsStoryPlayed(slot1) then
+				manager.story:StartStoryById(slot1, function (slot0)
 					gameContext:Go("/battleActivityWorldBossResult", {
-						stageData = arg_2_2,
-						rewardList = var_2_0,
-						battleResult = arg_2_4
+						stageData = uv0,
+						rewardList = uv1,
+						battleResult = uv2
 					})
 				end)
 			else
 				gameContext:Go("/battleActivityWorldBossResult", {
-					stageData = arg_2_2,
-					rewardList = var_2_0,
-					battleResult = arg_2_4
+					stageData = uv0,
+					rewardList = uv2,
+					battleResult = uv3
 				})
 			end
 
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv4)
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

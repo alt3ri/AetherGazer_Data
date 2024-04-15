@@ -1,165 +1,156 @@
-local var_0_0 = class("NewServerBPTaskPage", ReduxView)
+slot0 = class("NewServerBPTaskPage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("Widget/System/NewServer/NewServerPasserUI")
-	local var_1_1 = Object.Instantiate(var_1_0, arg_1_1)
+function slot0.OnCtor(slot0, slot1)
+	slot3 = Object.Instantiate(Asset.Load("Widget/System/NewServer/NewServerPasserUI"), slot1)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
 
-	arg_1_0.gameObject_ = var_1_1
-	arg_1_0.transform_ = var_1_1.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.taskItemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiList_, NewServerBPTaskItem)
-	arg_2_0.gsPayCallback_ = handler(arg_2_0, arg_2_0.OnPaySuccess)
+	slot0.taskItemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiList_, NewServerBPTaskItem)
+	slot0.gsPayCallback_ = handler(slot0, slot0.OnPaySuccess)
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.ReceiveBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(arg_3_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.ReceiveBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0.activityID_) then
 			return
 		end
 
-		NewServerAction.ReceiveBPReward(arg_3_0:GetCanReceiveTaskList(), handler(arg_3_0, arg_3_0.OnBPTaskReceive))
+		NewServerAction.ReceiveBPReward(uv0:GetCanReceiveTaskList(), handler(uv0, uv0.OnBPTaskReceive))
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.UpgradeBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(arg_3_0.activityID_) then
+	slot0:AddBtnListener(slot0.UpgradeBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0.activityID_) then
 			return
 		end
 
-		PayAction.RequestGSPay(NewServerCfg[arg_3_0.activityID_].bp_goods_id, 1)
+		PayAction.RequestGSPay(NewServerCfg[uv0.activityID_].bp_goods_id, 1)
 	end)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.taskItemList_ then
-		arg_7_0.taskItemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.taskItemList_ then
+		slot0.taskItemList_:Dispose()
 
-		arg_7_0.taskItemList_ = nil
+		slot0.taskItemList_ = nil
 	end
 
-	arg_7_0.gsPayCallback_ = nil
+	slot0.gsPayCallback_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.activityID_ = arg_8_1
-	arg_8_0.taskList_ = NewServerCfg[arg_8_0.activityID_].bp
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot0.taskList_ = NewServerCfg[slot0.activityID_].bp
+	slot3 = NewServerData:GetBPTaskIsRecharge()
+	slot0.progressText_.text = NewServerData:GetAccumulateCurrency()
+	slot5 = 1
+	slot6 = false
 
-	local var_8_0 = NewServerData:GetBPTaskStatus()
-	local var_8_1 = NewServerData:GetBPTaskIsRecharge()
-	local var_8_2 = NewServerData:GetAccumulateCurrency()
-
-	arg_8_0.progressText_.text = var_8_2
-
-	local var_8_3 = 1
-	local var_8_4 = false
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.taskList_) do
-		if var_8_2 >= NewServerBPTaskCfg[iter_8_1].need then
-			if var_8_0[iter_8_1] == nil then
-				var_8_4 = true
-			elseif var_8_0[iter_8_1].is_receive_reward < 1 or var_8_1 >= 1 and var_8_0[iter_8_1].is_receive_recharge_reward < 1 then
-				var_8_4 = true
+	for slot10, slot11 in ipairs(slot0.taskList_) do
+		if NewServerBPTaskCfg[slot11].need <= slot4 then
+			if NewServerData:GetBPTaskStatus()[slot11] == nil then
+				slot6 = true
+			elseif slot2[slot11].is_receive_reward < 1 or slot3 >= 1 and slot2[slot11].is_receive_recharge_reward < 1 then
+				slot6 = true
 			end
 		end
 
-		if var_8_4 == true then
-			var_8_3 = iter_8_0
+		if slot6 == true then
+			slot5 = slot10
 
 			break
 		end
 	end
 
-	SetActive(arg_8_0.recevieBtnGo_, var_8_4)
-	SetActive(arg_8_0.UpgradeGo_, var_8_1 < 1)
-	arg_8_0.taskItemList_:StartScroll(#arg_8_0.taskList_, var_8_3)
+	SetActive(slot0.recevieBtnGo_, slot6)
+	SetActive(slot0.UpgradeGo_, slot3 < 1)
+	slot0.taskItemList_:StartScroll(#slot0.taskList_, slot5)
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.taskList_[arg_9_1], arg_9_0.activityID_, arg_9_1 == 1, arg_9_0.taskList_[arg_9_1 - 1])
-	arg_9_2:SetReceiveHandler(handler(arg_9_0, arg_9_0.OnBPTaskReceive))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskList_[slot1], slot0.activityID_, slot1 == 1, slot0.taskList_[slot1 - 1])
+	slot2:SetReceiveHandler(handler(slot0, slot0.OnBPTaskReceive))
 end
 
-function var_0_0.SetActive(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	manager.redPoint:bindUIandKey(arg_11_0.ReceiveBtn_.transform, RedPointConst.ACTIVITY_NEW_SERVER_BP)
-	manager.notify:RegistListener(RECHARGE_SUCCESS, arg_11_0.gsPayCallback_)
+function slot0.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.ReceiveBtn_.transform, RedPointConst.ACTIVITY_NEW_SERVER_BP)
+	manager.notify:RegistListener(RECHARGE_SUCCESS, slot0.gsPayCallback_)
 end
 
-function var_0_0.OnExit(arg_12_0)
-	manager.redPoint:unbindUIandKey(arg_12_0.ReceiveBtn_.transform, RedPointConst.ACTIVITY_NEW_SERVER_BP)
-	manager.notify:RemoveListener(RECHARGE_SUCCESS, arg_12_0.gsPayCallback_)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.ReceiveBtn_.transform, RedPointConst.ACTIVITY_NEW_SERVER_BP)
+	manager.notify:RemoveListener(RECHARGE_SUCCESS, slot0.gsPayCallback_)
 end
 
-function var_0_0.OnPaySuccess(arg_13_0)
+function slot0.OnPaySuccess(slot0)
 	NewServerAction.SetBPTaskIsRecharge()
-	arg_13_0:SetData(arg_13_0.activityID_)
+	slot0:SetData(slot0.activityID_)
 end
 
-function var_0_0.OnBPTaskReceive(arg_14_0)
-	arg_14_0:SetData(arg_14_0.activityID_)
+function slot0.OnBPTaskReceive(slot0)
+	slot0:SetData(slot0.activityID_)
 end
 
-function var_0_0.UpdateBar(arg_15_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.GetCanReceiveTaskList(arg_16_0)
-	local var_16_0 = {}
-	local var_16_1 = NewServerCfg[arg_16_0.activityID_].bp
-	local var_16_2 = NewServerData:GetBPTaskStatus()
-	local var_16_3 = NewServerData:GetBPTaskIsRecharge()
-	local var_16_4 = NewServerData:GetAccumulateCurrency()
+function slot0.GetCanReceiveTaskList(slot0)
+	slot1 = {}
+	slot3 = NewServerData:GetBPTaskStatus()
+	slot4 = NewServerData:GetBPTaskIsRecharge()
 
-	for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-		if var_16_4 >= NewServerBPTaskCfg[iter_16_1].need then
-			if var_16_2[iter_16_1] then
-				if var_16_2[iter_16_1].is_receive_reward < 1 then
-					var_16_0[#var_16_0 + 1] = {
+	for slot9, slot10 in ipairs(NewServerCfg[slot0.activityID_].bp) do
+		if NewServerBPTaskCfg[slot10].need <= NewServerData:GetAccumulateCurrency() then
+			if slot3[slot10] then
+				if slot3[slot10].is_receive_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 1,
-						id = iter_16_1
+						id = slot10
 					}
 				end
 
-				if var_16_3 >= 1 and var_16_2[iter_16_1].is_receive_recharge_reward < 1 then
-					var_16_0[#var_16_0 + 1] = {
+				if slot4 >= 1 and slot3[slot10].is_receive_recharge_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_16_1
+						id = slot10
 					}
 				end
 			else
-				var_16_0[#var_16_0 + 1] = {
+				slot1[#slot1 + 1] = {
 					receive_type = 1,
-					id = iter_16_1
+					id = slot10
 				}
 
-				if var_16_3 >= 1 then
-					var_16_0[#var_16_0 + 1] = {
+				if slot4 >= 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_16_1
+						id = slot10
 					}
 				end
 			end
 		end
 	end
 
-	return var_16_0
+	return slot1
 end
 
-return var_0_0
+return slot0

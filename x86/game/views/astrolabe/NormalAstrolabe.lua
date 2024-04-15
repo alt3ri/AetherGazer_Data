@@ -1,46 +1,37 @@
-local var_0_0 = import("game.views.astrolabe.BaseAstrolabe")
-local var_0_1 = class("NormalAstrolabe", var_0_0)
+slot1 = class("NormalAstrolabe", import("game.views.astrolabe.BaseAstrolabe"))
 
-function var_0_1.InitItem(arg_1_0)
-	if (HeroTools.IsSpHero(arg_1_0.heroID) and arg_1_0.lastHeroID and HeroTools.IsSpHero(arg_1_0.lastHeroID)) == false then
-		arg_1_0:ClearItem()
+function slot1.InitItem(slot0)
+	if (HeroTools.IsSpHero(slot0.heroID) and slot0.lastHeroID and HeroTools.IsSpHero(slot0.lastHeroID)) == false then
+		slot0:ClearItem()
 
-		arg_1_0.itemS_ = {}
+		slot0.itemS_ = {}
 	end
 
-	for iter_1_0 = 1, 3 do
-		if not arg_1_0.itemS_[iter_1_0] then
-			arg_1_0.itemS_[iter_1_0] = {}
+	for slot4 = 1, 3 do
+		if not slot0.itemS_[slot4] then
+			slot0.itemS_[slot4] = {}
 		end
 
-		for iter_1_1 = 1, 3 do
-			local var_1_0 = arg_1_0[string.format("item%d_%dGo_", iter_1_0, iter_1_1)]
+		for slot8 = 1, 3 do
+			slot9 = slot0[string.format("item%d_%dGo_", slot4, slot8)]
 
-			if not arg_1_0.itemS_[iter_1_0][iter_1_1] then
-				local var_1_1 = arg_1_0:GetItemName(arg_1_0.heroID, iter_1_1)
-				local var_1_2 = Object.Instantiate(Asset.Load(var_1_1), var_1_0.transform)
+			if not slot0.itemS_[slot4][slot8] then
+				slot0.itemS_[slot4][slot8] = AstrolabeNode.New(slot0, Object.Instantiate(Asset.Load(slot0:GetItemName(slot0.heroID, slot8)), slot9.transform), slot4)
+				slot0.itemS_[slot4][slot8].lineStar = slot9.transform:Find("line_star")
 
-				arg_1_0.itemS_[iter_1_0][iter_1_1] = AstrolabeNode.New(arg_1_0, var_1_2, iter_1_0)
-
-				local var_1_3 = var_1_0.transform:Find("line_star")
-
-				arg_1_0.itemS_[iter_1_0][iter_1_1].lineStar = var_1_3
-
-				local var_1_4 = var_1_0.transform:Find("line_star_01")
-
-				if var_1_4 then
-					arg_1_0.itemS_[iter_1_0][iter_1_1].lineStar2 = var_1_4
+				if slot9.transform:Find("line_star_01") then
+					slot0.itemS_[slot4][slot8].lineStar2 = slot13
 				end
 			end
 
-			arg_1_0.itemS_[iter_1_0][iter_1_1]:SetParent(var_1_0.transform)
+			slot0.itemS_[slot4][slot8]:SetParent(slot9.transform)
 		end
 	end
 end
 
-function var_0_1.GetItemName(arg_2_0, arg_2_1, arg_2_2)
-	if HeroTools.IsSpHero(arg_2_0.heroID) then
-		if arg_2_2 == 1 then
+function slot1.GetItemName(slot0, slot1, slot2)
+	if HeroTools.IsSpHero(slot0.heroID) then
+		if slot2 == 1 then
 			return "UI/HeroGodHood/item_SP_01"
 		end
 
@@ -50,99 +41,89 @@ function var_0_1.GetItemName(arg_2_0, arg_2_1, arg_2_2)
 	end
 end
 
-function var_0_1.RegistCallBack(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.itemS_ or {}) do
-		for iter_3_2, iter_3_3 in ipairs(iter_3_1) do
-			iter_3_3:RegistCallBack(arg_3_1)
+function slot1.RegistCallBack(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.itemS_ or {}) do
+		for slot10, slot11 in ipairs(slot6) do
+			slot11:RegistCallBack(slot1)
 		end
 	end
 end
 
-function var_0_1.RefreshData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.heroInfo_ = arg_4_1
-	arg_4_0.astrolabeInfo_ = arg_4_2
+function slot1.RefreshData(slot0, slot1, slot2)
+	slot0.heroInfo_ = slot1
+	slot0.astrolabeInfo_ = slot2
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.itemS_ or {}) do
-		local var_4_0 = arg_4_0.astrolabeInfo_[iter_4_0]
+	for slot6, slot7 in ipairs(slot0.itemS_ or {}) do
+		for slot12, slot13 in ipairs(slot7) do
+			slot13:SetNodeNameIsHide(slot0.isHideNodeName)
+			slot13:SetProxy(slot0.heroViewProxy_)
+			slot13:RefreshUI(slot0.astrolabeInfo_[slot6].astrolabe[slot12], slot0.heroInfo_)
+			slot13:ResetEffect()
 
-		for iter_4_2, iter_4_3 in ipairs(iter_4_1) do
-			local var_4_1 = var_4_0.astrolabe[iter_4_2]
-
-			iter_4_3:SetNodeNameIsHide(arg_4_0.isHideNodeName)
-			iter_4_3:SetProxy(arg_4_0.heroViewProxy_)
-			iter_4_3:RefreshUI(var_4_1, arg_4_0.heroInfo_)
-			iter_4_3:ResetEffect()
-
-			if HeroTools.IsSpHero(arg_4_0.heroInfo_.id) then
-				iter_4_3:ShowSelfEffect()
-				iter_4_3:ShowNextSpEffect()
+			if HeroTools.IsSpHero(slot0.heroInfo_.id) then
+				slot13:ShowSelfEffect()
+				slot13:ShowNextSpEffect()
 			else
-				iter_4_3:ShowNextEffect()
+				slot13:ShowNextEffect()
 			end
 		end
 	end
 end
 
-function var_0_1.SetNodeNameIsHide(arg_5_0, arg_5_1)
-	arg_5_0.isHideNodeName = arg_5_1
+function slot1.SetNodeNameIsHide(slot0, slot1)
+	slot0.isHideNodeName = slot1
 end
 
-function var_0_1.RefreshRedPoint(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.itemS_) do
-		for iter_6_2, iter_6_3 in ipairs(iter_6_1) do
-			local var_6_0 = iter_6_3:GetItemInfo()
+function slot1.RefreshRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.itemS_) do
+		for slot9, slot10 in ipairs(slot5) do
+			slot11 = slot10:GetItemInfo()
 
-			if arg_6_0.heroViewProxy_ and (arg_6_0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW or arg_6_0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON or arg_6_0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.FOREIGN) then
-				iter_6_3:SetRedPoint(false)
+			if slot0.heroViewProxy_ and (slot0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW or slot0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON or slot0.heroViewProxy_.viewDataType == HeroConst.HERO_DATA_TYPE.FOREIGN) then
+				slot10:SetRedPoint(false)
 			else
-				local var_6_1 = AstrolabeTools.GetIsCanUnlock(var_6_0.id, var_6_0.heroId)
+				slot12 = AstrolabeTools.GetIsCanUnlock(slot11.id, slot11.heroId)
 
-				if HeroTools.IsSpHero(var_6_0.heroId) then
-					local var_6_2 = AstrolabeTools.GetSpAstrolabeNodeCanEquiped(var_6_0.id, var_6_0.heroId)
-
-					iter_6_3:SetRedPoint(var_6_2)
+				if HeroTools.IsSpHero(slot11.heroId) then
+					slot10:SetRedPoint(AstrolabeTools.GetSpAstrolabeNodeCanEquiped(slot11.id, slot11.heroId))
 				else
-					iter_6_3:SetRedPoint(var_6_1)
+					slot10:SetRedPoint(slot12)
 				end
 			end
 		end
 	end
 end
 
-function var_0_1.GetFirstSelectItem(arg_7_0)
-	if arg_7_0.heroInfo_ and arg_7_0.astrolabeInfo_ then
-		local var_7_0 = arg_7_0.heroInfo_.using_astrolabe[#arg_7_0.heroInfo_.using_astrolabe]
-
-		if var_7_0 then
-			for iter_7_0, iter_7_1 in ipairs(arg_7_0.itemS_ or {}) do
-				for iter_7_2, iter_7_3 in ipairs(iter_7_1) do
-					if iter_7_3:GetItemInfo().id == var_7_0 then
-						return iter_7_3
-					end
+function slot1.GetFirstSelectItem(slot0)
+	if slot0.heroInfo_ and slot0.astrolabeInfo_ and slot0.heroInfo_.using_astrolabe[#slot0.heroInfo_.using_astrolabe] then
+		for slot5, slot6 in ipairs(slot0.itemS_ or {}) do
+			for slot10, slot11 in ipairs(slot6) do
+				if slot11:GetItemInfo().id == slot1 then
+					return slot11
 				end
 			end
 		end
 	end
 
-	return arg_7_0:GetItem(1, 1)
+	return slot0:GetItem(1, 1)
 end
 
-function var_0_1.GetItem(arg_8_0, arg_8_1, arg_8_2)
-	return arg_8_0.itemS_[arg_8_1][arg_8_2]
+function slot1.GetItem(slot0, slot1, slot2)
+	return slot0.itemS_[slot1][slot2]
 end
 
-function var_0_1.ClearItem(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.itemS_) do
-		for iter_9_2, iter_9_3 in pairs(iter_9_1) do
-			if iter_9_3 and iter_9_3.Dispose then
-				iter_9_3:Dispose()
+function slot1.ClearItem(slot0)
+	for slot4, slot5 in ipairs(slot0.itemS_) do
+		for slot9, slot10 in pairs(slot5) do
+			if slot10 and slot10.Dispose then
+				slot10:Dispose()
 			end
 		end
 	end
 end
 
-function var_0_1.Dispose(arg_10_0)
-	arg_10_0.super.Dispose(arg_10_0)
+function slot1.Dispose(slot0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

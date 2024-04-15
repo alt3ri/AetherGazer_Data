@@ -1,185 +1,168 @@
-local var_0_0 = class("SkinDrawInfoView", ReduxView)
+slot0 = class("SkinDrawInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivitySkinDrawTools.GetDrawInfoUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivitySkinDrawTools.GetDrawInfoUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.mainRewardItems_ = {}
-	arg_4_0.baseRewardItems_ = {}
-	arg_4_0.rewardItems_ = {}
+	slot0.mainRewardItems_ = {}
+	slot0.baseRewardItems_ = {}
+	slot0.rewardItems_ = {}
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.poolID_ = arg_8_0.params_.poolID
-	arg_8_0.activityID_ = arg_8_0.params_.poolActivityID
+function slot0.RefreshUI(slot0)
+	slot0.poolID_ = slot0.params_.poolID
+	slot0.activityID_ = slot0.params_.poolActivityID
+	slot1 = ActivityLimitedDrawPoolCfg.get_id_list_by_pool_id[slot0.poolID_]
+	slot2 = {}
+	slot3 = {}
+	slot8 = slot0.poolID_
 
-	local var_8_0 = ActivityLimitedDrawPoolCfg.get_id_list_by_pool_id[arg_8_0.poolID_]
-	local var_8_1 = {}
-	local var_8_2 = {}
-	local var_8_3 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(ActivityLimitedDrawPoolListCfg[arg_8_0.poolID_].main_icon_info) do
-		table.insert(var_8_3, iter_8_1[1])
+	for slot8, slot9 in ipairs(ActivityLimitedDrawPoolListCfg[slot8].main_icon_info) do
+		table.insert({}, slot9[1])
 	end
 
-	for iter_8_2, iter_8_3 in ipairs(var_8_0) do
-		local var_8_4 = ActivityLimitedDrawPoolCfg[iter_8_3].minimum_guarantee
-
-		if var_8_4 == 1 then
-			table.insert(var_8_1, iter_8_3)
-		elseif var_8_4 == 2 and not table.indexof(var_8_3, iter_8_3) then
-			table.insert(var_8_2, iter_8_3)
+	for slot8, slot9 in ipairs(slot1) do
+		if ActivityLimitedDrawPoolCfg[slot9].minimum_guarantee == 1 then
+			table.insert(slot2, slot9)
+		elseif slot11 == 2 and not table.indexof(slot4, slot9) then
+			table.insert(slot3, slot9)
 		end
 	end
 
-	arg_8_0:RefreshMainReward(var_8_3)
-	arg_8_0:RefreshBaseReward(var_8_2)
-	arg_8_0:RefreshOtherReward(var_8_1)
+	slot0:RefreshMainReward(slot4)
+	slot0:RefreshBaseReward(slot3)
+	slot0:RefreshOtherReward(slot2)
 
-	local var_8_5 = ActivityLimitedDrawPoolListCfg[arg_8_0.poolID_]
+	slot0.desc_.text = ActivityLimitedDrawPoolListCfg[slot0.poolID_].detail_note
 
-	arg_8_0.desc_.text = var_8_5.detail_note
-
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.content1_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.content2_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.content3_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.content4_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.content_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content1_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content2_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content3_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content4_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content_)
 end
 
-function var_0_0.RefreshMainReward(arg_9_0, arg_9_1)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_1) do
-		local var_9_0 = ActivityLimitedDrawPoolCfg[iter_9_1]
-		local var_9_1 = var_9_0.reward[1][1]
-		local var_9_2 = var_9_0.reward[1][2]
+function slot0.RefreshMainReward(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = ActivityLimitedDrawPoolCfg[slot6]
+		slot8 = slot7.reward[1][1]
+		slot9 = slot7.reward[1][2]
 
-		if not arg_9_0.mainRewardItems_[iter_9_0] then
-			local var_9_3 = Object.Instantiate(arg_9_0.template_, arg_9_0.content1_)
-
-			arg_9_0.mainRewardItems_[iter_9_0] = SkinDrawInfoItem.New(var_9_3)
+		if not slot0.mainRewardItems_[slot5] then
+			slot0.mainRewardItems_[slot5] = SkinDrawInfoItem.New(Object.Instantiate(slot0.template_, slot0.content1_))
 		end
 
-		arg_9_0.mainRewardItems_[iter_9_0]:RefreshData(var_9_1, var_9_2)
+		slot0.mainRewardItems_[slot5]:RefreshData(slot8, slot9)
 
-		local var_9_4 = var_9_0.total
-		local var_9_5 = ActivitySkinDrawData:GetDrawInfo(arg_9_0.activityID_, iter_9_1)
-		local var_9_6 = var_9_5 and var_9_5.num or var_9_4
+		slot10 = slot7.total
 
-		arg_9_0.mainRewardItems_[iter_9_0]:SetBottomText(var_9_6 .. "/" .. var_9_4)
-		SetActive(arg_9_0.mainRewardItems_[iter_9_0].gameObject_, true)
+		slot0.mainRewardItems_[slot5]:SetBottomText((ActivitySkinDrawData:GetDrawInfo(slot0.activityID_, slot6) and slot11.num or slot10) .. "/" .. slot10)
+		SetActive(slot0.mainRewardItems_[slot5].gameObject_, true)
 	end
 
-	for iter_9_2 = #arg_9_1 + 1, #arg_9_0.mainRewardItems_ do
-		SetActive(arg_9_0.mainRewardItems_[iter_9_2].gameObject_, false)
+	for slot5 = #slot1 + 1, #slot0.mainRewardItems_ do
+		SetActive(slot0.mainRewardItems_[slot5].gameObject_, false)
 	end
 end
 
-function var_0_0.RefreshBaseReward(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_1) do
-		local var_10_0 = ActivityLimitedDrawPoolCfg[iter_10_1]
-		local var_10_1 = var_10_0.reward[1][1]
-		local var_10_2 = var_10_0.reward[1][2]
+function slot0.RefreshBaseReward(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = ActivityLimitedDrawPoolCfg[slot6]
+		slot8 = slot7.reward[1][1]
+		slot9 = slot7.reward[1][2]
 
-		if not arg_10_0.baseRewardItems_[iter_10_0] then
-			local var_10_3 = Object.Instantiate(arg_10_0.template_, arg_10_0.content2_)
-
-			arg_10_0.baseRewardItems_[iter_10_0] = SkinDrawInfoItem.New(var_10_3)
+		if not slot0.baseRewardItems_[slot5] then
+			slot0.baseRewardItems_[slot5] = SkinDrawInfoItem.New(Object.Instantiate(slot0.template_, slot0.content2_))
 		end
 
-		arg_10_0.baseRewardItems_[iter_10_0]:RefreshData(var_10_1, var_10_2)
+		slot0.baseRewardItems_[slot5]:RefreshData(slot8, slot9)
 
-		local var_10_4 = var_10_0.total
-		local var_10_5 = ActivitySkinDrawData:GetDrawInfo(arg_10_0.activityID_, iter_10_1)
-		local var_10_6 = var_10_5 and var_10_5.num or var_10_4
+		slot10 = slot7.total
 
-		arg_10_0.baseRewardItems_[iter_10_0]:SetBottomText(var_10_6 .. "/" .. var_10_4)
-		SetActive(arg_10_0.baseRewardItems_[iter_10_0].gameObject_, true)
+		slot0.baseRewardItems_[slot5]:SetBottomText((ActivitySkinDrawData:GetDrawInfo(slot0.activityID_, slot6) and slot11.num or slot10) .. "/" .. slot10)
+		SetActive(slot0.baseRewardItems_[slot5].gameObject_, true)
 	end
 
-	for iter_10_2 = #arg_10_1 + 1, #arg_10_0.baseRewardItems_ do
-		SetActive(arg_10_0.baseRewardItems_[iter_10_2].gameObject_, false)
+	for slot5 = #slot1 + 1, #slot0.baseRewardItems_ do
+		SetActive(slot0.baseRewardItems_[slot5].gameObject_, false)
 	end
 end
 
-function var_0_0.RefreshOtherReward(arg_11_0, arg_11_1)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-		local var_11_0 = ActivityLimitedDrawPoolCfg[iter_11_1]
-		local var_11_1 = var_11_0.reward[1][1]
-		local var_11_2 = var_11_0.reward[1][2]
+function slot0.RefreshOtherReward(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = ActivityLimitedDrawPoolCfg[slot6]
+		slot8 = slot7.reward[1][1]
+		slot9 = slot7.reward[1][2]
 
-		if not arg_11_0.rewardItems_[iter_11_0] then
-			local var_11_3 = Object.Instantiate(arg_11_0.template_, arg_11_0.content3_)
-
-			arg_11_0.rewardItems_[iter_11_0] = SkinDrawInfoItem.New(var_11_3)
+		if not slot0.rewardItems_[slot5] then
+			slot0.rewardItems_[slot5] = SkinDrawInfoItem.New(Object.Instantiate(slot0.template_, slot0.content3_))
 		end
 
-		arg_11_0.rewardItems_[iter_11_0]:RefreshData(var_11_1, var_11_2)
+		slot0.rewardItems_[slot5]:RefreshData(slot8, slot9)
 
-		local var_11_4 = var_11_0.total
-		local var_11_5 = ActivitySkinDrawData:GetDrawInfo(arg_11_0.activityID_, iter_11_1)
-		local var_11_6 = var_11_5 and var_11_5.num or var_11_4
+		slot10 = slot7.total
 
-		arg_11_0.rewardItems_[iter_11_0]:SetBottomText(var_11_6 .. "/" .. var_11_4)
-		SetActive(arg_11_0.rewardItems_[iter_11_0].gameObject_, true)
+		slot0.rewardItems_[slot5]:SetBottomText((ActivitySkinDrawData:GetDrawInfo(slot0.activityID_, slot6) and slot11.num or slot10) .. "/" .. slot10)
+		SetActive(slot0.rewardItems_[slot5].gameObject_, true)
 	end
 
-	for iter_11_2 = #arg_11_1 + 1, #arg_11_0.rewardItems_ do
-		SetActive(arg_11_0.rewardItems_[iter_11_2].gameObject_, false)
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		SetActive(slot0.rewardItems_[slot5].gameObject_, false)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	for iter_12_0 = 1, #arg_12_0.mainRewardItems_ do
-		arg_12_0.mainRewardItems_[iter_12_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4 = 1, #slot0.mainRewardItems_ do
+		slot0.mainRewardItems_[slot4]:OnExit()
 	end
 
-	for iter_12_1 = 1, #arg_12_0.baseRewardItems_ do
-		arg_12_0.baseRewardItems_[iter_12_1]:OnExit()
+	for slot4 = 1, #slot0.baseRewardItems_ do
+		slot0.baseRewardItems_[slot4]:OnExit()
 	end
 
-	for iter_12_2 = 1, #arg_12_0.rewardItems_ do
-		arg_12_0.rewardItems_[iter_12_2]:OnExit()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_13_0 = 1, #arg_13_0.mainRewardItems_ do
-		arg_13_0.mainRewardItems_[iter_13_0]:Dispose()
+	for slot4 = 1, #slot0.mainRewardItems_ do
+		slot0.mainRewardItems_[slot4]:Dispose()
 	end
 
-	for iter_13_1 = 1, #arg_13_0.baseRewardItems_ do
-		arg_13_0.baseRewardItems_[iter_13_1]:Dispose()
+	for slot4 = 1, #slot0.baseRewardItems_ do
+		slot0.baseRewardItems_[slot4]:Dispose()
 	end
 
-	for iter_13_2 = 1, #arg_13_0.rewardItems_ do
-		arg_13_0.rewardItems_[iter_13_2]:Dispose()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Dispose()
 	end
 
-	arg_13_0.super.Dispose(arg_13_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

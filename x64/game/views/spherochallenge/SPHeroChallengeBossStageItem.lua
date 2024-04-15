@@ -1,78 +1,72 @@
-local var_0_0 = class("SPHeroChallengeBossStageItem", ReduxView)
+slot0 = class("SPHeroChallengeBossStageItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = arg_3_0.controller:GetController("state")
+	slot0.stateController = slot0.controller:GetController("state")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = BattleVerthandiExclusiveCfg[arg_4_1]
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot3 = BattleVerthandiExclusiveCfg[slot1]
+	slot0.stageID = slot1
 
-	arg_4_0.stageID = arg_4_1
+	slot0.stateController:SetSelectedState("unlock")
 
-	arg_4_0.stateController:SetSelectedState("unlock")
-
-	if arg_4_2 == arg_4_0.stageID then
-		arg_4_0.stateController:SetSelectedState("selected")
+	if slot2 == slot0.stageID then
+		slot0.stateController:SetSelectedState("selected")
 	end
 
-	if var_4_0 then
-		local var_4_1, var_4_2 = SPHeroChallengeTools:CheckStageIsOpen(arg_4_1)
+	if slot3 then
+		slot4, slot5 = SPHeroChallengeTools:CheckStageIsOpen(slot1)
+		slot0.bossnameText_.text = slot3.name
 
-		arg_4_0.bossnameText_.text = var_4_0.name
+		if slot4 then
+			slot0.stateController:SetSelectedState("lock")
 
-		if var_4_1 then
-			arg_4_0.stateController:SetSelectedState("lock")
-
-			arg_4_0.conditiontextText_.text = var_4_2 or ""
+			slot0.conditiontextText_.text = slot5 or ""
+		elseif SPHeroChallengeData:GetCurActivityInfo():GetBossScoreInfo(slot1) > 0 then
+			slot0.recordText_.text = string.format(GetTips("ACTIVITY_HERO_CHALLENGE_RECORD"), slot7)
 		else
-			local var_4_3 = SPHeroChallengeData:GetCurActivityInfo():GetBossScoreInfo(arg_4_1)
-
-			if var_4_3 > 0 then
-				arg_4_0.recordText_.text = string.format(GetTips("ACTIVITY_HERO_CHALLENGE_RECORD"), var_4_3)
-			else
-				arg_4_0.recordText_.text = GetTips("NO_RECORD")
-			end
+			slot0.recordText_.text = GetTips("NO_RECORD")
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bossitemBtn_, nil, function()
-		if arg_5_0.stateController:GetSelectedState() == "lock" then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bossitemBtn_, nil, function ()
+		if uv0.stateController:GetSelectedState() == "lock" then
 			return
 		end
 
-		if arg_5_0.clickFunc then
-			arg_5_0.clickFunc(arg_5_0.stageID)
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.stageID)
 		end
 	end)
 end
 
-function var_0_0.RegisterClickCallBack(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.clickFunc = arg_7_1
+function slot0.RegisterClickCallBack(slot0, slot1)
+	if slot1 then
+		slot0.clickFunc = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.gameObject_ = nil
-	arg_8_0.transform_ = nil
+function slot0.Dispose(slot0)
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

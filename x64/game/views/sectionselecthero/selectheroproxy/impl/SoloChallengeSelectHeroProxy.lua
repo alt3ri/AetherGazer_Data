@@ -1,9 +1,8 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("SoloChallengeSelectHeroProxy", var_0_0)
+slot1 = class("SoloChallengeSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0)
-	arg_1_0.needMimirPanel = false
-	arg_1_0.canChangeTeam = false
+function slot1.InitCustomParams(slot0)
+	slot0.needMimirPanel = false
+	slot0.canChangeTeam = false
 end
 
-return var_0_1
+return slot1

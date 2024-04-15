@@ -1,12 +1,11 @@
-local var_0_0 = import("game.views.osiris.raceTrial.RaceTrialScoreRewardPopView")
-local var_0_1 = class("VolumeRaceTrialScoreRewardPopView", var_0_0)
+slot1 = class("VolumeRaceTrialScoreRewardPopView", import("game.views.osiris.raceTrial.RaceTrialScoreRewardPopView"))
 
-function var_0_1.UIName(arg_1_0)
-	return RaceTrialTools.GetScoreRewardUIName(arg_1_0.params_.mainActivityID)
+function slot1.UIName(slot0)
+	return RaceTrialTools.GetScoreRewardUIName(slot0.params_.mainActivityID)
 end
 
-function var_0_1.GetRewardItemClass(arg_2_0)
+function slot1.GetRewardItemClass(slot0)
 	return VolumeRaceTrialScoreRewardItem
 end
 
-return var_0_1
+return slot1

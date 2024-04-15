@@ -1,70 +1,70 @@
-local var_0_0 = class("AdminCatExploreCultureItem", ReduxView)
+slot0 = class("AdminCatExploreCultureItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select")
+	slot0.stateController = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.selectController = ControllerUtil.GetController(slot0.gameObject_.transform, "select")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.selectBtn_, nil, function()
-		if arg_4_0.registerFunction then
-			arg_4_0.registerFunction(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.selectBtn_, nil, function ()
+		if uv0.registerFunction then
+			uv0.registerFunction(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.data = arg_6_1
-	arg_6_0.index = arg_6_2
-	arg_6_0.registerFunction = arg_6_3
-	arg_6_0.selectIndex = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.data = slot1
+	slot0.index = slot2
+	slot0.registerFunction = slot3
+	slot0.selectIndex = slot4
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.GetController(arg_7_0)
-	return arg_7_0.selectController
+function slot0.GetController(slot0)
+	return slot0.selectController
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	local var_8_0 = ExploreMeowCfg[arg_8_0.data.id]
+function slot0.UpdateView(slot0)
+	slot1 = ExploreMeowCfg[slot0.data.id]
 
-	arg_8_0.stateController:SetSelectedState(arg_8_0.data.canUse and "unlock" or "lock")
+	slot0.stateController:SetSelectedState(slot0.data.canUse and "unlock" or "lock")
 
-	arg_8_0.adminCatImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. var_8_0.meow_icon)
-	arg_8_0.nameTxt_.text = GetI18NText(var_8_0.meow_name)
+	slot0.adminCatImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. slot1.meow_icon)
+	slot0.nameTxt_.text = GetI18NText(slot1.meow_name)
 
-	arg_8_0.selectController:SetSelectedState(arg_8_0.index == arg_8_0.selectIndex and "sel" or "normal")
-	manager.redPoint:bindUIandKey(arg_8_0.adminCatImg_.transform, RedPointConst.EXPLORE_UNLOCK_ADMIN_CAT .. arg_8_0.data.id, {
+	slot0.selectController:SetSelectedState(slot0.index == slot0.selectIndex and "sel" or "normal")
+	manager.redPoint:bindUIandKey(slot0.adminCatImg_.transform, RedPointConst.EXPLORE_UNLOCK_ADMIN_CAT .. slot0.data.id, {
 		x = 150,
 		y = 70
 	})
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.adminCatImg_.transform, RedPointConst.EXPLORE_UNLOCK_ADMIN_CAT .. arg_10_0.data.id)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.adminCatImg_.transform, RedPointConst.EXPLORE_UNLOCK_ADMIN_CAT .. slot0.data.id)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
-	Object.Destroy(arg_11_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

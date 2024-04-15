@@ -1,209 +1,172 @@
-local var_0_0 = {}
-
-manager.notify:RegistListener(NEW_DAY, function()
-	var_0_0.UpdateChallengeRedPoints()
+manager.notify:RegistListener(NEW_DAY, function ()
+	uv0.UpdateChallengeRedPoints()
 end)
-manager.net:Bind(55001, function(arg_2_0)
-	AbyssData:InitFromServer(arg_2_0)
-	var_0_0.UpdateRedPoints()
+manager.net:Bind(55001, function (slot0)
+	AbyssData:InitFromServer(slot0)
+	uv0.UpdateRedPoints()
 	manager.notify:CallUpdateFunc(ABYSS_TIME_OUT_UPDATE)
 end)
-manager.net:Bind(55009, function(arg_3_0)
-	AbyssData:UpdateResetTime(arg_3_0)
-	var_0_0.UpdateRedPoints()
+manager.net:Bind(55009, function (slot0)
+	AbyssData:UpdateResetTime(slot0)
+	uv0.UpdateRedPoints()
 end)
-manager.net:Bind(55023, function(arg_4_0)
+manager.net:Bind(55023, function (slot0)
 	manager.notify:CallUpdateFunc(ABYSS_REFRESH)
 end)
-manager.net:Bind(55011, function(arg_5_0)
-	AbyssData:UpdateBossInfo(arg_5_0)
-	var_0_0.UpdateRedPoints()
+manager.net:Bind(55011, function (slot0)
+	AbyssData:UpdateBossInfo(slot0)
+	uv0.UpdateRedPoints()
 end)
-manager.net:Bind(55017, function(arg_6_0)
-	AbyssData:UpdateLayerUnlock(arg_6_0)
-	var_0_0.UpdateRedPoints()
+manager.net:Bind(55017, function (slot0)
+	AbyssData:UpdateLayerUnlock(slot0)
+	uv0.UpdateRedPoints()
 end)
 
-function var_0_0.UpdateRedPoints()
-	var_0_0.UpdateRewardRedPoints()
-	var_0_0.UpdateChallengeRedPoints()
-end
+slot1, slot2 = nil
 
-function var_0_0.UpdateRewardRedPoints()
-	local var_8_0 = AbyssData:GetCanGetLayers()
+return {
+	UpdateRedPoints = function ()
+		uv0.UpdateRewardRedPoints()
+		uv0.UpdateChallengeRedPoints()
+	end,
+	UpdateRewardRedPoints = function ()
+		slot0 = AbyssData:GetCanGetLayers()
 
-	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_ABYSS) and true or false then
-		manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 0)
-	elseif #var_8_0 > 0 then
-		manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 1)
-	else
-		manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 0)
-	end
-end
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_ABYSS) and true or false then
+			manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 0)
+		elseif #slot0 > 0 then
+			manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 1)
+		else
+			manager.redPoint:setTip(RedPointConst.ABYSS_REWARD, 0)
+		end
+	end,
+	UpdateChallengeRedPoints = function ()
+		slot0 = false
 
-function var_0_0.UpdateChallengeRedPoints()
-	local var_9_0 = false
+		for slot4, slot5 in ipairs(AbyssData:GetCurrentIdList()) do
+			slot6 = AbyssCfg[slot5]
 
-	for iter_9_0, iter_9_1 in ipairs(AbyssData:GetCurrentIdList()) do
-		local var_9_1 = AbyssCfg[iter_9_1]
-		local var_9_2 = var_9_1.level
+			for slot11, slot12 in ipairs(slot6.stage_list) do
+				if AbyssData:GetStageData(slot6.level, slot11) and slot13.is_completed then
+					slot0 = true
 
-		for iter_9_2, iter_9_3 in ipairs(var_9_1.stage_list) do
-			local var_9_3 = AbyssData:GetStageData(var_9_2, iter_9_2)
+					break
+				end
+			end
 
-			if var_9_3 and var_9_3.is_completed then
-				var_9_0 = true
-
+			if slot0 then
 				break
 			end
 		end
 
-		if var_9_0 then
-			break
+		slot1 = AbyssData:HaveGetBonusNum()
+		slot2 = getData("abyss", "click_time") or 0
+		slot3 = _G.gameTimer:GetNextDayFreshTime()
+
+		if ChapterClientCfg[502] then
+			if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_ABYSS) and true or false then
+				manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 0)
+			elseif slot0 or slot1 > 0 or slot3 > 0 and slot3 <= slot2 then
+				manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 0)
+			else
+				manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 1)
+			end
 		end
-	end
+	end,
+	ClickChallengeRedPoint = function ()
+		saveData("abyss", "click_time", _G.gameTimer:GetNextDayFreshTime())
+		uv0.UpdateChallengeRedPoints()
+	end,
+	ResetLayer = function (slot0)
+		manager.net:SendWithLoadingNew(55002, {
+			layer = slot0
+		}, 55003, uv0.OnResetLayerCallback)
+	end,
+	OnResetLayerCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			for slot6, slot7 in ipairs(AbyssData:GetAbyssCfg(slot1.layer).stage_list) do
+				if slot7[1] == 3 then
+					AbyssTools.SetLayerBossTeamCacheFlag(slot1.layer, slot6, false)
+				end
 
-	local var_9_4 = AbyssData:HaveGetBonusNum()
-	local var_9_5 = getData("abyss", "click_time") or 0
-	local var_9_6 = _G.gameTimer:GetNextDayFreshTime()
-
-	if ChapterClientCfg[502] then
-		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_ABYSS) and true or false then
-			manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 0)
-		elseif var_9_0 or var_9_4 > 0 or var_9_6 > 0 and var_9_6 <= var_9_5 then
-			manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 0)
-		else
-			manager.redPoint:setTip(RedPointConst.ABYSS_CHALLENGE, 1)
-		end
-	end
-end
-
-function var_0_0.ClickChallengeRedPoint()
-	saveData("abyss", "click_time", _G.gameTimer:GetNextDayFreshTime())
-	var_0_0.UpdateChallengeRedPoints()
-end
-
-function var_0_0.ResetLayer(arg_11_0)
-	local var_11_0 = {
-		layer = arg_11_0
-	}
-
-	manager.net:SendWithLoadingNew(55002, var_11_0, 55003, var_0_0.OnResetLayerCallback)
-end
-
-function var_0_0.OnResetLayerCallback(arg_12_0, arg_12_1)
-	if isSuccess(arg_12_0.result) then
-		local var_12_0 = AbyssData:GetAbyssCfg(arg_12_1.layer)
-
-		for iter_12_0, iter_12_1 in ipairs(var_12_0.stage_list) do
-			if iter_12_1[1] == 3 then
-				AbyssTools.SetLayerBossTeamCacheFlag(arg_12_1.layer, iter_12_0, false)
+				ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.ABYSS, slot7[2])
 			end
 
-			ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.ABYSS, iter_12_1[2])
+			AbyssData:OnResetLayer(slot1.layer)
+			uv0.UpdateRedPoints()
+		else
+			ShowTips(GetTips(slot0.result))
 		end
+	end,
+	ResetStage = function (slot0, slot1, slot2)
+		uv0 = slot0
+		uv1 = slot1
 
-		AbyssData:OnResetLayer(arg_12_1.layer)
-		var_0_0.UpdateRedPoints()
-	else
-		ShowTips(GetTips(arg_12_0.result))
-	end
-end
+		manager.net:SendWithLoadingNew(55004, {
+			stage_id = slot2
+		}, 55005, uv2.OnResetStageCallback)
+	end,
+	OnResetStageCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			if AbyssData:GetAbyssCfg(uv0).stage_list[uv1][1] == 3 then
+				AbyssTools.SetLayerBossTeamCacheFlag(uv0, uv1, false)
+			end
 
-local var_0_1
-local var_0_2
+			ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.ABYSS, slot1.stage_id)
+			AbyssData:OnResetStage(uv0, uv1, slot1.stage_id)
 
-function var_0_0.ResetStage(arg_13_0, arg_13_1, arg_13_2)
-	var_0_1 = arg_13_0
-	var_0_2 = arg_13_1
+			uv0 = nil
+			uv1 = nil
 
-	local var_13_0 = {
-		stage_id = arg_13_2
-	}
-
-	manager.net:SendWithLoadingNew(55004, var_13_0, 55005, var_0_0.OnResetStageCallback)
-end
-
-function var_0_0.OnResetStageCallback(arg_14_0, arg_14_1)
-	if isSuccess(arg_14_0.result) then
-		if AbyssData:GetAbyssCfg(var_0_1).stage_list[var_0_2][1] == 3 then
-			AbyssTools.SetLayerBossTeamCacheFlag(var_0_1, var_0_2, false)
+			uv2.UpdateRedPoints()
+		else
+			ShowTips(GetTips(slot0.result))
 		end
+	end,
+	GetLayerBonus = function (slot0)
+		manager.net:SendWithLoadingNew(55006, {
+			layer_list = slot0
+		}, 55007, uv0.OnGetLayerBonusCallback)
+	end,
+	OnGetLayerBonusCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			slot2 = {}
 
-		ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.ABYSS, arg_14_1.stage_id)
-		AbyssData:OnResetStage(var_0_1, var_0_2, arg_14_1.stage_id)
+			for slot6, slot7 in ipairs(slot1.layer_list) do
+				table.insertto(slot2, AbyssData:GetAbyssCfg(slot7).reward_list)
+			end
 
-		var_0_1 = nil
-		var_0_2 = nil
-
-		var_0_0.UpdateRedPoints()
-	else
-		ShowTips(GetTips(arg_14_0.result))
-	end
-end
-
-function var_0_0.GetLayerBonus(arg_15_0)
-	local var_15_0 = {
-		layer_list = arg_15_0
-	}
-
-	manager.net:SendWithLoadingNew(55006, var_15_0, 55007, var_0_0.OnGetLayerBonusCallback)
-end
-
-function var_0_0.OnGetLayerBonusCallback(arg_16_0, arg_16_1)
-	if isSuccess(arg_16_0.result) then
-		local var_16_0 = {}
-
-		for iter_16_0, iter_16_1 in ipairs(arg_16_1.layer_list) do
-			local var_16_1 = AbyssData:GetAbyssCfg(iter_16_1).reward_list
-
-			table.insertto(var_16_0, var_16_1)
+			getReward(mergeReward(formatRewardCfgList(slot2)))
+			AbyssData:OnLayerBonusGet(slot1.layer_list)
+			uv0.UpdateRedPoints()
+		else
+			ShowTips(GetTips(slot0.result))
 		end
-
-		local var_16_2 = formatRewardCfgList(var_16_0)
-		local var_16_3 = mergeReward(var_16_2)
-
-		getReward(var_16_3)
-		AbyssData:OnLayerBonusGet(arg_16_1.layer_list)
-		var_0_0.UpdateRedPoints()
-	else
-		ShowTips(GetTips(arg_16_0.result))
+	end,
+	SaveProgress = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(55012, {
+			stage_id = slot0,
+			is_save = slot1
+		}, 55013, uv0.OnSaveProgressCallback)
+	end,
+	OnSaveProgressCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			uv0.UpdateRedPoints()
+		else
+			ShowTips(GetTips(slot0.result))
+		end
+	end,
+	ReadBackFlag = function ()
+		manager.net:SendWithLoadingNew(55020, {}, 55021, uv0.OnReadBackFlagCallback)
+	end,
+	OnReadBackFlagCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			AbyssData:OnReadBackFlag()
+		else
+			ShowTips(GetTips(slot0.result))
+		end
+	end,
+	ClearTeamCache = function (slot0)
+		AbyssData:ClearTeamCache(slot0)
 	end
-end
-
-function var_0_0.SaveProgress(arg_17_0, arg_17_1)
-	local var_17_0 = {
-		stage_id = arg_17_0,
-		is_save = arg_17_1
-	}
-
-	manager.net:SendWithLoadingNew(55012, var_17_0, 55013, var_0_0.OnSaveProgressCallback)
-end
-
-function var_0_0.OnSaveProgressCallback(arg_18_0, arg_18_1)
-	if isSuccess(arg_18_0.result) then
-		var_0_0.UpdateRedPoints()
-	else
-		ShowTips(GetTips(arg_18_0.result))
-	end
-end
-
-function var_0_0.ReadBackFlag()
-	local var_19_0 = {}
-
-	manager.net:SendWithLoadingNew(55020, var_19_0, 55021, var_0_0.OnReadBackFlagCallback)
-end
-
-function var_0_0.OnReadBackFlagCallback(arg_20_0, arg_20_1)
-	if isSuccess(arg_20_0.result) then
-		AbyssData:OnReadBackFlag()
-	else
-		ShowTips(GetTips(arg_20_0.result))
-	end
-end
-
-function var_0_0.ClearTeamCache(arg_21_0)
-	AbyssData:ClearTeamCache(arg_21_0)
-end
-
-return var_0_0
+}

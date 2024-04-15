@@ -1,112 +1,105 @@
-local var_0_0 = class("DrawGiftView", ReduxView)
-local var_0_1 = 15
+slot0 = class("DrawGiftView", ReduxView)
+slot1 = 15
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Recharge/RechargeDrawGiftUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, RechargeGiftItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, RechargeGiftItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_bgmask, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_bgmask, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
-	local var_7_0 = DrawTools.GetCostTicketList(arg_7_0.poolId)
-	local var_7_1 = DrawTools.GetActivityCostTicket(arg_7_0.poolId)
-
-	if var_7_1 == 0 or ItemTools.IsItemExpiredByItemId(var_7_1) then
-		local var_7_2 = table.insertto(var_7_0, {
+function slot0.OnTop(slot0)
+	if DrawTools.GetActivityCostTicket(slot0.poolId) == 0 or ItemTools.IsItemExpiredByItemId(slot2) then
+		manager.windowBar:SwitchBar(table.insertto(DrawTools.GetCostTicketList(slot0.poolId), {
 			CurrencyConst.CURRENCY_TYPE_DIAMOND,
 			CurrencyConst.GetPlatformDiamondId()
-		})
-
-		manager.windowBar:SwitchBar(var_7_2)
+		}))
 	else
-		local var_7_3 = {}
-
-		if ItemTools.getItemNum(var_7_1) > 0 then
-			table.insert(var_7_3, var_7_1)
+		if ItemTools.getItemNum(slot2) > 0 then
+			table.insert({}, slot2)
 		end
 
-		for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-			table.insert(var_7_3, iter_7_1)
+		for slot7, slot8 in ipairs(slot1) do
+			table.insert(slot3, slot8)
 		end
 
-		table.insertto(var_7_3, {
+		table.insertto(slot3, {
 			CurrencyConst.CURRENCY_TYPE_DIAMOND,
 			CurrencyConst.GetPlatformDiamondId()
 		})
-		manager.windowBar:SwitchBar(var_7_3)
+		manager.windowBar:SwitchBar(slot3)
 
-		if ItemTools.getItemNum(var_7_1) > 0 then
-			manager.windowBar:SetBarCanAdd(var_7_1, false)
-			manager.windowBar:SetBarCanClick(var_7_1, true)
+		if ItemTools.getItemNum(slot2) > 0 then
+			manager.windowBar:SetBarCanAdd(slot2, false)
+			manager.windowBar:SetBarCanClick(slot2, true)
 		end
 	end
 
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.GetPlatformDiamondId(), true)
-	arg_7_0.list:Refresh()
+	slot0.list:Refresh()
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.poolId = arg_8_0.params_.poolId
+function slot0.OnEnter(slot0)
+	slot0.poolId = slot0.params_.poolId
 
-	arg_8_0:RefreshUI()
-	arg_8_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_9_0)
-		arg_8_0.list:Refresh()
+	slot0:RefreshUI()
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		uv0.list:Refresh()
 	end)
-	arg_8_0:RegistEventListener(CURRENCY_UPDATE, function(arg_10_0)
-		arg_8_0.list:Refresh()
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		uv0.list:Refresh()
 	end)
-	arg_8_0:RegistEventListener(SHOP_BUY_SUCCESS, function(arg_11_0, arg_11_1)
-		arg_8_0:RefreshUI()
+	slot0:RegistEventListener(SHOP_BUY_SUCCESS, function (slot0, slot1)
+		uv0:RefreshUI()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	arg_12_0.recharge_shop_list = DrawTools.GetRechargeDrawGiftList(arg_12_0.poolId)
+function slot0.RefreshUI(slot0)
+	slot0.recharge_shop_list = DrawTools.GetRechargeDrawGiftList(slot0.poolId)
 
-	arg_12_0.list:StartScroll(#arg_12_0.recharge_shop_list)
+	slot0.list:StartScroll(#slot0.recharge_shop_list)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.IndexItem(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_2:SetData({
-		id = arg_14_0.recharge_shop_list[arg_14_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData({
+		id = slot0.recharge_shop_list[slot1]
 	})
 end
 
-function var_0_0.OnItemOutOfDate(arg_15_0, arg_15_1)
-	arg_15_0:RefreshUI()
+function slot0.OnItemOutOfDate(slot0, slot1)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnShopBuyResult(arg_16_0)
-	arg_16_0.list:Refresh()
+function slot0.OnShopBuyResult(slot0)
+	slot0.list:Refresh()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.list:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

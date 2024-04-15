@@ -1,142 +1,126 @@
-local var_0_0 = class("ActivityFactoryStoryItem", ReduxView)
+slot0 = class("ActivityFactoryStoryItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.clearController_ = ControllerUtil.GetController(arg_1_0.transform_, "clear")
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
-	arg_1_0.lineController_ = ControllerUtil.GetController(arg_1_0.transform_, "line")
+	slot0.clearController_ = ControllerUtil.GetController(slot0.transform_, "clear")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.lineController_ = ControllerUtil.GetController(slot0.transform_, "line")
 end
 
-function var_0_0.OnExit(arg_2_0)
-	if arg_2_0.archiveView_ then
-		arg_2_0.archiveView_:OnExit()
+function slot0.OnExit(slot0)
+	if slot0.archiveView_ then
+		slot0.archiveView_:OnExit()
 	end
 
-	arg_2_0:Show(false)
+	slot0:Show(false)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	if arg_3_0.archiveView_ then
-		arg_3_0.archiveView_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.archiveView_ then
+		slot0.archiveView_:Dispose()
 
-		arg_3_0.archiveView_ = nil
+		slot0.archiveView_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_3_0)
-	Object.Destroy(arg_3_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		BattleFieldData:SetCacheStage(arg_4_0.chapterID_, arg_4_0.stageID_)
-		arg_4_0:Go("subPlotSectionInfo", {
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		BattleFieldData:SetCacheStage(uv0.chapterID_, uv0.stageID_)
+		uv0:Go("subPlotSectionInfo", {
 			sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT,
-			chapterID = arg_4_0.chapterID_,
-			section = arg_4_0.stageID_
+			chapterID = uv0.chapterID_,
+			section = uv0.stageID_
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.stageID_ = arg_6_1
-	arg_6_0.chapterID_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.stageID_ = slot1
+	slot0.chapterID_ = slot2
+	slot0.isClear_ = false
 
-	local var_6_0 = BattleStageData:GetStageData()[arg_6_0.stageID_]
-
-	arg_6_0.isClear_ = false
-
-	if var_6_0 and var_6_0.clear_times > 0 then
-		arg_6_0.isClear_ = true
+	if BattleStageData:GetStageData()[slot0.stageID_] and slot3.clear_times > 0 then
+		slot0.isClear_ = true
 	end
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = arg_7_0:GetPosition()
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetPosition()
+	slot0.transform_.localPosition = Vector3(slot1[1], slot1[2], 0)
+	slot2 = ChapterCfg[slot0.chapterID_]
+	slot3 = slot2.activity_id
+	slot0.textIndex_.text = string.format("%02d", table.keyof(slot2.section_id_list, slot0.stageID_))
+	slot0.textName_.text = GetI18NText(BattleActivityStoryStageCfg[slot0.stageID_].name)
 
-	arg_7_0.transform_.localPosition = Vector3(var_7_0[1], var_7_0[2], 0)
-
-	local var_7_1 = ChapterCfg[arg_7_0.chapterID_]
-	local var_7_2 = var_7_1.activity_id
-	local var_7_3 = table.keyof(var_7_1.section_id_list, arg_7_0.stageID_)
-
-	arg_7_0.textIndex_.text = string.format("%02d", var_7_3)
-
-	local var_7_4 = BattleActivityStoryStageCfg[arg_7_0.stageID_]
-
-	arg_7_0.textName_.text = GetI18NText(var_7_4.name)
-
-	arg_7_0:RefreshClear()
-	arg_7_0:RefreshArchive()
-	arg_7_0:Show(true)
+	slot0:RefreshClear()
+	slot0:RefreshArchive()
+	slot0:Show(true)
 end
 
-function var_0_0.GetPosition(arg_8_0)
-	local var_8_0 = BattleActivityStoryStageCfg[arg_8_0.stageID_]
-
-	return var_8_0 and var_8_0.position or {
+function slot0.GetPosition(slot0)
+	return BattleActivityStoryStageCfg[slot0.stageID_] and slot1.position or {
 		0,
 		0
 	}
 end
 
-function var_0_0.SelectorItem(arg_9_0, arg_9_1)
-	if arg_9_0.stageID_ == arg_9_1 and arg_9_0:IsOpenSectionInfo() then
-		arg_9_0.selectController_:SetSelectedState("on")
+function slot0.SelectorItem(slot0, slot1)
+	if slot0.stageID_ == slot1 and slot0:IsOpenSectionInfo() then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_9_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshClear(arg_10_0)
-	if arg_10_0.isClear_ then
-		arg_10_0.clearController_:SetSelectedState("on")
+function slot0.RefreshClear(slot0)
+	if slot0.isClear_ then
+		slot0.clearController_:SetSelectedState("on")
 	else
-		arg_10_0.clearController_:SetSelectedState("off")
+		slot0.clearController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.Show(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.gameObject_, arg_11_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.IsOpenSectionInfo(arg_12_0)
-	return arg_12_0:IsOpenRoute("subPlotSectionInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("subPlotSectionInfo")
 end
 
-function var_0_0.RefreshArchive(arg_13_0)
-	local var_13_0 = StageTools.GetStageArchiveID(arg_13_0.stageID_)
-
-	if var_13_0 == 0 then
-		arg_13_0.lineController_:SetSelectedState("hide")
+function slot0.RefreshArchive(slot0)
+	if StageTools.GetStageArchiveID(slot0.stageID_) == 0 then
+		slot0.lineController_:SetSelectedState("hide")
 
 		return
 	end
 
-	if StageArchiveCfg[var_13_0].position[2] > 0 then
-		arg_13_0.lineController_:SetSelectedState("top")
+	if StageArchiveCfg[slot1].position[2] > 0 then
+		slot0.lineController_:SetSelectedState("top")
 	else
-		arg_13_0.lineController_:SetSelectedState("bottom")
+		slot0.lineController_:SetSelectedState("bottom")
 	end
 
-	local var_13_1 = BattleStageData:GetStageData()[arg_13_0.stageID_]
+	slot0.archiveView_ = slot0.archiveView_ or ActivityFactoryArchiveView.New(slot0.archiveGo_)
 
-	arg_13_0.archiveView_ = arg_13_0.archiveView_ or ActivityFactoryArchiveView.New(arg_13_0.archiveGo_)
-
-	arg_13_0.archiveView_:SetData(arg_13_0.stageID_, var_13_0, var_13_1.clear_times <= 0)
+	slot0.archiveView_:SetData(slot0.stageID_, slot1, BattleStageData:GetStageData()[slot0.stageID_].clear_times <= 0)
 end
 
-function var_0_0.GetLocalPosition(arg_14_0)
-	return arg_14_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-return var_0_0
+return slot0

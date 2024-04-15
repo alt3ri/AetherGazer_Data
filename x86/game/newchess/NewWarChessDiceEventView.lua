@@ -1,69 +1,65 @@
-local var_0_0 = class("NewWarChessDiceEventView", ReduxView)
+slot0 = class("NewWarChessDiceEventView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/NewWarChess/NewWarChessDiceUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.diceFrameClickHandler_ = handler(arg_4_0, arg_4_0.OnDiceFrameClick)
-	arg_4_0.diceClickHandler_ = handler(arg_4_0, arg_4_0.OnDiceClick)
-	arg_4_0.skillClickHandler_ = handler(arg_4_0, arg_4_0.OnSkillItemClick)
-	arg_4_0.diceFramActiveController_ = ControllerUtil.GetController(arg_4_0.diceframeListGo_.transform, "num")
-	arg_4_0.diceFramSymbolController_ = ControllerUtil.GetController(arg_4_0.diceframeListGo_.transform, "symbol")
-	arg_4_0.yesBtnController_ = ControllerUtil.GetController(arg_4_0.yesbtn_.transform, "disable")
-	arg_4_0.diceFrameItem_ = {}
+	slot0.diceFrameClickHandler_ = handler(slot0, slot0.OnDiceFrameClick)
+	slot0.diceClickHandler_ = handler(slot0, slot0.OnDiceClick)
+	slot0.skillClickHandler_ = handler(slot0, slot0.OnSkillItemClick)
+	slot0.diceFramActiveController_ = ControllerUtil.GetController(slot0.diceframeListGo_.transform, "num")
+	slot0.diceFramSymbolController_ = ControllerUtil.GetController(slot0.diceframeListGo_.transform, "symbol")
+	slot0.yesBtnController_ = ControllerUtil.GetController(slot0.yesbtn_.transform, "disable")
+	slot0.diceFrameItem_ = {}
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0.diceFrameItem_[iter_4_0] = NewWarChessDiceFrameItem.New(arg_4_0["diceframe" .. iter_4_0 .. "_"], arg_4_0.diceFrameClickHandler_, iter_4_0)
+	for slot4 = 1, 3 do
+		slot0.diceFrameItem_[slot4] = NewWarChessDiceFrameItem.New(slot0["diceframe" .. slot4 .. "_"], slot0.diceFrameClickHandler_, slot4)
 	end
 
-	arg_4_0.diceList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexDice), arg_4_0.diceListGo_, NewWarChessDiceItem)
-	arg_4_0.skillList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexSkill), arg_4_0.skillListGo_, NewWarChessSkillItem)
+	slot0.diceList_ = LuaList.New(handler(slot0, slot0.IndexDice), slot0.diceListGo_, NewWarChessDiceItem)
+	slot0.skillList_ = LuaList.New(handler(slot0, slot0.IndexSkill), slot0.skillListGo_, NewWarChessSkillItem)
 end
 
-function var_0_0.OnDiceUpdate(arg_5_0)
-	arg_5_0:RefreshDiceList()
-	arg_5_0:RefreshDiceFrameList()
+function slot0.OnDiceUpdate(slot0)
+	slot0:RefreshDiceList()
+	slot0:RefreshDiceFrameList()
 end
 
-function var_0_0.RefreshDiceList(arg_6_0)
-	arg_6_0.diceDataList_ = NewWarChessData:GetDiceContinuousList()
+function slot0.RefreshDiceList(slot0)
+	slot0.diceDataList_ = NewWarChessData:GetDiceContinuousList()
 
-	arg_6_0.diceList_:StartScroll(#arg_6_0.diceDataList_)
+	slot0.diceList_:StartScroll(#slot0.diceDataList_)
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.backbtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backbtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.yesbtn_, nil, function()
-		if not arg_7_0.yesBtnClickAble_ then
+	slot0:AddBtnListener(slot0.yesbtn_, nil, function ()
+		if not uv0.yesBtnClickAble_ then
 			return
 		end
 
-		local var_9_0 = {}
-
-		for iter_9_0 = 1, #arg_7_0.diceFrameIDList_ do
-			table.insert(var_9_0, arg_7_0.diceFrameItem_[iter_9_0].dicePoint_)
+		for slot4 = 1, #uv0.diceFrameIDList_ do
+			table.insert({}, uv0.diceFrameItem_[slot4].dicePoint_)
 		end
 
-		if arg_7_0.chanceItemCfg_.jump_event[1] == NewChessConst.CHANCE_JUMP_TYPE.BATTLE then
-			NewWarChessAction.SelectChanceItem(arg_7_0.chanceItemID_, var_9_0, function()
-				local var_10_0 = arg_7_0.chanceItemCfg_.jump_event[2]
-
-				if not BattleNewWarChessStageCfg[var_10_0] then
-					-- block empty
+		if uv0.chanceItemCfg_.jump_event[1] == NewChessConst.CHANCE_JUMP_TYPE.BATTLE then
+			NewWarChessAction.SelectChanceItem(uv0.chanceItemID_, slot0, function ()
+				if not BattleNewWarChessStageCfg[uv0.chanceItemCfg_.jump_event[2]] then
+					-- Nothing
 				end
 
 				if NewWarChessData:CheckIsAllDie() then
@@ -72,131 +68,126 @@ function var_0_0.AddUIListener(arg_7_0)
 					return
 				end
 
-				local var_10_1 = {}
+				slot1 = {}
 
-				if arg_7_0.chanceItemCfg_.jump_event[5] then
-					local var_10_2 = 0
-
-					for iter_10_0, iter_10_1 in pairs(var_9_0) do
-						var_10_2 = var_10_2 + iter_10_1
+				if uv0.chanceItemCfg_.jump_event[5] then
+					for slot6, slot7 in pairs(uv1) do
+						slot2 = 0 + slot7
 					end
 
-					for iter_10_2, iter_10_3 in pairs(arg_7_0.chanceItemCfg_.jump_event[5]) do
-						local var_10_3 = deepClone(iter_10_3)
+					for slot6, slot7 in pairs(uv0.chanceItemCfg_.jump_event[5]) do
+						slot8 = deepClone(slot7)
+						slot8[2] = slot2
 
-						var_10_3[2] = var_10_2
-
-						table.insert(var_10_1, var_10_3)
+						table.insert(slot1, slot8)
 					end
 				end
 
-				manager.NewChessManager:BattleStart(arg_7_0.chanceID_, arg_7_0.chanceItemID_, var_9_0, var_10_1)
+				manager.NewChessManager:BattleStart(uv0.chanceID_, uv0.chanceItemID_, uv1, slot1)
 				gameContext:Go("/sectionSelectHero", {
-					section = var_10_0,
+					section = slot0,
 					sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_NEWWARCHESS,
 					activityID = NewWarChessData:GetCurrentActivity()
 				})
 			end)
 		else
-			NewWarChessAction.SelectChanceItem(arg_7_0.chanceItemID_, var_9_0, function()
-				arg_7_0:ExecuteChanceItem(arg_7_0.chanceItemID_)
+			NewWarChessAction.SelectChanceItem(uv0.chanceItemID_, slot0, function ()
+				uv0:ExecuteChanceItem(uv0.chanceItemID_)
 			end)
 		end
 	end)
 end
 
-function var_0_0.IndexSkill(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_2:SetData(arg_12_0.skillDataList_[arg_12_1])
-	arg_12_2:SetClickCallBack(arg_12_0.skillClickHandler_)
-	arg_12_2:BindSkillRedPoint()
+function slot0.IndexSkill(slot0, slot1, slot2)
+	slot2:SetData(slot0.skillDataList_[slot1])
+	slot2:SetClickCallBack(slot0.skillClickHandler_)
+	slot2:BindSkillRedPoint()
 end
 
-function var_0_0.OnSkillItemClick(arg_13_0, arg_13_1)
+function slot0.OnSkillItemClick(slot0, slot1)
 	JumpTools.OpenPageByJump("/newWarChessDiceSkillView", {
-		skillID = arg_13_1
+		skillID = slot1
 	})
 end
 
-function var_0_0.OnDiceClick(arg_14_0, arg_14_1)
+function slot0.OnDiceClick(slot0, slot1)
 	NewWarChessData:ClearAniCache()
 
-	local var_14_0 = #arg_14_0.diceFrameIDList_
+	slot2 = #slot0.diceFrameIDList_
 
-	if arg_14_0.diceDataList_[arg_14_1].hasInput == true then
-		for iter_14_0 = 1, var_14_0 do
-			if arg_14_0.diceFrameItem_[iter_14_0].diceIndex_ == arg_14_1 then
-				arg_14_0.diceDataList_[arg_14_1].hasInput = false
+	if slot0.diceDataList_[slot1].hasInput == true then
+		for slot6 = 1, slot2 do
+			if slot0.diceFrameItem_[slot6].diceIndex_ == slot1 then
+				slot0.diceDataList_[slot1].hasInput = false
 
-				arg_14_0.diceFrameItem_[iter_14_0]:ResetDiceData()
-				arg_14_0.diceFrameItem_[iter_14_0]:RefreshUI()
-				arg_14_0:RefreshDiceList()
-				arg_14_0:RefreshBtn()
-				arg_14_0:RefreshUIText()
+				slot0.diceFrameItem_[slot6]:ResetDiceData()
+				slot0.diceFrameItem_[slot6]:RefreshUI()
+				slot0:RefreshDiceList()
+				slot0:RefreshBtn()
+				slot0:RefreshUIText()
 
 				return
 			end
 		end
 	end
 
-	local var_14_1 = arg_14_0.diceDataList_[arg_14_1][1]
-	local var_14_2 = 0
-	local var_14_3 = 0
+	slot3 = slot0.diceDataList_[slot1][1]
 
-	for iter_14_1 = 1, var_14_0 do
-		if arg_14_0.diceFrameItem_[iter_14_1].dicePoint_ > 0 then
-			var_14_2 = var_14_2 + arg_14_0.diceFrameItem_[iter_14_1].dicePoint_
-			var_14_3 = var_14_3 + 1
+	for slot9 = 1, slot2 do
+		if slot0.diceFrameItem_[slot9].dicePoint_ > 0 then
+			slot4 = 0 + slot0.diceFrameItem_[slot9].dicePoint_
+			slot5 = 0 + 1
 		end
 	end
 
-	if var_14_3 < var_14_0 then
-		if arg_14_0.diceLimitType_ == NewChessConst.DICE_LIMIT_TYPE.TWAIN then
-			local var_14_4 = 0
+	if slot5 < slot2 then
+		if slot0.diceLimitType_ == NewChessConst.DICE_LIMIT_TYPE.TWAIN then
+			slot6 = 0
 
-			for iter_14_2 = 1, var_14_0 do
-				if arg_14_0.diceFrameItem_[iter_14_2].dicePoint_ ~= 0 then
-					var_14_4 = arg_14_0.diceFrameItem_[iter_14_2].dicePoint_
+			for slot10 = 1, slot2 do
+				if slot0.diceFrameItem_[slot10].dicePoint_ ~= 0 then
+					slot6 = slot0.diceFrameItem_[slot10].dicePoint_
 
 					break
 				end
 			end
 
-			if var_14_4 > 0 and var_14_1 ~= var_14_4 then
+			if slot6 > 0 and slot3 ~= slot6 then
 				ShowTips("ACTIVITY_NEW_WARCHESS_DICE_NOT_IS_TWAIN")
 
 				return
 			end
 		end
 
-		if arg_14_0.outputLimit_ ~= 0 then
-			if var_14_2 + var_14_1 > arg_14_0.outputLimit_ then
-				ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_GREATER"), arg_14_0.outputLimit_))
+		if slot0.outputLimit_ ~= 0 then
+			if slot0.outputLimit_ < slot4 + slot3 then
+				ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_GREATER"), slot0.outputLimit_))
 
 				return
 			end
 
-			if var_14_3 == var_14_0 - 1 then
-				if var_14_2 + var_14_1 < arg_14_0.outputLimit_ then
-					ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_SMALLER"), arg_14_0.outputLimit_))
+			if slot5 == slot2 - 1 then
+				if slot4 + slot3 < slot0.outputLimit_ then
+					ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_SMALLER"), slot0.outputLimit_))
 
 					return
-				elseif var_14_2 + var_14_1 > arg_14_0.outputLimit_ then
-					ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_GREATER"), arg_14_0.outputLimit_))
+				elseif slot0.outputLimit_ < slot4 + slot3 then
+					ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_DICE_SUM_GREATER"), slot0.outputLimit_))
 
 					return
 				end
 			end
 		end
 
-		for iter_14_3 = 1, var_14_0 do
-			if arg_14_0.diceFrameItem_[iter_14_3]:CheckInputLimit(arg_14_1) then
-				arg_14_0.diceFrameItem_[iter_14_3]:SetInputDice(arg_14_1)
+		for slot9 = 1, slot2 do
+			if slot0.diceFrameItem_[slot9]:CheckInputLimit(slot1) then
+				slot0.diceFrameItem_[slot9]:SetInputDice(slot1)
 
-				arg_14_0.diceDataList_[arg_14_1].hasInput = true
+				slot0.diceDataList_[slot1].hasInput = true
 
-				arg_14_0:RefreshDiceList()
-				arg_14_0:RefreshBtn()
-				arg_14_0:RefreshUIText()
+				slot0:RefreshDiceList()
+				slot0:RefreshBtn()
+				slot0:RefreshUIText()
 
 				return
 			end
@@ -206,176 +197,169 @@ function var_0_0.OnDiceClick(arg_14_0, arg_14_1)
 	end
 end
 
-function var_0_0.OnDiceFrameClick(arg_15_0, arg_15_1)
-	local var_15_0 = arg_15_0.diceFrameItem_[arg_15_1]
+function slot0.OnDiceFrameClick(slot0, slot1)
+	if slot0.diceFrameItem_[slot1].diceIndex_ ~= 0 then
+		slot0.diceDataList_[slot2.diceIndex_].hasInput = false
 
-	if var_15_0.diceIndex_ ~= 0 then
-		arg_15_0.diceDataList_[var_15_0.diceIndex_].hasInput = false
-
-		var_15_0:ResetDiceData()
-		var_15_0:RefreshUI()
-		arg_15_0:RefreshBtn()
-		arg_15_0:RefreshUIText()
-		arg_15_0:RefreshDiceList()
+		slot2:ResetDiceData()
+		slot2:RefreshUI()
+		slot0:RefreshBtn()
+		slot0:RefreshUIText()
+		slot0:RefreshDiceList()
 	end
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	arg_16_0.chanceID_ = arg_16_0.params_.chanceID
-	arg_16_0.chanceCfg_ = NewWarChessChanceCfg[arg_16_0.chanceID_]
-	arg_16_0.chanceItemID_ = arg_16_0.params_.chanceItemID
-	arg_16_0.chanceItemCfg_ = NewWarChessChanceItemCfg[arg_16_0.chanceItemID_]
-	arg_16_0.eventPoolCfg_ = NewWarChessEventPoolCfg[arg_16_0.chanceItemCfg_.new_warchess_event]
-	arg_16_0.diceEventCfg_ = NewWarChessDiceEventCfg[arg_16_0.chanceItemCfg_.dice_type]
-	arg_16_0.diceFrameIDList_ = arg_16_0.diceEventCfg_.dice_configuration
-	arg_16_0.diceLimitType_ = arg_16_0.diceEventCfg_.dice_limit_type
-	arg_16_0.outputLimit_ = arg_16_0.diceEventCfg_.dice_limit_output
+function slot0.OnEnter(slot0)
+	slot0.chanceID_ = slot0.params_.chanceID
+	slot0.chanceCfg_ = NewWarChessChanceCfg[slot0.chanceID_]
+	slot0.chanceItemID_ = slot0.params_.chanceItemID
+	slot0.chanceItemCfg_ = NewWarChessChanceItemCfg[slot0.chanceItemID_]
+	slot0.eventPoolCfg_ = NewWarChessEventPoolCfg[slot0.chanceItemCfg_.new_warchess_event]
+	slot0.diceEventCfg_ = NewWarChessDiceEventCfg[slot0.chanceItemCfg_.dice_type]
+	slot0.diceFrameIDList_ = slot0.diceEventCfg_.dice_configuration
+	slot0.diceLimitType_ = slot0.diceEventCfg_.dice_limit_type
+	slot0.outputLimit_ = slot0.diceEventCfg_.dice_limit_output
 
-	arg_16_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshSkillList(arg_17_0)
-	arg_17_0.skillDataList_ = NewWarChessData:GetSkillList()
+function slot0.RefreshSkillList(slot0)
+	slot0.skillDataList_ = NewWarChessData:GetSkillList()
 
-	arg_17_0.skillList_:StartScroll(#arg_17_0.skillDataList_)
+	slot0.skillList_:StartScroll(#slot0.skillDataList_)
 end
 
-function var_0_0.RefreshUI(arg_18_0)
-	arg_18_0:RefreshBtn()
-	arg_18_0:RefreshUIText()
-	arg_18_0:RefreshDiceList()
-	arg_18_0:RefreshDiceFrameList()
-	arg_18_0:RefreshSkillList()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshBtn()
+	slot0:RefreshUIText()
+	slot0:RefreshDiceList()
+	slot0:RefreshDiceFrameList()
+	slot0:RefreshSkillList()
 end
 
-function var_0_0.RefreshBtn(arg_19_0)
-	for iter_19_0 = 1, #arg_19_0.diceFrameIDList_ do
-		if arg_19_0.diceFrameItem_[iter_19_0].dicePoint_ == 0 then
-			arg_19_0.yesBtnController_:SetSelectedState("true")
+function slot0.RefreshBtn(slot0)
+	for slot4 = 1, #slot0.diceFrameIDList_ do
+		if slot0.diceFrameItem_[slot4].dicePoint_ == 0 then
+			slot0.yesBtnController_:SetSelectedState("true")
 
-			arg_19_0.yesBtnClickAble_ = false
+			slot0.yesBtnClickAble_ = false
 
 			return
 		end
 	end
 
-	arg_19_0.yesBtnClickAble_ = true
+	slot0.yesBtnClickAble_ = true
 
-	arg_19_0.yesBtnController_:SetSelectedState("false")
+	slot0.yesBtnController_:SetSelectedState("false")
 end
 
-function var_0_0.RefreshUIText(arg_20_0)
-	arg_20_0.nameText_.text = arg_20_0.chanceItemCfg_.name
-	arg_20_0.destext_.text = NewChessTools.GetChanceDes(arg_20_0.chanceCfg_)
-	arg_20_0.diceDescText_.text = arg_20_0.diceEventCfg_.dice_description
+function slot0.RefreshUIText(slot0)
+	slot0.nameText_.text = slot0.chanceItemCfg_.name
+	slot0.destext_.text = NewChessTools.GetChanceDes(slot0.chanceCfg_)
+	slot0.diceDescText_.text = slot0.diceEventCfg_.dice_description
+	slot1 = {}
 
-	local var_20_0 = {}
-
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.diceFrameItem_) do
-		if iter_20_1.dicePoint_ ~= 0 then
-			table.insert(var_20_0, iter_20_1.dicePoint_)
+	for slot5, slot6 in ipairs(slot0.diceFrameItem_) do
+		if slot6.dicePoint_ ~= 0 then
+			table.insert(slot1, slot6.dicePoint_)
 		end
 	end
 
-	arg_20_0.eventDescText_.text = NewChessTools.GetDiceEventDes(arg_20_0.chanceItemCfg_, var_20_0, arg_20_0.yesBtnClickAble_)
+	slot0.eventDescText_.text = NewChessTools.GetDiceEventDes(slot0.chanceItemCfg_, slot1, slot0.yesBtnClickAble_)
 end
 
-function var_0_0.IndexDice(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_2:SetData(arg_21_1, arg_21_0.diceDataList_[arg_21_1])
-	arg_21_2:SetClickCallBack(arg_21_0.diceClickHandler_)
+function slot0.IndexDice(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.diceDataList_[slot1])
+	slot2:SetClickCallBack(slot0.diceClickHandler_)
 end
 
-function var_0_0.RefreshDiceFrameList(arg_22_0)
-	if arg_22_0.diceLimitType_ == NewChessConst.DICE_LIMIT_TYPE.TWAIN then
-		arg_22_0.diceFramSymbolController_:SetSelectedState("double")
-	elseif arg_22_0.outputLimit_ ~= 0 then
-		arg_22_0.diceFramSymbolController_:SetSelectedState("add")
+function slot0.RefreshDiceFrameList(slot0)
+	if slot0.diceLimitType_ == NewChessConst.DICE_LIMIT_TYPE.TWAIN then
+		slot0.diceFramSymbolController_:SetSelectedState("double")
+	elseif slot0.outputLimit_ ~= 0 then
+		slot0.diceFramSymbolController_:SetSelectedState("add")
 	else
-		arg_22_0.diceFramSymbolController_:SetSelectedState("empty")
+		slot0.diceFramSymbolController_:SetSelectedState("empty")
 	end
 
-	arg_22_0.diceFramActiveController_:SetSelectedState(tostring(#arg_22_0.diceFrameIDList_))
+	slot4 = #slot0.diceFrameIDList_
 
-	for iter_22_0 = 1, 3 do
-		arg_22_0.diceFrameItem_[iter_22_0]:SetData(arg_22_0.diceFrameIDList_[iter_22_0] or 0)
+	slot0.diceFramActiveController_:SetSelectedState(tostring(slot4))
+
+	for slot4 = 1, 3 do
+		slot0.diceFrameItem_[slot4]:SetData(slot0.diceFrameIDList_[slot4] or 0)
 	end
 end
 
-function var_0_0.ExecuteChanceItem(arg_23_0, arg_23_1)
-	local var_23_0 = NewWarChessChanceItemCfg[arg_23_1]
-
-	arg_23_0:ExecuteNewWarChessEvent(arg_23_1)
-	arg_23_0:ExecuteChanceJumpEvent(var_23_0.jump_event)
+function slot0.ExecuteChanceItem(slot0, slot1)
+	slot0:ExecuteNewWarChessEvent(slot1)
+	slot0:ExecuteChanceJumpEvent(NewWarChessChanceItemCfg[slot1].jump_event)
 end
 
-function var_0_0.ExecuteNewWarChessEvent(arg_24_0, arg_24_1)
-	local var_24_0 = {}
+function slot0.ExecuteNewWarChessEvent(slot0, slot1)
+	slot2 = {}
 
-	for iter_24_0 = 1, #arg_24_0.diceFrameIDList_ do
-		table.insert(var_24_0, arg_24_0.diceFrameItem_[iter_24_0].dicePoint_)
+	for slot6 = 1, #slot0.diceFrameIDList_ do
+		table.insert(slot2, slot0.diceFrameItem_[slot6].dicePoint_)
 	end
 
-	NewWarChessData:RemoveDice(var_24_0)
+	NewWarChessData:RemoveDice(slot2)
 
-	local var_24_1 = manager.NewChessManager:GetChanceInteracChess()
-
-	if NewWarChessChanceItemCfg[arg_24_1].new_warchess_event ~= 0 then
-		local var_24_2 = NewWarChessData:GetServerEvent(NewChessConst.TIMING_CHANCE_CHOOSE, {
-			arg_24_1
-		})
-
-		manager.NewChessManager:ExecutChess(NewChessConst.TIMING_CHANCE_CHOOSE, var_24_1, var_24_2)
+	if NewWarChessChanceItemCfg[slot1].new_warchess_event ~= 0 then
+		manager.NewChessManager:ExecutChess(NewChessConst.TIMING_CHANCE_CHOOSE, manager.NewChessManager:GetChanceInteracChess(), NewWarChessData:GetServerEvent(NewChessConst.TIMING_CHANCE_CHOOSE, {
+			slot1
+		}))
 		manager.NewChessManager:StartExecuteEvent()
 	end
 end
 
-function var_0_0.ExecuteChanceJumpEvent(arg_25_0, arg_25_1)
-	if arg_25_1[1] then
-		if arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.NEW_CHANCE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.BATTLE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.SELECT_CHANCE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.DICE_SWITCH_CHANCE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.DICE_SUM_SWITCH_CHANCE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.ATTRIBUTE_SWITCH_CHANCE then
+function slot0.ExecuteChanceJumpEvent(slot0, slot1)
+	if slot1[1] then
+		if slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.NEW_CHANCE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.BATTLE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.SELECT_CHANCE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.DICE_SWITCH_CHANCE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.DICE_SUM_SWITCH_CHANCE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.ATTRIBUTE_SWITCH_CHANCE then
 			JumpTools.OpenPageByJump("/newWarChessChanceView", {
 				chanceID = NewWarChessData:GetServerChanceID()
 			})
-		elseif arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.LEFT_WITHOUTSAVE or arg_25_1[1] == NewChessConst.CHANCE_JUMP_TYPE.LEFT_WITHSAVE then
+		elseif slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.LEFT_WITHOUTSAVE or slot1[1] == NewChessConst.CHANCE_JUMP_TYPE.LEFT_WITHSAVE then
 			JumpTools.OpenPageByJump("/newWarChessHome")
 		end
 	end
 end
 
-function var_0_0.OnTop(arg_26_0)
-	arg_26_0:RefreshUI()
+function slot0.OnTop(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_27_0)
+function slot0.OnExit(slot0)
 	NewWarChessData:ClearDiceContinuousList()
 
-	for iter_27_0 = 1, 3 do
-		arg_27_0.diceFrameItem_[iter_27_0]:ResetData()
+	for slot4 = 1, 3 do
+		slot0.diceFrameItem_[slot4]:ResetData()
 	end
 end
 
-function var_0_0.Dispose(arg_28_0)
-	arg_28_0.diceFrameClickHandler_ = nil
-	arg_28_0.skillClickHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.diceFrameClickHandler_ = nil
+	slot0.skillClickHandler_ = nil
 
-	for iter_28_0, iter_28_1 in pairs(arg_28_0.diceFrameItem_) do
-		iter_28_1:Dispose()
+	for slot4, slot5 in pairs(slot0.diceFrameItem_) do
+		slot5:Dispose()
 	end
 
-	arg_28_0.diceFrameItem_ = nil
+	slot0.diceFrameItem_ = nil
 
-	if arg_28_0.diceList_ then
-		arg_28_0.diceList_:Dispose()
+	if slot0.diceList_ then
+		slot0.diceList_:Dispose()
 
-		arg_28_0.diceList_ = nil
+		slot0.diceList_ = nil
 	end
 
-	if arg_28_0.skillList_ then
-		arg_28_0.skillList_:Dispose()
+	if slot0.skillList_ then
+		slot0.skillList_:Dispose()
 
-		arg_28_0.skillList_ = nil
+		slot0.skillList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_28_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,153 +1,141 @@
-local var_0_0 = class("ActivityAttributeArenaItem", ReduxView)
+slot0 = class("ActivityAttributeArenaItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.teamList = LuaList.New(handler(arg_3_0, arg_3_0.IndexTeamItem), arg_3_0.m_teamList, ActivityAttributeArenaHeroItem)
-	arg_3_0.rankTeamList = LuaList.New(handler(arg_3_0, arg_3_0.IndexRankTeamItem), arg_3_0.m_rankList, ActivityAttributeArenaHeroItem)
-	arg_3_0.scoreController = ControllerUtil.GetController(arg_3_0.transform_, "score")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.rankController = ControllerUtil.GetController(arg_3_0.transform_, "rank")
+	slot0.teamList = LuaList.New(handler(slot0, slot0.IndexTeamItem), slot0.m_teamList, ActivityAttributeArenaHeroItem)
+	slot0.rankTeamList = LuaList.New(handler(slot0, slot0.IndexRankTeamItem), slot0.m_rankList, ActivityAttributeArenaHeroItem)
+	slot0.scoreController = ControllerUtil.GetController(slot0.transform_, "score")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.rankController = ControllerUtil.GetController(slot0.transform_, "rank")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_clickBtn, function()
-		if arg_4_0.score > 0 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_clickBtn, function ()
+		if uv0.score > 0 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("ACTIVITY_ATTRIBUTE_ARENE_RESET"),
-				OkCallback = function()
-					ActivityAttributeArenaAction.QueryResetScore(arg_4_0.activity_id, arg_4_0.attribute_arena_id)
+				OkCallback = function ()
+					ActivityAttributeArenaAction.QueryResetScore(uv0.activity_id, uv0.attribute_arena_id)
 				end
 			})
 		else
-			local var_5_0 = ActivityAttributeArenaCfg[arg_4_0.attribute_arena_id]
-
-			arg_4_0:Go("/sectionSelectHero", {
-				section = var_5_0.stage_id,
+			uv0:Go("/sectionSelectHero", {
+				section = ActivityAttributeArenaCfg[uv0.attribute_arena_id].stage_id,
 				sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA,
-				activityID = arg_4_0.activity_id,
-				arena_index = arg_4_0.index,
-				attribute_arena_id = arg_4_0.attribute_arena_id,
-				reserveParams = arg_4_0.reserveParams_
+				activityID = uv0.activity_id,
+				arena_index = uv0.index,
+				attribute_arena_id = uv0.attribute_arena_id,
+				reserveParams = uv0.reserveParams_
 			})
 		end
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_rankBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_rankBtn, function ()
 		JumpTools.OpenPageByJump("/activityAttributeArenaRank", {
-			rank_activity_id = arg_4_0.rank_activity_id,
-			index = arg_4_0.index
+			rank_activity_id = uv0.rank_activity_id,
+			index = uv0.index
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.activity_id = arg_8_2
-	arg_8_0.rank_activity_id = arg_8_3
-	arg_8_0.index = arg_8_1.index
-	arg_8_0.attribute_arena_id = arg_8_1.id
-	arg_8_0.score = arg_8_1.score
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.activity_id = slot2
+	slot0.rank_activity_id = slot3
+	slot0.index = slot1.index
+	slot0.attribute_arena_id = slot1.id
+	slot0.score = slot1.score
 
-	arg_8_0:GetHeroTeam()
-	arg_8_0:RefreshUI()
+	slot0:GetHeroTeam()
+	slot0:RefreshUI()
 end
 
-function var_0_0.GetHeroTeam(arg_9_0)
-	local var_9_0 = ActivityAttributeArenaCfg[arg_9_0.attribute_arena_id]
-
-	arg_9_0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.ATTRIBUTE_ARENA, arg_9_0.attribute_arena_id, nil, {
+function slot0.GetHeroTeam(slot0)
+	slot7 = {
 		stageType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA,
-		stageID = var_9_0.stage_id,
-		attribute_arena_id = arg_9_0.attribute_arena_id,
-		activityID = arg_9_0.activity_id
-	})
-	arg_9_0.heroList_, arg_9_0.trialList_ = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ATTRIBUTE_ARENA):GetArenaHeroList(arg_9_0.attribute_arena_id)
+		stageID = ActivityAttributeArenaCfg[slot0.attribute_arena_id].stage_id,
+		attribute_arena_id = slot0.attribute_arena_id,
+		activityID = slot8
+	}
+	slot8 = slot0.activity_id
+	slot0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.ATTRIBUTE_ARENA, slot0.attribute_arena_id, nil, slot7)
+	slot0.heroList_, slot0.trialList_ = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ATTRIBUTE_ARENA):GetArenaHeroList(slot0.attribute_arena_id)
+	slot3 = 0
 
-	local var_9_1 = 0
-
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.heroList_) do
-		if iter_9_1 == 0 then
+	for slot7, slot8 in ipairs(slot0.heroList_) do
+		if slot8 == 0 then
 			break
 		end
 
-		var_9_1 = var_9_1 + 1
+		slot3 = slot3 + 1
 	end
 
-	arg_9_0.heroCount_ = var_9_1
+	slot0.heroCount_ = slot3
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = ActivityAttributeArenaCfg[arg_10_0.attribute_arena_id]
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityAttributeArenaCfg[slot0.attribute_arena_id]
+	slot0.m_monsterIcon.sprite = getSpriteWithoutAtlas("TextureConfig/ArenaUI/Boss/" .. slot1.stage_id)
+	slot0.m_attributeIcon.sprite = HeroTools.GetSkillAttributeIcon(slot1.attribute)
 
-	arg_10_0.m_monsterIcon.sprite = getSpriteWithoutAtlas("TextureConfig/ArenaUI/Boss/" .. var_10_0.stage_id)
-	arg_10_0.m_attributeIcon.sprite = HeroTools.GetSkillAttributeIcon(var_10_0.attribute)
-
-	if arg_10_0.score == 0 then
-		arg_10_0.scoreController:SetSelectedIndex(0)
+	if slot0.score == 0 then
+		slot0.scoreController:SetSelectedIndex(0)
 	else
-		arg_10_0.scoreController:SetSelectedIndex(1)
+		slot0.scoreController:SetSelectedIndex(1)
 
-		arg_10_0.m_score.text = arg_10_0.score
+		slot0.m_score.text = slot0.score
 
-		arg_10_0.teamList:StartScroll(arg_10_0.heroCount_)
+		slot0.teamList:StartScroll(slot0.heroCount_)
 	end
 
-	local var_10_1 = RankData:GetActivityRank(arg_10_0.rank_activity_id, arg_10_0.index)
+	if RankData:GetActivityRank(slot0.rank_activity_id, slot0.index) and #slot2.rankList > 0 then
+		slot0.rankController:SetSelectedIndex(1)
 
-	if var_10_1 and #var_10_1.rankList > 0 then
-		arg_10_0.rankController:SetSelectedIndex(1)
+		slot3 = slot2.rankList[1]
+		slot0.m_rankIcon.sprite = ItemTools.getItemSprite(slot3.portrait)
+		slot0.m_rankFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot3.frame)
+		slot0.m_rankScore.text = slot3.score
+		slot0.m_rankLab.text = slot3.rank
+		slot0.rankHeroList = slot3:GetSingleSelectHeroList()
 
-		local var_10_2 = var_10_1.rankList[1]
-
-		arg_10_0.m_rankIcon.sprite = ItemTools.getItemSprite(var_10_2.portrait)
-		arg_10_0.m_rankFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_10_2.frame)
-		arg_10_0.m_rankScore.text = var_10_2.score
-		arg_10_0.m_rankLab.text = var_10_2.rank
-		arg_10_0.rankHeroList = var_10_2:GetSingleSelectHeroList()
-
-		arg_10_0.rankTeamList:StartScroll(#arg_10_0.rankHeroList)
+		slot0.rankTeamList:StartScroll(#slot0.rankHeroList)
 	else
-		arg_10_0.rankController:SetSelectedIndex(0)
+		slot0.rankController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.teamList:Dispose()
-	arg_11_0.rankTeamList:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.teamList:Dispose()
+	slot0.rankTeamList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexTeamItem(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_0.trialList_[arg_12_1] ~= 0 then
-		local var_12_0 = HeroStandardSystemCfg[arg_12_0.trialList_[arg_12_1]]
-
-		arg_12_2:SetData(var_12_0.skin_id)
+function slot0.IndexTeamItem(slot0, slot1, slot2)
+	if slot0.trialList_[slot1] ~= 0 then
+		slot2:SetData(HeroStandardSystemCfg[slot0.trialList_[slot1]].skin_id)
 	else
-		arg_12_2:SetData(HeroTools.HeroUsingSkinInfo(arg_12_0.heroList_[arg_12_1]).id)
+		slot2:SetData(HeroTools.HeroUsingSkinInfo(slot0.heroList_[slot1]).id)
 	end
 end
 
-function var_0_0.IndexRankTeamItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.rankHeroList[arg_13_1]
-	local var_13_1 = var_13_0.skin_id
-
-	if var_13_1 == 0 then
-		var_13_1 = var_13_0.hero_id
+function slot0.IndexRankTeamItem(slot0, slot1, slot2)
+	if slot0.rankHeroList[slot1].skin_id == 0 then
+		slot4 = slot3.hero_id
 	end
 
-	arg_13_2:SetData(var_13_1)
+	slot2:SetData(slot4)
 end
 
-return var_0_0
+return slot0

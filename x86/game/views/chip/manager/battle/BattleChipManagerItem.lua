@@ -1,19 +1,18 @@
-local var_0_0 = import("game.views.chip.manager.ChipManagerItem")
-local var_0_1 = class("BattleChipManagerItem", var_0_0)
+slot1 = class("BattleChipManagerItem", import("game.views.chip.manager.ChipManagerItem"))
 
-function var_0_1.AddListeners(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.btn_, nil, function()
-		arg_1_0:Go("/battleChipManager", {
-			chipManagerID = arg_1_0.chipManagerID_,
-			stageID = arg_1_0.chipManagerDataTemplate_.stageID_,
-			stageType = arg_1_0.chipManagerDataTemplate_.stageType_,
-			sectionProxy = arg_1_0.chipManagerDataTemplate_.sectionProxy_
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		uv0:Go("/battleChipManager", {
+			chipManagerID = uv0.chipManagerID_,
+			stageID = uv0.chipManagerDataTemplate_.stageID_,
+			stageType = uv0.chipManagerDataTemplate_.stageType_,
+			sectionProxy = uv0.chipManagerDataTemplate_.sectionProxy_
 		})
 	end)
 end
 
-function var_0_1.SetTemplateData(arg_3_0, arg_3_1)
-	arg_3_0.chipManagerDataTemplate_ = arg_3_1
+function slot1.SetTemplateData(slot0, slot1)
+	slot0.chipManagerDataTemplate_ = slot1
 end
 
-return var_0_1
+return slot1

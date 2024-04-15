@@ -1,32 +1,29 @@
-local var_0_0 = import("game.views.battleResult.BattleResultBaseView")
-local var_0_1 = class("BattleScoreWithMaxScoreResultView", var_0_0)
+slot1 = class("BattleScoreWithMaxScoreResultView", import("game.views.battleResult.BattleResultBaseView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/BattleResult/BattleResultSlayerUI"
 end
 
-function var_0_1.RefreshUI(arg_2_0)
-	arg_2_0:SetLevelTitle()
-	arg_2_0:RefreshMyExpS()
-	arg_2_0:RefreshHeroS()
-	arg_2_0:RefreshCommonUI()
-	arg_2_0:RefreshBattleTime()
-	SetActive(arg_2_0.repulsionQuantity_, false)
+function slot1.RefreshUI(slot0)
+	slot0:SetLevelTitle()
+	slot0:RefreshMyExpS()
+	slot0:RefreshHeroS()
+	slot0:RefreshCommonUI()
+	slot0:RefreshBattleTime()
+	SetActive(slot0.repulsionQuantity_, false)
 
-	local var_2_0 = arg_2_0.params_.maxScore
-	local var_2_1 = arg_2_0.params_.score
+	slot2 = slot0.params_.score
+	slot0.m_slayerCur.text = slot2
 
-	arg_2_0.m_slayerCur.text = var_2_1
+	if slot0.params_.maxScore < slot2 then
+		SetActive(slot0.m_slayerNew, true)
 
-	if var_2_0 < var_2_1 then
-		SetActive(arg_2_0.m_slayerNew, true)
-
-		arg_2_0.m_slayerMax.text = var_2_1
+		slot0.m_slayerMax.text = slot2
 	else
-		SetActive(arg_2_0.m_slayerNew, false)
+		SetActive(slot0.m_slayerNew, false)
 
-		arg_2_0.m_slayerMax.text = var_2_0
+		slot0.m_slayerMax.text = slot1
 	end
 end
 
-return var_0_1
+return slot1

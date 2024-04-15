@@ -1,283 +1,267 @@
-local var_0_0 = class("ColorPuzzleGameView", ReduxView)
-local var_0_1 = 53100
+slot0 = class("ColorPuzzleGameView", ReduxView)
+slot1 = 53100
 
-function var_0_0.GetLevelRoot(arg_1_0)
+function slot0.GetLevelRoot(slot0)
 	return "Widget/System/SPHeroChallenge/ColorPuzzle/Levels/"
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/ColorPuzzle/ColorPuzzleGameView"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_4_0)
-	arg_4_0.level = nil
-	arg_4_0.letMeTry, arg_4_0.totalTry = nil
-	arg_4_0.gameLevel = nil
-	arg_4_0.useAutoComplete = nil
-	arg_4_0.time = nil
+function slot0.OnCtor(slot0)
+	slot0.level = nil
+	slot0.totalTry = nil
+	slot0.letMeTry = nil
+	slot0.gameLevel = nil
+	slot0.useAutoComplete = nil
+	slot0.time = nil
 end
 
-function var_0_0.Init(arg_5_0)
-	arg_5_0:BindCfgUI()
-	arg_5_0:InitUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:InitUI()
 end
 
-local function var_0_2()
+function slot2()
 	return nullable(GameSetting, "activity_hero_challenge_color_cost", "value", 1) or 0
 end
 
-local function var_0_3(arg_7_0)
-	if var_0_2() <= ItemTools.getItemNum(var_0_1) then
+function slot3(slot0)
+	if uv0() <= ItemTools.getItemNum(uv1) then
 		return true
-	elseif arg_7_0 then
+	elseif slot0 then
 		ShowTips("ACTIVITY_HERO_CHALLENGE_COIN_LACK")
 	end
 
 	return false
 end
 
-function var_0_0.InitUI(arg_8_0)
-	arg_8_0.costItemIcon_.sprite = ItemTools.getItemLittleSprite(var_0_1)
+function slot0.InitUI(slot0)
+	slot0.costItemIcon_.sprite = ItemTools.getItemLittleSprite(uv0)
 
-	local var_8_0 = var_0_2()
-
-	if not var_0_3() then
-		var_8_0 = "<color=#FF0000>" .. var_8_0 .. "</color>"
+	if not uv2() then
+		slot1 = "<color=#FF0000>" .. uv1() .. "</color>"
 	end
 
-	arg_8_0.costAmount_.text = var_8_0
-	arg_8_0.autoCompleteController = arg_8_0.controllers_:GetController("autoComplete")
-	arg_8_0.completeHighlightController = arg_8_0.controllers_:GetController("complete")
+	slot0.costAmount_.text = slot1
+	slot0.autoCompleteController = slot0.controllers_:GetController("autoComplete")
+	slot0.completeHighlightController = slot0.controllers_:GetController("complete")
 
-	arg_8_0:AddBtnListenerScale(arg_8_0.autoCompleteBtn_, nil, function()
-		if arg_8_0.gameLevel and not arg_8_0.gameLevel:CheckComplete() and arg_8_0.autoCompleteController:GetSelectedState() == "ready" and var_0_3(true) then
-			arg_8_0.gameLevel:AutoComplete()
+	slot0:AddBtnListenerScale(slot0.autoCompleteBtn_, nil, function ()
+		if uv0.gameLevel and not uv0.gameLevel:CheckComplete() and uv0.autoCompleteController:GetSelectedState() == "ready" and uv1(true) then
+			uv0.gameLevel:AutoComplete()
 
-			arg_8_0.useAutoComplete = true
+			uv0.useAutoComplete = true
 
-			arg_8_0.completeHighlightController:SetSelectedState("true")
+			uv0.completeHighlightController:SetSelectedState("true")
 		end
 	end)
-	arg_8_0:AddBtnListenerScale(arg_8_0.clearAllBtn_, nil, function()
-		if arg_8_0.gameLevel then
-			arg_8_0.gameLevel:ClearNodes()
+	slot0:AddBtnListenerScale(slot0.clearAllBtn_, nil, function ()
+		if uv0.gameLevel then
+			uv0.gameLevel:ClearNodes()
 
-			if not arg_8_0.reset then
-				arg_8_0.reset = true
+			if not uv0.reset then
+				uv0.reset = true
 
-				arg_8_0:ReportClear()
+				uv0:ReportClear()
 			end
 		end
 	end)
-	arg_8_0:AddBtnListenerScale(arg_8_0.checkCompleteBtn_, nil, function()
-		if arg_8_0.gameLevel and arg_8_0.gameLevel:CheckComplete(true) then
-			arg_8_0:StopTimeWatch()
-			arg_8_0:EndGame()
+	slot0:AddBtnListenerScale(slot0.checkCompleteBtn_, nil, function ()
+		if uv0.gameLevel and uv0.gameLevel:CheckComplete(true) then
+			uv0:StopTimeWatch()
+			uv0:EndGame()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.level = arg_12_0.params_.level
+function slot0.OnEnter(slot0)
+	slot0.level = slot0.params_.level
+	slot1 = ActivityHeroChallengeColor[slot0.level]
 
-	local var_12_0 = ActivityHeroChallengeColor[arg_12_0.level]
-	local var_12_1 = Asset.Load(arg_12_0:GetLevelRoot() .. var_12_0.level_asset_name)
+	slot0:DisposeGame()
 
-	arg_12_0:DisposeGame()
+	slot0.gameLevel = Object.Instantiate(Asset.Load(slot0:GetLevelRoot() .. slot1.level_asset_name), slot0.levelContainer_):GetComponent("ColorPuzzle")
 
-	arg_12_0.gameLevel = Object.Instantiate(var_12_1, arg_12_0.levelContainer_):GetComponent("ColorPuzzle")
+	slot0.autoCompleteController:SetSelectedState("lock")
 
-	arg_12_0.autoCompleteController:SetSelectedState("lock")
+	slot0.totalTry = slot1.attempt
+	slot0.letMeTry = slot1.attempt
 
-	arg_12_0.letMeTry, arg_12_0.totalTry = var_12_0.attempt, var_12_0.attempt
+	slot0:SetupGameCallbacks()
+	slot0:ResetGame()
 
-	arg_12_0:SetupGameCallbacks()
-	arg_12_0:ResetGame()
+	slot0.pause = false
 
-	arg_12_0.pause = false
-
-	arg_12_0:StartTimeWatch()
-	arg_12_0:SetTips(var_12_0)
+	slot0:StartTimeWatch()
+	slot0:SetTips(slot1)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:StopTimeWatch()
-	arg_13_0:DisposeGame()
+function slot0.OnExit(slot0)
+	slot0:StopTimeWatch()
+	slot0:DisposeGame()
 end
 
-local function var_0_4(arg_14_0)
-	if not arg_14_0.pause then
-		arg_14_0.pause = true
+function slot4(slot0)
+	if not slot0.pause then
+		slot0.pause = true
 
 		ShowMessageBox({
 			content = GetTips("ACTIVITY_HERO_COLOR_EXIT"),
-			OkCallback = function()
-				arg_14_0.pause = false
+			OkCallback = function ()
+				uv0.pause = false
 
-				arg_14_0:EndGame(true)
+				uv0:EndGame(true)
 			end,
-			CancelCallback = function()
-				arg_14_0.pause = false
+			CancelCallback = function ()
+				uv0.pause = false
 			end
 		})
 	end
 end
 
-function var_0_0.OnTop(arg_17_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
-		var_0_1
+		uv0
 	})
-	manager.windowBar:RegistBackCallBack(handler(arg_17_0, var_0_4))
+	manager.windowBar:RegistBackCallBack(handler(slot0, uv1))
 end
 
-function var_0_0.OnBehind(arg_18_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnExit(arg_19_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.DisposeGame(arg_20_0)
-	if arg_20_0.gameLevel then
-		Object.Destroy(arg_20_0.gameLevel.gameObject)
+function slot0.DisposeGame(slot0)
+	if slot0.gameLevel then
+		Object.Destroy(slot0.gameLevel.gameObject)
 
-		arg_20_0.gameLevel = nil
+		slot0.gameLevel = nil
 	end
 end
 
-function var_0_0.SetupGameCallbacks(arg_21_0)
-	arg_21_0.gameLevel:SetBeforeApplyValueCallback(function(arg_22_0, arg_22_1)
-		if arg_22_0 ~= arg_22_1 then
-			arg_21_0.letMeTry = arg_21_0.letMeTry - 1
+function slot0.SetupGameCallbacks(slot0)
+	slot0.gameLevel:SetBeforeApplyValueCallback(function (slot0, slot1)
+		if slot0 ~= slot1 then
+			uv0.letMeTry = uv0.letMeTry - 1
 
-			arg_21_0:UpdateAutoComplete()
+			uv0:UpdateAutoComplete()
 		end
 	end)
-	arg_21_0.gameLevel:SetOnNodeClickCallback(function(arg_23_0)
-		arg_21_0.completeHighlightController:SetSelectedState(arg_23_0 and "true" or "false")
+	slot0.gameLevel:SetOnNodeClickCallback(function (slot0)
+		uv0.completeHighlightController:SetSelectedState(slot0 and "true" or "false")
 	end)
 end
 
-function var_0_0.UpdateAutoComplete(arg_24_0)
-	if arg_24_0.letMeTry > 0 then
-		local var_24_0 = 1 - arg_24_0.letMeTry / arg_24_0.totalTry
+function slot0.UpdateAutoComplete(slot0)
+	if slot0.letMeTry > 0 then
+		slot0.autoCompleteProgress_.fillAmount = 1 - slot0.letMeTry / slot0.totalTry
 
-		arg_24_0.autoCompleteProgress_.fillAmount = var_24_0
-
-		arg_24_0.autoCompleteController:SetSelectedState("lock")
+		slot0.autoCompleteController:SetSelectedState("lock")
 	else
-		arg_24_0.autoCompleteProgress_.fillAmount = 1
+		slot0.autoCompleteProgress_.fillAmount = 1
 
-		if not arg_24_0.gameLevel:CheckComplete() then
-			arg_24_0.autoCompleteController:SetSelectedState("ready")
+		if not slot0.gameLevel:CheckComplete() then
+			slot0.autoCompleteController:SetSelectedState("ready")
 		else
-			arg_24_0.autoCompleteController:SetSelectedState("lock")
+			slot0.autoCompleteController:SetSelectedState("lock")
 		end
 	end
 end
 
-function var_0_0.StartTimeWatch(arg_25_0)
-	arg_25_0:StopTimeWatch()
+function slot0.StartTimeWatch(slot0)
+	slot0:StopTimeWatch()
 
-	arg_25_0.time = 0
-	arg_25_0.updateTicker = FuncTimerManager.inst:CreateFuncFrameTimer(handler(arg_25_0, arg_25_0.Update), -1, true)
+	slot0.time = 0
+	slot0.updateTicker = FuncTimerManager.inst:CreateFuncFrameTimer(handler(slot0, slot0.Update), -1, true)
 end
 
-function var_0_0.StopTimeWatch(arg_26_0)
-	if arg_26_0.updateTicker then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_26_0.updateTicker)
+function slot0.StopTimeWatch(slot0)
+	if slot0.updateTicker then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.updateTicker)
 
-		arg_26_0.updateTicker = nil
+		slot0.updateTicker = nil
 	end
 end
 
-function var_0_0.Update(arg_27_0)
-	local var_27_0 = arg_27_0.pause and 0 or Time.unscaledDeltaTime
-
-	arg_27_0.time = (arg_27_0.time or 0) + var_27_0
+function slot0.Update(slot0)
+	slot0.time = (slot0.time or 0) + (slot0.pause and 0 or Time.unscaledDeltaTime)
 end
 
-function var_0_0.EndGame(arg_28_0, arg_28_1)
-	local var_28_0 = {
-		stage_id = arg_28_0.level,
-		result = arg_28_1 and 3 or 1,
-		useseconds = arg_28_0.time,
-		auto_completed = arg_28_0.useAutoComplete and 1 or 0
-	}
-	local var_28_1
+function slot0.EndGame(slot0, slot1)
+	slot3 = nil
 
-	arg_28_0:ResetGame()
+	slot0:ResetGame()
 
-	if not arg_28_1 then
-		local function var_28_2(arg_29_0, arg_29_1)
+	if not slot1 then
+		ColorPuzzleAction.LevelClearAction({
+			stage_id = slot0.level,
+			result = slot1 and 3 or 1,
+			useseconds = slot0.time,
+			auto_completed = slot0.useAutoComplete and 1 or 0
+		}, function (slot0, slot1)
 			gameContext:Go("colorPuzzleResultPopup", {
-				level = arg_29_0.stage_id,
-				time = arg_29_0.useseconds,
-				autoComplete = arg_29_0.auto_completed == 1,
-				rewards = arg_29_1.reward_list,
+				level = slot0.stage_id,
+				time = slot0.useseconds,
+				autoComplete = slot0.auto_completed == 1,
+				rewards = slot1.reward_list,
 				okCallback = JumpTools.Back
 			})
-		end
-
-		ColorPuzzleAction.LevelClearAction(var_28_0, var_28_2)
+		end)
 	else
 		JumpTools.Back()
 	end
 
-	arg_28_0:SendSdkMsg(var_28_0)
+	slot0:SendSdkMsg(slot2)
 end
 
-function var_0_0.ResetGame(arg_30_0)
-	arg_30_0.time = 0
-	arg_30_0.useAutoComplete = false
+function slot0.ResetGame(slot0)
+	slot0.time = 0
+	slot0.useAutoComplete = false
 
-	arg_30_0.gameLevel:ClearNodes()
-	arg_30_0:UpdateAutoComplete()
-	arg_30_0.completeHighlightController:SetSelectedState("false")
+	slot0.gameLevel:ClearNodes()
+	slot0:UpdateAutoComplete()
+	slot0.completeHighlightController:SetSelectedState("false")
 end
 
-function var_0_0.ReportClear(arg_31_0)
-	local var_31_0 = {
+function slot0.ReportClear(slot0)
+	slot0:SendSdkMsg({
 		auto_completed = 0,
 		result = 4,
-		stage_id = arg_31_0.level,
-		useseconds = arg_31_0.time
-	}
-
-	arg_31_0:SendSdkMsg(var_31_0)
-end
-
-function var_0_0.SendSdkMsg(arg_32_0, arg_32_1)
-	local var_32_0 = SPHeroChallengeData:GetActivityID()
-	local var_32_1 = SPHeroChallengeData.activityCfg[var_32_0].colorPuzzleActiVityID
-
-	SDKTools.SendMessageToSDK("activity_combat_over", {
-		activity_id = var_32_1,
-		stage_id = arg_32_1.stage_id,
-		result = arg_32_1.result,
-		use_seconds = arg_32_1.useseconds,
-		is_help = arg_32_0.useAutoComplete or false
+		stage_id = slot0.level,
+		useseconds = slot0.time
 	})
 end
 
-function var_0_0.SetTips(arg_33_0, arg_33_1)
-	local var_33_0 = nullable(arg_33_1, "tips_icon")
-
-	if var_33_0 == "" then
-		SetActive(arg_33_0.tipsIcon_, false)
-	else
-		SetActive(arg_33_0.tipsIcon_, true)
-
-		arg_33_0.tipsIcon_.sprite = getSpriteWithoutAtlas(var_33_0)
-	end
-
-	arg_33_0.tipsContent_.text = GetI18NText(arg_33_1.tips)
+function slot0.SendSdkMsg(slot0, slot1)
+	SDKTools.SendMessageToSDK("activity_combat_over", {
+		activity_id = SPHeroChallengeData.activityCfg[SPHeroChallengeData:GetActivityID()].colorPuzzleActiVityID,
+		stage_id = slot1.stage_id,
+		result = slot1.result,
+		use_seconds = slot1.useseconds,
+		is_help = slot0.useAutoComplete or false
+	})
 end
 
-return var_0_0
+function slot0.SetTips(slot0, slot1)
+	if nullable(slot1, "tips_icon") == "" then
+		SetActive(slot0.tipsIcon_, false)
+	else
+		SetActive(slot0.tipsIcon_, true)
+
+		slot0.tipsIcon_.sprite = getSpriteWithoutAtlas(slot2)
+	end
+
+	slot0.tipsContent_.text = GetI18NText(slot1.tips)
+end
+
+return slot0

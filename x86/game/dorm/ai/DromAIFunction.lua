@@ -1,5 +1,5 @@
 return {
-	GetCanInteractFurniture = function(arg_1_0)
+	GetCanInteractFurniture = function (slot0)
 		return 11
 	end
 }

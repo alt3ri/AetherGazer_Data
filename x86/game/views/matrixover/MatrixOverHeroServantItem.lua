@@ -1,29 +1,29 @@
-local var_0_0 = class("MatrixOverHeroServantItem", ReduxView)
+slot0 = class("MatrixOverHeroServantItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddBtnListener(arg_1_0.btn_, nil, function()
-		if arg_1_0.matrixServantID and arg_1_0.matrixServantID ~= 0 then
-			local var_2_0 = arg_1_0.transform_.position
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.matrixServantID and uv0.matrixServantID ~= 0 then
+			slot0 = uv0.transform_.position
 
-			manager.matrixPop:ShowMatrixPopItem(arg_1_0.matrixServantID, Vector3(-0.45, var_2_0.y + 0.1, var_2_0.z))
+			manager.matrixPop:ShowMatrixPopItem(uv0.matrixServantID, Vector3(-0.45, slot0.y + 0.1, slot0.z))
 		end
 	end)
 end
 
-function var_0_0.Refresh(arg_3_0, arg_3_1)
-	arg_3_0.matrixServantID = arg_3_1
+function slot0.Refresh(slot0, slot1)
+	slot0.matrixServantID = slot1
 
-	if arg_3_1 ~= 0 then
-		arg_3_0.icon_.sprite = MatrixTools.GetMatrixItemSprite(arg_3_1)
+	if slot1 ~= 0 then
+		slot0.icon_.sprite = MatrixTools.GetMatrixItemSprite(slot1)
 
-		SetActive(arg_3_0.mask_, true)
+		SetActive(slot0.mask_, true)
 	else
-		SetActive(arg_3_0.mask_, false)
+		SetActive(slot0.mask_, false)
 	end
 end
 
-return var_0_0
+return slot0

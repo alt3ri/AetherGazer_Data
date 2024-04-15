@@ -1,91 +1,88 @@
-local var_0_0 = singletonClass("BattleTeachData")
+slot0 = singletonClass("BattleTeachData")
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.switchType_ = getData("BattleTeach", "switchType_new") or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING
-	arg_2_0.stageList_ = {}
-	arg_2_0.baseStageList_ = {}
-	arg_2_0.heroStageList_ = {}
-	arg_2_0.cacheSelectHeroID_ = nil
-	arg_2_0.baseScrollViewHorizontal_ = getData("BattleTeach", "base_scroll_horizontal") or 0
-	arg_2_0.heroScrollViewHorizontal_ = getData("BattleTeach", "hero_scroll_horizontal") or 0
+function slot0.Init(slot0)
+	slot0.switchType_ = getData("BattleTeach", "switchType_new") or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING
+	slot0.stageList_ = {}
+	slot0.baseStageList_ = {}
+	slot0.heroStageList_ = {}
+	slot0.cacheSelectHeroID_ = nil
+	slot0.baseScrollViewHorizontal_ = getData("BattleTeach", "base_scroll_horizontal") or 0
+	slot0.heroScrollViewHorizontal_ = getData("BattleTeach", "hero_scroll_horizontal") or 0
 end
 
-function var_0_0.ModifyBaseTeach(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.base_stage_list) do
-		arg_3_0.baseStageList_[iter_3_1.id] = iter_3_1.clear_times
-		arg_3_0.stageList_[iter_3_1.id] = iter_3_1.clear_times
+function slot0.ModifyBaseTeach(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.base_stage_list) do
+		slot0.baseStageList_[slot6.id] = slot6.clear_times
+		slot0.stageList_[slot6.id] = slot6.clear_times
 	end
 end
 
-function var_0_0.ModifyHeroTeach(arg_4_0, arg_4_1)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.hero_teaching_list) do
-		local var_4_0 = iter_4_1.hero_id
+function slot0.ModifyHeroTeach(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.hero_teaching_list) do
+		slot0.heroStageList_[slot7] = slot0.heroStageList_[slot6.hero_id] or {}
 
-		arg_4_0.heroStageList_[var_4_0] = arg_4_0.heroStageList_[var_4_0] or {}
-
-		for iter_4_2, iter_4_3 in ipairs(iter_4_1.stage_list) do
-			arg_4_0.heroStageList_[var_4_0][iter_4_3.id] = iter_4_3.clear_times
-			arg_4_0.stageList_[iter_4_3.id] = iter_4_3.clear_times
+		for slot11, slot12 in ipairs(slot6.stage_list) do
+			slot0.heroStageList_[slot7][slot12.id] = slot12.clear_times
+			slot0.stageList_[slot12.id] = slot12.clear_times
 		end
 	end
 end
 
-function var_0_0.SetSwitchType(arg_5_0, arg_5_1)
-	arg_5_0.switchType_ = arg_5_1
+function slot0.SetSwitchType(slot0, slot1)
+	slot0.switchType_ = slot1
 
-	saveData("BattleTeach", "switchType_new", arg_5_1)
+	saveData("BattleTeach", "switchType_new", slot1)
 end
 
-function var_0_0.GetSwitchType(arg_6_0)
-	return arg_6_0.switchType_
+function slot0.GetSwitchType(slot0)
+	return slot0.switchType_
 end
 
-function var_0_0.GetStageData(arg_7_0)
-	return arg_7_0.stageList_
+function slot0.GetStageData(slot0)
+	return slot0.stageList_
 end
 
-function var_0_0.GetBaseTeachList(arg_8_0)
-	return arg_8_0.baseStageList_
+function slot0.GetBaseTeachList(slot0)
+	return slot0.baseStageList_
 end
 
-function var_0_0.GetHeroTeachInfo(arg_9_0, arg_9_1, arg_9_2)
-	if not arg_9_0.heroStageList_[arg_9_1] then
+function slot0.GetHeroTeachInfo(slot0, slot1, slot2)
+	if not slot0.heroStageList_[slot1] then
 		return 0
 	end
 
-	return arg_9_0.heroStageList_[arg_9_1][arg_9_2]
+	return slot0.heroStageList_[slot1][slot2]
 end
 
-function var_0_0.SetCacheTeachHeroID(arg_10_0, arg_10_1)
-	arg_10_0.cacheSelectHeroID_ = arg_10_1
+function slot0.SetCacheTeachHeroID(slot0, slot1)
+	slot0.cacheSelectHeroID_ = slot1
 end
 
-function var_0_0.GetCacheTeachHeroID(arg_11_0)
-	return arg_11_0.cacheSelectHeroID_
+function slot0.GetCacheTeachHeroID(slot0)
+	return slot0.cacheSelectHeroID_
 end
 
-function var_0_0.SetBaseScrollViewHorizontal(arg_12_0, arg_12_1)
-	arg_12_0.baseScrollViewHorizontal_ = arg_12_1
+function slot0.SetBaseScrollViewHorizontal(slot0, slot1)
+	slot0.baseScrollViewHorizontal_ = slot1
 
-	saveData("BattleTeach", "base_scroll_horizontal", arg_12_1)
+	saveData("BattleTeach", "base_scroll_horizontal", slot1)
 end
 
-function var_0_0.GetBaseScrollViewHorizontal(arg_13_0)
-	return arg_13_0.baseScrollViewHorizontal_
+function slot0.GetBaseScrollViewHorizontal(slot0)
+	return slot0.baseScrollViewHorizontal_
 end
 
-function var_0_0.SetHeroScrollViewHorizontal(arg_14_0, arg_14_1)
-	arg_14_0.heroScrollViewHorizontal_ = arg_14_1
+function slot0.SetHeroScrollViewHorizontal(slot0, slot1)
+	slot0.heroScrollViewHorizontal_ = slot1
 
-	saveData("BattleTeach", "hero_scroll_horizontal", arg_14_1)
+	saveData("BattleTeach", "hero_scroll_horizontal", slot1)
 end
 
-function var_0_0.GetHeroScrollViewHorizontal(arg_15_0)
-	return arg_15_0.heroScrollViewHorizontal_
+function slot0.GetHeroScrollViewHorizontal(slot0)
+	return slot0.heroScrollViewHorizontal_
 end
 
-return var_0_0
+return slot0

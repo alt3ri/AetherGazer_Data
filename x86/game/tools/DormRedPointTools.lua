@@ -1,65 +1,65 @@
-local var_0_0 = {
-	UpdataGlobalRedPoint = function(arg_1_0)
-		arg_1_0:UpdataDormGlobalRedPoint()
-		arg_1_0:UpdateCanteenNotify()
-		arg_1_0:UpdataSuitShopRedPoint()
-	end,
-	EnterDormitorySystem = function(arg_2_0)
-		arg_2_0:InitSuitRedPointData()
-		arg_2_0:InitFurPlaceRedPointData()
-		arg_2_0:UpdataSuitShopRedPoint()
-	end,
-	ExitDormitorySystem = function(arg_3_0)
-		arg_3_0:SaveSuitRedRedPointData()
-		arg_3_0:SaveSuitGoodRedPointData()
-	end,
-	UpdataDormGlobalRedPoint = function(arg_4_0)
-		arg_4_0:UpdataDormRedPoint()
-	end,
-	FurnitureItemRedPoint = function(arg_5_0, arg_5_1)
-		return string.format("%s_%s_%s", RedPointConst.DORM_SUIT_SHOP, tostring(arg_5_0), tostring(arg_5_1))
-	end,
-	UpdataDormRedPoint = function(arg_6_0, arg_6_1)
-		local var_6_0 = DormitoryData:GetDormMapList()
+slot1 = nil
+slot2 = nil
+slot3 = nil
 
-		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) or not var_6_0 then
+return {
+	UpdataGlobalRedPoint = function (slot0)
+		slot0:UpdataDormGlobalRedPoint()
+		slot0:UpdateCanteenNotify()
+		slot0:UpdataSuitShopRedPoint()
+	end,
+	EnterDormitorySystem = function (slot0)
+		slot0:InitSuitRedPointData()
+		slot0:InitFurPlaceRedPointData()
+		slot0:UpdataSuitShopRedPoint()
+	end,
+	ExitDormitorySystem = function (slot0)
+		slot0:SaveSuitRedRedPointData()
+		slot0:SaveSuitGoodRedPointData()
+	end,
+	UpdataDormGlobalRedPoint = function (slot0)
+		slot0:UpdataDormRedPoint()
+	end,
+	FurnitureItemRedPoint = function (slot0, slot1)
+		return string.format("%s_%s_%s", RedPointConst.DORM_SUIT_SHOP, tostring(slot0), tostring(slot1))
+	end,
+	UpdataDormRedPoint = function (slot0, slot1)
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) or not DormitoryData:GetDormMapList() then
 			return
 		end
 
-		if arg_6_1 == false then
+		if slot1 == false then
 			manager.redPoint:setTip(RedPointConst.DORM_PLACEMENT, 0)
 
-			local var_6_1 = DormData:GetHeroInfoList()
-			local var_6_2 = {}
+			slot5 = {}
 
-			for iter_6_0, iter_6_1 in pairs(var_6_1) do
-				if DormData:GetHeroInfo(iter_6_0):GetHeroFavorability() >= GameSetting.dorm_hero_set_level.value[1] then
-					table.insert(var_6_2, iter_6_0)
+			for slot9, slot10 in pairs(DormData:GetHeroInfoList()) do
+				if GameSetting.dorm_hero_set_level.value[1] <= DormData:GetHeroInfo(slot9):GetHeroFavorability() then
+					table.insert(slot5, slot9)
 				end
 			end
 
-			saveData("RedPoint", RedPointConst.DORM_PLACEMENT, var_6_2)
+			saveData("RedPoint", RedPointConst.DORM_PLACEMENT, slot5)
 
 			return
 		end
 
-		local var_6_3 = getData("RedPoint", RedPointConst.DORM_PLACEMENT)
-		local var_6_4 = DormData:GetHeroInfoList()
+		slot4 = getData("RedPoint", RedPointConst.DORM_PLACEMENT)
 
-		if not var_6_4 then
+		if not DormData:GetHeroInfoList() then
 			return
 		end
 
-		local var_6_5 = false
+		slot6 = false
 
-		for iter_6_2, iter_6_3 in pairs(var_6_4) do
-			if not DormRoomTools:GetDormIDViaArchive(iter_6_2) and DormData:GetHeroInfo(iter_6_2):GetHeroFavorability() >= GameSetting.dorm_hero_set_level.value[1] then
-				var_6_5 = true
+		for slot10, slot11 in pairs(slot5) do
+			if not DormRoomTools:GetDormIDViaArchive(slot10) and GameSetting.dorm_hero_set_level.value[1] <= DormData:GetHeroInfo(slot10):GetHeroFavorability() then
+				slot6 = true
 
-				if var_6_3 then
-					for iter_6_4, iter_6_5 in ipairs(var_6_3) do
-						if iter_6_2 == iter_6_5 then
-							var_6_5 = false
+				if slot4 then
+					for slot17, slot18 in ipairs(slot4) do
+						if slot10 == slot18 then
+							slot6 = false
 
 							break
 						end
@@ -68,535 +68,438 @@ local var_0_0 = {
 			end
 		end
 
-		local var_6_6 = false
+		slot7 = false
 
-		for iter_6_6, iter_6_7 in pairs(var_6_0) do
-			if BackHomeCfg[iter_6_6].type == DormConst.BACKHOME_TYPE.PrivateDorm and (not iter_6_7.archiveIDList or #iter_6_7.archiveIDList == 0) then
-				var_6_6 = true
+		for slot11, slot12 in pairs(slot2) do
+			if BackHomeCfg[slot11].type == DormConst.BACKHOME_TYPE.PrivateDorm and (not slot12.archiveIDList or #slot12.archiveIDList == 0) then
+				slot7 = true
 			end
 		end
 
-		if var_6_5 and var_6_6 then
+		if slot6 and slot7 then
 			manager.redPoint:setTip(RedPointConst.DORM_PLACEMENT, 1)
 		end
-	end
-}
-local var_0_1
+	end,
+	InitFurPlaceRedPointData = function (slot0)
+		uv0 = {}
 
-function var_0_0.InitFurPlaceRedPointData(arg_7_0)
-	var_0_1 = {}
+		for slot4 = DormConst.DORM_FUR_TYPE_START, DormConst.DORM_FUR_TYPE_END do
+			uv0[slot4] = {}
 
-	for iter_7_0 = DormConst.DORM_FUR_TYPE_START, DormConst.DORM_FUR_TYPE_END do
-		local var_7_0 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(iter_7_0))
-		local var_7_1 = getData("RedPoint", var_7_0)
-
-		var_0_1[iter_7_0] = {}
-
-		if var_7_1 then
-			if tostring(var_7_1[1]) == "userdata: NULL" then
-				for iter_7_1, iter_7_2 in pairs(var_7_1) do
-					if tostring(iter_7_2) ~= "userdata: NULL" then
-						var_0_1[iter_7_0][iter_7_1] = iter_7_2
+			if getData("RedPoint", string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot4))) then
+				if tostring(slot6[1]) == "userdata: NULL" then
+					for slot10, slot11 in pairs(slot6) do
+						if tostring(slot11) ~= "userdata: NULL" then
+							uv0[slot4][slot10] = slot11
+						end
 					end
-				end
-			else
-				for iter_7_3, iter_7_4 in ipairs(var_7_1) do
-					if iter_7_4[2] and tostring(iter_7_4[2]) ~= "userdata: NULL" then
-						var_0_1[iter_7_0][iter_7_4[1]] = iter_7_4[2]
-					end
-				end
-			end
-		end
-	end
-end
-
-function var_0_0.SaveFurPlaceRedPointData(arg_8_0)
-	if var_0_1 then
-		for iter_8_0, iter_8_1 in pairs(var_0_1) do
-			local var_8_0 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(iter_8_0))
-			local var_8_1 = {}
-
-			for iter_8_2, iter_8_3 in pairs(iter_8_1) do
-				local var_8_2 = {
-					iter_8_2,
-					iter_8_3
-				}
-
-				table.insert(var_8_1, var_8_2)
-			end
-
-			saveData("RedPoint", var_8_0, var_8_1)
-		end
-	end
-end
-
-function var_0_0.UpdataDormFurRedPoint(arg_9_0, arg_9_1, arg_9_2)
-	if BackHomeCfg[arg_9_1].type == DormConst.BACKHOME_TYPE.VISITPUBLICDORM or BackHomeCfg[arg_9_1].type == DormConst.BACKHOME_TYPE.VISITPRIVATEDORM then
-		local var_9_0 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(arg_9_2))
-
-		manager.redPoint:setTip(var_9_0, 0)
-
-		return
-	end
-
-	local var_9_1 = DormitoryData:GetDormMapList()
-
-	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
-		return
-	end
-
-	local var_9_2 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(arg_9_2))
-	local var_9_3 = (var_0_1[arg_9_2] or {})[arg_9_1]
-
-	if tostring(var_9_3) == "userdata: NULL" then
-		var_9_3 = {}
-	end
-
-	var_9_3 = var_9_3 or {}
-
-	local var_9_4 = DormFurnitureTools:GetRoomCanPlaceFurList(arg_9_1)
-
-	if BackHomeCfg[arg_9_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-		for iter_9_0, iter_9_1 in ipairs(var_9_4) do
-			if BackHomeFurniture[iter_9_1].type == arg_9_2 then
-				local var_9_5 = DormData:GetFurNumInfo(iter_9_1).num
-				local var_9_6 = 0
-
-				for iter_9_2, iter_9_3 in ipairs(var_9_3) do
-					if iter_9_3.furID == iter_9_1 then
-						var_9_6 = iter_9_3.num
-					end
-				end
-
-				if var_9_6 < var_9_5 then
-					manager.redPoint:setTip(var_9_2, 1)
-
-					return
-				end
-			end
-		end
-	elseif BackHomeCfg[arg_9_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-		for iter_9_4, iter_9_5 in ipairs(var_9_4) do
-			if BackHomeFurniture[iter_9_5].type == arg_9_2 then
-				local var_9_7 = var_9_1[arg_9_1].give_furnitures[iter_9_5] or 0
-				local var_9_8 = 0
-
-				for iter_9_6, iter_9_7 in ipairs(var_9_3) do
-					if iter_9_7.furID == iter_9_5 then
-						var_9_8 = iter_9_7.num
-					end
-				end
-
-				if var_9_8 < var_9_7 then
-					manager.redPoint:setTip(var_9_2, 1)
-
-					return
-				end
-			end
-		end
-	end
-
-	manager.redPoint:setTip(var_9_2, 0)
-end
-
-function var_0_0.CloseDormFurRedPoint(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	local var_10_0 = DormitoryData:GetDormMapList()
-
-	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
-		return
-	end
-
-	local var_10_1 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(arg_10_2))
-	local var_10_2 = (var_0_1[arg_10_2] or {})[arg_10_1]
-
-	if tostring(var_10_2) == "userdata: NULL" then
-		var_10_2 = {}
-	end
-
-	var_10_2 = var_10_2 or {}
-
-	if BackHomeCfg[arg_10_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-		for iter_10_0, iter_10_1 in ipairs(arg_10_3) do
-			local var_10_3 = iter_10_1.furID
-			local var_10_4 = false
-
-			for iter_10_2, iter_10_3 in ipairs(var_10_2) do
-				if iter_10_3.furID == var_10_3 then
-					iter_10_3.num = DormData:GetFurNumInfo(var_10_3).num
-					var_10_4 = true
-
-					break
-				end
-			end
-
-			if not var_10_4 then
-				local var_10_5 = DormData:GetFurNumInfo(var_10_3).num
-				local var_10_6 = {
-					furID = var_10_3,
-					num = var_10_5
-				}
-
-				table.insert(var_10_2, var_10_6)
-			end
-		end
-	elseif BackHomeCfg[arg_10_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-		for iter_10_4, iter_10_5 in pairs(var_10_0[arg_10_1].give_furnitures) do
-			local var_10_7 = false
-
-			for iter_10_6, iter_10_7 in ipairs(var_10_2) do
-				if iter_10_7.furID == iter_10_4 then
-					iter_10_7.num = iter_10_5
-					var_10_7 = true
-
-					break
-				end
-			end
-
-			if not var_10_7 then
-				local var_10_8 = {
-					furID = iter_10_4,
-					num = iter_10_5
-				}
-
-				table.insert(var_10_2, var_10_8)
-			end
-		end
-	end
-
-	if not var_0_1[arg_10_2] then
-		var_0_1[arg_10_2] = {}
-	end
-
-	var_0_1[arg_10_2][arg_10_1] = var_10_2
-
-	local var_10_9 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(arg_10_2))
-
-	manager.redPoint:setTip(var_10_9, 0)
-	arg_10_0:SaveFurPlaceRedPointData()
-end
-
-local var_0_2
-
-function var_0_0.InitSuitRedPointData(arg_11_0)
-	var_0_2 = {}
-
-	local var_11_0 = RedPointConst.DORM_SUIT
-	local var_11_1 = getData("RedPoint", var_11_0) or {}
-
-	if tostring(var_11_1) == "userdata: NULL" then
-		var_11_1 = {}
-	end
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-		var_0_2[iter_11_1] = true
-	end
-end
-
-function var_0_0.SaveSuitRedRedPointData(arg_12_0)
-	if var_0_2 then
-		local var_12_0 = {}
-
-		for iter_12_0, iter_12_1 in pairs(var_0_2) do
-			table.insert(var_12_0, iter_12_0)
-		end
-
-		local var_12_1 = RedPointConst.DORM_SUIT
-
-		saveData("RedPoint", var_12_1, var_12_0)
-	end
-end
-
-function var_0_0.UpdataSuitRedPoint(arg_13_0)
-	if BackHomeDataManager:GetCurSystem() ~= DormEnum.DormSystemType.Dormitory then
-		return
-	end
-
-	if not var_0_2 then
-		var_0_2 = {}
-	end
-
-	local var_13_0 = false
-	local var_13_1 = DormSuitData:GetUnLockSuitList()
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_1) do
-		if not var_0_2[iter_13_1] then
-			local var_13_2 = true
-			local var_13_3, var_13_4 = DormSuitData:CheckIsConfigSuit(iter_13_1)
-			local var_13_5
-
-			if var_13_4 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
-				local var_13_6 = BackHomeSuitCfg[iter_13_1].scene_id[1]
-
-				if var_13_6 == DormConst.BACKHOME_TYPE.PublicDorm then
-					var_13_5 = RedPointConst.DORM_FULL_PUBLIC_SUIT
-				elseif var_13_6 == DormConst.BACKHOME_TYPE.PrivateDorm then
-					var_13_5 = RedPointConst.DORM_FULL_PRIVATE_SUIT
-				end
-			elseif var_13_4 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
-				var_13_5 = RedPointConst.DORM_PART_SUIT
-			end
-
-			local var_13_7 = string.format("%s_%s", var_13_5, tostring(iter_13_1))
-
-			manager.redPoint:setTip(var_13_7, var_13_2 and 1 or 0)
-		end
-	end
-end
-
-function var_0_0.ClickSuitIconRedPoint(arg_14_0, arg_14_1)
-	if var_0_2[arg_14_1] then
-		return
-	end
-
-	local var_14_0, var_14_1 = DormSuitData:CheckIsConfigSuit(arg_14_1)
-	local var_14_2
-
-	if var_14_1 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
-		local var_14_3 = BackHomeSuitCfg[arg_14_1].scene_id[1]
-
-		if var_14_3 == DormConst.BACKHOME_TYPE.PublicDorm then
-			var_14_2 = RedPointConst.DORM_FULL_PUBLIC_SUIT
-		elseif var_14_3 == DormConst.BACKHOME_TYPE.PrivateDorm then
-			var_14_2 = RedPointConst.DORM_FULL_PRIVATE_SUIT
-		end
-	elseif var_14_1 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
-		var_14_2 = RedPointConst.DORM_PART_SUIT
-	end
-
-	local var_14_4 = string.format("%s_%s", var_14_2, tostring(arg_14_1))
-
-	manager.redPoint:setTip(var_14_4, 0)
-
-	var_0_2[arg_14_1] = true
-
-	arg_14_0:SaveSuitRedRedPointData()
-end
-
-local var_0_3
-
-function var_0_0.UpdataSuitShopRedPoint(arg_15_0)
-	arg_15_0:GetSuitShopCache()
-
-	local var_15_0 = DormTools:GetAllDormShopIDList()
-
-	for iter_15_0, iter_15_1 in ipairs(var_15_0) do
-		var_0_0:UpdataSingleDormShopRedPoint(iter_15_1)
-	end
-end
-
-function var_0_0.GetSuitShopCache(arg_16_0)
-	if not var_0_3 then
-		local var_16_0 = RedPointConst.DORM_SUIT_SHOP
-		local var_16_1 = getData("RedPoint", var_16_0) or {}
-
-		var_0_3 = {}
-
-		for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-			var_0_3[iter_16_1.id] = {}
-
-			for iter_16_2, iter_16_3 in ipairs(iter_16_1.goodList) do
-				var_0_3[iter_16_1.id][iter_16_3] = true
-			end
-		end
-	end
-end
-
-function var_0_0.SaveSuitGoodRedPointData(arg_17_0, arg_17_1)
-	local var_17_0 = RedPointConst.DORM_SUIT_SHOP
-
-	if var_0_3 then
-		local var_17_1 = {}
-
-		for iter_17_0, iter_17_1 in pairs(var_0_3) do
-			local var_17_2 = {
-				id = iter_17_0
-			}
-			local var_17_3 = {}
-
-			for iter_17_2, iter_17_3 in pairs(iter_17_1) do
-				table.insert(var_17_3, iter_17_2)
-			end
-
-			var_17_2.goodList = var_17_3
-
-			table.insert(var_17_1, var_17_2)
-		end
-
-		saveData("RedPoint", var_17_0, var_17_1)
-	end
-
-	if not arg_17_1 then
-		var_0_3 = nil
-	end
-end
-
-function var_0_0.UpdataSingleDormShopRedPoint(arg_18_0, arg_18_1)
-	arg_18_0:GetSuitShopCache()
-
-	local var_18_0 = var_0_3[arg_18_1] or {}
-	local var_18_1 = DormSuitTools:GetFurSuitGoodListByShopID(arg_18_1)
-
-	for iter_18_0, iter_18_1 in ipairs(var_18_1) do
-		if not var_18_0[iter_18_1] then
-			local var_18_2 = var_0_0.FurnitureItemRedPoint(arg_18_1, iter_18_1)
-
-			manager.redPoint:setTip(var_18_2, 1)
-		end
-	end
-end
-
-function var_0_0.CloseSingleSuitGoodRedPoint(arg_19_0, arg_19_1, arg_19_2)
-	arg_19_0:GetSuitShopCache()
-
-	local var_19_0 = var_0_0.FurnitureItemRedPoint(arg_19_1, arg_19_2)
-
-	if manager.redPoint:getTipBoolean(var_19_0) then
-		local var_19_1 = var_0_3[arg_19_1] or {}
-
-		manager.redPoint:setTip(var_19_0, 0)
-
-		var_19_1[arg_19_2] = true
-		var_0_3[arg_19_1] = var_19_1
-
-		arg_19_0:SaveSuitGoodRedPointData(true)
-	end
-end
-
-function var_0_0.CloseAllSuitGoodRedPoint(arg_20_0, arg_20_1)
-	arg_20_0:GetSuitShopCache()
-
-	local var_20_0 = ShopTools.GetShopRedPointKey(arg_20_1)
-
-	if manager.redPoint:getTipBoolean(var_20_0) then
-		local var_20_1 = DormSuitTools:GetFurSuitGoodListByShopID(arg_20_1)
-		local var_20_2 = var_0_3[arg_20_1] or {}
-
-		for iter_20_0, iter_20_1 in ipairs(var_20_1) do
-			local var_20_3 = var_0_0.FurnitureItemRedPoint(arg_20_1, iter_20_1)
-
-			if manager.redPoint:getTipBoolean(var_20_3) then
-				manager.redPoint:setTip(var_20_3, 0)
-
-				var_20_2[iter_20_1] = true
-			end
-		end
-
-		var_0_3[arg_20_1] = var_20_2
-
-		arg_20_0:SaveSuitGoodRedPointData(true)
-	end
-end
-
-var_0_0.RedPointType = {
-	Session = 1,
-	LocalMachine = 2,
-	Normal = 0
-}
-
-function var_0_0.SkipNotify(arg_21_0, arg_21_1)
-	return RedPointData:GetSessionCacheRedPoint(arg_21_1) == RedPointData.HasNotified or RedPointData:GetJsonCacheRedPoint(arg_21_1) == RedPointData.HasNotified
-end
-
-function var_0_0.Notify(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_2 = (arg_22_2 == false or arg_22_0:SkipNotify(arg_22_1)) and 0 or 1
-
-	if arg_22_2 ~= manager.redPoint:getTipBoolean(arg_22_1) then
-		manager.redPoint:setTip(arg_22_1, arg_22_2)
-	end
-end
-
-function var_0_0.ConsumeNotification(arg_23_0, arg_23_1, arg_23_2)
-	manager.redPoint:setTip(arg_23_1, 0)
-
-	if arg_23_2 == var_0_0.RedPointType.Session and RedPointData:GetSessionCacheRedPoint(arg_23_1) ~= 0 then
-		RedPointData:SetSessionCacheRedPoint(arg_23_1)
-	elseif arg_23_2 == var_0_0.RedPointType.LocalMachine and RedPointData:GetJsonCacheRedPoint(arg_23_1) ~= 0 then
-		RedPointData:SetJsonCacheRedPoint(arg_23_1)
-	end
-end
-
-function var_0_0.CheckCanteenOpen(arg_24_0)
-	local var_24_0 = CanteenTools:CheckSignFoodNumCanOpen()
-	local var_24_1 = true
-
-	for iter_24_0, iter_24_1 in ipairs(DormConst.DORM_RESTAURANT_SET_JOB_TYPE) do
-		if not CanteenHeroTools:HasJobAssignedToHero(iter_24_1) then
-			var_24_1 = false
-
-			break
-		end
-	end
-
-	return var_24_0 and var_24_1
-end
-
-function var_0_0.CheckUnLockEntrustRedPoint(arg_25_0)
-	local var_25_0 = CanteenEntrustData:GetEntrustList()
-
-	if var_25_0 then
-		for iter_25_0, iter_25_1 in pairs(var_25_0) do
-			local var_25_1 = false
-
-			if iter_25_1.id < 0 then
-				local var_25_2 = GameSetting.dorm_canteen_task_unlock.value[iter_25_0][2]
-				local var_25_3
-				local var_25_4
-				local var_25_5
-
-				if var_25_2 ~= 0 then
-					local var_25_6, var_25_7
-
-					var_25_3, var_25_6, var_25_7 = IsConditionAchieved(var_25_2)
 				else
-					var_25_3 = true
+					for slot10, slot11 in ipairs(slot6) do
+						if slot11[2] and tostring(slot11[2]) ~= "userdata: NULL" then
+							uv0[slot4][slot11[1]] = slot11[2]
+						end
+					end
+				end
+			end
+		end
+	end,
+	SaveFurPlaceRedPointData = function (slot0)
+		if uv0 then
+			for slot4, slot5 in pairs(uv0) do
+				slot6 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot4))
+				slot7 = {}
+
+				for slot11, slot12 in pairs(slot5) do
+					table.insert(slot7, {
+						slot11,
+						slot12
+					})
 				end
 
-				var_25_1 = var_25_3
+				saveData("RedPoint", slot6, slot7)
+			end
+		end
+	end,
+	UpdataDormFurRedPoint = function (slot0, slot1, slot2)
+		if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.VISITPUBLICDORM or BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.VISITPRIVATEDORM then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot2)), 0)
+
+			return
+		end
+
+		slot3 = DormitoryData:GetDormMapList()
+
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
+			return
+		end
+
+		slot5 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot2))
+
+		if tostring((uv0[slot2] or {})[slot1]) == "userdata: NULL" then
+			slot7 = {}
+		end
+
+		slot7 = slot7 or {}
+		slot8 = DormFurnitureTools:GetRoomCanPlaceFurList(slot1)
+
+		if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			for slot12, slot13 in ipairs(slot8) do
+				if BackHomeFurniture[slot13].type == slot2 then
+					slot14 = DormData:GetFurNumInfo(slot13).num
+					slot15 = 0
+
+					for slot19, slot20 in ipairs(slot7) do
+						if slot20.furID == slot13 then
+							slot15 = slot20.num
+						end
+					end
+
+					if slot15 < slot14 then
+						manager.redPoint:setTip(slot5, 1)
+
+						return
+					end
+				end
+			end
+		elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+			for slot12, slot13 in ipairs(slot8) do
+				if BackHomeFurniture[slot13].type == slot2 then
+					slot14 = slot3[slot1].give_furnitures[slot13] or 0
+					slot15 = 0
+
+					for slot19, slot20 in ipairs(slot7) do
+						if slot20.furID == slot13 then
+							slot15 = slot20.num
+						end
+					end
+
+					if slot15 < slot14 then
+						manager.redPoint:setTip(slot5, 1)
+
+						return
+					end
+				end
+			end
+		end
+
+		manager.redPoint:setTip(slot5, 0)
+	end,
+	CloseDormFurRedPoint = function (slot0, slot1, slot2, slot3)
+		slot4 = DormitoryData:GetDormMapList()
+
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
+			return
+		end
+
+		slot6 = string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot2))
+
+		if tostring((uv0[slot2] or {})[slot1]) == "userdata: NULL" then
+			slot8 = {}
+		end
+
+		slot8 = slot8 or {}
+
+		if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			for slot12, slot13 in ipairs(slot3) do
+				slot14 = slot13.furID
+				slot15 = false
+
+				for slot19, slot20 in ipairs(slot8) do
+					if slot20.furID == slot14 then
+						slot20.num = DormData:GetFurNumInfo(slot14).num
+						slot15 = true
+
+						break
+					end
+				end
+
+				if not slot15 then
+					table.insert(slot8, {
+						furID = slot14,
+						num = DormData:GetFurNumInfo(slot14).num
+					})
+				end
+			end
+		elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+			for slot12, slot13 in pairs(slot4[slot1].give_furnitures) do
+				slot14 = false
+
+				for slot18, slot19 in ipairs(slot8) do
+					if slot19.furID == slot12 then
+						slot19.num = slot13
+						slot14 = true
+
+						break
+					end
+				end
+
+				if not slot14 then
+					table.insert(slot8, {
+						furID = slot12,
+						num = slot13
+					})
+				end
+			end
+		end
+
+		if not uv0[slot2] then
+			uv0[slot2] = {}
+		end
+
+		uv0[slot2][slot1] = slot8
+
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.DORM_FURNITURE, tostring(slot2)), 0)
+		slot0:SaveFurPlaceRedPointData()
+	end,
+	InitSuitRedPointData = function (slot0)
+		uv0 = {}
+
+		if tostring(getData("RedPoint", RedPointConst.DORM_SUIT) or {}) == "userdata: NULL" then
+			slot2 = {}
+		end
+
+		for slot6, slot7 in ipairs(slot2) do
+			uv0[slot7] = true
+		end
+	end,
+	SaveSuitRedRedPointData = function (slot0)
+		if uv0 then
+			slot1 = {}
+
+			for slot5, slot6 in pairs(uv0) do
+				table.insert(slot1, slot5)
 			end
 
-			arg_25_0:Notify(string.format("%s_%s", RedPointConst.CANTEEN_UNLOCK_ENTRUST, iter_25_0), var_25_1)
+			saveData("RedPoint", RedPointConst.DORM_SUIT, slot1)
 		end
-	end
-end
-
-function var_0_0.CheckUnLockFoodRedPoint(arg_26_0)
-	for iter_26_0, iter_26_1 in ipairs(BackHomeCanteenFoodCfg.all) do
-		local var_26_0 = false
-
-		if BackHomeCanteenFoodCfg[iter_26_1].unlock > 0 and CanteenTools:CheckFoodUnLock(iter_26_1) then
-			var_26_0 = true
+	end,
+	UpdataSuitRedPoint = function (slot0)
+		if BackHomeDataManager:GetCurSystem() ~= DormEnum.DormSystemType.Dormitory then
+			return
 		end
 
-		local var_26_1 = tostring(BackHomeCanteenFoodCfg[iter_26_1].cook_type)
+		if not uv0 then
+			uv0 = {}
+		end
 
-		arg_26_0:Notify(string.format("%s_%s_%s", RedPointConst.CANTEEN_UNLOCK_FOOD, var_26_1, iter_26_1), var_26_0)
+		slot1 = false
+
+		for slot6, slot7 in ipairs(DormSuitData:GetUnLockSuitList()) do
+			if not uv0[slot7] then
+				slot1 = true
+				slot8, slot9 = DormSuitData:CheckIsConfigSuit(slot7)
+				slot10 = nil
+
+				if slot9 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
+					if BackHomeSuitCfg[slot7].scene_id[1] == DormConst.BACKHOME_TYPE.PublicDorm then
+						slot10 = RedPointConst.DORM_FULL_PUBLIC_SUIT
+					elseif slot11 == DormConst.BACKHOME_TYPE.PrivateDorm then
+						slot10 = RedPointConst.DORM_FULL_PRIVATE_SUIT
+					end
+				elseif slot9 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
+					slot10 = RedPointConst.DORM_PART_SUIT
+				end
+
+				manager.redPoint:setTip(string.format("%s_%s", slot10, tostring(slot7)), slot1 and 1 or 0)
+			end
+		end
+	end,
+	ClickSuitIconRedPoint = function (slot0, slot1)
+		if uv0[slot1] then
+			return
+		end
+
+		slot2, slot3 = DormSuitData:CheckIsConfigSuit(slot1)
+		slot4 = nil
+
+		if slot3 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
+			if BackHomeSuitCfg[slot1].scene_id[1] == DormConst.BACKHOME_TYPE.PublicDorm then
+				slot4 = RedPointConst.DORM_FULL_PUBLIC_SUIT
+			elseif slot5 == DormConst.BACKHOME_TYPE.PrivateDorm then
+				slot4 = RedPointConst.DORM_FULL_PRIVATE_SUIT
+			end
+		elseif slot3 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
+			slot4 = RedPointConst.DORM_PART_SUIT
+		end
+
+		manager.redPoint:setTip(string.format("%s_%s", slot4, tostring(slot1)), 0)
+
+		uv0[slot1] = true
+
+		slot0:SaveSuitRedRedPointData()
+	end,
+	UpdataSuitShopRedPoint = function (slot0)
+		slot0:GetSuitShopCache()
+
+		for slot5, slot6 in ipairs(DormTools:GetAllDormShopIDList()) do
+			uv0:UpdataSingleDormShopRedPoint(slot6)
+		end
+	end,
+	GetSuitShopCache = function (slot0)
+		if not uv0 then
+			uv0 = {}
+
+			for slot6, slot7 in ipairs(getData("RedPoint", RedPointConst.DORM_SUIT_SHOP) or {}) do
+				uv0[slot7.id] = {}
+
+				for slot11, slot12 in ipairs(slot7.goodList) do
+					uv0[slot7.id][slot12] = true
+				end
+			end
+		end
+	end,
+	SaveSuitGoodRedPointData = function (slot0, slot1)
+		slot2 = RedPointConst.DORM_SUIT_SHOP
+
+		if uv0 then
+			slot3 = {}
+
+			for slot7, slot8 in pairs(uv0) do
+				slot9 = {
+					id = slot7
+				}
+				slot10 = {}
+
+				for slot14, slot15 in pairs(slot8) do
+					table.insert(slot10, slot14)
+				end
+
+				slot9.goodList = slot10
+
+				table.insert(slot3, slot9)
+			end
+
+			saveData("RedPoint", slot2, slot3)
+		end
+
+		if not slot1 then
+			uv0 = nil
+		end
+	end,
+	UpdataSingleDormShopRedPoint = function (slot0, slot1)
+		slot0:GetSuitShopCache()
+
+		for slot7, slot8 in ipairs(DormSuitTools:GetFurSuitGoodListByShopID(slot1)) do
+			if not (uv0[slot1] or {})[slot8] then
+				manager.redPoint:setTip(uv1.FurnitureItemRedPoint(slot1, slot8), 1)
+			end
+		end
+	end,
+	CloseSingleSuitGoodRedPoint = function (slot0, slot1, slot2)
+		slot0:GetSuitShopCache()
+
+		if manager.redPoint:getTipBoolean(uv0.FurnitureItemRedPoint(slot1, slot2)) then
+			slot4 = uv1[slot1] or {}
+
+			manager.redPoint:setTip(slot3, 0)
+
+			slot4[slot2] = true
+			uv1[slot1] = slot4
+
+			slot0:SaveSuitGoodRedPointData(true)
+		end
+	end,
+	CloseAllSuitGoodRedPoint = function (slot0, slot1)
+		slot0:GetSuitShopCache()
+
+		if manager.redPoint:getTipBoolean(ShopTools.GetShopRedPointKey(slot1)) then
+			slot4 = uv0[slot1] or {}
+
+			for slot8, slot9 in ipairs(DormSuitTools:GetFurSuitGoodListByShopID(slot1)) do
+				if manager.redPoint:getTipBoolean(uv1.FurnitureItemRedPoint(slot1, slot9)) then
+					manager.redPoint:setTip(slot10, 0)
+
+					slot4[slot9] = true
+				end
+			end
+
+			uv0[slot1] = slot4
+
+			slot0:SaveSuitGoodRedPointData(true)
+		end
+	end,
+	RedPointType = {
+		Session = 1,
+		LocalMachine = 2,
+		Normal = 0
+	},
+	SkipNotify = function (slot0, slot1)
+		return RedPointData:GetSessionCacheRedPoint(slot1) == RedPointData.HasNotified or RedPointData:GetJsonCacheRedPoint(slot1) == RedPointData.HasNotified
+	end,
+	Notify = function (slot0, slot1, slot2)
+		if ((slot2 == false or slot0:SkipNotify(slot1)) and 0 or 1) ~= manager.redPoint:getTipBoolean(slot1) then
+			manager.redPoint:setTip(slot1, slot2)
+		end
+	end,
+	ConsumeNotification = function (slot0, slot1, slot2)
+		manager.redPoint:setTip(slot1, 0)
+
+		if slot2 == uv0.RedPointType.Session and RedPointData:GetSessionCacheRedPoint(slot1) ~= 0 then
+			RedPointData:SetSessionCacheRedPoint(slot1)
+		elseif slot2 == uv0.RedPointType.LocalMachine and RedPointData:GetJsonCacheRedPoint(slot1) ~= 0 then
+			RedPointData:SetJsonCacheRedPoint(slot1)
+		end
+	end,
+	CheckCanteenOpen = function (slot0)
+		slot1 = CanteenTools:CheckSignFoodNumCanOpen()
+		slot2 = true
+
+		for slot6, slot7 in ipairs(DormConst.DORM_RESTAURANT_SET_JOB_TYPE) do
+			if not CanteenHeroTools:HasJobAssignedToHero(slot7) then
+				slot2 = false
+
+				break
+			end
+		end
+
+		return slot1 and slot2
+	end,
+	CheckUnLockEntrustRedPoint = function (slot0)
+		if CanteenEntrustData:GetEntrustList() then
+			for slot5, slot6 in pairs(slot1) do
+				slot7 = false
+
+				if slot6.id < 0 then
+					slot9, slot10, slot11 = nil
+
+					if GameSetting.dorm_canteen_task_unlock.value[slot5][2] ~= 0 then
+						slot9, slot10, slot11 = IsConditionAchieved(slot8)
+					else
+						slot9 = true
+					end
+
+					slot7 = slot9
+				end
+
+				slot0:Notify(string.format("%s_%s", RedPointConst.CANTEEN_UNLOCK_ENTRUST, slot5), slot7)
+			end
+		end
+	end,
+	CheckUnLockFoodRedPoint = function (slot0)
+		for slot4, slot5 in ipairs(BackHomeCanteenFoodCfg.all) do
+			slot6 = false
+
+			if BackHomeCanteenFoodCfg[slot5].unlock > 0 and CanteenTools:CheckFoodUnLock(slot5) then
+				slot6 = true
+			end
+
+			slot0:Notify(string.format("%s_%s_%s", RedPointConst.CANTEEN_UNLOCK_FOOD, tostring(BackHomeCanteenFoodCfg[slot5].cook_type), slot5), slot6)
+		end
+	end,
+	CheckCanLevelUpFurRedPoint = function (slot0)
+		for slot4, slot5 in pairs(DormEnum.FurnitureMainType) do
+			slot0:Notify(string.format("%s_%s", RedPointConst.CANTEEN_UPGRADE_AVAILABLE, tostring(slot5)), CanteenTools:CheckAllFurCanLevelUp(slot5))
+		end
+	end,
+	UpdateCanteenNotify = function (slot0)
+		if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
+			slot0:Notify(RedPointConst.CANTEEN_BUSINESS_STOPPED, not slot0:CheckCanteenOpen())
+			slot0:Notify(RedPointConst.CANTEEN_DISPATCH_NONE, CanteenEntrustData.NoEntrustDispatched())
+			slot0:Notify(RedPointConst.CANTEEN_DISPATCH_FINISHED, CanteenEntrustData.AnyEntrustFinished())
+			slot0:Notify(RedPointConst.CANTEEN_JOB_AVAILABLE, CanteenTools:AnyJobAvailable())
+			slot0:CheckUnLockEntrustRedPoint()
+			slot0:CheckUnLockFoodRedPoint()
+			slot0:CheckCanLevelUpFurRedPoint()
+		end
 	end
-end
-
-function var_0_0.CheckCanLevelUpFurRedPoint(arg_27_0)
-	for iter_27_0, iter_27_1 in pairs(DormEnum.FurnitureMainType) do
-		arg_27_0:Notify(string.format("%s_%s", RedPointConst.CANTEEN_UPGRADE_AVAILABLE, tostring(iter_27_1)), CanteenTools:CheckAllFurCanLevelUp(iter_27_1))
-	end
-end
-
-function var_0_0.UpdateCanteenNotify(arg_28_0)
-	if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
-		local var_28_0 = arg_28_0:CheckCanteenOpen()
-
-		arg_28_0:Notify(RedPointConst.CANTEEN_BUSINESS_STOPPED, not var_28_0)
-
-		local var_28_1 = CanteenEntrustData.NoEntrustDispatched()
-
-		arg_28_0:Notify(RedPointConst.CANTEEN_DISPATCH_NONE, var_28_1)
-
-		local var_28_2 = CanteenEntrustData.AnyEntrustFinished()
-
-		arg_28_0:Notify(RedPointConst.CANTEEN_DISPATCH_FINISHED, var_28_2)
-		arg_28_0:Notify(RedPointConst.CANTEEN_JOB_AVAILABLE, CanteenTools:AnyJobAvailable())
-		arg_28_0:CheckUnLockEntrustRedPoint()
-		arg_28_0:CheckUnLockFoodRedPoint()
-		arg_28_0:CheckCanLevelUpFurRedPoint()
-	end
-end
-
-return var_0_0
+}

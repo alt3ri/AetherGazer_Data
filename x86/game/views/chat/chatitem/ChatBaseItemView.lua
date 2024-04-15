@@ -1,36 +1,33 @@
-local var_0_0 = import("game.views.chat.loopScrollView.LoopScrollViewBaseItem")
-local var_0_1 = class("ChatBaseItemView", var_0_0)
+slot1 = class("ChatBaseItemView", import("game.views.chat.loopScrollView.LoopScrollViewBaseItem"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot1.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:Init()
-	arg_1_0:AddListeners()
-	arg_1_0:Show(true)
+	slot0:BindCfgUI()
+	slot0:Init()
+	slot0:AddListeners()
+	slot0:Show(true)
 end
 
-function var_0_1.Show(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.gameObject_, arg_2_1)
+function slot1.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_1.Init(arg_3_0)
-	return
+function slot1.Init(slot0)
 end
 
-function var_0_1.AddListeners(arg_4_0)
-	return
+function slot1.AddListeners(slot0)
 end
 
-function var_0_1.Dispose(arg_5_0)
-	arg_5_0:RemoveAllListeners()
-	Object.Destroy(arg_5_0.gameObject_)
+function slot1.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_5_0.gameObject_ = nil
-	arg_5_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_1.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

@@ -1,32 +1,29 @@
-local var_0_0 = class("GotoAttributeArenaStage", BattleSettlementStrategyBase)
+slot0 = class("GotoAttributeArenaStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.num
-	local var_1_1 = arg_1_1.stageData
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
-	local var_1_4, var_1_5 = GetResultReward()
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
+	slot6, slot7 = GetResultReward()
 
-	local function var_1_6()
+	function slot8()
 		manager.story:RemovePlayer()
 		gameContext:Go("/battleScorResult", {
 			noOnceMore = true,
-			stageData = var_1_1,
-			rewardList = var_1_5,
-			battleResult = var_1_3
+			stageData = uv0,
+			rewardList = uv1,
+			battleResult = uv2
 		})
-		EndBattleLogic(var_1_0)
+		EndBattleLogic(uv3)
 	end
 
-	if isSuccess(var_1_0) then
+	if isSuccess(slot1.num) then
 		function BattleCallLuaCallBack()
-			local var_3_0 = var_1_1:GetStageId()
-
-			manager.story:CheckBattleStory(var_3_0, manager.story.WIN, var_1_6)
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.WIN, uv1)
 		end
 	else
-		arg_1_0:GotoBattleFaild(var_1_0, var_1_1, var_1_2, var_1_3)
+		slot0:GotoBattleFaild(slot2, slot3, slot4, slot5)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,28 +1,25 @@
 SectionBaseView = import("game.views.sectionInfo.SectionInfoMultipleBaseView")
+slot0 = class("ActivityPtSectionInfoView", SectionBaseView)
 
-local var_0_0 = class("ActivityPtSectionInfoView", SectionBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Stage/PTSectionInfoUI"
 end
 
-function var_0_0.Init(arg_2_0)
-	var_0_0.super.Init(arg_2_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	var_0_0.super.InitUI(arg_3_0)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_3_0.affixGoList_ = {}
+	slot0.affixGoList_ = {}
 
-	local var_3_0 = arg_3_0.affixContentTrans_.childCount
-
-	for iter_3_0 = 1, var_3_0 do
-		arg_3_0.affixGoList_[iter_3_0] = arg_3_0.affixContentTrans_:GetChild(iter_3_0 - 1).gameObject
+	for slot5 = 1, slot0.affixContentTrans_.childCount do
+		slot0.affixGoList_[slot5] = slot0.affixContentTrans_:GetChild(slot5 - 1).gameObject
 	end
 end
 
-function var_0_0.UpdateBar(arg_4_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -35,97 +32,93 @@ function var_0_0.UpdateBar(arg_4_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 end
 
-function var_0_0.RefreshData(arg_5_0)
-	arg_5_0.cfg_ = BattleStageTools.GetStageCfg(arg_5_0.params_.sectionType, arg_5_0.params_.section)
-	arg_5_0.cost = arg_5_0.cfg_.cost or 0
+function slot0.RefreshData(slot0)
+	slot0.cfg_ = BattleStageTools.GetStageCfg(slot0.params_.sectionType, slot0.params_.section)
+	slot0.cost = slot0.cfg_.cost or 0
 
-	var_0_0.super.RefreshData(arg_5_0)
+	uv0.super.RefreshData(slot0)
 
-	local var_5_0 = SummerActivityPtData:GetLevelChallengeCount(arg_5_0.params_.repeat_id)
-
-	arg_5_0.lock_ = false
-	arg_5_0.lockTips_ = ""
-	arg_5_0.isFirstClear_ = var_5_0 == 0
-	arg_5_0.drop_lib_id = arg_5_0.cfg_.drop_lib_id
+	slot0.lock_ = false
+	slot0.lockTips_ = ""
+	slot0.isFirstClear_ = SummerActivityPtData:GetLevelChallengeCount(slot0.params_.repeat_id) == 0
+	slot0.drop_lib_id = slot0.cfg_.drop_lib_id
 end
 
-function var_0_0.RefreshStageInfo(arg_6_0)
-	arg_6_0.cfg_ = BattleStageTools.GetStageCfg(arg_6_0.params_.sectionType, arg_6_0.params_.section)
+function slot0.RefreshStageInfo(slot0)
+	slot0.cfg_ = BattleStageTools.GetStageCfg(slot0.params_.sectionType, slot0.params_.section)
 
-	if arg_6_0.oldCfgID_ ~= arg_6_0.cfg_.id then
-		arg_6_0.sectionName_.text = GetI18NText(arg_6_0.cfg_.name)
-		arg_6_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, arg_6_0.cfg_.background_1))
-		arg_6_0.textStory_.text = GetI18NText(arg_6_0.cfg_.tips)
-		arg_6_0.oldCfgID_ = arg_6_0.cfg_.id
-		arg_6_0.tipsText_.text = GetI18NText(arg_6_0.cfg_.tips)
-		arg_6_0.titleCanvasGroup_.alpha = 0
-		arg_6_0.multiple_ = 1
+	if slot0.oldCfgID_ ~= slot0.cfg_.id then
+		slot0.sectionName_.text = GetI18NText(slot0.cfg_.name)
+		slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot0.cfg_.background_1))
+		slot0.textStory_.text = GetI18NText(slot0.cfg_.tips)
+		slot0.oldCfgID_ = slot0.cfg_.id
+		slot0.tipsText_.text = GetI18NText(slot0.cfg_.tips)
+		slot0.titleCanvasGroup_.alpha = 0
+		slot0.multiple_ = 1
 
-		arg_6_0:RefreshAffix()
+		slot0:RefreshAffix()
 	end
 end
 
-function var_0_0.RefreshAffix(arg_7_0)
-	local var_7_0 = arg_7_0.cfg_.affix_type
-
-	if type(var_7_0) ~= "table" then
+function slot0.RefreshAffix(slot0)
+	if type(slot0.cfg_.affix_type) ~= "table" then
 		return
 	end
 
-	for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-		arg_7_0["affixName_" .. iter_7_0].text = GetI18NText(getAffixName(iter_7_1))
-		arg_7_0["affixDesc_" .. iter_7_0].text = GetI18NText(getAffixDesc(iter_7_1))
-		arg_7_0["affixIcon_" .. iter_7_0].sprite = getAffixSprite(iter_7_1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0["affixName_" .. slot5].text = GetI18NText(getAffixName(slot6))
+		slot0["affixDesc_" .. slot5].text = GetI18NText(getAffixDesc(slot6))
+		slot0["affixIcon_" .. slot5].sprite = getAffixSprite(slot6)
 
-		if arg_7_0.affixGoList_[iter_7_0] then
-			SetActive(arg_7_0.affixGoList_[iter_7_0], true)
+		if slot0.affixGoList_[slot5] then
+			SetActive(slot0.affixGoList_[slot5], true)
 		end
 	end
 
-	for iter_7_2 = #var_7_0 + 1, #arg_7_0.affixGoList_ do
-		if arg_7_0.affixGoList_[iter_7_2] then
-			SetActive(arg_7_0.affixGoList_[iter_7_2], false)
+	for slot5 = #slot1 + 1, #slot0.affixGoList_ do
+		if slot0.affixGoList_[slot5] then
+			SetActive(slot0.affixGoList_[slot5], false)
 		end
 	end
 end
 
-function var_0_0.OnClickBtn(arg_8_0)
-	arg_8_0:Go("/sectionSelectHero", {
-		section = arg_8_0.params_.section,
-		sectionType = arg_8_0.params_.sectionType,
-		activityID = arg_8_0.params_.activityID,
-		multiple = arg_8_0.multiple_
+function slot0.OnClickBtn(slot0)
+	slot0:Go("/sectionSelectHero", {
+		section = slot0.params_.section,
+		sectionType = slot0.params_.sectionType,
+		activityID = slot0.params_.activityID,
+		multiple = slot0.multiple_
 	})
 end
 
-function var_0_0.OnTop(arg_9_0)
-	arg_9_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_10_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.GetUnlockChallengeCnt(arg_11_0)
-	if SummerActivityPtData:GetLevelChallengeCount(arg_11_0.params_.repeat_id) > 0 then
-		return var_0_0.super.GetUnlockChallengeCnt(arg_11_0)
+function slot0.GetUnlockChallengeCnt(slot0)
+	if SummerActivityPtData:GetLevelChallengeCount(slot0.params_.repeat_id) > 0 then
+		return uv0.super.GetUnlockChallengeCnt(slot0)
 	end
 
-	return SummerActivityPtData:GetLevelChallengeCount(arg_11_0.params_.repeat_id)
+	return SummerActivityPtData:GetLevelChallengeCount(slot0.params_.repeat_id)
 end
 
-function var_0_0.GetChallengeCntMaxTip(arg_12_0)
-	if SummerActivityPtData:GetLevelChallengeCount(arg_12_0.params_.repeat_id) > 0 then
-		return var_0_0.super.GetChallengeCntMaxTip(arg_12_0)
+function slot0.GetChallengeCntMaxTip(slot0)
+	if SummerActivityPtData:GetLevelChallengeCount(slot0.params_.repeat_id) > 0 then
+		return uv0.super.GetChallengeCntMaxTip(slot0)
 	end
 
 	return GetTips("ACTIVITY_PT_REPEAT_MULTIPLE_UNLOCK")
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.affixGoList_ = nil
+function slot0.Dispose(slot0)
+	slot0.affixGoList_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

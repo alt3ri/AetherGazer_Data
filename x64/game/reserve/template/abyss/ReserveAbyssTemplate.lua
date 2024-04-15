@@ -1,146 +1,103 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveAbyssTemplate", var_0_0)
+slot1 = class("ReserveAbyssTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.FilterInvalidTeamData(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = clone(arg_1_2.resultHeroList)
+function slot1.FilterInvalidTeamData(slot0, slot1, slot2)
+	slot3 = clone(slot2.resultHeroList)
 
-	if arg_1_1.customData.layer ~= nil then
-		local var_1_1 = arg_1_0:GetLayerLockHeroList(arg_1_1.customData.layer)
-
-		for iter_1_0, iter_1_1 in pairs(var_1_1) do
-			for iter_1_2, iter_1_3 in pairs(var_1_0) do
-				if iter_1_3 == iter_1_1 then
-					var_1_0[iter_1_2] = 0
-					arg_1_2.isInvaild = true
+	if slot1.customData.layer ~= nil then
+		for slot8, slot9 in pairs(slot0:GetLayerLockHeroList(slot1.customData.layer)) do
+			for slot13, slot14 in pairs(slot3) do
+				if slot14 == slot9 then
+					slot3[slot13] = 0
+					slot2.isInvaild = true
 				end
 			end
 		end
 	end
 
-	local var_1_2 = arg_1_0:GetGloalBanHeroList()
-
-	for iter_1_4, iter_1_5 in pairs(var_1_2) do
-		for iter_1_6, iter_1_7 in pairs(var_1_0) do
-			if iter_1_7 == iter_1_5 then
-				var_1_0[iter_1_6] = 0
-				arg_1_2.isInvaild = true
+	for slot8, slot9 in pairs(slot0:GetGloalBanHeroList()) do
+		for slot13, slot14 in pairs(slot3) do
+			if slot14 == slot9 then
+				slot3[slot13] = 0
+				slot2.isInvaild = true
 			end
 		end
 	end
 
-	local var_1_3 = {}
-
-	for iter_1_8, iter_1_9 in pairs(var_1_0) do
-		if iter_1_9 ~= 0 then
-			table.insert(var_1_3, iter_1_9)
+	for slot9, slot10 in pairs(slot3) do
+		if slot10 ~= 0 then
+			table.insert({}, slot10)
 		end
 	end
 
-	for iter_1_10 = 1, 3 do
-		if var_1_3[iter_1_10] == nil then
-			arg_1_2.resultHeroList[iter_1_10] = 0
+	for slot9 = 1, 3 do
+		if slot5[slot9] == nil then
+			slot2.resultHeroList[slot9] = 0
 		else
-			arg_1_2.resultHeroList[iter_1_10] = var_1_3[iter_1_10]
+			slot2.resultHeroList[slot9] = slot5[slot9]
 		end
 	end
 end
 
-function var_0_1.GetLayerLockHeroList(arg_2_0, arg_2_1)
-	local var_2_0 = AbyssData:GetAbyssCfg(arg_2_1).stage_list
-	local var_2_1 = {}
+function slot1.GetLayerLockHeroList(slot0, slot1)
+	slot4 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		table.insertto(var_2_1, arg_2_0:GetStageLockHeroList(arg_2_1, iter_2_0))
+	for slot8, slot9 in ipairs(AbyssData:GetAbyssCfg(slot1).stage_list) do
+		table.insertto(slot4, slot0:GetStageLockHeroList(slot1, slot8))
 	end
 
-	return var_2_1
+	return slot4
 end
 
-function var_0_1.GetStageLockHeroList(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = {}
-	local var_3_1 = AbyssData:GetAbyssCfg(arg_3_1).stage_list[arg_3_2]
+function slot1.GetStageLockHeroList(slot0, slot1, slot2)
+	slot3 = {}
+	slot6 = AbyssData:GetAbyssCfg(slot1).stage_list[slot2]
 
-	if AbyssData:GetStageData(arg_3_1, arg_3_2).is_completed == true then
-		local var_3_2 = var_3_1[2]
-		local var_3_3 = arg_3_0:GetContDataTemplateById(var_3_2)
-		local var_3_4
+	if AbyssData:GetStageData(slot1, slot2).is_completed == true then
+		slot10 = slot0:GetContDataTemplateById(slot6[2])
+		slot11 = nil
 
-		if var_3_1[1] ~= 3 then
-			local var_3_5 = var_3_1[2]
-
-			var_3_4 = arg_3_0:GetContDataTemplateById(var_3_5):GetHeroList(ReserveConst.DEFAULT_TEAM_INDEX)
-		else
-			local var_3_6 = var_3_3:GetTeamCount()
-
-			var_3_4 = var_3_3:GetHeroList(var_3_6)
-		end
-
-		for iter_3_0, iter_3_1 in ipairs(var_3_4) do
-			local var_3_7 = iter_3_1:GetHeroID()
-
-			if var_3_7 ~= 0 then
-				var_3_0[#var_3_0 + 1] = var_3_7
+		for slot15, slot16 in ipairs((slot6[1] == 3 or slot0:GetContDataTemplateById(slot6[2]):GetHeroList(ReserveConst.DEFAULT_TEAM_INDEX)) and slot10:GetHeroList(slot10:GetTeamCount())) do
+			if slot16:GetHeroID() ~= 0 then
+				slot3[#slot3 + 1] = slot17
 			end
 		end
 	end
 
-	return var_3_0
+	return slot3
 end
 
-function var_0_1.GetGloalBanHeroList(arg_4_0)
-	local var_4_0 = {}
+function slot1.GetGloalBanHeroList(slot0)
+	slot1 = {}
+	slot5 = AbyssData:GetActivityId()
 
-	for iter_4_0, iter_4_1 in ipairs(AbyssCfg.get_id_list_by_activity_id[AbyssData:GetActivityId()]) do
-		local var_4_1 = AbyssCfg[iter_4_1].level
-
-		if AbyssData:IsLayerUnlock(var_4_1) then
-			local var_4_2 = AbyssCfg[iter_4_1].stage_list
-
-			for iter_4_2, iter_4_3 in ipairs(var_4_2) do
-				table.insertto(var_4_0, arg_4_0:GetStageBanHeroList(var_4_1, iter_4_2))
+	for slot5, slot6 in ipairs(AbyssCfg.get_id_list_by_activity_id[slot5]) do
+		if AbyssData:IsLayerUnlock(AbyssCfg[slot6].level) then
+			for slot13, slot14 in ipairs(AbyssCfg[slot6].stage_list) do
+				table.insertto(slot1, slot0:GetStageBanHeroList(slot7, slot13))
 			end
 		end
 	end
 
-	return var_4_0
+	return slot1
 end
 
-function var_0_1.GetStageBanHeroList(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = {}
+function slot1.GetStageBanHeroList(slot0, slot1, slot2)
+	slot3 = {}
 
-	if AbyssData:IsLayerUnlock(arg_5_1) then
-		local var_5_1 = AbyssData:GetAbyssCfg(arg_5_1).stage_list[arg_5_2]
+	if AbyssData:IsLayerUnlock(slot1) and AbyssData:GetAbyssCfg(slot1).stage_list[slot2][1] == 3 then
+		slot11 = slot0:GetContDataTemplateById(slot6[2]):GetTeamCount()
+		slot12 = nil
 
-		if var_5_1[1] == 3 then
-			local var_5_2 = AbyssData:GetStageData(arg_5_1, arg_5_2)
-			local var_5_3 = var_5_1[2]
-			local var_5_4 = arg_5_0:GetContDataTemplateById(var_5_3)
-			local var_5_5 = var_5_4:GetTeamCount()
-			local var_5_6
-
-			if AbyssTools.GetLayerBossTeamCacheFlag(arg_5_1, arg_5_2) then
-				var_5_6 = var_5_5 - 1
-			elseif var_5_2.is_completed then
-				var_5_6 = var_5_5 - 1
-			else
-				var_5_6 = var_5_5
-			end
-
-			for iter_5_0 = 1, var_5_6 do
-				local var_5_7 = var_5_4:GetHeroList(iter_5_0)
-
-				for iter_5_1, iter_5_2 in ipairs(var_5_7) do
-					local var_5_8 = iter_5_2:GetHeroID()
-
-					if var_5_8 ~= 0 then
-						var_5_0[#var_5_0 + 1] = var_5_8
-					end
+		for slot17 = 1, AbyssTools.GetLayerBossTeamCacheFlag(slot1, slot2) and slot11 - 1 or AbyssData:GetStageData(slot1, slot2).is_completed and slot11 - 1 or slot11 do
+			for slot22, slot23 in ipairs(slot10:GetHeroList(slot17)) do
+				if slot23:GetHeroID() ~= 0 then
+					slot3[#slot3 + 1] = slot24
 				end
 			end
 		end
 	end
 
-	return var_5_0
+	return slot3
 end
 
-return var_0_1
+return slot1

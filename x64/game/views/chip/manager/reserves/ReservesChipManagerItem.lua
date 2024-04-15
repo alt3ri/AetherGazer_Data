@@ -1,16 +1,16 @@
-local var_0_0 = class("ReservesChipManagerItem", ChipManagerItem)
+slot0 = class("ReservesChipManagerItem", ChipManagerItem)
 
-function var_0_0.AddListeners(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.btn_, nil, function()
-		arg_1_0:Go("/reservesChipManager", {
-			index = arg_1_0.index_,
-			chipManagerID = arg_1_0.chipManagerID_
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		uv0:Go("/reservesChipManager", {
+			index = uv0.index_,
+			chipManagerID = uv0.chipManagerID_
 		})
 	end)
 end
 
-function var_0_0.SetIndex(arg_3_0, arg_3_1)
-	arg_3_0.index_ = arg_3_1
+function slot0.SetIndex(slot0, slot1)
+	slot0.index_ = slot1
 end
 
-return var_0_0
+return slot0

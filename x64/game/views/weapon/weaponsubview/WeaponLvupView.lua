@@ -1,37 +1,37 @@
-local var_0_0 = class("WeaponLvupView", ReduxView)
+slot0 = class("WeaponLvupView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:Init()
+	slot0:BindCfgUI()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:buildController()
-	arg_2_0:buildContext()
+function slot0.Init(slot0)
+	slot0:buildController()
+	slot0:buildContext()
 
-	arg_2_0.scrollHelper_ = LuaList.New(handler(arg_2_0, arg_2_0.RenderItem), arg_2_0.itemList_, CommonItemView)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.RenderItem), slot0.itemList_, CommonItemView)
 
-	arg_2_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	arg_3_0:RegistEventListener(COMMON_FILTER_OK, handler(arg_3_0, arg_3_0.OnFilterChange))
-	arg_3_0:RegistEventListener(WEAPON_STR, function(arg_4_0, arg_4_1)
-		arg_3_0:OnWeaponUpgrade(arg_4_0, arg_4_1)
+function slot0.OnEnter(slot0)
+	slot0:RegistEventListener(COMMON_FILTER_OK, handler(slot0, slot0.OnFilterChange))
+	slot0:RegistEventListener(WEAPON_STR, function (slot0, slot1)
+		uv0:OnWeaponUpgrade(slot0, slot1)
 	end)
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	CommonFilterData:ClearFilter(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id)
-	arg_5_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.buildController(arg_6_0)
-	arg_6_0.controller_ = {
-		comps = arg_6_0.gameObject_:GetComponent("ControllerExCollection"),
+function slot0.buildController(slot0)
+	slot0.controller_ = {
+		comps = slot0.gameObject_:GetComponent("ControllerExCollection"),
 		state = {
 			levelMax = {
 				Max = "max",
@@ -40,20 +40,18 @@ function var_0_0.buildController(arg_6_0)
 			}
 		}
 	}
-	arg_6_0.addStatusController = arg_6_0.controller_.comps:GetController("addStatus")
+	slot0.addStatusController = slot0.controller_.comps:GetController("addStatus")
 end
 
-function var_0_0.SwitchControllerState(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.controller_.comps:GetController(arg_7_1)
-
-	if var_7_0 then
-		var_7_0:SetSelectedState(arg_7_2)
+function slot0.SwitchControllerState(slot0, slot1, slot2)
+	if slot0.controller_.comps:GetController(slot1) then
+		slot4:SetSelectedState(slot2)
 	end
 end
 
-function var_0_0.buildContext(arg_8_0, arg_8_1)
-	arg_8_1 = arg_8_1 or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_8_0.context = {
+function slot0.buildContext(slot0, slot1)
+	slot1 = slot1 or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.context = {
 		totalCount = 0,
 		materialCount = 0,
 		totalSelect = 0,
@@ -62,228 +60,203 @@ function var_0_0.buildContext(arg_8_0, arg_8_1)
 		materialList = {},
 		servantList = {},
 		weaponInfo = {},
-		type = arg_8_1,
-		dataPorxy = HeroViewDataProxy.New(arg_8_1)
+		type = slot1,
+		dataPorxy = HeroViewDataProxy.New(slot1)
 	}
-	arg_8_0.constVar = {
+	slot0.constVar = {
 		yellow = "363A42",
 		sliderBarWidth = 501,
 		red = "CD421E"
 	}
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.quickSelectBtn_, nil, function()
-		arg_9_0:QuickSelectBtnClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.quickSelectBtn_, nil, function ()
+		uv0:QuickSelectBtnClick()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.upgradeBtn_, nil, function()
-		arg_9_0:OnUpgradeBtnClick()
+	slot0:AddBtnListener(slot0.upgradeBtn_, nil, function ()
+		uv0:OnUpgradeBtnClick()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.filterBtn_, nil, function()
-		arg_9_0:OnFilterBtnClick()
+	slot0:AddBtnListener(slot0.filterBtn_, nil, function ()
+		uv0:OnFilterBtnClick()
 	end)
 end
 
-function var_0_0.ShowWeaponInfoLocal(arg_13_0)
-	arg_13_0:UpdateWeaponInfo()
-	arg_13_0:ShowWeaponInfo(arg_13_0.context.heroId, arg_13_0.context.weaponInfo)
+function slot0.ShowWeaponInfoLocal(slot0)
+	slot0:UpdateWeaponInfo()
+	slot0:ShowWeaponInfo(slot0.context.heroId, slot0.context.weaponInfo)
 end
 
-function var_0_0.ShowWeaponInfo(arg_14_0, arg_14_1, arg_14_2, arg_14_3)
-	arg_14_0:buildContext(arg_14_3)
+function slot0.ShowWeaponInfo(slot0, slot1, slot2, slot3)
+	slot0:buildContext(slot3)
 
-	arg_14_0.context.weaponInfo = arg_14_2
-	arg_14_0.context.heroId = arg_14_1
+	slot0.context.weaponInfo = slot2
+	slot0.context.heroId = slot1
 
-	arg_14_0:RenderView()
+	slot0:RenderView()
 
-	if not arg_14_0:CheckWeaponIsMaxLevel() then
-		arg_14_0:RefreshMaterialList()
-		arg_14_0.scrollHelper_:StartScroll(arg_14_0.context.totalCount, 0)
-	end
-end
-
-function var_0_0.RenderView(arg_15_0)
-	if not arg_15_0:CheckWeaponIsMaxLevel() then
-		arg_15_0:SwitchControllerState(arg_15_0.controller_.state.levelMax.name, arg_15_0.controller_.state.levelMax.Normal)
-		arg_15_0:RenderNormalView()
-	else
-		arg_15_0:SwitchControllerState(arg_15_0.controller_.state.levelMax.name, arg_15_0.controller_.state.levelMax.Max)
-		arg_15_0:RenderMaxView()
+	if not slot0:CheckWeaponIsMaxLevel() then
+		slot0:RefreshMaterialList()
+		slot0.scrollHelper_:StartScroll(slot0.context.totalCount, 0)
 	end
 end
 
-function var_0_0.RenderNormalView(arg_16_0)
-	local var_16_0 = arg_16_0.context.weaponInfo
-	local var_16_1 = var_16_0.breakthrough
-	local var_16_2 = WeaponTools.WeaponAtk(var_16_0.level, var_16_1)
-	local var_16_3, var_16_4, var_16_5, var_16_6 = WeaponTools.AddWeaponExp(var_16_0.exp, var_16_1, arg_16_0.context.totalSelect)
-	local var_16_7 = GameLevelSetting[var_16_4].weapon_level_exp
-	local var_16_8 = WeaponTools.WeaponAtk(var_16_4, var_16_1)
-
-	arg_16_0.originatkText_.text = string.format("%d", var_16_2)
-	arg_16_0.originatk2Text_.text = string.format("%d", var_16_2)
-	arg_16_0.afteratkText_.text = string.format("%d", var_16_8)
-
-	if var_16_8 ~= var_16_2 then
-		arg_16_0.atkArrowImg_.color = Color.New(1, 0.4431373, 0, 1)
+function slot0.RenderView(slot0)
+	if not slot0:CheckWeaponIsMaxLevel() then
+		slot0:SwitchControllerState(slot0.controller_.state.levelMax.name, slot0.controller_.state.levelMax.Normal)
+		slot0:RenderNormalView()
 	else
-		arg_16_0.atkArrowImg_.color = Color.New(0.2117647, 0.227451, 0.2588235, 1)
+		slot0:SwitchControllerState(slot0.controller_.state.levelMax.name, slot0.controller_.state.levelMax.Max)
+		slot0:RenderMaxView()
 	end
-
-	local var_16_9 = var_16_3 / var_16_7 * arg_16_0.constVar.sliderBarWidth
-	local var_16_10, var_16_11, var_16_12 = WeaponTools.AddWeaponExp(var_16_0.exp, var_16_0.breakthrough, 0)
-	local var_16_13 = var_16_10 / GameLevelSetting[var_16_0.level].weapon_level_exp * arg_16_0.constVar.sliderBarWidth
-
-	if var_16_4 > var_16_0.level then
-		arg_16_0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0)
-		arg_16_0.fakeExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, var_16_9)
-	else
-		arg_16_0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, var_16_13)
-		arg_16_0.fakeExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, var_16_9)
-	end
-
-	arg_16_0.afterlvText_.text = var_16_4
-
-	if var_16_4 >= HeroConst.WEAPON_LV_MAX then
-		arg_16_0.exptextText_.text = "-/-"
-	else
-		arg_16_0.exptextText_.text = var_16_3 .. "/" .. var_16_7
-	end
-
-	arg_16_0.totalexpText_.text = "+" .. arg_16_0.context.totalSelect
-	arg_16_0.originlvText_.text = var_16_0.level
-
-	if arg_16_0.context.totalSelect == 0 and var_16_0.level == var_16_4 then
-		arg_16_0.addStatusController:SetSelectedState("normal")
-	else
-		SetActive(arg_16_0.showMax_, var_16_6)
-		arg_16_0.addStatusController:SetSelectedState("add")
-	end
-
-	arg_16_0:RenderCost()
 end
 
-function var_0_0.RenderMaxView(arg_17_0)
-	local var_17_0 = arg_17_0.context.heroId
-	local var_17_1 = arg_17_0.context.weaponInfo
-	local var_17_2 = var_17_1.breakthrough
-	local var_17_3 = WeaponTools.WeaponAtk(var_17_1.level, var_17_2)
-	local var_17_4 = HeroCfg[var_17_0].weapon_break_attribute[var_17_1.breakthrough]
-	local var_17_5, var_17_6 = SkillTools.GetAttr(var_17_4)
+function slot0.RenderNormalView(slot0)
+	slot1 = slot0.context.weaponInfo
+	slot2 = slot1.breakthrough
+	slot3 = WeaponTools.WeaponAtk(slot1.level, slot2)
+	slot4, slot5, slot6, slot7 = WeaponTools.AddWeaponExp(slot1.exp, slot2, slot0.context.totalSelect)
+	slot8 = GameLevelSetting[slot5].weapon_level_exp
+	slot9 = WeaponTools.WeaponAtk(slot5, slot2)
+	slot0.originatkText_.text = string.format("%d", slot3)
+	slot0.originatk2Text_.text = string.format("%d", slot3)
+	slot0.afteratkText_.text = string.format("%d", slot9)
 
-	arg_17_0.maxLevelTxt_.text = HeroConst.WEAPON_LV_MAX
-	arg_17_0.maxAttackNumTxt_.text = math.floor(var_17_3)
-	arg_17_0.maxSubNameTxt_.text = var_17_5
-	arg_17_0.maxSubNumTxt_.text = var_17_6
+	if slot9 ~= slot3 then
+		slot0.atkArrowImg_.color = Color.New(1, 0.4431373, 0, 1)
+	else
+		slot0.atkArrowImg_.color = Color.New(0.2117647, 0.227451, 0.2588235, 1)
+	end
+
+	slot11, slot12, slot13 = WeaponTools.AddWeaponExp(slot1.exp, slot1.breakthrough, 0)
+	slot14 = slot11 / GameLevelSetting[slot1.level].weapon_level_exp * slot0.constVar.sliderBarWidth
+
+	if slot1.level < slot5 then
+		slot0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0)
+		slot0.fakeExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slot4 / slot8 * slot0.constVar.sliderBarWidth)
+	else
+		slot0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slot14)
+		slot0.fakeExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slot10)
+	end
+
+	slot0.afterlvText_.text = slot5
+
+	if HeroConst.WEAPON_LV_MAX <= slot5 then
+		slot0.exptextText_.text = "-/-"
+	else
+		slot0.exptextText_.text = slot4 .. "/" .. slot8
+	end
+
+	slot0.totalexpText_.text = "+" .. slot0.context.totalSelect
+	slot0.originlvText_.text = slot1.level
+
+	if slot0.context.totalSelect == 0 and slot1.level == slot5 then
+		slot0.addStatusController:SetSelectedState("normal")
+	else
+		SetActive(slot0.showMax_, slot7)
+		slot0.addStatusController:SetSelectedState("add")
+	end
+
+	slot0:RenderCost()
 end
 
-function var_0_0.RenderItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = 1
+function slot0.RenderMaxView(slot0)
+	slot2 = slot0.context.weaponInfo
+	slot0.maxSubNameTxt_.text, slot0.maxSubNumTxt_.text = SkillTools.GetAttr(HeroCfg[slot0.context.heroId].weapon_break_attribute[slot2.breakthrough])
+	slot0.maxLevelTxt_.text = HeroConst.WEAPON_LV_MAX
+	slot0.maxAttackNumTxt_.text = math.floor(WeaponTools.WeaponAtk(slot2.level, slot2.breakthrough))
+end
 
-	if arg_18_1 > arg_18_0.context.materialCount then
-		var_18_0 = 2
-		arg_18_1 = arg_18_1 - arg_18_0.context.materialCount
+function slot0.RenderItem(slot0, slot1, slot2)
+	slot3 = 1
+
+	if slot0.context.materialCount < slot1 then
+		slot3 = 2
+		slot1 = slot1 - slot0.context.materialCount
 	end
 
-	local var_18_1
+	slot4 = nil
 
-	if var_18_0 == 1 then
-		var_18_1 = arg_18_0.context.materialList[arg_18_1]
-	elseif var_18_0 == 2 then
-		var_18_1 = arg_18_0.context.servantList[arg_18_1]
+	if slot3 == 1 then
+		slot4 = slot0.context.materialList[slot1]
+	elseif slot3 == 2 then
+		slot4 = slot0.context.servantList[slot1]
 	end
 
-	var_18_1.index = arg_18_1
+	slot4.index = slot1
 
-	if var_18_1.type == ItemConst.ITEM_TYPE.MATERIAL then
-		function var_18_1.longClickFun(arg_19_0)
-			local var_19_0 = arg_18_0:OnMaterialLongPress(var_18_1, arg_18_2)
+	if slot4.type == ItemConst.ITEM_TYPE.MATERIAL then
+		function slot4.longClickFun(slot0)
+			uv0:RenderView(true)
 
-			arg_18_0:RenderView(true)
-
-			return var_19_0
+			return uv0:OnMaterialLongPress(uv1, uv2)
 		end
-	elseif var_18_1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		function var_18_1.clickFun(arg_20_0)
-			arg_18_0:OnServantClick(var_18_1, arg_18_2)
-			arg_18_0:RenderView(true)
+	elseif slot4.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		function slot4.clickFun(slot0)
+			uv0:OnServantClick(uv1, uv2)
+			uv0:RenderView(true)
 		end
 	end
 
-	function var_18_1.clickAmountFun(arg_21_0)
-		local var_21_0 = arg_18_0:OnMaterialCutClick(var_18_1, arg_18_2)
+	function slot4.clickAmountFun(slot0)
+		uv0:RenderView(true)
 
-		arg_18_0:RenderView(true)
-
-		return var_21_0
+		return uv0:OnMaterialCutClick(uv1, uv2)
 	end
 
-	arg_18_2:SetData(var_18_1)
-	arg_18_2:RefreshGray(var_18_1.topAmountValue and var_18_1.topAmountValue > 0)
+	slot2:SetData(slot4)
+	slot2:RefreshGray(slot4.topAmountValue and slot4.topAmountValue > 0)
 
-	arg_18_2.infoProxy = var_18_1
+	slot2.infoProxy = slot4
 end
 
-function var_0_0.RenderCost(arg_22_0)
-	local var_22_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-	local var_22_1 = arg_22_0.context.totalSelect * GameSetting.weapon_strengthen_gold_cost.value[1]
-	local var_22_2 = setTextColor(arg_22_0.constVar.yellow, arg_22_0.constVar.red, var_22_1, var_22_0)
-
-	arg_22_0.tokenTxt_.text = var_22_2
+function slot0.RenderCost(slot0)
+	slot0.tokenTxt_.text = setTextColor(slot0.constVar.yellow, slot0.constVar.red, slot0.context.totalSelect * GameSetting.weapon_strengthen_gold_cost.value[1], ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD))
 end
 
-function var_0_0.OnGoldChange(arg_23_0)
-	arg_23_0:RenderCost()
-	arg_23_0:RenderView()
+function slot0.OnGoldChange(slot0)
+	slot0:RenderCost()
+	slot0:RenderView()
 end
 
-function var_0_0.OnWeaponUpgrade(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = arg_24_0.context.weaponInfo
-	local var_24_1, var_24_2, var_24_3 = WeaponTools.AddWeaponExp(var_24_0.exp, var_24_0.breakthrough, arg_24_0.context.totalSelect)
-	local var_24_4 = var_24_0.level
-	local var_24_5 = var_24_2
+function slot0.OnWeaponUpgrade(slot0, slot1, slot2)
+	slot3 = slot0.context.weaponInfo
+	slot4, slot5, slot6 = WeaponTools.AddWeaponExp(slot3.exp, slot3.breakthrough, slot0.context.totalSelect)
 
-	if var_24_4 == var_24_5 then
+	if slot3.level == slot5 then
 		ShowTips("SUCCESS_STRENGTHEN")
-		arg_24_0:ShowWeaponInfoLocal()
+		slot0:ShowWeaponInfoLocal()
 
 		return
 	end
 
-	arg_24_0:ShowWeaponInfoLocal()
-
-	local var_24_6 = arg_24_0.context.weaponInfo
-
+	slot0:ShowWeaponInfoLocal()
 	JumpTools.OpenPageByJump("weaponStr", {
-		oriLv = var_24_4,
-		afterLv = var_24_5,
-		breakthrough = var_24_6.breakthrough,
-		callback = function()
-			local var_25_0 = MaterialTools.materialGiveBack(var_24_3, ItemConst.STR_ITEM.WEAPON)
-
-			getReward(formatRewardCfgList(var_25_0))
+		oriLv = slot7,
+		afterLv = slot8,
+		breakthrough = slot0.context.weaponInfo.breakthrough,
+		callback = function ()
+			getReward(formatRewardCfgList(MaterialTools.materialGiveBack(uv0, ItemConst.STR_ITEM.WEAPON)))
 		end
 	})
 end
 
-function var_0_0.OnMaterialLongPress(arg_26_0, arg_26_1, arg_26_2)
-	local var_26_0 = arg_26_0.context.weaponInfo
-	local var_26_1 = var_26_0.breakthrough
-	local var_26_2, var_26_3, var_26_4, var_26_5 = WeaponTools.AddWeaponExp(var_26_0.exp, var_26_1, arg_26_0.context.totalSelect)
+function slot0.OnMaterialLongPress(slot0, slot1, slot2)
+	slot3 = slot0.context.weaponInfo
+	slot5, slot6, slot7, slot8 = WeaponTools.AddWeaponExp(slot3.exp, slot3.breakthrough, slot0.context.totalSelect)
 
-	if var_26_5 then
+	if slot8 then
 		ShowTips("LEVEL_MAX")
 
 		return false
 	end
 
-	if arg_26_1.number > arg_26_1.topAmountValue then
-		arg_26_1.topAmountValue = arg_26_1.topAmountValue + 1
-		arg_26_0.context.totalSelect = arg_26_0.context.totalSelect + ItemCfg[arg_26_1.id].param[1]
+	if slot1.topAmountValue < slot1.number then
+		slot1.topAmountValue = slot1.topAmountValue + 1
+		slot0.context.totalSelect = slot0.context.totalSelect + ItemCfg[slot1.id].param[1]
 
 		manager.audio:PlayUIAudio(2)
-		arg_26_2:RefreshTopAmount(arg_26_1.topAmountValue)
+		slot2:RefreshTopAmount(slot1.topAmountValue)
 
 		return true
 	else
@@ -291,141 +264,122 @@ function var_0_0.OnMaterialLongPress(arg_26_0, arg_26_1, arg_26_2)
 	end
 end
 
-function var_0_0.OnServantClick(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = arg_27_0.context.weaponInfo
-	local var_27_1 = var_27_0.breakthrough
-	local var_27_2 = ItemCfg[arg_27_1.id].rare
-	local var_27_3 = GameSetting.base_exp_weapon_servant.value[var_27_2]
-	local var_27_4, var_27_5, var_27_6, var_27_7 = WeaponTools.AddWeaponExp(var_27_0.exp, var_27_1, arg_27_0.context.totalSelect)
+function slot0.OnServantClick(slot0, slot1, slot2)
+	slot3 = slot0.context.weaponInfo
+	slot7, slot8, slot9, slot10 = WeaponTools.AddWeaponExp(slot3.exp, slot3.breakthrough, slot0.context.totalSelect)
 
-	if arg_27_1.topAmountValue == 1 then
-		arg_27_1.topAmountValue = 0
-		arg_27_0.context.totalSelect = arg_27_0.context.totalSelect - var_27_3
-	elseif arg_27_1.topAmountValue == 0 then
-		if var_27_7 then
+	if slot1.topAmountValue == 1 then
+		slot1.topAmountValue = 0
+		slot0.context.totalSelect = slot0.context.totalSelect - GameSetting.base_exp_weapon_servant.value[ItemCfg[slot1.id].rare]
+	elseif slot1.topAmountValue == 0 then
+		if slot10 then
 			ShowTips("LEVEL_MAX")
 
 			return false
 		end
 
-		arg_27_1.topAmountValue = 1
-		arg_27_0.context.totalSelect = arg_27_0.context.totalSelect + var_27_3
+		slot1.topAmountValue = 1
+		slot0.context.totalSelect = slot0.context.totalSelect + slot6
 	end
 
-	arg_27_2:RefreshTopAmount(arg_27_1.topAmountValue)
+	slot2:RefreshTopAmount(slot1.topAmountValue)
 end
 
-function var_0_0.OnMaterialCutClick(arg_28_0, arg_28_1, arg_28_2)
-	if arg_28_1.type == ItemConst.ITEM_TYPE.MATERIAL then
-		if arg_28_1.topAmountValue >= 1 then
-			arg_28_1.topAmountValue = arg_28_1.topAmountValue - 1
-			arg_28_0.context.totalSelect = arg_28_0.context.totalSelect - ItemCfg[arg_28_1.id].param[1]
+function slot0.OnMaterialCutClick(slot0, slot1, slot2)
+	if slot1.type == ItemConst.ITEM_TYPE.MATERIAL then
+		if slot1.topAmountValue >= 1 then
+			slot1.topAmountValue = slot1.topAmountValue - 1
+			slot0.context.totalSelect = slot0.context.totalSelect - ItemCfg[slot1.id].param[1]
 
-			arg_28_2:RefreshTopAmount(arg_28_1.topAmountValue)
+			slot2:RefreshTopAmount(slot1.topAmountValue)
 			manager.audio:PlayUIAudio(2)
 
 			return true
 		end
-	elseif arg_28_1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		local var_28_0 = ItemCfg[arg_28_1.id].rare
-		local var_28_1 = GameSetting.base_exp_weapon_servant.value[var_28_0]
+	elseif slot1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot1.topAmountValue = math.max(slot1.topAmountValue - 1, 0)
+		slot0.context.totalSelect = slot0.context.totalSelect - GameSetting.base_exp_weapon_servant.value[ItemCfg[slot1.id].rare]
 
-		arg_28_1.topAmountValue = math.max(arg_28_1.topAmountValue - 1, 0)
-		arg_28_0.context.totalSelect = arg_28_0.context.totalSelect - var_28_1
-
-		arg_28_2:RefreshTopAmount(arg_28_1.topAmountValue)
+		slot2:RefreshTopAmount(slot1.topAmountValue)
 	end
 
 	return false
 end
 
-function var_0_0.QuickSelectBtnClick(arg_29_0)
-	local var_29_0 = arg_29_0.context.weaponInfo
-	local var_29_1 = WeaponTools.CurMaxExp(var_29_0.breakthrough) - var_29_0.exp
+function slot0.QuickSelectBtnClick(slot0)
+	slot1 = slot0.context.weaponInfo
+	slot7 = slot0.context.materialList
+	slot8 = slot0.context.servantList
+	slot0.context.totalSelect = slot0:QuickSelectList(slot7, slot8, WeaponTools.CurMaxExp(slot1.breakthrough) - slot1.exp)
 
-	arg_29_0.context.totalSelect = arg_29_0:QuickSelectList(arg_29_0.context.materialList, arg_29_0.context.servantList, var_29_1)
-
-	local var_29_2 = arg_29_0.scrollHelper_:GetItemList()
-
-	for iter_29_0, iter_29_1 in pairs(var_29_2) do
-		iter_29_1:RefreshTopAmount(iter_29_1.infoProxy.topAmountValue)
+	for slot7, slot8 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot8:RefreshTopAmount(slot8.infoProxy.topAmountValue)
 	end
 
-	arg_29_0:RenderView()
+	slot0:RenderView()
 end
 
-function var_0_0.OnUpgradeBtnClick(arg_30_0)
-	if arg_30_0.context.totalSelect == 0 then
+function slot0.OnUpgradeBtnClick(slot0)
+	if slot0.context.totalSelect == 0 then
 		ShowTips("PLEASE_SELECT_ITEM")
 
 		return
 	end
 
-	local var_30_0 = arg_30_0.context.weaponInfo
-	local var_30_1, var_30_2, var_30_3 = WeaponTools.AddWeaponExp(var_30_0.exp, var_30_0.breakthrough, arg_30_0.context.totalSelect)
-	local var_30_4 = (arg_30_0.context.totalSelect - var_30_3) * GameSetting.weapon_strengthen_gold_cost.value[1]
+	slot1 = slot0.context.weaponInfo
+	slot2, slot3, slot4 = WeaponTools.AddWeaponExp(slot1.exp, slot1.breakthrough, slot0.context.totalSelect)
 
-	if not checkGold(var_30_4, true) then
+	if not checkGold((slot0.context.totalSelect - slot4) * GameSetting.weapon_strengthen_gold_cost.value[1], true) then
 		return
 	end
 
-	local var_30_5 = false
-	local var_30_6 = arg_30_0.context.heroId
-	local var_30_7 = {}
+	slot7 = false
+	slot8 = slot0.context.heroId
 
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.context.materialList) do
-		if iter_30_1.topAmountValue ~= 0 then
-			table.insert(var_30_7, {
-				id = iter_30_1.id,
-				num = iter_30_1.topAmountValue
+	for slot13, slot14 in pairs(slot0.context.materialList) do
+		if slot14.topAmountValue ~= 0 then
+			table.insert({}, {
+				id = slot14.id,
+				num = slot14.topAmountValue
 			})
 		end
 	end
 
-	local var_30_8 = {}
+	slot10 = {}
 
-	for iter_30_2, iter_30_3 in pairs(arg_30_0.context.servantList) do
-		if iter_30_3.topAmountValue ~= 0 then
-			if ItemCfg[iter_30_3.id].rare == 5 then
-				var_30_5 = true
+	for slot14, slot15 in pairs(slot0.context.servantList) do
+		if slot15.topAmountValue ~= 0 then
+			if ItemCfg[slot15.id].rare == 5 then
+				slot7 = true
 			end
 
-			table.insert(var_30_8, iter_30_3.uid)
+			table.insert(slot10, slot15.uid)
 		end
 	end
 
-	local var_30_9
-	local var_30_10 = MaterialTools.materialGiveBack(var_30_3, ItemConst.STR_ITEM.WEAPON)
+	slot11 = nil
 
-	if #var_30_10 > 0 then
-		if var_30_5 then
-			var_30_9 = string.format(GetTips("WEAPON_STRENGTH_EXP_OVERFLOW_AND_RARE"))
-		else
-			var_30_9 = string.format(GetTips("WEAPON_STRENGTH_EXP_OVERFLOW"))
-		end
-
-		arg_30_0:Go("materialPreview", {
-			content = var_30_9,
-			OkCallback = function()
-				WeaponAction.WeaponStr(var_30_6, var_30_7, var_30_8, arg_30_0.context.totalSelect)
+	if #MaterialTools.materialGiveBack(slot4, ItemConst.STR_ITEM.WEAPON) > 0 then
+		slot0:Go("materialPreview", {
+			content = (not slot7 or string.format(GetTips("WEAPON_STRENGTH_EXP_OVERFLOW_AND_RARE"))) and string.format(GetTips("WEAPON_STRENGTH_EXP_OVERFLOW")),
+			OkCallback = function ()
+				WeaponAction.WeaponStr(uv0, uv1, uv2, uv3.context.totalSelect)
 			end,
-			itemList = var_30_10
+			itemList = slot12
 		})
 
 		return
 	end
 
-	if var_30_5 then
-		local var_30_11 = string.format(GetTips("WEAPON_STRENGTH_COST_RARE"))
-
+	if slot7 then
 		ShowMessageBox({
 			title = "Warning",
-			content = var_30_11,
-			OkCallback = function()
+			content = string.format(GetTips("WEAPON_STRENGTH_COST_RARE")),
+			OkCallback = function ()
 				OperationRecorder.Record("hero", "weaponOKUpgrade")
-				WeaponAction.WeaponStr(var_30_6, var_30_7, var_30_8, arg_30_0.context.totalSelect)
+				WeaponAction.WeaponStr(uv0, uv1, uv2, uv3.context.totalSelect)
 			end,
-			CancelCallback = function()
+			CancelCallback = function ()
 				OperationRecorder.Record("hero", "weaponCancelUpgrade")
 			end
 		})
@@ -433,202 +387,187 @@ function var_0_0.OnUpgradeBtnClick(arg_30_0)
 		return
 	end
 
-	WeaponAction.WeaponStr(var_30_6, var_30_7, var_30_8, arg_30_0.context.totalSelect)
+	WeaponAction.WeaponStr(slot8, slot9, slot10, slot0.context.totalSelect)
 end
 
-function var_0_0.OnFilterBtnClick(arg_34_0)
+function slot0.OnFilterBtnClick(slot0)
 	JumpTools.OpenPageByJump("commonFilterView", {
 		filterGroup = Filter_Root_Define.Weapon_LevelUp_Cost_List
 	})
 end
 
-function var_0_0.OnFilterChange(arg_35_0)
-	arg_35_0:ShowWeaponInfoLocal()
+function slot0.OnFilterChange(slot0)
+	slot0:ShowWeaponInfoLocal()
 end
 
-function var_0_0.CheckWeaponIsMaxLevel(arg_36_0)
-	local var_36_0 = arg_36_0.context.weaponInfo
-
-	if var_36_0 then
-		return var_36_0.level == HeroConst.WEAPON_LV_MAX
+function slot0.CheckWeaponIsMaxLevel(slot0)
+	if slot0.context.weaponInfo then
+		return slot1.level == HeroConst.WEAPON_LV_MAX
 	end
 
 	return false
 end
 
-function var_0_0.RefreshMaterialList(arg_37_0)
-	local var_37_0 = {}
-	local var_37_1 = {}
-	local var_37_2 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.TYPE.groupID, Filter_Tags_Define.Train)
-	local var_37_3 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.TYPE.groupID, Filter_Tags_Define.StarLevel)
-	local var_37_4 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.SORT.groupID, Filter_Tags_Define.DESCending)
+function slot0.RefreshMaterialList(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.TYPE.groupID, Filter_Tags_Define.Train)
+	slot4 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.TYPE.groupID, Filter_Tags_Define.StarLevel)
+	slot10 = Filter_Tags_Define.DESCending
+	slot5 = CommonFilterData:HasIndexFlag(Filter_Root_Define.Weapon_LevelUp_Cost_List.filter_id, Filter_Group_Define.SORT.groupID, slot10)
+	slot9 = ItemConst.ITEM_TYPE.MATERIAL
 
-	for iter_37_0, iter_37_1 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.MATERIAL]) do
-		local var_37_5 = ItemTools.getItemNum(iter_37_1)
+	for slot9, slot10 in ipairs(ItemCfg.get_id_list_by_type[slot9]) do
+		slot11 = ItemTools.getItemNum(slot10)
 
-		if ItemCfg[iter_37_1].sub_type == MaterialConst.MATERIAL_TYPE.WEAPON_LEVEL_UP and var_37_5 > 0 then
-			local var_37_6 = clone(ItemTemplateData)
+		if ItemCfg[slot10].sub_type == MaterialConst.MATERIAL_TYPE.WEAPON_LEVEL_UP and slot11 > 0 then
+			slot13 = clone(ItemTemplateData)
+			slot13.type = ItemConst.ITEM_TYPE.MATERIAL
+			slot13.id = slot10
+			slot13.number = slot11
+			slot13.index = 0
+			slot13.selectStyle = false
 
-			var_37_6.type = ItemConst.ITEM_TYPE.MATERIAL
-			var_37_6.id = iter_37_1
-			var_37_6.number = var_37_5
-			var_37_6.index = 0
-			var_37_6.selectStyle = false
-
-			table.insert(var_37_0, var_37_6)
+			table.insert(slot1, slot13)
 		end
 	end
 
-	table.sort(var_37_0, function(arg_38_0, arg_38_1)
-		return ItemCfg[arg_38_0.id].rare < ItemCfg[arg_38_1.id].rare
+	table.sort(slot1, function (slot0, slot1)
+		return ItemCfg[slot0.id].rare < ItemCfg[slot1.id].rare
 	end)
 
-	local var_37_7 = ServantTools.GetServantLimited(true, true)
+	for slot10, slot11 in ipairs(ServantTools.GetServantLimited(true, true)) do
+		slot12 = clone(ItemTemplateData)
+		slot12.type = ItemConst.ITEM_TYPE.WEAPON_SERVANT
+		slot12.uid = slot11.uid
+		slot12.id = slot11.id
+		slot12.number = slot11.stage
+		slot12.addLevel = slot11.stage
+		slot12.index = 0
+		slot12.selectStyle = false
 
-	for iter_37_2, iter_37_3 in ipairs(var_37_7) do
-		local var_37_8 = clone(ItemTemplateData)
-
-		var_37_8.type = ItemConst.ITEM_TYPE.WEAPON_SERVANT
-		var_37_8.uid = iter_37_3.uid
-		var_37_8.id = iter_37_3.id
-		var_37_8.number = iter_37_3.stage
-		var_37_8.addLevel = iter_37_3.stage
-		var_37_8.index = 0
-		var_37_8.selectStyle = false
-
-		table.insert(var_37_1, var_37_8)
+		table.insert(slot2, slot12)
 	end
 
-	table.sort(var_37_1, function(arg_39_0, arg_39_1)
-		local var_39_0 = WeaponServantCfg[arg_39_0.id].starlevel
-		local var_39_1 = WeaponServantCfg[arg_39_1.id].starlevel
-		local var_39_2 = arg_39_0.number
-		local var_39_3 = arg_39_1.number
-		local var_39_4 = WeaponServantCfg[arg_39_0.id].race
-		local var_39_5 = WeaponServantCfg[arg_39_1.id].race
-		local var_39_6 = arg_39_0.id
-		local var_39_7 = arg_39_1.id
+	table.sort(slot2, function (slot0, slot1)
+		slot2 = WeaponServantCfg[slot0.id].starlevel
+		slot3 = WeaponServantCfg[slot1.id].starlevel
+		slot4 = slot0.number
+		slot5 = slot1.number
+		slot6 = WeaponServantCfg[slot0.id].race
+		slot7 = WeaponServantCfg[slot1.id].race
+		slot8 = slot0.id
+		slot9 = slot1.id
 
-		if not var_37_2 and var_39_0 ~= var_39_1 then
-			if var_37_4 then
-				return var_39_1 < var_39_0
+		if not uv0 and slot2 ~= slot3 then
+			if uv1 then
+				return slot3 < slot2
 			else
-				return var_39_0 < var_39_1
+				return slot2 < slot3
 			end
 		end
 
-		if var_39_2 ~= var_39_3 then
-			if var_37_4 then
-				return var_39_3 < var_39_2
+		if slot4 ~= slot5 then
+			if uv1 then
+				return slot5 < slot4
 			else
-				return var_39_2 < var_39_3
+				return slot4 < slot5
 			end
 		end
 
-		if var_37_2 and var_39_0 ~= var_39_1 then
-			if var_37_4 then
-				return var_39_1 < var_39_0
+		if uv0 and slot2 ~= slot3 then
+			if uv1 then
+				return slot3 < slot2
 			else
-				return var_39_0 < var_39_1
+				return slot2 < slot3
 			end
 		end
 
-		if var_39_4 ~= var_39_5 then
-			return var_39_4 < var_39_5
+		if slot6 ~= slot7 then
+			return slot6 < slot7
 		end
 
-		if var_39_6 ~= var_39_7 then
-			if var_37_4 then
-				return var_39_7 < var_39_6
+		if slot8 ~= slot9 then
+			if uv1 then
+				return slot9 < slot8
 			else
-				return var_39_6 < var_39_7
+				return slot8 < slot9
 			end
 		end
 
-		return arg_39_0.uid < arg_39_1.uid
+		return slot0.uid < slot1.uid
 	end)
 
-	arg_37_0.context.servantList = var_37_1
-	arg_37_0.context.materialList = var_37_0
-	arg_37_0.context.totalCount = #var_37_1 + #var_37_0
-	arg_37_0.context.materialCount = #var_37_0
-	arg_37_0.context.servantCount = #var_37_1
+	slot0.context.servantList = slot2
+	slot0.context.materialList = slot1
+	slot0.context.totalCount = #slot2 + #slot1
+	slot0.context.materialCount = #slot1
+	slot0.context.servantCount = #slot2
 end
 
-function var_0_0.QuickSelectList(arg_40_0, arg_40_1, arg_40_2, arg_40_3)
-	local var_40_0 = arg_40_3
-	local var_40_1 = {}
+function slot0.QuickSelectList(slot0, slot1, slot2, slot3)
+	slot4 = slot3
 
-	for iter_40_0 = 1, #arg_40_1 do
-		local var_40_2 = arg_40_1[iter_40_0]
-		local var_40_3 = ItemCfg[var_40_2.id].param[1]
+	for slot9 = 1, #slot1 do
+		slot10 = slot1[slot9]
+		slot11 = ItemCfg[slot10.id].param[1]
 
-		var_40_1[iter_40_0] = math.max(math.min(math.ceil(var_40_0 / var_40_3), var_40_2.number), 0)
-		var_40_0 = var_40_0 - var_40_1[iter_40_0] * var_40_3
+		if slot4 - ({
+			[slot9] = math.max(math.min(math.ceil(slot4 / slot11), slot10.number), 0)
+		})[slot9] * slot11 < 0 and slot9 > 1 then
+			slot12 = -slot4
 
-		if var_40_0 < 0 and iter_40_0 > 1 then
-			local var_40_4 = -var_40_0
-
-			for iter_40_1 = iter_40_0 - 1, 1, -1 do
-				local var_40_5 = arg_40_1[iter_40_1]
-				local var_40_6 = ItemCfg[var_40_5.id].param[1]
-				local var_40_7 = math.modf(var_40_4 / var_40_6)
-
-				var_40_1[iter_40_1] = math.max(0, var_40_1[iter_40_1] - var_40_7)
-				var_40_4 = var_40_4 - var_40_6 * var_40_7
-				var_40_0 = var_40_0 + var_40_6 * var_40_7
+			for slot16 = slot9 - 1, 1, -1 do
+				slot18 = ItemCfg[slot1[slot16].id].param[1]
+				slot19 = math.modf(slot12 / slot18)
+				slot5[slot16] = math.max(0, slot5[slot16] - slot19)
+				slot12 = slot12 - slot18 * slot19
+				slot4 = slot4 + slot18 * slot19
 			end
 		end
 
-		if var_40_0 <= 0 then
+		if slot4 <= 0 then
 			break
 		end
 	end
 
-	for iter_40_2 = 1, #arg_40_1 do
-		if var_40_1[iter_40_2] == nil then
-			var_40_1[iter_40_2] = 0
+	for slot9 = 1, #slot1 do
+		if slot5[slot9] == nil then
+			slot5[slot9] = 0
 		end
 
-		arg_40_1[iter_40_2].selectNum_ = var_40_1[iter_40_2]
-		arg_40_1[iter_40_2].topAmountValue = var_40_1[iter_40_2]
+		slot1[slot9].selectNum_ = slot5[slot9]
+		slot1[slot9].topAmountValue = slot5[slot9]
 	end
 
-	for iter_40_3 = 1, #arg_40_2 do
-		local var_40_8 = arg_40_2[iter_40_3]
+	for slot9 = 1, #slot2 do
+		if not (ItemCfg[slot2[slot9].id].rare >= 4 or slot10.number ~= 1) then
+			slot13 = GameSetting.base_exp_weapon_servant.value[ItemCfg[slot10.id].rare]
 
-		if not (ItemCfg[var_40_8.id].rare >= 4 or var_40_8.number ~= 1) then
-			local var_40_9 = ItemCfg[var_40_8.id].rare
-			local var_40_10 = GameSetting.base_exp_weapon_servant.value[var_40_9]
-
-			if var_40_0 <= 0 then
-				var_40_8.topAmountValue = 0
+			if slot4 <= 0 then
+				slot10.topAmountValue = 0
 			else
-				var_40_8.topAmountValue = 1
-				var_40_0 = var_40_0 - var_40_10
+				slot10.topAmountValue = 1
+				slot4 = slot4 - slot13
 			end
 		else
-			var_40_8.topAmountValue = 0
+			slot10.topAmountValue = 0
 		end
 	end
 
-	return arg_40_3 - var_40_0
+	return slot3 - slot4
 end
 
-function var_0_0.UpdateWeaponInfo(arg_41_0)
-	local var_41_0 = arg_41_0.context.heroId
-
-	if var_41_0 and var_41_0 ~= 0 then
-		local var_41_1 = deepClone(arg_41_0.context.dataPorxy:GetHeroWeaponInfo(var_41_0))
-
-		arg_41_0.context.weaponInfo = var_41_1
+function slot0.UpdateWeaponInfo(slot0)
+	if slot0.context.heroId and slot1 ~= 0 then
+		slot0.context.weaponInfo = deepClone(slot0.context.dataPorxy:GetHeroWeaponInfo(slot1))
 	end
 end
 
-function var_0_0.Dispose(arg_42_0)
-	arg_42_0.scrollHelper_:Dispose()
-	arg_42_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_42_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

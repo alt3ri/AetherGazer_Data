@@ -1,75 +1,73 @@
-local var_0_0 = class("SignToggleItem", ReduxView)
+slot0 = class("SignToggleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController = arg_3_0.m_ControllerEx_:GetController("select")
-	arg_3_0.lockController = ControllerUtil.GetController(arg_3_0.transform_, "lock")
-	arg_3_0.iconControllerUnselect = arg_3_0.m_iconControllerEx1_:GetController("icon")
-	arg_3_0.iconControllerSelect = arg_3_0.m_iconControllerEx2_:GetController("icon")
+	slot0.selectController = slot0.m_ControllerEx_:GetController("select")
+	slot0.lockController = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.iconControllerUnselect = slot0.m_iconControllerEx1_:GetController("icon")
+	slot0.iconControllerSelect = slot0.m_iconControllerEx2_:GetController("icon")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	manager.redPoint:unbindUIandKey(arg_6_0.transform_)
+function slot0.SetData(slot0, slot1, slot2)
+	manager.redPoint:unbindUIandKey(slot0.transform_)
 
-	arg_6_0.index = arg_6_1
+	slot0.index = slot1
 
-	if arg_6_2:RedPointKey() then
-		manager.redPoint:bindUIandKey(arg_6_0.transform_, arg_6_2:RedPointKey())
+	if slot2:RedPointKey() then
+		manager.redPoint:bindUIandKey(slot0.transform_, slot2:RedPointKey())
 	end
 
-	arg_6_0.m_title.text = GetI18NText(arg_6_2:Title())
-	arg_6_0.m_selectTitle.text = GetI18NText(arg_6_2:Title())
+	slot0.m_title.text = GetI18NText(slot2:Title())
+	slot0.m_selectTitle.text = GetI18NText(slot2:Title())
 
-	local var_6_0 = arg_6_2:Image()
-
-	if var_6_0 then
-		arg_6_0.iconControllerUnselect:SetSelectedState(var_6_0)
-		arg_6_0.iconControllerSelect:SetSelectedState(var_6_0)
+	if slot2:Image() then
+		slot0.iconControllerUnselect:SetSelectedState(slot3)
+		slot0.iconControllerSelect:SetSelectedState(slot3)
 	end
 
-	if PlayerData:GetPlayerInfo().userLevel < arg_6_2:GetLimitLevel() then
-		arg_6_0.lockController:SetSelectedIndex(1)
+	if PlayerData:GetPlayerInfo().userLevel < slot2:GetLimitLevel() then
+		slot0.lockController:SetSelectedIndex(1)
 	else
-		arg_6_0.lockController:SetSelectedIndex(0)
+		slot0.lockController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.SetSelect(arg_7_0, arg_7_1)
-	if arg_7_0.index == arg_7_1 then
-		arg_7_0.selectController:SetSelectedIndex(1)
+function slot0.SetSelect(slot0, slot1)
+	if slot0.index == slot1 then
+		slot0.selectController:SetSelectedIndex(1)
 	else
-		arg_7_0.selectController:SetSelectedIndex(0)
+		slot0.selectController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_8_0, arg_8_1)
-	arg_8_0.callback_ = arg_8_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.Dispose(arg_9_0)
-	manager.redPoint:unbindUIandKey(arg_9_0.transform_)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

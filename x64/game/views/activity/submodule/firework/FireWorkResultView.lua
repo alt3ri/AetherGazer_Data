@@ -1,63 +1,61 @@
-local var_0_0 = class("FireWorkResultView", ReduxView)
+slot0 = class("FireWorkResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/Firework/FireworkMakingUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateController = ControllerUtil.GetController(arg_4_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_mask, nil, function()
-		local var_6_0 = arg_5_0.params_.fire_activity_id
-
-		if arg_5_0.isWin then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		if uv0.isWin then
 			JumpTools.OpenPageByJump("/fireWorkShow", {
-				fire_activity_id = var_6_0
+				fire_activity_id = uv0.params_.fire_activity_id
 			})
 		else
 			JumpTools.OpenPageByJump("fireWorkMake", {
 				start = true,
-				fire_activity_id = var_6_0
+				fire_activity_id = slot0
 			})
 		end
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.isWin = arg_8_0.params_.isWin
+function slot0.OnEnter(slot0)
+	slot0.isWin = slot0.params_.isWin
 
-	if arg_8_0.isWin then
-		arg_8_0.stateController:SetSelectedIndex(1)
+	if slot0.isWin then
+		slot0.stateController:SetSelectedIndex(1)
 		manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_good", "")
 	else
-		arg_8_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 		manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_no", "")
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

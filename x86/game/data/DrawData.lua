@@ -1,279 +1,260 @@
-local var_0_0 = singletonClass("DrawData")
-local var_0_1 = {}
-local var_0_2 = false
-local var_0_3 = 0
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = false
-local var_0_7 = {}
+slot0 = singletonClass("DrawData")
+slot1 = {}
+slot2 = false
+slot3 = 0
+slot4 = {}
+slot5 = {}
+slot6 = false
+slot7 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = false
-	var_0_3 = 0
-	var_0_4 = {}
-	var_0_5 = {}
-	arg_1_0.newHeroFlag_ = false
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = false
+	uv2 = 0
+	uv3 = {}
+	uv4 = {}
+	slot0.newHeroFlag_ = false
 end
 
-function var_0_0.InitPool(arg_2_0, arg_2_1)
-	var_0_1 = {}
+function slot0.InitPool(slot0, slot1)
+	uv0 = {}
+	slot3 = false
 
-	local var_2_0 = arg_2_1.draw_info_list
-	local var_2_1 = false
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		local var_2_2 = iter_2_1.id
-
-		var_0_1[var_2_2] = {
-			ssr_draw_times = iter_2_1.ssr_draw_times,
-			up = arg_2_0:ConvertUpId(var_2_2, iter_2_1.up, 1),
-			up_times = iter_2_1.up_times,
-			is_new = iter_2_1.is_new
+	for slot7, slot8 in ipairs(slot1.draw_info_list) do
+		slot9 = slot8.id
+		uv0[slot9] = {
+			ssr_draw_times = slot8.ssr_draw_times,
+			up = slot0:ConvertUpId(slot9, slot8.up, 1),
+			up_times = slot8.up_times,
+			is_new = slot8.is_new
 		}
 
-		if iter_2_1.is_new == 1 then
-			var_0_7[var_2_2] = true
-
-			local var_2_3 = true
+		if slot8.is_new == 1 then
+			uv1[slot9] = true
+			slot3 = true
 		end
 	end
 
-	var_0_6 = arg_2_1.newbie_choose_draw_flag
-	var_0_3 = arg_2_1.today_draw_times
-	var_0_2 = arg_2_1.first_ssr_draw_flag
+	uv2 = slot1.newbie_choose_draw_flag
+	uv3 = slot1.today_draw_times
+	uv4 = slot1.first_ssr_draw_flag
 
-	arg_2_0:RefreshNewDraw()
+	slot0:RefreshNewDraw()
 end
 
-function var_0_0.RefreshNewDraw(arg_3_0)
-	local var_3_0 = false
+function slot0.RefreshNewDraw(slot0)
+	slot1 = false
 
-	for iter_3_0, iter_3_1 in pairs(var_0_1) do
-		if iter_3_1.is_new and iter_3_1.is_new == 1 then
-			var_3_0 = true
+	for slot5, slot6 in pairs(uv0) do
+		if slot6.is_new and slot6.is_new == 1 then
+			slot1 = true
 
 			break
 		end
 	end
 
-	if var_3_0 and not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DRAW) then
+	if slot1 and not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DRAW) then
 		manager.redPoint:setTip(RedPointConst.DRAW, 1, RedPointStyle.SHOW_NEW_TAG)
 	end
 end
 
-function var_0_0.UpdatePool(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0 = DrawPoolCfg[arg_4_1]
-
-	if var_4_0.pool_type == 1 or var_4_0.pool_type == 5 then
-		for iter_4_0, iter_4_1 in pairs(var_0_1) do
-			local var_4_1 = DrawPoolCfg[iter_4_0]
-
-			if var_4_1.pool_type == 1 or var_4_1.pool_type == 5 then
-				iter_4_1.ssr_draw_times = math.max(arg_4_2, iter_4_1.ssr_draw_times)
+function slot0.UpdatePool(slot0, slot1, slot2, slot3, slot4)
+	if DrawPoolCfg[slot1].pool_type == 1 or slot5.pool_type == 5 then
+		for slot9, slot10 in pairs(uv0) do
+			if DrawPoolCfg[slot9].pool_type == 1 or slot11.pool_type == 5 then
+				slot10.ssr_draw_times = math.max(slot2, slot10.ssr_draw_times)
 			end
 		end
 	end
 
-	if var_0_1[arg_4_1] then
-		var_0_1[arg_4_1].ssr_draw_times = arg_4_2
+	if uv0[slot1] then
+		uv0[slot1].ssr_draw_times = slot2
 	else
-		var_0_1[arg_4_1] = {
-			ssr_draw_times = arg_4_2
+		uv0[slot1] = {
+			ssr_draw_times = slot2
 		}
 	end
 
-	var_0_6 = arg_4_4
-	var_0_2 = arg_4_3
+	uv1 = slot4
+	uv2 = slot3
 end
 
-function var_0_0.TodayDrawTimesChange(arg_5_0, arg_5_1)
-	var_0_3 = var_0_3 + arg_5_1
+function slot0.TodayDrawTimesChange(slot0, slot1)
+	uv0 = uv0 + slot1
 end
 
-function var_0_0.GetTodayDrawTimes(arg_6_0)
-	return var_0_3
+function slot0.GetTodayDrawTimes(slot0)
+	return uv0
 end
 
-function var_0_0.GetIsFirstSSR(arg_7_0)
-	return var_0_2
+function slot0.GetIsFirstSSR(slot0)
+	return uv0
 end
 
-function var_0_0.GetPoolDrawTimes(arg_8_0, arg_8_1)
-	if var_0_1[arg_8_1] then
-		return var_0_1[arg_8_1].ssr_draw_times or 0
+function slot0.GetPoolDrawTimes(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].ssr_draw_times or 0
 	end
 
 	return 0
 end
 
-function var_0_0.SetPollUpID(arg_9_0, arg_9_1, arg_9_2)
-	if var_0_1[arg_9_1] then
-		if arg_9_2 ~= var_0_1[arg_9_1].up then
-			local var_9_0 = var_0_1[arg_9_1].up_times or 0
-
-			var_0_1[arg_9_1].up = arg_9_2
-			var_0_1[arg_9_1].up_times = var_9_0 + 1
+function slot0.SetPollUpID(slot0, slot1, slot2)
+	if uv0[slot1] then
+		if slot2 ~= uv0[slot1].up then
+			uv0[slot1].up = slot2
+			uv0[slot1].up_times = (uv0[slot1].up_times or 0) + 1
 		end
 	else
-		var_0_1[arg_9_1] = {
+		uv0[slot1] = {
 			up_times = 1,
-			up = arg_9_2
+			up = slot2
 		}
 	end
 end
 
-function var_0_0.GetPollUpID(arg_10_0, arg_10_1)
-	if var_0_1[arg_10_1] then
-		return var_0_1[arg_10_1].up or 0
+function slot0.GetPollUpID(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].up or 0
 	end
 
 	return 0
 end
 
-function var_0_0.GetPoolUpTimes(arg_11_0, arg_11_1)
-	if var_0_1[arg_11_1] then
-		return var_0_1[arg_11_1].up_times or 0
+function slot0.GetPoolUpTimes(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].up_times or 0
 	end
 
 	return 0
 end
 
-function var_0_0.GetPoolList(arg_12_0)
-	local var_12_0 = {}
+function slot0.GetPoolList(slot0)
+	slot1 = {}
 
-	for iter_12_0, iter_12_1 in pairs(var_0_1) do
-		table.insert(var_12_0, iter_12_0)
+	for slot5, slot6 in pairs(uv0) do
+		table.insert(slot1, slot5)
 	end
 
-	return var_12_0
+	return slot1
 end
 
-function var_0_0.GetPoolIsNew(arg_13_0, arg_13_1)
-	if var_0_1[arg_13_1] then
-		return var_0_1[arg_13_1].is_new
+function slot0.GetPoolIsNew(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].is_new
 	end
 
 	return false
 end
 
-function var_0_0.SetPoolIsNew(arg_14_0, arg_14_1, arg_14_2)
-	if var_0_1[arg_14_1] then
-		var_0_1[arg_14_1].is_new = 0
+function slot0.SetPoolIsNew(slot0, slot1, slot2)
+	if uv0[slot1] then
+		uv0[slot1].is_new = 0
 	end
 end
 
-function var_0_0.SetDrawRecord(arg_15_0, arg_15_1, arg_15_2)
-	if not arg_15_2 then
-		var_0_4 = {}
+function slot0.SetDrawRecord(slot0, slot1, slot2)
+	if not slot2 then
+		uv0 = {}
 	else
-		var_0_4[arg_15_1] = {
-			ssr_draw_times = arg_15_2.ssr_draw_times,
+		uv0[slot1] = {
+			ssr_draw_times = slot2.ssr_draw_times,
 			draw_record_list = {}
 		}
 
-		for iter_15_0 = 1, #arg_15_2.draw_record_list do
-			local var_15_0 = arg_15_2.draw_record_list[#arg_15_2.draw_record_list - iter_15_0 + 1]
-			local var_15_1 = var_15_0.item
+		for slot6 = 1, #slot2.draw_record_list do
+			slot7 = slot2.draw_record_list[#slot2.draw_record_list - slot6 + 1]
+			slot8 = slot7.item
 
-			table.insert(var_0_4[arg_15_1].draw_record_list, {
+			table.insert(uv0[slot1].draw_record_list, {
 				item = {
-					id = var_15_1.id,
-					num = var_15_1.num
+					id = slot8.id,
+					num = slot8.num
 				},
-				draw_timestamp = var_15_0.draw_timestamp
+				draw_timestamp = slot7.draw_timestamp
 			})
 		end
 	end
 end
 
-function var_0_0.GetDrawRecord(arg_16_0, arg_16_1)
-	return var_0_4[arg_16_1]
+function slot0.GetDrawRecord(slot0, slot1)
+	return uv0[slot1]
 end
 
-local var_0_8 = {}
+slot8 = {}
 
-function var_0_0.SetServantRedPoint(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = string.format("%s_%d_%d", RedPointConst.WEAPON_SERVANT_POOL, arg_17_1, arg_17_0:GetPollUpID(arg_17_1))
+function slot0.SetServantRedPoint(slot0, slot1, slot2)
+	slot3 = string.format("%s_%d_%d", RedPointConst.WEAPON_SERVANT_POOL, slot1, slot0:GetPollUpID(slot1))
 
-	manager.redPoint:setTip(var_17_0, arg_17_2)
+	manager.redPoint:setTip(slot3, slot2)
 
-	var_0_8[var_17_0] = true
+	uv0[slot3] = true
 end
 
-function var_0_0.ResetServantRedPoint(arg_18_0)
-	for iter_18_0, iter_18_1 in pairs(var_0_8) do
-		manager.redPoint:setTip(iter_18_0, 0)
+function slot0.ResetServantRedPoint(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		manager.redPoint:setTip(slot4, 0)
 	end
 end
 
-function var_0_0.SetNewHeroFlag(arg_19_0, arg_19_1)
-	arg_19_0.newHeroFlag_ = arg_19_1
+function slot0.SetNewHeroFlag(slot0, slot1)
+	slot0.newHeroFlag_ = slot1
 end
 
-function var_0_0.GetNewHeroFlag(arg_20_0)
-	return arg_20_0.newHeroFlag_
+function slot0.GetNewHeroFlag(slot0)
+	return slot0.newHeroFlag_
 end
 
-function var_0_0.GetNewbieChooseDrawFlag(arg_21_0)
-	return var_0_6
+function slot0.GetNewbieChooseDrawFlag(slot0)
+	return uv0
 end
 
-function var_0_0.IsOnePrefabPool(arg_22_0, arg_22_1)
-	local var_22_0 = DrawPoolCfg[arg_22_1]
-
-	if not var_22_0 then
+function slot0.IsOnePrefabPool(slot0, slot1)
+	if not DrawPoolCfg[slot1] then
 		CustomLog.Log(debug.traceback(string.format("null")))
 	end
 
-	return (var_22_0.pool_type == 3 or var_22_0.pool_type == 8) and #var_22_0.optional_lists_poolId > 2
+	return (slot2.pool_type == 3 or slot2.pool_type == 8) and #slot2.optional_lists_poolId > 2
 end
 
-function var_0_0.GetUpRemainTime(arg_23_0, arg_23_1)
-	local var_23_0 = DrawPoolCfg[arg_23_1]
-	local var_23_1 = arg_23_0:GetPoolUpTimes(arg_23_1)
-
-	return var_23_0.pool_change - var_23_1
+function slot0.GetUpRemainTime(slot0, slot1)
+	return DrawPoolCfg[slot1].pool_change - slot0:GetPoolUpTimes(slot1)
 end
 
-function var_0_0.ConvertUpId(arg_24_0, arg_24_1, arg_24_2, arg_24_3)
-	if arg_24_2 == 0 then
-		return arg_24_2
+function slot0.ConvertUpId(slot0, slot1, slot2, slot3)
+	if slot2 == 0 then
+		return slot2
 	end
 
-	local var_24_0 = DrawPoolCfg[arg_24_1]
+	slot4 = DrawPoolCfg[slot1]
 
-	if arg_24_3 == 0 then
-		local var_24_1 = table.indexof(var_24_0.optional_lists_poolId, arg_24_2)
-
-		return var_24_0.optional_lists[var_24_1]
+	if slot3 == 0 then
+		return slot4.optional_lists[table.indexof(slot4.optional_lists_poolId, slot2)]
 	else
-		local var_24_2 = table.indexof(var_24_0.optional_lists, arg_24_2)
-
-		return var_24_0.optional_lists_poolId[var_24_2]
+		return slot4.optional_lists_poolId[table.indexof(slot4.optional_lists, slot2)]
 	end
 end
 
-function var_0_0.GetPoolData(arg_25_0, arg_25_1)
-	if var_0_5[arg_25_1] then
-		return var_0_5[arg_25_1]
+function slot0.GetPoolData(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1]
 	end
 end
 
-function var_0_0.SetPoolData(arg_26_0, arg_26_1, arg_26_2)
-	if not var_0_5[arg_26_1] then
-		var_0_5[arg_26_1] = {}
+function slot0.SetPoolData(slot0, slot1, slot2)
+	if not uv0[slot1] then
+		uv0[slot1] = {}
 	end
 
-	var_0_5[arg_26_1] = {
-		s_up_probability = arg_26_2.s_up_probability,
-		s_up_item = arg_26_2.s_up_item,
-		s_other_item = arg_26_2.s_other_item,
-		a_up_probability = arg_26_2.a_up_probability,
-		a_up_item = arg_26_2.a_up_item,
-		a_other_item = arg_26_2.a_other_item,
-		b_item = arg_26_2.b_item
+	uv0[slot1] = {
+		s_up_probability = slot2.s_up_probability,
+		s_up_item = slot2.s_up_item,
+		s_other_item = slot2.s_other_item,
+		a_up_probability = slot2.a_up_probability,
+		a_up_item = slot2.a_up_item,
+		a_other_item = slot2.a_other_item,
+		b_item = slot2.b_item
 	}
 end
 
-return var_0_0
+return slot0

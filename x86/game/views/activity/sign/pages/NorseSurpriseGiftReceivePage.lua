@@ -1,126 +1,123 @@
-local var_0_0 = class("NorseSurpriseGiftReceivePage", ReduxView)
+slot0 = class("NorseSurpriseGiftReceivePage", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_SurpriseGiftUI/NorseSurpriseGiftReceiveUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.listGo_, NorseSurpriseGiftReceiveItem)
-	arg_3_0.btnCtrl = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("btn")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, NorseSurpriseGiftReceiveItem)
+	slot0.btnCtrl = slot0.transform_:GetComponent("ControllerExCollection"):GetController("btn")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btnClose_, nil, function()
-		arg_4_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btn_true, nil, function()
+	slot0:AddBtnListener(slot0.btn_true, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("ACTIVITY_OPTIONAL_RANDOM_TIPS_5"),
-			OkCallback = function()
-				NorseSurpriseGiftReceiveAction.ReceiveRewardRole(242832, arg_4_0.infocfg.id)
-				arg_4_0:Back()
+			OkCallback = function ()
+				NorseSurpriseGiftReceiveAction.ReceiveRewardRole(242832, uv0.infocfg.id)
+				uv0:Back()
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.indexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.draw_list[arg_9_1], arg_9_1)
-	arg_9_2:SetSelect(arg_9_0.infocfg)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.draw_list[slot1], slot1)
+	slot2:SetSelect(slot0.infocfg)
 
-	if arg_9_0.heart_list and #arg_9_0.heart_list > 0 then
-		arg_9_2:SetHeart(arg_9_0.heart_list)
+	if slot0.heart_list and #slot0.heart_list > 0 then
+		slot2:SetHeart(slot0.heart_list)
 	end
 
-	arg_9_2:RegistCallBack(function(arg_10_0)
-		if arg_10_0 == arg_9_0.infocfg.id then
-			arg_9_0.infocfg = {
+	slot2:RegistCallBack(function (slot0)
+		if slot0 == uv0.infocfg.id then
+			uv0.infocfg = {
 				id = 0,
 				flag = 1
 			}
 		else
-			arg_9_0.infocfg = {
+			uv0.infocfg = {
 				flag = 0,
-				id = arg_10_0
+				id = slot0
 			}
 		end
 
-		local var_10_0 = arg_9_0.uiList_:GetItemList()
+		for slot5, slot6 in ipairs(uv0.uiList_:GetItemList()) do
+			slot6:SetSelect(uv0.infocfg)
 
-		for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-			iter_10_1:SetSelect(arg_9_0.infocfg)
-
-			if arg_9_0.heart_list and #arg_9_0.heart_list > 0 then
-				iter_10_1:SetHeart(arg_9_0.heart_list)
+			if uv0.heart_list and #uv0.heart_list > 0 then
+				slot6:SetHeart(uv0.heart_list)
 			end
 		end
 
-		arg_9_0:RefreshChooseBtn(arg_9_0.infocfg.flag)
+		uv0:RefreshChooseBtn(uv0.infocfg.flag)
 	end)
 end
 
-function var_0_0.RefreshChooseBtn(arg_11_0, arg_11_1)
-	arg_11_0.btnCtrl:SetSelectedIndex(arg_11_1)
+function slot0.RefreshChooseBtn(slot0, slot1)
+	slot0.btnCtrl:SetSelectedIndex(slot1)
 end
 
-function var_0_0.OnTop(arg_12_0)
-	arg_12_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_13_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	var_0_0.super.OnEnter(arg_14_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	arg_14_0.infocfg = {
+	slot0.infocfg = {
 		id = 0,
 		flag = 1
 	}
 
-	arg_14_0:RefreshView()
-	arg_14_0.btnCtrl:SetSelectedIndex(1)
+	slot0:RefreshView()
+	slot0.btnCtrl:SetSelectedIndex(1)
 
-	arg_14_0.tipsTxt_.text = GetTips("ACTIVITY_OPTIONAL_RANDOM_WINDOW_TIPS_4")
+	slot0.tipsTxt_.text = GetTips("ACTIVITY_OPTIONAL_RANDOM_WINDOW_TIPS_4")
 end
 
-function var_0_0.OnExit(arg_15_0)
-	var_0_0.super.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_16_0.uiList_ then
-		arg_16_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_16_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 end
 
-function var_0_0.RefreshView(arg_17_0)
-	arg_17_0.draw_list = NorseSurpriseGiftReceiveData:GetDrawRoleData()
-	arg_17_0.heart_list = NorseSurpriseGiftReceiveData:GetChooseRoleData()
+function slot0.RefreshView(slot0)
+	slot0.draw_list = NorseSurpriseGiftReceiveData:GetDrawRoleData()
+	slot0.heart_list = NorseSurpriseGiftReceiveData:GetChooseRoleData()
 
-	TimeTools.StartAfterSeconds(0.033, function()
-		arg_17_0.uiList_:StartScroll(#arg_17_0.draw_list)
+	TimeTools.StartAfterSeconds(0.033, function ()
+		uv0.uiList_:StartScroll(#uv0.draw_list)
 	end, {})
 end
 
-return var_0_0
+return slot0

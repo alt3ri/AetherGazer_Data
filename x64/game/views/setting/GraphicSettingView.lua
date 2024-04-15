@@ -1,32 +1,32 @@
-local var_0_0 = class("GraphicSettingView", ReduxView)
+slot0 = class("GraphicSettingView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.hander_ = arg_2_1
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.info_ = arg_2_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.hander_ = slot1
+	slot0.transform_ = slot2.transform
+	slot0.gameObject_ = slot2
+	slot0.info_ = slot3
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.BindRedPointUI(arg_3_0)
-	manager.redPoint:bindUIandKey(arg_3_0.fps120go_.transform, RedPointConst.HIGH_FPS_DEVICE_SURRPORT)
+function slot0.BindRedPointUI(slot0)
+	manager.redPoint:bindUIandKey(slot0.fps120go_.transform, RedPointConst.HIGH_FPS_DEVICE_SURRPORT)
 end
 
-function var_0_0.UnBindRedPointUI(arg_4_0)
-	manager.redPoint:unbindUIandKey(arg_4_0.fps120go_.transform, RedPointConst.HIGH_FPS_DEVICE_SURRPORT)
+function slot0.UnBindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.fps120go_.transform, RedPointConst.HIGH_FPS_DEVICE_SURRPORT)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.picQualityList_ = {
+	slot0.picQualityList_ = {
 		6,
 		2,
 		3,
@@ -34,173 +34,144 @@ function var_0_0.InitUI(arg_5_0)
 		5,
 		7
 	}
-	arg_5_0.picQualityNum_ = #arg_5_0.picQualityList_
-	arg_5_0.picToggle_ = {}
-	arg_5_0.picToggleController_ = {}
+	slot0.picQualityNum_ = #slot0.picQualityList_
+	slot0.picToggle_ = {}
+	slot0.picToggleController_ = {}
 
-	for iter_5_0 = 1, arg_5_0.picQualityNum_ do
-		local var_5_0 = arg_5_0.picQualityList_[iter_5_0]
-
-		arg_5_0.picToggle_[var_5_0] = arg_5_0["pic" .. var_5_0 .. "Btn_"]
-
-		local var_5_1 = arg_5_0.picToggle_[var_5_0]:GetComponent(typeof(RectTransform))
-
-		arg_5_0.picToggleController_[var_5_0] = ControllerUtil.GetController(var_5_1, "name")
+	for slot4 = 1, slot0.picQualityNum_ do
+		slot5 = slot0.picQualityList_[slot4]
+		slot0.picToggle_[slot5] = slot0["pic" .. slot5 .. "Btn_"]
+		slot0.picToggleController_[slot5] = ControllerUtil.GetController(slot0.picToggle_[slot5]:GetComponent(typeof(RectTransform)), "name")
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	for iter_6_0 = 1, arg_6_0.picQualityNum_ do
-		local var_6_0 = arg_6_0.picQualityList_[iter_6_0]
-
-		arg_6_0:AddBtnListener(arg_6_0.picToggle_[var_6_0], nil, function()
-			SettingAction.ChangePicSetting("picOptionId", var_6_0)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, slot0.picQualityNum_ do
+		slot0:AddBtnListener(slot0.picToggle_[slot0.picQualityList_[slot4]], nil, function ()
+			SettingAction.ChangePicSetting("picOptionId", uv0)
 		end)
 	end
 
-	for iter_6_1 = 1, 3 do
-		arg_6_0:AddBtnListener(arg_6_0["fps" .. iter_6_1 .. "Tgl_"], nil, function()
-			if arg_6_0.settingData_.frame ~= iter_6_1 - 1 then
-				if iter_6_1 == 3 then
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["fps" .. slot4 .. "Tgl_"], nil, function ()
+			if uv0.settingData_.frame ~= uv1 - 1 then
+				if uv1 == 3 then
 					manager.redPoint:setTip(RedPointConst.HIGH_FPS_DEVICE_SURRPORT, 0)
 
 					if GameLocalData:GetCommonModule("highFps").isFirstSet == nil == true then
 						ShowMessageBox({
 							isTop = true,
 							content = GetTips("WARN_HIGH_FPS_TIPS"),
-							OkCallback = function()
-								SettingAction.ChangePicSetting("frame", iter_6_1 - 1)
+							OkCallback = function ()
+								SettingAction.ChangePicSetting("frame", uv0 - 1)
 								GameLocalData:SaveToCommonModule("highFps", "isFirstSet", false)
 							end,
-							CancelCallback = function()
-								return
+							CancelCallback = function ()
 							end
 						})
 					else
-						SettingAction.ChangePicSetting("frame", iter_6_1 - 1)
+						SettingAction.ChangePicSetting("frame", uv1 - 1)
 					end
 
 					GameLocalData:SaveToCommonModule("highFps", "checkDevice", true)
 				else
-					SettingAction.ChangePicSetting("frame", iter_6_1 - 1)
+					SettingAction.ChangePicSetting("frame", uv1 - 1)
 				end
 			end
 		end)
 	end
 
-	for iter_6_2 = 1, 3 do
-		arg_6_0:AddBtnListener(arg_6_0["resolution" .. iter_6_2 .. "Tgl_"], nil, function()
-			if arg_6_0.settingData_.resolution ~= iter_6_2 then
-				SettingAction.ChangePicSetting("resolution", iter_6_2)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["resolution" .. slot4 .. "Tgl_"], nil, function ()
+			if uv0.settingData_.resolution ~= uv1 then
+				SettingAction.ChangePicSetting("resolution", uv1)
 			end
 		end)
 	end
 
-	for iter_6_3 = 1, 3 do
-		arg_6_0:AddBtnListener(arg_6_0["teammate" .. iter_6_3 .. "Tgl_"], nil, function()
-			if arg_6_0.settingData_.teammate_effect ~= iter_6_3 then
-				SettingAction.ChangePicSetting("teammate_effect", iter_6_3)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["teammate" .. slot4 .. "Tgl_"], nil, function ()
+			if uv0.settingData_.teammate_effect ~= uv1 then
+				SettingAction.ChangePicSetting("teammate_effect", uv1)
 			end
 		end)
 	end
 
-	for iter_6_4 = 1, 3 do
-		arg_6_0:AddBtnListener(arg_6_0["user" .. iter_6_4 .. "Tgl_"], nil, function()
-			if arg_6_0.settingData_.user_effect ~= iter_6_4 then
-				SettingAction.ChangePicSetting("user_effect", iter_6_4)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["user" .. slot4 .. "Tgl_"], nil, function ()
+			if uv0.settingData_.user_effect ~= uv1 then
+				SettingAction.ChangePicSetting("user_effect", uv1)
 			end
 		end)
 	end
 
-	arg_6_0:AddBtnListener(arg_6_0.antialiasTgl_, nil, function()
-		local var_14_0 = arg_6_0.settingData_.anti_aliasing == 1 and 0 or 1
-
-		if arg_6_0.settingData_.anti_aliasing ~= var_14_0 then
-			SettingAction.ChangePicSetting("anti_aliasing", var_14_0)
+	slot0:AddBtnListener(slot0.antialiasTgl_, nil, function ()
+		if uv0.settingData_.anti_aliasing ~= (uv0.settingData_.anti_aliasing == 1 and 0 or 1) then
+			SettingAction.ChangePicSetting("anti_aliasing", slot0)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.hdrTgl_, nil, function()
-		local var_15_0 = arg_6_0.settingData_.hdr == 1 and 0 or 1
-
-		if arg_6_0.settingData_.hdr ~= var_15_0 then
-			SettingAction.ChangePicSetting("hdr", var_15_0)
+	slot0:AddBtnListener(slot0.hdrTgl_, nil, function ()
+		if uv0.settingData_.hdr ~= (uv0.settingData_.hdr == 1 and 0 or 1) then
+			SettingAction.ChangePicSetting("hdr", slot0)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.reflectTgl_, nil, function()
-		local var_16_0 = arg_6_0.settingData_.reflection_effect == 1 and 0 or 1
-
-		if arg_6_0.settingData_.reflection_effect ~= var_16_0 then
-			SettingAction.ChangePicSetting("reflection_effect", var_16_0)
+	slot0:AddBtnListener(slot0.reflectTgl_, nil, function ()
+		if uv0.settingData_.reflection_effect ~= (uv0.settingData_.reflection_effect == 1 and 0 or 1) then
+			SettingAction.ChangePicSetting("reflection_effect", slot0)
 		end
 	end)
 end
 
-function var_0_0.RefreshPicOption(arg_17_0)
-	local var_17_0 = arg_17_0.settingData_.picOptionId
-
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.picToggleController_) do
-		if iter_17_0 == var_17_0 then
-			iter_17_1:SetSelectedIndex(0)
+function slot0.RefreshPicOption(slot0)
+	for slot5, slot6 in pairs(slot0.picToggleController_) do
+		if slot5 == slot0.settingData_.picOptionId then
+			slot6:SetSelectedIndex(0)
 		else
-			iter_17_1:SetSelectedIndex(1)
+			slot6:SetSelectedIndex(1)
 		end
 	end
 end
 
-function var_0_0.RefreshFPS(arg_18_0)
-	local var_18_0 = arg_18_0.settingData_.frame + 1
-
-	for iter_18_0 = 1, 3 do
-		SetActive(arg_18_0[string.format("fps%dCheck_", iter_18_0)], var_18_0 == iter_18_0)
+function slot0.RefreshFPS(slot0)
+	for slot5 = 1, 3 do
+		SetActive(slot0[string.format("fps%dCheck_", slot5)], slot0.settingData_.frame + 1 == slot5)
 	end
 end
 
-function var_0_0.RefreshResolution(arg_19_0)
-	local var_19_0 = arg_19_0.settingData_.resolution
-
-	for iter_19_0 = 1, 3 do
-		SetActive(arg_19_0[string.format("resolution%dCheck_", iter_19_0)], var_19_0 == iter_19_0)
+function slot0.RefreshResolution(slot0)
+	for slot5 = 1, 3 do
+		SetActive(slot0[string.format("resolution%dCheck_", slot5)], slot0.settingData_.resolution == slot5)
 	end
 end
 
-function var_0_0.RefreshTeamMateEffect(arg_20_0)
-	local var_20_0 = arg_20_0.settingData_.teammate_effect
-
-	for iter_20_0 = 1, 3 do
-		SetActive(arg_20_0[string.format("teammate%dCheck_", iter_20_0)], var_20_0 == iter_20_0)
+function slot0.RefreshTeamMateEffect(slot0)
+	for slot5 = 1, 3 do
+		SetActive(slot0[string.format("teammate%dCheck_", slot5)], slot0.settingData_.teammate_effect == slot5)
 	end
 end
 
-function var_0_0.RefreshUserEffect(arg_21_0)
-	local var_21_0 = arg_21_0.settingData_.user_effect
-
-	for iter_21_0 = 1, 3 do
-		SetActive(arg_21_0[string.format("user%dCheck_", iter_21_0)], var_21_0 == iter_21_0)
+function slot0.RefreshUserEffect(slot0)
+	for slot5 = 1, 3 do
+		SetActive(slot0[string.format("user%dCheck_", slot5)], slot0.settingData_.user_effect == slot5)
 	end
 end
 
-function var_0_0.RefreshAntiAlias(arg_22_0)
-	local var_22_0 = arg_22_0.settingData_.anti_aliasing
-
-	arg_22_0.antialiasTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(var_22_0)
+function slot0.RefreshAntiAlias(slot0)
+	slot0.antialiasTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(slot0.settingData_.anti_aliasing)
 end
 
-function var_0_0.RefreshHDR(arg_23_0)
-	local var_23_0 = arg_23_0.settingData_.hdr
-
-	arg_23_0.hdrTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(var_23_0)
+function slot0.RefreshHDR(slot0)
+	slot0.hdrTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(slot0.settingData_.hdr)
 end
 
-function var_0_0.RefreshReflect(arg_24_0)
-	local var_24_0 = arg_24_0.settingData_.reflection_effect
-
-	arg_24_0.reflectTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(var_24_0)
+function slot0.RefreshReflect(slot0)
+	slot0.reflectTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(slot0.settingData_.reflection_effect)
 end
 
-function var_0_0.CheckDataChange(arg_25_0, arg_25_1)
-	local var_25_0 = ""
+function slot0.CheckDataChange(slot0, slot1)
+	slot2 = ""
 
-	if arg_25_0.tmpSettingData_ and not table.equal(arg_25_0.tmpSettingData_, arg_25_0.settingData_, "all") then
+	if slot0.tmpSettingData_ and not table.equal(slot0.tmpSettingData_, slot0.settingData_, "all") then
 		print("CheckDataChange, 新旧数据不同！！！")
 
 		return true
@@ -209,118 +180,113 @@ function var_0_0.CheckDataChange(arg_25_0, arg_25_1)
 	return false
 end
 
-function var_0_0.SaveData(arg_26_0)
-	if arg_26_0:CheckDataChange() then
-		arg_26_0.json_ = require("cjson")
+function slot0.SaveData(slot0)
+	if slot0:CheckDataChange() then
+		slot0.json_ = require("cjson")
 
-		local var_26_0 = deepClone(arg_26_0.settingData_)
-
-		if var_26_0.picOptionId ~= 7 then
-			var_26_0.pic = {
-				quality = "quality_" .. var_26_0.picOptionId
+		if deepClone(slot0.settingData_).picOptionId ~= 7 then
+			slot1.pic = {
+				quality = "quality_" .. slot1.picOptionId
 			}
 		end
 
-		var_26_0.type = 1
+		slot1.type = 1
+		slot2 = slot0.json_.encode(slot1)
+		slot5 = 0
 
-		local var_26_1 = arg_26_0.json_.encode(var_26_0)
-		local var_26_2 = {
+		if table.indexof({
 			6,
 			2,
 			3,
 			4,
 			5,
 			7
-		}
-		local var_26_3 = table.indexof(var_26_2, var_26_0.picOptionId)
-		local var_26_4 = 0
-
-		if var_26_3 > 0 then
-			var_26_4 = var_26_3 - 1
+		}, slot1.picOptionId) > 0 then
+			slot5 = slot4 - 1
 		end
 
 		SDKTools.SendMessageToSDK("graphics_setting", {
-			graphics = var_26_4,
-			fps_setting = arg_26_0.settingData_.frame == 0 and 30 or arg_26_0.settingData_.frame == 1 and 60 or 120,
-			dpi_setting = arg_26_0.settingData_.resolution,
-			teammate_effect_setting = arg_26_0.settingData_.teammate_effect,
-			anti_aliasing_setting = arg_26_0.settingData_.anti_aliasing == 0 and "false" or "true",
-			reflect_setting = arg_26_0.settingData_.reflection_effect == 0 and "false" or "true",
-			HDR_setting = arg_26_0.settingData_.hdr == 0 and "false" or "true",
-			user_effect_setting = arg_26_0.settingData_.user_effect
+			graphics = slot5,
+			fps_setting = slot0.settingData_.frame == 0 and 30 or slot0.settingData_.frame == 1 and 60 or 120,
+			dpi_setting = slot0.settingData_.resolution,
+			teammate_effect_setting = slot0.settingData_.teammate_effect,
+			anti_aliasing_setting = slot0.settingData_.anti_aliasing == 0 and "false" or "true",
+			reflect_setting = slot0.settingData_.reflection_effect == 0 and "false" or "true",
+			HDR_setting = slot0.settingData_.hdr == 0 and "false" or "true",
+			user_effect_setting = slot0.settingData_.user_effect
 		})
 
-		local var_26_5 = arg_26_0.json_.encode(var_26_0)
+		slot6 = slot0.json_.encode(slot1)
 	end
 
-	arg_26_0.tmpSettingData_ = deepClone(arg_26_0.settingData_)
+	slot0.tmpSettingData_ = deepClone(slot0.settingData_)
 end
 
-function var_0_0.RecoverTmpData(arg_27_0)
-	if arg_27_0:CheckDataChange() then
-		SettingAction.ChangePicSetting("allData", arg_27_0.tmpSettingData_)
-	end
-end
-
-function var_0_0.OnPicSettingChange(arg_28_0, arg_28_1, arg_28_2)
-	arg_28_0:RefreshPicOption()
-
-	if arg_28_2.key == "picOptionId" or arg_28_2.key == "allData" then
-		arg_28_0:RefreshResolution()
-		arg_28_0:RefreshTeamMateEffect()
-		arg_28_0:RefreshUserEffect()
-		arg_28_0:RefreshFPS()
-		arg_28_0:RefreshHDR()
-		arg_28_0:RefreshAntiAlias()
-		arg_28_0:RefreshReflect()
-	elseif arg_28_2.key == "resolution" then
-		arg_28_0:RefreshResolution()
-	elseif arg_28_2.key == "teammate_effect" then
-		arg_28_0:RefreshTeamMateEffect()
-	elseif arg_28_2.key == "frame" then
-		arg_28_0:RefreshFPS()
-	elseif arg_28_2.key == "hdr" then
-		arg_28_0:RefreshHDR()
-	elseif arg_28_2.key == "anti_aliasing" then
-		arg_28_0:RefreshAntiAlias()
-	elseif arg_28_2.key == "reflection_effect" then
-		arg_28_0:RefreshReflect()
-	elseif arg_28_2.key == "user_effect" then
-		arg_28_0:RefreshUserEffect()
+function slot0.RecoverTmpData(slot0)
+	if slot0:CheckDataChange() then
+		SettingAction.ChangePicSetting("allData", slot0.tmpSettingData_)
 	end
 end
 
-function var_0_0.Init(arg_29_0)
-	arg_29_0:InitUI()
-	arg_29_0:AddUIListener()
-	arg_29_0:OnEnter()
+function slot0.OnPicSettingChange(slot0, slot1, slot2)
+	slot0:RefreshPicOption()
+
+	if slot2.key == "picOptionId" or slot2.key == "allData" then
+		slot0:RefreshResolution()
+		slot0:RefreshTeamMateEffect()
+		slot0:RefreshUserEffect()
+		slot0:RefreshFPS()
+		slot0:RefreshHDR()
+		slot0:RefreshAntiAlias()
+		slot0:RefreshReflect()
+	elseif slot2.key == "resolution" then
+		slot0:RefreshResolution()
+	elseif slot2.key == "teammate_effect" then
+		slot0:RefreshTeamMateEffect()
+	elseif slot2.key == "frame" then
+		slot0:RefreshFPS()
+	elseif slot2.key == "hdr" then
+		slot0:RefreshHDR()
+	elseif slot2.key == "anti_aliasing" then
+		slot0:RefreshAntiAlias()
+	elseif slot2.key == "reflection_effect" then
+		slot0:RefreshReflect()
+	elseif slot2.key == "user_effect" then
+		slot0:RefreshUserEffect()
+	end
 end
 
-function var_0_0.OnEnter(arg_30_0)
-	arg_30_0.settingData_ = SettingData:GetPicSettingData()
-
-	arg_30_0:RefreshPicOption()
-	arg_30_0:RefreshFPS()
-	arg_30_0:RefreshResolution()
-	arg_30_0:RefreshTeamMateEffect()
-	arg_30_0:RefreshUserEffect()
-	arg_30_0:RefreshAntiAlias()
-	arg_30_0:RefreshHDR()
-	arg_30_0:RefreshReflect()
-
-	arg_30_0.tmpSettingData_ = deepClone(arg_30_0.settingData_)
-
-	arg_30_0:BindRedPointUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:OnEnter()
 end
 
-function var_0_0.OnExit(arg_31_0)
-	arg_31_0:UnBindRedPointUI()
+function slot0.OnEnter(slot0)
+	slot0.settingData_ = SettingData:GetPicSettingData()
+
+	slot0:RefreshPicOption()
+	slot0:RefreshFPS()
+	slot0:RefreshResolution()
+	slot0:RefreshTeamMateEffect()
+	slot0:RefreshUserEffect()
+	slot0:RefreshAntiAlias()
+	slot0:RefreshHDR()
+	slot0:RefreshReflect()
+
+	slot0.tmpSettingData_ = deepClone(slot0.settingData_)
+
+	slot0:BindRedPointUI()
 end
 
-function var_0_0.Dispose(arg_32_0)
-	arg_32_0.hander_ = nil
-
-	var_0_0.super.Dispose(arg_32_0)
+function slot0.OnExit(slot0)
+	slot0:UnBindRedPointUI()
 end
 
-return var_0_0
+function slot0.Dispose(slot0)
+	slot0.hander_ = nil
+
+	uv0.super.Dispose(slot0)
+end
+
+return slot0

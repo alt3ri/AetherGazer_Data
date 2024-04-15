@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.osiris.raceTrial.RaceTrialScoreRewardItem")
-local var_0_1 = class("VolumeRaceTrialScoreRewardItem", var_0_0)
+slot1 = class("VolumeRaceTrialScoreRewardItem", import("game.views.osiris.raceTrial.RaceTrialScoreRewardItem"))
 
-function var_0_1.RefreshTitle(arg_1_0)
-	arg_1_0.title_.text = arg_1_0.cfg_.need
+function slot1.RefreshTitle(slot0)
+	slot0.title_.text = slot0.cfg_.need
 end
 
-return var_0_1
+return slot1

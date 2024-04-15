@@ -1,55 +1,54 @@
-local var_0_0 = class("HeroClueDetailView", ReduxView)
+slot0 = class("HeroClueDetailView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return HeroClueTools.GetClueDetailViewUIName(arg_1_0.params_.activtiyID)
+function slot0.UIName(slot0)
+	return HeroClueTools.GetClueDetailViewUIName(slot0.params_.activtiyID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.clueInfoController_ = ControllerUtil.GetController(arg_4_0.transform_, "level")
+	slot0.clueInfoController_ = ControllerUtil.GetController(slot0.transform_, "level")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.exitBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.exitBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
-	arg_7_0.clueID_ = arg_7_0.params_.clueID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.clueID_ = slot0.params_.clueID
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = HeroClueCfg[arg_8_0.clueID_]
-	local var_8_1 = HeroClueData:GetUnlockClueDataDic()[arg_8_0.clueID_]
+function slot0.RefreshUI(slot0)
+	slot1 = HeroClueCfg[slot0.clueID_]
 
-	if var_8_1 then
-		if var_8_1.level == 1 then
-			arg_8_0.clueNameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
-			arg_8_0.clueDescText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
-		elseif var_8_1.level == 2 then
-			arg_8_0.clueNameText_.text = var_8_0.name
-			arg_8_0.clueDescText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
+	if HeroClueData:GetUnlockClueDataDic()[slot0.clueID_] then
+		if slot2.level == 1 then
+			slot0.clueNameText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
+			slot0.clueDescText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
+		elseif slot2.level == 2 then
+			slot0.clueNameText_.text = slot1.name
+			slot0.clueDescText_.text = GetTips("ACTIVITY_HERO_CLUE_NICK_TITLE")
 		else
-			arg_8_0.clueNameText_.text = var_8_0.name
-			arg_8_0.clueDescText_.text = var_8_0.desc
+			slot0.clueNameText_.text = slot1.name
+			slot0.clueDescText_.text = slot1.desc
 		end
 
-		arg_8_0.clueInfoController_:SetSelectedState(var_8_1.level)
+		slot0.clueInfoController_:SetSelectedState(slot2.level)
 	end
 end
 
-return var_0_0
+return slot0

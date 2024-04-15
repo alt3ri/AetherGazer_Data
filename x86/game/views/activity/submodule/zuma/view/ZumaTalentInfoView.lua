@@ -1,5 +1,5 @@
-local var_0_0 = class("ZumaTalentInfoView", ReduxView)
-local var_0_1 = {
+slot0 = class("ZumaTalentInfoView", ReduxView)
+slot1 = {
 	showState = {
 		name = "lock",
 		canOpenNotConditon = "canOpenNotConditon",
@@ -9,74 +9,67 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.showController = arg_2_0.controllerexcollection_:GetController(var_0_1.showState.name)
+	slot0.showController = slot0.controllerexcollection_:GetController(uv0.showState.name)
 
-	arg_2_0:AddBtnListener(arg_2_0.openBtn_, nil, function()
-		arg_2_0:OnClickUpTalentBtn()
+	slot0:AddBtnListener(slot0.openBtn_, nil, function ()
+		uv0:OnClickUpTalentBtn()
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.lockBtn_, nil, function()
+	slot0:AddBtnListener(slot0.lockBtn_, nil, function ()
 		ShowTips("ACTIVITY_ZUMA_TALENT_LOCK")
 	end)
 end
 
-function var_0_0.OnClickUpTalentBtn(arg_5_0)
+function slot0.OnClickUpTalentBtn(slot0)
 	if not ActivityData:GetActivityIsOpen(ActivityConst.ACTIVITY_ZUMA) then
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	local var_5_0 = arg_5_0.useTalentID
-	local var_5_1 = ActivityZumaTalentCfg[var_5_0]
-
-	if not var_5_1 then
+	if not ActivityZumaTalentCfg[slot0.useTalentID] then
 		return
 	end
 
-	if var_5_1.need > ZumaData:GetZumaCoin() then
+	if ZumaData:GetZumaCoin() < slot2.need then
 		ShowTips("ACTIVITY_ZUMA_TALENT_COST")
 
 		return
 	end
 
-	ZumaAction.OpenZumaTalent(var_5_0)
+	ZumaAction.OpenZumaTalent(slot1)
 end
 
-function var_0_0.RefreshTalentInfoUi(arg_6_0, arg_6_1)
-	arg_6_0.useTalentID = arg_6_1
+function slot0.RefreshTalentInfoUi(slot0, slot1)
+	slot0.useTalentID = slot1
+	slot2 = ActivityZumaTalentCfg[slot1]
+	slot0.costnumText_.text = slot2.need
+	slot0.talentnameText_.text = slot2.name
+	slot0.talentDescText_.text = slot2.desc
 
-	local var_6_0 = ActivityZumaTalentCfg[arg_6_1]
-
-	arg_6_0.costnumText_.text = var_6_0.need
-	arg_6_0.talentnameText_.text = var_6_0.name
-	arg_6_0.talentDescText_.text = var_6_0.desc
-
-	local var_6_1 = var_6_0.pre_id
-
-	if var_6_1 ~= 0 then
-		arg_6_0.conditiondescireText_.text = string.format(GetTips("ACTIVITY_ZUMA_TALENT_UNLOCK_CONDITION"), ActivityZumaTalentCfg[var_6_1].name)
+	if slot2.pre_id ~= 0 then
+		slot0.conditiondescireText_.text = string.format(GetTips("ACTIVITY_ZUMA_TALENT_UNLOCK_CONDITION"), ActivityZumaTalentCfg[slot3].name)
 	end
 
-	if ZumaData:GetZumaTalentIsOpen(arg_6_1) then
-		arg_6_0.showController:SetSelectedState(var_0_1.showState.isUse)
-	elseif ZumaData:GetZumaTalentIsCanOpen(arg_6_1) then
-		if var_6_0.pre_id == 0 then
-			arg_6_0.showController:SetSelectedState(var_0_1.showState.canOpenNotConditon)
+	if ZumaData:GetZumaTalentIsOpen(slot1) then
+		slot0.showController:SetSelectedState(uv0.showState.isUse)
+	elseif ZumaData:GetZumaTalentIsCanOpen(slot1) then
+		if slot2.pre_id == 0 then
+			slot0.showController:SetSelectedState(uv0.showState.canOpenNotConditon)
 		else
-			arg_6_0.showController:SetSelectedState(var_0_1.showState.canOpen)
+			slot0.showController:SetSelectedState(uv0.showState.canOpen)
 		end
 	else
-		arg_6_0.showController:SetSelectedState(var_0_1.showState.lock)
+		slot0.showController:SetSelectedState(uv0.showState.lock)
 	end
 end
 
-return var_0_0
+return slot0

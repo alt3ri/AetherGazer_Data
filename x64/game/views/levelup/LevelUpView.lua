@@ -1,83 +1,80 @@
-local var_0_0 = class("LevelUpView", ReduxView)
+slot0 = class("LevelUpView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/PlayerlvlpopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 
-	arg_5_0.timer_ = FrameTimer.New(function()
-		arg_5_0:Update()
+	slot0.timer_ = FrameTimer.New(function ()
+		uv0:Update()
 	end, 1, -1)
 
-	arg_5_0.timer_:Start()
+	slot0.timer_:Start()
 
-	arg_5_0.callBack_ = arg_5_0.params_.callback
+	slot0.callBack_ = slot0.params_.callback
 end
 
-function var_0_0.OnExit(arg_7_0)
-	if arg_7_0.timer_ then
-		arg_7_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_7_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	if arg_7_0.callBack_ then
-		arg_7_0.callBack_()
+	if slot0.callBack_ then
+		slot0.callBack_()
 	end
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.bgBtn_, nil, function()
-		arg_8_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_10_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.OnSubscribe(arg_11_0)
-	arg_11_0:RefreshUI()
+function slot0.OnSubscribe(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = arg_12_0.params_.levelUpInfoList[1].fromLevel
-	local var_12_1 = arg_12_0.params_.levelUpInfoList[#arg_12_0.params_.levelUpInfoList].toLevel
-	local var_12_2 = GameLevelSetting[var_12_0].fatigue_max
-	local var_12_3 = GameLevelSetting[var_12_1].fatigue_max
-	local var_12_4 = 0
+function slot0.RefreshUI(slot0)
+	slot1 = slot0.params_.levelUpInfoList[1].fromLevel
+	slot2 = slot0.params_.levelUpInfoList[#slot0.params_.levelUpInfoList].toLevel
+	slot3 = GameLevelSetting[slot1].fatigue_max
+	slot4 = GameLevelSetting[slot2].fatigue_max
 
-	for iter_12_0 = var_12_0 + 1, var_12_1 do
-		var_12_4 = var_12_4 + GameLevelSetting[iter_12_0].fatigue_upgrade_reward
+	for slot9 = slot1 + 1, slot2 do
+		slot5 = 0 + GameLevelSetting[slot9].fatigue_upgrade_reward
 	end
 
-	arg_12_0.fromLevelText_.text = tostring(var_12_0)
-	arg_12_0.toLevelText_.text = tostring(var_12_1)
-	arg_12_0.getFatigueText_.text = string.format("+%d", var_12_4)
-	arg_12_0.fatigueUpLimitText_.text = string.format("%d(+%d)", var_12_3, var_12_3 - var_12_2)
+	slot0.fromLevelText_.text = tostring(slot1)
+	slot0.toLevelText_.text = tostring(slot2)
+	slot0.getFatigueText_.text = string.format("+%d", slot5)
+	slot0.fatigueUpLimitText_.text = string.format("%d(+%d)", slot4, slot4 - slot3)
 end
 
-function var_0_0.Update(arg_13_0)
-	return
+function slot0.Update(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

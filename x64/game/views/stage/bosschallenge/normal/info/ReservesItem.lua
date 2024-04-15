@@ -1,65 +1,65 @@
-local var_0_0 = class("ReservesItem", ReduxView)
+slot0 = class("ReservesItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroGo_ = {}
-	arg_3_0.heroImg_ = {}
-	arg_3_0.heroBtn_ = {}
-	arg_3_0.campCon_ = {}
+	slot0.heroGo_ = {}
+	slot0.heroImg_ = {}
+	slot0.heroBtn_ = {}
+	slot0.campCon_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.heroGo_[iter_3_0] = arg_3_0["heroGo_" .. iter_3_0]
-		arg_3_0.heroImg_[iter_3_0] = arg_3_0["heroImg_" .. iter_3_0]
-		arg_3_0.heroBtn_[iter_3_0] = arg_3_0["heroBtn_" .. iter_3_0]
-		arg_3_0.campCon_[iter_3_0] = ControllerUtil.GetController(arg_3_0.heroBtn_[iter_3_0].transform, "name")
+	for slot4 = 1, 3 do
+		slot0.heroGo_[slot4] = slot0["heroGo_" .. slot4]
+		slot0.heroImg_[slot4] = slot0["heroImg_" .. slot4]
+		slot0.heroBtn_[slot4] = slot0["heroBtn_" .. slot4]
+		slot0.campCon_[slot4] = ControllerUtil.GetController(slot0.heroBtn_[slot4].transform, "name")
 	end
 
-	arg_3_0.curCon_ = ControllerUtil.GetController(arg_3_0.transform_, "cur")
-	arg_3_0.btnCon_ = ControllerUtil.GetController(arg_3_0.transform_, "btn")
-	arg_3_0.nameCon_ = ControllerUtil.GetController(arg_3_0.transform_, "name")
-	arg_3_0.chipCon_ = ControllerUtil.GetController(arg_3_0.transform_, "chip")
-	arg_3_0.comboSkillCon_ = ControllerUtil.GetController(arg_3_0.transform_, "combo")
-	arg_3_0.inputHandler_ = handler(arg_3_0, arg_3_0.OnInput)
-	arg_3_0.inputCancelHandler_ = handler(arg_3_0, arg_3_0.OnInputCancel)
+	slot0.curCon_ = ControllerUtil.GetController(slot0.transform_, "cur")
+	slot0.btnCon_ = ControllerUtil.GetController(slot0.transform_, "btn")
+	slot0.nameCon_ = ControllerUtil.GetController(slot0.transform_, "name")
+	slot0.chipCon_ = ControllerUtil.GetController(slot0.transform_, "chip")
+	slot0.comboSkillCon_ = ControllerUtil.GetController(slot0.transform_, "combo")
+	slot0.inputHandler_ = handler(slot0, slot0.OnInput)
+	slot0.inputCancelHandler_ = handler(slot0, slot0.OnInputCancel)
 
-	manager.notify:RegistListener(INPUT_POP_CLICK_OK, arg_3_0.inputHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, arg_3_0.inputCancelHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, arg_3_0.inputCancelHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, slot0.inputCancelHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
 
-	arg_3_0.handler_ = handler(arg_3_0, arg_3_0.OnComboSkillSelect)
+	slot0.handler_ = handler(slot0, slot0.OnComboSkillSelect)
 
-	manager.notify:RegistListener(COMBO_SKILL_SELECT, arg_3_0.handler_)
+	manager.notify:RegistListener(COMBO_SKILL_SELECT, slot0.handler_)
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.heroBtn_) do
-		arg_4_0:AddBtnListener(iter_4_1, nil, function()
+function slot0.AddUIListeners(slot0)
+	for slot4, slot5 in ipairs(slot0.heroBtn_) do
+		slot0:AddBtnListener(slot5, nil, function ()
 			JumpTools.OpenPageByJump("/heroTeam", {
-				index = arg_4_0.info_.index,
-				pos = iter_4_0,
-				hero_list = arg_4_0.info_.hero_list,
-				combo = arg_4_0.info_.comboSkill
+				index = uv0.info_.index,
+				pos = uv1,
+				hero_list = uv0.info_.hero_list,
+				combo = uv0.info_.comboSkill
 			})
 		end)
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.saveBtn_, nil, function()
-		if arg_4_0.info_.hero_list[1] == 0 then
-			for iter_6_0, iter_6_1 in ipairs(arg_4_0.info_.hero_list) do
-				if iter_6_1 ~= 0 then
+	slot0:AddBtnListener(slot0.saveBtn_, nil, function ()
+		if uv0.info_.hero_list[1] == 0 then
+			for slot3, slot4 in ipairs(uv0.info_.hero_list) do
+				if slot4 ~= 0 then
 					ShowTips("CAPTAIN_ROLE_MISSING")
 
 					return
@@ -67,48 +67,46 @@ function var_0_0.AddUIListeners(arg_4_0)
 			end
 
 			ShowTips("TEAM_SET_NEEDED")
-		elseif BattleTeamData:IsInList(arg_4_0.info_.index, arg_4_0.info_) then
+		elseif BattleTeamData:IsInList(uv0.info_.index, uv0.info_) then
 			ShowTips("SAME_TEAM_PROHIBITED")
-		elseif arg_4_0.info_.name ~= "" then
-			BattleFieldAction.SaveReservesTeam(arg_4_0.info_.index, arg_4_0.info_.name, arg_4_0.info_.hero_list, arg_4_0.info_.comboSkill, arg_4_0.info_.chipInfo, "FORMATION_PLAN_SAVED")
+		elseif uv0.info_.name ~= "" then
+			BattleFieldAction.SaveReservesTeam(uv0.info_.index, uv0.info_.name, uv0.info_.hero_list, uv0.info_.comboSkill, uv0.info_.chipInfo, "FORMATION_PLAN_SAVED")
 		else
-			arg_4_0.saveFlag_ = true
+			uv0.saveFlag_ = true
 
 			JumpTools.OpenPageByJump("ProposalPopup")
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.renameBtn_, nil, function()
-		arg_4_0.inputPopFlag_ = true
+	slot0:AddBtnListener(slot0.renameBtn_, nil, function ()
+		uv0.inputPopFlag_ = true
 
 		JumpTools.OpenPageByJump("ProposalPopup")
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.useBtn_, nil, function()
-		if arg_4_0.changeFunc_ then
-			arg_4_0.changeFunc_(arg_4_0.info_.index)
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		if uv0.changeFunc_ then
+			uv0.changeFunc_(uv0.info_.index)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.delBtn_, nil, function()
+	slot0:AddBtnListener(slot0.delBtn_, nil, function ()
 		ShowMessageBox({
-			content = string.format(GetTips("FORMATION_PLAN_DELETE_CONFIRM"), arg_4_0.info_.name),
-			OkCallback = function()
-				BattleFieldAction.DelectReservesTeam(arg_4_0.info_.index)
+			content = string.format(GetTips("FORMATION_PLAN_DELETE_CONFIRM"), uv0.info_.name),
+			OkCallback = function ()
+				BattleFieldAction.DelectReservesTeam(uv0.info_.index)
 			end
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.chipBtn_, nil, function()
+	slot0:AddBtnListener(slot0.chipBtn_, nil, function ()
 		JumpTools.GoToSystem("/reservesChipManager", {
-			index = arg_4_0.info_.index
+			index = uv0.info_.index
 		}, ViewConst.SYSTEM_ID.CHIP_MANAGER)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.comboBtn_, nil, function()
-		local var_12_0 = arg_4_0.info_.hero_list
-
-		for iter_12_0, iter_12_1 in ipairs(var_12_0) do
-			if iter_12_1 and iter_12_1 ~= 0 then
+	slot0:AddBtnListener(slot0.comboBtn_, nil, function ()
+		for slot4, slot5 in ipairs(uv0.info_.hero_list) do
+			if slot5 and slot5 ~= 0 then
 				JumpTools.OpenPageByJump("reservesComboSkillSelect", {
-					heroList = arg_4_0.info_.hero_list,
-					comboSkillID = arg_4_0.info_.comboSkill,
-					index = arg_4_0.info_.index
+					heroList = uv0.info_.hero_list,
+					comboSkillID = uv0.info_.comboSkill,
+					index = uv0.info_.index
 				})
 
 				return
@@ -119,219 +117,203 @@ function var_0_0.AddUIListeners(arg_4_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_14_0, arg_14_1, arg_14_2, arg_14_3, arg_14_4)
-	arg_14_0.info_ = arg_14_1
-	arg_14_0.indexText_.text = arg_14_1.index
+function slot0.RefreshUI(slot0, slot1, slot2, slot3, slot4)
+	slot0.info_ = slot1
+	slot0.indexText_.text = slot1.index
 
-	if arg_14_3 and arg_14_0.info_.hero_list[1] ~= 0 then
-		if arg_14_2 then
-			arg_14_0.btnCon_:SetSelectedState("cur")
+	if slot3 and slot0.info_.hero_list[1] ~= 0 then
+		if slot2 then
+			slot0.btnCon_:SetSelectedState("cur")
 		else
-			arg_14_0.btnCon_:SetSelectedState("change")
+			slot0.btnCon_:SetSelectedState("change")
 		end
 
-		arg_14_0.curCon_:SetSelectedState("false")
-		SetActive(arg_14_0.btnPanel_, true)
+		slot0.curCon_:SetSelectedState("false")
+		SetActive(slot0.btnPanel_, true)
 	else
-		local var_14_0 = true
+		slot5 = true
 
-		for iter_14_0, iter_14_1 in ipairs(arg_14_0.info_.hero_list) do
-			if iter_14_1 ~= 0 then
-				var_14_0 = false
+		for slot9, slot10 in ipairs(slot0.info_.hero_list) do
+			if slot10 ~= 0 then
+				slot5 = false
 
 				break
 			end
 		end
 
-		if var_14_0 and arg_14_0.info_.chipInfo.id == 0 then
-			SetActive(arg_14_0.btnPanel_, false)
+		if slot5 and slot0.info_.chipInfo.id == 0 then
+			SetActive(slot0.btnPanel_, false)
 		else
-			arg_14_0.btnCon_:SetSelectedState("save")
-			SetActive(arg_14_0.btnPanel_, true)
+			slot0.btnCon_:SetSelectedState("save")
+			SetActive(slot0.btnPanel_, true)
 		end
 
-		arg_14_0.curCon_:SetSelectedState(arg_14_2 and arg_14_4 and "true" or "false")
+		slot0.curCon_:SetSelectedState(slot2 and slot4 and "true" or "false")
 	end
 
-	if arg_14_0.info_.name ~= "" then
-		arg_14_0.title_.text = GetI18NText(arg_14_0.info_.name)
+	if slot0.info_.name ~= "" then
+		slot0.title_.text = GetI18NText(slot0.info_.name)
 
-		arg_14_0.nameCon_:SetSelectedState("true")
+		slot0.nameCon_:SetSelectedState("true")
 	else
-		if arg_14_2 then
-			arg_14_0.curTitle_.text = GetTips("CURRENT_SCHEME")
+		if slot2 then
+			slot0.curTitle_.text = GetTips("CURRENT_SCHEME")
 		else
-			arg_14_0.curTitle_.text = GetTips("NIL_NAME")
+			slot0.curTitle_.text = GetTips("NIL_NAME")
 		end
 
-		arg_14_0.nameCon_:SetSelectedState("false")
+		slot0.nameCon_:SetSelectedState("false")
 	end
 
-	local var_14_1 = arg_14_0.info_.hero_list
+	for slot9, slot10 in ipairs(slot0.info_.hero_list) do
+		if slot10 ~= 0 then
+			slot0.heroImg_[slot9].sprite = ItemTools.getItemSprite(HeroTools.HeroUsingSkinInfo(slot10).id)
 
-	for iter_14_2, iter_14_3 in ipairs(var_14_1) do
-		if iter_14_3 ~= 0 then
-			local var_14_2 = HeroTools.HeroUsingSkinInfo(iter_14_3).id
-
-			arg_14_0.heroImg_[iter_14_2].sprite = ItemTools.getItemSprite(var_14_2)
-
-			SetActive(arg_14_0.heroGo_[iter_14_2], true)
-			arg_14_0.campCon_[iter_14_2]:SetSelectedState(HeroCfg[iter_14_3].race)
+			SetActive(slot0.heroGo_[slot9], true)
+			slot0.campCon_[slot9]:SetSelectedState(HeroCfg[slot10].race)
 		else
-			SetActive(arg_14_0.heroGo_[iter_14_2], false)
+			SetActive(slot0.heroGo_[slot9], false)
 		end
 	end
 
-	arg_14_0:RefreshChip()
-	arg_14_0:RefreshComSkill()
+	slot0:RefreshChip()
+	slot0:RefreshComSkill()
 end
 
-function var_0_0.RefreshChip(arg_15_0)
-	local var_15_0 = arg_15_0.info_.chipInfo.id
-
-	if var_15_0 == 0 then
-		arg_15_0.chipCon_:SetSelectedState(-1)
+function slot0.RefreshChip(slot0)
+	if slot0.info_.chipInfo.id == 0 then
+		slot0.chipCon_:SetSelectedState(-1)
 	else
-		arg_15_0.chipIcon_.sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[var_15_0].picture_id)
+		slot0.chipIcon_.sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot1].picture_id)
 
-		local var_15_1 = arg_15_0.info_.chipInfo.list
-
-		arg_15_0.chipCon_:SetSelectedState(#var_15_1)
+		slot0.chipCon_:SetSelectedState(#slot0.info_.chipInfo.list)
 	end
 end
 
-function var_0_0.RefreshComSkill(arg_16_0)
-	local var_16_0 = arg_16_0.info_.comboSkill
-
-	if var_16_0 == 0 then
-		arg_16_0.comboSkillCon_:SetSelectedState(0)
+function slot0.RefreshComSkill(slot0)
+	if slot0.info_.comboSkill == 0 then
+		slot0.comboSkillCon_:SetSelectedState(0)
 	else
-		local var_16_1 = ComboSkillCfg[var_16_0]
+		slot2 = ComboSkillCfg[slot1]
+		slot0.comboImg_.sprite = getSpriteViaConfig("ComboSkill", slot2.skill_id)
 
-		arg_16_0.comboImg_.sprite = getSpriteViaConfig("ComboSkill", var_16_1.skill_id)
-
-		if #var_16_1.cooperate_role_ids == 3 then
-			arg_16_0.comboSkillCon_:SetSelectedState("all")
+		if #slot2.cooperate_role_ids == 3 then
+			slot0.comboSkillCon_:SetSelectedState("all")
 		else
-			local var_16_2 = {}
-			local var_16_3 = arg_16_0.info_.hero_list
+			slot3 = {}
 
-			for iter_16_0, iter_16_1 in ipairs(var_16_1.cooperate_role_ids) do
-				table.insert(var_16_2, table.indexof(var_16_3, iter_16_1))
+			for slot8, slot9 in ipairs(slot2.cooperate_role_ids) do
+				table.insert(slot3, table.indexof(slot0.info_.hero_list, slot9))
 			end
 
-			if not var_16_2[1] or not var_16_2[2] then
+			if not slot3[1] or not slot3[2] then
 				return
 			end
 
-			if var_16_2[1] < var_16_2[2] then
-				arg_16_0.comboSkillCon_:SetSelectedState(var_16_2[1] .. "_" .. var_16_2[2])
+			if slot3[1] < slot3[2] then
+				slot0.comboSkillCon_:SetSelectedState(slot3[1] .. "_" .. slot3[2])
 			else
-				arg_16_0.comboSkillCon_:SetSelectedState(var_16_2[2] .. "_" .. var_16_2[1])
+				slot0.comboSkillCon_:SetSelectedState(slot3[2] .. "_" .. slot3[1])
 			end
 		end
 	end
 end
 
-function var_0_0.OnInput(arg_17_0, arg_17_1, arg_17_2)
-	if not arg_17_0.inputPopFlag_ and not arg_17_0.saveFlag_ then
+function slot0.OnInput(slot0, slot1, slot2)
+	if not slot0.inputPopFlag_ and not slot0.saveFlag_ then
 		return
 	end
 
-	if not arg_17_0.gameObject_.activeInHierarchy then
+	if not slot0.gameObject_.activeInHierarchy then
 		return
 	end
 
-	if arg_17_1 == "" then
+	if slot1 == "" then
 		ShowTips("INPUT_EQUIP_PROPOSAL_NAME")
 
 		return
 	end
 
-	if IsAllSpace(arg_17_1) then
+	if IsAllSpace(slot1) then
 		ShowTips("INPUT_CHAT_CONTENT")
 
-		arg_17_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	local var_17_0, var_17_1 = textLimit(arg_17_1, GameSetting.user_name_max.value[1])
+	slot3, slot4 = textLimit(slot1, GameSetting.user_name_max.value[1])
+	slot2.text = slot3
 
-	arg_17_2.text = var_17_0
-	arg_17_1 = var_17_0
-
-	if not nameRule(arg_17_1) then
+	if not nameRule(slot3) then
 		ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
-		arg_17_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	WordVerifyBySDK(arg_17_1, function(arg_18_0)
-		if not arg_18_0 then
+	WordVerifyBySDK(slot1, function (slot0)
+		if not slot0 then
 			ShowTips("SENSITIVE_WORD")
 
-			arg_17_2.text = ""
+			uv0.text = ""
 
 			return
 		else
-			if not var_17_1 then
+			if not uv1 then
 				return
 			end
 
-			if arg_17_0.saveFlag_ then
-				BattleFieldAction.SaveReservesTeam(arg_17_0.info_.index, arg_17_1, arg_17_0.info_.hero_list, arg_17_0.info_.comboSkill, arg_17_0.info_.chipInfo, "FORMATION_PLAN_SAVED")
+			if uv2.saveFlag_ then
+				BattleFieldAction.SaveReservesTeam(uv2.info_.index, uv3, uv2.info_.hero_list, uv2.info_.comboSkill, uv2.info_.chipInfo, "FORMATION_PLAN_SAVED")
 			else
-				BattleFieldAction.SaveReservesTeam(arg_17_0.info_.index, arg_17_1, arg_17_0.info_.hero_list, arg_17_0.info_.comboSkill, arg_17_0.info_.chipInfo, "FORMATION_PLAN_NAME_CHANGED")
+				BattleFieldAction.SaveReservesTeam(uv2.info_.index, uv3, uv2.info_.hero_list, uv2.info_.comboSkill, uv2.info_.chipInfo, "FORMATION_PLAN_NAME_CHANGED")
 			end
 
-			arg_17_0.inputPopFlag_ = false
-			arg_17_0.saveFlag_ = false
+			uv2.inputPopFlag_ = false
+			uv2.saveFlag_ = false
 
 			manager.notify:Invoke(INPUT_POP_BACK)
 		end
 	end, JUDGE_MESSAGE_TYPE.OTHER)
 end
 
-function var_0_0.RegistChangeBtn(arg_19_0, arg_19_1)
-	arg_19_0.changeFunc_ = arg_19_1
+function slot0.RegistChangeBtn(slot0, slot1)
+	slot0.changeFunc_ = slot1
 end
 
-function var_0_0.OnInputCancel(arg_20_0)
-	arg_20_0.inputPopFlag_ = false
-	arg_20_0.saveFlag_ = false
+function slot0.OnInputCancel(slot0)
+	slot0.inputPopFlag_ = false
+	slot0.saveFlag_ = false
 end
 
-function var_0_0.OnComboSkillSelect(arg_21_0)
-	arg_21_0.curCon_:SetSelectedState("false")
-	arg_21_0:RefreshComSkill()
+function slot0.OnComboSkillSelect(slot0)
+	slot0.curCon_:SetSelectedState("false")
+	slot0:RefreshComSkill()
 end
 
-function var_0_0.OnExit(arg_22_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_23_0.inputPopFlag_ = false
-	arg_23_0.saveFlag_ = false
+	slot0.inputPopFlag_ = false
+	slot0.saveFlag_ = false
 
-	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, arg_23_0.inputHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, arg_23_0.inputCancelHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, arg_23_0.inputCancelHandler_)
-	manager.notify:RemoveListener(COMBO_SKILL_SELECT, arg_23_0.handler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, slot0.inputCancelHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
+	manager.notify:RemoveListener(COMBO_SKILL_SELECT, slot0.handler_)
 
-	arg_23_0.inputHandler_ = nil
-	arg_23_0.inputCancelHandler_ = nil
+	slot0.inputHandler_ = nil
+	slot0.inputCancelHandler_ = nil
 
-	var_0_0.super.Dispose(arg_23_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,84 +1,82 @@
-local var_0_0 = class("SkuldTravelItemSelectItem", ReduxView)
-local var_0_1 = "TextureConfig/EmptyDream/travel/item/"
+slot0 = class("SkuldTravelItemSelectItem", ReduxView)
+slot1 = "TextureConfig/EmptyDream/travel/item/"
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.AddUIListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if not arg_3_0.lock_ then
-			arg_3_0.selecthandler_(arg_3_0.itemid_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not uv0.lock_ then
+			uv0.selecthandler_(uv0.itemid_)
 		end
 	end)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.islockcontroller_ = ControllerUtil.GetController(arg_5_0.transform_, "islock")
-	arg_5_0.selectcontroller_ = ControllerUtil.GetController(arg_5_0.transform_, "select")
+	slot0.islockcontroller_ = ControllerUtil.GetController(slot0.transform_, "islock")
+	slot0.selectcontroller_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.itemid_ = arg_6_1
-	arg_6_0.mapid_ = arg_6_2
-	arg_6_0.poltid_ = SkuldTravelData:GetPlotIdByMapIdAndItemId(arg_6_0.mapid_, arg_6_0.itemid_)
-	arg_6_0.itemimage_.sprite = getSpriteWithoutAtlas(var_0_1 .. TravelSkuldItemCfg[arg_6_0.itemid_].icon)
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.itemid_ = slot1
+	slot0.mapid_ = slot2
+	slot0.poltid_ = SkuldTravelData:GetPlotIdByMapIdAndItemId(slot0.mapid_, slot0.itemid_)
+	slot0.itemimage_.sprite = getSpriteWithoutAtlas(uv0 .. TravelSkuldItemCfg[slot0.itemid_].icon)
 
-	arg_6_0:RefreshLockStatu()
-	arg_6_0:RefreshSelectStatu(arg_6_3)
-	manager.redPoint:bindUIandKey(arg_6_0.transform_, RedPointConst.TRAVEL_SKULD_TRAVELITEM .. arg_6_0.poltid_)
+	slot0:RefreshLockStatu()
+	slot0:RefreshSelectStatu(slot3)
+	manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.TRAVEL_SKULD_TRAVELITEM .. slot0.poltid_)
 end
 
-function var_0_0.SetSelecthandler(arg_7_0, arg_7_1)
-	arg_7_0.selecthandler_ = arg_7_1
+function slot0.SetSelecthandler(slot0, slot1)
+	slot0.selecthandler_ = slot1
 end
 
-function var_0_0.RefreshLockStatu(arg_8_0)
-	arg_8_0.lock_ = false
+function slot0.RefreshLockStatu(slot0)
+	slot0.lock_ = false
+	slot1 = 1
 
-	local var_8_0 = 1
-	local var_8_1 = SkuldTravelData:GetAttrib()
-
-	for iter_8_0, iter_8_1 in pairs(TravelSkuldItemCfg[arg_8_0.itemid_].unlock) do
-		if iter_8_1 > var_8_1[iter_8_0] then
-			arg_8_0.lock_ = true
+	for slot6, slot7 in pairs(TravelSkuldItemCfg[slot0.itemid_].unlock) do
+		if SkuldTravelData:GetAttrib()[slot6] < slot7 then
+			slot0.lock_ = true
 		end
 
-		if iter_8_1 > 0 then
-			SetActive(arg_8_0["attribtext_" .. var_8_0].gameObject, true)
+		if slot7 > 0 then
+			SetActive(slot0["attribtext_" .. slot1].gameObject, true)
 
-			arg_8_0["attribtext_" .. var_8_0].text = GetTips("TIP_NEED") .. SkuldTravelData:AttribIndexToString(iter_8_0) .. iter_8_1
-			var_8_0 = var_8_0 + 1
+			slot0["attribtext_" .. slot1].text = GetTips("TIP_NEED") .. SkuldTravelData:AttribIndexToString(slot6) .. slot7
+			slot1 = slot1 + 1
 		end
 	end
 
-	for iter_8_2 = var_8_0, 2 do
-		SetActive(arg_8_0["attribtext_" .. iter_8_2].gameObject, false)
+	for slot6 = slot1, 2 do
+		SetActive(slot0["attribtext_" .. slot6].gameObject, false)
 	end
 
-	arg_8_0.islockcontroller_:SetSelectedState(arg_8_0.lock_ and "true" or "false")
+	slot0.islockcontroller_:SetSelectedState(slot0.lock_ and "true" or "false")
 end
 
-function var_0_0.RefreshSelectStatu(arg_9_0, arg_9_1)
-	arg_9_0.selectcontroller_:SetSelectedState(arg_9_1 == arg_9_0.itemid_ and "true" or "false")
+function slot0.RefreshSelectStatu(slot0, slot1)
+	slot0.selectcontroller_:SetSelectedState(slot1 == slot0.itemid_ and "true" or "false")
 end
 
-function var_0_0.Dispose(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.transform_, RedPointConst.TRAVEL_SKULD_TRAVELITEM .. arg_10_0.poltid_)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.TRAVEL_SKULD_TRAVELITEM .. slot0.poltid_)
 
-	arg_10_0.selecthandler_ = nil
+	slot0.selecthandler_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

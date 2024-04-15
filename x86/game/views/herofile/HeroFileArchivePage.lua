@@ -1,215 +1,204 @@
-local var_0_0 = class("HeroFileArchivePage", ReduxView)
+slot0 = class("HeroFileArchivePage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.curHeroID_ = 0
-	arg_3_0.curRecordID_ = 0
-	arg_3_0.linkTabItems_ = {}
-	arg_3_0.curTabIndex_ = 0
-	arg_3_0.curTabLockState_ = {}
-	arg_3_0.voiceCoolDown_ = false
-	arg_3_0.lockController = arg_3_0.lockControllerEx_:GetController("lock")
-	arg_3_0.contentSizeFitter_ = arg_3_0.detailTrs_:GetComponent("ContentSizeFitter")
+	slot0.curHeroID_ = 0
+	slot0.curRecordID_ = 0
+	slot0.linkTabItems_ = {}
+	slot0.curTabIndex_ = 0
+	slot0.curTabLockState_ = {}
+	slot0.voiceCoolDown_ = false
+	slot0.lockController = slot0.lockControllerEx_:GetController("lock")
+	slot0.contentSizeFitter_ = slot0.detailTrs_:GetComponent("ContentSizeFitter")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.CameraEnter(arg_5_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		1,
 		3
 	})
 end
 
-function var_0_0.SwitchTab(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_1 == arg_6_0.curTabIndex_ then
+function slot0.SwitchTab(slot0, slot1, slot2)
+	if slot1 == slot0.curTabIndex_ then
 		return
 	end
 
-	if arg_6_0.linkTabItems_[arg_6_0.curTabIndex_] then
-		arg_6_0.linkTabItems_[arg_6_0.curTabIndex_]:SetSelectState(false)
+	if slot0.linkTabItems_[slot0.curTabIndex_] then
+		slot0.linkTabItems_[slot0.curTabIndex_]:SetSelectState(false)
 	end
 
-	arg_6_0.linkTabItems_[arg_6_1]:SetSelectState(true)
-	arg_6_0.detailTrs_:SetAnchoredPositionY(0)
+	slot0.linkTabItems_[slot1]:SetSelectState(true)
+	slot0.detailTrs_:SetAnchoredPositionY(0)
 
-	arg_6_0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.Unconstrained
-	arg_6_0.contentSizeTimer_ = Timer.New(function()
-		arg_6_0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
+	slot0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.Unconstrained
+	slot0.contentSizeTimer_ = Timer.New(function ()
+		uv0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
 
-		if arg_6_0.contentSizeTimer_ then
-			arg_6_0.contentSizeTimer_:Stop()
+		if uv0.contentSizeTimer_ then
+			uv0.contentSizeTimer_:Stop()
 
-			arg_6_0.contentSizeTimer_ = nil
+			uv0.contentSizeTimer_ = nil
 		end
 	end, 0.2, 1)
 
-	arg_6_0.contentSizeTimer_:Start()
+	slot0.contentSizeTimer_:Start()
 
-	arg_6_0.titleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), arg_6_1)
+	slot0.titleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), slot1)
 
-	if arg_6_0.curTabLockState_[arg_6_1] then
-		arg_6_0.lockController:SetSelectedState("lock")
+	if slot0.curTabLockState_[slot1] then
+		slot0.lockController:SetSelectedState("lock")
 
-		arg_6_0.lockTipsText_.text = string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_LOVE"), arg_6_1)
+		slot0.lockTipsText_.text = string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_LOVE"), slot1)
 	else
-		arg_6_0.lockController:SetSelectedState("unlock")
+		slot0.lockController:SetSelectedState("unlock")
 
-		local var_6_0 = HeroRecordCfg[arg_6_0.curRecordID_]
+		slot0.detailText_.text = HeroRecordCfg[slot0.curRecordID_]["heart_chain" .. slot1]
 
-		arg_6_0.detailText_.text = var_6_0["heart_chain" .. arg_6_1]
-
-		if arg_6_2 then
-			arg_6_0:PlayVoice(arg_6_1)
+		if slot2 then
+			slot0:PlayVoice(slot1)
 		end
 
-		if not ArchiveData:IsHeartRead(arg_6_0.curRecordID_, arg_6_1) then
-			HeroAction.ReadHeartLink(arg_6_0.curRecordID_, arg_6_1)
-			manager.redPoint:setTip(RedPointConst.HERO_HEARTLINK_ID .. arg_6_0.curRecordID_ .. "_" .. arg_6_1, 0)
+		if not ArchiveData:IsHeartRead(slot0.curRecordID_, slot1) then
+			HeroAction.ReadHeartLink(slot0.curRecordID_, slot1)
+			manager.redPoint:setTip(RedPointConst.HERO_HEARTLINK_ID .. slot0.curRecordID_ .. "_" .. slot1, 0)
 		end
 	end
 
-	arg_6_0.curTabIndex_ = arg_6_1
+	slot0.curTabIndex_ = slot1
 end
 
-function var_0_0.Show(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0:UpdateView(arg_8_1, arg_8_2)
-	SetActive(arg_8_0.gameObject_, true)
+function slot0.Show(slot0, slot1, slot2)
+	slot0:UpdateView(slot1, slot2)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.BindRedPoint(arg_9_0, arg_9_1, arg_9_2)
-	manager.redPoint:bindUIandKey(arg_9_1.transform_, RedPointConst.HERO_HEARTLINK_ID .. arg_9_0.curRecordID_ .. "_" .. arg_9_2)
+function slot0.BindRedPoint(slot0, slot1, slot2)
+	manager.redPoint:bindUIandKey(slot1.transform_, RedPointConst.HERO_HEARTLINK_ID .. slot0.curRecordID_ .. "_" .. slot2)
 end
 
-function var_0_0.Hide(arg_10_0)
-	for iter_10_0 = 1, #arg_10_0.linkTabItems_ do
-		manager.redPoint:unbindUIandKey(arg_10_0.linkTabItems_[iter_10_0].transform_)
+function slot0.Hide(slot0)
+	for slot4 = 1, #slot0.linkTabItems_ do
+		manager.redPoint:unbindUIandKey(slot0.linkTabItems_[slot4].transform_)
 	end
 
-	arg_10_0:StopVoice()
+	slot0:StopVoice()
 
-	if arg_10_0.contentSizeTimer_ then
-		arg_10_0.contentSizeTimer_:Stop()
+	if slot0.contentSizeTimer_ then
+		slot0.contentSizeTimer_:Stop()
 
-		arg_10_0.contentSizeTimer_ = nil
+		slot0.contentSizeTimer_ = nil
 	end
 
-	SetActive(arg_10_0.gameObject_, false)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.PlayVoice(arg_11_0, arg_11_1)
-	if arg_11_0.voiceCoolDown_ then
+function slot0.PlayVoice(slot0, slot1)
+	if slot0.voiceCoolDown_ then
 		return
 	end
 
-	arg_11_0.voiceCoolDown_ = true
-
-	local var_11_0 = HeroVoiceCfg.get_id_list_by_file["trust" .. arg_11_1][1]
+	slot0.voiceCoolDown_ = true
 
 	SDKTools.SendMessageToSDK("hero_sound", {
-		hero_id = arg_11_0.curHeroID_,
-		sound_id = var_11_0
+		hero_id = slot0.curHeroID_,
+		sound_id = HeroVoiceCfg.get_id_list_by_file["trust" .. slot1][1]
 	})
-	arg_11_0:StopVoice()
+	slot0:StopVoice()
 
-	arg_11_0.delayPlayTimer_ = Timer.New(function()
+	slot0.delayPlayTimer_ = Timer.New(function ()
 		if manager.audio:IsStoppedOfVoice() then
-			arg_11_0.delayPlayTimer_:Stop()
+			uv0.delayPlayTimer_:Stop()
 
-			arg_11_0.delayPlayTimer_ = nil
+			uv0.delayPlayTimer_ = nil
+			slot0 = uv0.curHeroID_
 
-			local var_12_0 = arg_11_0.curHeroID_
-
-			if HeroVoiceCfg[var_11_0].use_skin_id and HeroVoiceCfg[var_11_0].use_skin_id ~= 0 then
-				var_12_0 = HeroVoiceCfg[var_11_0].use_skin_id
+			if HeroVoiceCfg[uv1].use_skin_id and HeroVoiceCfg[uv1].use_skin_id ~= 0 then
+				slot0 = HeroVoiceCfg[uv1].use_skin_id
 			end
 
-			HeroTools.PlayVoice(var_12_0, HeroVoiceCfg[var_11_0].file, HeroVoiceCfg[var_11_0].type)
+			HeroTools.PlayVoice(slot0, HeroVoiceCfg[uv1].file, HeroVoiceCfg[uv1].type)
 
-			local var_12_1 = HeroTools.GetTalkLength(var_12_0, HeroVoiceCfg[var_11_0].file, HeroVoiceCfg[var_11_0].type)
-			local var_12_2 = math.max(var_12_1, 0.017)
-
-			arg_11_0.timer_ = TimeTools.StartAfterSeconds(var_12_2 / 1000, function()
-				arg_11_0:StopVoice()
+			uv0.timer_ = TimeTools.StartAfterSeconds(math.max(HeroTools.GetTalkLength(slot0, HeroVoiceCfg[uv1].file, HeroVoiceCfg[uv1].type), 0.017) / 1000, function ()
+				uv0:StopVoice()
 			end, {})
 		end
 	end, 0.033, -1)
 
-	arg_11_0.delayPlayTimer_:Start()
+	slot0.delayPlayTimer_:Start()
 end
 
-function var_0_0.UpdateView(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0.curHeroID_ = arg_14_2
-	arg_14_0.curRecordID_ = arg_14_1
+function slot0.UpdateView(slot0, slot1, slot2)
+	slot0.curHeroID_ = slot2
+	slot0.curRecordID_ = slot1
 
-	if #arg_14_0.linkTabItems_ == 0 then
-		for iter_14_0 = 1, HeroConst.HERO_HEARTLINK_STORY_MAX_COUNT do
-			local var_14_0 = Object.Instantiate(arg_14_0.linktabitemGo_, arg_14_0.linktabTrs_)
+	if #slot0.linkTabItems_ == 0 then
+		for slot6 = 1, HeroConst.HERO_HEARTLINK_STORY_MAX_COUNT do
+			slot7 = Object.Instantiate(slot0.linktabitemGo_, slot0.linktabTrs_)
 
-			SetActive(var_14_0, true)
+			SetActive(slot7, true)
 
-			arg_14_0.linkTabItems_[iter_14_0] = HeroFileArchiveTabItem.New(var_14_0, iter_14_0, function()
-				arg_14_0:SwitchTab(iter_14_0, true)
+			slot0.linkTabItems_[slot6] = HeroFileArchiveTabItem.New(slot7, slot6, function ()
+				uv0:SwitchTab(uv1, true)
 			end)
 		end
 	end
 
-	for iter_14_1 = 1, HeroConst.HERO_HEARTLINK_STORY_MAX_COUNT do
-		local var_14_1 = GameSetting.heart_chain_unlock_condition.value[iter_14_1]
-		local var_14_2 = not IsConditionAchieved(var_14_1, {
-			heroId = arg_14_0.curRecordID_
+	for slot6 = 1, HeroConst.HERO_HEARTLINK_STORY_MAX_COUNT do
+		slot8 = not IsConditionAchieved(GameSetting.heart_chain_unlock_condition.value[slot6], {
+			heroId = slot0.curRecordID_
 		})
+		slot0.curTabLockState_[slot6] = slot8
 
-		arg_14_0.curTabLockState_[iter_14_1] = var_14_2
-
-		arg_14_0.linkTabItems_[iter_14_1]:SetLockState(var_14_2)
-		arg_14_0.linkTabItems_[iter_14_1]:SetSelectState(false)
-		arg_14_0:BindRedPoint(arg_14_0.linkTabItems_[iter_14_1], iter_14_1)
+		slot0.linkTabItems_[slot6]:SetLockState(slot8)
+		slot0.linkTabItems_[slot6]:SetSelectState(false)
+		slot0:BindRedPoint(slot0.linkTabItems_[slot6], slot6)
 	end
 
-	arg_14_0.curTabIndex_ = 0
+	slot0.curTabIndex_ = 0
 
-	arg_14_0:SwitchTab(1)
+	slot0:SwitchTab(1)
 end
 
-function var_0_0.StopVoice(arg_16_0)
-	if arg_16_0.delayPlayTimer_ then
-		arg_16_0.delayPlayTimer_:Stop()
+function slot0.StopVoice(slot0)
+	if slot0.delayPlayTimer_ then
+		slot0.delayPlayTimer_:Stop()
 
-		arg_16_0.delayPlayTimer_ = nil
+		slot0.delayPlayTimer_ = nil
 	end
 
 	manager.audio:StopVoiceImmediate()
 
-	if arg_16_0.timer_ then
-		arg_16_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_16_0.timer_ = nil
-		arg_16_0.voiceCoolDown_ = false
+		slot0.timer_ = nil
+		slot0.voiceCoolDown_ = false
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	for iter_17_0 = 1, #arg_17_0.linkTabItems_ do
-		arg_17_0.linkTabItems_[iter_17_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, #slot0.linkTabItems_ do
+		slot0.linkTabItems_[slot4]:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

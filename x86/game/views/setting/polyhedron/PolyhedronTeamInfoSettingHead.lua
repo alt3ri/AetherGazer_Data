@@ -1,96 +1,90 @@
-local var_0_0 = class("PolyhedronTeamInfoSettingHead", ReduxView)
+slot0 = class("PolyhedronTeamInfoSettingHead", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.emptyController = ControllerUtil.GetController(arg_3_0.transform_, "empty")
-	arg_3_0.heroHead = PolyhedronHeroShortHead.New(arg_3_0.m_head)
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.emptyController = ControllerUtil.GetController(slot0.transform_, "empty")
+	slot0.heroHead = PolyhedronHeroShortHead.New(slot0.m_head)
 
-	arg_3_0.heroHead:SetRedPointEnable(false)
+	slot0.heroHead:SetRedPointEnable(false)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.clickFunc then
-			arg_4_0.clickFunc(arg_4_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.id = arg_6_2
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.id = slot2
 
-	local var_6_0 = arg_6_1:GetHeroPolyData(arg_6_2)
-	local var_6_1 = arg_6_1:GetTeamateRebornMaxColdDown()
+	if slot1:GetHeroPolyData(slot2):IsDead() then
+		slot0.stateController:SetSelectedIndex(1)
 
-	if var_6_0:IsDead() then
-		arg_6_0.stateController:SetSelectedIndex(1)
-
-		arg_6_0.m_coldNum.text = var_6_1 - var_6_0.reborn_cold_down
+		slot0.m_coldNum.text = slot1:GetTeamateRebornMaxColdDown() - slot4.reborn_cold_down
 	else
-		arg_6_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 	end
 
-	arg_6_0.heroHead:SetProxy(arg_6_3)
-	arg_6_0.heroHead:SetHeroId(arg_6_2, HeroConst.HERO_DATA_TYPE.POLYHEDRON)
-	arg_6_0.heroHead.lockedController_:SetSelectedState("false")
-	SetActive(arg_6_0.heroHead.noticePos_.gameObject, false)
+	slot0.heroHead:SetProxy(slot3)
+	slot0.heroHead:SetHeroId(slot2, HeroConst.HERO_DATA_TYPE.POLYHEDRON)
+	slot0.heroHead.lockedController_:SetSelectedState("false")
+	SetActive(slot0.heroHead.noticePos_.gameObject, false)
 end
 
-function var_0_0.SetFightData(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.id = arg_7_2
+function slot0.SetFightData(slot0, slot1, slot2, slot3)
+	slot0.id = slot2
+	slot4 = slot1:GetHeroPolyData(slot2)
+	slot5 = slot1:GetTeamateRebornMaxColdDown()
 
-	local var_7_0 = arg_7_1:GetHeroPolyData(arg_7_2)
-	local var_7_1 = arg_7_1:GetTeamateRebornMaxColdDown()
-
-	if arg_7_2 == nil or arg_7_2 == 0 then
-		arg_7_0.emptyController:SetSelectedIndex(1)
+	if slot2 == nil or slot2 == 0 then
+		slot0.emptyController:SetSelectedIndex(1)
 
 		return
 	else
-		arg_7_0.emptyController:SetSelectedIndex(0)
+		slot0.emptyController:SetSelectedIndex(0)
 	end
 
-	arg_7_0.heroHead:SetProxy(arg_7_3)
-	arg_7_0.heroHead:SetHeroId(arg_7_2, HeroConst.HERO_DATA_TYPE.POLYHEDRON)
-	arg_7_0.heroHead.lockedController_:SetSelectedState("false")
-	SetActive(arg_7_0.heroHead.noticePos_.gameObject, false)
+	slot0.heroHead:SetProxy(slot3)
+	slot0.heroHead:SetHeroId(slot2, HeroConst.HERO_DATA_TYPE.POLYHEDRON)
+	slot0.heroHead.lockedController_:SetSelectedState("false")
+	SetActive(slot0.heroHead.noticePos_.gameObject, false)
 
-	if var_7_0:IsDead() then
-		arg_7_0.m_coldNum.text = var_7_1 - var_7_0.reborn_cold_down
+	if slot4:IsDead() then
+		slot0.m_coldNum.text = slot5 - slot4.reborn_cold_down
 
-		arg_7_0.stateController:SetSelectedIndex(4)
-	elseif arg_7_1:GetLeaderHeroId() == arg_7_2 then
-		arg_7_0.stateController:SetSelectedIndex(2)
+		slot0.stateController:SetSelectedIndex(4)
+	elseif slot1:GetLeaderHeroId() == slot2 then
+		slot0.stateController:SetSelectedIndex(2)
 
-		local var_7_2 = PolyhedronData:GetHeroUsingSkinInfo(arg_7_2).id
-
-		arg_7_0.heroHead.headIcon_.sprite = HeroTools.GetHeadSprite(var_7_2)
+		slot0.heroHead.headIcon_.sprite = HeroTools.GetHeadSprite(PolyhedronData:GetHeroUsingSkinInfo(slot2).id)
 	else
-		arg_7_0.stateController:SetSelectedIndex(3)
+		slot0.stateController:SetSelectedIndex(3)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc = arg_8_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.heroHead:Dispose()
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	slot0.heroHead:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

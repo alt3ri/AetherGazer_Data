@@ -1,121 +1,116 @@
-local var_0_0 = class("ActivityHeroEnhanceTalentDetailView", ReduxView)
+slot0 = class("ActivityHeroEnhanceTalentDetailView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.expanded_ = false
-	arg_1_0.selected_ = false
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.expanded_ = false
+	slot0.selected_ = false
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.talentItem_ = ActivityHeroEnhanceTalentItem.New(arg_2_0.curTalentGo_)
-	arg_2_0.talentList_ = {}
+	slot0.talentItem_ = ActivityHeroEnhanceTalentItem.New(slot0.curTalentGo_)
+	slot0.talentList_ = {}
 
-	for iter_2_0 = 1, 3 do
-		local var_2_0 = ActivityHeroEnhanceTalentItem.New(arg_2_0["selTalentGo_" .. iter_2_0])
-
-		table.insert(arg_2_0.talentList_, var_2_0)
+	for slot4 = 1, 3 do
+		table.insert(slot0.talentList_, ActivityHeroEnhanceTalentItem.New(slot0["selTalentGo_" .. slot4]))
 	end
 
-	arg_2_0.lineController_ = arg_2_0.controller_:GetController("line")
+	slot0.lineController_ = slot0.controller_:GetController("line")
 
-	arg_2_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0.talentItem_:SetClickHandler(function(arg_4_0)
-		arg_3_0:OnClickTalent(true, arg_4_0, 0)
+function slot0.AddUIListener(slot0)
+	slot0.talentItem_:SetClickHandler(function (slot0)
+		uv0:OnClickTalent(true, slot0, 0)
 	end)
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.talentList_) do
-		iter_3_1:SetClickHandler(function(arg_5_0)
-			arg_3_0:OnClickTalent(false, arg_5_0, iter_3_0)
+	for slot4, slot5 in ipairs(slot0.talentList_) do
+		slot5:SetClickHandler(function (slot0)
+			uv0:OnClickTalent(false, slot0, uv1)
 		end)
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.cfgId_ = arg_6_1
-	arg_6_0.stage_ = arg_6_2
-	arg_6_0.talentIdList_ = arg_6_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.cfgId_ = slot1
+	slot0.stage_ = slot2
+	slot0.talentIdList_ = slot3
 end
 
-function var_0_0.SetSelected(arg_7_0, arg_7_1)
-	arg_7_0.selected_ = arg_7_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.selected_ = slot1
 end
 
-function var_0_0.SelectIdx(arg_8_0, arg_8_1)
-	arg_8_0.selectIdx_ = arg_8_1
+function slot0.SelectIdx(slot0, slot1)
+	slot0.selectIdx_ = slot1
 
-	arg_8_0:RefreshUI_SelectState()
+	slot0:RefreshUI_SelectState()
 end
 
-function var_0_0.SetClickHandler(arg_9_0, arg_9_1)
-	arg_9_0.onClickTalenCallback_ = arg_9_1
+function slot0.SetClickHandler(slot0, slot1)
+	slot0.onClickTalenCallback_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = ActivityHeroEnhanceCfg[arg_10_0.cfgId_]
-	local var_10_1
-	local var_10_2 = true
-	local var_10_3 = var_10_0.activity_id
+function slot0.RefreshUI(slot0)
+	slot2 = nil
+	slot4 = ActivityHeroEnhanceCfg[slot0.cfgId_].activity_id
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.talentIdList_) do
-		local var_10_4 = ActivityHeroEnhanceData:IsTalentActivated(var_10_3, iter_10_1)
-		local var_10_5 = ActivityHeroEnhanceTools.IsTalentLock(var_10_3, iter_10_1, true)
-		local var_10_6 = arg_10_0.talentList_[iter_10_0]
+	for slot8, slot9 in ipairs(slot0.talentIdList_) do
+		slot11 = ActivityHeroEnhanceTools.IsTalentLock(slot4, slot9, true)
+		slot12 = slot0.talentList_[slot8]
 
-		var_10_6:SetData(var_10_3, iter_10_1)
-		var_10_6:SetUsed(var_10_4)
-		var_10_6:SetSelected(arg_10_0.selectIdx_ == iter_10_0)
-		var_10_6:SetLock(var_10_5)
-		var_10_6:RefreshUI()
-		SetActive(var_10_6.gameObject_, arg_10_0.selected_)
+		slot12:SetData(slot4, slot9)
+		slot12:SetUsed(ActivityHeroEnhanceData:IsTalentActivated(slot4, slot9))
+		slot12:SetSelected(slot0.selectIdx_ == slot8)
+		slot12:SetLock(slot11)
+		slot12:RefreshUI()
+		SetActive(slot12.gameObject_, slot0.selected_)
 
-		var_10_2 = var_10_2 and var_10_5
+		slot3 = true and slot11
 
-		if var_10_4 then
-			var_10_1 = iter_10_1
+		if slot10 then
+			slot2 = slot9
 		end
 	end
 
-	arg_10_0.talentItem_:SetData(var_10_3, var_10_1)
-	arg_10_0.talentItem_:SetSelected(arg_10_0.selected_)
-	arg_10_0.talentItem_:SetLock(var_10_2)
-	arg_10_0.talentItem_:SetFirstAddFlag(ActivityHeroEnhanceTools.IsCfgTalentStageFirstCanAdd(var_10_0, arg_10_0.stage_))
-	arg_10_0.talentItem_:RefreshUI()
-	arg_10_0.lineController_:SetSelectedState(var_10_2 and "weak" or "normal")
+	slot0.talentItem_:SetData(slot4, slot2)
+	slot0.talentItem_:SetSelected(slot0.selected_)
+	slot0.talentItem_:SetLock(slot3)
+	slot0.talentItem_:SetFirstAddFlag(ActivityHeroEnhanceTools.IsCfgTalentStageFirstCanAdd(slot1, slot0.stage_))
+	slot0.talentItem_:RefreshUI()
+	slot0.lineController_:SetSelectedState(slot3 and "weak" or "normal")
 end
 
-function var_0_0.RefreshUI_SelectState(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.talentList_) do
-		iter_11_1:SetSelected(arg_11_0.selectIdx_ == iter_11_0)
-		iter_11_1:RefreshUI()
-		SetActive(iter_11_1.gameObject_, arg_11_0.selected_)
+function slot0.RefreshUI_SelectState(slot0)
+	for slot4, slot5 in ipairs(slot0.talentList_) do
+		slot5:SetSelected(slot0.selectIdx_ == slot4)
+		slot5:RefreshUI()
+		SetActive(slot5.gameObject_, slot0.selected_)
 	end
 
-	arg_11_0.talentItem_:SetSelected(arg_11_0.selected_)
-	arg_11_0.talentItem_:RefreshUI()
+	slot0.talentItem_:SetSelected(slot0.selected_)
+	slot0.talentItem_:RefreshUI()
 end
 
-function var_0_0.OnClickTalent(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if arg_12_0.onClickTalenCallback_ then
-		arg_12_0.onClickTalenCallback_(arg_12_1, arg_12_0.stage_, arg_12_2, arg_12_3)
+function slot0.OnClickTalent(slot0, slot1, slot2, slot3)
+	if slot0.onClickTalenCallback_ then
+		slot0.onClickTalenCallback_(slot1, slot0.stage_, slot2, slot3)
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.talentItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.talentItem_:Dispose()
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.talentList_) do
-		iter_13_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.talentList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

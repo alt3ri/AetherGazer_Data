@@ -1,13 +1,13 @@
-local var_0_0 = class("ReserveHeroPosTemplate")
+slot0 = class("ReserveHeroPosTemplate")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.x = 0
-	arg_1_0.y = 0
+function slot0.Ctor(slot0)
+	slot0.x = 0
+	slot0.y = 0
 end
 
-function var_0_0.UpdateServerData(arg_2_0, arg_2_1)
-	arg_2_0.x = arg_2_1.x
-	arg_2_0.y = arg_2_1.y
+function slot0.UpdateServerData(slot0, slot1)
+	slot0.x = slot1.x
+	slot0.y = slot1.y
 end
 
-return var_0_0
+return slot0

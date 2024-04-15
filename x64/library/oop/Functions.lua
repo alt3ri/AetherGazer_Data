@@ -1,269 +1,247 @@
-local var_0_0 = "Assets/Scripts/LuaScripts/"
+slot0 = "Assets/Scripts/LuaScripts/"
 
-local function var_0_1(arg_1_0)
-	if not string.find(arg_1_0, ".") then
-		arg_1_0 = arg_1_0 .. ".lua"
+function slot1(slot0)
+	if not string.find(slot0, ".") then
+		slot0 = slot0 .. ".lua"
 	end
 
-	return var_0_0 .. arg_1_0
+	return uv0 .. slot0
 end
 
-function dump_stack(arg_2_0)
-	local var_2_0 = string.format("[%s:%s:%d]", arg_2_0.short_src, arg_2_0.name or "?", arg_2_0.currentline)
-	local var_2_1 = string.format("<a href=\"%s\" line=\"%d\">", var_0_1(arg_2_0.short_src), arg_2_0.currentline)
-	local var_2_2 = "</a>"
-
-	return string.format("%s%s%s", var_2_1, var_2_0, var_2_2)
+function dump_stack(slot0)
+	return string.format("%s%s%s", string.format("<a href=\"%s\" line=\"%d\">", uv0(slot0.short_src), slot0.currentline), string.format("[%s:%s:%d]", slot0.short_src, slot0.name or "?", slot0.currentline), "</a>")
 end
 
-function dump_msg(arg_3_0, arg_3_1)
-	return string.format("%s: %s", dump_stack(arg_3_0), arg_3_1)
+function dump_msg(slot0, slot1)
+	return string.format("%s: %s", dump_stack(slot0), slot1)
 end
 
-function nullable(arg_4_0, ...)
-	local var_4_0 = {
-		...
-	}
+function nullable(slot0, ...)
+	slot5 = "#"
 
-	for iter_4_0 = 1, select("#", ...) do
-		local var_4_1 = var_4_0[iter_4_0]
+	for slot5 = 1, select(slot5, ...) do
+		slot6 = ({
+			...
+		})[slot5]
 
-		if arg_4_0 == nil or var_4_1 == nil then
+		if slot0 == nil or slot6 == nil then
 			return nil
 		end
 
-		arg_4_0 = arg_4_0[var_4_1]
+		slot0 = slot0[slot6]
 	end
 
-	return arg_4_0
+	return slot0
 end
 
 if nullable(debugger, "enabled") then
-	local function var_0_2(arg_5_0, arg_5_1, arg_5_2)
-		arg_5_0 = arg_5_0 .. "\nstack traceback:"
+	function slot2(slot0, slot1, slot2)
+		slot0 = slot0 .. "\nstack traceback:"
 
-		for iter_5_0 = 1, arg_5_2 do
-			local var_5_0 = debug.getinfo(arg_5_1 + iter_5_0 + 1)
-
-			if var_5_0 == nil then
+		for slot6 = 1, slot2 do
+			if debug.getinfo(slot1 + slot6 + 1) == nil then
 				break
 			end
 
-			arg_5_0 = arg_5_0 .. "\n\t" .. dump_stack(var_5_0)
+			slot0 = slot0 .. "\n\t" .. dump_stack(slot7)
 		end
 
-		if debug.getinfo(arg_5_1 + arg_5_2 + 2) then
-			arg_5_0 = arg_5_0 .. "\n\t..."
+		if debug.getinfo(slot1 + slot2 + 2) then
+			slot0 = slot0 .. "\n\t..."
 		end
 
-		return arg_5_0
+		return slot0
 	end
 
-	local var_0_3 = 3
+	slot3 = 3
 
-	function print(arg_6_0, ...)
-		local var_6_0 = {
+	function print(slot0, ...)
+		for slot6 = 1, #{
 			...
-		}
-		local var_6_1 = tostring(arg_6_0)
-
-		for iter_6_0 = 1, #var_6_0 do
-			var_6_1 = var_6_1 .. "    " .. tostring(var_6_0[iter_6_0])
+		} do
+			slot2 = tostring(slot0) .. "    " .. tostring(slot1[slot6])
 		end
 
-		local var_6_2 = 2
-		local var_6_3 = dump_msg(debug.getinfo(var_6_2), var_6_1)
+		slot3 = 2
 
-		Debug.Log(var_0_2(var_6_3, var_6_2, var_0_3))
+		Debug.Log(uv0(dump_msg(debug.getinfo(slot3), slot2), slot3, uv1))
 	end
 
-	function printf(arg_7_0, ...)
-		local var_7_0 = 2
-		local var_7_1 = dump_msg(debug.getinfo(var_7_0), string.format(arg_7_0, ...))
+	function printf(slot0, ...)
+		slot1 = 2
 
-		Debug.Log(var_0_2(var_7_1, var_7_0, var_0_3))
+		Debug.Log(uv0(dump_msg(debug.getinfo(slot1), string.format(slot0, ...)), slot1, uv1))
 	end
 else
-	function printf(arg_8_0, ...)
-		print(string.format(arg_8_0, ...))
+	function printf(slot0, ...)
+		print(string.format(slot0, ...))
 	end
 end
 
-function AssureTable(arg_9_0)
-	if type(arg_9_0) ~= "table" then
-		arg_9_0 = {}
+function AssureTable(slot0)
+	if type(slot0) ~= "table" then
+		slot0 = {}
 	end
 
-	return arg_9_0
+	return slot0
 end
 
-function checknumber(arg_10_0, arg_10_1)
-	return tonumber(arg_10_0, arg_10_1) or 0
+function checknumber(slot0, slot1)
+	return tonumber(slot0, slot1) or 0
 end
 
-function math.round(arg_11_0)
-	arg_11_0 = checknumber(arg_11_0)
-
-	return math.floor(arg_11_0 + 0.5)
+function math.round(slot0)
+	return math.floor(checknumber(slot0) + 0.5)
 end
 
-function checkint(arg_12_0)
-	return math.round(checknumber(arg_12_0))
+function checkint(slot0)
+	return math.round(checknumber(slot0))
 end
 
-function checkbool(arg_13_0)
-	return arg_13_0 ~= nil and arg_13_0 ~= false
+function checkbool(slot0)
+	return slot0 ~= nil and slot0 ~= false
 end
 
-function checktable(arg_14_0)
-	if type(arg_14_0) ~= "table" then
-		arg_14_0 = {}
+function checktable(slot0)
+	if type(slot0) ~= "table" then
+		slot0 = {}
 	end
 
-	return arg_14_0
+	return slot0
 end
 
-function table.nums(arg_15_0)
-	local var_15_0 = 0
-
-	for iter_15_0, iter_15_1 in pairs(arg_15_0) do
-		var_15_0 = var_15_0 + 1
+function table.nums(slot0)
+	for slot5, slot6 in pairs(slot0) do
+		slot1 = 0 + 1
 	end
 
-	return var_15_0
+	return slot1
 end
 
-function table.keys(arg_16_0)
-	local var_16_0 = {}
+function table.keys(slot0)
+	slot1 = {}
 
-	for iter_16_0, iter_16_1 in pairs(arg_16_0) do
-		var_16_0[#var_16_0 + 1] = iter_16_0
+	for slot5, slot6 in pairs(slot0) do
+		slot1[#slot1 + 1] = slot5
 	end
 
-	return var_16_0
+	return slot1
 end
 
-function table.indexof(arg_17_0, arg_17_1, arg_17_2)
-	for iter_17_0 = arg_17_2 or 1, #arg_17_0 do
-		if arg_17_0[iter_17_0] == arg_17_1 then
-			return iter_17_0
+function table.indexof(slot0, slot1, slot2)
+	for slot6 = slot2 or 1, #slot0 do
+		if slot0[slot6] == slot1 then
+			return slot6
 		end
 	end
 
 	return false
 end
 
-function table.keyof(arg_18_0, arg_18_1)
-	if type(arg_18_0) ~= "table" then
+function table.keyof(slot0, slot1)
+	if type(slot0) ~= "table" then
 		return nil
 	end
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0) do
-		if iter_18_1 == arg_18_1 then
-			return iter_18_0
+	for slot5, slot6 in pairs(slot0) do
+		if slot6 == slot1 then
+			return slot5
 		end
 	end
 
 	return nil
 end
 
-function table.removebyvalue(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = 0
-	local var_19_1 = 1
-	local var_19_2 = #arg_19_0
+function table.removebyvalue(slot0, slot1, slot2)
+	slot3 = 0
+	slot4 = 1
 
-	while var_19_1 <= var_19_2 do
-		if arg_19_0[var_19_1] == arg_19_1 then
-			table.remove(arg_19_0, var_19_1)
+	while slot4 <= #slot0 do
+		if slot0[slot4] == slot1 then
+			table.remove(slot0, slot4)
 
-			var_19_0 = var_19_0 + 1
-			var_19_1 = var_19_1 - 1
-			var_19_2 = var_19_2 - 1
+			slot3 = slot3 + 1
+			slot4 = slot4 - 1
+			slot5 = slot5 - 1
 
-			if not arg_19_2 then
+			if not slot2 then
 				break
 			end
 		end
 
-		var_19_1 = var_19_1 + 1
+		slot4 = slot4 + 1
 	end
 
-	return var_19_0
+	return slot3
 end
 
-function table.clean(arg_20_0)
-	for iter_20_0 = #arg_20_0, 1, -1 do
-		table.remove(arg_20_0, iter_20_0)
-	end
-end
-
-function table.insertto(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_2 = checkint(arg_21_2)
-
-	if arg_21_2 <= 0 then
-		arg_21_2 = #arg_21_0 + 1
-	end
-
-	local var_21_0 = #arg_21_1
-
-	for iter_21_0 = 0, var_21_0 - 1 do
-		arg_21_0[iter_21_0 + arg_21_2] = arg_21_1[iter_21_0 + 1]
+function table.clean(slot0)
+	for slot4 = #slot0, 1, -1 do
+		table.remove(slot0, slot4)
 	end
 end
 
-function table.merge(arg_22_0, arg_22_1)
-	for iter_22_0, iter_22_1 in pairs(arg_22_1) do
-		arg_22_0[iter_22_0] = iter_22_1
+function table.insertto(slot0, slot1, slot2)
+	if checkint(slot2) <= 0 then
+		slot2 = #slot0 + 1
+	end
+
+	for slot7 = 0, #slot1 - 1 do
+		slot0[slot7 + slot2] = slot1[slot7 + 1]
 	end
 end
 
-function table.length(arg_23_0)
-	local var_23_0 = 0
-
-	for iter_23_0, iter_23_1 in pairs(arg_23_0 or {}) do
-		var_23_0 = var_23_0 + 1
+function table.merge(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		slot0[slot5] = slot6
 	end
-
-	return var_23_0
 end
 
-function table.mergeinsert(arg_24_0, arg_24_1)
-	for iter_24_0, iter_24_1 in pairs(arg_24_1) do
-		if not table.keyof(arg_24_0, iter_24_1) then
-			table.insert(arg_24_0, table.nums(arg_24_0) + 1, iter_24_1)
+function table.length(slot0)
+	for slot5, slot6 in pairs(slot0 or {}) do
+		slot1 = 0 + 1
+	end
+
+	return slot1
+end
+
+function table.mergeinsert(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		if not table.keyof(slot0, slot6) then
+			table.insert(slot0, table.nums(slot0) + 1, slot6)
 		end
 	end
 
-	return arg_24_0
+	return slot0
 end
 
-function table.deepMerge(arg_25_0, arg_25_1)
-	if type(arg_25_1) == "table" then
-		for iter_25_0, iter_25_1 in pairs(arg_25_1) do
-			if arg_25_0[iter_25_0] then
-				table.deepMerge(arg_25_0[iter_25_0], iter_25_1)
+function table.deepMerge(slot0, slot1)
+	if type(slot1) == "table" then
+		for slot5, slot6 in pairs(slot1) do
+			if slot0[slot5] then
+				table.deepMerge(slot0[slot5], slot6)
 			else
-				arg_25_0[iter_25_0] = iter_25_1
+				slot0[slot5] = slot6
 			end
 		end
 	end
 end
 
-function table.equal(arg_26_0, arg_26_1, arg_26_2)
-	if arg_26_0 == nil or arg_26_1 == nil or table.length(arg_26_0) ~= table.length(arg_26_1) or type(arg_26_0) ~= type(arg_26_1) then
+function table.equal(slot0, slot1, slot2)
+	if slot0 == nil or slot1 == nil or table.length(slot0) ~= table.length(slot1) or type(slot0) ~= type(slot1) then
 		return false
 	end
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0) do
-		if type(iter_26_1) == "table" then
-			if arg_26_2 == "all" or table.indexof(arg_26_2, iter_26_0) then
-				if not table.equal(iter_26_1, arg_26_1[iter_26_0], "all") then
+	for slot6, slot7 in pairs(slot0) do
+		if type(slot7) == "table" then
+			if slot2 == "all" or table.indexof(slot2, slot6) then
+				if not table.equal(slot7, slot1[slot6], "all") then
 					return false
 				end
-			elseif not table.equal(iter_26_1, arg_26_1[iter_26_0], arg_26_2) then
+			elseif not table.equal(slot7, slot1[slot6], slot2) then
 				return false
 			end
-		elseif (arg_26_2 == "all" or table.indexof(arg_26_2, iter_26_0)) and iter_26_1 ~= arg_26_1[iter_26_0] then
+		elseif (slot2 == "all" or table.indexof(slot2, slot6)) and slot7 ~= slot1[slot6] then
 			return false
 		end
 	end
@@ -271,184 +249,166 @@ function table.equal(arg_26_0, arg_26_1, arg_26_2)
 	return true
 end
 
-function string.split(arg_27_0, arg_27_1)
-	arg_27_0 = tostring(arg_27_0)
-	arg_27_1 = tostring(arg_27_1)
+function string.split(slot0, slot1)
+	slot0 = tostring(slot0)
 
-	if arg_27_1 == "" then
+	if tostring(slot1) == "" then
 		return false
 	end
 
-	local var_27_0 = 0
-	local var_27_1 = {}
+	slot3 = {}
 
-	for iter_27_0, iter_27_1 in function()
-		return string.find(arg_27_0, arg_27_1, var_27_0, true)
-	end do
-		table.insert(var_27_1, string.sub(arg_27_0, var_27_0, iter_27_0 - 1))
+	for slot7, slot8 in function ()
+		return string.find(uv0, uv1, uv2, true)
+	end, nil,  do
+		table.insert(slot3, string.sub(slot0, 0, slot7 - 1))
 
-		var_27_0 = iter_27_1 + 1
+		slot2 = slot8 + 1
 	end
 
-	table.insert(var_27_1, string.sub(arg_27_0, var_27_0))
+	table.insert(slot3, string.sub(slot0, slot2))
 
-	return var_27_1
+	return slot3
 end
 
-function string.ltrim(arg_29_0)
-	return string.gsub(arg_29_0, "^[ \t\n\r]+", "")
+function string.ltrim(slot0)
+	return string.gsub(slot0, "^[ \t\n\r]+", "")
 end
 
-function string.rtrim(arg_30_0)
-	return string.gsub(arg_30_0, "[ \t\n\r]+$", "")
+function string.rtrim(slot0)
+	return string.gsub(slot0, "[ \t\n\r]+$", "")
 end
 
-function string.trim(arg_31_0)
-	arg_31_0 = string.gsub(arg_31_0, "^[ \t\n\r]+", "")
-
-	return string.gsub(arg_31_0, "[ \t\n\r]+$", "")
+function string.trim(slot0)
+	return string.gsub(string.gsub(slot0, "^[ \t\n\r]+", ""), "[ \t\n\r]+$", "")
 end
 
-function string.ucfirst(arg_32_0)
-	return string.upper(string.sub(arg_32_0, 1, 1)) .. string.sub(arg_32_0, 2)
+function string.ucfirst(slot0)
+	return string.upper(string.sub(slot0, 1, 1)) .. string.sub(slot0, 2)
 end
 
-local function var_0_4(arg_33_0)
-	return "%" .. string.format("%02X", string.byte(arg_33_0))
+function slot2(slot0)
+	return "%" .. string.format("%02X", string.byte(slot0))
 end
 
-function handler(arg_34_0, arg_34_1)
-	return function(...)
-		return arg_34_1(arg_34_0, ...)
+function handler(slot0, slot1)
+	return function (...)
+		return uv0(uv1, ...)
 	end
 end
 
-function handlerArg(arg_36_0, arg_36_1, arg_36_2)
-	return function(...)
-		return arg_36_1(arg_36_0, unpack(arg_36_2), ...)
+function handlerArg(slot0, slot1, slot2)
+	return function (...)
+		return uv0(uv1, unpack(uv2), ...)
 	end
 end
 
-function handlerArg1(arg_38_0, arg_38_1, arg_38_2)
-	return function(...)
-		return arg_38_1(arg_38_0, arg_38_2, ...)
+function handlerArg1(slot0, slot1, slot2)
+	return function (...)
+		return uv0(uv1, uv2, ...)
 	end
 end
 
-function handler1layer(arg_40_0, arg_40_1)
-	return function(arg_41_0, ...)
-		return arg_40_1(arg_40_0, ...)
+function handler1layer(slot0, slot1)
+	return function (slot0, ...)
+		return uv0(uv1, ...)
 	end
 end
 
-function handler2layer(arg_42_0, arg_42_1, arg_42_2)
-	return function(arg_43_0, ...)
-		local var_43_0 = arg_42_1(arg_42_0)
-
-		if var_43_0 then
-			return var_43_0[arg_42_2](var_43_0, ...)
+function handler2layer(slot0, slot1, slot2)
+	return function (slot0, ...)
+		if uv0(uv1) then
+			return slot1[uv2](slot1, ...)
 		end
 	end
 end
 
-function handler2layerArg1(arg_44_0, arg_44_1, arg_44_2)
-	return function(arg_45_0, ...)
-		local var_45_0 = {
+function handler2layerArg1(slot0, slot1, slot2)
+	return function (slot0, ...)
+		if uv0(uv1, table.remove({
 			...
-		}
-		local var_45_1 = table.remove(var_45_0, 1)
-		local var_45_2 = arg_44_1(arg_44_0, var_45_1)
-
-		if var_45_2 then
-			return var_45_2[arg_44_2](var_45_2, unpack(var_45_0))
+		}, 1)) then
+			return slot3[uv2](slot3, unpack(slot1))
 		end
 	end
 end
 
-function config2dev(arg_46_0)
-	local var_46_0 = {}
-
-	for iter_46_0, iter_46_1 in pairs(arg_46_0) do
-		var_46_0[iter_46_0 .. "_"] = iter_46_1
+function config2dev(slot0)
+	for slot5, slot6 in pairs(slot0) do
+		-- Nothing
 	end
 
-	return var_46_0
+	return {
+		[slot5 .. "_"] = slot6
+	}
 end
 
-local var_0_5 = print
-local var_0_6 = table.concat
-local var_0_7 = table.insert
-local var_0_8 = string.rep
-local var_0_9 = type
-local var_0_10 = pairs
-local var_0_11 = tostring
-local var_0_12 = next
+slot3 = print
+slot4 = table.concat
+slot5 = table.insert
+slot6 = string.rep
+slot7 = type
+slot8 = pairs
+slot9 = tostring
+slot10 = next
 
-function print_r(arg_47_0)
-	if var_0_9(arg_47_0) ~= "table" then
+function print_r(slot0)
+	if uv0(slot0) ~= "table" then
 		return
 	end
 
-	local var_47_0 = {
-		[arg_47_0] = "."
+	slot1 = {
+		[slot0] = "."
 	}
 
-	local function var_47_1(arg_48_0, arg_48_1, arg_48_2)
-		local var_48_0 = {}
+	uv7(function (slot0, slot1, slot2)
+		slot3 = {}
 
-		for iter_48_0, iter_48_1 in var_0_10(arg_48_0) do
-			local var_48_1 = var_0_11(iter_48_0)
+		for slot7, slot8 in uv0(slot0) do
+			if uv2[slot8] then
+				uv3(slot3, "+" .. uv1(slot7) .. " {" .. uv2[slot8] .. "}")
+			elseif uv4(slot8) == "table" then
+				uv2[slot8] = slot2 .. "." .. slot9
 
-			if var_47_0[iter_48_1] then
-				var_0_7(var_48_0, "+" .. var_48_1 .. " {" .. var_47_0[iter_48_1] .. "}")
-			elseif var_0_9(iter_48_1) == "table" then
-				local var_48_2 = arg_48_2 .. "." .. var_48_1
-
-				var_47_0[iter_48_1] = var_48_2
-
-				var_0_7(var_48_0, "+" .. var_48_1 .. var_47_1(iter_48_1, arg_48_1 .. (var_0_12(arg_48_0, iter_48_0) and "|" or " ") .. var_0_8(" ", #var_48_1), var_48_2))
+				uv3(slot3, "+" .. slot9 .. uv5(slot8, slot1 .. (uv6(slot0, slot7) and "|" or " ") .. uv7(" ", #slot9), slot10))
 			else
-				var_0_7(var_48_0, "+" .. var_48_1 .. " [" .. var_0_11(iter_48_1) .. "]")
+				uv3(slot3, "+" .. slot9 .. " [" .. uv1(slot8) .. "]")
 			end
 		end
 
-		return var_0_6(var_48_0, "\n" .. arg_48_1)
-	end
-
-	var_0_5(var_47_1(arg_47_0, "", ""))
+		return uv8(slot3, "\n" .. slot1)
+	end(slot0, "", ""))
 end
 
-function string.firstToUpper(arg_49_0)
-	local var_49_0 = string.sub(arg_49_0, 1, 1)
-
-	return string.upper(var_49_0) .. string.sub(arg_49_0, 2)
+function string.firstToUpper(slot0)
+	return string.upper(string.sub(slot0, 1, 1)) .. string.sub(slot0, 2)
 end
 
-function table.GetFirstElem(arg_50_0)
-	for iter_50_0, iter_50_1 in var_0_10(arg_50_0) do
-		return iter_50_1
+function table.GetFirstElem(slot0)
+	for slot4, slot5 in uv0(slot0) do
+		return slot5
 	end
 end
 
-function table.GetElemByIndex(arg_51_0, arg_51_1)
-	if var_0_9(arg_51_0) == "table" then
-		local var_51_0 = 1
+function table.GetElemByIndex(slot0, slot1)
+	if uv0(slot0) == "table" then
+		slot2 = 1
 
-		for iter_51_0, iter_51_1 in var_0_10(arg_51_0) do
-			if var_51_0 == arg_51_1 then
-				return iter_51_1
+		for slot6, slot7 in uv1(slot0) do
+			if slot2 == slot1 then
+				return slot7
 			end
 
-			var_51_0 = var_51_0 + 1
+			slot2 = slot2 + 1
 		end
 	end
 
 	return nil
 end
 
-function table.isEmpty(arg_52_0)
-	if var_0_9(arg_52_0) == "table" then
-		for iter_52_0, iter_52_1 in var_0_10(arg_52_0) do
+function table.isEmpty(slot0)
+	if uv0(slot0) == "table" then
+		for slot4, slot5 in uv1(slot0) do
 			return false
 		end
 	end
@@ -456,110 +416,68 @@ function table.isEmpty(arg_52_0)
 	return true
 end
 
-function table.dup(arg_53_0)
-	if var_0_9(arg_53_0) ~= "table" then
+function table.dup(slot0)
+	if uv0(slot0) ~= "table" then
 		return {}
 	end
 
-	local var_53_0 = {}
+	slot1 = {}
 
-	table.merge(var_53_0, arg_53_0)
+	table.merge(slot1, slot0)
 
-	return var_53_0
+	return slot1
 end
 
-function table.toString(arg_54_0)
-	if var_0_9(arg_54_0) ~= "table" then
+function table.toString(slot0)
+	if uv0(slot0) ~= "table" then
 		return "{}"
 	end
 
-	local function var_54_0(arg_55_0)
-		local var_55_0 = ""
+	if string.sub(function (slot0)
+		slot1 = ""
 
-		for iter_55_0, iter_55_1 in var_0_10(arg_55_0) do
-			if var_0_9(iter_55_1) == "table" then
-				if var_0_9(iter_55_0) ~= "number" then
-					var_55_0 = var_55_0 .. var_0_11(iter_55_0) .. "="
-				end
-
-				var_55_0 = var_55_0 .. "{" .. var_54_0(iter_55_1) .. "},"
-			else
-				if var_0_9(iter_55_0) ~= "number" then
-					var_55_0 = var_55_0 .. var_0_11(iter_55_0) .. "="
-				end
-
-				if var_0_9(iter_55_1) == "string" then
-					var_55_0 = var_55_0 .. "\"" .. var_0_11(iter_55_1) .. "\","
-				else
-					var_55_0 = var_55_0 .. var_0_11(iter_55_1) .. ","
-				end
-			end
+		for slot5, slot6 in uv0(slot0) do
+			slot1 = uv1(slot6) == "table" and slot1 .. uv2(slot5) .. "=" .. "{" .. uv3(slot6) .. "}," or uv1(slot6) == "string" and slot1 .. uv2(slot5) .. "=" .. "{" .. uv3(slot6) .. "}," .. uv2(slot5) .. "=" .. "\"" .. uv2(slot6) .. "\"," or slot1 .. uv2(slot6) .. ","
 		end
 
-		return var_55_0
+		return slot1
+	end(slot0), -1, -1) == "," then
+		slot2 = string.sub(slot2, 1, -2)
 	end
 
-	local var_54_1 = var_54_0(arg_54_0)
-
-	if string.sub(var_54_1, -1, -1) == "," then
-		var_54_1 = string.sub(var_54_1, 1, -2)
-	end
-
-	return "{" .. var_54_1 .. "}"
+	return "{" .. slot2 .. "}"
 end
 
-function table.toStringLimitDepth(arg_56_0, arg_56_1)
-	if var_0_9(arg_56_0) ~= "table" then
+function table.toStringLimitDepth(slot0, slot1)
+	if uv0(slot0) ~= "table" then
 		return "{}"
 	end
 
-	local var_56_0 = 0
+	slot2 = 0
 
-	local function var_56_1(arg_57_0)
-		var_56_0 = var_56_0 + 1
+	return "{" .. function (slot0)
+		uv0 = uv0 + 1
 
-		if var_56_0 > arg_56_1 then
-			return "\"表格深度大于" .. arg_56_1 .. "\","
+		if uv1 < uv0 then
+			return "\"表格深度大于" .. uv1 .. "\","
 		end
 
-		local var_57_0 = ""
+		slot1 = ""
 
-		for iter_57_0, iter_57_1 in var_0_10(arg_57_0) do
-			if var_0_9(iter_57_1) == "table" then
-				if var_0_9(iter_57_0) ~= "number" then
-					var_57_0 = var_57_0 .. var_0_11(iter_57_0) .. "="
-				end
-
-				var_57_0 = var_57_0 .. "{" .. var_56_1(iter_57_1) .. "},"
-			else
-				if var_0_9(iter_57_0) ~= "number" then
-					var_57_0 = var_57_0 .. var_0_11(iter_57_0) .. "="
-				end
-
-				if var_0_9(iter_57_1) == "string" then
-					var_57_0 = var_57_0 .. "\"" .. var_0_11(iter_57_1) .. "\","
-				else
-					var_57_0 = var_57_0 .. var_0_11(iter_57_1) .. ","
-				end
-			end
+		for slot5, slot6 in uv2(slot0) do
+			slot1 = uv3(slot6) == "table" and slot1 .. uv4(slot5) .. "=" .. "{" .. uv5(slot6) .. "}," or uv3(slot6) == "string" and slot1 .. uv4(slot5) .. "=" .. "{" .. uv5(slot6) .. "}," .. uv4(slot5) .. "=" .. "\"" .. uv4(slot6) .. "\"," or slot1 .. uv4(slot6) .. ","
 		end
 
-		return var_57_0
-	end
-
-	return "{" .. var_56_1(arg_56_0) .. "}"
+		return slot1
+	end(slot0) .. "}"
 end
 
-local function var_0_13(arg_58_0, arg_58_1)
-	arg_58_1 = arg_58_1 - 1
-
-	local var_58_0 = arg_58_0[arg_58_1]
-
-	if var_58_0 then
-		return arg_58_1, var_58_0
+function slot11(slot0, slot1)
+	if slot0[slot1 - 1] then
+		return slot1, slot2
 	end
 end
 
-function r_ipairs(arg_59_0)
-	return var_0_13, arg_59_0, #arg_59_0 + 1
+function r_ipairs(slot0)
+	return uv0, slot0, #slot0 + 1
 end

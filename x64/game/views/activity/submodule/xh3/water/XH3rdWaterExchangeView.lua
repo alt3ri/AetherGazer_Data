@@ -1,92 +1,88 @@
-local var_0_0 = class("XH3rdWaterExchangeView", ReduxView)
+slot0 = class("XH3rdWaterExchangeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdWaterparkUI/XH3rdWPPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.uilistGo_, XH3rdWaterExchangeItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uilistGo_, XH3rdWaterExchangeItemView)
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.taskIdList_[arg_6_1]
-
-	arg_6_2:SetData(var_6_0, arg_6_0.params_.activityID)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskIdList_[slot1], slot0.params_.activityID)
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	arg_9_0:RegistEventListener(ACTIVITY_WATER_SELF_ASSISTANT_REWARD_UPDATE, function()
-		arg_9_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(ACTIVITY_WATER_SELF_ASSISTANT_REWARD_UPDATE, function ()
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.OnWaterResult(arg_11_0, arg_11_1)
+function slot0.OnWaterResult(slot0, slot1)
 	JumpTools.OpenPageByJump("/xH3rdWaterResult", {
-		activityID = arg_11_1
+		activityID = slot1
 	})
 end
 
-function var_0_0.OnTop(arg_12_0)
-	arg_12_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_13_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_14_0)
-	arg_14_0:ShowDefaultBar()
+function slot0.UpdateBar(slot0)
+	slot0:ShowDefaultBar()
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:AddEventListeners()
-	arg_15_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateView(arg_17_0)
-	arg_17_0.taskIdList_ = ActivityPointRewardCfg.get_id_list_by_activity_id[arg_17_0.params_.activityID]
+function slot0.UpdateView(slot0)
+	slot0.taskIdList_ = ActivityPointRewardCfg.get_id_list_by_activity_id[slot0.params_.activityID]
 
-	arg_17_0.uiList_:StartScroll(#arg_17_0.taskIdList_)
+	slot0.uiList_:StartScroll(#slot0.taskIdList_)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_18_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_19_0)
-	if arg_19_0.uiList_ then
-		arg_19_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_19_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_19_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

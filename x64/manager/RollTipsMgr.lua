@@ -1,92 +1,92 @@
-local var_0_0 = singletonClass("RollTipsMgr")
+slot0 = singletonClass("RollTipsMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.viewGo_ = nil
-	arg_1_0.viewLua_ = nil
-	arg_1_0.cachePop_ = false
+function slot0.Ctor(slot0)
+	slot0.viewGo_ = nil
+	slot0.viewLua_ = nil
+	slot0.cachePop_ = false
 end
 
-function var_0_0.CreatTips(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_0.viewGo_ == nil then
-		arg_2_0.viewGo_ = Object.Instantiate(Asset.Load("UI/BulletinBoardTips"), manager.ui.dontDestroyCanvas.transform)
-		arg_2_0.viewLua_ = RollTipsView.New(arg_2_0.viewGo_)
+function slot0.CreatTips(slot0, slot1, slot2)
+	if slot0.viewGo_ == nil then
+		slot0.viewGo_ = Object.Instantiate(Asset.Load("UI/BulletinBoardTips"), manager.ui.dontDestroyCanvas.transform)
+		slot0.viewLua_ = RollTipsView.New(slot0.viewGo_)
 
-		arg_2_0.viewLua_:Play(arg_2_1)
+		slot0.viewLua_:Play(slot1)
 	else
-		SetActive(arg_2_0.viewGo_, true)
-		arg_2_0.viewLua_:Play(arg_2_1)
+		SetActive(slot0.viewGo_, true)
+		slot0.viewLua_:Play(slot1)
 	end
 end
 
-function var_0_0.CreateTimer(arg_3_0)
-	if arg_3_0.timer_ == nil then
-		arg_3_0.timer_ = Timer.New(function()
-			local var_4_0, var_4_1 = BulletinData.GetCurCacheStringAndID()
+function slot0.CreateTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			slot0, slot1 = BulletinData.GetCurCacheStringAndID()
 
-			arg_3_0:CountTipsAndCreateWithoutTimer(var_4_0, var_4_1)
+			uv0:CountTipsAndCreateWithoutTimer(slot0, slot1)
 		end, 300, 2)
 
-		arg_3_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_5_0)
-	if arg_5_0.timer_ then
-		arg_5_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_5_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.SetCachePop(arg_6_0, arg_6_1)
-	arg_6_0.cachePop_ = arg_6_1
+function slot0.SetCachePop(slot0, slot1)
+	slot0.cachePop_ = slot1
 end
 
-function var_0_0.OnLogout(arg_7_0)
-	arg_7_0:StopTimer()
-	arg_7_0:Dispose()
+function slot0.OnLogout(slot0)
+	slot0:StopTimer()
+	slot0:Dispose()
 end
 
-function var_0_0.CountTipsAndCreate(arg_8_0, arg_8_1, arg_8_2)
-	if BulletinData.GetCacheStringIsShowByID(arg_8_2) == false then
-		arg_8_0:CreatTips(arg_8_1, arg_8_2)
-		BulletinData.SetCacheStringIsShowByID(arg_8_2)
-		arg_8_0:CreateTimer()
+function slot0.CountTipsAndCreate(slot0, slot1, slot2)
+	if BulletinData.GetCacheStringIsShowByID(slot2) == false then
+		slot0:CreatTips(slot1, slot2)
+		BulletinData.SetCacheStringIsShowByID(slot2)
+		slot0:CreateTimer()
 	end
 end
 
-function var_0_0.CountTipsAndCreateWithoutTimer(arg_9_0, arg_9_1, arg_9_2)
-	if BulletinData.GetCacheStringIsShowByID(arg_9_2) == false then
-		arg_9_0:CreatTips(arg_9_1, arg_9_2)
-		BulletinData.SetCacheStringIsShowByID(arg_9_2)
+function slot0.CountTipsAndCreateWithoutTimer(slot0, slot1, slot2)
+	if BulletinData.GetCacheStringIsShowByID(slot2) == false then
+		slot0:CreatTips(slot1, slot2)
+		BulletinData.SetCacheStringIsShowByID(slot2)
 	end
 end
 
-function var_0_0.TryToCreatTips(arg_10_0)
-	if arg_10_0.cachePop_ == true and BulletinData.GetIslogin() then
-		local var_10_0, var_10_1 = BulletinData.GetCurCacheStringAndID()
+function slot0.TryToCreatTips(slot0)
+	if slot0.cachePop_ == true and BulletinData.GetIslogin() then
+		slot1, slot2 = BulletinData.GetCurCacheStringAndID()
 
-		if var_10_0 then
-			arg_10_0:SetCachePop(false)
-			arg_10_0:CountTipsAndCreate(var_10_0, var_10_1)
+		if slot1 then
+			slot0:SetCachePop(false)
+			slot0:CountTipsAndCreate(slot1, slot2)
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.cachePop_ = false
+function slot0.Dispose(slot0)
+	slot0.cachePop_ = false
 
-	if arg_11_0.viewGo_ then
-		Object.Destroy(arg_11_0.viewGo_)
+	if slot0.viewGo_ then
+		Object.Destroy(slot0.viewGo_)
 
-		arg_11_0.viewGo_ = nil
+		slot0.viewGo_ = nil
 	end
 
-	if arg_11_0.viewLua_ then
-		arg_11_0.viewLua_:Dispose()
+	if slot0.viewLua_ then
+		slot0.viewLua_:Dispose()
 
-		arg_11_0.viewLua_ = nil
+		slot0.viewLua_ = nil
 	end
 end
 
-return var_0_0
+return slot0

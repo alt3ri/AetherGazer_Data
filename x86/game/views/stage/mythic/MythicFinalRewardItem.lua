@@ -1,103 +1,101 @@
-local var_0_0 = class("MythicFinalRewardItem", ReduxView)
+slot0 = class("MythicFinalRewardItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.rewardPanel_ = {}
-	arg_1_0.rewardList_ = {}
-	arg_1_0.controller_ = arg_1_0.transform_:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.rewardPanel_ = {}
+	slot0.rewardList_ = {}
+	slot0.controller_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("status")
 end
 
-function var_0_0.Init(arg_2_0, arg_2_1)
-	arg_2_0.index_ = MythicData:GetRealIndex(arg_2_1)
+function slot0.Init(slot0, slot1)
+	slot0.index_ = MythicData:GetRealIndex(slot1)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.rewardList_) do
-		iter_3_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardList_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
 		if MythicData:GetFinalIsReward() == 0 then
 			ShowMessageBox({
 				content = GetTips("MYTHIC_REWARD_LOACK_DIFFICULTY"),
-				OkCallback = function()
-					MythicAction:GetFinalReward(arg_4_0.index_)
+				OkCallback = function ()
+					MythicAction:GetFinalReward(uv0.index_)
 				end
 			})
 		else
-			MythicAction:GetFinalReward(arg_4_0.index_)
+			MythicAction:GetFinalReward(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0:Init(arg_7_1)
-	arg_7_0:RefreshData()
-	arg_7_0:RefreshUI()
-	arg_7_0:RefreshState()
-	arg_7_0:RefreshItem()
+function slot0.SetData(slot0, slot1)
+	slot0:Init(slot1)
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0:RefreshState()
+	slot0:RefreshItem()
 end
 
-function var_0_0.RefreshData(arg_8_0)
-	arg_8_0.rewradCfg_ = MythicFinalCfg[arg_8_0.index_].reward_list
+function slot0.RefreshData(slot0)
+	slot0.rewradCfg_ = MythicFinalCfg[slot0.index_].reward_list
 
-	for iter_8_0 = 1, 4 do
-		if not arg_8_0.rewardList_[iter_8_0] then
-			arg_8_0.rewardPanel_[iter_8_0] = Object.Instantiate(arg_8_0.rewardItem, arg_8_0.contentTrs_)
-			arg_8_0.rewardList_[iter_8_0] = CommonItemView.New(arg_8_0.rewardPanel_[iter_8_0])
+	for slot4 = 1, 4 do
+		if not slot0.rewardList_[slot4] then
+			slot0.rewardPanel_[slot4] = Object.Instantiate(slot0.rewardItem, slot0.contentTrs_)
+			slot0.rewardList_[slot4] = CommonItemView.New(slot0.rewardPanel_[slot4])
 		end
 	end
 
-	for iter_8_1 = #arg_8_0.rewradCfg_ + 1, #arg_8_0.rewardList_ do
-		arg_8_0.rewardList_[iter_8_1]:SetData()
+	for slot4 = #slot0.rewradCfg_ + 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot4]:SetData()
 	end
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.descText_.text = string.format(GetTips("MYTHIC_FINAL_REWARD_TIPS"), arg_9_0.index_)
+function slot0.RefreshUI(slot0)
+	slot0.descText_.text = string.format(GetTips("MYTHIC_FINAL_REWARD_TIPS"), slot0.index_)
 end
 
-function var_0_0.RefreshState(arg_10_0)
-	if MythicData:GetPassHotLevel() < arg_10_0.index_ then
-		arg_10_0.controller_:SetSelectedState("state2")
-	elseif MythicData:GetFinalRewardStateByHotLevel(arg_10_0.index_) then
-		arg_10_0.controller_:SetSelectedState("state3")
+function slot0.RefreshState(slot0)
+	if MythicData:GetPassHotLevel() < slot0.index_ then
+		slot0.controller_:SetSelectedState("state2")
+	elseif MythicData:GetFinalRewardStateByHotLevel(slot0.index_) then
+		slot0.controller_:SetSelectedState("state3")
 	else
-		arg_10_0.controller_:SetSelectedState("state1")
+		slot0.controller_:SetSelectedState("state1")
 	end
 end
 
-function var_0_0.RefreshItem(arg_11_0)
-	local var_11_0 = arg_11_0.rewradCfg_
-
-	for iter_11_0, iter_11_1 in pairs(var_11_0) do
-		if iter_11_0 > 6 then
+function slot0.RefreshItem(slot0)
+	for slot5, slot6 in pairs(slot0.rewradCfg_) do
+		if slot5 > 6 then
 			return
 		end
 
-		local var_11_1 = rewardToItemTemplate(formatReward(iter_11_1))
+		slot7 = rewardToItemTemplate(formatReward(slot6))
 
-		if MythicData:GetFinalRewardStateByHotLevel(arg_11_0.index_) then
-			var_11_1.grayFlag = true
+		if MythicData:GetFinalRewardStateByHotLevel(slot0.index_) then
+			slot7.grayFlag = true
 		end
 
-		function var_11_1.clickFun(arg_12_0)
-			ShowPopItem(POP_ITEM, arg_12_0)
+		function slot7.clickFun(slot0)
+			ShowPopItem(POP_ITEM, slot0)
 		end
 
-		CommonTools.SetCommonData(arg_11_0.rewardList_[iter_11_0], var_11_1)
+		CommonTools.SetCommonData(slot0.rewardList_[slot5], slot7)
 	end
 end
 
-return var_0_0
+return slot0

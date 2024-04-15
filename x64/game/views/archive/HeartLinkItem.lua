@@ -1,101 +1,90 @@
-local var_0_0 = class("HeartLinkItem", ReduxView)
+slot0 = class("HeartLinkItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_1.transform.parent.transform)
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot1.transform.parent.transform)
+	slot0.transform_ = slot1.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.canRead_ = false
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "conName")
+	slot0.canRead_ = false
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_0.RegisterRefresh(arg_4_0, arg_4_1)
-	arg_4_0.RefreshParentLayout_ = arg_4_1
+function slot0.RegisterRefresh(slot0, slot1)
+	slot0.RefreshParentLayout_ = slot1
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.unlockbtnBtn_, nil, function()
-		arg_5_0:SetUnlockState(true)
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.itemTrs_)
-		arg_5_0.RefreshParentLayout_(arg_5_0.ID_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.unlockbtnBtn_, nil, function ()
+		uv0:SetUnlockState(true)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.itemTrs_)
+		uv0.RefreshParentLayout_(uv0.ID_)
 		SDKTools.SendMessageToSDK("record_unlock", {
-			record_id = arg_5_0.archiveID_,
-			chain_id = arg_5_0.ID_
+			record_id = uv0.archiveID_,
+			chain_id = uv0.ID_
 		})
 
-		if arg_5_0.canRead_ then
-			HeroAction.ReadHeartLink(arg_5_0.archiveID_, arg_5_0.ID_)
+		if uv0.canRead_ then
+			HeroAction.ReadHeartLink(uv0.archiveID_, uv0.ID_)
 
-			arg_5_0.canRead_ = false
+			uv0.canRead_ = false
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.archiveID_ = arg_7_1
-	arg_7_0.ID_ = arg_7_2.id
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.archiveID_ = slot1
+	slot0.ID_ = slot2.id
+	slot3, slot4, slot5 = nil
+	slot4 = slot2.current
+	slot5 = slot2.all
 
-	local var_7_0
-	local var_7_1
-	local var_7_2
-	local var_7_3 = arg_7_2.isUnlock
-	local var_7_4 = arg_7_2.current
-	local var_7_5 = arg_7_2.all
-	local var_7_6 = GameSetting.heart_chain_unlock_condition.value[arg_7_0.ID_]
-	local var_7_7 = ConditionCfg[var_7_6]
+	if not slot2.isUnlock then
+		slot0.controller_:SetSelectedState("lock")
 
-	if not var_7_3 then
-		arg_7_0.controller_:SetSelectedState("lock")
-
-		arg_7_0.locktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), arg_7_0.ID_)
-		arg_7_0.textconditionText_.text = GetI18NText(var_7_7.desc)
+		slot0.locktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), slot0.ID_)
+		slot0.textconditionText_.text = GetI18NText(ConditionCfg[GameSetting.heart_chain_unlock_condition.value[slot0.ID_]].desc)
 	else
-		arg_7_0:SetUnlockState()
+		slot0:SetUnlockState()
 
-		local var_7_8 = HeroRecordCfg[arg_7_0.archiveID_]
-
-		arg_7_0.locktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), arg_7_0.ID_)
-		arg_7_0.unlocktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), arg_7_0.ID_)
-		arg_7_0.textinfoText_.text = var_7_8["heart_chain" .. arg_7_0.ID_]
+		slot0.locktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), slot0.ID_)
+		slot0.unlocktexttitleText_.text = string.format(GetTips("HERO_RECORD_HEART_CHAIN"), slot0.ID_)
+		slot0.textinfoText_.text = HeroRecordCfg[slot0.archiveID_]["heart_chain" .. slot0.ID_]
 	end
 
-	arg_7_0.canRead_ = not ArchiveData:IsHeartRead(arg_7_0.archiveID_, arg_7_0.ID_) and var_7_3
+	slot0.canRead_ = not ArchiveData:IsHeartRead(slot0.archiveID_, slot0.ID_) and slot3
 end
 
-function var_0_0.SetUnlockState(arg_8_0, arg_8_1)
-	arg_8_1 = arg_8_1 or ArchiveData:IsHeartRead(arg_8_0.archiveID_, arg_8_0.ID_)
-
-	if arg_8_1 then
-		arg_8_0.controller_:SetSelectedState("unlock_open")
+function slot0.SetUnlockState(slot0, slot1)
+	if slot1 or ArchiveData:IsHeartRead(slot0.archiveID_, slot0.ID_) then
+		slot0.controller_:SetSelectedState("unlock_open")
 	else
-		arg_8_0.controller_:SetSelectedState("unlock_close")
+		slot0.controller_:SetSelectedState("unlock_close")
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.itemTrs_)
-	arg_8_0.RefreshParentLayout_()
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.itemTrs_)
+	slot0.RefreshParentLayout_()
 end
 
-function var_0_0.Hide(arg_9_0)
-	SetActive(arg_9_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

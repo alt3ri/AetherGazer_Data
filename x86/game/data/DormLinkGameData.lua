@@ -1,96 +1,85 @@
-local var_0_0 = singletonClass("DormLinkGameData")
-local var_0_1 = import("game.data.DormLinkGameTemplate")
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6
-local var_0_7
-local var_0_8
+slot0 = singletonClass("DormLinkGameData")
+slot1 = import("game.data.DormLinkGameTemplate")
+slot2, slot3, slot4, slot5, slot6, slot7, slot8 = nil
 
-function var_0_0.CheckToEnterDormLinkScene(arg_1_0, arg_1_1)
-	var_0_7 = arg_1_1
+function slot0.CheckToEnterDormLinkScene(slot0, slot1)
+	uv0 = slot1
 
-	if not ActivityLinkGameCfg[var_0_7] then
-		var_0_7 = nil
+	if not ActivityLinkGameCfg[uv0] then
+		uv0 = nil
 
 		return
 	end
 
-	arg_1_0:InitGameInfo()
+	slot0:InitGameInfo()
 	DormMinigame.Launch("HZ07")
 end
 
-function var_0_0.GetCurLevelID(arg_2_0)
-	if var_0_7 then
-		return var_0_7
+function slot0.GetCurLevelID(slot0)
+	if uv0 then
+		return uv0
 	end
 end
 
-local var_0_9
-local var_0_10
+slot9, slot10 = nil
 
-function var_0_0.InitLevelInfo(arg_3_0, arg_3_1)
-	var_0_2 = arg_3_1.activity_id
-	var_0_9 = {}
-	var_0_10 = {}
+function slot0.InitLevelInfo(slot0, slot1)
+	uv0 = slot1.activity_id
+	uv1 = {}
+	uv2 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(ActivityLinkGameCfg.all) do
-		local var_3_0 = {
+	for slot5, slot6 in ipairs(ActivityLinkGameCfg.all) do
+		uv1[slot6] = {
 			clear = false,
-			activityID = iter_3_1,
-			difficultyLevel = ActivityLinkGameCfg[iter_3_1].difficult
+			activityID = slot6,
+			difficultyLevel = ActivityLinkGameCfg[slot6].difficult
 		}
-
-		var_0_9[iter_3_1] = var_3_0
 	end
 
-	for iter_3_2, iter_3_3 in ipairs(arg_3_1.link_game) do
-		if var_0_9[iter_3_3.id] then
-			var_0_9[iter_3_3.id].maxPoint = iter_3_3.point
+	for slot5, slot6 in ipairs(slot1.link_game) do
+		if uv1[slot6.id] then
+			uv1[slot6.id].maxPoint = slot6.point
 		end
 	end
 
-	for iter_3_4, iter_3_5 in ipairs(arg_3_1.receive_reward) do
-		arg_3_0:SetRewardInfo(iter_3_5, true)
+	for slot5, slot6 in ipairs(slot1.receive_reward) do
+		slot0:SetRewardInfo(slot6, true)
 	end
 
-	arg_3_0:CheckUnCompleteLevel()
-	arg_3_0:CheckUnReciveLevelReward()
+	slot0:CheckUnCompleteLevel()
+	slot0:CheckUnReciveLevelReward()
 end
 
-function var_0_0.GetAwardInfo(arg_4_0, arg_4_1)
-	if var_0_10 then
-		return var_0_10[arg_4_1]
-	end
-end
-
-function var_0_0.SetRewardInfo(arg_5_0, arg_5_1, arg_5_2)
-	if not var_0_10 then
-		var_0_10 = {}
-	end
-
-	var_0_10[arg_5_1] = arg_5_2
-end
-
-function var_0_0.GetMainActivityID(arg_6_0)
-	return var_0_2
-end
-
-function var_0_0.GetLevelInfoList(arg_7_0)
-	if var_0_9 then
-		return var_0_9
+function slot0.GetAwardInfo(slot0, slot1)
+	if uv0 then
+		return uv0[slot1]
 	end
 end
 
-function var_0_0.CheckLevelIsClear(arg_8_0, arg_8_1)
-	local var_8_0 = {
-		arg_8_1 * 2 - 1,
-		arg_8_1 * 2
-	}
+function slot0.SetRewardInfo(slot0, slot1, slot2)
+	if not uv0 then
+		uv0 = {}
+	end
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if var_0_9[iter_8_1] and var_0_9[iter_8_1].maxPoint then
+	uv0[slot1] = slot2
+end
+
+function slot0.GetMainActivityID(slot0)
+	return uv0
+end
+
+function slot0.GetLevelInfoList(slot0)
+	if uv0 then
+		return uv0
+	end
+end
+
+function slot0.CheckLevelIsClear(slot0, slot1)
+	for slot6, slot7 in ipairs({
+		slot1 * 2 - 1,
+		slot1 * 2
+	}) do
+		if uv0[slot7] and uv0[slot7].maxPoint then
 			return true
 		end
 	end
@@ -98,42 +87,30 @@ function var_0_0.CheckLevelIsClear(arg_8_0, arg_8_1)
 	return false
 end
 
-function var_0_0.CheckLevelRewardState(arg_9_0, arg_9_1)
-	if var_0_10 and var_0_10[arg_9_1] then
+function slot0.CheckLevelRewardState(slot0, slot1)
+	if uv0 and uv0[slot1] then
 		return DormLinkGameConst.RewardItemState.received
 	end
 
-	local var_9_0 = ActivityLinkGameRewardCfg[arg_9_1].condition
-	local var_9_1 = ConditionCfg[var_9_0]
+	if ConditionCfg[ActivityLinkGameRewardCfg[slot1].condition].type == DormLinkGameConst.AwardCondition.Point then
+		slot5 = slot3.params[2]
+		slot6 = ActivityLinkGameRewardCfg[slot1].activity_id
+		slot7 = nil
+		slot8 = 0
 
-	if var_9_1.type == DormLinkGameConst.AwardCondition.Point then
-		local var_9_2 = var_9_1.params[1]
-		local var_9_3 = var_9_1.params[2]
-		local var_9_4 = ActivityLinkGameRewardCfg[arg_9_1].activity_id
-		local var_9_5
-		local var_9_6 = 0
-
-		if var_9_2 == 0 then
-			local var_9_7 = 0
-
-			for iter_9_0, iter_9_1 in ipairs(ActivityLinkGameCfg.all) do
-				if ActivityLinkGameCfg[iter_9_1].activity_id == var_9_4 and var_0_9[iter_9_1] then
-					var_9_7 = math.max(var_9_7, var_0_9[iter_9_1].maxPoint or 0)
+		if slot3.params[1] == 0 then
+			for slot13, slot14 in ipairs(ActivityLinkGameCfg.all) do
+				if ActivityLinkGameCfg[slot14].activity_id == slot6 and uv1[slot14] then
+					slot9 = math.max(0, uv1[slot14].maxPoint or 0)
 				end
 			end
 
-			var_9_6 = var_9_7
+			slot8 = slot9
 		else
-			local var_9_8 = DormLinkGameTools:GetLevelIDByDiffAndActivityID(var_9_4, var_9_2)
-
-			if var_0_9[var_9_8] then
-				var_9_6 = var_0_9[var_9_8].maxPoint or 0
-			else
-				var_9_6 = 0
-			end
+			slot8 = uv1[DormLinkGameTools:GetLevelIDByDiffAndActivityID(slot6, slot4)] and (uv1[slot7].maxPoint or 0) or 0
 		end
 
-		if var_9_3 <= var_9_6 then
+		if slot5 <= slot8 then
 			return DormLinkGameConst.RewardItemState.complete
 		else
 			return DormLinkGameConst.RewardItemState.unComplete
@@ -141,25 +118,23 @@ function var_0_0.CheckLevelRewardState(arg_9_0, arg_9_1)
 	end
 end
 
-function var_0_0.GetAllLevelTopPoint(arg_10_0)
-	local var_10_0 = 0
+function slot0.GetAllLevelTopPoint(slot0)
+	slot1 = 0
 
-	if var_0_9 then
-		for iter_10_0, iter_10_1 in pairs(var_0_9) do
-			if iter_10_1.maxPoint then
-				var_10_0 = math.max(var_10_0, iter_10_1.maxPoint)
+	if uv0 then
+		for slot5, slot6 in pairs(uv0) do
+			if slot6.maxPoint then
+				slot1 = math.max(slot1, slot6.maxPoint)
 			end
 		end
 	end
 
-	return var_10_0
+	return slot1
 end
 
-function var_0_0.CheckActivityComplete(arg_11_0, arg_11_1)
-	local var_11_0 = ActivityLinkGameCfg.get_id_list_by_activity_id[arg_11_1]
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if var_0_9[iter_11_1].maxPoint then
+function slot0.CheckActivityComplete(slot0, slot1)
+	for slot6, slot7 in ipairs(ActivityLinkGameCfg.get_id_list_by_activity_id[slot1]) do
+		if uv0[slot7].maxPoint then
 			return true
 		end
 	end
@@ -167,73 +142,63 @@ function var_0_0.CheckActivityComplete(arg_11_0, arg_11_1)
 	return false
 end
 
-function var_0_0.GetLevelInfoByIndexAndDiff(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_2 == 2 then
-		return arg_12_1 * 2
+function slot0.GetLevelInfoByIndexAndDiff(slot0, slot1, slot2)
+	if slot2 == 2 then
+		return slot1 * 2
 	else
-		return arg_12_1 * 2 - 1
+		return slot1 * 2 - 1
 	end
 end
 
-function var_0_0.GetIndexAndDiffByLevelInfo(arg_13_0, arg_13_1)
-	local var_13_0
-	local var_13_1 = ActivityLinkGameCfg[arg_13_1].difficult
+function slot0.GetIndexAndDiffByLevelInfo(slot0, slot1)
+	slot2 = nil
 
-	if arg_13_1 % 2 == 0 then
-		var_13_0 = arg_13_1 / 2
+	return slot1 % 2 == 0 and slot1 / 2 or (slot1 + 1) / 2, ActivityLinkGameCfg[slot1].difficult
+end
+
+function slot0.GetLevelScore(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].maxPoint
+	end
+end
+
+function slot0.GetCurCnaUseTokenNum(slot0)
+	if uv1 then
+		return ItemTools.getItemNum(DormLinkGameTools:GetCurrencyID(uv0)) - uv1.costTokenNum
 	else
-		var_13_0 = (arg_13_1 + 1) / 2
-	end
-
-	return var_13_0, var_13_1
-end
-
-function var_0_0.GetLevelScore(arg_14_0, arg_14_1)
-	if var_0_9[arg_14_1] then
-		return var_0_9[arg_14_1].maxPoint
+		return slot2
 	end
 end
 
-function var_0_0.GetCurCnaUseTokenNum(arg_15_0)
-	local var_15_0 = DormLinkGameTools:GetCurrencyID(var_0_2)
-	local var_15_1 = ItemTools.getItemNum(var_15_0)
+slot11 = nil
 
-	if var_0_4 then
-		return var_15_1 - var_0_4.costTokenNum
-	else
-		return var_15_1
-	end
+function slot0.InitGameInfo(slot0)
+	slot0:InitSceneData()
+	slot0:InitCacheData()
+
+	uv0 = false
 end
 
-local var_0_11
-
-function var_0_0.InitGameInfo(arg_16_0)
-	arg_16_0:InitSceneData()
-	arg_16_0:InitCacheData()
-
-	var_0_11 = false
-end
-
-function var_0_0.InitSceneData(arg_17_0)
-	if var_0_7 then
-		var_0_3 = {}
-		var_0_3 = {
-			levelID = var_0_7,
-			difficultyLevel = ActivityLinkGameCfg[var_0_7].difficult,
-			canUseItem = ActivityLinkGameCfg[var_0_7].property_limit,
-			limitTime = ActivityLinkGameCfg[var_0_7].time_limit
+function slot0.InitSceneData(slot0)
+	if uv0 then
+		uv1 = {}
+		uv1 = {
+			levelID = uv0,
+			difficultyLevel = ActivityLinkGameCfg[uv0].difficult,
+			canUseItem = ActivityLinkGameCfg[uv0].property_limit,
+			limitTime = ActivityLinkGameCfg[uv0].time_limit
 		}
 	end
 end
 
-function var_0_0.GetSceneData(arg_18_0)
-	return var_0_3
+function slot0.GetSceneData(slot0)
+	return uv0
 end
 
-function var_0_0.InitCacheData(arg_19_0)
-	if var_0_7 then
-		var_0_4 = {}
-		var_0_4 = {
+function slot0.InitCacheData(slot0)
+	if uv0 then
+		uv1 = {}
+		uv1 = {
 			basePoint = 0,
 			drainPoint = 0,
 			drainMaterialNum = 0,
@@ -245,441 +210,412 @@ function var_0_0.InitCacheData(arg_19_0)
 			customerAddition = 0,
 			batterAddition = 0,
 			batterMaterial = {},
-			generateInterval = ActivityLinkGameCfg[var_0_7].time_interval / 100,
-			extendPoint = ActivityLinkGameCfg[var_0_7].extra_score,
+			generateInterval = ActivityLinkGameCfg[uv0].time_interval / 100,
+			extendPoint = ActivityLinkGameCfg[uv0].extra_score,
 			useItemList = {}
 		}
-		var_0_5 = false
-		var_0_8 = true
+		uv2 = false
+		uv3 = true
 	end
 end
 
-function var_0_0.DisposeGameCacheInfo(arg_20_0)
-	var_0_4 = nil
+function slot0.DisposeGameCacheInfo(slot0)
+	uv0 = nil
 end
 
-function var_0_0.GetGameCacheInfo(arg_21_0)
-	if var_0_4 then
-		return var_0_4
-	end
-end
-
-function var_0_0.GetGameCurLevel(arg_22_0)
-	if var_0_4 then
-		return var_0_4.levelID
+function slot0.GetGameCacheInfo(slot0)
+	if uv0 then
+		return uv0
 	end
 end
 
-function var_0_0.InitCustomerInfo(arg_23_0)
-	if var_0_7 then
-		var_0_6 = {}
-
-		local var_23_0 = DormUtils.EIdNamespace(DormEnum.CharacterType.RestaurantNormalCustomer)
-
-		for iter_23_0, iter_23_1 in Dorm.storage:ForeachData(var_23_0, pairs) do
-			local var_23_1 = DormUtils.GetEntityData(iter_23_1).cfgID
-			local var_23_2 = {
-				customerID = var_23_1,
-				customerEID = iter_23_1,
-				posIndex = iter_23_0
-			}
-
-			var_0_6[var_23_1] = var_0_1.New(var_23_2)
-		end
+function slot0.GetGameCurLevel(slot0)
+	if uv0 then
+		return uv0.levelID
 	end
 end
 
-function var_0_0.GetCustomerList(arg_24_0)
-	return var_0_6
-end
+function slot0.InitCustomerInfo(slot0)
+	if uv0 then
+		uv1 = {}
+		slot5 = pairs
 
-function var_0_0.GetCustomerInfo(arg_25_0, arg_25_1)
-	if var_0_6[arg_25_1] then
-		return var_0_6[arg_25_1]
-	else
-		print("未找到食客信息")
-	end
-end
-
-local var_0_12
-
-function var_0_0.RunGameTimer(arg_26_0)
-	if not var_0_12 then
-		var_0_12 = {}
-	end
-
-	if not var_0_12.gameTimer then
-		local var_26_0 = var_0_3.limitTime
-
-		var_0_12.gameTimer = Timer.New(function()
-			var_0_4.gameTime = var_0_4.gameTime + 1
-			var_26_0 = var_26_0 - 1
-
-			if var_26_0 <= 0 then
-				arg_26_0:StopGame(DormLinkGameConst.StopGameType.success)
-			else
-				manager.notify:Invoke(DORM_LINK_REFRESH_GAME_TIME, var_26_0)
-			end
-
-			local var_27_0 = {
-				num = var_26_0
-			}
-
-			DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.LastTime, var_27_0)
-		end, 1, -1)
-
-		var_0_12.gameTimer:Start()
-	end
-
-	if not var_0_12.customerTimer then
-		var_0_12.customerTimer = Timer.New(function()
-			for iter_28_0, iter_28_1 in pairs(var_0_6) do
-				local var_28_0 = ActivityLinkGameCustomerCfg[iter_28_1.ID].satiety_descend_rate
-
-				iter_28_1:ReviseSatiety(-var_28_0)
-			end
-		end, 1, -1)
-
-		var_0_12.customerTimer:Start()
-	end
-
-	if not var_0_12.startGenerateTimer then
-		local var_26_1 = GameSetting.linkgame_count_down.value[1]
-
-		var_0_12.startGenerateTimer = Timer.New(function()
-			if var_0_8 then
-				var_26_1 = var_26_1 - DormLinkGameConst.GenerateTick
-
-				if var_26_1 <= 0 then
-					arg_26_0:RefreshMaterialGenerateTimer()
-				else
-					manager.notify:Invoke(DORM_LINK_REFRESH_MATERIAL_TIME, var_26_1 + var_0_4.generateInterval)
-				end
-			end
-		end, DormLinkGameConst.GenerateTick, -1)
-
-		var_0_12.startGenerateTimer:Start()
-	end
-end
-
-function var_0_0.RefreshMaterialGenerateTimer(arg_30_0)
-	local var_30_0 = var_0_4.generateInterval
-
-	if not var_0_12.generateTimer then
-		var_0_12.generateTimer = Timer.New(function()
-			if var_0_8 then
-				var_30_0 = var_30_0 - DormLinkGameConst.GenerateTick
-
-				if var_30_0 <= 0 then
-					arg_30_0:GenerateMaterialList()
-
-					var_30_0 = var_0_4.generateInterval
-				end
-
-				manager.notify:Invoke(DORM_LINK_REFRESH_MATERIAL_TIME, var_30_0)
-			end
-		end, DormLinkGameConst.GenerateTick, -1)
-
-		var_0_12.generateTimer:Start()
-	end
-end
-
-function var_0_0.PauseMaterialGenerate(arg_32_0, arg_32_1)
-	if var_0_12.pauseTimer then
-		var_0_12.pauseTimer:Stop()
-
-		var_0_12.pauseTimer = nil
-	end
-
-	if var_0_12.generateTimer then
-		var_0_8 = false
-		var_0_12.pauseTimer = Timer.New(function()
-			var_0_8 = true
-		end, arg_32_1, 1)
-
-		var_0_12.pauseTimer:Start()
-	elseif var_0_12.startGenerateTimer then
-		var_0_8 = false
-		var_0_12.pauseTimer = Timer.New(function()
-			var_0_8 = true
-		end, arg_32_1, 1)
-
-		var_0_12.pauseTimer:Start()
-	end
-end
-
-function var_0_0.ReSetBatterTimer(arg_35_0)
-	if var_0_12.batterTimer and var_0_5 then
-		var_0_12.batterTimer:Reset()
-	else
-		local var_35_0 = GameSetting.linkgame_hit_time.value[1]
-
-		var_0_12.batterTimer = Timer.New(function()
-			var_0_5 = false
-
-			arg_35_0:ClearBatterNum()
-		end, var_35_0, 1)
-	end
-
-	var_0_12.batterTimer:Start()
-end
-
-function var_0_0.StopTimer(arg_37_0)
-	if var_0_12 then
-		for iter_37_0, iter_37_1 in pairs(var_0_12) do
-			iter_37_1:Stop()
-		end
-	end
-end
-
-function var_0_0.DisposeTimer(arg_38_0)
-	if var_0_12 then
-		for iter_38_0, iter_38_1 in pairs(var_0_12) do
-			iter_38_1:Stop()
-
-			iter_38_1 = nil
-			var_0_12[iter_38_0] = nil
-		end
-	end
-end
-
-local var_0_13
-
-function var_0_0.PlayerStartGame(arg_39_0)
-	var_0_13 = true
-
-	arg_39_0:RunGameTimer()
-	manager.audio:PlayBGM("bgm_activity_2_1_minigame_connect", "bgm_activity_2_1_minigame_connect", "bgm_activity_2_1_minigame_connect.awb")
-	manager.notify:Invoke(DORM_LINK_START_PLAY)
-
-	if var_0_3 then
-		local var_39_0 = ActivityLinkGameCfg[var_0_3.levelID].activity_id
-
-		if var_0_3.difficultyLevel and var_39_0 then
-			local var_39_1 = 1
-
-			if not var_0_11 then
-				var_39_1 = 2
-			end
-
-			SDKTools.SendMessageToSDK("activity_linkgame_end", {
-				difficulty_id = var_0_3.difficultyLevel,
-				activity_id = var_39_0,
-				end_type = var_39_1
+		for slot5, slot6 in Dorm.storage:ForeachData(DormUtils.EIdNamespace(DormEnum.CharacterType.RestaurantNormalCustomer), slot5) do
+			slot8 = DormUtils.GetEntityData(slot6).cfgID
+			uv1[slot8] = uv2.New({
+				customerID = slot8,
+				customerEID = slot6,
+				posIndex = slot5
 			})
 		end
 	end
 end
 
-function var_0_0.StopGame(arg_40_0, arg_40_1)
+function slot0.GetCustomerList(slot0)
+	return uv0
+end
+
+function slot0.GetCustomerInfo(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1]
+	else
+		print("未找到食客信息")
+	end
+end
+
+slot12 = nil
+
+function slot0.RunGameTimer(slot0)
+	if not uv0 then
+		uv0 = {}
+	end
+
+	if not uv0.gameTimer then
+		slot1 = uv1.limitTime
+		uv0.gameTimer = Timer.New(function ()
+			uv0.gameTime = uv0.gameTime + 1
+			uv1 = uv1 - 1
+
+			if uv1 <= 0 then
+				uv2:StopGame(DormLinkGameConst.StopGameType.success)
+			else
+				manager.notify:Invoke(DORM_LINK_REFRESH_GAME_TIME, uv1)
+			end
+
+			DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.LastTime, {
+				num = uv1
+			})
+		end, 1, -1)
+
+		uv0.gameTimer:Start()
+	end
+
+	if not uv0.customerTimer then
+		uv0.customerTimer = Timer.New(function ()
+			for slot3, slot4 in pairs(uv0) do
+				slot4:ReviseSatiety(-ActivityLinkGameCustomerCfg[slot4.ID].satiety_descend_rate)
+			end
+		end, 1, -1)
+
+		uv0.customerTimer:Start()
+	end
+
+	if not uv0.startGenerateTimer then
+		slot1 = GameSetting.linkgame_count_down.value[1]
+		uv0.startGenerateTimer = Timer.New(function ()
+			if uv0 then
+				uv1 = uv1 - DormLinkGameConst.GenerateTick
+
+				if uv1 <= 0 then
+					uv2:RefreshMaterialGenerateTimer()
+				else
+					manager.notify:Invoke(DORM_LINK_REFRESH_MATERIAL_TIME, uv1 + uv3.generateInterval)
+				end
+			end
+		end, DormLinkGameConst.GenerateTick, -1)
+
+		uv0.startGenerateTimer:Start()
+	end
+end
+
+function slot0.RefreshMaterialGenerateTimer(slot0)
+	slot1 = uv0.generateInterval
+
+	if not uv1.generateTimer then
+		uv1.generateTimer = Timer.New(function ()
+			if uv0 then
+				uv1 = uv1 - DormLinkGameConst.GenerateTick
+
+				if uv1 <= 0 then
+					uv2:GenerateMaterialList()
+
+					uv1 = uv3.generateInterval
+				end
+
+				manager.notify:Invoke(DORM_LINK_REFRESH_MATERIAL_TIME, uv1)
+			end
+		end, DormLinkGameConst.GenerateTick, -1)
+
+		uv1.generateTimer:Start()
+	end
+end
+
+function slot0.PauseMaterialGenerate(slot0, slot1)
+	if uv0.pauseTimer then
+		uv0.pauseTimer:Stop()
+
+		uv0.pauseTimer = nil
+	end
+
+	if uv0.generateTimer then
+		uv1 = false
+		uv0.pauseTimer = Timer.New(function ()
+			uv0 = true
+		end, slot1, 1)
+
+		uv0.pauseTimer:Start()
+	elseif uv0.startGenerateTimer then
+		uv1 = false
+		uv0.pauseTimer = Timer.New(function ()
+			uv0 = true
+		end, slot1, 1)
+
+		uv0.pauseTimer:Start()
+	end
+end
+
+function slot0.ReSetBatterTimer(slot0)
+	if uv0.batterTimer and uv1 then
+		uv0.batterTimer:Reset()
+	else
+		uv0.batterTimer = Timer.New(function ()
+			uv0 = false
+
+			uv1:ClearBatterNum()
+		end, GameSetting.linkgame_hit_time.value[1], 1)
+	end
+
+	uv0.batterTimer:Start()
+end
+
+function slot0.StopTimer(slot0)
+	if uv0 then
+		for slot4, slot5 in pairs(uv0) do
+			slot5:Stop()
+		end
+	end
+end
+
+function slot0.DisposeTimer(slot0)
+	if uv0 then
+		for slot4, slot5 in pairs(uv0) do
+			slot5:Stop()
+
+			slot5 = nil
+			uv0[slot4] = nil
+		end
+	end
+end
+
+slot13 = nil
+
+function slot0.PlayerStartGame(slot0)
+	uv0 = true
+
+	slot0:RunGameTimer()
+	manager.audio:PlayBGM("bgm_activity_2_1_minigame_connect", "bgm_activity_2_1_minigame_connect", "bgm_activity_2_1_minigame_connect.awb")
+	manager.notify:Invoke(DORM_LINK_START_PLAY)
+
+	if uv1 then
+		slot1 = ActivityLinkGameCfg[uv1.levelID].activity_id
+
+		if uv1.difficultyLevel and slot1 then
+			slot2 = 1
+
+			if not uv2 then
+				slot2 = 2
+			end
+
+			SDKTools.SendMessageToSDK("activity_linkgame_end", {
+				difficulty_id = uv1.difficultyLevel,
+				activity_id = slot1,
+				end_type = slot2
+			})
+		end
+	end
+end
+
+function slot0.StopGame(slot0, slot1)
 	manager.audio:Stop("music")
 	manager.audio:Stop("effect")
 
-	if var_0_13 then
+	if uv0 then
 		manager.audio:PlayEffect("minigame_activity_2_1", "minigame_activity_2_1_connect_end", "")
 
-		var_0_13 = nil
+		uv0 = nil
 	else
 		manager.audio:PlayEffect("minigame_activity_2_1", "minigame_activity_2_1_connect_end02", "")
 	end
 
-	arg_40_0:StopTimer()
+	slot0:StopTimer()
 
-	if arg_40_1 == DormLinkGameConst.StopGameType.success then
-		DormLinkGameAction:ClearanceLevel(var_0_3.levelID, var_0_4)
-	elseif arg_40_1 == DormLinkGameConst.StopGameType.fail then
-		arg_40_0:FailedClear()
+	if slot1 == DormLinkGameConst.StopGameType.success then
+		DormLinkGameAction:ClearanceLevel(uv1.levelID, uv2)
+	elseif slot1 == DormLinkGameConst.StopGameType.fail then
+		slot0:FailedClear()
 	end
 end
 
-function var_0_0.SuccessClear(arg_41_0)
-	local var_41_0, var_41_1 = arg_41_0:GetLastPoint()
-
-	var_0_9[var_0_7].maxPoint = var_0_9[var_0_7].maxPoint or 0
-	var_0_9[var_0_7].maxPoint = math.max(var_0_9[var_0_7].maxPoint, var_41_0)
-	var_0_4.highestBatterNum = math.max(var_0_4.highestBatterNum, var_0_4.batterNum)
-
-	local var_41_2 = {
-		totalPoint = var_41_0,
-		extendPoint = var_41_1,
-		time = var_0_4.gameTime
+function slot0.SuccessClear(slot0)
+	slot1, slot2 = slot0:GetLastPoint()
+	uv0[uv1].maxPoint = uv0[uv1].maxPoint or 0
+	uv0[uv1].maxPoint = math.max(uv0[uv1].maxPoint, slot1)
+	uv2.highestBatterNum = math.max(uv2.highestBatterNum, uv2.batterNum)
+	slot3 = {
+		totalPoint = slot1,
+		extendPoint = slot2,
+		time = uv2.gameTime
 	}
-	local var_41_3 = ActivityLinkGameCfg[var_0_3.levelID].activity_id
+	slot4 = ActivityLinkGameCfg[uv3.levelID].activity_id
 
-	if var_0_3.difficultyLevel and var_41_3 then
+	if uv3.difficultyLevel and slot4 then
 		SDKTools.SendMessageToSDK("activity_linkgame_finish", {
-			hit_num = var_0_4.highestBatterNum,
-			cell_num = var_0_4.eliminateNum,
-			activity_id = var_41_3,
-			difficulty_id = var_0_3.difficultyLevel
+			hit_num = uv2.highestBatterNum,
+			cell_num = uv2.eliminateNum,
+			activity_id = slot4,
+			difficulty_id = uv3.difficultyLevel
 		})
 	end
 
-	arg_41_0:DisposeRunGameInfo()
-	arg_41_0:SaveDefaultLevelAndDiff(var_0_7)
-	arg_41_0:CheckUnReciveLevelReward()
-	manager.notify:Invoke(DORM_LINK_END_GAME, DormLinkGameConst.StopGameType.success, var_41_2)
+	slot0:DisposeRunGameInfo()
+	slot0:SaveDefaultLevelAndDiff(uv1)
+	slot0:CheckUnReciveLevelReward()
+	manager.notify:Invoke(DORM_LINK_END_GAME, DormLinkGameConst.StopGameType.success, slot3)
 end
 
-function var_0_0.FailedClear(arg_42_0)
-	arg_42_0:DisposeRunGameInfo()
+function slot0.FailedClear(slot0)
+	slot0:DisposeRunGameInfo()
 	manager.notify:Invoke(DORM_LINK_END_GAME, DormLinkGameConst.StopGameType.fail)
 end
 
-function var_0_0.DisposeRunGameInfo(arg_43_0)
-	arg_43_0:DisposeGameCacheInfo()
-	arg_43_0:DisposeTimer()
+function slot0.DisposeRunGameInfo(slot0)
+	slot0:DisposeGameCacheInfo()
+	slot0:DisposeTimer()
 
-	var_0_6 = nil
+	uv0 = nil
 end
 
-function var_0_0.ResetRunGameInfo(arg_44_0)
-	var_0_11 = true
+function slot0.ResetRunGameInfo(slot0)
+	uv0 = true
 
-	arg_44_0:InitCacheData()
-	arg_44_0:InitCustomerInfo()
+	slot0:InitCacheData()
+	slot0:InitCustomerInfo()
 end
 
-function var_0_0.DisposeGameInfo(arg_45_0)
-	var_0_3 = nil
-	var_0_5 = nil
+function slot0.DisposeGameInfo(slot0)
+	uv0 = nil
+	uv1 = nil
 end
 
-function var_0_0.EliminateMaterial(arg_46_0, arg_46_1)
-	arg_46_0:ReSetBatterTimer()
+function slot0.EliminateMaterial(slot0, slot1)
+	slot0:ReSetBatterTimer()
 
-	var_0_5 = true
+	uv0 = true
 
-	if not var_0_4.batterMaterial[arg_46_1] then
-		var_0_4.batterMaterial[arg_46_1] = 0
+	if not uv1.batterMaterial[slot1] then
+		uv1.batterMaterial[slot1] = 0
 	end
 
-	var_0_4.eliminateNum = var_0_4.eliminateNum + 1
-	var_0_4.batterMaterial[arg_46_1] = var_0_4.batterMaterial[arg_46_1] + 1
+	uv1.eliminateNum = uv1.eliminateNum + 1
+	uv1.batterMaterial[slot1] = uv1.batterMaterial[slot1] + 1
 
-	local var_46_0 = {}
+	slot0:UpdataCustomerNeed({})
 
-	arg_46_0:UpdataCustomerNeed(var_46_0)
-
-	if var_0_6 then
-		for iter_46_0, iter_46_1 in pairs(var_0_6) do
-			local var_46_1 = var_46_0[iter_46_0]
-
-			manager.notify:Invoke(DORM_LINK_REFRESH_CUSTOMER_BUBBLE, iter_46_0, var_46_1)
+	if uv2 then
+		for slot6, slot7 in pairs(uv2) do
+			manager.notify:Invoke(DORM_LINK_REFRESH_CUSTOMER_BUBBLE, slot6, slot2[slot6])
 		end
 	end
 
-	arg_46_0:AddBatterNum()
-	arg_46_0:RefreshBasePoint(arg_46_1)
+	slot0:AddBatterNum()
+	slot0:RefreshBasePoint(slot1)
 end
 
-function var_0_0.RefreshBasePoint(arg_47_0, arg_47_1)
-	local var_47_0 = 0
-
-	for iter_47_0, iter_47_1 in pairs(var_0_6) do
-		var_47_0 = var_47_0 + iter_47_1.satietyAddition
+function slot0.RefreshBasePoint(slot0, slot1)
+	for slot6, slot7 in pairs(uv0) do
+		slot2 = 0 + slot7.satietyAddition
 	end
 
-	var_0_4.customerAddition = var_47_0
+	uv1.customerAddition = slot2
 
-	if ActivityLinkGameCellCfg[arg_47_1] then
-		var_0_4.basePoint = var_0_4.basePoint + ActivityLinkGameCellCfg[arg_47_1].complete_score * (100 + var_0_4.batterAddition + var_47_0) / 100
+	if ActivityLinkGameCellCfg[slot1] then
+		uv1.basePoint = uv1.basePoint + ActivityLinkGameCellCfg[slot1].complete_score * (100 + uv1.batterAddition + slot2) / 100
 	end
 end
 
-function var_0_0.AddBatterNum(arg_48_0)
-	var_0_4.batterNum = var_0_4.batterNum + 1
+function slot0.AddBatterNum(slot0)
+	uv0.batterNum = uv0.batterNum + 1
 
-	arg_48_0:RefreshExtendAddition()
-	arg_48_0:RefreshGenerateInterval()
-
-	local var_48_0 = {
-		oldNum = var_0_4.batterNum - 1,
-		newNum = var_0_4.batterNum
-	}
-
-	DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.SuccssBatterNum, var_48_0)
+	slot0:RefreshExtendAddition()
+	slot0:RefreshGenerateInterval()
+	DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.SuccssBatterNum, {
+		oldNum = uv0.batterNum - 1,
+		newNum = uv0.batterNum
+	})
 	manager.notify:Invoke(DORM_LINK_REFRESH_BATTER_NUM)
 end
 
-function var_0_0.ClearBatterNum(arg_49_0)
-	var_0_4.highestBatterNum = math.max(var_0_4.highestBatterNum, var_0_4.batterNum)
+function slot0.ClearBatterNum(slot0)
+	uv0.highestBatterNum = math.max(uv0.highestBatterNum, uv0.batterNum)
 
-	local var_49_0 = {
-		num = var_0_4.batterNum
-	}
+	DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.FaileBatterNum, {
+		num = uv0.batterNum
+	})
 
-	DormLinkGameTools:PlaySpecialVoice(DormLinkGameConst.SpecialVoiceType.FaileBatterNum, var_49_0)
+	uv0.batterNum = 0
 
-	var_0_4.batterNum = 0
-
-	arg_49_0:RefreshGenerateInterval()
-	arg_49_0:RefreshExtendAddition()
+	slot0:RefreshGenerateInterval()
+	slot0:RefreshExtendAddition()
 	manager.notify:Invoke(DORM_LINK_REFRESH_BATTER_NUM)
 end
 
-function var_0_0.GetBatterNum(arg_50_0)
-	return var_0_4.batterNum
+function slot0.GetBatterNum(slot0)
+	return uv0.batterNum
 end
 
-function var_0_0.GetExtendAddition(arg_51_0)
-	return var_0_4.batterAddition + var_0_4.customerAddition
+function slot0.GetExtendAddition(slot0)
+	return uv0.batterAddition + uv0.customerAddition
 end
 
-function var_0_0.RefreshExtendAddition(arg_52_0)
-	local var_52_0 = ActivityLinkGameCfg[var_0_7].hit_score_up
-	local var_52_1 = arg_52_0:GetExtendAddition()
-	local var_52_2 = var_0_4.batterNum
+function slot0.RefreshExtendAddition(slot0)
+	slot2 = slot0:GetExtendAddition()
+	slot3 = uv1.batterNum
+	uv1.batterAddition = 0
 
-	var_0_4.batterAddition = 0
+	if ActivityLinkGameCfg[uv0].hit_score_up then
+		for slot7, slot8 in ipairs(slot1) do
+			if slot8[1] <= slot3 then
+				uv1.batterAddition = 0 + slot8[2]
 
-	if var_52_0 then
-		for iter_52_0, iter_52_1 in ipairs(var_52_0) do
-			if var_52_2 >= iter_52_1[1] then
-				var_0_4.batterAddition = 0 + iter_52_1[2]
-
-				if var_0_4.batterAddition <= 0 then
+				if uv1.batterAddition <= 0 then
 					print("连击加成错误")
 				end
 			end
 		end
 	end
 
-	if var_52_1 ~= arg_52_0:GetExtendAddition() then
+	if slot2 ~= slot0:GetExtendAddition() then
 		manager.notify:Invoke(DORM_LINK_REFRESH_EXTEND_ADDITION)
 	end
 end
 
-function var_0_0.RefreshCustomerExtendAddition(arg_53_0)
-	local var_53_0 = arg_53_0:GetExtendAddition()
+function slot0.RefreshCustomerExtendAddition(slot0)
+	slot1 = slot0:GetExtendAddition()
+	uv0.customerAddition = 0
 
-	var_0_4.customerAddition = 0
-
-	for iter_53_0, iter_53_1 in pairs(var_0_6) do
-		var_0_4.customerAddition = var_0_4.customerAddition + iter_53_1.satietyAddition
+	for slot5, slot6 in pairs(uv1) do
+		uv0.customerAddition = uv0.customerAddition + slot6.satietyAddition
 	end
 
-	if var_53_0 ~= arg_53_0:GetExtendAddition() then
+	if slot1 ~= slot0:GetExtendAddition() then
 		manager.notify:Invoke(DORM_LINK_REFRESH_EXTEND_ADDITION)
 	end
 end
 
-function var_0_0.RefreshGenerateInterval(arg_54_0)
-	if not var_0_4 then
+function slot0.RefreshGenerateInterval(slot0)
+	if not uv0 then
 		print("操作数据不存在")
 	end
 
-	local var_54_0 = var_0_4.batterNum
-	local var_54_1 = ActivityLinkGameCfg[var_0_7].hit_interval_cut
+	slot1 = uv0.batterNum
+	uv0.generateInterval = ActivityLinkGameCfg[uv1].time_interval / 100
 
-	var_0_4.generateInterval = ActivityLinkGameCfg[var_0_7].time_interval / 100
+	if ActivityLinkGameCfg[uv1].hit_interval_cut then
+		for slot6, slot7 in ipairs(slot2) do
+			if slot7[1] <= slot1 then
+				uv0.generateInterval = (ActivityLinkGameCfg[uv1].time_interval - slot7[2]) / 100
 
-	if var_54_1 then
-		for iter_54_0, iter_54_1 in ipairs(var_54_1) do
-			if var_54_0 >= iter_54_1[1] then
-				var_0_4.generateInterval = (ActivityLinkGameCfg[var_0_7].time_interval - iter_54_1[2]) / 100
-
-				if var_0_4.generateInterval <= 0 then
+				if uv0.generateInterval <= 0 then
 					print("生成间隔时间错误")
 				end
 			end
@@ -687,120 +623,105 @@ function var_0_0.RefreshGenerateInterval(arg_54_0)
 	end
 end
 
-function var_0_0.GetDisposeMaterialNum(arg_55_0, arg_55_1)
-	return var_0_4.batterMaterial[arg_55_1] or 0
+function slot0.GetDisposeMaterialNum(slot0, slot1)
+	return uv0.batterMaterial[slot1] or 0
 end
 
-function var_0_0.UpdataCustomerNeed(arg_56_0, arg_56_1)
-	if var_0_6 then
-		for iter_56_0, iter_56_1 in pairs(var_0_6) do
-			local var_56_0 = iter_56_1.curPreference
-			local var_56_1 = true
+function slot0.UpdataCustomerNeed(slot0, slot1)
+	if uv0 then
+		for slot5, slot6 in pairs(uv0) do
+			slot8 = true
 
-			for iter_56_2, iter_56_3 in ipairs(ActivityLinkGameComposeCfg[var_56_0].compose_list) do
-				local var_56_2 = iter_56_3[1]
-
-				if iter_56_3[2] > arg_56_0:GetDisposeMaterialNum(var_56_2) then
-					var_56_1 = false
+			for slot12, slot13 in ipairs(ActivityLinkGameComposeCfg[slot6.curPreference].compose_list) do
+				if slot0:GetDisposeMaterialNum(slot13[1]) < slot13[2] then
+					slot8 = false
 
 					break
 				end
 			end
 
-			if var_56_1 then
-				for iter_56_4, iter_56_5 in ipairs(ActivityLinkGameComposeCfg[var_56_0].compose_list) do
-					local var_56_3 = iter_56_5[1]
-					local var_56_4 = iter_56_5[2]
-
-					var_0_4.batterMaterial[var_56_3] = var_0_4.batterMaterial[var_56_3] - var_56_4
+			if slot8 then
+				for slot12, slot13 in ipairs(ActivityLinkGameComposeCfg[slot7].compose_list) do
+					slot14 = slot13[1]
+					uv1.batterMaterial[slot14] = uv1.batterMaterial[slot14] - slot13[2]
 				end
 
-				iter_56_1:FoodComplate()
+				slot6:FoodComplate()
 			end
 
-			if arg_56_1 then
-				arg_56_1[iter_56_0] = var_56_1
+			if slot1 then
+				slot1[slot5] = slot8
 			end
 		end
 	end
 end
 
-function var_0_0.GetCurMaterialState(arg_57_0)
-	if var_0_4 then
-		return var_0_4.materialstate
+function slot0.GetCurMaterialState(slot0)
+	if uv0 then
+		return uv0.materialstate
 	end
 end
 
-function var_0_0.GenerateMaterialList(arg_58_0)
+function slot0.GenerateMaterialList(slot0)
 	manager.notify:Invoke(LIANLIANKAN_PREVIEW_APPEAR)
 end
 
-function var_0_0.ClearConveyorMaterial(arg_59_0, arg_59_1)
-	manager.notify:Invoke(LIANLIANKAN_PREVIEW_REMOVE_ALL, arg_59_1, true)
+function slot0.ClearConveyorMaterial(slot0, slot1)
+	manager.notify:Invoke(LIANLIANKAN_PREVIEW_REMOVE_ALL, slot1, true)
 end
 
-function var_0_0.DrainMaterial(arg_60_0, arg_60_1)
-	local var_60_0 = 0
-
-	for iter_60_0, iter_60_1 in ipairs(arg_60_1) do
-		var_0_4.drainMaterialNum = var_0_4.drainMaterialNum + 1
-		var_60_0 = var_60_0 + ActivityLinkGameCellCfg[iter_60_1].waste_score
+function slot0.DrainMaterial(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1) do
+		uv0.drainMaterialNum = uv0.drainMaterialNum + 1
+		slot2 = 0 + ActivityLinkGameCellCfg[slot7].waste_score
 	end
 
-	var_0_4.drainPoint = var_0_4.drainPoint + var_60_0
+	uv0.drainPoint = uv0.drainPoint + slot2
 
-	if var_60_0 > 0 then
-		manager.notify:Invoke(DORM_LINK_REFRESH_DRAIN_MATERIAL, var_60_0)
+	if slot2 > 0 then
+		manager.notify:Invoke(DORM_LINK_REFRESH_DRAIN_MATERIAL, slot2)
 	end
 end
 
-function var_0_0.GetLastPoint(arg_61_0)
-	local var_61_0 = var_0_4.basePoint
-	local var_61_1 = var_0_4.extendPoint - var_0_4.drainPoint
+function slot0.GetLastPoint(slot0)
+	slot1 = uv0.basePoint
 
-	if var_61_1 < 0 then
-		var_61_1 = 0
+	if uv0.extendPoint - uv0.drainPoint < 0 then
+		slot2 = 0
 	end
 
-	local var_61_2 = var_0_4.gameTime
-	local var_61_3 = ActivityLinkGameCfg[var_0_7].time_limit - var_61_2
-
-	if var_61_3 < 0 then
-		var_61_3 = 0
+	if ActivityLinkGameCfg[uv1].time_limit - uv0.gameTime < 0 then
+		slot4 = 0
 	end
 
-	local var_61_4 = var_61_3 * GameSetting.linkgame_time_score.value[1]
+	slot5 = slot4 * GameSetting.linkgame_time_score.value[1]
 
-	return var_61_0 + var_61_1 + var_61_4, var_61_1 + var_61_4
+	return slot1 + slot2 + slot5, slot2 + slot5
 end
 
-function var_0_0.GetSaveLevelID(arg_62_0)
-	local var_62_0 = USER_ID
-
-	return getData(string.format("%s_%d", "DormLinkLevel", var_62_0), "levelID") or ActivityLinkGameCfg[ActivityLinkGameCfg.all[1]].id
+function slot0.GetSaveLevelID(slot0)
+	return getData(string.format("%s_%d", "DormLinkLevel", USER_ID), "levelID") or ActivityLinkGameCfg[ActivityLinkGameCfg.all[1]].id
 end
 
-function var_0_0.SaveDefaultLevelAndDiff(arg_63_0, arg_63_1)
-	local var_63_0 = USER_ID
-
-	saveData(string.format("%s_%d", "DormLinkLevel", var_63_0), "levelID", arg_63_1)
+function slot0.SaveDefaultLevelAndDiff(slot0, slot1)
+	saveData(string.format("%s_%d", "DormLinkLevel", USER_ID), "levelID", slot1)
 end
 
-function var_0_0.CheckUnCompleteLevel(arg_64_0)
-	if var_0_9 then
-		for iter_64_0, iter_64_1 in pairs(ActivityLinkGameCfg.get_id_list_by_activity_id) do
-			if DormLinkGameTools:ChecklevelUnLock(iter_64_1[1]) then
-				local var_64_0 = false
+function slot0.CheckUnCompleteLevel(slot0)
+	if uv0 then
+		for slot4, slot5 in pairs(ActivityLinkGameCfg.get_id_list_by_activity_id) do
+			if DormLinkGameTools:ChecklevelUnLock(slot5[1]) then
+				slot6 = false
 
-				for iter_64_2, iter_64_3 in ipairs(iter_64_1) do
-					if var_0_9[iter_64_3] and var_0_9[iter_64_3].maxPoint then
-						var_64_0 = true
+				for slot10, slot11 in ipairs(slot5) do
+					if uv0[slot11] and uv0[slot11].maxPoint then
+						slot6 = true
 
 						break
 					end
 				end
 
-				if not var_64_0 then
+				if not slot6 then
 					manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_UNCOMPLETE_LEVEL, 1)
 
 					return
@@ -812,11 +733,9 @@ function var_0_0.CheckUnCompleteLevel(arg_64_0)
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_UNCOMPLETE_LEVEL, 0)
 end
 
-function var_0_0.CheckUnReciveLevelReward(arg_65_0)
-	local var_65_0 = ActivityLinkGameRewardCfg.all
-
-	for iter_65_0, iter_65_1 in ipairs(var_65_0) do
-		if (not var_0_10 or var_0_10 and not var_0_10[iter_65_1]) and DormLinkGameData:CheckLevelRewardState(iter_65_1) == DormLinkGameConst.RewardItemState.complete then
+function slot0.CheckUnReciveLevelReward(slot0)
+	for slot5, slot6 in ipairs(ActivityLinkGameRewardCfg.all) do
+		if (not uv0 or uv0 and not uv0[slot6]) and DormLinkGameData:CheckLevelRewardState(slot6) == DormLinkGameConst.RewardItemState.complete then
 			manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_LEVEL_REWARD, 1)
 
 			return
@@ -826,18 +745,11 @@ function var_0_0.CheckUnReciveLevelReward(arg_65_0)
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_LEVEL_REWARD, 0)
 end
 
-function var_0_0.CheckUnReciveTaskReward(arg_66_0)
-	local var_66_0 = DormLinkGameTools:GetTaskActivityID(var_0_2)
+function slot0.CheckUnReciveTaskReward(slot0)
+	slot0.list_ = {}
 
-	arg_66_0.list_ = {}
-
-	local var_66_1 = TaskTools:GetActivityTaskList(var_66_0) or {}
-
-	for iter_66_0, iter_66_1 in pairs(var_66_1) do
-		local var_66_2 = iter_66_1.id
-		local var_66_3 = AssignmentCfg[var_66_2]
-
-		if var_66_3.activity_id == var_66_0 and iter_66_1.progress >= var_66_3.need and iter_66_1.complete_flag < 1 then
+	for slot6, slot7 in pairs(TaskTools:GetActivityTaskList(DormLinkGameTools:GetTaskActivityID(uv0)) or {}) do
+		if AssignmentCfg[slot7.id].activity_id == slot1 and slot9.need <= slot7.progress and slot7.complete_flag < 1 then
 			manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_TASK_REWARD, 1)
 
 			return
@@ -847,4 +759,4 @@ function var_0_0.CheckUnReciveTaskReward(arg_66_0)
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_1_LINKGAME_TASK_REWARD, 0)
 end
 
-return var_0_0
+return slot0

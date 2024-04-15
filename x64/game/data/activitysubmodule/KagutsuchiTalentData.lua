@@ -1,94 +1,87 @@
-local var_0_0 = singletonClass("KagutsuchiTalentData")
-local var_0_1 = {}
+slot0 = singletonClass("KagutsuchiTalentData")
+slot1 = {}
 
-function var_0_0.InitData(arg_1_0, arg_1_1)
-	var_0_1 = {}
+function slot0.InitData(slot0, slot1)
+	uv0 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1.talent_list) do
-		var_0_1[iter_1_1.id] = iter_1_1.level
+	for slot5, slot6 in ipairs(slot1.talent_list) do
+		uv0[slot6.id] = slot6.level
 	end
 end
 
-function var_0_0.UpgradeTalent(arg_2_0, arg_2_1)
-	var_0_1[arg_2_1] = (var_0_1[arg_2_1] or 0) + 1
+function slot0.UpgradeTalent(slot0, slot1)
+	uv0[slot1] = (uv0[slot1] or 0) + 1
 end
 
-function var_0_0.GetUnlockTalentIdList(arg_3_0)
-	local var_3_0 = {}
+function slot0.GetUnlockTalentIdList(slot0)
+	slot1 = {}
 
-	for iter_3_0, iter_3_1 in pairs(var_0_1) do
-		table.insert(var_3_0, iter_3_0)
+	for slot5, slot6 in pairs(uv0) do
+		table.insert(slot1, slot5)
 	end
 
-	return var_3_0
+	return slot1
 end
 
-function var_0_0.GetTalentIdList(arg_4_0)
-	return TalentTreeCfg.get_id_list_by_activity_id[arg_4_0:GetActivityId()]
+function slot0.GetTalentIdList(slot0)
+	return TalentTreeCfg.get_id_list_by_activity_id[slot0:GetActivityId()]
 end
 
-function var_0_0.GetTalentLevel(arg_5_0, arg_5_1)
-	return var_0_1[arg_5_1] or 0
+function slot0.GetTalentLevel(slot0, slot1)
+	return uv0[slot1] or 0
 end
 
-function var_0_0.GetTalentMaxLevel(arg_6_0, arg_6_1)
-	if TalentTreeCfg[arg_6_1].activity_id ~= arg_6_0:GetActivityId() then
+function slot0.GetTalentMaxLevel(slot0, slot1)
+	if TalentTreeCfg[slot1].activity_id ~= slot0:GetActivityId() then
 		return 0
 	end
 
-	return TalentTreeCfg[arg_6_1].max_level
+	return TalentTreeCfg[slot1].max_level
 end
 
-function var_0_0.IsTalentMaxLevel(arg_7_0, arg_7_1)
-	return arg_7_0:GetTalentLevel(arg_7_1) >= arg_7_0:GetTalentMaxLevel(arg_7_1)
+function slot0.IsTalentMaxLevel(slot0, slot1)
+	return slot0:GetTalentMaxLevel(slot1) <= slot0:GetTalentLevel(slot1)
 end
 
-function var_0_0.IsTalentLocked(arg_8_0, arg_8_1)
-	return arg_8_0:GetTalentLevel(arg_8_1) == 0
+function slot0.IsTalentLocked(slot0, slot1)
+	return slot0:GetTalentLevel(slot1) == 0
 end
 
-function var_0_0.CanUpgrade(arg_9_0, arg_9_1)
-	if TalentTreeCfg[arg_9_1].activity_id ~= arg_9_0:GetActivityId() then
+function slot0.CanUpgrade(slot0, slot1)
+	if TalentTreeCfg[slot1].activity_id ~= slot0:GetActivityId() then
 		return false
 	end
 
-	local var_9_0 = arg_9_0:GetTalentLevel(arg_9_1)
-
-	if var_9_0 >= arg_9_0:GetTalentMaxLevel(arg_9_1) then
+	if slot0:GetTalentMaxLevel(slot1) <= slot0:GetTalentLevel(slot1) then
 		return false
 	end
 
-	local var_9_1 = arg_9_0:GetTalentConditionId(arg_9_1, var_9_0 + 1)
-
-	return arg_9_0:IsConditionAchieved(var_9_1)
+	return slot0:IsConditionAchieved(slot0:GetTalentConditionId(slot1, slot2 + 1))
 end
 
-function var_0_0.GetTalentConditionId(arg_10_0, arg_10_1, arg_10_2)
-	return TalentTreeCfg[arg_10_1].unlock_condition[arg_10_2]
+function slot0.GetTalentConditionId(slot0, slot1, slot2)
+	return TalentTreeCfg[slot1].unlock_condition[slot2]
 end
 
-function var_0_0.IsConditionAchieved(arg_11_0, arg_11_1)
-	local var_11_0 = ConditionCfg[arg_11_1]
-	local var_11_1 = var_11_0.type
-	local var_11_2 = var_11_0.params
+function slot0.IsConditionAchieved(slot0, slot1)
+	slot2 = ConditionCfg[slot1]
+	slot4 = slot2.params
 
-	if var_11_1 == 1020 then
-		local var_11_3 = HeroData:GetHeroData(var_11_2[1])
-
-		if var_11_3.unlock == 0 then
+	if slot2.type == 1020 then
+		if HeroData:GetHeroData(slot4[1]).unlock == 0 then
 			return false
 		end
 
-		return var_11_3.star / 100 >= var_11_2[2]
-	elseif var_11_1 == 2510 then
-		return KagutsuchiWorkData:GetTotalCoins() >= var_11_2[1]
+		return slot4[2] <= slot5.star / 100
+	elseif slot3 == 2510 then
+		return slot4[1] <= KagutsuchiWorkData:GetTotalCoins()
 	end
 
 	return false
 end
 
-function var_0_0.GetActivityId(arg_12_0)
+function slot0.GetActivityId(slot0)
 	return ActivityConst.KAGUTSUCHI_ACTIVITY
 end
 
-return var_0_0
+return slot0

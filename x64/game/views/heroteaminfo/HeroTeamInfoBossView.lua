@@ -1,86 +1,75 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("HeroTeamInfoBossView", var_0_0)
+slot1 = class("HeroTeamInfoBossView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	arg_1_0.bossIndex_ = arg_1_0.params_.bossIndex
+function slot1.OnEnter(slot0)
+	slot0.bossIndex_ = slot0.params_.bossIndex
 
-	var_0_1.super.OnEnter(arg_1_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_1.HeadRenderer(arg_2_0, arg_2_1, arg_2_2)
-	var_0_1.super.HeadRenderer(arg_2_0, arg_2_1, arg_2_2)
-
-	local var_2_0 = arg_2_0.heroDataList_[arg_2_1].id
-
-	arg_2_2:SetHeroLock(table.keyof(arg_2_0.lockHeroList_, var_2_0) ~= nil)
-	arg_2_2:SetChallengeFlag(arg_2_0:IsCurrentBossLock(var_2_0))
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
+	slot2:SetHeroLock(table.keyof(slot0.lockHeroList_, slot0.heroDataList_[slot1].id) ~= nil)
+	slot2:SetChallengeFlag(slot0:IsCurrentBossLock(slot3))
 end
 
-function var_0_1.GetDefaultHeroData(arg_3_0)
-	local var_3_0 = SectionSelectHeroTools.GetCurSelectHeroData()
-
-	if var_3_0 and var_3_0.id ~= 0 then
-		return var_3_0
+function slot1.GetDefaultHeroData(slot0)
+	if SectionSelectHeroTools.GetCurSelectHeroData() and slot1.id ~= 0 then
+		return slot1
 	end
 
-	local var_3_1 = arg_3_0.heroTeam_[arg_3_0.params_.selectHeroPos] or 0
-
-	if var_3_1 == 0 then
-		for iter_3_0, iter_3_1 in ipairs(arg_3_0.heroDataList_) do
-			local var_3_2 = iter_3_1.id
-
-			if not arg_3_0:IsInTeam(var_3_2, iter_3_1.trialID) and not table.keyof(arg_3_0.lockHeroList_, var_3_2) then
-				return iter_3_1
+	if (slot0.heroTeam_[slot0.params_.selectHeroPos] or 0) == 0 then
+		for slot6, slot7 in ipairs(slot0.heroDataList_) do
+			if not slot0:IsInTeam(slot7.id, slot7.trialID) and not table.keyof(slot0.lockHeroList_, slot8) then
+				return slot7
 			end
 		end
 	end
 
-	if var_3_1 == 0 and #arg_3_0.heroDataList_ > 0 then
-		return arg_3_0.heroDataList_[1]
+	if slot2 == 0 and #slot0.heroDataList_ > 0 then
+		return slot0.heroDataList_[1]
 	end
 
 	return {
 		trialID = 0,
-		id = var_3_1,
+		id = slot2,
 		type = HeroConst.HERO_DATA_TYPE.DEFAULT,
-		heroViewProxy = arg_3_0:GetHeroViewProxy(HeroConst.HERO_DATA_TYPE.DEFAULT)
+		heroViewProxy = slot0:GetHeroViewProxy(HeroConst.HERO_DATA_TYPE.DEFAULT)
 	}
 end
 
-function var_0_1.GetHeroList(arg_4_0)
-	local var_4_0 = HeroTools.Sort(HeroData:GetHeroList())
-	local var_4_1 = {}
-	local var_4_2 = {}
-	local var_4_3 = {}
-	local var_4_4 = BossTools.GetLockHero()[arg_4_0.bossIndex_]
+function slot1.GetHeroList(slot0)
+	slot2 = {}
+	slot3 = {}
+	slot4 = {}
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-		if table.keyof(var_4_4, iter_4_1) then
-			table.insert(var_4_1, iter_4_1)
-		elseif table.keyof(arg_4_0.lockHeroList_, iter_4_1) then
-			table.insert(var_4_2, iter_4_1)
+	for slot9, slot10 in ipairs(HeroTools.Sort(HeroData:GetHeroList())) do
+		if table.keyof(BossTools.GetLockHero()[slot0.bossIndex_], slot10) then
+			table.insert(slot2, slot10)
+		elseif table.keyof(slot0.lockHeroList_, slot10) then
+			table.insert(slot3, slot10)
 		else
-			table.insert(var_4_3, iter_4_1)
+			table.insert(slot4, slot10)
 		end
 	end
 
-	table.insertto(var_4_1, var_4_3)
-	table.insertto(var_4_1, var_4_2)
+	table.insertto(slot2, slot4)
 
-	for iter_4_2 = 3, 1, -1 do
-		if arg_4_0.heroTeam_[iter_4_2] ~= 0 then
-			table.removebyvalue(var_4_1, arg_4_0.heroTeam_[iter_4_2])
-			table.insert(var_4_1, 1, arg_4_0.heroTeam_[iter_4_2])
+	slot9 = slot3
+
+	table.insertto(slot2, slot9)
+
+	for slot9 = 3, 1, -1 do
+		if slot0.heroTeam_[slot9] ~= 0 then
+			table.removebyvalue(slot2, slot0.heroTeam_[slot9])
+			table.insert(slot2, 1, slot0.heroTeam_[slot9])
 		end
 	end
 
-	return var_4_1
+	return slot2
 end
 
-function var_0_1.IsCurrentBossLock(arg_5_0, arg_5_1)
-	local var_5_0 = BossTools.GetLockHero()[arg_5_0.bossIndex_]
-
-	return table.keyof(var_5_0, arg_5_1) ~= nil
+function slot1.IsCurrentBossLock(slot0, slot1)
+	return table.keyof(BossTools.GetLockHero()[slot0.bossIndex_], slot1) ~= nil
 end
 
-return var_0_1
+return slot1

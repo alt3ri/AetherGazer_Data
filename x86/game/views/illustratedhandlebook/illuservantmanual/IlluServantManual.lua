@@ -1,179 +1,172 @@
-local var_0_0 = class("IlluServantManual", ReduxView)
+slot0 = class("IlluServantManual", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluServantUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.tree_ = LuaTree.New(arg_4_0.uitreeGo_)
+	slot0.tree_ = LuaTree.New(slot0.uitreeGo_)
+	slot5 = slot0.OnGroupSelect
 
-	arg_4_0.tree_:SetSelectedHandler(handler(arg_4_0, arg_4_0.OnGroupSelect), nil)
+	slot0.tree_:SetSelectedHandler(handler(slot0, slot5), nil)
 
-	local var_4_0 = UITreeData.New()
+	slot1 = UITreeData.New()
 
-	arg_4_0:UpdateToggleData()
+	slot0:UpdateToggleData()
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.toggleList_) do
-		local var_4_1 = UITreeGroupData.New()
+	for slot5, slot6 in ipairs(slot0.toggleList_) do
+		slot7 = UITreeGroupData.New()
+		slot7.id = slot5
+		slot7.text = GetI18NText(slot6)
 
-		var_4_1.id = iter_4_0
-		var_4_1.text = GetI18NText(iter_4_1)
-
-		var_4_0.groupDatas:Add(var_4_1)
+		slot1.groupDatas:Add(slot7)
 	end
 
-	arg_4_0.tree_:SetData(var_4_0)
+	slot0.tree_:SetData(slot1)
 
-	arg_4_0.itemScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, IlluServantManualItem)
+	slot0.itemScroll_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, IlluServantManualItem)
 end
 
-function var_0_0.OnGroupSelect(arg_5_0, arg_5_1)
-	arg_5_0.selectIndex_ = arg_5_1
-	arg_5_0.params_.index = arg_5_0.selectIndex_
+function slot0.OnGroupSelect(slot0, slot1)
+	slot0.selectIndex_ = slot1
+	slot0.params_.index = slot0.selectIndex_
 
-	arg_5_0:UpdateItemData(arg_5_0.selectIndex_)
-	arg_5_0.itemScroll_:StartScroll(#arg_5_0.itemList_)
-	arg_5_0:RefreshCollectNum(arg_5_1)
+	slot0:UpdateItemData(slot0.selectIndex_)
+	slot0.itemScroll_:StartScroll(#slot0.itemList_)
+	slot0:RefreshCollectNum(slot1)
 end
 
-function var_0_0.UpdateToggleData(arg_6_0)
-	local var_6_0 = GetTips("ALL")
-
-	arg_6_0.toggleList_ = {
-		var_6_0
+function slot0.UpdateToggleData(slot0)
+	slot0.toggleList_ = {
+		GetTips("ALL")
 	}
-	arg_6_0.raceList_ = {}
+	slot0.raceList_ = {}
 
-	for iter_6_0, iter_6_1 in pairs(WeaponServantCfg.get_id_list_by_race) do
-		table.insert(arg_6_0.raceList_, iter_6_0)
+	for slot5, slot6 in pairs(WeaponServantCfg.get_id_list_by_race) do
+		table.insert(slot0.raceList_, slot5)
 	end
 
-	table.sort(arg_6_0.raceList_, function(arg_7_0, arg_7_1)
-		return arg_7_0 < arg_7_1
+	table.sort(slot0.raceList_, function (slot0, slot1)
+		return slot0 < slot1
 	end)
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_0.raceList_) do
-		table.insert(arg_6_0.toggleList_, RaceEffectCfg[iter_6_3].name)
+	for slot5, slot6 in ipairs(slot0.raceList_) do
+		table.insert(slot0.toggleList_, RaceEffectCfg[slot6].name)
 	end
 end
 
-function var_0_0.UpdateItemData(arg_8_0, arg_8_1)
-	arg_8_0.itemList_ = {}
-	arg_8_0.maxNum_ = 0
+function slot0.UpdateItemData(slot0, slot1)
+	slot0.itemList_ = {}
+	slot0.maxNum_ = 0
 
-	if arg_8_1 == 1 then
-		for iter_8_0, iter_8_1 in ipairs(WeaponServantCfg.all) do
-			local var_8_0 = IllustratedData:GetServantInfo()[iter_8_1]
+	if slot1 == 1 then
+		for slot5, slot6 in ipairs(WeaponServantCfg.all) do
+			slot7 = IllustratedData:GetServantInfo()[slot6]
 
-			if not ServantTools.GetIsHide(iter_8_1) and (var_8_0 or WeaponServantCfg[iter_8_1].display_type ~= 1) then
-				table.insert(arg_8_0.itemList_, {
-					name = ItemTools.getItemName(iter_8_1),
-					id = iter_8_1,
-					isUnlock = var_8_0
+			if not ServantTools.GetIsHide(slot6) and (slot7 or WeaponServantCfg[slot6].display_type ~= 1) then
+				table.insert(slot0.itemList_, {
+					name = ItemTools.getItemName(slot6),
+					id = slot6,
+					isUnlock = slot7
 				})
 
-				arg_8_0.maxNum_ = arg_8_0.maxNum_ + 1
+				slot0.maxNum_ = slot0.maxNum_ + 1
 			end
 		end
 	else
-		local var_8_1 = arg_8_0.raceList_[arg_8_1 - 1]
+		for slot6, slot7 in ipairs(WeaponServantCfg.get_id_list_by_race[slot0.raceList_[slot1 - 1]]) do
+			slot8 = IllustratedData:GetServantInfo()[slot7]
 
-		for iter_8_2, iter_8_3 in ipairs(WeaponServantCfg.get_id_list_by_race[var_8_1]) do
-			local var_8_2 = IllustratedData:GetServantInfo()[iter_8_3]
-
-			if not ServantTools.GetIsHide(iter_8_3) and (var_8_2 or WeaponServantCfg[iter_8_3].display_type ~= 1) then
-				table.insert(arg_8_0.itemList_, {
-					name = ItemTools.getItemName(iter_8_3),
-					id = iter_8_3,
-					isUnlock = var_8_2
+			if not ServantTools.GetIsHide(slot7) and (slot8 or WeaponServantCfg[slot7].display_type ~= 1) then
+				table.insert(slot0.itemList_, {
+					name = ItemTools.getItemName(slot7),
+					id = slot7,
+					isUnlock = slot8
 				})
 
-				arg_8_0.maxNum_ = arg_8_0.maxNum_ + 1
+				slot0.maxNum_ = slot0.maxNum_ + 1
 			end
 		end
 	end
 
-	table.sort(arg_8_0.itemList_, function(arg_9_0, arg_9_1)
-		if arg_9_0.isUnlock and not arg_9_1.isUnlock then
+	table.sort(slot0.itemList_, function (slot0, slot1)
+		if slot0.isUnlock and not slot1.isUnlock then
 			return true
 		end
 
-		if arg_9_1.isUnlock and not arg_9_0.isUnlock then
+		if slot1.isUnlock and not slot0.isUnlock then
 			return false
 		end
 
-		if ItemCfg[arg_9_0.id].rare ~= ItemCfg[arg_9_1.id].rare then
-			return ItemCfg[arg_9_0.id].rare > ItemCfg[arg_9_1.id].rare
+		if ItemCfg[slot0.id].rare ~= ItemCfg[slot1.id].rare then
+			return ItemCfg[slot1.id].rare < ItemCfg[slot0.id].rare
 		end
 
-		return arg_9_0.id > arg_9_1.id
+		return slot1.id < slot0.id
 	end)
 end
 
-function var_0_0.indexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:RefreshUI(arg_10_0.itemList_[arg_10_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_11_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.OnEnter(arg_12_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_12_0.selectIndex_ = arg_12_0.params_.index or 1
-	arg_12_0.params_.index = arg_12_0.selectIndex_
+	slot0.selectIndex_ = slot0.params_.index or 1
+	slot0.params_.index = slot0.selectIndex_
 
-	arg_12_0.tree_:SelectGroup(arg_12_0.selectIndex_)
+	slot0.tree_:SelectGroup(slot0.selectIndex_)
 
-	if arg_12_0.params_.scrollPos_ then
-		arg_12_0.itemScroll_:StartScrollByPosition(#arg_12_0.itemList_, arg_12_0.params_.scrollPos_)
+	if slot0.params_.scrollPos_ then
+		slot0.itemScroll_:StartScrollByPosition(#slot0.itemList_, slot0.params_.scrollPos_)
 	end
 end
 
-function var_0_0.RefreshCollectNum(arg_13_0, arg_13_1)
-	local var_13_0 = #arg_13_0.itemList_
-	local var_13_1 = 0
+function slot0.RefreshCollectNum(slot0, slot1)
+	slot2 = #slot0.itemList_
+	slot3 = 0
 
-	if arg_13_1 == 1 then
-		var_13_1 = table.length(IllustratedData:GetServantInfo())
+	if slot1 == 1 then
+		slot3 = table.length(IllustratedData:GetServantInfo())
 	else
-		local var_13_2 = arg_13_0.raceList_[arg_13_1 - 1]
-
-		for iter_13_0, iter_13_1 in ipairs(WeaponServantCfg.get_id_list_by_race[var_13_2]) do
-			if IllustratedData:GetServantInfo()[iter_13_1] then
-				var_13_1 = var_13_1 + 1
+		for slot8, slot9 in ipairs(WeaponServantCfg.get_id_list_by_race[slot0.raceList_[slot1 - 1]]) do
+			if IllustratedData:GetServantInfo()[slot9] then
+				slot3 = slot3 + 1
 			end
 		end
 	end
 
-	arg_13_0.collectnumText_.text = var_13_1 .. "/" .. arg_13_0.maxNum_
+	slot0.collectnumText_.text = slot3 .. "/" .. slot0.maxNum_
 end
 
-function var_0_0.OnExit(arg_14_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	arg_14_0.params_.scrollPos_ = arg_14_0.itemScroll_:GetScrolledPosition()
+	slot0.params_.scrollPos_ = slot0.itemScroll_:GetScrolledPosition()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.itemScroll_:Dispose()
-	arg_15_0.tree_:Dispose()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0.itemScroll_:Dispose()
+	slot0.tree_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

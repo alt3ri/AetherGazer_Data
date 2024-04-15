@@ -1,78 +1,66 @@
-local var_0_0 = class("ClassesPool")
+slot0 = class("ClassesPool")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.classPool_ = {}
-	arg_1_0.usingIndex_ = {}
+function slot0.Ctor(slot0)
+	slot0.classPool_ = {}
+	slot0.usingIndex_ = {}
 end
 
-function var_0_0.GetOrCreateClass(arg_2_0, arg_2_1, ...)
-	local var_2_0 = arg_2_1.__cname
-
-	if not arg_2_0.classPool_[var_2_0] or not arg_2_0.usingIndex_[var_2_0] then
-		arg_2_0.classPool_[var_2_0] = {}
-		arg_2_0.usingIndex_[var_2_0] = {}
+function slot0.GetOrCreateClass(slot0, slot1, ...)
+	if not slot0.classPool_[slot1.__cname] or not slot0.usingIndex_[slot2] then
+		slot0.classPool_[slot2] = {}
+		slot0.usingIndex_[slot2] = {}
 	end
 
-	local var_2_1 = #arg_2_0.classPool_[var_2_0]
+	for slot7 = 1, #slot0.classPool_[slot2] do
+		if not slot0.usingIndex_[slot2][slot7] then
+			slot0.usingIndex_[slot2][slot7] = true
 
-	for iter_2_0 = 1, var_2_1 do
-		if not arg_2_0.usingIndex_[var_2_0][iter_2_0] then
-			arg_2_0.usingIndex_[var_2_0][iter_2_0] = true
+			slot0.classPool_[slot2][slot7]:Ctor(...)
 
-			arg_2_0.classPool_[var_2_0][iter_2_0]:Ctor(...)
-
-			return arg_2_0.classPool_[var_2_0][iter_2_0]
+			return slot0.classPool_[slot2][slot7]
 		end
 	end
 
-	local var_2_2 = var_2_1 + 1
+	slot4 = slot3 + 1
+	slot0.classPool_[slot2][slot4] = slot1.New(...)
+	slot0.classPool_[slot2][slot4].__recycle = slot4
+	slot0.usingIndex_[slot2][slot4] = true
 
-	arg_2_0.classPool_[var_2_0][var_2_2] = arg_2_1.New(...)
-	arg_2_0.classPool_[var_2_0][var_2_2].__recycle = var_2_2
-	arg_2_0.usingIndex_[var_2_0][var_2_2] = true
-
-	return arg_2_0.classPool_[var_2_0][var_2_2]
+	return slot0.classPool_[slot2][slot4]
 end
 
-function var_0_0.ReturnClass(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_1.class.__cname
-
-	if not arg_3_0.classPool_[var_3_0] or not arg_3_0.usingIndex_[var_3_0] then
+function slot0.ReturnClass(slot0, slot1)
+	if not slot0.classPool_[slot1.class.__cname] or not slot0.usingIndex_[slot2] then
 		return
 	end
 
-	local var_3_1 = arg_3_1.__recycle
-
-	if var_3_1 and var_3_0 then
-		arg_3_0.usingIndex_[var_3_0][var_3_1] = false
+	if slot1.__recycle and slot2 then
+		slot0.usingIndex_[slot2][slot3] = false
 	end
 end
 
-function var_0_0.DisposeOnePool(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1.__cname
-	local var_4_1 = arg_4_0.classPool_[var_4_0]
-
-	if var_4_1 then
-		for iter_4_0, iter_4_1 in pairs(var_4_1) do
-			iter_4_1:Dispose()
+function slot0.DisposeOnePool(slot0, slot1)
+	if slot0.classPool_[slot1.__cname] then
+		for slot7, slot8 in pairs(slot3) do
+			slot8:Dispose()
 		end
 
-		arg_4_0.classPool_[var_4_0] = {}
-		arg_4_0.usingIndex_[var_4_0] = {}
+		slot0.classPool_[slot2] = {}
+		slot0.usingIndex_[slot2] = {}
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	if arg_5_0.classPool_ then
-		for iter_5_0, iter_5_1 in pairs(arg_5_0.classPool_) do
-			for iter_5_2, iter_5_3 in pairs(iter_5_1) do
-				iter_5_3:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.classPool_ then
+		for slot4, slot5 in pairs(slot0.classPool_) do
+			for slot9, slot10 in pairs(slot5) do
+				slot10:Dispose()
 			end
 		end
 	end
 
-	arg_5_0.classPool_ = {}
-	arg_5_0.usingIndex_ = {}
+	slot0.classPool_ = {}
+	slot0.usingIndex_ = {}
 end
 
-return var_0_0
+return slot0

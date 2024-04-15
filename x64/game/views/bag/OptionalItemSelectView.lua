@@ -1,68 +1,58 @@
-local var_0_0 = class("OptionalItemSelectView", ReduxView)
+slot0 = class("OptionalItemSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/UIInquirepopup14"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.selectInex_ = 0
-	arg_4_0.lastSelectItem_ = nil
+function slot0.OnEnter(slot0)
+	slot0.selectInex_ = 0
+	slot0.lastSelectItem_ = nil
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.okBtnController_ = arg_5_0.controllerEx_:GetController("btn")
-	arg_5_0.scrollHelper = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uiList_, CommonItemView)
+	slot0.okBtnController_ = slot0.controllerEx_:GetController("btn")
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiList_, CommonItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.dataList_[arg_6_1][1]
-	local var_6_1 = arg_6_0.dataList_[arg_6_1][2]
-	local var_6_2 = clone(ItemTemplateData)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot5 = clone(ItemTemplateData)
+	slot5.id = slot0.dataList_[slot1][1]
+	slot5.number = slot0.dataList_[slot1][2]
+	slot5.selectStyle = slot1 == slot0.selectInex_
 
-	var_6_2.id = var_6_0
-	var_6_2.number = var_6_1
-	var_6_2.selectStyle = arg_6_1 == arg_6_0.selectInex_
-
-	function var_6_2.clickFun()
-		arg_6_0:SelectItem(arg_6_2, arg_6_1)
+	function slot5.clickFun()
+		uv0:SelectItem(uv1, uv2)
 	end
 
-	arg_6_2:SetData(var_6_2)
+	slot2:SetData(slot5)
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.okBtn_, nil, function()
-		local var_9_0 = ItemCfg[arg_8_0.itemInfo_[1]].param[arg_8_0.indexMap_[arg_8_0.selectInex_]]
-
-		if var_9_0 then
-			local var_9_1 = var_9_0[1]
-
-			if ItemCfg[var_9_1].type == ItemConst.ITEM_TYPE.HERO_SKIN then
-				if HeroTools.IsSkinUnlock(var_9_1) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		if ItemCfg[uv0.itemInfo_[1]].param[uv0.indexMap_[uv0.selectInex_]] then
+			if ItemCfg[slot1[1]].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+				if HeroTools.IsSkinUnlock(slot2) then
 					ShowTips("SKIN_HAD_UNLOCKED")
 
 					return
 				end
 
-				local var_9_2 = getTicketIDBySkinID(var_9_1)
-				local var_9_3 = MaterialData:GetMaterialListById(var_9_2)
-
-				if var_9_3 then
-					for iter_9_0, iter_9_1 in pairs(var_9_3) do
-						if iter_9_1 > 0 then
+				if MaterialData:GetMaterialListById(getTicketIDBySkinID(slot2)) then
+					for slot9, slot10 in pairs(slot5) do
+						if slot10 > 0 then
 							ShowTips("SKIN_HAD_UNLOCKED")
 
 							return
@@ -74,105 +64,97 @@ function var_0_0.AddUIListener(arg_8_0)
 			CommonAction.TryToUseItem({
 				{
 					item_info = {
-						id = arg_8_0.itemInfo_[1],
-						num = arg_8_0.useNum_,
-						time_valid = arg_8_0.itemInfo_[4]
+						id = uv0.itemInfo_[1],
+						num = uv0.useNum_,
+						time_valid = uv0.itemInfo_[4]
 					},
 					use_list = {
-						arg_8_0.selectInex_
+						uv0.selectInex_
 					}
 				}
 			})
 		end
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.cancelBtn_, nil, function()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.maskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.SelectItem(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_0.selectInex_ == arg_12_2 then
+function slot0.SelectItem(slot0, slot1, slot2)
+	if slot0.selectInex_ == slot2 then
 		return
 	end
 
-	if arg_12_0.lastSelectItem_ then
-		arg_12_0.lastSelectItem_:RefreshSelectState(false)
+	if slot0.lastSelectItem_ then
+		slot0.lastSelectItem_:RefreshSelectState(false)
 	end
 
-	arg_12_0.selectInex_ = arg_12_2
-	arg_12_0.lastSelectItem_ = arg_12_1
+	slot0.selectInex_ = slot2
+	slot0.lastSelectItem_ = slot1
 
-	arg_12_1:RefreshSelectState(true)
-	arg_12_0:RefreshSelect()
+	slot1:RefreshSelectState(true)
+	slot0:RefreshSelect()
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	arg_13_0.itemInfo_ = arg_13_0.params_.popItemInfo
-	arg_13_0.useNum_ = arg_13_0.params_.selectNum
+function slot0.RefreshUI(slot0)
+	slot0.itemInfo_ = slot0.params_.popItemInfo
+	slot0.useNum_ = slot0.params_.selectNum
+	slot0.dataList_ = {}
+	slot0.indexMap_ = {}
+	slot2 = 1
 
-	local var_13_0 = ItemCfg[arg_13_0.itemInfo_[1]]
+	for slot6 = 1, #ItemCfg[slot0.itemInfo_[1]].param do
+		if not HeroTools.GetIsHide(slot1.param[slot6][1]) then
+			if not HeroTools.GetIsSkinHide(slot7) then
+				table.insert(slot0.dataList_, slot1.param[slot6])
 
-	arg_13_0.dataList_ = {}
-	arg_13_0.indexMap_ = {}
-
-	local var_13_1 = 1
-
-	for iter_13_0 = 1, #var_13_0.param do
-		local var_13_2 = var_13_0.param[iter_13_0][1]
-
-		if HeroTools.GetIsHide(var_13_2) or HeroTools.GetIsSkinHide(var_13_2) then
-			-- block empty
-		else
-			table.insert(arg_13_0.dataList_, var_13_0.param[iter_13_0])
-
-			arg_13_0.indexMap_[var_13_1] = iter_13_0
-			var_13_1 = var_13_1 + 1
+				slot0.indexMap_[slot2] = slot6
+				slot2 = slot2 + 1
+			end
 		end
 	end
 
-	arg_13_0.scrollHelper:StartScroll(#arg_13_0.dataList_)
-	arg_13_0:RefreshSelect()
+	slot0.scrollHelper:StartScroll(#slot0.dataList_)
+	slot0:RefreshSelect()
 end
 
-function var_0_0.RefreshSelect(arg_14_0)
-	local var_14_0 = arg_14_0.dataList_[arg_14_0.selectInex_]
+function slot0.RefreshSelect(slot0)
+	if slot0.dataList_[slot0.selectInex_] then
+		slot0.tipText_.text = string.format(GetTips("TIP_SELECT"), ItemTools.getItemName(slot1[1]))
 
-	if var_14_0 then
-		arg_14_0.tipText_.text = string.format(GetTips("TIP_SELECT"), ItemTools.getItemName(var_14_0[1]))
-
-		arg_14_0.okBtnController_:SetSelectedState("state1")
+		slot0.okBtnController_:SetSelectedState("state1")
 	else
-		arg_14_0.tipText_.text = GetTips("SELECT_CURRENT")
+		slot0.tipText_.text = GetTips("SELECT_CURRENT")
 
-		arg_14_0.okBtnController_:SetSelectedState("state0")
+		slot0.okBtnController_:SetSelectedState("state0")
 	end
 end
 
-function var_0_0.OnTryToUseItem(arg_15_0, arg_15_1, arg_15_2)
-	if isSuccess(arg_15_1.result) then
-		local var_15_0 = arg_15_0.dataList_[arg_15_0.selectInex_]
+function slot0.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		slot3 = slot0.dataList_[slot0.selectInex_]
 
 		JumpTools:Back()
-		getReward(arg_15_1.drop_list, {
+		getReward(slot1.drop_list, {
 			ItemConst.ITEM_TYPE.HERO,
 			ItemConst.ITEM_TYPE.HERO_SKIN
 		})
 	else
-		ShowTips(arg_15_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0.selectInex_ = 0
-	arg_16_0.lastSelectItem_ = nil
+function slot0.OnExit(slot0)
+	slot0.selectInex_ = 0
+	slot0.lastSelectItem_ = nil
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.scrollHelper:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

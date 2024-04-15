@@ -1,41 +1,39 @@
-local var_0_0 = class("AtlasMgr")
+slot0 = class("AtlasMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0:OnCtor()
+function slot0.Ctor(slot0)
+	slot0:OnCtor()
 end
 
-function var_0_0.OnCtor(arg_2_0)
-	arg_2_0.spritePool_ = {}
+function slot0.OnCtor(slot0)
+	slot0.spritePool_ = {}
 end
 
-function var_0_0.GetSprite(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = arg_3_1 .. arg_3_2
-
-	if not arg_3_0.spritePool_[var_3_0] then
-		arg_3_0.spritePool_[var_3_0] = getSprite(arg_3_1, arg_3_2)
+function slot0.GetSprite(slot0, slot1, slot2)
+	if not slot0.spritePool_[slot1 .. slot2] then
+		slot0.spritePool_[slot3] = getSprite(slot1, slot2)
 	end
 
-	return arg_3_0.spritePool_[var_3_0]
+	return slot0.spritePool_[slot3]
 end
 
-function var_0_0.UnloadSprite(arg_4_0, arg_4_1)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.spritePool_) do
-		if string.find(iter_4_0, arg_4_1) then
-			Object.Destroy(iter_4_1)
+function slot0.UnloadSprite(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.spritePool_) do
+		if string.find(slot5, slot1) then
+			Object.Destroy(slot6)
 
-			arg_4_0.spritePool_[iter_4_0] = nil
+			slot0.spritePool_[slot5] = nil
 		end
 	end
 end
 
-function var_0_0.UnloadAllSprite(arg_5_0)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.spritePool_) do
-		Object.Destroy(iter_5_1)
+function slot0.UnloadAllSprite(slot0)
+	for slot4, slot5 in pairs(slot0.spritePool_) do
+		Object.Destroy(slot5)
 
-		arg_5_0.spritePool_[iter_5_0] = nil
+		slot0.spritePool_[slot4] = nil
 	end
 
-	arg_5_0.spritePool_ = {}
+	slot0.spritePool_ = {}
 end
 
-return var_0_0
+return slot0

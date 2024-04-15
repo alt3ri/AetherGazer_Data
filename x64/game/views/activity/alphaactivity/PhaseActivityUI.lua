@@ -1,80 +1,79 @@
-local var_0_0 = class("AlphaRewardView", ReduxView)
+slot0 = class("AlphaRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/PopUp/PopupPhaseActivityUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardList_ = {}
-	arg_4_0.itemPool_ = Pool.New(arg_4_0.rewardItemTemplate_, arg_4_0.rewardItemParent_, 0)
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.rewardItemScroll_, AlphaRewardItem)
+	slot0.rewardList_ = {}
+	slot0.itemPool_ = Pool.New(slot0.rewardItemTemplate_, slot0.rewardItemParent_, 0)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.rewardItemScroll_, AlphaRewardItem)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	for iter_7_0 = 1, #arg_7_0.rewardList_ do
-		arg_7_0.rewardList_[iter_7_0]:OnEnter()
+function slot0.OnEnter(slot0)
+	for slot4 = 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot4]:OnEnter()
 	end
 
-	arg_7_0.generalTaskList_ = arg_7_0:GetTaskList()
+	slot0.generalTaskList_ = slot0:GetTaskList()
 
-	arg_7_0.scrollHelper_:StartScroll(#arg_7_0.generalTaskList_)
+	slot0.scrollHelper_:StartScroll(#slot0.generalTaskList_)
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshReward(arg_8_0.generalTaskList_[arg_8_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshReward(slot0.generalTaskList_[slot1])
 end
 
-function var_0_0.GetTaskList(arg_9_0)
-	local var_9_0 = {}
+function slot0.GetTaskList(slot0)
+	slot1 = {}
+	slot5 = TaskConst.TASK_TYPE.ALPHA
 
-	for iter_9_0, iter_9_1 in pairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.ALPHA]) do
-		local var_9_1 = AssignmentCfg[iter_9_1].phase
-
-		if not var_9_0[var_9_1] and AssignmentCfg[iter_9_1].condition == TaskConst.STAGE_TASK_ID and AssignmentCfg[iter_9_1].additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
-			var_9_0[var_9_1] = iter_9_1
+	for slot5, slot6 in pairs(AssignmentCfg.get_id_list_by_type[slot5]) do
+		if not slot1[AssignmentCfg[slot6].phase] and AssignmentCfg[slot6].condition == TaskConst.STAGE_TASK_ID and AssignmentCfg[slot6].additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
+			slot1[slot7] = slot6
 		end
 	end
 
-	return var_9_0
+	return slot1
 end
 
-function var_0_0.OnExit(arg_10_0)
-	for iter_10_0 = 1, #arg_10_0.rewardList_ do
-		arg_10_0.rewardList_[iter_10_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4 = 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot4]:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_11_0 = 1, #arg_11_0.rewardList_ do
-		arg_11_0.rewardList_[iter_11_0]:Dispose()
+	for slot4 = 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot4]:Dispose()
 
-		arg_11_0.rewardList_[iter_11_0] = nil
+		slot0.rewardList_[slot4] = nil
 	end
 
-	arg_11_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 
-	arg_11_0.itemPool_:Dispose()
-	arg_11_0.scrollHelper_:Dispose()
-	arg_11_0.super.Dispose(arg_11_0)
+	slot0.itemPool_:Dispose()
+	slot0.scrollHelper_:Dispose()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

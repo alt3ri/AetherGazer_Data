@@ -1,347 +1,301 @@
-local var_0_0 = class("SkinBuyCheckView", ReduxView)
+slot0 = class("SkinBuyCheckView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/HeroSkin/SkinBuyCheckUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.costTypeController_ = ControllerUtil.GetController(arg_4_0.transform_, "price")
-	arg_4_0.commonItem_ = CommonItem.New(arg_4_0.commonitemGo_)
-	arg_4_0.give_backController_ = ControllerUtil.GetController(arg_4_0.transform_, "give_back")
-	arg_4_0.dlcController = ControllerUtil.GetController(arg_4_0.transform_, "dlc")
-	arg_4_0.dlcViewBtnController = ControllerUtil.GetController(arg_4_0.transform_, "dlcViewBtn")
-	arg_4_0.dlcJumpController = ControllerUtil.GetController(arg_4_0.transform_, "dlcJump")
-	arg_4_0.dlcList = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_dlcList, SkinBuyCheckDLCItem)
+	slot0.costTypeController_ = ControllerUtil.GetController(slot0.transform_, "price")
+	slot0.commonItem_ = CommonItem.New(slot0.commonitemGo_)
+	slot0.give_backController_ = ControllerUtil.GetController(slot0.transform_, "give_back")
+	slot0.dlcController = ControllerUtil.GetController(slot0.transform_, "dlc")
+	slot0.dlcViewBtnController = ControllerUtil.GetController(slot0.transform_, "dlcViewBtn")
+	slot0.dlcJumpController = ControllerUtil.GetController(slot0.transform_, "dlcJump")
+	slot0.dlcList = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_dlcList, SkinBuyCheckDLCItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.checkBtn_, nil, function()
-		local function var_7_0(arg_8_0)
-			local var_8_0 = getShopCfg(arg_5_0.goodID_)
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
+		function slot0(slot0)
+			if ShopTools.IsRMB(slot0, getShopCfg(uv0.goodID_).shop_id) then
+				slot2, slot3, slot4 = ShopTools.IsOnDiscountArea(slot0, slot1.shop_id)
+				slot5 = nil
 
-			if ShopTools.IsRMB(arg_8_0, var_8_0.shop_id) then
-				local var_8_1, var_8_2, var_8_3 = ShopTools.IsOnDiscountArea(arg_8_0, var_8_0.shop_id)
-				local var_8_4
-
-				if var_8_1 and var_8_3 then
-					var_8_4 = getShopCfg(arg_8_0).cheap_cost_id
-				else
-					var_8_4 = getShopCfg(arg_8_0).cost_id
-				end
-
-				local var_8_5 = getShopCfg(arg_8_0).shop_id
-
-				PayAction.RequestGSPay(var_8_4, 1, var_8_5, arg_8_0)
+				PayAction.RequestGSPay((not slot2 or not slot4 or getShopCfg(slot0).cheap_cost_id) and getShopCfg(slot0).cost_id, 1, getShopCfg(slot0).shop_id, slot0)
 			else
-				local var_8_6, var_8_7 = arg_5_0:HaveDlc()
+				slot2, slot3 = uv0:HaveDlc()
 
-				if var_8_6 and var_8_7 then
-					if #arg_5_0.selectList == 1 then
-						ShopTools.ConfirmBuyItem(arg_5_0.selectList[1], 1)
+				if slot2 and slot3 then
+					if #uv0.selectList == 1 then
+						ShopTools.ConfirmBuyItem(uv0.selectList[1], 1)
 					else
-						ShopDlcAction.DlcConfirmBuyItem(arg_5_0.goodID_, arg_5_0.selectList)
+						ShopDlcAction.DlcConfirmBuyItem(uv0.goodID_, uv0.selectList)
 					end
 				else
-					ShopTools.ConfirmBuyItem(arg_8_0, 1)
+					ShopTools.ConfirmBuyItem(slot0, 1)
 				end
 			end
 		end
 
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
-			payment_skin_buy_check = arg_5_0.params_.skinID
+			payment_skin_buy_check = uv0.params_.skinID
 		})
 
-		local var_7_1 = getShopCfg(arg_5_0.goodID_)
-		local var_7_2 = arg_5_0.goodID_
-
-		if ShopData.IsGoodOutOfDate(var_7_2, var_7_1.shop_id) then
+		if ShopData.IsGoodOutOfDate(uv0.goodID_, getShopCfg(uv0.goodID_).shop_id) then
 			ShowTips("SKIN_SALE_FINISH")
-			arg_5_0:Back()
+			uv0:Back()
 
 			return
 		end
 
-		local var_7_3 = HeroData:GetHeroData(arg_5_0.params_.heroID)
-		local var_7_4, var_7_5, var_7_6 = ShopTools.GetPrice(var_7_2, var_7_1.shop_id)
-		local var_7_7, var_7_8 = arg_5_0:HaveDlc()
+		slot3 = HeroData:GetHeroData(uv0.params_.heroID)
+		slot4, slot5, slot6 = ShopTools.GetPrice(slot2, slot1.shop_id)
+		slot7, slot8 = uv0:HaveDlc()
 
-		if var_7_7 and var_7_8 then
-			var_7_4 = 0
-
-			for iter_7_0, iter_7_1 in ipairs(arg_5_0.selectList) do
-				local var_7_9 = getShopCfg(iter_7_1)
-				local var_7_10, var_7_11, var_7_12 = ShopTools.GetPrice(iter_7_1, var_7_9.shop_id)
-
-				var_7_4 = var_7_4 + var_7_10
+		if slot7 and slot8 then
+			for slot12, slot13 in ipairs(uv0.selectList) do
+				slot15, slot16, slot17 = ShopTools.GetPrice(slot13, getShopCfg(slot13).shop_id)
+				slot4 = 0 + slot15
 			end
 		end
 
-		if var_7_3.unlock == 0 then
+		if slot3.unlock == 0 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("NOT_HAVE_HERO_SKIN_CONFIRM"), GetI18NText(HeroCfg[arg_5_0.params_.heroID].name)),
-				OkCallback = function()
-					if ShopTools.IsSkin(arg_5_0.goodID_, var_7_1.shop_id) then
-						if ShopTools.GetCostCount(arg_5_0.goodID_) < var_7_4 then
-							arg_5_0:SkinIsdeficiency()
+				content = string.format(GetTips("NOT_HAVE_HERO_SKIN_CONFIRM"), GetI18NText(HeroCfg[uv0.params_.heroID].name)),
+				OkCallback = function ()
+					if ShopTools.IsSkin(uv0.goodID_, uv1.shop_id) then
+						if ShopTools.GetCostCount(uv0.goodID_) < uv2 then
+							uv0:SkinIsdeficiency()
 						else
-							var_7_0(var_7_2)
+							uv3(uv4)
 							SDKTools.SendPaymentMessageToSDK("payment_touch", {
 								payment_skin_buy_unlock = 0
 							})
 						end
-					elseif ShopTools.IsRMB(var_7_2, var_7_1.shop_id) then
-						var_7_0(var_7_2)
+					elseif ShopTools.IsRMB(uv4, uv1.shop_id) then
+						uv3(uv4)
 						SDKTools.SendPaymentMessageToSDK("payment_touch", {
 							payment_skin_buy_unlock = 0
 						})
-					elseif ShopTools.GetCostCount(arg_5_0.goodID_) < var_7_4 then
-						var_7_0(var_7_2)
+					elseif ShopTools.GetCostCount(uv0.goodID_) < uv2 then
+						uv3(uv4)
 					else
-						var_7_0(var_7_2)
+						uv3(uv4)
 						SDKTools.SendPaymentMessageToSDK("payment_touch", {
 							payment_skin_buy_unlock = 0
 						})
 					end
 				end,
-				CancelCallback = function()
+				CancelCallback = function ()
 					SDKTools.SendPaymentMessageToSDK("payment_touch", {
 						payment_skin_buy_unlock = 1
 					})
 				end
 			})
-		elseif ShopTools.IsSkin(arg_5_0.goodID_, var_7_1.shop_id) then
-			if var_7_4 > ShopTools.GetCostCount(arg_5_0.goodID_) then
-				arg_5_0:SkinIsdeficiency()
+		elseif ShopTools.IsSkin(uv0.goodID_, slot1.shop_id) then
+			if ShopTools.GetCostCount(uv0.goodID_) < slot4 then
+				uv0:SkinIsdeficiency()
 			else
-				var_7_0(var_7_2)
+				slot0(slot2)
 				SDKTools.SendPaymentMessageToSDK("payment_touch", {
 					payment_skin_buy_unlock = 0
 				})
 			end
-		elseif ShopTools.IsRMB(var_7_2, var_7_1.shop_id) then
-			var_7_0(var_7_2)
+		elseif ShopTools.IsRMB(slot2, slot1.shop_id) then
+			slot0(slot2)
 			SDKTools.SendPaymentMessageToSDK("payment_touch", {
 				payment_skin_buy_unlock = 0
 			})
-		elseif var_7_4 > ShopTools.GetCostCount(arg_5_0.goodID_) then
-			var_7_0(var_7_2)
+		elseif ShopTools.GetCostCount(uv0.goodID_) < slot4 then
+			slot0(slot2)
 		else
-			var_7_0(var_7_2)
+			slot0(slot2)
 			SDKTools.SendPaymentMessageToSDK("payment_touch", {
 				payment_skin_buy_unlock = 0
 			})
 		end
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_dlcViewBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_dlcViewBtn, function ()
 		JumpTools.OpenPageByJump("/skinDlcShow", {
-			goodId = arg_5_0.dlcID_
+			goodId = uv0.dlcID_
 		})
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_jumpBtn, function()
-		local var_12_0, var_12_1 = arg_5_0:HaveDlc()
+	slot0:AddBtnListener(nil, slot0.m_jumpBtn, function ()
+		slot0, slot1 = uv0:HaveDlc()
 
-		if var_12_0 and not var_12_1 then
-			local var_12_2 = getShopCfg(arg_5_0.dlcID_)
-
+		if slot0 and not slot1 then
 			JumpTools.GoToSystem("/shop", {
-				shopId = var_12_2.shop_id
+				shopId = getShopCfg(uv0.dlcID_).shop_id
 			}, ViewConst.SYSTEM_ID.SHOP)
 		end
 	end)
 end
 
-function var_0_0.SkinIsdeficiency(arg_13_0)
+function slot0.SkinIsdeficiency(slot0)
 	ShowMessageBox({
 		content = string.format(GetTips("ERROR_ITEM_NOT_SKIN_TICKET_C")),
-		OkCallback = function()
+		OkCallback = function ()
 			JumpTools.GoToSystem("/rechargeMain", {
 				childShopIndex = 4,
 				page = 2
 			}, ViewConst.SYSTEM_ID.RECHARGE_MAIN)
 		end,
-		CancelCallback = function()
-			arg_13_0:Back()
+		CancelCallback = function ()
+			uv0:Back()
 		end
 	})
 end
 
-function var_0_0.RefreshUI(arg_16_0)
-	local var_16_0 = getShopCfg(arg_16_0.goodID_)
-	local var_16_1, var_16_2 = arg_16_0:HaveDlc()
+function slot0.RefreshUI(slot0)
+	slot2, slot3 = slot0:HaveDlc()
 
-	if not var_16_1 then
-		arg_16_0.dlcController:SetSelectedIndex(0)
+	if not slot2 then
+		slot0.dlcController:SetSelectedIndex(0)
 
-		local var_16_3 = {}
-		local var_16_4 = RechargeShopDescriptionCfg[var_16_0.description]
+		slot4 = {}
+		slot4 = (RechargeShopDescriptionCfg[getShopCfg(slot0.goodID_).description].type ~= 8 or slot5.id) and HeroTools.GetSkinChangeItem(slot0.skinID_)
+		slot0.textnameText_.text = ItemTools.getItemName(slot4)
+		slot0.textinfoText_.text = string.format(GetTips("BUY_SKIN_CHANGE"), ItemTools.getItemName(slot4)) .. ItemTools.getItemDesc(slot4)
+		slot0.m_textinfoScroll.verticalNormalizedPosition = 1
 
-		if var_16_4.type == 8 then
-			var_16_3 = var_16_4.id
-		else
-			var_16_3 = HeroTools.GetSkinChangeItem(arg_16_0.skinID_)
-		end
-
-		arg_16_0.textnameText_.text = ItemTools.getItemName(var_16_3)
-		arg_16_0.textinfoText_.text = string.format(GetTips("BUY_SKIN_CHANGE"), ItemTools.getItemName(var_16_3)) .. ItemTools.getItemDesc(var_16_3)
-		arg_16_0.m_textinfoScroll.verticalNormalizedPosition = 1
-
-		arg_16_0.commonItem_:RefreshData({
+		slot0.commonItem_:RefreshData({
 			number = 1,
-			id = var_16_3
+			id = slot4
 		})
-		arg_16_0:UpdatePrice()
+		slot0:UpdatePrice()
 	else
-		arg_16_0.dlcController:SetSelectedIndex(1)
+		slot0.dlcController:SetSelectedIndex(1)
 
-		arg_16_0.selectList = {}
+		slot0.selectList = {}
 
-		if ShopTools.HaveSkin(arg_16_0.skinID_) or HeroTools.CanChangeSkin(arg_16_0.skinID_) then
-			arg_16_0.selectIndex = 2
+		if ShopTools.HaveSkin(slot0.skinID_) or HeroTools.CanChangeSkin(slot0.skinID_) then
+			slot0.selectIndex = 2
 
-			if var_16_2 then
-				arg_16_0.selectList = {
-					arg_16_0.dlcID_
+			if slot3 then
+				slot0.selectList = {
+					slot0.dlcID_
 				}
 			else
-				arg_16_0.selectList = {}
+				slot0.selectList = {}
 			end
 		else
-			arg_16_0.selectIndex = 1
-			arg_16_0.selectList = {
-				arg_16_0.goodID_
+			slot0.selectIndex = 1
+			slot0.selectList = {
+				slot0.goodID_
 			}
 		end
 
-		arg_16_0.dlcList:StartScroll(2)
-		arg_16_0:RefreshDlcDes()
-		arg_16_0:UpdatePriceByDlc()
+		slot0.dlcList:StartScroll(2)
+		slot0:RefreshDlcDes()
+		slot0:UpdatePriceByDlc()
 	end
 end
 
-function var_0_0.UpdatePrice(arg_17_0)
-	local var_17_0 = getShopCfg(arg_17_0.goodID_)
-	local var_17_1 = arg_17_0.goodID_
-	local var_17_2, var_17_3, var_17_4 = ShopTools.GetPrice(var_17_1, var_17_0.shop_id)
-	local var_17_5 = PaymentCfg[1].currency_symbol
-	local var_17_6 = var_17_0.give_back_list
+function slot0.UpdatePrice(slot0)
+	slot1 = getShopCfg(slot0.goodID_)
+	slot0.rmbpriceText_.text, slot4, slot5 = ShopTools.GetPrice(slot0.goodID_, slot1.shop_id)
 
-	if var_17_6 == 0 or #var_17_6 == 0 then
-		arg_17_0.give_backController_:SetSelectedState("false")
+	if slot1.give_back_list == 0 or #slot7 == 0 then
+		slot0.give_backController_:SetSelectedState("false")
 
-		if ShopTools.IsRMB(var_17_1, var_17_0.shop_id) then
-			arg_17_0.costTypeController_:SetSelectedState("money")
+		if ShopTools.IsRMB(slot2, slot1.shop_id) then
+			slot0.costTypeController_:SetSelectedState("money")
 
-			arg_17_0.rmbpriceText_.text = var_17_2
-			arg_17_0.symbolText_.text = var_17_5
+			slot0.symbolText_.text = PaymentCfg[1].currency_symbol
 		else
-			arg_17_0.costTypeController_:SetSelectedState("currency")
+			slot0.costTypeController_:SetSelectedState("currency")
 
-			arg_17_0.costiconImg_.sprite = ItemTools.getItemLittleSprite(var_17_0.cost_id)
-			arg_17_0.symbolText_.text = " "
-			arg_17_0.priceText_.text = var_17_2
+			slot0.costiconImg_.sprite = ItemTools.getItemLittleSprite(slot1.cost_id)
+			slot0.symbolText_.text = " "
+			slot0.priceText_.text = slot3
 		end
 	else
-		arg_17_0.give_backController_:SetSelectedState("true")
+		slot0.give_backController_:SetSelectedState("true")
 
-		arg_17_0.rebackSkinTicketText_.text = var_17_6[1].num or 0
+		slot0.rebackSkinTicketText_.text = slot7[1].num or 0
 
-		local var_17_7 = SettingData:GetCurrentLanguage()
-
-		if var_17_7 == "fr" or var_17_7 == "de" then
-			var_17_2 = string.gsub(tostring(var_17_2), "%.", ",")
+		if SettingData:GetCurrentLanguage() == "fr" or slot8 == "de" then
+			slot3 = string.gsub(tostring(slot3), "%.", ",")
 		end
 
-		arg_17_0.rmbpriceText_.text = var_17_2
+		slot0.rmbpriceText_.text = slot3
 
-		if ShopTools.IsRMB(var_17_1, var_17_0.shop_id) then
-			arg_17_0.costTypeController_:SetSelectedState("money")
+		if ShopTools.IsRMB(slot2, slot1.shop_id) then
+			slot0.costTypeController_:SetSelectedState("money")
 
-			arg_17_0.symbolText_.text = var_17_5
-		elseif ShopTools.IsSkin(var_17_1, var_17_0.shop_id) then
-			arg_17_0.costTypeController_:SetSelectedState("skin")
+			slot0.symbolText_.text = slot6
+		elseif ShopTools.IsSkin(slot2, slot1.shop_id) then
+			slot0.costTypeController_:SetSelectedState("skin")
 
-			arg_17_0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(var_17_0.give_back_list[1].id)
-			arg_17_0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(var_17_0.give_back_list[1].id)
-			arg_17_0.costSkinTicketText_.text = var_17_2
+			slot0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(slot1.give_back_list[1].id)
+			slot0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(slot1.give_back_list[1].id)
+			slot0.costSkinTicketText_.text = slot3
 		else
-			arg_17_0.costTypeController_:SetSelectedState("currency")
+			slot0.costTypeController_:SetSelectedState("currency")
 
-			arg_17_0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(var_17_0.give_back_list[1].id)
-			arg_17_0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(var_17_0.give_back_list[1].id)
-			arg_17_0.costSkinTicketText_.text = var_17_2
+			slot0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(slot1.give_back_list[1].id)
+			slot0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(slot1.give_back_list[1].id)
+			slot0.costSkinTicketText_.text = slot3
 		end
 	end
 end
 
-function var_0_0.OnShopBuyResult(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_4)
-	if arg_18_1 == 0 then
-		local var_18_0 = getShopCfg(arg_18_2, arg_18_3)
-		local var_18_1 = var_18_0.description
-		local var_18_2 = var_18_0.give or 1
-		local var_18_3 = {
+function slot0.OnShopBuyResult(slot0, slot1, slot2, slot3, slot4)
+	if slot1 == 0 then
+		slot5 = getShopCfg(slot2, slot3)
+		slot6 = slot5.description
+		slot8 = {
 			{
-				var_18_1,
-				var_18_2 * arg_18_4
+				slot6,
+				(slot5.give or 1) * slot4
 			}
 		}
-		local var_18_4
-		local var_18_5
+		slot9, slot10 = nil
 
-		arg_18_0:Back()
+		slot0:Back()
 
-		if var_18_0.description then
-			local var_18_6 = var_18_0.description
-
-			var_18_4 = RechargeShopDescriptionCfg[var_18_6]
-		else
-			var_18_4 = ItemCfg[var_18_1]
-		end
-
-		if var_18_4.type ~= 14 then
+		if ((not slot5.description or RechargeShopDescriptionCfg[slot5.description]) and ItemCfg[slot6]).type ~= 14 then
 			return
 		end
 
-		if var_18_0.give_back_list ~= 0 and #var_18_0.give_back_list ~= 0 then
-			local var_18_7 = {}
+		if slot5.give_back_list ~= 0 and #slot5.give_back_list ~= 0 then
+			slot11 = {}
 
-			for iter_18_0, iter_18_1 in ipairs(var_18_0.give_back_list) do
-				table.insert(var_18_7, {
-					iter_18_1.id,
-					iter_18_1.num
+			for slot15, slot16 in ipairs(slot5.give_back_list) do
+				table.insert(slot11, {
+					slot16.id,
+					slot16.num
 				})
 			end
 
-			table.insertto(var_18_3, var_18_7)
+			table.insertto(slot8, slot11)
 		end
 
-		local var_18_8 = formatRewardCfgList(var_18_3)
-		local var_18_9 = mergeReward(var_18_8)
-
-		getReward(var_18_9, nil, function()
+		getReward(mergeReward(formatRewardCfgList(slot8)), nil, function ()
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("USE_SKIN_CHANGE"), GetI18NText(RechargeShopDescriptionCfg[var_18_1].name)),
-				OkCallback = function()
+				content = string.format(GetTips("USE_SKIN_CHANGE"), GetI18NText(RechargeShopDescriptionCfg[uv0].name)),
+				OkCallback = function ()
 					CommonAction.TryToUseItem({
 						{
 							item_info = {
 								num = 1,
-								id = HeroTools.GetSkinChangeItem(arg_18_0.skinID_)
+								id = HeroTools.GetSkinChangeItem(uv0.skinID_)
 							},
 							use_list = {}
 						}
@@ -349,13 +303,15 @@ function var_0_0.OnShopBuyResult(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_
 				end
 			})
 		end, nil, true)
-	else
-		arg_18_0:Back()
+
+		return
 	end
+
+	slot0:Back()
 end
 
-function var_0_0.UpdateBar(arg_21_0)
-	if arg_21_0.params_.shopID == 1048 then
+function slot0.UpdateBar(slot0)
+	if slot0.params_.shopID == 1048 then
 		manager.windowBar:SwitchBar({
 			CurrencyConst.CURRENCY_TYPE_SKIN
 		}, true)
@@ -374,43 +330,39 @@ function var_0_0.UpdateBar(arg_21_0)
 	end
 end
 
-function var_0_0.OnTop(arg_22_0)
-	arg_22_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 	manager.windowBar:SetAsLastSibling()
 end
 
-function var_0_0.OnEnter(arg_23_0)
-	arg_23_0.goodID_ = arg_23_0.params_.goodID
-	arg_23_0.heroID_ = arg_23_0.params_.heroID
-	arg_23_0.skinID_ = arg_23_0.params_.skinID
+function slot0.OnEnter(slot0)
+	slot0.goodID_ = slot0.params_.goodID
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.skinID_ = slot0.params_.skinID
+	slot1 = getShopCfg(slot0.goodID_)
+	slot0.dlcID_ = slot1.dlc
 
-	local var_23_0 = getShopCfg(arg_23_0.goodID_)
-
-	arg_23_0.dlcID_ = var_23_0.dlc
-
-	if ShopTools.IsRMB(arg_23_0.goodID_, var_23_0.shop_id) then
-		arg_23_0.dlcID_ = nil
+	if ShopTools.IsRMB(slot0.goodID_, slot1.shop_id) then
+		slot0.dlcID_ = nil
 	end
 
-	if arg_23_0.dlcID_ ~= nil and arg_23_0.dlcID_ ~= 0 then
-		arg_23_0.dlcViewBtnController:SetSelectedIndex(1)
+	if slot0.dlcID_ ~= nil and slot0.dlcID_ ~= 0 then
+		slot0.dlcViewBtnController:SetSelectedIndex(1)
 	else
-		arg_23_0.dlcViewBtnController:SetSelectedIndex(0)
+		slot0.dlcViewBtnController:SetSelectedIndex(0)
 	end
 
-	arg_23_0:RefreshUI()
-	arg_23_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_24_0)
-		local var_24_0 = HeroTools.GetSkinChangeItem(arg_23_0.skinID_)
-
-		arg_23_0:Back()
+	slot0:RefreshUI()
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		uv0:Back()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
-			content = string.format(GetTips("USE_SKIN_CHANGE"), ItemTools.getItemName(var_24_0)),
-			OkCallback = function()
+			content = string.format(GetTips("USE_SKIN_CHANGE"), ItemTools.getItemName(HeroTools.GetSkinChangeItem(uv0.skinID_))),
+			OkCallback = function ()
 				CommonAction.TryToUseItem({
 					{
 						num = 1,
-						item_id = var_24_0,
+						item_id = uv0,
 						use_list = {}
 					}
 				})
@@ -418,242 +370,203 @@ function var_0_0.OnEnter(arg_23_0)
 		})
 	end)
 
-	if (ShopTools.HaveSkin(arg_23_0.skinID_) or HeroTools.CanChangeSkin(arg_23_0.skinID_)) and arg_23_0.dlcID_ and arg_23_0.dlcID_ ~= 0 and ShopTools.CheckDlcPurchased(arg_23_0.dlcID_) then
-		Timer.New(function()
-			arg_23_0:Back()
+	if (ShopTools.HaveSkin(slot0.skinID_) or HeroTools.CanChangeSkin(slot0.skinID_)) and slot0.dlcID_ and slot0.dlcID_ ~= 0 and ShopTools.CheckDlcPurchased(slot0.dlcID_) then
+		Timer.New(function ()
+			uv0:Back()
 		end, 0.033, 1):Start()
 	end
 
-	if arg_23_0.timer_ == nil then
-		arg_23_0.timer_ = FrameTimer.New(function()
-			local var_27_0, var_27_1 = arg_23_0:HaveDlc()
+	if slot0.timer_ == nil then
+		slot0.timer_ = FrameTimer.New(function ()
+			slot0, slot1 = uv0:HaveDlc()
 
-			if not var_27_0 then
-				arg_23_0:UpdatePrice()
+			if not slot0 then
+				uv0:UpdatePrice()
 			else
-				if arg_23_0.dlcList ~= nil then
-					for iter_27_0, iter_27_1 in ipairs(arg_23_0.dlcList:GetItemList()) do
-						iter_27_1:UpdateTimer()
+				if uv0.dlcList ~= nil then
+					for slot5, slot6 in ipairs(uv0.dlcList:GetItemList()) do
+						slot6:UpdateTimer()
 					end
 				end
 
-				arg_23_0:UpdatePriceByDlc()
+				uv0:UpdatePriceByDlc()
 			end
 		end, 1, -1)
 
-		arg_23_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.OnExit(arg_28_0)
-	if arg_28_0.timer_ ~= nil then
-		arg_28_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ ~= nil then
+		slot0.timer_:Stop()
 
-		arg_28_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_28_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_29_0)
-	arg_29_0.commonItem_:Dispose()
-	arg_29_0.dlcList:Dispose()
-	var_0_0.super.Dispose(arg_29_0)
+function slot0.Dispose(slot0)
+	slot0.commonItem_:Dispose()
+	slot0.dlcList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.HaveDlc(arg_30_0)
-	if arg_30_0.dlcID_ == nil or arg_30_0.dlcID_ == 0 then
+function slot0.HaveDlc(slot0)
+	if slot0.dlcID_ == nil or slot0.dlcID_ == 0 then
+		return false, false
+	elseif getShopCfg(slot0.dlcID_) == nil then
+		return false, false
+	elseif ShopTools.CheckDlcPurchased(slot0.dlcID_) then
 		return false, false
 	else
-		local var_30_0 = getShopCfg(arg_30_0.dlcID_)
-
-		if var_30_0 == nil then
-			return false, false
-		elseif ShopTools.CheckDlcPurchased(arg_30_0.dlcID_) then
-			return false, false
-		else
-			return true, ShopConst.SHOP_ID.DLC_SHOP == var_30_0.shop_id
-		end
+		return true, ShopConst.SHOP_ID.DLC_SHOP == slot1.shop_id
 	end
 end
 
-function var_0_0.IndexItem(arg_31_0, arg_31_1, arg_31_2)
-	if arg_31_1 == 1 then
-		if ShopTools.HaveSkin(arg_31_0.skinID_) or HeroTools.CanChangeSkin(arg_31_0.skinID_) then
-			arg_31_2:SetState(2)
-		elseif table.indexof(arg_31_0.selectList, arg_31_0.goodID_) then
-			arg_31_2:SetState(1)
+function slot0.IndexItem(slot0, slot1, slot2)
+	if slot1 == 1 then
+		if ShopTools.HaveSkin(slot0.skinID_) or HeroTools.CanChangeSkin(slot0.skinID_) then
+			slot2:SetState(2)
+		elseif table.indexof(slot0.selectList, slot0.goodID_) then
+			slot2:SetState(1)
 		else
-			arg_31_2:SetState(0)
+			slot2:SetState(0)
 		end
 
-		arg_31_2:SetData(arg_31_1, arg_31_0.goodID_)
-	elseif arg_31_1 == 2 then
-		local var_31_0, var_31_1 = arg_31_0:HaveDlc()
+		slot2:SetData(slot1, slot0.goodID_)
+	elseif slot1 == 2 then
+		slot3, slot4 = slot0:HaveDlc()
 
-		if not var_31_1 then
-			arg_31_2:SetState(3)
-		elseif table.indexof(arg_31_0.selectList, arg_31_0.dlcID_) then
-			arg_31_2:SetState(1)
+		if not slot4 then
+			slot2:SetState(3)
+		elseif table.indexof(slot0.selectList, slot0.dlcID_) then
+			slot2:SetState(1)
 		else
-			arg_31_2:SetState(0)
+			slot2:SetState(0)
 		end
 
-		arg_31_2:SetData(arg_31_1, arg_31_0.dlcID_)
+		slot2:SetData(slot1, slot0.dlcID_)
 	end
 
-	arg_31_2:SetSelect(arg_31_1 == arg_31_0.selectIndex)
-	arg_31_2:RegistCallBack(function(arg_32_0)
-		arg_31_0:DlcItemClick(arg_32_0)
+	slot2:SetSelect(slot1 == slot0.selectIndex)
+	slot2:RegistCallBack(function (slot0)
+		uv0:DlcItemClick(slot0)
 	end)
-	arg_31_2:RegistSelectCallBack(function(arg_33_0)
-		arg_31_0:DlcItemSelectClick(arg_33_0)
+	slot2:RegistSelectCallBack(function (slot0)
+		uv0:DlcItemSelectClick(slot0)
 	end)
 end
 
-function var_0_0.DlcItemClick(arg_34_0, arg_34_1)
-	arg_34_0.selectIndex = arg_34_1
+function slot0.DlcItemClick(slot0, slot1)
+	slot0.selectIndex = slot1
 
-	arg_34_0.dlcList:Refresh()
-	arg_34_0:RefreshDlcDes()
-	arg_34_0:UpdatePriceByDlc()
+	slot0.dlcList:Refresh()
+	slot0:RefreshDlcDes()
+	slot0:UpdatePriceByDlc()
 end
 
-function var_0_0.DlcItemSelectClick(arg_35_0, arg_35_1)
-	local var_35_0 = table.indexof(arg_35_0.selectList, arg_35_1)
-
-	if var_35_0 then
-		table.remove(arg_35_0.selectList, var_35_0)
+function slot0.DlcItemSelectClick(slot0, slot1)
+	if table.indexof(slot0.selectList, slot1) then
+		table.remove(slot0.selectList, slot2)
 	else
-		table.insert(arg_35_0.selectList, arg_35_1)
+		table.insert(slot0.selectList, slot1)
 	end
 
-	arg_35_0.dlcList:Refresh()
-	arg_35_0:UpdatePriceByDlc()
+	slot0.dlcList:Refresh()
+	slot0:UpdatePriceByDlc()
 end
 
-function var_0_0.RefreshDlcDes(arg_36_0)
-	if arg_36_0.selectIndex == 1 then
-		local var_36_0 = getShopCfg(arg_36_0.goodID_)
-		local var_36_1 = {}
-		local var_36_2 = RechargeShopDescriptionCfg[var_36_0.description]
+function slot0.RefreshDlcDes(slot0)
+	if slot0.selectIndex == 1 then
+		slot2 = {}
+		slot2 = (RechargeShopDescriptionCfg[getShopCfg(slot0.goodID_).description].type ~= 8 or slot3.id) and HeroTools.GetSkinChangeItem(slot0.skinID_)
+		slot0.textnameText_.text = ItemTools.getItemName(slot2)
+		slot0.textinfoText_.text = string.format(GetTips("BUY_SKIN_CHANGE"), ItemTools.getItemName(slot2)) .. ItemTools.getItemDesc(slot2)
+		slot0.m_textinfoScroll.verticalNormalizedPosition = 1
 
-		if var_36_2.type == 8 then
-			var_36_1 = var_36_2.id
-		else
-			var_36_1 = HeroTools.GetSkinChangeItem(arg_36_0.skinID_)
-		end
-
-		arg_36_0.textnameText_.text = ItemTools.getItemName(var_36_1)
-		arg_36_0.textinfoText_.text = string.format(GetTips("BUY_SKIN_CHANGE"), ItemTools.getItemName(var_36_1)) .. ItemTools.getItemDesc(var_36_1)
-		arg_36_0.m_textinfoScroll.verticalNormalizedPosition = 1
-
-		arg_36_0.dlcJumpController:SetSelectedIndex(0)
+		slot0.dlcJumpController:SetSelectedIndex(0)
 	else
-		local var_36_3 = getShopCfg(arg_36_0.dlcID_)
-		local var_36_4 = var_36_3.give_id or var_36_3.description
+		slot3 = slot1.give or 1
+		slot4, slot5 = nil
+		slot5 = (not slot1.description or RechargeShopDescriptionCfg[slot1.description]) and ItemCfg[getShopCfg(slot0.dlcID_).give_id or slot1.description]
+		slot0.textnameText_.text = ItemTools.getItemName(slot5.id)
+		slot0.textinfoText_.text = ItemTools.getItemDesc(slot5.id)
+		slot0.m_textinfoScroll.verticalNormalizedPosition = 1
+		slot6, slot7 = slot0:HaveDlc()
 
-		if not var_36_3.give then
-			local var_36_5 = 1
-		end
-
-		local var_36_6
-		local var_36_7
-
-		if var_36_3.description then
-			local var_36_8 = var_36_3.description
-
-			var_36_7 = RechargeShopDescriptionCfg[var_36_8]
+		if slot6 and not slot7 then
+			slot0.dlcJumpController:SetSelectedIndex(1)
 		else
-			var_36_7 = ItemCfg[var_36_4]
-		end
-
-		arg_36_0.textnameText_.text = ItemTools.getItemName(var_36_7.id)
-		arg_36_0.textinfoText_.text = ItemTools.getItemDesc(var_36_7.id)
-		arg_36_0.m_textinfoScroll.verticalNormalizedPosition = 1
-
-		local var_36_9, var_36_10 = arg_36_0:HaveDlc()
-
-		if var_36_9 and not var_36_10 then
-			arg_36_0.dlcJumpController:SetSelectedIndex(1)
-		else
-			arg_36_0.dlcJumpController:SetSelectedIndex(0)
+			slot0.dlcJumpController:SetSelectedIndex(0)
 		end
 	end
 end
 
-function var_0_0.UpdatePriceByDlc(arg_37_0)
-	local var_37_0 = getShopCfg(arg_37_0.goodID_)
-	local var_37_1 = PaymentCfg[1].currency_symbol
-	local var_37_2 = arg_37_0.goodID_
+function slot0.UpdatePriceByDlc(slot0)
+	slot1 = getShopCfg(slot0.goodID_)
+	slot2 = PaymentCfg[1].currency_symbol
+	slot3 = slot0.goodID_
 
-	if #arg_37_0.selectList == 0 then
-		arg_37_0.give_backController_:SetSelectedState("false")
-		arg_37_0.costTypeController_:SetSelectedState("null")
+	if #slot0.selectList == 0 then
+		slot0.give_backController_:SetSelectedState("false")
+		slot0.costTypeController_:SetSelectedState("null")
 
 		return
 	end
 
-	local var_37_3 = 0
-	local var_37_4 = ""
-	local var_37_5 = {}
+	slot5 = ""
+	slot6 = {}
 
-	for iter_37_0, iter_37_1 in ipairs(arg_37_0.selectList) do
-		local var_37_6, var_37_7, var_37_8 = ShopTools.GetPrice(iter_37_1, var_37_0.shop_id)
+	for slot10, slot11 in ipairs(slot0.selectList) do
+		slot12, slot13, slot14 = ShopTools.GetPrice(slot11, slot1.shop_id)
+		slot4 = 0 + slot12
+		slot5 = slot10 == 1 and "(" .. slot4 or "(" .. slot4 .. "+" .. slot12
 
-		var_37_3 = var_37_3 + var_37_6
-
-		if iter_37_0 == 1 then
-			var_37_4 = "(" .. var_37_3
-		else
-			var_37_4 = var_37_4 .. "+" .. var_37_6
-		end
-
-		local var_37_9 = getShopCfg(iter_37_1).give_back_list
-
-		if type(var_37_9) == "table" then
-			for iter_37_2, iter_37_3 in ipairs(var_37_9) do
-				if not var_37_5[iter_37_3.id] then
-					var_37_5[iter_37_3.id] = iter_37_3.num
+		if type(getShopCfg(slot11).give_back_list) == "table" then
+			for slot20, slot21 in ipairs(slot16) do
+				if not slot6[slot21.id] then
+					slot6[slot21.id] = slot21.num
 				else
-					var_37_5[iter_37_3.id] = var_37_5[iter_37_3.id] + iter_37_3.num
+					slot6[slot21.id] = slot6[slot21.id] + slot21.num
 				end
 			end
 		end
 	end
 
-	local var_37_10 = var_37_4 .. ")"
+	slot5 = slot5 .. ")"
 
-	if table.length(var_37_5) == 0 then
-		arg_37_0.give_backController_:SetSelectedState("false")
+	if table.length(slot6) == 0 then
+		slot0.give_backController_:SetSelectedState("false")
 	else
-		arg_37_0.give_backController_:SetSelectedState("true")
+		slot0.give_backController_:SetSelectedState("true")
 
-		for iter_37_4, iter_37_5 in pairs(var_37_5) do
-			arg_37_0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(iter_37_4)
-			arg_37_0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(iter_37_4)
-			arg_37_0.rebackSkinTicketText_.text = iter_37_5
+		for slot10, slot11 in pairs(slot6) do
+			slot0.currencyiconImg_.sprite = ItemTools.getItemLittleSprite(slot10)
+			slot0.give_back_icon_.sprite = ItemTools.getItemLittleSprite(slot10)
+			slot0.rebackSkinTicketText_.text = slot11
 		end
 	end
 
-	if #arg_37_0.selectList > 1 then
-		arg_37_0.m_delPrice.text = var_37_10
+	if #slot0.selectList > 1 then
+		slot0.m_delPrice.text = slot5
 	else
-		arg_37_0.m_delPrice.text = ""
+		slot0.m_delPrice.text = ""
 	end
 
-	if ShopTools.IsRMB(var_37_2, var_37_0.shop_id) then
-		arg_37_0.costTypeController_:SetSelectedState("money")
+	if ShopTools.IsRMB(slot3, slot1.shop_id) then
+		slot0.costTypeController_:SetSelectedState("money")
 
-		arg_37_0.rmbpriceText_.text = var_37_3
-		arg_37_0.symbolText_.text = var_37_1
+		slot0.rmbpriceText_.text = slot4
+		slot0.symbolText_.text = slot2
 	else
-		arg_37_0.costTypeController_:SetSelectedState("currency")
+		slot0.costTypeController_:SetSelectedState("currency")
 
-		arg_37_0.costiconImg_.sprite = ItemTools.getItemLittleSprite(var_37_0.cost_id)
-		arg_37_0.symbolText_.text = " "
-		arg_37_0.priceText_.text = var_37_3
+		slot0.costiconImg_.sprite = ItemTools.getItemLittleSprite(slot1.cost_id)
+		slot0.symbolText_.text = " "
+		slot0.priceText_.text = slot4
 	end
 end
 
-return var_0_0
+return slot0

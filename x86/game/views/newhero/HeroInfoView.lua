@@ -1,484 +1,457 @@
-local var_0_0 = class("HeroInfoView", ReduxView)
+slot0 = class("HeroInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.oldAtt_ = {}
-	arg_1_0.tweens_ = {}
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.oldAtt_ = {}
+	slot0.tweens_ = {}
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockController_ = arg_3_0.controller_:GetController("lock")
-	arg_3_0.pieceEnoughController_ = arg_3_0.controller_:GetController("pieceEnough")
-	arg_3_0.isSelfController_ = arg_3_0.controller_:GetController("isSelf")
-	arg_3_0.levelStateController_ = arg_3_0.controller_:GetController("levelState")
-	arg_3_0.moduleController_ = arg_3_0.controller_:GetController("module")
-	arg_3_0.polyhedronController_ = arg_3_0.controller_:GetController("polyhedron")
-	arg_3_0.propNames_ = {
-		arg_3_0.propName1_,
-		arg_3_0.propName2_,
-		arg_3_0.propName3_,
-		arg_3_0.propName4_
+	slot0.lockController_ = slot0.controller_:GetController("lock")
+	slot0.pieceEnoughController_ = slot0.controller_:GetController("pieceEnough")
+	slot0.isSelfController_ = slot0.controller_:GetController("isSelf")
+	slot0.levelStateController_ = slot0.controller_:GetController("levelState")
+	slot0.moduleController_ = slot0.controller_:GetController("module")
+	slot0.polyhedronController_ = slot0.controller_:GetController("polyhedron")
+	slot0.propNames_ = {
+		slot0.propName1_,
+		slot0.propName2_,
+		slot0.propName3_,
+		slot0.propName4_
 	}
-	arg_3_0.propItems_ = {
-		arg_3_0.propNum1_,
-		arg_3_0.propNum2_,
-		arg_3_0.propNum3_,
-		arg_3_0.propNum4_
+	slot0.propItems_ = {
+		slot0.propNum1_,
+		slot0.propNum2_,
+		slot0.propNum3_,
+		slot0.propNum4_
 	}
-	arg_3_0.propIcon_ = {
-		arg_3_0.propIcon1_,
-		arg_3_0.propIcon2_,
-		arg_3_0.propIcon3_,
-		arg_3_0.propIcon4_
+	slot0.propIcon_ = {
+		slot0.propIcon1_,
+		slot0.propIcon2_,
+		slot0.propIcon3_,
+		slot0.propIcon4_
 	}
-	arg_3_0.propIndexes_ = {
+	slot0.propIndexes_ = {
 		HeroConst.HERO_ATTRIBUTE.ATK,
 		HeroConst.HERO_ATTRIBUTE.ARM,
 		HeroConst.HERO_ATTRIBUTE.STA,
 		HeroConst.HERO_ATTRIBUTE.CRITICAL
 	}
-	arg_3_0.endfixes_ = {}
+	slot0.endfixes_ = {}
 
-	for iter_3_0 = 1, 4 do
-		local var_3_0, var_3_1, var_3_2 = SkillTools.GetAttr({
-			arg_3_0.propIndexes_[iter_3_0],
+	for slot4 = 1, 4 do
+		slot5, slot6, slot0.propIcon_[slot4].sprite = SkillTools.GetAttr({
+			slot0.propIndexes_[slot4],
 			0
 		})
-
-		arg_3_0.propNames_[iter_3_0].text = GetI18NText(var_3_0)
-		arg_3_0.propIcon_[iter_3_0].sprite = var_3_2
-		arg_3_0.endfixes_[iter_3_0] = PublicAttrCfg[arg_3_0.propIndexes_[iter_3_0]].percent == 1 and "%" or ""
+		slot0.propNames_[slot4].text = GetI18NText(slot5)
+		slot0.endfixes_[slot4] = PublicAttrCfg[slot0.propIndexes_[slot4]].percent == 1 and "%" or ""
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	if arg_4_0.surpassBtn_ then
-		arg_4_0:AddBtnListener(arg_4_0.surpassBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	if slot0.surpassBtn_ then
+		slot0:AddBtnListener(slot0.surpassBtn_, nil, function ()
 			JumpTools.OpenPageByJump("/heroSurpass", {
-				heroId = arg_4_0.heroInfo_.id
+				heroId = uv0.heroInfo_.id
 			})
 		end)
 	end
 
-	if arg_4_0.surpass01Btn_ then
-		arg_4_0:AddBtnListener(arg_4_0.surpass01Btn_, nil, function()
+	if slot0.surpass01Btn_ then
+		slot0:AddBtnListener(slot0.surpass01Btn_, nil, function ()
 			JumpTools.OpenPageByJump("/heroSurpass", {
-				heroId = arg_4_0.heroInfo_.id
+				heroId = uv0.heroInfo_.id
 			})
 		end)
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.checkBtn_, nil, function()
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewMain", {
 			isEnter = true,
-			hid = arg_4_0.heroInfo_.id
+			hid = uv0.heroInfo_.id
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		local var_8_0 = arg_4_0:GetHeroPiece()
-		local var_8_1 = arg_4_0.heroCfg_.rare
-
-		if var_8_0 < GameSetting.unlock_hero_need.value[var_8_1] then
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+		if uv0:GetHeroPiece() < GameSetting.unlock_hero_need.value[uv0.heroCfg_.rare] then
 			ShowPopItem(POP_SOURCE_ITEM, {
-				ItemCfg[arg_4_0.heroCfg_.id].fragment
+				ItemCfg[uv0.heroCfg_.id].fragment
 			})
 		else
 			manager.net:SendWithLoadingNew(14016, {
-				id = arg_4_0.heroCfg_.id
-			}, 14017, handler(arg_4_0, arg_4_0.OnUnlockHero))
+				id = uv0.heroCfg_.id
+			}, 14017, handler(uv0, uv0.OnUnlockHero))
 		end
 	end)
 
-	if arg_4_0.upgradeBtn_ then
-		arg_4_0:AddBtnListener(arg_4_0.upgradeBtn_, nil, function()
+	if slot0.upgradeBtn_ then
+		slot0:AddBtnListener(slot0.upgradeBtn_, nil, function ()
 			JumpTools.OpenPageByJump("/heroUpgrade", {
-				heroId = arg_4_0.heroInfo_.id,
-				proxy = arg_4_0.heroViewProxy_
+				heroId = uv0.heroInfo_.id,
+				proxy = uv0.heroViewProxy_
 			})
 		end)
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.campBgBtn_, nil, function()
+	slot0:AddBtnListener(slot0.campBgBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sectionSelectRaceDescription")
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.buttonHeroAttribute_, nil, function()
+	slot0:AddBtnListener(slot0.buttonHeroAttribute_, nil, function ()
 		JumpTools.OpenPageByJump("heroAttribute", {
-			heroID = arg_4_0.heroInfo_.id,
-			proxy = arg_4_0.heroViewProxy_
+			heroID = uv0.heroInfo_.id,
+			proxy = uv0.heroViewProxy_
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.moduleView_, nil, function()
+	slot0:AddBtnListener(slot0.moduleView_, nil, function ()
 		OperationRecorder.RecordButtonTouch("hero_attribute_module")
 
-		if not arg_4_0.heroViewProxy_.isSelf then
+		if not uv0.heroViewProxy_.isSelf then
 			return
 		end
 
-		if WeaponModuleCfg[arg_4_0.heroInfo_.id] then
+		if WeaponModuleCfg[uv0.heroInfo_.id] then
 			JumpTools.OpenPageByJump("/weaponModuleView", {
-				heroID = arg_4_0.heroInfo_.id
+				heroID = uv0.heroInfo_.id
 			})
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.proficiencyBtn_, nil, function()
-		if arg_4_0.openContent_ then
-			arg_4_0.openContent_ = false
+	slot0:AddBtnListener(slot0.proficiencyBtn_, nil, function ()
+		if uv0.openContent_ then
+			uv0.openContent_ = false
 		else
-			arg_4_0.openContent_ = true
+			uv0.openContent_ = true
 		end
 
-		SetActive(arg_4_0.comTipsGo_, arg_4_0.openContent_)
-		SetActive(arg_4_0.proficiencyMaskBtn_.gameObject, arg_4_0.openContent_)
+		SetActive(uv0.comTipsGo_, uv0.openContent_)
+		SetActive(uv0.proficiencyMaskBtn_.gameObject, uv0.openContent_)
 
-		arg_4_0.comTipsNumText_.text = HeroTools.GetHeroProficiency(arg_4_0.heroInfo_.id) .. "/" .. GameSetting.mastery_level_max.value[1]
+		uv0.comTipsNumText_.text = HeroTools.GetHeroProficiency(uv0.heroInfo_.id) .. "/" .. GameSetting.mastery_level_max.value[1]
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.proficiencyMaskBtn_, nil, function()
-		arg_4_0.openContent_ = false
+	slot0:AddBtnListener(slot0.proficiencyMaskBtn_, nil, function ()
+		uv0.openContent_ = false
 
-		SetActive(arg_4_0.comTipsGo_, arg_4_0.openContent_)
-		SetActive(arg_4_0.proficiencyMaskBtn_.gameObject, arg_4_0.openContent_)
+		SetActive(uv0.comTipsGo_, uv0.openContent_)
+		SetActive(uv0.proficiencyMaskBtn_.gameObject, uv0.openContent_)
 	end)
 end
 
-function var_0_0.OnUnlockHero(arg_15_0, arg_15_1, arg_15_2)
-	if isSuccess(arg_15_1.result) then
-		HeroAction.UnlockHeroSuccess(arg_15_0.heroCfg_.id)
+function slot0.OnUnlockHero(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		HeroAction.UnlockHeroSuccess(slot0.heroCfg_.id)
 		gameContext:Go("obtainView", {
 			itemList = {
-				arg_15_0.heroCfg_
+				slot0.heroCfg_
 			}
 		})
 	end
 end
 
-function var_0_0.SetHeroInfo(arg_16_0, arg_16_1)
-	arg_16_0.oldBattlePower_ = arg_16_0.battlePower_ or 0
-	arg_16_0.oldAtt_ = arg_16_0.att_ or {}
-	arg_16_0.heroInfo_ = arg_16_1
-	arg_16_0.heroCfg_ = HeroCfg[arg_16_1.id]
-	arg_16_0.curLv_ = arg_16_0.heroInfo_.level
-	arg_16_0.curLvMax_ = HeroTools.GetHeroCurrentMaxLevel(arg_16_0.heroInfo_)
+function slot0.SetHeroInfo(slot0, slot1)
+	slot0.oldBattlePower_ = slot0.battlePower_ or 0
+	slot0.oldAtt_ = slot0.att_ or {}
+	slot0.heroInfo_ = slot1
+	slot0.heroCfg_ = HeroCfg[slot1.id]
+	slot0.curLv_ = slot0.heroInfo_.level
+	slot0.curLvMax_ = HeroTools.GetHeroCurrentMaxLevel(slot0.heroInfo_)
 end
 
-function var_0_0.UpdateView(arg_17_0)
-	arg_17_0.openContent_ = false
+function slot0.UpdateView(slot0)
+	slot0.openContent_ = false
 
-	SetActive(arg_17_0.comTipsGo_, arg_17_0.openContent_)
-	SetActive(arg_17_0.proficiencyMaskBtn_.gameObject, arg_17_0.openContent_)
+	SetActive(slot0.comTipsGo_, slot0.openContent_)
+	SetActive(slot0.proficiencyMaskBtn_.gameObject, slot0.openContent_)
 
-	arg_17_0.nameText_.text = GetI18NText(arg_17_0.heroCfg_.name)
-	arg_17_0.subNameText_.text = GetI18NText(arg_17_0.heroCfg_.suffix)
+	slot0.nameText_.text = GetI18NText(slot0.heroCfg_.name)
+	slot0.subNameText_.text = GetI18NText(slot0.heroCfg_.suffix)
 
-	local var_17_0 = arg_17_0.heroInfo_.unlock ~= 0 or arg_17_0.type_ == HeroConst.HERO_DATA_TYPE.PREVIEW
+	slot0.lockController_:SetSelectedState(tostring(not (slot0.heroInfo_.unlock ~= 0 or slot0.type_ == HeroConst.HERO_DATA_TYPE.PREVIEW)))
+	slot0.isSelfController_:SetSelectedState(tostring(not slot0.heroViewProxy_.isSelf))
+	slot0.polyhedronController_:SetSelectedState(tostring(slot0.type_ == HeroConst.HERO_DATA_TYPE.POLYHEDRON))
 
-	arg_17_0.lockController_:SetSelectedState(tostring(not var_17_0))
-	arg_17_0.isSelfController_:SetSelectedState(tostring(not arg_17_0.heroViewProxy_.isSelf))
-	arg_17_0.polyhedronController_:SetSelectedState(tostring(arg_17_0.type_ == HeroConst.HERO_DATA_TYPE.POLYHEDRON))
+	slot0.campLogo_.sprite = HeroTools.GetRaceIcon(slot0.heroCfg_.race)
+	slot0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroCfg_.id)
 
-	arg_17_0.campLogo_.sprite = HeroTools.GetRaceIcon(arg_17_0.heroCfg_.race)
-	arg_17_0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_17_0.heroCfg_.id)
-
-	if arg_17_0.heroInfo_.unlock == 0 then
-		arg_17_0:UpdateLockedView()
+	if slot0.heroInfo_.unlock == 0 then
+		slot0:UpdateLockedView()
 	else
-		arg_17_0:UpdateUnlockedView()
+		slot0:UpdateUnlockedView()
 
-		if arg_17_0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
-			local var_17_1 = arg_17_0.heroCfg_.id
-
-			ArchiveAction.CheckAllRelationRedPoint(var_17_1)
+		if slot0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
+			ArchiveAction.CheckAllRelationRedPoint(slot0.heroCfg_.id)
 		end
 	end
 
-	if arg_17_0.heroViewProxy_.showRedPoint then
-		if not isNil(arg_17_0.moduleView_) and not isNil(arg_17_0.moduleView_.transform) then
-			manager.redPoint:bindUIandKey(arg_17_0.moduleView_.transform, RedPointConst.WEAPON_MODULE_UNLOCK .. "_" .. arg_17_0.heroInfo_.id)
+	if slot0.heroViewProxy_.showRedPoint then
+		if not isNil(slot0.moduleView_) and not isNil(slot0.moduleView_.transform) then
+			manager.redPoint:bindUIandKey(slot0.moduleView_.transform, RedPointConst.WEAPON_MODULE_UNLOCK .. "_" .. slot0.heroInfo_.id)
 		end
 
-		manager.redPoint:bindUIandKey(arg_17_0.surpassBtn_.transform, RedPointConst.HERO_STAR_ID .. arg_17_0.heroInfo_.id)
-		manager.redPoint:bindUIandKey(arg_17_0.upgradeBtn_.transform, RedPointConst.HERO_BREAK_ID .. arg_17_0.heroInfo_.id)
+		manager.redPoint:bindUIandKey(slot0.surpassBtn_.transform, RedPointConst.HERO_STAR_ID .. slot0.heroInfo_.id)
+		manager.redPoint:bindUIandKey(slot0.upgradeBtn_.transform, RedPointConst.HERO_BREAK_ID .. slot0.heroInfo_.id)
 	end
 end
 
-function var_0_0.GetHeroPiece(arg_18_0)
-	return arg_18_0.heroInfo_.piece
+function slot0.GetHeroPiece(slot0)
+	return slot0.heroInfo_.piece
 end
 
-function var_0_0.UpdateLockedView(arg_19_0)
-	local var_19_0 = arg_19_0:GetHeroPiece()
-	local var_19_1 = arg_19_0.heroCfg_.rare
-	local var_19_2 = GameSetting.unlock_hero_need.value[var_19_1]
-	local var_19_3 = math.min(var_19_0, var_19_2)
+function slot0.UpdateLockedView(slot0)
+	slot1 = slot0:GetHeroPiece()
+	slot3 = GameSetting.unlock_hero_need.value[slot0.heroCfg_.rare]
+	slot4 = math.min(slot1, slot3)
+	slot0.pieceCost_ = -slot3
+	slot0.curPieceText_.text = tostring(slot1)
+	slot0.needPieceText_.text = "/" .. tostring(slot3)
 
-	arg_19_0.pieceCost_ = -var_19_2
-	arg_19_0.curPieceText_.text = tostring(var_19_0)
-	arg_19_0.needPieceText_.text = "/" .. tostring(var_19_2)
+	if slot0.tweenValue_ then
+		LeanTween.cancel(slot0.tweenValue_.id)
 
-	if arg_19_0.tweenValue_ then
-		LeanTween.cancel(arg_19_0.tweenValue_.id)
-
-		arg_19_0.tweenValue_ = nil
+		slot0.tweenValue_ = nil
 	end
 
-	arg_19_0.tweenValue_ = LeanTween.value(0, 0.7, 0.7):setOnUpdate(LuaHelper.FloatAction(function(arg_20_0)
-		local var_20_0 = 0
+	slot0.tweenValue_ = LeanTween.value(0, 0.7, 0.7):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		slot1 = 0
 
-		if arg_20_0 >= 0.2 then
-			var_20_0 = (arg_20_0 - 0.2) / 0.5
+		if slot0 >= 0.2 then
+			slot1 = (slot0 - 0.2) / 0.5
 		end
 
-		arg_19_0.scheduleImage_.fillAmount = var_19_3 * var_20_0 / var_19_2
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_19_0.tweenValue_ then
-			arg_19_0.tweenValue_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		uv0.scheduleImage_.fillAmount = uv1 * slot1 / uv2
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0.tweenValue_ then
+			uv0.tweenValue_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
 
-			arg_19_0.tweenValue_ = nil
+			uv0.tweenValue_ = nil
 		end
 
-		arg_19_0.scheduleImage_.fillAmount = var_19_3 / var_19_2
+		uv0.scheduleImage_.fillAmount = uv1 / uv2
 	end)):setEase(LeanTweenType.easeOutQuad)
 
-	if var_19_2 <= var_19_0 then
-		arg_19_0.pieceEnoughController_:SetSelectedState("true")
+	if slot3 <= slot1 then
+		slot0.pieceEnoughController_:SetSelectedState("true")
 
-		arg_19_0.getText_.text = GetTips("DORM_CANTEEN_LEVEL_UNLOCK")
+		slot0.getText_.text = GetTips("DORM_CANTEEN_LEVEL_UNLOCK")
 	else
-		arg_19_0.pieceEnoughController_:SetSelectedState("false")
+		slot0.pieceEnoughController_:SetSelectedState("false")
 
-		arg_19_0.getText_.text = GetTips("TIP_GET")
+		slot0.getText_.text = GetTips("TIP_GET")
 	end
 end
 
-function var_0_0.UpdateModuleView(arg_22_0)
-	SetActive(arg_22_0.moduleView_.gameObject, WeaponModuleCfg[arg_22_0.heroInfo_.id] and not arg_22_0.heroViewProxy_.hideModule)
+function slot0.UpdateModuleView(slot0)
+	SetActive(slot0.moduleView_.gameObject, WeaponModuleCfg[slot0.heroInfo_.id] and not slot0.heroViewProxy_.hideModule)
 
-	if WeaponModuleCfg[arg_22_0.heroInfo_.id] then
-		local var_22_0 = arg_22_0.heroInfo_.moduleLevel
-
-		if var_22_0 == 0 then
-			arg_22_0.moduleController_:SetSelectedState("lock")
+	if WeaponModuleCfg[slot0.heroInfo_.id] then
+		if slot0.heroInfo_.moduleLevel == 0 then
+			slot0.moduleController_:SetSelectedState("lock")
 		else
-			arg_22_0.moduleController_:SetSelectedState("unlock")
+			slot0.moduleController_:SetSelectedState("unlock")
 
-			arg_22_0.moduleNameText_.text = WeaponModuleCfg[arg_22_0.heroInfo_.id].name
-			arg_22_0.moduleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponModule/" .. arg_22_0.heroInfo_.id)
-			arg_22_0.moduleLevelText_.text = "Lv." .. var_22_0
+			slot0.moduleNameText_.text = WeaponModuleCfg[slot0.heroInfo_.id].name
+			slot0.moduleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponModule/" .. slot0.heroInfo_.id)
+			slot0.moduleLevelText_.text = "Lv." .. slot1
 		end
 	end
 end
 
-function var_0_0.UpdateUnlockedView(arg_23_0)
-	if arg_23_0.type_ ~= HeroConst.HERO_DATA_TYPE.PREVIEW then
-		if arg_23_0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
-			arg_23_0.proficiencyText_.text = HeroTools.GetHeroProficiency(arg_23_0.heroInfo_.id) .. "/" .. GameSetting.mastery_level_max.value[1]
+function slot0.UpdateUnlockedView(slot0)
+	if slot0.type_ ~= HeroConst.HERO_DATA_TYPE.PREVIEW then
+		if slot0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
+			slot0.proficiencyText_.text = HeroTools.GetHeroProficiency(slot0.heroInfo_.id) .. "/" .. GameSetting.mastery_level_max.value[1]
 		end
 
-		local var_23_0 = arg_23_0.heroInfo_.level
-		local var_23_1 = arg_23_0.heroInfo_.exp
+		slot1 = slot0.heroInfo_.level
+		slot2 = slot0.heroInfo_.exp
+		slot0.battlePower_ = slot0.heroViewProxy_:GetBattlePower(slot0.heroInfo_.id, slot0.heroInfo_.tempID)
 
-		arg_23_0.battlePower_ = arg_23_0.heroViewProxy_:GetBattlePower(arg_23_0.heroInfo_.id, arg_23_0.heroInfo_.tempID)
+		if slot0.battlePowerTween_ then
+			LeanTween.cancel(slot0.battlePowerTween_.id)
 
-		if arg_23_0.battlePowerTween_ then
-			LeanTween.cancel(arg_23_0.battlePowerTween_.id)
-
-			arg_23_0.battlePowerTween_ = nil
+			slot0.battlePowerTween_ = nil
 		end
 
-		if arg_23_0.oldBattlePower_ ~= arg_23_0.battlePower_ then
-			local var_23_2 = arg_23_0.oldBattlePower_ or 0
-			local var_23_3 = arg_23_0.battlePower_
+		if slot0.oldBattlePower_ ~= slot0.battlePower_ then
+			slot3 = slot0.oldBattlePower_ or 0
+			slot4 = slot0.battlePower_
+			slot0.battlePowerTween_ = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+				slot1 = uv0
+				uv2.fightPowerText_.text = math.floor(slot1 + (uv1 - slot1) * slot0)
+			end)):setOnComplete(LuaHelper.VoidAction(function ()
+				if uv0.battlePowerTween_ then
+					uv0.battlePowerTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
 
-			arg_23_0.battlePowerTween_ = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_24_0)
-				local var_24_0 = var_23_2
-				local var_24_1 = var_23_3
-				local var_24_2 = math.floor(var_24_0 + (var_24_1 - var_24_0) * arg_24_0)
-
-				arg_23_0.fightPowerText_.text = var_24_2
-			end)):setOnComplete(LuaHelper.VoidAction(function()
-				if arg_23_0.battlePowerTween_ then
-					arg_23_0.battlePowerTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-
-					arg_23_0.battlePowerTween_ = nil
+					uv0.battlePowerTween_ = nil
 				end
 
-				arg_23_0.fightPowerText_.text = var_23_3
+				uv0.fightPowerText_.text = uv1
 			end)):setEase(LeanTweenType.easeOutQuad)
-			arg_23_0.oldBattlePower_ = arg_23_0.battlePower_
+			slot0.oldBattlePower_ = slot0.battlePower_
 		else
-			arg_23_0.fightPowerText_.text = arg_23_0.oldBattlePower_
+			slot0.fightPowerText_.text = slot0.oldBattlePower_
 		end
 
-		local var_23_4 = HeroTools.GetHeroCurrentMaxLevel(arg_23_0.heroInfo_)
-		local var_23_5 = var_23_1 - LvTools.LevelToExp(var_23_0, "hero_level_exp1")
+		slot3 = HeroTools.GetHeroCurrentMaxLevel(slot0.heroInfo_)
+		slot4 = slot2 - LvTools.LevelToExp(slot1, "hero_level_exp1")
+		slot0.att_ = slot0.heroViewProxy_:GetHeroAllAttribute(slot0.heroInfo_.id)
 
-		arg_23_0.att_ = arg_23_0.heroViewProxy_:GetHeroAllAttribute(arg_23_0.heroInfo_.id)
+		for slot8, slot9 in pairs(slot0.propItems_) do
+			slot10 = PublicAttrCfg[slot0.propIndexes_[slot8]].percent == 1
 
-		for iter_23_0, iter_23_1 in pairs(arg_23_0.propItems_) do
-			local var_23_6 = PublicAttrCfg[arg_23_0.propIndexes_[iter_23_0]].percent == 1
+			if slot0.oldAtt_[slot0.propIndexes_[slot8]] ~= slot0.att_[slot0.propIndexes_[slot8]] then
+				slot11 = slot0.oldAtt_[slot0.propIndexes_[slot8]] or 0
+				slot12 = slot0.att_[slot0.propIndexes_[slot8]]
 
-			if arg_23_0.oldAtt_[arg_23_0.propIndexes_[iter_23_0]] ~= arg_23_0.att_[arg_23_0.propIndexes_[iter_23_0]] then
-				local var_23_7 = arg_23_0.oldAtt_[arg_23_0.propIndexes_[iter_23_0]] or 0
-				local var_23_8 = arg_23_0.att_[arg_23_0.propIndexes_[iter_23_0]]
+				if slot0.tweens_[slot8] then
+					LeanTween.cancel(slot0.tweens_[slot8].id)
 
-				if arg_23_0.tweens_[iter_23_0] then
-					LeanTween.cancel(arg_23_0.tweens_[iter_23_0].id)
-
-					arg_23_0.tweens_[iter_23_0] = nil
+					slot0.tweens_[slot8] = nil
 				end
 
-				arg_23_0.tweens_[iter_23_0] = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_26_0)
-					local var_26_0 = var_23_7
-					local var_26_1 = var_23_8
-					local var_26_2 = math.floor(var_26_0 + (var_26_1 - var_26_0) * arg_26_0)
+				slot0.tweens_[slot8] = LeanTween.value(0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+					slot1 = uv0
 
-					if var_23_6 then
-						iter_23_1.text = string.format("%.2f", var_26_2 / 10) .. arg_23_0.endfixes_[iter_23_0]
+					if uv2 then
+						uv3.text = string.format("%.2f", math.floor(slot1 + (uv1 - slot1) * slot0) / 10) .. uv4.endfixes_[uv5]
 					else
-						iter_23_1.text = math.floor(var_26_2)
+						uv3.text = math.floor(slot3)
 					end
-				end)):setOnComplete(LuaHelper.VoidAction(function()
-					if arg_23_0.tweens_[iter_23_0] then
-						arg_23_0.tweens_[iter_23_0]:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+				end)):setOnComplete(LuaHelper.VoidAction(function ()
+					if uv0.tweens_[uv1] then
+						uv0.tweens_[uv1]:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
 
-						arg_23_0.tweens_[iter_23_0] = nil
+						uv0.tweens_[uv1] = nil
 					end
 
-					if var_23_6 then
-						iter_23_1.text = string.format("%.2f", var_23_8 / 10) .. arg_23_0.endfixes_[iter_23_0]
+					if uv2 then
+						uv3.text = string.format("%.2f", uv4 / 10) .. uv0.endfixes_[uv1]
 					else
-						iter_23_1.text = math.floor(var_23_8)
+						uv3.text = math.floor(uv4)
 					end
 				end)):setEase(LeanTweenType.easeOutQuad)
-				arg_23_0.oldAtt_[arg_23_0.propIndexes_[iter_23_0]] = arg_23_0.att_[arg_23_0.propIndexes_[iter_23_0]]
+				slot0.oldAtt_[slot0.propIndexes_[slot8]] = slot0.att_[slot0.propIndexes_[slot8]]
 			end
 		end
 
-		arg_23_0.nowLevelText_.text = tostring(var_23_0)
-		arg_23_0.topLevelText_.text = "/" .. var_23_4
+		slot0.nowLevelText_.text = tostring(slot1)
+		slot0.topLevelText_.text = "/" .. slot3
 
-		if var_23_0 < var_23_4 then
-			local var_23_9 = GameLevelSetting[var_23_0].hero_level_exp1
-
-			arg_23_0.expProgressBar_.value = math.floor(var_23_5 / var_23_9 * 1000) / 1000
-			arg_23_0.expText_.text = string.format("%d/%d", var_23_5, var_23_9)
-		elseif LvTools.GetIsMaxLv(var_23_0, "hero") then
-			arg_23_0.expProgressBar_.value = 1
-			arg_23_0.expText_.text = "-/-"
+		if slot1 < slot3 then
+			slot5 = GameLevelSetting[slot1].hero_level_exp1
+			slot0.expProgressBar_.value = math.floor(slot4 / slot5 * 1000) / 1000
+			slot0.expText_.text = string.format("%d/%d", slot4, slot5)
+		elseif LvTools.GetIsMaxLv(slot1, "hero") then
+			slot0.expProgressBar_.value = 1
+			slot0.expText_.text = "-/-"
 		else
-			local var_23_10 = GameLevelSetting[var_23_0].hero_level_exp1
-
-			arg_23_0.expProgressBar_.value = math.floor(var_23_5 / var_23_10 * 1000) / 1000
-			arg_23_0.expText_.text = string.format("%d/%d", var_23_5, var_23_10)
+			slot5 = GameLevelSetting[slot1].hero_level_exp1
+			slot0.expProgressBar_.value = math.floor(slot4 / slot5 * 1000) / 1000
+			slot0.expText_.text = string.format("%d/%d", slot4, slot5)
 		end
 	end
 
-	local var_23_11 = HeroStarCfg[arg_23_0.heroInfo_.star]
+	slot0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. HeroStarCfg[slot0.heroInfo_.star].star)
+	slot0.rangeTypeText_.text = CharactorParamCfg[slot0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
 
-	arg_23_0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. var_23_11.star)
-	arg_23_0.rangeTypeText_.text = CharactorParamCfg[arg_23_0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
-
-	arg_23_0:UpdateUnlockBtnState()
-	arg_23_0:RefreshChargeType()
-	arg_23_0:UpdateModuleView()
+	slot0:UpdateUnlockBtnState()
+	slot0:RefreshChargeType()
+	slot0:UpdateModuleView()
 end
 
-function var_0_0.UpdateUnlockBtnState(arg_28_0)
-	if arg_28_0.heroInfo_.level >= HeroConst.HERO_LV_MAX then
-		arg_28_0.levelStateController_:SetSelectedState("maxLevel")
-	elseif arg_28_0.heroInfo_.level >= HeroTools.GetHeroCurrentMaxLevel(arg_28_0.heroInfo_) then
-		arg_28_0.levelStateController_:SetSelectedState("break")
+function slot0.UpdateUnlockBtnState(slot0)
+	if HeroConst.HERO_LV_MAX <= slot0.heroInfo_.level then
+		slot0.levelStateController_:SetSelectedState("maxLevel")
+	elseif HeroTools.GetHeroCurrentMaxLevel(slot0.heroInfo_) <= slot0.heroInfo_.level then
+		slot0.levelStateController_:SetSelectedState("break")
 
-		arg_28_0.upgradeBtnText_.text = GetTips("TIP_BREAK")
+		slot0.upgradeBtnText_.text = GetTips("TIP_BREAK")
 	else
-		arg_28_0.levelStateController_:SetSelectedState("addExp")
+		slot0.levelStateController_:SetSelectedState("addExp")
 
-		arg_28_0.upgradeBtnText_.text = GetTips("TEXT_UPGRADE")
+		slot0.upgradeBtnText_.text = GetTips("TEXT_UPGRADE")
 	end
 end
 
-function var_0_0.RefreshChargeType(arg_29_0)
-	local var_29_0 = arg_29_0.heroCfg_.mechanism_type[1]
-
-	if var_29_0 == HeroConst.HERO_CHARGE_TYPE.RAGE then
-		arg_29_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
-	elseif var_29_0 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
-		arg_29_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
-	elseif var_29_0 == HeroConst.HERO_CHARGE_TYPE.TRACES then
-		arg_29_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
-	elseif var_29_0 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
-		arg_29_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
+function slot0.RefreshChargeType(slot0)
+	if slot0.heroCfg_.mechanism_type[1] == HeroConst.HERO_CHARGE_TYPE.RAGE then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.TRACES then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
 	end
 end
 
-function var_0_0.OnEnter(arg_30_0, arg_30_1)
-	arg_30_0:SetProxy(arg_30_1)
-	arg_30_0:RegistEventListener(HERO_DATA_MODIFY, handler(arg_30_0, arg_30_0.OnHeroModify))
+function slot0.OnEnter(slot0, slot1)
+	slot0:SetProxy(slot1)
+	slot0:RegistEventListener(HERO_DATA_MODIFY, handler(slot0, slot0.OnHeroModify))
 end
 
-function var_0_0.OnExit(arg_31_0)
-	if arg_31_0.heroViewProxy_.showRedPoint then
-		if not isNil(arg_31_0.moduleView_) and not isNil(arg_31_0.moduleView_.transform) then
-			manager.redPoint:unbindUIandKey(arg_31_0.moduleView_.transform, RedPointConst.WEAPON_MODULE_UNLOCK .. "_" .. arg_31_0.heroInfo_.id)
+function slot0.OnExit(slot0)
+	if slot0.heroViewProxy_.showRedPoint then
+		if not isNil(slot0.moduleView_) and not isNil(slot0.moduleView_.transform) then
+			manager.redPoint:unbindUIandKey(slot0.moduleView_.transform, RedPointConst.WEAPON_MODULE_UNLOCK .. "_" .. slot0.heroInfo_.id)
 		end
 
-		manager.redPoint:unbindUIandKey(arg_31_0.surpassBtn_.transform, RedPointConst.HERO_STAR_ID .. arg_31_0.heroInfo_.id)
-		manager.redPoint:unbindUIandKey(arg_31_0.upgradeBtn_.transform, RedPointConst.HERO_BREAK_ID .. arg_31_0.heroInfo_.id)
+		manager.redPoint:unbindUIandKey(slot0.surpassBtn_.transform, RedPointConst.HERO_STAR_ID .. slot0.heroInfo_.id)
+		manager.redPoint:unbindUIandKey(slot0.upgradeBtn_.transform, RedPointConst.HERO_BREAK_ID .. slot0.heroInfo_.id)
 	end
 
-	arg_31_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.SetProxy(arg_32_0, arg_32_1)
-	arg_32_0.heroViewProxy_ = arg_32_1
-	arg_32_0.type_ = arg_32_0.heroViewProxy_:GetViewDataType()
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
+	slot0.type_ = slot0.heroViewProxy_:GetViewDataType()
 end
 
-function var_0_0.OnHeroModify(arg_33_0, arg_33_1)
-	if arg_33_1 == arg_33_0.heroInfo_.id then
-		arg_33_0:UpdateView()
+function slot0.OnHeroModify(slot0, slot1)
+	if slot1 == slot0.heroInfo_.id then
+		slot0:UpdateView()
 	end
 end
 
-function var_0_0.Dispose(arg_34_0)
-	arg_34_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_34_0.tweenValue_ then
-		arg_34_0.tweenValue_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_34_0.tweenValue_.id)
+	if slot0.tweenValue_ then
+		slot0.tweenValue_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.tweenValue_.id)
 
-		arg_34_0.tweenValue_ = nil
+		slot0.tweenValue_ = nil
 	end
 
-	if arg_34_0.battlePowerTween_ then
-		arg_34_0.battlePowerTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_34_0.battlePowerTween_.id)
+	if slot0.battlePowerTween_ then
+		slot0.battlePowerTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.battlePowerTween_.id)
 
-		arg_34_0.battlePowerTween_ = nil
+		slot0.battlePowerTween_ = nil
 	end
 
-	if arg_34_0.tweens_ then
-		for iter_34_0, iter_34_1 in pairs(arg_34_0.tweens_) do
-			iter_34_1:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-			LeanTween.cancel(iter_34_1.id)
+	if slot0.tweens_ then
+		for slot4, slot5 in pairs(slot0.tweens_) do
+			slot5:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+			LeanTween.cancel(slot5.id)
 		end
 
-		arg_34_0.tweens_ = nil
+		slot0.tweens_ = nil
 	end
 
-	arg_34_0.handler_ = nil
+	slot0.handler_ = nil
 
-	var_0_0.super.Dispose(arg_34_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

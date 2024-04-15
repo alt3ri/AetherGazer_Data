@@ -1,274 +1,234 @@
-local var_0_0 = partialClass("MainHomeView", ReduxView)
+slot0 = partialClass("MainHomeView", ReduxView)
 
-function var_0_0.RefreshPage(arg_1_0)
-	SetActive(arg_1_0.btn_girl.gameObject, true)
+function slot0.RefreshPage(slot0)
+	SetActive(slot0.btn_girl.gameObject, true)
 end
 
-function var_0_0.RefreshUserInfo(arg_2_0)
-	local var_2_0 = arg_2_0.userData_
+function slot0.RefreshUserInfo(slot0)
+	slot1 = slot0.userData_
+	slot0.name_.text = GetI18NText(slot1.nick)
+	slot0.uid_.text = string.format("%d", slot1.userID)
+	slot0.level_.text = string.format("%d", slot1.userLevel)
+	slot2 = slot0.userData_.remain_exp
 
-	arg_2_0.name_.text = GetI18NText(var_2_0.nick)
-	arg_2_0.uid_.text = string.format("%d", var_2_0.userID)
-	arg_2_0.level_.text = string.format("%d", var_2_0.userLevel)
-
-	local var_2_1 = arg_2_0.userData_.remain_exp
-	local var_2_2 = arg_2_0.userData_.userLevel
-
-	if LvTools.GetIsMaxLv(var_2_2, "user") then
-		arg_2_0.expImg_.fillAmount = 1
+	if LvTools.GetIsMaxLv(slot0.userData_.userLevel, "user") then
+		slot0.expImg_.fillAmount = 1
 	else
-		local var_2_3 = GameLevelSetting[var_2_2].user_level_exp
-
-		arg_2_0.expImg_.fillAmount = var_2_3 == 0 and 0 or var_2_1 / var_2_3
+		slot0.expImg_.fillAmount = GameLevelSetting[slot3].user_level_exp == 0 and 0 or slot2 / slot4
 	end
 end
 
-function var_0_0.RefreshDeviceMessage(arg_3_0)
-	local var_3_0 = manager.time:STimeDescS(manager.time:GetServerTime(), "!%H:%M")
-
-	if var_3_0 ~= arg_3_0.lastTimeString_ then
-		arg_3_0.time_.text = var_3_0
-		arg_3_0.lastTimeString = var_3_0
+function slot0.RefreshDeviceMessage(slot0)
+	if manager.time:STimeDescS(manager.time:GetServerTime(), "!%H:%M") ~= slot0.lastTimeString_ then
+		slot0.time_.text = slot1
+		slot0.lastTimeString = slot1
 	end
 
-	if arg_3_0.__isPc == nil then
-		local var_3_1 = GameToSDK.IsPCPlatform()
+	if slot0.__isPc == nil then
+		slot2 = GameToSDK.IsPCPlatform()
+		slot0.__isPc = slot2
 
-		arg_3_0.__isPc = var_3_1
-
-		if var_3_1 then
-			SetActive(arg_3_0.signal_, false)
-			SetActive(arg_3_0.wifi_, false)
-			SetActive(arg_3_0.batteryGo_, false)
+		if slot2 then
+			SetActive(slot0.signal_, false)
+			SetActive(slot0.wifi_, false)
+			SetActive(slot0.batteryGo_, false)
 		end
 	end
 
-	if arg_3_0.__isPc then
+	if slot0.__isPc then
 		return
 	end
 
-	local var_3_2 = Application.internetReachability
+	if Application.internetReachability ~= slot0.lastNetMessage_ then
+		SetActive(slot0.signal_, slot2 == UnityEngine.NetworkReachability.ReachableViaCarrierDataNetwork)
+		SetActive(slot0.wifi_, slot2 == UnityEngine.NetworkReachability.ReachableViaLocalAreaNetwork)
 
-	if var_3_2 ~= arg_3_0.lastNetMessage_ then
-		SetActive(arg_3_0.signal_, var_3_2 == UnityEngine.NetworkReachability.ReachableViaCarrierDataNetwork)
-		SetActive(arg_3_0.wifi_, var_3_2 == UnityEngine.NetworkReachability.ReachableViaLocalAreaNetwork)
-
-		arg_3_0.lastNetMessage_ = var_3_2
+		slot0.lastNetMessage_ = slot2
 	end
 
-	local var_3_3 = UnityEngine.SystemInfo.batteryLevel
-
-	if var_3_3 ~= arg_3_0.lastBatteryLevel_ then
-		arg_3_0.battery_.fillAmount = var_3_3
-		arg_3_0.lastBatteryLevel_ = var_3_3
+	if UnityEngine.SystemInfo.batteryLevel ~= slot0.lastBatteryLevel_ then
+		slot0.battery_.fillAmount = slot3
+		slot0.lastBatteryLevel_ = slot3
 	end
 end
 
-function var_0_0.RefreshVitalityLimit(arg_4_0)
-	local var_4_0 = StoreTools.getMaterialMinTimestamp()
-
-	if not var_4_0 then
-		SetActive(arg_4_0.vitalityTimerGo_, false)
+function slot0.RefreshVitalityLimit(slot0)
+	if not StoreTools.getMaterialMinTimestamp() then
+		SetActive(slot0.vitalityTimerGo_, false)
 
 		return
 	end
 
-	arg_4_0.vitalityTimerText_.text = ItemTools.GetItemCountdownText(var_4_0)
+	slot0.vitalityTimerText_.text = ItemTools.GetItemCountdownText(slot1)
 
-	SetActive(arg_4_0.vitalityTimerGo_, true)
+	SetActive(slot0.vitalityTimerGo_, true)
 end
 
-function var_0_0.RefreshRealtimeUI(arg_5_0)
-	arg_5_0:RefreshDeviceMessage()
-	arg_5_0:RefreshVitalityLimit()
-	arg_5_0:UpdateSubModuleRedDot()
+function slot0.RefreshRealtimeUI(slot0)
+	slot0:RefreshDeviceMessage()
+	slot0:RefreshVitalityLimit()
+	slot0:UpdateSubModuleRedDot()
 end
 
-function var_0_0.RefreshBanner(arg_6_0)
-	local var_6_0 = ActivityTools.GetCurrentAdvInfo()
-	local var_6_1 = #var_6_0 > 0
+function slot0.RefreshBanner(slot0)
+	slot2 = #ActivityTools.GetCurrentAdvInfo() > 0
 
-	SetActive(arg_6_0.btnActivityGo_, var_6_1)
+	SetActive(slot0.btnActivityGo_, slot2)
 
-	if var_6_1 then
-		arg_6_0.bannerView_:RefreshData(arg_6_0, {
+	if slot2 then
+		slot0.bannerView_:RefreshData(slot0, {
 			space = 0,
 			vertical = true,
-			data = var_6_0,
-			onclick = function(arg_7_0)
-				if not ActivityTools.IsValidAdv(arg_7_0.id) then
+			data = slot1,
+			onclick = function (slot0)
+				if not ActivityTools.IsValidAdv(slot0.id) then
 					ShowTips("TIME_OVER")
-					arg_6_0:RefreshBanner()
+					uv0:RefreshBanner()
 
 					return
 				end
 
-				ActivityTools.ClickAdv(arg_7_0)
-				OperationRecorder.RecordButtonTouch("homepage_banner_" .. arg_7_0.id)
+				ActivityTools.ClickAdv(slot0)
+				OperationRecorder.RecordButtonTouch("homepage_banner_" .. slot0.id)
 				OperationRecorder.Record("home", "activity_open")
 			end
 		})
 	end
 end
 
-function var_0_0.RefreshHide(arg_8_0)
-	arg_8_0.hideCon_:SetSelectedState(arg_8_0.isHide_ and "true" or "false")
-	SetActive(arg_8_0.bgmaskBtn_.gameObject, arg_8_0.isHide_)
+function slot0.RefreshHide(slot0)
+	slot0.hideCon_:SetSelectedState(slot0.isHide_ and "true" or "false")
+	SetActive(slot0.bgmaskBtn_.gameObject, slot0.isHide_)
 
-	if arg_8_0.isHide_ then
+	if slot0.isHide_ then
 		manager.windowBar:HideBar()
 	else
-		arg_8_0:InitBar()
+		slot0:InitBar()
 	end
 end
 
-function var_0_0.RefreshReceiveMessage(arg_9_0)
-	arg_9_0:ClearMsgTimer()
-	arg_9_0:RefreshWorldChat()
+function slot0.RefreshReceiveMessage(slot0)
+	slot0:ClearMsgTimer()
+	slot0:RefreshWorldChat()
 
-	arg_9_0.msgTimer_ = Timer.New(function()
-		arg_9_0:RefreshWorldChat()
+	slot0.msgTimer_ = Timer.New(function ()
+		uv0:RefreshWorldChat()
 	end, 2, -1)
 
-	arg_9_0.msgTimer_:Start()
+	slot0.msgTimer_:Start()
 end
 
-function var_0_0.RefreshWorldChat(arg_11_0)
-	local var_11_0 = ChatData:GetWorldChatData()
-	local var_11_1 = var_11_0[#var_11_0]
+function slot0.RefreshWorldChat(slot0)
+	slot1 = ChatData:GetWorldChatData()
 
-	if var_11_1 then
-		local var_11_2 = ""
-		local var_11_3 = ""
+	if slot1[#slot1] then
+		slot3 = ""
+		slot4 = ""
 
-		if var_11_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or var_11_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			if var_11_1.id == USER_ID then
-				var_11_2 = PlayerData:GetPlayerInfo().nick or ""
-			else
-				var_11_2 = var_11_1.nick or ""
-			end
-
-			if var_11_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT then
-				var_11_3 = var_11_1.content or ""
-			else
-				var_11_3 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(var_11_1.content)].name))
-			end
+		if slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+			slot3 = slot2.id == USER_ID and (PlayerData:GetPlayerInfo().nick or "") or slot2.nick or ""
+			slot4 = slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and (slot2.content or "") or string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(slot2.content)].name))
 		end
 
-		local var_11_4 = ""
+		slot5 = ""
 
-		if var_11_2 ~= "" then
-			var_11_4 = var_11_2 .. ":" .. var_11_3
+		if slot3 ~= "" then
+			slot5 = slot3 .. ":" .. slot4
 		end
 
-		arg_11_0.textLimit_:SetText(var_11_4)
+		slot0.textLimit_:SetText(slot5)
 
 		return
 	end
 
-	arg_11_0.textLimit_:SetText("")
+	slot0.textLimit_:SetText("")
 end
 
-function var_0_0.RefreshSkinDrawBtn(arg_12_0)
-	local var_12_0, var_12_1 = ActivitySkinDrawData:GetNotReadStoryID()
-	local var_12_2 = ActivityData:GetActivityData(var_12_0)
+function slot0.RefreshSkinDrawBtn(slot0)
+	slot1, slot2 = ActivitySkinDrawData:GetNotReadStoryID()
 
-	if var_12_0 and var_12_2:IsActivitying() then
-		SetActive(arg_12_0.skinDrawBtn_.gameObject, true)
-		arg_12_0.skinDrawCon_:SetSelectedState(var_12_1 and var_12_1.isRead == 0 and "story" or "draw")
+	if slot1 and ActivityData:GetActivityData(slot1):IsActivitying() then
+		SetActive(slot0.skinDrawBtn_.gameObject, true)
+		slot0.skinDrawCon_:SetSelectedState(slot2 and slot2.isRead == 0 and "story" or "draw")
 	else
-		SetActive(arg_12_0.skinDrawBtn_.gameObject, false)
+		SetActive(slot0.skinDrawBtn_.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshChat(arg_13_0)
+function slot0.RefreshChat(slot0)
 	if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CHAT) then
 		ChatAction.EnterChatUI(1)
-		arg_13_0:RefreshReceiveMessage()
-		arg_13_0.socializeCon_:SetSelectedState("on")
+		slot0:RefreshReceiveMessage()
+		slot0.socializeCon_:SetSelectedState("on")
 	else
-		arg_13_0.textLimit_:SetText("")
-		arg_13_0.socializeCon_:SetSelectedState("off")
+		slot0.textLimit_:SetText("")
+		slot0.socializeCon_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.Render(arg_14_0)
-	return
+function slot0.Render(slot0)
 end
 
-function var_0_0.CheckPassportBtn(arg_15_0)
-	SetActive(arg_15_0.btn_passport.gameObject, PassportData:IsOpen() and not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.PASSPORT_MAIN))
+function slot0.CheckPassportBtn(slot0)
+	SetActive(slot0.btn_passport.gameObject, PassportData:IsOpen() and not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.PASSPORT_MAIN))
 end
 
-function var_0_0.CheckLocked(arg_16_0)
-	arg_16_0.drawLockCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DRAW) and "true" or "false")
-	arg_16_0.dormLockCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) and "true" or "false")
-	arg_16_0.guildCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.GUILD) and "true" or "false")
-	arg_16_0.shopCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SHOP_ENTER) and "true" or "false")
+function slot0.CheckLocked(slot0)
+	slot0.drawLockCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DRAW) and "true" or "false")
+	slot0.dormLockCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) and "true" or "false")
+	slot0.guildCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.GUILD) and "true" or "false")
+	slot0.shopCon_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SHOP_ENTER) and "true" or "false")
 
 	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SHOP_ENTER) then
-		SetActive(arg_16_0.shopRedPoint, false)
+		SetActive(slot0.shopRedPoint, false)
 	elseif manager.redPoint:getTipValue(RedPointConst.RECHARGE_ENTER) >= 1 then
-		SetActive(arg_16_0.shopRedPoint, true)
+		SetActive(slot0.shopRedPoint, true)
 	else
-		SetActive(arg_16_0.shopRedPoint, false)
+		SetActive(slot0.shopRedPoint, false)
 	end
 end
 
-function var_0_0.CheckRecallActivity(arg_17_0)
-	local var_17_0 = ActivityData:GetActivityData(ActivityConst.RECALL_INVITE)
-	local var_17_1 = ActivityRecallData:GetDataByPara("recallLevel")
-	local var_17_2 = ActivityRecallData:GetDataByPara("recallActivityID")
-
-	if var_17_0.stopTime == 1 or var_17_1 > arg_17_0.userData_.userLevel or var_17_2 == nil then
-		SetActive(arg_17_0.btn_callback.gameObject, false)
+function slot0.CheckRecallActivity(slot0)
+	if ActivityData:GetActivityData(ActivityConst.RECALL_INVITE).stopTime == 1 or slot0.userData_.userLevel < ActivityRecallData:GetDataByPara("recallLevel") or ActivityRecallData:GetDataByPara("recallActivityID") == nil then
+		SetActive(slot0.btn_callback.gameObject, false)
 	else
-		SetActive(arg_17_0.btn_callback.gameObject, var_17_0.stopTime > manager.time:GetServerTime())
+		SetActive(slot0.btn_callback.gameObject, manager.time:GetServerTime() < slot1.stopTime)
 	end
 end
 
-function var_0_0.CheckActivite(arg_18_0)
-	local function var_18_0()
-		arg_18_0:CheckHeroGiftActivite()
-		arg_18_0:CheckPreviewTaskActivity()
-		arg_18_0:CheckRecallActivity()
-		arg_18_0:RefreshSkinDrawBtn()
+function slot0.CheckActivite(slot0)
+	function slot1()
+		uv0:CheckHeroGiftActivite()
+		uv0:CheckPreviewTaskActivity()
+		uv0:CheckRecallActivity()
+		uv0:RefreshSkinDrawBtn()
 		AdminCatExploreData:UpdateRegionRedPoint()
 	end
 
-	var_18_0()
+	slot1()
 
-	arg_18_0.activiteTime_ = Timer.New(var_18_0, 1, -1)
+	slot0.activiteTime_ = Timer.New(slot1, 1, -1)
 
-	arg_18_0.activiteTime_:Start()
+	slot0.activiteTime_:Start()
 end
 
-function var_0_0.CheckHeroGiftActivite(arg_20_0)
-	local var_20_0 = ActivityData:GetActivityIsOpen(ActivityConst.HELLA_HERO_GIFT) and HeroGiftData:GetReceiveHeroGift(ActivityConst.HELLA_HERO_GIFT) == 0
-
-	if arg_20_0.isHeroGiftOpen_ == var_20_0 then
+function slot0.CheckHeroGiftActivite(slot0)
+	if slot0.isHeroGiftOpen_ == (ActivityData:GetActivityIsOpen(ActivityConst.HELLA_HERO_GIFT) and HeroGiftData:GetReceiveHeroGift(ActivityConst.HELLA_HERO_GIFT) == 0) then
 		return
 	end
 
-	arg_20_0.isHeroGiftOpen_ = var_20_0
+	slot0.isHeroGiftOpen_ = slot1
 
-	SetActive(arg_20_0.btnHeroGiftGo_, var_20_0)
+	SetActive(slot0.btnHeroGiftGo_, slot1)
 end
 
-function var_0_0.CheckPreviewTaskActivity(arg_21_0)
-	local var_21_0 = PreviewTaskData:GetCurActivityID()
-	local var_21_1 = ActivityData:GetActivityIsOpen(var_21_0)
-
-	if arg_21_0.isPreviewTaskOpen_ == var_21_1 then
+function slot0.CheckPreviewTaskActivity(slot0)
+	if slot0.isPreviewTaskOpen_ == ActivityData:GetActivityIsOpen(PreviewTaskData:GetCurActivityID()) then
 		return
 	end
 
-	arg_21_0.isPreviewTaskOpen_ = var_21_1
+	slot0.isPreviewTaskOpen_ = slot2
 
-	SetActive(arg_21_0.btnPreviewTaskGo_, var_21_1)
-
-	local var_21_2 = AdvanceTestData:GetMainActivityID()
-	local var_21_3 = ActivityData:GetActivityIsOpen(var_21_2)
-
-	SetActive(arg_21_0.advanceTestBtn_, var_21_3)
+	SetActive(slot0.btnPreviewTaskGo_, slot2)
+	SetActive(slot0.advanceTestBtn_, ActivityData:GetActivityIsOpen(AdvanceTestData:GetMainActivityID()))
 end

@@ -1,97 +1,87 @@
-local var_0_0 = class("PolyhedronSetArtifactGroup", ReduxView)
+slot0 = class("PolyhedronSetArtifactGroup", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemList = {}
+	slot0.itemList = {}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.RegistCallBack(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.itemList) do
-		iter_5_1:RegistCallBack(arg_5_1)
+function slot0.RegistCallBack(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.itemList) do
+		slot6:RegistCallBack(slot1)
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.m_title.text = PolyhedronTools.GetPolyhedronArtifactSubTypeDes(arg_6_1)
-	arg_6_0.group = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot6 = slot1
+	slot0.m_title.text = PolyhedronTools.GetPolyhedronArtifactSubTypeDes(slot6)
+	slot0.group = slot2
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.group) do
-		if not arg_6_0.itemList[iter_6_0] then
-			arg_6_0.itemList[iter_6_0] = PolyhedronSetArtifactItem.New(arg_6_0.m_item, arg_6_0.m_content)
+	for slot6, slot7 in ipairs(slot0.group) do
+		if not slot0.itemList[slot6] then
+			slot0.itemList[slot6] = PolyhedronSetArtifactItem.New(slot0.m_item, slot0.m_content)
 		end
 
-		arg_6_0.itemList[iter_6_0]:SetActive(true)
-		arg_6_0.itemList[iter_6_0]:SetData(iter_6_1)
+		slot0.itemList[slot6]:SetActive(true)
+		slot0.itemList[slot6]:SetData(slot7)
 	end
 
-	local var_6_0 = #arg_6_0.itemList
-
-	for iter_6_2 = #arg_6_0.group + 1, var_6_0 do
-		arg_6_0.itemList[iter_6_2]:SetActive(false)
+	for slot7 = #slot0.group + 1, #slot0.itemList do
+		slot0.itemList[slot7]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.m_content)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_content)
 end
 
-function var_0_0.SetActive(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.itemList) do
-		iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.itemList = nil
+	slot0.itemList = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshContentHeight(arg_9_0)
-	local var_9_0 = arg_9_0.m_content:GetComponent("VerticalLayoutGroup").spacing
-	local var_9_1 = 0
-	local var_9_2 = arg_9_0.m_content.childCount
-	local var_9_3
+function slot0.RefreshContentHeight(slot0)
+	slot1 = slot0.m_content:GetComponent("VerticalLayoutGroup").spacing
+	slot4 = nil
 
-	for iter_9_0 = 1, var_9_2 do
-		var_9_1 = var_9_1 + arg_9_0.m_content:GetChild(iter_9_0 - 1):GetSizeDeltaY(nil) + var_9_0
+	for slot8 = 1, slot0.m_content.childCount do
+		slot2 = 0 + slot0.m_content:GetChild(slot8 - 1):GetSizeDeltaY(nil) + slot1
 	end
 
-	local var_9_4 = var_9_1 - var_9_0
-
-	arg_9_0.m_content:SetSizeDeltaY(var_9_4)
+	slot0.m_content:SetSizeDeltaY(slot2 - slot1)
 end
 
-function var_0_0.RefreshHeight(arg_10_0)
-	local var_10_0 = arg_10_0.transform_:GetComponent("VerticalLayoutGroup").spacing
-	local var_10_1 = 0
-	local var_10_2 = arg_10_0.transform_.childCount
-	local var_10_3
+function slot0.RefreshHeight(slot0)
+	slot1 = slot0.transform_:GetComponent("VerticalLayoutGroup").spacing
+	slot4 = nil
 
-	for iter_10_0 = 1, var_10_2 do
-		var_10_1 = var_10_1 + arg_10_0.transform_:GetChild(iter_10_0 - 1):GetSizeDeltaY(nil) + var_10_0
+	for slot8 = 1, slot0.transform_.childCount do
+		slot2 = 0 + slot0.transform_:GetChild(slot8 - 1):GetSizeDeltaY(nil) + slot1
 	end
 
-	local var_10_4 = var_10_1 - var_10_0
-
-	arg_10_0.transform_:SetSizeDeltaY(var_10_4)
+	slot0.transform_:SetSizeDeltaY(slot2 - slot1)
 end
 
-return var_0_0
+return slot0

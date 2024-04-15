@@ -1,62 +1,53 @@
 ActivityMainBaseView = import("game.views.activity.Main.ActivityMainBaseView")
+slot0 = class("ActivityMainView_1_7", ActivityMainBaseView)
 
-local var_0_0 = class("ActivityMainView_1_7", ActivityMainBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/DarkFlameUI/DFMainUI/DFMainUI"
 end
 
-function var_0_0.InitSubmoduleButton(arg_2_0)
-	arg_2_0.submoduleBtnList_ = {
-		ActivitySubmoduleItem.New(arg_2_0.leftBtn2_, ActivityConst.TYR_PT),
-		ActivitySubmoduleItem.New(arg_2_0.leftBtn4_, ActivityConst.ACTIVITY_1_7_LIMITED_CALCULATION),
-		ActivitySubmoduleItem.New(arg_2_0.leftBtn5_, ActivityConst.TYR_SLAYER),
-		ActivitySubmoduleItem.New(arg_2_0.rightBtn2_, ActivityConst.TYR_SOLO),
-		ActivityHeroTrialItem.New(arg_2_0.heroTrialGo_, ActivityConst.ACTIVITY_1_7_HERO_TRIAL),
-		ActivitySubmoduleItem.New(arg_2_0.rightBtn3_, ActivityConst.ACTIVITY_1_7_AFFIX_SELECT),
-		ActivitySubmoduleItem.New(arg_2_0.rightBtn4_, ActivityConst.TYR_SURVIVE_SOLO),
-		ActivitySubmoduleItem.New(arg_2_0.rightBtn5_, ActivityConst.TYR_VALENTINE_GAME),
-		ActivityShopSubmoduleItem.New(arg_2_0.shopGo_, arg_2_0:GetActivityID())
+function slot0.InitSubmoduleButton(slot0)
+	slot0.submoduleBtnList_ = {
+		ActivitySubmoduleItem.New(slot0.leftBtn2_, ActivityConst.TYR_PT),
+		ActivitySubmoduleItem.New(slot0.leftBtn4_, ActivityConst.ACTIVITY_1_7_LIMITED_CALCULATION),
+		ActivitySubmoduleItem.New(slot0.leftBtn5_, ActivityConst.TYR_SLAYER),
+		ActivitySubmoduleItem.New(slot0.rightBtn2_, ActivityConst.TYR_SOLO),
+		ActivityHeroTrialItem.New(slot0.heroTrialGo_, ActivityConst.ACTIVITY_1_7_HERO_TRIAL),
+		ActivitySubmoduleItem.New(slot0.rightBtn3_, ActivityConst.ACTIVITY_1_7_AFFIX_SELECT),
+		ActivitySubmoduleItem.New(slot0.rightBtn4_, ActivityConst.TYR_SURVIVE_SOLO),
+		ActivitySubmoduleItem.New(slot0.rightBtn5_, ActivityConst.TYR_VALENTINE_GAME),
+		ActivityShopSubmoduleItem.New(slot0.shopGo_, slot0:GetActivityID())
 	}
 end
 
-function var_0_0.GetActivityID(arg_3_0)
+function slot0.GetActivityID(slot0)
 	return ActivityConst.ACTIVITY_1_7
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	local var_4_0 = ActivityData:GetActivityData(arg_4_0:GetActivityID())
-	local var_4_1 = var_4_0.startTime
-	local var_4_2 = var_4_0.stopTime
-
-	arg_4_0.textTime_.text = string.format("%s-%s", manager.time:STimeDescS(var_4_1, "!%m/%d %H:%M"), manager.time:STimeDescS(var_4_2, "!%m/%d %H:%M"))
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityData:GetActivityData(slot0:GetActivityID())
+	slot0.textTime_.text = string.format("%s-%s", manager.time:STimeDescS(slot1.startTime, "!%m/%d %H:%M"), manager.time:STimeDescS(slot1.stopTime, "!%m/%d %H:%M"))
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	var_0_0.super.OnEnter(arg_5_0)
-	manager.redPoint:bindUIandKey(arg_5_0.leftBtn1_.transform.transform, ActivityTools.GetRedPointKey(ActivityConst.TYR_SUB_PLOT) .. ActivityConst.TYR_SUB_PLOT)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.leftBtn1_.transform.transform, ActivityTools.GetRedPointKey(ActivityConst.TYR_SUB_PLOT) .. ActivityConst.TYR_SUB_PLOT)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	var_0_0.super.OnExit(arg_6_0)
-	manager.redPoint:unbindUIandKey(arg_6_0.leftBtn1_.transform.transform, ActivityTools.GetRedPointKey(ActivityConst.TYR_SUB_PLOT) .. ActivityConst.TYR_SUB_PLOT)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.leftBtn1_.transform.transform, ActivityTools.GetRedPointKey(ActivityConst.TYR_SUB_PLOT) .. ActivityConst.TYR_SUB_PLOT)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.leftBtn1_, nil, function()
-		local var_8_0 = ActivityConst.TYR_SUB_PLOT
-		local var_8_1 = ActivityData:GetActivityData(var_8_0)
-
-		if manager.time:GetServerTime() < var_8_1.startTime then
-			local var_8_2 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_8_2, manager.time:GetLostTimeStr(var_8_1.startTime)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.leftBtn1_, nil, function ()
+		if manager.time:GetServerTime() < ActivityData:GetActivityData(ActivityConst.TYR_SUB_PLOT).startTime then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot1.startTime)))
 
 			return
 		end
 
-		ActivityTools.JumpToSubmodulePage(var_8_0)
+		ActivityTools.JumpToSubmodulePage(slot0)
 	end)
 end
 
-return var_0_0
+return slot0

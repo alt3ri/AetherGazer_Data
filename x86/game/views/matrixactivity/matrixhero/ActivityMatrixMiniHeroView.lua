@@ -1,9 +1,9 @@
-local var_0_0 = class("ActivityMatrixMiniHeroView", MatrixMiniHeroView)
+slot0 = class("ActivityMatrixMiniHeroView", MatrixMiniHeroView)
 
-function var_0_0.OnCtor(arg_1_0)
-	var_0_0.super.OnCtor(arg_1_0)
+function slot0.OnCtor(slot0)
+	uv0.super.OnCtor(slot0)
 
-	arg_1_0.ClassList_ = {
+	slot0.ClassList_ = {
 		ActivityMatrixHeroAttributePage,
 		ActivityMatrixHeroSkillPage,
 		ActivityMartixHeroWeaponPage,
@@ -12,21 +12,21 @@ function var_0_0.OnCtor(arg_1_0)
 	}
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.toggles_) do
-		iter_2_1.onValueChanged:AddListener(function(arg_3_0)
-			if arg_3_0 then
-				arg_2_0:SwitchPage(iter_2_0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in pairs(slot0.toggles_) do
+		slot5.onValueChanged:AddListener(function (slot0)
+			if slot0 then
+				uv0:SwitchPage(uv1)
 
-				if arg_2_0.pages_[iter_2_0] then
-					arg_2_0.pages_[iter_2_0]:SetMatirxHeroInfo(arg_2_0.matrix_activity_id, arg_2_0.curHeroId_)
+				if uv0.pages_[uv1] then
+					uv0.pages_[uv1]:SetMatirxHeroInfo(uv0.matrix_activity_id, uv0.curHeroId_)
 				end
 			end
 		end)
 	end
 end
 
-function var_0_0.OnTop(arg_4_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -34,29 +34,29 @@ function var_0_0.OnTop(arg_4_0)
 		ACTIVITY_MATRIX_COIN
 	})
 	manager.windowBar:SetGameHelpKey("ACTIVITY_MATRIX_DESC")
-	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, arg_4_0.matrix_activity_id)
+	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, slot0.matrix_activity_id)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.matrix_activity_id = arg_5_0.params_.matrix_activity_id
+function slot0.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 
-	var_0_0.super.OnEnter(arg_5_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.UpdateHeroView(arg_6_0)
-	arg_6_0:UpdateAvatarView()
+function slot0.UpdateHeroView(slot0)
+	slot0:UpdateAvatarView()
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.pages_) do
-		iter_6_1:SetMatirxHeroInfo(arg_6_0.matrix_activity_id, arg_6_0.curHeroId_)
+	for slot4, slot5 in pairs(slot0.pages_) do
+		slot5:SetMatirxHeroInfo(slot0.matrix_activity_id, slot0.curHeroId_)
 	end
 end
 
-function var_0_0.GetHeroData(arg_7_0, arg_7_1)
-	return ActivityMatrixData:GetHeroData(arg_7_0.matrix_activity_id, arg_7_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetHeroSkin(arg_8_0, arg_8_1)
-	return ActivityMatrixData:GetHeroSkin(arg_8_0.matrix_activity_id, arg_8_1)
+function slot0.GetHeroSkin(slot0, slot1)
+	return ActivityMatrixData:GetHeroSkin(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

@@ -1,12 +1,12 @@
-local var_0_0 = class("SectionSelectHeroMythicFinalView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroMythicFinalView", SectionSelectHeroBaseView)
 
-function var_0_0.StartBattle(arg_1_0)
+function slot0.StartBattle(slot0)
 	if MythicData:GetIsNew() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_REFRESH_DATA"),
-			OkCallback = function()
+			OkCallback = function ()
 				JumpTools.OpenPageByJump("/mythicUltimateView/mythicDifficulty", nil)
 			end
 		})
@@ -14,7 +14,7 @@ function var_0_0.StartBattle(arg_1_0)
 		return
 	end
 
-	arg_1_0.super.StartBattle(arg_1_0)
+	slot0.super.StartBattle(slot0)
 end
 
-return var_0_0
+return slot0

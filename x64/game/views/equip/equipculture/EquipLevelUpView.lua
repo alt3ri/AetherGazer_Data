@@ -1,141 +1,126 @@
-local var_0_0 = class("EquipLevelUpView", EquipBaseView)
+slot0 = class("EquipLevelUpView", EquipBaseView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.params_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.params_ = slot3
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	var_0_0.super.Init(arg_2_0)
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	uv0.super.Init(slot0)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.scrollHelper = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.listGo_, CommonItemView)
-	arg_3_0.attrs = {}
+	slot4 = slot0.listGo_
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.indexItem), slot4, CommonItemView)
+	slot0.attrs = {}
 
-	for iter_3_0 = 1, 2 do
-		local var_3_0 = {}
+	for slot4 = 1, 2 do
+		slot5 = {}
 
-		ComponentBinder.GetInstance():BindCfgUI(var_3_0, arg_3_0["property_" .. iter_3_0])
-		table.insert(arg_3_0.attrs, var_3_0)
+		ComponentBinder.GetInstance():BindCfgUI(slot5, slot0["property_" .. slot4])
+		table.insert(slot0.attrs, slot5)
 	end
 
-	arg_3_0.maxAttrs = {}
+	slot0.maxAttrs = {}
 
-	for iter_3_1 = 1, 2 do
-		local var_3_1 = {}
+	for slot4 = 1, 2 do
+		slot5 = {}
 
-		ComponentBinder.GetInstance():BindCfgUI(var_3_1, arg_3_0["maxAttr_" .. iter_3_1])
-		table.insert(arg_3_0.maxAttrs, var_3_1)
+		ComponentBinder.GetInstance():BindCfgUI(slot5, slot0["maxAttr_" .. slot4])
+		table.insert(slot0.maxAttrs, slot5)
 	end
 
-	arg_3_0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_GOLD)
-	arg_3_0.maxLvController_ = arg_3_0.transCon_:GetController("levelMax")
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_GOLD)
+	slot0.maxLvController_ = slot0.transCon_:GetController("levelMax")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btnAutoSelect_, nil, function()
-		if arg_4_0.nextLv_ >= arg_4_0.equipMaxLv_ then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnAutoSelect_, nil, function ()
+		if uv0.equipMaxLv_ <= uv0.nextLv_ then
 			return
 		end
 
-		local var_5_0 = EquipCfg[arg_4_0.equip_.prefab_id]
-		local var_5_1 = EquipTools.CountNeedExp(arg_4_0.equip_, arg_4_0.equipMaxLv_, arg_4_0.equip_.now_break_level) - arg_4_0.equip_.exp
-		local var_5_2 = {}
+		slot0 = EquipCfg[uv0.equip_.prefab_id]
+		slot3 = {}
 
-		table.insert(var_5_2, arg_4_0.equipId_)
+		table.insert(slot3, uv0.equipId_)
 
-		local var_5_3, var_5_4 = EquipTools.QuickSelectList(var_5_1, var_5_2)
+		uv0.usedMaterialList_, uv0.usedEquipList_ = EquipTools.QuickSelectList(EquipTools.CountNeedExp(uv0.equip_, uv0.equipMaxLv_, uv0.equip_.now_break_level) - uv0.equip_.exp, slot3)
 
-		arg_4_0.usedMaterialList_ = var_5_3
-		arg_4_0.usedEquipList_ = var_5_4
-
-		arg_4_0:RefreshListSelect()
+		uv0:RefreshListSelect()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnLevelup_, nil, function()
-		local var_6_0 = false
+	slot0:AddBtnListener(slot0.btnLevelup_, nil, function ()
+		slot0 = false
 
-		for iter_6_0, iter_6_1 in pairs(arg_4_0.usedMaterialList_) do
-			if iter_6_1 > 0 then
-				var_6_0 = true
+		for slot4, slot5 in pairs(uv0.usedMaterialList_) do
+			if slot5 > 0 then
+				slot0 = true
 			end
 		end
 
-		if not var_6_0 and next(arg_4_0.usedEquipList_) == nil then
+		if not slot0 and next(uv0.usedEquipList_) == nil then
 			ShowTips(GetTips("PLEASE_SELECT_ITEM"))
 
 			return
 		end
 
-		if not checkGold(arg_4_0.cost_) then
+		if not checkGold(uv0.cost_) then
 			return
 		end
 
-		local var_6_1 = false
+		slot1 = false
 
-		for iter_6_2, iter_6_3 in pairs(arg_4_0.usedEquipList_) do
-			if iter_6_3.equip_star >= 5 then
-				var_6_1 = true
+		for slot5, slot6 in pairs(uv0.usedEquipList_) do
+			if slot6.equip_star >= 5 then
+				slot1 = true
 
 				break
 			end
 		end
 
-		local var_6_2 = false
-		local var_6_3 = EquipTools.CountNeedExp(arg_4_0.equip_, arg_4_0.equipMaxLv_, arg_4_0.equip_.now_break_level)
-		local var_6_4 = EquipTools.CountAddExp(arg_4_0.usedMaterialList_, arg_4_0.usedEquipList_)
-		local var_6_5 = arg_4_0.equip_.exp + var_6_4 - var_6_3
-		local var_6_6 = MaterialTools.materialGiveBack(var_6_5, ItemConst.STR_ITEM.EQUIP)
+		slot2 = false
+		slot6 = MaterialTools.materialGiveBack(uv0.equip_.exp + EquipTools.CountAddExp(uv0.usedMaterialList_, uv0.usedEquipList_) - EquipTools.CountNeedExp(uv0.equip_, uv0.equipMaxLv_, uv0.equip_.now_break_level), ItemConst.STR_ITEM.EQUIP)
 
-		local function var_6_7(arg_7_0, arg_7_1)
-			for iter_7_0, iter_7_1 in pairs(arg_7_1) do
-				arg_7_0[#arg_7_0 + 1] = iter_7_1
-			end
+		for slot11, slot12 in pairs(uv0.usedEquipList_) do
+			function (slot0, slot1)
+				for slot5, slot6 in pairs(slot1) do
+					slot0[#slot0 + 1] = slot6
+				end
+			end(slot6, EquipData:GetEquipData(slot11):GetBreakCostReturn())
 		end
 
-		for iter_6_4, iter_6_5 in pairs(arg_4_0.usedEquipList_) do
-			local var_6_8 = EquipData:GetEquipData(iter_6_4):GetBreakCostReturn()
-
-			var_6_7(var_6_6, var_6_8)
+		if #unformatRewardCfgList(sortReward(mergeReward(formatRewardCfgList(slot6)))) > 0 then
+			slot2 = true
 		end
 
-		local var_6_9 = formatRewardCfgList(var_6_6)
-		local var_6_10 = mergeReward(var_6_9)
-		local var_6_11 = sortReward(var_6_10)
-		local var_6_12 = unformatRewardCfgList(var_6_11)
+		slot8 = ""
 
-		if #var_6_12 > 0 then
-			var_6_2 = true
-		end
-
-		local var_6_13 = ""
-
-		if var_6_1 and var_6_2 then
-			var_6_13 = string.format(GetTips("EQUIP_STRENGTH_EXP_OVERFLOW_AND_RARE"))
-		elseif var_6_1 and not var_6_2 then
-			var_6_13 = GetTips("EQUIP_STRENGTH_COST_RARE")
-		elseif not var_6_1 and var_6_2 then
-			var_6_13 = string.format(GetTips("EQUIP_STRENGTH_EXP_OVERFLOW"))
+		if slot1 and slot2 then
+			slot8 = string.format(GetTips("EQUIP_STRENGTH_EXP_OVERFLOW_AND_RARE"))
+		elseif slot1 and not slot2 then
+			slot8 = GetTips("EQUIP_STRENGTH_COST_RARE")
+		elseif not slot1 and slot2 then
+			slot8 = string.format(GetTips("EQUIP_STRENGTH_EXP_OVERFLOW"))
 		else
-			EquipAction.ApplyStrengthEquip(tonumber(arg_4_0.equipId_), arg_4_0.usedEquipList_, arg_4_0.usedMaterialList_, arg_4_0.cost_, var_6_5)
+			EquipAction.ApplyStrengthEquip(tonumber(uv0.equipId_), uv0.usedEquipList_, uv0.usedMaterialList_, uv0.cost_, slot5)
 
 			return
 		end
 
-		if var_6_1 and not var_6_2 then
+		if slot1 and not slot2 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = var_6_13,
-				OkCallback = function()
-					EquipAction.ApplyStrengthEquip(tonumber(arg_4_0.equipId_), arg_4_0.usedEquipList_, arg_4_0.usedMaterialList_, arg_4_0.cost_)
+				content = slot8,
+				OkCallback = function ()
+					EquipAction.ApplyStrengthEquip(tonumber(uv0.equipId_), uv0.usedEquipList_, uv0.usedMaterialList_, uv0.cost_)
 				end
 			})
 
@@ -143,452 +128,415 @@ function var_0_0.AddUIListener(arg_4_0)
 		end
 
 		JumpTools.OpenPageByJump("materialPreview", {
-			content = var_6_13,
-			OkCallback = function()
-				EquipAction.ApplyStrengthEquip(tonumber(arg_4_0.equipId_), arg_4_0.usedEquipList_, arg_4_0.usedMaterialList_, arg_4_0.cost_, var_6_5)
+			content = slot8,
+			OkCallback = function ()
+				EquipAction.ApplyStrengthEquip(tonumber(uv0.equipId_), uv0.usedEquipList_, uv0.usedMaterialList_, uv0.cost_, uv1)
 			end,
-			itemList = var_6_12
+			itemList = slot6
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnFilter_, nil, function()
+	slot0:AddBtnListener(slot0.btnFilter_, nil, function ()
 		JumpTools.OpenPageByJump("commonFilterView", {
 			filterGroup = Filter_Root_Define.Equip_Filter_List
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:OnEquipChange(arg_11_0.params_.equipId)
-	arg_11_0:RegistEventListener(COMMON_FILTER_OK, handler(arg_11_0, arg_11_0.OnFilterChange))
-	arg_11_0:RegistEventListener(CURRENCY_UPDATE, handler(arg_11_0, arg_11_0.OnGoldChange))
-	arg_11_0:RegistEventListener(EQUIP_STRENGTH_SUCCESS, handler(arg_11_0, arg_11_0.OnEquipStrengthSuccess))
+function slot0.OnEnter(slot0)
+	slot0:OnEquipChange(slot0.params_.equipId)
+	slot0:RegistEventListener(COMMON_FILTER_OK, handler(slot0, slot0.OnFilterChange))
+	slot0:RegistEventListener(CURRENCY_UPDATE, handler(slot0, slot0.OnGoldChange))
+	slot0:RegistEventListener(EQUIP_STRENGTH_SUCCESS, handler(slot0, slot0.OnEquipStrengthSuccess))
 end
 
-function var_0_0.OnEquipChange(arg_12_0, arg_12_1)
-	arg_12_0.usedMaterialList_ = {}
-	arg_12_0.usedEquipList_ = {}
-	arg_12_0.equipId_ = arg_12_1
-	arg_12_0.equip_ = EquipData:GetEquipData(arg_12_0.equipId_)
-	arg_12_0.equipMaxLv_ = EquipTools.CountEquipMaxLv(arg_12_0.equip_)
-	arg_12_0.equipLv_ = arg_12_0.equip_:GetLevel()
+function slot0.OnEquipChange(slot0, slot1)
+	slot0.usedMaterialList_ = {}
+	slot0.usedEquipList_ = {}
+	slot0.equipId_ = slot1
+	slot0.equip_ = EquipData:GetEquipData(slot0.equipId_)
+	slot0.equipMaxLv_ = EquipTools.CountEquipMaxLv(slot0.equip_)
+	slot0.equipLv_ = slot0.equip_:GetLevel()
 
-	if arg_12_0.equipLv_ == arg_12_0.equipMaxLv_ then
-		arg_12_0.maxLvController_:SetSelectedState("max")
-		arg_12_0:RefreshMax()
+	if slot0.equipLv_ == slot0.equipMaxLv_ then
+		slot0.maxLvController_:SetSelectedState("max")
+		slot0:RefreshMax()
 	else
-		arg_12_0.maxLvController_:SetSelectedState("normal")
-		arg_12_0:RefreshEquipStrength()
-		arg_12_0:ChangeEquipSelectView(EquipConst.EQUIP_SORT.LEVEL, ItemConst.SORT_TYPE.UP)
+		slot0.maxLvController_:SetSelectedState("normal")
+		slot0:RefreshEquipStrength()
+		slot0:ChangeEquipSelectView(EquipConst.EQUIP_SORT.LEVEL, ItemConst.SORT_TYPE.UP)
 	end
 
-	arg_12_0:ChangeBar()
+	slot0:ChangeBar()
 end
 
-function var_0_0.OnTop(arg_13_0)
-	arg_13_0:ChangeBar()
+function slot0.OnTop(slot0)
+	slot0:ChangeBar()
 end
 
-function var_0_0.ChangeBar(arg_14_0)
-	local var_14_0 = {
-		BACK_BAR,
-		HOME_BAR,
-		INFO_BAR
-	}
-
-	if arg_14_0.equipLv_ == arg_14_0.equipMaxLv_ then
-		manager.windowBar:SwitchBar(var_14_0)
+function slot0.ChangeBar(slot0)
+	if slot0.equipLv_ == slot0.equipMaxLv_ then
+		manager.windowBar:SwitchBar({
+			BACK_BAR,
+			HOME_BAR,
+			INFO_BAR
+		})
 	else
-		table.insert(var_14_0, CurrencyConst.CURRENCY_TYPE_GOLD)
-		manager.windowBar:SwitchBar(var_14_0)
+		table.insert(slot1, CurrencyConst.CURRENCY_TYPE_GOLD)
+		manager.windowBar:SwitchBar(slot1)
 		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 	end
 end
 
-function var_0_0.RefreshMax(arg_15_0)
-	arg_15_0.maxLv_.text = arg_15_0.equipMaxLv_
+function slot0.RefreshMax(slot0)
+	slot0.maxLv_.text = slot0.equipMaxLv_
+	slot2 = 1
 
-	local var_15_0 = EquipTools.CountEquipAttribute(arg_15_0.equip_)
-	local var_15_1 = 1
+	for slot6, slot7 in pairs(EquipTools.CountEquipAttribute(slot0.equip_)) do
+		slot9 = slot0.maxAttrs[slot2]
+		slot10 = math.floor(slot7)
 
-	for iter_15_0, iter_15_1 in pairs(var_15_0) do
-		local var_15_2 = PublicAttrCfg[iter_15_0]
-		local var_15_3 = arg_15_0.maxAttrs[var_15_1]
-		local var_15_4 = math.floor(iter_15_1)
-
-		if var_15_2.percent and var_15_2.percent == 1 then
-			var_15_4 = iter_15_1 / 10 .. "%"
+		if PublicAttrCfg[slot6].percent and slot8.percent == 1 then
+			slot10 = slot7 / 10 .. "%"
 		end
 
-		var_15_3.name_.text = GetI18NText(var_15_2.name)
-		var_15_3.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", var_15_2.icon)
-		var_15_3.num_.text = var_15_4
-		var_15_1 = var_15_1 + 1
+		slot9.name_.text = GetI18NText(slot8.name)
+		slot9.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", slot8.icon)
+		slot9.num_.text = slot10
+		slot2 = slot2 + 1
 	end
 end
 
-function var_0_0.RefreshEquipStrength(arg_16_0)
-	local var_16_0 = EquipTools.CountAddExp(arg_16_0.usedMaterialList_, arg_16_0.usedEquipList_)
-	local var_16_1 = arg_16_0.equip_
-	local var_16_2 = var_16_1.exp + var_16_0
-	local var_16_3 = deepClone(var_16_1)
+function slot0.RefreshEquipStrength(slot0)
+	slot1 = EquipTools.CountAddExp(slot0.usedMaterialList_, slot0.usedEquipList_)
+	slot2 = slot0.equip_
+	slot3 = slot2.exp + slot1
+	slot4 = deepClone(slot2)
+	slot4.exp = slot3
 
-	var_16_3.exp = var_16_2
-
-	arg_16_0:RefreshExp(var_16_0, var_16_2, var_16_1, var_16_3)
-	arg_16_0:RefreshAttr(var_16_1, var_16_3)
-	arg_16_0:RefreshCost()
+	slot0:RefreshExp(slot1, slot3, slot2, slot4)
+	slot0:RefreshAttr(slot2, slot4)
+	slot0:RefreshCost()
 end
 
-function var_0_0.RefreshExp(arg_17_0, arg_17_1, arg_17_2, arg_17_3, arg_17_4)
-	local var_17_0 = EquipTools.CountEquipLevel(arg_17_3)
-	local var_17_1 = EquipTools.CountEquipLevel(arg_17_4)
+function slot0.RefreshExp(slot0, slot1, slot2, slot3, slot4)
+	slot5 = EquipTools.CountEquipLevel(slot3)
+	slot6 = EquipTools.CountEquipLevel(slot4)
+	slot0.nextLv_ = slot6
+	slot0.oldLv_.text = "" .. slot5
+	slot0.newLv_.text = "" .. slot6
 
-	arg_17_0.nextLv_ = var_17_1
-	arg_17_0.oldLv_.text = "" .. var_17_0
-	arg_17_0.newLv_.text = "" .. var_17_1
+	SetActive(slot0.btnAutoSelectGo_, slot5 < slot0.equipMaxLv_)
+	SetActive(slot0.btnStrengthGo_, slot5 < slot7)
+	SetActive(slot0.btnAutoSelectNullGo_, slot5 == slot7)
+	SetActive(slot0.newLevelContent_, slot1 ~= 0)
 
-	local var_17_2 = arg_17_0.equipMaxLv_
+	slot0.addExpText_.text = "+" .. slot1
+	slot9 = slot2 - EquipTools.CountNeedExp(slot3, slot6, slot3.now_break_level)
+	slot0.cost_ = 0
 
-	SetActive(arg_17_0.btnAutoSelectGo_, var_17_0 < var_17_2)
-	SetActive(arg_17_0.btnStrengthGo_, var_17_0 < var_17_2)
-	SetActive(arg_17_0.btnAutoSelectNullGo_, var_17_0 == var_17_2)
-	SetActive(arg_17_0.newLevelContent_, arg_17_1 ~= 0)
+	if slot7 <= slot6 then
+		slot0.cost_ = math.floor((slot8 - slot3.exp < 0 and 0 or slot10) * GameSetting.equip_strengthen_gold_cost.value[1])
+		slot0.expNum_.text = "-/-"
+		slot0.expProg_.fillAmount = 0
+		slot0.newExpProg_.fillAmount = 1
 
-	arg_17_0.addExpText_.text = "+" .. arg_17_1
-
-	local var_17_3 = EquipTools.CountNeedExp(arg_17_3, var_17_1, arg_17_3.now_break_level)
-	local var_17_4 = arg_17_2 - var_17_3
-
-	arg_17_0.cost_ = 0
-
-	if var_17_2 <= var_17_1 then
-		local var_17_5 = var_17_3 - arg_17_3.exp
-
-		arg_17_0.cost_ = math.floor((var_17_5 < 0 and 0 or var_17_5) * GameSetting.equip_strengthen_gold_cost.value[1])
-		arg_17_0.expNum_.text = "-/-"
-		arg_17_0.expProg_.fillAmount = 0
-		arg_17_0.newExpProg_.fillAmount = 1
-
-		SetActive(arg_17_0.maxGo_, true)
+		SetActive(slot0.maxGo_, true)
 	else
-		arg_17_0.cost_ = math.floor(arg_17_1 * GameSetting.equip_strengthen_gold_cost.value[1])
+		slot0.cost_ = math.floor(slot1 * GameSetting.equip_strengthen_gold_cost.value[1])
+		slot0.expNum_.text = slot9 .. "/" .. EquipExpCfg[slot6]["exp" .. slot3.equipConfig.starlevel]
 
-		local var_17_6 = EquipExpCfg[var_17_1]["exp" .. arg_17_3.equipConfig.starlevel]
-
-		arg_17_0.expNum_.text = var_17_4 .. "/" .. var_17_6
-
-		if var_17_1 == var_17_0 then
-			arg_17_0.expProg_.fillAmount = (var_17_4 - arg_17_1) / var_17_6
+		if slot6 == slot5 then
+			slot0.expProg_.fillAmount = (slot9 - slot1) / slot10
 		else
-			arg_17_0.expProg_.fillAmount = 0
+			slot0.expProg_.fillAmount = 0
 		end
 
-		arg_17_0.newExpProg_.fillAmount = var_17_4 / var_17_6
+		slot0.newExpProg_.fillAmount = slot9 / slot10
 
-		SetActive(arg_17_0.maxGo_, false)
+		SetActive(slot0.maxGo_, false)
 	end
 end
 
-function var_0_0.RefreshAttr(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = EquipTools.CountEquipAttribute(arg_18_1)
-	local var_18_1 = EquipTools.CountEquipAttribute(arg_18_2)
-	local var_18_2 = 1
+function slot0.RefreshAttr(slot0, slot1, slot2)
+	slot4 = EquipTools.CountEquipAttribute(slot2)
+	slot5 = 1
 
-	for iter_18_0, iter_18_1 in pairs(var_18_0) do
-		local var_18_3 = PublicAttrCfg[iter_18_0]
-		local var_18_4 = arg_18_0.attrs[var_18_2]
+	for slot9, slot10 in pairs(EquipTools.CountEquipAttribute(slot1)) do
+		slot11 = PublicAttrCfg[slot9]
 
-		if not var_18_4 then
+		if not slot0.attrs[slot5] then
 			break
 		end
 
-		local var_18_5 = math.floor(iter_18_1)
-		local var_18_6 = math.floor(var_18_1[iter_18_0])
+		slot13 = math.floor(slot10)
+		slot14 = math.floor(slot4[slot9])
 
-		if var_18_3.percent and var_18_3.percent == 1 then
-			var_18_5 = iter_18_1 / 10 .. "%"
-			var_18_6 = var_18_1[iter_18_0] / 10 .. "%"
+		if slot11.percent and slot11.percent == 1 then
+			slot13 = slot10 / 10 .. "%"
+			slot14 = slot4[slot9] / 10 .. "%"
 		end
 
-		var_18_4.name_.text = GetI18NText(var_18_3.name)
-		var_18_4.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", var_18_3.icon)
-		var_18_4.oldVal_.text = var_18_5
+		slot12.name_.text = GetI18NText(slot11.name)
+		slot12.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", slot11.icon)
+		slot12.oldVal_.text = slot13
 
-		if iter_18_1 ~= var_18_1[iter_18_0] then
-			var_18_4.newVal_.text = string.format("<color='#E28000'>%s</color>", var_18_6)
-			var_18_4.arrow_.color = Color.New(0.8941176, 0.5058823, 0, 1)
+		if slot10 ~= slot4[slot9] then
+			slot12.newVal_.text = string.format("<color='#E28000'>%s</color>", slot14)
+			slot12.arrow_.color = Color.New(0.8941176, 0.5058823, 0, 1)
 		else
-			var_18_4.newVal_.text = string.format("<color='#3D4045'>%s</color>", var_18_6)
-			var_18_4.arrow_.color = Color.New(0.2392156, 0.2509803, 0.2705882, 1)
+			slot12.newVal_.text = string.format("<color='#3D4045'>%s</color>", slot14)
+			slot12.arrow_.color = Color.New(0.2392156, 0.2509803, 0.2705882, 1)
 		end
 
-		var_18_2 = var_18_2 + 1
+		slot5 = slot5 + 1
 	end
 end
 
-function var_0_0.RefreshCost(arg_19_0)
-	local var_19_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-	local var_19_1 = tostring(arg_19_0.cost_)
-
-	if var_19_0 < arg_19_0.cost_ then
-		var_19_1 = "<color='#FF0000'>" .. var_19_1 .. "</color>"
+function slot0.RefreshCost(slot0)
+	if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD) < slot0.cost_ then
+		slot2 = "<color='#FF0000'>" .. tostring(slot0.cost_) .. "</color>"
 	end
 
-	arg_19_0.costNum_.text = var_19_1
+	slot0.costNum_.text = slot2
 end
 
-function var_0_0.ChangeEquipSelectView(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.priority_ = arg_20_1
-	arg_20_0.order_ = arg_20_2
-	arg_20_0.itemList = arg_20_0:GetItemList()
+function slot0.ChangeEquipSelectView(slot0, slot1, slot2)
+	slot0.priority_ = slot1
+	slot0.order_ = slot2
+	slot0.itemList = slot0:GetItemList()
 
-	arg_20_0:RefreshList()
+	slot0:RefreshList()
 end
 
-function var_0_0.RefreshList(arg_21_0)
-	local var_21_0 = #arg_21_0.itemList
-
-	arg_21_0.scrollHelper:StartScroll(var_21_0)
+function slot0.RefreshList(slot0)
+	slot0.scrollHelper:StartScroll(#slot0.itemList)
 end
 
-function var_0_0.RefreshListSelect(arg_22_0)
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.scrollHelper:GetItemList()) do
-		local var_22_0 = iter_22_1:GetData()
+function slot0.RefreshListSelect(slot0)
+	slot3 = slot0.scrollHelper
+	slot5 = slot3
 
-		if var_22_0.type == ItemConst.ITEM_TYPE.MATERIAL then
-			local var_22_1 = arg_22_0.usedMaterialList_[var_22_0.id] or 0
-
-			iter_22_1:RefreshTopAmount(var_22_1)
-		elseif var_22_0.type == ItemConst.ITEM_TYPE.EQUIP then
-			iter_22_1:RefreshSelectState(arg_22_0.usedEquipList_[var_22_0.equip_id] and true or false)
+	for slot4, slot5 in pairs(slot3.GetItemList(slot5)) do
+		if slot5:GetData().type == ItemConst.ITEM_TYPE.MATERIAL then
+			slot5:RefreshTopAmount(slot0.usedMaterialList_[slot6.id] or 0)
+		elseif slot6.type == ItemConst.ITEM_TYPE.EQUIP then
+			slot5:RefreshSelectState(slot0.usedEquipList_[slot6.equip_id] and true or false)
 		end
 	end
 
-	arg_22_0:RefreshEquipStrength()
+	slot0:RefreshEquipStrength()
 end
 
-function var_0_0.indexItem(arg_23_0, arg_23_1, arg_23_2)
-	local var_23_0 = arg_23_0.itemList[arg_23_1]
-	local var_23_1 = clone(ItemTemplateData)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot4 = clone(ItemTemplateData)
 
-	if var_23_0.type == ItemConst.ITEM_TYPE.EQUIP then
-		var_23_1.equip_info = var_23_0
-		var_23_1.id = var_23_0.prefab_id
-		var_23_1.equip_id = var_23_0.equip_id
-		var_23_1.equip_star = getItemStar(var_23_0.prefab_id)
-		var_23_1.equipLevel = EquipTools.CountEquipLevel(var_23_0)
-		var_23_1.isEquiped = false
-		var_23_1.equipedLocked = var_23_0.is_lock
-		var_23_1.type = var_23_0.type
+	if slot0.itemList[slot1].type == ItemConst.ITEM_TYPE.EQUIP then
+		slot4.equip_info = slot3
+		slot4.id = slot3.prefab_id
+		slot4.equip_id = slot3.equip_id
+		slot4.equip_star = getItemStar(slot3.prefab_id)
+		slot4.equipLevel = EquipTools.CountEquipLevel(slot3)
+		slot4.isEquiped = false
+		slot4.equipedLocked = slot3.is_lock
+		slot4.type = slot3.type
 
-		function var_23_1.clickFun(arg_24_0)
-			arg_23_0:EquipClickFunc(arg_23_2, arg_24_0)
+		function slot4.clickFun(slot0)
+			uv0:EquipClickFunc(uv1, slot0)
 		end
 
-		var_23_1.selectStyle = arg_23_0.usedEquipList_[var_23_0.equip_id] ~= nil
-	elseif var_23_0.type == ItemConst.ITEM_TYPE.MATERIAL then
-		var_23_1.id = var_23_0.id
-		var_23_1.number = var_23_0.number
-		var_23_1.type = var_23_0.type
+		slot4.selectStyle = slot0.usedEquipList_[slot3.equip_id] ~= nil
+	elseif slot3.type == ItemConst.ITEM_TYPE.MATERIAL then
+		slot4.id = slot3.id
+		slot4.number = slot3.number
+		slot4.type = slot3.type
 
-		function var_23_1.longClickFun(arg_25_0)
-			return arg_23_0:MaterialLongClickFunc(arg_23_2, arg_25_0)
+		function slot4.longClickFun(slot0)
+			return uv0:MaterialLongClickFunc(uv1, slot0)
 		end
 
-		function var_23_1.clickAmountFun(arg_26_0)
-			return arg_23_0:MaterialAmountClickFunc(arg_23_2, arg_26_0)
+		function slot4.clickAmountFun(slot0)
+			return uv0:MaterialAmountClickFunc(uv1, slot0)
 		end
 
-		if arg_23_0.usedMaterialList_[var_23_0.id] and arg_23_0.usedMaterialList_[var_23_0.id] ~= 0 then
-			var_23_1.topAmountValue = arg_23_0.usedMaterialList_[var_23_0.id]
+		if slot0.usedMaterialList_[slot3.id] and slot0.usedMaterialList_[slot3.id] ~= 0 then
+			slot4.topAmountValue = slot0.usedMaterialList_[slot3.id]
 		end
 	end
 
-	arg_23_2:SetData(var_23_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.EquipClickFunc(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = arg_27_2.equip_id
+function slot0.EquipClickFunc(slot0, slot1, slot2)
+	if slot0.usedEquipList_[slot2.equip_id] then
+		slot0.usedEquipList_[slot3] = nil
+		slot0.handler_.equipCommonItem_ = slot1
 
-	if arg_27_0.usedEquipList_[var_27_0] then
-		arg_27_0.usedEquipList_[var_27_0] = nil
-		arg_27_0.handler_.equipCommonItem_ = arg_27_1
-
-		arg_27_0.handler_:HidePop()
+		slot0.handler_:HidePop()
 	else
-		local var_27_1 = arg_27_2.equip_id
+		slot4 = slot2.equip_id
 
-		if arg_27_0.nextLv_ >= arg_27_0.equipMaxLv_ then
+		if slot0.equipMaxLv_ <= slot0.nextLv_ then
 			ShowTips("ERROR_USER_MAX_LV")
 
 			return
 		end
 
-		if arg_27_2.equipedLocked then
+		if slot2.equipedLocked then
 			ShowTips("REMOVE_LOCK")
-			arg_27_0:ShowEquipInfo(var_27_1, arg_27_1)
+			slot0:ShowEquipInfo(slot4, slot1)
 
 			return
 		end
 
-		arg_27_0:ShowEquipInfo(var_27_1, arg_27_1)
-		arg_27_1:RefreshSelectState(true)
+		slot0:ShowEquipInfo(slot4, slot1)
+		slot1:RefreshSelectState(true)
 
-		arg_27_0.usedEquipList_[var_27_1] = arg_27_2
+		slot0.usedEquipList_[slot4] = slot2
 	end
 
-	arg_27_0:RefreshEquipStrength()
+	slot0:RefreshEquipStrength()
 end
 
-function var_0_0.MaterialLongClickFunc(arg_28_0, arg_28_1, arg_28_2)
-	if arg_28_0.nextLv_ >= arg_28_0.equipMaxLv_ then
+function slot0.MaterialLongClickFunc(slot0, slot1, slot2)
+	if slot0.equipMaxLv_ <= slot0.nextLv_ then
 		ShowTips("ERROR_USER_MAX_LV")
 
 		return false
 	end
 
-	arg_28_0.usedMaterialList_[arg_28_2.id] = arg_28_0.usedMaterialList_[arg_28_2.id] or 0
+	slot0.usedMaterialList_[slot2.id] = slot0.usedMaterialList_[slot2.id] or 0
 
-	if arg_28_0.usedMaterialList_[arg_28_2.id] >= arg_28_2.number then
+	if slot2.number <= slot0.usedMaterialList_[slot2.id] then
 		return false
 	end
 
-	arg_28_0.usedMaterialList_[arg_28_2.id] = arg_28_0.usedMaterialList_[arg_28_2.id] + 1
+	slot0.usedMaterialList_[slot2.id] = slot0.usedMaterialList_[slot2.id] + 1
 
-	arg_28_1:RefreshTopAmount(arg_28_0.usedMaterialList_[arg_28_2.id])
-	arg_28_0:RefreshEquipStrength()
+	slot1:RefreshTopAmount(slot0.usedMaterialList_[slot2.id])
+	slot0:RefreshEquipStrength()
 	manager.audio:PlayUIAudio(2)
 
 	return true
 end
 
-function var_0_0.MaterialAmountClickFunc(arg_29_0, arg_29_1, arg_29_2)
-	arg_29_0.usedMaterialList_[arg_29_2.id] = arg_29_0.usedMaterialList_[arg_29_2.id] or 0
+function slot0.MaterialAmountClickFunc(slot0, slot1, slot2)
+	slot0.usedMaterialList_[slot2.id] = slot0.usedMaterialList_[slot2.id] or 0
 
-	if arg_29_0.usedMaterialList_[arg_29_2.id] <= 0 then
+	if slot0.usedMaterialList_[slot2.id] <= 0 then
 		return false
 	end
 
-	arg_29_0.usedMaterialList_[arg_29_2.id] = arg_29_0.usedMaterialList_[arg_29_2.id] - 1
+	slot0.usedMaterialList_[slot2.id] = slot0.usedMaterialList_[slot2.id] - 1
 
-	arg_29_1:RefreshTopAmount(arg_29_0.usedMaterialList_[arg_29_2.id])
-	arg_29_0:RefreshEquipStrength()
+	slot1:RefreshTopAmount(slot0.usedMaterialList_[slot2.id])
+	slot0:RefreshEquipStrength()
 	manager.audio:PlayUIAudio(2)
 
 	return true
 end
 
-function var_0_0.GetEquip(arg_30_0)
-	return EquipData:GetEquipData(arg_30_0.equipId_)
+function slot0.GetEquip(slot0)
+	return EquipData:GetEquipData(slot0.equipId_)
 end
 
-function var_0_0.GetItemList(arg_31_0)
-	local var_31_0 = EquipData:GetEquipListComplex(arg_31_0.order_, arg_31_0.priority_)
-	local var_31_1 = {}
+function slot0.GetItemList(slot0)
+	slot1 = EquipData:GetEquipListComplex(slot0.order_, slot0.priority_)
+	slot6 = ItemConst.ITEM_TYPE.MATERIAL
 
-	for iter_31_0, iter_31_1 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.MATERIAL]) do
-		local var_31_2 = ItemTools.getItemNum(iter_31_1)
+	for slot6, slot7 in ipairs(ItemCfg.get_id_list_by_type[slot6]) do
+		slot8 = ItemTools.getItemNum(slot7)
 
-		if ItemCfg[iter_31_1].sub_type == MaterialConst.MATERIAL_TYPE.EQUIP_LEVEL_UP and var_31_2 > 0 then
-			table.insert(var_31_1, {
-				type = ItemCfg[iter_31_1].type,
-				id = iter_31_1,
-				number = var_31_2
+		if ItemCfg[slot7].sub_type == MaterialConst.MATERIAL_TYPE.EQUIP_LEVEL_UP and slot8 > 0 then
+			table.insert({}, {
+				type = ItemCfg[slot7].type,
+				id = slot7,
+				number = slot8
 			})
 		end
 	end
 
-	local var_31_3 = HeroData:GetEquipMap()
-	local var_31_4 = ProposalData:GetEquipMap()
+	slot4 = ProposalData:GetEquipMap()
 
-	for iter_31_2 = #var_31_0, 1, -1 do
-		if var_31_3[var_31_0[iter_31_2].equip_id] or var_31_0[iter_31_2].equip_id == arg_31_0.equipId_ then
-			table.remove(var_31_0, iter_31_2)
+	for slot8 = #slot1, 1, -1 do
+		if HeroData:GetEquipMap()[slot1[slot8].equip_id] or slot1[slot8].equip_id == slot0.equipId_ then
+			table.remove(slot1, slot8)
 		end
 	end
 
-	for iter_31_3, iter_31_4 in ipairs(var_31_0) do
-		if not iter_31_4.is_lock and not var_31_4[iter_31_4.equip_id] then
-			iter_31_4.type = ItemCfg[iter_31_4.prefab_id].type
+	for slot8, slot9 in ipairs(slot1) do
+		if not slot9.is_lock and not slot4[slot9.equip_id] then
+			slot9.type = ItemCfg[slot9.prefab_id].type
 
-			table.insert(var_31_1, iter_31_4)
+			table.insert(slot2, slot9)
 		end
 	end
 
-	return var_31_1 or {}
+	return slot2 or {}
 end
 
-function var_0_0.ShowEquipInfo(arg_32_0, arg_32_1, arg_32_2)
-	local var_32_0 = EquipData:GetEquipData(arg_32_1)
+function slot0.ShowEquipInfo(slot0, slot1, slot2)
+	slot0.handler_:RefreshEquipInfo(EquipData:GetEquipData(slot1), slot2, function (slot0)
+		if slot0 then
+			uv0:RefreshSelectState(false)
 
-	local function var_32_1(arg_33_0)
-		if arg_33_0 then
-			arg_32_2:RefreshSelectState(false)
+			uv1.usedEquipList_[uv2] = nil
 
-			arg_32_0.usedEquipList_[arg_32_1] = nil
-
-			arg_32_0:RefreshEquipStrength()
+			uv1:RefreshEquipStrength()
 		end
 
-		arg_32_2:RefreshLock(arg_33_0)
-	end
-
-	arg_32_0.handler_:RefreshEquipInfo(var_32_0, arg_32_2, var_32_1)
+		uv0:RefreshLock(slot0)
+	end)
 end
 
-function var_0_0.OnEquipStrengthSuccess(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	if arg_34_1 then
-		arg_34_0.handler_:RefreshSideBar(arg_34_0.equipId_)
+function slot0.OnEquipStrengthSuccess(slot0, slot1, slot2, slot3)
+	if slot1 then
+		slot0.handler_:RefreshSideBar(slot0.equipId_)
 	end
 
-	if arg_34_2 then
-		JumpTools.OpenPageByJump("equipCulturePopView", arg_34_3)
+	if slot2 then
+		JumpTools.OpenPageByJump("equipCulturePopView", slot3)
 	end
 
-	arg_34_0.handler_:HidePop()
+	slot0.handler_:HidePop()
 
-	arg_34_0.usedMaterialList_ = {}
-	arg_34_0.usedEquipList_ = {}
-	arg_34_0.itemList = arg_34_0:GetItemList()
+	slot0.usedMaterialList_ = {}
+	slot0.usedEquipList_ = {}
+	slot0.itemList = slot0:GetItemList()
 
-	arg_34_0:RefreshListSelect()
-	arg_34_0:RefreshList()
+	slot0:RefreshListSelect()
+	slot0:RefreshList()
 end
 
-function var_0_0.OnGoldChange(arg_35_0, arg_35_1)
-	if arg_35_1 == CurrencyConst.CURRENCY_TYPE_GOLD then
-		arg_35_0:RefreshEquipStrength()
+function slot0.OnGoldChange(slot0, slot1)
+	if slot1 == CurrencyConst.CURRENCY_TYPE_GOLD then
+		slot0:RefreshEquipStrength()
 	end
 end
 
-function var_0_0.OnExit(arg_36_0)
-	arg_36_0.isOnIndex = nil
+function slot0.OnExit(slot0)
+	slot0.isOnIndex = nil
 
 	CommonFilterData:ClearFilter(Filter_Root_Define.Equip_Filter_List.filter_id)
-	arg_36_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnFilterChange(arg_37_0)
-	local var_37_0 = CommonFilterData:HasIndexFlag(2, 4, 13)
-	local var_37_1 = CommonFilterData:HasIndexFlag(2, 4, 14)
-	local var_37_2 = CommonFilterData:HasIndexFlag(2, 5, 15)
-	local var_37_3 = CommonFilterData:HasIndexFlag(2, 5, 16)
-	local var_37_4 = var_37_1 and EquipConst.EQUIP_SORT.RARE or EquipConst.EQUIP_SORT.LEVEL
-	local var_37_5 = var_37_3 and 0 or 1
+function slot0.OnFilterChange(slot0)
+	slot1 = CommonFilterData:HasIndexFlag(2, 4, 13)
+	slot3 = CommonFilterData:HasIndexFlag(2, 5, 15)
 
-	arg_37_0:ChangeEquipSelectView(var_37_4, var_37_5)
+	slot0:ChangeEquipSelectView(CommonFilterData:HasIndexFlag(2, 4, 14) and EquipConst.EQUIP_SORT.RARE or EquipConst.EQUIP_SORT.LEVEL, CommonFilterData:HasIndexFlag(2, 5, 16) and 0 or 1)
 end
 
-function var_0_0.Dispose(arg_38_0)
-	arg_38_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_38_0.scrollHelper then
-		arg_38_0.scrollHelper:Dispose()
+	if slot0.scrollHelper then
+		slot0.scrollHelper:Dispose()
 
-		arg_38_0.scrollHelper = nil
+		slot0.scrollHelper = nil
 	end
 
-	var_0_0.super.Dispose(arg_38_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

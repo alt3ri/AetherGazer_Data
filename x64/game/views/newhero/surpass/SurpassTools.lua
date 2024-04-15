@@ -1,100 +1,77 @@
 return {
-	GetSmallStageShow = function(arg_1_0)
-		local var_1_0 = HeroStarCfg[arg_1_0].star
-		local var_1_1 = table.indexof(HeroStarCfg.get_id_list_by_star[var_1_0], arg_1_0) - 1
-
-		if var_1_1 == 1 then
+	GetSmallStageShow = function (slot0)
+		if table.indexof(HeroStarCfg.get_id_list_by_star[HeroStarCfg[slot0].star], slot0) - 1 == 1 then
 			return "I"
-		elseif var_1_1 == 2 then
+		elseif slot2 == 2 then
 			return "Ⅱ"
-		elseif var_1_1 == 3 then
+		elseif slot2 == 3 then
 			return "Ⅲ"
-		elseif var_1_1 == 4 then
+		elseif slot2 == 4 then
 			return "Ⅳ"
 		end
 
 		return ""
 	end,
-	UpdateSliImageFill = function(arg_2_0, arg_2_1, arg_2_2)
-		local var_2_0 = HeroStarCfg.get_id_list_by_star[arg_2_1]
-		local var_2_1 = 0
-
-		for iter_2_0, iter_2_1 in pairs(var_2_0) do
-			if HeroStarCfg[iter_2_1].phase > 0 and iter_2_1 <= arg_2_2 then
-				var_2_1 = var_2_1 + 1
+	UpdateSliImageFill = function (slot0, slot1, slot2)
+		for slot8, slot9 in pairs(HeroStarCfg.get_id_list_by_star[slot1]) do
+			if HeroStarCfg[slot9].phase > 0 and slot9 <= slot2 then
+				slot4 = 0 + 1
 			end
 		end
 
-		arg_2_0.fillAmount = var_2_1 / 4
+		slot0.fillAmount = slot4 / 4
 	end,
-	GetNextSurpassStarID = function(arg_3_0)
-		local var_3_0 = table.indexof(HeroStarCfg.all, arg_3_0) + 1
-
-		return HeroStarCfg.all[var_3_0] or arg_3_0 + 1
+	GetNextSurpassStarID = function (slot0)
+		return HeroStarCfg.all[table.indexof(HeroStarCfg.all, slot0) + 1] or slot0 + 1
 	end,
-	ChangeIconStarSpirte = function(arg_4_0, arg_4_1)
-		arg_4_0.sprite = getSprite("Atlas/Common", "star_" .. arg_4_1)
+	ChangeIconStarSpirte = function (slot0, slot1)
+		slot0.sprite = getSprite("Atlas/Common", "star_" .. slot1)
 	end,
-	GetStarUpAttrShowDesc = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = arg_5_0.star_up_skill_template
-		local var_5_1 = HeroStarUpTemplateCfg.get_id_list_by_template[var_5_0]
-		local var_5_2 = {}
+	GetStarUpAttrShowDesc = function (slot0, slot1, slot2)
+		slot5 = {}
 
-		for iter_5_0, iter_5_1 in ipairs(var_5_1) do
-			local var_5_3 = HeroStarUpTemplateCfg[iter_5_1]
-
-			if var_5_3.stage == arg_5_1 then
-				local var_5_4 = var_5_3.skill_id
-
-				var_5_2 = HeroStarSkillCfg[var_5_4]
+		for slot9, slot10 in ipairs(HeroStarUpTemplateCfg.get_id_list_by_template[slot0.star_up_skill_template]) do
+			if HeroStarUpTemplateCfg[slot10].stage == slot1 then
+				slot5 = HeroStarSkillCfg[slot11.skill_id]
 
 				break
 			end
 		end
 
-		local var_5_5 = {}
-		local var_5_6 = {}
-		local var_5_7 = ""
+		slot6 = {}
+		slot7 = {}
+		slot8 = ""
 
-		if var_5_2.type == HeroConst.HERO_STAR_SKILL_TYPE.ATTRIBUTE_UP then
-			local var_5_8 = var_5_2.params
+		if slot5.type == HeroConst.HERO_STAR_SKILL_TYPE.ATTRIBUTE_UP then
+			for slot13, slot14 in pairs(slot5.params) do
+				slot16 = slot14[2]
+				slot18 = PublicAttrCfg[slot14[1]].percent == 1 and string.format("+%.2f", slot16 / 10) .. "%" or string.format("+%.0f", slot16)
 
-			for iter_5_2, iter_5_3 in pairs(var_5_8) do
-				local var_5_9 = iter_5_3[1]
-				local var_5_10 = iter_5_3[2]
-				local var_5_11 = PublicAttrCfg[var_5_9]
-				local var_5_12 = var_5_11.percent == 1 and string.format("+%.2f", var_5_10 / 10) .. "%" or string.format("+%.0f", var_5_10)
+				if not slot2 then
+					desc = string.format("%s%s", GetI18NText(slot17.name), slot18)
 
-				if not arg_5_2 then
-					desc = string.format("%s%s", GetI18NText(var_5_11.name), var_5_12)
-
-					table.insert(var_5_6, desc)
+					table.insert(slot7, desc)
 				end
 
-				table.insert(var_5_5, {
-					attrId = var_5_9,
-					value = var_5_12
+				table.insert(slot6, {
+					attrId = slot15,
+					value = slot18
 				})
 			end
-		elseif var_5_2.type == HeroConst.HERO_STAR_SKILL_TYPE.SKILL_UP then
-			if var_5_2.params[1] then
-				local var_5_13 = var_5_2.params[1]
-				local var_5_14 = arg_5_0.skill_subhead[var_5_13[1]]
-				local var_5_15 = arg_5_0.skills[var_5_13[1]]
-				local var_5_16 = HeroSkillCfg[var_5_15].name
-				local var_5_17 = string.format("<color=#297de0>%s</color>", GetI18NText(var_5_16))
-				local var_5_18 = string.format(GetI18NText(var_5_2.desc), GetI18NText(var_5_14), var_5_17, var_5_13[2])
+		elseif slot5.type == HeroConst.HERO_STAR_SKILL_TYPE.SKILL_UP then
+			if slot5.params[1] then
+				slot10 = slot5.params[1]
 
-				table.insert(var_5_6, var_5_18)
+				table.insert(slot7, string.format(GetI18NText(slot5.desc), GetI18NText(slot0.skill_subhead[slot10[1]]), string.format("<color=#297de0>%s</color>", GetI18NText(HeroSkillCfg[slot0.skills[slot10[1]]].name)), slot10[2]))
 			else
-				var_5_7 = GetI18NText(var_5_2.desc)
+				slot8 = GetI18NText(slot5.desc)
 
-				table.insert(var_5_6, GetI18NText(var_5_2.desc))
+				table.insert(slot7, GetI18NText(slot5.desc))
 			end
 		else
-			var_5_7 = var_5_2 and GetI18NText(var_5_2.desc) or ""
+			slot8 = slot5 and GetI18NText(slot5.desc) or ""
 		end
 
-		return var_5_6, var_5_7, var_5_2, var_5_5
+		return slot7, slot8, slot5, slot6
 	end
 }

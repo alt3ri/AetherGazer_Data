@@ -1,352 +1,315 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("ActivityPtScrollEnterView", ActivityMainBasePanel)
 
-local var_0_0 = class("ActivityPtScrollEnterView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
-	return ActivityPtScrollTools.GetEnterUIName(arg_1_0.activityID_)
+function slot0.GetUIName(slot0)
+	return ActivityPtScrollTools.GetEnterUIName(slot0.activityID_)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:RefreshDesc()
-	arg_3_0:RefreshShop()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:RefreshDesc()
+	slot0:RefreshShop()
 
-	arg_3_0.stateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.clearCon_ = ControllerUtil.GetController(arg_3_0.taskRect_, "clear")
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, ActivityPtScrollTaskItem)
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.clearCon_ = ControllerUtil.GetController(slot0.taskRect_, "clear")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ActivityPtScrollTaskItem)
 end
 
-function var_0_0.IndexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:Refresh(arg_4_0.list_[arg_4_1], arg_4_0.activityID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.list_[slot1], slot0.activityID_)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.exchangeBtn_, nil, function()
-		local var_6_0 = ActivityPtScrollTools.GetShopActivityID(arg_5_0.activityID_)
-		local var_6_1 = ActivityShopCfg[var_6_0]
-		local var_6_2 = {}
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.exchangeBtn_, nil, function ()
+		slot6 = ActivityShopCfg[ActivityPtScrollTools.GetShopActivityID(uv0.activityID_)].activity_theme
 
-		for iter_6_0, iter_6_1 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[var_6_1.activity_theme]) do
-			local var_6_3 = ActivityShopCfg[iter_6_1].shop_id
-			local var_6_4 = ActivityData:GetActivityData(ShopListCfg[var_6_3].activity_id)
-
-			if var_6_4 and var_6_4:IsActivitying() then
-				table.insert(var_6_2, ActivityShopCfg[iter_6_1].shop_id)
+		for slot6, slot7 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[slot6]) do
+			if ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot7].shop_id].activity_id) and slot9:IsActivitying() then
+				table.insert({}, ActivityShopCfg[slot7].shop_id)
 			end
 		end
 
-		local var_6_5, var_6_6 = ShopTools.IsShopOpen(var_6_1.shop_id)
+		slot3, slot4 = ShopTools.IsShopOpen(slot1.shop_id)
 
-		if var_6_5 then
+		if slot3 then
 			JumpTools.GoToSystem("/activityShop", {
-				shopId = var_6_1.shop_id,
-				showShops = var_6_2
+				shopId = slot1.shop_id,
+				showShops = slot2
 			}, ViewConst.SYSTEM_ID.SHOP)
-		elseif var_6_6 == 2 then
+		elseif slot4 == 2 then
 			ShowTips("SHOP_EXPIRED")
-		elseif var_6_6 == 3 then
+		elseif slot4 == 3 then
 			ShowTips("SHOP_NOT_OPEN")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/activityPtScroll", {
-			mainActivityID = arg_5_0.activityID_
+			mainActivityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.allReceiveBtn_, nil, function()
-		local var_8_0 = {}
-		local var_8_1 = ActivityPtScrollTools.GetTaskActivityID(arg_5_0.activityID_)
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
+		slot1 = ActivityPtScrollTools.GetTaskActivityID(uv0.activityID_)
 
-		for iter_8_0, iter_8_1 in ipairs(arg_5_0.list_) do
-			if iter_8_1 ~= 0 then
-				local var_8_2 = AssignmentCfg[iter_8_1]
-				local var_8_3 = TaskData2:GetTask(iter_8_1)
-
-				if var_8_3.complete_flag < 1 and var_8_3.progress >= var_8_2.need then
-					table.insert(var_8_0, iter_8_1)
+		for slot5, slot6 in ipairs(uv0.list_) do
+			if slot6 ~= 0 then
+				if TaskData2:GetTask(slot6).complete_flag < 1 and AssignmentCfg[slot6].need <= slot8.progress then
+					table.insert({}, slot6)
 				end
 			end
 		end
 
-		if arg_5_0:IsInfinityFinish() then
-			ActivityPtScrollAction.TryToSubmitScrollTask(arg_5_0.activityID_, var_8_0)
+		if uv0:IsInfinityFinish() then
+			ActivityPtScrollAction.TryToSubmitScrollTask(uv0.activityID_, slot0)
 		else
-			TaskAction:SubmitTaskList(var_8_0)
+			TaskAction:SubmitTaskList(slot0)
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tipBtn_, nil, function()
-		local var_9_0 = ActivityPtScrollTools.GetHelpKey(arg_5_0.activityID_)
-
-		if var_9_0 ~= "" then
+	slot0:AddBtnListener(slot0.tipBtn_, nil, function ()
+		if ActivityPtScrollTools.GetHelpKey(uv0.activityID_) ~= "" then
 			JumpTools.OpenPageByJump("gameHelp", {
 				icon = "icon_i",
 				iconColor = Color(1, 1, 1),
 				title = GetTips("STAGE_DESCRIPE"),
-				content = GetTips(var_9_0),
-				key = var_9_0
+				content = GetTips(slot0),
+				key = slot0
 			})
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
-	arg_10_0:BindRedPointUI()
-	arg_10_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_10_0, arg_10_0.RefreshTask))
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_OPEN .. "_" .. arg_10_0.activityID_, 0)
-	saveData(RedPointConst.ACTIVITY_PT_SCROLL_OPEN, tostring(arg_10_0.activityID_), true)
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	slot0:BindRedPointUI()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshTask))
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_OPEN .. "_" .. slot0.activityID_, 0)
+	saveData(RedPointConst.ACTIVITY_PT_SCROLL_OPEN, tostring(slot0.activityID_), true)
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0:RefreshActivityData()
-	arg_11_0:RefreshTime()
-	arg_11_0:RefreshTask()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshActivityData()
+	slot0:RefreshTime()
+	slot0:RefreshTask()
 end
 
-function var_0_0.RefreshActivityData(arg_12_0)
-	arg_12_0.activityData_ = ActivityData:GetActivityData(arg_12_0.activityID_)
-	arg_12_0.startTime_ = arg_12_0.activityData_.startTime
-	arg_12_0.stopTime_ = arg_12_0.activityData_.stopTime
+function slot0.RefreshActivityData(slot0)
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
+	slot1 = ActivityPtScrollTools.GetLevelActivityID(slot0.activityID_)
 
-	local var_12_0 = ActivityPtScrollTools.GetLevelActivityID(arg_12_0.activityID_)
-	local var_12_1 = ActivityCfg[arg_12_0.activityID_].unlock_condition
-
-	if type(var_12_1) ~= "table" then
-		arg_12_0.lock_.text = ""
+	if type(ActivityCfg[slot0.activityID_].unlock_condition) ~= "table" then
+		slot0.lock_.text = ""
 	else
-		local var_12_2 = ChapterCfg[var_12_1[2][1]]
-
-		arg_12_0.lock_.text = string.format(GetTips("ACTIVITY_XUHENG_PT_LOCK"), var_12_2.subhead)
+		slot0.lock_.text = string.format(GetTips("ACTIVITY_XUHENG_PT_LOCK"), ChapterCfg[slot2[2][1]].subhead)
 	end
 
-	arg_12_0.isLock_ = not ActivityTools.IsUnlockActivity(arg_12_0.activityID_)
-	arg_12_0.challengeCurrencyID_ = ActivityPtScrollTools.GetChallengeCurrencyID(arg_12_0.activityID_)
+	slot0.isLock_ = not ActivityTools.IsUnlockActivity(slot0.activityID_)
+	slot0.challengeCurrencyID_ = ActivityPtScrollTools.GetChallengeCurrencyID(slot0.activityID_)
 end
 
-function var_0_0.RefreshTime(arg_13_0)
-	local var_13_0
-	local var_13_1 = manager.time:GetServerTime()
-	local var_13_2 = ActivityPtScrollTools.GetLevelActivityID(arg_13_0.activityID_)
-	local var_13_3 = ActivityData:GetActivityData(var_13_2).stopTime
+function slot0.RefreshTime(slot0)
+	slot1 = nil
+	slot5 = ActivityData:GetActivityData(ActivityPtScrollTools.GetLevelActivityID(slot0.activityID_)).stopTime
 
-	arg_13_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_13_1 < arg_13_0.startTime_ then
-		arg_13_0.stateCon_:SetSelectedState("close")
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.stateCon_:SetSelectedState("close")
 
-		arg_13_0.timeLable_.text = GetTips("SOLO_NOT_OPEN")
-		arg_13_0.timer_ = Timer.New(function()
-			var_13_0 = arg_13_0.startTime_ - manager.time:GetServerTime()
+		slot0.timeLable_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_13_0 <= 0 then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
-	elseif var_13_1 < arg_13_0.stopTime_ then
-		var_13_0 = arg_13_0.stopTime_ - var_13_1
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		if slot0.stopTime_ - slot2 < GameSetting.time_remaining_show.value[1] * 86400 then
+			slot0.shopTimeLable_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
 
-		if var_13_0 < GameSetting.time_remaining_show.value[1] * 86400 then
-			arg_13_0.shopTimeLable_.text = manager.time:GetLostTimeStrWith2Unit(arg_13_0.stopTime_)
-
-			SetActive(arg_13_0.shopTimeGo_, true)
+			SetActive(slot0.shopTimeGo_, true)
 		else
-			SetActive(arg_13_0.shopTimeGo_, false)
+			SetActive(slot0.shopTimeGo_, false)
 		end
 
-		if var_13_1 < var_13_3 then
-			arg_13_0.timeLable_.text = manager.time:GetLostTimeStrWith2Unit(var_13_3)
+		if slot2 < slot5 then
+			slot0.timeLable_.text = manager.time:GetLostTimeStrWith2Unit(slot5)
 
-			if arg_13_0.isLock_ then
-				arg_13_0.stateCon_:SetSelectedState("lock")
+			if slot0.isLock_ then
+				slot0.stateCon_:SetSelectedState("lock")
 			else
-				arg_13_0.stateCon_:SetSelectedState("unlock")
+				slot0.stateCon_:SetSelectedState("unlock")
 			end
 		else
-			arg_13_0.timeLable_.text = GetTips("TIME_OVER")
+			slot0.timeLable_.text = GetTips("TIME_OVER")
 
-			arg_13_0.stateCon_:SetSelectedState("onlyShop")
+			slot0.stateCon_:SetSelectedState("onlyShop")
 		end
 
-		arg_13_0.timer_ = Timer.New(function()
-			var_13_1 = manager.time:GetServerTime()
-			var_13_0 = arg_13_0.stopTime_ - var_13_1
+		slot0.timer_ = Timer.New(function ()
+			uv0 = manager.time:GetServerTime()
+			uv1 = uv2.stopTime_ - uv0
 
-			if var_13_0 <= 0 then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+			if uv1 <= 0 then
+				uv2:StopTimer()
+				uv2:RefreshTime()
 
 				return
 			end
 
-			if var_13_0 < GameSetting.time_remaining_show.value[1] * 86400 then
-				arg_13_0.shopTimeLable_.text = manager.time:GetLostTimeStrWith2Unit(arg_13_0.stopTime_)
+			if uv1 < GameSetting.time_remaining_show.value[1] * 86400 then
+				uv2.shopTimeLable_.text = manager.time:GetLostTimeStrWith2Unit(uv2.stopTime_)
 
-				SetActive(arg_13_0.shopTimeGo_, true)
+				SetActive(uv2.shopTimeGo_, true)
 			else
-				SetActive(arg_13_0.shopTimeGo_, false)
+				SetActive(uv2.shopTimeGo_, false)
 			end
 
-			if var_13_1 < var_13_3 then
-				arg_13_0.timeLable_.text = manager.time:GetLostTimeStrWith2Unit(var_13_3)
+			if uv0 < uv3 then
+				uv2.timeLable_.text = manager.time:GetLostTimeStrWith2Unit(uv3)
 
-				if arg_13_0.isLock_ then
-					arg_13_0.stateCon_:SetSelectedState("lock")
+				if uv2.isLock_ then
+					uv2.stateCon_:SetSelectedState("lock")
 				else
-					arg_13_0.stateCon_:SetSelectedState("unlock")
+					uv2.stateCon_:SetSelectedState("unlock")
 				end
 			else
-				arg_13_0.timeLable_.text = GetTips("TIME_OVER")
+				uv2.timeLable_.text = GetTips("TIME_OVER")
 
-				arg_13_0.stateCon_:SetSelectedState("onlyShop")
+				uv2.stateCon_:SetSelectedState("onlyShop")
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_13_0.stateCon_:SetSelectedState("close")
+		slot0.stateCon_:SetSelectedState("close")
 
-		arg_13_0.timeLable_.text = GetTips("TIME_OVER")
-		arg_13_0.shopTimeLable_.text = GetTips("TIME_OVER")
+		slot0.timeLable_.text = GetTips("TIME_OVER")
+		slot0.shopTimeLable_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.StopTimer(arg_16_0)
-	if arg_16_0.timer_ then
-		arg_16_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_16_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTask(arg_17_0)
-	local var_17_0 = ActivityPtScrollTools.GetTaskActivityID(arg_17_0.activityID_)
+function slot0.RefreshTask(slot0)
+	slot0.list_ = {}
 
-	arg_17_0.list_ = {}
-
-	local var_17_1 = TaskTools:GetActivityTaskList(var_17_0) or {}
-
-	local function var_17_2(arg_18_0, arg_18_1)
-		local var_18_0 = AssignmentCfg[arg_18_0]
-		local var_18_1 = AssignmentCfg[arg_18_1]
-
-		if var_18_0.type ~= var_18_1.type then
-			return var_18_0.type < var_18_1.type
+	function slot3(slot0, slot1)
+		if AssignmentCfg[slot0].type ~= AssignmentCfg[slot1].type then
+			return slot2.type < slot3.type
 		end
 
-		return arg_18_0 < arg_18_1
+		return slot0 < slot1
 	end
 
-	local var_17_3 = {}
-	local var_17_4 = {}
-	local var_17_5 = {}
+	slot4 = {}
+	slot5 = {}
+	slot6 = {}
 
-	for iter_17_0, iter_17_1 in pairs(var_17_1) do
-		local var_17_6 = iter_17_1.id
-		local var_17_7 = AssignmentCfg[var_17_6]
-
-		if var_17_7.activity_id == var_17_0 then
-			if iter_17_1.complete_flag >= 1 then
-				table.insert(var_17_5, var_17_6)
-			elseif iter_17_1.progress >= var_17_7.need then
-				table.insert(var_17_3, var_17_6)
+	for slot10, slot11 in pairs(TaskTools:GetActivityTaskList(ActivityPtScrollTools.GetTaskActivityID(slot0.activityID_)) or {}) do
+		if AssignmentCfg[slot11.id].activity_id == slot1 then
+			if slot11.complete_flag >= 1 then
+				table.insert(slot6, slot12)
+			elseif slot13.need <= slot11.progress then
+				table.insert(slot4, slot12)
 			else
-				table.insert(var_17_4, var_17_6)
+				table.insert(slot5, slot12)
 			end
 		end
 	end
 
-	table.sort(var_17_3, var_17_2)
-	table.sort(var_17_4, var_17_2)
-	table.sort(var_17_5, var_17_2)
+	table.sort(slot4, slot3)
+	table.sort(slot5, slot3)
+	table.sort(slot6, slot3)
 
-	if arg_17_0:IsInfinityFinish() then
-		table.insert(var_17_3, 1, 0)
+	if slot0:IsInfinityFinish() then
+		table.insert(slot4, 1, 0)
 	else
-		table.insert(var_17_4, 1, 0)
+		table.insert(slot5, 1, 0)
 	end
 
-	table.insertto(arg_17_0.list_, var_17_3)
-	table.insertto(arg_17_0.list_, var_17_4)
-	table.insertto(arg_17_0.list_, var_17_5)
+	table.insertto(slot0.list_, slot4)
+	table.insertto(slot0.list_, slot5)
+	table.insertto(slot0.list_, slot6)
 
-	if #var_17_3 > 0 then
-		arg_17_0.clearCon_:SetSelectedState("true")
+	if #slot4 > 0 then
+		slot0.clearCon_:SetSelectedState("true")
 	else
-		arg_17_0.clearCon_:SetSelectedState("false")
+		slot0.clearCon_:SetSelectedState("false")
 	end
 
-	arg_17_0.scrollHelper_:StartScroll(#arg_17_0.list_)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 end
 
-function var_0_0.IsInfinityFinish(arg_19_0)
-	return GameSetting.activity_pt_roulette_task_times.value[1] <= ActivityPtScrollData:GetClearTime(arg_19_0.activityID_)
+function slot0.IsInfinityFinish(slot0)
+	return GameSetting.activity_pt_roulette_task_times.value[1] <= ActivityPtScrollData:GetClearTime(slot0.activityID_)
 end
 
-function var_0_0.Show(arg_20_0, arg_20_1)
-	var_0_0.super.Show(arg_20_0, arg_20_1)
+function slot0.Show(slot0, slot1)
+	uv0.super.Show(slot0, slot1)
 
-	if arg_20_1 then
-		arg_20_0:RefreshTask()
-	end
-end
-
-function var_0_0.RefreshDesc(arg_21_0)
-	if arg_21_0.activityDesc_ then
-		local var_21_0 = ActivityPtScrollTools.GetDesc(arg_21_0.activityID_)
-
-		if var_21_0 ~= "" then
-			arg_21_0.activityDesc_.text = GetTips(var_21_0)
-		end
+	if slot1 then
+		slot0:RefreshTask()
 	end
 end
 
-function var_0_0.RefreshShop(arg_22_0)
-	local var_22_0 = ActivityPtScrollTools.GetShopActivityID(arg_22_0.activityID_)
-	local var_22_1 = ActivityShopCfg[var_22_0].shop_id
-
-	arg_22_0.shopName_.text = ShopListCfg[var_22_1].remark
+function slot0.RefreshDesc(slot0)
+	if slot0.activityDesc_ and ActivityPtScrollTools.GetDesc(slot0.activityID_) ~= "" then
+		slot0.activityDesc_.text = GetTips(slot1)
+	end
 end
 
-function var_0_0.UpdateBar(arg_23_0)
-	local var_23_0 = ActivityPtScrollTools.GetCurrencyID(arg_23_0.activityID_)
+function slot0.RefreshShop(slot0)
+	slot0.shopName_.text = ShopListCfg[ActivityShopCfg[ActivityPtScrollTools.GetShopActivityID(slot0.activityID_)].shop_id].remark
+end
+
+function slot0.UpdateBar(slot0)
+	slot1 = ActivityPtScrollTools.GetCurrencyID(slot0.activityID_)
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		var_23_0
+		slot1
 	})
-	manager.windowBar:SetBarCanClick(var_23_0, true)
+	manager.windowBar:SetBarCanClick(slot1, true)
 end
 
-function var_0_0.BindRedPointUI(arg_24_0)
-	manager.redPoint:bindUIandKey(arg_24_0.goBtn_.transform, RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. arg_24_0.activityID_)
+function slot0.BindRedPointUI(slot0)
+	manager.redPoint:bindUIandKey(slot0.goBtn_.transform, RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. slot0.activityID_)
 end
 
-function var_0_0.UnbindRedPointUI(arg_25_0)
-	manager.redPoint:unbindUIandKey(arg_25_0.goBtn_.transform, RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. arg_25_0.activityID_)
+function slot0.UnbindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.goBtn_.transform, RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. slot0.activityID_)
 end
 
-function var_0_0.OnExit(arg_26_0)
-	arg_26_0:UnbindRedPointUI()
+function slot0.OnExit(slot0)
+	slot0:UnbindRedPointUI()
 	manager.windowBar:HideBar()
-	arg_26_0:RemoveAllEventListener()
-	arg_26_0:StopTimer()
+	slot0:RemoveAllEventListener()
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_27_0)
-	arg_27_0:RemoveAllListeners()
-	arg_27_0.scrollHelper_:Dispose()
-	arg_27_0.super.Dispose(arg_27_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

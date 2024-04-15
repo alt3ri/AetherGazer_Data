@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.chip.scheme.ChipSchemeView")
-local var_0_1 = class("BattleChipSchemeView", var_0_0)
+slot1 = class("BattleChipSchemeView", import("game.views.chip.scheme.ChipSchemeView"))
 
-function var_0_1.GetChipSchemeItem(arg_1_0)
+function slot1.GetChipSchemeItem(slot0)
 	return BattleChipSchemeItem
 end
 
-return var_0_1
+return slot1

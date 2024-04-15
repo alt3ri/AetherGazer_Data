@@ -1,61 +1,59 @@
-local var_0_0 = class("BattleBossChallengeBossItem", ReduxView)
+slot0 = class("BattleBossChallengeBossItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	arg_1_0.bossIndex_ = arg_1_2
+	slot0.bossIndex_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "bossItem")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "bossItem")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:RefreshUI()
-	arg_2_0:AddTimer()
-	arg_2_0:AddDelayTimer()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	slot0:AddTimer()
+	slot0:AddDelayTimer()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:StopTimer()
-	arg_3_0:StopDelayTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:StopDelayTimer()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	SetActive(arg_4_0.gameObject_, false)
-	var_0_0.super.Dispose(arg_4_0)
-	arg_4_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	SetActive(slot0.gameObject_, false)
+	uv0.super.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	arg_4_0.gameObject_ = nil
-	arg_4_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_, nil, function()
-		if arg_5_0.isLock_ then
-			local var_6_0 = BattleBossChallengeNormalData:GetBossUnlockTime(arg_5_0.bossIndex_)
-
-			ShowTips(string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_6_0)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.isLock_ then
+			ShowTips(string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(BattleBossChallengeNormalData:GetBossUnlockTime(uv0.bossIndex_))))
 		else
-			arg_5_0:Go("/bossChallenge", {
-				bossIndex = arg_5_0.bossIndex_
+			uv0:Go("/bossChallenge", {
+				bossIndex = uv0.bossIndex_
 			})
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.resetBtn_, nil, function()
+	slot0:AddBtnListener(slot0.resetBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("BOSS_CHALLENGE_NORMAL_RESET"),
-			OkCallback = function()
-				BattleBossChallengeAction.ResetNormalModeBoss(arg_5_0.bossIndex_, function(arg_9_0)
-					if isSuccess(arg_9_0.result) then
-						arg_5_0:RefreshUI()
+			OkCallback = function ()
+				BattleBossChallengeAction.ResetNormalModeBoss(uv0.bossIndex_, function (slot0)
+					if isSuccess(slot0.result) then
+						uv0:RefreshUI()
 					else
-						ShowTips(arg_9_0.result)
+						ShowTips(slot0.result)
 					end
 				end)
 			end
@@ -63,104 +61,96 @@ function var_0_0.AddListeners(arg_5_0)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_10_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	local var_11_0 = BattleBossChallengeNormalData:GetBossList()
-	local var_11_1 = BossChallengeUICfg[StageGroupCfg[var_11_0[arg_11_0.bossIndex_]].boss_id]
+function slot0.RefreshUI(slot0)
+	slot2 = BossChallengeUICfg[StageGroupCfg[BattleBossChallengeNormalData:GetBossList()[slot0.bossIndex_]].boss_id]
+	slot0.icon_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, slot2.icon))
+	slot0.textName_.text = GetI18NText(slot2.main_name)
+	slot0.textLv_.text = GetTips("BOSS_LEVEL_" .. StageTools.GetBossChallengeNextIndex(slot0.bossIndex_))
 
-	arg_11_0.icon_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, var_11_1.icon))
-	arg_11_0.textName_.text = GetI18NText(var_11_1.main_name)
-
-	local var_11_2 = StageTools.GetBossChallengeNextIndex(arg_11_0.bossIndex_)
-	local var_11_3 = GetTips("BOSS_LEVEL_" .. var_11_2)
-
-	arg_11_0.textLv_.text = var_11_3
-
-	arg_11_0:RefreshResetBtn()
+	slot0:RefreshResetBtn()
 end
 
-function var_0_0.RefreshResetBtn(arg_12_0)
+function slot0.RefreshResetBtn(slot0)
 	if table.length(BattleBossChallengeNormalData:GetReceiveStarList()) > 0 then
-		SetActive(arg_12_0.resetGo_, false)
+		SetActive(slot0.resetGo_, false)
 
 		return
 	end
 
-	if table.length(BattleBossChallengeNormalData:GetLockHero()[arg_12_0.bossIndex_]) > 0 then
-		SetActive(arg_12_0.resetGo_, true)
+	if table.length(BattleBossChallengeNormalData:GetLockHero()[slot0.bossIndex_]) > 0 then
+		SetActive(slot0.resetGo_, true)
 	else
-		SetActive(arg_12_0.resetGo_, false)
+		SetActive(slot0.resetGo_, false)
 	end
 end
 
-function var_0_0.Show(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.gameObject_, arg_13_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.RefreshLock(arg_14_0, arg_14_1)
-	if arg_14_1 then
-		arg_14_0.controller_:SetSelectedState("lock")
+function slot0.RefreshLock(slot0, slot1)
+	if slot1 then
+		slot0.controller_:SetSelectedState("lock")
 	else
-		arg_14_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddTimer(arg_15_0)
-	arg_15_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	local var_15_0 = BattleBossChallengeNormalData:GetBossUnlockTime(arg_15_0.bossIndex_)
-	local var_15_1 = var_15_0 > manager.time:GetServerTime()
+	slot2 = manager.time:GetServerTime() < BattleBossChallengeNormalData:GetBossUnlockTime(slot0.bossIndex_)
 
-	arg_15_0:RefreshLock(var_15_1)
+	slot0:RefreshLock(slot2)
 
-	arg_15_0.isLock_ = var_15_1
+	slot0.isLock_ = slot2
 
-	if var_15_1 then
-		arg_15_0.timeText_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_15_0))
-		arg_15_0.timer_ = Timer.New(function()
-			arg_15_0.timeText_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_15_0))
+	if slot2 then
+		slot0.timeText_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(slot1))
+		slot0.timer_ = Timer.New(function ()
+			uv0.timeText_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(uv1))
 
-			if manager.time:GetServerTime() >= var_15_0 then
-				arg_15_0:StopTimer()
+			if uv1 <= manager.time:GetServerTime() then
+				uv0:StopTimer()
 
-				arg_15_0.isLock_ = false
+				uv0.isLock_ = false
 
-				arg_15_0:RefreshLock(false)
+				uv0:RefreshLock(false)
 			end
 		end, 1, -1)
 
-		arg_15_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_17_0)
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.AddDelayTimer(arg_18_0)
-	arg_18_0:StopDelayTimer()
-	arg_18_0:Show(false)
+function slot0.AddDelayTimer(slot0)
+	slot0:StopDelayTimer()
+	slot0:Show(false)
 
-	arg_18_0.delayTimer_ = Timer.New(function()
-		arg_18_0:Show(true)
-	end, 0.1 * (arg_18_0.bossIndex_ - 1), 1)
+	slot0.delayTimer_ = Timer.New(function ()
+		uv0:Show(true)
+	end, 0.1 * (slot0.bossIndex_ - 1), 1)
 
-	arg_18_0.delayTimer_:Start()
+	slot0.delayTimer_:Start()
 end
 
-function var_0_0.StopDelayTimer(arg_20_0)
-	if arg_20_0.delayTimer_ then
-		arg_20_0.delayTimer_:Stop()
+function slot0.StopDelayTimer(slot0)
+	if slot0.delayTimer_ then
+		slot0.delayTimer_:Stop()
 
-		arg_20_0.delayTimer_ = nil
+		slot0.delayTimer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

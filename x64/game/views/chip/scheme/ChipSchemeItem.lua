@@ -1,68 +1,65 @@
-local var_0_0 = class("ChipSchemeItem", ReduxView)
+slot0 = class("ChipSchemeItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.renameHandler_ = handler(arg_1_0, arg_1_0.OnRenameChipScheme)
+	slot0.renameHandler_ = handler(slot0, slot0.OnRenameChipScheme)
 
-	manager.notify:RegistListener(RENAME_CHIP_SCHEME, arg_1_0.renameHandler_)
+	manager.notify:RegistListener(RENAME_CHIP_SCHEME, slot0.renameHandler_)
 
-	arg_1_0.inputHandler_ = handler(arg_1_0, arg_1_0.OnInput)
-	arg_1_0.inputCancelHandler_ = handler(arg_1_0, arg_1_0.OnInputCancel)
+	slot0.inputHandler_ = handler(slot0, slot0.OnInput)
+	slot0.inputCancelHandler_ = handler(slot0, slot0.OnInputCancel)
 
-	manager.notify:RegistListener(INPUT_POP_CLICK_OK, arg_1_0.inputHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, arg_1_0.inputCancelHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, arg_1_0.inputCancelHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, slot0.inputCancelHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
 
-	arg_1_0.controller_ = arg_1_0.stateControl:GetController("bState")
+	slot0.controller_ = slot0.stateControl:GetController("bState")
 end
 
-function var_0_0.SetTemplateData(arg_2_0, arg_2_1)
-	arg_2_0.dataTemplate = arg_2_1
+function slot0.SetTemplateData(slot0, slot1)
+	slot0.dataTemplate = slot1
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.renameBtn_, nil, function()
-		arg_3_0.inputPopFlag_ = true
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.renameBtn_, nil, function ()
+		uv0.inputPopFlag_ = true
 
 		JumpTools.OpenPageByJump("ProposalPopup")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.deleteBtn_, nil, function()
+	slot0:AddBtnListener(slot0.deleteBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
-			content = string.format(GetTips("DELETE_CHIP_SCHEME"), arg_3_0.schemeData_.name),
-			OkCallback = function()
-				ChipAction.DeleteChipScheme(arg_3_0.schemeData_.id)
+			content = string.format(GetTips("DELETE_CHIP_SCHEME"), uv0.schemeData_.name),
+			OkCallback = function ()
+				ChipAction.DeleteChipScheme(uv0.schemeData_.id)
 				OperationRecorder.Record("ChipSchemeItem", "okDelete")
 			end,
-			CancelCallback = function()
+			CancelCallback = function ()
 				OperationRecorder.Record("ChipSchemeItem", "cancelDelete")
 			end
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.saveBtn_, nil, function()
-		if #arg_3_0.schemeData_.chipList < 1 then
+	slot0:AddBtnListener(slot0.saveBtn_, nil, function ()
+		if #uv0.schemeData_.chipList < 1 then
 			ShowTips("SCHEME_IS_NULL")
 
 			return false
 		end
 
-		local var_8_0 = GameSetting.ai_chip_proposal_num_max.value[1]
-		local var_8_1 = ChipData:GetSchemeList()
-
-		if var_8_0 <= table.length(var_8_1) then
+		if GameSetting.ai_chip_proposal_num_max.value[1] <= table.length(ChipData:GetSchemeList()) then
 			ShowTips("MORE_THEN_MAX_SCHEME_CNT")
 
 			return
 		end
 
-		for iter_8_0 = 1, var_8_0 do
-			if var_8_1[iter_8_0] == nil then
-				arg_3_0.saveFlag_ = true
+		for slot5 = 1, slot0 do
+			if slot1[slot5] == nil then
+				uv0.saveFlag_ = true
 
 				JumpTools.OpenPageByJump("ProposalPopup")
 
@@ -70,161 +67,151 @@ function var_0_0.AddListeners(arg_3_0)
 			end
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.enabledBtn_, nil, function()
-		arg_3_0:OnEnabledBtn()
+	slot0:AddBtnListener(slot0.enabledBtn_, nil, function ()
+		uv0:OnEnabledBtn()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
-	arg_10_0.chipManagerID_ = arg_10_1
-	arg_10_0.schemeData_ = arg_10_3
-	arg_10_4 = arg_10_4 or 0
-	arg_10_0.index_ = arg_10_2
+function slot0.RefreshUI(slot0, slot1, slot2, slot3, slot4)
+	slot0.chipManagerID_ = slot1
+	slot0.schemeData_ = slot3
+	slot4 = slot4 or 0
+	slot0.index_ = slot2
 
-	local var_10_0 = arg_10_3.id
-
-	if var_10_0 == -1 then
-		arg_10_0.controller_:SetSelectedState("state0")
+	if slot3.id == -1 then
+		slot0.controller_:SetSelectedState("state0")
 
 		return
 	end
 
-	arg_10_0.nameText_.text = GetI18NText(arg_10_3.name)
+	slot9 = slot3.name
+	slot0.nameText_.text = GetI18NText(slot9)
 
-	for iter_10_0 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
-		local var_10_1 = arg_10_3.chipList[iter_10_0]
+	for slot9 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
+		if slot3.chipList[slot9] then
+			slot0[string.format("icon%sImg_", slot9)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot10].picture_id)
 
-		if var_10_1 then
-			arg_10_0[string.format("icon%sImg_", iter_10_0)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[var_10_1].picture_id)
-
-			SetActive(arg_10_0[string.format("icon%sGo_", iter_10_0)].gameObject, true)
+			SetActive(slot0[string.format("icon%sGo_", slot9)].gameObject, true)
 		else
-			SetActive(arg_10_0[string.format("icon%sGo_", iter_10_0)].gameObject, false)
+			SetActive(slot0[string.format("icon%sGo_", slot9)].gameObject, false)
 		end
 
-		SetActive(arg_10_0[string.format("icon%sGo_", iter_10_0)], var_10_1 and true or false)
+		SetActive(slot0[string.format("icon%sGo_", slot9)], slot10 and true or false)
 	end
 
-	if arg_10_2 == 1 then
-		if var_10_0 == 0 then
-			arg_10_0.controller_:SetSelectedState("state0")
+	if slot2 == 1 then
+		if slot5 == 0 then
+			slot0.controller_:SetSelectedState("state0")
 		else
-			arg_10_0.controller_:SetSelectedState("state2")
+			slot0.controller_:SetSelectedState("state2")
 		end
 	else
-		arg_10_0.controller_:SetSelectedState("state1")
+		slot0.controller_:SetSelectedState("state1")
 	end
 end
 
-function var_0_0.OnInput(arg_11_0, arg_11_1, arg_11_2)
-	if not arg_11_0.inputPopFlag_ and not arg_11_0.saveFlag_ then
+function slot0.OnInput(slot0, slot1, slot2)
+	if not slot0.inputPopFlag_ and not slot0.saveFlag_ then
 		return
 	end
 
-	if not arg_11_0.gameObject_.activeInHierarchy then
+	if not slot0.gameObject_.activeInHierarchy then
 		return
 	end
 
-	if arg_11_1 == "" then
+	if slot1 == "" then
 		ShowTips("INPUT_EQUIP_PROPOSAL_NAME")
 
 		return
 	end
 
-	if IsAllSpace(arg_11_1) then
+	if IsAllSpace(slot1) then
 		ShowTips("INPUT_CHAT_CONTENT")
 
-		arg_11_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	local var_11_0, var_11_1 = textLimit(arg_11_1, GameSetting.user_name_max.value[1])
+	slot3, slot4 = textLimit(slot1, GameSetting.user_name_max.value[1])
+	slot2.text = slot3
 
-	arg_11_2.text = var_11_0
-	arg_11_1 = var_11_0
-
-	if not nameRule(arg_11_1) then
+	if not nameRule(slot3) then
 		ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
-		arg_11_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	WordVerifyBySDK(arg_11_1, function(arg_12_0)
-		if not arg_12_0 then
+	WordVerifyBySDK(slot1, function (slot0)
+		if not slot0 then
 			ShowTips("SENSITIVE_WORD")
 
-			arg_11_2.text = ""
+			uv0.text = ""
 
 			return
 		else
-			if not var_11_1 then
+			if not uv1 then
 				return
 			end
 
-			if arg_11_0.saveFlag_ then
-				local var_12_0 = GameSetting.ai_chip_proposal_num_max.value[1]
-				local var_12_1 = ChipData:GetSchemeList()
+			if uv2.saveFlag_ then
+				for slot6 = 1, GameSetting.ai_chip_proposal_num_max.value[1] do
+					if ChipData:GetSchemeList()[slot6] == nil then
+						uv2.schemeData_.id = slot6
+						uv2.schemeData_.name = uv3
 
-				for iter_12_0 = 1, var_12_0 do
-					if var_12_1[iter_12_0] == nil then
-						arg_11_0.schemeData_.id = iter_12_0
-						arg_11_0.schemeData_.name = arg_11_1
-
-						ChipAction.SaveChipScheme(arg_11_0.schemeData_)
+						ChipAction.SaveChipScheme(uv2.schemeData_)
 
 						break
 					end
 				end
 			else
-				ChipAction.RenameChipScheme(arg_11_0.schemeData_.id, arg_11_1)
+				ChipAction.RenameChipScheme(uv2.schemeData_.id, uv3)
 
-				arg_11_0.schemeData_.name = arg_11_1
+				uv2.schemeData_.name = uv3
 			end
 
-			arg_11_0.inputPopFlag_ = false
-			arg_11_0.saveFlag_ = false
+			uv2.inputPopFlag_ = false
+			uv2.saveFlag_ = false
 
 			manager.notify:Invoke(INPUT_POP_BACK)
 		end
 	end, JUDGE_MESSAGE_TYPE.OTHER)
 end
 
-function var_0_0.OnEnabledBtn(arg_13_0)
-	arg_13_0.dataTemplate.useChipIdList = arg_13_0.schemeData_.chipList
+function slot0.OnEnabledBtn(slot0)
+	slot0.dataTemplate.useChipIdList = slot0.schemeData_.chipList
 
 	manager.notify:Invoke(ENABLED_SCHEME)
 end
 
-function var_0_0.OnRenameChipScheme(arg_14_0, arg_14_1)
-	if arg_14_0.schemeData_.id == arg_14_1 then
-		local var_14_0 = ChipData:GetSchemeList()[arg_14_1]
-
-		arg_14_0.nameText_.text = var_14_0.name
+function slot0.OnRenameChipScheme(slot0, slot1)
+	if slot0.schemeData_.id == slot1 then
+		slot0.nameText_.text = ChipData:GetSchemeList()[slot1].name
 	end
 end
 
-function var_0_0.OnInputCancel(arg_15_0)
-	arg_15_0.inputPopFlag_ = false
-	arg_15_0.saveFlag_ = false
+function slot0.OnInputCancel(slot0)
+	slot0.inputPopFlag_ = false
+	slot0.saveFlag_ = false
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_16_0.inputPopFlag_ = false
-	arg_16_0.saveFlag_ = false
+	slot0.inputPopFlag_ = false
+	slot0.saveFlag_ = false
 
-	manager.notify:RemoveListener(RENAME_CHIP_SCHEME, arg_16_0.renameHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, arg_16_0.inputHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, arg_16_0.inputCancelHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, arg_16_0.inputCancelHandler_)
+	manager.notify:RemoveListener(RENAME_CHIP_SCHEME, slot0.renameHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, slot0.inputCancelHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
 
-	arg_16_0.renameHandler_ = nil
-	arg_16_0.inputHandler_ = nil
-	arg_16_0.inputCancelHandler_ = nil
+	slot0.renameHandler_ = nil
+	slot0.inputHandler_ = nil
+	slot0.inputCancelHandler_ = nil
 end
 
-return var_0_0
+return slot0

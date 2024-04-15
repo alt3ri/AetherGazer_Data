@@ -1,31 +1,30 @@
-local var_0_0 = class("LoopScrollViewBaseItem", ReduxView)
+slot0 = class("LoopScrollViewBaseItem", ReduxView)
 
-function var_0_0.GetIndex(arg_1_0)
-	return arg_1_0.index_
+function slot0.GetIndex(slot0)
+	return slot0.index_
 end
 
-function var_0_0.IsActive(arg_2_0)
+function slot0.IsActive(slot0)
 	return true
 end
 
-function var_0_0.IsTimeBar(arg_3_0)
+function slot0.IsTimeBar(slot0)
 	return false
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	return
+function slot0.SetData(slot0, slot1, slot2)
 end
 
-function var_0_0.GetItemHeight(arg_5_0)
-	return arg_5_0.rectGo_.sizeDelta.y
+function slot0.GetItemHeight(slot0)
+	return slot0.rectGo_.sizeDelta.y
 end
 
-function var_0_0.SetAsLastSibling(arg_6_0)
-	arg_6_0.transform_:SetAsLastSibling()
+function slot0.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_0.SetAsFirstSibling(arg_7_0)
-	arg_7_0.transform_:SetAsFirstSibling()
+function slot0.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-return var_0_0
+return slot0

@@ -1,136 +1,126 @@
-local var_0_0 = singletonClass("SnowballGameData")
+slot0 = singletonClass("SnowballGameData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.unlockedLevels = {
+function slot0.Init(slot0)
+	slot0.unlockedLevels = {
 		[0] = 0
 	}
-	arg_1_0.lastSelectPlayer = nullable(SnowballGameUnitCfg, getData("snowball", "lastSelectedPlayer"), "id") or nullable(SnowballGameUnitCfg.get_id_list_by_unit_type, 0, 1)
-	arg_1_0.lastEnter = getData("snowball", "lastEnter")
+	slot0.lastSelectPlayer = nullable(SnowballGameUnitCfg, getData("snowball", "lastSelectedPlayer"), "id") or nullable(SnowballGameUnitCfg.get_id_list_by_unit_type, 0, 1)
+	slot0.lastEnter = getData("snowball", "lastEnter")
 end
 
-local function var_0_1(arg_2_0, arg_2_1)
-	return string.format("%s_%s", arg_2_0, arg_2_1)
+function slot1(slot0, slot1)
+	return string.format("%s_%s", slot0, slot1)
 end
 
-local var_0_2 = "ACTIVITY_COMMON"
-local var_0_3 = "ACTIVITY_TASK"
-local var_0_4 = "INFINITY_POOL"
+slot2 = "ACTIVITY_COMMON"
+slot3 = "ACTIVITY_TASK"
+slot4 = "INFINITY_POOL"
 
-function var_0_0.InitSnowballRedPoint(arg_3_0, arg_3_1)
-	local var_3_0 = ActivityTools.GetRedPointKey(arg_3_1) .. arg_3_1
-	local var_3_1 = var_0_1(var_0_3, arg_3_1)
-	local var_3_2 = {
+function slot0.InitSnowballRedPoint(slot0, slot1)
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
+	slot3 = uv0(uv1, slot1)
+	slot4 = {
 		RedPointConst.ACTIVITY_2_6_SNOWBALL_NOT_YET_ENTERED,
 		RedPointConst.ACTIVITY_2_6_SNOWBALL_UNCOMPLETE_LEVEL,
 		RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE
 	}
-	local var_3_3 = ActivityTools.GetAllSubActivityByTemplate(arg_3_1, ActivityTemplateConst.INFINITY_POOL)
 
-	for iter_3_0, iter_3_1 in ipairs(var_3_3) do
-		local var_3_4 = var_0_1(var_0_4, iter_3_1)
-
-		table.insert(var_3_2, var_3_4)
+	for slot9, slot10 in ipairs(ActivityTools.GetAllSubActivityByTemplate(slot1, ActivityTemplateConst.INFINITY_POOL)) do
+		table.insert(slot4, uv0(uv2, slot10))
 	end
 
-	arg_3_0.infPoolSubActivity = var_3_3
+	slot0.infPoolSubActivity = slot5
 
-	manager.redPoint:addGroup(RedPointConst.ACTIVITY_2_6_SNOWBALL_IN_GAME, var_3_2, true)
-	manager.redPoint:addGroup(var_3_0, {
+	manager.redPoint:addGroup(RedPointConst.ACTIVITY_2_6_SNOWBALL_IN_GAME, slot4, true)
+	manager.redPoint:addGroup(slot2, {
 		RedPointConst.ACTIVITY_2_6_SNOWBALL_IN_GAME,
 		RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_DAILY
 	}, true)
 end
 
-function var_0_0.CheckTaskRedPoint(arg_4_0)
-	local var_4_0 = false
-	local var_4_1 = false
-	local var_4_2 = TaskTools:GetCanGetActivityTaskList(arg_4_0.activityID)
+function slot0.CheckTaskRedPoint(slot0)
+	slot1 = false
+	slot2 = false
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_2) do
-		if AssignmentCfg[iter_4_1.id].type == TaskConst.TASK_TYPE.SNOWBALL_TASK_CHALLENGE then
-			var_4_0 = true
-		elseif AssignmentCfg[iter_4_1.id].type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY or AssignmentCfg[iter_4_1.id].type == TaskConst.TASK_TYPE.OSIRIS_TASK_CHALLENGE then
-			var_4_1 = true
+	for slot7, slot8 in ipairs(TaskTools:GetCanGetActivityTaskList(slot0.activityID)) do
+		if AssignmentCfg[slot8.id].type == TaskConst.TASK_TYPE.SNOWBALL_TASK_CHALLENGE then
+			slot1 = true
+		elseif AssignmentCfg[slot8.id].type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY or AssignmentCfg[slot8.id].type == TaskConst.TASK_TYPE.OSIRIS_TASK_CHALLENGE then
+			slot2 = true
 		end
 
-		if var_4_1 and var_4_0 then
+		if slot2 and slot1 then
 			break
 		end
 	end
 
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_DAILY, var_4_1 and 1 or 0)
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE, var_4_0 and 1 or 0)
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_DAILY, slot2 and 1 or 0)
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE, slot1 and 1 or 0)
 end
 
-function var_0_0.GetTaskRedPointKey(arg_5_0)
-	return var_0_1(var_0_3, arg_5_0.activityID)
+function slot0.GetTaskRedPointKey(slot0)
+	return uv0(uv1, slot0.activityID)
 end
 
-function var_0_0.GetInfPoolRedPointKey(arg_6_0, arg_6_1)
-	return var_0_1(var_0_4, arg_6_0.infPoolSubActivity[arg_6_1])
+function slot0.GetInfPoolRedPointKey(slot0, slot1)
+	return uv0(uv1, slot0.infPoolSubActivity[slot1])
 end
 
-function var_0_0.InitFromServer(arg_7_0, arg_7_1)
-	arg_7_0.activityID = arg_7_1.activity_id
+function slot0.InitFromServer(slot0, slot1)
+	slot0.activityID = slot1.activity_id
+	slot5 = slot0.activityID
 
-	arg_7_0:InitSnowballRedPoint(arg_7_0.activityID)
-	arg_7_0:CheckTaskRedPoint()
+	slot0:InitSnowballRedPoint(slot5)
+	slot0:CheckTaskRedPoint()
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_1.stage_list) do
-		arg_7_0.unlockedLevels[iter_7_1.stage_id] = iter_7_1.max_score
+	for slot5, slot6 in ipairs(slot1.stage_list) do
+		slot0.unlockedLevels[slot6.stage_id] = slot6.max_score
 	end
 
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_NOT_YET_ENTERED, arg_7_0:IsFirstEnterGame() and 1 or 0)
-	arg_7_0:UpdateUnlockLevelRedPoint()
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_NOT_YET_ENTERED, slot0:IsFirstEnterGame() and 1 or 0)
+	slot0:UpdateUnlockLevelRedPoint()
 end
 
-function var_0_0.UpdateUnlockLevelRedPoint(arg_8_0)
-	if arg_8_0:AnyLevelNotPlayed() then
+function slot0.UpdateUnlockLevelRedPoint(slot0)
+	if slot0:AnyLevelNotPlayed() then
 		manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_UNCOMPLETE_LEVEL, 1)
 	end
 end
 
-var_0_0.LevelLockReason = {
+slot0.LevelLockReason = {
 	NEED_UNLOCK_OTHER_LEVEL = 1,
 	ACTIVITY_TIME_LOCK = 0
 }
 
-function var_0_0.CheckLevelCost(arg_9_0, arg_9_1)
-	local var_9_0 = SnowballGameCfg[arg_9_1].level_cost[1]
-
-	if var_9_0 == nil then
+function slot0.CheckLevelCost(slot0, slot1)
+	if SnowballGameCfg[slot1].level_cost[1] == nil then
 		return true
 	else
-		return ItemTools.getItemNum(var_9_0[1]) >= var_9_0[2]
+		return slot3[2] <= ItemTools.getItemNum(slot3[1])
 	end
 end
 
-function var_0_0.IsLevelUnlocked(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2 = arg_10_2 or false
-
-	local var_10_0 = SnowballGameCfg[arg_10_1]
-	local var_10_1 = var_10_0.activity_id
-
-	if not ActivityTools.GetActivityIsOpenWithTip(var_10_1, arg_10_2) then
-		return false, var_0_0.LevelLockReason.ACTIVITY_TIME_LOCK, var_10_1
-	elseif not arg_10_0.unlockedLevels[var_10_0.level_unlock] then
-		return false, var_0_0.LevelLockReason.NEED_UNLOCK_OTHER_LEVEL, var_10_0.level_unlock
+function slot0.IsLevelUnlocked(slot0, slot1, slot2)
+	if not ActivityTools.GetActivityIsOpenWithTip(SnowballGameCfg[slot1].activity_id, slot2 or false) then
+		return false, uv0.LevelLockReason.ACTIVITY_TIME_LOCK, slot4
+	elseif not slot0.unlockedLevels[slot3.level_unlock] then
+		return false, uv0.LevelLockReason.NEED_UNLOCK_OTHER_LEVEL, slot3.level_unlock
 	else
 		return true
 	end
 end
 
-function var_0_0.CacheLevelAlreadyUnlocked(arg_11_0, arg_11_1)
-	saveData("snowballLevel", tostring(arg_11_1), true)
+function slot0.CacheLevelAlreadyUnlocked(slot0, slot1)
+	saveData("snowballLevel", tostring(slot1), true)
 end
 
-function var_0_0.IsLevelFirstUnlocked(arg_12_0, arg_12_1)
-	return not getData("snowballLevel", tostring(arg_12_1))
+function slot0.IsLevelFirstUnlocked(slot0, slot1)
+	return not getData("snowballLevel", tostring(slot1))
 end
 
-function var_0_0.AnyLevelUnlocked(arg_13_0)
-	for iter_13_0, iter_13_1 in ipairs(SnowballGameCfg.all) do
-		if arg_13_0:IsLevelUnlocked(iter_13_1) then
+function slot0.AnyLevelUnlocked(slot0)
+	for slot4, slot5 in ipairs(SnowballGameCfg.all) do
+		if slot0:IsLevelUnlocked(slot5) then
 			return true
 		end
 	end
@@ -138,9 +128,9 @@ function var_0_0.AnyLevelUnlocked(arg_13_0)
 	return false
 end
 
-function var_0_0.AnyLevelNotPlayed(arg_14_0)
-	for iter_14_0, iter_14_1 in ipairs(SnowballGameCfg.all) do
-		if arg_14_0:IsLevelUnlocked(iter_14_1) and arg_14_0:GetLevelHighScore(iter_14_1) == nil and arg_14_0:CheckLevelCost(iter_14_1) then
+function slot0.AnyLevelNotPlayed(slot0)
+	for slot4, slot5 in ipairs(SnowballGameCfg.all) do
+		if slot0:IsLevelUnlocked(slot5) and slot0:GetLevelHighScore(slot5) == nil and slot0:CheckLevelCost(slot5) then
 			return true
 		end
 	end
@@ -148,54 +138,49 @@ function var_0_0.AnyLevelNotPlayed(arg_14_0)
 	return false
 end
 
-function var_0_0.GetLastSelectedPlayer(arg_15_0)
-	return arg_15_0.lastSelectPlayer
+function slot0.GetLastSelectedPlayer(slot0)
+	return slot0.lastSelectPlayer
 end
 
-function var_0_0.SetLastSelectedPlayer(arg_16_0, arg_16_1)
-	saveData("snowball", "lastSelectedPlayer", arg_16_1)
+function slot0.SetLastSelectedPlayer(slot0, slot1)
+	saveData("snowball", "lastSelectedPlayer", slot1)
 
-	arg_16_0.lastSelectPlayer = arg_16_1
+	slot0.lastSelectPlayer = slot1
 end
 
-function var_0_0.IsFirstEnterGame(arg_17_0)
-	local var_17_0 = ActivityData:GetActivityData(arg_17_0.activityID)
-
-	return arg_17_0.lastEnter == nil or arg_17_0.lastEnter < var_17_0.startTime
+function slot0.IsFirstEnterGame(slot0)
+	return slot0.lastEnter == nil or slot0.lastEnter < ActivityData:GetActivityData(slot0.activityID).startTime
 end
 
-function var_0_0.SetAlreadyEnter(arg_18_0)
-	arg_18_0.lastEnter = manager.time:GetServerTime()
+function slot0.SetAlreadyEnter(slot0)
+	slot0.lastEnter = manager.time:GetServerTime()
 
-	saveData("snowball", "lastEnter", arg_18_0.lastEnter)
+	saveData("snowball", "lastEnter", slot0.lastEnter)
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_NOT_YET_ENTERED, 0)
 end
 
-function var_0_0.GetLevelHighScore(arg_19_0, arg_19_1)
-	return arg_19_0.unlockedLevels[arg_19_1]
+function slot0.GetLevelHighScore(slot0, slot1)
+	return slot0.unlockedLevels[slot1]
 end
 
-function var_0_0.OnLevelClear(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_0.unlockedLevels[arg_20_1] == nil
-	local var_20_1 = arg_20_0.unlockedLevels[arg_20_1] or 0
-	local var_20_2 = var_20_1 < arg_20_2
+function slot0.OnLevelClear(slot0, slot1, slot2)
+	slot4 = slot0.unlockedLevels[slot1] or 0
+	slot0.unlockedLevels[slot1] = math.max(slot4, slot2)
 
-	arg_20_0.unlockedLevels[arg_20_1] = math.max(var_20_1, arg_20_2)
-
-	return var_20_0, var_20_2
+	return slot0.unlockedLevels[slot1] == nil, slot2 > slot4
 end
 
-function var_0_0.CheckAlreadyShowInGameTip(arg_21_0, arg_21_1)
-	return getData("snowballInGameTips", arg_21_1)
+function slot0.CheckAlreadyShowInGameTip(slot0, slot1)
+	return getData("snowballInGameTips", slot1)
 end
 
-function var_0_0.InGameTipClose(arg_22_0, arg_22_1)
-	saveData("snowballInGameTips", arg_22_1, true)
+function slot0.InGameTipClose(slot0, slot1)
+	saveData("snowballInGameTips", slot1, true)
 end
 
-var_0_0.InGameTips = {
+slot0.InGameTips = {
 	Shoot = "shoot",
 	Move = "move"
 }
 
-return var_0_0
+return slot0

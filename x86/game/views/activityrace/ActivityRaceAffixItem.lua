@@ -1,87 +1,84 @@
-local var_0_0 = class("ActivityRaceAffixItem", ReduxView)
+slot0 = class("ActivityRaceAffixItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.levelController_ = ControllerUtil.GetController(arg_2_0.transform_, "level")
-	arg_2_0.unlockController_ = ControllerUtil.GetController(arg_2_0.transform_, "unlock")
+	slot0.levelController_ = ControllerUtil.GetController(slot0.transform_, "level")
+	slot0.unlockController_ = ControllerUtil.GetController(slot0.transform_, "unlock")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	if arg_4_0.btn_ then
-		arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-			if arg_4_0.selectCallBack_ then
-				arg_4_0.selectCallBack_(arg_4_0.index_, arg_4_0.affixID_, arg_4_0.affixLv_)
+function slot0.AddUIListener(slot0)
+	if slot0.btn_ then
+		slot0:AddBtnListener(slot0.btn_, nil, function ()
+			if uv0.selectCallBack_ then
+				uv0.selectCallBack_(uv0.index_, uv0.affixID_, uv0.affixLv_)
 			end
 		end)
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.index_ = arg_6_1
-	arg_6_0.affixID_ = arg_6_2
-	arg_6_0.affixLv_ = arg_6_3
-	arg_6_0.unlock_ = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.index_ = slot1
+	slot0.affixID_ = slot2
+	slot0.affixLv_ = slot3
+	slot0.unlock_ = slot4
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshAffixImage()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshAffixImage()
 
-	if arg_7_0.affixLv_ ~= nil then
-		arg_7_0.levelController_:SetSelectedState(arg_7_0.affixLv_)
+	if slot0.affixLv_ ~= nil then
+		slot0.levelController_:SetSelectedState(slot0.affixLv_)
 	else
-		arg_7_0.levelController_:SetSelectedState(0)
+		slot0.levelController_:SetSelectedState(0)
 	end
 
-	arg_7_0.unlockController_:SetSelectedState(tostring(arg_7_0.unlock_))
+	slot0.unlockController_:SetSelectedState(tostring(slot0.unlock_))
 end
 
-function var_0_0.RefreshAffixImage(arg_8_0)
-	if arg_8_0.affixID_ then
-		local var_8_0 = AffixTypeCfg[arg_8_0.affixID_]
-		local var_8_1 = PublicBuffCfg[var_8_0.affix_buff_id].icon
-
-		if var_8_1 == "" then
-			-- block empty
+function slot0.RefreshAffixImage(slot0)
+	if slot0.affixID_ then
+		if PublicBuffCfg[AffixTypeCfg[slot0.affixID_].affix_buff_id].icon == "" then
+			-- Nothing
 		end
 
-		arg_8_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. var_8_1)
-		arg_8_0.name_.text = GetI18NText(var_8_0.name)
+		slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. slot2)
+		slot0.name_.text = GetI18NText(slot1.name)
 	end
 end
 
-function var_0_0.RegistSelectCallBack(arg_9_0, arg_9_1)
-	arg_9_0.selectCallBack_ = arg_9_1
+function slot0.RegistSelectCallBack(slot0, slot1)
+	slot0.selectCallBack_ = slot1
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.selectCallBack_ = nil
+function slot0.Dispose(slot0)
+	slot0.selectCallBack_ = nil
 
-	Object.Destroy(arg_10_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_10_0.gameObject_ = nil
-	arg_10_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetActive(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.gameObject_, arg_11_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

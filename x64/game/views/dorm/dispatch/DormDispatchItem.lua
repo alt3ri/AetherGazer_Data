@@ -1,103 +1,99 @@
-local var_0_0 = class("TowerStageItem", ReduxView)
+slot0 = class("TowerStageItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddClickListen()
+	slot0:InitUI()
+	slot0:AddClickListen()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.skillDisplay = DormSkillDisplay.New(arg_2_0.m_skillDisplay)
-	arg_2_0.stateController_ = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.selectController_ = ControllerUtil.GetController(arg_2_0.transform_, "select")
-	arg_2_0.qualityController_ = ControllerUtil.GetController(arg_2_0.transform_, "quality")
-	arg_2_0.viewModeController_ = ControllerUtil.GetController(arg_2_0.transform_, "viewmode")
-	arg_2_0.moodController_ = ControllerUtil.GetController(arg_2_0.m_moodController, "expression")
+	slot0.skillDisplay = DormSkillDisplay.New(slot0.m_skillDisplay)
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.qualityController_ = ControllerUtil.GetController(slot0.transform_, "quality")
+	slot0.viewModeController_ = ControllerUtil.GetController(slot0.transform_, "viewmode")
+	slot0.moodController_ = ControllerUtil.GetController(slot0.m_moodController, "expression")
 end
 
-function var_0_0.AddClickListen(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_clickBtn, nil, function()
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc(arg_3_0.id)
+function slot0.AddClickListen(slot0)
+	slot0:AddBtnListener(slot0.m_clickBtn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.RegistCallBack(arg_5_0, arg_5_1)
-	arg_5_0.clickFunc = arg_5_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.SetHeroIcon(arg_6_0, arg_6_1)
-	arg_6_0.m_heroIcon.sprite = arg_6_1
+function slot0.SetHeroIcon(slot0, slot1)
+	slot0.m_heroIcon.sprite = slot1
 end
 
-function var_0_0.GetHeroCfg(arg_7_0)
-	return HeroCfg[arg_7_0.id]
+function slot0.GetHeroCfg(slot0)
+	return HeroCfg[slot0.id]
 end
 
-local function var_0_1(arg_8_0)
-	return HeroTools.GetHeadSprite(HeroTools.HeroUsingSkinInfo(arg_8_0).id)
+function slot1(slot0)
+	return HeroTools.GetHeadSprite(HeroTools.HeroUsingSkinInfo(slot0).id)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1)
-	if arg_9_0.id ~= arg_9_1 then
-		arg_9_0.id = arg_9_1
+function slot0.SetData(slot0, slot1)
+	if slot0.id ~= slot1 then
+		slot0.id = slot1
+		slot2 = slot0:GetHeroCfg()
+		slot0.m_heroIcon.sprite = uv0(slot1)
+		slot0.m_name.text = GetI18NText(slot2.name)
 
-		local var_9_0 = arg_9_0:GetHeroCfg()
-
-		arg_9_0.m_heroIcon.sprite = var_0_1(arg_9_1)
-		arg_9_0.m_name.text = GetI18NText(var_9_0.name)
-
-		arg_9_0.qualityController_:SetSelectedIndex(var_9_0.rare)
-		arg_9_0.skillDisplay:SetData(arg_9_1)
+		slot0.qualityController_:SetSelectedIndex(slot2.rare)
+		slot0.skillDisplay:SetData(slot1)
 	end
 
-	arg_9_0:UpdateMood()
+	slot0:UpdateMood()
 end
 
-function var_0_0.SetViewMode(arg_10_0, arg_10_1)
-	arg_10_0.viewModeController_:SetSelectedState(arg_10_1)
+function slot0.SetViewMode(slot0, slot1)
+	slot0.viewModeController_:SetSelectedState(slot1)
 end
 
-function var_0_0.UpdateMood(arg_11_0)
-	local var_11_0 = DormData:GetDormHero(arg_11_0.id)
-	local var_11_1 = DormConst.DORM_HERO_MAX_MOOD
-	local var_11_2 = var_11_0 and var_11_0:GetMood() or var_11_1
+function slot0.UpdateMood(slot0)
+	slot2 = DormConst.DORM_HERO_MAX_MOOD
+	slot3 = DormData:GetDormHero(slot0.id) and slot1:GetMood() or slot2
+	slot0.m_moodLab.text = slot3 .. "/" .. slot2
+	slot0.m_moodProcess.fillAmount = slot3 / slot2
 
-	arg_11_0.m_moodLab.text = var_11_2 .. "/" .. var_11_1
-	arg_11_0.m_moodProcess.fillAmount = var_11_2 / var_11_1
-
-	if var_11_2 == 0 then
-		arg_11_0.moodController_:SetSelectedIndex(2)
-	elseif var_11_2 >= 12 then
-		arg_11_0.moodController_:SetSelectedIndex(0)
+	if slot3 == 0 then
+		slot0.moodController_:SetSelectedIndex(2)
+	elseif slot3 >= 12 then
+		slot0.moodController_:SetSelectedIndex(0)
 	else
-		arg_11_0.moodController_:SetSelectedIndex(1)
+		slot0.moodController_:SetSelectedIndex(1)
 	end
 
-	if var_11_0 == nil or not var_11_0:GetIsInJobDuty() then
-		arg_11_0.stateController_:SetSelectedIndex(0)
+	if slot1 == nil or not slot1:GetIsInJobDuty() then
+		slot0.stateController_:SetSelectedIndex(0)
 	else
-		arg_11_0.m_workLab.text = GetI18NText(arg_11_0:GetJobName(var_11_0:GetCurJob()))
+		slot0.m_workLab.text = GetI18NText(slot0:GetJobName(slot1:GetCurJob()))
 
-		if var_11_2 == 0 then
-			arg_11_0.stateController_:SetSelectedIndex(2)
+		if slot3 == 0 then
+			slot0.stateController_:SetSelectedIndex(2)
 		else
-			arg_11_0.stateController_:SetSelectedIndex(1)
+			slot0.stateController_:SetSelectedIndex(1)
 		end
 	end
 end
 
-function var_0_0.GetJobName(arg_12_0, arg_12_1)
-	return "[JOB][" .. arg_12_1 .. "]"
+function slot0.GetJobName(slot0, slot1)
+	return "[JOB][" .. slot1 .. "]"
 end
 
-function var_0_0.UpdateSelect(arg_13_0, arg_13_1)
-	arg_13_0.selectController_:SetSelectedIndex(arg_13_1)
+function slot0.UpdateSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedIndex(slot1)
 end
 
-return var_0_0
+return slot0

@@ -1,25 +1,23 @@
-local var_0_0 = class("PolyhedronHeroShortHead", HeroShortHead)
+slot0 = class("PolyhedronHeroShortHead", HeroShortHead)
 
-function var_0_0.GetHeroUnLock(arg_1_0)
-	return PolyhedronData:GetPolyhedronHeroUnlock(arg_1_0.heroInfo_.id)
+function slot0.GetHeroUnLock(slot0)
+	return PolyhedronData:GetPolyhedronHeroUnlock(slot0.heroInfo_.id)
 end
 
-function var_0_0.SetHeroData(arg_2_0, arg_2_1, arg_2_2)
-	var_0_0.super.SetHeroData(arg_2_0, arg_2_1, arg_2_2)
+function slot0.SetHeroData(slot0, slot1, slot2)
+	uv0.super.SetHeroData(slot0, slot1, slot2)
 
-	arg_2_0.headIcon_.sprite = HeroTools.GetHeadSprite(arg_2_0.heroInfo_.using_skin)
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite(slot0.heroInfo_.using_skin)
 
-	if PolyhedronAction:GetPolyhedronHeroRedPointCount(arg_2_0.heroId_) > 0 then
-		manager.redPoint:SetRedPointIndependent(arg_2_0.noticePos_, true)
+	if PolyhedronAction:GetPolyhedronHeroRedPointCount(slot0.heroId_) > 0 then
+		manager.redPoint:SetRedPointIndependent(slot0.noticePos_, true)
 	else
-		manager.redPoint:SetRedPointIndependent(arg_2_0.noticePos_, false)
+		manager.redPoint:SetRedPointIndependent(slot0.noticePos_, false)
 	end
 end
 
-function var_0_0.SetRedPoint(arg_3_0)
-	local var_3_0 = PolyhedronAction:GetPolyhedronHeroRedPointCount(arg_3_0.heroId_) > 0
-
-	SetActive(arg_3_0.noticePos_.gameObject, var_3_0)
+function slot0.SetRedPoint(slot0)
+	SetActive(slot0.noticePos_.gameObject, PolyhedronAction:GetPolyhedronHeroRedPointCount(slot0.heroId_) > 0)
 end
 
-return var_0_0
+return slot0

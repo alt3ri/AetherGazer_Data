@@ -1,31 +1,28 @@
-local var_0_0 = class("StrongholdOperateBasePage", ReduxView)
+slot0 = class("StrongholdOperateBasePage", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_1_1 == arg_1_0.active then
+	if slot1 == slot0.active then
 		return
 	end
 
-	arg_1_0.active = arg_1_1
+	slot0.active = slot1
 
-	if arg_1_1 then
-		arg_1_0:OnShow()
+	if slot1 then
+		slot0:OnShow()
 	else
-		arg_1_0:OnHide()
+		slot0:OnHide()
 	end
 end
 
-function var_0_0.OnShow(arg_2_0)
-	return
+function slot0.OnShow(slot0)
 end
 
-function var_0_0.OnHide(arg_3_0)
-	return
+function slot0.OnHide(slot0)
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1)
-	return
+function slot0.Refresh(slot0, slot1)
 end
 
-return var_0_0
+return slot0

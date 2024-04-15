@@ -1,59 +1,54 @@
-local var_0_0 = class("PolyhedronOverArtifactItem", ReduxView)
+slot0 = class("PolyhedronOverArtifactItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickFunc then
-			local var_5_0 = PolyhedronArtifactCfg[arg_4_0.id].affix_id
-			local var_5_1 = getAffixName({
-				var_5_0,
-				arg_4_0.level
-			})
-			local var_5_2 = getAffixDesc({
-				var_5_0,
-				arg_4_0.level
-			})
-			local var_5_3 = arg_4_0.transform_.position
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickFunc then
+			slot1 = PolyhedronArtifactCfg[uv0.id].affix_id
+			slot4 = uv0.transform_.position
 
-			arg_4_0.clickFunc(var_5_1, var_5_2, Vector3(-0.9, var_5_3.y + 0.1, var_5_3.z), arg_4_0.level)
+			uv0.clickFunc(getAffixName({
+				slot1,
+				uv0.level
+			}), getAffixDesc({
+				slot1,
+				uv0.level
+			}), Vector3(-0.9, slot4.y + 0.1, slot4.z), uv0.level)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.id = arg_6_1.id
-	arg_6_0.level = arg_6_1.level
-
-	local var_6_0 = PolyhedronArtifactCfg[arg_6_0.id]
-
-	arg_6_0.icon_.sprite = getSpriteWithoutAtlas(PolyhedronConst.ARTIFACT_ICON_PATH .. var_6_0.icon)
+function slot0.SetData(slot0, slot1)
+	slot0.id = slot1.id
+	slot0.level = slot1.level
+	slot0.icon_.sprite = getSpriteWithoutAtlas(PolyhedronConst.ARTIFACT_ICON_PATH .. PolyhedronArtifactCfg[slot0.id].icon)
 end
 
-function var_0_0.SetActive(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.RegistCallBack(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc = arg_8_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

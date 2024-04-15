@@ -1,51 +1,51 @@
-local var_0_0 = class("ActivityInfinityPoolRewardPreviewBaseItem", ReduxView)
+slot0 = class("ActivityInfinityPoolRewardPreviewBaseItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
-	arg_1_0.rewardItem_ = arg_1_0:GetRewardItem(arg_1_3)
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
+	slot0.rewardItem_ = slot0:GetRewardItem(slot3)
 
-	arg_1_0:SetData(arg_1_3, arg_1_4, arg_1_5)
+	slot0:SetData(slot3, slot4, slot5)
 end
 
-function var_0_0.GetRewardItem(arg_2_0, arg_2_1)
-	return RewardPoolItem.New(arg_2_0.gameObject_, arg_2_1)
+function slot0.GetRewardItem(slot0, slot1)
+	return RewardPoolItem.New(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.rewardItem_:SetData(arg_3_1)
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.rewardItem_:SetData(slot1)
 
-	if arg_3_0.gameObject_.activeSelf == false then
-		arg_3_0:Show(true)
+	if slot0.gameObject_.activeSelf == false then
+		slot0:Show(true)
 	end
 
-	arg_3_0.textCnt_.text = string.format("%s/%s", arg_3_2, arg_3_3)
+	slot0.textCnt_.text = string.format("%s/%s", slot2, slot3)
 
-	if arg_3_3 <= arg_3_2 then
-		arg_3_0.controller_:SetSelectedState("get")
+	if slot3 <= slot2 then
+		slot0.controller_:SetSelectedState("get")
 	else
-		arg_3_0.controller_:SetSelectedState("normal")
+		slot0.controller_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.Show(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	arg_5_0.rewardItem_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.rewardItem_:Dispose()
 
-	arg_5_0.rewardItem_ = nil
+	slot0.rewardItem_ = nil
 
-	Object.Destroy(arg_5_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_5_0.transform_ = nil
-	arg_5_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

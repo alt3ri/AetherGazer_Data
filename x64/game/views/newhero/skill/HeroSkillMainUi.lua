@@ -1,158 +1,156 @@
-local var_0_0 = class("HeroSkillView", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroSkillView", ReduxView)
+slot1 = {
 	PROPERTY = 2,
 	SKILL = 1
 }
-local var_0_2 = {
-	[var_0_1.SKILL] = "skill",
-	[var_0_1.PROPERTY] = "property"
+slot2 = {
+	[slot1.SKILL] = "skill",
+	[slot1.PROPERTY] = "property"
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_skill/HeroSkillMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.tabSelectController_ = arg_4_0.tablistControllerEx_:GetController("tabSelect")
-	arg_4_0.propertyController_ = arg_4_0.propertyControllerexcollection_:GetController("lock")
-	arg_4_0.hideTabController_ = arg_4_0.controller_:GetController("hide")
-	arg_4_0.skillView_ = HeroSkillView.New(arg_4_0, arg_4_0.heroskilluiGo_)
-	arg_4_0.propertyObj_ = arg_4_0.propertyBtn_.gameObject
+	slot0.tabSelectController_ = slot0.tablistControllerEx_:GetController("tabSelect")
+	slot0.propertyController_ = slot0.propertyControllerexcollection_:GetController("lock")
+	slot0.hideTabController_ = slot0.controller_:GetController("hide")
+	slot0.skillView_ = HeroSkillView.New(slot0, slot0.heroskilluiGo_)
+	slot0.propertyObj_ = slot0.propertyBtn_.gameObject
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.skillBtn_, nil, function()
-		arg_5_0:ChangeTab(var_0_1.SKILL)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.skillBtn_, nil, function ()
+		uv0:ChangeTab(uv1.SKILL)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.propertyBtn_, nil, function()
-		local var_7_0, var_7_1 = arg_5_0:CheckPrepertyCondition(ViewConst.SYSTEM_ID.HERO_SKILL_ATTR)
+	slot0:AddBtnListener(slot0.propertyBtn_, nil, function ()
+		slot0, slot1 = uv0:CheckPrepertyCondition(ViewConst.SYSTEM_ID.HERO_SKILL_ATTR)
 
-		if not var_7_0 then
-			ShowTips(var_7_1)
+		if not slot0 then
+			ShowTips(slot1)
 
 			return
 		end
 
 		OperationRecorder.RecordButtonTouch("hero_skill_attribute_lv_up")
-		arg_5_0:ChangeTab(var_0_1.PROPERTY)
+		uv0:ChangeTab(uv1.PROPERTY)
 	end)
 end
 
-function var_0_0.CheckPrepertyCondition(arg_8_0, arg_8_1)
-	if not table.keyof(ViewConst.SYSTEM_ID, arg_8_1) then
+function slot0.CheckPrepertyCondition(slot0, slot1)
+	if not table.keyof(ViewConst.SYSTEM_ID, slot1) then
 		return true, ""
 	end
 
-	local var_8_0 = JumpTools.IsSystemLocked(arg_8_1)
-
-	if not var_8_0 then
+	if not JumpTools.IsSystemLocked(slot1) then
 		return true, ""
 	else
-		return false, JumpTools.GetSystemLockedTip(arg_8_1, var_8_0)
+		return false, JumpTools.GetSystemLockedTip(slot1, slot2)
 	end
 end
 
-function var_0_0.ChangeTab(arg_9_0, arg_9_1)
-	if arg_9_0.selectTabType and arg_9_0.selectTabType == arg_9_1 then
+function slot0.ChangeTab(slot0, slot1)
+	if slot0.selectTabType and slot0.selectTabType == slot1 then
 		return
 	end
 
-	arg_9_0.tabSelectController_:SetSelectedState(var_0_2[arg_9_1])
+	slot0.tabSelectController_:SetSelectedState(uv0[slot1])
 
-	arg_9_0.selectTabType = arg_9_1
+	slot0.selectTabType = slot1
 
-	arg_9_0.skillView_:ChangeTabShow(arg_9_1)
+	slot0.skillView_:ChangeTabShow(slot1)
 end
 
-function var_0_0.NotHaveAttrShow(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.propertyObj_, not arg_10_1)
+function slot0.NotHaveAttrShow(slot0, slot1)
+	SetActive(slot0.propertyObj_, not slot1)
 
-	if arg_10_1 and arg_10_0.selectTabType == var_0_1.PROPERTY then
-		arg_10_0:ChangeTab(var_0_1.SKILL)
+	if slot1 and slot0.selectTabType == uv0.PROPERTY then
+		slot0:ChangeTab(uv0.SKILL)
 	end
 end
 
-function var_0_0.isPropertyView(arg_11_0)
-	return arg_11_0.selectTabType == var_0_1.PROPERTY
+function slot0.isPropertyView(slot0)
+	return slot0.selectTabType == uv0.PROPERTY
 end
 
-function var_0_0.GetSelectTabType(arg_12_0)
-	return arg_12_0.selectTabType
+function slot0.GetSelectTabType(slot0)
+	return slot0.selectTabType
 end
 
-function var_0_0.OnTop(arg_13_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	if arg_13_0.skillView_ then
-		arg_13_0.skillView_:OnTop()
+	if slot0.skillView_ then
+		slot0.skillView_:OnTop()
 	end
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.skillView_:OnEnter(arg_14_0.params_)
+function slot0.OnEnter(slot0)
+	slot0.skillView_:OnEnter(slot0.params_)
 
-	arg_14_0.heroViewDataProxy_ = arg_14_0.params_.proxy
+	slot0.heroViewDataProxy_ = slot0.params_.proxy
 
-	arg_14_0.hideTabController_:SetSelectedState(tostring(arg_14_0.heroViewDataProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
+	slot0.hideTabController_:SetSelectedState(tostring(slot0.heroViewDataProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
 
-	if not arg_14_0.selectTabType or arg_14_0.heroViewDataProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
-		arg_14_0:ChangeTab(var_0_1.SKILL)
+	if not slot0.selectTabType or slot0.heroViewDataProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
+		slot0:ChangeTab(uv0.SKILL)
 	end
 
-	arg_14_0:CheckLocked()
+	slot0:CheckLocked()
 end
 
-function var_0_0.CheckLocked(arg_15_0)
-	local var_15_0, var_15_1 = arg_15_0:CheckPrepertyCondition(ViewConst.SYSTEM_ID.HERO_SKILL_ATTR)
+function slot0.CheckLocked(slot0)
+	slot1, slot2 = slot0:CheckPrepertyCondition(ViewConst.SYSTEM_ID.HERO_SKILL_ATTR)
 
-	arg_15_0.propertyController_:SetSelectedState(var_15_0 and "false" or "true")
+	slot0.propertyController_:SetSelectedState(slot1 and "false" or "true")
 end
 
-function var_0_0.CameraEnter(arg_16_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		2,
 		1
 	})
 end
 
-function var_0_0.OnExit(arg_17_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_17_0.skillView_:OnExit()
+	slot0.skillView_:OnExit()
 
-	if arg_17_0.skillView_ and arg_17_0.skillView_.isGoHeroMain then
-		arg_17_0:ChangeTab(var_0_1.SKILL)
+	if slot0.skillView_ and slot0.skillView_.isGoHeroMain then
+		slot0:ChangeTab(uv0.SKILL)
 	end
 end
 
-function var_0_0.OnHeroSkillUpgrade(arg_18_0, arg_18_1, arg_18_2)
-	arg_18_0.skillView_:OnHeroSkillUpgrade(arg_18_1, arg_18_2)
+function slot0.OnHeroSkillUpgrade(slot0, slot1, slot2)
+	slot0.skillView_:OnHeroSkillUpgrade(slot1, slot2)
 end
 
-function var_0_0.OnHeroSkillAttrUpgrade(arg_19_0, arg_19_1, arg_19_2)
-	arg_19_0.skillView_:OnHeroSkillAttrUpgradeInView(arg_19_1, arg_19_2)
+function slot0.OnHeroSkillAttrUpgrade(slot0, slot1, slot2)
+	slot0.skillView_:OnHeroSkillAttrUpgradeInView(slot1, slot2)
 end
 
-function var_0_0.GetPlayBackwardsAnimator(arg_20_0)
-	return arg_20_0.skillView_:GetPlayBackwardsAnimator()
+function slot0.GetPlayBackwardsAnimator(slot0)
+	return slot0.skillView_:GetPlayBackwardsAnimator()
 end
 
-function var_0_0.Dispose(arg_21_0)
-	arg_21_0.skillView_:Dispose()
-	var_0_0.super.Dispose(arg_21_0)
+function slot0.Dispose(slot0)
+	slot0.skillView_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

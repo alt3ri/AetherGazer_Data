@@ -1,31 +1,27 @@
 ActivityInfinityPoolBaseItem = import("game.views.activity.Submodule.infinityTask.base.infinity.ActivityInfinityPoolBaseItem")
+slot0 = class("ActivityInfinityPoolFactoryItem", ActivityInfinityPoolBaseItem)
 
-local var_0_0 = class("ActivityInfinityPoolFactoryItem", ActivityInfinityPoolBaseItem)
+function slot0.Ctor(slot0, ...)
+	uv0.super.Ctor(slot0, ...)
 
-function var_0_0.Ctor(arg_1_0, ...)
-	var_0_0.super.Ctor(arg_1_0, ...)
-
-	arg_1_0.unLockController_ = ControllerUtil.GetController(arg_1_0.transform_, "unlock")
+	slot0.unLockController_ = ControllerUtil.GetController(slot0.transform_, "unlock")
 end
 
-function var_0_0.RefreshUI(arg_2_0)
-	var_0_0.super.RefreshUI(arg_2_0)
-	arg_2_0:RefreshRewardPanel()
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
+	slot0:RefreshRewardPanel()
 end
 
-function var_0_0.RefreshRewardPanel(arg_3_0)
-	local var_3_0 = arg_3_0.poolID_
-	local var_3_1 = arg_3_0.index_
-
-	if OsirisInfinityPoolData:GetPoolData(var_3_0).openBoxList[var_3_1] then
-		arg_3_0.unLockController_:SetSelectedState("on")
+function slot0.RefreshRewardPanel(slot0)
+	if OsirisInfinityPoolData:GetPoolData(slot0.poolID_).openBoxList[slot0.index_] then
+		slot0.unLockController_:SetSelectedState("on")
 	else
-		arg_3_0.unLockController_:SetSelectedState("off")
+		slot0.unLockController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.GetRewardItem(arg_4_0, arg_4_1)
-	return RewardPoolFactoryItem.New(arg_4_0.goItemParent_, arg_4_1, true)
+function slot0.GetRewardItem(slot0, slot1)
+	return RewardPoolFactoryItem.New(slot0.goItemParent_, slot1, true)
 end
 
-return var_0_0
+return slot0

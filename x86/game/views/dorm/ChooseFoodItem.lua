@@ -1,45 +1,42 @@
-local var_0_0 = class("ChooseFoodItem", ReduxView)
+slot0 = class("ChooseFoodItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemController = ControllerUtil.GetController(arg_3_0.transform_, "name")
+	slot0.itemController = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.setupBtn_, nil, function()
-		if CanteenFoodData:CheckIsSignFood(arg_4_0.ID_) then
-			local var_5_0 = BackHomeCanteenFoodCfg[arg_4_0.ID_].name
-
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.setupBtn_, nil, function ()
+		if CanteenFoodData:CheckIsSignFood(uv0.ID_) then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("CANTEEN_FOOD_REMOVE"), var_5_0),
-				OkCallback = function()
-					CanteenAction:SendSignFoodInfo(arg_4_0.ID_, 0)
+				content = string.format(GetTips("CANTEEN_FOOD_REMOVE"), BackHomeCanteenFoodCfg[uv0.ID_].name),
+				OkCallback = function ()
+					CanteenAction:SendSignFoodInfo(uv0.ID_, 0)
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 
 			return
 		end
 
-		if arg_4_0.changeListFun then
-			if arg_4_0.flag then
-				arg_4_0.changeListFun(arg_4_0.ID_, arg_4_0.transform_)
+		if uv0.changeListFun then
+			if uv0.flag then
+				uv0.changeListFun(uv0.ID_, uv0.transform_)
 			else
 				ShowTips(GetTips("DORM_CANTEEN_INGREDIENTS_NOT_ENOUGH"))
 			end
@@ -47,70 +44,52 @@ function var_0_0.AddUIListener(arg_4_0)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1)
-	if CanteenFoodData:CheckIsSignFood(arg_8_1) then
-		arg_8_0.itemController:SetSelectedState("sign")
+function slot0.RefreshUI(slot0, slot1)
+	if CanteenFoodData:CheckIsSignFood(slot1) then
+		slot0.itemController:SetSelectedState("sign")
 	else
-		arg_8_0.itemController:SetSelectedState("normal")
+		slot0.itemController:SetSelectedState("normal")
 	end
 
-	local var_8_0 = BackHomeCanteenFoodCfg[arg_8_1]
+	slot2 = BackHomeCanteenFoodCfg[slot1]
+	slot0.ID_ = slot2.id
+	slot0.titleText_.text = GetI18NText(slot2.name)
+	slot0.priceText_.text = CanteenFoodData:GetFoodUnitCost(slot2.id)
+	slot0.iconImg_.sprite = CanteenTools.GetFoodSprite(slot0.ID_)
+	slot3 = BackHomeCanteenFoodCfg[slot1].ingredient_list
+	slot4 = ""
+	slot0.flag = true
 
-	arg_8_0.ID_ = var_8_0.id
-	arg_8_0.titleText_.text = GetI18NText(var_8_0.name)
-	arg_8_0.priceText_.text = CanteenFoodData:GetFoodUnitCost(var_8_0.id)
-	arg_8_0.iconImg_.sprite = CanteenTools.GetFoodSprite(arg_8_0.ID_)
-
-	local var_8_1 = BackHomeCanteenFoodCfg[arg_8_1].ingredient_list
-	local var_8_2 = ""
-
-	arg_8_0.flag = true
-
-	if CanteenFoodData:CalculateFoodCanCookNum(arg_8_1) <= 0 then
-		arg_8_0.flag = false
+	if CanteenFoodData:CalculateFoodCanCookNum(slot1) <= 0 then
+		slot0.flag = false
 	end
 
-	local var_8_3
+	slot5 = nil
+	slot5 = (not slot0.flag or string.format("<color='#FFFFFF'>%s</color>", GetTips("CANTEEN_FOOD_COST"))) and string.format("<color='#CBD2D9'>%s</color>", GetTips("CANTEEN_FOOD_COST"))
 
-	if arg_8_0.flag then
-		var_8_3 = string.format("<color='#FFFFFF'>%s</color>", GetTips("CANTEEN_FOOD_COST"))
-	else
-		var_8_3 = string.format("<color='#CBD2D9'>%s</color>", GetTips("CANTEEN_FOOD_COST"))
+	for slot9, slot10 in ipairs(slot3) do
+		slot11 = ItemTools.getItemName(slot10[1])
+		slot12 = slot10[2]
+		slot13 = CanteenFoodData:GetCateenIngredientNum(slot10[1])
+		slot14 = NumberTools.RetractNumberForWindBar(slot12)
+		slot15 = NumberTools.RetractNumberForWindBar(slot13)
+		slot4 = slot13 < slot12 and slot4 .. string.format("%s<color='#FF0000'>%s</color>/%s,", slot11, slot15, slot14) or slot0.flag and slot4 .. string.format("%s<color='#FF0000'>%s</color>/%s,", slot11, slot15, slot14) .. string.format("%s%s/%s,", slot11, slot15, slot14) or slot4 .. string.format("%s<color='#FF0000'>%s</color>/%s,", slot11, slot15, slot14) .. string.format("%s%s/%s,", slot11, slot15, slot14) .. string.format("<color='#CBD2D9'>%s%s</color>/%s,", slot11, slot15, slot14)
 	end
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_1) do
-		local var_8_4 = ItemTools.getItemName(iter_8_1[1])
-		local var_8_5 = iter_8_1[2]
-		local var_8_6 = CanteenFoodData:GetCateenIngredientNum(iter_8_1[1])
-		local var_8_7 = NumberTools.RetractNumberForWindBar(var_8_5)
-		local var_8_8 = NumberTools.RetractNumberForWindBar(var_8_6)
-
-		if var_8_6 < var_8_5 then
-			var_8_2 = var_8_2 .. string.format("%s<color='#FF0000'>%s</color>/%s,", var_8_4, var_8_8, var_8_7)
-		elseif arg_8_0.flag then
-			var_8_2 = var_8_2 .. string.format("%s%s/%s,", var_8_4, var_8_8, var_8_7)
-		else
-			var_8_2 = var_8_2 .. string.format("<color='#CBD2D9'>%s%s</color>/%s,", var_8_4, var_8_8, var_8_7)
-		end
-	end
-
-	local var_8_9 = string.sub(var_8_2, 1, -2)
-	local var_8_10 = string.format(var_8_3, var_8_9)
-
-	arg_8_0.materialtextText_.text = var_8_10
+	slot0.materialtextText_.text = string.format(slot5, string.sub(slot4, 1, -2))
 end
 
-function var_0_0.RegistCallBack(arg_9_0, arg_9_1)
-	arg_9_0.changeListFun = arg_9_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.changeListFun = slot1
 end
 
-function var_0_0.RegisterLackCallBack(arg_10_0, arg_10_1)
-	arg_10_0.lackBtnFunc = arg_10_1
+function slot0.RegisterLackCallBack(slot0, slot1)
+	slot0.lackBtnFunc = slot1
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

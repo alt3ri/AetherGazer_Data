@@ -1,71 +1,69 @@
-local var_0_0 = class("ServantCallNameTabModule", ReduxView)
+slot0 = class("ServantCallNameTabModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:BuildContext()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	arg_3_0.controller = {
-		comps = arg_3_0.tabController_,
+function slot0.BuildContext(slot0)
+	slot0.controller = {
+		comps = slot0.tabController_,
 		select = {
 			False = "false",
 			True = "true",
-			comps = arg_3_0.tabController_:GetController("select")
+			comps = slot0.tabController_:GetController("select")
 		}
 	}
-	arg_3_0.data = {
+	slot0.data = {
 		tabIdx = 1
 	}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.tabClickBtn_, nil, function()
-		arg_4_0:OnTabClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.tabClickBtn_, nil, function ()
+		uv0:OnTabClick()
 	end)
 end
 
-function var_0_0.SetTabIndex(arg_6_0, arg_6_1)
-	arg_6_0.data.tabIdx = arg_6_1
+function slot0.SetTabIndex(slot0, slot1)
+	slot0.data.tabIdx = slot1
 end
 
-function var_0_0.SetNumber(arg_7_0, arg_7_1)
-	arg_7_0.callNameCountTxt_.text = arg_7_1
+function slot0.SetNumber(slot0, slot1)
+	slot0.callNameCountTxt_.text = slot1
 end
 
-function var_0_0.SetSelect(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_0.controller.select.False
+function slot0.SetSelect(slot0, slot1)
+	slot2 = slot0.controller.select.False
 
-	if arg_8_1 then
-		var_8_0 = arg_8_0.controller.select.True
+	if slot1 then
+		slot2 = slot0.controller.select.True
 	end
 
-	arg_8_0.controller.select.comps:SetSelectedState(var_8_0)
+	slot0.controller.select.comps:SetSelectedState(slot2)
 end
 
-function var_0_0.RegisterClickCallback(arg_9_0, arg_9_1)
-	arg_9_0.data.clickCallback = arg_9_1
+function slot0.RegisterClickCallback(slot0, slot1)
+	slot0.data.clickCallback = slot1
 end
 
-function var_0_0.OnTabClick(arg_10_0)
-	local var_10_0 = arg_10_0.data.clickCallback
-
-	if var_10_0 then
-		var_10_0(arg_10_0.data.tabIdx)
+function slot0.OnTabClick(slot0)
+	if slot0.data.clickCallback then
+		slot1(slot0.data.tabIdx)
 	end
 end
 
-function var_0_0.OnDispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.OnDispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,55 +1,55 @@
-local var_0_0 = class("CultureGravureEquiptInfoItem", ReduxView)
+slot0 = class("CultureGravureEquiptInfoItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.posNumController_ = ControllerUtil.GetController(arg_2_0.transform_, "num")
-	arg_2_0.posController_ = {}
+	slot4 = "num"
+	slot0.posNumController_ = ControllerUtil.GetController(slot0.transform_, slot4)
+	slot0.posController_ = {}
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0.posController_[iter_2_0] = ControllerUtil.GetController(arg_2_0["posStateTrs" .. iter_2_0 .. "_"], "pos")
+	for slot4 = 1, 3 do
+		slot0.posController_[slot4] = ControllerUtil.GetController(slot0["posStateTrs" .. slot4 .. "_"], "pos")
 	end
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.index_ = arg_3_1
-	arg_3_0.equipIDList_ = arg_3_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.equipIDList_ = slot2
 
-	table.sort(arg_3_0.equipIDList_, function(arg_4_0, arg_4_1)
-		return EquipCfg[arg_4_0].pos < EquipCfg[arg_4_1].pos
+	table.sort(slot0.equipIDList_, function (slot0, slot1)
+		return EquipCfg[slot0].pos < EquipCfg[slot1].pos
 	end)
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetCallBack(arg_6_0, arg_6_1)
-	arg_6_0.callback = arg_6_1
+function slot0.SetCallBack(slot0, slot1)
+	slot0.callback = slot1
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.nameText_.text = EquipSuitCfg[EquipCfg[arg_7_0.equipIDList_[1]].suit].name
+function slot0.RefreshUI(slot0)
+	slot0.nameText_.text = EquipSuitCfg[EquipCfg[slot0.equipIDList_[1]].suit].name
+	slot4 = #slot0.equipIDList_
 
-	arg_7_0.posNumController_:SetSelectedState(#arg_7_0.equipIDList_)
+	slot0.posNumController_:SetSelectedState(slot4)
 
-	for iter_7_0 = 1, #arg_7_0.equipIDList_ do
-		local var_7_0 = EquipCfg[arg_7_0.equipIDList_[iter_7_0]]
-
-		arg_7_0.posController_[iter_7_0]:SetSelectedState(var_7_0.pos)
+	for slot4 = 1, #slot0.equipIDList_ do
+		slot0.posController_[slot4]:SetSelectedState(EquipCfg[slot0.equipIDList_[slot4]].pos)
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

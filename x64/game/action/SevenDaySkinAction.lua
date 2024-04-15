@@ -1,33 +1,30 @@
-local var_0_0 = {}
-
-manager.net:Bind(11080, function(arg_1_0)
-	SevenDaySkinData:InitData(arg_1_0)
+manager.net:Bind(11080, function (slot0)
+	SevenDaySkinData:InitData(slot0)
 end)
-manager.notify:RegistListener(NEW_DAY, function()
+manager.notify:RegistListener(NEW_DAY, function ()
 	SevenDaySkinData:Clear()
 	manager.notify:Invoke(SEVEN_DAY_SKIN_SIGN_CLEAR)
 end)
 
-function var_0_0.ReqSign(arg_3_0)
-	manager.net:SendWithLoadingNew(11081, {
-		activity_id = arg_3_0
-	}, 11082, var_0_0.OnSignResp)
-end
+return {
+	ReqSign = function (slot0)
+		manager.net:SendWithLoadingNew(11081, {
+			activity_id = slot0
+		}, 11082, uv0.OnSignResp)
+	end,
+	OnSignResp = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			return
+		end
 
-function var_0_0.OnSignResp(arg_4_0, arg_4_1)
-	if not isSuccess(arg_4_0.result) then
-		return
+		slot2 = slot1.activity_id
+
+		SevenDaySkinData:UpdateActivityData(slot2, slot0)
+
+		if slot2 == ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW then
+			NorseSurpriseGiftReceiveData:UpdateRedPointData(ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW)
+		end
+
+		manager.notify:Invoke(SEVEN_DAY_SKIN_SIGN_SUCCESS, slot0)
 	end
-
-	local var_4_0 = arg_4_1.activity_id
-
-	SevenDaySkinData:UpdateActivityData(var_4_0, arg_4_0)
-
-	if var_4_0 == ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW then
-		NorseSurpriseGiftReceiveData:UpdateRedPointData(ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW)
-	end
-
-	manager.notify:Invoke(SEVEN_DAY_SKIN_SIGN_SUCCESS, arg_4_0)
-end
-
-return var_0_0
+}

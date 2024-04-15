@@ -1,89 +1,85 @@
-local var_0_0 = class("SectionStageInfoView", ReduxView)
+slot0 = class("SectionStageInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Show(true)
-	arg_1_0:Init()
+	slot0:Show(true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.attributeItemList_ = {}
+	slot0.attributeItemList_ = {}
 end
 
-function var_0_0.SetProxy(arg_3_0, arg_3_1)
-	arg_3_0.sectionProxy_ = arg_3_1
-	arg_3_0.stageType_ = arg_3_0.sectionProxy_.stageType
-	arg_3_0.stageID_ = arg_3_0.sectionProxy_.stageID
+function slot0.SetProxy(slot0, slot1)
+	slot0.sectionProxy_ = slot1
+	slot0.stageType_ = slot0.sectionProxy_.stageType
+	slot0.stageID_ = slot0.sectionProxy_.stageID
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	arg_5_0:RefreshTitle()
-	arg_5_0:RefreshRecommend()
-	arg_5_0:RefreshRecommendAttribute()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTitle()
+	slot0:RefreshRecommend()
+	slot0:RefreshRecommendAttribute()
 end
 
-function var_0_0.RefreshTitle(arg_6_0)
-	arg_6_0.titleText_.text = BattleStageTools.GetStageName(arg_6_0.stageType_, arg_6_0.stageID_)
+function slot0.RefreshTitle(slot0)
+	slot0.titleText_.text = BattleStageTools.GetStageName(slot0.stageType_, slot0.stageID_)
 end
 
-function var_0_0.RefreshRecommend(arg_7_0)
-	local var_7_0 = arg_7_0:GetRecommendLevel()
-
-	if var_7_0 == 0 then
-		SetActive(arg_7_0.recommendLevelGo_, false)
+function slot0.RefreshRecommend(slot0)
+	if slot0:GetRecommendLevel() == 0 then
+		SetActive(slot0.recommendLevelGo_, false)
 	else
-		SetActive(arg_7_0.recommendLevelGo_, true)
+		SetActive(slot0.recommendLevelGo_, true)
 
-		arg_7_0.recommendLevel_.text = var_7_0
+		slot0.recommendLevel_.text = slot1
 	end
 end
 
-function var_0_0.GetRecommendLevel(arg_8_0)
-	return BattleStageTools.GetStageCfg(arg_8_0.stageType_, arg_8_0.stageID_).recommend_level or 0
+function slot0.GetRecommendLevel(slot0)
+	return BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).recommend_level or 0
 end
 
-function var_0_0.RefreshRecommendAttribute(arg_9_0)
-	local var_9_0 = BattleStageTools.GetStageCfg(arg_9_0.stageType_, arg_9_0.stageID_).recommend_attribute_list or {}
+function slot0.RefreshRecommendAttribute(slot0)
+	if #(BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).recommend_attribute_list or {}) > 0 then
+		SetActive(slot0.attributePanelGo_, true)
 
-	if #var_9_0 > 0 then
-		SetActive(arg_9_0.attributePanelGo_, true)
-
-		for iter_9_0, iter_9_1 in ipairs(var_9_0) do
-			if not arg_9_0.attributeItemList_[iter_9_0] then
-				arg_9_0.attributeItemList_[iter_9_0] = SectionAttributeItem.New(arg_9_0.attributeGo_, arg_9_0.attributeContentTrans_)
+		for slot6, slot7 in ipairs(slot2) do
+			if not slot0.attributeItemList_[slot6] then
+				slot0.attributeItemList_[slot6] = SectionAttributeItem.New(slot0.attributeGo_, slot0.attributeContentTrans_)
 			end
 
-			arg_9_0.attributeItemList_[iter_9_0]:SetData(iter_9_1)
+			slot0.attributeItemList_[slot6]:SetData(slot7)
 		end
 
-		for iter_9_2 = #var_9_0 + 1, #arg_9_0.attributeItemList_ do
-			arg_9_0.attributeItemList_[iter_9_2]:Show(false)
+		for slot6 = #slot2 + 1, #slot0.attributeItemList_ do
+			slot0.attributeItemList_[slot6]:Show(false)
 		end
 	else
-		SetActive(arg_9_0.attributePanelGo_, false)
+		SetActive(slot0.attributePanelGo_, false)
 	end
 end
 
-function var_0_0.Show(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.attributeItemList_) do
-		iter_11_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.attributeItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.attributeItemList_ = nil
+	slot0.attributeItemList_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

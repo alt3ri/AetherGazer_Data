@@ -1,90 +1,51 @@
 return {
-	RetractNumber = function(arg_1_0, arg_1_1)
-		if arg_1_1 == nil then
-			arg_1_1 = 1
+	RetractNumber = function (slot0, slot1)
+		if slot1 == nil then
+			slot1 = 1
 		end
 
-		local var_1_0 = ""
-		local var_1_1 = math.pow(10, arg_1_1)
+		slot2 = ""
+		slot3 = math.pow(10, slot1)
 
-		if arg_1_0 > 999999 then
-			arg_1_0 = math.floor(arg_1_0 / 1000000 * var_1_1) / var_1_1
-			var_1_0 = "M"
-		elseif arg_1_0 > 999 then
-			arg_1_0 = math.floor(arg_1_0 / 1000 * var_1_1) / var_1_1
-			var_1_0 = "K"
+		if slot0 > 999999 then
+			slot0 = math.floor(slot0 / 1000000 * slot3) / slot3
+			slot2 = "M"
+		elseif slot0 > 999 then
+			slot0 = math.floor(slot0 / 1000 * slot3) / slot3
+			slot2 = "K"
 		end
 
-		local var_1_2 = ""
+		slot4 = ""
 
-		if arg_1_0 % 1 == 0 then
-			var_1_2 = tostring(arg_1_0)
-		else
-			arg_1_1 = math.floor(arg_1_1)
-
-			local var_1_3 = "%." .. arg_1_1 .. "f"
-
-			var_1_2 = string.format(var_1_3, arg_1_0)
-		end
-
-		return var_1_2 .. var_1_0
+		return ((slot0 % 1 ~= 0 or tostring(slot0)) and string.format("%." .. math.floor(slot1) .. "f", slot0)) .. slot2
 	end,
-	RetractNumberForWindBar = function(arg_2_0, arg_2_1)
-		if arg_2_1 == nil then
-			arg_2_1 = 1
+	RetractNumberForWindBar = function (slot0, slot1)
+		if slot1 == nil then
+			slot1 = 1
 		end
 
-		local var_2_0 = ""
-		local var_2_1 = math.pow(10, arg_2_1)
+		slot2 = ""
+		slot3 = math.pow(10, slot1)
 
-		if arg_2_0 > 99999999 then
-			arg_2_0 = math.floor(arg_2_0 / 1000000 * var_2_1) / var_2_1
-			var_2_0 = "M"
-		elseif arg_2_0 > 99999 then
-			arg_2_0 = math.floor(arg_2_0 / 1000 * var_2_1) / var_2_1
-			var_2_0 = "K"
+		if slot0 > 99999999 then
+			slot0 = math.floor(slot0 / 1000000 * slot3) / slot3
+			slot2 = "M"
+		elseif slot0 > 99999 then
+			slot0 = math.floor(slot0 / 1000 * slot3) / slot3
+			slot2 = "K"
 		end
 
-		local var_2_2 = ""
+		slot4 = ""
 
-		if arg_2_0 % 1 == 0 then
-			var_2_2 = tostring(arg_2_0)
-		else
-			arg_2_1 = math.floor(arg_2_1)
-
-			local var_2_3 = "%." .. arg_2_1 .. "f"
-
-			var_2_2 = string.format(var_2_3, arg_2_0)
-		end
-
-		return var_2_2 .. var_2_0
+		return ((slot0 % 1 ~= 0 or tostring(slot0)) and string.format("%." .. math.floor(slot1) .. "f", slot0)) .. slot2
 	end,
-	IntToRomam = function(arg_3_0)
-		local var_3_0 = {
+	IntToRomam = function (slot0)
+		return ({
 			"",
-			"I",
-			"II",
-			"III",
-			"IV",
-			"V",
-			"VI",
-			"VII",
-			"VIII",
-			"IX"
-		}
-		local var_3_1 = {
-			"",
-			"X",
-			"XX",
-			"XXX",
-			"XL",
-			"L",
-			"LX",
-			"LXX",
-			"LXXX",
-			"XC"
-		}
-		local var_3_2 = {
+			"M",
+			"MM",
+			"MMM"
+		})[math.floor(slot0 / 1000 % 10) + 1] .. ({
 			"",
 			"C",
 			"CC",
@@ -95,35 +56,41 @@ return {
 			"DCC",
 			"DCCC",
 			"CM"
-		}
-
-		return ({
+		})[math.floor(slot0 / 100 % 10) + 1] .. ({
 			"",
-			"M",
-			"MM",
-			"MMM"
-		})[math.floor(arg_3_0 / 1000 % 10) + 1] .. var_3_2[math.floor(arg_3_0 / 100 % 10) + 1] .. var_3_1[math.floor(arg_3_0 / 10 % 10) + 1] .. var_3_0[math.floor(arg_3_0 % 10) + 1]
+			"X",
+			"XX",
+			"XXX",
+			"XL",
+			"L",
+			"LX",
+			"LXX",
+			"LXXX",
+			"XC"
+		})[math.floor(slot0 / 10 % 10) + 1] .. ({
+			"",
+			"I",
+			"II",
+			"III",
+			"IV",
+			"V",
+			"VI",
+			"VII",
+			"VIII",
+			"IX"
+		})[math.floor(slot0 % 10) + 1]
 	end,
-	FormatNumberWithThousandsSeparator = function(arg_4_0)
-		local var_4_0 = math.floor(arg_4_0)
-		local var_4_1 = tostring(var_4_0)
-		local var_4_2 = ""
-		local var_4_3 = #var_4_1
-
-		for iter_4_0 = 1, var_4_3 do
-			var_4_2 = var_4_2 .. string.sub(var_4_1, iter_4_0, iter_4_0)
-
-			if var_4_3 - iter_4_0 > 0 and (var_4_3 - iter_4_0) % 3 == 0 then
-				var_4_2 = var_4_2 .. ","
+	FormatNumberWithThousandsSeparator = function (slot0)
+		for slot8 = 1, #tostring(math.floor(slot0)) do
+			if slot4 - slot8 > 0 and (slot4 - slot8) % 3 == 0 then
+				slot3 = "" .. string.sub(slot2, slot8, slot8) .. ","
 			end
 		end
 
-		local var_4_4 = var_4_2
-
-		if arg_4_0 % 1 ~= 0 then
-			var_4_4 = var_4_4 .. string.sub(tostring(arg_4_0), string.find(tostring(arg_4_0), "%."))
+		if slot0 % 1 ~= 0 then
+			slot5 = slot3 .. string.sub(tostring(slot0), string.find(tostring(slot0), "%."))
 		end
 
-		return var_4_4
+		return slot5
 	end
 }

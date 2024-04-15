@@ -1,71 +1,70 @@
-local var_0_0 = class("SoloChallengeRewardView", ReduxView)
+slot0 = class("SoloChallengeRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/SoloChallenge/MardukSoloChallengeRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, arg_4_0:GetRewardItemClass())
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, slot0:GetRewardItemClass())
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:RefreshLevelName()
-	arg_8_0:RefreshScroll()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshLevelName()
+	slot0:RefreshScroll()
 end
 
-function var_0_0.RefreshLevelName(arg_9_0)
-	arg_9_0.levelNameText_.text = GetI18NText(ActivitySoloChallengeCfg[arg_9_0.activityID_].name)
+function slot0.RefreshLevelName(slot0)
+	slot0.levelNameText_.text = GetI18NText(ActivitySoloChallengeCfg[slot0.activityID_].name)
 end
 
-function var_0_0.RefreshScroll(arg_10_0)
-	arg_10_0.scrollHelper_:StartScroll(arg_10_0:GetAwardListLength())
+function slot0.RefreshScroll(slot0)
+	slot0.scrollHelper_:StartScroll(slot0:GetAwardListLength())
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:RefreshData({
-		activityID = arg_11_0.activityID_,
-		difficultyIndex = arg_11_1
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData({
+		activityID = slot0.activityID_,
+		difficultyIndex = slot1
 	})
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.GetAwardListLength(arg_13_0)
-	return #ActivitySoloChallengeCfg[arg_13_0.activityID_].reward_item_list
+function slot0.GetAwardListLength(slot0)
+	return #ActivitySoloChallengeCfg[slot0.activityID_].reward_item_list
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
-	arg_14_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
 end
 
-function var_0_0.GetRewardItemClass(arg_15_0)
+function slot0.GetRewardItemClass(slot0)
 	return SoloChallengeRewardItem
 end
 
-return var_0_0
+return slot0

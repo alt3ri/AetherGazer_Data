@@ -1,94 +1,85 @@
-local var_0_0 = class("GridMap")
-local var_0_1 = 1
+slot0 = class("GridMap")
+slot1 = 1
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.map = {}
-	arg_1_0.width = arg_1_1
-	arg_1_0.height = arg_1_2
-	arg_1_0.available = {}
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.map = {}
+	slot0.width = slot1
+	slot0.height = slot2
+	slot0.available = {}
 
-	for iter_1_0 = 0, arg_1_1 - 1 do
-		for iter_1_1 = 0, arg_1_2 - 1 do
-			table.insert(arg_1_0.available, arg_1_0:ToIdx(iter_1_0, iter_1_1))
+	for slot6 = 0, slot1 - 1 do
+		for slot10 = 0, slot2 - 1 do
+			table.insert(slot0.available, slot0:ToIdx(slot6, slot10))
 		end
 	end
 end
 
-function var_0_0.ToIdx(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_1 < 0 or arg_2_1 >= arg_2_0.width or arg_2_2 < 0 or arg_2_2 >= arg_2_0.height then
+function slot0.ToIdx(slot0, slot1, slot2)
+	if slot1 < 0 or slot0.width <= slot1 or slot2 < 0 or slot0.height <= slot2 then
 		return nil
 	end
 
-	arg_2_1 = arg_2_1 + var_0_1
-	arg_2_2 = arg_2_2 + var_0_1
-
-	return arg_2_2 * (arg_2_0.width + 2 * var_0_1) + arg_2_1
+	return (slot2 + uv0) * (slot0.width + 2 * uv0) + slot1 + uv0
 end
 
-function var_0_0.ToCoord(arg_3_0, arg_3_1)
-	return arg_3_1 % (arg_3_0.width + 2 * var_0_1) - var_0_1, math.floor(arg_3_1 / (arg_3_0.width + 2 * var_0_1)) - var_0_1
+function slot0.ToCoord(slot0, slot1)
+	return slot1 % (slot0.width + 2 * uv0) - uv0, math.floor(slot1 / (slot0.width + 2 * uv0)) - uv0
 end
 
-function var_0_0.Get(arg_4_0, arg_4_1, arg_4_2)
-	return nullable(arg_4_0.map, arg_4_0:ToIdx(arg_4_1, arg_4_2))
+function slot0.Get(slot0, slot1, slot2)
+	return nullable(slot0.map, slot0:ToIdx(slot1, slot2))
 end
 
-function var_0_0.IsGridInMap(arg_5_0, arg_5_1, arg_5_2)
-	return arg_5_1 >= 0 and arg_5_1 < arg_5_0.width and arg_5_2 >= 0 and arg_5_2 < arg_5_0.height
+function slot0.IsGridInMap(slot0, slot1, slot2)
+	return slot1 >= 0 and slot1 < slot0.width and slot2 >= 0 and slot2 < slot0.height
 end
 
-function var_0_0.IsGridEmpty(arg_6_0, arg_6_1, arg_6_2)
-	return arg_6_0:Get(arg_6_1, arg_6_2) == nil and arg_6_1 >= -1 and arg_6_1 <= arg_6_0.width and arg_6_2 >= -1 and arg_6_2 <= arg_6_0.height
+function slot0.IsGridEmpty(slot0, slot1, slot2)
+	return slot0:Get(slot1, slot2) == nil and slot1 >= -1 and slot1 <= slot0.width and slot2 >= -1 and slot2 <= slot0.height
 end
 
-function var_0_0.HasGridEmpty(arg_7_0, arg_7_1)
-	if arg_7_1 > #arg_7_0.available then
+function slot0.HasGridEmpty(slot0, slot1)
+	if slot1 > #slot0.available then
 		return nil
 	end
 
-	return unpack(arg_7_0.available, 1, arg_7_1)
+	return unpack(slot0.available, 1, slot1)
 end
 
-function var_0_0.Put(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	local var_8_0 = arg_8_0:ToIdx(arg_8_1, arg_8_2)
-
-	if var_8_0 then
-		local var_8_1 = arg_8_0.map[var_8_0]
-
-		if var_8_1 == nil and arg_8_3 ~= nil then
-			table.removebyvalue(arg_8_0.available, var_8_0)
-		elseif var_8_1 ~= nil and arg_8_3 == nil then
-			table.insert(arg_8_0.available, var_8_0)
+function slot0.Put(slot0, slot1, slot2, slot3)
+	if slot0:ToIdx(slot1, slot2) then
+		if slot0.map[slot4] == nil and slot3 ~= nil then
+			table.removebyvalue(slot0.available, slot4)
+		elseif slot5 ~= nil and slot3 == nil then
+			table.insert(slot0.available, slot4)
 		end
 
-		arg_8_0.map[var_8_0] = arg_8_3
+		slot0.map[slot4] = slot3
 	end
 
-	return var_8_0
+	return slot4
 end
 
-function var_0_0.RndPut(arg_9_0, arg_9_1)
-	if next(arg_9_0.available) == nil then
+function slot0.RndPut(slot0, slot1)
+	if next(slot0.available) == nil then
 		return nil
 	end
 
-	local var_9_0 = math.random(#arg_9_0.available)
+	slot2 = math.random(#slot0.available)
+	slot0.available[slot2] = slot0.available[#slot0.available]
+	slot0.available[#slot0.available] = slot0.available[slot2]
+	slot3 = table.remove(slot0.available)
+	slot0.map[slot3] = slot1
 
-	arg_9_0.available[#arg_9_0.available], arg_9_0.available[var_9_0] = arg_9_0.available[var_9_0], arg_9_0.available[#arg_9_0.available]
-
-	local var_9_1 = table.remove(arg_9_0.available)
-
-	arg_9_0.map[var_9_1] = arg_9_1
-
-	return var_9_1
+	return slot3
 end
 
-function var_0_0.RemoveByIdx(arg_10_0, arg_10_1)
-	if arg_10_0.map[arg_10_1] ~= nil then
-		table.insert(arg_10_0.available, arg_10_1)
+function slot0.RemoveByIdx(slot0, slot1)
+	if slot0.map[slot1] ~= nil then
+		table.insert(slot0.available, slot1)
 
-		arg_10_0.map[arg_10_1] = nil
+		slot0.map[slot1] = nil
 	end
 end
 
-return var_0_0
+return slot0

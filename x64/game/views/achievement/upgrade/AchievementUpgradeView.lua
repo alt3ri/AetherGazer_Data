@@ -1,44 +1,42 @@
-local var_0_0 = class("AchievementUpgradeView", ReduxView)
+slot0 = class("AchievementUpgradeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/AchievementsUI/AchievementUpgradeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = arg_4_0.params_.currentPoint / arg_4_0.params_.upgradePoint
+function slot0.OnEnter(slot0)
+	LeanTween.value(slot0.gameObject_, slot0.params_.currentPoint / slot0.params_.upgradePoint, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.slider_.value = slot0
+	end)):setOnComplete(System.Action(function ()
+		uv0.canCancel_ = true
 
-	LeanTween.value(arg_4_0.gameObject_, var_4_0, 1, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_5_0)
-		arg_4_0.slider_.value = arg_5_0
-	end)):setOnComplete(System.Action(function()
-		arg_4_0.canCancel_ = true
-
-		LeanTween.cancel(arg_4_0.gameObject_)
+		LeanTween.cancel(uv0.gameObject_)
 	end))
 end
 
-function var_0_0.OnExit(arg_7_0)
-	LeanTween.cancel(arg_7_0.gameObject_)
+function slot0.OnExit(slot0)
+	LeanTween.cancel(slot0.gameObject_)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.buttonClose_, nil, function()
-		if arg_9_0.canCancel_ then
-			arg_9_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		if uv0.canCancel_ then
+			uv0:Back()
 		end
 	end)
 end
 
-return var_0_0
+return slot0

@@ -1,13 +1,12 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("MythicFinalSelectHeroProxy", var_0_0)
+slot1 = class("MythicFinalSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.CustomCheckBeforeBattle(arg_1_0)
+function slot1.CustomCheckBeforeBattle(slot0)
 	if MythicData:GetIsNew() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_REFRESH_DATA"),
-			OkCallback = function()
+			OkCallback = function ()
 				JumpTools.OpenPageByJump("/mythicUltimateView/mythicDifficulty", nil)
 			end
 		})
@@ -18,4 +17,4 @@ function var_0_1.CustomCheckBeforeBattle(arg_1_0)
 	return true
 end
 
-return var_0_1
+return slot1

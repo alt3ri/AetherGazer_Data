@@ -1,70 +1,66 @@
-local var_0_0 = class("CooperationSearchRoomView", ReduxView)
+slot0 = class("CooperationSearchRoomView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Cooperation/CooperationSearchRoomUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0.m_inputField.textComponent:RegisterDirtyVerticesCallback(function()
-		local var_5_0 = string.match(arg_4_0.m_inputField.text, "%d+")
-
-		arg_4_0.m_inputField.text = var_5_0
-		arg_4_0.m_inputField.textComponent.text = var_5_0
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0.m_inputField.textComponent:RegisterDirtyVerticesCallback(function ()
+		slot0 = string.match(uv0.m_inputField.text, "%d+")
+		uv0.m_inputField.text = slot0
+		uv0.m_inputField.textComponent.text = slot0
 	end)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.m_searchBtn, nil, function()
-		local var_7_0 = tonumber(arg_6_0.m_inputField.text)
-
-		if var_7_0 == nil then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_searchBtn, nil, function ()
+		if tonumber(uv0.m_inputField.text) == nil then
 			ShowTips("ACTIVITY_STRONGHOLD_ROOM_NUM_TIPS")
 
 			return
 		end
 
-		local var_7_1, var_7_2 = textLimit(arg_6_0.m_inputField.text, 10)
+		slot1, slot2 = textLimit(uv0.m_inputField.text, 10)
 
-		if not var_7_2 then
+		if not slot2 then
 			ShowTips("ACTIVITY_STRONGHOLD_CORRECT_ROOM_NUM_TIPS")
 
 			return
 		end
 
-		CooperationAction.JoinRoom(var_7_0, nil, CooperationConst.JOIN_ROOM_SOURCE.ROOM_ID)
+		CooperationAction.JoinRoom(slot0, nil, CooperationConst.JOIN_ROOM_SOURCE.ROOM_ID)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_mask, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

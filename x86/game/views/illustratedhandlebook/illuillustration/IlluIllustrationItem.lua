@@ -1,112 +1,106 @@
-local var_0_0 = class("IlluIllustrationItem", ReduxView)
+slot0 = class("IlluIllustrationItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "conName")
-	arg_3_0.giftCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "gift")
-	arg_3_0.haveCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "have")
-	arg_3_0.selectCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select")
-	arg_3_0.multitCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "multi")
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
+	slot0.giftCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "gift")
+	slot0.haveCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "have")
+	slot0.selectCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "select")
+	slot0.multitCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "multi")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.id_ = arg_4_1.id
-	arg_4_0.type_ = CollectPictureCfg[arg_4_1.id].type
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.id_ = slot1.id
+	slot0.type_ = CollectPictureCfg[slot1.id].type
 
-	if arg_4_0.type_ == 1 then
-		arg_4_0.controller_:SetSelectedState("item")
+	if slot0.type_ == 1 then
+		slot0.controller_:SetSelectedState("item")
 
-		arg_4_0.itemiconImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectPictureSmall.path .. CollectPictureCfg[arg_4_1.id].picture)
+		slot0.itemiconImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectPictureSmall.path .. CollectPictureCfg[slot1.id].picture)
 	else
-		arg_4_0.controller_:SetSelectedState("role")
+		slot0.controller_:SetSelectedState("role")
 
-		arg_4_0.roleiconImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectPictureSmall.path .. CollectPictureCfg[arg_4_1.id].picture)
+		slot0.roleiconImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectPictureSmall.path .. CollectPictureCfg[slot1.id].picture)
 	end
 
-	arg_4_0.have_ = IllustratedData:GetIllustrationInfo()[arg_4_0.id_]
+	slot0.have_ = IllustratedData:GetIllustrationInfo()[slot0.id_]
 
-	if arg_4_0.have_ then
-		if not arg_4_2 then
-			local var_4_0 = CollectPictureCfg.get_id_list_by_group_id[CollectPictureCfg[arg_4_0.id_].group_id]
-			local var_4_1 = 1
+	if slot0.have_ then
+		if not slot2 then
+			slot4 = 1
 
-			for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-				local var_4_2 = IllustratedData:GetIllustrationInfo()[iter_4_1]
-
-				if var_4_2 and var_4_2.is_receive == 0 then
-					var_4_1 = 0
+			for slot8, slot9 in ipairs(CollectPictureCfg.get_id_list_by_group_id[CollectPictureCfg[slot0.id_].group_id]) do
+				if IllustratedData:GetIllustrationInfo()[slot9] and slot10.is_receive == 0 then
+					slot4 = 0
 
 					break
 				end
 			end
 
-			if var_4_1 == 1 then
-				arg_4_0.giftCon_:SetSelectedState("notShow")
+			if slot4 == 1 then
+				slot0.giftCon_:SetSelectedState("notShow")
 			else
-				arg_4_0.giftCon_:SetSelectedState("show")
+				slot0.giftCon_:SetSelectedState("show")
 			end
 		else
-			arg_4_0.giftCon_:SetSelectedState("notShow")
+			slot0.giftCon_:SetSelectedState("notShow")
 		end
 
-		arg_4_0.haveCon_:SetSelectedState("1")
+		slot0.haveCon_:SetSelectedState("1")
 
-		arg_4_0.itemBtn_.interactable = true
+		slot0.itemBtn_.interactable = true
 	else
-		arg_4_0.haveCon_:SetSelectedState("0")
+		slot0.haveCon_:SetSelectedState("0")
 
-		arg_4_0.itemBtn_.interactable = false
+		slot0.itemBtn_.interactable = false
 	end
 
-	local var_4_3 = CollectPictureCfg[arg_4_0.id_]
+	slot3 = CollectPictureCfg[slot0.id_]
+	slot0.nameText_.text = GetI18NText(slot3.name)
 
-	arg_4_0.nameText_.text = GetI18NText(var_4_3.name)
-
-	local var_4_4 = CollectPictureCfg.get_id_list_by_group_id[var_4_3.group_id] or {}
-
-	arg_4_0.multitCon_:SetSelectedState(#var_4_4 > 1 and not arg_4_2 and "true" or "false")
+	slot0.multitCon_:SetSelectedState(#(CollectPictureCfg.get_id_list_by_group_id[slot3.group_id] or {}) > 1 and not slot2 and "true" or "false")
 end
 
-function var_0_0.SetSelect(arg_5_0, arg_5_1)
-	arg_5_0.selectCon_:SetSelectedState(arg_5_1 and "true" or "false")
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectCon_:SetSelectedState(slot1 and "true" or "false")
 end
 
-function var_0_0.RegisterGiftFunc(arg_6_0, arg_6_1)
-	arg_6_0.registerGiftFunc_ = arg_6_1
+function slot0.RegisterGiftFunc(slot0, slot1)
+	slot0.registerGiftFunc_ = slot1
 end
 
-function var_0_0.RegisterItemFunc(arg_7_0, arg_7_1)
-	arg_7_0.itemClickFunc_ = arg_7_1
+function slot0.RegisterItemFunc(slot0, slot1)
+	slot0.itemClickFunc_ = slot1
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.itemBtn_, nil, function()
-		if arg_8_0.itemClickFunc_ then
-			arg_8_0.itemClickFunc_(arg_8_0.id_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.itemBtn_, nil, function ()
+		if uv0.itemClickFunc_ then
+			uv0.itemClickFunc_(uv0.id_)
 		end
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.receiveBtn_, nil, function()
-		if arg_8_0.registerGiftFunc_ then
-			arg_8_0.registerGiftFunc_()
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.registerGiftFunc_ then
+			uv0.registerGiftFunc_()
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

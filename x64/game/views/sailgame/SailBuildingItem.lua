@@ -1,153 +1,131 @@
-local var_0_0 = class("SailBuildingItem", ReduxView)
+slot0 = class("SailBuildingItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.statusController_ = ControllerUtil.GetController(arg_2_0.transform_, "status")
-	arg_2_0.durringTime_ = SailGameTools.GetBuildingTimePerReward()
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.durringTime_ = SailGameTools.GetBuildingTimePerReward()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_3_0.curStatus_ == SailGameConst.BUILDING_STATUS.LOCK then
-			local var_4_0 = SailGameBuildingCfg[arg_3_0.id_].unlock_level_need
-
-			ShowTips(string.format(GetTips("ACTIVITY_SKADI_SEA_BUILD_UNLOCK_NEED"), NumberTools.IntToRomam(var_4_0)))
+		if uv0.curStatus_ == SailGameConst.BUILDING_STATUS.LOCK then
+			ShowTips(string.format(GetTips("ACTIVITY_SKADI_SEA_BUILD_UNLOCK_NEED"), NumberTools.IntToRomam(SailGameBuildingCfg[uv0.id_].unlock_level_need)))
 		else
 			JumpTools.OpenPageByJump("sailBuilding", {
-				ID = arg_3_0.id_,
-				activityID = arg_3_0.activityID
+				ID = uv0.id_,
+				activityID = uv0.activityID
 			})
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.rewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_3_0.curStatus_ == SailGameConst.BUILDING_STATUS.REWARD then
-			SailGameAction.ReceiveBuildingReward(arg_3_0.activityID_)
+		if uv0.curStatus_ == SailGameConst.BUILDING_STATUS.REWARD then
+			SailGameAction.ReceiveBuildingReward(uv0.activityID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.id_ = arg_6_1
-	arg_6_0.activityID_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.id_ = slot1
+	slot0.activityID_ = slot2
 
-	local var_6_0 = SailGameData:GetUnLockBuilding(arg_6_0.activityID_)[arg_6_0.id_] == true
+	if slot0.unlock_ == false and SailGameData:GetUnLockBuilding(slot0.activityID_)[slot0.id_] == true == true then
+		slot0.unlockAnim_.enabled = true
 
-	if arg_6_0.unlock_ == false and var_6_0 == true then
-		arg_6_0.unlockAnim_.enabled = true
-
-		arg_6_0.unlockAnim_:Play("buildingIcon", -1, 0)
-		arg_6_0.unlockAnim_:Update(0)
+		slot0.unlockAnim_:Play("buildingIcon", -1, 0)
+		slot0.unlockAnim_:Update(0)
 		manager.audio:PlayEffect("minigame_activity_2_2_summer_sea", "minigame_activity_2_2_summer_sea_explore", "")
 	else
-		arg_6_0.unlockAnim_.enabled = false
+		slot0.unlockAnim_.enabled = false
 	end
 
-	arg_6_0.unlock_ = var_6_0
+	slot0.unlock_ = slot3
 
-	if arg_6_0.unlock_ then
-		arg_6_0.lastReceiveTime_ = SailGameData:GetBuildingLastReceiveTimeList(arg_6_2)[arg_6_1]
-
-		local var_6_1 = manager.time:GetServerTime() - arg_6_0.lastReceiveTime_
-
-		arg_6_0.leftTime_ = arg_6_0.durringTime_ - var_6_1 % arg_6_0.durringTime_ + 1
+	if slot0.unlock_ then
+		slot0.lastReceiveTime_ = SailGameData:GetBuildingLastReceiveTimeList(slot2)[slot1]
+		slot0.leftTime_ = slot0.durringTime_ - (manager.time:GetServerTime() - slot0.lastReceiveTime_) % slot0.durringTime_ + 1
 	end
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshStatus()
-	arg_7_0:RefreshTitle()
-	arg_7_0:RefreshReward()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshStatus()
+	slot0:RefreshTitle()
+	slot0:RefreshReward()
 end
 
-function var_0_0.RefreshTitle(arg_8_0)
-	arg_8_0.nameText_.text = SailGameBuildingCfg[arg_8_0.id_].name
+function slot0.RefreshTitle(slot0)
+	slot0.nameText_.text = SailGameBuildingCfg[slot0.id_].name
 
-	local var_8_0 = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/" .. SailGameBuildingCfg[arg_8_0.id_].picture)
-
-	if var_8_0 then
-		arg_8_0.buildingIcon_.sprite = var_8_0
+	if getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/" .. SailGameBuildingCfg[slot0.id_].picture) then
+		slot0.buildingIcon_.sprite = slot1
 	end
 end
 
-function var_0_0.RefreshStatus(arg_9_0)
-	local var_9_0 = 0
+function slot0.RefreshStatus(slot0)
+	slot1 = 0
+	slot0.unlock_ = SailGameData:GetUnLockBuilding(slot0.activityID_)[slot0.id_] == true
 
-	arg_9_0.unlock_ = SailGameData:GetUnLockBuilding(arg_9_0.activityID_)[arg_9_0.id_] == true
-
-	if arg_9_0.unlock_ == true then
-		if SailGameData:GetIslandLevel(arg_9_0.activityID_) < #SailGameIslandLevelCfg.get_id_list_by_activity_id[arg_9_0.activityID_] then
-			if manager.time:GetServerTime() - arg_9_0.lastReceiveTime_ < arg_9_0.durringTime_ then
-				var_9_0 = SailGameConst.BUILDING_STATUS.NORMAL
+	if slot0.unlock_ == true then
+		if SailGameData:GetIslandLevel(slot0.activityID_) < #SailGameIslandLevelCfg.get_id_list_by_activity_id[slot0.activityID_] then
+			if manager.time:GetServerTime() - slot0.lastReceiveTime_ < slot0.durringTime_ then
+				slot1 = SailGameConst.BUILDING_STATUS.NORMAL
 			else
-				var_9_0 = SailGameConst.BUILDING_STATUS.REWARD
+				slot1 = SailGameConst.BUILDING_STATUS.REWARD
 			end
 		else
-			var_9_0 = SailGameConst.BUILDING_STATUS.NORMAL
+			slot1 = SailGameConst.BUILDING_STATUS.NORMAL
 		end
 	else
-		local var_9_1 = SailGameData:GetIslandLevel(arg_9_0.activityID_)
-		local var_9_2 = SailGameBuildingCfg[arg_9_0.id_]
-		local var_9_3 = var_9_2.unlock_level_need
-		local var_9_4 = var_9_2.cost[1]
-		local var_9_5 = var_9_4[1]
-		local var_9_6 = var_9_4[2]
-		local var_9_7 = ItemTools.getItemNum(var_9_5)
-
-		if var_9_1 < var_9_3 then
-			var_9_0 = SailGameConst.BUILDING_STATUS.LOCK
-		elseif var_9_7 < var_9_6 then
-			var_9_0 = SailGameConst.BUILDING_STATUS.NOT_ENOUGH
-		else
-			var_9_0 = SailGameConst.BUILDING_STATUS.CAN_BUILD
-		end
+		slot3 = SailGameBuildingCfg[slot0.id_]
+		slot5 = slot3.cost[1]
+		slot1 = (SailGameData:GetIslandLevel(slot0.activityID_) >= slot3.unlock_level_need or SailGameConst.BUILDING_STATUS.LOCK) and (ItemTools.getItemNum(slot5[1]) >= slot5[2] or SailGameConst.BUILDING_STATUS.NOT_ENOUGH) and SailGameConst.BUILDING_STATUS.CAN_BUILD
 	end
 
-	arg_9_0.curStatus_ = var_9_0
+	slot0.curStatus_ = slot1
 
-	arg_9_0.statusController_:SetSelectedIndex(var_9_0)
+	slot0.statusController_:SetSelectedIndex(slot1)
 end
 
-function var_0_0.RefreshReward(arg_10_0)
-	arg_10_0.rewardIcon_.sprite = ItemTools.getItemSprite(SailGameBuildingCfg[arg_10_0.id_].token_get[1][1])
-	arg_10_0.numText_.text = SailGameTools.GetBuildingTotalReward(arg_10_0.activityID_, arg_10_0.id_)
+function slot0.RefreshReward(slot0)
+	slot0.rewardIcon_.sprite = ItemTools.getItemSprite(SailGameBuildingCfg[slot0.id_].token_get[1][1])
+	slot0.numText_.text = SailGameTools.GetBuildingTotalReward(slot0.activityID_, slot0.id_)
 end
 
-function var_0_0.RefreshTime(arg_11_0)
-	if arg_11_0.unlock_ and (arg_11_0.curStatus_ == SailGameConst.BUILDING_STATUS.NORMAL or arg_11_0.curStatus_ == SailGameConst.BUILDING_STATUS.REWARD) then
-		arg_11_0.leftTime_ = arg_11_0.leftTime_ - 1
+function slot0.RefreshTime(slot0)
+	if slot0.unlock_ and (slot0.curStatus_ == SailGameConst.BUILDING_STATUS.NORMAL or slot0.curStatus_ == SailGameConst.BUILDING_STATUS.REWARD) then
+		slot0.leftTime_ = slot0.leftTime_ - 1
 
-		if arg_11_0.leftTime_ <= 0 then
-			arg_11_0.leftTime_ = arg_11_0.durringTime_
+		if slot0.leftTime_ <= 0 then
+			slot0.leftTime_ = slot0.durringTime_
 
-			arg_11_0:RefreshStatus()
-			arg_11_0:RefreshReward()
-			SailGameAction.UpdateBuildingAFKRewardRedPoint(arg_11_0.activityID_)
+			slot0:RefreshStatus()
+			slot0:RefreshReward()
+			SailGameAction.UpdateBuildingAFKRewardRedPoint(slot0.activityID_)
 		end
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,48 +1,44 @@
-local var_0_0 = class("SequentialBattleBuffInfoItem", ReduxView)
+slot0 = class("SequentialBattleBuffInfoItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
-	arg_1_0.enabledController_ = ControllerUtil.GetController(arg_1_0.transform_, "equiped")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.enabledController_ = ControllerUtil.GetController(slot0.transform_, "equiped")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		manager.notify:Invoke(SEQUENTIAL_BATTLE_BUFF, arg_3_0.buffID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		manager.notify:Invoke(SEQUENTIAL_BATTLE_BUFF, uv0.buffID_)
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.buffID_ = arg_5_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.buffID_ = slot1
 
-	if arg_5_2 then
-		arg_5_0.enabledController_:SetSelectedState("on")
+	if slot2 then
+		slot0.enabledController_:SetSelectedState("on")
 	else
-		arg_5_0.enabledController_:SetSelectedState("off")
+		slot0.enabledController_:SetSelectedState("off")
 	end
 
-	local var_5_0 = SequentialBattleBuffCfg[arg_5_1].affix_id
-	local var_5_1 = AffixTypeCfg[var_5_0]
-	local var_5_2 = PublicBuffCfg[var_5_1.affix_buff_id].icon
-
-	arg_5_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. var_5_2)
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. PublicBuffCfg[AffixTypeCfg[SequentialBattleBuffCfg[slot1].affix_id].affix_buff_id].icon)
 end
 
-function var_0_0.RefreshSelect(arg_6_0, arg_6_1)
-	if arg_6_0.buffID_ == arg_6_1 then
-		arg_6_0.selectController_:SetSelectedState("on")
+function slot0.RefreshSelect(slot0, slot1)
+	if slot0.buffID_ == slot1 then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_6_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-return var_0_0
+return slot0

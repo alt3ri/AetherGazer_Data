@@ -1,261 +1,241 @@
-local var_0_0 = class("LuaList")
+slot0 = class("LuaList")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.uiListGo_ = arg_1_2
-	arg_1_0.itemClass_ = arg_1_3
-	arg_1_0.itemRenderer_ = arg_1_1
-	arg_1_0.itemOfInstanceID_ = {}
-	arg_1_0.itemOfIndex_ = {}
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.uiListGo_ = slot2
+	slot0.itemClass_ = slot3
+	slot0.itemRenderer_ = slot1
+	slot0.itemOfInstanceID_ = {}
+	slot0.itemOfIndex_ = {}
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	if not arg_1_0.ctored_ then
-		ReduxFactory.GetInstance():OnManagedObjCtor(arg_1_0)
+	if not slot0.ctored_ then
+		ReduxFactory.GetInstance():OnManagedObjCtor(slot0)
 	end
 
-	arg_1_0.ctored_ = true
+	slot0.ctored_ = true
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0.uiList_ = arg_2_0.uiListGo_:GetComponent("UIList")
-	arg_2_0.emptyController_ = ControllerUtil.GetController(arg_2_0.uiListGo_.transform, "empty")
+function slot0.InitUI(slot0)
+	slot0.uiList_ = slot0.uiListGo_:GetComponent("UIList")
+	slot0.emptyController_ = ControllerUtil.GetController(slot0.uiListGo_.transform, "empty")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	if arg_3_0.uiList_ ~= nil then
-		arg_3_0.uiList_:SetItemRenderer(handler(arg_3_0, arg_3_0.ItemRenderer))
-		arg_3_0.uiList_:SetItemRecycleHandler(handler(arg_3_0, arg_3_0.ItemRecycleHandler))
-		arg_3_0.uiList_:SetPageChangeHandler(handler(arg_3_0, arg_3_0.PageChangeHandler))
-		arg_3_0.uiList_:SetHeadTailChangeHandler(handler(arg_3_0, arg_3_0.HeadTailChangeHandler))
-	end
-end
-
-function var_0_0.RemoveListeners(arg_4_0)
-	if arg_4_0.uiList_ ~= nil then
-		arg_4_0.uiList_:SetItemRenderer(nil)
-		arg_4_0.uiList_:SetItemRecycleHandler(nil)
-		arg_4_0.uiList_:SetPageChangeHandler(nil)
-		arg_4_0.uiList_:SetHeadTailChangeHandler(nil)
+function slot0.AddListeners(slot0)
+	if slot0.uiList_ ~= nil then
+		slot0.uiList_:SetItemRenderer(handler(slot0, slot0.ItemRenderer))
+		slot0.uiList_:SetItemRecycleHandler(handler(slot0, slot0.ItemRecycleHandler))
+		slot0.uiList_:SetPageChangeHandler(handler(slot0, slot0.PageChangeHandler))
+		slot0.uiList_:SetHeadTailChangeHandler(handler(slot0, slot0.HeadTailChangeHandler))
 	end
 end
 
-function var_0_0.HeadTailChangeHandler(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_0.headTailChangeHandler_ ~= nil then
-		arg_5_0.headTailChangeHandler_(arg_5_1, arg_5_2)
+function slot0.RemoveListeners(slot0)
+	if slot0.uiList_ ~= nil then
+		slot0.uiList_:SetItemRenderer(nil)
+		slot0.uiList_:SetItemRecycleHandler(nil)
+		slot0.uiList_:SetPageChangeHandler(nil)
+		slot0.uiList_:SetHeadTailChangeHandler(nil)
 	end
 end
 
-function var_0_0.ItemRenderer(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_1 + 1
-	local var_6_1 = arg_6_2:GetInstanceID()
-	local var_6_2
+function slot0.HeadTailChangeHandler(slot0, slot1, slot2)
+	if slot0.headTailChangeHandler_ ~= nil then
+		slot0.headTailChangeHandler_(slot1, slot2)
+	end
+end
 
-	if arg_6_0.itemOfInstanceID_[var_6_1] then
-		var_6_2 = arg_6_0.itemOfInstanceID_[var_6_1]
+function slot0.ItemRenderer(slot0, slot1, slot2)
+	slot3 = slot1 + 1
+	slot5 = nil
+
+	if slot0.itemOfInstanceID_[slot2:GetInstanceID()] then
+		slot5 = slot0.itemOfInstanceID_[slot4]
 	else
-		var_6_2 = arg_6_0.itemClass_.New(arg_6_2)
-		arg_6_0.itemOfInstanceID_[var_6_1] = var_6_2
+		slot0.itemOfInstanceID_[slot4] = slot0.itemClass_.New(slot2)
 	end
 
-	arg_6_0.itemOfIndex_[arg_6_1 + 1] = var_6_2
+	slot0.itemOfIndex_[slot1 + 1] = slot5
 
-	if var_6_0 > arg_6_0.num_ then
+	if slot0.num_ < slot3 then
 		return
 	end
 
-	if arg_6_0.itemRenderer_ then
-		arg_6_0.itemRenderer_(var_6_0, var_6_2)
+	if slot0.itemRenderer_ then
+		slot0.itemRenderer_(slot3, slot5)
 	end
 end
 
-function var_0_0.GetItemByIndex(arg_7_0, arg_7_1)
-	local var_7_0, var_7_1 = arg_7_0:GetHeadAndTail()
+function slot0.GetItemByIndex(slot0, slot1)
+	slot2, slot3 = slot0:GetHeadAndTail()
 
-	if var_7_0 == 0 then
+	if slot2 == 0 then
 		return
 	end
 
-	if arg_7_1 < var_7_0 or var_7_1 < arg_7_1 then
+	if slot1 < slot2 or slot3 < slot1 then
 		return nil
 	end
 
-	return arg_7_0.itemOfIndex_[arg_7_1]
+	return slot0.itemOfIndex_[slot1]
 end
 
-function var_0_0.ItemRecycleHandler(arg_8_0, arg_8_1, arg_8_2)
-	return
+function slot0.ItemRecycleHandler(slot0, slot1, slot2)
 end
 
-function var_0_0.SetPageChangeHandler(arg_9_0, arg_9_1)
-	arg_9_0.pageChangeHandler_ = arg_9_1
+function slot0.SetPageChangeHandler(slot0, slot1)
+	slot0.pageChangeHandler_ = slot1
 end
 
-function var_0_0.SetHeadTailChangeHandler(arg_10_0, arg_10_1)
-	arg_10_0.headTailChangeHandler_ = arg_10_1
+function slot0.SetHeadTailChangeHandler(slot0, slot1)
+	slot0.headTailChangeHandler_ = slot1
 end
 
-function var_0_0.PageChangeHandler(arg_11_0, arg_11_1)
-	if arg_11_0.pageChangeHandler_ ~= nil then
-		arg_11_0.pageChangeHandler_(arg_11_1 + 1)
+function slot0.PageChangeHandler(slot0, slot1)
+	if slot0.pageChangeHandler_ ~= nil then
+		slot0.pageChangeHandler_(slot1 + 1)
 	end
 end
 
-function var_0_0.ScrollToIndex(arg_12_0, arg_12_1, arg_12_2, arg_12_3, arg_12_4)
-	local var_12_0 = arg_12_1 - 1
-
-	arg_12_2 = arg_12_2 or false
-	arg_12_3 = arg_12_3 or false
-	arg_12_4 = arg_12_4 or -1
-
-	arg_12_0.uiList_:ScrollToIndex(var_12_0, arg_12_2, arg_12_3, arg_12_4)
+function slot0.ScrollToIndex(slot0, slot1, slot2, slot3, slot4)
+	slot0.uiList_:ScrollToIndex(slot1 - 1, slot2 or false, slot3 or false, slot4 or -1)
 end
 
-function var_0_0.RemoveTween(arg_13_0)
-	arg_13_0.uiList_:RemoveTween()
+function slot0.RemoveTween(slot0)
+	slot0.uiList_:RemoveTween()
 end
 
-function var_0_0.SwitchToPage(arg_14_0, arg_14_1)
-	local var_14_0 = arg_14_1 - 1
-
-	arg_14_0.uiList_:SwitchToPageIndex(var_14_0)
+function slot0.SwitchToPage(slot0, slot1)
+	slot0.uiList_:SwitchToPageIndex(slot1 - 1)
 end
 
-function var_0_0.GetItemList(arg_15_0)
-	local var_15_0 = {}
-	local var_15_1, var_15_2 = arg_15_0:GetHeadAndTail()
+function slot0.GetItemList(slot0)
+	slot1 = {}
+	slot2, slot3 = slot0:GetHeadAndTail()
 
-	if var_15_1 == 0 then
+	if slot2 == 0 then
 		return {}
 	end
 
-	for iter_15_0 = var_15_1, var_15_2 do
-		var_15_0[iter_15_0] = arg_15_0.itemOfIndex_[iter_15_0]
+	for slot7 = slot2, slot3 do
+		slot1[slot7] = slot0.itemOfIndex_[slot7]
 	end
 
-	return var_15_0
+	return slot1
 end
 
-function var_0_0.GetHeadAndTail(arg_16_0)
-	local var_16_0 = arg_16_0.uiList_:GetHeadAndTail()
+function slot0.GetHeadAndTail(slot0)
+	slot1 = slot0.uiList_:GetHeadAndTail()
 
-	return var_16_0.x + 1, var_16_0.y + 1
+	return slot1.x + 1, slot1.y + 1
 end
 
-function var_0_0.SetAlignment(arg_17_0, arg_17_1)
-	arg_17_0.uiList_:SetAlignment(arg_17_1)
+function slot0.SetAlignment(slot0, slot1)
+	slot0.uiList_:SetAlignment(slot1)
 end
 
-function var_0_0.StartScroll(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_4, arg_18_5)
-	arg_18_2 = arg_18_2 or 0
-	arg_18_5 = arg_18_5 or -1
+function slot0.StartScroll(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.num_ = slot1
 
-	local var_18_0 = arg_18_2 - 1
+	slot0:UpdateUIList(slot1)
 
-	arg_18_0.num_ = arg_18_1
-
-	arg_18_0:UpdateUIList(arg_18_1)
-
-	if var_18_0 >= 0 then
-		arg_18_0.uiList_:ScrollToIndex(var_18_0, arg_18_3, arg_18_4, arg_18_5)
+	if (slot2 or 0) - 1 >= 0 then
+		slot0.uiList_:ScrollToIndex(slot6, slot3, slot4, slot5 or -1)
 	end
 end
 
-function var_0_0.StartScrollWithoutAnimator(arg_19_0, arg_19_1, arg_19_2)
-	arg_19_0.num_ = arg_19_1
+function slot0.StartScrollWithoutAnimator(slot0, slot1, slot2)
+	slot0.num_ = slot1
 
-	arg_19_0.uiList_:SetNumItems(arg_19_1, true)
+	slot0.uiList_:SetNumItems(slot1, true)
 
-	if arg_19_0.emptyController_ ~= nil then
-		arg_19_0.emptyController_:SetSelectedState(arg_19_1 == 0 and "true" or "false")
+	if slot0.emptyController_ ~= nil then
+		slot0.emptyController_:SetSelectedState(slot1 == 0 and "true" or "false")
 	end
 
-	if arg_19_2 then
-		arg_19_0.uiList_:SetScrolledPosition(arg_19_2)
+	if slot2 then
+		slot0.uiList_:SetScrolledPosition(slot2)
 	end
 end
 
-function var_0_0.Refresh(arg_20_0)
-	local var_20_0, var_20_1 = arg_20_0:GetHeadAndTail()
+function slot0.Refresh(slot0)
+	slot1, slot2 = slot0:GetHeadAndTail()
 
-	if var_20_0 == 0 then
+	if slot1 == 0 then
 		return
 	end
 
-	for iter_20_0 = var_20_0, var_20_1 do
-		if arg_20_0.itemRenderer_ then
-			local var_20_2 = arg_20_0.itemOfIndex_[iter_20_0]
-
-			if var_20_2 then
-				arg_20_0.itemRenderer_(iter_20_0, var_20_2)
-			end
+	for slot6 = slot1, slot2 do
+		if slot0.itemRenderer_ and slot0.itemOfIndex_[slot6] then
+			slot0.itemRenderer_(slot6, slot7)
 		end
 	end
 end
 
-function var_0_0.SetScrolledPosition(arg_21_0, arg_21_1)
-	arg_21_0.uiList_:SetScrolledPosition(arg_21_1)
+function slot0.SetScrolledPosition(slot0, slot1)
+	slot0.uiList_:SetScrolledPosition(slot1)
 end
 
-function var_0_0.GetScrolledPosition(arg_22_0)
-	return arg_22_0.uiList_:GetScrolledPosition()
+function slot0.GetScrolledPosition(slot0)
+	return slot0.uiList_:GetScrolledPosition()
 end
 
-function var_0_0.StartScrollByPosition(arg_23_0, arg_23_1, arg_23_2)
-	arg_23_0.num_ = arg_23_1
+function slot0.StartScrollByPosition(slot0, slot1, slot2)
+	slot0.num_ = slot1
 
-	arg_23_0:UpdateUIList(arg_23_1)
-	arg_23_0:SetScrolledPosition(arg_23_2 or Vector2.zero)
+	slot0:UpdateUIList(slot1)
+	slot0:SetScrolledPosition(slot2 or Vector2.zero)
 end
 
-function var_0_0.UpdateUIList(arg_24_0, arg_24_1)
-	arg_24_0.uiList_:SetNumItems(arg_24_1)
+function slot0.UpdateUIList(slot0, slot1)
+	slot0.uiList_:SetNumItems(slot1)
 
-	if arg_24_0.emptyController_ ~= nil then
-		arg_24_0.emptyController_:SetSelectedState(arg_24_1 == 0 and "true" or "false")
+	if slot0.emptyController_ ~= nil then
+		slot0.emptyController_:SetSelectedState(slot1 == 0 and "true" or "false")
 	end
 end
 
-function var_0_0.StopRender(arg_25_0)
-	if arg_25_0.uiList_ then
-		arg_25_0.uiList_:StopRender()
+function slot0.StopRender(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:StopRender()
 	end
 end
 
-function var_0_0.Dispose(arg_26_0)
-	arg_26_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	if arg_26_0.uiList_ ~= nil then
-		arg_26_0:RemoveTween()
-		arg_26_0.uiList_:StopRender()
-		arg_26_0.uiList_:HideBlock()
+	if slot0.uiList_ ~= nil then
+		slot0:RemoveTween()
+		slot0.uiList_:StopRender()
+		slot0.uiList_:HideBlock()
 
-		arg_26_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	if arg_26_0.itemOfInstanceID_ then
-		for iter_26_0, iter_26_1 in pairs(arg_26_0.itemOfInstanceID_) do
-			iter_26_1:Dispose()
+	if slot0.itemOfInstanceID_ then
+		for slot4, slot5 in pairs(slot0.itemOfInstanceID_) do
+			slot5:Dispose()
 		end
 
-		arg_26_0.itemOfInstanceID_ = nil
+		slot0.itemOfInstanceID_ = nil
 	end
 
-	arg_26_0.pageChangeHandler_ = nil
+	slot0.pageChangeHandler_ = nil
 
-	ReduxFactory.GetInstance():OnManagedObjDisposed(arg_26_0)
+	ReduxFactory.GetInstance():OnManagedObjDisposed(slot0)
 end
 
-function var_0_0.SetOrientation(arg_27_0, arg_27_1)
-	if arg_27_1 == 0 then
-		arg_27_0.uiList_:SetOrientation(Orientation.Horizontal)
+function slot0.SetOrientation(slot0, slot1)
+	if slot1 == 0 then
+		slot0.uiList_:SetOrientation(Orientation.Horizontal)
 	else
-		arg_27_0.uiList_:SetOrientation(Orientation.Vertical)
+		slot0.uiList_:SetOrientation(Orientation.Vertical)
 	end
 end
 
-function var_0_0.GetNum(arg_28_0)
-	return arg_28_0.num_
+function slot0.GetNum(slot0)
+	return slot0.num_
 end
 
-return var_0_0
+return slot0

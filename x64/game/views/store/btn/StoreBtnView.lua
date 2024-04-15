@@ -1,33 +1,33 @@
-local var_0_0 = class("StoreBtnView", ReduxView)
+slot0 = class("StoreBtnView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.btnType_ = arg_1_2
-	arg_1_0.btnIndex_ = arg_1_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.btnType_ = slot2
+	slot0.btnIndex_ = slot3
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		manager.notify:Invoke(COMMON_BTN_TYPE_SWITCH, arg_3_0.btnType_, arg_3_0.btnIndex_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		manager.notify:Invoke(COMMON_BTN_TYPE_SWITCH, uv0.btnType_, uv0.btnIndex_)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1)
-	if arg_5_1 == arg_5_0.btnIndex_ then
-		arg_5_0.controller_:SetSelectedState("false")
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 == slot0.btnIndex_ then
+		slot0.controller_:SetSelectedState("false")
 	else
-		arg_5_0.controller_:SetSelectedState("true")
+		slot0.controller_:SetSelectedState("true")
 	end
 end
 
-return var_0_0
+return slot0

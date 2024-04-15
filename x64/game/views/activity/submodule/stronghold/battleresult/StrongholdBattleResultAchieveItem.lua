@@ -1,33 +1,31 @@
-local var_0_0 = class("StrongholdBattleResultAchieveItem", ReduxView)
+slot0 = class("StrongholdBattleResultAchieveItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.levelController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.levelController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	local var_5_0 = ActivityStrongholdAchievementCfg[arg_5_1]
+function slot0.SetData(slot0, slot1)
+	slot2 = ActivityStrongholdAchievementCfg[slot1]
+	slot0.m_name.text = slot2.name
 
-	arg_5_0.m_name.text = var_5_0.name
-
-	arg_5_0.levelController:SetSelectedIndex(math.max(0, var_5_0.level - 1))
+	slot0.levelController:SetSelectedIndex(math.max(0, slot2.level - 1))
 end
 
-return var_0_0
+return slot0

@@ -1,229 +1,218 @@
-local var_0_0 = class("HeroEquipPage", HeroPageBase)
+slot0 = class("HeroEquipPage", HeroPageBase)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.detailController_ = arg_3_0.controller_:GetController("detail")
-	arg_3_0.isSelfController_ = arg_3_0.controller_:GetController("isSelf")
-	arg_3_0.skillPopController_ = arg_3_0.controller_:GetController("skill")
-	arg_3_0.equipDisc_ = EquipDisc.New(arg_3_0.discGo_)
+	slot0.detailController_ = slot0.controller_:GetController("detail")
+	slot0.isSelfController_ = slot0.controller_:GetController("isSelf")
+	slot0.skillPopController_ = slot0.controller_:GetController("skill")
+	slot0.equipDisc_ = EquipDisc.New(slot0.discGo_)
 
-	arg_3_0.equipDisc_:RegistItemButton(handler(arg_3_0, arg_3_0.OnClickItem))
+	slot0.equipDisc_:RegistItemButton(handler(slot0, slot0.OnClickItem))
 
-	arg_3_0.equipInfo_ = EquipInfoView.New(arg_3_0.equipInfoGo_)
+	slot0.equipInfo_ = EquipInfoView.New(slot0.equipInfoGo_)
 
-	arg_3_0.equipInfo_:RegisterSkillClick(handler(arg_3_0, arg_3_0.SkillClick))
-	arg_3_0.equipInfo_:RegistHeroButton(handler(arg_3_0, arg_3_0.GoEquipBag), handler(arg_3_0, arg_3_0.GoEquipCulture))
+	slot0.equipInfo_:RegisterSkillClick(handler(slot0, slot0.SkillClick))
+	slot0.equipInfo_:RegistHeroButton(handler(slot0, slot0.GoEquipBag), handler(slot0, slot0.GoEquipCulture))
 
-	arg_3_0.equipOverrall_ = EquipOverall.New(arg_3_0.rightGo_)
+	slot0.equipOverrall_ = EquipOverall.New(slot0.rightGo_)
 
-	arg_3_0.equipOverrall_:RegistSkillClick(handler(arg_3_0, arg_3_0.SkillClick))
+	slot0.equipOverrall_:RegistSkillClick(handler(slot0, slot0.SkillClick))
 
-	arg_3_0.equipSkillPop_ = EquipNewSkillInfoView.New(arg_3_0.equipSkillGo_)
+	slot0.equipSkillPop_ = EquipNewSkillInfoView.New(slot0.equipSkillGo_)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btnPopMask_, nil, function()
-		arg_4_0:HideMaskMessage()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnPopMask_, nil, function ()
+		uv0:HideMaskMessage()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnUnload_, nil, function()
-		local var_6_0 = false
-		local var_6_1 = arg_4_0.heroViewProxy_:GetEquipInfoList(arg_4_0.heroInfo_.id)
+	slot0:AddBtnListener(slot0.btnUnload_, nil, function ()
+		slot0 = false
 
-		for iter_6_0, iter_6_1 in ipairs(var_6_1 or {}) do
-			if iter_6_1.equip_id ~= 0 then
-				var_6_0 = true
+		for slot5, slot6 in ipairs(uv0.heroViewProxy_:GetEquipInfoList(uv0.heroInfo_.id) or {}) do
+			if slot6.equip_id ~= 0 then
+				slot0 = true
 
 				break
 			end
 		end
 
-		if not var_6_0 then
+		if not slot0 then
 			ShowTips("ERROR_EQUIP_NOT")
 
 			return
 		end
 
-		local var_6_2 = SettingData:GetRemindSettingData()
-
-		if not _G.SkipTip.SkipUninstallEquipTip and var_6_2.uninstall_equip_reminder == 1 then
+		if not _G.SkipTip.SkipUninstallEquipTip and SettingData:GetRemindSettingData().uninstall_equip_reminder == 1 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("EQUIP_ONE_CLICK_UNINSTALL_WARNING"),
-				OkCallback = function()
-					_G.SkipTip.SkipUninstallEquipTip = arg_4_0.SkipUninstallEquipTip
+				OkCallback = function ()
+					_G.SkipTip.SkipUninstallEquipTip = uv0.SkipUninstallEquipTip
 
-					HeroAction.EquipUnloadAll(arg_4_0.heroInfo_.id)
+					HeroAction.EquipUnloadAll(uv0.heroInfo_.id)
 				end,
-				ToggleCallback = function(arg_8_0)
-					arg_4_0.SkipUninstallEquipTip = arg_8_0
+				ToggleCallback = function (slot0)
+					uv0.SkipUninstallEquipTip = slot0
 				end
 			})
 		else
-			HeroAction.EquipUnloadAll(arg_4_0.heroInfo_.id)
+			HeroAction.EquipUnloadAll(uv0.heroInfo_.id)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnOption_, nil, function()
-		arg_4_0.isGoSubPanel = true
+	slot0:AddBtnListener(slot0.btnOption_, nil, function ()
+		uv0.isGoSubPanel = true
 
-		arg_4_0:Go("/EquipProposal", {
-			heroID = arg_4_0.heroInfo_.id,
-			proxy = arg_4_0.heroViewProxy_
+		uv0:Go("/EquipProposal", {
+			heroID = uv0.heroInfo_.id,
+			proxy = uv0.heroViewProxy_
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.mask_, nil, function()
-		arg_4_0.detailController_:SetSelectedState("false")
-		arg_4_0.equipDisc_:Reset()
+	slot0:AddBtnListener(slot0.mask_, nil, function ()
+		uv0.detailController_:SetSelectedState("false")
+		uv0.equipDisc_:Reset()
 	end)
 end
 
-function var_0_0.CheckLocked(arg_11_0)
-	arg_11_0.equipInfo_:CheckLocked()
+function slot0.CheckLocked(slot0)
+	slot0.equipInfo_:CheckLocked()
 end
 
-function var_0_0.SetHeroInfo(arg_12_0, arg_12_1)
-	arg_12_0.heroInfo_ = arg_12_1
+function slot0.SetHeroInfo(slot0, slot1)
+	slot0.heroInfo_ = slot1
 
-	arg_12_0.detailController_:SetSelectedState("false")
-	arg_12_0.equipDisc_:Reset()
+	slot0.detailController_:SetSelectedState("false")
+	slot0.equipDisc_:Reset()
 end
 
-function var_0_0.UpdateView(arg_13_0)
-	arg_13_0:RefreshEquipDisc()
-	arg_13_0.equipOverrall_:RefreshHeroInfo(arg_13_0.heroInfo_)
-
-	local var_13_0 = arg_13_0.equipDataList_[arg_13_0.enterIndex_]
-	local var_13_1 = var_13_0 and var_13_0.equip_id or 0
-
-	arg_13_0.equipInfo_:RefreshData(arg_13_0, var_13_0, nil, arg_13_0.heroInfo_.id, var_13_1)
-	arg_13_0:PlayAnim()
+function slot0.UpdateView(slot0)
+	slot0:RefreshEquipDisc()
+	slot0.equipOverrall_:RefreshHeroInfo(slot0.heroInfo_)
+	slot0.equipInfo_:RefreshData(slot0, slot1, nil, slot0.heroInfo_.id, slot0.equipDataList_[slot0.enterIndex_] and slot1.equip_id or 0)
+	slot0:PlayAnim()
 end
 
-function var_0_0.OnClickItem(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0.enterIndex_ = arg_14_2
+function slot0.OnClickItem(slot0, slot1, slot2)
+	slot0.enterIndex_ = slot2
 
-	if arg_14_1 and arg_14_1.equip_id ~= 0 then
-		arg_14_0.equipInfo_:RefreshData(arg_14_0, arg_14_1, nil, arg_14_0.heroInfo_.id, arg_14_1.equip_id)
-		arg_14_0.detailController_:SetSelectedState("true")
+	if slot1 and slot1.equip_id ~= 0 then
+		slot0.equipInfo_:RefreshData(slot0, slot1, nil, slot0.heroInfo_.id, slot1.equip_id)
+		slot0.detailController_:SetSelectedState("true")
 	else
-		if not arg_14_0.heroViewProxy_.isSelf then
+		if not slot0.heroViewProxy_.isSelf then
 			return
 		end
 
-		arg_14_0:GoEquipBag()
+		slot0:GoEquipBag()
 	end
 end
 
-function var_0_0.SkillClick(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.detailController_:GetSelectedState() == "false"
-
-	arg_15_0.equipSkillPop_:RefreshData(arg_15_0, arg_15_2, var_15_0)
-	arg_15_0.skillPopController_:SetSelectedState("show")
+function slot0.SkillClick(slot0, slot1, slot2)
+	slot0.equipSkillPop_:RefreshData(slot0, slot2, slot0.detailController_:GetSelectedState() == "false")
+	slot0.skillPopController_:SetSelectedState("show")
 end
 
-function var_0_0.RefreshEquipDisc(arg_16_0)
-	if arg_16_0.heroInfo_ then
-		arg_16_0.heroEquipList_ = arg_16_0.heroViewProxy_:GetEquipInfoList(arg_16_0.heroInfo_.id)
-		arg_16_0.equipDataList_ = arg_16_0.heroViewProxy_:GetEquipDataList(arg_16_0.heroInfo_.id)
+function slot0.RefreshEquipDisc(slot0)
+	if slot0.heroInfo_ then
+		slot0.heroEquipList_ = slot0.heroViewProxy_:GetEquipInfoList(slot0.heroInfo_.id)
+		slot0.equipDataList_ = slot0.heroViewProxy_:GetEquipDataList(slot0.heroInfo_.id)
 
-		arg_16_0.equipDisc_:RefreshItem(arg_16_0.equipDataList_)
+		slot0.equipDisc_:RefreshItem(slot0.equipDataList_)
 	end
 end
 
-function var_0_0.GoEquipBag(arg_17_0)
-	arg_17_0.isGoSubPanel = true
+function slot0.GoEquipBag(slot0)
+	slot0.isGoSubPanel = true
 
-	arg_17_0:Go("/heroEquipBag", {
+	slot0:Go("/heroEquipBag", {
 		isOpenInfo = false,
-		heroId = arg_17_0.heroInfo_.id,
-		suitPos = arg_17_0.enterIndex_,
-		proxy = arg_17_0.heroViewProxy_
+		heroId = slot0.heroInfo_.id,
+		suitPos = slot0.enterIndex_,
+		proxy = slot0.heroViewProxy_
 	})
 end
 
-function var_0_0.GoEquipCulture(arg_18_0)
-	local var_18_0 = arg_18_0.heroEquipList_[arg_18_0.enterIndex_]
+function slot0.GoEquipCulture(slot0)
+	if slot0.heroEquipList_[slot0.enterIndex_] and slot1.equip_id ~= 0 then
+		slot0.isGoSubPanel = true
 
-	if var_18_0 and var_18_0.equip_id ~= 0 then
-		arg_18_0.isGoSubPanel = true
-
-		arg_18_0:Go("/equipCultureView", {
+		slot0:Go("/equipCultureView", {
 			pageIndex = 2,
 			rotateAnim = true,
-			equipId = var_18_0.equip_id,
-			proxy = arg_18_0.heroViewProxy_
+			equipId = slot1.equip_id,
+			proxy = slot0.heroViewProxy_
 		})
 	else
 		ShowTips("NO_EQUIP")
 	end
 end
 
-function var_0_0.HideMaskMessage(arg_19_0)
-	arg_19_0.skillPopController_:SetSelectedState("hide")
-	arg_19_0.equipOverrall_:DeSelect()
-	arg_19_0.equipInfo_:DeSelect()
+function slot0.HideMaskMessage(slot0)
+	slot0.skillPopController_:SetSelectedState("hide")
+	slot0.equipOverrall_:DeSelect()
+	slot0.equipInfo_:DeSelect()
 end
 
-function var_0_0.CameraEnter(arg_20_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		4,
 		0
 	})
 end
 
-function var_0_0.OnEnter(arg_21_0, arg_21_1)
-	arg_21_0:HideMaskMessage()
+function slot0.OnEnter(slot0, slot1)
+	slot0:HideMaskMessage()
 
-	arg_21_0.heroViewProxy_ = arg_21_1
+	slot0.heroViewProxy_ = slot1
 
-	arg_21_0.equipOverrall_:OnEnter(arg_21_1)
-	arg_21_0.equipInfo_:OnEnter(arg_21_1)
-	arg_21_0.equipDisc_:OnEnter({
+	slot0.equipOverrall_:OnEnter(slot1)
+	slot0.equipInfo_:OnEnter(slot1)
+	slot0.equipDisc_:OnEnter({
 		isShowDetail = true
 	})
-	arg_21_0.isSelfController_:SetSelectedState(tostring(arg_21_0.heroViewProxy_.isSelf))
-	arg_21_0:RegistEventListener(HERO_DATA_MODIFY, handler(arg_21_0, arg_21_0.UpdateView))
-	arg_21_0:CheckLocked()
+	slot0.isSelfController_:SetSelectedState(tostring(slot0.heroViewProxy_.isSelf))
+	slot0:RegistEventListener(HERO_DATA_MODIFY, handler(slot0, slot0.UpdateView))
+	slot0:CheckLocked()
 
-	arg_21_0.enterIndex_ = arg_21_0.enterIndex_ or 1
+	slot0.enterIndex_ = slot0.enterIndex_ or 1
 end
 
-function var_0_0.Show(arg_22_0)
-	var_0_0.super.Show(arg_22_0)
-	SetActive(arg_22_0.gameObject_, true)
-	arg_22_0:UpdateView()
+function slot0.Show(slot0)
+	uv0.super.Show(slot0)
+	SetActive(slot0.gameObject_, true)
+	slot0:UpdateView()
 end
 
-function var_0_0.PlayAnim(arg_23_0)
-	arg_23_0.equipDisc_:PlayAnim(arg_23_0.isGoSubPanel)
+function slot0.PlayAnim(slot0)
+	slot0.equipDisc_:PlayAnim(slot0.isGoSubPanel)
 
-	arg_23_0.isGoSubPanel = false
+	slot0.isGoSubPanel = false
 end
 
-function var_0_0.OnExit(arg_24_0)
-	arg_24_0:RemoveAllEventListener()
-	arg_24_0.equipOverrall_:OnExit()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	slot0.equipOverrall_:OnExit()
 end
 
-function var_0_0.Dispose(arg_25_0)
-	arg_25_0.equipSkillPop_:Dispose()
-	arg_25_0.equipInfo_:Dispose()
-	arg_25_0.equipDisc_:Dispose()
-	arg_25_0.equipOverrall_:Dispose()
-	var_0_0.super.Dispose(arg_25_0)
+function slot0.Dispose(slot0)
+	slot0.equipSkillPop_:Dispose()
+	slot0.equipInfo_:Dispose()
+	slot0.equipDisc_:Dispose()
+	slot0.equipOverrall_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,182 +1,164 @@
-local var_0_0 = class("CultivateHeroSwitchItem", ReduxView)
+slot0 = class("CultivateHeroSwitchItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 
-	arg_2_0.normalRewardList_ = {}
-	arg_2_0.upgradeRewardList_ = {}
+	slot0.normalRewardList_ = {}
+	slot0.upgradeRewardList_ = {}
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.costBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.costBtn_, nil, function ()
 		ShowPopItem(POP_ITEM, {
 			CurrencyConst.CURRENCY_TYPE_NEW_RETURN_COIN
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.taskID_ = arg_6_1
+function slot0.SetData(slot0, slot1)
+	slot0.taskID_ = slot1
+	slot5 = 0
+	slot6 = 0
 
-	local var_6_0 = RegressionData:GetBPTaskIsRecharge()
-	local var_6_1 = RegressionData:GetAccumulateCurrency()
-	local var_6_2 = RegressionBPTaskCfg[arg_6_1].need
-	local var_6_3 = 0
-	local var_6_4 = 0
+	if RegressionBPTaskCfg[slot1].need <= RegressionData:GetAccumulateCurrency() then
+		slot5 = RegressionData:GetBPTaskStatus()[slot1] and slot7[slot1].is_receive_reward == 1 and 2 or 1
 
-	if var_6_2 <= var_6_1 then
-		local var_6_5 = RegressionData:GetBPTaskStatus()
-
-		var_6_3 = var_6_5[arg_6_1] and var_6_5[arg_6_1].is_receive_reward == 1 and 2 or 1
-
-		if var_6_0 >= 1 then
-			var_6_4 = var_6_5[arg_6_1] and var_6_5[arg_6_1].is_receive_recharge_reward == 1 and 2 or 1
+		if RegressionData:GetBPTaskIsRecharge() >= 1 then
+			slot6 = slot7[slot1] and slot7[slot1].is_receive_recharge_reward == 1 and 2 or 1
 		end
 	end
 
-	local var_6_6 = RegressionBPTaskCfg[arg_6_0.taskID_].reward
-
-	for iter_6_0, iter_6_1 in ipairs(var_6_6) do
-		if not arg_6_0.normalRewardList_[iter_6_0] then
-			arg_6_0.normalRewardList_[iter_6_0] = RegressionBPRewardItem.New(arg_6_0.normalRewardPanel_, arg_6_0.rewardGo_, true, nil, handler(arg_6_0, arg_6_0.OnClickReward))
+	for slot11, slot12 in ipairs(RegressionBPTaskCfg[slot0.taskID_].reward) do
+		if not slot0.normalRewardList_[slot11] then
+			slot0.normalRewardList_[slot11] = RegressionBPRewardItem.New(slot0.normalRewardPanel_, slot0.rewardGo_, true, nil, handler(slot0, slot0.OnClickReward))
 		end
 
-		arg_6_0.normalRewardList_[iter_6_0]:SetData(iter_6_1)
-		arg_6_0.normalRewardList_[iter_6_0]:RefreshStatus(var_6_3)
+		slot0.normalRewardList_[slot11]:SetData(slot12)
+		slot0.normalRewardList_[slot11]:RefreshStatus(slot5)
 	end
 
-	for iter_6_2 = #var_6_6 + 1, #arg_6_0.normalRewardList_ do
-		arg_6_0.normalRewardList_[iter_6_2]:Show(false)
+	for slot11 = #slot7 + 1, #slot0.normalRewardList_ do
+		slot0.normalRewardList_[slot11]:Show(false)
 	end
 
-	local var_6_7 = RegressionBPTaskCfg[arg_6_0.taskID_].recharge_reward
-
-	for iter_6_3, iter_6_4 in ipairs(var_6_7) do
-		if not arg_6_0.upgradeRewardList_[iter_6_3] then
-			arg_6_0.upgradeRewardList_[iter_6_3] = RegressionBPRewardItem.New(arg_6_0.upgradeRewardPanel_, arg_6_0.rewardGo_, true, nil, handler(arg_6_0, arg_6_0.OnClickReward))
+	for slot12, slot13 in ipairs(RegressionBPTaskCfg[slot0.taskID_].recharge_reward) do
+		if not slot0.upgradeRewardList_[slot12] then
+			slot0.upgradeRewardList_[slot12] = RegressionBPRewardItem.New(slot0.upgradeRewardPanel_, slot0.rewardGo_, true, nil, handler(slot0, slot0.OnClickReward))
 		end
 
-		arg_6_0.upgradeRewardList_[iter_6_3]:SetData(iter_6_4, false, var_6_0)
-		arg_6_0.upgradeRewardList_[iter_6_3]:RefreshStatus(var_6_4)
+		slot0.upgradeRewardList_[slot12]:SetData(slot13, false, slot2)
+		slot0.upgradeRewardList_[slot12]:RefreshStatus(slot6)
 	end
 
-	for iter_6_5 = #var_6_7 + 1, #arg_6_0.upgradeRewardList_ do
-		arg_6_0.upgradeRewardList_[iter_6_5]:Show(false)
+	for slot12 = #slot8 + 1, #slot0.upgradeRewardList_ do
+		slot0.upgradeRewardList_[slot12]:Show(false)
 	end
 
-	local var_6_8 = RegressionBPTaskCfg[arg_6_0.taskID_].need
-	local var_6_9 = RegressionData:GetAccumulateCurrency()
-
-	var_6_9 = var_6_9 <= var_6_8 and var_6_9 or var_6_8
-	arg_6_0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), var_6_9, var_6_8)
-	arg_6_0.progress_.value = var_6_9 / var_6_8
-	arg_6_0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_NEW_RETURN_COIN)
-	arg_6_0.descText_.text = GetTips("RETURN_MATERIAL_MAX_POINT")
-	arg_6_0.numText_.text = "x" .. var_6_8
+	slot10 = RegressionData:GetAccumulateCurrency() <= RegressionBPTaskCfg[slot0.taskID_].need and slot10 or slot9
+	slot0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), slot10, slot9)
+	slot0.progress_.value = slot10 / slot9
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_NEW_RETURN_COIN)
+	slot0.descText_.text = GetTips("RETURN_MATERIAL_MAX_POINT")
+	slot0.numText_.text = "x" .. slot9
 end
 
-function var_0_0.OnClickReward(arg_7_0, arg_7_1)
+function slot0.OnClickReward(slot0, slot1)
 	if not RegressionData:IsRegressionOpen() then
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	local var_7_0 = arg_7_0:GetCanReceiveTaskList()
-
-	if #var_7_0 > 0 then
-		RegressionAction.ReceiveBPReward(var_7_0, arg_7_0.receiveHandler_)
+	if #slot0:GetCanReceiveTaskList() > 0 then
+		RegressionAction.ReceiveBPReward(slot2, slot0.receiveHandler_)
 
 		return true
 	else
 		ShowPopItem(POP_ITEM, {
-			arg_7_1.id,
-			arg_7_1.number
+			slot1.id,
+			slot1.number
 		})
 	end
 
 	return false
 end
 
-function var_0_0.GetCanReceiveTaskList(arg_8_0)
-	local var_8_0 = {}
-	local var_8_1 = RegressionData:GetRegressionVersion()
-	local var_8_2 = RegressionCfg[var_8_1].regression_bp
-	local var_8_3 = RegressionData:GetBPTaskStatus()
-	local var_8_4 = RegressionData:GetBPTaskIsRecharge()
-	local var_8_5 = RegressionData:GetAccumulateCurrency()
+function slot0.GetCanReceiveTaskList(slot0)
+	slot1 = {}
+	slot4 = RegressionData:GetBPTaskStatus()
+	slot5 = RegressionData:GetBPTaskIsRecharge()
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-		if var_8_5 >= RegressionBPTaskCfg[iter_8_1].need then
-			if var_8_3[iter_8_1] then
-				if var_8_3[iter_8_1].is_receive_reward < 1 then
-					var_8_0[#var_8_0 + 1] = {
+	for slot10, slot11 in ipairs(RegressionCfg[RegressionData:GetRegressionVersion()].regression_bp) do
+		if RegressionBPTaskCfg[slot11].need <= RegressionData:GetAccumulateCurrency() then
+			if slot4[slot11] then
+				if slot4[slot11].is_receive_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 1,
-						id = iter_8_1
+						id = slot11
 					}
 				end
 
-				if var_8_4 >= 1 and var_8_3[iter_8_1].is_receive_recharge_reward < 1 then
-					var_8_0[#var_8_0 + 1] = {
+				if slot5 >= 1 and slot4[slot11].is_receive_recharge_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_8_1
+						id = slot11
 					}
 				end
 			else
-				var_8_0[#var_8_0 + 1] = {
+				slot1[#slot1 + 1] = {
 					receive_type = 1,
-					id = iter_8_1
+					id = slot11
 				}
 
-				if var_8_4 >= 1 then
-					var_8_0[#var_8_0 + 1] = {
+				if slot5 >= 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_8_1
+						id = slot11
 					}
 				end
 			end
 		end
 	end
 
-	return var_8_0
+	return slot1
 end
 
-function var_0_0.SetReceiveHandler(arg_9_0, arg_9_1)
-	arg_9_0.receiveHandler_ = arg_9_1
+function slot0.SetReceiveHandler(slot0, slot1)
+	slot0.receiveHandler_ = slot1
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_10_0.upgradeRewardList_ then
-		for iter_10_0, iter_10_1 in ipairs(arg_10_0.upgradeRewardList_) do
-			iter_10_1:Dispose()
+	if slot0.upgradeRewardList_ then
+		for slot4, slot5 in ipairs(slot0.upgradeRewardList_) do
+			slot5:Dispose()
 		end
 
-		arg_10_0.upgradeRewardList_ = nil
+		slot0.upgradeRewardList_ = nil
 	end
 
-	if arg_10_0.normalRewardList_ then
-		for iter_10_2, iter_10_3 in ipairs(arg_10_0.normalRewardList_) do
-			iter_10_3:Dispose()
+	if slot0.normalRewardList_ then
+		for slot4, slot5 in ipairs(slot0.normalRewardList_) do
+			slot5:Dispose()
 		end
 
-		arg_10_0.normalRewardList_ = nil
+		slot0.normalRewardList_ = nil
 	end
 
-	arg_10_0.receiveHandler_ = nil
+	slot0.receiveHandler_ = nil
 end
 
-return var_0_0
+return slot0

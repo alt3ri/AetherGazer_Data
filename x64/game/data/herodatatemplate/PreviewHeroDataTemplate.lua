@@ -1,11 +1,11 @@
-local var_0_0 = class("PreviewHeroDataTemplate", TemplateHeroDataTemplate)
+slot0 = class("PreviewHeroDataTemplate", TemplateHeroDataTemplate)
 
-function var_0_0.Init(arg_1_0, arg_1_1)
-	var_0_0.super.Init(arg_1_0, arg_1_1)
+function slot0.Init(slot0, slot1)
+	uv0.super.Init(slot0, slot1)
 end
 
-function var_0_0.GetType(arg_2_0)
+function slot0.GetType(slot0)
 	return HeroConst.HERO_DATA_TYPE.PREVIEW
 end
 
-return var_0_0
+return slot0

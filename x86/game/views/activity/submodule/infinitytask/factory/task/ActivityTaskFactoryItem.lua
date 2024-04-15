@@ -1,33 +1,28 @@
 ActivityTaskBaseItem = import("game.views.activity.Submodule.infinityTask.base.task.ActivityTaskBaseItem")
+slot0 = class("ActivityTaskFactoryItem", ActivityTaskBaseItem)
 
-local var_0_0 = class("ActivityTaskFactoryItem", ActivityTaskBaseItem)
+function slot0.RefreshUI(slot0)
+	slot1 = slot0.taskID_
+	slot2 = AssignmentCfg[slot1]
+	slot0.textContent_.text = GetI18NText(slot2.name)
+	slot0.textDesc_.text = GetI18NText(slot2.desc)
 
-function var_0_0.RefreshUI(arg_1_0)
-	local var_1_0 = arg_1_0.taskID_
-	local var_1_1 = AssignmentCfg[var_1_0]
-
-	arg_1_0.textContent_.text = GetI18NText(var_1_1.name)
-	arg_1_0.textDesc_.text = GetI18NText(var_1_1.desc)
-
-	local var_1_2 = TaskData2:GetTask(var_1_0).progress or 0
-	local var_1_3 = var_1_1.need
-
-	if var_1_3 < var_1_2 then
-		var_1_2 = var_1_3
+	if slot2.need < (TaskData2:GetTask(slot1).progress or 0) then
+		slot4 = slot5
 	end
 
-	arg_1_0.finishCntText_.text = var_1_2
-	arg_1_0.targetCntText_.text = var_1_3
+	slot0.finishCntText_.text = slot4
+	slot0.targetCntText_.text = slot5
 
-	if var_1_1.type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
-		arg_1_0.typeController_:SetSelectedState("daily")
+	if slot2.type == TaskConst.TASK_TYPE.OSIRIS_TASK_DAILY then
+		slot0.typeController_:SetSelectedState("daily")
 	else
-		arg_1_0.typeController_:SetSelectedState("challenge")
+		slot0.typeController_:SetSelectedState("challenge")
 	end
 end
 
-function var_0_0.GetRewardItem(arg_2_0, arg_2_1)
-	return RewardPoolFactoryItem.New(arg_2_0.goItemParent_, arg_2_1, true)
+function slot0.GetRewardItem(slot0, slot1)
+	return RewardPoolFactoryItem.New(slot0.goItemParent_, slot1, true)
 end
 
-return var_0_0
+return slot0

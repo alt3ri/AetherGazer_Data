@@ -1,113 +1,107 @@
-local var_0_0 = class("ActivitySkinDrawPopView", ReduxView)
+slot0 = class("ActivitySkinDrawPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivitySkinDrawTools.GetPopUIName(arg_1_0.params_.mainActivity)
+function slot0.UIName(slot0)
+	return ActivitySkinDrawTools.GetPopUIName(slot0.params_.mainActivity)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.discountCon_ = ControllerUtil.GetController(arg_4_0.transform_, "discount")
+	slot0.discountCon_ = ControllerUtil.GetController(slot0.transform_, "discount")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddToggleListener(arg_5_0.tgl1_, function(arg_6_0)
-		arg_5_0.choose_ = 1
+function slot0.AddUIListeners(slot0)
+	slot0:AddToggleListener(slot0.tgl1_, function (slot0)
+		uv0.choose_ = 1
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.tgl2_, function(arg_7_0)
-		arg_5_0.choose_ = 2
+	slot0:AddToggleListener(slot0.tgl2_, function (slot0)
+		uv0.choose_ = 2
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.confirmBtn_, nil, function()
-		local var_10_0 = arg_5_0.goods_[arg_5_0.choose_]
-
+	slot0:AddBtnListener(slot0.confirmBtn_, nil, function ()
 		ShopAction.BuyItem({
 			{
-				goodID = var_10_0,
-				buyNum = arg_5_0.cnt_
+				goodID = uv0.goods_[uv0.choose_],
+				buyNum = uv0.cnt_
 			}
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.choose_ = 2
-	arg_11_0.tgl2_.isOn = true
+function slot0.OnEnter(slot0)
+	slot0.choose_ = 2
+	slot0.tgl2_.isOn = true
 
-	arg_11_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	arg_12_0.activityID_ = arg_12_0.params_.poolActivityID
-	arg_12_0.poolID_ = arg_12_0.params_.poolID
-	arg_12_0.goods_ = arg_12_0.params_.goods
-	arg_12_0.cnt_ = arg_12_0.params_.cnt
+function slot0.RefreshUI(slot0)
+	slot0.activityID_ = slot0.params_.poolActivityID
+	slot0.poolID_ = slot0.params_.poolID
+	slot0.goods_ = slot0.params_.goods
+	slot0.cnt_ = slot0.params_.cnt
 
-	arg_12_0:RefreshGoods()
-	arg_12_0:RefreshDiscount()
+	slot0:RefreshGoods()
+	slot0:RefreshDiscount()
 end
 
-function var_0_0.RefreshGoods(arg_13_0)
-	arg_13_0.text1_.text = arg_13_0:GetGoodsDesc(1)
-	arg_13_0.text2_.text = arg_13_0:GetGoodsDesc(2)
+function slot0.RefreshGoods(slot0)
+	slot0.text1_.text = slot0:GetGoodsDesc(1)
+	slot0.text2_.text = slot0:GetGoodsDesc(2)
 end
 
-function var_0_0.GetGoodsDesc(arg_14_0, arg_14_1)
-	local var_14_0 = arg_14_0.goods_[arg_14_1]
-	local var_14_1 = getShopCfg(var_14_0)
-	local var_14_2 = var_14_1.cost_id
-	local var_14_3 = var_14_1.give_id
-	local var_14_4 = var_14_1.cost
+function slot0.GetGoodsDesc(slot0, slot1)
+	slot3 = getShopCfg(slot0.goods_[slot1])
+	slot4 = slot3.cost_id
+	slot5 = slot3.give_id
+	slot6 = slot3.cost
 
-	if var_14_1.discount ~= 0 then
-		var_14_4 = var_14_1.cheap_cost
+	if slot3.discount ~= 0 then
+		slot6 = slot3.cheap_cost
 	end
 
-	return string.format(GetTips("GENGCHEN_SWIMWEAR_TICKET_TIPS"), var_14_4 * arg_14_0.cnt_, ItemTools.getItemName(var_14_2), ItemTools.getItemName(var_14_3), arg_14_0.cnt_)
+	return string.format(GetTips("GENGCHEN_SWIMWEAR_TICKET_TIPS"), slot6 * slot0.cnt_, ItemTools.getItemName(slot4), ItemTools.getItemName(slot5), slot0.cnt_)
 end
 
-function var_0_0.RefreshDiscount(arg_15_0)
-	local var_15_0 = arg_15_0.goods_[2]
-	local var_15_1 = getShopCfg(var_15_0)
+function slot0.RefreshDiscount(slot0)
+	if getShopCfg(slot0.goods_[2]).discount ~= 0 then
+		slot0.discount_.text = string.format("%.1f%s", slot2.discount / 10, GetTips("LABEL_DISCOUNT"))
 
-	if var_15_1.discount ~= 0 then
-		arg_15_0.discount_.text = string.format("%.1f%s", var_15_1.discount / 10, GetTips("LABEL_DISCOUNT"))
-
-		arg_15_0.discountCon_:SetSelectedState("true")
+		slot0.discountCon_:SetSelectedState("true")
 	else
-		arg_15_0.discountCon_:SetSelectedState("false")
+		slot0.discountCon_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.OnShopBuyResult(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	arg_16_0:Back()
+function slot0.OnShopBuyResult(slot0, slot1, slot2, slot3)
+	slot0:Back()
 
-	if arg_16_2 == arg_16_0.goods_[arg_16_0.choose_] then
-		ActivitySkinDrawAction.StartDraw(arg_16_0.activityID_, arg_16_0.poolID_, arg_16_0.cnt_)
+	if slot2 == slot0.goods_[slot0.choose_] then
+		ActivitySkinDrawAction.StartDraw(slot0.activityID_, slot0.poolID_, slot0.cnt_)
 	end
 end
 
-function var_0_0.OnExit(arg_17_0)
-	arg_17_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0:RemoveAllListeners()
-	arg_18_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,38 +1,32 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveGuildActivityTemplate", var_0_0)
+slot1 = class("ReserveGuildActivityTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.FilterInvalidTeamData(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1.super.FilterInvalidTeamData(arg_1_0, arg_1_1, arg_1_2)
+function slot1.FilterInvalidTeamData(slot0, slot1, slot2)
+	uv0.super.FilterInvalidTeamData(slot0, slot1, slot2)
 
-	local var_1_0
+	slot3 = nil
+	slot3 = (slot1.stageType ~= BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY or GuildActivityData:GetFightHeroList()) and GuildActivitySPData:GetFightHeroList()
 
-	if arg_1_1.stageType == BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY then
-		var_1_0 = GuildActivityData:GetFightHeroList()
-	else
-		var_1_0 = GuildActivitySPData:GetFightHeroList()
-	end
+	for slot7, slot8 in ipairs(slot2.resultHeroList) do
+		slot9 = false
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_2.resultHeroList) do
-		local var_1_1 = false
-
-		for iter_1_2, iter_1_3 in ipairs(var_1_0) do
-			if iter_1_3.id == iter_1_1 then
-				var_1_1 = true
+		for slot13, slot14 in ipairs(slot3) do
+			if slot14.id == slot8 then
+				slot9 = true
 
 				break
 			end
 		end
 
-		if not var_1_1 then
-			arg_1_2.resultHeroList[iter_1_0] = 0
+		if not slot9 then
+			slot2.resultHeroList[slot7] = 0
 		end
 	end
 end
 
-function var_0_1.GetLockHero(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_1.stageType == BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP then
-		arg_2_2.lockHeroList = GuildActivitySpTools.GetCantUseHeroList()
+function slot1.GetLockHero(slot0, slot1, slot2)
+	if slot1.stageType == BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP then
+		slot2.lockHeroList = GuildActivitySpTools.GetCantUseHeroList()
 	end
 end
 
-return var_0_1
+return slot1

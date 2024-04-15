@@ -1,28 +1,22 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveSoloChallengeTemplate", var_0_0)
+slot1 = class("ReserveSoloChallengeTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.UpdateServerData(arg_1_0, arg_1_1)
-	var_0_1.super.UpdateServerData(arg_1_0, arg_1_1)
+function slot1.UpdateServerData(slot0, slot1)
+	uv0.super.UpdateServerData(slot0, slot1)
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1.data) do
-		local var_1_0 = iter_1_1.cont_id
-
-		if arg_1_0.cont_dic[var_1_0] then
-			local var_1_1 = arg_1_0:GetContDataTemplateById(var_1_0)
-			local var_1_2 = iter_1_1.team_index
-
-			var_1_1:SetAffixList(var_1_2, cleanProtoTable(iter_1_1.artifact))
+	for slot5, slot6 in ipairs(slot1.data) do
+		if slot0.cont_dic[slot6.cont_id] then
+			slot0:GetContDataTemplateById(slot7):SetAffixList(slot6.team_index, cleanProtoTable(slot6.artifact))
 		end
 	end
 end
 
-function var_0_1.GetLockHero(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_2.lockHeroList = arg_2_0:GetContDataTemplateById(arg_2_1.contID):GetLockHeroList(arg_2_1.customData.activityID, arg_2_1.customData.difficultyIndex)
-	arg_2_2.lockStateList = {
+function slot1.GetLockHero(slot0, slot1, slot2)
+	slot2.lockHeroList = slot0:GetContDataTemplateById(slot1.contID):GetLockHeroList(slot1.customData.activityID, slot1.customData.difficultyIndex)
+	slot2.lockStateList = {
 		true,
 		true,
 		true
 	}
 end
 
-return var_0_1
+return slot1

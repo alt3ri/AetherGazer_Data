@@ -1,99 +1,84 @@
-local var_0_0 = class("NewDemonChallengeRewardItem", ReduxView)
-local var_0_1 = import("game.tools.JumpTools")
+slot0 = class("NewDemonChallengeRewardItem", ReduxView)
+slot1 = import("game.tools.JumpTools")
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.itemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.itemListGo_, CommonItem)
-	arg_2_0.controller_ = ControllerUtil.GetController(arg_2_0.transform_, "conName")
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.itemListGo_, CommonItem)
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "conName")
 end
 
-function var_0_0.RefreshData(arg_3_0, arg_3_1)
-	arg_3_0.itemInfo_ = arg_3_1
+function slot0.RefreshData(slot0, slot1)
+	slot0.itemInfo_ = slot1
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		NewDemonChallengeAction.GetChallengeReward(arg_5_0.itemInfo_.taskId, arg_5_0.itemInfo_.activityId)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		NewDemonChallengeAction.GetChallengeReward(uv0.itemInfo_.taskId, uv0.itemInfo_.activityId)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = NewDemonChallengeRewardCfg[arg_7_0.itemInfo_.taskId].difficulty_id
-	local var_7_1 = NewDemonChallengeRewardCfg[arg_7_0.itemInfo_.taskId].complete_num
-	local var_7_2 = ""
+function slot0.RefreshUI(slot0)
+	slot3 = ""
+	slot0.Desctext_.text = string.format((NewDemonChallengeRewardCfg[slot0.itemInfo_.taskId].difficulty_id ~= 1 or GetTips("DEMON_CLEAR_NORMAL_DIFFICULTY")) and (slot1 ~= 2 or GetTips("DEMON_CLEAR_DIFFICULTY")) and GetTips("DEMON_CLEAR_EXTREME_DIFFICULTY"), tostring(NewDemonChallengeRewardCfg[slot0.itemInfo_.taskId].complete_num))
 
-	if var_7_0 == 1 then
-		var_7_2 = GetTips("DEMON_CLEAR_NORMAL_DIFFICULTY")
-	elseif var_7_0 == 2 then
-		var_7_2 = GetTips("DEMON_CLEAR_DIFFICULTY")
-	else
-		var_7_2 = GetTips("DEMON_CLEAR_EXTREME_DIFFICULTY")
+	slot0:RefreshState()
+	slot0:RefreshItem()
+end
+
+function slot0.RefreshState(slot0)
+	slot2 = NewDemonChallengeData:GetRewardStateList(slot0.itemInfo_.activityId)[slot0.itemInfo_.taskId] or 0
+	slot4 = 0
+
+	if (slot0.itemInfo_.completeCount or 0) < NewDemonChallengeRewardCfg[slot0.itemInfo_.taskId].complete_num then
+		slot4 = 0
+	elseif slot3 <= slot1 and slot2 == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.UNRECEIVE then
+		slot4 = 1
+	elseif slot2 == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.RECEIVED then
+		slot4 = 2
 	end
 
-	arg_7_0.Desctext_.text = string.format(var_7_2, tostring(var_7_1))
-
-	arg_7_0:RefreshState()
-	arg_7_0:RefreshItem()
+	slot0.controller_:SetSelectedState(tostring(slot4))
 end
 
-function var_0_0.RefreshState(arg_8_0)
-	local var_8_0 = arg_8_0.itemInfo_.completeCount or 0
-	local var_8_1 = NewDemonChallengeData:GetRewardStateList(arg_8_0.itemInfo_.activityId)[arg_8_0.itemInfo_.taskId] or 0
-	local var_8_2 = NewDemonChallengeRewardCfg[arg_8_0.itemInfo_.taskId].complete_num
-	local var_8_3 = 0
+function slot0.RefreshItem(slot0)
+	slot0.rewardCfg_ = NewDemonChallengeRewardCfg[slot0.itemInfo_.taskId].item_list
 
-	if var_8_0 < var_8_2 then
-		var_8_3 = 0
-	elseif var_8_2 <= var_8_0 and var_8_1 == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.UNRECEIVE then
-		var_8_3 = 1
-	elseif var_8_1 == ActivityConst.DEMON_CHALLENGE_REWARD_STATE.RECEIVED then
-		var_8_3 = 2
-	end
-
-	arg_8_0.controller_:SetSelectedState(tostring(var_8_3))
+	slot0.itemList_:StartScroll(#slot0.rewardCfg_)
 end
 
-function var_0_0.RefreshItem(arg_9_0)
-	arg_9_0.rewardCfg_ = NewDemonChallengeRewardCfg[arg_9_0.itemInfo_.taskId].item_list
-
-	arg_9_0.itemList_:StartScroll(#arg_9_0.rewardCfg_)
-end
-
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.rewardCfg_[arg_10_1]
-
-	arg_10_2:RefreshData(formatReward(var_10_0))
-	arg_10_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_10_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.rewardCfg_[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
-	arg_10_2:Show(true)
+	slot2:Show(true)
 end
 
-function var_0_0.GetItemInfo(arg_12_0)
-	return arg_12_0.itemInfo_
+function slot0.GetItemInfo(slot0)
+	return slot0.itemInfo_
 end
 
-function var_0_0.Dispose(arg_13_0)
-	if arg_13_0.itemList_ then
-		arg_13_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

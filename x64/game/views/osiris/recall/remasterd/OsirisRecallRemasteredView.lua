@@ -1,39 +1,38 @@
-local var_0_0 = import("game.views.osiris.recall.OsirisRecallView")
-local var_0_1 = class("OsirisRecallRemasterdView", var_0_0)
+slot1 = class("OsirisRecallRemasterdView", import("game.views.osiris.recall.OsirisRecallView"))
 
-function var_0_1.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.list = LuaList.New(handler(arg_1_0, arg_1_0.IndexItem), arg_1_0.m_list, OsirisRecallRemasteredItem)
-	arg_1_0.playExtraStoryStartHandler_ = handler(arg_1_0, arg_1_0.PlayExtraStoryStart)
-	arg_1_0.playExtraStoryOverHander_ = handler(arg_1_0, arg_1_0.PlayExtraStoryOver)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, OsirisRecallRemasteredItem)
+	slot0.playExtraStoryStartHandler_ = handler(slot0, slot0.PlayExtraStoryStart)
+	slot0.playExtraStoryOverHander_ = handler(slot0, slot0.PlayExtraStoryOver)
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	var_0_1.super.OnEnter(arg_2_0)
-	manager.notify:RegistListener(PLAY_EXTRA_STORY_START, arg_2_0.playExtraStoryStartHandler_)
-	manager.notify:RegistListener(PLAY_EXTRA_STORY_OVER, arg_2_0.playExtraStoryOverHander_)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.notify:RegistListener(PLAY_EXTRA_STORY_START, slot0.playExtraStoryStartHandler_)
+	manager.notify:RegistListener(PLAY_EXTRA_STORY_OVER, slot0.playExtraStoryOverHander_)
 end
 
-function var_0_1.OnExit(arg_3_0)
-	var_0_1.super.OnExit(arg_3_0)
-	manager.notify:RemoveListener(PLAY_EXTRA_STORY_START, arg_3_0.playExtraStoryStartHandler_)
-	manager.notify:RemoveListener(PLAY_EXTRA_STORY_OVER, arg_3_0.playExtraStoryOverHander_)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.notify:RemoveListener(PLAY_EXTRA_STORY_START, slot0.playExtraStoryStartHandler_)
+	manager.notify:RemoveListener(PLAY_EXTRA_STORY_OVER, slot0.playExtraStoryOverHander_)
 end
 
-function var_0_1.Dispose(arg_4_0)
-	arg_4_0.playExtraStoryStartHandler_ = nil
-	arg_4_0.playExtraStoryOverHander_ = nil
+function slot1.Dispose(slot0)
+	slot0.playExtraStoryStartHandler_ = nil
+	slot0.playExtraStoryOverHander_ = nil
 
-	var_0_1.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.PlayExtraStoryStart(arg_5_0)
-	arg_5_0.cachePosition_ = arg_5_0.list:GetScrolledPosition()
+function slot1.PlayExtraStoryStart(slot0)
+	slot0.cachePosition_ = slot0.list:GetScrolledPosition()
 end
 
-function var_0_1.PlayExtraStoryOver(arg_6_0)
-	arg_6_0.list:StartScrollByPosition(#arg_6_0.data, arg_6_0.cachePosition_ or Vector3.one)
+function slot1.PlayExtraStoryOver(slot0)
+	slot0.list:StartScrollByPosition(#slot0.data, slot0.cachePosition_ or Vector3.one)
 end
 
-return var_0_1
+return slot1

@@ -1,92 +1,84 @@
-local var_0_0 = class("MoonRecommendDelegateView", ReduxView)
+slot0 = class("MoonRecommendDelegateView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.delegateList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.listGo_, MoonCakeDelegateItem)
+	slot0.delegateList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, MoonCakeDelegateItem)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0.delegateList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.delegateList_:Dispose()
 
-	arg_3_0.delegateList_ = nil
+	slot0.delegateList_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.Show(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.activityID_ = arg_5_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
 
-	arg_5_0:RefreshList(arg_5_2)
-	arg_5_0:RefreshProgress()
+	slot0:RefreshList(slot2)
+	slot0:RefreshProgress()
 end
 
-function var_0_0.RefreshList(arg_6_0, arg_6_1)
-	arg_6_0.delegateDataList_ = MoonCakeData:GetSortRecommendDelegateList(arg_6_0.activityID_)
+function slot0.RefreshList(slot0, slot1)
+	slot0.delegateDataList_ = MoonCakeData:GetSortRecommendDelegateList(slot0.activityID_)
 
-	if not arg_6_1 then
-		arg_6_0.delegateList_:StartScroll(#arg_6_0.delegateDataList_)
+	if not slot1 then
+		slot0.delegateList_:StartScroll(#slot0.delegateDataList_)
 	else
-		arg_6_0.delegateList_:StartScrollByPosition(#arg_6_0.delegateDataList_, arg_6_1)
+		slot0.delegateList_:StartScrollByPosition(#slot0.delegateDataList_, slot1)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_7_0)
-	local var_7_0 = GameSetting.activity_mid_autumn_entrust_finish_limit.value[1]
-	local var_7_1 = MoonCakeData:GetTodaySubmitTimes(arg_7_0.activityID_)
-
-	var_7_1 = var_7_1 <= var_7_0 and var_7_1 or var_7_0
-	arg_7_0.progressText_.text = string.format("%s/%s", var_7_0 - var_7_1, var_7_0)
+function slot0.RefreshProgress(slot0)
+	slot0.progressText_.text = string.format("%s/%s", slot1 - (MoonCakeData:GetTodaySubmitTimes(slot0.activityID_) <= GameSetting.activity_mid_autumn_entrust_finish_limit.value[1] and slot2 or slot1), slot1)
 end
 
-function var_0_0.GetScrollPos(arg_8_0)
-	return arg_8_0.delegateList_:GetScrolledPosition()
+function slot0.GetScrollPos(slot0)
+	return slot0.delegateList_:GetScrolledPosition()
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.delegateDataList_[arg_9_1], arg_9_0.activityID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.delegateDataList_[slot1], slot0.activityID_)
 end
 
-function var_0_0.PageRegisterEvent(arg_10_0)
-	arg_10_0:RegistEventListener(MOON_DELEGATE_SUBMIT, handler(arg_10_0, arg_10_0.OnSubmitDelegate))
-	arg_10_0:RegistEventListener(MOON_RECOMMEND_DELEGATE_UPDATE, handler(arg_10_0, arg_10_0.OnRefreshRecommendDelegate))
+function slot0.PageRegisterEvent(slot0)
+	slot0:RegistEventListener(MOON_DELEGATE_SUBMIT, handler(slot0, slot0.OnSubmitDelegate))
+	slot0:RegistEventListener(MOON_RECOMMEND_DELEGATE_UPDATE, handler(slot0, slot0.OnRefreshRecommendDelegate))
 end
 
-function var_0_0.PageRemoveEvent(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.PageRemoveEvent(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnSubmitDelegate(arg_12_0)
-	local var_12_0 = arg_12_0.delegateList_:GetItemList()
-
-	for iter_12_0, iter_12_1 in pairs(var_12_0) do
-		iter_12_1:RefreshUI()
+function slot0.OnSubmitDelegate(slot0)
+	for slot5, slot6 in pairs(slot0.delegateList_:GetItemList()) do
+		slot6:RefreshUI()
 	end
 
-	arg_12_0:RefreshProgress()
+	slot0:RefreshProgress()
 end
 
-function var_0_0.OnRefreshRecommendDelegate(arg_13_0)
-	arg_13_0:RefreshList()
+function slot0.OnRefreshRecommendDelegate(slot0)
+	slot0:RefreshList()
 end
 
-function var_0_0.OnFriendsListChange(arg_14_0)
-	local var_14_0 = arg_14_0.delegateList_:GetItemList()
-
-	for iter_14_0, iter_14_1 in pairs(var_14_0) do
-		iter_14_1:RefreshFriend()
+function slot0.OnFriendsListChange(slot0)
+	for slot5, slot6 in pairs(slot0.delegateList_:GetItemList()) do
+		slot6:RefreshFriend()
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,49 +1,47 @@
-local var_0_0 = class("LetterPopView", ReduxView)
+slot0 = class("LetterPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Mailbox/LetterPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.maskBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.letterId_ = arg_8_0.params_.letterId
+function slot0.OnEnter(slot0)
+	slot0.letterId_ = slot0.params_.letterId
 
-	arg_8_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.RefreshView(arg_9_0)
-	local var_9_0 = MailSpecialLetterCfg[arg_9_0.letterId_]
-
-	arg_9_0.titleText_.text = GetI18NText(var_9_0.letter_title)
-	arg_9_0.roleImage_.sprite = ItemTools.getItemSprite(var_9_0.letter_sender_face)
-	arg_9_0.contentText_.text = GetI18NText(var_9_0.letter_desc)
-	arg_9_0.nameText_.text = GetI18NText(var_9_0.letter_sender)
+function slot0.RefreshView(slot0)
+	slot1 = MailSpecialLetterCfg[slot0.letterId_]
+	slot0.titleText_.text = GetI18NText(slot1.letter_title)
+	slot0.roleImage_.sprite = ItemTools.getItemSprite(slot1.letter_sender_face)
+	slot0.contentText_.text = GetI18NText(slot1.letter_desc)
+	slot0.nameText_.text = GetI18NText(slot1.letter_sender)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

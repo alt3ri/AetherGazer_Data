@@ -1,34 +1,32 @@
-local var_0_0 = class("MatrixHeroEquipItem", ReduxView)
+slot0 = class("MatrixHeroEquipItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1)
-	local var_4_0 = MatrixItemCfg[arg_4_1]
+function slot0.Refresh(slot0, slot1)
+	slot0.m_icon.sprite = MatrixTools.GetMatrixItemSprite(slot1)
+	slot0.m_nameLab.text = GetI18NText(MatrixItemCfg[slot1].name)
+	slot0.m_desLab.text = GetI18NText(MatrixTools.GetMatrixItemDes(slot1))
 
-	arg_4_0.m_icon.sprite = MatrixTools.GetMatrixItemSprite(arg_4_1)
-	arg_4_0.m_nameLab.text = GetI18NText(var_4_0.name)
-	arg_4_0.m_desLab.text = GetI18NText(MatrixTools.GetMatrixItemDes(arg_4_1))
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_content)
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.m_content)
-
-	if arg_4_0.m_viewport.rect.height < arg_4_0.m_content.rect.height then
-		arg_4_0.m_scroller.enabled = true
+	if slot0.m_viewport.rect.height < slot0.m_content.rect.height then
+		slot0.m_scroller.enabled = true
 	else
-		arg_4_0.m_scroller.enabled = false
+		slot0.m_scroller.enabled = false
 	end
 end
 
-return var_0_0
+return slot0

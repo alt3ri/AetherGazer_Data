@@ -1,349 +1,328 @@
-local var_0_0 = class("ChapterBaseContentView", ReduxView)
+slot0 = class("ChapterBaseContentView", ReduxView)
+slot0.CIRCLE_RADIUS = 1425
+slot0.ELLIPSE_A = 1425
+slot0.ELLIPSE_B = 1425
+slot0.ELLIPSE_SQUARE_A = slot0.ELLIPSE_A * slot0.ELLIPSE_A
+slot0.ELLIPSE_SQUARE_B = slot0.ELLIPSE_B * slot0.ELLIPSE_B
 
-var_0_0.CIRCLE_RADIUS = 1425
-var_0_0.ELLIPSE_A = 1425
-var_0_0.ELLIPSE_B = 1425
-var_0_0.ELLIPSE_SQUARE_A = var_0_0.ELLIPSE_A * var_0_0.ELLIPSE_A
-var_0_0.ELLIPSE_SQUARE_B = var_0_0.ELLIPSE_B * var_0_0.ELLIPSE_B
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.chapterToggle_ = slot2
+	slot0.itemList_ = {}
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.chapterToggle_ = arg_1_2
-	arg_1_0.itemList_ = {}
+	slot0:InitUI()
 
-	arg_1_0:InitUI()
-
-	arg_1_0.ChangeSelectChapterHandler_ = handler(arg_1_0, arg_1_0.ChangeSelectChapter)
-	arg_1_0.layoutGroup_.padding.left = arg_1_0.scrollTf_.rect.width / 2
-	arg_1_0.layoutGroup_.padding.right = arg_1_0.scrollTf_.rect.width / 2
+	slot0.ChangeSelectChapterHandler_ = handler(slot0, slot0.ChangeSelectChapter)
+	slot0.layoutGroup_.padding.left = slot0.scrollTf_.rect.width / 2
+	slot0.layoutGroup_.padding.right = slot0.scrollTf_.rect.width / 2
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	manager.notify:RegistListener(CHANGE_DUNGEON, arg_2_0.ChangeSelectChapterHandler_)
-	arg_2_0:RefreshData()
-	arg_2_0:RefreshUI()
-	arg_2_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_2_0, arg_2_0.BeginDragFun)))
-	arg_2_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_2_0, arg_2_0.EndDragFun)))
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(CHANGE_DUNGEON, slot0.ChangeSelectChapterHandler_)
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	arg_3_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
-	manager.notify:RemoveListener(CHANGE_DUNGEON, arg_3_0.ChangeSelectChapterHandler_)
+function slot0.OnExit(slot0)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.itemList_) do
-		iter_3_1.virtualItem:OnExit()
-		iter_3_1.renderItem:OnExit()
+	slot4 = CHANGE_DUNGEON
+	slot5 = slot0.ChangeSelectChapterHandler_
+
+	manager.notify:RemoveListener(slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5.virtualItem:OnExit()
+		slot5.renderItem:OnExit()
 	end
 
-	arg_3_0:StopMoveTimer()
-	arg_3_0:StopScrollTimer()
+	slot0:StopMoveTimer()
+	slot0:StopScrollTimer()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.ChangeSelectChapterHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.ChangeSelectChapterHandler_ = nil
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.itemList_) do
-		iter_4_1.virtualItem:Dispose()
-		iter_4_1.renderItem:Dispose()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5.virtualItem:Dispose()
+		slot5.renderItem:Dispose()
 	end
 
-	arg_4_0.itemList_ = nil
-	arg_4_0.scrollView_ = nil
-	arg_4_0.mapItem_ = nil
-	arg_4_0.itemParent_ = nil
+	slot0.itemList_ = nil
+	slot0.scrollView_ = nil
+	slot0.mapItem_ = nil
+	slot0.itemParent_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
-	arg_5_0:AddListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_5_0.lockController_ = arg_5_0.btnControllerEx_:GetController("lock")
-	arg_5_0.selectController_ = arg_5_0.controllerEx_:GetController("select")
+	slot0.lockController_ = slot0.btnControllerEx_:GetController("lock")
+	slot0.selectController_ = slot0.controllerEx_:GetController("select")
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddToggleListener(arg_6_0.scrollView_, function(arg_7_0)
-		arg_6_0:RefreshItemPosition()
+function slot0.AddListeners(slot0)
+	slot0:AddToggleListener(slot0.scrollView_, function (slot0)
+		uv0:RefreshItemPosition()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btn_, nil, function()
-		arg_6_0:GetSelectItem().renderItem:InvokeBtn()
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		uv0:GetSelectItem().renderItem:InvokeBtn()
 	end)
 end
 
-function var_0_0.BeginDragFun(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0:StopMoveTimer()
-	arg_9_0:StopScrollTimer()
-	arg_9_0.scrollView_:OnBeginDrag(arg_9_2)
-	arg_9_0.selectController_:SetSelectedState("false")
-	arg_9_0:PlayAnimatorExit()
+function slot0.BeginDragFun(slot0, slot1, slot2)
+	slot0:StopMoveTimer()
+	slot0:StopScrollTimer()
+	slot0.scrollView_:OnBeginDrag(slot2)
+	slot0.selectController_:SetSelectedState("false")
+	slot0:PlayAnimatorExit()
 end
 
-function var_0_0.EndDragFun(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0.scrollView_:OnEndDrag(arg_10_2)
-	arg_10_0:AddScrollTimer()
+function slot0.EndDragFun(slot0, slot1, slot2)
+	slot0.scrollView_:OnEndDrag(slot2)
+	slot0:AddScrollTimer()
 end
 
-function var_0_0.AddScrollTimer(arg_11_0)
-	arg_11_0:StopScrollTimer()
+function slot0.AddScrollTimer(slot0)
+	slot0:StopScrollTimer()
 
-	arg_11_0.scrollTimer_ = nil
-	arg_11_0.scrollTimer_ = FrameTimer.New(function()
-		if math.abs(arg_11_0.scrollView_.velocity.x) <= 100 then
-			arg_11_0.scrollTimer_:Stop()
-			arg_11_0:AdjustItem()
+	slot0.scrollTimer_ = nil
+	slot0.scrollTimer_ = FrameTimer.New(function ()
+		if math.abs(uv0.scrollView_.velocity.x) <= 100 then
+			uv0.scrollTimer_:Stop()
+			uv0:AdjustItem()
 		end
 	end, 1, -1)
 
-	arg_11_0.scrollTimer_:Start()
+	slot0.scrollTimer_:Start()
 end
 
-function var_0_0.StopScrollTimer(arg_13_0)
-	if arg_13_0.scrollTimer_ then
-		arg_13_0.scrollTimer_:Stop()
+function slot0.StopScrollTimer(slot0)
+	if slot0.scrollTimer_ then
+		slot0.scrollTimer_:Stop()
 
-		arg_13_0.scrollTimer_ = nil
+		slot0.scrollTimer_ = nil
 	end
 end
 
-function var_0_0.AdjustItem(arg_14_0)
-	local var_14_0 = arg_14_0:GetNearestItem()
-
-	BattleFieldData:SetCacheChapterClient(arg_14_0.chapterToggle_, var_14_0.renderItem:GetChapterClientID())
-	arg_14_0:ChangeSelectChapter(true)
+function slot0.AdjustItem(slot0)
+	BattleFieldData:SetCacheChapterClient(slot0.chapterToggle_, slot0:GetNearestItem().renderItem:GetChapterClientID())
+	slot0:ChangeSelectChapter(true)
 end
 
-function var_0_0.SetActive(arg_15_0, arg_15_1)
-	SetActive(arg_15_0.gameObject_, arg_15_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_15_1 then
-		arg_15_0:RefreshItemPosition()
-		arg_15_0:PlayAnimatorEnter()
+	if slot1 then
+		slot0:RefreshItemPosition()
+		slot0:PlayAnimatorEnter()
 	end
 end
 
-function var_0_0.RefreshData(arg_16_0)
-	arg_16_0.selectClientID_ = BattleFieldData:GetCacheChapterClient(arg_16_0.chapterToggle_)
+function slot0.RefreshData(slot0)
+	slot0.selectClientID_ = BattleFieldData:GetCacheChapterClient(slot0.chapterToggle_)
 end
 
-function var_0_0.RefreshUI(arg_17_0)
-	arg_17_0:RefreshMapItems()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshMapItems()
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.itemList_) do
-		iter_17_1.virtualItem:OnEnter()
-		iter_17_1.renderItem:OnEnter()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5.virtualItem:OnEnter()
+		slot5.renderItem:OnEnter()
 	end
 
-	arg_17_0:RefreshSortItem()
-	FrameTimer.New(function()
-		arg_17_0:OverMoveAction()
-		arg_17_0:RefreshItemPosition()
+	slot0:RefreshSortItem()
+	FrameTimer.New(function ()
+		uv0:OverMoveAction()
+		uv0:RefreshItemPosition()
 	end, 1, 1):Start()
 end
 
-function var_0_0.RefreshChapterUI(arg_19_0)
-	local var_19_0 = ChapterClientCfg[arg_19_0.selectClientID_]
+function slot0.RefreshChapterUI(slot0)
+	slot1 = ChapterClientCfg[slot0.selectClientID_]
+	slot0.nameText_.text = GetI18NText(slot1.name)
 
-	arg_19_0.nameText_.text = GetI18NText(var_19_0.name)
+	SetSpriteWithoutAtlasAsync(slot0.mapImage_, SpritePathCfg.ChapterPaint.path .. slot1.chapter_paint)
 
-	SetSpriteWithoutAtlasAsync(arg_19_0.mapImage_, SpritePathCfg.ChapterPaint.path .. var_19_0.chapter_paint)
+	slot3 = slot0:GetSelectItem().renderItem:GetLockState()
 
-	local var_19_1 = arg_19_0:GetSelectItem()
-	local var_19_2 = var_19_1.renderItem:GetLockState()
+	slot0.lockController_:SetSelectedState(tostring(slot3))
 
-	arg_19_0.lockController_:SetSelectedState(tostring(var_19_2))
-
-	if var_19_2 then
-		arg_19_0.lockText_.text = var_19_1.renderItem:GetLockTips(arg_19_0.lockTips_)
+	if slot3 then
+		slot0.lockText_.text = slot2.renderItem:GetLockTips(slot0.lockTips_)
 	end
 
-	if arg_19_0.gameObject_.activeInHierarchy then
-		arg_19_0.bgAnimator_:Play("Fx_base_cx", 0, 0)
+	if slot0.gameObject_.activeInHierarchy then
+		slot0.bgAnimator_:Play("Fx_base_cx", 0, 0)
 	end
 
-	arg_19_0:PlayAnimatorEnter()
+	slot0:PlayAnimatorEnter()
 end
 
-function var_0_0.RefreshMapItems(arg_20_0)
-	return
+function slot0.RefreshMapItems(slot0)
 end
 
-function var_0_0.GetToggleID(arg_21_0)
-	return
+function slot0.GetToggleID(slot0)
 end
 
-function var_0_0.RefreshSortItem(arg_22_0)
-	local var_22_0 = {}
-	local var_22_1 = {}
+function slot0.RefreshSortItem(slot0)
+	slot1 = {}
+	slot2 = {}
 
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.itemList_) do
-		if iter_22_1.renderItem:GetLockState() then
-			table.insert(var_22_1, iter_22_1)
+	for slot6, slot7 in ipairs(slot0.itemList_) do
+		if slot7.renderItem:GetLockState() then
+			table.insert(slot2, slot7)
 		else
-			table.insert(var_22_0, iter_22_1)
+			table.insert(slot1, slot7)
 		end
 	end
 
-	table.insertto(var_22_0, var_22_1)
+	slot6 = slot2
 
-	for iter_22_2, iter_22_3 in ipairs(var_22_0) do
-		iter_22_3.virtualItem:SetSiblingIndex(iter_22_2)
+	table.insertto(slot1, slot6)
+
+	for slot6, slot7 in ipairs(slot1) do
+		slot7.virtualItem:SetSiblingIndex(slot6)
 	end
 end
 
-function var_0_0.ChangeSelectChapter(arg_23_0, arg_23_1)
-	if not arg_23_1 then
-		arg_23_0:PlayAnimatorExit()
+function slot0.ChangeSelectChapter(slot0, slot1)
+	if not slot1 then
+		slot0:PlayAnimatorExit()
 	end
 
-	arg_23_0:RefreshData()
-	arg_23_0:Scroll2SelectItem()
+	slot0:RefreshData()
+	slot0:Scroll2SelectItem()
 end
 
-function var_0_0.Scroll2SelectItem(arg_24_0)
-	arg_24_0.selectController_:SetSelectedState("false")
+function slot0.Scroll2SelectItem(slot0)
+	slot4 = "false"
 
-	for iter_24_0, iter_24_1 in ipairs(arg_24_0.itemList_) do
-		if iter_24_1.renderItem:GetChapterClientID() == arg_24_0.selectClientID_ then
-			arg_24_0:AddMoveTimer(iter_24_1)
-		end
-	end
-end
+	slot0.selectController_:SetSelectedState(slot4)
 
-function var_0_0.RefreshItemPosition(arg_25_0)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.itemList_) do
-		local var_25_0 = iter_25_1.virtualItem:GetLocalPosition().x + arg_25_0.contentTf_.localPosition.x
-		local var_25_1 = 1
-		local var_25_2 = 0
-		local var_25_3 = -1 * var_0_0.CIRCLE_RADIUS
-		local var_25_4 = var_25_0 * math.pi / 3600
-		local var_25_5 = math.cos(var_25_4) * var_25_2 - math.sin(var_25_4) * var_25_3
-		local var_25_6 = var_0_0.CIRCLE_RADIUS + (math.cos(var_25_4) * var_25_3 + math.sin(var_25_4) * var_25_2)
-
-		iter_25_1.renderItem:SetPosition(var_25_5 - arg_25_0.contentTf_.localPosition.x, var_25_6 + 220, var_25_1)
-	end
-end
-
-function var_0_0.GetEllipseYValue(arg_26_0, arg_26_1)
-	local var_26_0 = var_0_0.ELLIPSE_SQUARE_B - var_0_0.ELLIPSE_SQUARE_B / var_0_0.ELLIPSE_SQUARE_A * arg_26_1 * arg_26_1
-
-	if var_26_0 < 0 then
-		var_26_0 = 0
-	end
-
-	return math.sqrt(var_26_0)
-end
-
-function var_0_0.GetCircleYValue(arg_27_0, arg_27_1)
-	local var_27_0 = var_0_0.CIRCLE_RADIUS
-
-	arg_27_1 = math.abs(arg_27_0.contentTf_.localPosition.x + arg_27_1)
-
-	if var_27_0 < arg_27_1 then
-		arg_27_1 = var_27_0
-	end
-
-	return math.sqrt(var_27_0 * var_27_0 - arg_27_1 * arg_27_1)
-end
-
-function var_0_0.GetSelectItem(arg_28_0)
-	for iter_28_0, iter_28_1 in ipairs(arg_28_0.itemList_) do
-		if iter_28_1.renderItem:GetChapterClientID() == arg_28_0.selectClientID_ then
-			return iter_28_1
-		end
-	end
-
-	return arg_28_0.itemList_[1]
-end
-
-function var_0_0.GetNearestItem(arg_29_0)
-	local var_29_0 = 9999
-	local var_29_1
-
-	for iter_29_0, iter_29_1 in ipairs(arg_29_0.itemList_) do
-		local var_29_2 = math.abs(arg_29_0.contentTf_.localPosition.x + iter_29_1.virtualItem:GetLocalPosition().x)
-
-		if var_29_2 < var_29_0 then
-			var_29_0 = var_29_2
-			var_29_1 = iter_29_1
-		end
-	end
-
-	return var_29_1
-end
-
-function var_0_0.OverMoveAction(arg_30_0)
-	arg_30_0.selectController_:SetSelectedState("true")
-
-	local var_30_0 = arg_30_0.contentTf_.localPosition
-	local var_30_1 = arg_30_0:GetSelectItem()
-
-	arg_30_0.contentTf_.localPosition = Vector3(var_30_1.virtualItem:GetLocalPosition().x * -1, var_30_0.y, var_30_0.z)
-
-	arg_30_0:RefreshChapterUI()
-end
-
-function var_0_0.PlayAnimatorEnter(arg_31_0)
-	for iter_31_0, iter_31_1 in ipairs(arg_31_0.itemList_) do
-		if iter_31_1.renderItem:GetChapterClientID() == arg_31_0.selectClientID_ then
-			iter_31_1.renderItem:PlayAnimatorEnter()
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		if slot5.renderItem:GetChapterClientID() == slot0.selectClientID_ then
+			slot0:AddMoveTimer(slot5)
 		end
 	end
 end
 
-function var_0_0.PlayAnimatorExit(arg_32_0)
-	for iter_32_0, iter_32_1 in ipairs(arg_32_0.itemList_) do
-		if iter_32_1.renderItem:GetChapterClientID() == arg_32_0.selectClientID_ then
-			iter_32_1.renderItem:PlayAnimatorExit()
+function slot0.RefreshItemPosition(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot8 = 0
+		slot9 = -1 * uv0.CIRCLE_RADIUS
+		slot10 = (slot5.virtualItem:GetLocalPosition().x + slot0.contentTf_.localPosition.x) * math.pi / 3600
+
+		slot5.renderItem:SetPosition(math.cos(slot10) * slot8 - math.sin(slot10) * slot9 - slot0.contentTf_.localPosition.x, uv0.CIRCLE_RADIUS + math.cos(slot10) * slot9 + math.sin(slot10) * slot8 + 220, 1)
+	end
+end
+
+function slot0.GetEllipseYValue(slot0, slot1)
+	if uv0.ELLIPSE_SQUARE_B - uv0.ELLIPSE_SQUARE_B / uv0.ELLIPSE_SQUARE_A * slot1 * slot1 < 0 then
+		slot2 = 0
+	end
+
+	return math.sqrt(slot2)
+end
+
+function slot0.GetCircleYValue(slot0, slot1)
+	if uv0.CIRCLE_RADIUS < math.abs(slot0.contentTf_.localPosition.x + slot1) then
+		slot1 = slot2
+	end
+
+	return math.sqrt(slot2 * slot2 - slot1 * slot1)
+end
+
+function slot0.GetSelectItem(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		if slot5.renderItem:GetChapterClientID() == slot0.selectClientID_ then
+			return slot5
+		end
+	end
+
+	return slot0.itemList_[1]
+end
+
+function slot0.GetNearestItem(slot0)
+	slot2 = nil
+
+	for slot6, slot7 in ipairs(slot0.itemList_) do
+		if math.abs(slot0.contentTf_.localPosition.x + slot7.virtualItem:GetLocalPosition().x) < 9999 then
+			slot1 = slot8
+			slot2 = slot7
+		end
+	end
+
+	return slot2
+end
+
+function slot0.OverMoveAction(slot0)
+	slot0.selectController_:SetSelectedState("true")
+
+	slot1 = slot0.contentTf_.localPosition
+	slot0.contentTf_.localPosition = Vector3(slot0:GetSelectItem().virtualItem:GetLocalPosition().x * -1, slot1.y, slot1.z)
+
+	slot0:RefreshChapterUI()
+end
+
+function slot0.PlayAnimatorEnter(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		if slot5.renderItem:GetChapterClientID() == slot0.selectClientID_ then
+			slot5.renderItem:PlayAnimatorEnter()
 		end
 	end
 end
 
-function var_0_0.AddMoveTimer(arg_33_0, arg_33_1)
-	arg_33_0:StopMoveTimer()
+function slot0.PlayAnimatorExit(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		if slot5.renderItem:GetChapterClientID() == slot0.selectClientID_ then
+			slot5.renderItem:PlayAnimatorExit()
+		end
+	end
+end
 
-	local var_33_0 = arg_33_0.contentTf_.localPosition
+function slot0.AddMoveTimer(slot0, slot1)
+	slot0:StopMoveTimer()
 
-	arg_33_0.moveTimer_ = FrameTimer.New(function()
-		local var_34_0 = arg_33_0.contentTf_.rect.width / 2
-		local var_34_1 = arg_33_0.scrollTf_.rect.width / 2
-		local var_34_2 = arg_33_0.contentTf_.localPosition
-		local var_34_3 = arg_33_1.virtualItem:GetLocalPosition().x * -1
-		local var_34_4 = GameSetting.challenge_velocity_times.value[1] * math.pow(arg_33_0.scrollView_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime
-		local var_34_5 = Vector3.Lerp(var_34_2, Vector3.New(var_34_3, var_34_2.y, var_34_2.z), var_34_4)
-		local var_34_6 = GameSetting.challenge_scroll_min_length.value[1]
+	slot2 = slot0.contentTf_.localPosition
+	slot0.moveTimer_ = FrameTimer.New(function ()
+		slot0 = uv0.contentTf_.rect.width / 2
+		slot1 = uv0.scrollTf_.rect.width / 2
+		slot2 = uv0.contentTf_.localPosition
 
-		if var_34_6 > math.abs(var_34_2.x - var_34_5.x) then
-			local var_34_7 = var_34_3 - var_34_2.x
-
-			if var_34_6 < math.abs(var_34_7) then
-				var_34_7 = var_34_6 * var_34_7 / math.abs(var_34_7)
+		if math.abs(slot2.x - Vector3.Lerp(slot2, Vector3.New(uv1.virtualItem:GetLocalPosition().x * -1, slot2.y, slot2.z), GameSetting.challenge_velocity_times.value[1] * math.pow(uv0.scrollView_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime).x) < GameSetting.challenge_scroll_min_length.value[1] then
+			if slot6 < math.abs(slot3 - slot2.x) then
+				slot7 = slot6 * slot7 / math.abs(slot7)
 			end
 
-			var_34_5.x = var_34_5.x + var_34_7
+			slot5.x = slot5.x + slot7
 		end
 
-		arg_33_0.contentTf_.localPosition = var_34_5
+		uv0.contentTf_.localPosition = slot5
 
-		if math.abs(arg_33_0.contentTf_.localPosition.x - var_34_3) <= GameSetting.challenge_stop_min_length.value[1] then
-			arg_33_0.scrollView_:StopMovement()
-			arg_33_0:StopMoveTimer()
-			arg_33_0:OverMoveAction()
+		if math.abs(uv0.contentTf_.localPosition.x - slot3) <= GameSetting.challenge_stop_min_length.value[1] then
+			uv0.scrollView_:StopMovement()
+			uv0:StopMoveTimer()
+			uv0:OverMoveAction()
 		end
 	end, 1, -1)
 
-	arg_33_0.moveTimer_:Start()
+	slot0.moveTimer_:Start()
 end
 
-function var_0_0.StopMoveTimer(arg_35_0)
-	if arg_35_0.moveTimer_ then
-		arg_35_0.moveTimer_:Stop()
+function slot0.StopMoveTimer(slot0)
+	if slot0.moveTimer_ then
+		slot0.moveTimer_:Stop()
 
-		arg_35_0.moveTimer_ = nil
+		slot0.moveTimer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

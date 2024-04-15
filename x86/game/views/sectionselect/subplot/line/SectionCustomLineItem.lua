@@ -1,86 +1,86 @@
-local var_0_0 = class("SectionCustomLineItem", ReduxView)
+slot0 = class("SectionCustomLineItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.lineAB_ = arg_1_1
-	arg_1_0.pointAB_ = arg_1_3
-	arg_1_0.lineParent_ = arg_1_2
-	arg_1_0.lineList_ = {}
-	arg_1_0.pointList_ = {}
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.lineAB_ = slot1
+	slot0.pointAB_ = slot3
+	slot0.lineParent_ = slot2
+	slot0.lineList_ = {}
+	slot0.pointList_ = {}
 end
 
-function var_0_0.RefreshUI(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.lineList_) do
-		SetActive(arg_2_0.lineList_[i], false)
+function slot0.RefreshUI(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.lineList_) do
+		SetActive(slot0.lineList_[i], false)
 	end
 
-	for iter_2_2, iter_2_3 in pairs(arg_2_0.pointList_) do
-		SetActive(arg_2_0.pointList_[i], false)
+	for slot5, slot6 in pairs(slot0.pointList_) do
+		SetActive(slot0.pointList_[i], false)
 	end
 
-	local var_2_0 = 1
-	local var_2_1 = 1
+	slot2 = 1
+	slot3 = 1
 
-	for iter_2_4, iter_2_5 in pairs(arg_2_1) do
-		if iter_2_5[1] == 1 then
-			arg_2_0.lineList_[var_2_0] = arg_2_0.lineList_[var_2_0] or Object.Instantiate(arg_2_0.lineAB_, arg_2_0.lineParent_.transform)
+	for slot7, slot8 in pairs(slot1) do
+		if slot8[1] == 1 then
+			slot0.lineList_[slot2] = slot0.lineList_[slot2] or Object.Instantiate(slot0.lineAB_, slot0.lineParent_.transform)
 
-			arg_2_0:RefreshLine(arg_2_0.lineList_[var_2_0]:GetComponent("RectTransform"), iter_2_5)
-			SetActive(arg_2_0.lineList_[var_2_0], true)
+			slot0:RefreshLine(slot0.lineList_[slot2]:GetComponent("RectTransform"), slot8)
+			SetActive(slot0.lineList_[slot2], true)
 
-			var_2_0 = var_2_0 + 1
-		elseif iter_2_5[1] == 2 then
-			arg_2_0.pointList_[var_2_1] = arg_2_0.pointList_[var_2_1] or Object.Instantiate(arg_2_0.pointAB_, arg_2_0.lineParent_.transform)
+			slot2 = slot2 + 1
+		elseif slot8[1] == 2 then
+			slot0.pointList_[slot3] = slot0.pointList_[slot3] or Object.Instantiate(slot0.pointAB_, slot0.lineParent_.transform)
 
-			arg_2_0:RefreshPoint(arg_2_0.pointList_[var_2_1]:GetComponent("RectTransform"), iter_2_5)
-			SetActive(arg_2_0.pointList_[var_2_0], true)
+			slot0:RefreshPoint(slot0.pointList_[slot3]:GetComponent("RectTransform"), slot8)
+			SetActive(slot0.pointList_[slot2], true)
 
-			var_2_1 = var_2_1 + 1
+			slot3 = slot3 + 1
 		end
 	end
 end
 
-function var_0_0.RefreshPoint(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_1.localPosition = Vector3(arg_3_2[2][1], arg_3_2[2][2], 0)
+function slot0.RefreshPoint(slot0, slot1, slot2)
+	slot1.localPosition = Vector3(slot2[2][1], slot2[2][2], 0)
 
-	arg_3_1:SetAsFirstSibling()
+	slot1:SetAsFirstSibling()
 end
 
-function var_0_0.RefreshLine(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_1.localPosition = Vector3(arg_4_2[2][1], arg_4_2[2][2], 0)
-	arg_4_1.sizeDelta = Vector2(arg_4_2[3][1], arg_4_2[3][2])
-	arg_4_1.localEulerAngles = Vector3(arg_4_2[4][1], arg_4_2[4][2], arg_4_2[4][3])
+function slot0.RefreshLine(slot0, slot1, slot2)
+	slot1.localPosition = Vector3(slot2[2][1], slot2[2][2], 0)
+	slot1.sizeDelta = Vector2(slot2[3][1], slot2[3][2])
+	slot1.localEulerAngles = Vector3(slot2[4][1], slot2[4][2], slot2[4][3])
 
-	arg_4_1:SetAsFirstSibling()
+	slot1:SetAsFirstSibling()
 end
 
-function var_0_0.Show(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.lineList_) do
-		SetActive(iter_5_1, arg_5_1)
+function slot0.Show(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.lineList_) do
+		SetActive(slot6, slot1)
 	end
 
-	for iter_5_2, iter_5_3 in pairs(arg_5_0.pointList_) do
-		SetActive(iter_5_3, arg_5_1)
+	for slot5, slot6 in pairs(slot0.pointList_) do
+		SetActive(slot6, slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.lineList_) do
-		Object.Destroy(iter_6_1)
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		Object.Destroy(slot5)
 	end
 
-	arg_6_0.lineList_ = nil
+	slot0.lineList_ = nil
 
-	for iter_6_2, iter_6_3 in pairs(arg_6_0.pointList_) do
-		Object.Destroy(iter_6_3)
+	for slot4, slot5 in pairs(slot0.pointList_) do
+		Object.Destroy(slot5)
 	end
 
-	arg_6_0.pointList_ = nil
-	arg_6_0.pointTf1_ = nil
-	arg_6_0.pointTf2_ = nil
-	arg_6_0.pointGo1_ = nil
-	arg_6_0.pointGo2_ = nil
+	slot0.pointList_ = nil
+	slot0.pointTf1_ = nil
+	slot0.pointTf2_ = nil
+	slot0.pointGo1_ = nil
+	slot0.pointGo2_ = nil
 end
 
-return var_0_0
+return slot0

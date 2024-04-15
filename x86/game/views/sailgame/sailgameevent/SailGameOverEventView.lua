@@ -1,143 +1,135 @@
-local var_0_0 = import("game.views.sailGame.sailGameEvent.SailGameEventBaseView")
-local var_0_1 = class("SailGameOverEventView", var_0_0)
+slot1 = class("SailGameOverEventView", import("game.views.sailGame.sailGameEvent.SailGameEventBaseView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdVoyagesUI/XH3rdVoyageTreasureChestUI"
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.statusController_ = ControllerUtil.GetController(arg_2_0.transform_, "status")
-	arg_2_0.rewardItemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiList_, CommonItem)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.rewardItemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiList_, CommonItem)
 end
 
-function var_0_1.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.openBoxBtn_, nil, function()
-		if not arg_3_0.isOpend_ then
-			arg_3_0.isOpend_ = true
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.openBoxBtn_, nil, function ()
+		if not uv0.isOpend_ then
+			uv0.isOpend_ = true
 
-			SailGameAction.EventOperate(arg_3_0.activityID_, arg_3_0.stageIndex_)
+			SailGameAction.EventOperate(uv0.activityID_, uv0.stageIndex_)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.overBtn_, nil, function()
-		arg_3_0:RefreshSettlement()
+	slot0:AddBtnListener(slot0.overBtn_, nil, function ()
+		uv0:RefreshSettlement()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.backBtn_, nil, function()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		SailGameTools.ShutDown()
 		JumpTools.OpenPageByJump("/sailMain", {
-			activityID = arg_3_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_1.OnEnter(arg_7_0)
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
-	arg_7_0.stageIndex_ = SailGameData:GetCurGameData(arg_7_0.activityID_).curStageIndex
-	arg_7_0.isOpend_ = false
+function slot1.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.stageIndex_ = SailGameData:GetCurGameData(slot0.activityID_).curStageIndex
+	slot0.isOpend_ = false
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 	manager.audio:PlayEffect("minigame_activity_2_2_summer_sea", "minigame_activity_2_2_summer_sea_pop2", "")
 end
 
-function var_0_1.OnExit(arg_8_0)
-	if arg_8_0.timer_ then
-		arg_8_0.timer_:Stop()
+function slot1.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_8_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	var_0_1.super.OnExit(arg_8_0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_1.Dispose(arg_9_0)
-	arg_9_0.rewardItemList_:Dispose()
+function slot1.Dispose(slot0)
+	slot0.rewardItemList_:Dispose()
 
-	arg_9_0.rewardItemList_ = nil
+	slot0.rewardItemList_ = nil
 
-	if arg_9_0.timer_ then
-		arg_9_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_9_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	var_0_1.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.RefreshUI(arg_10_0)
-	arg_10_0.statusController_:SetSelectedState("start")
-	arg_10_0:RefreshReward()
+function slot1.RefreshUI(slot0)
+	slot0.statusController_:SetSelectedState("start")
+	slot0:RefreshReward()
 end
 
-function var_0_1.RefreshReward(arg_11_0)
-	local var_11_0 = GameSetting.activity_skadi_sea_be_out_end_reward.value
+function slot1.RefreshReward(slot0)
+	slot0.rewardCfgList_ = {
+		GameSetting.activity_skadi_sea_be_out_end_reward.value
+	}
 
-	arg_11_0.rewardCfgList_ = {}
-	arg_11_0.rewardCfgList_[1] = var_11_0
-
-	arg_11_0.rewardItemList_:StartScroll(#arg_11_0.rewardCfgList_)
+	slot0.rewardItemList_:StartScroll(#slot0.rewardCfgList_)
 end
 
-function var_0_1.OnEventOperateSuccess(arg_12_0)
-	arg_12_0:PlayBoxAnim(0, function()
-		arg_12_0.statusController_:SetSelectedState("end")
+function slot1.OnEventOperateSuccess(slot0)
+	slot0:PlayBoxAnim(0, function ()
+		uv0.statusController_:SetSelectedState("end")
 	end)
 end
 
-function var_0_1.RefreshSettlement(arg_14_0)
-	local var_14_0 = SailGameData:GetTempSettlementData(arg_14_0.activityID_).getDic
+function slot1.RefreshSettlement(slot0)
+	slot0.rewardCfgList_ = {}
 
-	arg_14_0.rewardCfgList_ = {}
-
-	for iter_14_0, iter_14_1 in pairs(var_14_0) do
-		arg_14_0.rewardCfgList_[#arg_14_0.rewardCfgList_ + 1] = {
-			iter_14_0,
-			iter_14_1
+	for slot5, slot6 in pairs(SailGameData:GetTempSettlementData(slot0.activityID_).getDic) do
+		slot0.rewardCfgList_[#slot0.rewardCfgList_ + 1] = {
+			slot5,
+			slot6
 		}
 	end
 
-	arg_14_0.rewardItemList_:StartScroll(#arg_14_0.rewardCfgList_)
-	arg_14_0.statusController_:SetSelectedState("settlement")
+	slot0.rewardItemList_:StartScroll(#slot0.rewardCfgList_)
+	slot0.statusController_:SetSelectedState("settlement")
 end
 
-function var_0_1.IndexItem(arg_15_0, arg_15_1, arg_15_2)
-	arg_15_2:RefreshData(formatReward(arg_15_0.rewardCfgList_[arg_15_1]))
-	arg_15_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, arg_15_0.rewardCfgList_[arg_15_1])
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.rewardCfgList_[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0.rewardCfgList_[uv1])
 	end)
-	arg_15_2.starController_:SetSelectedState(0)
+	slot2.starController_:SetSelectedState(0)
 end
 
-function var_0_1.PlayBoxAnim(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = "XH3rdVoyageTreasureChestUI_icon"
+function slot1.PlayBoxAnim(slot0, slot1, slot2)
+	slot0.animator_:Play("XH3rdVoyageTreasureChestUI_icon", -1, slot1)
+	slot0.animator_:Update(0)
 
-	arg_17_0.animator_:Play(var_17_0, -1, arg_17_1)
-	arg_17_0.animator_:Update(0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
-
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_17_0.timer_ = Timer.New(function()
-		local var_18_0 = arg_17_0.animator_:GetCurrentAnimatorStateInfo(0)
+	slot0.timer_ = Timer.New(function ()
+		if uv0.animator_:GetCurrentAnimatorStateInfo(0):IsName(uv1) and slot0.normalizedTime >= 1 then
+			if uv0.timer_ ~= nil then
+				uv0.timer_:Stop()
 
-		if var_18_0:IsName(var_17_0) and var_18_0.normalizedTime >= 1 then
-			if arg_17_0.timer_ ~= nil then
-				arg_17_0.timer_:Stop()
-
-				arg_17_0.timer_ = nil
+				uv0.timer_ = nil
 			end
 
-			if arg_17_2 then
-				arg_17_2()
+			if uv2 then
+				uv2()
 			end
 		end
 	end, 0.033, -1)
 
-	arg_17_0.timer_:Start()
+	slot0.timer_:Start()
 	manager.audio:PlayEffect("minigame_activity_2_2_summer_sea", "minigame_activity_2_2_summer_sea_award", "")
 end
 
-return var_0_1
+return slot1

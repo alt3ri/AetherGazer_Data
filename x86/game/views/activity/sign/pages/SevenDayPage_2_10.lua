@@ -1,40 +1,36 @@
-local var_0_0 = {}
-
+slot0 = {}
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot1 = class("SevenDayPage_2_10", ActivityMainBasePanel)
 
-local var_0_1 = class("SevenDayPage_2_10", ActivityMainBasePanel)
-
-function var_0_1.GetUIName(arg_1_0)
-	return ActivityCumulativeSignCfg[arg_1_0.activityID_].ui_path
+function slot1.GetUIName(slot0)
+	return ActivityCumulativeSignCfg[slot0.activityID_].ui_path
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.items = {}
-	arg_2_0.max_sign_day = SevenDaySkinData:MaxSignDay(arg_2_0.activityID_)
+	slot0.items = {}
+	slot0.max_sign_day = SevenDaySkinData:MaxSignDay(slot0.activityID_)
 
-	for iter_2_0 = 1, arg_2_0.max_sign_day do
-		local var_2_0 = SevenDaySkinItem_2_10.New(arg_2_0["btn_" .. iter_2_0])
-
-		table.insert(arg_2_0.items, var_2_0)
+	for slot4 = 1, slot0.max_sign_day do
+		table.insert(slot0.items, SevenDaySkinItem_2_10.New(slot0["btn_" .. slot4]))
 	end
 
-	arg_2_0.onSignHandler = handler(arg_2_0, arg_2_0.OnSignSuccess)
-	arg_2_0.onClearHandler = handler(arg_2_0, arg_2_0.OnClearSuccess)
+	slot0.onSignHandler = handler(slot0, slot0.OnSignSuccess)
+	slot0.onClearHandler = handler(slot0, slot0.OnClearSuccess)
 
-	arg_2_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_1.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.BtnSign, nil, handler(arg_3_0, arg_3_0.OnBtnSignClick))
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.BtnSign, nil, handler(slot0, slot0.OnBtnSignClick))
 end
 
-function var_0_1.OnTop(arg_4_0)
-	arg_4_0:UpdateBar()
+function slot1.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_1.UpdateBar(arg_5_0)
+function slot1.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -43,92 +39,84 @@ function var_0_1.UpdateBar(arg_5_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 end
 
-function var_0_1.OnEnter(arg_6_0)
-	var_0_1.super.OnEnter(arg_6_0)
-	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_CLEAR, arg_6_0.onClearHandler)
-	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, arg_6_0.onSignHandler)
-	manager.redPoint:bindUIandKey(arg_6_0.BtnSign.transform, string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, arg_6_0.activityID_))
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_CLEAR, slot0.onClearHandler)
+	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, slot0.onSignHandler)
+	manager.redPoint:bindUIandKey(slot0.BtnSign.transform, string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, slot0.activityID_))
 
-	arg_6_0.data = SevenDaySkinData:GetActivityData(arg_6_0.activityID_)
-	arg_6_0.random = 0
+	slot0.data = SevenDaySkinData:GetActivityData(slot0.activityID_)
+	slot0.random = 0
 
-	arg_6_0:RefreshView()
-	arg_6_0:ResetNum()
+	slot0:RefreshView()
+	slot0:ResetNum()
 end
 
-function var_0_1.OnExit(arg_7_0)
-	var_0_1.super.OnExit(arg_7_0)
-	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, arg_7_0.onSignHandler)
-	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_CLEAR, arg_7_0.onClearHandler)
-	manager.redPoint:unbindUIandKey(arg_7_0.BtnSign.transform, string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, arg_7_0.activityID_))
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, slot0.onSignHandler)
+	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_CLEAR, slot0.onClearHandler)
+	manager.redPoint:unbindUIandKey(slot0.BtnSign.transform, string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, slot0.activityID_))
 	manager.windowBar:HideBar()
 
-	if arg_7_0.text4Timer then
-		arg_7_0.text4Timer:Stop()
+	if slot0.text4Timer then
+		slot0.text4Timer:Stop()
 
-		arg_7_0.text4Timer = nil
+		slot0.text4Timer = nil
 	end
 
-	if arg_7_0.text3Timer then
-		arg_7_0.text3Timer:Stop()
+	if slot0.text3Timer then
+		slot0.text3Timer:Stop()
 
-		arg_7_0.text3Timer = nil
-	end
-end
-
-function var_0_1.Dispose(arg_8_0)
-	var_0_1.super.Dispose(arg_8_0)
-
-	for iter_8_0 = 1, #arg_8_0.items do
-		arg_8_0.items[iter_8_0]:Dispose()
+		slot0.text3Timer = nil
 	end
 end
 
-function var_0_1.RefreshView(arg_9_0)
-	arg_9_0:RefreshSignInfo()
-	arg_9_0:RefreshItems()
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	local var_9_0 = arg_9_0.data:LeftSignTimes()
-
-	SetActive(arg_9_0.signEfc, var_9_0 > 0)
-end
-
-function var_0_1.RefreshSignInfo(arg_10_0)
-	local var_10_0 = arg_10_0.data:SignDay() >= arg_10_0.max_sign_day
-
-	if arg_10_0.TxtSign then
-		arg_10_0.TxtSign.text = GetTips("SIGN")
-	end
-
-	if arg_10_0.BtnSign then
-		arg_10_0.BtnSign:SetActive(not var_10_0)
-	end
-
-	if var_10_0 then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, arg_10_0.activityID_), 0)
+	for slot4 = 1, #slot0.items do
+		slot0.items[slot4]:Dispose()
 	end
 end
 
-function var_0_1.RefreshItems(arg_11_0)
-	local var_11_0 = arg_11_0.data:SignDay()
-	local var_11_1 = var_11_0 + arg_11_0.data:LeftSignTimes()
-	local var_11_2 = arg_11_0.data:SignRewardList()
-	local var_11_3
+function slot1.RefreshView(slot0)
+	slot0:RefreshSignInfo()
+	slot0:RefreshItems()
+	SetActive(slot0.signEfc, slot0.data:LeftSignTimes() > 0)
+end
 
-	for iter_11_0 = 1, arg_11_0.max_sign_day do
-		local var_11_4 = var_11_2[iter_11_0]
+function slot1.RefreshSignInfo(slot0)
+	slot1 = slot0.max_sign_day <= slot0.data:SignDay()
 
-		arg_11_0.items[iter_11_0]:RefreshView(var_11_4, iter_11_0 <= var_11_0 and 2 or iter_11_0 <= var_11_1 and 1 or 0)
+	if slot0.TxtSign then
+		slot0.TxtSign.text = GetTips("SIGN")
+	end
+
+	if slot0.BtnSign then
+		slot0.BtnSign:SetActive(not slot1)
+	end
+
+	if slot1 then
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, slot0.activityID_), 0)
 	end
 end
 
-function var_0_1.OnBtnSignClick(arg_12_0)
-	if arg_12_0.data:SignDay() >= arg_12_0.max_sign_day then
+function slot1.RefreshItems(slot0)
+	slot5 = nil
+
+	for slot9 = 1, slot0.max_sign_day do
+		slot0.items[slot9]:RefreshView(slot0.data:SignRewardList()[slot9], slot9 <= slot1 and 2 or slot9 <= slot0.data:SignDay() + slot0.data:LeftSignTimes() and 1 or 0)
+	end
+end
+
+function slot1.OnBtnSignClick(slot0)
+	if slot0.max_sign_day <= slot0.data:SignDay() then
 		return
 	end
 
-	if arg_12_0.data:LeftSignTimes() > 0 then
-		SevenDaySkinAction.ReqSign(arg_12_0.activityID_)
+	if slot0.data:LeftSignTimes() > 0 then
+		SevenDaySkinAction.ReqSign(slot0.activityID_)
 
 		return
 	end
@@ -136,136 +124,121 @@ function var_0_1.OnBtnSignClick(arg_12_0)
 	ShowTips("SIGN_TIMES_EXHAUSTED")
 end
 
-function var_0_1.OnSignSuccess(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_1.sign_num
-	local var_13_1 = arg_13_0.data:SignRewardList()[var_13_0]
-	local var_13_2 = var_13_1[1]
-	local var_13_3 = var_0_0[var_13_2]
-
-	if var_13_3 then
+function slot1.OnSignSuccess(slot0, slot1)
+	if uv0[slot0.data:SignRewardList()[slot1.sign_num][1]] then
 		JumpTools.OpenPageByJump("sevenDaySkinPopView", {
-			msg = var_13_3,
+			msg = slot5,
 			reward = {
-				var_13_1
+				slot3
 			}
 		})
 	else
 		getReward(formatRewardCfgList({
-			var_13_1
+			slot3
 		}))
 	end
 
-	arg_13_0:RefreshView()
-	arg_13_0:ResetNum()
+	slot0:RefreshView()
+	slot0:ResetNum()
 end
 
-function var_0_1.ShowCheckDialog(arg_14_0)
-	local var_14_0 = GameSetting.activity_supplementary_sign_new.value
-	local var_14_1 = var_14_0[1]
-	local var_14_2 = var_14_0[2]
-	local var_14_3 = ItemTools.getItemNum(var_14_1)
+function slot1.ShowCheckDialog(slot0)
+	slot1 = GameSetting.activity_supplementary_sign_new.value
+	slot2 = slot1[1]
+	slot4 = ItemTools.getItemNum(slot2)
 
 	ShowMessageBox({
 		title = GetTips("PROMPT"),
 		content = {
 			GetTips("WHETHER_TO_CONSUME"),
 			{
-				var_14_1,
-				var_14_2
+				slot2,
+				slot1[2]
 			},
-			(GetTips("WHETHER_TO_SUPPLEMENTARY_SIGN"))
+			GetTips("WHETHER_TO_SUPPLEMENTARY_SIGN")
 		},
-		OkCallback = function()
-			if var_14_3 < var_14_2 then
+		OkCallback = function ()
+			if uv0 < uv1 then
 				ShowTips("ITEM_NOT_ENOUGH_RETURN_MATERIAL")
 			else
-				SevenDaySkinAction.ReqSign(arg_14_0.activityID_)
+				SevenDaySkinAction.ReqSign(uv2.activityID_)
 			end
 		end
 	})
 end
 
-function var_0_1.OnBtnInfoClick(arg_16_0)
+function slot1.OnBtnInfoClick(slot0)
 	JumpTools.OpenPageByJump("gameHelp", {
 		content = GetTips("ACTIVITY_INSTRUSCTIONS")
 	})
 end
 
-function var_0_1.OnClearSuccess(arg_17_0)
-	arg_17_0.data = SevenDaySkinData:GetActivityData(arg_17_0.activityID_)
+function slot1.OnClearSuccess(slot0)
+	slot0.data = SevenDaySkinData:GetActivityData(slot0.activityID_)
 
-	arg_17_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_1.ResetNum(arg_18_0)
-	local var_18_0 = arg_18_0.data:SignDay()
-
-	if var_18_0 > 0 then
-		arg_18_0.anim2:Play("num03", -1, 0)
-		TimeTools.StartAfterSeconds(0.5, function()
-			arg_18_0.text2.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. var_18_0)
+function slot1.ResetNum(slot0)
+	if slot0.data:SignDay() > 0 then
+		slot0.anim2:Play("num03", -1, 0)
+		TimeTools.StartAfterSeconds(0.5, function ()
+			uv0.text2.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. uv1)
 		end, {})
-		arg_18_0:RefreshTimer(var_18_0)
+		slot0:RefreshTimer(slot1)
 	end
 end
 
-function var_0_1.TracaBack(arg_20_0)
-	local var_20_0 = math.random(0, 5)
-
-	if var_20_0 == arg_20_0.random then
-		arg_20_0:TracaBack()
+function slot1.TracaBack(slot0)
+	if math.random(0, 5) == slot0.random then
+		slot0:TracaBack()
 	else
-		arg_20_0.random = var_20_0
+		slot0.random = slot1
 
 		return
 	end
 end
 
-function var_0_1.RefreshTimer(arg_21_0, arg_21_1)
-	if arg_21_0.text3Timer then
-		arg_21_0.text3Timer:Stop()
+function slot1.RefreshTimer(slot0, slot1)
+	if slot0.text3Timer then
+		slot0.text3Timer:Stop()
 
-		arg_21_0.text3Timer = nil
+		slot0.text3Timer = nil
 	end
 
-	if arg_21_0.text4Timer then
-		arg_21_0.text4Timer:Stop()
+	if slot0.text4Timer then
+		slot0.text4Timer:Stop()
 
-		arg_21_0.text4Timer = nil
+		slot0.text4Timer = nil
 	end
 
-	arg_21_0.text4Timer = Timer.New(function()
-		arg_21_0.anim4:Play("num02", -1, 0)
-		arg_21_0.anim5:Play("num04", -1, 0)
-		arg_21_0.anim6:Play("num", -1, 0)
-		arg_21_0.anim7:Play("num03", -1, 0)
-		TimeTools.StartAfterSeconds(0.5, function()
-			arg_21_0.text4.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
-			arg_21_0.text5.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
-			arg_21_0.text6.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
-			arg_21_0.text7.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
+	slot0.text4Timer = Timer.New(function ()
+		uv0.anim4:Play("num02", -1, 0)
+		uv0.anim5:Play("num04", -1, 0)
+		uv0.anim6:Play("num", -1, 0)
+		uv0.anim7:Play("num03", -1, 0)
+		TimeTools.StartAfterSeconds(0.5, function ()
+			uv0.text4.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
+			uv0.text5.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
+			uv0.text6.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
+			uv0.text7.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. math.random(0, 9))
 		end, {})
 	end, 7, -1)
-
-	local var_21_0 = GameSetting.activity_supplementary_sign_change_time.value
-
-	arg_21_0.text3Timer = Timer.New(function()
-		local var_24_0 = math.random(0, 5)
-
-		if var_24_0 == arg_21_0.random then
-			arg_21_0:TracaBack()
+	slot0.text3Timer = Timer.New(function ()
+		if math.random(0, 5) == uv0.random then
+			uv0:TracaBack()
 		else
-			arg_21_0.random = var_24_0
+			uv0.random = slot0
 		end
 
-		arg_21_0.anim3:Play("num", -1, 0)
-		TimeTools.StartAfterSeconds(0.5, function()
-			arg_21_0.text3.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. arg_21_0.random)
+		uv0.anim3:Play("num", -1, 0)
+		TimeTools.StartAfterSeconds(0.5, function ()
+			uv0.text3.sprite = getSprite("Atlas/JapanRegionUI_2_10", "JapanRegionUI_2_10_" .. uv0.random)
 		end, {})
-	end, var_21_0[arg_21_1], -1)
+	end, GameSetting.activity_supplementary_sign_change_time.value[slot1], -1)
 
-	arg_21_0.text4Timer:Start()
-	arg_21_0.text3Timer:Start()
+	slot0.text4Timer:Start()
+	slot0.text3Timer:Start()
 end
 
-return var_0_1
+return slot1

@@ -1,14 +1,13 @@
-local var_0_0 = import("game.views.mardukSpecial.MardukSpecialRewardView")
-local var_0_1 = class("ActivityToggleSpecialRewardView", var_0_0)
+slot1 = class("ActivityToggleSpecialRewardView", import("game.views.mardukSpecial.MardukSpecialRewardView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdEscortUI/XH3rdEscortRewardUI"
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.uiList_ = LuaList.New(handler(arg_2_0, arg_2_0.indexItem), arg_2_0.uilistGo_, ActivityToggleSpecialRewardItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, ActivityToggleSpecialRewardItemView)
 end
 
-return var_0_1
+return slot1

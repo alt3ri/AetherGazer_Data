@@ -1,285 +1,264 @@
-local var_0_0 = class("NewHeroArchiveDetailView", ReduxView)
+slot0 = class("NewHeroArchiveDetailView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_chain/HeroChainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.bgController_ = ControllerUtil.GetController(arg_4_0.transform_, "bg")
+	slot0.bgController_ = ControllerUtil.GetController(slot0.transform_, "bg")
 
-	arg_4_0:AddUIListener()
-	arg_4_0:RegistEventListener(UPDATE_WALLPAPER, function()
-		arg_4_0:RefreshBgUI()
+	slot0:AddUIListener()
+	slot0:RegistEventListener(UPDATE_WALLPAPER, function ()
+		uv0:RefreshBgUI()
 	end)
-	arg_4_0:RegistEventListener(UPDATE_HEARTLIST, function()
-		arg_4_0:RefreshPlotList()
+	slot0:RegistEventListener(UPDATE_HEARTLIST, function ()
+		uv0:RefreshPlotList()
 	end)
 
-	arg_4_0.uiList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexPlotItem), arg_4_0.plotList_, NewHeroArchivePlotItemView)
-	arg_4_0.uiStoryList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexStoryItem), arg_4_0.storyList_, NewHeroArchiveStoryItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexPlotItem), slot0.plotList_, NewHeroArchivePlotItemView)
+	slot0.uiStoryList_ = LuaList.New(handler(slot0, slot0.IndexStoryItem), slot0.storyList_, NewHeroArchiveStoryItemView)
 end
 
-function var_0_0.IndexPlotItem(arg_7_0, arg_7_1, arg_7_2)
-	if arg_7_1 == #arg_7_0.plotIdList_ or arg_7_1 == #arg_7_0.superPlotIdList_ + #arg_7_0.plotIdList_ then
-		SetActive(arg_7_2.nextLine_, false)
+function slot0.IndexPlotItem(slot0, slot1, slot2)
+	if slot1 == #slot0.plotIdList_ or slot1 == #slot0.superPlotIdList_ + #slot0.plotIdList_ then
+		SetActive(slot2.nextLine_, false)
 	else
-		SetActive(arg_7_2.nextLine_, true)
+		SetActive(slot2.nextLine_, true)
 	end
 
-	if arg_7_1 <= #arg_7_0.plotIdList_ then
-		arg_7_2:SetData(arg_7_0.recordData_, arg_7_0.recordData_.plot_id[arg_7_1], arg_7_0.data_.archive_id, arg_7_1, 1)
+	if slot1 <= #slot0.plotIdList_ then
+		slot2:SetData(slot0.recordData_, slot0.recordData_.plot_id[slot1], slot0.data_.archive_id, slot1, 1)
 	else
-		arg_7_2:SetData(arg_7_0.recordData_, arg_7_0.recordData_.super_plot_id[arg_7_1 - #arg_7_0.plotIdList_], arg_7_0.data_.archive_id, arg_7_1 - #arg_7_0.plotIdList_, 2)
+		slot2:SetData(slot0.recordData_, slot0.recordData_.super_plot_id[slot1 - #slot0.plotIdList_], slot0.data_.archive_id, slot1 - #slot0.plotIdList_, 2)
 	end
 
-	arg_7_2:SetStoryCallBack(function()
-		saveData("ModuleList_" .. USER_ID, "PlotIndex_" .. arg_7_0.data_.archive_id, arg_7_1)
+	slot2:SetStoryCallBack(function ()
+		saveData("ModuleList_" .. USER_ID, "PlotIndex_" .. uv0.data_.archive_id, uv1)
 
-		arg_7_0.index_ = arg_7_1
+		uv0.index_ = uv1
 	end)
 end
 
-function var_0_0.IndexStoryItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(HeroAnedoteCfg[arg_9_0.storyList_[arg_9_1]], arg_9_0.data_.archive_id)
+function slot0.IndexStoryItem(slot0, slot1, slot2)
+	slot2:SetData(HeroAnedoteCfg[slot0.storyList_[slot1]], slot0.data_.archive_id)
 end
 
-function var_0_0.AddUIListener(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.backgroundBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backgroundBtn_, nil, function ()
 		JumpTools.GoToSystem("newHeroWallPaperPopView", {
-			data = arg_10_0.data_
+			data = uv0.data_
 		})
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.giftBtn_, nil, function()
-		local var_12_0 = arg_10_0.recordData_.hero_id
+	slot0:AddBtnListener(slot0.giftBtn_, nil, function ()
+		slot0 = uv0.recordData_.hero_id
 
-		table.sort(var_12_0, function(arg_13_0, arg_13_1)
-			local var_13_0 = HeroData:GetHeroData(arg_13_0)
-			local var_13_1 = HeroData:GetHeroData(arg_13_1)
-			local var_13_2 = ArchiveData:GetTrustLevel(arg_13_0)
-			local var_13_3 = ArchiveData:GetTrustLevel(arg_13_1)
+		table.sort(slot0, function (slot0, slot1)
+			slot4 = ArchiveData:GetTrustLevel(slot0)
+			slot5 = ArchiveData:GetTrustLevel(slot1)
 
-			if var_13_0.unlock == 1 and var_13_1.unlock == 0 then
+			if HeroData:GetHeroData(slot0).unlock == 1 and HeroData:GetHeroData(slot1).unlock == 0 then
 				return true
-			elseif var_13_0.unlock == 0 and var_13_1.unlock == 1 then
+			elseif slot2.unlock == 0 and slot3.unlock == 1 then
 				return false
-			elseif var_13_3 < var_13_2 then
+			elseif slot5 < slot4 then
 				return true
-			elseif var_13_2 < var_13_3 then
+			elseif slot4 < slot5 then
 				return false
 			else
-				return arg_13_0 < arg_13_1
+				return slot0 < slot1
 			end
 		end)
 		JumpTools.GoToSystem("/heroArchive", {
 			pageID = 3,
-			heroID = var_12_0[1]
+			heroID = slot0[1]
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_14_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_14_0.isBackHome_ = arg_14_0.params_.isBackHome
+	slot0.isBackHome_ = slot0.params_.isBackHome
 
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_14_0.isBackHome_ then
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.isBackHome_ then
 			JumpTools.OpenPageByJump("/home")
 		else
 			JumpTools.Back()
 		end
 	end)
 
-	arg_14_0.id_ = arg_14_0.params_.id
-	arg_14_0.data_ = ArchiveData:GetArchive(arg_14_0.id_)
-	arg_14_0.recordData_ = HeroRecordCfg[arg_14_0.data_.archive_id]
-	arg_14_0.index_ = getData("ModuleList_" .. USER_ID, "PlotIndex_" .. arg_14_0.data_.archive_id) or 0
-	arg_14_0.plotIdList_ = arg_14_0.recordData_.plot_id
-	arg_14_0.superPlotIdList_ = arg_14_0.recordData_.super_plot_id
+	slot0.id_ = slot0.params_.id
+	slot0.data_ = ArchiveData:GetArchive(slot0.id_)
+	slot0.recordData_ = HeroRecordCfg[slot0.data_.archive_id]
+	slot0.index_ = getData("ModuleList_" .. USER_ID, "PlotIndex_" .. slot0.data_.archive_id) or 0
+	slot0.plotIdList_ = slot0.recordData_.plot_id
+	slot0.superPlotIdList_ = slot0.recordData_.super_plot_id
 
-	arg_14_0.uiList_:StartScroll(#arg_14_0.plotIdList_ + #arg_14_0.superPlotIdList_, arg_14_0.index_, true, false)
+	slot0.uiList_:StartScroll(#slot0.plotIdList_ + #slot0.superPlotIdList_, slot0.index_, true, false)
 
-	arg_14_0.storyList_ = {}
-	arg_14_0.heroIdList_ = arg_14_0.recordData_.hero_id
+	slot0.storyList_ = {}
+	slot0.heroIdList_ = slot0.recordData_.hero_id
+	slot1 = slot0.uiList_:GetScrolledPosition()
+	slot0.timer = Timer.New(function ()
+		uv0.filmAni_:SetFloat("floatSpeed", (uv0.uiList_:GetScrolledPosition().x - uv1.x) * 3)
 
-	local var_14_0 = arg_14_0.uiList_:GetScrolledPosition()
-
-	arg_14_0.timer = Timer.New(function()
-		arg_14_0.filmAni_:SetFloat("floatSpeed", (arg_14_0.uiList_:GetScrolledPosition().x - var_14_0.x) * 3)
-
-		var_14_0 = arg_14_0.uiList_:GetScrolledPosition()
+		uv1 = uv0.uiList_:GetScrolledPosition()
 	end, 0.1, -1, true)
 
-	arg_14_0.timer:Start()
+	slot0.timer:Start()
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.heroIdList_) do
-		if HeroAnedoteCfg[iter_14_1] then
-			table.insert(arg_14_0.storyList_, iter_14_1)
+	for slot5, slot6 in pairs(slot0.heroIdList_) do
+		if HeroAnedoteCfg[slot6] then
+			table.insert(slot0.storyList_, slot6)
 		end
 	end
 
-	arg_14_0.uiStoryList_:StartScroll(#arg_14_0.storyList_)
-	arg_14_0:RefreshUI()
+	slot0.uiStoryList_:StartScroll(#slot0.storyList_)
+	slot0:RefreshUI()
 
-	local var_14_1 = HeroTools.GetHeroOntologyID(arg_14_0.id_)
+	slot2 = HeroTools.GetHeroOntologyID(slot0.id_)
 
-	manager.redPoint:setTip(RedPointConst.HERO_STORY_ID .. var_14_1, 0)
-	manager.redPoint:setTip(RedPointConst.HERO_SUPER_STORY_ID .. var_14_1, 0)
-	manager.redPoint:setTip(RedPointConst.HERO_ANEDOTE_ID .. var_14_1, 0)
+	manager.redPoint:setTip(RedPointConst.HERO_STORY_ID .. slot2, 0)
+	manager.redPoint:setTip(RedPointConst.HERO_SUPER_STORY_ID .. slot2, 0)
+	manager.redPoint:setTip(RedPointConst.HERO_ANEDOTE_ID .. slot2, 0)
 
-	local var_14_2 = "heartStroy_" .. PlayerData:GetPlayerInfo().userID .. "_" .. HeroRecordCfg.get_id_list_by_hero_id[arg_14_0.id_][1]
-	local var_14_3, var_14_4, var_14_5 = ArchiveData:GetUnlockHeartListInfoLengthByHeroId(arg_14_0.id_)
-	local var_14_6 = {
-		var_14_3,
-		var_14_4,
-		var_14_5
-	}
+	slot4, slot5, slot6 = ArchiveData:GetUnlockHeartListInfoLengthByHeroId(slot0.id_)
 
-	saveData("HearListRedPoint", var_14_2, var_14_6)
+	saveData("HearListRedPoint", "heartStroy_" .. PlayerData:GetPlayerInfo().userID .. "_" .. HeroRecordCfg.get_id_list_by_hero_id[slot0.id_][1], {
+		slot4,
+		slot5,
+		slot6
+	})
 end
 
-function var_0_0.RefreshUI(arg_17_0)
-	if not arg_17_0.favorItemList_ then
-		arg_17_0.favorItemList_ = {}
+function slot0.RefreshUI(slot0)
+	if not slot0.favorItemList_ then
+		slot0.favorItemList_ = {}
 	end
 
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.favorItemList_) do
-		SetActive(iter_17_1.gameObject_, false)
-		iter_17_1:ResetData()
+	for slot4, slot5 in ipairs(slot0.favorItemList_) do
+		SetActive(slot5.gameObject_, false)
+		slot5:ResetData()
 	end
 
-	local var_17_0 = false
+	slot1 = false
 
-	for iter_17_2, iter_17_3 in ipairs(arg_17_0.heroIdList_) do
-		if ArchiveData:GetTrustLevel(iter_17_3) > 0 then
-			var_17_0 = true
+	for slot5, slot6 in ipairs(slot0.heroIdList_) do
+		if ArchiveData:GetTrustLevel(slot6) > 0 then
+			slot1 = true
 		end
 	end
 
-	local var_17_1 = 0
+	slot2 = 0
 
-	for iter_17_4, iter_17_5 in ipairs(arg_17_0.heroIdList_) do
-		local var_17_2 = HeroData:GetHeroData(arg_17_0.heroIdList_[iter_17_4])
+	for slot6, slot7 in ipairs(slot0.heroIdList_) do
+		if HeroData:GetHeroData(slot0.heroIdList_[slot6]).unlock == 1 then
+			if not slot0.favorItemList_[slot2 + 1] then
+				slot10 = NewHeroArchiveHerofavorItemView.New(Object.Instantiate(slot0.favorabilityItem_), slot2)
 
-		if var_17_2.unlock == 1 then
-			var_17_1 = var_17_1 + 1
-
-			if not arg_17_0.favorItemList_[var_17_1] then
-				local var_17_3 = Object.Instantiate(arg_17_0.favorabilityItem_)
-				local var_17_4 = NewHeroArchiveHerofavorItemView.New(var_17_3, var_17_1)
-
-				var_17_4.transform_:SetParent(arg_17_0.favorabilityList_, false)
-				table.insert(arg_17_0.favorItemList_, var_17_4)
+				slot10.transform_:SetParent(slot0.favorabilityList_, false)
+				table.insert(slot0.favorItemList_, slot10)
 			end
 
-			arg_17_0.favorItemList_[var_17_1]:SetData(arg_17_0.data_, var_17_2.id, var_17_1)
-			SetActive(arg_17_0.favorItemList_[var_17_1].gameObject_, true)
+			slot0.favorItemList_[slot2]:SetData(slot0.data_, slot8.id, slot2)
+			SetActive(slot0.favorItemList_[slot2].gameObject_, true)
 		end
 	end
 
-	for iter_17_6, iter_17_7 in ipairs(arg_17_0.favorItemList_) do
-		iter_17_7:RefreshUI(var_17_0)
+	for slot6, slot7 in ipairs(slot0.favorItemList_) do
+		slot7:RefreshUI(slot1)
 	end
 
-	arg_17_0.uiStoryList_:Refresh()
-	arg_17_0:RefreshBgUI()
+	slot0.uiStoryList_:Refresh()
+	slot0:RefreshBgUI()
 end
 
-function var_0_0.RefreshBgUI(arg_18_0)
-	local var_18_0 = ArchiveData:GetSelectPicture(arg_18_0.data_.archive_id)
+function slot0.RefreshBgUI(slot0)
+	slot0.bgController_:SetSelectedState("role")
 
-	arg_18_0.bgController_:SetSelectedState("role")
+	if table.isEmpty(ArchiveData:GetSelectPicture(slot0.data_.archive_id)) or slot1.type == 0 then
+		for slot6, slot7 in ipairs(slot0.heroIdList_) do
+			if HeroData:GetHeroData(slot7).unlock == 1 and not false then
+				ArchiveAction.SendSetWallPaper(slot0.data_.archive_id, slot7, 1)
 
-	if table.isEmpty(var_18_0) or var_18_0.type == 0 then
-		local var_18_1 = false
-
-		for iter_18_0, iter_18_1 in ipairs(arg_18_0.heroIdList_) do
-			if HeroData:GetHeroData(iter_18_1).unlock == 1 and not var_18_1 then
-				ArchiveAction.SendSetWallPaper(arg_18_0.data_.archive_id, iter_18_1, 1)
-
-				arg_18_0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. iter_18_1)
-				var_18_1 = true
+				slot0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot7)
+				slot2 = true
 			end
 		end
 
-		if not var_18_1 then
-			arg_18_0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_18_0.heroIdList_[1])
+		if not slot2 then
+			slot0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.heroIdList_[1])
 		end
-	elseif var_18_0.type == 1 or var_18_0.type == 2 then
-		arg_18_0.bgController_:SetSelectedState("role")
+	elseif slot1.type == 1 or slot1.type == 2 then
+		slot0.bgController_:SetSelectedState("role")
 
-		arg_18_0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. var_18_0.id)
-	elseif var_18_0.type == 3 then
-		arg_18_0.bgController_:SetSelectedState("plot")
+		slot0.bgImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. slot1.id)
+	elseif slot1.type == 3 then
+		slot0.bgController_:SetSelectedState("plot")
 
-		local var_18_2 = CollectPictureCfg[var_18_0.id].picture
-
-		arg_18_0.plotImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Background/" .. var_18_2)
+		slot0.plotImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Background/" .. CollectPictureCfg[slot1.id].picture)
 	end
 end
 
-function var_0_0.OnExit(arg_19_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_19_0.timer then
-		arg_19_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_19_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-function var_0_0.OnReceiveIllustrationReward(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_1.item_list
-	local var_20_1 = formatRewardCfgList(var_20_0)
-	local var_20_2 = mergeReward(var_20_1)
-
-	getReward(var_20_2)
-	arg_20_0:RefreshPlotList()
+function slot0.OnReceiveIllustrationReward(slot0, slot1, slot2)
+	getReward(mergeReward(formatRewardCfgList(slot1.item_list)))
+	slot0:RefreshPlotList()
 end
 
-function var_0_0.OnReceiveIllustration(arg_21_0)
-	arg_21_0:RefreshPlotList()
+function slot0.OnReceiveIllustration(slot0)
+	slot0:RefreshPlotList()
 end
 
-function var_0_0.RefreshPlotList(arg_22_0)
-	arg_22_0.uiList_:Refresh()
-	arg_22_0.uiList_:ScrollToIndex(arg_22_0.index_, true, false)
+function slot0.RefreshPlotList(slot0)
+	slot0.uiList_:Refresh()
+	slot0.uiList_:ScrollToIndex(slot0.index_, true, false)
 end
 
-function var_0_0.Dispose(arg_23_0)
-	if arg_23_0.uiList_ then
-		arg_23_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_23_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	if arg_23_0.uiStoryList_ then
-		arg_23_0.uiStoryList_:Dispose()
+	if slot0.uiStoryList_ then
+		slot0.uiStoryList_:Dispose()
 
-		arg_23_0.uiStoryList_ = nil
+		slot0.uiStoryList_ = nil
 	end
 
-	if arg_23_0.favorItemList_ then
-		for iter_23_0, iter_23_1 in ipairs(arg_23_0.favorItemList_) do
-			iter_23_1:Dispose()
+	if slot0.favorItemList_ then
+		for slot4, slot5 in ipairs(slot0.favorItemList_) do
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_23_0)
-	arg_23_0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-return var_0_0
+return slot0

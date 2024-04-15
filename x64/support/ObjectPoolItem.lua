@@ -1,88 +1,77 @@
-local var_0_0 = class("ObjectPoolItem")
+slot0 = class("ObjectPoolItem")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.fromObjectPool = false
-	arg_1_0.objects_ = {}
-	arg_1_0.freeList_ = {}
-	arg_1_0.usingList = {}
+function slot0.Ctor(slot0)
+	slot0.fromObjectPool = false
+	slot0.objects_ = {}
+	slot0.freeList_ = {}
+	slot0.usingList = {}
 end
 
-function var_0_0.OnCtor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.itemPrefab_ = arg_2_2
-	arg_2_0.parent_ = arg_2_1
-	arg_2_0.fromObjectPool = false
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.itemPrefab_ = slot2
+	slot0.parent_ = slot1
+	slot0.fromObjectPool = false
 
-	for iter_2_0 = 1, arg_2_3 do
-		arg_2_0:Create()
+	for slot7 = 1, slot3 do
+		slot0:Create()
 	end
 end
 
-function var_0_0.InitFromObjectPool(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.parent_ = arg_3_1
-	arg_3_0.assetPath_ = arg_3_2
-	arg_3_0.fromObjectPool = true
+function slot0.InitFromObjectPool(slot0, slot1, slot2, slot3)
+	slot0.parent_ = slot1
+	slot0.assetPath_ = slot2
+	slot0.fromObjectPool = true
 
-	for iter_3_0 = 1, arg_3_3 do
-		arg_3_0:Create()
+	for slot7 = 1, slot3 do
+		slot0:Create()
 	end
 end
 
-function var_0_0.Create(arg_4_0)
-	local var_4_0
+function slot0.Create(slot0)
+	slot1 = nil
 
-	if arg_4_0.fromObjectPool then
-		var_4_0 = manager.objectPool:Get(arg_4_0.assetPath_)
-	else
-		var_4_0 = Object.Instantiate(arg_4_0.itemPrefab_, arg_4_0.parent_)
+	if ((not slot0.fromObjectPool or manager.objectPool:Get(slot0.assetPath_)) and Object.Instantiate(slot0.itemPrefab_, slot0.parent_)).transform.parent ~= slot0.parent_ then
+		slot2:SetParent(slot0.parent_, false)
 	end
 
-	local var_4_1 = var_4_0.transform
+	table.insert(slot0.objects_, slot1)
+	table.insert(slot0.freeList_, slot1)
 
-	if var_4_1.parent ~= arg_4_0.parent_ then
-		var_4_1:SetParent(arg_4_0.parent_, false)
-	end
-
-	table.insert(arg_4_0.objects_, var_4_0)
-	table.insert(arg_4_0.freeList_, var_4_0)
-
-	return var_4_0
+	return slot1
 end
 
-function var_0_0.Get(arg_5_0)
-	if #arg_5_0.freeList_ <= 0 then
-		arg_5_0:Create()
+function slot0.Get(slot0)
+	if #slot0.freeList_ <= 0 then
+		slot0:Create()
 	end
 
-	local var_5_0 = arg_5_0.freeList_[#arg_5_0.freeList_]
+	slot1 = slot0.freeList_[#slot0.freeList_]
+	slot1.transform.localScale = Vector3(1, 1, 1)
+	slot1.transform.localPosition = Vector3(1, 1, 1)
 
-	var_5_0.transform.localScale = Vector3(1, 1, 1)
-	var_5_0.transform.localPosition = Vector3(1, 1, 1)
+	table.insert(slot0.usingList, slot1)
+	table.remove(slot0.freeList_, #slot0.freeList_)
 
-	table.insert(arg_5_0.usingList, var_5_0)
-	table.remove(arg_5_0.freeList_, #arg_5_0.freeList_)
-
-	return var_5_0
+	return slot1
 end
 
-function var_0_0.Return(arg_6_0, arg_6_1)
-	local var_6_0 = table.indexof(arg_6_0.usingList, arg_6_1)
-
-	if var_6_0 ~= false then
-		table.insert(arg_6_0.freeList_, arg_6_1)
-		table.remove(arg_6_0.usingList, var_6_0)
+function slot0.Return(slot0, slot1)
+	if table.indexof(slot0.usingList, slot1) ~= false then
+		table.insert(slot0.freeList_, slot1)
+		table.remove(slot0.usingList, slot2)
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.fromObjectPool and manager.objectPool:IsRecycleAssetPath(arg_7_0.assetPath_) then
-		for iter_7_0 = 1, #arg_7_0.objects_ do
-			manager.objectPool:Return(arg_7_0.assetPath_, arg_7_0.objects_[iter_7_0])
+function slot0.Dispose(slot0)
+	if slot0.fromObjectPool and manager.objectPool:IsRecycleAssetPath(slot0.assetPath_) then
+		for slot4 = 1, #slot0.objects_ do
+			manager.objectPool:Return(slot0.assetPath_, slot0.objects_[slot4])
 		end
 	else
-		for iter_7_1 = 1, #arg_7_0.objects_ do
-			Object.Destroy(arg_7_0.objects_[iter_7_1])
+		for slot4 = 1, #slot0.objects_ do
+			Object.Destroy(slot0.objects_[slot4])
 		end
 	end
 end
 
-return var_0_0
+return slot0

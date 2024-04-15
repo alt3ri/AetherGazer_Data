@@ -1,84 +1,84 @@
-local var_0_0 = class("TrainBtnItem", ReduxView)
+slot0 = class("TrainBtnItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.upgradeController_ = arg_2_0.mainControllerEx_:GetController("upgradeState")
-	arg_2_0.costController_ = arg_2_0.mainControllerEx_:GetController("costState")
-	arg_2_0.selectController_ = arg_2_0.mainControllerEx_:GetController("select")
+	slot0.upgradeController_ = slot0.mainControllerEx_:GetController("upgradeState")
+	slot0.costController_ = slot0.mainControllerEx_:GetController("costState")
+	slot0.selectController_ = slot0.mainControllerEx_:GetController("select")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if arg_3_0.maxState_ then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.maxState_ then
 			return
 		end
 
-		if arg_3_0.select_ and arg_3_0.timeOut_ then
+		if uv0.select_ and uv0.timeOut_ then
 			ShowTips(GetTips("IDOL_TRAIN_TIMES_NOT_ENOUGH"))
 
 			return
 		end
 
-		if arg_3_0.select_ and not arg_3_0.costState_ then
+		if uv0.select_ and not uv0.costState_ then
 			ShowTips(GetTips("DORM_FATIGUE_NOT_ENOUGH"))
 
 			return
 		end
 
-		if arg_3_0.select_ and not arg_3_0.maxState_ and not arg_3_0.timeOut_ and arg_3_0.costState_ then
-			IdolTraineeAction.TrainHeroProperty(arg_3_0.heroID_, arg_3_0.propertyIndex_)
+		if uv0.select_ and not uv0.maxState_ and not uv0.timeOut_ and uv0.costState_ then
+			IdolTraineeAction.TrainHeroProperty(uv0.heroID_, uv0.propertyIndex_)
 		end
 
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc(arg_3_0.propertyIndex_)
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.propertyIndex_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4, arg_5_5, arg_5_6)
-	arg_5_0.heroID_ = arg_5_1
-	arg_5_0.propertyIndex_ = arg_5_2
-	arg_5_0.maxState_ = arg_5_3
-	arg_5_0.timeOut_ = arg_5_6
-	arg_5_0.costState_ = arg_5_4
-	arg_5_0.costText_.text = GameSetting.dorm_idol_hero_exercise_cost.value[1]
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	slot0.heroID_ = slot1
+	slot0.propertyIndex_ = slot2
+	slot0.maxState_ = slot3
+	slot0.timeOut_ = slot6
+	slot0.costState_ = slot4
+	slot0.costText_.text = GameSetting.dorm_idol_hero_exercise_cost.value[1]
 
-	arg_5_0.costController_:SetSelectedState(arg_5_4 and "true" or "false")
+	slot0.costController_:SetSelectedState(slot4 and "true" or "false")
 
-	if arg_5_3 then
-		arg_5_0.upgradeController_:SetSelectedState("max")
+	if slot3 then
+		slot0.upgradeController_:SetSelectedState("max")
 	else
-		arg_5_0.upgradeController_:SetSelectedState("cannot")
+		slot0.upgradeController_:SetSelectedState("cannot")
 	end
 end
 
-function var_0_0.RegisterClickFunc(arg_6_0, arg_6_1)
-	arg_6_0.clickFunc = arg_6_1
+function slot0.RegisterClickFunc(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.RefreshBtnState(arg_7_0, arg_7_1)
-	if arg_7_0.propertyIndex_ == arg_7_1 then
-		arg_7_0.selectController_:SetSelectedState("state1")
+function slot0.RefreshBtnState(slot0, slot1)
+	if slot0.propertyIndex_ == slot1 then
+		slot0.selectController_:SetSelectedState("state1")
 
-		arg_7_0.select_ = true
+		slot0.select_ = true
 	else
-		arg_7_0.selectController_:SetSelectedState("state0")
+		slot0.selectController_:SetSelectedState("state0")
 
-		arg_7_0.select_ = false
+		slot0.select_ = false
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

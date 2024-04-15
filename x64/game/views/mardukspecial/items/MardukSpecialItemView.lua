@@ -1,157 +1,143 @@
-local var_0_0 = class("MardukSpecialItemView", ReduxView)
+slot0 = class("MardukSpecialItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.detailController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "detail")
-	arg_3_0.raceController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "race")
-	arg_3_0.viewController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "view")
-	arg_3_0.detailraceController_ = ControllerUtil.GetController(arg_3_0.detailtrans_, "color")
+	slot0.detailController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "detail")
+	slot0.raceController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "race")
+	slot0.viewController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "view")
+	slot0.detailraceController_ = ControllerUtil.GetController(slot0.detailtrans_, "color")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.subActivityId_) then
-			if ActivityData:GetActivityData(arg_4_0.subActivityId_).stopTime < manager.time:GetServerTime() then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.subActivityId_) then
+			if ActivityData:GetActivityData(uv0.subActivityId_).stopTime < manager.time:GetServerTime() then
 				ShowTips(GetTips("TIME_OVER"))
 			else
-				local var_5_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_4_0.subActivityId_).startTime)
-
-				ShowTips(string.format(GetTips("OPEN_TIME"), var_5_0))
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.subActivityId_).startTime)))
 			end
 
 			return
 		end
 
-		if arg_4_0.itemSelectHandler_ ~= nil then
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.transform_)
-			arg_4_0.itemSelectHandler_(arg_4_0.index_, true)
+		if uv0.itemSelectHandler_ ~= nil then
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.transform_)
+			uv0.itemSelectHandler_(uv0.index_, true)
 		end
 
-		MardukSpecialAction.ClickMardukSpecial(arg_4_0.subActivityId_)
-		arg_4_0:UpdateRedPoint()
+		MardukSpecialAction.ClickMardukSpecial(uv0.subActivityId_)
+		uv0:UpdateRedPoint()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.closeBtn_, nil, function()
-		if arg_4_0.itemSelectHandler_ ~= nil then
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.transform_)
-			arg_4_0.itemSelectHandler_(arg_4_0.index_, false)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		if uv0.itemSelectHandler_ ~= nil then
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.transform_)
+			uv0.itemSelectHandler_(uv0.index_, false)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.readyBtn_, nil, function()
-		local var_7_0 = BattleQuickTrainingCfg[ActivityQuickTrainingCfg[arg_4_0.subActivityId_].stage_id]
-
+	slot0:AddBtnListener(slot0.readyBtn_, nil, function ()
 		gameContext:Go("/sectionSelectHero", {
-			section = var_7_0.id,
+			section = BattleQuickTrainingCfg[ActivityQuickTrainingCfg[uv0.subActivityId_].stage_id].id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL,
-			activityID = arg_4_0.subActivityId_
+			activityID = uv0.subActivityId_
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.ShowSelect(arg_9_0, arg_9_1)
-	if arg_9_1 then
-		arg_9_0.detailController_:SetSelectedState("true")
+function slot0.ShowSelect(slot0, slot1)
+	if slot1 then
+		slot0.detailController_:SetSelectedState("true")
 	else
-		arg_9_0.detailController_:SetSelectedState("false")
+		slot0.detailController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.SetItemSelectHandler(arg_10_0, arg_10_1)
-	arg_10_0.itemSelectHandler_ = arg_10_1
+function slot0.SetItemSelectHandler(slot0, slot1)
+	slot0.itemSelectHandler_ = slot1
 end
 
-function var_0_0.SetData(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	arg_11_0.index_ = arg_11_1
-	arg_11_0.activityId_ = arg_11_2
-	arg_11_0.subActivityId_ = arg_11_3
-	arg_11_0.battleCfg_ = BattleQuickTrainingCfg[ActivityQuickTrainingCfg[arg_11_0.subActivityId_].stage_id]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.activityId_ = slot2
+	slot0.subActivityId_ = slot3
+	slot0.battleCfg_ = BattleQuickTrainingCfg[ActivityQuickTrainingCfg[slot0.subActivityId_].stage_id]
 
-	arg_11_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_12_0)
-	local var_12_0 = ActivityData:GetActivityIsOpen(arg_12_0.subActivityId_)
+function slot0.UpdateView(slot0)
+	slot0.nameLabel1_.text = GetI18NText(slot0.battleCfg_.name)
+	slot0.nameLabel2_.text = GetI18NText(slot0.battleCfg_.name)
+	slot0.descLabel_.text = GetI18NText(slot0.battleCfg_.tips)
+	slot0.scoreLabel1_.text = MardukSpecialData:GetPoint(slot0.subActivityId_)
+	slot0.scoreLabel2_.text = MardukSpecialData:GetPoint(slot0.subActivityId_)
 
-	arg_12_0.nameLabel1_.text = GetI18NText(arg_12_0.battleCfg_.name)
-	arg_12_0.nameLabel2_.text = GetI18NText(arg_12_0.battleCfg_.name)
-	arg_12_0.descLabel_.text = GetI18NText(arg_12_0.battleCfg_.tips)
-	arg_12_0.scoreLabel1_.text = MardukSpecialData:GetPoint(arg_12_0.subActivityId_)
-	arg_12_0.scoreLabel2_.text = MardukSpecialData:GetPoint(arg_12_0.subActivityId_)
-
-	if var_12_0 then
-		arg_12_0.viewController_:SetSelectedState("open")
-		arg_12_0.raceController_:SetSelectedIndex(arg_12_0.index_ - 1)
-		arg_12_0.detailraceController_:SetSelectedIndex(arg_12_0.index_ - 1)
+	if ActivityData:GetActivityIsOpen(slot0.subActivityId_) then
+		slot0.viewController_:SetSelectedState("open")
+		slot0.raceController_:SetSelectedIndex(slot0.index_ - 1)
+		slot0.detailraceController_:SetSelectedIndex(slot0.index_ - 1)
 	else
-		arg_12_0.viewController_:SetSelectedState("close")
-		arg_12_0.raceController_:SetSelectedIndex(arg_12_0.index_ - 1)
-		arg_12_0.detailraceController_:SetSelectedIndex(arg_12_0.index_ - 1)
+		slot0.viewController_:SetSelectedState("close")
+		slot0.raceController_:SetSelectedIndex(slot0.index_ - 1)
+		slot0.detailraceController_:SetSelectedIndex(slot0.index_ - 1)
 
-		local var_12_1 = ActivityData:GetActivityData(arg_12_0.subActivityId_)
-		local var_12_2 = var_12_1.stopTime
+		slot2 = ActivityData:GetActivityData(slot0.subActivityId_)
+		slot3 = slot2.stopTime
 
-		if var_12_1.stopTime < manager.time:GetServerTime() then
-			arg_12_0.timeCntText_.text = GetTips("TIME_OVER")
+		if slot2.stopTime < manager.time:GetServerTime() then
+			slot0.timeCntText_.text = GetTips("TIME_OVER")
 		else
-			local var_12_3 = manager.time:GetLostTimeStr(var_12_1.startTime)
-
-			arg_12_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), var_12_3)
+			slot0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot2.startTime))
 		end
 	end
 
-	arg_12_0:UpdateRedPoint()
+	slot0:UpdateRedPoint()
 end
 
-function var_0_0.UpdateTime(arg_13_0)
-	if not ActivityData:GetActivityIsOpen(arg_13_0.subActivityId_) then
-		local var_13_0 = ActivityData:GetActivityData(arg_13_0.subActivityId_)
-
-		if var_13_0.stopTime < manager.time:GetServerTime() then
-			arg_13_0.timeCntText_.text = GetTips("TIME_OVER")
+function slot0.UpdateTime(slot0)
+	if not ActivityData:GetActivityIsOpen(slot0.subActivityId_) then
+		if ActivityData:GetActivityData(slot0.subActivityId_).stopTime < manager.time:GetServerTime() then
+			slot0.timeCntText_.text = GetTips("TIME_OVER")
 		else
-			local var_13_1 = manager.time:GetLostTimeStr(var_13_0.startTime)
-
-			arg_13_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), var_13_1)
+			slot0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot1.startTime))
 		end
 	end
 end
 
-function var_0_0.UpdateRedPoint(arg_14_0)
-	SetActive(arg_14_0.redGo_, manager.redPoint:getTipValue(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_NOT_FIGHT, arg_14_0.subActivityId_)) > 0 and true or false)
+function slot0.UpdateRedPoint(slot0)
+	SetActive(slot0.redGo_, manager.redPoint:getTipValue(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_NOT_FIGHT, slot0.subActivityId_)) > 0 and true or false)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_17_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

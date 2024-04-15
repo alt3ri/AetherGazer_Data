@@ -1,22 +1,21 @@
-local var_0_0 = class("EquipBreakThroughMaterialBuffItem", ReduxView)
+slot0 = class("EquipBreakThroughMaterialBuffItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	local var_3_0 = EquipBreakThroughMaterialItemCfg[arg_3_1]
-
-	arg_3_0.nameText_.text = GetI18NText(var_3_0.name)
-	arg_3_0.descText_.text = getAffixDesc(var_3_0.params)
-	arg_3_0.icon_.sprite = getSprite("Atlas/EquipBreakThroughMaterialIcon", var_3_0.icon)
+function slot0.SetData(slot0, slot1)
+	slot2 = EquipBreakThroughMaterialItemCfg[slot1]
+	slot0.nameText_.text = GetI18NText(slot2.name)
+	slot0.descText_.text = getAffixDesc(slot2.params)
+	slot0.icon_.sprite = getSprite("Atlas/EquipBreakThroughMaterialIcon", slot2.icon)
 end
 
-return var_0_0
+return slot0

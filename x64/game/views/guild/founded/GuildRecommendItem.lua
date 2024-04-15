@@ -1,64 +1,61 @@
-local var_0_0 = class("GuildRecommendItem", ReduxView)
+slot0 = class("GuildRecommendItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.recommendClickHandler_ = handler(arg_1_0, arg_1_0.ClickRecommendItem)
+	slot0.recommendClickHandler_ = handler(slot0, slot0.ClickRecommendItem)
 
-	manager.notify:RegistListener(GUILD_RECOMMEND_CLICK, arg_1_0.recommendClickHandler_)
+	manager.notify:RegistListener(GUILD_RECOMMEND_CLICK, slot0.recommendClickHandler_)
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "conName")
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "conName")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
-	manager.notify:RemoveListener(GUILD_RECOMMEND_CLICK, arg_2_0.recommendClickHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(GUILD_RECOMMEND_CLICK, slot0.recommendClickHandler_)
 
-	arg_2_0.recommendClickHandler_ = nil
+	slot0.recommendClickHandler_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		manager.notify:Invoke(GUILD_RECOMMEND_CLICK, arg_3_0.index_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		manager.notify:Invoke(GUILD_RECOMMEND_CLICK, uv0.index_)
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.index_ = arg_5_1
-	arg_5_0.textName_.text = GetI18NText(arg_5_2.name)
-	arg_5_0.textLv_.text = arg_5_2.level
-	arg_5_0.textMember_.text = string.format("%s/%s", GetI18NText(arg_5_2.member), GetI18NText(arg_5_2.maxMemberCnt))
-	arg_5_0.textContribute_.text = GetI18NText(arg_5_2.contribute)
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.textName_.text = GetI18NText(slot2.name)
+	slot0.textLv_.text = slot2.level
+	slot0.textMember_.text = string.format("%s/%s", GetI18NText(slot2.member), GetI18NText(slot2.maxMemberCnt))
+	slot0.textContribute_.text = GetI18NText(slot2.contribute)
+	slot0.imageIcon_.sprite = getSpriteViaConfig("ClubHeadIcon", ClubHeadIconCfg[slot2.icon].icon_bg)
 
-	local var_5_0 = ClubHeadIconCfg[arg_5_2.icon]
+	SetActive(slot0.goFreeTag_, slot2.isFree)
+	slot0:RefreshSelect(slot3)
 
-	arg_5_0.imageIcon_.sprite = getSpriteViaConfig("ClubHeadIcon", var_5_0.icon_bg)
-
-	SetActive(arg_5_0.goFreeTag_, arg_5_2.isFree)
-	arg_5_0:RefreshSelect(arg_5_3)
-
-	if arg_5_2.isFree then
-		arg_5_0.controller_:SetSelectedState("0")
+	if slot2.isFree then
+		slot0.controller_:SetSelectedState("0")
 	else
-		arg_5_0.controller_:SetSelectedState("1")
+		slot0.controller_:SetSelectedState("1")
 	end
 end
 
-function var_0_0.ClickRecommendItem(arg_6_0, arg_6_1)
-	arg_6_0:RefreshSelect(arg_6_0.index_ == arg_6_1)
+function slot0.ClickRecommendItem(slot0, slot1)
+	slot0:RefreshSelect(slot0.index_ == slot1)
 end
 
-function var_0_0.RefreshSelect(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.selectController_:SetSelectedState("true")
+function slot0.RefreshSelect(slot0, slot1)
+	if slot1 then
+		slot0.selectController_:SetSelectedState("true")
 	else
-		arg_7_0.selectController_:SetSelectedState("false")
+		slot0.selectController_:SetSelectedState("false")
 	end
 end
 
-return var_0_0
+return slot0

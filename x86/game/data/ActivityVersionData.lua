@@ -1,34 +1,34 @@
-local var_0_0 = singletonClass("ActivityVersionData")
+slot0 = singletonClass("ActivityVersionData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.selectActivityID_ = {}
-	arg_1_0.reprintField_ = ""
-	arg_1_0.firstEnterActivityIDList_ = {}
+function slot0.Init(slot0)
+	slot0.selectActivityID_ = {}
+	slot0.reprintField_ = ""
+	slot0.firstEnterActivityIDList_ = {}
 end
 
-function var_0_0.SetSelectActivityID(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.selectActivityID_[arg_2_1] = arg_2_0.selectActivityID_[arg_2_1] or {}
-	arg_2_0.selectActivityID_[arg_2_1] = arg_2_2
+function slot0.SetSelectActivityID(slot0, slot1, slot2)
+	slot0.selectActivityID_[slot1] = slot0.selectActivityID_[slot1] or {}
+	slot0.selectActivityID_[slot1] = slot2
 end
 
-function var_0_0.GetSelectActivityID(arg_3_0, arg_3_1)
-	return arg_3_0.selectActivityID_[arg_3_1]
+function slot0.GetSelectActivityID(slot0, slot1)
+	return slot0.selectActivityID_[slot1]
 end
 
-function var_0_0.SetReprintField(arg_4_0, arg_4_1)
-	arg_4_0.reprintField_ = arg_4_1
+function slot0.SetReprintField(slot0, slot1)
+	slot0.reprintField_ = slot1
 end
 
-function var_0_0.GetReprintField(arg_5_0)
-	return arg_5_0.reprintField_
+function slot0.GetReprintField(slot0)
+	return slot0.reprintField_
 end
 
-function var_0_0.SetFirstEnterActivityFlag(arg_6_0, arg_6_1)
-	arg_6_0.firstEnterActivityIDList_[arg_6_1] = true
+function slot0.SetFirstEnterActivityFlag(slot0, slot1)
+	slot0.firstEnterActivityIDList_[slot1] = true
 end
 
-function var_0_0.GetFirstEnterActivityFlag(arg_7_0, arg_7_1)
-	return arg_7_0.firstEnterActivityIDList_[arg_7_1]
+function slot0.GetFirstEnterActivityFlag(slot0, slot1)
+	return slot0.firstEnterActivityIDList_[slot1]
 end
 
-return var_0_0
+return slot0

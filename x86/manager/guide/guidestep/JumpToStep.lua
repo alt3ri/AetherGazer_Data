@@ -1,22 +1,20 @@
-local var_0_0 = class("JumpToStep", BaseStep)
+slot0 = class("JumpToStep", BaseStep)
 
-function var_0_0.Init(arg_1_0, arg_1_1)
-	local var_1_0 = GuideStepCfg[arg_1_0._stepId]
-
-	arg_1_0._isNoHome = arg_1_0._guide.is_no_home
-	arg_1_0._linkData = var_1_0.params
+function slot0.Init(slot0, slot1)
+	slot0._isNoHome = slot0._guide.is_no_home
+	slot0._linkData = GuideStepCfg[slot0._stepId].params
 end
 
-function var_0_0.Play(arg_2_0)
-	if arg_2_0._linkData[1] == 101 or arg_2_0._isNoHome then
+function slot0.Play(slot0)
+	if slot0._linkData[1] == 101 or slot0._isNoHome then
 		gameContext:ClearHistory()
 	end
 
-	JumpTools.OpenPageUntilLoaded(JumpTools.GetLinkAndParams(arg_2_0._linkData))
-	arg_2_0:OnStepEnd()
+	JumpTools.OpenPageUntilLoaded(JumpTools.GetLinkAndParams(slot0._linkData))
+	slot0:OnStepEnd()
 end
 
-function var_0_0.Check(arg_3_0)
+function slot0.Check(slot0)
 	if whereami == "home" and not LuaExchangeHelper.GetSceneIsHanding() then
 		return true
 	else
@@ -24,4 +22,4 @@ function var_0_0.Check(arg_3_0)
 	end
 end
 
-return var_0_0
+return slot0

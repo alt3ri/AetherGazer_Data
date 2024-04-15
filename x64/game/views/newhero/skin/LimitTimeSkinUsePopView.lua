@@ -1,160 +1,154 @@
-local var_0_0 = class("LimitTimeSkinUsePopView", ReduxView)
+slot0 = class("LimitTimeSkinUsePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Recharge/LimitTimeSkinUsePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.skinOwnController_ = arg_4_0.skinController_:GetController("owned2")
-	arg_4_0.dlcOwnController_ = arg_4_0.dlcController_:GetController("owned2")
-	arg_4_0.stateController_ = arg_4_0.controller_:GetController("state")
-	arg_4_0.tipsController_ = arg_4_0.controller_:GetController("tips")
-	arg_4_0.btnController_ = arg_4_0.controller_:GetController("btn")
-	arg_4_0.skinItem_ = CommonItemView.New(arg_4_0.skinItemGo_)
-	arg_4_0.dlcItem_ = CommonItemView.New(arg_4_0.dlcItemGo_)
+	slot0.skinOwnController_ = slot0.skinController_:GetController("owned2")
+	slot0.dlcOwnController_ = slot0.dlcController_:GetController("owned2")
+	slot0.stateController_ = slot0.controller_:GetController("state")
+	slot0.tipsController_ = slot0.controller_:GetController("tips")
+	slot0.btnController_ = slot0.controller_:GetController("btn")
+	slot0.skinItem_ = CommonItemView.New(slot0.skinItemGo_)
+	slot0.dlcItem_ = CommonItemView.New(slot0.dlcItemGo_)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.tipsBtn_, nil, function()
-		if arg_5_0:HasOwnAllItem() then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.tipsBtn_, nil, function ()
+		if uv0:HasOwnAllItem() then
 			return
 		end
 
-		if arg_5_0.showSkin_ then
-			arg_5_0.showSkin_ = false
+		if uv0.showSkin_ then
+			uv0.showSkin_ = false
 		else
-			arg_5_0.showSkin_ = true
+			uv0.showSkin_ = true
 		end
 
-		arg_5_0.tipsController_:SetSelectedState(tostring(arg_5_0.showSkin_))
+		uv0.tipsController_:SetSelectedState(tostring(uv0.showSkin_))
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.mask_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.mask_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.noBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.noBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.hadBtn_, nil, function()
-		arg_5_0:CheckCanUse()
+	slot0:AddBtnListener(slot0.hadBtn_, nil, function ()
+		uv0:CheckCanUse()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.yesBtn_, nil, function()
-		local var_10_0 = {
+	slot0:AddBtnListener(slot0.yesBtn_, nil, function ()
+		slot0 = {
 			item_info = {
 				num = 1,
-				id = arg_5_0.itemId_,
-				time_valid = arg_5_0.timeValid
+				id = uv0.itemId_,
+				time_valid = uv0.timeValid
 			},
 			use_list = {}
 		}
 
-		if not arg_5_0:CheckCanUse() then
+		if not uv0:CheckCanUse() then
 			return
 		end
 
 		CommonAction.TryToUseItemWitchCallback({
-			var_10_0
-		}, function(arg_11_0)
-			arg_5_0:UseItemSuccess(arg_11_0)
+			slot0
+		}, function (slot0)
+			uv0:UseItemSuccess(slot0)
 		end)
 	end)
 end
 
-function var_0_0.UseItemSuccess(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_1.drop_list
+function slot0.UseItemSuccess(slot0, slot1)
+	slot0:Back()
+	getReward(slot1.drop_list)
+	HeroAction.SelectSkin(SkinCfg[slot0.skinId_].hero, slot0.skinId_)
 
-	arg_12_0:Back()
-	getReward(var_12_0)
-	HeroAction.SelectSkin(SkinCfg[arg_12_0.skinId_].hero, arg_12_0.skinId_)
-
-	if arg_12_0.showSkin_ then
-		PlayerAction.ChangePosterGirl(SkinCfg[arg_12_0.skinId_].hero)
+	if slot0.showSkin_ then
+		PlayerAction.ChangePosterGirl(SkinCfg[slot0.skinId_].hero)
 	end
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0.itemId_ = arg_13_0.params_.itemData.id
-	arg_13_0.timeValid = ItemTools.GetItemExpiredTimeByInfo(arg_13_0.params_.itemData)
-	arg_13_0.cfg_ = ItemCfg[arg_13_0.itemId_]
-	arg_13_0.reward_ = arg_13_0.cfg_.param
-	arg_13_0.dlcId_ = nil
-	arg_13_0.skinId_ = nil
-	arg_13_0.LimitDlcId_ = nil
-	arg_13_0.LimitskinItemId_ = nil
+function slot0.OnEnter(slot0)
+	slot0.itemId_ = slot0.params_.itemData.id
+	slot0.timeValid = ItemTools.GetItemExpiredTimeByInfo(slot0.params_.itemData)
+	slot0.cfg_ = ItemCfg[slot0.itemId_]
+	slot0.reward_ = slot0.cfg_.param
+	slot0.dlcId_ = nil
+	slot0.skinId_ = nil
+	slot0.LimitDlcId_ = nil
+	slot0.LimitskinItemId_ = nil
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.reward_) do
-		local var_13_0 = ItemCfg[iter_13_1]
-
-		if var_13_0.type == ItemConst.ITEM_TYPE.HERO_SKIN then
-			arg_13_0.LimitskinItemId_ = iter_13_1
-		elseif var_13_0.type == ItemConst.ITEM_TYPE.SCENE then
-			arg_13_0.LimitDlcId_ = iter_13_1
+	for slot4, slot5 in ipairs(slot0.reward_) do
+		if ItemCfg[slot5].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+			slot0.LimitskinItemId_ = slot5
+		elseif slot6.type == ItemConst.ITEM_TYPE.SCENE then
+			slot0.LimitDlcId_ = slot5
 		end
 	end
 
-	if arg_13_0.LimitskinItemId_ then
-		arg_13_0.LimitskinItemCfg_ = ItemCfg[arg_13_0.LimitskinItemId_]
+	if slot0.LimitskinItemId_ then
+		slot0.LimitskinItemCfg_ = ItemCfg[slot0.LimitskinItemId_]
 
-		if arg_13_0.LimitskinItemCfg_ then
-			arg_13_0.skinId_ = arg_13_0.LimitskinItemCfg_.param[1]
-			arg_13_0.heroId_ = SkinCfg[arg_13_0.skinId_].hero
+		if slot0.LimitskinItemCfg_ then
+			slot0.skinId_ = slot0.LimitskinItemCfg_.param[1]
+			slot0.heroId_ = SkinCfg[slot0.skinId_].hero
 		end
 	end
 
-	if arg_13_0.LimitDlcId_ then
-		arg_13_0.LimitDlcCfg_ = ItemCfg[arg_13_0.LimitDlcId_]
+	if slot0.LimitDlcId_ then
+		slot0.LimitDlcCfg_ = ItemCfg[slot0.LimitDlcId_]
 
-		if arg_13_0.LimitDlcCfg_ then
-			arg_13_0.dlcId_ = arg_13_0.LimitDlcCfg_.param[1]
+		if slot0.LimitDlcCfg_ then
+			slot0.dlcId_ = slot0.LimitDlcCfg_.param[1]
 		end
 	end
 
-	arg_13_0.showSkin_ = true
+	slot0.showSkin_ = true
 
-	arg_13_0.tipsController_:SetSelectedState(tostring(arg_13_0.showSkin_))
-	arg_13_0:UpdateView()
+	slot0.tipsController_:SetSelectedState(tostring(slot0.showSkin_))
+	slot0:UpdateView()
 end
 
-function var_0_0.HasOwnAllItem(arg_14_0)
-	local var_14_0 = false
-	local var_14_1 = false
+function slot0.HasOwnAllItem(slot0)
+	slot1 = false
+	slot2 = false
 
-	if arg_14_0.skinId_ and arg_14_0.dlcId_ then
-		local var_14_2 = HeroTools.GetHasOwnedSkin(arg_14_0.skinId_)
-
-		if HomeSceneSettingData:IsHaveScene(arg_14_0.dlcId_) and var_14_2 then
+	if slot0.skinId_ and slot0.dlcId_ then
+		if HomeSceneSettingData:IsHaveScene(slot0.dlcId_) and HeroTools.GetHasOwnedSkin(slot0.skinId_) then
 			return true
 		end
-	elseif not arg_14_0.skinId_ and arg_14_0.dlcId_ then
-		if HomeSceneSettingData:IsHaveScene(arg_14_0.dlcId_) then
+	elseif not slot0.skinId_ and slot0.dlcId_ then
+		if HomeSceneSettingData:IsHaveScene(slot0.dlcId_) then
 			return true
 		end
-	elseif arg_14_0.skinId_ and not arg_14_0.dlcId_ and HeroTools.GetHasOwnedSkin(arg_14_0.skinId_) then
+	elseif slot0.skinId_ and not slot0.dlcId_ and HeroTools.GetHasOwnedSkin(slot0.skinId_) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.CheckCanUse(arg_15_0)
-	if HeroData:GetHeroData(arg_15_0.heroId_).unlock == 0 then
+function slot0.CheckCanUse(slot0)
+	if HeroData:GetHeroData(slot0.heroId_).unlock == 0 then
 		ShowTips("ERROR_HERO_NOT_UNLOCK")
 
 		return false
 	end
 
-	if arg_15_0:HasOwnAllItem() then
-		ShowTips(string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[arg_15_0.itemId_].name))
+	if slot0:HasOwnAllItem() then
+		ShowTips(string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[slot0.itemId_].name))
 
 		return false
 	end
@@ -162,85 +156,82 @@ function var_0_0.CheckCanUse(arg_15_0)
 	return true
 end
 
-function var_0_0.UpdateItemView(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = clone(ItemTemplateData)
+function slot0.UpdateItemView(slot0, slot1, slot2)
+	slot3 = clone(ItemTemplateData)
+	slot3.id = slot2
+	slot3.number = nil
 
-	var_16_0.id = arg_16_2
-	var_16_0.number = nil
-
-	arg_16_1:SetData(var_16_0)
+	slot1:SetData(slot3)
 end
 
-function var_0_0.UpdateView(arg_17_0)
-	if arg_17_0.skinId_ then
-		arg_17_0:UpdateItemView(arg_17_0.skinItem_, arg_17_0.skinId_)
+function slot0.UpdateView(slot0)
+	if slot0.skinId_ then
+		slot0:UpdateItemView(slot0.skinItem_, slot0.skinId_)
 	end
 
-	if arg_17_0.dlcId_ then
-		arg_17_0:UpdateItemView(arg_17_0.dlcItem_, arg_17_0.dlcId_)
+	if slot0.dlcId_ then
+		slot0:UpdateItemView(slot0.dlcItem_, slot0.dlcId_)
 	end
 
-	SetActive(arg_17_0.tipsBtnGo_, not arg_17_0:HasOwnAllItem())
+	SetActive(slot0.tipsBtnGo_, not slot0:HasOwnAllItem())
 
-	arg_17_0.skinImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_17_0.skinId_)
-	arg_17_0.titleText_.text = SkinCfg[arg_17_0.skinId_].name
-	arg_17_0.leftTimeText_.text = arg_17_0.LimitskinItemCfg_.time[2][1] .. GetTips("DAY")
+	slot0.skinImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.skinId_)
+	slot0.titleText_.text = SkinCfg[slot0.skinId_].name
+	slot0.leftTimeText_.text = slot0.LimitskinItemCfg_.time[2][1] .. GetTips("DAY")
 
-	if arg_17_0.skinId_ and arg_17_0.dlcId_ then
-		arg_17_0.stateController_:SetSelectedState("all")
-	elseif arg_17_0.skinId_ and not arg_17_0.dlcId_ then
-		arg_17_0.stateController_:SetSelectedState("skin")
-	elseif not arg_17_0.skinId_ and arg_17_0.dlcId_ then
-		arg_17_0.stateController_:SetSelectedState("dlc")
+	if slot0.skinId_ and slot0.dlcId_ then
+		slot0.stateController_:SetSelectedState("all")
+	elseif slot0.skinId_ and not slot0.dlcId_ then
+		slot0.stateController_:SetSelectedState("skin")
+	elseif not slot0.skinId_ and slot0.dlcId_ then
+		slot0.stateController_:SetSelectedState("dlc")
 	end
 
-	local var_17_0 = false
+	slot1 = false
 
-	if arg_17_0.dlcId_ then
-		var_17_0 = HomeSceneSettingData:IsHaveScene(arg_17_0.dlcId_)
+	if slot0.dlcId_ then
+		slot1 = HomeSceneSettingData:IsHaveScene(slot0.dlcId_)
 	end
 
-	local var_17_1 = false
+	slot2 = false
 
-	if arg_17_0.skinId_ then
-		var_17_1 = HeroTools.GetHasOwnedSkin(arg_17_0.skinId_)
+	if slot0.skinId_ then
+		slot2 = HeroTools.GetHasOwnedSkin(slot0.skinId_)
 	end
 
-	if var_17_1 then
-		arg_17_0.skinOwnController_:SetSelectedState("on")
+	if slot2 then
+		slot0.skinOwnController_:SetSelectedState("on")
 	else
-		arg_17_0.skinOwnController_:SetSelectedState("off")
+		slot0.skinOwnController_:SetSelectedState("off")
 	end
 
-	if var_17_0 then
-		arg_17_0.dlcOwnController_:SetSelectedState("on")
+	if slot1 then
+		slot0.dlcOwnController_:SetSelectedState("on")
 	else
-		arg_17_0.dlcOwnController_:SetSelectedState("off")
+		slot0.dlcOwnController_:SetSelectedState("off")
 	end
 
-	arg_17_0.btnController_:SetSelectedState(tostring(arg_17_0:HasOwnAllItem()))
+	slot0.btnController_:SetSelectedState(tostring(slot0:HasOwnAllItem()))
 
-	local var_17_2 = HeroCfg[arg_17_0.heroId_].name .. "·" .. HeroCfg[arg_17_0.heroId_].suffix
-
-	if arg_17_0.dlcId_ then
-		if not var_17_1 and not var_17_0 then
-			arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_1"), ItemCfg[arg_17_0.itemId_].name, var_17_2, SkinCfg[arg_17_0.skinId_].name, HomeSceneSettingCfg[arg_17_0.dlcId_].title)
-		elseif var_17_1 and not var_17_0 then
-			arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_2"), ItemCfg[arg_17_0.itemId_].name, SkinCfg[arg_17_0.skinId_].name, HomeSceneSettingCfg[arg_17_0.dlcId_].title)
-		elseif not var_17_1 and var_17_0 then
-			arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_3"), ItemCfg[arg_17_0.itemId_].name, var_17_2, SkinCfg[arg_17_0.skinId_].name)
+	if slot0.dlcId_ then
+		if not slot2 and not slot1 then
+			slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_1"), ItemCfg[slot0.itemId_].name, HeroCfg[slot0.heroId_].name .. "·" .. HeroCfg[slot0.heroId_].suffix, SkinCfg[slot0.skinId_].name, HomeSceneSettingCfg[slot0.dlcId_].title)
+		elseif slot2 and not slot1 then
+			slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_2"), ItemCfg[slot0.itemId_].name, SkinCfg[slot0.skinId_].name, HomeSceneSettingCfg[slot0.dlcId_].title)
+		elseif not slot2 and slot1 then
+			slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_3"), ItemCfg[slot0.itemId_].name, slot3, SkinCfg[slot0.skinId_].name)
 		else
-			arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[arg_17_0.itemId_].name)
+			slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[slot0.itemId_].name)
 		end
-	elseif not var_17_1 then
-		arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_3"), ItemCfg[arg_17_0.itemId_].name, var_17_2, SkinCfg[arg_17_0.skinId_].name)
+	elseif not slot2 then
+		slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_3"), ItemCfg[slot0.itemId_].name, slot3, SkinCfg[slot0.skinId_].name)
 	else
-		arg_17_0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[arg_17_0.itemId_].name)
+		slot0.descText_.text = string.format(GetTips("SKIN_LIMIT_TIME_DESC_4"), ItemCfg[slot0.itemId_].name)
 	end
 end
 
-function var_0_0.OnExit(arg_18_0)
-	var_0_0.super.OnExit(arg_18_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

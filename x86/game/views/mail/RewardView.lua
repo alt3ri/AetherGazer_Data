@@ -1,243 +1,212 @@
-local var_0_0 = class("RewardView", ReduxView)
+slot0 = class("RewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/RewardpopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.uiList = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uiListGo_, CommonItemView)
-	arg_3_0.rowCountController_ = arg_3_0.conExCollection_:GetController("rowCount")
+	slot0.uiList = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, CommonItemView)
+	slot0.rowCountController_ = slot0.conExCollection_:GetController("rowCount")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.itemList_[arg_6_1]
-	local var_6_1 = arg_6_0:ConvertToItemData(var_6_0)
-
-	arg_6_2:SetData(var_6_1)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0:ConvertToItemData(slot0.itemList_[slot1]))
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_1 = formatRewardCfgList(arg_7_1)
-		arg_7_1 = arg_7_0:SortItemList(arg_7_1)
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 then
+		slot1 = slot0:SortItemList(formatRewardCfgList(slot1))
+		slot0.itemList_ = slot1
+		slot0.itemPool_ = slot0.itemPool1_
+		slot0.listScrollRect_.enabled = #slot1 > 10
 
-		local var_7_0 = #arg_7_1
+		slot0.uiList:StartScroll(slot2)
 
-		arg_7_0.itemList_ = arg_7_1
-		arg_7_0.itemPool_ = arg_7_0.itemPool1_
-		arg_7_0.listScrollRect_.enabled = var_7_0 > 10
-
-		arg_7_0.uiList:StartScroll(var_7_0)
-
-		if var_7_0 > 5 then
-			arg_7_0.rowCountController_:SetSelectedState("2")
-			arg_7_0.uiList:SetAlignment(UIListAlignment.Center)
+		if slot2 > 5 then
+			slot0.rowCountController_:SetSelectedState("2")
+			slot0.uiList:SetAlignment(UIListAlignment.Center)
 		else
-			arg_7_0.rowCountController_:SetSelectedState("1")
-			arg_7_0.uiList:SetAlignment(UIListAlignment.Center2)
+			slot0.rowCountController_:SetSelectedState("1")
+			slot0.uiList:SetAlignment(UIListAlignment.Center2)
 		end
 	end
 end
 
-function var_0_0.Init(arg_8_0)
-	arg_8_0:InitUI()
-	arg_8_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:RefreshUI(arg_9_0.params_.list)
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI(slot0.params_.list)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0:ShowVitalityBox(function()
-		arg_10_0:ShowEquipBox(function()
-			return
+function slot0.OnExit(slot0)
+	slot0:ShowVitalityBox(function ()
+		uv0:ShowEquipBox(function ()
 		end)
 	end)
 end
 
-function var_0_0.ShowVitalityBox(arg_13_0, arg_13_1)
-	if arg_13_0.params_.needShowVitalityBox then
-		showVitalitySendMail(arg_13_1)
+function slot0.ShowVitalityBox(slot0, slot1)
+	if slot0.params_.needShowVitalityBox then
+		showVitalitySendMail(slot1)
 	else
-		arg_13_1()
+		slot1()
 	end
 end
 
-function var_0_0.ShowEquipBox(arg_14_0, arg_14_1)
-	if arg_14_0.params_.needShowEquipBox then
-		showEquipSendMail(arg_14_1)
+function slot0.ShowEquipBox(slot0, slot1)
+	if slot0.params_.needShowEquipBox then
+		showEquipSendMail(slot1)
 	else
-		arg_14_1()
+		slot1()
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	if arg_15_0.uiList ~= nil then
-		arg_15_0.uiList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList ~= nil then
+		slot0.uiList:Dispose()
 
-		arg_15_0.uiList = nil
+		slot0.uiList = nil
 	end
 
-	if arg_15_0.itemPool1_ ~= nil then
-		arg_15_0.itemPool1_:Dispose()
+	if slot0.itemPool1_ ~= nil then
+		slot0.itemPool1_:Dispose()
 
-		arg_15_0.itemPool1_ = nil
+		slot0.itemPool1_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.DisablebgBtn(arg_16_0)
-	arg_16_0.bgBtn_.enabled = false
+function slot0.DisablebgBtn(slot0)
+	slot0.bgBtn_.enabled = false
 end
 
-function var_0_0.ConvertToItemData(arg_17_0, arg_17_1)
-	local var_17_0 = rewardToItemTemplate(arg_17_1)
+function slot0.ConvertToItemData(slot0, slot1)
+	slot2.number = rewardToItemTemplate(slot1).number or slot1.number
 
-	var_17_0.number = var_17_0.number or arg_17_1.number
-
-	function var_17_0.clickFun(arg_18_0)
-		ShowPopItem(POP_ITEM, arg_18_0)
+	function slot2.clickFun(slot0)
+		ShowPopItem(POP_ITEM, slot0)
 	end
 
-	var_17_0.animatorType = ItemConst.ITEM_ANIMATOR_TYPE.ADVANCED
+	slot2.animatorType = ItemConst.ITEM_ANIMATOR_TYPE.ADVANCED
 
-	return var_17_0
+	return slot2
 end
 
-function var_0_0.Back(arg_19_0, arg_19_1)
+function slot0.Back(slot0, slot1)
 	if manager.guide:IsPlaying() then
-		var_0_0.super.Back(arg_19_0)
+		uv0.super.Back(slot0)
 
 		return
 	end
 
-	if arg_19_0:IsAnimEnd() then
-		var_0_0.super.Back(arg_19_0)
+	if slot0:IsAnimEnd() then
+		uv0.super.Back(slot0)
 
-		if arg_19_1 then
-			arg_19_1()
+		if slot1 then
+			slot1()
 		end
 	else
-		arg_19_0:StopAllAnim()
+		slot0:StopAllAnim()
 	end
 end
 
-local function var_0_1(arg_20_0)
-	if arg_20_0 == nil then
+function slot1(slot0)
+	if slot0 == nil then
 		return true
 	end
 
-	if arg_20_0:GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.999 then
+	if slot0:GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.999 then
 		return true
 	end
 
 	return false
 end
 
-local function var_0_2(arg_21_0)
-	if arg_21_0 == nil then
+function slot2(slot0)
+	if slot0 == nil then
 		return
 	end
 
-	arg_21_0:Update(99999)
+	slot0:Update(99999)
 end
 
-function var_0_0.IsAnimEnd(arg_22_0)
-	if #arg_22_0.params_.list == 0 then
+function slot0.IsAnimEnd(slot0)
+	if #slot0.params_.list == 0 then
 		return true
 	end
 
-	if not var_0_1(arg_22_0.animator_) then
+	if not uv0(slot0.animator_) then
 		return false
 	end
 
-	local var_22_0, var_22_1 = arg_22_0.uiList:GetHeadAndTail()
+	slot1, slot2 = slot0.uiList:GetHeadAndTail()
 
-	if var_22_0 == 0 then
+	if slot1 == 0 then
 		return false
 	end
 
-	local var_22_2 = arg_22_0.uiList:GetItemByIndex(var_22_0)
-
-	return var_0_1(var_22_2.animator_)
+	return uv0(slot0.uiList:GetItemByIndex(slot1).animator_)
 end
 
-function var_0_0.StopAllAnim(arg_23_0)
-	var_0_2(arg_23_0.animator_)
+function slot0.StopAllAnim(slot0)
+	uv0(slot0.animator_)
 
-	local var_23_0 = arg_23_0.uiList:GetItemList()
-
-	for iter_23_0, iter_23_1 in pairs(var_23_0) do
-		var_0_2(iter_23_1.animator_)
+	for slot5, slot6 in pairs(slot0.uiList:GetItemList()) do
+		uv0(slot6.animator_)
 	end
 end
 
-local function var_0_3(arg_24_0, arg_24_1)
-	local var_24_0 = arg_24_0.id
-	local var_24_1 = arg_24_1.id
-	local var_24_2 = ItemCfg[var_24_0]
-	local var_24_3 = ItemCfg[var_24_1]
-	local var_24_4 = var_24_2.rare
-	local var_24_5 = var_24_3.rare
-
-	if var_24_4 ~= var_24_5 then
-		return var_24_5 < var_24_4
+function slot3(slot0, slot1)
+	if ItemCfg[slot0.id].rare ~= ItemCfg[slot1.id].rare then
+		return slot7 < slot6
 	end
 
-	local var_24_6 = var_24_2.type
-	local var_24_7 = var_24_3.type
+	if slot4.type ~= slot5.type then
+		return slot9 < slot8
+	elseif slot8 == ItemConst.ITEM_TYPE.EQUIP then
+		slot10 = 0
+		slot11 = 0
 
-	if var_24_6 ~= var_24_7 then
-		return var_24_7 < var_24_6
-	elseif var_24_6 == ItemConst.ITEM_TYPE.EQUIP then
-		local var_24_8 = 0
-		local var_24_9 = 0
-		local var_24_10 = EquipCfg[var_24_0].starlevel
-		local var_24_11 = EquipCfg[var_24_1].starlevel
-
-		if var_24_10 == var_24_11 then
-			return var_24_1 < var_24_0
+		if EquipCfg[slot2].starlevel == EquipCfg[slot3].starlevel then
+			return slot3 < slot2
 		else
-			return var_24_11 < var_24_10
+			return slot11 < slot10
 		end
 	else
-		return var_24_1 < var_24_0
+		return slot3 < slot2
 	end
 end
 
-local function var_0_4(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = arg_25_2.type
-	local var_25_1 = table.indexof(arg_25_0, var_25_0)
-
-	if var_25_1 and arg_25_1[var_25_0] then
-		local var_25_2 = table.indexof(arg_25_1[var_25_0], arg_25_2.id)
-
-		if var_25_2 then
-			return var_25_1, var_25_2
+function slot4(slot0, slot1, slot2)
+	if table.indexof(slot0, slot2.type) and slot1[slot3] then
+		if table.indexof(slot1[slot3], slot2.id) then
+			return slot4, slot5
 		else
 			return false
 		end
 	end
 
-	return var_25_1
+	return slot4
 end
 
-function var_0_0.SortItemList(arg_26_0, arg_26_1)
-	local var_26_0 = {
+function slot0.SortItemList(slot0, slot1)
+	slot2 = {
 		ItemConst.ITEM_TYPE.HERO,
 		ItemConst.ITEM_TYPE.HERO_SKIN,
 		ItemConst.ITEM_TYPE.SCENE,
@@ -247,7 +216,7 @@ function var_0_0.SortItemList(arg_26_0, arg_26_1)
 		ItemConst.ITEM_TYPE.FRAME,
 		ItemConst.ITEM_TYPE.STICKER
 	}
-	local var_26_1 = {
+	slot3 = {
 		[ItemConst.ITEM_TYPE.CURRENCY] = {
 			1,
 			30,
@@ -256,28 +225,24 @@ function var_0_0.SortItemList(arg_26_0, arg_26_1)
 		}
 	}
 
-	table.sort(arg_26_1, function(arg_27_0, arg_27_1)
-		local var_27_0 = arg_27_0.id
-		local var_27_1 = arg_27_1.id
-		local var_27_2 = ItemCfg[var_27_0]
-		local var_27_3 = ItemCfg[var_27_1]
-		local var_27_4, var_27_5 = var_0_4(var_26_0, var_26_1, var_27_2)
-		local var_27_6, var_27_7 = var_0_4(var_26_0, var_26_1, var_27_3)
+	table.sort(slot1, function (slot0, slot1)
+		slot6, slot7 = uv0(uv1, uv2, ItemCfg[slot0.id])
+		slot8, slot9 = uv0(uv1, uv2, ItemCfg[slot1.id])
 
-		if var_27_4 and var_27_6 then
-			if var_27_4 == var_27_6 and var_27_5 and var_27_7 then
-				return var_27_5 < var_27_7
+		if slot6 and slot8 then
+			if slot6 == slot8 and slot7 and slot9 then
+				return slot7 < slot9
 			else
-				return var_27_4 < var_27_6
+				return slot6 < slot8
 			end
-		elseif var_27_4 ~= var_27_6 then
-			return var_27_6 == false
+		elseif slot6 ~= slot8 then
+			return slot8 == false
 		end
 
-		return var_0_3(arg_27_0, arg_27_1)
+		return uv3(slot0, slot1)
 	end)
 
-	return arg_26_1
+	return slot1
 end
 
-return var_0_0
+return slot0

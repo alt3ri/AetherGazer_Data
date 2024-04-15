@@ -1,177 +1,165 @@
-local var_0_0 = class("RechargeGiftPopView", ReduxView)
+slot0 = class("RechargeGiftPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Recharge/RechargeGiftPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.immeRewardItemList_ = {}
-	arg_3_0.immeRewardItemList2_ = {}
-	arg_3_0.dailyRewardItemList_ = {}
+function slot0.Init(slot0)
+	slot0.immeRewardItemList_ = {}
+	slot0.immeRewardItemList2_ = {}
+	slot0.dailyRewardItemList_ = {}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardTypeController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "rewardType")
-	arg_4_0.costTypeController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "costType")
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.listGo_, RechargeGiftPopItem)
+	slot0.rewardTypeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "rewardType")
+	slot0.costTypeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "costType")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, RechargeGiftPopItem)
 end
 
-function var_0_0.indexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.itemDesCfg.param[arg_5_1][1], arg_5_0.itemDesCfg.param[arg_5_1][2])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.itemDesCfg.param[slot1][1], slot0.itemDesCfg.param[slot1][2])
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.cancelBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buyBtn_, nil, function()
+	slot0:AddBtnListener(slot0.buyBtn_, nil, function ()
 		SendMessageManagerToSDK("purchase_click_gp_once")
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
-			payment_giftbox_buy = arg_6_0.goodID
+			payment_giftbox_buy = uv0.goodID
 		})
 
-		local var_9_0 = ShopListCfg[arg_6_0.shopID]
-
-		if OperationData:IsFunctionStoped(var_9_0.operation_stop_id) then
+		if OperationData:IsFunctionStoped(ShopListCfg[uv0.shopID].operation_stop_id) then
 			ShowTips("ERROR_FUNCTION_STOP")
 
 			return
 		end
 
-		if ShopTools.IsRMB(arg_6_0.goodID) then
-			local var_9_1
+		if ShopTools.IsRMB(uv0.goodID) then
+			slot1 = nil
 
-			if arg_6_0:IsOnDiscountArea() then
-				var_9_1 = PaymentCfg[arg_6_0.shopCfg.cheap_cost_id]
-			else
-				var_9_1 = PaymentCfg[arg_6_0.shopCfg.cost_id]
-			end
-
-			local var_9_2 = arg_6_0.params_.buy_source or 0
-
-			PayAction.RequestGSPay(var_9_1.id, arg_6_0.selectNum, arg_6_0.shopCfg.shop_id, arg_6_0.shopCfg.goods_id, nil, var_9_2)
+			PayAction.RequestGSPay(((not uv0:IsOnDiscountArea() or PaymentCfg[uv0.shopCfg.cheap_cost_id]) and PaymentCfg[uv0.shopCfg.cost_id]).id, uv0.selectNum, uv0.shopCfg.shop_id, uv0.shopCfg.goods_id, nil, uv0.params_.buy_source or 0)
 		else
-			local var_9_3 = arg_6_0.params_.buy_source or 0
+			slot1 = uv0.params_.buy_source or 0
 
-			if ShopTools.GetPrice(arg_6_0.goodID) == 0 then
-				arg_6_0:Back()
+			if ShopTools.GetPrice(uv0.goodID) == 0 then
+				uv0:Back()
 				ShopAction.BuyItem({
 					{
-						goodID = arg_6_0.goodID,
-						buyNum = arg_6_0.selectNum
+						goodID = uv0.goodID,
+						buyNum = uv0.selectNum
 					}
-				}, nil, var_9_3)
+				}, nil, slot1)
 
 				return
 			end
 
-			ShopTools.ConfirmBuyItem(arg_6_0.goodID, arg_6_0.selectNum, function()
+			ShopTools.ConfirmBuyItem(uv0.goodID, uv0.selectNum, function ()
 				SDKTools.SendPaymentMessageToSDK("payment_touch", {
 					payment_giftbox_check = 0
 				})
-				arg_6_0:Back()
-			end, function()
+				uv0:Back()
+			end, function ()
 				SDKTools.SendPaymentMessageToSDK("payment_touch", {
 					payment_giftbox_check = 1
 				})
-				arg_6_0:UpdateRealtimePrice()
-				arg_6_0:UpdatePreview()
-			end, var_9_3)
+				uv0:UpdateRealtimePrice()
+				uv0:UpdatePreview()
+			end, slot1)
 		end
 	end)
-	arg_6_0.useNumSlider_.onValueChanged:AddListener(function()
-		arg_6_0.selectNum = arg_6_0.useNumSlider_.value
+	slot0.useNumSlider_.onValueChanged:AddListener(function ()
+		uv0.selectNum = uv0.useNumSlider_.value
 
-		if arg_6_0.selectNum < 1 then
-			arg_6_0.selectNum = 1
+		if uv0.selectNum < 1 then
+			uv0.selectNum = 1
 
-			arg_6_0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateSliderPositionBySelectNum()
 		end
 
-		arg_6_0:UpdateDelAddBtn()
-		arg_6_0:UpdatePreview()
+		uv0:UpdateDelAddBtn()
+		uv0:UpdatePreview()
 	end)
-	arg_6_0:AddPressingByTimeListener(arg_6_0.delBtn_.gameObject, 3, 0.5, 0.2, function()
-		if arg_6_0.selectNum > 1 then
-			arg_6_0.selectNum = arg_6_0.selectNum - 1
+	slot0:AddPressingByTimeListener(slot0.delBtn_.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.selectNum > 1 then
+			uv0.selectNum = uv0.selectNum - 1
 
-			arg_6_0:UpdateSliderPositionBySelectNum()
-			arg_6_0:UpdateDelAddBtn()
-			arg_6_0:UpdatePreview()
+			uv0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateDelAddBtn()
+			uv0:UpdatePreview()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_6_0:AddPressingByTimeListener(arg_6_0.addBtn_.gameObject, 3, 0.5, 0.2, function()
-		if arg_6_0.selectNum < arg_6_0.canUseMaxNum_ then
-			arg_6_0.selectNum = arg_6_0.selectNum + 1
+	slot0:AddPressingByTimeListener(slot0.addBtn_.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.selectNum < uv0.canUseMaxNum_ then
+			uv0.selectNum = uv0.selectNum + 1
 
-			arg_6_0:UpdateSliderPositionBySelectNum()
-			arg_6_0:UpdateDelAddBtn()
-			arg_6_0:UpdatePreview()
+			uv0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateDelAddBtn()
+			uv0:UpdatePreview()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.infoBtn_, nil, function()
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			title = GetTips("SHOP_GIFT_DESCRIBE"),
-			content = arg_6_0.itemDesCfg.desc2
+			content = uv0.itemDesCfg.desc2
 		})
 	end)
 end
 
-function var_0_0.UpdateDelAddBtn(arg_16_0)
-	arg_16_0.delBtn_.interactable = arg_16_0.selectNum > 1
-	arg_16_0.addBtn_.interactable = arg_16_0.selectNum < arg_16_0.canUseMaxNum_
+function slot0.UpdateDelAddBtn(slot0)
+	slot0.delBtn_.interactable = slot0.selectNum > 1
+	slot0.addBtn_.interactable = slot0.selectNum < slot0.canUseMaxNum_
 end
 
-function var_0_0.UpdateSliderPositionBySelectNum(arg_17_0)
-	arg_17_0.useNumSlider_.value = arg_17_0.selectNum
+function slot0.UpdateSliderPositionBySelectNum(slot0)
+	slot0.useNumSlider_.value = slot0.selectNum
 end
 
-function var_0_0.UpdateRealtimePrice(arg_18_0)
-	arg_18_0.price_, arg_18_0.oldPrice_, arg_18_0.pricePercent_ = ShopTools.GetPrice(arg_18_0.goodID)
+function slot0.UpdateRealtimePrice(slot0)
+	slot0.price_, slot0.oldPrice_, slot0.pricePercent_ = ShopTools.GetPrice(slot0.goodID)
 end
 
-function var_0_0.UpdatePreview(arg_19_0)
-	arg_19_0.buyNumLabel_.text = tostring(arg_19_0.selectNum)
+function slot0.UpdatePreview(slot0)
+	slot0.buyNumLabel_.text = tostring(slot0.selectNum)
 
-	local var_19_0 = arg_19_0.price_ * arg_19_0.selectNum
+	if slot0.price_ * slot0.selectNum <= 0 then
+		slot0.costTypeController_:SetSelectedState("free")
+	elseif ShopTools.IsRMB(slot0.goodID) then
+		slot0.costTypeController_:SetSelectedState("money")
 
-	if var_19_0 <= 0 then
-		arg_19_0.costTypeController_:SetSelectedState("free")
-	elseif ShopTools.IsRMB(arg_19_0.goodID) then
-		arg_19_0.costTypeController_:SetSelectedState("money")
-
-		arg_19_0.totleLabel_.text = var_19_0
-		arg_19_0.rmbLabel_.text = "¥"
+		slot0.totleLabel_.text = slot1
+		slot0.rmbLabel_.text = "¥"
 	else
-		arg_19_0.costTypeController_:SetSelectedState("currency")
+		slot0.costTypeController_:SetSelectedState("currency")
 
-		arg_19_0.costIcon_.sprite = ItemTools.getItemLittleSprite(arg_19_0.shopCfg.cost_id)
-		arg_19_0.totleLabel_.text = var_19_0
+		slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(slot0.shopCfg.cost_id)
+		slot0.totleLabel_.text = slot1
 	end
 end
 
-function var_0_0.UpdateBar(arg_20_0)
-	if arg_20_0.shopID == 1050 then
+function slot0.UpdateBar(slot0)
+	if slot0.shopID == 1050 then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
@@ -189,229 +177,213 @@ function var_0_0.UpdateBar(arg_20_0)
 	end
 end
 
-function var_0_0.OnTop(arg_21_0)
-	arg_21_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 	manager.windowBar:SetAsLastSibling()
-	arg_21_0:UpdateView()
-	arg_21_0:UpdatePreview()
+	slot0:UpdateView()
+	slot0:UpdatePreview()
 end
 
-function var_0_0.OnEnter(arg_22_0)
-	arg_22_0.itemCfg = arg_22_0.params_.itemCfg
-	arg_22_0.goodID = arg_22_0.params_.goodId
-	arg_22_0.buyTime = arg_22_0.params_.buyTime
-	arg_22_0.shopID = arg_22_0.params_.shopId
-	arg_22_0.shopCfg = arg_22_0.params_.shopCfg
-	arg_22_0.itemDesCfg = arg_22_0.params_.itemDesCfg_
-	arg_22_0.selectNum = 1
-	arg_22_0.multipleScrollRect_.verticalNormalizedPosition = 1
+function slot0.OnEnter(slot0)
+	slot0.itemCfg = slot0.params_.itemCfg
+	slot0.goodID = slot0.params_.goodId
+	slot0.buyTime = slot0.params_.buyTime
+	slot0.shopID = slot0.params_.shopId
+	slot0.shopCfg = slot0.params_.shopCfg
+	slot0.itemDesCfg = slot0.params_.itemDesCfg_
+	slot0.selectNum = 1
+	slot0.multipleScrollRect_.verticalNormalizedPosition = 1
 
-	arg_22_0:UpdateRealtimePrice()
+	slot0:UpdateRealtimePrice()
 
-	arg_22_0.canUseMaxNum_ = arg_22_0:GetMaxNum()
+	slot0.canUseMaxNum_ = slot0:GetMaxNum()
 
-	arg_22_0:UpdateView()
-	arg_22_0:UpdateTimer()
+	slot0:UpdateView()
+	slot0:UpdateTimer()
 
-	if arg_22_0.timer_ == nil then
-		arg_22_0.timer_ = Timer.New(function()
-			arg_22_0:UpdateTimer()
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_22_0.useNumSlider_.value = 1
+	slot0.useNumSlider_.value = 1
 
-	arg_22_0.timer_:Start()
-	arg_22_0:UpdateDelAddBtn()
-	arg_22_0:UpdatePreview()
-	arg_22_0:AddEventListeners()
+	slot0.timer_:Start()
+	slot0:UpdateDelAddBtn()
+	slot0:UpdatePreview()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.UpdateTimer(arg_24_0)
-	if #arg_24_0.shopCfg.close_time > 0 then
-		SetActive(arg_24_0.remainTimeGo_, true)
+function slot0.UpdateTimer(slot0)
+	if #slot0.shopCfg.close_time > 0 then
+		SetActive(slot0.remainTimeGo_, true)
 
-		local var_24_0 = TimeMgr.GetInstance():GetServerTime()
-		local var_24_1 = TimeMgr.GetInstance():parseTimeFromConfig(arg_24_0.shopCfg.close_time)
-
-		if var_24_1 <= var_24_0 then
-			arg_24_0.remainTimeTxt_.text = GetTips("TIP_EXPIRED")
+		if TimeMgr.GetInstance():parseTimeFromConfig(slot0.shopCfg.close_time) <= TimeMgr.GetInstance():GetServerTime() then
+			slot0.remainTimeTxt_.text = GetTips("TIP_EXPIRED")
 		else
-			arg_24_0.remainTimeTxt_.text = manager.time:GetLostTimeStr(var_24_1)
+			slot0.remainTimeTxt_.text = manager.time:GetLostTimeStr(slot2)
 		end
 	else
-		SetActive(arg_24_0.remainTimeGo_, false)
+		SetActive(slot0.remainTimeGo_, false)
 	end
 
-	if arg_24_0:IsOnDiscountArea() then
-		SetActive(arg_24_0.discountGo_, true)
+	if slot0:IsOnDiscountArea() then
+		SetActive(slot0.discountGo_, true)
 
-		arg_24_0.tipLabel_.text = ShopTools.GetDiscountLabel(arg_24_0.shopCfg.goods_id)
+		slot0.tipLabel_.text = ShopTools.GetDiscountLabel(slot0.shopCfg.goods_id)
 
-		if #arg_24_0.shopCfg.cheap_close_time > 0 then
-			arg_24_0.lastLabel_.text = manager.time:GetLostTimeStr(TimeMgr.GetInstance():parseTimeFromConfig(arg_24_0.shopCfg.cheap_close_time))
+		if #slot0.shopCfg.cheap_close_time > 0 then
+			slot0.lastLabel_.text = manager.time:GetLostTimeStr(TimeMgr.GetInstance():parseTimeFromConfig(slot0.shopCfg.cheap_close_time))
 
-			SetActive(arg_24_0.limitTimeGo_, arg_24_0.shopCfg.is_limit_time_discount == 1)
-			SetActive(arg_24_0.discountLimitTimeGo_, arg_24_0.shopCfg.is_limit_time_discount == 1)
+			SetActive(slot0.limitTimeGo_, slot0.shopCfg.is_limit_time_discount == 1)
+			SetActive(slot0.discountLimitTimeGo_, slot0.shopCfg.is_limit_time_discount == 1)
 		else
-			SetActive(arg_24_0.limitTimeGo_, false)
-			SetActive(arg_24_0.discountLimitTimeGo_, false)
+			SetActive(slot0.limitTimeGo_, false)
+			SetActive(slot0.discountLimitTimeGo_, false)
 		end
 	else
-		SetActive(arg_24_0.limitTimeGo_, false)
-		SetActive(arg_24_0.discountGo_, false)
-		SetActive(arg_24_0.limitTimeGo_, false)
-		SetActive(arg_24_0.discountLimitTimeGo_, false)
+		SetActive(slot0.limitTimeGo_, false)
+		SetActive(slot0.discountGo_, false)
+		SetActive(slot0.limitTimeGo_, false)
+		SetActive(slot0.discountLimitTimeGo_, false)
 	end
 end
 
-function var_0_0.UpdateView(arg_25_0)
-	arg_25_0.useNumSlider_.maxValue = arg_25_0.canUseMaxNum_
-	arg_25_0.nameLabel_.text = GetI18NText(arg_25_0.itemDesCfg.name)
-	arg_25_0.image_.sprite = getSpriteWithoutAtlas("TextureConfig/PrizeItem/" .. arg_25_0.itemDesCfg.icon)
+function slot0.UpdateView(slot0)
+	slot0.useNumSlider_.maxValue = slot0.canUseMaxNum_
+	slot0.nameLabel_.text = GetI18NText(slot0.itemDesCfg.name)
+	slot0.image_.sprite = getSpriteWithoutAtlas("TextureConfig/PrizeItem/" .. slot0.itemDesCfg.icon)
 
-	arg_25_0.image_:SetNativeSize()
+	slot0.image_:SetNativeSize()
 
-	if arg_25_0.shopCfg.limit_num ~= nil and arg_25_0.shopCfg.limit_num ~= -1 then
-		local var_25_0 = arg_25_0.shopCfg.limit_num - arg_25_0.buyTime
-
-		arg_25_0.limitLabel_.text = string.format("%d/%d", var_25_0, arg_25_0.shopCfg.limit_num)
-		arg_25_0.limitTitle_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[arg_25_0.shopCfg.refresh_cycle])
+	if slot0.shopCfg.limit_num ~= nil and slot0.shopCfg.limit_num ~= -1 then
+		slot0.limitLabel_.text = string.format("%d/%d", slot0.shopCfg.limit_num - slot0.buyTime, slot0.shopCfg.limit_num)
+		slot0.limitTitle_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[slot0.shopCfg.refresh_cycle])
 	else
-		arg_25_0.limitLabel_.text = " "
-		arg_25_0.limitTitle_.text = " "
+		slot0.limitLabel_.text = " "
+		slot0.limitTitle_.text = " "
 	end
 
-	SetActive(arg_25_0.limitGo_, arg_25_0.shopCfg.limit_num ~= nil and arg_25_0.shopCfg.limit_num ~= -1)
-	SetActive(arg_25_0.surperValue, arg_25_0.shopCfg.tag == ShopConst.TAGS.SUPER_VALUE)
+	SetActive(slot0.limitGo_, slot0.shopCfg.limit_num ~= nil and slot0.shopCfg.limit_num ~= -1)
+	SetActive(slot0.surperValue, slot0.shopCfg.tag == ShopConst.TAGS.SUPER_VALUE)
 
-	if arg_25_0.itemDesCfg.desc2 ~= "" then
-		arg_25_0.rewardTypeController_:SetSelectedState("value_2")
+	if slot0.itemDesCfg.desc2 ~= "" then
+		slot0.rewardTypeController_:SetSelectedState("value_2")
 
-		arg_25_0.descText_.text = arg_25_0.itemDesCfg.desc
+		slot0.descText_.text = slot0.itemDesCfg.desc
+		slot1 = slot0.itemDesCfg.param[1] or {}
 
-		local var_25_1 = arg_25_0.itemDesCfg.param[1] or {}
-
-		for iter_25_0, iter_25_1 in ipairs(var_25_1) do
-			if iter_25_0 <= #arg_25_0.immeRewardItemList2_ then
-				arg_25_0.immeRewardItemList2_[iter_25_0]:SetData(iter_25_1[1], iter_25_1[2])
+		for slot5, slot6 in ipairs(slot1) do
+			if slot5 <= #slot0.immeRewardItemList2_ then
+				slot0.immeRewardItemList2_[slot5]:SetData(slot6[1], slot6[2])
 			else
-				local var_25_2 = Object.Instantiate(arg_25_0.GiftPopItemPrefab_, arg_25_0.itemParent2_)
-				local var_25_3 = RechargeGiftPopItem.New(var_25_2)
+				slot8 = RechargeGiftPopItem.New(Object.Instantiate(slot0.GiftPopItemPrefab_, slot0.itemParent2_))
 
-				var_25_3:SetData(iter_25_1[1], iter_25_1[2])
-				table.insert(arg_25_0.immeRewardItemList2_, var_25_3)
+				slot8:SetData(slot6[1], slot6[2])
+				table.insert(slot0.immeRewardItemList2_, slot8)
 			end
 		end
 
-		while #var_25_1 < #arg_25_0.immeRewardItemList2_ do
-			arg_25_0.immeRewardItemList2_[#arg_25_0.immeRewardItemList2_]:Dispose()
-			table.remove(arg_25_0.immeRewardItemList2_, #arg_25_0.immeRewardItemList2_)
+		while #slot1 < #slot0.immeRewardItemList2_ do
+			slot0.immeRewardItemList2_[#slot0.immeRewardItemList2_]:Dispose()
+			table.remove(slot0.immeRewardItemList2_, #slot0.immeRewardItemList2_)
 		end
-	elseif arg_25_0.itemDesCfg.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
-		arg_25_0.rewardTypeController_:SetSelectedState("normal")
-		arg_25_0.list_:StartScroll(#arg_25_0.itemDesCfg.param)
-	elseif arg_25_0.itemDesCfg.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_SEVEN_PACKS then
-		arg_25_0.rewardTypeController_:SetSelectedState("multiple")
+	elseif slot0.itemDesCfg.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
+		slot0.rewardTypeController_:SetSelectedState("normal")
+		slot0.list_:StartScroll(#slot0.itemDesCfg.param)
+	elseif slot0.itemDesCfg.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_SEVEN_PACKS then
+		slot0.rewardTypeController_:SetSelectedState("multiple")
 
-		local var_25_4 = arg_25_0.itemDesCfg.param[1] or {}
-
-		if #var_25_4 > 0 then
-			for iter_25_2, iter_25_3 in ipairs(var_25_4) do
-				if iter_25_2 <= #arg_25_0.immeRewardItemList_ then
-					arg_25_0.immeRewardItemList_[iter_25_2]:SetData(iter_25_3[1], iter_25_3[2])
+		if #(slot0.itemDesCfg.param[1] or {}) > 0 then
+			for slot5, slot6 in ipairs(slot1) do
+				if slot5 <= #slot0.immeRewardItemList_ then
+					slot0.immeRewardItemList_[slot5]:SetData(slot6[1], slot6[2])
 				else
-					local var_25_5 = Object.Instantiate(arg_25_0.GiftPopItemPrefab_, arg_25_0.immeList_)
-					local var_25_6 = RechargeGiftPopItem.New(var_25_5)
+					slot8 = RechargeGiftPopItem.New(Object.Instantiate(slot0.GiftPopItemPrefab_, slot0.immeList_))
 
-					var_25_6:SetData(iter_25_3[1], iter_25_3[2] * arg_25_0.shopCfg.give)
-					table.insert(arg_25_0.immeRewardItemList_, var_25_6)
+					slot8:SetData(slot6[1], slot6[2] * slot0.shopCfg.give)
+					table.insert(slot0.immeRewardItemList_, slot8)
 				end
 			end
 
-			SetActive(arg_25_0.immeLabelGo_, true)
+			SetActive(slot0.immeLabelGo_, true)
 		else
-			SetActive(arg_25_0.immeLabelGo_, false)
+			SetActive(slot0.immeLabelGo_, false)
 		end
 
-		while #var_25_4 < #arg_25_0.immeRewardItemList_ do
-			arg_25_0.immeRewardItemList_[#arg_25_0.immeRewardItemList_]:Dispose()
-			table.remove(arg_25_0.immeRewardItemList_, #arg_25_0.immeRewardItemList_)
+		while #slot1 < #slot0.immeRewardItemList_ do
+			slot0.immeRewardItemList_[#slot0.immeRewardItemList_]:Dispose()
+			table.remove(slot0.immeRewardItemList_, #slot0.immeRewardItemList_)
 		end
 
-		local var_25_7 = arg_25_0.itemDesCfg.param[3]
+		slot8 = "CONSECUTIVE_DAYS"
+		slot7 = tostring
+		slot0.dailyLabel_.text = string.format(GetTips(slot8), slot7(slot0.itemDesCfg.param[3]))
 
-		arg_25_0.dailyLabel_.text = string.format(GetTips("CONSECUTIVE_DAYS"), tostring(var_25_7))
-
-		local var_25_8 = arg_25_0.itemDesCfg.param[2]
-
-		for iter_25_4, iter_25_5 in ipairs(var_25_8) do
-			if iter_25_4 <= #arg_25_0.dailyRewardItemList_ then
-				arg_25_0.dailyRewardItemList_[iter_25_4]:SetData(iter_25_5[1], iter_25_5[2])
+		for slot7, slot8 in ipairs(slot0.itemDesCfg.param[2]) do
+			if slot7 <= #slot0.dailyRewardItemList_ then
+				slot0.dailyRewardItemList_[slot7]:SetData(slot8[1], slot8[2])
 			else
-				local var_25_9 = Object.Instantiate(arg_25_0.GiftPopItemPrefab_, arg_25_0.dailyList_)
-				local var_25_10 = RechargeGiftPopItem.New(var_25_9)
+				slot10 = RechargeGiftPopItem.New(Object.Instantiate(slot0.GiftPopItemPrefab_, slot0.dailyList_))
 
-				var_25_10:SetData(iter_25_5[1], iter_25_5[2])
-				table.insert(arg_25_0.dailyRewardItemList_, var_25_10)
+				slot10:SetData(slot8[1], slot8[2])
+				table.insert(slot0.dailyRewardItemList_, slot10)
 			end
 		end
 
-		while #var_25_8 < #arg_25_0.dailyRewardItemList_ do
-			arg_25_0.dailyRewardItemList_[#arg_25_0.dailyRewardItemList_]:Dispose()
-			table.remove(arg_25_0.dailyRewardItemList_, #arg_25_0.dailyRewardItemList_)
+		while #slot3 < #slot0.dailyRewardItemList_ do
+			slot0.dailyRewardItemList_[#slot0.dailyRewardItemList_]:Dispose()
+			table.remove(slot0.dailyRewardItemList_, #slot0.dailyRewardItemList_)
 		end
 
-		if arg_25_0.layoutTimer_ == nil then
-			arg_25_0.layoutTimer_ = Timer.New(function()
-				LayoutRebuilder.ForceRebuildLayoutImmediate(arg_25_0.multipleContainer_)
-				arg_25_0.layoutTimer_:Stop()
+		if slot0.layoutTimer_ == nil then
+			slot0.layoutTimer_ = Timer.New(function ()
+				LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.multipleContainer_)
+				uv0.layoutTimer_:Stop()
 
-				arg_25_0.layoutTimer_ = nil
+				uv0.layoutTimer_ = nil
 			end, 0.05)
 		end
 
-		arg_25_0.layoutTimer_:Start()
+		slot0.layoutTimer_:Start()
 	end
 
-	arg_25_0.useNumSlider_.minValue = 0
+	slot0.useNumSlider_.minValue = 0
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_25_0.dailyList_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.dailyList_)
 end
 
-function var_0_0.GetMaxNum(arg_27_0)
-	local var_27_0 = 1
+function slot0.GetMaxNum(slot0)
+	slot1 = 1
 
-	if arg_27_0.shopCfg.limit_num ~= nil and arg_27_0.shopCfg.limit_num ~= -1 then
-		var_27_0 = arg_27_0.shopCfg.limit_num - arg_27_0.buyTime
+	if slot0.shopCfg.limit_num ~= nil and slot0.shopCfg.limit_num ~= -1 then
+		slot1 = slot0.shopCfg.limit_num - slot0.buyTime
 	end
 
-	if var_27_0 < 1 then
-		var_27_0 = 1
+	if slot1 < 1 then
+		slot1 = 1
 	end
 
-	return var_27_0
+	return slot1
 end
 
-function var_0_0.OnShopBuyResult(arg_28_0, arg_28_1, arg_28_2)
-	if arg_28_1 == 0 then
-		local var_28_0 = getShopCfg(arg_28_2)
-		local var_28_1 = var_28_0.goods_id
-		local var_28_2 = var_28_0.give
-		local var_28_3 = RechargeShopDescriptionCfg[var_28_1].type
+function slot0.OnShopBuyResult(slot0, slot1, slot2)
+	if slot1 == 0 then
+		slot3 = getShopCfg(slot2)
 
-		arg_28_0:Back()
+		slot0:Back()
 
-		if var_28_3 == ItemConst.ITEM_TYPE.HERO_SKIN then
+		if RechargeShopDescriptionCfg[slot3.goods_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
 			getReward({
 				{
-					id = var_28_1,
-					num = var_28_2
+					id = slot4,
+					num = slot3.give
 				}
 			}, {
 				ItemConst.ITEM_TYPE.HERO_SKIN
 			})
-		elseif var_28_3 == ItemConst.ITEM_TYPE.EQUIP then
+		elseif slot6 == ItemConst.ITEM_TYPE.EQUIP then
 			if EquipData:GetEquipBagFull() then
 				showEquipSendMail(nil)
 				EquipAction.EquipBagFull(false)
@@ -421,95 +393,90 @@ function var_0_0.OnShopBuyResult(arg_28_0, arg_28_1, arg_28_2)
 		else
 			ShowTips("TRANSACTION_SUCCESS")
 		end
-	elseif arg_28_1 == 899 then
+	elseif slot1 == 899 then
 		ShowMessageBox({
 			content = GetTips("EQUIP_NUM_MAX"),
-			OkCallback = function()
+			OkCallback = function ()
 				JumpTools.GoToSystem("/bag", {
 					type = "equip"
 				}, ViewConst.SYSTEM_ID.BAG)
 			end
 		})
-	elseif arg_28_1 == 406 then
+	elseif slot1 == 406 then
 		ShowTips("ITEM_INVALID")
-	elseif arg_28_1 then
-		ShowTips(arg_28_1)
+	elseif slot1 then
+		ShowTips(slot1)
 	end
 end
 
-function var_0_0.AddEventListeners(arg_30_0)
-	arg_30_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_31_0)
-		local var_31_0
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		slot1 = nil
+		slot1 = (not uv0:IsOnDiscountArea() or PaymentCfg[uv0.shopCfg.cheap_cost_id]) and PaymentCfg[uv0.shopCfg.cost_id]
 
-		if arg_30_0:IsOnDiscountArea() then
-			local var_31_1 = PaymentCfg[arg_30_0.shopCfg.cheap_cost_id]
-		else
-			local var_31_2 = PaymentCfg[arg_30_0.shopCfg.cost_id]
-		end
-
-		if arg_31_0 == arg_30_0.shopCfg.cheap_cost_id or arg_31_0 == arg_30_0.shopCfg.cost_id then
-			arg_30_0:Back()
+		if slot0 == uv0.shopCfg.cheap_cost_id or slot0 == uv0.shopCfg.cost_id then
+			uv0:Back()
 		end
 	end)
-	arg_30_0:RegistEventListener(CURRENCY_UPDATE, function(arg_32_0)
-		arg_30_0:UpdateView()
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.IsOnDiscountArea(arg_33_0)
-	local var_33_0, var_33_1, var_33_2 = ShopTools.IsOnDiscountArea(arg_33_0.shopCfg.goods_id)
+function slot0.IsOnDiscountArea(slot0)
+	slot1, slot2, slot3 = ShopTools.IsOnDiscountArea(slot0.shopCfg.goods_id)
 
-	if var_33_0 and var_33_2 then
+	if slot1 and slot3 then
 		return true
 	else
 		return false
 	end
 end
 
-function var_0_0.OnExit(arg_34_0)
-	arg_34_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if arg_34_0.timer_ then
-		arg_34_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_34_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_35_0)
-	if arg_35_0.list_ then
-		arg_35_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_35_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	if arg_35_0.immeRewardItemList_ then
-		for iter_35_0, iter_35_1 in ipairs(arg_35_0.immeRewardItemList_) do
-			iter_35_1:Dispose()
+	if slot0.immeRewardItemList_ then
+		for slot4, slot5 in ipairs(slot0.immeRewardItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_35_0.immeRewardItemList_ = nil
+		slot0.immeRewardItemList_ = nil
 	end
 
-	if arg_35_0.immeRewardItemList2_ then
-		for iter_35_2, iter_35_3 in ipairs(arg_35_0.immeRewardItemList2_) do
-			iter_35_3:Dispose()
+	if slot0.immeRewardItemList2_ then
+		for slot4, slot5 in ipairs(slot0.immeRewardItemList2_) do
+			slot5:Dispose()
 		end
 
-		arg_35_0.immeRewardItemList2_ = nil
+		slot0.immeRewardItemList2_ = nil
 	end
 
-	if arg_35_0.dailyRewardItemList_ then
-		for iter_35_4, iter_35_5 in ipairs(arg_35_0.dailyRewardItemList_) do
-			iter_35_5:Dispose()
+	if slot0.dailyRewardItemList_ then
+		for slot4, slot5 in ipairs(slot0.dailyRewardItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_35_0.dailyRewardItemList_ = nil
+		slot0.dailyRewardItemList_ = nil
 	end
 
-	arg_35_0.useNumSlider_.onValueChanged:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_35_0)
+	slot0.useNumSlider_.onValueChanged:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

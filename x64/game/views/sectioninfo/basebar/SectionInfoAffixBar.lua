@@ -1,73 +1,71 @@
-local var_0_0 = class("SectionInfoAffixBar", ReduxView)
+slot0 = class("SectionInfoAffixBar", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	for iter_1_0 = 1, 3 do
-		arg_1_0["affixController" .. iter_1_0 .. "_"] = arg_1_0["affixControllerEx" .. iter_1_0 .. "_"]:GetController("lcok")
+	for slot5 = 1, 3 do
+		slot0["affixController" .. slot5 .. "_"] = slot0["affixControllerEx" .. slot5 .. "_"]:GetController("lcok")
 	end
 
-	arg_1_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	for iter_2_0 = 1, 3 do
-		arg_2_0:AddBtnListener(arg_2_0["affixBtn" .. iter_2_0 .. "_"], nil, function()
-			if arg_2_0.isMain_ == false or arg_2_0.affix_[iter_2_0].isLock == false then
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["affixBtn" .. slot4 .. "_"], nil, function ()
+			if uv0.isMain_ == false or uv0.affix_[uv1].isLock == false then
 				return
 			end
 
-			local var_3_0
+			slot0 = nil
 
-			if iter_2_0 == 1 then
-				var_3_0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "A")
-			elseif iter_2_0 == 2 then
-				var_3_0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "B")
-			elseif iter_2_0 == 3 then
-				var_3_0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "C")
+			if uv1 == 1 then
+				slot0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "A")
+			elseif uv1 == 2 then
+				slot0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "B")
+			elseif uv1 == 3 then
+				slot0 = string.format(GetTips("MYTHIC_AFFIX_UNLOCK_TIPS"), "C")
 			end
 
-			ShowTips(var_3_0)
+			ShowTips(slot0)
 		end)
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.isMain_ = arg_5_1
-	arg_5_0.affix_ = arg_5_2
-	arg_5_0.titleText_.text = arg_5_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.isMain_ = slot1
+	slot0.affix_ = slot2
+	slot0.titleText_.text = slot3
+	slot4 = 0
 
-	local var_5_0 = 0
-	local var_5_1 = arg_5_0.isMain_ and 3 or 1
+	for slot8 = 1, 3 do
+		if slot8 <= (slot0.isMain_ and 3 or 1) then
+			SetActive(slot0["affixGo" .. slot8 .. "_"], true)
 
-	for iter_5_0 = 1, 3 do
-		if iter_5_0 <= var_5_1 then
-			SetActive(arg_5_0["affixGo" .. iter_5_0 .. "_"], true)
-
-			if arg_5_0.isMain_ then
-				if arg_5_2[iter_5_0].isLock then
-					arg_5_0["affixController" .. iter_5_0 .. "_"]:SetSelectedState("true")
+			if slot0.isMain_ then
+				if slot2[slot8].isLock then
+					slot0["affixController" .. slot8 .. "_"]:SetSelectedState("true")
 				else
-					arg_5_0["affixController" .. iter_5_0 .. "_"]:SetSelectedState("false")
+					slot0["affixController" .. slot8 .. "_"]:SetSelectedState("false")
 				end
 			else
-				arg_5_0["affixController" .. iter_5_0 .. "_"]:SetSelectedState("false")
+				slot0["affixController" .. slot8 .. "_"]:SetSelectedState("false")
 			end
 
-			arg_5_0["affixImage" .. iter_5_0 .. "_"].sprite = getAffixSprite(arg_5_2[iter_5_0])
-			arg_5_0["affixName" .. iter_5_0 .. "_"].text = getAffixName(arg_5_2[iter_5_0])
-			arg_5_0["affixDes" .. iter_5_0 .. "_"].text = getAffixDesc(arg_5_2[iter_5_0])
+			slot0["affixImage" .. slot8 .. "_"].sprite = getAffixSprite(slot2[slot8])
+			slot0["affixName" .. slot8 .. "_"].text = getAffixName(slot2[slot8])
+			slot0["affixDes" .. slot8 .. "_"].text = getAffixDesc(slot2[slot8])
 		else
-			SetActive(arg_5_0["affixGo" .. iter_5_0 .. "_"], false)
+			SetActive(slot0["affixGo" .. slot8 .. "_"], false)
 		end
 	end
 end
 
-return var_0_0
+return slot0

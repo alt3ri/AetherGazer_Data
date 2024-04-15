@@ -1,65 +1,61 @@
-local var_0_0 = class("NewHeroChipListItem", ReduxView)
+slot0 = class("NewHeroChipListItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.chipItemGo_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.chipItemGo_ = slot2
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.chipItemList_ = {}
+	slot0.chipItemList_ = {}
 end
 
-function var_0_0.RefreshUI(arg_2_0)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.chipList_) do
-		local var_2_0 = arg_2_0.chipItemList_[iter_2_0]
+function slot0.RefreshUI(slot0)
+	for slot4, slot5 in ipairs(slot0.chipList_) do
+		if slot0.chipItemList_[slot4] == nil then
+			slot6 = NewHeroChipItem.New(Object.Instantiate(slot0.chipItemGo_, slot0.chipContent_))
+			slot0.chipItemList_[slot4] = slot6
 
-		if var_2_0 == nil then
-			local var_2_1 = Object.Instantiate(arg_2_0.chipItemGo_, arg_2_0.chipContent_)
-
-			var_2_0 = NewHeroChipItem.New(var_2_1)
-			arg_2_0.chipItemList_[iter_2_0] = var_2_0
-
-			var_2_0:SetCallBack(arg_2_0.chipClickCallBack_)
+			slot6:SetCallBack(slot0.chipClickCallBack_)
 		end
 
-		SetActive(var_2_0.gameObject_, true)
-		var_2_0:SetData(arg_2_0.chipList_[iter_2_0], arg_2_0.curChipID_)
+		SetActive(slot6.gameObject_, true)
+		slot6:SetData(slot0.chipList_[slot4], slot0.curChipID_)
 	end
 
-	for iter_2_2 = #arg_2_0.chipList_ + 1, #arg_2_0.chipItemList_ do
-		SetActive(arg_2_0.chipItemList_[iter_2_2].gameObject_, false)
+	for slot4 = #slot0.chipList_ + 1, #slot0.chipItemList_ do
+		SetActive(slot0.chipItemList_[slot4].gameObject_, false)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.chipContent_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.transform_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.chipContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.heroID_ = arg_3_1
-	arg_3_0.chipList_ = arg_3_2
-	arg_3_0.curChipID_ = arg_3_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.heroID_ = slot1
+	slot0.chipList_ = slot2
+	slot0.curChipID_ = slot3
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetChipClickCallBack(arg_4_0, arg_4_1)
-	arg_4_0.chipClickCallBack_ = arg_4_1
+function slot0.SetChipClickCallBack(slot0, slot1)
+	slot0.chipClickCallBack_ = slot1
 end
 
-function var_0_0.SetIsShow(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.gameObject_, arg_5_1)
+function slot0.SetIsShow(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.chipItemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.chipItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.chipItemList_ = nil
-	arg_6_0.chipClickCallBack_ = nil
+	slot0.chipItemList_ = nil
+	slot0.chipClickCallBack_ = nil
 end
 
-return var_0_0
+return slot0

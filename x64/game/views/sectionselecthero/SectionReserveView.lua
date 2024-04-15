@@ -1,90 +1,85 @@
-local var_0_0 = class("ReservesView", ReduxView)
+slot0 = class("ReservesView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Formation/FormationReserveView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectHeroView_ = arg_4_0:GetSelectHeroViewClass().New(arg_4_0.selectHeroGo_)
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ReservesItem)
-	arg_4_0.clickItemHandler_ = handler(arg_4_0, arg_4_0.OnClickItem)
+	slot0.selectHeroView_ = slot0:GetSelectHeroViewClass().New(slot0.selectHeroGo_)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ReservesItem)
+	slot0.clickItemHandler_ = handler(slot0, slot0.OnClickItem)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.saveBtn_, nil, function()
-		return
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.saveBtn_, nil, function ()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:ProcessCamera()
-	arg_7_0:UpdateBar()
+function slot0.OnEnter(slot0)
+	slot0:ProcessCamera()
+	slot0:UpdateBar()
 
-	arg_7_0.reserveParams_ = arg_7_0.params_.reserveParams
-	arg_7_0.curList_, _, arg_7_0.lockList_, arg_7_0.trailList_ = ReserveTools.GetHeroList(arg_7_0.reserveParams_)
-	arg_7_0.comboSkill_ = ReserveTools.GetComboSkillID(arg_7_0.reserveParams_)
-
-	local var_7_0 = ReserveTools.GetMimirID(arg_7_0.reserveParams_)
-	local var_7_1 = ReserveTools.GetMimirChipList(arg_7_0.reserveParams_)
-
-	arg_7_0.chipInfo_ = {
-		enabledID = var_7_0,
-		chipList = var_7_1
+	slot0.reserveParams_ = slot0.params_.reserveParams
+	slot0.curList_, _, slot0.lockList_, slot0.trailList_ = ReserveTools.GetHeroList(slot0.reserveParams_)
+	slot0.comboSkill_ = ReserveTools.GetComboSkillID(slot0.reserveParams_)
+	slot0.chipInfo_ = {
+		enabledID = ReserveTools.GetMimirID(slot0.reserveParams_),
+		chipList = ReserveTools.GetMimirChipList(slot0.reserveParams_)
 	}
-	arg_7_0.handler_ = handler(arg_7_0, arg_7_0.OnComboSkillSelect)
+	slot0.handler_ = handler(slot0, slot0.OnComboSkillSelect)
 
-	manager.notify:RegistListener(COMBO_SKILL_SELECT, arg_7_0.handler_)
-	arg_7_0:RefreshUI()
+	manager.notify:RegistListener(COMBO_SKILL_SELECT, slot0.handler_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_8_0:Back(1, {
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			isSorted = true
 		})
 	end)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0.lastPos_ = arg_10_0.scrollHelper_:GetScrolledPosition()
+function slot0.OnExit(slot0)
+	slot0.lastPos_ = slot0.scrollHelper_:GetScrolledPosition()
 
-	if arg_10_0.scrollHelper_ then
-		arg_10_0.scrollHelper_:StopRender()
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:StopRender()
 	end
 
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(COMBO_SKILL_SELECT, arg_10_0.handler_)
+	manager.notify:RemoveListener(COMBO_SKILL_SELECT, slot0.handler_)
 
-	arg_10_0.params_.isInit = false
+	slot0.params_.isInit = false
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	arg_11_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.ProcessCamera(arg_12_0)
+function slot0.ProcessCamera(slot0)
 	manager.ui:SetMainCamera("battleHeroSelect")
 	manager.ui:AdaptUIByFOV()
 end
 
-function var_0_0.UpdateBar(arg_13_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -92,89 +87,82 @@ function var_0_0.UpdateBar(arg_13_0)
 	})
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	arg_14_0:RefreshList()
-	arg_14_0:RefreshText()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshList()
+	slot0:RefreshText()
 end
 
-function var_0_0.RefreshList(arg_15_0)
-	arg_15_0.reservesTeams_ = BattleTeamData:GetReservesTeamList()
-	arg_15_0.setCurTeamIndex_ = arg_15_0.setCurTeamIndex_ or 0
+function slot0.RefreshList(slot0)
+	slot0.reservesTeams_ = BattleTeamData:GetReservesTeamList()
+	slot0.setCurTeamIndex_ = slot0.setCurTeamIndex_ or 0
 
-	if arg_15_0.params_.isInit then
-		arg_15_0.reservesTempTeams_ = BattleTeamData:InitTempList()
+	if slot0.params_.isInit then
+		slot0.reservesTempTeams_ = BattleTeamData:InitTempList()
+		slot1 = slot0:IsTrial()
 
-		local var_15_0 = arg_15_0:IsTrial()
-
-		if not arg_15_0:IsExist() and not var_15_0 and arg_15_0:IsNotEmpty() then
-			arg_15_0.setCurTeamIndex_ = BattleTeamData:SetCurTeam(arg_15_0.curList_, arg_15_0.comboSkill_, arg_15_0.chipInfo_)
+		if not slot0:IsExist() and not slot1 and slot0:IsNotEmpty() then
+			slot0.setCurTeamIndex_ = BattleTeamData:SetCurTeam(slot0.curList_, slot0.comboSkill_, slot0.chipInfo_)
 		end
 
-		if var_15_0 then
+		if slot1 then
 			ShowTips("CHARACTOR_ON_TRIAL")
 		end
 
-		arg_15_0.scrollHelper_:StartScroll(#arg_15_0.reservesTempTeams_)
+		slot0.scrollHelper_:StartScroll(#slot0.reservesTempTeams_)
 	else
-		arg_15_0.reservesTempTeams_ = BattleTeamData:GetReservesTempTeamList()
+		slot0.reservesTempTeams_ = BattleTeamData:GetReservesTempTeamList()
 
-		if arg_15_0.setCurTeamIndex_ ~= 0 and not arg_15_0:IsCurTeam(arg_15_0.reservesTempTeams_[arg_15_0.setCurTeamIndex_]) then
-			arg_15_0.setCurTeamIndex_ = 0
+		if slot0.setCurTeamIndex_ ~= 0 and not slot0:IsCurTeam(slot0.reservesTempTeams_[slot0.setCurTeamIndex_]) then
+			slot0.setCurTeamIndex_ = 0
 		end
 
-		arg_15_0.scrollHelper_:StartScrollByPosition(#arg_15_0.reservesTempTeams_, arg_15_0.lastPos_)
+		slot0.scrollHelper_:StartScrollByPosition(#slot0.reservesTempTeams_, slot0.lastPos_)
 	end
 end
 
-function var_0_0.IndexItem(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = arg_16_0.reservesTempTeams_[arg_16_1].hero_list
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.reservesTempTeams_[slot1].hero_list
 
-	arg_16_2:RefreshUI(arg_16_0.reservesTempTeams_[arg_16_1], arg_16_0:IsCurTeam(arg_16_0.reservesTempTeams_[arg_16_1]), arg_16_0:IsInList(arg_16_1, arg_16_0.reservesTempTeams_[arg_16_1]), arg_16_1 == arg_16_0.setCurTeamIndex_, arg_16_0.isAdvanceTest_)
-	arg_16_2:RegistClickCallback()
-	arg_16_2:RegistChangeBtn(function(arg_17_0)
-		local var_17_0 = BattleTeamData:GetReservesTeam(arg_17_0)
-
-		for iter_17_0, iter_17_1 in ipairs(var_17_0) do
-			if iter_17_1 ~= 0 and table.indexof(arg_16_0.lockList_, iter_17_1) then
+	slot2:RefreshUI(slot0.reservesTempTeams_[slot1], slot0:IsCurTeam(slot0.reservesTempTeams_[slot1]), slot0:IsInList(slot1, slot0.reservesTempTeams_[slot1]), slot1 == slot0.setCurTeamIndex_, slot0.isAdvanceTest_)
+	slot2:RegistClickCallback()
+	slot2:RegistChangeBtn(function (slot0)
+		for slot5, slot6 in ipairs(BattleTeamData:GetReservesTeam(slot0)) do
+			if slot6 ~= 0 and table.indexof(uv0.lockList_, slot6) then
 				ShowTips("FORMATION_PLAN_CHANGE_FAILED")
 
 				return
 			end
 		end
 
-		local var_17_1 = BattleTeamData:GetReservesTeamList()[arg_17_0]
+		slot2 = BattleTeamData:GetReservesTeamList()[slot0]
 
-		ReserveTools.SetTeam(arg_16_0.reserveParams_, var_17_0, {
+		ReserveTools.SetTeam(uv0.reserveParams_, slot1, {
 			0,
 			0,
 			0
-		}, var_17_1.comboSkill, var_17_1.chipInfo.id, var_17_1.chipInfo.list)
-		arg_16_0:Back(1, {
+		}, slot2.comboSkill, slot2.chipInfo.id, slot2.chipInfo.list)
+		uv0:Back(1, {
 			isReserves = true,
-			index = arg_17_0
+			index = slot0
 		})
 		ShowTips("FORMATION_PLAN_CHANGED")
 	end)
 end
 
-function var_0_0.RefreshText(arg_18_0)
-	local var_18_0 = 0
-
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.reservesTeams_) do
-		if iter_18_1.name ~= "" then
-			var_18_0 = var_18_0 + 1
+function slot0.RefreshText(slot0)
+	for slot5, slot6 in ipairs(slot0.reservesTeams_) do
+		if slot6.name ~= "" then
+			slot1 = 0 + 1
 		end
 	end
 
-	arg_18_0.text_.text = var_18_0 .. "/10"
+	slot0.text_.text = slot1 .. "/10"
 end
 
-function var_0_0.IsCurTeam(arg_19_0, arg_19_1)
-	local var_19_0 = arg_19_1.hero_list
-
-	if var_19_0[1] == arg_19_0.curList_[1] and var_19_0[2] == arg_19_0.curList_[2] and var_19_0[3] == arg_19_0.curList_[3] and arg_19_1.comboSkill == arg_19_0.comboSkill_ and arg_19_1.chipInfo.id == arg_19_0.chipInfo_.enabledID and #arg_19_1.chipInfo.list == #arg_19_0.chipInfo_.chipList then
-		for iter_19_0, iter_19_1 in ipairs(arg_19_1.chipInfo.list) do
-			if not table.indexof(arg_19_0.chipInfo_.chipList, iter_19_1) then
+function slot0.IsCurTeam(slot0, slot1)
+	if slot1.hero_list[1] == slot0.curList_[1] and slot2[2] == slot0.curList_[2] and slot2[3] == slot0.curList_[3] and slot1.comboSkill == slot0.comboSkill_ and slot1.chipInfo.id == slot0.chipInfo_.enabledID and #slot1.chipInfo.list == #slot0.chipInfo_.chipList then
+		for slot6, slot7 in ipairs(slot1.chipInfo.list) do
+			if not table.indexof(slot0.chipInfo_.chipList, slot7) then
 				return false
 			end
 		end
@@ -185,14 +173,10 @@ function var_0_0.IsCurTeam(arg_19_0, arg_19_1)
 	return false
 end
 
-function var_0_0.IsInList(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_2.hero_list
-	local var_20_1 = arg_20_0.reservesTeams_[arg_20_1]
-	local var_20_2 = var_20_1.hero_list
-
-	if var_20_0[1] == var_20_2[1] and var_20_0[2] == var_20_2[2] and var_20_0[3] == var_20_2[3] and arg_20_2.comboSkill == var_20_1.comboSkill and arg_20_2.chipInfo.id == var_20_1.chipInfo.id and #arg_20_2.chipInfo.list == #var_20_1.chipInfo.list then
-		for iter_20_0, iter_20_1 in ipairs(arg_20_2.chipInfo.list) do
-			if not table.indexof(var_20_1.chipInfo.list, iter_20_1) then
+function slot0.IsInList(slot0, slot1, slot2)
+	if slot2.hero_list[1] == slot0.reservesTeams_[slot1].hero_list[1] and slot3[2] == slot5[2] and slot3[3] == slot5[3] and slot2.comboSkill == slot4.comboSkill and slot2.chipInfo.id == slot4.chipInfo.id and #slot2.chipInfo.list == #slot4.chipInfo.list then
+		for slot9, slot10 in ipairs(slot2.chipInfo.list) do
+			if not table.indexof(slot4.chipInfo.list, slot10) then
 				return false
 			end
 		end
@@ -203,83 +187,86 @@ function var_0_0.IsInList(arg_20_0, arg_20_1, arg_20_2)
 	return false
 end
 
-function var_0_0.GetSelectHeroViewClass(arg_21_0)
+function slot0.GetSelectHeroViewClass(slot0)
 	return ReservesSelectHeroView
 end
 
-function var_0_0.OnReservesSaveTeam(arg_22_0)
-	arg_22_0:RefreshText()
-	arg_22_0.scrollHelper_:Refresh()
+function slot0.OnReservesSaveTeam(slot0)
+	slot0:RefreshText()
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.OnReservesDelectTeam(arg_23_0)
-	arg_23_0:RefreshText()
-	arg_23_0.scrollHelper_:Refresh()
+function slot0.OnReservesDelectTeam(slot0)
+	slot0:RefreshText()
+	slot0.scrollHelper_:Refresh()
 	ShowTips("FORMATION_PLAN_DELETED")
 end
 
-function var_0_0.OnComboSkillSelect(arg_24_0)
-	arg_24_0.setCurTeamIndex_ = 0
+function slot0.OnComboSkillSelect(slot0)
+	slot0.setCurTeamIndex_ = 0
 
-	arg_24_0.scrollHelper_:Refresh()
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.OnClickItem(arg_25_0, arg_25_1)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.scrollHelper_:GetItemList()) do
-		iter_25_1:SetSelect(arg_25_1)
+function slot0.OnClickItem(slot0, slot1)
+	slot4 = slot0.scrollHelper_
+	slot6 = slot4
+
+	for slot5, slot6 in ipairs(slot4.GetItemList(slot6)) do
+		slot6:SetSelect(slot1)
 	end
 end
 
-function var_0_0.IsExist(arg_26_0)
-	local var_26_0 = false
+function slot0.IsExist(slot0)
+	slot1 = false
 
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.reservesTempTeams_) do
-		if arg_26_0:IsCurTeam(iter_26_1) then
-			var_26_0 = true
+	for slot5, slot6 in ipairs(slot0.reservesTempTeams_) do
+		if slot0:IsCurTeam(slot6) then
+			slot1 = true
 
 			break
 		end
 	end
 
-	return var_26_0
+	return slot1
 end
 
-function var_0_0.IsTrial(arg_27_0)
-	local var_27_0 = false
+function slot0.IsTrial(slot0)
+	slot1 = false
 
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.trailList_) do
-		if iter_27_1 ~= 0 then
-			arg_27_0.curList_ = {
+	for slot5, slot6 in ipairs(slot0.trailList_) do
+		if slot6 ~= 0 then
+			slot0.curList_ = {
 				0,
 				0,
 				0
 			}
-			arg_27_0.comboSkill_ = 0
-			arg_27_0.chipInfo_ = {
+			slot0.comboSkill_ = 0
+			slot0.chipInfo_ = {
 				enabledID = 0,
 				chipList = {}
 			}
-			var_27_0 = true
+			slot1 = true
 
 			break
 		end
 	end
 
-	return var_27_0
+	return slot1
 end
 
-function var_0_0.IsNotEmpty(arg_28_0)
-	local var_28_0 = false
+function slot0.IsNotEmpty(slot0)
+	slot1 = false
 
-	for iter_28_0, iter_28_1 in ipairs(arg_28_0.curList_) do
-		if iter_28_1 ~= 0 then
-			var_28_0 = true
+	for slot5, slot6 in ipairs(slot0.curList_) do
+		if slot6 ~= 0 then
+			slot1 = true
 
 			break
 		end
 	end
 
-	return var_28_0
+	return slot1
 end
 
-return var_0_0
+return slot0

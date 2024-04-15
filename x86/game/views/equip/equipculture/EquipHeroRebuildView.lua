@@ -1,163 +1,150 @@
-local var_0_0 = class("EquipHeroRebuildView", ReduxView)
+slot0 = class("EquipHeroRebuildView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/Develop/HeroEquipHeroReset"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroIdList_ = {}
-	arg_3_0.heroList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.uiListGo_, HeroLongHead)
+	slot0.heroIdList_ = {}
+	slot0.heroList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, HeroLongHead)
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.currentController_ = arg_3_0.currentCon_:GetController("state")
-	arg_3_0.targetController_ = arg_3_0.targetCon_:GetController("state")
+	slot0.currentController_ = slot0.currentCon_:GetController("state")
+	slot0.targetController_ = slot0.targetCon_:GetController("state")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0.material_ = EquipData:GetRaceMaterial(2)
+function slot0.InitUI(slot0)
+	slot0.material_ = EquipData:GetRaceMaterial(2)
 
-	if arg_4_0.material_ then
-		arg_4_0.itemView_ = CommonItemView.New(arg_4_0.commonItem_, true)
-
-		local var_4_0 = clone(ItemTemplateData)
-		local var_4_1 = ItemTools.getItemNum(arg_4_0.material_.id)
-
-		var_4_0.id = arg_4_0.material_.id
-		var_4_0.number = nil
-		var_4_0.bottomText = {
-			var_4_1,
-			arg_4_0.material_.number
+	if slot0.material_ then
+		slot0.itemView_ = CommonItemView.New(slot0.commonItem_, true)
+		slot1 = clone(ItemTemplateData)
+		slot1.id = slot0.material_.id
+		slot1.number = nil
+		slot1.bottomText = {
+			ItemTools.getItemNum(slot0.material_.id),
+			slot0.material_.number
 		}
 
-		function var_4_0.clickFun(arg_5_0)
+		function slot1.clickFun(slot0)
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_5_0.id,
-				arg_5_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 
-		arg_4_0.itemView_:SetData(var_4_0)
+		slot0.itemView_:SetData(slot1)
 	end
 
-	arg_4_0.cost_ = arg_4_0.material_ and arg_4_0.material_.money or 0
-	arg_4_0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_GOLD)
+	slot0.cost_ = slot0.material_ and slot0.material_.money or 0
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_GOLD)
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.heroIdList_[arg_6_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.heroIdList_[slot1]
+	slot2.gameObject_.name = tostring(slot3)
 
-	arg_6_2.gameObject_.name = tostring(var_6_0)
-
-	arg_6_2:SetProxy(arg_6_0.params_.proxy)
-	arg_6_2:SetHeroId(var_6_0, HeroConst.HERO_DATA_TYPE.DEFAULT)
-	arg_6_2:SetSelected(var_6_0 == arg_6_0.curHeroID_)
-	arg_6_2:RegisterClickListener(function()
-		arg_6_0:SelectHero(arg_6_2.heroId_)
+	slot2:SetProxy(slot0.params_.proxy)
+	slot2:SetHeroId(slot3, HeroConst.HERO_DATA_TYPE.DEFAULT)
+	slot2:SetSelected(slot3 == slot0.curHeroID_)
+	slot2:RegisterClickListener(function ()
+		uv0:SelectHero(uv1.heroId_)
 	end)
 end
 
-function var_0_0.SelectHero(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.heroList_:GetItemList()) do
-		iter_8_1:SetSelected(iter_8_1.heroId_ == arg_8_1)
+function slot0.SelectHero(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.heroList_:GetItemList()) do
+		slot6:SetSelected(slot6.heroId_ == slot1)
 	end
 
-	arg_8_0.curHeroID_ = arg_8_1
+	slot0.curHeroID_ = slot1
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.rebuildBtn_, nil, function()
-		local var_10_0 = arg_9_0.cost_
-		local var_10_1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-		local var_10_2 = ItemTools.getItemNum(arg_9_0.material_.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rebuildBtn_, nil, function ()
+		slot2 = ItemTools.getItemNum(uv0.material_.id)
 
-		if var_10_1 < var_10_0 then
-			local var_10_3 = false
-			local var_10_4 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.PROPS_BOND]
+		if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD) < uv0.cost_ then
+			slot3 = false
 
-			for iter_10_0, iter_10_1 in ipairs(var_10_4 or {}) do
-				if ItemTools.getItemNum(iter_10_1) > 0 then
-					var_10_3 = true
+			for slot8, slot9 in ipairs(ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.PROPS_BOND] or {}) do
+				if ItemTools.getItemNum(slot9) > 0 then
+					slot3 = true
 
 					break
 				end
 			end
 
-			if CurrencyData:GetGoldBuyTimes() < GameSetting.coin_max_buy_time.value[1] or var_10_3 then
+			if CurrencyData:GetGoldBuyTimes() < GameSetting.coin_max_buy_time.value[1] or slot3 then
 				JumpTools.OpenPopUp("currencyBuyGold", nil, ViewConst.SYSTEM_ID.BUY_GOLD)
 
 				return
 			else
 				ShowTips(GetTips("ERROR_ITEM_NOT_ENOUGH_GOLD"))
 			end
-		elseif arg_9_0.material_ and var_10_2 < arg_9_0.material_.number then
+		elseif uv0.material_ and slot2 < uv0.material_.number then
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_9_0.material_.id,
-				arg_9_0.material_.number
+				uv0.material_.id,
+				uv0.material_.number
 			})
 		else
-			local var_10_5 = SettingData:GetRemindSettingData()
-
-			if _G.SkipTip.EquipHeroRebuildSkip or var_10_5.rebuild_hero_equip_reminder ~= 1 then
-				EquipAction.QueryEquipRace(arg_9_0.equipID_, 2, arg_9_0.curHeroID_)
+			if _G.SkipTip.EquipHeroRebuildSkip or SettingData:GetRemindSettingData().rebuild_hero_equip_reminder ~= 1 then
+				EquipAction.QueryEquipRace(uv0.equipID_, 2, uv0.curHeroID_)
 
 				return
 			end
 
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
-				content = string.format(GetTips("EQUIP_HERO_REBUILD_WARNING"), HeroTools.GetHeroFullName(arg_9_0.curHeroID_)),
-				OkCallback = function()
-					EquipAction.QueryEquipRace(arg_9_0.equipID_, 2, arg_9_0.curHeroID_)
+				content = string.format(GetTips("EQUIP_HERO_REBUILD_WARNING"), HeroTools.GetHeroFullName(uv0.curHeroID_)),
+				OkCallback = function ()
+					EquipAction.QueryEquipRace(uv0.equipID_, 2, uv0.curHeroID_)
 				end,
-				ToggleCallback = function(arg_12_0)
-					_G.SkipTip.EquipHeroRebuildSkip = arg_12_0
+				ToggleCallback = function (slot0)
+					_G.SkipTip.EquipHeroRebuildSkip = slot0
 				end
 			})
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_13_0.curHeroID_ = nil
-	arg_13_0.equipID_ = arg_13_0.params_.equipId
+	slot0.curHeroID_ = nil
+	slot0.equipID_ = slot0.params_.equipId
 
-	local var_13_0 = EquipData:GetEquipData(arg_13_0.equipID_)
-
-	if not var_13_0 then
+	if not EquipData:GetEquipData(slot0.equipID_) then
 		return
 	end
 
-	arg_13_0.race_ = var_13_0.race
+	slot0.race_ = slot1.race
 
-	local var_13_1 = EquipTools.GetEquipedHeroId(arg_13_0.equipID_)
-
-	if var_13_1 ~= 0 and HeroCfg[var_13_1].race == arg_13_0.race_ then
-		arg_13_0.curHeroID_ = var_13_1
+	if EquipTools.GetEquipedHeroId(slot0.equipID_) ~= 0 and HeroCfg[slot2].race == slot0.race_ then
+		slot0.curHeroID_ = slot2
 	end
 
-	arg_13_0:RefreshHeroList()
-	arg_13_0:RefreshMoney()
-	arg_13_0:RefreshMaterial()
-	arg_13_0:RefreshUI()
-	arg_13_0:RegistEventListener(CURRENCY_UPDATE, handler(arg_13_0, arg_13_0.OnGoldChange))
+	slot0:RefreshHeroList()
+	slot0:RefreshMoney()
+	slot0:RefreshMaterial()
+	slot0:RefreshUI()
+	slot0:RegistEventListener(CURRENCY_UPDATE, handler(slot0, slot0.OnGoldChange))
 end
 
-function var_0_0.OnTop(arg_14_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -166,111 +153,100 @@ function var_0_0.OnTop(arg_14_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 end
 
-function var_0_0.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_15_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.RefreshHeroList(arg_16_0)
-	local var_16_0 = HeroData:GetHeroList()
-	local var_16_1 = {}
-	local var_16_2
+function slot0.RefreshHeroList(slot0)
+	slot2 = {}
+	slot3 = nil
 
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		if HeroCfg[iter_16_1.id].race == arg_16_0.race_ and iter_16_1.unlock ~= 0 then
-			var_16_1[#var_16_1 + 1] = iter_16_1.id
+	for slot7, slot8 in pairs(HeroData:GetHeroList()) do
+		if HeroCfg[slot8.id].race == slot0.race_ and slot8.unlock ~= 0 then
+			slot2[#slot2 + 1] = slot8.id
 		end
 	end
 
-	arg_16_0.heroIdList_ = var_16_1
+	slot0.heroIdList_ = slot2
 
-	arg_16_0.heroList_:StartScroll(#arg_16_0.heroIdList_)
+	slot0.heroList_:StartScroll(#slot0.heroIdList_)
 end
 
-function var_0_0.RefreshMoney(arg_17_0)
-	local var_17_0 = arg_17_0.cost_
-	local var_17_1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-	local var_17_2 = tostring(var_17_0)
+function slot0.RefreshMoney(slot0)
+	slot1 = slot0.cost_
 
-	if var_17_1 < var_17_0 then
-		var_17_2 = "<color='#FF0000'>" .. var_17_2 .. "</color>"
+	if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD) < slot1 then
+		slot3 = "<color='#FF0000'>" .. tostring(slot1) .. "</color>"
 	end
 
-	arg_17_0.costNum_.text = var_17_2
-	arg_17_0.material_ = EquipData:GetRaceMaterial(2)
+	slot0.costNum_.text = slot3
+	slot0.material_ = EquipData:GetRaceMaterial(2)
 
-	local var_17_3 = ItemTools.getItemNum(arg_17_0.material_.id)
-
-	arg_17_0.itemView_:RefreshBottomText({
-		var_17_3,
-		arg_17_0.material_.number
+	slot0.itemView_:RefreshBottomText({
+		ItemTools.getItemNum(slot0.material_.id),
+		slot0.material_.number
 	})
 end
 
-function var_0_0.RefreshMaterial(arg_18_0)
-	return
+function slot0.RefreshMaterial(slot0)
 end
 
-function var_0_0.RefreshUI(arg_19_0)
-	local var_19_0
+function slot0.RefreshUI(slot0)
+	slot1 = nil
 
-	if arg_19_0.curHeroID_ ~= nil then
-		arg_19_0.targetController_:SetSelectedIndex(1)
+	if slot0.curHeroID_ ~= nil then
+		slot0.targetController_:SetSelectedIndex(1)
 
-		local var_19_1 = HeroCfg[arg_19_0.curHeroID_]
-		local var_19_2 = string.format("%s·%s", GetI18NText(var_19_1.name), GetI18NText(var_19_1.suffix))
-		local var_19_3 = SettingData:GetCurrentLanguage()
+		slot1 = HeroCfg[slot0.curHeroID_]
+		slot2 = string.format("%s·%s", GetI18NText(slot1.name), GetI18NText(slot1.suffix))
 
-		if var_19_3 == "fr" or var_19_3 == "de" then
-			var_19_2 = string.format("%s-%s", GetI18NText(var_19_1.name), GetI18NText(var_19_1.suffix))
+		if SettingData:GetCurrentLanguage() == "fr" or slot3 == "de" then
+			slot2 = string.format("%s-%s", GetI18NText(slot1.name), GetI18NText(slot1.suffix))
 		end
 
-		arg_19_0.targetText_.text = string.format(GetTips("EQUIP_HERO_ATTRIBUTE_UP"), GetI18NText(var_19_2))
-		arg_19_0.targetHeroIcon_.sprite = HeroTools.GetSmallHeadSprite(arg_19_0.curHeroID_)
+		slot0.targetText_.text = string.format(GetTips("EQUIP_HERO_ATTRIBUTE_UP"), GetI18NText(slot2))
+		slot0.targetHeroIcon_.sprite = HeroTools.GetSmallHeadSprite(slot0.curHeroID_)
 	else
-		arg_19_0.targetController_:SetSelectedIndex(0)
+		slot0.targetController_:SetSelectedIndex(0)
 	end
 
-	local var_19_4 = RaceEffectCfg[arg_19_0.race_]
+	if RaceEffectCfg[slot0.race_] then
+		slot0.currentController_:SetSelectedIndex(1)
 
-	if var_19_4 then
-		arg_19_0.currentController_:SetSelectedIndex(1)
-
-		arg_19_0.currentText_.text = string.format(GetTips("EQUIP_RACE_ATTRIBUTE_UP"), GetI18NText(var_19_4.name))
-		arg_19_0.currenGroupIcon_.sprite = getSprite("Atlas/SystemGroupAtlas", var_19_4.icon2)
+		slot0.currentText_.text = string.format(GetTips("EQUIP_RACE_ATTRIBUTE_UP"), GetI18NText(slot1.name))
+		slot0.currenGroupIcon_.sprite = getSprite("Atlas/SystemGroupAtlas", slot1.icon2)
 	end
 
-	local var_19_5 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-	local var_19_6 = arg_19_0.curHeroID_ ~= nil
-
-	arg_19_0.rebuildBtn_.interactable = var_19_6
+	slot2 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
+	slot0.rebuildBtn_.interactable = slot0.curHeroID_ ~= nil
 end
 
-function var_0_0.Dispose(arg_20_0)
-	if arg_20_0.itemView_ then
-		arg_20_0.itemView_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemView_ then
+		slot0.itemView_:Dispose()
 
-		arg_20_0.itemView_ = nil
+		slot0.itemView_ = nil
 	end
 
-	if arg_20_0.filterView_ then
-		arg_20_0.filterView_:Dispose()
+	if slot0.filterView_ then
+		slot0.filterView_:Dispose()
 
-		arg_20_0.filterView_ = nil
+		slot0.filterView_ = nil
 	end
 
-	arg_20_0.heroList_:Dispose()
-	var_0_0.super.Dispose(arg_20_0)
+	slot0.heroList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnGoldChange(arg_21_0, arg_21_1)
-	if arg_21_1 == CurrencyConst.CURRENCY_TYPE_GOLD then
-		arg_21_0:RefreshMoney()
+function slot0.OnGoldChange(slot0, slot1)
+	if slot1 == CurrencyConst.CURRENCY_TYPE_GOLD then
+		slot0:RefreshMoney()
 	end
 end
 
-function var_0_0.OnEquipRace(arg_22_0)
-	arg_22_0:Back()
+function slot0.OnEquipRace(slot0)
+	slot0:Back()
 end
 
-return var_0_0
+return slot0

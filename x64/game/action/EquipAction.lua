@@ -1,366 +1,329 @@
-local var_0_0 = {}
-
-manager.net:Bind(13009, function(arg_1_0)
-	EquipData:EquipInit(arg_1_0.equip_list)
+manager.net:Bind(13009, function (slot0)
+	EquipData:EquipInit(slot0.equip_list)
 end)
 
-function var_0_0.ModifyEquipList(arg_2_0)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0) do
-		if iter_2_1.num > 0 then
-			EquipData:AddEquip(iter_2_1)
-			IllustratedAction.ModifyEquipInfo(EquipCfg[iter_2_1.prefab_id].suit, EquipCfg[iter_2_1.prefab_id].pos)
-		else
-			EquipData:RemoveEquip(iter_2_1)
+slot1 = nil
+
+return {
+	ModifyEquipList = function (slot0)
+		for slot4, slot5 in ipairs(slot0) do
+			if slot5.num > 0 then
+				EquipData:AddEquip(slot5)
+				IllustratedAction.ModifyEquipInfo(EquipCfg[slot5.prefab_id].suit, EquipCfg[slot5.prefab_id].pos)
+			else
+				EquipData:RemoveEquip(slot5)
+			end
 		end
-	end
 
-	EquipData:ResetEquipSort()
+		EquipData:ResetEquipSort()
 
-	if #arg_2_0 > 0 then
-		manager.notify:Invoke(EQUIP_LIST_UPDATE)
-	end
-end
-
-function var_0_0.EquipDecompose(arg_3_0)
-	local var_3_0 = {}
-
-	for iter_3_0, iter_3_1 in pairs(arg_3_0) do
-		table.insert(var_3_0, iter_3_1.equip_id)
-	end
-
-	manager.net:SendWithLoadingNew(13024, {
-		equip_id_list = var_3_0
-	}, 13025, var_0_0.OnEquipDecompose)
-end
-
-function var_0_0.OnEquipDecompose(arg_4_0, arg_4_1)
-	manager.notify:CallUpdateFunc(EQUIP_DECOMPOSE_CALLBACK, arg_4_0, arg_4_1)
-end
-
-function var_0_0.ApplyLockEquip(arg_5_0, arg_5_1)
-	if arg_5_1 == EquipData:GetEquipData(arg_5_0).is_lock then
-		return
-	end
-
-	local var_5_0 = arg_5_1 and 1 or 0
-
-	manager.net:SendWithLoadingNew(13016, {
-		equip_id = arg_5_0,
-		is_lock = var_5_0
-	}, 13017, var_0_0.OnApplyLockEquipCallBack)
-end
-
-function var_0_0.OnApplyLockEquipCallBack(arg_6_0, arg_6_1)
-	if isSuccess(arg_6_0.result) then
-		local var_6_0 = arg_6_1.is_lock == 1
-
-		EquipData:ApplyLockEquipSuccess(arg_6_1.equip_id, var_6_0)
-		manager.notify:CallUpdateFunc(EQUIP_LOCK, var_6_0)
-		manager.notify:Invoke(EQUIP_LOCK, {
-			equipID = arg_6_1.equip_id,
-			lock = var_6_0
-		})
-	else
-		ShowTips(arg_6_0.result)
-	end
-end
-
-function var_0_0.ApplyStrengthEquip(arg_7_0, arg_7_1, arg_7_2, arg_7_3, arg_7_4)
-	if not checkGold(arg_7_3) then
-		return
-	end
-
-	local var_7_0 = {}
-
-	for iter_7_0, iter_7_1 in pairs(arg_7_1) do
-		table.insert(var_7_0, iter_7_1.equip_id)
-	end
-
-	local var_7_1 = {}
-
-	for iter_7_2, iter_7_3 in pairs(arg_7_2) do
-		table.insert(var_7_1, {
-			id = iter_7_2,
-			num = iter_7_3
-		})
-	end
-
-	return manager.net:SendWithLoading(13014, {
-		equip_id = arg_7_0,
-		equip_list = var_7_0,
-		mat_list = var_7_1
-	}, 13015):next(function(arg_8_0)
-		if isSuccess(arg_8_0.result) then
-			local var_8_0 = EquipData:GetEquipData(arg_7_0)
-			local var_8_1 = deepClone(var_8_0)
-			local var_8_2 = math.floor(arg_7_3 / GameSetting.equip_strengthen_gold_cost.value[1])
-
-			EquipData:ApplyEquipStrengthSuccess(tonumber(arg_7_0), arg_7_1, arg_7_2, var_8_2)
-
-			local var_8_3 = var_8_0:GetLevel()
-			local var_8_4 = var_8_0:GetMaxLv()
-			local var_8_5 = EquipCfg[var_8_0.prefab_id]
-			local var_8_6 = var_8_1:GetLevel() ~= var_8_0:GetLevel()
-			local var_8_7 = {
-				type = "levelup",
-				equipId = arg_7_0,
-				equip = var_8_0,
-				oldEquip = var_8_1,
-				newEquip = var_8_0,
-				callback = function()
-					getReward2(mergeReward2(arg_8_0.mat_list))
-				end
-			}
-
-			manager.notify:Invoke(EQUIP_STRENGTH_SUCCESS, var_8_4 <= var_8_3, var_8_6, var_8_7)
-		else
-			ShowTips(arg_8_0.result)
+		if #slot0 > 0 then
+			manager.notify:Invoke(EQUIP_LIST_UPDATE)
 		end
-	end)
-end
+	end,
+	EquipDecompose = function (slot0)
+		slot1 = {}
 
-function var_0_0.ApplyUpgradeEquip(arg_10_0)
-	local var_10_0 = EquipData:GetEquipData(arg_10_0)
-	local var_10_1 = var_10_0:GetUpgradeCost()
+		for slot5, slot6 in pairs(slot0) do
+			table.insert(slot1, slot6.equip_id)
+		end
 
-	if GameSetting.equip_break_user_level.value[var_10_0.now_break_level + 1] > PlayerData:GetPlayerInfo().userLevel then
-		ShowTips("ERROR_USER_LEVEL_LIMIT")
-
-		return
-	end
-
-	if not checkGold(var_10_1.money) then
-		return
-	end
-
-	for iter_10_0 = 1, #var_10_1.item_list do
-		if ItemTools.getItemNum(var_10_1.item_list[iter_10_0][1]) < var_10_1.item_list[iter_10_0][2] then
-			ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
-
+		manager.net:SendWithLoadingNew(13024, {
+			equip_id_list = slot1
+		}, 13025, uv0.OnEquipDecompose)
+	end,
+	OnEquipDecompose = function (slot0, slot1)
+		manager.notify:CallUpdateFunc(EQUIP_DECOMPOSE_CALLBACK, slot0, slot1)
+	end,
+	ApplyLockEquip = function (slot0, slot1)
+		if slot1 == EquipData:GetEquipData(slot0).is_lock then
 			return
 		end
-	end
 
-	return manager.net:SendWithLoading(13022, {
-		equip_id = arg_10_0
-	}, 13023):next(function(arg_11_0)
-		if isSuccess(arg_11_0.result) then
-			local var_11_0 = EquipData:GetEquipData(arg_10_0)
-			local var_11_1 = deepClone(var_11_0)
+		manager.net:SendWithLoadingNew(13016, {
+			equip_id = slot0,
+			is_lock = slot1 and 1 or 0
+		}, 13017, uv0.OnApplyLockEquipCallBack)
+	end,
+	OnApplyLockEquipCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			slot2 = slot1.is_lock == 1
 
-			EquipData:ApplyUpgradeEquipSuccess(tonumber(arg_10_0))
-
-			local var_11_2 = {
-				pageIndex = 2,
-				type = "upgrade",
-				equipId = arg_10_0,
-				oldEquip = var_11_1,
-				newEquip = var_11_0
-			}
-
-			manager.notify:Invoke(EQUIP_UPGRADE_SUCCESS, var_11_2)
+			EquipData:ApplyLockEquipSuccess(slot1.equip_id, slot2)
+			manager.notify:CallUpdateFunc(EQUIP_LOCK, slot2)
+			manager.notify:Invoke(EQUIP_LOCK, {
+				equipID = slot1.equip_id,
+				lock = slot2
+			})
 		else
-			ShowTips(arg_11_0.result)
+			ShowTips(slot0.result)
 		end
-	end, function(arg_12_0)
-		print(arg_12_0)
-	end)
-end
-
-function var_0_0.EquipQuickDressOn(arg_13_0, arg_13_1)
-	return manager.net:SendWithLoadingNew(13026, {
-		hero_id = arg_13_0,
-		use_equip_list = arg_13_1
-	}, 13027, var_0_0.OnEquipQuickDressOn)
-end
-
-function var_0_0.OnEquipQuickDressOn(arg_14_0, arg_14_1)
-	local var_14_0 = true
-
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.result) do
-		if not isSuccess(iter_14_1.result) then
-			var_14_0 = false
+	end,
+	ApplyStrengthEquip = function (slot0, slot1, slot2, slot3, slot4)
+		if not checkGold(slot3) then
+			return
 		end
-	end
 
-	if not var_14_0 then
-		ShowTips(GetTips("EQUIP_DRESS_FAIL"))
-	else
-		manager.notify:CallUpdateFunc(EQUIP_QUICK_DRESS_ON, arg_14_0, arg_14_1)
-	end
-end
-
-function var_0_0.QueryEquipEnchant(arg_15_0, arg_15_1, arg_15_2, arg_15_3)
-	local var_15_0 = arg_15_2.id
-	local var_15_1 = arg_15_2.money
-	local var_15_2 = arg_15_2.number
-
-	if not checkGold(var_15_1) then
-		return
-	end
-
-	if var_15_2 > ItemTools.getItemNum(var_15_0) then
-		ShowPopItem(POP_SOURCE_ITEM, {
-			var_15_0,
-			var_15_2
-		})
-
-		return
-	end
-
-	local var_15_3 = ItemCfg[var_15_0] and ItemCfg[var_15_0].param and ItemCfg[var_15_0].param[1]
-
-	if not var_15_3 and var_15_3 ~= "" then
-		return
-	end
-
-	manager.net:SendWithLoading(13028, {
-		equip_id = arg_15_0,
-		enchant_slot_id = arg_15_1,
-		pool_id = var_15_3,
-		lock_type = arg_15_3
-	}, 13029):next(function(arg_16_0)
-		if isSuccess(arg_16_0.result) then
-			EquipData:AddPreEnchant(arg_15_0, arg_15_1, arg_16_0.enchant_preview)
-			manager.notify:CallUpdateFunc(EQUIP_ENCHANT)
-		else
-			ShowTips(arg_16_0.result)
+		for slot9, slot10 in pairs(slot1) do
+			table.insert({}, slot10.equip_id)
 		end
-	end)
-end
 
-function var_0_0.QueryEquipEnchantConfirm(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-	return manager.net:SendWithLoading(13030, {
-		equip_id = arg_17_0,
-		enchant_slot_id = arg_17_1,
-		confirm = arg_17_2,
-		preview_index = arg_17_3
-	}, 13031):next(function(arg_18_0)
-		if isSuccess(arg_18_0.result) then
-			EquipData:ConfirmEnchant(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-			manager.notify:CallUpdateFunc(EQUIP_ENCHANT_CONFIRM, arg_17_2)
-		else
-			ShowTips(arg_18_0.result)
+		slot6 = {}
+
+		for slot10, slot11 in pairs(slot2) do
+			table.insert(slot6, {
+				id = slot10,
+				num = slot11
+			})
 		end
-	end)
-end
 
-function var_0_0.QueryEquipGiveUpAllEnchant(arg_19_0, arg_19_1)
-	return manager.net:SendWithLoading(13044, {
-		equip_id = arg_19_0,
-		enchant_slot_id = arg_19_1
-	}, 13045):next(function(arg_20_0)
-		if isSuccess(arg_20_0.result) then
-			EquipData:GiveUpAllEnchant(arg_19_0, arg_19_1)
-			manager.notify:CallUpdateFunc(EQUIP_ENCHANT_GIVE_UP)
-		else
-			ShowTips(arg_20_0.result)
-		end
-	end)
-end
+		return manager.net:SendWithLoading(13014, {
+			equip_id = slot0,
+			equip_list = slot5,
+			mat_list = slot6
+		}, 13015):next(function (slot0)
+			if isSuccess(slot0.result) then
+				slot1 = EquipData:GetEquipData(uv0)
 
-function var_0_0.QueryEquipRace(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = EquipData:GetRaceMaterial(arg_21_1)
-	local var_21_1 = var_21_0.id
-	local var_21_2 = var_21_0.money
-	local var_21_3 = var_21_0.number
+				EquipData:ApplyEquipStrengthSuccess(tonumber(uv0), uv2, uv3, math.floor(uv1 / GameSetting.equip_strengthen_gold_cost.value[1]))
 
-	if not checkGold(var_21_2) then
-		return
-	end
+				slot6 = EquipCfg[slot1.prefab_id]
 
-	if var_21_3 > ItemTools.getItemNum(var_21_1) then
-		ShowPopItem(POP_SOURCE_ITEM, {
-			var_21_1,
-			var_21_3
-		})
-
-		return
-	end
-
-	local var_21_4
-	local var_21_5
-	local var_21_6 = {
-		equip_id = arg_21_0
-	}
-
-	if arg_21_1 == 1 then
-		var_21_4 = 13032
-		var_21_5 = 13033
-	else
-		var_21_4 = 13046
-		var_21_5 = 13047
-		var_21_6.hero_id = arg_21_2
-	end
-
-	manager.net:SendWithLoading(var_21_4, var_21_6, var_21_5):next(function(arg_22_0)
-		if isSuccess(arg_22_0.result) then
-			if arg_21_1 == 2 then
-				EquipData:SetPreRace(arg_21_0, arg_21_2)
-				EquipData:ConfirmRace(arg_21_0, true)
-
-				if not EquipData:GetEquipData(arg_21_0).is_lock then
-					EquipAction.ApplyLockEquip(arg_21_0, true)
-				end
-
-				ShowTips("EQUIP_HERO_SUCCESS")
-				JumpTools.OpenPageByJump("equipCulturePopView", {
-					type = "reset",
-					heroId = arg_21_2,
-					callback = function()
-						manager.notify:CallUpdateFunc(EQUIP_RACE)
+				manager.notify:Invoke(EQUIP_STRENGTH_SUCCESS, slot1:GetMaxLv() <= slot1:GetLevel(), deepClone(slot1):GetLevel() ~= slot1:GetLevel(), {
+					type = "levelup",
+					equipId = uv0,
+					equip = slot1,
+					oldEquip = slot2,
+					newEquip = slot1,
+					callback = function ()
+						getReward2(mergeReward2(uv0.mat_list))
 					end
 				})
 			else
-				EquipData:SetPreRace(arg_21_0, arg_22_0.race_preview)
-				JumpTools.OpenPageByJump("/equipRaceConfirmView", {
-					equipId = arg_21_0,
-					heroId = arg_21_2
-				})
-				manager.notify:CallUpdateFunc(EQUIP_RACE)
+				ShowTips(slot0.result)
 			end
-		else
-			ShowTips(arg_22_0.result)
+		end)
+	end,
+	ApplyUpgradeEquip = function (slot0)
+		slot1 = EquipData:GetEquipData(slot0)
+		slot2 = slot1:GetUpgradeCost()
+
+		if PlayerData:GetPlayerInfo().userLevel < GameSetting.equip_break_user_level.value[slot1.now_break_level + 1] then
+			ShowTips("ERROR_USER_LEVEL_LIMIT")
+
+			return
 		end
-	end)
-end
 
-function var_0_0.QueryEquipRaceConfirm(arg_24_0, arg_24_1)
-	manager.net:SendWithLoading(13034, {
-		equip_id = arg_24_0,
-		confirm = arg_24_1
-	}, 13035):next(function(arg_25_0)
-		if isSuccess(arg_25_0.result) then
-			EquipData:ConfirmRace(arg_24_0, arg_24_1)
-			manager.notify:CallUpdateFunc(EQUIP_RACE_CONFIRM)
-		else
-			ShowTips(arg_25_0.result)
+		if not checkGold(slot2.money) then
+			return
 		end
-	end)
-end
 
-function var_0_0.EquipBagFull(arg_26_0)
-	EquipData:EquipBagFull(arg_26_0)
-end
+		for slot9 = 1, #slot2.item_list do
+			if ItemTools.getItemNum(slot2.item_list[slot9][1]) < slot2.item_list[slot9][2] then
+				ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
 
-local var_0_1
+				return
+			end
+		end
 
-function var_0_0.InheritEquip(arg_27_0, arg_27_1)
-	var_0_1 = arg_27_1
+		return manager.net:SendWithLoading(13022, {
+			equip_id = slot0
+		}, 13023):next(function (slot0)
+			if isSuccess(slot0.result) then
+				slot1 = EquipData:GetEquipData(uv0)
 
-	manager.net:SendWithLoadingNew(13052, {
-		inherit_equip_prefab_id = arg_27_1,
-		new_equip_id = arg_27_0
-	}, 13053, var_0_0.OnInheritEquip)
-end
+				EquipData:ApplyUpgradeEquipSuccess(tonumber(uv0))
+				manager.notify:Invoke(EQUIP_UPGRADE_SUCCESS, {
+					pageIndex = 2,
+					type = "upgrade",
+					equipId = uv0,
+					oldEquip = deepClone(slot1),
+					newEquip = slot1
+				})
+			else
+				ShowTips(slot0.result)
+			end
+		end, function (slot0)
+			print(slot0)
+		end)
+	end,
+	EquipQuickDressOn = function (slot0, slot1)
+		return manager.net:SendWithLoadingNew(13026, {
+			hero_id = slot0,
+			use_equip_list = slot1
+		}, 13027, uv0.OnEquipQuickDressOn)
+	end,
+	OnEquipQuickDressOn = function (slot0, slot1)
+		slot2 = true
 
-function var_0_0.OnInheritEquip(arg_28_0, arg_28_1)
-	if isSuccess(arg_28_0.result) then
-		ShowTips("EQUIP_INHERIT_SUCCESS")
-		manager.notify:CallUpdateFunc(EQUIP_INHERIT_SUCCESS, arg_28_1.new_equip_id)
-	else
-		ShowTips(arg_28_0.result)
+		for slot6, slot7 in ipairs(slot0.result) do
+			if not isSuccess(slot7.result) then
+				slot2 = false
+			end
+		end
+
+		if not slot2 then
+			ShowTips(GetTips("EQUIP_DRESS_FAIL"))
+		else
+			manager.notify:CallUpdateFunc(EQUIP_QUICK_DRESS_ON, slot0, slot1)
+		end
+	end,
+	QueryEquipEnchant = function (slot0, slot1, slot2, slot3)
+		slot4 = slot2.id
+		slot6 = slot2.number
+
+		if not checkGold(slot2.money) then
+			return
+		end
+
+		if ItemTools.getItemNum(slot4) < slot6 then
+			ShowPopItem(POP_SOURCE_ITEM, {
+				slot4,
+				slot6
+			})
+
+			return
+		end
+
+		if not (ItemCfg[slot4] and ItemCfg[slot4].param and ItemCfg[slot4].param[1]) and slot8 ~= "" then
+			return
+		end
+
+		manager.net:SendWithLoading(13028, {
+			equip_id = slot0,
+			enchant_slot_id = slot1,
+			pool_id = slot8,
+			lock_type = slot3
+		}, 13029):next(function (slot0)
+			if isSuccess(slot0.result) then
+				EquipData:AddPreEnchant(uv0, uv1, slot0.enchant_preview)
+				manager.notify:CallUpdateFunc(EQUIP_ENCHANT)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	QueryEquipEnchantConfirm = function (slot0, slot1, slot2, slot3)
+		return manager.net:SendWithLoading(13030, {
+			equip_id = slot0,
+			enchant_slot_id = slot1,
+			confirm = slot2,
+			preview_index = slot3
+		}, 13031):next(function (slot0)
+			if isSuccess(slot0.result) then
+				EquipData:ConfirmEnchant(uv0, uv1, uv2, uv3)
+				manager.notify:CallUpdateFunc(EQUIP_ENCHANT_CONFIRM, uv2)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	QueryEquipGiveUpAllEnchant = function (slot0, slot1)
+		return manager.net:SendWithLoading(13044, {
+			equip_id = slot0,
+			enchant_slot_id = slot1
+		}, 13045):next(function (slot0)
+			if isSuccess(slot0.result) then
+				EquipData:GiveUpAllEnchant(uv0, uv1)
+				manager.notify:CallUpdateFunc(EQUIP_ENCHANT_GIVE_UP)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	QueryEquipRace = function (slot0, slot1, slot2)
+		slot3 = EquipData:GetRaceMaterial(slot1)
+		slot4 = slot3.id
+		slot6 = slot3.number
+
+		if not checkGold(slot3.money) then
+			return
+		end
+
+		if ItemTools.getItemNum(slot4) < slot6 then
+			ShowPopItem(POP_SOURCE_ITEM, {
+				slot4,
+				slot6
+			})
+
+			return
+		end
+
+		slot8, slot9 = nil
+		slot10 = {
+			equip_id = slot0
+		}
+
+		if slot1 == 1 then
+			slot8 = 13032
+			slot9 = 13033
+		else
+			slot8 = 13046
+			slot9 = 13047
+			slot10.hero_id = slot2
+		end
+
+		manager.net:SendWithLoading(slot8, slot10, slot9):next(function (slot0)
+			if isSuccess(slot0.result) then
+				if uv0 == 2 then
+					EquipData:SetPreRace(uv1, uv2)
+					EquipData:ConfirmRace(uv1, true)
+
+					if not EquipData:GetEquipData(uv1).is_lock then
+						EquipAction.ApplyLockEquip(uv1, true)
+					end
+
+					ShowTips("EQUIP_HERO_SUCCESS")
+					JumpTools.OpenPageByJump("equipCulturePopView", {
+						type = "reset",
+						heroId = uv2,
+						callback = function ()
+							manager.notify:CallUpdateFunc(EQUIP_RACE)
+						end
+					})
+				else
+					EquipData:SetPreRace(uv1, slot0.race_preview)
+					JumpTools.OpenPageByJump("/equipRaceConfirmView", {
+						equipId = uv1,
+						heroId = uv2
+					})
+					manager.notify:CallUpdateFunc(EQUIP_RACE)
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	QueryEquipRaceConfirm = function (slot0, slot1)
+		manager.net:SendWithLoading(13034, {
+			equip_id = slot0,
+			confirm = slot1
+		}, 13035):next(function (slot0)
+			if isSuccess(slot0.result) then
+				EquipData:ConfirmRace(uv0, uv1)
+				manager.notify:CallUpdateFunc(EQUIP_RACE_CONFIRM)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	EquipBagFull = function (slot0)
+		EquipData:EquipBagFull(slot0)
+	end,
+	InheritEquip = function (slot0, slot1)
+		uv0 = slot1
+
+		manager.net:SendWithLoadingNew(13052, {
+			inherit_equip_prefab_id = slot1,
+			new_equip_id = slot0
+		}, 13053, uv1.OnInheritEquip)
+	end,
+	OnInheritEquip = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ShowTips("EQUIP_INHERIT_SUCCESS")
+			manager.notify:CallUpdateFunc(EQUIP_INHERIT_SUCCESS, slot1.new_equip_id)
+		else
+			ShowTips(slot0.result)
+		end
 	end
-end
-
-return var_0_0
+}

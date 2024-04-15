@@ -1,35 +1,32 @@
-local var_0_0 = class("TrainInfoSkillItem", ReduxView)
+slot0 = class("TrainInfoSkillItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.lockController_ = arg_1_0.mainControllerEx_:GetController("lock")
+	slot0.lockController_ = slot0.mainControllerEx_:GetController("lock")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	local var_2_0 = IdolTraineeSkillCfg[arg_2_1.skill]
+function slot0.SetData(slot0, slot1, slot2)
+	slot3 = IdolTraineeSkillCfg[slot1.skill]
+	slot0.name_.text = slot3.name
+	slot0.desc_.text = IdolTraineeTools:GetSkillDescString(slot1.skill)
+	slot0.icon_.sprite = IdolTraineeTools:GetSkillIcon(slot1.skill)
+	slot0.typeText_.text = GetTips("IDOL_DANCE_SKILL_TYPE_TIPS_" .. slot3.type)
+	slot4 = slot1.property or 0
+	slot0.lockText_.text = string.format(GetTips("IDOL_DANCE_SKILL_UNLOCK_TIPS"), slot2, slot4)
 
-	arg_2_0.name_.text = var_2_0.name
-	arg_2_0.desc_.text = IdolTraineeTools:GetSkillDescString(arg_2_1.skill)
-	arg_2_0.icon_.sprite = IdolTraineeTools:GetSkillIcon(arg_2_1.skill)
-	arg_2_0.typeText_.text = GetTips("IDOL_DANCE_SKILL_TYPE_TIPS_" .. var_2_0.type)
-
-	local var_2_1 = arg_2_1.property or 0
-
-	arg_2_0.lockText_.text = string.format(GetTips("IDOL_DANCE_SKILL_UNLOCK_TIPS"), arg_2_2, var_2_1)
-
-	if var_2_1 <= arg_2_2 then
-		arg_2_0.lockController_:SetSelectedState("normal")
+	if slot4 <= slot2 then
+		slot0.lockController_:SetSelectedState("normal")
 	else
-		arg_2_0.lockController_:SetSelectedState("lock")
+		slot0.lockController_:SetSelectedState("lock")
 	end
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

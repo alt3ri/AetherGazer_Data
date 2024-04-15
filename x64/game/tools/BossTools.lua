@@ -1,85 +1,64 @@
-local var_0_0 = {
-	GetLockHero = function()
-		local var_1_0 = BattleBossChallengeData:GetSelectMode()
-
-		if var_1_0 == BossConst.MODE_NONE then
+return {
+	GetLockHero = function ()
+		if BattleBossChallengeData:GetSelectMode() == BossConst.MODE_NONE then
 			return {}
 		end
 
-		if var_1_0 == BossConst.MODE_NORMAL then
+		if slot0 == BossConst.MODE_NORMAL then
 			return BattleBossChallengeNormalData:GetLockHero()
 		else
 			return BattleBossChallengeAdvanceData:GetLockHero()
 		end
 	end,
-	GetCacheHeroTeam = function(arg_2_0)
+	GetCacheHeroTeam = function (slot0)
 		if BattleBossChallengeData:GetSelectMode() == BossConst.MODE_NORMAL then
-			return BattleBossChallengeNormalData:GetCacheHeroTeam(arg_2_0)
+			return BattleBossChallengeNormalData:GetCacheHeroTeam(slot0)
 		else
-			return BattleBossChallengeAdvanceData:GetCacheHeroTeam(arg_2_0)
+			return BattleBossChallengeAdvanceData:GetCacheHeroTeam(slot0)
 		end
 	end,
-	CheckTimeout = function()
+	CheckTimeout = function ()
 		if BattleBossChallengeData:GetSelectMode() == BossConst.MODE_NONE then
 			BattleBossChallengeAction.BossChallengeBackEntrace()
 		end
 	end,
-	GetBossID = function(arg_4_0, arg_4_1)
-		if arg_4_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
-			local var_4_0 = BattleBossChallengeNormalData:GetBossList()[arg_4_1]
-
-			return StageGroupCfg[var_4_0].boss_id
-		elseif arg_4_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
-			return BattleBossChallengeAdvanceData:GetBossList()[arg_4_1].templateID
+	GetBossID = function (slot0, slot1)
+		if slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
+			return StageGroupCfg[BattleBossChallengeNormalData:GetBossList()[slot1]].boss_id
+		elseif slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
+			return BattleBossChallengeAdvanceData:GetBossList()[slot1].templateID
 		end
 	end,
-	GetContID = function(arg_5_0, arg_5_1)
-		if arg_5_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
-			return BattleBossChallengeNormalData:GetBossList()[arg_5_1]
-		elseif arg_5_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
-			return BattleBossChallengeAdvanceData:GetBossList()[arg_5_1].id
+	GetContID = function (slot0, slot1)
+		if slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
+			return BattleBossChallengeNormalData:GetBossList()[slot1]
+		elseif slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
+			return BattleBossChallengeAdvanceData:GetBossList()[slot1].id
 		end
-	end
-}
+	end,
+	IsFirstEnterUI = function (slot0)
+		slot1 = BattleBossChallengeData:GetRewardPreviewLevel()
 
-function var_0_0.IsFirstEnterUI(arg_6_0)
-	local var_6_0 = BattleBossChallengeData:GetRewardPreviewLevel()
+		if uv0.IsClearedStage() then
+			return false
+		end
 
-	if var_0_0.IsClearedStage() then
+		slot2 = nil
+
+		return slot1 ~= ((slot0 ~= BossConst.MODE_NORMAL or BattleBossChallengeNormalData:GetBossChallengeCfg().range_id) and BattleBossChallengeAdvanceData:GetChooseModeID())
+	end,
+	SaveFirstEnterUIValue = function (slot0)
+		slot1 = nil
+
+		BattleBossChallengeData:SetRewardPreviewLevel((slot0 ~= BossConst.MODE_NORMAL or BattleBossChallengeNormalData:GetBossChallengeCfg().range_id) and BattleBossChallengeAdvanceData:GetChooseModeID())
+	end,
+	IsClearedStage = function ()
+		for slot3, slot4 in ipairs(uv0.GetLockHero()) do
+			if #slot4 > 0 then
+				return true
+			end
+		end
+
 		return false
 	end
-
-	local var_6_1
-
-	if arg_6_0 == BossConst.MODE_NORMAL then
-		var_6_1 = BattleBossChallengeNormalData:GetBossChallengeCfg().range_id
-	else
-		var_6_1 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	end
-
-	return var_6_0 ~= var_6_1
-end
-
-function var_0_0.SaveFirstEnterUIValue(arg_7_0)
-	local var_7_0
-
-	if arg_7_0 == BossConst.MODE_NORMAL then
-		var_7_0 = BattleBossChallengeNormalData:GetBossChallengeCfg().range_id
-	else
-		var_7_0 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	end
-
-	BattleBossChallengeData:SetRewardPreviewLevel(var_7_0)
-end
-
-function var_0_0.IsClearedStage()
-	for iter_8_0, iter_8_1 in ipairs(var_0_0.GetLockHero()) do
-		if #iter_8_1 > 0 then
-			return true
-		end
-	end
-
-	return false
-end
-
-return var_0_0
+}

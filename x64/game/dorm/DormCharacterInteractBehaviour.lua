@@ -1,214 +1,113 @@
-local var_0_0 = {}
-local var_0_1 = {
+slot1 = {
 	AnyPeer = 2,
 	Source = 0,
 	Target = 1
 }
 
-local function var_0_2(arg_1_0, arg_1_1)
-	if arg_1_0 == var_0_1.Source then
-		return arg_1_1.entityID
-	elseif arg_1_0 == var_0_1.Target then
-		return arg_1_1.targetID
-	elseif arg_1_1.peerIDs and #arg_1_1.peerIDs > 0 then
-		return arg_1_1.peerIDs[math.random(#arg_1_1.peerIDs)]
+function slot2(slot0, slot1)
+	if slot0 == uv0.Source then
+		return slot1.entityID
+	elseif slot0 == uv0.Target then
+		return slot1.targetID
+	elseif slot1.peerIDs and #slot1.peerIDs > 0 then
+		return slot1.peerIDs[math.random(#slot1.peerIDs)]
 	end
 
 	return nil
 end
 
-local var_0_3 = {
-	play = function(arg_2_0, arg_2_1)
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(var_0_2(arg_2_0.entity, arg_2_1), arg_2_0.animeActionName, arg_2_0.animeActionSubName, arg_2_0.crossFade)
+slot3 = {
+	play = function (slot0, slot1)
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv0(slot0.entity, slot1), slot0.animeActionName, slot0.animeActionSubName, slot0.crossFade)
 	end,
-	putAt = function(arg_3_0, arg_3_1)
-		Dorm.DormEntityManager.PutEntityAt(var_0_2(arg_3_0.entity, arg_3_1), var_0_2(arg_3_0.referenceTarget, arg_3_1), arg_3_0.referencePointName)
+	putAt = function (slot0, slot1)
+		Dorm.DormEntityManager.PutEntityAt(uv0(slot0.entity, slot1), uv0(slot0.referenceTarget, slot1), slot0.referencePointName)
 	end,
-	attachTo = function(arg_4_0, arg_4_1)
-		Dorm.DormEntityManager.AttachToEntityCMD(var_0_2(arg_4_0.itemEntity, arg_4_1), var_0_2(arg_4_0.attachTo, arg_4_1), arg_4_0.attachPoint)
+	attachTo = function (slot0, slot1)
+		Dorm.DormEntityManager.AttachToEntityCMD(uv0(slot0.itemEntity, slot1), uv0(slot0.attachTo, slot1), slot0.attachPoint)
 	end,
-	detachFrom = function(arg_5_0, arg_5_1)
-		Dorm.DormEntityManager.DetachFromEntityCMD(var_0_2(arg_5_0.itemEntity, arg_5_1), arg_5_0.resetFacingDirection)
+	detachFrom = function (slot0, slot1)
+		Dorm.DormEntityManager.DetachFromEntityCMD(uv0(slot0.itemEntity, slot1), slot0.resetFacingDirection)
 	end,
-	grabPart = function(arg_6_0, arg_6_1)
-		Dorm.DormEntityManager.GrabItemPartCMD(var_0_2(arg_6_0.grabBy, arg_6_1), var_0_2(arg_6_0.grabFrom, arg_6_1), arg_6_0.itemPartName, arg_6_0.attachPoint)
+	grabPart = function (slot0, slot1)
+		Dorm.DormEntityManager.GrabItemPartCMD(uv0(slot0.grabBy, slot1), uv0(slot0.grabFrom, slot1), slot0.itemPartName, slot0.attachPoint)
 	end,
-	restorePart = function(arg_7_0, arg_7_1)
-		Dorm.DormEntityManager.RestoreItemPartCMD(var_0_2(arg_7_0.itemPartHost, arg_7_1), arg_7_0.itemPartName)
+	restorePart = function (slot0, slot1)
+		Dorm.DormEntityManager.RestoreItemPartCMD(uv0(slot0.itemPartHost, slot1), slot0.itemPartName)
 	end,
-	setPartVisible = function(arg_8_0, arg_8_1)
-		Dorm.DormEntityManager.SetPartVisible(var_0_2(arg_8_0.entity, arg_8_1), arg_8_0.itemPartName, arg_8_0.visible)
+	setPartVisible = function (slot0, slot1)
+		Dorm.DormEntityManager.SetPartVisible(uv0(slot0.entity, slot1), slot0.itemPartName, slot0.visible)
 	end,
-	changeScheme = function(arg_9_0, arg_9_1)
-		Dorm.DormEntityManager.ChangeEntityAnimeScheme(var_0_2(arg_9_0.entity, arg_9_1), arg_9_0.scheme)
+	changeScheme = function (slot0, slot1)
+		Dorm.DormEntityManager.ChangeEntityAnimeScheme(uv0(slot0.entity, slot1), slot0.scheme)
 	end,
-	setValue = function(arg_10_0, arg_10_1)
-		local var_10_0 = var_0_2(arg_10_0.entity, arg_10_1)
-
-		Dorm.storage:GetData(DormEnum.Namespace.EntityData, var_10_0)[arg_10_0.field] = arg_10_0.value
+	setValue = function (slot0, slot1)
+		Dorm.storage:GetData(DormEnum.Namespace.EntityData, uv0(slot0.entity, slot1))[slot0.field] = slot0.value
 	end,
-	setMobility = function(arg_11_0, arg_11_1)
-		local var_11_0 = var_0_2(arg_11_0.entity, arg_11_1)
-
-		Dorm.DormEntityManager.SetEntityMobility(var_11_0, arg_11_0.value)
+	setMobility = function (slot0, slot1)
+		Dorm.DormEntityManager.SetEntityMobility(uv0(slot0.entity, slot1), slot0.value)
 	end,
-	setMouth = function(arg_12_0, arg_12_1)
-		local var_12_0 = var_0_2(arg_12_0.entity, arg_12_1)
-
-		Dorm.DormEntityManager.SetFacialExpression(var_12_0, arg_12_0.value)
+	setMouth = function (slot0, slot1)
+		Dorm.DormEntityManager.SetFacialExpression(uv0(slot0.entity, slot1), slot0.value)
 	end,
-	restoreMouth = function(arg_13_0, arg_13_1)
-		local var_13_0 = var_0_2(arg_13_0.entity, arg_13_1)
-
-		Dorm.DormEntityManager.RestoreFacialExpression(var_13_0)
+	restoreMouth = function (slot0, slot1)
+		Dorm.DormEntityManager.RestoreFacialExpression(uv0(slot0.entity, slot1))
 	end,
-	setFace = function(arg_14_0, arg_14_1)
-		local var_14_0 = var_0_2(arg_14_0.entity, arg_14_1)
-
-		Dorm.DormEntityManager.PlayNormalFacileExpression(var_14_0, arg_14_0.faceEmoteState, arg_14_0.faceEmoteSubState, arg_14_0.crossFade)
+	setFace = function (slot0, slot1)
+		Dorm.DormEntityManager.PlayNormalFacileExpression(uv0(slot0.entity, slot1), slot0.faceEmoteState, slot0.faceEmoteSubState, slot0.crossFade)
 	end,
-	keepAsInteract = function(arg_15_0, arg_15_1)
-		Dorm.DormEntityManager.KeepAsInteractNotEnd(var_0_2(arg_15_0.entity, arg_15_1), var_0_2(arg_15_0.target, arg_15_1), arg_15_0.value)
+	keepAsInteract = function (slot0, slot1)
+		Dorm.DormEntityManager.KeepAsInteractNotEnd(uv0(slot0.entity, slot1), uv0(slot0.target, slot1), slot0.value)
 	end,
-	setSpFace = function(arg_16_0, arg_16_1)
-		local var_16_0 = var_0_2(arg_16_0.entity, arg_16_1)
-
-		Dorm.DormEntityManager.PlaySpacialFacileExpression(var_16_0, arg_16_0.faceEfxPath, arg_16_0.duration)
+	setSpFace = function (slot0, slot1)
+		Dorm.DormEntityManager.PlaySpacialFacileExpression(uv0(slot0.entity, slot1), slot0.faceEfxPath, slot0.duration)
 	end,
-	playEfx = function(arg_17_0, arg_17_1)
-		local var_17_0 = var_0_2(arg_17_0.entity, arg_17_1)
-
-		Dorm.DormEntityManager.PlayEffect(var_17_0, arg_17_0.attachPoint, arg_17_0.efxPath, arg_17_0.offset or Vector3.zero, arg_17_0.rotation or Quaternion.identity, arg_17_0.scale or Vector3.one, arg_17_0.duration)
+	playEfx = function (slot0, slot1)
+		Dorm.DormEntityManager.PlayEffect(uv0(slot0.entity, slot1), slot0.attachPoint, slot0.efxPath, slot0.offset or Vector3.zero, slot0.rotation or Quaternion.identity, slot0.scale or Vector3.one, slot0.duration)
 	end,
-	clearEfx = function(arg_18_0, arg_18_1)
-		local var_18_0 = var_0_2(arg_18_0.entity, arg_18_1)
-
-		Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(var_18_0, arg_18_0.attachPoint)
+	clearEfx = function (slot0, slot1)
+		Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(uv0(slot0.entity, slot1), slot0.attachPoint)
 	end,
-	playVoice = function(arg_19_0, arg_19_1)
-		manager.audio:Play(arg_19_0.playerType, arg_19_0.sheet, arg_19_0.cue, arg_19_0.awb)
+	playVoice = function (slot0, slot1)
+		manager.audio:Play(slot0.playerType, slot0.sheet, slot0.cue, slot0.awb)
 	end,
-	stopVoice = function(arg_20_0, arg_20_1)
-		manager.audio:Stop(arg_20_0.playerType)
+	stopVoice = function (slot0, slot1)
+		manager.audio:Stop(slot0.playerType)
 	end,
-	playSubtitle = function(arg_21_0, arg_21_1)
-		local var_21_0 = var_0_2(arg_21_0.entity, arg_21_1)
-
-		manager.notify:Invoke(DORM_CHARACTER_PLAY_SUBTITLE, var_21_0, arg_21_0.subtitleID)
+	playSubtitle = function (slot0, slot1)
+		manager.notify:Invoke(DORM_CHARACTER_PLAY_SUBTITLE, uv0(slot0.entity, slot1), slot0.subtitleID)
 	end
 }
 
-function var_0_0.DriveInteractSequenceNode(arg_22_0, arg_22_1)
-	if type(arg_22_0) == "table" then
-		for iter_22_0, iter_22_1 in ipairs(arg_22_0) do
-			if type(iter_22_1) == "table" then
-				local var_22_0 = iter_22_1.action
-				local var_22_1 = var_0_3[var_22_0]
-
-				if var_22_1 then
-					var_22_1(iter_22_1, arg_22_1)
-				end
-			else
-				iter_22_1(arg_22_1)
-			end
-		end
-	elseif type(arg_22_0) == "function" then
-		arg_22_0(arg_22_1)
-	end
+function slot4(slot0)
+	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, slot0)
 end
 
-local function var_0_4(arg_23_0)
-	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, arg_23_0)
-end
+function slot5(slot0, slot1)
+	slot2 = {}
 
-local function var_0_5(arg_24_0, arg_24_1)
-	local var_24_0 = {}
-
-	for iter_24_0, iter_24_1 in pairs(arg_24_0) do
-		table.insert(var_24_0, iter_24_0)
+	for slot6, slot7 in pairs(slot0) do
+		table.insert(slot2, slot6)
 	end
 
-	table.sort(var_24_0, arg_24_1)
+	table.sort(slot2, slot1)
 
-	return var_24_0
+	return slot2
 end
 
-function var_0_0.MakeInteractTask(arg_25_0, arg_25_1, arg_25_2)
-	if arg_25_0 then
-		local var_25_0 = arg_25_0.sequence
-		local var_25_1 = arg_25_0.duration
-		local var_25_2 = arg_25_0.keys or var_0_5(var_25_0)
+function slot6(slot0, slot1)
+	slot2 = nullable(DormUtils.GetEntityData(slot0), "interactEntities") or {}
 
-		arg_25_1.duration = var_25_1
-		arg_25_2 = arg_25_2 or DormCharacterActionManager.frameTaskRunner
+	table.insert(slot2, slot1)
 
-		local var_25_3 = arg_25_2:NewTask({
-			start = arg_25_1.startTime or arg_25_2:Now()
-		})
-
-		var_25_3:WaitUntil(function(arg_26_0)
-			local var_26_0 = arg_26_0.taskDataCtx.task.taskRunner
-			local var_26_1 = arg_26_0.taskDataCtx.start
-			local var_26_2 = arg_26_0.k
-			local var_26_3 = var_26_0:Now() - var_26_1
-
-			while var_26_2 <= #var_25_2 and var_26_3 >= var_25_2[var_26_2] do
-				local var_26_4 = var_25_0[var_25_2[var_26_2]]
-
-				var_0_0.DriveInteractSequenceNode(var_26_4, arg_25_1)
-
-				var_26_2 = var_26_2 + 1
-			end
-
-			arg_26_0.k = var_26_2
-			arg_25_1.playTime = var_26_3
-
-			return var_26_2 > #var_25_2 or var_26_3 >= var_25_1
-		end, false, {
-			k = 1
-		})
-		var_25_3:WaitUntil(function(arg_27_0)
-			local var_27_0 = arg_27_0.taskDataCtx.task.taskRunner
-			local var_27_1 = arg_27_0.taskDataCtx.start
-
-			arg_25_1.playTime = var_27_0:Now() - var_27_1
-
-			return arg_25_1.playTime >= var_25_1
-		end)
-
-		if arg_25_0.onAbort then
-			var_25_3:SetOnAbort(function()
-				arg_25_0.onAbort(arg_25_1)
-			end)
-		end
-
-		if arg_25_0.onComplete then
-			var_25_3:SetOnComplete(function()
-				arg_25_1.playTime = arg_25_1.duration
-
-				arg_25_0.onComplete(arg_25_1)
-			end)
-		end
-
-		return var_25_3
-	end
+	return slot2
 end
 
-local function var_0_6(arg_30_0, arg_30_1)
-	local var_30_0 = nullable(DormUtils.GetEntityData(arg_30_0), "interactEntities") or {}
-
-	table.insert(var_30_0, arg_30_1)
-
-	return var_30_0
-end
-
-local function var_0_7(arg_31_0, arg_31_1)
-	local var_31_0 = nullable(DormUtils.GetEntityData(arg_31_0), "interactEntities")
-
-	if var_31_0 then
-		for iter_31_0 = #var_31_0, 1, -1 do
-			if var_31_0[iter_31_0] == arg_31_1 then
-				table.remove(var_31_0, iter_31_0)
+function slot7(slot0, slot1)
+	if nullable(DormUtils.GetEntityData(slot0), "interactEntities") then
+		for slot6 = #slot2, 1, -1 do
+			if slot2[slot6] == slot1 then
+				table.remove(slot2, slot6)
 
 				break
 			end
@@ -216,270 +115,286 @@ local function var_0_7(arg_31_0, arg_31_1)
 	end
 end
 
-local function var_0_8(arg_32_0, arg_32_1, arg_32_2)
-	Dorm.DormEntityManager.KeepAsInteractNotEnd(arg_32_1.entityID, arg_32_1.targetID, false)
+function slot8(slot0, slot1, slot2)
+	Dorm.DormEntityManager.KeepAsInteractNotEnd(slot1.entityID, slot1.targetID, false)
 
-	local var_32_0 = arg_32_1.entityID
-	local var_32_1 = DormUtils.GetEntityData(var_32_0)
+	slot3 = slot1.entityID
+	DormUtils.GetEntityData(slot3).isDuringInteract = true
+	slot1.peers = uv0(slot1.targetID, slot1.entityID)
 
-	var_32_1.isDuringInteract = true
-	arg_32_1.peers = var_0_6(arg_32_1.targetID, arg_32_1.entityID)
-
-	arg_32_0:SetCancellationSrc(function()
-		return arg_32_2.canceled
+	slot0:SetCancellationSrc(function ()
+		return uv0.canceled
 	end)
 
-	local var_32_2 = arg_32_0.onComplete
+	slot5 = slot0.onComplete
 
-	arg_32_0:SetOnComplete(function()
-		var_0_7(arg_32_1.targetID, var_32_0)
+	slot0:SetOnComplete(function ()
+		uv0(uv1.targetID, uv2)
 
-		if arg_32_1.continuous then
-			Dorm.DormEntityManager.KeepAsInteractNotEnd(var_32_0, arg_32_1.targetID, true)
+		if uv1.continuous then
+			Dorm.DormEntityManager.KeepAsInteractNotEnd(uv2, uv1.targetID, true)
 
-			var_32_1.isDuringInteract = true
+			uv3.isDuringInteract = true
 		else
-			var_32_1.isDuringInteract = false
+			uv3.isDuringInteract = false
 
-			DormUtils.ShowCharaSpecialVfx(var_32_0, Dorm.charaVfxActiveType)
-			DormUtils.SetEntityInteractContext(var_32_0, nil)
+			DormUtils.ShowCharaSpecialVfx(uv2, Dorm.charaVfxActiveType)
+			DormUtils.SetEntityInteractContext(uv2, nil)
 		end
 
-		arg_32_2:Notify(true)
+		uv4:Notify(true)
 
-		if var_32_2 then
-			var_32_2()
-		end
-	end)
-
-	local var_32_3 = arg_32_0.onAbort
-
-	arg_32_0:SetOnAbort(function(arg_35_0)
-		if Dorm.DormEntityManager.IsValidEntityID(var_32_0) then
-			DormUtils.SetEntityInteractContext(var_32_0, nil)
-
-			if var_32_1.isDuringInteract then
-				var_32_1.isDuringInteract = false
-
-				DormUtils.ShowCharaSpecialVfx(var_32_0, Dorm.charaVfxActiveType)
-			end
-
-			var_0_7(arg_32_1.targetID, var_32_0)
-		end
-
-		arg_32_2:Notify(false)
-
-		if var_32_3 then
-			var_32_3()
+		if uv5 then
+			uv5()
 		end
 	end)
-	arg_32_0:Start(arg_32_1.waitOneTick)
 
-	arg_32_1.curActionTask = arg_32_0
+	slot6 = slot0.onAbort
 
-	DormUtils.HideCharaSpecialVfx(var_32_0)
+	slot0:SetOnAbort(function (slot0)
+		if Dorm.DormEntityManager.IsValidEntityID(uv0) then
+			DormUtils.SetEntityInteractContext(uv0, nil)
 
-	return arg_32_0
-end
+			if uv1.isDuringInteract then
+				uv1.isDuringInteract = false
 
-function var_0_0.GetNextAction(arg_36_0)
-	local var_36_0 = nullable(DormInteractSequence, arg_36_0, "next_action")
+				DormUtils.ShowCharaSpecialVfx(uv0, Dorm.charaVfxActiveType)
+			end
 
-	if var_36_0 and next(var_36_0) then
-		local var_36_1 = var_36_0[math.random(#var_36_0)]
-
-		return true, nullable(var_36_1, 1), nullable(var_36_1, 2)
-	end
-
-	return false
-end
-
-function var_0_0.MakeCtx(arg_37_0, arg_37_1, arg_37_2)
-	local var_37_0 = arg_37_2 or {}
-
-	var_37_0.entityID = arg_37_0
-	var_37_0.targetID = arg_37_1
-
-	return var_37_0
-end
-
-function var_0_0.MakeDefaultCtx(arg_38_0, arg_38_1, arg_38_2, arg_38_3)
-	local var_38_0, var_38_1, var_38_2 = var_0_0.GetNextAction(arg_38_2)
-	local var_38_3 = {
-		nextAction = var_38_1,
-		nextActionWaitTime = var_38_2,
-		continuous = var_38_0
-	}
-
-	if arg_38_3 ~= nil then
-		for iter_38_0, iter_38_1 in pairs(arg_38_3) do
-			var_38_3[iter_38_0] = iter_38_1
+			uv2(uv3.targetID, uv0)
 		end
-	end
 
-	return (var_0_0.MakeCtx(arg_38_0, arg_38_1, var_38_3))
+		uv4:Notify(false)
+
+		if uv5 then
+			uv5()
+		end
+	end)
+	slot0:Start(slot1.waitOneTick)
+
+	slot1.curActionTask = slot0
+
+	DormUtils.HideCharaSpecialVfx(slot3)
+
+	return slot0
 end
 
-local function var_0_9(arg_39_0, arg_39_1)
-	if type(arg_39_0) == "function" then
-		return arg_39_0(arg_39_1)
+function slot9(slot0, slot1)
+	if type(slot0) == "function" then
+		return slot0(slot1)
 	else
-		return var_0_0.MakeInteractTask(arg_39_0, arg_39_1)
+		return uv0.MakeInteractTask(slot0, slot1)
 	end
 end
 
-function var_0_0.MakeCtxForInternalAction(arg_40_0, arg_40_1, arg_40_2, arg_40_3)
-	arg_40_3 = arg_40_3 or {}
+return {
+	DriveInteractSequenceNode = function (slot0, slot1)
+		if type(slot0) == "table" then
+			for slot5, slot6 in ipairs(slot0) do
+				if type(slot6) == "table" then
+					if uv0[slot6.action] then
+						slot8(slot6, slot1)
+					end
+				else
+					slot6(slot1)
+				end
+			end
+		elseif type(slot0) == "function" then
+			slot0(slot1)
+		end
+	end,
+	MakeInteractTask = function (slot0, slot1, slot2)
+		if slot0 then
+			slot5 = slot0.keys or uv0(slot0.sequence)
+			slot1.duration = slot0.duration
+			slot2 = slot2 or DormCharacterActionManager.frameTaskRunner
+			slot6 = slot2:NewTask({
+				start = slot1.startTime or slot2:Now()
+			})
 
-	local var_40_0 = nullable(var_0_4(arg_40_0), "cfgID")
-	local var_40_1 = nullable(var_0_4(arg_40_1), "cfgID")
+			slot6:WaitUntil(function (slot0)
+				slot3 = slot0.k
+				slot4 = slot0.taskDataCtx.task.taskRunner:Now() - slot0.taskDataCtx.start
 
-	arg_40_3.entityCfg, arg_40_3.targetCfg = var_40_0, var_40_1
+				while slot3 <= #uv0 and uv0[slot3] <= slot4 do
+					uv2.DriveInteractSequenceNode(uv1[uv0[slot3]], uv3)
 
-	local var_40_2 = var_0_0.GetSequence(var_40_0, var_40_1, arg_40_2)
-	local var_40_3 = var_0_0.MakeCtx(arg_40_0, arg_40_1, arg_40_3)
+					slot3 = slot3 + 1
+				end
 
-	var_40_3.curActionTask = var_0_9(var_40_2, var_40_3)
+				slot0.k = slot3
+				uv3.playTime = slot4
 
-	return var_40_3, var_40_2
-end
+				return slot3 > #uv0 or uv4 <= slot4
+			end, false, {
+				k = 1
+			})
+			slot6:WaitUntil(function (slot0)
+				uv0.playTime = slot0.taskDataCtx.task.taskRunner:Now() - slot0.taskDataCtx.start
 
-function var_0_0.ValidateAction(arg_41_0, arg_41_1, arg_41_2)
-	local var_41_0 = nullable(var_0_4(arg_41_0), "cfgID")
-	local var_41_1 = nullable(var_0_4(arg_41_1), "cfgID")
-	local var_41_2 = nullable(DormInteractSequence, arg_41_2, "name")
+				return uv1 <= uv0.playTime
+			end)
 
-	return var_0_0.GetSequence(var_41_0, var_41_1, var_41_2)
-end
-
-function var_0_0.Interact(arg_42_0, arg_42_1, arg_42_2, arg_42_3)
-	local var_42_0 = var_0_4(arg_42_0).interactCtx
-	local var_42_1 = nullable(var_42_0, "curActionTask")
-
-	if not var_42_1 then
-		var_42_0 = var_42_0 or var_0_0.MakeDefaultCtx(arg_42_0, arg_42_1, arg_42_3)
-
-		local var_42_2 = var_0_0.ValidateAction(arg_42_0, arg_42_1, arg_42_3)
-
-		var_42_1 = var_42_0.curActionTask or var_0_9(var_42_2, var_42_0)
-	end
-
-	if var_42_1 then
-		var_0_8(var_42_1, var_42_0, arg_42_2)
-	else
-		arg_42_2:Notify(false)
-	end
-end
-
-function var_0_0.GetSequencePath(arg_43_0, arg_43_1, arg_43_2, arg_43_3)
-	arg_43_3 = arg_43_3 or "game.dorm.interacts"
-
-	if arg_43_2 ~= nil then
-		local var_43_0 = {}
-
-		if arg_43_0 then
-			if arg_43_1 then
-				table.insert(var_43_0, string.format("%s.%d.%d_%s", arg_43_3, arg_43_0, arg_43_1, arg_43_2))
+			if slot0.onAbort then
+				slot6:SetOnAbort(function ()
+					uv0.onAbort(uv1)
+				end)
 			end
 
-			local var_43_1 = BackHomeHeroSkinCfg[arg_43_0]
-			local var_43_2 = arg_43_0
-			local var_43_3
+			if slot0.onComplete then
+				slot6:SetOnComplete(function ()
+					uv0.playTime = uv0.duration
 
-			if var_43_1 then
-				var_43_2, var_43_3 = var_43_1.hero_id, var_43_1.style
+					uv1.onComplete(uv0)
+				end)
 			end
 
-			table.insert(var_43_0, string.format("%s.%d.%s", arg_43_3, arg_43_0, arg_43_2))
-			table.insert(var_43_0, string.format("%s.%d.%s", arg_43_3, var_43_2, arg_43_2))
+			return slot6
+		end
+	end,
+	GetNextAction = function (slot0)
+		if nullable(DormInteractSequence, slot0, "next_action") and next(slot1) then
+			slot2 = slot1[math.random(#slot1)]
 
-			if var_43_3 then
-				table.insert(var_43_0, string.format("%s.%s.%s", arg_43_3, var_43_3, arg_43_2))
+			return true, nullable(slot2, 1), nullable(slot2, 2)
+		end
+
+		return false
+	end,
+	MakeCtx = function (slot0, slot1, slot2)
+		slot3 = slot2 or {}
+		slot3.entityID = slot0
+		slot3.targetID = slot1
+
+		return slot3
+	end,
+	MakeDefaultCtx = function (slot0, slot1, slot2, slot3)
+		slot4, slot5, slot6 = uv0.GetNextAction(slot2)
+		slot7 = {
+			nextAction = slot5,
+			nextActionWaitTime = slot6,
+			continuous = slot4
+		}
+
+		if slot3 ~= nil then
+			for slot11, slot12 in pairs(slot3) do
+				slot7[slot11] = slot12
 			end
 		end
 
-		table.insert(var_43_0, string.format("%s.%s", arg_43_3, arg_43_2))
+		return uv0.MakeCtx(slot0, slot1, slot7)
+	end,
+	MakeCtxForInternalAction = function (slot0, slot1, slot2, slot3)
+		slot3 = slot3 or {}
+		slot4 = nullable(uv0(slot0), "cfgID")
+		slot5 = nullable(uv0(slot1), "cfgID")
+		slot3.targetCfg = slot5
+		slot3.entityCfg = slot4
+		slot6 = uv1.GetSequence(slot4, slot5, slot2)
+		slot7 = uv1.MakeCtx(slot0, slot1, slot3)
+		slot7.curActionTask = uv2(slot6, slot7)
 
-		return var_43_0
-	end
-end
-
-function var_0_0.GetSequenceGroup(arg_44_0, arg_44_1, arg_44_2, arg_44_3, arg_44_4)
-	arg_44_4 = arg_44_4 or Dorm.InteractionGrouping
-
-	local var_44_0 = var_0_0.GetSequencePath(arg_44_0, arg_44_1, arg_44_2, arg_44_3)
-
-	if var_44_0 then
-		for iter_44_0, iter_44_1 in ipairs(var_44_0) do
-			local var_44_1 = arg_44_4[iter_44_1]
-
-			if var_44_1 then
-				return var_44_1
-			end
+		return slot7, slot6
+	end,
+	ValidateAction = function (slot0, slot1, slot2)
+		return uv1.GetSequence(nullable(uv0(slot0), "cfgID"), nullable(uv0(slot1), "cfgID"), nullable(DormInteractSequence, slot2, "name"))
+	end,
+	Interact = function (slot0, slot1, slot2, slot3)
+		if not nullable(uv0(slot0).interactCtx, "curActionTask") then
+			slot5 = slot5 or uv1.MakeDefaultCtx(slot0, slot1, slot3)
+			slot6 = slot5.curActionTask or uv2(uv1.ValidateAction(slot0, slot1, slot3), slot5)
 		end
-	end
-end
 
-function var_0_0.GetSequence(arg_45_0, arg_45_1, arg_45_2, arg_45_3, arg_45_4)
-	local var_45_0 = var_0_0.GetSequencePath(arg_45_0, arg_45_1, arg_45_2, arg_45_3)
+		if slot6 then
+			uv3(slot6, slot5, slot2)
+		else
+			slot2:Notify(false)
+		end
+	end,
+	GetSequencePath = function (slot0, slot1, slot2, slot3)
+		slot3 = slot3 or "game.dorm.interacts"
 
-	arg_45_4 = arg_45_4 or Dorm.InteractionGrouping
+		if slot2 ~= nil then
+			slot4 = {}
 
-	if var_45_0 then
-		for iter_45_0, iter_45_1 in ipairs(var_45_0) do
-			local var_45_1 = package.loaded[iter_45_1]
+			if slot0 then
+				if slot1 then
+					table.insert(slot4, string.format("%s.%d.%d_%s", slot3, slot0, slot1, slot2))
+				end
 
-			if var_45_1 == nil then
-				local var_45_2 = arg_45_4[iter_45_1]
+				slot6 = slot0
+				slot7 = nil
 
-				if var_45_2 then
-					var_45_1 = var_45_2[math.random(#var_45_2)]
+				if BackHomeHeroSkinCfg[slot0] then
+					slot7 = slot5.style
+					slot6 = slot5.hero_id
+				end
+
+				table.insert(slot4, string.format("%s.%d.%s", slot3, slot0, slot2))
+				table.insert(slot4, string.format("%s.%d.%s", slot3, slot6, slot2))
+
+				if slot7 then
+					table.insert(slot4, string.format("%s.%s.%s", slot3, slot7, slot2))
 				end
 			end
 
-			if var_45_1 then
-				return var_45_1
+			table.insert(slot4, string.format("%s.%s", slot3, slot2))
+
+			return slot4
+		end
+	end,
+	GetSequenceGroup = function (slot0, slot1, slot2, slot3, slot4)
+		slot4 = slot4 or Dorm.InteractionGrouping
+
+		if uv0.GetSequencePath(slot0, slot1, slot2, slot3) then
+			for slot9, slot10 in ipairs(slot5) do
+				if slot4[slot10] then
+					return slot11
+				end
 			end
 		end
+	end,
+	GetSequence = function (slot0, slot1, slot2, slot3, slot4)
+		slot4 = slot4 or Dorm.InteractionGrouping
+
+		if uv0.GetSequencePath(slot0, slot1, slot2, slot3) then
+			for slot9, slot10 in ipairs(slot5) do
+				if package.loaded[slot10] == nil and slot4[slot10] then
+					slot11 = slot12[math.random(#slot12)]
+				end
+
+				if slot11 then
+					return slot11
+				end
+			end
+		end
+	end,
+	Init = function (slot0)
+		manager.notify:RegistListener(ON_DORM_CHARACTER_INTERACT, slot0.Interact)
+		manager.notify:RegistListener(ON_DORM_CHARACTER_GRAB_STARTED, slot0.OnCharaGrab)
+		manager.notify:RegistListener(ON_DORM_CHARACTER_INTERACT_ABORTED, slot0.OnInteractAborted)
+	end,
+	Reset = function (slot0)
+		manager.notify:RemoveListener(ON_DORM_CHARACTER_INTERACT, slot0.Interact)
+		manager.notify:RemoveListener(ON_DORM_CHARACTER_GRAB_STARTED, slot0.OnCharaGrab)
+		manager.notify:RemoveListener(ON_DORM_CHARACTER_INTERACT_ABORTED, slot0.OnInteractAborted)
+	end,
+	OnCharaGrab = function (slot0)
+		if DormUtils.GetEntityData(slot0).isDuringInteract then
+			DormUtils.ShowCharaSpecialVfx(slot0, Dorm.charaVfxActiveType)
+
+			slot1.isDuringInteract = false
+		end
+	end,
+	OnInteractAborted = function (slot0, slot1)
+		if DormUtils.GetEntityData(slot0) == nil then
+			return
+		end
+
+		if nullable(slot2, "interactCtx", "curActionTask") then
+			slot3:Abort()
+		end
+
+		DormUtils.SetEntityInteractContext(slot0, nil)
 	end
-end
-
-function var_0_0.Init(arg_46_0)
-	manager.notify:RegistListener(ON_DORM_CHARACTER_INTERACT, arg_46_0.Interact)
-	manager.notify:RegistListener(ON_DORM_CHARACTER_GRAB_STARTED, arg_46_0.OnCharaGrab)
-	manager.notify:RegistListener(ON_DORM_CHARACTER_INTERACT_ABORTED, arg_46_0.OnInteractAborted)
-end
-
-function var_0_0.Reset(arg_47_0)
-	manager.notify:RemoveListener(ON_DORM_CHARACTER_INTERACT, arg_47_0.Interact)
-	manager.notify:RemoveListener(ON_DORM_CHARACTER_GRAB_STARTED, arg_47_0.OnCharaGrab)
-	manager.notify:RemoveListener(ON_DORM_CHARACTER_INTERACT_ABORTED, arg_47_0.OnInteractAborted)
-end
-
-function var_0_0.OnCharaGrab(arg_48_0)
-	local var_48_0 = DormUtils.GetEntityData(arg_48_0)
-
-	if var_48_0.isDuringInteract then
-		DormUtils.ShowCharaSpecialVfx(arg_48_0, Dorm.charaVfxActiveType)
-
-		var_48_0.isDuringInteract = false
-	end
-end
-
-function var_0_0.OnInteractAborted(arg_49_0, arg_49_1)
-	local var_49_0 = DormUtils.GetEntityData(arg_49_0)
-
-	if var_49_0 == nil then
-		return
-	end
-
-	local var_49_1 = nullable(var_49_0, "interactCtx", "curActionTask")
-
-	if var_49_1 then
-		var_49_1:Abort()
-	end
-
-	DormUtils.SetEntityInteractContext(arg_49_0, nil)
-end
-
-return var_0_0
+}

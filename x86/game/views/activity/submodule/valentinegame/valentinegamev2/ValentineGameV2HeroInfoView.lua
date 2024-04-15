@@ -1,92 +1,85 @@
-local var_0_0 = class("ValentineGameV2HeroInfoView", ReduxView)
+slot0 = class("ValentineGameV2HeroInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaValentineUI/IndiaValentineStageUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateController_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.rewardList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ValentineGameV2RewardItem)
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ValentineGameV2RewardItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.cfg_.reward_item_list[arg_5_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.cfg_.reward_item_list[slot1])
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.startBtn_, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_6_0.activityID_) then
-			if ValentineGameData:GetData(arg_6_0.activityID_).isClear and type(ActivityValentineCfg[arg_6_0.activityID_].cost_item) == "table" and not checkGold(ActivityValentineCfg[arg_6_0.activityID_].cost_item[1][2], true) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.activityID_) then
+			if ValentineGameData:GetData(uv0.activityID_).isClear and type(ActivityValentineCfg[uv0.activityID_].cost_item) == "table" and not checkGold(ActivityValentineCfg[uv0.activityID_].cost_item[1][2], true) then
 				return
 			end
 
 			JumpTools.OpenPageByJump("/valentineGameV2GameStartView", {
-				activityID = arg_6_0.activityID_
+				activityID = uv0.activityID_
 			})
-		elseif manager.time:GetServerTime() < ActivityData:GetActivityData(arg_6_0.activityID_).startTime then
-			local var_7_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_6_0.activityID_).startTime)
-
-			ShowTips(string.format(GetTips("OPEN_TIME"), var_7_0))
+		elseif manager.time:GetServerTime() < ActivityData:GetActivityData(uv0.activityID_).startTime then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.activityID_).startTime)))
 		else
 			ShowTips(GetTips("TIME_OVER"))
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rewardBtn_, nil, function()
-		ValentineGameAction:GetReward(arg_6_0.activityID_)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		ValentineGameAction:GetReward(uv0.activityID_)
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activityID_ = arg_9_0.params_.activityID
-	arg_9_0.cfg_ = ActivityValentineCfg[arg_9_0.activityID_]
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.cfg_ = ActivityValentineCfg[slot0.activityID_]
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.nameText_.text = arg_10_0.cfg_.name
-	arg_10_0.desText_.text = arg_10_0.cfg_.desc
+function slot0.RefreshUI(slot0)
+	slot0.nameText_.text = slot0.cfg_.name
+	slot0.desText_.text = slot0.cfg_.desc
+	slot0.finishNumText_.text = #ValentineGameData:GetData(slot0.activityID_).selectQuestionID .. "/" .. #slot0.cfg_.hero_qa_id
+	slot0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. slot0.cfg_.hero_id .. "_split_1")
 
-	local var_10_0 = ValentineGameData:GetData(arg_10_0.activityID_)
+	slot0.heroImage_:SetNativeSize()
+	slot0.rewardList_:StartScroll(#slot0.cfg_.reward_item_list)
 
-	arg_10_0.finishNumText_.text = #var_10_0.selectQuestionID .. "/" .. #arg_10_0.cfg_.hero_qa_id
-	arg_10_0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. arg_10_0.cfg_.hero_id .. "_split_1")
-
-	arg_10_0.heroImage_:SetNativeSize()
-	arg_10_0.rewardList_:StartScroll(#arg_10_0.cfg_.reward_item_list)
-
-	local var_10_1 = ValentineGameData:GetData(arg_10_0.activityID_)
-
-	if var_10_1 and var_10_1.isReward then
-		arg_10_0.stateController_:SetSelectedState("received")
-	elseif var_10_1 and var_10_1.isClear then
-		arg_10_0.stateController_:SetSelectedState("complete")
+	if ValentineGameData:GetData(slot0.activityID_) and slot2.isReward then
+		slot0.stateController_:SetSelectedState("received")
+	elseif slot2 and slot2.isClear then
+		slot0.stateController_:SetSelectedState("complete")
 	else
-		arg_10_0.stateController_:SetSelectedState("test")
+		slot0.stateController_:SetSelectedState("test")
 	end
 
-	if var_10_1 and var_10_1.isClear then
-		SetActive(arg_10_0.costGo_, true)
+	if slot2 and slot2.isClear then
+		SetActive(slot0.costGo_, true)
 
-		arg_10_0.costIcon_.sprite = getSprite("Atlas/Currency", arg_10_0.cfg_.cost_item[1][1])
-		arg_10_0.costText_.text = arg_10_0.cfg_.cost_item[1][2]
+		slot0.costIcon_.sprite = getSprite("Atlas/Currency", slot0.cfg_.cost_item[1][1])
+		slot0.costText_.text = slot0.cfg_.cost_item[1][2]
 	else
-		SetActive(arg_10_0.costGo_, false)
+		SetActive(slot0.costGo_, false)
 	end
 end
 
-function var_0_0.OnTop(arg_11_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -97,22 +90,22 @@ function var_0_0.OnTop(arg_11_0)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_VALENTINE_DESCRIBE")
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnValentineGameReward(arg_13_0)
-	arg_13_0:RefreshUI()
+function slot0.OnValentineGameReward(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.rewardList_ then
-		arg_14_0.rewardList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.rewardList_ then
+		slot0.rewardList_:Dispose()
 
-		arg_14_0.rewardList_ = nil
+		slot0.rewardList_ = nil
 	end
 
-	arg_14_0.super.Dispose(arg_14_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

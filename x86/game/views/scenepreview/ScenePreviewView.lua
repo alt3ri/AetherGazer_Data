@@ -1,384 +1,362 @@
-local var_0_0 = class("ScenePreviewView", ReduxView)
+slot0 = class("ScenePreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Main/SceneChange1"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.effectTgl_ = {}
+	slot0.effectTgl_ = {}
 
-	for iter_4_0, iter_4_1 in ipairs(HomeSceneTagCfg.all) do
-		arg_4_0.effectTgl_[iter_4_1] = arg_4_0["effectTgl_" .. iter_4_1]
+	for slot4, slot5 in ipairs(HomeSceneTagCfg.all) do
+		slot0.effectTgl_[slot5] = slot0["effectTgl_" .. slot5]
 	end
 
-	arg_4_0.btnCon_ = ControllerUtil.GetController(arg_4_0.transform_, "btn")
-	arg_4_0.setting_ = {
+	slot0.btnCon_ = ControllerUtil.GetController(slot0.transform_, "btn")
+	slot0.setting_ = {
 		[HomeSceneSettingConst.SETTING.SOUND_EFFECT] = "sound_effect",
 		[HomeSceneSettingConst.SETTING.CAMERA_FOLLOW] = "camera_follow",
 		[HomeSceneSettingConst.SETTING.SCENE_BGM] = "scene_bgm"
 	}
-	arg_4_0.settingBtn_ = {}
-	arg_4_0.settingCon_ = {}
-	arg_4_0.settingItem_ = {}
+	slot0.settingBtn_ = {}
+	slot0.settingCon_ = {}
+	slot0.settingItem_ = {}
 
-	for iter_4_2, iter_4_3 in ipairs(arg_4_0.setting_) do
-		arg_4_0.settingBtn_[iter_4_2] = arg_4_0["settingBtn_" .. iter_4_2]
-		arg_4_0.settingItem_[iter_4_2] = arg_4_0["settingItem_" .. iter_4_2]
-		arg_4_0.settingCon_[iter_4_2] = ControllerUtil.GetController(arg_4_0.settingItem_[iter_4_2].transform, "type")
+	for slot4, slot5 in ipairs(slot0.setting_) do
+		slot0.settingBtn_[slot4] = slot0["settingBtn_" .. slot4]
+		slot0.settingItem_[slot4] = slot0["settingItem_" .. slot4]
+		slot0.settingCon_[slot4] = ControllerUtil.GetController(slot0.settingItem_[slot4].transform, "type")
 	end
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ScenePreviewItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ScenePreviewItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.list_[arg_5_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.list_[slot1]
 
-	arg_5_2:RefreshData(var_5_0, arg_5_0.data_[var_5_0], var_5_0 == arg_5_0.curSceneID_)
-	arg_5_2:RegistClickFunc(function()
-		arg_5_0.curSceneID_ = var_5_0
+	slot2:RefreshData(slot3, slot0.data_[slot3], slot3 == slot0.curSceneID_)
+	slot2:RegistClickFunc(function ()
+		uv0.curSceneID_ = uv1
 
-		arg_5_0:RefreshRight()
-		arg_5_0.scrollHelper_:Refresh()
+		uv0:RefreshRight()
+		uv0.scrollHelper_:Refresh()
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.useBtn_, nil, function()
-		HomeSceneSettingAction.SetHomeScene(arg_7_0.curSceneID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		HomeSceneSettingAction.SetHomeScene(uv0.curSceneID_)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.trialBtn_, nil, function()
-		HomeSceneSettingAction.SetHomeScene(arg_7_0.curSceneID_)
+	slot0:AddBtnListener(slot0.trialBtn_, nil, function ()
+		HomeSceneSettingAction.SetHomeScene(uv0.curSceneID_)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.getBtn_, nil, function()
-		if arg_7_0:IsCanGet() then
-			JumpTools.JumpToPage2(arg_7_0.cfg_.obtain_way)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+		if uv0:IsCanGet() then
+			JumpTools.JumpToPage2(uv0.cfg_.obtain_way)
 		else
 			ShowTips("HOME_NO_GET_WAY")
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.noGetBtn_, nil, function()
-		if not arg_7_0:IsCanGet() then
+	slot0:AddBtnListener(slot0.noGetBtn_, nil, function ()
+		if not uv0:IsCanGet() then
 			ShowTips("HOME_NO_GET_WAY")
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.previewBtn_, nil, function()
-		arg_7_0.params_.sceneID = arg_7_0.curSceneID_
 
-		local var_12_0 = HomeSceneSettingData:SetPreviewScene(arg_7_0.curSceneID_)
+	slot4 = nil
 
-		HomeSceneSettingData:SetPreviewSceneParams(var_12_0)
-		OpenPageUntilLoaded("/homePreview", var_12_0)
-	end)
+	function slot5()
+		uv0.params_.sceneID = uv0.curSceneID_
+		slot0 = HomeSceneSettingData:SetPreviewScene(uv0.curSceneID_)
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.setting_) do
-		arg_7_0:AddBtnListener(arg_7_0.settingBtn_[iter_7_0], nil, function()
-			local var_13_0 = "home_scene_" .. iter_7_1
-			local var_13_1 = 1 - arg_7_0.settingData_[var_13_0]
+		HomeSceneSettingData:SetPreviewSceneParams(slot0)
+		OpenPageUntilLoaded("/homePreview", slot0)
+	end
 
-			SettingAction.ChangeHomeSceneSetting(var_13_0, var_13_1)
+	slot0:AddBtnListener(slot0.previewBtn_, slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.setting_) do
+		slot0:AddBtnListener(slot0.settingBtn_[slot4], nil, function ()
+			slot0 = "home_scene_" .. uv0
+
+			SettingAction.ChangeHomeSceneSetting(slot0, 1 - uv1.settingData_[slot0])
 		end)
 	end
 
-	for iter_7_2, iter_7_3 in ipairs(HomeSceneTagCfg.all) do
-		arg_7_0:AddToggleListener(arg_7_0["effectTgl_" .. iter_7_3], function(arg_14_0)
-			if arg_14_0 then
-				arg_7_0:AddClickTimer()
+	for slot4, slot5 in ipairs(HomeSceneTagCfg.all) do
+		slot0:AddToggleListener(slot0["effectTgl_" .. slot5], function (slot0)
+			if slot0 then
+				uv0:AddClickTimer()
 
-				local var_14_0 = HomeSceneTagCfg[iter_7_3]
+				slot1 = HomeSceneTagCfg[uv1]
+				uv0.tglTitle_.text = slot1.tag_desc
+				uv0.tglDesc_.text = slot1.tag_detail
 
-				arg_7_0.tglTitle_.text = var_14_0.tag_desc
-				arg_7_0.tglDesc_.text = var_14_0.tag_detail
+				uv0.tglPanelGo_.transform:SetParent(uv0["effectTgl_" .. uv1].transform)
 
-				arg_7_0.tglPanelGo_.transform:SetParent(arg_7_0["effectTgl_" .. iter_7_3].transform)
+				uv0.tglPanelGo_.transform:GetComponent("RectTransform").anchoredPosition = Vector3.New(0, 60, 0)
 
-				arg_7_0.tglPanelGo_.transform:GetComponent("RectTransform").anchoredPosition = Vector3.New(0, 60, 0)
-
-				SetActive(arg_7_0.tglPanelGo_, true)
+				SetActive(uv0.tglPanelGo_, true)
 			end
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_15_0)
+function slot0.OnEnter(slot0)
 	HomeSceneSettingData:DealOverdueScene()
 
-	arg_15_0.curSceneID_ = arg_15_0.params_.sceneID
+	slot0.curSceneID_ = slot0.params_.sceneID
 
-	local var_15_0 = HomeSceneSettingCfg[arg_15_0.curSceneID_]
-
-	if var_15_0 and var_15_0.limit_display == 0 then
-		arg_15_0.curSceneID_ = 6000
+	if HomeSceneSettingCfg[slot0.curSceneID_] and slot1.limit_display == 0 then
+		slot0.curSceneID_ = 6000
 	end
 
-	arg_15_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_16_0)
-	arg_16_0:RefreshList()
-	arg_16_0:RefreshRight()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshList()
+	slot0:RefreshRight()
 end
 
-function var_0_0.RefreshList(arg_17_0)
-	arg_17_0.data_ = {}
-	arg_17_0.list_ = {}
+function slot0.RefreshList(slot0)
+	slot0.data_ = {}
+	slot0.list_ = {}
 
-	for iter_17_0, iter_17_1 in ipairs(HomeSceneSettingCfg.all) do
-		if HomeSceneSettingCfg[iter_17_1].limit_display == 1 then
-			table.insert(arg_17_0.list_, iter_17_1)
+	for slot4, slot5 in ipairs(HomeSceneSettingCfg.all) do
+		if HomeSceneSettingCfg[slot5].limit_display == 1 then
+			table.insert(slot0.list_, slot5)
 
-			local var_17_0 = HomeSceneSettingData:GetUsedState(iter_17_1)
-
-			arg_17_0.data_[iter_17_1] = var_17_0
+			slot0.data_[slot5] = HomeSceneSettingData:GetUsedState(slot5)
 		end
 	end
 
-	table.sort(arg_17_0.list_, function(arg_18_0, arg_18_1)
-		if arg_17_0.data_[arg_18_0] ~= arg_17_0.data_[arg_18_1] then
-			return arg_17_0.data_[arg_18_0] > arg_17_0.data_[arg_18_1]
+	table.sort(slot0.list_, function (slot0, slot1)
+		if uv0.data_[slot0] ~= uv0.data_[slot1] then
+			return uv0.data_[slot1] < uv0.data_[slot0]
 		end
 
-		return arg_18_0 < arg_18_1
+		return slot0 < slot1
 	end)
-	arg_17_0.scrollHelper_:StartScroll(#arg_17_0.list_, table.indexof(arg_17_0.list_, arg_17_0.curSceneID_))
+	slot0.scrollHelper_:StartScroll(#slot0.list_, table.indexof(slot0.list_, slot0.curSceneID_))
 end
 
-function var_0_0.RefreshRight(arg_19_0)
-	arg_19_0.cfg_ = HomeSceneSettingCfg[arg_19_0.curSceneID_]
-	arg_19_0.title_.text = arg_19_0.cfg_.title
-	arg_19_0.desc_.text = arg_19_0.cfg_.desc
-	arg_19_0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/SceneChangeUI/bg/" .. arg_19_0.curSceneID_)
+function slot0.RefreshRight(slot0)
+	slot0.cfg_ = HomeSceneSettingCfg[slot0.curSceneID_]
+	slot0.title_.text = slot0.cfg_.title
+	slot0.desc_.text = slot0.cfg_.desc
+	slot0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/SceneChangeUI/bg/" .. slot0.curSceneID_)
 
-	arg_19_0:ResetTgl()
-	arg_19_0:RefreshSetting()
-	arg_19_0:RefreshType()
-	arg_19_0:RefreshRedPoint()
+	slot0:ResetTgl()
+	slot0:RefreshSetting()
+	slot0:RefreshType()
+	slot0:RefreshRedPoint()
 end
 
-function var_0_0.ResetTgl(arg_20_0)
-	arg_20_0:HideMessage()
+function slot0.ResetTgl(slot0)
+	slot0:HideMessage()
 
-	local var_20_0 = arg_20_0.cfg_.scene_tag
-
-	for iter_20_0, iter_20_1 in ipairs(HomeSceneTagCfg.all) do
-		if arg_20_0["effectTgl_" .. iter_20_1] then
-			if table.indexof(var_20_0, iter_20_1) then
-				SetActive(arg_20_0["effectTgl_" .. iter_20_1].gameObject, true)
+	for slot5, slot6 in ipairs(HomeSceneTagCfg.all) do
+		if slot0["effectTgl_" .. slot6] then
+			if table.indexof(slot0.cfg_.scene_tag, slot6) then
+				SetActive(slot0["effectTgl_" .. slot6].gameObject, true)
 			else
-				SetActive(arg_20_0["effectTgl_" .. iter_20_1].gameObject, false)
+				SetActive(slot0["effectTgl_" .. slot6].gameObject, false)
 			end
 
-			arg_20_0["effectTgl_" .. iter_20_1].isOn = false
+			slot0["effectTgl_" .. slot6].isOn = false
 		end
 	end
 end
 
-function var_0_0.HideMessage(arg_21_0)
-	SetActive(arg_21_0.tglPanelGo_, false)
+function slot0.HideMessage(slot0)
+	SetActive(slot0.tglPanelGo_, false)
 end
 
-function var_0_0.RefreshSetting(arg_22_0)
-	local var_22_0 = arg_22_0.cfg_.scene_setting
-
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.setting_) do
-		if table.indexof(var_22_0, iter_22_0) then
-			SetActive(arg_22_0.settingItem_[iter_22_0], true)
+function slot0.RefreshSetting(slot0)
+	for slot5, slot6 in ipairs(slot0.setting_) do
+		if table.indexof(slot0.cfg_.scene_setting, slot5) then
+			SetActive(slot0.settingItem_[slot5], true)
 		else
-			SetActive(arg_22_0.settingItem_[iter_22_0], false)
+			SetActive(slot0.settingItem_[slot5], false)
 		end
 	end
 
-	arg_22_0.settingData_ = SettingData:GetHomeSceneSettingData()
+	slot0.settingData_ = SettingData:GetHomeSceneSettingData()
 
-	arg_22_0:RefreshSoundEffect()
-	arg_22_0:RefreshSceneBgm()
+	slot0:RefreshSoundEffect()
+	slot0:RefreshSceneBgm()
 end
 
-function var_0_0.RefreshSoundEffect(arg_23_0)
-	local var_23_0 = arg_23_0.settingData_.home_scene_sound_effect == 1
-
-	arg_23_0.settingCon_[1]:SetSelectedState(var_23_0 and "on" or "off")
+function slot0.RefreshSoundEffect(slot0)
+	slot0.settingCon_[1]:SetSelectedState(slot0.settingData_.home_scene_sound_effect == 1 and "on" or "off")
 end
 
-function var_0_0.RefreshCameraFollow(arg_24_0)
-	local var_24_0 = arg_24_0.settingData_.home_scene_camera_follow == 1
-
-	arg_24_0.settingCon_[2]:SetSelectedState(var_24_0 and "on" or "off")
+function slot0.RefreshCameraFollow(slot0)
+	slot0.settingCon_[2]:SetSelectedState(slot0.settingData_.home_scene_camera_follow == 1 and "on" or "off")
 end
 
-function var_0_0.RefreshSceneBgm(arg_25_0)
-	local var_25_0 = arg_25_0.settingData_.home_scene_scene_bgm == 1
-
-	arg_25_0.settingCon_[3]:SetSelectedState(var_25_0 and "on" or "off")
+function slot0.RefreshSceneBgm(slot0)
+	slot0.settingCon_[3]:SetSelectedState(slot0.settingData_.home_scene_scene_bgm == 1 and "on" or "off")
 end
 
-function var_0_0.RefreshType(arg_26_0)
-	arg_26_0:StopTimer()
+function slot0.RefreshType(slot0)
+	slot0:StopTimer()
 
-	local var_26_0 = arg_26_0.data_[arg_26_0.curSceneID_]
-	local var_26_1 = HomeSceneSettingData:GetCurScene()
+	slot2 = HomeSceneSettingData:GetCurScene()
 
-	if var_26_0 == 0 then
-		local var_26_2 = arg_26_0:IsCanGet()
+	if slot0.data_[slot0.curSceneID_] == 0 then
+		slot0.btnCon_:SetSelectedState(slot0:IsCanGet() and "get" or "ban")
 
-		arg_26_0.btnCon_:SetSelectedState(var_26_2 and "get" or "ban")
-
-		arg_26_0.tip_.text = arg_26_0.cfg_.unlock_description
-	elseif var_26_0 == 1 then
-		arg_26_0.btnCon_:SetSelectedState(arg_26_0.curSceneID_ == var_26_1 and "trialing" or "trial")
-		arg_26_0:RefreshTime()
-	elseif var_26_0 == 2 then
-		arg_26_0.btnCon_:SetSelectedState(arg_26_0.curSceneID_ == var_26_1 and "using" or "use")
+		slot0.tip_.text = slot0.cfg_.unlock_description
+	elseif slot1 == 1 then
+		slot0.btnCon_:SetSelectedState(slot0.curSceneID_ == slot2 and "trialing" or "trial")
+		slot0:RefreshTime()
+	elseif slot1 == 2 then
+		slot0.btnCon_:SetSelectedState(slot0.curSceneID_ == slot2 and "using" or "use")
 	end
 
-	SetActive(arg_26_0.unlockGo_, var_26_0 == 0 and arg_26_0.cfg_.unlock_description ~= "")
-	SetActive(arg_26_0.timeGo_, var_26_0 == 1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_26_0.tglContent_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_26_0.tglContent_)
+	SetActive(slot0.unlockGo_, slot1 == 0 and slot0.cfg_.unlock_description ~= "")
+	SetActive(slot0.timeGo_, slot1 == 1)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.tglContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.tglContent_)
 end
 
-function var_0_0.IsCanGet(arg_27_0)
-	local var_27_0 = arg_27_0.cfg_.obtain_way
-
-	return arg_27_0.cfg_.obtain_way and #arg_27_0.cfg_.obtain_way > 0 and not JumpTools.NeedHide(var_27_0, arg_27_0.curSceneID_) and not JumpTools.GetLinkIsLocked(arg_27_0.cfg_.obtain_way)
+function slot0.IsCanGet(slot0)
+	return slot0.cfg_.obtain_way and #slot0.cfg_.obtain_way > 0 and not JumpTools.NeedHide(slot0.cfg_.obtain_way, slot0.curSceneID_) and not JumpTools.GetLinkIsLocked(slot0.cfg_.obtain_way)
 end
 
-function var_0_0.RefreshTime(arg_28_0)
-	arg_28_0:StopTimer()
+function slot0.RefreshTime(slot0)
+	slot0:StopTimer()
 
-	local var_28_0 = manager.time:GetServerTime()
-	local var_28_1 = HomeSceneSettingData:GetSceneTimeStamp(arg_28_0.curSceneID_)
-
-	arg_28_0.time_.text = manager.time:GetLostTimeStr2(var_28_1)
-	arg_28_0.timer_ = Timer.New(function()
-		if var_28_1 and var_28_0 <= var_28_1 then
-			arg_28_0.time_.text = manager.time:GetLostTimeStr2(var_28_1)
+	slot1 = manager.time:GetServerTime()
+	slot0.time_.text = manager.time:GetLostTimeStr2(HomeSceneSettingData:GetSceneTimeStamp(slot0.curSceneID_))
+	slot0.timer_ = Timer.New(function ()
+		if uv0 and uv1 <= uv0 then
+			uv2.time_.text = manager.time:GetLostTimeStr2(uv0)
 		else
 			HomeSceneSettingAction.SetHomeScene(GameSetting.home_sence_default.value[1])
 		end
 	end, 1, -1)
 
-	arg_28_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.RefreshRedPoint(arg_30_0)
-	local var_30_0 = arg_30_0.curSceneID_
+function slot0.RefreshRedPoint(slot0)
+	slot1 = slot0.curSceneID_
 
-	saveData("scene", tostring(var_30_0), 0)
-	manager.redPoint:setTip(RedPointConst.SCENE .. "_" .. var_30_0, 0)
+	saveData("scene", tostring(slot1), 0)
+	manager.redPoint:setTip(RedPointConst.SCENE .. "_" .. slot1, 0)
 end
 
-function var_0_0.StopTimer(arg_31_0)
-	if arg_31_0.timer_ then
-		arg_31_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_31_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.AddClickTimer(arg_32_0)
-	arg_32_0:StopClickTimer()
+function slot0.AddClickTimer(slot0)
+	slot0:StopClickTimer()
 
-	arg_32_0.buttonUp_ = 0
-	arg_32_0.clickTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function()
+	slot0.buttonUp_ = 0
+	slot0.clickTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
 		if Input.GetMouseButtonUp(0) then
-			arg_32_0.buttonUp_ = arg_32_0.buttonUp_ + 1
+			uv0.buttonUp_ = uv0.buttonUp_ + 1
 
-			if arg_32_0.buttonUp_ >= 2 then
-				for iter_33_0, iter_33_1 in ipairs(HomeSceneTagCfg.all) do
-					if arg_32_0["effectTgl_" .. iter_33_1] then
-						arg_32_0["effectTgl_" .. iter_33_1].isOn = false
+			if uv0.buttonUp_ >= 2 then
+				for slot3, slot4 in ipairs(HomeSceneTagCfg.all) do
+					if uv0["effectTgl_" .. slot4] then
+						uv0["effectTgl_" .. slot4].isOn = false
 					end
 				end
 
-				arg_32_0:HideMessage()
+				uv0:HideMessage()
 
-				if arg_32_0.clickTimer_ then
-					FuncTimerManager.inst:RemoveFuncTimer(arg_32_0.clickTimer_)
+				if uv0.clickTimer_ then
+					FuncTimerManager.inst:RemoveFuncTimer(uv0.clickTimer_)
 
-					arg_32_0.clickTimer_ = nil
+					uv0.clickTimer_ = nil
 				end
 			end
 		end
 	end, -1, true)
 end
 
-function var_0_0.StopClickTimer(arg_34_0)
-	if arg_34_0.clickTimer_ then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_34_0.clickTimer_)
+function slot0.StopClickTimer(slot0)
+	if slot0.clickTimer_ then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.clickTimer_)
 
-		arg_34_0.clickTimer_ = nil
+		slot0.clickTimer_ = nil
 	end
 end
 
-function var_0_0.CheckPlayBgm(arg_35_0)
-	local var_35_0 = HomeSceneSettingData:GetCurScene()
-	local var_35_1 = HomeSceneSettingCfg[var_35_0]
-	local var_35_2 = var_35_1.scene_setting
-	local var_35_3 = var_35_1.default_music
+function slot0.CheckPlayBgm(slot0)
+	slot2 = HomeSceneSettingCfg[HomeSceneSettingData:GetCurScene()]
 
-	if var_35_3 ~= 0 and arg_35_0.settingData_.home_scene_scene_bgm == 1 and table.indexof(var_35_2, HomeSceneSettingConst.SETTING.SCENE_BGM) then
-		IllustratedAction.QuerySetBgm(var_35_3)
+	if slot2.default_music ~= 0 and slot0.settingData_.home_scene_scene_bgm == 1 and table.indexof(slot2.scene_setting, HomeSceneSettingConst.SETTING.SCENE_BGM) then
+		IllustratedAction.QuerySetBgm(slot4)
 	end
 end
 
-function var_0_0.OnHomeSceneChange(arg_36_0)
-	arg_36_0:RefreshUI()
+function slot0.OnHomeSceneChange(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnHomeSceneSettingChange(arg_37_0, arg_37_1, arg_37_2)
-	if arg_37_2.key == "allData" then
-		arg_37_0:RefreshSoundEffect()
-		arg_37_0:RefreshCameraFollow()
-	elseif arg_37_2.key == "home_scene_sound_effect" then
-		arg_37_0:RefreshSoundEffect()
-	elseif arg_37_2.key == "home_scene_camera_follow" then
-		arg_37_0:RefreshCameraFollow()
-	elseif arg_37_2.key == "home_scene_scene_bgm" then
-		arg_37_0:RefreshSceneBgm()
+function slot0.OnHomeSceneSettingChange(slot0, slot1, slot2)
+	if slot2.key == "allData" then
+		slot0:RefreshSoundEffect()
+		slot0:RefreshCameraFollow()
+	elseif slot2.key == "home_scene_sound_effect" then
+		slot0:RefreshSoundEffect()
+	elseif slot2.key == "home_scene_camera_follow" then
+		slot0:RefreshCameraFollow()
+	elseif slot2.key == "home_scene_scene_bgm" then
+		slot0:RefreshSceneBgm()
 	end
 end
 
-function var_0_0.OnTop(arg_38_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		gameContext:Go("/home", nil, nil, true)
+	manager.windowBar:RegistBackCallBack(function ()
+		gameContext:Go("/home", nil, , true)
 	end)
 end
 
-function var_0_0.OnExit(arg_40_0)
-	arg_40_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 
-	for iter_40_0, iter_40_1 in ipairs(arg_40_0.scrollHelper_:GetItemList()) do
-		iter_40_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_41_0)
-	arg_41_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_41_0.scrollHelper_ then
-		arg_41_0.scrollHelper_:Dispose()
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_41_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_41_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

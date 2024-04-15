@@ -1,54 +1,49 @@
-local var_0_0 = class("PolyhedronCampAddPopView", ReduxView)
+slot0 = class("PolyhedronCampAddPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/PolyhedronBattle/PolyhedronCampAddPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 
-	arg_5_0.heroController_ = ControllerUtil.GetController(arg_5_0.heroGo_.transform, "name")
-	arg_5_0.fightController_ = ControllerUtil.GetController(arg_5_0.fightingGo_.transform, "name")
+	slot0.heroController_ = ControllerUtil.GetController(slot0.heroGo_.transform, "name")
+	slot0.fightController_ = ControllerUtil.GetController(slot0.fightingGo_.transform, "name")
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroList = arg_7_0.params_.heroIdList
+function slot0.OnEnter(slot0)
+	slot0.heroList = slot0.params_.heroIdList
+	slot1, slot2, slot3 = PolyhedronTools.GetRaceEffect(slot0.heroList)
 
-	local var_7_0, var_7_1, var_7_2 = PolyhedronTools.GetRaceEffect(arg_7_0.heroList)
+	slot0.heroController_:SetSelectedState(slot1 ~= 0 and "on" or "off")
+	slot0.fightController_:SetSelectedState(slot2 and "on" or "off")
 
-	arg_7_0.heroController_:SetSelectedState(var_7_0 ~= 0 and "on" or "off")
-	arg_7_0.fightController_:SetSelectedState(var_7_1 and "on" or "off")
-
-	if var_7_0 ~= 0 then
-		local var_7_3 = RaceEffectCfg[var_7_0]
-
-		arg_7_0.text1Text_.text = GetI18NText(var_7_3.desc)
+	if slot1 ~= 0 then
+		slot0.text1Text_.text = GetI18NText(RaceEffectCfg[slot1].desc)
 	else
-		arg_7_0.text1Text_.text = GetTips("NO_CORRECTOR_BUFF")
+		slot0.text1Text_.text = GetTips("NO_CORRECTOR_BUFF")
 	end
 
-	if var_7_1 then
-		local var_7_4 = RaceEffectCfg[var_7_0]
-
-		arg_7_0.text2Text_.text = GetI18NText(var_7_4.battle_desc)
+	if slot2 then
+		slot0.text2Text_.text = GetI18NText(RaceEffectCfg[slot1].battle_desc)
 	else
-		arg_7_0.text2Text_.text = GetTips("NO_BATTLE_BUFF")
+		slot0.text2Text_.text = GetTips("NO_BATTLE_BUFF")
 	end
 end
 
-return var_0_0
+return slot0

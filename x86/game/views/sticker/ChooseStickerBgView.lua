@@ -1,145 +1,141 @@
-local var_0_0 = class("ChooseStickerBgView", ReduxView)
+slot0 = class("ChooseStickerBgView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/paster/StickerChooseBgUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.scrollList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, StickerBgItem)
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.scrollList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, StickerBgItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.list_[arg_5_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.list_[slot1]
 
-	arg_5_2:RefreshUI(var_5_0)
+	slot2:RefreshUI(slot3)
 
-	if var_5_0 == arg_5_0.chooseID_ then
-		arg_5_2:SetState("use")
-	elseif PlayerData:GetStickerBg(var_5_0).unlock ~= 0 then
-		arg_5_2:SetState("change")
+	if slot3 == slot0.chooseID_ then
+		slot2:SetState("use")
+	elseif PlayerData:GetStickerBg(slot3).unlock ~= 0 then
+		slot2:SetState("change")
 	else
-		arg_5_2:SetState("lock")
+		slot2:SetState("lock")
 	end
 
-	arg_5_2:SetSelected(var_5_0 == arg_5_0.curID_)
+	slot2:SetSelected(slot3 == slot0.curID_)
 
-	tip = manager.redPoint:getTipValue(RedPointConst.STICKER_BG .. "_" .. var_5_0)
+	tip = manager.redPoint:getTipValue(RedPointConst.STICKER_BG .. "_" .. slot3)
 
-	arg_5_2:SetNew(tip > 0)
-	arg_5_2:RegistClickFunc(function()
-		arg_5_0:SetBgID(var_5_0)
+	slot2:SetNew(tip > 0)
+	slot2:RegistClickFunc(function ()
+		uv0:SetBgID(uv1)
 
-		if manager.redPoint:getTipValue(RedPointConst.STICKER_BG .. "_" .. var_5_0) > 0 then
-			RedPointData:SetRedPointOpen(RedPointConst.STICKER_BG_RANGE + var_5_0, false)
-			manager.redPoint:setTip(RedPointConst.STICKER_BG .. "_" .. var_5_0, 0)
-			arg_5_2:SetNew(false)
-			RedPointAction.HandleRedPoint(RedPointConst.STICKER_BG_RANGE + var_5_0)
+		if manager.redPoint:getTipValue(RedPointConst.STICKER_BG .. "_" .. uv1) > 0 then
+			RedPointData:SetRedPointOpen(RedPointConst.STICKER_BG_RANGE + uv1, false)
+			manager.redPoint:setTip(RedPointConst.STICKER_BG .. "_" .. uv1, 0)
+			uv2:SetNew(false)
+			RedPointAction.HandleRedPoint(RedPointConst.STICKER_BG_RANGE + uv1)
 		end
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.changeBtn_, nil, function()
-		arg_7_0.params_.temp.stickerBg = arg_7_0.curID_
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.changeBtn_, nil, function ()
+		uv0.params_.temp.stickerBg = uv0.curID_
 
-		arg_7_0:Back(1, {
+		uv0:Back(1, {
 			type = 2,
-			tempInfo = arg_7_0.params_.temp
+			tempInfo = uv0.params_.temp
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.chooseID_ = arg_9_0.params_.chooseID
-	arg_9_0.list_ = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER_BG]
+function slot0.OnEnter(slot0)
+	slot0.chooseID_ = slot0.params_.chooseID
+	slot0.list_ = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER_BG]
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0:Sortlist()
-	arg_10_0:SetBgID(arg_10_0.chooseID_)
-	arg_10_0.scrollList_:StartScroll(#arg_10_0.list_, table.indexof(arg_10_0.list_, arg_10_0.chooseID_))
+function slot0.RefreshUI(slot0)
+	slot0:Sortlist()
+	slot0:SetBgID(slot0.chooseID_)
+	slot0.scrollList_:StartScroll(#slot0.list_, table.indexof(slot0.list_, slot0.chooseID_))
 end
 
-function var_0_0.Sortlist(arg_11_0)
-	table.sort(arg_11_0.list_, function(arg_12_0, arg_12_1)
-		if arg_12_0 == arg_11_0.chooseID_ or arg_12_1 == arg_11_0.chooseID_ then
-			return arg_12_0 == arg_11_0.chooseID_
+function slot0.Sortlist(slot0)
+	table.sort(slot0.list_, function (slot0, slot1)
+		if slot0 == uv0.chooseID_ or slot1 == uv0.chooseID_ then
+			return slot0 == uv0.chooseID_
 		end
 
-		local var_12_0 = PlayerData:GetStickerBg(arg_12_0)
-		local var_12_1 = PlayerData:GetStickerBg(arg_12_1)
-
-		if var_12_0.unlock ~= var_12_1.unlock then
-			return var_12_0.unlock > var_12_1.unlock
+		if PlayerData:GetStickerBg(slot0).unlock ~= PlayerData:GetStickerBg(slot1).unlock then
+			return slot3.unlock < slot2.unlock
 		end
 
-		return arg_12_0 < arg_12_1
+		return slot0 < slot1
 	end)
 end
 
-function var_0_0.SetBgID(arg_13_0, arg_13_1)
-	arg_13_0.curID_ = arg_13_1
+function slot0.SetBgID(slot0, slot1)
+	slot0.curID_ = slot1
 
-	arg_13_0:RefreshInfo()
-	arg_13_0.scrollList_:Refresh()
+	slot0:RefreshInfo()
+	slot0.scrollList_:Refresh()
 end
 
-function var_0_0.RefreshInfo(arg_14_0)
-	arg_14_0.show_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. arg_14_0.curID_)
-	arg_14_0.desc_.text = ItemTools.getItemDesc(arg_14_0.curID_)
+function slot0.RefreshInfo(slot0)
+	slot0.show_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. slot0.curID_)
+	slot0.desc_.text = ItemTools.getItemDesc(slot0.curID_)
 
-	if arg_14_0.curID_ == arg_14_0.chooseID_ then
-		arg_14_0.stateCon_:SetSelectedState("use")
-	elseif PlayerData:GetStickerBg(arg_14_0.curID_).unlock ~= 0 then
-		arg_14_0.stateCon_:SetSelectedState("change")
+	if slot0.curID_ == slot0.chooseID_ then
+		slot0.stateCon_:SetSelectedState("use")
+	elseif PlayerData:GetStickerBg(slot0.curID_).unlock ~= 0 then
+		slot0.stateCon_:SetSelectedState("change")
 	else
-		arg_14_0.stateCon_:SetSelectedState("lock")
+		slot0.stateCon_:SetSelectedState("lock")
 
-		arg_14_0.unlock_.text = GetI18NText(ItemCfg[arg_14_0.curID_].desc_source) or ""
+		slot0.unlock_.text = GetI18NText(ItemCfg[slot0.curID_].desc_source) or ""
 	end
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_15_0:Back(1, {
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			type = 2,
-			tempInfo = arg_15_0.params_.temp
+			tempInfo = uv0.params_.temp
 		})
 	end)
 end
 
-function var_0_0.OnExit(arg_17_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_18_0.scrollList_ then
-		arg_18_0.scrollList_:Dispose()
+	if slot0.scrollList_ then
+		slot0.scrollList_:Dispose()
 
-		arg_18_0.scrollList_ = nil
+		slot0.scrollList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

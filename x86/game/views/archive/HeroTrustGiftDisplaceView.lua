@@ -1,186 +1,159 @@
-local var_0_0 = class("HeroTrustGiftDisplaceView", ReduxView)
+slot0 = class("HeroTrustGiftDisplaceView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_coop/HeroCoopGiftUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, HeroTrustGiftDisplaceItem)
-	arg_4_0.item = CommonItemView.New(arg_4_0.m_item, true)
-	arg_4_0.rareController = ControllerUtil.GetController(arg_4_0.transform_, "rare")
-	arg_4_0.selectController = ControllerUtil.GetController(arg_4_0.transform_, "select")
-	arg_4_0.changeController = ControllerUtil.GetController(arg_4_0.transform_, "change")
-	arg_4_0.clickHandle = handler(arg_4_0, arg_4_0.ItemClick)
-	arg_4_0.unSelectHanld = handler(arg_4_0, arg_4_0.UnSelect)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, HeroTrustGiftDisplaceItem)
+	slot0.item = CommonItemView.New(slot0.m_item, true)
+	slot0.rareController = ControllerUtil.GetController(slot0.transform_, "rare")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.changeController = ControllerUtil.GetController(slot0.transform_, "change")
+	slot0.clickHandle = handler(slot0, slot0.ItemClick)
+	slot0.unSelectHanld = handler(slot0, slot0.UnSelect)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_star2Btn, function()
-		arg_5_0:SelectItem(2)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_star2Btn, function ()
+		uv0:SelectItem(2)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_star3Btn, function()
-		arg_5_0:SelectItem(3)
+	slot0:AddBtnListener(nil, slot0.m_star3Btn, function ()
+		uv0:SelectItem(3)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_star4Btn, function()
-		arg_5_0:SelectItem(4)
+	slot0:AddBtnListener(nil, slot0.m_star4Btn, function ()
+		uv0:SelectItem(4)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_star5Btn, function()
-		arg_5_0:SelectItem(5)
+	slot0:AddBtnListener(nil, slot0.m_star5Btn, function ()
+		uv0:SelectItem(5)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_displaceBtn, function()
-		local var_10_0 = 0
-
-		for iter_10_0, iter_10_1 in pairs(arg_5_0.choice_item) do
-			var_10_0 = var_10_0 + iter_10_1
+	slot0:AddBtnListener(nil, slot0.m_displaceBtn, function ()
+		for slot4, slot5 in pairs(uv0.choice_item) do
+			slot0 = 0 + slot5
 		end
 
-		local var_10_1 = arg_5_0:GetGiftItemId(arg_5_0.rare)
-		local var_10_2 = arg_5_0:GetRatio(var_10_1)
-		local var_10_3 = math.floor(var_10_0 / var_10_2)
-		local var_10_4 = var_10_3 * var_10_2
+		slot2 = uv0:GetRatio(uv0:GetGiftItemId(uv0.rare))
 
-		if var_10_4 < var_10_2 then
+		if slot2 > math.floor(slot0 / slot2) * slot2 then
 			ShowTips("HERO_TRUST_DISPLACE_FAIL")
 
 			return
 		end
 
-		local var_10_5 = ArchiveData:GetTrustGiftDisplaceCount(var_10_1)
-
-		if arg_5_0:GetTrustGiftDisplaceMax(var_10_1) < var_10_3 + var_10_5 then
+		if uv0:GetTrustGiftDisplaceMax(slot1) < slot3 + ArchiveData:GetTrustGiftDisplaceCount(slot1) then
 			ShowTips("HERO_TRUST_DISPLACE_UP_LIMIT")
 
 			return
 		end
 
-		local var_10_6 = {}
+		slot7 = {
+			[slot11] = slot12
+		}
 
-		for iter_10_2, iter_10_3 in pairs(arg_5_0.choice_item) do
-			var_10_6[iter_10_2] = iter_10_3
+		for slot11, slot12 in pairs(uv0.choice_item) do
+			-- Nothing
 		end
 
-		local var_10_7 = var_10_0 - var_10_4
-
-		while var_10_7 > 0 do
-			local var_10_8 = table.remove(arg_5_0.operate_item)
-
-			if var_10_8 then
-				if var_10_6[var_10_8] and var_10_6[var_10_8] > 0 then
-					local var_10_9 = var_10_7
-
-					var_10_7 = var_10_7 - var_10_6[var_10_8]
-					var_10_6[var_10_8] = math.max(0, var_10_6[var_10_8] - var_10_9)
+		while slot0 - slot4 > 0 do
+			if table.remove(uv0.operate_item) then
+				if slot7[slot9] and slot7[slot9] > 0 then
+					slot8 = slot8 - slot7[slot9]
+					slot7[slot9] = math.max(0, slot7[slot9] - slot8)
 				end
 			else
 				break
 			end
 		end
 
-		if var_10_7 > 0 then
+		if slot8 > 0 then
 			ShowTips("HERO_TRUST_DISPLACE_FAIL")
 
 			return
 		end
 
-		local var_10_10 = {}
+		slot9 = {}
 
-		for iter_10_4, iter_10_5 in pairs(var_10_6) do
-			if iter_10_5 ~= 0 then
-				table.insert(var_10_10, {
-					id = iter_10_4,
-					num = iter_10_5
+		for slot13, slot14 in pairs(slot7) do
+			if slot14 ~= 0 then
+				table.insert(slot9, {
+					id = slot13,
+					num = slot14
 				})
 			end
 		end
 
-		ArchiveAction.QueryExChangeTrustItem(var_10_10, {
+		ArchiveAction.QueryExChangeTrustItem(slot9, {
 			{
-				id = var_10_1,
-				num = var_10_3
+				id = slot1,
+				num = slot3
 			}
 		})
-		arg_5_0:RefreshRight()
+		uv0:RefreshRight()
 	end)
-	arg_5_0.m_slider.onValueChanged:AddListener(function()
-		local var_11_0 = arg_5_0.m_slider.value
+	slot0.m_slider.onValueChanged:AddListener(function ()
+		slot0 = uv0.m_slider.value
+		uv0.choice_item[uv0.select_item_id] = slot0
+		uv0.m_selectNum.text = slot0
 
-		arg_5_0.choice_item[arg_5_0.select_item_id] = var_11_0
-		arg_5_0.m_selectNum.text = var_11_0
-
-		if arg_5_0.select_item_id ~= arg_5_0.operate_item[#arg_5_0.operate_item] then
-			table.insert(arg_5_0.operate_item, arg_5_0.select_item_id)
+		if uv0.select_item_id ~= uv0.operate_item[#uv0.operate_item] then
+			table.insert(uv0.operate_item, uv0.select_item_id)
 		end
 
-		arg_5_0.list:Refresh()
-		arg_5_0:RefreshRight()
+		uv0.list:Refresh()
+		uv0:RefreshRight()
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_addBtn, function()
-		local var_12_0 = ItemTools.getItemNum(arg_5_0.select_item_id)
-		local var_12_1 = arg_5_0.choice_item[arg_5_0.select_item_id] or 0
+	slot0:AddBtnListener(nil, slot0.m_addBtn, function ()
+		slot0 = ItemTools.getItemNum(uv0.select_item_id)
 
-		if var_12_1 >= arg_5_0.m_slider.maxValue then
+		if uv0.m_slider.maxValue <= (uv0.choice_item[uv0.select_item_id] or 0) then
 			ShowTips("HERO_TRUST_DISPLACE_MAX")
 
 			return
 		end
 
-		local var_12_2 = arg_5_0:GetGiftItemId(arg_5_0.rare)
-		local var_12_3 = arg_5_0:GetRatio(var_12_2)
-		local var_12_4 = 0
+		slot3 = uv0:GetRatio(uv0:GetGiftItemId(uv0.rare))
 
-		for iter_12_0, iter_12_1 in pairs(arg_5_0.choice_item) do
-			var_12_4 = var_12_4 + iter_12_1
+		for slot8, slot9 in pairs(uv0.choice_item) do
+			slot4 = 0 + slot9
 		end
 
-		local var_12_5 = math.floor(var_12_4 / var_12_3) * var_12_3
-
-		if var_12_4 ~= var_12_5 then
-			var_12_3 = var_12_3 - var_12_4 + var_12_5
+		if slot4 ~= math.floor(slot4 / slot3) * slot3 then
+			slot3 = slot3 - slot4 + slot6
 		end
 
-		local var_12_6 = var_12_1 + math.min(var_12_3, var_12_0 - var_12_1)
-
-		arg_5_0.m_slider.value = var_12_6
+		uv0.m_slider.value = slot1 + math.min(slot3, slot0 - slot1)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_delBtn, function()
-		local var_13_0 = arg_5_0.choice_item[arg_5_0.select_item_id] or 0
-
-		if var_13_0 <= 0 then
+	slot0:AddBtnListener(nil, slot0.m_delBtn, function ()
+		if (uv0.choice_item[uv0.select_item_id] or 0) <= 0 then
 			return
 		end
 
-		local var_13_1 = arg_5_0:GetGiftItemId(arg_5_0.rare)
-		local var_13_2 = arg_5_0:GetRatio(var_13_1)
-		local var_13_3 = 0
+		slot2 = uv0:GetRatio(uv0:GetGiftItemId(uv0.rare))
 
-		for iter_13_0, iter_13_1 in pairs(arg_5_0.choice_item) do
-			var_13_3 = var_13_3 + iter_13_1
+		for slot7, slot8 in pairs(uv0.choice_item) do
+			slot3 = 0 + slot8
 		end
 
-		local var_13_4 = math.floor(var_13_3 / var_13_2) * var_13_2
-
-		if var_13_3 ~= var_13_4 then
-			var_13_2 = var_13_3 - var_13_4
+		if slot3 ~= math.floor(slot3 / slot2) * slot2 then
+			slot2 = slot3 - slot5
 		end
 
-		local var_13_5 = var_13_0 - math.min(var_13_2, var_13_0)
-
-		arg_5_0.m_slider.value = var_13_5
+		uv0.m_slider.value = slot0 - math.min(slot2, slot0)
 	end)
 end
 
-function var_0_0.OnTop(arg_14_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -189,282 +162,242 @@ function var_0_0.OnTop(arg_14_0)
 	manager.windowBar:SetGameHelpKey("HERO_TRUST_DISPLACE_TIP")
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.gifts = arg_15_0:GetGiftItemList()
+function slot0.OnEnter(slot0)
+	slot0.gifts = slot0:GetGiftItemList()
 
-	arg_15_0.list:StartScroll(#arg_15_0.gifts)
+	slot0.list:StartScroll(#slot0.gifts)
 
-	arg_15_0.select_item_id = 0
-	arg_15_0.choice_item = {}
-	arg_15_0.operate_item = {}
+	slot0.select_item_id = 0
+	slot0.choice_item = {}
+	slot0.operate_item = {}
 
-	arg_15_0:RefreshSlider()
-	arg_15_0:SelectItem(2)
+	slot0:RefreshSlider()
+	slot0:SelectItem(2)
 end
 
-function var_0_0.GetGiftItemList(arg_16_0)
-	local var_16_0 = {}
-	local var_16_1 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.ARCHIVE_GIFT]
+function slot0.GetGiftItemList(slot0)
+	slot1 = {}
 
-	for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-		if ItemCfg[iter_16_1].sub_type == 1 and ItemTools.getItemNum(iter_16_1) > 0 then
-			table.insert(var_16_0, iter_16_1)
+	for slot6, slot7 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.ARCHIVE_GIFT]) do
+		if ItemCfg[slot7].sub_type == 1 and ItemTools.getItemNum(slot7) > 0 then
+			table.insert(slot1, slot7)
 		end
 	end
 
-	table.sort(var_16_0, function(arg_17_0, arg_17_1)
-		local var_17_0 = arg_16_0:GetLikeHero(arg_17_0)
-		local var_17_1 = arg_16_0:GetLikeHero(arg_17_1)
-		local var_17_2 = var_17_0 ~= 0 and ArchiveData:GetArchive(var_17_0).lv or 0
-		local var_17_3 = var_17_1 ~= 0 and ArchiveData:GetArchive(var_17_1).lv or 0
+	table.sort(slot1, function (slot0, slot1)
+		slot3 = uv0:GetLikeHero(slot1)
+		slot4 = uv0:GetLikeHero(slot0) ~= 0 and ArchiveData:GetArchive(slot2).lv or 0
+		slot5 = slot3 ~= 0 and ArchiveData:GetArchive(slot3).lv or 0
 
-		if var_17_0 ~= var_17_1 then
-			if var_17_2 ~= var_17_3 then
-				return var_17_3 < var_17_2
+		if slot2 ~= slot3 then
+			if slot4 ~= slot5 then
+				return slot5 < slot4
 			else
-				return arg_17_1 < arg_17_0
+				return slot1 < slot0
 			end
 		else
-			return arg_17_1 < arg_17_0
+			return slot1 < slot0
 		end
 	end)
 
-	return var_16_0
+	return slot1
 end
 
-function var_0_0.GetLikeHero(arg_18_0, arg_18_1)
-	for iter_18_0, iter_18_1 in ipairs(HeroRecordCfg.all) do
-		local var_18_0 = HeroRecordCfg[iter_18_1]
-
-		if table.indexof(var_18_0.gift_like_id1, arg_18_1) then
-			return iter_18_1
+function slot0.GetLikeHero(slot0, slot1)
+	for slot5, slot6 in ipairs(HeroRecordCfg.all) do
+		if table.indexof(HeroRecordCfg[slot6].gift_like_id1, slot1) then
+			return slot6
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.OnExit(arg_19_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.SelectItem(arg_20_0, arg_20_1)
-	arg_20_0.choice_item = {}
-	arg_20_0.operate_item = {}
-	arg_20_0.rare = arg_20_1
+function slot0.SelectItem(slot0, slot1)
+	slot0.choice_item = {}
+	slot0.operate_item = {}
+	slot0.rare = slot1
 
-	arg_20_0.rareController:SetSelectedState(arg_20_1)
-	arg_20_0:RefreshRight()
+	slot0.rareController:SetSelectedState(slot1)
+	slot0:RefreshRight()
 
-	arg_20_0.select_item_id = 0
+	slot0.select_item_id = 0
 
-	arg_20_0:RefreshSlider()
+	slot0:RefreshSlider()
 end
 
-function var_0_0.RefreshSlider(arg_21_0)
-	if arg_21_0.select_item_id == 0 then
-		arg_21_0.selectController:SetSelectedIndex(0)
+function slot0.RefreshSlider(slot0)
+	if slot0.select_item_id == 0 then
+		slot0.selectController:SetSelectedIndex(0)
 	else
-		local var_21_0 = arg_21_0.choice_item[arg_21_0.select_item_id] or 0
-		local var_21_1 = arg_21_0:GetGiftItemId(arg_21_0.rare)
-		local var_21_2 = arg_21_0:GetRatio(var_21_1)
-		local var_21_3 = 0
+		slot1 = slot0.choice_item[slot0.select_item_id] or 0
+		slot3 = slot0:GetRatio(slot0:GetGiftItemId(slot0.rare))
 
-		for iter_21_0, iter_21_1 in pairs(arg_21_0.choice_item) do
-			if iter_21_0 ~= arg_21_0.select_item_id then
-				var_21_3 = var_21_3 + iter_21_1
+		for slot8, slot9 in pairs(slot0.choice_item) do
+			if slot8 ~= slot0.select_item_id then
+				slot4 = 0 + slot9
 			end
 		end
 
-		local var_21_4 = ArchiveData:GetTrustGiftDisplaceCount(var_21_1)
-		local var_21_5 = (arg_21_0:GetTrustGiftDisplaceMax(var_21_1) - var_21_4) * var_21_2
+		if slot4 < (slot0:GetTrustGiftDisplaceMax(slot2) - ArchiveData:GetTrustGiftDisplaceCount(slot2)) * slot3 then
+			slot0.selectController:SetSelectedIndex(1)
 
-		if var_21_3 < var_21_5 then
-			arg_21_0.selectController:SetSelectedIndex(1)
-
-			arg_21_0.m_slider.maxValue = math.min(ItemTools.getItemNum(arg_21_0.select_item_id), var_21_5 - var_21_3)
-		elseif var_21_0 == 0 then
-			arg_21_0.selectController:SetSelectedIndex(0)
+			slot0.m_slider.maxValue = math.min(ItemTools.getItemNum(slot0.select_item_id), slot7 - slot4)
+		elseif slot1 == 0 then
+			slot0.selectController:SetSelectedIndex(0)
 		else
-			arg_21_0.selectController:SetSelectedIndex(1)
+			slot0.selectController:SetSelectedIndex(1)
 
-			arg_21_0.m_slider.maxValue = var_21_0
+			slot0.m_slider.maxValue = slot1
 		end
 
-		arg_21_0.m_slider.minValue = 1
-		arg_21_0.m_slider.value = var_21_0
-		arg_21_0.m_selectNum.text = var_21_0
+		slot0.m_slider.minValue = 1
+		slot0.m_slider.value = slot1
+		slot0.m_selectNum.text = slot1
 	end
 
-	arg_21_0.list:Refresh()
-	arg_21_0:RefreshRight()
+	slot0.list:Refresh()
+	slot0:RefreshRight()
 end
 
-function var_0_0.RefreshRight(arg_22_0)
-	local var_22_0 = arg_22_0:GetGiftItemId(arg_22_0.rare)
-	local var_22_1 = clone(ItemTemplateData)
+function slot0.RefreshRight(slot0)
+	slot1 = slot0:GetGiftItemId(slot0.rare)
+	slot2 = clone(ItemTemplateData)
+	slot2.id = slot1
+	slot2.number = 1
 
-	var_22_1.id = var_22_0
-	var_22_1.number = 1
-
-	function var_22_1.clickFun()
+	function slot2.clickFun()
 		ShowPopItem(POP_ITEM, {
-			var_22_0,
+			uv0,
 			1
 		})
 	end
 
-	arg_22_0.item:SetData(var_22_1)
+	slot0.item:SetData(slot2)
 
-	arg_22_0.m_itemName.text = ItemTools.getItemName(var_22_0)
+	slot0.m_itemName.text = ItemTools.getItemName(slot1)
+	slot0.m_ratioLab.text = slot0:GetRatio(slot1)
 
-	local var_22_2 = arg_22_0:GetRatio(var_22_0)
-
-	arg_22_0.m_ratioLab.text = var_22_2
-
-	local var_22_3 = 0
-
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.choice_item) do
-		var_22_3 = var_22_3 + iter_22_1
+	for slot8, slot9 in pairs(slot0.choice_item) do
+		slot4 = 0 + slot9
 	end
 
-	if var_22_3 == 0 then
-		arg_22_0.m_displaceBtn.interactable = false
+	if slot4 == 0 then
+		slot0.m_displaceBtn.interactable = false
 
-		arg_22_0.changeController:SetSelectedIndex(0)
+		slot0.changeController:SetSelectedIndex(0)
 	else
-		arg_22_0.m_displaceBtn.interactable = true
+		slot0.m_displaceBtn.interactable = true
 
-		arg_22_0.changeController:SetSelectedIndex(1)
+		slot0.changeController:SetSelectedIndex(1)
 	end
 
-	local var_22_4 = math.floor(var_22_3 / var_22_2)
-	local var_22_5 = var_22_4 * var_22_2
+	slot5 = math.floor(slot4 / slot3)
+	slot6 = slot5 * slot3
+	slot0.m_displaceNum.text = slot5
+	slot0.m_ceilLab.text = ArchiveData:GetTrustGiftDisplaceCount(slot1) .. "/" .. slot0:GetTrustGiftDisplaceMax(slot1)
 
-	arg_22_0.m_displaceNum.text = var_22_4
-
-	local var_22_6 = ArchiveData:GetTrustGiftDisplaceCount(var_22_0)
-	local var_22_7 = arg_22_0:GetTrustGiftDisplaceMax(var_22_0)
-
-	arg_22_0.m_ceilLab.text = var_22_6 .. "/" .. var_22_7
-
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_22_0.layoutTrs_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_22_0.layoutTrs_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.layoutTrs_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.layoutTrs_)
 end
 
-function var_0_0.Dispose(arg_24_0)
-	arg_24_0.item:Dispose()
-	arg_24_0.list:Dispose()
-	var_0_0.super.Dispose(arg_24_0)
+function slot0.Dispose(slot0)
+	slot0.item:Dispose()
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetGiftItemId(arg_25_0, arg_25_1)
-	if arg_25_1 == 2 then
+function slot0.GetGiftItemId(slot0, slot1)
+	if slot1 == 2 then
 		return 30012
-	elseif arg_25_1 == 3 then
+	elseif slot1 == 3 then
 		return 30013
-	elseif arg_25_1 == 4 then
+	elseif slot1 == 4 then
 		return 30014
 	else
 		return 30015
 	end
 end
 
-function var_0_0.GetRatio(arg_26_0, arg_26_1)
-	local var_26_0 = GameSetting.hero_trust_exchange_need.value
-
-	for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-		if arg_26_1 == iter_26_1[1] then
-			return iter_26_1[2]
+function slot0.GetRatio(slot0, slot1)
+	for slot6, slot7 in ipairs(GameSetting.hero_trust_exchange_need.value) do
+		if slot1 == slot7[1] then
+			return slot7[2]
 		end
 	end
 
 	return 1
 end
 
-function var_0_0.GetTrustGiftDisplaceMax(arg_27_0, arg_27_1)
-	local var_27_0 = GameSetting.hero_trust_exchange_up_limit.value
-
-	for iter_27_0, iter_27_1 in ipairs(var_27_0) do
-		if arg_27_1 == iter_27_1[1] then
-			return iter_27_1[2]
+function slot0.GetTrustGiftDisplaceMax(slot0, slot1)
+	for slot6, slot7 in ipairs(GameSetting.hero_trust_exchange_up_limit.value) do
+		if slot1 == slot7[1] then
+			return slot7[2]
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.IndexItem(arg_28_0, arg_28_1, arg_28_2)
-	local var_28_0 = arg_28_0.gifts[arg_28_1]
-	local var_28_1 = arg_28_0.choice_item[var_28_0] or 0
-
-	arg_28_2:SetData(var_28_0, var_28_1)
-	arg_28_2:SetSelect(arg_28_0.select_item_id)
-	arg_28_2:RegistCallBack(arg_28_0.clickHandle)
-	arg_28_2:RegistCallBack2(arg_28_0.unSelectHanld)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot3, slot0.choice_item[slot0.gifts[slot1]] or 0)
+	slot2:SetSelect(slot0.select_item_id)
+	slot2:RegistCallBack(slot0.clickHandle)
+	slot2:RegistCallBack2(slot0.unSelectHanld)
 end
 
-function var_0_0.ItemClick(arg_29_0, arg_29_1)
-	arg_29_0.select_item_id = arg_29_1
+function slot0.ItemClick(slot0, slot1)
+	slot0.select_item_id = slot1
 
-	local var_29_0 = arg_29_0.list:GetItemList()
-
-	for iter_29_0, iter_29_1 in pairs(var_29_0) do
-		iter_29_1:SetSelect(arg_29_0.select_item_id)
+	for slot6, slot7 in pairs(slot0.list:GetItemList()) do
+		slot7:SetSelect(slot0.select_item_id)
 	end
 
-	if not arg_29_0.choice_item[arg_29_1] or arg_29_0.choice_item[arg_29_1] == 0 then
-		local var_29_1 = arg_29_0:GetGiftItemId(arg_29_0.rare)
-		local var_29_2 = arg_29_0:GetRatio(var_29_1)
-		local var_29_3 = 0
+	if not slot0.choice_item[slot1] or slot0.choice_item[slot1] == 0 then
+		slot4 = slot0:GetRatio(slot0:GetGiftItemId(slot0.rare))
 
-		for iter_29_2, iter_29_3 in pairs(arg_29_0.choice_item) do
-			var_29_3 = var_29_3 + iter_29_3
+		for slot9, slot10 in pairs(slot0.choice_item) do
+			slot5 = 0 + slot10
 		end
 
-		local var_29_4 = ArchiveData:GetTrustGiftDisplaceCount(var_29_1)
-		local var_29_5 = (arg_29_0:GetTrustGiftDisplaceMax(var_29_1) - var_29_4) * var_29_2
+		if slot5 < (slot0:GetTrustGiftDisplaceMax(slot3) - ArchiveData:GetTrustGiftDisplaceCount(slot3)) * slot4 then
+			slot0.choice_item[slot1] = math.min(slot4, math.min(slot8 - slot5, ItemTools.getItemNum(slot1)))
 
-		if var_29_3 < var_29_5 then
-			local var_29_6 = math.min(var_29_5 - var_29_3, ItemTools.getItemNum(arg_29_1))
-
-			arg_29_0.choice_item[arg_29_1] = math.min(var_29_2, var_29_6)
-
-			table.insert(arg_29_0.operate_item, arg_29_1)
+			table.insert(slot0.operate_item, slot1)
 		else
 			ShowTips("HERO_TRUST_DISPLACE_MAX")
 		end
 	end
 
-	arg_29_0:RefreshSlider()
+	slot0:RefreshSlider()
 end
 
-function var_0_0.UnSelect(arg_30_0, arg_30_1)
-	arg_30_0.select_item_id = 0
+function slot0.UnSelect(slot0, slot1)
+	slot0.select_item_id = 0
 
-	local var_30_0 = arg_30_0.list:GetItemList()
-
-	for iter_30_0, iter_30_1 in pairs(var_30_0) do
-		iter_30_1:SetSelect(arg_30_0.select_item_id)
+	for slot6, slot7 in pairs(slot0.list:GetItemList()) do
+		slot7:SetSelect(slot0.select_item_id)
 	end
 
-	arg_30_0.choice_item[arg_30_1] = 0
+	slot0.choice_item[slot1] = 0
 
-	arg_30_0:RefreshSlider()
+	slot0:RefreshSlider()
 end
 
-function var_0_0.OnHeroTrustItemDisplace(arg_31_0)
-	arg_31_0.gifts = arg_31_0:GetGiftItemList()
+function slot0.OnHeroTrustItemDisplace(slot0)
+	slot0.gifts = slot0:GetGiftItemList()
 
-	local var_31_0 = arg_31_0.list:GetScrolledPosition()
+	slot0.list:StartScrollWithoutAnimator(#slot0.gifts, slot0.list:GetScrolledPosition())
 
-	arg_31_0.list:StartScrollWithoutAnimator(#arg_31_0.gifts, var_31_0)
+	slot0.select_item_id = 0
+	slot0.choice_item = {}
+	slot0.operate_item = {}
 
-	arg_31_0.select_item_id = 0
-	arg_31_0.choice_item = {}
-	arg_31_0.operate_item = {}
-
-	arg_31_0:RefreshSlider()
+	slot0:RefreshSlider()
 end
 
-return var_0_0
+return slot0

@@ -1,339 +1,305 @@
-local var_0_0 = singletonClass("BattleFieldData")
+slot0 = singletonClass("BattleFieldData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.currentSelectHeroID_ = 0
-	arg_1_0.trialID_ = 0
-	arg_1_0.cacheChapter_ = {}
-	arg_1_0.cacheToggle_ = {}
-	arg_1_0.cacheStage_ = {}
-	arg_1_0.secondCacheStage_ = {}
-	arg_1_0.clientIDAndStage_ = {}
-	arg_1_0.chapterMapDayList_ = {}
-	arg_1_0.chapterMapIDList_ = {}
-	arg_1_0.chapterLocationList_ = {}
-	arg_1_0.serverBattleID_ = nil
-	arg_1_0.battleServerIP_ = nil
-	arg_1_0.battleServerPort_ = nil
-	arg_1_0.battleResultData_ = {}
+function slot0.Init(slot0)
+	slot0.currentSelectHeroID_ = 0
+	slot0.trialID_ = 0
+	slot0.cacheChapter_ = {}
+	slot0.cacheToggle_ = {}
+	slot0.cacheStage_ = {}
+	slot0.secondCacheStage_ = {}
+	slot0.clientIDAndStage_ = {}
+	slot0.chapterMapDayList_ = {}
+	slot0.chapterMapIDList_ = {}
+	slot0.chapterLocationList_ = {}
+	slot0.serverBattleID_ = nil
+	slot0.battleServerIP_ = nil
+	slot0.battleServerPort_ = nil
+	slot0.battleResultData_ = {}
 end
 
-function var_0_0.GetCurrentSelectHeroID(arg_2_0)
-	return arg_2_0.currentSelectHeroID_, arg_2_0.trialID_
+function slot0.GetCurrentSelectHeroID(slot0)
+	return slot0.currentSelectHeroID_, slot0.trialID_
 end
 
-function var_0_0.SetCurrentSelectHeroData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.currentSelectHeroID_ = arg_3_1
-	arg_3_0.trialID_ = arg_3_2
+function slot0.SetCurrentSelectHeroData(slot0, slot1, slot2)
+	slot0.currentSelectHeroID_ = slot1
+	slot0.trialID_ = slot2
 end
 
-function var_0_0.SetCacheChapterClient(arg_4_0, arg_4_1, arg_4_2)
-	if arg_4_2 and arg_4_0.cacheToggle_[arg_4_1] ~= arg_4_2 then
-		arg_4_0.cacheToggle_[arg_4_1] = arg_4_2
+function slot0.SetCacheChapterClient(slot0, slot1, slot2)
+	if slot2 and slot0.cacheToggle_[slot1] ~= slot2 then
+		slot0.cacheToggle_[slot1] = slot2
 
-		saveData("BattleField", "toggle_" .. arg_4_1, arg_4_2)
+		saveData("BattleField", "toggle_" .. slot1, slot2)
 	end
 end
 
-function var_0_0.GetCacheChapterClient(arg_5_0, arg_5_1)
-	local var_5_0 = ChapterClientCfg.get_id_list_by_toggle[arg_5_1][1]
+function slot0.GetCacheChapterClient(slot0, slot1)
+	slot2 = ChapterClientCfg.get_id_list_by_toggle[slot1][1]
 
-	for iter_5_0, iter_5_1 in ipairs(ChapterClientCfg.get_id_list_by_toggle[arg_5_1]) do
-		if not ChapterTools.IsChapterSystemLock(iter_5_1) then
-			var_5_0 = iter_5_1
+	for slot6, slot7 in ipairs(ChapterClientCfg.get_id_list_by_toggle[slot1]) do
+		if not ChapterTools.IsChapterSystemLock(slot7) then
+			slot2 = slot7
 
 			break
 		end
 	end
 
-	local var_5_1 = getData("BattleField", "toggle_" .. arg_5_1)
-
-	if var_5_1 and ChapterTools.IsChapterSystemLock(var_5_1) then
-		saveData("BattleField", "toggle_" .. arg_5_1, nil)
+	if getData("BattleField", "toggle_" .. slot1) and ChapterTools.IsChapterSystemLock(slot3) then
+		saveData("BattleField", "toggle_" .. slot1, nil)
 	end
 
-	local var_5_2 = arg_5_0.cacheToggle_[arg_5_1] or getData("BattleField", "toggle_" .. arg_5_1) or arg_5_1 == BattleConst.TOGGLE.PLOT and ChapterTools.GetOptimalChapterClientID(true) or arg_5_1 == BattleConst.TOGGLE.SUB_PLOT and ChapterTools.GetOpenSubPlotClient() or var_5_0
-
-	if ChapterClientCfg[var_5_2] == nil then
-		var_5_2 = var_5_0
+	if ChapterClientCfg[slot0.cacheToggle_[slot1] or getData("BattleField", "toggle_" .. slot1) or slot1 == BattleConst.TOGGLE.PLOT and ChapterTools.GetOptimalChapterClientID(true) or slot1 == BattleConst.TOGGLE.SUB_PLOT and ChapterTools.GetOpenSubPlotClient() or slot2] == nil then
+		slot4 = slot2
 	end
 
-	return var_5_2
+	return slot4
 end
 
-function var_0_0.SetCacheChapter(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_2 and arg_6_0.cacheChapter_[arg_6_1] ~= arg_6_2 then
-		arg_6_0.cacheChapter_[arg_6_1] = arg_6_2
+function slot0.SetCacheChapter(slot0, slot1, slot2)
+	if slot2 and slot0.cacheChapter_[slot1] ~= slot2 then
+		slot0.cacheChapter_[slot1] = slot2
 
-		saveData("BattleField", "chapterClientID_" .. arg_6_1, arg_6_2)
+		saveData("BattleField", "chapterClientID_" .. slot1, slot2)
 	end
 end
 
-function var_0_0.GetCacheChapter(arg_7_0, arg_7_1)
-	return arg_7_0.cacheChapter_[arg_7_1] or getData("BattleField", "chapterClientID_" .. arg_7_1) or ChapterClientCfg[arg_7_1].chapter_list[1]
+function slot0.GetCacheChapter(slot0, slot1)
+	return slot0.cacheChapter_[slot1] or getData("BattleField", "chapterClientID_" .. slot1) or ChapterClientCfg[slot1].chapter_list[1]
 end
 
-function var_0_0.SetSecondCacheChapter(arg_8_0, arg_8_1, arg_8_2)
-	if arg_8_2 and arg_8_0.secondCacheStage_[arg_8_1] ~= arg_8_2 then
-		arg_8_0.secondCacheStage_[arg_8_1] = arg_8_2
+function slot0.SetSecondCacheChapter(slot0, slot1, slot2)
+	if slot2 and slot0.secondCacheStage_[slot1] ~= slot2 then
+		slot0.secondCacheStage_[slot1] = slot2
 
-		saveData("BattleField", "secondChapterID" .. arg_8_1, arg_8_2)
+		saveData("BattleField", "secondChapterID" .. slot1, slot2)
 	end
 end
 
-function var_0_0.GetSecondCacheChapter(arg_9_0, arg_9_1)
-	return arg_9_0.secondCacheStage_[arg_9_1] or getData("BattleField", "secondChapterID" .. arg_9_1)
+function slot0.GetSecondCacheChapter(slot0, slot1)
+	return slot0.secondCacheStage_[slot1] or getData("BattleField", "secondChapterID" .. slot1)
 end
 
-function var_0_0.SetCacheStage(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_0.cacheStage_[arg_10_1] ~= arg_10_2 then
-		arg_10_0.cacheStage_[arg_10_1] = arg_10_2
+function slot0.SetCacheStage(slot0, slot1, slot2)
+	if slot0.cacheStage_[slot1] ~= slot2 then
+		slot0.cacheStage_[slot1] = slot2
 
-		saveData("BattleField", "chapterID" .. arg_10_1, arg_10_2)
+		saveData("BattleField", "chapterID" .. slot1, slot2)
 	end
 end
 
-function var_0_0.GetCacheStage(arg_11_0, arg_11_1)
-	if arg_11_1 then
-		return arg_11_0.cacheStage_[arg_11_1] or getData("BattleField", "chapterID" .. arg_11_1)
+function slot0.GetCacheStage(slot0, slot1)
+	if slot1 then
+		return slot0.cacheStage_[slot1] or getData("BattleField", "chapterID" .. slot1)
 	end
 end
 
-function var_0_0.GetStageByClientID(arg_12_0, arg_12_1)
-	if arg_12_1 then
-		return arg_12_0.clientIDAndStage_[arg_12_1] or getData("BattleField", "clientID" .. arg_12_1)
+function slot0.GetStageByClientID(slot0, slot1)
+	if slot1 then
+		return slot0.clientIDAndStage_[slot1] or getData("BattleField", "clientID" .. slot1)
 	end
 end
 
-function var_0_0.SetStageByClientID(arg_13_0, arg_13_1, arg_13_2)
-	if arg_13_0.clientIDAndStage_[arg_13_1] ~= arg_13_2 then
-		arg_13_0.clientIDAndStage_[arg_13_1] = arg_13_2
+function slot0.SetStageByClientID(slot0, slot1, slot2)
+	if slot0.clientIDAndStage_[slot1] ~= slot2 then
+		slot0.clientIDAndStage_[slot1] = slot2
 
-		saveData("BattleField", "clientID" .. arg_13_1, arg_13_2)
+		saveData("BattleField", "clientID" .. slot1, slot2)
 	end
 end
 
-function var_0_0.GetPlotHardLevel(arg_14_0)
-	local var_14_0 = arg_14_0:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_14_1 = arg_14_0:GetCacheChapter(var_14_0)
-
-	return ChapterCfg[var_14_1].difficulty
+function slot0.GetPlotHardLevel(slot0)
+	return ChapterCfg[slot0:GetCacheChapter(slot0:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))].difficulty
 end
 
-function var_0_0.ChangePlotHardLevel(arg_15_0, arg_15_1)
-	local var_15_0 = BattleConst.TOGGLE.PLOT
-	local var_15_1 = arg_15_0:GetCacheChapterClient(var_15_0)
-	local var_15_2 = ChapterClientCfg[var_15_1].chapter_list[1]
-	local var_15_3 = ChapterCfg[var_15_2].sub_type
-	local var_15_4 = getChapterList()
-	local var_15_5 = getChapterClientList()[arg_15_1]
+function slot0.ChangePlotHardLevel(slot0, slot1)
+	slot6 = getChapterList()
 
-	for iter_15_0 = var_15_3, 1, -1 do
-		if var_15_4[iter_15_0][arg_15_1] then
-			local var_15_6 = var_15_4[iter_15_0][arg_15_1][1]
-			local var_15_7 = getChapterClientCfgByChapterID(var_15_6).id
+	for slot11 = ChapterCfg[ChapterClientCfg[slot0:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)].chapter_list[1]].sub_type, 1, -1 do
+		if slot6[slot11][slot1] and table.keyof(getChapterClientList()[slot1], getChapterClientCfgByChapterID(slot6[slot11][slot1][1]).id) then
+			slot0:SetCacheChapterClient(slot2, slot13)
 
-			if table.keyof(var_15_5, var_15_7) then
-				arg_15_0:SetCacheChapterClient(var_15_0, var_15_7)
-
-				return
-			end
+			return
 		end
 	end
 
-	for iter_15_1 = var_15_3 + 1, #getChapterClientList()[ChapterCfg[var_15_2].difficulty] do
-		if var_15_4[iter_15_1][arg_15_1] then
-			local var_15_8 = var_15_4[iter_15_1][arg_15_1][1]
-			local var_15_9 = getChapterClientCfgByChapterID(var_15_8).id
+	for slot11 = slot5 + 1, #getChapterClientList()[ChapterCfg[slot4].difficulty] do
+		if slot6[slot11][slot1] and table.keyof(slot7, getChapterClientCfgByChapterID(slot6[slot11][slot1][1]).id) then
+			slot0:SetCacheChapterClient(slot2, slot13)
 
-			if table.keyof(var_15_5, var_15_9) then
-				arg_15_0:SetCacheChapterClient(var_15_0, var_15_9)
-
-				return
-			end
+			return
 		end
 	end
 end
 
-function var_0_0.SaveChapterMapDay(arg_16_0, arg_16_1, arg_16_2)
-	saveData("BattleField", string.format("chapterID_%s_day", arg_16_1), arg_16_2)
+function slot0.SaveChapterMapDay(slot0, slot1, slot2)
+	saveData("BattleField", string.format("chapterID_%s_day", slot1), slot2)
 
-	arg_16_0.chapterMapDayList_[arg_16_1] = arg_16_2
+	slot0.chapterMapDayList_[slot1] = slot2
 end
 
-function var_0_0.GetChapterMapDay(arg_17_0, arg_17_1)
-	return arg_17_0.chapterMapDayList_[arg_17_1] or getData("BattleField", string.format("chapterID_%s_day", arg_17_1)) or ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id[arg_17_1][1]].day
+function slot0.GetChapterMapDay(slot0, slot1)
+	return slot0.chapterMapDayList_[slot1] or getData("BattleField", string.format("chapterID_%s_day", slot1)) or ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id[slot1][1]].day
 end
 
-function var_0_0.SaveChapterMapID(arg_18_0, arg_18_1, arg_18_2, arg_18_3)
-	saveData("BattleField", string.format("chapterID_%s_day_%s_mapID", arg_18_1, arg_18_2), arg_18_3)
+function slot0.SaveChapterMapID(slot0, slot1, slot2, slot3)
+	saveData("BattleField", string.format("chapterID_%s_day_%s_mapID", slot1, slot2), slot3)
 
-	if arg_18_0.chapterMapIDList_[arg_18_1] == nil then
-		arg_18_0.chapterMapIDList_[arg_18_1] = {}
+	if slot0.chapterMapIDList_[slot1] == nil then
+		slot0.chapterMapIDList_[slot1] = {}
 	end
 
-	arg_18_0.chapterMapIDList_[arg_18_1][arg_18_2] = arg_18_3
+	slot0.chapterMapIDList_[slot1][slot2] = slot3
 end
 
-function var_0_0.GetChapterMapID(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0
-
-	if arg_19_0.chapterMapIDList_[arg_19_1] == nil then
-		var_19_0 = saveData("BattleField", string.format("chapterID_%s_day_%s_mapID", arg_19_1, arg_19_2), var_19_0)
-	else
-		var_19_0 = arg_19_0.chapterMapIDList_[arg_19_1][arg_19_2]
+function slot0.GetChapterMapID(slot0, slot1, slot2)
+	if ((slot0.chapterMapIDList_[slot1] ~= nil or saveData("BattleField", string.format("chapterID_%s_day_%s_mapID", slot1, slot2), nil)) and slot0.chapterMapIDList_[slot1][slot2]) == nil then
+		slot3 = ChapterMapCfg.get_id_list_by_chapter_id_day[slot1][slot2][1]
 	end
 
-	if var_19_0 == nil then
-		var_19_0 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_19_1][arg_19_2][1]
-	end
-
-	return var_19_0
+	return slot3
 end
 
-function var_0_0.SetChapterLocationID(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.chapterLocationList_[arg_20_1] = arg_20_2
+function slot0.SetChapterLocationID(slot0, slot1, slot2)
+	slot0.chapterLocationList_[slot1] = slot2
 end
 
-function var_0_0.GetChapterLocationID(arg_21_0, arg_21_1)
-	return arg_21_0.chapterLocationList_[arg_21_1]
+function slot0.GetChapterLocationID(slot0, slot1)
+	return slot0.chapterLocationList_[slot1]
 end
 
-function var_0_0.SetServerBattleParams(arg_22_0, arg_22_1, arg_22_2, arg_22_3)
-	arg_22_0.serverBattleID_ = arg_22_1
-	arg_22_0.battleServerIP_ = arg_22_2
-	arg_22_0.battleServerPort_ = arg_22_3
-	arg_22_0.isInBattle_ = true
+function slot0.SetServerBattleParams(slot0, slot1, slot2, slot3)
+	slot0.serverBattleID_ = slot1
+	slot0.battleServerIP_ = slot2
+	slot0.battleServerPort_ = slot3
+	slot0.isInBattle_ = true
 end
 
-function var_0_0.FinishBattle(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_1.battle_result
-
-	arg_23_0.isInBattle_ = false
-
-	local var_23_1 = {}
-
-	for iter_23_0, iter_23_1 in ipairs(var_23_0.star_list) do
-		var_23_1[iter_23_0] = {
-			starID = iter_23_1.star_id,
-			isComplete = iter_23_1.is_achieve
+function slot0.FinishBattle(slot0, slot1)
+	slot0.isInBattle_ = false
+	slot3 = {
+		[slot7] = {
+			starID = slot8.star_id,
+			isComplete = slot8.is_achieve
 		}
+	}
+
+	for slot7, slot8 in ipairs(slot1.battle_result.star_list) do
+		-- Nothing
 	end
 
-	local var_23_2 = {}
+	slot4 = {}
 
-	for iter_23_2, iter_23_3 in ipairs(var_23_0.all_drop_list) do
-		local var_23_3 = {}
+	for slot8, slot9 in ipairs(slot2.all_drop_list) do
+		for slot14, slot15 in ipairs(slot9.gain_list) do
+			-- Nothing
+		end
 
-		for iter_23_4, iter_23_5 in ipairs(iter_23_3.gain_list) do
-			var_23_3[iter_23_4] = {
-				id = iter_23_5.id,
-				num = iter_23_5.num
+		slot4[slot8] = {
+			battleTimes = slot9.battle_times,
+			rewardItems = {
+				[slot14] = {
+					id = slot15.id,
+					num = slot15.num
+				}
 			}
-		end
-
-		var_23_2[iter_23_2] = {
-			battleTimes = iter_23_3.battle_times,
-			rewardItems = var_23_3
 		}
 	end
 
-	arg_23_0.battleResultData_ = {
-		serverBattleID = var_23_0.dest,
-		cleanTimes = var_23_0.clear_times,
-		targetTimes = var_23_0.target_times,
-		starList = var_23_1,
-		dropList = var_23_2,
-		useSecond = var_23_0.use_seconds,
-		result = var_23_0.result,
-		buffID = var_23_0.buff_id or 0,
+	slot0.battleResultData_ = {
+		serverBattleID = slot2.dest,
+		cleanTimes = slot2.clear_times,
+		targetTimes = slot2.target_times,
+		starList = slot3,
+		dropList = slot4,
+		useSecond = slot2.use_seconds,
+		result = slot2.result,
+		buffID = slot2.buff_id or 0,
 		player_list = {},
 		battle_record_dir = {}
 	}
 end
 
-function var_0_0.FishCooperationBattle(arg_24_0, arg_24_1)
-	local var_24_0 = arg_24_1.battle_result
-
-	arg_24_0.isInBattle_ = false
-
-	local var_24_1 = {}
-
-	for iter_24_0, iter_24_1 in ipairs(var_24_0.star_list) do
-		var_24_1[iter_24_0] = {
-			starID = iter_24_1.star_id,
-			isComplete = iter_24_1.is_achieve
+function slot0.FishCooperationBattle(slot0, slot1)
+	slot0.isInBattle_ = false
+	slot3 = {
+		[slot7] = {
+			starID = slot8.star_id,
+			isComplete = slot8.is_achieve
 		}
+	}
+
+	for slot7, slot8 in ipairs(slot1.battle_result.star_list) do
+		-- Nothing
 	end
 
-	local var_24_2 = {}
+	slot4 = {}
 
-	for iter_24_2, iter_24_3 in ipairs(var_24_0.all_drop_list) do
-		local var_24_3 = {}
+	for slot8, slot9 in ipairs(slot2.all_drop_list) do
+		for slot14, slot15 in ipairs(slot9.gain_list) do
+			-- Nothing
+		end
 
-		for iter_24_4, iter_24_5 in ipairs(iter_24_3.gain_list) do
-			var_24_3[iter_24_4] = {
-				id = iter_24_5.id,
-				num = iter_24_5.num
+		slot4[slot8] = {
+			battleTimes = slot9.battle_times,
+			rewardItems = {
+				[slot14] = {
+					id = slot15.id,
+					num = slot15.num
+				}
 			}
-		end
-
-		var_24_2[iter_24_2] = {
-			battleTimes = iter_24_3.battle_times,
-			rewardItems = var_24_3
 		}
 	end
 
-	local var_24_4 = {}
-
-	for iter_24_6, iter_24_7 in ipairs(var_24_0.player_list) do
-		table.insert(var_24_4, BattleTeamPlayerTemplate.New(iter_24_7))
+	for slot9, slot10 in ipairs(slot2.player_list) do
+		table.insert({}, BattleTeamPlayerTemplate.New(slot10))
 	end
 
-	local var_24_5 = {}
+	slot6 = {}
 
-	for iter_24_8, iter_24_9 in ipairs(var_24_0.battle_record) do
-		local var_24_6 = {}
-
-		for iter_24_10, iter_24_11 in ipairs(iter_24_9.battle_record) do
-			var_24_6[iter_24_11.id] = iter_24_11.value
+	for slot10, slot11 in ipairs(slot2.battle_record) do
+		for slot16, slot17 in ipairs(slot11.battle_record) do
+			-- Nothing
 		end
 
-		var_24_5[iter_24_9.user_id] = var_24_6
+		slot6[slot11.user_id] = {
+			[slot17.id] = slot17.value
+		}
 	end
 
-	arg_24_0.battleResultData_ = {
-		serverBattleID = var_24_0.dest,
-		starList = var_24_1,
-		dropList = var_24_2,
-		useSecond = var_24_0.use_seconds,
-		result = var_24_0.result,
-		player_list = var_24_4,
-		battle_record_dir = var_24_5
+	slot0.battleResultData_ = {
+		serverBattleID = slot2.dest,
+		starList = slot3,
+		dropList = slot4,
+		useSecond = slot2.use_seconds,
+		result = slot2.result,
+		player_list = slot5,
+		battle_record_dir = slot6
 	}
 end
 
-function var_0_0.IsInBattle(arg_25_0)
-	return arg_25_0.isInBattle_
+function slot0.IsInBattle(slot0)
+	return slot0.isInBattle_
 end
 
-function var_0_0.GetBattleResultData(arg_26_0)
-	return arg_26_0.battleResultData_
+function slot0.GetBattleResultData(slot0)
+	return slot0.battleResultData_
 end
 
-function var_0_0.GetServerBattleID(arg_27_0)
-	return arg_27_0.serverBattleID_
+function slot0.GetServerBattleID(slot0)
+	return slot0.serverBattleID_
 end
 
-function var_0_0.GetBattleServerIPAndPort(arg_28_0)
-	return arg_28_0.battleServerIP_, arg_28_0.battleServerPort_
+function slot0.GetBattleServerIPAndPort(slot0)
+	return slot0.battleServerIP_, slot0.battleServerPort_
 end
 
-function var_0_0.SetStoryBackFlag(arg_29_0, arg_29_1)
-	arg_29_0.storyBackFlag_ = arg_29_1
+function slot0.SetStoryBackFlag(slot0, slot1)
+	slot0.storyBackFlag_ = slot1
 end
 
-function var_0_0.GetStoryBackFlag(arg_30_0)
-	return arg_30_0.storyBackFlag_
+function slot0.GetStoryBackFlag(slot0)
+	return slot0.storyBackFlag_
 end
 
-return var_0_0
+return slot0

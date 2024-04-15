@@ -1,106 +1,99 @@
-local var_0_0 = singletonClass("DormCharacterActionManager")
+slot0 = singletonClass("DormCharacterActionManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.listener = EventListener.New()
+function slot0.Ctor(slot0)
+	slot0.listener = EventListener.New()
+	slot1 = class("SyncUpdateDormTaskRunner", DormTaskRunner)
 
-	local var_1_0 = class("SyncUpdateDormTaskRunner", DormTaskRunner)
-
-	function var_1_0.Time(arg_2_0)
-		return arg_1_0.now
+	function slot1.Time(slot0)
+		return uv0.now
 	end
 
-	arg_1_0.taskRunner = var_1_0.New()
-	arg_1_0.frameTaskRunner = var_1_0.New()
+	slot0.taskRunner = slot1.New()
+	slot0.frameTaskRunner = slot1.New()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.animationEventHandlers = {}
-	arg_3_0.schedule = {}
+function slot0.Init(slot0)
+	slot0.animationEventHandlers = {}
+	slot0.schedule = {}
 
-	arg_3_0:RegisterTaskRunner(arg_3_0.taskRunner, 15, 7)
-	arg_3_0:RegisterTaskRunner(arg_3_0.frameTaskRunner, 2)
+	slot0:RegisterTaskRunner(slot0.taskRunner, 15, 7)
+	slot0:RegisterTaskRunner(slot0.frameTaskRunner, 2)
 
-	arg_3_0.tickCount = 0
-	arg_3_0.now = Time.time
-	arg_3_0.tick = Timer.New(function()
-		local var_4_0 = Time.time
+	slot0.tickCount = 0
+	slot0.now = Time.time
+	slot0.tick = Timer.New(function ()
+		uv0.now = Time.time
+		uv0.tickCount = uv0.tickCount + 1
 
-		arg_3_0.now = var_4_0
-		arg_3_0.tickCount = arg_3_0.tickCount + 1
-
-		if arg_3_0.tickCount % 2 == 0 then
-			manager.notify:Invoke(DORM_FRAME_TICK, var_4_0)
+		if uv0.tickCount % 2 == 0 then
+			manager.notify:Invoke(DORM_FRAME_TICK, slot0)
 		end
 
-		if arg_3_0.tickCount % 15 == 7 then
-			manager.notify:Invoke(DORM_LOGIC_TICK, var_4_0)
+		if uv0.tickCount % 15 == 7 then
+			manager.notify:Invoke(DORM_LOGIC_TICK, slot0)
 		end
 
-		for iter_4_0, iter_4_1 in pairs(arg_3_0.schedule) do
-			if arg_3_0.tickCount % iter_4_1.interval == iter_4_1.offset then
-				iter_4_0:TickUpdate()
+		for slot4, slot5 in pairs(uv0.schedule) do
+			if uv0.tickCount % slot5.interval == slot5.offset then
+				slot4:TickUpdate()
 			end
 		end
 	end, 0.016666666666666666, -1)
 
-	arg_3_0.tick:Start()
-	arg_3_0.listener:Register(ON_DORM_ENTITY_ANIME_EVENT, handler(arg_3_0, arg_3_0.HandleAnimationLoop))
+	slot0.tick:Start()
+	slot0.listener:Register(ON_DORM_ENTITY_ANIME_EVENT, handler(slot0, slot0.HandleAnimationLoop))
 end
 
-function var_0_0.RegisterTaskRunner(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_3 = arg_5_3 or 0
-	arg_5_3 = arg_5_3 % arg_5_2
+function slot0.RegisterTaskRunner(slot0, slot1, slot2, slot3)
+	slot1:Init()
 
-	arg_5_1:Init()
-
-	arg_5_0.schedule[arg_5_1] = {
-		interval = arg_5_2,
-		offset = arg_5_3
+	slot0.schedule[slot1] = {
+		interval = slot2,
+		offset = (slot3 or 0) % slot2
 	}
 
-	return arg_5_1
+	return slot1
 end
 
-function var_0_0.Reset(arg_6_0)
-	arg_6_0.listener:RemoveAll()
+function slot0.Reset(slot0)
+	slot0.listener:RemoveAll()
 
-	if arg_6_0.tick then
-		arg_6_0.tick:Stop()
+	if slot0.tick then
+		slot0.tick:Stop()
 	end
 
-	arg_6_0.taskRunner:Reset()
-	arg_6_0.frameTaskRunner:Reset()
+	slot0.taskRunner:Reset()
+	slot0.frameTaskRunner:Reset()
 
-	arg_6_0.schedule = {}
+	slot0.schedule = {}
 end
 
-function var_0_0.HandleAnimationLoop(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	if arg_7_0.animationEventHandlers then
-		arg_7_0.inAnimationHandleLoop = true
+function slot0.HandleAnimationLoop(slot0, slot1, slot2, slot3)
+	if slot0.animationEventHandlers then
+		slot0.inAnimationHandleLoop = true
+		slot4 = {}
 
-		local var_7_0 = {}
-
-		for iter_7_0, iter_7_1 in ipairs(arg_7_0.animationEventHandlers) do
-			if not iter_7_1(arg_7_1, arg_7_2, arg_7_3) then
-				table.insert(var_7_0, iter_7_1)
+		for slot8, slot9 in ipairs(slot0.animationEventHandlers) do
+			if not slot9(slot1, slot2, slot3) then
+				table.insert(slot4, slot9)
 			end
 		end
 
-		arg_7_0.animationEventHandlers = var_7_0
-		arg_7_0.inAnimationHandleLoop = false
+		slot0.animationEventHandlers = slot4
+		slot0.inAnimationHandleLoop = false
 	end
 end
 
-function var_0_0.RegisterAnimeEvent(arg_8_0, arg_8_1)
-	table.insert(arg_8_0.animationEventHandlers, arg_8_1)
+function slot0.RegisterAnimeEvent(slot0, slot1)
+	table.insert(slot0.animationEventHandlers, slot1)
 end
 
-function var_0_0.FrameTaskDeltaTime(arg_9_0)
-	return arg_9_0.frameTaskRunner:DeltaTime()
+function slot0.FrameTaskDeltaTime(slot0)
+	return slot0.frameTaskRunner:DeltaTime()
 end
 
-function var_0_0.LogicTaskDeltaTime(arg_10_0)
-	return arg_10_0.taskRunner:DeltaTime()
+function slot0.LogicTaskDeltaTime(slot0)
+	return slot0.taskRunner:DeltaTime()
 end
 
-return var_0_0.GetInstance()
+return slot0.GetInstance()

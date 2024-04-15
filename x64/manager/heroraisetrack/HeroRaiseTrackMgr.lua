@@ -1,551 +1,524 @@
-local var_0_0 = class("HeroRaiseTrackMgr")
+slot0 = class("HeroRaiseTrackMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.view_ui = nil
-	arg_1_0.view_data = nil
-	arg_1_0.isForce = false
-	arg_1_0.brain = nil
-	arg_1_0.last_view_ui = nil
-	arg_1_0.last_view_data = nil
-	arg_1_0.skinID = nil
-	arg_1_0.track = nil
-	arg_1_0.raiseModel = nil
-	arg_1_0.needTalk = nil
-	arg_1_0.displayGo_ = nil
-	arg_1_0.servantTrackController = nil
-	arg_1_0.astrolableController = nil
+function slot0.Ctor(slot0)
+	slot0.view_ui = nil
+	slot0.view_data = nil
+	slot0.isForce = false
+	slot0.brain = nil
+	slot0.last_view_ui = nil
+	slot0.last_view_data = nil
+	slot0.skinID = nil
+	slot0.track = nil
+	slot0.raiseModel = nil
+	slot0.needTalk = nil
+	slot0.displayGo_ = nil
+	slot0.servantTrackController = nil
+	slot0.astrolableController = nil
 
-	arg_1_0:Init()
+	slot0:Init()
 
-	arg_1_0.sceneTxAni_ = nil
-	arg_1_0.breakFx_ = nil
+	slot0.sceneTxAni_ = nil
+	slot0.breakFx_ = nil
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.view_ui = HeroRaiseTrackConst.ViewType.null
-	arg_2_0.view_data = {}
-	arg_2_0.isForce = false
-	arg_2_0.brain = nil
-	arg_2_0.last_view_ui = HeroRaiseTrackConst.ViewType.null
-	arg_2_0.last_view_data = {}
-	arg_2_0.skinID = nil
-	arg_2_0.track = HeroRaiseTrack.New()
-	arg_2_0.raiseModel = HeroRaiseModel.New()
-	arg_2_0.astrolableController = NormalAstrolabe.New()
-	arg_2_0.needTalk = false
+function slot0.Init(slot0)
+	slot0.view_ui = HeroRaiseTrackConst.ViewType.null
+	slot0.view_data = {}
+	slot0.isForce = false
+	slot0.brain = nil
+	slot0.last_view_ui = HeroRaiseTrackConst.ViewType.null
+	slot0.last_view_data = {}
+	slot0.skinID = nil
+	slot0.track = HeroRaiseTrack.New()
+	slot0.raiseModel = HeroRaiseModel.New()
+	slot0.astrolableController = NormalAstrolabe.New()
+	slot0.needTalk = false
 end
 
-function var_0_0.SetModelState(arg_3_0, arg_3_1)
-	local var_3_0 = false
+function slot0.SetModelState(slot0, slot1)
+	slot2 = false
 
-	if not arg_3_0.skinID or arg_3_0.skinID ~= arg_3_1 then
-		arg_3_0.skinID = arg_3_1
-		arg_3_0.needTalk = true
+	if not slot0.skinID or slot0.skinID ~= slot1 then
+		slot0.skinID = slot1
+		slot0.needTalk = true
 
-		arg_3_0:RefreshTrackState()
-		arg_3_0:RefreshCameraState()
-		arg_3_0:RemainAni()
-		arg_3_0:RefreshTouchHero()
-		arg_3_0:RefreshSceneAni()
+		slot0:RefreshTrackState()
+		slot0:RefreshCameraState()
+		slot0:RemainAni()
+		slot0:RefreshTouchHero()
+		slot0:RefreshSceneAni()
 	end
 end
 
-function var_0_0.SetViewState(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = false
+function slot0.SetViewState(slot0, slot1, slot2, slot3)
+	slot4 = false
 
-	if arg_4_1 and arg_4_0.view_ui ~= arg_4_1 then
-		arg_4_0.last_view_ui = arg_4_0.view_ui
-		arg_4_0.view_ui = arg_4_1
-		var_4_0 = true
+	if slot1 and slot0.view_ui ~= slot1 then
+		slot0.last_view_ui = slot0.view_ui
+		slot0.view_ui = slot1
+		slot4 = true
 	end
 
-	if arg_4_2 then
-		if not arg_4_2[3] then
-			arg_4_2[3] = 0
+	if slot2 then
+		if not slot2[3] then
+			slot2[3] = 0
 		end
 
-		if arg_4_0.view_data[1] ~= arg_4_2[1] or arg_4_0.view_data[2] ~= arg_4_2[2] or arg_4_0.view_data[3] ~= arg_4_2[3] then
-			if arg_4_2[1] then
-				if arg_4_0.view_data then
-					arg_4_0.last_view_data[1] = arg_4_0.view_data[1] or nil
+		if slot0.view_data[1] ~= slot2[1] or slot0.view_data[2] ~= slot2[2] or slot0.view_data[3] ~= slot2[3] then
+			if slot2[1] then
+				if slot0.view_data then
+					slot0.last_view_data[1] = slot0.view_data[1] or nil
 				end
 
-				arg_4_0.view_data[1] = arg_4_2[1]
-				var_4_0 = true
+				slot0.view_data[1] = slot2[1]
+				slot4 = true
 			end
 
-			if arg_4_2[2] then
-				if arg_4_0.view_data then
-					arg_4_0.last_view_data[2] = arg_4_0.view_data[2] or nil
+			if slot2[2] then
+				if slot0.view_data then
+					slot0.last_view_data[2] = slot0.view_data[2] or nil
 				end
 
-				arg_4_0.view_data[2] = arg_4_2[2]
-				var_4_0 = true
+				slot0.view_data[2] = slot2[2]
+				slot4 = true
 			end
 
-			if arg_4_2[3] then
-				if arg_4_0.view_data then
-					arg_4_0.last_view_data[3] = arg_4_0.view_data[3] or nil
+			if slot2[3] then
+				if slot0.view_data then
+					slot0.last_view_data[3] = slot0.view_data[3] or nil
 				end
 
-				arg_4_0.view_data[3] = arg_4_2[3]
-				var_4_0 = true
+				slot0.view_data[3] = slot2[3]
+				slot4 = true
 			else
-				arg_4_0.last_view_data[3] = arg_4_0.view_data[3] or nil
-				arg_4_0.view_data[3] = 0
+				slot0.last_view_data[3] = slot0.view_data[3] or nil
+				slot0.view_data[3] = 0
 			end
 		end
 	end
 
-	if var_4_0 then
-		arg_4_0:RefreshCameraState()
-		arg_4_0:RefreshAni()
-		arg_4_0:RefreshSceneAni()
+	if slot4 then
+		slot0:RefreshCameraState()
+		slot0:RefreshAni()
+		slot0:RefreshSceneAni()
 	end
 
-	if arg_4_3 then
-		arg_4_0:RefreshTouchView(arg_4_3)
-		arg_4_0:RefreshTouchHero()
+	if slot3 then
+		slot0:RefreshTouchView(slot3)
+		slot0:RefreshTouchHero()
 	else
-		arg_4_0:RefreshTouchView(nil)
+		slot0:RefreshTouchView(nil)
 	end
 end
 
-function var_0_0.CheckEffect(arg_5_0)
-	if arg_5_0.view_data and arg_5_0.view_ui == HeroRaiseTrackConst.ViewType.heroRaiseCommon then
-		local var_5_0 = arg_5_0.view_data[1]
-
-		if var_5_0 == HeroRaiseTrackConst.HeroRaiseType.attr or var_5_0 == HeroRaiseTrackConst.HeroRaiseType.skill then
-			arg_5_0.raiseModel:PlayEffect()
-		end
+function slot0.CheckEffect(slot0)
+	if slot0.view_data and slot0.view_ui == HeroRaiseTrackConst.ViewType.heroRaiseCommon and (slot0.view_data[1] == HeroRaiseTrackConst.HeroRaiseType.attr or slot1 == HeroRaiseTrackConst.HeroRaiseType.skill) then
+		slot0.raiseModel:PlayEffect()
 	end
 end
 
-function var_0_0.PlayTalk(arg_6_0)
-	if arg_6_0.raiseModel then
-		arg_6_0.raiseModel:PlayTalk()
+function slot0.PlayTalk(slot0)
+	if slot0.raiseModel then
+		slot0.raiseModel:PlayTalk()
 	end
 end
 
-function var_0_0.RefreshTrackState(arg_7_0)
-	local var_7_0 = SkinCfg[arg_7_0.skinID].hero
-	local var_7_1 = HeroPosAndRotCfg[var_7_0]
-	local var_7_2 = var_7_1.hero_view_height
+function slot0.RefreshTrackState(slot0)
+	slot2 = HeroPosAndRotCfg[SkinCfg[slot0.skinID].hero]
+	slot3 = slot2.hero_view_height
 
-	arg_7_0.raiseModel:SetSkinID(arg_7_0.skinID)
-	arg_7_0.raiseModel:PlayEffect()
-	arg_7_0.track:SetTrackData(var_7_1.hero_view_height)
+	slot0.raiseModel:SetSkinID(slot0.skinID)
+	slot0.raiseModel:PlayEffect()
+	slot0.track:SetTrackData(slot2.hero_view_height)
 end
 
-function var_0_0.RefreshTouchView(arg_8_0, arg_8_1)
-	if isNil(arg_8_1) then
-		if arg_8_0.touchView_ then
-			arg_8_0.touchView_:Dispose()
+function slot0.RefreshTouchView(slot0, slot1)
+	if isNil(slot1) then
+		if slot0.touchView_ then
+			slot0.touchView_:Dispose()
 
-			arg_8_0.touchView_ = nil
+			slot0.touchView_ = nil
 		end
 
 		return
 	end
 
-	if arg_8_0.touchView_ then
-		arg_8_0.touchView_:Dispose()
+	if slot0.touchView_ then
+		slot0.touchView_:Dispose()
 
-		arg_8_0.touchView_ = nil
+		slot0.touchView_ = nil
 	end
 
-	arg_8_0.touchView_ = HeroRaiseModelToucherView.New(arg_8_1)
+	slot0.touchView_ = HeroRaiseModelToucherView.New(slot1)
 end
 
-function var_0_0.RefreshTouchHero(arg_9_0)
-	if arg_9_0.touchView_ then
-		local var_9_0 = arg_9_0.raiseModel:GetRotateGo()
-
-		if var_9_0 then
-			arg_9_0.touchView_:SetRotateNode(var_9_0.transform)
-		end
+function slot0.RefreshTouchHero(slot0)
+	if slot0.touchView_ and slot0.raiseModel:GetRotateGo() then
+		slot0.touchView_:SetRotateNode(slot1.transform)
 	end
 end
 
-function var_0_0.RefreshAstrolabeColor(arg_10_0, arg_10_1)
-	local var_10_0 = manager.ui:GetSceneSettingBySceneName("X100")
-
-	if var_10_0 then
-		if arg_10_1 then
-			arg_10_0:CreateTimer(var_10_0, ASTROLABE_COLOR[1], ASTROLABE_COLOR[2], ASTROLABE_COLOR[3])
+function slot0.RefreshAstrolabeColor(slot0, slot1)
+	if manager.ui:GetSceneSettingBySceneName("X100") then
+		if slot1 then
+			slot0:CreateTimer(slot2, ASTROLABE_COLOR[1], ASTROLABE_COLOR[2], ASTROLABE_COLOR[3])
 		else
-			arg_10_0:CreateTimer(var_10_0, 1, 1, 1)
+			slot0:CreateTimer(slot2, 1, 1, 1)
 		end
 	end
 end
 
-function var_0_0.CreateTimer(arg_11_0, arg_11_1, arg_11_2, arg_11_3, arg_11_4)
-	arg_11_0:RemoveTween()
+function slot0.CreateTimer(slot0, slot1, slot2, slot3, slot4)
+	slot0:RemoveTween()
 
-	local var_11_0 = arg_11_1.probeLightingBase.r
-	local var_11_1 = arg_11_1.probeLightingBase.g
-	local var_11_2 = arg_11_1.probeLightingBase.b
-
-	arg_11_0.tweenValue_ = LeanTween.value(0, 1, ASTROLABE_COLOR_TIME):setOnUpdate(LuaHelper.FloatAction(function(arg_12_0)
-		localR = Mathf.Lerp(var_11_0, arg_11_2, arg_12_0)
-		localG = Mathf.Lerp(var_11_1, arg_11_3, arg_12_0)
-		localB = Mathf.Lerp(var_11_2, arg_11_4, arg_12_0)
-		arg_11_1.probeLightingBase = Color.New(localR, localG, localB)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		arg_11_0:RemoveTween()
+	slot5 = slot1.probeLightingBase.r
+	slot6 = slot1.probeLightingBase.g
+	slot7 = slot1.probeLightingBase.b
+	slot0.tweenValue_ = LeanTween.value(0, 1, ASTROLABE_COLOR_TIME):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		localR = Mathf.Lerp(uv0, uv1, slot0)
+		localG = Mathf.Lerp(uv2, uv3, slot0)
+		localB = Mathf.Lerp(uv4, uv5, slot0)
+		uv6.probeLightingBase = Color.New(localR, localG, localB)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		uv0:RemoveTween()
 	end))
 end
 
-function var_0_0.RemoveTween(arg_14_0)
-	if arg_14_0.tweenValue_ then
-		arg_14_0.tweenValue_:setOnComplete(nil):setOnUpdate(nil):setEase(nil)
-		LeanTween.cancel(arg_14_0.tweenValue_.id)
+function slot0.RemoveTween(slot0)
+	if slot0.tweenValue_ then
+		slot0.tweenValue_:setOnComplete(nil):setOnUpdate(nil):setEase(nil)
+		LeanTween.cancel(slot0.tweenValue_.id)
 
-		arg_14_0.tweenValue_ = nil
+		slot0.tweenValue_ = nil
 	end
 end
 
-function var_0_0.RefreshCameraState(arg_15_0)
-	if not arg_15_0.view_ui then
+function slot0.RefreshCameraState(slot0)
+	if not slot0.view_ui then
 		return
 	end
 
-	if isNil(arg_15_0.brain) then
-		arg_15_0.brain = manager.ui:AddMainCameraCom(typeof(CinemachineBrain))
+	if isNil(slot0.brain) then
+		slot0.brain = manager.ui:AddMainCameraCom(typeof(CinemachineBrain))
 	end
 
-	local var_15_0 = arg_15_0.raiseModel:SetSkinID(arg_15_0.skinID)
+	slot1 = slot0.raiseModel:SetSkinID(slot0.skinID)
 
-	if arg_15_0.view_ui == HeroRaiseTrackConst.ViewType.null then
-		arg_15_0:UnloadSceneAni()
-		arg_15_0:UnloadWeaponServant()
+	if slot0.view_ui == HeroRaiseTrackConst.ViewType.null then
+		slot0:UnloadSceneAni()
+		slot0:UnloadWeaponServant()
 
-		if not isNil(arg_15_0.brain) then
-			arg_15_0.brain.m_CustomBlends = nil
+		if not isNil(slot0.brain) then
+			slot0.brain.m_CustomBlends = nil
 		end
 
 		manager.ui:SetMainCameraCom("CinemachineBrain", false)
 		manager.ui:ResetMainCamera()
-		arg_15_0.track:SetActive(false)
-		arg_15_0:SetAstrolableAtive(false)
+		slot0.track:SetActive(false)
+		slot0:SetAstrolableAtive(false)
 
-		arg_15_0.lastState_ = HeroRaiseTrackConst.ModelState.none
+		slot0.lastState_ = HeroRaiseTrackConst.ModelState.none
 
-		arg_15_0.raiseModel:UnloadModel()
+		slot0.raiseModel:UnloadModel()
 
-		arg_15_0.view_ui = HeroRaiseTrackConst.ViewType.null
-		arg_15_0.view_data = {}
-		arg_15_0.last_view_ui = HeroRaiseTrackConst.ViewType.null
-		arg_15_0.last_view_data = {}
-		arg_15_0.needTalk = false
-	elseif arg_15_0.view_ui == HeroRaiseTrackConst.ViewType.heroRaiseCommon then
-		arg_15_0:LoadSceneAni()
+		slot0.view_ui = HeroRaiseTrackConst.ViewType.null
+		slot0.view_data = {}
+		slot0.last_view_ui = HeroRaiseTrackConst.ViewType.null
+		slot0.last_view_data = {}
+		slot0.needTalk = false
+	elseif slot0.view_ui == HeroRaiseTrackConst.ViewType.heroRaiseCommon then
+		slot0:LoadSceneAni()
 
-		if not isNil(arg_15_0.brain) and isNil(arg_15_0.brain.m_CustomBlends) then
-			arg_15_0.brain.m_CustomBlends = Asset.Load("UI/HeroCamera/CameraData/MainCamera_Blends.asset")
+		if not isNil(slot0.brain) and isNil(slot0.brain.m_CustomBlends) then
+			slot0.brain.m_CustomBlends = Asset.Load("UI/HeroCamera/CameraData/MainCamera_Blends.asset")
 		end
 
 		manager.ui:SetMainCameraCom("CinemachineBrain", true)
 		manager.ui:SetMainCamera("hero")
-		arg_15_0.track:SetActive(true)
+		slot0.track:SetActive(true)
 
-		if arg_15_0.view_data then
-			local var_15_1 = arg_15_0.view_data[1] * 10 + arg_15_0.view_data[2] or 10
-			local var_15_2 = arg_15_0.view_data[1]
-			local var_15_3 = arg_15_0.view_data[3] or 0
+		if slot0.view_data then
+			slot0.track:ChangeCamera(slot0.view_data[1] * 10 + slot0.view_data[2] or 10)
 
-			arg_15_0.track:ChangeCamera(var_15_1)
+			slot5 = false
+			slot6 = false
 
-			local var_15_4 = false
-			local var_15_5 = false
-
-			if var_15_2 == HeroRaiseTrackConst.HeroRaiseType.weapon then
-				if var_15_3 ~= HeroRaiseTrackConst.HeroServantType.weapon then
-					var_15_4 = true
+			if slot0.view_data[1] == HeroRaiseTrackConst.HeroRaiseType.weapon then
+				if (slot0.view_data[3] or 0) ~= HeroRaiseTrackConst.HeroServantType.weapon then
+					slot5 = true
 				else
-					var_15_5 = true
+					slot6 = true
 				end
 			end
 
-			if var_15_4 then
-				arg_15_0:LoadWeaponServant()
+			if slot5 then
+				slot0:LoadWeaponServant()
 			else
-				arg_15_0:UnloadWeaponServant(var_15_5)
+				slot0:UnloadWeaponServant(slot6)
 			end
 
-			arg_15_0.lastState_ = arg_15_0.raiseModel:GetState()
+			slot0.lastState_ = slot0.raiseModel:GetState()
 
-			if var_15_2 == HeroRaiseTrackConst.HeroRaiseType.attr then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.skill then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.weapon then
-				if var_15_3 == HeroRaiseTrackConst.HeroServantType.servant then
-					arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
+			if slot3 == HeroRaiseTrackConst.HeroRaiseType.attr then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.skill then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.weapon then
+				if slot4 == HeroRaiseTrackConst.HeroServantType.servant then
+					slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
 				else
-					arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.weapon)
+					slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.weapon)
 				end
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.equip then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.transition then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.astrolabe then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
-			elseif var_15_2 == HeroRaiseTrackConst.HeroRaiseType.chip then
-				arg_15_0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.equip then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.transition then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.none)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.astrolabe then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
+			elseif slot3 == HeroRaiseTrackConst.HeroRaiseType.chip then
+				slot0.raiseModel:SetState(HeroRaiseTrackConst.ModelState.hero)
 			end
 
-			if HeroRaiseTrackConst.HeroRaiseRotate[var_15_1] then
-				arg_15_0:PlayModelRotation(HeroRaiseTrackConst.HeroRaiseRotate[var_15_1])
+			if HeroRaiseTrackConst.HeroRaiseRotate[slot2] then
+				slot0:PlayModelRotation(HeroRaiseTrackConst.HeroRaiseRotate[slot2])
 			else
-				arg_15_0:PlayModelRotation()
+				slot0:PlayModelRotation()
 			end
 		end
 	end
 end
 
-function var_0_0.RemainAni(arg_16_0)
-	if arg_16_0.raiseModel:GetState() == HeroRaiseTrackConst.ModelState.hero and arg_16_0.view_data and arg_16_0.view_data[1] and arg_16_0.view_data[2] then
-		local var_16_0 = arg_16_0.view_data[1] * 10 + arg_16_0.view_data[2] or 10
-
-		arg_16_0.raiseModel:SwitchAni("", HeroRaiseTrackConst.HeroAniName[var_16_0])
+function slot0.RemainAni(slot0)
+	if slot0.raiseModel:GetState() == HeroRaiseTrackConst.ModelState.hero and slot0.view_data and slot0.view_data[1] and slot0.view_data[2] then
+		slot0.raiseModel:SwitchAni("", HeroRaiseTrackConst.HeroAniName[slot0.view_data[1] * 10 + slot0.view_data[2] or 10])
 	end
 end
 
-function var_0_0.RefreshAni(arg_17_0)
-	arg_17_0.raiseModel:ResetBlendShapes()
+function slot0.RefreshAni(slot0)
+	slot0.raiseModel:ResetBlendShapes()
 
-	if arg_17_0.view_data and arg_17_0.view_data[1] and arg_17_0.view_data[2] then
-		if arg_17_0.breakFx_ == nil then
-			arg_17_0.breakFx_ = HeroRaiseCameraTx.New()
+	if slot0.view_data and slot0.view_data[1] and slot0.view_data[2] then
+		if slot0.breakFx_ == nil then
+			slot0.breakFx_ = HeroRaiseCameraTx.New()
 
-			arg_17_0.breakFx_:Init("UI/HeroGodHood/TX_Property_Break_01.prefab")
+			slot0.breakFx_:Init("UI/HeroGodHood/TX_Property_Break_01.prefab")
 		end
 
-		local var_17_0 = arg_17_0.view_data[1] * 10 + arg_17_0.view_data[2] or 10
-		local var_17_1 = 0
+		slot1 = slot0.view_data[1] * 10 + slot0.view_data[2] or 10
+		slot2 = 0
 
-		if arg_17_0.last_view_data and arg_17_0.last_view_data[1] and arg_17_0.last_view_data[2] then
-			var_17_1 = arg_17_0.last_view_data[1] * 10 + arg_17_0.last_view_data[2] or 0
+		if slot0.last_view_data and slot0.last_view_data[1] and slot0.last_view_data[2] then
+			slot2 = slot0.last_view_data[1] * 10 + slot0.last_view_data[2] or 0
 		end
 
-		if var_17_0 == 12 then
-			arg_17_0.breakFx_:PlayAnim("TX_Property_Break_star")
-		elseif var_17_1 == 12 then
-			arg_17_0.breakFx_:PlayAnim("TX_Property_Break_end")
+		if slot1 == 12 then
+			slot0.breakFx_:PlayAnim("TX_Property_Break_star")
+		elseif slot2 == 12 then
+			slot0.breakFx_:PlayAnim("TX_Property_Break_end")
 		end
 
-		local var_17_2 = {}
+		slot3 = {}
 
-		if (var_17_0 ~= 12 or var_17_1 ~= 21) and (var_17_0 ~= 21 or var_17_1 ~= 12) then
-			table.insert(var_17_2, HeroRaiseTrackConst.HeroAniName[var_17_1] or "")
-			table.insert(var_17_2, HeroRaiseTrackConst.HeroAniName[var_17_0] or "")
-			arg_17_0.raiseModel:SwitchAni(var_17_2[1], var_17_2[2])
-		elseif var_17_0 == 12 and var_17_1 == 21 then
-			arg_17_0.raiseModel:RemainAni(HeroRaiseTrackConst.HeroAniName[21])
+		if (slot1 ~= 12 or slot2 ~= 21) and (slot1 ~= 21 or slot2 ~= 12) then
+			table.insert(slot3, HeroRaiseTrackConst.HeroAniName[slot2] or "")
+			table.insert(slot3, HeroRaiseTrackConst.HeroAniName[slot1] or "")
+			slot0.raiseModel:SwitchAni(slot3[1], slot3[2])
+		elseif slot1 == 12 and slot2 == 21 then
+			slot0.raiseModel:RemainAni(HeroRaiseTrackConst.HeroAniName[21])
 		end
-	elseif arg_17_0.breakFx_ then
-		arg_17_0.breakFx_:Dispose()
+	elseif slot0.breakFx_ then
+		slot0.breakFx_:Dispose()
 
-		arg_17_0.breakFx_ = nil
+		slot0.breakFx_ = nil
 	end
 end
 
-function var_0_0.RefreshSceneAni(arg_18_0)
-	if arg_18_0.view_data and arg_18_0.view_data[1] and arg_18_0.view_data[2] then
-		local var_18_0 = arg_18_0.view_data[1] * 10 + arg_18_0.view_data[2] or 10
-		local var_18_1 = 0
+function slot0.RefreshSceneAni(slot0)
+	if slot0.view_data and slot0.view_data[1] and slot0.view_data[2] then
+		slot1 = slot0.view_data[1] * 10 + slot0.view_data[2] or 10
+		slot2 = 0
 
-		if arg_18_0.last_view_data and arg_18_0.last_view_data[1] and arg_18_0.last_view_data[2] then
-			var_18_1 = arg_18_0.last_view_data[1] * 10 + arg_18_0.last_view_data[2] or 0
+		if slot0.last_view_data and slot0.last_view_data[1] and slot0.last_view_data[2] then
+			slot2 = slot0.last_view_data[1] * 10 + slot0.last_view_data[2] or 0
 		end
 
-		if var_18_0 == 10 or var_18_0 == 20 then
-			if var_18_1 ~= 10 and var_18_1 ~= 20 then
-				arg_18_0:PlaySceneAni("TX_Property_Corrector_star1")
+		if slot1 == 10 or slot1 == 20 then
+			if slot2 ~= 10 and slot2 ~= 20 then
+				slot0:PlaySceneAni("TX_Property_Corrector_star1")
 			else
-				arg_18_0:PlaySceneAni("TX_Property_Corrector_stand")
+				slot0:PlaySceneAni("TX_Property_Corrector_stand")
 			end
-		elseif var_18_1 ~= 10 and var_18_1 ~= 20 then
-			arg_18_0:PlaySceneAni("TX_Property_Corrector_hide")
+		elseif slot2 ~= 10 and slot2 ~= 20 then
+			slot0:PlaySceneAni("TX_Property_Corrector_hide")
 		else
-			arg_18_0:PlaySceneAni("TX_Property_Corrector_end1")
+			slot0:PlaySceneAni("TX_Property_Corrector_end1")
 		end
 	end
 end
 
-function var_0_0.RemainSceneAni(arg_19_0)
-	if arg_19_0.view_data and arg_19_0.view_data[1] and arg_19_0.view_data[2] then
-		local var_19_0 = arg_19_0.view_data[1] * 10 + arg_19_0.view_data[2] or 10
-
-		if var_19_0 == 10 or var_19_0 == 20 then
-			arg_19_0:PlaySceneAni("TX_Property_Corrector_stand")
-		end
+function slot0.RemainSceneAni(slot0)
+	if slot0.view_data and slot0.view_data[1] and slot0.view_data[2] and ((slot0.view_data[1] * 10 + slot0.view_data[2] or 10) == 10 or slot1 == 20) then
+		slot0:PlaySceneAni("TX_Property_Corrector_stand")
 	end
 end
 
-function var_0_0.PlaySceneAni(arg_20_0, arg_20_1)
-	if isNil(arg_20_0.sceneTxAni_) then
+function slot0.PlaySceneAni(slot0, slot1)
+	if isNil(slot0.sceneTxAni_) then
 		return
 	end
 
-	arg_20_0.sceneTxAni_:Play(arg_20_1)
-	arg_20_0.sceneTxAni_:Update(0)
+	slot0.sceneTxAni_:Play(slot1)
+	slot0.sceneTxAni_:Update(0)
 end
 
-function var_0_0.LoadSceneAni(arg_21_0)
-	if isNil(arg_21_0.sceneTxTrans_) then
-		local var_21_0 = SceneManager.GetSceneByName("X100")
-		local var_21_1 = var_21_0:GetRootGameObjects()
-		local var_21_2
+function slot0.LoadSceneAni(slot0)
+	if isNil(slot0.sceneTxTrans_) then
+		slot3 = nil
 
-		if var_21_1 ~= nil then
-			for iter_21_0 = 0, var_21_1.Length - 1 do
-				if var_21_1[iter_21_0].name == var_21_0.name then
-					var_21_2 = var_21_1[iter_21_0]
+		if SceneManager.GetSceneByName("X100"):GetRootGameObjects() ~= nil then
+			for slot7 = 0, slot2.Length - 1 do
+				if slot2[slot7].name == slot1.name then
+					slot3 = slot2[slot7]
 
 					break
 				end
 			end
 		end
 
-		arg_21_0.sceneTxTrans_ = var_21_2.transform:Find("X100_base_003/TX_Property_Corrector")
+		slot0.sceneTxTrans_ = slot3.transform:Find("X100_base_003/TX_Property_Corrector")
 
-		if arg_21_0.sceneTxTrans_ then
-			arg_21_0.sceneTxAni_ = arg_21_0.sceneTxTrans_:GetComponentInChildren(typeof(Animator))
+		if slot0.sceneTxTrans_ then
+			slot0.sceneTxAni_ = slot0.sceneTxTrans_:GetComponentInChildren(typeof(Animator))
 		end
 	end
 end
 
-function var_0_0.UnloadSceneAni(arg_22_0)
-	arg_22_0.sceneTxTrans_ = nil
-	arg_22_0.sceneTxAni_ = nil
+function slot0.UnloadSceneAni(slot0)
+	slot0.sceneTxTrans_ = nil
+	slot0.sceneTxAni_ = nil
 end
 
-function var_0_0.RemoveTween(arg_23_0)
-	if arg_23_0.tween then
-		arg_23_0.tween:setOnComplete(nil)
-		LeanTween.cancel(arg_23_0.m_arror.gameObject)
+function slot0.RemoveTween(slot0)
+	if slot0.tween then
+		slot0.tween:setOnComplete(nil)
+		LeanTween.cancel(slot0.m_arror.gameObject)
 
-		arg_23_0.tween = nil
+		slot0.tween = nil
 	end
 end
 
-function var_0_0.PlayModelRotation(arg_24_0, arg_24_1)
-	arg_24_0.node = arg_24_0.raiseModel:GetRotateGo()
+function slot0.PlayModelRotation(slot0, slot1)
+	slot0.node = slot0.raiseModel:GetRotateGo()
 
-	if arg_24_0.node then
-		LeanTween.cancel(arg_24_0.node)
+	if slot0.node then
+		LeanTween.cancel(slot0.node)
 
-		if not isNil(arg_24_0.node) then
-			if arg_24_1 then
-				LeanTween.rotateLocal(arg_24_0.node, arg_24_1, HERO_RAISE_ROTATE_TIME):setEase(LeanTweenType.easeOutQuart)
+		if not isNil(slot0.node) then
+			if slot1 then
+				LeanTween.rotateLocal(slot0.node, slot1, HERO_RAISE_ROTATE_TIME):setEase(LeanTweenType.easeOutQuart)
 			else
-				LeanTween.rotateLocal(arg_24_0.node, Vector3(0, 0, 0), HERO_RAISE_ROTATE_TIME):setEase(LeanTweenType.easeOutQuart)
+				LeanTween.rotateLocal(slot0.node, Vector3(0, 0, 0), HERO_RAISE_ROTATE_TIME):setEase(LeanTweenType.easeOutQuart)
 			end
 		end
 	end
 end
 
-function var_0_0.SetWeaponServantID(arg_25_0, arg_25_1)
-	if arg_25_0.servantTrackController then
-		arg_25_0.servantTrackController:SetServantID(arg_25_1)
+function slot0.SetWeaponServantID(slot0, slot1)
+	if slot0.servantTrackController then
+		slot0.servantTrackController:SetServantID(slot1)
 	end
 end
 
-function var_0_0.LoadWeaponServant(arg_26_0)
-	if arg_26_0.servantTrackController and arg_26_0.servantTrackController:CheckValid() then
+function slot0.LoadWeaponServant(slot0)
+	if slot0.servantTrackController and slot0.servantTrackController:CheckValid() then
 		return
 	end
 
-	if arg_26_0.servantTrackController then
-		arg_26_0.servantTrackController:Dispose()
+	if slot0.servantTrackController then
+		slot0.servantTrackController:Dispose()
 
-		arg_26_0.servantTrackController = nil
+		slot0.servantTrackController = nil
 	end
 
-	local var_26_0 = Asset.Load("UI/HeroGodHood/TX_WeaponServant.prefab")
-	local var_26_1 = Object.Instantiate(var_26_0, manager.ui.mainCamera.transform)
+	if not isNil(Object.Instantiate(Asset.Load("UI/HeroGodHood/TX_WeaponServant.prefab"), manager.ui.mainCamera.transform)) then
+		slot0.servantTrackController = ServantTrackController.New()
 
-	if not isNil(var_26_1) then
-		arg_26_0.servantTrackController = ServantTrackController.New()
-
-		arg_26_0.servantTrackController:Init(var_26_1)
+		slot0.servantTrackController:Init(slot2)
 	end
 end
 
-function var_0_0.PlayServantAnim(arg_27_0, arg_27_1, arg_27_2)
-	if arg_27_0.servantTrackController then
-		arg_27_0.servantTrackController:PlayAnim(arg_27_1, arg_27_2)
+function slot0.PlayServantAnim(slot0, slot1, slot2)
+	if slot0.servantTrackController then
+		slot0.servantTrackController:PlayAnim(slot1, slot2)
 	end
 end
 
-function var_0_0.UnloadWeaponServant(arg_28_0, arg_28_1)
-	if arg_28_0.servantTrackController then
-		if arg_28_1 then
-			arg_28_0:PlayServantAnim("Fade")
+function slot0.UnloadWeaponServant(slot0, slot1)
+	if slot0.servantTrackController then
+		if slot1 then
+			slot0:PlayServantAnim("Fade")
 		else
-			arg_28_0.servantTrackController:Dispose()
+			slot0.servantTrackController:Dispose()
 
-			arg_28_0.servantTrackController = nil
+			slot0.servantTrackController = nil
 		end
 	end
 end
 
-function var_0_0.UnloadAstrolabe(arg_29_0)
-	if arg_29_0.astrolableController then
-		arg_29_0.astrolableController:Dispose()
+function slot0.UnloadAstrolabe(slot0)
+	if slot0.astrolableController then
+		slot0.astrolableController:Dispose()
 	end
 end
 
-function var_0_0.SetAstrolableAtive(arg_30_0, arg_30_1)
-	if arg_30_0.astrolableController then
-		arg_30_0.astrolableController:SetActive(arg_30_1)
+function slot0.SetAstrolableAtive(slot0, slot1)
+	if slot0.astrolableController then
+		slot0.astrolableController:SetActive(slot1)
 
-		if not arg_30_1 then
-			arg_30_0:RefreshAstrolableState(AstrolabeConst.AnimationState.Hide)
+		if not slot1 then
+			slot0:RefreshAstrolableState(AstrolabeConst.AnimationState.Hide)
 		end
 	end
 end
 
-function var_0_0.RefreshAstrolableState(arg_31_0, arg_31_1)
-	if arg_31_0.astrolableController then
-		arg_31_0.astrolableController:RefreshAnimationState(arg_31_1)
+function slot0.RefreshAstrolableState(slot0, slot1)
+	if slot0.astrolableController then
+		slot0.astrolableController:RefreshAnimationState(slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_32_0)
-	if arg_32_0.track then
-		arg_32_0.track:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.track then
+		slot0.track:Dispose()
 	end
 
-	if arg_32_0.raiseModel then
-		arg_32_0.raiseModel:Dispose()
+	if slot0.raiseModel then
+		slot0.raiseModel:Dispose()
 	end
 
-	if arg_32_0.touchView_ then
-		arg_32_0.touchView_:Dispose()
+	if slot0.touchView_ then
+		slot0.touchView_:Dispose()
 	end
 
-	if arg_32_0.breakFx_ then
-		arg_32_0.breakFx_:Dispose()
+	if slot0.breakFx_ then
+		slot0.breakFx_:Dispose()
 
-		arg_32_0.breakFx_ = nil
+		slot0.breakFx_ = nil
 	end
 
-	arg_32_0:UnloadSceneAni()
-	arg_32_0:UnloadAstrolabe()
-	arg_32_0:RemoveTween()
+	slot0:UnloadSceneAni()
+	slot0:UnloadAstrolabe()
+	slot0:RemoveTween()
 
-	arg_32_0.view_ui = HeroRaiseTrackConst.ViewType.null
-	arg_32_0.view_data = {}
-	arg_32_0.isForce = false
-	arg_32_0.brain = nil
-	arg_32_0.last_view_ui = HeroRaiseTrackConst.ViewType.null
-	arg_32_0.last_view_data = {}
-	arg_32_0.skinID = nil
-	arg_32_0.needTalk = false
-	arg_32_0.sceneTxAni_ = nil
+	slot0.view_ui = HeroRaiseTrackConst.ViewType.null
+	slot0.view_data = {}
+	slot0.isForce = false
+	slot0.brain = nil
+	slot0.last_view_ui = HeroRaiseTrackConst.ViewType.null
+	slot0.last_view_data = {}
+	slot0.skinID = nil
+	slot0.needTalk = false
+	slot0.sceneTxAni_ = nil
 end
 
-return var_0_0
+return slot0

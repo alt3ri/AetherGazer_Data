@@ -1,162 +1,152 @@
-local var_0_0 = class("ActivitySkinDrawMovieView", ReduxView)
+slot0 = class("ActivitySkinDrawMovieView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddBtnListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddBtnListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddBtnListeners(arg_4_0)
-	return
+function slot0.AddBtnListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	SetActive(arg_6_0.gameObject_, true)
+function slot0.SetData(slot0, slot1, slot2)
+	SetActive(slot0.gameObject_, true)
 
-	arg_6_0.itemCfg_ = arg_6_1
-	arg_6_0.backcall_ = arg_6_2
-	arg_6_0.itemID_ = arg_6_0.itemCfg_.id
-	arg_6_0.movieCfg_ = ObtainSkinMovieCfg[arg_6_0.itemID_]
-	arg_6_0.moviePath_ = arg_6_0.movieCfg_.start_path
-	arg_6_0.criMovie_ = arg_6_0.movie_:GetComponent("CriManaMovieControllerForUI")
-	arg_6_0.criplayer_ = arg_6_0.criMovie_.player
-	arg_6_0.isPlayMovie_ = false
-	arg_6_0.isPlayMovieEnd_ = false
+	slot0.itemCfg_ = slot1
+	slot0.backcall_ = slot2
+	slot0.itemID_ = slot0.itemCfg_.id
+	slot0.movieCfg_ = ObtainSkinMovieCfg[slot0.itemID_]
+	slot0.moviePath_ = slot0.movieCfg_.start_path
+	slot0.criMovie_ = slot0.movie_:GetComponent("CriManaMovieControllerForUI")
+	slot0.criplayer_ = slot0.criMovie_.player
+	slot0.isPlayMovie_ = false
+	slot0.isPlayMovieEnd_ = false
 
-	arg_6_0.criMovie_:Stop()
+	slot0.criMovie_:Stop()
 
-	arg_6_0.movieTrs_.localPosition = Vector2(9999, 9999)
+	slot0.movieTrs_.localPosition = Vector2(9999, 9999)
 
-	arg_6_0.criplayer_:SetFile(nil, arg_6_0.moviePath_, CriMana.Player.SetMode.New)
+	slot0.criplayer_:SetFile(nil, slot0.moviePath_, CriMana.Player.SetMode.New)
+	slot0.criplayer_:SetVolume(manager.audio:GetMusicVolume())
+	slot0:SetVideoTrack(slot0.criplayer_, slot0.moviePath_)
+	slot0:StopTimer()
 
-	local var_6_0 = manager.audio:GetMusicVolume()
+	slot0.timer_ = FrameTimer.New(handler(slot0, slot0.MovieProcess), 1, -1)
 
-	arg_6_0.criplayer_:SetVolume(var_6_0)
-	arg_6_0:SetVideoTrack(arg_6_0.criplayer_, arg_6_0.moviePath_)
-	arg_6_0:StopTimer()
-
-	arg_6_0.timer_ = FrameTimer.New(handler(arg_6_0, arg_6_0.MovieProcess), 1, -1)
-
-	arg_6_0:PlayMovie()
+	slot0:PlayMovie()
 end
 
-function var_0_0.SetVideoTrack(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = manager.audio:GetLocalizationFlag()
-	local var_7_1 = 0
-	local var_7_2
+function slot0.SetVideoTrack(slot0, slot1, slot2)
+	slot3 = manager.audio:GetLocalizationFlag()
+	slot4 = 0
+	slot5 = nil
 
-	for iter_7_0 in string.gmatch(arg_7_2, "[^/]+$") do
-		var_7_2 = iter_7_0
+	for slot9 in string.gmatch(slot2, "[^/]+$") do
+		slot5 = slot9
 	end
 
-	local var_7_3 = VideoTrackCfg[var_7_2]
-
-	if var_7_3 and var_7_3.has_tracks == 1 then
-		if var_7_0 == "zh" then
-			var_7_1 = 0
-		elseif var_7_0 == "ja" then
-			var_7_1 = 1
-		elseif var_7_0 == "en" then
-			var_7_1 = 2
-		elseif var_7_0 == "kr" then
-			var_7_1 = 3
+	if VideoTrackCfg[slot5] and slot6.has_tracks == 1 then
+		if slot3 == "zh" then
+			slot4 = 0
+		elseif slot3 == "ja" then
+			slot4 = 1
+		elseif slot3 == "en" then
+			slot4 = 2
+		elseif slot3 == "kr" then
+			slot4 = 3
 		end
 	end
 
-	arg_7_1:SetAudioTrack(var_7_1)
-	arg_7_1:SetSubtitleChannel(var_7_1)
+	slot1:SetAudioTrack(slot4)
+	slot1:SetSubtitleChannel(slot4)
 end
 
-function var_0_0.PlayMovie(arg_8_0, arg_8_1)
-	if arg_8_0.isPlayMovie_ then
-		if arg_8_1 then
-			arg_8_0.isPlayMovieEnd_ = true
+function slot0.PlayMovie(slot0, slot1)
+	if slot0.isPlayMovie_ then
+		if slot1 then
+			slot0.isPlayMovieEnd_ = true
 
-			arg_8_0.criMovie_:Stop()
+			slot0.criMovie_:Stop()
 
-			arg_8_0.movieTrs_.localPosition = Vector2(9999, 9999)
+			slot0.movieTrs_.localPosition = Vector2(9999, 9999)
 
-			arg_8_0:Hide()
+			slot0:Hide()
 
-			if arg_8_0.backcall_ then
-				arg_8_0.backcall_()
+			if slot0.backcall_ then
+				slot0.backcall_()
 			end
 		end
 
 		return
 	end
 
-	manager.audio:PlayVoice(string.format("vo_sys_%d", arg_8_0.itemID_), string.format("skin_v_getvideo_%d_%s", arg_8_0.itemID_, "get"), string.format("vo_sys_%d.awb", arg_8_0.itemID_))
+	manager.audio:PlayVoice(string.format("vo_sys_%d", slot0.itemID_), string.format("skin_v_getvideo_%d_%s", slot0.itemID_, "get"), string.format("vo_sys_%d.awb", slot0.itemID_))
 
-	arg_8_0.isPlayMovie_ = true
+	slot0.isPlayMovie_ = true
 
-	if arg_8_1 then
-		arg_8_0:Hide()
+	if slot1 then
+		slot0:Hide()
 
-		if arg_8_0.backcall_ then
-			arg_8_0.backcall_()
+		if slot0.backcall_ then
+			slot0.backcall_()
 		end
 	else
-		arg_8_0.criMovie_:Play()
+		slot0.criMovie_:Play()
 
-		arg_8_0.movieTrs_.localPosition = Vector2(0, 0)
+		slot0.movieTrs_.localPosition = Vector2(0, 0)
 	end
 
-	arg_8_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.MovieProcess(arg_9_0)
-	local var_9_0 = arg_9_0.criplayer_.status
-	local var_9_1 = arg_9_0.criplayer_:GetDisplayedFrameNo()
+function slot0.MovieProcess(slot0)
+	if tostring(slot0.criplayer_.status) == "Playing" and slot0.movieCfg_.end_movie_frames < slot0.criplayer_:GetDisplayedFrameNo() then
+		slot0.timer_:Stop()
 
-	if tostring(var_9_0) == "Playing" and var_9_1 > arg_9_0.movieCfg_.end_movie_frames then
-		arg_9_0.timer_:Stop()
+		slot0.isPlayMovieEnd_ = true
 
-		arg_9_0.isPlayMovieEnd_ = true
+		slot0:Hide()
 
-		arg_9_0:Hide()
-
-		if arg_9_0.backcall_ then
-			arg_9_0.backcall_()
+		if slot0.backcall_ then
+			slot0.backcall_()
 		end
 	end
 end
 
-function var_0_0.Hide(arg_10_0)
-	SetActive(arg_10_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 	manager.audio:StopVoice()
-	arg_10_0:StopTimer()
+	slot0:StopTimer()
 end
 
-function var_0_0.StopTimer(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	arg_13_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

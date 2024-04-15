@@ -1,142 +1,118 @@
-local var_0_0 = class("SkinBuyCheckDLCItem", ReduxView)
+slot0 = class("SkinBuyCheckDLCItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.discountController = ControllerUtil.GetController(arg_2_0.transform_, "discount")
+	slot0.discountController = ControllerUtil.GetController(slot0.transform_, "discount")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.itemController = ControllerUtil.GetController(arg_3_0.transform_, "icon")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.itemController = ControllerUtil.GetController(slot0.transform_, "icon")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		arg_4_0.clickFunc(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		uv0.clickFunc(uv0.index)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_addBtn, nil, function()
-		if arg_4_0.index == 1 then
+	slot0:AddBtnListener(slot0.m_addBtn, nil, function ()
+		if uv0.index == 1 then
 			return
 		end
 
-		local var_6_0 = getShopCfg(arg_4_0.id)
-
-		if ShopConst.SHOP_ID.DLC_SHOP ~= var_6_0.shop_id then
+		if ShopConst.SHOP_ID.DLC_SHOP ~= getShopCfg(uv0.id).shop_id then
 			return
 		end
 
-		arg_4_0.selectClickFunc(arg_4_0.id)
+		uv0.selectClickFunc(uv0.id)
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.index = arg_7_1
-	arg_7_0.id = arg_7_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index = slot1
+	slot0.id = slot2
+	slot5 = slot3.give or 1
+	slot6, slot7 = nil
+	slot7 = (not slot3.description or RechargeShopDescriptionCfg[slot3.description]) and ItemCfg[getShopCfg(slot2).give_id or slot3.description]
+	slot0.isDlc = slot7.type ~= ItemConst.ITEM_TYPE.HERO_SKIN
 
-	local var_7_0 = getShopCfg(arg_7_2)
-	local var_7_1 = var_7_0.give_id or var_7_0.description
+	if slot7.type == ItemConst.ITEM_TYPE.HERO_SKIN then
+		slot0.itemController:SetSelectedIndex(1)
 
-	if not var_7_0.give then
-		local var_7_2 = 1
-	end
-
-	local var_7_3
-	local var_7_4
-
-	if var_7_0.description then
-		local var_7_5 = var_7_0.description
-
-		var_7_4 = RechargeShopDescriptionCfg[var_7_5]
+		slot0.m_skinIcon.sprite = ItemTools.getItemSprite(slot7.id)
 	else
-		var_7_4 = ItemCfg[var_7_1]
+		slot0.itemController:SetSelectedIndex(0)
+
+		slot0.m_icon.sprite = ItemTools.getItemSprite(slot7.id)
 	end
 
-	arg_7_0.isDlc = var_7_4.type ~= ItemConst.ITEM_TYPE.HERO_SKIN
+	slot0.m_currency.sprite = ItemTools.getItemLittleSprite(slot3.cost_id)
 
-	if var_7_4.type == ItemConst.ITEM_TYPE.HERO_SKIN then
-		arg_7_0.itemController:SetSelectedIndex(1)
-
-		arg_7_0.m_skinIcon.sprite = ItemTools.getItemSprite(var_7_4.id)
-	else
-		arg_7_0.itemController:SetSelectedIndex(0)
-
-		arg_7_0.m_icon.sprite = ItemTools.getItemSprite(var_7_4.id)
-	end
-
-	arg_7_0.m_currency.sprite = ItemTools.getItemLittleSprite(var_7_0.cost_id)
-
-	arg_7_0:UpdateTimer()
+	slot0:UpdateTimer()
 end
 
-function var_0_0.UpdateTimer(arg_8_0)
-	local var_8_0 = arg_8_0.id
-	local var_8_1 = getShopCfg(var_8_0)
-	local var_8_2, var_8_3, var_8_4 = ShopTools.GetPrice(var_8_0, var_8_1.shop_id)
+function slot0.UpdateTimer(slot0)
+	slot1 = slot0.id
+	slot2 = getShopCfg(slot1)
+	slot0.m_num.text, slot0.m_oldPriceLabel.text, slot5 = ShopTools.GetPrice(slot1, slot2.shop_id)
+	slot6, slot7, slot8 = ShopTools.IsOnDiscountArea(slot1, slot2.shop_id)
 
-	arg_8_0.m_num.text = var_8_2
-	arg_8_0.m_oldPriceLabel.text = var_8_3
+	if slot6 and slot8 then
+		if slot7 then
+			slot0.discountController:SetSelectedState("time_limit_discount")
 
-	local var_8_5, var_8_6, var_8_7 = ShopTools.IsOnDiscountArea(var_8_0, var_8_1.shop_id)
-
-	if var_8_5 and var_8_7 then
-		if var_8_6 then
-			arg_8_0.discountController:SetSelectedState("time_limit_discount")
-
-			if arg_8_0.isDlc then
-				local var_8_8 = TimeMgr.GetInstance():parseTimeFromConfig(var_8_1.cheap_close_time)
-
-				arg_8_0.discountLastTimeLabel_.text = string.format("%s", manager.time:GetLostTimeStr(var_8_8))
+			if slot0.isDlc then
+				slot0.discountLastTimeLabel_.text = string.format("%s", manager.time:GetLostTimeStr(TimeMgr.GetInstance():parseTimeFromConfig(slot2.cheap_close_time)))
 			else
-				arg_8_0.discountLastTimeLabel_.text = ""
+				slot0.discountLastTimeLabel_.text = ""
 			end
 		else
-			arg_8_0.discountController:SetSelectedState("discount")
+			slot0.discountController:SetSelectedState("discount")
 		end
 	else
-		arg_8_0.discountController:SetSelectedState("null")
+		slot0.discountController:SetSelectedState("null")
 	end
 end
 
-function var_0_0.GetIndex(arg_9_0)
-	return arg_9_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.SetSelect(arg_10_0, arg_10_1)
-	arg_10_0.selectController:SetSelectedIndex(arg_10_1 and 1 or 0)
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectController:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.SetState(arg_11_0, arg_11_1)
-	if arg_11_1 == 2 then
-		arg_11_0.m_btn.interactable = false
+function slot0.SetState(slot0, slot1)
+	if slot1 == 2 then
+		slot0.m_btn.interactable = false
 	else
-		arg_11_0.m_btn.interactable = true
+		slot0.m_btn.interactable = true
 	end
 
-	arg_11_0.stateController:SetSelectedIndex(arg_11_1)
+	slot0.stateController:SetSelectedIndex(slot1)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegistCallBack(arg_13_0, arg_13_1)
-	arg_13_0.clickFunc = arg_13_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.RegistSelectCallBack(arg_14_0, arg_14_1)
-	arg_14_0.selectClickFunc = arg_14_1
+function slot0.RegistSelectCallBack(slot0, slot1)
+	slot0.selectClickFunc = slot1
 end
 
-return var_0_0
+return slot0

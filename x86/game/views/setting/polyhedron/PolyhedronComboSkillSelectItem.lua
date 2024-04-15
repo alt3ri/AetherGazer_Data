@@ -1,9 +1,8 @@
-local var_0_0 = import("game.views.comboSkill.select.ComboSkillSelectItem")
-local var_0_1 = class("PolyhedronComboSkillSelectItem", var_0_0)
+slot1 = class("PolyhedronComboSkillSelectItem", import("game.views.comboSkill.select.ComboSkillSelectItem"))
 
-function var_0_1.ClickBtn(arg_1_0)
-	BattleFieldAction.SetComboInfo(arg_1_0.stageType_, arg_1_0.activityID_, arg_1_0.comboSkillID_, 0, 0)
-	manager.notify:Invoke(COMBO_SKILL_SELECT, arg_1_0.comboSkillID_)
+function slot1.ClickBtn(slot0)
+	BattleFieldAction.SetComboInfo(slot0.stageType_, slot0.activityID_, slot0.comboSkillID_, 0, 0)
+	manager.notify:Invoke(COMBO_SKILL_SELECT, slot0.comboSkillID_)
 end
 
-return var_0_1
+return slot1

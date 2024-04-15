@@ -1,25 +1,25 @@
-local var_0_0 = class("StrongholdOperateView", ReduxView)
+slot0 = class("StrongholdOperateView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/Stronghold/Operate/StrongholdOperateUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.pageController = ControllerUtil.GetController(arg_3_0.transform_, "page")
+	slot0.pageController = ControllerUtil.GetController(slot0.transform_, "page")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.pages = {}
-	arg_4_0.classList = {
+	slot0.pages = {}
+	slot0.classList = {
 		StrongholdOperateTaskPage,
 		StrongholdOperateSkillPage,
 		StrongholdOperateIncreasePage,
@@ -27,115 +27,115 @@ function var_0_0.InitUI(arg_4_0)
 	}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_taskBtn, function()
-		arg_5_0:SelectPage(1)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_taskBtn, function ()
+		uv0:SelectPage(1)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_skillBtn, function()
-		arg_5_0:SelectPage(2)
+	slot0:AddBtnListener(nil, slot0.m_skillBtn, function ()
+		uv0:SelectPage(2)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_increaseBtn, function()
-		arg_5_0:SelectPage(3)
+	slot0:AddBtnListener(nil, slot0.m_increaseBtn, function ()
+		uv0:SelectPage(3)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_rewardBtn, function()
-		arg_5_0:SelectPage(4)
+	slot0:AddBtnListener(nil, slot0.m_rewardBtn, function ()
+		uv0:SelectPage(4)
 	end)
 end
 
-function var_0_0.OnTop(arg_10_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.activity_id = arg_11_0.params_.activity_id
+function slot0.OnEnter(slot0)
+	slot0.activity_id = slot0.params_.activity_id
 
-	if arg_11_0.params_.selectIndex then
-		arg_11_0:SelectPage(arg_11_0.params_.selectIndex)
+	if slot0.params_.selectIndex then
+		slot0:SelectPage(slot0.params_.selectIndex)
 	else
-		arg_11_0:SelectPage(1)
+		slot0:SelectPage(1)
 	end
 
-	manager.redPoint:bindUIandKey(arg_11_0.m_taskBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_TASK, arg_11_0.activity_id))
-	manager.redPoint:bindUIandKey(arg_11_0.m_increaseBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_INCREASE, arg_11_0.activity_id))
-	manager.redPoint:bindUIandKey(arg_11_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_REWARD, arg_11_0.activity_id))
-	arg_11_0:RegistEventListener(CURRENCY_UPDATE, handler(arg_11_0, arg_11_0.OnCurrencyChange))
+	manager.redPoint:bindUIandKey(slot0.m_taskBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_TASK, slot0.activity_id))
+	manager.redPoint:bindUIandKey(slot0.m_increaseBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_INCREASE, slot0.activity_id))
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_REWARD, slot0.activity_id))
+	slot0:RegistEventListener(CURRENCY_UPDATE, handler(slot0, slot0.OnCurrencyChange))
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_12_0.curPage then
-		arg_12_0.curPage:SetActive(false)
+	if slot0.curPage then
+		slot0.curPage:SetActive(false)
 
-		arg_12_0.curPage = nil
+		slot0.curPage = nil
 	end
 
-	arg_12_0.curIndex = nil
+	slot0.curIndex = nil
 
-	manager.redPoint:unbindUIandKey(arg_12_0.m_taskBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_TASK, arg_12_0.activity_id))
-	manager.redPoint:unbindUIandKey(arg_12_0.m_increaseBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_INCREASE, arg_12_0.activity_id))
-	manager.redPoint:unbindUIandKey(arg_12_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_REWARD, arg_12_0.activity_id))
-	arg_12_0:RemoveAllEventListener()
+	manager.redPoint:unbindUIandKey(slot0.m_taskBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_TASK, slot0.activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_increaseBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_INCREASE, slot0.activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRONGHOLD_REWARD, slot0.activity_id))
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.SelectPage(arg_13_0, arg_13_1)
-	if arg_13_1 == arg_13_0.curIndex then
+function slot0.SelectPage(slot0, slot1)
+	if slot1 == slot0.curIndex then
 		return
 	end
 
-	arg_13_0.curIndex = arg_13_1
+	slot0.curIndex = slot1
 
-	arg_13_0.pageController:SetSelectedIndex(arg_13_1 - 1)
+	slot0.pageController:SetSelectedIndex(slot1 - 1)
 
-	if arg_13_0.curPage then
-		arg_13_0.curPage:SetActive(false)
+	if slot0.curPage then
+		slot0.curPage:SetActive(false)
 	end
 
-	if not arg_13_0.pages[arg_13_1] then
-		arg_13_0.pages[arg_13_1] = arg_13_0.classList[arg_13_1].New(arg_13_0, arg_13_0.m_content)
+	if not slot0.pages[slot1] then
+		slot0.pages[slot1] = slot0.classList[slot1].New(slot0, slot0.m_content)
 	end
 
-	arg_13_0.curPage = arg_13_0.pages[arg_13_1]
+	slot0.curPage = slot0.pages[slot1]
 
-	arg_13_0.curPage:Refresh(arg_13_0.activity_id)
-	arg_13_0.curPage:SetActive(true)
+	slot0.curPage:Refresh(slot0.activity_id)
+	slot0.curPage:SetActive(true)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.pages) do
-		iter_14_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.pages) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.pages = {}
+	slot0.pages = {}
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnStrongholdUpgradeIncrease(arg_15_0)
-	if arg_15_0.curPage and arg_15_0.curPage.OnStrongholdUpgradeIncrease then
-		arg_15_0.curPage:OnStrongholdUpgradeIncrease()
-	end
-end
-
-function var_0_0.OnStrongholdUpdateReward(arg_16_0)
-	if arg_16_0.curPage and arg_16_0.curPage.OnStrongholdUpdateReward then
-		arg_16_0.curPage:OnStrongholdUpdateReward()
+function slot0.OnStrongholdUpgradeIncrease(slot0)
+	if slot0.curPage and slot0.curPage.OnStrongholdUpgradeIncrease then
+		slot0.curPage:OnStrongholdUpgradeIncrease()
 	end
 end
 
-function var_0_0.OnTaskListChange(arg_17_0)
-	if arg_17_0.curPage and arg_17_0.curPage.OnTaskListChange then
-		arg_17_0.curPage:OnTaskListChange()
+function slot0.OnStrongholdUpdateReward(slot0)
+	if slot0.curPage and slot0.curPage.OnStrongholdUpdateReward then
+		slot0.curPage:OnStrongholdUpdateReward()
 	end
 end
 
-function var_0_0.OnCurrencyChange(arg_18_0)
-	if arg_18_0.curPage and arg_18_0.curPage.OnCurrencyChange then
-		arg_18_0.curPage:OnCurrencyChange()
+function slot0.OnTaskListChange(slot0)
+	if slot0.curPage and slot0.curPage.OnTaskListChange then
+		slot0.curPage:OnTaskListChange()
 	end
 end
 
-return var_0_0
+function slot0.OnCurrencyChange(slot0)
+	if slot0.curPage and slot0.curPage.OnCurrencyChange then
+		slot0.curPage:OnCurrencyChange()
+	end
+end
+
+return slot0

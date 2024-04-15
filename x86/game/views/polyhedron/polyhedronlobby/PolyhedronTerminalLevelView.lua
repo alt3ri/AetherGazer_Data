@@ -1,72 +1,63 @@
-local var_0_0 = class("PolyhedronTerminalLevelView", ReduxView)
+slot0 = class("PolyhedronTerminalLevelView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/Terminal/PolyhedronTerminalpupUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, PolyhedronTerminalLevelItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, PolyhedronTerminalLevelItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	local var_8_0 = PolyhedronData:GetTerminalLevel()
-	local var_8_1 = PolyhedronData:GetTerminalExp()
+function slot0.OnEnter(slot0)
+	slot1 = PolyhedronData:GetTerminalLevel()
+	slot2 = PolyhedronData:GetTerminalExp()
+	slot0.m_levelLab.text = "" .. slot1
 
-	arg_8_0.m_levelLab.text = "" .. var_8_0
-
-	if var_8_0 == #PolyhedronTerminalLevelCfg.all then
-		arg_8_0.m_expSlider.value = 1
-
-		local var_8_2 = PolyhedronTerminalLevelCfg[var_8_0].exp - PolyhedronTerminalLevelCfg[var_8_0 - 1].exp
-
-		arg_8_0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", var_8_2, var_8_2)
+	if slot1 == #PolyhedronTerminalLevelCfg.all then
+		slot0.m_expSlider.value = 1
+		slot3 = PolyhedronTerminalLevelCfg[slot1].exp - PolyhedronTerminalLevelCfg[slot1 - 1].exp
+		slot0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", slot3, slot3)
 	else
-		local var_8_3 = PolyhedronTerminalLevelCfg[var_8_0 + 1].exp - PolyhedronTerminalLevelCfg[var_8_0].exp
-
-		arg_8_0.m_expSlider.value = var_8_1 / var_8_3
-		arg_8_0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", var_8_1, var_8_3)
+		slot3 = PolyhedronTerminalLevelCfg[slot1 + 1].exp - PolyhedronTerminalLevelCfg[slot1].exp
+		slot0.m_expSlider.value = slot2 / slot3
+		slot0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", slot2, slot3)
 	end
 
-	local var_8_4 = #PolyhedronTerminalLevelCfg.all
-	local var_8_5 = table.indexof(PolyhedronTerminalLevelCfg.all, var_8_0)
-
-	arg_8_0.list:StartScroll(var_8_4, var_8_5, false)
+	slot0.list:StartScroll(#PolyhedronTerminalLevelCfg.all, table.indexof(PolyhedronTerminalLevelCfg.all, slot1), false)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = PolyhedronTerminalLevelCfg.all[arg_10_1]
-
-	arg_10_2:SetData(var_10_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(PolyhedronTerminalLevelCfg.all[slot1])
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.list:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

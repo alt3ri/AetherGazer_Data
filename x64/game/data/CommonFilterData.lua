@@ -1,92 +1,90 @@
-local var_0_0 = import("game.data.Filter.FilterTemplate")
-local var_0_1 = singletonClass("CommonFilterData")
+slot0 = import("game.data.Filter.FilterTemplate")
+slot1 = singletonClass("CommonFilterData")
 
-function var_0_1.Init(arg_1_0)
-	arg_1_0.data = {}
+function slot1.Init(slot0)
+	slot0.data = {}
 end
 
-function var_0_1.Clear(arg_2_0)
-	arg_2_0.data = {}
+function slot1.Clear(slot0)
+	slot0.data = {}
 end
 
-function var_0_1.GetFilter(arg_3_0, arg_3_1)
-	if not arg_3_0.data[arg_3_1] then
-		arg_3_0.data[arg_3_1] = var_0_0.New(arg_3_1)
+function slot1.GetFilter(slot0, slot1)
+	if not slot0.data[slot1] then
+		slot0.data[slot1] = uv0.New(slot1)
 	end
 
-	return arg_3_0.data[arg_3_1]
+	return slot0.data[slot1]
 end
 
-function var_0_1.ClearGroup(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0:GetFilter(arg_4_1):ClearGroup(arg_4_2)
+function slot1.ClearGroup(slot0, slot1, slot2)
+	slot0:GetFilter(slot1):ClearGroup(slot2)
 end
 
-function var_0_1.ClearFilter(arg_5_0, arg_5_1)
-	arg_5_0:GetFilter(arg_5_1):Clear()
+function slot1.ClearFilter(slot0, slot1)
+	slot0:GetFilter(slot1):Clear()
 end
 
-function var_0_1.IsAll(arg_6_0, arg_6_1)
-	if arg_6_0.data[arg_6_1] then
-		return arg_6_0:GetFilter(arg_6_1):IsAll()
+function slot1.IsAll(slot0, slot1)
+	if slot0.data[slot1] then
+		return slot0:GetFilter(slot1):IsAll()
 	else
 		return true
 	end
 end
 
-function var_0_1.HasFlag(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	return arg_7_0:GetFilter(arg_7_1):HasFlag(arg_7_2, arg_7_3)
+function slot1.HasFlag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):HasFlag(slot2, slot3)
 end
 
-function var_0_1.LessEqualFlag(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	return arg_8_0:GetFilter(arg_8_1):LessEqualFlag(arg_8_2, arg_8_3)
+function slot1.LessEqualFlag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):LessEqualFlag(slot2, slot3)
 end
 
-function var_0_1.SelectTag(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	return arg_9_0:GetFilter(arg_9_1):SelectTag(arg_9_2, arg_9_3)
+function slot1.SelectTag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):SelectTag(slot2, slot3)
 end
 
-function var_0_1.DeSelectTag(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	return arg_10_0:GetFilter(arg_10_1):DeSelectTag(arg_10_2, arg_10_3)
+function slot1.DeSelectTag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):DeSelectTag(slot2, slot3)
 end
 
-function var_0_1.HasIndexFlag(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	return arg_11_0:GetFilter(arg_11_1):HasIndexFlag(arg_11_2, arg_11_3)
+function slot1.HasIndexFlag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):HasIndexFlag(slot2, slot3)
 end
 
-function var_0_1.HasIndexFlagList(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	return arg_12_0:GetFilter(arg_12_1):HasIndexFlagList(arg_12_2, arg_12_3)
+function slot1.HasIndexFlagList(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):HasIndexFlagList(slot2, slot3)
 end
 
-function var_0_1.AllIndexFlagPast(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	return arg_13_0:GetFilter(arg_13_1):AllIndexFlagPast(arg_13_2, arg_13_3)
+function slot1.AllIndexFlagPast(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):AllIndexFlagPast(slot2, slot3)
 end
 
-function var_0_1.SpecificHasFlag(arg_14_0, arg_14_1, arg_14_2, arg_14_3)
-	return arg_14_0:GetFilter(arg_14_1):SpecificHasFlag(arg_14_2, arg_14_3)
+function slot1.SpecificHasFlag(slot0, slot1, slot2, slot3)
+	return slot0:GetFilter(slot1):SpecificHasFlag(slot2, slot3)
 end
 
-function var_0_1.GetGroupSelectedTags(arg_15_0, arg_15_1, arg_15_2)
-	return arg_15_0:GetFilter(arg_15_1):GetGroupSelectedTags(arg_15_2)
+function slot1.GetGroupSelectedTags(slot0, slot1, slot2)
+	return slot0:GetFilter(slot1):GetGroupSelectedTags(slot2)
 end
 
-function var_0_1.AtLeastOneChoose(arg_16_0, arg_16_1)
-	return arg_16_0:GetFilter(arg_16_1):AtLeastOneChoose()
+function slot1.AtLeastOneChoose(slot0, slot1)
+	return slot0:GetFilter(slot1):AtLeastOneChoose()
 end
 
-function var_0_1.AtLeastOneChooseGroup(arg_17_0, arg_17_1, arg_17_2)
-	return arg_17_0:GetFilter(arg_17_1):AtLeastOneChooseGroup(arg_17_2)
+function slot1.AtLeastOneChooseGroup(slot0, slot1, slot2)
+	return slot0:GetFilter(slot1):AtLeastOneChooseGroup(slot2)
 end
 
-function var_0_1.GetFilterDataCopy(arg_18_0, arg_18_1)
-	local var_18_0 = arg_18_0:GetFilter(arg_18_1)
-
-	return deepClone(var_18_0)
+function slot1.GetFilterDataCopy(slot0, slot1)
+	return deepClone(slot0:GetFilter(slot1))
 end
 
-function var_0_1.ApplyFilterCopy(arg_19_0, arg_19_1)
-	if arg_19_1 then
-		arg_19_0.data[arg_19_1.filterId] = arg_19_1
+function slot1.ApplyFilterCopy(slot0, slot1)
+	if slot1 then
+		slot0.data[slot1.filterId] = slot1
 	end
 end
 
-return var_0_1
+return slot1

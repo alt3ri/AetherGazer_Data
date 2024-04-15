@@ -1,97 +1,90 @@
-local var_0_0 = class("DecomposeConfirmPopView", ReduxView)
+slot0 = class("DecomposeConfirmPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Bag/SplitGetPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.itemScroller_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.itemListGo_, CommonItemView)
-	arg_4_0.returnScroller_ = LuaList.New(handler(arg_4_0, arg_4_0.indexReturnItem), arg_4_0.returnListGo_, CommonItemView)
+	slot0.itemScroller_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.itemListGo_, CommonItemView)
+	slot0.returnScroller_ = LuaList.New(handler(slot0, slot0.indexReturnItem), slot0.returnListGo_, CommonItemView)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnConfirm_, nil, function()
-		if arg_5_0.type_ == "equip" then
-			EquipAction.EquipDecompose(arg_5_0.params_.itemList)
-		elseif arg_5_0.type_ == "servant" then
-			ServantAction.ServantDecompose(arg_5_0.params_.itemList)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnConfirm_, nil, function ()
+		if uv0.type_ == "equip" then
+			EquipAction.EquipDecompose(uv0.params_.itemList)
+		elseif uv0.type_ == "servant" then
+			ServantAction.ServantDecompose(uv0.params_.itemList)
 		end
 
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnBack_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.type_ = arg_8_0.params_.type
-	arg_8_0.itemList_ = arg_8_0:SortItem(arg_8_0.params_.itemList)
-	arg_8_0.returnList_ = arg_8_0.params_.returnList
+function slot0.OnEnter(slot0)
+	slot0.type_ = slot0.params_.type
+	slot0.itemList_ = slot0:SortItem(slot0.params_.itemList)
+	slot0.returnList_ = slot0.params_.returnList
 
-	arg_8_0.itemScroller_:StartScroll(#arg_8_0.itemList_)
-	arg_8_0.returnScroller_:StartScroll(#arg_8_0.returnList_)
+	slot0.itemScroller_:StartScroll(#slot0.itemList_)
+	slot0.returnScroller_:StartScroll(#slot0.returnList_)
 end
 
-function var_0_0.SortItem(arg_9_0, arg_9_1)
-	local var_9_0 = {}
+function slot0.SortItem(slot0, slot1)
+	slot2 = {}
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_1) do
-		table.insert(var_9_0, iter_9_1)
+	for slot6, slot7 in pairs(slot1) do
+		table.insert(slot2, slot7)
 	end
 
-	table.sort(var_9_0, function(arg_10_0, arg_10_1)
-		local var_10_0 = arg_10_0.id or arg_10_0.prefab_id
-		local var_10_1 = arg_10_1.id or arg_10_1.prefab_id
-
-		return ItemCfg[var_10_0].rare < ItemCfg[var_10_1].rare
+	table.sort(slot2, function (slot0, slot1)
+		return ItemCfg[slot0.id or slot0.prefab_id].rare < ItemCfg[slot1.id or slot1.prefab_id].rare
 	end)
 
-	return var_9_0
+	return slot2
 end
 
-function var_0_0.indexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = clone(ItemTemplateData)
-	local var_11_1 = arg_11_0.itemList_[arg_11_1]
+function slot0.indexItem(slot0, slot1, slot2)
+	slot4 = slot0.itemList_[slot1]
+	clone(ItemTemplateData).id = slot0.type_ == "equip" and slot4.prefab_id or slot4.id
 
-	var_11_0.id = arg_11_0.type_ == "equip" and var_11_1.prefab_id or var_11_1.id
-
-	if arg_11_0.type_ == "equip" then
-		var_11_0.equipLevel = EquipTools.CountEquipLevel(var_11_1)
+	if slot0.type_ == "equip" then
+		slot3.equipLevel = EquipTools.CountEquipLevel(slot4)
 	end
 
-	arg_11_2:SetData(var_11_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.indexReturnItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = clone(ItemTemplateData)
-	local var_12_1 = arg_12_0.returnList_[arg_12_1]
+function slot0.indexReturnItem(slot0, slot1, slot2)
+	slot3 = clone(ItemTemplateData)
+	slot4 = slot0.returnList_[slot1]
+	slot3.id = slot4.id
+	slot3.number = slot4.number
 
-	var_12_0.id = var_12_1.id
-	var_12_0.number = var_12_1.number
-
-	arg_12_2:SetData(var_12_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.itemScroller_:Dispose()
-	arg_14_0.returnScroller_:Dispose()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0.itemScroller_:Dispose()
+	slot0.returnScroller_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

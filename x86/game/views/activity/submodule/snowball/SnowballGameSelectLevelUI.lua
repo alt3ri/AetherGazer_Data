@@ -1,207 +1,190 @@
-local var_0_0 = class("SnowballGameSelectLevelUI", ReduxView)
+slot0 = class("SnowballGameSelectLevelUI", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionSnowballUI/SnowballGameSelectLevelUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-local var_0_1 = {
+slot1 = {
 	hard = 2,
 	inf = 3,
 	normal = 1
 }
-local var_0_2 = -1
+slot2 = -1
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AdaptScreen()
-	arg_3_0:InitLevels()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AdaptScreen()
+	slot0:InitLevels()
 
-	arg_3_0.readyController = ControllerUtil.GetController(arg_3_0.transform_, "levelSelected")
-	arg_3_0.hardLevelLockedController = ControllerUtil.GetController(arg_3_0.transform_, "hardLevelLocked")
-	arg_3_0.modeController = ControllerUtil.GetController(arg_3_0.transform_, "mode")
-	arg_3_0.hardLevelBonusController = ControllerUtil.GetController(arg_3_0.transform_, "bonus")
-	arg_3_0.showLevelCostController = ControllerUtil.GetController(arg_3_0.transform_, "cost")
-	arg_3_0.lastSelect = {}
+	slot0.readyController = ControllerUtil.GetController(slot0.transform_, "levelSelected")
+	slot0.hardLevelLockedController = ControllerUtil.GetController(slot0.transform_, "hardLevelLocked")
+	slot0.modeController = ControllerUtil.GetController(slot0.transform_, "mode")
+	slot0.hardLevelBonusController = ControllerUtil.GetController(slot0.transform_, "bonus")
+	slot0.showLevelCostController = ControllerUtil.GetController(slot0.transform_, "cost")
+	slot0.lastSelect = {}
 
-	arg_3_0:AddBtnListener(arg_3_0.normalBtn_, nil, function()
-		if arg_3_0.select == var_0_2 then
+	slot0:AddBtnListener(slot0.normalBtn_, nil, function ()
+		if uv0.select == uv1 then
 			return
 		end
 
-		if arg_3_0.mode ~= var_0_1.normal then
-			arg_3_0.modeChangeAnimator_:Play("normal")
+		if uv0.mode ~= uv2.normal then
+			uv0.modeChangeAnimator_:Play("normal")
 		end
 
-		arg_3_0.mode = var_0_1.normal
-		arg_3_0.select = nullable(arg_3_0.lastSelect, var_0_1.normal) or 1
+		uv0.mode = uv2.normal
+		uv0.select = nullable(uv0.lastSelect, uv2.normal) or 1
 
-		arg_3_0:RefreshLevelsUI()
+		uv0:RefreshLevelsUI()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.hardBtn_, nil, function()
-		if arg_3_0.select == var_0_2 then
+	slot0:AddBtnListener(slot0.hardBtn_, nil, function ()
+		if uv0.select == uv1 then
 			return
 		end
 
-		if not arg_3_0:CheckAnyHardLevelUnlocked() then
+		if not uv0:CheckAnyHardLevelUnlocked() then
 			ShowTips("ACTIVITY_SNOWBALL_LEVEL_MODE_TIPS")
 
 			return
 		end
 
-		if arg_3_0.mode ~= var_0_1.hard then
-			arg_3_0.modeChangeAnimator_:Play("hard")
+		if uv0.mode ~= uv2.hard then
+			uv0.modeChangeAnimator_:Play("hard")
 		end
 
-		arg_3_0.mode = var_0_1.hard
-		arg_3_0.select = nullable(arg_3_0.lastSelect, var_0_1.hard) or 1
+		uv0.mode = uv2.hard
+		uv0.select = nullable(uv0.lastSelect, uv2.hard) or 1
 
-		arg_3_0:RefreshLevelsUI()
+		uv0:RefreshLevelsUI()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.startBtn_, nil, handler(arg_3_0, arg_3_0.GoToGame))
-	arg_3_0:AddBtnListener(arg_3_0.iceBtn_, nil, function()
+	slot0:AddBtnListener(slot0.startBtn_, nil, handler(slot0, slot0.GoToGame))
+	slot0:AddBtnListener(slot0.iceBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/SnowBallInfinityMainView", {
 			activityID = SnowballGameData.activityID
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.changePlayerBtn_, nil, function()
+	slot0:AddBtnListener(slot0.changePlayerBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/snowballGameChangePlayer")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.questBtn_, nil, function()
+	slot0:AddBtnListener(slot0.questBtn_, nil, function ()
 		JumpTools.OpenPopUp("snowballQuestPopup")
 	end)
 end
 
-local function var_0_3(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = {}
+function slot3(slot0, slot1, slot2)
+	slot3 = {}
 
-	arg_9_0:BindCfgUI(arg_9_1, var_9_0)
+	slot0:BindCfgUI(slot1, slot3)
 
-	var_9_0.idx = arg_9_2
-	var_9_0.difficultyController = ControllerUtil.GetController(arg_9_1.transform, "difficulty")
-	var_9_0.modeController = ControllerUtil.GetController(arg_9_1.transform, "mode")
-	var_9_0.selectController = ControllerUtil.GetController(arg_9_1.transform, "select")
+	slot3.idx = slot2
+	slot3.difficultyController = ControllerUtil.GetController(slot1.transform, "difficulty")
+	slot3.modeController = ControllerUtil.GetController(slot1.transform, "mode")
+	slot3.selectController = ControllerUtil.GetController(slot1.transform, "select")
 
-	arg_9_0:AddBtnListener(var_9_0.btn_, nil, function()
-		if var_0_0.CheckLevel(arg_9_0:GetLevel(arg_9_2), false, true) then
-			arg_9_0.select = arg_9_2
+	slot0:AddBtnListener(slot3.btn_, nil, function ()
+		if uv0.CheckLevel(uv1:GetLevel(uv2), false, true) then
+			uv1.select = uv2
 
-			if arg_9_2 == var_0_2 then
-				arg_9_0.lastSelect[var_0_1.inf] = arg_9_2
+			if uv2 == uv3 then
+				uv1.lastSelect[uv4.inf] = uv2
 			else
-				arg_9_0.lastSelect[arg_9_0.mode] = arg_9_2
+				uv1.lastSelect[uv1.mode] = uv2
 			end
 
-			arg_9_0:RefreshLevelsUI()
+			uv1:RefreshLevelsUI()
 		end
 	end)
 
-	return var_9_0
+	return slot3
 end
 
-function var_0_0.InitLevels(arg_11_0)
-	arg_11_0.levels = {}
+function slot0.InitLevels(slot0)
+	slot0.levels = {}
 
-	for iter_11_0 = 1, arg_11_0.levelsRoot_.childCount do
-		local var_11_0 = arg_11_0.levelsRoot_:GetChild(iter_11_0 - 1)
-		local var_11_1 = GameObject.Instantiate(arg_11_0.levelPrefab_, var_11_0)
-		local var_11_2 = var_0_3(arg_11_0, var_11_1, iter_11_0)
-
-		arg_11_0.levels[iter_11_0] = var_11_2
+	for slot4 = 1, slot0.levelsRoot_.childCount do
+		slot0.levels[slot4] = uv0(slot0, GameObject.Instantiate(slot0.levelPrefab_, slot0.levelsRoot_:GetChild(slot4 - 1)), slot4)
 	end
 
-	local var_11_3 = var_0_3(arg_11_0, arg_11_0.infLevelBtn_.gameObject, var_0_2)
-
-	var_11_3.lockByTime = ControllerUtil.GetController(arg_11_0.infLevelBtn_.transform, "lockByTime")
-	arg_11_0.levels[var_0_2] = var_11_3
+	slot1 = uv0(slot0, slot0.infLevelBtn_.gameObject, uv1)
+	slot1.lockByTime = ControllerUtil.GetController(slot0.infLevelBtn_.transform, "lockByTime")
+	slot0.levels[uv1] = slot1
 end
 
-function var_0_0.StartTimer(arg_12_0)
-	arg_12_0:StopTimer()
-	arg_12_0:RefreshTimeText()
+function slot0.StartTimer(slot0)
+	slot0:StopTimer()
+	slot0:RefreshTimeText()
 
-	if manager.time:GetServerTime() > arg_12_0.infLevelStop then
+	if slot0.infLevelStop < manager.time:GetServerTime() then
 		return
 	end
 
-	local var_12_0 = manager.time:GetServerTime() < arg_12_0.infLevelStart
+	slot1 = manager.time:GetServerTime() < slot0.infLevelStart
+	slot0.timer = Timer.New(function ()
+		if uv0.infLevelStop < manager.time:GetServerTime() then
+			uv0:RefreshLevelsUI()
+		elseif uv1 and uv0.infLevelStart <= slot0 then
+			uv1 = false
 
-	arg_12_0.timer = Timer.New(function()
-		local var_13_0 = manager.time:GetServerTime()
-
-		if var_13_0 > arg_12_0.infLevelStop then
-			arg_12_0:RefreshLevelsUI()
-		elseif var_12_0 and var_13_0 >= arg_12_0.infLevelStart then
-			var_12_0 = false
-
-			arg_12_0:RefreshLevelsUI()
+			uv0:RefreshLevelsUI()
 		end
 
-		arg_12_0:RefreshTimeText()
+		uv0:RefreshTimeText()
 	end, 1, -1)
 
-	arg_12_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.StopTimer(arg_14_0)
-	if arg_14_0.timer then
-		arg_14_0.timer:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_14_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-function var_0_0.RefreshTimeText(arg_15_0)
-	local var_15_0 = arg_15_0.levels[var_0_2]
-	local var_15_1 = ActivityData:GetActivityIsOpen(ActivityConst.ACTIVITY_SNOWBALL_INF_LEVEL)
+function slot0.RefreshTimeText(slot0)
+	slot0.levels[uv0].lockByTime:SetSelectedState(ActivityData:GetActivityIsOpen(ActivityConst.ACTIVITY_SNOWBALL_INF_LEVEL) and "false" or "true")
 
-	var_15_0.lockByTime:SetSelectedState(var_15_1 and "false" or "true")
+	slot0.activityCountdown_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(SnowballGameData.activityID).stopTime, nil, true)
 
-	arg_15_0.activityCountdown_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(SnowballGameData.activityID).stopTime, nil, true)
-
-	if not var_15_1 and arg_15_0.infLevelCountdown_ then
-		local var_15_2 = manager.time:GetLostTimeStr2(arg_15_0.infLevelStart)
-
-		arg_15_0.infLevelCountdown_.text = var_15_2
+	if not slot2 and slot0.infLevelCountdown_ then
+		slot0.infLevelCountdown_.text = manager.time:GetLostTimeStr2(slot0.infLevelStart)
 	end
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	local var_16_0 = ActivityConst.ACTIVITY_SNOWBALL_INF_LEVEL
-	local var_16_1 = ActivityData:GetActivityData(var_16_0)
+function slot0.OnEnter(slot0)
+	slot2 = ActivityData:GetActivityData(ActivityConst.ACTIVITY_SNOWBALL_INF_LEVEL)
+	slot0.infLevelStart = slot2.startTime
+	slot0.infLevelStop = slot2.stopTime
+	slot0.mode = slot0.mode or uv0.normal
 
-	arg_16_0.infLevelStart = var_16_1.startTime
-	arg_16_0.infLevelStop = var_16_1.stopTime
-	arg_16_0.mode = arg_16_0.mode or var_0_1.normal
-
-	local var_16_2 = arg_16_0.select or 1
-
-	if var_0_0.CheckLevel(arg_16_0:GetLevel(var_16_2), false, false) then
-		arg_16_0.select = var_16_2
+	if uv1.CheckLevel(slot0:GetLevel(slot0.select or 1), false, false) then
+		slot0.select = slot3
 	else
-		arg_16_0.select = nil
+		slot0.select = nil
 	end
 
-	arg_16_0:RefreshLevelsUI()
-	arg_16_0:StartTimer()
-	arg_16_0:RegistEventListener(ACTIVITY_UPDATE, handler(arg_16_0, arg_16_0.OnActivityUpdate))
+	slot0:RefreshLevelsUI()
+	slot0:StartTimer()
+	slot0:RegistEventListener(ACTIVITY_UPDATE, handler(slot0, slot0.OnActivityUpdate))
 	manager.redPoint:setTip(RedPointConst.ACTIVITY_2_6_SNOWBALL_UNCOMPLETE_LEVEL, 0)
-	manager.redPoint:bindUIandKey(arg_16_0.iceBtn_.transform, SnowballGameData:GetInfPoolRedPointKey(1))
-	manager.redPoint:bindUIandKey(arg_16_0.questBtn_.transform, RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE)
+	manager.redPoint:bindUIandKey(slot0.iceBtn_.transform, SnowballGameData:GetInfPoolRedPointKey(1))
+	manager.redPoint:bindUIandKey(slot0.questBtn_.transform, RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE)
 end
 
-function var_0_0.OnExit(arg_17_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_17_0:RemoveAllEventListener()
-	arg_17_0:StopTimer()
-	manager.redPoint:unbindUIandKey(arg_17_0.iceBtn_.transform, SnowballGameData:GetInfPoolRedPointKey(1))
-	manager.redPoint:unbindUIandKey(arg_17_0.questBtn_.transform, RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE)
+	slot0:RemoveAllEventListener()
+	slot0:StopTimer()
+	manager.redPoint:unbindUIandKey(slot0.iceBtn_.transform, SnowballGameData:GetInfPoolRedPointKey(1))
+	manager.redPoint:unbindUIandKey(slot0.questBtn_.transform, RedPointConst.ACTIVITY_2_6_SNOWBALL_TASK_CHALLENGE)
 end
 
-function var_0_0.OnTop(arg_18_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -212,132 +195,122 @@ function var_0_0.OnTop(arg_18_0)
 	manager.windowBar:SetBarCanAdd(MaterialConst.SNOWBALL_ACTIVITY_STAGE_COIN, true)
 	manager.windowBar:SetBarCanAdd(MaterialConst.SNOWBALL_ACTIVITY_ICE_COIN, true)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_SNOWBALL_DESC")
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		DestroyLua()
 		LuaExchangeHelper.GoToMain()
-
-		local var_19_0 = SnowballGameData.activityID
-
-		ActivityTools.JumpBackToActivityMainViewByActivityID(var_19_0)
+		ActivityTools.JumpBackToActivityMainViewByActivityID(SnowballGameData.activityID)
 	end)
 end
 
-function var_0_0.OnBehind(arg_20_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.GetLevel(arg_21_0, arg_21_1)
-	if arg_21_1 == var_0_2 then
-		return nullable(SnowballGameCfg.get_id_list_by_level_mode, var_0_1.inf, 1)
+function slot0.GetLevel(slot0, slot1)
+	if slot1 == uv0 then
+		return nullable(SnowballGameCfg.get_id_list_by_level_mode, uv1.inf, 1)
 	end
 
-	local var_21_0 = SnowballGameCfg.get_id_list_by_level_mode[arg_21_0.mode]
-
-	return nullable(var_21_0, arg_21_1)
+	return nullable(SnowballGameCfg.get_id_list_by_level_mode[slot0.mode], slot1)
 end
 
-function var_0_0.LevelLocked(arg_22_0, arg_22_1)
-	return not SnowballGameData:IsLevelUnlocked(arg_22_1)
+function slot0.LevelLocked(slot0, slot1)
+	return not SnowballGameData:IsLevelUnlocked(slot1)
 end
 
-function var_0_0.LevelComplted(arg_23_0, arg_23_1)
-	return SnowballGameData:GetLevelHighScore(arg_23_1)
+function slot0.LevelComplted(slot0, slot1)
+	return SnowballGameData:GetLevelHighScore(slot1)
 end
 
-function var_0_0.OnActivityUpdate(arg_24_0, arg_24_1)
-	if ActivityTools.GetActivityType(arg_24_1) == ActivityTemplateConst.MINIGAME_STAGE then
-		arg_24_0:RefreshLevelsUI()
+function slot0.OnActivityUpdate(slot0, slot1)
+	if ActivityTools.GetActivityType(slot1) == ActivityTemplateConst.MINIGAME_STAGE then
+		slot0:RefreshLevelsUI()
 	end
 end
 
-function var_0_0.RefreshLevelsUI(arg_25_0)
-	local var_25_0 = arg_25_0:GetLevel(arg_25_0.select)
+function slot0.RefreshLevelsUI(slot0)
+	slot1 = slot0:GetLevel(slot0.select)
 
-	arg_25_0.hardLevelLockedController:SetSelectedState(arg_25_0:CheckAnyHardLevelUnlocked() and "false" or "true")
+	slot0.hardLevelLockedController:SetSelectedState(slot0:CheckAnyHardLevelUnlocked() and "false" or "true")
 
-	if arg_25_0.select ~= var_0_2 then
-		arg_25_0.modeController:SetSelectedState(arg_25_0.mode == var_0_1.normal and "normal" or "hard")
+	if slot0.select ~= uv0 then
+		slot0.modeController:SetSelectedState(slot0.mode == uv1.normal and "normal" or "hard")
 	else
-		arg_25_0.modeController:SetSelectedState("lock")
+		slot0.modeController:SetSelectedState("lock")
 	end
 
-	for iter_25_0, iter_25_1 in pairs(arg_25_0.levels) do
-		if iter_25_1.difficultyController then
-			iter_25_1.difficultyController:SetSelectedState(arg_25_0.mode == var_0_1.normal and "normal" or "hard")
+	for slot5, slot6 in pairs(slot0.levels) do
+		if slot6.difficultyController then
+			slot6.difficultyController:SetSelectedState(slot0.mode == uv1.normal and "normal" or "hard")
 		end
 
-		iter_25_1.selectController:SetSelectedState(arg_25_0.select == iter_25_0 and "true" or "false")
+		slot6.selectController:SetSelectedState(slot0.select == slot5 and "true" or "false")
 
-		local var_25_1 = arg_25_0:GetLevel(iter_25_0)
-		local var_25_2 = arg_25_0:LevelComplted(var_25_1)
+		slot7 = slot0:GetLevel(slot5)
+		slot8 = slot0:LevelComplted(slot7)
 
-		if var_25_1 == nil or arg_25_0:LevelLocked(var_25_1) then
-			iter_25_1.modeController:SetSelectedState("lock")
-		elseif var_25_2 then
-			iter_25_1.modeController:SetSelectedState("completed")
+		if slot7 == nil or slot0:LevelLocked(slot7) then
+			slot6.modeController:SetSelectedState("lock")
+		elseif slot8 then
+			slot6.modeController:SetSelectedState("completed")
 
-			iter_25_1.score_.text = var_25_2
+			slot6.score_.text = slot8
 		else
-			iter_25_1.modeController:SetSelectedState("unlock")
+			slot6.modeController:SetSelectedState("unlock")
 
-			if SnowballGameData:IsLevelFirstUnlocked(var_25_1) then
-				DormUtils.CallOnNextUpdate(function()
-					iter_25_1.unlockAnimator_:Play("unlock")
+			if SnowballGameData:IsLevelFirstUnlocked(slot7) then
+				DormUtils.CallOnNextUpdate(function ()
+					uv0.unlockAnimator_:Play("unlock")
 				end)
-				SnowballGameData:CacheLevelAlreadyUnlocked(var_25_1)
+				SnowballGameData:CacheLevelAlreadyUnlocked(slot7)
 			end
 		end
 
-		iter_25_1.name_.text = SnowballGameCfg[var_25_1].level_name
+		slot6.name_.text = SnowballGameCfg[slot7].level_name
 	end
 
-	arg_25_0.readyController:SetSelectedState(var_25_0 == nil and "false" or "true")
+	slot0.readyController:SetSelectedState(slot1 == nil and "false" or "true")
 
-	if var_25_0 then
-		local var_25_3 = SnowballGameCfg[var_25_0]
-		local var_25_4 = var_25_3.level_cost[1]
-		local var_25_5 = var_25_3.level_mode
+	if slot1 then
+		slot2 = SnowballGameCfg[slot1]
+		slot4 = slot2.level_mode
 
-		if var_25_4 == nil then
-			arg_25_0.showLevelCostController:SetSelectedState("hide")
+		if slot2.level_cost[1] == nil then
+			slot0.showLevelCostController:SetSelectedState("hide")
 		else
-			arg_25_0.showLevelCostController:SetSelectedState("show")
+			slot0.showLevelCostController:SetSelectedState("show")
 
-			arg_25_0.consumeIcon_.sprite = ItemTools.getItemLittleSprite(var_25_4[1])
-			arg_25_0.consumeText_.text = "x" .. var_25_4[2]
+			slot0.consumeIcon_.sprite = ItemTools.getItemLittleSprite(slot3[1])
+			slot0.consumeText_.text = "x" .. slot3[2]
 		end
 
-		local var_25_6 = GameSetting.activity_snowball_score_difficulty_factor.value[var_25_5] or 1
+		slot5 = GameSetting.activity_snowball_score_difficulty_factor.value[slot4] or 1
 
-		arg_25_0.hardLevelBonusController:SetSelectedState(var_25_6 ~= 1 and "on" or "off")
+		slot0.hardLevelBonusController:SetSelectedState(slot5 ~= 1 and "on" or "off")
 
-		arg_25_0.bonus_.text = "x" .. var_25_6
+		slot0.bonus_.text = "x" .. slot5
 	end
 end
 
-function var_0_0.CheckLevel(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0, var_27_1, var_27_2 = SnowballGameData:IsLevelUnlocked(arg_27_0, arg_27_2)
+function slot0.CheckLevel(slot0, slot1, slot2)
+	slot3, slot4, slot5 = SnowballGameData:IsLevelUnlocked(slot0, slot2)
 
-	if var_27_0 then
-		if not arg_27_1 or SnowballGameData:CheckLevelCost(arg_27_0) then
+	if slot3 then
+		if not slot1 or SnowballGameData:CheckLevelCost(slot0) then
 			return true
-		elseif arg_27_2 then
-			local var_27_3 = ItemTools.getItemName(MaterialConst.SNOWBALL_ACTIVITY_STAGE_COIN)
-
-			manager.tips:ShowTips(GetTipsF("ACTIVITY_SNOWBALL_LEVEL_COST_FAILED", var_27_3))
+		elseif slot2 then
+			manager.tips:ShowTips(GetTipsF("ACTIVITY_SNOWBALL_LEVEL_COST_FAILED", ItemTools.getItemName(MaterialConst.SNOWBALL_ACTIVITY_STAGE_COIN)))
 		end
-	elseif arg_27_2 and var_27_1 == SnowballGameData.LevelLockReason.NEED_UNLOCK_OTHER_LEVEL then
-		local var_27_4 = SnowballGameCfg[var_27_2].level_desc
-
-		manager.tips:ShowTips(GetTipsF("ACTIVITY_SNOWBALL_LEVEL_LOCKED", var_27_4))
+	elseif slot2 and slot4 == SnowballGameData.LevelLockReason.NEED_UNLOCK_OTHER_LEVEL then
+		manager.tips:ShowTips(GetTipsF("ACTIVITY_SNOWBALL_LEVEL_LOCKED", SnowballGameCfg[slot5].level_desc))
 	end
 
 	return false
 end
 
-function var_0_0.CheckAnyHardLevelUnlocked(arg_28_0)
-	for iter_28_0, iter_28_1 in ipairs(SnowballGameCfg.get_id_list_by_level_mode[var_0_1.hard]) do
-		if var_0_0.CheckLevel(iter_28_1) then
+function slot0.CheckAnyHardLevelUnlocked(slot0)
+	for slot4, slot5 in ipairs(SnowballGameCfg.get_id_list_by_level_mode[uv0.hard]) do
+		if uv1.CheckLevel(slot5) then
 			return true
 		end
 	end
@@ -345,14 +318,12 @@ function var_0_0.CheckAnyHardLevelUnlocked(arg_28_0)
 	return false
 end
 
-function var_0_0.GoToGame(arg_29_0)
-	local var_29_0 = arg_29_0:GetLevel(arg_29_0.select)
-
-	if var_0_0.CheckLevel(var_29_0, true, true) then
+function slot0.GoToGame(slot0)
+	if uv0.CheckLevel(slot0:GetLevel(slot0.select), true, true) then
 		JumpTools.OpenPageByJump("/snowballGameEnterUI", {
-			level = var_29_0
+			level = slot1
 		})
 	end
 end
 
-return var_0_0
+return slot0

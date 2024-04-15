@@ -1,108 +1,106 @@
-local var_0_0 = import("game.views.newHero.HeroPageBase")
-local var_0_1 = class("HeroChipPage", var_0_0)
+slot1 = class("HeroChipPage", import("game.views.newHero.HeroPageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.chipCout_ = 4
+function slot1.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.chipCout_ = 4
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.isSelfController_ = arg_2_0.controller_:GetController("isSelf")
+	slot0.isSelfController_ = slot0.controller_:GetController("isSelf")
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.chipItem_ = {}
+	slot0.chipItem_ = {}
 
-	for iter_3_0 = 1, arg_3_0.chipCout_ do
-		local var_3_0 = Object.Instantiate(arg_3_0.chipItemGo_, arg_3_0.chipContent_, false)
-
-		arg_3_0.chipItem_[iter_3_0] = NewHeroChipPageItem.New(var_3_0)
+	for slot4 = 1, slot0.chipCout_ do
+		slot0.chipItem_[slot4] = NewHeroChipPageItem.New(Object.Instantiate(slot0.chipItemGo_, slot0.chipContent_, false))
 	end
 end
 
-function var_0_1.AddUIListener(arg_4_0)
-	return
+function slot1.AddUIListener(slot0)
 end
 
-function var_0_1.OnEnter(arg_5_0, arg_5_1)
-	arg_5_0.heroViewProxy_ = arg_5_1
+function slot1.OnEnter(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-function var_0_1.CameraEnter(arg_6_0)
+function slot1.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		6,
 		0
 	})
 end
 
-function var_0_1.UpdateView(arg_7_0)
-	if ChipCfg.get_id_list_by_spec_char[arg_7_0.heroInfo_.id] then
-		local var_7_0
-		local var_7_1 = ChipData:GetEnableHeroChipIdByHeroId(arg_7_0.heroInfo_.id)
+function slot1.UpdateView(slot0)
+	if ChipCfg.get_id_list_by_spec_char[slot0.heroInfo_.id] then
+		slot1 = nil
 
-		if not var_7_1 then
+		if not ChipData:GetEnableHeroChipIdByHeroId(slot0.heroInfo_.id) then
 			return
 		end
 
-		local var_7_2 = {}
+		slot2 = {
+			[ChipCfg[slot7].role_type_id] = true
+		}
+		slot6 = slot0.heroInfo_.id
 
-		for iter_7_0, iter_7_1 in pairs(ChipCfg.get_id_list_by_spec_char[arg_7_0.heroInfo_.id]) do
-			var_7_2[ChipCfg[iter_7_1].role_type_id] = true
+		for slot6, slot7 in pairs(ChipCfg.get_id_list_by_spec_char[slot6]) do
+			-- Nothing
 		end
 
-		for iter_7_2 = 1, 4 do
-			arg_7_0.chipItem_[iter_7_2]:SetData(var_7_1[iter_7_2], arg_7_0.heroInfo_.id, iter_7_2, arg_7_0.extra_)
-			arg_7_0.chipItem_[iter_7_2]:BindRedPoint()
+		for slot6 = 1, 4 do
+			slot0.chipItem_[slot6]:SetData(slot1[slot6], slot0.heroInfo_.id, slot6, slot0.extra_)
+			slot0.chipItem_[slot6]:BindRedPoint()
 
-			if var_7_2[iter_7_2] then
-				arg_7_0.chipItem_[iter_7_2]:SetIsShow(true)
+			if slot2[slot6] then
+				slot0.chipItem_[slot6]:SetIsShow(true)
 			else
-				arg_7_0.chipItem_[iter_7_2]:SetIsShow(false)
+				slot0.chipItem_[slot6]:SetIsShow(false)
 			end
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.contentTrans_)
-		arg_7_0:CheckLocked()
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
+		slot0:CheckLocked()
 	end
 end
 
-function var_0_1.CheckLocked(arg_8_0)
-	arg_8_0.isSelfController_:SetSelectedState(arg_8_0.heroViewProxy_.isSelf and "true" or "false")
+function slot1.CheckLocked(slot0)
+	slot0.isSelfController_:SetSelectedState(slot0.heroViewProxy_.isSelf and "true" or "false")
 end
 
-function var_0_1.OnExit(arg_9_0)
-	for iter_9_0 = 1, 4 do
-		arg_9_0.chipItem_[iter_9_0]:UnBindRedPoint()
+function slot1.OnExit(slot0)
+	for slot4 = 1, 4 do
+		slot0.chipItem_[slot4]:UnBindRedPoint()
 	end
 end
 
-function var_0_1.SetHeroInfo(arg_10_0, arg_10_1)
-	arg_10_0.heroInfo_ = arg_10_1
+function slot1.SetHeroInfo(slot0, slot1)
+	slot0.heroInfo_ = slot1
 end
 
-function var_0_1.Show(arg_11_0)
-	var_0_1.super.Show(arg_11_0)
-	arg_11_0:UpdateView()
+function slot1.Show(slot0)
+	uv0.super.Show(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_1.Dispose(arg_12_0)
-	var_0_1.super.Dispose(arg_12_0)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_12_0, iter_12_1 in pairs(arg_12_0.chipItem_) do
-		iter_12_1:UnBindRedPoint()
-		iter_12_1:Dispose()
+	for slot4, slot5 in pairs(slot0.chipItem_) do
+		slot5:UnBindRedPoint()
+		slot5:Dispose()
 	end
 
-	arg_12_0.chipItem_ = nil
+	slot0.chipItem_ = nil
 end
 
-return var_0_1
+return slot1

@@ -1,50 +1,47 @@
-local var_0_0 = class("SectionSelectHeroInfo")
+slot0 = class("SectionSelectHeroInfo")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0:Init()
+function slot0.Ctor(slot0)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.heroID = 0
-	arg_2_0.trialID = 0
-	arg_2_0.isLock = false
-	arg_2_0.heroDataType = HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_2_0.heroViewProxy = HeroViewDataProxy.New(arg_2_0.heroDataType)
-	arg_2_0.isAssistant = false
-	arg_2_0.assistantInfo = {}
+function slot0.Init(slot0)
+	slot0.heroID = 0
+	slot0.trialID = 0
+	slot0.isLock = false
+	slot0.heroDataType = HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.heroViewProxy = HeroViewDataProxy.New(slot0.heroDataType)
+	slot0.isAssistant = false
+	slot0.assistantInfo = {}
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.heroID = arg_3_1 or 0
-	arg_3_0.trialID = arg_3_2 or 0
-	arg_3_0.isLock = arg_3_3 or false
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.heroID = slot1 or 0
+	slot0.trialID = slot2 or 0
+	slot0.isLock = slot3 or false
 end
 
-function var_0_0.SetHeroDataType(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.heroDataType = arg_4_1 or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_4_0.heroViewProxy = arg_4_2 or HeroViewDataProxy.New(arg_4_0.heroDataType)
+function slot0.SetHeroDataType(slot0, slot1, slot2)
+	slot0.heroDataType = slot1 or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.heroViewProxy = slot2 or HeroViewDataProxy.New(slot0.heroDataType)
 end
 
-function var_0_0.SetAssistantInfo(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.isAssistant = arg_5_1 == true
-	arg_5_0.assistantInfo = arg_5_2
+function slot0.SetAssistantInfo(slot0, slot1, slot2)
+	slot0.isAssistant = slot1 == true
+	slot0.assistantInfo = slot2
 end
 
-function var_0_0.GetHeroPower(arg_6_0)
-	return arg_6_0.heroViewProxy:GetBattlePower(arg_6_0.heroID)
+function slot0.GetHeroPower(slot0)
+	return slot0.heroViewProxy:GetBattlePower(slot0.heroID)
 end
 
-function var_0_0.GetSkinCfg(arg_7_0)
-	return arg_7_0.heroViewProxy:GetHeroUsingSkinInfo(arg_7_0.heroID, {
-		arg_7_0.trialID
+function slot0.GetSkinCfg(slot0)
+	return slot0.heroViewProxy:GetHeroUsingSkinInfo(slot0.heroID, {
+		slot0.trialID
 	})
 end
 
-function var_0_0.GetHeroHP(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	local var_8_0 = 1
-	local var_8_1 = 100
-
-	return var_8_0, var_8_1
+function slot0.GetHeroHP(slot0, slot1, slot2, slot3)
+	return 1, 100
 end
 
-return var_0_0
+return slot0

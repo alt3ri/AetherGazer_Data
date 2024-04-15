@@ -1,10 +1,8 @@
-local var_0_0 = class("ComboSkillSelectSequentialBattleItem", import("..ComboSkillSelectItem"))
+slot0 = class("ComboSkillSelectSequentialBattleItem", import("..ComboSkillSelectItem"))
 
-function var_0_0.ClickBtn(arg_1_0)
-	local var_1_0 = table.keyof(SequentialBattleChapterCfg[arg_1_0.activityID_].stage_id, arg_1_0.stageID_)
-
-	SequentialBattleData:SetComboSkillID(arg_1_0.activityID_, var_1_0, arg_1_0.comboSkillID_, false)
-	manager.notify:Invoke(COMBO_SKILL_SELECT, arg_1_0.comboSkillID_)
+function slot0.ClickBtn(slot0)
+	SequentialBattleData:SetComboSkillID(slot0.activityID_, table.keyof(SequentialBattleChapterCfg[slot0.activityID_].stage_id, slot0.stageID_), slot0.comboSkillID_, false)
+	manager.notify:Invoke(COMBO_SKILL_SELECT, slot0.comboSkillID_)
 end
 
-return var_0_0
+return slot0

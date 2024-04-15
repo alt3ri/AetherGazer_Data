@@ -1,30 +1,30 @@
 ActivityTemplate = class("ActivityTemplate")
 
-function ActivityTemplate.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.id = arg_1_1.activity_id
-	arg_1_0.startTime = arg_1_1.start_time
-	arg_1_0.stopTime = arg_1_1.stop_time
-	arg_1_0.state = arg_1_1.state or 0
-	arg_1_0.theme = arg_1_1.theme or 0
-	arg_1_0.template = arg_1_1.template or 0
-	arg_1_0.subActivityIdList = {}
+function ActivityTemplate.Ctor(slot0, slot1)
+	slot0.id = slot1.activity_id
+	slot0.startTime = slot1.start_time
+	slot0.stopTime = slot1.stop_time
+	slot0.state = slot1.state or 0
+	slot0.theme = slot1.theme or 0
+	slot0.template = slot1.template or 0
+	slot0.subActivityIdList = {}
 
-	if arg_1_1.sub_activity_id_list then
-		for iter_1_0, iter_1_1 in ipairs(arg_1_1.sub_activity_id_list) do
-			table.insert(arg_1_0.subActivityIdList, iter_1_1)
+	if slot1.sub_activity_id_list then
+		for slot5, slot6 in ipairs(slot1.sub_activity_id_list) do
+			table.insert(slot0.subActivityIdList, slot6)
 		end
 	end
 end
 
-function ActivityTemplate.IsActivitying(arg_2_0)
-	local var_2_0 = manager.time:GetServerTime()
+function ActivityTemplate.IsActivitying(slot0)
+	slot1 = manager.time:GetServerTime()
 
-	if arg_2_0.stopTime == 0 then
+	if slot0.stopTime == 0 then
 		return true
 	end
 
-	if var_2_0 <= arg_2_0.stopTime then
-		if arg_2_0.state ~= 1 then
+	if slot1 <= slot0.stopTime then
+		if slot0.state ~= 1 then
 			return false
 		end
 
@@ -34,24 +34,24 @@ function ActivityTemplate.IsActivitying(arg_2_0)
 	return false
 end
 
-function ActivityTemplate.IsOverdue(arg_3_0)
-	local var_3_0 = manager.time:GetServerTime()
+function ActivityTemplate.IsOverdue(slot0)
+	slot1 = manager.time:GetServerTime()
 
-	if arg_3_0.stopTime == 0 then
+	if slot0.stopTime == 0 then
 		return false
 	end
 
-	return var_3_0 > arg_3_0.stopTime
+	return slot0.stopTime < slot1
 end
 
-function ActivityTemplate.GetRemainTime(arg_4_0)
-	return arg_4_0.stopTime - manager.time:GetServerTime()
+function ActivityTemplate.GetRemainTime(slot0)
+	return slot0.stopTime - manager.time:GetServerTime()
 end
 
-function ActivityTemplate.GetTimeBeforeStart(arg_5_0)
-	return arg_5_0.startTime - manager.time:GetServerTime()
+function ActivityTemplate.GetTimeBeforeStart(slot0)
+	return slot0.startTime - manager.time:GetServerTime()
 end
 
-function ActivityTemplate.GetStateBool(arg_6_0)
-	return arg_6_0.state == 1
+function ActivityTemplate.GetStateBool(slot0)
+	return slot0.state == 1
 end

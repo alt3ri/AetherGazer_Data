@@ -1,54 +1,49 @@
-local var_0_0 = class("ActivityAttributeArenaRankItem", ReduxView)
+slot0 = class("ActivityAttributeArenaRankItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroCountController_ = arg_3_0.conExCollection_:GetController("heroCount")
-	arg_3_0.rankController_ = arg_3_0.conExCollection_:GetController("rank")
+	slot0.heroCountController_ = slot0.conExCollection_:GetController("heroCount")
+	slot0.rankController_ = slot0.conExCollection_:GetController("rank")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	arg_4_0.userID_ = arg_4_1.user_id
-	arg_4_0.nickText_.text = arg_4_1.nick
-	arg_4_0.headImg_.sprite = ItemTools.getItemSprite(arg_4_1.portrait)
-	arg_4_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_4_1.frame)
-	arg_4_0.rankText_.text = arg_4_1.rank
-	arg_4_0.scoreText_.text = arg_4_1.score
+function slot0.RefreshUI(slot0, slot1)
+	slot0.userID_ = slot1.user_id
+	slot0.nickText_.text = slot1.nick
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot1.portrait)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.frame)
+	slot0.rankText_.text = slot1.rank
+	slot0.scoreText_.text = slot1.score
+	slot3 = math.min(table.length(slot1:GetSingleSelectHeroList()), 3)
 
-	local var_4_0 = arg_4_1:GetSingleSelectHeroList()
-	local var_4_1 = math.min(table.length(var_4_0), 3)
-
-	if arg_4_0.heroCountController_ then
-		arg_4_0.heroCountController_:SetSelectedState(var_4_1)
+	if slot0.heroCountController_ then
+		slot0.heroCountController_:SetSelectedState(slot3)
 	end
 
-	for iter_4_0 = 1, var_4_1 do
-		local var_4_2 = var_4_0[iter_4_0]
-		local var_4_3 = var_4_2.skin_id
-
-		if var_4_3 == 0 then
-			var_4_3 = var_4_2.hero_id
+	for slot7 = 1, slot3 do
+		if slot2[slot7].skin_id == 0 then
+			slot9 = slot8.hero_id
 		end
 
-		arg_4_0["heroImg_" .. iter_4_0].sprite = getSpriteViaConfig("HeroLittleIcon", var_4_3)
+		slot0["heroImg_" .. slot7].sprite = getSpriteViaConfig("HeroLittleIcon", slot9)
 	end
 
-	if arg_4_1.rank <= 3 then
-		arg_4_0.rankController_:SetSelectedState(arg_4_1.rank)
+	if slot1.rank <= 3 then
+		slot0.rankController_:SetSelectedState(slot1.rank)
 	else
-		arg_4_0.rankController_:SetSelectedState(0)
+		slot0.rankController_:SetSelectedState(0)
 	end
 end
 
-return var_0_0
+return slot0

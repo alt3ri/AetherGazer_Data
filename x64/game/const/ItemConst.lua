@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	CURRENCY_FOR_DRAW = 36,
 	ITEM_TYPE = {
 		CURRENCY = 1,
@@ -100,21 +100,20 @@ local var_0_0 = {
 		NORMAL = 1
 	}
 }
-
-var_0_0.LIMIT_TIME_ITEM = {
-	[var_0_0.ITEM_SUB_TYPE.PERIODICITY_EXPLORE_TICKER] = true,
-	[var_0_0.ITEM_SUB_TYPE.TIME_LIMIT_ITEM] = true
+slot0.LIMIT_TIME_ITEM = {
+	[slot0.ITEM_SUB_TYPE.PERIODICITY_EXPLORE_TICKER] = true,
+	[slot0.ITEM_SUB_TYPE.TIME_LIMIT_ITEM] = true
 }
-var_0_0.ITEM_STORE_MATERIAL_IGNORE = {
+slot0.ITEM_STORE_MATERIAL_IGNORE = {
 	type = {
-		[var_0_0.ITEM_TYPE.ARCHIVE_GIFT] = true
+		[slot0.ITEM_TYPE.ARCHIVE_GIFT] = true
 	},
 	subType = {
-		[var_0_0.ITEM_SUB_TYPE.MOON_FILLING_MATERIAL] = true,
-		[var_0_0.ITEM_SUB_TYPE.MOON_FILLING] = true,
-		[var_0_0.ITEM_SUB_TYPE.MOON_CAKE] = true,
-		[var_0_0.ITEM_SUB_TYPE.MOON_CAKE_GIFT] = true
+		[slot0.ITEM_SUB_TYPE.MOON_FILLING_MATERIAL] = true,
+		[slot0.ITEM_SUB_TYPE.MOON_FILLING] = true,
+		[slot0.ITEM_SUB_TYPE.MOON_CAKE] = true,
+		[slot0.ITEM_SUB_TYPE.MOON_CAKE_GIFT] = true
 	}
 }
 
-return var_0_0
+return slot0

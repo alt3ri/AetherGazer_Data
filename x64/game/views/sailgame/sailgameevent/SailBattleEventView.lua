@@ -1,26 +1,20 @@
-local var_0_0 = import("game.views.sailGame.sailGameEvent.SailGameEventBaseView")
-local var_0_1 = class("SailBattleEventView", var_0_0)
+slot1 = class("SailBattleEventView", import("game.views.sailGame.sailGameEvent.SailGameEventBaseView"))
 
-function var_0_1.AcceptEvent(arg_1_0)
-	local var_1_0 = SailGameEventCfg[arg_1_0.eventID_].stage_id
-
-	arg_1_0:Go("/sectionSelectHero", {
-		section = var_1_0,
+function slot1.AcceptEvent(slot0)
+	slot0:Go("/sectionSelectHero", {
+		section = SailGameEventCfg[slot0.eventID_].stage_id,
 		sectionType = BattleConst.STAGE_TYPE_NEW.SAIL_GAME,
-		activityID = arg_1_0.activityID_,
+		activityID = slot0.activityID_,
 		customBarList = {
 			BACK_BAR
 		}
 	})
 end
 
-function var_0_1.RefreshReward(arg_2_0)
-	local var_2_0 = SailGameEventCfg[arg_2_0.eventID_].stage_id
-	local var_2_1 = BattleSailGameStageCfg[var_2_0].drop_lib_id
-	local var_2_2 = getRewardFromDropCfg(var_2_1, true)[1]
-
-	arg_2_0.rewardIcon_.sprite = ItemTools.getItemSprite(var_2_2.id)
-	arg_2_0.rewardNumText_.text = var_2_2.num
+function slot1.RefreshReward(slot0)
+	slot3 = getRewardFromDropCfg(BattleSailGameStageCfg[SailGameEventCfg[slot0.eventID_].stage_id].drop_lib_id, true)[1]
+	slot0.rewardIcon_.sprite = ItemTools.getItemSprite(slot3.id)
+	slot0.rewardNumText_.text = slot3.num
 end
 
-return var_0_1
+return slot1

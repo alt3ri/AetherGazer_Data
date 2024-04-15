@@ -1,5 +1,4 @@
-local var_0_0 = {}
-local var_0_1 = {
+slot1 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_ROULETTE_COIN_2_6.item_id,
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = CurrencyIdMapCfg.CURRENCY_PT_COIN_2_7.item_id,
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = CurrencyIdMapCfg.CURRENCY_PT_COIN_2_8.item_id,
@@ -9,12 +8,7 @@ local var_0_1 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_COIN_3_0.item_id,
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_COIN_3_1.item_id
 }
-
-function var_0_0.GetCurrencyID(arg_1_0)
-	return var_0_1[arg_1_0]
-end
-
-local var_0_2 = {
+slot2 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_ROULETTE_TICKET_2_6.item_id,
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = CurrencyIdMapCfg.CURRENCY_PT_TICKET_2_7.item_id,
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = CurrencyIdMapCfg.CURRENCY_PT_TICKET_2_8.item_id,
@@ -24,12 +18,7 @@ local var_0_2 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_TICKET_3_0.item_id,
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = CurrencyIdMapCfg.CURRENCY_PT_TICKET_3_1.item_id
 }
-
-function var_0_0.GetChallengeCurrencyID(arg_2_0)
-	return var_0_2[arg_2_0]
-end
-
-local var_0_3 = {
+slot3 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = "ACTIVITY_ROULETTE_DESC",
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = "ACTIVITY_PT_DESCRIBE_2_7",
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = "ACTIVITY_PT_DESCRIBE_2_8",
@@ -39,21 +28,11 @@ local var_0_3 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = "ACTIVITY_PT_DESCRIBE_3_0",
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = "ACTIVITY_PT_DESCRIBE_3_1"
 }
-
-function var_0_0.GetHelpKey(arg_3_0)
-	return var_0_3[arg_3_0] or ""
-end
-
-local var_0_4 = {
+slot4 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = "ACTIVITY_PT_RULE_3_0",
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = "ACTIVITY_PT_RULE_3_1"
 }
-
-function var_0_0.GetDesc(arg_4_0)
-	return var_0_4[arg_4_0] or ""
-end
-
-local var_0_5 = {
+slot5 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtUpUI/JapanRegionPtMainUpUI",
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtDownUI/JapanRegionPtMainDownUI",
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = "UI/VersionUI/IndiaUI_2_8/IndiaPTUp/IndiaPTUpMainUI",
@@ -63,12 +42,7 @@ local var_0_5 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtUpUI/NorseUI_3_0_PtMainUpUI",
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtDownUI/NorseUI_3_0_PtMainDownUI"
 }
-
-function var_0_0.GetEnterUIName(arg_5_0)
-	return var_0_5[arg_5_0]
-end
-
-local var_0_6 = {
+slot6 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtUpUI/JapanRegionPtUpUI",
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtDownUI/JapanRegionPTLevelDownUI",
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = "UI/VersionUI/IndiaUI_2_8/IndiaPTUp/IndiaPTUpLevelUI",
@@ -78,12 +52,7 @@ local var_0_6 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtUpUI/NorseUI_3_0_PtUpUI",
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtDownUI/NorseUI_3_0_PtDownUI"
 }
-
-function var_0_0.GetMainUIName(arg_6_0)
-	return var_0_6[arg_6_0]
-end
-
-local var_0_7 = {
+slot7 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtUpUI/JapanRegionPtUpPopUI",
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = "UI/VersionUI/JapanRegionUI_2_6/JapanRegionPtDownUI/JapanRegionPtDownPopUI",
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = "UI/VersionUI/IndiaUI_2_8_common/IndiaPtUpPopUI",
@@ -93,12 +62,7 @@ local var_0_7 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtUpUI/NorseUI_3_0_PtUpPopUI",
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = "Widget/Version/NorseUI_3_0/NorseUI_3_0_PtDownUI/NorseUI_3_0_PtDownPopUI"
 }
-
-function var_0_0.GetBuffPopUIName(arg_7_0)
-	return var_0_7[arg_7_0]
-end
-
-local var_0_8 = {
+slot8 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_LEVEL,
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_LEVEL_DOWN,
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = ActivityConst.ACTIVITY_2_8_PT_SCROLL_LEVEL_UP,
@@ -108,12 +72,7 @@ local var_0_8 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL_LEVEL,
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL_LEVEL
 }
-
-function var_0_0.GetLevelActivityID(arg_8_0)
-	return var_0_8[arg_8_0]
-end
-
-local var_0_9 = {
+slot9 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_TASK,
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_TASK_DOWN,
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = ActivityConst.ACTIVITY_2_8_PT_SCROLL_TASK_UP,
@@ -123,12 +82,7 @@ local var_0_9 = {
 	[ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL] = ActivityConst.ACTIVITY_3_0_ACTIVITY_PT_SCROLL_TASK,
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL_TASK
 }
-
-function var_0_0.GetTaskActivityID(arg_9_0)
-	return var_0_9[arg_9_0]
-end
-
-local var_0_10 = {
+slot10 = {
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_SHOP,
 	[ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_DOWN] = ActivityConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL_SHOP_DOWN,
 	[ActivityConst.ACTIVITY_2_8_PT_SCROLL_UP] = ActivityConst.ACTIVITY_2_8_PT_SCROLL_SHOP_UP,
@@ -139,8 +93,35 @@ local var_0_10 = {
 	[ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL] = ActivityConst.ACTIVITY_3_1_ACTIVITY_PT_SCROLL_SHOP
 }
 
-function var_0_0.GetShopActivityID(arg_10_0)
-	return var_0_10[arg_10_0]
-end
-
-return var_0_0
+return {
+	GetCurrencyID = function (slot0)
+		return uv0[slot0]
+	end,
+	GetChallengeCurrencyID = function (slot0)
+		return uv0[slot0]
+	end,
+	GetHelpKey = function (slot0)
+		return uv0[slot0] or ""
+	end,
+	GetDesc = function (slot0)
+		return uv0[slot0] or ""
+	end,
+	GetEnterUIName = function (slot0)
+		return uv0[slot0]
+	end,
+	GetMainUIName = function (slot0)
+		return uv0[slot0]
+	end,
+	GetBuffPopUIName = function (slot0)
+		return uv0[slot0]
+	end,
+	GetLevelActivityID = function (slot0)
+		return uv0[slot0]
+	end,
+	GetTaskActivityID = function (slot0)
+		return uv0[slot0]
+	end,
+	GetShopActivityID = function (slot0)
+		return uv0[slot0]
+	end
+}

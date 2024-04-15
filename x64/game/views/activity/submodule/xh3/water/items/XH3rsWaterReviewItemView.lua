@@ -1,120 +1,105 @@
-local var_0_0 = class("XH3rsWaterReviewItemView", ReduxView)
+slot0 = class("XH3rsWaterReviewItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select")
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.roleStatusController1_ = ControllerUtil.GetController(arg_3_0.head1Go_.transform, "status")
-	arg_3_0.roleStatusController2_ = ControllerUtil.GetController(arg_3_0.head2Go_.transform, "status")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "select")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.roleStatusController1_ = ControllerUtil.GetController(slot0.head1Go_.transform, "status")
+	slot0.roleStatusController2_ = ControllerUtil.GetController(slot0.head2Go_.transform, "status")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickListener_ ~= nil then
-			arg_4_0.clickListener_(arg_4_0.index_, arg_4_0.data_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickListener_ ~= nil then
+			uv0.clickListener_(uv0.index_, uv0.data_)
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetSelect(arg_7_0, arg_7_1)
-	arg_7_0.selectController_:SetSelectedState(arg_7_1 and "yes" or "no")
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedState(slot1 and "yes" or "no")
 end
 
-function var_0_0.RegisterClickListener(arg_8_0, arg_8_1)
-	arg_8_0.clickListener_ = arg_8_1
+function slot0.RegisterClickListener(slot0, slot1)
+	slot0.clickListener_ = slot1
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.index_ = arg_9_1
-	arg_9_0.data_ = arg_9_2
-	arg_9_0.activityId_ = arg_9_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
+	slot0.activityId_ = slot3
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	local var_10_0 = ActivityWaterCfg[arg_10_0.data_.schedule_id]
+function slot0.UpdateView(slot0)
+	slot0.nameText_.text = ActivityWaterCfg[slot0.data_.schedule_id].schedule_name
+	slot0.head1_.sprite = HeroTools.GetHeadSprite(HeroStandardSystemCfg[ActivityWaterCompetitionCfg[slot0.data_.competition_list[1].competition_id].hero_id].hero_id)
+	slot0.head2_.sprite = HeroTools.GetHeadSprite(HeroStandardSystemCfg[ActivityWaterCompetitionCfg[slot0.data_.competition_list[2].competition_id].hero_id].hero_id)
+	slot8, slot9 = nil
 
-	arg_10_0.nameText_.text = var_10_0.schedule_name
-
-	local var_10_1 = arg_10_0.data_.competition_list[1].competition_id
-	local var_10_2 = ActivityWaterCompetitionCfg[var_10_1]
-	local var_10_3 = HeroStandardSystemCfg[var_10_2.hero_id].hero_id
-	local var_10_4 = arg_10_0.data_.competition_list[2].competition_id
-	local var_10_5 = ActivityWaterCompetitionCfg[var_10_4]
-	local var_10_6 = HeroStandardSystemCfg[var_10_5.hero_id].hero_id
-
-	arg_10_0.head1_.sprite = HeroTools.GetHeadSprite(var_10_3)
-	arg_10_0.head2_.sprite = HeroTools.GetHeadSprite(var_10_6)
-
-	local var_10_7
-	local var_10_8
-	local var_10_9
-
-	if arg_10_0.data_.competition_list[1].assistance_process > arg_10_0.data_.competition_list[2].assistance_process then
-		var_10_7 = "win"
-		var_10_9 = "lose"
-	elseif arg_10_0.data_.competition_list[1].assistance_process == arg_10_0.data_.competition_list[2].assistance_process then
-		var_10_7 = "draw"
-		var_10_9 = "draw"
+	if slot0.data_.competition_list[2].assistance_process < slot0.data_.competition_list[1].assistance_process then
+		slot8 = "win"
+		slot9 = "lose"
+	elseif slot0.data_.competition_list[1].assistance_process == slot0.data_.competition_list[2].assistance_process then
+		slot8 = "draw"
+		slot9 = "draw"
 	else
-		var_10_7 = "lose"
-		var_10_9 = "win"
+		slot8 = "lose"
+		slot9 = "win"
 	end
 
-	if arg_10_0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(arg_10_0.activityId_).schedule_id then
-		var_10_7 = "current"
-		var_10_9 = "current"
+	if slot0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(slot0.activityId_).schedule_id then
+		slot8 = "current"
+		slot9 = "current"
 
-		arg_10_0.statusController_:SetSelectedState("progress")
+		slot0.statusController_:SetSelectedState("progress")
 	else
-		arg_10_0.statusController_:SetSelectedState("over")
+		slot0.statusController_:SetSelectedState("over")
 	end
 
-	arg_10_0.roleStatusController1_:SetSelectedState(var_10_7)
-	arg_10_0.roleStatusController2_:SetSelectedState(var_10_9)
+	slot0.roleStatusController1_:SetSelectedState(slot8)
+	slot0.roleStatusController2_:SetSelectedState(slot9)
 
-	if arg_10_0.data_.is_success and arg_10_0.data_.is_success > 0 and not ActivityWaterData:HaveGotHistoryReward(arg_10_0.data_.schedule_id) then
-		SetActive(arg_10_0.noticeGo_, true)
+	if slot0.data_.is_success and slot0.data_.is_success > 0 and not ActivityWaterData:HaveGotHistoryReward(slot0.data_.schedule_id) then
+		SetActive(slot0.noticeGo_, true)
 	else
-		SetActive(arg_10_0.noticeGo_, false)
+		SetActive(slot0.noticeGo_, false)
 	end
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_13_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.data_ = nil
-	arg_14_0.clickListener_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
+	slot0.clickListener_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

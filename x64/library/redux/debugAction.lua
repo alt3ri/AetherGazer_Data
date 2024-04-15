@@ -1,13 +1,13 @@
-return function(arg_1_0)
-	return function(arg_2_0)
-		return function(arg_3_0)
-			if type(arg_3_0) == "function" then
-				print("debugAction(function):", arg_3_0)
+return function (slot0)
+	return function (slot0)
+		return function (slot0)
+			if type(slot0) == "function" then
+				print("debugAction(function):", slot0)
 			else
-				print("debugAction(action):", arg_3_0.type)
+				print("debugAction(action):", slot0.type)
 			end
 
-			return arg_2_0(arg_3_0)
+			return uv0(slot0)
 		end
 	end
 end

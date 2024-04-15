@@ -1,12 +1,11 @@
-local var_0_0 = import("game.views.newHero.HeroInfoView")
-local var_0_1 = class("SectionHeroInfoView", var_0_0)
+slot1 = class("SectionHeroInfoView", import("game.views.newHero.HeroInfoView"))
 
-function var_0_1.UpdateModuleView(arg_1_0)
-	SetActive(arg_1_0.moduleView_.gameObject, false)
+function slot1.UpdateModuleView(slot0)
+	SetActive(slot0.moduleView_.gameObject, false)
 end
 
-function var_0_1.UpdateUnlockBtnState(arg_2_0)
-	arg_2_0.levelStateController_:SetSelectedState("maxLevel")
+function slot1.UpdateUnlockBtnState(slot0)
+	slot0.levelStateController_:SetSelectedState("maxLevel")
 end
 
-return var_0_1
+return slot1

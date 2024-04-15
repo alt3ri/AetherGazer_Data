@@ -1,260 +1,217 @@
-local var_0_0 = {}
+return {
+	GetStageName = function (slot0, slot1)
+		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == slot0 then
+			slot3 = MatrixTierCfg[MatrixData:GetTierID()]
 
-function var_0_0.GetStageName(arg_1_0, arg_1_1)
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == arg_1_0 then
-		local var_1_0 = MatrixData:GetTierID()
-		local var_1_1 = MatrixTierCfg[var_1_0]
-
-		return ""
-	end
-
-	local var_1_2 = var_0_0.GetStageCfg(arg_1_0, arg_1_1)
-
-	if var_1_2 then
-		return GetI18NText(var_1_2.name) or ""
-	else
-		return ""
-	end
-end
-
-function var_0_0.GetChapterByStageId(arg_2_0, arg_2_1)
-	local var_2_0 = ChapterCfg.get_id_list_by_type[arg_2_0]
-
-	for iter_2_0, iter_2_1 in pairs(var_2_0) do
-		local var_2_1 = ChapterCfg[iter_2_1]
-
-		if table.keyof(var_2_1.section_id_list, arg_2_1) then
-			return iter_2_1
+			return ""
 		end
-	end
 
-	return 0
-end
-
-function var_0_0.GetChapterSectionIndex(arg_3_0, arg_3_1)
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == arg_3_0 then
-		local var_3_0 = BattleInstance.GetEquipStageShowIndex(arg_3_1)
-		local var_3_1 = BattleInstance.GetHardLevel(arg_3_1)
-		local var_3_2 = ChapterCfg.get_id_list_by_type[arg_3_0][1]
-
-		return ChapterCfg[var_3_2].english, string.format("%d-%d", var_3_0, var_3_1)
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == arg_3_0 then
-		local var_3_3 = BattleInstance.GetEquipStageShowIndex(arg_3_1)
-		local var_3_4 = ChapterCfg.get_id_list_by_type[arg_3_0][1]
-
-		return ChapterCfg[var_3_4].english, var_3_3
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == arg_3_0 then
-		local var_3_5 = ChapterCfg.get_id_list_by_type[arg_3_0]
-
-		for iter_3_0, iter_3_1 in pairs(var_3_5) do
-			local var_3_6 = ChapterCfg[iter_3_1]
-			local var_3_7 = table.keyof(var_3_6.section_id_list, arg_3_1)
-
-			if var_3_7 then
-				return var_3_6.english, var_3_7
+		if uv0.GetStageCfg(slot0, slot1) then
+			return GetI18NText(slot2.name) or ""
+		else
+			return ""
+		end
+	end,
+	GetChapterByStageId = function (slot0, slot1)
+		for slot6, slot7 in pairs(ChapterCfg.get_id_list_by_type[slot0]) do
+			if table.keyof(ChapterCfg[slot7].section_id_list, slot1) then
+				return slot7
 			end
 		end
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_3_0 then
-		local var_3_8 = BattleChapterStageCfg[arg_3_1]
 
-		if var_3_8.stage_num ~= "" then
-			local var_3_9 = var_3_8.stage_num
-			local var_3_10 = string.split(var_3_9, "-")
-			local var_3_11 = ""
-
-			for iter_3_2 = 1, #var_3_10 - 1 do
-				if iter_3_2 == 1 then
-					var_3_11 = var_3_10[iter_3_2]
-				else
-					var_3_11 = var_3_11 .. "-" .. var_3_10[iter_3_2]
+		return 0
+	end,
+	GetChapterSectionIndex = function (slot0, slot1)
+		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == slot0 then
+			return ChapterCfg[ChapterCfg.get_id_list_by_type[slot0][1]].english, string.format("%d-%d", BattleInstance.GetEquipStageShowIndex(slot1), BattleInstance.GetHardLevel(slot1))
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == slot0 then
+			return ChapterCfg[ChapterCfg.get_id_list_by_type[slot0][1]].english, BattleInstance.GetEquipStageShowIndex(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == slot0 then
+			for slot6, slot7 in pairs(ChapterCfg.get_id_list_by_type[slot0]) do
+				if table.keyof(ChapterCfg[slot7].section_id_list, slot1) then
+					return slot8.english, slot9
 				end
 			end
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot0 then
+			if BattleChapterStageCfg[slot1].stage_num ~= "" then
+				slot5 = ""
 
-			return var_3_11, var_3_10[#var_3_10]
-		end
+				for slot9 = 1, #string.split(slot2.stage_num, "-") - 1 do
+					slot5 = (slot9 ~= 1 or slot4[slot9]) and slot4[slot9] .. "-" .. slot4[slot9]
+				end
 
-		local var_3_12 = getChapterIDByStageID(arg_3_1)
-		local var_3_13 = ChapterCfg[var_3_12]
-		local var_3_14 = table.keyof(var_3_13.section_id_list, arg_3_1)
+				return slot5, slot4[#slot4]
+			end
 
-		return var_3_13.english, var_3_14
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == arg_3_0 then
-		local var_3_15 = ChapterCfg.get_id_list_by_type[arg_3_0]
+			slot4 = ChapterCfg[getChapterIDByStageID(slot1)]
 
-		for iter_3_3, iter_3_4 in pairs(var_3_15) do
-			local var_3_16 = ChapterCfg[iter_3_4]
-			local var_3_17 = table.keyof(var_3_16.section_id_list, arg_3_1)
-
-			if var_3_17 then
-				return var_3_16.english, var_3_17
+			return slot4.english, table.keyof(slot4.section_id_list, slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == slot0 then
+			for slot6, slot7 in pairs(ChapterCfg.get_id_list_by_type[slot0]) do
+				if table.keyof(ChapterCfg[slot7].section_id_list, slot1) then
+					return slot8.english, slot9
+				end
 			end
 		end
-	end
 
-	return "", ""
-end
+		return "", ""
+	end,
+	GetRestrictHeroList = function (slot0, slot1)
+		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == slot0 or BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == slot0 then
+			return nil
+		end
 
-function var_0_0.GetRestrictHeroList(arg_4_0, arg_4_1)
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == arg_4_0 or BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == arg_4_0 then
+		if uv0.GetStageCfg(slot0, slot1) then
+			return slot2.hero_list, slot2.can_switch_restrict_hero_list
+		end
+
 		return nil
+	end,
+	GetStageCfg = function (slot0, slot1)
+		slot2 = nil
+
+		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot0 then
+			slot2 = BattleChapterStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == slot0 then
+			slot2 = BattleActivityStoryStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == slot0 then
+			slot2 = BattleDailyStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == slot0 then
+			slot2 = BattleTowerStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == slot0 then
+			slot2 = BattleEnchantmentStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == slot0 then
+			slot2 = BattleEquipStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL == slot0 then
+			slot2 = BattleEquipBreakThroughMaterialStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE == slot0 then
+			slot2 = BattleEquipSeizureStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == slot0 then
+			slot2 = BattleBossStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == slot0 then
+			slot2 = BattleBossStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == slot0 then
+			slot2 = BattleMythicStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING == slot0 then
+			slot2 = BattleBaseTeachStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING == slot0 then
+			slot2 = BattleHeroTeachStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == slot0 then
+			slot2 = BattleMatrixStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS == slot0 then
+			slot2 = BattleChessStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY == slot0 then
+			slot2 = BattleActivityStoryStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON == slot0 then
+			slot2 = BattleHeartDemonStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.NEW_DEMON == slot0 then
+			slot2 = BattleNewHeartDemonStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.RACE_TRIAL == slot0 then
+			slot2 = BattleRaceTrialStageCfg[ActivityRaceTrialCfg[slot1].stage_id]
+		elseif BattleConst.STAGE_TYPE_NEW.HERO_TRIAL == slot0 then
+			slot2 = BattleHeroTrialStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SKIN_TRIAL == slot0 then
+			slot2 = BattleSkinTrialStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SLAYER == slot0 then
+			slot2 = BattleSlayerStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.PARKOUR == slot0 then
+			slot2 = BattleParkourStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.TOWER_DEFENCE == slot0 then
+			slot2 = BattleShotStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == slot0 then
+			slot2 = BattleSoloChallengeStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ARTIFACT == slot0 then
+			slot2 = BattleArtifactCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION == slot0 then
+			slot2 = BattleLimitedCalculationStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.LEVIATHAN_GAME == slot0 then
+			slot2 = BattleLeviathanGamesCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SKADI_GAME == slot0 then
+			slot2 = BattleCrosswaveCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_GAME == slot0 then
+			slot2 = BattleActivityPtStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX == slot0 then
+			slot2 = BattleActivityMatrixCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_PREPARE == slot0 then
+			slot2 = BattleClubBossPreposeCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_CHALLENGE == slot0 then
+			slot2 = BattleClubBossCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_RACE == slot0 then
+			slot2 = BattleActivityRaceStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX == slot0 then
+			slot2 = BattleStrategyMatrixCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL == slot0 then
+			slot2 = BattleMythicFinalCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == slot0 then
+			slot2 = BattleClubActivityCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP == slot0 then
+			slot2 = BattleClubActivitySPCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == slot0 then
+			slot2 = BattleCooperationDemoCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE == slot0 then
+			slot2 = BattleSequentialBattleStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.MARDUK_GAME == slot0 then
+			slot2 = BattleTowerGameCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SURVIVE_SOLO == slot0 then
+			slot2 = BattleSoloSlayerCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL == slot0 then
+			slot2 = BattleQuickTrainingCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WORLD_BOSS == slot0 then
+			slot2 = BattleActivityWorldBossCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT == slot0 then
+			slot2 = BattleActivityAffixSelectCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.DAMAGE_TEST == slot0 then
+			slot2 = BattleDamageTestCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL == slot0 then
+			slot2 = BattleActivityPtStageV2NormalCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE == slot0 then
+			slot2 = BattleActivityPtStageV2ChallengeCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD == slot0 then
+			slot2 = BattleActivityPtStageV2HardCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ABYSS == slot0 then
+			slot2 = BattleAbyssCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.POLYHEDRON == slot0 then
+			slot2 = BattlePolyhedronStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER == slot0 then
+			slot2 = BattleActivityWaterCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SAIL_GAME == slot0 then
+			slot2 = BattleSailGameStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == slot0 then
+			slot2 = BattleActivityWaterCooperationCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == slot0 then
+			slot2 = BattleStrongholdStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST == slot0 then
+			slot2 = BattleAdvanceTestStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON == slot0 then
+			slot2 = BattleSoloHeartDemonCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME == slot0 then
+			slot2 = BattleDestroyBoxGameCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME == slot0 then
+			slot2 = BattleKagutsuchiStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL == slot0 then
+			slot2 = BattleActivityRouletteCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_NEWWARCHESS == slot0 then
+			slot2 = BattleNewWarChessStageCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == slot0 then
+			slot2 = BattleAttributeArenaCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN == slot0 then
+			BattleIndiaNianCfg[slot1].extra_cost = IndiaNianData:GetSelectedStageCost()
+		elseif BattleConst.STAGE_TYPE_NEW.PUSH_BOX_BATTLE == slot0 then
+			slot2 = BattleActivityCelebrationCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION == slot0 then
+			slot2 = BattleCoreVerificationCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.SP_HERO_CHALLENGE_BATTLE_3_1 == slot0 then
+			slot2 = BattleVerthandiExclusiveCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_HERO_ENHANCE == slot0 then
+			slot2 = BattleHeroEnhanceCfg[slot1]
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_REFORGE == slot0 then
+			slot2 = BattleActivityReforgeCfg[slot1]
+		end
+
+		if slot2 == nil then
+			print(string.format("配置表中没有关卡<color=#ff0000>%s</color>", slot1))
+		end
+
+		return slot2 or {}
 	end
-
-	local var_4_0 = var_0_0.GetStageCfg(arg_4_0, arg_4_1)
-
-	if var_4_0 then
-		return var_4_0.hero_list, var_4_0.can_switch_restrict_hero_list
-	end
-
-	return nil
-end
-
-function var_0_0.GetStageCfg(arg_5_0, arg_5_1)
-	local var_5_0
-
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_5_0 then
-		var_5_0 = BattleChapterStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == arg_5_0 then
-		var_5_0 = BattleActivityStoryStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == arg_5_0 then
-		var_5_0 = BattleDailyStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == arg_5_0 then
-		var_5_0 = BattleTowerStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == arg_5_0 then
-		var_5_0 = BattleEnchantmentStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == arg_5_0 then
-		var_5_0 = BattleEquipStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL == arg_5_0 then
-		var_5_0 = BattleEquipBreakThroughMaterialStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE == arg_5_0 then
-		var_5_0 = BattleEquipSeizureStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == arg_5_0 then
-		var_5_0 = BattleBossStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == arg_5_0 then
-		var_5_0 = BattleBossStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == arg_5_0 then
-		var_5_0 = BattleMythicStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING == arg_5_0 then
-		var_5_0 = BattleBaseTeachStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING == arg_5_0 then
-		var_5_0 = BattleHeroTeachStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == arg_5_0 then
-		var_5_0 = BattleMatrixStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS == arg_5_0 then
-		var_5_0 = BattleChessStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY == arg_5_0 then
-		var_5_0 = BattleActivityStoryStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON == arg_5_0 then
-		var_5_0 = BattleHeartDemonStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.NEW_DEMON == arg_5_0 then
-		var_5_0 = BattleNewHeartDemonStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.RACE_TRIAL == arg_5_0 then
-		var_5_0 = BattleRaceTrialStageCfg[ActivityRaceTrialCfg[arg_5_1].stage_id]
-	elseif BattleConst.STAGE_TYPE_NEW.HERO_TRIAL == arg_5_0 then
-		var_5_0 = BattleHeroTrialStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SKIN_TRIAL == arg_5_0 then
-		var_5_0 = BattleSkinTrialStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SLAYER == arg_5_0 then
-		var_5_0 = BattleSlayerStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.PARKOUR == arg_5_0 then
-		var_5_0 = BattleParkourStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.TOWER_DEFENCE == arg_5_0 then
-		var_5_0 = BattleShotStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == arg_5_0 then
-		var_5_0 = BattleSoloChallengeStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ARTIFACT == arg_5_0 then
-		var_5_0 = BattleArtifactCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION == arg_5_0 then
-		var_5_0 = BattleLimitedCalculationStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.LEVIATHAN_GAME == arg_5_0 then
-		var_5_0 = BattleLeviathanGamesCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SKADI_GAME == arg_5_0 then
-		var_5_0 = BattleCrosswaveCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_GAME == arg_5_0 then
-		var_5_0 = BattleActivityPtStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX == arg_5_0 then
-		var_5_0 = BattleActivityMatrixCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_PREPARE == arg_5_0 then
-		var_5_0 = BattleClubBossPreposeCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_CHALLENGE == arg_5_0 then
-		var_5_0 = BattleClubBossCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_RACE == arg_5_0 then
-		var_5_0 = BattleActivityRaceStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX == arg_5_0 then
-		var_5_0 = BattleStrategyMatrixCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL == arg_5_0 then
-		var_5_0 = BattleMythicFinalCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == arg_5_0 then
-		var_5_0 = BattleClubActivityCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP == arg_5_0 then
-		var_5_0 = BattleClubActivitySPCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == arg_5_0 then
-		var_5_0 = BattleCooperationDemoCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE == arg_5_0 then
-		var_5_0 = BattleSequentialBattleStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.MARDUK_GAME == arg_5_0 then
-		var_5_0 = BattleTowerGameCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SURVIVE_SOLO == arg_5_0 then
-		var_5_0 = BattleSoloSlayerCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL == arg_5_0 then
-		var_5_0 = BattleQuickTrainingCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WORLD_BOSS == arg_5_0 then
-		var_5_0 = BattleActivityWorldBossCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT == arg_5_0 then
-		var_5_0 = BattleActivityAffixSelectCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.DAMAGE_TEST == arg_5_0 then
-		var_5_0 = BattleDamageTestCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL == arg_5_0 then
-		var_5_0 = BattleActivityPtStageV2NormalCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE == arg_5_0 then
-		var_5_0 = BattleActivityPtStageV2ChallengeCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD == arg_5_0 then
-		var_5_0 = BattleActivityPtStageV2HardCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ABYSS == arg_5_0 then
-		var_5_0 = BattleAbyssCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.POLYHEDRON == arg_5_0 then
-		var_5_0 = BattlePolyhedronStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER == arg_5_0 then
-		var_5_0 = BattleActivityWaterCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SAIL_GAME == arg_5_0 then
-		var_5_0 = BattleSailGameStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == arg_5_0 then
-		var_5_0 = BattleActivityWaterCooperationCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == arg_5_0 then
-		var_5_0 = BattleStrongholdStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST == arg_5_0 then
-		var_5_0 = BattleAdvanceTestStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON == arg_5_0 then
-		var_5_0 = BattleSoloHeartDemonCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME == arg_5_0 then
-		var_5_0 = BattleDestroyBoxGameCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME == arg_5_0 then
-		var_5_0 = BattleKagutsuchiStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL == arg_5_0 then
-		var_5_0 = BattleActivityRouletteCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_NEWWARCHESS == arg_5_0 then
-		var_5_0 = BattleNewWarChessStageCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == arg_5_0 then
-		var_5_0 = BattleAttributeArenaCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN == arg_5_0 then
-		var_5_0 = BattleIndiaNianCfg[arg_5_1]
-		var_5_0.extra_cost = IndiaNianData:GetSelectedStageCost()
-	elseif BattleConst.STAGE_TYPE_NEW.PUSH_BOX_BATTLE == arg_5_0 then
-		var_5_0 = BattleActivityCelebrationCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION == arg_5_0 then
-		var_5_0 = BattleCoreVerificationCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.SP_HERO_CHALLENGE_BATTLE_3_1 == arg_5_0 then
-		var_5_0 = BattleVerthandiExclusiveCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_HERO_ENHANCE == arg_5_0 then
-		var_5_0 = BattleHeroEnhanceCfg[arg_5_1]
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_REFORGE == arg_5_0 then
-		var_5_0 = BattleActivityReforgeCfg[arg_5_1]
-	end
-
-	if var_5_0 == nil then
-		print(string.format("配置表中没有关卡<color=#ff0000>%s</color>", arg_5_1))
-	end
-
-	return var_5_0 or {}
-end
-
-return var_0_0
+}

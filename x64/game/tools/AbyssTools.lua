@@ -1,55 +1,41 @@
-local var_0_0 = {
-	bossTeamCacheFlagDic = {}
-}
+return {
+	bossTeamCacheFlagDic = {},
+	SetLayerBossTeamCacheFlag = function (slot0, slot1, slot2)
+		uv0.bossTeamCacheFlagDic[slot0] = uv0.bossTeamCacheFlagDic[slot0] or {}
+		uv0.bossTeamCacheFlagDic[slot0][slot1] = slot2
+	end,
+	GetLayerBossTeamCacheFlag = function (slot0, slot1)
+		uv0.bossTeamCacheFlagDic[slot0] = uv0.bossTeamCacheFlagDic[slot0] or {}
 
-function var_0_0.SetLayerBossTeamCacheFlag(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.bossTeamCacheFlagDic[arg_1_0] = var_0_0.bossTeamCacheFlagDic[arg_1_0] or {}
-	var_0_0.bossTeamCacheFlagDic[arg_1_0][arg_1_1] = arg_1_2
-end
+		return uv0.bossTeamCacheFlagDic[slot0][slot1]
+	end,
+	GetTeamIndex = function (slot0, slot1)
+		slot2 = nil
 
-function var_0_0.GetLayerBossTeamCacheFlag(arg_2_0, arg_2_1)
-	var_0_0.bossTeamCacheFlagDic[arg_2_0] = var_0_0.bossTeamCacheFlagDic[arg_2_0] or {}
+		if AbyssData:GetAbyssCfg(slot0).stage_list[slot1][1] == 3 then
+			if uv0.GetLayerBossTeamCacheFlag(slot0, slot1) then
+				slot2 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetContDataTemplateById(slot4[2]):GetTeamCount()
+			else
+				slot2 = slot9 + 1
 
-	return var_0_0.bossTeamCacheFlagDic[arg_2_0][arg_2_1]
-end
-
-function var_0_0.GetTeamIndex(arg_3_0, arg_3_1)
-	local var_3_0
-	local var_3_1 = AbyssData:GetAbyssCfg(arg_3_0).stage_list[arg_3_1]
-
-	if var_3_1[1] == 3 then
-		local var_3_2 = var_0_0.GetLayerBossTeamCacheFlag(arg_3_0, arg_3_1)
-		local var_3_3 = var_3_1[2]
-		local var_3_4 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetContDataTemplateById(var_3_3):GetTeamCount()
-
-		if var_3_2 then
-			var_3_0 = var_3_4
+				uv0.SetLayerBossTeamCacheFlag(slot0, slot1, true)
+			end
 		else
-			var_3_0 = var_3_4 + 1
-
-			var_0_0.SetLayerBossTeamCacheFlag(arg_3_0, arg_3_1, true)
+			slot2 = ReserveConst.DEFAULT_TEAM_INDEX
 		end
-	else
-		var_3_0 = ReserveConst.DEFAULT_TEAM_INDEX
+
+		return slot2
+	end,
+	GetLayerLockHeroList = function (slot0)
+		return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetLayerLockHeroList(slot0)
+	end,
+	GetGlobalBanHeroList = function ()
+		return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetGloalBanHeroList()
+	end,
+	GetStageLockHeroList = function (slot0, slot1)
+		return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetStageLockHeroList(slot0, slot1)
+	end,
+	GetStageBanHeroList = function (slot0, slot1)
+		return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetStageBanHeroList(slot0, slot1)
 	end
-
-	return var_3_0
-end
-
-function var_0_0.GetLayerLockHeroList(arg_4_0)
-	return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetLayerLockHeroList(arg_4_0)
-end
-
-function var_0_0.GetGlobalBanHeroList()
-	return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetGloalBanHeroList()
-end
-
-function var_0_0.GetStageLockHeroList(arg_6_0, arg_6_1)
-	return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetStageLockHeroList(arg_6_0, arg_6_1)
-end
-
-function var_0_0.GetStageBanHeroList(arg_7_0, arg_7_1)
-	return ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.ABYSS):GetStageBanHeroList(arg_7_0, arg_7_1)
-end
-
-return var_0_0
+}

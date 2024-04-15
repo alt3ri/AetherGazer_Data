@@ -1,30 +1,29 @@
 IlluMusicInfoItem = import("game.views.IllustratedHandleBook.IlluMusic.IlluMusicInfoItem")
+slot0 = class("VolumeMusicMainItem", IlluMusicInfoItem)
 
-local var_0_0 = class("VolumeMusicMainItem", IlluMusicInfoItem)
-
-function var_0_0.InitUI(arg_1_0)
-	var_0_0.super.InitUI(arg_1_0)
-	arg_1_0.m_animator:Play("detail_item_off", -1, 1)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
+	slot0.m_animator:Play("detail_item_off", -1, 1)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.m_btn, nil, function()
-		if arg_2_0.clickFunc2 then
-			arg_2_0.clickFunc2(arg_2_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.clickFunc2 then
+			uv0.clickFunc2(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.RegistCallBack(arg_4_0, arg_4_1)
-	arg_4_0.clickFunc2 = arg_4_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc2 = slot1
 end
 
-function var_0_0.UpdateAnima(arg_5_0, arg_5_1)
-	if arg_5_1 == arg_5_0.index then
-		arg_5_0.m_animator:Play("detail_item_off", -1, 0)
+function slot0.UpdateAnima(slot0, slot1)
+	if slot1 == slot0.index then
+		slot0.m_animator:Play("detail_item_off", -1, 0)
 	else
-		arg_5_0.m_animator:Play("detail_item_off", -1, 1)
+		slot0.m_animator:Play("detail_item_off", -1, 1)
 	end
 end
 
-return var_0_0
+return slot0

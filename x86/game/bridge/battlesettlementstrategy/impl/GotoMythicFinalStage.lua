@@ -1,30 +1,30 @@
-local var_0_0 = class("GotoMythicFinalStage", BattleSettlementStrategyBase)
+slot0 = class("GotoMythicFinalStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoMythicFinalStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoMythicFinalStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoMythicFinalStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	if isSuccess(arg_2_1) and not arg_2_5 then
+function slot0.GotoMythicFinalStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	if isSuccess(slot1) and not slot5 then
 		function BattleCallLuaCallBack()
 			manager.story:RemovePlayer()
 			gameContext:Go("/battleMythicFinalResultView", {
 				multiple = 1,
-				stageData = arg_2_2,
-				battleResult = arg_2_4
+				stageData = uv0,
+				battleResult = uv1
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv2)
 		end
 	else
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/battlefailedWithButton", {
-				stageData = arg_2_2,
-				battleResult = arg_2_4,
-				isHalfWay_ = arg_2_0.tempData.isHalfWay_
+				stageData = uv0,
+				battleResult = uv1,
+				isHalfWay_ = uv2.tempData.isHalfWay_
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv3)
 		end
 	end
 end
 
-return var_0_0
+return slot0

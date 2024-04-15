@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	accelerateID = 54057,
 	entrustMaxLevel = 4,
 	EntrustState = {
@@ -55,34 +55,33 @@ local var_0_0 = {
 		story = 1
 	}
 }
+slot0.trainIndex = {
+	[slot0.BattleSubType.train1] = 1,
+	[slot0.BattleSubType.train2] = 2,
+	[slot0.BattleSubType.train3] = 3
+}
+slot0.chapterID = {
+	[slot0.BattleSubType.story] = 701,
+	[slot0.BattleSubType.train1] = 702,
+	[slot0.BattleSubType.train2] = 702,
+	[slot0.BattleSubType.train3] = 702,
+	[slot0.BattleSubType.boss] = 703
+}
+slot0.scheduleIndex = {
+	[slot0.ScheduleSubType.story] = slot0.ScheduleID.Awake,
+	[slot0.ScheduleSubType.train1] = slot0.ScheduleID.Endurance,
+	[slot0.ScheduleSubType.train2] = slot0.ScheduleID.Deter,
+	[slot0.ScheduleSubType.train3] = slot0.ScheduleID.Explode,
+	[slot0.ScheduleSubType.boss] = slot0.ScheduleID.Boss,
+	[slot0.ScheduleSubType.decode] = slot0.ScheduleID.Decode,
+	[slot0.ScheduleSubType.barbuce] = slot0.ScheduleID.Barbecue,
+	[slot0.ScheduleSubType.entrust] = slot0.ScheduleID.Entrust
+}
+slot0.PriorityType = {
+	slot0.ScheduleType.Battle,
+	slot0.ScheduleType.MiniGame,
+	slot0.ScheduleType.Entrust
+}
+slot0.scheduleNum = GameSetting.activity_hero_challenge_schedule_limit.value[1]
 
-var_0_0.trainIndex = {
-	[var_0_0.BattleSubType.train1] = 1,
-	[var_0_0.BattleSubType.train2] = 2,
-	[var_0_0.BattleSubType.train3] = 3
-}
-var_0_0.chapterID = {
-	[var_0_0.BattleSubType.story] = 701,
-	[var_0_0.BattleSubType.train1] = 702,
-	[var_0_0.BattleSubType.train2] = 702,
-	[var_0_0.BattleSubType.train3] = 702,
-	[var_0_0.BattleSubType.boss] = 703
-}
-var_0_0.scheduleIndex = {
-	[var_0_0.ScheduleSubType.story] = var_0_0.ScheduleID.Awake,
-	[var_0_0.ScheduleSubType.train1] = var_0_0.ScheduleID.Endurance,
-	[var_0_0.ScheduleSubType.train2] = var_0_0.ScheduleID.Deter,
-	[var_0_0.ScheduleSubType.train3] = var_0_0.ScheduleID.Explode,
-	[var_0_0.ScheduleSubType.boss] = var_0_0.ScheduleID.Boss,
-	[var_0_0.ScheduleSubType.decode] = var_0_0.ScheduleID.Decode,
-	[var_0_0.ScheduleSubType.barbuce] = var_0_0.ScheduleID.Barbecue,
-	[var_0_0.ScheduleSubType.entrust] = var_0_0.ScheduleID.Entrust
-}
-var_0_0.PriorityType = {
-	var_0_0.ScheduleType.Battle,
-	var_0_0.ScheduleType.MiniGame,
-	var_0_0.ScheduleType.Entrust
-}
-var_0_0.scheduleNum = GameSetting.activity_hero_challenge_schedule_limit.value[1]
-
-return var_0_0
+return slot0

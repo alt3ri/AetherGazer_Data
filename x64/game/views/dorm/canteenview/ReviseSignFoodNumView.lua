@@ -1,165 +1,153 @@
-local var_0_0 = class("ReviseSignFoodNumView", ReduxView)
+slot0 = class("ReviseSignFoodNumView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dining/ShelfPresetUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.sceneID = DormConst.CANTEEN_ID
-	arg_4_0.foodMaterialScroll = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, FoodMaterialItem)
+	slot0.sceneID = DormConst.CANTEEN_ID
+	slot0.foodMaterialScroll = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, FoodMaterialItem)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.foodID = arg_6_0.params_.foodID
+function slot0.OnEnter(slot0)
+	slot0.foodID = slot0.params_.foodID
 
-	if not arg_6_0.sellNum then
-		arg_6_0.sellNum = 0
+	if not slot0.sellNum then
+		slot0.sellNum = 0
 	end
 
 	manager.windowBar:HideBar()
-	arg_6_0:SetfurNum(arg_6_0.sellNum)
+	slot0:SetfurNum(slot0.sellNum)
 
-	arg_6_0.progressSlr_.maxValue = CanteenFoodData:CalculateFoodCanCookNum(arg_6_0.foodID)
-	arg_6_0.furNumMax = CanteenFoodData:CalculateFoodCanCookNum(arg_6_0.foodID)
+	slot0.progressSlr_.maxValue = CanteenFoodData:CalculateFoodCanCookNum(slot0.foodID)
+	slot0.furNumMax = CanteenFoodData:CalculateFoodCanCookNum(slot0.foodID)
 
-	arg_6_0:RegisterEvent()
-	arg_6_0:RefreshView()
+	slot0:RegisterEvent()
+	slot0:RefreshView()
 end
 
-function var_0_0.RegisterEvent(arg_7_0)
-	arg_7_0:RegistEventListener(CANTEEN_SET_SIGNFOOD_SUCCESS, function()
+function slot0.RegisterEvent(slot0)
+	slot0:RegistEventListener(CANTEEN_SET_SIGNFOOD_SUCCESS, function ()
 		ShowTips(GetTips("DORM_FOOD_SET_SUCCESS"))
-		arg_7_0:SetfurNum(0)
+		uv0:SetfurNum(0)
 		JumpTools:Back()
 	end)
-	arg_7_0:RegistEventListener(SHOP_LIST_UPDATE, function(arg_9_0)
-		if arg_9_0 == 0 or arg_9_0 == ShopConst.SHOP_ID.CANTEEN_SHOP then
-			arg_7_0.foodMaterialScroll:Refresh()
+	slot0:RegistEventListener(SHOP_LIST_UPDATE, function (slot0)
+		if slot0 == 0 or slot0 == ShopConst.SHOP_ID.CANTEEN_SHOP then
+			uv0.foodMaterialScroll:Refresh()
 		end
 	end)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.AddUIListener(arg_11_0)
-	arg_11_0:AddBtnListenerScale(arg_11_0.signBtn_, nil, function()
-		if arg_11_0.sellNum <= 0 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.signBtn_, nil, function ()
+		if uv0.sellNum <= 0 then
 			ShowTips(GetTips("DORM_FOOD_SET_NULL"))
 
 			return
 		end
 
-		CanteenAction:SendSignFoodInfo(arg_11_0.foodID, arg_11_0.sellNum)
+		CanteenAction:SendSignFoodInfo(uv0.foodID, uv0.sellNum)
 	end)
-	arg_11_0:AddToggleListener(arg_11_0.progressSlr_, function()
-		if arg_11_0.foodID then
-			arg_11_0:SetfurNum(arg_11_0.progressSlr_.value)
+	slot0:AddToggleListener(slot0.progressSlr_, function ()
+		if uv0.foodID then
+			uv0:SetfurNum(uv0.progressSlr_.value)
 		end
 	end)
-	arg_11_0:AddPressingByTimeListener(arg_11_0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_11_0.foodID and arg_11_0.sellNum > 0 then
-			local var_14_0 = arg_11_0.progressSlr_.value - 1
-
-			arg_11_0:SetfurNum(var_14_0)
+	slot0:AddPressingByTimeListener(slot0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.foodID and uv0.sellNum > 0 then
+			uv0:SetfurNum(uv0.progressSlr_.value - 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_11_0:AddPressingByTimeListener(arg_11_0.addNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_11_0.foodID and arg_11_0.sellNum < arg_11_0.furNumMax then
-			local var_15_0 = arg_11_0.progressSlr_.value + 1
-
-			arg_11_0:SetfurNum(var_15_0)
+	slot0:AddPressingByTimeListener(slot0.addNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.foodID and uv0.sellNum < uv0.furNumMax then
+			uv0:SetfurNum(uv0.progressSlr_.value + 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.bgmaskBtn_, nil, function()
-		arg_11_0.sellNum = 0
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0.sellNum = 0
 
 		JumpTools.Back()
 	end)
-	arg_11_0:AddBtnListenerScale(arg_11_0.takeOffBtn_, nil, function()
-		arg_11_0.sellNum = 0
+	slot0:AddBtnListenerScale(slot0.takeOffBtn_, nil, function ()
+		uv0.sellNum = 0
 
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.SetfurNum(arg_18_0, arg_18_1)
-	arg_18_0.sellNum = arg_18_1
-	arg_18_0.numText_.text = arg_18_1
-	arg_18_0.progressSlr_.value = arg_18_1
+function slot0.SetfurNum(slot0, slot1)
+	slot0.sellNum = slot1
+	slot0.numText_.text = slot1
+	slot0.progressSlr_.value = slot1
 
-	arg_18_0:RefreshSellNumAndIncome()
+	slot0:RefreshSellNumAndIncome()
 end
 
-function var_0_0.indexItem(arg_19_0, arg_19_1, arg_19_2)
-	arg_19_2:RefreshItem(arg_19_0.foodMaterialList[arg_19_1], arg_19_0.foodID, arg_19_0.sellNum)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.foodMaterialList[slot1], slot0.foodID, slot0.sellNum)
 end
 
-function var_0_0.RefreshView(arg_20_0)
-	arg_20_0:RefreshFoodInfo()
-	arg_20_0:RefreshFoodMaterialList()
-	arg_20_0:RefreshSellNumAndIncome()
+function slot0.RefreshView(slot0)
+	slot0:RefreshFoodInfo()
+	slot0:RefreshFoodMaterialList()
+	slot0:RefreshSellNumAndIncome()
 end
 
-function var_0_0.RefreshFoodMaterialList(arg_21_0)
-	arg_21_0.foodMaterialList = BackHomeCanteenFoodCfg[arg_21_0.foodID].ingredient_list
+function slot0.RefreshFoodMaterialList(slot0)
+	slot0.foodMaterialList = BackHomeCanteenFoodCfg[slot0.foodID].ingredient_list
 
-	if arg_21_0.foodMaterialList then
-		arg_21_0.foodMaterialScroll:StartScroll(#arg_21_0.foodMaterialList)
+	if slot0.foodMaterialList then
+		slot0.foodMaterialScroll:StartScroll(#slot0.foodMaterialList)
 	end
 end
 
-function var_0_0.RefreshSellNumAndIncome(arg_22_0)
-	arg_22_0.sellNumTex_.text = arg_22_0.sellNum
+function slot0.RefreshSellNumAndIncome(slot0)
+	slot0.sellNumTex_.text = slot0.sellNum
+	slot0.incomeNumTex_.text = math.floor(CanteenFoodData:GetFoodUnitCost(slot0.foodID) * slot0.sellNum)
+	slot0.costTimeTex.text = DormTools:SecondSwitchTime(math.ceil(BackHomeCanteenFoodCfg[slot0.foodID].cost_time * slot0.sellNum * (100 - DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FoodCostQucik, nil, , BackHomeCanteenFoodCfg[slot0.foodID].cook_type)) / 100))
 
-	local var_22_0 = CanteenFoodData:GetFoodUnitCost(arg_22_0.foodID)
-	local var_22_1 = BackHomeCanteenFoodCfg[arg_22_0.foodID].cook_type
-
-	arg_22_0.incomeNumTex_.text = math.floor(var_22_0 * arg_22_0.sellNum)
-
-	local var_22_2 = (100 - DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FoodCostQucik, nil, nil, var_22_1)) / 100
-
-	arg_22_0.costTimeTex.text = DormTools:SecondSwitchTime(math.ceil(BackHomeCanteenFoodCfg[arg_22_0.foodID].cost_time * arg_22_0.sellNum * var_22_2))
-
-	arg_22_0.foodMaterialScroll:Refresh()
+	slot0.foodMaterialScroll:Refresh()
 end
 
-function var_0_0.RefreshFoodInfo(arg_23_0)
-	arg_23_0.iconImg_.sprite = CanteenTools.GetFoodSprite(arg_23_0.foodID)
-	arg_23_0.foodName.text = GetI18NText(BackHomeCanteenFoodCfg[arg_23_0.foodID].name)
-	arg_23_0.descText_.text = GetI18NText(BackHomeCanteenFoodCfg[arg_23_0.foodID].desc)
+function slot0.RefreshFoodInfo(slot0)
+	slot0.iconImg_.sprite = CanteenTools.GetFoodSprite(slot0.foodID)
+	slot0.foodName.text = GetI18NText(BackHomeCanteenFoodCfg[slot0.foodID].name)
+	slot0.descText_.text = GetI18NText(BackHomeCanteenFoodCfg[slot0.foodID].desc)
 end
 
-function var_0_0.Dispose(arg_24_0)
-	if arg_24_0.foodMaterialScroll then
-		arg_24_0.foodMaterialScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.foodMaterialScroll then
+		slot0.foodMaterialScroll:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_24_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

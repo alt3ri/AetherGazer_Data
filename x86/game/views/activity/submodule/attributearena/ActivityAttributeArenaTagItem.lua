@@ -1,26 +1,24 @@
-local var_0_0 = class("ActivityAttributeArenaTagItem", ReduxView)
+slot0 = class("ActivityAttributeArenaTagItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	local var_4_0 = ActivityAttributeArenaCfg[arg_4_1]
-
-	if var_4_0 then
-		arg_4_0.m_tag.sprite = HeroTools.GetSkillAttributeIcon(var_4_0.attribute)
+function slot0.SetData(slot0, slot1)
+	if ActivityAttributeArenaCfg[slot1] then
+		slot0.m_tag.sprite = HeroTools.GetSkillAttributeIcon(slot2.attribute)
 	end
 end
 
-return var_0_0
+return slot0

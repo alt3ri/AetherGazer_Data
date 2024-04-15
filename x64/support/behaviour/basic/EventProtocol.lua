@@ -1,141 +1,133 @@
-local var_0_0 = import("..BehaviourBase")
-local var_0_1 = class("EventProtocol", var_0_0)
+slot1 = class("EventProtocol", import("..BehaviourBase"))
 
-function var_0_1.Ctor(arg_1_0)
-	var_0_1.super.Ctor(arg_1_0, "EventProtocol")
+function slot1.Ctor(slot0)
+	uv0.super.Ctor(slot0, "EventProtocol")
 
-	arg_1_0.listeners_ = {}
-	arg_1_0.nextListenerHandleIndex_ = 0
+	slot0.listeners_ = {}
+	slot0.nextListenerHandleIndex_ = 0
 end
 
-function var_0_1.AddEventListener(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	if arg_2_0.listeners_[arg_2_1] == nil then
-		arg_2_0.listeners_[arg_2_1] = {}
+function slot1.AddEventListener(slot0, slot1, slot2, slot3)
+	if slot0.listeners_[slot1] == nil then
+		slot0.listeners_[slot1] = {}
 	end
 
-	local var_2_0 = arg_2_2
-
-	arg_2_0.listeners_[arg_2_1][var_2_0] = {
-		arg_2_2,
-		arg_2_3
+	slot4 = slot2
+	slot0.listeners_[slot1][slot4] = {
+		slot2,
+		slot3
 	}
 
-	return var_2_0
+	return slot4
 end
 
-function var_0_1.AddEventListenerShare(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if arg_3_0.listeners_[arg_3_1] == nil then
-		arg_3_0.listeners_[arg_3_1] = {}
+function slot1.AddEventListenerShare(slot0, slot1, slot2, slot3)
+	if slot0.listeners_[slot1] == nil then
+		slot0.listeners_[slot1] = {}
 	end
 
-	arg_3_0.nextListenerHandleIndex_ = arg_3_0.nextListenerHandleIndex_ + 1
-
-	local var_3_0 = tostring(arg_3_0.nextListenerHandleIndex_)
-
-	arg_3_0.listeners_[arg_3_1][var_3_0] = {
-		arg_3_2,
-		arg_3_3
+	slot0.nextListenerHandleIndex_ = slot0.nextListenerHandleIndex_ + 1
+	slot4 = tostring(slot0.nextListenerHandleIndex_)
+	slot0.listeners_[slot1][slot4] = {
+		slot2,
+		slot3
 	}
 
-	return var_3_0
+	return slot4
 end
 
-function var_0_1.DispatchEvent(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1.name or arg_4_1.GetName and arg_4_1:GetName()
-
-	if arg_4_0.listeners_[var_4_0] == nil then
+function slot1.DispatchEvent(slot0, slot1)
+	if slot0.listeners_[slot1.name or slot1.GetName and slot1:GetName()] == nil then
 		return
 	end
 
-	arg_4_1.emitter = arg_4_0.target_
+	slot1.emitter = slot0.target_
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.listeners_[var_4_0]) do
-		iter_4_1[1](arg_4_1)
+	for slot6, slot7 in pairs(slot0.listeners_[slot2]) do
+		slot7[1](slot1)
 	end
 
-	return arg_4_0.target_
+	return slot0.target_
 end
 
-function var_0_1.RemoveEventListener(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.listeners_) do
-		for iter_5_2, iter_5_3 in pairs(iter_5_1) do
-			if iter_5_2 == arg_5_1 then
-				iter_5_1[iter_5_2] = nil
+function slot1.RemoveEventListener(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.listeners_) do
+		for slot10, slot11 in pairs(slot6) do
+			if slot10 == slot1 then
+				slot6[slot10] = nil
 
-				return arg_5_0.target_
+				return slot0.target_
 			end
 		end
 	end
 
-	return arg_5_0.target_
+	return slot0.target_
 end
 
-function var_0_1.RemoveEventListenersByTag(arg_6_0, arg_6_1)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.listeners_) do
-		for iter_6_2, iter_6_3 in pairs(iter_6_1) do
-			if iter_6_3[2] == arg_6_1 then
-				iter_6_1[iter_6_2] = nil
+function slot1.RemoveEventListenersByTag(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.listeners_) do
+		for slot10, slot11 in pairs(slot6) do
+			if slot11[2] == slot1 then
+				slot6[slot10] = nil
 			end
 		end
 	end
 
-	return arg_6_0.target_
+	return slot0.target_
 end
 
-function var_0_1.RemoveEventListenersByEventAndTag(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.listeners_[arg_7_1]
-
-	if not var_7_0 then
-		return arg_7_0.target_
+function slot1.RemoveEventListenersByEventAndTag(slot0, slot1, slot2)
+	if not slot0.listeners_[slot1] then
+		return slot0.target_
 	end
 
-	for iter_7_0, iter_7_1 in pairs(var_7_0) do
-		if iter_7_1[2] == arg_7_2 then
-			var_7_0[iter_7_0] = nil
+	for slot7, slot8 in pairs(slot3) do
+		if slot8[2] == slot2 then
+			slot3[slot7] = nil
 		end
 	end
 
-	return arg_7_0.target_
+	return slot0.target_
 end
 
-function var_0_1.RemoveEventListenersByEvent(arg_8_0, arg_8_1)
-	arg_8_0.listeners_[arg_8_1] = nil
+function slot1.RemoveEventListenersByEvent(slot0, slot1)
+	slot0.listeners_[slot1] = nil
 
-	return arg_8_0.target_
+	return slot0.target_
 end
 
-function var_0_1.RemoveAllEventListeners(arg_9_0)
-	arg_9_0.listeners_ = {}
+function slot1.RemoveAllEventListeners(slot0)
+	slot0.listeners_ = {}
 
-	return arg_9_0.target_
+	return slot0.target_
 end
 
-function var_0_1.HasEventListener(arg_10_0, arg_10_1)
-	local var_10_0 = arg_10_0.listeners_[arg_10_1]
-
-	for iter_10_0, iter_10_1 in pairs(var_10_0) do
+function slot1.HasEventListener(slot0, slot1)
+	for slot6, slot7 in pairs(slot0.listeners_[slot1]) do
 		return true
 	end
 
 	return false
 end
 
-function var_0_1.DumpAllEventListeners(arg_11_0)
+function slot1.DumpAllEventListeners(slot0)
 	printInfo("---- EventProtocol:dumpAllEventListeners() ----")
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.listeners_) do
-		printInfo("-- event: %s", iter_11_0)
+	for slot4, slot5 in pairs(slot0.listeners_) do
+		slot9 = slot4
 
-		for iter_11_2, iter_11_3 in pairs(iter_11_1) do
-			printInfo("--     listener: %s, handle: %s", tostring(iter_11_3[1]), tostring(iter_11_2))
+		printInfo("-- event: %s", slot9)
+
+		for slot9, slot10 in pairs(slot5) do
+			printInfo("--     listener: %s, handle: %s", tostring(slot10[1]), tostring(slot9))
 		end
 	end
 
-	return arg_11_0.target_
+	return slot0.target_
 end
 
-function var_0_1.OnBind_(arg_12_0)
-	arg_12_0:ExportMethods_({
+function slot1.OnBind_(slot0)
+	slot0:ExportMethods_({
 		"AddEventListener",
 		"AddEventListenerShare",
 		"DispatchEvent",
@@ -148,11 +140,10 @@ function var_0_1.OnBind_(arg_12_0)
 		"DumpAllEventListeners"
 	})
 
-	return arg_12_0.target_
+	return slot0.target_
 end
 
-function var_0_1.OnUnbind_(arg_13_0)
-	return
+function slot1.OnUnbind_(slot0)
 end
 
-return var_0_1
+return slot1

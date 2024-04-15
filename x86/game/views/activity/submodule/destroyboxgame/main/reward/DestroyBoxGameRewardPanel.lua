@@ -1,40 +1,38 @@
-local var_0_0 = class("DestroyBoxGameRewardPanel", ReduxView)
+slot0 = class("DestroyBoxGameRewardPanel", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.uiList_ = LuaList.New(handler(arg_1_0, arg_1_0.IndexItem), arg_1_0.m_list, DestroyBoxGameRewardItem)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, DestroyBoxGameRewardItem)
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_1
-	arg_2_0.rewardIDList_ = arg_2_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.rewardIDList_ = slot2
 
-	arg_2_0.uiList_:StartScroll(#arg_2_0.rewardIDList_)
-	arg_2_0:RefreshUI()
+	slot0.uiList_:StartScroll(#slot0.rewardIDList_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	if arg_3_0.uiList_ then
-		arg_3_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_3_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	arg_4_0.m_title.text = ActivityCfg[arg_4_0.activityID_].remark
+function slot0.RefreshUI(slot0)
+	slot0.m_title.text = ActivityCfg[slot0.activityID_].remark
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.rewardIDList_[arg_5_1]
-
-	arg_5_2:SetData(var_5_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.rewardIDList_[slot1])
 end
 
-return var_0_0
+return slot0

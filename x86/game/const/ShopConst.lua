@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	SHOP_ID = {
 		DORM_SHOP = 51,
 		CONSTANT_OBSERVATIONS = 24,
@@ -74,54 +74,53 @@ local var_0_0 = {
 		[ItemConst.ITEM_TYPE.WEAPON_SERVANT] = "SHOP_LABLE_2"
 	},
 	ADD_CURRENCY = {
-		[2] = true,
-		[1] = true
+		[2.0] = true,
+		[1.0] = true
 	}
 }
-
-var_0_0.prefabList = {
-	[var_0_0.SHOP_ID.LIMIT_SUPPLY] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
-	[var_0_0.SHOP_ID.DAILY_SUPPLY] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
-	[var_0_0.SHOP_ID.NEWBIE_SHOP] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
-	[var_0_0.SHOP_ID.DRAW_SHOP] = "Widget/System/Recharge/pages/RechargeVoucherPageUI",
-	[var_0_0.SHOP_ID.SKIN_SHOP] = "Widget/System/Recharge/pages/RechargeSkinDlcPageUI_New",
-	[var_0_0.SHOP_ID.DIRECT_SHOP] = "Widget/System/Recharge/pages/RechargeSkinPageUI_New",
-	[var_0_0.SHOP_ID.REPURCHASE_SHOP] = "Widget/System/Recharge/pages/RechargeSkinPageUI_New",
-	[var_0_0.SHOP_ID.SKIN_TARGET] = "Widget/System/Recharge/pages/RechargeSkinTicketPageUI",
-	[var_0_0.SHOP_ID.CONSTANT_OBSERVATIONS] = "Widget/System/Recharge/pages/RechargeMonthCardPageUI",
-	[var_0_0.SHOP_ID.MIGRATION_OBSERVATIONS] = "Widget/System/Recharge/pages/RechargeRechargePageUI",
-	[var_0_0.SHOP_ID.SIX_SHOP] = "Widget/System/Recharge/pages/RechargeFirstRechargePageUI",
-	[var_0_0.SHOP_ID.EIGHT_SHOP] = "Widget/System/Recharge/pages/RechargeFirstRechargePageUI",
-	[var_0_0.SHOP_ID.OBSERVATION_SHOP] = "Widget/System/Activitynewbie/NewbieMonthlyCardUI_old",
-	[var_0_0.SHOP_ID.CONTRACT_BENEFITS] = "Widget/System/Activitynewbie/NewbieBpRechargeUI_old"
+slot0.prefabList = {
+	[slot0.SHOP_ID.LIMIT_SUPPLY] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
+	[slot0.SHOP_ID.DAILY_SUPPLY] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
+	[slot0.SHOP_ID.NEWBIE_SHOP] = "Widget/System/Recharge/pages/RechargeGiftPageUI",
+	[slot0.SHOP_ID.DRAW_SHOP] = "Widget/System/Recharge/pages/RechargeVoucherPageUI",
+	[slot0.SHOP_ID.SKIN_SHOP] = "Widget/System/Recharge/pages/RechargeSkinDlcPageUI_New",
+	[slot0.SHOP_ID.DIRECT_SHOP] = "Widget/System/Recharge/pages/RechargeSkinPageUI_New",
+	[slot0.SHOP_ID.REPURCHASE_SHOP] = "Widget/System/Recharge/pages/RechargeSkinPageUI_New",
+	[slot0.SHOP_ID.SKIN_TARGET] = "Widget/System/Recharge/pages/RechargeSkinTicketPageUI",
+	[slot0.SHOP_ID.CONSTANT_OBSERVATIONS] = "Widget/System/Recharge/pages/RechargeMonthCardPageUI",
+	[slot0.SHOP_ID.MIGRATION_OBSERVATIONS] = "Widget/System/Recharge/pages/RechargeRechargePageUI",
+	[slot0.SHOP_ID.SIX_SHOP] = "Widget/System/Recharge/pages/RechargeFirstRechargePageUI",
+	[slot0.SHOP_ID.EIGHT_SHOP] = "Widget/System/Recharge/pages/RechargeFirstRechargePageUI",
+	[slot0.SHOP_ID.OBSERVATION_SHOP] = "Widget/System/Activitynewbie/NewbieMonthlyCardUI_old",
+	[slot0.SHOP_ID.CONTRACT_BENEFITS] = "Widget/System/Activitynewbie/NewbieBpRechargeUI_old"
 }
-var_0_0.SIX_EIGHT = {
-	[var_0_0.SHOP_ID.SIX_SHOP] = 1,
-	[var_0_0.SHOP_ID.EIGHT_SHOP] = 2
+slot0.SIX_EIGHT = {
+	[slot0.SHOP_ID.SIX_SHOP] = 1,
+	[slot0.SHOP_ID.EIGHT_SHOP] = 2
 }
-var_0_0.SHOP_ID_TO_RED_CONST = {
-	[var_0_0.SHOP_ID.LIMIT_SUPPLY] = "ACTIVITY_BONUS",
-	[var_0_0.SHOP_ID.DAILY_SUPPLY] = "NORMAL_BONUS",
-	[var_0_0.SHOP_ID.NEWBIE_SHOP] = "NEWBIE_BONUS",
-	[var_0_0.SHOP_ID.REPORT_SHOP] = "HERO_PIECE_EXCHANGE",
-	[var_0_0.SHOP_ID.CONSTANT_OBSERVATIONS] = "NOOB_MONTHLY_RECHARGE_SIGN",
-	[var_0_0.SHOP_ID.MIGRATION_OBSERVATIONS] = 400,
-	[var_0_0.SHOP_ID.SIX_SHOP] = "NOOB_FIRST_RECHARGE_1",
-	[var_0_0.SHOP_ID.EIGHT_SHOP] = "NOOB_FIRST_RECHARGE_2",
-	[var_0_0.SHOP_ID.OBSERVATION_SHOP] = "NOOB_MONTHLY_RECHARGE",
-	[var_0_0.SHOP_ID.CONTRACT_BENEFITS] = "NOOB_BP_RECHARGE"
+slot0.SHOP_ID_TO_RED_CONST = {
+	[slot0.SHOP_ID.LIMIT_SUPPLY] = "ACTIVITY_BONUS",
+	[slot0.SHOP_ID.DAILY_SUPPLY] = "NORMAL_BONUS",
+	[slot0.SHOP_ID.NEWBIE_SHOP] = "NEWBIE_BONUS",
+	[slot0.SHOP_ID.REPORT_SHOP] = "HERO_PIECE_EXCHANGE",
+	[slot0.SHOP_ID.CONSTANT_OBSERVATIONS] = "NOOB_MONTHLY_RECHARGE_SIGN",
+	[slot0.SHOP_ID.MIGRATION_OBSERVATIONS] = 400,
+	[slot0.SHOP_ID.SIX_SHOP] = "NOOB_FIRST_RECHARGE_1",
+	[slot0.SHOP_ID.EIGHT_SHOP] = "NOOB_FIRST_RECHARGE_2",
+	[slot0.SHOP_ID.OBSERVATION_SHOP] = "NOOB_MONTHLY_RECHARGE",
+	[slot0.SHOP_ID.CONTRACT_BENEFITS] = "NOOB_BP_RECHARGE"
 }
-var_0_0.PC_LOCK_SHOP = {
-	[var_0_0.SHOP_ID.SKIN_TARGET] = true,
-	[var_0_0.SHOP_ID.MIGRATION_OBSERVATIONS] = true
+slot0.PC_LOCK_SHOP = {
+	[slot0.SHOP_ID.SKIN_TARGET] = true,
+	[slot0.SHOP_ID.MIGRATION_OBSERVATIONS] = true
 }
-var_0_0.PC_LOCK_RECHARGE = {
+slot0.PC_LOCK_RECHARGE = {
 	["1_4"] = true,
 	["2_3"] = true
 }
-var_0_0.NEED_HIDE_TIME = {
-	[var_0_0.SHOP_ID.SP_HERO_CHALLENGE_1] = true,
-	[var_0_0.SHOP_ID.CANTEEN_SHOP] = true
+slot0.NEED_HIDE_TIME = {
+	[slot0.SHOP_ID.SP_HERO_CHALLENGE_1] = true,
+	[slot0.SHOP_ID.CANTEEN_SHOP] = true
 }
 
-return var_0_0
+return slot0

@@ -1,7 +1,7 @@
-local var_0_0 = class("ReservesChipSchemeView", ChipSchemeView)
+slot0 = class("ReservesChipSchemeView", ChipSchemeView)
 
-function var_0_0.GetChipSchemeItem(arg_1_0)
+function slot0.GetChipSchemeItem(slot0)
 	return ReservesChipSchemeItem
 end
 
-return var_0_0
+return slot0

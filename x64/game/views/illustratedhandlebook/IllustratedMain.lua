@@ -1,150 +1,135 @@
-local var_0_0 = class("IllustratedMain", ReduxView)
+slot0 = class("IllustratedMain", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluEntranceUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.enemybtnBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.enemybtnBtn_, nil, function ()
 		IllustratedAction.SetIlluRedPoint(RedPointConst.ILUU_ENEMY)
-		arg_5_0:Go("/illuEnemyFiles")
+		uv0:Go("/illuEnemyFiles")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.equipbtnBtn_, nil, function()
-		arg_5_0:Go("/illuEquipManual")
+	slot0:AddBtnListener(slot0.equipbtnBtn_, nil, function ()
+		uv0:Go("/illuEquipManual")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.servantbtnBtn_, nil, function()
-		arg_5_0:Go("/illuServantManual")
+	slot0:AddBtnListener(slot0.servantbtnBtn_, nil, function ()
+		uv0:Go("/illuServantManual")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.worldbtnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.worldbtnBtn_, nil, function ()
 		IllustratedAction.SetIlluRedPoint(RedPointConst.ILLU_WORLDVIEW)
-		arg_5_0:Go("/illuWorldView")
+		uv0:Go("/illuWorldView")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.plotbtnBtn_, nil, function()
-		arg_5_0:Go("/illuPlot")
+	slot0:AddBtnListener(slot0.plotbtnBtn_, nil, function ()
+		uv0:Go("/illuPlot")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.illustrationbtnBtn_, nil, function()
-		arg_5_0:Go("/illuIllustration")
+	slot0:AddBtnListener(slot0.illustrationbtnBtn_, nil, function ()
+		uv0:Go("/illuIllustration")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.heroBtn_, nil, function()
+	slot0:AddBtnListener(slot0.heroBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewChange")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.musicBtn_, nil, function()
+	slot0:AddBtnListener(slot0.musicBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/illuMusic", {
 			isEnter = true
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	manager.windowBar:SwitchBar({
+function slot0.OnEnter(slot0)
+	slot4 = {
 		BACK_BAR,
 		HOME_BAR
-	})
+	}
 
-	for iter_14_0 = 1, 7 do
-		arg_14_0:RefreshRate(iter_14_0)
+	manager.windowBar:SwitchBar(slot4)
+
+	for slot4 = 1, 7 do
+		slot0:RefreshRate(slot4)
 	end
 
-	manager.redPoint:bindUIandKey(arg_14_0.enemybtnBtn_.transform, RedPointConst.ILUU_ENEMY)
-	manager.redPoint:bindUIandKey(arg_14_0.worldbtnBtn_.transform, RedPointConst.ILLU_WORLDVIEW)
-	manager.redPoint:bindUIandKey(arg_14_0.illustrationbtnBtn_.transform, RedPointConst.ILLU_ILLUSTRATION)
-	manager.redPoint:bindUIandKey(arg_14_0.heroBtn_.transform, RedPointConst.ILLU_HERO)
+	manager.redPoint:bindUIandKey(slot0.enemybtnBtn_.transform, RedPointConst.ILUU_ENEMY)
+	manager.redPoint:bindUIandKey(slot0.worldbtnBtn_.transform, RedPointConst.ILLU_WORLDVIEW)
+	manager.redPoint:bindUIandKey(slot0.illustrationbtnBtn_.transform, RedPointConst.ILLU_ILLUSTRATION)
+	manager.redPoint:bindUIandKey(slot0.heroBtn_.transform, RedPointConst.ILLU_HERO)
 end
 
-function var_0_0.GetStoryLen(arg_15_0)
-	local var_15_0 = 0
-
-	for iter_15_0, iter_15_1 in pairs(StoryCfg) do
-		if iter_15_1.trigger[2] then
-			var_15_0 = var_15_0 + 1
+function slot0.GetStoryLen(slot0)
+	for slot5, slot6 in pairs(StoryCfg) do
+		if slot6.trigger[2] then
+			slot1 = 0 + 1
 		end
 	end
 
-	return var_15_0
+	return slot1
 end
 
-function var_0_0.RefreshRate(arg_16_0, arg_16_1)
-	local var_16_0 = 0.5
-	local var_16_1
-	local var_16_2
+function slot0.RefreshRate(slot0, slot1)
+	slot2 = 0.5
+	slot3, slot4 = nil
 
-	if arg_16_1 == 1 then
-		arg_16_0.informationrateImg_.fillAmount = var_16_0
-		arg_16_0.informaiontextText_.text = var_16_0 * 100 .. "%"
-	elseif arg_16_1 == 2 then
-		local var_16_3 = #CollectMonsterCfg.all
-		local var_16_4 = table.length(IllustratedData:GetEnemyInfo()) / var_16_3
+	if slot1 == 1 then
+		slot0.informationrateImg_.fillAmount = slot2
+		slot0.informaiontextText_.text = slot2 * 100 .. "%"
+	elseif slot1 == 2 then
+		slot2 = table.length(IllustratedData:GetEnemyInfo()) / #CollectMonsterCfg.all
+		slot0.enemyrateImg_.fillAmount = slot2
+		slot0.enemytextText_.text = string.format("%d%%", slot2 * 100)
+	elseif slot1 == 3 then
+		slot5 = IllustratedData:GetServantInfo()
 
-		arg_16_0.enemyrateImg_.fillAmount = var_16_4
-		arg_16_0.enemytextText_.text = string.format("%d%%", var_16_4 * 100)
-	elseif arg_16_1 == 3 then
-		local var_16_5 = 0
-		local var_16_6 = IllustratedData:GetServantInfo()
-
-		for iter_16_0, iter_16_1 in ipairs(WeaponServantCfg.all) do
-			local var_16_7 = var_16_6[iter_16_1]
-
-			if not ServantTools.GetIsHide(iter_16_1) and (var_16_7 or WeaponServantCfg[iter_16_1].display_type ~= 1) then
-				var_16_5 = var_16_5 + 1
+		for slot9, slot10 in ipairs(WeaponServantCfg.all) do
+			if not ServantTools.GetIsHide(slot10) and (slot5[slot10] or WeaponServantCfg[slot10].display_type ~= 1) then
+				slot3 = 0 + 1
 			end
 		end
 
-		local var_16_8 = table.length(var_16_6) / var_16_5
-
-		arg_16_0.servantrateImg_.fillAmount = var_16_8
-		arg_16_0.servanttextText_.text = string.format("%d%%", var_16_8 * 100)
-	elseif arg_16_1 == 4 then
-		local var_16_9 = EquipTools.GetSuitTotalNum() * 6
-		local var_16_10 = IlluTools.GetEquipAll() / var_16_9
-
-		arg_16_0.equiprateImg_.fillAmount = var_16_10
-		arg_16_0.equiptextText_.text = string.format("%d%%", var_16_10 * 100)
-	elseif arg_16_1 == 5 then
-		local var_16_11 = arg_16_0:GetStoryLen()
-		local var_16_12 = table.length(IllustratedData:GetPlotInfo()) / var_16_11
-
-		arg_16_0.plotrateImg_.fillAmount = var_16_12
-		arg_16_0.plottextText_.text = string.format("%d%%", var_16_12 * 100)
-	elseif arg_16_1 == 6 then
-		local var_16_13 = #CollectPictureCfg.all
-		local var_16_14 = table.length(IllustratedData:GetIllustrationInfo()) / var_16_13
-
-		arg_16_0.illurateImg_.fillAmount = var_16_14
-		arg_16_0.illutextText_.text = string.format("%d%%", var_16_14 * 100)
-	elseif arg_16_1 == 7 then
-		local var_16_15 = #CollectWordCfg.all
-		local var_16_16 = table.length(IllustratedData:GetAffixInfo()) / var_16_15
-
-		arg_16_0.worldrateImg_.fillAmount = var_16_16
-		arg_16_0.worldtextText_.text = string.format("%d%%", var_16_16 * 100)
+		slot2 = table.length(slot5) / slot3
+		slot0.servantrateImg_.fillAmount = slot2
+		slot0.servanttextText_.text = string.format("%d%%", slot2 * 100)
+	elseif slot1 == 4 then
+		slot2 = IlluTools.GetEquipAll() / (EquipTools.GetSuitTotalNum() * 6)
+		slot0.equiprateImg_.fillAmount = slot2
+		slot0.equiptextText_.text = string.format("%d%%", slot2 * 100)
+	elseif slot1 == 5 then
+		slot2 = table.length(IllustratedData:GetPlotInfo()) / slot0:GetStoryLen()
+		slot0.plotrateImg_.fillAmount = slot2
+		slot0.plottextText_.text = string.format("%d%%", slot2 * 100)
+	elseif slot1 == 6 then
+		slot2 = table.length(IllustratedData:GetIllustrationInfo()) / #CollectPictureCfg.all
+		slot0.illurateImg_.fillAmount = slot2
+		slot0.illutextText_.text = string.format("%d%%", slot2 * 100)
+	elseif slot1 == 7 then
+		slot2 = table.length(IllustratedData:GetAffixInfo()) / #CollectWordCfg.all
+		slot0.worldrateImg_.fillAmount = slot2
+		slot0.worldtextText_.text = string.format("%d%%", slot2 * 100)
 	end
 end
 
-function var_0_0.OnExit(arg_17_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_17_0.enemybtnBtn_.transform, RedPointConst.ILUU_ENEMY)
-	manager.redPoint:unbindUIandKey(arg_17_0.worldbtnBtn_.transform, RedPointConst.ILLU_WORLDVIEW)
-	manager.redPoint:unbindUIandKey(arg_17_0.illustrationbtnBtn_.transform, RedPointConst.ILLU_ILLUSTRATION)
-	manager.redPoint:unbindUIandKey(arg_17_0.heroBtn_.transform, RedPointConst.ILLU_HERO)
+	manager.redPoint:unbindUIandKey(slot0.enemybtnBtn_.transform, RedPointConst.ILUU_ENEMY)
+	manager.redPoint:unbindUIandKey(slot0.worldbtnBtn_.transform, RedPointConst.ILLU_WORLDVIEW)
+	manager.redPoint:unbindUIandKey(slot0.illustrationbtnBtn_.transform, RedPointConst.ILLU_ILLUSTRATION)
+	manager.redPoint:unbindUIandKey(slot0.heroBtn_.transform, RedPointConst.ILLU_HERO)
 	manager.gc:Collect()
 	Resources.UnloadUnusedAssets()
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

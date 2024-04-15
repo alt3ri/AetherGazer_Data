@@ -1,35 +1,35 @@
-local var_0_0 = class("StoreItemSource", ReduxView)
+slot0 = class("StoreItemSource", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stateController_ = arg_1_0.accessbtnControllerexcollection_:GetController("btnState")
+	slot0.stateController_ = slot0.accessbtnControllerexcollection_:GetController("btnState")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		JumpTools.JumpToPage2(arg_3_0.sourceData_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		JumpTools.JumpToPage2(uv0.sourceData_)
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.sourceData_ = arg_5_1
+function slot0.SetData(slot0, slot1)
+	slot0.sourceData_ = slot1
 
-	if JumpTools.GetLinkIsLocked(arg_5_1) then
-		arg_5_0.stateController_:SetSelectedState("locked")
+	if JumpTools.GetLinkIsLocked(slot1) then
+		slot0.stateController_:SetSelectedState("locked")
 	else
-		arg_5_0.stateController_:SetSelectedState("unlocked")
+		slot0.stateController_:SetSelectedState("unlocked")
 	end
 
-	arg_5_0.nameText_.text, arg_5_0.frontText_.text = JumpTools.GetName(arg_5_1)
+	slot0.nameText_.text, slot0.frontText_.text = JumpTools.GetName(slot1)
 end
 
-return var_0_0
+return slot0

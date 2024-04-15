@@ -1,206 +1,202 @@
-local var_0_0 = class("AudioMgr")
-local var_0_1 = {
+slot0 = class("AudioMgr")
+slot1 = {
 	"music",
 	"effect",
 	"voice"
 }
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0:OnCtor()
+function slot0.Ctor(slot0)
+	slot0:OnCtor()
 end
 
-function var_0_0.OnCtor(arg_2_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitListener(arg_3_0)
+function slot0.InitListener(slot0)
 	print("Initialize Audio Mgr")
 	AudioManager.Instance:SetListener(manager.ui.mainCamera)
 	AudioManager.Instance:CreateCriAtom()
 end
 
-function var_0_0.SetLocalizationFlag(arg_4_0, arg_4_1)
-	AudioManager.Instance:SetLocalizationFlag(arg_4_1)
+function slot0.SetLocalizationFlag(slot0, slot1)
+	AudioManager.Instance:SetLocalizationFlag(slot1)
 end
 
-function var_0_0.GetLocalizationFlag(arg_5_0)
+function slot0.GetLocalizationFlag(slot0)
 	return AudioManager.Instance:GetLocalizationFlag()
 end
 
-function var_0_0.SetAudioMasterMute(arg_6_0, arg_6_1)
-	AudioManager.Instance:SetAudioMasterMute(arg_6_1)
+function slot0.SetAudioMasterMute(slot0, slot1)
+	AudioManager.Instance:SetAudioMasterMute(slot1)
 end
 
-function var_0_0.ClearBGMFlag(arg_7_0)
-	local var_7_0 = AudioManager.Instance:GetPlayer(var_0_1[1])
-
-	if var_7_0 ~= nil then
-		var_7_0.cueName = ""
+function slot0.ClearBGMFlag(slot0)
+	if AudioManager.Instance:GetPlayer(uv0[1]) ~= nil then
+		slot1.cueName = ""
 	end
 end
 
-function var_0_0.PlayBGM(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	return AudioManager.Instance:Play(var_0_1[1], arg_8_1, arg_8_2, arg_8_3 ~= "" and arg_8_3 ~= nil)
+function slot0.PlayBGM(slot0, slot1, slot2, slot3)
+	return AudioManager.Instance:Play(uv0[1], slot1, slot2, slot3 ~= "" and slot3 ~= nil)
 end
 
-function var_0_0.AddCue(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	AudioManager.Instance:AddCue(arg_9_1, arg_9_2, arg_9_3)
+function slot0.AddCue(slot0, slot1, slot2, slot3)
+	AudioManager.Instance:AddCue(slot1, slot2, slot3)
 end
 
-function var_0_0.PlayEffect(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	return AudioManager.Instance:Play(var_0_1[2], arg_10_1, arg_10_2, arg_10_3 ~= "" and arg_10_3 ~= nil)
+function slot0.PlayEffect(slot0, slot1, slot2, slot3)
+	return AudioManager.Instance:Play(uv0[2], slot1, slot2, slot3 ~= "" and slot3 ~= nil)
 end
 
-function var_0_0.StopEffect(arg_11_0)
-	AudioManager.Instance:Stop(var_0_1[2])
+function slot0.StopEffect(slot0)
+	AudioManager.Instance:Stop(uv0[2])
 end
 
-function var_0_0.PlayVoice(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	return AudioManager.Instance:Play(var_0_1[3], arg_12_1, arg_12_2, arg_12_3 ~= "" and arg_12_3 ~= nil)
+function slot0.PlayVoice(slot0, slot1, slot2, slot3)
+	return AudioManager.Instance:Play(uv0[3], slot1, slot2, slot3 ~= "" and slot3 ~= nil)
 end
 
-function var_0_0.StopVoice(arg_13_0)
-	AudioManager.Instance:Stop(var_0_1[3])
+function slot0.StopVoice(slot0)
+	AudioManager.Instance:Stop(uv0[3])
 end
 
-function var_0_0.StopVoiceImmediate(arg_14_0)
-	AudioManager.Instance:StopImmediate(var_0_1[3])
+function slot0.StopVoiceImmediate(slot0)
+	AudioManager.Instance:StopImmediate(uv0[3])
 end
 
-function var_0_0.PauseVoice(arg_15_0, arg_15_1)
-	AudioManager.Instance:Pause(var_0_1[3], arg_15_1)
+function slot0.PauseVoice(slot0, slot1)
+	AudioManager.Instance:Pause(uv0[3], slot1)
 end
 
-function var_0_0.IsStoppedOfVoice(arg_16_0)
-	return AudioManager.Instance:IsStopped(var_0_1[3])
+function slot0.IsStoppedOfVoice(slot0)
+	return AudioManager.Instance:IsStopped(uv0[3])
 end
 
-function var_0_0.GetVoiceLength(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-	return AudioManager.Instance:GetCueInfoLength(var_0_1[3], arg_17_1, arg_17_2, arg_17_3 ~= "")
+function slot0.GetVoiceLength(slot0, slot1, slot2, slot3)
+	return AudioManager.Instance:GetCueInfoLength(uv0[3], slot1, slot2, slot3 ~= "")
 end
 
-function var_0_0.StopBgmImmediate(arg_18_0)
-	AudioManager.Instance:StopImmediate(var_0_1[1])
+function slot0.StopBgmImmediate(slot0)
+	AudioManager.Instance:StopImmediate(uv0[1])
 end
 
-function var_0_0.Play(arg_19_0, arg_19_1, arg_19_2, arg_19_3, arg_19_4)
-	return AudioManager.Instance:Play(arg_19_1, arg_19_2, arg_19_3, arg_19_4 ~= "" and arg_19_4 ~= nil)
+function slot0.Play(slot0, slot1, slot2, slot3, slot4)
+	return AudioManager.Instance:Play(slot1, slot2, slot3, slot4 ~= "" and slot4 ~= nil)
 end
 
-function var_0_0.Pause(arg_20_0, arg_20_1, arg_20_2)
-	AudioManager.Instance:Pause(arg_20_1, arg_20_2)
+function slot0.Pause(slot0, slot1, slot2)
+	AudioManager.Instance:Pause(slot1, slot2)
 end
 
-function var_0_0.PauseAll(arg_21_0, arg_21_1)
-	AudioManager.Instance:PauseAll(arg_21_1)
+function slot0.PauseAll(slot0, slot1)
+	AudioManager.Instance:PauseAll(slot1)
 end
 
-function var_0_0.Stop(arg_22_0, arg_22_1)
-	AudioManager.Instance:Stop(arg_22_1)
+function slot0.Stop(slot0, slot1)
+	AudioManager.Instance:Stop(slot1)
 end
 
-function var_0_0.StopAll(arg_23_0)
+function slot0.StopAll(slot0)
 	AudioManager.Instance:StopAll()
 end
 
-function var_0_0.RemoveCue(arg_24_0, arg_24_1)
-	AudioManager.Instance:RemoveCue(arg_24_1)
+function slot0.RemoveCue(slot0, slot1)
+	AudioManager.Instance:RemoveCue(slot1)
 end
 
-function var_0_0.SetVolume(arg_25_0, arg_25_1, arg_25_2)
-	AudioManager.Instance:SetVolume(arg_25_1, arg_25_2)
+function slot0.SetVolume(slot0, slot1, slot2)
+	AudioManager.Instance:SetVolume(slot1, slot2)
 end
 
-function var_0_0.GetVolume(arg_26_0, arg_26_1)
-	return AudioManager.Instance:GetVolume(arg_26_1)
+function slot0.GetVolume(slot0, slot1)
+	return AudioManager.Instance:GetVolume(slot1)
 end
 
-function var_0_0.GetMusicVolume(arg_27_0)
-	return AudioManager.Instance:GetVolume(var_0_1[1])
+function slot0.GetMusicVolume(slot0)
+	return AudioManager.Instance:GetVolume(uv0[1])
 end
 
-function var_0_0.GetEffectVolume(arg_28_0)
-	return AudioManager.Instance:GetVolume(var_0_1[2])
+function slot0.GetEffectVolume(slot0)
+	return AudioManager.Instance:GetVolume(uv0[2])
 end
 
-function var_0_0.GetVoiceVolume(arg_29_0)
-	return AudioManager.Instance:GetVolume(var_0_1[3])
+function slot0.GetVoiceVolume(slot0)
+	return AudioManager.Instance:GetVolume(uv0[3])
 end
 
-function var_0_0.PlayUIAudio(arg_30_0, arg_30_1)
-	AudioManager.Instance:PlayUIAudio(arg_30_1)
+function slot0.PlayUIAudio(slot0, slot1)
+	AudioManager.Instance:PlayUIAudio(slot1)
 end
 
-function var_0_0.PlayUIAudioByVoice(arg_31_0, arg_31_1)
-	local var_31_0 = -1
+function slot0.PlayUIAudioByVoice(slot0, slot1)
+	slot2 = -1
 
-	if arg_31_1 == "open_battel" then
-		var_31_0 = 14
-	elseif arg_31_1 == "expup" then
-		var_31_0 = 17
-	elseif arg_31_1 == "pro1" then
-		var_31_0 = 18
-	elseif arg_31_1 == "pro2" then
-		var_31_0 = 18
-	elseif arg_31_1 == "pro3" then
-		var_31_0 = 19
-	elseif arg_31_1 == "sign_in" then
-		var_31_0 = 20
-	elseif arg_31_1 == "stage_slide" then
-		var_31_0 = 21
-	elseif arg_31_1 == "equip" then
-		var_31_0 = 22
-	elseif arg_31_1 == "hero_change" then
-		var_31_0 = 25
+	if slot1 == "open_battel" then
+		slot2 = 14
+	elseif slot1 == "expup" then
+		slot2 = 17
+	elseif slot1 == "pro1" then
+		slot2 = 18
+	elseif slot1 == "pro2" then
+		slot2 = 18
+	elseif slot1 == "pro3" then
+		slot2 = 19
+	elseif slot1 == "sign_in" then
+		slot2 = 20
+	elseif slot1 == "stage_slide" then
+		slot2 = 21
+	elseif slot1 == "equip" then
+		slot2 = 22
+	elseif slot1 == "hero_change" then
+		slot2 = 25
 	end
 
-	if var_31_0 ~= -1 then
-		manager.audio:PlayUIAudio(var_31_0)
+	if slot2 ~= -1 then
+		manager.audio:PlayUIAudio(slot2)
 	end
 end
 
-function var_0_0.SetEffectSelectorLabel(arg_32_0, arg_32_1, arg_32_2)
-	AudioManager.Instance:SetSelectorLabel(var_0_1[2], arg_32_1, arg_32_2)
+function slot0.SetEffectSelectorLabel(slot0, slot1, slot2)
+	AudioManager.Instance:SetSelectorLabel(uv0[2], slot1, slot2)
 end
 
-function var_0_0.SetObtainGoldSelectorLabel(arg_33_0)
-	AudioManager.Instance:SetSelectorLabel(var_0_1[2], "search", "gold")
+function slot0.SetObtainGoldSelectorLabel(slot0)
+	AudioManager.Instance:SetSelectorLabel(uv0[2], "search", "gold")
 end
 
-function var_0_0.SetObtainPurpleSelectorLabel(arg_34_0)
-	AudioManager.Instance:SetSelectorLabel(var_0_1[2], "search", "purple")
+function slot0.SetObtainPurpleSelectorLabel(slot0)
+	AudioManager.Instance:SetSelectorLabel(uv0[2], "search", "purple")
 end
 
-function var_0_0.SetObtainBlueSelectorLabel(arg_35_0)
-	AudioManager.Instance:SetSelectorLabel(var_0_1[2], "search", "blue")
+function slot0.SetObtainBlueSelectorLabel(slot0)
+	AudioManager.Instance:SetSelectorLabel(uv0[2], "search", "blue")
 end
 
-function var_0_0.Dispose(arg_36_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-function var_0_0.DestoryCriAtom(arg_37_0)
+function slot0.DestoryCriAtom(slot0)
 	AudioManager.Instance:DestoryCriAtom()
 end
 
-function var_0_0.GetBgmPlayer(arg_38_0)
-	return AudioManager.Instance:GetPlayer(var_0_1[1])
+function slot0.GetBgmPlayer(slot0)
+	return AudioManager.Instance:GetPlayer(uv0[1])
 end
 
-function var_0_0.SetBgmAisacControl(arg_39_0, arg_39_1, arg_39_2)
-	return AudioManager.Instance:SetAisacControl(var_0_1[1], arg_39_1, arg_39_2)
+function slot0.SetBgmAisacControl(slot0, slot1, slot2)
+	return AudioManager.Instance:SetAisacControl(uv0[1], slot1, slot2)
 end
 
-function var_0_0.ResetParametersBgm(arg_40_0)
-	AudioManager.Instance:ResetParameters(var_0_1[1])
+function slot0.ResetParametersBgm(slot0)
+	AudioManager.Instance:ResetParameters(uv0[1])
 end
 
-function var_0_0.SetEffectAisacControl(arg_41_0, arg_41_1, arg_41_2)
-	return AudioManager.Instance:SetAisacControl(var_0_1[2], arg_41_1, arg_41_2)
+function slot0.SetEffectAisacControl(slot0, slot1, slot2)
+	return AudioManager.Instance:SetAisacControl(uv0[2], slot1, slot2)
 end
 
-function var_0_0.SetStartTime(arg_42_0, arg_42_1)
-	AudioManager.Instance:SetStartTime(var_0_1[1], arg_42_1)
+function slot0.SetStartTime(slot0, slot1)
+	AudioManager.Instance:SetStartTime(uv0[1], slot1)
 end
 
-return var_0_0
+return slot0

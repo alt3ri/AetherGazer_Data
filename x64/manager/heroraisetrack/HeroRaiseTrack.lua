@@ -1,93 +1,92 @@
-local var_0_0 = class("HeroRaiseTrack")
-local var_0_1 = "UI/HeroCamera/CameraData/camreaData_"
+slot0 = class("HeroRaiseTrack")
+slot1 = "UI/HeroCamera/CameraData/camreaData_"
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.trackGo = nil
-	arg_1_0.trackTransform = nil
-	arg_1_0.curTrack = 0
-	arg_1_0.trackList = {}
-	arg_1_0.cameraList = {}
-	arg_1_0.tx_property_break_Go = nil
-	arg_1_0.tx_property_break_Animator = nil
+function slot0.Ctor(slot0)
+	slot0.trackGo = nil
+	slot0.trackTransform = nil
+	slot0.curTrack = 0
+	slot0.trackList = {}
+	slot0.cameraList = {}
+	slot0.tx_property_break_Go = nil
+	slot0.tx_property_break_Animator = nil
 end
 
-function var_0_0.SetTrackData(arg_2_0, arg_2_1)
-	if arg_2_0.curTrack == arg_2_1 or arg_2_1 == 0 then
+function slot0.SetTrackData(slot0, slot1)
+	if slot0.curTrack == slot1 or slot1 == 0 then
 		return
 	end
 
-	if arg_2_0.curTrack ~= 0 then
-		SetActive(arg_2_0.trackList[arg_2_0.curTrack], false)
+	if slot0.curTrack ~= 0 then
+		SetActive(slot0.trackList[slot0.curTrack], false)
 	end
 
-	arg_2_0.curTrack = arg_2_1
+	slot0.curTrack = slot1
 
-	SetActive(arg_2_0.trackList[arg_2_1], true)
+	SetActive(slot0.trackList[slot1], true)
 
-	local var_2_0 = arg_2_0.trackList[arg_2_1].transform:GetComponentsInChildren(typeof(Cinemachine.CinemachineVirtualCamera), true):ToTable()
+	slot7 = Cinemachine.CinemachineVirtualCamera
+	slot0.cameraList = {}
 
-	arg_2_0.cameraList = {}
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		table.insert(arg_2_0.cameraList, iter_2_1)
-	end
-end
-
-function var_0_0.LoadTrackGo(arg_3_0)
-	arg_3_0.trackGo = Object.Instantiate(Asset.Load("UI/HeroCamera/HeroRaiseTrack_CM.prefab"))
-	arg_3_0.trackTransform = arg_3_0.trackGo.transform
-
-	for iter_3_0 = 0, arg_3_0.trackTransform.childCount - 1 do
-		local var_3_0 = arg_3_0.trackTransform:GetChild(iter_3_0).gameObject
-
-		SetActive(var_3_0, false)
-		table.insert(arg_3_0.trackList, var_3_0)
-	end
-
-	if arg_3_0.curTrack == 0 then
-		arg_3_0:SetTrackData(1)
+	for slot7, slot8 in ipairs(slot0.trackList[slot1].transform:GetComponentsInChildren(typeof(slot7), true):ToTable()) do
+		table.insert(slot0.cameraList, slot8)
 	end
 end
 
-function var_0_0.ChangeCamera(arg_4_0, arg_4_1)
-	arg_4_0:CheckLoadTrackGo()
+function slot0.LoadTrackGo(slot0)
+	slot0.trackGo = Object.Instantiate(Asset.Load("UI/HeroCamera/HeroRaiseTrack_CM.prefab"))
+	slot0.trackTransform = slot0.trackGo.transform
 
-	local var_4_0 = HeroRaiseTrackConst.HeroRaiseName[arg_4_1] or ""
+	for slot4 = 0, slot0.trackTransform.childCount - 1 do
+		slot6 = slot0.trackTransform:GetChild(slot4).gameObject
 
-	if #arg_4_0.cameraList > 0 then
-		for iter_4_0, iter_4_1 in ipairs(arg_4_0.cameraList) do
-			if var_4_0 == iter_4_1.name then
-				SetActive(iter_4_1.gameObject, true)
+		SetActive(slot6, false)
+		table.insert(slot0.trackList, slot6)
+	end
+
+	if slot0.curTrack == 0 then
+		slot0:SetTrackData(1)
+	end
+end
+
+function slot0.ChangeCamera(slot0, slot1)
+	slot0:CheckLoadTrackGo()
+
+	slot2 = HeroRaiseTrackConst.HeroRaiseName[slot1] or ""
+
+	if #slot0.cameraList > 0 then
+		for slot6, slot7 in ipairs(slot0.cameraList) do
+			if slot2 == slot7.name then
+				SetActive(slot7.gameObject, true)
 			else
-				SetActive(iter_4_1.gameObject, false)
+				SetActive(slot7.gameObject, false)
 			end
 		end
 	end
 end
 
-function var_0_0.SetActive(arg_5_0, arg_5_1)
-	arg_5_0:CheckLoadTrackGo()
-	SetActive(arg_5_0.trackGo, arg_5_1)
+function slot0.SetActive(slot0, slot1)
+	slot0:CheckLoadTrackGo()
+	SetActive(slot0.trackGo, slot1)
 end
 
-function var_0_0.UnloadTrackGo(arg_6_0)
-	Object.Destroy(arg_6_0.trackGo)
+function slot0.UnloadTrackGo(slot0)
+	Object.Destroy(slot0.trackGo)
 
-	arg_6_0.trackGo = nil
-	arg_6_0.trackTransform = nil
-	arg_6_0.curTrack = 0
-	arg_6_0.trackList = {}
-	arg_6_0.cameraList = {}
+	slot0.trackGo = nil
+	slot0.trackTransform = nil
+	slot0.curTrack = 0
+	slot0.trackList = {}
+	slot0.cameraList = {}
 end
 
-function var_0_0.CheckLoadTrackGo(arg_7_0)
-	if isNil(arg_7_0.trackGo) then
-		arg_7_0:LoadTrackGo()
+function slot0.CheckLoadTrackGo(slot0)
+	if isNil(slot0.trackGo) then
+		slot0:LoadTrackGo()
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:UnloadTrackGo()
+function slot0.Dispose(slot0)
+	slot0:UnloadTrackGo()
 end
 
-return var_0_0
+return slot0

@@ -1,99 +1,83 @@
-local var_0_0 = class("AdvanceTestRankItem", ReduxView)
+slot0 = class("AdvanceTestRankItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddListeners()
+	slot0:initUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.rankController_ = arg_2_0.conExCollection_:GetController("rank")
-	arg_2_0.heroCountController_ = arg_2_0.conExCollection_:GetController("heroCount")
+	slot0.rankController_ = slot0.conExCollection_:GetController("rank")
+	slot0.heroCountController_ = slot0.conExCollection_:GetController("heroCount")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1)
-	arg_4_0.user_id = arg_4_1.user_id
-	arg_4_0.rankText_.text = arg_4_1.rank
-	arg_4_0.scoreText_.text = arg_4_1.score
+function slot0.Refresh(slot0, slot1)
+	slot0.user_id = slot1.user_id
+	slot0.rankText_.text = slot1.rank
+	slot0.scoreText_.text = slot1.score
 
-	if arg_4_1.rank <= 3 then
-		arg_4_0.rankController_:SetSelectedIndex(arg_4_1.rank)
+	if slot1.rank <= 3 then
+		slot0.rankController_:SetSelectedIndex(slot1.rank)
 	else
-		arg_4_0.rankController_:SetSelectedIndex(0)
+		slot0.rankController_:SetSelectedIndex(0)
 	end
 
-	arg_4_0.name_ = arg_4_1.nick
-	arg_4_0.nickText_.text = arg_4_1.nick
-	arg_4_0.headImg_.sprite = ItemTools.getItemSprite(arg_4_1.portrait)
-	arg_4_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_4_1.frame)
+	slot0.name_ = slot1.nick
+	slot0.nickText_.text = slot1.nick
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot1.portrait)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.frame)
+	slot3 = math.min(#slot1:GetSingleSelectHeroList(), 3)
 
-	local var_4_0 = arg_4_1:GetSingleSelectHeroList()
-	local var_4_1 = math.min(#var_4_0, 3)
+	slot0.heroCountController_:SetSelectedIndex(slot3)
 
-	arg_4_0.heroCountController_:SetSelectedIndex(var_4_1)
-
-	for iter_4_0 = 1, var_4_1 do
-		local var_4_2 = var_4_0[iter_4_0].skin_id
-
-		if var_4_2 == 0 then
-			var_4_2 = var_4_0[iter_4_0].hero_id
+	for slot7 = 1, slot3 do
+		if slot2[slot7].skin_id == 0 then
+			slot8 = slot2[slot7].hero_id
 		end
 
-		arg_4_0["heroImg_" .. iter_4_0].sprite = getSpriteViaConfig("HeroLittleIcon", var_4_2)
+		slot0["heroImg_" .. slot7].sprite = getSpriteViaConfig("HeroLittleIcon", slot8)
 	end
 end
 
-function firstLargeSize(arg_5_0, arg_5_1)
-	if #arg_5_0 <= 0 then
-		return arg_5_0
+function firstLargeSize(slot0, slot1)
+	if #slot0 <= 0 then
+		return slot0
 	end
 
-	local var_5_0, var_5_1, var_5_2, var_5_3 = string.find(arg_5_0, "<(.-)>(.+)")
+	slot2, slot3, slot4, slot5 = string.find(slot0, "<(.-)>(.+)")
+	slot5 = slot5 or slot0
+	slot7 = 0
+	slot8 = nil
 
-	var_5_3 = var_5_3 or arg_5_0
-
-	local var_5_4 = {
-		"“",
-		"《"
-	}
-	local var_5_5 = 0
-	local var_5_6
-
-	for iter_5_0 = 1, var_5_3:getWCharCount() do
-		local var_5_7 = var_5_3:getWChar(iter_5_0)
-
-		if table.indexOf(var_5_4, var_5_7) == -1 then
-			local var_5_8 = string.sub(var_5_3, 1, var_5_5)
-
-			var_5_5 = var_5_5 + string.len(var_5_7)
-
-			local var_5_9 = string.sub(var_5_3, var_5_5 + 1, -1)
-
-			var_5_6 = string.format("%s<size=%d>%s</size>%s", var_5_8, arg_5_1, var_5_7, var_5_9)
+	for slot12 = 1, slot5:getWCharCount() do
+		if table.indexOf({
+			"“",
+			"《"
+		}, slot5:getWChar(slot12)) == -1 then
+			slot8 = string.format("%s<size=%d>%s</size>%s", string.sub(slot5, 1, slot7), slot1, slot13, string.sub(slot5, slot7 + string.len(slot13) + 1, -1))
 
 			break
 		else
-			var_5_5 = var_5_5 + string.len(var_5_7)
+			slot7 = slot7 + string.len(slot13)
 		end
 	end
 
-	if not var_5_6 then
-		return arg_5_0
+	if not slot8 then
+		return slot0
 	end
 
-	if var_5_2 then
-		var_5_6 = string.format("<%s>%s", var_5_2, var_5_6)
+	if slot4 then
+		slot8 = string.format("<%s>%s", slot4, slot8)
 	end
 
-	return var_5_6
+	return slot8
 end
 
-return var_0_0
+return slot0

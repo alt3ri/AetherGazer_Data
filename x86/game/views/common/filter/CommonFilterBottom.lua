@@ -1,89 +1,83 @@
-local var_0_0 = class("CommonFilterBottom", ReduxView)
+slot0 = class("CommonFilterBottom", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.emptyController_ = arg_3_0.emptyCon_:GetController("empty")
-	arg_3_0.filterItmeList_ = {}
+	slot0.emptyController_ = slot0.emptyCon_:GetController("empty")
+	slot0.filterItmeList_ = {}
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1)
-	arg_4_0.filterInfoList_ = arg_4_1
+function slot0.Refresh(slot0, slot1)
+	slot0.filterInfoList_ = slot1
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.filterInfoList_) do
-		local var_4_0 = arg_4_0.filterItmeList_[iter_4_0]
+	for slot5, slot6 in ipairs(slot0.filterInfoList_) do
+		if slot0.filterItmeList_[slot5] == nil then
+			slot7 = CommonFilterBottomItem.New(Object.Instantiate(slot0.filterItemGo_, slot0.filterContent_))
 
-		if var_4_0 == nil then
-			local var_4_1 = Object.Instantiate(arg_4_0.filterItemGo_, arg_4_0.filterContent_)
-
-			var_4_0 = CommonFilterBottomItem.New(var_4_1)
-
-			var_4_0:RegistCallBack(function(arg_5_0)
-				if arg_4_0.itemClickCallback then
-					arg_4_0.itemClickCallback(arg_5_0)
+			slot7:RegistCallBack(function (slot0)
+				if uv0.itemClickCallback then
+					uv0.itemClickCallback(slot0)
 				end
 			end)
 
-			arg_4_0.filterItmeList_[iter_4_0] = var_4_0
+			slot0.filterItmeList_[slot5] = slot7
 		end
 
-		var_4_0:Refresh(iter_4_1)
+		slot7:Refresh(slot6)
 	end
 
-	for iter_4_2 = #arg_4_0.filterInfoList_ + 1, #arg_4_0.filterItmeList_ do
-		SetActive(arg_4_0.filterItmeList_[iter_4_2].gameObject_, false)
+	for slot5 = #slot0.filterInfoList_ + 1, #slot0.filterItmeList_ do
+		SetActive(slot0.filterItmeList_[slot5].gameObject_, false)
 	end
 
-	local var_4_2 = #arg_4_0.filterInfoList_ == 0
+	slot2 = #slot0.filterInfoList_ == 0
 
-	arg_4_0.emptyController_:SetSelectedState(tostring(var_4_2))
-	SetActive(arg_4_0.gameObject_, not var_4_2)
+	slot0.emptyController_:SetSelectedState(tostring(slot2))
+	SetActive(slot0.gameObject_, not slot2)
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.clearBtn_, nil, function()
-		local var_7_0 = arg_6_0.clearCallback
-
-		if var_7_0 then
-			var_7_0()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.clearBtn_, nil, function ()
+		if uv0.clearCallback then
+			slot0()
 		end
 	end)
 end
 
-function var_0_0.RegisteClearBtnListener(arg_8_0, arg_8_1)
-	if not arg_8_0.clearCallback then
-		arg_8_0.clearCallback = arg_8_1
+function slot0.RegisteClearBtnListener(slot0, slot1)
+	if not slot0.clearCallback then
+		slot0.clearCallback = slot1
 	end
 end
 
-function var_0_0.RegisteItemClickListener(arg_9_0, arg_9_1)
-	if not arg_9_0.itemClickCallback then
-		arg_9_0.itemClickCallback = arg_9_1
+function slot0.RegisteItemClickListener(slot0, slot1)
+	if not slot0.itemClickCallback then
+		slot0.itemClickCallback = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.filterItmeList_) do
-		iter_10_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.filterItmeList_) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.filterItmeList_ = nil
+	slot0.filterItmeList_ = nil
 
-	arg_10_0:RemoveAllListeners()
-	arg_10_0:RemoveAllEventListener()
-	var_0_0.super.Dispose(arg_10_0)
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

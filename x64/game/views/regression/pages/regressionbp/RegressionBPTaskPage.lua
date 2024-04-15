@@ -1,34 +1,32 @@
-local var_0_0 = class("RegressionBPTaskPage", ReduxView)
+slot0 = class("RegressionBPTaskPage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("Widget/System/ReturnTwo/RT2stBPUI")
-	local var_1_1 = Object.Instantiate(var_1_0, arg_1_1)
+function slot0.OnCtor(slot0, slot1)
+	slot3 = Object.Instantiate(Asset.Load("Widget/System/ReturnTwo/RT2stBPUI"), slot1)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
 
-	arg_1_0.gameObject_ = var_1_1
-	arg_1_0.transform_ = var_1_1.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.taskItemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiList_, RegressionBPTaskItem)
-	arg_2_0.gsPayCallback_ = handler(arg_2_0, arg_2_0.OnPaySuccess)
+	slot0.taskItemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiList_, RegressionBPTaskItem)
+	slot0.gsPayCallback_ = handler(slot0, slot0.OnPaySuccess)
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.ReceiveBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.ReceiveBtn_, nil, function ()
 		if not RegressionData:IsRegressionOpen() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		RegressionAction.ReceiveBPReward(arg_3_0:GetCanReceiveTaskList(), handler(arg_3_0, arg_3_0.OnRegressionBPTaskReceive))
+		RegressionAction.ReceiveBPReward(uv0:GetCanReceiveTaskList(), handler(uv0, uv0.OnRegressionBPTaskReceive))
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.UpgradeBtn_, nil, function()
+	slot0:AddBtnListener(slot0.UpgradeBtn_, nil, function ()
 		if not RegressionData:IsRegressionOpen() then
 			ShowTips("TIME_OVER")
 
@@ -42,134 +40,126 @@ function var_0_0.AddUIListener(arg_3_0)
 	end)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_7_0.taskItemList_ then
-		arg_7_0.taskItemList_:Dispose()
+	if slot0.taskItemList_ then
+		slot0.taskItemList_:Dispose()
 
-		arg_7_0.taskItemList_ = nil
+		slot0.taskItemList_ = nil
 	end
 
-	arg_7_0.gsPayCallback_ = nil
+	slot0.gsPayCallback_ = nil
 
-	Object.Destroy(arg_7_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.transform_ = nil
-	arg_7_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.SetData(arg_8_0)
-	local var_8_0 = RegressionData:GetRegressionVersion()
+function slot0.SetData(slot0)
+	slot0.taskList_ = RegressionCfg[RegressionData:GetRegressionVersion()].regression_bp
+	slot3 = RegressionData:GetBPTaskIsRecharge()
+	slot5 = 1
+	slot6 = false
 
-	arg_8_0.taskList_ = RegressionCfg[var_8_0].regression_bp
-
-	local var_8_1 = RegressionData:GetBPTaskStatus()
-	local var_8_2 = RegressionData:GetBPTaskIsRecharge()
-	local var_8_3 = RegressionData:GetAccumulateCurrency()
-	local var_8_4 = 1
-	local var_8_5 = false
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.taskList_) do
-		if var_8_3 >= RegressionBPTaskCfg[iter_8_1].need then
-			if var_8_1[iter_8_1] == nil then
-				var_8_5 = true
-			elseif var_8_1[iter_8_1].is_receive_reward < 1 or var_8_2 >= 1 and var_8_1[iter_8_1].is_receive_recharge_reward < 1 then
-				var_8_5 = true
+	for slot10, slot11 in ipairs(slot0.taskList_) do
+		if RegressionBPTaskCfg[slot11].need <= RegressionData:GetAccumulateCurrency() then
+			if RegressionData:GetBPTaskStatus()[slot11] == nil then
+				slot6 = true
+			elseif slot2[slot11].is_receive_reward < 1 or slot3 >= 1 and slot2[slot11].is_receive_recharge_reward < 1 then
+				slot6 = true
 			end
 		end
 
-		if var_8_5 == true then
-			var_8_4 = iter_8_0
+		if slot6 == true then
+			slot5 = slot10
 
 			break
 		end
 	end
 
-	arg_8_0.ReceiveBtn_.interactable = var_8_5
+	slot0.ReceiveBtn_.interactable = slot6
 
-	arg_8_0.taskItemList_:StartScroll(#arg_8_0.taskList_, var_8_4)
-	SetActive(arg_8_0.UpgradeGo_, var_8_2 < 1)
+	slot0.taskItemList_:StartScroll(#slot0.taskList_, slot5)
+	SetActive(slot0.UpgradeGo_, slot3 < 1)
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.taskList_[arg_9_1])
-	arg_9_2:SetReceiveHandler(handler(arg_9_0, arg_9_0.OnRegressionBPTaskReceive))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskList_[slot1])
+	slot2:SetReceiveHandler(handler(slot0, slot0.OnRegressionBPTaskReceive))
 end
 
-function var_0_0.SetActive(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_10_1 == true then
-		manager.redPoint:bindUIandKey(arg_10_0.ReceiveBtn_.transform, RedPointConst.REGRESSION_BP)
-		manager.notify:RegistListener(RECHARGE_SUCCESS, arg_10_0.gsPayCallback_)
+	if slot1 == true then
+		manager.redPoint:bindUIandKey(slot0.ReceiveBtn_.transform, RedPointConst.REGRESSION_BP)
+		manager.notify:RegistListener(RECHARGE_SUCCESS, slot0.gsPayCallback_)
 	else
-		manager.redPoint:unbindUIandKey(arg_10_0.ReceiveBtn_.transform, RedPointConst.REGRESSION_BP)
-		manager.notify:RemoveListener(RECHARGE_SUCCESS, arg_10_0.gsPayCallback_)
+		manager.redPoint:unbindUIandKey(slot0.ReceiveBtn_.transform, RedPointConst.REGRESSION_BP)
+		manager.notify:RemoveListener(RECHARGE_SUCCESS, slot0.gsPayCallback_)
 	end
 end
 
-function var_0_0.OnPaySuccess(arg_11_0)
+function slot0.OnPaySuccess(slot0)
 	RegressionAction.SetBPTaskIsRecharge()
-	arg_11_0:SetData()
+	slot0:SetData()
 end
 
-function var_0_0.OnRegressionBPTaskReceive(arg_12_0)
-	arg_12_0:SetData()
+function slot0.OnRegressionBPTaskReceive(slot0)
+	slot0:SetData()
 end
 
-function var_0_0.UpdateBar(arg_13_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.GetCanReceiveTaskList(arg_14_0)
-	local var_14_0 = {}
-	local var_14_1 = RegressionData:GetRegressionVersion()
-	local var_14_2 = RegressionCfg[var_14_1].regression_bp
-	local var_14_3 = RegressionData:GetBPTaskStatus()
-	local var_14_4 = RegressionData:GetBPTaskIsRecharge()
-	local var_14_5 = RegressionData:GetAccumulateCurrency()
+function slot0.GetCanReceiveTaskList(slot0)
+	slot1 = {}
+	slot4 = RegressionData:GetBPTaskStatus()
+	slot5 = RegressionData:GetBPTaskIsRecharge()
 
-	for iter_14_0, iter_14_1 in ipairs(var_14_2) do
-		if var_14_5 >= RegressionBPTaskCfg[iter_14_1].need then
-			if var_14_3[iter_14_1] then
-				if var_14_3[iter_14_1].is_receive_reward < 1 then
-					var_14_0[#var_14_0 + 1] = {
+	for slot10, slot11 in ipairs(RegressionCfg[RegressionData:GetRegressionVersion()].regression_bp) do
+		if RegressionBPTaskCfg[slot11].need <= RegressionData:GetAccumulateCurrency() then
+			if slot4[slot11] then
+				if slot4[slot11].is_receive_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 1,
-						id = iter_14_1
+						id = slot11
 					}
 				end
 
-				if var_14_4 >= 1 and var_14_3[iter_14_1].is_receive_recharge_reward < 1 then
-					var_14_0[#var_14_0 + 1] = {
+				if slot5 >= 1 and slot4[slot11].is_receive_recharge_reward < 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_14_1
+						id = slot11
 					}
 				end
 			else
-				var_14_0[#var_14_0 + 1] = {
+				slot1[#slot1 + 1] = {
 					receive_type = 1,
-					id = iter_14_1
+					id = slot11
 				}
 
-				if var_14_4 >= 1 then
-					var_14_0[#var_14_0 + 1] = {
+				if slot5 >= 1 then
+					slot1[#slot1 + 1] = {
 						receive_type = 2,
-						id = iter_14_1
+						id = slot11
 					}
 				end
 			end
 		end
 	end
 
-	return var_14_0
+	return slot1
 end
 
-return var_0_0
+return slot0

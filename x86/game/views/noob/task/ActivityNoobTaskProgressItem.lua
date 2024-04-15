@@ -1,57 +1,55 @@
-local var_0_0 = class("ActivityNoobTaskProgressItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ActivityNoobTaskProgressItem", ReduxView)
+slot1 = {
 	"uncomplete",
 	"complete",
 	"received"
 }
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stateCon_ = ControllerUtil.GetController(arg_1_0.transform_, "state")
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		if arg_2_0.need_ > arg_2_0.progress_ then
-			ShowPopItem(POP_ITEM, arg_2_0.rewardCfg_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.progress_ < uv0.need_ then
+			ShowPopItem(POP_ITEM, uv0.rewardCfg_)
 
 			return
 		end
 
-		ActivityNoobAction.ReceiveAccumulateReward(arg_2_0.index_)
+		ActivityNoobAction.ReceiveAccumulateReward(uv0.index_)
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.needText_.text = arg_4_2[1]
-	arg_4_0.rewardCfg_ = arg_4_2[2]
-	arg_4_0.numText_.text = "x" .. arg_4_0.rewardCfg_[2]
-	arg_4_0.index_ = arg_4_1
-	arg_4_0.progress_ = arg_4_3
-	arg_4_0.need_ = arg_4_2[1]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.needText_.text = slot2[1]
+	slot0.rewardCfg_ = slot2[2]
+	slot0.numText_.text = "x" .. slot0.rewardCfg_[2]
+	slot0.index_ = slot1
+	slot0.progress_ = slot3
+	slot0.need_ = slot2[1]
 
-	arg_4_0:RefreshState()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshState(arg_5_0)
-	local var_5_0 = arg_5_0:GetItemState()
-
-	arg_5_0.stateCon_:SetSelectedState(var_5_0)
+function slot0.RefreshState(slot0)
+	slot0.stateCon_:SetSelectedState(slot0:GetItemState())
 end
 
-function var_0_0.GetItemState(arg_6_0)
-	if arg_6_0.need_ > arg_6_0.progress_ then
-		return var_0_1[1]
-	elseif not ActivityNoobData:GetAccumulateReceivedList()[arg_6_0.index_] then
-		return var_0_1[2]
+function slot0.GetItemState(slot0)
+	if slot0.progress_ < slot0.need_ then
+		return uv0[1]
+	elseif not ActivityNoobData:GetAccumulateReceivedList()[slot0.index_] then
+		return uv0[2]
 	else
-		return var_0_1[3]
+		return uv0[3]
 	end
 end
 
-return var_0_0
+return slot0

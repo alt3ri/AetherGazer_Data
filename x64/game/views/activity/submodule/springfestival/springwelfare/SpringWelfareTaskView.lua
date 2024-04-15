@@ -1,208 +1,187 @@
-local var_0_0 = class("SpringWelfareTaskView", ReduxView)
+slot0 = class("SpringWelfareTaskView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeWishUIRewardsPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.taskList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.taskListGo_, SpringWelfareTaskItem)
-	arg_3_0.dailyRewardCon_ = ControllerUtil.GetController(arg_3_0.ptTaskRect_, "state")
-	arg_3_0.allReceiveController_ = ControllerUtil.GetController(arg_3_0.transform_, "clear")
+	slot0.taskList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.taskListGo_, SpringWelfareTaskItem)
+	slot0.dailyRewardCon_ = ControllerUtil.GetController(slot0.ptTaskRect_, "state")
+	slot0.allReceiveController_ = ControllerUtil.GetController(slot0.transform_, "clear")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.allReceiveBtn_, nil, function()
-		arg_5_0:OnClickAllReceiveBtn()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
+		uv0:OnClickAllReceiveBtn()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.receiveDailyBtn_, nil, function()
-		arg_5_0:OnClickReceiveDailyBtn()
+	slot0:AddBtnListener(slot0.receiveDailyBtn_, nil, function ()
+		uv0:OnClickReceiveDailyBtn()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.dailyPreviewBtn_, nil, function()
-		arg_5_0:OnClickDailyBtn()
+	slot0:AddBtnListener(slot0.dailyPreviewBtn_, nil, function ()
+		uv0:OnClickDailyBtn()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	var_0_0.super.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
-	arg_10_0:AddTimer()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	var_0_0.super.OnExit(arg_11_0)
-	arg_11_0:StopTimer()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.OnTop(arg_12_0)
-	SetActive(arg_12_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_13_0)
-	SetActive(arg_13_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.taskList_:Dispose()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0.taskList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnClickAllReceiveBtn(arg_15_0)
-	local var_15_0 = TaskTools:GetCanGetActivityTaskList(arg_15_0:GetActivityID())
-
-	if not var_15_0 or #var_15_0 <= 0 then
+function slot0.OnClickAllReceiveBtn(slot0)
+	if not TaskTools:GetCanGetActivityTaskList(slot0:GetActivityID()) or #slot1 <= 0 then
 		return
 	end
 
-	local var_15_1 = {}
+	slot2 = {}
 
-	for iter_15_0, iter_15_1 in ipairs(var_15_0) do
-		table.insert(var_15_1, iter_15_1.id)
+	for slot6, slot7 in ipairs(slot1) do
+		table.insert(slot2, slot7.id)
 	end
 
-	arg_15_0:SubmitTaskList(var_15_1)
+	slot0:SubmitTaskList(slot2)
 end
 
-function var_0_0.OnClickReceiveDailyBtn(arg_16_0)
-	local var_16_0 = SpringWelfareData:GetTodayPtCfg()
-
-	SpringWelfareAction:AcquireDailyPointReward(var_16_0.id, function()
-		arg_16_0:RefreshDailyTaskUI()
-		SpringWelfareAction:UpdateRedPoint(arg_16_0:GetActivityID())
+function slot0.OnClickReceiveDailyBtn(slot0)
+	SpringWelfareAction:AcquireDailyPointReward(SpringWelfareData:GetTodayPtCfg().id, function ()
+		uv0:RefreshDailyTaskUI()
+		SpringWelfareAction:UpdateRedPoint(uv0:GetActivityID())
 	end)
 end
 
-function var_0_0.OnClickDailyBtn(arg_18_0)
-	local var_18_0 = SpringWelfareData:GetTodayPtCfg().reward_item_list
-
-	if #var_18_0 > 1 then
+function slot0.OnClickDailyBtn(slot0)
+	if #SpringWelfareData:GetTodayPtCfg().reward_item_list > 1 then
 		JumpTools.OpenPageByJump("rewardPreview", {
-			rewardList = var_18_0
+			rewardList = slot2
 		}, ViewConst.SYSTEM_ID.REWARD_PREVIEW)
 	else
-		ShowPopItem(POP_ITEM, var_18_0[1])
+		ShowPopItem(POP_ITEM, slot2[1])
 	end
 end
 
-function var_0_0.RefreshUI(arg_19_0)
-	arg_19_0:RefreshTimeUI()
-	arg_19_0:RefreshTaskUI()
-	arg_19_0:RefreshDailyTaskUI()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTimeUI()
+	slot0:RefreshTaskUI()
+	slot0:RefreshDailyTaskUI()
 end
 
-function var_0_0.RefreshTimeUI(arg_20_0)
-	arg_20_0.timeText_.text = manager.time:GetLostTimeStr2(manager.time:GetNextFreshTime())
+function slot0.RefreshTimeUI(slot0)
+	slot0.timeText_.text = manager.time:GetLostTimeStr2(manager.time:GetNextFreshTime())
 end
 
-function var_0_0.IndexItem(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = arg_21_0.sortedTaskIDList_[arg_21_1]
-
-	arg_21_2:SetData(var_21_0.id, arg_21_0:GetActivityID())
-	arg_21_2:SetClickHandler(function(arg_22_0, arg_22_1)
-		arg_21_0:SubmitTaskList({
-			arg_22_1
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.sortedTaskIDList_[slot1].id, slot0:GetActivityID())
+	slot2:SetClickHandler(function (slot0, slot1)
+		uv0:SubmitTaskList({
+			slot1
 		})
 	end)
 end
 
-function var_0_0.RefreshTaskUI(arg_23_0)
-	local var_23_0 = TaskData2:GetActivityTaskSortList(arg_23_0:GetActivityID())
+function slot0.RefreshTaskUI(slot0)
+	slot1 = TaskData2:GetActivityTaskSortList(slot0:GetActivityID())
+	slot0.sortedTaskIDList_ = slot1
 
-	arg_23_0.sortedTaskIDList_ = var_23_0
-
-	arg_23_0.taskList_:StartScroll(#var_23_0)
-
-	local var_23_1 = SpringWelfareData:HasTaskCanAcquire()
-
-	arg_23_0.allReceiveController_:SetSelectedState(var_23_1 and "true" or "false")
+	slot0.taskList_:StartScroll(#slot1)
+	slot0.allReceiveController_:SetSelectedState(SpringWelfareData:HasTaskCanAcquire() and "true" or "false")
 end
 
-function var_0_0.RefreshDailyTaskUI(arg_24_0)
-	local var_24_0 = SpringWelfareData:GetTodayPtCfg()
-	local var_24_1 = var_24_0.need
-	local var_24_2 = SpringWelfareData:GetTodayPtProgress()
-	local var_24_3 = SpringWelfareData:GetPtItemId()
-	local var_24_4 = var_24_0.reward_item_list[1]
-
-	arg_24_0.ptNeedIcon_.sprite = ItemTools.getItemSprite(var_24_3)
-	arg_24_0.ptTaskRewardIcon_.sprite = ItemTools.getItemSprite(var_24_4[1])
-	arg_24_0.ptTaskRewardText_.text = string.format("x%d", var_24_4[2])
-	arg_24_0.ptNeedText_.text = string.format("%d/%d", var_24_2, var_24_1)
-	arg_24_0.ptTaskTitleText_.text = GetTips("SPRING_BLESSING_TASK_ITEM_TITLE")
-	arg_24_0.ptTaskDescText_.text = GetTips("SPRING_BLESSING_TASK_ITEM_DESC")
+function slot0.RefreshDailyTaskUI(slot0)
+	slot1 = SpringWelfareData:GetTodayPtCfg()
+	slot5 = slot1.reward_item_list[1]
+	slot0.ptNeedIcon_.sprite = ItemTools.getItemSprite(SpringWelfareData:GetPtItemId())
+	slot0.ptTaskRewardIcon_.sprite = ItemTools.getItemSprite(slot5[1])
+	slot0.ptTaskRewardText_.text = string.format("x%d", slot5[2])
+	slot0.ptNeedText_.text = string.format("%d/%d", SpringWelfareData:GetTodayPtProgress(), slot1.need)
+	slot0.ptTaskTitleText_.text = GetTips("SPRING_BLESSING_TASK_ITEM_TITLE")
+	slot0.ptTaskDescText_.text = GetTips("SPRING_BLESSING_TASK_ITEM_DESC")
 
 	if SpringWelfareData:IsTodayPtAcquired() then
-		arg_24_0.dailyRewardCon_:SetSelectedState("received")
+		slot0.dailyRewardCon_:SetSelectedState("received")
 	else
-		local var_24_5 = SpringWelfareData:IsTodayPtCanAcquire()
-
-		arg_24_0.dailyRewardCon_:SetSelectedState(var_24_5 and "complete" or "unfinish")
+		slot0.dailyRewardCon_:SetSelectedState(SpringWelfareData:IsTodayPtCanAcquire() and "complete" or "unfinish")
 	end
 end
 
-function var_0_0.SubmitTaskList(arg_25_0, arg_25_1)
-	arg_25_0.curSubmitIdList_ = arg_25_1
+function slot0.SubmitTaskList(slot0, slot1)
+	slot0.curSubmitIdList_ = slot1
 
-	TaskAction:SubmitTaskList(arg_25_1)
+	TaskAction:SubmitTaskList(slot1)
 end
 
-function var_0_0.OnTaskListChange(arg_26_0)
-	local var_26_0 = arg_26_0.curSubmitIdList_ or {}
+function slot0.OnTaskListChange(slot0)
+	slot0.curSubmitIdList_ = {}
+	slot2 = 0
 
-	arg_26_0.curSubmitIdList_ = {}
+	for slot6, slot7 in ipairs(slot0.curSubmitIdList_ or {}) do
+		slot8 = AssignmentCfg[slot7]
 
-	local var_26_1 = 0
-
-	for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-		local var_26_2 = AssignmentCfg[iter_26_1]
-
-		if TaskData2:GetTask(iter_26_1).complete_flag >= 1 then
-			for iter_26_2, iter_26_3 in ipairs(var_26_2.reward) do
-				if iter_26_3[1] == 53089 then
-					var_26_1 = var_26_1 + iter_26_3[2]
+		if TaskData2:GetTask(slot7).complete_flag >= 1 then
+			for slot14, slot15 in ipairs(slot8.reward) do
+				if slot15[1] == 53089 then
+					slot2 = slot2 + slot15[2]
 				end
 			end
 		end
 	end
 
-	SpringWelfareData:AddTodayPtProgress(var_26_1)
-	arg_26_0:RefreshUI()
-	arg_26_0.taskList_:Refresh()
+	SpringWelfareData:AddTodayPtProgress(slot2)
+	slot0:RefreshUI()
+	slot0.taskList_:Refresh()
 end
 
-function var_0_0.AddTimer(arg_27_0)
-	arg_27_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_27_0.timer_ = Timer.New(function()
-		arg_27_0:RefreshTimeUI()
+	slot0.timer_ = Timer.New(function ()
+		uv0:RefreshTimeUI()
 	end, 1, -1)
 
-	arg_27_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_29_0)
-	if arg_29_0.timer_ then
-		arg_29_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_29_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.GetActivityID(arg_30_0)
+function slot0.GetActivityID(slot0)
 	return SpringWelfareData:GetActivityId()
 end
 
-return var_0_0
+return slot0

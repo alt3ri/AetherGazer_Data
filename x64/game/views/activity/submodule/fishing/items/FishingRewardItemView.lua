@@ -1,109 +1,98 @@
-local var_0_0 = class("FishingRewardItemView", ReduxView)
+slot0 = class("FishingRewardItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.bonusListGo_, CommonItem)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.bonusListGo_, CommonItem)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:RegistCallBack(function(arg_5_0)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(function (slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_5_0.id
+			slot0.id
 		})
 	end)
-	arg_4_2:RefreshData({
-		id = arg_4_0.cfg_.reward_item_list[arg_4_1][1],
-		number = arg_4_0.cfg_.reward_item_list[arg_4_1][2]
+	slot2:RefreshData({
+		id = slot0.cfg_.reward_item_list[slot1][1],
+		number = slot0.cfg_.reward_item_list[slot1][2]
 	})
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.getBtn_, nil, function()
-		FishingAction.GetBonus(ActivityConst.SUMMER_FISHING, arg_6_0.id_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+		FishingAction.GetBonus(ActivityConst.SUMMER_FISHING, uv0.id_)
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_9_0)
-	arg_9_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_10_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.SetId(arg_11_0, arg_11_1)
-	arg_11_0.id_ = arg_11_1
-	arg_11_0.cfg_ = ActivityPointRewardCfg[arg_11_1]
+function slot0.SetId(slot0, slot1)
+	slot0.id_ = slot1
+	slot0.cfg_ = ActivityPointRewardCfg[slot1]
 
-	arg_11_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_12_0)
-	arg_12_0.uiList_:StartScroll(#arg_12_0.cfg_.reward_item_list)
+function slot0.UpdateView(slot0)
+	slot0.uiList_:StartScroll(#slot0.cfg_.reward_item_list)
 
-	arg_12_0.conditionLabel_.text = tostring(arg_12_0.cfg_.need)
+	slot0.conditionLabel_.text = tostring(slot0.cfg_.need)
+	slot1 = 0
 
-	local var_12_0 = 0
-	local var_12_1 = FishingData:GetActivityData()
-
-	if var_12_1 then
-		var_12_0 = var_12_1.score
+	if FishingData:GetActivityData() then
+		slot1 = slot2.score
 	end
 
-	if var_12_0 < arg_12_0.cfg_.need then
-		arg_12_0.statusController_:SetSelectedState("cannotGet")
+	if slot1 < slot0.cfg_.need then
+		slot0.statusController_:SetSelectedState("cannotGet")
+	elseif table.indexof(FishingData:GetActivityData().received_award_list, slot0.cfg_.id) then
+		slot0.statusController_:SetSelectedState("haveGet")
 	else
-		local var_12_2 = FishingData:GetActivityData().received_award_list
-
-		if table.indexof(var_12_2, arg_12_0.cfg_.id) then
-			arg_12_0.statusController_:SetSelectedState("haveGet")
-		else
-			arg_12_0.statusController_:SetSelectedState("canGet")
-		end
+		slot0.statusController_:SetSelectedState("canGet")
 	end
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_15_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	if arg_16_0.uiList_ then
-		arg_16_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_16_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,31 +1,29 @@
-local var_0_0 = class("ActivityNewbieRebateView", ReduxView)
+slot0 = class("ActivityNewbieRebateView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("UI/Activity/NewbieRechargeReturnUI")
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/Activity/NewbieRechargeReturnUI"), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:UpdateBar()
-	arg_2_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:UpdateBar()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:RefreshUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.toRechargeBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.toRechargeBtn_, nil, function ()
 		JumpTools.GoToSystem("/rechargeMain", {
 			childShopIndex = 2,
 			page = 3
@@ -33,59 +31,56 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.totalRechargeNum_ = RechargeData:GetTotalRechargeNum()
-	arg_7_0.rebateAmount_ = arg_7_0:calculate()
+function slot0.RefreshUI(slot0)
+	slot0.totalRechargeNum_ = RechargeData:GetTotalRechargeNum()
+	slot0.rebateAmount_ = slot0:calculate()
 
-	if arg_7_0.totalRechargeNumText_ ~= nil then
-		arg_7_0.totalRechargeNumText_.text = arg_7_0.totalRechargeNum_
+	if slot0.totalRechargeNumText_ ~= nil then
+		slot0.totalRechargeNumText_.text = slot0.totalRechargeNum_
 	end
 
-	if arg_7_0.rebateAmountText_ ~= nil then
-		arg_7_0.rebateAmountText_.text = arg_7_0.rebateAmount_
+	if slot0.rebateAmountText_ ~= nil then
+		slot0.rebateAmountText_.text = slot0.rebateAmount_
 	end
 end
 
-function var_0_0.calculate(arg_8_0)
-	local var_8_0 = arg_8_0.totalRechargeNum_
-	local var_8_1 = 0
-
-	if var_8_0 > 3000 then
-		var_8_1 = var_8_1 + (var_8_0 - 3000) * 1.25
-		var_8_0 = 3000
+function slot0.calculate(slot0)
+	if slot0.totalRechargeNum_ > 3000 then
+		slot2 = 0 + (slot1 - 3000) * 1.25
+		slot1 = 3000
 	end
 
-	if var_8_0 > 1000 then
-		var_8_1 = var_8_1 + (var_8_0 - 1000) * 1.75
-		var_8_0 = 1000
+	if slot1 > 1000 then
+		slot2 = slot2 + (slot1 - 1000) * 1.75
+		slot1 = 1000
 	end
 
-	if var_8_0 > 100 then
-		var_8_1 = var_8_1 + (var_8_0 - 100) * 3
-		var_8_0 = 100
+	if slot1 > 100 then
+		slot2 = slot2 + (slot1 - 100) * 3
+		slot1 = 100
 	end
 
-	if var_8_0 > 6 then
-		var_8_1 = var_8_1 + (var_8_0 - 6) * 5
-		var_8_0 = 6
+	if slot1 > 6 then
+		slot2 = slot2 + (slot1 - 6) * 5
+		slot1 = 6
 	end
 
-	if var_8_0 > 0 then
-		var_8_1 = var_8_1 + var_8_0 * 10
+	if slot1 > 0 then
+		slot2 = slot2 + slot1 * 10
 	end
 
-	return var_8_1 * 10
+	return slot2 * 10
 end
 
-function var_0_0.Show(arg_9_0, arg_9_1)
-	if arg_9_1 == false then
-		arg_9_0:OnExit()
+function slot0.Show(slot0, slot1)
+	if slot1 == false then
+		slot0:OnExit()
 	end
 
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.UpdateBar(arg_10_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -98,8 +93,8 @@ function var_0_0.UpdateBar(arg_10_0)
 	})
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

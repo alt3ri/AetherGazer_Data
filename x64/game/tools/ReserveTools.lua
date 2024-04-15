@@ -1,4 +1,4 @@
-local var_0_0 = {
+return {
 	reserveTemplateClassDic = {
 		[ReserveConst.RESERVE_TYPE.DEFAULT] = "ReserveBaseTemplate",
 		[ReserveConst.RESERVE_TYPE.PROPOSAL] = "ReserveProposalTemplate",
@@ -31,255 +31,185 @@ local var_0_0 = {
 	mimirDataClassDic = {
 		[ReserveConst.RESERVE_TYPE.DEFAULT] = "ReserveMimirDataTemplate"
 	},
-	GetReserveType = function(arg_1_0, arg_1_1)
-		local var_1_0 = ReserveConst.RESERVE_TYPE.NOT_NEED_RESERVE
+	GetReserveType = function (slot0, slot1)
+		slot2 = ReserveConst.RESERVE_TYPE.NOT_NEED_RESERVE
 
-		if arg_1_0 and arg_1_1 and arg_1_1 ~= 0 then
-			local var_1_1 = BattleStageTools.GetStageCfg(arg_1_0, arg_1_1)
-
-			if var_1_1.team_type and var_1_1.team_type[1] then
-				var_1_0 = var_1_1.team_type[1]
-			end
+		if slot0 and slot1 and slot1 ~= 0 and BattleStageTools.GetStageCfg(slot0, slot1).team_type and slot3.team_type[1] then
+			slot2 = slot3.team_type[1]
 		end
 
-		return var_1_0
+		return slot2
 	end,
-	GetContID = function(arg_2_0, arg_2_1)
-		local var_2_0 = ReserveConst.DETAULT_CONT_ID
+	GetContID = function (slot0, slot1)
+		slot2 = ReserveConst.DETAULT_CONT_ID
 
-		if arg_2_0 and arg_2_1 and arg_2_1 ~= 0 then
-			local var_2_1 = BattleStageTools.GetStageCfg(arg_2_0, arg_2_1)
-
-			if var_2_1.team_type and var_2_1.team_type[2] then
-				var_2_0 = var_2_1.team_type[2]
-			end
+		if slot0 and slot1 and slot1 ~= 0 and BattleStageTools.GetStageCfg(slot0, slot1).team_type and slot3.team_type[2] then
+			slot2 = slot3.team_type[2]
 		end
 
-		return var_2_0
+		return slot2
 	end,
-	NeedDefaultTeam = function(arg_3_0, arg_3_1)
-		if not arg_3_0 or not arg_3_1 or arg_3_1 == 0 then
+	NeedDefaultTeam = function (slot0, slot1)
+		if not slot0 or not slot1 or slot1 == 0 then
 			return false
 		end
 
-		local var_3_0 = BattleStageTools.GetStageCfg(arg_3_0, arg_3_1)
-
-		if var_3_0.need_default_team then
-			return var_3_0.need_default_team == ReserveConst.NEED_DEFAULT_TEAM
+		if BattleStageTools.GetStageCfg(slot0, slot1).need_default_team then
+			return slot2.need_default_team == ReserveConst.NEED_DEFAULT_TEAM
 		end
 
 		return false
 	end,
-	NeedCacheTeam = function(arg_4_0, arg_4_1)
-		local var_4_0
+	NeedCacheTeam = function (slot0, slot1)
+		slot2 = nil
 
-		if arg_4_0 and arg_4_1 and arg_4_1 ~= 0 then
-			local var_4_1 = BattleStageTools.GetStageCfg(arg_4_0, arg_4_1)
-
-			if var_4_1.team_type and var_4_1.team_type[2] then
-				return var_4_1.team_type[2] ~= ReserveConst.NOT_NEED_CACHE_CONT_ID
-			end
+		if slot0 and slot1 and slot1 ~= 0 and BattleStageTools.GetStageCfg(slot0, slot1).team_type and slot3.team_type[2] then
+			return slot3.team_type[2] ~= ReserveConst.NOT_NEED_CACHE_CONT_ID
 		end
 
 		return false
 	end,
-	GetReserveParams = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = ReserveTools.GetReserveType(arg_5_0, arg_5_1)
-		local var_5_1 = ReserveTools.GetContID(arg_5_0, arg_5_1)
-		local var_5_2 = {
-			stageType = arg_5_0,
-			stageID = arg_5_1,
-			activityID = arg_5_2 or 0
+	GetReserveParams = function (slot0, slot1, slot2)
+		return ReserveParams.New(ReserveTools.GetReserveType(slot0, slot1), ReserveTools.GetContID(slot0, slot1), nil, {
+			stageType = slot0,
+			stageID = slot1,
+			activityID = slot2 or 0
+		})
+	end,
+	GetReserveTemplateByReserveType = function (slot0, slot1)
+		slot2 = nil
+
+		return (slot1 or ReserveData:GetTeamTemplate(slot0)) and ReserveData:GetServerTeamTemplate(slot0)
+	end,
+	GetReserveTemplate = function (slot0, slot1)
+		return ReserveData:GetTeamTemplate(ReserveTools.GetReserveType(slot0, slot1))
+	end,
+	SetTeam = function (slot0, slot1, slot2, slot3, slot4, slot5)
+		ReserveTools.SetHeroList(slot0, slot1, slot2)
+		ReserveTools.SetComboSkillID(slot0, slot3)
+		ReserveTools.SetMimirID(slot0, slot4)
+		ReserveTools.SetMimirChipList(slot0, slot5)
+	end,
+	CleanCacheData = function (slot0)
+		ReserveTools.GetReserveTemplateByReserveType(slot0):CleanCacheData()
+	end,
+	GetHeroList = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+		slot1 = {
+			0,
+			0,
+			0
 		}
+		slot2 = {
+			false,
+			false,
+			false
+		}
+		slot3 = {}
+		slot4 = {
+			0,
+			0,
+			0
+		}
+		slot5 = false
+		slot7, slot8, slot9, slot10, slot11 = ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetHeroList(slot0)
 
-		return ReserveParams.New(var_5_0, var_5_1, nil, var_5_2)
+		return slot7, slot8, slot9, slot10, slot11
 	end,
-	GetReserveTemplateByReserveType = function(arg_6_0, arg_6_1)
-		local var_6_0
+	SetHeroList = function (slot0, slot1, slot2)
+		slot0 = uv0.CheckReserveParams(slot0)
 
-		if not arg_6_1 then
-			var_6_0 = ReserveData:GetTeamTemplate(arg_6_0)
-		else
-			var_6_0 = ReserveData:GetServerTeamTemplate(arg_6_0)
+		ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):SetHeroList(slot0, slot1, slot2)
+	end,
+	GetComboSkillID = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		return ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetComboSkillID(slot0)
+	end,
+	SetComboSkillID = function (slot0, slot1)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):SetComboSkillID(slot0, slot1)
+	end,
+	GetMimirData = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+		slot2, slot3 = ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetMimirData(slot0)
+
+		return slot2, slot3
+	end,
+	GetMimirID = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		return ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetMimirID(slot0)
+	end,
+	SetMimirID = function (slot0, slot1)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):SetMimirID(slot0, slot1)
+	end,
+	GetMimirChipList = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		return ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetMimirChipList(slot0)
+	end,
+	SetMimirChipList = function (slot0, slot1)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):SetMimirChipList(slot0, slot1)
+	end,
+	InsertMimirChip = function (slot0, slot1)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ChipTools.InsertChip(ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetMimirChipList(slot0), slot1, function (slot0)
+			uv0:SetMimirChipList(uv1, slot0)
+		end)
+	end,
+	RemoveMimirChip = function (slot0, slot1)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ChipTools.RemoveChip(ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):GetMimirChipList(slot0), slot1, function (slot0)
+			uv0:SetMimirChipList(uv1, slot0)
+		end)
+	end,
+	ResetMimirChipList = function (slot0)
+		slot0 = uv0.CheckReserveParams(slot0)
+
+		ReserveTools.GetReserveTemplateByReserveType(slot0.reserveType):ResetMimirChipList(slot0)
+	end,
+	ResetContData = function (slot0, slot1)
+		ReserveTools.GetReserveTemplateByReserveType(slot0):GetContDataTemplateById(slot1):Reset()
+	end,
+	SwapTeam = function (slot0, slot1, slot2, slot3)
+		ReserveTools.GetReserveTemplateByReserveType(slot0):GetContDataTemplateById(slot1):SwapTeam(slot2, slot3)
+	end,
+	GetReserveTemplateClass = function (slot0)
+		return _G[uv0.reserveTemplateClassDic[slot0] or uv0.reserveTemplateClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]]
+	end,
+	GetContDataClass = function (slot0)
+		return _G[uv0.contDataClassDic[slot0] or uv0.contDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]]
+	end,
+	GetSingleTeamDataClass = function (slot0)
+		return _G[uv0.singleTeamDataClassDic[slot0] or uv0.singleTeamDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]]
+	end,
+	GetHeroPosDataClass = function (slot0)
+		return _G[uv0.heroPosDataClassDic[slot0] or uv0.heroPosDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]]
+	end,
+	GetMimirDataClass = function (slot0)
+		return _G[uv0.mimirDataClassDic[slot0] or uv0.mimirDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]]
+	end,
+	CheckReserveParams = function (slot0)
+		if not slot0 then
+			slot0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.DEFAULT)
+
+			Debug.LogError("编队参数为空，使用默认编队参数")
 		end
 
-		return var_6_0
-	end,
-	GetReserveTemplate = function(arg_7_0, arg_7_1)
-		local var_7_0 = ReserveTools.GetReserveType(arg_7_0, arg_7_1)
+		if not slot0.reserveType then
+			slot0.reserveType = ReserveConst.RESERVE_TYPE.DEFAULT
 
-		return (ReserveData:GetTeamTemplate(var_7_0))
-	end,
-	SetTeam = function(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-		ReserveTools.SetHeroList(arg_8_0, arg_8_1, arg_8_2)
-		ReserveTools.SetComboSkillID(arg_8_0, arg_8_3)
-		ReserveTools.SetMimirID(arg_8_0, arg_8_4)
-		ReserveTools.SetMimirChipList(arg_8_0, arg_8_5)
-	end,
-	CleanCacheData = function(arg_9_0)
-		ReserveTools.GetReserveTemplateByReserveType(arg_9_0):CleanCacheData()
+			Debug.LogError("编队类型为空，使用默认编队类型")
+		end
+
+		return slot0
 	end
 }
-
-function var_0_0.GetHeroList(arg_10_0)
-	arg_10_0 = var_0_0.CheckReserveParams(arg_10_0)
-
-	local var_10_0 = {
-		0,
-		0,
-		0
-	}
-	local var_10_1 = {
-		false,
-		false,
-		false
-	}
-	local var_10_2 = {}
-	local var_10_3 = {
-		0,
-		0,
-		0
-	}
-	local var_10_4 = false
-	local var_10_5, var_10_6, var_10_7, var_10_8, var_10_9 = ReserveTools.GetReserveTemplateByReserveType(arg_10_0.reserveType):GetHeroList(arg_10_0)
-	local var_10_10 = var_10_9
-	local var_10_11 = var_10_8
-	local var_10_12 = var_10_7
-	local var_10_13 = var_10_6
-
-	return var_10_5, var_10_13, var_10_12, var_10_11, var_10_10
-end
-
-function var_0_0.SetHeroList(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0 = var_0_0.CheckReserveParams(arg_11_0)
-
-	ReserveTools.GetReserveTemplateByReserveType(arg_11_0.reserveType):SetHeroList(arg_11_0, arg_11_1, arg_11_2)
-end
-
-function var_0_0.GetComboSkillID(arg_12_0)
-	arg_12_0 = var_0_0.CheckReserveParams(arg_12_0)
-
-	return ReserveTools.GetReserveTemplateByReserveType(arg_12_0.reserveType):GetComboSkillID(arg_12_0)
-end
-
-function var_0_0.SetComboSkillID(arg_13_0, arg_13_1)
-	arg_13_0 = var_0_0.CheckReserveParams(arg_13_0)
-
-	ReserveTools.GetReserveTemplateByReserveType(arg_13_0.reserveType):SetComboSkillID(arg_13_0, arg_13_1)
-end
-
-function var_0_0.GetMimirData(arg_14_0)
-	arg_14_0 = var_0_0.CheckReserveParams(arg_14_0)
-
-	local var_14_0, var_14_1 = ReserveTools.GetReserveTemplateByReserveType(arg_14_0.reserveType):GetMimirData(arg_14_0)
-
-	return var_14_0, var_14_1
-end
-
-function var_0_0.GetMimirID(arg_15_0)
-	arg_15_0 = var_0_0.CheckReserveParams(arg_15_0)
-
-	return ReserveTools.GetReserveTemplateByReserveType(arg_15_0.reserveType):GetMimirID(arg_15_0)
-end
-
-function var_0_0.SetMimirID(arg_16_0, arg_16_1)
-	arg_16_0 = var_0_0.CheckReserveParams(arg_16_0)
-
-	ReserveTools.GetReserveTemplateByReserveType(arg_16_0.reserveType):SetMimirID(arg_16_0, arg_16_1)
-end
-
-function var_0_0.GetMimirChipList(arg_17_0)
-	arg_17_0 = var_0_0.CheckReserveParams(arg_17_0)
-
-	return ReserveTools.GetReserveTemplateByReserveType(arg_17_0.reserveType):GetMimirChipList(arg_17_0)
-end
-
-function var_0_0.SetMimirChipList(arg_18_0, arg_18_1)
-	arg_18_0 = var_0_0.CheckReserveParams(arg_18_0)
-
-	ReserveTools.GetReserveTemplateByReserveType(arg_18_0.reserveType):SetMimirChipList(arg_18_0, arg_18_1)
-end
-
-function var_0_0.InsertMimirChip(arg_19_0, arg_19_1)
-	arg_19_0 = var_0_0.CheckReserveParams(arg_19_0)
-
-	local var_19_0 = ReserveTools.GetReserveTemplateByReserveType(arg_19_0.reserveType)
-	local var_19_1 = var_19_0:GetMimirChipList(arg_19_0)
-
-	ChipTools.InsertChip(var_19_1, arg_19_1, function(arg_20_0)
-		var_19_0:SetMimirChipList(arg_19_0, arg_20_0)
-	end)
-end
-
-function var_0_0.RemoveMimirChip(arg_21_0, arg_21_1)
-	arg_21_0 = var_0_0.CheckReserveParams(arg_21_0)
-
-	local var_21_0 = ReserveTools.GetReserveTemplateByReserveType(arg_21_0.reserveType)
-	local var_21_1 = var_21_0:GetMimirChipList(arg_21_0)
-
-	ChipTools.RemoveChip(var_21_1, arg_21_1, function(arg_22_0)
-		var_21_0:SetMimirChipList(arg_21_0, arg_22_0)
-	end)
-end
-
-function var_0_0.ResetMimirChipList(arg_23_0)
-	arg_23_0 = var_0_0.CheckReserveParams(arg_23_0)
-
-	ReserveTools.GetReserveTemplateByReserveType(arg_23_0.reserveType):ResetMimirChipList(arg_23_0)
-end
-
-function var_0_0.ResetContData(arg_24_0, arg_24_1)
-	ReserveTools.GetReserveTemplateByReserveType(arg_24_0):GetContDataTemplateById(arg_24_1):Reset()
-end
-
-function var_0_0.SwapTeam(arg_25_0, arg_25_1, arg_25_2, arg_25_3)
-	ReserveTools.GetReserveTemplateByReserveType(arg_25_0):GetContDataTemplateById(arg_25_1):SwapTeam(arg_25_2, arg_25_3)
-end
-
-function var_0_0.GetReserveTemplateClass(arg_26_0)
-	local var_26_0 = var_0_0.reserveTemplateClassDic[arg_26_0] or var_0_0.reserveTemplateClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]
-
-	return _G[var_26_0]
-end
-
-function var_0_0.GetContDataClass(arg_27_0)
-	local var_27_0 = var_0_0.contDataClassDic[arg_27_0] or var_0_0.contDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]
-
-	return _G[var_27_0]
-end
-
-function var_0_0.GetSingleTeamDataClass(arg_28_0)
-	local var_28_0 = var_0_0.singleTeamDataClassDic[arg_28_0] or var_0_0.singleTeamDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]
-
-	return _G[var_28_0]
-end
-
-function var_0_0.GetHeroPosDataClass(arg_29_0)
-	local var_29_0 = var_0_0.heroPosDataClassDic[arg_29_0] or var_0_0.heroPosDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]
-
-	return _G[var_29_0]
-end
-
-function var_0_0.GetMimirDataClass(arg_30_0)
-	local var_30_0 = var_0_0.mimirDataClassDic[arg_30_0] or var_0_0.mimirDataClassDic[ReserveConst.RESERVE_TYPE.DEFAULT]
-
-	return _G[var_30_0]
-end
-
-function var_0_0.CheckReserveParams(arg_31_0)
-	if not arg_31_0 then
-		arg_31_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.DEFAULT)
-
-		Debug.LogError("编队参数为空，使用默认编队参数")
-	end
-
-	if not arg_31_0.reserveType then
-		arg_31_0.reserveType = ReserveConst.RESERVE_TYPE.DEFAULT
-
-		Debug.LogError("编队类型为空，使用默认编队类型")
-	end
-
-	return arg_31_0
-end
-
-return var_0_0

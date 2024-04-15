@@ -1,19 +1,19 @@
-local var_0_0 = class("SectionStageInfoView", ReduxView)
+slot0 = class("SectionStageInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Show(true)
-	arg_1_0:BindCfgUI()
+	slot0:Show(true)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.icon_.sprite = HeroTools.GetSkillAttributeIcon(arg_2_1)
+function slot0.SetData(slot0, slot1)
+	slot0.icon_.sprite = HeroTools.GetSkillAttributeIcon(slot1)
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

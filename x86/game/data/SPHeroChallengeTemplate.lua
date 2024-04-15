@@ -1,6 +1,6 @@
 SPHeroChallengeEntrusTemplate = class("SPHeroChallengeEntrustTemplate")
 
-function SPHeroChallengeEntrustTemplate.InitSingleEntrust(arg_1_0, arg_1_1)
-	arg_1_0.entrustID = arg_1_1.id
-	arg_1_0.state = arg_1_1.state
+function SPHeroChallengeEntrustTemplate.InitSingleEntrust(slot0, slot1)
+	slot0.entrustID = slot1.id
+	slot0.state = slot1.state
 end

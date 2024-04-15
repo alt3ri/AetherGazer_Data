@@ -1,327 +1,278 @@
-function getHeroPower(arg_1_0, arg_1_1)
-	if arg_1_1 then
-		return TempHeroData:GetBattlePower(arg_1_0)
+function getHeroPower(slot0, slot1)
+	if slot1 then
+		return TempHeroData:GetBattlePower(slot0)
 	end
 
-	return getBattlePower(HeroData:GetHeroData(arg_1_0))
+	return getBattlePower(HeroData:GetHeroData(slot0))
 end
 
-function getBattlePower(arg_2_0)
-	local var_2_0 = {}
-
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.equip) do
-		if iter_2_1.equip_id ~= 0 then
-			table.insert(var_2_0, EquipData:GetEquipList()[iter_2_1.equip_id])
+function getBattlePower(slot0)
+	for slot5, slot6 in pairs(slot0.equip) do
+		if slot6.equip_id ~= 0 then
+			table.insert({}, EquipData:GetEquipList()[slot6.equip_id])
 		end
 	end
 
-	local var_2_1
+	slot2 = nil
 
-	if arg_2_0.servant_uid ~= nil and arg_2_0.servant_uid ~= 0 then
-		local var_2_2 = WeaponServantData.GetWeaponServantList()[arg_2_0.servant_uid]
-
-		var_2_1 = {
-			id = var_2_2.id,
-			stage = var_2_2.stage
+	if slot0.servant_uid ~= nil and slot0.servant_uid ~= 0 then
+		slot3 = WeaponServantData.GetWeaponServantList()[slot0.servant_uid]
+		slot2 = {
+			id = slot3.id,
+			stage = slot3.stage
 		}
 	end
 
-	return calcBattlePower(arg_2_0, var_2_1, var_2_0)
+	return calcBattlePower(slot0, slot2, slot1)
 end
 
-function GetPracticalData(arg_3_0)
-	return HeroTools.GetConstructHero(arg_3_0), arg_3_0.equip_list
+function GetPracticalData(slot0)
+	return HeroTools.GetConstructHero(slot0), slot0.equip_list
 end
 
-function GetVirtualData(arg_4_0)
-	local var_4_0 = deepClone(TempHeroData:GetTempHeroDataByTempID(arg_4_0))
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_0.skill) do
-		local var_4_1 = HeroTools.GetHeroSkillAddLevel(var_4_0, iter_4_1.skill_id)
-
-		iter_4_1.skill_level = iter_4_1.skill_level + var_4_1
+function GetVirtualData(slot0)
+	for slot5, slot6 in ipairs(deepClone(TempHeroData:GetTempHeroDataByTempID(slot0)).skill) do
+		slot6.skill_level = slot6.skill_level + HeroTools.GetHeroSkillAddLevel(slot1, slot6.skill_id)
 	end
 
-	return var_4_0, var_4_0.equip_list
+	return slot1, slot1.equip_list
 end
 
-function GetHeroPracticalAttr(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4)
-	local var_5_0 = HeroTools.GetHeroAttribute(arg_5_0)
-	local var_5_1 = DormTools:GetDormAdditionByHeroID(arg_5_0.id, arg_5_0.dormLevel, arg_5_4).attribute
+function GetHeroPracticalAttr(slot0, slot1, slot2, slot3, slot4)
+	slot5 = HeroTools.GetHeroAttribute(slot0)
+	slot10 = slot4
 
-	for iter_5_0, iter_5_1 in pairs(var_5_1) do
-		if var_5_0[iter_5_0] == nil then
-			var_5_0[iter_5_0] = 0
+	for slot10, slot11 in pairs(DormTools:GetDormAdditionByHeroID(slot0.id, slot0.dormLevel, slot10).attribute) do
+		if slot5[slot10] == nil then
+			slot5[slot10] = 0
 		end
 
-		var_5_0[iter_5_0] = var_5_0[iter_5_0] + iter_5_1
+		slot5[slot10] = slot5[slot10] + slot11
 	end
 
-	local var_5_2 = EquipTools.CalHeroVirtualEquipAttribute(arg_5_2, arg_5_0, arg_5_3)
-	local var_5_3 = HeroTools.CalTransitionSkillAttribute(arg_5_0, arg_5_2)
-	local var_5_4 = WeaponTools.CalWeaponAttribute(arg_5_0.id, arg_5_0.weapon_info, arg_5_1)
-	local var_5_5 = HeroTools.GetModuleAttribute(arg_5_0)
-	local var_5_6 = HeroTools.GetSkillAttribute(arg_5_0)
-	local var_5_7 = {}
+	slot7 = EquipTools.CalHeroVirtualEquipAttribute(slot2, slot0, slot3)
+	slot8 = HeroTools.CalTransitionSkillAttribute(slot0, slot2)
+	slot9 = WeaponTools.CalWeaponAttribute(slot0.id, slot0.weapon_info, slot1)
+	slot10 = HeroTools.GetModuleAttribute(slot0)
+	slot11 = HeroTools.GetSkillAttribute(slot0)
+	slot12 = {}
 
-	if arg_5_0.relation then
-		var_5_7 = arg_5_0.relation:GetRelationNetAttr()
+	if slot0.relation then
+		slot12 = slot0.relation:GetRelationNetAttr()
 	end
 
-	for iter_5_2, iter_5_3 in pairs(var_5_2) do
-		var_5_0[iter_5_2] = HeroTools.AttributeAdd(iter_5_2, var_5_0[iter_5_2], iter_5_3)
+	for slot16, slot17 in pairs(slot7) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	for iter_5_4, iter_5_5 in pairs(var_5_3) do
-		var_5_0[iter_5_4] = HeroTools.AttributeAdd(iter_5_4, var_5_0[iter_5_4], iter_5_5)
+	for slot16, slot17 in pairs(slot8) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	for iter_5_6, iter_5_7 in pairs(var_5_4) do
-		var_5_0[iter_5_6] = HeroTools.AttributeAdd(iter_5_6, var_5_0[iter_5_6], iter_5_7)
+	for slot16, slot17 in pairs(slot9) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	for iter_5_8, iter_5_9 in pairs(var_5_5) do
-		var_5_0[iter_5_8] = HeroTools.AttributeAdd(iter_5_8, var_5_0[iter_5_8], iter_5_9)
+	for slot16, slot17 in pairs(slot10) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	for iter_5_10, iter_5_11 in pairs(var_5_6) do
-		var_5_0[iter_5_10] = HeroTools.AttributeAdd(iter_5_10, var_5_0[iter_5_10], iter_5_11)
+	for slot16, slot17 in pairs(slot11) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	for iter_5_12, iter_5_13 in pairs(var_5_7) do
-		var_5_0[iter_5_12] = HeroTools.AttributeAdd(iter_5_12, var_5_0[iter_5_12], iter_5_13)
+	for slot16, slot17 in pairs(slot12) do
+		slot5[slot16] = HeroTools.AttributeAdd(slot16, slot5[slot16], slot17)
 	end
 
-	HeroTools.CalFinalAttribute(var_5_0)
+	HeroTools.CalFinalAttribute(slot5)
 
-	return var_5_0
+	return slot5
 end
 
-function GetMatrixtHeroPracticalAttr(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	local var_6_0 = HeroTools.GetHeroAttribute(arg_6_0)
+function GetMatrixtHeroPracticalAttr(slot0, slot1, slot2, slot3, slot4)
+	slot5 = HeroTools.GetHeroAttribute(slot0)
 
-	if not arg_6_4:GetIsOwnerHero() then
-		local var_6_1 = HeroStandardSystemCfg[arg_6_2].hero_attrib
-
-		if type(var_6_1) == "table" then
-			for iter_6_0, iter_6_1 in pairs(var_6_1) do
-				var_6_0[iter_6_1[1]] = iter_6_1[2]
+	if not slot4:GetIsOwnerHero() then
+		if type(HeroStandardSystemCfg[slot2].hero_attrib) == "table" then
+			for slot10, slot11 in pairs(slot6) do
+				slot5[slot11[1]] = slot11[2]
 			end
 		end
 	else
-		local var_6_2 = EquipTools.CalHeroVirtualEquipAttribute(arg_6_1, arg_6_0)
-		local var_6_3 = WeaponTools.CalWeaponAttribute(arg_6_0.id, arg_6_0.weapon_info, arg_6_0.servantInfo)
-		local var_6_4 = HeroTools.CalTransitionSkillAttribute(arg_6_0, arg_6_1)
+		slot7 = WeaponTools.CalWeaponAttribute(slot0.id, slot0.weapon_info, slot0.servantInfo)
+		slot8 = HeroTools.CalTransitionSkillAttribute(slot0, slot1)
 
-		for iter_6_2, iter_6_3 in pairs(var_6_2) do
-			var_6_0[iter_6_2] = HeroTools.AttributeAdd(iter_6_2, var_6_0[iter_6_2], iter_6_3)
+		for slot12, slot13 in pairs(EquipTools.CalHeroVirtualEquipAttribute(slot1, slot0)) do
+			slot5[slot12] = HeroTools.AttributeAdd(slot12, slot5[slot12], slot13)
 		end
 
-		for iter_6_4, iter_6_5 in pairs(var_6_4) do
-			var_6_0[iter_6_4] = HeroTools.AttributeAdd(iter_6_4, var_6_0[iter_6_4], iter_6_5)
+		for slot12, slot13 in pairs(slot8) do
+			slot5[slot12] = HeroTools.AttributeAdd(slot12, slot5[slot12], slot13)
 		end
 
-		for iter_6_6, iter_6_7 in pairs(var_6_3) do
-			var_6_0[iter_6_6] = HeroTools.AttributeAdd(iter_6_6, var_6_0[iter_6_6], iter_6_7)
+		for slot12, slot13 in pairs(slot7) do
+			slot5[slot12] = HeroTools.AttributeAdd(slot12, slot5[slot12], slot13)
 		end
 	end
 
-	local var_6_5 = {}
+	slot6 = {}
 
-	if arg_6_3 then
-		local var_6_6 = ActivityTools.GetActivityType(arg_6_3)
-
-		if var_6_6 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-			var_6_5 = ActivityMatrixData:CalMatrixAttribute(arg_6_3)
-		elseif var_6_6 == ActivityTemplateConst.STRATEGY_MATRIX then
-			var_6_5 = StrategyMatrixData:CalMatrixAttribute(arg_6_3)
+	if slot3 then
+		if ActivityTools.GetActivityType(slot3) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+			slot6 = ActivityMatrixData:CalMatrixAttribute(slot3)
+		elseif slot7 == ActivityTemplateConst.STRATEGY_MATRIX then
+			slot6 = StrategyMatrixData:CalMatrixAttribute(slot3)
 		else
 			error("GetMatrixtHeroPracticalAttr can not find current matrixAttr")
 		end
 	else
-		var_6_5 = MatrixData:CalMatrixAttribute()
+		slot6 = MatrixData:CalMatrixAttribute()
 	end
 
-	for iter_6_8, iter_6_9 in pairs(var_6_5) do
-		var_6_0[iter_6_8] = HeroTools.AttributeAdd(iter_6_8, var_6_0[iter_6_8], iter_6_9)
+	for slot10, slot11 in pairs(slot6) do
+		slot5[slot10] = HeroTools.AttributeAdd(slot10, slot5[slot10], slot11)
 	end
 
-	HeroTools.CalFinalAttribute(var_6_0)
+	HeroTools.CalFinalAttribute(slot5)
 
-	return var_6_0
+	return slot5
 end
 
-function GetPolyhedronHeroPracticalAttr(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	local var_7_0 = HeroTools.GetHeroAttribute(arg_7_1)
-	local var_7_1 = EquipTools.CalHeroVirtualEquipAttribute(arg_7_2, arg_7_1)
-	local var_7_2 = HeroTools.CalTransitionSkillAttribute(arg_7_1, arg_7_2)
-	local var_7_3 = clone(arg_7_1.weapon_info)
+function GetPolyhedronHeroPracticalAttr(slot0, slot1, slot2, slot3)
+	slot4 = HeroTools.GetHeroAttribute(slot1)
+	slot6 = HeroTools.CalTransitionSkillAttribute(slot1, slot2)
+	slot7 = clone(slot1.weapon_info)
+	slot7.exp = 0
+	slot8 = WeaponTools.CalWeaponAttribute(slot1.id, slot7, slot1.servantInfo)
 
-	var_7_3.exp = 0
-
-	local var_7_4 = WeaponTools.CalWeaponAttribute(arg_7_1.id, var_7_3, arg_7_1.servantInfo)
-
-	for iter_7_0, iter_7_1 in pairs(var_7_1) do
-		var_7_0[iter_7_0] = HeroTools.AttributeAdd(iter_7_0, var_7_0[iter_7_0], iter_7_1)
+	for slot12, slot13 in pairs(EquipTools.CalHeroVirtualEquipAttribute(slot2, slot1)) do
+		slot4[slot12] = HeroTools.AttributeAdd(slot12, slot4[slot12], slot13)
 	end
 
-	for iter_7_2, iter_7_3 in pairs(var_7_2) do
-		var_7_0[iter_7_2] = HeroTools.AttributeAdd(iter_7_2, var_7_0[iter_7_2], iter_7_3)
+	for slot12, slot13 in pairs(slot6) do
+		slot4[slot12] = HeroTools.AttributeAdd(slot12, slot4[slot12], slot13)
 	end
 
-	for iter_7_4, iter_7_5 in pairs(var_7_4) do
-		var_7_0[iter_7_4] = HeroTools.AttributeAdd(iter_7_4, var_7_0[iter_7_4], iter_7_5)
+	for slot12, slot13 in pairs(slot8) do
+		slot4[slot12] = HeroTools.AttributeAdd(slot12, slot4[slot12], slot13)
 	end
 
-	local var_7_5 = arg_7_0:CalPolyhedronAttribute(arg_7_1.id)
-
-	for iter_7_6, iter_7_7 in pairs(var_7_5) do
-		var_7_0[iter_7_6] = HeroTools.AttributeAdd(iter_7_6, var_7_0[iter_7_6], iter_7_7)
+	for slot13, slot14 in pairs(slot0:CalPolyhedronAttribute(slot1.id)) do
+		slot4[slot13] = HeroTools.AttributeAdd(slot13, slot4[slot13], slot14)
 	end
 
-	local var_7_6 = HeroStandardSystemCfg[arg_7_3].hero_attrib
-
-	if type(var_7_6) == "table" then
-		for iter_7_8, iter_7_9 in pairs(var_7_6) do
-			var_7_0[iter_7_9[1]] = iter_7_9[2]
+	if type(HeroStandardSystemCfg[slot3].hero_attrib) == "table" then
+		for slot14, slot15 in pairs(slot10) do
+			slot4[slot15[1]] = slot15[2]
 		end
 	end
 
-	HeroTools.CalFinalAttribute(var_7_0)
+	HeroTools.CalFinalAttribute(slot4)
 
-	return var_7_0
+	return slot4
 end
 
-function GetHeroFinalAttr(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4)
-	if arg_8_3 and arg_8_3 ~= 0 then
-		local var_8_0 = HeroStandardSystemCfg[arg_8_3].hero_attrib
-
-		if type(var_8_0) == "table" then
-			local var_8_1 = {}
-
-			for iter_8_0, iter_8_1 in pairs(var_8_0) do
-				var_8_1[iter_8_1[1]] = iter_8_1[2]
+function GetHeroFinalAttr(slot0, slot1, slot2, slot3, slot4)
+	if slot3 and slot3 ~= 0 then
+		if type(HeroStandardSystemCfg[slot3].hero_attrib) == "table" then
+			for slot10, slot11 in pairs(slot5) do
+				-- Nothing
 			end
 
-			return var_8_1
+			return {
+				[slot11[1]] = slot11[2]
+			}
 		else
-			local var_8_2 = true
-
-			return GetHeroPracticalAttr(arg_8_0, arg_8_1, arg_8_2, arg_8_4, var_8_2)
+			return GetHeroPracticalAttr(slot0, slot1, slot2, slot4, true)
 		end
 	end
 
-	return GetHeroPracticalAttr(arg_8_0, arg_8_1, arg_8_2, arg_8_4, false)
+	return GetHeroPracticalAttr(slot0, slot1, slot2, slot4, false)
 end
 
-function calcBattlePower(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
-	local var_9_0 = 0
-	local var_9_1
+function calcBattlePower(slot0, slot1, slot2, slot3, slot4)
+	slot5 = 0
+	slot6 = nil
+	slot6 = slot4 and slot4 or GetHeroFinalAttr(slot0, slot1, slot2, slot3, true)
+	slot7 = slot6[HeroConst.HERO_ATTRIBUTE.ATK] or 0
+	slot8 = slot6[HeroConst.HERO_ATTRIBUTE.STA] or 0
+	slot9 = slot6[HeroConst.HERO_ATTRIBUTE.ARM] or 0
+	slot10 = (slot6[HeroConst.HERO_ATTRIBUTE.CRITICAL_RATE] or 5000) / 1000 or 0
 
-	if arg_9_4 then
-		var_9_1 = arg_9_4
-	else
-		var_9_1 = GetHeroFinalAttr(arg_9_0, arg_9_1, arg_9_2, arg_9_3, true)
+	for slot15, slot16 in pairs(slot0.skill) do
+		slot11 = 0 + slot16.skill_level + HeroTools.GetHeroSkillAddLevel(slot0, slot16.skill_id)
 	end
 
-	local var_9_2 = var_9_1[HeroConst.HERO_ATTRIBUTE.ATK] or 0
-	local var_9_3 = var_9_1[HeroConst.HERO_ATTRIBUTE.STA] or 0
-	local var_9_4 = var_9_1[HeroConst.HERO_ATTRIBUTE.ARM] or 0
-	local var_9_5 = (var_9_1[HeroConst.HERO_ATTRIBUTE.CRITICAL_RATE] or 5000) / 1000 or 0
-	local var_9_6 = 0
-
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.skill) do
-		local var_9_7 = HeroTools.GetHeroSkillAddLevel(arg_9_0, iter_9_1.skill_id)
-
-		var_9_6 = var_9_6 + iter_9_1.skill_level + var_9_7
+	for slot15, slot16 in pairs(slot0.skillAttrList) do
+		slot11 = slot11 + slot16.level
 	end
 
-	for iter_9_2, iter_9_3 in pairs(arg_9_0.skillAttrList) do
-		var_9_6 = var_9_6 + iter_9_3.level
+	for slot17, slot18 in pairs(EquipTools.CountHeroTotalSkill(slot2, slot0)) do
+		slot12 = 0 + slot18
 	end
 
-	local var_9_8 = 0
-	local var_9_9 = EquipTools.CountHeroTotalSkill(arg_9_2, arg_9_0)
+	slot14 = 0
+	slot15 = {}
 
-	for iter_9_4, iter_9_5 in pairs(var_9_9) do
-		var_9_8 = var_9_8 + iter_9_5
-	end
-
-	local var_9_10 = 0
-	local var_9_11 = {}
-
-	for iter_9_6, iter_9_7 in pairs(arg_9_2) do
-		if iter_9_7.prefab_id ~= 0 then
-			local var_9_12 = iter_9_7.prefab_id
-			local var_9_13 = EquipCfg[var_9_12].suit
-
-			var_9_11[var_9_13] = 1 + (var_9_11[var_9_13] or 0)
+	for slot19, slot20 in pairs(slot2) do
+		if slot20.prefab_id ~= 0 then
+			slot15[slot22] = 1 + (slot15[EquipCfg[slot20.prefab_id].suit] or 0)
 		end
 	end
 
-	local var_9_14 = HeroTools.GetIsSuitNumCut(arg_9_0)
+	slot16 = HeroTools.GetIsSuitNumCut(slot0)
 
-	for iter_9_8, iter_9_9 in pairs(var_9_11) do
-		local var_9_15 = EquipSuitCfg.get_id_list_by_suit[iter_9_8]
-
-		for iter_9_10, iter_9_11 in ipairs(var_9_15) do
-			if iter_9_9 >= EquipTools.GetSuitNeedNum(iter_9_11, var_9_14) then
-				var_9_10 = var_9_10 + 1
+	for slot20, slot21 in pairs(slot15) do
+		for slot26, slot27 in ipairs(EquipSuitCfg.get_id_list_by_suit[slot20]) do
+			if EquipTools.GetSuitNeedNum(slot27, slot16) <= slot21 then
+				slot14 = slot14 + 1
 			end
 		end
 	end
 
-	local var_9_16 = 0
-
-	for iter_9_12, iter_9_13 in pairs(arg_9_0.using_astrolabe) do
-		if iter_9_13 ~= 0 then
-			var_9_16 = var_9_16 + 1
+	for slot21, slot22 in pairs(slot0.using_astrolabe) do
+		if slot22 ~= 0 then
+			slot17 = 0 + 1
 		end
 	end
 
-	local var_9_17 = 0
+	slot18 = 0
 
-	if arg_9_1 ~= nil then
-		local var_9_18 = HeroTools.GetHeroWeaponAddLevel(arg_9_0)
-		local var_9_19 = WeaponServantCfg[arg_9_1.id]
+	if slot1 ~= nil then
+		slot19 = HeroTools.GetHeroWeaponAddLevel(slot0)
 
-		if var_9_19 and var_9_19.type ~= 3 then
-			local var_9_20 = 0.3
+		if WeaponServantCfg[slot1.id] and slot20.type ~= 3 then
+			slot21 = 0.3
 
-			if var_9_19.starlevel == 3 then
-				var_9_20 = 0.3
-			elseif var_9_19.starlevel == 4 then
-				var_9_20 = 0.6
-			elseif var_9_19.starlevel == 5 then
-				var_9_20 = 0.8
+			if slot20.starlevel == 3 then
+				slot21 = 0.3
+			elseif slot20.starlevel == 4 then
+				slot21 = 0.6
+			elseif slot20.starlevel == 5 then
+				slot21 = 0.8
 			end
 
-			local var_9_21 = math.floor(var_9_19.effect[1] / 100)
-
-			if var_9_19.type == 2 and var_9_21 == arg_9_0.id then
-				var_9_20 = 1
+			if slot20.type == 2 and math.floor(slot20.effect[1] / 100) == slot0.id then
+				slot21 = 1
 			end
 
-			var_9_17 = 214 * (arg_9_1.stage + var_9_18) + 746
-			var_9_17 = var_9_20 * var_9_17
+			slot18 = slot21 * (214 * (slot1.stage + slot19) + 746)
 		end
 	end
 
-	local var_9_22 = HeroTools.CountTransitionTotalSkill(arg_9_0, arg_9_2)
-	local var_9_23 = HeroCfg[arg_9_0.id].unlock_star / 100
-	local var_9_24 = 8
+	slot19 = HeroTools.CountTransitionTotalSkill(slot0, slot2)
+	slot22 = 8
 
-	if var_9_23 == 1 then
-		var_9_24 = 8
-	elseif var_9_23 == 2 then
-		var_9_24 = 10
-	elseif var_9_23 == 3 then
-		var_9_24 = 16
+	if HeroCfg[slot0.id].unlock_star / 100 == 1 then
+		slot22 = 8
+	elseif slot21 == 2 then
+		slot22 = 10
+	elseif slot21 == 3 then
+		slot22 = 16
 	end
 
-	local var_9_25
-	local var_9_26 = HeroTools.IsSpHero(arg_9_0.id) and 133 or 355
-	local var_9_27 = var_9_2 * 1 + var_9_3 * 0.15 + var_9_4 * 0.8 + var_9_5 * 2400 + var_9_6 * var_9_24 + var_9_16 * var_9_26 + var_9_8 * 128 + var_9_10 * 400 + var_9_17 + var_9_22 * 60
+	slot23 = nil
 
-	return math.floor(var_9_27)
+	return math.floor(slot7 * 1 + slot8 * 0.15 + slot9 * 0.8 + slot10 * 2400 + slot11 * slot22 + slot17 * (HeroTools.IsSpHero(slot0.id) and 133 or 355) + slot12 * 128 + slot14 * 400 + slot18 + slot19 * 60)
 end

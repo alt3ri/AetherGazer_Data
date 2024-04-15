@@ -1,63 +1,61 @@
-local var_0_0 = class("SPHeroChallengeTrainView", import(".SPHeroChallengeBattleStageBaseView"))
+slot0 = class("SPHeroChallengeTrainView", import(".SPHeroChallengeBattleStageBaseView"))
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/SPHeroChallengeTrainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.lockController = arg_5_0.controller:GetController("open")
+	slot0.lockController = slot0.controller:GetController("open")
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:RefreshBar()
+function slot0.OnEnter(slot0)
+	slot0:RefreshBar()
 
-	if not arg_6_0.params_.showFlag then
-		arg_6_0.lockController:SetSelectedState("no")
+	if not slot0.params_.showFlag then
+		slot0.lockController:SetSelectedState("no")
 
-		if arg_6_0.params_.reason then
-			arg_6_0.lockdescText_.text = GetTips(arg_6_0.params_.reason)
+		if slot0.params_.reason then
+			slot0.lockdescText_.text = GetTips(slot0.params_.reason)
 		end
 	else
-		arg_6_0.lockController:SetSelectedState("open")
+		slot0.lockController:SetSelectedState("open")
 	end
 end
 
-function var_0_0.RefreshBar(arg_7_0)
-	return
+function slot0.RefreshBar(slot0)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	for iter_9_0 = SpHeroChallengeConst.BattleSubType.train1, SpHeroChallengeConst.BattleSubType.train3 do
-		arg_9_0:AddBtnListener(arg_9_0["trainitem" .. iter_9_0 .. "Btn_"], nil, function()
+function slot0.AddUIListener(slot0)
+	for slot4 = SpHeroChallengeConst.BattleSubType.train1, SpHeroChallengeConst.BattleSubType.train3 do
+		slot0:AddBtnListener(slot0["trainitem" .. slot4 .. "Btn_"], nil, function ()
 			JumpTools.OpenPageByJump("/spHeroChallengeTrainStageView", {
 				playAnimation = true,
-				trainType = iter_9_0
+				trainType = uv0
 			})
 		end)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,99 +1,97 @@
-local var_0_0 = import("game.views.chat.loopScrollView.LoopScrollViewBaseItem")
-local var_0_1 = class("ChatRecallItemView", var_0_0)
+slot1 = class("ChatRecallItemView", import("game.views.chat.loopScrollView.LoopScrollViewBaseItem"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot1.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
-	arg_1_0:Show(true)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
+	slot0:Show(true)
 end
 
-function var_0_1.Dispose(arg_2_0)
-	var_0_1.super.Dispose(arg_2_0)
-	Object.Destroy(arg_2_0.gameObject_)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.gameObject_ = nil
-	arg_2_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_1.GetUserID(arg_3_0)
-	return arg_3_0.itemData_.id
+function slot1.GetUserID(slot0)
+	return slot0.itemData_.id
 end
 
-function var_0_1.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.buttonHead_, nil, function()
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonHead_, nil, function ()
 		if CooperationData:CheckInRoom() then
 			return
 		end
 
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_4_0:GetUserID())
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0:GetUserID())
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.copyBtn_, nil, function()
+	slot0:AddBtnListener(slot0.copyBtn_, nil, function ()
 		ShowTips("COPY_SUCCESS")
 
-		UnityEngine.GUIUtility.systemCopyBuffer = arg_4_0.textContent_.text
+		UnityEngine.GUIUtility.systemCopyBuffer = uv0.textContent_.text
 	end)
 end
 
-function var_0_1.GetNick(arg_7_0)
-	return arg_7_0.itemData_.nick
+function slot1.GetNick(slot0)
+	return slot0.itemData_.nick
 end
 
-function var_0_1.SetText(arg_8_0, arg_8_1)
-	if arg_8_1.id == USER_ID then
-		local var_8_0 = PlayerData:GetPlayerInfo()
-
-		arg_8_0.textName_.text = GetI18NText(var_8_0.nick)
-		arg_8_0.imageIcon_.sprite = ItemTools.getItemSprite(var_8_0.portrait)
-		arg_8_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_8_0.icon_frame)
+function slot1.SetText(slot0, slot1)
+	if slot1.id == USER_ID then
+		slot2 = PlayerData:GetPlayerInfo()
+		slot0.textName_.text = GetI18NText(slot2.nick)
+		slot0.imageIcon_.sprite = ItemTools.getItemSprite(slot2.portrait)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 	else
-		arg_8_0.textName_.text = GetI18NText(arg_8_1.nick)
-		arg_8_0.imageIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[arg_8_1.icon].icon)
-		arg_8_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_8_1.iconFrame)
+		slot0.textName_.text = GetI18NText(slot1.nick)
+		slot0.imageIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[slot1.icon].icon)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.iconFrame)
 	end
 
-	arg_8_0.textContent_.text = GetI18NText(arg_8_1.content)
-	arg_8_0.tipsText_.text = GetTips("RECALLED_SHARE_TIPS")
+	slot0.textContent_.text = GetI18NText(slot1.content)
+	slot0.tipsText_.text = GetTips("RECALLED_SHARE_TIPS")
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.rectContent_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.rectGo_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGo_)
 end
 
-function var_0_1.SetData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.itemData_ = arg_9_1
-	arg_9_0.index_ = arg_9_2
+function slot1.SetData(slot0, slot1, slot2)
+	slot0.itemData_ = slot1
+	slot0.index_ = slot2
 
-	arg_9_0:Show(true)
-	arg_9_0:SetText(arg_9_1)
-	arg_9_0:SetIP(arg_9_0.itemData_)
+	slot0:Show(true)
+	slot0:SetText(slot1)
+	slot0:SetIP(slot0.itemData_)
 end
 
-function var_0_1.SetIP(arg_10_0, arg_10_1)
-	if not arg_10_0.ipGo_ then
+function slot1.SetIP(slot0, slot1)
+	if not slot0.ipGo_ then
 		return
 	end
 
-	arg_10_0.ip_.text = arg_10_1.ip
+	slot0.ip_.text = slot1.ip
 
-	SetActive(arg_10_0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
+	SetActive(slot0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
 
-	if arg_10_0.gameObject_.activeSelf then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.ipGo_.transform)
+	if slot0.gameObject_.activeSelf then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.ipGo_.transform)
 	end
 end
 
-function var_0_1.SetAsLastSibling(arg_11_0)
-	arg_11_0.transform_:SetAsLastSibling()
+function slot1.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_1.SetAsFirstSibling(arg_12_0)
-	arg_12_0.transform_:SetAsFirstSibling()
+function slot1.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-function var_0_1.Show(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.gameObject_, arg_13_1)
+function slot1.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_1
+return slot1

@@ -1,60 +1,60 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("SevenDayPage_3_0", ActivityMainBasePanel)
 
-local var_0_0 = class("SevenDayPage_3_0", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
-	return ActivityCumulativeSignCfg[arg_1_0.activityID_].ui_path
+function slot0.GetUIName(slot0)
+	return ActivityCumulativeSignCfg[slot0.activityID_].ui_path
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.items = {}
-	arg_2_0.max_sign_day = SevenDaySkinData:MaxSignDay(arg_2_0.activityID_)
+	slot0.items = {}
+	slot4 = slot0.activityID_
+	slot0.max_sign_day = SevenDaySkinData:MaxSignDay(slot4)
 
-	for iter_2_0 = 1, arg_2_0.max_sign_day do
-		local var_2_0 = SevenDaySkinItem_3_0.New(arg_2_0["btn_" .. iter_2_0])
+	for slot4 = 1, slot0.max_sign_day do
+		slot5 = SevenDaySkinItem_3_0.New(slot0["btn_" .. slot4])
 
-		var_2_0:RegisterListener(function()
-			if arg_2_0.data:SignDay() >= arg_2_0.max_sign_day then
+		slot5:RegisterListener(function ()
+			if uv0.max_sign_day <= uv0.data:SignDay() then
 				return
 			end
 
-			if arg_2_0.data:LeftSignTimes() > 0 then
-				SevenDaySkinAction.ReqSign(arg_2_0.activityID_)
+			if uv0.data:LeftSignTimes() > 0 then
+				SevenDaySkinAction.ReqSign(uv0.activityID_)
 
 				return
 			end
 
-			if arg_2_0.data:IsReSign() then
-				arg_2_0:ShowCheckDialog()
+			if uv0.data:IsReSign() then
+				uv0:ShowCheckDialog()
 
 				return
 			end
 		end)
-		table.insert(arg_2_0.items, var_2_0)
+		table.insert(slot0.items, slot5)
 	end
 
-	arg_2_0.onSignHandler = handler(arg_2_0, arg_2_0.OnSignSuccess)
-	arg_2_0.onClearHandler = handler(arg_2_0, arg_2_0.OnClearSuccess)
+	slot0.onSignHandler = handler(slot0, slot0.OnSignSuccess)
+	slot0.onClearHandler = handler(slot0, slot0.OnClearSuccess)
 
-	arg_2_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.BtnSign, nil, handler(arg_4_0, arg_4_0.OnBtnSignClick))
-	arg_4_0:AddBtnListener(arg_4_0.btn_desc, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.BtnSign, nil, handler(slot0, slot0.OnBtnSignClick))
+	slot0:AddBtnListener(slot0.btn_desc, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			content = GetTips("ACTIVITY_OPTIONAL_RANDOM_RULE")
 		})
 	end)
 end
 
-function var_0_0.OnTop(arg_6_0)
-	arg_6_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_7_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -65,142 +65,134 @@ function var_0_0.UpdateBar(arg_7_0)
 	manager.windowBar:SetBarCanClick(CurrencyConst.CURRENCY_RANDOM_TARGET_COIN, true)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	var_0_0.super.OnEnter(arg_8_0)
-	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_CLEAR, arg_8_0.onClearHandler)
-	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, arg_8_0.onSignHandler)
-	manager.redPoint:bindUIandKey(arg_8_0.BtnSign.transform, string.format("%s_%s", RedPointConst.ACTIVITY_3_0_SURPRISE_GIFT, ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW))
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_CLEAR, slot0.onClearHandler)
+	manager.notify:RegistListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, slot0.onSignHandler)
+	manager.redPoint:bindUIandKey(slot0.BtnSign.transform, string.format("%s_%s", RedPointConst.ACTIVITY_3_0_SURPRISE_GIFT, ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW))
 
-	arg_8_0.data = SevenDaySkinData:GetActivityData(arg_8_0.activityID_)
-	arg_8_0.crossDay = false
+	slot0.data = SevenDaySkinData:GetActivityData(slot0.activityID_)
+	slot0.crossDay = false
 
-	arg_8_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	var_0_0.super.OnExit(arg_9_0)
-	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, arg_9_0.onSignHandler)
-	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_CLEAR, arg_9_0.onClearHandler)
-	manager.redPoint:unbindUIandKey(arg_9_0.BtnSign.transform, string.format("%s_%s", RedPointConst.ACTIVITY_3_0_SURPRISE_GIFT, ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW))
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_SUCCESS, slot0.onSignHandler)
+	manager.notify:RemoveListener(SEVEN_DAY_SKIN_SIGN_CLEAR, slot0.onClearHandler)
+	manager.redPoint:unbindUIandKey(slot0.BtnSign.transform, string.format("%s_%s", RedPointConst.ACTIVITY_3_0_SURPRISE_GIFT, ActivityConst.ACTIVITY_3_0_SURPRISE_GIFT_DRAW))
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_10_0 = 1, #arg_10_0.items do
-		arg_10_0.items[iter_10_0]:Dispose()
+	for slot4 = 1, #slot0.items do
+		slot0.items[slot4]:Dispose()
 	end
 end
 
-function var_0_0.RefreshView(arg_11_0)
-	arg_11_0:RefreshSignInfo()
-	arg_11_0:RefreshItems()
+function slot0.RefreshView(slot0)
+	slot0:RefreshSignInfo()
+	slot0:RefreshItems()
 
-	local var_11_0 = arg_11_0.data:LeftSignTimes()
+	slot1 = slot0.data:LeftSignTimes()
 end
 
-function var_0_0.RefreshSignInfo(arg_12_0)
-	arg_12_0.descText_.text = GetTips("ACTIVITY_OPTIONAL_RANDOM_BACKDROP")
+function slot0.RefreshSignInfo(slot0)
+	slot0.descText_.text = GetTips("ACTIVITY_OPTIONAL_RANDOM_BACKDROP")
 end
 
-function var_0_0.RefreshItems(arg_13_0)
-	arg_13_0.receiveState = false
+function slot0.RefreshItems(slot0)
+	slot0.receiveState = false
+	slot1 = slot0.data:SignDay()
+	slot3 = slot1 + slot0.data:LeftSignTimes()
+	slot4 = slot0.data:SignRewardList()
+	slot5 = slot1 + slot0.data:ReSignNum()
 
-	local var_13_0 = arg_13_0.data:SignDay()
-	local var_13_1 = var_13_0 + arg_13_0.data:LeftSignTimes()
-	local var_13_2 = arg_13_0.data:SignRewardList()
-	local var_13_3 = var_13_0 + arg_13_0.data:ReSignNum()
-
-	for iter_13_0 = 1, arg_13_0.max_sign_day do
-		if iter_13_0 <= var_13_0 then
-			arg_13_0.receiveState = false
-		elseif iter_13_0 <= var_13_1 then
-			arg_13_0.receiveState = true
+	for slot9 = 1, slot0.max_sign_day do
+		if slot9 <= slot1 then
+			slot0.receiveState = false
+		elseif slot9 <= slot3 then
+			slot0.receiveState = true
 		else
-			arg_13_0.receiveState = false
+			slot0.receiveState = false
 		end
 	end
 
-	local var_13_4
+	slot6 = nil
 
-	for iter_13_1 = 1, arg_13_0.max_sign_day do
-		local var_13_5 = var_13_2[iter_13_1]
-
-		if iter_13_1 == var_13_0 + 1 and not arg_13_0.receiveState then
-			arg_13_0.items[iter_13_1]:RefreshView(var_13_5, iter_13_1 <= var_13_0 and 2 or iter_13_1 <= var_13_1 and 1 or 0, var_13_3 > 0)
+	for slot10 = 1, slot0.max_sign_day do
+		if slot10 == slot1 + 1 and not slot0.receiveState then
+			slot0.items[slot10]:RefreshView(slot4[slot10], slot10 <= slot1 and 2 or slot10 <= slot3 and 1 or 0, slot5 > 0)
 		else
-			arg_13_0.items[iter_13_1]:RefreshView(var_13_5, iter_13_1 <= var_13_0 and 2 or iter_13_1 <= var_13_1 and 1 or 0, false)
+			slot0.items[slot10]:RefreshView(slot6, slot10 <= slot1 and 2 or slot10 <= slot3 and 1 or 0, false)
 		end
 
-		var_13_3 = var_13_3 - 1
+		slot5 = slot5 - 1
 	end
 end
 
-function var_0_0.OnBtnSignClick(arg_14_0)
+function slot0.OnBtnSignClick(slot0)
 	JumpTools.OpenPageByJump("/norseSurpriseGiftMachinePage")
 end
 
-function var_0_0.OnSignSuccess(arg_15_0, arg_15_1)
-	local var_15_0 = arg_15_1.item_list
+function slot0.OnSignSuccess(slot0, slot1)
+	getReward(slot1.item_list)
+	slot0:RefreshView()
 
-	getReward(var_15_0)
-	arg_15_0:RefreshView()
-
-	arg_15_0.crossDay = false
+	slot0.crossDay = false
 end
 
-function var_0_0.ShowCheckDialog(arg_16_0)
-	local var_16_0 = ActivityCumulativeSignCfg[arg_16_0.activityID_].cost_item_list[1]
-	local var_16_1 = var_16_0[1]
-	local var_16_2 = GetI18NText(ItemCfg[var_16_1].name)
-	local var_16_3 = var_16_0[2]
-	local var_16_4 = ItemTools.getItemNum(var_16_1)
-	local var_16_5 = string.format(GetTips("ACTIVITY_OPTIONAL_RANDOM_SIGN_COST"), var_16_2, var_16_3)
+function slot0.ShowCheckDialog(slot0)
+	slot2 = ActivityCumulativeSignCfg[slot0.activityID_].cost_item_list[1]
+	slot3 = slot2[1]
+	slot5 = slot2[2]
+	slot6 = ItemTools.getItemNum(slot3)
 
 	JumpTools.OpenPageByJump("popCostItem", {
-		costId = var_16_1,
-		costCount = var_16_3,
-		content = var_16_5,
-		popCostCallBack = function()
-			local var_17_0 = manager.time:GetServerTime()
-			local var_17_1, var_17_2 = ActivityData:GetActivityTime(arg_16_0.activityID_)
+		costId = slot3,
+		costCount = slot5,
+		content = string.format(GetTips("ACTIVITY_OPTIONAL_RANDOM_SIGN_COST"), GetI18NText(ItemCfg[slot3].name), slot5),
+		popCostCallBack = function ()
+			slot1, slot2 = ActivityData:GetActivityTime(uv0.activityID_)
 
-			if var_17_2 <= var_17_0 then
+			if slot2 <= manager.time:GetServerTime() then
 				ShowTips("TIME_OVER")
-			elseif arg_16_0.crossDay then
+			elseif uv0.crossDay then
 				ShowTips("SUPPLEMENTARY_SIGN_FAIL")
 
-				arg_16_0.crossDay = false
-			elseif var_16_4 < var_16_3 then
+				uv0.crossDay = false
+			elseif uv1 < uv2 then
 				ShowTips("ITEM_NOT_ENOUGH_RETURN_MATERIAL")
 			else
-				SevenDaySkinAction.ReqSign(arg_16_0.activityID_)
+				SevenDaySkinAction.ReqSign(uv0.activityID_)
 			end
 		end,
-		CancelCallback = function()
+		CancelCallback = function ()
 			manager.windowBar:HideBar()
-			arg_16_0:UpdateBar()
+			uv0:UpdateBar()
 		end,
-		MaskCallback = function()
+		MaskCallback = function ()
 			manager.windowBar:HideBar()
-			arg_16_0:UpdateBar()
+			uv0:UpdateBar()
 		end
 	})
 end
 
-function var_0_0.OnBtnInfoClick(arg_20_0)
+function slot0.OnBtnInfoClick(slot0)
 	JumpTools.OpenPageByJump("gameHelp", {
 		content = GetTips("ACTIVITY_INSTRUSCTIONS")
 	})
 end
 
-function var_0_0.OnClearSuccess(arg_21_0)
-	arg_21_0.data = SevenDaySkinData:GetActivityData(arg_21_0.activityID_)
+function slot0.OnClearSuccess(slot0)
+	slot0.data = SevenDaySkinData:GetActivityData(slot0.activityID_)
 
-	arg_21_0:RefreshView()
+	slot0:RefreshView()
 
-	arg_21_0.crossDay = true
+	slot0.crossDay = true
 end
 
-return var_0_0
+return slot0

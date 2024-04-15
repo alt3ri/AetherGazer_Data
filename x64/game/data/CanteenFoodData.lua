@@ -1,84 +1,81 @@
-local var_0_0 = singletonClass("CanteenFoodData")
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
+slot0 = singletonClass("CanteenFoodData")
+slot1, slot2, slot3, slot4 = nil
 
-function var_0_0.InitSimpleCanteenFoodData(arg_1_0, arg_1_1)
-	var_0_0:InitSignFoodList(arg_1_1.canteens[1])
-	var_0_0:InitCanteenIngredient(arg_1_1.ingredients)
+function slot0.InitSimpleCanteenFoodData(slot0, slot1)
+	uv0:InitSignFoodList(slot1.canteens[1])
+	uv0:InitCanteenIngredient(slot1.ingredients)
 end
 
-function var_0_0.InitDetailCanteenFoodData(arg_2_0, arg_2_1)
-	var_0_0:InitSignFoodList(arg_2_1.canteens[1])
-	var_0_0:InitCanteenIngredient(arg_2_1.ingredients)
-	var_0_0:InitFoodProficiency(arg_2_1.food)
+function slot0.InitDetailCanteenFoodData(slot0, slot1)
+	uv0:InitSignFoodList(slot1.canteens[1])
+	uv0:InitCanteenIngredient(slot1.ingredients)
+	uv0:InitFoodProficiency(slot1.food)
 end
 
-function var_0_0.InitFoodProficiency(arg_3_0, arg_3_1)
-	var_0_2 = {}
+function slot0.InitFoodProficiency(slot0, slot1)
+	uv0 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		var_0_2[iter_3_1.id] = arg_3_0:InitFoodProficiencyData(iter_3_1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = slot0:InitFoodProficiencyData(slot6)
 	end
 
-	for iter_3_2, iter_3_3 in ipairs(BackHomeCanteenFoodCfg.all) do
-		if not var_0_2[iter_3_3] then
-			local var_3_0 = {
-				id = iter_3_3
-			}
-
-			var_0_2[iter_3_3] = arg_3_0:InitFoodProficiencyData(var_3_0)
+	for slot5, slot6 in ipairs(BackHomeCanteenFoodCfg.all) do
+		if not uv0[slot6] then
+			uv0[slot6] = slot0:InitFoodProficiencyData({
+				id = slot6
+			})
 		end
 	end
 end
 
-function var_0_0.InitSignFoodList(arg_4_0, arg_4_1)
-	var_0_4 = CanteenConst.CanteenMapID
-	var_0_3 = {}
+function slot0.InitSignFoodList(slot0, slot1)
+	uv0 = CanteenConst.CanteenMapID
+	uv1 = {
+		[slot1.id] = {}
+	}
 
-	local var_4_0 = arg_4_1.id
-
-	var_0_3[var_4_0] = {}
-
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.signature_dish) do
-		var_0_3[var_4_0][iter_4_1.food_id] = {
-			sellNum = iter_4_1.sell_num,
-			soldNum = iter_4_1.sold_num,
-			soldIncome = iter_4_1.sell_earnings
+	for slot6, slot7 in ipairs(slot1.signature_dish) do
+		uv1[slot2][slot7.food_id] = {
+			sellNum = slot7.sell_num,
+			soldNum = slot7.sold_num,
+			soldIncome = slot7.sell_earnings
 		}
 	end
 
-	arg_4_0:RefreshCanOrderFoodList()
+	slot0:RefreshCanOrderFoodList()
 end
 
-function var_0_0.GetFoodToSignList(arg_5_0)
-	return var_0_3
+function slot0.GetFoodToSignList(slot0)
+	return uv0
 end
 
-function var_0_0.GetChooseFoodList(arg_6_0)
-	local var_6_0 = {}
+function slot0.GetChooseFoodList(slot0)
+	slot1 = {}
 
-	if var_0_3[var_0_4] then
-		for iter_6_0, iter_6_1 in pairs(var_0_3[var_0_4]) do
-			table.insert(var_6_0, iter_6_0)
+	if uv0[uv1] then
+		slot5 = uv1
+
+		for slot5, slot6 in pairs(uv0[slot5]) do
+			table.insert(slot1, slot5)
 		end
 	end
 
-	return var_6_0
+	return slot1
 end
 
-function var_0_0.GetSignFoodInfo(arg_7_0, arg_7_1)
-	if var_0_3[var_0_4][arg_7_1] then
-		return var_0_3[var_0_4][arg_7_1]
+function slot0.GetSignFoodInfo(slot0, slot1)
+	if uv0[uv1][slot1] then
+		return uv0[uv1][slot1]
 	end
 
 	print("未找到对应招牌菜信息")
 end
 
-function var_0_0.CheckIsSignFood(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in pairs(var_0_3[var_0_4]) do
-		if arg_8_1 == iter_8_0 then
+function slot0.CheckIsSignFood(slot0, slot1)
+	slot5 = uv1
+
+	for slot5, slot6 in pairs(uv0[slot5]) do
+		if slot1 == slot5 then
 			return true
 		end
 	end
@@ -86,63 +83,52 @@ function var_0_0.CheckIsSignFood(arg_8_0, arg_8_1)
 	return false
 end
 
-function var_0_0.PushFoodToSignList(arg_9_0, arg_9_1, arg_9_2)
-	if var_0_3[var_0_4] then
-		if arg_9_2 then
-			var_0_3[var_0_4][arg_9_1] = {}
-			var_0_3[var_0_4][arg_9_1] = {
+function slot0.PushFoodToSignList(slot0, slot1, slot2)
+	if uv0[uv1] then
+		if slot2 then
+			uv0[uv1][slot1] = {}
+			uv0[uv1][slot1] = {
 				soldIncome = 0,
 				soldNum = 0,
-				sellNum = arg_9_2
+				sellNum = slot2
 			}
-		elseif var_0_3[var_0_4][arg_9_1] then
-			var_0_3[var_0_4][arg_9_1] = nil
+		elseif uv0[uv1][slot1] then
+			uv0[uv1][slot1] = nil
 		end
 	end
 
-	arg_9_0:RefreshCanOrderFoodList()
+	slot0:RefreshCanOrderFoodList()
 end
 
-local var_0_5
+slot5 = nil
 
-function var_0_0.GetCanOrderFoodList(arg_10_0)
-	return var_0_5
+function slot0.GetCanOrderFoodList(slot0)
+	return uv0
 end
 
-function var_0_0.CalculateFoodCanCookNum(arg_11_0, arg_11_1)
-	local var_11_0 = CanteenFoodData:CheckIsSignFood(arg_11_1)
-	local var_11_1 = 0
+function slot0.CalculateFoodCanCookNum(slot0, slot1)
+	slot3 = 0
 
-	if not var_11_0 then
-		local var_11_2 = BackHomeCanteenFoodCfg[arg_11_1].ingredient_list
+	if not CanteenFoodData:CheckIsSignFood(slot1) and BackHomeCanteenFoodCfg[slot1].ingredient_list then
+		slot5 = 100000
 
-		if var_11_2 then
-			local var_11_3 = 100000
-
-			for iter_11_0, iter_11_1 in pairs(var_11_2) do
-				local var_11_4 = iter_11_1[1]
-				local var_11_5 = iter_11_1[2]
-				local var_11_6 = arg_11_0:GetCateenIngredientNum(var_11_4) or 0
-
-				if var_0_1 then
-					if var_11_6 < var_11_5 then
-						return 0
-					else
-						local var_11_7 = math.modf(var_11_6 / var_11_5)
-
-						var_11_3 = math.min(var_11_7, var_11_3)
-					end
+		for slot9, slot10 in pairs(slot4) do
+			if uv0 then
+				if (slot0:GetCateenIngredientNum(slot10[1]) or 0) < slot10[2] then
+					return 0
+				else
+					slot5 = math.min(math.modf(slot13 / slot12), slot5)
 				end
 			end
+		end
 
-			if var_11_3 ~= 10000 then
-				var_11_1 = var_11_3
-			end
+		if slot5 ~= 10000 then
+			slot3 = slot5
 		end
 	end
 
-	if var_11_1 >= 0 then
-		return var_11_1
+	if slot3 >= 0 then
+		return slot3
 	else
 		print("可制作数量错误")
 
@@ -150,221 +136,202 @@ function var_0_0.CalculateFoodCanCookNum(arg_11_0, arg_11_1)
 	end
 end
 
-function var_0_0.GetSignFoodTime(arg_12_0, arg_12_1)
-	local var_12_0 = var_0_3[var_0_4][arg_12_1].sellNum - var_0_3[var_0_4][arg_12_1].soldNum
-
-	return arg_12_0:CalSignFoodTime(arg_12_1, var_12_0)
+function slot0.GetSignFoodTime(slot0, slot1)
+	return slot0:CalSignFoodTime(slot1, uv0[uv1][slot1].sellNum - uv0[uv1][slot1].soldNum)
 end
 
-function var_0_0.CalSignFoodTime(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = BackHomeCanteenFoodCfg[arg_13_1].cook_type
-	local var_13_1 = BackHomeCanteenFoodCfg[arg_13_1].cost_time
-	local var_13_2 = CanteenConst.HeroSkillType.FoodCostQucik
-	local var_13_3 = (100 - DormSkillData:GetSkillEffect(var_13_2, nil, nil, var_13_0)) / 100
-
-	return math.ceil(var_13_1 * arg_13_2 * var_13_3)
+function slot0.CalSignFoodTime(slot0, slot1, slot2)
+	return math.ceil(BackHomeCanteenFoodCfg[slot1].cost_time * slot2 * (100 - DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FoodCostQucik, nil, , BackHomeCanteenFoodCfg[slot1].cook_type)) / 100)
 end
 
-function var_0_0.GetSignFoodCanCookNum(arg_14_0, arg_14_1)
-	local var_14_0 = CanteenManualData:GetManualCookFoodInfo()
-	local var_14_1 = 0
+function slot0.GetSignFoodCanCookNum(slot0, slot1)
+	slot3 = 0
 
-	if var_14_0 then
-		var_14_1 = var_14_0[arg_14_1] or 0
+	if CanteenManualData:GetManualCookFoodInfo() then
+		slot3 = slot2[slot1] or 0
 	end
 
-	local var_14_2 = var_0_3[var_0_4][arg_14_1].sellNum - var_0_3[var_0_4][arg_14_1].soldNum - var_14_1
-
-	if var_14_2 < 0 then
+	if uv0[uv1][slot1].sellNum - uv0[uv1][slot1].soldNum - slot3 < 0 then
 		print("计算数量错误")
 
-		var_14_2 = 0
+		slot5 = 0
 	end
 
-	return var_14_2
+	return slot5
 end
 
-function var_0_0.RefreshCanOrderFoodList(arg_15_0)
-	local var_15_0 = CanteenManualData:GetManualCookFoodInfo()
-	local var_15_1 = arg_15_0:GetChooseFoodList()
+function slot0.RefreshCanOrderFoodList(slot0)
+	slot1 = CanteenManualData:GetManualCookFoodInfo()
+	uv0 = {}
 
-	var_0_5 = {}
+	if slot0:GetChooseFoodList() then
+		for slot6, slot7 in pairs(slot2) do
+			slot8 = slot0:GetSignFoodInfo(slot7)
+			slot9 = 0
 
-	if var_15_1 then
-		for iter_15_0, iter_15_1 in pairs(var_15_1) do
-			local var_15_2 = arg_15_0:GetSignFoodInfo(iter_15_1)
-			local var_15_3 = 0
-			local var_15_4 = not var_15_0 and 0 or var_15_0[iter_15_1] or 0
-
-			if var_15_2.sellNum - var_15_2.soldNum - var_15_4 > 0 then
-				table.insert(var_0_5, iter_15_1)
+			if slot8.sellNum - slot8.soldNum - (not slot1 and 0 or slot1[slot7] or 0) > 0 then
+				table.insert(uv0, slot7)
 			end
 		end
 	end
 
 	manager.notify:Invoke(CANTEEN_SIGN_FOOD_NUM_CHANGE)
-	var_0_0:OnIngredientChange()
+	uv1:OnIngredientChange()
 end
 
-function var_0_0.GetCateenIngredient(arg_16_0)
-	if var_0_1 then
-		return var_0_1
+function slot0.GetCateenIngredient(slot0)
+	if uv0 then
+		return uv0
 	end
 end
 
-function var_0_0.GetHadIngredientNum(arg_17_0, arg_17_1)
-	return var_0_1[arg_17_1] or 0
+function slot0.GetHadIngredientNum(slot0, slot1)
+	return uv0[slot1] or 0
 end
 
-function var_0_0.AddFoodIngredients(arg_18_0, arg_18_1, arg_18_2)
-	if arg_18_1 then
-		if not var_0_1 then
-			var_0_1 = {}
+function slot0.AddFoodIngredients(slot0, slot1, slot2)
+	if slot1 then
+		if not uv0 then
+			uv0 = {}
 		end
 
-		if not var_0_1[arg_18_1] then
-			var_0_1[arg_18_1] = 0
+		if not uv0[slot1] then
+			uv0[slot1] = 0
 		end
 
-		if arg_18_2 then
-			var_0_1[arg_18_1] = arg_18_2
+		if slot2 then
+			uv0[slot1] = slot2
 		end
 
-		if var_0_1[arg_18_1] < 0 then
-			var_0_1[arg_18_1] = 0
+		if uv0[slot1] < 0 then
+			uv0[slot1] = 0
 
 			print("食材减少数量不正确")
 		end
 	end
 end
 
-function var_0_0.GetCateenIngredientNum(arg_19_0, arg_19_1)
-	local var_19_0 = 0
+function slot0.GetCateenIngredientNum(slot0, slot1)
+	slot2 = 0
 
-	if var_0_1[arg_19_1] then
-		var_19_0 = var_0_1[arg_19_1]
+	if uv0[slot1] then
+		slot2 = uv0[slot1]
+		slot6 = uv2
 
-		for iter_19_0, iter_19_1 in pairs(var_0_3[var_0_4]) do
-			local var_19_1 = BackHomeCanteenFoodCfg[iter_19_0].ingredient_list
-
-			for iter_19_2, iter_19_3 in ipairs(var_19_1) do
-				if iter_19_3[1] == arg_19_1 then
-					var_19_0 = var_19_0 - (iter_19_1.sellNum - iter_19_1.soldNum) * iter_19_3[2]
+		for slot6, slot7 in pairs(uv1[slot6]) do
+			for slot12, slot13 in ipairs(BackHomeCanteenFoodCfg[slot6].ingredient_list) do
+				if slot13[1] == slot1 then
+					slot2 = slot2 - (slot7.sellNum - slot7.soldNum) * slot13[2]
 				end
 			end
 		end
 	end
 
-	if var_19_0 < 0 then
-		var_19_0 = 0
+	if slot2 < 0 then
+		slot2 = 0
 	end
 
-	return var_19_0
+	return slot2
 end
 
-function var_0_0.UpdataFoodProficiency(arg_20_0, arg_20_1)
-	if not var_0_2 then
-		var_0_2 = {}
+function slot0.UpdataFoodProficiency(slot0, slot1)
+	if not uv0 then
+		uv0 = {}
 	end
 
-	var_0_2[arg_20_1.id] = arg_20_0:InitFoodProficiencyData(arg_20_1)
+	uv0[slot1.id] = slot0:InitFoodProficiencyData(slot1)
 end
 
-function var_0_0.GetFoodProficiency(arg_21_0, arg_21_1)
-	return var_0_2[arg_21_1].proficiency
+function slot0.GetFoodProficiency(slot0, slot1)
+	return uv0[slot1].proficiency
 end
 
-function var_0_0.GetFoodCookNum(arg_22_0, arg_22_1)
-	return var_0_2[arg_22_1].hasCookNum
+function slot0.GetFoodCookNum(slot0, slot1)
+	return uv0[slot1].hasCookNum
 end
 
-function var_0_0.InitFoodProficiencyData(arg_23_0, arg_23_1)
+function slot0.InitFoodProficiencyData(slot0, slot1)
 	return {
-		foodCfgID = arg_23_1.id,
-		proficiency = arg_23_1.proficiency or 0,
-		hasCookNum = arg_23_1.num or 0,
-		foodType = BackHomeCanteenFoodCfg[arg_23_1.id].cook_type
+		foodCfgID = slot1.id,
+		proficiency = slot1.proficiency or 0,
+		hasCookNum = slot1.num or 0,
+		foodType = BackHomeCanteenFoodCfg[slot1.id].cook_type
 	}
 end
 
-function var_0_0.GetFoodTypeCookNum(arg_24_0, arg_24_1)
-	local var_24_0 = 0
+function slot0.GetFoodTypeCookNum(slot0, slot1)
+	slot2 = 0
 
-	if var_0_2 then
-		for iter_24_0, iter_24_1 in pairs(var_0_2) do
-			if BackHomeCanteenFoodCfg[iter_24_0].cook_type == arg_24_1 then
-				var_24_0 = var_24_0 + iter_24_1.hasCookNum
+	if uv0 then
+		for slot6, slot7 in pairs(uv0) do
+			if BackHomeCanteenFoodCfg[slot6].cook_type == slot1 then
+				slot2 = slot2 + slot7.hasCookNum
 			end
 		end
 	end
 
-	return var_24_0
+	return slot2
 end
 
-function var_0_0.AddFoodProficiency(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = GameSetting.canteen_cook_mastery.value
-	local var_25_1 = 0
+function slot0.AddFoodProficiency(slot0, slot1, slot2)
+	slot4 = 0
 
-	for iter_25_0, iter_25_1 in ipairs(var_25_0) do
-		if iter_25_1[1] == arg_25_2 then
-			var_25_1 = iter_25_1[2]
+	for slot8, slot9 in ipairs(GameSetting.canteen_cook_mastery.value) do
+		if slot9[1] == slot2 then
+			slot4 = slot9[2]
 
 			break
 		end
 	end
 
-	var_0_2[arg_25_1].proficiency = math.min(var_0_2[arg_25_1].proficiency + var_25_1, GameSetting.canteen_cook_mastery_max.value[1])
+	uv0[slot1].proficiency = math.min(uv0[slot1].proficiency + slot4, GameSetting.canteen_cook_mastery_max.value[1])
 end
 
-function var_0_0.GetFoodUnitCost(arg_26_0, arg_26_1)
-	local var_26_0 = BackHomeCanteenFoodCfg[arg_26_1].sell
-	local var_26_1 = CanteenConst.HeroSkillType.FoodCostRise
-	local var_26_2 = BackHomeCanteenFoodCfg[arg_26_1].cook_type
-	local var_26_3 = (100 + DormSkillData:GetSkillEffect(var_26_1, nil, nil, var_26_2)) / 100
-
-	return math.floor(var_26_0 * var_26_3)
+function slot0.GetFoodUnitCost(slot0, slot1)
+	return math.floor(BackHomeCanteenFoodCfg[slot1].sell * (100 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.FoodCostRise, nil, , BackHomeCanteenFoodCfg[slot1].cook_type)) / 100)
 end
 
-function var_0_0.ReviseSignFoodInfo(arg_27_0, arg_27_1)
-	if not var_0_3 then
-		var_0_3 = {}
-		var_0_3[var_0_4] = {}
+function slot0.ReviseSignFoodInfo(slot0, slot1)
+	if not uv0 then
+		uv0 = {
+			[uv1] = {}
+		}
 	end
 
-	if var_0_3[var_0_4][arg_27_1.food_id] then
-		var_0_3[var_0_4][arg_27_1.food_id] = {}
+	if uv0[uv1][slot1.food_id] then
+		uv0[uv1][slot1.food_id] = {}
 	end
 
-	var_0_3[var_0_4][arg_27_1.food_id].sellNum = arg_27_1.sell_num
-	var_0_3[var_0_4][arg_27_1.food_id].soldNum = arg_27_1.sold_num
-	var_0_3[var_0_4][arg_27_1.food_id].soldIncome = arg_27_1.sell_earnings
+	uv0[uv1][slot1.food_id].sellNum = slot1.sell_num
+	uv0[uv1][slot1.food_id].soldNum = slot1.sold_num
+	uv0[uv1][slot1.food_id].soldIncome = slot1.sell_earnings
 
-	if arg_27_1.sell_num == arg_27_1.sold_num then
-		arg_27_0:RefreshCanOrderFoodList()
+	if slot1.sell_num == slot1.sold_num then
+		slot0:RefreshCanOrderFoodList()
 		manager.notify:Invoke(CANTEEN_UPDATE_STATE)
 	end
 
 	manager.notify:Invoke(CANTEEN_SIGN_FOOD_INFO_CHANGE)
 end
 
-function var_0_0.InitCanteenIngredient(arg_28_0, arg_28_1)
-	var_0_1 = {}
+function slot0.InitCanteenIngredient(slot0, slot1)
+	uv0 = {}
 
-	if arg_28_1 then
-		for iter_28_0, iter_28_1 in ipairs(arg_28_1) do
-			var_0_1[iter_28_1.id] = iter_28_1.num
+	if slot1 then
+		for slot5, slot6 in ipairs(slot1) do
+			uv0[slot6.id] = slot6.num
 		end
 	end
 end
 
-function var_0_0.OnIngredientChange(arg_29_0)
+function slot0.OnIngredientChange(slot0)
 	if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
-		DormRedPointTools:Notify(RedPointConst.CANTEEN_BUSINESS_STOPPED, #arg_29_0:GetCanOrderFoodList() < DormConst.ORDER_FOOD_NUM)
+		DormRedPointTools:Notify(RedPointConst.CANTEEN_BUSINESS_STOPPED, #slot0:GetCanOrderFoodList() < DormConst.ORDER_FOOD_NUM)
 	end
 end
 
-function var_0_0.DisposeDetailData(arg_30_0)
-	var_0_2 = nil
+function slot0.DisposeDetailData(slot0)
+	uv0 = nil
 end
 
-return var_0_0
+return slot0

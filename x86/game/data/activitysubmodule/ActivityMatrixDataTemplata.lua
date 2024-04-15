@@ -1,255 +1,225 @@
-ActivityMatrixTools = {}
-
-function ActivityMatrixTools.GetCoinItem(arg_1_0)
-	local var_1_0 = ActivityMatrixCfg[arg_1_0]
-	local var_1_1 = var_1_0 and var_1_0.setting_template_id
-	local var_1_2 = ActivityMatrixSettingTemplateCfg.get_id_list_by_template_id[var_1_1]
-
-	if var_1_2 then
-		for iter_1_0, iter_1_1 in ipairs(var_1_2) do
-			if ActivityMatrixSettingTemplateCfg[iter_1_1].type == 15 then
-				return ActivityMatrixSettingTemplateCfg[iter_1_1].value[1] or 0
+ActivityMatrixTools = {
+	GetCoinItem = function (slot0)
+		if ActivityMatrixSettingTemplateCfg.get_id_list_by_template_id[ActivityMatrixCfg[slot0] and slot1.setting_template_id] then
+			for slot7, slot8 in ipairs(slot3) do
+				if ActivityMatrixSettingTemplateCfg[slot8].type == 15 then
+					return ActivityMatrixSettingTemplateCfg[slot8].value[1] or 0
+				end
 			end
 		end
+
+		return 26
 	end
-
-	return 26
-end
-
+}
 ActivityMatrixHeroTemplate = class("ActivityMatrixHeroTemplate", MatrixHeroTemplate)
 
-function ActivityMatrixHeroTemplate.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.activity_id = arg_2_1
+function ActivityMatrixHeroTemplate.Ctor(slot0, slot1, slot2, slot3)
+	slot0.activity_id = slot1
 
-	ActivityMatrixHeroTemplate.super.Ctor(arg_2_0, arg_2_2, arg_2_3)
+	ActivityMatrixHeroTemplate.super.Ctor(slot0, slot2, slot3)
 end
 
-function ActivityMatrixHeroTemplate.GetWeaponServantEffectLevel(arg_3_0)
-	return ActivityMatrixData:GetWeaponServantLevel(arg_3_0.activity_id) or 1
+function ActivityMatrixHeroTemplate.GetWeaponServantEffectLevel(slot0)
+	return ActivityMatrixData:GetWeaponServantLevel(slot0.activity_id) or 1
 end
 
 ActivityMatrixPhaseTemplate = class("ActivityMatrixPhaseTemplate")
 
-function ActivityMatrixPhaseTemplate.Ctor(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.activity_id = arg_4_1
-	arg_4_0.phase_id = arg_4_2.phase_id
-	arg_4_0.event_id_list = {}
+function ActivityMatrixPhaseTemplate.Ctor(slot0, slot1, slot2)
+	slot0.activity_id = slot1
+	slot0.phase_id = slot2.phase_id
+	slot0.event_id_list = {}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_2.event_id_list) do
-		table.insert(arg_4_0.event_id_list, iter_4_1)
+	for slot6, slot7 in ipairs(slot2.event_id_list) do
+		table.insert(slot0.event_id_list, slot7)
 	end
 
-	local var_4_0 = arg_4_2.event
+	slot3 = slot2.event
+	slot0.cur_event_id = slot3.event_id
+	slot0.envent_params = {}
 
-	arg_4_0.cur_event_id = var_4_0.event_id
-	arg_4_0.envent_params = {}
-
-	for iter_4_2, iter_4_3 in ipairs(var_4_0.params) do
-		table.insert(arg_4_0.envent_params, iter_4_3)
+	for slot7, slot8 in ipairs(slot3.params) do
+		table.insert(slot0.envent_params, slot8)
 	end
 
-	local var_4_1 = arg_4_2.reward
+	slot0.reward_items = {}
 
-	arg_4_0.reward_items = {}
-
-	for iter_4_4, iter_4_5 in ipairs(var_4_1.matrix_item_id_list) do
-		table.insert(arg_4_0.reward_items, iter_4_5)
+	for slot8, slot9 in ipairs(slot2.reward.matrix_item_id_list) do
+		table.insert(slot0.reward_items, slot9)
 	end
 
-	arg_4_0.give_up_item_id = var_4_1.give_up_matrix_item_id
+	slot0.give_up_item_id = slot4.give_up_matrix_item_id
 end
 
-function ActivityMatrixPhaseTemplate.GetPhase(arg_5_0)
-	return arg_5_0.phase_id
+function ActivityMatrixPhaseTemplate.GetPhase(slot0)
+	return slot0.phase_id
 end
 
-function ActivityMatrixPhaseTemplate.GetParams(arg_6_0)
-	if MatrixConst.PHASE_TYPE.CHOSE == arg_6_0.phase_id then
-		return arg_6_0.event_id_list
-	elseif MatrixConst.PHASE_TYPE.ACTION == arg_6_0.phase_id then
+function ActivityMatrixPhaseTemplate.GetParams(slot0)
+	if MatrixConst.PHASE_TYPE.CHOSE == slot0.phase_id then
+		return slot0.event_id_list
+	elseif MatrixConst.PHASE_TYPE.ACTION == slot0.phase_id then
 		return {
-			arg_6_0.cur_event_id
+			slot0.cur_event_id
 		}
-	elseif MatrixConst.PHASE_TYPE.REWARD == arg_6_0.phase_id then
-		return arg_6_0.reward_items
+	elseif MatrixConst.PHASE_TYPE.REWARD == slot0.phase_id then
+		return slot0.reward_items
 	else
 		return {}
 	end
 end
 
-function ActivityMatrixPhaseTemplate.GetData(arg_7_0)
-	local var_7_0 = ActivityMatrixEventTemplateCfg[arg_7_0.cur_event_id]
+function ActivityMatrixPhaseTemplate.GetData(slot0)
+	if MatrixConst.EVENT_TYPE.SHOP == ActivityMatrixEventTemplateCfg[slot0.cur_event_id].event_type then
+		slot2 = slot0.envent_params[1]
+		slot3 = {}
 
-	if MatrixConst.EVENT_TYPE.SHOP == var_7_0.event_type then
-		local var_7_1 = arg_7_0.envent_params[1]
-		local var_7_2 = {}
-		local var_7_3 = #arg_7_0.envent_params
+		for slot8 = 2, #slot0.envent_params do
+			if slot0.envent_params[slot8] and slot9 ~= 0 then
+				slot11 = MatrixItemCfg[slot9].price[1]
+				slot12 = slot11[1]
+				slot13 = slot11[2]
+				slot14 = 1
 
-		for iter_7_0 = 2, var_7_3 do
-			local var_7_4 = arg_7_0.envent_params[iter_7_0]
-
-			if var_7_4 and var_7_4 ~= 0 then
-				local var_7_5 = MatrixItemCfg[var_7_4].price[1]
-				local var_7_6 = var_7_5[1]
-				local var_7_7 = var_7_5[2]
-				local var_7_8 = 1
-				local var_7_9 = iter_7_0 - 1
-
-				if var_7_9 == 1 then
-					var_7_8 = 1 - ActivityMatrixData:GetFirstGoodsDiscount(arg_7_0.activity_id) / 1000
-
-					local var_7_10 = var_7_7 * ActivityMatrixData:GetFirstGoodsDiscount(arg_7_0.activity_id) / 1000
-
-					var_7_7 = math.floor(var_7_7 - var_7_10)
+				if slot8 - 1 == 1 then
+					slot14 = 1 - ActivityMatrixData:GetFirstGoodsDiscount(slot0.activity_id) / 1000
+					slot13 = math.floor(slot13 - slot13 * ActivityMatrixData:GetFirstGoodsDiscount(slot0.activity_id) / 1000)
 				end
 
-				table.insert(var_7_2, {
-					index = var_7_9,
-					id = var_7_4,
-					discount = var_7_8,
-					priceId = var_7_6,
-					priceNum = var_7_7,
-					priceOriginal = var_7_5[2]
+				table.insert(slot3, {
+					index = slot15,
+					id = slot9,
+					discount = slot14,
+					priceId = slot12,
+					priceNum = slot13,
+					priceOriginal = slot11[2]
 				})
 			end
 		end
 
-		return var_7_1, var_7_2
+		return slot2, slot3
 	else
-		return arg_7_0.envent_params[1] or 0
+		return slot0.envent_params[1] or 0
 	end
 end
 
-function ActivityMatrixPhaseTemplate.GetShops(arg_8_0)
+function ActivityMatrixPhaseTemplate.GetShops(slot0)
 	return {}
 end
 
-function ActivityMatrixPhaseTemplate.GetGiveUpItemId(arg_9_0)
-	return arg_9_0.give_up_item_id or 0
+function ActivityMatrixPhaseTemplate.GetGiveUpItemId(slot0)
+	return slot0.give_up_item_id or 0
 end
 
 ActivityMartixUserTemplata = class("ActivityMartixUserTemplata")
 
-function ActivityMartixUserTemplata.Ctor(arg_10_0, arg_10_1)
-	arg_10_0:SetData(arg_10_1)
+function ActivityMartixUserTemplata.Ctor(slot0, slot1)
+	slot0:SetData(slot1)
 
-	arg_10_0.battle_hero_id_list_cache = nil
+	slot0.battle_hero_id_list_cache = nil
 end
 
-function ActivityMartixUserTemplata.SetData(arg_11_0, arg_11_1)
-	arg_11_0.activity_id = arg_11_1.activity_id
-	arg_11_0.game_state = arg_11_1.game_state
-	arg_11_0.got_reward_list = {}
+function ActivityMartixUserTemplata.SetData(slot0, slot1)
+	slot0.activity_id = slot1.activity_id
+	slot0.game_state = slot1.game_state
+	slot0.got_reward_list = {}
 
-	local var_11_0 = arg_11_1.got_reward_list or {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		table.insert(arg_11_0.got_reward_list, iter_11_1)
+	for slot6, slot7 in ipairs(slot1.got_reward_list or {}) do
+		table.insert(slot0.got_reward_list, slot7)
 	end
 
-	arg_11_0.point = arg_11_1.point
-	arg_11_0.success_times = arg_11_1.success_times
+	slot0.point = slot1.point
+	slot0.success_times = slot1.success_times
 
-	local var_11_1 = arg_11_1.progress
-
-	arg_11_0:UpdateProcess(var_11_1)
+	slot0:UpdateProcess(slot1.progress)
 end
 
-function ActivityMartixUserTemplata.UpdateProcess(arg_12_0, arg_12_1)
-	if MatrixConst.STATE_TYPE.NOTSTARTED == arg_12_0.game_state then
+function ActivityMartixUserTemplata.UpdateProcess(slot0, slot1)
+	if MatrixConst.STATE_TYPE.NOTSTARTED == slot0.game_state then
 		return
 	end
 
-	arg_12_0.tier_id = arg_12_1.tier_id
-	arg_12_0.artifact_list = {}
+	slot0.tier_id = slot1.tier_id
+	slot0.artifact_list = {}
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1.artifact_list) do
-		local var_12_0 = iter_12_1.id
-		local var_12_1 = iter_12_1.wins
-
-		table.insert(arg_12_0.artifact_list, {
-			id = var_12_0,
-			wins = var_12_1
+	for slot5, slot6 in ipairs(slot1.artifact_list) do
+		table.insert(slot0.artifact_list, {
+			id = slot6.id,
+			wins = slot6.wins
 		})
 	end
 
-	arg_12_0.phase = ActivityMatrixPhaseTemplate.New(arg_12_0.activity_id, arg_12_1.phase)
-	arg_12_0.matrix_hero_net_rec = {}
-	arg_12_0.matrix_hero_id_net_rec = {}
+	slot0.phase = ActivityMatrixPhaseTemplate.New(slot0.activity_id, slot1.phase)
+	slot0.matrix_hero_net_rec = {}
+	slot0.matrix_hero_id_net_rec = {}
 
-	for iter_12_2, iter_12_3 in ipairs(arg_12_1.hero_list) do
-		local var_12_2 = iter_12_3.hero_id
-		local var_12_3 = HeroStandardSystemCfg[var_12_2]
+	for slot5, slot6 in ipairs(slot1.hero_list) do
+		if HeroStandardSystemCfg[slot6.hero_id] then
+			slot9 = slot8.hero_id
+			slot10 = ActivityMatrixHeroTemplate.New(slot0.activity_id, slot9, slot7)
 
-		if var_12_3 then
-			local var_12_4 = var_12_3.hero_id
-			local var_12_5 = ActivityMatrixHeroTemplate.New(arg_12_0.activity_id, var_12_4, var_12_2)
+			slot10:InitData(slot6)
 
-			var_12_5:InitData(iter_12_3)
+			slot0.matrix_hero_net_rec[slot9] = slot10
 
-			arg_12_0.matrix_hero_net_rec[var_12_4] = var_12_5
-
-			table.insert(arg_12_0.matrix_hero_id_net_rec, var_12_4)
+			table.insert(slot0.matrix_hero_id_net_rec, slot9)
 		end
 	end
 
-	arg_12_0.custom_affix_id_list = {}
+	slot0.custom_affix_id_list = {}
 
-	for iter_12_4, iter_12_5 in ipairs(arg_12_1.custom_affix_id_list) do
-		table.insert(arg_12_0.custom_affix_id_list, iter_12_5)
+	for slot5, slot6 in ipairs(slot1.custom_affix_id_list) do
+		table.insert(slot0.custom_affix_id_list, slot6)
 	end
 
-	arg_12_0.attribute_list = {}
+	slot0.attribute_list = {}
 
-	for iter_12_6, iter_12_7 in ipairs(arg_12_1.attribute_list) do
-		local var_12_6 = iter_12_7.id
-		local var_12_7 = iter_12_7.value
-
-		arg_12_0.attribute_list[var_12_6] = var_12_7
+	for slot5, slot6 in ipairs(slot1.attribute_list) do
+		slot0.attribute_list[slot6.id] = slot6.value
 	end
 
-	arg_12_0.stackable_item_list = {}
+	slot0.stackable_item_list = {}
 
-	for iter_12_8, iter_12_9 in ipairs(arg_12_1.stackable_item_list) do
-		arg_12_0.stackable_item_list[iter_12_9.stackable_item_type] = iter_12_9.stackable_item_num
+	for slot5, slot6 in ipairs(slot1.stackable_item_list) do
+		slot0.stackable_item_list[slot6.stackable_item_type] = slot6.stackable_item_num
 	end
 end
 
-function ActivityMartixUserTemplata.GetMatrixCoint(arg_13_0)
-	return arg_13_0.stackable_item_list and arg_13_0.stackable_item_list[1] or 0
+function ActivityMartixUserTemplata.GetMatrixCoint(slot0)
+	return slot0.stackable_item_list and slot0.stackable_item_list[1] or 0
 end
 
-function ActivityMartixUserTemplata.GetMatrixScore(arg_14_0)
-	return arg_14_0.point
+function ActivityMartixUserTemplata.GetMatrixScore(slot0)
+	return slot0.point
 end
 
-function ActivityMartixUserTemplata.OnReceivePointReward(arg_15_0, arg_15_1)
-	table.insert(arg_15_0.got_reward_list, arg_15_1)
+function ActivityMartixUserTemplata.OnReceivePointReward(slot0, slot1)
+	table.insert(slot0.got_reward_list, slot1)
 end
 
-function ActivityMartixUserTemplata.GetIsClearance(arg_16_0)
-	if arg_16_0.success_times == nil then
+function ActivityMartixUserTemplata.GetIsClearance(slot0)
+	if slot0.success_times == nil then
 		return false
 	end
 
-	return arg_16_0.success_times > 0
+	return slot0.success_times > 0
 end
 
 ActivityMartixOverTemplata = class("ActivityMartixUserTemplata")
 
-function ActivityMartixOverTemplata.Ctor(arg_17_0, arg_17_1)
-	arg_17_0:SetData(arg_17_1)
+function ActivityMartixOverTemplata.Ctor(slot0, slot1)
+	slot0:SetData(slot1)
 end
 
-function ActivityMartixOverTemplata.SetData(arg_18_0, arg_18_1)
-	arg_18_0.currencyList_ = {}
+function ActivityMartixOverTemplata.SetData(slot0, slot1)
+	slot0.currencyList_ = {}
 
-	for iter_18_0, iter_18_1 in ipairs(arg_18_1.item_list) do
-		arg_18_0.currencyList_[iter_18_1.stackable_item_type] = iter_18_1.stackable_item_num
+	for slot5, slot6 in ipairs(slot1.item_list) do
+		slot0.currencyList_[slot6.stackable_item_type] = slot6.stackable_item_num
 	end
 
-	arg_18_0.currentClearTime_ = arg_18_1.clear_time
-	arg_18_0.minClearTime_ = arg_18_1.min_clear_time or arg_18_1.clear_time
-	arg_18_0.point = arg_18_1.point
-	arg_18_0.success_times = arg_18_1.success_times
+	slot0.currentClearTime_ = slot1.clear_time
+	slot0.minClearTime_ = slot1.min_clear_time or slot1.clear_time
+	slot0.point = slot1.point
+	slot0.success_times = slot1.success_times
 end

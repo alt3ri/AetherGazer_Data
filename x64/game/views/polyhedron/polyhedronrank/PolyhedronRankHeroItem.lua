@@ -1,54 +1,45 @@
-local var_0_0 = class("PolyhedronRankHeroItem", ReduxView)
+slot0 = class("PolyhedronRankHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
+	slot0:initUI()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.selectController_ = ControllerUtil.GetController(arg_2_0.transform_, "select")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if arg_3_0.clickHandler_ then
-			arg_3_0.clickHandler_(arg_3_0.heroID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandler_ then
+			uv0.clickHandler_(uv0.heroID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.heroID_ = arg_5_1
-
-	local var_5_0 = RankData:GetCommonRank(RankConst.RANK_ID.POLYHERON, arg_5_1)
-	local var_5_1 = var_5_0 and var_5_0.curRank
-
-	arg_5_0.scoreText_.text = var_5_1 and var_5_1.score or 0
-
-	local var_5_2 = HeroCfg[arg_5_0.heroID_]
-
-	arg_5_0.nameText_.text = GetI18NText(var_5_2.name)
-
-	local var_5_3 = PolyhedronData:GetHeroUsingSkinInfo(arg_5_0.heroID_).id
-
-	arg_5_0.portraitImg_.sprite = getSpriteViaConfig("HeroLittleIcon", var_5_3)
+function slot0.SetData(slot0, slot1)
+	slot0.heroID_ = slot1
+	slot3 = RankData:GetCommonRank(RankConst.RANK_ID.POLYHERON, slot1) and slot2.curRank
+	slot0.scoreText_.text = slot3 and slot3.score or 0
+	slot0.nameText_.text = GetI18NText(HeroCfg[slot0.heroID_].name)
+	slot0.portraitImg_.sprite = getSpriteViaConfig("HeroLittleIcon", PolyhedronData:GetHeroUsingSkinInfo(slot0.heroID_).id)
 end
 
-function var_0_0.SetSelect(arg_6_0, arg_6_1)
-	if arg_6_1 == arg_6_0.heroID_ then
-		arg_6_0.selectController_:SetSelectedState("true")
+function slot0.SetSelect(slot0, slot1)
+	if slot1 == slot0.heroID_ then
+		slot0.selectController_:SetSelectedState("true")
 	else
-		arg_6_0.selectController_:SetSelectedState("false")
+		slot0.selectController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.SetClickHandler(arg_7_0, arg_7_1)
-	arg_7_0.clickHandler_ = arg_7_1
+function slot0.SetClickHandler(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-return var_0_0
+return slot0

@@ -1,50 +1,50 @@
-local var_0_0 = partialClass("MainHomeView", ReduxView)
+slot0 = partialClass("MainHomeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Main/HomeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.page_ = {}
-	arg_4_0.clickCount_ = 0
-	arg_4_0.muteAudioHandler_ = handler(arg_4_0, arg_4_0.MuteAudio)
-	arg_4_0.shakingAniHandler_ = handler(arg_4_0, arg_4_0.ShakingAni)
-	arg_4_0.bannerView_ = BannerView.New(arg_4_0, arg_4_0.btnActivityGo_)
-	arg_4_0.activityEntraceView_ = ActivityEntraceView.New(arg_4_0.activityListGo_)
-	arg_4_0.socializeCon_ = arg_4_0.conExCollection_:GetController("socialize")
-	arg_4_0.hideCon_ = arg_4_0.conExCollection_:GetController("hide")
-	arg_4_0.sceneCon_ = arg_4_0.conExCollection_:GetController("scene")
-	arg_4_0.skinDrawCon_ = arg_4_0.conExCollection_:GetController("skinDraw")
-	arg_4_0.drawLockCon_ = arg_4_0.conExCollection_:GetController("drawLocked")
-	arg_4_0.dormLockCon_ = arg_4_0.conExCollection_:GetController("dormLocked")
-	arg_4_0.guildCon_ = arg_4_0.conExCollection_:GetController("guildLocked")
-	arg_4_0.shopCon_ = arg_4_0.conExCollection_:GetController("shopLocked")
-	arg_4_0.textLimit_ = arg_4_0.chatTxt_.gameObject:GetComponent("TextExtension")
-	arg_4_0.mutiTouchHelper_ = arg_4_0.btn_girl.gameObject:GetComponent("MutiTouchHelper")
+	slot0.page_ = {}
+	slot0.clickCount_ = 0
+	slot0.muteAudioHandler_ = handler(slot0, slot0.MuteAudio)
+	slot0.shakingAniHandler_ = handler(slot0, slot0.ShakingAni)
+	slot0.bannerView_ = BannerView.New(slot0, slot0.btnActivityGo_)
+	slot0.activityEntraceView_ = ActivityEntraceView.New(slot0.activityListGo_)
+	slot0.socializeCon_ = slot0.conExCollection_:GetController("socialize")
+	slot0.hideCon_ = slot0.conExCollection_:GetController("hide")
+	slot0.sceneCon_ = slot0.conExCollection_:GetController("scene")
+	slot0.skinDrawCon_ = slot0.conExCollection_:GetController("skinDraw")
+	slot0.drawLockCon_ = slot0.conExCollection_:GetController("drawLocked")
+	slot0.dormLockCon_ = slot0.conExCollection_:GetController("dormLocked")
+	slot0.guildCon_ = slot0.conExCollection_:GetController("guildLocked")
+	slot0.shopCon_ = slot0.conExCollection_:GetController("shopLocked")
+	slot0.textLimit_ = slot0.chatTxt_.gameObject:GetComponent("TextExtension")
+	slot0.mutiTouchHelper_ = slot0.btn_girl.gameObject:GetComponent("MutiTouchHelper")
 
-	arg_4_0:SwitchPosterGirlPanel(false)
-	SetActive(arg_4_0.talkBubbleGo_, false)
+	slot0:SwitchPosterGirlPanel(false)
+	SetActive(slot0.talkBubbleGo_, false)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddMiddlePanelUILisener()
-	arg_5_0:AddLeftPanelUIListener()
-	arg_5_0:AddRightPanelUIListener()
-	arg_5_0:AddUIListenersHome()
+function slot0.AddUIListeners(slot0)
+	slot0:AddMiddlePanelUILisener()
+	slot0:AddLeftPanelUIListener()
+	slot0:AddRightPanelUIListener()
+	slot0:AddUIListenersHome()
 end
 
-function var_0_0.InitBar(arg_6_0)
+function slot0.InitBar(slot0)
 	manager.windowBar:SwitchBar({
 		INVITE_BAR,
 		CurrencyConst.CURRENCY_TYPE_VITALITY,
@@ -58,151 +58,145 @@ function var_0_0.InitBar(arg_6_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.GetPlatformDiamondId(), true)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RegistEventListener(HOME_POSTER_TALK, handler(arg_7_0, arg_7_0.OnHomePosterTalk))
-	arg_7_0:CheckHomeSceneInteration(true)
-	arg_7_0:ClearHeroFilter()
+function slot0.OnEnter(slot0)
+	slot0:RegistEventListener(HOME_POSTER_TALK, handler(slot0, slot0.OnHomePosterTalk))
+	slot0:CheckHomeSceneInteration(true)
+	slot0:ClearHeroFilter()
 end
 
-function var_0_0.OnTop(arg_8_0)
-	if not arg_8_0.wait_posetr_debut then
-		arg_8_0:OnTopFunc()
+function slot0.OnTop(slot0)
+	if not slot0.wait_posetr_debut then
+		slot0:OnTopFunc()
 	end
 
-	arg_8_0:ClearHeroFilter()
+	slot0:ClearHeroFilter()
 end
 
-function var_0_0.OnTopFunc(arg_9_0)
-	arg_9_0:InitBar()
+function slot0.OnTopFunc(slot0)
+	slot0:InitBar()
 	RedPointAction.UpdateSDKRedPoint()
-	arg_9_0:CheckNeedPopWindow()
+	slot0:CheckNeedPopWindow()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0.wait_posetr_debut = false
+function slot0.OnExit(slot0)
+	slot0.wait_posetr_debut = false
 
 	manager.posterGirl:SetViewTag(PosterGirlConst.ViewTag.null)
 	manager.loadScene:StopSceneSoundEffect()
-	manager.notify:RemoveListener(MUTE_MAIN_AUDIO, arg_10_0.muteAudioHandler_)
-	manager.notify:RemoveListener(SHAKING_MOBILE, arg_10_0.shakingAniHandler_)
-	arg_10_0:RemoveAllEventListener()
+	manager.notify:RemoveListener(MUTE_MAIN_AUDIO, slot0.muteAudioHandler_)
+
+	slot4 = SHAKING_MOBILE
+	slot5 = slot0.shakingAniHandler_
+
+	manager.notify:RemoveListener(slot4, slot5)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
-	arg_10_0:MuteAudio()
+	slot0:MuteAudio()
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.page_) do
-		iter_10_1:OnExit()
+	for slot4, slot5 in pairs(slot0.page_) do
+		slot5:OnExit()
 	end
 
-	arg_10_0.activityEntraceView_:OnExit()
+	slot0.activityEntraceView_:OnExit()
 
 	if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CHAT) then
 		ChatAction.EnterChatUI(2)
 	end
 
-	SetActive(arg_10_0.btn_girl.gameObject, false)
+	SetActive(slot0.btn_girl.gameObject, false)
 
-	arg_10_0.skinId_ = nil
+	slot0.skinId_ = nil
 
 	ItemTools.StopRefreshLimitRed()
-	arg_10_0:StopAllTimers()
+	slot0:StopAllTimers()
 
-	arg_10_0.isHeroGiftOpen_ = nil
-	arg_10_0.params_.changePoster = nil
+	slot0.isHeroGiftOpen_ = nil
+	slot0.params_.changePoster = nil
 
 	AnimatorTools.Stop()
-	arg_10_0:UnBindRedPointUI()
+	slot0:UnBindRedPointUI()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.muteAudioHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.muteAudioHandler_ = nil
 
-	arg_11_0.activityEntraceView_:Dispose()
+	slot0.activityEntraceView_:Dispose()
 
-	arg_11_0.activityEntraceView_ = nil
+	slot0.activityEntraceView_ = nil
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.page_) do
-		iter_11_1:Dispose()
+	for slot4, slot5 in pairs(slot0.page_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.page_ = nil
+	slot0.page_ = nil
 
-	arg_11_0:RemoveAllListeners()
+	slot0:RemoveAllListeners()
 
-	if arg_11_0.bannerView_ then
-		arg_11_0.bannerView_:Dispose()
+	if slot0.bannerView_ then
+		slot0.bannerView_:Dispose()
 
-		arg_11_0.bannerView_ = nil
+		slot0.bannerView_ = nil
 	end
 
-	if arg_11_0.hideChangeBtnDelayTimer_ then
-		arg_11_0.hideChangeBtnDelayTimer_:Stop()
+	if slot0.hideChangeBtnDelayTimer_ then
+		slot0.hideChangeBtnDelayTimer_:Stop()
 
-		arg_11_0.hideChangeBtnDelayTimer_ = nil
+		slot0.hideChangeBtnDelayTimer_ = nil
 	end
 
-	arg_11_0:RemovePosterTween()
-	var_0_0.super.Dispose(arg_11_0)
+	slot0:RemovePosterTween()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnEnterFunc(arg_12_0)
-	arg_12_0:CheckIsNeedOpenWebPage()
-	arg_12_0:UpdateFollowGiftRedPoint()
+function slot0.OnEnterFunc(slot0)
+	slot0:CheckIsNeedOpenWebPage()
+	slot0:UpdateFollowGiftRedPoint()
 	SurveyAction.UpdateSurveyRedPoint()
 	ReduxFactory.GetInstance():OnMainHomeViewTop()
-	arg_12_0:RefreshPage()
-	arg_12_0:RefreshUserInfo()
+	slot0:RefreshPage()
+	slot0:RefreshUserInfo()
 	ItemTools.RefreshLimitRed()
-	arg_12_0:RefreshBanner()
-	arg_12_0:RefreshRealtimeUI()
-	arg_12_0:StartRefreshUITimer()
-	arg_12_0:UpdataOperationViewRedPoint()
-	arg_12_0:BindRedPointUI()
-	arg_12_0:RegistEventListener(PASSPORT_INIT, function()
-		arg_12_0:CheckPassportBtn()
+	slot0:RefreshBanner()
+	slot0:RefreshRealtimeUI()
+	slot0:StartRefreshUITimer()
+	slot0:UpdataOperationViewRedPoint()
+	slot0:BindRedPointUI()
+	slot0:RegistEventListener(PASSPORT_INIT, function ()
+		uv0:CheckPassportBtn()
 	end)
-	arg_12_0:CheckPassportBtn()
-	arg_12_0:UpdateChipRedPoint()
-	arg_12_0:UpdateFriendsRedPoint()
-	SetActive(arg_12_0.skinDrawRedPanel_, not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SKIN_DRAW))
-	arg_12_0:RefreshChat()
-
-	local var_12_0 = not JumpTools.IsConditionLocked({
+	slot0:CheckPassportBtn()
+	slot0:UpdateChipRedPoint()
+	slot0:UpdateFriendsRedPoint()
+	SetActive(slot0.skinDrawRedPanel_, not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SKIN_DRAW))
+	slot0:RefreshChat()
+	SetActive(slot0.goNewbie_, not JumpTools.IsConditionLocked({
 		2,
 		GameSetting.newbie_unlock_level_id.value[1]
-	}) and not ActivityNewbieTools.IsFinishAllActivity()
+	}) and not ActivityNewbieTools.IsFinishAllActivity())
 
-	SetActive(arg_12_0.goNewbie_, var_12_0)
+	slot2, slot3 = ActivityNewbieTools.CheckAdvanceTaskOpen()
 
-	local var_12_1, var_12_2 = ActivityNewbieTools.CheckAdvanceTaskOpen()
+	SetActive(slot0.btn_newbie_task.gameObject, slot2)
 
-	SetActive(arg_12_0.btn_newbie_task.gameObject, var_12_1)
-
-	if var_12_1 then
-		local var_12_3 = ActivityNewbieTools.GetAdvanceTaskCfg(var_12_2)
-
-		arg_12_0.newbieAdvanceTaskTitle_.text = GetTips(NoobVersionCfg[var_12_3.versionID].noob_advance_task_title[var_12_3.index])
+	if slot2 then
+		slot4 = ActivityNewbieTools.GetAdvanceTaskCfg(slot3)
+		slot0.newbieAdvanceTaskTitle_.text = GetTips(NoobVersionCfg[slot4.versionID].noob_advance_task_title[slot4.index])
 	end
 
-	local var_12_4 = RegressionData:IsRegressionOpen()
-
-	SetActive(arg_12_0.btn_regression.gameObject, var_12_4)
-
-	local var_12_5 = ActivityData:GetActivityIsOpen(ActivityConst.ACTIVITY_NEW_SERVER)
-	local var_12_6 = JumpTools.IsConditionLocked(NewServerCfg[ActivityConst.ACTIVITY_NEW_SERVER].open_condition[1]) == false
-
-	SetActive(arg_12_0.btn_newServer.gameObject, var_12_5 and var_12_6)
-	arg_12_0:CheckLocked()
-	arg_12_0:CheckActivite()
-	arg_12_0.activityEntraceView_:OnEnter()
+	SetActive(slot0.btn_regression.gameObject, RegressionData:IsRegressionOpen())
+	SetActive(slot0.btn_newServer.gameObject, ActivityData:GetActivityIsOpen(ActivityConst.ACTIVITY_NEW_SERVER) and JumpTools.IsConditionLocked(NewServerCfg[ActivityConst.ACTIVITY_NEW_SERVER].open_condition[1]) == false)
+	slot0:CheckLocked()
+	slot0:CheckActivite()
+	slot0.activityEntraceView_:OnEnter()
 	BulletinData.SetIslogin(true)
 	manager.rollTips:TryToCreatTips()
-	manager.notify:RegistListener(MUTE_MAIN_AUDIO, arg_12_0.muteAudioHandler_)
-	manager.notify:RegistListener(SHAKING_MOBILE, arg_12_0.shakingAniHandler_)
-	arg_12_0:RefreshHide()
+	manager.notify:RegistListener(MUTE_MAIN_AUDIO, slot0.muteAudioHandler_)
+	manager.notify:RegistListener(SHAKING_MOBILE, slot0.shakingAniHandler_)
+	slot0:RefreshHide()
 end
 
-local var_0_1 = {
+slot1 = {
 	Sign = {
 		"sign",
 		{
@@ -225,365 +219,335 @@ local var_0_1 = {
 	}
 }
 
-local function var_0_2(arg_14_0, arg_14_1, arg_14_2)
-	if arg_14_2 then
-		table.insert(arg_14_0, arg_14_1)
+function slot2(slot0, slot1, slot2)
+	if slot2 then
+		table.insert(slot0, slot1)
 	end
 
-	return arg_14_2
+	return slot2
 end
 
-local function var_0_3(arg_15_0)
-	return function()
-		JumpTools.OpenPageByJump(unpack(arg_15_0))
-	end
-end
-
-function var_0_0.CheckWeakGuide(arg_17_0)
-	return
-end
-
-function var_0_0.GetSpecialCom(arg_18_0, arg_18_1)
-	local var_18_0 = string.sub(arg_18_1[1], 3)
-	local var_18_1 = arg_18_1[2]
-
-	if var_18_0 == "activityEntraceView_" then
-		local var_18_2 = arg_18_0.activityEntraceView_.itemUiList_:GetItemByIndex(var_18_1)
-
-		if var_18_2 then
-			return var_18_2.gameObject_
-		end
+function slot3(slot0)
+	return function ()
+		JumpTools.OpenPageByJump(unpack(uv0))
 	end
 end
 
-function var_0_0.CheckNeedPopWindow(arg_19_0)
+function slot0.CheckWeakGuide(slot0)
+end
+
+function slot0.GetSpecialCom(slot0, slot1)
+	if string.sub(slot1[1], 3) == "activityEntraceView_" and slot0.activityEntraceView_.itemUiList_:GetItemByIndex(slot1[2]) then
+		return slot4.gameObject_
+	end
+end
+
+function slot0.CheckNeedPopWindow(slot0)
 	if manager.guide:IsPlaying() then
-		SetActive(arg_19_0.mask_, false)
+		SetActive(slot0.mask_, false)
 
 		return
 	end
 
-	local var_19_0 = SignTools.IsCanSign()
-	local var_19_1 = RechargeData:HaveMonthCard() and not RechargeData:IsSignToday()
-	local var_19_2 = ActivityBigMonthCardToggle:Check()
-	local var_19_3 = var_19_0
-	local var_19_4 = SurveyData:GetPraise()
-	local var_19_5 = ChatData:IsMuted() and not ChatData:GetShowMutedTips()
-	local var_19_6 = RegressionData:CheckRegressionGift()
-	local var_19_7 = ActivityAdvertiseTools.NeedShowAdvertise()
-	local var_19_8, var_19_9, var_19_10 = ArchiveTools.NeedShowArchivePop()
-	local var_19_11, var_19_12, var_19_13 = HomeSceneSettingData:IsNeedSceenCheck()
-	local var_19_14 = not LuaHidTools.HasSetRemapNotice()
+	slot2 = RechargeData:HaveMonthCard() and not RechargeData:IsSignToday()
+	slot3 = ActivityBigMonthCardToggle:Check()
+	slot9, slot10, slot11 = ArchiveTools.NeedShowArchivePop()
+	slot12, slot13, slot14 = HomeSceneSettingData:IsNeedSceenCheck()
 
-	if var_19_3 or var_19_4 or var_19_6 or var_19_5 or var_19_7 or var_19_8 or var_19_11 or var_19_14 then
-		SetActive(arg_19_0.mask_, true)
+	if SignTools.IsCanSign() or SurveyData:GetPraise() or RegressionData:CheckRegressionGift() or ChatData:IsMuted() and not ChatData:GetShowMutedTips() or ActivityAdvertiseTools.NeedShowAdvertise() or slot9 or slot12 or not LuaHidTools.HasSetRemapNotice() then
+		SetActive(slot0.mask_, true)
 	else
-		SetActive(arg_19_0.mask_, false)
-		arg_19_0:RealCheckWeakGuide()
+		SetActive(slot0.mask_, false)
+		slot0:RealCheckWeakGuide()
 	end
 
-	if arg_19_0.needToPlayTalk_ and not var_19_3 and not var_19_4 and not var_19_2 then
-		arg_19_0:PlayHeroGreeting()
+	if slot0.needToPlayTalk_ and not slot4 and not slot5 and not slot3 then
+		slot0:PlayHeroGreeting()
 
-		arg_19_0.needToPlayTalk_ = false
+		slot0.needToPlayTalk_ = false
 	end
 
-	if arg_19_0.params_.isFirstCheck then
-		if var_19_3 or var_19_4 or var_19_2 then
-			arg_19_0.needToPlayTalk_ = true
+	if slot0.params_.isFirstCheck then
+		if slot4 or slot5 or slot3 then
+			slot0.needToPlayTalk_ = true
 		else
-			arg_19_0:PlayHeroGreeting()
+			slot0:PlayHeroGreeting()
 		end
 
-		arg_19_0.params_.isFirstCheck = false
+		slot0.params_.isFirstCheck = false
 	end
 
-	local var_19_15 = {}
-
-	if not var_0_2(var_19_15, var_0_3(var_0_1.Sign), var_19_1 or var_19_2 or var_19_3) and not var_0_2(var_19_15, var_0_3(var_0_1.Praise), var_19_4) and not var_0_2(var_19_15, var_0_3(var_0_1.ActivityAdvertise), var_19_7) and not var_0_2(var_19_15, var_0_3(var_0_1.ChatMuted), var_19_5) and not var_0_2(var_19_15, var_0_3(var_0_1.RegressionNewGift), var_19_6) and not var_0_2(var_19_15, var_0_3({
+	slot17 = uv0({}, uv1(uv2.Sign), slot2 or slot3 or slot4) or uv0(slot16, uv1(uv2.Praise), slot5) or uv0(slot16, uv1(uv2.ActivityAdvertise), slot8) or uv0(slot16, uv1(uv2.ChatMuted), slot6) or uv0(slot16, uv1(uv2.RegressionNewGift), slot7) or uv0(slot16, uv1({
 		"archiveHomePop",
 		{
-			heroID = var_19_9,
-			type = var_19_10
+			heroID = slot10,
+			type = slot11
 		}
-	}), var_19_8) and not var_0_2(var_19_15, var_0_3({
+	}), slot9) or uv0(slot16, uv1({
 		"homeChangeScenePop",
 		{
-			left = var_19_12,
-			right = var_19_13
+			left = slot13,
+			right = slot14
 		}
-	}), var_19_11) then
-		local var_19_16 = var_0_2(var_19_15, LuaHidTools.QueryRemapNotice, var_19_14)
-	end
+	}), slot12) or uv0(slot16, LuaHidTools.QueryRemapNotice, slot15)
 
-	arg_19_0:StartShowTimer(var_19_15)
+	slot0:StartShowTimer(slot16)
 end
 
-function var_0_0.RemovePosterTween(arg_20_0)
-	if arg_20_0.posterTween_ then
-		arg_20_0.posterTween_:setOnComplete(nil):setOnUpdate(nil):setEase(nil)
-		LeanTween.cancel(arg_20_0.posterTween_.id)
+function slot0.RemovePosterTween(slot0)
+	if slot0.posterTween_ then
+		slot0.posterTween_:setOnComplete(nil):setOnUpdate(nil):setEase(nil)
+		LeanTween.cancel(slot0.posterTween_.id)
 
-		arg_20_0.posterTween_ = nil
+		slot0.posterTween_ = nil
 	end
 end
 
-function var_0_0.HideTimeline(arg_21_0)
-	if arg_21_0.timelines_ then
-		local var_21_0 = arg_21_0.timelines_:GetComponentsInChildren(typeof(UnityEngine.Transform), true)
+function slot0.HideTimeline(slot0)
+	if slot0.timelines_ then
+		slot5 = true
+		slot1 = slot0.timelines_:GetComponentsInChildren(typeof(UnityEngine.Transform), slot5)
+		slot6 = slot1
 
-		for iter_21_0, iter_21_1 in pairs(var_21_0:ToTable()) do
-			if iter_21_1.name ~= arg_21_0.timelines_.name then
-				SetActive(iter_21_1.gameObject, false)
+		for slot5, slot6 in pairs(slot1.ToTable(slot6)) do
+			if slot6.name ~= slot0.timelines_.name then
+				SetActive(slot6.gameObject, false)
 			end
 		end
 	end
 end
 
-function var_0_0.OnClickBg(arg_22_0)
-	if arg_22_0.isHide_ then
-		arg_22_0:StartViewHideTimer()
+function slot0.OnClickBg(slot0)
+	if slot0.isHide_ then
+		slot0:StartViewHideTimer()
 	end
 end
 
-function var_0_0.OnHomeSignUpdate(arg_23_0)
-	arg_23_0:CheckNeedPopWindow()
+function slot0.OnHomeSignUpdate(slot0)
+	slot0:CheckNeedPopWindow()
 end
 
-function var_0_0.OnChangeNickname(arg_24_0, arg_24_1)
-	arg_24_0.name_.text = GetI18NText(arg_24_1.nick)
+function slot0.OnChangeNickname(slot0, slot1)
+	slot0.name_.text = GetI18NText(slot1.nick)
 end
 
-function var_0_0.OnHeroGiftReward(arg_25_0)
-	arg_25_0:CheckHeroGiftActivite()
+function slot0.OnHeroGiftReward(slot0)
+	slot0:CheckHeroGiftActivite()
 end
 
-function var_0_0.ShowPosterGirlBtn(arg_26_0)
-	arg_26_0:SwitchPosterGirlPanel(true)
+function slot0.ShowPosterGirlBtn(slot0)
+	slot0:SwitchPosterGirlPanel(true)
 
-	if arg_26_0.hideChangeBtnDelayTimer_ ~= nil then
-		arg_26_0.hideChangeBtnDelayTimer_:Reset()
+	if slot0.hideChangeBtnDelayTimer_ ~= nil then
+		slot0.hideChangeBtnDelayTimer_:Reset()
 	else
-		arg_26_0.hideChangeBtnDelayTimer_ = Timer.New(handler(arg_26_0, arg_26_0.HidePosterGirlBtn), 3, 1)
+		slot0.hideChangeBtnDelayTimer_ = Timer.New(handler(slot0, slot0.HidePosterGirlBtn), 3, 1)
 
-		arg_26_0.hideChangeBtnDelayTimer_:Start()
+		slot0.hideChangeBtnDelayTimer_:Start()
 	end
 end
 
-function var_0_0.HidePosterGirlBtn(arg_27_0)
-	arg_27_0:SwitchPosterGirlPanel(false)
+function slot0.HidePosterGirlBtn(slot0)
+	slot0:SwitchPosterGirlPanel(false)
 
-	if arg_27_0.hideChangeBtnDelayTimer_ ~= nil then
-		arg_27_0.hideChangeBtnDelayTimer_:Stop()
+	if slot0.hideChangeBtnDelayTimer_ ~= nil then
+		slot0.hideChangeBtnDelayTimer_:Stop()
 
-		arg_27_0.hideChangeBtnDelayTimer_ = nil
+		slot0.hideChangeBtnDelayTimer_ = nil
 	end
 end
 
-function var_0_0.SwitchPosterGirlPanel(arg_28_0, arg_28_1)
-	SetActive(arg_28_0.changeGirlBtn, arg_28_1)
-	SetActive(arg_28_0.changeSkinBtn, arg_28_1)
-	SetActive(arg_28_0.btn_giftGo_, arg_28_1)
+function slot0.SwitchPosterGirlPanel(slot0, slot1)
+	SetActive(slot0.changeGirlBtn, slot1)
+	SetActive(slot0.changeSkinBtn, slot1)
+	SetActive(slot0.btn_giftGo_, slot1)
 
-	if arg_28_1 then
-		local var_28_0 = HeroTools.HeroUsingSkinInfo(arg_28_0.userData_.poster_girl).id
-		local var_28_1 = SkinSceneActionCfg[var_28_0]
-
-		if var_28_1 and HomeSceneSettingData:GetUsedState(var_28_1.special_scene_id) ~= SceneConst.HOME_SCENE_TYPE.LOCK and HomeSceneSettingCfg[var_28_1.special_scene_id].limit_display ~= 1 then
-			SetActive(arg_28_0.btn_DlcGo_, true)
+	if slot1 then
+		if SkinSceneActionCfg[HeroTools.HeroUsingSkinInfo(slot0.userData_.poster_girl).id] and HomeSceneSettingData:GetUsedState(slot3.special_scene_id) ~= SceneConst.HOME_SCENE_TYPE.LOCK and HomeSceneSettingCfg[slot3.special_scene_id].limit_display ~= 1 then
+			SetActive(slot0.btn_DlcGo_, true)
 		else
-			SetActive(arg_28_0.btn_DlcGo_, false)
+			SetActive(slot0.btn_DlcGo_, false)
 		end
 
-		local var_28_2 = manager.posterGirl:GetViewDirect()
-
-		if var_28_1 and HomeSceneSettingData:GetCurScene() == 6001 and var_28_1.special_scene_id == HomeSceneSettingData:GetCurScene() and var_28_2 == PosterGirlConst.ViewDirect.center then
-			SetActive(arg_28_0.btn_infoGo_, true)
+		if slot3 and HomeSceneSettingData:GetCurScene() == 6001 and slot3.special_scene_id == HomeSceneSettingData:GetCurScene() and manager.posterGirl:GetViewDirect() == PosterGirlConst.ViewDirect.center then
+			SetActive(slot0.btn_infoGo_, true)
 		else
-			SetActive(arg_28_0.btn_infoGo_, false)
+			SetActive(slot0.btn_infoGo_, false)
 		end
 	else
-		SetActive(arg_28_0.btn_infoGo_, false)
-		SetActive(arg_28_0.btn_DlcGo_, false)
+		SetActive(slot0.btn_infoGo_, false)
+		SetActive(slot0.btn_DlcGo_, false)
 	end
 end
 
-function var_0_0.MuteAudio(arg_29_0)
+function slot0.MuteAudio(slot0)
 	HeroTools.StopTalk()
 
-	if arg_29_0.multiTouchTimer_ ~= nil then
-		arg_29_0.multiTouchTimer_:Stop()
+	if slot0.multiTouchTimer_ ~= nil then
+		slot0.multiTouchTimer_:Stop()
 
-		arg_29_0.multiTouchTimer_ = nil
+		slot0.multiTouchTimer_ = nil
 	end
 
-	SetActive(arg_29_0.talkBubbleGo_, false)
+	SetActive(slot0.talkBubbleGo_, false)
 end
 
-function var_0_0.ShakingAni(arg_30_0)
+function slot0.ShakingAni(slot0)
 	manager.posterGirl:DoShacking()
 end
 
-function var_0_0.OnHomeSceneChange(arg_31_0, arg_31_1, arg_31_2)
-	manager.transition:OnlyShowEffect(true, function()
-		manager.loadScene:ForceSetShouldLoadSceneName("home", function()
-			arg_31_0:MuteAudio()
-			arg_31_0:SetCamera()
+function slot0.OnHomeSceneChange(slot0, slot1, slot2)
+	manager.transition:OnlyShowEffect(true, function ()
+		manager.loadScene:ForceSetShouldLoadSceneName("home", function ()
+			uv0:MuteAudio()
+			uv0:SetCamera()
 			manager.posterGirl:RefreshModel()
 
 			if manager.posterGirl:CheckDebut() then
 				manager.windowBar:SwitchBar({})
-				arg_31_0.sceneCon_:SetSelectedState("off")
+				uv0.sceneCon_:SetSelectedState("off")
 			end
 
-			arg_31_0:HidePosterGirlBtn()
+			uv0:HidePosterGirlBtn()
 			manager.transition:OnlyShowEffect(false)
 		end)
 	end)
 end
 
-function var_0_0.SetCamera(arg_34_0)
-	local var_34_0 = HomeSceneSettingData:GetCurScene()
-	local var_34_1 = "home_" .. var_34_0
-
-	if CameraCfg[var_34_1] then
-		manager.ui:SetMainCamera(var_34_1)
+function slot0.SetCamera(slot0)
+	if CameraCfg["home_" .. HomeSceneSettingData:GetCurScene()] then
+		manager.ui:SetMainCamera(slot2)
 	else
 		manager.ui:SetMainCamera("home")
 	end
 end
 
-function var_0_0.CheckIsNeedPlayShowingAni(arg_35_0)
-	local var_35_0 = false
+function slot0.CheckIsNeedPlayShowingAni(slot0)
+	slot1 = false
 
-	if arg_35_0.params_.changePoster then
-		arg_35_0.params_.changePoster = nil
+	if slot0.params_.changePoster then
+		slot0.params_.changePoster = nil
 
-		if not arg_35_0.assistantVoiceTime_ or Time.realtimeSinceStartup - arg_35_0.assistantVoiceTime_ >= HeroConst.SET_ASSISTANT_VOICE_CD then
-			arg_35_0.assistantVoiceTime_ = Time.realtimeSinceStartup
+		if not slot0.assistantVoiceTime_ or HeroConst.SET_ASSISTANT_VOICE_CD <= Time.realtimeSinceStartup - slot0.assistantVoiceTime_ then
+			slot0.assistantVoiceTime_ = Time.realtimeSinceStartup
 
 			manager.posterGirl:DoShowing()
 
-			local var_35_1 = true
+			slot1 = true
 		end
 	end
 end
 
-function var_0_0.CheckHomeSceneInteration(arg_36_0)
+function slot0.CheckHomeSceneInteration(slot0)
 	manager.windowBar:ClearWhereTag()
-	arg_36_0:SetCamera()
+	slot0:SetCamera()
 
-	arg_36_0.isHide_ = false
-	arg_36_0.userData_ = PlayerData:GetPlayerInfo()
-	arg_36_0.skinId_ = HeroTools.HeroUsingSkinInfo(arg_36_0.userData_.poster_girl).id
+	slot0.isHide_ = false
+	slot0.userData_ = PlayerData:GetPlayerInfo()
+	slot0.skinId_ = HeroTools.HeroUsingSkinInfo(slot0.userData_.poster_girl).id
 
 	manager.posterGirl:SetViewTag(PosterGirlConst.ViewTag.home)
-	manager.posterGirl:InitTouchHelp(arg_36_0.mutiTouchHelper_)
+	manager.posterGirl:InitTouchHelp(slot0.mutiTouchHelper_)
 
 	if not manager.guide:IsPlaying() and manager.posterGirl:CheckDebut() then
-		arg_36_0.wait_posetr_debut = true
+		slot0.wait_posetr_debut = true
 
 		manager.windowBar:SwitchBar({})
-		arg_36_0.sceneCon_:SetSelectedState("off")
+		slot0.sceneCon_:SetSelectedState("off")
 	else
-		arg_36_0.sceneCon_:SetSelectedState("on")
-		arg_36_0:OnEnterFunc()
-		arg_36_0:CheckIsNeedPlayShowingAni()
+		slot0.sceneCon_:SetSelectedState("on")
+		slot0:OnEnterFunc()
+		slot0:CheckIsNeedPlayShowingAni()
 	end
 
 	manager.loadScene:SetHomeSceneSoundEffect()
 end
 
-function var_0_0.OnHomeDebutOver(arg_37_0)
-	if arg_37_0.wait_posetr_debut then
-		arg_37_0:OnEnterFunc()
-		arg_37_0:OnTopFunc()
+function slot0.OnHomeDebutOver(slot0)
+	if slot0.wait_posetr_debut then
+		slot0:OnEnterFunc()
+		slot0:OnTopFunc()
 	end
 
-	arg_37_0:InitBar()
-	arg_37_0.sceneCon_:SetSelectedState("on")
+	slot0:InitBar()
+	slot0.sceneCon_:SetSelectedState("on")
 
-	arg_37_0.wait_posetr_debut = false
+	slot0.wait_posetr_debut = false
 end
 
-function var_0_0.PlayHeroGreeting(arg_38_0)
+function slot0.PlayHeroGreeting(slot0)
 	manager.posterGirl:DoGreeting()
 end
 
-function var_0_0.DelayToPlayMultiTouchInteraction(arg_39_0)
-	arg_39_0.clickCount_ = arg_39_0.clickCount_ + 1
+function slot0.DelayToPlayMultiTouchInteraction(slot0)
+	slot0.clickCount_ = slot0.clickCount_ + 1
 
-	if arg_39_0.multiTouchTimer_ == nil then
-		arg_39_0.multiTouchTimer_ = Timer.New(function()
-			if arg_39_0.multiTouchTimer_ then
-				arg_39_0.multiTouchTimer_:Stop()
+	if slot0.multiTouchTimer_ == nil then
+		slot0.multiTouchTimer_ = Timer.New(function ()
+			if uv0.multiTouchTimer_ then
+				uv0.multiTouchTimer_:Stop()
 
-				arg_39_0.multiTouchTimer_ = nil
+				uv0.multiTouchTimer_ = nil
 			end
 
-			local var_40_0 = HomeSceneSettingData:GetCurScene()
-
-			if arg_39_0.clickCount_ >= 3 then
+			if uv0.clickCount_ >= 3 then
 				SDKTools.SendMessageToSDK("poster_touch", {
 					touch_times = 3,
 					position = 0,
-					hero_id = arg_39_0.skinId_,
-					scene_id = var_40_0
+					hero_id = uv0.skinId_,
+					scene_id = HomeSceneSettingData:GetCurScene()
 				})
 				manager.posterGirl:DoQuickTouch()
 			else
 				SDKTools.SendMessageToSDK("poster_touch", {
 					touch_times = 1,
 					position = 0,
-					hero_id = arg_39_0.skinId_,
-					scene_id = var_40_0
+					hero_id = uv0.skinId_,
+					scene_id = slot0
 				})
 				manager.posterGirl:DoTouch()
 			end
 
-			arg_39_0.clickCount_ = 0
+			uv0.clickCount_ = 0
 		end, 0.5, 1)
 
-		arg_39_0.multiTouchTimer_:Start()
+		slot0.multiTouchTimer_:Start()
 	end
 end
 
-function var_0_0.OnHomePosterTalk(arg_41_0, arg_41_1, arg_41_2, arg_41_3)
-	local var_41_0 = tonumber(arg_41_1)
-	local var_41_1 = HeroVoiceDescCfg.Get(var_41_0, arg_41_2[1])
-
-	if var_41_1 then
-		if not isNil(arg_41_0.talkBubbleGo_) then
-			SetActive(arg_41_0.talkBubbleGo_, true)
+function slot0.OnHomePosterTalk(slot0, slot1, slot2, slot3)
+	if HeroVoiceDescCfg.Get(tonumber(slot1), slot2[1]) then
+		if not isNil(slot0.talkBubbleGo_) then
+			SetActive(slot0.talkBubbleGo_, true)
 		end
 
-		if not isNil(arg_41_0.talkLabel_) then
-			arg_41_0.talkLabel_.text = var_41_1
+		if not isNil(slot0.talkLabel_) then
+			slot0.talkLabel_.text = slot5
 		end
 
-		if arg_41_0.talkBubbleTimer_ ~= nil then
-			arg_41_0.talkBubbleTimer_:Stop()
+		if slot0.talkBubbleTimer_ ~= nil then
+			slot0.talkBubbleTimer_:Stop()
 
-			arg_41_0.talkBubbleTimer_ = nil
+			slot0.talkBubbleTimer_ = nil
 		end
 
-		arg_41_0.talkBubbleTimer_ = TimeTools.StartAfterSeconds(arg_41_3 / 1000, function()
-			if not isNil(arg_41_0.talkBubbleGo_) then
-				SetActive(arg_41_0.talkBubbleGo_, false)
+		slot0.talkBubbleTimer_ = TimeTools.StartAfterSeconds(slot3 / 1000, function ()
+			if not isNil(uv0.talkBubbleGo_) then
+				SetActive(uv0.talkBubbleGo_, false)
 			end
 
-			if arg_41_0.talkBubbleTimer_ ~= nil then
-				arg_41_0.talkBubbleTimer_:Stop()
+			if uv0.talkBubbleTimer_ ~= nil then
+				uv0.talkBubbleTimer_:Stop()
 
-				arg_41_0.talkBubbleTimer_ = nil
+				uv0.talkBubbleTimer_ = nil
 			end
 		end, {})
 	end
 end
 
-function var_0_0.ClearHeroFilter(arg_43_0)
+function slot0.ClearHeroFilter(slot0)
 	HeroData:SetupHeroMainOpenStatus(false)
 	CommonFilterData:ClearFilter(Filter_Root_Define.Hero_Filter_List.filter_id)
 end
 
-return var_0_0
+return slot0

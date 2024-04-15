@@ -1,202 +1,185 @@
-local var_0_0 = class("ShopEquipContentView", ShopContentViewBase)
+slot0 = class("ShopEquipContentView", ShopContentViewBase)
 
-function var_0_0.InitUI(arg_1_0)
-	local var_1_0 = Asset.Load("UI/Shop/contentViews/equipView")
+function slot0.InitUI(slot0)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/Shop/contentViews/equipView"), slot0.containerGo_.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_0.containerGo_.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+	slot0:BindCfgUI()
 
-	arg_1_0:BindCfgUI()
-
-	arg_1_0.list_ = LuaList.New(handler(arg_1_0, arg_1_0.IndexItem), arg_1_0.listGo_, ExchangeItemView)
-	arg_1_0.positionDropdown_ = arg_1_0.positionDropdownGo_.transform:GetComponent("Dropdown")
-	arg_1_0.suitDropdown_ = arg_1_0.suitDropdownGo_.transform:GetComponent("Dropdown")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ExchangeItemView)
+	slot0.positionDropdown_ = slot0.positionDropdownGo_.transform:GetComponent("Dropdown")
+	slot0.suitDropdown_ = slot0.suitDropdownGo_.transform:GetComponent("Dropdown")
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddToggleListener(arg_2_0.positionDropdown_, function(arg_3_0)
-		if arg_3_0 == 0 then
-			arg_2_0.selectedPos = 0
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.positionDropdown_, function (slot0)
+		if slot0 == 0 then
+			uv0.selectedPos = 0
 		else
-			arg_2_0.selectedPos = arg_3_0
+			uv0.selectedPos = slot0
 		end
 
-		arg_2_0:UpdateListByFilter()
+		uv0:UpdateListByFilter()
 	end)
-	arg_2_0:AddToggleListener(arg_2_0.suitDropdown_, function(arg_4_0)
-		if arg_4_0 == 0 then
-			arg_2_0.selectedSuitId = 0
+	slot0:AddToggleListener(slot0.suitDropdown_, function (slot0)
+		if slot0 == 0 then
+			uv0.selectedSuitId = 0
 
 			OperationRecorder.Record("shop", "shop_equip_all")
 		else
-			arg_2_0.selectedSuitId = EquipSuitCfg[arg_2_0:GetShopSuits()[arg_4_0]].id
+			uv0.selectedSuitId = EquipSuitCfg[uv0:GetShopSuits()[slot0]].id
 
 			OperationRecorder.Record("shop", "shop_equip_one")
 		end
 
-		arg_2_0:UpdateListByFilter()
+		uv0:UpdateListByFilter()
 	end)
 end
 
-function var_0_0.ResetFilter(arg_5_0)
-	arg_5_0.positionDropdown_.value = 0
-	arg_5_0.suitDropdown_.value = 0
+function slot0.ResetFilter(slot0)
+	slot0.positionDropdown_.value = 0
+	slot0.suitDropdown_.value = 0
 end
 
-function var_0_0.InitEquipDropdownData(arg_6_0)
-	arg_6_0.positionDropdown_.options:Clear()
+function slot0.InitEquipDropdownData(slot0)
+	slot0.positionDropdown_.options:Clear()
 
-	local var_6_0 = GetTips("ALL_POSITION")
-	local var_6_1 = ShopListCfg[arg_6_0.shopId_]
+	slot1 = GetTips("ALL_POSITION")
 
-	if var_6_1.params ~= nil and #var_6_1.params > 0 and var_6_1.params[1].POS_ALL_LABEL ~= nil then
-		var_6_0 = GetTips(var_6_1.params[1].POS_ALL_LABEL)
+	if ShopListCfg[slot0.shopId_].params ~= nil and #slot2.params > 0 and slot2.params[1].POS_ALL_LABEL ~= nil then
+		slot1 = GetTips(slot2.params[1].POS_ALL_LABEL)
 	end
 
-	arg_6_0.positionDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(string.format(var_6_0)))
+	slot6 = UnityEngine.UI.Dropdown.OptionData.New
 
-	for iter_6_0 = 1, 6 do
-		arg_6_0.positionDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(string.format(GetTips("POSITION_TIP"), iter_6_0)))
+	slot0.positionDropdown_.options:Add(slot6(string.format(slot1)))
+
+	for slot6 = 1, 6 do
+		slot0.positionDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(string.format(GetTips("POSITION_TIP"), slot6)))
 	end
 
-	arg_6_0.positionDropdown_:RefreshShownValue()
-	arg_6_0.suitDropdown_.options:Clear()
+	slot0.positionDropdown_:RefreshShownValue()
+	slot0.suitDropdown_.options:Clear()
 
-	local var_6_2 = GetTips("ALL_EQUIP")
+	slot3 = GetTips("ALL_EQUIP")
 
-	if var_6_1.params ~= nil and #var_6_1.params > 0 and var_6_1.params[1].SUIT_ALL_LABEL ~= nil then
-		var_6_2 = GetTips(var_6_1.params[1].SUIT_ALL_LABEL)
+	if slot2.params ~= nil and #slot2.params > 0 and slot2.params[1].SUIT_ALL_LABEL ~= nil then
+		slot3 = GetTips(slot2.params[1].SUIT_ALL_LABEL)
 	end
 
-	arg_6_0.suitDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(string.format(var_6_2), allIcon))
+	slot0.suitDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(string.format(slot3), allIcon))
 
-	local var_6_3 = arg_6_0:GetShopSuits()
+	for slot8 = 1, #slot0:GetShopSuits() do
+		slot9 = EquipSuitCfg[slot4[slot8]]
 
-	for iter_6_1 = 1, #var_6_3 do
-		local var_6_4 = EquipSuitCfg[var_6_3[iter_6_1]]
-		local var_6_5 = AtlasManager.GetSpriteWithoutAtlas(SpritePathCfg.EquipIcon_s.path .. var_6_4.equip_skill_icon)
-
-		arg_6_0.suitDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(var_6_4.name, var_6_5))
+		slot0.suitDropdown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(slot9.name, AtlasManager.GetSpriteWithoutAtlas(SpritePathCfg.EquipIcon_s.path .. slot9.equip_skill_icon)))
 	end
 
-	arg_6_0.suitDropdown_:RefreshShownValue()
+	slot0.suitDropdown_:RefreshShownValue()
 end
 
-function var_0_0.GetShopSuits(arg_7_0)
-	local var_7_0 = arg_7_0.shopId_
-	local var_7_1 = {}
-	local var_7_2 = HideInfoData:GetEquipSuitHideList()
+function slot0.GetShopSuits(slot0)
+	slot2 = {}
+	slot8 = slot0.shopId_
 
-	for iter_7_0, iter_7_1 in ipairs(ShopData.GetShop(var_7_0).shopItemIDs) do
-		local var_7_3 = getShopCfg(iter_7_1, arg_7_0.shopId_)
+	for slot7, slot8 in ipairs(ShopData.GetShop(slot8).shopItemIDs) do
+		if getShopCfg(slot8, slot0.shopId_).taken_down == 0 then
+			slot11 = nil
 
-		if var_7_3.taken_down == 0 then
-			local var_7_4 = ItemCfg[var_7_3.give_id].type == ItemConst.ITEM_TYPE.EQUIP
-			local var_7_5
-
-			if var_7_4 then
-				local var_7_6 = EquipCfg[var_7_3.give_id]
-
-				if table.indexof(var_7_1, var_7_6.suit) == false and not var_7_2[var_7_6.suit] then
-					table.insert(var_7_1, var_7_6.suit)
-				end
+			if ItemCfg[slot9.give_id].type == ItemConst.ITEM_TYPE.EQUIP and table.indexof(slot2, EquipCfg[slot9.give_id].suit) == false and not HideInfoData:GetEquipSuitHideList()[slot11.suit] then
+				table.insert(slot2, slot11.suit)
 			end
 		end
 	end
 
-	return var_7_1
+	return slot2
 end
 
-function var_0_0.UpdateListByFilter(arg_8_0)
-	arg_8_0:RefreshList()
+function slot0.UpdateListByFilter(slot0)
+	slot0:RefreshList()
 end
 
-function var_0_0.RefreshList(arg_9_0, arg_9_1)
-	var_0_0.super.RefreshList(arg_9_0, arg_9_1)
+function slot0.RefreshList(slot0, slot1)
+	uv0.super.RefreshList(slot0, slot1)
 
-	arg_9_0.shopDataList_ = arg_9_0:GetShopGoodList(arg_9_0.shopId_)
+	slot0.shopDataList_ = slot0:GetShopGoodList(slot0.shopId_)
 
-	if arg_9_1 and arg_9_0.list_:GetNum() == #arg_9_0.shopDataList_ then
-		arg_9_0.list_:Refresh()
+	if slot1 and slot0.list_:GetNum() == #slot0.shopDataList_ then
+		slot0.list_:Refresh()
 	else
-		arg_9_0.list_:StartScroll(#arg_9_0.shopDataList_)
+		slot0.list_:StartScroll(#slot0.shopDataList_)
 	end
 
-	arg_9_0:InitEquipDropdownData()
+	slot0:InitEquipDropdownData()
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:RegistCallBack(handler(arg_10_0, arg_10_0.OnShopClick))
-	arg_10_2:SetData(arg_10_0.shopDataList_[arg_10_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(handler(slot0, slot0.OnShopClick))
+	slot2:SetData(slot0.shopDataList_[slot1])
 end
 
-function var_0_0.GetShopGoodList(arg_11_0)
-	local var_11_0 = ShopTools.FilterShopDataList(arg_11_0.shopId_)
-	local var_11_1 = {}
+function slot0.GetShopGoodList(slot0)
+	slot2 = {}
 
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		local var_11_2 = iter_11_1.id
-		local var_11_3 = getShopCfg(var_11_2, arg_11_0.shopId_)
-		local var_11_4 = ItemCfg[var_11_3.give_id].type == ItemConst.ITEM_TYPE.EQUIP
-		local var_11_5 = false
-		local var_11_6 = false
-		local var_11_7
+	for slot6, slot7 in ipairs(ShopTools.FilterShopDataList(slot0.shopId_)) do
+		slot11 = false
+		slot12 = false
+		slot13 = nil
 
-		if var_11_4 then
-			local var_11_8 = EquipCfg[var_11_3.give_id]
-
-			var_11_5 = (arg_11_0.selectedSuitId == 0 or arg_11_0.selectedSuitId == nil or arg_11_0.selectedSuitId == var_11_8.suit) and true or false
-			var_11_6 = (arg_11_0.selectedPos == 0 or arg_11_0.selectedPos == nil or arg_11_0.selectedPos == var_11_8.pos) and true or false
+		if ItemCfg[getShopCfg(slot7.id, slot0.shopId_).give_id].type == ItemConst.ITEM_TYPE.EQUIP then
+			slot13 = EquipCfg[slot9.give_id]
+			slot11 = (slot0.selectedSuitId == 0 or slot0.selectedSuitId == nil or slot0.selectedSuitId == slot13.suit) and true or false
+			slot12 = (slot0.selectedPos == 0 or slot0.selectedPos == nil or slot0.selectedPos == slot13.pos) and true or false
 		end
 
-		if var_11_4 then
-			if var_11_5 and var_11_6 then
-				table.insert(var_11_1, iter_11_1)
+		if slot10 then
+			if slot11 and slot12 then
+				table.insert(slot2, slot7)
 			end
-		elseif (arg_11_0.selectedPos == 0 or arg_11_0.selectedPos == nil) and (arg_11_0.selectedSuitId == 0 or arg_11_0.selectedSuitId == nil) then
-			table.insert(var_11_1, iter_11_1)
+		elseif (slot0.selectedPos == 0 or slot0.selectedPos == nil) and (slot0.selectedSuitId == 0 or slot0.selectedSuitId == nil) then
+			table.insert(slot2, slot7)
 		end
 	end
 
-	return var_11_1
+	return slot2
 end
 
-function var_0_0.ScrollByPosition(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0
+function slot0.ScrollByPosition(slot0, slot1, slot2)
+	slot3 = nil
 
-	if arg_12_2 then
-		for iter_12_0, iter_12_1 in ipairs(arg_12_0.shopDataList_) do
-			if iter_12_1.id == arg_12_2 then
-				var_12_0 = iter_12_0
+	if slot2 then
+		for slot7, slot8 in ipairs(slot0.shopDataList_) do
+			if slot8.id == slot2 then
+				slot3 = slot7
 
 				break
 			end
 		end
 	end
 
-	if var_12_0 ~= nil then
-		arg_12_0.list_:ScrollToIndex(var_12_0)
-	elseif arg_12_1 then
-		arg_12_0.list_:SetScrolledPosition(arg_12_1)
+	if slot3 ~= nil then
+		slot0.list_:ScrollToIndex(slot3)
+	elseif slot1 then
+		slot0.list_:SetScrolledPosition(slot1)
 	end
 end
 
-function var_0_0.GetLuaList(arg_13_0)
-	return arg_13_0.list_
+function slot0.GetLuaList(slot0)
+	return slot0.list_
 end
 
-function var_0_0.GetItemList(arg_14_0)
-	return arg_14_0.list_:GetItemList()
+function slot0.GetItemList(slot0)
+	return slot0.list_:GetItemList()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	if arg_15_0.list_ then
-		arg_15_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_15_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

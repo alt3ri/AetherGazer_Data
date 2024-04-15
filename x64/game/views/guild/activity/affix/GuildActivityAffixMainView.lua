@@ -1,297 +1,275 @@
-local var_0_0 = class("GuildActivityAffixMainView", ReduxView)
+slot0 = class("GuildActivityAffixMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivityUI/GuildActivitytalentUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.selectRaceItemHandler_ = handler(arg_4_0, arg_4_0.OnSelectRaceItem)
-	arg_4_0.selectAffixItemHandler_ = handler(arg_4_0, arg_4_0.OnSelectAffixItem)
-	arg_4_0.raceItemList_ = {}
-	arg_4_0.affixItemList_ = {}
-	arg_4_0.affixInfoItemList_ = {}
+function slot0.Init(slot0)
+	slot0.selectRaceItemHandler_ = handler(slot0, slot0.OnSelectRaceItem)
+	slot0.selectAffixItemHandler_ = handler(slot0, slot0.OnSelectAffixItem)
+	slot0.raceItemList_ = {}
+	slot0.affixItemList_ = {}
+	slot0.affixInfoItemList_ = {}
 
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.selectController_ = ControllerUtil.GetController(arg_5_0.racePanelTrans_, "select")
-	arg_5_0.upgeadeStateController_ = ControllerUtil.GetController(arg_5_0.transform_, "upgradeState")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.racePanelTrans_, "select")
+	slot0.upgeadeStateController_ = ControllerUtil.GetController(slot0.transform_, "upgradeState")
 
-	local var_5_0 = arg_5_0.racePanelTrans_.childCount
+	for slot5 = 1, slot0.racePanelTrans_.childCount do
+		slot0.raceItemList_[slot5] = GuildActivityAffixRaceItem.New(slot0.racePanelTrans_:GetChild(slot5 - 1))
 
-	for iter_5_0 = 1, var_5_0 do
-		arg_5_0.raceItemList_[iter_5_0] = GuildActivityAffixRaceItem.New(arg_5_0.racePanelTrans_:GetChild(iter_5_0 - 1))
-
-		arg_5_0.raceItemList_[iter_5_0]:SetSelectCallBack(arg_5_0.selectRaceItemHandler_)
+		slot0.raceItemList_[slot5]:SetSelectCallBack(slot0.selectRaceItemHandler_)
 	end
 
-	local var_5_1 = arg_5_0.affixPanelTrans_.childCount
+	for slot6 = 1, slot0.affixPanelTrans_.childCount do
+		slot0.affixItemList_[slot6] = GuildActivityAffixItem.New(slot0.affixPanelTrans_:GetChild(slot6 - 1))
 
-	for iter_5_1 = 1, var_5_1 do
-		arg_5_0.affixItemList_[iter_5_1] = GuildActivityAffixItem.New(arg_5_0.affixPanelTrans_:GetChild(iter_5_1 - 1))
-
-		arg_5_0.affixItemList_[iter_5_1]:SetSelectCallBack(arg_5_0.selectAffixItemHandler_)
+		slot0.affixItemList_[slot6]:SetSelectCallBack(slot0.selectAffixItemHandler_)
 	end
 
-	local var_5_2 = arg_5_0.affixInfoPanelTrans_.childCount
-
-	for iter_5_2 = 1, var_5_2 do
-		arg_5_0.affixInfoItemList_[iter_5_2] = GuildActivityAffixInfoItem.New(arg_5_0.affixInfoPanelTrans_:GetChild(iter_5_2 - 1))
+	for slot7 = 1, slot0.affixInfoPanelTrans_.childCount do
+		slot0.affixInfoItemList_[slot7] = GuildActivityAffixInfoItem.New(slot0.affixInfoPanelTrans_:GetChild(slot7 - 1))
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.upgradeBtn_, nil, function()
-		if arg_6_0.isMaxLevel_ == true then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.upgradeBtn_, nil, function ()
+		if uv0.isMaxLevel_ == true then
 			return
 		end
 
-		if arg_6_0.costEnough_ == false then
+		if uv0.costEnough_ == false then
 			ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
 
 			return
 		end
 
-		GuildActivityAction.UpgradeAffix(arg_6_0.curAffixID_, function(arg_8_0, arg_8_1)
-			if isSuccess(arg_8_0.result) then
-				GuildActivityData:UpgradeAffix(arg_6_0.activityID_, arg_6_0.curAffixID_)
-				arg_6_0:RefreshAffixItem()
+		GuildActivityAction.UpgradeAffix(uv0.curAffixID_, function (slot0, slot1)
+			if isSuccess(slot0.result) then
+				slot5 = uv0.activityID_
+				slot6 = uv0.curAffixID_
 
-				for iter_8_0, iter_8_1 in ipairs(arg_6_0.affixInfoItemList_) do
-					if arg_6_0.curAffixLevel_ == iter_8_0 then
-						iter_8_1:OnUpgrade()
+				GuildActivityData:UpgradeAffix(slot5, slot6)
+				uv0:RefreshAffixItem()
+
+				for slot5, slot6 in ipairs(uv0.affixInfoItemList_) do
+					if uv0.curAffixLevel_ == slot5 then
+						slot6:OnUpgrade()
 
 						break
 					end
 				end
 			else
-				ShowTips(GetTips(arg_8_0.result))
+				ShowTips(GetTips(slot0.result))
 			end
 		end)
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:InitBar()
-	arg_10_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:InitBar()
+	slot0:AddEventListeners()
 
-	arg_10_0.activityID_ = arg_10_0.params_.activityID
-	arg_10_0.raceIDList_ = RaceEffectCfg.all
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.raceIDList_ = RaceEffectCfg.all
 
-	arg_10_0:RefreshUI()
-	arg_10_0:BindRedPoint()
+	slot0:RefreshUI()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.InitBar(arg_11_0)
-	local var_11_0 = TalentTreeCfg.get_id_list_by_activity_id[arg_11_0.params_.activityID][1]
-
-	arg_11_0.currencyID_ = TalentTreeCfg[var_11_0].cost[1][1]
+function slot0.InitBar(slot0)
+	slot0.currencyID_ = TalentTreeCfg[TalentTreeCfg.get_id_list_by_activity_id[slot0.params_.activityID][1]].cost[1][1]
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
-		arg_11_0.currencyID_
+		slot0.currencyID_
 	})
-	manager.windowBar:SetBarCanAdd(arg_11_0.currencyID_, true)
+	manager.windowBar:SetBarCanAdd(slot0.currencyID_, true)
 	manager.windowBar:SetGameHelpKey("CLUB_ACTIVITY_AFFIX_DESC")
 end
 
-function var_0_0.OnTop(arg_12_0)
-	local var_12_0, var_12_1 = GuildActivityData:CheckRateUpgrade(arg_12_0.activityID_)
+function slot0.OnTop(slot0)
+	slot1, slot2 = GuildActivityData:CheckRateUpgrade(slot0.activityID_)
 
-	if var_12_0 == true then
+	if slot1 == true then
 		JumpTools.OpenPageByJump("guildActivityRateUpgrad", {
-			rateID = var_12_1
+			rateID = slot2
 		})
-		GuildActivityData:RefreshRateRedPoint(arg_12_0.params_.activityID)
+		GuildActivityData:RefreshRateRedPoint(slot0.params_.activityID)
 	end
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
-	arg_13_0:UnBindRedPoint()
+	slot0:UnBindRedPoint()
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.affixInfoItemList_) do
-		iter_13_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.affixInfoItemList_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.selectRaceItemHandler_ = nil
-	arg_14_0.selectAffixItemHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.selectRaceItemHandler_ = nil
+	slot0.selectAffixItemHandler_ = nil
 
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.raceItemList_) do
-		iter_14_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.raceItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.raceItemList_ = nil
+	slot0.raceItemList_ = nil
 
-	for iter_14_2, iter_14_3 in ipairs(arg_14_0.affixItemList_) do
-		iter_14_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.affixItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.affixItemList_ = nil
+	slot0.affixItemList_ = nil
 
-	for iter_14_4, iter_14_5 in ipairs(arg_14_0.affixInfoItemList_) do
-		iter_14_5:Dispose()
+	for slot4, slot5 in ipairs(slot0.affixInfoItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.affixInfoItemList_ = nil
+	slot0.affixInfoItemList_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	arg_15_0:RefreshRaceItem()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshRaceItem()
 end
 
-function var_0_0.RefreshRaceItem(arg_16_0)
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.raceIDList_) do
-		if arg_16_0.raceItemList_[iter_16_0] then
-			arg_16_0.raceItemList_[iter_16_0]:SetData(iter_16_1)
-			arg_16_0.raceItemList_[iter_16_0]:SetActive(true)
+function slot0.RefreshRaceItem(slot0)
+	for slot4, slot5 in ipairs(slot0.raceIDList_) do
+		if slot0.raceItemList_[slot4] then
+			slot0.raceItemList_[slot4]:SetData(slot5)
+			slot0.raceItemList_[slot4]:SetActive(true)
 		end
 	end
 
-	for iter_16_2 = #arg_16_0.raceItemList_, #arg_16_0.raceIDList_ + 1, -1 do
-		arg_16_0.raceItemList_[iter_16_2]:SetActive(false)
+	for slot4 = #slot0.raceItemList_, #slot0.raceIDList_ + 1, -1 do
+		slot0.raceItemList_[slot4]:SetActive(false)
 	end
 
-	arg_16_0.curRaceID_ = GuildActivityData:GetSelectRaceID(arg_16_0.activityID_) or arg_16_0.raceIDList_[1]
+	slot0.curRaceID_ = GuildActivityData:GetSelectRaceID(slot0.activityID_) or slot0.raceIDList_[1]
 
-	arg_16_0:OnSelectRaceItem(arg_16_0.curRaceID_)
+	slot0:OnSelectRaceItem(slot0.curRaceID_)
 end
 
-function var_0_0.OnSelectRaceItem(arg_17_0, arg_17_1)
-	GuildActivityData:SetSelectRaceID(arg_17_0.activityID_, arg_17_1)
+function slot0.OnSelectRaceItem(slot0, slot1)
+	GuildActivityData:SetSelectRaceID(slot0.activityID_, slot1)
 
-	arg_17_0.curRaceID_ = arg_17_1
+	slot0.curRaceID_ = slot1
 
-	arg_17_0.selectController_:SetSelectedState(tostring(arg_17_0.curRaceID_))
-	arg_17_0:RefreshAffixItem()
+	slot0.selectController_:SetSelectedState(tostring(slot0.curRaceID_))
+	slot0:RefreshAffixItem()
 end
 
-function var_0_0.RefreshAffixItem(arg_18_0)
-	arg_18_0.affixIDList_ = TalentTreeCfg.get_id_list_by_activity_id_and_race[arg_18_0.activityID_][arg_18_0.curRaceID_]
-	arg_18_0.unlockAffixIDList_ = GuildActivityData:GetUnLockAffixList()
+function slot0.RefreshAffixItem(slot0)
+	slot0.affixIDList_ = TalentTreeCfg.get_id_list_by_activity_id_and_race[slot0.activityID_][slot0.curRaceID_]
+	slot0.unlockAffixIDList_ = GuildActivityData:GetUnLockAffixList()
+	slot1, slot2, slot3 = nil
 
-	local var_18_0
-	local var_18_1
-	local var_18_2
-
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.affixIDList_) do
-		if arg_18_0.affixItemList_[iter_18_0] then
-			local var_18_3 = arg_18_0.unlockAffixIDList_[iter_18_1]
-			local var_18_4 = var_18_3 ~= nil
-			local var_18_5 = var_18_3 and var_18_3.level or 0
-
-			arg_18_0.affixItemList_[iter_18_0]:SetData(iter_18_1, var_18_4, var_18_5)
-			arg_18_0.affixItemList_[iter_18_0]:SetActive(true)
+	for slot7, slot8 in ipairs(slot0.affixIDList_) do
+		if slot0.affixItemList_[slot7] then
+			slot0.affixItemList_[slot7]:SetData(slot8, slot0.unlockAffixIDList_[slot8] ~= nil, slot3 and slot3.level or 0)
+			slot0.affixItemList_[slot7]:SetActive(true)
 		end
 	end
 
-	for iter_18_2 = #arg_18_0.affixItemList_, #arg_18_0.affixIDList_ + 1, -1 do
-		arg_18_0.affixItemList_[iter_18_2]:SetActive(false)
+	for slot7 = #slot0.affixItemList_, #slot0.affixIDList_ + 1, -1 do
+		slot0.affixItemList_[slot7]:SetActive(false)
 	end
 
-	local var_18_6 = GuildActivityData:GetSelectAffixID(arg_18_0.activityID_, arg_18_0.curRaceID_)
+	slot4 = GuildActivityData:GetSelectAffixID(slot0.activityID_, slot0.curRaceID_)
+	slot0.curAffixID_ = GuildActivityData:GetSelectAffixID(slot0.activityID_, slot0.curRaceID_) or slot0.affixIDList_[1]
+	slot0.curAffixLevel_ = slot0.unlockAffixIDList_[slot0.curAffixID_] and slot3.level or 0
 
-	arg_18_0.curAffixID_ = GuildActivityData:GetSelectAffixID(arg_18_0.activityID_, arg_18_0.curRaceID_) or arg_18_0.affixIDList_[1]
-
-	local var_18_7 = arg_18_0.unlockAffixIDList_[arg_18_0.curAffixID_]
-
-	arg_18_0.curAffixLevel_ = var_18_7 and var_18_7.level or 0
-
-	arg_18_0:OnSelectAffixItem(arg_18_0.curAffixID_, arg_18_0.curAffixLevel_)
+	slot0:OnSelectAffixItem(slot0.curAffixID_, slot0.curAffixLevel_)
 end
 
-function var_0_0.OnSelectAffixItem(arg_19_0, arg_19_1, arg_19_2)
-	GuildActivityData:SetSelectAffixID(arg_19_0.activityID_, arg_19_0.curRaceID_, arg_19_1)
+function slot0.OnSelectAffixItem(slot0, slot1, slot2)
+	slot6 = slot0.activityID_
+	slot7 = slot0.curRaceID_
 
-	arg_19_0.curAffixID_ = arg_19_1
-	arg_19_0.curAffixLevel_ = arg_19_2
+	GuildActivityData:SetSelectAffixID(slot6, slot7, slot1)
 
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0.affixItemList_) do
-		iter_19_1:SetSelect(arg_19_1)
+	slot0.curAffixID_ = slot1
+	slot0.curAffixLevel_ = slot2
+
+	for slot6, slot7 in ipairs(slot0.affixItemList_) do
+		slot7:SetSelect(slot1)
 	end
 
-	arg_19_0:RefershAffixInfo()
-	arg_19_0:RefreshUpgradeBtn()
+	slot0:RefershAffixInfo()
+	slot0:RefreshUpgradeBtn()
 end
 
-function var_0_0.RefershAffixInfo(arg_20_0)
-	local var_20_0 = TalentTreeCfg[arg_20_0.curAffixID_].affix_id
-
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.affixInfoItemList_) do
-		iter_20_1:SetData(var_20_0, iter_20_0, arg_20_0.curAffixLevel_)
+function slot0.RefershAffixInfo(slot0)
+	for slot5, slot6 in ipairs(slot0.affixInfoItemList_) do
+		slot6:SetData(TalentTreeCfg[slot0.curAffixID_].affix_id, slot5, slot0.curAffixLevel_)
 	end
 
-	arg_20_0.titleText_.text = GetI18NText(TalentTreeCfg[arg_20_0.curAffixID_].name)
-	arg_20_0.descText_.text = GetI18NText(TalentTreeCfg[arg_20_0.curAffixID_].desc)
+	slot0.titleText_.text = GetI18NText(TalentTreeCfg[slot0.curAffixID_].name)
+	slot0.descText_.text = GetI18NText(TalentTreeCfg[slot0.curAffixID_].desc)
 end
 
-function var_0_0.RefreshUpgradeBtn(arg_21_0)
-	local var_21_0 = TalentTreeCfg[arg_21_0.curAffixID_].cost[arg_21_0.curAffixLevel_ + 1]
+function slot0.RefreshUpgradeBtn(slot0)
+	if TalentTreeCfg[slot0.curAffixID_].cost[slot0.curAffixLevel_ + 1] ~= nil then
+		slot0.isMaxLevel_ = false
 
-	if var_21_0 ~= nil then
-		arg_21_0.isMaxLevel_ = false
+		SetActive(slot0.consumePanelGo_, true)
 
-		SetActive(arg_21_0.consumePanelGo_, true)
+		slot0.currencyID_ = slot1[1]
+		slot0.upgradeCost_ = slot1[2]
+		slot0.costEnough_ = slot0.upgradeCost_ ~= nil and slot0.upgradeCost_ <= (ItemTools.getItemNum(slot0.currencyID_) or 0)
+		slot0.consumeIcon_.sprite = ItemTools.getItemSprite(slot0.currencyID_)
 
-		arg_21_0.currencyID_ = var_21_0[1]
-		arg_21_0.upgradeCost_ = var_21_0[2]
-
-		local var_21_1 = ItemTools.getItemNum(arg_21_0.currencyID_) or 0
-
-		arg_21_0.costEnough_ = arg_21_0.upgradeCost_ ~= nil and var_21_1 >= arg_21_0.upgradeCost_
-		arg_21_0.consumeIcon_.sprite = ItemTools.getItemSprite(arg_21_0.currencyID_)
-
-		if arg_21_0.costEnough_ == true then
-			arg_21_0.consumeNumText_.text = arg_21_0.upgradeCost_
+		if slot0.costEnough_ == true then
+			slot0.consumeNumText_.text = slot0.upgradeCost_
 		else
-			arg_21_0.consumeNumText_.text = "<color='#FF0000'>" .. arg_21_0.upgradeCost_ .. "</color>"
+			slot0.consumeNumText_.text = "<color='#FF0000'>" .. slot0.upgradeCost_ .. "</color>"
 		end
 	else
-		arg_21_0.isMaxLevel_ = true
+		slot0.isMaxLevel_ = true
 
-		SetActive(arg_21_0.consumePanelGo_, false)
+		SetActive(slot0.consumePanelGo_, false)
 	end
 
-	if arg_21_0.costEnough_ == true and arg_21_0.isMaxLevel_ == false then
-		arg_21_0.upgeadeStateController_:SetSelectedState("true")
+	if slot0.costEnough_ == true and slot0.isMaxLevel_ == false then
+		slot0.upgeadeStateController_:SetSelectedState("true")
 	else
-		arg_21_0.upgeadeStateController_:SetSelectedState("false")
+		slot0.upgeadeStateController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.BindRedPoint(arg_22_0)
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.raceItemList_) do
-		iter_22_1:BindRedPoint(arg_22_0.activityID_)
+function slot0.BindRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.raceItemList_) do
+		slot5:BindRedPoint(slot0.activityID_)
 	end
 end
 
-function var_0_0.UnBindRedPoint(arg_23_0)
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.raceItemList_) do
-		iter_23_1:UnBindRedPoint(arg_23_0.activityID_)
+function slot0.UnBindRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.raceItemList_) do
+		slot5:UnBindRedPoint(slot0.activityID_)
 	end
 end
 
-return var_0_0
+return slot0

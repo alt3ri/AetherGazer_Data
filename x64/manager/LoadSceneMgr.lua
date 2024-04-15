@@ -1,179 +1,171 @@
-local var_0_0 = singletonClass("LoadSceneMgr")
+slot0 = singletonClass("LoadSceneMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.loadScenePool_ = {}
-	arg_1_0.isLoading_ = false
-	arg_1_0.loadInit_ = SceneLoadAndUnloadManager.Instance
+function slot0.Ctor(slot0)
+	slot0.loadScenePool_ = {}
+	slot0.isLoading_ = false
+	slot0.loadInit_ = SceneLoadAndUnloadManager.Instance
 end
 
-function var_0_0.GetNeedLoadSceneName(arg_2_0, arg_2_1)
-	local var_2_0
+function slot0.GetNeedLoadSceneName(slot0, slot1)
+	slot2 = nil
 
-	for iter_2_0 = #arg_2_1, 1, -1 do
-		if ViewConst.NEED_CHANGE_SCENE_URL_LIST[arg_2_1[iter_2_0]] then
-			var_2_0 = arg_2_1[iter_2_0]
+	for slot6 = #slot1, 1, -1 do
+		if ViewConst.NEED_CHANGE_SCENE_URL_LIST[slot1[slot6]] then
+			slot7, slot8 = slot0:GetShouldLoadSceneName(slot1[slot6])
 
-			local var_2_1, var_2_2 = arg_2_0:GetShouldLoadSceneName(arg_2_1[iter_2_0])
-
-			if not arg_2_0.loadScenePool_[arg_2_1[iter_2_0]] or arg_2_0:IsNeedLoadScene(arg_2_1[iter_2_0], var_2_2) then
-				return arg_2_1[iter_2_0], var_2_0
+			if not slot0.loadScenePool_[slot1[slot6]] or slot0:IsNeedLoadScene(slot1[slot6], slot8) then
+				return slot1[slot6], slot1[slot6]
 			end
 		end
 	end
 
-	return nil, var_2_0
+	return nil, slot2
 end
 
-function var_0_0.ForceSetShouldLoadSceneName(arg_3_0, arg_3_1, arg_3_2)
-	if not ViewConst.NEED_CHANGE_SCENE_URL_LIST[arg_3_1] then
-		if arg_3_2 then
-			arg_3_2()
+function slot0.ForceSetShouldLoadSceneName(slot0, slot1, slot2)
+	if not ViewConst.NEED_CHANGE_SCENE_URL_LIST[slot1] then
+		if slot2 then
+			slot2()
 		end
 
 		return
 	end
 
-	local var_3_0, var_3_1 = arg_3_0:GetShouldLoadSceneName(arg_3_1)
+	slot3, slot4 = slot0:GetShouldLoadSceneName(slot1)
 
-	if var_3_1 == arg_3_0.loadScenePool_[arg_3_1] then
-		if arg_3_2 then
-			arg_3_2()
+	if slot4 == slot0.loadScenePool_[slot1] then
+		if slot2 then
+			slot2()
 		end
 
 		return
 	end
 
-	arg_3_0:TryStopSceneSoundEffect(arg_3_1)
+	slot0:TryStopSceneSoundEffect(slot1)
 	SetForceShowQuanquan(true)
 
-	arg_3_0.isLoading_ = true
+	slot0.isLoading_ = true
 
-	arg_3_0.loadInit_:ChangeScene(var_3_0, arg_3_0.loadScenePool_[arg_3_1], function()
-		arg_3_0.isLoading_ = false
+	slot0.loadInit_:ChangeScene(slot3, slot0.loadScenePool_[slot1], function ()
+		uv0.isLoading_ = false
 
-		arg_3_0:SetLoadSceneTable(arg_3_1, var_3_1)
+		uv0:SetLoadSceneTable(uv1, uv2)
 		SetForceShowQuanquan(false)
 
-		if arg_3_2 then
-			arg_3_2()
+		if uv3 then
+			uv3()
 		end
 	end)
 end
 
-function var_0_0.SetShouldLoadSceneName(arg_5_0, arg_5_1)
-	if not ViewConst.NEED_CHANGE_SCENE_URL_LIST[arg_5_1] then
+function slot0.SetShouldLoadSceneName(slot0, slot1)
+	if not ViewConst.NEED_CHANGE_SCENE_URL_LIST[slot1] then
 		return
 	end
 
-	local var_5_0, var_5_1 = arg_5_0:GetShouldLoadSceneName(arg_5_1)
+	slot2, slot3 = slot0:GetShouldLoadSceneName(slot1)
 
-	if var_5_1 == arg_5_0.loadScenePool_[arg_5_1] then
+	if slot3 == slot0.loadScenePool_[slot1] then
 		return
 	end
 
-	arg_5_0:TryStopSceneSoundEffect(arg_5_1)
+	slot0:TryStopSceneSoundEffect(slot1)
 
-	arg_5_0.isLoading_ = true
+	slot0.isLoading_ = true
 
-	arg_5_0.loadInit_:ChangeScene(var_5_0, arg_5_0.loadScenePool_[arg_5_1], function()
-		arg_5_0.isLoading_ = false
+	slot0.loadInit_:ChangeScene(slot2, slot0.loadScenePool_[slot1], function ()
+		uv0.isLoading_ = false
 
-		arg_5_0:SetLoadSceneTable(arg_5_1, var_5_1)
+		uv0:SetLoadSceneTable(uv1, uv2)
 	end)
 end
 
-function var_0_0.SetLoadSceneTable(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.loadScenePool_[arg_7_1] = arg_7_2
+function slot0.SetLoadSceneTable(slot0, slot1, slot2)
+	slot0.loadScenePool_[slot1] = slot2
 
-	if arg_7_1 == "sectionSelectHero" then
+	if slot1 == "sectionSelectHero" then
 		return
 	end
 
-	local var_7_0
+	slot3 = nil
 
-	if SceneManager.GetSceneByName(arg_7_2).rootCount > 0 then
-		var_7_0 = SceneManager.GetSceneByName(arg_7_2):GetRootGameObjects()
+	if SceneManager.GetSceneByName(slot2).rootCount > 0 then
+		slot3 = SceneManager.GetSceneByName(slot2):GetRootGameObjects()
 	end
 
-	if var_7_0 ~= nil then
-		for iter_7_0 = 0, var_7_0.Length - 1 do
-			if var_7_0[iter_7_0].name == arg_7_2 then
-				SetActive(var_7_0[iter_7_0], false)
+	if slot3 ~= nil then
+		for slot7 = 0, slot3.Length - 1 do
+			if slot3[slot7].name == slot2 then
+				SetActive(slot3[slot7], false)
 			end
 		end
 	end
 end
 
-function var_0_0.GetShouldLoadSceneName(arg_8_0, arg_8_1)
-	local var_8_0 = ""
-	local var_8_1 = ""
+function slot0.GetShouldLoadSceneName(slot0, slot1)
+	slot2 = ""
+	slot3 = ""
 
-	if arg_8_1 == "home" or arg_8_1 == "chat" or arg_8_1 == "userinfo" or arg_8_1 == "clubBoss" then
-		var_8_1 = arg_8_0:GetHomeShouldLoadSceneName()
-		var_8_0 = "Levels/" .. var_8_1
-	elseif arg_8_1 == "homePreview" then
-		var_8_1 = arg_8_0:GetPreviewHomeShouldLoadSceneName()
-		var_8_0 = "Levels/" .. var_8_1
-	elseif arg_8_1 == "sectionSelectHero" then
-		var_8_1 = "X104"
-		var_8_0 = "Levels/X104"
+	if slot1 == "home" or slot1 == "chat" or slot1 == "userinfo" or slot1 == "clubBoss" then
+		slot2 = "Levels/" .. slot0:GetHomeShouldLoadSceneName()
+	elseif slot1 == "homePreview" then
+		slot2 = "Levels/" .. slot0:GetPreviewHomeShouldLoadSceneName()
+	elseif slot1 == "sectionSelectHero" then
+		slot3 = "X104"
+		slot2 = "Levels/X104"
 	else
 		error("未实现界面场景获取途径")
 	end
 
-	arg_8_0:DealCommonScene(arg_8_1)
+	slot0:DealCommonScene(slot1)
 
-	return var_8_0, var_8_1
+	return slot2, slot3
 end
 
-function var_0_0.GetShouldLoadSceneNameID(arg_9_0, arg_9_1)
-	if arg_9_1 == "home" or arg_9_1 == "chat" or arg_9_1 == "userinfo" or arg_9_1 == "clubBoss" then
-		return (HomeSceneSettingData:GetCurScene())
-	elseif arg_9_1 == "homePreview" then
-		return (HomeSceneSettingData:GetPreviewScene())
-	elseif arg_9_1 == "sectionSelectHero" then
+function slot0.GetShouldLoadSceneNameID(slot0, slot1)
+	if slot1 == "home" or slot1 == "chat" or slot1 == "userinfo" or slot1 == "clubBoss" then
+		return HomeSceneSettingData:GetCurScene()
+	elseif slot1 == "homePreview" then
+		return HomeSceneSettingData:GetPreviewScene()
+	elseif slot1 == "sectionSelectHero" then
 		return -1
 	else
 		error("未实现界面场景获取途径")
 	end
 end
 
-function var_0_0.DealCommonScene(arg_10_0, arg_10_1)
-	local var_10_0 = {
+function slot0.DealCommonScene(slot0, slot1)
+	if not table.indexof({
 		"home",
 		"homePreview",
 		"userinfo",
 		"chat",
 		"clubBoss"
-	}
-
-	if not table.indexof(var_10_0, arg_10_1) then
+	}, slot1) then
 		return
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		if iter_10_1 ~= arg_10_1 and arg_10_0.loadScenePool_[iter_10_1] then
-			arg_10_0.loadScenePool_[arg_10_1] = arg_10_0.loadScenePool_[iter_10_1]
-			arg_10_0.loadScenePool_[iter_10_1] = nil
+	for slot6, slot7 in ipairs(slot2) do
+		if slot7 ~= slot1 and slot0.loadScenePool_[slot7] then
+			slot0.loadScenePool_[slot1] = slot0.loadScenePool_[slot7]
+			slot0.loadScenePool_[slot7] = nil
 		end
 	end
 end
 
-function var_0_0.IsNeedLoadScene(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = {
+function slot0.IsNeedLoadScene(slot0, slot1, slot2)
+	if not table.indexof({
 		"home",
 		"homePreview",
 		"userinfo",
 		"chat",
 		"clubBoss"
-	}
-
-	if not table.indexof(var_11_0, arg_11_1) then
-		return arg_11_0.loadScenePool_[arg_11_1] ~= arg_11_2
+	}, slot1) then
+		return slot0.loadScenePool_[slot1] ~= slot2
 	end
 
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if arg_11_0.loadScenePool_[iter_11_1] and arg_11_0.loadScenePool_[iter_11_1] ~= arg_11_2 then
+	for slot7, slot8 in ipairs(slot3) do
+		if slot0.loadScenePool_[slot8] and slot0.loadScenePool_[slot8] ~= slot2 then
 			return true
 		end
 	end
@@ -181,93 +173,83 @@ function var_0_0.IsNeedLoadScene(arg_11_0, arg_11_1, arg_11_2)
 	return false
 end
 
-function var_0_0.CanEnd(arg_12_0)
-	return not arg_12_0.isLoading_
+function slot0.CanEnd(slot0)
+	return not slot0.isLoading_
 end
 
-function var_0_0.GetHomeShouldLoadSceneName(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_1 or HomeSceneSettingData:GetCurScene()
-	local var_13_1 = HomeSceneSettingCfg[var_13_0]
+function slot0.GetHomeShouldLoadSceneName(slot0, slot1)
+	slot3 = HomeSceneSettingCfg[slot1 or HomeSceneSettingData:GetCurScene()]
 
-	if not arg_13_1 and HomeSceneSettingData:GetUsedState(var_13_0) == SceneConst.HOME_SCENE_TYPE.LOCK then
-		local var_13_2 = GameSetting.home_sence_default.value[1]
+	if not slot1 and HomeSceneSettingData:GetUsedState(slot2) == SceneConst.HOME_SCENE_TYPE.LOCK then
+		slot2 = GameSetting.home_sence_default.value[1]
+		slot3 = HomeSceneSettingCfg[slot2]
 
-		var_13_1 = HomeSceneSettingCfg[var_13_2]
-
-		HomeSceneSettingAction.SetHomeScene(var_13_2)
+		HomeSceneSettingAction.SetHomeScene(slot2)
 	end
 
-	local var_13_3 = manager.time:GetServerTime()
-	local var_13_4 = ""
-	local var_13_5 = ""
-	local var_13_6 = ""
+	slot4 = manager.time:GetServerTime()
+	slot5 = ""
+	slot6 = ""
+	slot7 = ""
 
-	for iter_13_0, iter_13_1 in ipairs(var_13_1.impact) do
-		if iter_13_1 == SceneConst.HOME_SCENE_IMPACT.WEATHER then
-			var_13_4 = arg_13_0:GetWeatherScene()
-		elseif iter_13_1 == SceneConst.HOME_SCENE_IMPACT.DATA then
-			var_13_5 = arg_13_0:GetDataScene()
-		elseif iter_13_1 == SceneConst.HOME_SCENE_IMPACT.TIME then
-			local var_13_7 = manager.time:STimeDescS(var_13_3, "!%H")
-
-			var_13_6 = arg_13_0:GetTimeScene(var_13_7)
+	for slot11, slot12 in ipairs(slot3.impact) do
+		if slot12 == SceneConst.HOME_SCENE_IMPACT.WEATHER then
+			slot5 = slot0:GetWeatherScene()
+		elseif slot12 == SceneConst.HOME_SCENE_IMPACT.DATA then
+			slot6 = slot0:GetDataScene()
+		elseif slot12 == SceneConst.HOME_SCENE_IMPACT.TIME then
+			slot7 = slot0:GetTimeScene(manager.time:STimeDescS(slot4, "!%H"))
 		end
 	end
 
-	return var_13_1.prefix .. var_13_4 .. var_13_5 .. var_13_6
+	return slot3.prefix .. slot5 .. slot6 .. slot7
 end
 
-function var_0_0.GetWeatherScene(arg_14_0)
+function slot0.GetWeatherScene(slot0)
 	return ""
 end
 
-function var_0_0.GetDataScene(arg_15_0)
+function slot0.GetDataScene(slot0)
 	return ""
 end
 
-function var_0_0.GetTimeScene(arg_16_0, arg_16_1)
-	local var_16_0 = tonumber(arg_16_1)
-	local var_16_1 = HomeSceneCfg.get_id_list_by_type[SceneConst.HOME_SCENE_IMPACT.TIME]
+function slot0.GetTimeScene(slot0, slot1)
+	slot2 = tonumber(slot1)
 
-	for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-		local var_16_2 = HomeSceneCfg[iter_16_1]
-		local var_16_3 = var_16_2.start_time
-		local var_16_4 = var_16_2.end_time
+	for slot7, slot8 in ipairs(HomeSceneCfg.get_id_list_by_type[SceneConst.HOME_SCENE_IMPACT.TIME]) do
+		slot9 = HomeSceneCfg[slot8]
 
-		if var_16_3 <= var_16_0 and var_16_0 <= var_16_4 then
-			return var_16_2.scene
+		if slot9.start_time <= slot2 and slot2 <= slot9.end_time then
+			return slot9.scene
 		end
 	end
 
 	return ""
 end
 
-function var_0_0.GetPreviewHomeShouldLoadSceneName(arg_17_0)
-	local var_17_0, var_17_1 = HomeSceneSettingData:GetPreviewScene()
-	local var_17_2 = HomeSceneSettingCfg[var_17_0]
-	local var_17_3 = var_17_2.impact
-	local var_17_4 = ""
-	local var_17_5 = ""
-	local var_17_6 = ""
+function slot0.GetPreviewHomeShouldLoadSceneName(slot0)
+	slot1, slot2 = HomeSceneSettingData:GetPreviewScene()
+	slot3 = HomeSceneSettingCfg[slot1]
+	slot4 = slot3.impact
+	slot5 = ""
+	slot6 = ""
+	slot7 = ""
 
-	for iter_17_0, iter_17_1 in ipairs(var_17_2.impact) do
-		if iter_17_1 == SceneConst.HOME_SCENE_IMPACT.WEATHER then
-			var_17_4 = var_17_1.weather
-		elseif iter_17_1 == SceneConst.HOME_SCENE_IMPACT.DATA then
-			var_17_5 = var_17_1.data
-		elseif iter_17_1 == SceneConst.HOME_SCENE_IMPACT.TIME then
-			var_17_6 = var_17_1.time
+	for slot11, slot12 in ipairs(slot3.impact) do
+		if slot12 == SceneConst.HOME_SCENE_IMPACT.WEATHER then
+			slot5 = slot2.weather
+		elseif slot12 == SceneConst.HOME_SCENE_IMPACT.DATA then
+			slot6 = slot2.data
+		elseif slot12 == SceneConst.HOME_SCENE_IMPACT.TIME then
+			slot7 = slot2.time
 		end
 	end
 
-	return var_17_2.prefix .. var_17_4 .. var_17_5 .. var_17_6
+	return slot3.prefix .. slot5 .. slot6 .. slot7
 end
 
-function var_0_0.SetHomeSceneSoundEffect(arg_18_0)
-	local var_18_0 = HomeSceneSettingData:GetCurScene()
-	local var_18_1 = HomeSceneSettingCfg[var_18_0].scene_setting
-
-	if not table.indexof(var_18_1, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
+function slot0.SetHomeSceneSoundEffect(slot0)
+	if not table.indexof(HomeSceneSettingCfg[HomeSceneSettingData:GetCurScene()].scene_setting, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
 		return
 	end
 
@@ -276,11 +258,10 @@ function var_0_0.SetHomeSceneSoundEffect(arg_18_0)
 	end
 end
 
-function var_0_0.SetPreviewHomeSceneSoundEffect(arg_19_0)
-	local var_19_0, var_19_1 = HomeSceneSettingData:GetPreviewScene()
-	local var_19_2 = HomeSceneSettingCfg[var_19_0].scene_setting
+function slot0.SetPreviewHomeSceneSoundEffect(slot0)
+	slot1, slot2 = HomeSceneSettingData:GetPreviewScene()
 
-	if not table.indexof(var_19_2, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
+	if not table.indexof(HomeSceneSettingCfg[slot1].scene_setting, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
 		return
 	end
 
@@ -289,27 +270,22 @@ function var_0_0.SetPreviewHomeSceneSoundEffect(arg_19_0)
 	end
 end
 
-function var_0_0.TryStopSceneSoundEffect(arg_20_0, arg_20_1)
-	local var_20_0 = arg_20_0:GetShouldLoadSceneNameID(arg_20_1)
-	local var_20_1 = HomeSceneSettingCfg[var_20_0]
-
-	if var_20_1 then
-		local var_20_2 = var_20_1.scene_setting
-
-		if not table.indexof(var_20_2, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
-			arg_20_0:StopSceneSoundEffect()
+function slot0.TryStopSceneSoundEffect(slot0, slot1)
+	if HomeSceneSettingCfg[slot0:GetShouldLoadSceneNameID(slot1)] then
+		if not table.indexof(slot3.scene_setting, HomeSceneSettingConst.SETTING.SOUND_EFFECT) then
+			slot0:StopSceneSoundEffect()
 		end
 	else
-		arg_20_0:StopSceneSoundEffect()
+		slot0:StopSceneSoundEffect()
 	end
 end
 
-function var_0_0.StopSceneSoundEffect(arg_21_0)
+function slot0.StopSceneSoundEffect(slot0)
 	manager.audio:PlayEffect("ui_scene", "ui_scene_x201_stop", "")
 end
 
-function var_0_0.Dispose(arg_22_0)
-	arg_22_0.loadScenePool_ = {}
+function slot0.Dispose(slot0)
+	slot0.loadScenePool_ = {}
 end
 
-return var_0_0
+return slot0

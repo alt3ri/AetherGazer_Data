@@ -1,120 +1,100 @@
-local var_0_0 = class("GuildMobilityPostView", ReduxView)
+slot0 = class("GuildMobilityPostView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubMobilityPostPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.memberID_ = arg_4_0.params_.memberID
+function slot0.OnEnter(slot0)
+	slot0.memberID_ = slot0.params_.memberID
 
-	arg_4_0:RefreshPlayerInfo()
+	slot0:RefreshPlayerInfo()
 
-	if GuildData:GetGuildMemberData(arg_4_0.memberID_).post == GuildConst.GUILD_POST.DEPUTY then
-		arg_4_0.mobilityDeputyText_.text = GetTips("ERROR_CLUB_VICE_CHAIRMAN_CANCEL")
+	if GuildData:GetGuildMemberData(slot0.memberID_).post == GuildConst.GUILD_POST.DEPUTY then
+		slot0.mobilityDeputyText_.text = GetTips("ERROR_CLUB_VICE_CHAIRMAN_CANCEL")
 	else
-		arg_4_0.mobilityDeputyText_.text = GetTips("ERROR_CLUB_VICE_CHAIRMAN_APPOINT")
+		slot0.mobilityDeputyText_.text = GetTips("ERROR_CLUB_VICE_CHAIRMAN_APPOINT")
 	end
 end
 
-function var_0_0.RefreshPlayerInfo(arg_5_0)
-	local var_5_0 = GuildData:GetGuildMemberData(arg_5_0.memberID_)
-
-	arg_5_0.nameText_.text = var_5_0.name
-	arg_5_0.headImg_.sprite = ItemTools.getItemSprite(var_5_0.icon)
-	arg_5_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_5_0.frame)
+function slot0.RefreshPlayerInfo(slot0)
+	slot1 = GuildData:GetGuildMemberData(slot0.memberID_)
+	slot0.nameText_.text = slot1.name
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot1.icon)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.frame)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.buttonClose_, nil, function()
-		arg_8_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.buttonMobilityCaptain_, nil, function()
-		local var_10_0 = GuildData:GetGuildMemberData(arg_8_0.memberID_)
-		local var_10_1 = GetTips("CLUB_MOBILITY_CAPTAIN")
-
+	slot0:AddBtnListener(slot0.buttonMobilityCaptain_, nil, function ()
 		ShowMessageBox({
 			isTop = true,
-			content = string.format(var_10_1, var_10_0.name),
-			OkCallback = function()
-				GuildAction.GuildMobilityCaptain(arg_8_0.memberID_, function(arg_12_0)
-					if isSuccess(arg_12_0.result) then
-						-- block empty
-					else
-						ShowTips(arg_12_0.result)
+			content = string.format(GetTips("CLUB_MOBILITY_CAPTAIN"), GuildData:GetGuildMemberData(uv0.memberID_).name),
+			OkCallback = function ()
+				GuildAction.GuildMobilityCaptain(uv0.memberID_, function (slot0)
+					if not isSuccess(slot0.result) then
+						ShowTips(slot0.result)
 					end
 
-					arg_8_0:Go("/guildEntrace/guildMain")
+					uv0:Go("/guildEntrace/guildMain")
 				end)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.buttonMobilityDeputy_, nil, function()
-		if GuildData:GetGuildMemberData(arg_8_0.memberID_).post == GuildConst.GUILD_POST.DEPUTY then
-			local var_14_0 = GuildData:GetGuildMemberData(arg_8_0.memberID_)
-			local var_14_1 = GetTips("CLUB_DISMISS")
-
+	slot0:AddBtnListener(slot0.buttonMobilityDeputy_, nil, function ()
+		if GuildData:GetGuildMemberData(uv0.memberID_).post == GuildConst.GUILD_POST.DEPUTY then
 			ShowMessageBox({
 				isTop = true,
-				content = string.format(var_14_1, var_14_0.name),
-				OkCallback = function()
-					GuildAction.GuildDismiss(arg_8_0.memberID_, function(arg_16_0)
-						if isSuccess(arg_16_0.result) then
-							-- block empty
-						else
-							ShowTips(arg_16_0.result)
+				content = string.format(GetTips("CLUB_DISMISS"), GuildData:GetGuildMemberData(uv0.memberID_).name),
+				OkCallback = function ()
+					GuildAction.GuildDismiss(uv0.memberID_, function (slot0)
+						if not isSuccess(slot0.result) then
+							ShowTips(slot0.result)
 						end
 
-						arg_8_0:Back()
+						uv0:Back()
 					end)
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		else
-			local var_14_2 = GuildData:GetGuildMemberData(arg_8_0.memberID_)
-			local var_14_3 = GetTips("CLUB_MOBILITY_DEPUTY")
-
 			ShowMessageBox({
 				isTop = true,
-				content = string.format(var_14_3, var_14_2.name),
-				OkCallback = function()
-					GuildAction.GuildMobilityDeputy(arg_8_0.memberID_, function(arg_19_0)
-						if isSuccess(arg_19_0.result) then
-							-- block empty
-						else
-							ShowTips(arg_19_0.result)
+				content = string.format(GetTips("CLUB_MOBILITY_DEPUTY"), GuildData:GetGuildMemberData(uv0.memberID_).name),
+				OkCallback = function ()
+					GuildAction.GuildMobilityDeputy(uv0.memberID_, function (slot0)
+						if not isSuccess(slot0.result) then
+							ShowTips(slot0.result)
 						end
 
-						arg_8_0:Back()
+						uv0:Back()
 					end)
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		end
 	end)
 end
 
-return var_0_0
+return slot0

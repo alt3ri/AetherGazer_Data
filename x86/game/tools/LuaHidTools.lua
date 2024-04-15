@@ -1,44 +1,11 @@
-local var_0_0 = {}
-local var_0_1 = P08.Gamepad.HIDInputPage
+slot1 = P08.Gamepad.HIDInputPage
 
-function var_0_0.EnsureHasInputPage(arg_1_0)
-	local var_1_0 = arg_1_0.gameObject_
-
-	if var_1_0 == nil or var_0_1 == nil then
-		return
-	end
-
-	local var_1_1 = typeof(var_0_1)
-
-	if var_1_0:GetComponent(var_1_1) == nil then
-		return var_1_0:AddComponent(var_1_1)
-	end
-end
-
-local function var_0_2(arg_2_0)
-	local var_2_0 = arg_2_0.gameObject_
-
-	if var_2_0 == nil or var_0_1 == nil then
+function slot2(slot0)
+	if slot0.gameObject_ == nil or uv0 == nil then
 		return nil
 	end
 
-	return (var_2_0:GetComponent(typeof(var_0_1)))
-end
-
-function var_0_0.EnterInputPage(arg_3_0)
-	local var_3_0 = var_0_2(arg_3_0)
-
-	if var_3_0 then
-		var_3_0:EnablePageIfNeed()
-	end
-end
-
-function var_0_0.ExitInputPage(arg_4_0)
-	local var_4_0 = var_0_2(arg_4_0)
-
-	if var_4_0 then
-		var_4_0:DisablePageIfNeed()
-	end
+	return slot1:GetComponent(typeof(uv0))
 end
 
 HID_TYPES = {
@@ -48,12 +15,11 @@ HID_TYPES = {
 	Xbox = 2,
 	None = 0
 }
-
-local var_0_3 = {
+slot3 = {
 	[HID_TYPES.Xbox] = "Xbox_",
 	[HID_TYPES.PS4] = "PS_"
 }
-local var_0_4 = {
+slot4 = {
 	KeypadMultiply = "Pad*",
 	KeypadPlus = "Pad+",
 	KeypadMinus = "Pad-",
@@ -92,58 +58,41 @@ local var_0_4 = {
 	Keypad1 = "Pad1"
 }
 
-function GetKeyCodeMappedName(arg_5_0)
-	local var_5_0 = "KEYCODE_" .. string.upper(arg_5_0)
-	local var_5_1 = TipsCfg.get_id_list_by_define[var_5_0]
-
-	if var_5_1 then
-		return GetTips(var_5_1)
-	elseif var_0_4[arg_5_0] then
-		return var_0_4[arg_5_0]
+function GetKeyCodeMappedName(slot0)
+	if TipsCfg.get_id_list_by_define["KEYCODE_" .. string.upper(slot0)] then
+		return GetTips(slot2)
+	elseif uv0[slot0] then
+		return uv0[slot0]
 	end
 
-	return arg_5_0
+	return slot0
 end
 
-local var_0_5 = {}
-local var_0_6
+slot5 = {}
+slot6 = nil
 
-function var_0_0.StopDeviceAddTimer()
-	var_0_6:Stop()
-
-	var_0_6 = nil
-end
-
-function var_0_0.OpenGamepadSelectWin(arg_7_0)
-	if var_0_0.selectWin_ then
-		return
-	end
-
-	var_0_0.selectWin_ = GamepadSelectView.New(arg_7_0)
-end
-
-function OnGamepadDeviceAdded(arg_8_0, arg_8_1)
-	print("OnGamepadDeviceAdded: " .. arg_8_1)
-	table.insert(var_0_5, {
-		arg_8_1,
-		arg_8_0
+function OnGamepadDeviceAdded(slot0, slot1)
+	print("OnGamepadDeviceAdded: " .. slot1)
+	table.insert(uv0, {
+		slot1,
+		slot0
 	})
 
-	if var_0_6 then
+	if uv1 then
 		return
 	end
 
-	var_0_6 = Timer.New(function()
-		if var_0_0.selectWin_ then
+	uv1 = Timer.New(function ()
+		if uv0.selectWin_ then
 			if manager.guide:IsPlaying() then
-				var_0_0.selectWin_:CloseWindow()
+				uv0.selectWin_:CloseWindow()
 			end
 
 			return
 		end
 
-		if #var_0_5 <= 0 then
-			var_0_0.StopDeviceAddTimer()
+		if #uv1 <= 0 then
+			uv0.StopDeviceAddTimer()
 
 			return
 		end
@@ -152,34 +101,32 @@ function OnGamepadDeviceAdded(arg_8_0, arg_8_1)
 			return
 		end
 
-		local var_9_0 = var_0_5[1]
-
 		if manager.managerInit then
-			var_0_0.OpenGamepadSelectWin(var_9_0.gamepadType)
-			table.clean(var_0_5)
+			uv0.OpenGamepadSelectWin(uv1[1].gamepadType)
+			table.clean(uv1)
 		end
 	end, 1, -1)
 
-	var_0_6:Start()
+	uv1:Start()
 end
 
-function OnGamepadDeviceRemoved(arg_10_0, arg_10_1)
-	print("OnGamepadDeviceRemoved: " .. arg_10_1)
+function OnGamepadDeviceRemoved(slot0, slot1)
+	print("OnGamepadDeviceRemoved: " .. slot1)
 
-	local var_10_0
+	slot2 = nil
 
-	for iter_10_0, iter_10_1 in ipairs(var_0_5) do
-		if iter_10_1[1] == arg_10_1 then
-			var_10_0 = iter_10_1
+	for slot6, slot7 in ipairs(uv0) do
+		if slot7[1] == slot1 then
+			slot2 = slot7
 		end
 	end
 
-	if var_10_0 then
-		table.removebyvalue(var_0_5, var_10_0)
+	if slot2 then
+		table.removebyvalue(uv0, slot2)
 	end
 end
 
-local var_0_7 = {
+slot7 = {
 	PageDown = true,
 	End = true,
 	Delete = true,
@@ -202,26 +149,7 @@ local var_0_7 = {
 	Numlock = true,
 	Menu = true
 }
-
-function var_0_0.IsKeyNotAllow(arg_11_0, arg_11_1)
-	if var_0_7[arg_11_1] then
-		return true
-	end
-
-	local var_11_0 = var_0_3[arg_11_0]
-
-	if var_11_0 then
-		local var_11_1 = var_11_0 .. arg_11_1
-
-		if var_0_7[var_11_1] then
-			return true
-		end
-	end
-
-	return false
-end
-
-local var_0_8 = {
+slot8 = {
 	Sys_Confirm = true,
 	Sys_Home = true,
 	Sys_BattlePause = true,
@@ -229,77 +157,106 @@ local var_0_8 = {
 	Special_SwitchCursor = true,
 	Special_JoystickClick = true
 }
+slot9 = "InputRemapNoticeEnableList"
 
-function var_0_0.IsOpNotAllow(arg_12_0, arg_12_1)
-	if var_0_8[arg_12_1] then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.GetOpName(arg_13_0)
-	return GetTips(string.format("INPUT_BUTTON_%s", string.upper(arg_13_0)))
-end
-
-function var_0_0.GetPlayerSelectJoystick()
-	return LuaForGamepad.GetPlayerSelectJoystick()
-end
-
-function var_0_0.SetPlayerSelectJoystick(arg_15_0)
-	LuaForGamepad.SetPlayerSelectJoystick(arg_15_0)
-end
-
-local var_0_9 = "InputRemapNoticeEnableList"
-
-function var_0_0.SetRemapNotice(arg_16_0, arg_16_1)
-	LuaForGamepad.SetNeedRemapNotice(arg_16_0, arg_16_1)
-end
-
-function var_0_0.GetRemapNotice(arg_17_0)
-	return LuaForGamepad.GetNeedRemapNotice(arg_17_0)
-end
-
-function var_0_0.ResetRemapNotice()
-	PlayerPrefs.DeleteKey(var_0_9)
-
-	local var_18_0 = var_0_0.GetRemapNotice(HID_TYPES.None)
-
-	var_0_0.SetRemapNotice(HID_TYPES.None, var_18_0)
-end
-
-function var_0_0.HasSetRemapNotice()
-	if not GameToSDK.IsEditorOrPcPlatform() then
-		return true
-	end
-
-	if PlayerPrefs.HasKey(var_0_9) then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.SetAllRemapNotice(arg_20_0)
-	for iter_20_0, iter_20_1 in pairs(HID_TYPES) do
-		var_0_0.SetRemapNotice(iter_20_1, arg_20_0)
-	end
-end
-
-function var_0_0.QueryRemapNotice()
-	JumpTools.OpenPageByJump("blank")
-	ShowMessageBox({
-		title = GetTips("PROMPT"),
-		content = GetTips("INPUT_REMAP_NOTICE_QUERY"),
-		OkCallback = function()
-			var_0_0.SetAllRemapNotice(true)
-			JumpTools.Back()
-		end,
-		CancelCallback = function()
-			var_0_0.SetAllRemapNotice(false)
-			JumpTools.Back()
+return {
+	EnsureHasInputPage = function (slot0)
+		if slot0.gameObject_ == nil or uv0 == nil then
+			return
 		end
-	})
-end
 
-return var_0_0
+		if slot1:GetComponent(typeof(uv0)) == nil then
+			return slot1:AddComponent(slot2)
+		end
+	end,
+	EnterInputPage = function (slot0)
+		if uv0(slot0) then
+			slot1:EnablePageIfNeed()
+		end
+	end,
+	ExitInputPage = function (slot0)
+		if uv0(slot0) then
+			slot1:DisablePageIfNeed()
+		end
+	end,
+	StopDeviceAddTimer = function ()
+		uv0:Stop()
+
+		uv0 = nil
+	end,
+	OpenGamepadSelectWin = function (slot0)
+		if uv0.selectWin_ then
+			return
+		end
+
+		uv0.selectWin_ = GamepadSelectView.New(slot0)
+	end,
+	IsKeyNotAllow = function (slot0, slot1)
+		if uv0[slot1] then
+			return true
+		end
+
+		if uv1[slot0] and uv0[slot2 .. slot1] then
+			return true
+		end
+
+		return false
+	end,
+	IsOpNotAllow = function (slot0, slot1)
+		if uv0[slot1] then
+			return true
+		end
+
+		return false
+	end,
+	GetOpName = function (slot0)
+		return GetTips(string.format("INPUT_BUTTON_%s", string.upper(slot0)))
+	end,
+	GetPlayerSelectJoystick = function ()
+		return LuaForGamepad.GetPlayerSelectJoystick()
+	end,
+	SetPlayerSelectJoystick = function (slot0)
+		LuaForGamepad.SetPlayerSelectJoystick(slot0)
+	end,
+	SetRemapNotice = function (slot0, slot1)
+		LuaForGamepad.SetNeedRemapNotice(slot0, slot1)
+	end,
+	GetRemapNotice = function (slot0)
+		return LuaForGamepad.GetNeedRemapNotice(slot0)
+	end,
+	ResetRemapNotice = function ()
+		PlayerPrefs.DeleteKey(uv0)
+		uv1.SetRemapNotice(HID_TYPES.None, uv1.GetRemapNotice(HID_TYPES.None))
+	end,
+	HasSetRemapNotice = function ()
+		if not GameToSDK.IsEditorOrPcPlatform() then
+			return true
+		end
+
+		if PlayerPrefs.HasKey(uv0) then
+			return true
+		end
+
+		return false
+	end,
+	SetAllRemapNotice = function (slot0)
+		for slot4, slot5 in pairs(HID_TYPES) do
+			uv0.SetRemapNotice(slot5, slot0)
+		end
+	end,
+	QueryRemapNotice = function ()
+		JumpTools.OpenPageByJump("blank")
+		ShowMessageBox({
+			title = GetTips("PROMPT"),
+			content = GetTips("INPUT_REMAP_NOTICE_QUERY"),
+			OkCallback = function ()
+				uv0.SetAllRemapNotice(true)
+				JumpTools.Back()
+			end,
+			CancelCallback = function ()
+				uv0.SetAllRemapNotice(false)
+				JumpTools.Back()
+			end
+		})
+	end
+}

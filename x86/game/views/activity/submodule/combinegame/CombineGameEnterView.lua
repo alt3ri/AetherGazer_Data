@@ -1,48 +1,44 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("CombineGameEnterView", var_0_0)
+slot1 = class("CombineGameEnterView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaKf/IndiaKfMainUI"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	var_0_1.super.OnEnter(arg_4_0)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	local var_4_0 = ActivityData:GetActivityData(CombineGameData:GetDataByPara("activityId"))
+	slot1 = ActivityData:GetActivityData(CombineGameData:GetDataByPara("activityId"))
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
 
-	arg_4_0.startTime_ = var_4_0.startTime
-	arg_4_0.stopTime_ = var_4_0.stopTime
-
-	arg_4_0:AddTimer()
+	slot0:AddTimer()
 end
 
-function var_0_1.OnExit(arg_5_0)
-	var_0_1.super.OnExit(arg_5_0)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_1.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		JumpTools.GoToSystem("/CombineGameMainView", {})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.descBtn_, nil, function()
-		local var_8_0 = GetTips("COMBINE_GAME_EXPLAIN")
-
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_8_0
+			content = GetTips("COMBINE_GAME_EXPLAIN")
 		})
 	end)
 end
 
-return var_0_1
+return slot1

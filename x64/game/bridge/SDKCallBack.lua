@@ -1,30 +1,29 @@
-local var_0_0 = require("cjson")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4
+slot0 = require("cjson")
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = nil
 
-function OnGameSdkCallback(arg_1_0)
-	local var_1_0 = var_0_0.decode(arg_1_0) or {}
-	local var_1_1 = var_1_0.callbackType
+function OnGameSdkCallback(slot0)
+	slot1 = uv0.decode(slot0) or {}
+	slot2 = slot1.callbackType
 
-	print("OnGameSdkCallback messageType", var_1_1, var_1_0.code)
+	print("OnGameSdkCallback messageType", slot2, slot1.code)
 
-	local var_1_2 = var_0_1[var_1_1]
+	slot3 = uv1[slot2]
+	uv1[slot2] = nil
 
-	var_0_1[var_1_1] = nil
+	if slot2 == "Login" then
+		_G.LOGIN_TYPE = slot1.channelLoginType
 
-	if var_1_1 == "Login" then
-		_G.LOGIN_TYPE = var_1_0.channelLoginType
-
-		if tostring(var_1_0.channelLoginType) == "3" then
+		if tostring(slot1.channelLoginType) == "3" then
 			_G.LOGIN_TYPE = 1
 		else
 			_G.LOGIN_TYPE = 0
 		end
 
-		_G.APP_ID = var_1_0.appId
-		_G.YONGSHI_ID = var_1_0.id
+		_G.APP_ID = slot1.appId
+		_G.YONGSHI_ID = slot1.id
 
 		if Application.identifier == "com.biligamekr.agonestore" then
 			_G.B_SDK_ID = 8266
@@ -36,133 +35,125 @@ function OnGameSdkCallback(arg_1_0)
 			_G.B_SDK_ID = 8264
 		end
 
-		print("Application.identifier", Application.identifier, var_1_0.channelLoginType)
+		print("Application.identifier", Application.identifier, slot1.channelLoginType)
 
-		_G.CHANNEL_UDID = var_1_0.channelUdid
-		_G.CHANNEL_USERID = var_1_0.channelUserId
+		_G.CHANNEL_UDID = slot1.channelUdid
+		_G.CHANNEL_USERID = slot1.channelUserId
 
 		SDKTools.SetPublicAttribute({
-			channel_id = var_1_0.channelId,
-			yongshi_id = var_1_0.id
+			channel_id = slot1.channelId,
+			yongshi_id = slot1.id
 		})
 
-		var_0_4 = var_1_0
+		uv2 = slot1
 		_G.CPUINFO = tostring(UnityEngine.SystemInfo.processorType .. "-" .. tostring(UnityEngine.SystemInfo.processorFrequency) .. "-" .. tostring(UnityEngine.SystemInfo.processorCount))
-		_G.TMP_ACCOUNT_ID = tostring(var_0_4.id)
-
-		local var_1_3 = "Not Reachable"
+		_G.TMP_ACCOUNT_ID = tostring(uv2.id)
+		slot5 = "Not Reachable"
 
 		if Application.internetReachability == UnityEngine.NetworkReachability.ReachableViaLocalAreaNetwork then
-			var_1_3 = "WIFI"
+			slot5 = "WIFI"
 		elseif Application.internetReachability == UnityEngine.NetworkReachability.ReachableViaCarrierDataNetwork then
-			var_1_3 = "4G/5G"
+			slot5 = "4G/5G"
 		end
 
-		_G.NETTYPE = var_1_3
+		_G.NETTYPE = slot5
 
 		SendMessageManagerToSDK("SDKLoginSuccess")
 
-		local var_1_4 = gameContext:GetOpenPageHandler("login")
-
-		if var_1_4 then
-			var_1_4:SetSDKId()
+		if gameContext:GetOpenPageHandler("login") then
+			slot6:SetSDKId()
 		end
-	elseif var_1_1 == "Inited" then
+	elseif slot2 == "Inited" then
 		SDKInited()
-	elseif var_1_1 == "ReLogin" then
+	elseif slot2 == "ReLogin" then
 		SDKTools.SetSignOutAttribute()
 		ReconnectLogic.ReconnectError()
 
-		var_0_4 = nil
+		uv2 = nil
 
 		manager.notify:CallUpdateFunc(LOGIN_SEVER_UPDATE)
-	elseif var_1_1 == "Exit" then
+	elseif slot2 == "Exit" then
 		Quit()
-	elseif var_1_1 == "AntiAddiction" then
-		AntiAddiction(var_1_0)
-	elseif var_1_1 == "ShowQuitConfirm" then
+	elseif slot2 == "AntiAddiction" then
+		AntiAddiction(slot1)
+	elseif slot2 == "ShowQuitConfirm" then
 		ShowQuitConfirm()
-	elseif var_1_1 == "GetBulletin" then
-		GetBulletin(var_1_0)
-	elseif var_1_1 == "DeviceInfoGet" then
-		DeviceInfoGet(var_1_0)
-	elseif var_1_1 == "UpdateInfoGet" then
-		UpdateInfoGet(var_1_0.info1, var_1_0.info2)
-	elseif var_1_1 == "NeedGameUserInfo" then
+	elseif slot2 == "GetBulletin" then
+		GetBulletin(slot1)
+	elseif slot2 == "DeviceInfoGet" then
+		DeviceInfoGet(slot1)
+	elseif slot2 == "UpdateInfoGet" then
+		UpdateInfoGet(slot1.info1, slot1.info2)
+	elseif slot2 == "NeedGameUserInfo" then
 		NeedGameUserInfo()
-	elseif var_1_1 == "ReceivePushNotification" then
-		ReceivePushNotification(var_1_0.message)
-	elseif var_1_1 == "MarketCommentsNoSupport" then
-		MarketCommentsNoSupport(var_1_0)
-	elseif var_1_1 == "ChannelLoginInfoGet" then
-		ChannelLoginInfoGet(var_1_0)
-	elseif var_1_1 == "payResult" then
+	elseif slot2 == "ReceivePushNotification" then
+		ReceivePushNotification(slot1.message)
+	elseif slot2 == "MarketCommentsNoSupport" then
+		MarketCommentsNoSupport(slot1)
+	elseif slot2 == "ChannelLoginInfoGet" then
+		ChannelLoginInfoGet(slot1)
+	elseif slot2 == "payResult" then
 		manager.notify:Invoke(RECHARGE_SDK_SUCCESS)
-	elseif var_1_1 == "payFailed" then
-		local var_1_5 = var_1_0.errorMsg or ""
+	elseif slot2 == "payFailed" then
+		slot4 = slot1.errorMsg or ""
 
-		ShowTips(var_1_5)
-		print(string.format("充值失败， errorMsg = %s", var_1_5))
+		ShowTips(slot4)
+		print(string.format("充值失败， errorMsg = %s", slot4))
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
 			payment_stop = gameContext.routes_[#gameContext.routes_]
 		})
-		manager.notify:Invoke(RECHARGE_FAILED, var_1_5)
-	elseif var_1_1 == "LoginFailed" then
+		manager.notify:Invoke(RECHARGE_FAILED, slot4)
+	elseif slot2 == "LoginFailed" then
 		_G.clickCDing_ = false
 		_G.isLogining = false
+		slot4 = slot1.message or ""
 
-		local var_1_6 = var_1_0.message or ""
+		ShowTips(slot4)
+		print(string.format("Login Failed, messager = %s", slot4))
 
-		ShowTips(var_1_6)
-		print(string.format("Login Failed, messager = %s", var_1_6))
-
-		var_0_4 = nil
+		uv2 = nil
 
 		SendMessageManagerToSDK("SDKLoginFailed")
-	elseif var_1_1 == "CustomerServiceUnreadMsg" then
-		local var_1_7 = var_1_0.num or 0
+	elseif slot2 == "CustomerServiceUnreadMsg" then
+		slot4 = slot1.num or 0
 
-		print(string.format("CustomerServiceUnreadMsg, callbackInfo.num = %s", tostring(var_1_7)))
-		manager.redPoint:setTip(RedPointConst.CUSTOMER_SERVICE_UNREAD, var_1_7 == 0 and 0 or 1)
-	elseif var_1_1 == "iosWillPopupPay" then
+		print(string.format("CustomerServiceUnreadMsg, callbackInfo.num = %s", tostring(slot4)))
+		manager.redPoint:setTip(RedPointConst.CUSTOMER_SERVICE_UNREAD, slot4 == 0 and 0 or 1)
+	elseif slot2 == "iosWillPopupPay" then
 		manager.notify:Invoke(RECHARGE_WILL_POPUP)
-	elseif var_1_1 == "shareCallback" then
-		local var_1_8 = var_1_0.code
+	elseif slot2 == "shareCallback" then
+		slot4 = slot1.code
 
-		manager.notify:Invoke(SHARE_CALLBACK, var_1_8)
+		manager.notify:Invoke(SHARE_CALLBACK, slot4)
 
-		if var_1_8 == 0 then
+		if slot4 == 0 then
 			ShowTips("SHARE_SUCCESS")
-		elseif var_1_8 == 2 then
+		elseif slot4 == 2 then
 			ShowTips("SHARE_CANCEL")
 		else
-			local var_1_9 = GetTips("SHARE_FAIL")
-
-			ShowTips(var_1_9)
+			ShowTips(GetTips("SHARE_FAIL"))
 		end
-	elseif var_1_1 == "GetAgeTipCallback" then
-		local var_1_10 = var_1_0.tip or ""
-
-		if var_1_10 ~= nil and var_1_10 ~= "" then
-			manager.notify:Invoke(AGE_TIP_CALLBACK, var_1_10)
+	elseif slot2 == "GetAgeTipCallback" then
+		if (slot1.tip or "") ~= nil and slot4 ~= "" then
+			manager.notify:Invoke(AGE_TIP_CALLBACK, slot4)
 		end
-	elseif var_1_1 == "getPlatformData" then
-		manager.notify:Invoke(GET_PLATFORM_DATA_CALLBACK, var_1_0)
-	elseif var_1_1 == "SocailDiscordCancelAuth" then
-		manager.notify:Invoke(SOCAIL_DISCORD_CANCEL, var_1_0)
+	elseif slot2 == "getPlatformData" then
+		manager.notify:Invoke(GET_PLATFORM_DATA_CALLBACK, slot1)
+	elseif slot2 == "SocailDiscordCancelAuth" then
+		manager.notify:Invoke(SOCAIL_DISCORD_CANCEL, slot1)
 	end
 
-	if var_1_2 then
-		if var_0_2[var_1_1] then
-			var_0_2[var_1_1](var_1_0)
+	if slot3 then
+		if uv3[slot2] then
+			uv3[slot2](slot1)
 
-			var_0_2[var_1_1] = nil
+			uv3[slot2] = nil
 		end
 
-		if var_0_3 and var_0_3[var_1_1] and #var_0_3[var_1_1] > 0 then
-			local var_1_11 = table.remove(var_0_3[var_1_1], 1)
+		if uv4 and uv4[slot2] and #uv4[slot2] > 0 then
+			slot4 = table.remove(uv4[slot2], 1)
 
-			SendMessageToSDKWithCallBack(var_1_11.sendString, var_1_11.waitTag, var_1_11.callBack)
+			SendMessageToSDKWithCallBack(slot4.sendString, slot4.waitTag, slot4.callBack)
 		end
 	end
 end
@@ -171,95 +162,88 @@ function SDKInited()
 	GameToSDK.IsSDKInited = true
 end
 
-function GetBulletin(arg_3_0)
-	_G.bulletinInfo = arg_3_0
+function GetBulletin(slot0)
+	_G.bulletinInfo = slot0
 	_G.bulletinInfoGetted = true
 end
 
 function GetSDKLoginInfo()
-	return var_0_4
+	return uv0
 end
 
-local var_0_5 = false
+slot5 = false
 
-function EvokeGateWayLogin(arg_5_0)
-	print("EvokeGateWayLogin selectRegionServerId : " .. (arg_5_0 or "null"))
+function EvokeGateWayLogin(slot0)
+	print("EvokeGateWayLogin selectRegionServerId : " .. (slot0 or "null"))
 
-	if var_0_4 and var_0_4.token then
-		if not var_0_5 then
-			var_0_5 = true
+	if uv0 and uv0.token then
+		if not uv1 then
+			uv1 = true
 
-			RegionServerMgr.instance:UpdateRegionServerInfo(_G.TMP_ACCOUNT_ID or "", function(arg_6_0, arg_6_1)
-				var_0_5 = false
+			RegionServerMgr.instance:UpdateRegionServerInfo(_G.TMP_ACCOUNT_ID or "", function (slot0, slot1)
+				uv0 = false
 
 				if _G.isLogining then
 					return
 				end
 
-				local var_6_0 = true
-				local var_6_1 = GetTips("SERVER_MAINTENANCE")
-				local var_6_2 = RegionServerMgr.instance:GetRegionServerInfo(arg_5_0)
+				slot2 = true
+				slot3 = GetTips("SERVER_MAINTENANCE")
+				slot4 = RegionServerMgr.instance:GetRegionServerInfo(uv1)
 
-				if arg_6_0 and not isNil(var_6_2) then
-					GATEWAY_ADDR = var_6_2.ip
-					GATEWAY_PORT = var_6_2.port
+				if slot0 and not isNil(slot4) then
+					GATEWAY_ADDR = slot4.ip
+					GATEWAY_PORT = slot4.port
 
 					print("EvokeGateWayLogin Info " .. GATEWAY_ADDR .. GATEWAY_PORT)
 
-					var_6_0 = var_6_2.maintain
+					slot2 = slot4.maintain
 
-					local var_6_3 = var_6_2.maintainReason
+					if not string.isNullOrEmpty(slot4.maintainReason) then
+						print(string.format("平台下发维护信息 ：%s", slot5))
 
-					if not string.isNullOrEmpty(var_6_3) then
-						print(string.format("平台下发维护信息 ：%s", var_6_3))
+						slot6, slot7 = pcall(uv2.decode, slot5)
 
-						local var_6_4, var_6_5 = pcall(var_0_0.decode, var_6_3)
-
-						if var_6_4 then
-							local var_6_6 = SettingData:GetCurrentLanguage()
-
-							if var_6_6 == "tc" and var_6_5.tw then
-								var_6_1 = var_6_5.tw
-							elseif var_6_6 == "zh_cn" and var_6_5.cn then
-								var_6_1 = var_6_5.cn
-							elseif var_6_5[var_6_6] then
-								var_6_1 = var_6_5[var_6_6]
+						if slot6 then
+							if SettingData:GetCurrentLanguage() == "tc" and slot7.tw then
+								slot3 = slot7.tw
+							elseif slot8 == "zh_cn" and slot7.cn then
+								slot3 = slot7.cn
+							elseif slot7[slot8] then
+								slot3 = slot7[slot8]
 							end
 						else
-							var_6_1 = var_6_3
+							slot3 = slot5
 						end
 					end
 
-					local var_6_7 = gameContext:GetOpenPageHandler("login")
-
-					if var_6_7 then
-						var_6_7:SetSDKId()
+					if gameContext:GetOpenPageHandler("login") then
+						slot6:SetSDKId()
 					end
 				else
 					print("EvokeGateWayLogin UpdateRegionServerInfo fail")
 
-					var_6_0 = true
+					slot2 = true
 				end
 
-				if arg_6_0 then
+				if slot0 then
 					manager.notify:CallUpdateFunc(LOGIN_SEVER_UPDATE)
 				end
 
-				if var_6_0 then
+				if slot2 then
 					print("EvokeGateWayLogin Maintain")
 					ShowMessageBox({
 						ButtonType = "SingleBtn",
 						isTop = true,
-						content = var_6_1,
-						OkCallback = function()
-							return
+						content = slot3,
+						OkCallback = function ()
 						end
 					})
 				else
 					print("唤起网关登录")
-					PlayerPrefs.SetString("RegionServerId", arg_5_0)
-					RegionServerMgr.instance:UpdateClintConfigs(arg_5_0)
-					GateWayLogin(var_0_4)
+					PlayerPrefs.SetString("RegionServerId", uv1)
+					RegionServerMgr.instance:UpdateClintConfigs(uv1)
+					GateWayLogin(uv3)
 				end
 			end)
 		end
@@ -270,147 +254,129 @@ function EvokeGateWayLogin(arg_5_0)
 	end
 end
 
-function GateWayLogin(arg_8_0)
-	SendMessageToSDKWithCallBack("{\"messageType\" : \"GetChannelLoginInfo\"}", "ChannelLoginInfoGet", function()
+function GateWayLogin(slot0)
+	SendMessageToSDKWithCallBack("{\"messageType\" : \"GetChannelLoginInfo\"}", "ChannelLoginInfoGet", function ()
 		print("sdk登录信息返回")
 
 		if _G.ChannelLoginInfo.code == 0 then
-			CheckVersion(function()
-				print(string.format("请求网关登录: id = %s, token = %s, channelId = %s, appId = %s", arg_8_0.id, arg_8_0.token, arg_8_0.channelId, arg_8_0.appId))
-				LoginAction.GateWayLogin(arg_8_0.id, arg_8_0.token, arg_8_0.channelId, arg_8_0.appId)
+			CheckVersion(function ()
+				print(string.format("请求网关登录: id = %s, token = %s, channelId = %s, appId = %s", uv0.id, uv0.token, uv0.channelId, uv0.appId))
+				LoginAction.GateWayLogin(uv0.id, uv0.token, uv0.channelId, uv0.appId)
 			end)
 		end
 	end)
 end
 
-local var_0_6 = false
+slot6 = false
 
 function ShowQuitConfirm()
-	if var_0_6 then
+	if uv0 then
 		return
 	end
 
-	var_0_6 = true
+	uv0 = true
 
 	ShowMessageBox({
 		isTop = true,
 		content = GetTips("TIP_QUIT_GAME"),
-		OkCallback = function()
-			var_0_6 = false
+		OkCallback = function ()
+			uv0 = false
 
 			Quit()
 		end,
-		CancelCallback = function()
-			var_0_6 = false
+		CancelCallback = function ()
+			uv0 = false
 		end,
-		MaskCallback = function()
-			var_0_6 = false
+		MaskCallback = function ()
+			uv0 = false
 		end
 	})
 end
 
-function AntiAddiction(arg_15_0)
-	local var_15_0 = arg_15_0.sdkTip ~= nil and arg_15_0.sdkTip or GetTips("ANTIADDICTION_ONLINE_TIME_LIMIT")
-
+function AntiAddiction(slot0)
 	ShowMessageBox({
 		isTop = true,
 		ButtonType = "SingleBtn",
-		content = var_15_0,
-		OkCallback = function()
+		content = slot0.sdkTip ~= nil and slot0.sdkTip or GetTips("ANTIADDICTION_ONLINE_TIME_LIMIT"),
+		OkCallback = function ()
 			ReconnectLogic.ReconnectError()
 		end,
-		CancelCallback = function()
-			return
+		CancelCallback = function ()
 		end
 	})
 end
 
-function DeviceInfoGet(arg_18_0)
-	_G.deviceInfo = arg_18_0
+function DeviceInfoGet(slot0)
+	_G.deviceInfo = slot0
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0) do
-		print(string.format("deviceInfo.%s = %s", iter_18_0, iter_18_1))
+	for slot4, slot5 in pairs(slot0) do
+		print(string.format("deviceInfo.%s = %s", slot4, slot5))
 	end
 end
 
 function MarketCommentsNoSupport()
-	local var_19_0 = {
+	OperationAction.OpenOperationUrl("OFFICIAL_DISCUSS_URL", {
 		gameAppId = _G.ChannelLoginInfo.channelAppId,
 		token = _G.ChannelLoginInfo.channelToken
-	}
-
-	OperationAction.OpenOperationUrl("OFFICIAL_DISCUSS_URL", var_19_0)
+	})
 end
 
-function ChannelLoginInfoGet(arg_20_0)
-	_G.ChannelLoginInfo = arg_20_0
+function ChannelLoginInfoGet(slot0)
+	_G.ChannelLoginInfo = slot0
 end
 
 function NeedGameUserInfo()
-	local var_21_0 = PlayerData:GetPlayerInfo()
-	local var_21_1 = _G.TMP_ACCOUNT_ID
-	local var_21_2 = var_21_0.nick
-	local var_21_3 = var_21_0.userID
+	slot0 = PlayerData:GetPlayerInfo()
+	slot1 = _G.TMP_ACCOUNT_ID
+	slot2 = slot0.nick
+	slot3 = slot0.userID
 
-	if var_21_0.userID == 1 then
+	if slot0.userID == 1 then
 		return
 	end
 
-	local var_21_4 = BattleChapterStageCfg[BattleInstance.GetCurrentBattleId()].name
-	local var_21_5 = manager.time:STimeDescS(var_21_0.register_timestamp, "!%Y/%m/%d %H:%M")
-	local var_21_6 = var_21_0.userLevel
-	local var_21_7 = TowerData:GetTowerMaxId()
-	local var_21_8 = BattleTowerStageCfg[var_21_7] and BattleTowerStageCfg[var_21_7].name or ""
-	local var_21_9 = tostring(_G.CHANNEL_MASTER_ID)
-	local var_21_10 = tostring(RechargeData:GetTotalRechargeNum())
-	local var_21_11 = "暂无区组"
-	local var_21_12 = tostring(_G.YONGSHI_ID)
-	local var_21_13 = tostring(TowerData:GetTowerMaxId())
-	local var_21_14 = _G.TMP_SERVER_ID
-	local var_21_15 = CurrencyData:GetRechargeDiamond()
-
-	SendMessageToSDK(string.format("{\"messageType\" : \"SendGameUserInfo\", \"accountId\" : \"%s\",\"nickName\" : \"%s\" , \"uId\" : \"%d\", \"maxChapterLevel\" : \"%s\", \"createTime\" : \"%s\", \"userLv\" : \"%d\", \"maxChallengeLv\" : \"%s\", \"channel\" : \"%s\", \"rechargeNum\" : \"%s\", \"region\" : \"%s\", \"mixId\" : \"%s\", \"maxTower\" : \"%s\", \"serverId\" : \"%d\", \"currency\" : \"%d\" }", var_21_1, var_21_2, var_21_3, var_21_4, var_21_5, var_21_6, var_21_8, var_21_9, var_21_10, var_21_11, var_21_12, var_21_13, var_21_14, var_21_15))
+	SendMessageToSDK(string.format("{\"messageType\" : \"SendGameUserInfo\", \"accountId\" : \"%s\",\"nickName\" : \"%s\" , \"uId\" : \"%d\", \"maxChapterLevel\" : \"%s\", \"createTime\" : \"%s\", \"userLv\" : \"%d\", \"maxChallengeLv\" : \"%s\", \"channel\" : \"%s\", \"rechargeNum\" : \"%s\", \"region\" : \"%s\", \"mixId\" : \"%s\", \"maxTower\" : \"%s\", \"serverId\" : \"%d\", \"currency\" : \"%d\" }", slot1, slot2, slot3, BattleChapterStageCfg[BattleInstance.GetCurrentBattleId()].name, manager.time:STimeDescS(slot0.register_timestamp, "!%Y/%m/%d %H:%M"), slot0.userLevel, BattleTowerStageCfg[TowerData:GetTowerMaxId()] and BattleTowerStageCfg[slot7].name or "", tostring(_G.CHANNEL_MASTER_ID), tostring(RechargeData:GetTotalRechargeNum()), "暂无区组", tostring(_G.YONGSHI_ID), tostring(TowerData:GetTowerMaxId()), _G.TMP_SERVER_ID, CurrencyData:GetRechargeDiamond()))
 	GameToSDK.UpUserInfo(PlayerTools.PackUserData("UpdateData"))
 end
 
-function ReceivePushNotification(arg_22_0)
-	ShowTips(arg_22_0)
+function ReceivePushNotification(slot0)
+	ShowTips(slot0)
 end
 
-function SendMessageToSDK(arg_23_0)
-	GameToSDK.SendMessage(arg_23_0)
+function SendMessageToSDK(slot0)
+	GameToSDK.SendMessage(slot0)
 end
 
-function SendMessageToSDKWithCallBack(arg_24_0, arg_24_1, arg_24_2)
-	if var_0_1[arg_24_1] then
-		if var_0_3[arg_24_1] == nil then
-			var_0_3[arg_24_1] = {}
+function SendMessageToSDKWithCallBack(slot0, slot1, slot2)
+	if uv0[slot1] then
+		if uv1[slot1] == nil then
+			uv1[slot1] = {}
 		end
 
-		table.insert(var_0_3[arg_24_1], {
-			sendString = arg_24_0,
-			waitTag = arg_24_1,
-			callBack = arg_24_2
+		table.insert(uv1[slot1], {
+			sendString = slot0,
+			waitTag = slot1,
+			callBack = slot2
 		})
 
 		return
 	end
 
-	print("SendMessageToSDKWithCallBack", arg_24_0, arg_24_1)
-	GameToSDK.SendMessage(arg_24_0)
+	print("SendMessageToSDKWithCallBack", slot0, slot1)
+	GameToSDK.SendMessage(slot0)
 
 	if GameToSDK.CURRENT_SDK_ID == SDK_PLATFORM.DEV then
-		arg_24_2()
+		slot2()
 
 		return
 	end
 
-	var_0_1[arg_24_1] = true
-	var_0_2[arg_24_1] = arg_24_2
+	uv0[slot1] = true
+	uv2[slot1] = slot2
 end
 
-function ReceiveSavePhotoMessage(arg_25_0, arg_25_1)
-	if arg_25_0 then
+function ReceiveSavePhotoMessage(slot0, slot1)
+	if slot0 then
 		ShowTips("SAVE_PHOTO_SUCCESS")
 	else
 		ShowTips("SAVE_PHOTO_FAIL")

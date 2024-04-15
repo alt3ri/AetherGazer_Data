@@ -1,19 +1,18 @@
-local var_0_0 = import("game.views.polyhedron.polyhedronBattle.PolyhedronInteractiveView")
-local var_0_1 = class("PolyhedronInteractiveShopView", var_0_0)
+slot1 = class("PolyhedronInteractiveShopView", import("game.views.polyhedron.polyhedronBattle.PolyhedronInteractiveView"))
 
-function var_0_1.AddUIListener(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.m_btn, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
 		JumpTools.OpenPageByJump("polyhedronBattle/polyhedronShop")
 		LuaForCursor.SwitchCursor(true)
 	end)
 end
 
-function var_0_1.RefreshUI(arg_3_0)
-	arg_3_0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_SHOP_DES")
-	arg_3_0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_SHOP_TITLE")
+function slot1.RefreshUI(slot0)
+	slot0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_SHOP_DES")
+	slot0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_SHOP_TITLE")
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.m_desTrs)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.m_contentTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_desTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_contentTrs)
 end
 
-return var_0_1
+return slot1

@@ -1,151 +1,145 @@
-local var_0_0 = class("PuzzleMainView", ReduxView)
+slot0 = class("PuzzleMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIUI/Puzzle/VolumePuzzleMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.onSenceLoadedHandler_ = handler(arg_3_0, arg_3_0.OnPuzzleSceneLoaded)
-	arg_3_0.puzzleGameEnterHandler_ = handler(arg_3_0, arg_3_0.OnPuzzleGameEnter)
-	arg_3_0.puzzleGameExitHandler_ = handler(arg_3_0, arg_3_0.OnPuzzleGameExit)
-	arg_3_0.puzzleAnimStartHandler_ = handler(arg_3_0, arg_3_0.OnAnimStart)
-	arg_3_0.puzzleAnimEndHandler_ = handler(arg_3_0, arg_3_0.OnAnimEnd)
-	arg_3_0.clickSwitchItemHandler_ = handler(arg_3_0, arg_3_0.OnClickSwitchItem)
+function slot0.Init(slot0)
+	slot0.onSenceLoadedHandler_ = handler(slot0, slot0.OnPuzzleSceneLoaded)
+	slot0.puzzleGameEnterHandler_ = handler(slot0, slot0.OnPuzzleGameEnter)
+	slot0.puzzleGameExitHandler_ = handler(slot0, slot0.OnPuzzleGameExit)
+	slot0.puzzleAnimStartHandler_ = handler(slot0, slot0.OnAnimStart)
+	slot0.puzzleAnimEndHandler_ = handler(slot0, slot0.OnAnimEnd)
+	slot0.clickSwitchItemHandler_ = handler(slot0, slot0.OnClickSwitchItem)
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.gameStartController_ = ControllerUtil.GetController(arg_3_0.transform_, "gameStart")
-	arg_3_0.switchItemList_ = {}
+	slot0.gameStartController_ = ControllerUtil.GetController(slot0.transform_, "gameStart")
+	slot0.switchItemList_ = {}
+	slot2 = nil
 
-	local var_3_0 = arg_3_0.contentTrans_.childCount
-	local var_3_1
-
-	for iter_3_0 = 1, var_3_0 do
-		local var_3_2 = arg_3_0.contentTrans_:GetChild(iter_3_0 - 1).gameObject
-
-		arg_3_0.switchItemList_[iter_3_0] = PuzzleSelectItem.New(var_3_2)
+	for slot6 = 1, slot0.contentTrans_.childCount do
+		slot0.switchItemList_[slot6] = PuzzleSelectItem.New(slot0.contentTrans_:GetChild(slot6 - 1).gameObject)
 	end
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.OnEnter(arg_6_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
 	manager.windowBar:SetGameHelpKey("ACTIVITY_PUZZLE_DESCRIPE")
-	manager.notify:RegistListener(PUZZLE_GAME_ENTER, arg_6_0.puzzleGameEnterHandler_)
-	manager.notify:RegistListener(PUZZLE_GAME_EXIT, arg_6_0.puzzleGameExitHandler_)
-	manager.notify:RegistListener(PUZZLE_GAME_ANIM_START, arg_6_0.puzzleAnimStartHandler_)
-	manager.notify:RegistListener(PUZZLE_GAME_ANIM_END, arg_6_0.puzzleAnimEndHandler_)
-	arg_6_0.gameStartController_:SetSelectedState("false")
-	arg_6_0:LoadPuzzleScene()
+	manager.notify:RegistListener(PUZZLE_GAME_ENTER, slot0.puzzleGameEnterHandler_)
+	manager.notify:RegistListener(PUZZLE_GAME_EXIT, slot0.puzzleGameExitHandler_)
+	manager.notify:RegistListener(PUZZLE_GAME_ANIM_START, slot0.puzzleAnimStartHandler_)
+	manager.notify:RegistListener(PUZZLE_GAME_ANIM_END, slot0.puzzleAnimEndHandler_)
+	slot0.gameStartController_:SetSelectedState("false")
+	slot0:LoadPuzzleScene()
 
-	arg_6_0.activityID_ = arg_6_0.params_.activityID
-	arg_6_0.stopTime_ = ActivityData:GetActivityData(arg_6_0.activityID_).stopTime
-
-	local var_6_0 = arg_6_0.contentTrans_.localPosition
-
-	var_6_0.x = PuzzleData:GetLastContentPosX(arg_6_0.activityID_) or var_6_0.x
-	arg_6_0.contentTrans_.localPosition = var_6_0
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
+	slot2 = slot0.contentTrans_.localPosition
+	slot2.x = PuzzleData:GetLastContentPosX(slot0.activityID_) or slot2.x
+	slot0.contentTrans_.localPosition = slot2
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0.playingAnimCount_ = 0
+function slot0.OnTop(slot0)
+	slot0.playingAnimCount_ = 0
 
-	arg_7_0:RefreshUI()
-	arg_7_0:AddTimer()
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_8_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(PUZZLE_GAME_ENTER, arg_8_0.puzzleGameEnterHandler_)
-	manager.notify:RemoveListener(PUZZLE_GAME_EXIT, arg_8_0.puzzleGameExitHandler_)
-	manager.notify:RemoveListener(PUZZLE_GAME_ANIM_START, arg_8_0.puzzleAnimStartHandler_)
-	manager.notify:RemoveListener(PUZZLE_GAME_ANIM_END, arg_8_0.puzzleAnimEndHandler_)
+	manager.notify:RemoveListener(PUZZLE_GAME_ENTER, slot0.puzzleGameEnterHandler_)
+	manager.notify:RemoveListener(PUZZLE_GAME_EXIT, slot0.puzzleGameExitHandler_)
+	manager.notify:RemoveListener(PUZZLE_GAME_ANIM_START, slot0.puzzleAnimStartHandler_)
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.switchItemList_) do
-		iter_8_1:OnExit()
+	slot4 = PUZZLE_GAME_ANIM_END
+	slot5 = slot0.puzzleAnimEndHandler_
+
+	manager.notify:RemoveListener(slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.switchItemList_) do
+		slot5:OnExit()
 	end
 
-	arg_8_0:UnLoadPuzzleScene()
-	arg_8_0:StopTimer()
-	PuzzleData:SetLastContentPosX(arg_8_0.activityID_, arg_8_0.contentTrans_.localPosition.x)
+	slot0:UnLoadPuzzleScene()
+	slot0:StopTimer()
+	PuzzleData:SetLastContentPosX(slot0.activityID_, slot0.contentTrans_.localPosition.x)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.onSenceLoadedHandler_ = nil
-	arg_9_0.puzzleGameEnterHandler_ = nil
-	arg_9_0.puzzleGameExitHandler_ = nil
-	arg_9_0.puzzleAnimStartHandler_ = nil
-	arg_9_0.puzzleAnimEndHandler_ = nil
-	arg_9_0.clickSwitchItemHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.onSenceLoadedHandler_ = nil
+	slot0.puzzleGameEnterHandler_ = nil
+	slot0.puzzleGameExitHandler_ = nil
+	slot0.puzzleAnimStartHandler_ = nil
+	slot0.puzzleAnimEndHandler_ = nil
+	slot0.clickSwitchItemHandler_ = nil
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.switchItemList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.switchItemList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnPuzzleGameEnter(arg_10_0)
-	arg_10_0.startAnim_:Play("VolumePuzzleMain_exit", -1, 0)
-	arg_10_0:StopTimer()
+function slot0.OnPuzzleGameEnter(slot0)
+	slot0.startAnim_:Play("VolumePuzzleMain_exit", -1, 0)
+	slot0:StopTimer()
 end
 
-function var_0_0.OnPuzzleGameExit(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.switchItemList_) do
-		iter_11_1:Reset()
+function slot0.OnPuzzleGameExit(slot0)
+	for slot4, slot5 in ipairs(slot0.switchItemList_) do
+		slot5:Reset()
 	end
 
-	arg_11_0.gameStartController_:SetSelectedState("false")
-	arg_11_0.startAnim_:Play("VolumePuzzleMain_recover", -1, 0)
+	slot0.gameStartController_:SetSelectedState("false")
+	slot0.startAnim_:Play("VolumePuzzleMain_recover", -1, 0)
 	PuzzleTool:RecoverBg()
 end
 
-function var_0_0.OnAnimStart(arg_12_0)
-	arg_12_0.playingAnimCount_ = arg_12_0.playingAnimCount_ + 1
+function slot0.OnAnimStart(slot0)
+	slot0.playingAnimCount_ = slot0.playingAnimCount_ + 1
 
-	SetActive(arg_12_0.fullMask_, true)
+	SetActive(slot0.fullMask_, true)
 end
 
-function var_0_0.OnAnimEnd(arg_13_0)
+function slot0.OnAnimEnd(slot0)
 	PuzzleTool:SetPuzzleGo(true)
+	PuzzleTool:RefreshPuzzlePanel(PuzzleData:IsCompleted(slot0.selectActivityID_))
 
-	local var_13_0 = PuzzleData:IsCompleted(arg_13_0.selectActivityID_)
+	slot0.playingAnimCount_ = slot0.playingAnimCount_ - 1
 
-	PuzzleTool:RefreshPuzzlePanel(var_13_0)
-
-	arg_13_0.playingAnimCount_ = arg_13_0.playingAnimCount_ - 1
-
-	if arg_13_0.playingAnimCount_ == 0 then
-		arg_13_0.gameStartController_:SetSelectedState("true")
-		SetActive(arg_13_0.fullMask_, false)
+	if slot0.playingAnimCount_ == 0 then
+		slot0.gameStartController_:SetSelectedState("true")
+		SetActive(slot0.fullMask_, false)
 	end
 end
 
-function var_0_0.LoadPuzzleScene(arg_14_0)
+function slot0.LoadPuzzleScene(slot0)
 	manager.ui:SetMainCamera("puzzle")
 
 	manager.ui.mainCameraCom_.orthographic = true
 
-	PuzzleTool:LoadPuzzleLevel(arg_14_0.onSenceLoadedHandler_)
+	PuzzleTool:LoadPuzzleLevel(slot0.onSenceLoadedHandler_)
 end
 
-function var_0_0.UnLoadPuzzleScene(arg_15_0)
+function slot0.UnLoadPuzzleScene(slot0)
 	manager.ui:ResetMainCamera()
 
 	manager.ui.mainCameraCom_.orthographic = false
@@ -153,71 +147,70 @@ function var_0_0.UnLoadPuzzleScene(arg_15_0)
 	PuzzleTool:UnLoadPuzzleLevel()
 end
 
-function var_0_0.RefreshUI(arg_16_0)
-	arg_16_0.subActivityList_ = ActivityCfg[arg_16_0.activityID_].sub_activity_list
+function slot0.RefreshUI(slot0)
+	slot0.subActivityList_ = ActivityCfg[slot0.activityID_].sub_activity_list
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.switchItemList_) do
-		iter_16_1:SetData(arg_16_0.activityID_, arg_16_0.subActivityList_[iter_16_0], iter_16_0)
-		iter_16_1:SetClickCallBack(arg_16_0.clickSwitchItemHandler_)
-		iter_16_1:Reset()
+	for slot4, slot5 in ipairs(slot0.switchItemList_) do
+		slot5:SetData(slot0.activityID_, slot0.subActivityList_[slot4], slot4)
+		slot5:SetClickCallBack(slot0.clickSwitchItemHandler_)
+		slot5:Reset()
 	end
 
-	arg_16_0:RefreshDesc()
-	SetActive(arg_16_0.fullMask_, false)
+	slot0:RefreshDesc()
+	SetActive(slot0.fullMask_, false)
 end
 
-function var_0_0.RefreshDesc(arg_17_0)
-	arg_17_0.descText_.text = GetTips("ACTIVITY_PUZZLE_CONTENT")
+function slot0.RefreshDesc(slot0)
+	slot0.descText_.text = GetTips("ACTIVITY_PUZZLE_CONTENT")
 end
 
-function var_0_0.AddTimer(arg_18_0)
-	if manager.time:GetServerTime() >= arg_18_0.stopTime_ then
-		arg_18_0.remainTimeText_.text = GetTips("TIME_OVER")
+function slot0.AddTimer(slot0)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
+		slot0.remainTimeText_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	arg_18_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_18_0.stopTime_)
+	slot0.remainTimeText_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
 
-	arg_18_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_18_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_18_0.stopTime_ then
-			arg_18_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
-			arg_18_0.remainTimeText_.text = GetTips("TIME_OVER")
+			uv0.remainTimeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		for iter_19_0, iter_19_1 in ipairs(arg_18_0.switchItemList_) do
-			iter_19_1:RefreshLock()
+		for slot3, slot4 in ipairs(uv0.switchItemList_) do
+			slot4:RefreshLock()
 		end
 
-		arg_18_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_18_0.stopTime_)
+		uv0.remainTimeText_.text = manager.time:GetLostTimeStr(uv0.stopTime_)
 	end, 1, -1)
 
-	arg_18_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_20_0)
-	if arg_20_0.timer_ then
-		arg_20_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_20_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnPuzzleSceneLoaded(arg_21_0)
-	return
+function slot0.OnPuzzleSceneLoaded(slot0)
 end
 
-function var_0_0.OnClickSwitchItem(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_0.selectActivityID_ = arg_22_2
+function slot0.OnClickSwitchItem(slot0, slot1, slot2)
+	slot0.selectActivityID_ = slot2
 
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.switchItemList_) do
-		iter_22_1:OnClickItem(arg_22_1)
+	for slot6, slot7 in ipairs(slot0.switchItemList_) do
+		slot7:OnClickItem(slot1)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,57 +1,55 @@
-local var_0_0 = singletonClass("SpringFestivalGreetingData")
+slot0 = singletonClass("SpringFestivalGreetingData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.greetingList_ = {}
+function slot0.Init(slot0)
+	slot0.greetingList_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.progress
-	local var_2_1 = #arg_2_1.admiited_reward
-	local var_2_2 = ActivitySpringFestivalGreetingCfg.get_id_list_by_activity_id[arg_2_1.activity_id]
+function slot0.InitData(slot0, slot1)
+	slot3 = #slot1.admiited_reward
 
-	if var_2_0 > #var_2_2 then
-		var_2_0 = #var_2_2
+	if slot1.progress > #ActivitySpringFestivalGreetingCfg.get_id_list_by_activity_id[slot1.activity_id] then
+		slot2 = #slot4
 	end
 
-	arg_2_0.greetingList_[arg_2_1.activity_id] = {
-		unlockCnt = var_2_0,
-		receiveCnt = var_2_1
+	slot0.greetingList_[slot1.activity_id] = {
+		unlockCnt = slot2,
+		receiveCnt = slot3
 	}
 
-	if var_2_1 < var_2_0 then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, arg_2_1.activity_id), 1)
+	if slot3 < slot2 then
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, slot1.activity_id), 1)
 	end
 
 	manager.notify:Invoke(SPRING_FESTIVAL_GREETING_UPDATE)
 end
 
-function var_0_0.GetUnlockCnt(arg_3_0, arg_3_1)
-	if arg_3_0.greetingList_[arg_3_1] == nil then
-		arg_3_0:CreateData(arg_3_1)
+function slot0.GetUnlockCnt(slot0, slot1)
+	if slot0.greetingList_[slot1] == nil then
+		slot0:CreateData(slot1)
 	end
 
-	return arg_3_0.greetingList_[arg_3_1].unlockCnt
+	return slot0.greetingList_[slot1].unlockCnt
 end
 
-function var_0_0.GetReceiveCnt(arg_4_0, arg_4_1)
-	if arg_4_0.greetingList_[arg_4_1] == nil then
-		arg_4_0:CreateData(arg_4_1)
+function slot0.GetReceiveCnt(slot0, slot1)
+	if slot0.greetingList_[slot1] == nil then
+		slot0:CreateData(slot1)
 	end
 
-	return arg_4_0.greetingList_[arg_4_1].receiveCnt
+	return slot0.greetingList_[slot1].receiveCnt
 end
 
-function var_0_0.CreateData(arg_5_0, arg_5_1)
-	arg_5_0.greetingList_[arg_5_1] = {
+function slot0.CreateData(slot0, slot1)
+	slot0.greetingList_[slot1] = {
 		receiveCnt = 0,
 		unlockCnt = 1
 	}
 end
 
-function var_0_0.ReceiveReward(arg_6_0, arg_6_1)
-	arg_6_0.greetingList_[arg_6_1].receiveCnt = arg_6_0.greetingList_[arg_6_1].receiveCnt + 1
+function slot0.ReceiveReward(slot0, slot1)
+	slot0.greetingList_[slot1].receiveCnt = slot0.greetingList_[slot1].receiveCnt + 1
 
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, arg_6_1), 0)
+	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, slot1), 0)
 end
 
-return var_0_0
+return slot0

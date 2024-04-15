@@ -1,87 +1,85 @@
-local var_0_0 = class("ActivityReforgeLevelViewItem", ReduxView)
+slot0 = class("ActivityReforgeLevelViewItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.clickHandler_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.clickHandler_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.levelController_ = arg_3_0.controllerEx_:GetController("Level")
-	arg_3_0.isPassController_ = arg_3_0.controllerEx_:GetController("ispass")
-	arg_3_0.isBattlingController_ = arg_3_0.controllerEx_:GetController("isbattling")
-	arg_3_0.isSelectController_ = arg_3_0.controllerEx_:GetController("isselect")
-	arg_3_0.isLast_ = false
+	slot0.levelController_ = slot0.controllerEx_:GetController("Level")
+	slot0.isPassController_ = slot0.controllerEx_:GetController("ispass")
+	slot0.isBattlingController_ = slot0.controllerEx_:GetController("isbattling")
+	slot0.isSelectController_ = slot0.controllerEx_:GetController("isselect")
+	slot0.isLast_ = false
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickHandler_ then
-			arg_4_0.clickHandler_(arg_4_0.index_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandler_ then
+			uv0.clickHandler_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.index_ = arg_6_1
-	arg_6_0.chapterActivityID_ = arg_6_2
-	arg_6_0.levelID_ = arg_6_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.chapterActivityID_ = slot2
+	slot0.levelID_ = slot3
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.cfg_ = ActivityReforgeLevelCfg[arg_7_0.levelID_]
+function slot0.RefreshUI(slot0)
+	slot0.cfg_ = ActivityReforgeLevelCfg[slot0.levelID_]
 
-	arg_7_0.levelController_:SetSelectedState(arg_7_0.index_)
+	slot0.levelController_:SetSelectedState(slot0.index_)
 
-	if arg_7_0.levelID_ == ActivityReforgeData:GetCurLevel() then
-		local var_7_0 = ActivityReforgeData:GetCurLastWinWaveID()
-		local var_7_1 = ActivityReforgeLevelCfg[arg_7_0.levelID_].wave_list
+	if slot0.levelID_ == ActivityReforgeData:GetCurLevel() then
+		slot2 = ActivityReforgeLevelCfg[slot0.levelID_].wave_list
+		slot0.isLast_ = slot2[#slot2] == ActivityReforgeData:GetCurLastWinWaveID()
 
-		arg_7_0.isLast_ = var_7_1[#var_7_1] == var_7_0
-
-		if arg_7_0.isLast_ then
-			arg_7_0.curWaveNum_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE"), ActivityReforgeData:GetCurLevelFinishWave())
+		if slot0.isLast_ then
+			slot0.curWaveNum_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE"), ActivityReforgeData:GetCurLevelFinishWave())
 		else
-			arg_7_0.curWaveNum_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE"), ActivityReforgeData:GetCurLevelFinishWave() + 1)
+			slot0.curWaveNum_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE"), ActivityReforgeData:GetCurLevelFinishWave() + 1)
 		end
 
-		arg_7_0.isBattlingController_:SetSelectedState("true")
+		slot0.isBattlingController_:SetSelectedState("true")
 	else
-		arg_7_0.isBattlingController_:SetSelectedState("false")
+		slot0.isBattlingController_:SetSelectedState("false")
 	end
 
-	if ActivityReforgeData:GetLevelIsFinish(arg_7_0.chapterActivityID_, arg_7_0.levelID_) then
-		arg_7_0.isPassController_:SetSelectedState("true")
+	if ActivityReforgeData:GetLevelIsFinish(slot0.chapterActivityID_, slot0.levelID_) then
+		slot0.isPassController_:SetSelectedState("true")
 	else
-		arg_7_0.isPassController_:SetSelectedState("false")
-	end
-end
-
-function var_0_0.RefreshSelect(arg_8_0, arg_8_1)
-	if arg_8_0.index_ == arg_8_1 then
-		arg_8_0.isSelectController_:SetSelectedState("true")
-	else
-		arg_8_0.isSelectController_:SetSelectedState("false")
+		slot0.isPassController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.SetActive(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.RefreshSelect(slot0, slot1)
+	if slot0.index_ == slot1 then
+		slot0.isSelectController_:SetSelectedState("true")
+	else
+		slot0.isSelectController_:SetSelectedState("false")
+	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.super.Dispose(arg_10_0)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+function slot0.Dispose(slot0)
+	slot0.super.Dispose(slot0)
+end
+
+return slot0

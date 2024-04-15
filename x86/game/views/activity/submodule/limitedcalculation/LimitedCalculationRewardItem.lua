@@ -1,94 +1,91 @@
-local var_0_0 = class("LimitedCalculationRewardItem", ReduxView)
+slot0 = class("LimitedCalculationRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.stateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.rewardItems_ = {}
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
 		ActivityAction.ReceivePointReward({
-			arg_4_0.id_
+			uv0.id_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.info_ = arg_7_1
-	arg_7_0.activityID_ = arg_7_2
-	arg_7_0.id_ = arg_7_1.id
-	arg_7_0.cfg_ = ActivityPointRewardCfg[arg_7_0.id_]
-	arg_7_0.score_ = LimitedCalculationData:GetScore(arg_7_0.activityID_)
-	arg_7_0.need_.text = string.format(GetTips("ACTIVITY_LIMIT_CALCULATION_POINT_REACHED"), arg_7_0.cfg_.need)
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.info_ = slot1
+	slot0.activityID_ = slot2
+	slot0.id_ = slot1.id
+	slot0.cfg_ = ActivityPointRewardCfg[slot0.id_]
+	slot0.score_ = LimitedCalculationData:GetScore(slot0.activityID_)
+	slot0.need_.text = string.format(GetTips("ACTIVITY_LIMIT_CALCULATION_POINT_REACHED"), slot0.cfg_.need)
 
-	arg_7_0:RefreshReward()
-	arg_7_0:RefreshState()
+	slot0:RefreshReward()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshReward(arg_8_0)
-	local var_8_0 = arg_8_0.cfg_.reward_item_list
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(slot0.cfg_.reward_item_list) do
+		if slot0.rewardItems_[slot5] == nil then
+			slot0.rewardItems_[slot5] = RewardItem.New(slot0.rewardTemplate_, slot0.rewardParent_, true)
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if arg_8_0.rewardItems_[iter_8_0] == nil then
-			arg_8_0.rewardItems_[iter_8_0] = RewardItem.New(arg_8_0.rewardTemplate_, arg_8_0.rewardParent_, true)
-
-			arg_8_0.rewardItems_[iter_8_0]:UpdateCommonItemAni()
+			slot0.rewardItems_[slot5]:UpdateCommonItemAni()
 		end
 
-		arg_8_0.rewardItems_[iter_8_0]:SetData(iter_8_1)
+		slot0.rewardItems_[slot5]:SetData(slot6)
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.rewardItems_ do
-		arg_8_0.rewardItems_[iter_8_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.RefreshState(arg_9_0)
-	if arg_9_0.info_.complete_flag == ActivityConst.LIMITED_CALCULATION_REWARD_STATE.UNFINISHED then
-		if arg_9_0.cfg_.need <= arg_9_0.score_ then
-			arg_9_0.stateCon_:SetSelectedState("success")
+function slot0.RefreshState(slot0)
+	if slot0.info_.complete_flag == ActivityConst.LIMITED_CALCULATION_REWARD_STATE.UNFINISHED then
+		if slot0.cfg_.need <= slot0.score_ then
+			slot0.stateCon_:SetSelectedState("success")
 		else
-			arg_9_0.stateCon_:SetSelectedState("unfinished")
+			slot0.stateCon_:SetSelectedState("unfinished")
 		end
 	else
-		arg_9_0.stateCon_:SetSelectedState("rewarded")
+		slot0.stateCon_:SetSelectedState("rewarded")
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	for iter_10_0 = #arg_10_0.rewardItems_, 1, -1 do
-		arg_10_0.rewardItems_[iter_10_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4 = #slot0.rewardItems_, 1, -1 do
+		slot0.rewardItems_[slot4]:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_11_0 = #arg_11_0.rewardItems_, 1, -1 do
-		arg_11_0.rewardItems_[iter_11_0]:Dispose()
+	for slot4 = #slot0.rewardItems_, 1, -1 do
+		slot0.rewardItems_[slot4]:Dispose()
 
-		arg_11_0.rewardItems_[iter_11_0] = nil
+		slot0.rewardItems_[slot4] = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

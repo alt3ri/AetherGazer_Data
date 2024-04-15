@@ -1,64 +1,56 @@
-local var_0_0 = class("ChessChooseItem", ReduxView)
+slot0 = class("ChessChooseItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_1.transform.parent.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot1.transform.parent.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.index_ = arg_4_1
-
-	local var_4_0 = WarchessItemCfg[arg_4_2].params[1][1]
-	local var_4_1 = WarchessItemCfg[arg_4_2].params[1][2]
-	local var_4_2 = AffixTypeCfg[var_4_0].description[1]
-	local var_4_3 = GetCfgDescription(var_4_2, var_4_1)
-
-	arg_4_0.textinfoText_.text = var_4_3
-	arg_4_0.textnameText_.text = GetI18NText(WarchessItemCfg[arg_4_2].name)
-	arg_4_0.iconitemImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[arg_4_2].icon)
-
-	local var_4_4 = WarchessItemCfg[arg_4_2].item_rare
-
-	arg_4_0.itemrareImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "board_warcheese_sq_" .. var_4_4)
-	arg_4_0.rarebgImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "bg_bfi_top_" .. var_4_4)
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.textinfoText_.text = GetCfgDescription(AffixTypeCfg[WarchessItemCfg[slot2].params[1][1]].description[1], WarchessItemCfg[slot2].params[1][2])
+	slot0.textnameText_.text = GetI18NText(WarchessItemCfg[slot2].name)
+	slot0.iconitemImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[slot2].icon)
+	slot7 = WarchessItemCfg[slot2].item_rare
+	slot0.itemrareImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "board_warcheese_sq_" .. slot7)
+	slot0.rarebgImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "bg_bfi_top_" .. slot7)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddToggleListener(arg_5_0.selecttglTgl_, function(arg_6_0)
-		arg_5_0.func(arg_6_0, arg_5_0.index_)
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.selecttglTgl_, function (slot0)
+		uv0.func(slot0, uv0.index_)
 		OperationRecorder.Record("chess", "select_artifact")
 	end)
 end
 
-function var_0_0.RegisterListener(arg_7_0, arg_7_1)
-	arg_7_0.func = arg_7_1
+function slot0.RegisterListener(slot0, slot1)
+	slot0.func = slot1
 end
 
-function var_0_0.ResetToggle(arg_8_0)
-	arg_8_0.selecttglTgl_.isOn = false
+function slot0.ResetToggle(slot0)
+	slot0.selecttglTgl_.isOn = false
 end
 
-function var_0_0.SetSelectState(arg_9_0, arg_9_1)
-	arg_9_0.controller_:SetSelectedState(arg_9_1 and 1 or 3)
+function slot0.SetSelectState(slot0, slot1)
+	slot0.controller_:SetSelectedState(slot1 and 1 or 3)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	Object.Destroy(arg_10_0.gameObject_)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,95 +1,79 @@
-local var_0_0 = {}
-
-manager.net:Bind(64061, function(arg_1_0)
-	SpringFestivalRiddleData:InitData(arg_1_0)
-	var_0_0.InitRedPoint(arg_1_0.activity_id)
+manager.net:Bind(64061, function (slot0)
+	SpringFestivalRiddleData:InitData(slot0)
+	uv0.InitRedPoint(slot0.activity_id)
 end)
 
-function var_0_0.ChoiceAnswer(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	manager.net:SendWithLoadingNew(64062, {
-		activity_id = arg_2_0,
-		quiz_id = arg_2_1,
-		answer = arg_2_2
-	}, 64063, function(arg_3_0)
-		if isSuccess(arg_3_0.result) then
-			-- block empty
-		end
+slot1 = nil
 
-		arg_2_3(arg_3_0)
-	end)
-end
-
-local var_0_1
-
-function var_0_0.InitRedPoint(arg_4_0)
-	local var_4_0 = ActivityData:GetActivityIsOpen(arg_4_0)
-
-	var_0_0.StopTimer()
-
-	if var_4_0 then
-		local var_4_1 = SpringFestivalRiddleData:GetLastAnswerTime(arg_4_0)
-		local var_4_2 = var_4_1 + GameSetting.activity_spring_festival_riddle_punish_time.value[1] * 60
-		local var_4_3 = GameSetting.refresh_time1.value[1][1]
-		local var_4_4 = manager.time:GetNextTime(var_4_3, 0, 0)
-
-		if SpringFestivalRiddleData:CanAnswer(arg_4_0) then
-			local var_4_5 = manager.time:GetServerTime()
-
-			if ActivityData:GetActivityIsOpen(arg_4_0) and (var_4_2 <= var_4_5 or var_4_4 - var_4_1 > 86400) then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_4_0), 1)
-
-				return
+return {
+	ChoiceAnswer = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(64062, {
+			activity_id = slot0,
+			quiz_id = slot1,
+			answer = slot2
+		}, 64063, function (slot0)
+			if isSuccess(slot0.result) then
+				-- Nothing
 			end
 
-			var_0_1 = Timer.New(function()
-				var_4_4 = manager.time:GetNextTime(var_4_3, 0, 0)
+			uv0(slot0)
+		end)
+	end,
+	InitRedPoint = function (slot0)
+		uv0.StopTimer()
 
-				if ActivityData:GetActivityIsOpen(arg_4_0) and (var_4_2 <= manager.time:GetServerTime() or var_4_4 - var_4_1 > 86400) then
-					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_4_0), 1)
-					var_0_0.StopTimer()
-
-					return
-				end
-			end, 1, -1)
-
-			var_0_1:Start()
-		else
-			var_0_1 = Timer.New(function()
-				var_4_4 = manager.time:GetNextTime(var_4_3, 0, 0)
-
-				if ActivityData:GetActivityIsOpen(arg_4_0) and var_4_4 - var_4_1 > 86400 then
-					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_4_0), 1)
-					var_0_0.StopTimer()
+		if ActivityData:GetActivityIsOpen(slot0) then
+			if SpringFestivalRiddleData:CanAnswer(slot0) then
+				if ActivityData:GetActivityIsOpen(slot0) and (SpringFestivalRiddleData:GetLastAnswerTime(slot0) + GameSetting.activity_spring_festival_riddle_punish_time.value[1] * 60 <= manager.time:GetServerTime() or manager.time:GetNextTime(GameSetting.refresh_time1.value[1][1], 0, 0) - slot2 > 86400) then
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, slot0), 1)
 
 					return
 				end
-			end, 1, -1)
 
-			var_0_1:Start()
+				uv1 = Timer.New(function ()
+					uv0 = manager.time:GetNextTime(uv1, 0, 0)
+
+					if ActivityData:GetActivityIsOpen(uv2) and (uv3 <= manager.time:GetServerTime() or uv0 - uv4 > 86400) then
+						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, uv2), 1)
+						uv5.StopTimer()
+
+						return
+					end
+				end, 1, -1)
+
+				uv1:Start()
+			else
+				uv1 = Timer.New(function ()
+					uv0 = manager.time:GetNextTime(uv1, 0, 0)
+
+					if ActivityData:GetActivityIsOpen(uv2) and uv0 - uv3 > 86400 then
+						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, uv2), 1)
+						uv4.StopTimer()
+
+						return
+					end
+				end, 1, -1)
+
+				uv1:Start()
+			end
 		end
+
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, slot0), 0)
+	end,
+	HideRedPoint = function (slot0)
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, slot0), 0)
+	end,
+	RefreshRedPoint = function (slot0)
+		uv0.InitRedPoint(slot0)
+	end,
+	StopTimer = function ()
+		if uv0 then
+			uv0:Stop()
+
+			uv0 = nil
+		end
+	end,
+	Dispose = function ()
+		uv0.StopTimer()
 	end
-
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_4_0), 0)
-end
-
-function var_0_0.HideRedPoint(arg_7_0)
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_7_0), 0)
-end
-
-function var_0_0.RefreshRedPoint(arg_8_0)
-	var_0_0.InitRedPoint(arg_8_0)
-end
-
-function var_0_0.StopTimer()
-	if var_0_1 then
-		var_0_1:Stop()
-
-		var_0_1 = nil
-	end
-end
-
-function var_0_0.Dispose()
-	var_0_0.StopTimer()
-end
-
-return var_0_0
+}

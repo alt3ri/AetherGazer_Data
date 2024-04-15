@@ -1,79 +1,76 @@
-local var_0_0 = class("XH3rdFlipCardRewardView", ReduxView)
+slot0 = class("XH3rdFlipCardRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return XH3rdFlipCardTool:GetRewardUI()
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, XH3rdFlipCardRewardItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, XH3rdFlipCardRewardItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.activityId = arg_7_0.params_.activityId
+function slot0.OnEnter(slot0)
+	slot0.activityId = slot0.params_.activityId
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:RefreshScroll()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshScroll()
 end
 
-function var_0_0.RefreshScroll(arg_9_0)
-	local var_9_0 = TaskData2:GetActivityTaskSortList(arg_9_0.activityId)
+function slot0.RefreshScroll(slot0)
+	slot0.rewardList = {}
 
-	arg_9_0.rewardList = {}
-
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		table.insert(arg_9_0.rewardList, iter_9_1.id)
+	for slot5, slot6 in pairs(TaskData2:GetActivityTaskSortList(slot0.activityId)) do
+		table.insert(slot0.rewardList, slot6.id)
 	end
 
-	table.sort(arg_9_0.rewardList, function(arg_10_0, arg_10_1)
-		local var_10_0 = TaskData2:GetTask(arg_10_0)
-		local var_10_1 = TaskData2:GetTask(arg_10_1)
-		local var_10_2 = var_10_0.progress >= AssignmentCfg[arg_10_0].need
-		local var_10_3 = var_10_1.progress >= AssignmentCfg[arg_10_1].need
+	table.sort(slot0.rewardList, function (slot0, slot1)
+		slot3 = TaskData2:GetTask(slot1)
+		slot4 = AssignmentCfg[slot0].need <= TaskData2:GetTask(slot0).progress
+		slot5 = AssignmentCfg[slot1].need <= slot3.progress
 
-		if var_10_0.complete_flag ~= var_10_1.complete_flag then
-			return var_10_0.complete_flag < var_10_1.complete_flag
-		elseif var_10_2 ~= var_10_3 then
-			return var_10_2 and not var_10_3
+		if slot2.complete_flag ~= slot3.complete_flag then
+			return slot2.complete_flag < slot3.complete_flag
+		elseif slot4 ~= slot5 then
+			return slot4 and not slot5
 		else
-			return arg_10_0 < arg_10_1
+			return slot0 < slot1
 		end
 	end)
-	arg_9_0.scrollHelper_:StartScroll(#arg_9_0.rewardList)
+	slot0.scrollHelper_:StartScroll(#slot0.rewardList)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:SetData(arg_11_0.rewardList[arg_11_1])
-	arg_11_2:SetReveivedHandler(handler(arg_11_0, arg_11_0.RefreshScroll))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.rewardList[slot1])
+	slot2:SetReveivedHandler(handler(slot0, slot0.RefreshScroll))
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.scrollHelper_ then
-		arg_12_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_12_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

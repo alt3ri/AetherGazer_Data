@@ -1,54 +1,50 @@
-local var_0_0 = class("EventTriggerStep", ComponentStep)
+slot0 = class("EventTriggerStep", ComponentStep)
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_1_0._eventName = GuideStepCfg[arg_1_0._stepId].params[1]
+	slot0._eventName = GuideStepCfg[slot0._stepId].params[1]
 end
 
-function var_0_0.EventTrigger(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_0._eventName == arg_2_1 then
-		local var_2_0 = arg_2_0:Component()
-
-		if var_2_0 ~= nil and arg_2_0:CheckTarget(var_2_0, arg_2_1, arg_2_2) then
-			arg_2_0:OnStepEnd()
-		end
+function slot0.EventTrigger(slot0, slot1, slot2)
+	if slot0._eventName == slot1 and slot0:Component() ~= nil and slot0:CheckTarget(slot3, slot1, slot2) then
+		slot0:OnStepEnd()
 	end
 end
 
-function var_0_0.CheckTarget(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if arg_3_1:GetType() == typeof(EventTriggerListener) then
-		if arg_3_2 == "pointerClick" then
-			arg_3_1:OnPointerClick(arg_3_3)
-		elseif arg_3_2 == "pointerUp" then
-			arg_3_3.dragging = false
+function slot0.CheckTarget(slot0, slot1, slot2, slot3)
+	if slot1:GetType() == typeof(EventTriggerListener) then
+		if slot2 == "pointerClick" then
+			slot1:OnPointerClick(slot3)
+		elseif slot2 == "pointerUp" then
+			slot3.dragging = false
 
-			arg_3_1:OnPointerUp(arg_3_3)
-		elseif arg_3_2 == "pointerDown" then
-			arg_3_3.dragging = false
+			slot1:OnPointerUp(slot3)
+		elseif slot2 == "pointerDown" then
+			slot3.dragging = false
 
-			arg_3_1:OnPointerDown(arg_3_3)
-			arg_3_1:OnPointerUp(arg_3_3)
-		elseif arg_3_2 == "beginDrag" then
-			arg_3_1:OnBeginDrag(arg_3_3)
-		elseif arg_3_2 == "drag" then
-			arg_3_1:OnDrag(arg_3_3)
-		elseif arg_3_2 == "endDrag" then
-			arg_3_1:OnEndDrag(arg_3_3)
-		elseif arg_3_2 == "onPointerEnter" then
-			arg_3_3.enter = true
+			slot1:OnPointerDown(slot3)
+			slot1:OnPointerUp(slot3)
+		elseif slot2 == "beginDrag" then
+			slot1:OnBeginDrag(slot3)
+		elseif slot2 == "drag" then
+			slot1:OnDrag(slot3)
+		elseif slot2 == "endDrag" then
+			slot1:OnEndDrag(slot3)
+		elseif slot2 == "onPointerEnter" then
+			slot3.enter = true
 
-			arg_3_1:OnPointerEnter(arg_3_3)
-		elseif arg_3_2 == "onPointerOn" then
-			arg_3_3.enter = false
+			slot1:OnPointerEnter(slot3)
+		elseif slot2 == "onPointerOn" then
+			slot3.enter = false
 
-			arg_3_1:OnPointerExit(arg_3_3)
-		elseif arg_3_2 == "onPointerExit" then
-			arg_3_3.enter = false
+			slot1:OnPointerExit(slot3)
+		elseif slot2 == "onPointerExit" then
+			slot3.enter = false
 
-			arg_3_1:OnPointerExit(arg_3_3)
+			slot1:OnPointerExit(slot3)
 		else
-			print("未知的触发类型", arg_3_2)
+			print("未知的触发类型", slot2)
 		end
 
 		return true
@@ -59,4 +55,4 @@ function var_0_0.CheckTarget(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
 	return false
 end
 
-return var_0_0
+return slot0

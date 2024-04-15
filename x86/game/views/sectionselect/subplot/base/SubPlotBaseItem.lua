@@ -1,103 +1,97 @@
-local var_0_0 = class("SubPlotBaseItem", ReduxView)
+slot0 = class("SubPlotBaseItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.clearController_ = ControllerUtil.GetController(arg_1_0.transform_, "clear")
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.clearController_ = ControllerUtil.GetController(slot0.transform_, "clear")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.stageID_ = arg_2_1
-	arg_2_0.chapterID_ = arg_2_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.stageID_ = slot1
+	slot0.chapterID_ = slot2
 
-	local var_2_0 = BattleStageData:GetStageData()[arg_2_1]
-
-	if var_2_0 and var_2_0.clear_times > 0 then
-		arg_2_0.isClear_ = true
+	if BattleStageData:GetStageData()[slot1] and slot3.clear_times > 0 then
+		slot0.isClear_ = true
 	else
-		arg_2_0.isClear_ = false
+		slot0.isClear_ = false
 	end
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	Object.Destroy(arg_3_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.button_, nil, function()
-		arg_4_0:OnClick()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		uv0:OnClick()
 	end)
 end
 
-function var_0_0.OnClick(arg_6_0)
-	BattleFieldData:SetCacheStage(arg_6_0.chapterID_, arg_6_0.stageID_)
-	arg_6_0:Go("subPlotSectionInfo", {
-		section = arg_6_0.stageID_,
-		chapterID = arg_6_0.chapterID_,
+function slot0.OnClick(slot0)
+	BattleFieldData:SetCacheStage(slot0.chapterID_, slot0.stageID_)
+	slot0:Go("subPlotSectionInfo", {
+		section = slot0.stageID_,
+		chapterID = slot0.chapterID_,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT
 	})
 end
 
-function var_0_0.IsOpenSectionInfo(arg_7_0)
-	return arg_7_0:IsOpenRoute("subPlotSectionInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("subPlotSectionInfo")
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = arg_8_0:GetPosition()
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetPosition()
+	slot0.transform_.localPosition = Vector3(slot1[1], slot1[2], 0)
 
-	arg_8_0.transform_.localPosition = Vector3(var_8_0[1], var_8_0[2], 0)
-
-	arg_8_0:Show(true)
-	arg_8_0:RefreshCustomUI()
-	arg_8_0:RefreshClear()
+	slot0:Show(true)
+	slot0:RefreshCustomUI()
+	slot0:RefreshClear()
 end
 
-function var_0_0.RefreshCustomUI(arg_9_0)
-	return
+function slot0.RefreshCustomUI(slot0)
 end
 
-function var_0_0.SelectorItem(arg_10_0, arg_10_1)
-	if arg_10_0.stageID_ == arg_10_1 and arg_10_0:IsOpenSectionInfo() then
-		arg_10_0.selectController_:SetSelectedState("on")
+function slot0.SelectorItem(slot0, slot1)
+	if slot0.stageID_ == slot1 and slot0:IsOpenSectionInfo() then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_10_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshClear(arg_11_0)
-	if arg_11_0.isClear_ then
-		arg_11_0.clearController_:SetSelectedState("on")
+function slot0.RefreshClear(slot0)
+	if slot0.isClear_ then
+		slot0.clearController_:SetSelectedState("on")
 	else
-		arg_11_0.clearController_:SetSelectedState("off")
+		slot0.clearController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.GetPosition(arg_12_0)
-	local var_12_0 = BattleActivityStoryStageCfg[arg_12_0.stageID_]
-
-	return var_12_0 and var_12_0.position or {
+function slot0.GetPosition(slot0)
+	return BattleActivityStoryStageCfg[slot0.stageID_] and slot1.position or {
 		0,
 		0
 	}
 end
 
-function var_0_0.GetLocalPosition(arg_13_0)
-	return arg_13_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-function var_0_0.Show(arg_14_0, arg_14_1)
-	SetActive(arg_14_0.gameObject_, arg_14_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

@@ -1,83 +1,72 @@
-local var_0_0 = class("SpringFestivalGreetingEnvelopView", ReduxView)
+slot0 = class("SpringFestivalGreetingEnvelopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/letter/EDream_letterpop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.commonItemView_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.commonItemView_:Dispose()
 
-	arg_6_0.commonItemView_ = nil
+	slot0.commonItemView_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.GetActivityID(arg_9_0)
+function slot0.GetActivityID(slot0)
 	return ActivityConst.SPRING_FESTIVAL_GREETING
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	if arg_10_0.commonItemView_ == nil then
-		arg_10_0.commonItemView_ = CommonItem.New(arg_10_0.itemGo_)
+function slot0.RefreshUI(slot0)
+	if slot0.commonItemView_ == nil then
+		slot0.commonItemView_ = CommonItem.New(slot0.itemGo_)
 	end
 
-	local var_10_0 = arg_10_0:GetActivityID()
-	local var_10_1 = SpringFestivalGreetingData:GetUnlockCnt(var_10_0)
-	local var_10_2 = ActivityPointRewardCfg.get_id_list_by_activity_id[var_10_0]
-	local var_10_3 = var_10_2[var_10_1]
-	local var_10_4 = ActivityPointRewardCfg[var_10_3].reward_item_list[1]
+	slot1 = slot0:GetActivityID()
+	slot3 = ActivityPointRewardCfg.get_id_list_by_activity_id[slot1]
 
-	arg_10_0.commonItemView_:RefreshData(formatReward(var_10_4))
-	arg_10_0.commonItemView_:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_10_4)
+	slot0.commonItemView_:RefreshData(formatReward(ActivityPointRewardCfg[slot3[SpringFestivalGreetingData:GetUnlockCnt(slot1)]].reward_item_list[1]))
+	slot0.commonItemView_:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 
-	local var_10_5 = SpringFestivalGreetingData:GetReceiveCnt(var_10_0)
+	slot0.cntText_.text = string.format("%s/%s", SpringFestivalGreetingData:GetReceiveCnt(slot1), #slot3)
 
-	arg_10_0.cntText_.text = string.format("%s/%s", var_10_5, #var_10_2)
-
-	arg_10_0:RefreshTimeText()
+	slot0:RefreshTimeText()
 end
 
-function var_0_0.RefreshTimeText(arg_12_0)
-	local var_12_0 = arg_12_0:GetActivityID()
-	local var_12_1 = ActivityData:GetActivityData(var_12_0)
-	local var_12_2 = var_12_1.startTime
-	local var_12_3 = var_12_1.stopTime
+function slot0.RefreshTimeText(slot0)
+	slot2 = ActivityData:GetActivityData(slot0:GetActivityID())
+	slot3 = slot2.startTime
+	slot0.timeText_.text = string.format("%s——%s", manager.time:STimeDescS(slot3, "!%m/%d %H:%M"), manager.time:STimeDescS(slot2.stopTime, "!%m/%d %H:%M"))
 
-	arg_12_0.timeText_.text = string.format("%s——%s", manager.time:STimeDescS(var_12_2, "!%m/%d %H:%M"), manager.time:STimeDescS(var_12_3, "!%m/%d %H:%M"))
-
-	local var_12_4 = manager.time:GetServerTime()
-
-	if var_12_4 < var_12_2 or var_12_3 < var_12_4 then
-		arg_12_0.controller_:SetSelectedState("true")
+	if manager.time:GetServerTime() < slot3 or slot4 < slot5 then
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_12_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-return var_0_0
+return slot0

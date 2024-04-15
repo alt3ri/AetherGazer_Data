@@ -1,103 +1,97 @@
-local var_0_0 = singletonClass("SpringFestivalRiddleData")
+slot0 = singletonClass("SpringFestivalRiddleData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.activityRiddleList_ = {}
+function slot0.Init(slot0)
+	slot0.activityRiddleList_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-	local var_2_1 = {}
+function slot0.InitData(slot0, slot1)
+	slot2 = slot1.activity_id
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.admitted_award) do
-		table.insert(var_2_1, iter_2_1)
+	for slot7, slot8 in ipairs(slot1.admitted_award) do
+		table.insert({}, slot8)
 	end
 
-	local var_2_2 = {}
+	slot4 = {}
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.answer_history) do
-		local var_2_3 = {}
+	for slot8, slot9 in ipairs(slot1.answer_history) do
+		slot10 = {}
 
-		for iter_2_4, iter_2_5 in ipairs(iter_2_3.answer) do
-			table.insert(var_2_3, iter_2_5)
+		for slot14, slot15 in ipairs(slot9.answer) do
+			table.insert(slot10, slot15)
 		end
 
-		var_2_2[iter_2_3.quiz_id] = {
-			answerList = var_2_3,
-			correct = iter_2_3.correct == 1
+		slot4[slot9.quiz_id] = {
+			answerList = slot10,
+			correct = slot9.correct == 1
 		}
 	end
 
-	for iter_2_6, iter_2_7 in ipairs(ActivitySpringFestivalRiddleCfg.get_id_list_by_activity_id[var_2_0]) do
-		if var_2_2[iter_2_7] == nil then
-			var_2_2[iter_2_7] = {
+	for slot8, slot9 in ipairs(ActivitySpringFestivalRiddleCfg.get_id_list_by_activity_id[slot2]) do
+		if slot4[slot9] == nil then
+			slot4[slot9] = {
 				correct = false,
 				answerList = {}
 			}
 		end
 	end
 
-	arg_2_0.activityRiddleList_[var_2_0] = {
-		canAnswer = arg_2_1.is_today_answer == 0,
-		riddleList = var_2_2,
-		rewardList = var_2_1,
-		lastQuestionID = arg_2_1.last_answer_quiz,
-		lastAnswerTime = arg_2_1.last_answer_time
+	slot0.activityRiddleList_[slot2] = {
+		canAnswer = slot1.is_today_answer == 0,
+		riddleList = slot4,
+		rewardList = slot3,
+		lastQuestionID = slot1.last_answer_quiz,
+		lastAnswerTime = slot1.last_answer_time
 	}
 end
 
-function var_0_0.CanAnswer(arg_3_0, arg_3_1)
-	return arg_3_0.activityRiddleList_[arg_3_1].canAnswer
+function slot0.CanAnswer(slot0, slot1)
+	return slot0.activityRiddleList_[slot1].canAnswer
 end
 
-function var_0_0.GetQuestionAnswerList(arg_4_0, arg_4_1, arg_4_2)
-	return arg_4_0.activityRiddleList_[arg_4_1].riddleList[arg_4_2].answerList or {}
+function slot0.GetQuestionAnswerList(slot0, slot1, slot2)
+	return slot0.activityRiddleList_[slot1].riddleList[slot2].answerList or {}
 end
 
-function var_0_0.IsCorrectAnswer(arg_5_0, arg_5_1, arg_5_2)
-	return arg_5_0.activityRiddleList_[arg_5_1].riddleList[arg_5_2].correct or false
+function slot0.IsCorrectAnswer(slot0, slot1, slot2)
+	return slot0.activityRiddleList_[slot1].riddleList[slot2].correct or false
 end
 
-function var_0_0.GetLastAnswerTime(arg_6_0, arg_6_1)
-	return arg_6_0.activityRiddleList_[arg_6_1].lastAnswerTime or 0
+function slot0.GetLastAnswerTime(slot0, slot1)
+	return slot0.activityRiddleList_[slot1].lastAnswerTime or 0
 end
 
-function var_0_0.ReceiveReward(arg_7_0, arg_7_1, arg_7_2)
-	table.insert(arg_7_0.activityRiddleList_[arg_7_1].rewardList, arg_7_2)
+function slot0.ReceiveReward(slot0, slot1, slot2)
+	table.insert(slot0.activityRiddleList_[slot1].rewardList, slot2)
 end
 
-function var_0_0.GetReceiveList(arg_8_0, arg_8_1)
-	return arg_8_0.activityRiddleList_[arg_8_1].rewardList
+function slot0.GetReceiveList(slot0, slot1)
+	return slot0.activityRiddleList_[slot1].rewardList
 end
 
-function var_0_0.SubmitRiddle(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
-	table.insert(arg_9_0.activityRiddleList_[arg_9_1].riddleList[arg_9_2].answerList, arg_9_3)
+function slot0.SubmitRiddle(slot0, slot1, slot2, slot3, slot4)
+	table.insert(slot0.activityRiddleList_[slot1].riddleList[slot2].answerList, slot3)
 
-	arg_9_0.activityRiddleList_[arg_9_1].lastQuestionID = arg_9_2
-	arg_9_0.activityRiddleList_[arg_9_1].lastAnswerTime = manager.time:GetServerTime()
+	slot0.activityRiddleList_[slot1].lastQuestionID = slot2
+	slot0.activityRiddleList_[slot1].lastAnswerTime = manager.time:GetServerTime()
 
-	if arg_9_4 then
-		arg_9_0.activityRiddleList_[arg_9_1].canAnswer = false
-		arg_9_0.activityRiddleList_[arg_9_1].riddleList[arg_9_2].correct = true
+	if slot4 then
+		slot0.activityRiddleList_[slot1].canAnswer = false
+		slot0.activityRiddleList_[slot1].riddleList[slot2].correct = true
 
-		local var_9_0 = arg_9_0.activityRiddleList_[arg_9_1].rewardList
-		local var_9_1 = arg_9_0:GetCorrectCnt(arg_9_1)
-
-		if table.keyof(var_9_0, var_9_1) == nil then
-			table.insert(var_9_0, var_9_1)
+		if table.keyof(slot0.activityRiddleList_[slot1].rewardList, slot0:GetCorrectCnt(slot1)) == nil then
+			table.insert(slot5, slot6)
 		end
 	end
 end
 
-function var_0_0.GetCorrectCnt(arg_10_0, arg_10_1)
-	local var_10_0 = 0
-
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.activityRiddleList_[arg_10_1].riddleList) do
-		if iter_10_1.correct == true then
-			var_10_0 = var_10_0 + 1
+function slot0.GetCorrectCnt(slot0, slot1)
+	for slot6, slot7 in pairs(slot0.activityRiddleList_[slot1].riddleList) do
+		if slot7.correct == true then
+			slot2 = 0 + 1
 		end
 	end
 
-	return var_10_0
+	return slot2
 end
 
-return var_0_0
+return slot0

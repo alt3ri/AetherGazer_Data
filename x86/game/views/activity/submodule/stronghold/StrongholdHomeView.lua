@@ -1,41 +1,40 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("StrongholdHomeView", ActivityMainBasePanel)
 
-local var_0_0 = class("StrongholdHomeView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/Stronghold/StrongholdHomeUI"
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_statrBtn, nil, function()
-		if not arg_3_0:IsActivityTime() then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_statrBtn, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
 		JumpTools.GoToSystem("/cooperationBlank/strongholdMain")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.m_tipBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_tipBtn, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
 			content = GetTips("ACTIVITY_STRONGHOLD_DES"),
-			key = arg_3_0.gameHelpKey
+			key = uv0.gameHelpKey
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	var_0_0.super.OnEnter(arg_6_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	var_0_0.super.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

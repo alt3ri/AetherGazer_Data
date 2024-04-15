@@ -1,36 +1,37 @@
-local var_0_0 = class("CombineGamePoolView", ReduxView)
-local var_0_1 = 2
+slot0 = class("CombineGamePoolView", ReduxView)
+slot1 = 2
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaKf/IndiaKfEggUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.poolRewardItem_ = {}
-	arg_4_0.poolRewardItem_[1] = KagutsuchiGachaRewardItem.New(arg_4_0.rewardItem1Go_)
-	arg_4_0.poolRewardItem_[2] = KagutsuchiGachaRewardItem.New(arg_4_0.rewardItem2Go_)
-	arg_4_0.poolRewardItem_[3] = KagutsuchiGachaRewardItem.New(arg_4_0.rewardItem3Go_)
+	slot0.poolRewardItem_ = {
+		KagutsuchiGachaRewardItem.New(slot0.rewardItem1Go_),
+		KagutsuchiGachaRewardItem.New(slot0.rewardItem2Go_),
+		KagutsuchiGachaRewardItem.New(slot0.rewardItem3Go_)
+	}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.draw10Btn_, nil, function()
-		arg_5_0:TryStartDraw(arg_5_0.bigDrawTimes)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.draw10Btn_, nil, function ()
+		uv0:TryStartDraw(uv0.bigDrawTimes)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.draw1Btn_, nil, function()
-		arg_5_0:TryStartDraw(1)
+	slot0:AddBtnListener(slot0.draw1Btn_, nil, function ()
+		uv0:TryStartDraw(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.poolBtn_, nil, function()
+	slot0:AddBtnListener(slot0.poolBtn_, nil, function ()
 		JumpTools.GoToSystem("CombineGamePoolPopView", {
 			activityId = ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL,
 			poolId = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
@@ -38,128 +39,121 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	local var_9_0 = CombineGameData:GetDataByPara("activityId")
-
-	if not ActivityData:GetActivityIsOpen(var_9_0) then
-		gameContext:Go("/home", nil, nil, true)
+function slot0.OnEnter(slot0)
+	if not ActivityData:GetActivityIsOpen(CombineGameData:GetDataByPara("activityId")) then
+		gameContext:Go("/home", nil, , true)
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	arg_9_0:UpdateView()
-	arg_9_0:BindRedPoint()
+	slot0:UpdateView()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	local var_10_0 = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
-	local var_10_1 = KagutsuchiGachaData:GetMaxDrawTimes(var_10_0)
-	local var_10_2 = math.max(var_10_1, var_0_1)
-	local var_10_3, var_10_4 = KagutsuchiGachaData:GetDrawCost(var_10_0, 1)
-	local var_10_5, var_10_6 = KagutsuchiGachaData:GetDrawCost(var_10_0, var_10_2)
-	local var_10_7, var_10_8 = KagutsuchiGachaData:GetDrawCost(var_10_0, 1)
+function slot0.UpdateView(slot0)
+	slot1 = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
+	slot2 = KagutsuchiGachaData:GetMaxDrawTimes(slot1)
+	slot3 = math.max(slot2, uv0)
+	slot4, slot5 = KagutsuchiGachaData:GetDrawCost(slot1, 1)
+	slot6, slot7 = KagutsuchiGachaData:GetDrawCost(slot1, slot3)
+	slot8, slot9 = KagutsuchiGachaData:GetDrawCost(slot1, 1)
+	slot0.bigDrawText_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_POOL_TIPS"), slot3)
+	slot0.drawCostText_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_POOL_TIPS"), 1)
+	slot0.bigDrawCostText_.text = "<color=#" .. (slot2 < uv0 and "CC0013" or "F3E7C3") .. ">x" .. slot7 .. "</color>"
+	slot0.drawText_.text = "<color=#" .. (slot2 == 0 and "CC0013" or "F3E7C3") .. ">x" .. slot9 .. "</color>"
+	slot0.bigDrawTimes = slot3
+	slot0.titleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_POOL_NAME")
+	slot0.getText_.text = GetTips("ACTIVITY_COMBINE_GAME_DRAW_POOL_FINISH")
+	slot0.draw1Img_.sprite = ItemTools.getItemSprite(slot4)
+	slot0.draw2Img_.sprite = ItemTools.getItemSprite(slot4)
 
-	arg_10_0.bigDrawText_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_POOL_TIPS"), var_10_2)
-	arg_10_0.drawCostText_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_POOL_TIPS"), 1)
-	arg_10_0.bigDrawCostText_.text = "<color=#" .. (var_10_1 < var_0_1 and "CC0013" or "F3E7C3") .. ">x" .. var_10_6 .. "</color>"
-	arg_10_0.drawText_.text = "<color=#" .. (var_10_1 == 0 and "CC0013" or "F3E7C3") .. ">x" .. var_10_8 .. "</color>"
-	arg_10_0.bigDrawTimes = var_10_2
-	arg_10_0.titleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_POOL_NAME")
-	arg_10_0.getText_.text = GetTips("ACTIVITY_COMBINE_GAME_DRAW_POOL_FINISH")
-	arg_10_0.draw1Img_.sprite = ItemTools.getItemSprite(var_10_3)
-	arg_10_0.draw2Img_.sprite = ItemTools.getItemSprite(var_10_3)
-
-	local var_10_9 = KagutsuchiGachaData:GetDisplayDrawItemIds(var_10_0)
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_9) do
-		arg_10_0.poolRewardItem_[iter_10_0]:SetData(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL, var_10_0, iter_10_1)
+	for slot14, slot15 in ipairs(KagutsuchiGachaData:GetDisplayDrawItemIds(slot1)) do
+		slot0.poolRewardItem_[slot14]:SetData(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL, slot1, slot15)
 	end
 end
 
-function var_0_0.TryStartDraw(arg_11_0, arg_11_1)
-	local var_11_0 = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
-	local var_11_1 = KagutsuchiGachaData:GetMaxDrawTimes(var_11_0)
+function slot0.TryStartDraw(slot0, slot1)
+	slot2 = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
+	slot3 = KagutsuchiGachaData:GetMaxDrawTimes(slot2)
 
-	if KagutsuchiGachaData:GetPoolRemains(var_11_0) == 0 then
+	if KagutsuchiGachaData:GetPoolRemains(slot2) == 0 then
 		ShowTips("ACTIVITY_COMBINE_GAME_DRAW_POOL_FINISH")
 
 		return
 	end
 
-	if var_11_1 < arg_11_1 then
+	if slot3 < slot1 then
 		ShowTips("ACTIVITY_COMBINE_GAME_DRAW_POOL_COST_NOT_ENOUGH")
 
 		return
 	end
 
-	KagutsuchiGachaAction:StartDraw(arg_11_1, ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL, var_11_0, handler(arg_11_0, arg_11_0.OnFinishDraw))
+	KagutsuchiGachaAction:StartDraw(slot1, ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL, slot2, handler(slot0, slot0.OnFinishDraw))
 end
 
-function var_0_0.OnFinishDraw(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0:UpdateView()
+function slot0.OnFinishDraw(slot0, slot1, slot2)
+	slot0:UpdateView()
 
-	local var_12_0 = arg_12_1.pool_id
-	local var_12_1 = {}
+	slot4 = {}
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1.reward_list) do
-		local var_12_2, var_12_3 = KagutsuchiGachaData:GetDrawItemReward(var_12_0, iter_12_1)
+	for slot8, slot9 in ipairs(slot1.reward_list) do
+		slot10, slot11 = KagutsuchiGachaData:GetDrawItemReward(slot1.pool_id, slot9)
 
-		table.insert(var_12_1, {
-			id = var_12_2,
-			num = var_12_3
+		table.insert(slot4, {
+			id = slot10,
+			num = slot11
 		})
 	end
 
-	getReward(var_12_1)
+	getReward(slot4)
 end
 
-function var_0_0.BindRedPoint(arg_13_0)
-	manager.redPoint:bindUIandKey(arg_13_0.draw1Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "ONE", {
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.draw1Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "ONE", {
 		x = 150,
 		y = 35
 	})
-	manager.redPoint:bindUIandKey(arg_13_0.draw10Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "TEN", {
+	manager.redPoint:bindUIandKey(slot0.draw10Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "TEN", {
 		x = 150,
 		y = 35
 	})
 end
 
-function var_0_0.UnbindRedPoint(arg_14_0)
-	manager.redPoint:unbindUIandKey(arg_14_0.draw10Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "TEN")
-	manager.redPoint:unbindUIandKey(arg_14_0.draw1Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "ONE")
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.draw10Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "TEN")
+	manager.redPoint:unbindUIandKey(slot0.draw1Btn_.transform, RedPointConst.ACTIVITY_SPRING_COMBINE_GAME_POOL .. "ONE")
 end
 
-function var_0_0.OnExit(arg_15_0)
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.poolRewardItem_) do
-		arg_15_0.poolRewardItem_[iter_15_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.poolRewardItem_) do
+		slot0.poolRewardItem_[slot4]:OnExit()
 	end
 
-	arg_15_0:UnbindRedPoint()
+	slot0:UnbindRedPoint()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnTop(arg_16_0)
-	local var_16_0 = KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1]
-	local var_16_1, var_16_2 = KagutsuchiGachaData:GetDrawCost(var_16_0, 1)
+function slot0.OnTop(slot0)
+	slot2, slot3 = KagutsuchiGachaData:GetDrawCost(KagutsuchiGachaData:GetPoolIds(ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_POOL)[1], 1)
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
-		var_16_1
+		slot2
 	})
-	manager.windowBar:SetBarCanAdd(var_16_1, true)
+	manager.windowBar:SetBarCanAdd(slot2, true)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_COMBINE_GAME_DRAW_POOL_DESC")
 end
 
-function var_0_0.Dispose(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.poolRewardItem_) do
-		arg_17_0.poolRewardItem_[iter_17_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.poolRewardItem_) do
+		slot0.poolRewardItem_[slot4]:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
-	Object.Destroy(arg_17_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

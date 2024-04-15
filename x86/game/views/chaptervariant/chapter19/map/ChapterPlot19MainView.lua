@@ -1,162 +1,146 @@
-local var_0_0 = class("ChapterPlot19MainView", ReduxView)
+slot0 = class("ChapterPlot19MainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationVerMapUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.updateAllHandler_ = handler(arg_3_0, arg_3_0.UpdateAll)
-	arg_3_0.OnCloseDayPanelHandler_ = handler(arg_3_0, arg_3_0.OnCloseDayPanel)
-	arg_3_0.mapView_ = ChapterPlot19MapView.New(arg_3_0.mapGo_)
-	arg_3_0.dayView_ = ChapterPlotDayView.New(arg_3_0, arg_3_0.dayGo_)
-	arg_3_0.watchController_ = arg_3_0.watchControllerEx_:GetController("watchState")
-	arg_3_0.hideScanController_ = arg_3_0.watchControllerEx_:GetController("hideScan")
-	arg_3_0.showScanEffectController_ = arg_3_0.watchControllerEx_:GetController("showScanEffect")
+	slot0.updateAllHandler_ = handler(slot0, slot0.UpdateAll)
+	slot0.OnCloseDayPanelHandler_ = handler(slot0, slot0.OnCloseDayPanel)
+	slot0.mapView_ = ChapterPlot19MapView.New(slot0.mapGo_)
+	slot0.dayView_ = ChapterPlotDayView.New(slot0, slot0.dayGo_)
+	slot0.watchController_ = slot0.watchControllerEx_:GetController("watchState")
+	slot0.hideScanController_ = slot0.watchControllerEx_:GetController("hideScan")
+	slot0.showScanEffectController_ = slot0.watchControllerEx_:GetController("showScanEffect")
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.notify:RegistListener(CHAPTER_DAY_CHANGED, arg_4_0.updateAllHandler_)
-	manager.notify:RegistListener(CHAPTER_CLOSE_DAY_LIST, arg_4_0.OnCloseDayPanelHandler_)
-	arg_4_0:UpdateAll(true)
-	arg_4_0:OnCloseDayPanel()
-	arg_4_0.mapView_:OnEnter()
-	arg_4_0.dayView_:OnEnter()
-	arg_4_0:AddArrowTimer()
-	manager.redPoint:bindUIandKey(arg_4_0.collectTf_, RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR)
+	manager.notify:RegistListener(CHAPTER_DAY_CHANGED, slot0.updateAllHandler_)
+	manager.notify:RegistListener(CHAPTER_CLOSE_DAY_LIST, slot0.OnCloseDayPanelHandler_)
+	slot0:UpdateAll(true)
+	slot0:OnCloseDayPanel()
+	slot0.mapView_:OnEnter()
+	slot0.dayView_:OnEnter()
+	slot0:AddArrowTimer()
+	manager.redPoint:bindUIandKey(slot0.collectTf_, RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR)
 end
 
-function var_0_0.OnEnterOver(arg_5_0)
-	arg_5_0:CheckNeedAutoBattle()
+function slot0.OnEnterOver(slot0)
+	slot0:CheckNeedAutoBattle()
 end
 
-function var_0_0.OnUpdate(arg_6_0)
-	arg_6_0.mapView_:OnUpdate()
-	arg_6_0.dayView_:OnUpdate()
-	arg_6_0:RefreshCollectClue()
+function slot0.OnUpdate(slot0)
+	slot0.mapView_:OnUpdate()
+	slot0.dayView_:OnUpdate()
+	slot0:RefreshCollectClue()
 end
 
-function var_0_0.OnExit(arg_7_0)
-	manager.redPoint:unbindUIandKey(arg_7_0.collectTf_, RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.collectTf_, RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR)
 	manager.windowBar:HideBar()
-	arg_7_0:StopScan()
-	arg_7_0:StopArrowTimer()
-	arg_7_0.mapView_:OnExit()
-	arg_7_0.dayView_:OnExit()
-	manager.notify:RemoveListener(CHAPTER_DAY_CHANGED, arg_7_0.updateAllHandler_)
-	manager.notify:RemoveListener(CHAPTER_CLOSE_DAY_LIST, arg_7_0.OnCloseDayPanelHandler_)
+	slot0:StopScan()
+	slot0:StopArrowTimer()
+	slot0.mapView_:OnExit()
+	slot0.dayView_:OnExit()
+	manager.notify:RemoveListener(CHAPTER_DAY_CHANGED, slot0.updateAllHandler_)
+	manager.notify:RemoveListener(CHAPTER_CLOSE_DAY_LIST, slot0.OnCloseDayPanelHandler_)
 
-	arg_7_0.lastAudioID_ = nil
+	slot0.lastAudioID_ = nil
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.collectBtn_, nil, function()
-		if arg_8_0.mapView_:GetBackCnt() > 0 then
-			arg_8_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.collectBtn_, nil, function ()
+		if uv0.mapView_:GetBackCnt() > 0 then
+			uv0:Back()
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("chapterPlot19Reward", {
 			level = 1,
-			chapterID = arg_8_0.chapterID_
+			chapterID = uv0.chapterID_
 		})
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.clueBtn_, nil, function()
-		if arg_8_0.mapView_:GetBackCnt() > 0 then
-			arg_8_0:Back()
+	slot0:AddBtnListener(slot0.clueBtn_, nil, function ()
+		if uv0.mapView_:GetBackCnt() > 0 then
+			uv0:Back()
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("chapterClue", {
-			chapterID = arg_8_0.chapterID_
+			chapterID = uv0.chapterID_
 		})
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.scanBtn_, nil, function()
-		if arg_8_0.mapView_:GetBackCnt() > 0 then
-			arg_8_0:Back()
+	slot0:AddBtnListener(slot0.scanBtn_, nil, function ()
+		if uv0.mapView_:GetBackCnt() > 0 then
+			uv0:Back()
 
 			return
 		end
 
 		manager.ui:UIEventEnabled(false)
-		arg_8_0:ScanAnimator(function()
+		uv0:ScanAnimator(function ()
 			manager.ui:UIEventEnabled(true)
-			BattleStageAction.ScanClueLocation(arg_8_0.mapID_, function(arg_13_0)
-				arg_8_0:RefreshMap()
-				arg_8_0:RefreshScanBtn()
-
-				local var_13_0 = #arg_13_0.location_id_list
-
-				ShowTips(string.format(GetTips("SCAN_MEMORY_FRAGMENT"), var_13_0))
+			BattleStageAction.ScanClueLocation(uv0.mapID_, function (slot0)
+				uv0:RefreshMap()
+				uv0:RefreshScanBtn()
+				ShowTips(string.format(GetTips("SCAN_MEMORY_FRAGMENT"), #slot0.location_id_list))
 			end)
 		end)
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.watchBtn_, nil, function()
-		if arg_8_0.mapView_:GetBackCnt() > 0 then
-			arg_8_0:Back()
+	slot0:AddBtnListener(slot0.watchBtn_, nil, function ()
+		if uv0.mapView_:GetBackCnt() > 0 then
+			uv0:Back()
 
 			return
 		end
 
-		local var_14_0 = ChapterMapCfg.get_id_list_by_chapter_id[arg_8_0.chapterID_]
-
-		if ChapterTools.IsNeedOperateFirstDayWatch(arg_8_0.chapterID_, arg_8_0.selectDay_) then
-			local var_14_1 = var_14_0[1]
-			local var_14_2 = ChapterMapCfg[var_14_1].day
-
-			BattleStageAction.OperateChapterDay(arg_8_0.chapterID_, var_14_2, function()
-				local var_15_0 = ChapterMapCfg[var_14_0[2]].day
-
-				BattleFieldData:SaveChapterMapDay(arg_8_0.chapterID_, var_15_0)
+		if ChapterTools.IsNeedOperateFirstDayWatch(uv0.chapterID_, uv0.selectDay_) then
+			BattleStageAction.OperateChapterDay(uv0.chapterID_, ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id[uv0.chapterID_][1]].day, function ()
+				BattleFieldData:SaveChapterMapDay(uv1.chapterID_, ChapterMapCfg[uv0[2]].day)
 				manager.notify:Invoke(CHAPTER_DAY_CHANGED)
-				arg_8_0:OnCloseDayPanel()
+				uv1:OnCloseDayPanel()
 			end)
 
 			return
 		end
 
-		if ChapterTools.IsNeedOperateLastDayWatch(arg_8_0.chapterID_, arg_8_0.selectDay_) then
-			local var_14_3 = var_14_0[#var_14_0]
-			local var_14_4 = ChapterMapCfg[var_14_3].day
-
-			BattleStageAction.OperateChapterDay(arg_8_0.chapterID_, var_14_4, function()
-				BattleFieldData:SaveChapterMapDay(arg_8_0.chapterID_, var_14_4)
+		if ChapterTools.IsNeedOperateLastDayWatch(uv0.chapterID_, uv0.selectDay_) then
+			BattleStageAction.OperateChapterDay(uv0.chapterID_, ChapterMapCfg[slot0[#slot0]].day, function ()
+				BattleFieldData:SaveChapterMapDay(uv0.chapterID_, uv1)
 				manager.notify:Invoke(CHAPTER_DAY_CHANGED)
-				arg_8_0:OnCloseDayPanel()
+				uv0:OnCloseDayPanel()
 			end)
 
 			return
 		end
 
-		local var_14_5 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_8_0.chapterID_][arg_8_0.selectDay_]
-		local var_14_6 = 1
+		slot2 = 1
 
-		if #var_14_5 > 1 and table.keyof(var_14_5, arg_8_0.mapID_) == 1 then
-			var_14_6 = 2
+		if #ChapterMapCfg.get_id_list_by_chapter_id_day[uv0.chapterID_][uv0.selectDay_] > 1 and table.keyof(slot1, uv0.mapID_) == 1 then
+			slot2 = 2
 		end
 
-		local var_14_7 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_8_0.chapterID_][arg_8_0.selectDay_][var_14_6]
-
-		BattleFieldData:SaveChapterMapID(arg_8_0.chapterID_, arg_8_0.selectDay_, var_14_7)
+		BattleFieldData:SaveChapterMapID(uv0.chapterID_, uv0.selectDay_, ChapterMapCfg.get_id_list_by_chapter_id_day[uv0.chapterID_][uv0.selectDay_][slot2])
 		manager.notify:Invoke(CHAPTER_DAY_CHANGED)
-		arg_8_0:OnCloseDayPanel()
+		uv0:OnCloseDayPanel()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.storyCollectBtn_, nil, function()
-		if ChapterTools.IsReadFirstEvent(arg_8_0.chapterID_) then
+	slot0:AddBtnListener(slot0.storyCollectBtn_, nil, function ()
+		if ChapterTools.IsReadFirstEvent(uv0.chapterID_) then
 			JumpTools.OpenPageByJump("chapterPlot19StoryCollect", {
-				chapterID = arg_8_0.chapterID_
+				chapterID = uv0.chapterID_
 			})
 		else
 			ShowTips("COLLECTION_STORY_AND_READ")
@@ -164,249 +148,216 @@ function var_0_0.AddListeners(arg_8_0)
 	end)
 end
 
-function var_0_0.UpdateAll(arg_18_0, arg_18_1)
-	arg_18_0:RefreshData()
-	arg_18_0:ResetMapPosition()
-	arg_18_0:RefreshUI(arg_18_1)
+function slot0.UpdateAll(slot0, slot1)
+	slot0:RefreshData()
+	slot0:ResetMapPosition()
+	slot0:RefreshUI(slot1)
 
-	if not arg_18_1 then
-		arg_18_0:CheckNeedAutoBattle()
+	if not slot1 then
+		slot0:CheckNeedAutoBattle()
 	end
 end
 
-function var_0_0.OnCloseDayPanel(arg_19_0)
-	arg_19_0:RefreshSwitchBtn()
+function slot0.OnCloseDayPanel(slot0)
+	slot0:RefreshSwitchBtn()
 end
 
-function var_0_0.RefreshData(arg_20_0)
-	arg_20_0.chapterClientID_ = ChapterConst.CHAPTER_CLIENT_19
-	arg_20_0.chapterID_ = ChapterClientCfg[arg_20_0.chapterClientID_].chapter_list[1]
-	arg_20_0.selectDay_ = BattleFieldData:GetChapterMapDay(arg_20_0.chapterID_)
-	arg_20_0.mapID_ = BattleFieldData:GetChapterMapID(arg_20_0.chapterID_, arg_20_0.selectDay_)
+function slot0.RefreshData(slot0)
+	slot0.chapterClientID_ = ChapterConst.CHAPTER_CLIENT_19
+	slot0.chapterID_ = ChapterClientCfg[slot0.chapterClientID_].chapter_list[1]
+	slot0.selectDay_ = BattleFieldData:GetChapterMapDay(slot0.chapterID_)
+	slot0.mapID_ = BattleFieldData:GetChapterMapID(slot0.chapterID_, slot0.selectDay_)
 end
 
-function var_0_0.CheckNeedAutoBattle(arg_21_0)
-	local var_21_0 = GameSetting.chapter19_auto_battle_day_list.value
-
-	if table.keyof(var_21_0, arg_21_0.selectDay_) then
-		local var_21_1 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_21_0.chapterID_][arg_21_0.selectDay_][1]
-		local var_21_2 = ChapterMapCfg[var_21_1].location_list[1]
-		local var_21_3 = ChapterLocationCfg[var_21_2].stage_list[1]
-
-		if var_21_3 and not ChapterTools.IsClearStage(var_21_3) and not BattleStageData:GetAutoBattleFlag(var_21_3) then
-			if BattleChapterStageCfg[var_21_3].cost > ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) then
-				return
-			end
-
-			BattleFieldData:SetChapterLocationID(arg_21_0.chapterID_, var_21_2)
-			BattleStageData:SaveAutoBattleFlag(var_21_3)
-			ChapterTools.DoReadyBattle(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, var_21_3)
+function slot0.CheckNeedAutoBattle(slot0)
+	if table.keyof(GameSetting.chapter19_auto_battle_day_list.value, slot0.selectDay_) and ChapterLocationCfg[ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[slot0.chapterID_][slot0.selectDay_][1]].location_list[1]].stage_list[1] and not ChapterTools.IsClearStage(slot4) and not BattleStageData:GetAutoBattleFlag(slot4) then
+		if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) < BattleChapterStageCfg[slot4].cost then
+			return
 		end
+
+		BattleFieldData:SetChapterLocationID(slot0.chapterID_, slot3)
+		BattleStageData:SaveAutoBattleFlag(slot4)
+		ChapterTools.DoReadyBattle(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, slot4)
 	end
 end
 
-function var_0_0.RefreshUI(arg_22_0, arg_22_1)
-	arg_22_0:RefreshCollectStar()
-	arg_22_0:RefreshMap(arg_22_1)
-	arg_22_0:RefreshDay()
-	arg_22_0:RefreshScanBtn()
-	arg_22_0:RefreshCollectClue()
-	arg_22_0:RefreshAudio()
+function slot0.RefreshUI(slot0, slot1)
+	slot0:RefreshCollectStar()
+	slot0:RefreshMap(slot1)
+	slot0:RefreshDay()
+	slot0:RefreshScanBtn()
+	slot0:RefreshCollectClue()
+	slot0:RefreshAudio()
 end
 
-function var_0_0.ResetMapPosition(arg_23_0)
-	arg_23_0.mapView_:ResetMapPosition()
+function slot0.ResetMapPosition(slot0)
+	slot0.mapView_:ResetMapPosition()
 end
 
-function var_0_0.RefreshCollectStar(arg_24_0)
-	local var_24_0 = ChapterTools.GetChapterStarCnt(arg_24_0.chapterID_)
-	local var_24_1 = ChapterTools.GetChapterTotalStarCnt(arg_24_0.chapterID_)
-
-	arg_24_0.numText_.text = var_24_0
-	arg_24_0.totalText_.text = string.format("/%s", var_24_1)
-	arg_24_0.collectImage_.fillAmount = var_24_0 / var_24_1
+function slot0.RefreshCollectStar(slot0)
+	slot1 = ChapterTools.GetChapterStarCnt(slot0.chapterID_)
+	slot2 = ChapterTools.GetChapterTotalStarCnt(slot0.chapterID_)
+	slot0.numText_.text = slot1
+	slot0.totalText_.text = string.format("/%s", slot2)
+	slot0.collectImage_.fillAmount = slot1 / slot2
 end
 
-function var_0_0.RefreshMap(arg_25_0, arg_25_1)
-	arg_25_0.mapView_:SetMapID(arg_25_0.chapterID_, arg_25_0.mapID_, arg_25_1)
+function slot0.RefreshMap(slot0, slot1)
+	slot0.mapView_:SetMapID(slot0.chapterID_, slot0.mapID_, slot1)
 end
 
-function var_0_0.RefreshDay(arg_26_0)
-	arg_26_0.dayView_:SetData(arg_26_0.selectDay_, arg_26_0.chapterID_)
+function slot0.RefreshDay(slot0)
+	slot0.dayView_:SetData(slot0.selectDay_, slot0.chapterID_)
 end
 
-function var_0_0.RefreshScanBtn(arg_27_0)
-	arg_27_0.hideScanController_:SetSelectedState(tostring(not ChapterTools.HasClueLocation(arg_27_0.mapID_)))
-	arg_27_0.showScanEffectController_:SetSelectedState(tostring(ChapterTools.HasUnscanClue(arg_27_0.mapID_)))
+function slot0.RefreshScanBtn(slot0)
+	slot0.hideScanController_:SetSelectedState(tostring(not ChapterTools.HasClueLocation(slot0.mapID_)))
+	slot0.showScanEffectController_:SetSelectedState(tostring(ChapterTools.HasUnscanClue(slot0.mapID_)))
 end
 
-function var_0_0.RefreshSwitchBtn(arg_28_0)
-	local var_28_0 = ChapterMapCfg.get_id_list_by_chapter_id[arg_28_0.chapterID_][1]
-	local var_28_1 = ChapterMapCfg[var_28_0].day
+function slot0.RefreshSwitchBtn(slot0)
+	if slot0.selectDay_ == ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id[slot0.chapterID_][1]].day and not ChapterTools.IsNeedOperateFirstDayWatch(slot0.chapterID_, slot0.selectDay_) or ChapterTools.IsLastDay(slot0.chapterID_, slot0.selectDay_) then
+		if slot0.isHideWatch_ ~= true then
+			slot0.watchAnimator_:Play("View_out", 0, 1)
 
-	if arg_28_0.selectDay_ == var_28_1 and not ChapterTools.IsNeedOperateFirstDayWatch(arg_28_0.chapterID_, arg_28_0.selectDay_) or ChapterTools.IsLastDay(arg_28_0.chapterID_, arg_28_0.selectDay_) then
-		if arg_28_0.isHideWatch_ ~= true then
-			arg_28_0.watchAnimator_:Play("View_out", 0, 1)
-
-			arg_28_0.isHideWatch_ = true
+			slot0.isHideWatch_ = true
 		end
 	else
-		if arg_28_0.isHideWatch_ then
-			arg_28_0.watchAnimator_:Play("dayList_enter", 0, 0)
+		if slot0.isHideWatch_ then
+			slot0.watchAnimator_:Play("dayList_enter", 0, 0)
 
-			arg_28_0.isHideWatch_ = false
+			slot0.isHideWatch_ = false
 		end
 
-		if ChapterTools.IsNeedOperateFirstDayWatch(arg_28_0.chapterID_, arg_28_0.selectDay_) then
-			arg_28_0.watchController_:SetSelectedState("lock")
-		elseif ChapterTools.IsNeedOperateLastDayWatch(arg_28_0.chapterID_, arg_28_0.selectDay_) then
-			arg_28_0.watchController_:SetSelectedState("exitSpecialSpace")
-		elseif table.keyof(ChapterMapCfg.get_id_list_by_chapter_id_day[arg_28_0.chapterID_][arg_28_0.selectDay_], arg_28_0.mapID_) == 1 then
-			arg_28_0.watchController_:SetSelectedState("innerSpace")
+		if ChapterTools.IsNeedOperateFirstDayWatch(slot0.chapterID_, slot0.selectDay_) then
+			slot0.watchController_:SetSelectedState("lock")
+		elseif ChapterTools.IsNeedOperateLastDayWatch(slot0.chapterID_, slot0.selectDay_) then
+			slot0.watchController_:SetSelectedState("exitSpecialSpace")
+		elseif table.keyof(ChapterMapCfg.get_id_list_by_chapter_id_day[slot0.chapterID_][slot0.selectDay_], slot0.mapID_) == 1 then
+			slot0.watchController_:SetSelectedState("innerSpace")
 
-			arg_28_0.watchText_.text = GetTips("SURFACE_SPACE")
+			slot0.watchText_.text = GetTips("SURFACE_SPACE")
 		else
-			arg_28_0.watchController_:SetSelectedState("outwardSpace")
+			slot0.watchController_:SetSelectedState("outwardSpace")
 
-			if arg_28_0.selectDay_ == 4 then
-				arg_28_0.watchText_.text = "???"
+			if slot0.selectDay_ == 4 then
+				slot0.watchText_.text = "???"
 			else
-				arg_28_0.watchText_.text = GetTips("INNER_SPACE")
+				slot0.watchText_.text = GetTips("INNER_SPACE")
 			end
 		end
 	end
 
-	if ChapterTools.NeedShowSwitchMapGuild(arg_28_0.chapterID_, arg_28_0.selectDay_, arg_28_0.mapID_) then
-		arg_28_0.watchGuildAnimator_:Play("map_unlock2", 0, 0)
+	if ChapterTools.NeedShowSwitchMapGuild(slot0.chapterID_, slot0.selectDay_, slot0.mapID_) then
+		slot0.watchGuildAnimator_:Play("map_unlock2", 0, 0)
 	else
-		arg_28_0.watchGuildAnimator_:Play("empty", 0, 0)
+		slot0.watchGuildAnimator_:Play("empty", 0, 0)
 	end
 end
 
-function var_0_0.RefreshCollectClue(arg_29_0)
-	local var_29_0, var_29_1 = ChapterTools.GetChapterClueCnt(arg_29_0.chapterID_)
-
-	arg_29_0.clueCntText_.text = string.format("%s/%s", var_29_0, var_29_1)
+function slot0.RefreshCollectClue(slot0)
+	slot1, slot2 = ChapterTools.GetChapterClueCnt(slot0.chapterID_)
+	slot0.clueCntText_.text = string.format("%s/%s", slot1, slot2)
 end
 
-function var_0_0.ScanAnimator(arg_30_0, arg_30_1)
-	arg_30_0:StopScan()
-	arg_30_0.scanAnimator_:Play("scan", 0, 0)
+function slot0.ScanAnimator(slot0, slot1)
+	slot0:StopScan()
+	slot0.scanAnimator_:Play("scan", 0, 0)
 
-	arg_30_0.scanTimer_ = FrameTimer.New(function()
-		if arg_30_0.scanAnimator_:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
-			arg_30_1()
-			arg_30_0:StopScan()
+	slot0.scanTimer_ = FrameTimer.New(function ()
+		if uv0.scanAnimator_:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
+			uv1()
+			uv0:StopScan()
 		end
 	end, 1, -1)
 
-	arg_30_0.scanTimer_:Start()
+	slot0.scanTimer_:Start()
 end
 
-function var_0_0.StopScan(arg_32_0)
-	if arg_32_0.scanTimer_ then
-		arg_32_0.scanTimer_:Stop()
+function slot0.StopScan(slot0)
+	if slot0.scanTimer_ then
+		slot0.scanTimer_:Stop()
 
-		arg_32_0.scanTimer_ = nil
+		slot0.scanTimer_ = nil
 	end
 end
 
-function var_0_0.AddArrowTimer(arg_33_0)
-	arg_33_0.arrowTimer_ = FrameTimer.New(function()
-		arg_33_0:ShowArrow()
+function slot0.AddArrowTimer(slot0)
+	slot0.arrowTimer_ = FrameTimer.New(function ()
+		uv0:ShowArrow()
 	end, 1, -1)
 
-	arg_33_0.arrowTimer_:Start()
+	slot0.arrowTimer_:Start()
 end
 
-function var_0_0.StopArrowTimer(arg_35_0)
-	if arg_35_0.arrowTimer_ then
-		arg_35_0.arrowTimer_:Stop()
+function slot0.StopArrowTimer(slot0)
+	if slot0.arrowTimer_ then
+		slot0.arrowTimer_:Stop()
 
-		arg_35_0.arrowTimer_ = nil
+		slot0.arrowTimer_ = nil
 	end
 end
 
-function var_0_0.ShowArrow(arg_36_0)
-	local var_36_0 = ChapterTools.GetUnclearMainStageLocationID(arg_36_0.mapID_)
+function slot0.ShowArrow(slot0)
+	if ChapterTools.GetUnclearMainStageLocationID(slot0.mapID_) then
+		slot3 = ChapterLocationCfg[slot1]
+		slot5 = slot0.viewPortTf_.rect.width / 2
+		slot7 = slot5 - 200
+		slot8 = slot0.viewPortTf_.rect.height / 2 - 200
 
-	if var_36_0 then
-		local var_36_1 = arg_36_0.contentTf_.localPosition
-		local var_36_2 = ChapterLocationCfg[var_36_0]
-		local var_36_3 = Vector3(var_36_2.position[1], var_36_2.position[2], 0) + var_36_1
-		local var_36_4 = arg_36_0.viewPortTf_.rect.width / 2
-		local var_36_5 = arg_36_0.viewPortTf_.rect.height / 2
-		local var_36_6 = var_36_4 - 200
-		local var_36_7 = var_36_5 - 200
+		if slot5 < math.abs((Vector3(slot3.position[1], slot3.position[2], 0) + slot0.contentTf_.localPosition).x) or slot6 < math.abs(slot4.y) then
+			SetActive(slot0.arrowGo_, true)
 
-		if var_36_4 < math.abs(var_36_3.x) or var_36_5 < math.abs(var_36_3.y) then
-			SetActive(arg_36_0.arrowGo_, true)
+			slot9 = MathTools.GetAngle(Vector3(0, 0, 0), slot4) + 180
+			slot0.arrowTf_.localEulerAngles = Vector3(0, 0, slot9)
+			slot9 = (slot9 + 180) % 360 - 180
+			slot11 = slot7 * math.tan(slot9 / 180 * math.pi)
 
-			local var_36_8 = MathTools.GetAngle(Vector3(0, 0, 0), var_36_3) + 180
-
-			arg_36_0.arrowTf_.localEulerAngles = Vector3(0, 0, var_36_8)
-
-			local var_36_9 = (var_36_8 + 180) % 360 - 180
-			local var_36_10 = var_36_6
-			local var_36_11 = var_36_10 * math.tan(var_36_9 / 180 * math.pi)
-
-			if var_36_9 > -90 and var_36_9 < 90 then
-				var_36_10 = -var_36_6
-				var_36_11 = var_36_10 * math.tan(var_36_9 / 180 * math.pi)
+			if slot9 > -90 and slot9 < 90 then
+				slot11 = -slot7 * math.tan(slot9 / 180 * math.pi)
 			end
 
-			if var_36_7 < math.abs(var_36_11) then
-				if var_36_9 > -180 and var_36_9 < 0 then
-					var_36_11 = var_36_7
-					var_36_10 = var_36_11 / math.tan(var_36_9 / 180 * math.pi)
-				else
-					var_36_11 = -var_36_7
-					var_36_10 = var_36_11 / math.tan(var_36_9 / 180 * math.pi)
-				end
+			if slot8 < math.abs(slot11) then
+				slot10 = slot9 > -180 and slot9 < 0 and slot8 / math.tan(slot9 / 180 * math.pi) or -slot8 / math.tan(slot9 / 180 * math.pi)
 			end
 
-			arg_36_0.arrowTf_.localPosition = Vector3(var_36_10, var_36_11, 0)
+			slot0.arrowTf_.localPosition = Vector3(slot10, slot11, 0)
 		else
-			SetActive(arg_36_0.arrowGo_, false)
+			SetActive(slot0.arrowGo_, false)
 		end
 	else
-		SetActive(arg_36_0.arrowGo_, false)
+		SetActive(slot0.arrowGo_, false)
 	end
 end
 
-function var_0_0.RefreshAudio(arg_37_0)
-	local var_37_0 = ChapterTools.GetChapterAudioIDList(arg_37_0.mapID_)
-	local var_37_1 = var_37_0[#var_37_0]
+function slot0.RefreshAudio(slot0)
+	slot1 = ChapterTools.GetChapterAudioIDList(slot0.mapID_)
 
-	if arg_37_0.lastAudioID_ == var_37_1 then
+	if slot0.lastAudioID_ == slot1[#slot1] then
 		return
 	end
 
-	for iter_37_0, iter_37_1 in ipairs(var_37_0) do
-		local var_37_2 = ChapterAudioCfg[iter_37_1]
-
-		manager.audio:PlayUIAudio(var_37_2.bgm_id)
+	for slot6, slot7 in ipairs(slot1) do
+		manager.audio:PlayUIAudio(ChapterAudioCfg[slot7].bgm_id)
 	end
 
-	local var_37_3 = ChapterAudioCfg[var_37_1]
-
-	arg_37_0.bgmNameText_.text = var_37_3.name
-	arg_37_0.lastAudioID_ = var_37_1
+	slot0.bgmNameText_.text = ChapterAudioCfg[slot2].name
+	slot0.lastAudioID_ = slot2
 end
 
-function var_0_0.Dispose(arg_38_0)
-	arg_38_0.updateAllHandler_ = nil
-	arg_38_0.OnCloseDayPanelHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.updateAllHandler_ = nil
+	slot0.OnCloseDayPanelHandler_ = nil
 
-	arg_38_0.mapView_:Dispose()
+	slot0.mapView_:Dispose()
 
-	arg_38_0.mapView_ = nil
+	slot0.mapView_ = nil
 
-	arg_38_0.dayView_:Dispose()
+	slot0.dayView_:Dispose()
 
-	arg_38_0.dayView_ = nil
+	slot0.dayView_ = nil
 
-	var_0_0.super.Dispose(arg_38_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

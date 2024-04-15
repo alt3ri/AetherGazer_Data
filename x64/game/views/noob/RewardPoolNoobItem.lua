@@ -1,56 +1,48 @@
-local var_0_0 = import("game.views.common.RewardPoolItem")
-local var_0_1 = class("RewardPoolNoobItem", var_0_0)
+slot1 = class("RewardPoolNoobItem", import("game.views.common.RewardPoolItem"))
 
-function var_0_1.GetParentItemPath(arg_1_0)
+function slot1.GetParentItemPath(slot0)
 	return "UI/Activity/NewbieCommonItem"
 end
 
-function var_0_1.OnCtor(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5, arg_2_6)
-	local var_2_0
+function slot1.OnCtor(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	slot7 = nil
+	slot0.parentGo_ = Object.Instantiate((slot1 ~= nil or Asset.Load(slot0:GetParentItemPath())) and slot1, slot2.transform)
 
-	if arg_2_1 == nil then
-		var_2_0 = Asset.Load(arg_2_0:GetParentItemPath())
-	else
-		var_2_0 = arg_2_1
-	end
-
-	arg_2_0.parentGo_ = Object.Instantiate(var_2_0, arg_2_2.transform)
-
-	arg_2_0:BindCfgUI(arg_2_0.parentGo_)
-	var_0_1.super.OnCtor(arg_2_0, arg_2_0.parentGo_, arg_2_3, arg_2_4, arg_2_5, arg_2_6)
+	slot0:BindCfgUI(slot0.parentGo_)
+	uv0.super.OnCtor(slot0, slot0.parentGo_, slot3, slot4, slot5, slot6)
 end
 
-function var_0_1.SetParent(arg_3_0)
-	arg_3_0.commonItemGo_.transform:SetParent(arg_3_0.parentGo_.transform)
+function slot1.SetParent(slot0)
+	slot0.commonItemGo_.transform:SetParent(slot0.parentGo_.transform)
 end
 
-function var_0_1.SetData(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1.super.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0:RefreshText(arg_4_1.num)
+function slot1.SetData(slot0, slot1, slot2)
+	uv0.super.SetData(slot0, slot1, slot2)
+	slot0:RefreshText(slot1.num)
 end
 
-function var_0_1.RefreshText(arg_5_0, arg_5_1)
-	arg_5_0:ShowFloor(ItemConst.ITEM_FLOOR.BLACK)
-	arg_5_0.commonItem_:HideNum()
+function slot1.RefreshText(slot0, slot1)
+	slot0:ShowFloor(ItemConst.ITEM_FLOOR.BLACK)
+	slot0.commonItem_:HideNum()
 
-	arg_5_0.cntText_.text = arg_5_1
+	slot0.cntText_.text = slot1
 end
 
-function var_0_1.Dispose(arg_6_0)
-	arg_6_0.commonItem_:ResetTransform()
-	var_0_1.super.Dispose(arg_6_0)
-	Object.Destroy(arg_6_0.parentGo_)
+function slot1.Dispose(slot0)
+	slot0.commonItem_:ResetTransform()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.parentGo_)
 
-	arg_6_0.parentGo_ = nil
+	slot0.parentGo_ = nil
 end
 
-function var_0_1.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.parentGo_, arg_7_1)
-	var_0_1.super.Show(arg_7_0, arg_7_1)
+function slot1.Show(slot0, slot1)
+	SetActive(slot0.parentGo_, slot1)
+	uv0.super.Show(slot0, slot1)
 end
 
-function var_0_1.SetTextColor(arg_8_0, arg_8_1)
-	arg_8_0.cntText_.color = arg_8_1
+function slot1.SetTextColor(slot0, slot1)
+	slot0.cntText_.color = slot1
 end
 
-return var_0_1
+return slot1

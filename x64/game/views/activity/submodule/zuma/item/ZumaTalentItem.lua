@@ -1,5 +1,5 @@
-local var_0_0 = class("ZumaTalentItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ZumaTalentItem", ReduxView)
+slot1 = {
 	selectState = {
 		onSelect = "state1",
 		name = "sel",
@@ -16,51 +16,47 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.talentID = arg_1_3
-	arg_1_0.talentCfg = ActivityZumaTalentCfg[arg_1_0.talentID]
-	arg_1_0.lineImage = arg_1_2:GetComponent(typeof(Image))
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.talentID = slot3
+	slot0.talentCfg = ActivityZumaTalentCfg[slot0.talentID]
+	slot0.lineImage = slot2:GetComponent(typeof(Image))
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selectController = arg_2_0.controllerexcollection_:GetController(var_0_1.selectState.name)
-	arg_2_0.stateController = arg_2_0.controllerexcollection_:GetController(var_0_1.stateState.name)
+	slot0.selectController = slot0.controllerexcollection_:GetController(uv0.selectState.name)
+	slot0.stateController = slot0.controllerexcollection_:GetController(uv0.stateState.name)
 
-	arg_2_0:AddBtnListener(arg_2_0.stageBtn_, nil, function()
-		manager.notify:CallUpdateFunc(ZUMA_TALENT_INFO, arg_2_0.talentID)
+	slot0:AddBtnListener(slot0.stageBtn_, nil, function ()
+		manager.notify:CallUpdateFunc(ZUMA_TALENT_INFO, uv0.talentID)
 	end)
 
-	arg_2_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/NorseUI_3_0/NorseUI_3_0_Zuma/" .. arg_2_0.talentCfg.icon)
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/NorseUI_3_0/NorseUI_3_0_Zuma/" .. slot0.talentCfg.icon)
 end
 
-function var_0_0.GetTalentID(arg_4_0)
-	return arg_4_0.talentID
+function slot0.GetTalentID(slot0)
+	return slot0.talentID
 end
 
-function var_0_0.RefreshTalentState(arg_5_0)
-	local var_5_0 = ZumaData:GetZumaTalentIsOpen(arg_5_0.talentID)
-
-	arg_5_0.stateController:SetSelectedState(var_5_0 and var_0_1.stateState.normal or var_0_1.stateState.lock)
-	arg_5_0:RefreshLineState(var_5_0)
+function slot0.RefreshTalentState(slot0)
+	slot0.stateController:SetSelectedState(ZumaData:GetZumaTalentIsOpen(slot0.talentID) and uv0.stateState.normal or uv0.stateState.lock)
+	slot0:RefreshLineState(slot1)
 end
 
-function var_0_0.RefreshSelectState(arg_6_0, arg_6_1)
-	arg_6_0.selectController:SetSelectedState(arg_6_1 and var_0_1.selectState.onSelect or var_0_1.selectState.unSelect)
+function slot0.RefreshSelectState(slot0, slot1)
+	slot0.selectController:SetSelectedState(slot1 and uv0.selectState.onSelect or uv0.selectState.unSelect)
 end
 
-function var_0_0.RefreshLineState(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_1 and var_0_1.lineState.normalColor or var_0_1.lineState.lockColor
-
-	arg_7_0.lineImage.color = var_7_0
+function slot0.RefreshLineState(slot0, slot1)
+	slot0.lineImage.color = slot1 and uv0.lineState.normalColor or uv0.lineState.lockColor
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

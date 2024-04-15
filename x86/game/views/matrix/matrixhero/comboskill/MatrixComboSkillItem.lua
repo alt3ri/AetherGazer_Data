@@ -1,35 +1,35 @@
-local var_0_0 = class("MatrixComboSkillItem", ReduxView)
+slot0 = class("MatrixComboSkillItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_2_0, arg_2_1)
-	local var_2_0 = ComboSkillCfg[arg_2_1]
-	local var_2_1 = HeroSkillCfg[var_2_0.skill_id]
+function slot0.RefreshUI(slot0, slot1)
+	slot2 = ComboSkillCfg[slot1]
+	slot3 = HeroSkillCfg[slot2.skill_id]
+	slot0.textLv_.text = string.format("")
+	slot0.textTitle_.text = GetI18NText(slot3.name)
+	slot0.textSkillType_.text = ""
+	slot0.textDesc_.text = GetCfgDescription(slot3.desc[1], 1)
+	slot7 = slot2.skill_id
+	slot0.m_icon.sprite = getSpriteWithoutAtlas(SpritePathCfg.ComboSkill.path .. slot7)
 
-	arg_2_0.textLv_.text = string.format("")
-	arg_2_0.textTitle_.text = GetI18NText(var_2_1.name)
-	arg_2_0.textSkillType_.text = ""
-	arg_2_0.textDesc_.text = GetCfgDescription(var_2_1.desc[1], 1)
-	arg_2_0.m_icon.sprite = getSpriteWithoutAtlas(SpritePathCfg.ComboSkill.path .. var_2_0.skill_id)
+	for slot7, slot8 in ipairs(slot2.cooperate_role_ids) do
+		SetActive(slot0[string.format("goHeroItem%s_", slot7)], true)
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0.cooperate_role_ids) do
-		SetActive(arg_2_0[string.format("goHeroItem%s_", iter_2_0)], true)
-
-		arg_2_0[string.format("imageHeroIcon%s_", iter_2_0)].sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. iter_2_1)
+		slot0[string.format("imageHeroIcon%s_", slot7)].sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. slot8)
 	end
 
-	for iter_2_2 = #var_2_0.cooperate_role_ids + 1, 3 do
-		SetActive(arg_2_0[string.format("goHeroItem%s_", iter_2_2)], false)
+	for slot7 = #slot2.cooperate_role_ids + 1, 3 do
+		SetActive(slot0[string.format("goHeroItem%s_", slot7)], false)
 	end
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

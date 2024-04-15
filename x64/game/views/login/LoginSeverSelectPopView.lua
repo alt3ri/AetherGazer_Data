@@ -1,80 +1,71 @@
-local var_0_0 = class("LoginSeverSelectPopView", ReduxView)
+slot0 = class("LoginSeverSelectPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/LoginInterface/LoginInterfaceServerPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, LoginSeverSelectPopItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, LoginSeverSelectPopItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_backBtn, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_backBtn, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	local var_8_0 = RegionServerMgr.instance:GetRegionServerInfoList()
-	local var_8_1 = var_8_0.Count
+function slot0.OnEnter(slot0)
+	slot0.server_data_list = {}
 
-	arg_8_0.server_data_list = {}
+	for slot6 = 0, RegionServerMgr.instance:GetRegionServerInfoList().Count - 1 do
+		slot7 = slot1[slot6]
 
-	for iter_8_0 = 0, var_8_1 - 1 do
-		local var_8_2 = var_8_0[iter_8_0]
-		local var_8_3 = {
-			serverName = var_8_2.serverName,
-			maintain = var_8_2.maintain,
-			newServerFlag = var_8_2.newServerFlag,
-			serverId = var_8_2.serverId
-		}
-		local var_8_4 = var_8_2.gameUserInfoList
-
-		if var_8_4.Count > 0 then
-			local var_8_5 = var_8_4[0]
-
-			var_8_3.player = {
-				nickName = var_8_5.nickName,
-				currentLevel = var_8_5.currentLevel,
-				uid = var_8_5.uid,
-				lastLoginTime = var_8_5.lastLoginTime
-			}
+		if slot7.gameUserInfoList.Count > 0 then
+			slot10 = slot9[0]
 		end
 
-		table.insert(arg_8_0.server_data_list, var_8_3)
+		table.insert(slot0.server_data_list, {
+			serverName = slot7.serverName,
+			maintain = slot7.maintain,
+			newServerFlag = slot7.newServerFlag,
+			serverId = slot7.serverId,
+			player = {
+				nickName = slot10.nickName,
+				currentLevel = slot10.currentLevel,
+				uid = slot10.uid,
+				lastLoginTime = slot10.lastLoginTime
+			}
+		})
 	end
 
-	arg_8_0.list:StartScroll(#arg_8_0.server_data_list)
+	slot0.list:StartScroll(#slot0.server_data_list)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.server_data_list[arg_10_1]
-
-	arg_10_2:SetData(var_10_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.server_data_list[slot1])
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.list:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

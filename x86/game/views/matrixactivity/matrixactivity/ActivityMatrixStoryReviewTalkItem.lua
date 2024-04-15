@@ -1,26 +1,24 @@
-local var_0_0 = class("ActivityMatrixStoryReviewTalkItem", ReduxView)
+slot0 = class("ActivityMatrixStoryReviewTalkItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1[1] or ""
-	local var_4_1 = arg_4_1[2] or 0
-
-	arg_4_0.m_head.sprite = getSpriteWithoutAtlas("TextureConfig/Story/Character/" .. var_4_0)
-	arg_4_0.m_content.text = StoryWordCfg[var_4_1] and GetI18NText(StoryWordCfg[var_4_1].content) or ""
+function slot0.SetData(slot0, slot1)
+	slot3 = slot1[2] or 0
+	slot0.m_head.sprite = getSpriteWithoutAtlas("TextureConfig/Story/Character/" .. (slot1[1] or ""))
+	slot0.m_content.text = StoryWordCfg[slot3] and GetI18NText(StoryWordCfg[slot3].content) or ""
 end
 
-return var_0_0
+return slot0

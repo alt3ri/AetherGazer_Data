@@ -1,27 +1,27 @@
-local var_0_0 = class("PosterCommonGreetingState", PosterCommonInteractionState)
+slot0 = class("PosterCommonGreetingState", PosterCommonInteractionState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.interactionKey = PosterGirlConst.InteractionKey.greeting
+	slot0.interactionKey = PosterGirlConst.InteractionKey.greeting
 end
 
-function var_0_0.Enter(arg_2_0)
-	arg_2_0.greetTimer = Timer.New(function()
-		arg_2_0:CheckInsteraction()
+function slot0.Enter(slot0)
+	slot0.greetTimer = Timer.New(function ()
+		uv0:CheckInsteraction()
 	end, 1.2, 1)
 
-	arg_2_0.greetTimer:Start()
+	slot0.greetTimer:Start()
 end
 
-function var_0_0.Exit(arg_4_0)
-	var_0_0.super.Exit(arg_4_0)
+function slot0.Exit(slot0)
+	uv0.super.Exit(slot0)
 
-	if arg_4_0.greetTimer then
-		arg_4_0.greetTimer:Stop()
+	if slot0.greetTimer then
+		slot0.greetTimer:Stop()
 
-		arg_4_0.greetTimer = nil
+		slot0.greetTimer = nil
 	end
 end
 
-return var_0_0
+return slot0

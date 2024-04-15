@@ -1,6 +1,5 @@
-local var_0_0 = import("game.views.heroTeamInfo.SectionHeroTeamHeadItem")
-local var_0_1 = class("NewChessHeroTeamHeadItem", var_0_0)
-local var_0_2 = {
+slot1 = class("NewChessHeroTeamHeadItem", import("game.views.heroTeamInfo.SectionHeroTeamHeadItem"))
+slot2 = {
 	Team_3 = 3,
 	Team_2 = 2,
 	CurTeam = 4,
@@ -8,49 +7,44 @@ local var_0_2 = {
 	None = 0
 }
 
-function var_0_1.RefreshTeamTag(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = var_0_2.None
+function slot1.RefreshTeamTag(slot0, slot1, slot2, slot3)
+	slot4 = uv0.None
 
-	for iter_1_0 = 1, arg_1_3 do
-		local var_1_1 = ReserveParams.New(ReserveConst.RESERVE_TYPE.MULTI_CHESS, arg_1_1, iter_1_0, {
-			stageType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS
-		})
-		local var_1_2 = ReserveTools.GetHeroList(var_1_1)
+	for slot8 = 1, slot3 do
+		slot14 = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS
 
-		for iter_1_1, iter_1_2 in ipairs(var_1_2) do
-			if arg_1_0.heroId_ == iter_1_2 then
-				if iter_1_0 == arg_1_2 then
-					var_1_0 = var_0_2.CurTeam
-				else
-					var_1_0 = iter_1_0
-				end
+		for slot14, slot15 in ipairs(ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.MULTI_CHESS, slot1, slot8, {
+			stageType = slot14
+		}))) do
+			if slot0.heroId_ == slot15 then
+				slot4 = (slot8 ~= slot2 or uv0.CurTeam) and slot8
 			end
 		end
 	end
 
-	if var_1_0 == var_0_2.Team_1 then
-		SetActive(arg_1_0.sectionTeamMarkGo_, true)
-		arg_1_0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
+	if slot4 == uv0.Team_1 then
+		SetActive(slot0.sectionTeamMarkGo_, true)
+		slot0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
 
-		arg_1_0.sectionTeamMarkText_.text = GetTips("TEAM_" .. var_1_0)
-	elseif var_1_0 == var_0_2.Team_2 then
-		SetActive(arg_1_0.sectionTeamMarkGo_, true)
-		arg_1_0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
+		slot0.sectionTeamMarkText_.text = GetTips("TEAM_" .. slot4)
+	elseif slot4 == uv0.Team_2 then
+		SetActive(slot0.sectionTeamMarkGo_, true)
+		slot0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
 
-		arg_1_0.sectionTeamMarkText_.text = GetTips("TEAM_" .. var_1_0)
-	elseif var_1_0 == var_0_2.Team_3 then
-		SetActive(arg_1_0.sectionTeamMarkGo_, true)
-		arg_1_0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
+		slot0.sectionTeamMarkText_.text = GetTips("TEAM_" .. slot4)
+	elseif slot4 == uv0.Team_3 then
+		SetActive(slot0.sectionTeamMarkGo_, true)
+		slot0.sectionTeamMarkBgStyleController_:SetSelectedState("purple")
 
-		arg_1_0.sectionTeamMarkText_.text = GetTips("TEAM_" .. var_1_0)
-	elseif var_1_0 == var_0_2.CurTeam then
-		SetActive(arg_1_0.sectionTeamMarkGo_, true)
-		arg_1_0.sectionTeamMarkBgStyleController_:SetSelectedState("green")
+		slot0.sectionTeamMarkText_.text = GetTips("TEAM_" .. slot4)
+	elseif slot4 == uv0.CurTeam then
+		SetActive(slot0.sectionTeamMarkGo_, true)
+		slot0.sectionTeamMarkBgStyleController_:SetSelectedState("green")
 
-		arg_1_0.sectionTeamMarkText_.text = GetTips("IN_TEAM")
+		slot0.sectionTeamMarkText_.text = GetTips("IN_TEAM")
 	else
-		SetActive(arg_1_0.sectionTeamMarkGo_, false)
+		SetActive(slot0.sectionTeamMarkGo_, false)
 	end
 end
 
-return var_0_1
+return slot1

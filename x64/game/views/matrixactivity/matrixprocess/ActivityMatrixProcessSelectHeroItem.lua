@@ -1,1 +1,1 @@
-return (class("ActivityMatrixProcessSelectHeroItem", MatrixProcessSelectHeroItem))
+return class("ActivityMatrixProcessSelectHeroItem", MatrixProcessSelectHeroItem)

@@ -1,12 +1,12 @@
-local var_0_0 = class("GotoMardukSpecialStage", BattleSettlementStrategyBase)
+slot0 = class("GotoMardukSpecialStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoMardukSpecialStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoMardukSpecialStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoMardukSpecialStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	if arg_2_5 then
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+function slot0.GotoMardukSpecialStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	if slot5 then
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 
 		return
 	end
@@ -14,42 +14,34 @@ function var_0_0.GotoMardukSpecialStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_
 	function BattleCallLuaCallBack()
 		manager.story:RemovePlayer()
 
-		local var_3_0 = 1
-		local var_3_1 = math.floor(GameSetting.activity_quick_training_point_calculate_time.value[1] / 1000)
-		local var_3_2 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-		local var_3_3 = math.floor(var_3_2)
-		local var_3_4 = GameSetting.quick_training_time_param.value[1]
-		local var_3_5 = 0
+		slot0 = 1
+		slot1 = math.floor(GameSetting.activity_quick_training_point_calculate_time.value[1] / 1000)
+		slot5 = 0
 
-		if isSuccess(arg_2_1) then
-			var_3_5 = (var_3_1 - var_3_3) / var_3_1 * var_3_4
+		if isSuccess(uv0) then
+			slot5 = (slot1 - math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)) / slot1 * GameSetting.quick_training_time_param.value[1]
 		end
 
-		local var_3_6 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas
-		local var_3_7 = 0
-		local var_3_8 = ActivityQuickTrainingCfg[arg_2_2:GetActivityID()].monster_id_list
+		slot6 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas
+		slot7 = 0
 
-		for iter_3_0, iter_3_1 in ipairs(var_3_8) do
-			local var_3_9
-			local var_3_10 = 0
+		for slot13, slot14 in ipairs(ActivityQuickTrainingCfg[uv1:GetActivityID()].monster_id_list) do
+			slot16 = 0
 
-			if var_3_6:TryGetValue(iter_3_1[1], var_3_9) then
-				var_3_10 = var_3_6[iter_3_1[1]] or 0
+			if slot6:TryGetValue(slot14[1], nil) then
+				slot16 = slot6[slot14[1]] or 0
 			end
 
-			var_3_7 = var_3_7 + var_3_10 * (iter_3_1[2] or 0)
+			slot7 = slot7 + slot16 * (slot14[2] or 0)
 		end
 
-		local var_3_11 = var_3_7 + var_3_5
-		local var_3_12 = math.floor(var_3_11)
-
 		gameContext:Go("/battleScorResult", {
-			stageData = arg_2_2,
-			battleResult = arg_2_4,
-			score = var_3_12
+			stageData = uv1,
+			battleResult = uv2,
+			score = math.floor(slot7 + slot5)
 		})
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv0)
 	end
 end
 
-return var_0_0
+return slot0

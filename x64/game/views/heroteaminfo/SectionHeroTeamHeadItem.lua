@@ -1,148 +1,141 @@
-local var_0_0 = import("game.views.newHero.HeroLongHead")
-local var_0_1 = class("SectionHeroTeamHeadItem", var_0_0)
+slot1 = class("SectionHeroTeamHeadItem", import("game.views.newHero.HeroLongHead"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot1.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot2 = slot1
 
-	local var_1_0 = arg_1_1
+	slot0:InitProxy()
 
-	arg_1_0:InitProxy()
+	slot0.gameObject_ = slot0.realGo_
+	slot0.transform_ = slot0.realGo_.transform
 
-	arg_1_0.gameObject_ = arg_1_0.realGo_
-	arg_1_0.transform_ = arg_1_0.realGo_.transform
+	slot0:Init()
 
-	arg_1_0:Init()
-
-	arg_1_0.gameObject_ = var_1_0
-	arg_1_0.transform_ = var_1_0.transform
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 end
 
-function var_0_1.InitProxy(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitProxy(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.sectionLockTypeController_ = arg_2_0.sectionController_:GetController("sectionLockType")
-	arg_2_0.sectionTeamMarkBgStyleController_ = arg_2_0.sectionController_:GetController("sectionTeamMarkBgStyle")
-	arg_2_0.sectionEnergyController_ = arg_2_0.sectionController_:GetController("sectionEnergy")
-	arg_2_0.sectionLockingController_ = arg_2_0.sectionController_:GetController("sectionLocking")
-	arg_2_0.sectionHPController_ = arg_2_0.sectionController_:GetController("sectionHP")
+	slot0.sectionLockTypeController_ = slot0.sectionController_:GetController("sectionLockType")
+	slot0.sectionTeamMarkBgStyleController_ = slot0.sectionController_:GetController("sectionTeamMarkBgStyle")
+	slot0.sectionEnergyController_ = slot0.sectionController_:GetController("sectionEnergy")
+	slot0.sectionLockingController_ = slot0.sectionController_:GetController("sectionLocking")
+	slot0.sectionHPController_ = slot0.sectionController_:GetController("sectionHP")
 end
 
-function var_0_1.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.SetSectionHeroData(arg_4_0, arg_4_1)
-	arg_4_0.sectionHeroData_ = arg_4_1
+function slot1.SetSectionHeroData(slot0, slot1)
+	slot0.sectionHeroData_ = slot1
+	slot2 = slot0.sectionHeroData_.id
+	slot3 = slot0.sectionHeroData_.trialID
+	slot5 = slot0.sectionHeroData_.heroViewProxy
+	slot0.gameObject_.name = tostring(slot2)
 
-	local var_4_0 = arg_4_0.sectionHeroData_.id
-	local var_4_1 = arg_4_0.sectionHeroData_.trialID
-	local var_4_2 = arg_4_0.sectionHeroData_.type
-	local var_4_3 = arg_4_0.sectionHeroData_.heroViewProxy
-
-	arg_4_0.gameObject_.name = tostring(var_4_0)
-
-	arg_4_0:SetProxy(var_4_3)
-	arg_4_0:SetHeroId(var_4_0, var_4_2, var_4_3.tempHeroList)
-	arg_4_0:SetRedPointEnable(false)
-	arg_4_0:RefreshSectionUI()
+	slot0:SetProxy(slot5)
+	slot0:SetHeroId(slot2, slot0.sectionHeroData_.type, slot5.tempHeroList)
+	slot0:SetRedPointEnable(false)
+	slot0:RefreshSectionUI()
 end
 
-function var_0_1.RefreshSectionUI(arg_5_0)
-	local var_5_0 = arg_5_0.sectionHeroData_.type
-
-	if var_5_0 == HeroConst.HERO_DATA_TYPE.DEFAULT then
-		arg_5_0:SetTrial(false)
-	elseif var_5_0 == HeroConst.HERO_DATA_TYPE.TRIAL then
-		arg_5_0:SetTrial(true)
-	elseif var_5_0 == HeroConst.HERO_DATA_TYPE.CUSTOM then
-		arg_5_0:SetTrial(true)
-	elseif var_5_0 == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
-		arg_5_0:SetTrial(false)
+function slot1.RefreshSectionUI(slot0)
+	if slot0.sectionHeroData_.type == HeroConst.HERO_DATA_TYPE.DEFAULT then
+		slot0:SetTrial(false)
+	elseif slot1 == HeroConst.HERO_DATA_TYPE.TRIAL then
+		slot0:SetTrial(true)
+	elseif slot1 == HeroConst.HERO_DATA_TYPE.CUSTOM then
+		slot0:SetTrial(true)
+	elseif slot1 == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
+		slot0:SetTrial(false)
 	end
 end
 
-function var_0_1.SetEnergy(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.sectionEnergyController_:SetSelectedState(arg_6_1 and "on" or "off")
+function slot1.SetEnergy(slot0, slot1, slot2)
+	slot0.sectionEnergyController_:SetSelectedState(slot1 and "on" or "off")
 
-	arg_6_0.sectionEnergyLabel_.text = arg_6_2
+	slot0.sectionEnergyLabel_.text = slot2
 end
 
-function var_0_1.SetTeamMarkBg(arg_7_0, arg_7_1)
-	arg_7_0.sectionTeamMarkBgStyleController_:SetSelectedState(arg_7_1)
+function slot1.SetTeamMarkBg(slot0, slot1)
+	slot0.sectionTeamMarkBgStyleController_:SetSelectedState(slot1)
 end
 
-function var_0_1.SetTeamMark(arg_8_0, arg_8_1, arg_8_2)
-	SetActive(arg_8_0.sectionTeamMarkGo_, arg_8_1)
+function slot1.SetTeamMark(slot0, slot1, slot2)
+	SetActive(slot0.sectionTeamMarkGo_, slot1)
 
-	if arg_8_1 then
-		arg_8_0.sectionTeamMarkText_.text = GetI18NText(arg_8_2)
+	if slot1 then
+		slot0.sectionTeamMarkText_.text = GetI18NText(slot2)
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.sectionTeamMarkTransform_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.sectionTeamMarkTransform_)
 	end
 end
 
-function var_0_1.SetInTeamFlag(arg_9_0, arg_9_1, arg_9_2)
-	SetActive(arg_9_0.sectionTeamMarkGo_, arg_9_1)
+function slot1.SetInTeamFlag(slot0, slot1, slot2)
+	SetActive(slot0.sectionTeamMarkGo_, slot1)
 
-	if arg_9_1 then
-		if arg_9_2 then
-			arg_9_0.sectionTeamMarkText_.text = GetTips("IS_CAPTAIN")
+	if slot1 then
+		if slot2 then
+			slot0.sectionTeamMarkText_.text = GetTips("IS_CAPTAIN")
 		else
-			arg_9_0.sectionTeamMarkText_.text = GetTips("IN_TEAM")
+			slot0.sectionTeamMarkText_.text = GetTips("IN_TEAM")
 		end
 	end
 end
 
-function var_0_1.SetInShowFlag(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.sectionTeamMarkGo_, arg_10_1)
+function slot1.SetInShowFlag(slot0, slot1)
+	SetActive(slot0.sectionTeamMarkGo_, slot1)
 
-	arg_10_0.sectionTeamMarkText_.text = GetTips("DISPLAY")
+	slot0.sectionTeamMarkText_.text = GetTips("DISPLAY")
 end
 
-function var_0_1.SetHeroLock(arg_11_0, arg_11_1)
-	arg_11_0:SetLocking(arg_11_1)
+function slot1.SetHeroLock(slot0, slot1)
+	slot0:SetLocking(slot1)
 end
 
-function var_0_1.SetHeroLockType(arg_12_0, arg_12_1)
-	arg_12_0.sectionLockTypeController_:SetSelectedState(arg_12_1)
+function slot1.SetHeroLockType(slot0, slot1)
+	slot0.sectionLockTypeController_:SetSelectedState(slot1)
 end
 
-function var_0_1.SetHeroLockText(arg_13_0, arg_13_1)
-	arg_13_0.sectionLockLabelText_.text = GetI18NText(arg_13_1)
+function slot1.SetHeroLockText(slot0, slot1)
+	slot0.sectionLockLabelText_.text = GetI18NText(slot1)
 end
 
-function var_0_1.SetChallengeFlag(arg_14_0, arg_14_1)
-	SetActive(arg_14_0.sectionBossChallengeGo_, arg_14_1)
+function slot1.SetChallengeFlag(slot0, slot1)
+	SetActive(slot0.sectionBossChallengeGo_, slot1)
 end
 
-function var_0_1.SetHp(arg_15_0, arg_15_1)
-	arg_15_0.sectionHPController_:SetSelectedState(arg_15_1 and "on" or "off")
+function slot1.SetHp(slot0, slot1)
+	slot0.sectionHPController_:SetSelectedState(slot1 and "on" or "off")
 end
 
-function var_0_1.RefreshHpValue(arg_16_0, arg_16_1)
-	arg_16_0.sectionHPImg_.fillAmount = arg_16_1 / 100
-	arg_16_0.sectionHPText_.text = arg_16_1 .. "%"
+function slot1.RefreshHpValue(slot0, slot1)
+	slot0.sectionHPImg_.fillAmount = slot1 / 100
+	slot0.sectionHPText_.text = slot1 .. "%"
 end
 
-function var_0_1.SetLocking(arg_17_0, arg_17_1)
-	arg_17_0.sectionLockingController_:SetSelectedState(arg_17_1 and "on" or "off")
+function slot1.SetLocking(slot0, slot1)
+	slot0.sectionLockingController_:SetSelectedState(slot1 and "on" or "off")
 end
 
-function var_0_1.SetTrial(arg_18_0, arg_18_1)
-	arg_18_0.trialController_:SetSelectedState(tostring(arg_18_1))
+function slot1.SetTrial(slot0, slot1)
+	slot0.trialController_:SetSelectedState(tostring(slot1))
 end
 
-function var_0_1.SetSoloChallengeIndex(arg_19_0, arg_19_1)
-	if arg_19_1 ~= -1 then
-		SetActive(arg_19_0.sectionTeamMarkGo_, false)
-		SetActive(arg_19_0.sectionTeamOrderGo_, true)
+function slot1.SetSoloChallengeIndex(slot0, slot1)
+	if slot1 ~= -1 then
+		SetActive(slot0.sectionTeamMarkGo_, false)
+		SetActive(slot0.sectionTeamOrderGo_, true)
 
-		arg_19_0.sectionTeamOrderText_.text = GetTips(string.format("TEAM_%d", arg_19_1))
+		slot0.sectionTeamOrderText_.text = GetTips(string.format("TEAM_%d", slot1))
 	else
-		SetActive(arg_19_0.teamOrder_, false)
+		SetActive(slot0.teamOrder_, false)
 	end
 end
 
-return var_0_1
+return slot1

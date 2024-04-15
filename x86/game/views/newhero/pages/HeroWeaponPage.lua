@@ -1,121 +1,105 @@
-local var_0_0 = class("HeroWeaponPage", HeroPageBase)
+slot0 = class("HeroWeaponPage", HeroPageBase)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.weaponInfo_ = {}
-	arg_2_0.heroInfo_ = {}
-	arg_2_0.servantInfo_ = {}
+function slot0.Init(slot0)
+	slot0.weaponInfo_ = {}
+	slot0.heroInfo_ = {}
+	slot0.servantInfo_ = {}
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.lockController_ = arg_2_0.controller_:GetController("lock")
-	arg_2_0.isSelfController_ = arg_2_0.controller_:GetController("isSelf")
+	slot0.lockController_ = slot0.controller_:GetController("lock")
+	slot0.isSelfController_ = slot0.controller_:GetController("isSelf")
 end
 
-function var_0_0.SetHeroInfo(arg_3_0, arg_3_1)
-	arg_3_0.type_ = arg_3_0.heroViewProxy_:GetViewDataType()
-	arg_3_0.heroInfo_ = arg_3_1
+function slot0.SetHeroInfo(slot0, slot1)
+	slot0.type_ = slot0.heroViewProxy_:GetViewDataType()
+	slot0.heroInfo_ = slot1
 
-	if arg_3_0.heroViewProxy_.showRedPoint then
-		local var_3_0 = RedPointConst.HERO_WEAPON_BREAK_ID .. arg_3_0.heroInfo_.id
-
-		manager.redPoint:bindUIandKey(arg_3_0.weaponstrengthTrs_, var_3_0)
+	if slot0.heroViewProxy_.showRedPoint then
+		manager.redPoint:bindUIandKey(slot0.weaponstrengthTrs_, RedPointConst.HERO_WEAPON_BREAK_ID .. slot0.heroInfo_.id)
 	end
 end
 
-function var_0_0.UpdateView(arg_4_0)
-	arg_4_0.servantInfo_ = arg_4_0.heroViewProxy_:GetHeroServantInfo(arg_4_0.heroInfo_.id)
+function slot0.UpdateView(slot0)
+	slot0.servantInfo_ = slot0.heroViewProxy_:GetHeroServantInfo(slot0.heroInfo_.id)
 
-	arg_4_0:RefreshServant(arg_4_0.servantInfo_)
-	arg_4_0:RefreshWeapon()
-	arg_4_0:RefreshStrengthText()
+	slot0:RefreshServant(slot0.servantInfo_)
+	slot0:RefreshWeapon()
+	slot0:RefreshStrengthText()
 end
 
-function var_0_0.RefreshStrengthText(arg_5_0)
-	local var_5_0 = ""
-
-	if HeroData:GetHeroList()[arg_5_0.heroInfo_.id].weapon_info.level == HeroConst.WEAPON_LV_MAX then
-		var_5_0 = GetTips("TIP_DETAIL")
-	elseif GameSetting.weapon_exp_limit.value[arg_5_0.weaponInfo_.breakthrough + 1] == arg_5_0.weaponInfo_.level and arg_5_0.weaponInfo_.level ~= HeroConst.WEAPON_LV_MAX then
-		var_5_0 = GetTips("TIP_BREAK")
-	else
-		var_5_0 = GetTips("TIP_STRENGTH")
-	end
-
-	arg_5_0.weaponstrengthText_.text = var_5_0
+function slot0.RefreshStrengthText(slot0)
+	slot1 = ""
+	slot0.weaponstrengthText_.text = (HeroData:GetHeroList()[slot0.heroInfo_.id].weapon_info.level ~= HeroConst.WEAPON_LV_MAX or GetTips("TIP_DETAIL")) and (GameSetting.weapon_exp_limit.value[slot0.weaponInfo_.breakthrough + 1] ~= slot0.weaponInfo_.level or slot0.weaponInfo_.level == HeroConst.WEAPON_LV_MAX or GetTips("TIP_BREAK")) and GetTips("TIP_STRENGTH")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.weaponstrengthBtn_, nil, function()
-		if HeroData:GetHeroList()[arg_6_0.heroInfo_.id].weapon_info.level == HeroConst.WEAPON_LV_MAX then
-			arg_6_0:Go("/weapon", {
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.weaponstrengthBtn_, nil, function ()
+		if HeroData:GetHeroList()[uv0.heroInfo_.id].weapon_info.level == HeroConst.WEAPON_LV_MAX then
+			uv0:Go("/weapon", {
 				state = "detail",
-				HeroID = arg_6_0.heroInfo_.id
+				HeroID = uv0.heroInfo_.id
 			})
 
 			return
 		end
 
-		arg_6_0:Go("/weapon", {
+		uv0:Go("/weapon", {
 			state = "strength",
-			HeroID = arg_6_0.heroInfo_.id
+			HeroID = uv0.heroInfo_.id
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.servantcontentBtn_, nil, function()
-		if not arg_6_0.heroViewProxy_.isSelf then
+	slot0:AddBtnListener(slot0.servantcontentBtn_, nil, function ()
+		if not uv0.heroViewProxy_.isSelf then
 			return
 		end
 
-		local var_8_0 = WeaponServantData:GetWeaponServantList()
-		local var_8_1 = HeroCfg[arg_6_0.heroInfo_.id].race
-		local var_8_2 = {}
+		slot2 = {}
 
-		for iter_8_0, iter_8_1 in pairs(var_8_0) do
-			if WeaponServantCfg[iter_8_1.id].race == var_8_1 then
-				table.insert(var_8_2, iter_8_1)
+		for slot6, slot7 in pairs(WeaponServantData:GetWeaponServantList()) do
+			if WeaponServantCfg[slot7.id].race == HeroCfg[uv0.heroInfo_.id].race then
+				table.insert(slot2, slot7)
 			end
 		end
 
-		local var_8_3 = #var_8_2
-		local var_8_4 = HeroTools.GetHeroServantInfo(arg_6_0.heroInfo_.id)
+		slot3 = #slot2
 
-		if var_8_4 then
-			if arg_6_0:CheckCanEnterServant() then
-				arg_6_0:Go("/weaponServant", {
+		if HeroTools.GetHeroServantInfo(uv0.heroInfo_.id) then
+			if uv0:CheckCanEnterServant() then
+				uv0:Go("/weaponServant", {
 					state = "onlydetail",
-					HeroID = arg_6_0.heroInfo_.id,
-					id = var_8_4.id
+					HeroID = uv0.heroInfo_.id,
+					id = slot4.id
 				})
 			end
-		elseif arg_6_0:CheckCanEnterServant() then
-			arg_6_0:Go("/weaponServant", {
+		elseif uv0:CheckCanEnterServant() then
+			uv0:Go("/weaponServant", {
 				state = "onlydetail",
-				HeroID = arg_6_0.heroInfo_.id
+				HeroID = uv0.heroInfo_.id
 			})
 		end
 	end)
 end
 
-function var_0_0.CheckCanEnterServant(arg_9_0)
-	local var_9_0 = WeaponServantData:GetWeaponServantList()
-	local var_9_1 = HeroCfg[arg_9_0.heroInfo_.id].race
-	local var_9_2 = {}
+function slot0.CheckCanEnterServant(slot0)
+	slot3 = {}
 
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		if WeaponServantCfg[iter_9_1.id].race == var_9_1 then
-			table.insert(var_9_2, iter_9_1)
+	for slot7, slot8 in pairs(WeaponServantData:GetWeaponServantList()) do
+		if WeaponServantCfg[slot8.id].race == HeroCfg[slot0.heroInfo_.id].race then
+			table.insert(slot3, slot8)
 		end
 	end
 
-	if #var_9_2 == 0 then
+	if #slot3 == 0 then
 		ShowTips("NO_SERVANT_CAN_BE_EQUIPED")
 
 		return false
@@ -124,70 +108,62 @@ function var_0_0.CheckCanEnterServant(arg_9_0)
 	return true
 end
 
-function var_0_0.OnServantLock(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0.servantInfo_ = HeroTools.GetHeroServantInfo(arg_10_0.heroInfo_.id)
+function slot0.OnServantLock(slot0, slot1, slot2)
+	slot0.servantInfo_ = HeroTools.GetHeroServantInfo(slot0.heroInfo_.id)
 end
 
-function var_0_0.InitUI(arg_11_0)
-	arg_11_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_11_0.servantRareController_ = ControllerUtil.GetController(arg_11_0.servantGo_.transform, "servantrare")
-	arg_11_0.servantController = ControllerUtil.GetController(arg_11_0.servantGo_.transform, "hasservant")
-	arg_11_0.btnStatus_ = "MERGE"
+	slot0.servantRareController_ = ControllerUtil.GetController(slot0.servantGo_.transform, "servantrare")
+	slot0.servantController = ControllerUtil.GetController(slot0.servantGo_.transform, "hasservant")
+	slot0.btnStatus_ = "MERGE"
 end
 
-function var_0_0.RefreshWeapon(arg_12_0)
-	arg_12_0.weaponInfo_ = deepClone(arg_12_0.heroViewProxy_:GetHeroWeaponInfo(arg_12_0.heroInfo_.id))
+function slot0.RefreshWeapon(slot0)
+	slot0.weaponInfo_ = deepClone(slot0.heroViewProxy_:GetHeroWeaponInfo(slot0.heroInfo_.id))
+	slot2, slot0.nowlvText_.text = WeaponTools.AddWeaponExp(slot0.weaponInfo_.exp, slot0.weaponInfo_.breakthrough, 0)
 
-	local var_12_0 = arg_12_0.heroInfo_.id
-	local var_12_1, var_12_2 = WeaponTools.AddWeaponExp(arg_12_0.weaponInfo_.exp, arg_12_0.weaponInfo_.breakthrough, 0)
+	SetActive(slot0.servantGo_, not slot0.heroViewProxy_.hideServant)
 
-	SetActive(arg_12_0.servantGo_, not arg_12_0.heroViewProxy_.hideServant)
+	slot0.nameText_.text = HeroCfg[slot0.heroInfo_.id].weapon_name
+	slot0.toplvText_.text = "/" .. GameSetting.weapon_exp_limit.value[slot0.weaponInfo_.breakthrough + 1] or HeroConst.WEAPON_LV_MAX
 
-	arg_12_0.nameText_.text = HeroCfg[var_12_0].weapon_name
-	arg_12_0.nowlvText_.text = var_12_2
-	arg_12_0.toplvText_.text = "/" .. GameSetting.weapon_exp_limit.value[arg_12_0.weaponInfo_.breakthrough + 1] or HeroConst.WEAPON_LV_MAX
+	if slot3 == HeroConst.WEAPON_LV_MAX then
+		slot0:RefreshExpBar(1)
 
-	if var_12_2 == HeroConst.WEAPON_LV_MAX then
-		arg_12_0:RefreshExpBar(1)
-
-		arg_12_0.expText_.text = "-/-"
+		slot0.expText_.text = "-/-"
 	else
-		local var_12_3 = GameLevelSetting[var_12_2].weapon_level_exp
+		slot4 = GameLevelSetting[slot3].weapon_level_exp
 
-		arg_12_0:RefreshExpBar(var_12_1 / var_12_3)
+		slot0:RefreshExpBar(slot2 / slot4)
 
-		arg_12_0.expText_.text = var_12_1 .. "/" .. var_12_3
+		slot0.expText_.text = slot2 .. "/" .. slot4
 	end
 
-	local var_12_4 = WeaponTools.WeaponAtk(arg_12_0.weaponInfo_.level, arg_12_0.weaponInfo_.breakthrough)
-	local var_12_5
+	slot5 = nil
 
-	if arg_12_0.servantInfo_.id == 0 or arg_12_0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
-		arg_12_0.atkText_.text = string.format("%d", var_12_4)
+	if slot0.servantInfo_.id == 0 or slot0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
+		slot0.atkText_.text = string.format("%d", WeaponTools.WeaponAtk(slot0.weaponInfo_.level, slot0.weaponInfo_.breakthrough))
 	else
-		local var_12_6 = WeaponServantCfg[arg_12_0.servantInfo_.id].attrib_addition
-
-		arg_12_0.atkText_.text = string.format("%d<color=#E78300>+%d</color>", var_12_4, var_12_6 * var_12_4 / 100)
+		slot0.atkText_.text = string.format("%d<color=#E78300>+%d</color>", slot4, WeaponServantCfg[slot0.servantInfo_.id].attrib_addition * slot4 / 100)
 	end
 
-	local var_12_7, var_12_8 = SkillTools.GetAttr(HeroCfg[var_12_0].weapon_break_attribute[arg_12_0.weaponInfo_.breakthrough + 1])
+	slot6, slot0.criText_.text = SkillTools.GetAttr(HeroCfg[slot1].weapon_break_attribute[slot0.weaponInfo_.breakthrough + 1])
 
-	arg_12_0.criText_.text = var_12_8
-
-	arg_12_0:CheckLocked()
+	slot0:CheckLocked()
 end
 
-function var_0_0.CheckLocked(arg_13_0)
-	arg_13_0.lockController_:SetSelectedState(tostring(not arg_13_0.heroViewProxy_.isSelf))
+function slot0.CheckLocked(slot0)
+	slot0.lockController_:SetSelectedState(tostring(not slot0.heroViewProxy_.isSelf))
 end
 
-function var_0_0.RefreshExpBar(arg_14_0, arg_14_1)
-	arg_14_0.expSlider_.value = arg_14_1
+function slot0.RefreshExpBar(slot0, slot1)
+	slot0.expSlider_.value = slot1
 end
 
-function var_0_0.RefreshServantModel(arg_15_0)
-	if not arg_15_0.servantInfo_ or not arg_15_0.servantInfo_.id or arg_15_0.servantInfo_.id == 0 then
+function slot0.RefreshServantModel(slot0)
+	if not slot0.servantInfo_ or not slot0.servantInfo_.id or slot0.servantInfo_.id == 0 then
 		manager.heroRaiseTrack:PlayServantAnim("Fade")
 
 		return
@@ -195,75 +171,66 @@ function var_0_0.RefreshServantModel(arg_15_0)
 
 	manager.heroRaiseTrack:PlayServantAnim("Gray")
 
-	if arg_15_0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
+	if slot0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
 		manager.heroRaiseTrack:SetWeaponServantID(nil)
 	else
-		manager.heroRaiseTrack:SetWeaponServantID(arg_15_0.servantInfo_.id)
+		manager.heroRaiseTrack:SetWeaponServantID(slot0.servantInfo_.id)
 	end
 end
 
-function var_0_0.RefreshServant(arg_16_0, arg_16_1)
-	if not arg_16_1 or arg_16_1.id == 0 then
-		arg_16_0.servantController:SetSelectedState("false")
+function slot0.RefreshServant(slot0, slot1)
+	if not slot1 or slot1.id == 0 then
+		slot0.servantController:SetSelectedState("false")
 
 		return
 	end
 
-	arg_16_0.servantController:SetSelectedState("true")
+	slot0.servantController:SetSelectedState("true")
 
-	local var_16_0 = WeaponServantCfg[arg_16_1.id]
+	slot0.servantnameText_.text = ItemTools.getItemName(slot1.id)
 
-	arg_16_0.servantnameText_.text = ItemTools.getItemName(arg_16_1.id)
+	slot0.servantRareController_:SetSelectedState(tostring(WeaponServantCfg[slot1.id].starlevel))
 
-	arg_16_0.servantRareController_:SetSelectedState(tostring(var_16_0.starlevel))
+	slot0.servanticonImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.ServantIcon438.path .. slot1.id)
+	slot0.raceImg_.sprite = getSprite("Atlas/CampItemAtlas", string.format("icon_group_%d_c", WeaponServantCfg[slot1.id].race))
 
-	arg_16_0.servanticonImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.ServantIcon438.path .. arg_16_1.id)
-
-	local var_16_1 = WeaponServantCfg[arg_16_1.id].race
-	local var_16_2 = string.format("icon_group_%d_c", var_16_1)
-
-	arg_16_0.raceImg_.sprite = getSprite("Atlas/CampItemAtlas", var_16_2)
-
-	local var_16_3 = HeroTools.GetHeroWeaponAddLevel(arg_16_0.heroInfo_)
-	local var_16_4 = arg_16_1.stage
-
-	if var_16_3 > 0 then
-		arg_16_0.refinetextText_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL"), var_16_4, var_16_3)
+	if HeroTools.GetHeroWeaponAddLevel(slot0.heroInfo_) > 0 then
+		slot0.refinetextText_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL"), slot1.stage, slot6)
 	else
-		arg_16_0.refinetextText_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL_1"), var_16_4)
+		slot0.refinetextText_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL_1"), slot7)
 	end
 
-	arg_16_0.isSelfController_:SetSelectedState(tostring(arg_16_0.heroViewProxy_.isSelf))
+	slot0.isSelfController_:SetSelectedState(tostring(slot0.heroViewProxy_.isSelf))
 end
 
-function var_0_0.Hide(arg_17_0)
-	SetActive(arg_17_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 	HeroTools.StopTalk()
 end
 
-function var_0_0.Show(arg_18_0)
-	var_0_0.super.Show(arg_18_0)
-	SetActive(arg_18_0.gameObject_, true)
-	arg_18_0:UpdateView()
+function slot0.Show(slot0)
+	uv0.super.Show(slot0)
+	SetActive(slot0.gameObject_, true)
+	slot0:UpdateView()
 end
 
-function var_0_0.CameraEnter(arg_19_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		3,
 		0,
 		0
-	}, arg_19_0.displayGo_)
-	arg_19_0:RefreshServantModel()
+	}, slot0.displayGo_)
+	slot0:RefreshServantModel()
 end
 
-function var_0_0.OnEnter(arg_20_0, arg_20_1)
-	arg_20_0.heroViewProxy_ = arg_20_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-function var_0_0.Dispose(arg_21_0)
-	manager.redPoint:unbindUIandKey(arg_21_0.weaponstrengthTrs_)
-	arg_21_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_21_0)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.weaponstrengthTrs_)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

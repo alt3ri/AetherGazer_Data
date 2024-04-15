@@ -1,189 +1,155 @@
-local var_0_0 = {
-	IsConditionAchieved = function(arg_1_0, arg_1_1)
-		local var_1_0 = ConditionCfg[arg_1_0]
+slot1 = {}
 
-		if var_1_0 == nil then
+return {
+	IsConditionAchieved = function (slot0, slot1)
+		if ConditionCfg[slot0] == nil then
 			return true, 0, 0
 		end
 
-		local var_1_1 = false
-		local var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
-		local var_1_3 = var_1_0.params[1]
+		slot3 = false
+		slot4 = HistoryData:GetHistoryData(slot2.id) or 0
+		slot5 = slot2.params[1]
 
-		if var_1_0.type == 9001 then
-			var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
+		if slot2.type == 9001 then
+			slot4 = HistoryData:GetHistoryData(slot2.id) or 0
 
-			return var_1_2 >= var_1_0.params[1], var_1_2, var_1_0.params[1]
-		elseif var_1_0.type == 9002 then
-			var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
+			return slot2.params[1] <= slot4, slot4, slot2.params[1]
+		elseif slot2.type == 9002 then
+			slot4 = HistoryData:GetHistoryData(slot2.id) or 0
 
-			return var_1_2 >= var_1_0.params[1], var_1_2, var_1_0.params[1]
-		elseif var_1_0.type == 9003 then
-			var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
+			return slot2.params[1] <= slot4, slot4, slot2.params[1]
+		elseif slot2.type == 9003 then
+			slot4 = HistoryData:GetHistoryData(slot2.id) or 0
 
-			return var_1_2 >= var_1_0.params[1], var_1_2, var_1_0.params[1]
-		elseif var_1_0.type == 9004 then
-			var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
+			return slot2.params[1] <= slot4, slot4, slot2.params[1]
+		elseif slot2.type == 9004 then
+			slot4 = HistoryData:GetHistoryData(slot2.id) or 0
 
-			return var_1_2 >= 1, var_1_2, 1
-		elseif var_1_0.type == 9005 then
-			var_1_2 = HistoryData:GetHistoryData(var_1_0.id) or 0
+			return slot4 >= 1, slot4, 1
+		elseif slot2.type == 9005 then
+			slot4 = HistoryData:GetHistoryData(slot2.id) or 0
 
-			return var_1_2 >= 1, var_1_2, 1
+			return slot4 >= 1, slot4, 1
 		end
 
-		return var_1_1, var_1_2, var_1_3
+		return slot3, slot4, slot5
 	end,
-	GetGuildSpConditionDesc = function(arg_2_0)
-		local var_2_0 = ConditionCfg[arg_2_0]
-		local var_2_1 = ""
-
-		if not var_2_0 then
-			return var_2_1
+	GetGuildSpConditionDesc = function (slot0)
+		if not ConditionCfg[slot0] then
+			return ""
 		end
 
-		if var_2_0.type == 9011 then
-			local var_2_2 = GetTips(GuildActivitySPConst.NodeType[var_2_0.params[3]])
-
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[1], var_2_0.params[2], var_2_2)
-		elseif var_2_0.type == 9012 then
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[2])
-		elseif var_2_0.type == 9013 then
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[1], var_2_0.params[2])
-		elseif var_2_0.type == 9014 then
-			var_2_1 = var_2_0.desc
-		elseif var_2_0.type == 9015 then
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[1])
-		elseif var_2_0.type == 9016 then
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[1])
-		elseif var_2_0.type == 9017 then
-			var_2_1 = string.format(var_2_0.desc, var_2_0.params[2])
+		if slot1.type == 9011 then
+			slot2 = string.format(slot1.desc, slot1.params[1], slot1.params[2], GetTips(GuildActivitySPConst.NodeType[slot1.params[3]]))
+		elseif slot1.type == 9012 then
+			slot2 = string.format(slot1.desc, slot1.params[2])
+		elseif slot1.type == 9013 then
+			slot2 = string.format(slot1.desc, slot1.params[1], slot1.params[2])
+		elseif slot1.type == 9014 then
+			slot2 = slot1.desc
+		elseif slot1.type == 9015 then
+			slot2 = string.format(slot1.desc, slot1.params[1])
+		elseif slot1.type == 9016 then
+			slot2 = string.format(slot1.desc, slot1.params[1])
+		elseif slot1.type == 9017 then
+			slot2 = string.format(slot1.desc, slot1.params[2])
 		end
 
-		return var_2_1
-	end
-}
-local var_0_1 = {}
-
-function var_0_0.PlayGuildActivitySpStoryList(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	for iter_3_0, iter_3_1 in ipairs(GuildActivitySPConst.StoryPriorty) do
-		if GuildActivityTools:PlayGuildActivityStory(iter_3_1, arg_3_1, arg_3_3) then
-			return true
-		end
-	end
-
-	if arg_3_1 then
-		arg_3_1(arg_3_2)
-	end
-
-	var_0_1 = {}
-end
-
-function var_0_0.CheckCanPlayStory(arg_4_0, arg_4_1)
-	if GuildActivitySPData:GetCurMainActivityID() == ActivityConst.GUILD_ACTIVITY_SP_2_4 then
-		for iter_4_0, iter_4_1 in ipairs(GuildActivitySPConst.StoryPriorty) do
-			local var_4_0 = var_0_0:GetCanPlatStory(iter_4_1, arg_4_1)
-
-			if var_4_0 and not manager.story:IsStoryPlayed(var_4_0) and not var_0_1[var_4_0] then
+		return slot2
+	end,
+	PlayGuildActivitySpStoryList = function (slot0, slot1, slot2, slot3)
+		for slot7, slot8 in ipairs(GuildActivitySPConst.StoryPriorty) do
+			if GuildActivityTools:PlayGuildActivityStory(slot8, slot1, slot3) then
 				return true
 			end
 		end
-	end
-end
 
-function var_0_0.GetCanPlatStory(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0
+		if slot1 then
+			slot1(slot2)
+		end
 
-	if arg_5_2 == 1 then
-		if arg_5_1 == GuildActivitySPConst.StoryType.FirstEnter then
-			var_5_0 = GameSetting.activity_club_sp_start_plot.value[1]
-		elseif arg_5_1 == GuildActivitySPConst.StoryType.Condition then
-			local var_5_1 = GameSetting.activity_club_sp_middle_plot.value[1]
-
-			for iter_5_0, iter_5_1 in ipairs(var_5_1) do
-				local var_5_2 = iter_5_1[1]
-
-				if IsConditionAchieved(var_5_2) and not manager.story:IsStoryPlayed(iter_5_1[2]) and not var_0_1[iter_5_1[2]] then
-					var_5_0 = iter_5_1[2]
-
-					break
+		uv0 = {}
+	end,
+	CheckCanPlayStory = function (slot0, slot1)
+		if GuildActivitySPData:GetCurMainActivityID() == ActivityConst.GUILD_ACTIVITY_SP_2_4 then
+			for slot6, slot7 in ipairs(GuildActivitySPConst.StoryPriorty) do
+				if uv0:GetCanPlatStory(slot7, slot1) and not manager.story:IsStoryPlayed(slot8) and not uv1[slot8] then
+					return true
 				end
 			end
 		end
-	elseif arg_5_2 == 2 then
-		if arg_5_1 == GuildActivitySPConst.StoryType.Condition then
-			local var_5_3 = GameSetting.activity_club_sp_middle_plot.value[2]
+	end,
+	GetCanPlatStory = function (slot0, slot1, slot2)
+		slot3 = nil
 
-			for iter_5_2, iter_5_3 in ipairs(var_5_3) do
-				local var_5_4 = iter_5_3[1]
+		if slot2 == 1 then
+			if slot1 == GuildActivitySPConst.StoryType.FirstEnter then
+				slot3 = GameSetting.activity_club_sp_start_plot.value[1]
+			elseif slot1 == GuildActivitySPConst.StoryType.Condition then
+				for slot8, slot9 in ipairs(GameSetting.activity_club_sp_middle_plot.value[1]) do
+					if IsConditionAchieved(slot9[1]) and not manager.story:IsStoryPlayed(slot9[2]) and not uv0[slot9[2]] then
+						slot3 = slot9[2]
 
-				if IsConditionAchieved(var_5_4) and not manager.story:IsStoryPlayed(iter_5_3[2]) and not var_0_1[iter_5_3[2]] then
-					var_5_0 = iter_5_3[2]
-
-					break
+						break
+					end
 				end
 			end
-		elseif arg_5_1 == GuildActivitySPConst.StoryType.Level1BossPass then
-			if var_0_0:GetSpActivityStage() == GuildActivitySPConst.StageType.First and var_0_0:CheckBigBossDead(2) then
-				var_5_0 = GameSetting.activity_club_sp_success_complete_plot.value[1]
+		elseif slot2 == 2 then
+			if slot1 == GuildActivitySPConst.StoryType.Condition then
+				for slot8, slot9 in ipairs(GameSetting.activity_club_sp_middle_plot.value[2]) do
+					if IsConditionAchieved(slot9[1]) and not manager.story:IsStoryPlayed(slot9[2]) and not uv0[slot9[2]] then
+						slot3 = slot9[2]
+
+						break
+					end
+				end
+			elseif slot1 == GuildActivitySPConst.StoryType.Level1BossPass then
+				if uv1:GetSpActivityStage() == GuildActivitySPConst.StageType.First and uv1:CheckBigBossDead(2) then
+					slot3 = GameSetting.activity_club_sp_success_complete_plot.value[1]
+				end
+			elseif slot1 == GuildActivitySPConst.StoryType.Level1BossNoPass then
+				if uv1:GetSpActivityStage() == GuildActivitySPConst.StageType.Second and not uv1:CheckBigBossDead(2) then
+					slot3 = GameSetting.activity_club_sp_fail_plot.value[1]
+				end
+			elseif slot1 == GuildActivitySPConst.StoryType.Level2BossPass and uv1:GetSpActivityStage() == GuildActivitySPConst.StageType.Second and uv1:CheckBigBossDead(2) then
+				slot3 = GameSetting.activity_club_sp_success_plot.value[1]
 			end
-		elseif arg_5_1 == GuildActivitySPConst.StoryType.Level1BossNoPass then
-			if var_0_0:GetSpActivityStage() == GuildActivitySPConst.StageType.Second and not var_0_0:CheckBigBossDead(2) then
-				var_5_0 = GameSetting.activity_club_sp_fail_plot.value[1]
-			end
-		elseif arg_5_1 == GuildActivitySPConst.StoryType.Level2BossPass and var_0_0:GetSpActivityStage() == GuildActivitySPConst.StageType.Second and var_0_0:CheckBigBossDead(2) then
-			var_5_0 = GameSetting.activity_club_sp_success_plot.value[1]
 		end
+
+		return slot3
+	end,
+	PlayGuildActivityStory = function (slot0, slot1, slot2, slot3)
+		if uv0:GetCanPlatStory(slot1, slot3) and not manager.story:IsStoryPlayed(slot4) and not uv1[slot4] then
+			uv1[slot4] = true
+
+			LeanTween.cancel(manager.ui.mainCamera.transform.gameObject)
+			manager.story:StartStoryById(slot4, function (slot0)
+				uv0:PlayGuildActivitySpStoryList(uv1, true, uv2)
+			end)
+
+			return true
+		end
+	end,
+	GetSpActivityStage = function (slot0)
+		slot3 = ActivityData:GetActivityData(GuildActivitySPData:GetCurRunActivityID())
+		slot6 = slot3.stopTime
+
+		if slot3.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600 < manager.time:GetServerTime() then
+			return GuildActivitySPConst.StageType.Second
+		else
+			return GuildActivitySPConst.StageType.First
+		end
+	end,
+	CheckBigBossDead = function (slot0, slot1)
+		if GuildActivitySPData:GetMaxNodeId() and GuildActivitySPData:GetNodeData(slot2).health <= 0 then
+			return true
+		end
+	end,
+	IsLastBossDefeated = function (slot0, slot1)
+		if slot1 == ActivityClubCfg.all[#ActivityClubCfg.all] and GuildActivityData:GetNodeData(slot1).health <= 0 then
+			return true
+		end
+
+		return false
 	end
-
-	return var_5_0
-end
-
-function var_0_0.PlayGuildActivityStory(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	local var_6_0 = var_0_0:GetCanPlatStory(arg_6_1, arg_6_3)
-
-	if var_6_0 and not manager.story:IsStoryPlayed(var_6_0) and not var_0_1[var_6_0] then
-		var_0_1[var_6_0] = true
-
-		LeanTween.cancel(manager.ui.mainCamera.transform.gameObject)
-		manager.story:StartStoryById(var_6_0, function(arg_7_0)
-			var_0_0:PlayGuildActivitySpStoryList(arg_6_2, true, arg_6_3)
-		end)
-
-		return true
-	end
-end
-
-function var_0_0.GetSpActivityStage(arg_8_0)
-	local var_8_0 = manager.time:GetServerTime()
-	local var_8_1 = GuildActivitySPData:GetCurRunActivityID()
-	local var_8_2 = ActivityData:GetActivityData(var_8_1)
-	local var_8_3 = var_8_2.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600
-	local var_8_4 = var_8_2.stopTime
-
-	if var_8_3 < var_8_0 then
-		return GuildActivitySPConst.StageType.Second
-	else
-		return GuildActivitySPConst.StageType.First
-	end
-end
-
-function var_0_0.CheckBigBossDead(arg_9_0, arg_9_1)
-	local var_9_0 = GuildActivitySPData:GetMaxNodeId()
-
-	if var_9_0 and GuildActivitySPData:GetNodeData(var_9_0).health <= 0 then
-		return true
-	end
-end
-
-function var_0_0.IsLastBossDefeated(arg_10_0, arg_10_1)
-	local var_10_0 = GuildActivityData:GetNodeData(arg_10_1)
-
-	if arg_10_1 == ActivityClubCfg.all[#ActivityClubCfg.all] and var_10_0.health <= 0 then
-		return true
-	end
-
-	return false
-end
-
-return var_0_0
+}

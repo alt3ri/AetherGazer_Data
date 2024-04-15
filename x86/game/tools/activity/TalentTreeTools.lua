@@ -1,29 +1,24 @@
 return {
-	GetMainUIName = function(arg_1_0)
-		if ActivityTools.GetActivityTheme(arg_1_0) == ActivityConst.THEME.HELLA then
+	GetMainUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.HELLA then
 			return "UI/VersionUI/HellaUI/HellaTalentUI"
 		else
 			return "UI/VersionUI/HellaUI/HellaTalentUI"
 		end
 	end,
-	IsCanUp = function(arg_2_0)
-		local var_2_0 = TalentTreeCfg[arg_2_0]
-		local var_2_1 = TalentTreeData:GetTalentLevel(arg_2_0)
+	IsCanUp = function (slot0)
+		if TalentTreeData:GetTalentLevel(slot0) < TalentTreeCfg[slot0].max_level then
+			slot3 = slot1.cost[slot2 + 1]
 
-		if var_2_1 < var_2_0.max_level then
-			local var_2_2 = var_2_0.cost[var_2_1 + 1]
-
-			return ItemTools.getItemNum(var_2_2[1]) >= var_2_2[2]
+			return slot3[2] <= ItemTools.getItemNum(slot3[1])
 		end
 
 		return false
 	end,
-	GetActivityIdByTheme = function(arg_3_0)
-		local var_3_0 = ActivityData:GetAllActivityData()
-
-		for iter_3_0, iter_3_1 in pairs(var_3_0) do
-			if arg_3_0 == ActivityTools.GetActivityTheme(iter_3_0) and ActivityTemplateConst.TALENT_TREE == ActivityTools.GetActivityType(iter_3_0) then
-				return iter_3_0
+	GetActivityIdByTheme = function (slot0)
+		for slot5, slot6 in pairs(ActivityData:GetAllActivityData()) do
+			if slot0 == ActivityTools.GetActivityTheme(slot5) and ActivityTemplateConst.TALENT_TREE == ActivityTools.GetActivityType(slot5) then
+				return slot5
 			end
 		end
 	end

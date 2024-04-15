@@ -1,123 +1,123 @@
-local var_0_0 = class("FragmentExchangeView", ReduxView)
-local var_0_1 = import("game.tools.HeroTools")
+slot0 = class("FragmentExchangeView", ReduxView)
+slot1 = import("game.tools.HeroTools")
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Shop/ShopExchangePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.scrollHelper = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.listGo_, CommonItemView)
-	arg_3_0.resultList = LuaList.New(handler(arg_3_0, arg_3_0.indexItem2), arg_3_0.list2Go_, FragmentExchangeItem)
-	arg_3_0.controller = arg_3_0.controller_:GetController("state")
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, CommonItemView)
+	slot0.resultList = LuaList.New(handler(slot0, slot0.indexItem2), slot0.list2Go_, FragmentExchangeItem)
+	slot0.controller = slot0.controller_:GetController("state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnOK_, nil, function()
-		if #arg_4_0.itemList_ == 0 then
-			arg_4_0:Back()
+	slot0:AddBtnListener(slot0.btnOK_, nil, function ()
+		if #uv0.itemList_ == 0 then
+			uv0:Back()
 		else
 			ShopAction.ResolveFragment()
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btnCancel_, nil, function()
-		arg_4_0:Back()
+	slot0:AddBtnListener(slot0.btnCancel_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnResolveFragment(arg_8_0, arg_8_1)
-	if #arg_8_0.itemList_ == 0 then
+function slot0.OnResolveFragment(slot0, slot1)
+	if #slot0.itemList_ == 0 then
 		return
 	end
 
-	if arg_8_1.result == 0 then
+	if slot1.result == 0 then
 		ShowTips("EXCHANGE_SUCCESS")
-		arg_8_0:Back()
+		slot0:Back()
 	else
-		ShowTips(arg_8_1.result)
+		ShowTips(slot1.result)
 
 		return
 	end
 end
 
-function var_0_0.indexItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.pieceList_[arg_9_1]
+function slot0.indexItem(slot0, slot1, slot2)
+	slot3 = slot0.pieceList_[slot1]
 
-	function var_9_0.clickFun(arg_10_0)
+	function slot3.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_10_0.id,
-			arg_10_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	var_9_0.selectStyle = true
+	slot3.selectStyle = true
 
-	CommonTools.SetCommonData(arg_9_2, var_9_0)
+	CommonTools.SetCommonData(slot2, slot3)
 end
 
-function var_0_0.indexItem2(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.itemList_[arg_11_1]
+function slot0.indexItem2(slot0, slot1, slot2)
+	slot3 = slot0.itemList_[slot1]
 
-	arg_11_2:SetData({
+	slot2:SetData({
 		number = 1,
-		id = var_11_0.id,
-		clickFun = function(arg_12_0)
+		id = slot3.id,
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_12_0.id,
-				arg_12_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
-	}, var_11_0.num)
+	}, slot3.num)
 end
 
-function var_0_0.RefreshPiece(arg_13_0)
-	arg_13_0.pieceList_ = var_0_1.GetCanExchangeHero()
+function slot0.RefreshPiece(slot0)
+	slot0.pieceList_ = uv0.GetCanExchangeHero()
 
-	arg_13_0.scrollHelper:StartScroll(#arg_13_0.pieceList_)
+	slot0.scrollHelper:StartScroll(#slot0.pieceList_)
 end
 
-function var_0_0.RefreshGetItemNum(arg_14_0)
-	if not arg_14_0.pieceList_ then
+function slot0.RefreshGetItemNum(slot0)
+	if not slot0.pieceList_ then
 		return
 	end
 
-	arg_14_0.itemList_ = ShopTools.GetFragmentList()
+	slot0.itemList_ = ShopTools.GetFragmentList()
 
-	arg_14_0.resultList:StartScroll(#arg_14_0.itemList_)
+	slot0.resultList:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.Init(arg_15_0)
-	arg_15_0:InitUI()
-	arg_15_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.UpdateView(arg_16_0)
-	arg_16_0.controller:SetSelectedState(#ShopTools.GetFragmentList() == 0 and "none" or "have")
+function slot0.UpdateView(slot0)
+	slot0.controller:SetSelectedState(#ShopTools.GetFragmentList() == 0 and "none" or "have")
 
-	arg_16_0.noneTxt_.text = GetTips("NO_EXCHANGE_HERO_PIECE")
-	arg_16_0.titleTxt_.text = GetTips("DEBRIS_EXCHANGE")
-	arg_16_0.bottleTxt_.text = GetTips("SHOP_EXCHANGE_CONFIRM_2")
+	slot0.noneTxt_.text = GetTips("NO_EXCHANGE_HERO_PIECE")
+	slot0.titleTxt_.text = GetTips("DEBRIS_EXCHANGE")
+	slot0.bottleTxt_.text = GetTips("SHOP_EXCHANGE_CONFIRM_2")
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	arg_17_0:UpdateView()
-	arg_17_0:RefreshPiece()
-	arg_17_0:RefreshGetItemNum()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
+	slot0:RefreshPiece()
+	slot0:RefreshGetItemNum()
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0:RemoveAllListeners()
-	arg_18_0.scrollHelper:Dispose()
-	arg_18_0.resultList:Dispose()
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper:Dispose()
+	slot0.resultList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

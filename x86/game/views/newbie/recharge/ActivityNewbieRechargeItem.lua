@@ -1,85 +1,81 @@
-local var_0_0 = class("ActivityNewbieRechargeItem", ReduxView)
+slot0 = class("ActivityNewbieRechargeItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.button_.transform, "stage")
-	arg_1_0.rechargeUpdateHandler_ = handler(arg_1_0, arg_1_0.RefreshUI)
+	slot0.controller_ = ControllerUtil.GetController(slot0.button_.transform, "stage")
+	slot0.rechargeUpdateHandler_ = handler(slot0, slot0.RefreshUI)
 
-	manager.notify:RegistListener(NEWBIE_RECHARGE_UPDATE, arg_1_0.rechargeUpdateHandler_)
+	manager.notify:RegistListener(NEWBIE_RECHARGE_UPDATE, slot0.rechargeUpdateHandler_)
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
-	manager.notify:RemoveListener(NEWBIE_RECHARGE_UPDATE, arg_2_0.rechargeUpdateHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(NEWBIE_RECHARGE_UPDATE, slot0.rechargeUpdateHandler_)
 
-	arg_2_0.rechargeUpdateHandler_ = nil
+	slot0.rechargeUpdateHandler_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
-			payment_first_recharge = arg_3_0.index_
+			payment_first_recharge = uv0.index_
 		})
 
-		local var_4_0 = ActivityNewbieData:GetRechargeStatus()[arg_3_0.index_] or 0
-		local var_4_1 = ActivityNewbieData:GetRechargeTemplate()[arg_3_0.index_]
+		slot1 = ActivityNewbieData:GetRechargeTemplate()[uv0.index_]
 
-		if var_4_0 == 0 then
-			if var_4_1.source[1] == ViewConst.SYSTEM_ID.PASSPORT_BUY then
+		if (ActivityNewbieData:GetRechargeStatus()[uv0.index_] or 0) == 0 then
+			if slot1.source[1] == ViewConst.SYSTEM_ID.PASSPORT_BUY then
 				if TimeMgr.GetInstance():GetServerTime() < PassportData:GetStartTimestamp() then
 					ShowTips("SYSTEM_LOCK")
 
 					return
 				end
 
-				if TimeMgr.GetInstance():GetServerTime() >= PassportData:GetEndTimestamp() then
+				if PassportData:GetEndTimestamp() <= TimeMgr.GetInstance():GetServerTime() then
 					ShowTips("NO_ACTIVE_BATTLEPASS")
 
 					return
 				end
 			end
 
-			JumpTools.JumpToPage2(var_4_1.source)
+			JumpTools.JumpToPage2(slot1.source)
 		else
-			ActivityNewbieAction.ReceiveRechargeReward(arg_3_0.index_, function(arg_5_0)
-				if isSuccess(arg_5_0.result) then
-					getReward(var_4_1.reward, {
+			ActivityNewbieAction.ReceiveRechargeReward(uv0.index_, function (slot0)
+				if isSuccess(slot0.result) then
+					getReward(uv0.reward, {
 						ItemConst.ITEM_TYPE.HERO,
 						ItemConst.ITEM_TYPE.HERO_SKIN
 					})
-					ActivityNewbieData:SetRechargeStatus(arg_3_0.index_)
+					ActivityNewbieData:SetRechargeStatus(uv1.index_)
 
-					arg_3_0.button_.interactable = false
+					uv1.button_.interactable = false
 
-					arg_3_0.controller_:SetSelectedState(2)
+					uv1.controller_:SetSelectedState(2)
 				else
-					ShowTips(arg_5_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
 		end
 	end)
 
-	if arg_3_0.infoBtn_ then
-		arg_3_0:AddBtnListener(arg_3_0.infoBtn_, nil, function()
-			local var_6_0 = ActivityNewbieData:GetRechargeTemplate()[arg_3_0.index_]
-
-			ShowPopItem(POP_ITEM, var_6_0.reward[1])
+	if slot0.infoBtn_ then
+		slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+			ShowPopItem(POP_ITEM, ActivityNewbieData:GetRechargeTemplate()[uv0.index_].reward[1])
 		end)
 	end
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = ActivityNewbieData:GetRechargeStatus()[arg_7_0.index_] or 0
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityNewbieData:GetRechargeStatus()[slot0.index_] or 0
+	slot0.button_.interactable = slot1 ~= 2
 
-	arg_7_0.button_.interactable = var_7_0 ~= 2
-
-	arg_7_0.controller_:SetSelectedState(tostring(var_7_0))
+	slot0.controller_:SetSelectedState(tostring(slot1))
 end
 
-return var_0_0
+return slot0

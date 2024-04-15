@@ -1,173 +1,154 @@
-local var_0_0 = class("RaceTrialBattleItem", ReduxView)
+slot0 = class("RaceTrialBattleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.raceCon_ = ControllerUtil.GetController(arg_3_0.transform_, "race")
-	arg_3_0.viewCon_ = ControllerUtil.GetController(arg_3_0.transform_, "view")
+	slot0.raceCon_ = ControllerUtil.GetController(slot0.transform_, "race")
+	slot0.viewCon_ = ControllerUtil.GetController(slot0.transform_, "view")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if manager.time:GetServerTime() < arg_4_0.openTime_ then
-			local var_5_0 = arg_4_0.openTime_ - manager.time:GetServerTime()
-
-			ShowTips(string.format(GetTips("OPEN_TIME"), arg_4_0:GetTimeText(var_5_0)))
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if manager.time:GetServerTime() < uv0.openTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), uv0:GetTimeText(uv0.openTime_ - manager.time:GetServerTime())))
 
 			return
 		end
 
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("/raceTrialReady", {
-			activityID = arg_4_0.activityID_,
-			mainActivityID = arg_4_0.mainActivityID_
+			activityID = uv0.activityID_,
+			mainActivityID = uv0.mainActivityID_
 		})
-		RaceTrialData:SetBattleRedPointOn(false, arg_4_0.activityID_)
+		RaceTrialData:SetBattleRedPointOn(false, uv0.activityID_)
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activityID_ = arg_7_1
-	arg_7_0.cfg_ = ActivityRaceTrialCfg[arg_7_0.activityID_]
-	arg_7_0.data_ = RaceTrialData:GetBattleData(arg_7_0.activityID_) or {}
-	arg_7_0.mainActivityID_ = arg_7_2
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.cfg_ = ActivityRaceTrialCfg[slot0.activityID_]
+	slot0.data_ = RaceTrialData:GetBattleData(slot0.activityID_) or {}
+	slot0.mainActivityID_ = slot2
+	slot3 = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.openTime_ = slot3.startTime
+	slot0.endTime_ = slot3.stopTime
 
-	local var_7_0 = ActivityData:GetActivityData(arg_7_0.activityID_)
-
-	arg_7_0.openTime_ = var_7_0.startTime
-	arg_7_0.endTime_ = var_7_0.stopTime
-
-	if arg_7_0.nameText_ then
-		arg_7_0.nameText_.text = GetI18NText(arg_7_0.cfg_.name)
+	if slot0.nameText_ then
+		slot0.nameText_.text = GetI18NText(slot0.cfg_.name)
 	end
 
-	local var_7_1 = manager.time:GetServerTime()
-
-	if var_7_1 >= arg_7_0.openTime_ and var_7_1 < arg_7_0.endTime_ then
-		arg_7_0:RefreshOpen()
+	if slot0.openTime_ <= manager.time:GetServerTime() and slot4 < slot0.endTime_ then
+		slot0:RefreshOpen()
 	else
-		arg_7_0:RefreshClose()
+		slot0:RefreshClose()
 	end
 
-	if manager.redPoint:getTipValue(string.format("%s_%s_%s", RedPointConst.ACTIVITY_RACE_TRIAL, arg_7_0.mainActivityID_, arg_7_0.activityID_)) > 0 then
-		SetActive(arg_7_0.redGo_, true)
+	if manager.redPoint:getTipValue(string.format("%s_%s_%s", RedPointConst.ACTIVITY_RACE_TRIAL, slot0.mainActivityID_, slot0.activityID_)) > 0 then
+		SetActive(slot0.redGo_, true)
 	else
-		SetActive(arg_7_0.redGo_, false)
+		SetActive(slot0.redGo_, false)
 	end
 
-	arg_7_0:RefreshRace()
+	slot0:RefreshRace()
 end
 
-function var_0_0.RefreshRace(arg_8_0)
-	if arg_8_0.raceCon_ then
-		arg_8_0.raceCon_:SetSelectedState(tostring(arg_8_0.cfg_.race))
+function slot0.RefreshRace(slot0)
+	if slot0.raceCon_ then
+		slot0.raceCon_:SetSelectedState(tostring(slot0.cfg_.race))
 	end
 
-	arg_8_0.raceIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/OsirisUI/RaceTrial/" .. arg_8_0.cfg_.race)
+	slot0.raceIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/OsirisUI/RaceTrial/" .. slot0.cfg_.race)
 end
 
-function var_0_0.RefreshOpen(arg_9_0)
-	if arg_9_0.data_.point > 0 then
-		arg_9_0.viewCon_:SetSelectedState("open")
+function slot0.RefreshOpen(slot0)
+	if slot0.data_.point > 0 then
+		slot0.viewCon_:SetSelectedState("open")
 
-		arg_9_0.scoreText_.text = arg_9_0.data_.point
+		slot0.scoreText_.text = slot0.data_.point
 	else
-		arg_9_0.viewCon_:SetSelectedState("none")
+		slot0.viewCon_:SetSelectedState("none")
 	end
 end
 
-function var_0_0.RefreshClose(arg_10_0)
-	arg_10_0.viewCon_:SetSelectedState("close")
+function slot0.RefreshClose(slot0)
+	slot0.viewCon_:SetSelectedState("close")
 
-	if arg_10_0.timer_ then
-		arg_10_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_10_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	if arg_10_0.endTime_ <= manager.time:GetServerTime() then
-		arg_10_0.timeCntText_.text = GetTips("TIME_OVER")
+	if slot0.endTime_ <= manager.time:GetServerTime() then
+		slot0.timeCntText_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	local var_10_0 = arg_10_0.openTime_ - manager.time:GetServerTime()
+	slot0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), slot0:GetTimeText(slot0.openTime_ - manager.time:GetServerTime()))
 
-	arg_10_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), arg_10_0:GetTimeText(var_10_0))
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.lockRect_)
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.lockRect_)
+	slot0.timer_ = Timer.New(function ()
+		uv0 = uv1.openTime_ - manager.time:GetServerTime()
 
-	arg_10_0.timer_ = Timer.New(function()
-		var_10_0 = arg_10_0.openTime_ - manager.time:GetServerTime()
+		if uv0 <= 0 then
+			uv1.timer_:Stop()
 
-		if var_10_0 <= 0 then
-			arg_10_0.timer_:Stop()
+			uv1.timer_ = nil
 
-			arg_10_0.timer_ = nil
-
-			arg_10_0:RefreshUI(arg_10_0.activityID_, arg_10_0.mainActivityID_)
+			uv1:RefreshUI(uv1.activityID_, uv1.mainActivityID_)
 		end
 
-		arg_10_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), arg_10_0:GetTimeText(var_10_0))
+		uv1.timeCntText_.text = string.format(GetTips("OPEN_TIME"), uv1:GetTimeText(uv0))
 	end, 1, -1)
 
-	arg_10_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.GetTimeText(arg_12_0, arg_12_1)
-	local var_12_0 = ""
+function slot0.GetTimeText(slot0, slot1)
+	slot2 = ""
 
-	if arg_12_1 / 86400 >= 1 then
-		var_12_0 = math.ceil(arg_12_1 / 86400) .. GetTips("DAY")
-	elseif arg_12_1 / 3600 >= 1 then
-		var_12_0 = math.ceil(arg_12_1 / 3600) .. GetTips("HOUR")
-	elseif arg_12_1 / 60 >= 1 then
-		var_12_0 = math.ceil(arg_12_1 / 60) .. GetTips("MINUTE")
-	else
-		var_12_0 = 1 .. GetTips("MINUTE")
-	end
-
-	return var_12_0
+	return slot1 / 86400 >= 1 and math.ceil(slot1 / 86400) .. GetTips("DAY") or slot1 / 3600 >= 1 and math.ceil(slot1 / 3600) .. GetTips("HOUR") or slot1 / 60 >= 1 and math.ceil(slot1 / 60) .. GetTips("MINUTE") or 1 .. GetTips("MINUTE")
 end
 
-function var_0_0.OnExit(arg_13_0)
-	if arg_13_0.timer_ then
-		arg_13_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_13_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.timer_ then
-		arg_14_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_14_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_14_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_14_0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

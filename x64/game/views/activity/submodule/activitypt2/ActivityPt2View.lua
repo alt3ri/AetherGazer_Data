@@ -1,572 +1,508 @@
-local var_0_0 = class("ActivityPt2View", ReduxView)
+slot0 = class("ActivityPt2View", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityPt2Tools.GetMainUIName(arg_1_0.params_.mainActivityId)
+function slot0.UIName(slot0)
+	return ActivityPt2Tools.GetMainUIName(slot0.params_.mainActivityId)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:RefreshShop()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:RefreshShop()
 
-	arg_4_0.normalBtn_ = {}
-	arg_4_0.challengeBtn_ = {}
-	arg_4_0.hardBtn_ = {}
-	arg_4_0.normalCon_ = {}
-	arg_4_0.challengeCon_ = {}
-	arg_4_0.hardCon_ = {}
-	arg_4_0.normalAni_ = {}
-	arg_4_0.challengeAni_ = {}
-	arg_4_0.hardAni_ = {}
+	slot0.normalBtn_ = {}
+	slot0.challengeBtn_ = {}
+	slot0.hardBtn_ = {}
+	slot0.normalCon_ = {}
+	slot0.challengeCon_ = {}
+	slot0.hardCon_ = {}
+	slot0.normalAni_ = {}
+	slot0.challengeAni_ = {}
+	slot0.hardAni_ = {}
+	slot5 = ActivityCfg[slot0.params_.mainActivityId].sub_activity_list[1]
 
-	local var_4_0 = ActivityCfg[arg_4_0.params_.mainActivityId].sub_activity_list
-
-	for iter_4_0, iter_4_1 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[var_4_0[1]]) do
-		table.insert(arg_4_0.normalBtn_, arg_4_0["normalBtn_" .. iter_4_0])
-		table.insert(arg_4_0.normalCon_, ControllerUtil.GetController(arg_4_0["normalBtn_" .. iter_4_0].transform, "status"))
-		table.insert(arg_4_0.normalAni_, arg_4_0["normalAni_" .. iter_4_0])
+	for slot5, slot6 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[slot5]) do
+		table.insert(slot0.normalBtn_, slot0["normalBtn_" .. slot5])
+		table.insert(slot0.normalCon_, ControllerUtil.GetController(slot0["normalBtn_" .. slot5].transform, "status"))
+		table.insert(slot0.normalAni_, slot0["normalAni_" .. slot5])
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[var_4_0[2]]) do
-		table.insert(arg_4_0.challengeBtn_, arg_4_0["challengeBtn_" .. iter_4_2])
-		table.insert(arg_4_0.challengeCon_, ControllerUtil.GetController(arg_4_0["challengeBtn_" .. iter_4_2].transform, "status"))
-		table.insert(arg_4_0.challengeAni_, arg_4_0["challengeAni_" .. iter_4_2])
+	slot5 = slot1[2]
+
+	for slot5, slot6 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[slot5]) do
+		table.insert(slot0.challengeBtn_, slot0["challengeBtn_" .. slot5])
+		table.insert(slot0.challengeCon_, ControllerUtil.GetController(slot0["challengeBtn_" .. slot5].transform, "status"))
+		table.insert(slot0.challengeAni_, slot0["challengeAni_" .. slot5])
 	end
 
-	for iter_4_4, iter_4_5 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[var_4_0[3]]) do
-		table.insert(arg_4_0.hardBtn_, arg_4_0["hardBtn_" .. iter_4_4])
-		table.insert(arg_4_0.hardCon_, ControllerUtil.GetController(arg_4_0["hardBtn_" .. iter_4_4].transform, "status"))
-		table.insert(arg_4_0.hardAni_, arg_4_0["hardAni_" .. iter_4_4])
+	slot5 = slot1[3]
+
+	for slot5, slot6 in ipairs(ActivityPt2Cfg.get_id_list_by_activity_id[slot5]) do
+		table.insert(slot0.hardBtn_, slot0["hardBtn_" .. slot5])
+		table.insert(slot0.hardCon_, ControllerUtil.GetController(slot0["hardBtn_" .. slot5].transform, "status"))
+		table.insert(slot0.hardAni_, slot0["hardAni_" .. slot5])
 	end
 
-	arg_4_0.tgl_ = {
-		arg_4_0.tgl_1,
-		arg_4_0.tgl_2,
-		arg_4_0.tgl_3
+	slot0.tgl_ = {
+		slot0.tgl_1,
+		slot0.tgl_2,
+		slot0.tgl_3
 	}
-	arg_4_0.lockCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "lock")
-	arg_4_0.typeCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "type")
-	arg_4_0.indexCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "index")
+	slot0.lockCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "lock")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "type")
+	slot0.indexCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "index")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.shopBtn_, nil, function()
-		if arg_5_0:IsOpenSectionView() then
-			arg_5_0:BlankAni()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
+		if uv0:IsOpenSectionView() then
+			uv0:BlankAni()
 			JumpTools.Back()
-			arg_5_0.indexCon_:SetSelectedIndex(0)
+			uv0.indexCon_:SetSelectedIndex(0)
 
-			arg_5_0.selectLevel_ = 0
+			uv0.selectLevel_ = 0
 		end
 
-		local var_6_0 = ActivityShopCfg[arg_5_0.activityID_]
-		local var_6_1 = {}
+		slot5 = ActivityShopCfg[uv0.activityID_].activity_theme
 
-		for iter_6_0, iter_6_1 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[var_6_0.activity_theme]) do
-			local var_6_2 = ActivityShopCfg[iter_6_1].shop_id
-			local var_6_3 = ActivityData:GetActivityData(ShopListCfg[var_6_2].activity_id)
-
-			if var_6_3 and var_6_3:IsActivitying() then
-				table.insert(var_6_1, ActivityShopCfg[iter_6_1].shop_id)
+		for slot5, slot6 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[slot5]) do
+			if ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot6].shop_id].activity_id) and slot8:IsActivitying() then
+				table.insert({}, ActivityShopCfg[slot6].shop_id)
 			end
 		end
 
-		local var_6_4, var_6_5 = ShopTools.IsShopOpen(var_6_0.shop_id)
+		slot2, slot3 = ShopTools.IsShopOpen(slot0.shop_id)
 
-		if var_6_4 then
+		if slot2 then
 			JumpTools.GoToSystem("/activityShop", {
-				shopId = var_6_0.shop_id,
-				showShops = var_6_1
+				shopId = slot0.shop_id,
+				showShops = slot1
 			}, ViewConst.SYSTEM_ID.SHOP)
-		elseif var_6_5 == 2 then
+		elseif slot3 == 2 then
 			ShowTips("SHOP_EXPIRED")
-		elseif var_6_5 == 3 then
+		elseif slot3 == 3 then
 			ShowTips("SHOP_NOT_OPEN")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rankBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.rankBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		arg_5_0:Go("/activityRaceRank", {
-			activityID = arg_5_0.rankID_
+		uv0:Go("/activityRaceRank", {
+			activityID = uv0.rankID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		if arg_5_0:IsOpenSectionView() then
-			arg_5_0:BlankAni()
-			JumpTools.Back()
-			arg_5_0.indexCon_:SetSelectedIndex(0)
 
-			arg_5_0.selectLevel_ = 0
+	slot4 = slot0.bgBtn_
+	slot5 = nil
+
+	slot0:AddBtnListener(slot4, slot5, function ()
+		if uv0:IsOpenSectionView() then
+			uv0:BlankAni()
+			JumpTools.Back()
+			uv0.indexCon_:SetSelectedIndex(0)
+
+			uv0.selectLevel_ = 0
 		end
 	end)
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.tgl_) do
-		arg_5_0:AddToggleListener(iter_5_1, function(arg_9_0)
-			if arg_9_0 then
-				if arg_5_0:IsOpenSectionView() then
-					arg_5_0.tgl_[arg_5_0.index_].isOn = true
+	for slot4, slot5 in ipairs(slot0.tgl_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
+				if uv0:IsOpenSectionView() then
+					uv0.tgl_[uv0.index_].isOn = true
 
 					return
 				end
 
-				if iter_5_0 ~= arg_5_0.index_ then
-					if arg_5_0.changeAni_ then
-						arg_5_0.changeCanvas_.alpha = 0
-						arg_5_0.changeAni_.enabled = false
+				if uv1 ~= uv0.index_ then
+					if uv0.changeAni_ then
+						uv0.changeCanvas_.alpha = 0
+						uv0.changeAni_.enabled = false
 					end
 
-					arg_5_0:ToggleOnAni(iter_5_0)
+					uv0:ToggleOnAni(uv1)
 
-					local var_9_0, var_9_1, var_9_2 = ActivityPt2Tools.GetToggleClickEffect(arg_5_0.params_.mainActivityId, iter_5_0)
+					slot1, slot2, slot3 = ActivityPt2Tools.GetToggleClickEffect(uv0.params_.mainActivityId, uv1)
 
-					if var_9_0 ~= "" and var_9_1 ~= "" then
+					if slot1 ~= "" and slot2 ~= "" then
 						manager.audio:StopEffect()
-						manager.audio:PlayEffect(var_9_0, var_9_1, var_9_2)
+						manager.audio:PlayEffect(slot1, slot2, slot3)
 					end
 
-					arg_5_0.index_ = iter_5_0
+					uv0.index_ = uv1
 				end
 
-				arg_5_0.indexCon_:SetSelectedState(0)
-				arg_5_0.typeCon_:SetSelectedStateWithCallback(iter_5_0, function()
-					if arg_5_0.changeAni_ then
-						arg_5_0.changeAni_.enabled = true
+				uv0.indexCon_:SetSelectedState(0)
+				uv0.typeCon_:SetSelectedStateWithCallback(uv1, function ()
+					if uv0.changeAni_ then
+						uv0.changeAni_.enabled = true
 
-						arg_5_0.changeAni_:Play("eff_middle_cx", 0, 0)
+						uv0.changeAni_:Play("eff_middle_cx", 0, 0)
 					end
 				end)
-				ActivityPt2Data:SetLastStage(arg_5_0.activityID_, iter_5_0, 1)
+				ActivityPt2Data:SetLastStage(uv0.activityID_, uv1, 1)
 			end
 		end)
 	end
 
-	for iter_5_2, iter_5_3 in ipairs(arg_5_0.normalBtn_) do
-		arg_5_0:AddBtnListener(iter_5_3, nil, function()
-			arg_5_0:EnterLevel(1, iter_5_2)
+	for slot4, slot5 in ipairs(slot0.normalBtn_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:EnterLevel(1, uv1)
 		end)
 	end
 
-	for iter_5_4, iter_5_5 in ipairs(arg_5_0.challengeBtn_) do
-		arg_5_0:AddBtnListener(iter_5_5, nil, function()
-			arg_5_0:EnterLevel(2, iter_5_4)
+	for slot4, slot5 in ipairs(slot0.challengeBtn_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:EnterLevel(2, uv1)
 		end)
 	end
 
-	for iter_5_6, iter_5_7 in ipairs(arg_5_0.hardBtn_) do
-		arg_5_0:AddBtnListener(iter_5_7, nil, function()
-			arg_5_0:EnterLevel(3, iter_5_6)
+	for slot4, slot5 in ipairs(slot0.hardBtn_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:EnterLevel(3, uv1)
 		end)
 	end
 
-	arg_5_0:AddBtnListener(arg_5_0.lockBtn_, nil, function()
-		local var_14_0 = ActivityCfg[arg_5_0.activityID_].sub_activity_list[3]
-		local var_14_1 = ActivityPt2Cfg.get_id_list_by_activity_id[var_14_0][1]
-		local var_14_2 = ActivityPt2Cfg[var_14_1].pre_stage
-		local var_14_3 = ActivityPt2Cfg[var_14_2]
+	slot0:AddBtnListener(slot0.lockBtn_, nil, function ()
+		slot3 = ActivityPt2Cfg[ActivityPt2Cfg[ActivityPt2Cfg.get_id_list_by_activity_id[ActivityCfg[uv0.activityID_].sub_activity_list[3]][1]].pre_stage]
 
-		ShowTips(string.format(GetTips("ACTIVITY_XUHENG_PT_EXLOCK"), var_14_3.time, BattleActivityPtStageV2ChallengeCfg[var_14_3.stage_id].name))
+		ShowTips(string.format(GetTips("ACTIVITY_XUHENG_PT_EXLOCK"), slot3.time, BattleActivityPtStageV2ChallengeCfg[slot3.stage_id].name))
 	end)
 
-	if arg_5_0.eventTrigger_ then
-		arg_5_0.eventTrigger_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function(arg_15_0, arg_15_1)
-			if arg_5_0:IsOpenSectionView() then
+	if slot0.eventTrigger_ then
+		slot0.eventTrigger_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+			if uv0:IsOpenSectionView() then
 				JumpTools.Back()
 			end
 
-			arg_5_0.drag_ = true
+			uv0.drag_ = true
 		end))
-		arg_5_0.eventTrigger_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(function(arg_16_0, arg_16_1)
-			arg_5_0.drag_ = false
+		slot0.eventTrigger_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+			uv0.drag_ = false
 		end))
 	end
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	if not arg_17_0.activityID_ or arg_17_0.activityID_ ~= arg_17_0.params_.mainActivityId then
-		arg_17_0.activityID_ = arg_17_0.params_.mainActivityId
+function slot0.OnEnter(slot0)
+	if not slot0.activityID_ or slot0.activityID_ ~= slot0.params_.mainActivityId then
+		slot0.activityID_ = slot0.params_.mainActivityId
 
-		arg_17_0:ReLoad()
+		slot0:ReLoad()
 	end
 
-	arg_17_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.ReLoad(arg_18_0)
-	if arg_18_0.gameObject_ then
-		arg_18_0:Dispose()
-		Object.Destroy(arg_18_0.gameObject_)
+function slot0.ReLoad(slot0)
+	if slot0.gameObject_ then
+		slot0:Dispose()
+		Object.Destroy(slot0.gameObject_)
 	end
 
-	local var_18_0 = Asset.Load(arg_18_0:UIName())
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:UIName()), slot0:UIParent())
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_18_0.gameObject_ = Object.Instantiate(var_18_0, arg_18_0:UIParent())
-	arg_18_0.transform_ = arg_18_0.gameObject_.transform
-
-	arg_18_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.RefreshUI(arg_19_0)
-	arg_19_0:RefreshData()
-	arg_19_0:RefreshTime()
-	arg_19_0:RefreshState()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshData()
+	slot0:RefreshTime()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshData(arg_20_0)
-	arg_20_0.activityID_ = arg_20_0.params_.mainActivityId
-	arg_20_0.activityData_ = ActivityData:GetActivityData(arg_20_0.activityID_)
-	arg_20_0.startTime_ = arg_20_0.activityData_.startTime
-	arg_20_0.stopTime_ = arg_20_0.activityData_.stopTime
+function slot0.RefreshData(slot0)
+	slot0.activityID_ = slot0.params_.mainActivityId
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 end
 
-function var_0_0.RefreshTime(arg_21_0)
-	local var_21_0
-	local var_21_1 = manager.time:GetServerTime()
-	local var_21_2 = ActivityData:GetActivityData(arg_21_0.params_.mainActivityId)
-	local var_21_3 = var_21_2.startTime
-	local var_21_4 = var_21_2.stopTime
-	local var_21_5 = ActivityShopCfg[arg_21_0.params_.mainActivityId].shop_id
-	local var_21_6 = ActivityData:GetActivityData(ShopListCfg[var_21_5].activity_id).stopTime
-	local var_21_7 = var_21_6 - var_21_1
+function slot0.RefreshTime(slot0)
+	slot1 = nil
+	slot2 = manager.time:GetServerTime()
+	slot3 = ActivityData:GetActivityData(slot0.params_.mainActivityId)
+	slot5 = slot3.stopTime
+	slot9 = ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot0.params_.mainActivityId].shop_id].activity_id).stopTime - slot2
 
-	arg_21_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_21_1 < var_21_3 and var_21_2:IsActivitying() == false then
-		arg_21_0.timeLabel_.text = GetTips("SOLO_NOT_OPEN")
-		arg_21_0.timer_ = Timer.New(function()
-			var_21_0 = var_21_3 - manager.time:GetServerTime()
+	if slot2 < slot3.startTime and slot3:IsActivitying() == false then
+		slot0.timeLabel_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1 - manager.time:GetServerTime()
 
-			if var_21_0 <= 0 then
-				arg_21_0:StopTimer()
-				arg_21_0:RefreshTime()
+			if uv0 <= 0 then
+				uv2:StopTimer()
+				uv2:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_21_0.timer_:Start()
-	elseif var_21_1 < var_21_4 or var_21_1 < var_21_6 then
-		if var_21_1 < var_21_4 then
-			arg_21_0.timeLabel_.text = manager.time:GetLostTimeStr2(var_21_4)
+		slot0.timer_:Start()
+	elseif slot2 < slot5 or slot2 < slot8 then
+		if slot2 < slot5 then
+			slot0.timeLabel_.text = manager.time:GetLostTimeStr2(slot5)
 		else
-			arg_21_0.timeLabel_.text = GetTips("TIME_OVER")
+			slot0.timeLabel_.text = GetTips("TIME_OVER")
 		end
 
-		if arg_21_0.shopTimeGo_ then
-			if var_21_7 <= GameSetting.time_remaining_show.value[1] * 86400 then
-				arg_21_0.shopTimeLabel_.text = manager.time:GetLostTimeStr2(var_21_6)
+		if slot0.shopTimeGo_ then
+			if slot9 <= GameSetting.time_remaining_show.value[1] * 86400 then
+				slot0.shopTimeLabel_.text = manager.time:GetLostTimeStr2(slot8)
 
-				SetActive(arg_21_0.shopTimeGo_, true)
+				SetActive(slot0.shopTimeGo_, true)
 			else
-				SetActive(arg_21_0.shopTimeGo_, false)
+				SetActive(slot0.shopTimeGo_, false)
 			end
 		end
 
-		arg_21_0.timer_ = Timer.New(function()
-			var_21_1 = manager.time:GetServerTime()
-			var_21_0 = var_21_4 - var_21_1
-			var_21_7 = var_21_6 - var_21_1
+		slot0.timer_ = Timer.New(function ()
+			uv0 = manager.time:GetServerTime()
+			uv1 = uv2 - uv0
+			uv3 = uv4 - uv0
 
-			if var_21_0 <= 0 and var_21_7 <= 0 then
-				arg_21_0:StopTimer()
-				arg_21_0:RefreshTime()
+			if uv1 <= 0 and uv3 <= 0 then
+				uv5:StopTimer()
+				uv5:RefreshTime()
 
 				return
 			end
 
-			if var_21_1 < var_21_4 then
-				arg_21_0.timeLabel_.text = manager.time:GetLostTimeStr2(var_21_4)
+			if uv0 < uv2 then
+				uv5.timeLabel_.text = manager.time:GetLostTimeStr2(uv2)
 			else
-				arg_21_0.timeLabel_.text = GetTips("TIME_OVER")
+				uv5.timeLabel_.text = GetTips("TIME_OVER")
 			end
 
-			if arg_21_0.shopTimeGo_ then
-				if var_21_7 <= GameSetting.time_remaining_show.value[1] * 86400 then
-					arg_21_0.shopTimeLabel_.text = manager.time:GetLostTimeStr2(var_21_6)
+			if uv5.shopTimeGo_ then
+				if uv3 <= GameSetting.time_remaining_show.value[1] * 86400 then
+					uv5.shopTimeLabel_.text = manager.time:GetLostTimeStr2(uv4)
 
-					SetActive(arg_21_0.shopTimeGo_, true)
+					SetActive(uv5.shopTimeGo_, true)
 				else
-					SetActive(arg_21_0.shopTimeGo_, false)
+					SetActive(uv5.shopTimeGo_, false)
 				end
 			end
 		end, 1, -1)
 
-		arg_21_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_21_0.timeLabel_.text = GetTips("TIME_OVER")
-		arg_21_0.shopTimeLabel_.text = GetTips("TIME_OVER")
+		slot0.timeLabel_.text = GetTips("TIME_OVER")
+		slot0.shopTimeLabel_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.StopTimer(arg_24_0)
-	if arg_24_0.timer_ then
-		arg_24_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_24_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshState(arg_25_0)
-	local var_25_0 = arg_25_0:IsLockEx()
+function slot0.RefreshState(slot0)
+	slot0.lockCon_:SetSelectedState(slot0:IsLockEx() and "true" or "false")
 
-	arg_25_0.lockCon_:SetSelectedState(var_25_0 and "true" or "false")
+	slot3 = ActivityCfg[slot0.params_.mainActivityId].sub_activity_list
+	slot4 = ActivityPt2Data:GetLastStage(slot0.activityID_) and slot2.type or 1
 
-	local var_25_1 = ActivityPt2Data:GetLastStage(arg_25_0.activityID_)
-	local var_25_2 = ActivityCfg[arg_25_0.params_.mainActivityId].sub_activity_list
-	local var_25_3 = var_25_1 and var_25_1.type or 1
+	slot0.typeCon_:SetSelectedState(slot4)
 
-	arg_25_0.typeCon_:SetSelectedState(var_25_3)
+	slot0.index_ = slot4
+	slot0.tgl_[slot4].isOn = true
+	slot5, slot6, slot7 = ActivityPt2Tools.GetToggleClickEffect(slot0.params_.mainActivityId, slot4)
 
-	arg_25_0.index_ = var_25_3
-	arg_25_0.tgl_[var_25_3].isOn = true
-
-	local var_25_4, var_25_5, var_25_6 = ActivityPt2Tools.GetToggleClickEffect(arg_25_0.params_.mainActivityId, var_25_3)
-
-	if var_25_4 ~= "" and var_25_5 ~= "" then
+	if slot5 ~= "" and slot6 ~= "" then
 		manager.audio:StopEffect()
-		manager.audio:PlayEffect(var_25_4, var_25_5, var_25_6)
+		manager.audio:PlayEffect(slot5, slot6, slot7)
 	end
 
-	arg_25_0:ToggleOnAni(var_25_3)
+	slot0:ToggleOnAni(slot4)
 
-	arg_25_0.selectLevel_ = 0
+	slot0.selectLevel_ = 0
 
-	if arg_25_0:IsOpenSectionView() and var_25_1 then
-		arg_25_0.indexCon_:SetSelectedState(var_25_1.type .. "_" .. var_25_1.index)
+	if slot0:IsOpenSectionView() and slot2 then
+		slot0.indexCon_:SetSelectedState(slot2.type .. "_" .. slot2.index)
 	else
-		arg_25_0.indexCon_:SetSelectedState(0)
+		slot0.indexCon_:SetSelectedState(0)
 	end
 
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.normalCon_) do
-		local var_25_7 = ActivityPt2Cfg.get_id_list_by_activity_id[var_25_2[1]][iter_25_0]
-		local var_25_8 = ActivityPt2Data:GetNormalData(var_25_2[1], var_25_7)
-
-		if (var_25_8 and var_25_8.clear_time or 0) > 0 then
-			iter_25_1:SetSelectedState("get")
+	for slot11, slot12 in ipairs(slot0.normalCon_) do
+		if (ActivityPt2Data:GetNormalData(slot3[1], ActivityPt2Cfg.get_id_list_by_activity_id[slot3[1]][slot11]) and slot14.clear_time or 0) > 0 then
+			slot12:SetSelectedState("get")
 		else
-			iter_25_1:SetSelectedState("nor")
+			slot12:SetSelectedState("nor")
 		end
 	end
 
-	for iter_25_2, iter_25_3 in ipairs(arg_25_0.challengeCon_) do
-		local var_25_9 = ActivityPt2Cfg.get_id_list_by_activity_id[var_25_2[2]][iter_25_2]
-		local var_25_10 = ActivityPt2Data:GetChallengeData(var_25_2[2], var_25_9)
-
-		if (var_25_10 and var_25_10.clear_time or 0) > 0 then
-			iter_25_3:SetSelectedState("get")
+	for slot11, slot12 in ipairs(slot0.challengeCon_) do
+		if (ActivityPt2Data:GetChallengeData(slot3[2], ActivityPt2Cfg.get_id_list_by_activity_id[slot3[2]][slot11]) and slot14.clear_time or 0) > 0 then
+			slot12:SetSelectedState("get")
 		else
-			iter_25_3:SetSelectedState("nor")
+			slot12:SetSelectedState("nor")
 		end
 	end
 
-	for iter_25_4, iter_25_5 in ipairs(arg_25_0.hardCon_) do
-		local var_25_11 = ActivityPt2Data:GetHardData(var_25_2[3])
-
-		if (var_25_11 and var_25_11.clear_time or 0) > 0 then
-			iter_25_5:SetSelectedState("get")
+	for slot11, slot12 in ipairs(slot0.hardCon_) do
+		if (ActivityPt2Data:GetHardData(slot3[3]) and slot13.clear_time or 0) > 0 then
+			slot12:SetSelectedState("get")
 		else
-			iter_25_5:SetSelectedState("nor")
+			slot12:SetSelectedState("nor")
 		end
 	end
 
-	arg_25_0.rankID_ = var_25_2[4]
+	slot0.rankID_ = slot3[4]
 
-	local var_25_12 = ActivityPt2Data:GetHardData(var_25_2[3])
-
-	if var_25_12 and var_25_12.clear_time > 0 then
-		local var_25_13 = ActivityPt2Data:GetExScore(var_25_2[3])
-
-		arg_25_0.score_.text = var_25_13
+	if ActivityPt2Data:GetHardData(slot3[3]) and slot8.clear_time > 0 then
+		slot0.score_.text = ActivityPt2Data:GetExScore(slot3[3])
 	else
-		arg_25_0.score_.text = GetTips("NO_RECORD")
+		slot0.score_.text = GetTips("NO_RECORD")
 	end
 end
 
-function var_0_0.ToggleOnAni(arg_26_0, arg_26_1)
-	local var_26_0 = {}
+function slot0.ToggleOnAni(slot0, slot1)
+	slot2 = {}
 
-	if arg_26_1 == 1 then
-		var_26_0 = arg_26_0.normalAni_
-	elseif arg_26_1 == 2 then
-		var_26_0 = arg_26_0.challengeAni_
-	elseif arg_26_1 == 3 then
-		var_26_0 = arg_26_0.hardAni_
+	if slot1 == 1 then
+		slot2 = slot0.normalAni_
+	elseif slot1 == 2 then
+		slot2 = slot0.challengeAni_
+	elseif slot1 == 3 then
+		slot2 = slot0.hardAni_
 	end
 
-	local var_26_1 = ActivityPt2Tools.GetBtnEnterAnimation(arg_26_0.activityID_)
-
-	if var_26_1 ~= "" then
-		for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-			iter_26_1:Play(var_26_1, -1, 0)
+	if ActivityPt2Tools.GetBtnEnterAnimation(slot0.activityID_) ~= "" then
+		for slot7, slot8 in ipairs(slot2) do
+			slot8:Play(slot3, -1, 0)
 		end
 	end
 end
 
-function var_0_0.EnterLevel(arg_27_0, arg_27_1, arg_27_2)
-	if arg_27_0.selectLevel_ ~= arg_27_2 then
-		arg_27_0:CheckClickBtnAni(arg_27_2)
+function slot0.EnterLevel(slot0, slot1, slot2)
+	if slot0.selectLevel_ ~= slot2 then
+		slot0:CheckClickBtnAni(slot2)
 	end
 
-	arg_27_0.selectLevel_ = arg_27_2
+	slot0.selectLevel_ = slot2
 
-	ActivityPt2Data:SetLastStage(arg_27_0.activityID_, arg_27_1, arg_27_2)
-	arg_27_0.indexCon_:SetSelectedState(arg_27_1 .. "_" .. arg_27_2)
+	ActivityPt2Data:SetLastStage(slot0.activityID_, slot1, slot2)
+	slot0.indexCon_:SetSelectedState(slot1 .. "_" .. slot2)
 
-	local var_27_0 = ActivityCfg[arg_27_0.params_.mainActivityId].sub_activity_list[arg_27_1]
-	local var_27_1 = ActivityPt2Cfg.get_id_list_by_activity_id[var_27_0][arg_27_2]
-	local var_27_2 = ActivityPt2Cfg[var_27_1].stage_id
-	local var_27_3
-
-	if arg_27_1 == 1 then
-		var_27_3 = BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL
-	elseif arg_27_1 == 2 then
-		var_27_3 = BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE
-	else
-		var_27_3 = BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD
-	end
+	slot6 = nil
 
 	JumpTools.OpenPageByJump("activityPt2SectionInfo", {
-		section = var_27_2,
-		sectionType = var_27_3,
-		mainActivityId = arg_27_0.activityID_,
-		activityId = var_27_0,
-		repeat_id = var_27_1,
-		backCall = function()
-			arg_27_0:BlankAni()
-			arg_27_0.indexCon_:SetSelectedIndex(0)
+		section = ActivityPt2Cfg[ActivityPt2Cfg.get_id_list_by_activity_id[ActivityCfg[slot0.params_.mainActivityId].sub_activity_list[slot1]][slot2]].stage_id,
+		sectionType = (slot1 ~= 1 or BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL) and (slot1 ~= 2 or BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE) and BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD,
+		mainActivityId = slot0.activityID_,
+		activityId = slot3,
+		repeat_id = slot4,
+		backCall = function ()
+			uv0:BlankAni()
+			uv0.indexCon_:SetSelectedIndex(0)
 
-			arg_27_0.selectLevel_ = 0
+			uv0.selectLevel_ = 0
 		end
 	})
 end
 
-function var_0_0.CheckClickBtnAni(arg_29_0, arg_29_1)
-	local var_29_0
-	local var_29_1
+function slot0.CheckClickBtnAni(slot0, slot1)
+	slot2, slot3 = nil
 
-	if arg_29_0.index_ == 1 then
-		var_29_1 = arg_29_0.normalAni_[arg_29_1]
-		var_29_0 = arg_29_0.normalAni_[arg_29_0.selectLevel_]
-	elseif arg_29_0.index_ == 2 then
-		var_29_1 = arg_29_0.challengeAni_[arg_29_1]
-		var_29_0 = arg_29_0.challengeAni_[arg_29_0.selectLevel_]
+	if slot0.index_ == 1 then
+		slot3 = slot0.normalAni_[slot1]
+		slot2 = slot0.normalAni_[slot0.selectLevel_]
+	elseif slot0.index_ == 2 then
+		slot3 = slot0.challengeAni_[slot1]
+		slot2 = slot0.challengeAni_[slot0.selectLevel_]
 	else
-		var_29_1 = arg_29_0.hardAni_[arg_29_1]
-		var_29_0 = arg_29_0.hardAni_[arg_29_0.selectLevel_]
+		slot3 = slot0.hardAni_[slot1]
+		slot2 = slot0.hardAni_[slot0.selectLevel_]
 	end
 
-	if var_29_0 then
-		local var_29_2 = ActivityPt2Tools.GetBtnDisappearAnimation(arg_29_0.params_.mainActivityId)
-
-		if var_29_2 ~= "" then
-			var_29_0:Play(var_29_2, -1, 0)
-		end
+	if slot2 and ActivityPt2Tools.GetBtnDisappearAnimation(slot0.params_.mainActivityId) ~= "" then
+		slot2:Play(slot4, -1, 0)
 	end
 
-	if var_29_1 then
-		local var_29_3 = ActivityPt2Tools.GetBtnAppearAnimation(arg_29_0.params_.mainActivityId)
-
-		if var_29_3 ~= "" then
-			var_29_1:Play(var_29_3, -1, 0)
-		end
+	if slot3 and ActivityPt2Tools.GetBtnAppearAnimation(slot0.params_.mainActivityId) ~= "" then
+		slot3:Play(slot4, -1, 0)
 	end
 end
 
-function var_0_0.BlankAni(arg_30_0)
-	local var_30_0
+function slot0.BlankAni(slot0)
+	slot1 = nil
 
-	if arg_30_0.index_ == 1 then
-		var_30_0 = arg_30_0.normalAni_[arg_30_0.selectLevel_]
-	elseif arg_30_0.index_ == 2 then
-		var_30_0 = arg_30_0.challengeAni_[arg_30_0.selectLevel_]
-	else
-		var_30_0 = arg_30_0.hardAni_[arg_30_0.selectLevel_]
-	end
-
-	if var_30_0 then
-		local var_30_1 = ActivityPt2Tools.GetBtnDisappearAnimation(arg_30_0.params_.mainActivityId)
-
-		if var_30_1 ~= "" then
-			var_30_0:Play(var_30_1, -1, 0)
-		end
+	if (slot0.index_ ~= 1 or slot0.normalAni_[slot0.selectLevel_]) and (slot0.index_ ~= 2 or slot0.challengeAni_[slot0.selectLevel_]) and slot0.hardAni_[slot0.selectLevel_] and ActivityPt2Tools.GetBtnDisappearAnimation(slot0.params_.mainActivityId) ~= "" then
+		slot1:Play(slot2, -1, 0)
 	end
 end
 
-function var_0_0.IsLockEx(arg_31_0)
-	local var_31_0 = ActivityCfg[arg_31_0.activityID_].sub_activity_list[3]
-	local var_31_1 = ActivityPt2Cfg.get_id_list_by_activity_id[var_31_0][1]
-	local var_31_2 = ActivityPt2Cfg[var_31_1].pre_stage
-	local var_31_3 = ActivityCfg[arg_31_0.params_.mainActivityId].sub_activity_list
-	local var_31_4 = ActivityPt2Data:GetChallengeData(var_31_3[2], var_31_2)
-	local var_31_5 = ActivityPt2Cfg[var_31_2]
+function slot0.IsLockEx(slot0)
+	slot3 = ActivityPt2Cfg[ActivityPt2Cfg.get_id_list_by_activity_id[ActivityCfg[slot0.activityID_].sub_activity_list[3]][1]].pre_stage
+	slot6 = ActivityPt2Cfg[slot3]
 
-	if not var_31_4 or var_31_4.clear_time <= 0 then
+	if not ActivityPt2Data:GetChallengeData(ActivityCfg[slot0.params_.mainActivityId].sub_activity_list[2], slot3) or slot5.clear_time <= 0 then
 		return true
 	end
 
-	return var_31_4.use_time > var_31_5.time
+	return slot6.time < slot5.use_time
 end
 
-function var_0_0.IsOpenSectionView(arg_32_0)
-	return arg_32_0:IsOpenRoute("activityPt2SectionInfo")
+function slot0.IsOpenSectionView(slot0)
+	return slot0:IsOpenRoute("activityPt2SectionInfo")
 end
 
-function var_0_0.RefreshShop(arg_33_0)
-	local var_33_0 = ActivityShopCfg[arg_33_0.params_.mainActivityId].shop_id
-
-	arg_33_0.shopName_.text = ShopListCfg[var_33_0].remark
+function slot0.RefreshShop(slot0)
+	slot0.shopName_.text = ShopListCfg[ActivityShopCfg[slot0.params_.mainActivityId].shop_id].remark
 end
 
-function var_0_0.OnTop(arg_34_0)
-	local var_34_0 = ActivityPt2Tools.GetHelpKey(arg_34_0.activityID_)
-	local var_34_1 = ActivityPt2Tools.GetChallengeCurrencyID(arg_34_0.activityID_)
-
-	if var_34_0 ~= "" then
+function slot0.OnTop(slot0)
+	if ActivityPt2Tools.GetHelpKey(slot0.activityID_) ~= "" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR,
 			CurrencyConst.CURRENCY_TYPE_VITALITY,
-			var_34_1,
+			ActivityPt2Tools.GetChallengeCurrencyID(slot0.activityID_),
 			CurrencyConst.CURRENCY_TYPE_DIAMOND
 		})
-		manager.windowBar:SetGameHelpKey(var_34_0)
+		manager.windowBar:SetGameHelpKey(slot1)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			CurrencyConst.CURRENCY_TYPE_VITALITY,
-			var_34_1,
+			slot2,
 			CurrencyConst.CURRENCY_TYPE_DIAMOND
 		})
 	end
 
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_VITALITY, true)
-	manager.windowBar:SetBarCanAdd(var_34_1, true)
+	manager.windowBar:SetBarCanAdd(slot2, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 end
 
-function var_0_0.OnExit(arg_35_0)
-	arg_35_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 	manager.windowBar:HideBar()
-	arg_35_0.indexCon_:SetSelectedState(-1)
+	slot0.indexCon_:SetSelectedState(-1)
 end
 
-function var_0_0.Dispose(arg_36_0)
-	arg_36_0:RemoveAllListeners()
-	arg_36_0.super.Dispose(arg_36_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

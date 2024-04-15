@@ -1,119 +1,113 @@
-local var_0_0 = class("HeroTeamInfoBaseView", ReduxView)
+slot0 = class("HeroTeamInfoBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/StagePrepare/HeroTeamInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.indexof(arg_3_0, arg_3_1, arg_3_2)
-	for iter_3_0 = 1, #arg_3_1 do
-		if arg_3_1[iter_3_0].id == arg_3_2.id and arg_3_1[iter_3_0].trialID == arg_3_2.trialID then
-			return iter_3_0
+function slot0.indexof(slot0, slot1, slot2)
+	for slot6 = 1, #slot1 do
+		if slot1[slot6].id == slot2.id and slot1[slot6].trialID == slot2.trialID then
+			return slot6
 		end
 	end
 
 	return 9999
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_4_0.emptyController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "empty")
-	arg_4_0.contorller_ = ControllerUtil.GetController(arg_4_0.joinBtn_.transform, "upgradeBtn")
-	arg_4_0.heroAvatarView_ = HeroAvatarView.New(arg_4_0, arg_4_0.displayGo_)
-	arg_4_0.heroHeadList_ = LuaList.New(handler(arg_4_0, arg_4_0.HeadRenderer), arg_4_0.uiListGo_, HeroTeamHeadItem)
-	arg_4_0.filterView_ = arg_4_0:GetFilterClass().New(arg_4_0.filterGo_)
+	slot0.emptyController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "empty")
+	slot0.contorller_ = ControllerUtil.GetController(slot0.joinBtn_.transform, "upgradeBtn")
+	slot0.heroAvatarView_ = HeroAvatarView.New(slot0, slot0.displayGo_)
+	slot0.heroHeadList_ = LuaList.New(handler(slot0, slot0.HeadRenderer), slot0.uiListGo_, HeroTeamHeadItem)
+	slot0.filterView_ = slot0:GetFilterClass().New(slot0.filterGo_)
 
-	arg_4_0.filterView_:SetExtraSorter(handler(arg_4_0, arg_4_0.ExtraSorter))
-	arg_4_0.filterView_:SetListChangeHandler(handler(arg_4_0, arg_4_0.OnListChange))
+	slot0.filterView_:SetExtraSorter(handler(slot0, slot0.ExtraSorter))
+	slot0.filterView_:SetListChangeHandler(handler(slot0, slot0.OnListChange))
 end
 
-function var_0_0.GetFilterClass(arg_5_0)
+function slot0.GetFilterClass(slot0)
 	return HeroListFilterWithTrialView
 end
 
-function var_0_0.ExtraSorter(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	local var_6_0 = arg_6_0.heroTeam_
-	local var_6_1 = arg_6_0.heroTrialList_
-	local var_6_2 = {}
-
-	for iter_6_0, iter_6_1 in pairs(var_6_0) do
-		var_6_2[iter_6_0] = {
-			id = iter_6_1,
-			trialID = var_6_1[iter_6_0]
+function slot0.ExtraSorter(slot0, slot1, slot2, slot3, slot4)
+	slot7 = {
+		[slot11] = {
+			id = slot12,
+			trialID = slot0.heroTrialList_[slot11]
 		}
+	}
+
+	for slot11, slot12 in pairs(slot0.heroTeam_) do
+		-- Nothing
 	end
 
-	local var_6_3 = arg_6_0:indexof(var_6_2, arg_6_1)
-	local var_6_4 = arg_6_0:indexof(var_6_2, arg_6_2)
-
-	if var_6_3 ~= var_6_4 then
-		return true, var_6_3 < var_6_4
+	if slot0:indexof(slot7, slot1) ~= slot0:indexof(slot7, slot2) then
+		return true, slot8 < slot9
 	end
 
-	if arg_6_1.trialID ~= 0 or arg_6_2.trialID ~= 0 then
-		if arg_6_1.trialID ~= 0 and arg_6_2.trialID ~= 0 then
-			if arg_6_3 == 0 and arg_6_1.star ~= arg_6_2.star then
-				if arg_6_0.curOrder_ == "desc" then
-					return true, arg_6_1.star > arg_6_2.star
+	if slot1.trialID ~= 0 or slot2.trialID ~= 0 then
+		if slot1.trialID ~= 0 and slot2.trialID ~= 0 then
+			if slot3 == 0 and slot1.star ~= slot2.star then
+				if slot0.curOrder_ == "desc" then
+					return true, slot2.star < slot1.star
 				else
-					return true, arg_6_1.star < arg_6_2.star
+					return true, slot1.star < slot2.star
 				end
 			end
 
-			local var_6_5 = getHeroPower(arg_6_1.trialID, true)
-			local var_6_6 = getHeroPower(arg_6_2.trialID, true)
-
-			if var_6_5 ~= var_6_6 then
-				if arg_6_4 == "desc" then
-					return true, var_6_6 < var_6_5
+			if getHeroPower(slot1.trialID, true) ~= getHeroPower(slot2.trialID, true) then
+				if slot4 == "desc" then
+					return true, slot11 < slot10
 				else
-					return true, var_6_5 < var_6_6
+					return true, slot10 < slot11
 				end
 			else
-				return true, arg_6_1.trialID > arg_6_2.trialID
+				return true, slot2.trialID < slot1.trialID
 			end
 		else
-			return true, arg_6_1.trialID > arg_6_2.trialID
+			return true, slot2.trialID < slot1.trialID
 		end
 	end
 
 	return false, false
 end
 
-function var_0_0.OnListChange(arg_7_0, arg_7_1)
-	arg_7_0.heroDataList_ = arg_7_1
+function slot0.OnListChange(slot0, slot1)
+	slot0.heroDataList_ = slot1
 
-	arg_7_0.heroHeadList_:StartScroll(#arg_7_0.heroDataList_)
+	slot0.heroHeadList_:StartScroll(#slot0.heroDataList_)
 
-	if #arg_7_0.heroDataList_ > 0 then
-		arg_7_0.emptyController_:SetSelectedState("false")
-		arg_7_0:SelectHero(arg_7_0.heroDataList_[1].id, arg_7_0.heroDataList_[1].trialID)
+	if #slot0.heroDataList_ > 0 then
+		slot0.emptyController_:SetSelectedState("false")
+		slot0:SelectHero(slot0.heroDataList_[1].id, slot0.heroDataList_[1].trialID)
 	else
-		arg_7_0.emptyController_:SetSelectedState("true")
+		slot0.emptyController_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.roomProxy_ = arg_8_0.params_.roomProxy
-	arg_8_0.type_ = arg_8_0.params_.type or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_8_0.heroViewProxy_ = HeroViewDataProxy.New(arg_8_0.type_)
+function slot0.OnEnter(slot0)
+	slot0.roomProxy_ = slot0.params_.roomProxy
+	slot0.type_ = slot0.params_.type or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.heroViewProxy_ = HeroViewDataProxy.New(slot0.type_)
 
 	manager.ui:SetMainCamera("hero")
 
-	if arg_8_0.params_.isEnter then
-		if arg_8_0.filterView_ then
-			arg_8_0.filterView_:Reset(true)
+	if slot0.params_.isEnter then
+		if slot0.filterView_ then
+			slot0.filterView_:Reset(true)
 		end
 
-		arg_8_0.params_.isEnter = false
+		slot0.params_.isEnter = false
 	end
 
-	if arg_8_0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+	if slot0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
 		manager.windowBar:SwitchBar({
 			BACK_BAR
 		})
@@ -124,399 +118,372 @@ function var_0_0.OnEnter(arg_8_0)
 		})
 	end
 
-	if arg_8_0.heroAvatarView_ then
-		arg_8_0.heroAvatarView_:OnEnter()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:OnEnter()
 	end
 
-	arg_8_0.teamInfo_ = arg_8_0:GetHeroTeam()
-	arg_8_0.trialHeroList_ = GetTrialHeroList(arg_8_0.params_.stageType, arg_8_0.params_.stageID, arg_8_0.params_.activityID)
+	slot0.teamInfo_ = slot0:GetHeroTeam()
+	slot0.trialHeroList_ = GetTrialHeroList(slot0.params_.stageType, slot0.params_.stageID, slot0.params_.activityID)
+	slot1 = HideInfoData.GetHeroHideList()
+	slot7 = slot0
 
-	local var_8_0 = HideInfoData.GetHeroHideList()
-	local var_8_1 = {}
-
-	for iter_8_0, iter_8_1 in pairs(arg_8_0:GetHeroList()) do
-		table.insert(var_8_1, {
+	for slot6, slot7 in pairs(slot0.GetHeroList(slot7)) do
+		table.insert({}, {
 			trialID = 0,
-			id = iter_8_1,
-			type = arg_8_0.type_
+			id = slot7,
+			type = slot0.type_
 		})
 	end
 
-	arg_8_0.filterView_:ShowDropDown(true)
+	slot0.filterView_:ShowDropDown(true)
 
-	local var_8_2 = {}
-	local var_8_3, var_8_4 = BattleStageTools.GetRestrictHeroList(arg_8_0.params_.stageType, arg_8_0.params_.stageID)
-	local var_8_5 = false
+	slot3 = {}
+	slot4, slot5 = BattleStageTools.GetRestrictHeroList(slot0.params_.stageType, slot0.params_.stageID)
+	slot6 = false
 
-	if type(var_8_4) == "table" and var_8_4[arg_8_0.params_.selectHeroPos] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
-		var_8_5 = true
+	if type(slot5) == "table" and slot5[slot0.params_.selectHeroPos] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+		slot6 = true
 	end
 
-	if type(var_8_3) == "table" then
-		if var_8_3[arg_8_0.params_.selectHeroPos][1] then
-			var_8_1 = {}
+	if type(slot4) == "table" then
+		if slot4[slot0.params_.selectHeroPos][1] then
+			slot2 = {}
 
-			arg_8_0.filterView_:ShowDropDown(false)
+			slot0.filterView_:ShowDropDown(false)
 		end
 
-		if var_8_5 == true then
-			local var_8_6 = var_8_3[arg_8_0.params_.selectHeroPos][1]
-			local var_8_7 = var_8_3[arg_8_0.params_.selectHeroPos][2]
-
-			if var_8_6 ~= 0 and HeroCfg[var_8_6] and table.keyof(HeroCfg.get_id_list_by_private[0], var_8_6) then
-				table.insert(var_8_1, {
-					id = var_8_6,
-					trialID = var_8_7,
+		if slot6 == true then
+			if slot4[slot0.params_.selectHeroPos][1] ~= 0 and HeroCfg[slot7] and table.keyof(HeroCfg.get_id_list_by_private[0], slot7) then
+				table.insert(slot2, {
+					id = slot7,
+					trialID = slot4[slot0.params_.selectHeroPos][2],
 					type = HeroConst.HERO_DATA_TYPE.CUSTOM
 				})
 
-				if HeroTools.GetHeroIsUnlock(var_8_6) then
-					table.insert(var_8_1, {
+				if HeroTools.GetHeroIsUnlock(slot7) then
+					table.insert(slot2, {
 						trialID = 0,
-						id = var_8_6,
+						id = slot7,
 						type = HeroConst.HERO_DATA_TYPE.DEFAULT
 					})
 				end
 			end
 		else
-			for iter_8_2, iter_8_3 in pairs(var_8_3) do
-				if iter_8_3[1] ~= 0 and HeroCfg[iter_8_3[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], iter_8_3[1]) then
-					table.insert(var_8_1, {
-						id = iter_8_3[1],
-						trialID = iter_8_3[2],
+			for slot10, slot11 in pairs(slot4) do
+				if slot11[1] ~= 0 and HeroCfg[slot11[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], slot11[1]) then
+					table.insert(slot2, {
+						id = slot11[1],
+						trialID = slot11[2],
 						type = HeroConst.HERO_DATA_TYPE.CUSTOM
 					})
-					table.insert(var_8_2, iter_8_3[2])
+					table.insert(slot3, slot11[2])
 				end
 			end
 		end
 	end
 
-	for iter_8_4, iter_8_5 in pairs(arg_8_0.trialHeroList_) do
-		local var_8_8 = HeroStandardSystemCfg[iter_8_5]
-
-		if not table.keyof(var_8_2, iter_8_5) then
-			table.insert(var_8_1, {
-				id = var_8_8.hero_id,
-				trialID = iter_8_5,
+	for slot10, slot11 in pairs(slot0.trialHeroList_) do
+		if not table.keyof(slot3, slot11) then
+			table.insert(slot2, {
+				id = HeroStandardSystemCfg[slot11].hero_id,
+				trialID = slot11,
 				type = HeroConst.HERO_DATA_TYPE.TRIAL
 			})
 		end
 	end
 
-	arg_8_0.filterView_:SetHeroDataList(var_8_1)
+	slot0.filterView_:SetHeroDataList(slot2)
 
-	arg_8_0.selectID_, arg_8_0.selectTrialID_ = arg_8_0:GetDefaultHeroData()
+	slot0.selectID_, slot0.selectTrialID_ = slot0:GetDefaultHeroData()
 
-	arg_8_0:SelectHero(arg_8_0.selectID_, arg_8_0.selectTrialID_)
-	arg_8_0.heroHeadList_:StartScroll(#arg_8_0.heroDataList_, table.keyof(arg_8_0.heroDataList_, arg_8_0.selectID_))
-	SetActive(arg_8_0.favoriteBtn_.gameObject, false)
+	slot0:SelectHero(slot0.selectID_, slot0.selectTrialID_)
+	slot0.heroHeadList_:StartScroll(#slot0.heroDataList_, table.keyof(slot0.heroDataList_, slot0.selectID_))
+	SetActive(slot0.favoriteBtn_.gameObject, false)
 end
 
-function var_0_0.OnTop(arg_9_0)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_9_0:Back(1, {
+function slot0.OnTop(slot0)
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			isSorted = true
 		})
 	end)
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.ui:ResetMainCamera()
 
-	if arg_11_0.heroAvatarView_ then
-		arg_11_0.heroAvatarView_:OnExit()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:OnExit()
 	end
 
-	if #arg_11_0.heroDataList_ <= 0 then
+	if #slot0.heroDataList_ <= 0 then
 		HeroData:ResetSortValue()
-		arg_11_0.filterView_:Reset()
+		slot0.filterView_:Reset()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.filterView_ then
-		arg_12_0.filterView_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.filterView_ then
+		slot0.filterView_:Dispose()
 
-		arg_12_0.filterView_ = nil
+		slot0.filterView_ = nil
 	end
 
-	if arg_12_0.heroHeadList_ then
-		arg_12_0.heroHeadList_:Dispose()
+	if slot0.heroHeadList_ then
+		slot0.heroHeadList_:Dispose()
 
-		arg_12_0.heroHeadList_ = nil
+		slot0.heroHeadList_ = nil
 	end
 
-	if arg_12_0.heroAvatarView_ then
-		arg_12_0.heroAvatarView_:Dispose()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:Dispose()
 
-		arg_12_0.heroAvatarView_ = nil
+		slot0.heroAvatarView_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 
-	arg_12_0.selectID_ = nil
-	arg_12_0.heroTeam_ = nil
-	arg_12_0.lockStateList_ = nil
-	arg_12_0.lockHeroList_ = nil
-	arg_12_0.displayGo_ = nil
-	arg_12_0.nameText_ = nil
-	arg_12_0.subNameText_ = nil
-	arg_12_0.fightPowerText_ = nil
-	arg_12_0.joinBtn_ = nil
-	arg_12_0.joinImg_ = nil
-	arg_12_0.joinText_ = nil
-	arg_12_0.infoBtn_ = nil
-	arg_12_0.uiListGo_ = nil
+	slot0.selectID_ = nil
+	slot0.heroTeam_ = nil
+	slot0.lockStateList_ = nil
+	slot0.lockHeroList_ = nil
+	slot0.displayGo_ = nil
+	slot0.nameText_ = nil
+	slot0.subNameText_ = nil
+	slot0.fightPowerText_ = nil
+	slot0.joinBtn_ = nil
+	slot0.joinImg_ = nil
+	slot0.joinText_ = nil
+	slot0.infoBtn_ = nil
+	slot0.uiListGo_ = nil
 end
 
-function var_0_0.InitUI(arg_13_0)
-	arg_13_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_14_0)
-	arg_14_0:AddBtnListener(arg_14_0.infoBtn_, nil, function()
-		BattleFieldData:SetCurrentSelectHeroData(arg_14_0.selectID_, arg_14_0.selectTrialID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+		BattleFieldData:SetCurrentSelectHeroData(uv0.selectID_, uv0.selectTrialID_)
 
-		local var_15_0
+		slot0 = nil
 
-		if arg_14_0.selectTrialID_ ~= 0 then
-			local var_15_1 = arg_14_0:GetCustomHeroList()
-
-			if not table.keyof(var_15_1, arg_14_0.selectTrialID_) then
-				var_15_1 = arg_14_0.trialHeroList_
+		if uv0.selectTrialID_ ~= 0 then
+			if not table.keyof(uv0:GetCustomHeroList(), uv0.selectTrialID_) then
+				slot1 = uv0.trialHeroList_
 			end
 
-			local var_15_2 = {}
+			slot2 = {}
 
-			for iter_15_0, iter_15_1 in pairs(var_15_1) do
-				local var_15_3 = HeroStandardSystemCfg[iter_15_1]
-
-				if HeroCfg[var_15_3.hero_id].hide_info == 0 then
-					table.insert(var_15_2, iter_15_1)
+			for slot6, slot7 in pairs(slot1) do
+				if HeroCfg[HeroStandardSystemCfg[slot7].hero_id].hide_info == 0 then
+					table.insert(slot2, slot7)
 				end
 			end
 
-			var_15_0 = var_15_2
+			slot0 = slot2
 		end
 
-		arg_14_0:Go("/newHero", {
+		uv0:Go("/newHero", {
 			isEnter = true,
-			hid = arg_14_0.selectTrialID_ ~= 0 and arg_14_0.selectTrialID_ or arg_14_0.selectID_,
-			type = arg_14_0.selectTrialID_ ~= 0 and HeroConst.HERO_DATA_TYPE.TRIAL or HeroConst.HERO_DATA_TYPE.DEFAULT,
-			tempHeroList = var_15_0
+			hid = uv0.selectTrialID_ ~= 0 and uv0.selectTrialID_ or uv0.selectID_,
+			type = uv0.selectTrialID_ ~= 0 and HeroConst.HERO_DATA_TYPE.TRIAL or HeroConst.HERO_DATA_TYPE.DEFAULT,
+			tempHeroList = slot0
 		})
 	end)
-	arg_14_0:AddBtnListener(arg_14_0.joinBtn_, nil, handler(arg_14_0, arg_14_0.OnJoinClick))
+	slot0:AddBtnListener(slot0.joinBtn_, nil, handler(slot0, slot0.OnJoinClick))
 end
 
-function var_0_0.OnJoinClick(arg_16_0)
-	arg_16_0.backFlag_ = true
+function slot0.OnJoinClick(slot0)
+	slot0.backFlag_ = true
+	slot2 = slot0.heroTrialList_
 
-	local var_16_0 = arg_16_0.heroTeam_
-	local var_16_1 = arg_16_0.heroTrialList_
-	local var_16_2 = arg_16_0:IsSameIDInTeam(arg_16_0.selectID_, arg_16_0.selectTrialID_)
+	if slot0.selectID_ == slot0.heroTeam_[slot0.params_.selectHeroPos] and slot0.selectTrialID_ == slot2[slot0.params_.selectHeroPos] and slot0:IsSameIDInTeam(slot0.selectID_, slot0.selectTrialID_) then
+		slot1[slot0.params_.selectHeroPos] = 0
+		slot2[slot0.params_.selectHeroPos] = 0
+	elseif slot3 then
+		slot4 = 1
 
-	if arg_16_0.selectID_ == var_16_0[arg_16_0.params_.selectHeroPos] and arg_16_0.selectTrialID_ == var_16_1[arg_16_0.params_.selectHeroPos] and var_16_2 then
-		var_16_0[arg_16_0.params_.selectHeroPos] = 0
-		var_16_1[arg_16_0.params_.selectHeroPos] = 0
-	elseif var_16_2 then
-		local var_16_3 = 1
-
-		for iter_16_0, iter_16_1 in pairs(var_16_0) do
-			if iter_16_1 == arg_16_0.selectID_ then
-				var_16_3 = iter_16_0
+		for slot8, slot9 in pairs(slot1) do
+			if slot9 == slot0.selectID_ then
+				slot4 = slot8
 
 				break
 			end
 		end
 
-		if var_16_0[var_16_3] == arg_16_0.selectID_ and var_16_1[var_16_3] ~= arg_16_0.selectTrialID_ then
-			var_16_0[var_16_3] = arg_16_0.selectID_
-			var_16_1[var_16_3] = arg_16_0.selectTrialID_
+		if slot1[slot4] == slot0.selectID_ and slot2[slot4] ~= slot0.selectTrialID_ then
+			slot1[slot4] = slot0.selectID_
+			slot2[slot4] = slot0.selectTrialID_
 		end
 
-		local var_16_4 = var_16_0[var_16_3]
+		slot1[slot4] = slot1[slot0.params_.selectHeroPos]
+		slot1[slot0.params_.selectHeroPos] = slot1[slot4]
+		slot2[slot4] = slot2[slot0.params_.selectHeroPos]
+		slot2[slot0.params_.selectHeroPos] = slot2[slot4]
 
-		var_16_0[var_16_3] = var_16_0[arg_16_0.params_.selectHeroPos]
-		var_16_0[arg_16_0.params_.selectHeroPos] = var_16_4
-
-		local var_16_5 = var_16_1[var_16_3]
-
-		var_16_1[var_16_3] = var_16_1[arg_16_0.params_.selectHeroPos]
-		var_16_1[arg_16_0.params_.selectHeroPos] = var_16_5
-
-		HeroTools.PlayTalk(arg_16_0.selectID_, "team")
+		HeroTools.PlayTalk(slot0.selectID_, "team")
 	else
-		var_16_0[arg_16_0.params_.selectHeroPos] = arg_16_0.selectID_
-		var_16_1[arg_16_0.params_.selectHeroPos] = arg_16_0.selectTrialID_
+		slot1[slot0.params_.selectHeroPos] = slot0.selectID_
+		slot2[slot0.params_.selectHeroPos] = slot0.selectTrialID_
 
-		HeroTools.PlayTalk(arg_16_0.selectID_, "team")
+		HeroTools.PlayTalk(slot0.selectID_, "team")
 	end
 
-	if arg_16_0.params_.reorder == nil or arg_16_0.params_.reorder == true then
-		for iter_16_2 = 3, 1, -1 do
-			if var_16_0[iter_16_2] == 0 then
-				table.remove(var_16_0, iter_16_2)
-				table.remove(var_16_1, iter_16_2)
+	if slot0.params_.reorder == nil or slot0.params_.reorder == true then
+		for slot7 = 3, 1, -1 do
+			if slot1[slot7] == 0 then
+				table.remove(slot1, slot7)
+				table.remove(slot2, slot7)
 			end
 		end
 
-		for iter_16_3 = 1, 3 do
-			if not var_16_0[iter_16_3] then
-				var_16_0[iter_16_3] = 0
-				var_16_1[iter_16_3] = 0
+		for slot7 = 1, 3 do
+			if not slot1[slot7] then
+				slot1[slot7] = 0
+				slot2[slot7] = 0
 			end
 		end
 	end
 
-	arg_16_0:TryToChangeTeam(var_16_0, var_16_1)
+	slot0:TryToChangeTeam(slot1, slot2)
 end
 
-function var_0_0.TryToChangeTeam(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0:ChangeTeam(arg_17_1, arg_17_2)
-	arg_17_0:OnChangeTeamSuccess()
+function slot0.TryToChangeTeam(slot0, slot1, slot2)
+	slot0:ChangeTeam(slot1, slot2)
+	slot0:OnChangeTeamSuccess()
 end
 
-function var_0_0.OnChangeTeamSuccess(arg_18_0)
-	if arg_18_0.heroAvatarView_ then
-		arg_18_0.heroAvatarView_:RemoveTween()
+function slot0.OnChangeTeamSuccess(slot0)
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:RemoveTween()
 	end
 
-	arg_18_0:Back(1, {
+	slot0:Back(1, {
 		isSorted = true
 	})
 
-	arg_18_0.backFlag_ = false
+	slot0.backFlag_ = false
 end
 
-function var_0_0.UpdateHeroView(arg_19_0)
-	local var_19_0
-	local var_19_1
-	local var_19_2 = arg_19_0.selectID_
+function slot0.UpdateHeroView(slot0)
+	slot1, slot2 = nil
+	slot2 = slot0.selectID_
+	slot1 = (not slot0.selectTrialID_ or slot0.selectTrialID_ == 0 or HeroStandardSystemCfg[slot0.selectTrialID_].skin_id) and HeroTools.HeroUsingSkinInfo(slot0.selectID_).id
 
-	if arg_19_0.selectTrialID_ and arg_19_0.selectTrialID_ ~= 0 then
-		var_19_0 = HeroStandardSystemCfg[arg_19_0.selectTrialID_].skin_id
+	if slot0.selectTrialID_ and slot0.selectTrialID_ ~= 0 then
+		slot0.fightPowerText_.text = getHeroPower(slot0.selectTrialID_, true)
 	else
-		var_19_0 = HeroTools.HeroUsingSkinInfo(arg_19_0.selectID_).id
+		slot0.fightPowerText_.text = slot0.heroViewProxy_:GetBattlePower(slot2)
 	end
 
-	if arg_19_0.selectTrialID_ and arg_19_0.selectTrialID_ ~= 0 then
-		arg_19_0.fightPowerText_.text = getHeroPower(arg_19_0.selectTrialID_, true)
-	else
-		arg_19_0.fightPowerText_.text = arg_19_0.heroViewProxy_:GetBattlePower(var_19_2)
-	end
+	slot0.heroAvatarView_:SetSkinId(slot1)
 
-	arg_19_0.heroAvatarView_:SetSkinId(var_19_0)
-
-	local var_19_3 = HeroCfg[var_19_2]
-
-	arg_19_0.nameText_.text = GetI18NText(var_19_3.name)
-	arg_19_0.subNameText_.text = GetI18NText(var_19_3.suffix)
+	slot3 = HeroCfg[slot2]
+	slot0.nameText_.text = GetI18NText(slot3.name)
+	slot0.subNameText_.text = GetI18NText(slot3.suffix)
 end
 
-function var_0_0.HeadRenderer(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_0.heroDataList_[arg_20_1].id
-	local var_20_1 = arg_20_0.heroDataList_[arg_20_1].trialID
-	local var_20_2 = arg_20_0.heroDataList_[arg_20_1].type
+function slot0.HeadRenderer(slot0, slot1, slot2)
+	slot4 = slot0.heroDataList_[slot1].trialID
 
-	arg_20_2:SetRedPointEnable(false)
+	slot2:SetRedPointEnable(false)
 
-	arg_20_2.gameObject_.name = tostring(var_20_0)
+	slot2.gameObject_.name = tostring(slot0.heroDataList_[slot1].id)
 
-	if var_20_2 == HeroConst.HERO_DATA_TYPE.DEFAULT then
-		arg_20_2:SetHeroData(var_20_0, HeroConst.HERO_DATA_TYPE.DEFAULT, {
-			tempHeroList = arg_20_0.trialHeroList_
+	if slot0.heroDataList_[slot1].type == HeroConst.HERO_DATA_TYPE.DEFAULT then
+		slot2:SetHeroData(slot3, HeroConst.HERO_DATA_TYPE.DEFAULT, {
+			tempHeroList = slot0.trialHeroList_
 		})
-		arg_20_2:SetTrial(false)
-	elseif var_20_2 == HeroConst.HERO_DATA_TYPE.TRIAL then
-		arg_20_2:SetHeroData(var_20_1, HeroConst.HERO_DATA_TYPE.TRIAL, {
-			tempHeroList = arg_20_0.trialHeroList_
+		slot2:SetTrial(false)
+	elseif slot5 == HeroConst.HERO_DATA_TYPE.TRIAL then
+		slot2:SetHeroData(slot4, HeroConst.HERO_DATA_TYPE.TRIAL, {
+			tempHeroList = slot0.trialHeroList_
 		})
-		arg_20_2:SetTrial(true)
-	elseif var_20_2 == HeroConst.HERO_DATA_TYPE.CUSTOM then
-		arg_20_2:SetHeroData(var_20_1, HeroConst.HERO_DATA_TYPE.CUSTOM, {
-			tempHeroList = arg_20_0:GetCustomHeroList()
+		slot2:SetTrial(true)
+	elseif slot5 == HeroConst.HERO_DATA_TYPE.CUSTOM then
+		slot2:SetHeroData(slot4, HeroConst.HERO_DATA_TYPE.CUSTOM, {
+			tempHeroList = slot0:GetCustomHeroList()
 		})
-		arg_20_2:SetTrial(true)
-	elseif var_20_2 == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
-		arg_20_2:SetHeroData(var_20_0, HeroConst.HERO_DATA_TYPE.ADVANCETEST, {
-			tempHeroList = arg_20_0.trialHeroList_
+		slot2:SetTrial(true)
+	elseif slot5 == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
+		slot2:SetHeroData(slot3, HeroConst.HERO_DATA_TYPE.ADVANCETEST, {
+			tempHeroList = slot0.trialHeroList_
 		})
-		arg_20_2:SetTrial(false)
+		slot2:SetTrial(false)
 	end
 
-	arg_20_2:SetSelected(arg_20_2.heroId_ == arg_20_0.selectID_ and arg_20_2.trialID_ == arg_20_0.selectTrialID_)
-	arg_20_2:SetInTeamFlag(arg_20_0:IsInTeam(var_20_0, var_20_1))
-	arg_20_2:SetLove(var_20_2 ~= HeroConst.HERO_DATA_TYPE.DEFAULT or HeroData:IsFavorite(var_20_0) == false)
+	slot2:SetSelected(slot2.heroId_ == slot0.selectID_ and slot2.trialID_ == slot0.selectTrialID_)
+	slot2:SetInTeamFlag(slot0:IsInTeam(slot3, slot4))
+	slot2:SetLove(slot5 ~= HeroConst.HERO_DATA_TYPE.DEFAULT or HeroData:IsFavorite(slot3) == false)
 
-	if arg_20_0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-		arg_20_2:SetHp(false)
+	if slot0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+		slot2:SetHp(false)
 	else
-		arg_20_2:SetHp(false)
+		slot2:SetHp(false)
 	end
 
-	arg_20_2:SetShowAttackType(false)
-	arg_20_2:RegisterClickListener(function()
-		if arg_20_0.backFlag_ then
+	slot2:SetShowAttackType(false)
+	slot2:RegisterClickListener(function ()
+		if uv0.backFlag_ then
 			return
 		end
 
-		arg_20_0:SelectHero(arg_20_2.heroId_, arg_20_2.trialID_)
+		uv0:SelectHero(uv1.heroId_, uv1.trialID_)
 	end)
 end
 
-function var_0_0.SelectHero(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_0.selectID_ = arg_22_1
-	arg_22_0.selectTrialID_ = arg_22_2
+function slot0.SelectHero(slot0, slot1, slot2)
+	slot0.selectID_ = slot1
+	slot0.selectTrialID_ = slot2
+	slot5 = slot0.heroHeadList_
+	slot7 = slot5
 
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.heroHeadList_:GetItemList()) do
-		iter_22_1:SetSelected(iter_22_1.heroId_ == arg_22_1 and iter_22_1.trialID_ == arg_22_2)
+	for slot6, slot7 in pairs(slot5.GetItemList(slot7)) do
+		slot7:SetSelected(slot7.heroId_ == slot1 and slot7.trialID_ == slot2)
 	end
 
-	arg_22_0:RefreshInfoBtn()
-	arg_22_0:UpdateHeroView()
-	arg_22_0:RefreshJoinBtn()
+	slot0:RefreshInfoBtn()
+	slot0:UpdateHeroView()
+	slot0:RefreshJoinBtn()
 end
 
-function var_0_0.RefreshInfoBtn(arg_23_0)
-	if arg_23_0.infoBtn_ then
-		if arg_23_0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-			SetActive(arg_23_0.infoBtn_.gameObject, false)
+function slot0.RefreshInfoBtn(slot0)
+	if slot0.infoBtn_ then
+		if slot0.params_.stageType == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+			SetActive(slot0.infoBtn_.gameObject, false)
 		else
-			SetActive(arg_23_0.infoBtn_.gameObject, HeroCfg[arg_23_0.selectID_].hide_info == 0)
+			SetActive(slot0.infoBtn_.gameObject, HeroCfg[slot0.selectID_].hide_info == 0)
 		end
 	end
 end
 
-function var_0_0.RefreshJoinBtn(arg_24_0)
-	arg_24_0.joinBtn_.interactable = true
+function slot0.RefreshJoinBtn(slot0)
+	slot0.joinBtn_.interactable = true
+	slot1, slot2, slot3 = slot0:GetTextAndImage()
+	slot0.joinText_.text = GetI18NText(slot1)
 
-	local var_24_0, var_24_1, var_24_2 = arg_24_0:GetTextAndImage()
-
-	arg_24_0.joinText_.text = GetI18NText(var_24_0)
-
-	arg_24_0.contorller_:SetSelectedState(var_24_1)
+	slot0.contorller_:SetSelectedState(slot2)
 end
 
-function var_0_0.GetTextAndImage(arg_25_0)
-	if arg_25_0.lockStateList_[arg_25_0.params_.selectHeroPos] == true then
-		arg_25_0.joinBtn_.interactable = false
+function slot0.GetTextAndImage(slot0)
+	if slot0.lockStateList_[slot0.params_.selectHeroPos] == true then
+		slot0.joinBtn_.interactable = false
 
 		return string.format("<color=#222222>%s</color>", GetTips("IS_LOCK")), "1"
 	end
 
-	if table.keyof(arg_25_0.lockHeroList_, arg_25_0.selectID_) or table.keyof(arg_25_0.lockHeroList_, arg_25_0.selectTrialID_) then
-		arg_25_0.joinBtn_.interactable = false
+	if table.keyof(slot0.lockHeroList_, slot0.selectID_) or table.keyof(slot0.lockHeroList_, slot0.selectTrialID_) then
+		slot0.joinBtn_.interactable = false
 
 		return string.format("<color=#222222>%s</color>", GetTips("IS_LOCK")), "1"
 	end
 
-	if arg_25_0:IsSameHeroInTeam(arg_25_0.selectID_) and not arg_25_0:IsInTeam(arg_25_0.selectID_, arg_25_0.selectTrialID_) then
-		if arg_25_0.heroTeam_[arg_25_0.params_.selectHeroPos] ~= arg_25_0.selectID_ then
-			arg_25_0.joinBtn_.interactable = false
+	if slot0:IsSameHeroInTeam(slot0.selectID_) and not slot0:IsInTeam(slot0.selectID_, slot0.selectTrialID_) then
+		if slot0.heroTeam_[slot0.params_.selectHeroPos] ~= slot0.selectID_ then
+			slot0.joinBtn_.interactable = false
 
 			return string.format("<color=#222222>%s</color>", GetTips("IS_LOCK")), "1"
 		else
@@ -524,25 +491,23 @@ function var_0_0.GetTextAndImage(arg_25_0)
 		end
 	end
 
-	if arg_25_0.heroTeam_[arg_25_0.params_.selectHeroPos] == 0 then
-		if arg_25_0:IsInTeam(arg_25_0.selectID_, arg_25_0.selectTrialID_) then
+	if slot0.heroTeam_[slot0.params_.selectHeroPos] == 0 then
+		if slot0:IsInTeam(slot0.selectID_, slot0.selectTrialID_) then
 			return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 		else
 			return string.format("<color=#222222>%s</color>", GetTips("JOIN_TEAM")), "0"
 		end
 	end
 
-	if arg_25_0.selectID_ == arg_25_0.heroTeam_[arg_25_0.params_.selectHeroPos] then
-		local var_25_0 = 0
-
-		for iter_25_0, iter_25_1 in pairs(arg_25_0.heroTeam_) do
-			if iter_25_1 ~= 0 then
-				var_25_0 = var_25_0 + 1
+	if slot0.selectID_ == slot0.heroTeam_[slot0.params_.selectHeroPos] then
+		for slot5, slot6 in pairs(slot0.heroTeam_) do
+			if slot6 ~= 0 then
+				slot1 = 0 + 1
 			end
 		end
 
-		if var_25_0 == 1 then
-			arg_25_0.joinBtn_.interactable = false
+		if slot1 == 1 then
+			slot0.joinBtn_.interactable = false
 
 			return string.format("<color=#222222>%s</color>", GetTips("CAN_NOT_REMOVE")), "1"
 		else
@@ -553,64 +518,59 @@ function var_0_0.GetTextAndImage(arg_25_0)
 	return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 end
 
-function var_0_0.GetHeroTeam(arg_26_0)
-	if arg_26_0.roomProxy_ then
-		local var_26_0 = arg_26_0.roomProxy_:GetHeroTeam()
+function slot0.GetHeroTeam(slot0)
+	if slot0.roomProxy_ then
+		slot1 = slot0.roomProxy_:GetHeroTeam()
+		slot0.heroTeam_ = slot1.HeroList
+		slot0.lockStateList_ = slot1.LockStateList
+		slot0.lockHeroList_ = slot1.LockHeroList
+		slot0.heroTrialList_ = slot1.TrialHeroList
 
-		arg_26_0.heroTeam_ = var_26_0.HeroList
-		arg_26_0.lockStateList_ = var_26_0.LockStateList
-		arg_26_0.lockHeroList_ = var_26_0.LockHeroList
-		arg_26_0.heroTrialList_ = var_26_0.TrialHeroList
-
-		return var_26_0
+		return slot1
 	end
 
-	arg_26_0.heroTeam_, arg_26_0.lockStateList_, arg_26_0.lockHeroList_, arg_26_0.heroTrialList_ = ReserveTools.GetHeroList(arg_26_0.params_.reserveParams)
+	slot0.heroTeam_, slot0.lockStateList_, slot0.lockHeroList_, slot0.heroTrialList_ = ReserveTools.GetHeroList(slot0.params_.reserveParams)
 
 	return nil
 end
 
-function var_0_0.GetDefaultHeroData(arg_27_0)
-	local var_27_0, var_27_1 = BattleFieldData:GetCurrentSelectHeroID()
+function slot0.GetDefaultHeroData(slot0)
+	slot1, slot2 = BattleFieldData:GetCurrentSelectHeroID()
 
-	if var_27_0 and var_27_0 ~= 0 then
-		return var_27_0, var_27_1
+	if slot1 and slot1 ~= 0 then
+		return slot1, slot2
 	end
 
-	local var_27_2 = arg_27_0.heroTeam_[arg_27_0.params_.selectHeroPos] or 0
-
-	if var_27_2 == 0 then
-		for iter_27_0, iter_27_1 in pairs(arg_27_0.heroDataList_) do
-			local var_27_3 = iter_27_1.id
-
-			if not arg_27_0:IsInTeam(var_27_3, iter_27_1.trialID) then
-				return var_27_3, iter_27_1.trialID
+	if (slot0.heroTeam_[slot0.params_.selectHeroPos] or 0) == 0 then
+		for slot7, slot8 in pairs(slot0.heroDataList_) do
+			if not slot0:IsInTeam(slot8.id, slot8.trialID) then
+				return slot9, slot8.trialID
 			end
 		end
 	end
 
-	if var_27_2 == 0 then
-		for iter_27_2, iter_27_3 in pairs(arg_27_0.heroDataList_) do
-			return iter_27_3.id, iter_27_3.trialID
+	if slot3 == 0 then
+		for slot7, slot8 in pairs(slot0.heroDataList_) do
+			return slot8.id, slot8.trialID
 		end
 	end
 
-	return var_27_2, 0
+	return slot3, 0
 end
 
-function var_0_0.IsInTeam(arg_28_0, arg_28_1, arg_28_2)
-	for iter_28_0, iter_28_1 in pairs(arg_28_0.heroTeam_) do
-		if arg_28_1 == iter_28_1 and arg_28_2 == arg_28_0.heroTrialList_[iter_28_0] then
-			return true, iter_28_0 == 1, iter_28_0
+function slot0.IsInTeam(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot0.heroTeam_) do
+		if slot1 == slot7 and slot2 == slot0.heroTrialList_[slot6] then
+			return true, slot6 == 1, slot6
 		end
 	end
 
 	return false, false, -1
 end
 
-function var_0_0.IsSameIDInTeam(arg_29_0, arg_29_1, arg_29_2)
-	for iter_29_0, iter_29_1 in pairs(arg_29_0.heroTeam_) do
-		if arg_29_1 == iter_29_1 then
+function slot0.IsSameIDInTeam(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot0.heroTeam_) do
+		if slot1 == slot7 then
 			return true
 		end
 	end
@@ -618,9 +578,9 @@ function var_0_0.IsSameIDInTeam(arg_29_0, arg_29_1, arg_29_2)
 	return false
 end
 
-function var_0_0.IsSameHeroInTeam(arg_30_0, arg_30_1)
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.heroTeam_) do
-		if arg_30_1 == iter_30_1 then
+function slot0.IsSameHeroInTeam(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.heroTeam_) do
+		if slot1 == slot6 then
 			return true
 		end
 	end
@@ -628,42 +588,39 @@ function var_0_0.IsSameHeroInTeam(arg_30_0, arg_30_1)
 	return false
 end
 
-function var_0_0.ChangeTeam(arg_31_0, arg_31_1, arg_31_2)
-	ReserveTools.SetHeroList(arg_31_0.params_.reserveParams, arg_31_1, arg_31_2)
+function slot0.ChangeTeam(slot0, slot1, slot2)
+	ReserveTools.SetHeroList(slot0.params_.reserveParams, slot1, slot2)
 end
 
-function var_0_0.GetHeroList(arg_32_0)
-	if arg_32_0.params_.stageType == BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME then
+function slot0.GetHeroList(slot0)
+	if slot0.params_.stageType == BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME then
 		return {}
 	end
 
-	return (HeroTools.Sort(HeroData:GetHeroList()))
+	return HeroTools.Sort(HeroData:GetHeroList())
 end
 
-function var_0_0.IsCustomTeamStage(arg_33_0)
-	local var_33_0 = BattleStageTools.GetRestrictHeroList(arg_33_0.params_.stageType, arg_33_0.params_.stageID)
-
-	return type(var_33_0) == "table"
+function slot0.IsCustomTeamStage(slot0)
+	return type(BattleStageTools.GetRestrictHeroList(slot0.params_.stageType, slot0.params_.stageID)) == "table"
 end
 
-function var_0_0.GetCustomHeroList(arg_34_0)
-	local var_34_0 = {}
-	local var_34_1 = BattleStageTools.GetRestrictHeroList(arg_34_0.params_.stageType, arg_34_0.params_.stageID)
+function slot0.GetCustomHeroList(slot0)
+	slot1 = {}
 
-	if type(var_34_1) == "table" then
-		for iter_34_0, iter_34_1 in pairs(var_34_1) do
-			if iter_34_1[1] ~= 0 and HeroCfg[iter_34_1[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], iter_34_1[1]) then
-				table.insert(var_34_0, iter_34_1[2])
+	if type(BattleStageTools.GetRestrictHeroList(slot0.params_.stageType, slot0.params_.stageID)) == "table" then
+		for slot6, slot7 in pairs(slot2) do
+			if slot7[1] ~= 0 and HeroCfg[slot7[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], slot7[1]) then
+				table.insert(slot1, slot7[2])
 			end
 		end
 	end
 
-	return var_34_0
+	return slot1
 end
 
-function var_0_0.OnHeroSort(arg_35_0, arg_35_1, arg_35_2, arg_35_3, arg_35_4, arg_35_5)
-	arg_35_0.filterView_:RefreshSort(arg_35_1, arg_35_2, arg_35_3, arg_35_4, arg_35_5)
-	HeroData:SaveSortValue(arg_35_1, arg_35_2, arg_35_3, arg_35_4, arg_35_5)
+function slot0.OnHeroSort(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.filterView_:RefreshSort(slot1, slot2, slot3, slot4, slot5)
+	HeroData:SaveSortValue(slot1, slot2, slot3, slot4, slot5)
 end
 
-return var_0_0
+return slot0

@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.shop.contentViews.ShopExchangeContentView")
-local var_0_1 = class("MatrixShopContentView", var_0_0)
+slot1 = class("MatrixShopContentView", import("game.views.shop.contentViews.ShopExchangeContentView"))
 
-function var_0_1.GetExchangeGoodList(arg_1_0)
-	return (ShopTools.FilterShopDataList(arg_1_0.shopId_, true))
+function slot1.GetExchangeGoodList(slot0)
+	return ShopTools.FilterShopDataList(slot0.shopId_, true)
 end
 
-return var_0_1
+return slot1

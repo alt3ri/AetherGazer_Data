@@ -16,19 +16,14 @@ function OnEnterChessScene()
 
 	manager.ChessManager = ChessMain.GetInstance()
 
-	local var_1_0 = WarChessData:GetCurrentWarChessMapData()
-	local var_1_1 = ChapterCfg[var_1_0.mapId]
-
-	if var_1_1 and var_1_1.cue_sheet ~= "" then
-		manager.audio:PlayBGM(var_1_1.cue_sheet, var_1_1.cue_name, var_1_1.awb)
+	if ChapterCfg[WarChessData:GetCurrentWarChessMapData().mapId] and slot1.cue_sheet ~= "" then
+		manager.audio:PlayBGM(slot1.cue_sheet, slot1.cue_name, slot1.awb)
 	end
 
-	local var_1_2 = SceneManager.GetSceneByName(WarchessLevelCfg[var_1_0.mapId].scene_id)
-
-	SceneManager.SetActiveScene(var_1_2)
-	manager.ChessManager:SetUp(var_1_0.mapId)
+	SceneManager.SetActiveScene(SceneManager.GetSceneByName(WarchessLevelCfg[slot0.mapId].scene_id))
+	manager.ChessManager:SetUp(slot0.mapId)
 	gameContext:Go("/warHome", {
-		mapId = var_1_0.mapId
+		mapId = slot0.mapId
 	})
 	manager.windowBar:SetWhereTag("chess")
 
@@ -38,29 +33,24 @@ function OnEnterChessScene()
 end
 
 function PreloadChessAsset()
-	local var_2_0 = WarChessData:GetCurrentActivity()
-	local var_2_1
-	local var_2_2 = BattleTeamData:GetSingleTeam(var_2_0)
+	slot1 = nil
 
-	for iter_2_0, iter_2_1 in pairs(var_2_2) do
-		if iter_2_1 ~= 0 then
-			local var_2_3 = HeroTools.HeroUsingSkinInfo(iter_2_1).ui_modelId
-			local var_2_4 = manager.resourcePool:Get("Char/" .. var_2_3, ASSET_TYPE.TPOSE)
+	for slot5, slot6 in pairs(BattleTeamData:GetSingleTeam(WarChessData:GetCurrentActivity())) do
+		if slot6 ~= 0 then
+			slot9 = manager.resourcePool:Get("Char/" .. HeroTools.HeroUsingSkinInfo(slot6).ui_modelId, ASSET_TYPE.TPOSE)
 
-			Timer.New(function()
-				manager.resourcePool:DestroyOrReturn(var_2_4, ASSET_TYPE.TPOSE)
+			Timer.New(function ()
+				manager.resourcePool:DestroyOrReturn(uv0, ASSET_TYPE.TPOSE)
 			end, 0.1, 1):Start()
 		end
 	end
 
-	local var_2_5 = ViewCfg.chess
-
-	for iter_2_2 = 1, #var_2_5.need_atlas do
-		LuaForUtil.PreLoadAtlas(var_2_5.need_atlas[iter_2_2])
+	for slot6 = 1, #ViewCfg.chess.need_atlas do
+		LuaForUtil.PreLoadAtlas(slot2.need_atlas[slot6])
 	end
 end
 
-function GridClick(arg_4_0, arg_4_1, arg_4_2)
+function GridClick(slot0, slot1, slot2)
 	CheckManagers()
 
 	if manager.ChessManager.forceBattle:IsForcingBattle() then
@@ -69,76 +59,65 @@ function GridClick(arg_4_0, arg_4_1, arg_4_2)
 		return
 	end
 
-	if not ChessTools.IsInteract(arg_4_0.typeID, arg_4_0.status) and not ChessTools.IsMove(arg_4_0.typeID, arg_4_0.status) then
+	if not ChessTools.IsInteract(slot0.typeID, slot0.status) and not ChessTools.IsMove(slot0.typeID, slot0.status) then
 		return
 	end
 
-	manager.ChessManager:SetGridSelectOutline(arg_4_0.x, arg_4_0.z, true)
+	manager.ChessManager:SetGridSelectOutline(slot0.x, slot0.z, true)
 	OperationRecorder.Record("chess", "grid")
 
-	if not manager.ChessManager.current:IsDetector() and not arg_4_2 and arg_4_1.Length >= 1 then
-		for iter_4_0 = 0, arg_4_1.Length - 1 do
-			local var_4_0 = arg_4_1[iter_4_0].typeID
-			local var_4_1 = arg_4_1[iter_4_0].status
-			local var_4_2 = ChessTools.WayFindingWeight(var_4_0, var_4_1)
-
-			if var_4_2 == 999 and iter_4_0 ~= arg_4_1.Length - 1 and iter_4_0 ~= 0 then
-				arg_4_2 = true
+	if not manager.ChessManager.current:IsDetector() and not slot2 and slot1.Length >= 1 then
+		for slot6 = 0, slot1.Length - 1 do
+			if ChessTools.WayFindingWeight(slot1[slot6].typeID, slot1[slot6].status) == 999 and slot6 ~= slot1.Length - 1 and slot6 ~= 0 then
+				slot2 = true
 
 				break
 			end
 
-			if var_4_2 == 999 and iter_4_0 == arg_4_1.Length - 1 and (arg_4_1[iter_4_0].x ~= arg_4_0.x or arg_4_1[iter_4_0].z ~= arg_4_0.z) then
-				arg_4_2 = true
+			if slot9 == 999 and slot6 == slot1.Length - 1 and (slot1[slot6].x ~= slot0.x or slot1[slot6].z ~= slot0.z) then
+				slot2 = true
 
 				break
 			end
 		end
 	end
 
-	if manager.ChessManager.current:IsDetector() and not arg_4_2 and arg_4_1.Length >= 1 then
-		local var_4_3 = arg_4_0.typeID
-		local var_4_4 = arg_4_0.status
-		local var_4_5 = ChessTools.IsMove(var_4_3, var_4_4)
-		local var_4_6 = WarChessData:GetCurrentIndex()
-		local var_4_7 = arg_4_0.x - var_4_6.x
-		local var_4_8 = arg_4_0.z - var_4_6.z
+	if manager.ChessManager.current:IsDetector() and not slot2 and slot1.Length >= 1 then
+		slot6 = WarChessData:GetCurrentIndex()
 
-		if var_4_5 and not ChessTools.IsInRange(var_4_7, var_4_8, 1) then
-			arg_4_2 = true
+		if ChessTools.IsMove(slot0.typeID, slot0.status) and not ChessTools.IsInRange(slot0.x - slot6.x, slot0.z - slot6.z, 1) then
+			slot2 = true
 		end
 	end
 
-	if not arg_4_2 and arg_4_1.Length >= 1 then
-		local var_4_9 = {}
-
-		for iter_4_1 = 0, arg_4_1.Length - 1 do
-			table.insert(var_4_9, {
-				x = arg_4_1[iter_4_1].x,
-				z = arg_4_1[iter_4_1].z
+	if not slot2 and slot1.Length >= 1 then
+		for slot7 = 0, slot1.Length - 1 do
+			table.insert({}, {
+				x = slot1[slot7].x,
+				z = slot1[slot7].z
 			})
 		end
 
 		if manager.ChessManager.current:IsDetector() then
-			WarChessData:SetDetectorPos(var_4_9[#var_4_9].x, var_4_9[#var_4_9].z)
+			WarChessData:SetDetectorPos(slot3[#slot3].x, slot3[#slot3].z)
 		end
 
-		manager.ChessManager:CachePath(var_4_9)
+		manager.ChessManager:CachePath(slot3)
 		manager.ChessManager:ExecuteChessTiming(ChessConst.TIMING_CLICK, {
-			gridData = arg_4_0,
-			pathList = arg_4_1,
-			isError = arg_4_2
+			gridData = slot0,
+			pathList = slot1,
+			isError = slot2
 		})
 	else
 		manager.ChessManager:ExecuteChessTiming(ChessConst.TIMING_CLICK, {
-			gridData = arg_4_0,
-			pathList = arg_4_1,
-			isError = arg_4_2
+			gridData = slot0,
+			pathList = slot1,
+			isError = slot2
 		})
 	end
 end
 
-function ClickRole(arg_5_0)
+function ClickRole(slot0)
 	print("ClickRole")
 end
 
@@ -146,34 +125,30 @@ function SetUpChess()
 	manager.ChessManager.current:ExtendSetup()
 end
 
-function WalkIntoNode(arg_7_0)
+function WalkIntoNode(slot0)
 	if manager.ChessManager.current:IsDetector() then
 		return false
 	end
 
-	local var_7_0 = manager.ChessManager:SetPosition(arg_7_0.x, arg_7_0.z)
-	local var_7_1 = manager.ChessManager.current:IsCurrentState() and ChessConst.TIMING_CURRENT or ChessConst.TIMING_WALK
-	local var_7_2
+	slot3 = nil
 
-	if var_7_0 then
-		return (manager.ChessManager:ExecuteChessTiming(var_7_1, {
-			gridData = arg_7_0
-		}))
+	if manager.ChessManager:SetPosition(slot0.x, slot0.z) then
+		return manager.ChessManager:ExecuteChessTiming(manager.ChessManager.current:IsCurrentState() and ChessConst.TIMING_CURRENT or ChessConst.TIMING_WALK, {
+			gridData = slot0
+		})
 	else
 		return false
 	end
 end
 
-function SlideEnd(arg_8_0)
-	local var_8_0 = manager.ChessManager.current:IsAboutToSlide()
-
-	if var_8_0 then
-		return manager.ChessManager.current:SlideByDirectionInCurrentState(var_8_0)
+function SlideEnd(slot0)
+	if manager.ChessManager.current:IsAboutToSlide() then
+		return manager.ChessManager.current:SlideByDirectionInCurrentState(slot1)
 	end
 
-	if arg_8_0 and arg_8_0.paramList.Length > 0 then
+	if slot0 and slot0.paramList.Length > 0 then
 		manager.ChessManager:ExecuteChessTiming(ChessConst.TIMING_CURRENT_HIT, {
-			gridData = arg_8_0
+			gridData = slot0
 		})
 	end
 
@@ -188,10 +163,8 @@ function WalkEnd()
 
 	manager.ChessManager:OnMoveEnd()
 
-	local var_9_0 = manager.ChessManager.current:IsAboutToSlide()
-
-	if var_9_0 then
-		return manager.ChessManager.current:SlideByDirection(var_9_0)
+	if manager.ChessManager.current:IsAboutToSlide() then
+		return manager.ChessManager.current:SlideByDirection(slot0)
 	end
 
 	if manager.ChessManager:IsExecuting() then
@@ -201,68 +174,61 @@ function WalkEnd()
 	manager.ChessManager.current:AboutToDie(2)
 end
 
-function FogOpen(arg_10_0)
-	WarChessData:ChangeFogInfo(arg_10_0)
+function FogOpen(slot0)
+	WarChessData:ChangeFogInfo(slot0)
 end
 
-function OnExitChessScene(arg_11_0)
+function OnExitChessScene(slot0)
 	manager.windowBar:ClearWhereTag()
 	DestroyLua()
 	LuaExchangeHelper.GoToMain()
 
-	local var_11_0 = WarChessData:GetChapterClientID()
-	local var_11_1 = WarChessData:GetTemporaryData("url")
-	local var_11_2 = WarChessData:GetTemporaryData("urlParams")
+	slot1 = WarChessData:GetChapterClientID()
 
-	OpenPageUntilLoaded(var_11_1, var_11_2)
+	OpenPageUntilLoaded(WarChessData:GetTemporaryData("url"), WarChessData:GetTemporaryData("urlParams"))
 
-	if arg_11_0 then
+	if slot0 then
 		WarChessAction.FinishExplore()
 	else
-		local var_11_3 = WarChessData:GetCurrentWarChessMapData()
-		local var_11_4 = {}
+		slot4 = WarChessData:GetCurrentWarChessMapData()
 
-		for iter_11_0, iter_11_1 in pairs(WarChessData:GetItemData()) do
-			table.insert(var_11_4, {
-				iter_11_0,
-				iter_11_1
+		for slot9, slot10 in pairs(WarChessData:GetItemData()) do
+			table.insert({}, {
+				slot9,
+				slot10
 			})
 		end
 
-		local var_11_5 = {}
-
-		for iter_11_2, iter_11_3 in pairs(WarChessData:GetHeroList()) do
-			table.insert(var_11_5, {
-				iter_11_2,
-				iter_11_3
+		for slot10, slot11 in pairs(WarChessData:GetHeroList()) do
+			table.insert({}, {
+				slot10,
+				slot11
 			})
 		end
 
-		local var_11_6 = {}
-
-		for iter_11_4, iter_11_5 in pairs(WarChessData:GetArtifactData()) do
-			table.insert(var_11_6, iter_11_4)
+		for slot11, slot12 in pairs(WarChessData:GetArtifactData()) do
+			table.insert({}, slot11)
 		end
 
-		local var_11_7 = {}
+		slot8 = {}
 
-		for iter_11_6, iter_11_7 in ipairs(var_11_3.log) do
-			table.insert(var_11_7, iter_11_7.log)
+		for slot12, slot13 in ipairs(slot4.log) do
+			table.insert(slot8, slot13.log)
 		end
 
 		SDKTools.SendMessageToSDK("chess_leave", {
-			map_id = var_11_3.mapId,
+			map_id = slot4.mapId,
 			location_id = {
-				var_11_3.bronPos.x,
-				var_11_3.bronPos.z
+				slot4.bronPos.x,
+				slot4.bronPos.z
 			},
-			log = var_11_7,
-			smallbox = WarChessData:GetBoxNum(var_11_3.mapId, ChessConst.BOX.SMALL),
-			bigbox = WarChessData:GetBoxNum(var_11_3.mapId, ChessConst.BOX.BIG),
-			key_own = var_11_4,
-			hero_blood = var_11_5,
-			relic_exsiting = var_11_6,
-			progress = ChessTools.GetProgress(var_11_3.mapId),
+			log = slot8,
+			smallbox = WarChessData:GetBoxNum(slot4.mapId, ChessConst.BOX.SMALL),
+			bigbox = WarChessData:GetBoxNum(slot4.mapId, ChessConst.BOX.BIG),
+			key_own = slot5,
+			hero_blood = slot6,
+			relic_exsiting = slot7,
+			progress = ChessTools.GetProgress(slot4.mapId),
 			use_seconds = manager.time:GetServerTime() - WarChessData:GetStartTime()
 		})
 	end
@@ -276,95 +242,86 @@ function OnCameraMove()
 	manager.notify:CallUpdateFunc(CAMERA_MOVE, true)
 end
 
-function OnBulletHit(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	if not arg_13_3 then
+function OnBulletHit(slot0, slot1, slot2, slot3)
+	if not slot3 then
 		manager.ChessManager:OnBulletEnd()
 		ChessLuaBridge.LookAtPlayer()
 
 		return
 	end
 
-	if arg_13_3.paramList.Length <= 0 then
+	if slot3.paramList.Length <= 0 then
 		manager.ChessManager:OnBulletEnd()
 		ChessLuaBridge.LookAtPlayer()
 
 		return
 	end
 
-	local var_13_0 = arg_13_3.paramList[0]
-
-	if not WarchessEventPoolCfg[var_13_0] then
-		-- block empty
+	if not WarchessEventPoolCfg[slot3.paramList[0]] then
+		-- Nothing
 	end
 
-	if WarchessEventPoolCfg[var_13_0].event_group_second == "" then
+	if WarchessEventPoolCfg[slot4].event_group_second == "" then
 		manager.ChessManager:OnBulletEnd()
 		ChessLuaBridge.LookAtPlayer()
 
 		return
 	end
 
-	manager.ChessManager:SetBulletDirection(arg_13_2)
+	manager.ChessManager:SetBulletDirection(slot2)
 	manager.ChessManager:ExecuteChessTiming(ChessConst.TIMING_HIT, {
-		gridData = arg_13_3
+		gridData = slot3
 	})
 	manager.ChessManager:OnBulletEnd()
 end
 
-function OnStoneInteract(arg_14_0, arg_14_1)
-	if ChessTools.IsStoneInteract(arg_14_1.typeID, arg_14_1.status, arg_14_0.status) then
-		WarChessData:CacheGridData(arg_14_0)
+function OnStoneInteract(slot0, slot1)
+	if ChessTools.IsStoneInteract(slot1.typeID, slot1.status, slot0.status) then
+		WarChessData:CacheGridData(slot0)
 		manager.ChessManager:ExecuteChessTiming(ChessConst.TIMING_STONE_MOVE, {
-			gridData = arg_14_1
+			gridData = slot1
 		})
 	else
 		ChessLuaBridge.StoneContinueMove()
 	end
 end
 
-function OnStoneMoveEnd(arg_15_0, arg_15_1)
+function OnStoneMoveEnd(slot0, slot1)
 	manager.ChessManager:HideBlocker()
 	ChessLuaBridge.LookAtPlayer()
 
-	if arg_15_1 ~= nil then
-		local var_15_0 = WarChessData:GetGridAttribute(arg_15_0.x, arg_15_0.z)
-		local var_15_1 = WarChessData:GetGridLua(arg_15_1.x, arg_15_1.z).tag
-		local var_15_2 = ChessTools.GetExtendIDByStoneStatus(arg_15_0.status)
+	if slot1 ~= nil then
+		slot2 = WarChessData:GetGridAttribute(slot0.x, slot0.z)
+		slot3 = WarChessData:GetGridLua(slot1.x, slot1.z).tag
+		slot4 = ChessTools.GetExtendIDByStoneStatus(slot0.status)
 
-		if arg_15_1.typeID == ChessConst.HOLE_GRID_ID then
-			var_15_2 = WarChessData:GetCacheExtendID("stoneAndHole")
+		if slot1.typeID == ChessConst.HOLE_GRID_ID then
+			slot4 = WarChessData:GetCacheExtendID("stoneAndHole")
 		end
 
-		WarChessData:ChangeGridLua(arg_15_1.x, arg_15_1.z, var_15_2)
-		ChessLuaBridge.ChangeGridByIndex(arg_15_1.x, arg_15_1.z, var_15_2)
+		WarChessData:ChangeGridLua(slot1.x, slot1.z, slot4)
+		ChessLuaBridge.ChangeGridByIndex(slot1.x, slot1.z, slot4)
 
-		if var_15_0[1] == nil and var_15_0[2] == nil then
-			local var_15_3 = {
-				arg_15_0.x,
-				arg_15_0.z,
-				var_15_1
-			}
-
-			WarChessData:SetGridAttribute(arg_15_1.x, arg_15_1.z, var_15_3)
+		if slot2[1] == nil and slot2[2] == nil then
+			WarChessData:SetGridAttribute(slot1.x, slot1.z, {
+				slot0.x,
+				slot0.z,
+				slot3
+			})
 		else
-			local var_15_4 = {
-				var_15_0[1],
-				var_15_0[2],
-				var_15_1
-			}
-
-			WarChessData:SetGridAttribute(arg_15_1.x, arg_15_1.z, var_15_4)
+			WarChessData:SetGridAttribute(slot1.x, slot1.z, {
+				slot2[1],
+				slot2[2],
+				slot3
+			})
 		end
 
-		if var_15_0[3] and var_15_0[3] ~= 0 then
-			WarChessData:ChangeGridLua(arg_15_0.x, arg_15_0.z, var_15_0[3])
-			ChessLuaBridge.ChangeGridByIndex(arg_15_0.x, arg_15_0.z, var_15_0[3])
+		if slot2[3] and slot2[3] ~= 0 then
+			WarChessData:ChangeGridLua(slot0.x, slot0.z, slot2[3])
+			ChessLuaBridge.ChangeGridByIndex(slot0.x, slot0.z, slot2[3])
 		else
-			local var_15_5 = WarChessData:GetJsonData(arg_15_0.x, arg_15_0.z)
-			local var_15_6 = ChessTools.CreateChessDataViaJson(var_15_5)
-
-			WarChessData:ChangeGridLua(arg_15_0.x, arg_15_0.z, 0)
-			ChessLuaBridge.ChangeGrid(arg_15_0.x, arg_15_0.z, var_15_6)
+			WarChessData:ChangeGridLua(slot0.x, slot0.z, 0)
+			ChessLuaBridge.ChangeGrid(slot0.x, slot0.z, ChessTools.CreateChessDataViaJson(WarChessData:GetJsonData(slot0.x, slot0.z)))
 		end
 	end
 

@@ -1,212 +1,184 @@
-local var_0_0 = {}
-
-manager.net:Bind(78001, function(arg_1_0)
-	PushSnowBallData:InitFromServer(arg_1_0)
-	var_0_0.InitRedPoint()
-	manager.notify:RegistListener(OSIRIS_TASK_UPDATE, function()
-		var_0_0.UpdateRedPoint()
+manager.net:Bind(78001, function (slot0)
+	PushSnowBallData:InitFromServer(slot0)
+	uv0.InitRedPoint()
+	manager.notify:RegistListener(OSIRIS_TASK_UPDATE, function ()
+		uv0.UpdateRedPoint()
 	end)
 end)
-manager.net:Bind(78005, function(arg_3_0)
-	PushSnowBallData:OnReceviedSingleBattleResult(arg_3_0)
-	var_0_0.UpdateRedPoint()
+manager.net:Bind(78005, function (slot0)
+	PushSnowBallData:OnReceviedSingleBattleResult(slot0)
+	uv0.UpdateRedPoint()
 end)
-manager.net:Bind(54111, function(arg_4_0)
-	local var_4_0 = ActivityData:GetActivityData(PushSnowBallData:GetActivityID())
-
-	if not var_4_0 or manager.time:GetServerTime() >= var_4_0.stopTime or manager.time:GetServerTime() < var_4_0.startTime then
+manager.net:Bind(54111, function (slot0)
+	if not ActivityData:GetActivityData(PushSnowBallData:GetActivityID()) or slot1.stopTime <= manager.time:GetServerTime() or manager.time:GetServerTime() < slot1.startTime then
 		return
 	end
 
-	PushSnowBallData:OnReceviedTeamBattleResult(arg_4_0)
-	var_0_0.UpdateRedPoint()
+	PushSnowBallData:OnReceviedTeamBattleResult(slot0)
+	uv0.UpdateRedPoint()
 end)
-manager.net:Bind(78009, function(arg_5_0)
-	PushSnowBallData:OnUnlockDevice(arg_5_0)
-	var_0_0.UpdateDeviceRedPoint()
+manager.net:Bind(78009, function (slot0)
+	PushSnowBallData:OnUnlockDevice(slot0)
+	uv0.UpdateDeviceRedPoint()
 end)
-manager.net:Bind(78013, function(arg_6_0, arg_6_1)
-	var_0_0.CancleMatchingResultHandler(arg_6_0, arg_6_1)
+manager.net:Bind(78013, function (slot0, slot1)
+	uv0.CancleMatchingResultHandler(slot0, slot1)
 end)
-manager.net:Bind(78015, function(arg_7_0)
-	PushSnowBallData:SetPlayerList(arg_7_0)
-	BattleController:LaunchCooperationBattleWithoutRoom(arg_7_0)
+manager.net:Bind(78015, function (slot0)
+	PushSnowBallData:SetPlayerList(slot0)
+	BattleController:LaunchCooperationBattleWithoutRoom(slot0)
 end)
 
-function var_0_0.SendEquipDevice(arg_8_0, arg_8_1, arg_8_2)
-	manager.net:SendWithLoadingNew(78002, {
-		activity_id = arg_8_1,
-		equip = arg_8_2
-	}, 78003, var_0_0.EquipDeviceResultHandler)
-end
+return {
+	SendEquipDevice = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(78002, {
+			activity_id = slot1,
+			equip = slot2
+		}, 78003, uv0.EquipDeviceResultHandler)
+	end,
+	EquipDeviceResultHandler = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			PushSnowBallData:SetSelectedDeviceID(slot1.equip)
+		else
+			ShowTips(GetTips(slot0.result))
+		end
 
-function var_0_0.EquipDeviceResultHandler(arg_9_0, arg_9_1)
-	if isSuccess(arg_9_0.result) then
-		PushSnowBallData:SetSelectedDeviceID(arg_9_1.equip)
-	else
-		ShowTips(GetTips(arg_9_0.result))
-	end
+		manager.notify:Invoke(PUSH_SNOWBALL_EQUIP_DEVICE)
+	end,
+	SendStartMatching = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(78010, {
+			dest = slot0,
+			battle_type = slot1,
+			hero_id = slot2,
+			activity_id = slot3
+		}, 78011, uv0.StartMatchingResultHandler)
+	end,
+	StartMatchingResultHandler = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			JumpTools.OpenPageByJump("pushSnowBallMatchPop")
+		elseif slot0.result == 2 then
+			ShowTips(string.format(GetTips("ACTIVITY_SNOWBALL_PUSH_ONLINE_DESC"), manager.time:GetLostTimeStr(slot0.timestamp, nil, true)))
+		else
+			ShowTips(GetTips(slot0.result))
+		end
+	end,
+	SendCancelMatching = function ()
+		manager.net:Push(78012, {})
+	end,
+	CancleMatchingResultHandler = function (slot0, slot1)
+		manager.notify.Invoke(PUSH_SNOWBALL_CANCLE_MATCHING)
 
-	manager.notify:Invoke(PUSH_SNOWBALL_EQUIP_DEVICE)
-end
+		if not isSuccess(slot0.result) then
+			ShowTips(GetTips(slot0.result))
+		end
+	end,
+	ReceiveScoreReward = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(60054, {
+			point_reward_id_list = {
+				slot1
+			}
+		}, 60055, handler(slot0, slot0.OnReceiveScoreReward))
+	end,
+	OnReceiveScoreReward = function (slot0, slot1, slot2)
+		if isSuccess(slot1.result) then
+			PushSnowBallData:ReceiveScoreReward(slot2.point_reward_id_list[1])
+			getReward2(slot1.reward_list)
+		else
+			ShowTips(slot1.result)
+		end
 
-function var_0_0.SendStartMatching(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	manager.net:SendWithLoadingNew(78010, {
-		dest = arg_10_0,
-		battle_type = arg_10_1,
-		hero_id = arg_10_2,
-		activity_id = arg_10_3
-	}, 78011, var_0_0.StartMatchingResultHandler)
-end
+		manager.notify:CallUpdateFunc(PUSH_SNOW_BALL_REWAERD_SCORE_TASK)
+		uv0.UpdateRedPoint()
+	end,
+	SendQuitBattle = function (slot0)
+		manager.net:SendWithLoadingNew(78016, {
+			battle_id = BattleFieldData:GetServerBattleID()
+		}, 78017, function ()
+		end)
+	end,
+	InitRedPoint = function ()
+		slot0 = ActivityTools.GetRedPointKey(PushSnowBallData:GetActivityID()) .. PushSnowBallData:GetActivityID()
+		slot1 = string.format("%s_%s", ActivityTools.GetRedPointKey(PushSnowBallData:GetSingleActivityID()), PushSnowBallData:GetSingleActivityID())
+		slot5 = PushSnowBallData
+		slot6 = slot5
+		slot2 = string.format("%s_%s", ActivityTools.GetRedPointKey(PushSnowBallData:GetTeamActivityID()), slot5.GetTeamActivityID(slot6))
 
-function var_0_0.StartMatchingResultHandler(arg_11_0, arg_11_1)
-	if isSuccess(arg_11_0.result) then
-		JumpTools.OpenPageByJump("pushSnowBallMatchPop")
-	elseif arg_11_0.result == 2 then
-		ShowTips(string.format(GetTips("ACTIVITY_SNOWBALL_PUSH_ONLINE_DESC"), manager.time:GetLostTimeStr(arg_11_0.timestamp, nil, true)))
-	else
-		ShowTips(GetTips(arg_11_0.result))
-	end
-end
-
-function var_0_0.SendCancelMatching()
-	manager.net:Push(78012, {})
-end
-
-function var_0_0.CancleMatchingResultHandler(arg_13_0, arg_13_1)
-	manager.notify.Invoke(PUSH_SNOWBALL_CANCLE_MATCHING)
-
-	if isSuccess(arg_13_0.result) then
-		-- block empty
-	else
-		ShowTips(GetTips(arg_13_0.result))
-	end
-end
-
-function var_0_0.ReceiveScoreReward(arg_14_0, arg_14_1)
-	local var_14_0 = {
-		point_reward_id_list = {
-			arg_14_1
-		}
-	}
-
-	manager.net:SendWithLoadingNew(60054, var_14_0, 60055, handler(arg_14_0, arg_14_0.OnReceiveScoreReward))
-end
-
-function var_0_0.OnReceiveScoreReward(arg_15_0, arg_15_1, arg_15_2)
-	if isSuccess(arg_15_1.result) then
-		PushSnowBallData:ReceiveScoreReward(arg_15_2.point_reward_id_list[1])
-		getReward2(arg_15_1.reward_list)
-	else
-		ShowTips(arg_15_1.result)
-	end
-
-	manager.notify:CallUpdateFunc(PUSH_SNOW_BALL_REWAERD_SCORE_TASK)
-	var_0_0.UpdateRedPoint()
-end
-
-function var_0_0.SendQuitBattle(arg_16_0)
-	manager.net:SendWithLoadingNew(78016, {
-		battle_id = BattleFieldData:GetServerBattleID()
-	}, 78017, function()
-		return
-	end)
-end
-
-function var_0_0.InitRedPoint()
-	local var_18_0 = ActivityTools.GetRedPointKey(PushSnowBallData:GetActivityID()) .. PushSnowBallData:GetActivityID()
-	local var_18_1 = string.format("%s_%s", ActivityTools.GetRedPointKey(PushSnowBallData:GetSingleActivityID()), PushSnowBallData:GetSingleActivityID())
-	local var_18_2 = string.format("%s_%s", ActivityTools.GetRedPointKey(PushSnowBallData:GetTeamActivityID()), PushSnowBallData:GetTeamActivityID())
-
-	for iter_18_0 = 1, 3 do
-		manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK, {
-			RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. iter_18_0
-		})
-		manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE, {
-			RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. iter_18_0
-		})
-		manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK, {
-			RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. iter_18_0
-		})
-	end
-
-	local var_18_3 = PushSnowBallData:GetTeamWinTaskList()
-
-	if var_18_3 then
-		for iter_18_1, iter_18_2 in pairs(var_18_3) do
-			manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN, {
-				RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN .. iter_18_2.id
+		for slot6 = 1, 3 do
+			manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK, {
+				RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. slot6
+			})
+			manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE, {
+				RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. slot6
+			})
+			manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK, {
+				RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot6
 			})
 		end
-	end
 
-	manager.redPoint:addGroup(var_18_1, {
-		RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD,
-		RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE,
-		RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK
-	})
-	manager.redPoint:addGroup(var_18_2, {
-		RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN,
-		RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_PARTICIPATE
-	})
-	manager.redPoint:addGroup(var_18_0, {
-		var_18_1,
-		var_18_2
-	})
-	var_0_0.UpdateRedPoint()
-end
+		if PushSnowBallData:GetTeamWinTaskList() then
+			for slot7, slot8 in pairs(slot3) do
+				manager.redPoint:addGroup(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN, {
+					RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN .. slot8.id
+				})
+			end
+		end
 
-function var_0_0.IsActivityTime()
-	if not PushSnowBallData:GetActivityID() then
-		return
-	end
+		manager.redPoint:addGroup(slot1, {
+			RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD,
+			RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE,
+			RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK
+		})
+		manager.redPoint:addGroup(slot2, {
+			RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN,
+			RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_PARTICIPATE
+		})
+		manager.redPoint:addGroup(slot0, {
+			slot1,
+			slot2
+		})
+		uv0.UpdateRedPoint()
+	end,
+	IsActivityTime = function ()
+		if not PushSnowBallData:GetActivityID() then
+			return
+		end
 
-	local var_19_0 = ActivityData:GetActivityData(PushSnowBallData:GetActivityID())
-	local var_19_1 = var_19_0.startTime
+		slot0 = ActivityData:GetActivityData(PushSnowBallData:GetActivityID())
 
-	if var_19_0.stopTime > manager.time:GetServerTime() and var_19_1 < manager.time:GetServerTime() then
-		return true
-	end
+		if manager.time:GetServerTime() < slot0.stopTime and slot0.startTime < manager.time:GetServerTime() then
+			return true
+		end
 
-	return false
-end
+		return false
+	end,
+	UpdateRedPoint = function ()
+		slot0 = {}
 
-function var_0_0.UpdateRedPoint()
-	local var_20_0 = {}
+		if uv0.IsActivityTime() then
+			slot0 = PushSnowBallData:GetTeamWinTaskList()
+		end
 
-	if var_0_0.IsActivityTime() then
-		var_20_0 = PushSnowBallData:GetTeamWinTaskList()
-	end
+		for slot4 = 1, 3 do
+			manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. slot4, PushSnowBallData:GetHasCompeletedScoreTaskByModel(slot4) and 1 or 0)
+		end
 
-	for iter_20_0 = 1, 3 do
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. iter_20_0, PushSnowBallData:GetHasCompeletedScoreTaskByModel(iter_20_0) and 1 or 0)
-	end
+		for slot4 = 1, 3 do
+			manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot4, PushSnowBallData:GetIsNewLevelUnLock(slot4) and not (getData("PushSnowBall", "Level" .. slot4 .. PlayerData:GetPlayerInfo().userID) or false) and 1 or 0)
+		end
 
-	for iter_20_1 = 1, 3 do
-		local var_20_1 = getData("PushSnowBall", "Level" .. iter_20_1 .. PlayerData:GetPlayerInfo().userID) or false
-		local var_20_2 = PushSnowBallData:GetIsNewLevelUnLock(iter_20_1)
+		if slot0 then
+			for slot4, slot5 in pairs(slot0) do
+				manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN .. slot5.id, PushSnowBallData:GetHasCompeletedWinTaskByID(slot5.id) and 1 or 0)
+			end
+		end
 
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. iter_20_1, var_20_2 and not var_20_1 and 1 or 0)
-	end
-
-	if var_20_0 then
-		for iter_20_2, iter_20_3 in pairs(var_20_0) do
-			manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_WIN .. iter_20_3.id, PushSnowBallData:GetHasCompeletedWinTaskByID(iter_20_3.id) and 1 or 0)
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD, PushSnowBallData:GetHasCompeletedWeeklyTask() and 1 or 0)
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_PARTICIPATE, PushSnowBallData:GetHasCompeletedTeamTask() and 1 or 0)
+		uv0.UpdateDeviceRedPoint()
+	end,
+	UpdateDeviceRedPoint = function ()
+		for slot3 = 1, 3 do
+			manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. slot3, PushSnowBallData:GetIsDeviceUnlockByID(slot3) and not getData("PushSnowBall", "Device" .. slot3 .. PushSnowBallData:GetActivityID() .. PlayerData:GetPlayerInfo().userID) and 1 or 0)
 		end
 	end
-
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD, PushSnowBallData:GetHasCompeletedWeeklyTask() and 1 or 0)
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_TEAM_PARTICIPATE, PushSnowBallData:GetHasCompeletedTeamTask() and 1 or 0)
-	var_0_0.UpdateDeviceRedPoint()
-end
-
-function var_0_0.UpdateDeviceRedPoint()
-	for iter_21_0 = 1, 3 do
-		local var_21_0 = getData("PushSnowBall", "Device" .. iter_21_0 .. PushSnowBallData:GetActivityID() .. PlayerData:GetPlayerInfo().userID)
-		local var_21_1 = PushSnowBallData:GetIsDeviceUnlockByID(iter_21_0)
-
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. iter_21_0, var_21_1 and not var_21_0 and 1 or 0)
-	end
-end
-
-return var_0_0
+}

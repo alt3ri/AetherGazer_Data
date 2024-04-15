@@ -1,105 +1,101 @@
-local var_0_0 = class("SoloChallengeSelectView", ReduxView)
+slot0 = class("SoloChallengeSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/SummerUI/SummerSoloChallengeSelectUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.onResetDataHandler_ = handler(arg_3_0, arg_3_0.OnResetData)
+function slot0.Init(slot0)
+	slot0.onResetDataHandler_ = handler(slot0, slot0.OnResetData)
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.scrollView_, SoloChallengeSelectItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.scrollView_, SoloChallengeSelectItem)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	local var_5_0 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE)
-	local var_5_1 = ActivitySoloChallengeCfg[arg_5_0.params_.activityID].stage_id[arg_5_0.params_.difficultyIndex][1]
-	local var_5_2 = var_5_0:GetContDataTemplateById(var_5_1)
-	local var_5_3, var_5_4 = var_5_2:GetSummaryHeroList(arg_5_0.params_.activityID, arg_5_0.params_.difficultyIndex)
-	local var_5_5 = false
-	local var_5_6 = GetTrialHeroList(BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE, nil, arg_5_0.params_.activityID)
+function slot0.OnEnter(slot0)
+	slot4, slot5 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(ActivitySoloChallengeCfg[slot0.params_.activityID].stage_id[slot0.params_.difficultyIndex][1]):GetSummaryHeroList(slot0.params_.activityID, slot0.params_.difficultyIndex)
+	slot6 = false
 
-	for iter_5_0, iter_5_1 in ipairs(var_5_4) do
-		if iter_5_1 ~= 0 and not table.keyof(var_5_6, iter_5_1) and not table.keyof(lockHeroList, iter_5_1) then
-			var_5_5 = true
-			var_5_4[iter_5_0] = 0
-			var_5_3[iter_5_0] = 0
+	for slot11, slot12 in ipairs(slot5) do
+		if slot12 ~= 0 and not table.keyof(GetTrialHeroList(BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE, nil, slot0.params_.activityID), slot12) and not table.keyof(lockHeroList, slot12) then
+			slot6 = true
+			slot5[slot11] = 0
+			slot4[slot11] = 0
 		end
 	end
 
-	if var_5_5 then
-		var_5_2:SetSummaryHeroList(var_5_3, var_5_4)
-		ReserveAction.SaveSoloChallengeContData(arg_5_0.params_.activityID, arg_5_0.params_.difficultyIndex, function()
-			arg_5_0:OnTop()
+	if slot6 then
+		slot3:SetSummaryHeroList(slot4, slot5)
+		ReserveAction.SaveSoloChallengeContData(slot0.params_.activityID, slot0.params_.difficultyIndex, function ()
+			uv0:OnTop()
 		end)
 	end
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
-	arg_7_0.difficultyIndex_ = arg_7_0.params_.difficultyIndex
-	arg_7_0.difficultyID_ = ActivitySoloChallengeCfg[arg_7_0.activityID_].stage_id[arg_7_0.difficultyIndex_][1]
-	arg_7_0.stageList_ = ActivitySoloChallengeCfg[arg_7_0.activityID_].stage_id[arg_7_0.difficultyIndex_][2]
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.difficultyIndex_ = slot0.params_.difficultyIndex
+	slot0.difficultyID_ = ActivitySoloChallengeCfg[slot0.activityID_].stage_id[slot0.difficultyIndex_][1]
+	slot0.stageList_ = ActivitySoloChallengeCfg[slot0.activityID_].stage_id[slot0.difficultyIndex_][2]
 
-	arg_7_0.list_:StartScroll(#arg_7_0.stageList_)
-	arg_7_0:RefreshUI()
+	slot0.list_:StartScroll(#slot0.stageList_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.UpdateBar(arg_8_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.activityID_, arg_9_0.stageList_[arg_9_1], arg_9_1, arg_9_0.difficultyIndex_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityID_, slot0.stageList_[slot1], slot1, slot0.difficultyIndex_)
 end
 
-function var_0_0.AddUIListener(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.startBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_10_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_11_0 = arg_10_0:GetNextChallengeStageID()
+		slot0 = uv0:GetNextChallengeStageID()
 
-		if not arg_10_0:customHeroReady() then
+		if not uv0:customHeroReady() then
 			ShowTips("HERO_UNREADY_SOLO_CHALLENGE")
 
 			return
 		end
 
-		if not arg_10_0:customAffixReady() then
+		if not uv0:customAffixReady() then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("AFFIX_UNREADY_SOLO_CHALLENGE"),
-				OkCallback = function()
-					arg_10_0:GoToStage(var_11_0)
+				OkCallback = function ()
+					uv0:GoToStage(uv1)
 				end
 			})
 
 			return
 		end
 
-		arg_10_0:GoToStage(var_11_0)
+		uv0:GoToStage(slot0)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.giveUpBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_10_0.activityID_) then
+	slot0:AddBtnListener(slot0.giveUpBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
@@ -108,79 +104,69 @@ function var_0_0.AddUIListener(arg_10_0)
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_SOLO_CHALLENGE"),
-			OkCallback = function()
-				SoloChallengeAction.ResetData(arg_10_0.activityID_, arg_10_0.onResetDataHandler_)
+			OkCallback = function ()
+				SoloChallengeAction.ResetData(uv0.activityID_, uv0.onResetDataHandler_)
 			end
 		})
 	end)
 end
 
-function var_0_0.GoToStage(arg_15_0, arg_15_1)
-	SoloChallengeData:SaveActivityID(arg_15_0.activityID_, arg_15_1)
-	SoloChallengeData:SaveDifficultyIndex(arg_15_0.difficultyIndex_, arg_15_1)
-
-	local var_15_0 = table.indexof(arg_15_0.stageList_, arg_15_1)
-	local var_15_1 = ReserveParams.New(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE, arg_15_0.difficultyID_, var_15_0, {
-		stageType = BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE,
-		stageID = arg_15_1,
-		activityID = arg_15_0.activityID_,
-		difficultyIndex = arg_15_0.difficultyIndex_
-	})
-
-	arg_15_0:Go("/sectionSelectHero", {
+function slot0.GoToStage(slot0, slot1)
+	SoloChallengeData:SaveActivityID(slot0.activityID_, slot1)
+	SoloChallengeData:SaveDifficultyIndex(slot0.difficultyIndex_, slot1)
+	slot0:Go("/sectionSelectHero", {
 		canChangeTeam = false,
-		section = arg_15_1,
+		section = slot1,
 		sectionType = BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE,
-		activityID = arg_15_0.activityID_,
-		reserveParams = var_15_1
+		activityID = slot0.activityID_,
+		reserveParams = ReserveParams.New(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE, slot0.difficultyID_, table.indexof(slot0.stageList_, slot1), {
+			stageType = BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE,
+			stageID = slot1,
+			activityID = slot0.activityID_,
+			difficultyIndex = slot0.difficultyIndex_
+		})
 	})
 end
 
-function var_0_0.RefreshUI(arg_16_0)
-	arg_16_0:RefreshGiveUpBtn()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshGiveUpBtn()
 end
 
-function var_0_0.RefreshGiveUpBtn(arg_17_0)
-	local var_17_0 = SoloChallengeData:GetCompletedStageList(arg_17_0.activityID_)
-
-	if var_17_0[arg_17_0.difficultyIndex_] and #var_17_0[arg_17_0.difficultyIndex_] ~= 0 then
-		arg_17_0.giveUpBtn_.interactable = true
+function slot0.RefreshGiveUpBtn(slot0)
+	if SoloChallengeData:GetCompletedStageList(slot0.activityID_)[slot0.difficultyIndex_] and #slot1[slot0.difficultyIndex_] ~= 0 then
+		slot0.giveUpBtn_.interactable = true
 	else
-		arg_17_0.giveUpBtn_.interactable = false
+		slot0.giveUpBtn_.interactable = false
 	end
 end
 
-function var_0_0.GetNextChallengeStageID(arg_18_0)
-	local var_18_0 = SoloChallengeData:GetCompletedStageList(arg_18_0.activityID_)
-
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.stageList_) do
-		if table.keyof(var_18_0[arg_18_0.difficultyIndex_], iter_18_1) == nil then
-			return iter_18_1
+function slot0.GetNextChallengeStageID(slot0)
+	for slot5, slot6 in ipairs(slot0.stageList_) do
+		if table.keyof(SoloChallengeData:GetCompletedStageList(slot0.activityID_)[slot0.difficultyIndex_], slot6) == nil then
+			return slot6
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.OnResetData(arg_19_0, arg_19_1, arg_19_2)
-	if isSuccess(arg_19_1.result) then
-		SoloChallengeData:ResetLockData(arg_19_2)
-		arg_19_0:Back()
+function slot0.OnResetData(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		SoloChallengeData:ResetLockData(slot2)
+		slot0:Back()
 	else
-		ShowTips(arg_19_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.customHeroReady(arg_20_0)
-	local var_20_0 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE)
-	local var_20_1 = ActivitySoloChallengeCfg[arg_20_0.params_.activityID].stage_id[arg_20_0.params_.difficultyIndex][1]
-	local var_20_2, var_20_3 = var_20_0:GetContDataTemplateById(var_20_1):GetSummaryHeroList(arg_20_0.params_.activityID, arg_20_0.params_.difficultyIndex)
+function slot0.customHeroReady(slot0)
+	slot4, slot5 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(ActivitySoloChallengeCfg[slot0.params_.activityID].stage_id[slot0.params_.difficultyIndex][1]):GetSummaryHeroList(slot0.params_.activityID, slot0.params_.difficultyIndex)
 
-	if var_20_2 == nil then
+	if slot4 == nil then
 		return false
 	else
-		for iter_20_0 = 1, #arg_20_0.stageList_ do
-			if var_20_2[iter_20_0] == 0 then
+		for slot9 = 1, #slot0.stageList_ do
+			if slot4[slot9] == 0 then
 				return false
 			end
 		end
@@ -189,19 +175,16 @@ function var_0_0.customHeroReady(arg_20_0)
 	return true
 end
 
-function var_0_0.customAffixReady(arg_21_0)
-	local var_21_0 = arg_21_0.activityID_
-	local var_21_1 = SoloChallengeData:GetMaxAffixCount(var_21_0)
-	local var_21_2 = SoloChallengeData:GetCompletedStageList(var_21_0)
+function slot0.customAffixReady(slot0)
+	slot1 = slot0.activityID_
+	slot2 = SoloChallengeData:GetMaxAffixCount(slot1)
 
-	for iter_21_0, iter_21_1 in pairs(arg_21_0.stageList_) do
-		if table.keyof(var_21_2[arg_21_0.difficultyIndex_], iter_21_1) == nil then
-			local var_21_3 = ReserveTools.GetReserveTemplate(BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE, iter_21_1)
-			local var_21_4 = ActivitySoloChallengeCfg[arg_21_0.activityID_].stage_id[arg_21_0.difficultyIndex_][1]
-			local var_21_5 = var_21_3:GetContDataTemplateById(var_21_4):GetAffixList(iter_21_0)
+	for slot7, slot8 in pairs(slot0.stageList_) do
+		if table.keyof(SoloChallengeData:GetCompletedStageList(slot1)[slot0.difficultyIndex_], slot8) == nil then
+			slot12 = ReserveTools.GetReserveTemplate(BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE, slot8):GetContDataTemplateById(ActivitySoloChallengeCfg[slot0.activityID_].stage_id[slot0.difficultyIndex_][1]):GetAffixList(slot7)
 
-			for iter_21_2 = 1, var_21_1 do
-				if not var_21_5[iter_21_2] or var_21_5[iter_21_2] == 0 then
+			for slot16 = 1, slot2 do
+				if not slot12[slot16] or slot12[slot16] == 0 then
 					return false
 				end
 			end
@@ -211,27 +194,27 @@ function var_0_0.customAffixReady(arg_21_0)
 	return true
 end
 
-function var_0_0.OnExit(arg_22_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_23_0)
-	if arg_23_0.list_ then
-		arg_23_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_23_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	arg_23_0.onResetDataHandler_ = nil
-	arg_23_0.onSaveCustomListHandler_ = nil
+	slot0.onResetDataHandler_ = nil
+	slot0.onSaveCustomListHandler_ = nil
 
-	var_0_0.super.Dispose(arg_23_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnReverTeamData(arg_24_0)
-	arg_24_0.stageList_ = ActivitySoloChallengeCfg[arg_24_0.activityID_].stage_id[arg_24_0.difficultyIndex_][2]
+function slot0.OnReverTeamData(slot0)
+	slot0.stageList_ = ActivitySoloChallengeCfg[slot0.activityID_].stage_id[slot0.difficultyIndex_][2]
 
-	arg_24_0.list_:StartScroll(#arg_24_0.stageList_)
+	slot0.list_:StartScroll(#slot0.stageList_)
 end
 
-return var_0_0
+return slot0

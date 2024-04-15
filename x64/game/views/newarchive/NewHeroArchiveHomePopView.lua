@@ -1,93 +1,86 @@
-local var_0_0 = class("NewHeroArchiveHomePopView", ReduxView)
+slot0 = class("NewHeroArchiveHomePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/HeroArchive/ArchiveStoryHomePopUI_new"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:AddUIListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.mask_, nil, function()
-		arg_5_0:Back()
-
-		local var_6_0 = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[arg_5_0.heroID_][1])
-
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.mask_, nil, function ()
+		uv0:Back()
 		SDKTools.SendMessageToSDK("chain_story_picture_open_tip", {
 			opt = 0,
-			record_id = var_6_0.archive_id
+			record_id = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[uv0.heroID_][1]).archive_id
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
-
-		local var_7_0 = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[arg_5_0.heroID_][1])
-
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 		SDKTools.SendMessageToSDK("chain_story_picture_open_tip", {
 			opt = 0,
-			record_id = var_7_0.archive_id
+			record_id = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[uv0.heroID_][1]).archive_id
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.yesBtn_, nil, function()
-		local var_8_0 = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[arg_5_0.heroID_][1])
+	slot0:AddBtnListener(slot0.yesBtn_, nil, function ()
+		slot0 = ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[uv0.heroID_][1])
 
 		JumpTools.GoToSystem("/newHeroDetailArchive", {
 			isBackHome = true,
-			id = var_8_0.archive_id
+			id = slot0.archive_id
 		})
 		SDKTools.SendMessageToSDK("chain_story_enter", {
 			chain_story_enter_source = 3,
-			record_id = var_8_0.archive_id
+			record_id = slot0.archive_id
 		})
 		SDKTools.SendMessageToSDK("chain_story_picture_open_tip", {
 			opt = 1,
-			record_id = var_8_0.archive_id
+			record_id = slot0.archive_id
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.heroID_ = arg_9_0.params_.heroID
-	arg_9_0.heartType_ = arg_9_0.params_.type
+function slot0.OnEnter(slot0)
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.heartType_ = slot0.params_.type
 
-	saveData("archivePop", "popInfo" .. HeroRecordCfg.get_id_list_by_hero_id[arg_9_0.heroID_][1] .. arg_9_0.heartType_, true)
+	saveData("archivePop", "popInfo" .. HeroRecordCfg.get_id_list_by_hero_id[slot0.heroID_][1] .. slot0.heartType_, true)
 
-	if arg_9_0.heartType_ == 2 then
-		saveData("archivePop", "popInfo" .. HeroRecordCfg.get_id_list_by_hero_id[arg_9_0.heroID_][1] .. 1, true)
+	if slot0.heartType_ == 2 then
+		saveData("archivePop", "popInfo" .. HeroRecordCfg.get_id_list_by_hero_id[slot0.heroID_][1] .. 1, true)
 	end
 
 	saveData("archivePop", "cache", manager.time:GetServerTime())
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = HeroRecordCfg[HeroRecordCfg.get_id_list_by_hero_id[arg_10_0.heroID_][1]]
-	local var_10_1 = HeroCfg[arg_10_0.heroID_]
+function slot0.RefreshUI(slot0)
+	slot2 = HeroCfg[slot0.heroID_]
 
-	if arg_10_0.heartType_ == 1 then
-		arg_10_0.descText_.text = var_10_0.plot_tip
-	elseif arg_10_0.heartType_ == 2 then
-		arg_10_0.descText_.text = var_10_0.super_plot_tip
+	if slot0.heartType_ == 1 then
+		slot0.descText_.text = HeroRecordCfg[HeroRecordCfg.get_id_list_by_hero_id[slot0.heroID_][1]].plot_tip
+	elseif slot0.heartType_ == 2 then
+		slot0.descText_.text = slot1.super_plot_tip
 	end
 
-	arg_10_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. var_10_0.plot_tip_picture)
-	arg_10_0.roleNameText_.text = var_10_1.suffix
+	slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot1.plot_tip_picture)
+	slot0.roleNameText_.text = slot2.suffix
 end
 
-function var_0_0.OnExit(arg_11_0)
-	if arg_11_0.callback_ then
-		arg_11_0.callback_()
+function slot0.OnExit(slot0)
+	if slot0.callback_ then
+		slot0.callback_()
 	end
 end
 
-return var_0_0
+return slot0

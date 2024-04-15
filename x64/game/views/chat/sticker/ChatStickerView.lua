@@ -1,96 +1,92 @@
-local var_0_0 = class("ChatStickerView", ReduxView)
+slot0 = class("ChatStickerView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.categoryItemList_ = {}
-	arg_1_0.stickerUIList_ = LuaList.New(handler(arg_1_0, arg_1_0.RefreshItem), arg_1_0.uiList_, ChatStickerItem)
+	slot0.categoryItemList_ = {}
+	slot5 = slot0.uiList_
+	slot6 = ChatStickerItem
+	slot0.stickerUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot5, slot6)
 
-	for iter_1_0, iter_1_1 in ipairs(ChatStickerCategoryCfg.all) do
-		arg_1_0.categoryItemList_[iter_1_0] = ChatStickerCategoryItem.New(arg_1_0.categoryItem_, arg_1_0.categoryParent_, iter_1_1)
+	for slot5, slot6 in ipairs(ChatStickerCategoryCfg.all) do
+		slot0.categoryItemList_[slot5] = ChatStickerCategoryItem.New(slot0.categoryItem_, slot0.categoryParent_, slot6)
 	end
 
-	arg_1_0.changeStickerCategoryHandler_ = handler(arg_1_0, arg_1_0.ChangeStickerCategory)
-	arg_1_0.selectCategoryID_ = ChatStickerCategoryCfg.all[1]
+	slot0.changeStickerCategoryHandler_ = handler(slot0, slot0.ChangeStickerCategory)
+	slot0.selectCategoryID_ = ChatStickerCategoryCfg.all[1]
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	manager.notify:RegistListener(CHAT_CHANGE_STICKER_CATEGORY, arg_2_0.changeStickerCategoryHandler_)
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(CHAT_CHANGE_STICKER_CATEGORY, slot0.changeStickerCategoryHandler_)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.notify:RemoveListener(CHAT_CHANGE_STICKER_CATEGORY, arg_3_0.changeStickerCategoryHandler_)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(CHAT_CHANGE_STICKER_CATEGORY, slot0.changeStickerCategoryHandler_)
 end
 
-function var_0_0.RefreshItem(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = arg_4_0.stickerIDList_
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot3 = slot0.stickerIDList_
 
-	if arg_4_0.selectCategoryID_ == 0 then
-		if arg_4_1 == 1 then
-			arg_4_2:RefreshData(0)
+	if slot0.selectCategoryID_ == 0 then
+		if slot1 == 1 then
+			slot2:RefreshData(0)
 		else
-			arg_4_2:RefreshData(var_4_0[arg_4_1 - 1])
+			slot2:RefreshData(slot3[slot1 - 1])
 		end
 	else
-		arg_4_2:RefreshData(var_4_0[arg_4_1])
+		slot2:RefreshData(slot3[slot1])
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_5_0.changeStickerCategoryHandler_ = nil
+	slot0.changeStickerCategoryHandler_ = nil
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.categoryItemList_) do
-		iter_5_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.categoryItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.categoryItemList_ = nil
+	slot0.categoryItemList_ = nil
 
-	arg_5_0.stickerUIList_:Dispose()
+	slot0.stickerUIList_:Dispose()
 
-	arg_5_0.stickerUIList_ = nil
-	arg_5_0.transform_ = nil
-	arg_5_0.gameObject_ = nil
+	slot0.stickerUIList_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.Show(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_6_1 then
-		arg_6_0:ChangeStickerCategory(arg_6_0.selectCategoryID_)
+	if slot1 then
+		slot0:ChangeStickerCategory(slot0.selectCategoryID_)
 	end
 end
 
-function var_0_0.ChangeStickerCategory(arg_7_0, arg_7_1)
-	arg_7_0.selectCategoryID_ = arg_7_1 or arg_7_0.selectCategoryID_
+function slot0.ChangeStickerCategory(slot0, slot1)
+	slot0.selectCategoryID_ = slot1 or slot0.selectCategoryID_
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.categoryItemList_) do
-		iter_7_1:RefreshSelectID(arg_7_0.selectCategoryID_)
+	for slot5, slot6 in ipairs(slot0.categoryItemList_) do
+		slot6:RefreshSelectID(slot0.selectCategoryID_)
 	end
 
-	if arg_7_0.selectCategoryID_ == 0 then
-		arg_7_0.stickerIDList_ = ChatStickerData:GetCustomStickerList()
+	if slot0.selectCategoryID_ == 0 then
+		slot0.stickerIDList_ = ChatStickerData:GetCustomStickerList()
 	else
-		arg_7_0.stickerIDList_ = ChatStickerTools.SortChatSticker(arg_7_0.selectCategoryID_)
+		slot0.stickerIDList_ = ChatStickerTools.SortChatSticker(slot0.selectCategoryID_)
 	end
 
-	arg_7_0:RefreshChateSticker()
+	slot0:RefreshChateSticker()
 end
 
-function var_0_0.RefreshChateSticker(arg_8_0)
-	local var_8_0 = 0
+function slot0.RefreshChateSticker(slot0)
+	slot1 = 0
 
-	if arg_8_0.selectCategoryID_ == 0 then
-		var_8_0 = #ChatStickerData:GetCustomStickerList() + 1
-	else
-		var_8_0 = #ChatStickerCfg.get_id_list_by_category[arg_8_0.selectCategoryID_]
-	end
-
-	arg_8_0.stickerUIList_:StartScroll(var_8_0)
+	slot0.stickerUIList_:StartScroll(slot0.selectCategoryID_ == 0 and #ChatStickerData:GetCustomStickerList() + 1 or #ChatStickerCfg.get_id_list_by_category[slot0.selectCategoryID_])
 end
 
-return var_0_0
+return slot0

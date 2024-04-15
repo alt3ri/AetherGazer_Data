@@ -1,149 +1,125 @@
-local var_0_0 = class("BattleEquipBreakThroughMaterialStageTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleEquipBreakThroughMaterialStageTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.cfg = BattleEquipBreakThroughMaterialStageCfg[arg_1_1]
-	arg_1_0.mapStageID_ = EquipBreakThroughMaterialData:GetChooseMapStageID()
+	slot0.id = slot1
+	slot0.cfg = BattleEquipBreakThroughMaterialStageCfg[slot1]
+	slot0.mapStageID_ = EquipBreakThroughMaterialData:GetChooseMapStageID()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	return arg_3_0.id
+function slot0.GetDest(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_7_0)
-	return arg_7_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_8_0)
-	return arg_8_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.InitChipData(arg_9_0)
-	arg_9_0.chipManagerID_ = EquipBreakThroughMaterialData:GetChipManagerID()
-	arg_9_0.chipList_ = arg_9_0:GetHeroChipData(clone(EquipBreakThroughMaterialData:GetChipList()))
+function slot0.InitChipData(slot0)
+	slot0.chipManagerID_ = EquipBreakThroughMaterialData:GetChipManagerID()
+	slot0.chipList_ = slot0:GetHeroChipData(clone(EquipBreakThroughMaterialData:GetChipList()))
 end
 
-function var_0_0.GetChipAndAIList(arg_10_0, arg_10_1)
-	local var_10_0 = {}
-	local var_10_1 = arg_10_0.chipManagerID_
-
-	if var_10_1 ~= 0 then
-		table.insert(var_10_0, var_10_1)
+function slot0.GetChipAndAIList(slot0, slot1)
+	if slot0.chipManagerID_ ~= 0 then
+		table.insert({}, slot3)
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.chipList_) do
-		table.insert(var_10_0, iter_10_1)
+	for slot7, slot8 in ipairs(slot0.chipList_) do
+		table.insert(slot2, slot8)
 	end
 
-	if arg_10_1 ~= 0 then
-		arg_10_1 = SkinCfg[arg_10_1].hero
+	if slot1 ~= 0 then
+		slot1 = SkinCfg[slot1].hero
 	end
 
-	local var_10_2, var_10_3 = arg_10_0:GetHeroTeam()
-	local var_10_4 = table.keyof(var_10_2, arg_10_1)
+	slot4, slot5 = slot0:GetHeroTeam()
 
-	if var_10_4 and arg_10_1 ~= 0 and var_10_3[var_10_4] == 0 then
-		local var_10_5 = ChipData:GetEnableHeroChipIdByHeroId(arg_10_1) or {}
-
-		for iter_10_2, iter_10_3 in ipairs(var_10_5) do
-			table.insert(var_10_0, iter_10_3)
+	if table.keyof(slot4, slot1) and slot1 ~= 0 and slot5[slot6] == 0 then
+		for slot11, slot12 in ipairs(ChipData:GetEnableHeroChipIdByHeroId(slot1) or {}) do
+			table.insert(slot2, slot12)
 		end
 	end
 
-	return var_10_0
+	return slot2
 end
 
-function var_0_0.GetHeroTeam(arg_11_0)
-	return arg_11_0.heroList_, arg_11_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.UpdateRoleDatas(arg_12_0, arg_12_1)
-	arg_12_0.serverTeamPlayer = arg_12_1
-	arg_12_0.roleDataInLua = {}
+function slot0.UpdateRoleDatas(slot0, slot1)
+	slot0.serverTeamPlayer = slot1
+	slot0.roleDataInLua = {}
 
-	local var_12_0 = arg_12_0:GetSystemHeroTeam()
-
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1.heroList) do
-		local var_12_1 = iter_12_1.trialID ~= 0 and iter_12_1.trialID or var_12_0[iter_12_0] or 0
-		local var_12_2 = BattleController.GetInstance():SetEquipBreakThroughMaterialHeroData(iter_12_0, iter_12_1, var_12_1, arg_12_1.playerID, arg_12_1.level)
-
-		table.insert(arg_12_0.roleDataInLua, var_12_2)
+	for slot6, slot7 in ipairs(slot1.heroList) do
+		table.insert(slot0.roleDataInLua, BattleController.GetInstance():SetEquipBreakThroughMaterialHeroData(slot6, slot7, slot7.trialID ~= 0 and slot7.trialID or slot0:GetSystemHeroTeam()[slot6] or 0, slot1.playerID, slot1.level))
 	end
 
-	arg_12_0:SetMaxRaceData()
+	slot0:SetMaxRaceData()
 end
 
-function var_0_0.GetMaxRaceData(arg_13_0)
+function slot0.GetMaxRaceData(slot0)
 	return 0, 0
 end
 
-function var_0_0.GetStageAffix(arg_14_0)
-	local var_14_0 = {}
-	local var_14_1 = {}
-	local var_14_2 = {}
-	local var_14_3 = EquipBreakThroughMaterialData:GetGlobalAffixList()
-
-	for iter_14_0, iter_14_1 in pairs(var_14_3 or {}) do
-		table.insert(var_14_0, iter_14_1[1])
-		table.insert(var_14_1, iter_14_1[2])
-		table.insert(var_14_2, iter_14_1[3])
+function slot0.GetStageAffix(slot0)
+	for slot8, slot9 in pairs(EquipBreakThroughMaterialData:GetGlobalAffixList() or {}) do
+		table.insert({}, slot9[1])
+		table.insert({}, slot9[2])
+		table.insert({}, slot9[3])
 	end
 
-	local var_14_4 = EquipBreakThroughMaterialData:GetBuffList()
+	for slot9, slot10 in pairs(EquipBreakThroughMaterialData:GetBuffList() or {}) do
+		slot11 = EquipBreakThroughMaterialItemCfg[slot10].params
 
-	for iter_14_2, iter_14_3 in pairs(var_14_4 or {}) do
-		local var_14_5 = EquipBreakThroughMaterialItemCfg[iter_14_3].params
-
-		table.insert(var_14_0, var_14_5[1])
-		table.insert(var_14_1, var_14_5[2])
-		table.insert(var_14_2, var_14_5[3])
+		table.insert(slot1, slot11[1])
+		table.insert(slot2, slot11[2])
+		table.insert(slot3, slot11[3])
 	end
 
-	local var_14_6 = EquipBreakThroughMaterialData:GetAttributeList()
+	for slot10, slot11 in pairs(EquipBreakThroughMaterialData:GetAttributeList() or {}) do
+		slot12 = getAttributeAffix(slot10, slot11)
 
-	for iter_14_4, iter_14_5 in pairs(var_14_6 or {}) do
-		local var_14_7 = getAttributeAffix(iter_14_4, iter_14_5)
-
-		table.insert(var_14_0, var_14_7[1])
-		table.insert(var_14_1, var_14_7[2])
-		table.insert(var_14_2, var_14_7[3])
+		table.insert(slot1, slot12[1])
+		table.insert(slot2, slot12[2])
+		table.insert(slot3, slot12[3])
 	end
 
-	return var_14_0, var_14_1, var_14_2
+	return slot1, slot2, slot3
 end
 
-function var_0_0.GetAttributeFactor(arg_15_0)
-	local var_15_0 = EquipBreakThroughMaterialData:GetSelectModeID()
-	local var_15_1 = EquipBreakThroughMaterialDifficultyCfg[var_15_0]
-	local var_15_2 = var_15_1.difficult_multipliter[1] / 1000
-	local var_15_3 = var_15_1.difficult_multipliter[2] / 1000
-	local var_15_4 = var_15_1.difficult_multipliter[3] / 1000
+function slot0.GetAttributeFactor(slot0)
+	slot2 = EquipBreakThroughMaterialDifficultyCfg[EquipBreakThroughMaterialData:GetSelectModeID()]
 
-	return Vector3.New(var_15_2, var_15_3, var_15_4)
+	return Vector3.New(slot2.difficult_multipliter[1] / 1000, slot2.difficult_multipliter[2] / 1000, slot2.difficult_multipliter[3] / 1000)
 end
 
-function var_0_0.GetServerExtant(arg_16_0)
-	return arg_16_0.mapStageID_
+function slot0.GetServerExtant(slot0)
+	return slot0.mapStageID_
 end
 
-return var_0_0
+return slot0

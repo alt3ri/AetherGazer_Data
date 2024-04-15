@@ -1,32 +1,33 @@
-local var_0_0 = class("GotoActivityWaterCooperationStage", BattleCooperationSettlementStrategyBase)
+slot0 = class("GotoActivityWaterCooperationStage", BattleCooperationSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.num
-	local var_1_1 = arg_1_1.stageData
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
 
-	if isSuccess(var_1_0) then
-		local var_1_4 = arg_1_0:GetResultReward()
+	if isSuccess(slot1.num) then
+		slot6 = slot0:GetResultReward()
 
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/xH3rdWaterSettlementView", {
-				result = var_1_0,
-				rewardList = var_1_4,
-				stageData = var_1_1,
-				starMissionData = var_1_2,
-				battleResult = var_1_3
+				result = uv0,
+				rewardList = uv1,
+				stageData = uv2,
+				starMissionData = uv3,
+				battleResult = uv4
 			})
-			EndBattleLogic(var_1_0)
+			EndBattleLogic(uv0)
 		end
-	else
-		function BattleCallLuaCallBack()
-			gameContext:Go("/xH3rdWaterBattleCooperationFailed", {
-				stageData = var_1_1
-			})
-			EndBattleLogic(var_1_0)
-		end
+
+		return
+	end
+
+	function BattleCallLuaCallBack()
+		gameContext:Go("/xH3rdWaterBattleCooperationFailed", {
+			stageData = uv0
+		})
+		EndBattleLogic(uv1)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,55 +1,53 @@
-local var_0_0 = singletonClass("ReserveData")
+slot0 = singletonClass("ReserveData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.serverTeamTemplateDicByType_ = {}
-	arg_1_0.clientTeamTemplateDicByType_ = {}
+function slot0.Init(slot0)
+	slot0.serverTeamTemplateDicByType_ = {}
+	slot0.clientTeamTemplateDicByType_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	arg_2_0:UpdateServerTeamTemplate(arg_2_1.teams_info_list)
-	arg_2_0:UpdateServerTeamTemplate(arg_2_1.formation_teams_info_list)
-	arg_2_0:UpdateServerTeamTemplate(arg_2_1.chess_teams_info_list)
-	arg_2_0:UpdateServerTeamTemplate(arg_2_1.solo_challenge_teams_info_list)
+function slot0.InitData(slot0, slot1)
+	slot0:UpdateServerTeamTemplate(slot1.teams_info_list)
+	slot0:UpdateServerTeamTemplate(slot1.formation_teams_info_list)
+	slot0:UpdateServerTeamTemplate(slot1.chess_teams_info_list)
+	slot0:UpdateServerTeamTemplate(slot1.solo_challenge_teams_info_list)
 end
 
-function var_0_0.UpdateServerTeamTemplate(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		local var_3_0 = iter_3_1.team_type
-
-		arg_3_0:UpdateSingleServerTeamTemplate(var_3_0, iter_3_1)
+function slot0.UpdateServerTeamTemplate(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0:UpdateSingleServerTeamTemplate(slot6.team_type, slot6)
 	end
 end
 
-function var_0_0.UpdateSingleServerTeamTemplate(arg_4_0, arg_4_1, arg_4_2)
-	if not arg_4_0.serverTeamTemplateDicByType_[arg_4_1] then
-		arg_4_0.serverTeamTemplateDicByType_[arg_4_1] = ReserveTools.GetReserveTemplateClass(arg_4_1).New(arg_4_1)
+function slot0.UpdateSingleServerTeamTemplate(slot0, slot1, slot2)
+	if not slot0.serverTeamTemplateDicByType_[slot1] then
+		slot0.serverTeamTemplateDicByType_[slot1] = ReserveTools.GetReserveTemplateClass(slot1).New(slot1)
 	end
 
-	arg_4_0.serverTeamTemplateDicByType_[arg_4_1]:UpdateServerData(arg_4_2)
+	slot0.serverTeamTemplateDicByType_[slot1]:UpdateServerData(slot2)
 
-	if arg_4_0.clientTeamTemplateDicByType_[arg_4_1] then
-		arg_4_0.clientTeamTemplateDicByType_[arg_4_1]:UpdateServerData(arg_4_2)
+	if slot0.clientTeamTemplateDicByType_[slot1] then
+		slot0.clientTeamTemplateDicByType_[slot1]:UpdateServerData(slot2)
 	end
 end
 
-function var_0_0.GetServerTeamTemplate(arg_5_0, arg_5_1)
-	if not arg_5_0.serverTeamTemplateDicByType_[arg_5_1] then
-		arg_5_0.serverTeamTemplateDicByType_[arg_5_1] = ReserveTools.GetReserveTemplateClass(arg_5_1).New(arg_5_1)
+function slot0.GetServerTeamTemplate(slot0, slot1)
+	if not slot0.serverTeamTemplateDicByType_[slot1] then
+		slot0.serverTeamTemplateDicByType_[slot1] = ReserveTools.GetReserveTemplateClass(slot1).New(slot1)
 	end
 
-	return arg_5_0.serverTeamTemplateDicByType_[arg_5_1]
+	return slot0.serverTeamTemplateDicByType_[slot1]
 end
 
-function var_0_0.GetTeamTemplate(arg_6_0, arg_6_1)
-	if not arg_6_0.clientTeamTemplateDicByType_[arg_6_1] then
-		if arg_6_0.serverTeamTemplateDicByType_[arg_6_1] then
-			arg_6_0.clientTeamTemplateDicByType_[arg_6_1] = arg_6_0.serverTeamTemplateDicByType_[arg_6_1]:Clone()
+function slot0.GetTeamTemplate(slot0, slot1)
+	if not slot0.clientTeamTemplateDicByType_[slot1] then
+		if slot0.serverTeamTemplateDicByType_[slot1] then
+			slot0.clientTeamTemplateDicByType_[slot1] = slot0.serverTeamTemplateDicByType_[slot1]:Clone()
 		else
-			arg_6_0.clientTeamTemplateDicByType_[arg_6_1] = ReserveTools.GetReserveTemplateClass(arg_6_1).New(arg_6_1)
+			slot0.clientTeamTemplateDicByType_[slot1] = ReserveTools.GetReserveTemplateClass(slot1).New(slot1)
 		end
 	end
 
-	return arg_6_0.clientTeamTemplateDicByType_[arg_6_1]
+	return slot0.clientTeamTemplateDicByType_[slot1]
 end
 
-return var_0_0
+return slot0

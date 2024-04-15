@@ -1,70 +1,59 @@
-local var_0_0 = class("GotoAbyssStage", BattleSettlementStrategyBase)
+slot0 = class("GotoAbyssStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.num
-	local var_1_1 = arg_1_1.stageData
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
-	local var_1_4 = 1
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
+	slot6 = 1
 
-	if isSuccess(var_1_0) then
-		if not var_1_1:IsBoss() then
-			AbyssData:CompleteNormalStage(var_1_1:GetLayer(), var_1_1:GetStageId())
+	if isSuccess(slot1.num) then
+		if not slot3:IsBoss() then
+			AbyssData:CompleteNormalStage(slot3:GetLayer(), slot3:GetStageId())
 		end
 
-		local var_1_5 = AbyssData:GetStageScore(var_1_1:GetLayer(), var_1_1:GetStageIndex())
+		slot0:GotoAbyssSuccess(slot1.isHalfWay_, AbyssData:GetStageScore(slot3:GetLayer(), slot3:GetStageIndex()), slot2, slot3, slot4, slot5)
+	elseif slot3:IsBoss() then
+		slot9 = 0
+		slot10 = AbyssData:GetCurrentBossPhase()
 
-		arg_1_0:GotoAbyssSuccess(arg_1_1.isHalfWay_, var_1_5, var_1_0, var_1_1, var_1_2, var_1_3)
-	elseif var_1_1:IsBoss() then
-		local var_1_6 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas
-		local var_1_7
-		local var_1_8 = 0
-		local var_1_9 = AbyssData:GetCurrentBossPhase()
-
-		if var_1_6:TryGetValue(37, var_1_7) then
-			var_1_8 = var_1_6[37] or 0
+		if LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas:TryGetValue(37, nil) then
+			slot9 = slot7[37] or 0
 		end
 
-		if var_1_6:TryGetValue(36, var_1_7) then
-			var_1_9 = var_1_6[36] or 0
+		if slot7:TryGetValue(36, slot8) then
+			slot10 = slot7[36] or 0
 		end
 
-		local var_1_10 = AbyssData:GetBossTotalHp(var_1_1:GetStageId())
+		slot11 = AbyssData:GetBossTotalHp(slot3:GetStageId())
 
-		if var_1_3.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
-			arg_1_0:GotoAbyssBossFailed(var_1_10, var_1_10, var_1_0, var_1_1, var_1_3, arg_1_1.isHalfWay_)
+		if slot5.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
+			slot0:GotoAbyssBossFailed(slot11, slot11, slot2, slot3, slot5, slot1.isHalfWay_)
 		else
-			local var_1_11 = AbyssData:GetPhaseBossHp(var_1_1:GetStageId(), var_1_9)
-			local var_1_12 = AbyssData:GetStageData(var_1_1:GetLayer(), var_1_1:GetStageIndex())
-			local var_1_13 = var_1_8 / (var_1_11 * var_1_12.boss_hp_rate / 1000)
+			slot15 = slot9 / (AbyssData:GetPhaseBossHp(slot3:GetStageId(), slot10) * AbyssData:GetStageData(slot3:GetLayer(), slot3:GetStageIndex()).boss_hp_rate / 1000)
 
-			if not var_1_6:TryGetValue(37, var_1_7) then
-				var_1_13 = 1
+			if not slot7:TryGetValue(37, slot8) then
+				slot15 = 1
 			end
 
-			local var_1_14 = AbyssData:ConvertPhaseBossHpToTotal(var_1_1:GetStageId(), var_1_9, var_1_12.boss_hp_rate * var_1_13)
-
-			arg_1_0:GotoAbyssBossFailed(var_1_14, var_1_10, var_1_0, var_1_1, var_1_3, arg_1_1.isHalfWay_)
+			slot0:GotoAbyssBossFailed(AbyssData:ConvertPhaseBossHpToTotal(slot3:GetStageId(), slot10, slot13.boss_hp_rate * slot15), slot11, slot2, slot3, slot5, slot1.isHalfWay_)
 		end
 	else
 		function BattleCallLuaCallBack()
-			local var_2_0 = var_1_1:GetStageId()
-
-			manager.story:CheckBattleStory(var_2_0, manager.story.LOSE, function()
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
 				JumpTools.OpenPageByJump("/battlefailedWithButton", {
-					stageData = var_1_1,
-					battleResult = var_1_3
+					stageData = uv0,
+					battleResult = uv1
 				})
 				manager.story:RemovePlayer()
-				EndBattleLogic(var_1_0)
+				EndBattleLogic(uv2)
 			end)
 		end
 	end
 end
 
-function var_0_0.GotoAbyssBossFailed(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4, arg_4_5, arg_4_6)
-	if arg_4_6 == true then
-		arg_4_3 = 3
+function slot0.GotoAbyssBossFailed(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	if slot6 == true then
+		slot3 = 3
 	end
 
 	function BattleCallLuaCallBack()
@@ -72,42 +61,42 @@ function var_0_0.GotoAbyssBossFailed(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4
 		gameContext:Go("/abyssBattleResult", {
 			resultType = "choose",
 			scoreType = "hp",
-			stageData = arg_4_4,
-			hp = arg_4_1,
-			totalHp = arg_4_2,
-			battleResult = arg_4_5,
+			stageData = uv0,
+			hp = uv1,
+			totalHp = uv2,
+			battleResult = uv3,
 			title = GetTips("ABYSS_BATTLE_FAIL_TIP"),
-			okHandler = function()
-				AbyssAction.ClearTeamCache(arg_4_4:GetStageId())
-				AbyssAction.SaveProgress(arg_4_4:GetStageId(), true)
-				AbyssTools.SetLayerBossTeamCacheFlag(arg_4_4:GetLayer(), arg_4_4:GetStageIndex(), false)
+			okHandler = function ()
+				AbyssAction.ClearTeamCache(uv0:GetStageId())
+				AbyssAction.SaveProgress(uv0:GetStageId(), true)
+				AbyssTools.SetLayerBossTeamCacheFlag(uv0:GetLayer(), uv0:GetStageIndex(), false)
 			end,
-			giveUpHandler = function()
-				AbyssAction.SaveProgress(arg_4_4:GetStageId(), false)
+			giveUpHandler = function ()
+				AbyssAction.SaveProgress(uv0:GetStageId(), false)
 			end
 		})
-		EndBattleLogic(arg_4_3)
+		EndBattleLogic(uv4)
 	end
 end
 
-function var_0_0.GotoAbyssSuccess(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5, arg_8_6, arg_8_7)
-	if arg_8_1 == true then
-		arg_8_3 = 3
+function slot0.GotoAbyssSuccess(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	if slot1 == true then
+		slot3 = 3
 	end
 
-	local var_8_0, var_8_1 = GetResultReward()
+	slot8, slot9 = GetResultReward()
 
-	if isSuccess(arg_8_3) then
+	if isSuccess(slot3) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/abyssBattleResult", {
-				stageData = arg_8_4,
-				rewardList = var_8_1,
-				score = arg_8_2,
-				battleResult = arg_8_6
+				stageData = uv0,
+				rewardList = uv1,
+				score = uv2,
+				battleResult = uv3
 			})
-			EndBattleLogic(arg_8_3)
+			EndBattleLogic(uv4)
 		end
 	end
 end
 
-return var_0_0
+return slot0

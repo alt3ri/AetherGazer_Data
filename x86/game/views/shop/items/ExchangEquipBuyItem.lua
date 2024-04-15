@@ -1,82 +1,82 @@
-local var_0_0 = class("ExchangEquipBuyItem", ReduxView)
+slot0 = class("ExchangEquipBuyItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:Init()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list = LuaList.New(handler(arg_3_0, arg_3_0.SetItem), arg_3_0.listGo_, EquipGoodsItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.SetItem), slot0.listGo_, EquipGoodsItem)
 end
 
-function var_0_0.SetItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_0.data[arg_4_1], arg_4_1)
+function slot0.SetItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.data[slot1], slot1)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4)
-	arg_5_0.data = arg_5_1
-	arg_5_0.index = arg_5_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.data = slot1
+	slot0.index = slot4
 
-	arg_5_0:Show(true)
-	arg_5_0:UpdateView()
+	slot0:Show(true)
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_6_0)
-	arg_6_0.list:StartScrollWithoutAnimator(#arg_6_0.data)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.transform_)
+function slot0.UpdateView(slot0)
+	slot0.list:StartScrollWithoutAnimator(#slot0.data)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.list:GetItemList()) do
-		iter_8_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in pairs(slot0.list:GetItemList()) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.list:Dispose()
-	var_0_0.super.Dispose(arg_9_0)
-	Object.Destroy(arg_9_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-function var_0_0.GetItemHeight(arg_10_0)
-	return arg_10_0.rectGo_.sizeDelta.y
+function slot0.GetItemHeight(slot0)
+	return slot0.rectGo_.sizeDelta.y
 end
 
-function var_0_0.SetAsLastSibling(arg_11_0)
-	arg_11_0.transform_:SetAsLastSibling()
+function slot0.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_0.SetAsFirstSibling(arg_12_0)
-	arg_12_0.transform_:SetAsFirstSibling()
+function slot0.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-function var_0_0.GetIndex(arg_13_0)
-	return arg_13_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.IsActive(arg_14_0)
+function slot0.IsActive(slot0)
 	return true
 end
 
-function var_0_0.IsTimeBar(arg_15_0)
+function slot0.IsTimeBar(slot0)
 	return false
 end
 
-function var_0_0.Show(arg_16_0, arg_16_1)
-	SetActive(arg_16_0.gameObject_, arg_16_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

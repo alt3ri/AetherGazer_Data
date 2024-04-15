@@ -1,104 +1,91 @@
-local var_0_0 = class("IlluMusicSongItem", ReduxView)
+slot0 = class("IlluMusicSongItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.handler = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.handler = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.expand = false
+	slot0.expand = false
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.expandController = ControllerUtil.GetController(arg_3_0.transform_, "expand")
-	arg_3_0.playController = ControllerUtil.GetController(arg_3_0.transform_, "play")
+	slot0.expandController = ControllerUtil.GetController(slot0.transform_, "expand")
+	slot0.playController = ControllerUtil.GetController(slot0.transform_, "play")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_expandBtn, nil, function()
-		arg_4_0:SetExpand(not arg_4_0.expand)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_expandBtn, nil, function ()
+		uv0:SetExpand(not uv0.expand)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_playBtn, nil, function()
-		if arg_4_0.handler and arg_4_0.handler.PlayMusic then
-			arg_4_0.handler:PlayMusic(arg_4_0.id)
+	slot0:AddBtnListener(slot0.m_playBtn, nil, function ()
+		if uv0.handler and uv0.handler.PlayMusic then
+			uv0.handler:PlayMusic(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.id = arg_7_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.id = slot1
+	slot2 = MusicRecordCfg[slot1]
+	slot0.m_info.text = GetI18NText(slot2.detail)
+	slot5 = slot0.m_title.transform.rect.size
 
-	local var_7_0 = MusicRecordCfg[arg_7_1]
+	if slot5.x < UnityEngine.TextGenerator.New():GetPreferredWidth(GetI18NText(slot2.musicName), slot0.m_title:GetGenerationSettings(slot5)) / slot0.m_title.pixelsPerUnit then
+		slot10 = utf8len(slot8 .. "...")
 
-	arg_7_0.m_info.text = GetI18NText(var_7_0.detail)
-
-	local var_7_1 = var_7_0.musicName
-	local var_7_2 = UnityEngine.TextGenerator.New()
-	local var_7_3 = arg_7_0.m_title.transform.rect.size
-	local var_7_4 = arg_7_0.m_title:GetGenerationSettings(var_7_3)
-	local var_7_5 = arg_7_0.m_title.pixelsPerUnit
-	local var_7_6 = GetI18NText(var_7_1)
-	local var_7_7 = var_7_2:GetPreferredWidth(var_7_6, var_7_4) / var_7_5
-
-	if var_7_7 > var_7_3.x then
-		var_7_6 = var_7_6 .. "..."
-
-		local var_7_8 = utf8len(var_7_6)
-
-		while var_7_7 > var_7_3.x do
-			if var_7_8 <= 4 then
-				var_7_6 = GetI18NText(var_7_1)
+		while slot5.x < slot9 do
+			if slot10 <= 4 then
+				slot8 = GetI18NText(slot3)
 
 				break
 			end
 
-			var_7_8 = var_7_8 - 1 - 3
-			var_7_6 = utf8sub(var_7_6, 1, var_7_8) .. "..."
-			var_7_7 = var_7_2:GetPreferredWidth(var_7_6, var_7_4) / var_7_5
+			slot9 = slot4:GetPreferredWidth(utf8sub(slot8, 1, slot10 - 1 - 3) .. "...", slot6) / slot7
 		end
 	end
 
-	arg_7_0.m_title.text = var_7_6
+	slot0.m_title.text = slot8
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.m_info.transform)
-	arg_7_0:SetExpand(arg_7_0.expand)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_info.transform)
+	slot0:SetExpand(slot0.expand)
 end
 
-function var_0_0.RefreshSongsState(arg_8_0, arg_8_1)
-	arg_8_0.playController:SetSelectedIndex(arg_8_0.id == arg_8_1 and 1 or 0)
+function slot0.RefreshSongsState(slot0, slot1)
+	slot0.playController:SetSelectedIndex(slot0.id == slot1 and 1 or 0)
 end
 
-function var_0_0.SetActive(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetExpand(arg_10_0, arg_10_1)
-	arg_10_0.expand = arg_10_1
+function slot0.SetExpand(slot0, slot1)
+	slot0.expand = slot1
 
-	if arg_10_1 then
-		arg_10_0.expandController:SetSelectedIndex(1)
+	if slot1 then
+		slot0.expandController:SetSelectedIndex(1)
 	else
-		arg_10_0.expandController:SetSelectedIndex(0)
+		slot0.expandController:SetSelectedIndex(0)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.m_info.transform)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.transform_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_info.transform)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 
-	if arg_10_0.handler and arg_10_0.handler.ForceRebuild then
-		arg_10_0.handler:ForceRebuild()
+	if slot0.handler and slot0.handler.ForceRebuild then
+		slot0.handler:ForceRebuild()
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

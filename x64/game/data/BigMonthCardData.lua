@@ -1,5 +1,5 @@
-local var_0_0 = singletonClass("BigMonthCardData")
-local var_0_1 = {
+slot0 = singletonClass("BigMonthCardData")
+slot1 = {
 	sign_days = 0,
 	is_expire_tip = 0,
 	template_id = 0,
@@ -8,174 +8,155 @@ local var_0_1 = {
 	have_sign = {},
 	daily_record = {}
 }
-local var_0_2 = false
+slot2 = false
 
-function var_0_0.Init(arg_1_0)
-	var_0_1.monthly_card_timestamp = 0
-	var_0_1.is_sign = 0
-	var_0_1.sign_days = 0
-	var_0_1.have_sign = {}
-	var_0_1.daily_record = {}
-	var_0_1.is_expire_tip = 0
-	var_0_1.template_id = 0
-	var_0_2 = false
+function slot0.Init(slot0)
+	uv0.monthly_card_timestamp = 0
+	uv0.is_sign = 0
+	uv0.sign_days = 0
+	uv0.have_sign = {}
+	uv0.daily_record = {}
+	uv0.is_expire_tip = 0
+	uv0.template_id = 0
+	uv1 = false
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	var_0_1.monthly_card_timestamp = arg_2_1.buy_timestamp
-	var_0_1.is_sign = arg_2_1.is_sign
-	var_0_1.sign_days = arg_2_1.total_sign_times
-	var_0_1.have_sign = arg_2_1.total_sign_receive_list
-	var_0_1.is_expire_tip = arg_2_1.is_expire_tip
-	var_0_1.template_id = arg_2_1.template_id
+function slot0.InitData(slot0, slot1)
+	uv0.monthly_card_timestamp = slot1.buy_timestamp
+	uv0.is_sign = slot1.is_sign
+	uv0.sign_days = slot1.total_sign_times
+	uv0.have_sign = slot1.total_sign_receive_list
+	uv0.is_expire_tip = slot1.is_expire_tip
+	uv0.template_id = slot1.template_id
 
-	arg_2_0:InitRecord(arg_2_1.daily_record)
+	slot0:InitRecord(slot1.daily_record)
 end
 
-function var_0_0.UpdateIsSign(arg_3_0, arg_3_1)
-	var_0_1.is_sign = arg_3_1
+function slot0.UpdateIsSign(slot0, slot1)
+	uv0.is_sign = slot1
 end
 
-function var_0_0.UpdateSignData(arg_4_0, arg_4_1)
-	var_0_1.sign_days = arg_4_1
+function slot0.UpdateSignData(slot0, slot1)
+	uv0.sign_days = slot1
 end
 
-function var_0_0.InitRecord(arg_5_0, arg_5_1)
-	var_0_1.daily_record = {}
+function slot0.InitRecord(slot0, slot1)
+	uv0.daily_record = {}
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1 or {}) do
-		var_0_1.daily_record[iter_5_1.index] = iter_5_1.times
+	for slot5, slot6 in ipairs(slot1 or {}) do
+		uv0.daily_record[slot6.index] = slot6.times
 	end
 end
 
-function var_0_0.IsSignToday(arg_6_0)
-	return var_0_1.is_sign == 1
+function slot0.IsSignToday(slot0)
+	return uv0.is_sign == 1
 end
 
-function var_0_0.HaveMonthCard(arg_7_0)
-	return var_0_1.monthly_card_timestamp > 0 and TimeMgr.GetInstance():GetServerTime() < arg_7_0:GetMonthCardDeadTime()
+function slot0.HaveMonthCard(slot0)
+	return uv0.monthly_card_timestamp > 0 and TimeMgr.GetInstance():GetServerTime() < slot0:GetMonthCardDeadTime()
 end
 
-function var_0_0.SignToday(arg_8_0)
-	var_0_1.is_sign = 1
-	var_0_1.sign_days = var_0_1.sign_days + 1
+function slot0.SignToday(slot0)
+	uv0.is_sign = 1
+	uv0.sign_days = uv0.sign_days + 1
 end
 
-function var_0_0.SignAccumulate(arg_9_0, arg_9_1)
-	table.insert(var_0_1.have_sign, arg_9_1)
+function slot0.SignAccumulate(slot0, slot1)
+	table.insert(uv0.have_sign, slot1)
 end
 
-function var_0_0.IsNeedAccumulatSign(arg_10_0)
-	local var_10_0 = var_0_1.template_id
-
-	if var_10_0 == 0 then
+function slot0.IsNeedAccumulatSign(slot0)
+	if uv0.template_id == 0 then
 		return false
 	end
 
-	local var_10_1 = false
-	local var_10_2 = BigMonthCardAccumulationCfg.get_id_list_by_template_id[var_10_0]
+	slot2 = false
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_2) do
-		local var_10_3 = BigMonthCardAccumulationCfg[iter_10_1]
-
-		if var_0_1.sign_days >= var_10_3.accumulation and not table.indexof(var_0_1.have_sign, iter_10_1) then
-			var_10_1 = true
+	for slot7, slot8 in ipairs(BigMonthCardAccumulationCfg.get_id_list_by_template_id[slot1]) do
+		if BigMonthCardAccumulationCfg[slot8].accumulation <= uv0.sign_days and not table.indexof(uv0.have_sign, slot8) then
+			slot2 = true
 
 			break
 		end
 	end
 
-	return var_10_1
+	return slot2
 end
 
-function var_0_0.ResetSign(arg_11_0)
-	var_0_1.is_sign = 0
+function slot0.ResetSign(slot0)
+	uv0.is_sign = 0
 end
 
-function var_0_0.GetMonthCardDeadTime(arg_12_0)
-	local var_12_0
-	local var_12_1 = var_0_1.monthly_card_timestamp
+function slot0.GetMonthCardDeadTime(slot0)
+	slot1 = nil
 
-	if tonumber(manager.time:STimeDescS(var_12_1, "!%H")) < GameSetting.refresh_time1.value[1][1] then
-		local var_12_2 = tonumber(manager.time:STimeDescS(var_12_1 - 86400, "!%Y"))
-		local var_12_3 = tonumber(manager.time:STimeDescS(var_12_1 - 86400, "!%m"))
-		local var_12_4 = tonumber(manager.time:STimeDescS(var_12_1 - 86400, "!%d"))
-		local var_12_5 = {
-			year = var_12_2,
-			month = var_12_3,
-			day = var_12_4,
+	if tonumber(manager.time:STimeDescS(uv0.monthly_card_timestamp, "!%H")) < GameSetting.refresh_time1.value[1][1] then
+		slot1 = manager.time:Table2ServerTime({
+			year = tonumber(manager.time:STimeDescS(slot2 - 86400, "!%Y")),
+			month = tonumber(manager.time:STimeDescS(slot2 - 86400, "!%m")),
+			day = tonumber(manager.time:STimeDescS(slot2 - 86400, "!%d")),
 			hour = GameSetting.refresh_time1.value[1][1],
 			min = GameSetting.refresh_time1.value[1][2],
 			sec = GameSetting.refresh_time1.value[1][3]
-		}
-
-		var_12_0 = manager.time:Table2ServerTime(var_12_5)
+		})
 	else
-		local var_12_6 = tonumber(manager.time:STimeDescS(var_12_1, "!%Y"))
-		local var_12_7 = tonumber(manager.time:STimeDescS(var_12_1, "!%m"))
-		local var_12_8 = tonumber(manager.time:STimeDescS(var_12_1, "!%d"))
-		local var_12_9 = {
-			year = var_12_6,
-			month = var_12_7,
-			day = var_12_8,
+		slot1 = manager.time:Table2ServerTime({
+			year = tonumber(manager.time:STimeDescS(slot2, "!%Y")),
+			month = tonumber(manager.time:STimeDescS(slot2, "!%m")),
+			day = tonumber(manager.time:STimeDescS(slot2, "!%d")),
 			hour = GameSetting.refresh_time1.value[1][1],
 			min = GameSetting.refresh_time1.value[1][2],
 			sec = GameSetting.refresh_time1.value[1][3]
-		}
-
-		var_12_0 = manager.time:Table2ServerTime(var_12_9)
+		})
 	end
 
-	return var_12_0 + (GameSetting.big_monthly_card_duration.value[1] + 1) * 86400
+	return slot1 + (GameSetting.big_monthly_card_duration.value[1] + 1) * 86400
 end
 
-function var_0_0.GetSignDays(arg_13_0)
-	return var_0_1.sign_days
+function slot0.GetSignDays(slot0)
+	return uv0.sign_days
 end
 
-function var_0_0.GetHaveSign(arg_14_0)
-	return var_0_1.have_sign
+function slot0.GetHaveSign(slot0)
+	return uv0.have_sign
 end
 
-function var_0_0.SetRecord(arg_15_0, arg_15_1)
-	arg_15_0:InitRecord(arg_15_1.daily_record)
+function slot0.SetRecord(slot0, slot1)
+	slot0:InitRecord(slot1.daily_record)
 end
 
-function var_0_0.GetRecord(arg_16_0)
-	return var_0_1.daily_record
+function slot0.GetRecord(slot0)
+	return uv0.daily_record
 end
 
-function var_0_0.GetMonthCardLastDay(arg_17_0)
-	local var_17_0 = arg_17_0:GetMonthCardDeadTime() - TimeMgr.GetInstance():GetServerTime()
-	local var_17_1 = math.floor(var_17_0 / 86400) - var_0_1.is_sign
-
-	if var_17_1 < 0 then
-		var_17_1 = 0
+function slot0.GetMonthCardLastDay(slot0)
+	if math.floor((slot0:GetMonthCardDeadTime() - TimeMgr.GetInstance():GetServerTime()) / 86400) - uv0.is_sign < 0 then
+		slot2 = 0
 	end
 
-	return var_17_1
+	return slot2
 end
 
-function var_0_0.LoginPopFlag(arg_18_0)
-	if not var_0_2 then
-		var_0_2 = true
+function slot0.LoginPopFlag(slot0)
+	if not uv0 then
+		uv0 = true
 
-		return var_0_2
+		return uv0
 	end
 
 	return false
 end
 
-function var_0_0.IsExpireTip(arg_19_0)
-	return var_0_1.is_expire_tip
+function slot0.IsExpireTip(slot0)
+	return uv0.is_expire_tip
 end
 
-function var_0_0.SetIsExpireTip(arg_20_0)
-	var_0_1.is_expire_tip = 0
+function slot0.SetIsExpireTip(slot0)
+	uv0.is_expire_tip = 0
 end
 
-function var_0_0.GetTemplateId(arg_21_0)
-	return var_0_1.template_id
+function slot0.GetTemplateId(slot0)
+	return uv0.template_id
 end
 
-return var_0_0
+return slot0

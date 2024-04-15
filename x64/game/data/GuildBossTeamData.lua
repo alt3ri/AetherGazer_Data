@@ -1,210 +1,201 @@
-local var_0_0 = singletonClass("GuildBossTeamData")
+slot0 = singletonClass("GuildBossTeamData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.singleTeam_ = {}
-	arg_1_0.heroTrialList_ = {}
-	arg_1_0.stageTeam_ = {}
-	arg_1_0.stageTeamTrial_ = {}
-	arg_1_0.serverTeam_ = {}
-	arg_1_0.trialActivityData_ = {}
+function slot0.Init(slot0)
+	slot0.singleTeam_ = {}
+	slot0.heroTrialList_ = {}
+	slot0.stageTeam_ = {}
+	slot0.stageTeamTrial_ = {}
+	slot0.serverTeam_ = {}
+	slot0.trialActivityData_ = {}
 end
 
-function var_0_0.InitTeam(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		local var_2_0 = iter_2_1.type
+function slot0.InitTeam(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = slot6.type
+		slot0.singleTeam_[slot7] = {}
+		slot0.heroTrialList_[slot7] = {}
 
-		arg_2_0.singleTeam_[var_2_0] = {}
-		arg_2_0.heroTrialList_[var_2_0] = {}
-
-		for iter_2_2, iter_2_3 in ipairs(iter_2_1.hero_list) do
-			if iter_2_3.hero_type == 1 or iter_2_3.hero_id == 0 then
-				arg_2_0.singleTeam_[var_2_0][iter_2_2] = iter_2_3.hero_id
-				arg_2_0.heroTrialList_[var_2_0][iter_2_2] = 0
+		for slot11, slot12 in ipairs(slot6.hero_list) do
+			if slot12.hero_type == 1 or slot12.hero_id == 0 then
+				slot0.singleTeam_[slot7][slot11] = slot12.hero_id
+				slot0.heroTrialList_[slot7][slot11] = 0
 			else
-				arg_2_0.singleTeam_[var_2_0][iter_2_2] = HeroStandardSystemCfg[iter_2_3.hero_id].hero_id
-				arg_2_0.heroTrialList_[var_2_0][iter_2_2] = iter_2_3.hero_id
+				slot0.singleTeam_[slot7][slot11] = HeroStandardSystemCfg[slot12.hero_id].hero_id
+				slot0.heroTrialList_[slot7][slot11] = slot12.hero_id
 			end
 		end
 
-		for iter_2_4 = 1, 3 do
-			arg_2_0.singleTeam_[var_2_0][iter_2_4] = arg_2_0.singleTeam_[var_2_0][iter_2_4] or 0
-			arg_2_0.heroTrialList_[var_2_0][iter_2_4] = arg_2_0.heroTrialList_[var_2_0][iter_2_4] or 0
+		for slot11 = 1, 3 do
+			slot0.singleTeam_[slot7][slot11] = slot0.singleTeam_[slot7][slot11] or 0
+			slot0.heroTrialList_[slot7][slot11] = slot0.heroTrialList_[slot7][slot11] or 0
 		end
 	end
 end
 
-function var_0_0.UpdateRoomData(arg_3_0, arg_3_1)
-	arg_3_0.roomID_ = arg_3_1.room_id
+function slot0.UpdateRoomData(slot0, slot1)
+	slot0.roomID_ = slot1.room_id
+	slot3 = {}
 
-	local var_3_0 = {}
+	for slot7 = 1, 3 do
+		if slot1.player_list[slot7] then
+			slot9 = {}
 
-	for iter_3_0 = 1, 3 do
-		local var_3_1 = arg_3_1.player_list[iter_3_0]
+			for slot13, slot14 in ipairs(slot8.hero_list) do
+				slot16 = 0
 
-		if var_3_1 then
-			local var_3_2 = {}
-
-			for iter_3_1, iter_3_2 in ipairs(var_3_1.hero_list) do
-				local var_3_3 = iter_3_2.hero_id
-				local var_3_4 = 0
-
-				if iter_3_2.hero_type == 2 then
-					var_3_3 = HeroStandardSystemCfg[var_3_3].hero_id
-					var_3_4 = iter_3_2.hero_id
+				if slot14.hero_type == 2 then
+					slot15 = HeroStandardSystemCfg[slot14.hero_id].hero_id
+					slot16 = slot14.hero_id
 				end
 
-				local var_3_5 = {
-					id = var_3_3,
-					trialID = var_3_4,
-					star = iter_3_2.star,
-					exp = iter_3_2.exp,
-					level = HeroTools.CheckExp(1, iter_3_2.exp),
-					equip_list = {},
-					using_astrolabe = {},
-					skill = {},
-					break_level = iter_3_2.break_level,
-					weapon_info = {
-						exp = iter_3_2.weapon_info.exp,
-						breakthrough = iter_3_2.weapon_info.breakthrough
-					}
-				}
-
-				if iter_3_2.weapon_info.servant then
-					var_3_5.servantInfo = {
-						id = iter_3_2.weapon_info.servant.id,
-						stage = iter_3_2.weapon_info.servant.stage
-					}
+				if slot14.weapon_info.servant then
+					-- Nothing
 				else
-					var_3_5.servantInfo = {}
+					slot17.servantInfo = {}
 				end
 
-				if iter_3_2.equip_list then
-					for iter_3_3, iter_3_4 in ipairs(iter_3_2.equip_list) do
-						local var_3_6 = {}
+				if slot14.equip_list then
+					for slot21, slot22 in ipairs(slot14.equip_list) do
+						slot23 = {}
 
-						if iter_3_4.enchant_slot_list then
-							for iter_3_5, iter_3_6 in ipairs(iter_3_4.enchant_slot_list) do
-								local var_3_7 = iter_3_6.id
-								local var_3_8 = iter_3_6.effect_list
-								local var_3_9 = {}
+						if slot22.enchant_slot_list then
+							for slot27, slot28 in ipairs(slot22.enchant_slot_list) do
+								slot29 = slot28.id
+								slot31 = {}
 
-								for iter_3_7, iter_3_8 in ipairs(var_3_8) do
-									table.insert(var_3_9, {
-										id = iter_3_8.id,
-										num = iter_3_8.level
+								for slot35, slot36 in ipairs(slot28.effect_list) do
+									table.insert(slot31, {
+										id = slot36.id,
+										num = slot36.level
 									})
 								end
 
-								if #var_3_9 > 0 then
-									var_3_6[iter_3_5] = var_3_9
+								if #slot31 > 0 then
+									slot23[slot27] = slot31
 								end
 							end
 						end
 
-						var_3_5.equip_list[iter_3_3] = {
-							equip_id = iter_3_4.equip_id,
-							prefab_id = iter_3_4.prefab_id,
-							exp = iter_3_4.exp,
-							now_break_level = iter_3_4.now_break_level or 0,
-							enchant = var_3_6,
-							race = iter_3_4.race
+						slot17.equip_list[slot21] = {
+							equip_id = slot22.equip_id,
+							prefab_id = slot22.prefab_id,
+							exp = slot22.exp,
+							now_break_level = slot22.now_break_level or 0,
+							enchant = slot23,
+							race = slot22.race
 						}
 					end
 				end
 
-				if iter_3_2.astrolabe_list then
-					for iter_3_9, iter_3_10 in ipairs(iter_3_2.astrolabe_list) do
-						var_3_5.using_astrolabe[iter_3_9] = iter_3_10
+				if slot14.astrolabe_list then
+					for slot21, slot22 in ipairs(slot14.astrolabe_list) do
+						slot17.using_astrolabe[slot21] = slot22
 					end
 				end
 
-				if iter_3_2.skill then
-					for iter_3_11, iter_3_12 in ipairs(iter_3_2.skill) do
-						var_3_5.skill[iter_3_11] = {
-							skill_id = iter_3_12.skill_id,
-							skill_level = iter_3_12.skill_level
+				if slot14.skill then
+					for slot21, slot22 in ipairs(slot14.skill) do
+						slot17.skill[slot21] = {
+							skill_id = slot22.skill_id,
+							skill_level = slot22.skill_level
 						}
 					end
 				end
 
-				table.insert(var_3_2, var_3_5)
+				table.insert(slot9, {
+					id = slot15,
+					trialID = slot16,
+					star = slot14.star,
+					exp = slot14.exp,
+					level = HeroTools.CheckExp(1, slot14.exp),
+					equip_list = {},
+					using_astrolabe = {},
+					skill = {},
+					break_level = slot14.break_level,
+					weapon_info = {
+						exp = slot14.weapon_info.exp,
+						breakthrough = slot14.weapon_info.breakthrough
+					},
+					servantInfo = {
+						id = slot14.weapon_info.servant.id,
+						stage = slot14.weapon_info.servant.stage
+					}
+				})
 			end
 
-			var_3_0[iter_3_0] = {
-				playerID = var_3_1.player_id,
-				nick = var_3_1.nick,
-				level = var_3_1.level,
-				channel = var_3_1.channel,
-				server = var_3_1.server,
-				is_ready = var_3_1.is_ready,
-				is_master = var_3_1.is_master,
-				heroList = var_3_2
+			slot3[slot7] = {
+				playerID = slot8.player_id,
+				nick = slot8.nick,
+				level = slot8.level,
+				channel = slot8.channel,
+				server = slot8.server,
+				is_ready = slot8.is_ready,
+				is_master = slot8.is_master,
+				heroList = slot9
 			}
 		end
 	end
 
-	arg_3_0.serverTeam_ = {
-		dest = arg_3_1.dest,
-		available = arg_3_1.available,
-		access = arg_3_1.access,
-		level = arg_3_1.level,
-		playerList = var_3_0
+	slot0.serverTeam_ = {
+		dest = slot1.dest,
+		available = slot1.available,
+		access = slot1.access,
+		level = slot1.level,
+		playerList = slot3
 	}
 end
 
-function var_0_0.GetRoomID(arg_4_0)
-	return arg_4_0.roomID_
+function slot0.GetRoomID(slot0)
+	return slot0.roomID_
 end
 
-function var_0_0.GetServerTeam(arg_5_0)
-	return arg_5_0.serverTeam_
+function slot0.GetServerTeam(slot0)
+	return slot0.serverTeam_
 end
 
-function var_0_0.SetSingleTeam(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.singleTeam_[arg_6_1] = {}
+function slot0.SetSingleTeam(slot0, slot1, slot2, slot3)
+	slot0.singleTeam_[slot1] = {}
 
-	for iter_6_0 = 1, 3 do
-		local var_6_0 = arg_6_2[iter_6_0] or 0
-
-		arg_6_0.singleTeam_[arg_6_1][iter_6_0] = var_6_0
+	for slot7 = 1, 3 do
+		slot0.singleTeam_[slot1][slot7] = slot2[slot7] or 0
 	end
 
-	arg_6_0.heroTrialList_[arg_6_1] = arg_6_3
+	slot0.heroTrialList_[slot1] = slot3
 end
 
-function var_0_0.GetSingleTeam(arg_7_0, arg_7_1)
-	return clone(arg_7_0.singleTeam_[arg_7_1] or {
+function slot0.GetSingleTeam(slot0, slot1)
+	return clone(slot0.singleTeam_[slot1] or {
 		0,
 		0,
 		0
-	}), clone(arg_7_0.heroTrialList_[arg_7_1] or {
+	}), clone(slot0.heroTrialList_[slot1] or {
 		0,
 		0,
 		0
 	})
 end
 
-function var_0_0.SetStageTeam(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.stageTeam_[arg_8_1] = arg_8_2
-	arg_8_0.stageTeamTrial_[arg_8_1] = arg_8_3
+function slot0.SetStageTeam(slot0, slot1, slot2, slot3)
+	slot0.stageTeam_[slot1] = slot2
+	slot0.stageTeamTrial_[slot1] = slot3
 end
 
-function var_0_0.GetStageTeam(arg_9_0, arg_9_1)
-	return clone(arg_9_0.stageTeam_[arg_9_1]), clone(arg_9_0.stageTeamTrial_[arg_9_1])
+function slot0.GetStageTeam(slot0, slot1)
+	return clone(slot0.stageTeam_[slot1]), clone(slot0.stageTeamTrial_[slot1])
 end
 
-function var_0_0.UpdateHeroTrial(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_1.hero_trial_list) do
-		arg_10_0.trialActivityData_[iter_10_1.activity_id] = {}
+function slot0.UpdateHeroTrial(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.hero_trial_list) do
+		slot0.trialActivityData_[slot6.activity_id] = {}
 
-		for iter_10_2, iter_10_3 in ipairs(iter_10_1.template_hero_list) do
-			table.insert(arg_10_0.trialActivityData_[iter_10_1.activity_id], iter_10_3)
+		for slot10, slot11 in ipairs(slot6.template_hero_list) do
+			table.insert(slot0.trialActivityData_[slot6.activity_id], slot11)
 		end
 	end
 end
 
-function var_0_0.GetHeroTrial(arg_11_0, arg_11_1)
-	return arg_11_0.trialActivityData_[arg_11_1]
+function slot0.GetHeroTrial(slot0, slot1)
+	return slot0.trialActivityData_[slot1]
 end
 
-return var_0_0
+return slot0

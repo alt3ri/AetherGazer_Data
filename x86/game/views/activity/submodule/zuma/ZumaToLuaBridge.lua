@@ -1,97 +1,67 @@
-local var_0_0 = {}
-local var_0_1
+slot1 = nil
 
-function var_0_0.SetUpZuma()
-	local var_1_0 = SceneManager.GetSceneByName("X108")
+return {
+	SetUpZuma = function ()
+		SceneManager.SetActiveScene(SceneManager.GetSceneByName("X108"))
+		manager.uiInit()
+		gameContext:SetSystemLayer("battle")
+		manager.ui:SetMainCamera("zuma")
+		JumpTools.OpenPageByJump("ZumaGameView")
+		ZumaToLuaBridge.CameraAdaptive()
+	end,
+	CameraAdaptive = function ()
+		slot1 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
+		slot2 = UnityEngine.Camera.main
+		slot3 = manager.ui:GetCanvasSize()
+		slot6 = _G.SCREEN_WIDTH / _G.SCREEN_HEIGHT
+		slot7 = 1.8888888888888888
 
-	SceneManager.SetActiveScene(var_1_0)
-	manager.uiInit()
-	gameContext:SetSystemLayer("battle")
-	manager.ui:SetMainCamera("zuma")
-	JumpTools.OpenPageByJump("ZumaGameView")
-	ZumaToLuaBridge.CameraAdaptive()
-end
+		manager.ui:SetMainCameraFieldOfView(CameraCfg.zuma.fieldOfView)
 
-function var_0_0.CameraAdaptive()
-	local var_2_0 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-	local var_2_1 = UnityEngine.Camera.main
-	local var_2_2 = manager.ui:GetCanvasSize()
-	local var_2_3 = _G.SCREEN_WIDTH / _G.SCREEN_HEIGHT
-	local var_2_4 = 1.8888888888888888
-	local var_2_5 = CameraCfg.zuma.fieldOfView
+		slot10 = GameObject.Find("ZumaPlayEnter/Bg")
+		slot12 = slot10.transform:GetComponent("SpriteRenderer").sprite.bounds
+		slot16 = math.abs(slot2.transform:InverseTransformPoint(slot10.transform.position).z)
+		slot18 = 2 * slot16 * Mathf.Tan(slot2.fieldOfView * 0.5 * Mathf.Deg2Rad)
+		slot20 = slot12.max - slot12.min
+		slot25 = slot16
+		slot2.transform.position = Vector3(0, 0, -(slot20.x - slot18 * slot2.aspect < slot20.y - slot18 and 0.5 * slot22 / slot17 or 0.5 * slot21 / slot17 / slot2.aspect))
 
-	manager.ui:SetMainCameraFieldOfView(var_2_5)
+		manager.notify:CallUpdateFunc(ZUMA_CAMERA_UPDATE)
+	end,
+	OnZumaSceneLoaded = function ()
+		uv0 = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
 
-	local var_2_6 = GameObject.Find("ZumaPlayEnter/Bg")
-	local var_2_7 = var_2_6.transform:GetComponent("SpriteRenderer").sprite.bounds
-	local var_2_8 = var_2_6.transform.position
-	local var_2_9 = var_2_1.transform:InverseTransformPoint(var_2_8)
-	local var_2_10 = math.abs(var_2_9.z)
-	local var_2_11 = Mathf.Tan(var_2_1.fieldOfView * 0.5 * Mathf.Deg2Rad)
-	local var_2_12 = 2 * var_2_10 * var_2_11
-	local var_2_13 = var_2_12 * var_2_1.aspect
-	local var_2_14 = var_2_7.max - var_2_7.min
-	local var_2_15 = var_2_14.x
-	local var_2_16 = var_2_14.y
-	local var_2_17 = var_2_15 - var_2_13
-	local var_2_18 = var_2_16 - var_2_12
-	local var_2_19 = var_2_10
+		if uv0 == 0 then
+			SettingAction.ChangePicSetting("frame", 1)
+		end
+	end,
+	OnZumaSceneExit = function ()
+		if uv0 == 0 then
+			SettingAction.ChangePicSetting("frame", 0)
+		end
 
-	if var_2_17 < var_2_18 then
-		var_2_19 = 0.5 * var_2_16 / var_2_11
-	else
-		var_2_19 = 0.5 * var_2_15 / var_2_11 / var_2_1.aspect
+		gameContext:SetSystemLayer("home")
+	end,
+	OnZumaOver = function (slot0)
+		JumpTools.OpenPageByJump("ZumaGameSettle", {
+			isWin = slot0
+		})
+	end,
+	ZumaballHit = function (slot0)
+		ZumaData:SetZumaScore(slot0)
+		manager.notify:CallUpdateFunc(ZUMA_BALL_HIT)
+	end,
+	ZumaBallCountsUpdate = function (slot0)
+		ZumaData:SetZumaBallCount(slot0)
+		manager.notify:CallUpdateFunc(ZUMA_BALL_COUNT_UPDATE)
+	end,
+	ZumaCombo = function (slot0)
+		manager.notify:CallUpdateFunc(ZUMA_COMBO_UPDATE, slot0)
+	end,
+	ZumaStop = function (slot0)
+		manager.notify:CallUpdateFunc(ZUMA_STOP_SHOW, slot0)
+	end,
+	GetZumaGamePlayTime = function ()
+		return math.floor(ZumaLuaBridge.GetCurTime())
 	end
-
-	var_2_1.transform.position = Vector3(0, 0, -var_2_19)
-
-	manager.notify:CallUpdateFunc(ZUMA_CAMERA_UPDATE)
-end
-
-function var_0_0.OnZumaSceneLoaded()
-	var_0_1 = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
-
-	if var_0_1 == 0 then
-		SettingAction.ChangePicSetting("frame", 1)
-	end
-end
-
-function var_0_0.OnZumaSceneExit()
-	if var_0_1 == 0 then
-		SettingAction.ChangePicSetting("frame", 0)
-	end
-
-	gameContext:SetSystemLayer("home")
-end
-
-function var_0_0.OnZumaOver(arg_5_0)
-	JumpTools.OpenPageByJump("ZumaGameSettle", {
-		isWin = arg_5_0
-	})
-end
-
-function var_0_0.ZumaballHit(arg_6_0)
-	ZumaData:SetZumaScore(arg_6_0)
-	manager.notify:CallUpdateFunc(ZUMA_BALL_HIT)
-end
-
-function var_0_0.ZumaBallCountsUpdate(arg_7_0)
-	ZumaData:SetZumaBallCount(arg_7_0)
-	manager.notify:CallUpdateFunc(ZUMA_BALL_COUNT_UPDATE)
-end
-
-function var_0_0.ZumaCombo(arg_8_0)
-	manager.notify:CallUpdateFunc(ZUMA_COMBO_UPDATE, arg_8_0)
-end
-
-function var_0_0.ZumaStop(arg_9_0)
-	manager.notify:CallUpdateFunc(ZUMA_STOP_SHOW, arg_9_0)
-end
-
-function var_0_0.GetZumaGamePlayTime()
-	local var_10_0 = ZumaLuaBridge.GetCurTime()
-
-	return math.floor(var_10_0)
-end
-
-return var_0_0
+}

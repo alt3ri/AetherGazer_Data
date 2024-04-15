@@ -1,408 +1,289 @@
-local var_0_0 = {}
-local var_0_1
+slot1 = nil
 
-function var_0_0.SetUpMusic()
-	local var_1_0 = SceneManager.GetSceneByName("X106")
+return {
+	SetUpMusic = function ()
+		SceneManager.SetActiveScene(SceneManager.GetSceneByName("X106"))
+		manager.uiInit()
+		JumpTools.OpenPageByJump(MusicData:GetMusicViewPathList(ActivityMusicCfg[MusicData:GetGameId()].activity_id).musicName)
+		gameContext:SetSystemLayer("battle")
+		manager.audio:DestoryCriAtom()
+		manager.audio:SetEffectAisacControl("musicgame_hitsound_volume", MusicData:GetVolumeData())
 
-	SceneManager.SetActiveScene(var_1_0)
-	manager.uiInit()
-
-	local var_1_1 = MusicData:GetGameId()
-	local var_1_2 = ActivityMusicCfg[var_1_1].activity_id
-	local var_1_3 = MusicData:GetMusicViewPathList(var_1_2)
-
-	JumpTools.OpenPageByJump(var_1_3.musicName)
-	gameContext:SetSystemLayer("battle")
-	manager.audio:DestoryCriAtom()
-	manager.audio:SetEffectAisacControl("musicgame_hitsound_volume", MusicData:GetVolumeData())
-
-	local var_1_4 = MusicLuaBridge.GetTrackNum()
-
-	if var_1_4 < 4 then
-		for iter_1_0 = 4, var_1_4 + 1, -1 do
-			local var_1_5 = GameObject.Find("Music/gameRoot/Track" .. iter_1_0)
-
-			if var_1_5 then
-				SetActive(var_1_5, false)
+		if MusicLuaBridge.GetTrackNum() < 4 then
+			for slot8 = 4, slot4 + 1, -1 do
+				if GameObject.Find("Music/gameRoot/Track" .. slot8) then
+					SetActive(slot9, false)
+				end
 			end
 		end
-	end
 
-	if MusicData:GetVerical() then
-		manager.ui:SetMainCamera("musicVertical")
-		MusicToLuaBridge.verticalAdapt(var_1_4)
-	else
-		manager.ui:SetMainCamera("music")
-		MusicToLuaBridge.slantAdapt(var_1_4)
-	end
-
-	local var_1_6 = GameObject.Find("movie")
-
-	if var_1_6 then
-		var_1_6:GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/Music/Music_bg/" .. ActivityMusicCfg[var_1_1].icon)
-	end
-end
-
-function var_0_0.verticalAdapt(arg_2_0)
-	local var_2_0 = manager.ui.mainCameraCom_
-	local var_2_1 = manager.ui.mainCamera.transform
-	local var_2_2
-	local var_2_3
-	local var_2_4 = GameObject.Find("gameRoot/center")
-
-	if var_2_4 then
-		local var_2_5 = var_2_4.transform.position
-		local var_2_6 = var_2_1:InverseTransformPoint(var_2_5)
-
-		var_2_2 = 1.5 * math.abs(var_2_6.z) * Mathf.Tan(var_2_0.fieldOfView * 0.5 * Mathf.Deg2Rad) * var_2_0.aspect
-	else
-		var_2_2 = 40
-	end
-
-	local var_2_7 = 1
-
-	if not (arg_2_0 > 4) or not (arg_2_0 - 1) then
-		local var_2_8 = 0
-	end
-
-	local var_2_9 = var_2_2 / (arg_2_0 + 1) * 1.2
-	local var_2_10 = var_2_9
-	local var_2_11 = var_2_10 / 2
-	local var_2_12 = 0
-	local var_2_13 = -22.9
-	local var_2_14 = Vector3.New(var_2_9, 99, 0.2)
-
-	cell_value_list = {}
-
-	for iter_2_0 = 0, arg_2_0 - 1 do
-		cell_value_list[iter_2_0 + 1] = -((arg_2_0 - 1) / 2) + iter_2_0
-	end
-
-	local var_2_15 = Vector3.New(0.1, 0, 0)
-	local var_2_16 = Vector3(0, -1, 0)
-
-	for iter_2_1 = 1, arg_2_0 do
-		local var_2_17 = GameObject.Find("Music/gameRoot/Track" .. iter_2_1)
-		local var_2_18 = var_2_17.transform
-
-		var_2_18.localPosition = Vector3(var_2_10 * cell_value_list[iter_2_1], var_2_13, 0)
-		var_2_17:GetComponent("BoxCollider").size = var_2_14
-
-		local var_2_19 = var_2_18:Find("bg/leftLine")
-
-		if var_2_19 then
-			var_2_19.localPosition = Vector3.New(-1 * var_2_11 + var_2_12, 0, 0)
-		end
-
-		local var_2_20 = var_2_18:Find("bg/line")
-
-		if var_2_20 then
-			local var_2_21 = var_2_11 + var_2_12 + 0.1
-
-			var_2_20.localPosition = Vector3.New(var_2_21, 0, 0)
-		end
-
-		local var_2_22 = var_2_18:Find("bg/clickEffect/eff_glow/glow")
-
-		if var_2_22 then
-			var_2_22:GetComponent("SpriteRenderer").size = Vector2.New(var_2_10, 5.12)
-		end
-
-		local var_2_23 = var_2_18:Find("effectContent")
-
-		var_2_23.localEulerAngles = Vector3.zero
-		var_2_23.localPosition = var_2_16
-		var_2_18:Find("nodeContent").localPosition = var_2_15
-	end
-
-	local var_2_24 = GameObject.Find("Music/background/frame")
-
-	if var_2_24 then
-		var_2_24:GetComponent("SpriteRenderer").size = Vector2.New(var_2_10 * arg_2_0, 3.3)
-	end
-
-	local var_2_25 = GameObject.Find("Music/background/mask")
-
-	if var_2_25 then
-		var_2_25:GetComponent("SpriteRenderer").size = Vector2.New(var_2_10 * arg_2_0 - 0.1, 999)
-	end
-
-	local var_2_26 = 1 * Mathf.Tan(var_2_0.fieldOfView * 0.5 * Mathf.Deg2Rad) * var_2_0.aspect
-	local var_2_27 = GameObject.Find("movie")
-
-	if var_2_27 then
-		if MusicData:GetShowMovie() then
-			SetActive(var_2_27, true)
-
-			local var_2_28 = var_2_27.transform
-
-			var_2_28:SetParent(manager.ui.mainCamera.transform)
-
-			var_2_28.localPosition = Vector3(0, 0, 27)
-			var_2_28.localEulerAngles = Vector3(0, 0, 0)
-			var_2_28.localScale = Vector3.one
-
-			local var_2_29 = var_2_28:GetComponent("SpriteRenderer")
-			local var_2_30 = var_2_2 * 0.5625
-
-			var_2_29.size = Vector2.New(var_2_2, var_2_30)
+		if MusicData:GetVerical() then
+			manager.ui:SetMainCamera("musicVertical")
+			MusicToLuaBridge.verticalAdapt(slot4)
 		else
-			SetActive(var_2_27, false)
-		end
-	end
-
-	local var_2_31 = GameObject.Find("object/long/bg")
-
-	if var_2_31 then
-		var_2_31.transform.localScale = Vector3.New(var_2_10 / 3.9, 1, 1)
-	end
-
-	local var_2_32 = GameObject.Find("object/short")
-
-	if var_2_32 then
-		var_2_32.transform.localScale = Vector3.New(var_2_10 / 7.5, 1, 1)
-	end
-
-	local var_2_33 = GameObject.Find("object/good_effect_chuizhi").transform
-	local var_2_34 = GameObject.Find("object/perfect_effect_chuizhi").transform
-	local var_2_35 = {
-		nil,
-		nil,
-		nil,
-		1.8,
-		1.7,
-		1.6
-	}
-	local var_2_36 = Vector3.one * var_2_35[arg_2_0]
-
-	for iter_2_2 = 0, var_2_33.childCount - 1 do
-		var_2_33:GetChild(iter_2_2).localScale = var_2_36
-	end
-
-	for iter_2_3 = 0, var_2_34.childCount - 1 do
-		var_2_34:GetChild(iter_2_3).localScale = var_2_36
-	end
-
-	local var_2_37 = GameObject.Find("Pool").transform
-
-	for iter_2_4 = 0, var_2_37.childCount - 1 do
-		local var_2_38 = var_2_37:GetChild(iter_2_4)
-
-		if var_2_38 then
-			for iter_2_5 = 0, var_2_38.childCount - 1 do
-				var_2_38:GetChild(iter_2_5).localScale = var_2_36
-			end
-		end
-	end
-
-	local var_2_39 = GameObject.Find("cubeLeft").transform
-	local var_2_40 = GameObject.Find("cubeRight").transform
-
-	var_2_39.transform.localPosition = Vector3.New(-50, 0, 0)
-	var_2_40.transform.localPosition = Vector3.New(50, 0, 0)
-end
-
-function var_0_0.slantAdapt(arg_3_0)
-	local var_3_0 = manager.ui.mainCameraCom_
-	local var_3_1 = manager.ui.mainCamera.transform
-	local var_3_2
-	local var_3_3 = GameObject.Find("gameRoot/center")
-
-	if var_3_3 then
-		local var_3_4 = var_3_3.transform.position
-		local var_3_5 = var_3_1:InverseTransformPoint(var_3_4)
-
-		var_3_2 = 2 * math.abs(var_3_5.z) * Mathf.Tan(var_3_0.fieldOfView * 0.5 * Mathf.Deg2Rad) * var_3_0.aspect
-	else
-		var_3_2 = 40
-	end
-
-	local var_3_6 = var_3_2 / (arg_3_0 + 1)
-	local var_3_7 = var_3_6 / 2
-	local var_3_8 = -22.9
-	local var_3_9 = 0
-	local var_3_10 = Vector3.New(var_3_6, 99, 0.2)
-	local var_3_11 = Vector3.New(var_3_6 * 1.3, 99, 0.2)
-	local var_3_12 = {}
-
-	for iter_3_0 = 1, arg_3_0 do
-		var_3_12[iter_3_0] = 30 + (iter_3_0 - arg_3_0 * 0.5 + (iter_3_0 - arg_3_0 * 0.5 > 0 and 1 or -1)) * 5
-	end
-
-	local var_3_13 = {}
-
-	for iter_3_1 = 0, arg_3_0 - 1 do
-		var_3_13[iter_3_1 + 1] = -((arg_3_0 - 1) / 2) + iter_3_1
-	end
-
-	for iter_3_2 = 1, arg_3_0 do
-		local var_3_14 = GameObject.Find("Music/gameRoot/Track" .. iter_3_2)
-
-		var_3_14.transform.localPosition = Vector3.New(var_3_6 * var_3_13[iter_3_2], var_3_8, 0)
-
-		local var_3_15 = var_3_14:GetComponent("BoxCollider")
-
-		if iter_3_2 == 1 then
-			var_3_15.center = Vector3.New(-var_3_6 * 0.15, 0, 0)
-			var_3_15.size = var_3_11
-		elseif iter_3_2 == arg_3_0 then
-			var_3_15.center = Vector3.New(var_3_6 * 0.15, 0, 0)
-			var_3_15.size = var_3_11
-		else
-			var_3_15.size = var_3_10
+			manager.ui:SetMainCamera("music")
+			MusicToLuaBridge.slantAdapt(slot4)
 		end
 
-		local var_3_16 = var_3_14.transform
-		local var_3_17 = var_3_16:Find("bg/leftLine")
+		if GameObject.Find("movie") then
+			slot6:GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/Music/Music_bg/" .. ActivityMusicCfg[slot1].icon)
+		end
+	end,
+	verticalAdapt = function (slot0)
+		slot1 = manager.ui.mainCameraCom_
+		slot3, slot4 = nil
+		slot6 = 1
+		slot7 = slot0 > 4 and slot0 - 1 or 0
+		slot8 = (GameObject.Find("gameRoot/center") and 1.5 * math.abs(manager.ui.mainCamera.transform:InverseTransformPoint(slot5.transform.position).z) * Mathf.Tan(slot1.fieldOfView * 0.5 * Mathf.Deg2Rad) * slot1.aspect or 40) / (slot0 + 1) * 1.2
+		slot10 = slot8 / 2
+		slot11 = 0
+		slot12 = -22.9
+		slot13 = Vector3.New(slot8, 99, 0.2)
+		cell_value_list = {}
 
-		if var_3_17 then
-			var_3_17.localPosition = Vector3.New(-1 * var_3_7 - var_3_9, 0, 0)
+		for slot17 = 0, slot0 - 1 do
+			cell_value_list[slot17 + 1] = -((slot0 - 1) / 2) + slot17
 		end
 
-		local var_3_18 = var_3_16:Find("bg/line")
+		slot14 = Vector3.New(0.1, 0, 0)
+		slot19 = 0
+		slot15 = Vector3(0, -1, slot19)
 
-		if var_3_18 then
-			var_3_18.localPosition = Vector3.New(var_3_7 + var_3_9, 0, 0)
-		end
+		for slot19 = 1, slot0 do
+			slot20 = GameObject.Find("Music/gameRoot/Track" .. slot19)
+			slot21 = slot20.transform
+			slot21.localPosition = Vector3(slot9 * cell_value_list[slot19], slot12, 0)
+			slot20:GetComponent("BoxCollider").size = slot13
 
-		local var_3_19 = var_3_16:Find("bg/clickEffect/eff_glow/glow")
-
-		if var_3_19 then
-			var_3_19:GetComponent("SpriteRenderer").size = Vector2.New(var_3_6 + 0.1, 5.12)
-		end
-
-		local var_3_20 = var_3_16:Find("effectContent")
-
-		if var_3_12[iter_3_2] then
-			var_3_20.localEulerAngles = Vector3(0, var_3_12[iter_3_2], 0)
-		end
-	end
-
-	local var_3_21 = GameObject.Find("Music/background/frame")
-
-	if var_3_21 then
-		var_3_21:GetComponent("SpriteRenderer").size = Vector2.New(var_3_6 * arg_3_0, 3.3)
-	end
-
-	local var_3_22 = GameObject.Find("Music/background/mask")
-
-	if var_3_22 then
-		var_3_22:GetComponent("SpriteRenderer").size = Vector2.New(var_3_6 * arg_3_0 - 0.1, 999)
-	end
-
-	local var_3_23 = GameObject.Find("movie")
-
-	if var_3_23 then
-		if MusicData:GetShowMovie() then
-			SetActive(var_3_23, true)
-
-			local var_3_24 = var_3_23.transform
-
-			var_3_24:SetParent(manager.ui.mainCamera.transform)
-
-			var_3_24.localPosition = Vector3(0, 0, 27)
-			var_3_24.localEulerAngles = Vector3(0, 0, 0)
-			var_3_24.localScale = Vector3.one
-
-			local var_3_25 = var_3_24:GetComponent("SpriteRenderer")
-			local var_3_26 = var_3_2 / var_3_0.aspect
-			local var_3_27 = var_3_2
-			local var_3_28 = var_3_2 * 0.5625
-			local var_3_29 = var_3_2
-
-			if var_3_28 < var_3_26 then
-				var_3_28 = var_3_26
-				var_3_29 = var_3_28 / 0.5625
+			if slot21:Find("bg/leftLine") then
+				slot23.localPosition = Vector3.New(-1 * slot10 + slot11, 0, 0)
 			end
 
-			var_3_25.size = Vector2.New(var_3_29, var_3_28)
-		else
-			SetActive(var_3_23, false)
+			if slot21:Find("bg/line") then
+				slot24.localPosition = Vector3.New(slot10 + slot11 + 0.1, 0, 0)
+			end
+
+			if slot21:Find("bg/clickEffect/eff_glow/glow") then
+				slot25:GetComponent("SpriteRenderer").size = Vector2.New(slot9, 5.12)
+			end
+
+			slot26 = slot21:Find("effectContent")
+			slot26.localEulerAngles = Vector3.zero
+			slot26.localPosition = slot15
+			slot21:Find("nodeContent").localPosition = slot14
 		end
-	end
 
-	local var_3_30 = GameObject.Find("object/long/bg")
+		if GameObject.Find("Music/background/frame") then
+			slot16:GetComponent("SpriteRenderer").size = Vector2.New(slot9 * slot0, 3.3)
+		end
 
-	if var_3_30 then
-		var_3_30.transform.localScale = Vector3.New(var_3_6 / 3.9, 1, 1)
-	end
+		if GameObject.Find("Music/background/mask") then
+			slot17:GetComponent("SpriteRenderer").size = Vector2.New(slot9 * slot0 - 0.1, 999)
+		end
 
-	local var_3_31 = GameObject.Find("object/short")
+		slot19 = 1 * Mathf.Tan(slot1.fieldOfView * 0.5 * Mathf.Deg2Rad) * slot1.aspect
 
-	if var_3_31 then
-		var_3_31.transform.localScale = Vector3.New(var_3_6 / 7.5, 1, 1)
-	end
-end
+		if GameObject.Find("movie") then
+			if MusicData:GetShowMovie() then
+				SetActive(slot20, true)
 
-function var_0_0.OnMusicSceneLoaded()
-	var_0_1 = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
+				slot21 = slot20.transform
 
-	if var_0_1 == 0 then
-		SettingAction.ChangePicSetting("frame", 1)
-	end
+				slot21:SetParent(manager.ui.mainCamera.transform)
 
-	MusicLuaBridge.StartMusicGame()
-	manager.notify:CallUpdateFunc(MUSIC_SCENE_LOADED)
-end
+				slot21.localPosition = Vector3(0, 0, 27)
+				slot21.localEulerAngles = Vector3(0, 0, 0)
+				slot21.localScale = Vector3.one
+				slot21:GetComponent("SpriteRenderer").size = Vector2.New(slot3, slot3 * 0.5625)
+			else
+				SetActive(slot20, false)
+			end
+		end
 
-function var_0_0.OnMusicSceneExit()
-	if var_0_1 == 0 then
-		SettingAction.ChangePicSetting("frame", 0)
-	end
+		if GameObject.Find("object/long/bg") then
+			slot21.transform.localScale = Vector3.New(slot9 / 3.9, 1, 1)
+		end
 
-	gameContext:SetSystemLayer("home")
+		if GameObject.Find("object/short") then
+			slot22.transform.localScale = Vector3.New(slot9 / 7.5, 1, 1)
+		end
 
-	local var_5_0 = SettingData:GetSoundSettingData()
+		slot24 = GameObject.Find("object/perfect_effect_chuizhi").transform
 
-	if var_5_0 and var_5_0.music then
-		manager.audio:SetVolume("music", var_5_0.music / 100)
-	end
-end
+		for slot30 = 0, GameObject.Find("object/good_effect_chuizhi").transform.childCount - 1 do
+			slot23:GetChild(slot30).localScale = Vector3.one * ({
+				nil,
+				nil,
+				nil,
+				1.8,
+				1.7,
+				1.6
+			})[slot0]
+		end
 
-function var_0_0.MusicInitPlay()
-	MusicData:ResetGameData()
-	manager.notify:CallUpdateFunc(MUSIC_INIT_PLAY)
+		for slot30 = 0, slot24.childCount - 1 do
+			slot24:GetChild(slot30).localScale = slot26
+		end
 
-	local var_6_0 = SettingData:GetSoundSettingData()
+		for slot31 = 0, GameObject.Find("Pool").transform.childCount - 1 do
+			if slot27:GetChild(slot31) then
+				for slot36 = 0, slot32.childCount - 1 do
+					slot32:GetChild(slot36).localScale = slot26
+				end
+			end
+		end
 
-	if var_6_0 and var_6_0.music then
-		manager.audio:SetVolume("music", var_6_0.music / 100)
-	end
-end
+		GameObject.Find("cubeLeft").transform.transform.localPosition = Vector3.New(-50, 0, 0)
+		GameObject.Find("cubeRight").transform.transform.localPosition = Vector3.New(50, 0, 0)
+	end,
+	slantAdapt = function (slot0)
+		slot1 = manager.ui.mainCameraCom_
+		slot3 = nil
+		slot5 = (GameObject.Find("gameRoot/center") and 2 * math.abs(manager.ui.mainCamera.transform:InverseTransformPoint(slot4.transform.position).z) * Mathf.Tan(slot1.fieldOfView * 0.5 * Mathf.Deg2Rad) * slot1.aspect or 40) / (slot0 + 1)
+		slot6 = slot5 / 2
+		slot7 = -22.9
+		slot8 = 0
+		slot9 = Vector3.New(slot5, 99, 0.2)
+		slot10 = Vector3.New(slot5 * 1.3, 99, 0.2)
+		slot11 = {
+			[slot15] = 30 + (slot15 - slot0 * 0.5 + (slot15 - slot0 * 0.5 > 0 and 1 or -1)) * 5
+		}
 
-function var_0_0.MusicNodeHit(arg_7_0, arg_7_1)
-	MusicData:ModifGameData(arg_7_0)
-	manager.notify:CallUpdateFunc(MUSIC_NODE_HIT, arg_7_0, arg_7_1)
-end
+		for slot15 = 1, slot0 do
+		end
 
-function var_0_0.MusicSetNodeHit(arg_8_0, arg_8_1)
-	MusicData:ModifGameData(arg_8_0)
-	manager.notify:CallUpdateFunc(MUSIC_SET_NODE_HIT, arg_8_0, arg_8_1)
-end
+		slot12 = {
+			[slot16 + 1] = -((slot0 - 1) / 2) + slot16
+		}
 
-function var_0_0.OnMusicOver()
-	local var_9_0 = MusicData:GetGameScore()
-	local var_9_1 = MusicData:GetGameId()
+		for slot16 = 0, slot0 - 1 do
+		end
 
-	if var_9_1 == 0 then
+		for slot16 = 1, slot0 do
+			slot17 = GameObject.Find("Music/gameRoot/Track" .. slot16)
+			slot17.transform.localPosition = Vector3.New(slot5 * slot12[slot16], slot7, 0)
+			slot18 = slot17:GetComponent("BoxCollider")
+
+			if slot16 == 1 then
+				slot18.center = Vector3.New(-slot5 * 0.15, 0, 0)
+				slot18.size = slot10
+			elseif slot16 == slot0 then
+				slot18.center = Vector3.New(slot5 * 0.15, 0, 0)
+				slot18.size = slot10
+			else
+				slot18.size = slot9
+			end
+
+			if slot17.transform:Find("bg/leftLine") then
+				slot20.localPosition = Vector3.New(-1 * slot6 - slot8, 0, 0)
+			end
+
+			if slot19:Find("bg/line") then
+				slot21.localPosition = Vector3.New(slot6 + slot8, 0, 0)
+			end
+
+			if slot19:Find("bg/clickEffect/eff_glow/glow") then
+				slot22:GetComponent("SpriteRenderer").size = Vector2.New(slot5 + 0.1, 5.12)
+			end
+
+			if slot11[slot16] then
+				slot19:Find("effectContent").localEulerAngles = Vector3(0, slot11[slot16], 0)
+			end
+		end
+
+		if GameObject.Find("Music/background/frame") then
+			slot13:GetComponent("SpriteRenderer").size = Vector2.New(slot5 * slot0, 3.3)
+		end
+
+		if GameObject.Find("Music/background/mask") then
+			slot14:GetComponent("SpriteRenderer").size = Vector2.New(slot5 * slot0 - 0.1, 999)
+		end
+
+		if GameObject.Find("movie") then
+			if MusicData:GetShowMovie() then
+				SetActive(slot15, true)
+
+				slot16 = slot15.transform
+
+				slot16:SetParent(manager.ui.mainCamera.transform)
+
+				slot16.localPosition = Vector3(0, 0, 27)
+				slot16.localEulerAngles = Vector3(0, 0, 0)
+				slot16.localScale = Vector3.one
+				slot17 = slot16:GetComponent("SpriteRenderer")
+				slot19 = slot3
+				slot21 = slot3
+
+				if slot3 * 0.5625 < slot3 / slot1.aspect then
+					slot21 = slot18 / 0.5625
+				end
+
+				slot17.size = Vector2.New(slot21, slot20)
+			else
+				SetActive(slot15, false)
+			end
+		end
+
+		if GameObject.Find("object/long/bg") then
+			slot16.transform.localScale = Vector3.New(slot5 / 3.9, 1, 1)
+		end
+
+		if GameObject.Find("object/short") then
+			slot17.transform.localScale = Vector3.New(slot5 / 7.5, 1, 1)
+		end
+	end,
+	OnMusicSceneLoaded = function ()
+		uv0 = GameLocalData:GetCommonModule("userSetting").frame or PictureQualitySettingCfg[5].frame
+
+		if uv0 == 0 then
+			SettingAction.ChangePicSetting("frame", 1)
+		end
+
+		MusicLuaBridge.StartMusicGame()
+		manager.notify:CallUpdateFunc(MUSIC_SCENE_LOADED)
+	end,
+	OnMusicSceneExit = function ()
+		if uv0 == 0 then
+			SettingAction.ChangePicSetting("frame", 0)
+		end
+
+		gameContext:SetSystemLayer("home")
+
+		if SettingData:GetSoundSettingData() and slot0.music then
+			manager.audio:SetVolume("music", slot0.music / 100)
+		end
+	end,
+	MusicInitPlay = function ()
+		MusicData:ResetGameData()
+		manager.notify:CallUpdateFunc(MUSIC_INIT_PLAY)
+
+		if SettingData:GetSoundSettingData() and slot0.music then
+			manager.audio:SetVolume("music", slot0.music / 100)
+		end
+	end,
+	MusicNodeHit = function (slot0, slot1)
+		MusicData:ModifGameData(slot0)
+		manager.notify:CallUpdateFunc(MUSIC_NODE_HIT, slot0, slot1)
+	end,
+	MusicSetNodeHit = function (slot0, slot1)
+		MusicData:ModifGameData(slot0)
+		manager.notify:CallUpdateFunc(MUSIC_SET_NODE_HIT, slot0, slot1)
+	end,
+	OnMusicOver = function ()
+		slot0 = MusicData:GetGameScore()
+
+		if MusicData:GetGameId() == 0 then
+			MusicAction.GoToMusicMain()
+
+			return
+		end
+
+		MusicAction.QueryCompelet(slot1, slot0)
+	end,
+	OnMusicActiveExit = function ()
 		MusicAction.GoToMusicMain()
-
-		return
+	end,
+	OnMusicPause = function ()
+		JumpTools.OpenPageByJump(MusicData:GetMusicViewPathList(ActivityMusicCfg[MusicData:GetGameId()].activity_id).musicStop)
 	end
-
-	MusicAction.QueryCompelet(var_9_1, var_9_0)
-end
-
-function var_0_0.OnMusicActiveExit()
-	MusicAction.GoToMusicMain()
-end
-
-function var_0_0.OnMusicPause()
-	local var_11_0 = MusicData:GetGameId()
-	local var_11_1 = ActivityMusicCfg[var_11_0].activity_id
-	local var_11_2 = MusicData:GetMusicViewPathList(var_11_1)
-
-	JumpTools.OpenPageByJump(var_11_2.musicStop)
-end
-
-return var_0_0
+}

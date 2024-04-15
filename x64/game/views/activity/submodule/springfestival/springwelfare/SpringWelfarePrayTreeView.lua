@@ -1,225 +1,205 @@
-local var_0_0 = class("SpringWelfarePrayTreeView", ReduxView)
+slot0 = class("SpringWelfarePrayTreeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
-	arg_3_0:InitBranch()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
+	slot0:InitBranch()
 
-	arg_3_0.stageController_ = ControllerUtil.GetController(arg_3_0.transform_, "stage")
+	slot0.stageController_ = ControllerUtil.GetController(slot0.transform_, "stage")
 
-	arg_3_0.stageController_:SetSelectedState("welfare")
+	slot0.stageController_:SetSelectedState("welfare")
 
-	arg_3_0.prayController_ = ControllerUtil.GetController(arg_3_0.prayBtn_.transform, "state")
+	slot0.prayController_ = ControllerUtil.GetController(slot0.prayBtn_.transform, "state")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.mailBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.mailBtn_, nil, function ()
 		JumpTools.OpenPageByJump("springWelfareLetterBox", {})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.taskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
 		JumpTools.OpenPageByJump("springWelfareTask", {})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.prayBtn_, nil, function()
-		arg_4_0:TryStartPray()
+	slot0:AddBtnListener(slot0.prayBtn_, nil, function ()
+		uv0:TryStartPray()
 	end)
 end
 
-function var_0_0.InitBranch(arg_8_0)
-	local var_8_0 = arg_8_0:GetDays()
+function slot0.InitBranch(slot0)
+	slot0.branchList_ = {}
 
-	arg_8_0.branchList_ = {}
+	for slot5 = 1, slot0:GetDays() do
+		slot7 = SpringWelfarePrayBubbleView.New(slot0[string.format("bubbleGo_%d", slot5)])
 
-	for iter_8_0 = 1, var_8_0 do
-		local var_8_1 = arg_8_0[string.format("bubbleGo_%d", iter_8_0)]
-		local var_8_2 = SpringWelfarePrayBubbleView.New(var_8_1)
-
-		var_8_2:SetData(iter_8_0)
-		var_8_2:SetClickHandler(function(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-			arg_8_0:OnClickBubble(iter_8_0, arg_9_0, arg_9_1, arg_9_2, arg_9_3)
+		slot7:SetData(slot5)
+		slot7:SetClickHandler(function (slot0, slot1, slot2, slot3)
+			uv0:OnClickBubble(uv1, slot0, slot1, slot2, slot3)
 		end)
 
-		arg_8_0.branchList_[iter_8_0] = var_8_2
+		slot0.branchList_[slot5] = slot7
 	end
 end
 
-function var_0_0.UpdateBar(arg_10_0)
-	local var_10_0, var_10_1 = SpringWelfareData:GetPoolSignCost()
-	local var_10_2, var_10_3 = SpringWelfareData:GetPoolCost()
+function slot0.UpdateBar(slot0)
+	slot1, slot2 = SpringWelfareData:GetPoolSignCost()
+	slot3, slot4 = SpringWelfareData:GetPoolCost()
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
-		var_10_0,
-		var_10_2
+		slot1,
+		slot3
 	})
-	manager.windowBar:SetBarCanAdd(var_10_0, true)
-	manager.windowBar:SetBarCanAdd(var_10_2, true)
+	manager.windowBar:SetBarCanAdd(slot1, true)
+	manager.windowBar:SetBarCanAdd(slot3, true)
 	manager.windowBar:SetGameHelpKey("SPRING_BLESSING_DES")
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:UpdateBar()
+function slot0.OnEnter(slot0)
+	slot0:UpdateBar()
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.branchList_) do
-		iter_11_1:OnEnter()
+	for slot4, slot5 in ipairs(slot0.branchList_) do
+		slot5:OnEnter()
 	end
 
-	local var_11_0 = arg_11_0:GetActivityID()
-	local var_11_1 = ActivityTools.GetRedPointKey(var_11_0) .. var_11_0
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
 
-	manager.redPoint:bindUIandKey(arg_11_0.mailBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_LETTER, var_11_1))
-	manager.redPoint:bindUIandKey(arg_11_0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_REWARD, var_11_1))
-	arg_11_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.mailBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_LETTER, slot2))
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_REWARD, slot2))
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_12_0)
-	arg_12_0:NewDayEffect()
-	arg_12_0:RefreshPrayStateUI()
+function slot0.OnTop(slot0)
+	slot0:NewDayEffect()
+	slot0:RefreshPrayStateUI()
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.branchList_) do
-		iter_13_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.branchList_) do
+		slot5:OnExit()
 	end
 
-	local var_13_0 = arg_13_0:GetActivityID()
-	local var_13_1 = ActivityTools.GetRedPointKey(var_13_0) .. var_13_0
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
 
-	manager.redPoint:unbindUIandKey(arg_13_0.mailBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_LETTER, var_13_1))
-	manager.redPoint:unbindUIandKey(arg_13_0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_REWARD, var_13_1))
+	manager.redPoint:unbindUIandKey(slot0.mailBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_LETTER, slot2))
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_2_9_SPRING_WELFARE_REWARD, slot2))
 end
 
-function var_0_0.Dispose(arg_14_0)
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.branchList_) do
-		iter_14_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.branchList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.branchList_) do
-		iter_15_1:UpdateItemIdList()
-		iter_15_1:RefreshItemUiList()
+function slot0.RefreshUI(slot0)
+	for slot4, slot5 in ipairs(slot0.branchList_) do
+		slot5:UpdateItemIdList()
+		slot5:RefreshItemUiList()
 	end
 
-	arg_15_0:RefreshPrayStateUI()
+	slot0:RefreshPrayStateUI()
 
-	local var_15_0 = arg_15_0:GetActivityID()
-	local var_15_1 = ActivityData:GetActivityData(var_15_0)
-	local var_15_2 = var_15_1.startTime
-	local var_15_3 = var_15_1.stopTime
+	slot2 = ActivityData:GetActivityData(slot0:GetActivityID())
+	slot0.tipsText_.text = string.format(GetTips("SPRING_BLESSING_SCREEN_TIPS"), manager.time:STimeDescS(slot2.startTime, "!%Y.%m.%d %H:%M"), manager.time:STimeDescS(slot2.stopTime, "!%Y.%m.%d %H:%M"))
 
-	arg_15_0.tipsText_.text = string.format(GetTips("SPRING_BLESSING_SCREEN_TIPS"), manager.time:STimeDescS(var_15_2, "!%Y.%m.%d %H:%M"), manager.time:STimeDescS(var_15_3, "!%Y.%m.%d %H:%M"))
-
-	SpringWelfareAction:UpdateRedPoint(arg_15_0:GetActivityID())
+	SpringWelfareAction:UpdateRedPoint(slot0:GetActivityID())
 end
 
-function var_0_0.RefreshPrayStateUI(arg_16_0)
-	local var_16_0 = SpringWelfareData:GetCurPrayDay()
-	local var_16_1 = arg_16_0:GetDays()
-	local var_16_2 = SpringWelfareData:GetDayState(var_16_0)
-	local var_16_3 = 0
-	local var_16_4 = 0
+function slot0.RefreshPrayStateUI(slot0)
+	slot4 = 0
+	slot5 = 0
 
-	if var_16_2 == SPRING_WELFARE_DAY_STATE_TYPE.ACQUIRED then
-		arg_16_0.prayController_:SetSelectedState(var_16_0 == var_16_1 and "finish" or "prayed")
-		SetActive(arg_16_0.prayCostGo_, false)
+	if SpringWelfareData:GetDayState(SpringWelfareData:GetCurPrayDay()) == SPRING_WELFARE_DAY_STATE_TYPE.ACQUIRED then
+		slot0.prayController_:SetSelectedState(slot1 == slot0:GetDays() and "finish" or "prayed")
+		SetActive(slot0.prayCostGo_, false)
 
 		return
-	elseif var_16_2 == SPRING_WELFARE_DAY_STATE_TYPE.NEED_SIGN then
-		var_16_3, var_16_4 = SpringWelfareData:GetPoolSignCost()
+	elseif slot3 == SPRING_WELFARE_DAY_STATE_TYPE.NEED_SIGN then
+		slot4, slot5 = SpringWelfareData:GetPoolSignCost()
 
-		arg_16_0.prayController_:SetSelectedState("sign")
-	elseif var_16_2 == SPRING_WELFARE_DAY_STATE_TYPE.CAN_PRAY then
-		var_16_3, var_16_4 = SpringWelfareData:GetPoolCost()
+		slot0.prayController_:SetSelectedState("sign")
+	elseif slot3 == SPRING_WELFARE_DAY_STATE_TYPE.CAN_PRAY then
+		slot6, slot7 = SpringWelfareData:GetPoolCost()
 
-		arg_16_0.prayController_:SetSelectedState("pray")
+		slot0.prayController_:SetSelectedState("pray")
 
-		if var_16_4 > ItemTools.getItemNum(var_16_3) then
-			local var_16_5 = SpringWelfareData:GetCurSignDay()
+		if ItemTools.getItemNum(slot6) < slot7 and slot0:CanSign(SpringWelfareData:GetCurSignDay()) then
+			slot1 = slot6
+			slot4, slot5 = SpringWelfareData:GetPoolSignCost()
 
-			if arg_16_0:CanSign(var_16_5) then
-				local var_16_6 = var_16_5
-
-				var_16_3, var_16_4 = SpringWelfareData:GetPoolSignCost()
-
-				arg_16_0.prayController_:SetSelectedState("sign")
-			end
+			slot0.prayController_:SetSelectedState("sign")
 		end
 	end
 
-	SetActive(arg_16_0.prayCostGo_, true)
+	SetActive(slot0.prayCostGo_, true)
 
-	arg_16_0.prayIcon_.sprite = ItemTools.getItemSprite(var_16_3)
-	arg_16_0.prayInfoText_.text = var_16_4
+	slot0.prayIcon_.sprite = ItemTools.getItemSprite(slot4)
+	slot0.prayInfoText_.text = slot5
 end
 
-function var_0_0.OnNewDay(arg_17_0)
-	arg_17_0:RefreshUI()
+function slot0.OnNewDay(slot0)
+	slot0:RefreshUI()
 
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.branchList_) do
-		iter_17_1:RefreshUI()
+	for slot4, slot5 in ipairs(slot0.branchList_) do
+		slot5:RefreshUI()
 	end
 
 	if gameContext:GetLastOpenPage() == "springWelfarePrayTree" then
-		arg_17_0:NewDayEffect()
+		slot0:NewDayEffect()
 	end
 end
 
-function var_0_0.OnActivitySpringWelfareInit(arg_18_0)
-	arg_18_0:OnNewDay()
+function slot0.OnActivitySpringWelfareInit(slot0)
+	slot0:OnNewDay()
 end
 
-function var_0_0.OnTaskListChange(arg_19_0)
-	SpringWelfareAction:UpdateRedPoint(arg_19_0:GetActivityID())
+function slot0.OnTaskListChange(slot0)
+	SpringWelfareAction:UpdateRedPoint(slot0:GetActivityID())
 end
 
-function var_0_0.OnClickBubble(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4, arg_20_5)
+function slot0.OnClickBubble(slot0, slot1, slot2, slot3, slot4, slot5)
 	JumpTools.OpenPageByJump("springWelfarePrayBranch", {
-		day = arg_20_3
+		day = slot3
 	})
 end
 
-function var_0_0.TryStartPray(arg_21_0)
-	local var_21_0 = SpringWelfareData:GetCurPrayDay()
-	local var_21_1 = SpringWelfareData:GetDayState(var_21_0)
-
-	if var_21_1 == SPRING_WELFARE_DAY_STATE_TYPE.ACQUIRED then
+function slot0.TryStartPray(slot0)
+	if SpringWelfareData:GetDayState(SpringWelfareData:GetCurPrayDay()) == SPRING_WELFARE_DAY_STATE_TYPE.ACQUIRED then
 		ShowTips("SPRING_WELFARE_ALREADY_PRAY")
-	elseif var_21_1 == SPRING_WELFARE_DAY_STATE_TYPE.NOT_ACQUIRE then
+	elseif slot2 == SPRING_WELFARE_DAY_STATE_TYPE.NOT_ACQUIRE then
 		return
 	end
 
-	local var_21_2 = false
-	local var_21_3 = 0
-	local var_21_4 = 0
+	slot3 = false
+	slot4 = 0
+	slot5 = 0
 
-	if var_21_1 == SPRING_WELFARE_DAY_STATE_TYPE.NEED_SIGN then
-		var_21_3, var_21_4 = SpringWelfareData:GetPoolSignCost()
-		var_21_2 = true
-	elseif var_21_1 == SPRING_WELFARE_DAY_STATE_TYPE.CAN_PRAY then
-		var_21_3, var_21_4 = SpringWelfareData:GetPoolCost()
+	if slot2 == SPRING_WELFARE_DAY_STATE_TYPE.NEED_SIGN then
+		slot4, slot5 = SpringWelfareData:GetPoolSignCost()
+		slot3 = true
+	elseif slot2 == SPRING_WELFARE_DAY_STATE_TYPE.CAN_PRAY then
+		slot4, slot5 = SpringWelfareData:GetPoolCost()
 	end
 
-	if var_21_4 > ItemTools.getItemNum(var_21_3) then
-		local var_21_5 = SpringWelfareData:GetCurSignDay()
-
-		if arg_21_0:CanSign(var_21_5) then
-			var_21_0 = var_21_5
-			var_21_2 = false
-		elseif var_21_3 == 1 then
+	if ItemTools.getItemNum(slot4) < slot5 then
+		if slot0:CanSign(SpringWelfareData:GetCurSignDay()) then
+			slot1 = slot6
+			slot3 = false
+		elseif slot4 == 1 then
 			ShowTips("ERROR_ITEM_NOT_ENOUGH_CURRENCY")
 
 			return
@@ -230,100 +210,94 @@ function var_0_0.TryStartPray(arg_21_0)
 		end
 	end
 
-	if not var_21_2 or _G.SkipTip.SkipSpringWelfareResignTip then
-		SpringWelfareAction:StartPray(var_21_0, handler(arg_21_0, arg_21_0.OnFinishPray))
+	if not slot3 or _G.SkipTip.SkipSpringWelfareResignTip then
+		SpringWelfareAction:StartPray(slot1, handler(slot0, slot0.OnFinishPray))
 	else
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = {
 				GetTips("WHETHER_TO_CONSUME"),
 				{
-					var_21_3,
-					var_21_4
+					slot4,
+					slot5
 				},
-				(string.format(GetTips("RESIGN"), var_21_4))
+				string.format(GetTips("RESIGN"), slot5)
 			},
-			OkCallback = function()
-				SpringWelfareAction:StartPray(var_21_0, handler(arg_21_0, arg_21_0.OnFinishPray))
+			OkCallback = function ()
+				SpringWelfareAction:StartPray(uv0, handler(uv1, uv1.OnFinishPray))
 			end,
-			ToggleCallback = function(arg_23_0)
-				_G.SkipTip.SkipSpringWelfareResignTip = arg_23_0
+			ToggleCallback = function (slot0)
+				_G.SkipTip.SkipSpringWelfareResignTip = slot0
 			end,
 			toggleText = GetTips("LOGIN_MUTE_TIP")
 		})
 	end
 end
 
-function var_0_0.OnFinishPray(arg_24_0, arg_24_1)
-	arg_24_0:PlayEffect(function()
-		arg_24_0:RefreshUI()
+function slot0.OnFinishPray(slot0, slot1)
+	slot0:PlayEffect(function ()
+		uv0:RefreshUI()
 
-		for iter_25_0, iter_25_1 in ipairs(arg_24_0.branchList_) do
-			iter_25_1:RefreshUI()
+		for slot3, slot4 in ipairs(uv0.branchList_) do
+			slot4:RefreshUI()
 		end
 	end)
 end
 
-function var_0_0.PlayEffect(arg_26_0, arg_26_1)
-	if arg_26_0.prayAni_ then
-		arg_26_0.isAniPlaying_ = true
+function slot0.PlayEffect(slot0, slot1)
+	if slot0.prayAni_ then
+		slot0.isAniPlaying_ = true
 
 		manager.windowBar:HideBar()
-		SetActive(arg_26_0.prayAniGo_, true)
-		arg_26_0.prayAni_:Play("IndiaWishingTreeUI_sign", -1, 0)
-		arg_26_0.prayAni_:Update(0)
-		AnimatorTools.PlayAnimationWithCallback(arg_26_0.prayAni_, "IndiaWishingTreeUI_sign", function()
-			arg_26_0.isAniPlaying_ = false
+		SetActive(slot0.prayAniGo_, true)
+		slot0.prayAni_:Play("IndiaWishingTreeUI_sign", -1, 0)
+		slot0.prayAni_:Update(0)
+		AnimatorTools.PlayAnimationWithCallback(slot0.prayAni_, "IndiaWishingTreeUI_sign", function ()
+			uv0.isAniPlaying_ = false
 
-			SetActive(arg_26_0.prayAniGo_, false)
-			arg_26_0:UpdateBar()
-			arg_26_1()
+			SetActive(uv0.prayAniGo_, false)
+			uv0:UpdateBar()
+			uv1()
 		end)
 	else
-		arg_26_1()
+		slot1()
 	end
 end
 
-function var_0_0.NewDayEffect(arg_28_0)
-	local var_28_0 = SpringWelfareData:GetNextNewSystemLetterId()
-
-	if not var_28_0 then
+function slot0.NewDayEffect(slot0)
+	if not SpringWelfareData:GetNextNewSystemLetterId() then
 		return
 	end
 
-	local var_28_1 = SpringWelfareData:GetLetterData(var_28_0)
-
-	if var_28_1 and not var_28_1.gotReward then
+	if SpringWelfareData:GetLetterData(slot1) and not slot2.gotReward then
 		JumpTools.OpenPageByJump("springWelfareSystemLetter", {
 			gotReward = false,
 			firstView = true,
-			letterServerId = var_28_0
+			letterServerId = slot1
 		})
 	end
 end
 
-function var_0_0.GetDays(arg_29_0)
+function slot0.GetDays(slot0)
 	return SpringPreheatData:GetMaxProgress()
 end
 
-function var_0_0.GetActivityID(arg_30_0)
+function slot0.GetActivityID(slot0)
 	return SpringWelfareData:GetActivityId()
 end
 
-function var_0_0.CanSign(arg_31_0, arg_31_1)
-	arg_31_1 = arg_31_1 or SpringWelfareData:GetCurSignDay()
-
-	if arg_31_1 < 0 then
+function slot0.CanSign(slot0, slot1)
+	if (slot1 or SpringWelfareData:GetCurSignDay()) < 0 then
 		return false
 	end
 
-	local var_31_0, var_31_1 = SpringWelfareData:GetPoolSignCost()
+	slot2, slot3 = SpringWelfareData:GetPoolSignCost()
 
-	if var_31_1 > ItemTools.getItemNum(var_31_0) then
+	if ItemTools.getItemNum(slot2) < slot3 then
 		return false
 	end
 
 	return true
 end
 
-return var_0_0
+return slot0

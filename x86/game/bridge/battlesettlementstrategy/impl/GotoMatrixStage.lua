@@ -1,39 +1,37 @@
-local var_0_0 = class("GotoMatrixStage", BattleSettlementStrategyBase)
+slot0 = class("GotoMatrixStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	if isSuccess(arg_1_1.num) then
-		local var_1_0 = MatrixData:GetBattleTier()
-
-		MatrixAction.DoAfterEvnet(var_1_0)
+function slot0.OnGotoSettlement(slot0, slot1)
+	if isSuccess(slot1.num) then
+		MatrixAction.DoAfterEvnet(MatrixData:GetBattleTier())
 	end
 
-	arg_1_0:GotoMatrix(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+	slot0:GotoMatrix(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoMatrix(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoMatrix(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/battleMatrixResult", {
 				multiple = 1,
-				stageData = arg_2_2,
-				rewardList = var_2_0,
-				battleResult = arg_2_4
+				stageData = uv0,
+				rewardList = uv1,
+				battleResult = uv2
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv3)
 		end
 	else
 		function BattleCallLuaCallBack()
 			gameContext:Go("/battleMatrixFailed", {
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+				stageData = uv0,
+				starMissionData = uv1,
+				battleResult = uv2
 			})
 			manager.story:RemovePlayer()
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv3)
 		end
 	end
 end
 
-return var_0_0
+return slot0

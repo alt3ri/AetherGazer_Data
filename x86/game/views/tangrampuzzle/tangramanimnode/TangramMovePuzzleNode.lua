@@ -1,33 +1,28 @@
-local var_0_0 = import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode")
-local var_0_1 = class("TangramMovePuzzleNode", var_0_0)
+slot1 = class("TangramMovePuzzleNode", import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode"))
 
-function var_0_1.RunFunc(arg_1_0)
-	arg_1_0.updatingPuzzleCount_ = 0
+function slot1.RunFunc(slot0)
+	slot0.updatingPuzzleCount_ = 0
+	slot1 = slot0.blackboard_.moveOriginPuzzleIndex_
+	slot2 = slot0.blackboard_.moveTargetPuzzleIndex_
 
-	local var_1_0 = arg_1_0.blackboard_.moveOriginPuzzleIndex_
-	local var_1_1 = arg_1_0.blackboard_.moveTargetPuzzleIndex_
-	local var_1_2 = arg_1_0.manager_.puzzleItemList_[var_1_0]
-	local var_1_3 = arg_1_0.manager_.puzzleItemList_[var_1_1]
-
-	arg_1_0:UpdatePuzzle(var_1_0, var_1_3.transform_.position)
-	arg_1_0:UpdatePuzzle(var_1_1, var_1_2.transform_.position)
+	slot0:UpdatePuzzle(slot1, slot0.manager_.puzzleItemList_[slot2].transform_.position)
+	slot0:UpdatePuzzle(slot2, slot0.manager_.puzzleItemList_[slot1].transform_.position)
 end
 
-function var_0_1.UpdatePuzzle(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.updatingPuzzleCount_ = arg_2_0.updatingPuzzleCount_ + 1
+function slot1.UpdatePuzzle(slot0, slot1, slot2)
+	slot0.updatingPuzzleCount_ = slot0.updatingPuzzleCount_ + 1
+	slot3 = slot0.manager_.puzzleItemList_[slot1]
 
-	local var_2_0 = arg_2_0.manager_.puzzleItemList_[arg_2_1]
+	slot3:SetTransParent(slot0.manager_.editPanelTrans_)
+	slot3:UpdatePosition(slot2, function ()
+		uv0.manager_:UpdatePuzzleData(uv1)
 
-	var_2_0:SetTransParent(arg_2_0.manager_.editPanelTrans_)
-	var_2_0:UpdatePosition(arg_2_2, function()
-		arg_2_0.manager_:UpdatePuzzleData(arg_2_1)
+		uv0.updatingPuzzleCount_ = uv0.updatingPuzzleCount_ - 1
 
-		arg_2_0.updatingPuzzleCount_ = arg_2_0.updatingPuzzleCount_ - 1
-
-		if arg_2_0.updatingPuzzleCount_ == 0 then
-			arg_2_0.root_:SetNodeRunComplete()
+		if uv0.updatingPuzzleCount_ == 0 then
+			uv0.root_:SetNodeRunComplete()
 		end
 	end)
 end
 
-return var_0_1
+return slot1

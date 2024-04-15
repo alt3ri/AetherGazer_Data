@@ -1,1 +1,1 @@
-return (class("StrategyMatrixProcessSelectHeroItem", MatrixProcessSelectHeroItem))
+return class("StrategyMatrixProcessSelectHeroItem", MatrixProcessSelectHeroItem)

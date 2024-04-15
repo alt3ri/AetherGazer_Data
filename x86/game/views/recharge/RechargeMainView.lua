@@ -1,21 +1,21 @@
-local var_0_0 = class("RechargeMainView", ReduxView)
-local var_0_1 = 2
-local var_0_2 = {
+slot0 = class("RechargeMainView", ReduxView)
+slot1 = 2
+slot2 = {
 	[ShopConst.SHOP_ID.MIGRATION_OBSERVATIONS] = true,
 	[ShopConst.SHOP_ID.SKIN_TARGET] = true
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Recharge/RechargeSystemUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.prefabList_ = ShopConst.prefabList
-	arg_3_0.ClassList_ = {
+function slot0.Init(slot0)
+	slot0.prefabList_ = ShopConst.prefabList
+	slot0.ClassList_ = {
 		[ShopConst.SHOP_ID.LIMIT_SUPPLY] = RechargeGiftPageView,
 		[ShopConst.SHOP_ID.DAILY_SUPPLY] = RechargeGiftPageView,
 		[ShopConst.SHOP_ID.NEWBIE_SHOP] = RechargeGiftPageView,
@@ -32,104 +32,102 @@ function var_0_0.Init(arg_3_0)
 		[ShopConst.SHOP_ID.CONTRACT_BENEFITS] = RechargeFirstBpPageView
 	}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.pages_ = {}
-	arg_4_0.tree_ = LuaTree.New(arg_4_0.treeGo_)
-	arg_4_0.titleList = {
-		RechargeTitleItem.New(arg_4_0.tag01_),
-		RechargeTitleItem.New(arg_4_0.tag02_),
-		RechargeTitleItem.New(arg_4_0.tag03_),
-		(RechargeTitleItem.New(arg_4_0.tag04_))
+	slot0.pages_ = {}
+	slot0.tree_ = LuaTree.New(slot0.treeGo_)
+	slot0.titleList = {
+		RechargeTitleItem.New(slot0.tag01_),
+		RechargeTitleItem.New(slot0.tag02_),
+		RechargeTitleItem.New(slot0.tag03_),
+		RechargeTitleItem.New(slot0.tag04_)
 	}
-	arg_4_0.redBindingGroupIndex_ = 0
+	slot0.redBindingGroupIndex_ = 0
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cumulativeBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cumulativeBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/rechargeTotalRecharge")
 	end)
 end
 
-function var_0_0.OnGroupSelect(arg_7_0, arg_7_1, arg_7_2, arg_7_3, arg_7_4)
-	arg_7_0.groupInfo = arg_7_0.groups_[arg_7_1]
+function slot0.OnGroupSelect(slot0, slot1, slot2, slot3, slot4)
+	slot0.groupInfo = slot0.groups_[slot1]
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.titleList) do
-		if iter_7_0 <= #arg_7_0.groupInfo.itemIndexes_ then
-			local var_7_0 = arg_7_0.groupInfo[iter_7_0].id
+	for slot8, slot9 in ipairs(slot0.titleList) do
+		if slot8 <= #slot0.groupInfo.itemIndexes_ then
+			slot10 = slot0.groupInfo[slot8].id
 
-			SetActive(iter_7_1.gameObject_, true)
-			iter_7_1:SetData(arg_7_0.groupInfo[iter_7_0], iter_7_0, handler(arg_7_0, arg_7_0.ClickTitle), var_7_0)
-			SetActive(arg_7_0["newGo" .. iter_7_0 .. "_"], arg_7_0:CheckShopRedPoint(var_7_0))
-			SetActive(arg_7_0["redGo" .. iter_7_0 .. "_"], arg_7_0:SpecialShop(var_7_0))
+			SetActive(slot9.gameObject_, true)
+			slot9:SetData(slot0.groupInfo[slot8], slot8, handler(slot0, slot0.ClickTitle), slot10)
+			SetActive(slot0["newGo" .. slot8 .. "_"], slot0:CheckShopRedPoint(slot10))
+			SetActive(slot0["redGo" .. slot8 .. "_"], slot0:SpecialShop(slot10))
 		else
-			SetActive(iter_7_1.gameObject_, false)
+			SetActive(slot9.gameObject_, false)
 		end
 	end
 
-	for iter_7_2 = 1, 3 do
-		SetActive(arg_7_0["line" .. iter_7_2 .. "Go_"], iter_7_2 < #arg_7_0.groupInfo.itemIndexes_)
+	for slot8 = 1, 3 do
+		SetActive(slot0["line" .. slot8 .. "Go_"], slot8 < #slot0.groupInfo.itemIndexes_)
 	end
 
-	arg_7_0.params_.page = arg_7_1
+	slot0.params_.page = slot1
 
-	if arg_7_0.currentGroupIndex_ == arg_7_1 then
-		arg_7_0:ClickTitle(arg_7_0.itemToSelect_ or arg_7_0.currentItemIndex_)
+	if slot0.currentGroupIndex_ == slot1 then
+		slot0:ClickTitle(slot0.itemToSelect_ or slot0.currentItemIndex_)
 	else
-		arg_7_0:ClickTitle(arg_7_0.itemToSelect_ or 1)
+		slot0:ClickTitle(slot0.itemToSelect_ or 1)
 	end
 
-	arg_7_0.itemToSelect_ = nil
-	arg_7_0.currentGroupIndex_ = arg_7_1
+	slot0.itemToSelect_ = nil
+	slot0.currentGroupIndex_ = slot1
 end
 
-function var_0_0.ClickTitle(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_0.groupInfo[arg_8_1].id
+function slot0.ClickTitle(slot0, slot1)
+	OperationRecorder.RecordButtonTouch("shop_recharge_gifts" .. slot0.params_.page .. "_type" .. slot1)
 
-	OperationRecorder.RecordButtonTouch("shop_recharge_gifts" .. arg_8_0.params_.page .. "_type" .. arg_8_1)
-
-	if ShopConst.PC_LOCK_SHOP[var_8_0] and ShopTools.IsPC() then
+	if ShopConst.PC_LOCK_SHOP[slot0.groupInfo[slot1].id] and ShopTools.IsPC() then
 		ShowTips("PC_SHOP_TIPS1")
 
 		return
 	end
 
-	arg_8_0.currentItemIndex_ = arg_8_1
-	arg_8_0.params_.childShopIndex = arg_8_1
+	slot0.currentItemIndex_ = slot1
+	slot0.params_.childShopIndex = slot1
 
-	arg_8_0:SwitchToShop(var_8_0)
+	slot0:SwitchToShop(slot2)
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.titleList) do
-		iter_8_1.controller:SetSelectedState(iter_8_0 == arg_8_1 and "false" or "true")
+	for slot6, slot7 in ipairs(slot0.titleList) do
+		slot7.controller:SetSelectedState(slot6 == slot1 and "false" or "true")
 	end
 
-	if ShopData.GetRedPointData()[var_8_0] then
-		ShopAction.RemoveShopRedPoint(var_8_0)
-		SetActive(arg_8_0["newGo" .. arg_8_1 .. "_"], false)
-		SetActive(arg_8_0["redGo" .. arg_8_1 .. "_"], arg_8_0:SpecialShop(var_8_0))
+	if ShopData.GetRedPointData()[slot2] then
+		ShopAction.RemoveShopRedPoint(slot2)
+		SetActive(slot0["newGo" .. slot1 .. "_"], false)
+		SetActive(slot0["redGo" .. slot1 .. "_"], slot0:SpecialShop(slot2))
 	end
 
-	if var_8_0 == ShopConst.SHOP_ID.MIGRATION_OBSERVATIONS then
+	if slot2 == ShopConst.SHOP_ID.MIGRATION_OBSERVATIONS then
 		RedPointAction.HandleRedPoint(RED_POINT_ID.RECHARGE)
 		manager.redPoint:setTip(RED_POINT_ID.RECHARGE, 0)
-		SetActive(arg_8_0.redGo2_, false)
+		SetActive(slot0.redGo2_, false)
 	end
 end
 
-function var_0_0.UpdateBar(arg_9_0)
-	if arg_9_0.shopListId_ == ShopConst.SHOP_ID.SKIN_SHOP or arg_9_0.shopListId_ == ShopConst.SHOP_ID.SKIN_TARGET then
+function slot0.UpdateBar(slot0)
+	if slot0.shopListId_ == ShopConst.SHOP_ID.SKIN_SHOP or slot0.shopListId_ == ShopConst.SHOP_ID.SKIN_TARGET then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			CurrencyConst.CURRENCY_TYPE_SKIN
 		}, true)
-		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_SKIN, var_0_2[arg_9_0.shopListId_] ~= true)
-		manager.windowBar:SetBarCanClick(CurrencyConst.CURRENCY_TYPE_SKIN, var_0_2[arg_9_0.shopListId_] ~= true)
+		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_SKIN, uv0[slot0.shopListId_] ~= true)
+		manager.windowBar:SetBarCanClick(CurrencyConst.CURRENCY_TYPE_SKIN, uv0[slot0.shopListId_] ~= true)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -138,297 +136,277 @@ function var_0_0.UpdateBar(arg_9_0)
 			CurrencyConst.GetPlatformDiamondId()
 		})
 		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
-		manager.windowBar:SetBarCanAdd(CurrencyConst.GetPlatformDiamondId(), var_0_2[arg_9_0.shopListId_] ~= true)
+		manager.windowBar:SetBarCanAdd(CurrencyConst.GetPlatformDiamondId(), uv0[slot0.shopListId_] ~= true)
 	end
 end
 
-function var_0_0.RefreshTree(arg_10_0)
-	local var_10_0 = arg_10_0.tree_
+function slot0.RefreshTree(slot0)
+	slot1 = slot0.tree_
 
-	var_10_0:SetSelectedHandler(nil, nil)
+	slot1:SetSelectedHandler(nil, )
 
-	local var_10_1 = arg_10_0:GetTreeDataByParams()
+	slot2 = slot0:GetTreeDataByParams()
 
-	var_10_0:SetData(var_10_1)
-	var_10_0:SetSelectedHandler(handler(arg_10_0, arg_10_0.OnGroupSelect))
+	slot1:SetData(slot2)
+	slot1:SetSelectedHandler(handler(slot0, slot0.OnGroupSelect))
 
-	arg_10_0.treeData_ = var_10_1
+	slot0.treeData_ = slot2
 
-	arg_10_0:BindRedPoint()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.SwitchToShop(arg_11_0, arg_11_1)
-	if arg_11_1 == arg_11_0.shopListId_ then
+function slot0.SwitchToShop(slot0, slot1)
+	if slot1 == slot0.shopListId_ then
 		return
 	end
 
-	if arg_11_0.shopListId_ then
-		local var_11_0 = arg_11_0.pages_[arg_11_0.shopListId_]
-
-		if var_11_0 then
-			var_11_0:Hide()
-		end
+	if slot0.shopListId_ and slot0.pages_[slot0.shopListId_] then
+		slot2:Hide()
 	end
 
-	arg_11_0.shopListId_ = arg_11_1
-	arg_11_0.params_.shopListId = arg_11_1
+	slot0.shopListId_ = slot1
+	slot0.params_.shopListId = slot1
 
-	if not arg_11_0.pages_[arg_11_1] then
-		local var_11_1 = Object.Instantiate(Asset.Load(arg_11_0.prefabList_[arg_11_1]), arg_11_0.container_)
+	if not slot0.pages_[slot1] then
+		slot0.pages_[slot1] = slot0.ClassList_[slot1].New(Object.Instantiate(Asset.Load(slot0.prefabList_[slot1]), slot0.container_), {
+			ShopConst.SIX_EIGHT[slot1]
+		}, slot1)
 
-		arg_11_0.pages_[arg_11_1] = arg_11_0.ClassList_[arg_11_1].New(var_11_1, {
-			ShopConst.SIX_EIGHT[arg_11_1]
-		}, arg_11_1)
-
-		arg_11_0:CheckPageEnter(arg_11_1)
+		slot0:CheckPageEnter(slot1)
 	else
-		arg_11_0.pages_[arg_11_1]:Show()
+		slot0.pages_[slot1]:Show()
 	end
 
-	if arg_11_0.pages_[arg_11_1].SwitchPage then
-		arg_11_0.pages_[arg_11_1]:SwitchPage(arg_11_1)
+	if slot0.pages_[slot1].SwitchPage then
+		slot0.pages_[slot1]:SwitchPage(slot1)
 	end
 
-	arg_11_0:UpdateBar()
+	slot0:UpdateBar()
 end
 
-function var_0_0.SwitchPageByParams(arg_12_0)
-	arg_12_0.currentGroupIndex_, arg_12_0.currentItemIndex_ = 1, 1
+function slot0.SwitchPageByParams(slot0)
+	slot0.currentItemIndex_ = 1
+	slot0.currentGroupIndex_ = 1
+	slot1 = 1
 
-	local var_12_0 = 1
+	if slot0.params_.page then
+		slot1 = slot0.params_.page
+		slot0.currentGroupIndex_ = slot1
+		slot2 = slot0.groups_[slot1]
+		slot3 = slot0.params_.shopId_ or slot0.params_.shopListId
 
-	if arg_12_0.params_.page then
-		local var_12_1 = arg_12_0.params_.page
-
-		arg_12_0.currentGroupIndex_ = var_12_1
-
-		local var_12_2 = arg_12_0.groups_[var_12_1]
-		local var_12_3 = arg_12_0.params_.shopId_ or arg_12_0.params_.shopListId
-
-		for iter_12_0, iter_12_1 in ipairs(var_12_2.itemIndexes_) do
-			local var_12_4 = var_12_2[iter_12_1]
-
-			if var_12_3 and var_12_3 == var_12_4.id then
-				arg_12_0.itemToSelect_ = iter_12_0
+		for slot7, slot8 in ipairs(slot2.itemIndexes_) do
+			if slot3 and slot3 == slot2[slot8].id then
+				slot0.itemToSelect_ = slot7
 
 				break
 			end
 		end
 
-		if arg_12_0.itemToSelect_ == nil and arg_12_0.params_.childShopIndex then
-			arg_12_0.itemToSelect_ = arg_12_0.params_.childShopIndex
+		if slot0.itemToSelect_ == nil and slot0.params_.childShopIndex then
+			slot0.itemToSelect_ = slot0.params_.childShopIndex
 		end
 
-		arg_12_0.tree_:SelectGroup(arg_12_0.currentGroupIndex_)
+		slot0.tree_:SelectGroup(slot0.currentGroupIndex_)
 
-		if var_12_3 and arg_12_0.params_.goodId_ then
-			local var_12_5 = arg_12_0.params_.goodId_
-
-			if ShopTools.IsGoodCanBuyInShop(var_12_3, var_12_5) and ShopTools.CheckSoldOut(var_12_5) == false then
-				if ShopTools.CheckGiftSkinOwn(var_12_5) then
+		if slot3 and slot0.params_.goodId_ then
+			if ShopTools.IsGoodCanBuyInShop(slot3, slot0.params_.goodId_) and ShopTools.CheckSoldOut(slot4) == false then
+				if ShopTools.CheckGiftSkinOwn(slot4) then
 					ShowTips("ALREADY_GET")
 				elseif ShopTools.IsPC() then
 					ShowTips("PC_SHOP_TIPS2")
 				else
 					JumpTools.OpenPageByJump("rechargeGiftPopLink", {
-						goodId = var_12_5,
-						shopId = var_12_3
+						goodId = slot4,
+						shopId = slot3
 					})
 				end
 			else
 				ShowTips("SELL_OUT")
 			end
 
-			arg_12_0.params_.goodId_ = nil
+			slot0.params_.goodId_ = nil
 		end
 
-		arg_12_0.params_.shopId_ = nil
+		slot0.params_.shopId_ = nil
 	end
 end
 
-function var_0_0.CheckPageEnter(arg_13_0, arg_13_1)
-	if not arg_13_0.enteredPage_[arg_13_1] then
-		arg_13_0.pages_[arg_13_1]:OnEnter()
+function slot0.CheckPageEnter(slot0, slot1)
+	if not slot0.enteredPage_[slot1] then
+		slot0.pages_[slot1]:OnEnter()
 
-		arg_13_0.enteredPage_[arg_13_1] = true
+		slot0.enteredPage_[slot1] = true
 	end
 end
 
-function var_0_0.OnTop(arg_14_0)
-	arg_14_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 
-	if arg_14_0.currentGroupIndex_ ~= arg_14_0.params_.page or arg_14_0.currentItemIndex_ ~= arg_14_0.params_.childShopIndex then
-		arg_14_0:SwitchPageByParams()
+	if slot0.currentGroupIndex_ ~= slot0.params_.page or slot0.currentItemIndex_ ~= slot0.params_.childShopIndex then
+		slot0:SwitchPageByParams()
 	end
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.enteredPage_ = {}
+function slot0.OnEnter(slot0)
+	slot0.enteredPage_ = {}
 
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.pages_) do
-		arg_15_0:CheckPageEnter(iter_15_0)
+	for slot4, slot5 in pairs(slot0.pages_) do
+		slot0:CheckPageEnter(slot4)
 	end
 
-	arg_15_0:RefreshTree()
-	arg_15_0:SwitchPageByParams()
-	arg_15_0:RegistEventListener(SHOP_BUY_SUCCESS, function(arg_16_0, arg_16_1)
-		for iter_16_0, iter_16_1 in pairs(arg_15_0.pages_) do
-			if iter_16_1 ~= nil and iter_16_1.OnBuySuccess then
-				iter_16_1:OnBuySuccess(arg_16_0, arg_16_1)
+	slot0:RefreshTree()
+	slot0:SwitchPageByParams()
+	slot0:RegistEventListener(SHOP_BUY_SUCCESS, function (slot0, slot1)
+		for slot5, slot6 in pairs(uv0.pages_) do
+			if slot6 ~= nil and slot6.OnBuySuccess then
+				slot6:OnBuySuccess(slot0, slot1)
 			end
 		end
 	end)
 
-	if arg_15_0.pages_[arg_15_0.shopListId_] and arg_15_0.pages_[arg_15_0.shopListId_].RefreshList then
-		arg_15_0.pages_[arg_15_0.shopListId_]:RefreshList()
+	if slot0.pages_[slot0.shopListId_] and slot0.pages_[slot0.shopListId_].RefreshList then
+		slot0.pages_[slot0.shopListId_]:RefreshList()
 	end
 end
 
-function var_0_0.OnExit(arg_17_0)
-	arg_17_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.pages_) do
-		if iter_17_1 ~= nil then
-			iter_17_1:OnExit()
+	for slot4, slot5 in pairs(slot0.pages_) do
+		if slot5 ~= nil then
+			slot5:OnExit()
 		end
 	end
 
-	arg_17_0:UnbindRedPoint()
+	slot0:UnbindRedPoint()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.BindRedPoint(arg_18_0)
-	manager.redPoint:bindUIandKey(arg_18_0.totalRechargeNoticeContainer_, RedPointConst.TOTAL_CHARGE_BONUS)
+function slot0.BindRedPoint(slot0)
+	slot4 = RedPointConst.TOTAL_CHARGE_BONUS
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.groups_) do
-		local var_18_0 = arg_18_0.tree_:GetGroupRedPointContainerById(iter_18_0)
+	manager.redPoint:bindUIandKey(slot0.totalRechargeNoticeContainer_, slot4)
 
-		if var_18_0 then
-			SetActive(var_18_0, true)
+	for slot4, slot5 in pairs(slot0.groups_) do
+		if slot0.tree_:GetGroupRedPointContainerById(slot4) then
+			SetActive(slot6, true)
 
-			local var_18_1 = false
-			local var_18_2 = false
-			local var_18_3 = var_18_0.transform:Find("notice_img/Default")
-			local var_18_4 = var_18_0.transform:Find("notice_img/NewRed")
+			slot7 = false
+			slot8 = false
+			slot9 = slot6.transform:Find("notice_img/Default")
+			slot10 = slot6.transform:Find("notice_img/NewRed")
 
-			for iter_18_2, iter_18_3 in pairs(iter_18_1) do
-				if arg_18_0:CheckShopRedPoint(iter_18_3.id) then
-					var_18_1 = true
+			for slot14, slot15 in pairs(slot5) do
+				if slot0:CheckShopRedPoint(slot15.id) then
+					slot7 = true
 				end
 
-				if arg_18_0:SpecialShop(iter_18_3.id) then
-					var_18_2 = true
+				if slot0:SpecialShop(slot15.id) then
+					slot8 = true
 				end
 			end
 
-			SetActive(var_18_4, var_18_1)
-			SetActive(var_18_3, var_18_2)
+			SetActive(slot10, slot7)
+			SetActive(slot9, slot8)
 		end
 	end
 
-	arg_18_0.updateTimer_ = Timer.New(function()
-		for iter_19_0, iter_19_1 in ipairs(arg_18_0.titleList) do
-			if iter_19_0 <= #arg_18_0.groupInfo.itemIndexes_ then
-				local var_19_0 = arg_18_0.groupInfo[arg_18_0.groupInfo.itemIndexes_[iter_19_0]].id
+	slot0.updateTimer_ = Timer.New(function ()
+		for slot3, slot4 in ipairs(uv0.titleList) do
+			if slot3 <= #uv0.groupInfo.itemIndexes_ then
+				slot5 = uv0.groupInfo[uv0.groupInfo.itemIndexes_[slot3]].id
 
-				SetActive(arg_18_0["newGo" .. iter_19_0 .. "_"], arg_18_0:CheckShopRedPoint(var_19_0))
-				SetActive(arg_18_0["redGo" .. iter_19_0 .. "_"], arg_18_0:SpecialShop(var_19_0))
+				SetActive(uv0["newGo" .. slot3 .. "_"], uv0:CheckShopRedPoint(slot5))
+				SetActive(uv0["redGo" .. slot3 .. "_"], uv0:SpecialShop(slot5))
 			end
 		end
 
-		for iter_19_2, iter_19_3 in pairs(arg_18_0.groups_) do
-			local var_19_1 = arg_18_0.tree_:GetGroupRedPointContainerById(iter_19_2)
+		for slot3, slot4 in pairs(uv0.groups_) do
+			if uv0.tree_:GetGroupRedPointContainerById(slot3) then
+				SetActive(slot5, true)
 
-			if var_19_1 then
-				SetActive(var_19_1, true)
+				slot6 = false
+				slot7 = false
+				slot8 = slot5.transform:Find("notice_img/Default")
+				slot9 = slot5.transform:Find("notice_img/NewRed")
 
-				local var_19_2 = false
-				local var_19_3 = false
-				local var_19_4 = var_19_1.transform:Find("notice_img/Default")
-				local var_19_5 = var_19_1.transform:Find("notice_img/NewRed")
-
-				for iter_19_4, iter_19_5 in pairs(iter_19_3) do
-					if arg_18_0:CheckShopRedPoint(iter_19_5.id) then
-						var_19_2 = true
+				for slot13, slot14 in pairs(slot4) do
+					if uv0:CheckShopRedPoint(slot14.id) then
+						slot6 = true
 					end
 
-					if arg_18_0:SpecialShop(iter_19_5.id) then
-						var_19_3 = true
+					if uv0:SpecialShop(slot14.id) then
+						slot7 = true
 					end
 				end
 
-				SetActive(var_19_5, var_19_2)
-				SetActive(var_19_4, var_19_3)
+				SetActive(slot9, slot6)
+				SetActive(slot8, slot7)
 			end
 		end
 	end, 1, -1, 1)
 
-	arg_18_0.updateTimer_:Start()
+	slot0.updateTimer_:Start()
 end
 
-function var_0_0.UnbindRedPoint(arg_20_0)
-	manager.redPoint:unbindUIandKey(arg_20_0.totalRechargeNoticeContainer_, RedPointConst.TOTAL_CHARGE_BONUS, {
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.totalRechargeNoticeContainer_, RedPointConst.TOTAL_CHARGE_BONUS, {
 		x = 0,
 		y = 0
 	})
 
-	if arg_20_0.updateTimer_ then
-		arg_20_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_20_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 end
 
-function var_0_0.OnShopBuyResult(arg_21_0, arg_21_1, arg_21_2, arg_21_3, arg_21_4)
-	if arg_21_0.pages_[var_0_1] then
-		arg_21_0.pages_[var_0_1]:OnShopBuyResult(arg_21_1, arg_21_2, arg_21_3, arg_21_4)
+function slot0.OnShopBuyResult(slot0, slot1, slot2, slot3, slot4)
+	if slot0.pages_[uv0] then
+		slot0.pages_[uv0]:OnShopBuyResult(slot1, slot2, slot3, slot4)
 	end
 end
 
-function var_0_0.SpecialShop(arg_22_0, arg_22_1)
-	if ShopConst.PC_LOCK_SHOP[arg_22_1] == true and ShopTools.IsPC() then
+function slot0.SpecialShop(slot0, slot1)
+	if ShopConst.PC_LOCK_SHOP[slot1] == true and ShopTools.IsPC() then
 		return false
 	end
 
-	if ShopConst.SHOP_ID_TO_RED_CONST[arg_22_1] then
-		return manager.redPoint:getTipValue(ShopConst.SHOP_ID_TO_RED_CONST[arg_22_1]) >= 1
+	if ShopConst.SHOP_ID_TO_RED_CONST[slot1] then
+		return manager.redPoint:getTipValue(ShopConst.SHOP_ID_TO_RED_CONST[slot1]) >= 1
 	end
 
 	return false
 end
 
-function var_0_0.CheckShopRedPoint(arg_23_0, arg_23_1)
-	return ShopData.GetRedPointData()[arg_23_1] == true
+function slot0.CheckShopRedPoint(slot0, slot1)
+	return ShopData.GetRedPointData()[slot1] == true
 end
 
-function var_0_0.OnTryToUseItem(arg_24_0, arg_24_1, arg_24_2)
-	if isSuccess(arg_24_1.result) then
-		local var_24_0 = arg_24_2.use_item_list[1].item_id
-		local var_24_1 = ItemCfg[var_24_0].param[1]
+function slot0.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		slot4 = ItemCfg[slot2.use_item_list[1].item_id].param[1]
 
 		getReward({
 			{
 				num = 1,
-				id = var_24_1
+				id = slot4
 			}
 		}, {
 			ItemConst.ITEM_TYPE.HERO_SKIN
 		})
-
-		local var_24_2 = SkinCfg[var_24_1].hero
-
-		HeroAction.UpdateSkinCouponRedPoint(var_24_2)
-		HeroAction.SkinAdd(var_24_1)
+		HeroAction.UpdateSkinCouponRedPoint(SkinCfg[slot4].hero)
+		HeroAction.SkinAdd(slot4)
 	else
-		ShowTips(arg_24_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.HaveActivityGift(arg_25_0)
-	local var_25_0 = getShopIDListByShopID(ShopConst.SHOP_ID.LIMIT_SUPPLY)
-
-	for iter_25_0, iter_25_1 in ipairs(var_25_0) do
-		if not ShopData.IsGoodOutOfDate(iter_25_1, ShopConst.SHOP_ID.LIMIT_SUPPLY) then
+function slot0.HaveActivityGift(slot0)
+	for slot5, slot6 in ipairs(getShopIDListByShopID(ShopConst.SHOP_ID.LIMIT_SUPPLY)) do
+		if not ShopData.IsGoodOutOfDate(slot6, ShopConst.SHOP_ID.LIMIT_SUPPLY) then
 			return true
 		end
 	end
@@ -436,12 +414,9 @@ function var_0_0.HaveActivityGift(arg_25_0)
 	return false
 end
 
-function var_0_0.HaveNewbieGift(arg_26_0)
-	local var_26_0 = ShopConst.SHOP_ID.NEWBIE_SHOP
-	local var_26_1 = ShopData.GetShop(var_26_0)
-
-	for iter_26_0, iter_26_1 in pairs(var_26_1.shopItemIDs) do
-		if ShopTools.IsGoodCanDisplay(var_26_0, iter_26_1) and not ShopData.IsSoldout(var_26_0, iter_26_1) then
+function slot0.HaveNewbieGift(slot0)
+	for slot6, slot7 in pairs(ShopData.GetShop(ShopConst.SHOP_ID.NEWBIE_SHOP).shopItemIDs) do
+		if ShopTools.IsGoodCanDisplay(slot1, slot7) and not ShopData.IsSoldout(slot1, slot7) then
 			return true
 		end
 	end
@@ -449,115 +424,109 @@ function var_0_0.HaveNewbieGift(arg_26_0)
 	return false
 end
 
-function var_0_0.OnMainHomeViewTop(arg_27_0)
-	arg_27_0.params_.childShopIndex = 1
-	arg_27_0.params_.page = 1
+function slot0.OnMainHomeViewTop(slot0)
+	slot0.params_.childShopIndex = 1
+	slot0.params_.page = 1
 end
 
-function var_0_0.Dispose(arg_28_0)
-	arg_28_0.firstRechargeGroupGoList_ = nil
+function slot0.Dispose(slot0)
+	slot0.firstRechargeGroupGoList_ = nil
 
-	if arg_28_0.tree_ then
-		arg_28_0.tree_:Dispose()
+	if slot0.tree_ then
+		slot0.tree_:Dispose()
 
-		arg_28_0.tree_ = nil
+		slot0.tree_ = nil
 	end
 
-	for iter_28_0, iter_28_1 in ipairs(arg_28_0.titleList) do
-		iter_28_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.titleList) do
+		slot5:Dispose()
 	end
 
-	if arg_28_0.pages_ then
-		for iter_28_2, iter_28_3 in pairs(arg_28_0.pages_) do
-			iter_28_3:Dispose()
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:Dispose()
 		end
 
-		arg_28_0.pages_ = nil
+		slot0.pages_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_28_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshFirstRechargeGroup(arg_29_0)
-	arg_29_0.firstRechargeGroupGoList_ = {}
-	arg_29_0.firstRechargeGroupGoList_[1] = arg_29_0.tree_:GetGroupGameObjectById(ShopConst.SHOP_ID.SIX_SHOP)
-	arg_29_0.firstRechargeGroupGoList_[2] = arg_29_0.tree_:GetGroupGameObjectById(ShopConst.SHOP_ID.EIGHT_SHOP)
-	arg_29_0.firstRechargeGroupGoList_[3] = arg_29_0.tree_:GetGroupGameObjectById(ShopConst.SHOP_ID.OBSERVATION_SHOP)
+function slot0.RefreshFirstRechargeGroup(slot0)
+	slot0.firstRechargeGroupGoList_ = {
+		slot0.tree_:GetGroupGameObjectById(ShopConst.SHOP_ID.SIX_SHOP),
+		slot0.tree_:GetGroupGameObjectById(ShopConst.SHOP_ID.EIGHT_SHOP)
+	}
+	slot4 = ShopConst.SHOP_ID.OBSERVATION_SHOP
+	slot0.firstRechargeGroupGoList_[3] = slot0.tree_:GetGroupGameObjectById(slot4)
 
-	for iter_29_0, iter_29_1 in ipairs(arg_29_0.firstRechargeGroupGoList_) do
-		SetActive(iter_29_1, ActivityNewbieTools.GetRechargeIsOpen(iter_29_0))
+	for slot4, slot5 in ipairs(slot0.firstRechargeGroupGoList_) do
+		SetActive(slot5, ActivityNewbieTools.GetRechargeIsOpen(slot4))
 	end
 
-	local var_29_0 = ActivityNewbieTools.GetFirstRechargeStatus()
-
-	if var_29_0 and var_29_0.firstGearStatus == 2 then
-		arg_29_0.tree_:GetData().groupDatas[5].defaultIndex = 1
+	if ActivityNewbieTools.GetFirstRechargeStatus() and slot1.firstGearStatus == 2 then
+		slot0.tree_:GetData().groupDatas[5].defaultIndex = 1
 	end
 end
 
-function var_0_0.GetTreeDataByParams(arg_30_0)
-	local var_30_0 = {}
+function slot0.GetTreeDataByParams(slot0)
+	slot1 = {}
 
-	if arg_30_0.params_.showShops then
-		var_30_0 = arg_30_0.params_.showShops
+	if slot0.params_.showShops then
+		slot1 = slot0.params_.showShops
 	else
-		local var_30_1 = ShopListCfg.get_id_list_by_system[2]
-
-		for iter_30_0, iter_30_1 in ipairs(var_30_1) do
-			if ShopListCfg[iter_30_1].show_in_shop == 1 then
-				table.insert(var_30_0, iter_30_1)
+		for slot6, slot7 in ipairs(ShopListCfg.get_id_list_by_system[2]) do
+			if ShopListCfg[slot7].show_in_shop == 1 then
+				table.insert(slot1, slot7)
 			end
 		end
 	end
 
-	local var_30_2 = {}
+	slot2 = {}
 
-	for iter_30_2, iter_30_3 in ipairs(var_30_0) do
-		table.insert(var_30_2, iter_30_3)
+	for slot6, slot7 in ipairs(slot1) do
+		table.insert(slot2, slot7)
 	end
 
-	arg_30_0.groups_ = {}
-	arg_30_0.groupIndexes_ = {}
+	slot0.groups_ = {}
+	slot0.groupIndexes_ = {}
+	slot3 = UITreeData.New()
 
-	local var_30_3 = UITreeData.New()
-
-	for iter_30_4, iter_30_5 in ipairs(var_30_2) do
-		local var_30_4 = ShopListCfg[iter_30_5]
-
-		if not arg_30_0.groups_[var_30_4.display_group] then
-			arg_30_0.groups_[var_30_4.display_group] = {
+	for slot7, slot8 in ipairs(slot2) do
+		if not slot0.groups_[ShopListCfg[slot8].display_group] then
+			slot0.groups_[slot9.display_group] = {
 				itemIndexes_ = {}
 			}
 
-			table.insert(arg_30_0.groupIndexes_, var_30_4.display_group)
+			table.insert(slot0.groupIndexes_, slot9.display_group)
 		end
 
-		arg_30_0.groups_[var_30_4.display_group][var_30_4.display_index] = var_30_4
+		slot0.groups_[slot9.display_group][slot9.display_index] = slot9
 
-		table.insert(arg_30_0.groups_[var_30_4.display_group].itemIndexes_, var_30_4.display_index)
+		table.insert(slot0.groups_[slot9.display_group].itemIndexes_, slot9.display_index)
 	end
 
-	for iter_30_6, iter_30_7 in pairs(arg_30_0.groups_) do
-		table.sort(iter_30_7.itemIndexes_, function(arg_31_0, arg_31_1)
-			return arg_31_0 < arg_31_1
+	for slot7, slot8 in pairs(slot0.groups_) do
+		table.sort(slot8.itemIndexes_, function (slot0, slot1)
+			return slot0 < slot1
 		end)
 	end
 
-	table.sort(arg_30_0.groupIndexes_, function(arg_32_0, arg_32_1)
-		return arg_32_0 < arg_32_1
+	table.sort(slot0.groupIndexes_, function (slot0, slot1)
+		return slot0 < slot1
 	end)
 
-	for iter_30_8, iter_30_9 in pairs(arg_30_0.groupIndexes_) do
-		local var_30_5 = UITreeGroupData.New()
+	for slot7, slot8 in pairs(slot0.groupIndexes_) do
+		slot9 = UITreeGroupData.New()
+		slot9.text = GetI18NText(ShopListCfg.get_id_list_by_system_and_group[2][slot8][1].group_name)
+		slot9.controllerStateValue = tostring(slot8)
+		slot9.id = slot8
 
-		var_30_5.text = GetI18NText(ShopListCfg.get_id_list_by_system_and_group[2][iter_30_9][1].group_name)
-		var_30_5.controllerStateValue = tostring(iter_30_9)
-		var_30_5.id = iter_30_9
-
-		var_30_3.groupDatas:Add(var_30_5)
+		slot3.groupDatas:Add(slot9)
 	end
 
-	return var_30_3
+	return slot3
 end
 
-return var_0_0
+return slot0

@@ -14,8 +14,8 @@ return {
 		OHTER_1 = 603,
 		HERO_LEVEL_UP = 601
 	},
-	DecorateToTitleBar = function(arg_1_0)
-		return "mat_" .. arg_1_0
+	DecorateToTitleBar = function (slot0)
+		return "mat_" .. slot0
 	end,
 	MYTHIC_REFRESH_ITEM_ID = ItemCfg.get_id_list_by_sub_type[611][1]
 }

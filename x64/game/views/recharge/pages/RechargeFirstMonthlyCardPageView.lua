@@ -1,106 +1,99 @@
-local var_0_0 = import("game.views.recharge.pages.RechargePageBase")
-local var_0_1 = class("RechargeFirstMonthlyCardPageView", var_0_0)
+slot1 = class("RechargeFirstMonthlyCardPageView", import("game.views.recharge.pages.RechargePageBase"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot1.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.btnPanelTrans_, "status")
-	arg_1_0.typeController_ = ControllerUtil.GetController(arg_1_0.transform_, "type")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.btnPanelTrans_, "status")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_1.Dispose(arg_2_0)
-	if arg_2_0.commonItem_ then
-		arg_2_0.commonItem_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.commonItem_ then
+		slot0.commonItem_:Dispose()
 
-		arg_2_0.commonItem_ = nil
+		slot0.commonItem_ = nil
 	end
 
-	Object.Destroy(arg_2_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.gameObject_ = nil
-	arg_2_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_1.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.sourceBtn_, nil, function()
-		local var_4_0 = GameSetting.newbie_first_monthly_card_reward.value[2]
-
-		JumpTools.JumpToPage2(var_4_0)
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.sourceBtn_, nil, function ()
+		JumpTools.JumpToPage2(GameSetting.newbie_first_monthly_card_reward.value[2])
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		ActivityNewbieTools.ReceiveRechargeReward(2, 0, function(arg_6_0)
-			arg_3_0:RefreshStatus()
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		ActivityNewbieTools.ReceiveRechargeReward(2, 0, function (slot0)
+			uv0:RefreshStatus()
 		end)
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.signRewardBtn_, nil, function()
-		local var_7_0 = GameSetting.newbie_first_monthly_card_cumulative.value[2]
-
-		ShowPopItem(POP_ITEM, var_7_0)
+	slot0:AddBtnListener(slot0.signRewardBtn_, nil, function ()
+		ShowPopItem(POP_ITEM, GameSetting.newbie_first_monthly_card_cumulative.value[2])
 	end)
 end
 
-function var_0_1.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
+function slot1.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_1.RefreshUI(arg_9_0)
-	arg_9_0.rewardCfg_ = GameSetting.newbie_first_monthly_card_reward.value[1]
+function slot1.RefreshUI(slot0)
+	slot0.rewardCfg_ = GameSetting.newbie_first_monthly_card_reward.value[1]
 
-	if not arg_9_0.commonItem_ then
-		local var_9_0 = clone(ItemTemplateData)
+	if not slot0.commonItem_ then
+		slot1 = clone(ItemTemplateData)
+		slot1.id = slot0.rewardCfg_[1]
+		slot1.number = slot0.rewardCfg_[2]
 
-		var_9_0.id = arg_9_0.rewardCfg_[1]
-		var_9_0.number = arg_9_0.rewardCfg_[2]
-
-		function var_9_0.clickFun(arg_10_0)
-			if arg_9_0.status_ == 1 then
-				arg_9_0:ReceiveReward()
+		function slot1.clickFun(slot0)
+			if uv0.status_ == 1 then
+				uv0:ReceiveReward()
 			else
-				ShowPopItem(POP_ITEM, arg_9_0.rewardCfg_)
+				ShowPopItem(POP_ITEM, uv0.rewardCfg_)
 			end
 		end
 
-		arg_9_0.commonItem_ = CommonItemView.New(arg_9_0.commonGo_)
+		slot0.commonItem_ = CommonItemView.New(slot0.commonGo_)
 
-		arg_9_0.commonItem_:SetData(var_9_0)
+		slot0.commonItem_:SetData(slot1)
 	end
 
-	arg_9_0:RefreshStatus()
-	arg_9_0.typeController_:SetSelectedIndex(1)
+	slot0:RefreshStatus()
+	slot0.typeController_:SetSelectedIndex(1)
 	ActivityNewbieTools.SetSelectMonthlyRecharge()
 end
 
-function var_0_1.Show(arg_11_0)
-	SetActive(arg_11_0.gameObject_, true)
-	arg_11_0:RefreshUI()
+function slot1.Show(slot0)
+	SetActive(slot0.gameObject_, true)
+	slot0:RefreshUI()
 end
 
-function var_0_1.RefreshStatus(arg_12_0)
-	local var_12_0 = ActivityNewbieTools.GetFirstMonthlyCardStatus()
-	local var_12_1 = var_12_0.isRecharged
-	local var_12_2 = var_12_0.heroRewardFlag
+function slot1.RefreshStatus(slot0)
+	slot1 = ActivityNewbieTools.GetFirstMonthlyCardStatus()
+	slot3 = slot1.heroRewardFlag
 
-	if var_12_1 == false then
-		arg_12_0.status_ = 0
-	elseif var_12_2 == false then
-		arg_12_0.status_ = 1
+	if slot1.isRecharged == false then
+		slot0.status_ = 0
+	elseif slot3 == false then
+		slot0.status_ = 1
 	else
-		arg_12_0.status_ = 2
+		slot0.status_ = 2
 	end
 
-	arg_12_0.statusController_:SetSelectedIndex(arg_12_0.status_)
+	slot0.statusController_:SetSelectedIndex(slot0.status_)
 end
 
-function var_0_1.ReceiveReward(arg_13_0)
-	ActivityNewbieTools.ReceiveRechargeReward(2, 0, function(arg_14_0)
-		arg_13_0:RefreshStatus()
+function slot1.ReceiveReward(slot0)
+	ActivityNewbieTools.ReceiveRechargeReward(2, 0, function (slot0)
+		uv0:RefreshStatus()
 	end)
 end
 
-return var_0_1
+return slot1

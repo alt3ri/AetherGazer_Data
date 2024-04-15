@@ -1,74 +1,63 @@
 BattleScoreResultView = import("game.views.battleResult.score.BattleScoreResultView")
-
-local var_0_0 = class("SoloHeartDemonResultView", BattleScoreResultView)
-local var_0_1 = {
+slot0 = class("SoloHeartDemonResultView", BattleScoreResultView)
+slot1 = {
 	"SOLO_HEART_DEMON_EASY",
 	"SOLO_HEART_DEMON_HARD",
 	"SOLO_HEART_DEMON_NIGHTMARE"
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BattleResult/SoloHeartMultipletUI"
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btnBack_, nil, function()
-		arg_3_0:CloseFunc()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		uv0:CloseFunc()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = BattleTools.GetBattleStatisticsData()
-	local var_5_1 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua
-	local var_5_2 = var_5_1.recordDatas
-	local var_5_3
+function slot0.RefreshUI(slot0)
+	slot1 = BattleTools.GetBattleStatisticsData()
+	slot0.missTimes = 0
 
-	arg_5_0.missTimes = 0
-
-	if var_5_2:TryGetValue(8, var_5_3) then
-		arg_5_0.missTimes = var_5_2[8] or 0
+	if LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas:TryGetValue(8, nil) then
+		slot0.missTimes = slot3[8] or 0
 	end
 
-	arg_5_0.hitTime = 0
+	slot0.hitTime = 0
 
-	if var_5_2:TryGetValue(61, var_5_3) then
-		arg_5_0.hitTime = var_5_2[61] or 0
+	if slot3:TryGetValue(61, slot4) then
+		slot0.hitTime = slot3[61] or 0
 	end
 
-	arg_5_0.battleTime = var_5_1.battleTime
-	arg_5_0.hitDamage = tonumber(tostring(var_5_0[1].hurt))
-	arg_5_0.battleTime2Text_.text = arg_5_0:GetBattleTime()
+	slot0.battleTime = slot2.battleTime
+	slot0.hitDamage = tonumber(tostring(slot1[1].hurt))
+	slot0.battleTime2Text_.text = slot0:GetBattleTime()
+	slot6 = SoloHeartDemonData:GetDataByPara("stageToDifficulty")[slot0.stageData:GetDest()]
+	slot0.hitDamageTxt_.text = tostring(slot0.hitTime)
+	slot0.difficultytext.text = GetTips(uv0[slot6])
 
-	local var_5_4 = SoloHeartDemonData:GetDataByPara("stageToDifficulty")[arg_5_0.stageData:GetDest()]
-	local var_5_5 = SoloHeartDemonData:GetDataByPara("difficultyData")[var_5_4]
+	SetActive(slot0.hitNewGo_, slot0.hitTime < SoloHeartDemonData:GetDataByPara("difficultyData")[slot6].hitTime)
+	SetActive(slot0.timeNewGo_, slot0.battleTime < slot7.shortestBattleTime)
 
-	arg_5_0.hitDamageTxt_.text = tostring(arg_5_0.hitTime)
-	arg_5_0.difficultytext.text = GetTips(var_0_1[var_5_4])
+	slot0.score = SoloHeartDemonData:GetDataByPara("battleScore") or 0
+	slot0.scoreTxt_.text = slot0.score
 
-	SetActive(arg_5_0.hitNewGo_, arg_5_0.hitTime < var_5_5.hitTime)
-	SetActive(arg_5_0.timeNewGo_, var_5_5.shortestBattleTime > arg_5_0.battleTime)
-
-	arg_5_0.score = SoloHeartDemonData:GetDataByPara("battleScore") or 0
-	arg_5_0.scoreTxt_.text = arg_5_0.score
-
-	SetActive(arg_5_0.scoreNewGo_, arg_5_0.score > var_5_5.maxScore)
+	SetActive(slot0.scoreNewGo_, slot7.maxScore < slot0.score)
 end
 
-function var_0_0.OnSoloDemonHeartScoreUpdate(arg_6_0)
-	local var_6_0 = stageToDifficulty[arg_6_0.stageData:GetDest()]
-	local var_6_1 = SoloHeartDemonData:GetDataByPara("difficultyData")[var_6_0]
+function slot0.OnSoloDemonHeartScoreUpdate(slot0)
+	slot0.scoreTxt_.text = SoloHeartDemonData:GetDataByPara("battleScore")
 
-	arg_6_0.scoreTxt_.text = SoloHeartDemonData:GetDataByPara("battleScore")
-
-	SetActive(arg_6_0.scoreNewGo_, SoloHeartDemonData:GetDataByPara("battleScore") > var_6_1.maxScore)
+	SetActive(slot0.scoreNewGo_, SoloHeartDemonData:GetDataByPara("difficultyData")[stageToDifficulty[slot0.stageData:GetDest()]].maxScore < SoloHeartDemonData:GetDataByPara("battleScore"))
 end
 
-function var_0_0.OnExit(arg_7_0)
-	SoloHeartDemonData:UpdateBattleFinishData(2, arg_7_0.battleTime, arg_7_0.score, arg_7_0.hitDamage, arg_7_0.missTimes, arg_7_0.hitTime, arg_7_0.stageData:GetDest())
+function slot0.OnExit(slot0)
+	SoloHeartDemonData:UpdateBattleFinishData(2, slot0.battleTime, slot0.score, slot0.hitDamage, slot0.missTimes, slot0.hitTime, slot0.stageData:GetDest())
 end
 
-return var_0_0
+return slot0

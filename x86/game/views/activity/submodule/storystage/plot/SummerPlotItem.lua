@@ -1,48 +1,45 @@
-local var_0_0 = class("SummerPlotItem", ReduxView)
+slot0 = class("SummerPlotItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "Item")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "Item")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.button_, nil, function()
-		if not arg_2_0.isLock_ then
-			WarChessAction.SetActivityChessPlotRedPoint(ActivityConst.THEME.SUMMER, arg_2_0.storyID_)
-			manager.story:StartStoryById(arg_2_0.storyID_, function()
-				return
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if not uv0.isLock_ then
+			WarChessAction.SetActivityChessPlotRedPoint(ActivityConst.THEME.SUMMER, uv0.storyID_)
+			manager.story:StartStoryById(uv0.storyID_, function ()
 			end)
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	manager.redPoint:unbindUIandKey(arg_5_0.transform_, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER, arg_5_0.storyID_))
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER, slot0.storyID_))
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	local var_6_0 = arg_6_3 < arg_6_2
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	if slot3 < slot2 then
+		slot0.controller_:SetSelectedState("lock")
 
-	if var_6_0 then
-		arg_6_0.controller_:SetSelectedState("lock")
-
-		arg_6_0.nameText_.text = string.format(GetTips("EXPLORE_UNLOCK"), arg_6_2)
+		slot0.nameText_.text = string.format(GetTips("EXPLORE_UNLOCK"), slot2)
 	else
-		arg_6_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 
-		arg_6_0.nameText_.text = GetI18NText(StoryCfg[arg_6_1].name)
+		slot0.nameText_.text = GetI18NText(StoryCfg[slot1].name)
 	end
 
-	arg_6_0.storyID_ = arg_6_1
-	arg_6_0.isLock_ = var_6_0
+	slot0.storyID_ = slot1
+	slot0.isLock_ = slot4
 
-	manager.redPoint:bindUIandKey(arg_6_0.transform_, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER, arg_6_0.storyID_))
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER, slot0.storyID_))
 end
 
-return var_0_0
+return slot0

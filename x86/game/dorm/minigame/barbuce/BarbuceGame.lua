@@ -1,135 +1,128 @@
-local var_0_0 = class("BarbuceGame")
+slot0 = class("BarbuceGame")
 
-local function var_0_1(arg_1_0)
-	return arg_1_0.model
+function slot1(slot0)
+	return slot0.model
 end
 
-local function var_0_2(arg_2_0)
-	return arg_2_0.spawnAt
+function slot2(slot0)
+	return slot0.spawnAt
 end
 
-function var_0_0.Ctor(arg_3_0, arg_3_1)
-	local var_3_0 = SPHeroChallengeData:GetActivityID()
+function slot0.Ctor(slot0, slot1)
+	slot2 = SPHeroChallengeData:GetActivityID()
+	slot0.gameFinish = slot1
+	slot0.playerManager = EntityManager.New(EntityManager.CreatePlayer.New(uv0, uv1))
 
-	arg_3_0.gameFinish = arg_3_1
-
-	local var_3_1 = EntityManager.CreatePlayer.New(var_0_1, var_0_2)
-
-	arg_3_0.playerManager = EntityManager.New(var_3_1)
-
-	function arg_3_0.playerManager.OnRemove(arg_4_0, arg_4_1)
-		manager.notify:Invoke(DORM_CHARACTER_DISPOSE, arg_4_1)
+	function slot0.playerManager.OnRemove(slot0, slot1)
+		manager.notify:Invoke(DORM_CHARACTER_DISPOSE, slot1)
 	end
 
-	arg_3_0.managers = {
-		arg_3_0.playerManager
+	slot0.managers = {
+		slot0.playerManager
 	}
-	arg_3_0.player = arg_3_0.playerManager:Create(1, {
+	slot0.player = slot0.playerManager:Create(1, {
 		complex = true,
-		model = "CharDorm/activity/Barbuce/" .. ActivityHeroChallengeCfg[var_3_0].hero_prefab_id,
+		model = "CharDorm/activity/Barbuce/" .. ActivityHeroChallengeCfg[slot2].hero_prefab_id,
 		spawnAt = Dorm.storage:PickData("barbuce.spawn.player").transform
 	}, {
 		type = "player",
-		cfgID = ActivityHeroChallengeCfg[var_3_0].hero_id or 1084
+		cfgID = ActivityHeroChallengeCfg[slot2].hero_id or 1084
 	})
-	arg_3_0.brickItem = Dorm.DormEntityManager.Instance:SpawnEntity("CharDorm/prop/kaoroujia", Dorm.storage:PickData("barbuce.spawn.player").transform, false, true)
-	arg_3_0.brickItemSucess = GameObject.Find("kaorou_success"):GetComponent("PlayableDirector")
-	arg_3_0.brickItemFaile = GameObject.Find("kaorou_fail"):GetComponent("PlayableDirector")
+	slot0.brickItem = Dorm.DormEntityManager.Instance:SpawnEntity("CharDorm/prop/kaoroujia", Dorm.storage:PickData("barbuce.spawn.player").transform, false, true)
+	slot0.brickItemSucess = GameObject.Find("kaorou_success"):GetComponent("PlayableDirector")
+	slot0.brickItemFaile = GameObject.Find("kaorou_fail"):GetComponent("PlayableDirector")
 
-	Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_3_0.brickItem, "barbecue_start")
-	Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_3_0.player, "barbecue_start")
+	Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.brickItem, "barbecue_start")
+	Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.player, "barbecue_start")
 end
 
-local var_0_3 = "barbecue_successed"
-local var_0_4 = "barbecue_failed"
+slot3 = "barbecue_successed"
+slot4 = "barbecue_failed"
 
-local function var_0_5(arg_5_0)
-	local var_5_0 = DormCharacterActionManager.taskRunner:NewTask()
+function slot5(slot0)
+	slot1 = DormCharacterActionManager.taskRunner:NewTask()
 
-	var_5_0:Then(function()
-		return
-	end):WaitUntil(function(arg_7_0)
-		local var_7_0, var_7_1 = arg_5_0.gameFinish()
+	slot1:Then(function ()
+	end):WaitUntil(function (slot0)
+		slot1, slot0.taskDataCtx.result = uv0.gameFinish()
 
-		if var_7_0 then
-			arg_7_0.taskDataCtx.result = var_7_1
+		if slot1 then
+			-- Nothing
 		end
 
-		return var_7_0
-	end):Then(function(arg_8_0)
-		local var_8_0 = arg_8_0.taskDataCtx.result
-		local var_8_1 = var_8_0 and var_0_3 or var_0_4
+		return slot1
+	end):Then(function (slot0)
+		slot2 = slot0.taskDataCtx.result and uv0 or uv1
 
-		if var_8_0 then
-			arg_5_0.brickItemSucess:Play()
+		if slot1 then
+			uv2.brickItemSucess:Play()
 		else
-			arg_5_0.brickItemFaile:Play()
+			uv2.brickItemFaile:Play()
 		end
 
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_5_0.brickItem, var_8_1)
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_5_0.player, var_8_1)
-	end):WaitUntil(function(arg_9_0)
-		if arg_9_0.taskDataCtx.finish == true or arg_5_0.gameTask:IsFinished() then
-			arg_9_0.taskDataCtx = nil
-			arg_5_0.gameTask = nil
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv2.brickItem, slot2)
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv2.player, slot2)
+	end):WaitUntil(function (slot0)
+		if slot0.taskDataCtx.finish == true or uv0.gameTask:IsFinished() then
+			slot0.taskDataCtx = nil
+			uv0.gameTask = nil
 
 			return true
 		end
 	end)
 
-	return var_5_0
+	return slot1
 end
 
-function var_0_0.StopPlayable(arg_10_0)
-	arg_10_0.brickItemSucess:Stop()
+function slot0.StopPlayable(slot0)
+	slot0.brickItemSucess:Stop()
 
-	arg_10_0.brickItemSucess.time = 0
+	slot0.brickItemSucess.time = 0
 
-	arg_10_0.brickItemSucess:Evaluate()
-	arg_10_0.brickItemFaile:Stop()
+	slot0.brickItemSucess:Evaluate()
+	slot0.brickItemFaile:Stop()
 
-	arg_10_0.brickItemFaile.time = 0
+	slot0.brickItemFaile.time = 0
 
-	arg_10_0.brickItemFaile:Evaluate()
+	slot0.brickItemFaile:Evaluate()
 end
 
-function var_0_0.Start(arg_11_0)
-	if arg_11_0.gameTask then
-		arg_11_0.gameTask:Abort()
+function slot0.Start(slot0)
+	if slot0.gameTask then
+		slot0.gameTask:Abort()
 	end
 
-	local var_11_0 = var_0_5(arg_11_0)
+	slot1 = uv0(slot0)
 
-	var_11_0:SetOnComplete(function()
-		arg_11_0:StopPlayable()
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_11_0.brickItem, "barbecue_start")
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_11_0.player, "barbecue_start")
+	slot1:SetOnComplete(function ()
+		uv0:StopPlayable()
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv0.brickItem, "barbecue_start")
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv0.player, "barbecue_start")
 	end)
-	var_11_0:SetOnAbort(function()
-		arg_11_0:StopPlayable()
+	slot1:SetOnAbort(function ()
+		uv0:StopPlayable()
 	end)
 
-	arg_11_0.gameTask = var_11_0
+	slot0.gameTask = slot1
 
-	arg_11_0.gameTask:Start()
+	slot0.gameTask:Start()
 end
 
-function var_0_0.PlayStartAnim(arg_14_0)
-	arg_14_0:StopPlayable()
-	Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_14_0.brickItem, "barbecue_start")
-	Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_14_0.player, "barbecue_start")
+function slot0.PlayStartAnim(slot0)
+	slot0:StopPlayable()
+	Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.brickItem, "barbecue_start")
+	Dorm.DormEntityManager.PlayAnimeDuringInteract(slot0.player, "barbecue_start")
 end
 
-function var_0_0.OnQte(arg_15_0, arg_15_1)
-	return
+function slot0.OnQte(slot0, slot1)
 end
 
-function var_0_0.Abort(arg_16_0)
-	if arg_16_0.gameTask then
-		arg_16_0.gameTask:Abort()
+function slot0.Abort(slot0)
+	if slot0.gameTask then
+		slot0.gameTask:Abort()
 
-		arg_16_0.gameTask = nil
+		slot0.gameTask = nil
 	end
 end
 
-return var_0_0
+return slot0

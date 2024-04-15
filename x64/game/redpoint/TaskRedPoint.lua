@@ -1,151 +1,126 @@
 return {
-	InitRedUpdater = function(arg_1_0)
-		if not arg_1_0.redUpdater then
-			arg_1_0.redUpdater = {
-				[TaskConst.TASK_TYPE.ALPHA] = handler(arg_1_0, arg_1_0.UpdateNewbieTaskRedPoint),
-				[TaskConst.TASK_TYPE.DAILY_OFFER] = handler(arg_1_0, arg_1_0.UpdateNewbieDailyTaskRedTip),
-				[TaskConst.TASK_TYPE.NOOB] = handler(arg_1_0, arg_1_0.UpdateNoobTaskRedPoint),
-				[TaskConst.TASK_TYPE.NOOB_ADVANCE] = handler(arg_1_0, arg_1_0.UpdateNoobAdvanceTaskRedPoint),
-				[TaskConst.TASK_TYPE.NOOB_3_0] = handler(arg_1_0, arg_1_0.UpdateNoobTaskRedPoint),
-				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_1] = handler(arg_1_0, arg_1_0.UpdateNoobAdvanceTaskRedPoint),
-				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_2] = handler(arg_1_0, arg_1_0.UpdateNoobAdvanceTaskRedPoint),
-				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_3] = handler(arg_1_0, arg_1_0.UpdateNoobAdvanceTaskRedPoint),
-				[TaskConst.TASK_TYPE.DAILY] = handler(arg_1_0, arg_1_0.UpdateDailyTaskRedTip),
-				[TaskConst.TASK_TYPE.PLOT] = handler(arg_1_0, arg_1_0.UpdatePlotTaskRedTip),
-				[TaskConst.TASK_TYPE.CLUB_TASK] = handler(arg_1_0, arg_1_0.UpdateClubTaskRedTip),
-				[TaskConst.TASK_TYPE.WEEK] = handler(arg_1_0, arg_1_0.UpdateWeekTaskRedTip),
-				[TaskConst.TASK_TYPE.CHAPTER_PLOT_19] = handler(arg_1_0, arg_1_0.UpdateChapterPlot19RedTip),
-				[TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY] = handler(arg_1_0, arg_1_0.UpdateIdolTraineeDayAndWeekRedTip),
-				[TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY] = handler(arg_1_0, arg_1_0.UpdateIdolTraineeDayAndWeekRedTip),
-				[TaskConst.TASK_TYPE.IDOL_TRAINEE_CHAPTER] = handler(arg_1_0, arg_1_0.UpdateIdolTraineeChapterRedTip)
+	InitRedUpdater = function (slot0)
+		if not slot0.redUpdater then
+			slot0.redUpdater = {
+				[TaskConst.TASK_TYPE.ALPHA] = handler(slot0, slot0.UpdateNewbieTaskRedPoint),
+				[TaskConst.TASK_TYPE.DAILY_OFFER] = handler(slot0, slot0.UpdateNewbieDailyTaskRedTip),
+				[TaskConst.TASK_TYPE.NOOB] = handler(slot0, slot0.UpdateNoobTaskRedPoint),
+				[TaskConst.TASK_TYPE.NOOB_ADVANCE] = handler(slot0, slot0.UpdateNoobAdvanceTaskRedPoint),
+				[TaskConst.TASK_TYPE.NOOB_3_0] = handler(slot0, slot0.UpdateNoobTaskRedPoint),
+				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_1] = handler(slot0, slot0.UpdateNoobAdvanceTaskRedPoint),
+				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_2] = handler(slot0, slot0.UpdateNoobAdvanceTaskRedPoint),
+				[TaskConst.TASK_TYPE.NOOB_ADVANCE_3_0_3] = handler(slot0, slot0.UpdateNoobAdvanceTaskRedPoint),
+				[TaskConst.TASK_TYPE.DAILY] = handler(slot0, slot0.UpdateDailyTaskRedTip),
+				[TaskConst.TASK_TYPE.PLOT] = handler(slot0, slot0.UpdatePlotTaskRedTip),
+				[TaskConst.TASK_TYPE.CLUB_TASK] = handler(slot0, slot0.UpdateClubTaskRedTip),
+				[TaskConst.TASK_TYPE.WEEK] = handler(slot0, slot0.UpdateWeekTaskRedTip),
+				[TaskConst.TASK_TYPE.CHAPTER_PLOT_19] = handler(slot0, slot0.UpdateChapterPlot19RedTip),
+				[TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY] = handler(slot0, slot0.UpdateIdolTraineeDayAndWeekRedTip),
+				[TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY] = handler(slot0, slot0.UpdateIdolTraineeDayAndWeekRedTip),
+				[TaskConst.TASK_TYPE.IDOL_TRAINEE_CHAPTER] = handler(slot0, slot0.UpdateIdolTraineeChapterRedTip)
 			}
 		end
 	end,
-	StartUpdateRedPointPhase = function(arg_2_0, arg_2_1)
-		arg_2_0:InitRedUpdater()
+	StartUpdateRedPointPhase = function (slot0, slot1)
+		slot0:InitRedUpdater()
 
-		local var_2_0 = {}
-		local var_2_1 = {}
+		slot2 = {}
+		slot3 = {}
 
-		for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-			local var_2_2 = AssignmentCfg[iter_2_1.id]
+		for slot7, slot8 in ipairs(slot1) do
+			if AssignmentCfg[slot8.id] == nil then
+				Debug.LogError("TaskCfg没有对应ID:" .. slot8.id)
+			elseif slot9.activity_id and slot9.activity_id ~= 0 then
+				slot3[slot9.activity_id] = slot3[slot9.activity_id] or {}
 
-			if var_2_2 == nil then
-				Debug.LogError("TaskCfg没有对应ID:" .. iter_2_1.id)
-			elseif var_2_2.activity_id and var_2_2.activity_id ~= 0 then
-				var_2_1[var_2_2.activity_id] = var_2_1[var_2_2.activity_id] or {}
-
-				table.insert(var_2_1[var_2_2.activity_id], iter_2_1.id)
+				table.insert(slot3[slot9.activity_id], slot8.id)
 			else
-				var_2_0[var_2_2.type] = var_2_0[var_2_2.type] or {}
+				slot2[slot9.type] = slot2[slot9.type] or {}
 
-				table.insert(var_2_0[var_2_2.type], iter_2_1.id)
+				table.insert(slot2[slot9.type], slot8.id)
 			end
 		end
 
-		for iter_2_2, iter_2_3 in pairs(var_2_0) do
-			local var_2_3 = arg_2_0.redUpdater[iter_2_2]
-
-			if var_2_3 then
-				var_2_3(iter_2_3)
+		for slot7, slot8 in pairs(slot2) do
+			if slot0.redUpdater[slot7] then
+				slot9(slot8)
 			end
 		end
 
-		arg_2_0:UpdateActivityRed(var_2_1)
-		arg_2_0:UpdatePassportTaskRedTip()
+		slot0:UpdateActivityRed(slot3)
+		slot0:UpdatePassportTaskRedTip()
 	end,
-	UpdateActivityRed = function(arg_3_0, arg_3_1)
-		for iter_3_0, iter_3_1 in pairs(arg_3_1) do
-			local var_3_0 = TaskData2:GetActivityTaskSortList(iter_3_0)
-			local var_3_1 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, iter_3_0)
-			local var_3_2 = 0
+	UpdateActivityRed = function (slot0, slot1)
+		for slot5, slot6 in pairs(slot1) do
+			slot8 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot5)
+			slot9 = 0
 
-			for iter_3_2, iter_3_3 in pairs(var_3_0) do
-				if iter_3_3.progress >= AssignmentCfg[iter_3_3.id].need and iter_3_3.complete_flag < 1 then
-					var_3_2 = 1
+			for slot13, slot14 in pairs(TaskData2:GetActivityTaskSortList(slot5)) do
+				if AssignmentCfg[slot14.id].need <= slot14.progress and slot14.complete_flag < 1 then
+					slot9 = 1
 
 					break
 				end
 			end
 
-			manager.redPoint:setTip(var_3_1, var_3_2)
+			manager.redPoint:setTip(slot8, slot9)
 		end
 	end,
-	UpdatePassportTaskRedTip = function(arg_4_0)
+	UpdatePassportTaskRedTip = function (slot0)
 		if not (PassportData:IsOpen() and PassportData:IsUnlock()) then
 			manager.redPoint:setTip(RedPointConst.PASSPORT_TASK_BONUS_7, 0)
 			manager.redPoint:setTip(RedPointConst.PASSPORT_TASK_BONUS_8, 0)
 			manager.redPoint:setTip(RedPointConst.PASSPORT_TASK_BONUS_9, 0)
 		else
-			local var_4_0 = PassportData:GetExpWeekly() >= GameSetting.battlepass_exp_limit_weekly.value[1]
-			local var_4_1 = BattlePassCfg.get_id_list_by_type[BattlePassListCfg[PassportData:GetId()].battlepass_type]
-			local var_4_2 = PassportData:GetLevel() >= #var_4_1
-			local var_4_3 = {
+			slot2 = GameSetting.battlepass_exp_limit_weekly.value[1] <= PassportData:GetExpWeekly()
+			slot4 = PassportData:GetLevel() >= #BattlePassCfg.get_id_list_by_type[BattlePassListCfg[PassportData:GetId()].battlepass_type]
+			slot6 = manager.time:GetServerTime()
+
+			for slot10, slot11 in ipairs({
 				TaskConst.TASK_TYPE.PASSPORT_DAILY,
 				TaskConst.TASK_TYPE.PASSPORT_WEEKLY
-			}
-			local var_4_4 = manager.time:GetServerTime()
-
-			for iter_4_0, iter_4_1 in ipairs(var_4_3) do
-				local var_4_5 = 0
-				local var_4_6 = TaskTools:GetFinishTaskIds(iter_4_1)
-
-				for iter_4_2, iter_4_3 in ipairs(var_4_6) do
-					local var_4_7 = TaskData2:GetTask(iter_4_3).expired_timestamp or 0
-
-					if var_4_7 > 0 and var_4_7 - var_4_4 > 0 or var_4_7 == 0 then
-						var_4_5 = var_4_5 + 1
+			}) do
+				for slot17, slot18 in ipairs(TaskTools:GetFinishTaskIds(slot11)) do
+					if (TaskData2:GetTask(slot18).expired_timestamp or 0) > 0 and slot20 - slot6 > 0 or slot20 == 0 then
+						slot12 = 0 + 1
 					end
 				end
 
-				local var_4_8 = var_4_5 > 0 and not var_4_0 and not var_4_2 and 1 or 0
-
-				manager.redPoint:setTip(RedPointConst["PASSPORT_TASK_BONUS_" .. iter_4_1], var_4_8)
+				manager.redPoint:setTip(RedPointConst["PASSPORT_TASK_BONUS_" .. slot11], slot12 > 0 and not slot2 and not slot4 and 1 or 0)
 			end
 
-			local var_4_9 = {
+			for slot11, slot12 in ipairs({
 				TaskConst.TASK_TYPE.PASSPORT_CHALLENGE
-			}
-
-			for iter_4_4, iter_4_5 in ipairs(var_4_9) do
-				local var_4_10 = 0
-				local var_4_11 = TaskTools:GetFinishTaskIds(iter_4_5)
-
-				for iter_4_6, iter_4_7 in ipairs(var_4_11) do
-					local var_4_12 = TaskData2:GetTask(iter_4_7).expired_timestamp or 0
-
-					if var_4_12 > 0 and var_4_12 - var_4_4 > 0 or var_4_12 == 0 then
-						var_4_10 = var_4_10 + 1
+			}) do
+				for slot18, slot19 in ipairs(TaskTools:GetFinishTaskIds(slot12)) do
+					if (TaskData2:GetTask(slot19).expired_timestamp or 0) > 0 and slot21 - slot6 > 0 or slot21 == 0 then
+						slot13 = 0 + 1
 					end
 				end
 
-				manager.redPoint:setTip(RedPointConst["PASSPORT_TASK_BONUS_" .. iter_4_5], var_4_10 > 0 and not var_4_2 and 1 or 0)
+				manager.redPoint:setTip(RedPointConst["PASSPORT_TASK_BONUS_" .. slot12], slot13 > 0 and not slot4 and 1 or 0)
 			end
 		end
 	end,
-	UpdateWeekTaskRedTip = function(arg_5_0)
+	UpdateWeekTaskRedTip = function (slot0)
 		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.TASK_WEEK) then
 			manager.redPoint:setTip(RedPointConst.TASK_WEEK, 0)
 
 			return false
 		end
 
-		local var_5_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.WEEK)
+		for slot5, slot6 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.WEEK)) do
+			slot7 = TaskData2:GetTask(slot5)
 
-		for iter_5_0, iter_5_1 in pairs(var_5_0) do
-			local var_5_1 = TaskData2:GetTask(iter_5_0)
-
-			if var_5_1.progress >= AssignmentCfg[var_5_1.id].need and var_5_1.complete_flag < 1 then
+			if AssignmentCfg[slot7.id].need <= slot7.progress and slot7.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.TASK_WEEK, 1)
 
 				return true
 			end
 		end
 
-		local var_5_2 = ActivityPtCfg[ActivityPtConst.TASK_WEEK_ACTIVITY_PT]
-
-		for iter_5_2 = 1, #var_5_2.target do
-			if var_5_2.target[iter_5_2] <= ActivityPtData:GetCurrentActivityPt(ActivityPtConst.TASK_WEEK_ACTIVITY_PT) and not ActivityPtData:GetDailyGetRewardList()[ActivityPtConst.TASK_WEEK_ACTIVITY_PT][var_5_2.target[iter_5_2]] then
+		for slot6 = 1, #ActivityPtCfg[ActivityPtConst.TASK_WEEK_ACTIVITY_PT].target do
+			if slot2.target[slot6] <= ActivityPtData:GetCurrentActivityPt(ActivityPtConst.TASK_WEEK_ACTIVITY_PT) and not ActivityPtData:GetDailyGetRewardList()[ActivityPtConst.TASK_WEEK_ACTIVITY_PT][slot2.target[slot6]] then
 				manager.redPoint:setTip(RedPointConst.TASK_WEEK, 1)
 
 				return true
@@ -156,21 +131,19 @@ return {
 
 		return false
 	end,
-	UpdateClubTaskRedTip = function(arg_6_0)
-		local var_6_0 = GuildData:GetGuildInfo()
+	UpdateClubTaskRedTip = function (slot0)
+		slot1 = GuildData:GetGuildInfo()
 
-		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CLUB_TASK) or var_6_0 == nil or var_6_0.id == nil then
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CLUB_TASK) or slot1 == nil or slot1.id == nil then
 			manager.redPoint:setTip(RedPointConst.CLUB_TASK, 0)
 
 			return false
 		end
 
-		local var_6_1 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.CLUB_TASK)
+		for slot6, slot7 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.CLUB_TASK)) do
+			slot8 = TaskData2:GetTask(slot6)
 
-		for iter_6_0, iter_6_1 in pairs(var_6_1) do
-			local var_6_2 = TaskData2:GetTask(iter_6_0)
-
-			if var_6_2.progress >= AssignmentCfg[var_6_2.id].need and var_6_2.complete_flag < 1 then
+			if AssignmentCfg[slot8.id].need <= slot8.progress and slot8.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.CLUB_TASK, 1)
 
 				return true
@@ -181,19 +154,17 @@ return {
 
 		return false
 	end,
-	UpdatePlotTaskRedTip = function(arg_7_0)
+	UpdatePlotTaskRedTip = function (slot0)
 		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.TASK_PLOT) then
 			manager.redPoint:setTip(RedPointConst.TASK_PLOT, 0)
 
 			return false
 		end
 
-		local var_7_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.PLOT)
+		for slot5, slot6 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.PLOT)) do
+			slot7 = TaskData2:GetTask(slot5)
 
-		for iter_7_0, iter_7_1 in pairs(var_7_0) do
-			local var_7_1 = TaskData2:GetTask(iter_7_0)
-
-			if var_7_1.progress >= AssignmentCfg[var_7_1.id].need and var_7_1.complete_flag < 1 then
+			if AssignmentCfg[slot7.id].need <= slot7.progress and slot7.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.TASK_PLOT, 1)
 
 				return true
@@ -204,29 +175,23 @@ return {
 
 		return false
 	end,
-	UpdateDailyTaskRedTip = function(arg_8_0)
+	UpdateDailyTaskRedTip = function (slot0)
 		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.TASK_DAILY) then
 			manager.redPoint:setTip(RedPointConst.TASK_DAILY, 0)
 
 			return false
 		end
 
-		local var_8_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.DAILY)
-
-		for iter_8_0, iter_8_1 in pairs(var_8_0) do
-			local var_8_1 = TaskData2:GetTask(iter_8_0)
-
-			if var_8_1 and var_8_1.progress >= AssignmentCfg[var_8_1.id].need and var_8_1.complete_flag < 1 then
+		for slot5, slot6 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.DAILY)) do
+			if TaskData2:GetTask(slot5) and AssignmentCfg[slot7.id].need <= slot7.progress and slot7.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.TASK_DAILY, 1)
 
 				return true
 			end
 		end
 
-		local var_8_2 = ActivityPtCfg[ActivityPtConst.TASK_DAILY_ACTIVITY_PT]
-
-		for iter_8_2 = 1, #var_8_2.target do
-			if var_8_2.target[iter_8_2] <= ActivityPtData:GetCurrentActivityPt(ActivityPtConst.TASK_DAILY_ACTIVITY_PT) and not ActivityPtData:GetDailyGetRewardList()[ActivityPtConst.TASK_DAILY_ACTIVITY_PT][var_8_2.target[iter_8_2]] then
+		for slot6 = 1, #ActivityPtCfg[ActivityPtConst.TASK_DAILY_ACTIVITY_PT].target do
+			if slot2.target[slot6] <= ActivityPtData:GetCurrentActivityPt(ActivityPtConst.TASK_DAILY_ACTIVITY_PT) and not ActivityPtData:GetDailyGetRewardList()[ActivityPtConst.TASK_DAILY_ACTIVITY_PT][slot2.target[slot6]] then
 				manager.redPoint:setTip(RedPointConst.TASK_DAILY, 1)
 
 				return true
@@ -237,37 +202,26 @@ return {
 
 		return false
 	end,
-	UpdateNewbieTaskRedPoint = function(arg_9_0)
-		local var_9_0 = TaskData2:GetAssignmentPhase()
-		local var_9_1 = TaskTools:GetNewbieTaskSortList(var_9_0)
-
-		for iter_9_0, iter_9_1 in pairs(var_9_1) do
-			if iter_9_1.progress >= AssignmentCfg[iter_9_1.id].need and iter_9_1.complete_flag < 1 then
+	UpdateNewbieTaskRedPoint = function (slot0)
+		for slot6, slot7 in pairs(TaskTools:GetNewbieTaskSortList(TaskData2:GetAssignmentPhase())) do
+			if AssignmentCfg[slot7.id].need <= slot7.progress and slot7.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.NEWBIE_TASK, 1)
 
 				return
 			end
 		end
 
-		local var_9_2 = TaskTools:GetNewbiePhaseTask()[var_9_0]
+		if TaskTools:GetNewbiePhaseTask()[slot1] and AssignmentCfg[slot3.id] and slot4.need <= slot3.progress and slot3.complete_flag < 1 then
+			manager.redPoint:setTip(RedPointConst.NEWBIE_TASK, 1)
 
-		if var_9_2 then
-			local var_9_3 = AssignmentCfg[var_9_2.id]
-
-			if var_9_3 and var_9_2.progress >= var_9_3.need and var_9_2.complete_flag < 1 then
-				manager.redPoint:setTip(RedPointConst.NEWBIE_TASK, 1)
-
-				return
-			end
+			return
 		end
 
 		manager.redPoint:setTip(RedPointConst.NEWBIE_TASK, 0)
 	end,
-	UpdateNewbieDailyTaskRedTip = function(arg_10_0)
-		local var_10_0 = TaskData2:GetTypedTaskSortList(TaskConst.TASK_TYPE.DAILY_OFFER)
-
-		for iter_10_0, iter_10_1 in pairs(var_10_0) do
-			if iter_10_1.progress >= AssignmentCfg[iter_10_1.id].need and iter_10_1.complete_flag < 1 then
+	UpdateNewbieDailyTaskRedTip = function (slot0)
+		for slot5, slot6 in pairs(TaskData2:GetTypedTaskSortList(TaskConst.TASK_TYPE.DAILY_OFFER)) do
+			if AssignmentCfg[slot6.id].need <= slot6.progress and slot6.complete_flag < 1 then
 				manager.redPoint:setTip(RedPointConst.NEWBIE_DAILY_TASK, 1)
 
 				return
@@ -276,102 +230,89 @@ return {
 
 		manager.redPoint:setTip(RedPointConst.NEWBIE_DAILY_TASK, 0)
 	end,
-	UpdateNoobTaskRedPoint = function(arg_11_0, arg_11_1)
-		local var_11_0
-		local var_11_1 = {}
+	UpdateNoobTaskRedPoint = function (slot0, slot1)
+		slot2 = nil
+		slot3 = {}
 
-		for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-			local var_11_2 = AssignmentCfg[iter_11_1]
-
-			if var_11_2 == nil then
-				print("TaskCfg没有对应ID:" .. iter_11_1)
+		for slot7, slot8 in ipairs(slot1) do
+			if AssignmentCfg[slot8] == nil then
+				print("TaskCfg没有对应ID:" .. slot8)
 			else
-				var_11_0 = var_11_2.type
-				var_11_1[var_11_2.phase] = true
+				slot2 = slot9.type
+				slot3[slot9.phase] = true
 			end
 		end
 
-		for iter_11_2, iter_11_3 in pairs(var_11_1) do
-			arg_11_0:UpdateNoobTaskRed(var_11_0, iter_11_2)
+		for slot7, slot8 in pairs(slot3) do
+			slot0:UpdateNoobTaskRed(slot2, slot7)
 		end
 	end,
-	UpdateNoobTaskRed = function(arg_12_0, arg_12_1, arg_12_2)
-		local var_12_0 = ActivityNoobData:GetUnlockPhase()
-		local var_12_1 = TaskTools:GetNoobTaskSortList(arg_12_1, arg_12_2)
+	UpdateNoobTaskRed = function (slot0, slot1, slot2)
+		slot8 = slot2
 
-		for iter_12_0, iter_12_1 in pairs(var_12_1) do
-			if var_12_0 >= AssignmentCfg[iter_12_1.id].phase and iter_12_1.progress >= AssignmentCfg[iter_12_1.id].need and iter_12_1.complete_flag < 1 then
-				manager.redPoint:setTip(string.format("%s_%d", RedPointConst.NEWBIE_TASK, arg_12_2), 1)
+		for slot8, slot9 in pairs(TaskTools:GetNoobTaskSortList(slot1, slot8)) do
+			if AssignmentCfg[slot9.id].phase <= ActivityNoobData:GetUnlockPhase() and AssignmentCfg[slot9.id].need <= slot9.progress and slot9.complete_flag < 1 then
+				manager.redPoint:setTip(string.format("%s_%d", RedPointConst.NEWBIE_TASK, slot2), 1)
 
 				return
 			end
 		end
 
-		manager.redPoint:setTip(string.format("%s_%d", RedPointConst.NEWBIE_TASK, arg_12_2), 0)
+		manager.redPoint:setTip(string.format("%s_%d", RedPointConst.NEWBIE_TASK, slot2), 0)
 	end,
-	UpdateNoobTaskRedFull = function(arg_13_0, arg_13_1)
-		local var_13_0 = ActivityNoobData:GetUnlockPhase()
-
-		for iter_13_0 = 1, var_13_0 do
-			arg_13_0:UpdateNoobTaskRed(arg_13_1, iter_13_0)
+	UpdateNoobTaskRedFull = function (slot0, slot1)
+		for slot6 = 1, ActivityNoobData:GetUnlockPhase() do
+			slot0:UpdateNoobTaskRed(slot1, slot6)
 		end
 	end,
-	UpdateNoobAdvanceTaskRedPoint = function(arg_14_0, arg_14_1)
-		local var_14_0 = {}
+	UpdateNoobAdvanceTaskRedPoint = function (slot0, slot1)
+		slot2 = {}
 
-		for iter_14_0, iter_14_1 in ipairs(arg_14_1) do
-			local var_14_1 = AssignmentCfg[iter_14_1]
-
-			if var_14_1 == nil then
-				print("TaskCfg没有对应ID:" .. iter_14_1)
+		for slot6, slot7 in ipairs(slot1) do
+			if AssignmentCfg[slot7] == nil then
+				print("TaskCfg没有对应ID:" .. slot7)
 			else
-				var_14_0[var_14_1.type] = var_14_0[var_14_1.type] or {}
-				var_14_0[var_14_1.type][var_14_1.phase] = true
+				slot2[slot8.type] = slot2[slot8.type] or {}
+				slot2[slot8.type][slot8.phase] = true
 			end
 		end
 
-		for iter_14_2, iter_14_3 in pairs(var_14_0) do
-			if ActivityNewbieTools.IsDataInited() and ActivityNewbieTools.CheckAdvanceTaskTypeOpen(iter_14_2) then
-				for iter_14_4, iter_14_5 in pairs(iter_14_3) do
-					arg_14_0:UpdateNoobAdvanceTaskRed(iter_14_2, iter_14_4)
+		for slot6, slot7 in pairs(slot2) do
+			if ActivityNewbieTools.IsDataInited() and ActivityNewbieTools.CheckAdvanceTaskTypeOpen(slot6) then
+				for slot11, slot12 in pairs(slot7) do
+					slot0:UpdateNoobAdvanceTaskRed(slot6, slot11)
 				end
 			end
 		end
 	end,
-	UpdateNoobAdvanceTaskRed = function(arg_15_0, arg_15_1, arg_15_2)
-		local var_15_0 = ActivityNewbieTools.GetAdvanceTaskCfg(arg_15_1)
-		local var_15_1 = NoobVersionCfg[var_15_0.versionID].noob_advance_task_phase[var_15_0.index]
-		local var_15_2 = NoobAdvanceTaskPhaseListCfg[var_15_1].phase_list
+	UpdateNoobAdvanceTaskRed = function (slot0, slot1, slot2)
+		slot3 = ActivityNewbieTools.GetAdvanceTaskCfg(slot1)
 
-		for iter_15_0, iter_15_1 in ipairs(var_15_2) do
-			for iter_15_2, iter_15_3 in ipairs(iter_15_1[2]) do
-				if iter_15_3[1] == arg_15_2 then
-					local var_15_3 = iter_15_0
-					local var_15_4 = TaskTools:GetNoobAdvanceTaskSortList(arg_15_1, arg_15_2)
+		for slot9, slot10 in ipairs(NoobAdvanceTaskPhaseListCfg[NoobVersionCfg[slot3.versionID].noob_advance_task_phase[slot3.index]].phase_list) do
+			for slot14, slot15 in ipairs(slot10[2]) do
+				if slot15[1] == slot2 then
+					slot16 = slot9
+					slot21 = slot2
 
-					for iter_15_4, iter_15_5 in pairs(var_15_4) do
-						if AssignmentCfg[iter_15_5.id].need <= iter_15_5.progress and iter_15_5.complete_flag == 0 then
-							manager.redPoint:setTip(string.format("%s_%d_%d_%d", RedPointConst.NOOB_ADVANCE, arg_15_1, var_15_3, arg_15_2), 1)
+					for slot21, slot22 in pairs(TaskTools:GetNoobAdvanceTaskSortList(slot1, slot21)) do
+						if AssignmentCfg[slot22.id].need <= slot22.progress and slot22.complete_flag == 0 then
+							manager.redPoint:setTip(string.format("%s_%d_%d_%d", RedPointConst.NOOB_ADVANCE, slot1, slot16, slot2), 1)
 
 							return
 						end
 					end
 
-					manager.redPoint:setTip(string.format("%s_%d_%d_%d", RedPointConst.NOOB_ADVANCE, arg_15_1, var_15_3, arg_15_2), 0)
+					manager.redPoint:setTip(string.format("%s_%d_%d_%d", RedPointConst.NOOB_ADVANCE, slot1, slot16, slot2), 0)
 
 					return
 				end
 			end
 		end
 	end,
-	UpdateChapterPlot19RedTip = function(arg_16_0)
-		local var_16_0 = ChapterClientCfg[ChapterConst.CHAPTER_CLIENT_19].chapter_list[1]
-
-		if ChapterTools.IsFinishPreChapter(var_16_0) then
-			for iter_16_0, iter_16_1 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.CHAPTER_PLOT_19] or {}) do
-				local var_16_1 = TaskData2:GetTaskProgress(iter_16_1)
-
-				if not TaskData2:GetTaskComplete(iter_16_1) and var_16_1 >= AssignmentCfg[iter_16_1].need then
+	UpdateChapterPlot19RedTip = function (slot0)
+		if ChapterTools.IsFinishPreChapter(ChapterClientCfg[ChapterConst.CHAPTER_CLIENT_19].chapter_list[1]) then
+			for slot5, slot6 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.CHAPTER_PLOT_19] or {}) do
+				if not TaskData2:GetTaskComplete(slot6) and AssignmentCfg[slot6].need <= TaskData2:GetTaskProgress(slot6) then
 					manager.redPoint:setTip(RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR, 1)
 
 					return
@@ -381,21 +322,17 @@ return {
 
 		manager.redPoint:setTip(RedPointConst.COMBAT_PLOT_CHAPTER_19_STAR, 0)
 	end,
-	UpdateIdolTraineeDayAndWeekRedTip = function(arg_17_0)
-		for iter_17_0, iter_17_1 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY] or {}) do
-			local var_17_0 = TaskData2:GetTaskProgress(iter_17_1)
-
-			if not TaskData2:GetTaskComplete(iter_17_1) and var_17_0 >= AssignmentCfg[iter_17_1].need then
+	UpdateIdolTraineeDayAndWeekRedTip = function (slot0)
+		for slot4, slot5 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY] or {}) do
+			if not TaskData2:GetTaskComplete(slot5) and AssignmentCfg[slot5].need <= TaskData2:GetTaskProgress(slot5) then
 				manager.redPoint:setTip(RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK, 1)
 
 				return
 			end
 		end
 
-		for iter_17_2, iter_17_3 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY] or {}) do
-			local var_17_1 = TaskData2:GetTaskProgress(iter_17_3)
-
-			if not TaskData2:GetTaskComplete(iter_17_3) and var_17_1 >= AssignmentCfg[iter_17_3].need then
+		for slot4, slot5 in ipairs(AssignmentCfg.get_id_list_by_type[TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY] or {}) do
+			if not TaskData2:GetTaskComplete(slot5) and AssignmentCfg[slot5].need <= TaskData2:GetTaskProgress(slot5) then
 				manager.redPoint:setTip(RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK, 1)
 
 				return
@@ -404,37 +341,32 @@ return {
 
 		manager.redPoint:setTip(RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK, 0)
 	end,
-	UpdateIdolTraineeChapterRedTip = function(arg_18_0)
-		local var_18_0 = false
+	UpdateIdolTraineeChapterRedTip = function (slot0)
+		slot1 = false
 
-		for iter_18_0, iter_18_1 in ipairs(IdolTraineeChapterCfg.all) do
-			local var_18_1 = false
-			local var_18_2 = IdolTraineeChapterCfg[iter_18_1].section_id_list
+		for slot5, slot6 in ipairs(IdolTraineeChapterCfg.all) do
+			slot1 = false
 
-			for iter_18_2, iter_18_3 in ipairs(var_18_2) do
-				if var_18_1 then
+			for slot11, slot12 in ipairs(IdolTraineeChapterCfg[slot6].section_id_list) do
+				if slot1 then
 					break
 				end
 
-				local var_18_3 = IdolTraineePveBattleCfg[iter_18_3].taskIDList
-
-				for iter_18_4, iter_18_5 in ipairs(var_18_3) do
-					if var_18_1 then
+				for slot17, slot18 in ipairs(IdolTraineePveBattleCfg[slot12].taskIDList) do
+					if slot1 then
 						break
 					end
 
-					local var_18_4 = TaskData2:GetTaskProgress(iter_18_5)
+					if not TaskData2:GetTaskComplete(slot18) and AssignmentCfg[slot18].need <= TaskData2:GetTaskProgress(slot18) then
+						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.IDOL_TRAINEE_CHAPTER_TASK, slot6), 1)
 
-					if not TaskData2:GetTaskComplete(iter_18_5) and var_18_4 >= AssignmentCfg[iter_18_5].need then
-						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.IDOL_TRAINEE_CHAPTER_TASK, iter_18_1), 1)
-
-						var_18_1 = true
+						slot1 = true
 					end
 				end
 			end
 
-			if not var_18_1 then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.IDOL_TRAINEE_CHAPTER_TASK, iter_18_1), 0)
+			if not slot1 then
+				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.IDOL_TRAINEE_CHAPTER_TASK, slot6), 0)
 			end
 		end
 	end

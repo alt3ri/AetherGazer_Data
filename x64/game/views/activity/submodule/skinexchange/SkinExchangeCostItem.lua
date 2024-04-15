@@ -1,47 +1,44 @@
-local var_0_0 = class("SkinExchangeCostItem", ReduxView)
+slot0 = class("SkinExchangeCostItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_4_0.id_
+			uv0.id_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.info_ = arg_7_1
-	arg_7_0.id_ = arg_7_0.info_[1]
-	arg_7_0.need_ = arg_7_0.info_[2]
-	arg_7_0.icon_.sprite = ItemTools.getItemLittleSprite(arg_7_0.id_)
-	arg_7_0.text_.text = CItemTools.getItemNum(arg_7_0.id_) .. "/" .. arg_7_0.need_
+function slot0.RefreshUI(slot0, slot1)
+	slot0.info_ = slot1
+	slot0.id_ = slot0.info_[1]
+	slot0.need_ = slot0.info_[2]
+	slot0.icon_.sprite = ItemTools.getItemLittleSprite(slot0.id_)
+	slot0.text_.text = CItemTools.getItemNum(slot0.id_) .. "/" .. slot0.need_
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

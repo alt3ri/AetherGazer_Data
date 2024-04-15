@@ -1,82 +1,79 @@
-local var_0_0 = singletonClass("TowerData")
-local var_0_1 = {}
+slot0 = singletonClass("TowerData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.InitTowerData(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		local var_2_0 = iter_2_1.area
-		local var_2_1 = iter_2_1.stage
-
-		var_0_1[var_2_0] = var_2_1
+function slot0.InitTowerData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.area] = slot6.stage
 	end
 end
 
-function var_0_0.UpdateOverTower(arg_3_0, arg_3_1, arg_3_2)
-	if not var_0_1[arg_3_1] then
-		var_0_1[arg_3_1] = arg_3_2
+function slot0.UpdateOverTower(slot0, slot1, slot2)
+	if not uv0[slot1] then
+		uv0[slot1] = slot2
 	else
-		var_0_1[arg_3_1] = Mathf.Max(var_0_1[arg_3_1], arg_3_2)
+		uv0[slot1] = Mathf.Max(uv0[slot1], slot2)
 	end
 end
 
-function var_0_0.GetCurId(arg_4_0, arg_4_1)
-	local var_4_0 = ChapterCfg[arg_4_1].section_id_list
-	local var_4_1 = var_0_1[arg_4_1]
+function slot0.GetCurId(slot0, slot1)
+	slot2 = ChapterCfg[slot1].section_id_list
 
-	return var_4_0[(var_4_1 and table.indexof(var_4_0, var_4_1) or 0) + 1]
+	return slot2[(uv0[slot1] and table.indexof(slot2, slot3) or 0) + 1]
 end
 
-function var_0_0.GetOverId(arg_5_0, arg_5_1)
-	return var_0_1[arg_5_1] or 0
+function slot0.GetOverId(slot0, slot1)
+	return uv0[slot1] or 0
 end
 
-function var_0_0.GetTowerList(arg_6_0, arg_6_1)
-	return ChapterCfg[arg_6_1].section_id_list
+function slot0.GetTowerList(slot0, slot1)
+	return ChapterCfg[slot1].section_id_list
 end
 
-function var_0_0.GetTowerMaxId(arg_7_0)
-	local var_7_0 = 0
+function slot0.GetTowerMaxId(slot0)
+	slot1 = 0
 
-	if var_0_1 then
-		for iter_7_0, iter_7_1 in pairs(var_0_1) do
-			var_7_0 = var_7_0 < iter_7_1 and iter_7_1 or var_7_0
+	if uv0 then
+		for slot5, slot6 in pairs(uv0) do
+			if slot1 < slot6 then
+				slot1 = slot6 or slot1
+			end
 		end
 	end
 
-	return var_7_0
+	return slot1
 end
 
-function var_0_0.CheckIsOverStage(arg_8_0, arg_8_1, arg_8_2)
-	if var_0_1[arg_8_1] and arg_8_2 <= var_0_1[arg_8_1] then
+function slot0.CheckIsOverStage(slot0, slot1, slot2)
+	if uv0[slot1] and slot2 <= uv0[slot1] then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.ReverseTable(arg_9_0, arg_9_1)
-	local var_9_0 = {}
-
-	for iter_9_0 = 1, #arg_9_1 do
-		var_9_0[iter_9_0] = arg_9_1[#arg_9_1 + 1 - iter_9_0]
+function slot0.ReverseTable(slot0, slot1)
+	for slot6 = 1, #slot1 do
 	end
 
-	return var_9_0
+	return {
+		[slot6] = slot1[#slot1 + 1 - slot6]
+	}
 end
 
-function var_0_0.GetAllTowerList(arg_10_0)
+function slot0.GetAllTowerList(slot0)
 	return BattleTowerStageCfg.all
 end
 
-function var_0_0.CacheTowerStageViewScrollPos(arg_11_0, arg_11_1)
-	arg_11_0.towerStageViewScrollPos_ = arg_11_1
+function slot0.CacheTowerStageViewScrollPos(slot0, slot1)
+	slot0.towerStageViewScrollPos_ = slot1
 end
 
-function var_0_0.GetTowerStageViewScrollPos(arg_12_0)
-	return arg_12_0.towerStageViewScrollPos_
+function slot0.GetTowerStageViewScrollPos(slot0)
+	return slot0.towerStageViewScrollPos_
 end
 
-return var_0_0
+return slot0

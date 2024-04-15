@@ -1,169 +1,144 @@
-local var_0_0 = class("MatrixHeroAttributePage", ReduxView)
+slot0 = class("MatrixHeroAttributePage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.attackTypeController_ = ControllerUtil.GetController(arg_3_0.transform_, "attackType")
-	arg_3_0.campController_ = ControllerUtil.GetController(arg_3_0.transform_, "camp")
-
-	local var_3_0 = {
+	slot0.attackTypeController_ = ControllerUtil.GetController(slot0.transform_, "attackType")
+	slot0.campController_ = ControllerUtil.GetController(slot0.transform_, "camp")
+	slot1 = {
 		HeroConst.HERO_ATTRIBUTE.ATK,
 		HeroConst.HERO_ATTRIBUTE.ARM,
 		HeroConst.HERO_ATTRIBUTE.STA,
 		HeroConst.HERO_ATTRIBUTE.CRITICAL
 	}
+	slot0.propItemList = {}
 
-	arg_3_0.propItemList = {}
+	for slot5 = 1, 4 do
+		slot6 = {}
 
-	for iter_3_0 = 1, 4 do
-		local var_3_1 = {}
-		local var_3_2 = arg_3_0["m_propItem" .. iter_3_0]
+		ComponentBinder.GetInstance():BindCfgUI(slot6, slot0["m_propItem" .. slot5])
 
-		ComponentBinder.GetInstance():BindCfgUI(var_3_1, var_3_2)
-
-		local var_3_3 = var_3_0[iter_3_0]
-		local var_3_4, var_3_5, var_3_6 = SkillTools.GetAttr({
-			var_3_3,
+		slot9, slot10, slot6.m_icon.sprite = SkillTools.GetAttr({
+			slot1[slot5],
 			0
 		})
+		slot6.m_name.text = GetI18NText(slot9)
+		slot6.attribute = slot1[slot5]
 
-		var_3_1.m_name.text = GetI18NText(var_3_4)
-		var_3_1.m_icon.sprite = var_3_6
-		var_3_1.attribute = var_3_0[iter_3_0]
-
-		table.insert(arg_3_0.propItemList, var_3_1)
+		table.insert(slot0.propItemList, slot6)
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.racebtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.racebtn_, nil, function ()
 		JumpTools.OpenPageByJump("sectionSelectRaceDescription")
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_moreAttributeBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_moreAttributeBtn, nil, function ()
 		JumpTools.OpenPageByJump("heroCommonAttribute", {
-			attribute = arg_4_0.att_
+			attribute = uv0.att_
 		})
 	end)
 end
 
-function var_0_0.SetMatirxHeroInfo(arg_7_0, arg_7_1)
-	arg_7_0.heroId_ = arg_7_1
-	arg_7_0.matrixHeroData = arg_7_0:GetHeroData(arg_7_1)
+function slot0.SetMatirxHeroInfo(slot0, slot1)
+	slot0.heroId_ = slot1
+	slot0.matrixHeroData = slot0:GetHeroData(slot1)
+	slot2 = slot0.matrixHeroData:GetStandardId()
+	slot3, slot4 = nil
 
-	local var_7_0 = arg_7_0.matrixHeroData:GetStandardId()
-	local var_7_1
-	local var_7_2
-
-	if arg_7_0.matrixHeroData:GetIsOwnerHero() then
-		var_7_1, var_7_2 = GetPracticalData(arg_7_0.matrixHeroData:GetEntrySnapShot())
+	if slot0.matrixHeroData:GetIsOwnerHero() then
+		slot3, slot4 = GetPracticalData(slot0.matrixHeroData:GetEntrySnapShot())
 	else
-		var_7_1, var_7_2 = GetVirtualData(var_7_0)
+		slot3, slot4 = GetVirtualData(slot2)
 	end
 
-	arg_7_0.heroInfo_ = var_7_1
-	arg_7_0.heroCfg_ = HeroCfg[arg_7_1]
+	slot0.heroInfo_ = slot3
+	slot0.heroCfg_ = HeroCfg[slot1]
+	slot5 = GetMatrixtHeroPracticalAttr(slot3, slot4, slot2, slot0.matrix_activity_id, slot0.matrixHeroData)
+	slot8 = slot5[HeroConst.HERO_ATTRIBUTE.STA]
+	slot5[HeroConst.HERO_ATTRIBUTE.ATK] = slot5[HeroConst.HERO_ATTRIBUTE.ATK] * (1 + slot5[11] / 1000 + slot5[13] / 1000) + slot5[12]
+	slot5[HeroConst.HERO_ATTRIBUTE.ARM] = slot5[HeroConst.HERO_ATTRIBUTE.ARM] * (1 + slot5[21] / 1000) + slot5[22]
+	slot0.att_ = slot5
 
-	local var_7_3 = GetMatrixtHeroPracticalAttr(var_7_1, var_7_2, var_7_0, arg_7_0.matrix_activity_id, arg_7_0.matrixHeroData)
-	local var_7_4 = var_7_3[HeroConst.HERO_ATTRIBUTE.ATK]
-	local var_7_5 = var_7_3[HeroConst.HERO_ATTRIBUTE.ARM]
-	local var_7_6 = var_7_3[HeroConst.HERO_ATTRIBUTE.STA]
-
-	var_7_3[HeroConst.HERO_ATTRIBUTE.ATK] = var_7_4 * (1 + var_7_3[11] / 1000 + var_7_3[13] / 1000) + var_7_3[12]
-	var_7_3[HeroConst.HERO_ATTRIBUTE.ARM] = var_7_5 * (1 + var_7_3[21] / 1000) + var_7_3[22]
-	arg_7_0.att_ = var_7_3
-
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	arg_8_0.m_nameLab.text = GetI18NText(arg_8_0.heroCfg_.name)
-	arg_8_0.m_suffixLab.text = GetI18NText(arg_8_0.heroCfg_.suffix)
+function slot0.UpdateView(slot0)
+	slot0.m_nameLab.text = GetI18NText(slot0.heroCfg_.name)
+	slot0.m_suffixLab.text = GetI18NText(slot0.heroCfg_.suffix)
 
-	arg_8_0.campController_:SetSelectedState(tostring(arg_8_0.heroCfg_.race))
+	slot0.campController_:SetSelectedState(tostring(slot0.heroCfg_.race))
 
-	local var_8_0 = HeroStarCfg[arg_8_0.heroInfo_.star]
+	slot0.m_starImg.sprite = getSprite("Atlas/Common", "star_" .. HeroStarCfg[slot0.heroInfo_.star].star)
+	slot0.m_rangeTypeLab.text = CharactorParamCfg[slot0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
+	slot0.m_desLab.text = GetI18NText(slot0.heroCfg_.hero_desc)
+	slot3 = slot0.matrixHeroData:GetHeroMaxHP()
+	slot0.m_hpLab.text = slot0.matrixHeroData:GetHeroHP() .. "/" .. slot3
+	slot0.m_hpProgress.value = slot3 == 0 and 0 or slot2 / slot3
 
-	arg_8_0.m_starImg.sprite = getSprite("Atlas/Common", "star_" .. var_8_0.star)
-	arg_8_0.m_rangeTypeLab.text = CharactorParamCfg[arg_8_0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
-	arg_8_0.m_desLab.text = GetI18NText(arg_8_0.heroCfg_.hero_desc)
-
-	local var_8_1 = arg_8_0.matrixHeroData:GetHeroHP()
-	local var_8_2 = arg_8_0.matrixHeroData:GetHeroMaxHP()
-
-	arg_8_0.m_hpLab.text = var_8_1 .. "/" .. var_8_2
-	arg_8_0.m_hpProgress.value = var_8_2 == 0 and 0 or var_8_1 / var_8_2
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.propItemList) do
-		local var_8_3 = iter_8_1.attribute
-		local var_8_4 = PublicAttrCfg[var_8_3].percent == 1
-		local var_8_5 = arg_8_0.att_[var_8_3]
-
-		if var_8_4 then
-			iter_8_1.m_number.text = string.format("%.2f", var_8_5 / 10) .. "%"
+	for slot7, slot8 in ipairs(slot0.propItemList) do
+		if PublicAttrCfg[slot8.attribute].percent == 1 then
+			slot8.m_number.text = string.format("%.2f", slot0.att_[slot9] / 10) .. "%"
 		else
-			iter_8_1.m_number.text = math.floor(var_8_5)
+			slot8.m_number.text = math.floor(slot11)
 		end
 	end
 
-	arg_8_0:RefreshChargeType()
-	arg_8_0:RefreshAttackType()
+	slot0:RefreshChargeType()
+	slot0:RefreshAttackType()
 end
 
-function var_0_0.RefreshChargeType(arg_9_0)
-	local var_9_0 = arg_9_0.heroCfg_.mechanism_type[1]
-
-	if var_9_0 == HeroConst.HERO_CHARGE_TYPE.RAGE then
-		arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
-	elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
-		arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
-	elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.TRACES then
-		arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
-	elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
-		arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
+function slot0.RefreshChargeType(slot0)
+	if slot0.heroCfg_.mechanism_type[1] == HeroConst.HERO_CHARGE_TYPE.RAGE then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.TRACES then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
+	elseif slot1 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
+		slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
 	end
 end
 
-function var_0_0.RefreshAttackType(arg_10_0)
-	if #arg_10_0.heroCfg_.ATK_attribute > 1 then
-		arg_10_0.attackTypeController_:SetSelectedState(-1)
+function slot0.RefreshAttackType(slot0)
+	if #slot0.heroCfg_.ATK_attribute > 1 then
+		slot0.attackTypeController_:SetSelectedState(-1)
 	else
-		local var_10_0 = arg_10_0.heroCfg_.ATK_attribute[1]
-
-		arg_10_0.attackTypeController_:SetSelectedState(var_10_0)
+		slot0.attackTypeController_:SetSelectedState(slot0.heroCfg_.ATK_attribute[1])
 	end
 end
 
-function var_0_0.Hide(arg_11_0)
-	SetActive(arg_11_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Show(arg_12_0)
-	SetActive(arg_12_0.gameObject_, true)
+function slot0.Show(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_13_0.handler_ = nil
+	slot0.handler_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetHeroData(arg_14_0, arg_14_1)
-	return MatrixData:GetHeroData(arg_14_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-return var_0_0
+return slot0

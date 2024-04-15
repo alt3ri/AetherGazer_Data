@@ -1,3 +1,1 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroBaseView")
-
-return (class("ReservesSelectHeroView", var_0_0))
+return class("ReservesSelectHeroView", import("game.views.sectionSelectHero.SelectHeroBaseView"))

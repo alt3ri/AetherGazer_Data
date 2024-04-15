@@ -1,58 +1,57 @@
-local var_0_0 = class("NewWarChessTipsBuffItem")
+slot0 = class("NewWarChessTipsBuffItem")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	ComponentBinder.GetInstance():BindCfgUI(arg_3_0, arg_3_0.gameObject_)
+function slot0.InitUI(slot0)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.gameObject_)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.index_ = arg_4_1
-	arg_4_0.buffEntity_ = arg_4_3
-	arg_4_0.cfg_ = NewWarChessBuffPoolCfg[arg_4_0.buffEntity_.buffPoolID]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.buffEntity_ = slot3
+	slot0.cfg_ = NewWarChessBuffPoolCfg[slot0.buffEntity_.buffPoolID]
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 
-	if arg_4_1 == arg_4_2 then
-		SetActive(arg_4_0.arrowGo_, true)
+	if slot1 == slot2 then
+		SetActive(slot0.arrowGo_, true)
 	else
-		SetActive(arg_4_0.arrowGo_, false)
+		SetActive(slot0.arrowGo_, false)
 	end
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	arg_5_0.nameText_.text = arg_5_0.cfg_.name
-	arg_5_0.icon_.sprite = getSprite("Atlas/NewWarChess", arg_5_0.cfg_.icon)
+function slot0.RefreshUI(slot0)
+	slot0.nameText_.text = slot0.cfg_.name
+	slot0.icon_.sprite = getSprite("Atlas/NewWarChess", slot0.cfg_.icon)
 
-	if arg_5_0.buffEntity_.CurRemainRound and arg_5_0.buffEntity_.CurRemainRound > 0 then
-		SetActive(arg_5_0.remainGo_, true)
+	if slot0.buffEntity_.CurRemainRound and slot0.buffEntity_.CurRemainRound > 0 then
+		SetActive(slot0.remainGo_, true)
 
-		arg_5_0.remainText_.text = arg_5_0.buffEntity_.CurRemainRound
+		slot0.remainText_.text = slot0.buffEntity_.CurRemainRound
 	else
-		SetActive(arg_5_0.remainGo_, false)
+		SetActive(slot0.remainGo_, false)
 	end
 
-	if arg_5_0.buffEntity_.CurUpdateRound then
-		SetActive(arg_5_0.updateGo_, true)
+	if slot0.buffEntity_.CurUpdateRound then
+		SetActive(slot0.updateGo_, true)
 
-		arg_5_0.updateText_.text = arg_5_0.buffEntity_.CurUpdateRound
-		arg_5_0.updateImage_.fillAmount = arg_5_0.buffEntity_.CurUpdateRound / arg_5_0.buffEntity_.UpdateRound
+		slot0.updateText_.text = slot0.buffEntity_.CurUpdateRound
+		slot0.updateImage_.fillAmount = slot0.buffEntity_.CurUpdateRound / slot0.buffEntity_.UpdateRound
 	else
-		SetActive(arg_5_0.updateGo_, false)
+		SetActive(slot0.updateGo_, false)
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

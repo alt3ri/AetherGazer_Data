@@ -1,129 +1,105 @@
-local var_0_0 = class("MatrixItemInfoView", ReduxView)
+slot0 = class("MatrixItemInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("UI/Matrix/Main/MatrixItemInfo")
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/Matrix/Main/MatrixItemInfo"), slot1)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0 = MatrixItemCfg[arg_4_1]
-
-	if not var_4_0 then
+function slot0.Refresh(slot0, slot1, slot2, slot3, slot4)
+	if not MatrixItemCfg[slot1] then
 		return
 	end
 
-	local var_4_1 = ""
-	local var_4_2
+	slot6 = ""
+	slot7 = nil
 
-	if arg_4_3 then
-		if arg_4_4 then
-			local var_4_3 = ActivityTools.GetActivityType(activity_id)
-
-			if var_4_3 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-				var_4_2 = ActivityMatrixData:GetHeroData(arg_4_4, arg_4_3)
-			elseif var_4_3 == ActivityTemplateConst.STRATEGY_MATRIX then
-				var_4_2 = StrategyMatrixData:GetHeroData(arg_4_4, arg_4_3)
+	if slot3 then
+		if slot4 then
+			if ActivityTools.GetActivityType(activity_id) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+				slot7 = ActivityMatrixData:GetHeroData(slot4, slot3)
+			elseif slot8 == ActivityTemplateConst.STRATEGY_MATRIX then
+				slot7 = StrategyMatrixData:GetHeroData(slot4, slot3)
 			end
 		else
-			var_4_2 = MatrixData:GetHeroData(arg_4_3)
+			slot7 = MatrixData:GetHeroData(slot3)
 		end
 	end
 
-	if var_4_0.matrix_item_type == MatrixConst.ITEM_TYPE.ASTROLABE and var_4_2 then
-		local var_4_4 = var_4_2:GetAstrolabeNum(var_4_0.params[1])
-
-		for iter_4_0 = 1, var_4_4 do
-			if var_4_1 then
-				var_4_1 = var_4_1 .. GetI18NText(MatrixTools.GetMatrixItemDes(arg_4_1, iter_4_0)) .. "\n"
-			else
-				var_4_1 = GetI18NText(MatrixTools.GetMatrixItemDes(arg_4_1, iter_4_0, arg_4_4))
-			end
+	if slot5.matrix_item_type == MatrixConst.ITEM_TYPE.ASTROLABE and slot7 then
+		for slot12 = 1, slot7:GetAstrolabeNum(slot5.params[1]) do
+			slot6 = slot6 and slot6 .. GetI18NText(MatrixTools.GetMatrixItemDes(slot1, slot12)) .. "\n" or GetI18NText(MatrixTools.GetMatrixItemDes(slot1, slot12, slot4))
 		end
 	else
-		var_4_1 = GetI18NText(MatrixTools.GetMatrixItemDes(arg_4_1, arg_4_2, arg_4_4))
+		slot6 = GetI18NText(MatrixTools.GetMatrixItemDes(slot1, slot2, slot4))
 	end
 
-	arg_4_0:RefreshText(var_4_0.name, var_4_1, arg_4_2)
+	slot0:RefreshText(slot5.name, slot6, slot2)
 end
 
-function var_0_0.RefreshAffix(arg_5_0, arg_5_1)
-	local var_5_0 = getAffixName(arg_5_1)
-	local var_5_1 = getAffixDesc(arg_5_1)
-
-	arg_5_0:RefreshText(var_5_0, var_5_1)
+function slot0.RefreshAffix(slot0, slot1)
+	slot0:RefreshText(getAffixName(slot1), getAffixDesc(slot1))
 end
 
-function var_0_0.RefreshBeacon(arg_6_0, arg_6_1)
-	local var_6_0 = MatrixBeaconCfg[arg_6_1]
-	local var_6_1 = var_6_0.name
-	local var_6_2 = var_6_0.desc
+function slot0.RefreshBeacon(slot0, slot1)
+	slot2 = MatrixBeaconCfg[slot1]
 
-	arg_6_0:RefreshText(var_6_1, var_6_2)
+	slot0:RefreshText(slot2.name, slot2.desc)
 end
 
-function var_0_0.RefreshText(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	print(arg_7_1)
-	print(arg_7_2)
+function slot0.RefreshText(slot0, slot1, slot2, slot3)
+	print(slot1)
+	print(slot2)
 
-	arg_7_0.m_name.text = GetI18NText(arg_7_1)
-	arg_7_0.m_content.text = GetI18NText(arg_7_2)
+	slot0.m_name.text = GetI18NText(slot1)
+	slot0.m_content.text = GetI18NText(slot2)
 
-	if arg_7_3 then
-		arg_7_0.m_levelText.text = arg_7_3
+	if slot3 then
+		slot0.m_levelText.text = slot3
 	else
-		arg_7_0.m_levelText.text = ""
+		slot0.m_levelText.text = ""
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.textTrs_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.m_contentTrs)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.textTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_contentTrs)
 
-	local var_7_0 = arg_7_0.m_bottom:TransformPoint(Vector3(0, 0, 0))
-	local var_7_1 = manager.ui.uiMain.transform:InverseTransformPoint(var_7_0)
-	local var_7_2 = manager.ui.uiMain.transform.transform.rect.height / 2
-
-	if var_7_2 < -var_7_1.y then
-		local var_7_3 = -var_7_1.y - var_7_2
-		local var_7_4 = arg_7_0.transform_.localPosition
-
-		arg_7_0.transform_.localPosition = Vector3(var_7_4.x, var_7_4.y + var_7_3, var_7_4.z)
+	if manager.ui.uiMain.transform.transform.rect.height / 2 < -manager.ui.uiMain.transform:InverseTransformPoint(slot0.m_bottom:TransformPoint(Vector3(0, 0, 0))).y then
+		slot8 = slot0.transform_.localPosition
+		slot0.transform_.localPosition = Vector3(slot8.x, slot8.y + -slot5.y - slot6, slot8.z)
 	end
 end
 
-function var_0_0.SetPosition(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.transform_.localPosition = Vector3(arg_8_1, arg_8_2, 0)
+function slot0.SetPosition(slot0, slot1, slot2)
+	slot0.transform_.localPosition = Vector3(slot1, slot2, 0)
 end
 
-function var_0_0.SetWorldPosition(arg_9_0, arg_9_1)
-	arg_9_0.transform_.position = arg_9_1
+function slot0.SetWorldPosition(slot0, slot1)
+	slot0.transform_.position = slot1
 end
 
-function var_0_0.SetActive(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_10_1 then
-		arg_10_0.gameObject_.transform:SetAsLastSibling()
+	if slot1 then
+		slot0.gameObject_.transform:SetAsLastSibling()
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	Object.Destroy(arg_11_0.gameObject_)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 
-	arg_11_0.transform_ = nil
-	arg_11_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

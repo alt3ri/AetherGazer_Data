@@ -1,59 +1,55 @@
-local var_0_0 = class("MonthCardPage", BaseSignPage)
+slot0 = class("MonthCardPage", BaseSignPage)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.hander_ = arg_1_1
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.hander_ = slot1
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/ActivitySign/MonthCardUI"), slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load("Widget/System/ActivitySign/MonthCardUI")
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.haveGetController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "haveGet")
-	arg_3_0.bonusIcon_.sprite = ItemTools.getItemSprite(GameSetting.monthly_card_reward_daily.value[1])
-	arg_3_0.bonusLabel_.text = "x" .. GetI18NText(GameSetting.monthly_card_reward_daily.value[2])
+	slot0.haveGetController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "haveGet")
+	slot0.bonusIcon_.sprite = ItemTools.getItemSprite(GameSetting.monthly_card_reward_daily.value[1])
+	slot0.bonusLabel_.text = "x" .. GetI18NText(GameSetting.monthly_card_reward_daily.value[2])
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		return
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
 	end)
 end
 
-function var_0_0.OnShow(arg_6_0)
-	arg_6_0:UpdateView()
+function slot0.OnShow(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
+function slot0.UpdateView(slot0)
 	print(debug.traceback("MonthCardView::UpdateView, sign = " .. tostring(RechargeData:IsSignToday())))
 
 	if RechargeData:IsSignToday() then
-		arg_7_0.haveGetController_:SetSelectedState("true")
+		slot0.haveGetController_:SetSelectedState("true")
 	else
-		arg_7_0.haveGetController_:SetSelectedState("false")
+		slot0.haveGetController_:SetSelectedState("false")
 	end
 
-	arg_7_0.surplusDay_.text = RechargeData:GetMonthCardLastDay() .. GetTips("DAY")
+	slot0.surplusDay_.text = RechargeData:GetMonthCardLastDay() .. GetTips("DAY")
 end
 
-function var_0_0.OnMonthCardDailyReward(arg_8_0)
-	arg_8_0:UpdateView()
+function slot0.OnMonthCardDailyReward(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.AutoGetReward(arg_9_0)
-	TimeTools.StartAfterSeconds(1, function()
+function slot0.AutoGetReward(slot0)
+	TimeTools.StartAfterSeconds(1, function ()
 		PayAction.GetMonthCardBonus()
 	end, {})
 end
 
-return var_0_0
+return slot0

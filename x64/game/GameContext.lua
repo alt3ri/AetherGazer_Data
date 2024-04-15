@@ -1,218 +1,195 @@
-local var_0_0 = import("library.router.VueRouter")
-local var_0_1 = class("GameContext", var_0_0)
+slot1 = class("GameContext", import("library.router.VueRouter"))
 
-function var_0_1.Ctor(arg_1_0, ...)
-	var_0_1.super.Ctor(arg_1_0, ...)
+function slot1.Ctor(slot0, ...)
+	uv0.super.Ctor(slot0, ...)
 
-	arg_1_0.waitLoadUrlList_ = {}
+	slot0.waitLoadUrlList_ = {}
 end
 
-function var_0_1.Go(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	var_0_1.super.Open(arg_2_0, arg_2_1, {
-		params = arg_2_2,
-		isReplace = arg_2_3,
-		isAsync = arg_2_4,
-		isBack = arg_2_5,
+function slot1.Go(slot0, slot1, slot2, slot3, slot4, slot5)
+	uv0.super.Open(slot0, slot1, {
+		params = slot2,
+		isReplace = slot3,
+		isAsync = slot4,
+		isBack = slot5,
 		extraContext = extraContext
 	})
 end
 
-function var_0_1.OnLoadAndUnloadAssert(arg_3_0)
-	if arg_3_0.preLoadFunc_ then
-		local var_3_0 = arg_3_0:GetCoincideRoutesIndex(arg_3_0.oldRoutes_, arg_3_0.routes_)
-
-		arg_3_0.preLoadFunc_(arg_3_0.routes_, arg_3_0.oldRoutes_, var_3_0, arg_3_0.curArgs_.isAsync)
+function slot1.OnLoadAndUnloadAssert(slot0)
+	if slot0.preLoadFunc_ then
+		slot0.preLoadFunc_(slot0.routes_, slot0.oldRoutes_, slot0:GetCoincideRoutesIndex(slot0.oldRoutes_, slot0.routes_), slot0.curArgs_.isAsync)
 	end
 
-	var_0_1.super.OnLoadAndUnloadAssert(arg_3_0)
+	uv0.super.OnLoadAndUnloadAssert(slot0)
 end
 
-function var_0_1.OnPlayExitAnimationAndCommonAnimation(arg_4_0)
-	arg_4_0:PlayExitAnimation(true)
+function slot1.OnPlayExitAnimationAndCommonAnimation(slot0)
+	slot0:PlayExitAnimation(true)
 end
 
-function var_0_1.OnPlayExitAnimation(arg_5_0)
-	arg_5_0:PlayExitAnimation(false)
+function slot1.OnPlayExitAnimation(slot0)
+	slot0:PlayExitAnimation(false)
 end
 
-function var_0_1.PlayExitAnimation(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0:GetCoincideRoutesIndex(arg_6_0.oldRoutes_, arg_6_0.routes_)
-	local var_6_1 = {}
+function slot1.PlayExitAnimation(slot0, slot1)
+	slot3 = {}
 
-	for iter_6_0 = #arg_6_0.oldRoutes_, var_6_0 + 1, -1 do
-		local var_6_2 = arg_6_0.recordMap_[arg_6_0.oldRoutes_[iter_6_0]]
+	for slot7 = #slot0.oldRoutes_, slot0:GetCoincideRoutesIndex(slot0.oldRoutes_, slot0.routes_) + 1, -1 do
+		if slot0.recordMap_[slot0.oldRoutes_[slot7]] then
+			slot9, slot10 = slot8:GetPlayBackwardsAnimator()
 
-		if var_6_2 then
-			local var_6_3, var_6_4 = var_6_2:GetPlayBackwardsAnimator()
-
-			if var_6_4 then
-				var_6_4()
+			if slot10 then
+				slot10()
 			end
 
-			for iter_6_1, iter_6_2 in ipairs(var_6_3) do
-				table.insert(var_6_1, iter_6_2)
+			for slot14, slot15 in ipairs(slot9) do
+				table.insert(slot3, slot15)
 
-				if iter_6_2[3] == true then
-					iter_6_2[1]:Play(iter_6_2[2], 0, 1)
+				if slot15[3] == true then
+					slot15[1]:Play(slot15[2], 0, 1)
 				else
-					iter_6_2[1]:Play(iter_6_2[2], 0, 0)
+					slot15[1]:Play(slot15[2], 0, 0)
 				end
 			end
 		end
 	end
 
-	local var_6_5 = false
-	local var_6_6 = false
+	slot4 = false
+	slot5 = false
 
-	if #var_6_1 > 0 then
-		local var_6_7
+	if #slot3 > 0 then
+		slot6 = nil
 
-		var_6_7 = FrameTimer.New(function()
-			for iter_7_0, iter_7_1 in ipairs(var_6_1) do
-				if iter_7_1[1] == nil then
-					var_6_6 = true
+		FrameTimer.New(function ()
+			for slot3, slot4 in ipairs(uv0) do
+				if slot4[1] == nil then
+					uv1 = true
 
-					arg_6_0:FinishExitAnimation(var_6_5, var_6_6)
+					uv2:FinishExitAnimation(uv3, uv1)
 
 					return
 				end
 
-				local var_7_0 = iter_7_1[1]:GetCurrentAnimatorStateInfo(0)
-
-				if iter_7_1[3] == true then
-					if var_7_0.normalizedTime > 0 then
+				if slot4[3] == true then
+					if slot4[1]:GetCurrentAnimatorStateInfo(0).normalizedTime > 0 then
 						return
 					end
-				elseif var_7_0.normalizedTime < 1 then
+				elseif slot5.normalizedTime < 1 then
 					return
 				end
 
-				var_6_6 = true
+				uv1 = true
 
-				arg_6_0:FinishExitAnimation(var_6_5, var_6_6, arg_6_1)
-				var_6_7:Stop()
+				uv2:FinishExitAnimation(uv3, uv1, uv4)
+				uv5:Stop()
 			end
-		end, 1, -1)
-
-		var_6_7:Start()
+		end, 1, -1):Start()
 	else
-		var_6_6 = true
+		slot5 = true
 	end
 
 	manager.ui:UIEventEnabledByUI(false, true)
 
-	if arg_6_1 then
-		arg_6_0.preExitAction_(function()
-			var_6_5 = true
+	if slot1 then
+		slot0.preExitAction_(function ()
+			uv0 = true
 
-			arg_6_0:FinishExitAnimation(var_6_5, var_6_6, arg_6_1)
-		end, arg_6_0.curArgs_.isAsync, arg_6_0.curArgs_.isRootUrl)
+			uv1:FinishExitAnimation(uv0, uv2, uv3)
+		end, slot0.curArgs_.isAsync, slot0.curArgs_.isRootUrl)
 	else
-		var_6_5 = true
-
-		arg_6_0:FinishExitAnimation(var_6_5, var_6_6, arg_6_1)
+		slot0:FinishExitAnimation(true, slot5, slot1)
 	end
 end
 
-function var_0_1.FinishExitAnimation(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	if arg_9_1 and arg_9_2 then
+function slot1.FinishExitAnimation(slot0, slot1, slot2, slot3)
+	if slot1 and slot2 then
 		manager.ui:UIEventEnabledByUI(true, false)
 
-		if arg_9_3 then
-			var_0_1.super.OnPlayExitAnimationAndCommonAnimation(arg_9_0)
+		if slot3 then
+			uv0.super.OnPlayExitAnimationAndCommonAnimation(slot0)
 		else
-			var_0_1.super.OnPlayExitAnimation(arg_9_0)
+			uv0.super.OnPlayExitAnimation(slot0)
 		end
 	end
 end
 
-function var_0_1.OnPlayEnterAnimation(arg_10_0)
+function slot1.OnPlayEnterAnimation(slot0)
 	manager.ui:UIEventEnabledByUI(false, true)
-	arg_10_0.afterStartAction_(function()
-		var_0_1.super.OnPlayEnterAnimation(arg_10_0)
+	slot0.afterStartAction_(function ()
+		uv0.super.OnPlayEnterAnimation(uv1)
 		manager.ui:UIEventEnabledByUI(true, false)
-	end, arg_10_0.curArgs_.isAsync, arg_10_0.curArgs_.isRootUrl)
+	end, slot0.curArgs_.isAsync, slot0.curArgs_.isRootUrl)
 end
 
-function var_0_1.OnEnterNewRoutes(arg_12_0)
-	if ViewAnimationManager.isReturnFromBattle == true or arg_12_0.curArgs_.isBack then
-		ViewAnimationManager.SetIsReturnFromBattle(arg_12_0.routes_[#arg_12_0.routes_], true)
+function slot1.OnEnterNewRoutes(slot0)
+	if ViewAnimationManager.isReturnFromBattle == true or slot0.curArgs_.isBack then
+		ViewAnimationManager.SetIsReturnFromBattle(slot0.routes_[#slot0.routes_], true)
 	end
 
-	var_0_1.super.OnEnterNewRoutes(arg_12_0)
+	uv0.super.OnEnterNewRoutes(slot0)
 end
 
-function var_0_1.OnOpenOver(arg_13_0)
-	var_0_1.super.OnOpenOver(arg_13_0)
+function slot1.OnOpenOver(slot0)
+	uv0.super.OnOpenOver(slot0)
 
-	if #arg_13_0.cmdEnqueue_ <= 0 then
+	if #slot0.cmdEnqueue_ <= 0 then
 		GlobalCall.call("AfterGo")
 	end
 end
 
-function var_0_1.ExitRoute(arg_14_0, arg_14_1)
-	local var_14_0 = arg_14_0.recordMap_[arg_14_1]
-
-	if var_14_0 == nil then
+function slot1.ExitRoute(slot0, slot1)
+	if slot0.recordMap_[slot1] == nil then
 		return
 	end
 
-	local var_14_1 = var_14_0:GetStayTime()
-
-	OperationRecorder.RecordStayView(var_14_0.class.__cname, var_14_1)
-	var_0_1.super.ExitRoute(arg_14_0, arg_14_1)
+	OperationRecorder.RecordStayView(slot2.class.__cname, slot2:GetStayTime())
+	uv0.super.ExitRoute(slot0, slot1)
 end
 
-function var_0_1.NeedBackNextUrl(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = ViewConst.NEED_CHECK_ACTIVITY[arg_15_1[1]]
-
-	if var_15_0 then
-		return ActivityTools.GetActivityStatus(arg_15_2.params[var_15_0]) ~= 1
+function slot1.NeedBackNextUrl(slot0, slot1, slot2)
+	if ViewConst.NEED_CHECK_ACTIVITY[slot1[1]] then
+		return ActivityTools.GetActivityStatus(slot2.params[slot3]) ~= 1
 	else
 		return false
 	end
 end
 
-function var_0_1.IsReplaceUrl(arg_16_0, arg_16_1)
-	if #arg_16_0.history_ > 0 then
-		local var_16_0 = arg_16_0.history_[#arg_16_0.history_].url
-		local var_16_1 = arg_16_0:GetRoutesFromUrl(var_16_0)
-
-		if ViewTools.GetIsSkipRecord(var_16_1) then
-			return true
-		end
+function slot1.IsReplaceUrl(slot0, slot1)
+	if #slot0.history_ > 0 and ViewTools.GetIsSkipRecord(slot0:GetRoutesFromUrl(slot0.history_[#slot0.history_].url)) then
+		return true
 	end
 
 	return false
 end
 
-function var_0_1.SetActions(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0.preExitAction_ = arg_17_1 or defaultAction
-	arg_17_0.afterStartAction_ = arg_17_2 or defaultAction
+function slot1.SetActions(slot0, slot1, slot2)
+	slot0.preExitAction_ = slot1 or defaultAction
+	slot0.afterStartAction_ = slot2 or defaultAction
 end
 
-local function var_0_2(arg_18_0)
-	if arg_18_0 then
-		arg_18_0()
+function slot2(slot0)
+	if slot0 then
+		slot0()
 	end
 end
 
-function var_0_1.PlayPreExitTransition(arg_19_0, arg_19_1, arg_19_2, arg_19_3)
-	arg_19_0.preExitAction_(arg_19_1, arg_19_2, arg_19_3)
+function slot1.PlayPreExitTransition(slot0, slot1, slot2, slot3)
+	slot0.preExitAction_(slot1, slot2, slot3)
 end
 
-function var_0_1.PlayAfterStartTransition(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.afterStartAction_(arg_20_1, arg_20_2)
+function slot1.PlayAfterStartTransition(slot0, slot1, slot2)
+	slot0.afterStartAction_(slot1, slot2)
 end
 
-function var_0_1.RegistPreLoadFunc(arg_21_0, arg_21_1)
-	arg_21_0.preLoadFunc_ = arg_21_1
+function slot1.RegistPreLoadFunc(slot0, slot1)
+	slot0.preLoadFunc_ = slot1
 end
 
-function var_0_1.ClearHistory(arg_22_0)
-	arg_22_0:SetSystemLayer("home")
+function slot1.ClearHistory(slot0)
+	slot0:SetSystemLayer("home")
 
-	arg_22_0.history_ = {
+	slot0.history_ = {
 		{
 			url = "/home",
 			args = {}
@@ -220,144 +197,129 @@ function var_0_1.ClearHistory(arg_22_0)
 	}
 end
 
-function var_0_1.GetLastHistoryAndParams(arg_23_0)
-	return arg_23_0.history_[#arg_23_0.history_].url, arg_23_0.history_[#arg_23_0.history_].args.params
+function slot1.GetLastHistoryAndParams(slot0)
+	return slot0.history_[#slot0.history_].url, slot0.history_[#slot0.history_].args.params
 end
 
-function var_0_1.ClearHistoryByName(arg_24_0, arg_24_1)
-	local var_24_0 = 0
+function slot1.ClearHistoryByName(slot0, slot1)
+	slot2 = 0
 
-	for iter_24_0, iter_24_1 in ipairs(arg_24_0.history_) do
-		if iter_24_1.url and string.find(iter_24_1.url, arg_24_1) then
-			var_24_0 = iter_24_0
+	for slot6, slot7 in ipairs(slot0.history_) do
+		if slot7.url and string.find(slot7.url, slot1) then
+			slot2 = slot6
 		end
 	end
 
-	if var_24_0 > 0 then
-		table.remove(arg_24_0.history_, var_24_0)
+	if slot2 > 0 then
+		table.remove(slot0.history_, slot2)
 	end
 end
 
-function var_0_1.GetUrl(arg_25_0)
-	return arg_25_0.url_
+function slot1.GetUrl(slot0)
+	return slot0.url_
 end
 
-function var_0_1.GetAllOpenRoute(arg_26_0)
-	local var_26_0 = {}
-
-	if arg_26_0.routes_ == nil then
-		return var_26_0
+function slot1.GetAllOpenRoute(slot0)
+	if slot0.routes_ == nil then
+		return {}
 	end
 
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.routes_) do
-		table.insert(var_26_0, iter_26_1)
+	for slot5, slot6 in ipairs(slot0.routes_) do
+		table.insert(slot1, slot6)
 	end
 
-	return var_26_0
+	return slot1
 end
 
-function var_0_1.GetAllOpenPage(arg_27_0)
-	local var_27_0 = {}
+function slot1.GetAllOpenPage(slot0)
+	slot1 = {}
 
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.routes_) do
-		local var_27_1 = arg_27_0.recordMap_[iter_27_1]
-
-		table.insert(var_27_0, var_27_1)
+	for slot5, slot6 in ipairs(slot0.routes_) do
+		table.insert(slot1, slot0.recordMap_[slot6])
 	end
 
-	return var_27_0
+	return slot1
 end
 
-function var_0_1.GetLastOpenPage(arg_28_0)
-	if arg_28_0.routes_ == nil then
+function slot1.GetLastOpenPage(slot0)
+	if slot0.routes_ == nil then
 		return ""
 	end
 
-	return arg_28_0.routes_[#arg_28_0.routes_] or ""
+	return slot0.routes_[#slot0.routes_] or ""
 end
 
-function var_0_1.IsOpenRoute(arg_29_0, arg_29_1)
-	if arg_29_0.routes_ == nil then
+function slot1.IsOpenRoute(slot0, slot1)
+	if slot0.routes_ == nil then
 		return nil
 	end
 
-	for iter_29_0, iter_29_1 in ipairs(arg_29_0.routes_) do
-		if iter_29_1 == arg_29_1 then
-			return iter_29_0
+	for slot5, slot6 in ipairs(slot0.routes_) do
+		if slot6 == slot1 then
+			return slot5
 		end
 	end
 
 	return nil
 end
 
-function var_0_1.SetUrlAndParams(arg_30_0, arg_30_1, arg_30_2)
-	if arg_30_0.curLayer_ == nil then
-		table.insert(arg_30_0.waitLoadUrlList_, {
-			url = arg_30_1,
-			params = arg_30_2
+function slot1.SetUrlAndParams(slot0, slot1, slot2)
+	if slot0.curLayer_ == nil then
+		table.insert(slot0.waitLoadUrlList_, {
+			url = slot1,
+			params = slot2
 		})
 	else
-		arg_30_0:UpdateUrlHistory(arg_30_1, {
-			params = arg_30_2
+		slot0:UpdateUrlHistory(slot1, {
+			params = slot2
 		})
 	end
 end
 
-function var_0_1.GetOpenPageHandler(arg_31_0, arg_31_1)
-	local var_31_0 = arg_31_0:IsOpenRoute(arg_31_1)
-
-	if var_31_0 and var_31_0 > 0 then
-		return arg_31_0.recordMap_[arg_31_0.routes_[var_31_0]]
+function slot1.GetOpenPageHandler(slot0, slot1)
+	if slot0:IsOpenRoute(slot1) and slot2 > 0 then
+		return slot0.recordMap_[slot0.routes_[slot2]]
 	end
 end
 
-function var_0_1.OverrideUrl(arg_32_0, arg_32_1, arg_32_2, arg_32_3, arg_32_4)
-	local var_32_0
+function slot1.OverrideUrl(slot0, slot1, slot2, slot3, slot4)
+	slot5 = nil
+	slot5 = (whereami ~= slot4 or slot0.history_) and (slot0.cacheHistory_[slot4] or {})
+	slot6 = slot0:GetIndexFromHistory(slot5, slot2)
 
-	if whereami == arg_32_4 then
-		var_32_0 = arg_32_0.history_
-	else
-		var_32_0 = arg_32_0.cacheHistory_[arg_32_4] or {}
-	end
-
-	local var_32_1 = arg_32_0:GetIndexFromHistory(var_32_0, arg_32_2)
-	local var_32_2 = arg_32_0:GetIndexFromHistory(var_32_0, arg_32_1)
-
-	if var_32_2 > 0 then
-		var_32_0[var_32_2] = {
-			url = arg_32_2,
+	if slot0:GetIndexFromHistory(slot5, slot1) > 0 then
+		slot5[slot7] = {
+			url = slot2,
 			args = {
-				params = arg_32_3
+				params = slot3
 			}
 		}
 	end
 
-	if var_32_1 <= 0 or var_32_2 <= 0 then
+	if slot6 <= 0 or slot7 <= 0 then
 		return
-	elseif var_32_2 < var_32_1 then
-		table.remove(var_32_0, var_32_1)
-	elseif var_32_1 < var_32_2 then
-		table.remove(var_32_0, var_32_2)
+	elseif slot7 < slot6 then
+		table.remove(slot5, slot6)
+	elseif slot6 < slot7 then
+		table.remove(slot5, slot7)
 	end
 end
 
-function var_0_1.IsBack(arg_33_0, arg_33_1)
-	return arg_33_0:GetIndexFromHistory(arg_33_0.history_, arg_33_1)
+function slot1.IsBack(slot0, slot1)
+	return slot0:GetIndexFromHistory(slot0.history_, slot1)
 end
 
-function var_0_1.SetSystemLayer(arg_34_0, arg_34_1)
-	if whereami ~= arg_34_1 then
-		arg_34_0:SaveCacheHistory(arg_34_1)
+function slot1.SetSystemLayer(slot0, slot1)
+	if whereami ~= slot1 then
+		slot0:SaveCacheHistory(slot1)
 	end
 
-	local var_34_0 = clone(arg_34_0.waitLoadUrlList_)
-
-	for iter_34_0, iter_34_1 in ipairs(var_34_0) do
-		arg_34_0:SetUrlAndParams(iter_34_1.url, iter_34_1.params)
+	for slot6, slot7 in ipairs(clone(slot0.waitLoadUrlList_)) do
+		slot0:SetUrlAndParams(slot7.url, slot7.params)
 	end
 
-	arg_34_0.waitLoadUrlList_ = {}
-	whereami = arg_34_1
+	slot0.waitLoadUrlList_ = {}
+	whereami = slot1
 end
 
-return var_0_1
+return slot1

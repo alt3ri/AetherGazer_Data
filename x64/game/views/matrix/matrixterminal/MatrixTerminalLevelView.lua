@@ -1,95 +1,83 @@
-local var_0_0 = class("MatrixTerminalLevelView", ReduxView)
+slot0 = class("MatrixTerminalLevelView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Terminal/MatrixTerminalLevelUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, MatrixTerminalLevelItem)
-	arg_4_0.desController_ = ControllerUtil.GetController(arg_4_0.transform_, "des")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, MatrixTerminalLevelItem)
+	slot0.desController_ = ControllerUtil.GetController(slot0.transform_, "des")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.curLevel = MatrixData:GetTerminalLevel()
-	arg_7_0.selectLevel = arg_7_0.curLevel
-	arg_7_0.data = arg_7_0:ReverseTable(MatrixTerminalLevelCfg.all)
+function slot0.OnEnter(slot0)
+	slot0.curLevel = MatrixData:GetTerminalLevel()
+	slot0.selectLevel = slot0.curLevel
+	slot0.data = slot0:ReverseTable(MatrixTerminalLevelCfg.all)
 
-	local var_7_0 = table.indexof(arg_7_0.data, arg_7_0.curLevel)
-
-	arg_7_0.list_:StartScroll(#arg_7_0.data)
-	arg_7_0.list_:ScrollToIndex(var_7_0, true, false)
-	arg_7_0:RefreshInfo()
+	slot0.list_:StartScroll(#slot0.data)
+	slot0.list_:ScrollToIndex(table.indexof(slot0.data, slot0.curLevel), true, false)
+	slot0:RefreshInfo()
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.data[arg_8_1]
-
-	arg_8_2:Refresh(var_8_0, arg_8_0.curLevel)
-	arg_8_2:SetChoice(arg_8_0.selectLevel)
-	arg_8_2:RegistCallBack(handler(arg_8_0, arg_8_0.OnItemClick))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.data[slot1], slot0.curLevel)
+	slot2:SetChoice(slot0.selectLevel)
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
 end
 
-function var_0_0.OnItemClick(arg_9_0, arg_9_1)
-	arg_9_0.selectLevel = arg_9_1
+function slot0.OnItemClick(slot0, slot1)
+	slot0.selectLevel = slot1
 
-	local var_9_0 = arg_9_0.list_:GetItemList()
-
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		iter_9_1:SetChoice(arg_9_0.selectLevel)
+	for slot6, slot7 in pairs(slot0.list_:GetItemList()) do
+		slot7:SetChoice(slot0.selectLevel)
 	end
 
-	arg_9_0:RefreshInfo()
+	slot0:RefreshInfo()
 end
 
-function var_0_0.RefreshInfo(arg_10_0)
-	arg_10_0.m_levelLab.text = "" .. arg_10_0.selectLevel
+function slot0.RefreshInfo(slot0)
+	slot0.m_levelLab.text = "" .. slot0.selectLevel
+	slot1 = MatrixTerminalLevelCfg[slot0.selectLevel]
+	slot0.m_giftLab.text = "+" .. slot1.point - (MatrixTerminalLevelCfg[slot0.selectLevel - 1] and MatrixTerminalLevelCfg[slot2].point or 0)
 
-	local var_10_0 = MatrixTerminalLevelCfg[arg_10_0.selectLevel]
-	local var_10_1 = arg_10_0.selectLevel - 1
-	local var_10_2 = MatrixTerminalLevelCfg[var_10_1] and MatrixTerminalLevelCfg[var_10_1].point or 0
-	local var_10_3 = var_10_0.point - var_10_2
+	if slot1.desc and slot1.desc ~= "" then
+		slot0.desController_:SetSelectedIndex(1)
 
-	arg_10_0.m_giftLab.text = "+" .. var_10_3
-
-	if var_10_0.desc and var_10_0.desc ~= "" then
-		arg_10_0.desController_:SetSelectedIndex(1)
-
-		arg_10_0.m_desLab.text = GetI18NText(var_10_0.desc)
+		slot0.m_desLab.text = GetI18NText(slot1.desc)
 	else
-		arg_10_0.desController_:SetSelectedIndex(0)
+		slot0.desController_:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.ReverseTable(arg_11_0, arg_11_1)
-	local var_11_0 = {}
-
-	for iter_11_0 = 1, #arg_11_1 do
-		var_11_0[iter_11_0] = arg_11_1[#arg_11_1 + 1 - iter_11_0]
+function slot0.ReverseTable(slot0, slot1)
+	for slot6 = 1, #slot1 do
 	end
 
-	return var_11_0
+	return {
+		[slot6] = slot1[#slot1 + 1 - slot6]
+	}
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

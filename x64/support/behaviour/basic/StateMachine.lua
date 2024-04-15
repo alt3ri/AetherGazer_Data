@@ -1,296 +1,242 @@
-local var_0_0 = import("..BehaviourBase")
-local var_0_1 = class("StateMachine", var_0_0)
+slot1 = class("StateMachine", import("..BehaviourBase"))
+slot1.VERSION = "2.2.0"
+slot1.SUCCEEDED = 1
+slot1.NOTRANSITION = 2
+slot1.CANCELLED = 3
+slot1.PENDING = 4
+slot1.FAILURE = 5
+slot1.INVALID_TRANSITION_ERROR = "INVALID_TRANSITION_ERROR"
+slot1.PENDING_TRANSITION_ERROR = "PENDING_TRANSITION_ERROR"
+slot1.INVALID_CALLBACK_ERROR = "INVALID_CALLBACK_ERROR"
+slot1.WILDCARD = "*"
+slot1.ASYNC = "ASYNC"
 
-var_0_1.VERSION = "2.2.0"
-var_0_1.SUCCEEDED = 1
-var_0_1.NOTRANSITION = 2
-var_0_1.CANCELLED = 3
-var_0_1.PENDING = 4
-var_0_1.FAILURE = 5
-var_0_1.INVALID_TRANSITION_ERROR = "INVALID_TRANSITION_ERROR"
-var_0_1.PENDING_TRANSITION_ERROR = "PENDING_TRANSITION_ERROR"
-var_0_1.INVALID_CALLBACK_ERROR = "INVALID_CALLBACK_ERROR"
-var_0_1.WILDCARD = "*"
-var_0_1.ASYNC = "ASYNC"
-
-function var_0_1.Ctor(arg_1_0)
-	var_0_1.super.Ctor(arg_1_0, "StateMachine")
+function slot1.Ctor(slot0)
+	uv0.super.Ctor(slot0, "StateMachine")
 end
 
-function var_0_1.SetupState(arg_2_0, arg_2_1, arg_2_2)
-	if type(arg_2_1.initial) == "string" then
-		arg_2_0.initial_ = {
-			state = arg_2_1.initial
+function slot1.SetupState(slot0, slot1, slot2)
+	if type(slot1.initial) == "string" then
+		slot0.initial_ = {
+			state = slot1.initial
 		}
 	else
-		arg_2_0.initial_ = clone(arg_2_1.initial)
+		slot0.initial_ = clone(slot1.initial)
 	end
 
-	arg_2_0.terminal_ = arg_2_1.terminal or arg_2_1.final
-	arg_2_0.events_ = arg_2_1.events or {}
-	arg_2_0.callbacks_ = arg_2_1.callbacks
-	arg_2_0.map_ = {}
-	arg_2_0.exceptMap_ = {}
-	arg_2_0.current_ = "none"
-	arg_2_0.inTransition_ = false
+	slot0.terminal_ = slot1.terminal or slot1.final
+	slot0.events_ = slot1.events or {}
+	slot0.callbacks_ = slot1.callbacks
+	slot0.map_ = {}
+	slot0.exceptMap_ = {}
+	slot0.current_ = "none"
+	slot0.inTransition_ = false
 
-	if arg_2_0.initial_ then
-		arg_2_0.initial_.event = arg_2_0.initial_.event or "startup"
+	if slot0.initial_ then
+		slot0.initial_.event = slot0.initial_.event or "startup"
 
-		arg_2_0:AddEvent_({
+		slot0:AddEvent_({
 			from = "none",
-			name = arg_2_0.initial_.event,
-			to = arg_2_0.initial_.state
+			name = slot0.initial_.event,
+			to = slot0.initial_.state
 		})
 	end
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.events_) do
-		arg_2_0:AddEvent_(iter_2_1)
+	for slot6, slot7 in ipairs(slot0.events_) do
+		slot0:AddEvent_(slot7)
 	end
 
-	if arg_2_0.callbacks_ == nil and arg_2_2 then
-		arg_2_0:AutoDetectCallbacks_()
+	if slot0.callbacks_ == nil and slot2 then
+		slot0:AutoDetectCallbacks_()
 	end
 
-	arg_2_0.callbacks_ = arg_2_0.callbacks_ or {}
+	slot0.callbacks_ = slot0.callbacks_ or {}
 
-	if arg_2_0.initial_ and not arg_2_0.initial_.defer then
-		arg_2_0:DoEvent(arg_2_0.initial_.event)
+	if slot0.initial_ and not slot0.initial_.defer then
+		slot0:DoEvent(slot0.initial_.event)
 	end
 
-	return arg_2_0.target_
+	return slot0.target_
 end
 
-function var_0_1.AutoDetectCallbacks_(arg_3_0)
-	arg_3_0.callbacks_ = {}
+function slot1.AutoDetectCallbacks_(slot0)
+	slot0.callbacks_ = {}
+	slot1 = {}
+	slot2 = {}
+	slot3 = false
+	slot4 = false
+	slot5 = slot0.target_
+	slot6, slot7 = nil
 
-	local var_3_0 = {}
-	local var_3_1 = {}
-	local var_3_2 = false
-	local var_3_3 = false
-	local var_3_4 = arg_3_0.target_
-	local var_3_5
-	local var_3_6
-
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.map_) do
-		local var_3_7 = "onbefore" .. iter_3_0
-		local var_3_8 = var_3_7
-
-		if var_3_4[var_3_8] then
-			arg_3_0.callbacks_[var_3_7] = handler(var_3_4, var_3_4[var_3_8])
+	for slot11, slot12 in pairs(slot0.map_) do
+		if slot5["onbefore" .. slot11] then
+			slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 		end
 
-		local var_3_9 = "onafter" .. iter_3_0
-		local var_3_10 = var_3_9
-
-		if var_3_4[var_3_10] then
-			arg_3_0.callbacks_[var_3_9] = handler(var_3_4, var_3_4[var_3_10])
+		if slot5["onafter" .. slot11] then
+			slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 		end
 
-		for iter_3_2, iter_3_3 in pairs(iter_3_1) do
-			if iter_3_2 == var_0_1.WILDCARD then
-				var_3_2 = true
+		for slot16, slot17 in pairs(slot12) do
+			if slot16 == uv0.WILDCARD then
+				slot3 = true
 			else
-				local var_3_11 = "onleave" .. iter_3_2
-				local var_3_12 = var_3_11
-
-				if var_3_4[var_3_12] and arg_3_0.callbacks_[var_3_11] == nil then
-					arg_3_0.callbacks_[var_3_11] = handler(var_3_4, var_3_4[var_3_12])
+				if slot5["onleave" .. slot16] and slot0.callbacks_[slot6] == nil then
+					slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 				end
 
-				local var_3_13 = iter_3_2 .. "event"
-				local var_3_14 = var_3_13
-
-				if var_3_4[var_3_14] and arg_3_0.callbacks_[var_3_13] == nil then
-					arg_3_0.callbacks_[var_3_13] = handler(var_3_4, var_3_4[var_3_14])
+				if slot5[slot16 .. "event"] and slot0.callbacks_[slot6] == nil then
+					slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 				end
 
-				table.insert(var_3_0, iter_3_2)
+				table.insert(slot1, slot16)
 			end
 
-			if iter_3_3 == var_0_1.WILDCARD then
-				var_3_3 = true
+			if slot17 == uv0.WILDCARD then
+				slot4 = true
 			else
-				local var_3_15 = "onenter" .. iter_3_3
-				local var_3_16 = var_3_15
-
-				if var_3_4[var_3_16] and arg_3_0.callbacks_[var_3_15] == nil then
-					arg_3_0.callbacks_[var_3_15] = handler(var_3_4, var_3_4[var_3_16])
+				if slot5["onenter" .. slot17] and slot0.callbacks_[slot6] == nil then
+					slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 				end
 
-				table.insert(var_3_1, iter_3_3)
+				table.insert(slot2, slot17)
 			end
 		end
 	end
 
-	if var_3_2 then
-		local var_3_17 = #var_3_1
-
-		for iter_3_4 = 1, var_3_17 do
-			local var_3_18 = "onleave" .. var_3_1[iter_3_4]
-			local var_3_19 = var_3_18
-
-			if var_3_4[var_3_19] and arg_3_0.callbacks_[var_3_18] == nil then
-				arg_3_0.callbacks_[var_3_18] = handler(var_3_4, var_3_4[var_3_19])
+	if slot3 then
+		for slot12 = 1, #slot2 do
+			if slot5["onleave" .. slot2[slot12]] and slot0.callbacks_[slot6] == nil then
+				slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 			end
 
-			local var_3_20 = var_3_1[iter_3_4] .. "event"
-			local var_3_21 = var_3_20
-
-			if var_3_4[var_3_21] and arg_3_0.callbacks_[var_3_20] == nil then
-				arg_3_0.callbacks_[var_3_20] = handler(var_3_4, var_3_4[var_3_21])
+			if slot5[slot2[slot12] .. "event"] and slot0.callbacks_[slot6] == nil then
+				slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 			end
 		end
 	end
 
-	if var_3_3 then
-		local var_3_22 = #var_3_0
-
-		for iter_3_5 = 1, var_3_22 do
-			local var_3_23 = "onenter" .. var_3_0[iter_3_5]
-			local var_3_24 = var_3_23
-
-			if var_3_4[var_3_24] and arg_3_0.callbacks_[var_3_23] == nil then
-				arg_3_0.callbacks_[var_3_23] = handler(var_3_4, var_3_4[var_3_24])
+	if slot4 then
+		for slot12 = 1, #slot1 do
+			if slot5["onenter" .. slot1[slot12]] and slot0.callbacks_[slot6] == nil then
+				slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 			end
 		end
 	end
 
-	local var_3_25 = "allstateevent"
-	local var_3_26 = var_3_25
-
-	if var_3_4[var_3_26] then
-		arg_3_0.callbacks_[var_3_25] = handler(var_3_4, var_3_4[var_3_26])
+	if slot5.allstateevent then
+		slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 	end
 
-	local var_3_27 = "onleavestate"
-	local var_3_28 = var_3_27
-
-	if var_3_4[var_3_28] then
-		arg_3_0.callbacks_[var_3_27] = handler(var_3_4, var_3_4[var_3_28])
+	if slot5.onleavestate then
+		slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 	end
 
-	local var_3_29 = "onenterstate"
-	local var_3_30 = var_3_29
-
-	if var_3_4[var_3_30] then
-		arg_3_0.callbacks_[var_3_29] = handler(var_3_4, var_3_4[var_3_30])
+	if slot5.onenterstate then
+		slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 	end
 
-	local var_3_31 = "onchangestate"
-	local var_3_32 = var_3_31
-
-	if var_3_4[var_3_32] then
-		arg_3_0.callbacks_[var_3_31] = handler(var_3_4, var_3_4[var_3_32])
+	if slot5.onchangestate then
+		slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 	end
 
-	local var_3_33 = "onafterevent"
-	local var_3_34 = var_3_33
-
-	if var_3_4[var_3_34] then
-		arg_3_0.callbacks_[var_3_33] = handler(var_3_4, var_3_4[var_3_34])
+	if slot5.onafterevent then
+		slot0.callbacks_[slot6] = handler(slot5, slot5[slot7])
 	end
 end
 
-function var_0_1.IsReady(arg_4_0)
-	return arg_4_0.current_ ~= "none"
+function slot1.IsReady(slot0)
+	return slot0.current_ ~= "none"
 end
 
-function var_0_1.GetState(arg_5_0)
-	return arg_5_0.current_
+function slot1.GetState(slot0)
+	return slot0.current_
 end
 
-function var_0_1.IsState(arg_6_0, arg_6_1)
-	if type(arg_6_1) == "table" then
-		for iter_6_0, iter_6_1 in ipairs(arg_6_1) do
-			if iter_6_1 == arg_6_0.current_ then
+function slot1.IsState(slot0, slot1)
+	if type(slot1) == "table" then
+		for slot5, slot6 in ipairs(slot1) do
+			if slot6 == slot0.current_ then
 				return true
 			end
 		end
 
 		return false
 	else
-		return arg_6_0.current_ == arg_6_1
+		return slot0.current_ == slot1
 	end
 end
 
-function var_0_1.CanDoEvent(arg_7_0, arg_7_1)
-	return not arg_7_0.inTransition_ and (arg_7_0.map_[arg_7_1][arg_7_0.current_] ~= nil or arg_7_0.map_[arg_7_1][var_0_1.WILDCARD] ~= nil) and not arg_7_0.exceptMap_[arg_7_1][arg_7_0.current_]
+function slot1.CanDoEvent(slot0, slot1)
+	return not slot0.inTransition_ and (slot0.map_[slot1][slot0.current_] ~= nil or slot0.map_[slot1][uv0.WILDCARD] ~= nil) and not slot0.exceptMap_[slot1][slot0.current_]
 end
 
-function var_0_1.IsFinishedState(arg_8_0)
-	return arg_8_0:IsState(arg_8_0.terminal_)
+function slot1.IsFinishedState(slot0)
+	return slot0:IsState(slot0.terminal_)
 end
 
-function var_0_1.DoEvent(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.current_
-	local var_9_1 = arg_9_0.map_[arg_9_1]
-	local var_9_2 = var_9_1[var_9_0] or var_9_1[var_0_1.WILDCARD] or var_9_0
-	local var_9_3 = {
-		name = arg_9_1,
-		from = var_9_0,
-		to = var_9_2,
-		args = arg_9_2
-	}
+function slot1.DoEvent(slot0, slot1, slot2)
+	if slot0.inTransition_ then
+		slot0:OnError_({
+			name = slot1,
+			from = slot3,
+			to = slot0.map_[slot1][slot0.current_] or slot4[uv0.WILDCARD] or slot3,
+			args = slot2
+		}, uv0.PENDING_TRANSITION_ERROR, "event " .. slot1 .. " inappropriate because previous transition did not complete")
 
-	if arg_9_0.inTransition_ then
-		arg_9_0:OnError_(var_9_3, var_0_1.PENDING_TRANSITION_ERROR, "event " .. arg_9_1 .. " inappropriate because previous transition did not complete")
-
-		return var_0_1.FAILURE
+		return uv0.FAILURE
 	end
 
-	if not arg_9_0:CanDoEvent(arg_9_1) then
-		return var_0_1.FAILURE
+	if not slot0:CanDoEvent(slot1) then
+		return uv0.FAILURE
 	end
 
-	if not arg_9_0:OnEvent_(var_9_3) then
-		return var_0_1.CANCELLED
+	if not slot0:OnEvent_(slot6) then
+		return uv0.CANCELLED
 	end
 
-	if var_9_3.to == var_0_1.WILDCARD then
-		var_9_2 = var_9_0
-		var_9_3.to = var_9_0
+	if slot6.to == uv0.WILDCARD then
+		slot5 = slot3
+		slot6.to = slot3
 	else
-		var_9_2 = var_9_3.to
+		slot5 = slot6.to
 	end
 
-	if var_9_0 == var_9_2 then
-		arg_9_0:AfterEvent_(var_9_3)
+	if slot3 == slot5 then
+		slot0:AfterEvent_(slot6)
 
-		return var_0_1.NOTRANSITION
+		return uv0.NOTRANSITION
 	end
 
-	function var_9_3.transition()
-		arg_9_0.inTransition_ = false
-		arg_9_0.current_ = var_9_2
+	function slot6.transition()
+		uv0.inTransition_ = false
+		uv0.current_ = uv1
 
-		arg_9_0:EnterState_(var_9_3)
-		arg_9_0:ChangeState_(var_9_3)
-		arg_9_0:AfterEvent_(var_9_3)
+		uv0:EnterState_(uv2)
+		uv0:ChangeState_(uv2)
+		uv0:AfterEvent_(uv2)
 
-		return var_0_1.SUCCEEDED
+		return uv3.SUCCEEDED
 	end
 
-	arg_9_0.inTransition_ = true
+	slot0.inTransition_ = true
 
-	local var_9_4 = arg_9_0:LeaveState_(var_9_3)
+	if slot0:LeaveState_(slot6) == false then
+		slot6.transition = nil
+		slot0.inTransition_ = false
 
-	if var_9_4 == false then
-		var_9_3.transition = nil
-		arg_9_0.inTransition_ = false
-
-		return var_0_1.CANCELLED
-	elseif string.upper(tostring(var_9_4)) == var_0_1.ASYNC then
-		return var_0_1.PENDING
-	elseif var_9_3.transition then
-		return var_9_3.transition()
+		return uv0.CANCELLED
+	elseif string.upper(tostring(slot7)) == uv0.ASYNC then
+		return uv0.PENDING
+	elseif slot6.transition then
+		return slot6.transition()
 	else
-		arg_9_0.inTransition_ = false
+		slot0.inTransition_ = false
 	end
 end
 
-function var_0_1.OnBind_(arg_11_0)
-	arg_11_0:ExportMethods_({
+function slot1.OnBind_(slot0)
+	slot0:ExportMethods_({
 		"SetupState",
 		"IsReady",
 		"GetState",
@@ -300,131 +246,121 @@ function var_0_1.OnBind_(arg_11_0)
 		"DoEvent"
 	})
 
-	return arg_11_0.target_
+	return slot0.target_
 end
 
-function var_0_1.OnUnbind_(arg_12_0)
-	return
+function slot1.OnUnbind_(slot0)
 end
 
-function var_0_1.AddEvent_(arg_13_0, arg_13_1)
-	local var_13_0 = {}
+function slot1.AddEvent_(slot0, slot1)
+	slot2 = {}
 
-	if type(arg_13_1.from) == "table" then
-		for iter_13_0, iter_13_1 in ipairs(arg_13_1.from) do
-			var_13_0[iter_13_1] = true
+	if type(slot1.from) == "table" then
+		for slot6, slot7 in ipairs(slot1.from) do
+			slot2[slot7] = true
 		end
-	elseif arg_13_1.from then
-		var_13_0[arg_13_1.from] = true
+	elseif slot1.from then
+		slot2[slot1.from] = true
 	else
-		var_13_0[var_0_1.WILDCARD] = true
+		slot2[uv0.WILDCARD] = true
 	end
 
-	arg_13_0.map_[arg_13_1.name] = arg_13_0.map_[arg_13_1.name] or {}
+	slot0.map_[slot1.name] = slot0.map_[slot1.name] or {}
 
-	local var_13_1 = arg_13_0.map_[arg_13_1.name]
-
-	for iter_13_2, iter_13_3 in pairs(var_13_0) do
-		var_13_1[iter_13_2] = arg_13_1.to or var_0_1.WILDCARD
+	for slot7, slot8 in pairs(slot2) do
+		slot0.map_[slot1.name][slot7] = slot1.to or uv0.WILDCARD
 	end
 
-	arg_13_0.exceptMap_[arg_13_1.name] = arg_13_0.exceptMap_[arg_13_1.name] or {}
+	slot0.exceptMap_[slot1.name] = slot0.exceptMap_[slot1.name] or {}
 
-	if type(arg_13_1.except) == "table" then
-		for iter_13_4, iter_13_5 in ipairs(arg_13_1.except) do
-			arg_13_0.exceptMap_[arg_13_1.name][iter_13_5] = true
+	if type(slot1.except) == "table" then
+		for slot7, slot8 in ipairs(slot1.except) do
+			slot0.exceptMap_[slot1.name][slot8] = true
 		end
-	elseif arg_13_1.except then
-		arg_13_0.exceptMap_[arg_13_1.name][arg_13_1.except] = true
+	elseif slot1.except then
+		slot0.exceptMap_[slot1.name][slot1.except] = true
 	end
 end
 
-local function var_0_2(arg_14_0, arg_14_1)
-	if arg_14_0 then
-		return arg_14_0(arg_14_1)
+function slot2(slot0, slot1)
+	if slot0 then
+		return slot0(slot1)
 	end
 end
 
-function var_0_1.OnAllEvent_(arg_15_0, arg_15_1)
-	return var_0_2(arg_15_0.callbacks_.allstateevent, arg_15_1)
+function slot1.OnAllEvent_(slot0, slot1)
+	return uv0(slot0.callbacks_.allstateevent, slot1)
 end
 
-function var_0_1.AfterAnyEvent_(arg_16_0, arg_16_1)
-	return var_0_2(arg_16_0.callbacks_.onafterevent, arg_16_1)
+function slot1.AfterAnyEvent_(slot0, slot1)
+	return uv0(slot0.callbacks_.onafterevent, slot1)
 end
 
-function var_0_1.LeaveAnyState_(arg_17_0, arg_17_1)
-	return var_0_2(arg_17_0.callbacks_.onleavestate, arg_17_1)
+function slot1.LeaveAnyState_(slot0, slot1)
+	return uv0(slot0.callbacks_.onleavestate, slot1)
 end
 
-function var_0_1.EnterAnyState_(arg_18_0, arg_18_1)
-	return var_0_2(arg_18_0.callbacks_.onenterstate, arg_18_1)
+function slot1.EnterAnyState_(slot0, slot1)
+	return uv0(slot0.callbacks_.onenterstate, slot1)
 end
 
-function var_0_1.ChangeState_(arg_19_0, arg_19_1)
-	return var_0_2(arg_19_0.callbacks_.onchangestate, arg_19_1)
+function slot1.ChangeState_(slot0, slot1)
+	return uv0(slot0.callbacks_.onchangestate, slot1)
 end
 
-function var_0_1.AfterThisEvent_(arg_20_0, arg_20_1)
-	return var_0_2(arg_20_0.callbacks_["onafter" .. arg_20_1.name], arg_20_1)
+function slot1.AfterThisEvent_(slot0, slot1)
+	return uv0(slot0.callbacks_["onafter" .. slot1.name], slot1)
 end
 
-function var_0_1.OnThisEvent_(arg_21_0, arg_21_1)
-	return var_0_2(arg_21_0.callbacks_[arg_21_1.from .. "event"], arg_21_1)
+function slot1.OnThisEvent_(slot0, slot1)
+	return uv0(slot0.callbacks_[slot1.from .. "event"], slot1)
 end
 
-function var_0_1.LeaveThisState_(arg_22_0, arg_22_1)
-	return var_0_2(arg_22_0.callbacks_["onleave" .. arg_22_1.from], arg_22_1)
+function slot1.LeaveThisState_(slot0, slot1)
+	return uv0(slot0.callbacks_["onleave" .. slot1.from], slot1)
 end
 
-function var_0_1.EnterThisState_(arg_23_0, arg_23_1)
-	return var_0_2(arg_23_0.callbacks_["onenter" .. arg_23_1.to], arg_23_1)
+function slot1.EnterThisState_(slot0, slot1)
+	return uv0(slot0.callbacks_["onenter" .. slot1.to], slot1)
 end
 
-function var_0_1.OnEvent_(arg_24_0, arg_24_1)
-	local var_24_0 = arg_24_0:OnThisEvent_(arg_24_1)
-	local var_24_1 = arg_24_0:OnAllEvent_(arg_24_1)
-
-	if var_24_0 == nil then
-		if var_24_1 == nil then
+function slot1.OnEvent_(slot0, slot1)
+	if slot0:OnThisEvent_(slot1) == nil then
+		if slot0:OnAllEvent_(slot1) == nil then
 			return true
 		else
-			return var_24_1
+			return slot3
 		end
-	elseif var_24_1 == nil then
-		return var_24_0
+	elseif slot3 == nil then
+		return slot2
 	else
-		return var_24_0 or var_24_1
+		return slot2 or slot3
 	end
 end
 
-function var_0_1.AfterEvent_(arg_25_0, arg_25_1)
-	arg_25_0:AfterThisEvent_(arg_25_1)
-	arg_25_0:AfterAnyEvent_(arg_25_1)
+function slot1.AfterEvent_(slot0, slot1)
+	slot0:AfterThisEvent_(slot1)
+	slot0:AfterAnyEvent_(slot1)
 end
 
-function var_0_1.LeaveState_(arg_26_0, arg_26_1, arg_26_2)
-	local var_26_0 = arg_26_0:LeaveThisState_(arg_26_1, arg_26_2)
-	local var_26_1 = arg_26_0:LeaveAnyState_(arg_26_1, arg_26_2)
-
-	if var_26_0 == false or var_26_1 == false then
+function slot1.LeaveState_(slot0, slot1, slot2)
+	if slot0:LeaveThisState_(slot1, slot2) == false or slot0:LeaveAnyState_(slot1, slot2) == false then
 		return false
-	elseif string.upper(tostring(var_26_0)) == var_0_1.ASYNC or string.upper(tostring(var_26_1)) == var_0_1.ASYNC then
-		return var_0_1.ASYNC
+	elseif string.upper(tostring(slot3)) == uv0.ASYNC or string.upper(tostring(slot4)) == uv0.ASYNC then
+		return uv0.ASYNC
 	end
 end
 
-function var_0_1.EnterState_(arg_27_0, arg_27_1)
-	arg_27_0:EnterThisState_(arg_27_1)
-	arg_27_0:EnterAnyState_(arg_27_1)
+function slot1.EnterState_(slot0, slot1)
+	slot0:EnterThisState_(slot1)
+	slot0:EnterAnyState_(slot1)
 end
 
-function var_0_1.Reset(arg_28_0)
-	return
+function slot1.Reset(slot0)
 end
 
-function var_0_1.OnError_(arg_29_0, arg_29_1, arg_29_2, arg_29_3)
-	printError("%s [StateMachine] ERROR: error %s, event %s, from %s to %s", tostring(arg_29_0.target_), tostring(arg_29_2), arg_29_1.name, arg_29_1.from, arg_29_1.to)
+function slot1.OnError_(slot0, slot1, slot2, slot3)
+	printError("%s [StateMachine] ERROR: error %s, event %s, from %s to %s", tostring(slot0.target_), tostring(slot2), slot1.name, slot1.from, slot1.to)
 end
 
-return var_0_1
+return slot1

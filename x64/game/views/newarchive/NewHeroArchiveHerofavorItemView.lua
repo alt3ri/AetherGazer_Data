@@ -1,93 +1,89 @@
-local var_0_0 = class("NewHeroArchiveHerofavorItemView", ReduxView)
+slot0 = class("NewHeroArchiveHerofavorItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.favorController = ControllerUtil.GetController(arg_3_0.transform_, "favorability")
+	slot0.favorController = ControllerUtil.GetController(slot0.transform_, "favorability")
 end
 
-function var_0_0.OnTop(arg_4_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.data = arg_5_1
-	arg_5_0.id = arg_5_2
-	arg_5_0.index = arg_5_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.data = slot1
+	slot0.id = slot2
+	slot0.index = slot3
 
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.ResetData(arg_6_0)
-	arg_6_0.data = nil
+function slot0.ResetData(slot0)
+	slot0.data = nil
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	if arg_7_0.data == nil then
+function slot0.RefreshUI(slot0, slot1)
+	if slot0.data == nil then
 		return
 	end
 
-	local var_7_0 = ArchiveData:GetTrustLevel(arg_7_0.id)
+	slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Itemshead/" .. slot0.id)
 
-	arg_7_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Itemshead/" .. arg_7_0.id)
+	if ArchiveData:GetTrustLevel(slot0.id) > 0 then
+		slot0.favorController:SetSelectedState("3")
 
-	if var_7_0 > 0 then
-		arg_7_0.favorController:SetSelectedState("3")
-
-		if arg_7_0.favorExText_ then
-			arg_7_0.favorExText_.text = ArchiveTools.GetTrustLvDes(var_7_0)
+		if slot0.favorExText_ then
+			slot0.favorExText_.text = ArchiveTools.GetTrustLvDes(slot2)
 		else
-			arg_7_0.favorText_.text = ArchiveTools.GetTrustLvDes(var_7_0)
+			slot0.favorText_.text = ArchiveTools.GetTrustLvDes(slot2)
 		end
 	else
-		if not arg_7_1 then
-			arg_7_0.favorController:SetSelectedState("1")
+		if not slot1 then
+			slot0.favorController:SetSelectedState("1")
 		else
-			arg_7_0.favorController:SetSelectedState("2")
+			slot0.favorController:SetSelectedState("2")
 		end
 
-		if arg_7_0.favorExText_ then
-			arg_7_0.favorExText_.text = string.format(GetTips("HERO_HEART_CHAIN_LOVE_TIP"), arg_7_0.data.lv)
-		elseif arg_7_1 then
-			arg_7_0.favorText_.text = string.format(GetTips("HERO_HEART_CHAIN_LOVE_TIP"), arg_7_0.data.lv)
+		if slot0.favorExText_ then
+			slot0.favorExText_.text = string.format(GetTips("HERO_HEART_CHAIN_LOVE_TIP"), slot0.data.lv)
+		elseif slot1 then
+			slot0.favorText_.text = string.format(GetTips("HERO_HEART_CHAIN_LOVE_TIP"), slot0.data.lv)
 		else
-			arg_7_0.favorText_.text = "Lv." .. arg_7_0.data.lv
+			slot0.favorText_.text = "Lv." .. slot0.data.lv
 		end
 	end
 
-	if not arg_7_1 and arg_7_0.index > 1 then
-		SetActive(arg_7_0.gameObject_, false)
+	if not slot1 and slot0.index > 1 then
+		SetActive(slot0.gameObject_, false)
 	else
-		SetActive(arg_7_0.gameObject_, true)
+		SetActive(slot0.gameObject_, true)
 	end
 
-	if arg_7_0.nameText_ then
-		if arg_7_1 then
-			arg_7_0.nameText_.text = HeroCfg[arg_7_0.id].name
+	if slot0.nameText_ then
+		if slot1 then
+			slot0.nameText_.text = HeroCfg[slot0.id].name
 		else
-			arg_7_0.nameText_.text = HeroCfg[arg_7_0.id].suffix
+			slot0.nameText_.text = HeroCfg[slot0.id].suffix
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

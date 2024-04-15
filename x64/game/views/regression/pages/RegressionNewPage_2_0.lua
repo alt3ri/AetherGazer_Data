@@ -1,137 +1,122 @@
-local var_0_0 = class("RegressionNewPage_2_0", ReduxView)
+slot0 = class("RegressionNewPage_2_0", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("Widget/System/ReturnTwo/RT2stAdd2UI")
-	local var_1_1 = Object.Instantiate(var_1_0, arg_1_1)
+function slot0.OnCtor(slot0, slot1)
+	slot3 = Object.Instantiate(Asset.Load("Widget/System/ReturnTwo/RT2stAdd2UI"), slot1)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
 
-	arg_1_0.gameObject_ = var_1_1
-	arg_1_0.transform_ = var_1_1.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.drawPoolBtn_, nil, function()
-		if arg_4_0.drawCfg_ then
-			local var_5_0 = arg_4_0.drawCfg_[2]
-
-			if not ActivityData:GetActivityIsOpen(var_5_0) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.drawPoolBtn_, nil, function ()
+		if uv0.drawCfg_ then
+			if not ActivityData:GetActivityIsOpen(uv0.drawCfg_[2]) then
 				ShowTips("REGRESSION_JUMP")
 
 				return
 			end
 
-			local var_5_1 = ActivityDrawPoolCfg[var_5_0].config_list[1]
-
 			JumpTools.GoToSystem("/draw", {
-				poolId = var_5_1
+				poolId = ActivityDrawPoolCfg[slot0].config_list[1]
 			}, ViewConst.SYSTEM_ID.DRAW)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.plotBtn_, nil, function()
-		local var_6_0 = arg_4_0.plotCfg_[2]
-
-		if not ActivityData:GetActivityIsOpen(var_6_0) then
+	slot0:AddBtnListener(slot0.plotBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.plotCfg_[2]) then
 			ShowTips("REGRESSION_JUMP")
 
 			return
 		end
 
-		ChapterTools.GotoChapterStagePage(arg_4_0.plotList_)
+		ChapterTools.GotoChapterStagePage(uv0.plotList_)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.progressBtn_, nil, function()
+	slot0:AddBtnListener(slot0.progressBtn_, nil, function ()
 		ChapterTools.GotoMaxChapterClient()
 	end)
 end
 
-function var_0_0.SetActive(arg_8_0, arg_8_1)
-	SetActive(arg_8_0.gameObject_, arg_8_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_9_0)
-	arg_9_0.drawActivityList_ = {}
-	arg_9_0.plotList_ = {}
+function slot0.SetData(slot0)
+	slot0.drawActivityList_ = {}
+	slot0.plotList_ = {}
 
-	local var_9_0 = GameSetting.regression_jump.value
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0) do
-		if iter_9_1[1] == 3 then
-			if ActivityData:GetActivityIsOpen(iter_9_1[2]) == true then
-				arg_9_0.drawActivityList_[#arg_9_0.drawActivityList_ + 1] = iter_9_1
+	for slot5, slot6 in ipairs(GameSetting.regression_jump.value) do
+		if slot6[1] == 3 then
+			if ActivityData:GetActivityIsOpen(slot6[2]) == true then
+				slot0.drawActivityList_[#slot0.drawActivityList_ + 1] = slot6
 			end
-		elseif iter_9_1[1] == 4 then
-			arg_9_0.progressCfg_ = iter_9_1
-		elseif ActivityData:GetActivityIsOpen(iter_9_1[2]) == true then
-			arg_9_0.plotList_[#arg_9_0.plotList_ + 1] = iter_9_1
+		elseif slot6[1] == 4 then
+			slot0.progressCfg_ = slot6
+		elseif ActivityData:GetActivityIsOpen(slot6[2]) == true then
+			slot0.plotList_[#slot0.plotList_ + 1] = slot6
 		end
 	end
 
-	arg_9_0:RefreshDrawUI()
-	arg_9_0:RefreshPlotUI()
-	arg_9_0:RefreshProgressUI()
+	slot0:RefreshDrawUI()
+	slot0:RefreshPlotUI()
+	slot0:RefreshProgressUI()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
-	Object.Destroy(arg_10_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_10_0.transform_ = nil
-	arg_10_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.UpdateBar(arg_11_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.RefreshDrawUI(arg_12_0)
-	if #arg_12_0.drawActivityList_ > 0 then
-		SetActive(arg_12_0.drawItemGo_, true)
+function slot0.RefreshDrawUI(slot0)
+	if #slot0.drawActivityList_ > 0 then
+		SetActive(slot0.drawItemGo_, true)
 
-		local var_12_0 = 1
+		slot1 = 1
 
-		for iter_12_0, iter_12_1 in ipairs(arg_12_0.drawActivityList_) do
-			if ActivityData:GetActivityIsOpen(iter_12_1[2]) == true then
-				var_12_0 = iter_12_0
+		for slot5, slot6 in ipairs(slot0.drawActivityList_) do
+			if ActivityData:GetActivityIsOpen(slot6[2]) == true then
+				slot1 = slot5
 			end
 		end
 
-		arg_12_0.drawCfg_ = arg_12_0.drawActivityList_[var_12_0]
-
-		local var_12_1 = MainAdvinfoCfg[arg_12_0.drawCfg_[3]].picture
-
-		arg_12_0.drawIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Announcements/" .. var_12_1 .. SettingData:GetCurrentLanguageKey())
+		slot0.drawCfg_ = slot0.drawActivityList_[slot1]
+		slot0.drawIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Announcements/" .. MainAdvinfoCfg[slot0.drawCfg_[3]].picture .. SettingData:GetCurrentLanguageKey())
 	else
-		SetActive(arg_12_0.drawItemGo_, false)
+		SetActive(slot0.drawItemGo_, false)
 	end
 end
 
-function var_0_0.RefreshPlotUI(arg_13_0)
-	if #arg_13_0.plotList_ > 0 then
-		SetActive(arg_13_0.plotItemGo_, true)
+function slot0.RefreshPlotUI(slot0)
+	if #slot0.plotList_ > 0 then
+		SetActive(slot0.plotItemGo_, true)
 
-		local var_13_0 = ChapterTools.GetActivityChapterIndex(arg_13_0.plotList_)
-
-		arg_13_0.plotCfg_ = arg_13_0.plotList_[var_13_0]
-		arg_13_0.plotIcon_.sprite = getSpriteViaConfig("ActivityBannerTextures", arg_13_0.plotCfg_[4] .. SettingData:GetCurrentLanguageKey())
+		slot0.plotCfg_ = slot0.plotList_[ChapterTools.GetActivityChapterIndex(slot0.plotList_)]
+		slot0.plotIcon_.sprite = getSpriteViaConfig("ActivityBannerTextures", slot0.plotCfg_[4] .. SettingData:GetCurrentLanguageKey())
 	else
-		SetActive(arg_13_0.plotItemGo_, false)
+		SetActive(slot0.plotItemGo_, false)
 	end
 end
 
-function var_0_0.RefreshProgressUI(arg_14_0)
-	arg_14_0.progressIcon_.sprite = getSpriteWithoutAtlas("TextureBg/ReturnTwo/" .. arg_14_0.progressCfg_[3])
+function slot0.RefreshProgressUI(slot0)
+	slot0.progressIcon_.sprite = getSpriteWithoutAtlas("TextureBg/ReturnTwo/" .. slot0.progressCfg_[3])
 end
 
-return var_0_0
+return slot0

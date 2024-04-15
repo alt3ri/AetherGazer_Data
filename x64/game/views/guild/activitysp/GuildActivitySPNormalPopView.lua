@@ -1,157 +1,140 @@
-local var_0_0 = class("GuildActivitySPNormalPopView", ReduxView)
+slot0 = class("GuildActivitySPNormalPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivitySPUI/GuildActivitySPNormalPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.statusController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.goonBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.goonBtn_, nil, function ()
+		uv0:Back()
 		JumpTools.OpenPageByJump("guildActivitySPDispatch", {
-			nodeId = arg_6_0.params_.nodeId
+			nodeId = uv0.params_.nodeId
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
-		local var_9_0 = GuildActivitySPData:GetCurRunActivityID()
-
-		arg_6_0:Go("/sectionSelectHero", {
-			section = arg_6_0.nodeCfg_.stage_id,
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		uv0:Go("/sectionSelectHero", {
+			section = uv0.nodeCfg_.stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP,
-			nodeId = arg_6_0.nodeCfg_.id,
-			activityID = var_9_0
+			nodeId = uv0.nodeCfg_.id,
+			activityID = GuildActivitySPData:GetCurRunActivityID()
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.giveupBtn_, nil, function()
+	slot0:AddBtnListener(slot0.giveupBtn_, nil, function ()
 		ShowMessageBox({
 			isTop = true,
 			content = GetTips("ACTIVITY_CLUB_SP_CANCEL_DISPATCH_CONFIRM_TIP"),
-			OkCallback = function()
-				GuildActivitySPAction.CancelDispatch(arg_6_0.nodeCfg_.id)
+			OkCallback = function ()
+				GuildActivitySPAction.CancelDispatch(uv0.nodeCfg_.id)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_13_0)
-	arg_13_0:RegistEventListener(GUILD_ACTIVITY_SP_UPDATE_GRIDS_DATA, function(arg_14_0)
-		if table.indexof(arg_14_0, arg_13_0.params_.nodeId) then
-			arg_13_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_ACTIVITY_SP_UPDATE_GRIDS_DATA, function (slot0)
+		if table.indexof(slot0, uv0.params_.nodeId) then
+			uv0:UpdateView()
 		end
 	end)
-	arg_13_0:RegistEventListener(GUILD_ACTIVITY_SP_CANCEL_DISPATCH, function(arg_15_0)
-		if arg_15_0 == arg_13_0.params_.id then
-			arg_13_0:Back()
+	slot0:RegistEventListener(GUILD_ACTIVITY_SP_CANCEL_DISPATCH, function (slot0)
+		if slot0 == uv0.params_.id then
+			uv0:Back()
 		end
 	end)
 end
 
-function var_0_0.OnTop(arg_16_0)
-	arg_16_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_17_0)
-	return
+function slot0.OnBehind(slot0)
 end
 
-function var_0_0.UpdateBar(arg_18_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_19_0.nodeCfg_ = ActivityClubSPCfg[arg_19_0.params_.nodeId]
+	slot0.nodeCfg_ = ActivityClubSPCfg[slot0.params_.nodeId]
 
-	arg_19_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_20_0)
-	arg_20_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.UpdateView(arg_21_0)
-	local var_21_0 = GuildActivitySPData:GetNodeData(arg_21_0.params_.nodeId)
+function slot0.UpdateView(slot0)
+	slot0.titleLabel_.text = BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].name
+	slot0.levelLabel_.text = "Lv." .. slot0.nodeCfg_.level
+	slot0.recoverImg.sprite = ItemTools.getItemSprite(GuildActivitySpTools.GetCurCurrencyID(GuildActivitySPData:GetCurMainActivityID(), 1))
+	slot0.recoverLabel_.text = "+" .. slot0.nodeCfg_.token_get
 
-	arg_21_0.titleLabel_.text = BattleClubActivitySPCfg[arg_21_0.nodeCfg_.stage_id].name
-	arg_21_0.levelLabel_.text = "Lv." .. arg_21_0.nodeCfg_.level
-
-	local var_21_1 = GuildActivitySPData:GetCurMainActivityID()
-
-	arg_21_0.recoverImg.sprite = ItemTools.getItemSprite(GuildActivitySpTools.GetCurCurrencyID(var_21_1, 1))
-	arg_21_0.recoverLabel_.text = "+" .. arg_21_0.nodeCfg_.token_get
-
-	local var_21_2 = 10 - var_21_0.occupied_num
-
-	if var_21_2 < 1 then
-		var_21_2 = 1
+	if 10 - GuildActivitySPData:GetNodeData(slot0.params_.nodeId).occupied_num < 1 then
+		slot3 = 1
 	end
 
-	arg_21_0.dangerousLabel_.text = string.format(GetTips("ACTIVITY_CLUB_DANGEROUS_DESC"), tostring(var_21_2))
-	arg_21_0.difficultyReduceLabel_.text = tostring(100 - var_21_2 * 10) .. "%"
-	arg_21_0.detailLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_FIRST_BONUS_DESC"))
+	slot0.dangerousLabel_.text = string.format(GetTips("ACTIVITY_CLUB_DANGEROUS_DESC"), tostring(slot3))
+	slot0.difficultyReduceLabel_.text = tostring(100 - slot3 * 10) .. "%"
+	slot0.detailLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_FIRST_BONUS_DESC"))
 
-	local var_21_3 = BattleClubActivitySPCfg[arg_21_0.nodeCfg_.stage_id].drop_lib_id
-
-	if var_21_3 ~= nil and var_21_3 > 0 then
-		local var_21_4 = DropCfg[var_21_3].base_drop[1]
-
-		arg_21_0.firstRecoverLabel_.text = var_21_4[2]
-		arg_21_0.nodeRewardImg.sprite = ItemTools.getItemSprite(var_21_4[1])
+	if BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].drop_lib_id ~= nil and slot4 > 0 then
+		slot5 = DropCfg[slot4].base_drop[1]
+		slot0.firstRecoverLabel_.text = slot5[2]
+		slot0.nodeRewardImg.sprite = ItemTools.getItemSprite(slot5[1])
 	else
-		arg_21_0.firstRecoverLabel_.text = "0"
+		slot0.firstRecoverLabel_.text = "0"
 	end
 
-	arg_21_0.energyCostLabel_.text = arg_21_0.nodeCfg_.vitality_cost
-	arg_21_0.informationLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_DISPATCH_INFO_TIP"), var_21_0.dispatch_num, 10)
+	slot0.energyCostLabel_.text = slot0.nodeCfg_.vitality_cost
+	slot0.informationLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_DISPATCH_INFO_TIP"), slot1.dispatch_num, 10)
 
-	if GuildActivitySPData:IsMyOccupiedNode(arg_21_0.params_.nodeId) then
-		if GuildActivitySPData:IsDispatched(arg_21_0.params_.nodeId) then
-			arg_21_0.statusController_:SetSelectedState("cancel")
+	if GuildActivitySPData:IsMyOccupiedNode(slot0.params_.nodeId) then
+		if GuildActivitySPData:IsDispatched(slot0.params_.nodeId) then
+			slot0.statusController_:SetSelectedState("cancel")
 
-			local var_21_5 = GuildActivitySPData:GetSelfNodeData(arg_21_0.params_.nodeId)
-		elseif GuildActivitySPData:IsDispatchMax(arg_21_0.params_.nodeId) then
-			arg_21_0.statusController_:SetSelectedState("upper_limit")
+			slot5 = GuildActivitySPData:GetSelfNodeData(slot0.params_.nodeId)
+		elseif GuildActivitySPData:IsDispatchMax(slot0.params_.nodeId) then
+			slot0.statusController_:SetSelectedState("upper_limit")
 		else
-			arg_21_0.statusController_:SetSelectedState("dispatch")
+			slot0.statusController_:SetSelectedState("dispatch")
 		end
-	elseif GuildActivitySPData:IsNodeCanReach(arg_21_0.params_.nodeId) then
-		arg_21_0.statusController_:SetSelectedState("occupy")
+	elseif GuildActivitySPData:IsNodeCanReach(slot0.params_.nodeId) then
+		slot0.statusController_:SetSelectedState("occupy")
 	else
-		arg_21_0.statusController_:SetSelectedState("unreachable")
+		slot0.statusController_:SetSelectedState("unreachable")
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_22_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_23_0)
-	var_0_0.super.Dispose(arg_23_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

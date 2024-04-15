@@ -1,19 +1,19 @@
-local var_0_0 = class("MythicComboSkillSelectItem", ComboSkillSelectItem)
+slot0 = class("MythicComboSkillSelectItem", ComboSkillSelectItem)
 
-function var_0_0.SetTeamID(arg_1_0, arg_1_1)
-	arg_1_0.teamID_ = arg_1_1
+function slot0.SetTeamID(slot0, slot1)
+	slot0.teamID_ = slot1
 end
 
-function var_0_0.ShowSelect(arg_2_0, arg_2_1)
+function slot0.ShowSelect(slot0, slot1)
 	if MythicData:GetIsBattleIng() then
-		arg_2_0.selectBtnController_:SetSelectedState("unclick")
-	elseif arg_2_1 then
-		arg_2_0.selectBtnController_:SetSelectedState("current")
-	elseif arg_2_0.canUse_ then
-		arg_2_0.selectBtnController_:SetSelectedState("change_1")
+		slot0.selectBtnController_:SetSelectedState("unclick")
+	elseif slot1 then
+		slot0.selectBtnController_:SetSelectedState("current")
+	elseif slot0.canUse_ then
+		slot0.selectBtnController_:SetSelectedState("change_1")
 	else
-		arg_2_0.selectBtnController_:SetSelectedState("unclick")
+		slot0.selectBtnController_:SetSelectedState("unclick")
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,95 +1,91 @@
-local var_0_0 = class("SelectOpponentListItem", ReduxView)
+slot0 = class("SelectOpponentListItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:InitAbilityItem()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
+	slot0:InitAbilityItem()
 
-	arg_2_0.typeController_ = arg_2_0.mainControllerEx_:GetController("strenthTier")
+	slot0.typeController_ = slot0.mainControllerEx_:GetController("strenthTier")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.challengeBtn_, nil, function()
-		local var_4_0 = IdolTraineeData:GetCurPVPStage()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.challengeBtn_, nil, function ()
+		slot0 = IdolTraineeData:GetCurPVPStage()
 
-		if arg_3_0.curUserID_ and arg_3_0.friendType and var_4_0 then
-			BackHomeCricketAction:AskPvPBattleData(arg_3_0.curUserID_, arg_3_0.friendType, var_4_0)
+		if uv0.curUserID_ and uv0.friendType and slot0 then
+			BackHomeCricketAction:AskPvPBattleData(uv0.curUserID_, uv0.friendType, slot0)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.compareBtn_, nil, function()
+	slot0:AddBtnListener(slot0.compareBtn_, nil, function ()
 		JumpTools.OpenPageByJump("idolTraineeBattleComparePop", {
-			userID = arg_3_0.curUserID_,
-			friendType = arg_3_0.friendType
+			userID = uv0.curUserID_,
+			friendType = uv0.friendType
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.headBtn_, nil, function()
-		if arg_3_0.curUserID_ then
-			ForeignInfoAction:TryToCheckForeignDetailInfo(arg_3_0.curUserID_, true)
+	slot0:AddBtnListener(slot0.headBtn_, nil, function ()
+		if uv0.curUserID_ then
+			ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.curUserID_, true)
 		end
 	end)
 end
 
-function var_0_0.InitAbilityItem(arg_7_0)
-	arg_7_0.abilityList = {}
+function slot0.InitAbilityItem(slot0)
+	slot0.abilityList = {}
 
-	for iter_7_0 = 1, IdolTraineeConst.AbilityNum do
-		arg_7_0.abilityList[iter_7_0] = IdolTraineeAbilityItem.New(arg_7_0["propitem" .. iter_7_0 .. "Go_"])
+	for slot4 = 1, IdolTraineeConst.AbilityNum do
+		slot0.abilityList[slot4] = IdolTraineeAbilityItem.New(slot0["propitem" .. slot4 .. "Go_"])
 	end
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.curUserID_ = arg_8_1
-	arg_8_0.friendType = arg_8_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.curUserID_ = slot1
+	slot0.friendType = slot2
+	slot3 = IdolTraineeTools:GetOpponentData(slot1, slot2)
+	slot0.playerName_.text = GetI18NText(slot3.nick)
+	slot0.playerIcon_.sprite = ItemTools.getItemSprite(slot3.icon)
+	slot0.heroIcon_.sprite = DormHeroTools.GetBackHomeHeadSprite(slot3.hero_id)
+	slot0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(slot3.hero_id)
+	slot8 = slot3.icon_frame
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot8)
 
-	local var_8_0 = IdolTraineeTools:GetOpponentData(arg_8_1, arg_8_2)
+	for slot8 = 1, IdolTraineeConst.AbilityNum do
+		slot0.abilityList[slot8]:SetData(slot3.property[slot8])
 
-	arg_8_0.playerName_.text = GetI18NText(var_8_0.nick)
-	arg_8_0.playerIcon_.sprite = ItemTools.getItemSprite(var_8_0.icon)
-	arg_8_0.heroIcon_.sprite = DormHeroTools.GetBackHomeHeadSprite(var_8_0.hero_id)
-	arg_8_0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(var_8_0.hero_id)
-	arg_8_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_8_0.icon_frame)
-
-	local var_8_1 = 0
-
-	for iter_8_0 = 1, IdolTraineeConst.AbilityNum do
-		arg_8_0.abilityList[iter_8_0]:SetData(var_8_0.property[iter_8_0])
-
-		var_8_1 = var_8_1 + var_8_0.property[iter_8_0]
+		slot4 = 0 + slot3.property[slot8]
 	end
 
-	local var_8_2 = IdolTraineeData:GetCurAttackHeroInfo()
-	local var_8_3 = 0
+	slot6 = 0
 
-	for iter_8_1, iter_8_2 in pairs(var_8_2) do
-		for iter_8_3 = 1, IdolTraineeConst.AbilityNum do
-			var_8_3 = var_8_3 + iter_8_2[iter_8_3]
+	for slot10, slot11 in pairs(IdolTraineeData:GetCurAttackHeroInfo()) do
+		for slot15 = 1, IdolTraineeConst.AbilityNum do
+			slot6 = slot6 + slot11[slot15]
 		end
 	end
 
-	if var_8_1 / var_8_3 < 0.8 then
-		arg_8_0.typeController_:SetSelectedState("strong")
-	elseif var_8_1 / var_8_3 > 1.1 then
-		arg_8_0.typeController_:SetSelectedState("weak")
+	if slot4 / slot6 < 0.8 then
+		slot0.typeController_:SetSelectedState("strong")
+	elseif slot4 / slot6 > 1.1 then
+		slot0.typeController_:SetSelectedState("weak")
 	else
-		arg_8_0.typeController_:SetSelectedState("middle")
+		slot0.typeController_:SetSelectedState("middle")
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.abilityList then
-		for iter_9_0, iter_9_1 in pairs(arg_9_0.abilityList) do
-			iter_9_1:Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	if slot0.abilityList then
+		for slot4, slot5 in pairs(slot0.abilityList) do
+			slot5:Dispose(slot0)
 		end
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

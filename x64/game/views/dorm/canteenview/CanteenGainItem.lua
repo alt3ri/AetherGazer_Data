@@ -1,64 +1,37 @@
-local var_0_0 = class("CanteenGainItem", ReduxView)
+slot0 = class("CanteenGainItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
 
-	SetActive(arg_1_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	local var_3_0
+function slot0.RefreshUI(slot0, slot1)
+	slot2 = nil
 
-	if arg_3_1.skillType == CanteenConst.HeroSkillType.FoodCostQucik or arg_3_1.skillType == CanteenConst.HeroSkillType.FoodCostRise then
-		local var_3_1 = arg_3_1.foodType
-		local var_3_2 = DormSkillData:GetSkillEffect(arg_3_1.skillType, nil, nil, var_3_1)
-		local var_3_3 = CanteenTools:GetFootTypeName(var_3_1)
-
-		var_3_0 = string.format(BackHomeHeroSkillDescCfg[arg_3_1.skillType].desc, tostring(var_3_3))
-
-		local var_3_4
-
-		if var_3_2 > 0 then
-			var_3_4 = string.format(BackHomeHeroSkillDescCfg[arg_3_1.skillType].pos_desc, string.format("<color=#e48a00>" .. var_3_2 .. "</color>"))
-		else
-			local var_3_5 = -var_3_2
-
-			var_3_4 = string.format(BackHomeHeroSkillDescCfg[arg_3_1.skillType].neg_desc, string.format("<color=#e48a00>" .. var_3_5 .. "</color>"))
-		end
-
-		var_3_0 = var_3_0 .. var_3_4
-	elseif arg_3_1.skillType == CanteenConst.HeroSkillType.PopularRise then
-		local var_3_6 = DormSkillData:GetSkillEffect(arg_3_1.skillType)
-
-		var_3_0 = BackHomeHeroSkillDescCfg[arg_3_1.skillType].desc
-
-		local var_3_7
-
-		if var_3_6 > 0 then
-			var_3_7 = string.format(BackHomeHeroSkillDescCfg[arg_3_1.skillType].pos_desc, string.format("<color=#e48a00>" .. var_3_6 .. "</color>"))
-		else
-			local var_3_8 = -var_3_6
-
-			var_3_7 = string.format(BackHomeHeroSkillDescCfg[arg_3_1.skillType].neg_desc, string.format("<color=#e48a00>" .. var_3_8 .. "</color>"))
-		end
-
-		var_3_0 = var_3_0 .. var_3_7
+	if slot1.skillType == CanteenConst.HeroSkillType.FoodCostQucik or slot1.skillType == CanteenConst.HeroSkillType.FoodCostRise then
+		slot3 = slot1.foodType
+		slot6 = nil
+		slot2 = string.format(BackHomeHeroSkillDescCfg[slot1.skillType].desc, tostring(CanteenTools:GetFootTypeName(slot3))) .. ((DormSkillData:GetSkillEffect(slot1.skillType, nil, , slot3) <= 0 or string.format(BackHomeHeroSkillDescCfg[slot1.skillType].pos_desc, string.format("<color=#e48a00>" .. slot4 .. "</color>"))) and string.format(BackHomeHeroSkillDescCfg[slot1.skillType].neg_desc, string.format("<color=#e48a00>" .. -slot4 .. "</color>")))
+	elseif slot1.skillType == CanteenConst.HeroSkillType.PopularRise then
+		slot4 = nil
+		slot2 = BackHomeHeroSkillDescCfg[slot1.skillType].desc .. ((DormSkillData:GetSkillEffect(slot1.skillType) <= 0 or string.format(BackHomeHeroSkillDescCfg[slot1.skillType].pos_desc, string.format("<color=#e48a00>" .. slot3 .. "</color>"))) and string.format(BackHomeHeroSkillDescCfg[slot1.skillType].neg_desc, string.format("<color=#e48a00>" .. -slot3 .. "</color>")))
 	end
 
-	arg_3_0.desc.text = var_3_0
+	slot0.desc.text = slot2
 end
 
-function var_0_0.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

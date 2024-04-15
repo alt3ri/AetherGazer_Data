@@ -1,153 +1,149 @@
 return {
-	Produce = function(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-		local var_1_0
+	Produce = function (slot0, slot1, slot2, slot3)
+		slot4 = nil
 
-		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_1_0 then
-			var_1_0 = BattleChapterStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == arg_1_0 then
-			var_1_0 = BattleSubPlotStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == arg_1_0 then
-			var_1_0 = BattleDailyStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == arg_1_0 then
-			var_1_0 = BattleTowerStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == arg_1_0 then
-			var_1_0 = BattleEnchantmentStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == arg_1_0 then
-			var_1_0 = BattleEquipStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL == arg_1_0 then
-			var_1_0 = BattleEquipBreakThroughMaterialStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE == arg_1_0 then
-			var_1_0 = BattleEquipSeizureStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == arg_1_0 then
-			local var_1_1 = arg_1_2
-
-			var_1_0 = BattleBossStageTemplate.New(arg_1_1, var_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == arg_1_0 then
-			local var_1_2 = arg_1_2
-
-			var_1_0 = BattleBossAdvanceStageTemplate.New(arg_1_1, var_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == arg_1_0 then
-			var_1_0 = BattleMythicStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING == arg_1_0 then
-			var_1_0 = BattleBaseTeachStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING == arg_1_0 then
-			var_1_0 = BattleHeroTeachStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == arg_1_0 then
-			var_1_0 = BattleMatrixStageTemplate.New(arg_1_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS == arg_1_0 then
-			var_1_0 = BattleChessStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY == arg_1_0 then
-			var_1_0 = BattleOsirisStoryStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON == arg_1_0 then
-			var_1_0 = BattleOsirisDemonStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.NEW_DEMON == arg_1_0 then
-			var_1_0 = BattleNewDemonStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.RACE_TRIAL == arg_1_0 then
-			var_1_0 = BattleRaceTrialStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.HERO_TRIAL == arg_1_0 then
-			var_1_0 = BattleHeroTrialStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SKIN_TRIAL == arg_1_0 then
-			var_1_0 = BattleSkinTrialStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SLAYER == arg_1_0 then
-			var_1_0 = BattleSlayerStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.TOWER_DEFENCE == arg_1_0 then
-			var_1_0 = BattleTowerDefenceStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.PARKOUR == arg_1_0 then
-			var_1_0 = BattleParkourStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == arg_1_0 then
-			var_1_0 = BattleSoloChallengeStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ARTIFACT == arg_1_0 then
-			var_1_0 = BattleArtifactStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION == arg_1_0 then
-			var_1_0 = BattleLimitedCalculationStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SKADI_GAME == arg_1_0 then
-			var_1_0 = BattleSkadiLittleGameTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_GAME == arg_1_0 then
-			var_1_0 = BattleActivityPtGameTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_PREPARE == arg_1_0 then
-			var_1_0 = BattleGuildBossPrepareTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_CHALLENGE == arg_1_0 then
-			var_1_0 = BattleGuildBossChallengeTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_RACE == arg_1_0 then
-			var_1_0 = BattleActivityRaceStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL == arg_1_0 then
-			var_1_0 = BattleMythicFinalTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == arg_1_0 then
-			var_1_0 = BattleGuildActivityStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP == arg_1_0 then
-			var_1_0 = BattleGuildActivitySPStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL == arg_1_0 then
-			var_1_0 = BattleMardukSpecialTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE == arg_1_0 then
-			var_1_0 = BattleSequentialBattleStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SURVIVE_SOLO == arg_1_0 then
-			var_1_0 = BattleSurviveSoloStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WORLD_BOSS == arg_1_0 then
-			var_1_0 = BattleActivityWorldBossTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT == arg_1_0 then
-			var_1_0 = BattleAffixSelectTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.DAMAGE_TEST == arg_1_0 then
-			var_1_0 = BattleDamageTestTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL == arg_1_0 then
-			var_1_0 = BattleActivityPt2NormalTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE == arg_1_0 then
-			var_1_0 = BattleActivityPt2ChallengeTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD == arg_1_0 then
-			var_1_0 = BattleActivityPt2HardTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ABYSS == arg_1_0 then
-			var_1_0 = BattleAbyssTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER == arg_1_0 then
-			var_1_0 = BattleActivityWaterTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SAIL_GAME == arg_1_0 then
-			var_1_0 = BattleSailGameTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST == arg_1_0 then
-			var_1_0 = BattleAdvanceTestStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON == arg_1_0 then
-			var_1_0 = BattleSoloHeartDemonTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME == arg_1_0 then
-			var_1_0 = BattleDestroyBoxGameTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME == arg_1_0 then
-			var_1_0 = BattleActivityKagutsuchiTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL == arg_1_0 then
-			var_1_0 = BattleActivityPtScrollTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_NEWWARCHESS == arg_1_0 then
-			var_1_0 = BattleNewWarChessStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == arg_1_0 then
-			var_1_0 = BattleActivityAttributeArenaTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE == arg_1_0 then
-			var_1_0 = BattlePushSnowBallSingleStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_TEAM_SURVIVAL == arg_1_0 then
-			var_1_0 = BattlePushSnowBallTeamSurvivalStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_TEAM_BOSS == arg_1_0 then
-			var_1_0 = BattlePushSnowBallTeamBossStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN == arg_1_0 then
-			var_1_0 = BattleIndiaNianStageTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.PUSH_BOX_BATTLE == arg_1_0 then
-			var_1_0 = BattleActivityPushBoxTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION == arg_1_0 then
-			var_1_0 = BattleCoreVerificationTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.SP_HERO_CHALLENGE_BATTLE_3_1 == arg_1_0 then
-			var_1_0 = BattleSPHeroChallengeTemplate.New(arg_1_1, arg_1_2)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_REFORGE == arg_1_0 then
-			var_1_0 = BattleActivityReforgeTemplate.New(arg_1_1, arg_1_2)
+		if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot0 then
+			slot4 = BattleChapterStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT == slot0 then
+			slot4 = BattleSubPlotStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY == slot0 then
+			slot4 = BattleDailyStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == slot0 then
+			slot4 = BattleTowerStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ENCHANTMENT == slot0 then
+			slot4 = BattleEnchantmentStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP == slot0 then
+			slot4 = BattleEquipStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL == slot0 then
+			slot4 = BattleEquipBreakThroughMaterialStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.EQUIP_SEIZURE == slot0 then
+			slot4 = BattleEquipSeizureStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == slot0 then
+			slot4 = BattleBossStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == slot0 then
+			slot4 = BattleBossAdvanceStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MYTHIC == slot0 then
+			slot4 = BattleMythicStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING == slot0 then
+			slot4 = BattleBaseTeachStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING == slot0 then
+			slot4 = BattleHeroTeachStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == slot0 then
+			slot4 = BattleMatrixStageTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS == slot0 then
+			slot4 = BattleChessStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY == slot0 then
+			slot4 = BattleOsirisStoryStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON == slot0 then
+			slot4 = BattleOsirisDemonStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.NEW_DEMON == slot0 then
+			slot4 = BattleNewDemonStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.RACE_TRIAL == slot0 then
+			slot4 = BattleRaceTrialStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.HERO_TRIAL == slot0 then
+			slot4 = BattleHeroTrialStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SKIN_TRIAL == slot0 then
+			slot4 = BattleSkinTrialStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SLAYER == slot0 then
+			slot4 = BattleSlayerStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.TOWER_DEFENCE == slot0 then
+			slot4 = BattleTowerDefenceStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.PARKOUR == slot0 then
+			slot4 = BattleParkourStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE == slot0 then
+			slot4 = BattleSoloChallengeStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ARTIFACT == slot0 then
+			slot4 = BattleArtifactStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION == slot0 then
+			slot4 = BattleLimitedCalculationStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SKADI_GAME == slot0 then
+			slot4 = BattleSkadiLittleGameTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_GAME == slot0 then
+			slot4 = BattleActivityPtGameTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_PREPARE == slot0 then
+			slot4 = BattleGuildBossPrepareTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_CHALLENGE == slot0 then
+			slot4 = BattleGuildBossChallengeTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_RACE == slot0 then
+			slot4 = BattleActivityRaceStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL == slot0 then
+			slot4 = BattleMythicFinalTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == slot0 then
+			slot4 = BattleGuildActivityStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP == slot0 then
+			slot4 = BattleGuildActivitySPStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL == slot0 then
+			slot4 = BattleMardukSpecialTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE == slot0 then
+			slot4 = BattleSequentialBattleStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SURVIVE_SOLO == slot0 then
+			slot4 = BattleSurviveSoloStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WORLD_BOSS == slot0 then
+			slot4 = BattleActivityWorldBossTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT == slot0 then
+			slot4 = BattleAffixSelectTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.DAMAGE_TEST == slot0 then
+			slot4 = BattleDamageTestTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_NORMAL == slot0 then
+			slot4 = BattleActivityPt2NormalTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE == slot0 then
+			slot4 = BattleActivityPt2ChallengeTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD == slot0 then
+			slot4 = BattleActivityPt2HardTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ABYSS == slot0 then
+			slot4 = BattleAbyssTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER == slot0 then
+			slot4 = BattleActivityWaterTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SAIL_GAME == slot0 then
+			slot4 = BattleSailGameTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST == slot0 then
+			slot4 = BattleAdvanceTestStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON == slot0 then
+			slot4 = BattleSoloHeartDemonTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.DESTROY_BOX_GAME == slot0 then
+			slot4 = BattleDestroyBoxGameTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME == slot0 then
+			slot4 = BattleActivityKagutsuchiTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL == slot0 then
+			slot4 = BattleActivityPtScrollTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_NEWWARCHESS == slot0 then
+			slot4 = BattleNewWarChessStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == slot0 then
+			slot4 = BattleActivityAttributeArenaTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE == slot0 then
+			slot4 = BattlePushSnowBallSingleStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_TEAM_SURVIVAL == slot0 then
+			slot4 = BattlePushSnowBallTeamSurvivalStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_TEAM_BOSS == slot0 then
+			slot4 = BattlePushSnowBallTeamBossStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN == slot0 then
+			slot4 = BattleIndiaNianStageTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.PUSH_BOX_BATTLE == slot0 then
+			slot4 = BattleActivityPushBoxTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION == slot0 then
+			slot4 = BattleCoreVerificationTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.SP_HERO_CHALLENGE_BATTLE_3_1 == slot0 then
+			slot4 = BattleSPHeroChallengeTemplate.New(slot1, slot2)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_REFORGE == slot0 then
+			slot4 = BattleActivityReforgeTemplate.New(slot1, slot2)
 		end
 
-		var_1_0:SetReserveParams(arg_1_3)
-		var_1_0:Init()
+		slot4:SetReserveParams(slot3)
+		slot4:Init()
 
-		return var_1_0
+		return slot4
 	end,
-	ProduceCooperation = function(arg_2_0, arg_2_1, arg_2_2)
-		local var_2_0
+	ProduceCooperation = function (slot0, slot1, slot2)
+		slot3 = nil
 
-		if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == arg_2_0 then
-			var_2_0 = BattleCooperationDemoTemplate.New(arg_2_1)
-		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == arg_2_0 then
-			var_2_0 = BattleCooperationStrongholdTemplate.New(arg_2_1)
-		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == arg_2_0 then
-			var_2_0 = BattleActivityWaterCooperationTemplate.New(arg_2_1, arg_2_2)
+		if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == slot0 then
+			slot3 = BattleCooperationDemoTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == slot0 then
+			slot3 = BattleCooperationStrongholdTemplate.New(slot1)
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == slot0 then
+			slot3 = BattleActivityWaterCooperationTemplate.New(slot1, slot2)
 		end
 
-		return var_2_0
+		return slot3
 	end
 }

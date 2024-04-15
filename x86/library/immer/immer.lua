@@ -1,34 +1,28 @@
-local var_0_0 = require("library/immer/utils")
-local var_0_1 = require("library/immer/proxy")
-local var_0_2 = {
-	NOTHING = var_0_0.NOTHING,
-	insert = var_0_1.insert,
-	remove = var_0_1.remove,
-	getn = var_0_1.getn,
-	ipairs = var_0_1.ipairs,
-	pairs = var_0_1.pairs
-}
+slot1 = require("library/immer/proxy")
 
-function var_0_2.produce(arg_1_0, arg_1_1)
-	if not var_0_0.isProxyable(arg_1_0) or var_0_0.isProxy(arg_1_0) then
-		local var_1_0 = arg_1_1(arg_1_0)
+return {
+	NOTHING = require("library/immer/utils").NOTHING,
+	insert = slot1.insert,
+	remove = slot1.remove,
+	getn = slot1.getn,
+	ipairs = slot1.ipairs,
+	pairs = slot1.pairs,
+	produce = function (slot0, slot1)
+		if not uv0.isProxyable(slot0) or uv0.isProxy(slot0) then
+			if slot1(slot0) == nil then
+				return slot0
+			else
+				return uv1.normalizeResult(slot2)
+			end
+		end
 
-		if var_1_0 == nil then
-			return arg_1_0
+		return uv1.normalizeResult(uv2.produceImpl(slot0, slot1))
+	end,
+	normalizeResult = function (slot0)
+		if slot0 == uv0.NOTHING then
+			return nil
 		else
-			return var_0_2.normalizeResult(var_1_0)
+			return slot0
 		end
 	end
-
-	return var_0_2.normalizeResult(var_0_1.produceImpl(arg_1_0, arg_1_1))
-end
-
-function var_0_2.normalizeResult(arg_2_0)
-	if arg_2_0 == var_0_0.NOTHING then
-		return nil
-	else
-		return arg_2_0
-	end
-end
-
-return var_0_2
+}

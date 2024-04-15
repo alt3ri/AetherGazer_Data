@@ -1,63 +1,59 @@
-local var_0_0 = class("VolumeMusicRewardItem", ReduxView)
+slot0 = class("VolumeMusicRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.list_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.m_list, CommonItem)
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, CommonItem)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_rewardBtn, nil, function()
-		MusicAction.QueryReward(arg_4_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
+		MusicAction.QueryReward(uv0.id)
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.id = arg_6_1
-	arg_6_0.items = ActivityMusicCfg[arg_6_1].reward
+function slot0.SetData(slot0, slot1)
+	slot0.id = slot1
+	slot0.items = ActivityMusicCfg[slot1].reward
 
-	arg_6_0.list_:StartScroll(#arg_6_0.items)
+	slot0.list_:StartScroll(#slot0.items)
 
-	arg_6_0.m_des.text = GetI18NText(arg_6_0:GeDes(arg_6_1))
+	slot0.m_des.text = GetI18NText(slot0:GeDes(slot1))
 
-	local var_6_0 = MusicData:GetRewardState(arg_6_1)
-
-	arg_6_0.stateController_:SetSelectedIndex(var_6_0)
+	slot0.stateController_:SetSelectedIndex(MusicData:GetRewardState(slot1))
 end
 
-function var_0_0.GeDes(arg_7_0, arg_7_1)
-	local var_7_0 = ActivityMusicCfg[arg_7_1]
-	local var_7_1 = var_7_0.difficult
-	local var_7_2 = MusicData:GetTargetAccuracyDes(var_7_0.target)
+function slot0.GeDes(slot0, slot1)
+	slot2 = ActivityMusicCfg[slot1]
+	slot3 = slot2.difficult
+	slot4 = MusicData:GetTargetAccuracyDes(slot2.target)
 
 	return GetTips("ACTIVITY_MUSIC_2_10_TASK")
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.items[arg_8_1]
-
-	arg_8_2:RefreshData(formatReward(var_8_0))
-	arg_8_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_8_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.items[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

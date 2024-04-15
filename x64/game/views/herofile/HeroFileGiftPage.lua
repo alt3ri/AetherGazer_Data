@@ -1,160 +1,147 @@
-local var_0_0 = class("HeroFileGiftPage", ReduxView)
-local var_0_1
+slot0 = class("HeroFileGiftPage", ReduxView)
+slot1 = nil
 
-local function var_0_2()
-	if not var_0_1 then
-		var_0_1 = 0
+function slot2()
+	if not uv0 then
+		uv0 = 0
 
-		for iter_1_0 = 1, HeroConst.HERO_LOVE_LV_MAX do
-			var_0_1 = var_0_1 + GameLevelSetting[iter_1_0].hero_love_exp
+		for slot3 = 1, HeroConst.HERO_LOVE_LV_MAX do
+			uv0 = uv0 + GameLevelSetting[slot3].hero_love_exp
 		end
 	end
 
-	return var_0_1
+	return uv0
 end
 
-local function var_0_3(arg_2_0, arg_2_1)
-	local var_2_0 = HeroRecordCfg[arg_2_0].gift_like_id1[1]
-	local var_2_1 = GameSetting.gift_value.value
+function slot3(slot0, slot1)
+	slot3 = GameSetting.gift_value.value
 
-	if arg_2_1 == var_2_0 then
-		return var_2_1[1]
+	if slot1 == HeroRecordCfg[slot0].gift_like_id1[1] then
+		return slot3[1]
 	end
 
-	return var_2_1[2]
+	return slot3[2]
 end
 
-local function var_0_4(arg_3_0, arg_3_1)
-	local var_3_0, var_3_1, var_3_2 = ArchiveData:GetTrustLevel(arg_3_0)
-	local var_3_3 = 1
+function slot4(slot0, slot1)
+	slot2, slot3, slot4 = ArchiveData:GetTrustLevel(slot0)
+	slot5 = 1
 
-	if HeroTrustMoodCfg[var_3_2] then
-		var_3_3 = HeroTrustMoodCfg[var_3_2].trust_exp_rate / 1000
+	if HeroTrustMoodCfg[slot4] then
+		slot5 = HeroTrustMoodCfg[slot4].trust_exp_rate / 1000
 	end
 
-	local var_3_4 = ItemCfg[arg_3_1]
-
-	if var_3_4.sub_type == 1 then
-		return math.floor(GameSetting.hero_trust_favor_gift_add_exp.value[1] * var_3_3)
-	elseif var_3_4.sub_type == 2 then
-		return math.floor(var_3_4.param[1] * var_3_3)
+	if ItemCfg[slot1].sub_type == 1 then
+		return math.floor(GameSetting.hero_trust_favor_gift_add_exp.value[1] * slot5)
+	elseif slot6.sub_type == 2 then
+		return math.floor(slot6.param[1] * slot5)
 	else
 		return 0
 	end
 end
 
-function var_0_0.OnCtor(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.gameObject_ = arg_4_1
-	arg_4_0.transform_ = arg_4_1.transform
-	arg_4_0.previewLvCB_ = arg_4_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.previewLvCB_ = slot2
 
-	arg_4_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_5_0)
-	arg_5_0:InitUI()
-	arg_5_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.curHeroID_ = 0
-	arg_6_0.curRecordID_ = 0
-	arg_6_0.curHeroLikeID_ = {}
-	arg_6_0.giftList_ = {}
-	arg_6_0.curGiftIndex_ = 0
-	arg_6_0.taskList_ = {}
-	arg_6_0.voiceCoolDown_ = false
-	arg_6_0.likePanelStateController_ = arg_6_0.giftControllerEx_:GetController("likePanelState")
-	arg_6_0.likeStateController_ = arg_6_0.giftControllerEx_:GetController("likeState")
-	arg_6_0.moodStateController_ = arg_6_0.giftControllerEx_:GetController("moodIconState")
-	arg_6_0.giftLuaUIList_ = LuaList.New(handler(arg_6_0, arg_6_0.IndexGiftItem), arg_6_0.giftUilist_, CommonItemView)
-	arg_6_0.trustLvUpTaskLuaUIList_ = LuaList.New(handler(arg_6_0, arg_6_0.IndexTaskItem), arg_6_0.trustLvTaskUilist_, HeroFileGiftTrustLvUpTaskItem)
-	arg_6_0.contentSizeFitter_ = arg_6_0.detailTrs_:GetComponent("ContentSizeFitter")
+	slot0.curHeroID_ = 0
+	slot0.curRecordID_ = 0
+	slot0.curHeroLikeID_ = {}
+	slot0.giftList_ = {}
+	slot0.curGiftIndex_ = 0
+	slot0.taskList_ = {}
+	slot0.voiceCoolDown_ = false
+	slot0.likePanelStateController_ = slot0.giftControllerEx_:GetController("likePanelState")
+	slot0.likeStateController_ = slot0.giftControllerEx_:GetController("likeState")
+	slot0.moodStateController_ = slot0.giftControllerEx_:GetController("moodIconState")
+	slot0.giftLuaUIList_ = LuaList.New(handler(slot0, slot0.IndexGiftItem), slot0.giftUilist_, CommonItemView)
+	slot0.trustLvUpTaskLuaUIList_ = LuaList.New(handler(slot0, slot0.IndexTaskItem), slot0.trustLvTaskUilist_, HeroFileGiftTrustLvUpTaskItem)
+	slot0.contentSizeFitter_ = slot0.detailTrs_:GetComponent("ContentSizeFitter")
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0.giftNumSlr_.onValueChanged:AddListener(function(arg_8_0)
-		if arg_8_0 < 1 then
-			arg_7_0.giftNumSlr_.value = 1
-			arg_8_0 = 1
+function slot0.AddUIListener(slot0)
+	slot0.giftNumSlr_.onValueChanged:AddListener(function (slot0)
+		if slot0 < 1 then
+			uv0.giftNumSlr_.value = 1
+			slot0 = 1
 		end
 
-		arg_7_0.giftNumText_.text = "选择数量:" .. arg_8_0
+		uv0.giftNumText_.text = "选择数量:" .. slot0
+		slot2 = uv0.giftList_[uv0.curGiftIndex_].id
 
-		local var_8_0 = ArchiveData:GetTrustLevel(arg_7_0.curHeroID_)
-		local var_8_1 = arg_7_0.giftList_[arg_7_0.curGiftIndex_].id
-		local var_8_2 = var_8_0 > 0 and var_0_4(arg_7_0.curHeroID_, var_8_1) or var_0_3(arg_7_0.curRecordID_, var_8_1)
+		uv0:RefreshExpProcess((ArchiveData:GetTrustLevel(uv0.curHeroID_) > 0 and uv1(uv0.curHeroID_, slot2) or uv2(uv0.curRecordID_, slot2)) * slot0)
 
-		arg_7_0:RefreshExpProcess(var_8_2 * arg_8_0)
-
-		arg_7_0.giftReduceBtn_.interactable = arg_8_0 > 1
-		arg_7_0.giftAddBtn_.interactable = arg_8_0 < arg_7_0.giftNumSlr_.maxValue
+		uv0.giftReduceBtn_.interactable = slot0 > 1
+		uv0.giftAddBtn_.interactable = slot0 < uv0.giftNumSlr_.maxValue
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.giftReduceBtn_, nil, function()
-		local var_9_0 = ItemTools.getItemNum(arg_7_0.giftList_[arg_7_0.curGiftIndex_].id)
+	slot0:AddBtnListener(slot0.giftReduceBtn_, nil, function ()
+		slot0 = ItemTools.getItemNum(uv0.giftList_[uv0.curGiftIndex_].id)
 
-		if arg_7_0.giftNumSlr_.value > 1 then
-			arg_7_0.giftNumSlr_.value = arg_7_0.giftNumSlr_.value - 1
+		if uv0.giftNumSlr_.value > 1 then
+			uv0.giftNumSlr_.value = uv0.giftNumSlr_.value - 1
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.giftAddBtn_, nil, function()
-		local var_10_0 = ItemTools.getItemNum(arg_7_0.giftList_[arg_7_0.curGiftIndex_].id)
+	slot0:AddBtnListener(slot0.giftAddBtn_, nil, function ()
+		slot0 = ItemTools.getItemNum(uv0.giftList_[uv0.curGiftIndex_].id)
 
-		if arg_7_0.giftNumSlr_.value < arg_7_0.giftNumSlr_.maxValue then
-			arg_7_0.giftNumSlr_.value = arg_7_0.giftNumSlr_.value + 1
+		if uv0.giftNumSlr_.value < uv0.giftNumSlr_.maxValue then
+			uv0.giftNumSlr_.value = uv0.giftNumSlr_.value + 1
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.presentBtn_, nil, function()
-		local var_11_0 = ArchiveData:GetTrustLevel(arg_7_0.curHeroID_)
+	slot0:AddBtnListener(slot0.presentBtn_, nil, function ()
+		if ArchiveData:GetTrustLevel(uv0.curHeroID_) > 0 then
+			slot1 = uv0.giftList_[uv0.curGiftIndex_].id
 
-		if var_11_0 > 0 then
-			local var_11_1 = arg_7_0.giftList_[arg_7_0.curGiftIndex_].id
-			local var_11_2 = arg_7_0.giftNumSlr_.value
-
-			if var_11_2 == 0 then
-				var_11_2 = 1
+			if uv0.giftNumSlr_.value == 0 then
+				slot2 = 1
 			end
 
-			Debug.Log("角色的交心等级是" .. var_11_0)
-			Debug.Log("要送的礼物id和数量是" .. var_11_1 .. " " .. var_11_2)
-			ArchiveAction.QuerySendTrustItem(arg_7_0.curHeroID_, {
+			Debug.Log("角色的交心等级是" .. slot0)
+			Debug.Log("要送的礼物id和数量是" .. slot1 .. " " .. slot2)
+			ArchiveAction.QuerySendTrustItem(uv0.curHeroID_, {
 				{
-					id = var_11_1,
-					num = var_11_2
+					id = slot1,
+					num = slot2
 				}
 			})
 		else
-			local var_11_3 = arg_7_0.giftList_[arg_7_0.curGiftIndex_].id
-			local var_11_4 = arg_7_0.giftNumSlr_.value
+			slot1 = uv0.giftList_[uv0.curGiftIndex_].id
 
-			if var_11_4 == 0 then
-				var_11_4 = 1
+			if uv0.giftNumSlr_.value == 0 then
+				slot2 = 1
 			end
 
-			local var_11_5 = var_11_4 * var_0_3(arg_7_0.curRecordID_, var_11_3)
-			local var_11_6 = ArchiveData:GetArchive(arg_7_0.curRecordID_).exp
-
-			if var_11_6 + var_11_5 > var_0_2() then
-				var_11_5 = var_0_2() - var_11_6
+			if uv2() < ArchiveData:GetArchive(uv0.curRecordID_).exp + slot2 * uv1(uv0.curRecordID_, slot1) then
+				slot3 = uv2() - slot4
 			end
 
-			HeroAction.SendGift(arg_7_0.curRecordID_, {
+			HeroAction.SendGift(uv0.curRecordID_, {
 				{
-					id = var_11_3,
-					num = var_11_4
+					id = slot1,
+					num = slot2
 				}
-			}, var_11_5)
+			}, slot3)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.breakBtn_, nil, function()
-		ArchiveAction.QueryUnlockTrust(arg_7_0.curHeroID_)
+	slot0:AddBtnListener(slot0.breakBtn_, nil, function ()
+		ArchiveAction.QueryUnlockTrust(uv0.curHeroID_)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.trustLvBtn_, nil, function()
-		for iter_13_0, iter_13_1 in ipairs(arg_7_0.taskList_) do
-			if not IsConditionAchieved(iter_13_1, {
-				heroId = arg_7_0.curHeroID_
+	slot0:AddBtnListener(slot0.trustLvBtn_, nil, function ()
+		for slot3, slot4 in ipairs(uv0.taskList_) do
+			if not IsConditionAchieved(slot4, {
+				heroId = uv0.curHeroID_
 			}) then
 				ShowTips("HERO_TRUST_UP_LV_LOCK")
 
@@ -162,547 +149,490 @@ function var_0_0.AddUIListener(arg_7_0)
 			end
 		end
 
-		ArchiveAction.QueryUpgradeTrustLevel(arg_7_0.curHeroID_)
+		ArchiveAction.QueryUpgradeTrustLevel(uv0.curHeroID_)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.changeGiftBtn_, nil, function()
+	slot0:AddBtnListener(slot0.changeGiftBtn_, nil, function ()
 		gameContext:Go("/heroTrustGiftDisplace")
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.moodTipsBtn_, nil, function()
+	slot0:AddBtnListener(slot0.moodTipsBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			title = GetTips("STAGE_DESCRIPE"),
 			content = GetTips("HERO_TRUST_MOOD_DESC")
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.m_listenBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_listenBtn, nil, function ()
 		JumpTools.GoToSystem("/newHeroDetailArchive", {
-			id = arg_7_0.curRecordID_
+			id = uv0.curRecordID_
 		})
 	end)
 end
 
-function var_0_0.IndexGiftItem(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = clone(ItemTemplateData)
+function slot0.IndexGiftItem(slot0, slot1, slot2)
+	slot3 = clone(ItemTemplateData)
+	slot3.id = slot0.giftList_[slot1].id
+	slot3.number = slot0.giftList_[slot1].num
+	slot3.selectStyle = slot1 == slot0.curGiftIndex_
+	slot3.favouriteFlag = table.indexof(slot0.curHeroLikeID_, slot3.id) ~= false
 
-	var_17_0.id = arg_17_0.giftList_[arg_17_1].id
-	var_17_0.number = arg_17_0.giftList_[arg_17_1].num
-	var_17_0.selectStyle = arg_17_1 == arg_17_0.curGiftIndex_
-	var_17_0.favouriteFlag = table.indexof(arg_17_0.curHeroLikeID_, var_17_0.id) ~= false
-
-	function var_17_0.clickFun()
-		if arg_17_1 == arg_17_0.curGiftIndex_ then
+	function slot3.clickFun()
+		if uv0 == uv1.curGiftIndex_ then
 			return
 		end
 
-		if arg_17_0.curGiftIndex_ ~= 0 then
-			local var_18_0 = arg_17_0.giftLuaUIList_:GetItemList()[arg_17_0.curGiftIndex_]
-
-			if var_18_0 then
-				var_18_0:RefreshSelectState(false)
-			end
+		if uv1.curGiftIndex_ ~= 0 and uv1.giftLuaUIList_:GetItemList()[uv1.curGiftIndex_] then
+			slot0:RefreshSelectState(false)
 		end
 
-		arg_17_2:RefreshSelectState(true)
+		uv2:RefreshSelectState(true)
 
-		arg_17_0.curGiftIndex_ = arg_17_1
+		uv1.curGiftIndex_ = uv0
 
-		arg_17_0:RefreshGiftInfo()
+		uv1:RefreshGiftInfo()
 	end
 
-	arg_17_2:SetData(var_17_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.IndexTaskItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.taskList_[arg_19_1]
-
-	arg_19_2:SetData(var_19_0, arg_19_0.curHeroID_)
+function slot0.IndexTaskItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskList_[slot1], slot0.curHeroID_)
 end
 
-function var_0_0.Show(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.curHeroID_ = arg_20_2
-	arg_20_0.curRecordID_ = arg_20_1
-	arg_20_0.curHeroLikeID_ = HeroRecordCfg[arg_20_1].gift_like_id1
+function slot0.Show(slot0, slot1, slot2)
+	slot0.curHeroID_ = slot2
+	slot0.curRecordID_ = slot1
+	slot0.curHeroLikeID_ = HeroRecordCfg[slot1].gift_like_id1
 
-	arg_20_0:UpdateGiftData()
-	arg_20_0:RefreshExpProcess()
-	arg_20_0:UpdatePageState()
-	SetActive(arg_20_0.gameObject_, true)
+	slot0:UpdateGiftData()
+	slot0:RefreshExpProcess()
+	slot0:UpdatePageState()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Hide(arg_21_0)
-	arg_21_0:StopVoice()
+function slot0.Hide(slot0)
+	slot0:StopVoice()
 
-	if arg_21_0.contentSizeTimer_ then
-		arg_21_0.contentSizeTimer_:Stop()
+	if slot0.contentSizeTimer_ then
+		slot0.contentSizeTimer_:Stop()
 
-		arg_21_0.contentSizeTimer_ = nil
+		slot0.contentSizeTimer_ = nil
 	end
 
-	SetActive(arg_21_0.gameObject_, false)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.UpdateGiftData(arg_22_0)
-	arg_22_0.giftList_ = {}
+function slot0.UpdateGiftData(slot0)
+	slot0.giftList_ = {}
+	slot1, slot2 = ArchiveData:GetTrustLevel(slot0.curHeroID_)
+	slot3 = 1
 
-	local var_22_0, var_22_1 = ArchiveData:GetTrustLevel(arg_22_0.curHeroID_)
-	local var_22_2 = 1
-
-	for iter_22_0 = 1, #arg_22_0.curHeroLikeID_ do
-		local var_22_3 = arg_22_0.curHeroLikeID_[iter_22_0]
-		local var_22_4 = ItemTools.getItemNum(var_22_3)
-
-		if var_22_4 > 0 then
-			arg_22_0.giftList_[var_22_2] = {
-				id = var_22_3,
-				num = var_22_4
+	for slot7 = 1, #slot0.curHeroLikeID_ do
+		if ItemTools.getItemNum(slot0.curHeroLikeID_[slot7]) > 0 then
+			slot0.giftList_[slot3] = {
+				id = slot8,
+				num = slot9
 			}
-			var_22_2 = var_22_2 + 1
+			slot3 = slot3 + 1
 		end
 	end
 
-	if var_22_0 > 0 then
-		local var_22_5 = HeroTrustLevelCfg[var_22_0]
-		local var_22_6 = var_22_5 and var_22_5.gift_list or {}
-
-		for iter_22_1, iter_22_2 in ipairs(var_22_6) do
-			local var_22_7 = ItemTools.getItemNum(iter_22_2)
-
-			if var_22_7 > 0 and not table.indexof(arg_22_0.curHeroLikeID_, iter_22_2) then
-				arg_22_0.giftList_[var_22_2] = {
-					id = iter_22_2,
-					num = var_22_7
+	if slot1 > 0 then
+		for slot9, slot10 in ipairs(HeroTrustLevelCfg[slot1] and slot4.gift_list or {}) do
+			if ItemTools.getItemNum(slot10) > 0 and not table.indexof(slot0.curHeroLikeID_, slot10) then
+				slot0.giftList_[slot3] = {
+					id = slot10,
+					num = slot11
 				}
-				var_22_2 = var_22_2 + 1
+				slot3 = slot3 + 1
 			end
 		end
 	else
-		local var_22_8 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.ARCHIVE_GIFT]
-
-		for iter_22_3, iter_22_4 in ipairs(var_22_8) do
-			if ItemCfg[iter_22_4] and ItemCfg[iter_22_4].sub_type == 1 then
-				local var_22_9 = ItemTools.getItemNum(iter_22_4)
-
-				if var_22_9 > 0 and not table.indexof(arg_22_0.curHeroLikeID_, iter_22_4) then
-					arg_22_0.giftList_[var_22_2] = {
-						id = iter_22_4,
-						num = var_22_9
-					}
-					var_22_2 = var_22_2 + 1
-				end
+		for slot8, slot9 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.ARCHIVE_GIFT]) do
+			if ItemCfg[slot9] and ItemCfg[slot9].sub_type == 1 and ItemTools.getItemNum(slot9) > 0 and not table.indexof(slot0.curHeroLikeID_, slot9) then
+				slot0.giftList_[slot3] = {
+					id = slot9,
+					num = slot10
+				}
+				slot3 = slot3 + 1
 			end
 		end
 	end
 end
 
-function var_0_0.UpdatePageState(arg_23_0)
-	local var_23_0, var_23_1, var_23_2 = ArchiveData:GetTrustLevel(arg_23_0.curHeroID_)
+function slot0.UpdatePageState(slot0)
+	slot1, slot2, slot3 = ArchiveData:GetTrustLevel(slot0.curHeroID_)
 
-	if var_23_0 > 0 then
-		arg_23_0.likeStateController_:SetSelectedState("trust")
+	if slot1 > 0 then
+		slot0.likeStateController_:SetSelectedState("trust")
 
-		local var_23_3 = HeroTrustMoodCfg[var_23_2]
+		if HeroTrustMoodCfg[slot3] then
+			slot0.moodTitleText_.text = slot4.name
+			slot0.moodBuffText_.text = slot4.desc
 
-		if var_23_3 then
-			arg_23_0.moodTitleText_.text = var_23_3.name
-			arg_23_0.moodBuffText_.text = var_23_3.desc
-
-			arg_23_0.moodStateController_:SetSelectedState(var_23_2)
+			slot0.moodStateController_:SetSelectedState(slot3)
 		end
 	else
-		arg_23_0.likeStateController_:SetSelectedState("like")
+		slot0.likeStateController_:SetSelectedState("like")
 	end
 
-	if var_23_0 > 0 then
-		if var_23_0 >= HeroConst.HERO_TRUST_LV_MAX then
-			arg_23_0.likePanelStateController_:SetSelectedState("max")
+	if slot1 > 0 then
+		if HeroConst.HERO_TRUST_LV_MAX <= slot1 then
+			slot0.likePanelStateController_:SetSelectedState("max")
 
-			arg_23_0.impressionText_.text = HeroCfg[arg_23_0.curHeroID_].impression
-		elseif var_23_1 >= HeroTrustLevelCfg[var_23_0].exp then
-			arg_23_0.likePanelStateController_:SetSelectedState("levelup")
-			arg_23_0.likeStateController_:SetSelectedState("like")
+			slot0.impressionText_.text = HeroCfg[slot0.curHeroID_].impression
+		elseif HeroTrustLevelCfg[slot1].exp <= slot2 then
+			slot0.likePanelStateController_:SetSelectedState("levelup")
+			slot0.likeStateController_:SetSelectedState("like")
 
-			arg_23_0.trustPriorText_.text = ArchiveTools.GetTrustLvDes(var_23_0)
-			arg_23_0.trustNextText_.text = ArchiveTools.GetTrustLvDes(var_23_0 + 1)
+			slot0.trustPriorText_.text = ArchiveTools.GetTrustLvDes(slot1)
+			slot0.trustNextText_.text = ArchiveTools.GetTrustLvDes(slot1 + 1)
+			slot6 = HeroTrustCfg[HeroTrustCfg.get_id_list_by_hero_id[slot0.curHeroID_][slot1]]
+			slot0.taskList_ = slot6.condition_list
 
-			local var_23_4 = HeroTrustCfg.get_id_list_by_hero_id[arg_23_0.curHeroID_][var_23_0]
-			local var_23_5 = HeroTrustCfg[var_23_4]
+			slot0.trustLvUpTaskLuaUIList_:StartScroll(#slot0.taskList_)
 
-			arg_23_0.taskList_ = var_23_5.condition_list
-
-			arg_23_0.trustLvUpTaskLuaUIList_:StartScroll(#arg_23_0.taskList_)
-
-			local var_23_6 = var_23_5.reward_item_list[1]
-
-			if var_23_6 then
-				local var_23_7 = var_23_6[1]
-				local var_23_8 = var_23_6[2]
-
-				arg_23_0.trustLvTipsText_.text = GetTipsF("HERO_TRUST_UP_LV_REWARD", ArchiveTools.GetTrustLvDes(var_23_0 + 1))
-				arg_23_0.trustLvRewardText_.text = ItemTools.getItemName(var_23_7) .. " X" .. var_23_8
-				arg_23_0.trustLvRewardImg_.sprite = ItemTools.getItemSprite(var_23_7)
+			if slot6.reward_item_list[1] then
+				slot8 = slot7[1]
+				slot0.trustLvTipsText_.text = GetTipsF("HERO_TRUST_UP_LV_REWARD", ArchiveTools.GetTrustLvDes(slot1 + 1))
+				slot0.trustLvRewardText_.text = ItemTools.getItemName(slot8) .. " X" .. slot7[2]
+				slot0.trustLvRewardImg_.sprite = ItemTools.getItemSprite(slot8)
 			end
-		elseif #arg_23_0.giftList_ > 0 then
-			arg_23_0.likePanelStateController_:SetSelectedState("gift")
+		elseif #slot0.giftList_ > 0 then
+			slot0.likePanelStateController_:SetSelectedState("gift")
 
-			arg_23_0.curGiftIndex_ = 1
+			slot0.curGiftIndex_ = 1
 
-			arg_23_0.giftLuaUIList_:StartScroll(#arg_23_0.giftList_)
-			arg_23_0:RefreshGiftInfo()
+			slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+			slot0:RefreshGiftInfo()
 		else
-			arg_23_0.likePanelStateController_:SetSelectedState("empty")
+			slot0.likePanelStateController_:SetSelectedState("empty")
 		end
-	elseif HeroRelationNetCfg.get_id_list_by_hero_id[arg_23_0.curHeroID_] then
-		if ArchiveData:GetArchive(arg_23_0.curRecordID_).exp >= var_0_2() then
-			if HeroTools.GetHeroIsUnlock(arg_23_0.curHeroID_) then
-				arg_23_0.likePanelStateController_:SetSelectedState("canbreak")
+	elseif HeroRelationNetCfg.get_id_list_by_hero_id[slot0.curHeroID_] then
+		if uv0() <= ArchiveData:GetArchive(slot0.curRecordID_).exp then
+			if HeroTools.GetHeroIsUnlock(slot0.curHeroID_) then
+				slot0.likePanelStateController_:SetSelectedState("canbreak")
 			else
-				arg_23_0.likePanelStateController_:SetSelectedState("notbreak")
+				slot0.likePanelStateController_:SetSelectedState("notbreak")
 
-				local var_23_9 = HeroCfg[arg_23_0.curHeroID_]
-
-				arg_23_0.notbreakTipText_.text = GetTipsF("HERO_TRUST_BREAK_HERO_LOCK", string.format("%s·%s", var_23_9.name, var_23_9.suffix))
+				slot4 = HeroCfg[slot0.curHeroID_]
+				slot0.notbreakTipText_.text = GetTipsF("HERO_TRUST_BREAK_HERO_LOCK", string.format("%s·%s", slot4.name, slot4.suffix))
 			end
-		elseif #arg_23_0.giftList_ > 0 then
-			arg_23_0.likePanelStateController_:SetSelectedState("gift")
+		elseif #slot0.giftList_ > 0 then
+			slot0.likePanelStateController_:SetSelectedState("gift")
 
-			arg_23_0.curGiftIndex_ = 1
+			slot0.curGiftIndex_ = 1
 
-			arg_23_0.giftLuaUIList_:StartScroll(#arg_23_0.giftList_)
-			arg_23_0:RefreshGiftInfo()
+			slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+			slot0:RefreshGiftInfo()
 		else
-			arg_23_0.likePanelStateController_:SetSelectedState("empty")
+			slot0.likePanelStateController_:SetSelectedState("empty")
 		end
-	elseif ArchiveData:GetArchive(arg_23_0.curRecordID_).exp >= var_0_2() then
-		arg_23_0.likePanelStateController_:SetSelectedState("max")
-	elseif #arg_23_0.giftList_ > 0 then
-		arg_23_0.likePanelStateController_:SetSelectedState("gift")
+	elseif uv0() <= ArchiveData:GetArchive(slot0.curRecordID_).exp then
+		slot0.likePanelStateController_:SetSelectedState("max")
+	elseif #slot0.giftList_ > 0 then
+		slot0.likePanelStateController_:SetSelectedState("gift")
 
-		arg_23_0.curGiftIndex_ = 1
+		slot0.curGiftIndex_ = 1
 
-		arg_23_0.giftLuaUIList_:StartScroll(#arg_23_0.giftList_)
-		arg_23_0:RefreshGiftInfo()
+		slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+		slot0:RefreshGiftInfo()
 	else
-		arg_23_0.likePanelStateController_:SetSelectedState("empty")
+		slot0.likePanelStateController_:SetSelectedState("empty")
 	end
 end
 
-function var_0_0.RefreshGiftInfo(arg_24_0)
-	local var_24_0, var_24_1 = ArchiveData:GetTrustLevel(arg_24_0.curHeroID_)
-	local var_24_2 = arg_24_0.giftList_[arg_24_0.curGiftIndex_].id
-	local var_24_3 = var_24_0 > 0 and var_0_4(arg_24_0.curHeroID_, var_24_2) or var_0_3(arg_24_0.curRecordID_, var_24_2)
+function slot0.RefreshGiftInfo(slot0)
+	slot1, slot2 = ArchiveData:GetTrustLevel(slot0.curHeroID_)
+	slot3 = slot0.giftList_[slot0.curGiftIndex_].id
+	slot0.giftNameText_.text = ItemTools.getItemName(slot3)
+	slot0.giftDescText_.text = ItemTools.getItemDesc(slot3)
+	slot0.giftPointText_.text = (slot1 > 0 and "交心值" or "好感度") .. "+" .. (slot1 > 0 and uv0(slot0.curHeroID_, slot3) or uv1(slot0.curRecordID_, slot3))
 
-	arg_24_0.giftNameText_.text = ItemTools.getItemName(var_24_2)
-	arg_24_0.giftDescText_.text = ItemTools.getItemDesc(var_24_2)
-	arg_24_0.giftPointText_.text = (var_24_0 > 0 and "交心值" or "好感度") .. "+" .. var_24_3
+	slot0.detailTrs_:SetAnchoredPositionY(0)
 
-	arg_24_0.detailTrs_:SetAnchoredPositionY(0)
+	slot0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.Unconstrained
+	slot0.contentSizeTimer_ = Timer.New(function ()
+		uv0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
 
-	arg_24_0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.Unconstrained
-	arg_24_0.contentSizeTimer_ = Timer.New(function()
-		arg_24_0.contentSizeFitter_.verticalFit = ContentSizeFitter.FitMode.PreferredSize
+		if uv0.contentSizeTimer_ then
+			uv0.contentSizeTimer_:Stop()
 
-		if arg_24_0.contentSizeTimer_ then
-			arg_24_0.contentSizeTimer_:Stop()
-
-			arg_24_0.contentSizeTimer_ = nil
+			uv0.contentSizeTimer_ = nil
 		end
 	end, 0.2, 1)
 
-	arg_24_0.contentSizeTimer_:Start()
+	slot0.contentSizeTimer_:Start()
 
-	arg_24_0.giftNumSlr_.minValue = 0
+	slot0.giftNumSlr_.minValue = 0
 
-	if var_24_0 > 0 then
-		local var_24_4 = HeroTrustLevelCfg[var_24_0].exp
-		local var_24_5 = math.min(arg_24_0.giftList_[arg_24_0.curGiftIndex_].num, math.ceil(var_24_4 - var_24_1) / var_24_3)
-
-		arg_24_0.giftNumSlr_.maxValue = var_24_5
+	if slot1 > 0 then
+		slot0.giftNumSlr_.maxValue = math.min(slot0.giftList_[slot0.curGiftIndex_].num, math.ceil(HeroTrustLevelCfg[slot1].exp - slot2) / slot4)
 	else
-		local var_24_6 = ArchiveData:GetArchive(arg_24_0.curRecordID_).exp
-		local var_24_7 = math.min(arg_24_0.giftList_[arg_24_0.curGiftIndex_].num, math.ceil(var_0_2() - var_24_6) / var_24_3)
-
-		arg_24_0.giftNumSlr_.maxValue = var_24_7
+		slot0.giftNumSlr_.maxValue = math.min(slot0.giftList_[slot0.curGiftIndex_].num, math.ceil(uv2() - ArchiveData:GetArchive(slot0.curRecordID_).exp) / slot4)
 	end
 
-	if arg_24_0.giftNumSlr_.value == 1 then
-		arg_24_0.giftNumText_.text = "选择数量:" .. 1
+	if slot0.giftNumSlr_.value == 1 then
+		slot0.giftNumText_.text = "选择数量:" .. 1
 
-		arg_24_0:RefreshExpProcess(var_24_3)
+		slot0:RefreshExpProcess(slot4)
 
-		arg_24_0.giftReduceBtn_.interactable = false
-		arg_24_0.giftAddBtn_.interactable = arg_24_0.giftNumSlr_.maxValue > 1
+		slot0.giftReduceBtn_.interactable = false
+		slot0.giftAddBtn_.interactable = slot0.giftNumSlr_.maxValue > 1
 	else
-		arg_24_0.giftNumSlr_.value = 1
+		slot0.giftNumSlr_.value = 1
 	end
 end
 
-function var_0_0.RefreshExpProcess(arg_26_0, arg_26_1)
-	local var_26_0, var_26_1 = ArchiveData:GetTrustLevel(arg_26_0.curHeroID_)
+function slot0.RefreshExpProcess(slot0, slot1)
+	slot2, slot3 = ArchiveData:GetTrustLevel(slot0.curHeroID_)
 
-	if var_26_0 > 0 then
-		local var_26_2 = HeroTrustLevelCfg[var_26_0].exp
+	if slot2 > 0 then
+		slot4 = HeroTrustLevelCfg[slot2].exp
 
-		if arg_26_1 and arg_26_1 > 0 then
-			if var_26_2 < var_26_1 + arg_26_1 then
-				arg_26_1 = var_26_2 - var_26_1
+		if slot1 and slot1 > 0 then
+			if slot4 < slot3 + slot1 then
+				slot1 = slot4 - slot3
 			end
 
-			arg_26_0.currlevelText_.text = var_26_1 + arg_26_1 .. "/" .. var_26_2
-			arg_26_0.addlevelText_.text = "+" .. arg_26_1
-			arg_26_0.processbarImg_.fillAmount = var_26_1 / var_26_2
-			arg_26_0.processaddImg_.fillAmount = (var_26_1 + arg_26_1) / var_26_2
-		elseif var_26_0 == HeroConst.HERO_TRUST_LV_MAX then
-			arg_26_0.currlevelText_.text = HeroTrustLevelCfg[var_26_0 - 1].exp .. "/" .. HeroTrustLevelCfg[var_26_0 - 1].exp
-			arg_26_0.addlevelText_.text = "[MAX]"
-			arg_26_0.processbarImg_.fillAmount = 1
-			arg_26_0.processaddImg_.fillAmount = 0
+			slot0.currlevelText_.text = slot3 + slot1 .. "/" .. slot4
+			slot0.addlevelText_.text = "+" .. slot1
+			slot0.processbarImg_.fillAmount = slot3 / slot4
+			slot0.processaddImg_.fillAmount = (slot3 + slot1) / slot4
+		elseif slot2 == HeroConst.HERO_TRUST_LV_MAX then
+			slot0.currlevelText_.text = HeroTrustLevelCfg[slot2 - 1].exp .. "/" .. HeroTrustLevelCfg[slot2 - 1].exp
+			slot0.addlevelText_.text = "[MAX]"
+			slot0.processbarImg_.fillAmount = 1
+			slot0.processaddImg_.fillAmount = 0
 		else
-			arg_26_0.currlevelText_.text = var_26_1 .. "/" .. var_26_2
-			arg_26_0.addlevelText_.text = ""
-			arg_26_0.processbarImg_.fillAmount = var_26_1 / var_26_2
-			arg_26_0.processaddImg_.fillAmount = 0
+			slot0.currlevelText_.text = slot3 .. "/" .. slot4
+			slot0.addlevelText_.text = ""
+			slot0.processbarImg_.fillAmount = slot3 / slot4
+			slot0.processaddImg_.fillAmount = 0
 		end
 	else
-		local var_26_3 = ArchiveData:GetArchive(arg_26_0.curRecordID_).exp
-		local var_26_4, var_26_5 = LvTools.LoveExpToLevel(var_26_3)
-		local var_26_6 = GameLevelSetting[var_26_4].hero_love_exp
+		slot5, slot6 = LvTools.LoveExpToLevel(ArchiveData:GetArchive(slot0.curRecordID_).exp)
+		slot7 = GameLevelSetting[slot5].hero_love_exp
 
-		if arg_26_1 and arg_26_1 > 0 then
-			if var_26_3 + arg_26_1 >= var_0_2() then
-				arg_26_1 = var_0_2() - var_26_3
+		if slot1 and slot1 > 0 then
+			if uv0() <= slot4 + slot1 then
+				slot1 = uv0() - slot4
 			end
 
-			local var_26_7, var_26_8 = LvTools.LoveExpToLevel(var_26_3 + arg_26_1)
-			local var_26_9 = GameLevelSetting[var_26_7].hero_love_exp
+			slot8, slot9 = LvTools.LoveExpToLevel(slot4 + slot1)
+			slot10 = GameLevelSetting[slot8].hero_love_exp
 
-			if var_26_7 == HeroConst.HERO_LOVE_LV_MAX then
-				arg_26_0.currlevelText_.text = GameLevelSetting[var_26_7 - 1].hero_love_exp .. "/" .. GameLevelSetting[var_26_7 - 1].hero_love_exp
-				arg_26_0.addlevelText_.text = "+" .. arg_26_1
+			if slot8 == HeroConst.HERO_LOVE_LV_MAX then
+				slot0.currlevelText_.text = GameLevelSetting[slot8 - 1].hero_love_exp .. "/" .. GameLevelSetting[slot8 - 1].hero_love_exp
+				slot0.addlevelText_.text = "+" .. slot1
 
-				if var_26_4 < var_26_7 - 1 then
-					arg_26_0.processbarImg_.fillAmount = 0
-					arg_26_0.processaddImg_.fillAmount = 1
+				if slot5 < slot8 - 1 then
+					slot0.processbarImg_.fillAmount = 0
+					slot0.processaddImg_.fillAmount = 1
 				else
-					arg_26_0.processbarImg_.fillAmount = var_26_5 / var_26_6
-					arg_26_0.processaddImg_.fillAmount = 1
+					slot0.processbarImg_.fillAmount = slot6 / slot7
+					slot0.processaddImg_.fillAmount = 1
 				end
 			else
-				arg_26_0.currlevelText_.text = var_26_8 .. "/" .. var_26_9
-				arg_26_0.addlevelText_.text = "+" .. arg_26_1
+				slot0.currlevelText_.text = slot9 .. "/" .. slot10
+				slot0.addlevelText_.text = "+" .. slot1
 
-				if var_26_4 < var_26_7 then
-					arg_26_0.processbarImg_.fillAmount = 0
-					arg_26_0.processaddImg_.fillAmount = var_26_8 / var_26_9
+				if slot5 < slot8 then
+					slot0.processbarImg_.fillAmount = 0
+					slot0.processaddImg_.fillAmount = slot9 / slot10
 				else
-					arg_26_0.processbarImg_.fillAmount = var_26_5 / var_26_6
-					arg_26_0.processaddImg_.fillAmount = var_26_8 / var_26_9
+					slot0.processbarImg_.fillAmount = slot6 / slot7
+					slot0.processaddImg_.fillAmount = slot9 / slot10
 				end
 			end
 
-			arg_26_0.previewLvCB_(var_26_7)
-		elseif var_26_4 == HeroConst.HERO_LOVE_LV_MAX then
-			arg_26_0.currlevelText_.text = GameLevelSetting[var_26_4 - 1].hero_love_exp .. "/" .. GameLevelSetting[var_26_4 - 1].hero_love_exp
-			arg_26_0.addlevelText_.text = "[MAX]"
-			arg_26_0.processbarImg_.fillAmount = 1
-			arg_26_0.processaddImg_.fillAmount = 0
+			slot0.previewLvCB_(slot8)
+		elseif slot5 == HeroConst.HERO_LOVE_LV_MAX then
+			slot0.currlevelText_.text = GameLevelSetting[slot5 - 1].hero_love_exp .. "/" .. GameLevelSetting[slot5 - 1].hero_love_exp
+			slot0.addlevelText_.text = "[MAX]"
+			slot0.processbarImg_.fillAmount = 1
+			slot0.processaddImg_.fillAmount = 0
 		else
-			arg_26_0.currlevelText_.text = var_26_5 .. "/" .. var_26_6
-			arg_26_0.addlevelText_.text = ""
-			arg_26_0.processbarImg_.fillAmount = var_26_5 / var_26_6
-			arg_26_0.processaddImg_.fillAmount = 0
+			slot0.currlevelText_.text = slot6 .. "/" .. slot7
+			slot0.addlevelText_.text = ""
+			slot0.processbarImg_.fillAmount = slot6 / slot7
+			slot0.processaddImg_.fillAmount = 0
 		end
 	end
 end
 
-function var_0_0.PlayVoice(arg_27_0)
-	if arg_27_0.voiceCoolDown_ then
+function slot0.PlayVoice(slot0)
+	if slot0.voiceCoolDown_ then
 		return
 	end
 
-	arg_27_0.voiceCoolDown_ = true
-
-	local var_27_0 = HeroVoiceCfg.get_id_list_by_file.emotion[1]
+	slot0.voiceCoolDown_ = true
 
 	SDKTools.SendMessageToSDK("hero_sound", {
-		hero_id = arg_27_0.curHeroID_,
-		sound_id = var_27_0
+		hero_id = slot0.curHeroID_,
+		sound_id = HeroVoiceCfg.get_id_list_by_file.emotion[1]
 	})
-	arg_27_0:StopVoice()
+	slot0:StopVoice()
 
-	arg_27_0.delayPlayTimer_ = Timer.New(function()
+	slot0.delayPlayTimer_ = Timer.New(function ()
 		if manager.audio:IsStoppedOfVoice() then
-			arg_27_0.delayPlayTimer_:Stop()
+			uv0.delayPlayTimer_:Stop()
 
-			arg_27_0.delayPlayTimer_ = nil
+			uv0.delayPlayTimer_ = nil
+			slot0 = uv0.curHeroID_
 
-			local var_28_0 = arg_27_0.curHeroID_
-
-			if HeroVoiceCfg[var_27_0].use_skin_id and HeroVoiceCfg[var_27_0].use_skin_id ~= 0 then
-				var_28_0 = HeroVoiceCfg[var_27_0].use_skin_id
+			if HeroVoiceCfg[uv1].use_skin_id and HeroVoiceCfg[uv1].use_skin_id ~= 0 then
+				slot0 = HeroVoiceCfg[uv1].use_skin_id
 			end
 
-			HeroTools.PlayVoice(var_28_0, HeroVoiceCfg[var_27_0].file, HeroVoiceCfg[var_27_0].type)
+			HeroTools.PlayVoice(slot0, HeroVoiceCfg[uv1].file, HeroVoiceCfg[uv1].type)
 
-			local var_28_1 = HeroTools.GetTalkLength(var_28_0, HeroVoiceCfg[var_27_0].file, HeroVoiceCfg[var_27_0].type)
-			local var_28_2 = math.max(var_28_1, 0.017)
-
-			arg_27_0.timer_ = TimeTools.StartAfterSeconds(var_28_2 / 1000, function()
-				arg_27_0:StopVoice()
+			uv0.timer_ = TimeTools.StartAfterSeconds(math.max(HeroTools.GetTalkLength(slot0, HeroVoiceCfg[uv1].file, HeroVoiceCfg[uv1].type), 0.017) / 1000, function ()
+				uv0:StopVoice()
 			end, {})
 		end
 	end, 0.033, -1)
 
-	arg_27_0.delayPlayTimer_:Start()
+	slot0.delayPlayTimer_:Start()
 end
 
-function var_0_0.StopVoice(arg_30_0)
-	if arg_30_0.delayPlayTimer_ then
-		arg_30_0.delayPlayTimer_:Stop()
+function slot0.StopVoice(slot0)
+	if slot0.delayPlayTimer_ then
+		slot0.delayPlayTimer_:Stop()
 
-		arg_30_0.delayPlayTimer_ = nil
+		slot0.delayPlayTimer_ = nil
 	end
 
 	manager.audio:StopVoiceImmediate()
 
-	if arg_30_0.timer_ then
-		arg_30_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_30_0.timer_ = nil
-		arg_30_0.voiceCoolDown_ = false
+		slot0.timer_ = nil
+		slot0.voiceCoolDown_ = false
 	end
 end
 
-function var_0_0.OnHeroTrustUpdate(arg_31_0)
-	arg_31_0:UpdateGiftData()
-	arg_31_0:RefreshExpProcess()
+function slot0.OnHeroTrustUpdate(slot0)
+	slot0:UpdateGiftData()
+	slot0:RefreshExpProcess()
 
-	local var_31_0, var_31_1, var_31_2 = ArchiveData:GetTrustLevel(arg_31_0.curHeroID_)
+	slot1, slot2, slot3 = ArchiveData:GetTrustLevel(slot0.curHeroID_)
 
-	Debug.Log("角色的交心等级是和经验是" .. var_31_0 .. " " .. var_31_1)
-	arg_31_0:PlayVoice()
+	Debug.Log("角色的交心等级是和经验是" .. slot1 .. " " .. slot2)
+	slot0:PlayVoice()
 
-	if var_31_0 >= HeroConst.HERO_TRUST_LV_MAX then
+	if HeroConst.HERO_TRUST_LV_MAX <= slot1 then
 		ShowTips("HERO_LOVE_LEVEL_MAX")
 	else
 		ShowTips("HERO_LOVE_EXP_UP")
 	end
 
-	if var_31_0 > 0 then
-		arg_31_0.likeStateController_:SetSelectedState("trust")
+	if slot1 > 0 then
+		slot0.likeStateController_:SetSelectedState("trust")
 
-		local var_31_3 = HeroTrustMoodCfg[var_31_2]
+		if HeroTrustMoodCfg[slot3] then
+			slot0.moodTitleText_.text = slot4.name
+			slot0.moodBuffText_.text = slot4.desc
 
-		if var_31_3 then
-			arg_31_0.moodTitleText_.text = var_31_3.name
-			arg_31_0.moodBuffText_.text = var_31_3.desc
-
-			arg_31_0.moodStateController_:SetSelectedState(var_31_2)
+			slot0.moodStateController_:SetSelectedState(slot3)
 		end
 	else
-		arg_31_0.likeStateController_:SetSelectedState("like")
+		slot0.likeStateController_:SetSelectedState("like")
 	end
 
-	if var_31_0 >= HeroConst.HERO_TRUST_LV_MAX then
-		arg_31_0.likePanelStateController_:SetSelectedState("max")
+	if HeroConst.HERO_TRUST_LV_MAX <= slot1 then
+		slot0.likePanelStateController_:SetSelectedState("max")
 
-		arg_31_0.impressionText_.text = HeroCfg[arg_31_0.curHeroID_].impression
-	elseif var_31_1 >= HeroTrustLevelCfg[var_31_0].exp then
-		arg_31_0.likePanelStateController_:SetSelectedState("levelup")
-		arg_31_0.likeStateController_:SetSelectedState("like")
+		slot0.impressionText_.text = HeroCfg[slot0.curHeroID_].impression
+	elseif HeroTrustLevelCfg[slot1].exp <= slot2 then
+		slot0.likePanelStateController_:SetSelectedState("levelup")
+		slot0.likeStateController_:SetSelectedState("like")
 
-		arg_31_0.trustPriorText_.text = ArchiveTools.GetTrustLvDes(var_31_0)
-		arg_31_0.trustNextText_.text = ArchiveTools.GetTrustLvDes(var_31_0 + 1)
+		slot0.trustPriorText_.text = ArchiveTools.GetTrustLvDes(slot1)
+		slot0.trustNextText_.text = ArchiveTools.GetTrustLvDes(slot1 + 1)
+		slot6 = HeroTrustCfg[HeroTrustCfg.get_id_list_by_hero_id[slot0.curHeroID_][slot1]]
+		slot0.taskList_ = slot6.condition_list
 
-		local var_31_4 = HeroTrustCfg.get_id_list_by_hero_id[arg_31_0.curHeroID_][var_31_0]
-		local var_31_5 = HeroTrustCfg[var_31_4]
+		slot0.trustLvUpTaskLuaUIList_:StartScroll(#slot0.taskList_)
 
-		arg_31_0.taskList_ = var_31_5.condition_list
-
-		arg_31_0.trustLvUpTaskLuaUIList_:StartScroll(#arg_31_0.taskList_)
-
-		local var_31_6 = var_31_5.reward_item_list[1]
-
-		if var_31_6 then
-			local var_31_7 = var_31_6[1]
-			local var_31_8 = var_31_6[2]
-
-			arg_31_0.trustLvTipsText_.text = GetTipsF("HERO_TRUST_UP_LV_REWARD", ArchiveTools.GetTrustLvDes(var_31_0 + 1))
-			arg_31_0.trustLvRewardText_.text = ItemTools.getItemName(var_31_7) .. " X" .. var_31_8
-			arg_31_0.trustLvRewardImg_.sprite = ItemTools.getItemSprite(var_31_7)
+		if slot6.reward_item_list[1] then
+			slot8 = slot7[1]
+			slot0.trustLvTipsText_.text = GetTipsF("HERO_TRUST_UP_LV_REWARD", ArchiveTools.GetTrustLvDes(slot1 + 1))
+			slot0.trustLvRewardText_.text = ItemTools.getItemName(slot8) .. " X" .. slot7[2]
+			slot0.trustLvRewardImg_.sprite = ItemTools.getItemSprite(slot8)
 		end
-	elseif #arg_31_0.giftList_ > 0 then
-		arg_31_0.likePanelStateController_:SetSelectedState("gift")
+	elseif #slot0.giftList_ > 0 then
+		slot0.likePanelStateController_:SetSelectedState("gift")
 
-		if arg_31_0.curGiftIndex_ > #arg_31_0.giftList_ then
-			arg_31_0.curGiftIndex_ = #arg_31_0.giftList_
-		elseif arg_31_0.curGiftIndex_ < 1 then
-			arg_31_0.curGiftIndex_ = 1
+		if slot0.curGiftIndex_ > #slot0.giftList_ then
+			slot0.curGiftIndex_ = #slot0.giftList_
+		elseif slot0.curGiftIndex_ < 1 then
+			slot0.curGiftIndex_ = 1
 		end
 
-		arg_31_0.giftLuaUIList_:StartScroll(#arg_31_0.giftList_)
-		arg_31_0:RefreshGiftInfo()
+		slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+		slot0:RefreshGiftInfo()
 	else
-		arg_31_0.likePanelStateController_:SetSelectedState("empty")
+		slot0.likePanelStateController_:SetSelectedState("empty")
 	end
 end
 
-function var_0_0.OnSendGift(arg_32_0)
-	arg_32_0:UpdateGiftData()
-	arg_32_0:RefreshExpProcess()
-	arg_32_0:PlayVoice()
+function slot0.OnSendGift(slot0)
+	slot0:UpdateGiftData()
+	slot0:RefreshExpProcess()
+	slot0:PlayVoice()
 
-	if ArchiveData:GetArchive(arg_32_0.curRecordID_).exp >= var_0_2() then
+	if uv0() <= ArchiveData:GetArchive(slot0.curRecordID_).exp then
 		ShowTips("HERO_LOVE_LEVEL_MAX")
 	else
 		ShowTips("HERO_LOVE_EXP_UP")
 	end
 
-	if HeroRelationNetCfg.get_id_list_by_hero_id[arg_32_0.curHeroID_] then
-		if ArchiveData:GetArchive(arg_32_0.curRecordID_).exp >= var_0_2() then
-			if HeroTools.GetHeroIsUnlock(arg_32_0.curHeroID_) then
-				arg_32_0.likePanelStateController_:SetSelectedState("canbreak")
+	if HeroRelationNetCfg.get_id_list_by_hero_id[slot0.curHeroID_] then
+		if uv0() <= ArchiveData:GetArchive(slot0.curRecordID_).exp then
+			if HeroTools.GetHeroIsUnlock(slot0.curHeroID_) then
+				slot0.likePanelStateController_:SetSelectedState("canbreak")
 			else
-				arg_32_0.likePanelStateController_:SetSelectedState("notbreak")
+				slot0.likePanelStateController_:SetSelectedState("notbreak")
 
-				local var_32_0 = HeroCfg[arg_32_0.curHeroID_]
-
-				arg_32_0.notbreakTipText_.text = GetTipsF("HERO_TRUST_BREAK_HERO_LOCK", string.format("%s·%s", var_32_0.name, var_32_0.suffix))
+				slot1 = HeroCfg[slot0.curHeroID_]
+				slot0.notbreakTipText_.text = GetTipsF("HERO_TRUST_BREAK_HERO_LOCK", string.format("%s·%s", slot1.name, slot1.suffix))
 			end
-		elseif #arg_32_0.giftList_ > 0 then
-			arg_32_0.likePanelStateController_:SetSelectedState("gift")
+		elseif #slot0.giftList_ > 0 then
+			slot0.likePanelStateController_:SetSelectedState("gift")
 
-			if arg_32_0.curGiftIndex_ > #arg_32_0.giftList_ then
-				arg_32_0.curGiftIndex_ = #arg_32_0.giftList_
-			elseif arg_32_0.curGiftIndex_ < 1 then
-				arg_32_0.curGiftIndex_ = 1
+			if slot0.curGiftIndex_ > #slot0.giftList_ then
+				slot0.curGiftIndex_ = #slot0.giftList_
+			elseif slot0.curGiftIndex_ < 1 then
+				slot0.curGiftIndex_ = 1
 			end
 
-			arg_32_0.giftLuaUIList_:StartScroll(#arg_32_0.giftList_)
-			arg_32_0:RefreshGiftInfo()
+			slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+			slot0:RefreshGiftInfo()
 		else
-			arg_32_0.likePanelStateController_:SetSelectedState("empty")
+			slot0.likePanelStateController_:SetSelectedState("empty")
 		end
-	elseif ArchiveData:GetArchive(arg_32_0.curRecordID_).exp >= var_0_2() then
-		arg_32_0.likePanelStateController_:SetSelectedState("max")
-	elseif #arg_32_0.giftList_ > 0 then
-		arg_32_0.likePanelStateController_:SetSelectedState("gift")
+	elseif uv0() <= ArchiveData:GetArchive(slot0.curRecordID_).exp then
+		slot0.likePanelStateController_:SetSelectedState("max")
+	elseif #slot0.giftList_ > 0 then
+		slot0.likePanelStateController_:SetSelectedState("gift")
 
-		if arg_32_0.curGiftIndex_ > #arg_32_0.giftList_ then
-			arg_32_0.curGiftIndex_ = #arg_32_0.giftList_
-		elseif arg_32_0.curGiftIndex_ < 1 then
-			arg_32_0.curGiftIndex_ = 1
+		if slot0.curGiftIndex_ > #slot0.giftList_ then
+			slot0.curGiftIndex_ = #slot0.giftList_
+		elseif slot0.curGiftIndex_ < 1 then
+			slot0.curGiftIndex_ = 1
 		end
 
-		arg_32_0.giftLuaUIList_:StartScroll(#arg_32_0.giftList_)
-		arg_32_0:RefreshGiftInfo()
+		slot0.giftLuaUIList_:StartScroll(#slot0.giftList_)
+		slot0:RefreshGiftInfo()
 	else
-		arg_32_0.likePanelStateController_:SetSelectedState("empty")
+		slot0.likePanelStateController_:SetSelectedState("empty")
 	end
 end
 
-function var_0_0.Dispose(arg_33_0)
-	arg_33_0.giftLuaUIList_:Dispose()
-	arg_33_0.trustLvUpTaskLuaUIList_:Dispose()
-	var_0_0.super.Dispose(arg_33_0)
+function slot0.Dispose(slot0)
+	slot0.giftLuaUIList_:Dispose()
+	slot0.trustLvUpTaskLuaUIList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

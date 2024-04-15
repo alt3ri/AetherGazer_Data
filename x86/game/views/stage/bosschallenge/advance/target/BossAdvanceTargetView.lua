@@ -1,173 +1,159 @@
-local var_0_0 = class("BossAdvanceTargetView", ReduxView)
+slot0 = class("BossAdvanceTargetView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Boss/BossCombatUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.hardList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshMultipleItem), arg_3_0.hardUIList_, BossAdvanceTargetMultiple)
-	arg_3_0.affixList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshAffixItem), arg_3_0.affixUIList_, BossAdvanceTargetCondition)
-	arg_3_0.chooseConditionHandler_ = handler(arg_3_0, arg_3_0.ChooseCondition)
-	arg_3_0.challengeUpdateHandler_ = handler(arg_3_0, arg_3_0.UpdateBossChallenge)
+	slot0.hardList_ = LuaList.New(handler(slot0, slot0.RefreshMultipleItem), slot0.hardUIList_, BossAdvanceTargetMultiple)
+	slot0.affixList_ = LuaList.New(handler(slot0, slot0.RefreshAffixItem), slot0.affixUIList_, BossAdvanceTargetCondition)
+	slot0.chooseConditionHandler_ = handler(slot0, slot0.ChooseCondition)
+	slot0.challengeUpdateHandler_ = handler(slot0, slot0.UpdateBossChallenge)
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_4_0:SaveTargerData(function()
-			arg_4_0:Go("/home")
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0:SaveTargerData(function ()
+			uv0:Go("/home")
 		end)
 	end)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_4_0:SaveTargerData(function()
-			arg_4_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:SaveTargerData(function ()
+			uv0:Back()
 		end)
 	end)
 	BossTools.CheckTimeout()
 
-	arg_4_0.bossIndex_ = arg_4_0.params_.bossIndex
+	slot0.bossIndex_ = slot0.params_.bossIndex
 
-	arg_4_0:RefreshData()
-	arg_4_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0.hardList_:StartScroll(#BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].difficult_point, 1)
 
-	local var_4_0 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	local var_4_1 = BossChallengeAdvanceCfg[var_4_0]
+	slot3 = slot0.cfg_
 
-	arg_4_0.hardList_:StartScroll(#var_4_1.difficult_point, 1)
-
-	local var_4_2 = arg_4_0.cfg_
-
-	arg_4_0.affixList_:StartScroll(#var_4_2.time_pool + #var_4_2.affix_pool, 1)
-	manager.notify:RegistListener(BOSS_CHALLENGE_CHOOSE_CONDITION, arg_4_0.chooseConditionHandler_)
-	manager.notify:RegistListener(BOSS_CHALLENGE_CHOOSE_MULTIPLE, arg_4_0.chooseConditionHandler_)
-	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_4_0.challengeUpdateHandler_)
+	slot0.affixList_:StartScroll(#slot3.time_pool + #slot3.affix_pool, 1)
+	manager.notify:RegistListener(BOSS_CHALLENGE_CHOOSE_CONDITION, slot0.chooseConditionHandler_)
+	manager.notify:RegistListener(BOSS_CHALLENGE_CHOOSE_MULTIPLE, slot0.chooseConditionHandler_)
+	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(BOSS_CHALLENGE_CHOOSE_CONDITION, arg_9_0.chooseConditionHandler_)
-	manager.notify:RemoveListener(BOSS_CHALLENGE_CHOOSE_MULTIPLE, arg_9_0.chooseConditionHandler_)
-	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_9_0.challengeUpdateHandler_)
+	manager.notify:RemoveListener(BOSS_CHALLENGE_CHOOSE_CONDITION, slot0.chooseConditionHandler_)
+	manager.notify:RemoveListener(BOSS_CHALLENGE_CHOOSE_MULTIPLE, slot0.chooseConditionHandler_)
+	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_10_0.challengeUpdateHandler_ = nil
-	arg_10_0.chooseConditionHandler_ = nil
+	slot0.challengeUpdateHandler_ = nil
+	slot0.chooseConditionHandler_ = nil
 
-	if arg_10_0.hardList_ then
-		arg_10_0.hardList_:Dispose()
+	if slot0.hardList_ then
+		slot0.hardList_:Dispose()
 
-		arg_10_0.hardList_ = nil
+		slot0.hardList_ = nil
 	end
 
-	if arg_10_0.affixList_ then
-		arg_10_0.affixList_:Dispose()
+	if slot0.affixList_ then
+		slot0.affixList_:Dispose()
 
-		arg_10_0.affixList_ = nil
+		slot0.affixList_ = nil
 	end
 end
 
-function var_0_0.AddListeners(arg_11_0)
-	arg_11_0:AddBtnListener(arg_11_0.battleBtn_, nil, function()
-		arg_11_0:SaveTargerData(function(arg_13_0)
-			if isSuccess(arg_13_0.result) then
-				local var_13_0 = BossChallengeAdvancePoolCfg[arg_11_0.poolID_]
-				local var_13_1 = ReserveParams.New(nil, BossTools.GetContID(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE, arg_11_0.bossIndex_), nil, {
-					stageType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE,
-					stageID = var_13_0.stage_id,
-					bossIndex = arg_11_0.params_.bossIndex
-				})
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		uv0:SaveTargerData(function (slot0)
+			if isSuccess(slot0.result) then
+				slot1 = BossChallengeAdvancePoolCfg[uv0.poolID_]
 
-				arg_11_0:Go("/sectionSelectHero", {
-					section = var_13_0.stage_id,
-					bossIndex = arg_11_0.bossIndex_,
+				uv0:Go("/sectionSelectHero", {
+					section = slot1.stage_id,
+					bossIndex = uv0.bossIndex_,
 					sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE,
-					reserveParams = var_13_1
+					reserveParams = ReserveParams.New(nil, BossTools.GetContID(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE, uv0.bossIndex_), nil, {
+						stageType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE,
+						stageID = slot1.stage_id,
+						bossIndex = uv0.params_.bossIndex
+					})
 				})
 			end
 		end)
 	end)
 end
 
-function var_0_0.RefreshData(arg_14_0)
-	local var_14_0 = BattleBossChallengeAdvanceData:GetBossList()[arg_14_0.bossIndex_]
-
-	arg_14_0.bossID_ = var_14_0.templateID
-	arg_14_0.poolID_ = var_14_0.id
-	arg_14_0.cfg_ = BossChallengeAdvancePoolCfg[arg_14_0.poolID_]
+function slot0.RefreshData(slot0)
+	slot1 = BattleBossChallengeAdvanceData:GetBossList()[slot0.bossIndex_]
+	slot0.bossID_ = slot1.templateID
+	slot0.poolID_ = slot1.id
+	slot0.cfg_ = BossChallengeAdvancePoolCfg[slot0.poolID_]
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	local var_15_0 = BossChallengeUICfg[arg_15_0.bossID_]
+function slot0.RefreshUI(slot0)
+	slot1 = BossChallengeUICfg[slot0.bossID_]
+	slot0.bossImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, slot1.icon))
+	slot0.bossAffixText_.text = getAffixDesc(slot1.custom_affix)
 
-	arg_15_0.bossImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, var_15_0.icon))
-	arg_15_0.bossAffixText_.text = getAffixDesc(var_15_0.custom_affix)
-
-	arg_15_0:ChooseCondition()
+	slot0:ChooseCondition()
 end
 
-function var_0_0.UpdateBossChallenge(arg_16_0)
+function slot0.UpdateBossChallenge(slot0)
 	BattleBossChallengeAction.BossChallengeBackEntrace()
 end
 
-function var_0_0.RefreshMultipleItem(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_2:SetData(arg_17_0.bossIndex_, arg_17_1)
+function slot0.RefreshMultipleItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.bossIndex_, slot1)
 end
 
-function var_0_0.RefreshAffixItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = arg_18_0.cfg_
-	local var_18_1
-	local var_18_2
+function slot0.RefreshAffixItem(slot0, slot1, slot2)
+	slot4, slot5 = nil
 
-	if arg_18_1 <= #var_18_0.time_pool then
-		var_18_1 = BossConst.TYPE_STAGE
-		var_18_2 = var_18_0.time_pool[arg_18_1]
+	if slot1 <= #slot0.cfg_.time_pool then
+		slot4 = BossConst.TYPE_STAGE
+		slot5 = slot3.time_pool[slot1]
 	else
-		var_18_1 = BossConst.TYPE_AFFIX
-		var_18_2 = var_18_0.affix_pool[arg_18_1 - #var_18_0.time_pool]
+		slot4 = BossConst.TYPE_AFFIX
+		slot5 = slot3.affix_pool[slot1 - #slot3.time_pool]
 	end
 
-	arg_18_2:SetData(arg_18_0.bossIndex_, var_18_1, var_18_2)
+	slot2:SetData(slot0.bossIndex_, slot4, slot5)
 end
 
-function var_0_0.ChooseCondition(arg_19_0)
-	arg_19_0.pointText_.text = BattleBossChallengeAdvanceData:GetPointValue(arg_19_0.bossIndex_)
-
-	local var_19_0 = BattleBossChallengeAdvanceData:GetBossList()[arg_19_0.bossIndex_]
-	local var_19_1 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	local var_19_2 = var_19_0.multipleIndex
-	local var_19_3 = BossChallengeAdvanceCfg[var_19_1].monster_value[var_19_2]
-
-	arg_19_0.bossAttackText_.text = string.format("+%s%%", var_19_3[1] / 10 - 100)
-	arg_19_0.bossHpText_.text = string.format("+%s%%", var_19_3[3] / 10 - 100)
+function slot0.ChooseCondition(slot0)
+	slot0.pointText_.text = BattleBossChallengeAdvanceData:GetPointValue(slot0.bossIndex_)
+	slot4 = BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].monster_value[BattleBossChallengeAdvanceData:GetBossList()[slot0.bossIndex_].multipleIndex]
+	slot0.bossAttackText_.text = string.format("+%s%%", slot4[1] / 10 - 100)
+	slot0.bossHpText_.text = string.format("+%s%%", slot4[3] / 10 - 100)
 end
 
-function var_0_0.SaveTargerData(arg_20_0, arg_20_1)
-	local var_20_0 = BattleBossChallengeAdvanceData:GetBossList()[arg_20_0.bossIndex_]
-	local var_20_1 = var_20_0.multipleIndex
-	local var_20_2 = clone(var_20_0.condition)
+function slot0.SaveTargerData(slot0, slot1)
+	slot2 = BattleBossChallengeAdvanceData:GetBossList()[slot0.bossIndex_]
+	slot3 = slot2.multipleIndex
+	slot4 = clone(slot2.condition)
 
-	BattleBossChallengeAction.ModifySelectAffix(var_20_0.id, var_20_0.multipleIndex, var_20_0.condition[BossConst.TYPE_STAGE], var_20_0.condition[BossConst.TYPE_AFFIX], function(arg_21_0)
-		if isSuccess(arg_21_0.result) then
-			BattleBossChallengeAdvanceData:SetBossTarget(arg_20_0.bossIndex_, var_20_1, var_20_2)
+	BattleBossChallengeAction.ModifySelectAffix(slot2.id, slot2.multipleIndex, slot2.condition[BossConst.TYPE_STAGE], slot2.condition[BossConst.TYPE_AFFIX], function (slot0)
+		if isSuccess(slot0.result) then
+			BattleBossChallengeAdvanceData:SetBossTarget(uv0.bossIndex_, uv1, uv2)
 		else
-			ShowTips(arg_21_0.result)
+			ShowTips(slot0.result)
 		end
 
-		arg_20_1(arg_21_0)
+		uv3(slot0)
 	end)
 end
 
-return var_0_0
+return slot0

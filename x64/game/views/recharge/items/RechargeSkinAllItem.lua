@@ -1,127 +1,126 @@
-local var_0_0 = class("RechargeSkinAllItem", ReduxView)
+slot0 = class("RechargeSkinAllItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:Init()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.skinItem = RechargeSkinNewItem.New(arg_3_0.skinGo_)
-	arg_3_0.dlcItem = RechargeSkinDlcItem.New(arg_3_0.dlcGo_)
+	slot0.skinItem = RechargeSkinNewItem.New(slot0.skinGo_)
+	slot0.dlcItem = RechargeSkinDlcItem.New(slot0.dlcGo_)
 end
 
-function var_0_0.SetItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_0.data[arg_4_1])
+function slot0.SetItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.data[slot1])
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.data = arg_5_1
-	arg_5_0.shopCfg = getShopCfg(arg_5_1.id)
-	arg_5_0.goodID = arg_5_1.id
-	arg_5_0.dlcID = arg_5_0.shopCfg.dlc or nil
-	arg_5_0.haveDlc = arg_5_0.dlcID ~= nil and arg_5_0.dlcID ~= 0
-	arg_5_0.isExchange = arg_5_0.shopCfg.shop_refresh == 2
-	arg_5_0.shopID = arg_5_0.shopCfg.shop_id
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data = slot1
+	slot0.shopCfg = getShopCfg(slot1.id)
+	slot0.goodID = slot1.id
+	slot0.dlcID = slot0.shopCfg.dlc or nil
+	slot0.haveDlc = slot0.dlcID ~= nil and slot0.dlcID ~= 0
+	slot0.isExchange = slot0.shopCfg.shop_refresh == 2
+	slot0.shopID = slot0.shopCfg.shop_id
+	slot3 = nil
 
-	local var_5_0
-
-	if arg_5_0.shopCfg.description then
-		arg_5_0.isDesc = true
-		arg_5_0.itemCfg = RechargeShopDescriptionCfg[arg_5_0.shopCfg.description]
-		var_5_0 = arg_5_0.itemCfg.param[1]
+	if slot0.shopCfg.description then
+		slot0.isDesc = true
+		slot0.itemCfg = RechargeShopDescriptionCfg[slot0.shopCfg.description]
+		slot3 = slot0.itemCfg.param[1]
 	else
-		arg_5_0.isDesc = false
-		arg_5_0.itemCfg = ItemCfg[arg_5_0.shopCfg.give_id]
+		slot0.isDesc = false
+		slot0.itemCfg = ItemCfg[slot0.shopCfg.give_id]
 	end
 
-	if var_5_0 and SkinCfg[var_5_0] then
-		arg_5_0.skinCfg = SkinCfg[var_5_0]
-		arg_5_0.skinID = var_5_0
-		arg_5_0.heroCfg = HeroCfg[arg_5_0.skinCfg.hero]
+	if slot3 and SkinCfg[slot3] then
+		slot0.skinCfg = SkinCfg[slot3]
+		slot0.skinID = slot3
+		slot0.heroCfg = HeroCfg[slot0.skinCfg.hero]
 	end
 
-	if arg_5_0.haveDlc then
-		arg_5_0.shopDlcCfg = getShopCfg(arg_5_0.dlcID)
-		arg_5_0.itemDlcCfg = RechargeShopDescriptionCfg[arg_5_0.shopDlcCfg.description]
+	if slot0.haveDlc then
+		slot0.shopDlcCfg = getShopCfg(slot0.dlcID)
+		slot0.itemDlcCfg = RechargeShopDescriptionCfg[slot0.shopDlcCfg.description]
 
-		if arg_5_0.itemDlcCfg == nil then
-			arg_5_0.itemDlcCfg = ItemCfg[getShopCfg(arg_5_0.dlcID).give_id]
+		if slot0.itemDlcCfg == nil then
+			slot0.itemDlcCfg = ItemCfg[getShopCfg(slot0.dlcID).give_id]
 		end
 
-		arg_5_0.canBuyDlc = arg_5_0.shopDlcCfg and ShopConst.SHOP_ID.DLC_SHOP == arg_5_0.shopDlcCfg.shop_id
+		slot0.canBuyDlc = slot0.shopDlcCfg and ShopConst.SHOP_ID.DLC_SHOP == slot0.shopDlcCfg.shop_id
 	end
 
-	arg_5_0.buyTime = ShopData.GetShop(arg_5_0.shopID)[arg_5_0.goodID] ~= nil and ShopData.GetShop(arg_5_0.shopID)[arg_5_0.goodID].buy_times or 0
-	arg_5_0.restNum = arg_5_0.shopCfg.limit_num - arg_5_0.buyTime
-	arg_5_0.index = arg_5_2
+	slot0.buyTime = ShopData.GetShop(slot0.shopID)[slot0.goodID] ~= nil and ShopData.GetShop(slot0.shopID)[slot0.goodID].buy_times or 0
+	slot0.restNum = slot0.shopCfg.limit_num - slot0.buyTime
+	slot0.index = slot2
 
-	arg_5_0:Show(true)
-	arg_5_0:UpdateView()
+	slot0:Show(true)
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_6_0)
-	arg_6_0.skinItem:SetData(arg_6_0.data)
-	arg_6_0.dlcItem:SetData(arg_6_0.dlcID, arg_6_0.skinID, arg_6_0.goodID)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.transform_)
-	arg_6_0:UpdateTimerView()
+function slot0.UpdateView(slot0)
+	slot0.skinItem:SetData(slot0.data)
+	slot0.dlcItem:SetData(slot0.dlcID, slot0.skinID, slot0.goodID)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
+	slot0:UpdateTimerView()
 end
 
-function var_0_0.UpdateTimerView(arg_7_0)
-	arg_7_0.skinItem:UpdateTimerView()
-	arg_7_0.dlcItem:UpdateTimerView()
+function slot0.UpdateTimerView(slot0)
+	slot0.skinItem:UpdateTimerView()
+	slot0.dlcItem:UpdateTimerView()
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0.skinItem:OnExit()
-	arg_9_0.dlcItem:OnExit()
+function slot0.OnExit(slot0)
+	slot0.skinItem:OnExit()
+	slot0.dlcItem:OnExit()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.skinItem:Dispose()
-	arg_10_0.dlcItem:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
-	Object.Destroy(arg_10_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0.skinItem:Dispose()
+	slot0.dlcItem:Dispose()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-function var_0_0.GetItemHeight(arg_11_0)
-	return arg_11_0.rectGo_.sizeDelta.x
+function slot0.GetItemHeight(slot0)
+	return slot0.rectGo_.sizeDelta.x
 end
 
-function var_0_0.SetAsLastSibling(arg_12_0)
-	arg_12_0.transform_:SetAsLastSibling()
+function slot0.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_0.SetAsFirstSibling(arg_13_0)
-	arg_13_0.transform_:SetAsFirstSibling()
+function slot0.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-function var_0_0.GetIndex(arg_14_0)
-	return arg_14_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.IsActive(arg_15_0)
+function slot0.IsActive(slot0)
 	return true
 end
 
-function var_0_0.IsTimeBar(arg_16_0)
+function slot0.IsTimeBar(slot0)
 	return false
 end
 
-function var_0_0.Show(arg_17_0, arg_17_1)
-	SetActive(arg_17_0.gameObject_, arg_17_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

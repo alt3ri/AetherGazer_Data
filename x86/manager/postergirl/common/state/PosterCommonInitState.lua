@@ -1,36 +1,35 @@
-local var_0_0 = class("PosterCommonInitState", PosterCommonAnimatorState)
+slot0 = class("PosterCommonInitState", PosterCommonAnimatorState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 end
 
-function var_0_0.Enter(arg_2_0)
-	var_0_0.super.Enter(arg_2_0)
-	arg_2_0.actor:EnableEyeController(true)
+function slot0.Enter(slot0)
+	uv0.super.Enter(slot0)
+	slot0.actor:EnableEyeController(true)
 
-	if manager.posterGirl:GetViewTag() == PosterGirlConst.ViewTag.home and #arg_2_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.idle] ~= 0 then
-		arg_2_0.idleTimer = Timer.New(function()
-			arg_2_0.actor:ChangeState(PosterGirlConst.StateKay.idle)
+	if manager.posterGirl:GetViewTag() == PosterGirlConst.ViewTag.home and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.idle] ~= 0 then
+		slot0.idleTimer = Timer.New(function ()
+			uv0.actor:ChangeState(PosterGirlConst.StateKay.idle)
 		end, 60, -1)
 
-		arg_2_0.idleTimer:Start()
+		slot0.idleTimer:Start()
 	end
 
-	arg_2_0:PlayAni("action1_1")
+	slot0:PlayAni("action1_1")
 end
 
-function var_0_0.AnimationEndCall(arg_4_0)
-	return
+function slot0.AnimationEndCall(slot0)
 end
 
-function var_0_0.Exit(arg_5_0)
-	var_0_0.super.Exit(arg_5_0)
+function slot0.Exit(slot0)
+	uv0.super.Exit(slot0)
 
-	if arg_5_0.idleTimer then
-		arg_5_0.idleTimer:Stop()
+	if slot0.idleTimer then
+		slot0.idleTimer:Stop()
 
-		arg_5_0.idleTimer = nil
+		slot0.idleTimer = nil
 	end
 end
 
-return var_0_0
+return slot0

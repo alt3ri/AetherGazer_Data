@@ -1,139 +1,129 @@
-local var_0_0 = class("ActivityNewbieTaskItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ActivityNewbieTaskItem", ReduxView)
+slot1 = {
 	"complete",
 	"incomplete",
 	"lock",
 	"finish"
 }
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stateCon_ = ControllerUtil.GetController(arg_1_0.transform_, "state")
-	arg_1_0.rewardItems_ = {}
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.rewardItems_ = {}
 end
 
-function var_0_0.Dispose(arg_2_0)
-	manager.notify:RemoveListener(ON_TASK_SUBMIT_RESPONSE, arg_2_0.onSubmitTaskResponseHandle_)
+function slot0.Dispose(slot0)
+	slot4 = ON_TASK_SUBMIT_RESPONSE
+	slot5 = slot0.onSubmitTaskResponseHandle_
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.rewardItems_) do
-		iter_2_1:Dispose()
+	manager.notify:RemoveListener(slot4, slot5)
+
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_2_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.goBtn_, nil, function()
-		local var_4_0 = AssignmentCfg[arg_3_0.taskID_]
-
-		JumpTools.JumpToPage2(var_4_0.source)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		JumpTools.JumpToPage2(AssignmentCfg[uv0.taskID_].source)
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_3_0.taskID_)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 
-	arg_3_0.onSubmitTaskResponseHandle_ = handler(arg_3_0, arg_3_0.onSubmitTaskResponse)
+	slot0.onSubmitTaskResponseHandle_ = handler(slot0, slot0.onSubmitTaskResponse)
 
-	manager.notify:RegistListener(ON_TASK_SUBMIT_RESPONSE, arg_3_0.onSubmitTaskResponseHandle_)
+	manager.notify:RegistListener(ON_TASK_SUBMIT_RESPONSE, slot0.onSubmitTaskResponseHandle_)
 end
 
-function var_0_0.onSubmitTaskResponse(arg_6_0)
+function slot0.onSubmitTaskResponse(slot0)
 	manager.notify:Invoke(NEWBIE_TASK_UPDATE)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	if arg_7_0.taskID_ ~= arg_7_1 then
-		arg_7_0:RefreshReward(arg_7_1)
+function slot0.SetData(slot0, slot1)
+	if slot0.taskID_ ~= slot1 then
+		slot0:RefreshReward(slot1)
 	end
 
-	arg_7_0.taskID_ = arg_7_1
+	slot0.taskID_ = slot1
 
-	arg_7_0:RefreshTitle()
-	arg_7_0:RefreshProgress()
-	arg_7_0:RefreshState()
+	slot0:RefreshTitle()
+	slot0:RefreshProgress()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshTitle(arg_8_0)
-	arg_8_0.titleText_.text = AssignmentCfg[arg_8_0.taskID_].desc
+function slot0.RefreshTitle(slot0)
+	slot0.titleText_.text = AssignmentCfg[slot0.taskID_].desc
 end
 
-function var_0_0.RefreshProgress(arg_9_0)
-	local var_9_0 = AssignmentCfg[arg_9_0.taskID_]
-	local var_9_1 = var_9_0.need
-	local var_9_2 = TaskData2:GetTask(arg_9_0.taskID_).progress or 0
-
-	if var_9_1 < var_9_2 then
-		var_9_2 = var_9_1
+function slot0.RefreshProgress(slot0)
+	if AssignmentCfg[slot0.taskID_].need < (TaskData2:GetTask(slot0.taskID_).progress or 0) then
+		slot3 = slot2
 	end
 
-	if var_9_0.phase < TaskData2:GetAssignmentPhase() then
-		var_9_2 = var_9_1
+	if slot1.phase < TaskData2:GetAssignmentPhase() then
+		slot3 = slot2
 	end
 
-	arg_9_0.progressText_.text = string.format("%s/%s", var_9_2, var_9_1)
+	slot0.progressText_.text = string.format("%s/%s", slot3, slot2)
 end
 
-function var_0_0.RefreshReward(arg_10_0, arg_10_1)
-	local var_10_0 = AssignmentCfg[arg_10_1].reward
+function slot0.RefreshReward(slot0, slot1)
+	for slot6, slot7 in ipairs(AssignmentCfg[slot1].reward) do
+		slot8 = clone(ItemTemplateData)
+		slot8.id = slot7[1]
+		slot8.number = slot7[2]
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		local var_10_1 = clone(ItemTemplateData)
-
-		var_10_1.id = iter_10_1[1]
-		var_10_1.number = iter_10_1[2]
-
-		function var_10_1.clickFun(arg_11_0)
+		function slot8.clickFun(slot0)
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_11_0.id,
-				arg_11_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 
-		if arg_10_0.rewardItems_[iter_10_0] == nil then
-			local var_10_2 = Object.Instantiate(arg_10_0.itemGo_, arg_10_0.rewardParent_)
+		if slot0.rewardItems_[slot6] == nil then
+			slot9 = Object.Instantiate(slot0.itemGo_, slot0.rewardParent_)
 
-			SetActive(var_10_2, true)
+			SetActive(slot9, true)
 
-			arg_10_0.rewardItems_[iter_10_0] = CommonItemView.New(var_10_2)
+			slot0.rewardItems_[slot6] = CommonItemView.New(slot9)
 		end
 
-		arg_10_0.rewardItems_[iter_10_0]:SetData(var_10_1)
+		slot0.rewardItems_[slot6]:SetData(slot8)
 	end
 
-	for iter_10_2 = #var_10_0 + 1, #arg_10_0.rewardItems_ do
-		arg_10_0.rewardItems_[iter_10_2]:Show(false)
+	for slot6 = #slot2 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot6]:Show(false)
 	end
 end
 
-function var_0_0.RefreshState(arg_12_0)
-	local var_12_0 = arg_12_0:GetItemState()
-
-	arg_12_0.stateCon_:SetSelectedState(var_12_0)
+function slot0.RefreshState(slot0)
+	slot0.stateCon_:SetSelectedState(slot0:GetItemState())
 end
 
-function var_0_0.GetItemState(arg_13_0)
-	local var_13_0 = AssignmentCfg[arg_13_0.taskID_]
-	local var_13_1 = TaskData2:GetAssignmentPhase()
-	local var_13_2 = TaskData2:GetTask(arg_13_0.taskID_)
+function slot0.GetItemState(slot0)
+	slot3 = TaskData2:GetTask(slot0.taskID_)
 
-	if var_13_1 < var_13_0.phase then
-		return var_0_1[3]
-	elseif var_13_1 > var_13_0.phase or var_13_2.complete_flag >= 1 then
-		return var_0_1[4]
+	if TaskData2:GetAssignmentPhase() < AssignmentCfg[slot0.taskID_].phase then
+		return uv0[3]
+	elseif slot1.phase < slot2 or slot3.complete_flag >= 1 then
+		return uv0[4]
 	end
 
-	if (var_13_2.progress or 0) < var_13_0.need then
-		return var_0_1[2]
+	if (slot3.progress or 0) < slot1.need then
+		return uv0[2]
 	else
-		return var_0_1[1]
+		return uv0[1]
 	end
 end
 
-return var_0_0
+return slot0

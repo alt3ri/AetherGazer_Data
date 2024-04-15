@@ -1,159 +1,143 @@
-local var_0_0 = singletonClass("PuzzleNewData")
+slot0 = singletonClass("PuzzleNewData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.clearDic_ = {}
-	arg_1_0.regionReceivedList_ = {}
-	arg_1_0.puzzleDic_ = {}
-	arg_1_0.checkList_ = {}
-	arg_1_0.checkTipsList_ = {}
-	arg_1_0.selectPlayBtn_ = {}
+function slot0.Init(slot0)
+	slot0.clearDic_ = {}
+	slot0.regionReceivedList_ = {}
+	slot0.puzzleDic_ = {}
+	slot0.checkList_ = {}
+	slot0.checkTipsList_ = {}
+	slot0.selectPlayBtn_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
+function slot0.InitData(slot0, slot1)
+	slot0.regionReceivedList_[slot1.activity_id] = {}
 
-	arg_2_0.regionReceivedList_[var_2_0] = {}
-
-	local var_2_1 = arg_2_1.area_award_id
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_1) do
-		arg_2_0.regionReceivedList_[var_2_0][iter_2_1] = true
+	for slot7, slot8 in ipairs(slot1.area_award_id) do
+		slot0.regionReceivedList_[slot2][slot8] = true
 	end
 
-	local var_2_2 = arg_2_1.puzzle
+	slot9 = slot1.puzzle
+	slot0.puzzleDic_[slot2] = slot0:ParsePuzzle(slot9)
+	slot0.checkList_[slot2] = {}
 
-	arg_2_0.puzzleDic_[var_2_0] = arg_2_0:ParsePuzzle(var_2_2)
-	arg_2_0.checkList_[var_2_0] = {}
-
-	local var_2_3 = arg_2_1.clue_list
-
-	for iter_2_2, iter_2_3 in ipairs(var_2_3) do
-		arg_2_0.checkList_[var_2_0][iter_2_3] = true
+	for slot9, slot10 in ipairs(slot1.clue_list) do
+		slot0.checkList_[slot2][slot10] = true
 	end
 
-	arg_2_0.checkTipsList_[var_2_0] = {}
+	slot0.checkTipsList_[slot2] = {}
 
-	for iter_2_4, iter_2_5 in ipairs(arg_2_1.clue_tip_list) do
-		arg_2_0.checkTipsList_[var_2_0][iter_2_5] = true
+	for slot9, slot10 in ipairs(slot1.clue_tip_list) do
+		slot0.checkTipsList_[slot2][slot10] = true
 	end
 
-	arg_2_0:RefreshPlayRedPoint(var_2_0)
-	arg_2_0:RefreshPieceRedPoint(var_2_0)
+	slot0:RefreshPlayRedPoint(slot2)
+	slot0:RefreshPieceRedPoint(slot2)
 end
 
-function var_0_0.ParsePuzzle(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_1.vacant_position
-	local var_3_1 = arg_3_1.puzzle_data
-	local var_3_2 = #var_3_0 + #var_3_1
-	local var_3_3 = {}
-	local var_3_4 = 1
-	local var_3_5 = 1
+function slot0.ParsePuzzle(slot0, slot1)
+	slot5 = {}
+	slot6 = 1
+	slot7 = 1
 
-	for iter_3_0 = 1, var_3_2 do
-		if var_3_0[var_3_4] == iter_3_0 then
-			var_3_4 = var_3_4 + 1
+	for slot11 = 1, #slot1.vacant_position + #slot1.puzzle_data do
+		if slot2[slot6] == slot11 then
+			slot6 = slot6 + 1
 		else
-			var_3_3[iter_3_0] = var_3_1[var_3_5]
-			var_3_5 = var_3_5 + 1
+			slot5[slot11] = slot3[slot7]
+			slot7 = slot7 + 1
 		end
 	end
 
-	return var_3_3
+	return slot5
 end
 
-function var_0_0.SetPuzzle(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	if arg_4_2 ~= 0 then
-		arg_4_0.puzzleDic_[arg_4_1][arg_4_3] = arg_4_2
+function slot0.SetPuzzle(slot0, slot1, slot2, slot3)
+	if slot2 ~= 0 then
+		slot0.puzzleDic_[slot1][slot3] = slot2
 	else
-		arg_4_0.puzzleDic_[arg_4_1][arg_4_3] = nil
+		slot0.puzzleDic_[slot1][slot3] = nil
 	end
 end
 
-function var_0_0.GetRegionReceivedList(arg_5_0, arg_5_1)
-	return arg_5_0.regionReceivedList_[arg_5_1] or {}
+function slot0.GetRegionReceivedList(slot0, slot1)
+	return slot0.regionReceivedList_[slot1] or {}
 end
 
-function var_0_0.SetRegionReceivedList(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.regionReceivedList_[arg_6_1] = arg_6_0.regionReceivedList_[arg_6_1] or {}
+function slot0.SetRegionReceivedList(slot0, slot1, slot2)
+	slot0.regionReceivedList_[slot1] = slot0.regionReceivedList_[slot1] or {}
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_2) do
-		arg_6_0.regionReceivedList_[arg_6_1][iter_6_1] = true
+	for slot6, slot7 in pairs(slot2) do
+		slot0.regionReceivedList_[slot1][slot7] = true
 	end
 end
 
-function var_0_0.GetCurPuzzleList(arg_7_0, arg_7_1)
-	return arg_7_0.puzzleDic_[arg_7_1] or {}
+function slot0.GetCurPuzzleList(slot0, slot1)
+	return slot0.puzzleDic_[slot1] or {}
 end
 
-function var_0_0.GetCurCheckList(arg_8_0, arg_8_1)
-	return arg_8_0.checkList_[arg_8_1] or {}
+function slot0.GetCurCheckList(slot0, slot1)
+	return slot0.checkList_[slot1] or {}
 end
 
-function var_0_0.SetCurCheckList(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.checkList_[arg_9_1][arg_9_2] = true
+function slot0.SetCurCheckList(slot0, slot1, slot2)
+	slot0.checkList_[slot1][slot2] = true
 end
 
-function var_0_0.GetCheckTipsList(arg_10_0, arg_10_1)
-	return arg_10_0.checkTipsList_[arg_10_1] or {}
+function slot0.GetCheckTipsList(slot0, slot1)
+	return slot0.checkTipsList_[slot1] or {}
 end
 
-function var_0_0.SetCheckTipsList(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.checkTipsList_[arg_11_1][arg_11_2] = true
+function slot0.SetCheckTipsList(slot0, slot1, slot2)
+	slot0.checkTipsList_[slot1][slot2] = true
 end
 
-function var_0_0.IsCompleted(arg_12_0, arg_12_1)
-	if not arg_12_0.clearDic_[arg_12_1] then
-		local var_12_0 = PuzzleNewCfg[arg_12_1].area_fragment_list
-
-		for iter_12_0, iter_12_1 in ipairs(var_12_0) do
-			local var_12_1 = iter_12_1[1]
-			local var_12_2 = arg_12_0:GetRegionReceivedList(arg_12_1)
-
-			if not var_12_2 or not var_12_2[var_12_1] then
+function slot0.IsCompleted(slot0, slot1)
+	if not slot0.clearDic_[slot1] then
+		for slot6, slot7 in ipairs(PuzzleNewCfg[slot1].area_fragment_list) do
+			if not slot0:GetRegionReceivedList(slot1) or not slot9[slot7[1]] then
 				return false
 			end
 		end
 
-		arg_12_0.clearDic_[arg_12_1] = true
+		slot0.clearDic_[slot1] = true
 	end
 
 	return true
 end
 
-function var_0_0.RefreshPlayRedPoint(arg_13_0, arg_13_1)
-	local var_13_0 = 0
+function slot0.RefreshPlayRedPoint(slot0, slot1)
+	slot2 = 0
 
-	if not (arg_13_0.selectPlayBtn_[arg_13_1] == true) then
-		local var_13_1 = PuzzleNewCfg[arg_13_1].area_fragment_list
-		local var_13_2 = arg_13_0:GetRegionReceivedList(arg_13_1)
-		local var_13_3 = PuzzleNewTools.GetPuzzlePosDic(arg_13_1)
-		local var_13_4 = arg_13_0:GetCurPuzzleList(arg_13_1)
-		local var_13_5 = {}
+	if not (slot0.selectPlayBtn_[slot1] == true) then
+		slot4 = PuzzleNewCfg[slot1].area_fragment_list
+		slot5 = slot0:GetRegionReceivedList(slot1)
+		slot6 = PuzzleNewTools.GetPuzzlePosDic(slot1)
+		slot8 = {
+			[slot13] = true
+		}
 
-		for iter_13_0, iter_13_1 in pairs(var_13_4) do
-			var_13_5[iter_13_1] = true
+		for slot12, slot13 in pairs(slot0:GetCurPuzzleList(slot1)) do
+			-- Nothing
 		end
 
-		for iter_13_2, iter_13_3 in ipairs(var_13_1) do
-			local var_13_6 = iter_13_3[1]
+		for slot12, slot13 in ipairs(slot4) do
+			if not slot5 or not slot5[slot13[1]] then
+				slot15 = false
 
-			if not var_13_2 or not var_13_2[var_13_6] then
-				local var_13_7 = false
-
-				for iter_13_4, iter_13_5 in ipairs(iter_13_3[2]) do
-					if not var_13_5[iter_13_5] then
-						var_13_7 = false
+				for slot19, slot20 in ipairs(slot13[2]) do
+					if not slot8[slot20] then
+						slot15 = false
 
 						break
 					end
 
-					if var_13_4[var_13_3[iter_13_5]] ~= iter_13_5 then
-						var_13_7 = true
+					if slot7[slot6[slot20]] ~= slot20 then
+						slot15 = true
 					end
 				end
 
-				if var_13_7 == true then
-					var_13_0 = 1
+				if slot15 == true then
+					slot2 = 1
 
 					break
 				end
@@ -161,42 +145,38 @@ function var_0_0.RefreshPlayRedPoint(arg_13_0, arg_13_1)
 		end
 	end
 
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, arg_13_1), var_13_0)
+	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, slot1), slot2)
 end
 
-function var_0_0.SetPlayBtnSelected(arg_14_0, arg_14_1)
-	local var_14_0 = string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, arg_14_1)
+function slot0.SetPlayBtnSelected(slot0, slot1)
+	if manager.redPoint:getTipBoolean(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, slot1)) and not slot0.selectPlayBtn_[slot1] then
+		slot0.selectPlayBtn_[slot1] = true
 
-	if manager.redPoint:getTipBoolean(var_14_0) and not arg_14_0.selectPlayBtn_[arg_14_1] then
-		arg_14_0.selectPlayBtn_[arg_14_1] = true
-
-		arg_14_0:RefreshPlayRedPoint(arg_14_1)
+		slot0:RefreshPlayRedPoint(slot1)
 	end
 end
 
-function var_0_0.RefreshPieceRedPoint(arg_15_0, arg_15_1)
-	local var_15_0 = PuzzleNewCfg[arg_15_1].fragment_id[1]
-	local var_15_1 = var_15_0[1]
-	local var_15_2 = ItemTools.getItemNum(var_15_1)
-	local var_15_3 = 0
+function slot0.RefreshPieceRedPoint(slot0, slot1)
+	slot3 = PuzzleNewCfg[slot1].fragment_id[1]
+	slot6 = 0
 
-	if var_15_2 >= var_15_0[2] and PuzzleNewTools.CheckWrongSide(true, arg_15_1) then
-		var_15_3 = 1
+	if slot3[2] <= ItemTools.getItemNum(slot3[1]) and PuzzleNewTools.CheckWrongSide(true, slot1) then
+		slot6 = 1
 	end
 
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, arg_15_1), var_15_3)
+	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, slot1), slot6)
 end
 
-function var_0_0.SetPutBtnSelected(arg_16_0, arg_16_1)
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, arg_16_1), 0)
+function slot0.SetPutBtnSelected(slot0, slot1)
+	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, slot1), 0)
 end
 
-function var_0_0.SetSelecteCheckPoint(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-	saveData("puzzle_new", string.format("select_check_point_%d_%d", arg_17_1, arg_17_2), arg_17_3)
+function slot0.SetSelecteCheckPoint(slot0, slot1, slot2, slot3)
+	saveData("puzzle_new", string.format("select_check_point_%d_%d", slot1, slot2), slot3)
 end
 
-function var_0_0.GetSelecteCheckPoint(arg_18_0, arg_18_1, arg_18_2)
-	return getData("puzzle_new", string.format("select_check_point_%d_%d", arg_18_1, arg_18_2))
+function slot0.GetSelecteCheckPoint(slot0, slot1, slot2)
+	return getData("puzzle_new", string.format("select_check_point_%d_%d", slot1, slot2))
 end
 
-return var_0_0
+return slot0

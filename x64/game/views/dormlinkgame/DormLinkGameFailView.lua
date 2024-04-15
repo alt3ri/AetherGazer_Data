@@ -1,47 +1,44 @@
-local var_0_0 = class("DormLinkGameFailView", ReduxView)
+slot0 = class("DormLinkGameFailView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng2ndUI/XH2ndLinkGameUI/XH2ndLGPlayResult2"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListenerScale(arg_6_0.restartBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.restartBtn_, nil, function ()
 		DormLinkGameData:ResetRunGameInfo()
 		manager.notify:Invoke(LIANLIANKAN_GAME_RESET)
 		JumpTools.OpenPageByJump("/dormLinkGamePlayView")
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.backBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.backBtn_, nil, function ()
 		DormLinkGameTools:ExitGame()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,119 +1,112 @@
-local var_0_0 = class("ItemUseView", ReduxView)
+slot0 = class("ItemUseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Bag/BagScenepopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.commonItem1_ = CommonItemView.New(arg_4_0.commonItemGo1_)
-	arg_4_0.useNumTriggerListener_ = arg_4_0.useNumSliderGo_.transform:GetComponent(typeof(EventTriggerListener))
-	arg_4_0.controller_ = arg_4_0.controllerEx_:GetController("state")
+	slot0.commonItem1_ = CommonItemView.New(slot0.commonItemGo1_)
+	slot0.useNumTriggerListener_ = slot0.useNumSliderGo_.transform:GetComponent(typeof(EventTriggerListener))
+	slot0.controller_ = slot0.controllerEx_:GetController("state")
 
-	arg_4_0.controller_:SetSelectedState("1")
+	slot0.controller_:SetSelectedState("1")
 
-	arg_4_0.titleText_.text = GetTips("ITEM_USE")
+	slot0.titleText_.text = GetTips("ITEM_USE")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.okBtn_, nil, function()
-		OperationRecorder.Record(arg_5_0.lastRecord_, "operateUseBtn")
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		OperationRecorder.Record(uv0.lastRecord_, "operateUseBtn")
 
-		local var_8_0 = arg_5_0.itemData_.id
-		local var_8_1 = ItemTools.getItemNum(var_8_0, arg_5_0.itemData_.timeValid)
-		local var_8_2 = arg_5_0.itemData_.timeValid
-		local var_8_3 = ItemCfg[var_8_0]
-		local var_8_4 = arg_5_0.useNumSlider_.value
-		local var_8_5 = arg_5_0:AddVitalityCnt()
+		slot0 = uv0.itemData_.id
+		slot1 = ItemTools.getItemNum(slot0, uv0.itemData_.timeValid)
+		slot2 = uv0.itemData_.timeValid
+		slot3 = ItemCfg[slot0]
 
-		if var_8_5 and not (var_8_4 * var_8_5 + ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) <= ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max) then
+		if uv0:AddVitalityCnt() and not (uv0.useNumSlider_.value * slot5 + ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) <= ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max) then
 			ShowTips("ERROR_ITEM_FATIGUE_LIMIT")
 
 			return
 		end
 
-		if not canAddVitalityByProp(var_8_0) then
+		if not canAddVitalityByProp(slot0) then
 			ShowTips("ERROR_ITEM_FATIGUE_LIMIT")
 
 			return
 		end
-
-		local var_8_6 = {
-			item_info = {
-				id = var_8_0,
-				num = var_8_4,
-				time_valid = var_8_2
-			},
-			use_list = {}
-		}
 
 		CommonAction.TryToUseItemWitchCallback({
-			var_8_6
-		}, function(arg_9_0)
-			arg_5_0:UseItemSuccess(arg_9_0)
+			{
+				item_info = {
+					id = slot0,
+					num = slot4,
+					time_valid = slot2
+				},
+				use_list = {}
+			}
+		}, function (slot0)
+			uv0:UseItemSuccess(slot0)
 		end)
 	end)
-	arg_5_0.useNumSlider_.onValueChanged:AddListener(function()
-		arg_5_0.selectNum_ = arg_5_0.useNumSlider_.value
+	slot0.useNumSlider_.onValueChanged:AddListener(function ()
+		uv0.selectNum_ = uv0.useNumSlider_.value
 
-		if arg_5_0.selectNum_ < 1 then
-			arg_5_0.selectNum_ = 1
+		if uv0.selectNum_ < 1 then
+			uv0.selectNum_ = 1
 
-			arg_5_0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateSliderPositionBySelectNum()
 		end
 
-		arg_5_0:UpdateDelAddBtn()
-		arg_5_0:UpdateNum()
+		uv0:UpdateDelAddBtn()
+		uv0:UpdateNum()
 	end)
-	arg_5_0.useNumTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function(arg_11_0, arg_11_1)
-		arg_5_0:UpdateDelAddBtn()
-		arg_5_0:UpdateNum()
+	slot0.useNumTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:UpdateDelAddBtn()
+		uv0:UpdateNum()
 		OperationRecorder.Record("bag", "mergeDrag")
 	end))
-	arg_5_0:AddPressingByTimeListener(arg_5_0.delBtn_.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.selectNum_ > 1 then
-			arg_5_0.selectNum_ = arg_5_0.selectNum_ - 1
+	slot0:AddPressingByTimeListener(slot0.delBtn_.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.selectNum_ > 1 then
+			uv0.selectNum_ = uv0.selectNum_ - 1
 
-			arg_5_0:UpdateSliderPositionBySelectNum()
-			arg_5_0:UpdateDelAddBtn()
-			arg_5_0:UpdateNum()
+			uv0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateDelAddBtn()
+			uv0:UpdateNum()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.addBtn_.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.selectNum_ < arg_5_0.canUseMaxNum_ then
-			local var_13_0 = arg_5_0.useNumSlider_.value
-			local var_13_1 = arg_5_0:AddVitalityCnt()
-
-			if var_13_1 and not ((var_13_0 + 1) * var_13_1 + ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) <= ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max) then
+	slot0:AddPressingByTimeListener(slot0.addBtn_.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.selectNum_ < uv0.canUseMaxNum_ then
+			if uv0:AddVitalityCnt() and not ((uv0.useNumSlider_.value + 1) * slot1 + ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY) <= ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max) then
 				ShowTips("ERROR_ITEM_FATIGUE_LIMIT")
 
 				return false
 			end
 
-			arg_5_0.selectNum_ = arg_5_0.selectNum_ + 1
+			uv0.selectNum_ = uv0.selectNum_ + 1
 
-			arg_5_0:UpdateSliderPositionBySelectNum()
-			arg_5_0:UpdateDelAddBtn()
+			uv0:UpdateSliderPositionBySelectNum()
+			uv0:UpdateDelAddBtn()
 
 			return true
 		end
@@ -122,169 +115,147 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.UpdateSliderPositionBySelectNum(arg_14_0)
-	arg_14_0.useNumSlider_.value = arg_14_0.selectNum_
+function slot0.UpdateSliderPositionBySelectNum(slot0)
+	slot0.useNumSlider_.value = slot0.selectNum_
 end
 
-function var_0_0.UpdateDelAddBtn(arg_15_0)
-	arg_15_0.okBtn_.enabled = arg_15_0.selectNum_ >= 1
-	arg_15_0.delBtn_.interactable = arg_15_0.selectNum_ > 1
-	arg_15_0.addBtn_.interactable = arg_15_0.selectNum_ < arg_15_0.canUseMaxNum_
+function slot0.UpdateDelAddBtn(slot0)
+	slot0.okBtn_.enabled = slot0.selectNum_ >= 1
+	slot0.delBtn_.interactable = slot0.selectNum_ > 1
+	slot0.addBtn_.interactable = slot0.selectNum_ < slot0.canUseMaxNum_
 end
 
-function var_0_0.InitData(arg_16_0)
-	arg_16_0.itemData_ = arg_16_0.params_.itemData
+function slot0.InitData(slot0)
+	slot0.itemData_ = slot0.params_.itemData
 
-	local var_16_0 = arg_16_0:GetMaxNum()
-
-	if var_16_0 < 1 then
-		var_16_0 = 1
+	if slot0:GetMaxNum() < 1 then
+		slot1 = 1
 	end
 
-	arg_16_0.canUseMaxNum_ = var_16_0
-	arg_16_0.selectNum_ = 1
-	arg_16_0.useNumSlider_.maxValue = var_16_0
-	arg_16_0.useNumSlider_.value = 1
+	slot0.canUseMaxNum_ = slot1
+	slot0.selectNum_ = 1
+	slot0.useNumSlider_.maxValue = slot1
+	slot0.useNumSlider_.value = 1
 end
 
-function var_0_0.UpdateView(arg_17_0)
-	local var_17_0 = arg_17_0.itemData_.id
-	local var_17_1 = clone(ItemTemplateData)
+function slot0.UpdateView(slot0)
+	slot1 = slot0.itemData_.id
+	slot2 = clone(ItemTemplateData)
+	slot2.id = slot1
+	slot2.number = nil
 
-	var_17_1.id = var_17_0
-	var_17_1.number = nil
+	function slot2.clickFun(slot0)
+		slot1 = clone(slot0)
+		slot1.timeValid = uv0.itemData_.timeValid
 
-	function var_17_1.clickFun(arg_18_0)
-		local var_18_0 = clone(arg_18_0)
-
-		var_18_0.timeValid = arg_17_0.itemData_.timeValid
-
-		ShowPopItem(POP_ITEM, var_18_0)
+		ShowPopItem(POP_ITEM, slot1)
 	end
 
-	arg_17_0.commonItem1_:SetData(var_17_1)
+	slot0.commonItem1_:SetData(slot2)
 
-	arg_17_0.nameText1_.text = ItemTools.getItemName(var_17_0)
+	slot0.nameText1_.text = ItemTools.getItemName(slot1)
 
-	arg_17_0:UpdateNum()
-	arg_17_0:UpdateSliderPositionBySelectNum()
-	arg_17_0:UpdateDelAddBtn()
+	slot0:UpdateNum()
+	slot0:UpdateSliderPositionBySelectNum()
+	slot0:UpdateDelAddBtn()
 end
 
-function var_0_0.UpdateNum(arg_19_0)
-	arg_19_0.useNumText_.text = tostring(arg_19_0.selectNum_)
+function slot0.UpdateNum(slot0)
+	slot0.useNumText_.text = tostring(slot0.selectNum_)
 
-	local var_19_0 = ItemTools.getItemNum(arg_19_0.itemData_.id, arg_19_0.itemData_.timeValid)
-
-	arg_19_0.commonItem1_:RefreshBottomText({
-		var_19_0,
-		arg_19_0.selectNum_
+	slot0.commonItem1_:RefreshBottomText({
+		ItemTools.getItemNum(slot0.itemData_.id, slot0.itemData_.timeValid),
+		slot0.selectNum_
 	})
 end
 
-function var_0_0.OnEnter(arg_20_0)
-	arg_20_0:InitData()
-	arg_20_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:InitData()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_21_0)
-	arg_21_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_22_0)
-	arg_22_0.useNumSlider_.onValueChanged:RemoveAllListeners()
-	arg_22_0.useNumTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
+function slot0.Dispose(slot0)
+	slot0.useNumSlider_.onValueChanged:RemoveAllListeners()
+	slot0.useNumTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
 
-	if arg_22_0.commonItem1_ then
-		arg_22_0.commonItem1_:Dispose()
+	if slot0.commonItem1_ then
+		slot0.commonItem1_:Dispose()
 
-		arg_22_0.commonItem1_ = nil
+		slot0.commonItem1_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_22_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddVitalityCnt(arg_23_0)
-	local var_23_0 = ItemCfg[arg_23_0.itemData_.id]
-
-	if var_23_0.sub_type == ItemConst.ITEM_SUB_TYPE.TIME_LIMIT_ITEM or var_23_0.sub_type == ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY_TIME_VALID then
-		return var_23_0.param[1][2]
+function slot0.AddVitalityCnt(slot0)
+	if ItemCfg[slot0.itemData_.id].sub_type == ItemConst.ITEM_SUB_TYPE.TIME_LIMIT_ITEM or slot1.sub_type == ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY_TIME_VALID then
+		return slot1.param[1][2]
 	end
 
 	return false
 end
 
-function var_0_0.GetMaxNum(arg_24_0)
-	local var_24_0 = arg_24_0.itemData_.id
-	local var_24_1 = arg_24_0.itemData_.timeValid
-	local var_24_2 = ItemCfg[var_24_0]
+function slot0.GetMaxNum(slot0)
+	slot2 = slot0.itemData_.timeValid
 
-	if var_24_2.sub_type == ItemConst.ITEM_SUB_TYPE.OPTIONAL_ITEM then
+	if ItemCfg[slot0.itemData_.id].sub_type == ItemConst.ITEM_SUB_TYPE.OPTIONAL_ITEM then
 		return 1
 	end
 
-	local var_24_3 = ItemTools.getItemNum(var_24_0, var_24_1)
+	slot4 = ItemTools.getItemNum(slot1, slot2)
 
-	if var_24_2.type == ItemConst.ITEM_TYPE.PROPS and (ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY == var_24_2.sub_type or ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY_TIME_VALID == var_24_2.sub_type) then
-		local var_24_4 = var_24_2.param[1][2]
-		local var_24_5 = math.floor((999 - ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY)) / var_24_4)
-		local var_24_6 = math.min(var_24_5, var_24_3)
-
-		return (math.max(var_24_6, 1))
+	if slot3.type == ItemConst.ITEM_TYPE.PROPS and (ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY == slot3.sub_type or ItemConst.ITEM_SUB_TYPE.PROPS_VITALITY_TIME_VALID == slot3.sub_type) then
+		return math.max(math.min(math.floor((999 - ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY)) / slot3.param[1][2]), slot4), 1)
 	end
 
-	return var_24_3
+	return slot4
 end
 
-function var_0_0.UseItemSuccess(arg_25_0, arg_25_1)
-	local var_25_0 = arg_25_0.itemData_.id
-	local var_25_1 = arg_25_0.itemData_.timeValid
-
-	if ItemTools.getItemNum(var_25_0, var_25_1) <= 0 then
-		arg_25_0:Back()
+function slot0.UseItemSuccess(slot0, slot1)
+	if ItemTools.getItemNum(slot0.itemData_.id, slot0.itemData_.timeValid) <= 0 then
+		slot0:Back()
 	else
-		arg_25_0:InitData()
-		arg_25_0:UpdateView()
+		slot0:InitData()
+		slot0:UpdateView()
 	end
 
-	local var_25_2 = arg_25_1.drop_list
+	slot5 = slot1.drop_list
 
-	if ItemCfg[var_25_0].type == ItemConst.ITEM_TYPE.SKIN_CHANGE then
-		local var_25_3 = ItemCfg[var_25_0].param[1]
-		local var_25_4 = SkinCfg[var_25_3].hero
+	if ItemCfg[slot2].type == ItemConst.ITEM_TYPE.SKIN_CHANGE then
+		slot6 = ItemCfg[slot2].param[1]
+		slot7 = SkinCfg[slot6].hero
 
 		getReward(formatRewardCfgList({
 			{
-				var_25_3,
+				slot6,
 				1
 			}
 		}), {
 			ItemConst.ITEM_TYPE.HERO_SKIN
 		})
-	elseif ItemCfg[var_25_0].sub_type == ItemConst.ITEM_SUB_TYPE.BIRTHDAY_ITEM then
-		local var_25_5 = BirthdayCfg[BirthdayCfg.get_id_list_by_commemorative_props_id[var_25_0][1]].story_id
+	elseif ItemCfg[slot2].sub_type == ItemConst.ITEM_SUB_TYPE.BIRTHDAY_ITEM then
+		manager.story:StartStory(BirthdayCfg[BirthdayCfg.get_id_list_by_commemorative_props_id[slot2][1]].story_id)
+	elseif ItemCfg[slot2].sub_type == ItemConst.ITEM_SUB_TYPE.BITRHDAY_LETTER then
+		slot6 = BirthdayCfg[BirthdayCfg.get_id_list_by_appendix_id[slot2][1]].story_id
 
-		manager.story:StartStory(var_25_5)
-	elseif ItemCfg[var_25_0].sub_type == ItemConst.ITEM_SUB_TYPE.BITRHDAY_LETTER then
-		local var_25_6 = BirthdayCfg[BirthdayCfg.get_id_list_by_appendix_id[var_25_0][1]].story_id
-
-		manager.story:StartStory(var_25_6)
-		IllustratedData:ModifyPlot(var_25_6)
-		getReward(var_25_2)
+		manager.story:StartStory(slot6)
+		IllustratedData:ModifyPlot(slot6)
+		getReward(slot5)
 		SDKTools.SendMessageToSDK("birthday_received", {
 			story_unlock = 1
 		})
-	elseif ItemCfg[var_25_0].type == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
+	elseif ItemCfg[slot2].type == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
 		ShowTips("EXCHANGE_SUCCESS")
-	elseif ItemCfg[var_25_0].sub_type == ItemConst.ITEM_SUB_TYPE.MOON_CAKE_GIFT then
-		getReward(var_25_2)
-
-		local var_25_7 = ItemCfg[var_25_0].time[2][1]
-
-		MoonCakeAction.OnOpenGift(var_25_7, arg_25_1.drop_list)
+	elseif ItemCfg[slot2].sub_type == ItemConst.ITEM_SUB_TYPE.MOON_CAKE_GIFT then
+		getReward(slot5)
+		MoonCakeAction.OnOpenGift(ItemCfg[slot2].time[2][1], slot1.drop_list)
 	else
-		getReward(mergeReward(var_25_2))
+		getReward(mergeReward(slot5))
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,47 +1,45 @@
-local var_0_0 = class("HeroSurpassAttrItem", ReduxView)
+slot0 = class("HeroSurpassAttrItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4)
-	arg_3_0:SetActive(true)
+function slot0.RefreshUI(slot0, slot1, slot2, slot3, slot4)
+	slot0:SetActive(true)
 
-	arg_3_0.num01Text_.text = arg_3_2
-	arg_3_0.numText_.text = arg_3_1
+	slot0.num01Text_.text = slot2
+	slot0.numText_.text = slot1
 
-	if not arg_3_1 or not arg_3_2 then
-		SetActive(arg_3_0.arrowGo_, false)
+	if not slot1 or not slot2 then
+		SetActive(slot0.arrowGo_, false)
 	else
-		SetActive(arg_3_0.arrowGo_, true)
+		SetActive(slot0.arrowGo_, true)
 	end
 
-	if arg_3_3 then
-		local var_3_0 = PublicAttrCfg[arg_3_3]
-
-		if arg_3_4 then
-			arg_3_0.nameText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(var_3_0.name))
+	if slot3 then
+		if slot4 then
+			slot0.nameText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[slot3].name))
 		else
-			arg_3_0.nameText_.text = GetI18NText(var_3_0.name)
+			slot0.nameText_.text = GetI18NText(slot5.name)
 		end
 
-		arg_3_0.iconImg_.sprite = getSprite("Atlas/SystemCommonAtlas", var_3_0.icon)
+		slot0.iconImg_.sprite = getSprite("Atlas/SystemCommonAtlas", slot5.icon)
 	end
 end
 
-function var_0_0.SetActive(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

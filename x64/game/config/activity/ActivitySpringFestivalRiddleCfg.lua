@@ -2,7 +2,11 @@ return {
 	[101] = {
 		correct_answer = 3,
 		activity_id = 111781,
-		question = "三春对联\n\n\n打一植物",
+		question = [[
+三春对联
+
+
+打一植物]],
 		id = 101,
 		answer_list = {
 			"腊梅",
@@ -14,7 +18,12 @@ return {
 	[102] = {
 		correct_answer = 1,
 		activity_id = 111781,
-		question = "寒随一夜去\n春随五更来\n\n\n打一时节俗称",
+		question = [[
+寒随一夜去
+春随五更来
+
+
+打一时节俗称]],
 		id = 102,
 		answer_list = {
 			"除夕",
@@ -26,7 +35,11 @@ return {
 	[103] = {
 		correct_answer = 4,
 		activity_id = 111781,
-		question = "恭贺新年\n\n\n打一历史年号",
+		question = [[
+恭贺新年
+
+
+打一历史年号]],
 		id = 103,
 		answer_list = {
 			"升平",
@@ -38,7 +51,11 @@ return {
 	[104] = {
 		correct_answer = 2,
 		activity_id = 111781,
-		question = "千里江陵一日还\n\n\n打一字",
+		question = [[
+千里江陵一日还
+
+
+打一字]],
 		id = 104,
 		answer_list = {
 			"皓",
@@ -50,7 +67,11 @@ return {
 	[105] = {
 		correct_answer = 4,
 		activity_id = 111781,
-		question = "万年青\n\n\n打一成语",
+		question = [[
+万年青
+
+
+打一成语]],
 		id = 105,
 		answer_list = {
 			"不扶自直",
@@ -62,7 +83,12 @@ return {
 	[106] = {
 		correct_answer = 2,
 		activity_id = 111781,
-		question = "少了一点\n全部不要\n\n\n打一动物",
+		question = [[
+少了一点
+全部不要
+
+
+打一动物]],
 		id = 106,
 		answer_list = {
 			"羊",
@@ -74,7 +100,12 @@ return {
 	[107] = {
 		correct_answer = 3,
 		activity_id = 111781,
-		question = "金乌西坠\n玉兔东升\n\n\n打一成语",
+		question = [[
+金乌西坠
+玉兔东升
+
+
+打一成语]],
 		id = 107,
 		answer_list = {
 			"东升西落",
@@ -86,7 +117,11 @@ return {
 	[108] = {
 		correct_answer = 1,
 		activity_id = 111781,
-		question = "初一\n\n\n打一成语",
+		question = [[
+初一
+
+
+打一成语]],
 		id = 108,
 		answer_list = {
 			"日新月异",

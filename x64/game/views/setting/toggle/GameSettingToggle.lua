@@ -1,39 +1,39 @@
-local var_0_0 = class("GameSettingToggle", BaseSettingToggle)
+slot0 = class("GameSettingToggle", BaseSettingToggle)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.info_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.info_ = slot1
 end
 
-function var_0_0.GetName(arg_2_0)
+function slot0.GetName(slot0)
 	return "Game"
 end
 
-function var_0_0.UIClass(arg_3_0)
+function slot0.UIClass(slot0)
 	return GameSettingView
 end
 
-function var_0_0.GetPath(arg_4_0)
+function slot0.GetPath(slot0)
 	return "Widget/System/Setting/GameSettingUI"
 end
 
-function var_0_0.Order(arg_5_0)
+function slot0.Order(slot0)
 	return 13
 end
 
-function var_0_0.RedPointKey(arg_6_0)
+function slot0.RedPointKey(slot0)
 	return nil
 end
 
-function var_0_0.Image(arg_7_0)
+function slot0.Image(slot0)
 	return getSprite("Atlas/SettingAtlas", "icon_setting03")
 end
 
-function var_0_0.GetParams(arg_8_0)
-	return arg_8_0.info_
+function slot0.GetParams(slot0)
+	return slot0.info_
 end
 
-function var_0_0.IsSetting(arg_9_0)
+function slot0.IsSetting(slot0)
 	return true
 end
 
-return var_0_0
+return slot0

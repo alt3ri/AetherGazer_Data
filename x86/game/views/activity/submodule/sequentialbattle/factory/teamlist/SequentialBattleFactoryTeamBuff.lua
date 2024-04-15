@@ -1,31 +1,28 @@
-local var_0_0 = class("SequentialBattleFactoryTeamBuff", ReduxView)
+slot0 = class("SequentialBattleFactoryTeamBuff", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
-	Object.Destroy(arg_2_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.transform_ = nil
-	arg_2_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	local var_3_0 = AffixTypeCfg[arg_3_1]
-	local var_3_1 = PublicBuffCfg[var_3_0.affix_buff_id].icon
+function slot0.SetData(slot0, slot1)
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. PublicBuffCfg[AffixTypeCfg[slot1].affix_buff_id].icon)
 
-	arg_3_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. var_3_1)
-
-	arg_3_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.Show(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

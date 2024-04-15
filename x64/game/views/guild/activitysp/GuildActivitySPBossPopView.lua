@@ -1,282 +1,249 @@
-local var_0_0 = class("GuildActivitySPBossPopView", ReduxView)
+slot0 = class("GuildActivitySPBossPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivitySPUI/GuildActivitySPBossPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.queryRankHandler_ = handler(arg_4_0, arg_4_0.OnQueryRank)
+function slot0.Init(slot0)
+	slot0.queryRankHandler_ = handler(slot0, slot0.OnQueryRank)
 
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.statusController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "status")
-	arg_5_0.finalReachableController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "finalReachable")
-	arg_5_0.boss_statusController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "boss_status")
-	arg_5_0.affixrScroll_ = LuaList.New(handler(arg_5_0, arg_5_0.indexAffix), arg_5_0.affixUiList, GuildActivitySpAffixItem)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.finalReachableController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "finalReachable")
+	slot0.boss_statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "boss_status")
+	slot0.affixrScroll_ = LuaList.New(handler(slot0, slot0.indexAffix), slot0.affixUiList, GuildActivitySpAffixItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.recordBtn_, nil, function()
-		GuildActivitySPAction.GetFightRecord(arg_6_0.params_.nodeId, function(arg_9_0)
+	slot0:AddBtnListener(slot0.recordBtn_, nil, function ()
+		GuildActivitySPAction.GetFightRecord(uv0.params_.nodeId, function (slot0)
 			JumpTools.OpenPageByJump("guildActivitySPRecord", {
-				dataList = arg_9_0
+				dataList = slot0
 			})
 		end)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.challengeBtn_, nil, function()
-		local var_10_0 = GuildActivitySPData:GetCurRunActivityID()
-
-		arg_6_0:Go("/sectionSelectHero", {
-			section = arg_6_0.nodeCfg_.stage_id,
+	slot0:AddBtnListener(slot0.challengeBtn_, nil, function ()
+		uv0:Go("/sectionSelectHero", {
+			section = uv0.nodeCfg_.stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP,
-			nodeId = arg_6_0.nodeCfg_.id,
-			activityID = var_10_0
+			nodeId = uv0.nodeCfg_.id,
+			activityID = GuildActivitySPData:GetCurRunActivityID()
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
-		if arg_6_0.params_.nodeId ~= GuildActivitySPData:GetMaxNodeId() and GuildActivitySPData:GetNodeData(arg_6_0.nodeCfg_.id).health <= 0 then
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if uv0.params_.nodeId ~= GuildActivitySPData:GetMaxNodeId() and GuildActivitySPData:GetNodeData(uv0.nodeCfg_.id).health <= 0 then
 			ShowMessageBox({
 				ButtonType = "SingleBtn",
 				isTop = true,
 				content = GetTips("BOSS_BE_KILLED_TIP"),
-				OkCallback = function()
-					arg_6_0:UpdateView()
+				OkCallback = function ()
+					uv0:UpdateView()
 				end
 			})
 
 			return
 		end
 
-		local var_11_0 = GuildActivitySPData:GetCurRunActivityID()
-
-		arg_6_0:Go("/sectionSelectHero", {
-			section = arg_6_0.nodeCfg_.stage_id,
+		uv0:Go("/sectionSelectHero", {
+			section = uv0.nodeCfg_.stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY_SP,
-			nodeId = arg_6_0.nodeCfg_.id,
-			activityID = var_11_0
+			nodeId = uv0.nodeCfg_.id,
+			activityID = GuildActivitySPData:GetCurRunActivityID()
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.nextFloorBtn_, nil, function()
-		local var_13_0 = arg_6_0.nodeCfg_.map_id
-		local var_13_1 = GuildActivitySPData:GetCurRunActivityID()
-		local var_13_2 = ActivityClubSPMapCfg.get_id_list_by_activity[var_13_1]
-
-		if table.indexof(var_13_2, var_13_0) < #GuildActivitySPData:GetSpawnIdList() then
+	slot0:AddBtnListener(slot0.nextFloorBtn_, nil, function ()
+		if table.indexof(ActivityClubSPMapCfg.get_id_list_by_activity[GuildActivitySPData:GetCurRunActivityID()], uv0.nodeCfg_.map_id) < #GuildActivitySPData:GetSpawnIdList() then
 			manager.notify:CallUpdateFunc(GUILD_ACTIVITY_SP_ENTER_NEW_LEVEL)
 		else
-			GuildActivitySPAction.EnterNext(arg_6_0.nodeCfg_.id)
+			GuildActivitySPAction.EnterNext(uv0.nodeCfg_.id)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bossInfoBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bossInfoBtn_, nil, function ()
 		JumpTools.OpenPageByJump("bossInfo", {
-			bossID = arg_6_0.nodeCfg_.boss_id,
-			spritePath = SpritePathCfg.CollectBoss.path .. arg_6_0.nodeCfg_.boss_id
+			bossID = uv0.nodeCfg_.boss_id,
+			spritePath = SpritePathCfg.CollectBoss.path .. uv0.nodeCfg_.boss_id
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_15_0)
-	arg_15_0:RegistEventListener(GUILD_ACTIVITY_SP_UPDATE_GRIDS_DATA, function(arg_16_0)
-		if table.indexof(arg_16_0, arg_15_0.params_.nodeId) then
-			arg_15_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_ACTIVITY_SP_UPDATE_GRIDS_DATA, function (slot0)
+		if table.indexof(slot0, uv0.params_.nodeId) then
+			uv0:UpdateView()
 		end
 	end)
 end
 
-function var_0_0.OnTop(arg_17_0)
-	arg_17_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_18_0)
-	return
+function slot0.OnBehind(slot0)
 end
 
-function var_0_0.UpdateBar(arg_19_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.StopTimer(arg_20_0)
-	if arg_20_0.timer_ then
-		arg_20_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_20_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.UpdateTimer(arg_21_0)
-	local var_21_0 = manager.time:GetServerTime()
-	local var_21_1 = GuildActivitySPData:GetCurRunActivityID()
-	local var_21_2 = ActivityData:GetActivityData(var_21_1)
-	local var_21_3 = var_21_2.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600
-	local var_21_4 = var_21_2.stopTime
-	local var_21_5 = BattleClubActivitySPCfg[arg_21_0.nodeCfg_.stage_id].affix_type
+function slot0.UpdateTimer(slot0)
+	slot3 = ActivityData:GetActivityData(GuildActivitySPData:GetCurRunActivityID())
+	slot6 = slot3.stopTime
+	slot7 = BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].affix_type
 
-	if var_21_3 < var_21_0 then
-		arg_21_0.stageLevel = 2
+	if slot3.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600 < manager.time:GetServerTime() then
+		slot0.stageLevel = 2
 	else
-		arg_21_0.stageLevel = 1
+		slot0.stageLevel = 1
 	end
 
-	if var_21_5 and var_21_5 ~= "" then
-		if arg_21_0.nodeCfg_.id == GuildActivitySPData:GetMaxNodeId() then
-			if arg_21_0.stageLevel == 2 then
-				arg_21_0.boss_statusController_:SetSelectedIndex(1)
+	if slot7 and slot7 ~= "" then
+		if slot0.nodeCfg_.id == GuildActivitySPData:GetMaxNodeId() then
+			if slot0.stageLevel == 2 then
+				slot0.boss_statusController_:SetSelectedIndex(1)
 			else
-				arg_21_0.boss_statusController_:SetSelectedIndex(0)
+				slot0.boss_statusController_:SetSelectedIndex(0)
 			end
 		else
-			arg_21_0.boss_statusController_:SetSelectedIndex(2)
+			slot0.boss_statusController_:SetSelectedIndex(2)
 		end
 	else
-		arg_21_0.boss_statusController_:SetSelectedIndex(2)
+		slot0.boss_statusController_:SetSelectedIndex(2)
 	end
 end
 
-function var_0_0.OnEnter(arg_22_0)
-	arg_22_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_22_0.nodeCfg_ = ActivityClubSPCfg[arg_22_0.params_.nodeId]
+	slot0.nodeCfg_ = ActivityClubSPCfg[slot0.params_.nodeId]
 
-	arg_22_0:UpdateTimer()
-	arg_22_0:UpdateView()
+	slot0:UpdateTimer()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_23_0)
-	arg_23_0:RemoveAllEventListener()
-	arg_23_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	slot0:StopTimer()
 end
 
-function var_0_0.UpdateView(arg_24_0)
-	arg_24_0.detailLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_BOSS_FIRST_BONUS_DESC"))
-
-	local var_24_0 = GuildActivitySPData:GetNodeData(arg_24_0.params_.nodeId)
-	local var_24_1 = arg_24_0.nodeCfg_.map_id
-	local var_24_2 = GuildActivitySPData:GetCurRunActivityID()
-	local var_24_3 = ActivityClubSPMapCfg.get_id_list_by_activity[var_24_2]
-	local var_24_4 = table.indexof(var_24_3, var_24_1)
-
-	arg_24_0.titleLabel_.text = BattleClubActivitySPCfg[arg_24_0.nodeCfg_.stage_id].name
-
-	local var_24_5 = arg_24_0.nodeCfg_.boss_score
-	local var_24_6 = var_24_0.health
-
-	arg_24_0.hpLabel_.text = string.format("%d/%d", var_24_6, var_24_5)
-
-	local var_24_7 = var_24_6 / var_24_5
-
-	arg_24_0.hpProgressBar_.value = var_24_7
-	arg_24_0.bossNameLabel_.text = GetMonsterName({
-		arg_24_0.nodeCfg_.boss_id
+function slot0.UpdateView(slot0)
+	slot0.detailLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_BOSS_FIRST_BONUS_DESC"))
+	slot5 = table.indexof(ActivityClubSPMapCfg.get_id_list_by_activity[GuildActivitySPData:GetCurRunActivityID()], slot0.nodeCfg_.map_id)
+	slot0.titleLabel_.text = BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].name
+	slot6 = slot0.nodeCfg_.boss_score
+	slot7 = GuildActivitySPData:GetNodeData(slot0.params_.nodeId).health
+	slot0.hpLabel_.text = string.format("%d/%d", slot7, slot6)
+	slot0.hpProgressBar_.value = slot7 / slot6
+	slot0.bossNameLabel_.text = GetMonsterName({
+		slot0.nodeCfg_.boss_id
 	})
-	arg_24_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectBoss.path .. arg_24_0.nodeCfg_.boss_id)
-	arg_24_0.costLabel_.text = arg_24_0.nodeCfg_.vitality_cost
+	slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectBoss.path .. slot0.nodeCfg_.boss_id)
+	slot0.costLabel_.text = slot0.nodeCfg_.vitality_cost
+	slot9 = GuildActivitySPData:GetCurMainActivityID()
 
-	local var_24_8 = GuildActivitySPData:GetCurMainActivityID()
-	local var_24_9 = BattleClubActivitySPCfg[arg_24_0.nodeCfg_.stage_id].drop_lib_id
-
-	if var_24_9 ~= nil and var_24_9 > 0 then
-		local var_24_10 = DropCfg[var_24_9].base_drop[1]
-
-		arg_24_0.nodeRewardImg.sprite = ItemTools.getItemSprite(var_24_10[1])
-		arg_24_0.firstRecoverLabel_.text = var_24_10[2]
+	if BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].drop_lib_id ~= nil and slot10 > 0 then
+		slot11 = DropCfg[slot10].base_drop[1]
+		slot0.nodeRewardImg.sprite = ItemTools.getItemSprite(slot11[1])
+		slot0.firstRecoverLabel_.text = slot11[2]
 	else
-		arg_24_0.nodeRewardImg.sprite = ItemTools.getItemSprite(GuildActivitySpTools.GetCurCurrencyID(var_24_8, 2))
-		arg_24_0.firstRecoverLabel_.text = ""
+		slot0.nodeRewardImg.sprite = ItemTools.getItemSprite(GuildActivitySpTools.GetCurCurrencyID(slot9, 2))
+		slot0.firstRecoverLabel_.text = ""
 	end
 
-	local var_24_11 = GuildActivitySPData:IsNodeCanReach(arg_24_0.params_.nodeId)
+	slot11 = GuildActivitySPData:IsNodeCanReach(slot0.params_.nodeId)
 
-	if GuildActivitySPData:IsAllLittleBossPass(var_24_1) == 0 then
-		arg_24_0.statusController_:SetSelectedState("lock")
-	elseif var_24_0.health <= 0 then
-		if arg_24_0.params_.nodeId == GuildActivitySPData:GetMaxNodeId() then
-			if var_24_11 then
-				arg_24_0.statusController_:SetSelectedState("occupy")
-				arg_24_0.finalReachableController_:SetSelectedState("true")
+	if GuildActivitySPData:IsAllLittleBossPass(slot2) == 0 then
+		slot0.statusController_:SetSelectedState("lock")
+	elseif slot1.health <= 0 then
+		if slot0.params_.nodeId == GuildActivitySPData:GetMaxNodeId() then
+			if slot11 then
+				slot0.statusController_:SetSelectedState("occupy")
+				slot0.finalReachableController_:SetSelectedState("true")
 			else
-				arg_24_0.statusController_:SetSelectedState("unreachable")
-				arg_24_0.finalReachableController_:SetSelectedState("false")
+				slot0.statusController_:SetSelectedState("unreachable")
+				slot0.finalReachableController_:SetSelectedState("false")
 			end
 		else
-			arg_24_0.statusController_:SetSelectedState("value_5")
+			slot0.statusController_:SetSelectedState("value_5")
 		end
-	elseif var_24_11 then
-		arg_24_0.statusController_:SetSelectedState("occupy")
+	elseif slot11 then
+		slot0.statusController_:SetSelectedState("occupy")
 	else
-		arg_24_0.statusController_:SetSelectedState("unreachable")
+		slot0.statusController_:SetSelectedState("unreachable")
 	end
 
-	arg_24_0:RefreshAffixType()
+	slot0:RefreshAffixType()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_25_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.RefreshAffixType(arg_26_0)
-	arg_26_0:UpdateTimer()
+function slot0.RefreshAffixType(slot0)
+	slot0:UpdateTimer()
 
-	local var_26_0 = BattleClubActivitySPCfg[arg_26_0.nodeCfg_.stage_id].affix_type
+	slot0.affixList = {}
 
-	arg_26_0.affixList = {}
-
-	if var_26_0 ~= nil and var_26_0 ~= "" then
-		for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-			table.insert(arg_26_0.affixList, iter_26_1)
+	if BattleClubActivitySPCfg[slot0.nodeCfg_.stage_id].affix_type ~= nil and slot1 ~= "" then
+		for slot5, slot6 in ipairs(slot1) do
+			table.insert(slot0.affixList, slot6)
 		end
 
-		arg_26_0.affixrScroll_:StartScroll(#arg_26_0.affixList)
+		slot0.affixrScroll_:StartScroll(#slot0.affixList)
 	else
-		arg_26_0.affixrScroll_:StartScroll(0)
+		slot0.affixrScroll_:StartScroll(0)
 	end
 end
 
-function var_0_0.indexAffix(arg_27_0, arg_27_1, arg_27_2)
-	arg_27_2:SetClickCallBack(handler(arg_27_0, function(arg_28_0)
-		local var_28_0 = BattleClubActivitySPCfg[arg_27_0.nodeCfg_.stage_id].affix_type
-
-		if var_28_0 == nil or var_28_0 == "" then
+function slot0.indexAffix(slot0, slot1, slot2)
+	slot2:SetClickCallBack(handler(slot0, function (slot0)
+		if BattleClubActivitySPCfg[uv0.nodeCfg_.stage_id].affix_type == nil or slot1 == "" then
 			return
 		end
 
 		JumpTools.OpenPageByJump("affixDetail", {
-			affixList = var_28_0
+			affixList = slot1
 		})
 	end))
 
-	if arg_27_0.stageLevel == 2 then
-		arg_27_2:RefreshUI(arg_27_0.affixList[arg_27_1], true)
+	if slot0.stageLevel == 2 then
+		slot2:RefreshUI(slot0.affixList[slot1], true)
 	else
-		arg_27_2:RefreshUI(arg_27_0.affixList[arg_27_1], false)
+		slot2:RefreshUI(slot0.affixList[slot1], false)
 	end
 end
 
-function var_0_0.Dispose(arg_29_0)
-	if arg_29_0.affixrScroll_ then
-		arg_29_0.affixrScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.affixrScroll_ then
+		slot0.affixrScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnQueryRank(arg_30_0)
+function slot0.OnQueryRank(slot0)
 	JumpTools.OpenPageByJump("guildActivitySPRank")
 end
 
-return var_0_0
+return slot0

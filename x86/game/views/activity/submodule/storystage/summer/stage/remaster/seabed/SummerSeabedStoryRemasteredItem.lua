@@ -1,50 +1,41 @@
-local var_0_0 = import("game.views.activity.Submodule.storyStage.summer.stage.seabed.SummerStageSeabedItem")
-local var_0_1 = class("SummerSeabedStoryRemasteredItem", var_0_0)
+slot1 = class("SummerSeabedStoryRemasteredItem", import("game.views.activity.Submodule.storyStage.summer.stage.seabed.SummerStageSeabedItem"))
 
-function var_0_1.RefreshLockData(arg_1_0)
-	arg_1_0.isLock_ = false
+function slot1.RefreshLockData(slot0)
+	slot0.isLock_ = false
 end
 
-function var_0_1.RefreshData(arg_2_0)
-	local var_2_0 = BattleStageData:GetStageData()[arg_2_0.stageID_]
-
-	if var_2_0 then
-		arg_2_0.clearTimes_ = var_2_0.clear_times
+function slot1.RefreshData(slot0)
+	if BattleStageData:GetStageData()[slot0.stageID_] then
+		slot0.clearTimes_ = slot1.clear_times
 	else
-		arg_2_0.clearTimes_ = 0
+		slot0.clearTimes_ = 0
 	end
 end
 
-function var_0_1.OnClick(arg_3_0)
-	BattleFieldData:SetCacheStage(arg_3_0.chapterID_, arg_3_0.stageID_)
-	arg_3_0:Go("subPlotSectionInfo", {
-		section = arg_3_0.stageID_,
-		chapterID = arg_3_0.chapterID_,
+function slot1.OnClick(slot0)
+	BattleFieldData:SetCacheStage(slot0.chapterID_, slot0.stageID_)
+	slot0:Go("subPlotSectionInfo", {
+		section = slot0.stageID_,
+		chapterID = slot0.chapterID_,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT
 	})
 end
 
-function var_0_1.IsOpenSectionInfo(arg_4_0)
-	return arg_4_0:IsOpenRoute("subPlotSectionInfo")
+function slot1.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("subPlotSectionInfo")
 end
 
-function var_0_1.RefreshText(arg_5_0)
-	local var_5_0 = ChapterCfg[arg_5_0.chapterID_]
-	local var_5_1 = table.keyof(var_5_0.section_id_list, arg_5_0.stageID_)
+function slot1.RefreshText(slot0)
+	slot2 = table.keyof(ChapterCfg[slot0.chapterID_].section_id_list, slot0.stageID_)
+	slot0.text_.text = string.format("%d", slot2)
 
-	arg_5_0.text_.text = string.format("%d", var_5_1)
-
-	local var_5_2 = var_5_1 - 1
-
-	if var_5_2 == 0 then
-		arg_5_0.lineController_:SetSelectedState("3-1")
-	elseif var_5_2 == 1 then
-		arg_5_0.lineController_:SetSelectedState("0-1")
+	if slot2 - 1 == 0 then
+		slot0.lineController_:SetSelectedState("3-1")
+	elseif slot2 == 1 then
+		slot0.lineController_:SetSelectedState("0-1")
 	else
-		local var_5_3 = (var_5_2 - 1) % 4
-
-		arg_5_0.lineController_:SetSelectedState(tostring(var_5_3))
+		slot0.lineController_:SetSelectedState(tostring((slot2 - 1) % 4))
 	end
 end
 
-return var_0_1
+return slot1

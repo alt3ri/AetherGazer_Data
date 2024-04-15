@@ -1,64 +1,53 @@
-local var_0_0 = import("game.views.activity.Submodule.storyStage.summer.stage.seabed.SummerStageSeabedView")
-local var_0_1 = class("SummerSeabedStoryRemasterdView", var_0_0)
+slot1 = class("SummerSeabedStoryRemasterdView", import("game.views.activity.Submodule.storyStage.summer.stage.seabed.SummerStageSeabedView"))
 
-function var_0_1.GetStageItemClass(arg_1_0)
+function slot1.GetStageItemClass(slot0)
 	return SummerSeabedStoryRemasteredItem
 end
 
-function var_0_1.IsOpenSectionInfo(arg_2_0)
-	return arg_2_0:IsOpenRoute("subPlotSectionInfo")
+function slot1.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("subPlotSectionInfo")
 end
 
-function var_0_1.Init(arg_3_0)
-	var_0_1.super.Init(arg_3_0)
+function slot1.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.transform_, "active")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "active")
 
-	arg_3_0.controller_:SetSelectedState("off")
+	slot0.controller_:SetSelectedState("off")
 end
 
-function var_0_1.RefreshData(arg_4_0)
-	if arg_4_0.params_.chapterID == nil then
-		local var_4_0 = arg_4_0.params_.chapterClientID
-		local var_4_1 = ChapterClientCfg[var_4_0]
-
-		arg_4_0.chapterID_ = BattleFieldData:GetCacheChapter(var_4_1.id)
+function slot1.RefreshData(slot0)
+	if slot0.params_.chapterID == nil then
+		slot0.chapterID_ = BattleFieldData:GetCacheChapter(ChapterClientCfg[slot0.params_.chapterClientID].id)
 	else
-		arg_4_0.chapterID_ = arg_4_0.params_.chapterID
+		slot0.chapterID_ = slot0.params_.chapterID
 	end
 
-	arg_4_0.stageData_ = BattleStageData:GetStageData()
-	arg_4_0.stageList_ = ChapterCfg[arg_4_0.chapterID_].section_id_list
+	slot0.stageData_ = BattleStageData:GetStageData()
+	slot0.stageList_ = ChapterCfg[slot0.chapterID_].section_id_list
 end
 
-function var_0_1.RefreshUI(arg_5_0)
-	local var_5_0 = arg_5_0.chapterID_
+function slot1.RefreshUI(slot0)
+	slot0.selectStageID_ = BattleFieldData:GetCacheStage(slot0.chapterID_) or ChapterCfg[slot1].section_id_list[1]
 
-	arg_5_0.selectStageID_ = BattleFieldData:GetCacheStage(var_5_0) or ChapterCfg[var_5_0].section_id_list[1]
-
-	local var_5_1 = arg_5_0:GetScrollPos()
-	local var_5_2 = arg_5_0:GetScrollWidth()
-
-	arg_5_0.scrollMoveView_:RefreshUI(var_5_1, var_5_2)
-	arg_5_0:RefreshSelectItem()
+	slot0.scrollMoveView_:RefreshUI(slot0:GetScrollPos(), slot0:GetScrollWidth())
+	slot0:RefreshSelectItem()
 end
 
-function var_0_1.RefreshStageList(arg_6_0)
-	for iter_6_0 = 1, #arg_6_0.stageItem_ do
-		arg_6_0.stageItem_[iter_6_0]:Show(false)
+function slot1.RefreshStageList(slot0)
+	for slot4 = 1, #slot0.stageItem_ do
+		slot0.stageItem_[slot4]:Show(false)
 	end
 
-	local var_6_0 = BattleStageData:GetStageData()
-
-	for iter_6_1 = 1, #arg_6_0.stageList_ do
-		if iter_6_1 == 1 or var_6_0[arg_6_0.stageList_[iter_6_1]] then
-			if not arg_6_0.stageItem_[iter_6_1] then
-				arg_6_0.stageItem_[iter_6_1] = arg_6_0:GetStageItemClass().New(arg_6_0.itemGo_, arg_6_0.content_)
+	for slot5 = 1, #slot0.stageList_ do
+		if slot5 == 1 or BattleStageData:GetStageData()[slot0.stageList_[slot5]] then
+			if not slot0.stageItem_[slot5] then
+				slot0.stageItem_[slot5] = slot0:GetStageItemClass().New(slot0.itemGo_, slot0.content_)
 			end
 
-			arg_6_0.stageItem_[iter_6_1]:SetData(arg_6_0.stageList_[iter_6_1], arg_6_0.chapterID_)
+			slot0.stageItem_[slot5]:SetData(slot0.stageList_[slot5], slot0.chapterID_)
 		end
 	end
 end
 
-return var_0_1
+return slot1

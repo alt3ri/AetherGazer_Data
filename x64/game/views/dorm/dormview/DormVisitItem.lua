@@ -1,78 +1,72 @@
-local var_0_0 = class("DormVisitItem", ReduxView)
+slot0 = class("DormVisitItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.visitBtn_, nil, function()
-		if arg_4_0.visitFunc then
-			arg_4_0.visitFunc(arg_4_0.userID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.visitBtn_, nil, function ()
+		if uv0.visitFunc then
+			uv0.visitFunc(uv0.userID)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.headBtn_, nil, function()
+	slot0:AddBtnListener(slot0.headBtn_, nil, function ()
 		if BackHomeDataManager:GetCurSystem() == DormEnum.DormSystemType.Main then
-			ForeignInfoAction:TryToCheckForeignDetailInfo(arg_4_0.userID)
+			ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.userID)
 		else
-			ForeignInfoAction:TryToCheckForeignDetailInfo(arg_4_0.userID, true)
+			ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.userID, true)
 		end
 	end)
 end
 
-function var_0_0.RegisterEnterCallBack(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.visitFunc = arg_7_1
+function slot0.RegisterEnterCallBack(slot0, slot1)
+	if slot1 then
+		slot0.visitFunc = slot1
 	end
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.userID = arg_8_1
-	arg_8_0.type = arg_8_2
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.userID = slot1
+	slot0.type = slot2
 
-	local var_8_0 = DormVisitTools:GetTemplateExhibitList(arg_8_0.type)[arg_8_0.userID]
-
-	if not var_8_0 then
+	if not DormVisitTools:GetTemplateExhibitList(slot0.type)[slot0.userID] then
 		Debug.LogError("未获取到参观信息")
 
 		return
 	end
 
-	arg_8_0.headiconImg_.sprite = ItemTools.getItemSprite(var_8_0.icon)
+	slot0.headiconImg_.sprite = ItemTools.getItemSprite(slot3.icon)
 
-	arg_8_0.headiconImg_:SetNativeSize()
+	slot0.headiconImg_:SetNativeSize()
 
-	arg_8_0.nickName.text = var_8_0.nick
-	arg_8_0.likeNum.text = var_8_0.likeNum
-	arg_8_0.frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_8_0.iconFrame)
+	slot0.nickName.text = slot3.nick
+	slot0.likeNum.text = slot3.likeNum
+	slot0.frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot3.iconFrame)
 
-	local var_8_1 = var_8_0.architecture_id
-
-	if BackHomeCfg[var_8_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-		arg_8_0.dormName.text = GetTips("DORM_LOBBY_NAME")
+	if BackHomeCfg[slot3.architecture_id].type == DormConst.BACKHOME_TYPE.PublicDorm then
+		slot0.dormName.text = GetTips("DORM_LOBBY_NAME")
 	else
-		local var_8_2 = HeroRecordCfg.get_id_list_by_hero_id[var_8_0.heroIDList[1]][1]
-
-		arg_8_0.dormName.text = string.format(GetTips("DORM_HERO_ROOM_NAME"), HeroRecordCfg[var_8_2].name)
+		slot0.dormName.text = string.format(GetTips("DORM_HERO_ROOM_NAME"), HeroRecordCfg[HeroRecordCfg.get_id_list_by_hero_id[slot3.heroIDList[1]][1]].name)
 	end
 
-	arg_8_0.levelNum.text = var_8_0.level
-	arg_8_0.furTotalNum.text = math.max(var_8_0.furniture_num, 0)
+	slot0.levelNum.text = slot3.level
+	slot0.furTotalNum.text = math.max(slot3.furniture_num, 0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

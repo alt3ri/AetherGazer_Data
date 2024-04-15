@@ -1,38 +1,38 @@
-local var_0_0 = class("EquipBreakThroughMaterialTeamInfoView", ReduxView)
+slot0 = class("EquipBreakThroughMaterialTeamInfoView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.itemList_ = {}
+	slot0.itemList_ = {}
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	for iter_2_0 = 1, 3 do
-		if arg_2_0.itemList_[iter_2_0] == nil then
-			arg_2_0.itemList_[iter_2_0] = EquipBreakThroughMaterialTeamInfoItem.New(arg_2_0.itemGo_, arg_2_0.itemParent_, iter_2_0)
+function slot0.OnEnter(slot0)
+	for slot4 = 1, 3 do
+		if slot0.itemList_[slot4] == nil then
+			slot0.itemList_[slot4] = EquipBreakThroughMaterialTeamInfoItem.New(slot0.itemGo_, slot0.itemParent_, slot4)
 		end
 
-		arg_2_0.itemList_[iter_2_0]:OnEnter()
+		slot0.itemList_[slot4]:OnEnter()
 	end
 end
 
-function var_0_0.OnEixt(arg_3_0)
-	for iter_3_0, iter_3_1 in ipiars(itemList_) do
-		iter_3_1:OnExit()
+function slot0.OnEixt(slot0)
+	for slot4, slot5 in ipiars(itemList_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.itemList_) do
-		iter_4_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.itemList_ = nil
+	slot0.itemList_ = nil
 end
 
-return var_0_0
+return slot0

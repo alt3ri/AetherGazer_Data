@@ -1,42 +1,39 @@
-local var_0_0 = class("TowerGameRewardBlock", ReduxView)
+slot0 = class("TowerGameRewardBlock", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.listgo_, TowerGameRewardItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.listgo_, TowerGameRewardItem)
 end
 
-function var_0_0.RefreshItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:RefreshItem(arg_4_1, arg_4_0.levelid_)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot1, slot0.levelid_)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1)
-	arg_5_0.levelid_ = arg_5_1
+function slot0.Refresh(slot0, slot1)
+	slot0.levelid_ = slot1
+	slot0.title_.text = GetI18NText(BattleTowerGameCfg[TowerGameCfg[slot0.levelid_].stage_id].name)
 
-	local var_5_0 = TowerGameCfg[arg_5_0.levelid_]
-
-	arg_5_0.title_.text = GetI18NText(BattleTowerGameCfg[var_5_0.stage_id].name)
-
-	arg_5_0.list_:StartScroll(#ActivityPointRewardCfg.get_id_list_by_activity_id[arg_5_0.levelid_])
+	slot0.list_:StartScroll(#ActivityPointRewardCfg.get_id_list_by_activity_id[slot0.levelid_])
 end
 
-function var_0_0.Dispose(arg_6_0)
-	if arg_6_0.list_ then
-		arg_6_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_6_0.list_ = nil
+		slot0.list_ = nil
 	end
 end
 
-return var_0_0
+return slot0

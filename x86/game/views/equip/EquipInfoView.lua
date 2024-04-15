@@ -1,104 +1,102 @@
-local var_0_0 = class("EquipInfoView", ReduxView)
+slot0 = class("EquipInfoView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.info_ = arg_1_2
-	arg_1_0.lockHandler_ = arg_1_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.transform_ = slot1.transform
+	slot0.gameObject_ = slot1
+	slot0.info_ = slot2
+	slot0.lockHandler_ = slot3
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.attrItem_ = {}
+	slot0.attrItem_ = {}
 
-	for iter_2_0 = 1, 2 do
-		local var_2_0 = arg_2_0["attrItem_" .. iter_2_0]
-
-		arg_2_0.attrItem_[iter_2_0] = AttributeItem.New(arg_2_0, var_2_0)
+	for slot4 = 1, 2 do
+		slot0.attrItem_[slot4] = AttributeItem.New(slot0, slot0["attrItem_" .. slot4])
 	end
 
-	arg_2_0.skillList_ = {}
-	arg_2_0.heroSkillIndex_ = 0
-	arg_2_0.heroSkillItems_ = {}
-	arg_2_0.raceController_ = arg_2_0.mainController_:GetController("race")
-	arg_2_0.tabController_ = arg_2_0.mainController_:GetController("tab")
-	arg_2_0.bgController_ = arg_2_0.mainController_:GetController("bg")
-	arg_2_0.isSelfController_ = arg_2_0.mainController_:GetController("btnState")
-	arg_2_0.emptyController_ = arg_2_0.mainController_:GetController("empty")
-	arg_2_0.typeController_ = arg_2_0.headController_:GetController("type")
-	arg_2_0.qualityController_ = arg_2_0.headController_:GetController("quality")
-	arg_2_0.lockController_ = arg_2_0.headController_:GetController("lock")
-	arg_2_0.slotController_ = arg_2_0.headController_:GetController("slot")
-	arg_2_0.starController_ = arg_2_0.headController_:GetController("star")
-	arg_2_0.posController_ = arg_2_0.equipBg_:GetController("pos")
-	arg_2_0.equipSuitItem_ = EquipNewSuitItem.New(arg_2_0.suitGo_)
-	arg_2_0.skillScrollHelper_ = LuaList.New(handler(arg_2_0, arg_2_0.indexSkillItem), arg_2_0.skillListGo_, EquipNewSkillItem)
+	slot0.skillList_ = {}
+	slot0.heroSkillIndex_ = 0
+	slot0.heroSkillItems_ = {}
+	slot0.raceController_ = slot0.mainController_:GetController("race")
+	slot0.tabController_ = slot0.mainController_:GetController("tab")
+	slot0.bgController_ = slot0.mainController_:GetController("bg")
+	slot0.isSelfController_ = slot0.mainController_:GetController("btnState")
+	slot0.emptyController_ = slot0.mainController_:GetController("empty")
+	slot0.typeController_ = slot0.headController_:GetController("type")
+	slot0.qualityController_ = slot0.headController_:GetController("quality")
+	slot0.lockController_ = slot0.headController_:GetController("lock")
+	slot0.slotController_ = slot0.headController_:GetController("slot")
+	slot0.starController_ = slot0.headController_:GetController("star")
+	slot0.posController_ = slot0.equipBg_:GetController("pos")
+	slot0.equipSuitItem_ = EquipNewSuitItem.New(slot0.suitGo_)
+	slot0.skillScrollHelper_ = LuaList.New(handler(slot0, slot0.indexSkillItem), slot0.skillListGo_, EquipNewSkillItem)
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btnSkill_, nil, function()
-		arg_3_0:ChangeShowView("skill")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnSkill_, nil, function ()
+		uv0:ChangeShowView("skill")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btnSuit_, nil, function()
-		arg_3_0:ChangeShowView("suit")
+	slot0:AddBtnListener(slot0.btnSuit_, nil, function ()
+		uv0:ChangeShowView("suit")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btnLock_, nil, function()
-		arg_3_0.isLock_ = not arg_3_0.isLock_
+	slot0:AddBtnListener(slot0.btnLock_, nil, function ()
+		uv0.isLock_ = not uv0.isLock_
 
-		EquipAction.ApplyLockEquip(arg_3_0.info_.equip_id, arg_3_0.isLock_)
+		EquipAction.ApplyLockEquip(uv0.info_.equip_id, uv0.isLock_)
 
-		if arg_3_0.lockHandler_ then
-			arg_3_0.lockHandler_(arg_3_0.isLock_, arg_3_0.info_.equip_id)
+		if uv0.lockHandler_ then
+			uv0.lockHandler_(uv0.isLock_, uv0.info_.equip_id)
 		end
 
-		arg_3_0.lockController_:SetSelectedState(arg_3_0.isLock_ and "lock" or "unlock")
+		uv0.lockController_:SetSelectedState(uv0.isLock_ and "lock" or "unlock")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btnChange_, nil, function()
-		local var_7_0 = EquipCfg[arg_3_0.info_.prefab_id]
+	slot0:AddBtnListener(slot0.btnChange_, nil, function ()
+		slot0 = EquipCfg[uv0.info_.prefab_id]
 
-		if arg_3_0.equipFunc_ then
-			arg_3_0.equipFunc_()
-		elseif arg_3_0.equipedId_ ~= 0 and arg_3_0.equipedId_ == arg_3_0.info_.equip_id then
-			arg_3_0:SendUseEquip(arg_3_0.heroId_, 0, var_7_0.pos)
+		if uv0.equipFunc_ then
+			uv0.equipFunc_()
+		elseif uv0.equipedId_ ~= 0 and uv0.equipedId_ == uv0.info_.equip_id then
+			uv0:SendUseEquip(uv0.heroId_, 0, slot0.pos)
 		else
-			local var_7_1 = arg_3_0.info_
-			local var_7_2 = arg_3_0.info_.equip_id
-			local var_7_3 = arg_3_0.heroId_
-			local var_7_4 = var_7_0.pos
-			local var_7_5 = arg_3_0.info_:GetEquipHero() or 0
-			local var_7_6 = HeroCfg[var_7_5]
+			slot1 = uv0.info_
+			slot2 = uv0.info_.equip_id
+			slot3 = uv0.heroId_
+			slot4 = slot0.pos
+			slot5 = uv0.info_:GetEquipHero() or 0
+			slot6 = HeroCfg[slot5]
 
-			if var_7_5 and var_7_6 then
+			if slot5 and slot6 then
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
-					content = string.format(GetTips("EQUIP_IS_USING"), GetI18NText(var_7_6.name)),
-					OkCallback = function()
-						arg_3_0:SendUseEquip(var_7_3, var_7_2, var_7_4)
+					content = string.format(GetTips("EQUIP_IS_USING"), GetI18NText(slot6.name)),
+					OkCallback = function ()
+						uv0:SendUseEquip(uv1, uv2, uv3)
 					end
 				})
 			else
-				arg_3_0:SendUseEquip(var_7_3, var_7_2, var_7_4)
+				uv0:SendUseEquip(slot3, slot2, slot4)
 			end
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btnCulture_, nil, function()
-		if arg_3_0.handler_.KeepFilter then
-			arg_3_0.handler_:KeepFilter()
+	slot0:AddBtnListener(slot0.btnCulture_, nil, function ()
+		if uv0.handler_.KeepFilter then
+			uv0.handler_:KeepFilter()
 		end
 
-		if arg_3_0.cultureFunc_ then
-			arg_3_0.cultureFunc_()
-		elseif arg_3_0.info_ and arg_3_0.info_.prefab_id ~= 0 then
-			arg_3_0.info_.id = arg_3_0.info_.prefab_id
+		if uv0.cultureFunc_ then
+			uv0.cultureFunc_()
+		elseif uv0.info_ and uv0.info_.prefab_id ~= 0 then
+			uv0.info_.id = uv0.info_.prefab_id
 
-			arg_3_0:Go("/equipCultureView", {
+			uv0:Go("/equipCultureView", {
 				pageIndex = 2,
-				equipId = arg_3_0.info_.equip_id,
-				proxy = arg_3_0.heroViewProxy_
+				equipId = uv0.info_.equip_id,
+				proxy = uv0.heroViewProxy_
 			})
 		else
 			ShowTips("NO_EQUIP")
@@ -106,249 +104,233 @@ function var_0_0.AddUIListener(arg_3_0)
 	end)
 end
 
-function var_0_0.RefreshData(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4, arg_10_5)
-	arg_10_0.handler_ = arg_10_1
-	arg_10_0.info_ = arg_10_2
-	arg_10_0.lockHandler_ = arg_10_3
-	arg_10_0.heroId_ = arg_10_4
-	arg_10_0.equipedId_ = arg_10_5
+function slot0.RefreshData(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.handler_ = slot1
+	slot0.info_ = slot2
+	slot0.lockHandler_ = slot3
+	slot0.heroId_ = slot4
+	slot0.equipedId_ = slot5
 
-	arg_10_0:RefreshUI()
-	arg_10_0:RefreshState()
+	slot0:RefreshUI()
+	slot0:RefreshState()
 end
 
-function var_0_0.OnEnter(arg_11_0, arg_11_1)
-	arg_11_0.heroViewProxy_ = arg_11_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	if arg_12_0.info_ and arg_12_0.info_.prefab_id ~= 0 then
-		arg_12_0.emptyController_:SetSelectedState("notEmpty")
-		arg_12_0:RefreshTitle()
-		arg_12_0:RreshRace()
-		arg_12_0:RefreshAttr()
-		arg_12_0:RefreshSuit()
-		arg_12_0:RefreshSkill()
+function slot0.RefreshUI(slot0)
+	if slot0.info_ and slot0.info_.prefab_id ~= 0 then
+		slot0.emptyController_:SetSelectedState("notEmpty")
+		slot0:RefreshTitle()
+		slot0:RreshRace()
+		slot0:RefreshAttr()
+		slot0:RefreshSuit()
+		slot0:RefreshSkill()
 	else
-		arg_12_0.emptyController_:SetSelectedState("empty")
+		slot0.emptyController_:SetSelectedState("empty")
 	end
 end
 
-function var_0_0.CheckLocked(arg_13_0)
-	arg_13_0.isSelfController_:SetSelectedState(tostring(not arg_13_0.heroViewProxy_.isSelf))
+function slot0.CheckLocked(slot0)
+	slot0.isSelfController_:SetSelectedState(tostring(not slot0.heroViewProxy_.isSelf))
 end
 
-function var_0_0.RefreshTitle(arg_14_0)
-	local var_14_0 = EquipCfg[arg_14_0.info_.prefab_id]
+function slot0.RefreshTitle(slot0)
+	slot1 = EquipCfg[slot0.info_.prefab_id]
+	slot0.icon_.sprite = ItemTools.getItemSprite(slot0.info_.prefab_id, nil, true)
+	slot0.name_.text = ItemTools.getItemName(slot0.info_.prefab_id)
+	slot3 = HeroConst.RARE_COLOR[ItemCfg[slot0.info_.prefab_id].rare]
 
-	arg_14_0.icon_.sprite = ItemTools.getItemSprite(arg_14_0.info_.prefab_id, nil, true)
-	arg_14_0.name_.text = ItemTools.getItemName(arg_14_0.info_.prefab_id)
+	slot0.starController_:SetSelectedState(slot1.starlevel)
+	slot0.qualityController_:SetSelectedState(slot1.starlevel)
+	slot0.slotController_:SetSelectedIndex(slot0.info_:GetEnchantCount())
 
-	local var_14_1 = ItemCfg[arg_14_0.info_.prefab_id].rare
-	local var_14_2 = HeroConst.RARE_COLOR[var_14_1]
+	slot0.level_ = slot0.info_:GetLevel()
+	slot0.lv_.text = string.format("%s%s/%s", GetTips("LEVEL"), slot0.level_, slot0.info_:GetMaxLv())
+	slot0.isLock_ = slot0.info_.is_lock
 
-	arg_14_0.starController_:SetSelectedState(var_14_0.starlevel)
-	arg_14_0.qualityController_:SetSelectedState(var_14_0.starlevel)
-	arg_14_0.slotController_:SetSelectedIndex(arg_14_0.info_:GetEnchantCount())
-
-	local var_14_3 = arg_14_0.info_:GetMaxLv()
-
-	arg_14_0.level_ = arg_14_0.info_:GetLevel()
-	arg_14_0.lv_.text = string.format("%s%s/%s", GetTips("LEVEL"), arg_14_0.level_, var_14_3)
-	arg_14_0.isLock_ = arg_14_0.info_.is_lock
-
-	if arg_14_0.info_.equip_id and arg_14_0.info_.equip_id ~= 0 and arg_14_0.heroViewProxy_ and arg_14_0.heroViewProxy_.isSelf then
-		arg_14_0.lockController_:SetSelectedState(arg_14_0.isLock_ and "lock" or "unlock")
+	if slot0.info_.equip_id and slot0.info_.equip_id ~= 0 and slot0.heroViewProxy_ and slot0.heroViewProxy_.isSelf then
+		slot0.lockController_:SetSelectedState(slot0.isLock_ and "lock" or "unlock")
 	else
-		arg_14_0.lockController_:SetSelectedState("off")
+		slot0.lockController_:SetSelectedState("off")
 	end
 
-	local var_14_4 = var_14_0.pos or 0
-
-	arg_14_0.posController_:SetSelectedState(var_14_4)
+	slot0.posController_:SetSelectedState(slot1.pos or 0)
 end
 
-function var_0_0.RreshRace(arg_15_0)
-	if arg_15_0.info_.race ~= 0 then
-		local var_15_0 = RaceEffectCfg.all
-		local var_15_1
+function slot0.RreshRace(slot0)
+	if slot0.info_.race ~= 0 then
+		slot2 = nil
 
-		arg_15_0.raceController_:SetSelectedState("on")
+		slot0.raceController_:SetSelectedState("on")
 
-		if table.keyof(var_15_0, arg_15_0.info_.race) ~= nil then
-			local var_15_2 = RaceEffectCfg[arg_15_0.info_.race]
-
-			arg_15_0.raceText_.text = string.format(GetTips("EQUIP_RACE_ATTRIBUTE_UP"), GetI18NText(var_15_2.name))
-			arg_15_0.raceImage_.sprite = getSprite("Atlas/SystemGroupAtlas", var_15_2.icon2)
+		if table.keyof(RaceEffectCfg.all, slot0.info_.race) ~= nil then
+			slot2 = RaceEffectCfg[slot0.info_.race]
+			slot0.raceText_.text = string.format(GetTips("EQUIP_RACE_ATTRIBUTE_UP"), GetI18NText(slot2.name))
+			slot0.raceImage_.sprite = getSprite("Atlas/SystemGroupAtlas", slot2.icon2)
 		else
-			local var_15_3 = arg_15_0.info_.race
-			local var_15_4 = HeroCfg[var_15_3]
-
-			arg_15_0.raceText_.text = string.format(GetTips("EQUIP_HERO_ATTRIBUTE_UP"), HeroTools.GetHeroFullName(var_15_3))
-			arg_15_0.raceImage_.sprite = HeroTools.GetSmallHeadSprite(arg_15_0.info_.race)
+			slot3 = slot0.info_.race
+			slot2 = HeroCfg[slot3]
+			slot0.raceText_.text = string.format(GetTips("EQUIP_HERO_ATTRIBUTE_UP"), HeroTools.GetHeroFullName(slot3))
+			slot0.raceImage_.sprite = HeroTools.GetSmallHeadSprite(slot0.info_.race)
 		end
 	else
-		arg_15_0.raceController_:SetSelectedState("off")
+		slot0.raceController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RefreshAttr(arg_16_0)
-	local var_16_0 = EquipTools.CountEquipAttribute(arg_16_0.info_)
-	local var_16_1 = 1
+function slot0.RefreshAttr(slot0)
+	slot2 = 1
 
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		arg_16_0.attrItem_[var_16_1]:RefreshData(arg_16_0, {
-			key = iter_16_0,
-			value = iter_16_1,
-			race = arg_16_0.info_.race,
-			heroId = arg_16_0.heroId_
+	for slot6, slot7 in pairs(EquipTools.CountEquipAttribute(slot0.info_)) do
+		slot0.attrItem_[slot2]:RefreshData(slot0, {
+			key = slot6,
+			value = slot7,
+			race = slot0.info_.race,
+			heroId = slot0.heroId_
 		}, true)
 
-		var_16_1 = var_16_1 + 1
+		slot2 = slot2 + 1
 	end
 end
 
-function var_0_0.RefreshSuit(arg_17_0)
-	local var_17_0 = arg_17_0.info_:GetEquipHero()
-	local var_17_1 = EquipCfg[arg_17_0.info_.prefab_id]
-	local var_17_2 = var_17_1.suit
-	local var_17_3 = EquipSuitCfg[var_17_2]
-	local var_17_4, var_17_5 = EquipTools.GetHeroEquipSuitPos(var_17_0, var_17_2, var_17_1.pos)
+function slot0.RefreshSuit(slot0)
+	slot2 = EquipCfg[slot0.info_.prefab_id]
+	slot3 = slot2.suit
+	slot4 = EquipSuitCfg[slot3]
+	slot5, slot6 = EquipTools.GetHeroEquipSuitPos(slot0.info_:GetEquipHero(), slot3, slot2.pos)
 
-	if arg_17_0.info_.suitNumAdd then
-		var_17_5 = var_17_5 + arg_17_0.info_.suitNumAdd
+	if slot0.info_.suitNumAdd then
+		slot6 = slot6 + slot0.info_.suitNumAdd
 	end
 
-	local var_17_6 = {
-		equipId = arg_17_0.info_.equip_id,
-		id = var_17_2,
-		num = var_17_5,
-		pos = var_17_4,
-		equipPos = var_17_1.pos,
-		heroId = arg_17_0.heroId_
-	}
-	local var_17_7 = arg_17_0.heroViewProxy_ and arg_17_0.heroViewProxy_:GetHeroData(arg_17_0.heroId_) or HeroData:GetHeroData(arg_17_0.heroId_)
-
-	arg_17_0.equipSuitItem_:RefreshData(var_17_7, var_17_6)
+	slot0.equipSuitItem_:RefreshData(slot0.heroViewProxy_ and slot0.heroViewProxy_:GetHeroData(slot0.heroId_) or HeroData:GetHeroData(slot0.heroId_), {
+		equipId = slot0.info_.equip_id,
+		id = slot3,
+		num = slot6,
+		pos = slot5,
+		equipPos = slot2.pos,
+		heroId = slot0.heroId_
+	})
 end
 
-function var_0_0.RefreshSkill(arg_18_0)
-	arg_18_0.skillList_ = arg_18_0.info_:GetTotalSkill()
+function slot0.RefreshSkill(slot0)
+	slot0.skillList_ = slot0.info_:GetTotalSkill()
 
-	arg_18_0.skillScrollHelper_:StartScroll(#arg_18_0.skillList_)
+	slot0.skillScrollHelper_:StartScroll(#slot0.skillList_)
 end
 
-function var_0_0.indexSkillItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.skillList_[arg_19_1]
+function slot0.indexSkillItem(slot0, slot1, slot2)
+	slot3 = slot0.skillList_[slot1]
+	slot3.level = slot0.level_
+	slot3.hideMaxLevel = true
 
-	var_19_0.level = arg_19_0.level_
-	var_19_0.hideMaxLevel = true
-
-	arg_19_2:RegistCallBack(function(arg_20_0)
-		if arg_19_0.skillClickFunc then
-			if arg_19_0.lastSkillSelect_ then
-				arg_19_0.lastSkillSelect_:ShowSelect(false)
+	slot2:RegistCallBack(function (slot0)
+		if uv0.skillClickFunc then
+			if uv0.lastSkillSelect_ then
+				uv0.lastSkillSelect_:ShowSelect(false)
 			end
 
-			arg_19_0.lastSkillSelect_ = arg_19_2
+			uv0.lastSkillSelect_ = uv1
 
-			arg_19_2:ShowSelect(true)
-			arg_19_0.skillClickFunc(arg_19_2, arg_20_0, arg_19_0.isLeftPop_)
+			uv1:ShowSelect(true)
+			uv0.skillClickFunc(uv1, slot0, uv0.isLeftPop_)
 		end
 	end)
-	arg_19_2:RefreshData(arg_19_0, var_19_0)
+	slot2:RefreshData(slot0, slot3)
 end
 
-function var_0_0.RegisterSkillClick(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_0.skillClickFunc = arg_21_1
-	arg_21_0.isLeftPop_ = arg_21_2
+function slot0.RegisterSkillClick(slot0, slot1, slot2)
+	slot0.skillClickFunc = slot1
+	slot0.isLeftPop_ = slot2
 end
 
-function var_0_0.RegistHeroButton(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_0.equipFunc_ = arg_22_1
-	arg_22_0.cultureFunc_ = arg_22_2
+function slot0.RegistHeroButton(slot0, slot1, slot2)
+	slot0.equipFunc_ = slot1
+	slot0.cultureFunc_ = slot2
 end
 
-function var_0_0.DeSelect(arg_23_0)
-	if arg_23_0.lastSkillSelect_ then
-		arg_23_0.lastSkillSelect_:ShowSelect(false)
+function slot0.DeSelect(slot0)
+	if slot0.lastSkillSelect_ then
+		slot0.lastSkillSelect_:ShowSelect(false)
 
-		arg_23_0.lastSkillSelect_ = nil
+		slot0.lastSkillSelect_ = nil
 	end
 end
 
-function var_0_0.RefreshState(arg_24_0)
-	arg_24_0.selectType_ = "suit"
+function slot0.RefreshState(slot0)
+	slot0.selectType_ = "suit"
 
-	arg_24_0:ChangeShowView(arg_24_0.selectType_)
+	slot0:ChangeShowView(slot0.selectType_)
 
-	if arg_24_0.equipedId_ == 0 then
-		arg_24_0.textBtnChange_.text = GetTips("TIP_EQUIP")
-		arg_24_0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_30")
-	elseif arg_24_0.equipedId_ == arg_24_0.info_.equip_id and not arg_24_0.equipFunc_ then
-		arg_24_0.textBtnChange_.text = GetTips("TIP_UNLOAD")
-		arg_24_0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_31")
+	if slot0.equipedId_ == 0 then
+		slot0.textBtnChange_.text = GetTips("TIP_EQUIP")
+		slot0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_30")
+	elseif slot0.equipedId_ == slot0.info_.equip_id and not slot0.equipFunc_ then
+		slot0.textBtnChange_.text = GetTips("TIP_UNLOAD")
+		slot0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_31")
 	else
-		arg_24_0.textBtnChange_.text = GetTips("TIP_CHANGE")
-		arg_24_0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_05")
+		slot0.textBtnChange_.text = GetTips("TIP_CHANGE")
+		slot0.imgLeftBtn_.sprite = getSprite("Atlas/SystemCommonAtlas", "com_white_icon_05")
 	end
 end
 
-function var_0_0.ChangeShowView(arg_25_0, arg_25_1)
-	if arg_25_0.changeFunc then
-		arg_25_0.changeFunc(arg_25_1)
+function slot0.ChangeShowView(slot0, slot1)
+	if slot0.changeFunc then
+		slot0.changeFunc(slot1)
 	end
 
-	arg_25_0:ChangeSelect(arg_25_1)
+	slot0:ChangeSelect(slot1)
 end
 
-function var_0_0.ChangeSelect(arg_26_0, arg_26_1)
-	arg_26_0.selectType_ = arg_26_1
+function slot0.ChangeSelect(slot0, slot1)
+	slot0.selectType_ = slot1
 
-	arg_26_0.tabController_:SetSelectedState(arg_26_1)
+	slot0.tabController_:SetSelectedState(slot1)
 end
 
-function var_0_0.RegisterChange(arg_27_0, arg_27_1)
-	arg_27_0.changeFunc = arg_27_1
+function slot0.RegisterChange(slot0, slot1)
+	slot0.changeFunc = slot1
 end
 
-function var_0_0.ShowRaceAdd(arg_28_0, arg_28_1)
-	for iter_28_0, iter_28_1 in pairs(arg_28_0.attrItem_) do
-		iter_28_1:ShowAdd(arg_28_1)
+function slot0.ShowRaceAdd(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.attrItem_) do
+		slot6:ShowAdd(slot1)
 	end
 end
 
-function var_0_0.SendUseEquip(arg_29_0, arg_29_1, arg_29_2, arg_29_3)
-	HeroAction.EquipSwap(arg_29_1, arg_29_2, arg_29_3)
+function slot0.SendUseEquip(slot0, slot1, slot2, slot3)
+	HeroAction.EquipSwap(slot1, slot2, slot3)
 end
 
-function var_0_0.OnEquipLock(arg_30_0, arg_30_1)
-	if arg_30_1 then
+function slot0.OnEquipLock(slot0, slot1)
+	if slot1 then
 		ShowTips("ERROR_EQUIP_LOCKED_SUCCESS")
 	else
 		ShowTips("ERROR_EQUIP_UNLOCKED_SUCCESS")
 	end
 end
 
-function var_0_0.Dispose(arg_31_0)
-	arg_31_0.equipSuitItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.equipSuitItem_:Dispose()
 
-	if arg_31_0.skillScrollHelper_ then
-		arg_31_0.skillScrollHelper_:Dispose()
+	if slot0.skillScrollHelper_ then
+		slot0.skillScrollHelper_:Dispose()
 
-		arg_31_0.skillScrollHelper_ = nil
+		slot0.skillScrollHelper_ = nil
 	end
 
-	if arg_31_0.attrItem_ then
-		for iter_31_0, iter_31_1 in pairs(arg_31_0.attrItem_) do
-			iter_31_1:Dispose()
+	if slot0.attrItem_ then
+		for slot4, slot5 in pairs(slot0.attrItem_) do
+			slot5:Dispose()
 		end
 
-		arg_31_0.attrItem_ = nil
+		slot0.attrItem_ = nil
 	end
 
-	arg_31_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_31_0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

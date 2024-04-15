@@ -1,48 +1,42 @@
-local var_0_0 = class("HellaParkourRewardItem", ReduxView)
+slot0 = class("HellaParkourRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.list = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.m_list, HellaParkourRewardInfoItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, HellaParkourRewardInfoItem)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.entrust_activity_id = arg_5_1
+function slot0.SetData(slot0, slot1)
+	slot0.entrust_activity_id = slot1
+	slot0.infos = ActivityParkourCfg[slot1] and slot2.star_reward or {}
 
-	local var_5_0 = ActivityParkourCfg[arg_5_1]
+	slot0.list:StartScroll(#slot0.infos)
 
-	arg_5_0.infos = var_5_0 and var_5_0.star_reward or {}
-
-	arg_5_0.list:StartScroll(#arg_5_0.infos)
-
-	arg_5_0.m_title.text = GetI18NText(var_5_0.name)
+	slot0.m_title.text = GetI18NText(slot2.name)
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.infos[arg_6_1]
-
-	arg_6_2:SetData(arg_6_1, arg_6_0.entrust_activity_id, var_6_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.entrust_activity_id, slot0.infos[slot1])
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.list:Dispose()
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,47 +1,47 @@
-local var_0_0 = class("RechargeRecommendFukubukuroItemView", RechargeRecommendBgItemView)
+slot0 = class("RechargeRecommendFukubukuroItemView", RechargeRecommendBgItemView)
 
-function var_0_0.InitUI(arg_1_0)
-	var_0_0.super.InitUI(arg_1_0)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_1_0.list = LuaList.New(handler(arg_1_0, arg_1_0.IndexItem), arg_1_0.m_list, CommonItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, CommonItem)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	var_0_0.super.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(nil, arg_2_0.m_rareBtn, function()
+function slot0.AddUIListener(slot0)
+	uv0.super.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_rareBtn, function ()
 		JumpTools.OpenPageByJump("popFukubukuroProbability", {
-			itemId = arg_2_0.itemId
+			itemId = uv0.itemId
 		})
 	end)
 end
 
-function var_0_0.UpdateView(arg_4_0)
-	var_0_0.super.UpdateView(arg_4_0)
+function slot0.UpdateView(slot0)
+	uv0.super.UpdateView(slot0)
 
-	arg_4_0.itemId = 30041
-	arg_4_0.items = ItemCfg[arg_4_0.itemId].param
+	slot0.itemId = 30041
+	slot0.items = ItemCfg[slot0.itemId].param
 
-	arg_4_0.list:StartScroll(#arg_4_0.items)
+	slot0.list:StartScroll(#slot0.items)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.items[arg_5_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.items[slot1]
 
-	arg_5_2:RefreshData({
-		id = var_5_0[1],
-		number = var_5_0[2]
+	slot2:RefreshData({
+		id = slot3[1],
+		number = slot3[2]
 	})
-	arg_5_2:RegistCallBack(function(arg_6_0)
+	slot2:RegistCallBack(function (slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_6_0.id,
-			arg_6_0.number
+			slot0.id,
+			slot0.number
 		})
 	end)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.list:Dispose()
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,52 +1,50 @@
-local var_0_0 = class("GraphicRecommendView", ReduxView)
+slot0 = class("GraphicRecommendView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/LoginInterface/GraphicRecommendUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.qualityIdList_ = {
+function slot0.Init(slot0)
+	slot0.qualityIdList_ = {
 		3,
 		4,
 		5
 	}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.toggles_ = {
-		arg_4_0.lowToggle_,
-		arg_4_0.middleToggle_,
-		arg_4_0.highToggle_
+	slot0.toggles_ = {
+		slot0.lowToggle_,
+		slot0.middleToggle_,
+		slot0.highToggle_
 	}
-	arg_4_0.recommendIconGos_ = {
-		arg_4_0.lowRecommendIconGo_,
-		arg_4_0.middleRecommendIconGo_,
-		arg_4_0.highRecommendIconGo_
+	slot0.recommendIconGos_ = {
+		slot0.lowRecommendIconGo_,
+		slot0.middleRecommendIconGo_,
+		slot0.highRecommendIconGo_
 	}
-	arg_4_0.recommendTips_ = {
+	slot0.recommendTips_ = {
 		GetTips("GRAPHIC_RECOMMEND_3"),
 		GetTips("GRAPHIC_RECOMMEND_2"),
 		GetTips("GRAPHIC_RECOMMEND_1")
 	}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.okBtn_, nil, function()
-		for iter_6_0, iter_6_1 in ipairs(arg_5_0.toggles_) do
-			if iter_6_1.isOn then
-				local var_6_0 = arg_5_0.qualityIdList_[iter_6_0]
-
-				if arg_5_0.params_.callback ~= nil then
-					arg_5_0.params_.callback(iter_6_0, var_6_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		for slot3, slot4 in ipairs(uv0.toggles_) do
+			if slot4.isOn then
+				if uv0.params_.callback ~= nil then
+					uv0.params_.callback(slot3, uv0.qualityIdList_[slot3])
 				end
 
 				return
@@ -55,24 +53,20 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	local var_7_0 = SettingData:GetDefaultSetting()
-	local var_7_1 = table.indexof(arg_7_0.qualityIdList_, var_7_0)
+function slot0.OnEnter(slot0)
+	if table.indexof(slot0.qualityIdList_, SettingData:GetDefaultSetting()) then
+		SetActive(slot0.recommendIconGos_[slot2], true)
 
-	if var_7_1 then
-		SetActive(arg_7_0.recommendIconGos_[var_7_1], true)
-
-		arg_7_0.toggles_[var_7_1].isOn = true
-		arg_7_0.recommendText_.text = arg_7_0.recommendTips_[var_7_1]
+		slot0.toggles_[slot2].isOn = true
+		slot0.recommendText_.text = slot0.recommendTips_[slot2]
 	end
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

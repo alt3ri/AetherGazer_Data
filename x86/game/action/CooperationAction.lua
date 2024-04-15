@@ -1,62 +1,54 @@
-local var_0_0 = {}
-
-manager.net:Bind(54101, function(arg_1_0)
-	CooperationData:InitRoomData(arg_1_0.room_info)
+manager.net:Bind(54101, function (slot0)
+	CooperationData:InitRoomData(slot0.room_info)
 	manager.notify:CallUpdateFunc(COOPERATION_ROOM_INIT)
 end)
-manager.net:Bind(54103, function(arg_2_0)
-	CooperationData:UpdateRoomData(arg_2_0.room_info)
+manager.net:Bind(54103, function (slot0)
+	CooperationData:UpdateRoomData(slot0.room_info)
 	manager.notify:CallUpdateFunc(COOPERATION_ROOM_UPDATE)
 end)
 
-local var_0_1 = "0"
+slot1 = "0"
 
-manager.net:Bind(54201, function(arg_3_0)
-	local var_3_0 = CooperationData:GetRoomData()
+manager.net:Bind(54201, function (slot0)
+	slot1 = CooperationData:GetRoomData()
 
 	if whereami ~= "home" then
-		if arg_3_0.room_info and var_0_1 ~= arg_3_0.room_info.room_id then
-			CooperationData:InitRoomData(arg_3_0.room_info)
+		if slot0.room_info and uv0 ~= slot0.room_info.room_id then
+			CooperationData:InitRoomData(slot0.room_info)
 		else
 			CooperationData:ClearRoomData()
 		end
-	elseif arg_3_0.room_info == nil or var_0_1 == arg_3_0.room_info.room_id then
-		if var_3_0 ~= nil then
-			local var_3_1 = var_3_0.type
-			local var_3_2 = var_3_0.dest
-			local var_3_3 = var_3_0.activity_id
-
+	elseif slot0.room_info == nil or uv0 == slot0.room_info.room_id then
+		if slot1 ~= nil then
 			CooperationData:ClearRoomData()
-			CooperationTools.GotoCooperationEntry(var_3_1, var_3_2, var_3_3)
+			CooperationTools.GotoCooperationEntry(slot1.type, slot1.dest, slot1.activity_id)
 		else
 			CooperationData:ClearRoomData()
 		end
 	else
-		CooperationData:InitRoomData(arg_3_0.room_info)
+		CooperationData:InitRoomData(slot0.room_info)
 		manager.notify:CallUpdateFunc(COOPERATION_ROOM_INIT)
 	end
 end)
-manager.net:Bind(37097, function(arg_4_0)
+manager.net:Bind(37097, function (slot0)
 	CooperationData:SetIsMatching(false)
 	manager.notify:CallUpdateFunc(COOPERATION_IS_MATCHING_CHANGE)
 
-	if isSuccess(arg_4_0.result) then
+	if isSuccess(slot0.result) then
 		ChatCooperationData:RemoveChatData()
 		CooperationTools.GotoCooperation()
 	else
-		ShowTips(arg_4_0.result)
+		ShowTips(slot0.result)
 	end
 end)
-manager.net:Bind(37099, function(arg_5_0)
-	local var_5_0 = CooperationData:GetRoomData()
-
-	if var_5_0 == nil then
+manager.net:Bind(37099, function (slot0)
+	if CooperationData:GetRoomData() == nil then
 		return
 	end
 
-	local var_5_1 = var_5_0.type
-	local var_5_2 = var_5_0.dest
-	local var_5_3 = var_5_0.activity_id
+	slot2 = slot1.type
+	slot3 = slot1.dest
+	slot4 = slot1.activity_id
 
 	CooperationData:ClearRoomData()
 
@@ -64,456 +56,369 @@ manager.net:Bind(37099, function(arg_5_0)
 		return
 	end
 
-	CooperationTools.GotoCooperationEntry(var_5_1, var_5_2, var_5_3)
+	CooperationTools.GotoCooperationEntry(slot2, slot3, slot4)
 
-	local var_5_4 = arg_5_0.reason
+	slot5 = slot0.reason
 
 	ShowTips("COOPERATION_LEAVE_ROOM")
 end)
-
-function var_0_0.CreateRoom(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	if arg_6_4 == nil then
-		arg_6_4 = 2
-	end
-
-	if arg_6_3 == nil then
-		arg_6_3 = 0
-	end
-
-	local var_6_0 = {
-		dest = arg_6_0,
-		type = arg_6_1,
-		available = arg_6_4,
-		hero_list = arg_6_2,
-		battle_vs = LuaForUtil.GetBattleVersion(),
-		activity_id = arg_6_3
-	}
-
-	manager.net:SendWithLoadingNew(37010, var_6_0, 37011, var_0_0.OnCreateRoomBack)
-end
-
-function var_0_0.OnCreateRoomBack(arg_7_0, arg_7_1)
-	if isSuccess(arg_7_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_7_0.result)
-	end
-end
-
-function var_0_0.JoinRoom(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_1 = arg_8_1 or {}
-
-	local var_8_0 = {
-		room_id = arg_8_0,
-		hero_list = arg_8_1,
-		battle_vs = LuaForUtil.GetBattleVersion(),
-		source = arg_8_2
-	}
-
-	manager.net:SendWithLoadingNew(37012, var_8_0, 37013, var_0_0.OnJoinRoomBack)
-end
-
-function var_0_0.OnJoinRoomBack(arg_9_0, arg_9_1)
-	if isSuccess(arg_9_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_9_0.result)
-	end
-end
-
-function var_0_0.StartMatching(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	if not CooperationData:GetIsMatching() then
-		local var_10_0 = {
-			dest = arg_10_0,
-			type = arg_10_1,
-			hero_list = arg_10_2,
-			activity_id = arg_10_3,
-			battle_vs = LuaForUtil.GetBattleVersion()
-		}
-
-		manager.net:SendWithLoadingNew(37036, var_10_0, 37037, var_0_0.OnStartMatchingBack)
-	end
-end
-
-function var_0_0.OnStartMatchingBack(arg_11_0)
-	if isSuccess(arg_11_0.result) then
-		CooperationData:SetIsMatching(true)
-		manager.notify:CallUpdateFunc(COOPERATION_IS_MATCHING_CHANGE)
-	else
-		ShowTips(arg_11_0.result)
-	end
-end
-
-function var_0_0.CancelMatching()
-	if CooperationData:GetIsMatching() then
-		manager.net:SendWithLoadingNew(37038, {}, 37039, var_0_0.OnCancelMatchingBack)
-	end
-end
-
-function var_0_0.OnCancelMatchingBack(arg_13_0)
-	if isSuccess(arg_13_0.result) then
-		CooperationData:SetIsMatching(false)
-		manager.notify:CallUpdateFunc(COOPERATION_IS_MATCHING_CHANGE)
-		ShowTips("COOPERATION_CANCEL_MATCH_TIP")
-	else
-		ShowTips(arg_13_0.result)
-	end
-end
-
-function var_0_0.ChangeHero(arg_14_0)
-	local var_14_0 = {
-		hero_list = arg_14_0
-	}
-
-	manager.net:SendWithLoadingNew(37016, var_14_0, 37017, var_0_0.OnChangeHeroBack)
-end
-
-function var_0_0.OnChangeHeroBack(arg_15_0, arg_15_1)
-	if isSuccess(arg_15_0.result) then
-		CooperationData:SetCooperationHero(arg_15_1.hero_list[1])
-		CooperationTools.GotoCooperation()
-	else
-		ShowTips(arg_15_0.result)
-	end
-end
-
-function var_0_0.LeaveRoom()
-	manager.net:SendWithLoadingNew(37018, {}, 37019, var_0_0.OnLeaveRoomBack)
-end
-
-function var_0_0.OnLeaveRoomBack(arg_17_0, arg_17_1)
-	if isSuccess(arg_17_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_17_0.result)
-	end
-end
-
-function var_0_0.LeaveCooperationBattle(arg_18_0, arg_18_1)
-	if CooperationData:GetRoomData() then
-		manager.net:SendWithLoadingNew(37018, {
-			battle_id = arg_18_1
-		}, 37019, function(arg_19_0)
-			arg_18_0()
-		end)
-	else
-		arg_18_0()
-	end
-end
-
-function var_0_0.KickOutRoom(arg_20_0)
-	manager.net:SendWithLoadingNew(37020, {
-		uid = arg_20_0
-	}, 37021, var_0_0.OnKickOutRoomBack)
-end
-
-function var_0_0.OnKickOutRoomBack(arg_21_0, arg_21_1)
-	if isSuccess(arg_21_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_21_0.result)
-	end
-end
-
-function var_0_0.ChangeRoomMaster(arg_22_0)
-	manager.net:SendWithLoadingNew(37022, {
-		uid = arg_22_0
-	}, 37023, var_0_0.OnChangeRoomMasterBack)
-end
-
-function var_0_0.OnChangeRoomMasterBack(arg_23_0, arg_23_1)
-	if isSuccess(arg_23_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_23_0.result)
-	end
-end
-
-function var_0_0.GetReady()
-	manager.net:SendWithLoadingNew(37024, {}, 37025, var_0_0.OnGetReadyBack)
-end
-
-function var_0_0.OnGetReadyBack(arg_25_0, arg_25_1)
-	if isSuccess(arg_25_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_25_0.result)
-	end
-end
-
-function var_0_0.CancelReay()
-	manager.net:SendWithLoadingNew(37026, {}, 37027, var_0_0.OnCancelReadyBack)
-end
-
-function var_0_0.OnCancelReadyBack(arg_27_0, arg_27_1)
-	if isSuccess(arg_27_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_27_0.result)
-	end
-end
-
-function var_0_0.ChangeRoomAvailable(arg_28_0)
-	local var_28_0 = {
-		available = arg_28_0
-	}
-
-	manager.net:SendWithLoadingNew(37028, var_28_0, 37029, var_0_0.OnRoomAvailableBack)
-end
-
-function var_0_0.OnRoomAvailableBack(arg_29_0, arg_29_1)
-	if isSuccess(arg_29_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_29_0.result)
-	end
-end
-
-function var_0_0.SendMsg(arg_30_0, arg_30_1, arg_30_2)
-	manager.net:SendWithLoadingNew(37030, {
-		type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
-		content = arg_30_0
-	}, 37031, function(arg_31_0)
-		arg_30_2(arg_31_0)
-	end)
-end
-
-function var_0_0.SendSticker(arg_32_0, arg_32_1)
-	manager.net:SendWithLoadingNew(37030, {
-		type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
-		content = tostring(arg_32_0)
-	}, 37031, function(arg_33_0)
-		arg_32_1(arg_33_0)
-	end)
-end
-
-function var_0_0.ThumbsUp(arg_34_0)
-	manager.net:SendWithLoadingNew(37034, {
-		uid = arg_34_0
-	}, 37035, var_0_0.OnThumbsUpBack)
-end
-
-function var_0_0.OnThumbsUpBack(arg_35_0, arg_35_1)
-	if isSuccess(arg_35_0.result) then
-		-- block empty
-	else
-		ShowTips(arg_35_0.result)
-	end
-end
-
-function var_0_0.CooperationReport(arg_36_0, arg_36_1)
-	manager.net:SendWithLoadingNew(57006, {
-		user_id = arg_36_0,
-		battle_id = arg_36_1
-	}, 57007, var_0_0.OnCooperationReportBack)
-end
-
-function var_0_0.OnCooperationReportBack(arg_37_0)
-	if isSuccess(arg_37_0.result) then
-		-- block empty
-	end
-end
-
-manager.net:Bind(37101, function(arg_38_0)
-	CooperationData:InitInviteInfo(arg_38_0)
+manager.net:Bind(37101, function (slot0)
+	CooperationData:InitInviteInfo(slot0)
 	manager.notify:CallUpdateFunc(COOPERATION_INVIT_UPDATE)
 
 	if CooperationData:CheckInviteEntryShow() then
 		manager.redPoint:setTip(RedPointConst.COOPERATION_INVIT, 1)
 	end
 end)
-manager.net:Bind(37103, function(arg_39_0)
-	if var_0_0.CheckCooperationApplyLimit() then
+manager.net:Bind(37103, function (slot0)
+	if uv0.CheckCooperationApplyLimit() then
 		return
 	end
 
-	CooperationData:AddInviteInfo(arg_39_0)
+	CooperationData:AddInviteInfo(slot0)
 	manager.notify:CallUpdateFunc(COOPERATION_INVIT_UPDATE)
 	manager.redPoint:setTip(RedPointConst.COOPERATION_INVIT, 1)
 end)
 
-function var_0_0.InvitePlayer(arg_40_0, arg_40_1)
-	manager.net:SendWithLoadingNew(37110, {
-		uid = arg_40_0,
-		type = arg_40_1
-	}, 37111, var_0_0.OnInvitePlayerBack)
-end
-
-function var_0_0.OnInvitePlayerBack(arg_41_0, arg_41_1)
-	if isSuccess(arg_41_0.result) then
-		CooperationData:SetHadInvited(arg_41_1.uid, arg_41_1.type)
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_SUCCESS)
-	else
-		ShowTips(arg_41_0.result)
-	end
-end
-
-function var_0_0.DelectInvite(arg_42_0)
-	manager.net:SendWithLoadingNew(37112, {
-		uid_list = arg_42_0
-	}, 37113, var_0_0.OnDelectInviteBack)
-end
-
-function var_0_0.OnDelectInviteBack(arg_43_0, arg_43_1)
-	if isSuccess(arg_43_0.result) then
-		for iter_43_0, iter_43_1 in ipairs(arg_43_1.uid_list) do
-			CooperationData:DelectInvite(iter_43_1)
+return {
+	CreateRoom = function (slot0, slot1, slot2, slot3, slot4)
+		if slot4 == nil then
+			slot4 = 2
 		end
 
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_REFUSE, arg_43_1.uid_list)
-	else
-		ShowTips(arg_43_0.result)
-	end
-end
+		if slot3 == nil then
+			slot3 = 0
+		end
 
-function var_0_0.ClearInvite()
-	local var_44_0 = {}
-	local var_44_1 = CooperationData:GetAllInviteList()
-
-	if table.length(var_44_1) <= 0 then
-		CooperationData:ClearInvite()
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
-
-		return
-	end
-
-	for iter_44_0, iter_44_1 in pairs(var_44_1) do
-		table.insert(var_44_0, iter_44_1.uid)
-	end
-
-	manager.net:SendWithLoadingNew(37112, {
-		uid_list = var_44_0
-	}, 37113, var_0_0.OnClearInviteBack)
-end
-
-function var_0_0.OnClearInviteBack(arg_45_0)
-	if isSuccess(arg_45_0.result) then
-		CooperationData:ClearInvite()
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
-	else
-		ShowTips(arg_45_0.result)
-	end
-end
-
-function var_0_0.ReceiveInvite(arg_46_0)
-	manager.net:SendWithLoadingNew(37120, {
-		uid = arg_46_0
-	}, 37121, var_0_0.OnReceiveInviteBack)
-end
-
-function var_0_0.OnReceiveInviteBack(arg_47_0, arg_47_1)
-	local var_47_0 = arg_47_1.uid
-
-	if isSuccess(arg_47_0.result) then
-		local var_47_1 = CooperationData:GetInvite(var_47_0)
-
-		if var_47_1 then
-			if var_47_1:IsOverdue() then
-				ShowTips("COOPERATION_INVITE_OVERDUE")
-			elseif var_47_1.activity_id ~= 0 and not ActivityTools.GetActivityIsOpenWithTip(var_47_1.activity_id, true) then
-				-- block empty
-			else
-				local var_47_2 = CooperationData:GetCooperationHero(var_47_1.battle_type, var_47_1.dest, var_47_1.activity_id)
-
-				var_0_0.JoinRoom(var_47_1.room_id, {
-					var_47_2
-				}, CooperationConst.JOIN_ROOM_SOURCE.INVET)
+		manager.net:SendWithLoadingNew(37010, {
+			dest = slot0,
+			type = slot1,
+			available = slot4,
+			hero_list = slot2,
+			battle_vs = LuaForUtil.GetBattleVersion(),
+			activity_id = slot3
+		}, 37011, uv0.OnCreateRoomBack)
+	end,
+	OnCreateRoomBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	JoinRoom = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(37012, {
+			room_id = slot0,
+			hero_list = slot1 or {},
+			battle_vs = LuaForUtil.GetBattleVersion(),
+			source = slot2
+		}, 37013, uv0.OnJoinRoomBack)
+	end,
+	OnJoinRoomBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	StartMatching = function (slot0, slot1, slot2, slot3)
+		if not CooperationData:GetIsMatching() then
+			manager.net:SendWithLoadingNew(37036, {
+				dest = slot0,
+				type = slot1,
+				hero_list = slot2,
+				activity_id = slot3,
+				battle_vs = LuaForUtil.GetBattleVersion()
+			}, 37037, uv0.OnStartMatchingBack)
+		end
+	end,
+	OnStartMatchingBack = function (slot0)
+		if isSuccess(slot0.result) then
+			CooperationData:SetIsMatching(true)
+			manager.notify:CallUpdateFunc(COOPERATION_IS_MATCHING_CHANGE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	CancelMatching = function ()
+		if CooperationData:GetIsMatching() then
+			manager.net:SendWithLoadingNew(37038, {}, 37039, uv0.OnCancelMatchingBack)
+		end
+	end,
+	OnCancelMatchingBack = function (slot0)
+		if isSuccess(slot0.result) then
+			CooperationData:SetIsMatching(false)
+			manager.notify:CallUpdateFunc(COOPERATION_IS_MATCHING_CHANGE)
+			ShowTips("COOPERATION_CANCEL_MATCH_TIP")
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ChangeHero = function (slot0)
+		manager.net:SendWithLoadingNew(37016, {
+			hero_list = slot0
+		}, 37017, uv0.OnChangeHeroBack)
+	end,
+	OnChangeHeroBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			CooperationData:SetCooperationHero(slot1.hero_list[1])
+			CooperationTools.GotoCooperation()
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	LeaveRoom = function ()
+		manager.net:SendWithLoadingNew(37018, {}, 37019, uv0.OnLeaveRoomBack)
+	end,
+	OnLeaveRoomBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	LeaveCooperationBattle = function (slot0, slot1)
+		if CooperationData:GetRoomData() then
+			manager.net:SendWithLoadingNew(37018, {
+				battle_id = slot1
+			}, 37019, function (slot0)
+				uv0()
+			end)
+		else
+			slot0()
+		end
+	end,
+	KickOutRoom = function (slot0)
+		manager.net:SendWithLoadingNew(37020, {
+			uid = slot0
+		}, 37021, uv0.OnKickOutRoomBack)
+	end,
+	OnKickOutRoomBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	ChangeRoomMaster = function (slot0)
+		manager.net:SendWithLoadingNew(37022, {
+			uid = slot0
+		}, 37023, uv0.OnChangeRoomMasterBack)
+	end,
+	OnChangeRoomMasterBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	GetReady = function ()
+		manager.net:SendWithLoadingNew(37024, {}, 37025, uv0.OnGetReadyBack)
+	end,
+	OnGetReadyBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	CancelReay = function ()
+		manager.net:SendWithLoadingNew(37026, {}, 37027, uv0.OnCancelReadyBack)
+	end,
+	OnCancelReadyBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	ChangeRoomAvailable = function (slot0)
+		manager.net:SendWithLoadingNew(37028, {
+			available = slot0
+		}, 37029, uv0.OnRoomAvailableBack)
+	end,
+	OnRoomAvailableBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	SendMsg = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(37030, {
+			type = ChatConst.CHAT_CONTENT_TYPE.TEXT,
+			content = slot0
+		}, 37031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	SendSticker = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(37030, {
+			type = ChatConst.CHAT_CONTENT_TYPE.STICKER,
+			content = tostring(slot0)
+		}, 37031, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	ThumbsUp = function (slot0)
+		manager.net:SendWithLoadingNew(37034, {
+			uid = slot0
+		}, 37035, uv0.OnThumbsUpBack)
+	end,
+	OnThumbsUpBack = function (slot0, slot1)
+		if not isSuccess(slot0.result) then
+			ShowTips(slot0.result)
+		end
+	end,
+	CooperationReport = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(57006, {
+			user_id = slot0,
+			battle_id = slot1
+		}, 57007, uv0.OnCooperationReportBack)
+	end,
+	OnCooperationReportBack = function (slot0)
+		if isSuccess(slot0.result) then
+			-- Nothing
+		end
+	end,
+	InvitePlayer = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(37110, {
+			uid = slot0,
+			type = slot1
+		}, 37111, uv0.OnInvitePlayerBack)
+	end,
+	OnInvitePlayerBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			CooperationData:SetHadInvited(slot1.uid, slot1.type)
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_SUCCESS)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	DelectInvite = function (slot0)
+		manager.net:SendWithLoadingNew(37112, {
+			uid_list = slot0
+		}, 37113, uv0.OnDelectInviteBack)
+	end,
+	OnDelectInviteBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			for slot5, slot6 in ipairs(slot1.uid_list) do
+				CooperationData:DelectInvite(slot6)
 			end
+
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_REFUSE, slot1.uid_list)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ClearInvite = function ()
+		slot0 = {}
+
+		if table.length(CooperationData:GetAllInviteList()) <= 0 then
+			CooperationData:ClearInvite()
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
+
+			return
 		end
 
-		CooperationData:DelectInvite(var_47_0)
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
-	else
-		ShowTips(arg_47_0.result)
-		CooperationData:DelectInvite(var_47_0)
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
-	end
-end
+		for slot5, slot6 in pairs(slot1) do
+			table.insert(slot0, slot6.uid)
+		end
 
-function var_0_0.SetInviteRestrict(arg_48_0, arg_48_1)
-	manager.net:SendWithLoadingNew(37114, {
-		type = arg_48_0,
-		op = arg_48_1
-	}, 37115, var_0_0.OnSetInvitRestrictBack)
-end
+		manager.net:SendWithLoadingNew(37112, {
+			uid_list = slot0
+		}, 37113, uv0.OnClearInviteBack)
+	end,
+	OnClearInviteBack = function (slot0)
+		if isSuccess(slot0.result) then
+			CooperationData:ClearInvite()
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ReceiveInvite = function (slot0)
+		manager.net:SendWithLoadingNew(37120, {
+			uid = slot0
+		}, 37121, uv0.OnReceiveInviteBack)
+	end,
+	OnReceiveInviteBack = function (slot0, slot1)
+		slot2 = slot1.uid
 
-function var_0_0.OnSetInvitRestrictBack(arg_49_0, arg_49_1)
-	if isSuccess(arg_49_0.result) then
-		CooperationData:SetInviteRestrict(arg_49_1.type, arg_49_1.op)
-		manager.notify:CallUpdateFunc(COOPERATION_INVIT_RESTRICT_UPDATE)
-	else
-		ShowTips(arg_49_0.result)
-	end
-end
-
-function var_0_0.QueryRecentVisit()
-	manager.net:SendWithLoadingNew(37116, {}, 37117, var_0_0.OnQueryRecentVisitBack)
-end
-
-function var_0_0.OnQueryRecentVisitBack(arg_51_0)
-	if isSuccess(arg_51_0.result) then
-		CooperationData:InitVisiteList(arg_51_0)
-		manager.notify:CallUpdateFunc(COOPERATION_RECENT_VISIT_UPDATE)
-	else
-		ShowTips(arg_51_0.result)
-	end
-end
-
-function var_0_0.RequestInviteList(arg_52_0)
-	local var_52_0 = {
-		type = arg_52_0
-	}
-
-	manager.net:SendWithLoadingNew(37118, var_52_0, 37119, var_0_0.OnRequestInviteListCallback)
-end
-
-function var_0_0.OnRequestInviteListCallback(arg_53_0, arg_53_1)
-	if isSuccess(arg_53_0.result) then
-		local var_53_0 = {}
-
-		for iter_53_0, iter_53_1 in ipairs(arg_53_0.invite_list) do
-			var_53_0[iter_53_1.type] = {}
-
-			for iter_53_2, iter_53_3 in ipairs(iter_53_1.player_list) do
-				local var_53_1 = {
-					uid = iter_53_3.uid,
-					nick = iter_53_3.user_base_info.nick,
-					icon = iter_53_3.user_base_info.icon,
-					icon_frame = iter_53_3.user_base_info.icon_frame,
-					level = iter_53_3.level,
-					timestamp = iter_53_3.timestamp,
-					activity_data_list = {}
-				}
-
-				for iter_53_4, iter_53_5 in ipairs(iter_53_3.activity_data_list) do
-					table.insert(var_53_1.activity_data_list, {
-						enum = iter_53_5.enum,
-						data = iter_53_5.data
-					})
+		if isSuccess(slot0.result) then
+			if CooperationData:GetInvite(slot2) then
+				if slot3:IsOverdue() then
+					ShowTips("COOPERATION_INVITE_OVERDUE")
+				elseif slot3.activity_id == 0 or ActivityTools.GetActivityIsOpenWithTip(slot3.activity_id, true) then
+					uv0.JoinRoom(slot3.room_id, {
+						CooperationData:GetCooperationHero(slot3.battle_type, slot3.dest, slot3.activity_id)
+					}, CooperationConst.JOIN_ROOM_SOURCE.INVET)
 				end
-
-				table.insert(var_53_0[iter_53_1.type], var_53_1)
 			end
+
+			CooperationData:DelectInvite(slot2)
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
+		else
+			ShowTips(slot0.result)
+			CooperationData:DelectInvite(slot2)
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_CLEAR)
+		end
+	end,
+	SetInviteRestrict = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(37114, {
+			type = slot0,
+			op = slot1
+		}, 37115, uv0.OnSetInvitRestrictBack)
+	end,
+	OnSetInvitRestrictBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			CooperationData:SetInviteRestrict(slot1.type, slot1.op)
+			manager.notify:CallUpdateFunc(COOPERATION_INVIT_RESTRICT_UPDATE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	QueryRecentVisit = function ()
+		manager.net:SendWithLoadingNew(37116, {}, 37117, uv0.OnQueryRecentVisitBack)
+	end,
+	OnQueryRecentVisitBack = function (slot0)
+		if isSuccess(slot0.result) then
+			CooperationData:InitVisiteList(slot0)
+			manager.notify:CallUpdateFunc(COOPERATION_RECENT_VISIT_UPDATE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	RequestInviteList = function (slot0)
+		manager.net:SendWithLoadingNew(37118, {
+			type = slot0
+		}, 37119, uv0.OnRequestInviteListCallback)
+	end,
+	OnRequestInviteListCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			for slot6, slot7 in ipairs(slot0.invite_list) do
+				for slot11, slot12 in ipairs(slot7.player_list) do
+					slot13 = {
+						uid = slot12.uid,
+						nick = slot12.user_base_info.nick,
+						icon = slot12.user_base_info.icon,
+						icon_frame = slot12.user_base_info.icon_frame,
+						level = slot12.level,
+						timestamp = slot12.timestamp,
+						activity_data_list = {}
+					}
+
+					for slot17, slot18 in ipairs(slot12.activity_data_list) do
+						table.insert(slot13.activity_data_list, {
+							enum = slot18.enum,
+							data = slot18.data
+						})
+					end
+
+					table.insert(slot2[slot7.type], slot13)
+				end
+			end
+
+			manager.notify:CallUpdateFunc(COOPERATION_INVITE_LIST_UPDATE, {
+				[slot7.type] = {}
+			})
+		else
+			ShowTips(GetTips(slot0.result))
+		end
+	end,
+	CheckCooperationApplyLimit = function (slot0)
+		if PlayerData:GetPlayerInfo().userLevel < GameSetting.activity_main_plot_unlock_level.value[1] then
+			if slot0 then
+				ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot1))
+			end
+
+			return true
 		end
 
-		manager.notify:CallUpdateFunc(COOPERATION_INVITE_LIST_UPDATE, var_53_0)
-	else
-		ShowTips(GetTips(arg_53_0.result))
+		return false
 	end
-end
-
-function var_0_0.CheckCooperationApplyLimit(arg_54_0)
-	local var_54_0 = GameSetting.activity_main_plot_unlock_level.value[1]
-
-	if var_54_0 > PlayerData:GetPlayerInfo().userLevel then
-		if arg_54_0 then
-			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_54_0))
-		end
-
-		return true
-	end
-
-	return false
-end
-
-return var_0_0
+}

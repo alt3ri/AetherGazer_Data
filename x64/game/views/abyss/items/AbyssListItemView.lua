@@ -1,82 +1,78 @@
-local var_0_0 = class("AbyssListItemView", ReduxView)
+slot0 = class("AbyssListItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.status2Controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status2")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.status2Controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status2")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.onClick_ ~= nil then
-			arg_4_0.onClick_(arg_4_0.layer_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.onClick_ ~= nil then
+			uv0.onClick_(uv0.layer_)
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.index_ = arg_7_1
-	arg_7_0.onClick_ = arg_7_3
-	arg_7_0.cfg_ = AbyssCfg[arg_7_2]
-	arg_7_0.layer_ = arg_7_0.cfg_.level
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.onClick_ = slot3
+	slot0.cfg_ = AbyssCfg[slot2]
+	slot0.layer_ = slot0.cfg_.level
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.SetSelect(arg_8_0, arg_8_1)
-	arg_8_0.statusController_:SetSelectedState(arg_8_1 and "Select" or "normal")
+function slot0.SetSelect(slot0, slot1)
+	slot0.statusController_:SetSelectedState(slot1 and "Select" or "normal")
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	arg_9_0.scoreLabel_.text = AbyssData:GetLayerScore(arg_9_0.layer_)
-	arg_9_0.layerLabel_.text = string.format(GetTips("ABYSS_LAYER_LABEL"), arg_9_0.layer_)
+function slot0.UpdateView(slot0)
+	slot0.scoreLabel_.text = AbyssData:GetLayerScore(slot0.layer_)
+	slot0.layerLabel_.text = string.format(GetTips("ABYSS_LAYER_LABEL"), slot0.layer_)
 
-	local var_9_0 = AbyssData:GetLayerStatus(arg_9_0.layer_)
-
-	if var_9_0 == 0 then
-		arg_9_0.status2Controller_:SetSelectedState("lock")
-	elseif var_9_0 == 1 then
-		arg_9_0.status2Controller_:SetSelectedState("normal")
-	elseif var_9_0 == 2 then
-		arg_9_0.status2Controller_:SetSelectedState("Challenge")
+	if AbyssData:GetLayerStatus(slot0.layer_) == 0 then
+		slot0.status2Controller_:SetSelectedState("lock")
+	elseif slot1 == 1 then
+		slot0.status2Controller_:SetSelectedState("normal")
+	elseif slot1 == 2 then
+		slot0.status2Controller_:SetSelectedState("Challenge")
 	else
-		arg_9_0.status2Controller_:SetSelectedState("Select")
+		slot0.status2Controller_:SetSelectedState("Select")
 	end
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_12_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

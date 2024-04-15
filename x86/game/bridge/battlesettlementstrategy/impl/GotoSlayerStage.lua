@@ -1,18 +1,18 @@
-local var_0_0 = class("GotoSlayerStage", BattleSettlementStrategyBase)
+slot0 = class("GotoSlayerStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoSlayerStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoSlayerStage(slot1.num, slot1.stageData, slot1.battleResult)
 end
 
-function var_0_0.GotoSlayerResult(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
+function slot0.GotoSlayerResult(slot0, slot1, slot2, slot3)
 	function BattleCallLuaCallBack()
 		gameContext:Go("/battleSlayerResult", {
-			stageData = arg_2_2,
+			stageData = uv0,
 			rewardList = {},
-			battleResult = arg_2_3
+			battleResult = uv1
 		})
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv2)
 	end
 end
 
-return var_0_0
+return slot0

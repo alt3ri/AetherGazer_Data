@@ -1,114 +1,110 @@
-local var_0_0 = class("GameOperationSettingView", ReduxView)
+slot0 = class("GameOperationSettingView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.hander_ = arg_2_1
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.info_ = arg_2_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.hander_ = slot1
+	slot0.transform_ = slot2.transform
+	slot0.gameObject_ = slot2
+	slot0.info_ = slot3
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.pageController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "page")
-	arg_4_0.classes_ = {
+	slot0.pageController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "page")
+	slot0.classes_ = {
 		GameMobileOperationView,
 		GameGamepadOperationView,
 		GameKeyboardOperationView
 	}
-	arg_4_0.gameObjects_ = {
-		arg_4_0.mobileGo_,
-		arg_4_0.gamepadGo_,
-		arg_4_0.keyboardGo_
+	slot0.gameObjects_ = {
+		slot0.mobileGo_,
+		slot0.gamepadGo_,
+		slot0.keyboardGo_
 	}
-	arg_4_0.pages_ = {}
+	slot0.pages_ = {}
 
-	for iter_4_0 = 1, 3 do
-		local var_4_0 = arg_4_0.classes_[iter_4_0].New(arg_4_0.gameObjects_[iter_4_0])
-
-		table.insert(arg_4_0.pages_, var_4_0)
+	for slot4 = 1, 3 do
+		table.insert(slot0.pages_, slot0.classes_[slot4].New(slot0.gameObjects_[slot4]))
 	end
 
-	arg_4_0.toggles_ = {
-		arg_4_0.toggle1_,
-		arg_4_0.toggle2_,
-		arg_4_0.toggle3_
+	slot0.toggles_ = {
+		slot0.toggle1_,
+		slot0.toggle2_,
+		slot0.toggle3_
 	}
 
-	arg_4_0:OnEnter()
+	slot0:OnEnter()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.toggles_) do
-		arg_5_0:AddToggleListener(iter_5_1, function(arg_6_0)
-			if arg_6_0 then
-				arg_5_0:SwitchToPage(iter_5_0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.toggles_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
+				uv0:SwitchToPage(uv1)
 			end
 		end)
 	end
 end
 
-function var_0_0.SwitchToPage(arg_7_0, arg_7_1)
-	arg_7_0.pageController_:SetSelectedIndex(arg_7_1 - 1)
+function slot0.SwitchToPage(slot0, slot1)
+	slot0.pageController_:SetSelectedIndex(slot1 - 1)
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.pages_) do
-		iter_7_1:UpdatePageData()
+	for slot5, slot6 in pairs(slot0.pages_) do
+		slot6:UpdatePageData()
 	end
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_9_0)
-	arg_9_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_10_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.pages_) do
-		iter_11_1:OnEnter()
+	for slot4, slot5 in pairs(slot0.pages_) do
+		slot5:OnEnter()
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_12_0, iter_12_1 in pairs(arg_12_0.pages_) do
-		iter_12_1:OnExit()
+	for slot4, slot5 in pairs(slot0.pages_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.SaveData(arg_13_0)
-	if arg_13_0.pages_ then
-		for iter_13_0, iter_13_1 in pairs(arg_13_0.pages_) do
-			iter_13_1:SaveData()
+function slot0.SaveData(slot0)
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:SaveData()
 		end
 	end
 end
 
-function var_0_0.CheckDataChange(arg_14_0)
-	if arg_14_0.pages_ then
-		for iter_14_0, iter_14_1 in pairs(arg_14_0.pages_) do
-			if iter_14_1:CheckDataChange() then
+function slot0.CheckDataChange(slot0)
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			if slot5:CheckDataChange() then
 				return true
 			end
 		end
@@ -117,28 +113,27 @@ function var_0_0.CheckDataChange(arg_14_0)
 	return false
 end
 
-function var_0_0.RecoverTmpData(arg_15_0)
-	if arg_15_0.pages_ then
-		for iter_15_0, iter_15_1 in pairs(arg_15_0.pages_) do
-			iter_15_1:RecoverTmpData()
+function slot0.RecoverTmpData(slot0)
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:RecoverTmpData()
 		end
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_16_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.pages_ then
-		for iter_17_0, iter_17_1 in pairs(arg_17_0.pages_) do
-			iter_17_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:Dispose()
 		end
 
-		arg_17_0.pages_ = nil
+		slot0.pages_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

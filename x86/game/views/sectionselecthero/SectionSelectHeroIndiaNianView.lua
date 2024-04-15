@@ -1,34 +1,34 @@
-local var_0_0 = class("SectionSelectHeroIndiaNianView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroIndiaNianView", SectionSelectHeroBaseView)
 
-function var_0_0.OnEnter(arg_1_0)
-	if IndiaNianCfg[arg_1_0.params_.destID].stage_type == 0 then
-		arg_1_0:AddHpTimer()
+function slot0.OnEnter(slot0)
+	if IndiaNianCfg[slot0.params_.destID].stage_type == 0 then
+		slot0:AddHpTimer()
 	end
 
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.OpenPageByJump("/indiaNianMain")
 	end)
-	arg_1_0.super.OnEnter(arg_1_0)
+	slot0.super.OnEnter(slot0)
 end
 
-function var_0_0.AddHpTimer(arg_3_0)
-	arg_3_0.timer_ = Timer.New(function()
-		if IndiaNianData:GetCurrentHpByID(arg_3_0.params_.destID) == 0 then
-			arg_3_0:Back()
+function slot0.AddHpTimer(slot0)
+	slot0.timer_ = Timer.New(function ()
+		if IndiaNianData:GetCurrentHpByID(uv0.params_.destID) == 0 then
+			uv0:Back()
 		end
 	end, 1, -1, true)
 
-	arg_3_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	if arg_5_0.timer_ then
-		arg_5_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_5_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	var_0_0.super.OnExit(arg_5_0)
+	uv0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

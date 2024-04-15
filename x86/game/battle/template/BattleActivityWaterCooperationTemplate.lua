@@ -1,83 +1,76 @@
 BattleBaseCooperationTemplate = import("game.battle.cooperation.BattleBaseCooperationTemplate")
+slot0 = class("BattleActivityWaterCooperationTemplate", BattleBaseCooperationTemplate)
 
-local var_0_0 = class("BattleActivityWaterCooperationTemplate", BattleBaseCooperationTemplate)
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.cfg = BattleActivityWaterCooperationCfg[slot1]
+	slot0.activityID_ = slot2
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.cfg = BattleActivityWaterCooperationCfg[arg_1_1]
-	arg_1_0.activityID_ = arg_1_2
+	uv0.super.Ctor(slot0)
 
-	var_0_0.super.Ctor(arg_1_0)
+	slot0.id = slot1
 
-	arg_1_0.id = arg_1_1
-
-	arg_1_0:InitComboSkillID()
-	arg_1_0:InitChipData()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.InitComboSkillID(arg_2_0)
-	arg_2_0.comboSkillID_ = BattleTeamData:GetComboInfo(arg_2_0:GetType(), arg_2_0.activityID_)
+function slot0.InitComboSkillID(slot0)
+	slot0.comboSkillID_ = BattleTeamData:GetComboInfo(slot0:GetType(), slot0.activityID_)
 end
 
-function var_0_0.GetLayerId(arg_3_0)
-	return arg_3_0.layer_
+function slot0.GetLayerId(slot0)
+	return slot0.layer_
 end
 
-function var_0_0.GetLayer(arg_4_0)
-	return arg_4_0.layer_
+function slot0.GetLayer(slot0)
+	return slot0.layer_
 end
 
-function var_0_0.GetStageIndex(arg_5_0)
-	return arg_5_0.stageIndex_
+function slot0.GetStageIndex(slot0)
+	return slot0.stageIndex_
 end
 
-function var_0_0.GetDest(arg_6_0)
-	return arg_6_0.id
+function slot0.GetDest(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetStageId(arg_7_0)
-	return arg_7_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_8_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION
 end
 
-function var_0_0.GetMap(arg_9_0)
-	return arg_9_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_10_0)
-	return arg_10_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_11_0)
-	return arg_11_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.GetHeroDataByPos(arg_12_0, arg_12_1)
-	return (var_0_0.super.GetHeroDataByPos(arg_12_0, arg_12_1))
+function slot0.GetHeroDataByPos(slot0, slot1)
+	return uv0.super.GetHeroDataByPos(slot0, slot1)
 end
 
-function var_0_0.GetAttributeFactor(arg_13_0)
-	local var_13_0 = arg_13_0.cfg
-
-	if var_13_0.attribute_factor and var_13_0.attribute_factor[3] then
-		local var_13_1 = var_13_0.attribute_factor[1] / 1000
-		local var_13_2 = var_13_0.attribute_factor[2] / 1000
-		local var_13_3 = var_13_0.attribute_factor[3] / 1000
-
-		return Vector3.New(var_13_1, var_13_2, var_13_3)
+function slot0.GetAttributeFactor(slot0)
+	if slot0.cfg.attribute_factor and slot1.attribute_factor[3] then
+		return Vector3.New(slot1.attribute_factor[1] / 1000, slot1.attribute_factor[2] / 1000, slot1.attribute_factor[3] / 1000)
 	end
 
 	return Vector3.New(1, 1, 1)
 end
 
-function var_0_0.SetMainActivityId(arg_14_0, arg_14_1)
-	arg_14_0.mainActivityId_ = arg_14_1
+function slot0.SetMainActivityId(slot0, slot1)
+	slot0.mainActivityId_ = slot1
 end
 
-function var_0_0.GetMainActivityId(arg_15_0)
-	return arg_15_0.mainActivityId_
+function slot0.GetMainActivityId(slot0)
+	return slot0.mainActivityId_
 end
 
-return var_0_0
+return slot0

@@ -1,107 +1,103 @@
-local var_0_0 = class("ActivityReforgeTeamView", ReduxView)
+slot0 = class("ActivityReforgeTeamView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_ActivityReforge/NorseUI_3_0_ActivityReforgeTeamUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.teamList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexTeamItem), arg_4_0.listGo_, ActivityReforgeTeamItem)
+	slot0.teamList_ = LuaList.New(handler(slot0, slot0.IndexTeamItem), slot0.listGo_, ActivityReforgeTeamItem)
 end
 
-function var_0_0.IndexTeamItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.teamIDList_[arg_5_1]
-
-	arg_5_2:SetData(arg_5_0.chapterActivityID_, arg_5_0.levelID_, arg_5_0.curWaveID_, var_5_0)
+function slot0.IndexTeamItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.chapterActivityID_, slot0.levelID_, slot0.curWaveID_, slot0.teamIDList_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.closeBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.chapterActivityID_ = arg_8_0.params_.chapterActivityID
-	arg_8_0.levelID_ = arg_8_0.params_.levelID
-	arg_8_0.curWaveID_ = arg_8_0.params_.curWaveID
-	arg_8_0.levelCfg_ = ActivityReforgeLevelCfg[arg_8_0.levelID_]
+function slot0.OnEnter(slot0)
+	slot0.chapterActivityID_ = slot0.params_.chapterActivityID
+	slot0.levelID_ = slot0.params_.levelID
+	slot0.curWaveID_ = slot0.params_.curWaveID
+	slot0.levelCfg_ = ActivityReforgeLevelCfg[slot0.levelID_]
 
-	arg_8_0:SortTeam()
-	arg_8_0.teamList_:StartScroll(#arg_8_0.teamIDList_)
+	slot0:SortTeam()
+	slot0.teamList_:StartScroll(#slot0.teamIDList_)
 end
 
-function var_0_0.SortTeam(arg_9_0)
-	local var_9_0 = {}
-	local var_9_1 = {}
-	local var_9_2 = {}
-	local var_9_3 = {}
-	local var_9_4 = 0
-	local var_9_5 = ActivityReforgeWaveCfg[arg_9_0.curWaveID_]
+function slot0.SortTeam(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
+	slot4 = {}
+	slot5 = 0
+	slot6 = ActivityReforgeWaveCfg[slot0.curWaveID_]
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.levelCfg_.team_list) do
-		local var_9_6 = ActivityReforgeData:GetTeamCurUsingWaveID(iter_9_1)
-
-		if var_9_6 > 0 then
-			if var_9_6 == arg_9_0.curWaveID_ then
-				var_9_4 = iter_9_1
-			elseif table.indexof(var_9_5.recommend_team, iter_9_1) then
-				table.insert(var_9_3, iter_9_1)
+	for slot10, slot11 in pairs(slot0.levelCfg_.team_list) do
+		if ActivityReforgeData:GetTeamCurUsingWaveID(slot11) > 0 then
+			if slot12 == slot0.curWaveID_ then
+				slot5 = slot11
+			elseif table.indexof(slot6.recommend_team, slot11) then
+				table.insert(slot4, slot11)
 			else
-				table.insert(var_9_2, iter_9_1)
+				table.insert(slot3, slot11)
 			end
-		elseif table.indexof(var_9_5.recommend_team, iter_9_1) then
-			table.insert(var_9_1, iter_9_1)
+		elseif table.indexof(slot6.recommend_team, slot11) then
+			table.insert(slot2, slot11)
 		else
-			table.insert(var_9_0, iter_9_1)
+			table.insert(slot1, slot11)
 		end
 	end
 
-	arg_9_0.teamIDList_ = {}
+	slot0.teamIDList_ = {}
 
-	if var_9_4 > 0 then
-		table.insert(arg_9_0.teamIDList_, var_9_4)
+	if slot5 > 0 then
+		table.insert(slot0.teamIDList_, slot5)
 	end
 
-	for iter_9_2, iter_9_3 in pairs(var_9_1) do
-		table.insert(arg_9_0.teamIDList_, iter_9_3)
+	for slot10, slot11 in pairs(slot2) do
+		table.insert(slot0.teamIDList_, slot11)
 	end
 
-	for iter_9_4, iter_9_5 in pairs(var_9_0) do
-		table.insert(arg_9_0.teamIDList_, iter_9_5)
+	for slot10, slot11 in pairs(slot1) do
+		table.insert(slot0.teamIDList_, slot11)
 	end
 
-	for iter_9_6, iter_9_7 in pairs(var_9_3) do
-		table.insert(arg_9_0.teamIDList_, iter_9_7)
+	for slot10, slot11 in pairs(slot4) do
+		table.insert(slot0.teamIDList_, slot11)
 	end
 
-	for iter_9_8, iter_9_9 in pairs(var_9_2) do
-		table.insert(arg_9_0.teamIDList_, iter_9_9)
+	for slot10, slot11 in pairs(slot3) do
+		table.insert(slot0.teamIDList_, slot11)
 	end
 end
 
-function var_0_0.OnActivityReforgeCurLevelUpdate(arg_10_0)
-	arg_10_0.teamList_:Refresh()
+function slot0.OnActivityReforgeCurLevelUpdate(slot0)
+	slot0.teamList_:Refresh()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.teamList_ then
-		arg_11_0.teamList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.teamList_ then
+		slot0.teamList_:Dispose()
 
-		arg_11_0.teamList_ = nil
+		slot0.teamList_ = nil
 	end
 
-	arg_11_0.super.Dispose(arg_11_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

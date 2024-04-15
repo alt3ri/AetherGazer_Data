@@ -1,62 +1,60 @@
-local var_0_0 = class("SettingToggleItem", ReduxView)
+slot0 = class("SettingToggleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn01, nil, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn01, nil, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.index)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn02, nil, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.index)
+	slot0:AddBtnListener(slot0.m_btn02, nil, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	manager.redPoint:unbindUIandKey(arg_7_0.transform_)
+function slot0.SetData(slot0, slot1, slot2)
+	manager.redPoint:unbindUIandKey(slot0.transform_)
 
-	arg_7_0.index = arg_7_1
-
-	local var_7_0 = arg_7_2:Image()
-
-	arg_7_0.icon_01.sprite = var_7_0
-	arg_7_0.icon_02.sprite = var_7_0
+	slot0.index = slot1
+	slot3 = slot2:Image()
+	slot0.icon_01.sprite = slot3
+	slot0.icon_02.sprite = slot3
 end
 
-function var_0_0.SetSelect(arg_8_0, arg_8_1)
-	if arg_8_0.index == arg_8_1 then
-		arg_8_0.selectController:SetSelectedIndex(0)
+function slot0.SetSelect(slot0, slot1)
+	if slot0.index == slot1 then
+		slot0.selectController:SetSelectedIndex(0)
 	else
-		arg_8_0.selectController:SetSelectedIndex(1)
+		slot0.selectController:SetSelectedIndex(1)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_9_0, arg_9_1)
-	arg_9_0.callback_ = arg_9_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.Dispose(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.transform_)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

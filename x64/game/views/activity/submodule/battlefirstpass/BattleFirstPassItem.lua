@@ -1,32 +1,30 @@
-local var_0_0 = class("BattleFirstPassItem", ReduxView)
+slot0 = class("BattleFirstPassItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	var_0_0.gameObject_ = arg_1_1
-	var_0_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	uv0.gameObject_ = slot1
+	uv0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.typeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "type")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.Btn_, nil, function()
-		local var_5_0 = manager.time:GetServerTime()
-
-		if var_5_0 < arg_4_0.startTime_ then
-			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_4_0.startTime_)))
-		elseif var_5_0 < arg_4_0.stopTime_ then
-			if arg_4_0.clickFunc_ then
-				arg_4_0.clickFunc_(arg_4_0.id_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.Btn_, nil, function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.startTime_)))
+		elseif slot0 < uv0.stopTime_ then
+			if uv0.clickFunc_ then
+				uv0.clickFunc_(uv0.id_)
 			end
 		else
 			ShowTips("TIP_EXPIRED")
@@ -34,138 +32,130 @@ function var_0_0.AddUIListeners(arg_4_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activityID_ = arg_7_1
-	arg_7_0.id_ = arg_7_2
-	arg_7_0.cfg_ = ActivityFirstClearCfg[arg_7_0.id_]
-	arg_7_0.startTime_ = arg_7_0:GetStarTime()
-	arg_7_0.stopTime_ = arg_7_0:GetStopTime()
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.id_ = slot2
+	slot0.cfg_ = ActivityFirstClearCfg[slot0.id_]
+	slot0.startTime_ = slot0:GetStarTime()
+	slot0.stopTime_ = slot0:GetStopTime()
 
-	arg_7_0:RefreshTitle()
-	arg_7_0:RefreshTime()
-	arg_7_0:RefreshRedPoint()
-	arg_7_0:RefreshClear()
+	slot0:RefreshTitle()
+	slot0:RefreshTime()
+	slot0:RefreshRedPoint()
+	slot0:RefreshClear()
 end
 
-function var_0_0.GetStarTime(arg_8_0)
-	return ActivityData:GetActivityData(arg_8_0.id_).startTime
+function slot0.GetStarTime(slot0)
+	return ActivityData:GetActivityData(slot0.id_).startTime
 end
 
-function var_0_0.GetStopTime(arg_9_0)
-	return ActivityData:GetActivityData(arg_9_0.id_).stopTime
+function slot0.GetStopTime(slot0)
+	return ActivityData:GetActivityData(slot0.id_).stopTime
 end
 
-function var_0_0.RefreshTitle(arg_10_0)
-	arg_10_0.title_.text = "「" .. GetI18NText(arg_10_0.cfg_.name) .. "」"
+function slot0.RefreshTitle(slot0)
+	slot0.title_.text = "「" .. GetI18NText(slot0.cfg_.name) .. "」"
 end
 
-function var_0_0.RefreshTime(arg_11_0)
-	local var_11_0
-	local var_11_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_11_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_11_1 < arg_11_0.startTime_ then
-		arg_11_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_11_0.startTime_))
-		arg_11_0.timer_ = Timer.New(function()
-			var_11_0 = arg_11_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot0.startTime_))
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_11_0 <= 0 then
-				arg_11_0:StopTimer()
-				arg_11_0:SetSelected(arg_11_0.select_)
-				arg_11_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:SetSelected(uv1.select_)
+				uv1:RefreshTime()
 
 				return
 			end
 
-			arg_11_0.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_11_0.startTime_))
+			uv1.timeCntText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv1.startTime_))
 		end, 1, -1)
 
-		arg_11_0.timer_:Start()
-	elseif var_11_1 < arg_11_0.stopTime_ then
-		arg_11_0.timer_ = Timer.New(function()
-			var_11_0 = arg_11_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			if var_11_0 <= 0 then
-				arg_11_0:StopTimer()
-				arg_11_0:SetSelected(arg_11_0.select_)
-				arg_11_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:SetSelected(uv1.select_)
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_11_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_11_0.timeCntText_.text = GetTips("TIME_OVER")
+		slot0.timeCntText_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.RefreshRedPoint(arg_14_0)
-	local var_14_0 = manager.redPoint:getTipValue(RedPointConst.BATTLE_FIRST_PASS .. arg_14_0.id_)
-
-	SetActive(arg_14_0.redGo_, var_14_0 > 0)
+function slot0.RefreshRedPoint(slot0)
+	SetActive(slot0.redGo_, manager.redPoint:getTipValue(RedPointConst.BATTLE_FIRST_PASS .. slot0.id_) > 0)
 end
 
-function var_0_0.RefreshClear(arg_15_0)
-	local var_15_0 = BattleFirstPassData:GetBattleData(arg_15_0.activityID_, arg_15_0.id_)
-
-	if var_15_0 then
-		SetActive(arg_15_0.clearGo_, var_15_0.battleState ~= ActivityConst.BATTLE_FIRST_PASS_STATE.UNFINISHED)
+function slot0.RefreshClear(slot0)
+	if BattleFirstPassData:GetBattleData(slot0.activityID_, slot0.id_) then
+		SetActive(slot0.clearGo_, slot1.battleState ~= ActivityConst.BATTLE_FIRST_PASS_STATE.UNFINISHED)
 	end
 end
 
-function var_0_0.GetID(arg_16_0)
-	return arg_16_0.id_
+function slot0.GetID(slot0)
+	return slot0.id_
 end
 
-function var_0_0.GetTitle(arg_17_0)
-	return arg_17_0.cfg_.name
+function slot0.GetTitle(slot0)
+	return slot0.cfg_.name
 end
 
-function var_0_0.SetSelected(arg_18_0, arg_18_1)
-	arg_18_0.select_ = arg_18_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.select_ = slot1
 
-	local var_18_0 = manager.time:GetServerTime()
-
-	if var_18_0 < arg_18_0.startTime_ or var_18_0 >= arg_18_0.stopTime_ then
-		arg_18_0.typeCon_:SetSelectedState("close")
+	if manager.time:GetServerTime() < slot0.startTime_ or slot0.stopTime_ <= slot2 then
+		slot0.typeCon_:SetSelectedState("close")
 
 		return
-	elseif arg_18_1 then
-		arg_18_0.typeCon_:SetSelectedState("selected")
-		BattleFirstPassAction:SetOnceRedPointOff(arg_18_0.activityID_, arg_18_0.id_)
-		arg_18_0:RefreshRedPoint()
+	elseif slot1 then
+		slot0.typeCon_:SetSelectedState("selected")
+		BattleFirstPassAction:SetOnceRedPointOff(slot0.activityID_, slot0.id_)
+		slot0:RefreshRedPoint()
 	else
-		arg_18_0.typeCon_:SetSelectedState("open")
+		slot0.typeCon_:SetSelectedState("open")
 	end
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RegisterClickListener(arg_20_0, arg_20_1)
-	arg_20_0.clickFunc_ = arg_20_1
+function slot0.RegisterClickListener(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-function var_0_0.OnExit(arg_21_0)
-	arg_21_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 
-	arg_21_0.clickFunc_ = nil
+	slot0.clickFunc_ = nil
 end
 
-function var_0_0.Dispose(arg_22_0)
-	arg_22_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_22_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,81 +1,71 @@
-local var_0_0 = import("game.views.heroTeamInfo.SectionHeroTeamHeadItem")
-local var_0_1 = class("NewGuildBossAssistantHeadItemView", var_0_0)
+slot1 = class("NewGuildBossAssistantHeadItemView", import("game.views.heroTeamInfo.SectionHeroTeamHeadItem"))
 
-function var_0_1.InitProxy(arg_1_0)
-	var_0_1.super.InitProxy(arg_1_0)
+function slot1.InitProxy(slot0)
+	uv0.super.InitProxy(slot0)
 
-	arg_1_0.positionController_ = ControllerUtil.GetController(arg_1_0.transform_, "position")
+	slot0.positionController_ = ControllerUtil.GetController(slot0.transform_, "position")
 end
 
-function var_0_1.SetSectionHeroData(arg_2_0, arg_2_1)
-	arg_2_0.assistantData_ = arg_2_1
+function slot1.SetSectionHeroData(slot0, slot1)
+	slot0.assistantData_ = slot1
+	slot2 = slot0.assistantData_.assist_hero_id
+	slot0.gameObject_.name = tostring(slot2)
 
-	local var_2_0 = arg_2_0.assistantData_.assist_hero_id
-
-	arg_2_0.gameObject_.name = tostring(var_2_0)
-
-	arg_2_0:SetHeroData(var_2_0)
-	arg_2_0:SetRedPointEnable(false)
+	slot0:SetHeroData(slot2)
+	slot0:SetRedPointEnable(false)
 end
 
-function var_0_1.SetHeroId(arg_3_0, arg_3_1)
-	arg_3_0:SetHeroData(arg_3_1)
+function slot1.SetHeroId(slot0, slot1)
+	slot0:SetHeroData(slot1)
 end
 
-function var_0_1.SetHeroData(arg_4_0, arg_4_1)
-	arg_4_0.heroId_ = arg_4_1
-	arg_4_0.trialID_ = 0
-	arg_4_0.heroCfg_ = HeroCfg[arg_4_1]
+function slot1.SetHeroData(slot0, slot1)
+	slot0.heroId_ = slot1
+	slot0.trialID_ = 0
+	slot0.heroCfg_ = HeroCfg[slot1]
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_1.UpdateView(arg_5_0)
-	local var_5_0 = HeroCfg[arg_5_0.heroId_]
-	local var_5_1
+function slot1.UpdateView(slot0)
+	slot1 = HeroCfg[slot0.heroId_]
+	slot2 = nil
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite((slot0.assistantData_.assist_hero_skin == 0 or slot0.assistantData_.assist_hero_skin) and slot0.heroId_)
 
-	if arg_5_0.assistantData_.assist_hero_skin ~= 0 then
-		var_5_1 = arg_5_0.assistantData_.assist_hero_skin
-	else
-		var_5_1 = arg_5_0.heroId_
-	end
+	slot0.headIcon_:SetNativeSize()
 
-	arg_5_0.headIcon_.sprite = HeroTools.GetHeadSprite(var_5_1)
+	slot0.campLogo_.sprite = HeroTools.GetRaceIcon(slot1.race)
+	slot0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroId_)
+	slot0.rareImg_.sprite = HeroTools.GetRareSprite(slot1.rare)
 
-	arg_5_0.headIcon_:SetNativeSize()
+	slot0:SetLevel(slot0.assistantData_.hero_level or 1)
 
-	arg_5_0.campLogo_.sprite = HeroTools.GetRaceIcon(var_5_0.race)
-	arg_5_0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_5_0.heroId_)
-	arg_5_0.rareImg_.sprite = HeroTools.GetRareSprite(var_5_0.rare)
+	slot0.nickLabel_.text = GetI18NText(slot0.assistantData_.nick)
+	slot0.fightPowerLabel_.text = slot0.assistantData_.fight_capacity
 
-	arg_5_0:SetLevel(arg_5_0.assistantData_.hero_level or 1)
+	slot0.positionController_:SetSelectedState(tostring(slot0.assistantData_.member_post))
 
-	arg_5_0.nickLabel_.text = GetI18NText(arg_5_0.assistantData_.nick)
-	arg_5_0.fightPowerLabel_.text = arg_5_0.assistantData_.fight_capacity
-
-	arg_5_0.positionController_:SetSelectedState(tostring(arg_5_0.assistantData_.member_post))
-
-	if tostring(arg_5_0.assistantData_.member_post) == "1" then
-		arg_5_0.clubMemberLabel_.text = GetTips("CLUB_CHAIR_MAN")
-	elseif tostring(arg_5_0.assistantData_.member_post) == "2" then
-		arg_5_0.clubMemberLabel_.text = GetTips("CLUB_VICE_CHAIR_MAN")
-	elseif tostring(arg_5_0.assistantData_.member_post) == "3" then
-		arg_5_0.clubMemberLabel_.text = GetTips("CLUB_MEMBER")
-	elseif tostring(arg_5_0.assistantData_.member_post) == "4" then
-		arg_5_0.clubMemberLabel_.text = GetTips("CLUB_NOVICIATE")
+	if tostring(slot0.assistantData_.member_post) == "1" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_CHAIR_MAN")
+	elseif tostring(slot0.assistantData_.member_post) == "2" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_VICE_CHAIR_MAN")
+	elseif tostring(slot0.assistantData_.member_post) == "3" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_MEMBER")
+	elseif tostring(slot0.assistantData_.member_post) == "4" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_NOVICIATE")
 	end
 end
 
-function var_0_1.GetHeroId(arg_6_0)
-	return arg_6_0.assistantData_.assist_hero_id
+function slot1.GetHeroId(slot0)
+	return slot0.assistantData_.assist_hero_id
 end
 
-function var_0_1.GetOwnerId(arg_7_0)
-	return arg_7_0.assistantData_.member_id
+function slot1.GetOwnerId(slot0)
+	return slot0.assistantData_.member_id
 end
 
-function var_0_1.SetSelected(arg_8_0, arg_8_1)
-	SetActive(arg_8_0.sectionSelectGo_, arg_8_1 == true)
+function slot1.SetSelected(slot0, slot1)
+	SetActive(slot0.sectionSelectGo_, slot1 == true)
 end
 
-return var_0_1
+return slot1

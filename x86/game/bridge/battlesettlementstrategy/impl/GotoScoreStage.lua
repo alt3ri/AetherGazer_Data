@@ -1,103 +1,91 @@
-local var_0_0 = class("GotoScoreStage", BattleSettlementStrategyBase)
+slot0 = class("GotoScoreStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.stageData
-	local var_1_1 = arg_1_1.num
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
-	local var_1_4 = arg_1_1.isHalfWay_
-	local var_1_5 = var_1_0:GetType()
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot3 = slot1.num
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
+	slot6 = slot1.isHalfWay_
 
-	if var_1_5 == BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION then
-		arg_1_0:GotoScoreStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
-	elseif var_1_5 == BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT then
-		local var_1_6 = ActivityAffixSelectData:GetLevelScore(var_1_0:GetActivityID())
-
-		arg_1_0:GotoScoreResult(var_1_6, var_1_1, var_1_0, var_1_2, var_1_3, var_1_4, true)
-	elseif var_1_5 == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD then
-		local var_1_7 = ActivityPt2Data:GetHardScore()
-
-		arg_1_0:GotoScoreResult(var_1_7, var_1_1, var_1_0, var_1_2, var_1_3, var_1_4, true)
-	elseif var_1_5 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST then
-		local var_1_8 = AdvanceTestData:GetBattleResultScore()
-
-		arg_1_0:GotoScoreResult(var_1_8, var_1_1, var_1_0, var_1_2, var_1_3, var_1_4, true)
+	if slot1.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION then
+		slot0:GotoScoreStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
+	elseif slot7 == BattleConst.STAGE_TYPE_NEW.AFFIX_SELECT then
+		slot0:GotoScoreResult(ActivityAffixSelectData:GetLevelScore(slot2:GetActivityID()), slot3, slot2, slot4, slot5, slot6, true)
+	elseif slot7 == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_HARD then
+		slot0:GotoScoreResult(ActivityPt2Data:GetHardScore(), slot3, slot2, slot4, slot5, slot6, true)
+	elseif slot7 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST then
+		slot0:GotoScoreResult(AdvanceTestData:GetBattleResultScore(), slot3, slot2, slot4, slot5, slot6, true)
 	end
 end
 
-function var_0_0.GotoScoreStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoScoreStage(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	local function var_2_2()
+	function slot7()
 		manager.story:RemovePlayer()
 		gameContext:Go("/battleScorResult", {
-			stageData = arg_2_2,
-			rewardList = var_2_1,
-			battleResult = arg_2_4
+			stageData = uv0,
+			rewardList = uv1,
+			battleResult = uv2
 		})
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv3)
 	end
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
-			local var_4_0 = arg_2_2:GetStageId()
-
-			manager.story:CheckBattleStory(var_4_0, manager.story.WIN, var_2_2)
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.WIN, uv1)
 		end
 	else
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/battlefailedBossChallenge", {
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+				stageData = uv0,
+				starMissionData = uv1,
+				battleResult = uv2
 			})
 		end
 	end
 end
 
-function var_0_0.GotoScoreResult(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4, arg_6_5, arg_6_6, arg_6_7)
-	if arg_6_6 == true then
-		arg_6_2 = 3
+function slot0.GotoScoreResult(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	if slot6 == true then
+		slot2 = 3
 	end
 
-	local var_6_0, var_6_1 = GetResultReward()
+	slot8, slot9 = GetResultReward()
 
-	if isSuccess(arg_6_2) then
+	if isSuccess(slot2) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/battleScorResult", {
-				stageData = arg_6_3,
-				rewardList = var_6_1,
-				score = arg_6_1,
-				battleResult = arg_6_5
+				stageData = uv0,
+				rewardList = uv1,
+				score = uv2,
+				battleResult = uv3
 			})
-			EndBattleLogic(arg_6_2)
+			EndBattleLogic(uv4)
 		end
 	else
 		function BattleCallLuaCallBack()
-			local var_8_0 = arg_6_3:GetStageId()
-
-			manager.story:CheckBattleStory(var_8_0, manager.story.LOSE, function()
-				if arg_6_7 then
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
+				if uv0 then
 					JumpTools.OpenPageByJump("/battlefailedBossChallenge", {
-						stageData = arg_6_3,
-						starMissionData = arg_6_4,
-						battleResult = arg_6_5,
-						isHalfWay_ = arg_6_0.tempData.isHalfWay_
+						stageData = uv1,
+						starMissionData = uv2,
+						battleResult = uv3,
+						isHalfWay_ = uv4.tempData.isHalfWay_
 					})
 				else
 					JumpTools.OpenPageByJump("/battlefailed", {
-						stageData = arg_6_3,
-						starMissionData = arg_6_4,
-						battleResult = arg_6_5,
-						isHalfWay_ = arg_6_0.tempData.isHalfWay_
+						stageData = uv1,
+						starMissionData = uv2,
+						battleResult = uv3,
+						isHalfWay_ = uv4.tempData.isHalfWay_
 					})
 				end
 
 				manager.story:RemovePlayer()
-				EndBattleLogic(arg_6_2)
+				EndBattleLogic(uv5)
 			end)
 		end
 	end
 end
 
-return var_0_0
+return slot0

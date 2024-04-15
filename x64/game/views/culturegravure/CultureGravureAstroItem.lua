@@ -1,102 +1,99 @@
-local var_0_0 = class("CultureGravureAstroItem", ReduxView)
+slot0 = class("CultureGravureAstroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.btnController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "state")
-	arg_2_0.astroItems = {}
+	slot4 = "state"
+	slot0.btnController_ = ControllerUtil.GetController(slot0.gameObject_.transform, slot4)
+	slot0.astroItems = {}
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0.astroItems[iter_2_0] = CultureGravureRecommendAstroItem.New(arg_2_0["astro_" .. iter_2_0])
+	for slot4 = 1, 3 do
+		slot0.astroItems[slot4] = CultureGravureRecommendAstroItem.New(slot0["astro_" .. slot4])
 	end
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.data_ = arg_3_2
-	arg_3_0.rate_ = arg_3_2.rate
-	arg_3_0.heroID_ = arg_3_3
-	arg_3_0.astroDataList_ = arg_3_2.list
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot2
+	slot0.rate_ = slot2.rate
+	slot0.heroID_ = slot3
+	slot0.astroDataList_ = slot2.list
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		local var_5_0, var_5_1 = CultureGravureData:GetHasUnlockAllAstro(arg_4_0.heroID_, arg_4_0.astroDataList_)
-		local var_5_2 = HeroAstrolabeCfg[var_5_1]
-		local var_5_3 = table.indexof(HeroCfg[arg_4_0.heroID_].astrolabe, var_5_2.hero_astrolabe_suit_id)
-		local var_5_4 = var_5_2.pos
-		local var_5_5 = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.HERO_ASTROLABE)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+		slot0, slot1 = CultureGravureData:GetHasUnlockAllAstro(uv0.heroID_, uv0.astroDataList_)
+		slot2 = HeroAstrolabeCfg[slot1]
 
-		if not var_5_5 then
+		if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.HERO_ASTROLABE) then
 			JumpTools.OpenPageByJump("/astrolabeAdjust", {
 				isEnter = true,
-				heroId = arg_4_0.heroID_,
+				heroId = uv0.heroID_,
 				selectPos = {
-					var_5_3,
-					var_5_4
+					table.indexof(HeroCfg[uv0.heroID_].astrolabe, slot2.hero_astrolabe_suit_id),
+					slot2.pos
 				}
 			})
 		else
-			ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.HERO_ASTROLABE, var_5_5))
+			ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.HERO_ASTROLABE, slot5))
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.equipBtn_, nil, function()
-		AstrolabeAction.AstrolabeEquipByList(arg_4_0.heroID_, arg_4_0.astroDataList_)
+	slot0:AddBtnListener(slot0.equipBtn_, nil, function ()
+		AstrolabeAction.AstrolabeEquipByList(uv0.heroID_, uv0.astroDataList_)
 	end)
 end
 
-function var_0_0.InitUI(arg_7_0)
-	arg_7_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetClickCallBack(arg_8_0, arg_8_1)
-	arg_8_0.callback = arg_8_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.callback = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.rateText_.text = math.floor(arg_9_0.rate_ / 100)
+function slot0.RefreshUI(slot0)
+	slot0.rateText_.text = math.floor(slot0.rate_ / 100)
 
-	arg_9_0:RefreshAstroItem()
-	arg_9_0:RefreshState()
+	slot0:RefreshAstroItem()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshAstroItem(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.astroItems) do
-		iter_10_1:SetData(iter_10_0, arg_10_0.astroDataList_[iter_10_0], arg_10_0.heroID_)
-		iter_10_1:SetClickCallBack(arg_10_0.callback)
+function slot0.RefreshAstroItem(slot0)
+	for slot4, slot5 in ipairs(slot0.astroItems) do
+		slot5:SetData(slot4, slot0.astroDataList_[slot4], slot0.heroID_)
+		slot5:SetClickCallBack(slot0.callback)
 	end
 end
 
-function var_0_0.RefreshState(arg_11_0)
-	local var_11_0 = CultureGravureData:GetHasEquippedAllAstro(arg_11_0.heroID_, arg_11_0.astroDataList_)
-	local var_11_1 = CultureGravureData:GetHasUnlockAllAstro(arg_11_0.heroID_, arg_11_0.astroDataList_)
+function slot0.RefreshState(slot0)
+	slot2 = CultureGravureData:GetHasUnlockAllAstro(slot0.heroID_, slot0.astroDataList_)
 
-	if var_11_0 then
-		arg_11_0.btnController_:SetSelectedState("equip")
-	elseif var_11_1 then
-		arg_11_0.btnController_:SetSelectedState("had")
+	if CultureGravureData:GetHasEquippedAllAstro(slot0.heroID_, slot0.astroDataList_) then
+		slot0.btnController_:SetSelectedState("equip")
+	elseif slot2 then
+		slot0.btnController_:SetSelectedState("had")
 	else
-		arg_11_0.btnController_:SetSelectedState("get")
+		slot0.btnController_:SetSelectedState("get")
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	for iter_12_0, iter_12_1 in pairs(arg_12_0.astroItems) do
-		iter_12_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.astroItems) do
+		slot5:Dispose()
 	end
 
-	arg_12_0.astroItems = nil
+	slot0.astroItems = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

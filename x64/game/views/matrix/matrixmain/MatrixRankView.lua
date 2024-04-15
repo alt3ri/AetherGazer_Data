@@ -1,44 +1,44 @@
-local var_0_0 = class("MatrixRankView", ReduxView)
+slot0 = class("MatrixRankView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Main/MatrixRankUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_3_0.rankTypeController = ControllerUtil.GetController(arg_3_0.m_rankTypeController, "toggle")
+	slot0.rankTypeController = ControllerUtil.GetController(slot0.m_rankTypeController, "toggle")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, MatrixRankItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, MatrixRankItem)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_guildBtn, nil, function()
-		arg_5_0:SelectRankType(MatrixConst.MatirxRankType.GUILD)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_guildBtn, nil, function ()
+		uv0:SelectRankType(MatrixConst.MatirxRankType.GUILD)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_allBtn, nil, function()
-		arg_5_0:SelectRankType(MatrixConst.MatirxRankType.ALL)
+	slot0:AddBtnListener(slot0.m_allBtn, nil, function ()
+		uv0:SelectRankType(MatrixConst.MatirxRankType.ALL)
 	end)
 end
 
-function var_0_0.SelectRankType(arg_8_0, arg_8_1)
-	if arg_8_0.rankType == arg_8_1 then
+function slot0.SelectRankType(slot0, slot1)
+	if slot0.rankType == slot1 then
 		return
 	end
 
-	arg_8_0:Refresh(arg_8_1)
+	slot0:Refresh(slot1)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -46,102 +46,82 @@ function var_0_0.OnTop(arg_9_0)
 	})
 end
 
-function var_0_0.OnUpdate(arg_10_0)
-	local var_10_0 = arg_10_0.params_.type
-
-	arg_10_0:Refresh(var_10_0)
+function slot0.OnUpdate(slot0)
+	slot0:Refresh(slot0.params_.type)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:RefreshGuildRankGo()
+function slot0.OnEnter(slot0)
+	slot0:RefreshGuildRankGo()
 	RankAction.QueryCommonRank(RankConst.RANK_ID.MATRIX)
 
-	local var_11_0 = GuildData:GetGuildInfo()
-
-	if var_11_0 and var_11_0.id ~= nil and var_11_0.id ~= 0 then
+	if GuildData:GetGuildInfo() and slot1.id ~= nil and slot1.id ~= 0 then
 		RankAction.QueryGuildCommonRank(RankConst.RANK_ID.MATRIX)
 	end
 
-	local var_11_1 = arg_11_0.params_.type
-
-	arg_11_0:Refresh(var_11_1)
+	slot0:Refresh(slot0.params_.type)
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Refresh(arg_13_0, arg_13_1)
-	arg_13_0.rankType = arg_13_1
+function slot0.Refresh(slot0, slot1)
+	slot0.rankType = slot1
 
-	if arg_13_0.rankType == MatrixConst.MatirxRankType.ALL then
-		local var_13_0 = RankData:GetCommonRank(RankConst.RANK_ID.MATRIX)
+	if slot0.rankType == MatrixConst.MatirxRankType.ALL then
+		slot0.rankList = RankData:GetCommonRank(RankConst.RANK_ID.MATRIX) and slot2.rankList or {}
 
-		arg_13_0.rankList = var_13_0 and var_13_0.rankList or {}
-
-		if var_13_0 then
-			local var_13_1, var_13_2 = var_13_0:GetCurRankDes()
-
-			arg_13_0.m_rank.text = var_13_1
-			arg_13_0.m_score.text = var_13_2
+		if slot2 then
+			slot0.m_rank.text, slot0.m_score.text = slot2:GetCurRankDes()
 		else
-			arg_13_0.m_rank.text = ""
-			arg_13_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 	else
-		local var_13_3 = RankData:GetGuildCommonRank(RankConst.RANK_ID.MATRIX)
+		slot0.rankList = RankData:GetGuildCommonRank(RankConst.RANK_ID.MATRIX) and slot2.rankList or {}
 
-		arg_13_0.rankList = var_13_3 and var_13_3.rankList or {}
-
-		if var_13_3 then
-			local var_13_4, var_13_5 = var_13_3:GetCurRankDes()
-
-			arg_13_0.m_rank.text = var_13_4
-			arg_13_0.m_score.text = var_13_5
+		if slot2 then
+			slot0.m_rank.text, slot0.m_score.text = slot2:GetCurRankDes()
 		else
-			arg_13_0.m_rank.text = ""
-			arg_13_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 	end
 
-	arg_13_0.list_:StartScroll(#arg_13_0.rankList)
+	slot0.list_:StartScroll(#slot0.rankList)
 
-	local var_13_6 = PlayerData:GetPlayerInfo()
+	slot0.m_icon.sprite = ItemTools.getItemSprite(PlayerData:GetPlayerInfo() and slot2.portrait)
+	slot0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 
-	arg_13_0.m_icon.sprite = ItemTools.getItemSprite(var_13_6 and var_13_6.portrait)
-	arg_13_0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_13_6.icon_frame)
-
-	arg_13_0.rankTypeController:SetSelectedIndex(arg_13_0.rankType - 1)
+	slot0.rankTypeController:SetSelectedIndex(slot0.rankType - 1)
 end
 
-function var_0_0.RefreshNone(arg_14_0)
-	arg_14_0.m_rank.text = GetTips("MATRIX_RANK_NO_RANK")
-	arg_14_0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
+function slot0.RefreshNone(slot0)
+	slot0.m_rank.text = GetTips("MATRIX_RANK_NO_RANK")
+	slot0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
 end
 
-function var_0_0.IndexItem(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.rankList[arg_15_1]
-
-	arg_15_2:Refresh(var_15_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.rankList[slot1])
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 
-	arg_16_0.refreshGuildHandler_ = nil
+	slot0.refreshGuildHandler_ = nil
 end
 
-function var_0_0.RefreshGuildRankGo(arg_17_0)
+function slot0.RefreshGuildRankGo(slot0)
 	if GuildData:GetGuildInfo().id == nil then
-		SetActive(arg_17_0.m_guildGo, false)
+		SetActive(slot0.m_guildGo, false)
 	else
-		SetActive(arg_17_0.m_guildGo, true)
+		SetActive(slot0.m_guildGo, true)
 	end
 end
 
-function var_0_0.OnRankUpdate(arg_18_0)
-	arg_18_0:Refresh(arg_18_0.rankType)
+function slot0.OnRankUpdate(slot0)
+	slot0:Refresh(slot0.rankType)
 end
 
-return var_0_0
+return slot0

@@ -1,125 +1,117 @@
-local var_0_0 = import("game.views.shop.contentViews.ShopContentViewWithPoster")
-local var_0_1 = class("ShopFurnitureContentView", var_0_0)
+slot1 = class("ShopFurnitureContentView", import("game.views.shop.contentViews.ShopContentViewWithPoster"))
 
-function var_0_1.GetAssetPath()
+function slot1.GetAssetPath()
 	return "Widget/System/Shop/contentViews/furnitureView"
 end
 
-function var_0_1.InitUI(arg_2_0)
-	var_0_1.super.InitUI(arg_2_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_2_0.scrollRect = arg_2_0.listGo_:GetComponent("ScrollRectEx")
-	arg_2_0.listController = ControllerUtil.GetController(arg_2_0.listGo_.transform, "empty")
+	slot0.scrollRect = slot0.listGo_:GetComponent("ScrollRectEx")
+	slot0.listController = ControllerUtil.GetController(slot0.listGo_.transform, "empty")
 
-	arg_2_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_1.GetPoster(arg_3_0)
-	return DormTools.GetShopStyleImage(arg_3_0.shopId_)
+function slot1.GetPoster(slot0)
+	return DormTools.GetShopStyleImage(slot0.shopId_)
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	arg_4_0:RegistEventListener(COMMON_FILTER_OK, handler(arg_4_0, arg_4_0.UpdateDormList))
+function slot1.OnEnter(slot0)
+	slot0:RegistEventListener(COMMON_FILTER_OK, handler(slot0, slot0.UpdateDormList))
 end
 
-function var_0_1.OnExit(arg_5_0)
-	var_0_1.super.OnExit(arg_5_0)
-	arg_5_0:RemoveAllEventListener()
-	DormRedPointTools:CloseAllSuitGoodRedPoint(arg_5_0.shopId_)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	DormRedPointTools:CloseAllSuitGoodRedPoint(slot0.shopId_)
 end
 
-function var_0_1.Dispose(arg_6_0)
-	var_0_1.super.Dispose(arg_6_0)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.UpdateDormList(arg_7_0)
-	local var_7_0 = 0
+function slot1.UpdateDormList(slot0)
+	slot1 = 0
 
-	for iter_7_0, iter_7_1 in ipairs(Filter_Group_Define.DORM_FURNITURE_TYPE.tags) do
-		if CommonFilterData:HasIndexFlag(Filter_Root_Define.DORM_SHOP_Filter_List.filter_id, Filter_Group_Define.DORM_FURNITURE_TYPE.groupID, iter_7_1) then
-			var_7_0 = iter_7_1
+	for slot5, slot6 in ipairs(Filter_Group_Define.DORM_FURNITURE_TYPE.tags) do
+		if CommonFilterData:HasIndexFlag(Filter_Root_Define.DORM_SHOP_Filter_List.filter_id, Filter_Group_Define.DORM_FURNITURE_TYPE.groupID, slot6) then
+			slot1 = slot6
 
 			break
 		end
 	end
 
-	if var_7_0 == Filter_Tags_Define.FURNITURETYPEALL then
-		arg_7_0.selectedPos = nil
+	if slot1 == Filter_Tags_Define.FURNITURETYPEALL then
+		slot0.selectedPos = nil
 	else
-		arg_7_0.selectedPos = var_7_0 + DormConst.DORM_FURTYPE_OFFSET
+		slot0.selectedPos = slot1 + DormConst.DORM_FURTYPE_OFFSET
 	end
 
-	arg_7_0.textText_.text = CommonFilterCfg[var_7_0].name
+	slot0.textText_.text = CommonFilterCfg[slot1].name
 end
 
-function var_0_1.ResetFilter(arg_8_0)
-	arg_8_0.selectedPos = nil
+function slot1.ResetFilter(slot0)
+	slot0.selectedPos = nil
 end
 
-function var_0_1.AddUIListener(arg_9_0)
-	arg_9_0.scrollRect.onValueChanged:AddListener(function(arg_10_0)
-		if arg_9_0.lastpos then
-			local var_10_0 = arg_9_0.contentTrs_.localPosition.y - arg_9_0.lastpos
-
-			arg_9_0.goTrs_.localPosition = Vector3(arg_9_0.goTrs_.localPosition.x, arg_9_0.goTrs_.localPosition.y + var_10_0, 0)
+function slot1.AddUIListener(slot0)
+	slot0.scrollRect.onValueChanged:AddListener(function (slot0)
+		if uv0.lastpos then
+			uv0.goTrs_.localPosition = Vector3(uv0.goTrs_.localPosition.x, uv0.goTrs_.localPosition.y + uv0.contentTrs_.localPosition.y - uv0.lastpos, 0)
 		end
 
-		arg_9_0.lastpos = arg_9_0.contentTrs_.localPosition.y
+		uv0.lastpos = uv0.contentTrs_.localPosition.y
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.btnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.btnBtn_, nil, function ()
 		JumpTools.OpenPageByJump("dormFurnitureImageView", {
-			shopID = arg_9_0.shopId_
+			shopID = uv0.shopId_
 		})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.filterBtn_, nil, function()
+	slot0:AddBtnListener(slot0.filterBtn_, nil, function ()
 		JumpTools.OpenPageByJump("commonFilterView", {
 			filterGroup = Filter_Root_Define.DORM_SHOP_Filter_List
 		})
 	end)
 end
 
-function var_0_1.IndexItem(arg_13_0, arg_13_1, arg_13_2)
-	var_0_1.super.IndexItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_0:BindSuitRedPoint(arg_13_0.shopDataList_[arg_13_1], arg_13_2)
+function slot1.IndexItem(slot0, slot1, slot2)
+	uv0.super.IndexItem(slot0, slot1, slot2)
+	slot0:BindSuitRedPoint(slot0.shopDataList_[slot1], slot2)
 end
 
-function var_0_1.BindSuitRedPoint(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = getShopCfg(arg_14_1.id).give_id
-	local var_14_1 = DormRedPointTools.FurnitureItemRedPoint(arg_14_0.shopId_, arg_14_1.id)
+function slot1.BindSuitRedPoint(slot0, slot1, slot2)
+	slot4 = getShopCfg(slot1.id).give_id
 
-	if manager.redPoint:getTipBoolean(var_14_1) then
-		manager.redPoint:SetRedPointIndependent(arg_14_2.transform_, true)
+	if manager.redPoint:getTipBoolean(DormRedPointTools.FurnitureItemRedPoint(slot0.shopId_, slot1.id)) then
+		manager.redPoint:SetRedPointIndependent(slot2.transform_, true)
 	else
-		manager.redPoint:SetRedPointIndependent(arg_14_2.transform_, false)
+		manager.redPoint:SetRedPointIndependent(slot2.transform_, false)
 	end
 end
 
-function var_0_1.OnItemClick(arg_15_0, arg_15_1)
-	local var_15_0 = getShopCfg(arg_15_1.id, arg_15_0.shopId_)
-	local var_15_1 = var_15_0.give_id
-
-	if DormSuitData:CheckUnlockSuit(var_15_1) then
-		if arg_15_1.buyTime >= var_15_0.limit_num then
+function slot1.OnItemClick(slot0, slot1)
+	if DormSuitData:CheckUnlockSuit(getShopCfg(slot1.id, slot0.shopId_).give_id) then
+		if slot2.limit_num <= slot1.buyTime then
 			return
 		end
 
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("DORM_BUY_SAME_FURNITURE_SUIT"),
-			OkCallback = function()
-				arg_15_0:OnShopClick(arg_15_1)
+			OkCallback = function ()
+				uv0:OnShopClick(uv1)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	else
-		arg_15_0:OnShopClick(arg_15_1)
+		slot0:OnShopClick(slot1)
 
-		if DormSuitData:CheckIsConfigSuit(var_15_1) then
-			DormRedPointTools:CloseSingleSuitGoodRedPoint(arg_15_0.shopId_, arg_15_1.id)
+		if DormSuitData:CheckIsConfigSuit(slot3) then
+			DormRedPointTools:CloseSingleSuitGoodRedPoint(slot0.shopId_, slot1.id)
 		end
 	end
 end
 
-return var_0_1
+return slot1

@@ -1,51 +1,44 @@
-local var_0_0 = class("WeaponModuleServantInfoView", ReduxView)
+slot0 = class("WeaponModuleServantInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_module/HeroModuleKeyPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroID_ = arg_7_0.params_.heroID
+function slot0.OnEnter(slot0)
+	slot0.heroID_ = slot0.params_.heroID
+	slot1 = HeroTools.GetHeroSpecServant(slot0.heroID_)
+	slot0.nameText1_.text = ItemTools.getItemName(slot1)
+	slot0.nameText2_.text = ItemTools.getItemName(slot1)
+	slot2, slot3 = nil
+	slot4 = WeaponServantCfg[slot1].effect[1]
+	slot0.frontDesText_.text = GetCfgDescription(WeaponEffectCfg[slot4].description[1], 1)
+	slot0.nextDesText_.text = GetCfgDescription(WeaponEffectCfg[slot4].strengthen_description[2], 1)
 
-	local var_7_0 = HeroTools.GetHeroSpecServant(arg_7_0.heroID_)
-
-	arg_7_0.nameText1_.text = ItemTools.getItemName(var_7_0)
-	arg_7_0.nameText2_.text = ItemTools.getItemName(var_7_0)
-
-	local var_7_1
-	local var_7_2
-	local var_7_3 = WeaponServantCfg[var_7_0].effect[1]
-	local var_7_4 = GetCfgDescription(WeaponEffectCfg[var_7_3].description[1], 1)
-	local var_7_5 = GetCfgDescription(WeaponEffectCfg[var_7_3].strengthen_description[2], 1)
-
-	arg_7_0.frontDesText_.text = var_7_4
-	arg_7_0.nextDesText_.text = var_7_5
-
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.frontcontentTrans_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.nextcontentTrans_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.frontcontentTrans_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.nextcontentTrans_)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

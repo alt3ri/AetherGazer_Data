@@ -1,5 +1,5 @@
-local var_0_0 = class("ZumaTaskItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ZumaTaskItem", ReduxView)
+slot1 = {
 	showState = {
 		received = "received",
 		name = "state",
@@ -8,96 +8,87 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.showStateController = arg_3_0.controllerexcollection_:GetController(var_0_1.showState.name)
+	slot0.showStateController = slot0.controllerexcollection_:GetController(uv0.showState.name)
 
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		TaskAction:SubmitTask(arg_3_0.taskData.id)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskData.id)
 	end)
 
-	arg_3_0.rewardItemList = {}
+	slot0.rewardItemList = {}
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.taskData = arg_5_1
+function slot0.SetData(slot0, slot1)
+	slot0.taskData = slot1
 
-	arg_5_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_6_0)
-	local var_6_0 = arg_6_0.taskData
-	local var_6_1 = var_6_0.id
-	local var_6_2 = AssignmentCfg[var_6_1]
+function slot0.Refresh(slot0)
+	slot1 = slot0.taskData
+	slot0.desc_.text = AssignmentCfg[slot1.id].desc
 
-	arg_6_0.desc_.text = var_6_2.desc
-
-	if var_6_0.complete_flag == 1 then
-		arg_6_0.showStateController:SetSelectedState(var_0_1.showState.received)
-	elseif var_6_0.progress >= var_6_2.need then
-		arg_6_0.showStateController:SetSelectedState(var_0_1.showState.complete)
+	if slot1.complete_flag == 1 then
+		slot0.showStateController:SetSelectedState(uv0.showState.received)
+	elseif slot3.need <= slot1.progress then
+		slot0.showStateController:SetSelectedState(uv0.showState.complete)
 	else
-		arg_6_0.showStateController:SetSelectedState(var_0_1.showState.unfinish)
+		slot0.showStateController:SetSelectedState(uv0.showState.unfinish)
 	end
 
-	var_6_0.progress = var_6_0.progress
-	arg_6_0.sliderSlr_.value = var_6_0.progress / var_6_2.need
+	slot1.progress = slot1.progress
+	slot0.sliderSlr_.value = slot1.progress / slot3.need
+	slot0.sliderTxt_.text = string.format("%s/%s", math.min(slot1.progress, slot3.need), slot3.need)
 
-	local var_6_3 = math.min(var_6_0.progress, var_6_2.need)
-
-	arg_6_0.sliderTxt_.text = string.format("%s/%s", var_6_3, var_6_2.need)
-
-	arg_6_0:RefreshRewardList(var_6_2.reward)
+	slot0:RefreshRewardList(slot3.reward)
 end
 
-function var_0_0.RefreshRewardList(arg_7_0, arg_7_1)
-	for iter_7_0, iter_7_1 in pairs(arg_7_1) do
-		if not arg_7_0.rewardItemList[iter_7_0] then
-			local var_7_0 = Object.Instantiate(arg_7_0.rewardItem_, arg_7_0.rewardParent_)
-
-			arg_7_0.rewardItemList[iter_7_0] = CommonItemView.New(var_7_0)
+function slot0.RefreshRewardList(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		if not slot0.rewardItemList[slot5] then
+			slot0.rewardItemList[slot5] = CommonItemView.New(Object.Instantiate(slot0.rewardItem_, slot0.rewardParent_))
 		end
 
-		local var_7_1 = clone(ItemTemplateData)
+		slot7 = clone(ItemTemplateData)
+		slot7.id = slot6[1]
+		slot7.number = slot6[2]
 
-		var_7_1.id = iter_7_1[1]
-		var_7_1.number = iter_7_1[2]
-
-		function var_7_1.clickFun()
+		function slot7.clickFun()
 			ShowPopItem(POP_ITEM, {
-				var_7_1.id
+				uv0.id
 			})
 		end
 
-		arg_7_0.rewardItemList[iter_7_0]:SetData(var_7_1)
-		arg_7_0.rewardItemList[iter_7_0]:Show(true)
+		slot0.rewardItemList[slot5]:SetData(slot7)
+		slot0.rewardItemList[slot5]:Show(true)
 	end
 
-	for iter_7_2 = #arg_7_1 + 1, #arg_7_0.rewardItemList do
-		arg_7_0.rewardItemList[iter_7_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItemList do
+		slot0.rewardItemList[slot5]:Show(false)
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.rewardItemList) do
-		iter_9_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItemList) do
+		slot5:Dispose()
 
-		iter_9_1 = nil
+		slot5 = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

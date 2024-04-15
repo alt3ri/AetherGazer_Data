@@ -1,307 +1,266 @@
-local var_0_0 = require("lpeg")
-local var_0_1 = var_0_0.S
-local var_0_2 = var_0_0.R
-local var_0_3 = var_0_0.P
-local var_0_4 = var_0_0.Ct
-local var_0_5 = var_0_0.C
-local var_0_6 = var_0_0.Cc
-local var_0_7 = var_0_0.V
-local var_0_8 = var_0_1(" \t\n")^0
-local var_0_9 = var_0_2("09")
-local var_0_10 = var_0_5(("-" + var_0_9) * var_0_9^0 * ("." * var_0_9^0)^-1) / tonumber * var_0_8
-local var_0_11 = var_0_2("AZ", "az")
-local var_0_12 = "(" * var_0_8
-local var_0_13 = ")" * var_0_8
-local var_0_14 = "[" * var_0_8
-local var_0_15 = "]" * var_0_8
-local var_0_16 = "," * var_0_8
-local var_0_17 = var_0_5(var_0_3("true")) * var_0_8
-local var_0_18 = var_0_5(var_0_3("false")) * var_0_8
-local var_0_19 = var_0_5(var_0_3("<=") + var_0_3(">=") + var_0_3("!=") + var_0_3("==") + var_0_1("<>")) * var_0_8
-local var_0_20 = var_0_5(var_0_1("+-")) * var_0_8
-local var_0_21 = var_0_5(var_0_1("*/")) * var_0_8
-local var_0_22 = var_0_5(var_0_1("^")) * var_0_8
-local var_0_23 = var_0_5(var_0_11 * (var_0_9 + var_0_11 + "_")^0) * var_0_8 - (var_0_17 + var_0_18) * var_0_8
-local var_0_24 = var_0_5("#" * var_0_9 * var_0_9^0) * var_0_8
-local var_0_25 = var_0_7("AddSub")
-local var_0_26 = var_0_7("MulDiv")
-local var_0_27 = var_0_7("Exponent")
-local var_0_28 = var_0_7("Operand")
-local var_0_29 = var_0_7("Ref")
-local var_0_30 = var_0_7("Call")
-local var_0_31 = var_0_7("VarList")
-local var_0_32 = var_0_7("Val")
-local var_0_33 = var_0_7("Bool")
-local var_0_34 = var_0_7("Array")
-local var_0_35 = "bool"
-local var_0_36 = "addsub"
-local var_0_37 = "muldiv"
-local var_0_38 = "expo"
-local var_0_39 = "ref"
-local var_0_40 = "call"
-local var_0_41 = "array"
-local var_0_42 = var_0_8 * var_0_3({
-	var_0_32,
-	Val = var_0_34 + var_0_33 + var_0_25,
-	Bool = var_0_4(var_0_6(var_0_35) * (var_0_17 + var_0_18 + var_0_25 * var_0_19 * var_0_25)),
-	AddSub = var_0_4(var_0_6(var_0_36) * var_0_26 * (var_0_20 * var_0_26)^0),
-	MulDiv = var_0_4(var_0_6(var_0_37) * var_0_27 * (var_0_21 * var_0_27)^0),
-	Exponent = var_0_4(var_0_6(var_0_38) * var_0_28 * (var_0_22 * var_0_28)^0),
-	Operand = var_0_10 + var_0_12 * var_0_25 * var_0_13 + var_0_30 + var_0_29,
-	Ref = var_0_4(var_0_6(var_0_39) * (var_0_24 + var_0_23) * (var_0_14 * var_0_25 * var_0_15)^0),
-	Call = var_0_4(var_0_6(var_0_40) * var_0_29 * var_0_8 * var_0_12 * var_0_31 * var_0_13),
-	VarList = var_0_4((var_0_32 * var_0_16^-1)^0),
-	Array = var_0_4(var_0_6(var_0_41) * var_0_14 * var_0_31 * var_0_15)
+slot0 = require("lpeg")
+slot1 = slot0.S
+slot2 = slot0.R
+slot3 = slot0.P
+slot4 = slot0.Ct
+slot5 = slot0.C
+slot6 = slot0.Cc
+slot7 = slot0.V
+slot8 = slot1(" \t\n")^0
+slot9 = slot2("09")
+slot11 = slot2("AZ", "az")
+slot12 = "(" * slot8
+slot13 = ")" * slot8
+slot14 = "[" * slot8
+slot15 = "]" * slot8
+slot17 = slot5(slot3("true")) * slot8
+slot18 = slot5(slot3("false")) * slot8
+slot26 = slot7("AddSub")
+slot27 = slot7("MulDiv")
+slot28 = slot7("Exponent")
+slot29 = slot7("Operand")
+slot30 = slot7("Ref")
+slot32 = slot7("VarList")
+slot33 = slot7("Val")
+slot43 = slot8 * slot3({
+	slot33,
+	Val = slot7("Array") + slot7("Bool") + slot26,
+	Bool = slot4(slot6("bool") * (slot17 + slot18 + slot26 * slot5(slot3("<=") + slot3(">=") + slot3("!=") + slot3("==") + slot1("<>")) * slot8 * slot26)),
+	AddSub = slot4(slot6("addsub") * slot27 * (slot5(slot1("+-")) * slot8 * slot27)^0),
+	MulDiv = slot4(slot6("muldiv") * slot28 * (slot5(slot1("*/")) * slot8 * slot28)^0),
+	Exponent = slot4(slot6("expo") * slot29 * (slot5(slot1("^")) * slot8 * slot29)^0),
+	Operand = slot5(("-" + slot9) * slot9^0 * ("." * slot9^0)^-1) / tonumber * slot8 + slot12 * slot26 * slot13 + slot7("Call") + slot30,
+	Ref = slot4(slot6("ref") * (slot5("#" * slot9 * slot9^0) * slot8 + slot5(slot11 * (slot9 + slot11 + "_")^0) * slot8 - (slot17 + slot18) * slot8) * (slot14 * slot26 * slot15)^0),
+	Call = slot4(slot6("call") * slot30 * slot8 * slot12 * slot32 * slot13),
+	VarList = slot4((slot33 * ("," * slot8)^-1)^0),
+	Array = slot4(slot6("array") * slot14 * slot32 * slot15)
 }) * -1
 
-function simplify(arg_1_0)
-	if type(arg_1_0) ~= "table" then
-		return arg_1_0
-	elseif arg_1_0[1] == var_0_36 or arg_1_0[1] == var_0_37 or arg_1_0[1] == var_0_38 then
-		local var_1_0 = #arg_1_0
-
-		if var_1_0 == 2 then
-			arg_1_0 = simplify(arg_1_0[2])
+function simplify(slot0)
+	if type(slot0) ~= "table" then
+		return slot0
+	elseif slot0[1] == uv0 or slot0[1] == uv1 or slot0[1] == uv2 then
+		if #slot0 == 2 then
+			slot0 = simplify(slot0[2])
 		else
-			for iter_1_0 = 2, var_1_0 do
-				arg_1_0[iter_1_0] = simplify(arg_1_0[iter_1_0])
+			for slot5 = 2, slot1 do
+				slot0[slot5] = simplify(slot0[slot5])
 			end
 		end
-	elseif arg_1_0[1] == var_0_35 then
-		for iter_1_1 = 2, #arg_1_0 do
-			arg_1_0[iter_1_1] = simplify(arg_1_0[iter_1_1])
+	elseif slot0[1] == uv3 then
+		for slot4 = 2, #slot0 do
+			slot0[slot4] = simplify(slot0[slot4])
 		end
-	elseif arg_1_0[1] == var_0_39 then
-		for iter_1_2 = 3, #arg_1_0 do
-			arg_1_0[iter_1_2] = simplify(arg_1_0[iter_1_2])
+	elseif slot0[1] == uv4 then
+		for slot4 = 3, #slot0 do
+			slot0[slot4] = simplify(slot0[slot4])
 		end
-	elseif arg_1_0[1] == var_0_41 then
-		local var_1_1 = arg_1_0[2]
-
-		for iter_1_3 = 1, #var_1_1 do
-			var_1_1[iter_1_3] = simplify(var_1_1[iter_1_3])
+	elseif slot0[1] == uv5 then
+		for slot5 = 1, #slot0[2] do
+			slot1[slot5] = simplify(slot1[slot5])
 		end
-	elseif arg_1_0[1] == var_0_40 then
-		local var_1_2 = arg_1_0[3]
-
-		for iter_1_4, iter_1_5 in ipairs(var_1_2) do
-			var_1_2[iter_1_4] = simplify(var_1_2[iter_1_4])
+	elseif slot0[1] == uv6 then
+		for slot5, slot6 in ipairs(slot0[3]) do
+			slot1[slot5] = simplify(slot1[slot5])
 		end
 	end
 
-	return arg_1_0
+	return slot0
 end
 
-function eval_expr_lr(arg_2_0, arg_2_1, arg_2_2)
-	if type(arg_2_0) ~= "table" or arg_2_0[1] ~= var_0_36 and arg_2_0[1] ~= var_0_37 then
+function eval_expr_lr(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 and slot0[1] ~= uv1 then
 		return nil, "invalid expr(left to right)"
 	end
 
-	local var_2_0
-	local var_2_1
-	local var_2_2
-	local var_2_3, var_2_4 = eval(arg_2_0[2], arg_2_1, arg_2_2)
+	slot3, slot4, slot5 = nil
+	slot6, slot5 = eval(slot0[2], slot1, slot2)
 
-	if var_2_3 == nil then
-		return nil, var_2_4
+	if slot6 == nil then
+		return nil, slot5
 	end
 
-	for iter_2_0 = 3, #arg_2_0, 2 do
-		local var_2_5 = arg_2_0[iter_2_0]
-		local var_2_6, var_2_7 = eval(arg_2_0[iter_2_0 + 1], arg_2_1, arg_2_2)
+	for slot9 = 3, #slot0, 2 do
+		slot10 = slot0[slot9]
+		slot4, slot12 = eval(slot0[slot9 + 1], slot1, slot2)
 
-		if var_2_7 ~= nil then
-			return nil, var_2_7
+		if slot12 ~= nil then
+			return nil, slot5
 		end
 
-		if var_2_5 == "+" then
-			var_2_3 = var_2_3 + var_2_6
-		elseif var_2_5 == "-" then
-			var_2_3 = var_2_3 - var_2_6
-		elseif var_2_5 == "*" then
-			var_2_3 = var_2_3 * var_2_6
-		elseif var_2_5 == "/" then
-			var_2_3 = var_2_3 / var_2_6
+		if slot10 == "+" then
+			slot3 = slot3 + slot4
+		elseif slot10 == "-" then
+			slot3 = slot3 - slot4
+		elseif slot10 == "*" then
+			slot3 = slot3 * slot4
+		elseif slot10 == "/" then
+			slot3 = slot3 / slot4
 		else
-			return nil, var_2_5 .. " operator is not supported"
+			return nil, slot10 .. " operator is not supported"
 		end
 	end
 
-	return var_2_3
+	return slot3
 end
 
-function eval_expr_rl(arg_3_0, arg_3_1, arg_3_2)
-	if type(arg_3_0) ~= "table" or arg_3_0[1] ~= var_0_38 then
+function eval_expr_rl(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 then
 		return nil, "invalid expr(right to left)"
 	end
 
-	local var_3_0
-	local var_3_1
-	local var_3_2
-	local var_3_3 = #arg_3_0
-	local var_3_4, var_3_5 = eval(arg_3_0[var_3_3], arg_3_1, arg_3_2)
+	slot3, slot4, slot5 = nil
+	slot7, slot5 = eval(slot0[#slot0], slot1, slot2)
 
-	if var_3_4 == nil then
-		return nil, var_3_5
+	if slot7 == nil then
+		return nil, slot5
 	end
 
-	for iter_3_0 = var_3_3 - 1, 3, -2 do
-		local var_3_6 = arg_3_0[iter_3_0]
-		local var_3_7, var_3_8 = eval(arg_3_0[iter_3_0 - 1], arg_3_1, arg_3_2)
+	for slot10 = slot6 - 1, 3, -2 do
+		slot11 = slot0[slot10]
+		slot3, slot13 = eval(slot0[slot10 - 1], slot1, slot2)
 
-		if var_3_8 ~= nil then
-			return nil, var_3_8
+		if slot13 ~= nil then
+			return nil, slot5
 		end
 
-		if var_3_6 == "^" then
-			var_3_4 = var_3_7^var_3_4
+		if slot11 == "^" then
+			slot4 = slot3^slot4
 		else
-			return nil, var_3_6 .. " operator is not supported"
+			return nil, slot11 .. " operator is not supported"
 		end
 	end
 
-	return var_3_4
+	return slot4
 end
 
-function eval_bool(arg_4_0, arg_4_1, arg_4_2)
-	if type(arg_4_0) ~= "table" or arg_4_0[1] ~= var_0_35 then
+function eval_bool(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 then
 		return nil, "invalid bool"
 	end
 
-	if arg_4_0[2] == "true" then
+	if slot0[2] == "true" then
 		return true
-	elseif arg_4_0[2] == "false" then
+	elseif slot0[2] == "false" then
 		return false
 	end
 
-	local var_4_0
-	local var_4_1
-	local var_4_2
-	local var_4_3, var_4_4 = eval(arg_4_0[2], arg_4_1, arg_4_2)
-	local var_4_5, var_4_6 = eval(arg_4_0[4], arg_4_1, arg_4_2)
-	local var_4_7 = arg_4_0[3]
+	slot3, slot4, slot5 = nil
+	slot3, slot5 = eval(slot0[2], slot1, slot2)
+	slot4, slot5 = eval(slot0[4], slot1, slot2)
 
-	if var_4_7 == "<" then
-		return var_4_3 < var_4_5
-	elseif var_4_7 == "==" then
-		return var_4_3 == var_4_5
-	elseif var_4_7 == ">" then
-		return var_4_5 < var_4_3
-	elseif var_4_7 == "<=" then
-		return var_4_3 <= var_4_5
-	elseif var_4_7 == ">=" then
-		return var_4_5 <= var_4_3
-	elseif var_4_7 == "!=" then
-		return var_4_3 ~= var_4_5
+	if slot0[3] == "<" then
+		return slot3 < slot4
+	elseif slot6 == "==" then
+		return slot3 == slot4
+	elseif slot6 == ">" then
+		return slot4 < slot3
+	elseif slot6 == "<=" then
+		return slot3 <= slot4
+	elseif slot6 == ">=" then
+		return slot4 <= slot3
+	elseif slot6 == "!=" then
+		return slot3 ~= slot4
 	end
 
 	return nil, "invalid bool operator"
 end
 
-function eval_array(arg_5_0, arg_5_1, arg_5_2)
-	if type(arg_5_0) ~= "table" or arg_5_0[1] ~= var_0_41 or type(arg_5_0[2]) ~= "table" then
+function eval_array(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 or type(slot0[2]) ~= "table" then
 		return nil, "invalid array"
 	end
 
-	local var_5_0 = {}
+	slot3 = {}
 
-	for iter_5_0 = 1, #arg_5_0[2] do
-		local var_5_1, var_5_2 = eval(arg_5_0[2][iter_5_0], arg_5_1, arg_5_2)
+	for slot7 = 1, #slot0[2] do
+		slot8, slot9 = eval(slot0[2][slot7], slot1, slot2)
 
-		if var_5_2 ~= nil then
-			return nil, var_5_2
+		if slot9 ~= nil then
+			return nil, slot9
 		end
 
-		table.insert(var_5_0, var_5_1)
+		table.insert(slot3, slot8)
 	end
 
-	log(var_0_41, var_5_0)
+	log(uv0, slot3)
 
-	return var_5_0
+	return slot3
 end
 
-function eval_call(arg_6_0, arg_6_1, arg_6_2)
-	if type(arg_6_0) ~= "table" or arg_6_0[1] ~= var_0_40 then
+function eval_call(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 then
 		return nil, "invalid call"
 	end
 
-	local var_6_0 = eval(arg_6_0[2], arg_6_1, arg_6_2)
-
-	if type(var_6_0) ~= "function" then
-		return nil, arg_6_0[2][2] .. " is not a function"
+	if type(eval(slot0[2], slot1, slot2)) ~= "function" then
+		return nil, slot0[2][2] .. " is not a function"
 	end
 
-	local var_6_1 = {}
+	for slot8, slot9 in ipairs(slot0[3]) do
+		slot10 = nil
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0[3]) do
-		local var_6_2
-		local var_6_3
-
-		var_6_1[iter_6_0], var_6_3 = eval(iter_6_1, arg_6_1, arg_6_2)
-
-		if var_6_3 ~= nil then
-			return nil, var_6_3
+		if slot12 ~= nil then
+			return nil, slot10
 		end
 	end
 
-	return var_6_0(unpack(var_6_1))
+	return slot3(unpack({
+		[slot8] = eval(slot9, slot1, slot2)
+	}))
 end
 
-function lookup(arg_7_0, arg_7_1, arg_7_2)
-	if type(arg_7_0) ~= "table" or arg_7_0[1] ~= var_0_39 then
+function lookup(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or slot0[1] ~= uv0 then
 		return nil, "invalid ref"
 	end
 
-	local var_7_0 = arg_7_2[arg_7_0[2]]
+	if slot2[slot0[2]] ~= nil then
+		for slot7 = 3, #slot0 do
+			slot8, slot9 = eval(slot0[slot7], slot1, slot2)
 
-	if var_7_0 ~= nil then
-		for iter_7_0 = 3, #arg_7_0 do
-			local var_7_1, var_7_2 = eval(arg_7_0[iter_7_0], arg_7_1, arg_7_2)
-
-			if var_7_2 ~= nil then
-				return nil, var_7_2
+			if slot9 ~= nil then
+				return nil, slot9
 			end
 
-			log("array", var_7_0)
+			log("array", slot3)
 
-			if type(var_7_0) ~= "table" then
+			if type(slot3) ~= "table" then
 				return nil, "index of non-table"
 			end
 
-			var_7_0 = var_7_0[var_7_1]
+			slot3 = slot3[slot8]
 		end
 
-		return var_7_0
+		return slot3
 	end
 
-	return arg_7_1[arg_7_0[2]]
+	return slot1[slot0[2]]
 end
 
-function eval(arg_8_0, arg_8_1, arg_8_2)
-	if type(arg_8_0) == "number" then
-		return arg_8_0
-	elseif type(arg_8_0) ~= "table" then
+function eval(slot0, slot1, slot2)
+	if type(slot0) == "number" then
+		return slot0
+	elseif type(slot0) ~= "table" then
 		return nil, "invalid ast"
-	elseif arg_8_0[1] == var_0_36 or arg_8_0[1] == var_0_37 then
-		return eval_expr_lr(arg_8_0, arg_8_1, arg_8_2)
-	elseif arg_8_0[1] == var_0_38 then
-		return eval_expr_rl(arg_8_0, arg_8_1, arg_8_2)
-	elseif arg_8_0[1] == var_0_39 then
-		return lookup(arg_8_0, arg_8_1, arg_8_2)
-	elseif arg_8_0[1] == var_0_35 then
-		return eval_bool(arg_8_0, arg_8_1, arg_8_2)
-	elseif arg_8_0[1] == var_0_41 then
-		return eval_array(arg_8_0, arg_8_1, arg_8_2)
-	elseif arg_8_0[1] == var_0_40 then
-		return eval_call(arg_8_0, arg_8_1, arg_8_2)
+	elseif slot0[1] == uv0 or slot0[1] == uv1 then
+		return eval_expr_lr(slot0, slot1, slot2)
+	elseif slot0[1] == uv2 then
+		return eval_expr_rl(slot0, slot1, slot2)
+	elseif slot0[1] == uv3 then
+		return lookup(slot0, slot1, slot2)
+	elseif slot0[1] == uv4 then
+		return eval_bool(slot0, slot1, slot2)
+	elseif slot0[1] == uv5 then
+		return eval_array(slot0, slot1, slot2)
+	elseif slot0[1] == uv6 then
+		return eval_call(slot0, slot1, slot2)
 	end
 end
 
 return {
-	parse = function(arg_9_0)
-		local var_9_0 = var_0_42:match(arg_9_0)
-
-		return simplify(var_9_0)
+	parse = function (slot0)
+		return simplify(uv0:match(slot0))
 	end,
 	eval = eval
 }

@@ -1,4 +1,13 @@
-local var_0_0 = {
+slot4 = 0.1176
+slot5 = 1
+
+for slot4, slot5 in pairs(CurrencyIdMapCfg) do
+	if slot5.id then
+		-- Nothing
+	end
+end
+
+return {
 	CURRENCY_TYPE_STRONGHOLD_EXP_1 = 54026,
 	CURRENCY_TYPE_STRONGHOLD_EXP_2 = 54026,
 	CURRENCY_TYPE_NEWWARCHESS_MOVEPOINT_PACKAGE = 53082,
@@ -23,29 +32,20 @@ local var_0_0 = {
 	CURRENCY_TYPE_SKIN = CurrencyIdMapCfg.CURRENCY_TYPE_SKIN.item_id,
 	ENOUGH_COLOR = Color.New(0.2117, 0.2274, 0.2588, 1),
 	ENOUGH_COLOR_LIGHT = Color.New(0.9137, 0.9333, 0.9539, 1),
-	LACK_COLOR = Color.New(0.8039, 0.2588, 0.1176, 1)
-}
+	LACK_COLOR = Color.New(0.8039, 0.2588, slot4, slot5),
+	[slot4] = slot5.item_id,
+	GetPlatformDiamondId = function ()
+		if GameToSDK.PLATFORM_ID == 1 then
+			return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_IOS.item_id
+		end
 
-for iter_0_0, iter_0_1 in pairs(CurrencyIdMapCfg) do
-	if iter_0_1.id then
-		var_0_0[iter_0_0] = iter_0_1.item_id
-	end
-end
+		return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
+	end,
+	GetOtherPlatformDiamondId = function ()
+		if GameToSDK.PLATFORM_ID == 1 then
+			return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
+		end
 
-function var_0_0.GetPlatformDiamondId()
-	if GameToSDK.PLATFORM_ID == 1 then
 		return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_IOS.item_id
 	end
-
-	return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
-end
-
-function var_0_0.GetOtherPlatformDiamondId()
-	if GameToSDK.PLATFORM_ID == 1 then
-		return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
-	end
-
-	return CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_IOS.item_id
-end
-
-return var_0_0
+}

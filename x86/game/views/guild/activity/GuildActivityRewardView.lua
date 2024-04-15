@@ -1,56 +1,56 @@
-local var_0_0 = class("GuildActivityRewardView", ReduxView)
+slot0 = class("GuildActivityRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivityUI/GuildActivityRewardPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.receiveHandler_ = handler(arg_3_0, arg_3_0.OnGuildActivityReceiveRateReward)
+	slot0.receiveHandler_ = handler(slot0, slot0.OnGuildActivityReceiveRateReward)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.scrollHelper_ = LuaList.New(handler(arg_6_0, arg_6_0.IndexItem), arg_6_0.listGo_, GuildActivityRewardItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, GuildActivityRewardItem)
 end
 
-function var_0_0.OnEnter(arg_7_0)
+function slot0.OnEnter(slot0)
 	GuildActivityLuaBridge.GetManager():SetOnWarField(false)
 
 	manager.ui.mainCameraCom_.orthographic = true
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
-	arg_7_0.rateIDList_ = GuildActivityData:GetSortedRateIDList(arg_7_0.activityID_)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.rateIDList_ = GuildActivityData:GetSortedRateIDList(slot0.activityID_)
 
-	arg_7_0.scrollHelper_:StartScroll(#arg_7_0.rateIDList_)
+	slot0.scrollHelper_:StartScroll(#slot0.rateIDList_)
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:SetData(arg_8_0.rateIDList_[arg_8_1], arg_8_0.activityID_)
-	arg_8_2:setReceiveCallBack(arg_8_0.receiveHandler_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.rateIDList_[slot1], slot0.activityID_)
+	slot2:setReceiveCallBack(slot0.receiveHandler_)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnGuildActivityReceiveRateReward(arg_10_0)
-	arg_10_0.rateIDList_ = GuildActivityData:GetSortedRateIDList(arg_10_0.activityID_)
+function slot0.OnGuildActivityReceiveRateReward(slot0)
+	slot0.rateIDList_ = GuildActivityData:GetSortedRateIDList(slot0.activityID_)
 
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.rateIDList_)
+	slot0.scrollHelper_:StartScroll(#slot0.rateIDList_)
 end
 
-return var_0_0
+return slot0

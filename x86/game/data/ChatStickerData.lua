@@ -1,61 +1,59 @@
-local var_0_0 = singletonClass("ChatStickerData")
+slot0 = singletonClass("ChatStickerData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.customStickerList_ = {}
-	arg_1_0.customStickerUIList_ = {}
-	arg_1_0.unlockStickerList_ = {}
+function slot0.Init(slot0)
+	slot0.customStickerList_ = {}
+	slot0.customStickerUIList_ = {}
+	slot0.unlockStickerList_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	arg_2_0.customStickerList_ = {}
+function slot0.InitData(slot0, slot1)
+	slot0.customStickerList_ = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.emoticon_id_list) do
-		table.insert(arg_2_0.customStickerList_, iter_2_1)
+	for slot5, slot6 in ipairs(slot1.emoticon_id_list) do
+		table.insert(slot0.customStickerList_, slot6)
 	end
 
-	arg_2_0.unlockStickerList_ = {}
+	slot0.unlockStickerList_ = {}
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.unlocked_emoji_list or {}) do
-		table.insert(arg_2_0.unlockStickerList_, iter_2_3)
+	for slot5, slot6 in ipairs(slot1.unlocked_emoji_list or {}) do
+		table.insert(slot0.unlockStickerList_, slot6)
 	end
 end
 
-function var_0_0.GetCustomStickerList(arg_3_0)
-	return arg_3_0.customStickerList_
+function slot0.GetCustomStickerList(slot0)
+	return slot0.customStickerList_
 end
 
-function var_0_0.SetCustomStickerList(arg_4_0, arg_4_1)
-	arg_4_0.customStickerList_ = arg_4_1
+function slot0.SetCustomStickerList(slot0, slot1)
+	slot0.customStickerList_ = slot1
 end
 
-function var_0_0.GetCustomStickerUIList(arg_5_0)
-	return arg_5_0.customStickerUIList_
+function slot0.GetCustomStickerUIList(slot0)
+	return slot0.customStickerUIList_
 end
 
-function var_0_0.InitStickerUIList(arg_6_0)
-	arg_6_0.customStickerUIList_ = clone(arg_6_0.customStickerList_)
+function slot0.InitStickerUIList(slot0)
+	slot0.customStickerUIList_ = clone(slot0.customStickerList_)
 end
 
-function var_0_0.ChangeCustomStickerUIList(arg_7_0, arg_7_1)
-	local var_7_0 = table.keyof(arg_7_0.customStickerUIList_, arg_7_1)
-
-	if var_7_0 then
-		table.remove(arg_7_0.customStickerUIList_, var_7_0)
+function slot0.ChangeCustomStickerUIList(slot0, slot1)
+	if table.keyof(slot0.customStickerUIList_, slot1) then
+		table.remove(slot0.customStickerUIList_, slot2)
 	else
-		table.insert(arg_7_0.customStickerUIList_, arg_7_1)
+		table.insert(slot0.customStickerUIList_, slot1)
 	end
 end
 
-function var_0_0.SaveData(arg_8_0)
-	arg_8_0.customStickerList_ = clone(arg_8_0.customStickerUIList_)
+function slot0.SaveData(slot0)
+	slot0.customStickerList_ = clone(slot0.customStickerUIList_)
 end
 
-function var_0_0.IsLockSticker(arg_9_0, arg_9_1)
-	return not table.keyof(arg_9_0.unlockStickerList_, arg_9_1)
+function slot0.IsLockSticker(slot0, slot1)
+	return not table.keyof(slot0.unlockStickerList_, slot1)
 end
 
-function var_0_0.UnlockSticker(arg_10_0, arg_10_1)
-	table.insert(arg_10_0.unlockStickerList_, arg_10_1)
+function slot0.UnlockSticker(slot0, slot1)
+	table.insert(slot0.unlockStickerList_, slot1)
 end
 
-return var_0_0
+return slot0

@@ -1,72 +1,68 @@
-local var_0_0 = class("LanguageSwitchView", ReduxView)
+slot0 = class("LanguageSwitchView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Setting/GameLanguageUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.listGo_, LanguageSwitchItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, LanguageSwitchItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListenerScale(arg_5_0.yesBtn_, nil, function()
-		arg_5_0:SaveData()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.yesBtn_, nil, function ()
+		uv0:SaveData()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListenerScale(arg_5_0.noBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.noBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.Init(arg_8_0)
-	arg_8_0:InitUI()
-	arg_8_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.indexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:RefreshData(arg_9_1)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot1)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
+function slot0.RefreshUI(slot0)
+	slot0.scrollHelper_:StartScroll(#AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].language_in_list)
 
-	arg_10_0.scrollHelper_:StartScroll(#var_10_0.language_in_list)
-
-	arg_10_0.languageList = {}
+	slot0.languageList = {}
 end
 
-function var_0_0.OnGameLanguageSettingChange(arg_11_0, arg_11_1)
-	arg_11_0.settingData_ = arg_11_1
+function slot0.OnGameLanguageSettingChange(slot0, slot1)
+	slot0.settingData_ = slot1
 end
 
-function var_0_0.SaveData(arg_12_0)
-	SettingAction.ChangeSoundSetting("text_language", arg_12_0.settingData_)
+function slot0.SaveData(slot0)
+	SettingAction.ChangeSoundSetting("text_language", slot0.settingData_)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_14_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
 
-	arg_15_0.params_ = nil
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

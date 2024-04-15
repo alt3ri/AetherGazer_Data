@@ -1,83 +1,79 @@
-local var_0_0 = class("BattleActivityRaceStageTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleActivityRaceStageTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.activityID_ = arg_1_2
-	arg_1_0.cfg = BattleActivityRaceStageCfg[arg_1_1]
+	slot0.id = slot1
+	slot0.activityID_ = slot2
+	slot0.cfg = BattleActivityRaceStageCfg[slot1]
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	local var_3_0 = ActivityRaceCfg[arg_3_0.activityID_].stage_list
-
-	return table.keyof(var_3_0, arg_3_0.id)
+function slot0.GetDest(slot0)
+	return table.keyof(ActivityRaceCfg[slot0.activityID_].stage_list, slot0.id)
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.ACTIVITY_RACE
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_7_0)
-	return arg_7_0.cfg.ai_level or 0
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level or 0
 end
 
-function var_0_0.GetEnemyLevel(arg_8_0)
-	return arg_8_0.cfg.monster_level or 0
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level or 0
 end
 
-function var_0_0.GetHeroTeam(arg_9_0)
-	return arg_9_0.heroList_, arg_9_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.GetAddUserExp(arg_10_0)
-	return arg_10_0.cfg.user_exp or 0
+function slot0.GetAddUserExp(slot0)
+	return slot0.cfg.user_exp or 0
 end
 
-function var_0_0.GetAddHeroExp(arg_11_0)
-	return arg_11_0.cfg.hero_exp or 0
+function slot0.GetAddHeroExp(slot0)
+	return slot0.cfg.hero_exp or 0
 end
 
-function var_0_0.GetCost(arg_12_0)
-	return arg_12_0.cfg.cost or 0
+function slot0.GetCost(slot0)
+	return slot0.cfg.cost or 0
 end
 
-function var_0_0.GetStageAffix(arg_13_0)
-	local var_13_0 = {}
-	local var_13_1 = {}
-	local var_13_2 = {}
-	local var_13_3 = ActivityRaceData:GetUnlockAffixList(arg_13_0.activityID_)
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
 
-	for iter_13_0, iter_13_1 in pairs(var_13_3) do
-		local var_13_4 = ActivityAffixPoolCfg[iter_13_1].affix
+	for slot8, slot9 in pairs(ActivityRaceData:GetUnlockAffixList(slot0.activityID_)) do
+		slot10 = ActivityAffixPoolCfg[slot9].affix
 
-		table.insert(var_13_0, var_13_4[1])
-		table.insert(var_13_1, var_13_4[2])
-		table.insert(var_13_2, var_13_4[3])
+		table.insert(slot1, slot10[1])
+		table.insert(slot2, slot10[2])
+		table.insert(slot3, slot10[3])
 	end
 
-	local var_13_5 = ActivityRaceCfg[arg_13_0.activityID_].race_buff
-	local var_13_6 = ActivityAffixPoolCfg[var_13_5].affix
+	slot6 = ActivityAffixPoolCfg[ActivityRaceCfg[slot0.activityID_].race_buff].affix
 
-	table.insert(var_13_0, var_13_6[1])
-	table.insert(var_13_1, var_13_6[2])
-	table.insert(var_13_2, var_13_6[3])
+	table.insert(slot1, slot6[1])
+	table.insert(slot2, slot6[2])
+	table.insert(slot3, slot6[3])
 
-	return var_13_0, var_13_1, var_13_2
+	return slot1, slot2, slot3
 end
 
-return var_0_0
+return slot0

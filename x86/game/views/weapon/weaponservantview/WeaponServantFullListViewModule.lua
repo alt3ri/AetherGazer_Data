@@ -1,55 +1,54 @@
-local var_0_0 = class("WeaponServantFullListViewModule", ReduxView)
+slot0 = class("WeaponServantFullListViewModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InitDropDown(arg_2_0)
-	arg_2_0.dropDown_ = arg_2_0.dropDonwObj_:GetComponent("UIDropDown")
+function slot0.InitDropDown(slot0)
+	slot0.dropDown_ = slot0.dropDonwObj_:GetComponent("UIDropDown")
 
-	arg_2_0.dropDown_.options:Clear()
-	arg_2_0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("TIP_UPGRADE"), nil))
-	arg_2_0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("TIP_RARE"), nil))
-	arg_2_0.dropDown_:RefreshShownValue()
+	slot0.dropDown_.options:Clear()
+	slot0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("TIP_UPGRADE"), nil))
+	slot0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("TIP_RARE"), nil))
+	slot0.dropDown_:RefreshShownValue()
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	arg_3_0.controller = {
+function slot0.BuildContext(slot0)
+	slot0.controller = {
 		state = {
 			switchState = {
 				Down = "down",
 				name = "switchState",
 				Up = "up",
-				comps = arg_3_0.rootController_:GetController("switchState")
+				comps = slot0.rootController_:GetController("switchState")
 			}
 		}
 	}
-	arg_3_0.filterController_ = arg_3_0.filterColorController_:GetController("color")
-	arg_3_0.staticVar = {
-		scrollHelper = LuaList.New(handler(arg_3_0, arg_3_0.OnRenderItem), arg_3_0.selectviewGo_, WeaponServantHeadItem),
+	slot0.filterController_ = slot0.filterColorController_:GetController("color")
+	slot0.staticVar = {
+		scrollHelper = LuaList.New(handler(slot0, slot0.OnRenderItem), slot0.selectviewGo_, WeaponServantHeadItem),
 		sortLangMap = {
 			GetTips("SERVANT_DETAIL_STAR_LEVEL"),
-			(GetTips("SERVANT_DETAIL_TRAIN"))
+			GetTips("SERVANT_DETAIL_TRAIN")
 		}
 	}
 
-	arg_3_0:InitContext()
+	slot0:InitContext()
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:InitDropDown()
-	arg_4_0:BuildContext()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:InitDropDown()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitContext(arg_5_0)
-	local var_5_0 = WeaponServantData:GetSortConfig()
-
-	arg_5_0.context = {
+function slot0.InitContext(slot0)
+	slot1 = WeaponServantData:GetSortConfig()
+	slot0.context = {
 		itemCount = 0,
 		curSelectIndex = 0,
 		curSelectServantUID = 0,
@@ -57,194 +56,178 @@ function var_0_0.InitContext(arg_5_0)
 		itemEntity = {},
 		itemMap = {},
 		servantMap = ServantTools.GetServantMap(),
-		curSortBaseIdx = var_5_0[1],
-		sortDescOrder = var_5_0[2] == 0
+		curSortBaseIdx = slot1[1],
+		sortDescOrder = slot1[2] == 0
 	}
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.openSortBtn_, nil, function()
-		arg_6_0:OnOpenSortClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.openSortBtn_, nil, function ()
+		uv0:OnOpenSortClick()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.switchBtn_, nil, function()
-		arg_6_0:OnBtnSwitchClick()
+	slot0:AddBtnListener(slot0.switchBtn_, nil, function ()
+		uv0:OnBtnSwitchClick()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.decomposeBtn_, nil, function()
-		arg_6_0:OnDecomposeBtnClick()
+	slot0:AddBtnListener(slot0.decomposeBtn_, nil, function ()
+		uv0:OnDecomposeBtnClick()
 	end)
-	arg_6_0:AddToggleListener(arg_6_0.dropDown_, function(arg_10_0)
-		arg_6_0:OnDropDonwTabClick(arg_10_0 + 1)
+	slot0:AddToggleListener(slot0.dropDown_, function (slot0)
+		uv0:OnDropDonwTabClick(slot0 + 1)
 	end)
 end
 
-function var_0_0.AddEventListener(arg_11_0)
-	arg_11_0:RegistEventListener(COMMON_FILTER_OK, handler(arg_11_0, arg_11_0.OnFilterChange))
-	arg_11_0:RegistEventListener(SERVANT_REPLACE, handler(arg_11_0, arg_11_0.OnServantReplaced))
-	arg_11_0:RegistEventListener(SERVANT_LOCK, handler(arg_11_0, arg_11_0.OnServantLock))
+function slot0.AddEventListener(slot0)
+	slot0:RegistEventListener(COMMON_FILTER_OK, handler(slot0, slot0.OnFilterChange))
+	slot0:RegistEventListener(SERVANT_REPLACE, handler(slot0, slot0.OnServantReplaced))
+	slot0:RegistEventListener(SERVANT_LOCK, handler(slot0, slot0.OnServantLock))
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:AddEventListener()
-	arg_12_0:RenderHoldCount()
-	arg_12_0:RenderFlterBtn()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListener()
+	slot0:RenderHoldCount()
+	slot0:RenderFlterBtn()
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	CommonFilterData:ClearFilter(Filter_Root_Define.Servant_Filter_List.filter_id)
 	manager.windowBar:HideBar()
-	arg_13_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveAllListeners()
-	arg_14_0:RemoveAllEventListener()
-	arg_14_0.staticVar.scrollHelper:Dispose()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
+	slot0.staticVar.scrollHelper:Dispose()
 
-	arg_14_0.filterController_ = nil
-	arg_14_0.controller = nil
+	slot0.filterController_ = nil
+	slot0.controller = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshList(arg_15_0, arg_15_1)
-	local var_15_0 = ServantTools.GetWeaponShowData()
-	local var_15_1 = ServantTools:GetServantList(arg_15_1.heroId, var_15_0, true, nil, nil, Filter_Root_Define.Servant_Filter_List.filter_id)
-	local var_15_2 = {}
+function slot0.RefreshList(slot0, slot1)
+	slot8, slot9 = nil
 
-	for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-		if iter_15_1.uid and iter_15_1.uid ~= 0 then
-			var_15_2[iter_15_1.uid] = iter_15_0
+	for slot8, slot9 in ipairs(ServantTools:GetServantList(slot1.heroId, ServantTools.GetWeaponShowData(), true, slot8, slot9, Filter_Root_Define.Servant_Filter_List.filter_id)) do
+		if slot9.uid and slot9.uid ~= 0 then
+			-- Nothing
 		end
 	end
 
-	arg_15_0:InitContext()
+	slot0:InitContext()
 
-	arg_15_0.context.heroId = arg_15_1.heroId
+	slot0.context.heroId = slot1.heroId
+	slot5 = #slot3
+	slot0.context.itemList = slot3
+	slot0.context.itemCount = slot5
+	slot0.context.itemMap = {
+		[slot9.uid] = slot8
+	}
+	slot6 = slot0:GetSelectIndex(slot1)
 
-	local var_15_3 = #var_15_1
-
-	arg_15_0.context.itemList = var_15_1
-	arg_15_0.context.itemCount = var_15_3
-	arg_15_0.context.itemMap = var_15_2
-
-	local var_15_4 = arg_15_0:GetSelectIndex(arg_15_1)
-
-	arg_15_0.staticVar.scrollHelper:StartScroll(var_15_3, var_15_4)
-	arg_15_0:SelectIndexItem(var_15_4)
-	arg_15_0:SelectServant(var_15_1[var_15_4])
+	slot0.staticVar.scrollHelper:StartScroll(slot5, slot6)
+	slot0:SelectIndexItem(slot6)
+	slot0:SelectServant(slot3[slot6])
 end
 
-function var_0_0.OnRenderItem(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = arg_16_0.context.itemList[arg_16_1]
+function slot0.OnRenderItem(slot0, slot1, slot2)
+	slot3 = slot0.context.itemList[slot1]
+	slot0.context.itemEntity[slot1] = slot2
 
-	arg_16_0.context.itemEntity[arg_16_1] = arg_16_2
-
-	arg_16_2:OnRender({
+	slot2:OnRender({
 		isAdd = false,
 		isEquip = true,
-		uid = var_16_0.uid,
-		id = var_16_0.id,
-		number = var_16_0.stage,
-		index = arg_16_1
+		uid = slot3.uid,
+		id = slot3.id,
+		number = slot3.stage,
+		index = slot1
 	})
-	arg_16_2:ShowSelect(arg_16_1 == arg_16_0.context.curSelectIndex)
-	arg_16_2:ShowLock(var_16_0.locked == 1)
-	arg_16_2:RegistCallBack(function(arg_17_0)
-		arg_16_0:OnItemClick(arg_17_0)
+	slot2:ShowSelect(slot1 == slot0.context.curSelectIndex)
+	slot2:ShowLock(slot3.locked == 1)
+	slot2:RegistCallBack(function (slot0)
+		uv0:OnItemClick(slot0)
 	end)
-	arg_16_2:ShowMask(var_16_0.isRecommend or false)
+	slot2:ShowMask(slot3.isRecommend or false)
 
-	local var_16_1 = false
+	slot4 = false
 
-	if arg_16_0.context.heroId and arg_16_0.context.heroId > 0 then
-		local var_16_2 = WeaponServantCfg[var_16_0.id].effect[1]
-		local var_16_3 = 0
+	if slot0.context.heroId and slot0.context.heroId > 0 then
+		slot6 = 0
 
-		if var_16_2 > 0 then
-			var_16_3 = WeaponEffectCfg[var_16_2].spec_char[1]
+		if WeaponServantCfg[slot3.id].effect[1] > 0 then
+			slot6 = WeaponEffectCfg[slot5].spec_char[1]
 		end
 
-		if var_16_3 and var_16_3 > 0 and var_16_3 == arg_16_0.context.heroId then
-			arg_16_2:ShowRecommendTag(true)
+		if slot6 and slot6 > 0 and slot6 == slot0.context.heroId then
+			slot2:ShowRecommendTag(true)
 
-			var_16_1 = true
+			slot4 = true
 		end
 	end
 
-	if not var_16_1 then
-		arg_16_2:ShowRecommendTag(false)
+	if not slot4 then
+		slot2:ShowRecommendTag(false)
 	end
 
-	if var_16_0.uid and var_16_0.uid ~= 0 then
-		local var_16_4 = arg_16_0.context.servantMap[var_16_0.uid]
-
-		if var_16_4 then
-			arg_16_2:RenderEquipStatus(true, var_16_4)
+	if slot3.uid and slot3.uid ~= 0 then
+		if slot0.context.servantMap[slot3.uid] then
+			slot2:RenderEquipStatus(true, slot5)
 		else
-			arg_16_2:RenderEquipStatus(false)
+			slot2:RenderEquipStatus(false)
 		end
 	else
-		arg_16_2:RenderEquipStatus(false)
+		slot2:RenderEquipStatus(false)
 	end
 end
 
-function var_0_0.RenderHoldCount(arg_18_0)
-	local var_18_0 = ServantTools.GetServantShowCount()
-	local var_18_1 = GameSetting.max_weapon_servant.value[1]
-
-	arg_18_0.haveTxt_.text = table.concat({
+function slot0.RenderHoldCount(slot0)
+	slot0.haveTxt_.text = table.concat({
 		GetTips("ALREADY_GET"),
 		": ",
-		var_18_0,
+		ServantTools.GetServantShowCount(),
 		"/",
-		var_18_1
+		GameSetting.max_weapon_servant.value[1]
 	})
 end
 
-function var_0_0.RenderFlterBtn(arg_19_0)
+function slot0.RenderFlterBtn(slot0)
 	if CommonFilterData:AtLeastOneChoose(Filter_Root_Define.Servant_Filter_List.filter_id) then
-		arg_19_0.filterController_:SetSelectedState("orange")
+		slot0.filterController_:SetSelectedState("orange")
 	else
-		arg_19_0.filterController_:SetSelectedState("normal")
+		slot0.filterController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.SelectIndexItem(arg_20_0, arg_20_1)
-	arg_20_0:HideIndexItem(arg_20_0.context.curSelectIndex)
-	arg_20_0:ShowIndexItem(arg_20_1)
+function slot0.SelectIndexItem(slot0, slot1)
+	slot0:HideIndexItem(slot0.context.curSelectIndex)
+	slot0:ShowIndexItem(slot1)
 
-	arg_20_0.context.curSelectIndex = arg_20_1
+	slot0.context.curSelectIndex = slot1
 
-	if arg_20_0.context.itemList[arg_20_1] then
-		arg_20_0.context.curSelectServantUID = arg_20_0.context.itemList[arg_20_1].uid
+	if slot0.context.itemList[slot1] then
+		slot0.context.curSelectServantUID = slot0.context.itemList[slot1].uid
 	else
-		arg_20_0.context.curSelectServantUID = 0
+		slot0.context.curSelectServantUID = 0
 	end
 end
 
-function var_0_0.HideIndexItem(arg_21_0, arg_21_1)
-	local var_21_0 = arg_21_0.context.itemEntity[arg_21_1]
-
-	if var_21_0 and var_21_0:GetIndex() == arg_21_1 then
-		var_21_0:ShowSelect(false)
+function slot0.HideIndexItem(slot0, slot1)
+	if slot0.context.itemEntity[slot1] and slot2:GetIndex() == slot1 then
+		slot2:ShowSelect(false)
 	end
 end
 
-function var_0_0.ShowIndexItem(arg_22_0, arg_22_1)
-	local var_22_0 = arg_22_0.context.itemEntity[arg_22_1]
-
-	if var_22_0 and var_22_0:GetIndex() == arg_22_1 then
-		var_22_0:ShowSelect(true)
+function slot0.ShowIndexItem(slot0, slot1)
+	if slot0.context.itemEntity[slot1] and slot2:GetIndex() == slot1 then
+		slot2:ShowSelect(true)
 	end
 end
 
-function var_0_0.GetSelectIndex(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_1.jumpUid
-
-	if var_23_0 then
-		for iter_23_0, iter_23_1 in ipairs(arg_23_0.context.itemList) do
-			if iter_23_1.uid == var_23_0 then
-				return iter_23_0
+function slot0.GetSelectIndex(slot0, slot1)
+	if slot1.jumpUid then
+		for slot6, slot7 in ipairs(slot0.context.itemList) do
+			if slot7.uid == slot2 then
+				return slot6
 			end
 		end
 	end
@@ -252,137 +235,125 @@ function var_0_0.GetSelectIndex(arg_23_0, arg_23_1)
 	return 1
 end
 
-function var_0_0.RegisterClickCallback(arg_24_0, arg_24_1)
-	arg_24_0.staticVar.clickCallback = arg_24_1
+function slot0.RegisterClickCallback(slot0, slot1)
+	slot0.staticVar.clickCallback = slot1
 end
 
-function var_0_0.SelectServant(arg_25_0, arg_25_1)
-	if arg_25_0.staticVar.clickCallback then
-		arg_25_0.staticVar.clickCallback(arg_25_1)
+function slot0.SelectServant(slot0, slot1)
+	if slot0.staticVar.clickCallback then
+		slot0.staticVar.clickCallback(slot1)
 	end
 end
 
-function var_0_0.OnItemClick(arg_26_0, arg_26_1)
-	local var_26_0 = arg_26_1:GetIndex()
-	local var_26_1 = arg_26_0.context.itemList[var_26_0]
+function slot0.OnItemClick(slot0, slot1)
+	slot2 = slot1:GetIndex()
 
-	arg_26_0:SelectServant(var_26_1)
-	arg_26_0:SelectIndexItem(var_26_0)
+	slot0:SelectServant(slot0.context.itemList[slot2])
+	slot0:SelectIndexItem(slot2)
 end
 
-function var_0_0.OnDropDonwTabClick(arg_27_0, arg_27_1)
-	arg_27_0.context.curSortBaseIdx = arg_27_1 - 1
+function slot0.OnDropDonwTabClick(slot0, slot1)
+	slot0.context.curSortBaseIdx = slot1 - 1
 
-	arg_27_0:OnSortParamChange()
+	slot0:OnSortParamChange()
 end
 
-function var_0_0.OnServantReplaced(arg_28_0, arg_28_1, arg_28_2, arg_28_3)
-	arg_28_0.context.servantMap = ServantTools.GetServantMap()
+function slot0.OnServantReplaced(slot0, slot1, slot2, slot3)
+	slot0.context.servantMap = ServantTools.GetServantMap()
 
-	arg_28_0:OnServantChanged(arg_28_3)
-	arg_28_0:OnServantChanged(arg_28_2.servant_id)
+	slot0:OnServantChanged(slot3)
+	slot0:OnServantChanged(slot2.servant_id)
 end
 
-function var_0_0.OnServantLock(arg_29_0, arg_29_1)
-	arg_29_0:OnServantChanged(arg_29_1)
+function slot0.OnServantLock(slot0, slot1)
+	slot0:OnServantChanged(slot1)
 end
 
-function var_0_0.OnServantChanged(arg_30_0, arg_30_1)
-	if not arg_30_1 or arg_30_1 == 0 then
+function slot0.OnServantChanged(slot0, slot1)
+	if not slot1 or slot1 == 0 then
 		return
 	end
 
-	local var_30_0 = deepClone(WeaponServantData:GetServantDataByUID(arg_30_1))
-	local var_30_1 = arg_30_0.context.itemMap[arg_30_1]
+	slot2 = deepClone(WeaponServantData:GetServantDataByUID(slot1))
 
-	if not var_30_1 then
+	if not slot0.context.itemMap[slot1] then
 		return
 	end
 
-	local var_30_2 = arg_30_0.context.itemList[var_30_1]
-
-	if not var_30_2 or var_30_2.uid ~= var_30_0.uid then
+	if not slot0.context.itemList[slot3] or slot4.uid ~= slot2.uid then
 		return
 	end
 
-	arg_30_0.context.itemList[var_30_1] = var_30_0
+	slot0.context.itemList[slot3] = slot2
 
-	if arg_30_0.context.curSelectIndex == var_30_1 then
-		arg_30_0:SelectServant(var_30_0)
+	if slot0.context.curSelectIndex == slot3 then
+		slot0:SelectServant(slot2)
 	end
 
-	local var_30_3 = arg_30_0.context.itemEntity[var_30_1]
-
-	if not var_30_3 or var_30_3:GetIndex() ~= var_30_1 then
+	if not slot0.context.itemEntity[slot3] or slot5:GetIndex() ~= slot3 then
 		return
 	end
 
-	var_30_3:OnRender({
+	slot5:OnRender({
 		isAdd = false,
 		isEquip = true,
-		uid = var_30_0.uid,
-		id = var_30_0.id,
-		number = var_30_0.stage,
-		index = var_30_1
+		uid = slot2.uid,
+		id = slot2.id,
+		number = slot2.stage,
+		index = slot3
 	})
-	var_30_3:ShowLock(var_30_0.locked == 1)
+	slot5:ShowLock(slot2.locked == 1)
 
-	local var_30_4 = arg_30_0.context.servantMap[arg_30_1]
-
-	if var_30_4 then
-		var_30_3:RenderEquipStatus(true, var_30_4)
+	if slot0.context.servantMap[slot1] then
+		slot5:RenderEquipStatus(true, slot6)
 	else
-		var_30_3:RenderEquipStatus(false)
+		slot5:RenderEquipStatus(false)
 	end
 end
 
-function var_0_0.RestoreListPostion(arg_31_0)
-	return
+function slot0.RestoreListPostion(slot0)
 end
 
-function var_0_0.OnOpenSortClick(arg_32_0)
+function slot0.OnOpenSortClick(slot0)
 	JumpTools.OpenPageByJump("commonFilterView", {
 		filterGroup = Filter_Root_Define.Servant_Filter_List
 	})
 end
 
-function var_0_0.OnBtnSwitchClick(arg_33_0)
-	local var_33_0 = arg_33_0.controller.state.switchState
+function slot0.OnBtnSwitchClick(slot0)
+	slot0.context.sortDescOrder = not slot0.context.sortDescOrder
+	slot2 = slot0.controller.state.switchState.Down
 
-	arg_33_0.context.sortDescOrder = not arg_33_0.context.sortDescOrder
-
-	local var_33_1 = var_33_0.Down
-
-	if not arg_33_0.context.sortDescOrder then
-		var_33_1 = var_33_0.Up
+	if not slot0.context.sortDescOrder then
+		slot2 = slot1.Up
 	end
 
-	var_33_0.comps:SetSelectedState(var_33_1)
-	arg_33_0:OnSortParamChange()
+	slot1.comps:SetSelectedState(slot2)
+	slot0:OnSortParamChange()
 end
 
-function var_0_0.OnDecomposeBtnClick(arg_34_0)
-	arg_34_0:Go("/weaponServantDecomposeView")
+function slot0.OnDecomposeBtnClick(slot0)
+	slot0:Go("/weaponServantDecomposeView")
 end
 
-function var_0_0.OnFilterChange(arg_35_0)
-	arg_35_0:RefreshList({
-		heroId = arg_35_0.context.heroId
+function slot0.OnFilterChange(slot0)
+	slot0:RefreshList({
+		heroId = slot0.context.heroId
 	})
-	arg_35_0:RenderFlterBtn()
+	slot0:RenderFlterBtn()
 end
 
-function var_0_0.OnSortParamChange(arg_36_0)
-	local var_36_0 = 0
+function slot0.OnSortParamChange(slot0)
+	slot1 = 0
 
-	if not arg_36_0.context.sortDescOrder then
-		var_36_0 = 1
+	if not slot0.context.sortDescOrder then
+		slot1 = 1
 	end
 
-	WeaponServantData:SetSortConfig(arg_36_0.context.curSortBaseIdx, var_36_0)
-	arg_36_0:RefreshList({
-		heroId = arg_36_0.context.heroId
+	WeaponServantData:SetSortConfig(slot0.context.curSortBaseIdx, slot1)
+	slot0:RefreshList({
+		heroId = slot0.context.heroId
 	})
 end
 
-return var_0_0
+return slot0

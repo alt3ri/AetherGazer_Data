@@ -1,119 +1,111 @@
-local var_0_0 = class("HanafudaDescView", ReduxView)
+slot0 = class("HanafudaDescView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionHanafudaUI/JapanRegionHanafudaScorePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.pageController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "page")
-	arg_4_0.rulePageController_ = ControllerUtil.GetController(arg_4_0.ruleTrs_, "description")
-	arg_4_0.uiList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.combineList_, HanafudaCombineItem)
+	slot0.pageController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "page")
+	slot0.rulePageController_ = ControllerUtil.GetController(slot0.ruleTrs_, "description")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.combineList_, HanafudaCombineItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.ruleBtn_, nil, function()
-		arg_5_0.pageController_:SetSelectedState("1")
+	slot0:AddBtnListener(slot0.ruleBtn_, nil, function ()
+		uv0.pageController_:SetSelectedState("1")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.combineBtn_, nil, function()
-		arg_5_0.pageController_:SetSelectedState("2")
-		arg_5_0.uiList_:StartScroll(#arg_5_0.combineCfgList_)
+	slot0:AddBtnListener(slot0.combineBtn_, nil, function ()
+		uv0.pageController_:SetSelectedState("2")
+		uv0.uiList_:StartScroll(#uv0.combineCfgList_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.nextBtn_, nil, function()
-		if arg_5_0.descIndex == 4 then
+	slot0:AddBtnListener(slot0.nextBtn_, nil, function ()
+		if uv0.descIndex == 4 then
 			return
 		end
 
-		arg_5_0.descIndex = arg_5_0.descIndex + 1
+		uv0.descIndex = uv0.descIndex + 1
 
-		arg_5_0:RefreshDesc()
+		uv0:RefreshDesc()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.forwardBtn_, nil, function()
-		if arg_5_0.descIndex == 1 then
+	slot0:AddBtnListener(slot0.forwardBtn_, nil, function ()
+		if uv0.descIndex == 1 then
 			return
 		end
 
-		arg_5_0.descIndex = arg_5_0.descIndex - 1
+		uv0.descIndex = uv0.descIndex - 1
 
-		arg_5_0:RefreshDesc()
+		uv0:RefreshDesc()
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.callback_ = arg_11_0.params_.callback
-	arg_11_0.combineCfgList_ = HanafudaData:GetCombineList()
-	arg_11_0.descIndex = 1
+function slot0.OnEnter(slot0)
+	slot0.callback_ = slot0.params_.callback
+	slot0.combineCfgList_ = HanafudaData:GetCombineList()
+	slot0.descIndex = 1
 
-	arg_11_0:RefreshDesc()
-	arg_11_0:RefreshLiner()
+	slot0:RefreshDesc()
+	slot0:RefreshLiner()
 end
 
-function var_0_0.RefreshDesc(arg_12_0)
-	SetActive(arg_12_0.forwardBtn_.gameObject, arg_12_0.descIndex ~= 1)
-	SetActive(arg_12_0.nextBtn_.gameObject, arg_12_0.descIndex ~= 4)
-	arg_12_0.rulePageController_:SetSelectedState(arg_12_0.descIndex)
-	arg_12_0.selectItem_.transform:SetSiblingIndex(arg_12_0.descIndex - 1)
+function slot0.RefreshDesc(slot0)
+	SetActive(slot0.forwardBtn_.gameObject, slot0.descIndex ~= 1)
+	SetActive(slot0.nextBtn_.gameObject, slot0.descIndex ~= 4)
+	slot0.rulePageController_:SetSelectedState(slot0.descIndex)
+	slot0.selectItem_.transform:SetSiblingIndex(slot0.descIndex - 1)
 end
 
-function var_0_0.IndexItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_2:SetData(arg_13_1, arg_13_0.combineCfgList_[arg_13_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.combineCfgList_[slot1])
 end
 
-function var_0_0.RefreshLiner(arg_14_0)
-	arg_14_0:SetBarPosition(0)
+function slot0.RefreshLiner(slot0)
+	slot0:SetBarPosition(0)
 
-	local var_14_0 = arg_14_0.sliderBg_.transform.childCount
-	local var_14_1 = 4
-	local var_14_2 = var_14_1 < var_14_0 and var_14_0 or var_14_1
-
-	for iter_14_0 = 1, var_14_2 do
-		if iter_14_0 <= var_14_0 then
-			local var_14_3 = arg_14_0.sliderBg_.transform:GetChild(iter_14_0 - 1)
-
-			if iter_14_0 <= var_14_1 then
-				SetActive(var_14_3.gameObject, true)
+	for slot7 = 1, slot0.sliderBg_.transform.childCount > 4 and slot1 or slot2 do
+		if slot7 <= slot1 then
+			if slot7 <= slot2 then
+				SetActive(slot0.sliderBg_.transform:GetChild(slot7 - 1).gameObject, true)
 			else
-				SetActive(var_14_3.gameObject, false)
+				SetActive(slot8.gameObject, false)
 			end
 		else
-			local var_14_4 = Object.Instantiate(arg_14_0.barTemp_, arg_14_0.sliderBg_.transform)
-
-			SetActive(var_14_4, true)
+			SetActive(Object.Instantiate(slot0.barTemp_, slot0.sliderBg_.transform), true)
 		end
 	end
 end
 
-function var_0_0.SetBarPosition(arg_15_0, arg_15_1)
-	arg_15_0.selectItem_.transform:SetSiblingIndex(arg_15_1)
+function slot0.SetBarPosition(slot0, slot1)
+	slot0.selectItem_.transform:SetSiblingIndex(slot1)
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.callback_ then
-		arg_16_0.callback_()
+function slot0.OnExit(slot0)
+	if slot0.callback_ then
+		slot0.callback_()
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.uiList_ then
-		arg_17_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_17_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

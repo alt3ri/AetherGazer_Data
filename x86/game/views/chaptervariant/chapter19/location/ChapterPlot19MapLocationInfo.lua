@@ -1,184 +1,169 @@
-local var_0_0 = class("ChapterPlot19MapLocationInfo", ReduxView)
+slot0 = class("ChapterPlot19MapLocationInfo", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/ChapterVerStageListInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.titleView_ = ChapterPlot19MapLocationTitleItem.New(arg_3_0.titleItem_)
-	arg_3_0.eventTitleView_ = ChapterPlot19MapLocationTitleItem.New(arg_3_0.eventTitleItem_)
-	arg_3_0.finishTitleView_ = ChapterPlot19MapLocationTitleItem.New(arg_3_0.finishTitleItem_)
-	arg_3_0.stageItemList_ = {}
+	slot0.titleView_ = ChapterPlot19MapLocationTitleItem.New(slot0.titleItem_)
+	slot0.eventTitleView_ = ChapterPlot19MapLocationTitleItem.New(slot0.eventTitleItem_)
+	slot0.finishTitleView_ = ChapterPlot19MapLocationTitleItem.New(slot0.finishTitleItem_)
+	slot0.stageItemList_ = {}
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:SetData()
-	arg_4_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:SetData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetData(arg_5_0)
-	arg_5_0.chapterID_ = arg_5_0.params_.chapterID
-	arg_5_0.locationID_ = arg_5_0.params_.locationID
+function slot0.SetData(slot0)
+	slot0.chapterID_ = slot0.params_.chapterID
+	slot0.locationID_ = slot0.params_.locationID
 end
 
-function var_0_0.OnUpdate(arg_6_0)
-	arg_6_0:SetData()
-	arg_6_0:RefreshUI()
+function slot0.OnUpdate(slot0)
+	slot0:SetData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
-	arg_8_0.titleView_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.titleView_:Dispose()
 
-	arg_8_0.titleView_ = nil
+	slot0.titleView_ = nil
 
-	arg_8_0.eventTitleView_:Dispose()
+	slot0.eventTitleView_:Dispose()
 
-	arg_8_0.eventTitleView_ = nil
+	slot0.eventTitleView_ = nil
 
-	arg_8_0.finishTitleView_:Dispose()
+	slot0.finishTitleView_:Dispose()
 
-	arg_8_0.finishTitleView_ = nil
+	slot0.finishTitleView_ = nil
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.stageItemList_) do
-		iter_8_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.stageItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.stageItemList_ = nil
+	slot0.stageItemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = ChapterLocationCfg[arg_10_0.locationID_]
+function slot0.RefreshUI(slot0)
+	slot0.nameText_.text = ChapterLocationCfg[slot0.locationID_].name
+	slot2, slot3, slot4 = slot0:GetSortStageList()
 
-	arg_10_0.nameText_.text = var_10_0.name
-
-	local var_10_1, var_10_2, var_10_3 = arg_10_0:GetSortStageList()
-
-	if #var_10_1 > 0 then
-		arg_10_0.titleView_:Show(true)
+	if #slot2 > 0 then
+		slot0.titleView_:Show(true)
 	else
-		arg_10_0.titleView_:Show(false)
+		slot0.titleView_:Show(false)
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_1) do
-		arg_10_0.stageItemList_[iter_10_0] = arg_10_0.stageItemList_[iter_10_0] or ChapterPlot19MapLocationStageItem.New(arg_10_0.stageItem_, arg_10_0.parentGo_)
+	for slot8, slot9 in ipairs(slot2) do
+		slot0.stageItemList_[slot8] = slot0.stageItemList_[slot8] or ChapterPlot19MapLocationStageItem.New(slot0.stageItem_, slot0.parentGo_)
 
-		arg_10_0.stageItemList_[iter_10_0]:SetData(arg_10_0.chapterID_, iter_10_1)
+		slot0.stageItemList_[slot8]:SetData(slot0.chapterID_, slot9)
 	end
 
-	if #var_10_2 > 0 then
-		arg_10_0.eventTitleView_:Show(true)
+	if #slot3 > 0 then
+		slot0.eventTitleView_:Show(true)
 	else
-		arg_10_0.eventTitleView_:Show(false)
+		slot0.eventTitleView_:Show(false)
 	end
 
-	for iter_10_2, iter_10_3 in ipairs(var_10_2) do
-		local var_10_4 = iter_10_2 + #var_10_1
+	for slot8, slot9 in ipairs(slot3) do
+		slot0.stageItemList_[slot10] = slot0.stageItemList_[slot8 + #slot2] or ChapterPlot19MapLocationStageItem.New(slot0.stageItem_, slot0.parentGo_)
 
-		arg_10_0.stageItemList_[var_10_4] = arg_10_0.stageItemList_[var_10_4] or ChapterPlot19MapLocationStageItem.New(arg_10_0.stageItem_, arg_10_0.parentGo_)
-
-		arg_10_0.stageItemList_[var_10_4]:SetData(arg_10_0.chapterID_, iter_10_3)
+		slot0.stageItemList_[slot10]:SetData(slot0.chapterID_, slot9)
 	end
 
-	if #var_10_3 > 0 then
-		arg_10_0.finishTitleView_:Show(true)
+	if #slot4 > 0 then
+		slot0.finishTitleView_:Show(true)
 	else
-		arg_10_0.finishTitleView_:Show(false)
+		slot0.finishTitleView_:Show(false)
 	end
 
-	for iter_10_4, iter_10_5 in ipairs(var_10_3) do
-		local var_10_5 = iter_10_4 + #var_10_1 + #var_10_2
+	for slot8, slot9 in ipairs(slot4) do
+		slot0.stageItemList_[slot10] = slot0.stageItemList_[slot8 + #slot2 + #slot3] or ChapterPlot19MapLocationStageItem.New(slot0.stageItem_, slot0.parentGo_)
 
-		arg_10_0.stageItemList_[var_10_5] = arg_10_0.stageItemList_[var_10_5] or ChapterPlot19MapLocationStageItem.New(arg_10_0.stageItem_, arg_10_0.parentGo_)
-
-		arg_10_0.stageItemList_[var_10_5]:SetData(arg_10_0.chapterID_, iter_10_5)
+		slot0.stageItemList_[slot10]:SetData(slot0.chapterID_, slot9)
 	end
 
-	for iter_10_6 = #var_10_1 + #var_10_2 + #var_10_3 + 1, #arg_10_0.stageItemList_ do
-		arg_10_0.stageItemList_[iter_10_6]:Show(false)
+	for slot8 = #slot2 + #slot3 + #slot4 + 1, #slot0.stageItemList_ do
+		slot0.stageItemList_[slot8]:Show(false)
 	end
 end
 
-function var_0_0.OnTop(arg_11_0)
-	arg_11_0:Show(true)
+function slot0.OnTop(slot0)
+	slot0:Show(true)
 end
 
-function var_0_0.OnBehind(arg_12_0)
-	arg_12_0:Show(false)
+function slot0.OnBehind(slot0)
+	slot0:Show(false)
 end
 
-function var_0_0.Show(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.gameObjet_, arg_13_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObjet_, slot1)
 end
 
-function var_0_0.GetSortStageList(arg_14_0)
-	local var_14_0 = ChapterLocationCfg[arg_14_0.locationID_]
-	local var_14_1 = {}
-	local var_14_2 = {}
-	local var_14_3 = {}
+function slot0.GetSortStageList(slot0)
+	slot2 = {}
+	slot3 = {}
 
-	for iter_14_0, iter_14_1 in ipairs(var_14_0.stage_list) do
-		local var_14_4 = BattleStageData:GetStageData()[iter_14_1]
-
-		if var_14_4 and var_14_4.clear_times > 0 then
-			table.insert(var_14_3, {
-				id = iter_14_1,
+	for slot8, slot9 in ipairs(ChapterLocationCfg[slot0.locationID_].stage_list) do
+		if BattleStageData:GetStageData()[slot9] and slot10.clear_times > 0 then
+			table.insert({}, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.MAIN_STORY
 			})
-		elseif var_14_4 then
-			table.insert(var_14_1, {
-				id = iter_14_1,
+		elseif slot10 then
+			table.insert(slot2, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.MAIN_STORY
 			})
 		end
 	end
 
-	for iter_14_2, iter_14_3 in ipairs(var_14_0.sub_stage_list) do
-		local var_14_5 = BattleStageData:GetStageData()[iter_14_3]
-
-		if var_14_5 and var_14_5.clear_times > 0 then
-			table.insert(var_14_3, {
-				id = iter_14_3,
+	for slot8, slot9 in ipairs(slot1.sub_stage_list) do
+		if BattleStageData:GetStageData()[slot9] and slot10.clear_times > 0 then
+			table.insert(slot4, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.SIDE_STORY
 			})
-		elseif var_14_5 then
-			table.insert(var_14_1, {
-				id = iter_14_3,
+		elseif slot10 then
+			table.insert(slot2, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.SIDE_STORY
 			})
 		end
 	end
 
-	for iter_14_4, iter_14_5 in ipairs(var_14_0.event_list) do
-		if BattleStageData:HasReadLocationEvent(iter_14_5) then
-			table.insert(var_14_3, {
-				id = iter_14_5,
+	for slot8, slot9 in ipairs(slot1.event_list) do
+		if BattleStageData:HasReadLocationEvent(slot9) then
+			table.insert(slot4, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.EVENT
 			})
-		elseif ChapterTools.IsUnlockEvent(iter_14_5) then
-			table.insert(var_14_2, {
-				id = iter_14_5,
+		elseif ChapterTools.IsUnlockEvent(slot9) then
+			table.insert(slot3, {
+				id = slot9,
 				stageType = BattleConst.PLOT_19_STAGE_TYPE.EVENT
 			})
 		end
 	end
 
-	return var_14_1, var_14_2, var_14_3
+	return slot2, slot3, slot4
 end
 
-return var_0_0
+return slot0

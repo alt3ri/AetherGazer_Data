@@ -1,28 +1,28 @@
-local var_0_0 = class("SectionTargetItem", ReduxView)
+slot0 = class("SectionTargetItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.controllerEx_ = arg_1_0.controllerEx_:GetController("clear")
+	slot0.controllerEx_ = slot0.controllerEx_:GetController("clear")
 end
 
-function var_0_0.Refresh(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_1 then
-		arg_2_0.controllerEx_:SetSelectedState("state1")
+function slot0.Refresh(slot0, slot1, slot2)
+	if slot1 then
+		slot0.controllerEx_:SetSelectedState("state1")
 	else
-		arg_2_0.controllerEx_:SetSelectedState("state0")
+		slot0.controllerEx_:SetSelectedState("state0")
 	end
 
-	if arg_2_2 then
-		arg_2_0.targetText_.text = BattleInstance.GetStarMissionText(arg_2_2[1], arg_2_2[2], arg_2_2[3])
+	if slot2 then
+		slot0.targetText_.text = BattleInstance.GetStarMissionText(slot2[1], slot2[2], slot2[3])
 
-		SetActive(arg_2_0.gameObject_, true)
+		SetActive(slot0.gameObject_, true)
 	else
-		SetActive(arg_2_0.gameObject_, false)
+		SetActive(slot0.gameObject_, false)
 	end
 end
 
-return var_0_0
+return slot0

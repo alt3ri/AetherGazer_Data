@@ -1,32 +1,32 @@
-local var_0_0 = class("DormRhythmMistakeItem", ReduxView)
+slot0 = class("DormRhythmMistakeItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.touchbtnBtn_.gameObject.transform, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.touchbtnBtn_.gameObject.transform, "state")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	if arg_4_1 then
-		arg_4_0.stateController:SetSelectedState("true")
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 then
+		slot0.stateController:SetSelectedState("true")
 	else
-		arg_4_0.stateController:SetSelectedState("false")
+		slot0.stateController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

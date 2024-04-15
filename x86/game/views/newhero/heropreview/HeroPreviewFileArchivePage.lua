@@ -1,14 +1,13 @@
-local var_0_0 = class("HeroPreviewFileArchivePage", HeroFileArchivePage)
+slot0 = class("HeroPreviewFileArchivePage", HeroFileArchivePage)
 
-function var_0_0.CameraEnter(arg_1_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		1,
 		3
-	}, arg_1_0.displayGo_)
+	}, slot0.displayGo_)
 end
 
-function var_0_0.BindRedPoint(arg_2_0, arg_2_1)
-	return
+function slot0.BindRedPoint(slot0, slot1)
 end
 
-return var_0_0
+return slot0

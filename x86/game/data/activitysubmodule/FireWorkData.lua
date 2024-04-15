@@ -1,58 +1,54 @@
-local var_0_0 = singletonClass("FireWorkData")
-local var_0_1 = {}
-local var_0_2 = {}
+slot0 = singletonClass("FireWorkData")
+slot1 = {}
+slot2 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.InitFireData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-	local var_2_1 = arg_2_1.is_invited == 1
-	local var_2_2 = arg_2_1.is_admitted == 1
-
-	var_0_1[var_2_0] = {
-		is_invited = var_2_1,
-		is_rewarded = var_2_2
+function slot0.InitFireData(slot0, slot1)
+	uv0[slot1.activity_id] = {
+		is_invited = slot1.is_invited == 1,
+		is_rewarded = slot1.is_admitted == 1
 	}
 end
 
-function var_0_0.SetRewarded(arg_3_0, arg_3_1, arg_3_2)
-	var_0_1[arg_3_1] = var_0_1[arg_3_1] or {}
-	var_0_1[arg_3_1].is_rewarded = arg_3_2
+function slot0.SetRewarded(slot0, slot1, slot2)
+	uv0[slot1] = uv0[slot1] or {}
+	uv0[slot1].is_rewarded = slot2
 end
 
-function var_0_0.GetReward(arg_4_0, arg_4_1)
-	if var_0_1[arg_4_1] then
-		return var_0_1[arg_4_1].is_rewarded
+function slot0.GetReward(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].is_rewarded
 	else
 		return true
 	end
 end
 
-function var_0_0.SetInvited(arg_5_0, arg_5_1, arg_5_2)
-	var_0_1[arg_5_1] = var_0_1[arg_5_1] or {}
-	var_0_1[arg_5_1].is_invited = arg_5_2
+function slot0.SetInvited(slot0, slot1, slot2)
+	uv0[slot1] = uv0[slot1] or {}
+	uv0[slot1].is_invited = slot2
 end
 
-function var_0_0.GetInvited(arg_6_0, arg_6_1)
-	if var_0_1[arg_6_1] then
-		return var_0_1[arg_6_1].is_invited
+function slot0.GetInvited(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].is_invited
 	else
 		return false
 	end
 end
 
-function var_0_0.GetFireData(arg_7_0, arg_7_1)
-	return var_0_1[arg_7_1]
+function slot0.GetFireData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.SetRead(arg_8_0, arg_8_1)
-	table.insert(var_0_2, arg_8_1)
+function slot0.SetRead(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetRead(arg_9_0, arg_9_1)
-	return table.indexof(var_0_2, arg_9_1)
+function slot0.GetRead(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-return var_0_0
+return slot0

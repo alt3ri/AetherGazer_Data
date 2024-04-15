@@ -1,63 +1,62 @@
-local var_0_0 = class("ActivityRaceRewardItem", ReduxView)
+slot0 = class("ActivityRaceRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.taskItemList_ = {}
+	slot0.taskItemList_ = {}
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.activityID_ = arg_4_1
-	arg_4_0.accumulateTaskIDList_ = ActivityRaceCfg[arg_4_1].task_list_id
-	arg_4_0.taskIDList_ = ActivityRaceCfg[arg_4_1].task_list
-	arg_4_0.title_.text = GetI18NText(ActivityRaceCfg[arg_4_1].map_name)
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot0.accumulateTaskIDList_ = ActivityRaceCfg[slot1].task_list_id
+	slot0.taskIDList_ = ActivityRaceCfg[slot1].task_list
+	slot0.title_.text = GetI18NText(ActivityRaceCfg[slot1].map_name)
+	slot2 = 1
 
-	local var_4_0 = 1
-
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.accumulateTaskIDList_) do
-		if arg_4_0.taskItemList_[var_4_0] == nil then
-			arg_4_0.taskItemList_[var_4_0] = ActivityRaceTaskItem.New(arg_4_0.taskItemTemplate_, arg_4_0.taskPanel_)
+	for slot6, slot7 in ipairs(slot0.accumulateTaskIDList_) do
+		if slot0.taskItemList_[slot2] == nil then
+			slot0.taskItemList_[slot2] = ActivityRaceTaskItem.New(slot0.taskItemTemplate_, slot0.taskPanel_)
 		end
 
-		arg_4_0.taskItemList_[var_4_0]:SetData(iter_4_1, arg_4_0.activityID_, true)
+		slot0.taskItemList_[slot2]:SetData(slot7, slot0.activityID_, true)
 
-		var_4_0 = var_4_0 + 1
+		slot2 = slot2 + 1
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(arg_4_0.taskIDList_) do
-		if arg_4_0.taskItemList_[var_4_0] == nil then
-			arg_4_0.taskItemList_[var_4_0] = ActivityRaceTaskItem.New(arg_4_0.taskItemTemplate_, arg_4_0.taskPanel_)
+	for slot6, slot7 in ipairs(slot0.taskIDList_) do
+		if slot0.taskItemList_[slot2] == nil then
+			slot0.taskItemList_[slot2] = ActivityRaceTaskItem.New(slot0.taskItemTemplate_, slot0.taskPanel_)
 		end
 
-		arg_4_0.taskItemList_[var_4_0]:SetData(iter_4_3, arg_4_0.activityID_, false)
+		slot0.taskItemList_[slot2]:SetData(slot7, slot0.activityID_, false)
 
-		var_4_0 = var_4_0 + 1
+		slot2 = slot2 + 1
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.taskItemList_) do
-		iter_5_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.taskItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.taskItemList_ = nil
+	slot0.taskItemList_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetActive(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

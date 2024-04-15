@@ -1,220 +1,179 @@
-local var_0_0 = class("ActivityMatrixSelectHeroItem", ReduxView)
+slot0 = class("ActivityMatrixSelectHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.weaponController = ControllerUtil.GetController(arg_3_0.transform_, "weapon")
-	arg_3_0.astrolabeController = ControllerUtil.GetController(arg_3_0.transform_, "astrolabe")
-	arg_3_0.equipController = ControllerUtil.GetController(arg_3_0.transform_, "equip")
-	arg_3_0.trialController = ControllerUtil.GetController(arg_3_0.transform_, "trial")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.weaponController = ControllerUtil.GetController(slot0.transform_, "weapon")
+	slot0.astrolabeController = ControllerUtil.GetController(slot0.transform_, "astrolabe")
+	slot0.equipController = ControllerUtil.GetController(slot0.transform_, "equip")
+	slot0.trialController = ControllerUtil.GetController(slot0.transform_, "trial")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_clickBtn, nil, function()
-		if arg_4_0.clickFunc then
-			arg_4_0.clickFunc(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_clickBtn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetStandardData(arg_6_0, arg_6_1)
-	arg_6_0.trialController:SetSelectedIndex(1)
+function slot0.SetStandardData(slot0, slot1)
+	slot0.trialController:SetSelectedIndex(1)
 
-	local var_6_0 = HeroStandardSystemCfg[arg_6_1]
-	local var_6_1 = TempHeroData:GetTempHeroDataByTempID(arg_6_1)
-	local var_6_2 = var_6_0.hero_id
-	local var_6_3 = HeroCfg[var_6_2]
+	slot3 = TempHeroData:GetTempHeroDataByTempID(slot1)
+	slot5 = HeroCfg[HeroStandardSystemCfg[slot1].hero_id]
+	slot0.m_name.text = GetI18NText(slot5.name)
+	slot0.m_img.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[slot3.using_skin].picture_id)
+	slot0.m_raceImg.sprite = getSprite("Atlas/CampItemAtlas", RaceEffectCfg[slot5.race].icon)
 
-	arg_6_0.m_name.text = GetI18NText(var_6_3.name)
-
-	local var_6_4 = var_6_1.using_skin
-
-	arg_6_0.m_img.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[var_6_4].picture_id)
-
-	local var_6_5 = RaceEffectCfg[var_6_3.race]
-
-	arg_6_0.m_raceImg.sprite = getSprite("Atlas/CampItemAtlas", var_6_5.icon)
-
-	local var_6_6 = var_6_1.servantInfo
-
-	if not var_6_6 or var_6_6.id == 0 then
-		arg_6_0.weaponController:SetSelectedIndex(0)
+	if not slot3.servantInfo or slot8.id == 0 then
+		slot0.weaponController:SetSelectedIndex(0)
 	else
-		arg_6_0.weaponController:SetSelectedIndex(1)
+		slot0.weaponController:SetSelectedIndex(1)
 
-		arg_6_0.m_weaponImg.sprite = ItemTools.getItemSprite(var_6_6.id)
+		slot0.m_weaponImg.sprite = ItemTools.getItemSprite(slot8.id)
 	end
 
-	local var_6_7 = clone(var_6_1.using_astrolabe)
+	slot9 = clone(slot3.using_astrolabe)
 
-	table.sort(var_6_7, function(arg_7_0, arg_7_1)
-		return arg_7_0 < arg_7_1
+	table.sort(slot9, function (slot0, slot1)
+		return slot0 < slot1
 	end)
 
-	local var_6_8 = math.min(3, #var_6_7)
+	slot10 = math.min(3, #slot9)
+	slot14 = slot10
 
-	arg_6_0.astrolabeController:SetSelectedIndex(var_6_8)
+	slot0.astrolabeController:SetSelectedIndex(slot14)
 
-	for iter_6_0 = 1, var_6_8 do
-		local var_6_9 = arg_6_0["m_astrolabe" .. iter_6_0]
-		local var_6_10 = var_6_7[iter_6_0]
-		local var_6_11 = HeroAstrolabeCfg[var_6_10].hero_astrolabe_suit_id
-		local var_6_12 = table.indexof(var_6_3.astrolabe, var_6_11) or 1
-
-		if var_6_12 == 1 then
-			var_6_9.sprite = getSprite("Atlas/Common", "icon_yellow_a")
-		elseif var_6_12 == 2 then
-			var_6_9.sprite = getSprite("Atlas/Common", "icon_red_a")
-		elseif var_6_12 == 3 then
-			var_6_9.sprite = getSprite("Atlas/Common", "icon_blue_a")
+	for slot14 = 1, slot10 do
+		if (table.indexof(slot5.astrolabe, HeroAstrolabeCfg[slot9[slot14]].hero_astrolabe_suit_id) or 1) == 1 then
+			slot0["m_astrolabe" .. slot14].sprite = getSprite("Atlas/Common", "icon_yellow_a")
+		elseif slot18 == 2 then
+			slot15.sprite = getSprite("Atlas/Common", "icon_red_a")
+		elseif slot18 == 3 then
+			slot15.sprite = getSprite("Atlas/Common", "icon_blue_a")
 		end
 	end
 
-	local var_6_13 = var_6_1.equip_list
-	local var_6_14 = HeroTools.GetIsSuitNumCut(var_6_1)
-	local var_6_15 = {}
+	slot12 = HeroTools.GetIsSuitNumCut(slot3)
+	slot13 = {}
 
-	for iter_6_1, iter_6_2 in pairs(var_6_13) do
-		if iter_6_2.equip_id ~= 0 then
-			local var_6_16 = EquipCfg[iter_6_2.prefab_id]
-
-			if var_6_15[var_6_16.suit] then
-				var_6_15[var_6_16.suit].num = var_6_15[var_6_16.suit].num + 1
+	for slot17, slot18 in pairs(slot3.equip_list) do
+		if slot18.equip_id ~= 0 then
+			if slot13[EquipCfg[slot18.prefab_id].suit] then
+				slot13[slot19.suit].num = slot13[slot19.suit].num + 1
 			else
-				var_6_15[var_6_16.suit] = {
+				slot13[slot19.suit] = {
 					num = 1,
-					id = var_6_16.suit
+					id = slot19.suit
 				}
 			end
 		end
 	end
 
-	local var_6_17 = {}
+	slot14 = {}
 
-	for iter_6_3, iter_6_4 in pairs(var_6_15) do
-		table.insert(var_6_17, iter_6_4)
+	for slot18, slot19 in pairs(slot13) do
+		table.insert(slot14, slot19)
 	end
 
-	for iter_6_5 = #var_6_17, 1, -1 do
-		if var_6_17[iter_6_5].num < EquipTools.GetSuitNeedNum(var_6_17[iter_6_5].id, var_6_14) then
-			table.remove(var_6_17, iter_6_5)
+	for slot18 = #slot14, 1, -1 do
+		if slot14[slot18].num < EquipTools.GetSuitNeedNum(slot14[slot18].id, slot12) then
+			table.remove(slot14, slot18)
 		end
 	end
 
-	local var_6_18 = math.min(3, #var_6_17)
+	slot15 = math.min(3, #slot14)
+	slot19 = slot15
 
-	arg_6_0.equipController:SetSelectedIndex(var_6_18)
+	slot0.equipController:SetSelectedIndex(slot19)
 
-	for iter_6_6 = 1, var_6_18 do
-		local var_6_19 = arg_6_0["m_equip" .. iter_6_6]
-		local var_6_20 = var_6_17[iter_6_6].id
-
-		var_6_19.sprite = getSpriteViaConfig("EquipIcon_s", EquipSuitCfg[var_6_20].icon)
+	for slot19 = 1, slot15 do
+		slot0["m_equip" .. slot19].sprite = getSpriteViaConfig("EquipIcon_s", EquipSuitCfg[slot14[slot19].id].icon)
 	end
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.trialController:SetSelectedIndex(0)
+function slot0.SetData(slot0, slot1)
+	slot0.trialController:SetSelectedIndex(0)
 
-	arg_8_0.heroId = arg_8_1
+	slot0.heroId = slot1
+	slot3 = HeroCfg[slot1]
+	slot0.m_name.text = GetI18NText(slot3.name)
+	slot0.m_img.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[HeroTools.HeroUsingSkinInfo(slot1).id].picture_id)
+	slot0.m_raceImg.sprite = getSprite("Atlas/CampItemAtlas", RaceEffectCfg[slot3.race].icon)
 
-	local var_8_0 = HeroData:GetHeroData(arg_8_1)
-	local var_8_1 = HeroCfg[arg_8_1]
-
-	arg_8_0.m_name.text = GetI18NText(var_8_1.name)
-
-	local var_8_2 = HeroTools.HeroUsingSkinInfo(arg_8_1).id
-
-	arg_8_0.m_img.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[var_8_2].picture_id)
-
-	local var_8_3 = RaceEffectCfg[var_8_1.race]
-
-	arg_8_0.m_raceImg.sprite = getSprite("Atlas/CampItemAtlas", var_8_3.icon)
-
-	local var_8_4 = WeaponServantData:GetServantDataByUID(var_8_0.servant_uid)
-
-	if not var_8_4 then
-		arg_8_0.weaponController:SetSelectedIndex(0)
+	if not WeaponServantData:GetServantDataByUID(HeroData:GetHeroData(slot1).servant_uid) then
+		slot0.weaponController:SetSelectedIndex(0)
 	else
-		arg_8_0.weaponController:SetSelectedIndex(1)
+		slot0.weaponController:SetSelectedIndex(1)
 
-		arg_8_0.m_weaponImg.sprite = ItemTools.getItemSprite(var_8_4.id)
+		slot0.m_weaponImg.sprite = ItemTools.getItemSprite(slot6.id)
 	end
 
-	local var_8_5 = clone(var_8_0.using_astrolabe)
+	slot7 = clone(slot2.using_astrolabe)
 
-	table.sort(var_8_5, function(arg_9_0, arg_9_1)
-		return arg_9_0 < arg_9_1
+	table.sort(slot7, function (slot0, slot1)
+		return slot0 < slot1
 	end)
 
-	local var_8_6 = math.min(3, #var_8_5)
+	slot8 = math.min(3, #slot7)
+	slot12 = slot8
 
-	arg_8_0.astrolabeController:SetSelectedIndex(var_8_6)
+	slot0.astrolabeController:SetSelectedIndex(slot12)
 
-	for iter_8_0 = 1, var_8_6 do
-		local var_8_7 = arg_8_0["m_astrolabe" .. iter_8_0]
-		local var_8_8 = var_8_5[iter_8_0]
-		local var_8_9 = HeroAstrolabeCfg[var_8_8].hero_astrolabe_suit_id
-		local var_8_10 = table.indexof(var_8_1.astrolabe, var_8_9) or 1
-
-		if var_8_10 == 1 then
-			var_8_7.sprite = getSprite("Atlas/Common", "icon_yellow_a")
-		elseif var_8_10 == 2 then
-			var_8_7.sprite = getSprite("Atlas/Common", "icon_red_a")
-		elseif var_8_10 == 3 then
-			var_8_7.sprite = getSprite("Atlas/Common", "icon_blue_a")
+	for slot12 = 1, slot8 do
+		if (table.indexof(slot3.astrolabe, HeroAstrolabeCfg[slot7[slot12]].hero_astrolabe_suit_id) or 1) == 1 then
+			slot0["m_astrolabe" .. slot12].sprite = getSprite("Atlas/Common", "icon_yellow_a")
+		elseif slot16 == 2 then
+			slot13.sprite = getSprite("Atlas/Common", "icon_red_a")
+		elseif slot16 == 3 then
+			slot13.sprite = getSprite("Atlas/Common", "icon_blue_a")
 		end
 	end
 
-	local var_8_11 = var_8_0.equip
-	local var_8_12 = HeroTools.GetIsSuitNumCut(var_8_0)
-	local var_8_13 = EquipTools.CountActiveSuit(var_8_11)
-
-	for iter_8_1 = #var_8_13, 1, -1 do
-		if var_8_13[iter_8_1].num < EquipTools.GetSuitNeedNum(var_8_13[iter_8_1].id, var_8_12) then
-			table.remove(var_8_13, iter_8_1)
+	for slot15 = #EquipTools.CountActiveSuit(slot2.equip), 1, -1 do
+		if slot11[slot15].num < EquipTools.GetSuitNeedNum(slot11[slot15].id, HeroTools.GetIsSuitNumCut(slot2)) then
+			table.remove(slot11, slot15)
 		end
 	end
 
-	local var_8_14 = math.min(3, #var_8_13)
+	slot12 = math.min(3, #slot11)
+	slot16 = slot12
 
-	arg_8_0.equipController:SetSelectedIndex(var_8_14)
+	slot0.equipController:SetSelectedIndex(slot16)
 
-	for iter_8_2 = 1, var_8_14 do
-		local var_8_15 = arg_8_0["m_equip" .. iter_8_2]
-		local var_8_16 = var_8_13[iter_8_2].id
-
-		var_8_15.sprite = getSpriteViaConfig("EquipIcon_s", EquipSuitCfg[var_8_16].icon)
+	for slot16 = 1, slot12 do
+		slot0["m_equip" .. slot16].sprite = getSpriteViaConfig("EquipIcon_s", EquipSuitCfg[slot11[slot16].id].icon)
 	end
 end
 
-function var_0_0.SetIndex(arg_10_0, arg_10_1)
-	arg_10_0.index = arg_10_1
+function slot0.SetIndex(slot0, slot1)
+	slot0.index = slot1
 end
 
-function var_0_0.SetSelect(arg_11_0, arg_11_1)
-	arg_11_0.selectController:SetSelectedIndex(arg_11_0.index == arg_11_1 and 1 or 0)
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectController:SetSelectedIndex(slot0.index == slot1 and 1 or 0)
 end
 
-function var_0_0.RegistCallBack(arg_12_0, arg_12_1)
-	arg_12_0.clickFunc = arg_12_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

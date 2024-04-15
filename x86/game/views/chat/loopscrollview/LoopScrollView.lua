@@ -1,456 +1,410 @@
-local var_0_0 = class("LoopScrollView", BaseView)
+slot0 = class("LoopScrollView", BaseView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5, arg_1_6, arg_1_7, arg_1_8)
-	arg_1_0.parentView_ = arg_1_1
-	arg_1_0.scrollView_ = arg_1_2
-	arg_1_0.viewPort_ = arg_1_4
-	arg_1_0.rectGrid_ = arg_1_3
-	arg_1_0.itemList_ = {}
-	arg_1_0.contentHeight_ = 0
-	arg_1_0.itemSpace_ = arg_1_6
-	arg_1_0.currentHeight_ = arg_1_5
-	arg_1_0.isBottom_ = arg_1_7
-	arg_1_0.isHorizontal = arg_1_8
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8)
+	slot0.parentView_ = slot1
+	slot0.scrollView_ = slot2
+	slot0.viewPort_ = slot4
+	slot0.rectGrid_ = slot3
+	slot0.itemList_ = {}
+	slot0.contentHeight_ = 0
+	slot0.itemSpace_ = slot6
+	slot0.currentHeight_ = slot5
+	slot0.isBottom_ = slot7
+	slot0.isHorizontal = slot8
 
-	arg_1_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	arg_2_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_2_0.itemList_ = nil
+	slot0.itemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddToggleListener(arg_3_0.scrollView_, function(arg_4_0)
-		if arg_3_0.isHorizontal then
-			if arg_4_0.x < 0 or arg_4_0.x == 0 and arg_3_0.rectGrid_.anchoredPosition.x > 0 then
-				arg_3_0:DeleteItem(false)
-				arg_3_0:AddHeadItem()
-			elseif arg_4_0.x > 1 or arg_4_0.x == 1 and arg_3_0.rectGrid_.anchoredPosition.x < 0 then
-				arg_3_0:DeleteItem(true)
-				arg_3_0:AddTailItem()
+function slot0.AddListeners(slot0)
+	slot0:AddToggleListener(slot0.scrollView_, function (slot0)
+		if uv0.isHorizontal then
+			if slot0.x < 0 or slot0.x == 0 and uv0.rectGrid_.anchoredPosition.x > 0 then
+				uv0:DeleteItem(false)
+				uv0:AddHeadItem()
+			elseif slot0.x > 1 or slot0.x == 1 and uv0.rectGrid_.anchoredPosition.x < 0 then
+				uv0:DeleteItem(true)
+				uv0:AddTailItem()
 			end
-		elseif arg_4_0.y < 0 or arg_4_0.y == 0 and arg_3_0.rectGrid_.anchoredPosition.y > 0 then
-			arg_3_0:DeleteItem(true)
-			arg_3_0:AddTailItem()
-		elseif arg_4_0.y > 1 or arg_4_0.y == 1 and arg_3_0.rectGrid_.anchoredPosition.y < 0 then
-			arg_3_0:DeleteItem(false)
-			arg_3_0:AddHeadItem()
+		elseif slot0.y < 0 or slot0.y == 0 and uv0.rectGrid_.anchoredPosition.y > 0 then
+			uv0:DeleteItem(true)
+			uv0:AddTailItem()
+		elseif slot0.y > 1 or slot0.y == 1 and uv0.rectGrid_.anchoredPosition.y < 0 then
+			uv0:DeleteItem(false)
+			uv0:AddHeadItem()
 		end
 	end)
 end
 
-function var_0_0.GetContentHeight(arg_5_0)
-	return arg_5_0.currentHeight_
+function slot0.GetContentHeight(slot0)
+	return slot0.currentHeight_
 end
 
-function var_0_0.SetContentHeight(arg_6_0, arg_6_1)
-	arg_6_0.currentHeight_ = arg_6_1
+function slot0.SetContentHeight(slot0, slot1)
+	slot0.currentHeight_ = slot1
 end
 
-function var_0_0.RestoredScroll(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0:NavigateIndex(arg_7_1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.rectGrid_)
+function slot0.RestoredScroll(slot0, slot1, slot2)
+	slot0:NavigateIndex(slot1)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
-	if arg_7_0.isHorizontal then
-		arg_7_0.scrollView_.horizontalNormalizedPosition = arg_7_2
+	if slot0.isHorizontal then
+		slot0.scrollView_.horizontalNormalizedPosition = slot2
 	else
-		arg_7_0.scrollView_.verticalNormalizedPosition = arg_7_2
+		slot0.scrollView_.verticalNormalizedPosition = slot2
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.rectGrid_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 end
 
-function var_0_0.NavigateIndex(arg_8_0, arg_8_1)
-	if arg_8_0.isHorizontal then
-		arg_8_0.scrollView_.horizontalNormalizedPosition = 0.9999
+function slot0.NavigateIndex(slot0, slot1)
+	if slot0.isHorizontal then
+		slot0.scrollView_.horizontalNormalizedPosition = 0.9999
 	else
-		arg_8_0.scrollView_.verticalNormalizedPosition = 0.9999
+		slot0.scrollView_.verticalNormalizedPosition = 0.9999
 	end
 
-	for iter_8_0 = #arg_8_0.itemList_, 1, -1 do
-		local var_8_0 = arg_8_0.itemList_[iter_8_0]
-
-		arg_8_0.parentView_:LsRemoveItem(var_8_0)
-		table.remove(arg_8_0.itemList_, #arg_8_0.itemList_)
+	for slot5 = #slot0.itemList_, 1, -1 do
+		slot0.parentView_:LsRemoveItem(slot0.itemList_[slot5])
+		table.remove(slot0.itemList_, #slot0.itemList_)
 	end
 
-	arg_8_0.contentHeight_ = 0
+	slot0.contentHeight_ = 0
 
-	local var_8_1 = arg_8_0.parentView_:LsGetItemData()
+	for slot6 = slot1, #slot0.parentView_:LsGetItemData() do
+		slot7 = slot0.parentView_:LsAddItem(slot2[slot6], slot6)
 
-	for iter_8_1 = arg_8_1, #var_8_1 do
-		local var_8_2 = arg_8_0.parentView_:LsAddItem(var_8_1[iter_8_1], iter_8_1)
+		table.insert(slot0.itemList_, slot7)
+		slot7.itemView:SetAsLastSibling()
 
-		table.insert(arg_8_0.itemList_, var_8_2)
-		var_8_2.itemView:SetAsLastSibling()
-
-		if var_8_2.itemView:IsActive() then
-			arg_8_0.contentHeight_ = arg_8_0.contentHeight_ + arg_8_0.itemSpace_ + var_8_2.itemView:GetItemHeight()
+		if slot7.itemView:IsActive() then
+			slot0.contentHeight_ = slot0.contentHeight_ + slot0.itemSpace_ + slot7.itemView:GetItemHeight()
 		end
 
-		if arg_8_0.contentHeight_ >= arg_8_0:GetContentHeight() then
+		if slot0:GetContentHeight() <= slot0.contentHeight_ then
 			break
 		end
 	end
 
-	if arg_8_0.isBottom_ and arg_8_0.contentHeight_ < arg_8_0:GetContentHeight() then
-		arg_8_0:Scroll2End()
+	if slot0.isBottom_ and slot0.contentHeight_ < slot0:GetContentHeight() then
+		slot0:Scroll2End()
 	end
 end
 
-function var_0_0.Scroll2End(arg_9_0)
-	for iter_9_0 = #arg_9_0.itemList_, 1, -1 do
-		local var_9_0 = arg_9_0.itemList_[iter_9_0]
-
-		arg_9_0.parentView_:LsRemoveItem(var_9_0)
-		table.remove(arg_9_0.itemList_, iter_9_0)
+function slot0.Scroll2End(slot0)
+	for slot4 = #slot0.itemList_, 1, -1 do
+		slot0.parentView_:LsRemoveItem(slot0.itemList_[slot4])
+		table.remove(slot0.itemList_, slot4)
 	end
 
-	arg_9_0.contentHeight_ = 0
+	slot0.contentHeight_ = 0
 
-	local var_9_1 = arg_9_0.parentView_:LsGetItemData()
+	for slot5 = #slot0.parentView_:LsGetItemData(), 1, -1 do
+		slot6 = slot0.parentView_:LsAddItem(slot1[slot5], slot5)
 
-	for iter_9_1 = #var_9_1, 1, -1 do
-		local var_9_2 = arg_9_0.parentView_:LsAddItem(var_9_1[iter_9_1], iter_9_1)
+		table.insert(slot0.itemList_, 1, slot6)
+		slot6.itemView:SetAsFirstSibling()
 
-		table.insert(arg_9_0.itemList_, 1, var_9_2)
-		var_9_2.itemView:SetAsFirstSibling()
-
-		if var_9_2.itemView:IsActive() then
-			arg_9_0.contentHeight_ = arg_9_0.contentHeight_ + arg_9_0.itemSpace_ + var_9_2.itemView:GetItemHeight()
+		if slot6.itemView:IsActive() then
+			slot0.contentHeight_ = slot0.contentHeight_ + slot0.itemSpace_ + slot6.itemView:GetItemHeight()
 		end
 
-		if arg_9_0.contentHeight_ >= arg_9_0:GetContentHeight() then
+		if slot0:GetContentHeight() <= slot0.contentHeight_ then
 			break
 		end
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectGrid_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
-	if arg_9_0.isHorizontal then
-		arg_9_0.scrollView_.horizontalNormalizedPosition = 0.0001
+	if slot0.isHorizontal then
+		slot0.scrollView_.horizontalNormalizedPosition = 0.0001
 	else
-		arg_9_0.scrollView_.verticalNormalizedPosition = 0.0001
+		slot0.scrollView_.verticalNormalizedPosition = 0.0001
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.rectGrid_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 end
 
-function var_0_0.RefreshScrollView(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = 0.99999
-	local var_10_1 = arg_10_0.rectGrid_.localPosition
+function slot0.RefreshScrollView(slot0, slot1, slot2)
+	slot3 = 0.99999
 
-	print("asdfasf" .. arg_10_0.scrollView_.horizontalNormalizedPosition, var_10_1.x, arg_10_0.rectGrid_.gameObject.name)
+	print("asdfasf" .. slot0.scrollView_.horizontalNormalizedPosition, slot0.rectGrid_.localPosition.x, slot0.rectGrid_.gameObject.name)
 
-	if arg_10_2 then
-		if arg_10_0.isHorizontal then
-			var_10_0 = arg_10_0.scrollView_.horizontalNormalizedPosition
-		else
-			var_10_0 = arg_10_0.scrollView_.verticalNormalizedPosition
-		end
+	if slot2 then
+		slot3 = (not slot0.isHorizontal or slot0.scrollView_.horizontalNormalizedPosition) and slot0.scrollView_.verticalNormalizedPosition
 	end
 
-	if #arg_10_0.itemList_ <= 0 then
-		arg_10_0:NavigateIndex(1)
+	if #slot0.itemList_ <= 0 then
+		slot0:NavigateIndex(1)
 
-		if arg_10_0.isHorizontal then
-			arg_10_0.scrollView_.horizontalNormalizedPosition = var_10_0
+		if slot0.isHorizontal then
+			slot0.scrollView_.horizontalNormalizedPosition = slot3
 		else
-			arg_10_0.scrollView_.verticalNormalizedPosition = var_10_0
+			slot0.scrollView_.verticalNormalizedPosition = slot3
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
 		return
 	end
 
-	local var_10_2 = arg_10_0.itemList_[1].itemView:GetIndex()
+	if slot0.itemList_[1].itemView:IsActive() == false then
+		slot0:NavigateIndex(slot0.itemList_[1].itemView:GetIndex())
 
-	if arg_10_0.itemList_[1].itemView:IsActive() == false then
-		arg_10_0:NavigateIndex(var_10_2)
-
-		if arg_10_0.isHorizontal then
-			arg_10_0.scrollView_.horizontalNormalizedPosition = var_10_0
+		if slot0.isHorizontal then
+			slot0.scrollView_.horizontalNormalizedPosition = slot3
 		else
-			arg_10_0.scrollView_.verticalNormalizedPosition = var_10_0
+			slot0.scrollView_.verticalNormalizedPosition = slot3
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
 		return
 	end
 
-	local var_10_3 = arg_10_0.parentView_:LsGetItemData()
+	if #slot0.parentView_:LsGetItemData() <= 0 then
+		slot0:DeleteAllItem()
 
-	if #var_10_3 <= 0 then
-		arg_10_0:DeleteAllItem()
-
-		if arg_10_0.isHorizontal then
-			arg_10_0.scrollView_.horizontalNormalizedPosition = var_10_0
+		if slot0.isHorizontal then
+			slot0.scrollView_.horizontalNormalizedPosition = slot3
 		else
-			arg_10_0.scrollView_.verticalNormalizedPosition = var_10_0
+			slot0.scrollView_.verticalNormalizedPosition = slot3
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
 		return
 	end
 
-	local var_10_4 = var_10_3[var_10_2]
+	slot7 = slot6[slot5]
 
-	if arg_10_1 then
-		arg_10_0:DeleteAllItem()
-		arg_10_0:NavigateIndex(var_10_2)
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+	if slot1 then
+		slot0:DeleteAllItem()
+		slot0:NavigateIndex(slot5)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
-		if arg_10_0.isHorizontal then
-			arg_10_0.scrollView_.horizontalNormalizedPosition = var_10_0
+		if slot0.isHorizontal then
+			slot0.scrollView_.horizontalNormalizedPosition = slot3
 		else
-			arg_10_0.scrollView_.verticalNormalizedPosition = var_10_0
+			slot0.scrollView_.verticalNormalizedPosition = slot3
 		end
 
 		return
 	else
-		arg_10_0.parentView_:LsUpdateItem(arg_10_0.itemList_[1], var_10_4, var_10_2)
+		slot11 = slot7
 
-		for iter_10_0 = #arg_10_0.itemList_, 2, -1 do
-			local var_10_5 = arg_10_0.itemList_[iter_10_0]
+		slot0.parentView_:LsUpdateItem(slot0.itemList_[1], slot11, slot5)
 
-			arg_10_0.parentView_:LsRemoveItem(var_10_5)
-			table.remove(arg_10_0.itemList_, iter_10_0)
+		for slot11 = #slot0.itemList_, 2, -1 do
+			slot0.parentView_:LsRemoveItem(slot0.itemList_[slot11])
+			table.remove(slot0.itemList_, slot11)
 		end
 
-		arg_10_0.contentHeight_ = arg_10_0.itemSpace_ + arg_10_0.itemList_[1].itemView:GetItemHeight()
+		slot0.contentHeight_ = slot0.itemSpace_ + slot0.itemList_[1].itemView:GetItemHeight()
 	end
 
-	arg_10_0:AddTail2End()
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+	slot0:AddTail2End()
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 
-	if arg_10_0.isHorizontal then
-		arg_10_0.scrollView_.horizontalNormalizedPosition = var_10_0
+	if slot0.isHorizontal then
+		slot0.scrollView_.horizontalNormalizedPosition = slot3
 	else
-		arg_10_0.scrollView_.verticalNormalizedPosition = var_10_0
+		slot0.scrollView_.verticalNormalizedPosition = slot3
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rectGrid_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectGrid_)
 end
 
-function var_0_0.AddTail2End(arg_11_0)
-	local var_11_0 = arg_11_0.parentView_:LsGetItemData()
-
-	if #var_11_0 <= 0 then
+function slot0.AddTail2End(slot0)
+	if #slot0.parentView_:LsGetItemData() <= 0 then
 		return
 	end
 
-	while arg_11_0.contentHeight_ < arg_11_0:GetContentHeight() do
-		local var_11_1 = 1
+	while slot0.contentHeight_ < slot0:GetContentHeight() do
+		slot2 = 1
 
-		if #arg_11_0.itemList_ > 0 and arg_11_0.itemList_[#arg_11_0.itemList_].itemView:GetIndex() + 1 > #var_11_0 then
+		if #slot0.itemList_ > 0 and slot0.itemList_[#slot0.itemList_].itemView:GetIndex() + 1 > #slot1 then
 			break
 		end
 
-		arg_11_0:AddTailItem()
+		slot0:AddTailItem()
 	end
 
-	arg_11_0:AddTailItem()
+	slot0:AddTailItem()
 
-	while arg_11_0.contentHeight_ < arg_11_0:GetContentHeight() do
-		local var_11_2 = 1
+	while slot0.contentHeight_ < slot0:GetContentHeight() do
+		slot2 = 1
 
-		if #arg_11_0.itemList_ > 0 and arg_11_0.itemList_[1].itemView:GetIndex() - 1 <= 0 then
+		if #slot0.itemList_ > 0 and slot0.itemList_[1].itemView:GetIndex() - 1 <= 0 then
 			break
 		end
 
-		arg_11_0:AddHeadItem()
+		slot0:AddHeadItem()
 	end
 end
 
-function var_0_0.DeleteIndex(arg_12_0, arg_12_1)
-	for iter_12_0 = #arg_12_0.itemList_, arg_12_1, -1 do
-		local var_12_0 = arg_12_0.itemList_[iter_12_0]
+function slot0.DeleteIndex(slot0, slot1)
+	for slot5 = #slot0.itemList_, slot1, -1 do
+		slot6 = slot0.itemList_[slot5]
 
-		arg_12_0.parentView_:LsRemoveItem(var_12_0)
+		slot0.parentView_:LsRemoveItem(slot6)
 
-		if var_12_0.itemView:IsActive() then
-			arg_12_0.contentHeight_ = arg_12_0.contentHeight_ - arg_12_0.itemSpace_ - var_12_0.itemView:GetItemHeight()
+		if slot6.itemView:IsActive() then
+			slot0.contentHeight_ = slot0.contentHeight_ - slot0.itemSpace_ - slot6.itemView:GetItemHeight()
 		end
 
-		table.remove(arg_12_0.itemList_, #arg_12_0.itemList_)
+		table.remove(slot0.itemList_, #slot0.itemList_)
 	end
 
-	arg_12_0:AddTail2End()
+	slot0:AddTail2End()
 end
 
-function var_0_0.DeleteItem(arg_13_0, arg_13_1)
-	while arg_13_0.contentHeight_ > arg_13_0:GetContentHeight() do
-		local var_13_0 = 1
+function slot0.DeleteItem(slot0, slot1)
+	while slot0:GetContentHeight() < slot0.contentHeight_ do
+		slot2 = 1
 
-		if arg_13_1 then
-			arg_13_0:DeleteHeadItem()
+		if slot1 then
+			slot0:DeleteHeadItem()
 		else
-			arg_13_0:DeleteTailItem()
+			slot0:DeleteTailItem()
 
-			var_13_0 = #arg_13_0.itemList_
+			slot2 = #slot0.itemList_
 		end
 
-		if var_13_0 <= 0 then
+		if slot2 <= 0 then
 			break
 		end
 
-		local var_13_1 = arg_13_0.itemList_[var_13_0]
-
-		if var_13_1 == nil then
+		if slot0.itemList_[slot2] == nil then
 			break
 		end
 
-		if arg_13_0.contentHeight_ - arg_13_0.itemSpace_ - var_13_1.itemView:GetItemHeight() < arg_13_0:GetContentHeight() then
+		if slot0.contentHeight_ - slot0.itemSpace_ - slot3.itemView:GetItemHeight() < slot0:GetContentHeight() then
 			break
 		end
 	end
 end
 
-function var_0_0.DeleteHeadItem(arg_14_0)
-	local var_14_0 = arg_14_0.itemList_[1]
+function slot0.DeleteHeadItem(slot0)
+	if slot0:GetContentHeight() < slot0.contentHeight_ - slot0.itemSpace_ - slot0.itemList_[1].itemView:GetItemHeight() then
+		slot0.parentView_:LsRemoveItem(slot1)
+		table.remove(slot0.itemList_, 1)
 
-	if arg_14_0.contentHeight_ - arg_14_0.itemSpace_ - var_14_0.itemView:GetItemHeight() > arg_14_0:GetContentHeight() then
-		arg_14_0.parentView_:LsRemoveItem(var_14_0)
-		table.remove(arg_14_0.itemList_, 1)
-
-		if var_14_0.itemView:IsActive() then
-			if arg_14_0.isHorizontal then
-				arg_14_0.scrollView_:AddContentPosition(Vector2(arg_14_0.itemSpace_ + var_14_0.itemView:GetItemHeight(), 0))
+		if slot1.itemView:IsActive() then
+			if slot0.isHorizontal then
+				slot0.scrollView_:AddContentPosition(Vector2(slot0.itemSpace_ + slot1.itemView:GetItemHeight(), 0))
 			else
-				arg_14_0.scrollView_:AddContentPosition(Vector2(0, -arg_14_0.itemSpace_ - var_14_0.itemView:GetItemHeight()))
+				slot0.scrollView_:AddContentPosition(Vector2(0, -slot0.itemSpace_ - slot1.itemView:GetItemHeight()))
 			end
 
-			arg_14_0.contentHeight_ = arg_14_0.contentHeight_ - arg_14_0.itemSpace_ - var_14_0.itemView:GetItemHeight()
+			slot0.contentHeight_ = slot0.contentHeight_ - slot0.itemSpace_ - slot1.itemView:GetItemHeight()
 		else
-			arg_14_0:DeleteHeadItem()
+			slot0:DeleteHeadItem()
 		end
 	end
 end
 
-function var_0_0.DeleteTailItem(arg_15_0)
-	local var_15_0 = arg_15_0.itemList_[#arg_15_0.itemList_]
+function slot0.DeleteTailItem(slot0)
+	if slot0:GetContentHeight() < slot0.contentHeight_ - slot0.itemSpace_ - slot0.itemList_[#slot0.itemList_].itemView:GetItemHeight() then
+		slot0.parentView_:LsRemoveItem(slot1)
+		table.remove(slot0.itemList_, #slot0.itemList_)
 
-	if arg_15_0.contentHeight_ - arg_15_0.itemSpace_ - var_15_0.itemView:GetItemHeight() > arg_15_0:GetContentHeight() then
-		arg_15_0.parentView_:LsRemoveItem(var_15_0)
-		table.remove(arg_15_0.itemList_, #arg_15_0.itemList_)
-
-		if var_15_0.itemView:IsActive() then
-			arg_15_0.contentHeight_ = arg_15_0.contentHeight_ - arg_15_0.itemSpace_ - var_15_0.itemView:GetItemHeight()
+		if slot1.itemView:IsActive() then
+			slot0.contentHeight_ = slot0.contentHeight_ - slot0.itemSpace_ - slot1.itemView:GetItemHeight()
 		else
-			arg_15_0:DeleteTailItem()
+			slot0:DeleteTailItem()
 		end
 	end
 end
 
-function var_0_0.AddTailItem(arg_16_0)
-	local var_16_0 = arg_16_0.parentView_:LsGetItemData()
-
-	if #var_16_0 <= 0 then
+function slot0.AddTailItem(slot0)
+	if #slot0.parentView_:LsGetItemData() <= 0 then
 		return
 	end
 
-	local var_16_1 = 1
+	slot2 = 1
 
-	if #arg_16_0.itemList_ > 0 then
-		var_16_1 = arg_16_0.itemList_[#arg_16_0.itemList_].itemView:GetIndex() + 1
-
-		if var_16_1 > #var_16_0 then
-			return
-		end
-	end
-
-	local var_16_2 = var_16_0[var_16_1]
-	local var_16_3 = arg_16_0.parentView_:LsAddItem(var_16_2, var_16_1)
-
-	table.insert(arg_16_0.itemList_, var_16_3)
-	var_16_3.itemView:SetAsLastSibling()
-
-	if var_16_3.itemView:IsActive() then
-		arg_16_0.contentHeight_ = arg_16_0.contentHeight_ + arg_16_0.itemSpace_ + var_16_3.itemView:GetItemHeight()
-	else
-		arg_16_0:AddTailItem()
-	end
-end
-
-function var_0_0.AddHeadItem(arg_17_0)
-	local var_17_0 = arg_17_0.parentView_:LsGetItemData()
-
-	if #var_17_0 <= 0 then
+	if #slot0.itemList_ > 0 and slot0.itemList_[#slot0.itemList_].itemView:GetIndex() + 1 > #slot1 then
 		return
 	end
 
-	local var_17_1 = 1
+	slot4 = slot0.parentView_:LsAddItem(slot1[slot2], slot2)
 
-	if #arg_17_0.itemList_ > 0 then
-		var_17_1 = arg_17_0.itemList_[1].itemView:GetIndex()
-		var_17_1 = var_17_1 - 1
+	table.insert(slot0.itemList_, slot4)
+	slot4.itemView:SetAsLastSibling()
 
-		if var_17_1 <= 0 then
-			return
-		end
+	if slot4.itemView:IsActive() then
+		slot0.contentHeight_ = slot0.contentHeight_ + slot0.itemSpace_ + slot4.itemView:GetItemHeight()
+	else
+		slot0:AddTailItem()
+	end
+end
+
+function slot0.AddHeadItem(slot0)
+	if #slot0.parentView_:LsGetItemData() <= 0 then
+		return
 	end
 
-	local var_17_2 = var_17_0[var_17_1]
-	local var_17_3 = arg_17_0.parentView_:LsAddItem(var_17_2, var_17_1)
+	slot2 = 1
 
-	table.insert(arg_17_0.itemList_, 1, var_17_3)
-	var_17_3.itemView:SetAsFirstSibling()
+	if #slot0.itemList_ > 0 and slot0.itemList_[1].itemView:GetIndex() - 1 <= 0 then
+		return
+	end
 
-	if var_17_3.itemView:IsActive() then
-		arg_17_0.contentHeight_ = arg_17_0.contentHeight_ + arg_17_0.itemSpace_ + var_17_3.itemView:GetItemHeight()
+	slot4 = slot0.parentView_:LsAddItem(slot1[slot2], slot2)
 
-		if arg_17_0.isHorizontal then
-			arg_17_0.scrollView_:AddContentPosition(Vector2(-arg_17_0.itemSpace_ - var_17_3.itemView:GetItemHeight(), 0))
+	table.insert(slot0.itemList_, 1, slot4)
+	slot4.itemView:SetAsFirstSibling()
+
+	if slot4.itemView:IsActive() then
+		slot0.contentHeight_ = slot0.contentHeight_ + slot0.itemSpace_ + slot4.itemView:GetItemHeight()
+
+		if slot0.isHorizontal then
+			slot0.scrollView_:AddContentPosition(Vector2(-slot0.itemSpace_ - slot4.itemView:GetItemHeight(), 0))
 		else
-			arg_17_0.scrollView_:AddContentPosition(Vector2(0, arg_17_0.itemSpace_ + var_17_3.itemView:GetItemHeight()))
+			slot0.scrollView_:AddContentPosition(Vector2(0, slot0.itemSpace_ + slot4.itemView:GetItemHeight()))
 		end
 	else
-		arg_17_0:AddHeadItem()
+		slot0:AddHeadItem()
 	end
 end
 
-function var_0_0.DeleteAllItem(arg_18_0)
-	for iter_18_0 = #arg_18_0.itemList_, 1, -1 do
-		local var_18_0 = arg_18_0.itemList_[iter_18_0]
-
-		arg_18_0.parentView_:LsRemoveItem(var_18_0)
-		table.remove(arg_18_0.itemList_, iter_18_0)
+function slot0.DeleteAllItem(slot0)
+	for slot4 = #slot0.itemList_, 1, -1 do
+		slot0.parentView_:LsRemoveItem(slot0.itemList_[slot4])
+		table.remove(slot0.itemList_, slot4)
 	end
 
-	arg_18_0.contentHeight_ = 0
+	slot0.contentHeight_ = 0
 end
 
-function var_0_0.GetFirstItemHeight(arg_19_0)
-	local var_19_0 = arg_19_0.itemList_[1]
-
-	if not var_19_0 then
+function slot0.GetFirstItemHeight(slot0)
+	if not slot0.itemList_[1] then
 		return 0
 	end
 
-	return var_19_0.itemView:GetItemHeight() + arg_19_0.itemSpace_
+	return slot1.itemView:GetItemHeight() + slot0.itemSpace_
 end
 
-function var_0_0.GetLastItemHeight(arg_20_0)
-	local var_20_0 = arg_20_0.itemList_[#arg_20_0.itemList_]
-
-	if not var_20_0 then
+function slot0.GetLastItemHeight(slot0)
+	if not slot0.itemList_[#slot0.itemList_] then
 		return 0
 	end
 
-	return var_20_0.itemView:GetItemHeight() + arg_20_0.itemSpace_
+	return slot1.itemView:GetItemHeight() + slot0.itemSpace_
 end
 
-function var_0_0.GetItemList(arg_21_0)
-	return arg_21_0.itemList_
+function slot0.GetItemList(slot0)
+	return slot0.itemList_
 end
 
-function var_0_0.IsFillContent(arg_22_0)
-	return arg_22_0.contentHeight_ >= arg_22_0:GetContentHeight()
+function slot0.IsFillContent(slot0)
+	return slot0:GetContentHeight() <= slot0.contentHeight_
 end
 
-return var_0_0
+return slot0

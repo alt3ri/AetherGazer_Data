@@ -5,7 +5,7 @@ return {
 	},
 	LittleIconAtlas = {
 		"Atlas/Currency",
-		[6] = "Atlas/Currency",
-		[17] = "Atlas/Currency"
+		[6.0] = "Atlas/Currency",
+		[17.0] = "Atlas/Currency"
 	}
 }

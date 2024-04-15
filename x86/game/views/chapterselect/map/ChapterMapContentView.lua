@@ -1,563 +1,518 @@
-local var_0_0 = class("ChapterMapContentView", ReduxView)
+slot0 = class("ChapterMapContentView", ReduxView)
+slot0.SWITCH_STAGE_TIME = 0.8
 
-var_0_0.SWITCH_STAGE_TIME = 0.8
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationMainUI_new"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.itemList_ = {}
-	arg_3_0.positionList_ = {}
-	arg_3_0.mainPlotChapterToggleList_ = {}
+function slot0.Init(slot0)
+	slot0.itemList_ = {}
+	slot0.positionList_ = {}
+	slot0.mainPlotChapterToggleList_ = {}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_3_0.changeSelectChapterHandler_ = handler(arg_3_0, arg_3_0.ChangeSelectChapterID)
-	arg_3_0.changeSelectHardLevelHandler_ = handler(arg_3_0, arg_3_0.ChangeSelectHardLevel)
+	slot0.changeSelectChapterHandler_ = handler(slot0, slot0.ChangeSelectChapterID)
+	slot0.changeSelectHardLevelHandler_ = handler(slot0, slot0.ChangeSelectHardLevel)
 
-	for iter_3_0 = 1, 4 do
-		arg_3_0.itemList_[iter_3_0] = ChapterMapItemView.New(arg_3_0.mapItem_, arg_3_0.itemParent_)
+	for slot4 = 1, 4 do
+		slot0.itemList_[slot4] = ChapterMapItemView.New(slot0.mapItem_, slot0.itemParent_)
 	end
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.viewportTransform_ = arg_4_0.mapViewPort_.transform
-	arg_4_0.hardLevelView_ = HardLevelChapterView.New(arg_4_0.difficultPanel_)
+	slot0.viewportTransform_ = slot0.mapViewPort_.transform
+	slot0.hardLevelView_ = HardLevelChapterView.New(slot0.difficultPanel_)
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INVITE_BAR
 	})
-	arg_5_0.hardLevelView_:OnEnter()
-	arg_5_0:RefreshData()
-	arg_5_0:RefreshUI()
-	manager.notify:RegistListener(CHANGE_PLOT_SELECT_CHAPTER, arg_5_0.changeSelectChapterHandler_)
-	manager.notify:RegistListener(CHANGE_PLOT_HARD_LEVEL, arg_5_0.changeSelectHardLevelHandler_)
+	slot0.hardLevelView_:OnEnter()
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	manager.notify:RegistListener(CHANGE_PLOT_SELECT_CHAPTER, slot0.changeSelectChapterHandler_)
+	manager.notify:RegistListener(CHANGE_PLOT_HARD_LEVEL, slot0.changeSelectHardLevelHandler_)
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_6_0:StopAllTimer()
-	manager.notify:RemoveListener(CHANGE_PLOT_SELECT_CHAPTER, arg_6_0.changeSelectChapterHandler_)
-	manager.notify:RemoveListener(CHANGE_PLOT_HARD_LEVEL, arg_6_0.changeSelectHardLevelHandler_)
-	arg_6_0.hardLevelView_:OnExit()
+	slot0:StopAllTimer()
+	manager.notify:RemoveListener(CHANGE_PLOT_SELECT_CHAPTER, slot0.changeSelectChapterHandler_)
 
-	arg_6_0.viewSelectID_ = nil
+	slot4 = slot0.changeSelectHardLevelHandler_
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.mainPlotChapterToggleList_) do
-		iter_6_1:OnExit()
+	manager.notify:RemoveListener(CHANGE_PLOT_HARD_LEVEL, slot4)
+	slot0.hardLevelView_:OnExit()
+
+	slot0.viewSelectID_ = nil
+
+	for slot4, slot5 in pairs(slot0.mainPlotChapterToggleList_) do
+		slot5:OnExit()
 	end
 
-	for iter_6_2, iter_6_3 in pairs(arg_6_0.itemList_) do
-		iter_6_3:OnExit()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnExit()
 	end
 
-	arg_6_0.isFirstEnter_ = false
+	slot0.isFirstEnter_ = false
 
-	arg_6_0:StopLeanTween()
+	slot0:StopLeanTween()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.changeSelectChapterHandler_ = nil
-	arg_7_0.changeSelectHardLevelHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.changeSelectChapterHandler_ = nil
+	slot0.changeSelectHardLevelHandler_ = nil
 
-	arg_7_0.scrollRect_.onValueChanged:RemoveAllListeners()
-	arg_7_0.hardLevelView_:Dispose()
+	slot0.scrollRect_.onValueChanged:RemoveAllListeners()
+	slot0.hardLevelView_:Dispose()
 
-	arg_7_0.hardLevelView_ = nil
+	slot0.hardLevelView_ = nil
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.mainPlotChapterToggleList_) do
-		iter_7_1:Dispose()
+	for slot4, slot5 in pairs(slot0.mainPlotChapterToggleList_) do
+		slot5:Dispose()
 	end
 
-	arg_7_0.mainPlotChapterToggleList_ = nil
+	slot0.mainPlotChapterToggleList_ = nil
 
-	arg_7_0:RemoveListeners()
+	slot0:RemoveListeners()
 
-	for iter_7_2, iter_7_3 in ipairs(arg_7_0.itemList_) do
-		iter_7_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_7_0.itemList_ = {}
+	slot0.itemList_ = {}
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_8_0, arg_8_0.BeginDragFun)))
-	arg_8_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(arg_8_0, arg_8_0.DragFun)))
-	arg_8_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_8_0, arg_8_0.EndDragFun)))
-	arg_8_0.scrollRect_.onValueChanged:AddListener(function()
-		arg_8_0:RefreshItemPosition()
+function slot0.AddListeners(slot0)
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.DragFun)))
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
+	slot0.scrollRect_.onValueChanged:AddListener(function ()
+		uv0:RefreshItemPosition()
 	end)
 end
 
-function var_0_0.BeginDragFun(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0:StopMoveTimer()
-	arg_10_0:StopSnapTimer()
-	arg_10_0:AddToggleTimer()
+function slot0.BeginDragFun(slot0, slot1, slot2)
+	slot0:StopMoveTimer()
+	slot0:StopSnapTimer()
+	slot0:AddToggleTimer()
 end
 
-function var_0_0.DragFun(arg_11_0, arg_11_1, arg_11_2)
-	if math.abs(arg_11_2.position.x - arg_11_2.pressPosition.x) > GameSetting.chapter_scroll_length_threshold.value[1] then
-		arg_11_0:RefreshSelectChapter(0)
+function slot0.DragFun(slot0, slot1, slot2)
+	if GameSetting.chapter_scroll_length_threshold.value[1] < math.abs(slot2.position.x - slot2.pressPosition.x) then
+		slot0:RefreshSelectChapter(0)
 	end
 end
 
-function var_0_0.EndDragFun(arg_12_0, arg_12_1, arg_12_2)
+function slot0.EndDragFun(slot0, slot1, slot2)
 	manager.audio:PlayUIAudioByVoice("stage_slide")
-	arg_12_0:AddSnapTimer()
+	slot0:AddSnapTimer()
 end
 
-function var_0_0.StopMoveAction(arg_13_0)
-	arg_13_0:RefreshSelectChapter(arg_13_0.selectChapterClientID_)
-	arg_13_0:AutoSwitchImage()
+function slot0.StopMoveAction(slot0)
+	slot0:RefreshSelectChapter(slot0.selectChapterClientID_)
+	slot0:AutoSwitchImage()
 end
 
-function var_0_0.InitImage(arg_14_0)
-	local var_14_0 = ChapterClientCfg[arg_14_0.selectChapterClientID_]
-	local var_14_1 = SpritePathCfg.ChapterPaint.path .. var_14_0.chapter_paint
-
-	getSpriteWithoutAtlasAsync(var_14_1, function(arg_15_0)
-		if arg_14_0.chapterBehindImage_ then
-			arg_14_0.chapterBehindImage_.sprite = arg_15_0
+function slot0.InitImage(slot0)
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. ChapterClientCfg[slot0.selectChapterClientID_].chapter_paint, function (slot0)
+		if uv0.chapterBehindImage_ then
+			uv0.chapterBehindImage_.sprite = slot0
 		end
 
-		if arg_14_0.chapterFrontImage_ then
-			arg_14_0.chapterFrontImage_.sprite = arg_15_0
+		if uv0.chapterFrontImage_ then
+			uv0.chapterFrontImage_.sprite = slot0
 		end
 	end)
 end
 
-function var_0_0.AutoSwitchImage(arg_16_0)
-	local var_16_0 = arg_16_0.selectChapterClientID_
-	local var_16_1 = ChapterClientCfg[var_16_0]
-	local var_16_2 = SpritePathCfg.ChapterPaint.path .. var_16_1.chapter_paint
-
-	getSpriteWithoutAtlasAsync(var_16_2, function(arg_17_0)
-		if arg_16_0.chapterBehindImage_ then
-			arg_16_0.chapterBehindImage_.sprite = arg_17_0
+function slot0.AutoSwitchImage(slot0)
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. ChapterClientCfg[slot0.selectChapterClientID_].chapter_paint, function (slot0)
+		if uv0.chapterBehindImage_ then
+			uv0.chapterBehindImage_.sprite = slot0
 		end
 	end)
+	slot0:StopLeanTween()
 
-	local var_16_3 = var_0_0.SWITCH_STAGE_TIME
+	slot0.leanTweenHandler_ = LeanTween.value(slot0.chapterFrontImage_.gameObject, slot0.chapterFrontCanvasGroup_.alpha, 0, uv0.SWITCH_STAGE_TIME)
 
-	arg_16_0:StopLeanTween()
-
-	arg_16_0.leanTweenHandler_ = LeanTween.value(arg_16_0.chapterFrontImage_.gameObject, arg_16_0.chapterFrontCanvasGroup_.alpha, 0, var_16_3)
-
-	arg_16_0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function(arg_18_0)
-		arg_16_0.chapterFrontCanvasGroup_.alpha = arg_18_0
-		arg_16_0.chapterBehindCanvasGroup_.alpha = 1 - arg_18_0
+	slot0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.chapterFrontCanvasGroup_.alpha = slot0
+		uv0.chapterBehindCanvasGroup_.alpha = 1 - slot0
 	end))
-	arg_16_0.leanTweenHandler_:setOnComplete(System.Action(function()
-		arg_16_0:SwitchImageOver()
-		arg_16_0:StopLeanTween()
+	slot0.leanTweenHandler_:setOnComplete(System.Action(function ()
+		uv0:SwitchImageOver()
+		uv0:StopLeanTween()
 	end))
 end
 
-function var_0_0.StopLeanTween(arg_20_0)
-	if arg_20_0.leanTweenHandler_ then
-		LeanTween.cancel(arg_20_0.chapterFrontImage_.gameObject)
-		arg_20_0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
+function slot0.StopLeanTween(slot0)
+	if slot0.leanTweenHandler_ then
+		LeanTween.cancel(slot0.chapterFrontImage_.gameObject)
+		slot0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
 
-		arg_20_0.leanTweenHandler_ = nil
+		slot0.leanTweenHandler_ = nil
 	end
 end
 
-function var_0_0.SwitchImageOver(arg_21_0)
-	arg_21_0.chapterBehindImage_, arg_21_0.chapterFrontImage_ = arg_21_0.chapterFrontImage_, arg_21_0.chapterBehindImage_
-	arg_21_0.chapterBehindCanvasGroup_, arg_21_0.chapterFrontCanvasGroup_ = arg_21_0.chapterFrontCanvasGroup_, arg_21_0.chapterBehindCanvasGroup_
+function slot0.SwitchImageOver(slot0)
+	slot0.chapterFrontImage_ = slot0.chapterBehindImage_
+	slot0.chapterBehindImage_ = slot0.chapterFrontImage_
+	slot0.chapterFrontCanvasGroup_ = slot0.chapterBehindCanvasGroup_
+	slot0.chapterBehindCanvasGroup_ = slot0.chapterFrontCanvasGroup_
 end
 
-function var_0_0.RemoveListeners(arg_22_0)
-	arg_22_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	arg_22_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
-	arg_22_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
+function slot0.RemoveListeners(slot0)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
 end
 
-function var_0_0.RefreshData(arg_23_0)
-	arg_23_0.selectChapterClientID_ = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	arg_23_0.hardLevel_ = ChapterClientCfg[arg_23_0.selectChapterClientID_].difficulty
-	arg_23_0.chapterList_ = {}
+function slot0.RefreshData(slot0)
+	slot0.selectChapterClientID_ = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
+	slot0.hardLevel_ = ChapterClientCfg[slot0.selectChapterClientID_].difficulty
+	slot0.chapterList_ = {}
 
-	local var_23_0 = getChapterClientList()[arg_23_0.hardLevel_]
-
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		if ChapterTools.HasChapterStage(iter_23_1) then
-			table.insert(arg_23_0.chapterList_, iter_23_1)
+	for slot5, slot6 in ipairs(getChapterClientList()[slot0.hardLevel_]) do
+		if ChapterTools.HasChapterStage(slot6) then
+			table.insert(slot0.chapterList_, slot6)
 		end
 	end
 
-	arg_23_0.maxChapterLevel_ = #arg_23_0.chapterList_
+	slot0.maxChapterLevel_ = #slot0.chapterList_
 end
 
-function var_0_0.RefreshUI(arg_24_0)
-	arg_24_0:InitImage()
-	arg_24_0:RefreshViewContent()
-	arg_24_0:ChangeSelectChapterID()
-	arg_24_0:RefreshSelectDifficult()
-	arg_24_0:RefreshSelectChapter(arg_24_0.selectChapterClientID_)
-	arg_24_0:RefreshToggle()
+function slot0.RefreshUI(slot0)
+	slot0:InitImage()
+	slot0:RefreshViewContent()
+	slot0:ChangeSelectChapterID()
+	slot0:RefreshSelectDifficult()
+	slot0:RefreshSelectChapter(slot0.selectChapterClientID_)
+	slot0:RefreshToggle()
 end
 
-function var_0_0.ChangeSelectHardLevel(arg_25_0)
-	arg_25_0:RefreshData()
-	arg_25_0:RefreshSelectChapter(0)
-	arg_25_0:RefreshViewContent()
-	arg_25_0:RefreshItemPosition()
-	arg_25_0:RefreshSelectDifficult()
-	arg_25_0:RefreshToggle()
+function slot0.ChangeSelectHardLevel(slot0)
+	slot0:RefreshData()
+	slot0:RefreshSelectChapter(0)
+	slot0:RefreshViewContent()
+	slot0:RefreshItemPosition()
+	slot0:RefreshSelectDifficult()
+	slot0:RefreshToggle()
 
-	arg_25_0.changeLevel_ = true
+	slot0.changeLevel_ = true
 end
 
-function var_0_0.RefreshToggle(arg_26_0)
-	local var_26_0 = ChapterMainPlotToggleCfg.get_id_list_by_difficulty[arg_26_0.hardLevel_]
+function slot0.RefreshToggle(slot0)
+	for slot5, slot6 in ipairs(ChapterMainPlotToggleCfg.get_id_list_by_difficulty[slot0.hardLevel_]) do
+		slot7 = slot0.mainPlotChapterToggleList_[slot5] or ChapterMapToggleView.New(slot0.chapterItem_, slot0.chapterParentGo_)
+		slot0.mainPlotChapterToggleList_[slot5] = slot7
 
-	for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-		local var_26_1 = arg_26_0.mainPlotChapterToggleList_[iter_26_0] or ChapterMapToggleView.New(arg_26_0.chapterItem_, arg_26_0.chapterParentGo_)
-
-		arg_26_0.mainPlotChapterToggleList_[iter_26_0] = var_26_1
-
-		var_26_1:SetData(iter_26_1)
+		slot7:SetData(slot6)
 	end
 
-	for iter_26_2 = #var_26_0 + 1, #arg_26_0.mainPlotChapterToggleList_ do
-		arg_26_0.mainPlotChapterToggleList_[iter_26_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.mainPlotChapterToggleList_ do
+		slot0.mainPlotChapterToggleList_[slot5]:Show(false)
 	end
 
-	arg_26_0:RefreshSelectChapterToggle()
+	slot0:RefreshSelectChapterToggle()
 end
 
-function var_0_0.RefreshSelectChapter(arg_27_0, arg_27_1)
-	if arg_27_0.viewSelectID_ == arg_27_1 then
+function slot0.RefreshSelectChapter(slot0, slot1)
+	if slot0.viewSelectID_ == slot1 then
 		return
 	end
 
-	arg_27_0.viewSelectID_ = arg_27_1
+	slot0.viewSelectID_ = slot1
 
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.itemList_) do
-		iter_27_1:SetSelectID(arg_27_1)
+	for slot5, slot6 in ipairs(slot0.itemList_) do
+		slot6:SetSelectID(slot1)
 	end
 end
 
-function var_0_0.RefreshSelectChapterToggle(arg_28_0)
-	arg_28_0.scrollTimer_ = FrameTimer.New(function()
-		local var_29_0, var_29_1 = arg_28_0:GetToggleIndex()
+function slot0.RefreshSelectChapterToggle(slot0)
+	slot0.scrollTimer_ = FrameTimer.New(function ()
+		slot0, slot1 = uv0:GetToggleIndex()
 
-		if arg_28_0.lastToggleIndx_ == var_29_0 then
+		if uv0.lastToggleIndx_ == slot0 then
 			return
 		end
 
-		arg_28_0.lastToggleIndx_ = var_29_0
+		uv0.lastToggleIndx_ = slot0
 
-		local var_29_2 = arg_28_0.viewTf_:InverseTransformPoint(arg_28_0.mainPlotChapterToggleList_[var_29_0]:GetTransform():TransformPoint(Vector3(0, 0, 0)))
-
-		if var_29_2.x <= 0 or var_29_2.x >= arg_28_0.viewTf_.rect.width then
-			local var_29_3 = (var_29_0 - 1) / ((arg_28_0.contentTf_.rect.width - arg_28_0.viewTf_.rect.width) / (arg_28_0.itemTf_.rect.width + arg_28_0.contentLayout_.spacing))
-
-			if var_29_3 > 1 then
-				var_29_3 = 1
-			elseif var_29_3 < 0 then
-				var_29_3 = 0
+		if uv0.viewTf_:InverseTransformPoint(uv0.mainPlotChapterToggleList_[slot0]:GetTransform():TransformPoint(Vector3(0, 0, 0))).x <= 0 or uv0.viewTf_.rect.width <= slot2.x then
+			if (slot0 - 1) / ((uv0.contentTf_.rect.width - uv0.viewTf_.rect.width) / (uv0.itemTf_.rect.width + uv0.contentLayout_.spacing)) > 1 then
+				slot3 = 1
+			elseif slot3 < 0 then
+				slot3 = 0
 			end
 
-			arg_28_0.scrollView_.horizontalNormalizedPosition = var_29_3
+			uv0.scrollView_.horizontalNormalizedPosition = slot3
 		end
 
-		for iter_29_0, iter_29_1 in pairs(arg_28_0.mainPlotChapterToggleList_) do
-			iter_29_1:SetSelectID(arg_28_0.selectChapterClientID_)
+		for slot6, slot7 in pairs(uv0.mainPlotChapterToggleList_) do
+			slot7:SetSelectID(uv0.selectChapterClientID_)
 		end
 	end, 1, 1)
 
-	arg_28_0.scrollTimer_:Start()
+	slot0.scrollTimer_:Start()
 end
 
-function var_0_0.GetToggleIndex(arg_30_0)
-	local var_30_0 = ChapterMainPlotToggleCfg.get_id_list_by_difficulty[arg_30_0.hardLevel_]
-
-	for iter_30_0, iter_30_1 in ipairs(var_30_0) do
-		if table.keyof(ChapterMainPlotToggleCfg[iter_30_1].chapter_client_list, arg_30_0.selectChapterClientID_) then
-			return iter_30_0, #var_30_0
+function slot0.GetToggleIndex(slot0)
+	for slot5, slot6 in ipairs(ChapterMainPlotToggleCfg.get_id_list_by_difficulty[slot0.hardLevel_]) do
+		if table.keyof(ChapterMainPlotToggleCfg[slot6].chapter_client_list, slot0.selectChapterClientID_) then
+			return slot5, #slot1
 		end
 	end
 
-	return #var_30_0, #var_30_0
+	return #slot1, #slot1
 end
 
-function var_0_0.RefreshViewContent(arg_31_0)
-	local var_31_0 = arg_31_0.mapItemTf_.rect.width
-	local var_31_1 = arg_31_0.layoutGroup_.spacing
-	local var_31_2 = arg_31_0.layoutGroup_.padding.left
-	local var_31_3 = arg_31_0.layoutGroup_.padding.right
-	local var_31_4 = 0
+function slot0.RefreshViewContent(slot0)
+	slot1 = slot0.mapItemTf_.rect.width
+	slot2 = slot0.layoutGroup_.spacing
+	slot3 = slot0.layoutGroup_.padding.left
+	slot4 = slot0.layoutGroup_.padding.right
 
-	for iter_31_0, iter_31_1 in ipairs(arg_31_0.chapterList_) do
-		var_31_4 = var_31_4 + 1
+	for slot9, slot10 in ipairs(slot0.chapterList_) do
+		slot5 = 0 + 1
 
-		if arg_31_0.positionList_[iter_31_0] == nil then
-			arg_31_0.positionList_[iter_31_0] = Vector3(var_31_2 + (var_31_0 + var_31_1) * (iter_31_0 - 1) + var_31_0 / 2, 0, 0)
+		if slot0.positionList_[slot9] == nil then
+			slot0.positionList_[slot9] = Vector3(slot3 + (slot1 + slot2) * (slot9 - 1) + slot1 / 2, 0, 0)
 		end
 	end
 
-	local var_31_5 = var_31_2 + var_31_0 * var_31_4 + var_31_1 * (var_31_4 - 1) + var_31_3 - arg_31_0.viewportTransform_.rect.width
-
-	arg_31_0.mapItemParentTf_.sizeDelta = Vector2(var_31_5, arg_31_0.mapItemParentTf_.sizeDelta.y)
+	slot0.mapItemParentTf_.sizeDelta = Vector2(slot3 + slot1 * slot5 + slot2 * (slot5 - 1) + slot4 - slot0.viewportTransform_.rect.width, slot0.mapItemParentTf_.sizeDelta.y)
 end
 
-function var_0_0.IsDisplayItem(arg_32_0, arg_32_1)
-	for iter_32_0, iter_32_1 in ipairs(arg_32_0.itemList_) do
-		if arg_32_1 == iter_32_1:GetChapterClientID() then
-			return iter_32_0
+function slot0.IsDisplayItem(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.itemList_) do
+		if slot1 == slot6:GetChapterClientID() then
+			return slot5
 		end
 	end
 end
 
-function var_0_0.RefreshItemPosition(arg_33_0)
-	local var_33_0, var_33_1 = arg_33_0:CalcStartToEndIndex()
-	local var_33_2 = {}
-	local var_33_3 = {}
+function slot0.RefreshItemPosition(slot0)
+	slot1, slot2 = slot0:CalcStartToEndIndex()
+	slot4 = {}
 
-	for iter_33_0 = var_33_0, var_33_1 do
-		local var_33_4 = arg_33_0.chapterList_[iter_33_0]
-		local var_33_5 = arg_33_0:IsDisplayItem(var_33_4)
-
-		if var_33_5 then
-			arg_33_0.itemList_[var_33_5]:SetChapterClientID(arg_33_0.chapterList_[iter_33_0])
-			arg_33_0.itemList_[var_33_5]:SetLocalPosition(arg_33_0.positionList_[iter_33_0])
-			table.insert(var_33_2, var_33_5)
+	for slot8 = slot1, slot2 do
+		if slot0:IsDisplayItem(slot0.chapterList_[slot8]) then
+			slot0.itemList_[slot10]:SetChapterClientID(slot0.chapterList_[slot8])
+			slot0.itemList_[slot10]:SetLocalPosition(slot0.positionList_[slot8])
+			table.insert({}, slot10)
 		else
-			table.insert(var_33_3, iter_33_0)
+			table.insert(slot4, slot8)
 		end
 	end
 
-	for iter_33_1, iter_33_2 in ipairs(var_33_3) do
-		for iter_33_3, iter_33_4 in ipairs(arg_33_0.itemList_) do
-			if not table.keyof(var_33_2, iter_33_3) then
-				table.insert(var_33_2, iter_33_3)
-				iter_33_4:SetChapterClientID(arg_33_0.chapterList_[iter_33_2])
-				iter_33_4:SetLocalPosition(arg_33_0.positionList_[iter_33_2])
+	for slot8, slot9 in ipairs(slot4) do
+		for slot13, slot14 in ipairs(slot0.itemList_) do
+			if not table.keyof(slot3, slot13) then
+				table.insert(slot3, slot13)
+				slot14:SetChapterClientID(slot0.chapterList_[slot9])
+				slot14:SetLocalPosition(slot0.positionList_[slot9])
 
 				break
 			end
 		end
 	end
 
-	for iter_33_5 = 1, #arg_33_0.itemList_ do
-		if not table.keyof(var_33_2, iter_33_5) then
-			arg_33_0.itemList_[iter_33_5]:Show(false)
+	for slot8 = 1, #slot0.itemList_ do
+		if not table.keyof(slot3, slot8) then
+			slot0.itemList_[slot8]:Show(false)
 		end
 	end
 end
 
-function var_0_0.CalcStartToEndIndex(arg_34_0)
-	local var_34_0 = arg_34_0.viewportTransform_.rect.width
-	local var_34_1 = arg_34_0.mapItemTf_.rect.width / 2
-	local var_34_2 = 1
-	local var_34_3 = 1
-	local var_34_4 = arg_34_0.mapItemParentTf_.localPosition.x
+function slot0.CalcStartToEndIndex(slot0)
+	slot1 = slot0.viewportTransform_.rect.width
+	slot2 = slot0.mapItemTf_.rect.width / 2
+	slot3 = 1
+	slot4 = 1
 
-	for iter_34_0, iter_34_1 in ipairs(arg_34_0.chapterList_) do
-		local var_34_5 = arg_34_0.positionList_[iter_34_0].x + var_34_4
-
-		if var_34_5 + var_34_1 < 0 then
-			var_34_2 = iter_34_0
+	for slot9, slot10 in ipairs(slot0.chapterList_) do
+		if slot0.positionList_[slot9].x + slot0.mapItemParentTf_.localPosition.x + slot2 < 0 then
+			slot3 = slot9
 		end
 
-		if var_34_5 + var_34_1 >= 0 and var_34_0 >= var_34_5 - var_34_1 then
-			var_34_3 = iter_34_0
+		if slot12 + slot2 >= 0 and slot1 >= slot12 - slot2 then
+			slot4 = slot9
 		end
 	end
 
-	if var_34_3 < var_34_2 then
-		var_34_3 = var_34_2
+	if slot4 < slot3 then
+		slot4 = slot3
 	end
 
-	return var_34_2, var_34_3
+	return slot3, slot4
 end
 
-function var_0_0.RefreshSelectDifficult(arg_35_0)
-	arg_35_0.hardLevelView_:SetData(arg_35_0.hardLevel_, 0)
+function slot0.RefreshSelectDifficult(slot0)
+	slot0.hardLevelView_:SetData(slot0.hardLevel_, 0)
 end
 
-function var_0_0.ChangeSelectChapterID(arg_36_0)
-	arg_36_0:RefreshData()
-	arg_36_0:StopAllTimer()
-	arg_36_0.scrollRect_:StopMovement()
+function slot0.ChangeSelectChapterID(slot0)
+	slot0:RefreshData()
+	slot0:StopAllTimer()
+	slot0.scrollRect_:StopMovement()
 
-	local var_36_0 = arg_36_0:GetItemPositionX(arg_36_0.selectChapterClientID_)
+	if slot0.changeLevel_ or not slot0.isFirstEnter_ then
+		slot2 = slot0.mapItemParentTf_.localPosition
+		slot0.mapItemParentTf_.localPosition = Vector3(slot0:GetItemPositionX(slot0.selectChapterClientID_), slot2.y, slot2.z)
 
-	if arg_36_0.changeLevel_ or not arg_36_0.isFirstEnter_ then
-		local var_36_1 = arg_36_0.mapItemParentTf_.localPosition
-
-		arg_36_0.mapItemParentTf_.localPosition = Vector3(var_36_0, var_36_1.y, var_36_1.z)
-
-		arg_36_0:RefreshItemPosition()
-		arg_36_0:StopMoveAction()
+		slot0:RefreshItemPosition()
+		slot0:StopMoveAction()
 	else
-		arg_36_0:AddMoveTimer(var_36_0)
+		slot0:AddMoveTimer(slot1)
 	end
 
-	arg_36_0:RefreshSelectChapterToggle()
+	slot0:RefreshSelectChapterToggle()
 
-	if arg_36_0.changeLevel_ or not arg_36_0.isFirstEnter_ then
-		arg_36_0.changeLevel_ = false
-		arg_36_0.isFirstEnter_ = true
+	if slot0.changeLevel_ or not slot0.isFirstEnter_ then
+		slot0.changeLevel_ = false
+		slot0.isFirstEnter_ = true
 	else
-		arg_36_0:RefreshSelectChapter(0)
+		slot0:RefreshSelectChapter(0)
 	end
 end
 
-function var_0_0.ChangeSelectID(arg_37_0, arg_37_1)
-	if not arg_37_1 then
+function slot0.ChangeSelectID(slot0, slot1)
+	if not slot1 then
 		return
 	end
 
-	if arg_37_1 == BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT) then
+	if slot1 == BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT) then
 		return
 	end
 
-	BattleFieldData:SetCacheChapterClient(BattleConst.TOGGLE.PLOT, arg_37_1)
-	arg_37_0:RefreshSelectChapterToggle()
+	BattleFieldData:SetCacheChapterClient(BattleConst.TOGGLE.PLOT, slot1)
+	slot0:RefreshSelectChapterToggle()
 end
 
-function var_0_0.SearchNearClientID(arg_38_0)
-	local var_38_0
-	local var_38_1 = 200000
-	local var_38_2 = arg_38_0.viewportTransform_.localPosition.x + arg_38_0.viewportTransform_.rect.width / 2
+function slot0.SearchNearClientID(slot0)
+	slot1 = nil
+	slot3 = slot0.viewportTransform_.localPosition.x + slot0.viewportTransform_.rect.width / 2
 
-	for iter_38_0, iter_38_1 in ipairs(arg_38_0.chapterList_) do
-		local var_38_3 = arg_38_0.positionList_[iter_38_0]
-		local var_38_4 = math.abs(var_38_3.x + arg_38_0.mapItemParentTf_.localPosition.x - arg_38_0.viewportTransform_.rect.width / 2)
-
-		if var_38_4 <= var_38_1 then
-			var_38_1 = var_38_4
-			var_38_0 = iter_38_1
+	for slot7, slot8 in ipairs(slot0.chapterList_) do
+		if math.abs(slot0.positionList_[slot7].x + slot0.mapItemParentTf_.localPosition.x - slot0.viewportTransform_.rect.width / 2) <= 200000 then
+			slot2 = slot10
+			slot1 = slot8
 		end
 	end
 
-	return var_38_0
+	return slot1
 end
 
-function var_0_0.GetItemPositionX(arg_39_0, arg_39_1)
-	local var_39_0 = table.keyof(arg_39_0.chapterList_, arg_39_1)
-	local var_39_1 = arg_39_0.mapItemParentTf_.localPosition
+function slot0.GetItemPositionX(slot0, slot1)
+	slot3 = slot0.mapItemParentTf_.localPosition
 
-	return -arg_39_0.positionList_[var_39_0].x + arg_39_0.viewportTransform_.rect.width / 2
+	return -slot0.positionList_[table.keyof(slot0.chapterList_, slot1)].x + slot0.viewportTransform_.rect.width / 2
 end
 
-function var_0_0.AddSnapTimer(arg_40_0)
-	arg_40_0:StopSnapTimer()
+function slot0.AddSnapTimer(slot0)
+	slot0:StopSnapTimer()
 
-	arg_40_0.snapTimer_ = FrameTimer.New(function()
-		if arg_40_0.scrollRect_.velocity.x > -200 and arg_40_0.scrollRect_.velocity.x < 200 then
-			arg_40_0.scrollRect_:StopMovement()
+	slot0.snapTimer_ = FrameTimer.New(function ()
+		if uv0.scrollRect_.velocity.x > -200 and uv0.scrollRect_.velocity.x < 200 then
+			uv0.scrollRect_:StopMovement()
 
-			local var_41_0 = arg_40_0:SearchNearClientID()
+			slot0 = uv0:SearchNearClientID()
+			uv0.selectChapterClientID_ = slot0
 
-			arg_40_0.selectChapterClientID_ = var_41_0
-
-			arg_40_0:ChangeSelectID(var_41_0)
-
-			local var_41_1 = arg_40_0:GetItemPositionX(var_41_0)
-
-			arg_40_0:AddMoveTimer(var_41_1)
-			arg_40_0:StopSnapTimer()
+			uv0:ChangeSelectID(slot0)
+			uv0:AddMoveTimer(uv0:GetItemPositionX(slot0))
+			uv0:StopSnapTimer()
 		end
 	end, 1, -1)
 
-	arg_40_0.snapTimer_:Start()
+	slot0.snapTimer_:Start()
 end
 
-function var_0_0.StopSnapTimer(arg_42_0)
-	if arg_42_0.snapTimer_ then
-		arg_42_0.snapTimer_:Stop()
+function slot0.StopSnapTimer(slot0)
+	if slot0.snapTimer_ then
+		slot0.snapTimer_:Stop()
 
-		arg_42_0.snapTimer_ = nil
+		slot0.snapTimer_ = nil
 	end
 end
 
-function var_0_0.AddMoveTimer(arg_43_0, arg_43_1)
-	arg_43_0:StopMoveTimer()
+function slot0.AddMoveTimer(slot0, slot1)
+	slot0:StopMoveTimer()
 
-	arg_43_0.moveTimer_ = FrameTimer.New(function()
-		local var_44_0 = arg_43_0.mapItemParentTf_.localPosition
-		local var_44_1 = GameSetting.chapter_velocity_times.value[1] * math.pow(arg_43_0.scrollRect_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime
-		local var_44_2 = Vector3.Lerp(var_44_0, Vector3.New(arg_43_1, var_44_0.y, var_44_0.z), var_44_1)
-		local var_44_3 = GameSetting.chapter_scroll_min_length.value[1]
+	slot0.moveTimer_ = FrameTimer.New(function ()
+		slot0 = uv0.mapItemParentTf_.localPosition
 
-		if var_44_3 > math.abs(var_44_0.x - var_44_2.x) then
-			local var_44_4 = arg_43_1 - var_44_0.x
-
-			if var_44_3 < math.abs(var_44_4) then
-				var_44_4 = var_44_3 * var_44_4 / math.abs(var_44_4)
+		if math.abs(slot0.x - Vector3.Lerp(slot0, Vector3.New(uv1, slot0.y, slot0.z), GameSetting.chapter_velocity_times.value[1] * math.pow(uv0.scrollRect_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime).x) < GameSetting.chapter_scroll_min_length.value[1] then
+			if slot3 < math.abs(uv1 - slot0.x) then
+				slot4 = slot3 * slot4 / math.abs(slot4)
 			end
 
-			var_44_2.x = var_44_2.x + var_44_4
+			slot2.x = slot2.x + slot4
 		end
 
-		arg_43_0.mapItemParentTf_.anchoredPosition = var_44_2
+		uv0.mapItemParentTf_.anchoredPosition = slot2
 
-		if math.abs(var_44_0.x - arg_43_1) <= GameSetting.chapter_stop_min_length.value[1] then
-			arg_43_0.scrollView_:StopMovement()
+		if math.abs(slot0.x - uv1) <= GameSetting.chapter_stop_min_length.value[1] then
+			uv0.scrollView_:StopMovement()
 
-			arg_43_0.mapItemParentTf_.anchoredPosition = Vector3(arg_43_1, var_44_0.y, var_44_0.z)
+			uv0.mapItemParentTf_.anchoredPosition = Vector3(uv1, slot0.y, slot0.z)
 
-			arg_43_0:StopToggleTimer()
-			arg_43_0:StopMoveTimer()
-			arg_43_0:StopMoveAction()
+			uv0:StopToggleTimer()
+			uv0:StopMoveTimer()
+			uv0:StopMoveAction()
 		end
 	end, 1, -1)
 
-	arg_43_0.moveTimer_:Start()
+	slot0.moveTimer_:Start()
 end
 
-function var_0_0.StopMoveTimer(arg_45_0)
-	if arg_45_0.moveTimer_ then
-		arg_45_0.moveTimer_:Stop()
+function slot0.StopMoveTimer(slot0)
+	if slot0.moveTimer_ then
+		slot0.moveTimer_:Stop()
 
-		arg_45_0.moveTimer_ = nil
+		slot0.moveTimer_ = nil
 	end
 end
 
-function var_0_0.AddToggleTimer(arg_46_0)
-	arg_46_0:StopToggleTimer()
+function slot0.AddToggleTimer(slot0)
+	slot0:StopToggleTimer()
 
-	arg_46_0.toggleTimer_ = FrameTimer.New(function()
-		local var_47_0 = arg_46_0:SearchNearClientID()
+	slot0.toggleTimer_ = FrameTimer.New(function ()
+		slot0 = uv0:SearchNearClientID()
+		uv0.selectChapterClientID_ = slot0
 
-		arg_46_0.selectChapterClientID_ = var_47_0
-
-		arg_46_0:ChangeSelectID(var_47_0)
+		uv0:ChangeSelectID(slot0)
 	end, 1, -1)
 
-	arg_46_0.toggleTimer_:Start()
+	slot0.toggleTimer_:Start()
 end
 
-function var_0_0.StopToggleTimer(arg_48_0)
-	if arg_48_0.toggleTimer_ then
-		arg_48_0.toggleTimer_:Stop()
+function slot0.StopToggleTimer(slot0)
+	if slot0.toggleTimer_ then
+		slot0.toggleTimer_:Stop()
 
-		arg_48_0.toggleTimer_ = nil
+		slot0.toggleTimer_ = nil
 	end
 end
 
-function var_0_0.StopAllTimer(arg_49_0)
-	arg_49_0:StopMoveTimer()
-	arg_49_0:StopSnapTimer()
-	arg_49_0:StopToggleTimer()
+function slot0.StopAllTimer(slot0)
+	slot0:StopMoveTimer()
+	slot0:StopSnapTimer()
+	slot0:StopToggleTimer()
 end
 
-return var_0_0
+return slot0

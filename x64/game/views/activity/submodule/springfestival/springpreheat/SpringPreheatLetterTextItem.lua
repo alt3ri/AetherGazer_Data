@@ -1,184 +1,149 @@
-local var_0_0 = class("SpringPreheatLetterTextItem", ReduxView)
+slot0 = class("SpringPreheatLetterTextItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.richText_ = arg_1_0:FindCom("RichText", "", arg_1_1.transform)
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.richText_ = slot0:FindCom("RichText", "", slot1.transform)
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddUIListener()
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0.richText_:AddListener(function(arg_3_0, arg_3_1)
-		if arg_3_0 == "1" then
-			local var_3_0 = tonumber(arg_3_1)
-
-			arg_2_0:SelectLetter(arg_2_0.paragIdx_, var_3_0)
+function slot0.AddUIListener(slot0)
+	slot0.richText_:AddListener(function (slot0, slot1)
+		if slot0 == "1" then
+			uv0:SelectLetter(uv0.paragIdx_, tonumber(slot1))
 		end
 	end)
 
-	if arg_2_0.btn_ then
-		local var_2_0 = arg_2_0.richText_.gameObject
-		local var_2_1 = arg_2_0:GetOrAddComponent(var_2_0, typeof(EventTriggerListener))
-		local var_2_2 = var_2_0:GetComponent("RectTransform")
+	if slot0.btn_ then
+		slot1 = slot0.richText_.gameObject
+		slot3 = slot1:GetComponent("RectTransform")
 
-		var_2_1:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(function(arg_4_0, arg_4_1)
-			local var_4_0 = LuaHelper.ScreenToLocal(var_2_2, arg_4_1.position, arg_4_1.enterEventCamera)
-			local var_4_1 = arg_2_0:FindNearestUnderlineIndex(var_4_0.x)
-
-			arg_2_0:SelectLetter(arg_2_0.paragIdx_, var_4_1)
+		slot0:GetOrAddComponent(slot1, typeof(EventTriggerListener)):AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+			uv1:SelectLetter(uv1.paragIdx_, uv1:FindNearestUnderlineIndex(LuaHelper.ScreenToLocal(uv0, slot1.position, slot1.enterEventCamera).x))
 		end))
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	arg_5_0.richText_:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	slot0.richText_:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.isSelecting_ = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.isSelecting_ = slot4
 
-	arg_6_0.richText_:AddSprite("selecting", arg_6_2)
-	arg_6_0.richText_:AddSprite("selected", arg_6_3)
+	slot0.richText_:AddSprite("selecting", slot2)
+	slot0.richText_:AddSprite("selected", slot3)
 
-	if arg_6_0.paragIdx_ ~= arg_6_1 then
-		arg_6_0.paragIdx_ = arg_6_1
+	if slot0.paragIdx_ ~= slot1 then
+		slot0.paragIdx_ = slot1
 
-		arg_6_0:InitLetterInfo()
+		slot0:InitLetterInfo()
 	end
 
-	arg_6_0:UpdateRichText()
+	slot0:UpdateRichText()
 end
 
-function var_0_0.SetPreviewMode(arg_7_0, arg_7_1)
-	arg_7_0.previewMode_ = arg_7_1
+function slot0.SetPreviewMode(slot0, slot1)
+	slot0.previewMode_ = slot1
 end
 
-function var_0_0.SetSendingMode(arg_8_0, arg_8_1)
-	arg_8_0.sendingMode_ = arg_8_1
+function slot0.SetSendingMode(slot0, slot1)
+	slot0.sendingMode_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:UpdateRichText()
+function slot0.RefreshUI(slot0)
+	slot0:UpdateRichText()
 end
 
-function var_0_0.UpdateRichText(arg_10_0)
-	local var_10_0 = SpringPreheatData:GetPlayerLetter()
-	local var_10_1 = arg_10_0.richText_
-	local var_10_2 = arg_10_0.paragIdx_
-	local var_10_3 = 1
-	local var_10_4 = 1
-	local var_10_5 = ""
-	local var_10_6 = GetTips("SPRING_PREHEAT_WORD_BRACKET")
-	local var_10_7 = GameDisplayCfg.spring_preheat_select_color.value[1]
-	local var_10_8 = 1
+function slot0.UpdateRichText(slot0)
+	slot2 = slot0.richText_
+	slot4 = 1
+	slot5 = 1
+	slot6 = ""
+	slot7 = GetTips("SPRING_PREHEAT_WORD_BRACKET")
+	slot9 = 1
 
-	for iter_10_0 = 1, #arg_10_0.letterInfo_ do
-		local var_10_9 = arg_10_0.letterInfo_[iter_10_0]
+	for slot13 = 1, #slot0.letterInfo_ do
+		slot14 = slot0.letterInfo_[slot13]
 
-		if SpringPreheatData:IsEnableOption(var_10_0.id, var_10_2, iter_10_0) then
-			local var_10_10
-
-			if var_10_9 ~= 0 then
-				var_10_10 = GetTips(var_10_9)
-			else
-				var_10_10 = arg_10_0.previewMode_ and "______" or "______"
-			end
-
-			local var_10_11 = var_10_9 == 0 and var_10_7 or nil
-
-			if arg_10_0.sendingMode_ then
-				var_10_5 = var_10_5 .. var_10_10
-			elseif var_10_11 then
-				local var_10_12 = string.format("<material=underline c=%s h=-1.5 event=1 args=%d>%s</material>", var_10_11, var_10_8, var_10_10)
-				local var_10_13 = string.format("<color=%s>%s</color>", var_10_11, var_10_6)
-
-				var_10_5 = var_10_5 .. string.format(var_10_13, var_10_12)
-			else
-				local var_10_14 = string.format("<material=underline h=1.5 event=1 args=%d>%s</material>", var_10_8, var_10_10)
-
-				var_10_5 = var_10_5 .. string.format(var_10_6, var_10_14)
-			end
-
-			var_10_8 = var_10_8 + 1
+		if SpringPreheatData:IsEnableOption(SpringPreheatData:GetPlayerLetter().id, slot0.paragIdx_, slot13) then
+			slot15 = nil
+			slot15 = (slot14 == 0 or GetTips(slot14)) and (slot0.previewMode_ and "______" or "______")
+			slot16 = slot14 == 0 and GameDisplayCfg.spring_preheat_select_color.value[1] or nil
+			slot6 = slot0.sendingMode_ and slot6 .. slot15 or slot16 and slot6 .. slot15 .. string.format(string.format("<color=%s>%s</color>", slot16, slot7), string.format("<material=underline c=%s h=-1.5 event=1 args=%d>%s</material>", slot16, slot9, slot15)) or slot6 .. slot15 .. string.format(string.format("<color=%s>%s</color>", slot16, slot7), string.format("<material=underline c=%s h=-1.5 event=1 args=%d>%s</material>", slot16, slot9, slot15)) .. string.format(slot7, string.format("<material=underline h=1.5 event=1 args=%d>%s</material>", slot9, slot15))
+			slot9 = slot9 + 1
 		else
-			var_10_5 = var_10_5 .. GetTips(var_10_9)
+			slot6 = slot6 .. GetTips(slot14)
 		end
 	end
 
-	var_10_1.text = var_10_5
-	arg_10_0.underlineCount_ = var_10_8 - 1
+	slot2.text = slot6
+	slot0.underlineCount_ = slot9 - 1
 
-	arg_10_0:CalcUnderlineData()
+	slot0:CalcUnderlineData()
 end
 
-function var_0_0.InitLetterInfo(arg_11_0)
-	local var_11_0 = SpringPreheatData:GetPlayerLetter()
-	local var_11_1 = arg_11_0.paragIdx_
+function slot0.InitLetterInfo(slot0)
+	slot0.letterInfo_ = {}
+	slot0.richTextList_ = {}
+	slot0.hasOption_ = false
 
-	arg_11_0.letterInfo_ = {}
-	arg_11_0.richTextList_ = {}
-	arg_11_0.hasOption_ = false
-
-	for iter_11_0 = 1, #var_11_0.option_button_list[var_11_1] do
-		if SpringPreheatData:IsEnableOption(var_11_0.id, var_11_1, iter_11_0) then
-			arg_11_0.letterInfo_[iter_11_0] = 0
-			arg_11_0.hasOption_ = true
+	for slot6 = 1, #SpringPreheatData:GetPlayerLetter().option_button_list[slot0.paragIdx_] do
+		if SpringPreheatData:IsEnableOption(slot1.id, slot2, slot6) then
+			slot0.letterInfo_[slot6] = 0
+			slot0.hasOption_ = true
 		else
-			arg_11_0.letterInfo_[iter_11_0] = SpringPreheatData:GetLetterFixedText(var_11_0.id, var_11_1, iter_11_0)
+			slot0.letterInfo_[slot6] = SpringPreheatData:GetLetterFixedText(slot1.id, slot2, slot6)
 		end
 	end
 end
 
-function var_0_0.SetLetterInfo(arg_12_0, arg_12_1)
-	local var_12_0 = SpringPreheatData:GetPlayerLetter()
-	local var_12_1 = arg_12_0.paragIdx_
-
-	for iter_12_0, iter_12_1 in pairs(arg_12_1) do
-		if SpringPreheatData:IsEnableOption(var_12_0.id, var_12_1, iter_12_0) then
-			arg_12_0.letterInfo_[iter_12_0] = iter_12_1
+function slot0.SetLetterInfo(slot0, slot1)
+	for slot7, slot8 in pairs(slot1) do
+		if SpringPreheatData:IsEnableOption(SpringPreheatData:GetPlayerLetter().id, slot0.paragIdx_, slot7) then
+			slot0.letterInfo_[slot7] = slot8
 		end
 	end
 end
 
-function var_0_0.SelectLetter(arg_13_0, arg_13_1, arg_13_2)
-	if not arg_13_0.hasOption_ or arg_13_0.sendingMode_ then
+function slot0.SelectLetter(slot0, slot1, slot2)
+	if not slot0.hasOption_ or slot0.sendingMode_ then
 		return
 	end
 
-	local var_13_0 = {
-		isStickerMode = false,
-		paragIdx = arg_13_1,
-		optionIdx = arg_13_2,
-		letterInfo = arg_13_0:GetLetterInfo()
-	}
-
-	if not arg_13_0.previewMode_ then
-		function var_13_0.onChangeFullLetter(arg_14_0)
-			arg_13_0:SetLetterInfo(arg_14_0)
-			arg_13_0:RefreshUI()
-		end
+	if not slot0.previewMode_ then
+		-- Nothing
 	else
-		var_13_0.updateAni = true
+		slot3.updateAni = true
 	end
 
-	JumpTools.OpenPageByJump("springPreheatLetterSelect", var_13_0)
+	JumpTools.OpenPageByJump("springPreheatLetterSelect", {
+		isStickerMode = false,
+		paragIdx = slot1,
+		optionIdx = slot2,
+		letterInfo = slot0:GetLetterInfo(),
+		onChangeFullLetter = function (slot0)
+			uv0:SetLetterInfo(slot0)
+			uv0:RefreshUI()
+		end
+	})
 end
 
-function var_0_0.ResetLetterInfo(arg_15_0)
-	arg_15_0:InitLetterInfo()
-	arg_15_0:UpdateRichText()
+function slot0.ResetLetterInfo(slot0)
+	slot0:InitLetterInfo()
+	slot0:UpdateRichText()
 end
 
-function var_0_0.GetLetterInfo(arg_16_0)
-	return arg_16_0.letterInfo_
+function slot0.GetLetterInfo(slot0)
+	return slot0.letterInfo_
 end
 
-function var_0_0.IsComplete(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.letterInfo_) do
-		if iter_17_1 == 0 then
+function slot0.IsComplete(slot0)
+	for slot4, slot5 in ipairs(slot0.letterInfo_) do
+		if slot5 == 0 then
 			return false
 		end
 	end
@@ -186,45 +151,36 @@ function var_0_0.IsComplete(arg_17_0)
 	return true
 end
 
-function var_0_0.CalcUnderlineData(arg_18_0)
-	Timer.New(function()
-		local var_19_0 = arg_18_0.richText_.gameObject:GetComponentsInChildren(typeof(RectTransform))
-		local var_19_1 = math.min(var_19_0.Length - 1, arg_18_0.underlineCount_)
+function slot0.CalcUnderlineData(slot0)
+	Timer.New(function ()
+		uv0.underlinePos_ = {}
 
-		arg_18_0.underlinePos_ = {}
-
-		local var_19_2 = arg_18_0.richText_.transform.rect.center.x
-
-		for iter_19_0 = 1, var_19_1 do
-			local var_19_3 = var_19_2 + var_19_0[iter_19_0].anchoredPosition.x
-
-			table.insert(arg_18_0.underlinePos_, var_19_3)
+		for slot6 = 1, math.min(uv0.richText_.gameObject:GetComponentsInChildren(typeof(RectTransform)).Length - 1, uv0.underlineCount_) do
+			table.insert(uv0.underlinePos_, uv0.richText_.transform.rect.center.x + slot0[slot6].anchoredPosition.x)
 		end
 	end, 0.5, 0):Start()
 end
 
-function var_0_0.FindNearestUnderlineIndex(arg_20_0, arg_20_1)
-	local var_20_0 = 1
-
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.underlinePos_ or {}) do
-		if math.abs(iter_20_1 - arg_20_1) <= math.abs(arg_20_0.underlinePos_[var_20_0] - arg_20_1) then
-			var_20_0 = iter_20_0
+function slot0.FindNearestUnderlineIndex(slot0, slot1)
+	for slot6, slot7 in ipairs(slot0.underlinePos_ or {}) do
+		if math.abs(slot7 - slot1) <= math.abs(slot0.underlinePos_[1] - slot1) then
+			slot2 = slot6
 		end
 	end
 
-	return var_20_0
+	return slot2
 end
 
-function var_0_0.UpdateAnim(arg_21_0, arg_21_1, arg_21_2)
-	if arg_21_0.ani_ then
-		arg_21_0.ani_.enabled = arg_21_1
+function slot0.UpdateAnim(slot0, slot1, slot2)
+	if slot0.ani_ then
+		slot0.ani_.enabled = slot1
 
-		SetActive(arg_21_0.aniGo_, arg_21_1)
+		SetActive(slot0.aniGo_, slot1)
 
-		if arg_21_1 then
-			arg_21_0.ani_:Play(arg_21_2, -1, 0)
+		if slot1 then
+			slot0.ani_:Play(slot2, -1, 0)
 		end
 	end
 end
 
-return var_0_0
+return slot0

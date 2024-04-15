@@ -1,64 +1,57 @@
-local var_0_0 = class("CommonSingleFilterItem", ReduxView)
+slot0 = class("CommonSingleFilterItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.filterContext = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.filterContext = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.SelectController = arg_3_0.controllerEx_:GetController("select")
+	slot0.SelectController = slot0.controllerEx_:GetController("select")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.clickBtn_, nil, handler(arg_4_0, arg_4_0.OnBtnClick))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.clickBtn_, nil, handler(slot0, slot0.OnBtnClick))
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.filter_id = arg_5_1
-	arg_5_0.group_id = arg_5_2
-	arg_5_0.tagId = arg_5_3
+function slot0.Refresh(slot0, slot1, slot2, slot3)
+	slot0.filter_id = slot1
+	slot0.group_id = slot2
+	slot0.tagId = slot3
 
-	local var_5_0 = CommonFilterConst.GetFilterTagCfg(arg_5_3)
-
-	if not var_5_0 then
+	if not CommonFilterConst.GetFilterTagCfg(slot3) then
 		return
 	end
 
-	arg_5_0.isFlag = arg_5_0.filterContext:HasIndexFlag(arg_5_0.group_id, arg_5_3)
+	slot0.isFlag = slot0.filterContext:HasIndexFlag(slot0.group_id, slot3)
 
-	arg_5_0.SelectController:SetSelectedState(arg_5_0.isFlag and "select" or "normal")
+	slot0.SelectController:SetSelectedState(slot0.isFlag and "select" or "normal")
 
-	arg_5_0.tagTxt_.text = GetTips(var_5_0.name)
+	slot0.tagTxt_.text = GetTips(slot4.name)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	Object.Destroy(arg_6_0.gameObject_)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnBtnClick(arg_7_0)
-	local var_7_0 = -1
-
-	if arg_7_0.isFlag then
-		local var_7_1 = arg_7_0.filterContext:DeSelectTag(arg_7_0.group_id, arg_7_0.tagId)
-	else
-		local var_7_2 = arg_7_0.filterContext:SelectTag(arg_7_0.group_id, arg_7_0.tagId)
-	end
+function slot0.OnBtnClick(slot0)
+	slot1 = -1
+	slot1 = (not slot0.isFlag or slot0.filterContext:DeSelectTag(slot0.group_id, slot0.tagId)) and slot0.filterContext:SelectTag(slot0.group_id, slot0.tagId)
 
 	manager.notify:Invoke("OnCommonFilterItemClick", {
-		gId = arg_7_0.group_id,
-		tId = arg_7_0.tagId
+		gId = slot0.group_id,
+		tId = slot0.tagId
 	})
 end
 
-return var_0_0
+return slot0

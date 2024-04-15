@@ -1,61 +1,54 @@
-local var_0_0 = import("game.views.activity.Submodule.DemonChallenge.Volume.VolumeDemonChallengeMainView")
-local var_0_1 = class("DreamDemonChallengeMainView", var_0_0)
+slot1 = class("DreamDemonChallengeMainView", import("game.views.activity.Submodule.DemonChallenge.Volume.VolumeDemonChallengeMainView"))
 
-function var_0_1.InitUI(arg_1_0)
-	var_0_1.super.InitUI(arg_1_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_1_0.difficultyControllerList_ = {}
-	arg_1_0.difficultyControllerList_[1] = ControllerUtil.GetController(arg_1_0.difficultyContentTrans_, "nor")
-	arg_1_0.difficultyControllerList_[2] = ControllerUtil.GetController(arg_1_0.difficultyContentTrans_, "diff")
-	arg_1_0.difficultyControllerList_[3] = ControllerUtil.GetController(arg_1_0.difficultyContentTrans_, "hard")
+	slot0.difficultyControllerList_ = {
+		ControllerUtil.GetController(slot0.difficultyContentTrans_, "nor"),
+		ControllerUtil.GetController(slot0.difficultyContentTrans_, "diff"),
+		ControllerUtil.GetController(slot0.difficultyContentTrans_, "hard")
+	}
 end
 
-function var_0_1.OnLevelSelect(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0 = ActivityData:GetActivityData(arg_2_2)
-
-	if not var_2_0:IsActivitying() then
-		if arg_2_0.curLevelIndex_ and arg_2_0.curLevelIndex_ ~= arg_2_1 then
-			if var_2_0.stopTime <= manager.time:GetServerTime() then
+function slot1.OnLevelSelect(slot0, slot1, slot2, slot3, slot4)
+	if not ActivityData:GetActivityData(slot2):IsActivitying() then
+		if slot0.curLevelIndex_ and slot0.curLevelIndex_ ~= slot1 then
+			if slot5.stopTime <= manager.time:GetServerTime() then
 				ShowTips("TIME_OVER")
 			else
-				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(var_2_0.startTime)))
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot5.startTime)))
 			end
 
-			arg_2_0.tree_:SelectGroup(arg_2_0.curLevelIndex_)
+			slot0.tree_:SelectGroup(slot0.curLevelIndex_)
 		else
-			arg_2_0.isNeedExit_ = true
+			slot0.isNeedExit_ = true
 		end
 
 		return
 	end
 
-	arg_2_0:RefreshRewardRedPoint(arg_2_0.curSelectId_, arg_2_2)
+	slot0:RefreshRewardRedPoint(slot0.curSelectId_, slot2)
 
-	arg_2_0.curLevelIndex_ = arg_2_1
-	arg_2_0.curSelectId_ = arg_2_2
+	slot0.curLevelIndex_ = slot1
+	slot0.curSelectId_ = slot2
 
-	local var_2_1 = DemonChallengeTools.GetChildId(arg_2_0.curSelectId_, 1)
-	local var_2_2 = getSpriteWithoutAtlas("TextureConfig/" .. DemonChallengeCfg[var_2_1].icon)
-
-	if var_2_2 then
-		arg_2_0.roleImg_.sprite = var_2_2
+	if getSpriteWithoutAtlas("TextureConfig/" .. DemonChallengeCfg[DemonChallengeTools.GetChildId(slot0.curSelectId_, 1)].icon) then
+		slot0.roleImg_.sprite = slot7
 	end
 
-	arg_2_0:RefreshDescText()
-	SubDemonChallengeAction.SetSelectedActivityId(arg_2_2)
-	arg_2_0:RefreshCompleteStatus(arg_2_2)
+	slot0:RefreshDescText()
+	SubDemonChallengeAction.SetSelectedActivityId(slot2)
+	slot0:RefreshCompleteStatus(slot2)
 end
 
-function var_0_1.RefreshCompleteStatus(arg_3_0, arg_3_1)
-	local var_3_0 = SubDemonChallengeData:GetChallengeInfo(arg_3_1)
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_0.challengeInfo) do
-		if iter_3_1.challenge_state == ActivityConst.DEMON_CHALLENGE_STATE.UNFINISHED then
-			arg_3_0.difficultyControllerList_[iter_3_0]:SetSelectedState("off")
+function slot1.RefreshCompleteStatus(slot0, slot1)
+	for slot6, slot7 in ipairs(SubDemonChallengeData:GetChallengeInfo(slot1).challengeInfo) do
+		if slot7.challenge_state == ActivityConst.DEMON_CHALLENGE_STATE.UNFINISHED then
+			slot0.difficultyControllerList_[slot6]:SetSelectedState("off")
 		else
-			arg_3_0.difficultyControllerList_[iter_3_0]:SetSelectedState("on")
+			slot0.difficultyControllerList_[slot6]:SetSelectedState("on")
 		end
 	end
 end
 
-return var_0_1
+return slot1

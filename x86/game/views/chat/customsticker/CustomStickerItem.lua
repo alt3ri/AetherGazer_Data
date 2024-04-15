@@ -1,96 +1,89 @@
-local var_0_0 = class("CustomStickerItem", ReduxView)
+slot0 = class("CustomStickerItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
-	arg_1_0.lockController_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = ChatStickerCfg[arg_2_1]
+function slot0.SetData(slot0, slot1)
+	slot0.isLock_ = ChatStickerCfg[slot1].free == 0 and ChatStickerData:IsLockSticker(slot1) or false
 
-	arg_2_0.isLock_ = var_2_0.free == 0 and ChatStickerData:IsLockSticker(arg_2_1) or false
-
-	if arg_2_0.isLock_ then
-		arg_2_0.lockController_:SetSelectedState("true")
+	if slot0.isLock_ then
+		slot0.lockController_:SetSelectedState("true")
 	else
-		arg_2_0.lockController_:SetSelectedState("false")
+		slot0.lockController_:SetSelectedState("false")
 	end
 
-	if arg_2_0.id_ == arg_2_1 then
+	if slot0.id_ == slot1 then
 		return
 	end
 
-	arg_2_0.id_ = arg_2_1
-	arg_2_0.descSource_ = var_2_0.desc_source
+	slot0.id_ = slot1
+	slot0.descSource_ = slot2.desc_source
 
-	arg_2_0:RefreshSelectState()
-	arg_2_0:DestroySticker()
+	slot0:RefreshSelectState()
+	slot0:DestroySticker()
 
-	if var_2_0.type == 1 then
-		arg_2_0.lockController_:SetSelectedState("false")
+	if slot2.type == 1 then
+		slot0.lockController_:SetSelectedState("false")
 
-		arg_2_0.icon_.sprite = getSpriteViaConfig("ChatSticker", var_2_0.icon .. SettingData:GetCurrentLanguageKey())
-		arg_2_0.icon_.enabled = true
+		slot0.icon_.sprite = getSpriteViaConfig("ChatSticker", slot2.icon .. SettingData:GetCurrentLanguageKey())
+		slot0.icon_.enabled = true
 	else
-		arg_2_0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(var_2_0.icon .. SettingData:GetCurrentLanguageKey()), arg_2_0.dynamicTf_)
-		arg_2_0.icon_.enabled = false
+		slot0.dynamicStickerGo_ = Object.Instantiate(Asset.Load(slot2.icon .. SettingData:GetCurrentLanguageKey()), slot0.dynamicTf_)
+		slot0.icon_.enabled = false
 	end
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	arg_3_0:DestroySticker()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:DestroySticker()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.button_, nil, function()
-		local var_5_0 = GameSetting.chat_sticker_custom_max_cnt.value[1]
-		local var_5_1 = ChatStickerData:GetCustomStickerUIList()
-
-		if not table.keyof(var_5_1, arg_4_0.id_) and var_5_0 <= #var_5_1 then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if not table.keyof(ChatStickerData:GetCustomStickerUIList(), uv0.id_) and GameSetting.chat_sticker_custom_max_cnt.value[1] <= #slot1 then
 			ShowTips("CHAT_CUSTOM_STICKER_LIMIT_EXCEEDED")
 
 			return
 		end
 
-		if arg_4_0.isLock_ then
-			if arg_4_0.descSource_ == "" then
+		if uv0.isLock_ then
+			if uv0.descSource_ == "" then
 				ShowTips("CHAT_DYNAMIC_STICKER_LOCK")
 			else
-				ShowTips(arg_4_0.descSource_)
+				ShowTips(uv0.descSource_)
 			end
 
 			return
 		end
 
-		ChatStickerData:ChangeCustomStickerUIList(arg_4_0.id_)
-		arg_4_0:RefreshSelectState()
+		ChatStickerData:ChangeCustomStickerUIList(uv0.id_)
+		uv0:RefreshSelectState()
 		manager.notify:Invoke(CHAT_CUSTOM_STICKER_CHANGED)
 	end)
 end
 
-function var_0_0.RefreshSelectState(arg_6_0)
-	local var_6_0 = ChatStickerData:GetCustomStickerUIList()
-
-	if table.keyof(var_6_0, arg_6_0.id_) then
-		arg_6_0.controller_:SetSelectedState("true")
+function slot0.RefreshSelectState(slot0)
+	if table.keyof(ChatStickerData:GetCustomStickerUIList(), slot0.id_) then
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_6_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.DestroySticker(arg_7_0)
-	if arg_7_0.dynamicStickerGo_ then
-		Object.Destroy(arg_7_0.dynamicStickerGo_)
+function slot0.DestroySticker(slot0)
+	if slot0.dynamicStickerGo_ then
+		Object.Destroy(slot0.dynamicStickerGo_)
 
-		arg_7_0.dynamicStickerGo_ = nil
+		slot0.dynamicStickerGo_ = nil
 	end
 end
 
-return var_0_0
+return slot0

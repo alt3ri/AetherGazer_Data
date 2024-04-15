@@ -1,162 +1,139 @@
-local var_0_0 = class("PolyhedronBeaconView", ReduxView)
+slot0 = class("PolyhedronBeaconView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/Beacon/PolyhedronBeaconUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.beaconList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexBeaconItem), arg_4_0.m_list, PolyhedronBeaconItem)
-	arg_4_0.nextController = ControllerUtil.GetController(arg_4_0.transform_, "next")
+	slot0.beaconList_ = LuaList.New(handler(slot0, slot0.IndexBeaconItem), slot0.m_list, PolyhedronBeaconItem)
+	slot0.nextController = ControllerUtil.GetController(slot0.transform_, "next")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_backBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_backBtn, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_okBtn, nil, function()
-		local var_7_0 = PolyhedronData:GetCacheSelectHero()
-		local var_7_1 = PolyhedronData:GetCacheSelectDifficulty()
-		local var_7_2 = arg_5_0.selectBeaconList
-
+	slot0:AddBtnListener(slot0.m_okBtn, nil, function ()
 		PolyhedronAction.QueryStartPolyhedron({
-			var_7_0
-		}, var_7_2, var_7_1)
+			PolyhedronData:GetCacheSelectHero()
+		}, uv0.selectBeaconList, PolyhedronData:GetCacheSelectDifficulty())
 	end)
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_9_0)
+function slot0.OnEnter(slot0)
 	manager.ui:SetMainCamera("hero")
 
-	arg_9_0.selectBeaconList = PolyhedronData:GetCacheBeaconList()
-	arg_9_0.maxBeaconSelect = 3
-	arg_9_0.maxBeaconSelect = PolyhedronData:GetBeaconMaxBeaconSelect()
-	arg_9_0.beaconData = PolyhedronData:GetUnlockBeaconList()
+	slot0.selectBeaconList = PolyhedronData:GetCacheBeaconList()
+	slot0.maxBeaconSelect = 3
+	slot0.maxBeaconSelect = PolyhedronData:GetBeaconMaxBeaconSelect()
+	slot0.beaconData = PolyhedronData:GetUnlockBeaconList()
 
-	table.sort(arg_9_0.beaconData, function(arg_10_0, arg_10_1)
-		return arg_10_0 < arg_10_1
+	table.sort(slot0.beaconData, function (slot0, slot1)
+		return slot0 < slot1
 	end)
+	slot0.beaconList_:StartScroll(#slot0.beaconData)
 
-	local var_9_0 = #arg_9_0.beaconData
-
-	arg_9_0.beaconList_:StartScroll(var_9_0)
-
-	arg_9_0.m_numLab.text = #arg_9_0.selectBeaconList .. "/" .. arg_9_0.maxBeaconSelect
+	slot0.m_numLab.text = #slot0.selectBeaconList .. "/" .. slot0.maxBeaconSelect
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	PolyhedronData:SetCacheBeaconList(arg_11_0.selectBeaconList)
+	PolyhedronData:SetCacheBeaconList(slot0.selectBeaconList)
 end
 
-function var_0_0.IndexBeaconItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.beaconData[arg_12_1]
-	local var_12_1 = not not table.indexof(arg_12_0.selectBeaconList, var_12_0)
+function slot0.IndexBeaconItem(slot0, slot1, slot2)
+	slot3 = slot0.beaconData[slot1]
+	slot4 = not not table.indexof(slot0.selectBeaconList, slot3)
 
-	arg_12_2:SetData(var_12_0)
-	arg_12_2:SetChoice(var_12_1)
-
-	local var_12_2 = not var_12_1 and #arg_12_0.selectBeaconList >= arg_12_0.maxBeaconSelect
-
-	arg_12_2:SetMask(var_12_2)
-	arg_12_2:RegistCallBack(handler(arg_12_0, arg_12_0.OnBeaconItemClick))
+	slot2:SetData(slot3)
+	slot2:SetChoice(slot4)
+	slot2:SetMask(not slot4 and slot0.maxBeaconSelect <= #slot0.selectBeaconList)
+	slot2:RegistCallBack(handler(slot0, slot0.OnBeaconItemClick))
 end
 
-function var_0_0.OnBeaconItemClick(arg_13_0, arg_13_1, arg_13_2)
-	if table.indexof(arg_13_0.selectBeaconList, arg_13_1) then
-		arg_13_0:UnSelectBeacon(arg_13_1)
+function slot0.OnBeaconItemClick(slot0, slot1, slot2)
+	if table.indexof(slot0.selectBeaconList, slot1) then
+		slot0:UnSelectBeacon(slot1)
 	else
-		if arg_13_0.maxBeaconSelect == 0 then
+		if slot0.maxBeaconSelect == 0 then
 			ShowTips("POLYHEDRON_SELECT_BEACON_EMPTY")
 
 			return
 		end
 
-		if #arg_13_0.selectBeaconList >= arg_13_0.maxBeaconSelect then
+		if slot0.maxBeaconSelect <= #slot0.selectBeaconList then
 			ShowTips("POLYHEDRON_SELECT_BEACON_MAX")
 
 			return
 		end
 
-		local var_13_0 = PolyhedronBeaconCfg[arg_13_1]
-		local var_13_1 = {}
-		local var_13_2 = PolyhedronData:GetTerminalGift() or {}
+		slot5 = {}
 
-		for iter_13_0, iter_13_1 in ipairs(var_13_0.require_terminal_list or {}) do
-			if table.indexof(var_13_2, iter_13_1) then
-				table.insert(var_13_1, iter_13_1)
+		for slot10, slot11 in ipairs(PolyhedronBeaconCfg[slot1].require_terminal_list or {}) do
+			if table.indexof(PolyhedronData:GetTerminalGift() or {}, slot11) then
+				table.insert(slot5, slot11)
 			end
 		end
 
-		if #var_13_1 > 0 then
-			local var_13_3 = ""
+		if #slot5 > 0 then
+			slot7 = ""
 
-			for iter_13_2, iter_13_3 in ipairs(var_13_1) do
-				local var_13_4 = PolyhedronTerminalCfg[iter_13_3]
-
-				if iter_13_2 == 1 then
-					var_13_3 = var_13_4.name
-				else
-					var_13_3 = var_13_3 .. "," .. var_13_4.name
-				end
+			for slot11, slot12 in ipairs(slot5) do
+				slot13 = PolyhedronTerminalCfg[slot12]
+				slot7 = (slot11 ~= 1 or slot13.name) and slot13.name .. "," .. slot13.name
 			end
 
 			ShowMessageBox({
-				content = string.format(GetTips("ERROR_MATRIX_NOT_EFFECTIVE"), var_13_0.name, var_13_3),
-				OkCallback = function()
-					arg_13_0:SelectBeacon(arg_13_1)
+				content = string.format(GetTips("ERROR_MATRIX_NOT_EFFECTIVE"), slot4.name, slot7),
+				OkCallback = function ()
+					uv0:SelectBeacon(uv1)
 				end
 			})
 
 			return
 		end
 
-		arg_13_0:SelectBeacon(arg_13_1)
+		slot0:SelectBeacon(slot1)
 	end
 end
 
-function var_0_0.SelectBeacon(arg_15_0, arg_15_1)
-	table.insert(arg_15_0.selectBeaconList, arg_15_1)
+function slot0.SelectBeacon(slot0, slot1)
+	table.insert(slot0.selectBeaconList, slot1)
 
-	local var_15_0 = #arg_15_0.selectBeaconList
+	slot0.m_numLab.text = #slot0.selectBeaconList .. "/" .. slot0.maxBeaconSelect
 
-	arg_15_0.m_numLab.text = var_15_0 .. "/" .. arg_15_0.maxBeaconSelect
-
-	arg_15_0.beaconList_:Refresh()
+	slot0.beaconList_:Refresh()
 end
 
-function var_0_0.UnSelectBeacon(arg_16_0, arg_16_1)
-	local var_16_0 = table.indexof(arg_16_0.selectBeaconList, arg_16_1)
+function slot0.UnSelectBeacon(slot0, slot1)
+	table.remove(slot0.selectBeaconList, table.indexof(slot0.selectBeaconList, slot1))
 
-	table.remove(arg_16_0.selectBeaconList, var_16_0)
+	slot0.m_numLab.text = #slot0.selectBeaconList .. "/" .. slot0.maxBeaconSelect
 
-	local var_16_1 = #arg_16_0.selectBeaconList
-
-	arg_16_0.m_numLab.text = var_16_1 .. "/" .. arg_16_0.maxBeaconSelect
-
-	arg_16_0.beaconList_:Refresh()
+	slot0.beaconList_:Refresh()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.beaconList_:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0.beaconList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

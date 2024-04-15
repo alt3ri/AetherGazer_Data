@@ -1,30 +1,30 @@
-local var_0_0 = class("MatrixAffixMiniView", ReduxView)
+slot0 = class("MatrixAffixMiniView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Prepare/MatrixAffixMiniUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.stateController_ = ControllerUtil.GetController(arg_5_0.transform_, "state")
-	arg_5_0.customItems = {}
-	arg_5_0.regularItems = {}
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.customItems = {}
+	slot0.regularItems = {}
 end
 
-function var_0_0.OnTop(arg_6_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -45,125 +45,95 @@ function var_0_0.OnTop(arg_6_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.regularData = MatrixData:GetDifficultyData():GetRegularAffix()
-	arg_7_0.customData = MatrixData:GetCustomAffix()
+function slot0.OnEnter(slot0)
+	slot0.regularData = MatrixData:GetDifficultyData():GetRegularAffix()
+	slot0.customData = MatrixData:GetCustomAffix()
 
-	arg_7_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.OnTop(arg_8_0)
-	arg_8_0:Refresh()
+function slot0.OnTop(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_9_0)
-	arg_9_0:RefreshRegularItems(arg_9_0.regularData)
+function slot0.Refresh(slot0)
+	slot0:RefreshRegularItems(slot0.regularData)
+	slot0.stateController_:SetSelectedIndex(#slot0.customData == 0 and 1 or 0)
+	slot0:RefreshCustomItems(slot0.customData)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_contentRect)
 
-	local var_9_0 = #arg_9_0.customData
-
-	arg_9_0.stateController_:SetSelectedIndex(var_9_0 == 0 and 1 or 0)
-	arg_9_0:RefreshCustomItems(arg_9_0.customData)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.m_contentRect)
-
-	local var_9_1 = 0
-	local var_9_2 = 0
-
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.regularData) do
-		local var_9_3 = ActivityAffixPoolCfg[iter_9_1]
-
-		var_9_1 = var_9_1 + var_9_3.point
-		var_9_2 = var_9_2 + var_9_3.multiple
+	for slot7, slot8 in ipairs(slot0.regularData) do
+		slot9 = ActivityAffixPoolCfg[slot8]
+		slot2 = 0 + slot9.point
+		slot3 = 0 + slot9.multiple
 	end
 
-	for iter_9_2, iter_9_3 in ipairs(arg_9_0.customData) do
-		local var_9_4 = ActivityAffixPoolCfg[iter_9_3]
-
-		var_9_1 = var_9_1 + var_9_4.point
-		var_9_2 = var_9_2 + var_9_4.multiple
+	for slot7, slot8 in ipairs(slot0.customData) do
+		slot9 = ActivityAffixPoolCfg[slot8]
+		slot2 = slot2 + slot9.point
+		slot3 = slot3 + slot9.multiple
 	end
 
-	local var_9_5 = var_9_2 / 10
-
-	arg_9_0.m_scoreLab.text = "" .. var_9_1
-	arg_9_0.m_retaLab.text = string.format(GetTips("MATRIX_AFFIX_RATE"), var_9_5 .. "%")
+	slot0.m_scoreLab.text = "" .. slot2
+	slot0.m_retaLab.text = string.format(GetTips("MATRIX_AFFIX_RATE"), slot3 / 10 .. "%")
 end
 
-function var_0_0.RefreshCustomItems(arg_10_0, arg_10_1)
-	local var_10_0 = #arg_10_1
-
-	for iter_10_0 = 1, var_10_0 do
-		if not arg_10_0.customItems[iter_10_0] then
-			local var_10_1 = Object.Instantiate(arg_10_0.m_Item, arg_10_0.m_customContent)
-
-			arg_10_0.customItems[iter_10_0] = MatrixAffixItem.New(var_10_1)
+function slot0.RefreshCustomItems(slot0, slot1)
+	for slot6 = 1, #slot1 do
+		if not slot0.customItems[slot6] then
+			slot0.customItems[slot6] = MatrixAffixItem.New(Object.Instantiate(slot0.m_Item, slot0.m_customContent))
 		end
 
-		local var_10_2 = arg_10_1[iter_10_0]
-		local var_10_3 = ActivityAffixPoolCfg[var_10_2].affix
-
-		arg_10_0.customItems[iter_10_0]:Refresh(var_10_3, 2)
-		arg_10_0.customItems[iter_10_0]:SetActive(true)
+		slot0.customItems[slot6]:Refresh(ActivityAffixPoolCfg[slot1[slot6]].affix, 2)
+		slot0.customItems[slot6]:SetActive(true)
 	end
 
-	for iter_10_1 = var_10_0 + 1, #arg_10_0.customItems do
-		arg_10_0.customItems[iter_10_1]:SetActive(false)
+	for slot6 = slot2 + 1, #slot0.customItems do
+		slot0.customItems[slot6]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.m_customContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_customContent)
 end
 
-function var_0_0.RefreshRegularItems(arg_11_0, arg_11_1)
-	local var_11_0 = #arg_11_1
-
-	for iter_11_0 = 1, var_11_0 do
-		if not arg_11_0.regularItems[iter_11_0] then
-			local var_11_1 = Object.Instantiate(arg_11_0.m_Item, arg_11_0.m_regularContent)
-
-			arg_11_0.regularItems[iter_11_0] = MatrixAffixItem.New(var_11_1)
+function slot0.RefreshRegularItems(slot0, slot1)
+	for slot6 = 1, #slot1 do
+		if not slot0.regularItems[slot6] then
+			slot0.regularItems[slot6] = MatrixAffixItem.New(Object.Instantiate(slot0.m_Item, slot0.m_regularContent))
 		end
 
-		local var_11_2 = arg_11_1[iter_11_0]
-		local var_11_3 = ActivityAffixPoolCfg[var_11_2].affix
-
-		arg_11_0.regularItems[iter_11_0]:Refresh(var_11_3, 2)
-		arg_11_0.regularItems[iter_11_0]:SetActive(true)
+		slot0.regularItems[slot6]:Refresh(ActivityAffixPoolCfg[slot1[slot6]].affix, 2)
+		slot0.regularItems[slot6]:SetActive(true)
 	end
 
-	for iter_11_1 = var_11_0 + 1, #arg_11_0.regularItems do
-		arg_11_0.regularItems[iter_11_1]:SetActive(false)
+	for slot6 = slot2 + 1, #slot0.regularItems do
+		slot0.regularItems[slot6]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.m_regularContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_regularContent)
 end
 
-function var_0_0.IndexAffixWeekItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.regularData[arg_12_1]
-	local var_12_1 = ActivityAffixPoolCfg[var_12_0].affix
-
-	arg_12_2:Refresh(var_12_1, 2)
+function slot0.IndexAffixWeekItem(slot0, slot1, slot2)
+	slot2:Refresh(ActivityAffixPoolCfg[slot0.regularData[slot1]].affix, 2)
 end
 
-function var_0_0.IndexAffixOptionalItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.customData[arg_13_1]
-	local var_13_1 = ActivityAffixPoolCfg[var_13_0].affix
-
-	arg_13_2:Refresh(var_13_1, 2)
+function slot0.IndexAffixOptionalItem(slot0, slot1, slot2)
+	slot2:Refresh(ActivityAffixPoolCfg[slot0.customData[slot1]].affix, 2)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.customItems) do
-		iter_14_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.customItems) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.customItems = {}
+	slot0.customItems = {}
 
-	for iter_14_2, iter_14_3 in ipairs(arg_14_0.regularItems) do
-		iter_14_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.regularItems) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.regularItems = {}
+	slot0.regularItems = {}
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

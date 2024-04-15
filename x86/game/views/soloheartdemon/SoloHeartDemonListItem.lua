@@ -1,71 +1,70 @@
-local var_0_0 = class("SoloHeartDemonListItem", ReduxView)
+slot0 = class("SoloHeartDemonListItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	if arg_3_0.conExCollection_ then
-		arg_3_0.rankController_ = arg_3_0.conExCollection_:GetController("rank")
+	if slot0.conExCollection_ then
+		slot0.rankController_ = slot0.conExCollection_:GetController("rank")
 	else
-		arg_3_0.rankController_ = ControllerUtil.GetController(arg_3_0.transform_, "rank")
+		slot0.rankController_ = ControllerUtil.GetController(slot0.transform_, "rank")
 	end
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.index = arg_4_2
-	arg_4_0.data = arg_4_1
-	arg_4_0.type = arg_4_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index = slot2
+	slot0.data = slot1
+	slot0.type = slot3
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	if arg_5_0.data == nil then
-		arg_5_0.rankController_:SetSelectedState("5")
+function slot0.UpdateView(slot0)
+	if slot0.data == nil then
+		slot0.rankController_:SetSelectedState("5")
 
-		arg_5_0.rankText_.text = ""
+		slot0.rankText_.text = ""
 
 		return
 	end
 
-	arg_5_0.nickText_.text = arg_5_0.data.nick
-	arg_5_0.rankText_.text = arg_5_0.data.rank
+	slot0.nickText_.text = slot0.data.nick
+	slot0.rankText_.text = slot0.data.rank
 
-	arg_5_0.rankController_:SetSelectedState(tostring(arg_5_0.data.rank > 3 and 0 or arg_5_0.data.rank))
+	slot0.rankController_:SetSelectedState(tostring(slot0.data.rank > 3 and 0 or slot0.data.rank))
 
-	arg_5_0.headImg_.sprite = ItemTools.getItemSprite(arg_5_0.data.portrait)
-	arg_5_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_5_0.data.frame)
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot0.data.portrait)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data.frame)
 
-	arg_5_0[arg_5_0.type == 2 and "UpdateRankView" or "UpdateMainView"](arg_5_0)
+	slot0[slot0.type == 2 and "UpdateRankView" or "UpdateMainView"](slot0)
 end
 
-function var_0_0.UpdateRankView(arg_6_0)
-	arg_6_0.finishTimeText_.text = manager.time:DescCdTime2(arg_6_0.data.staticInfo.clearTime)
-	arg_6_0.gradeText_.text = arg_6_0.data.score
-	arg_6_0.hitDamageText_.text = arg_6_0.data.staticInfo.hitNumber
+function slot0.UpdateRankView(slot0)
+	slot0.finishTimeText_.text = manager.time:DescCdTime2(slot0.data.staticInfo.clearTime)
+	slot0.gradeText_.text = slot0.data.score
+	slot0.hitDamageText_.text = slot0.data.staticInfo.hitNumber
 end
 
-function var_0_0.UpdateMainView(arg_7_0)
-	return
+function slot0.UpdateMainView(slot0)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
-	Object.Destroy(arg_9_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

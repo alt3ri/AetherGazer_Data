@@ -1,88 +1,77 @@
-local var_0_0 = class("SummerPlotView", ReduxView)
+slot0 = class("SummerPlotView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/SummerUI/SummerPlotUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.plotUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.uiList_, SummerPlotItem)
+	slot0.plotUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uiList_, SummerPlotItem)
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_4_0:HideRedPoint()
-		arg_4_0:Go("/home")
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0:HideRedPoint()
+		uv0:Go("/home")
 	end)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_4_0:HideRedPoint()
-		arg_4_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:HideRedPoint()
+		uv0:Back()
 	end)
 
-	local var_4_0 = arg_4_0.params_.theme
+	slot0.plotList_ = ActivityStoryCollect[slot0.params_.theme].story_id
+	slot2, slot3 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
+	slot0.value_ = math.floor(slot2 / slot3)
 
-	arg_4_0.plotList_ = ActivityStoryCollect[var_4_0].story_id
-
-	local var_4_1, var_4_2 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
-
-	arg_4_0.value_ = math.floor(var_4_1 / var_4_2)
-
-	arg_4_0.plotUIList_:StartScroll(#arg_4_0.plotList_, 1)
-	arg_4_0:RefreshText()
+	slot0.plotUIList_:StartScroll(#slot0.plotList_, 1)
+	slot0:RefreshText()
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_8_0.plotUIList_ then
-		arg_8_0.plotUIList_:Dispose()
+	if slot0.plotUIList_ then
+		slot0.plotUIList_:Dispose()
 
-		arg_8_0.plotUIList_ = nil
+		slot0.plotUIList_ = nil
 	end
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.RefreshItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.plotList_[arg_10_1]
-
-	arg_10_2:SetData(var_10_0, ActivityStoryCollect[arg_10_0.params_.theme].unlock_value[arg_10_1] or 100, arg_10_0.value_)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.plotList_[slot1], ActivityStoryCollect[slot0.params_.theme].unlock_value[slot1] or 100, slot0.value_)
 end
 
-function var_0_0.RefreshText(arg_11_0)
-	arg_11_0.finishRateText_.text = string.format("%d%%", arg_11_0.value_)
+function slot0.RefreshText(slot0)
+	slot0.finishRateText_.text = string.format("%d%%", slot0.value_)
 end
 
-function var_0_0.HideRedPoint(arg_12_0)
-	local var_12_0 = ActivityConst.SUMMER_CHESS_ISLAND
-	local var_12_1, var_12_2 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
-	local var_12_3 = var_12_1 / var_12_2
-	local var_12_4 = ActivityCfg[var_12_0].activity_theme
-	local var_12_5 = ActivityStoryCollect[var_12_4]
+function slot0.HideRedPoint(slot0)
+	slot2, slot3 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
 
-	for iter_12_0, iter_12_1 in pairs(var_12_5.story_id) do
-		local var_12_6 = string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, var_12_4, iter_12_1)
+	for slot10, slot11 in pairs(ActivityStoryCollect[ActivityCfg[ActivityConst.SUMMER_CHESS_ISLAND].activity_theme].story_id) do
+		slot12 = string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, slot5, slot11)
 
-		if var_12_3 >= var_12_5.unlock_value[iter_12_0] then
-			WarChessAction.SetActivityChessPlotRedPoint(var_12_4, iter_12_1)
+		if slot6.unlock_value[slot10] <= slot2 / slot3 then
+			WarChessAction.SetActivityChessPlotRedPoint(slot5, slot11)
 		end
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,103 +1,89 @@
-local var_0_0 = class("PuzzleNewRewardView", ReduxView)
+slot0 = class("PuzzleNewRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return PuzzleNewTools.GetRewardViewUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return PuzzleNewTools.GetRewardViewUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	if arg_7_0.activityID_ ~= arg_7_0.params_.activityID then
-		arg_7_0:DispawnRegion()
-		arg_7_0:SpawnRegion(arg_7_0.params_.activityID)
+function slot0.OnEnter(slot0)
+	if slot0.activityID_ ~= slot0.params_.activityID then
+		slot0:DispawnRegion()
+		slot0:SpawnRegion(slot0.params_.activityID)
 	end
 
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:DispawnRegion()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:DispawnRegion()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = PuzzleNewCfg[arg_9_0.activityID_]
+function slot0.RefreshUI(slot0)
+	slot1 = PuzzleNewCfg[slot0.activityID_]
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.regionList_) do
-		iter_9_1:SetData(arg_9_0.activityID_)
+	for slot5, slot6 in pairs(slot0.regionList_) do
+		slot6:SetData(slot0.activityID_)
 	end
 
-	local var_9_1 = PuzzleNewData:GetCurPuzzleList(arg_9_0.activityID_)
+	slot2 = PuzzleNewData:GetCurPuzzleList(slot0.activityID_)
 
-	for iter_9_2, iter_9_3 in ipairs(arg_9_0.maskList_) do
-		SetActive(iter_9_3, var_9_1[iter_9_2] == nil or var_9_1[iter_9_2] ~= var_9_0.correct_array[iter_9_2])
+	for slot6, slot7 in ipairs(slot0.maskList_) do
+		SetActive(slot7, slot2[slot6] == nil or slot2[slot6] ~= slot1.correct_array[slot6])
 	end
 end
 
-function var_0_0.SpawnRegion(arg_10_0, arg_10_1)
-	local var_10_0 = PuzzleNewCfg[arg_10_1]
-	local var_10_1 = PuzzleNewTools.GetPuzzlePosDic(arg_10_1)
-	local var_10_2 = PuzzleNewTools.GetRegionPosDic(arg_10_1)
-	local var_10_3 = var_10_0.area_fragment_list
-	local var_10_4 = var_10_0.reward_area_list
+function slot0.SpawnRegion(slot0, slot1)
+	slot2 = PuzzleNewCfg[slot1]
+	slot0.regionList_ = slot0.regionList_ or {}
 
-	arg_10_0.regionList_ = arg_10_0.regionList_ or {}
+	for slot11 = 1, slot0.regionContentTrans_.childCount do
+		slot13 = tonumber(slot0.regionContentTrans_:GetChild(slot11 - 1).name)
+		slot14 = PuzzleNewTools.GetRegionPosDic(slot1)[slot13]
+		slot16 = slot2.area_fragment_list[slot14][2]
 
-	local var_10_5 = arg_10_0.regionContentTrans_.childCount
-
-	for iter_10_0 = 1, var_10_5 do
-		local var_10_6 = arg_10_0.regionContentTrans_:GetChild(iter_10_0 - 1)
-		local var_10_7 = tonumber(var_10_6.name)
-		local var_10_8 = var_10_2[var_10_7]
-		local var_10_9 = var_10_3[var_10_8]
-		local var_10_10 = var_10_9[2]
-		local var_10_11 = var_10_4[var_10_8][2]
-
-		if not arg_10_0.regionList_[var_10_7] then
-			arg_10_0.regionList_[var_10_7] = PuzzleNewRegionItem.New(var_10_6, var_10_9, var_10_1, var_10_11)
+		if not slot0.regionList_[slot13] then
+			slot0.regionList_[slot13] = PuzzleNewRegionItem.New(slot12, slot15, PuzzleNewTools.GetPuzzlePosDic(slot1), slot2.reward_area_list[slot14][2])
 		end
 	end
 
-	arg_10_0.maskList_ = arg_10_0.maskList_ or {}
+	slot0.maskList_ = slot0.maskList_ or {}
 
-	local var_10_12 = arg_10_0.maskPanelTrans_.childCount
-
-	for iter_10_1 = 1, var_10_12 do
-		local var_10_13 = arg_10_0.maskPanelTrans_:GetChild(iter_10_1 - 1)
-
-		arg_10_0.maskList_[iter_10_1] = var_10_13
+	for slot12 = 1, slot0.maskPanelTrans_.childCount do
+		slot0.maskList_[slot12] = slot0.maskPanelTrans_:GetChild(slot12 - 1)
 	end
 end
 
-function var_0_0.DispawnRegion(arg_11_0)
-	if arg_11_0.regionList_ then
-		for iter_11_0, iter_11_1 in pairs(arg_11_0.regionList_) do
-			iter_11_1:Dispose()
+function slot0.DispawnRegion(slot0)
+	if slot0.regionList_ then
+		for slot4, slot5 in pairs(slot0.regionList_) do
+			slot5:Dispose()
 		end
 
-		arg_11_0.regionList_ = nil
+		slot0.regionList_ = nil
 	end
 
-	arg_11_0.maskList_ = nil
+	slot0.maskList_ = nil
 end
 
-return var_0_0
+return slot0

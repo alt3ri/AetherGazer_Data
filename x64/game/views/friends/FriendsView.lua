@@ -1,154 +1,154 @@
-local var_0_0 = class("FriendsView", ReduxView)
+slot0 = class("FriendsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Friends/FriendsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.contentView_ = FriendsRightContentView.New(arg_4_0.rightContentPanel_)
-	arg_4_0.toggle_ = {}
-	arg_4_0.toggleCon_ = {}
+	slot0.contentView_ = FriendsRightContentView.New(slot0.rightContentPanel_)
+	slot0.toggle_ = {}
+	slot0.toggleCon_ = {}
 
-	for iter_4_0 = 1, 4 do
-		arg_4_0.toggle_[iter_4_0] = arg_4_0["tgl_" .. iter_4_0]
-		arg_4_0.toggleCon_[iter_4_0] = ControllerUtil.GetController(arg_4_0.toggle_[iter_4_0].transform, "name")
+	for slot4 = 1, 4 do
+		slot0.toggle_[slot4] = slot0["tgl_" .. slot4]
+		slot0.toggleCon_[slot4] = ControllerUtil.GetController(slot0.toggle_[slot4].transform, "name")
 	end
 
-	arg_4_0.pageCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "pageCon")
+	slot0.pageCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "pageCon")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.toggle_) do
-		arg_5_0:AddBtnListener(iter_5_1, nil, function()
-			if iter_5_0 ~= arg_5_0.curPageIndex_ then
-				arg_5_0:RefreshUI(iter_5_0)
+function slot0.AddUIListeners(slot0)
+	for slot4, slot5 in ipairs(slot0.toggle_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			if uv0 ~= uv1.curPageIndex_ then
+				uv1:RefreshUI(uv0)
 			end
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.contentView_:OnEnter()
+function slot0.OnEnter(slot0)
+	slot0.contentView_:OnEnter()
 
-	arg_7_0.params_.friendPage = arg_7_0.params_.friendPage or FriendsConst.FRIEND_TYPE.MY_FRIENDS
-	arg_7_0.curPageIndex_ = arg_7_0.params_.friendPage == FriendsConst.FRIEND_TYPE.SEARCH and FriendsConst.FRIEND_TYPE.NEW_FRIENDS or arg_7_0.params_.friendPage
+	slot0.params_.friendPage = slot0.params_.friendPage or FriendsConst.FRIEND_TYPE.MY_FRIENDS
+	slot0.curPageIndex_ = slot0.params_.friendPage == FriendsConst.FRIEND_TYPE.SEARCH and FriendsConst.FRIEND_TYPE.NEW_FRIENDS or slot0.params_.friendPage
 
-	arg_7_0:BindRedPoint()
-	arg_7_0:RefreshUI(arg_7_0.curPageIndex_)
+	slot0:BindRedPoint()
+	slot0:RefreshUI(slot0.curPageIndex_)
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1)
-	arg_8_0.isRefreshing_ = true
-	arg_8_0.curPageIndex_ = arg_8_1
-	arg_8_0.params_.friendPage = arg_8_0.curPageIndex_
+function slot0.RefreshUI(slot0, slot1)
+	slot0.isRefreshing_ = true
+	slot0.curPageIndex_ = slot1
+	slot0.params_.friendPage = slot0.curPageIndex_
 
-	if arg_8_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
+	if slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
 		FriendsAction:TryToRefreshFriendsView(1)
-	elseif arg_8_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.NEW_FRIENDS then
+	elseif slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.NEW_FRIENDS then
 		if not FriendsData:GetHadFreshNewFriend() then
 			FriendsAction:TryToRefreshNewFriendsList(1)
 		else
-			arg_8_0.isRefreshing_ = false
+			slot0.isRefreshing_ = false
 
-			arg_8_0.contentView_:RefreshUI(arg_8_0.curPageIndex_)
-			arg_8_0.pageCon_:SetSelectedState(arg_8_0.curPageIndex_)
-			arg_8_0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
+			slot0.contentView_:RefreshUI(slot0.curPageIndex_)
+			slot0.pageCon_:SetSelectedState(slot0.curPageIndex_)
+			slot0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
 		end
-	elseif arg_8_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.SEARCH then
-		arg_8_0.isRefreshing_ = false
+	elseif slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.SEARCH then
+		slot0.isRefreshing_ = false
 
-		arg_8_0.contentView_:RefreshUI(arg_8_0.curPageIndex_)
-		arg_8_0.pageCon_:SetSelectedState(arg_8_0.curPageIndex_)
-		arg_8_0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
-	elseif arg_8_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.FRIEND_REQUESTS then
+		slot0.contentView_:RefreshUI(slot0.curPageIndex_)
+		slot0.pageCon_:SetSelectedState(slot0.curPageIndex_)
+		slot0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
+	elseif slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.FRIEND_REQUESTS then
 		FriendsAction:TryToRefreshFriendsView(2)
-	elseif arg_8_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.BLACKLIST then
+	elseif slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.BLACKLIST then
 		FriendsAction:TryToRefreshFriendsView(3)
 	end
 end
 
-function var_0_0.RefreshTgl(arg_9_0, arg_9_1)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.toggleCon_) do
-		iter_9_1:SetSelectedState(iter_9_0 == arg_9_1 and "false" or "true")
+function slot0.RefreshTgl(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.toggleCon_) do
+		slot6:SetSelectedState(slot5 == slot1 and "false" or "true")
 	end
 end
 
-function var_0_0.OnFriendsListChange(arg_10_0, arg_10_1)
-	arg_10_1 = arg_10_1 or arg_10_0.curPageIndex_
+function slot0.OnFriendsListChange(slot0, slot1)
+	slot1 = slot1 or slot0.curPageIndex_
 
-	if arg_10_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.NEW_FRIENDS and arg_10_1 == FriendsConst.FRIEND_TYPE.SEARCH then
-		arg_10_0.curPageIndex_ = FriendsConst.FRIEND_TYPE.SEARCH
-		arg_10_0.params_.friendPage = arg_10_0.curPageIndex_
+	if slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.NEW_FRIENDS and slot1 == FriendsConst.FRIEND_TYPE.SEARCH then
+		slot0.curPageIndex_ = FriendsConst.FRIEND_TYPE.SEARCH
+		slot0.params_.friendPage = slot0.curPageIndex_
 	end
 
-	if arg_10_1 == FriendsConst.FRIEND_TYPE.SEARCH then
-		arg_10_0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
+	if slot1 == FriendsConst.FRIEND_TYPE.SEARCH then
+		slot0:RefreshTgl(FriendsConst.FRIEND_TYPE.NEW_FRIENDS)
 	else
-		arg_10_0:RefreshTgl(arg_10_1)
+		slot0:RefreshTgl(slot1)
 	end
 
-	arg_10_0.isRefreshing_ = false
+	slot0.isRefreshing_ = false
 
-	arg_10_0.contentView_:RefreshUI(arg_10_0.curPageIndex_)
-	arg_10_0.pageCon_:SetSelectedState(arg_10_0.curPageIndex_)
+	slot0.contentView_:RefreshUI(slot0.curPageIndex_)
+	slot0.pageCon_:SetSelectedState(slot0.curPageIndex_)
 end
 
-function var_0_0.OnFriendsChatChange(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	if arg_11_0.isRefreshing_ then
+function slot0.OnFriendsChatChange(slot0, slot1, slot2, slot3)
+	if slot0.isRefreshing_ then
 		return
 	end
 
-	if arg_11_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
-		arg_11_0.contentView_:OnFriendsChatChange(arg_11_1, arg_11_2, arg_11_3)
+	if slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
+		slot0.contentView_:OnFriendsChatChange(slot1, slot2, slot3)
 	end
 end
 
-function var_0_0.OnFriendsUnreadChange(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_0.isRefreshing_ then
+function slot0.OnFriendsUnreadChange(slot0, slot1, slot2)
+	if slot0.isRefreshing_ then
 		return
 	end
 
-	if arg_12_0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
-		arg_12_0.contentView_:OnFriendsUnreadChange(arg_12_1, arg_12_2)
+	if slot0.curPageIndex_ == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
+		slot0.contentView_:OnFriendsUnreadChange(slot1, slot2)
 	end
 end
 
-function var_0_0.BindRedPoint(arg_13_0)
-	manager.redPoint:bindUIandKey(arg_13_0.toggle_[3].transform, RedPointConst.FRIEND_FRIEND_REQUESTS)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.toggle_[3].transform, RedPointConst.FRIEND_FRIEND_REQUESTS)
 end
 
-function var_0_0.UnbindRedPoint(arg_14_0)
-	manager.redPoint:unbindUIandKey(arg_14_0.toggle_[3].transform, RedPointConst.FRIEND_FRIEND_REQUESTS)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.toggle_[3].transform, RedPointConst.FRIEND_FRIEND_REQUESTS)
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:UnbindRedPoint()
-	arg_16_0.contentView_:OnExit()
+function slot0.OnExit(slot0)
+	slot0:UnbindRedPoint()
+	slot0.contentView_:OnExit()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0:RemoveAllListeners()
-	arg_17_0.contentView_:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.contentView_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

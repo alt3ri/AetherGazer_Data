@@ -1,114 +1,117 @@
-local var_0_0 = class("RechargeVoucherItem", ReduxView)
+slot0 = class("RechargeVoucherItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.commonItem1_ = CommonItemView.New(arg_3_0.itemGo1_)
-	arg_3_0.commonItem2_ = CommonItemView.New(arg_3_0.itemGo2_)
-	arg_3_0.commonItem3_ = CommonItemView.New(arg_3_0.itemGo3_)
-	arg_3_0.CommonData1 = clone(ItemTemplateData)
-	arg_3_0.CommonData2 = clone(ItemTemplateData)
-	arg_3_0.CommonData3 = clone(ItemTemplateData)
-	arg_3_0.commonItems_ = {
-		arg_3_0.commonItem1_,
-		arg_3_0.commonItem2_,
-		arg_3_0.commonItem3_
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.commonItem1_ = CommonItemView.New(slot0.itemGo1_)
+	slot0.commonItem2_ = CommonItemView.New(slot0.itemGo2_)
+	slot0.commonItem3_ = CommonItemView.New(slot0.itemGo3_)
+	slot0.CommonData1 = clone(ItemTemplateData)
+	slot0.CommonData2 = clone(ItemTemplateData)
+	slot0.CommonData3 = clone(ItemTemplateData)
+	slot0.commonItems_ = {
+		slot0.commonItem1_,
+		slot0.commonItem2_,
+		slot0.commonItem3_
 	}
-	arg_3_0.commonItemData = {
-		arg_3_0.CommonData1,
-		arg_3_0.CommonData2,
-		arg_3_0.CommonData3
+	slot0.commonItemData = {
+		slot0.CommonData1,
+		slot0.CommonData2,
+		slot0.CommonData3
 	}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.getBtn_, nil, function()
-		PayAction.GetTotalRechargeBonus(arg_4_0.cfg_.id)
-	end)
+function slot0.AddUIListener(slot0)
+	slot4 = nil
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.commonItemData) do
-		function iter_4_1.clickFun(arg_6_0)
+	function slot5()
+		PayAction.GetTotalRechargeBonus(uv0.cfg_.id)
+	end
+
+	slot0:AddBtnListener(slot0.getBtn_, slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.commonItemData) do
+		function slot5.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_6_0.id,
-				arg_6_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.index_ = arg_9_1
-	arg_9_0.cfg_ = TotalRechargeCfg[arg_9_2]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.cfg_ = TotalRechargeCfg[slot2]
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	arg_10_0.nameLabel_.text = string.format("%02d", arg_10_0.index_)
-	arg_10_0.descLabel_.text = string.format(GetTips("PAYMENT_TOTAL_POINT"), arg_10_0.cfg_.num)
+function slot0.UpdateView(slot0)
+	slot0.nameLabel_.text = string.format("%02d", slot0.index_)
+	slot4 = slot0.cfg_.num
+	slot0.descLabel_.text = string.format(GetTips("PAYMENT_TOTAL_POINT"), slot4)
 
-	for iter_10_0 = 1, 3 do
-		if arg_10_0.cfg_.reward[iter_10_0] then
-			SetActive(arg_10_0.commonItems_[iter_10_0].gameObject_, true)
-			CommonTools.SetCommonData(arg_10_0.commonItems_[iter_10_0], {
-				id = arg_10_0.cfg_.reward[iter_10_0][1],
-				number = arg_10_0.cfg_.reward[iter_10_0][2]
-			}, arg_10_0.commonItemData[iter_10_0])
+	for slot4 = 1, 3 do
+		if slot0.cfg_.reward[slot4] then
+			SetActive(slot0.commonItems_[slot4].gameObject_, true)
+			CommonTools.SetCommonData(slot0.commonItems_[slot4], {
+				id = slot0.cfg_.reward[slot4][1],
+				number = slot0.cfg_.reward[slot4][2]
+			}, slot0.commonItemData[slot4])
 		else
-			SetActive(arg_10_0.commonItems_[iter_10_0].gameObject_, false)
+			SetActive(slot0.commonItems_[slot4].gameObject_, false)
 		end
 	end
 
-	if RechargeData:HaveGetTotalRechargeBonus(arg_10_0.cfg_.id) then
-		arg_10_0.statusController_:SetSelectedState("already_received")
-	elseif RechargeData:GetTotalRechargeNum() >= arg_10_0.cfg_.num then
-		arg_10_0.statusController_:SetSelectedState("receive")
+	if RechargeData:HaveGetTotalRechargeBonus(slot0.cfg_.id) then
+		slot0.statusController_:SetSelectedState("already_received")
+	elseif slot0.cfg_.num <= RechargeData:GetTotalRechargeNum() then
+		slot0.statusController_:SetSelectedState("receive")
 	else
-		arg_10_0.statusController_:SetSelectedState("not_reach")
+		slot0.statusController_:SetSelectedState("not_reach")
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.commonItem1_ then
-		arg_11_0.commonItem1_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.commonItem1_ then
+		slot0.commonItem1_:Dispose()
 
-		arg_11_0.commonItem1_ = nil
+		slot0.commonItem1_ = nil
 	end
 
-	if arg_11_0.commonItem2_ then
-		arg_11_0.commonItem2_:Dispose()
+	if slot0.commonItem2_ then
+		slot0.commonItem2_:Dispose()
 
-		arg_11_0.commonItem2_ = nil
+		slot0.commonItem2_ = nil
 	end
 
-	if arg_11_0.commonItem3_ then
-		arg_11_0.commonItem3_:Dispose()
+	if slot0.commonItem3_ then
+		slot0.commonItem3_:Dispose()
 
-		arg_11_0.commonItem3_ = nil
+		slot0.commonItem3_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

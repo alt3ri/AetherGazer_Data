@@ -1,95 +1,89 @@
-local var_0_0 = class("MythicFinalHotView", ReduxView)
+slot0 = class("MythicFinalHotView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI(arg_1_0.gameObject_)
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI(slot0.gameObject_)
+	slot0:AddListeners()
 
-	arg_1_0.List_ = LuaList.New(handler(arg_1_0, arg_1_0.RefreshFilterItem), arg_1_0.uiList_, MythicFinalHotItem)
-	arg_1_0.levelList_ = MythicFinalCfg.all
-	arg_1_0.handler_ = handler(arg_1_0, arg_1_0.OnMythicFinalHotItemClick)
+	slot0.List_ = LuaList.New(handler(slot0, slot0.RefreshFilterItem), slot0.uiList_, MythicFinalHotItem)
+	slot0.levelList_ = MythicFinalCfg.all
+	slot0.handler_ = handler(slot0, slot0.OnMythicFinalHotItemClick)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	local var_2_0 = MythicData:GetCurHotLevelId()
+function slot0.OnEnter(slot0)
+	slot0.filterID_ = 1
 
-	arg_2_0.filterID_ = 1
-
-	if var_2_0 then
-		arg_2_0.filterID_ = table.indexof(MythicFinalCfg.all, var_2_0) or 1
+	if MythicData:GetCurHotLevelId() then
+		slot0.filterID_ = table.indexof(MythicFinalCfg.all, slot1) or 1
 	end
 
-	arg_2_0:RefreshUI()
-	arg_2_0.List_:StartScroll(#arg_2_0.levelList_, arg_2_0.filterID_)
-	manager.notify:RegistListener(MYTHIC_FINAL_HOTITEM_CLICK, arg_2_0.handler_)
+	slot0:RefreshUI()
+	slot0.List_:StartScroll(#slot0.levelList_, slot0.filterID_)
+	manager.notify:RegistListener(MYTHIC_FINAL_HOTITEM_CLICK, slot0.handler_)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.notify:RemoveListener(MYTHIC_FINAL_HOTITEM_CLICK, arg_3_0.handler_)
-	SetActive(arg_3_0.filterPanel_, false)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(MYTHIC_FINAL_HOTITEM_CLICK, slot0.handler_)
+	SetActive(slot0.filterPanel_, false)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.mask_, nil, function()
-		SetActive(arg_4_0.filterPanel_, false)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.mask_, nil, function ()
+		SetActive(uv0.filterPanel_, false)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		SetActive(arg_4_0.filterPanel_, true)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		SetActive(uv0.filterPanel_, true)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.closebtn_, nil, function()
-		SetActive(arg_4_0.filterPanel_, false)
+	slot0:AddBtnListener(slot0.closebtn_, nil, function ()
+		SetActive(uv0.filterPanel_, false)
 	end)
 end
 
-function var_0_0.RefreshFilterItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.levelList_[arg_8_1]
-
-	arg_8_2:SetSpectID(var_8_0, arg_8_1, arg_8_0.filterID_)
+function slot0.RefreshFilterItem(slot0, slot1, slot2)
+	slot2:SetSpectID(slot0.levelList_[slot1], slot1, slot0.filterID_)
 end
 
-function var_0_0.OnMythicFinalHotItemClick(arg_9_0, arg_9_1)
-	arg_9_0.filterID_ = arg_9_1
+function slot0.OnMythicFinalHotItemClick(slot0, slot1)
+	slot0.filterID_ = slot1
 
-	SetActive(arg_9_0.filterPanel_, false)
-	arg_9_0:RefreshUI()
+	SetActive(slot0.filterPanel_, false)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.levelText_.text = MythicFinalCfg[arg_10_0.filterID_].id
-	arg_10_0.hotlevelText_.text = string.format(MythicFinalCfg[arg_10_0.filterID_].level_diffuculty)
+function slot0.RefreshUI(slot0)
+	slot0.levelText_.text = MythicFinalCfg[slot0.filterID_].id
+	slot0.hotlevelText_.text = string.format(MythicFinalCfg[slot0.filterID_].level_diffuculty)
 
-	MythicData:SetCurHotLevelId(MythicFinalCfg[arg_10_0.filterID_].id)
+	MythicData:SetCurHotLevelId(MythicFinalCfg[slot0.filterID_].id)
 
 	if MythicData:GetHotLevelIsPass(MythicData:GetCurHotLevelId()) then
-		SetActive(arg_10_0.ispassGo_, true)
+		SetActive(slot0.ispassGo_, true)
 	else
-		SetActive(arg_10_0.ispassGo_, false)
+		SetActive(slot0.ispassGo_, false)
 	end
 end
 
-function var_0_0.OnMythicFinalUpdate(arg_11_0)
-	local var_11_0 = MythicData:GetCurHotLevelId()
+function slot0.OnMythicFinalUpdate(slot0)
+	slot0.filterID_ = 1
 
-	arg_11_0.filterID_ = 1
-
-	if var_11_0 then
-		arg_11_0.filterID_ = table.indexof(MythicFinalCfg.all, var_11_0) or 1
+	if MythicData:GetCurHotLevelId() then
+		slot0.filterID_ = table.indexof(MythicFinalCfg.all, slot1) or 1
 	end
 
-	arg_11_0:RefreshUI()
-	arg_11_0.List_:StartScroll(#arg_11_0.levelList_, 1)
+	slot0:RefreshUI()
+	slot0.List_:StartScroll(#slot0.levelList_, 1)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.List_ then
-		arg_12_0.List_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.List_ then
+		slot0.List_:Dispose()
 
-		arg_12_0.List_ = nil
+		slot0.List_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

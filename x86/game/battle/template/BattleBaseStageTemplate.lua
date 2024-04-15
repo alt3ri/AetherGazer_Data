@@ -1,357 +1,328 @@
-local var_0_0 = class("BattleBaseStageTemplate")
+slot0 = class("BattleBaseStageTemplate")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.roleDataInLua = {}
-	arg_1_0.multiple_ = 1
-	arg_1_0.comboSkillID_ = 0
-	arg_1_0.maxRaceID_ = 0
-	arg_1_0.maxRacePlayerCount_ = 1
-	arg_1_0.serverTeamPlayer = nil
+function slot0.Ctor(slot0, slot1)
+	slot0.roleDataInLua = {}
+	slot0.multiple_ = 1
+	slot0.comboSkillID_ = 0
+	slot0.maxRaceID_ = 0
+	slot0.maxRacePlayerCount_ = 1
+	slot0.serverTeamPlayer = nil
 end
 
-function var_0_0.Init(arg_2_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.InitHeroList(arg_3_0)
-	arg_3_0.heroList_, _, _, arg_3_0.heroTrialList_ = ReserveTools.GetHeroList(arg_3_0:GetReserveParams())
+function slot0.InitHeroList(slot0)
+	slot0.heroList_, _, _, slot0.heroTrialList_ = ReserveTools.GetHeroList(slot0:GetReserveParams())
 end
 
-function var_0_0.GetDest(arg_4_0)
+function slot0.GetDest(slot0)
 	return 0
 end
 
-function var_0_0.GetStageId(arg_5_0)
+function slot0.GetStageId(slot0)
 	return 0
 end
 
-function var_0_0.GetType(arg_6_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
 end
 
-function var_0_0.GetMap(arg_7_0)
+function slot0.GetMap(slot0)
 	return 0, false
 end
 
-function var_0_0.GetAILevel(arg_8_0)
+function slot0.GetAILevel(slot0)
 	return 0
 end
 
-function var_0_0.GetEnemyLevel(arg_9_0)
+function slot0.GetEnemyLevel(slot0)
 	return 0
 end
 
-function var_0_0.GetStageAffix(arg_10_0)
+function slot0.GetStageAffix(slot0)
 	return {}, {}, {}
 end
 
-function var_0_0.GetBattleStageAffix(arg_11_0)
-	if arg_11_0.affixIDList == nil or arg_11_0.levelIDList == nil or arg_11_0.targetTypeList == nil then
-		arg_11_0.affixIDList, arg_11_0.levelIDList, arg_11_0.targetTypeList = arg_11_0:GetStageAffix()
+function slot0.GetBattleStageAffix(slot0)
+	if slot0.affixIDList == nil or slot0.levelIDList == nil or slot0.targetTypeList == nil then
+		slot0.affixIDList, slot0.levelIDList, slot0.targetTypeList = slot0:GetStageAffix()
 	end
 
-	return arg_11_0.affixIDList, arg_11_0.levelIDList, arg_11_0.targetTypeList
+	return slot0.affixIDList, slot0.levelIDList, slot0.targetTypeList
 end
 
-function var_0_0.GetSettingShowAffix(arg_12_0)
-	local var_12_0 = {}
-	local var_12_1, var_12_2, var_12_3 = arg_12_0:GetBattleStageAffix()
-	local var_12_4 = #var_12_1
+function slot0.GetSettingShowAffix(slot0)
+	slot1 = {}
+	slot2, slot3, slot4 = slot0:GetBattleStageAffix()
 
-	for iter_12_0 = 1, var_12_4 do
-		table.insert(var_12_0, {
-			var_12_1[iter_12_0],
-			var_12_2[iter_12_0],
-			var_12_3[iter_12_0]
+	for slot9 = 1, #slot2 do
+		table.insert(slot1, {
+			slot2[slot9],
+			slot3[slot9],
+			slot4[slot9]
 		})
 	end
 
-	return var_12_0
+	return slot1
 end
 
-function var_0_0.GetRevive(arg_13_0)
+function slot0.GetRevive(slot0)
 	return false, 0, 0, 0
 end
 
-function var_0_0.GetMultiple(arg_14_0)
-	return arg_14_0.multiple_ or 1
+function slot0.GetMultiple(slot0)
+	return slot0.multiple_ or 1
 end
 
-function var_0_0.SetMultiple(arg_15_0, arg_15_1)
-	arg_15_0.multiple_ = arg_15_1
+function slot0.SetMultiple(slot0, slot1)
+	slot0.multiple_ = slot1
 end
 
-function var_0_0.GetClearTime(arg_16_0)
+function slot0.GetClearTime(slot0)
 	return 0
 end
 
-function var_0_0.GetHeroTeam(arg_17_0)
+function slot0.GetHeroTeam(slot0)
 	return {}, {}
 end
 
-function var_0_0.GetAssistHeroOwnerList(arg_18_0)
+function slot0.GetAssistHeroOwnerList(slot0)
 	return {}
 end
 
-function var_0_0.GetSystemHeroTeam(arg_19_0)
+function slot0.GetSystemHeroTeam(slot0)
 	return {}
 end
 
-function var_0_0.GetRoleDatas(arg_20_0)
-	return arg_20_0.roleDataInLua
+function slot0.GetRoleDatas(slot0)
+	return slot0.roleDataInLua
 end
 
-function var_0_0.GetThreeStar(arg_21_0)
+function slot0.GetThreeStar(slot0)
 	return {}
 end
 
-function var_0_0.GetAddUserExp(arg_22_0)
+function slot0.GetAddUserExp(slot0)
 	return 0
 end
 
-function var_0_0.GetAddHeroExp(arg_23_0)
+function slot0.GetAddHeroExp(slot0)
 	return 0
 end
 
-function var_0_0.GetCost(arg_24_0)
+function slot0.GetCost(slot0)
 	return 0
 end
 
-function var_0_0.GetAttributeFactor(arg_25_0)
-	local var_25_0 = BattleStageTools.GetStageCfg(arg_25_0:GetType(), arg_25_0:GetStageId())
-
-	if var_25_0.attribute_factor and var_25_0.attribute_factor[3] then
-		local var_25_1 = var_25_0.attribute_factor[1] / 1000
-		local var_25_2 = var_25_0.attribute_factor[2] / 1000
-		local var_25_3 = var_25_0.attribute_factor[3] / 1000
-
-		return Vector3.New(var_25_1, var_25_2, var_25_3)
+function slot0.GetAttributeFactor(slot0)
+	if BattleStageTools.GetStageCfg(slot0:GetType(), slot0:GetStageId()).attribute_factor and slot1.attribute_factor[3] then
+		return Vector3.New(slot1.attribute_factor[1] / 1000, slot1.attribute_factor[2] / 1000, slot1.attribute_factor[3] / 1000)
 	end
 
 	return Vector3.New(1, 1, 1)
 end
 
-function var_0_0.UpdateRoleDatas(arg_26_0, arg_26_1)
-	arg_26_0.serverTeamPlayer = arg_26_1
-	arg_26_0.roleDataInLua = {}
+function slot0.UpdateRoleDatas(slot0, slot1)
+	slot0.serverTeamPlayer = slot1
+	slot0.roleDataInLua = {}
 
-	local var_26_0 = arg_26_0:GetSystemHeroTeam()
-
-	for iter_26_0, iter_26_1 in ipairs(arg_26_1.heroList) do
-		local var_26_1 = iter_26_1.trialID ~= 0 and iter_26_1.trialID or var_26_0[iter_26_0] or 0
-		local var_26_2 = BattleController.GetInstance():SetHeroData(iter_26_1, var_26_1, arg_26_1.playerID, arg_26_1.level)
-
-		table.insert(arg_26_0.roleDataInLua, var_26_2)
+	for slot6, slot7 in ipairs(slot1.heroList) do
+		table.insert(slot0.roleDataInLua, BattleController.GetInstance():SetHeroData(slot7, slot7.trialID ~= 0 and slot7.trialID or slot0:GetSystemHeroTeam()[slot6] or 0, slot1.playerID, slot1.level))
 	end
 
-	arg_26_0:SetMaxRaceData()
+	slot0:SetMaxRaceData()
 end
 
-function var_0_0.GetHeroDataByPos(arg_27_0, arg_27_1)
-	local var_27_0, var_27_1 = arg_27_0:GetHeroTeam()
-	local var_27_2 = arg_27_0:GetSystemHeroTeam()
+function slot0.GetHeroDataByPos(slot0, slot1)
+	slot2, slot3 = slot0:GetHeroTeam()
+	slot4 = slot0:GetSystemHeroTeam()
 
-	if var_27_0[arg_27_1] and var_27_0[arg_27_1] ~= 0 then
-		if var_27_2[arg_27_1] or var_27_1[arg_27_1] and var_27_1[arg_27_1] ~= 0 then
-			local var_27_3 = var_27_2[arg_27_1] or var_27_1[arg_27_1]
-
-			return GetVirtualData(var_27_3)
+	if slot2[slot1] and slot2[slot1] ~= 0 then
+		if slot4[slot1] or slot3[slot1] and slot3[slot1] ~= 0 then
+			return GetVirtualData(slot4[slot1] or slot3[slot1])
 		else
-			local var_27_4 = var_27_0[arg_27_1]
-			local var_27_5 = arg_27_0.serverTeamPlayer and arg_27_0.serverTeamPlayer.heroList[arg_27_1]
+			slot5 = slot2[slot1]
 
-			if var_27_5 == nil then
+			if (slot0.serverTeamPlayer and slot0.serverTeamPlayer.heroList[slot1]) == nil then
 				return nil
 			end
 
-			return (GetPracticalData(var_27_5))
+			return GetPracticalData(slot6)
 		end
 	end
 
 	return nil
 end
 
-function var_0_0.GetIsStoryTag(arg_28_0)
-	return arg_28_0.storyTag or false
+function slot0.GetIsStoryTag(slot0)
+	return slot0.storyTag or false
 end
 
-function var_0_0.SetIsStoryTag(arg_29_0, arg_29_1)
-	arg_29_0.storyTag = arg_29_1
+function slot0.SetIsStoryTag(slot0, slot1)
+	slot0.storyTag = slot1
 end
 
-function var_0_0.GetIsCooperation(arg_30_0)
+function slot0.GetIsCooperation(slot0)
 	return false, {}
 end
 
-function var_0_0.InitComboSkillID(arg_31_0)
-	local var_31_0 = BattleStageTools.GetStageCfg(arg_31_0:GetType(), arg_31_0:GetStageId())
-
-	if var_31_0 and var_31_0.combo_skill_id and var_31_0.combo_skill_id ~= 0 then
-		arg_31_0.comboSkillID_ = var_31_0.combo_skill_id
+function slot0.InitComboSkillID(slot0)
+	if BattleStageTools.GetStageCfg(slot0:GetType(), slot0:GetStageId()) and slot1.combo_skill_id and slot1.combo_skill_id ~= 0 then
+		slot0.comboSkillID_ = slot1.combo_skill_id
 
 		return
 	end
 
-	local var_31_1 = BattleStageTools.GetRestrictHeroList(arg_31_0:GetType(), arg_31_0:GetStageId())
-
-	if type(var_31_1) == "table" then
-		arg_31_0.comboSkillID_ = 0
+	if type(BattleStageTools.GetRestrictHeroList(slot0:GetType(), slot0:GetStageId())) == "table" then
+		slot0.comboSkillID_ = 0
 	else
-		arg_31_0.comboSkillID_ = ReserveTools.GetComboSkillID(arg_31_0:GetReserveParams())
+		slot0.comboSkillID_ = ReserveTools.GetComboSkillID(slot0:GetReserveParams())
 	end
 end
 
-function var_0_0.GetComboSkillID(arg_32_0)
-	return arg_32_0.comboSkillID_
+function slot0.GetComboSkillID(slot0)
+	return slot0.comboSkillID_
 end
 
-function var_0_0.GetComboSkillLevel(arg_33_0)
-	local var_33_0 = arg_33_0:GetComboSkillID()
-
-	return ComboSkillData:GetCurComboSkillLevel(var_33_0)
+function slot0.GetComboSkillLevel(slot0)
+	return ComboSkillData:GetCurComboSkillLevel(slot0:GetComboSkillID())
 end
 
-function var_0_0.InitChipData(arg_34_0)
-	local var_34_0 = BattleStageTools.GetStageCfg(arg_34_0:GetType(), arg_34_0:GetStageId())
-	local var_34_1 = {}
+function slot0.InitChipData(slot0)
+	slot2 = {}
 
-	if var_34_0 and type(var_34_0.chip_list) == "table" then
-		arg_34_0.chipManagerID_ = var_34_0.chip_list[1]
+	if BattleStageTools.GetStageCfg(slot0:GetType(), slot0:GetStageId()) and type(slot1.chip_list) == "table" then
+		slot0.chipManagerID_ = slot1.chip_list[1]
 
-		for iter_34_0 = 2, 3 do
-			var_34_1[iter_34_0 - 1] = var_34_0.chip_list[iter_34_0]
+		for slot6 = 2, 3 do
+			slot2[slot6 - 1] = slot1.chip_list[slot6]
 		end
 	else
-		var_34_1 = arg_34_0:GetBaseChipData()
+		slot2 = slot0:GetBaseChipData()
 	end
 
-	arg_34_0.chipList_ = arg_34_0:GetHeroChipData(var_34_1)
+	slot0.chipList_ = slot0:GetHeroChipData(slot2)
 end
 
-function var_0_0.GetBaseChipData(arg_35_0)
-	local var_35_0 = {}
-	local var_35_1
+function slot0.GetBaseChipData(slot0)
+	slot1 = {}
+	slot0.chipManagerID_, slot1 = ReserveTools.GetMimirData(slot0:GetReserveParams())
 
-	arg_35_0.chipManagerID_, var_35_1 = ReserveTools.GetMimirData(arg_35_0:GetReserveParams())
-
-	if not arg_35_0.chipManagerID_ or arg_35_0.chipManagerID_ == 0 then
-		var_35_1 = {}
+	if not slot0.chipManagerID_ or slot0.chipManagerID_ == 0 then
+		slot1 = {}
 	end
 
-	return var_35_1
+	return slot1
 end
 
-function var_0_0.GetHeroChipData(arg_36_0, arg_36_1)
-	local var_36_0, var_36_1 = arg_36_0:GetHeroTeam()
+function slot0.GetHeroChipData(slot0, slot1)
+	slot2, slot3 = slot0:GetHeroTeam()
 
-	for iter_36_0, iter_36_1 in ipairs(var_36_0) do
-		if iter_36_1 ~= 0 then
-			local var_36_2 = var_36_1[iter_36_0]
-
-			if var_36_2 and var_36_2 ~= 0 then
-				local var_36_3 = HeroStandardSystemCfg[var_36_2]
-
-				table.insertto(arg_36_1, var_36_3.using_hero_chip)
+	for slot7, slot8 in ipairs(slot2) do
+		if slot8 ~= 0 then
+			if slot3[slot7] and slot9 ~= 0 then
+				table.insertto(slot1, HeroStandardSystemCfg[slot9].using_hero_chip)
 			else
-				for iter_36_2, iter_36_3 in pairs(ChipData:GetEnableHeroChipIdByHeroId(iter_36_1) or {}) do
-					if iter_36_3 > 0 then
-						table.insert(arg_36_1, iter_36_3)
+				for slot13, slot14 in pairs(ChipData:GetEnableHeroChipIdByHeroId(slot8) or {}) do
+					if slot14 > 0 then
+						table.insert(slot1, slot14)
 					end
 				end
 			end
 		end
 	end
 
-	return arg_36_1
+	return slot1
 end
 
-function var_0_0.GetChipManagerID(arg_37_0)
-	return arg_37_0.chipManagerID_ or 0
+function slot0.GetChipManagerID(slot0)
+	return slot0.chipManagerID_ or 0
 end
 
-function var_0_0.GetChipList(arg_38_0)
-	return arg_38_0.chipList_ or {}
+function slot0.GetChipList(slot0)
+	return slot0.chipList_ or {}
 end
 
-function var_0_0.GetChipOfHeroDic(arg_39_0)
+function slot0.GetChipOfHeroDic(slot0)
 	return {}
 end
 
-function var_0_0.SetMaxRaceData(arg_40_0)
-	local var_40_0 = {}
+function slot0.SetMaxRaceData(slot0)
+	slot1 = {}
 
-	for iter_40_0, iter_40_1 in pairs(arg_40_0.roleDataInLua) do
-		var_40_0[#var_40_0 + 1] = SkinCfg[iter_40_1.ID].hero
+	for slot5, slot6 in pairs(slot0.roleDataInLua) do
+		slot1[#slot1 + 1] = SkinCfg[slot6.ID].hero
 	end
 
-	arg_40_0.maxRaceID_, arg_40_0.maxRacePlayerCount_ = BattleTools.GetMaxRaceData(var_40_0)
+	slot0.maxRaceID_, slot0.maxRacePlayerCount_ = BattleTools.GetMaxRaceData(slot1)
 end
 
-function var_0_0.GetMaxRaceData(arg_41_0)
-	return arg_41_0.maxRaceID_, arg_41_0.maxRacePlayerCount_
+function slot0.GetMaxRaceData(slot0)
+	return slot0.maxRaceID_, slot0.maxRacePlayerCount_
 end
 
-function var_0_0.GetPathList(arg_42_0)
+function slot0.GetPathList(slot0)
 	return {}
 end
 
-function var_0_0.GetActivityID(arg_43_0)
-	return arg_43_0.activityID_ or 0
+function slot0.GetActivityID(slot0)
+	return slot0.activityID_ or 0
 end
 
-function var_0_0.GetServerExtant(arg_44_0)
+function slot0.GetServerExtant(slot0)
 	return 0
 end
 
-function var_0_0.GetBattleTime(arg_45_0)
+function slot0.GetBattleTime(slot0)
 	return 0
 end
 
-function var_0_0.GetResurrectHP(arg_46_0)
+function slot0.GetResurrectHP(slot0)
 	return 0
 end
 
-function var_0_0.GetResurrectImmediately(arg_47_0)
+function slot0.GetResurrectImmediately(slot0)
 	return false
 end
 
-function var_0_0.GetTargetEnemyID(arg_48_0)
+function slot0.GetTargetEnemyID(slot0)
 	return 0
 end
 
-function var_0_0.SetReserveParams(arg_49_0, arg_49_1)
-	arg_49_0.reserveParams_ = arg_49_1 or ReserveTools.GetReserveParams(arg_49_0:GetType(), arg_49_0:GetStageId(), arg_49_0:GetActivityID())
-	arg_49_0.contID_ = arg_49_0.reserveParams_.contID
-	arg_49_0.teamIndex_ = arg_49_0.reserveParams_.teamIndex
-	arg_49_0.customReserveParams_ = arg_49_0.reserveParams_.customData
+function slot0.SetReserveParams(slot0, slot1)
+	slot0.reserveParams_ = slot1 or ReserveTools.GetReserveParams(slot0:GetType(), slot0:GetStageId(), slot0:GetActivityID())
+	slot0.contID_ = slot0.reserveParams_.contID
+	slot0.teamIndex_ = slot0.reserveParams_.teamIndex
+	slot0.customReserveParams_ = slot0.reserveParams_.customData
 end
 
-function var_0_0.GetReserveParams(arg_50_0)
-	if not arg_50_0.reserveParams_ then
-		arg_50_0.reserveParams_ = ReserveTools.GetReserveParams(arg_50_0:GetType(), arg_50_0:GetStageId(), arg_50_0:GetActivityID())
+function slot0.GetReserveParams(slot0)
+	if not slot0.reserveParams_ then
+		slot0.reserveParams_ = ReserveTools.GetReserveParams(slot0:GetType(), slot0:GetStageId(), slot0:GetActivityID())
 	end
 
-	return arg_50_0.reserveParams_
+	return slot0.reserveParams_
 end
 
-function var_0_0.GetContID(arg_51_0)
-	return arg_51_0.contID_ or ReserveTools.GetContID(arg_51_0:GetType(), arg_51_0:GetStageId())
+function slot0.GetContID(slot0)
+	return slot0.contID_ or ReserveTools.GetContID(slot0:GetType(), slot0:GetStageId())
 end
 
-function var_0_0.GetTeamIndex(arg_52_0)
-	return arg_52_0.teamIndex_ or ReserveConst.DEFAULT_TEAM_INDEX
+function slot0.GetTeamIndex(slot0)
+	return slot0.teamIndex_ or ReserveConst.DEFAULT_TEAM_INDEX
 end
 
-function var_0_0.GetCustomReserveParams(arg_53_0)
-	return arg_53_0.customReserveParams_ or {}
+function slot0.GetCustomReserveParams(slot0)
+	return slot0.customReserveParams_ or {}
 end
 
-function var_0_0.GetActivityReforgeSkillList(arg_54_0)
+function slot0.GetActivityReforgeSkillList(slot0)
 	return {}
 end
 
-function var_0_0.GetBattleParams(arg_55_0)
+function slot0.GetBattleParams(slot0)
 	return 0
 end
 
-return var_0_0
+return slot0

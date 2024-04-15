@@ -1,442 +1,357 @@
-local var_0_0 = {}
-
-manager.net:Bind(26001, function(arg_1_0)
-	ActivityMatrixData:InitMatrixUser(arg_1_0.matrix)
-	var_0_0.CheckRewardRedPonit()
-	var_0_0.CheckReadRedPonit()
+manager.net:Bind(26001, function (slot0)
+	ActivityMatrixData:InitMatrixUser(slot0.matrix)
+	uv0.CheckRewardRedPonit()
+	uv0.CheckReadRedPonit()
 end)
-manager.net:Bind(26005, function(arg_2_0)
-	ActivityMatrixData:InitMatrixOver(arg_2_0.end_info)
+manager.net:Bind(26005, function (slot0)
+	ActivityMatrixData:InitMatrixOver(slot0.end_info)
 end)
-manager.net:Bind(26007, function(arg_3_0)
-	ActivityMatrixData:InitMatrixClue(arg_3_0)
-	var_0_0.CheckClueRedPoint(arg_3_0.activity_id)
+manager.net:Bind(26007, function (slot0)
+	ActivityMatrixData:InitMatrixClue(slot0)
+	uv0.CheckClueRedPoint(slot0.activity_id)
 end)
-manager.notify:RegistListener(ACTIVITY_UPDATE, function(arg_4_0)
-	local var_4_0 = ActivityTools.GetActivityType(arg_4_0)
-
-	if var_4_0 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-		var_0_0.CheckRewardRedPonit()
-		var_0_0.CheckReadRedPonit()
+manager.notify:RegistListener(ACTIVITY_UPDATE, function (slot0)
+	if ActivityTools.GetActivityType(slot0) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+		uv0.CheckRewardRedPonit()
+		uv0.CheckReadRedPonit()
 	end
 
-	if var_4_0 == ActivityTemplateConst.SINGLE_MATRIX then
-		var_0_0.CheckClueRedPoint(arg_4_0)
+	if slot1 == ActivityTemplateConst.SINGLE_MATRIX then
+		uv0.CheckClueRedPoint(slot0)
 	end
 end)
 
-function var_0_0.QueryStartMatrix(arg_5_0, arg_5_1, arg_5_2)
-	manager.net:SendWithLoadingNew(26012, {
-		select_hero_list = arg_5_0,
-		activity_id = arg_5_1,
-		custom_affix_id_list = arg_5_2
-	}, 26013, var_0_0.StartMatrixCallBack)
-end
+slot1, slot2 = nil
+slot3 = nil
+slot4 = nil
+slot5 = nil
 
-function var_0_0.StartMatrixCallBack(arg_6_0, arg_6_1)
-	if isSuccess(arg_6_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_6_1.activity_id, MatrixConst.STATE_TYPE.STARTED, arg_6_0.progress)
-		JumpTools.GoToSystem("/matrixBlank/activityMatrixOrigin", {
-			matrix_activity_id = arg_6_1.activity_id
-		})
-		ActivityMatrixData:SetMatrixBattleHeroTeam(arg_6_1.activity_id, nil)
-	else
-		ShowTips(arg_6_0.result)
-	end
-end
-
-local var_0_1
-local var_0_2
-
-function var_0_0.QueryNextProgress(arg_7_0, arg_7_1)
-	arg_7_1 = arg_7_1 or {
-		0
-	}
-	var_0_1 = ActivityMatrixData:GetMatrixPhaseData(arg_7_0)
-	var_0_2 = ActivityMatrixData:GetTierID(arg_7_0)
-
-	manager.net:SendWithLoadingNew(26010, {
-		activity_id = arg_7_0,
-		params = arg_7_1
-	}, 26011, var_0_0.NextProgressCallBack)
-end
-
-function var_0_0.NextProgressCallBack(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_1.activity_id
-
-	if isSuccess(arg_8_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_8_1.activity_id, MatrixConst.STATE_TYPE.STARTED, arg_8_0.progress)
-
-		local var_8_1 = ActivityMatrixData:GetGameState(var_8_0)
-
-		if var_8_1 == MatrixConst.STATE_TYPE.STARTED then
-			local var_8_2 = var_0_1:GetPhase()
-			local var_8_3 = arg_8_1.params and arg_8_1.params[1]
-
-			if MatrixConst.PHASE_TYPE.REWARD == var_8_2 then
-				local var_8_4 = false
-
-				if not var_8_3 then
-					var_8_4 = true
-					var_8_3 = var_0_1:GetGiveUpItemId() or 0
-				end
-
-				var_0_0.DoReward(var_8_3, var_8_4, var_8_0)
-			elseif MatrixConst.PHASE_TYPE.ACTION == var_8_2 then
-				local var_8_5 = var_0_1:GetParams()[1]
-				local var_8_6 = ActivityMatrixEventTemplateCfg[var_8_5]
-
-				if MatrixConst.EVENT_TYPE.INCIDENT == var_8_6.event_type then
-					local var_8_7 = MatrixChanceCfg[var_8_3]
-
-					var_0_0.DoEffect(var_8_7.toll)
-				end
-
-				var_0_0.DoAfterEvnet(var_8_0, var_0_2)
-			end
-
-			if ActivityMatrixData:GetMatrixPhaseData(var_8_0):GetPhase() == 2 then
-				var_0_0.DoEvent(var_8_0)
-			end
-		elseif var_8_1 == MatrixConst.STATE_TYPE.SUCCESS or var_8_1 == MatrixConst.STATE_TYPE.FAIL then
-			OpenPageUntilLoaded("/matrixBlank/matrixOver")
+return {
+	QueryStartMatrix = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(26012, {
+			select_hero_list = slot0,
+			activity_id = slot1,
+			custom_affix_id_list = slot2
+		}, 26013, uv0.StartMatrixCallBack)
+	end,
+	StartMatrixCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.STARTED, slot0.progress)
+			JumpTools.GoToSystem("/matrixBlank/activityMatrixOrigin", {
+				matrix_activity_id = slot1.activity_id
+			})
+			ActivityMatrixData:SetMatrixBattleHeroTeam(slot1.activity_id, nil)
 		else
-			OpenPageUntilLoaded("/matrixBlank/matrixPrepare")
+			ShowTips(slot0.result)
+		end
+	end,
+	QueryNextProgress = function (slot0, slot1)
+		uv0 = ActivityMatrixData:GetMatrixPhaseData(slot0)
+		uv1 = ActivityMatrixData:GetTierID(slot0)
+
+		manager.net:SendWithLoadingNew(26010, {
+			activity_id = slot0,
+			params = slot1 or {
+				0
+			}
+		}, 26011, uv2.NextProgressCallBack)
+	end,
+	NextProgressCallBack = function (slot0, slot1)
+		slot2 = slot1.activity_id
+
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.STARTED, slot0.progress)
+
+			if ActivityMatrixData:GetGameState(slot2) == MatrixConst.STATE_TYPE.STARTED then
+				if MatrixConst.PHASE_TYPE.REWARD == uv0:GetPhase() then
+					slot6 = false
+
+					if not (slot1.params and slot1.params[1]) then
+						slot6 = true
+						slot5 = uv0:GetGiveUpItemId() or 0
+					end
+
+					uv1.DoReward(slot5, slot6, slot2)
+				elseif MatrixConst.PHASE_TYPE.ACTION == slot4 then
+					if MatrixConst.EVENT_TYPE.INCIDENT == ActivityMatrixEventTemplateCfg[uv0:GetParams()[1]].event_type then
+						uv1.DoEffect(MatrixChanceCfg[slot5].toll)
+					end
+
+					uv1.DoAfterEvnet(slot2, uv2)
+				end
+
+				if ActivityMatrixData:GetMatrixPhaseData(slot2):GetPhase() == 2 then
+					uv1.DoEvent(slot2)
+				end
+			elseif slot3 == MatrixConst.STATE_TYPE.SUCCESS or slot3 == MatrixConst.STATE_TYPE.FAIL then
+				OpenPageUntilLoaded("/matrixBlank/matrixOver")
+			else
+				OpenPageUntilLoaded("/matrixBlank/matrixPrepare")
+			end
+
+			manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
+		else
+			ShowTips(slot0.result)
 		end
 
-		manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
-	else
-		ShowTips(arg_8_0.result)
-	end
-
-	var_0_1 = nil
-	var_0_2 = nil
-end
-
-function var_0_0.DoEvent(arg_9_0)
-	local var_9_0 = ActivityMatrixData:GetMatrixPhaseData(arg_9_0)
-	local var_9_1 = var_9_0:GetParams()[1]
-	local var_9_2 = var_9_1 and ActivityMatrixEventTemplateCfg[var_9_1]
-
-	if not var_9_2 then
-		error("ActivityMatrixEventTemplateCfg cant find event by id :" .. var_9_1)
-
-		return
-	end
-
-	if MatrixConst.EVENT_TYPE.SHOP == var_9_2.event_type then
-		local var_9_3 = var_9_0:GetShops()
-
-		JumpTools.GoToSystem("/matrixBlank/activityMatrixProcessShop", {
-			matrix_activity_id = arg_9_0,
-			shops = var_9_3
-		})
-	elseif MatrixConst.EVENT_TYPE.INCIDENT == var_9_2.event_type then
-		-- block empty
-	else
-		local var_9_4 = var_9_0:GetData()
-		local var_9_5 = BattleActivityMatrixTemplate.New(var_9_4, arg_9_0)
-
-		BattleController.GetInstance():LaunchBattle(var_9_5)
-	end
-end
-
-function var_0_0.DoReward(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = MatrixItemCfg[arg_10_0]
-
-	if not var_10_0 then
-		return
-	end
-
-	if MatrixConst.ITEM_TYPE.ITEM == var_10_0.matrix_item_type then
-		-- block empty
-	elseif MatrixConst.ITEM_TYPE.EFFECT == var_10_0.matrix_item_type then
-		local var_10_1 = var_10_0.params[1] or 0
-
-		var_0_0.DoEffect(var_10_1)
-	end
-end
-
-function var_0_0.DoAfterEvnet(arg_11_0, arg_11_1)
-	return
-end
-
-function var_0_0.DoEffect(arg_12_0)
-	if not MatrixEffectCfg[arg_12_0] then
-		return
-	end
-end
-
-function var_0_0.QueryMatrixOver(arg_13_0)
-	manager.net:SendWithLoadingNew(26020, {
-		activity_id = arg_13_0
-	}, 26021, var_0_0.MatrixOverCallBack)
-end
-
-function var_0_0.MatrixOverCallBack(arg_14_0, arg_14_1)
-	if isSuccess(arg_14_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_14_1.activity_id, MatrixConst.STATE_TYPE.NOTSTARTED, arg_14_0.progress)
-
-		local var_14_0 = ActivityMatrixData:GetMainActivityId(arg_14_1.activity_id)
-
-		JumpTools.GoToSystem("/matrixBlank/activityMatrix", {
-			main_matrix_activity_id = var_14_0,
-			matrix_activity_id = arg_14_1.activity_id
-		})
-		manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
-	else
-		ShowTips(arg_14_0.result)
-	end
-end
-
-function var_0_0.QueryMatrixGiveUp(arg_15_0)
-	manager.net:SendWithLoadingNew(26024, {
-		activity_id = arg_15_0
-	}, 26025, var_0_0.MatrixGiveUpCallBack)
-end
-
-function var_0_0.MatrixGiveUpCallBack(arg_16_0, arg_16_1)
-	if isSuccess(arg_16_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_16_1.activity_id, MatrixConst.STATE_TYPE.FAIL, arg_16_0.progress)
-		JumpTools.GoToSystem("/matrixBlank/activityMatrixOver", {
-			matrix_activity_id = arg_16_1.activity_id
-		})
-		manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
-	else
-		ShowTips(arg_16_0.result)
-	end
-end
-
-local var_0_3
-
-function var_0_0.BuyShopItem(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-	local var_17_0, var_17_1 = ActivityMatrixData:GetMatrixPhaseData(arg_17_0):GetData()
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_1) do
-		if iter_17_1.index == arg_17_1 then
-			var_0_3 = iter_17_1
-			arg_17_3 = arg_17_3 or 0
-
-			manager.net:SendWithLoadingNew(26010, {
-				activity_id = arg_17_0,
-				params = {
-					2,
-					arg_17_1,
-					arg_17_2,
-					arg_17_3
-				}
-			}, 26011, var_0_0.OnBuyShopItem)
+		uv0 = nil
+		uv2 = nil
+	end,
+	DoEvent = function (slot0)
+		if not (ActivityMatrixData:GetMatrixPhaseData(slot0):GetParams()[1] and ActivityMatrixEventTemplateCfg[slot2]) then
+			error("ActivityMatrixEventTemplateCfg cant find event by id :" .. slot2)
 
 			return
 		end
-	end
-end
 
-function var_0_0.OnBuyShopItem(arg_18_0, arg_18_1)
-	if isSuccess(arg_18_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_18_1.activity_id, MatrixConst.STATE_TYPE.STARTED, arg_18_0.progress)
-		ShowTips("TRANSACTION_SUCCESS")
-		manager.notify:CallUpdateFunc(MATRIX_SHOP_BUY_SUCCESS)
-
-		if var_0_3 ~= nil then
-			local var_18_0 = var_0_3.id
-
-			var_0_0.DoReward(var_18_0)
-
-			var_0_3 = nil
+		if MatrixConst.EVENT_TYPE.SHOP == slot3.event_type then
+			JumpTools.GoToSystem("/matrixBlank/activityMatrixProcessShop", {
+				matrix_activity_id = slot0,
+				shops = slot1:GetShops()
+			})
+		elseif MatrixConst.EVENT_TYPE.INCIDENT ~= slot3.event_type then
+			BattleController.GetInstance():LaunchBattle(BattleActivityMatrixTemplate.New(slot1:GetData(), slot0))
+		end
+	end,
+	DoReward = function (slot0, slot1, slot2)
+		if not MatrixItemCfg[slot0] then
+			return
 		end
 
-		manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
-	else
-		ShowTips(arg_18_0.result)
-	end
-end
-
-function var_0_0.QueryRefreshShopItem(arg_19_0)
-	local var_19_0 = ActivityMatrixData:GetMatrixPhaseData(arg_19_0):GetData()
-	local var_19_1 = ActivityMatrixData:GetShoRefreshTimes(arg_19_0)
-	local var_19_2 = ActivityMatrixData:GetShopFressRefreshTimes(arg_19_0)
-
-	if var_19_0 < var_19_1 then
-		local var_19_3 = GameSetting.matrix_shop_refresh_cost_item_list.value
-
-		if var_19_2 <= var_19_0 then
-			local var_19_4 = var_19_0 - var_19_2
-			local var_19_5 = var_19_3[math.min(var_19_4 + 1, #var_19_3)]
-
-			if ActivityMatrixData:GetMatrixCoint(arg_19_0) < var_19_5[2] then
-				ShowTips("ERROR_ITEM_NOT_ENOUGH_CURRENCY")
-
-				return
-			end
-
-			manager.net:SendWithLoadingNew(26010, {
-				activity_id = arg_19_0,
-				params = {
-					1
-				}
-			}, 26011, var_0_0.OnRefrshShopItem)
+		if MatrixConst.ITEM_TYPE.ITEM == slot3.matrix_item_type then
+			-- Nothing
+		elseif MatrixConst.ITEM_TYPE.EFFECT == slot3.matrix_item_type then
+			uv0.DoEffect(slot3.params[1] or 0)
+		end
+	end,
+	DoAfterEvnet = function (slot0, slot1)
+	end,
+	DoEffect = function (slot0)
+		if not MatrixEffectCfg[slot0] then
+			return
+		end
+	end,
+	QueryMatrixOver = function (slot0)
+		manager.net:SendWithLoadingNew(26020, {
+			activity_id = slot0
+		}, 26021, uv0.MatrixOverCallBack)
+	end,
+	MatrixOverCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.NOTSTARTED, slot0.progress)
+			JumpTools.GoToSystem("/matrixBlank/activityMatrix", {
+				main_matrix_activity_id = ActivityMatrixData:GetMainActivityId(slot1.activity_id),
+				matrix_activity_id = slot1.activity_id
+			})
+			manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
 		else
-			manager.net:SendWithLoadingNew(26010, {
-				activity_id = arg_19_0,
-				params = {
-					1
-				}
-			}, 26011, var_0_0.OnRefrshShopItem)
+			ShowTips(slot0.result)
 		end
-	end
-end
-
-function var_0_0.OnRefrshShopItem(arg_20_0, arg_20_1)
-	if isSuccess(arg_20_0.result) then
-		ActivityMatrixData:UpdateMatrixProcess(arg_20_1.activity_id, MatrixConst.STATE_TYPE.STARTED, arg_20_0.progress)
-		ShowTips("ASTROLABE_RESET")
-		manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
-	else
-		ShowTips(arg_20_0.result)
-	end
-end
-
-function var_0_0.OnReceivePointReward(arg_21_0, arg_21_1)
-	ActivityMatrixData:OnReceivePointReward(arg_21_0, arg_21_1)
-	var_0_0.CheckRewardRedPonit()
-end
-
-function var_0_0.CheckRewardRedPonit()
-	local var_22_0 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SINGLE_MATRIX] or {}
-
-	for iter_22_0, iter_22_1 in ipairs(var_22_0) do
-		if ActivityData:GetActivityIsOpen(iter_22_1) then
-			local var_22_1 = ActivityCfg[iter_22_1]
-			local var_22_2 = false
-
-			for iter_22_2, iter_22_3 in ipairs(var_22_1.sub_activity_list) do
-				if ActivityMatrixData:GetMatrixPointCanReward(iter_22_3) then
-					var_22_2 = true
-
-					break
-				end
-			end
-
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_REWARD, iter_22_1), var_22_2 and 1 or 0)
+	end,
+	QueryMatrixGiveUp = function (slot0)
+		manager.net:SendWithLoadingNew(26024, {
+			activity_id = slot0
+		}, 26025, uv0.MatrixGiveUpCallBack)
+	end,
+	MatrixGiveUpCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.FAIL, slot0.progress)
+			JumpTools.GoToSystem("/matrixBlank/activityMatrixOver", {
+				matrix_activity_id = slot1.activity_id
+			})
+			manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
 		else
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_REWARD, iter_22_1), 0)
+			ShowTips(slot0.result)
 		end
-	end
-end
+	end,
+	BuyShopItem = function (slot0, slot1, slot2, slot3)
+		slot5, slot6 = ActivityMatrixData:GetMatrixPhaseData(slot0):GetData()
 
-function var_0_0.CheckReadRedPonit()
-	local var_23_0 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SINGLE_MATRIX] or {}
+		for slot10, slot11 in ipairs(slot6) do
+			if slot11.index == slot1 then
+				uv0 = slot11
 
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		local var_23_1 = ActivityCfg[iter_23_1]
-		local var_23_2 = false
-
-		if ActivityData:GetActivityIsOpen(iter_23_1) then
-			for iter_23_2, iter_23_3 in ipairs(var_23_1.sub_activity_list) do
-				if var_0_0.CheckSubReadRedPonit(iter_23_3) then
-					var_23_2 = true
-
-					break
-				end
-			end
-		end
-
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_READ, iter_23_1), var_23_2 and 1 or 0)
-	end
-end
-
-function var_0_0.CheckSubReadRedPonit(arg_24_0)
-	if not ActivityMatrixData:GetRead(arg_24_0) then
-		local var_24_0 = ActivityMatrixData:GetMatrixData(arg_24_0)
-		local var_24_1 = ActivityMatrixCfg[arg_24_0]
-
-		if var_24_0 and var_24_0.point == 0 and MatrixConst.STATE_TYPE.NOTSTARTED == var_24_0.game_state and ActivityMatrixData:GetIsClearance(var_24_1.preconditions) and ActivityData:GetActivityIsOpen(arg_24_0) then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.SetActivityMtairxRead(arg_25_0, arg_25_1)
-	local var_25_0 = ActivityMatrixCfg[arg_25_1]
-
-	if not ActivityMatrixData:GetIsClearance(var_25_0.preconditions) or not ActivityData:GetActivityIsOpen(arg_25_1) then
-		return
-	end
-
-	ActivityMatrixData:SetRead(arg_25_1)
-
-	local var_25_1 = ActivityCfg[arg_25_0]
-	local var_25_2 = false
-
-	for iter_25_0, iter_25_1 in ipairs(var_25_1.sub_activity_list) do
-		if var_0_0.CheckSubReadRedPonit(iter_25_1) then
-			var_25_2 = true
-
-			break
-		end
-	end
-
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_READ, arg_25_0), var_25_2 and 1 or 0)
-end
-
-function var_0_0.CheckClueRedPoint(arg_26_0)
-	if ActivityData:GetActivityIsOpen(arg_26_0) then
-		local var_26_0 = ActivityMatrixData:GetMatrixClue(arg_26_0)
-
-		for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-			if not ActivityMatrixData:GetClueRead(arg_26_0, iter_26_1.clue_id) then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, arg_26_0), 1)
+				manager.net:SendWithLoadingNew(26010, {
+					activity_id = slot0,
+					params = {
+						2,
+						slot1,
+						slot2,
+						slot3 or 0
+					}
+				}, 26011, uv1.OnBuyShopItem)
 
 				return
 			end
 		end
+	end,
+	OnBuyShopItem = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.STARTED, slot0.progress)
+			ShowTips("TRANSACTION_SUCCESS")
+			manager.notify:CallUpdateFunc(MATRIX_SHOP_BUY_SUCCESS)
 
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, arg_26_0), 0)
-	else
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, arg_26_0), 0)
+			if uv0 ~= nil then
+				uv1.DoReward(uv0.id)
+
+				uv0 = nil
+			end
+
+			manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	QueryRefreshShopItem = function (slot0)
+		slot4 = ActivityMatrixData:GetShopFressRefreshTimes(slot0)
+
+		if ActivityMatrixData:GetMatrixPhaseData(slot0):GetData() < ActivityMatrixData:GetShoRefreshTimes(slot0) then
+			slot5 = GameSetting.matrix_shop_refresh_cost_item_list.value
+
+			if slot4 <= slot2 then
+				if ActivityMatrixData:GetMatrixCoint(slot0) < slot5[math.min(slot2 - slot4 + 1, #slot5)][2] then
+					ShowTips("ERROR_ITEM_NOT_ENOUGH_CURRENCY")
+
+					return
+				end
+
+				manager.net:SendWithLoadingNew(26010, {
+					activity_id = slot0,
+					params = {
+						1
+					}
+				}, 26011, uv0.OnRefrshShopItem)
+			else
+				manager.net:SendWithLoadingNew(26010, {
+					activity_id = slot0,
+					params = {
+						1
+					}
+				}, 26011, uv0.OnRefrshShopItem)
+			end
+		end
+	end,
+	OnRefrshShopItem = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			ActivityMatrixData:UpdateMatrixProcess(slot1.activity_id, MatrixConst.STATE_TYPE.STARTED, slot0.progress)
+			ShowTips("ASTROLABE_RESET")
+			manager.notify:CallUpdateFunc(MATRIX_USER_UPDATE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	OnReceivePointReward = function (slot0, slot1)
+		ActivityMatrixData:OnReceivePointReward(slot0, slot1)
+		uv0.CheckRewardRedPonit()
+	end,
+	CheckRewardRedPonit = function ()
+		for slot4, slot5 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SINGLE_MATRIX] or {}) do
+			if ActivityData:GetActivityIsOpen(slot5) then
+				slot7 = false
+
+				for slot11, slot12 in ipairs(ActivityCfg[slot5].sub_activity_list) do
+					if ActivityMatrixData:GetMatrixPointCanReward(slot12) then
+						slot7 = true
+
+						break
+					end
+				end
+
+				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_REWARD, slot5), slot7 and 1 or 0)
+			else
+				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_REWARD, slot5), 0)
+			end
+		end
+	end,
+	CheckReadRedPonit = function ()
+		for slot4, slot5 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SINGLE_MATRIX] or {}) do
+			slot6 = ActivityCfg[slot5]
+			slot7 = false
+
+			if ActivityData:GetActivityIsOpen(slot5) then
+				for slot11, slot12 in ipairs(slot6.sub_activity_list) do
+					if uv0.CheckSubReadRedPonit(slot12) then
+						slot7 = true
+
+						break
+					end
+				end
+			end
+
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_READ, slot5), slot7 and 1 or 0)
+		end
+	end,
+	CheckSubReadRedPonit = function (slot0)
+		if not ActivityMatrixData:GetRead(slot0) then
+			if ActivityMatrixData:GetMatrixData(slot0) and slot1.point == 0 and MatrixConst.STATE_TYPE.NOTSTARTED == slot1.game_state and ActivityMatrixData:GetIsClearance(ActivityMatrixCfg[slot0].preconditions) and ActivityData:GetActivityIsOpen(slot0) then
+				return true
+			end
+		end
+
+		return false
+	end,
+	SetActivityMtairxRead = function (slot0, slot1)
+		if not ActivityMatrixData:GetIsClearance(ActivityMatrixCfg[slot1].preconditions) or not ActivityData:GetActivityIsOpen(slot1) then
+			return
+		end
+
+		ActivityMatrixData:SetRead(slot1)
+
+		slot4 = false
+
+		for slot8, slot9 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			if uv0.CheckSubReadRedPonit(slot9) then
+				slot4 = true
+
+				break
+			end
+		end
+
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_READ, slot0), slot4 and 1 or 0)
+	end,
+	CheckClueRedPoint = function (slot0)
+		if ActivityData:GetActivityIsOpen(slot0) then
+			for slot5, slot6 in ipairs(ActivityMatrixData:GetMatrixClue(slot0)) do
+				if not ActivityMatrixData:GetClueRead(slot0, slot6.clue_id) then
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, slot0), 1)
+
+					return
+				end
+			end
+
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, slot0), 0)
+		else
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_MATRIX_CLUE, slot0), 0)
+		end
+	end,
+	SetClueRead = function (slot0, slot1)
+		ActivityMatrixData:SetClueRead(slot0, slot1)
+		uv0.CheckClueRedPoint(slot0)
+	end,
+	GetSelectCamp = function ()
+		if not uv0 then
+			uv0 = getData("AcvityMatrixClue", "selectCamp")
+		end
+
+		if type(uv0) ~= "number" then
+			uv0 = 1
+		end
+
+		return uv0
+	end,
+	SetSelectCamp = function (slot0)
+		uv0 = slot0
+
+		saveData("AcvityMatrixClue", "selectCamp", uv0)
+	end,
+	GetSelectClue = function ()
+		if not uv0 then
+			uv0 = 1
+		end
+
+		return uv0
+	end,
+	SetSelectClue = function (slot0)
+		uv0 = slot0
 	end
-end
-
-function var_0_0.SetClueRead(arg_27_0, arg_27_1)
-	ActivityMatrixData:SetClueRead(arg_27_0, arg_27_1)
-	var_0_0.CheckClueRedPoint(arg_27_0)
-end
-
-local var_0_4
-
-function var_0_0.GetSelectCamp()
-	if not var_0_4 then
-		var_0_4 = getData("AcvityMatrixClue", "selectCamp")
-	end
-
-	if type(var_0_4) ~= "number" then
-		var_0_4 = 1
-	end
-
-	return var_0_4
-end
-
-function var_0_0.SetSelectCamp(arg_29_0)
-	var_0_4 = arg_29_0
-
-	saveData("AcvityMatrixClue", "selectCamp", var_0_4)
-end
-
-local var_0_5
-
-function var_0_0.GetSelectClue()
-	if not var_0_5 then
-		var_0_5 = 1
-	end
-
-	return var_0_5
-end
-
-function var_0_0.SetSelectClue(arg_31_0)
-	var_0_5 = arg_31_0
-end
-
-return var_0_0
+}

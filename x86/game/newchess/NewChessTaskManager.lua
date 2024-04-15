@@ -1,123 +1,119 @@
 CheckTaskIterator = class("CheckTaskIterator")
 
-function CheckTaskIterator.Ctor(arg_1_0)
-	arg_1_0.curTaskIndex = 0
-	arg_1_0.curTaskList = {}
+function CheckTaskIterator.Ctor(slot0)
+	slot0.curTaskIndex = 0
+	slot0.curTaskList = {}
 
-	for iter_1_0, iter_1_1 in pairs(manager.NewChessManager.taskManager_:GetTaskList()) do
-		local var_1_0 = deepClone(iter_1_1)
-
-		table.insert(arg_1_0.curTaskList, var_1_0)
+	for slot4, slot5 in pairs(manager.NewChessManager.taskManager_:GetTaskList()) do
+		table.insert(slot0.curTaskList, deepClone(slot5))
 	end
 
 	manager.NewChessManager:ShowBlock()
 end
 
-function CheckTaskIterator.MoveNext(arg_2_0)
-	arg_2_0.curTaskIndex = arg_2_0.curTaskIndex + 1
+function CheckTaskIterator.MoveNext(slot0)
+	slot0.curTaskIndex = slot0.curTaskIndex + 1
 
-	if arg_2_0.curTaskIndex <= #arg_2_0.curTaskList then
-		local var_2_0 = arg_2_0.curTaskList[arg_2_0.curTaskIndex]
+	if slot0.curTaskIndex <= #slot0.curTaskList then
+		slot1 = slot0.curTaskList[slot0.curTaskIndex]
 
-		if var_2_0.cur >= var_2_0.need then
-			NewWarChessAction.FinishTask(var_2_0.taskID, function()
-				manager.NewChessManager.taskManager_:DeleteTask(var_2_0.taskID)
+		if slot1.need <= slot1.cur then
+			NewWarChessAction.FinishTask(slot1.taskID, function ()
+				manager.NewChessManager.taskManager_:DeleteTask(uv0.taskID)
 
-				if var_2_0.finishevent ~= 0 then
-					local var_3_0 = NewWarChessData:GetServerEvent(NewChessConst.TIMING_TASK, {
-						var_2_0.taskID
-					})
-
-					manager.NewChessManager:ExecutChess(NewChessConst.TIMING_TASK, nil, var_3_0)
+				if uv0.finishevent ~= 0 then
+					manager.NewChessManager:ExecutChess(NewChessConst.TIMING_TASK, nil, NewWarChessData:GetServerEvent(NewChessConst.TIMING_TASK, {
+						uv0.taskID
+					}))
 					manager.NewChessManager:StartExecuteEvent()
 				end
 
 				manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATETASK)
-				arg_2_0:MoveNext()
+				uv1:MoveNext()
 			end)
 		else
-			arg_2_0:MoveNext()
+			slot0:MoveNext()
 		end
-	else
-		arg_2_0:Dispose()
+
+		return
 	end
+
+	slot0:Dispose()
 end
 
-function CheckTaskIterator.Dispose(arg_4_0)
+function CheckTaskIterator.Dispose(slot0)
 	manager.NewChessManager:CloseBlock()
 
-	arg_4_0.curTaskIndex = 0
-	arg_4_0.curTaskList = 0
+	slot0.curTaskIndex = 0
+	slot0.curTaskList = 0
 
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATETASK)
 end
 
-local var_0_0 = singletonClass("NewChessTaskManager")
+slot0 = singletonClass("NewChessTaskManager")
 
-function var_0_0.Ctor(arg_5_0)
-	arg_5_0.activeTaskList_ = {}
+function slot0.Ctor(slot0)
+	slot0.activeTaskList_ = {}
 end
 
-function var_0_0.SetServerData(arg_6_0, arg_6_1)
-	for iter_6_0, iter_6_1 in pairs(arg_6_1) do
-		local var_6_0 = NewWarChessTaskPoolCfg[iter_6_1.taskID]
-
-		arg_6_0.activeTaskList_[iter_6_1.taskID] = {
-			taskID = iter_6_1.taskID,
-			type = var_6_0.type,
-			conditionType = var_6_0.condition_type,
-			need = var_6_0.need,
-			cur = iter_6_1.progress,
-			clickevent = var_6_0.clickevent,
-			finishevent = var_6_0.finishevent
+function slot0.SetServerData(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		slot7 = NewWarChessTaskPoolCfg[slot6.taskID]
+		slot0.activeTaskList_[slot6.taskID] = {
+			taskID = slot6.taskID,
+			type = slot7.type,
+			conditionType = slot7.condition_type,
+			need = slot7.need,
+			cur = slot6.progress,
+			clickevent = slot7.clickevent,
+			finishevent = slot7.finishevent
 		}
 	end
 end
 
-function var_0_0.AddNewTask(arg_7_0, arg_7_1)
-	local var_7_0 = NewWarChessTaskPoolCfg[arg_7_1]
-
-	arg_7_0.activeTaskList_[arg_7_1] = {
+function slot0.AddNewTask(slot0, slot1)
+	slot2 = NewWarChessTaskPoolCfg[slot1]
+	slot0.activeTaskList_[slot1] = {
 		cur = 0,
-		taskID = arg_7_1,
-		type = var_7_0.type,
-		conditionType = var_7_0.condition_type,
-		need = var_7_0.need,
-		clickevent = var_7_0.clickevent,
-		finishevent = var_7_0.finishevent
+		taskID = slot1,
+		type = slot2.type,
+		conditionType = slot2.condition_type,
+		need = slot2.need,
+		clickevent = slot2.clickevent,
+		finishevent = slot2.finishevent
 	}
 
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATETASK)
 end
 
-function var_0_0.UpdateTask(arg_8_0, arg_8_1, arg_8_2)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.activeTaskList_) do
-		if iter_8_1.conditionType == arg_8_1 then
-			iter_8_1.cur = iter_8_1.cur + arg_8_2
+function slot0.UpdateTask(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot0.activeTaskList_) do
+		if slot7.conditionType == slot1 then
+			slot7.cur = slot7.cur + slot2
 		end
 	end
 
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATETASK)
 end
 
-function var_0_0.DeleteTask(arg_9_0, arg_9_1)
-	arg_9_0.activeTaskList_[arg_9_1] = nil
+function slot0.DeleteTask(slot0, slot1)
+	slot0.activeTaskList_[slot1] = nil
 end
 
-function var_0_0.GetTaskList(arg_10_0)
-	return arg_10_0.activeTaskList_
+function slot0.GetTaskList(slot0)
+	return slot0.activeTaskList_
 end
 
-function var_0_0.GetTaskInfo(arg_11_0, arg_11_1)
-	return arg_11_0.activeTaskList_[arg_11_1]
+function slot0.GetTaskInfo(slot0, slot1)
+	return slot0.activeTaskList_[slot1]
 end
 
-function var_0_0.CheckTask(arg_12_0)
+function slot0.CheckTask(slot0)
 	CheckTaskIterator.New():MoveNext()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.activeTaskList_ = {}
+function slot0.Dispose(slot0)
+	slot0.activeTaskList_ = {}
 end
 
-return var_0_0
+return slot0

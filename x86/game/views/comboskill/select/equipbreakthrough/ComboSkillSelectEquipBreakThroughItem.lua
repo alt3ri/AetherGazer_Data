@@ -1,1 +1,1 @@
-return (class("ComboSkillSelectEquipBreakThroughItem", import("..ComboSkillSelectItem")))
+return class("ComboSkillSelectEquipBreakThroughItem", import("..ComboSkillSelectItem"))

@@ -1,45 +1,41 @@
-local var_0_0 = singletonClass("BattleController")
-local var_0_1
-local var_0_2
+slot0 = singletonClass("BattleController")
+slot1, slot2 = nil
 
-function var_0_0.GetBattleStageData(arg_1_0)
-	return var_0_1
+function slot0.GetBattleStageData(slot0)
+	return uv0
 end
 
-function var_0_0.GetRoomProxy(arg_2_0)
-	return var_0_2
+function slot0.GetRoomProxy(slot0)
+	return uv0
 end
 
-function var_0_0.ClearRoomProxy(arg_3_0)
-	var_0_2 = nil
+function slot0.ClearRoomProxy(slot0)
+	uv0 = nil
 end
 
-function var_0_0.SetBattleStageData(arg_4_0, arg_4_1)
-	var_0_1 = arg_4_1
+function slot0.SetBattleStageData(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.LaunchBattle(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
+function slot0.LaunchBattle(slot0, slot1, slot2, slot3)
 	WaitStartBattle = nil
+	slot4 = slot1:GetType()
+	slot5 = slot1:GetDest()
+	slot6 = slot1:GetMultiple()
+	slot7 = slot1:GetType()
+	slot8, slot9 = slot1:GetHeroTeam()
+	slot10 = slot1:GetAssistHeroOwnerList()
 
-	local var_5_0 = arg_5_1:GetType()
-	local var_5_1 = arg_5_1:GetDest()
-	local var_5_2 = arg_5_1:GetMultiple()
-	local var_5_3 = arg_5_1:GetType()
-	local var_5_4, var_5_5 = arg_5_1:GetHeroTeam()
-	local var_5_6 = arg_5_1:GetAssistHeroOwnerList()
-	local var_5_7 = clone(var_5_4)
-	local var_5_8 = clone(var_5_5)
-
-	for iter_5_0 = #var_5_7, 1, -1 do
-		if var_5_7[iter_5_0] == 0 then
-			table.remove(var_5_7, iter_5_0)
-			table.remove(var_5_8, iter_5_0)
+	for slot16 = #clone(slot8), 1, -1 do
+		if slot11[slot16] == 0 then
+			table.remove(slot11, slot16)
+			table.remove(clone(slot9), slot16)
 		end
 	end
 
-	for iter_5_1 = 1, 2 do
-		for iter_5_2 = iter_5_1 + 1, 3 do
-			if var_5_7[iter_5_1] and var_5_7[iter_5_2] and var_5_7[iter_5_1] ~= 0 and var_5_7[iter_5_1] == var_5_7[iter_5_2] then
+	for slot16 = 1, 2 do
+		for slot20 = slot16 + 1, 3 do
+			if slot11[slot16] and slot11[slot20] and slot11[slot16] ~= 0 and slot11[slot16] == slot11[slot20] then
 				ShowTips("TEAM_REPEAT_HERO")
 
 				return
@@ -47,235 +43,204 @@ function var_0_0.LaunchBattle(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
 		end
 	end
 
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == var_5_3 or BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX == var_5_3 then
-		var_5_7 = arg_5_1:GetSystemHeroTeam()
-
-		local var_5_9 = var_5_7
+	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX == slot7 or BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX == slot7 then
+		slot12 = slot1:GetSystemHeroTeam()
 	end
 
-	local var_5_10 = arg_5_1:GetComboSkillID() or 0
-	local var_5_11 = arg_5_1:GetSystemHeroTeam()
-	local var_5_12 = {}
+	slot13 = slot1:GetComboSkillID() or 0
+	slot14 = slot1:GetSystemHeroTeam()
+	slot15 = {
+		[slot19] = {}
+	}
 
-	for iter_5_3, iter_5_4 in ipairs(var_5_7) do
-		var_5_12[iter_5_3] = {}
-
-		if var_5_5[iter_5_3] ~= 0 and var_5_5[iter_5_3] ~= nil then
-			var_5_12[iter_5_3].hero_type = 2
-			var_5_12[iter_5_3].owner_id = BattleTeamData.NO_OWNER
-			var_5_12[iter_5_3].hero_id = var_5_5[iter_5_3]
-		elseif var_5_11[iter_5_3] ~= 0 and var_5_11[iter_5_3] ~= nil then
-			var_5_12[iter_5_3].hero_type = 2
-			var_5_12[iter_5_3].owner_id = BattleTeamData.NO_OWNER
-			var_5_12[iter_5_3].hero_id = var_5_11[iter_5_3]
+	for slot19, slot20 in ipairs(slot11) do
+		if slot9[slot19] ~= 0 and slot9[slot19] ~= nil then
+			slot15[slot19].hero_type = 2
+			slot15[slot19].owner_id = BattleTeamData.NO_OWNER
+			slot15[slot19].hero_id = slot9[slot19]
+		elseif slot14[slot19] ~= 0 and slot14[slot19] ~= nil then
+			slot15[slot19].hero_type = 2
+			slot15[slot19].owner_id = BattleTeamData.NO_OWNER
+			slot15[slot19].hero_id = slot14[slot19]
 		else
-			var_5_12[iter_5_3].hero_id = var_5_7[iter_5_3]
-			var_5_12[iter_5_3].owner_id = var_5_6[iter_5_3] or BattleTeamData.NO_OWNER
-			var_5_12[iter_5_3].hero_type = not BattleTeamData.IsValidOwner(var_5_12[iter_5_3].owner_id) and 1 or 3
+			slot15[slot19].hero_id = slot11[slot19]
+			slot15[slot19].owner_id = slot10[slot19] or BattleTeamData.NO_OWNER
+			slot15[slot19].hero_type = not BattleTeamData.IsValidOwner(slot15[slot19].owner_id) and 1 or 3
 		end
 	end
 
 	manager.net:SendWithLoadingNew(54030, {
-		hero_list = var_5_12,
-		dest = var_5_1,
-		activity_id = arg_5_1:GetActivityID() or 0,
-		battle_times = var_5_2,
-		type = var_5_3,
-		index = arg_5_1:GetServerExtant(),
-		cooperate_unique_skill_id = var_5_10,
+		hero_list = slot15,
+		dest = slot5,
+		activity_id = slot1:GetActivityID() or 0,
+		battle_times = slot6,
+		type = slot7,
+		index = slot1:GetServerExtant(),
+		cooperate_unique_skill_id = slot13,
 		battle_vs = LuaForUtil.GetBattleVersion(),
 		mimir_info = {
 			{
-				mimir_id = arg_5_1:GetChipManagerID(),
-				chip_list = arg_5_1:GetChipList()
+				mimir_id = slot1:GetChipManagerID(),
+				chip_list = slot1:GetChipList()
 			}
 		}
-	}, 54031, function(arg_6_0)
-		if arg_5_3 then
-			arg_5_3(arg_6_0)
+	}, 54031, function (slot0)
+		if uv0 then
+			uv0(slot0)
 		end
 
-		if isSuccess(arg_6_0.result) then
-			var_0_1 = arg_5_1
-			var_0_2 = arg_5_2
+		if isSuccess(slot0.result) then
+			uv1 = uv2
+			uv3 = uv4
 
-			manager.net:RegistPushWaiting(54007, function()
-				return
+			manager.net:RegistPushWaiting(54007, function ()
 			end)
-		elseif arg_6_0.result == 2109 and BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == var_5_3 then
+		elseif slot0.result == 2109 and BattleConst.STAGE_TYPE_NEW.GUILD_ACTIVITY == uv5 then
 			ShowTips(300114)
 		else
-			ShowTips(arg_6_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.LaunchCooperationBattle(arg_8_0)
-	manager.net:SendWithLoadingNew(37014, {}, 37015, function(arg_9_0)
-		if isSuccess(arg_9_0.result) then
+function slot0.LaunchCooperationBattle(slot0)
+	manager.net:SendWithLoadingNew(37014, {}, 37015, function (slot0)
+		if isSuccess(slot0.result) then
 			WaitStartBattle = nil
 		else
-			ShowTips(arg_9_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.LaunchCooperationBattleWithoutRoom(arg_10_0, arg_10_1)
-	local var_10_0 = BattleStageFactory.Produce(arg_10_1.battle_type, arg_10_1.dest, {
-		dest = arg_10_1.dest,
-		activityID = arg_10_1.activity_id
+function slot0.LaunchCooperationBattleWithoutRoom(slot0, slot1)
+	slot2 = BattleStageFactory.Produce(slot1.battle_type, slot1.dest, {
+		dest = slot1.dest,
+		activityID = slot1.activity_id
 	})
 
-	BattleController.GetInstance():SetBattleStageData(var_10_0)
-	var_10_0:UpdateRoleDatas()
-	BattleFieldData:SetServerBattleParams(arg_10_1.battle_id, arg_10_1.server_ip, arg_10_1.server_port)
+	BattleController.GetInstance():SetBattleStageData(slot2)
+	slot2:UpdateRoleDatas()
+	BattleFieldData:SetServerBattleParams(slot1.battle_id, slot1.server_ip, slot1.server_port)
 	BattleController.GetInstance():StartBattle(true)
 end
 
-function var_0_0.LaunchStoryBattle(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	manager.story:CheckBattleStory(arg_11_2, manager.story.BEFORE, function()
+function slot0.LaunchStoryBattle(slot0, slot1, slot2, slot3)
+	manager.story:CheckBattleStory(slot2, manager.story.BEFORE, function ()
 		gameContext:Go("/blank")
 		manager.net:SendWithLoadingNew(54034, {
-			stage_id = arg_11_2,
-			activity_id = arg_11_3
-		}, 54035, function(arg_13_0)
-			if isSuccess(arg_13_0.result) then
-				var_0_1 = BattleStageFactory.Produce(arg_11_1, arg_11_2, arg_11_3)
+			stage_id = uv0,
+			activity_id = uv1
+		}, 54035, function (slot0)
+			if isSuccess(slot0.result) then
+				uv3 = BattleStageFactory.Produce(uv0, uv1, uv2)
 
-				var_0_1:SetIsStoryTag(true)
+				uv3:SetIsStoryTag(true)
 
-				local var_13_0 = arg_13_0.battle_id
-				local var_13_1 = GetOldPlayerExp()
+				slot3 = GetOldPlayerExp()
 
 				manager.net:SendWithLoadingNew(54032, {
-					battle_id = var_13_0
-				}, 54033, function(arg_14_0, arg_14_1)
+					battle_id = slot0.battle_id
+				}, 54033, function (slot0, slot1)
 					manager.story:RemovePlayer()
-					BattleFieldData:FinishBattle(arg_14_0)
+					BattleFieldData:FinishBattle(slot0)
 
 					BattleCallLuaCallBackWait = false
 					BattleCallLuaWaitLoading = false
 
-					GotoTeam(var_13_0, arg_14_0.battle_result, arg_14_0.result, var_13_1)
+					GotoTeam(uv0, slot0.battle_result, slot0.result, uv1)
 				end)
-			else
-				ShowTips(arg_13_0.result)
-				manager.story:RemovePlayer()
+
+				return
 			end
+
+			ShowTips(slot0.result)
+			manager.story:RemovePlayer()
 		end)
 	end, false)
 end
 
-function var_0_0.UpdateHeroTeam(arg_15_0, arg_15_1)
-	if not var_0_1 then
+function slot0.UpdateHeroTeam(slot0, slot1)
+	if not uv0 then
 		error("Loss Current BattleStageData In UpdateHeroTeam")
 
 		return
 	end
 
-	var_0_1:UpdateRoleDatas(arg_15_1)
+	uv0:UpdateRoleDatas(slot1)
 end
 
-function var_0_0.StartBattle(arg_16_0, arg_16_1)
-	if not var_0_1 then
+function slot0.StartBattle(slot0, slot1)
+	if not uv0 then
 		error("Loss Current BattleStageData In StartBattle")
 
 		return
 	end
 
-	local var_16_0 = var_0_1
-	local var_16_1 = BattleFieldData:GetServerBattleID()
-	local var_16_2, var_16_3 = BattleFieldData:GetBattleServerIPAndPort()
-	local var_16_4 = GetSceneDataForExcehange()
+	slot2 = uv0
+	slot4, slot5 = BattleFieldData:GetBattleServerIPAndPort()
+	slot6 = GetSceneDataForExcehange()
+	slot6.leftTime = slot2:GetBattleTime() * 1000
+	slot6.typeIDListAffix, slot6.levelList, slot6.enemyTypes = slot2:GetBattleStageAffix()
+	slot6.mSceneID, slot11 = slot2:GetMap()
 
-	var_16_4.leftTime = var_16_0:GetBattleTime() * 1000
+	LuaExchangeHelper.SetNewbie(slot11)
 
-	local var_16_5, var_16_6, var_16_7 = var_16_0:GetBattleStageAffix()
+	slot6.needResurrect, slot13, slot6.coinNumber, slot6.coinConsume, slot16 = slot2:GetRevive()
+	slot6.maxCoinNumber = slot16 or 0
+	slot6.resurrectHP = slot2:GetResurrectHP()
+	slot6.resurrectImmediately = slot2:GetResurrectImmediately()
+	slot6.challengeFactor = slot2:GetMultiple()
+	slot6.mMissionClearTimes = slot2:GetClearTime()
+	slot6.difficulty = slot2:GetAILevel()
+	slot6.adaptiveEnemyLevel = slot2:GetEnemyLevel()
+	slot6.roleDataInLua = slot2:GetRoleDatas()
+	slot17 = slot2:GetAttributeFactor()
+	slot6.attributeFactor = Int3.New(slot17.x * 1000, slot17.y * 1000, slot17.z * 1000)
+	slot6.cooperateUniqueSkillID = slot2:GetComboSkillID()
+	slot6.cooperateUniqueSkillLevel = slot2:GetComboSkillLevel()
+	slot6.maxRaceID, slot6.maxRacePlayerCount = slot2:GetMaxRaceData()
+	slot6.targetEnemyID = slot2:GetTargetEnemyID()
 
-	var_16_4.typeIDListAffix = var_16_5
-	var_16_4.levelList = var_16_6
-	var_16_4.enemyTypes = var_16_7
+	LuaExchangeHelper.SetIPAndPort(slot4, slot5)
 
-	local var_16_8, var_16_9 = var_16_0:GetMap()
+	slot6.battleID = BattleFieldData:GetServerBattleID()
+	slot6.Uuid = PlayerData:GetPlayerInfo().userID
+	slot6.isMultiplayer = slot1
+	slot6.nickName = PlayerData:GetPlayerInfo().nick
+	slot6.VHLSkillID = slot2:GetActivityReforgeSkillList()
+	slot6.VHLResult = slot2:GetBattleParams()
+	slot20 = SettingData:GetSettingData()
 
-	LuaExchangeHelper.SetNewbie(var_16_9)
+	LuaExchangeHelper.SetPlayerQuality(slot20.pic.user_effect - 1)
+	LuaExchangeHelper.SetAIQuality(slot20.pic.teammate_effect - 1)
+	LuaExchangeHelper.SetCooperateUniqueSkillPlayControlledType(slot20.game.cus_full_play_controlled_type)
 
-	var_16_4.mSceneID = var_16_8
+	slot21 = manager.time:GetServerTime()
 
-	local var_16_10, var_16_11, var_16_12, var_16_13, var_16_14 = var_16_0:GetRevive()
+	if slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+		manager.story:CheckChessBattleStory(manager.story.BEFORE, function ()
+			if manager.time:GetServerTime() - uv0 > 1500 then
+				ConnectionHelper.ShowReturnToLoginTip()
+				manager.story:RemovePlayer()
 
-	var_16_4.needResurrect = var_16_10
-	var_16_4.coinNumber = var_16_12
-	var_16_4.coinConsume = var_16_13
-	var_16_4.maxCoinNumber = var_16_14 or 0
-	var_16_4.resurrectHP = var_16_0:GetResurrectHP()
-	var_16_4.resurrectImmediately = var_16_0:GetResurrectImmediately()
-	var_16_4.challengeFactor = var_16_0:GetMultiple()
-	var_16_4.mMissionClearTimes = var_16_0:GetClearTime()
-	var_16_4.difficulty = var_16_0:GetAILevel()
-	var_16_4.adaptiveEnemyLevel = var_16_0:GetEnemyLevel()
-	var_16_4.roleDataInLua = var_16_0:GetRoleDatas()
+				return
+			end
 
-	local var_16_15 = var_16_0:GetAttributeFactor()
-
-	var_16_4.attributeFactor = Int3.New(var_16_15.x * 1000, var_16_15.y * 1000, var_16_15.z * 1000)
-	var_16_4.cooperateUniqueSkillID = var_16_0:GetComboSkillID()
-	var_16_4.cooperateUniqueSkillLevel = var_16_0:GetComboSkillLevel()
-
-	local var_16_16, var_16_17 = var_16_0:GetMaxRaceData()
-
-	var_16_4.maxRaceID = var_16_16
-	var_16_4.maxRacePlayerCount = var_16_17
-	var_16_4.targetEnemyID = var_16_0:GetTargetEnemyID()
-
-	LuaExchangeHelper.SetIPAndPort(var_16_2, var_16_3)
-
-	var_16_4.battleID = var_16_1
-	var_16_4.Uuid = PlayerData:GetPlayerInfo().userID
-	var_16_4.isMultiplayer = arg_16_1
-	var_16_4.nickName = PlayerData:GetPlayerInfo().nick
-	var_16_4.VHLSkillID = var_16_0:GetActivityReforgeSkillList()
-	var_16_4.VHLResult = var_16_0:GetBattleParams()
-
-	local var_16_18 = SettingData:GetSettingData()
-
-	LuaExchangeHelper.SetPlayerQuality(var_16_18.pic.user_effect - 1)
-	LuaExchangeHelper.SetAIQuality(var_16_18.pic.teammate_effect - 1)
-	LuaExchangeHelper.SetCooperateUniqueSkillPlayControlledType(var_16_18.game.cus_full_play_controlled_type)
-
-	local var_16_19 = manager.time:GetServerTime()
-
-	local function var_16_20()
-		if manager.time:GetServerTime() - var_16_19 > 1500 then
-			ConnectionHelper.ShowReturnToLoginTip()
-			manager.story:RemovePlayer()
-
-			return
-		end
-
-		arg_16_0:TryToStartBattle()
-	end
-
-	local var_16_21 = var_16_0:GetType()
-
-	if var_16_21 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-		manager.story:CheckChessBattleStory(manager.story.BEFORE, var_16_20)
-	elseif var_16_21 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or var_16_21 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT then
-		local var_16_22 = var_16_0:GetStageId()
-
-		manager.story:CheckBattleStory(var_16_22, manager.story.BEFORE, var_16_20, false)
+			uv1:TryToStartBattle()
+		end)
+	elseif slot23 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or slot23 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT then
+		manager.story:CheckBattleStory(slot2:GetStageId(), manager.story.BEFORE, slot22, false)
 	else
-		local var_16_23 = var_16_0:GetStageId()
-
-		manager.story:CheckBattleStory(var_16_23, manager.story.BEFORE, var_16_20)
+		manager.story:CheckBattleStory(slot2:GetStageId(), manager.story.BEFORE, slot22)
 	end
 
 	BattleCallLuaCallBackWait = true
 end
 
-function var_0_0.TryToStartBattle(arg_18_0)
+function slot0.TryToStartBattle(slot0)
 	SetForceShowQuanquan(true)
-	LuaExchangeHelper.Launcher(GetSceneDataForExcehange(), function()
+	LuaExchangeHelper.Launcher(GetSceneDataForExcehange(), function ()
 		SetForceShowQuanquan(false)
 		manager.story:RemovePlayer()
 
@@ -283,782 +248,669 @@ function var_0_0.TryToStartBattle(arg_18_0)
 
 		DestroyLua()
 		gameContext:SetSystemLayer("battle")
-	end, function()
+	end, function ()
 		gameContext:SetSystemLayer("battle")
 	end)
 end
 
-function var_0_0.SetHeroData(arg_21_0, arg_21_1, arg_21_2, arg_21_3, arg_21_4)
-	local var_21_0
-	local var_21_1
+function slot0.SetHeroData(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = nil
 
-	if arg_21_2 and arg_21_2 ~= 0 then
-		var_21_0, var_21_1 = GetVirtualData(arg_21_2)
+	if slot2 and slot2 ~= 0 then
+		slot5, slot6 = GetVirtualData(slot2)
 	else
-		var_21_0, var_21_1 = GetPracticalData(arg_21_1)
+		slot5, slot6 = GetPracticalData(slot1)
 	end
 
-	local var_21_2 = GetHeroFinalAttr(var_21_0, var_21_0.servantInfo, var_21_1, arg_21_2)
-	local var_21_3, var_21_4, var_21_5 = HeroTools.CalTransitionSkillAttribute(var_21_0, var_21_1)
-	local var_21_6 = RoleDataForExchange.New()
+	slot8, slot9, slot10 = HeroTools.CalTransitionSkillAttribute(slot5, slot6)
+	slot11 = RoleDataForExchange.New()
+	slot11.UID = slot3
+	slot11.playerLevel = slot4
+	slot11.ID = slot5.using_skin
+	slot11.Level = LvTools.CheckHeroExp(1, slot5.exp, HeroConst.HERO_LV_MAX)
+	slot12 = {}
+	slot13 = {}
 
-	var_21_6.UID = arg_21_3
-	var_21_6.playerLevel = arg_21_4
-	var_21_6.ID = var_21_0.using_skin
-	var_21_6.Level = LvTools.CheckHeroExp(1, var_21_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_21_7 = {}
-	local var_21_8 = {}
-
-	for iter_21_0, iter_21_1 in pairs(var_21_2) do
-		local var_21_9 = PublicAttrCfg[iter_21_0]
-
-		if var_21_9 then
-			table.insert(var_21_7, var_21_9.id)
-			table.insert(var_21_8, iter_21_1)
+	for slot17, slot18 in pairs(GetHeroFinalAttr(slot5, slot5.servantInfo, slot6, slot2)) do
+		if PublicAttrCfg[slot17] then
+			table.insert(slot12, slot19.id)
+			table.insert(slot13, slot18)
 		end
 	end
 
-	local var_21_10, var_21_11 = BattleTools.FixBattleAttributeListAndWeaponModule(var_21_7, var_21_8, var_21_0.using_skin, var_21_0.weapon_module_level)
+	slot11.attributeID, slot11.attributeValue = BattleTools.FixBattleAttributeListAndWeaponModule(slot12, slot13, slot5.using_skin, slot5.weapon_module_level)
+	slot14 = {}
+	slot15 = {}
 
-	var_21_6.attributeValue, var_21_6.attributeID = var_21_11, var_21_10
-
-	local var_21_12 = {}
-	local var_21_13 = {}
-
-	for iter_21_2, iter_21_3 in pairs(var_21_4) do
-		table.insert(var_21_12, iter_21_2)
-		table.insert(var_21_13, iter_21_3)
+	for slot19, slot20 in pairs(slot9) do
+		table.insert(slot14, slot19)
+		table.insert(slot15, slot20)
 	end
 
-	var_21_6.equipSkillID = var_21_12
-	var_21_6.equipSkillLv = var_21_13
+	slot11.equipSkillID = slot14
+	slot11.equipSkillLv = slot15
 
-	local var_21_14 = {}
-	local var_21_15 = AstrolabeTools.GetTotalEffect(var_21_0.using_astrolabe)
-
-	for iter_21_4 = 1, 9 do
-		var_21_14[iter_21_4] = var_21_15[iter_21_4] or 0
+	for slot21 = 1, 9 do
 	end
 
-	var_21_6.astrolabe = var_21_14
+	slot11.astrolabe = {
+		[slot21] = AstrolabeTools.GetTotalEffect(slot5.using_astrolabe)[slot21] or 0
+	}
+	slot18 = {}
 
-	local var_21_16 = {}
-	local var_21_17 = EquipTools.GetEffectS(var_21_1, var_21_0)
-
-	for iter_21_5, iter_21_6 in pairs(var_21_17) do
-		table.insert(var_21_16, iter_21_5)
+	for slot23, slot24 in pairs(EquipTools.GetEffectS(slot6, slot5)) do
+		table.insert(slot18, slot23)
 	end
 
-	var_21_6.equipment = var_21_16
+	slot11.equipment = slot18
+	slot20 = {}
+	slot21 = HeroCfg[slot5.id]
+	slot22 = {
+		[slot27.skill_id] = slot27.skill_level
+	}
 
-	local var_21_18 = {}
-	local var_21_19 = HeroCfg[var_21_0.id]
-	local var_21_20 = {}
-
-	for iter_21_7, iter_21_8 in ipairs(var_21_0.skill) do
-		var_21_20[iter_21_8.skill_id] = iter_21_8.skill_level
+	for slot26, slot27 in ipairs(slot5.skill) do
+		-- Nothing
 	end
 
-	for iter_21_9, iter_21_10 in pairs(var_21_5) do
-		var_21_20[iter_21_9] = (var_21_20[iter_21_9] or 1) + iter_21_10
+	for slot26, slot27 in pairs(slot10) do
+		slot22[slot26] = (slot22[slot26] or 1) + slot27
 	end
 
-	for iter_21_11, iter_21_12 in ipairs(var_21_19.skills) do
-		var_21_18[iter_21_11] = var_21_20[iter_21_12] or 1
+	for slot26, slot27 in ipairs(slot21.skills) do
+		slot20[slot26] = slot22[slot27] or 1
 	end
 
-	var_21_6.skillLevel = var_21_18
+	slot11.skillLevel = slot20
 
-	if var_21_0.servantInfo and var_21_0.servantInfo.id ~= 0 then
-		local var_21_21 = HeroTools.GetHeroWeaponAddLevel(var_21_0)
-
-		var_21_6.weaponEffectID = WeaponServantCfg[var_21_0.servantInfo.id].effect[1]
-		var_21_6.weaponEffectLevel = var_21_0.servantInfo.stage + var_21_21
+	if slot5.servantInfo and slot5.servantInfo.id ~= 0 then
+		slot11.weaponEffectID = WeaponServantCfg[slot5.servantInfo.id].effect[1]
+		slot11.weaponEffectLevel = slot5.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot5)
 	end
 
-	local var_21_22 = {}
-	local var_21_23 = var_0_1:GetChipManagerID() or 0
-
-	if var_21_23 ~= 0 then
-		table.insert(var_21_22, var_21_23)
+	if (uv0:GetChipManagerID() or 0) ~= 0 then
+		table.insert({}, slot24)
 	end
 
-	if var_0_1:GetChipOfHeroDic()[var_21_6.ID] then
-		if var_21_23 ~= 0 then
-			for iter_21_13, iter_21_14 in ipairs(ChipData:GetCurChipManagerList(var_21_23)) do
-				table.insert(var_21_22, iter_21_14)
+	if uv0:GetChipOfHeroDic()[slot11.ID] then
+		if slot24 ~= 0 then
+			slot28 = slot24
+
+			for slot28, slot29 in ipairs(ChipData:GetCurChipManagerList(slot28)) do
+				table.insert(slot23, slot29)
 			end
 		end
 
-		for iter_21_15, iter_21_16 in ipairs(var_0_1:GetChipOfHeroDic()[var_21_6.ID]) do
-			table.insert(var_21_22, iter_21_16)
+		for slot28, slot29 in ipairs(uv0:GetChipOfHeroDic()[slot11.ID]) do
+			table.insert(slot23, slot29)
 		end
-	else
-		local var_21_24 = var_0_1:GetChipList()
-
-		if var_21_24 then
-			for iter_21_17, iter_21_18 in ipairs(var_21_24) do
-				table.insert(var_21_22, iter_21_18)
-			end
+	elseif uv0:GetChipList() then
+		for slot29, slot30 in ipairs(slot25) do
+			table.insert(slot23, slot30)
 		end
 	end
 
-	var_21_6.AIChip = var_21_22
+	slot11.AIChip = slot23
 
-	return var_21_6
+	return slot11
 end
 
-function var_0_0.SetAdvanceTestHeroData(arg_22_0, arg_22_1, arg_22_2, arg_22_3, arg_22_4)
-	local var_22_0
-	local var_22_1
+function slot0.SetAdvanceTestHeroData(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = nil
 
-	if arg_22_2 and arg_22_2 ~= 0 then
-		var_22_0, var_22_1 = GetVirtualData(arg_22_2)
+	if slot2 and slot2 ~= 0 then
+		slot5, slot6 = GetVirtualData(slot2)
 	else
-		var_22_0, var_22_1 = GetPracticalData(arg_22_1)
+		slot5, slot6 = GetPracticalData(slot1)
 	end
 
-	local var_22_2 = GetHeroFinalAttr(var_22_0, var_22_0.servantInfo, var_22_1, arg_22_2)
-	local var_22_3, var_22_4, var_22_5 = HeroTools.CalTransitionSkillAttribute(var_22_0, var_22_1)
-	local var_22_6 = RoleDataForExchange.New()
+	slot8, slot9, slot10 = HeroTools.CalTransitionSkillAttribute(slot5, slot6)
+	slot11 = RoleDataForExchange.New()
+	slot11.UID = slot3
+	slot11.playerLevel = slot4
+	slot11.ID = slot5.using_skin
+	slot11.Level = LvTools.CheckHeroExp(1, slot5.exp, HeroConst.HERO_LV_MAX)
+	slot12 = {}
+	slot13 = {}
 
-	var_22_6.UID = arg_22_3
-	var_22_6.playerLevel = arg_22_4
-	var_22_6.ID = var_22_0.using_skin
-	var_22_6.Level = LvTools.CheckHeroExp(1, var_22_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_22_7 = {}
-	local var_22_8 = {}
-
-	for iter_22_0, iter_22_1 in pairs(var_22_2) do
-		local var_22_9 = PublicAttrCfg[iter_22_0]
-
-		if var_22_9 then
-			table.insert(var_22_7, var_22_9.id)
-			table.insert(var_22_8, iter_22_1)
+	for slot17, slot18 in pairs(GetHeroFinalAttr(slot5, slot5.servantInfo, slot6, slot2)) do
+		if PublicAttrCfg[slot17] then
+			table.insert(slot12, slot19.id)
+			table.insert(slot13, slot18)
 		end
 	end
 
-	local var_22_10, var_22_11 = BattleTools.FixBattleAttributeListAndWeaponModule(var_22_7, var_22_8, var_22_0.using_skin, var_22_0.weapon_module_level)
+	slot11.attributeID, slot11.attributeValue = BattleTools.FixBattleAttributeListAndWeaponModule(slot12, slot13, slot5.using_skin, slot5.weapon_module_level)
+	slot14 = {}
+	slot15 = {}
 
-	var_22_6.attributeValue, var_22_6.attributeID = var_22_11, var_22_10
-
-	local var_22_12 = {}
-	local var_22_13 = {}
-
-	for iter_22_2, iter_22_3 in pairs(var_22_4) do
-		table.insert(var_22_12, iter_22_2)
-		table.insert(var_22_13, iter_22_3)
+	for slot19, slot20 in pairs(slot9) do
+		table.insert(slot14, slot19)
+		table.insert(slot15, slot20)
 	end
 
-	var_22_6.equipSkillID = var_22_12
-	var_22_6.equipSkillLv = var_22_13
+	slot11.equipSkillID = slot14
+	slot11.equipSkillLv = slot15
 
-	local var_22_14 = {}
-	local var_22_15 = AstrolabeTools.GetTotalEffect(var_22_0.using_astrolabe)
-
-	for iter_22_4 = 1, 9 do
-		var_22_14[iter_22_4] = var_22_15[iter_22_4] or 0
+	for slot21 = 1, 9 do
 	end
 
-	var_22_6.astrolabe = var_22_14
+	slot11.astrolabe = {
+		[slot21] = AstrolabeTools.GetTotalEffect(slot5.using_astrolabe)[slot21] or 0
+	}
+	slot18 = {}
 
-	local var_22_16 = {}
-	local var_22_17 = EquipTools.GetEffectS(var_22_1, var_22_0)
-
-	for iter_22_5, iter_22_6 in pairs(var_22_17) do
-		table.insert(var_22_16, iter_22_5)
+	for slot23, slot24 in pairs(EquipTools.GetEffectS(slot6, slot5)) do
+		table.insert(slot18, slot23)
 	end
 
-	var_22_6.equipment = var_22_16
+	slot11.equipment = slot18
+	slot20 = {}
+	slot21 = HeroCfg[slot5.id]
+	slot22 = {
+		[slot27.skill_id] = slot27.skill_level
+	}
 
-	local var_22_18 = {}
-	local var_22_19 = HeroCfg[var_22_0.id]
-	local var_22_20 = {}
-
-	for iter_22_7, iter_22_8 in ipairs(var_22_0.skill) do
-		var_22_20[iter_22_8.skill_id] = iter_22_8.skill_level
+	for slot26, slot27 in ipairs(slot5.skill) do
+		-- Nothing
 	end
 
-	for iter_22_9, iter_22_10 in pairs(var_22_5) do
-		var_22_20[iter_22_9] = (var_22_20[iter_22_9] or 1) + iter_22_10
+	for slot26, slot27 in pairs(slot10) do
+		slot22[slot26] = (slot22[slot26] or 1) + slot27
 	end
 
-	for iter_22_11, iter_22_12 in ipairs(var_22_19.skills) do
-		var_22_18[iter_22_11] = var_22_20[iter_22_12] or 1
+	for slot26, slot27 in ipairs(slot21.skills) do
+		slot20[slot26] = slot22[slot27] or 1
 	end
 
-	var_22_6.skillLevel = var_22_18
+	slot11.skillLevel = slot20
 
-	if var_22_0.servantInfo.id and var_22_0.servantInfo.id ~= 0 then
-		local var_22_21 = HeroTools.GetHeroWeaponAddLevel(var_22_0)
-
-		var_22_6.weaponEffectID = WeaponServantCfg[var_22_0.servantInfo.id].effect[1]
-		var_22_6.weaponEffectLevel = var_22_0.servantInfo.stage + var_22_21
+	if slot5.servantInfo.id and slot5.servantInfo.id ~= 0 then
+		slot11.weaponEffectID = WeaponServantCfg[slot5.servantInfo.id].effect[1]
+		slot11.weaponEffectLevel = slot5.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot5)
 	end
 
-	local var_22_22 = {}
-	local var_22_23 = var_0_1:GetChipManagerID() or 0
-
-	if var_22_23 ~= 0 then
-		table.insert(var_22_22, var_22_23)
+	if (uv0:GetChipManagerID() or 0) ~= 0 then
+		table.insert({}, slot24)
 	end
 
-	if var_0_1:GetChipOfHeroDic()[var_22_6.ID] then
-		if var_22_23 ~= 0 then
-			for iter_22_13, iter_22_14 in ipairs(ChipData:GetCurChipManagerList(var_22_23)) do
-				table.insert(var_22_22, iter_22_14)
+	if uv0:GetChipOfHeroDic()[slot11.ID] then
+		if slot24 ~= 0 then
+			slot28 = slot24
+
+			for slot28, slot29 in ipairs(ChipData:GetCurChipManagerList(slot28)) do
+				table.insert(slot23, slot29)
 			end
 		end
 
-		for iter_22_15, iter_22_16 in ipairs(var_0_1:GetChipOfHeroDic()[var_22_6.ID]) do
-			table.insert(var_22_22, iter_22_16)
+		for slot28, slot29 in ipairs(uv0:GetChipOfHeroDic()[slot11.ID]) do
+			table.insert(slot23, slot29)
 		end
-	else
-		local var_22_24 = var_0_1:GetChipList()
-
-		if var_22_24 then
-			for iter_22_17, iter_22_18 in ipairs(var_22_24) do
-				table.insert(var_22_22, iter_22_18)
-			end
+	elseif uv0:GetChipList() then
+		for slot29, slot30 in ipairs(slot25) do
+			table.insert(slot23, slot30)
 		end
 	end
 
-	var_22_6.AIChip = var_22_22
+	slot11.AIChip = slot23
 
-	return var_22_6
+	return slot11
 end
 
-function var_0_0.SetMatrixHeroData(arg_23_0, arg_23_1, arg_23_2, arg_23_3, arg_23_4)
-	local var_23_0 = arg_23_1:GetStandardId()
-	local var_23_1
-	local var_23_2
+function slot0.SetMatrixHeroData(slot0, slot1, slot2, slot3, slot4)
+	slot5 = slot1:GetStandardId()
+	slot6, slot7 = nil
 
-	if arg_23_1:GetIsOwnerHero() then
-		var_23_1, var_23_2 = GetPracticalData(arg_23_1:GetEntrySnapShot())
+	if slot1:GetIsOwnerHero() then
+		slot6, slot7 = GetPracticalData(slot1:GetEntrySnapShot())
 	else
-		var_23_1, var_23_2 = GetVirtualData(var_23_0)
+		slot6, slot7 = GetVirtualData(slot5)
 	end
 
-	local var_23_3 = RoleDataForExchange.New()
-	local var_23_4 = HeroStandardSystemCfg[var_23_0]
+	slot8 = RoleDataForExchange.New()
 
-	if arg_23_4 then
-		var_23_1.using_skin = ActivityMatrixData:GetHeroSkin(arg_23_4, var_23_4.hero_id)
+	if slot4 then
+		slot6.using_skin = ActivityMatrixData:GetHeroSkin(slot4, HeroStandardSystemCfg[slot5].hero_id)
 	else
-		var_23_1.using_skin = MatrixData:GetHeroSkin(var_23_4.hero_id)
+		slot6.using_skin = MatrixData:GetHeroSkin(slot9.hero_id)
 	end
 
-	var_23_3.UID = arg_23_2
-	var_23_3.playerLevel = arg_23_3
-	var_23_3.ID = var_23_1.using_skin
-	var_23_3.Level = LvTools.CheckHeroExp(1, var_23_1.exp, HeroConst.HERO_LV_MAX)
+	slot8.UID = slot2
+	slot8.playerLevel = slot3
+	slot8.ID = slot6.using_skin
+	slot8.Level = LvTools.CheckHeroExp(1, slot6.exp, HeroConst.HERO_LV_MAX)
+	slot10 = GetMatrixtHeroPracticalAttr(slot6, slot7, slot5, slot4, slot1)
+	slot10[3] = slot1:GetHeroMaxHP()
+	slot10[2002] = slot1:GetHeroHP()
+	slot11 = {}
+	slot12 = {}
 
-	local var_23_5 = GetMatrixtHeroPracticalAttr(var_23_1, var_23_2, var_23_0, arg_23_4, arg_23_1)
-
-	var_23_5[3] = arg_23_1:GetHeroMaxHP()
-	var_23_5[2002] = arg_23_1:GetHeroHP()
-
-	local var_23_6 = {}
-	local var_23_7 = {}
-
-	for iter_23_0, iter_23_1 in pairs(var_23_5) do
-		if PublicAttrCfg[iter_23_0] or iter_23_0 == 2002 then
-			table.insert(var_23_6, iter_23_0)
-			table.insert(var_23_7, iter_23_1)
+	for slot16, slot17 in pairs(slot10) do
+		if PublicAttrCfg[slot16] or slot16 == 2002 then
+			table.insert(slot11, slot16)
+			table.insert(slot12, slot17)
 		end
 	end
 
-	var_23_3.attributeID = var_23_6
-	var_23_3.attributeValue = var_23_7
+	slot8.attributeID = slot11
+	slot8.attributeValue = slot12
 
-	local var_23_8 = {}
-	local var_23_9 = arg_23_1:GetAstrolabeEffectList()
-
-	for iter_23_2 = 1, 9 do
-		var_23_8[iter_23_2] = var_23_9[iter_23_2] or 0
+	for slot18 = 1, 9 do
 	end
 
-	var_23_3.astrolabe = var_23_8
+	slot8.astrolabe = {
+		[slot18] = slot1:GetAstrolabeEffectList()[slot18] or 0
+	}
+	slot15 = {}
+	slot8.equipment = slot1:GetEquipEffectList()
+	slot17 = {}
+	slot18 = HeroCfg[slot6.id]
+	slot19 = {
+		[slot24.skill_id] = slot24.skill_level
+	}
 
-	local var_23_10 = {}
-
-	var_23_3.equipment = arg_23_1:GetEquipEffectList()
-
-	local var_23_11 = {}
-	local var_23_12 = HeroCfg[var_23_1.id]
-	local var_23_13 = {}
-
-	for iter_23_3, iter_23_4 in ipairs(var_23_1.skill) do
-		var_23_13[iter_23_4.skill_id] = iter_23_4.skill_level
+	for slot23, slot24 in ipairs(slot6.skill) do
+		-- Nothing
 	end
 
-	for iter_23_5, iter_23_6 in ipairs(var_23_12.skills) do
-		var_23_11[iter_23_5] = var_23_13[iter_23_6] or 1
+	for slot23, slot24 in ipairs(slot18.skills) do
+		slot17[slot23] = slot19[slot24] or 1
 	end
 
-	var_23_3.skillLevel = var_23_11
+	slot8.skillLevel = slot17
 
-	local var_23_14 = arg_23_1:GetWeaponServantEffect()
-
-	if var_23_14 ~= 0 then
-		var_23_3.weaponEffectID = WeaponServantCfg[var_23_14].effect[1]
-		var_23_3.weaponEffectLevel = arg_23_1:GetWeaponServantEffectLevel()
+	if slot1:GetWeaponServantEffect() ~= 0 then
+		slot8.weaponEffectID = WeaponServantCfg[slot20].effect[1]
+		slot8.weaponEffectLevel = slot1:GetWeaponServantEffectLevel()
 	end
 
-	local var_23_15 = {}
-	local var_23_16 = var_0_1:GetChipManagerID()
+	if uv0:GetChipManagerID() ~= 0 then
+		table.insert({}, slot22)
 
-	if var_23_16 ~= 0 then
-		table.insert(var_23_15, var_23_16)
-
-		for iter_23_7, iter_23_8 in ipairs(var_0_1:GetChipList()) do
-			table.insert(var_23_15, iter_23_8)
+		for slot26, slot27 in ipairs(uv0:GetChipList()) do
+			table.insert(slot21, slot27)
 		end
 	end
 
-	var_23_3.AIChip = var_23_15
+	slot8.AIChip = slot21
 
-	return var_23_3
+	return slot8
 end
 
-function var_0_0.SetChessHeroData(arg_24_0, arg_24_1, arg_24_2, arg_24_3, arg_24_4)
-	local var_24_0
-	local var_24_1
+function slot0.SetChessHeroData(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = nil
 
-	if arg_24_2 and arg_24_2 ~= 0 then
-		var_24_0, var_24_1 = GetVirtualData(arg_24_2)
+	if slot2 and slot2 ~= 0 then
+		slot5, slot6 = GetVirtualData(slot2)
 	else
-		var_24_0, var_24_1 = GetPracticalData(arg_24_1)
+		slot5, slot6 = GetPracticalData(slot1)
 	end
 
-	local var_24_2 = GetHeroFinalAttr(var_24_0, var_24_0.servantInfo, var_24_1, arg_24_2)
-	local var_24_3, var_24_4, var_24_5 = HeroTools.CalTransitionSkillAttribute(var_24_0, var_24_1)
-	local var_24_6 = RoleDataForExchange.New()
+	slot8, slot9, slot10 = HeroTools.CalTransitionSkillAttribute(slot5, slot6)
+	slot11 = RoleDataForExchange.New()
+	slot11.UID = slot3
+	slot11.playerLevel = slot4
+	slot11.ID = slot5.using_skin
+	slot11.Level = LvTools.CheckHeroExp(1, slot5.exp, HeroConst.HERO_LV_MAX)
+	slot12 = {}
+	slot13 = {}
 
-	var_24_6.UID = arg_24_3
-	var_24_6.playerLevel = arg_24_4
-	var_24_6.ID = var_24_0.using_skin
-	var_24_6.Level = LvTools.CheckHeroExp(1, var_24_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_24_7 = {}
-	local var_24_8 = {}
-
-	for iter_24_0, iter_24_1 in pairs(var_24_2) do
-		if PublicAttrCfg[iter_24_0] or iter_24_0 == 2002 then
-			table.insert(var_24_7, iter_24_0)
-			table.insert(var_24_8, iter_24_1)
+	for slot17, slot18 in pairs(GetHeroFinalAttr(slot5, slot5.servantInfo, slot6, slot2)) do
+		if PublicAttrCfg[slot17] or slot17 == 2002 then
+			table.insert(slot12, slot17)
+			table.insert(slot13, slot18)
 		end
 	end
 
-	local var_24_9, var_24_10 = BattleTools.FixBattleAttributeListAndWeaponModule(var_24_7, var_24_8, var_24_0.using_skin, var_24_0.weapon_module_level)
+	slot11.attributeID, slot11.attributeValue = BattleTools.FixBattleAttributeListAndWeaponModule(slot12, slot13, slot5.using_skin, slot5.weapon_module_level)
+	slot14 = {}
+	slot15 = {}
 
-	var_24_6.attributeValue, var_24_6.attributeID = var_24_10, var_24_9
-
-	local var_24_11 = {}
-	local var_24_12 = {}
-
-	for iter_24_2, iter_24_3 in pairs(var_24_4) do
-		table.insert(var_24_11, iter_24_2)
-		table.insert(var_24_12, iter_24_3)
+	for slot19, slot20 in pairs(slot9) do
+		table.insert(slot14, slot19)
+		table.insert(slot15, slot20)
 	end
 
-	var_24_6.equipSkillID = var_24_11
-	var_24_6.equipSkillLv = var_24_12
+	slot11.equipSkillID = slot14
+	slot11.equipSkillLv = slot15
 
-	local var_24_13 = {}
-	local var_24_14 = AstrolabeTools.GetTotalEffect(var_24_0.using_astrolabe)
-
-	for iter_24_4 = 1, 9 do
-		var_24_13[iter_24_4] = var_24_14[iter_24_4] or 0
+	for slot21 = 1, 9 do
 	end
 
-	var_24_6.astrolabe = var_24_13
+	slot11.astrolabe = {
+		[slot21] = AstrolabeTools.GetTotalEffect(slot5.using_astrolabe)[slot21] or 0
+	}
+	slot18 = {}
 
-	local var_24_15 = {}
-	local var_24_16 = EquipTools.GetEffectS(var_24_1, var_24_0)
-
-	for iter_24_5, iter_24_6 in pairs(var_24_16) do
-		table.insert(var_24_15, iter_24_5)
+	for slot23, slot24 in pairs(EquipTools.GetEffectS(slot6, slot5)) do
+		table.insert(slot18, slot23)
 	end
 
-	var_24_6.equipment = var_24_15
+	slot11.equipment = slot18
+	slot20 = {}
+	slot21 = HeroCfg[slot5.id]
+	slot22 = {
+		[slot27.skill_id] = slot27.skill_level
+	}
 
-	local var_24_17 = {}
-	local var_24_18 = HeroCfg[var_24_0.id]
-	local var_24_19 = {}
-
-	for iter_24_7, iter_24_8 in ipairs(var_24_0.skill) do
-		var_24_19[iter_24_8.skill_id] = iter_24_8.skill_level
+	for slot26, slot27 in ipairs(slot5.skill) do
+		-- Nothing
 	end
 
-	for iter_24_9, iter_24_10 in pairs(var_24_5) do
-		var_24_19[iter_24_9] = (var_24_19[iter_24_9] or 1) + iter_24_10
+	for slot26, slot27 in pairs(slot10) do
+		slot22[slot26] = (slot22[slot26] or 1) + slot27
 	end
 
-	for iter_24_11, iter_24_12 in ipairs(var_24_18.skills) do
-		var_24_17[iter_24_11] = var_24_19[iter_24_12] or 1
+	for slot26, slot27 in ipairs(slot21.skills) do
+		slot20[slot26] = slot22[slot27] or 1
 	end
 
-	var_24_6.skillLevel = var_24_17
+	slot11.skillLevel = slot20
 
-	if var_24_0.servantInfo.id and var_24_0.servantInfo.id ~= 0 then
-		local var_24_20 = HeroTools.GetHeroWeaponAddLevel(var_24_0)
-
-		var_24_6.weaponEffectID = WeaponServantCfg[var_24_0.servantInfo.id].effect[1]
-		var_24_6.weaponEffectLevel = var_24_0.servantInfo.stage + var_24_20
+	if slot5.servantInfo.id and slot5.servantInfo.id ~= 0 then
+		slot11.weaponEffectID = WeaponServantCfg[slot5.servantInfo.id].effect[1]
+		slot11.weaponEffectLevel = slot5.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot5)
 	end
 
-	local var_24_21 = {}
-	local var_24_22 = var_0_1:GetChipManagerID()
-
-	if var_24_22 ~= 0 then
-		table.insert(var_24_21, var_24_22)
+	if uv0:GetChipManagerID() ~= 0 then
+		table.insert({}, slot24)
 	end
 
-	if var_0_1:GetChipOfHeroDic()[var_24_6.ID] then
-		if var_24_22 ~= 0 then
-			for iter_24_13, iter_24_14 in ipairs(ChipData:GetCurChipManagerList(var_24_22)) do
-				table.insert(var_24_21, iter_24_14)
+	if uv0:GetChipOfHeroDic()[slot11.ID] then
+		if slot24 ~= 0 then
+			slot28 = slot24
+
+			for slot28, slot29 in ipairs(ChipData:GetCurChipManagerList(slot28)) do
+				table.insert(slot23, slot29)
 			end
 		end
 
-		for iter_24_15, iter_24_16 in ipairs(var_0_1:GetChipOfHeroDic()[var_24_6.ID]) do
-			table.insert(var_24_21, iter_24_16)
+		for slot28, slot29 in ipairs(uv0:GetChipOfHeroDic()[slot11.ID]) do
+			table.insert(slot23, slot29)
 		end
-	else
-		local var_24_23 = var_0_1:GetChipList()
-
-		if var_24_23 then
-			for iter_24_17, iter_24_18 in ipairs(var_24_23) do
-				table.insert(var_24_21, iter_24_18)
-			end
+	elseif uv0:GetChipList() then
+		for slot29, slot30 in ipairs(slot25) do
+			table.insert(slot23, slot30)
 		end
 	end
 
-	var_24_6.AIChip = var_24_21
+	slot11.AIChip = slot23
 
-	return var_24_6
+	return slot11
 end
 
-function var_0_0.SetEquipBreakThroughMaterialHeroData(arg_25_0, arg_25_1, arg_25_2, arg_25_3, arg_25_4, arg_25_5)
-	local var_25_0
-	local var_25_1
+function slot0.SetEquipBreakThroughMaterialHeroData(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6, slot7 = nil
 
-	if arg_25_3 and arg_25_3 ~= 0 then
-		var_25_0, var_25_1 = GetVirtualData(arg_25_3)
+	if slot3 and slot3 ~= 0 then
+		slot6, slot7 = GetVirtualData(slot3)
 	else
-		var_25_0, var_25_1 = GetPracticalData(arg_25_2)
+		slot6, slot7 = GetPracticalData(slot2)
 	end
 
-	local var_25_2 = GetHeroFinalAttr(var_25_0, var_25_0.servantInfo, var_25_1, arg_25_3)
-	local var_25_3, var_25_4, var_25_5 = HeroTools.CalTransitionSkillAttribute(var_25_0, var_25_1)
-	local var_25_6 = RoleDataForExchange.New()
+	slot8 = GetHeroFinalAttr(slot6, slot6.servantInfo, slot7, slot3)
+	slot9, slot10, slot11 = HeroTools.CalTransitionSkillAttribute(slot6, slot7)
+	slot12 = RoleDataForExchange.New()
+	slot12.UID = slot4
+	slot12.playerLevel = slot5
+	slot12.ID = slot6.using_skin
+	slot12.Level = LvTools.CheckHeroExp(1, slot6.exp, HeroConst.HERO_LV_MAX)
+	slot13 = {}
+	slot14 = {}
 
-	var_25_6.UID = arg_25_4
-	var_25_6.playerLevel = arg_25_5
-	var_25_6.ID = var_25_0.using_skin
-	var_25_6.Level = LvTools.CheckHeroExp(1, var_25_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_25_7 = {}
-	local var_25_8 = {}
-	local var_25_9 = EquipBreakThroughMaterialData:GetHeroState()[arg_25_1] and EquipBreakThroughMaterialData:GetHeroState()[arg_25_1].rate or 10000
-
-	if var_25_9 then
-		local var_25_10 = var_25_2[3]
-		local var_25_11 = math.ceil(var_25_9 / 10000 * var_25_10)
-
-		var_25_2[2002] = var_25_11
+	if EquipBreakThroughMaterialData:GetHeroState()[slot1] and EquipBreakThroughMaterialData:GetHeroState()[slot1].rate or 10000 then
+		slot8[2002] = math.ceil(slot15 / 10000 * slot8[3])
 	end
 
-	for iter_25_0, iter_25_1 in pairs(var_25_2) do
-		if PublicAttrCfg[iter_25_0] or iter_25_0 == 2002 then
-			table.insert(var_25_7, iter_25_0)
-			table.insert(var_25_8, iter_25_1)
+	for slot19, slot20 in pairs(slot8) do
+		if PublicAttrCfg[slot19] or slot19 == 2002 then
+			table.insert(slot13, slot19)
+			table.insert(slot14, slot20)
 		end
 	end
 
-	local var_25_12, var_25_13 = BattleTools.FixBattleAttributeListAndWeaponModule(var_25_7, var_25_8, var_25_0.using_skin, var_25_0.weapon_module_level)
+	slot12.attributeID, slot12.attributeValue = BattleTools.FixBattleAttributeListAndWeaponModule(slot13, slot14, slot6.using_skin, slot6.weapon_module_level)
+	slot16 = {}
+	slot17 = {}
 
-	var_25_6.attributeValue, var_25_6.attributeID = var_25_13, var_25_12
-
-	local var_25_14 = {}
-	local var_25_15 = {}
-
-	for iter_25_2, iter_25_3 in pairs(var_25_4) do
-		table.insert(var_25_14, iter_25_2)
-		table.insert(var_25_15, iter_25_3)
+	for slot21, slot22 in pairs(slot10) do
+		table.insert(slot16, slot21)
+		table.insert(slot17, slot22)
 	end
 
-	var_25_6.equipSkillID = var_25_14
-	var_25_6.equipSkillLv = var_25_15
+	slot12.equipSkillID = slot16
+	slot12.equipSkillLv = slot17
 
-	local var_25_16 = {}
-	local var_25_17 = AstrolabeTools.GetTotalEffect(var_25_0.using_astrolabe)
-
-	for iter_25_4 = 1, 9 do
-		var_25_16[iter_25_4] = var_25_17[iter_25_4] or 0
+	for slot23 = 1, 9 do
 	end
 
-	var_25_6.astrolabe = var_25_16
+	slot12.astrolabe = {
+		[slot23] = AstrolabeTools.GetTotalEffect(slot6.using_astrolabe)[slot23] or 0
+	}
+	slot20 = {}
 
-	local var_25_18 = {}
-	local var_25_19 = EquipTools.GetEffectS(var_25_1, var_25_0)
-
-	for iter_25_5, iter_25_6 in pairs(var_25_19) do
-		table.insert(var_25_18, iter_25_5)
+	for slot25, slot26 in pairs(EquipTools.GetEffectS(slot7, slot6)) do
+		table.insert(slot20, slot25)
 	end
 
-	var_25_6.equipment = var_25_18
+	slot12.equipment = slot20
+	slot22 = {}
+	slot23 = HeroCfg[slot6.id]
+	slot24 = {
+		[slot29.skill_id] = slot29.skill_level
+	}
 
-	local var_25_20 = {}
-	local var_25_21 = HeroCfg[var_25_0.id]
-	local var_25_22 = {}
-
-	for iter_25_7, iter_25_8 in ipairs(var_25_0.skill) do
-		var_25_22[iter_25_8.skill_id] = iter_25_8.skill_level
+	for slot28, slot29 in ipairs(slot6.skill) do
+		-- Nothing
 	end
 
-	for iter_25_9, iter_25_10 in pairs(var_25_5) do
-		var_25_22[iter_25_9] = (var_25_22[iter_25_9] or 1) + iter_25_10
+	for slot28, slot29 in pairs(slot11) do
+		slot24[slot28] = (slot24[slot28] or 1) + slot29
 	end
 
-	for iter_25_11, iter_25_12 in ipairs(var_25_21.skills) do
-		var_25_20[iter_25_11] = var_25_22[iter_25_12] or 1
+	for slot28, slot29 in ipairs(slot23.skills) do
+		slot22[slot28] = slot24[slot29] or 1
 	end
 
-	var_25_6.skillLevel = var_25_20
+	slot12.skillLevel = slot22
 
-	if var_25_0.servantInfo.id and var_25_0.servantInfo.id ~= 0 then
-		local var_25_23 = HeroTools.GetHeroWeaponAddLevel(var_25_0)
-
-		var_25_6.weaponEffectID = WeaponServantCfg[var_25_0.servantInfo.id].effect[1]
-		var_25_6.weaponEffectLevel = var_25_0.servantInfo.stage + var_25_23
+	if slot6.servantInfo.id and slot6.servantInfo.id ~= 0 then
+		slot12.weaponEffectID = WeaponServantCfg[slot6.servantInfo.id].effect[1]
+		slot12.weaponEffectLevel = slot6.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot6)
 	end
 
-	var_25_6.AIChip = var_0_1:GetChipAndAIList(var_25_6.ID)
+	slot12.AIChip = uv0:GetChipAndAIList(slot12.ID)
 
-	return var_25_6
+	return slot12
 end
 
-function var_0_0.SetPolyhedronHeroData(arg_26_0, arg_26_1, arg_26_2, arg_26_3, arg_26_4, arg_26_5)
-	local var_26_0
-	local var_26_1
+function slot0.SetPolyhedronHeroData(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6, slot7 = nil
 
-	if arg_26_2 == nil then
-		var_26_0, var_26_1 = GetVirtualData(arg_26_3)
+	if slot2 == nil then
+		slot6, slot7 = GetVirtualData(slot3)
 	else
-		var_26_0, var_26_1 = arg_26_2:GetVirtualData()
+		slot6, slot7 = slot2:GetVirtualData()
 	end
 
-	local var_26_2 = GetPolyhedronHeroPracticalAttr(arg_26_1, var_26_0, var_26_1, arg_26_3)
-	local var_26_3, var_26_4, var_26_5 = HeroTools.CalTransitionSkillAttribute(var_26_0, var_26_1)
-	local var_26_6 = RoleDataForExchange.New()
+	slot8 = GetPolyhedronHeroPracticalAttr(slot1, slot6, slot7, slot3)
+	slot9, slot10, slot11 = HeroTools.CalTransitionSkillAttribute(slot6, slot7)
+	slot12 = RoleDataForExchange.New()
+	slot12.UID = slot4
+	slot12.playerLevel = slot5
+	slot12.ID = PolyhedronData:GetHeroUsingSkinInfo(slot6.id).id
+	slot12.Level = LvTools.CheckHeroExp(1, slot6.exp, HeroConst.HERO_LV_MAX)
+	slot13 = {}
+	slot14 = {}
+	slot16 = slot1:GetHeroPolyData(slot6.id)
+	slot8[3] = slot16:GetHeroMaxHP()
+	slot8[2002] = slot16:GetHeroHP()
 
-	var_26_6.UID = arg_26_4
-	var_26_6.playerLevel = arg_26_5
-	var_26_6.ID = PolyhedronData:GetHeroUsingSkinInfo(var_26_0.id).id
-	var_26_6.Level = LvTools.CheckHeroExp(1, var_26_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_26_7 = {}
-	local var_26_8 = {}
-	local var_26_9 = var_26_0.id
-	local var_26_10 = arg_26_1:GetHeroPolyData(var_26_9)
-
-	var_26_2[3] = var_26_10:GetHeroMaxHP()
-	var_26_2[2002] = var_26_10:GetHeroHP()
-
-	for iter_26_0, iter_26_1 in pairs(var_26_2) do
-		if PublicAttrCfg[iter_26_0] or iter_26_0 == 2002 then
-			table.insert(var_26_7, iter_26_0)
-			table.insert(var_26_8, iter_26_1)
+	for slot20, slot21 in pairs(slot8) do
+		if PublicAttrCfg[slot20] or slot20 == 2002 then
+			table.insert(slot13, slot20)
+			table.insert(slot14, slot21)
 		end
 	end
 
-	var_26_6.attributeID = var_26_7
-	var_26_6.attributeValue = var_26_8
+	slot12.attributeID = slot13
+	slot12.attributeValue = slot14
+	slot17 = {}
+	slot18 = {}
 
-	local var_26_11 = {}
-	local var_26_12 = {}
-
-	for iter_26_2, iter_26_3 in pairs(var_26_4) do
-		table.insert(var_26_11, iter_26_2)
-		table.insert(var_26_12, iter_26_3)
+	for slot22, slot23 in pairs(slot10) do
+		table.insert(slot17, slot22)
+		table.insert(slot18, slot23)
 	end
 
-	var_26_6.equipSkillID = var_26_11
-	var_26_6.equipSkillLv = var_26_12
+	slot12.equipSkillID = slot17
+	slot12.equipSkillLv = slot18
 
-	local var_26_13 = {}
-	local var_26_14 = AstrolabeTools.GetTotalEffect(var_26_0.using_astrolabe)
-
-	for iter_26_4 = 1, 9 do
-		var_26_13[iter_26_4] = var_26_14[iter_26_4] or 0
+	for slot24 = 1, 9 do
 	end
 
-	var_26_6.astrolabe = var_26_13
+	slot12.astrolabe = {
+		[slot24] = AstrolabeTools.GetTotalEffect(slot6.using_astrolabe)[slot24] or 0
+	}
+	slot21 = {}
 
-	local var_26_15 = {}
-	local var_26_16 = EquipTools.GetEffectS(var_26_1, var_26_0)
-
-	for iter_26_5, iter_26_6 in pairs(var_26_16) do
-		table.insert(var_26_15, iter_26_5)
+	for slot26, slot27 in pairs(EquipTools.GetEffectS(slot7, slot6)) do
+		table.insert(slot21, slot26)
 	end
 
-	var_26_6.equipment = var_26_15
+	slot12.equipment = slot21
+	slot23 = {}
+	slot24 = HeroCfg[slot6.id]
+	slot25 = {
+		[slot30.skill_id] = slot30.skill_level
+	}
 
-	local var_26_17 = {}
-	local var_26_18 = HeroCfg[var_26_0.id]
-	local var_26_19 = {}
-
-	for iter_26_7, iter_26_8 in ipairs(var_26_0.skill) do
-		var_26_19[iter_26_8.skill_id] = iter_26_8.skill_level
+	for slot29, slot30 in ipairs(slot6.skill) do
+		-- Nothing
 	end
 
-	for iter_26_9, iter_26_10 in pairs(var_26_5) do
-		var_26_19[iter_26_9] = (var_26_19[iter_26_9] or 1) + iter_26_10
+	for slot29, slot30 in pairs(slot11) do
+		slot25[slot29] = (slot25[slot29] or 1) + slot30
 	end
 
-	for iter_26_11, iter_26_12 in ipairs(var_26_18.skills) do
-		var_26_17[iter_26_11] = var_26_19[iter_26_12] or 1
+	for slot29, slot30 in ipairs(slot24.skills) do
+		slot23[slot29] = slot25[slot30] or 1
 	end
 
-	var_26_6.skillLevel = var_26_17
+	slot12.skillLevel = slot23
 
-	if var_26_0.servantInfo.id and var_26_0.servantInfo.id ~= 0 then
-		local var_26_20 = HeroTools.GetHeroWeaponAddLevel(var_26_0)
-
-		var_26_6.weaponEffectID = WeaponServantCfg[var_26_0.servantInfo.id].effect[1]
-		var_26_6.weaponEffectLevel = var_26_0.servantInfo.stage + var_26_20
+	if slot6.servantInfo.id and slot6.servantInfo.id ~= 0 then
+		slot12.weaponEffectID = WeaponServantCfg[slot6.servantInfo.id].effect[1]
+		slot12.weaponEffectLevel = slot6.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot6)
 	end
 
-	var_26_6.AIChip = {}
+	slot12.AIChip = {}
 
-	return var_26_6
+	return slot12
 end
 
-function var_0_0.SetNewWarChessHeroData(arg_27_0, arg_27_1, arg_27_2, arg_27_3, arg_27_4)
-	local var_27_0
-	local var_27_1
+function slot0.SetNewWarChessHeroData(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = nil
 
-	if arg_27_2 and arg_27_2 ~= 0 then
-		var_27_0, var_27_1 = GetVirtualData(arg_27_2)
+	if slot2 and slot2 ~= 0 then
+		slot5, slot6 = GetVirtualData(slot2)
 	else
-		var_27_0, var_27_1 = GetPracticalData(arg_27_1)
+		slot5, slot6 = GetPracticalData(slot1)
 	end
 
-	local var_27_2 = GetHeroFinalAttr(var_27_0, var_27_0.servantInfo, var_27_1, arg_27_2)
-	local var_27_3, var_27_4, var_27_5 = HeroTools.CalTransitionSkillAttribute(var_27_0, var_27_1)
-	local var_27_6 = RoleDataForExchange.New()
+	slot7 = GetHeroFinalAttr(slot5, slot5.servantInfo, slot6, slot2)
+	slot8, slot9, slot10 = HeroTools.CalTransitionSkillAttribute(slot5, slot6)
+	slot11 = RoleDataForExchange.New()
+	slot11.UID = slot3
+	slot11.playerLevel = slot4
+	slot11.ID = slot5.using_skin
+	slot11.Level = LvTools.CheckHeroExp(1, slot5.exp, HeroConst.HERO_LV_MAX)
+	slot7[2002] = math.ceil(NewWarChessData:GetHeroHp(slot5.id) / NewChessConst.HERO_HP_RATE * slot7[3])
+	slot13 = {}
+	slot14 = {}
 
-	var_27_6.UID = arg_27_3
-	var_27_6.playerLevel = arg_27_4
-	var_27_6.ID = var_27_0.using_skin
-	var_27_6.Level = LvTools.CheckHeroExp(1, var_27_0.exp, HeroConst.HERO_LV_MAX)
-
-	local var_27_7 = var_27_0.id
-
-	var_27_2[2002] = math.ceil(NewWarChessData:GetHeroHp(var_27_7) / NewChessConst.HERO_HP_RATE * var_27_2[3])
-
-	local var_27_8 = {}
-	local var_27_9 = {}
-
-	for iter_27_0, iter_27_1 in pairs(var_27_2) do
-		if PublicAttrCfg[iter_27_0] or iter_27_0 == 2002 then
-			table.insert(var_27_8, iter_27_0)
-			table.insert(var_27_9, iter_27_1)
+	for slot18, slot19 in pairs(slot7) do
+		if PublicAttrCfg[slot18] or slot18 == 2002 then
+			table.insert(slot13, slot18)
+			table.insert(slot14, slot19)
 		end
 	end
 
-	local var_27_10, var_27_11 = BattleTools.FixBattleAttributeListAndWeaponModule(var_27_8, var_27_9, var_27_0.using_skin, var_27_0.weapon_module_level)
+	slot11.attributeID, slot11.attributeValue = BattleTools.FixBattleAttributeListAndWeaponModule(slot13, slot14, slot5.using_skin, slot5.weapon_module_level)
+	slot15 = {}
+	slot16 = {}
 
-	var_27_6.attributeValue, var_27_6.attributeID = var_27_11, var_27_10
-
-	local var_27_12 = {}
-	local var_27_13 = {}
-
-	for iter_27_2, iter_27_3 in pairs(var_27_4) do
-		table.insert(var_27_12, iter_27_2)
-		table.insert(var_27_13, iter_27_3)
+	for slot20, slot21 in pairs(slot9) do
+		table.insert(slot15, slot20)
+		table.insert(slot16, slot21)
 	end
 
-	var_27_6.equipSkillID = var_27_12
-	var_27_6.equipSkillLv = var_27_13
+	slot11.equipSkillID = slot15
+	slot11.equipSkillLv = slot16
 
-	local var_27_14 = {}
-	local var_27_15 = AstrolabeTools.GetTotalEffect(var_27_0.using_astrolabe)
-
-	for iter_27_4 = 1, 9 do
-		var_27_14[iter_27_4] = var_27_15[iter_27_4] or 0
+	for slot22 = 1, 9 do
 	end
 
-	var_27_6.astrolabe = var_27_14
+	slot11.astrolabe = {
+		[slot22] = AstrolabeTools.GetTotalEffect(slot5.using_astrolabe)[slot22] or 0
+	}
+	slot19 = {}
 
-	local var_27_16 = {}
-	local var_27_17 = EquipTools.GetEffectS(var_27_1, var_27_0)
-
-	for iter_27_5, iter_27_6 in pairs(var_27_17) do
-		table.insert(var_27_16, iter_27_5)
+	for slot24, slot25 in pairs(EquipTools.GetEffectS(slot6, slot5)) do
+		table.insert(slot19, slot24)
 	end
 
-	var_27_6.equipment = var_27_16
+	slot11.equipment = slot19
+	slot21 = {}
+	slot22 = HeroCfg[slot5.id]
+	slot23 = {
+		[slot28.skill_id] = slot28.skill_level
+	}
 
-	local var_27_18 = {}
-	local var_27_19 = HeroCfg[var_27_0.id]
-	local var_27_20 = {}
-
-	for iter_27_7, iter_27_8 in ipairs(var_27_0.skill) do
-		var_27_20[iter_27_8.skill_id] = iter_27_8.skill_level
+	for slot27, slot28 in ipairs(slot5.skill) do
+		-- Nothing
 	end
 
-	for iter_27_9, iter_27_10 in pairs(var_27_5) do
-		var_27_20[iter_27_9] = (var_27_20[iter_27_9] or 1) + iter_27_10
+	for slot27, slot28 in pairs(slot10) do
+		slot23[slot27] = (slot23[slot27] or 1) + slot28
 	end
 
-	for iter_27_11, iter_27_12 in ipairs(var_27_19.skills) do
-		var_27_18[iter_27_11] = var_27_20[iter_27_12] or 1
+	for slot27, slot28 in ipairs(slot22.skills) do
+		slot21[slot27] = slot23[slot28] or 1
 	end
 
-	var_27_6.skillLevel = var_27_18
+	slot11.skillLevel = slot21
 
-	if var_27_0.servantInfo.id and var_27_0.servantInfo.id ~= 0 then
-		local var_27_21 = HeroTools.GetHeroWeaponAddLevel(var_27_0)
-
-		var_27_6.weaponEffectID = WeaponServantCfg[var_27_0.servantInfo.id].effect[1]
-		var_27_6.weaponEffectLevel = var_27_0.servantInfo.stage + var_27_21
+	if slot5.servantInfo.id and slot5.servantInfo.id ~= 0 then
+		slot11.weaponEffectID = WeaponServantCfg[slot5.servantInfo.id].effect[1]
+		slot11.weaponEffectLevel = slot5.servantInfo.stage + HeroTools.GetHeroWeaponAddLevel(slot5)
 	end
 
-	local var_27_22 = {}
-	local var_27_23 = var_0_1:GetChipManagerID() or 0
-
-	if var_27_23 ~= 0 then
-		table.insert(var_27_22, var_27_23)
+	if (uv0:GetChipManagerID() or 0) ~= 0 then
+		table.insert({}, slot25)
 	end
 
-	if var_0_1:GetChipOfHeroDic()[var_27_6.ID] then
-		if var_27_23 ~= 0 then
-			for iter_27_13, iter_27_14 in ipairs(ChipData:GetCurChipManagerList(var_27_23)) do
-				table.insert(var_27_22, iter_27_14)
+	if uv0:GetChipOfHeroDic()[slot11.ID] then
+		if slot25 ~= 0 then
+			slot29 = slot25
+
+			for slot29, slot30 in ipairs(ChipData:GetCurChipManagerList(slot29)) do
+				table.insert(slot24, slot30)
 			end
 		end
 
-		for iter_27_15, iter_27_16 in ipairs(var_0_1:GetChipOfHeroDic()[var_27_6.ID]) do
-			table.insert(var_27_22, iter_27_16)
+		for slot29, slot30 in ipairs(uv0:GetChipOfHeroDic()[slot11.ID]) do
+			table.insert(slot24, slot30)
 		end
-	else
-		local var_27_24 = var_0_1:GetChipList()
-
-		if var_27_24 then
-			for iter_27_17, iter_27_18 in ipairs(var_27_24) do
-				table.insert(var_27_22, iter_27_18)
-			end
+	elseif uv0:GetChipList() then
+		for slot30, slot31 in ipairs(slot26) do
+			table.insert(slot24, slot31)
 		end
 	end
 
-	var_27_6.AIChip = var_27_22
+	slot11.AIChip = slot24
 
-	return var_27_6
+	return slot11
 end
 
-return var_0_0
+return slot0

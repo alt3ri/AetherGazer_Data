@@ -1,130 +1,110 @@
-local var_0_0 = class("SPHeroChallengeEntrustStartItem", ReduxView)
+slot0 = class("SPHeroChallengeEntrustStartItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.showIndex = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.showIndex = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = arg_3_0.controller:GetController("state")
-	arg_3_0.rankController = arg_3_0.controller:GetController("rank")
-	arg_3_0.commonItemView = CommonItemView.New(arg_3_0.commonItem)
+	slot0.stateController = slot0.controller:GetController("state")
+	slot0.rankController = slot0.controller:GetController("rank")
+	slot0.commonItemView = CommonItemView.New(slot0.commonItem)
 
-	arg_3_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	if arg_4_1 then
-		arg_4_0.showIndex = arg_4_1.showIndex
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 then
+		slot0.showIndex = slot1.showIndex
 
-		if arg_4_1.state == "lock" then
-			arg_4_0.stateController:SetSelectedState("lock")
+		if slot1.state == "lock" then
+			slot0.stateController:SetSelectedState("lock")
 
-			local var_4_0, var_4_1 = SPHeroChallengeTools:GetEntrustLockDesc(arg_4_0.showIndex)
-
-			arg_4_0.lockDesc.text = var_4_1
-		elseif arg_4_1.state == "empty" then
-			arg_4_0.stateController:SetSelectedState("empty")
-		elseif arg_4_1.state == "start" then
-			arg_4_0.stateController:SetSelectedState("start")
-			arg_4_0:RefreshBaseInfo()
-			arg_4_0:RefreshStartInfo()
-		elseif arg_4_1.state == "end" then
-			arg_4_0.stateController:SetSelectedState("end")
-			arg_4_0:RefreshBaseInfo()
-			arg_4_0:RefreshEndInfo()
+			slot2, slot0.lockDesc.text = SPHeroChallengeTools:GetEntrustLockDesc(slot0.showIndex)
+		elseif slot1.state == "empty" then
+			slot0.stateController:SetSelectedState("empty")
+		elseif slot1.state == "start" then
+			slot0.stateController:SetSelectedState("start")
+			slot0:RefreshBaseInfo()
+			slot0:RefreshStartInfo()
+		elseif slot1.state == "end" then
+			slot0.stateController:SetSelectedState("end")
+			slot0:RefreshBaseInfo()
+			slot0:RefreshEndInfo()
 		end
 	end
 end
 
-function var_0_0.RefreshBaseInfo(arg_5_0)
-	local var_5_0 = SPHeroChallengeData:GetCurActivityInfo()
+function slot0.RefreshBaseInfo(slot0)
+	if SPHeroChallengeData:GetCurActivityInfo() then
+		slot0.info = slot1:GetShowIndexEntrustInfo(slot0.showIndex)
+		slot2 = ActivityHeroChallengeTaskCfg[slot0.info.entrustID]
+		slot0.nameText.text = slot2.name
 
-	if var_5_0 then
-		arg_5_0.info = var_5_0:GetShowIndexEntrustInfo(arg_5_0.showIndex)
-
-		local var_5_1 = ActivityHeroChallengeTaskCfg[arg_5_0.info.entrustID]
-
-		arg_5_0.nameText.text = var_5_1.name
-
-		arg_5_0.rankController:SetSelectedState(tostring(var_5_1.task_level))
-
-		local var_5_2 = {
-			id = var_5_1.reward_list[1][1],
-			number = var_5_1.reward_list[1][2],
-			clickFun = function(arg_6_0)
+		slot0.rankController:SetSelectedState(tostring(slot2.task_level))
+		slot0.commonItemView:SetData({
+			id = slot2.reward_list[1][1],
+			number = slot2.reward_list[1][2],
+			clickFun = function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_6_0.id,
-					arg_6_0.number
+					slot0.id,
+					slot0.number
 				})
 			end
-		}
-
-		arg_5_0.commonItemView:SetData(var_5_2)
+		})
 	end
 end
 
-function var_0_0.RefreshStartInfo(arg_7_0)
-	arg_7_0.curIcon.sprite = ItemTools.getItemSprite(SpHeroChallengeConst.accelerateID)
+function slot0.RefreshStartInfo(slot0)
+	slot0.curIcon.sprite = ItemTools.getItemSprite(SpHeroChallengeConst.accelerateID)
 
-	arg_7_0:RefreshTime()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshTime(arg_8_0)
-	local var_8_0 = arg_8_0.stateController:GetSelectedState()
-	local var_8_1 = SPHeroChallengeData:GetCurActivityInfo()
+function slot0.RefreshTime(slot0)
+	if slot0.stateController:GetSelectedState() == "start" then
+		slot3, slot4 = SPHeroChallengeData:GetCurActivityInfo():GetEntrustEndTime(slot0.info.index)
 
-	if var_8_0 == "start" then
-		local var_8_2, var_8_3 = var_8_1:GetEntrustEndTime(arg_8_0.info.index)
-
-		if not var_8_2 and var_8_3 then
-			arg_8_0.timeText_.text = GetTips("REMAINING_TIME") .. manager.time:DescCdTime3(var_8_3)
-			arg_8_0.accDesc.text = SPHeroChallengeTools:GetAcceleratorNumByIndex(arg_8_0.info.index)
+		if not slot3 and slot4 then
+			slot0.timeText_.text = GetTips("REMAINING_TIME") .. manager.time:DescCdTime3(slot4)
+			slot0.accDesc.text = SPHeroChallengeTools:GetAcceleratorNumByIndex(slot0.info.index)
 		else
-			var_8_1:EntrustFinish(arg_8_0.showIndex)
+			slot2:EntrustFinish(slot0.showIndex)
 		end
 	end
 end
 
-function var_0_0.RefreshEndInfo(arg_9_0)
-	return
+function slot0.RefreshEndInfo(slot0)
 end
 
-function var_0_0.AddUIListener(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.endbtnBtn_, nil, function()
-		local var_11_0 = SPHeroChallengeData:GetAccelerateNum()
-		local var_11_1 = SPHeroChallengeTools:GetAcceleratorNumByIndex(arg_10_0.info.index)
-
-		if var_11_0 < var_11_1 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.endbtnBtn_, nil, function ()
+		if SPHeroChallengeData:GetAccelerateNum() < SPHeroChallengeTools:GetAcceleratorNumByIndex(uv0.info.index) then
 			ShowTips(GetTips("ACTIVITY_HERO_CHALLENGE_ACCELERATOR_LACK"))
 
 			return
 		end
 
-		SPHeroChallengeAction:UseEntrustAccelerator(var_11_1, arg_10_0.info.index)
+		SPHeroChallengeAction:UseEntrustAccelerator(slot1, uv0.info.index)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.emptyBtn_, nil, function()
-		if arg_10_0.clickEmptyFunc then
-			arg_10_0.clickEmptyFunc(arg_10_0.showIndex)
+	slot0:AddBtnListener(slot0.emptyBtn_, nil, function ()
+		if uv0.clickEmptyFunc then
+			uv0.clickEmptyFunc(uv0.showIndex)
 		end
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.reciveBtn, nil, function()
-		local var_13_0 = SPHeroChallengeData:GetCurActivityInfo()
-
-		if var_13_0 then
-			local var_13_1 = var_13_0:GetCanGetRewardEntrustIndexList()
-
-			if #var_13_1 > 0 then
-				SPHeroChallengeAction:GetEntrustAward(var_13_1)
+	slot0:AddBtnListener(slot0.reciveBtn, nil, function ()
+		if SPHeroChallengeData:GetCurActivityInfo() then
+			if #slot0:GetCanGetRewardEntrustIndexList() > 0 then
+				SPHeroChallengeAction:GetEntrustAward(slot1)
 			else
 				ShowTips("ACTIVITY_HERO_CHALLENGE_NONE_ENTRUST_FINISH")
 			end
@@ -132,18 +112,18 @@ function var_0_0.AddUIListener(arg_10_0)
 	end)
 end
 
-function var_0_0.ClickEmptyFunc(arg_14_0, arg_14_1)
-	if arg_14_1 then
-		arg_14_0.clickEmptyFunc = arg_14_1
+function slot0.ClickEmptyFunc(slot0, slot1)
+	if slot1 then
+		slot0.clickEmptyFunc = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	if arg_15_0.commonItemView then
-		arg_15_0.commonItemView:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.commonItemView then
+		slot0.commonItemView:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

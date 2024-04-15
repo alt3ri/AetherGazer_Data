@@ -1,148 +1,137 @@
-local var_0_0 = class("ChapterBaseItemView", ReduxView)
+slot0 = class("ChapterBaseItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.chapterClientID_ = arg_1_3
-	arg_1_0.chapterToggle_ = arg_1_4
-	arg_1_0.transform_.name = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3, slot4)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.chapterClientID_ = slot3
+	slot0.chapterToggle_ = slot4
+	slot0.transform_.name = slot3
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:RefrshData()
-	arg_2_0:RefreshItem()
-	arg_2_0:RefreshLock()
-	arg_2_0:Show(true)
+function slot0.OnEnter(slot0)
+	slot0:RefrshData()
+	slot0:RefreshItem()
+	slot0:RefreshLock()
+	slot0:Show(true)
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.OnExit(arg_4_0)
-	arg_4_0:Show(false)
+function slot0.OnExit(slot0)
+	slot0:Show(false)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	Object.Destroy(arg_5_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_5_0.gameObject_ = nil
-	arg_5_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
-	arg_6_0:AddListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_6_0.lockController_ = arg_6_0.controllerEx_:GetController("lock")
+	slot0.lockController_ = slot0.controllerEx_:GetController("lock")
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.btn_, nil, function()
-		local var_8_0 = arg_7_0.chapterClientID_
-
-		if BattleFieldData:GetCacheChapterClient(arg_7_0.chapterToggle_) ~= var_8_0 then
-			BattleFieldData:SetCacheChapterClient(arg_7_0.chapterToggle_, var_8_0)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if BattleFieldData:GetCacheChapterClient(uv0.chapterToggle_) ~= uv0.chapterClientID_ then
+			BattleFieldData:SetCacheChapterClient(uv0.chapterToggle_, slot0)
 			manager.notify:Invoke(CHANGE_DUNGEON)
 
 			return
 		end
 
-		BattleFieldData:SetCacheChapterClient(arg_7_0.chapterToggle_, var_8_0)
+		BattleFieldData:SetCacheChapterClient(uv0.chapterToggle_, slot0)
 
-		if not arg_7_0:GetLockState() then
-			SystemRedPoint:CancelNewTagByChapterId(var_8_0)
+		if not uv0:GetLockState() then
+			SystemRedPoint:CancelNewTagByChapterId(slot0)
 		end
 
-		arg_7_0:ClickItem(var_8_0)
+		uv0:ClickItem(slot0)
 	end)
 end
 
-function var_0_0.RefrshData(arg_9_0)
-	arg_9_0:IsNotice()
-	arg_9_0:IsLock()
+function slot0.RefrshData(slot0)
+	slot0:IsNotice()
+	slot0:IsLock()
 end
 
-function var_0_0.IsNotice(arg_10_0)
-	arg_10_0.notice_ = false
+function slot0.IsNotice(slot0)
+	slot0.notice_ = false
 end
 
-function var_0_0.GetLockState(arg_11_0)
-	return arg_11_0.isLock_
+function slot0.GetLockState(slot0)
+	return slot0.isLock_
 end
 
-function var_0_0.SetSiblingIndex(arg_12_0, arg_12_1)
-	arg_12_0.transform_:SetSiblingIndex(arg_12_1)
+function slot0.SetSiblingIndex(slot0, slot1)
+	slot0.transform_:SetSiblingIndex(slot1)
 end
 
-function var_0_0.PlayAnimatorEnter(arg_13_0)
-	if arg_13_0.gameObject_.activeInHierarchy then
-		arg_13_0.animator_:Play("Fx_mapRenderItemt_cx", 0, 0)
-		arg_13_0.animator_:Update(0)
+function slot0.PlayAnimatorEnter(slot0)
+	if slot0.gameObject_.activeInHierarchy then
+		slot0.animator_:Play("Fx_mapRenderItemt_cx", 0, 0)
+		slot0.animator_:Update(0)
 	end
 end
 
-function var_0_0.PlayAnimatorExit(arg_14_0)
-	if arg_14_0.gameObject_.activeInHierarchy then
-		arg_14_0.animator_:Play("Fx_mapRenderItemt_xs", 0, 0)
-		arg_14_0.animator_:Update(0)
+function slot0.PlayAnimatorExit(slot0)
+	if slot0.gameObject_.activeInHierarchy then
+		slot0.animator_:Play("Fx_mapRenderItemt_xs", 0, 0)
+		slot0.animator_:Update(0)
 	end
 end
 
-function var_0_0.RefreshItem(arg_15_0)
-	local var_15_0 = ChapterClientCfg[arg_15_0.chapterClientID_]
-
-	if not var_15_0 then
+function slot0.RefreshItem(slot0)
+	if not ChapterClientCfg[slot0.chapterClientID_] then
 		return
 	end
 
-	arg_15_0.nameText_.text = GetI18NText(var_15_0.name)
+	slot0.nameText_.text = GetI18NText(slot1.name)
 
-	arg_15_0:RefreshCustomItem(var_15_0)
+	slot0:RefreshCustomItem(slot1)
 end
 
-function var_0_0.RefreshCustomItem(arg_16_0, arg_16_1)
-	return
+function slot0.RefreshCustomItem(slot0, slot1)
 end
 
-function var_0_0.RefreshLock(arg_17_0)
-	arg_17_0.lockController_:SetSelectedState(tostring(arg_17_0.isLock_))
+function slot0.RefreshLock(slot0)
+	slot0.lockController_:SetSelectedState(tostring(slot0.isLock_))
 end
 
-function var_0_0.GetLocalPosition(arg_18_0)
-	return arg_18_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-function var_0_0.SetPosition(arg_19_0, arg_19_1, arg_19_2, arg_19_3)
-	local var_19_0 = arg_19_0.transform_.localPosition
-
-	arg_19_0.transform_.localPosition = Vector3(arg_19_1, arg_19_2, var_19_0.z)
-	arg_19_0.transform_.localScale = Vector3(arg_19_3, arg_19_3, 1)
+function slot0.SetPosition(slot0, slot1, slot2, slot3)
+	slot0.transform_.localPosition = Vector3(slot1, slot2, slot0.transform_.localPosition.z)
+	slot0.transform_.localScale = Vector3(slot3, slot3, 1)
 end
 
-function var_0_0.InvokeBtn(arg_20_0)
-	arg_20_0.isAbove_ = true
+function slot0.InvokeBtn(slot0)
+	slot0.isAbove_ = true
 
-	arg_20_0.btn_.onClick:Invoke()
+	slot0.btn_.onClick:Invoke()
 end
 
-function var_0_0.GetChapterClientID(arg_21_0)
-	return arg_21_0.chapterClientID_
+function slot0.GetChapterClientID(slot0)
+	return slot0.chapterClientID_
 end
 
-function var_0_0.IsLock(arg_22_0)
-	local var_22_0 = ChapterClientCfg[arg_22_0.chapterClientID_]
-	local var_22_1, var_22_2 = JumpTools.GetSystemLockedText(var_22_0.jump_system)
-
-	arg_22_0.isLock_ = var_22_1
-	arg_22_0.lockTips_ = var_22_2
+function slot0.IsLock(slot0)
+	slot0.isLock_, slot0.lockTips_ = JumpTools.GetSystemLockedText(ChapterClientCfg[slot0.chapterClientID_].jump_system)
 end
 
-function var_0_0.GetLockTips(arg_23_0)
-	return arg_23_0.lockTips_
+function slot0.GetLockTips(slot0)
+	return slot0.lockTips_
 end
 
-return var_0_0
+return slot0

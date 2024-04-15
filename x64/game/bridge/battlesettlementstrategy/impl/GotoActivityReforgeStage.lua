@@ -1,45 +1,41 @@
-local var_0_0 = class("GotoActivityReforgeStage", BattleSettlementStrategyBase)
+slot0 = class("GotoActivityReforgeStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoActivityReforgeStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoActivityReforgeStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoActivityReforgeStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	if isSuccess(arg_2_1) and not arg_2_5 then
+function slot0.GotoActivityReforgeStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	if isSuccess(slot1) and not slot5 then
 		function BattleCallLuaCallBack()
 			manager.story:RemovePlayer()
 
-			local var_3_0 = arg_2_2:GetMainActivityID()
-			local var_3_1 = arg_2_2:GetChapterActivityID()
-			local var_3_2 = arg_2_2:GetLevelID()
-			local var_3_3 = arg_2_2:GetWaveID()
-			local var_3_4 = ActivityReforgeLevelCfg[var_3_2].wave_list
+			slot4 = ActivityReforgeLevelCfg[uv0:GetLevelID()].wave_list
 
-			if var_3_4[#var_3_4] == var_3_3 then
+			if slot4[#slot4] == uv0:GetWaveID() then
 				gameContext:Go("/activityReforgeBattleInfoView", {
 					IsBattleBack = true,
-					activityID = var_3_0,
-					chapterActivityID = var_3_1,
-					levelID = var_3_2,
-					waveID = var_3_3,
-					stageData = arg_2_2
+					activityID = uv0:GetMainActivityID(),
+					chapterActivityID = uv0:GetChapterActivityID(),
+					levelID = slot2,
+					waveID = slot3,
+					stageData = uv0
 				})
 			else
 				ActivityReforgeData:SetCachePopBattleInfoView(true)
 				gameContext:Go("/activityReforgeTrimView", {
 					IsBattleBack = true,
-					activityID = var_3_0,
-					chapterActivityID = var_3_1,
-					levelID = var_3_2,
-					stageData = arg_2_2
+					activityID = slot0,
+					chapterActivityID = slot1,
+					levelID = slot2,
+					stageData = uv0
 				})
 			end
 
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv1)
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

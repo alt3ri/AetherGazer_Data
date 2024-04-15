@@ -1,64 +1,61 @@
-local var_0_0 = class("GuildBossNoteView", ReduxView)
+slot0 = class("GuildBossNoteView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/ClubUI/ClubBossNoteUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	arg_8_0:RegistEventListener(GUILD_EXIT, function()
-		arg_8_0:Go("/home")
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_EXIT, function ()
+		uv0:Go("/home")
 	end)
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_11_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_12_0.contentText_.text = GetTips("CLUB_BOSS_DESCRIPE")
+	slot0.contentText_.text = GetTips("CLUB_BOSS_DESCRIPE")
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_12_0.content_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.content_)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_14_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

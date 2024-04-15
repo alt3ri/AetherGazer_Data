@@ -1,129 +1,113 @@
-local var_0_0 = singletonClass("PaperCutData")
+slot0 = singletonClass("PaperCutData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.scoreList_ = {}
-	arg_1_0.receivedList_ = {}
-	arg_1_0.playedList_ = {}
+function slot0.Init(slot0)
+	slot0.scoreList_ = {}
+	slot0.receivedList_ = {}
+	slot0.playedList_ = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
+function slot0.SetData(slot0, slot1)
+	slot2 = slot1.activity_id
+	slot0.scoreList_[slot2] = slot1.score
+	slot0.receivedList_[slot2] = {}
 
-	arg_2_0.scoreList_[var_2_0] = arg_2_1.score
-
-	local var_2_1 = arg_2_1.got_reward_list
-
-	arg_2_0.receivedList_[var_2_0] = {}
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_1) do
-		table.insert(arg_2_0.receivedList_[var_2_0], iter_2_1)
+	for slot7, slot8 in ipairs(slot1.got_reward_list) do
+		table.insert(slot0.receivedList_[slot2], slot8)
 	end
 
-	arg_2_0.playedList_[var_2_0] = arg_2_1.is_play
+	slot0.playedList_[slot2] = slot1.is_play
 
-	arg_2_0:RefreshSelectRedPoint(var_2_0)
-	arg_2_0:RefreshRewardRedPoint(var_2_0)
+	slot0:RefreshSelectRedPoint(slot2)
+	slot0:RefreshRewardRedPoint(slot2)
 end
 
-function var_0_0.GetPlayedList(arg_3_0, arg_3_1)
-	return arg_3_0.playedList_[arg_3_1] or false
+function slot0.GetPlayedList(slot0, slot1)
+	return slot0.playedList_[slot1] or false
 end
 
-function var_0_0.GetScore(arg_4_0, arg_4_1)
-	return arg_4_0.scoreList_[arg_4_1] or 0
+function slot0.GetScore(slot0, slot1)
+	return slot0.scoreList_[slot1] or 0
 end
 
-function var_0_0.SetScore(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_0.scoreList_[arg_5_1] == nil then
-		arg_5_0.scoreList_[arg_5_1] = arg_5_2
+function slot0.SetScore(slot0, slot1, slot2)
+	if slot0.scoreList_[slot1] == nil then
+		slot0.scoreList_[slot1] = slot2
 	else
-		arg_5_0.scoreList_[arg_5_1] = arg_5_2 < arg_5_0.scoreList_[arg_5_1] and arg_5_0.scoreList_[arg_5_1] or arg_5_2
+		slot0.scoreList_[slot1] = slot2 < slot0.scoreList_[slot1] and slot0.scoreList_[slot1] or slot2
 	end
 
-	arg_5_0.playedList_[arg_5_1] = true
+	slot0.playedList_[slot1] = true
 
-	arg_5_0:RefreshSelectRedPoint(arg_5_1)
-	arg_5_0:RefreshRewardRedPoint(arg_5_1)
+	slot0:RefreshSelectRedPoint(slot1)
+	slot0:RefreshRewardRedPoint(slot1)
 end
 
-function var_0_0.GetReceivedList(arg_6_0, arg_6_1)
-	return arg_6_0.receivedList_[arg_6_1] or {}
+function slot0.GetReceivedList(slot0, slot1)
+	return slot0.receivedList_[slot1] or {}
 end
 
-function var_0_0.SetReceivedList(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.receivedList_[arg_7_1] = arg_7_0.receivedList_[arg_7_1] or {}
+function slot0.SetReceivedList(slot0, slot1, slot2)
+	slot0.receivedList_[slot1] = slot0.receivedList_[slot1] or {}
 
-	if table.keyof(arg_7_0.receivedList_[arg_7_1], arg_7_2) == nil then
-		table.insert(arg_7_0.receivedList_[arg_7_1], arg_7_2)
+	if table.keyof(slot0.receivedList_[slot1], slot2) == nil then
+		table.insert(slot0.receivedList_[slot1], slot2)
 	end
 
-	arg_7_0:RefreshRewardRedPoint(arg_7_1)
+	slot0:RefreshRewardRedPoint(slot1)
 end
 
-function var_0_0.GetRewardList(arg_8_0, arg_8_1)
-	local var_8_0 = ActivityCfg[arg_8_1].sub_activity_list
-	local var_8_1 = {}
-	local var_8_2 = {}
-	local var_8_3 = {}
-	local var_8_4 = {}
+function slot0.GetRewardList(slot0, slot1)
+	slot3 = {}
+	slot4 = {}
+	slot5 = {}
+	slot6 = {}
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		local var_8_5 = ActivityPointRewardCfg.get_id_list_by_activity_id[iter_8_1]
-		local var_8_6 = arg_8_0:GetScore(iter_8_1)
-		local var_8_7 = arg_8_0:GetReceivedList(iter_8_1)
+	for slot10, slot11 in ipairs(ActivityCfg[slot1].sub_activity_list) do
+		slot14 = slot0:GetReceivedList(slot11)
 
-		for iter_8_2, iter_8_3 in ipairs(var_8_5) do
-			if var_8_6 < ActivityPointRewardCfg[iter_8_3].need then
-				var_8_2[#var_8_2 + 1] = iter_8_3
-			elseif table.keyof(var_8_7, iter_8_3) == nil then
-				var_8_3[#var_8_3 + 1] = iter_8_3
+		for slot18, slot19 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot11]) do
+			if slot0:GetScore(slot11) < ActivityPointRewardCfg[slot19].need then
+				slot4[#slot4 + 1] = slot19
+			elseif table.keyof(slot14, slot19) == nil then
+				slot5[#slot5 + 1] = slot19
 			else
-				var_8_4[#var_8_4 + 1] = iter_8_3
+				slot6[#slot6 + 1] = slot19
 			end
 		end
 	end
 
-	table.insertto(var_8_1, var_8_3)
-	table.insertto(var_8_1, var_8_2)
-	table.insertto(var_8_1, var_8_4)
+	table.insertto(slot3, slot5)
+	table.insertto(slot3, slot4)
+	table.insertto(slot3, slot6)
 
-	return var_8_1
+	return slot3
 end
 
-function var_0_0.SetSelectActivityID(arg_9_0, arg_9_1)
-	local var_9_0 = PaperCutCfg[arg_9_1].main_activity_id
-
-	manager.redPoint:setTip(string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, var_9_0, arg_9_1), 0)
+function slot0.SetSelectActivityID(slot0, slot1)
+	manager.redPoint:setTip(string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, PaperCutCfg[slot1].main_activity_id, slot1), 0)
 end
 
-function var_0_0.RefreshSelectRedPoint(arg_10_0, arg_10_1)
-	local var_10_0 = PaperCutCfg[arg_10_1].main_activity_id
-	local var_10_1 = arg_10_0.playedList_[arg_10_1] == true and 0 or 1
-
-	manager.redPoint:setTip(string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, var_10_0, arg_10_1), var_10_1)
+function slot0.RefreshSelectRedPoint(slot0, slot1)
+	manager.redPoint:setTip(string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, PaperCutCfg[slot1].main_activity_id, slot1), slot0.playedList_[slot1] == true and 0 or 1)
 end
 
-function var_0_0.RefreshRewardRedPoint(arg_11_0, arg_11_1)
-	local var_11_0 = 0
-	local var_11_1 = PaperCutCfg[arg_11_1].main_activity_id
-	local var_11_2 = arg_11_0:GetScore(arg_11_1)
-	local var_11_3 = PaperCutCfg[arg_11_1]
+function slot0.RefreshRewardRedPoint(slot0, slot1)
+	slot2 = 0
+	slot3 = PaperCutCfg[slot1].main_activity_id
 
-	if var_11_3 then
-		local var_11_4 = var_11_3.task_id
-
-		var_11_0 = var_11_2 >= ActivityPointRewardCfg[var_11_4].need and table.keyof(arg_11_0.receivedList_[arg_11_1], var_11_4) == nil and 1 or 0
+	if PaperCutCfg[slot1] then
+		slot2 = ActivityPointRewardCfg[slot5.task_id].need <= slot0:GetScore(slot1) and table.keyof(slot0.receivedList_[slot1], slot6) == nil and 1 or 0
 	end
 
-	manager.redPoint:setTip(string.format("%s_%s_%s_Reward", RedPointConst.PAPER_CUT, var_11_1, arg_11_1), var_11_0)
+	manager.redPoint:setTip(string.format("%s_%s_%s_Reward", RedPointConst.PAPER_CUT, slot3, slot1), slot2)
 end
 
-function var_0_0.GetLastContentPosX(arg_12_0, arg_12_1)
-	return getData(string.format("PaperCut_%d", arg_12_1), "contentPosX")
+function slot0.GetLastContentPosX(slot0, slot1)
+	return getData(string.format("PaperCut_%d", slot1), "contentPosX")
 end
 
-function var_0_0.SetLastContentPosX(arg_13_0, arg_13_1, arg_13_2)
-	saveData(string.format("PaperCut_%d", arg_13_1), "contentPosX", arg_13_2)
+function slot0.SetLastContentPosX(slot0, slot1, slot2)
+	saveData(string.format("PaperCut_%d", slot1), "contentPosX", slot2)
 end
 
-return var_0_0
+return slot0

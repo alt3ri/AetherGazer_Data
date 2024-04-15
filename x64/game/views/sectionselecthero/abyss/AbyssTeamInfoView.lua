@@ -1,70 +1,66 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("AbyssTeamInfoView", var_0_0)
+slot1 = class("AbyssTeamInfoView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.Init(arg_1_0)
-	var_0_1.super.Init(arg_1_0)
-	arg_1_0.filterView_:SetExtraSorter(handler(arg_1_0, arg_1_0.LockSorter))
+function slot1.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.filterView_:SetExtraSorter(handler(slot0, slot0.LockSorter))
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	arg_2_0.abandonList_ = AbyssTools.GetGlobalBanHeroList()
-	arg_2_0.lockList_ = AbyssTools.GetLayerLockHeroList(arg_2_0.params_.reserveParams.customData.layer)
+function slot1.OnEnter(slot0)
+	slot0.abandonList_ = AbyssTools.GetGlobalBanHeroList()
+	slot0.lockList_ = AbyssTools.GetLayerLockHeroList(slot0.params_.reserveParams.customData.layer)
 
-	var_0_1.super.OnEnter(arg_2_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_1.HeadRenderer(arg_3_0, arg_3_1, arg_3_2)
-	var_0_1.super.HeadRenderer(arg_3_0, arg_3_1, arg_3_2)
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
 
-	local var_3_0 = arg_3_0.heroDataList_[arg_3_1].id
-	local var_3_1 = arg_3_0.heroDataList_[arg_3_1].trialID
-	local var_3_2, var_3_3, var_3_4 = arg_3_0:IsInTeam(var_3_0, var_3_1)
-	local var_3_5 = AbyssData:IsHeroInLockList(var_3_0, arg_3_0.lockList_)
+	slot3 = slot0.heroDataList_[slot1].id
+	slot5, slot6, slot7 = slot0:IsInTeam(slot3, slot0.heroDataList_[slot1].trialID)
+	slot8 = AbyssData:IsHeroInLockList(slot3, slot0.lockList_)
 
-	if AbyssData:IsHeroInLockList(var_3_0, arg_3_0.abandonList_) > 0 then
-		arg_3_2:SetHeroLock(true)
-		arg_3_2:SetHeroLockType("abyss_abandon")
-	elseif var_3_5 > 0 then
-		arg_3_2:SetHeroLock(true)
-		arg_3_2:SetHeroLockType("abyss_lock")
+	if AbyssData:IsHeroInLockList(slot3, slot0.abandonList_) > 0 then
+		slot2:SetHeroLock(true)
+		slot2:SetHeroLockType("abyss_abandon")
+	elseif slot8 > 0 then
+		slot2:SetHeroLock(true)
+		slot2:SetHeroLockType("abyss_lock")
 	else
-		arg_3_2:SetHeroLock(false)
+		slot2:SetHeroLock(false)
 	end
 
-	arg_3_2.lockImage_:SetNativeSize()
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_2.lockContainer_)
-	arg_3_2:SetInTeamFlag(var_3_2)
+	slot2.lockImage_:SetNativeSize()
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot2.lockContainer_)
+	slot2:SetInTeamFlag(slot5)
 end
 
-function var_0_1.LockSorter(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0 = AbyssData:IsHeroInLockList(arg_4_1.id, arg_4_0.lockList_) > 0 and 1 or 0
-	local var_4_1 = AbyssData:IsHeroInLockList(arg_4_2.id, arg_4_0.lockList_) > 0 and 1 or 0
-	local var_4_2 = AbyssData:IsHeroInAbandonList(arg_4_1.id, arg_4_0.abandonList_) > 0 and 1 or 0
-	local var_4_3 = AbyssData:IsHeroInAbandonList(arg_4_2.id, arg_4_0.abandonList_) > 0 and 1 or 0
+function slot1.LockSorter(slot0, slot1, slot2, slot3, slot4)
+	slot5 = AbyssData:IsHeroInLockList(slot1.id, slot0.lockList_) > 0 and 1 or 0
+	slot6 = AbyssData:IsHeroInLockList(slot2.id, slot0.lockList_) > 0 and 1 or 0
 
-	if var_4_2 ~= var_4_3 then
-		return true, var_4_2 < var_4_3
+	if (AbyssData:IsHeroInAbandonList(slot1.id, slot0.abandonList_) > 0 and 1 or 0) ~= (AbyssData:IsHeroInAbandonList(slot2.id, slot0.abandonList_) > 0 and 1 or 0) then
+		return true, slot7 < slot8
 	end
 
-	if var_4_0 ~= var_4_1 then
-		return true, var_4_0 < var_4_1
-	end
-end
-
-function var_0_1.RefreshJoinBtn(arg_5_0)
-	var_0_1.super.RefreshJoinBtn(arg_5_0)
-
-	if AbyssData:IsHeroInAbandonList(arg_5_0.selectID_, arg_5_0.abandonList_) > 0 then
-		arg_5_0.joinBtn_.interactable = false
-
-		arg_5_0.joinBtnController_:SetSelectedState("lock")
-	end
-
-	if AbyssData:IsHeroInLockList(arg_5_0.selectID_, arg_5_0.lockList_) > 0 then
-		arg_5_0.joinBtn_.interactable = false
-
-		arg_5_0.joinBtnController_:SetSelectedState("lock")
+	if slot5 ~= slot6 then
+		return true, slot5 < slot6
 	end
 end
 
-return var_0_1
+function slot1.RefreshJoinBtn(slot0)
+	uv0.super.RefreshJoinBtn(slot0)
+
+	if AbyssData:IsHeroInAbandonList(slot0.selectID_, slot0.abandonList_) > 0 then
+		slot0.joinBtn_.interactable = false
+
+		slot0.joinBtnController_:SetSelectedState("lock")
+	end
+
+	if AbyssData:IsHeroInLockList(slot0.selectID_, slot0.lockList_) > 0 then
+		slot0.joinBtn_.interactable = false
+
+		slot0.joinBtnController_:SetSelectedState("lock")
+	end
+end
+
+return slot1

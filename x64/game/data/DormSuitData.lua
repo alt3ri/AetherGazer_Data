@@ -1,127 +1,113 @@
-local var_0_0 = singletonClass("DormSuitData")
-local var_0_1
-local var_0_2
-local var_0_3
+slot0 = singletonClass("DormSuitData")
+slot1, slot2, slot3 = nil
 
-function var_0_0.InitDormSuitList(arg_1_0, arg_1_1)
-	var_0_0:RefreshUnLockSuitList(arg_1_1.backhome_suit_id_list, true)
+function slot0.InitDormSuitList(slot0, slot1)
+	uv0:RefreshUnLockSuitList(slot1.backhome_suit_id_list, true)
 end
 
-function var_0_0.DisposeDormSuitData(arg_2_0)
-	var_0_1 = nil
+function slot0.DisposeDormSuitData(slot0)
+	uv0 = nil
 end
 
-function var_0_0.EnterDormSystem(arg_3_0)
-	var_0_3 = getData("BackHome", "suitHelp")
+function slot0.EnterDormSystem(slot0)
+	uv0 = getData("BackHome", "suitHelp")
 
-	if not var_0_3 then
-		var_0_3 = false
+	if not uv0 then
+		uv0 = false
 	end
 end
 
-function var_0_0.ExitDormSystem(arg_4_0)
-	saveData("BackHome", "suitHelp", var_0_3)
+function slot0.ExitDormSystem(slot0)
+	saveData("BackHome", "suitHelp", uv0)
 
-	var_0_3 = nil
+	uv0 = nil
 end
 
-function var_0_0.GenerateSingleSuitData(arg_5_0, arg_5_1)
-	if not var_0_1 then
-		var_0_1 = {}
+function slot0.GenerateSingleSuitData(slot0, slot1)
+	if not uv0 then
+		uv0 = {}
 	end
 
-	var_0_1[arg_5_1.suitID] = {
-		furList = arg_5_1.furList,
-		specialFur = arg_5_1.specialFur,
-		tileType = arg_5_1.tileType,
-		suitType = arg_5_1.suitType,
-		suit_num = arg_5_1.suitNum
+	uv0[slot1.suitID] = {
+		furList = slot1.furList,
+		specialFur = slot1.specialFur,
+		tileType = slot1.tileType,
+		suitType = slot1.suitType,
+		suit_num = slot1.suitNum
 	}
 end
 
-function var_0_0.RefreshUnLockSuitList(arg_6_0, arg_6_1, arg_6_2)
-	if not var_0_2 or arg_6_2 then
-		var_0_2 = {}
+function slot0.RefreshUnLockSuitList(slot0, slot1, slot2)
+	if not uv0 or slot2 then
+		uv0 = {}
 	end
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1) do
-		table.insert(var_0_2, iter_6_1)
+	for slot6, slot7 in ipairs(slot1) do
+		table.insert(uv0, slot7)
 	end
 
 	DormRedPointTools:UpdataSuitRedPoint()
 end
 
-function var_0_0.GetSuitFurInfo(arg_7_0, arg_7_1)
-	if var_0_1 and var_0_1[arg_7_1] then
-		return var_0_1[arg_7_1]
+function slot0.GetSuitFurInfo(slot0, slot1)
+	if uv0 and uv0[slot1] then
+		return uv0[slot1]
 	end
 
-	local var_7_0 = BackHomeSuitCfg[arg_7_1].type
+	if BackHomeSuitCfg[slot1].type == DormSuitTools.DORM_SUIT_TYPE.FULL_SET or slot2 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
+		slot3, slot4 = DormSuitTools:GetDeSerializeDormSuitDataInScene(slot1)
 
-	if var_7_0 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET or var_7_0 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
-		local var_7_1, var_7_2 = DormSuitTools:GetDeSerializeDormSuitDataInScene(arg_7_1)
-		local var_7_3 = {
-			suitID = arg_7_1,
-			furList = var_7_1,
-			specialFur = var_7_2,
-			suitType = var_7_0,
-			tileType = BackHomeSuitCfg[arg_7_1].display_type,
-			suitNum = BackHomeSuitCfg[arg_7_1].suit_num
-		}
-
-		var_0_0:GenerateSingleSuitData(var_7_3)
+		uv1:GenerateSingleSuitData({
+			suitID = slot1,
+			furList = slot3,
+			specialFur = slot4,
+			suitType = slot2,
+			tileType = BackHomeSuitCfg[slot1].display_type,
+			suitNum = BackHomeSuitCfg[slot1].suit_num
+		})
 	end
 
-	return var_0_1[arg_7_1]
+	return uv0[slot1]
 end
 
-function var_0_0.GetSuitInfoListByType(arg_8_0, arg_8_1)
-	local var_8_0 = {}
+function slot0.GetSuitInfoListByType(slot0, slot1)
+	slot2 = {}
 
-	if var_0_1 then
-		for iter_8_0, iter_8_1 in pairs(var_0_1) do
-			if iter_8_1.suitType == arg_8_1 then
-				table.insert(var_8_0, iter_8_0)
+	if uv0 then
+		for slot6, slot7 in pairs(uv0) do
+			if slot7.suitType == slot1 then
+				table.insert(slot2, slot6)
 			end
 		end
 	end
 
-	return var_8_0
+	return slot2
 end
 
-function var_0_0.GetSuitNeedTotalFurNumList(arg_9_0, arg_9_1)
-	local var_9_0 = 0
-	local var_9_1 = var_0_0:GetSuitFurInfo(arg_9_1)
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_1.suit_num) do
-		var_9_0 = var_9_0 + var_0_0:GetFurNeedNumBySuitID(arg_9_1, iter_9_1[1])
+function slot0.GetSuitNeedTotalFurNumList(slot0, slot1)
+	for slot7, slot8 in ipairs(uv0:GetSuitFurInfo(slot1).suit_num) do
+		slot2 = 0 + uv0:GetFurNeedNumBySuitID(slot1, slot8[1])
 	end
 
-	return var_9_0
+	return slot2
 end
 
-function var_0_0.GetTotalCanUseFurNumBySuitInRoom(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0, var_10_1 = DormSuitData:CheckIsSuit(arg_10_1)
-	local var_10_2 = 0
+function slot0.GetTotalCanUseFurNumBySuitInRoom(slot0, slot1, slot2)
+	slot3, slot4 = DormSuitData:CheckIsSuit(slot1)
+	slot5 = 0
 
-	if var_10_0 then
-		local var_10_3 = var_0_0:GetSuitFurInfo(arg_10_1)
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_3.suit_num) do
-			var_10_2 = var_10_2 + var_0_0:GetFurCanUseNumBySuitIDAndRoomID(arg_10_1, iter_10_1[1], arg_10_2)
+	if slot3 then
+		for slot10, slot11 in ipairs(uv0:GetSuitFurInfo(slot1).suit_num) do
+			slot5 = slot5 + uv0:GetFurCanUseNumBySuitIDAndRoomID(slot1, slot11[1], slot2)
 		end
 	end
 
-	return var_10_2
+	return slot5
 end
 
-function var_0_0.CheckSuitCanUseInRoom(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = BackHomeSuitCfg[arg_11_1].suit_num
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		local var_11_1 = iter_11_1[1]
-
-		if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(var_11_1) and iter_11_1[2] > DormFurEditStateData:GetCanUseFurNumInRoom(arg_11_2, var_11_1) then
+function slot0.CheckSuitCanUseInRoom(slot0, slot1, slot2)
+	for slot7, slot8 in ipairs(BackHomeSuitCfg[slot1].suit_num) do
+		if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(slot8[1]) and DormFurEditStateData:GetCanUseFurNumInRoom(slot2, slot9) < slot8[2] then
 			return false
 		end
 	end
@@ -129,61 +115,55 @@ function var_0_0.CheckSuitCanUseInRoom(arg_11_0, arg_11_1, arg_11_2)
 	return true
 end
 
-function var_0_0.GetFurNeedNumBySuitID(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = var_0_0:GetSuitFurInfo(arg_12_1)
-	local var_12_1 = 0
+function slot0.GetFurNeedNumBySuitID(slot0, slot1, slot2)
+	slot4 = 0
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_0.suit_num) do
-		if iter_12_1[1] == arg_12_2 then
-			var_12_1 = iter_12_1[2]
+	for slot8, slot9 in ipairs(uv0:GetSuitFurInfo(slot1).suit_num) do
+		if slot9[1] == slot2 then
+			slot4 = slot9[2]
 
 			break
 		end
 	end
 
-	return var_12_1
+	return slot4
 end
 
-function var_0_0.GetFurCanUseNumBySuitIDAndRoomID(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	local var_13_0, var_13_1 = var_0_0:CheckIsSuit(arg_13_1)
-	local var_13_2 = BackHomeFurniture[arg_13_2].is_give
-	local var_13_3 = 0
-	local var_13_4 = DormFurEditStateData:GetCanUseFurNumInRoom(arg_13_3, arg_13_2)
-	local var_13_5 = DormRoomTools:GetHasPlaceFurInfoByRoom(arg_13_3, arg_13_2)
-	local var_13_6 = DormFurEditStateData:GetCacheFurNum(arg_13_2)
-	local var_13_7 = var_0_0:GetFurNeedNumBySuitID(arg_13_1, arg_13_2)
+function slot0.GetFurCanUseNumBySuitIDAndRoomID(slot0, slot1, slot2, slot3)
+	slot4, slot5 = uv0:CheckIsSuit(slot1)
+	slot6 = BackHomeFurniture[slot2].is_give
+	slot7 = 0
+	slot11 = uv0:GetFurNeedNumBySuitID(slot1, slot2)
 
-	if var_13_1 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
-		var_13_3 = var_13_5 + var_13_6 + var_13_4
-	elseif var_13_1 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
-		var_13_3 = var_13_4
+	if slot5 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
+		slot7 = DormRoomTools:GetHasPlaceFurInfoByRoom(slot3, slot2) + DormFurEditStateData:GetCacheFurNum(slot2) + DormFurEditStateData:GetCanUseFurNumInRoom(slot3, slot2)
+	elseif slot5 == DormSuitTools.DORM_SUIT_TYPE.PART_SET then
+		slot7 = slot8
 	end
 
-	return math.min(var_13_7, var_13_3)
+	return math.min(slot11, slot7)
 end
 
-function var_0_0.GetNeedUseFurNumInfoBySuitID(arg_14_0, arg_14_1)
-	local var_14_0 = BackHomeSuitCfg[arg_14_1]
-
-	if var_14_0 then
-		return var_14_0.suit_num
+function slot0.GetNeedUseFurNumInfoBySuitID(slot0, slot1)
+	if BackHomeSuitCfg[slot1] then
+		return slot2.suit_num
 	end
 end
 
-function var_0_0.GetSuitHelpFlag(arg_15_0)
-	return var_0_3
+function slot0.GetSuitHelpFlag(slot0)
+	return uv0
 end
 
-function var_0_0.SetSuitHelpFlag(arg_16_0, arg_16_1)
-	var_0_3 = arg_16_1
+function slot0.SetSuitHelpFlag(slot0, slot1)
+	uv0 = slot1
 
-	saveData("BackHome", "suitHelp", var_0_3)
+	saveData("BackHome", "suitHelp", uv0)
 end
 
-function var_0_0.CheckUnlockSuit(arg_17_0, arg_17_1)
-	if var_0_2 then
-		for iter_17_0, iter_17_1 in ipairs(var_0_2) do
-			if iter_17_1 == arg_17_1 then
+function slot0.CheckUnlockSuit(slot0, slot1)
+	if uv0 then
+		for slot5, slot6 in ipairs(uv0) do
+			if slot6 == slot1 then
 				return true
 			end
 		end
@@ -192,121 +172,112 @@ function var_0_0.CheckUnlockSuit(arg_17_0, arg_17_1)
 	return false
 end
 
-function var_0_0.GetUnLockSuitList(arg_18_0)
-	return var_0_2
+function slot0.GetUnLockSuitList(slot0)
+	return uv0
 end
 
-function var_0_0.GetUnLockSuitListByType(arg_19_0, arg_19_1)
-	local var_19_0 = {}
+function slot0.GetUnLockSuitListByType(slot0, slot1)
+	slot2 = {}
 
-	if var_0_2 then
-		for iter_19_0, iter_19_1 in ipairs(var_0_2) do
-			if BackHomeSuitCfg[iter_19_1].type == arg_19_1 then
-				table.insert(var_19_0)
+	if uv0 then
+		for slot6, slot7 in ipairs(uv0) do
+			if BackHomeSuitCfg[slot7].type == slot1 then
+				table.insert(slot2)
 			end
 		end
 	end
 
-	return var_19_0
+	return slot2
 end
 
-function var_0_0.GetSuitIDListByType(arg_20_0, arg_20_1)
-	local var_20_0 = BackHomeSuitCfg.all
-	local var_20_1 = {}
+function slot0.GetSuitIDListByType(slot0, slot1)
+	slot3 = {}
 
-	for iter_20_0, iter_20_1 in ipairs(var_20_0) do
-		if BackHomeSuitCfg[iter_20_1].type == arg_20_1 then
-			table.insert(var_20_1, iter_20_1)
+	for slot7, slot8 in ipairs(BackHomeSuitCfg.all) do
+		if BackHomeSuitCfg[slot8].type == slot1 then
+			table.insert(slot3, slot8)
 		end
 	end
 
-	return var_20_1
+	return slot3
 end
 
-function var_0_0.CheckCanUseSuitInRoom(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = var_0_0:CheckUnlockSuit(arg_21_2)
-	local var_21_1 = BackHomeCfg[arg_21_1].type
-	local var_21_2 = false
+function slot0.CheckCanUseSuitInRoom(slot0, slot1, slot2)
+	slot3 = uv0:CheckUnlockSuit(slot2)
+	slot4 = BackHomeCfg[slot1].type
+	slot5 = false
 
-	if BackHomeSuitCfg[arg_21_2] then
-		for iter_21_0, iter_21_1 in ipairs(BackHomeSuitCfg[arg_21_2].scene_id) do
-			if var_21_1 == iter_21_1 then
-				var_21_2 = true
+	if BackHomeSuitCfg[slot2] then
+		for slot9, slot10 in ipairs(BackHomeSuitCfg[slot2].scene_id) do
+			if slot4 == slot10 then
+				slot5 = true
 
 				break
 			end
 		end
 	else
-		var_21_2 = true
+		slot5 = true
 	end
 
-	return var_21_0 and var_21_2
+	return slot3 and slot5
 end
 
-function var_0_0.GetCanUseFurSuitIDList(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = {}
+function slot0.GetCanUseFurSuitIDList(slot0, slot1, slot2)
+	slot3 = {}
 
-	for iter_22_0, iter_22_1 in ipairs(BackHomeSuitCfg.all) do
-		if arg_22_2 == BackHomeSuitCfg[iter_22_1].type and var_0_0:CheckCanUseSuitInRoom(arg_22_1, iter_22_1) and var_0_0:CheckUnlockSuit(iter_22_1) then
-			table.insert(var_22_0, iter_22_1)
+	for slot7, slot8 in ipairs(BackHomeSuitCfg.all) do
+		if slot2 == BackHomeSuitCfg[slot8].type and uv0:CheckCanUseSuitInRoom(slot1, slot8) and uv0:CheckUnlockSuit(slot8) then
+			table.insert(slot3, slot8)
 		end
 	end
 
-	return var_22_0
+	return slot3
 end
 
-function var_0_0.CheckIsSuit(arg_23_0, arg_23_1)
-	local var_23_0 = BackHomeSuitCfg[arg_23_1]
-
-	if var_23_0 then
-		local var_23_1 = var_23_0.type
-
-		return true, var_23_1
-	elseif arg_23_1 < 1000 then
+function slot0.CheckIsSuit(slot0, slot1)
+	if BackHomeSuitCfg[slot1] then
+		return true, slot2.type
+	elseif slot1 < 1000 then
 		return true, DormSuitTools.DORM_SUIT_TYPE.CUSTOM_SET
 	end
 end
 
-function var_0_0.CheckIsConfigSuit(arg_24_0, arg_24_1)
-	local var_24_0 = BackHomeSuitCfg[arg_24_1]
-
-	if var_24_0 then
-		local var_24_1 = var_24_0.type
-
-		return true, var_24_1
+function slot0.CheckIsConfigSuit(slot0, slot1)
+	if BackHomeSuitCfg[slot1] then
+		return true, slot2.type
 	end
 end
 
-function var_0_0.GetSuitCanUseFurInfo(arg_25_0, arg_25_1)
-	local var_25_0 = {}
-	local var_25_1 = DormSuitTools:GetDeSerializeDormSuitData(arg_25_1)
-
-	for iter_25_0, iter_25_1 in ipairs(var_25_1.numList) do
-		var_25_0[iter_25_1[1]] = iter_25_1[2]
+function slot0.GetSuitCanUseFurInfo(slot0, slot1)
+	for slot7, slot8 in ipairs(DormSuitTools:GetDeSerializeDormSuitData(slot1).numList) do
+		-- Nothing
 	end
 
-	return var_25_0
+	return {
+		[slot8[1]] = slot8[2]
+	}
 end
 
-local var_0_4
-local var_0_5 = DormSuitTools.DORM_SUIT_TYPE.FULL_SET
+slot4 = nil
+slot5 = DormSuitTools.DORM_SUIT_TYPE.FULL_SET
 
-function var_0_0.SetSuitType(arg_26_0, arg_26_1)
-	var_0_5 = arg_26_1
+function slot0.SetSuitType(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetSuitType(arg_27_0)
-	return var_0_5
+function slot0.GetSuitType(slot0)
+	return uv0
 end
 
-function var_0_0.SetSuitSerializeData(arg_28_0, arg_28_1)
-	var_0_4 = {}
-	var_0_4.name = arg_28_1
-	var_0_4.suitType = var_0_5
+function slot0.SetSuitSerializeData(slot0, slot1)
+	uv0 = {
+		name = slot1,
+		suitType = uv1
+	}
 end
 
-function var_0_0.GetSuitSerializeData(arg_29_0)
-	return var_0_4
+function slot0.GetSuitSerializeData(slot0)
+	return uv0
 end
 
-return var_0_0
+return slot0

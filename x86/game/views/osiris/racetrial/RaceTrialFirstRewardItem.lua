@@ -1,87 +1,85 @@
-local var_0_0 = class("RaceTrialScoreRewardItem", ReduxView)
+slot0 = class("RaceTrialScoreRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardList_ = {}
-	arg_3_0.receiveCon_ = ControllerUtil.GetController(arg_3_0.transform_, "receiveCon")
+	slot0.rewardList_ = {}
+	slot0.receiveCon_ = ControllerUtil.GetController(slot0.transform_, "receiveCon")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		RaceTrialAction:ReceiveFirstReward(arg_4_0.id_)
+		RaceTrialAction:ReceiveFirstReward(uv0.id_)
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.id_ = arg_7_1
-	arg_7_0.activityID_ = arg_7_2
-	arg_7_0.cfg_ = ActivityRaceTrialCfg[arg_7_1]
-	arg_7_0.data_ = RaceTrialData:GetBattleData(arg_7_0.id_)
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.id_ = slot1
+	slot0.activityID_ = slot2
+	slot0.cfg_ = ActivityRaceTrialCfg[slot1]
+	slot0.data_ = RaceTrialData:GetBattleData(slot0.id_)
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.cfg_.reward_item_list) do
-		if arg_7_0.rewardList_[iter_7_0] == nil then
-			arg_7_0.rewardList_[iter_7_0] = RewardItem.New(arg_7_0.rewardItem_, arg_7_0.rewardParent_, false)
+	for slot6, slot7 in ipairs(slot0.cfg_.reward_item_list) do
+		if slot0.rewardList_[slot6] == nil then
+			slot0.rewardList_[slot6] = RewardItem.New(slot0.rewardItem_, slot0.rewardParent_, false)
 
-			arg_7_0.rewardList_[iter_7_0]:UpdateCommonItemAni()
+			slot0.rewardList_[slot6]:UpdateCommonItemAni()
 		end
 
-		arg_7_0.rewardList_[iter_7_0]:SetData(iter_7_1)
+		slot0.rewardList_[slot6]:SetData(slot7)
 	end
 
-	for iter_7_2 = #arg_7_0.cfg_.reward_item_list + 1, #arg_7_0.rewardList_ do
-		arg_7_0.rewardList_[iter_7_2]:Show(false)
+	for slot6 = #slot0.cfg_.reward_item_list + 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot6]:Show(false)
 	end
 
-	arg_7_0.title_.text = GetI18NText(arg_7_0.cfg_.reward_desc)
+	slot0.title_.text = GetI18NText(slot0.cfg_.reward_desc)
 
-	if arg_7_0.data_.state == 1 then
-		arg_7_0.receiveCon_:SetSelectedState("incomplete")
-	elseif arg_7_0.data_.state == 2 then
-		arg_7_0.receiveCon_:SetSelectedState("complete")
-	elseif arg_7_0.data_.state == 3 then
-		arg_7_0.receiveCon_:SetSelectedState("received")
+	if slot0.data_.state == 1 then
+		slot0.receiveCon_:SetSelectedState("incomplete")
+	elseif slot0.data_.state == 2 then
+		slot0.receiveCon_:SetSelectedState("complete")
+	elseif slot0.data_.state == 3 then
+		slot0.receiveCon_:SetSelectedState("received")
 	end
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_9_0 = 1, #arg_9_0.rewardList_ do
-		arg_9_0.rewardList_[iter_9_0]:Dispose()
+	for slot4 = 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot4]:Dispose()
 
-		arg_9_0.rewardList_[iter_9_0] = nil
+		slot0.rewardList_[slot4] = nil
 	end
 
-	arg_9_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

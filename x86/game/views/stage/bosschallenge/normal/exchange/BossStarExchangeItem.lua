@@ -1,151 +1,138 @@
-local var_0_0 = class("BossStarExchangeItem", ReduxView)
-local var_0_1 = "notclear"
-local var_0_2 = "clear"
-local var_0_3 = "received"
+slot0 = class("BossStarExchangeItem", ReduxView)
+slot1 = "notclear"
+slot2 = "clear"
+slot3 = "received"
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardPanel_ = {}
-	arg_3_0.rewardItemList_ = {}
+	slot0.rewardPanel_ = {}
+	slot0.rewardItemList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.rewardPanel_[iter_3_0] = arg_3_0[string.format("rewardItem%s_", iter_3_0)]
-		arg_3_0.rewardItemList_[iter_3_0] = CommonItemView.New(arg_3_0.rewardPanel_[iter_3_0])
+	for slot4 = 1, 3 do
+		slot0.rewardPanel_[slot4] = slot0[string.format("rewardItem%s_", slot4)]
+		slot0.rewardItemList_[slot4] = CommonItemView.New(slot0.rewardPanel_[slot4])
 	end
 
-	arg_3_0.controller_ = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("default0")
+	slot0.controller_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("default0")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		if arg_4_0.rewardState_ == var_0_2 then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.rewardState_ == uv1 then
 			if table.length(BattleBossChallengeNormalData:GetReceiveStarList()) <= 0 then
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
 					content = GetTips("BOSS_CHALLENGE_REWARD_TIPS"),
-					OkCallback = function()
-						arg_4_0:ClickItem()
+					OkCallback = function ()
+						uv0:ClickItem()
 					end
 				})
 			else
-				arg_4_0:ClickItem()
+				uv0:ClickItem()
 			end
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2, arg_7_3, arg_7_4)
-	arg_7_0.rewardIndex_ = arg_7_3
-	arg_7_0.rewardCfg_ = getRewardFromDropCfg(arg_7_1[2], true)
-	arg_7_0.totalStarCnt_ = arg_7_1[1]
-	arg_7_0.curStarCnt_ = arg_7_2 > arg_7_1[1] and arg_7_1[1] or arg_7_2
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.rewardIndex_ = slot3
+	slot0.rewardCfg_ = getRewardFromDropCfg(slot1[2], true)
+	slot0.totalStarCnt_ = slot1[1]
+	slot0.curStarCnt_ = slot1[1] < slot2 and slot1[1] or slot2
 
-	arg_7_0:GetRewardState()
-	arg_7_0:RefreshUI(arg_7_2)
-	arg_7_0:RefreshState()
-	arg_7_0:RefreshItem()
+	slot0:GetRewardState()
+	slot0:RefreshUI(slot2)
+	slot0:RefreshState()
+	slot0:RefreshItem()
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_0.rewardIndex_
+function slot0.RefreshUI(slot0, slot1)
+	slot0.progressCntText_.text = string.format(GetTips("COMPLETE_TARGET"), slot0.totalStarCnt_)
+	slot0.progressText_.text = string.format("%s/%s", slot1, slot0.totalStarCnt_)
+	slot0.progressBar_.value = slot1 / slot0.totalStarCnt_
 
-	arg_8_0.progressCntText_.text = string.format(GetTips("COMPLETE_TARGET"), arg_8_0.totalStarCnt_)
-	arg_8_0.progressText_.text = string.format("%s/%s", arg_8_1, arg_8_0.totalStarCnt_)
-	arg_8_0.progressBar_.value = arg_8_1 / arg_8_0.totalStarCnt_
-
-	if var_8_0 < 10 then
-		arg_8_0.textPhase_.text = 0 .. tostring(var_8_0)
+	if slot0.rewardIndex_ < 10 then
+		slot0.textPhase_.text = 0 .. tostring(slot2)
 	else
-		arg_8_0.textPhase_.text = var_8_0
+		slot0.textPhase_.text = slot2
 	end
 end
 
-function var_0_0.RefreshState(arg_9_0)
-	arg_9_0.controller_:SetSelectedState(tostring(arg_9_0.rewardState_))
+function slot0.RefreshState(slot0)
+	slot0.controller_:SetSelectedState(tostring(slot0.rewardState_))
 end
 
-function var_0_0.RefreshItem(arg_10_0)
-	local var_10_0 = arg_10_0.rewardCfg_
+function slot0.RefreshItem(slot0)
+	for slot5, slot6 in pairs(slot0.rewardCfg_) do
+		slot8 = rewardToItemTemplate(slot6)
 
-	for iter_10_0, iter_10_1 in pairs(var_10_0) do
-		local var_10_1
-
-		var_10_1.clickFun, var_10_1 = function(arg_11_0)
+		function slot8.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_11_0.id
+				slot0.id
 			})
-		end, rewardToItemTemplate(iter_10_1)
+		end
 
-		CommonTools.SetCommonData(arg_10_0.rewardItemList_[iter_10_0], var_10_1)
-		arg_10_0.rewardItemList_[iter_10_0]:RefreshGray(arg_10_0.rewardState_ == var_0_3)
+		CommonTools.SetCommonData(slot0.rewardItemList_[slot5], slot8)
+		slot0.rewardItemList_[slot5]:RefreshGray(slot0.rewardState_ == uv0)
 	end
 
-	for iter_10_2 = #var_10_0 + 1, #arg_10_0.rewardItemList_ do
-		arg_10_0.rewardItemList_[iter_10_2]:SetData()
+	for slot5 = #slot1 + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot5]:SetData()
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.rewardContent_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rewardContent_)
 end
 
-function var_0_0.ClickItem(arg_12_0)
-	local var_12_0 = arg_12_0.rewardState_
+function slot0.ClickItem(slot0)
+	slot1 = slot0.rewardState_
 
-	BattleBossChallengeAction.RequireBossExchange(arg_12_0.curStarCnt_, function(arg_13_0)
-		if isSuccess(arg_13_0.result) then
-			BattleBossChallengeNormalData:SetReceiveStarList(arg_12_0.totalStarCnt_)
-			arg_12_0:GetRewardState()
-			getReward2(arg_13_0.item_list)
+	BattleBossChallengeAction.RequireBossExchange(slot0.curStarCnt_, function (slot0)
+		if isSuccess(slot0.result) then
+			BattleBossChallengeNormalData:SetReceiveStarList(uv0.totalStarCnt_)
+			uv0:GetRewardState()
+			getReward2(slot0.item_list)
 
-			if var_12_0 == var_0_2 and arg_12_0.rewardState_ == var_0_3 then
-				arg_12_0:RefreshState()
+			if uv1 == uv2 and uv0.rewardState_ == uv3 then
+				uv0:RefreshState()
 				manager.notify:Invoke(BOSS_CHALLENGE_RECEIVE_STAR_REWARD)
 			end
 		else
-			ShowTips(arg_13_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.GetRewardState(arg_14_0)
-	local var_14_0 = arg_14_0.rewardIndex_
-	local var_14_1 = arg_14_0.chapterID_
-	local var_14_2
-
-	if arg_14_0.curStarCnt_ < arg_14_0.totalStarCnt_ then
-		var_14_2 = var_0_1
-	elseif table.keyof(BattleBossChallengeNormalData:GetReceiveStarList(), arg_14_0.totalStarCnt_) then
-		var_14_2 = var_0_3
-	else
-		var_14_2 = var_0_2
-	end
-
-	arg_14_0.rewardState_ = var_14_2
+function slot0.GetRewardState(slot0)
+	slot1 = slot0.rewardIndex_
+	slot2 = slot0.chapterID_
+	slot3 = nil
+	slot0.rewardState_ = slot0.curStarCnt_ < slot0.totalStarCnt_ and uv0 or table.keyof(BattleBossChallengeNormalData:GetReceiveStarList(), slot0.totalStarCnt_) and uv1 or uv2
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.rewardItemList_) do
-		iter_15_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_15_0.rewardItemList_ = nil
-	arg_15_0.rewardPanel_ = nil
+	slot0.rewardItemList_ = nil
+	slot0.rewardPanel_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

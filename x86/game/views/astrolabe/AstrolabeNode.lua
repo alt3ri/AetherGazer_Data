@@ -1,218 +1,212 @@
-local var_0_0 = class("AstrolabeNode")
+slot0 = class("AstrolabeNode")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.data_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.transform_.localPosition = Vector3(0, 0, 0)
-	arg_1_0.posX = arg_1_3
-	arg_1_0.aniStrCfg = {
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.transform_.localPosition = Vector3(0, 0, 0)
+	slot0.posX = slot3
+	slot0.aniStrCfg = {
 		"yellow",
 		"red",
 		"blue"
 	}
 
-	arg_1_0:InitUI()
-	arg_1_0:Init()
+	slot0:InitUI()
+	slot0:Init()
 end
 
-function var_0_0.SetParent(arg_2_0, arg_2_1)
-	if arg_2_0.transform_ then
-		arg_2_0.transform_:SetParent(arg_2_1)
+function slot0.SetParent(slot0, slot1)
+	if slot0.transform_ then
+		slot0.transform_:SetParent(slot1)
 
-		arg_2_0.transform_.localEulerAngles = Vector3(0, 0, 0)
-		arg_2_0.transform_.localPosition = Vector3(0, 0, 0)
-		arg_2_0.transform_.localScale = Vector3(1, 1, 1)
+		slot0.transform_.localEulerAngles = Vector3(0, 0, 0)
+		slot0.transform_.localPosition = Vector3(0, 0, 0)
+		slot0.transform_.localScale = Vector3(1, 1, 1)
 	end
 end
 
-function var_0_0.RefreshData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.data_ = arg_3_1
-	arg_3_0.info_ = arg_3_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	arg_3_0:Render()
+	slot0:Render()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	ComponentBinder.GetInstance():BindCfgUI(arg_4_0, arg_4_0.transform_)
-	arg_4_0.itemEventtriggerlistener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(handler(arg_4_0, arg_4_0.OnClick)))
+function slot0.InitUI(slot0)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.transform_)
+	slot0.itemEventtriggerlistener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(handler(slot0, slot0.OnClick)))
 end
 
-function var_0_0.Render(arg_5_0)
-	arg_5_0:RefreshUI(arg_5_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.data_ = arg_6_1
-	arg_6_0.info_ = arg_6_2
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	if arg_6_1 then
-		local var_6_0 = {
-			arg_6_0.yellowAni_,
-			arg_6_0.redAni_,
-			arg_6_0.blueAni_
+	if slot1 then
+		slot3 = {
+			slot0.yellowAni_,
+			slot0.redAni_,
+			slot0.blueAni_
 		}
 
-		if HeroTools.IsSpHero(arg_6_2.id) then
-			if arg_6_0.spAni_ then
-				arg_6_0.curAnimator.runtimeAnimatorController = arg_6_0.spAni_.runtimeAnimatorController
+		if HeroTools.IsSpHero(slot2.id) then
+			if slot0.spAni_ then
+				slot0.curAnimator.runtimeAnimatorController = slot0.spAni_.runtimeAnimatorController
 			end
 
-			arg_6_0:ShowSpState(arg_6_1)
+			slot0:ShowSpState(slot1)
 		else
-			arg_6_0.curAnimator.runtimeAnimatorController = var_6_0[arg_6_0.posX].runtimeAnimatorController
+			slot0.curAnimator.runtimeAnimatorController = slot3[slot0.posX].runtimeAnimatorController
 
-			arg_6_0:ShowNormalState(arg_6_1)
+			slot0:ShowNormalState(slot1)
 		end
 
-		arg_6_0.textTm_.text = GetI18NText(HeroAstrolabeCfg[arg_6_1.id].name)
+		slot0.textTm_.text = GetI18NText(HeroAstrolabeCfg[slot1.id].name)
 
-		local var_6_1 = arg_6_0.heroViewProxy_:GetNextIsEquiped(arg_6_1.id, arg_6_0.info_.id)
-
-		if arg_6_0.lineStar then
-			SetActive(arg_6_0.lineStar.gameObject, var_6_1)
+		if slot0.lineStar then
+			SetActive(slot0.lineStar.gameObject, slot0.heroViewProxy_:GetNextIsEquiped(slot1.id, slot0.info_.id))
 		end
 	end
 end
 
-function var_0_0.ShowNormalState(arg_7_0, arg_7_1)
-	if arg_7_1.isEquiped then
-		arg_7_0.curAnimator:Update(0)
-		arg_7_0.curAnimator:Play("star1_" .. arg_7_0.aniStrCfg[arg_7_0.posX], 0, 0)
+function slot0.ShowNormalState(slot0, slot1)
+	if slot1.isEquiped then
+		slot0.curAnimator:Update(0)
+		slot0.curAnimator:Play("star1_" .. slot0.aniStrCfg[slot0.posX], 0, 0)
 
-		arg_7_0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
-	elseif not arg_7_1.isUnlock then
-		if arg_7_1.isCanLock then
-			arg_7_0.nodeState = AstrolabeConst.NODE_STATE.CANLOCK
+		slot0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
+	elseif not slot1.isUnlock then
+		if slot1.isCanLock then
+			slot0.nodeState = AstrolabeConst.NODE_STATE.CANLOCK
 
-			arg_7_0.curAnimator:Play("lock1")
+			slot0.curAnimator:Play("lock1")
 		else
-			arg_7_0.curAnimator:Play("lock2")
+			slot0.curAnimator:Play("lock2")
 
-			arg_7_0.nodeState = AstrolabeConst.NODE_STATE.LOCK
+			slot0.nodeState = AstrolabeConst.NODE_STATE.LOCK
 		end
-	elseif arg_7_1.isUnlock then
-		arg_7_0.curAnimator:Play("star2_" .. arg_7_0.aniStrCfg[arg_7_0.posX])
+	elseif slot1.isUnlock then
+		slot0.curAnimator:Play("star2_" .. slot0.aniStrCfg[slot0.posX])
 
-		arg_7_0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
+		slot0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
 	end
 end
 
-function var_0_0.ShowNextEffect(arg_8_0)
-	local var_8_0 = AstrolabeTools.GetNextIsEquiped(arg_8_0.data_.id, arg_8_0.info_.id)
-
-	if arg_8_0.lineStar then
-		SetActive(arg_8_0.lineStar.gameObject, var_8_0)
+function slot0.ShowNextEffect(slot0)
+	if slot0.lineStar then
+		SetActive(slot0.lineStar.gameObject, AstrolabeTools.GetNextIsEquiped(slot0.data_.id, slot0.info_.id))
 	end
 end
 
-function var_0_0.ShowSelfEffect(arg_9_0)
-	local var_9_0 = arg_9_0.data_.isEquiped
-
-	if arg_9_0.lineStar then
-		SetActive(arg_9_0.lineStar.gameObject, var_9_0)
+function slot0.ShowSelfEffect(slot0)
+	if slot0.lineStar then
+		SetActive(slot0.lineStar.gameObject, slot0.data_.isEquiped)
 	end
 end
 
-function var_0_0.ShowNextSpEffect(arg_10_0)
-	local var_10_0 = AstrolabeTools.GetNextSPNodeIsEquiped(arg_10_0.data_.id, arg_10_0.info_.id)
+function slot0.ShowNextSpEffect(slot0)
+	slot1 = AstrolabeTools.GetNextSPNodeIsEquiped(slot0.data_.id, slot0.info_.id)
 
-	if arg_10_0.posX == 3 then
-		var_10_0 = AstrolabeTools.GetLastIsEquiped(arg_10_0.data_.id, arg_10_0.info_.id)
+	if slot0.posX == 3 then
+		slot1 = AstrolabeTools.GetLastIsEquiped(slot0.data_.id, slot0.info_.id)
 	end
 
-	if arg_10_0.lineStar2 then
-		SetActive(arg_10_0.lineStar2.gameObject, var_10_0)
-	end
-end
-
-function var_0_0.ResetEffect(arg_11_0)
-	if arg_11_0.lineStar2 then
-		SetActive(arg_11_0.lineStar2.gameObject, false)
-	end
-
-	if arg_11_0.lineStar then
-		SetActive(arg_11_0.lineStar.gameObject, false)
+	if slot0.lineStar2 then
+		SetActive(slot0.lineStar2.gameObject, slot1)
 	end
 end
 
-function var_0_0.ShowSpState(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_0.curAnimator
+function slot0.ResetEffect(slot0)
+	if slot0.lineStar2 then
+		SetActive(slot0.lineStar2.gameObject, false)
+	end
 
-	if arg_12_1.isEquiped then
-		arg_12_0.curAnimator:Play("star_sp_2")
-
-		arg_12_0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
-	elseif not arg_12_1.isUnlock then
-		arg_12_0.nodeState = AstrolabeConst.NODE_STATE.LOCK
-
-		arg_12_0.curAnimator:Play("lock_sp_1")
-	elseif arg_12_1.isUnlock then
-		arg_12_0.curAnimator:Play("star_sp_1")
-
-		arg_12_0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
+	if slot0.lineStar then
+		SetActive(slot0.lineStar.gameObject, false)
 	end
 end
 
-function var_0_0.ShowSelect(arg_13_0, arg_13_1)
-	if arg_13_0.icon_selectGo_ then
-		SetActive(arg_13_0.icon_selectGo_, arg_13_1)
+function slot0.ShowSpState(slot0, slot1)
+	slot2 = slot0.curAnimator
+
+	if slot1.isEquiped then
+		slot0.curAnimator:Play("star_sp_2")
+
+		slot0.nodeState = AstrolabeConst.NODE_STATE.EQUIPED
+	elseif not slot1.isUnlock then
+		slot0.nodeState = AstrolabeConst.NODE_STATE.LOCK
+
+		slot0.curAnimator:Play("lock_sp_1")
+	elseif slot1.isUnlock then
+		slot0.curAnimator:Play("star_sp_1")
+
+		slot0.nodeState = AstrolabeConst.NODE_STATE.UNLOCK
 	end
 end
 
-function var_0_0.Init(arg_14_0)
-	arg_14_0:RefreshUI(arg_14_0.info_)
-end
-
-function var_0_0.SetNodeNameIsHide(arg_15_0, arg_15_1)
-	if arg_15_0.textTm_ then
-		SetActive(arg_15_0.textTm_.gameObject, not arg_15_1)
-	end
-
-	arg_15_0:SetRedPoint(false)
-end
-
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:RemoveAllListeners()
-
-	arg_16_0.clickFunc = nil
-
-	if arg_16_0.gameObject_ then
-		Object.Destroy(arg_16_0.gameObject_)
-
-		arg_16_0.gameObject_ = nil
-		arg_16_0.transform_ = nil
+function slot0.ShowSelect(slot0, slot1)
+	if slot0.icon_selectGo_ then
+		SetActive(slot0.icon_selectGo_, slot1)
 	end
 end
 
-function var_0_0.OnClick(arg_17_0)
-	if arg_17_0.clickFunc then
-		arg_17_0.clickFunc(arg_17_0)
+function slot0.Init(slot0)
+	slot0:RefreshUI(slot0.info_)
+end
+
+function slot0.SetNodeNameIsHide(slot0, slot1)
+	if slot0.textTm_ then
+		SetActive(slot0.textTm_.gameObject, not slot1)
+	end
+
+	slot0:SetRedPoint(false)
+end
+
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+
+	slot0.clickFunc = nil
+
+	if slot0.gameObject_ then
+		Object.Destroy(slot0.gameObject_)
+
+		slot0.gameObject_ = nil
+		slot0.transform_ = nil
 	end
 end
 
-function var_0_0.RemoveAllListeners(arg_18_0)
-	if arg_18_0.gameObject_ and not isNil(arg_18_0.gameObject_) then
-		arg_18_0.itemEventtriggerlistener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerClick)
+function slot0.OnClick(slot0)
+	if slot0.clickFunc then
+		slot0:clickFunc()
 	end
 end
 
-function var_0_0.RegistCallBack(arg_19_0, arg_19_1)
-	arg_19_0.clickFunc = arg_19_1
-end
-
-function var_0_0.GetItemInfo(arg_20_0)
-	return arg_20_0.data_
-end
-
-function var_0_0.SetRedPoint(arg_21_0, arg_21_1)
-	if arg_21_0.notice_imgGo_ then
-		SetActive(arg_21_0.notice_imgGo_, arg_21_1)
+function slot0.RemoveAllListeners(slot0)
+	if slot0.gameObject_ and not isNil(slot0.gameObject_) then
+		slot0.itemEventtriggerlistener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerClick)
 	end
 end
 
-function var_0_0.SetProxy(arg_22_0, arg_22_1)
-	arg_22_0.heroViewProxy_ = arg_22_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-return var_0_0
+function slot0.GetItemInfo(slot0)
+	return slot0.data_
+end
+
+function slot0.SetRedPoint(slot0, slot1)
+	if slot0.notice_imgGo_ then
+		SetActive(slot0.notice_imgGo_, slot1)
+	end
+end
+
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
+end
+
+return slot0

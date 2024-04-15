@@ -1,11 +1,10 @@
-local var_0_0 = import("game.views.chat.chatItem.ChatBaseItemView")
-local var_0_1 = class("ChatFriendHistoryTipsItem", var_0_0)
+slot1 = class("ChatFriendHistoryTipsItem", import("game.views.chat.chatItem.ChatBaseItemView"))
 
-function var_0_1.SetData(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.index_ = arg_1_2
-	arg_1_0.itemData_ = arg_1_1
+function slot1.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot2
+	slot0.itemData_ = slot1
 
-	arg_1_0:Show(true)
+	slot0:Show(true)
 end
 
-return var_0_1
+return slot1

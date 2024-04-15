@@ -1,625 +1,580 @@
-local var_0_0 = class("SnowballGameControllerUI", ReduxView)
+slot0 = class("SnowballGameControllerUI", ReduxView)
 
-local function var_0_1(arg_1_0)
-	manager.audio:PlayEffect("minigame_activity_2_6_snowball", arg_1_0, "")
+function slot1(slot0)
+	manager.audio:PlayEffect("minigame_activity_2_6_snowball", slot0, "")
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionSnowballUI/JapanRegionSnowballGameUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_4_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-local function var_0_2()
+function slot2()
 	gameContext:Go("/snowballGameLevelUI", nil, true, true)
 end
 
-local function var_0_3(arg_6_0)
-	if arg_6_0:IsGameStarted() and not arg_6_0.pause then
-		arg_6_0.pause = true
+function slot3(slot0)
+	if slot0:IsGameStarted() and not slot0.pause then
+		slot0.pause = true
 
 		JumpTools.OpenPageByJump("snowballPausePopup", {
-			OkCallback = function()
-				arg_6_0:EndGame(false)
+			OkCallback = function ()
+				uv0:EndGame(false)
 			end,
-			CancelCallback = function()
-				arg_6_0.pause = false
+			CancelCallback = function ()
+				uv0.pause = false
 			end
 		})
 	end
 end
 
-function var_0_0.RefreshWindowBar(arg_9_0)
-	if arg_9_0:IsGameStarted() then
+function slot0.RefreshWindowBar(slot0)
+	if slot0:IsGameStarted() then
 		manager.windowBar:SwitchBar({
 			BACK_BAR
 		})
-		manager.windowBar:RegistBackCallBack(handler(arg_9_0, var_0_3))
+		manager.windowBar:RegistBackCallBack(handler(slot0, uv0))
 	else
 		manager.windowBar:HideBar()
 	end
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:RefreshWindowBar()
+function slot0.OnTop(slot0)
+	slot0:RefreshWindowBar()
 end
 
-function var_0_0.OnBehind(arg_11_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Init(arg_12_0)
-	arg_12_0:BindCfgUI()
-	DormLuaBridge.InitJoystick(arg_12_0.joystick_)
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	DormLuaBridge.InitJoystick(slot0.joystick_)
 
-	arg_12_0.modeController = ControllerUtil.GetController(arg_12_0.transform_, "mode")
-	arg_12_0.movingDirIndicator = ControllerUtil.GetController(arg_12_0.transform_, "moveDir")
-	arg_12_0.crosshire = ControllerUtil.GetController(arg_12_0.transform_, "crosshire")
-	arg_12_0.shoot = ControllerUtil.GetController(arg_12_0.transform_, "shoot")
-	arg_12_0.shootTipsController = ControllerUtil.GetController(arg_12_0.transform_, "showShootTips")
-	arg_12_0.moveTipsController = ControllerUtil.GetController(arg_12_0.transform_, "showMoveTips")
+	slot0.modeController = ControllerUtil.GetController(slot0.transform_, "mode")
+	slot0.movingDirIndicator = ControllerUtil.GetController(slot0.transform_, "moveDir")
+	slot0.crosshire = ControllerUtil.GetController(slot0.transform_, "crosshire")
+	slot0.shoot = ControllerUtil.GetController(slot0.transform_, "shoot")
+	slot0.shootTipsController = ControllerUtil.GetController(slot0.transform_, "showShootTips")
+	slot0.moveTipsController = ControllerUtil.GetController(slot0.transform_, "showMoveTips")
 
 	if SnowballGameData:CheckAlreadyShowInGameTip(SnowballGameData.InGameTips.Shoot) then
-		arg_12_0.shootTipsController:SetSelectedState("hide")
+		slot0.shootTipsController:SetSelectedState("hide")
 	end
 
 	if SnowballGameData:CheckAlreadyShowInGameTip(SnowballGameData.InGameTips.Move) then
-		arg_12_0.moveTipsController:SetSelectedState("hide")
+		slot0.moveTipsController:SetSelectedState("hide")
 	end
 
-	arg_12_0:InitBtnListeners()
-	arg_12_0:InitSubViews()
+	slot0:InitBtnListeners()
+	slot0:InitSubViews()
 end
 
-function var_0_0.NewSubView(arg_13_0, arg_13_1, ...)
-	local var_13_0 = arg_13_1.New(...)
+function slot0.NewSubView(slot0, slot1, ...)
+	slot2 = slot1.New(...)
 
-	table.insert(arg_13_0.subViews, var_13_0)
+	table.insert(slot0.subViews, slot2)
 
-	return var_13_0
+	return slot2
 end
 
-function var_0_0.InitSubViews(arg_14_0)
-	arg_14_0.subViews = {}
-	arg_14_0.buffSubView = arg_14_0:NewSubView(SnowballGameBuffSubView, arg_14_0.buffSubView_)
+function slot0.InitSubViews(slot0)
+	slot0.subViews = {}
+	slot0.buffSubView = slot0:NewSubView(SnowballGameBuffSubView, slot0.buffSubView_)
 
-	function arg_14_0.buffSubView.OnBuffFinished(arg_15_0, arg_15_1)
-		SnowballGameBuff.buff[arg_15_1].OnRemove(arg_14_0.playerEID)
-		manager.notify:Invoke(SNOWBALL_GAME_BUFF_FINISH, arg_14_0.playerEID, arg_15_1)
-		arg_14_0:OnBuffRemoved(arg_15_1)
+	function slot0.buffSubView.OnBuffFinished(slot0, slot1)
+		SnowballGameBuff.buff[slot1].OnRemove(uv0.playerEID)
+		manager.notify:Invoke(SNOWBALL_GAME_BUFF_FINISH, uv0.playerEID, slot1)
+		uv0:OnBuffRemoved(slot1)
 	end
 
-	function arg_14_0.buffSubView.OnBuffExtended(arg_16_0, arg_16_1)
-		local var_16_0 = SnowballGameBuff.buff[arg_16_1].OnExtended
-
-		if var_16_0 then
-			var_16_0(arg_14_0.playerEID)
+	function slot0.buffSubView.OnBuffExtended(slot0, slot1)
+		if SnowballGameBuff.buff[slot1].OnExtended then
+			slot2(uv0.playerEID)
 		end
 	end
 
-	arg_14_0.gameInfoSubView = arg_14_0:NewSubView(SnowballGameInfoSubView, arg_14_0.gameInfoSubView_)
+	slot0.gameInfoSubView = slot0:NewSubView(SnowballGameInfoSubView, slot0.gameInfoSubView_)
 end
 
-function var_0_0.Dispose(arg_17_0)
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.subViews) do
-		iter_17_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.subViews) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddJob(arg_18_0, arg_18_1, arg_18_2, arg_18_3)
-	local var_18_0 = {
-		time = arg_18_0.time + arg_18_1,
-		task = arg_18_2
-	}
+function slot0.AddJob(slot0, slot1, slot2, slot3)
+	if slot3 then
+		slot0.jobs[slot3] = {
+			time = slot0.time + slot1,
+			task = slot2
+		}
 
-	if arg_18_3 then
-		arg_18_0.jobs[arg_18_3] = var_18_0
-
-		return arg_18_3
+		return slot3
 	else
-		table.insert(arg_18_0.jobs, var_18_0)
+		table.insert(slot0.jobs, slot4)
 
-		return #arg_18_0.jobs
+		return #slot0.jobs
 	end
 end
 
-function var_0_0.RemoveJob(arg_19_0, arg_19_1)
-	if arg_19_0.nextRemove == nil then
-		arg_19_0.nextRemove = {}
+function slot0.RemoveJob(slot0, slot1)
+	if slot0.nextRemove == nil then
+		slot0.nextRemove = {}
 	end
 
-	if arg_19_0.jobs[arg_19_1] then
-		table.insert(arg_19_0.nextRemove, arg_19_1)
+	if slot0.jobs[slot1] then
+		table.insert(slot0.nextRemove, slot1)
 	end
 end
 
-function var_0_0.OnEnter(arg_20_0)
-	arg_20_0.aim = 0
-	arg_20_0.wave = nil
-	arg_20_0.pause = false
-	arg_20_0.playerEID = arg_20_0.params_.playerEID
-	arg_20_0.level = arg_20_0.params_.level
+function slot0.OnEnter(slot0)
+	slot0.aim = 0
+	slot0.wave = nil
+	slot0.pause = false
+	slot0.playerEID = slot0.params_.playerEID
+	slot0.level = slot0.params_.level
+	slot2 = SnowballGameUnitCfg[DormUtils.GetEntityData(slot0.playerEID).cfgID]
+	slot0.beamRadius = slot2.none_area
+	slot0.shootCooldown = slot2.skill_cooldown
+	slot0.crossireSpeed = slot2.ready_speed
+	slot0.time = 0
+	slot0.jobs = {}
 
-	local var_20_0 = DormUtils.GetEntityData(arg_20_0.playerEID).cfgID
-	local var_20_1 = SnowballGameUnitCfg[var_20_0]
-
-	arg_20_0.beamRadius = var_20_1.none_area
-	arg_20_0.shootCooldown = var_20_1.skill_cooldown
-	arg_20_0.crossireSpeed = var_20_1.ready_speed
-	arg_20_0.time = 0
-	arg_20_0.jobs = {}
-
-	local var_20_2 = 3
-
-	for iter_20_0 = 1, var_20_2 do
-		arg_20_0:AddJob(iter_20_0 - 1, handlerArg1(arg_20_0, arg_20_0.StartCountdown, var_20_2 - iter_20_0 + 1))
+	for slot7 = 1, 3 do
+		slot0:AddJob(slot7 - 1, handlerArg1(slot0, slot0.StartCountdown, slot3 - slot7 + 1))
 	end
 
-	arg_20_0:AddJob(var_20_2, handler(arg_20_0, arg_20_0.StartGame))
-	arg_20_0:AddJob(20, handler(arg_20_0, arg_20_0.NotifyGuestTalk))
-	arg_20_0.modeController:SetSelectedState("countdown")
+	slot0:AddJob(slot3, handler(slot0, slot0.StartGame))
+	slot0:AddJob(20, handler(slot0, slot0.NotifyGuestTalk))
+	slot0.modeController:SetSelectedState("countdown")
 
-	arg_20_0.updateTicker = FuncTimerManager.inst:CreateFuncFrameTimer(handler(arg_20_0, arg_20_0.Update), -1, true)
+	slot7 = -1
+	slot8 = true
+	slot0.updateTicker = FuncTimerManager.inst:CreateFuncFrameTimer(handler(slot0, slot0.Update), slot7, slot8)
 
-	arg_20_0:InitEventListeners()
+	slot0:InitEventListeners()
 
-	for iter_20_1, iter_20_2 in pairs(arg_20_0.subViews) do
-		iter_20_2:OnEnter(arg_20_0)
+	for slot7, slot8 in pairs(slot0.subViews) do
+		slot8:OnEnter(slot0)
 	end
 
-	local var_20_3 = nullable(Dorm.storage:PickData("snowball.pos.gameStart"), "transform")
-
-	Dorm.DormEntityManager.PutEntityAt(arg_20_0.playerEID, var_20_3)
-	Dorm.DormEntityManager.StopAllCmd(arg_20_0.playerEID)
-	var_0_1("minigame_activity_2_6_snowball_time")
+	Dorm.DormEntityManager.PutEntityAt(slot0.playerEID, nullable(Dorm.storage:PickData("snowball.pos.gameStart"), "transform"))
+	Dorm.DormEntityManager.StopAllCmd(slot0.playerEID)
+	uv0("minigame_activity_2_6_snowball_time")
 end
 
-local var_0_4 = {}
+slot4 = {}
 
-function var_0_0.StartCountdown(arg_21_0, arg_21_1)
-	arg_21_0.startCountdown_.text = GetTipsF(nullable(var_0_4, arg_21_1) or "%d", arg_21_1)
+function slot0.StartCountdown(slot0, slot1)
+	slot0.startCountdown_.text = GetTipsF(nullable(uv0, slot1) or "%d", slot1)
 end
 
-function var_0_0.OnExit(arg_22_0)
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.subViews) do
-		iter_22_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in pairs(slot0.subViews) do
+		slot5:OnExit()
 	end
 
-	arg_22_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 
-	if arg_22_0.updateTicker then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_22_0.updateTicker)
+	if slot0.updateTicker then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.updateTicker)
 
-		arg_22_0.updateTicker = nil
+		slot0.updateTicker = nil
 	end
 
-	arg_22_0.jobs = nil
+	slot0.jobs = nil
 
-	if arg_22_0.waitAfterShoot then
-		arg_22_0.waitAfterShoot:Abort()
+	if slot0.waitAfterShoot then
+		slot0.waitAfterShoot:Abort()
 
-		arg_22_0.waitAfterShoot = nil
+		slot0.waitAfterShoot = nil
 
-		arg_22_0.shoot:SetSelectedState("throw")
+		slot0.shoot:SetSelectedState("throw")
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.IsGameStarted(arg_23_0)
-	return arg_23_0.wave ~= nil
+function slot0.IsGameStarted(slot0)
+	return slot0.wave ~= nil
 end
 
-function var_0_0.StartGame(arg_24_0)
-	arg_24_0.modeController:SetSelectedState("game")
-	arg_24_0.gameInfoSubView:OnGameStart()
+function slot0.StartGame(slot0)
+	slot0.modeController:SetSelectedState("game")
+	slot0.gameInfoSubView:OnGameStart()
 
-	arg_24_0.shootEnabled = true
-	arg_24_0.noMoreTarget = false
+	slot0.shootEnabled = true
+	slot0.noMoreTarget = false
 
-	SnowballGameMgr.GetInstance():SetLevel(arg_24_0.level)
-	arg_24_0:StartGenWaveJob()
-	arg_24_0:RefreshWindowBar()
+	SnowballGameMgr.GetInstance():SetLevel(slot0.level)
+	slot0:StartGenWaveJob()
+	slot0:RefreshWindowBar()
 end
 
-function var_0_0.EndGame(arg_25_0, arg_25_1)
-	local var_25_0 = SnowballGameMgr.GetInstance()
+function slot0.EndGame(slot0, slot1)
+	Dorm.DormEntityManager.PutEntityAt(slot0.playerEID, SnowballGameMgr.GetInstance().playerSpawnPos)
+	Dorm.DormEntityManager.StopAllCmd(slot0.playerEID)
+	SnowballGameMgr.ClearVfxOnEntity(slot0.playerEID)
+	SnowballGameMgr.CreateHoldSnowballVfx(slot0.playerEID)
 
-	Dorm.DormEntityManager.PutEntityAt(arg_25_0.playerEID, var_25_0.playerSpawnPos)
-	Dorm.DormEntityManager.StopAllCmd(arg_25_0.playerEID)
-	SnowballGameMgr.ClearVfxOnEntity(arg_25_0.playerEID)
-	SnowballGameMgr.CreateHoldSnowballVfx(arg_25_0.playerEID)
+	slot3 = slot0.gameInfoSubView
 
-	local var_25_1 = arg_25_0.gameInfoSubView
-
-	if arg_25_0:IsGameStarted() then
-		var_25_0:ClearAllTargets()
+	if slot0:IsGameStarted() then
+		slot2:ClearAllTargets()
 	end
 
-	arg_25_0:CancelAim()
+	slot0:CancelAim()
 
-	var_25_1.started = false
+	slot3.started = false
 
-	if arg_25_1 then
+	if slot1 then
 		JumpTools.OpenPageByJump("snowballGameResult", {
-			finish = arg_25_1,
-			level = arg_25_0.level,
-			score = var_25_1.score,
-			enemyList = var_25_1.hitList,
-			extraTime = var_25_1:CalcRestTimeAfterFinish(),
-			hitGuestCount = var_25_1.hitGuest,
-			OkCallback = var_0_2
+			finish = slot1,
+			level = slot0.level,
+			score = slot3.score,
+			enemyList = slot3.hitList,
+			extraTime = slot3:CalcRestTimeAfterFinish(),
+			hitGuestCount = slot3.hitGuest,
+			OkCallback = uv0
 		})
-		var_0_1("minigame_activity_2_6_snowball_end")
-		Dorm.DormEntityManager.SendDoActionCMD(arg_25_0.playerEID, "happy", false)
+		uv1("minigame_activity_2_6_snowball_end")
+		Dorm.DormEntityManager.SendDoActionCMD(slot0.playerEID, "happy", false)
 	else
-		var_0_2()
+		uv0()
 	end
 
-	var_25_0:RemoveGuest()
+	slot2:RemoveGuest()
 
-	arg_25_0.wave = nil
-	arg_25_0.shootEnabled = false
+	slot0.wave = nil
+	slot0.shootEnabled = false
 
-	arg_25_0.buffSubView:ClearAllBuff()
+	slot0.buffSubView:ClearAllBuff()
 end
 
-function var_0_0.IsLastWave(arg_26_0)
-	local var_26_0 = arg_26_0.wave or 0
-
-	return SnowballGameCfg[arg_26_0.level].refresh_enemy[var_26_0 + 1] == nil
+function slot0.IsLastWave(slot0)
+	return SnowballGameCfg[slot0.level].refresh_enemy[(slot0.wave or 0) + 1] == nil
 end
 
-function var_0_0.StartGenWaveJob(arg_27_0)
-	if arg_27_0.noMoreTarget or arg_27_0:IsLastWave() then
-		arg_27_0:EndGame(true)
+function slot0.StartGenWaveJob(slot0)
+	if slot0.noMoreTarget or slot0:IsLastWave() then
+		slot0:EndGame(true)
 
 		return
 	end
 
-	arg_27_0.wave = arg_27_0.wave and arg_27_0.wave + 1 or 0
+	slot0.wave = slot0.wave and slot0.wave + 1 or 0
 
-	manager.notify:Invoke(SNOWBALL_GAME_TARGET_NEW_WAVE, arg_27_0.wave)
+	manager.notify:Invoke(SNOWBALL_GAME_TARGET_NEW_WAVE, slot0.wave)
 end
 
-local var_0_5 = {
+slot5 = {
 	[0] = "none",
 	"right",
-	[-1] = "left"
+	[-1.0] = "left"
 }
 
-local function var_0_6(arg_28_0)
-	if arg_28_0.x > 0 then
+function slot6(slot0)
+	if slot0.x > 0 then
 		return 1
-	elseif arg_28_0.x < 0 then
+	elseif slot0.x < 0 then
 		return -1
 	end
 
 	return 0
 end
 
-function var_0_0.IsChangeDir(arg_29_0, arg_29_1)
-	local var_29_0 = var_0_6(arg_29_1)
-
-	if var_29_0 ~= 0 and var_0_6(arg_29_0.lastMovingVec) ~= var_29_0 then
-		return true, var_29_0
+function slot0.IsChangeDir(slot0, slot1)
+	if uv0(slot1) ~= 0 and uv0(slot0.lastMovingVec) ~= slot2 then
+		return true, slot2
 	end
 
-	return false, var_29_0
+	return false, slot2
 end
 
-local var_0_7 = {
-	[1] = "snowball_move_R",
-	[-1] = "snowball_move_L"
+slot7 = {
+	[1.0] = "snowball_move_R",
+	[-1.0] = "snowball_move_L"
 }
-local var_0_8 = 0.4
+slot8 = 0.4
 
-local function var_0_9(arg_30_0)
-	return nullable(var_0_7, arg_30_0)
+function slot9(slot0)
+	return nullable(uv0, slot0)
 end
 
-function var_0_0.Update(arg_31_0)
-	local var_31_0 = arg_31_0.pause and 0 or Time.deltaTime
+function slot0.Update(slot0)
+	slot1 = slot0.pause and 0 or Time.deltaTime
+	slot0.time = slot0.time + slot1
 
-	arg_31_0.time = arg_31_0.time + var_31_0
+	slot0:UpdateGameLogic(slot1)
+	slot0:UpdateMove()
+	slot0:UpdateAim(slot1)
+	slot0:ExecuteJobs()
 
-	arg_31_0:UpdateGameLogic(var_31_0)
-	arg_31_0:UpdateMove()
-	arg_31_0:UpdateAim(var_31_0)
-	arg_31_0:ExecuteJobs()
-
-	for iter_31_0, iter_31_1 in pairs(arg_31_0.subViews) do
-		iter_31_1:Update(var_31_0, arg_31_0.time)
+	for slot5, slot6 in pairs(slot0.subViews) do
+		slot6:Update(slot1, slot0.time)
 	end
 end
 
-function var_0_0.UpdateGameLogic(arg_32_0, arg_32_1)
-	local var_32_0 = SnowballGameMgr.GetInstance()
+function slot0.UpdateGameLogic(slot0, slot1)
+	slot2 = SnowballGameMgr.GetInstance()
 
-	if not arg_32_0:IsGameStarted() then
+	if not slot0:IsGameStarted() then
 		return
 	end
 
-	local var_32_1 = arg_32_0.gameInfoSubView.totalTime
-	local var_32_2 = var_32_0:GetNormalTargetCount() + var_32_0:GetRewardTargetCount()
-	local var_32_3 = false
+	slot4 = slot2:GetNormalTargetCount() + slot2:GetRewardTargetCount()
+	slot5 = false
 
-	if var_32_1 <= 0 then
-		var_32_3 = true
-	elseif var_32_2 == 0 then
-		if arg_32_0.gameInfoSubView.countdown > 5 then
-			arg_32_0.gameInfoSubView.countdown = 5
+	if slot0.gameInfoSubView.totalTime <= 0 then
+		slot5 = true
+	elseif slot4 == 0 then
+		if slot0.gameInfoSubView.countdown > 5 then
+			slot0.gameInfoSubView.countdown = 5
 		end
 
-		if arg_32_0.noMoreTarget or arg_32_0:IsLastWave() then
-			var_32_3 = true
+		if slot0.noMoreTarget or slot0:IsLastWave() then
+			slot5 = true
 		end
 	end
 
-	if var_32_3 then
-		arg_32_0.gameInfoSubView:RecordFinishTime()
-		arg_32_0:EndGame(true)
-	elseif arg_32_0.gameInfoSubView.countdown <= 0 then
-		arg_32_0:StartGenWaveJob()
+	if slot5 then
+		slot0.gameInfoSubView:RecordFinishTime()
+		slot0:EndGame(true)
+	elseif slot0.gameInfoSubView.countdown <= 0 then
+		slot0:StartGenWaveJob()
 	end
 end
 
-function var_0_0.ExecuteJobs(arg_33_0)
-	if arg_33_0.nextRemove then
-		for iter_33_0, iter_33_1 in ipairs(arg_33_0.nextRemove) do
-			arg_33_0.jobs[iter_33_1] = nil
+function slot0.ExecuteJobs(slot0)
+	if slot0.nextRemove then
+		for slot4, slot5 in ipairs(slot0.nextRemove) do
+			slot0.jobs[slot5] = nil
 		end
 
-		arg_33_0.nextRemove = nil
+		slot0.nextRemove = nil
 	end
 
-	for iter_33_2 = #arg_33_0.jobs, 1, -1 do
-		local var_33_0 = arg_33_0.jobs[iter_33_2]
-
-		if arg_33_0.time >= var_33_0.time then
-			var_33_0.task()
-			table.remove(arg_33_0.jobs, iter_33_2)
+	for slot4 = #slot0.jobs, 1, -1 do
+		if slot0.jobs[slot4].time <= slot0.time then
+			slot5.task()
+			table.remove(slot0.jobs, slot4)
 		end
 	end
 end
 
-function var_0_0.UpdateMove(arg_34_0)
-	local var_34_0 = DormLuaBridge.TryGetJoytickInput()
-	local var_34_1, var_34_2 = arg_34_0:IsChangeDir(var_34_0)
+function slot0.UpdateMove(slot0)
+	slot2, slot3 = slot0:IsChangeDir(DormLuaBridge.TryGetJoytickInput())
 
-	if var_34_1 then
-		local var_34_3 = arg_34_0.playerEID
+	if slot2 then
+		slot4 = slot0.playerEID
 
-		Dorm.DormEntityManager.ChangeEntityAnimeScheme(var_34_3, var_0_9(var_34_2))
-		Dorm.DormEntityManager.TryTriggerResetAnimeDuringMove(var_34_3)
+		Dorm.DormEntityManager.ChangeEntityAnimeScheme(slot4, uv0(slot3))
+		Dorm.DormEntityManager.TryTriggerResetAnimeDuringMove(slot4)
 
-		if arg_34_0.moveTipsController:GetSelectedState() == "show" then
-			arg_34_0.moveTipsController:SetSelectedState("hide")
+		if slot0.moveTipsController:GetSelectedState() == "show" then
+			slot0.moveTipsController:SetSelectedState("hide")
 			SnowballGameData:InGameTipClose(SnowballGameData.InGameTips.Move)
 		end
 	end
 
-	arg_34_0.movingDirIndicator:SetSelectedState(var_0_5[var_34_2] or "none")
+	slot0.movingDirIndicator:SetSelectedState(uv1[slot3] or "none")
 
-	arg_34_0.lastMovingVec = var_34_0
+	slot0.lastMovingVec = slot1
 end
 
-local function var_0_10(arg_35_0)
-	local var_35_0 = arg_35_0 % 1
-
-	if var_35_0 < 0 then
-		var_35_0 = var_35_0 + 1
+function slot10(slot0)
+	if slot0 % 1 < 0 then
+		slot1 = slot1 + 1
 	end
 
-	return var_35_0
+	return slot1
 end
 
-local function var_0_11(arg_36_0)
-	local var_36_0 = arg_36_0 % 2
-
-	if var_36_0 < 0 then
-		var_36_0 = var_36_0 + 2
+function slot11(slot0)
+	if slot0 % 2 < 0 then
+		slot1 = slot1 + 2
 	end
 
-	if var_36_0 > 1 then
-		var_36_0 = 2 - var_36_0
+	if slot1 > 1 then
+		slot1 = 2 - slot1
 	end
 
-	return var_36_0
+	return slot1
 end
 
-function var_0_0.UpdateAim(arg_37_0, arg_37_1)
-	if arg_37_0.crosshire:GetSelectedState() ~= "move" then
+function slot0.UpdateAim(slot0, slot1)
+	if slot0.crosshire:GetSelectedState() ~= "move" then
 		return
 	end
 
-	arg_37_1 = arg_37_1 or Time.deltaTime
-
-	local var_37_0 = arg_37_0.crossireSpeed or GameSetting.activity_snowball_crosshair_speed.value[1] or 1
-
-	arg_37_0.aim = arg_37_0.aim + var_37_0 * arg_37_1
-
-	local var_37_1 = var_0_11(arg_37_0.aim)
-	local var_37_2 = Dorm.DormEntityManager.QueryEntityAttachPointWorldPos(arg_37_0.playerEID, "gua_Hit")
-	local var_37_3 = UnityEngine.RectTransformUtility.WorldToScreenPoint(UnityEngine.Camera.main, var_37_2)
-	local var_37_4 = arg_37_0.crosshire_.parent
-	local var_37_5 = var_37_4.rect
-	local var_37_6 = Vector2.Lerp(Vector2(0, var_37_5.yMin), Vector2(0, var_37_5.yMax), var_37_1)
-	local var_37_7 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-	local var_37_8 = var_37_4:TransformPoint(var_37_6)
-	local var_37_9 = UnityEngine.RectTransformUtility.WorldToScreenPoint(var_37_7, var_37_8)
-
-	var_37_9.x = var_37_3.x
-	arg_37_0.crosshirePos = var_37_9
-
-	local var_37_10, var_37_11 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(arg_37_0.crosshire_.parent, var_37_9, var_37_7, nil)
-
-	arg_37_0.crosshire_.localPosition = var_37_11
-	arg_37_0.chargeKnot_.localRotation = Quaternion.Euler(0, 0, var_37_1 * -120)
+	slot0.aim = slot0.aim + (slot0.crossireSpeed or GameSetting.activity_snowball_crosshair_speed.value[1] or 1) * (slot1 or Time.deltaTime)
+	slot3 = uv0(slot0.aim)
+	slot6 = slot0.crosshire_.parent
+	slot7 = slot6.rect
+	slot9 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
+	slot11 = UnityEngine.RectTransformUtility.WorldToScreenPoint(slot9, slot6:TransformPoint(Vector2.Lerp(Vector2(0, slot7.yMin), Vector2(0, slot7.yMax), slot3)))
+	slot11.x = UnityEngine.RectTransformUtility.WorldToScreenPoint(UnityEngine.Camera.main, Dorm.DormEntityManager.QueryEntityAttachPointWorldPos(slot0.playerEID, "gua_Hit")).x
+	slot0.crosshirePos = slot11
+	slot12, slot0.crosshire_.localPosition = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(slot0.crosshire_.parent, slot11, slot9, nil)
+	slot0.chargeKnot_.localRotation = Quaternion.Euler(0, 0, slot3 * -120)
 end
 
-function var_0_0.InitBtnListeners(arg_38_0)
-	local var_38_0 = arg_38_0:GetOrAddComponent(arg_38_0.shootBtn_, typeof(EventTriggerListener))
+function slot0.InitBtnListeners(slot0)
+	slot1 = slot0:GetOrAddComponent(slot0.shootBtn_, typeof(EventTriggerListener))
 
-	var_38_0:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function(arg_39_0, arg_39_1)
-		arg_38_0:Shoot()
+	slot1:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:Shoot()
 	end))
-	var_38_0:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function(arg_40_0, arg_40_1)
-		arg_38_0:BeginAim()
+	slot1:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:BeginAim()
 	end))
 
-	arg_38_0.shootLongHoldBtn = var_38_0
+	slot0.shootLongHoldBtn = slot1
 end
 
-function var_0_0.InitEventListeners(arg_41_0)
-	arg_41_0:RegistEventListener(SNOWBALL_GAME_ALL_TARGET_SPAWNED, function()
-		arg_41_0.noMoreTarget = true
+function slot0.InitEventListeners(slot0)
+	slot0:RegistEventListener(SNOWBALL_GAME_ALL_TARGET_SPAWNED, function ()
+		uv0.noMoreTarget = true
 	end)
-	arg_41_0:RegistEventListener(SNOWBALL_GAME_PLAYER_GET_BUFF, handler(arg_41_0, arg_41_0.AddBuff))
+	slot0:RegistEventListener(SNOWBALL_GAME_PLAYER_GET_BUFF, handler(slot0, slot0.AddBuff))
 end
 
-function var_0_0.AddBuff(arg_43_0, arg_43_1, arg_43_2, arg_43_3)
-	if not arg_43_0:IsGameStarted() then
+function slot0.AddBuff(slot0, slot1, slot2, slot3)
+	if not slot0:IsGameStarted() then
 		return
 	end
 
-	arg_43_0.buffSubView:AddBuff(arg_43_1, arg_43_2, arg_43_3)
-	SnowballGameBuff.buff[arg_43_1].OnApply(arg_43_0.playerEID, arg_43_3)
+	slot0.buffSubView:AddBuff(slot1, slot2, slot3)
+	SnowballGameBuff.buff[slot1].OnApply(slot0.playerEID, slot3)
 
-	if arg_43_1 == SnowballGameBuff.buffType.Freeze then
-		arg_43_0:CancelAim()
+	if slot1 == SnowballGameBuff.buffType.Freeze then
+		slot0:CancelAim()
 
-		arg_43_0.shootEnabled = false
+		slot0.shootEnabled = false
 	end
 end
 
-function var_0_0.OnBuffRemoved(arg_44_0, arg_44_1)
-	if arg_44_1 == SnowballGameBuff.buffType.Freeze then
-		arg_44_0.shootEnabled = true
+function slot0.OnBuffRemoved(slot0, slot1)
+	if slot1 == SnowballGameBuff.buffType.Freeze then
+		slot0.shootEnabled = true
 	end
 end
 
-function var_0_0.BeginAim(arg_45_0)
-	if not arg_45_0:ReadyToShoot() then
+function slot0.BeginAim(slot0)
+	if not slot0:ReadyToShoot() then
 		return
 	end
 
-	if arg_45_0.shootTipsController:GetSelectedState() == "show" then
-		arg_45_0.shootTipsController:SetSelectedState("hide")
+	if slot0.shootTipsController:GetSelectedState() == "show" then
+		slot0.shootTipsController:SetSelectedState("hide")
 		SnowballGameData:InGameTipClose(SnowballGameData.InGameTips.Shoot)
 	end
 
-	var_0_1("minigame_activity_2_6_snowball_preattack")
+	uv0("minigame_activity_2_6_snowball_preattack")
 
-	arg_45_0.beginAim = true
-	arg_45_0.aim = 0
+	slot0.beginAim = true
+	slot0.aim = 0
 
-	arg_45_0.crosshire:SetSelectedState("move")
-	arg_45_0:UpdateAim(0)
-	arg_45_0.shoot:SetSelectedState("charge")
+	slot0.crosshire:SetSelectedState("move")
+	slot0:UpdateAim(0)
+	slot0.shoot:SetSelectedState("charge")
 end
 
-function var_0_0.CancelAim(arg_46_0)
-	arg_46_0.beginAim = false
+function slot0.CancelAim(slot0)
+	slot0.beginAim = false
 
-	arg_46_0.crosshire:SetSelectedState("hide")
+	slot0.crosshire:SetSelectedState("hide")
 
-	if arg_46_0.shoot:GetSelectedState() == "charge" then
-		arg_46_0.shoot:SetSelectedState("throw")
+	if slot0.shoot:GetSelectedState() == "charge" then
+		slot0.shoot:SetSelectedState("throw")
 	end
 end
 
-local var_0_12 = Dorm.LuaBridge.MiniGameBridge
+slot12 = Dorm.LuaBridge.MiniGameBridge
 
-function var_0_0.GetCharaShootWait(arg_47_0)
-	return arg_47_0.shootCooldown or 1
+function slot0.GetCharaShootWait(slot0)
+	return slot0.shootCooldown or 1
 end
 
-function var_0_0.UpdateWaitAfterShoot(arg_48_0, arg_48_1)
-	arg_48_0.cooldown_.fillAmount = arg_48_1
+function slot0.UpdateWaitAfterShoot(slot0, slot1)
+	slot0.cooldown_.fillAmount = slot1
 end
 
-function var_0_0.CanShoot(arg_49_0)
-	return arg_49_0.beginAim and arg_49_0:ReadyToShoot()
+function slot0.CanShoot(slot0)
+	return slot0.beginAim and slot0:ReadyToShoot()
 end
 
-function var_0_0.ReadyToShoot(arg_50_0)
-	return arg_50_0.shootEnabled and not arg_50_0.isInShootCooldown
+function slot0.ReadyToShoot(slot0)
+	return slot0.shootEnabled and not slot0.isInShootCooldown
 end
 
-function var_0_0.Shoot(arg_51_0)
-	if not arg_51_0:CanShoot() then
+function slot0.Shoot(slot0)
+	if not slot0:CanShoot() then
 		return
 	end
 
-	arg_51_0.beginAim = false
+	slot0.beginAim = false
 
-	arg_51_0.shoot:SetSelectedState("wait")
-	arg_51_0.crosshire:SetSelectedState("hide")
-	var_0_1("minigame_activity_2_6_snowball_footstep_stop")
+	slot0.shoot:SetSelectedState("wait")
+	slot0.crosshire:SetSelectedState("hide")
+	uv0("minigame_activity_2_6_snowball_footstep_stop")
 
-	if arg_51_0.waitAfterShoot then
-		arg_51_0.waitAfterShoot:Abort()
+	if slot0.waitAfterShoot then
+		slot0.waitAfterShoot:Abort()
 	end
 
-	local var_51_0 = arg_51_0:GetCharaShootWait()
+	slot1 = slot0:GetCharaShootWait()
+	slot0.isInShootCooldown = true
+	slot0.waitAfterShoot = DormCharacterActionManager.frameTaskRunner:NewTask():WaitUntil(function (slot0)
+		slot0.wait = slot0.wait - (uv0.pause and 0 or DormCharacterActionManager:FrameTaskDeltaTime()) * SnowballGameMgr.GetInstance().shootSpeedFactor
 
-	arg_51_0.isInShootCooldown = true
-	arg_51_0.waitAfterShoot = DormCharacterActionManager.frameTaskRunner:NewTask():WaitUntil(function(arg_52_0)
-		local var_52_0 = arg_51_0.pause and 0 or DormCharacterActionManager:FrameTaskDeltaTime()
-		local var_52_1 = SnowballGameMgr.GetInstance().shootSpeedFactor
+		uv0:UpdateWaitAfterShoot(slot0.wait / slot0.total)
 
-		arg_52_0.wait = arg_52_0.wait - var_52_0 * var_52_1
-
-		arg_51_0:UpdateWaitAfterShoot(arg_52_0.wait / arg_52_0.total)
-
-		return arg_52_0.wait <= 0
+		return slot0.wait <= 0
 	end, false, {
-		wait = var_51_0,
-		total = var_51_0
-	}):Then(function()
-		arg_51_0.shoot:SetSelectedState("throw")
+		wait = slot1,
+		total = slot1
+	}):Then(function ()
+		uv0.shoot:SetSelectedState("throw")
 
-		arg_51_0.isInShootCooldown = false
+		uv0.isInShootCooldown = false
 	end):Start()
+	slot2, slot3, slot4 = uv1.BeamcastEntity(slot0.crosshirePos, slot0.beamRadius, nil, )
 
-	local var_51_1, var_51_2, var_51_3 = var_0_12.BeamcastEntity(arg_51_0.crosshirePos, arg_51_0.beamRadius, nil, nil)
-
-	manager.notify:Invoke(SNOWBALL_GAME_AIM_FINISH, var_51_1, var_51_2, var_51_3)
+	manager.notify:Invoke(SNOWBALL_GAME_AIM_FINISH, slot2, slot3, slot4)
 end
 
-local var_0_13 = {
+slot13 = {
 	"ACTIVITY_SNOWBALL_STAND_TALK01",
 	"ACTIVITY_SNOWBALL_STAND_TALK02",
 	"ACTIVITY_SNOWBALL_STAND_TALK03",
 	"ACTIVITY_SNOWBALL_STAND_TALK04"
 }
 
-local function var_0_14(arg_54_0)
-	return arg_54_0[math.random(#arg_54_0)]
+function slot14(slot0)
+	return slot0[math.random(#slot0)]
 end
 
-function var_0_0.NotifyGuestTalk(arg_55_0)
-	if arg_55_0:IsGameStarted() then
-		local var_55_0 = SnowballGameMgr.GetInstance():GetGuestEID()
-
-		manager.notify:Invoke(DORM_CHARACTER_PLAY_SUBTITLE, var_55_0, GetTips(var_0_14(var_0_13)), true)
-		arg_55_0:AddJob(20, handler(arg_55_0, arg_55_0.NotifyGuestTalk))
+function slot0.NotifyGuestTalk(slot0)
+	if slot0:IsGameStarted() then
+		manager.notify:Invoke(DORM_CHARACTER_PLAY_SUBTITLE, SnowballGameMgr.GetInstance():GetGuestEID(), GetTips(uv0(uv1)), true)
+		slot0:AddJob(20, handler(slot0, slot0.NotifyGuestTalk))
 	end
 end
 
-function var_0_0.OnGameFocusChange(arg_56_0, arg_56_1, arg_56_2)
-	if arg_56_2 then
-		var_0_3(arg_56_0)
+function slot0.OnGameFocusChange(slot0, slot1, slot2)
+	if slot2 then
+		uv0(slot0)
 	end
 end
 
-return var_0_0
+return slot0

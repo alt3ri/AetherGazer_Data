@@ -1,176 +1,164 @@
-local var_0_0 = class("ChatReportView", ReduxView)
+slot0 = class("ChatReportView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Friends/LineReportUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.optionDataList_ = {}
+	slot0.optionDataList_ = {}
 
-	for iter_3_0, iter_3_1 in ipairs(ChatConst.CHAT_REPORT_REASON) do
-		arg_3_0.optionDataList_[iter_3_0] = OptionDataList.New()
+	for slot4, slot5 in ipairs(ChatConst.CHAT_REPORT_REASON) do
+		slot0.optionDataList_[slot4] = OptionDataList.New()
 
-		for iter_3_2, iter_3_3 in ipairs(iter_3_1) do
-			if iter_3_3 == 0 then
-				local var_3_0 = GetTips("REPORT_SELECT")
-
-				arg_3_0.optionDataList_[iter_3_0].options:Add(OptionData.New(var_3_0))
+		for slot9, slot10 in ipairs(slot5) do
+			if slot10 == 0 then
+				slot0.optionDataList_[slot4].options:Add(OptionData.New(GetTips("REPORT_SELECT")))
 			else
-				local var_3_1 = GetTips(ChatConst.CHAT_REASON_INDEX[iter_3_3])
-
-				arg_3_0.optionDataList_[iter_3_0].options:Add(OptionData.New(var_3_1))
+				slot0.optionDataList_[slot4].options:Add(OptionData.New(GetTips(ChatConst.CHAT_REASON_INDEX[slot10])))
 			end
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.inputFieldNote_.text = ""
-	arg_4_0.textNick_.text = GetI18NText(arg_4_0.params_.reportData.nick)
-	arg_4_0.dropDownReason_.options = arg_4_0.optionDataList_[arg_4_0.params_.reportType].options
-	arg_4_0.dropDownReason_.value = 0
+function slot0.OnEnter(slot0)
+	slot0.inputFieldNote_.text = ""
+	slot0.textNick_.text = GetI18NText(slot0.params_.reportData.nick)
+	slot0.dropDownReason_.options = slot0.optionDataList_[slot0.params_.reportType].options
+	slot0.dropDownReason_.value = 0
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.optionDataList_) do
-		iter_6_1.options:Clear()
+	for slot4, slot5 in ipairs(slot0.optionDataList_) do
+		slot5.options:Clear()
 	end
 
-	arg_6_0.optionDataList_ = nil
+	slot0.optionDataList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buttonClose_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonCancel_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.buttonCancel_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonSure_, nil, function()
-		if arg_7_0.dropDownReason_.value == 0 then
+	slot0:AddBtnListener(slot0.buttonSure_, nil, function ()
+		if uv0.dropDownReason_.value == 0 then
 			ShowTips("NEED_REPORT_REASON")
 
 			return
 		end
 
-		if arg_7_0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.CONTENT then
-			ChatAction.ChatReportMsg(arg_7_0.params_.reportData.msgID, ChatConst.CHAT_REPORT_REASON[arg_7_0.params_.reportType][arg_7_0.dropDownReason_.value + 1], arg_7_0.inputFieldNote_.text, function(arg_11_0)
-				if isSuccess(arg_11_0.result) then
+		if uv0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.CONTENT then
+			ChatAction.ChatReportMsg(uv0.params_.reportData.msgID, ChatConst.CHAT_REPORT_REASON[uv0.params_.reportType][uv0.dropDownReason_.value + 1], uv0.inputFieldNote_.text, function (slot0)
+				if isSuccess(slot0.result) then
 					ShowMessageBox({
 						ButtonType = "SingleBtn",
 						isTop = true,
 						content = GetTips("REPORT_SUCCESS"),
-						OkCallback = function()
-							arg_7_0:Back()
+						OkCallback = function ()
+							uv0:Back()
 						end
 					})
 				else
-					ShowTips(arg_11_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
-		elseif arg_7_0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.USER then
-			ChatAction.ChatReportUser(arg_7_0.params_.reportData.userID, ChatConst.CHAT_REPORT_REASON[arg_7_0.params_.reportType][arg_7_0.dropDownReason_.value + 1], arg_7_0.inputFieldNote_.text, function(arg_13_0)
-				if isSuccess(arg_13_0.result) then
+		elseif uv0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.USER then
+			ChatAction.ChatReportUser(uv0.params_.reportData.userID, ChatConst.CHAT_REPORT_REASON[uv0.params_.reportType][uv0.dropDownReason_.value + 1], uv0.inputFieldNote_.text, function (slot0)
+				if isSuccess(slot0.result) then
 					ShowMessageBox({
 						ButtonType = "SingleBtn",
 						isTop = true,
 						content = GetTips("REPORT_SUCCESS"),
-						OkCallback = function()
-							arg_7_0:Back()
+						OkCallback = function ()
+							uv0:Back()
 						end
 					})
 				else
-					ShowTips(arg_13_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
-		elseif arg_7_0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.DORM then
-			local function var_10_0()
+		elseif uv0.params_.reportType == ChatConst.CHAT_REPORT_TYPE.DORM then
+			function slot0()
 				SetActive(manager.ui.uiPop.transform, false)
-				WaitRenderFrameUtil.inst.StartScreenShot(function()
-					local var_16_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-					local var_16_1, var_16_2 = SettingTools.GetSettingScreenSize(var_16_0)
+				WaitRenderFrameUtil.inst.StartScreenShot(function ()
+					slot1, slot2 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
 					if not SDKTools.IsSDK() then
-						var_16_1, var_16_2 = Screen.width, Screen.height
+						slot2 = Screen.height
+						slot1 = Screen.width
 					end
 
-					arg_7_0.screenSnap_ = ScreenSnap.New(var_16_1, var_16_2)
+					uv0.screenSnap_ = ScreenSnap.New(slot1, slot2)
 
-					arg_7_0.screenSnap_:Take()
+					uv0.screenSnap_:Take()
 
-					local var_16_3 = arg_7_0.screenSnap_:GetSprite()
+					slot3 = uv0.screenSnap_:GetSprite()
 
 					SetActive(manager.ui.uiPop.transform, true)
 
-					if arg_7_0.params_.reportData then
-						local var_16_4 = PlayerData:GetPlayerInfo().signUserId
-						local var_16_5 = PlayerData:GetPlayerInfo().userID .. "_" .. var_16_4
+					if uv0.params_.reportData then
+						slot4 = PlayerData:GetPlayerInfo().userID .. "_" .. PlayerData:GetPlayerInfo().signUserId
 
-						local function var_16_6(arg_17_0)
-							if arg_17_0 == "ServerError" then
+						function slot6(slot0)
+							if slot0 == "ServerError" then
 								print("图片服务器上传失败")
 
 								return
 							end
 
-							local var_17_0 = {
-								reported_user_id = arg_7_0.params_.reportData.userID,
-								layout_uid = arg_7_0.params_.reportData.layout_uid,
-								architecture_id = arg_7_0.params_.reportData.architecture_id,
-								report_type = ChatConst.CHAT_REPORT_REASON[arg_7_0.params_.reportType][arg_7_0.dropDownReason_.value + 1],
-								report_note = arg_7_0.inputFieldNote_.text,
-								picture_link = arg_17_0
-							}
-
-							ChatAction.DormReportUser(var_17_0, function(arg_18_0)
-								if isSuccess(arg_18_0.result) then
-									-- block empty
-								else
-									ShowTips(arg_18_0.result)
+							ChatAction.DormReportUser({
+								reported_user_id = uv0.params_.reportData.userID,
+								layout_uid = uv0.params_.reportData.layout_uid,
+								architecture_id = uv0.params_.reportData.architecture_id,
+								report_type = ChatConst.CHAT_REPORT_REASON[uv0.params_.reportType][uv0.dropDownReason_.value + 1],
+								report_note = uv0.inputFieldNote_.text,
+								picture_link = slot0
+							}, function (slot0)
+								if not isSuccess(slot0.result) then
+									ShowTips(slot0.result)
 								end
 							end)
 						end
 
-						local var_16_7 = OperationAction.GetOperationUrl("REST_URL")
+						slot7 = OperationAction.GetOperationUrl("REST_URL")
 
-						print("获取图片服务器路径", var_16_7)
+						print("获取图片服务器路径", slot7)
 
-						if not var_16_7 then
+						if not slot7 then
 							print("获取图片服务器路径失败")
 						else
-							local var_16_8 = var_16_7 .. "/common/uploadResource"
-
-							DormLuaBridge.SavePhotoToWebServer(var_16_3, var_16_8, var_16_5, var_16_6)
+							DormLuaBridge.SavePhotoToWebServer(slot3, slot7 .. "/common/uploadResource", slot4, slot6)
 						end
 
-						arg_7_0:Back()
+						uv0:Back()
 						ShowTips("REPORT_SUCCESS")
 					end
 				end)
 			end
 
-			WordVerifyBySDK(arg_7_0.inputFieldNote_.text, function(arg_19_0)
-				if not arg_19_0 then
+			WordVerifyBySDK(uv0.inputFieldNote_.text, function (slot0)
+				if not slot0 then
 					ShowTips("ERROR_USER_NAME_VER_WORD")
-				elseif var_10_0 then
-					var_10_0()
+				elseif uv0 then
+					uv0()
 				end
 			end, JUDGE_MESSAGE_TYPE.OTHER)
 		end
 	end)
 end
 
-return var_0_0
+return slot0

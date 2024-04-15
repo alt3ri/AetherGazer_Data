@@ -1,65 +1,52 @@
-local var_0_0 = {}
-local var_0_1 = 0.4
+slot1 = 0.4
 
-function var_0_0.PlayAnimationWithCallback(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = false
+return {
+	PlayAnimationWithCallback = function (slot0, slot1, slot2)
+		slot3 = false
 
-	if arg_1_0:GetCurrentAnimatorStateInfo(0):IsName("ui_stand") or arg_1_1 == "ui_stand" then
-		-- block empty
-	else
-		var_1_0 = true
-	end
-
-	var_0_0.PlayAnimatorWithCallback(arg_1_0, arg_1_1, arg_1_2, var_1_0)
-end
-
-function var_0_0.PlayAnimatorWithCallback(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.speed = 1
-
-	if arg_2_3 then
-		var_0_0.CrossFade(arg_2_0, arg_2_1)
-	else
-		arg_2_0:Play(arg_2_1)
-	end
-
-	if var_0_0.timer_ ~= nil then
-		var_0_0.timer_:Stop()
-	end
-
-	var_0_0.timer_ = Timer.New(function()
-		local var_3_0 = arg_2_0:GetCurrentAnimatorStateInfo(0)
-		local var_3_1 = var_3_0.length
-		local var_3_2 = (arg_2_3 and var_0_1 or 0) / var_3_1
-
-		if var_3_0:IsName(arg_2_1) and var_3_0.normalizedTime >= 1 - var_3_2 then
-			if var_0_0.timer_ ~= nil then
-				var_0_0.timer_:Stop()
-
-				var_0_0.timer_ = nil
-			end
-
-			if arg_2_2 ~= nil then
-				arg_2_2()
-			end
+		if not slot0:GetCurrentAnimatorStateInfo(0):IsName("ui_stand") then
+			slot3 = (slot1 ~= "ui_stand" or false) and true
 		end
-	end, 0.033, -1)
 
-	var_0_0.timer_:Start()
-end
+		uv0.PlayAnimatorWithCallback(slot0, slot1, slot2, slot3)
+	end,
+	PlayAnimatorWithCallback = function (slot0, slot1, slot2, slot3)
+		slot0.speed = 1
 
-function var_0_0.Stop()
-	if var_0_0.timer_ ~= nil then
-		var_0_0.timer_:Stop()
+		if slot3 then
+			uv0.CrossFade(slot0, slot1)
+		else
+			slot0:Play(slot1)
+		end
 
-		var_0_0.timer_ = nil
+		if uv0.timer_ ~= nil then
+			uv0.timer_:Stop()
+		end
+
+		uv0.timer_ = Timer.New(function ()
+			if slot0:IsName(uv3) and slot0.normalizedTime >= 1 - (uv1 and uv2 or 0) / uv0:GetCurrentAnimatorStateInfo(0).length then
+				if uv4.timer_ ~= nil then
+					uv4.timer_:Stop()
+
+					uv4.timer_ = nil
+				end
+
+				if uv5 ~= nil then
+					uv5()
+				end
+			end
+		end, 0.033, -1)
+
+		uv0.timer_:Start()
+	end,
+	Stop = function ()
+		if uv0.timer_ ~= nil then
+			uv0.timer_:Stop()
+
+			uv0.timer_ = nil
+		end
+	end,
+	CrossFade = function (slot0, slot1)
+		slot0:CrossFade(slot1, uv0 / slot0:GetCurrentAnimatorStateInfo(0).length, 0)
 	end
-end
-
-function var_0_0.CrossFade(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_0:GetCurrentAnimatorStateInfo(0).length
-	local var_5_1 = var_0_1 / var_5_0
-
-	arg_5_0:CrossFade(arg_5_1, var_5_1, 0)
-end
-
-return var_0_0
+}

@@ -1,33 +1,32 @@
-local var_0_0 = import("game.views.soloChallenge.Factory.FactorySoloChallengeMainView")
-local var_0_1 = class("SoloChallengeMainView_1_7", var_0_0)
+slot1 = class("SoloChallengeMainView_1_7", import("game.views.soloChallenge.Factory.FactorySoloChallengeMainView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/DarkFlameUI/DFSoloChallengeUI/DFSoloChallengeMainUI"
 end
 
-function var_0_1.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.rewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_2_0.selectActivityID_) then
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.selectActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("soloChallengeRewardView_1_7", {
-			activityID = arg_2_0.selectActivityID_
+			activityID = uv0.selectActivityID_
 		})
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.startBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_2_0.selectActivityID_) then
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.selectActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("soloChallengeDifficultySelectView_1_7", {
-			activityID = arg_2_0.selectActivityID_
+			activityID = uv0.selectActivityID_
 		})
 	end)
 end
 
-return var_0_1
+return slot1

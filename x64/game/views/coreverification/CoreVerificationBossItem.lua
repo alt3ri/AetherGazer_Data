@@ -1,99 +1,91 @@
-local var_0_0 = class("CoreVerificationBossItem", ReduxView)
+slot0 = class("CoreVerificationBossItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.bossType_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.bossType_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroHeadItem_ = {}
+	slot0.heroHeadItem_ = {}
 
-	for iter_3_0 = 1, 6 do
-		arg_3_0.heroHeadItem_[iter_3_0] = CoreVerificationRoleIcon.New(arg_3_0["hero" .. iter_3_0 .. "Go_"])
+	for slot4 = 1, 6 do
+		slot0.heroHeadItem_[slot4] = CoreVerificationRoleIcon.New(slot0["hero" .. slot4 .. "Go_"])
 	end
 
-	arg_3_0.passController_ = arg_3_0.mainControllerEx_:GetController("passState")
+	slot0.passController_ = slot0.mainControllerEx_:GetController("passState")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.mainBtn_, nil, function()
-		arg_4_0:Go("/coreVerificationInfo", {
-			bossType = arg_4_0.bossType_
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.mainBtn_, nil, function ()
+		uv0:Go("/coreVerificationInfo", {
+			bossType = uv0.bossType_
 		})
 	end)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = {
-		hero_id = arg_6_0.lockHero_[arg_6_1],
-		skin_id = HeroTools.HeroUsingSkinInfo(arg_6_0.lockHero_[arg_6_1]).id
-	}
-
-	arg_6_2:SetData(var_6_0)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData({
+		hero_id = slot0.lockHero_[slot1],
+		skin_id = HeroTools.HeroUsingSkinInfo(slot0.lockHero_[slot1]).id
+	})
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.lockHero_ = CoreVerificationData:GetLockHeroByBossType(arg_7_0.bossType_)
+function slot0.RefreshUI(slot0)
+	slot0.lockHero_ = CoreVerificationData:GetLockHeroByBossType(slot0.bossType_)
+	slot1, slot2, slot3 = CoreVerificationData:GetMaxPassByBossType(slot0.bossType_)
 
-	local var_7_0, var_7_1, var_7_2 = CoreVerificationData:GetMaxPassByBossType(arg_7_0.bossType_)
+	if slot1 then
+		slot0.passController_:SetSelectedState("complete")
 
-	if var_7_0 then
-		arg_7_0.passController_:SetSelectedState("complete")
-
-		arg_7_0.timeText_.text = manager.time:DescCdTime2(var_7_2)
+		slot0.timeText_.text = manager.time:DescCdTime2(slot3)
 	else
-		arg_7_0.passController_:SetSelectedState("empty")
+		slot0.passController_:SetSelectedState("empty")
 	end
 
-	for iter_7_0 = 1, 6 do
-		arg_7_0.heroHeadItem_[iter_7_0]:SetData(arg_7_0.lockHero_[iter_7_0])
+	for slot7 = 1, 6 do
+		slot0.heroHeadItem_[slot7]:SetData(slot0.lockHero_[slot7])
 	end
 
-	arg_7_0.diffText_.text = var_7_1
+	slot0.diffText_.text = slot2
+	slot0.bossImg_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossAttribute.path, CoreVerificationData:GetBossUICfgByBossType(slot0.bossType_).icon))
 
-	local var_7_3 = CoreVerificationData:GetBossUICfgByBossType(arg_7_0.bossType_)
+	if CoreVerificationData:GetRecommendByBossType(slot0.bossType_)[1] then
+		SetActive(slot0.recommend1Img_.gameObject, true)
 
-	arg_7_0.bossImg_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossAttribute.path, var_7_3.icon))
-
-	local var_7_4 = CoreVerificationData:GetRecommendByBossType(arg_7_0.bossType_)
-
-	if var_7_4[1] then
-		SetActive(arg_7_0.recommend1Img_.gameObject, true)
-
-		arg_7_0.recommend1Img_.sprite = HeroTools.GetSkillAttributeIcon(var_7_4[1])
+		slot0.recommend1Img_.sprite = HeroTools.GetSkillAttributeIcon(slot5[1])
 	else
-		SetActive(arg_7_0.recommend1Img_.gameObject, false)
+		SetActive(slot0.recommend1Img_.gameObject, false)
 	end
 
-	if var_7_4[2] then
-		SetActive(arg_7_0.recommend2Img_.gameObject, true)
+	if slot5[2] then
+		SetActive(slot0.recommend2Img_.gameObject, true)
 
-		arg_7_0.recommend2Img_.sprite = HeroTools.GetSkillAttributeIcon(var_7_4[2])
+		slot0.recommend2Img_.sprite = HeroTools.GetSkillAttributeIcon(slot5[2])
 	else
-		SetActive(arg_7_0.recommend2Img_.gameObject, false)
+		SetActive(slot0.recommend2Img_.gameObject, false)
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0 = 1, 6 do
-		if arg_8_0.heroHeadItem_[iter_8_0] then
-			arg_8_0.heroHeadItem_[iter_8_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, 6 do
+		if slot0.heroHeadItem_[slot4] then
+			slot0.heroHeadItem_[slot4]:Dispose()
 
-			arg_8_0.heroHeadItem_[iter_8_0] = nil
+			slot0.heroHeadItem_[slot4] = nil
 		end
 	end
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

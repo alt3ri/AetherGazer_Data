@@ -1,67 +1,64 @@
-local var_0_0 = class("ChapterChallengeItemView", import("..ChapterBaseItemView"))
+slot0 = class("ChapterChallengeItemView", import("..ChapterBaseItemView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	arg_1_0:AddCountdown()
-	arg_1_0:AddRedPoint()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:AddCountdown()
+	slot0:AddRedPoint()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	var_0_0.super.OnExit(arg_2_0)
-	arg_2_0:RemoveCountdown()
-	arg_2_0:RemoveRedPoint()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:RemoveCountdown()
+	slot0:RemoveRedPoint()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshCustomItem(arg_4_0, arg_4_1)
-	if arg_4_0.oldCfgID_ ~= arg_4_1.id then
-		arg_4_0.nameText_.text = GetI18NText(arg_4_1.name)
+function slot0.RefreshCustomItem(slot0, slot1)
+	if slot0.oldCfgID_ ~= slot1.id then
+		slot0.nameText_.text = GetI18NText(slot1.name)
 
-		SetSpriteWithoutAtlasAsync(arg_4_0.icon_, arg_4_1.drop_icon)
+		SetSpriteWithoutAtlasAsync(slot0.icon_, slot1.drop_icon)
 
-		arg_4_0.oldCfgID_ = arg_4_1.id
+		slot0.oldCfgID_ = slot1.id
 	end
 end
 
-function var_0_0.AddCountdown(arg_5_0)
-	return
+function slot0.AddCountdown(slot0)
 end
 
-function var_0_0.RemoveCountdown(arg_6_0)
-	if arg_6_0.timer_ then
-		arg_6_0.timer_:Stop()
+function slot0.RemoveCountdown(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_6_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.GetLostTime(arg_7_0)
+function slot0.GetLostTime(slot0)
 	return 0
 end
 
-function var_0_0.ClickItem(arg_8_0, arg_8_1)
-	if arg_8_0.isLock_ then
-		ShowTips(arg_8_0.lockTips_)
+function slot0.ClickItem(slot0, slot1)
+	if slot0.isLock_ then
+		ShowTips(slot0.lockTips_)
 
 		return
 	end
 
-	local var_8_0 = ChapterClientCfg[arg_8_1].chapter_list[1]
-
-	arg_8_0:Go("/challenge", {
-		chapterID = var_8_0
+	slot0:Go("/challenge", {
+		chapterID = ChapterClientCfg[slot1].chapter_list[1]
 	})
 end
 
-function var_0_0.AddRedPoint(arg_9_0)
-	manager.redPoint:bindUIandKey(arg_9_0.panelTf_, ChapterTools.GetRedPoint(arg_9_0.chapterClientID_))
+function slot0.AddRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.panelTf_, ChapterTools.GetRedPoint(slot0.chapterClientID_))
 end
 
-function var_0_0.RemoveRedPoint(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.panelTf_)
+function slot0.RemoveRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.panelTf_)
 end
 
-return var_0_0
+return slot0

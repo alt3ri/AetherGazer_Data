@@ -1,90 +1,88 @@
-local var_0_0 = class("PushSnowBallTeamTaskItem", ReduxView)
+slot0 = class("PushSnowBallTeamTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.itemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.itemList__, CommonItem)
-	arg_2_0.rewardState_ = ControllerUtil.GetController(arg_2_0.transform_, "state")
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.itemList__, CommonItem)
+	slot0.rewardState_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.index_ = arg_3_1
-	arg_3_0.data_ = arg_3_2
-	arg_3_0.cfg_ = AssignmentCfg[arg_3_2.id]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
+	slot0.cfg_ = AssignmentCfg[slot2.id]
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_, nil, function()
-		TaskAction:SubmitTask(arg_5_0.cfg_.id)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		TaskAction:SubmitTask(uv0.cfg_.id)
 	end)
 end
 
-function var_0_0.SetCallBack(arg_7_0, arg_7_1)
-	arg_7_0.callback = arg_7_1
+function slot0.SetCallBack(slot0, slot1)
+	slot0.callback = slot1
 end
 
-function var_0_0.SetCheckCallBack(arg_8_0, arg_8_1)
-	arg_8_0.checkCallBack_ = arg_8_1
+function slot0.SetCheckCallBack(slot0, slot1)
+	slot0.checkCallBack_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshItem()
-	arg_9_0:RefreshState()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshItem()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshItem(arg_10_0)
-	arg_10_0.rewardCfg_ = arg_10_0.cfg_.reward
+function slot0.RefreshItem(slot0)
+	slot0.rewardCfg_ = slot0.cfg_.reward
 
-	arg_10_0.itemList_:StartScroll(#arg_10_0.rewardCfg_)
+	slot0.itemList_:StartScroll(#slot0.rewardCfg_)
 
-	arg_10_0.progress_.text = math.min(arg_10_0.data_.progress, AssignmentCfg[arg_10_0.cfg_.id].need) .. "/" .. AssignmentCfg[arg_10_0.cfg_.id].need
-	arg_10_0.descText_.text = arg_10_0.cfg_.desc
-	arg_10_0.slider_.value = TaskData2:GetTaskProgress(arg_10_0.cfg_.id)
+	slot0.progress_.text = math.min(slot0.data_.progress, AssignmentCfg[slot0.cfg_.id].need) .. "/" .. AssignmentCfg[slot0.cfg_.id].need
+	slot0.descText_.text = slot0.cfg_.desc
+	slot0.slider_.value = TaskData2:GetTaskProgress(slot0.cfg_.id)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.rewardCfg_[arg_11_1]
-
-	arg_11_2:RefreshData(formatReward(var_11_0))
-	arg_11_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_11_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.rewardCfg_[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 end
 
-function var_0_0.RefreshState(arg_13_0)
-	local var_13_0 = arg_13_0.data_.complete_flag >= 1
+function slot0.RefreshState(slot0)
+	slot1 = slot0.data_.complete_flag >= 1
 
-	if not (AssignmentCfg[arg_13_0.cfg_.id].need <= arg_13_0.data_.progress) then
-		arg_13_0.rewardState_:SetSelectedState("unfinished")
-	elseif not var_13_0 then
-		arg_13_0.rewardState_:SetSelectedState("complete")
+	if not (AssignmentCfg[slot0.cfg_.id].need <= slot0.data_.progress) then
+		slot0.rewardState_:SetSelectedState("unfinished")
+	elseif not slot1 then
+		slot0.rewardState_:SetSelectedState("complete")
 	else
-		arg_13_0.rewardState_:SetSelectedState("rewarded")
+		slot0.rewardState_:SetSelectedState("rewarded")
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.itemList_ then
-		arg_14_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_14_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

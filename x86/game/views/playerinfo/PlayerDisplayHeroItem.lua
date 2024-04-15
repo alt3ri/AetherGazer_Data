@@ -1,70 +1,64 @@
-local var_0_0 = class("PlayerDisplayHeroItem", ReduxView)
+slot0 = class("PlayerDisplayHeroItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot2
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.lockedController_ = ControllerUtil.GetController(arg_2_0.transform_, "locked")
-	arg_2_0.campController_ = ControllerUtil.GetController(arg_2_0.transform_, "camp")
-	arg_2_0.gradeController_ = ControllerUtil.GetController(arg_2_0.transform_, "grade")
-	arg_2_0.sizeController_ = ControllerUtil.GetController(arg_2_0.transform_, "size")
-	arg_2_0.selectedController_ = ControllerUtil.GetController(arg_2_0.transform_, "selected")
-	arg_2_0.hpController_ = ControllerUtil.GetController(arg_2_0.transform_, "hp")
+	slot0.lockedController_ = ControllerUtil.GetController(slot0.transform_, "locked")
+	slot0.campController_ = ControllerUtil.GetController(slot0.transform_, "camp")
+	slot0.gradeController_ = ControllerUtil.GetController(slot0.transform_, "grade")
+	slot0.sizeController_ = ControllerUtil.GetController(slot0.transform_, "size")
+	slot0.selectedController_ = ControllerUtil.GetController(slot0.transform_, "selected")
+	slot0.hpController_ = ControllerUtil.GetController(slot0.transform_, "hp")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.selfBtn_, nil, function()
-		ForeignInfoAction:TryToCheckForeignHeroInfo(arg_3_0.userID_, arg_3_0.data_.hero_id, 1, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.selfBtn_, nil, function ()
+		ForeignInfoAction:TryToCheckForeignHeroInfo(uv0.userID_, uv0.data_.hero_id, 1, function ()
 			JumpTools.OpenPageByJump("/newHero", {
 				isEnter = true,
 				isForeign = true,
 				notShowBar = true,
-				hid = arg_3_0.data_.hero_id
+				hid = uv0.data_.hero_id
 			}, ViewConst.SYSTEM_ID.PLAYER_INFO)
 		end)
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.SetHeroData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.userID_ = arg_7_1
-	arg_7_0.data_ = arg_7_2
+function slot0.SetHeroData(slot0, slot1, slot2)
+	slot0.userID_ = slot1
+	slot0.data_ = slot2
 
-	arg_7_0:UpdataView()
+	slot0:UpdataView()
 end
 
-function var_0_0.UpdataView(arg_8_0)
-	arg_8_0.headIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", arg_8_0.data_.using_skin == 0 and arg_8_0.data_.hero_id or arg_8_0.data_.using_skin)
+function slot0.UpdataView(slot0)
+	slot0.headIcon_.sprite = getSpriteViaConfig("HeroLittleIcon", slot0.data_.using_skin == 0 and slot0.data_.hero_id or slot0.data_.using_skin)
 
-	arg_8_0.headIcon_:SetNativeSize()
-	arg_8_0.campController_:SetSelectedState(HeroCfg[arg_8_0.data_.hero_id].race)
-
-	local var_8_0 = HeroStarCfg[arg_8_0.data_.star]
-	local var_8_1 = var_8_0 ~= nil and var_8_0.star or 1
-
-	arg_8_0.gradeController_:SetSelectedState(var_8_1)
-	arg_8_0.lockedController_:SetSelectedState("false")
-	arg_8_0.sizeController_:SetSelectedState("short")
-	arg_8_0.selectedController_:SetSelectedState("false")
+	slot0.headIcon_:SetNativeSize()
+	slot0.campController_:SetSelectedState(HeroCfg[slot0.data_.hero_id].race)
+	slot0.gradeController_:SetSelectedState(HeroStarCfg[slot0.data_.star] ~= nil and slot1.star or 1)
+	slot0.lockedController_:SetSelectedState("false")
+	slot0.sizeController_:SetSelectedState("short")
+	slot0.selectedController_:SetSelectedState("false")
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

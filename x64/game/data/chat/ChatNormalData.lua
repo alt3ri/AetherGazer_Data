@@ -1,38 +1,34 @@
-local var_0_0 = class("ChatNormalData")
+slot0 = class("ChatNormalData")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.chatType_ = arg_1_1
-	arg_1_0.chatRecordData_ = getModule("chatGuild" .. arg_1_1)
-	arg_1_0.chatSaveRecordList_ = {}
-	arg_1_0.chatRecordList_ = {}
-	arg_1_0.readMsgID_ = 0
-	arg_1_0.historyTipsFlag_ = false
-	arg_1_0.cacheContentList_ = {}
+function slot0.Ctor(slot0, slot1)
+	slot0.chatType_ = slot1
+	slot0.chatRecordData_ = getModule("chatGuild" .. slot1)
+	slot0.chatSaveRecordList_ = {}
+	slot0.chatRecordList_ = {}
+	slot0.readMsgID_ = 0
+	slot0.historyTipsFlag_ = false
+	slot0.cacheContentList_ = {}
 end
 
-function var_0_0.GetContent(arg_2_0)
-	return arg_2_0.chatRecordList_
+function slot0.GetContent(slot0)
+	return slot0.chatRecordList_
 end
 
-function var_0_0.AddChat(arg_3_0, arg_3_1)
-	if arg_3_0:IsOldMsg(arg_3_1.msg.msg_id) then
+function slot0.AddChat(slot0, slot1)
+	if slot0:IsOldMsg(slot1.msg.msg_id) then
 		return
 	end
 
-	local var_3_0 = arg_3_0:ParseChat(arg_3_1)
+	slot2 = slot0:ParseChat(slot1)
 
-	arg_3_0:SaveRecord(var_3_0)
-	table.insert(arg_3_0.chatRecordList_, var_3_0)
-	arg_3_0:UpdateCacheContent(arg_3_1)
+	slot0:SaveRecord(slot2)
+	table.insert(slot0.chatRecordList_, slot2)
+	slot0:UpdateCacheContent(slot1)
 end
 
-function var_0_0.IsOldMsg(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_0.chatRecordList_ and #arg_4_0.chatRecordList_ or 0
-
-	for iter_4_0 = 0, 9 do
-		local var_4_1 = arg_4_0.chatRecordList_[var_4_0 - iter_4_0]
-
-		if var_4_1 and var_4_1.msgID == arg_4_1 then
+function slot0.IsOldMsg(slot0, slot1)
+	for slot6 = 0, 9 do
+		if slot0.chatRecordList_[(slot0.chatRecordList_ and #slot0.chatRecordList_ or 0) - slot6] and slot7.msgID == slot1 then
 			return true
 		end
 	end
@@ -40,226 +36,208 @@ function var_0_0.IsOldMsg(arg_4_0, arg_4_1)
 	return false
 end
 
-function var_0_0.ParseChat(arg_5_0, arg_5_1)
-	local var_5_0 = {}
+function slot0.ParseChat(slot0, slot1)
+	slot2 = {}
 
-	ChatTools.ParseChat(var_5_0, arg_5_1)
+	ChatTools.ParseChat(slot2, slot1)
 
-	return var_5_0
+	return slot2
 end
 
-function var_0_0.RemoveChatData(arg_6_0)
-	arg_6_0.chatRecordList_ = {}
-	arg_6_0.cacheContentList_ = {}
-	arg_6_0.historyTipsFlag_ = false
-	arg_6_0.readMsgID_ = 0
+function slot0.RemoveChatData(slot0)
+	slot0.chatRecordList_ = {}
+	slot0.cacheContentList_ = {}
+	slot0.historyTipsFlag_ = false
+	slot0.readMsgID_ = 0
 
-	saveData("chatGuild" .. arg_6_0.chatType_, "readMsgID", 0)
-	ChatTools.DeleteChannelChatCache(arg_6_0.chatType_)
+	saveData("chatGuild" .. slot0.chatType_, "readMsgID", 0)
+	ChatTools.DeleteChannelChatCache(slot0.chatType_)
 end
 
-function var_0_0.SaveRecord(arg_7_0, arg_7_1)
-	arg_7_0.chatSaveRecordList_ = arg_7_0.chatSaveRecordList_ or {}
+function slot0.SaveRecord(slot0, slot1)
+	slot0.chatSaveRecordList_ = slot0.chatSaveRecordList_ or {}
 
-	table.insert(arg_7_0.chatSaveRecordList_, arg_7_1)
+	table.insert(slot0.chatSaveRecordList_, slot1)
 end
 
-function var_0_0.SaveRecordCnt(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_1 or 0
-	local var_8_1 = arg_8_0.cacheContentList_[#arg_8_0.cacheContentList_ - var_8_0]
+function slot0.SaveRecordCnt(slot0, slot1)
+	if slot0.cacheContentList_[#slot0.cacheContentList_ - (slot1 or 0)] and (slot3.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or slot3.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) then
+		slot0.readMsgID_ = slot3.msgID
+		slot4 = #slot0.chatSaveRecordList_
 
-	if var_8_1 and (var_8_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or var_8_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) then
-		arg_8_0.readMsgID_ = var_8_1.msgID
-
-		local var_8_2 = #arg_8_0.chatSaveRecordList_
-
-		for iter_8_0 = #arg_8_0.chatSaveRecordList_, 1, -1 do
-			if arg_8_0.chatSaveRecordList_[iter_8_0] and arg_8_0.chatSaveRecordList_[iter_8_0].msgID == var_8_1.msgID then
-				var_8_2 = iter_8_0
+		for slot8 = #slot0.chatSaveRecordList_, 1, -1 do
+			if slot0.chatSaveRecordList_[slot8] and slot0.chatSaveRecordList_[slot8].msgID == slot3.msgID then
+				slot4 = slot8
 
 				break
 			end
 		end
 
-		local var_8_3 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-
-		for iter_8_1 = var_8_2 + 1, #arg_8_0.chatSaveRecordList_ do
-			local var_8_4 = arg_8_0.chatSaveRecordList_[iter_8_1]
-
-			if var_8_4 and table.keyof(var_8_3, var_8_4.id) then
-				arg_8_0.readMsgID_ = arg_8_0.chatSaveRecordList_[iter_8_1].msgID
+		for slot9 = slot4 + 1, #slot0.chatSaveRecordList_ do
+			if slot0.chatSaveRecordList_[slot9] and table.keyof(FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST), slot10.id) then
+				slot0.readMsgID_ = slot0.chatSaveRecordList_[slot9].msgID
 			else
 				break
 			end
 		end
 
-		saveData("chatGuild" .. arg_8_0.chatType_, "readMsgID_" .. arg_8_0.chatType_, var_8_1.msgID)
+		saveData("chatGuild" .. slot0.chatType_, "readMsgID_" .. slot0.chatType_, slot3.msgID)
 	end
 end
 
-function var_0_0.RemoveChatContent(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_1.msgID
-	local var_9_1 = 0
+function slot0.RemoveChatContent(slot0, slot1)
+	slot2 = slot1.msgID
 
-	if arg_9_0.chatRecordList_ == nil then
-		return var_9_1
+	if slot0.chatRecordList_ == nil then
+		return 0
 	end
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.chatRecordList_) do
-		if iter_9_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and iter_9_1.msgID == var_9_0 then
-			iter_9_1.recall = true
+	for slot7, slot8 in ipairs(slot0.chatRecordList_) do
+		if slot8.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and slot8.msgID == slot2 then
+			slot8.recall = true
 
-			ChatTools.ResaveChannelChatCache(arg_9_0.chatType_)
+			ChatTools.ResaveChannelChatCache(slot0.chatType_)
 
-			var_9_1 = iter_9_0
+			slot3 = slot7
 
 			break
 		end
 	end
 
-	for iter_9_2 = #arg_9_0.cacheContentList_, 1, -1 do
-		local var_9_2 = arg_9_0.cacheContentList_[iter_9_2]
+	for slot7 = #slot0.cacheContentList_, 1, -1 do
+		if slot0.cacheContentList_[slot7].contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and slot8.msgID == slot2 then
+			if slot0.cacheContentList_[slot7 + 1] == nil then
+				table.remove(slot0.cacheContentList_, slot7)
 
-		if var_9_2.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT and var_9_2.msgID == var_9_0 then
-			if arg_9_0.cacheContentList_[iter_9_2 + 1] == nil then
-				table.remove(arg_9_0.cacheContentList_, iter_9_2)
+				if slot0.cacheContentList_[slot7 - 1] then
+					if slot0.cacheContentList_[slot7 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS or slot0.cacheContentList_[slot7 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
+						table.remove(slot0.cacheContentList_, slot7 - 1)
 
-				if arg_9_0.cacheContentList_[iter_9_2 - 1] then
-					if arg_9_0.cacheContentList_[iter_9_2 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS or arg_9_0.cacheContentList_[iter_9_2 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
-						table.remove(arg_9_0.cacheContentList_, iter_9_2 - 1)
-
-						if arg_9_0.cacheContentList_[iter_9_2 - 2] and arg_9_0.cacheContentList_[iter_9_2 - 2].contentType == ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS then
-							table.remove(arg_9_0.cacheContentList_, iter_9_2 - 2)
+						if slot0.cacheContentList_[slot7 - 2] and slot0.cacheContentList_[slot7 - 2].contentType == ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS then
+							table.remove(slot0.cacheContentList_, slot7 - 2)
 						end
 					end
 
-					arg_9_0.historyTipsFlag_ = false
+					slot0.historyTipsFlag_ = false
 				end
 
 				break
 			end
 
-			table.remove(arg_9_0.cacheContentList_, iter_9_2)
+			table.remove(slot0.cacheContentList_, slot7)
 
 			break
 		end
 	end
 
-	return var_9_1
+	return slot3
 end
 
-function var_0_0.InitCacheContent(arg_10_0)
-	local var_10_0 = clone(arg_10_0.chatRecordList_ or {})
+function slot0.InitCacheContent(slot0)
+	slot1 = clone(slot0.chatRecordList_ or {})
+	slot0.historyTipsFlag_ = false
 
-	arg_10_0.historyTipsFlag_ = false
-
-	if arg_10_0.readMsgID_ == 0 then
-		arg_10_0.historyTipsFlag_ = true
+	if slot0.readMsgID_ == 0 then
+		slot0.historyTipsFlag_ = true
 	end
 
-	local var_10_1 = 0
+	slot2 = 0
 
-	for iter_10_0 = #var_10_0, 1, -1 do
-		if var_10_0[iter_10_0].recall == true then
-			table.remove(var_10_0, iter_10_0)
+	for slot6 = #slot1, 1, -1 do
+		if slot1[slot6].recall == true then
+			table.remove(slot1, slot6)
 		end
 	end
 
-	arg_10_0.cacheContentList_ = {}
+	slot0.cacheContentList_ = {}
+	slot3 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
 
-	local var_10_2 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-
-	for iter_10_1, iter_10_2 in ipairs(var_10_0) do
-		if iter_10_1 == 1 or iter_10_2.timestamp - var_10_0[iter_10_1 - 1].timestamp > ChatConst.MESSAGE_SPACE then
-			local var_10_3 = {
-				timestamp = iter_10_2.timestamp,
-				contentType = ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP
-			}
-
-			if not table.keyof(var_10_2, iter_10_2.id) then
-				table.insert(arg_10_0.cacheContentList_, var_10_3)
+	for slot7, slot8 in ipairs(slot1) do
+		if slot7 == 1 or ChatConst.MESSAGE_SPACE < slot8.timestamp - slot1[slot7 - 1].timestamp then
+			if not table.keyof(slot3, slot8.id) then
+				table.insert(slot0.cacheContentList_, {
+					timestamp = slot8.timestamp,
+					contentType = ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP
+				})
 			end
 		end
 
-		if not table.keyof(var_10_2, iter_10_2.id) then
-			table.insert(arg_10_0.cacheContentList_, iter_10_2)
+		if not table.keyof(slot3, slot8.id) then
+			table.insert(slot0.cacheContentList_, slot8)
 		end
 
-		if arg_10_0.readMsgID_ ~= 0 and var_10_0[iter_10_1].msgID == arg_10_0.readMsgID_ and var_10_0[iter_10_1 + 1] and not table.keyof(var_10_2, var_10_0[iter_10_1 + 1].id) then
-			arg_10_0.historyTipsFlag_ = true
+		if slot0.readMsgID_ ~= 0 and slot1[slot7].msgID == slot0.readMsgID_ and slot1[slot7 + 1] and not table.keyof(slot3, slot1[slot7 + 1].id) then
+			slot0.historyTipsFlag_ = true
 
-			table.insert(arg_10_0.cacheContentList_, {
+			table.insert(slot0.cacheContentList_, {
 				contentType = ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS,
-				timestamp = var_10_0[iter_10_1].timestamp
+				timestamp = slot1[slot7].timestamp
 			})
 
-			var_10_1 = #arg_10_0.cacheContentList_
+			slot2 = #slot0.cacheContentList_
 		end
 	end
 
-	return var_10_1 ~= 0 and var_10_1 or #arg_10_0.cacheContentList_
+	return slot2 ~= 0 and slot2 or #slot0.cacheContentList_
 end
 
-function var_0_0.UpdateCacheContent(arg_11_0, arg_11_1)
-	local var_11_0 = USER_ID
-	local var_11_1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
+function slot0.UpdateCacheContent(slot0, slot1)
+	slot2 = USER_ID
 
-	if table.keyof(var_11_1, arg_11_1.msg.id) then
+	if table.keyof(FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST), slot1.msg.id) then
 		return
 	end
 
-	if arg_11_0.historyTipsFlag_ ~= true then
-		if arg_11_1.msg.id ~= var_11_0 then
-			table.insert(arg_11_0.cacheContentList_, {
+	if slot0.historyTipsFlag_ ~= true then
+		if slot1.msg.id ~= slot2 then
+			table.insert(slot0.cacheContentList_, {
 				contentType = ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS,
-				timestamp = arg_11_1.msg.timestamp
+				timestamp = slot1.msg.timestamp
 			})
 		end
 
-		arg_11_0.historyTipsFlag_ = true
+		slot0.historyTipsFlag_ = true
 	end
 
-	if #arg_11_0.cacheContentList_ <= 0 or arg_11_1.msg.timestamp - arg_11_0.cacheContentList_[#arg_11_0.cacheContentList_].timestamp > ChatConst.MESSAGE_SPACE then
-		local var_11_2 = {
-			timestamp = arg_11_1.msg.timestamp,
+	if #slot0.cacheContentList_ <= 0 or ChatConst.MESSAGE_SPACE < slot1.msg.timestamp - slot0.cacheContentList_[#slot0.cacheContentList_].timestamp then
+		table.insert(slot0.cacheContentList_, {
+			timestamp = slot1.msg.timestamp,
 			contentType = ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP
-		}
-
-		table.insert(arg_11_0.cacheContentList_, var_11_2)
+		})
 	end
 
-	table.insert(arg_11_0.cacheContentList_, arg_11_0:ParseChat(arg_11_1))
+	table.insert(slot0.cacheContentList_, slot0:ParseChat(slot1))
 end
 
-function var_0_0.GetCacheContent(arg_12_0)
-	return arg_12_0.cacheContentList_
+function slot0.GetCacheContent(slot0)
+	return slot0.cacheContentList_
 end
 
-function var_0_0.GetUnreadMsgCnt(arg_13_0)
-	if arg_13_0.chatRecordList_ then
-		local var_13_0 = 0
+function slot0.GetUnreadMsgCnt(slot0)
+	if slot0.chatRecordList_ then
+		slot1 = 0
 
-		for iter_13_0 = #arg_13_0.chatRecordList_, 1, -1 do
-			if arg_13_0.chatRecordList_[iter_13_0].msgID == arg_13_0.readMsgID_ then
+		for slot5 = #slot0.chatRecordList_, 1, -1 do
+			if slot0.chatRecordList_[slot5].msgID == slot0.readMsgID_ then
 				break
 			end
 
-			if arg_13_0.chatRecordList_[iter_13_0].recall == false then
-				var_13_0 = var_13_0 + 1
+			if slot0.chatRecordList_[slot5].recall == false then
+				slot1 = slot1 + 1
 			end
 		end
 
-		return var_13_0
+		return slot1
 	else
 		return 0
 	end
 end
 
-function var_0_0.GetLastMsgData(arg_14_0)
-	if arg_14_0.chatRecordList_ then
-		for iter_14_0 = #arg_14_0.chatRecordList_, 1, -1 do
-			if arg_14_0.chatRecordList_[iter_14_0].recall == false then
-				return arg_14_0.chatRecordList_[iter_14_0]
+function slot0.GetLastMsgData(slot0)
+	if slot0.chatRecordList_ then
+		for slot4 = #slot0.chatRecordList_, 1, -1 do
+			if slot0.chatRecordList_[slot4].recall == false then
+				return slot0.chatRecordList_[slot4]
 			end
 		end
 	end
@@ -269,32 +247,32 @@ function var_0_0.GetLastMsgData(arg_14_0)
 	}
 end
 
-function var_0_0.SetLastRequireMsgTimestamp(arg_15_0, arg_15_1)
-	arg_15_0.lastRequireMsgTimestamp_ = arg_15_1
+function slot0.SetLastRequireMsgTimestamp(slot0, slot1)
+	slot0.lastRequireMsgTimestamp_ = slot1
 end
 
-function var_0_0.GetLastRequireMsgTimestamp(arg_16_0)
-	return arg_16_0.lastRequireMsgTimestamp_ or 0
+function slot0.GetLastRequireMsgTimestamp(slot0)
+	return slot0.lastRequireMsgTimestamp_ or 0
 end
 
-function var_0_0.GetSaveRecordList(arg_17_0)
-	return arg_17_0.chatSaveRecordList_ or {}
+function slot0.GetSaveRecordList(slot0)
+	return slot0.chatSaveRecordList_ or {}
 end
 
-function var_0_0.SetSaveRecordList(arg_18_0, arg_18_1)
-	arg_18_0.chatSaveRecordList_ = arg_18_1
+function slot0.SetSaveRecordList(slot0, slot1)
+	slot0.chatSaveRecordList_ = slot1
 end
 
-function var_0_0.InitChannelContnent(arg_19_0, arg_19_1)
-	arg_19_0.chatRecordList_ = {}
+function slot0.InitChannelContnent(slot0, slot1)
+	slot0.chatRecordList_ = {}
 
-	for iter_19_0, iter_19_1 in ipairs(arg_19_1) do
-		table.insert(arg_19_0.chatRecordList_, iter_19_1)
+	for slot5, slot6 in ipairs(slot1) do
+		table.insert(slot0.chatRecordList_, slot6)
 	end
 
-	arg_19_0:InitCacheContent()
+	slot0:InitCacheContent()
 
-	arg_19_0.readMsgID_ = arg_19_0.chatRecordData_["readMsgID_" .. arg_19_0.chatType_] or 0
+	slot0.readMsgID_ = slot0.chatRecordData_["readMsgID_" .. slot0.chatType_] or 0
 end
 
-return var_0_0
+return slot0

@@ -1,22 +1,22 @@
-local var_0_0 = class("ChapterMapView", ReduxView)
-local var_0_1 = import("game.const.BattleConst")
+slot0 = class("ChapterMapView", ReduxView)
+slot1 = import("game.const.BattleConst")
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationOvUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.toggleView_ = {}
-	arg_3_0.contentView_ = {}
+function slot0.Init(slot0)
+	slot0.toggleView_ = {}
+	slot0.contentView_ = {}
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.OnTop(arg_4_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -25,142 +25,140 @@ function var_0_0.OnTop(arg_4_0)
 	})
 end
 
-function var_0_0.OnEnter(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.mainContent_, false)
-	SetActive(arg_5_0.resourceContent_, false)
-	SetActive(arg_5_0.equipContent_, false)
-	SetActive(arg_5_0.challengeContent_, false)
-	SetActive(arg_5_0.plotExPanel_, false)
+function slot0.OnEnter(slot0, slot1)
+	SetActive(slot0.mainContent_, false)
+	SetActive(slot0.resourceContent_, false)
+	SetActive(slot0.equipContent_, false)
+	SetActive(slot0.challengeContent_, false)
+	SetActive(slot0.plotExPanel_, false)
 	manager.ui:SetMainCamera("chapterSelect")
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.contentView_) do
-		iter_5_1:OnEnter()
+	for slot5, slot6 in pairs(slot0.contentView_) do
+		slot6:OnEnter()
 	end
 
-	for iter_5_2, iter_5_3 in pairs(arg_5_0.toggleView_) do
-		iter_5_3:OnEnter()
+	for slot5, slot6 in pairs(slot0.toggleView_) do
+		slot6:OnEnter()
 	end
 
-	arg_5_0:SwitchToggle(arg_5_0.params_.chapterToggle)
+	slot0:SwitchToggle(slot0.params_.chapterToggle)
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.contentView_) do
-		iter_6_1:OnExit()
+	for slot4, slot5 in pairs(slot0.contentView_) do
+		slot5:OnExit()
 	end
 
 	manager.ui:ResetMainCamera()
 
-	for iter_6_2, iter_6_3 in pairs(arg_6_0.toggleView_) do
-		iter_6_3:OnExit()
+	for slot4, slot5 in pairs(slot0.toggleView_) do
+		slot5:OnExit()
 	end
 
-	arg_6_0:RecordStay(arg_6_0.curToggle)
+	slot0:RecordStay(slot0.curToggle)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.clickListenerTimer_ then
-		arg_7_0.clickListenerTimer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.clickListenerTimer_ then
+		slot0.clickListenerTimer_:Stop()
 
-		arg_7_0.clickListenerTimer_ = nil
+		slot0.clickListenerTimer_ = nil
 	end
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.toggleView_) do
-		iter_7_1:Dispose()
+	for slot4, slot5 in pairs(slot0.toggleView_) do
+		slot5:Dispose()
 	end
 
-	arg_7_0.toggleView_ = nil
+	slot0.toggleView_ = nil
 
-	for iter_7_2, iter_7_3 in pairs(arg_7_0.contentView_) do
-		iter_7_3:Dispose()
+	for slot4, slot5 in pairs(slot0.contentView_) do
+		slot5:Dispose()
 	end
 
-	arg_7_0.contentView_ = nil
+	slot0.contentView_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 
-	arg_7_0.mainToggle_ = nil
-	arg_7_0.resourceToggle_ = nil
-	arg_7_0.equipToggle_ = nil
-	arg_7_0.challengeToggle_ = nil
-	arg_7_0.mapContent_ = nil
-	arg_7_0.resourceContent_ = nil
-	arg_7_0.challengeContent_ = nil
-	arg_7_0.equipContent_ = nil
+	slot0.mainToggle_ = nil
+	slot0.resourceToggle_ = nil
+	slot0.equipToggle_ = nil
+	slot0.challengeToggle_ = nil
+	slot0.mapContent_ = nil
+	slot0.resourceContent_ = nil
+	slot0.challengeContent_ = nil
+	slot0.equipContent_ = nil
 end
 
-function var_0_0.OnUpdate(arg_8_0)
-	arg_8_0:SwitchToggle(arg_8_0.params_.chapterToggle)
+function slot0.OnUpdate(slot0)
+	slot0:SwitchToggle(slot0.params_.chapterToggle)
 end
 
-function var_0_0.InitUI(arg_9_0)
-	arg_9_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_9_0.toggleView_[var_0_1.TOGGLE.MAIN] = ChapterBtnView.New(arg_9_0.mainButton_, var_0_1.TOGGLE.MAIN)
-	arg_9_0.toggleView_[var_0_1.TOGGLE.RESOURCE] = ChapterBtnView.New(arg_9_0.resourceButton_, var_0_1.TOGGLE.RESOURCE)
-	arg_9_0.toggleView_[var_0_1.TOGGLE.CHALLENGE] = ChapterBtnView.New(arg_9_0.challengeButton_, var_0_1.TOGGLE.CHALLENGE)
-	arg_9_0.toggleView_[var_0_1.TOGGLE.EQUIP] = ChapterBtnView.New(arg_9_0.equipButton_, var_0_1.TOGGLE.EQUIP)
+	slot0.toggleView_[uv0.TOGGLE.MAIN] = ChapterBtnView.New(slot0.mainButton_, uv0.TOGGLE.MAIN)
+	slot0.toggleView_[uv0.TOGGLE.RESOURCE] = ChapterBtnView.New(slot0.resourceButton_, uv0.TOGGLE.RESOURCE)
+	slot0.toggleView_[uv0.TOGGLE.CHALLENGE] = ChapterBtnView.New(slot0.challengeButton_, uv0.TOGGLE.CHALLENGE)
+	slot0.toggleView_[uv0.TOGGLE.EQUIP] = ChapterBtnView.New(slot0.equipButton_, uv0.TOGGLE.EQUIP)
 end
 
-function var_0_0.SwitchToggle(arg_10_0, arg_10_1)
-	arg_10_0:HideWeakGuide()
+function slot0.SwitchToggle(slot0, slot1)
+	slot0:HideWeakGuide()
 
-	if arg_10_0.contentView_[arg_10_1] == nil then
-		arg_10_0:CreateContentView(arg_10_1)
+	if slot0.contentView_[slot1] == nil then
+		slot0:CreateContentView(slot1)
 	end
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.contentView_) do
-		arg_10_0.contentView_[iter_10_0]:SetActive(iter_10_0 == arg_10_1)
+	for slot5, slot6 in pairs(slot0.contentView_) do
+		slot0.contentView_[slot5]:SetActive(slot5 == slot1)
 	end
 
-	for iter_10_2, iter_10_3 in pairs(arg_10_0.toggleView_) do
-		arg_10_0.toggleView_[iter_10_2]:SelectChapterToggle(iter_10_2 == arg_10_1)
+	for slot5, slot6 in pairs(slot0.toggleView_) do
+		slot0.toggleView_[slot5]:SelectChapterToggle(slot5 == slot1)
 	end
 
-	if arg_10_0.curToggle and arg_10_1 ~= arg_10_0.curToggle then
-		arg_10_0:RecordStay(arg_10_0.curToggle)
+	if slot0.curToggle and slot1 ~= slot0.curToggle then
+		slot0:RecordStay(slot0.curToggle)
 	end
 
-	arg_10_0.curToggle = arg_10_1
+	slot0.curToggle = slot1
 end
 
-function var_0_0.CreateContentView(arg_11_0, arg_11_1)
-	if arg_11_1 == var_0_1.TOGGLE.MAIN then
-		arg_11_0.contentView_[arg_11_1] = ChapterMainContentView.New(arg_11_0.mainContent_, arg_11_1)
-	elseif arg_11_1 == var_0_1.TOGGLE.RESOURCE then
-		arg_11_0.contentView_[arg_11_1] = ChapterDailyContentView.New(arg_11_0.resourceContent_, arg_11_1)
-	elseif arg_11_1 == var_0_1.TOGGLE.EQUIP then
-		arg_11_0.contentView_[arg_11_1] = ChapterEquipContentView.New(arg_11_0.equipContent_, arg_11_1)
-	elseif arg_11_1 == var_0_1.TOGGLE.CHALLENGE then
-		arg_11_0.contentView_[arg_11_1] = ChapterChallengeContentView.New(arg_11_0.challengeContent_, arg_11_1, arg_11_0)
+function slot0.CreateContentView(slot0, slot1)
+	if slot1 == uv0.TOGGLE.MAIN then
+		slot0.contentView_[slot1] = ChapterMainContentView.New(slot0.mainContent_, slot1)
+	elseif slot1 == uv0.TOGGLE.RESOURCE then
+		slot0.contentView_[slot1] = ChapterDailyContentView.New(slot0.resourceContent_, slot1)
+	elseif slot1 == uv0.TOGGLE.EQUIP then
+		slot0.contentView_[slot1] = ChapterEquipContentView.New(slot0.equipContent_, slot1)
+	elseif slot1 == uv0.TOGGLE.CHALLENGE then
+		slot0.contentView_[slot1] = ChapterChallengeContentView.New(slot0.challengeContent_, slot1, slot0)
 	end
 
-	arg_11_0.contentView_[arg_11_1]:OnEnter()
+	slot0.contentView_[slot1]:OnEnter()
 end
 
-function var_0_0.RecordStay(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_0:GetStayTime()
-
-	if var_12_0 == 0 then
+function slot0.RecordStay(slot0, slot1)
+	if slot0:GetStayTime() == 0 then
 		return
 	end
 
-	local var_12_1 = 0
+	slot3 = 0
 
-	if arg_12_1 == var_0_1.TOGGLE.MAIN then
-		var_12_1 = 70
-	elseif arg_12_1 == var_0_1.TOGGLE.RESOURCE then
-		var_12_1 = 20
-	elseif arg_12_1 == var_0_1.TOGGLE.EQUIP then
-		var_12_1 = 30
-	elseif arg_12_1 == var_0_1.TOGGLE.CHALLENGE then
-		var_12_1 = 40
+	if slot1 == uv0.TOGGLE.MAIN then
+		slot3 = 70
+	elseif slot1 == uv0.TOGGLE.RESOURCE then
+		slot3 = 20
+	elseif slot1 == uv0.TOGGLE.EQUIP then
+		slot3 = 30
+	elseif slot1 == uv0.TOGGLE.CHALLENGE then
+		slot3 = 40
 	end
 
-	OperationRecorder.RecordStayView("STAY_VIEW_CHAPTER_MAP", var_12_0, var_12_1)
-	arg_12_0:UpdateLastOpenTime()
+	OperationRecorder.RecordStayView("STAY_VIEW_CHAPTER_MAP", slot2, slot3)
+	slot0:UpdateLastOpenTime()
 end
 
-return var_0_0
+return slot0

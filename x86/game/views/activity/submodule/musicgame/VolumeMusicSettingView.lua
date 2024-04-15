@@ -1,147 +1,143 @@
-local var_0_0 = class("VolumeMusicSettingView", ReduxView)
-local var_0_1 = 5
-local var_0_2 = 1
-local var_0_3 = 50
-local var_0_4 = -50
+slot0 = class("VolumeMusicSettingView", ReduxView)
+slot1 = 5
+slot2 = 1
+slot3 = 50
+slot4 = -50
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIDownUI/AthenaMusicGame/VolumeIIIDownMusicSettingUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.m_speedSlider.minValue = var_0_2
-	arg_4_0.m_speedSlider.maxValue = var_0_1
-	arg_4_0.m_judgeSlider.minValue = var_0_4
-	arg_4_0.m_judgeSlider.maxValue = var_0_3
-	arg_4_0.movieController = ControllerUtil.GetController(arg_4_0.m_movieBtn.transform, "select")
-	arg_4_0.soundController = ControllerUtil.GetController(arg_4_0.m_soundBtn.transform, "select")
+	slot0.m_speedSlider.minValue = uv0
+	slot0.m_speedSlider.maxValue = uv1
+	slot0.m_judgeSlider.minValue = uv2
+	slot0.m_judgeSlider.maxValue = uv3
+	slot0.movieController = ControllerUtil.GetController(slot0.m_movieBtn.transform, "select")
+	slot0.soundController = ControllerUtil.GetController(slot0.m_soundBtn.transform, "select")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_cancelBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_cancelBtn, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_confirmBtn, nil, function()
-		MusicData:SetSpeedValue(arg_5_0.speedNum)
-		MusicData:SetJudgeValue(arg_5_0.judgeNum)
-		MusicData:SetShoMovie(arg_5_0.showMovie)
-		MusicData:SetPlayKeyEffectSound(arg_5_0.playSound)
+	slot0:AddBtnListener(slot0.m_confirmBtn, nil, function ()
+		MusicData:SetSpeedValue(uv0.speedNum)
+		MusicData:SetJudgeValue(uv0.judgeNum)
+		MusicData:SetShoMovie(uv0.showMovie)
+		MusicData:SetPlayKeyEffectSound(uv0.playSound)
 		SDKTools.SendMessageToSDK("activity_music_setting", {
 			activity_id = ActivityConst.VOLUME_MUSIC,
-			speed = tostring(arg_5_0.speedNum),
-			time = tostring(arg_5_0.judgeNum)
+			speed = tostring(uv0.speedNum),
+			time = tostring(uv0.judgeNum)
 		})
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0.m_speedSlider.onValueChanged:AddListener(function()
-		local var_8_0 = string.format("%.1f", arg_5_0.m_speedSlider.value)
-
-		arg_5_0.speedNum = tonumber(var_8_0)
-		arg_5_0.m_speedLab.text = arg_5_0.speedNum
+	slot0.m_speedSlider.onValueChanged:AddListener(function ()
+		uv0.speedNum = tonumber(string.format("%.1f", uv0.m_speedSlider.value))
+		uv0.m_speedLab.text = uv0.speedNum
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_speedAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.speedNum < var_0_1 then
-			arg_5_0.speedNum = arg_5_0.speedNum + 0.1
-			arg_5_0.speedNum = math.min(arg_5_0.speedNum, var_0_1)
-			arg_5_0.m_speedSlider.value = arg_5_0.speedNum
-			arg_5_0.m_speedLab.text = arg_5_0.speedNum
+	slot0:AddPressingByTimeListener(slot0.m_speedAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.speedNum < uv1 then
+			uv0.speedNum = uv0.speedNum + 0.1
+			uv0.speedNum = math.min(uv0.speedNum, uv1)
+			uv0.m_speedSlider.value = uv0.speedNum
+			uv0.m_speedLab.text = uv0.speedNum
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_speedDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.speedNum > var_0_2 then
-			arg_5_0.speedNum = arg_5_0.speedNum - 0.1
-			arg_5_0.speedNum = math.max(arg_5_0.speedNum, var_0_2)
-			arg_5_0.m_speedSlider.value = arg_5_0.speedNum
-			arg_5_0.m_speedLab.text = arg_5_0.speedNum
+	slot0:AddPressingByTimeListener(slot0.m_speedDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.speedNum then
+			uv0.speedNum = uv0.speedNum - 0.1
+			uv0.speedNum = math.max(uv0.speedNum, uv1)
+			uv0.m_speedSlider.value = uv0.speedNum
+			uv0.m_speedLab.text = uv0.speedNum
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0.m_judgeSlider.onValueChanged:AddListener(function()
-		local var_11_0 = string.format("%.0f", arg_5_0.m_judgeSlider.value)
-
-		arg_5_0.judgeNum = tonumber(var_11_0)
-		arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
+	slot0.m_judgeSlider.onValueChanged:AddListener(function ()
+		uv0.judgeNum = tonumber(string.format("%.0f", uv0.m_judgeSlider.value))
+		uv0.m_judgeLab.text = uv0.judgeNum
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_judgeAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.judgeNum < var_0_3 then
-			arg_5_0.judgeNum = arg_5_0.judgeNum + 1
-			arg_5_0.judgeNum = math.min(arg_5_0.judgeNum, var_0_3)
-			arg_5_0.m_judgeSlider.value = arg_5_0.judgeNum
-			arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
+	slot0:AddPressingByTimeListener(slot0.m_judgeAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.judgeNum < uv1 then
+			uv0.judgeNum = uv0.judgeNum + 1
+			uv0.judgeNum = math.min(uv0.judgeNum, uv1)
+			uv0.m_judgeSlider.value = uv0.judgeNum
+			uv0.m_judgeLab.text = uv0.judgeNum
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_judgeDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.judgeNum > var_0_4 then
-			arg_5_0.judgeNum = arg_5_0.judgeNum - 1
-			arg_5_0.judgeNum = math.max(arg_5_0.judgeNum, var_0_4)
-			arg_5_0.m_judgeSlider.value = arg_5_0.judgeNum
-			arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
+	slot0:AddPressingByTimeListener(slot0.m_judgeDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.judgeNum then
+			uv0.judgeNum = uv0.judgeNum - 1
+			uv0.judgeNum = math.max(uv0.judgeNum, uv1)
+			uv0.m_judgeSlider.value = uv0.judgeNum
+			uv0.m_judgeLab.text = uv0.judgeNum
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_movieBtn, nil, function()
-		arg_5_0.showMovie = not arg_5_0.showMovie
+	slot0:AddBtnListener(slot0.m_movieBtn, nil, function ()
+		uv0.showMovie = not uv0.showMovie
 
-		arg_5_0.movieController:SetSelectedIndex(arg_5_0.showMovie and 1 or 0)
+		uv0.movieController:SetSelectedIndex(uv0.showMovie and 1 or 0)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_soundBtn, nil, function()
-		arg_5_0.playSound = not arg_5_0.playSound
+	slot0:AddBtnListener(slot0.m_soundBtn, nil, function ()
+		uv0.playSound = not uv0.playSound
 
-		arg_5_0.soundController:SetSelectedIndex(arg_5_0.playSound and 1 or 0)
+		uv0.soundController:SetSelectedIndex(uv0.playSound and 1 or 0)
 	end)
 end
 
-function var_0_0.OnTop(arg_16_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	arg_17_0.speedNum = MusicData:GetSpeedValue()
-	arg_17_0.m_speedSlider.value = arg_17_0.speedNum
-	arg_17_0.m_speedLab.text = arg_17_0.speedNum
-	arg_17_0.judgeNum = MusicData:GetJudgeValue()
-	arg_17_0.m_judgeSlider.value = arg_17_0.judgeNum
-	arg_17_0.m_judgeLab.text = arg_17_0.judgeNum
-	arg_17_0.showMovie = MusicData:GetShowMovie()
+function slot0.OnEnter(slot0)
+	slot0.speedNum = MusicData:GetSpeedValue()
+	slot0.m_speedSlider.value = slot0.speedNum
+	slot0.m_speedLab.text = slot0.speedNum
+	slot0.judgeNum = MusicData:GetJudgeValue()
+	slot0.m_judgeSlider.value = slot0.judgeNum
+	slot0.m_judgeLab.text = slot0.judgeNum
+	slot0.showMovie = MusicData:GetShowMovie()
 
-	arg_17_0.movieController:SetSelectedIndex(arg_17_0.showMovie and 1 or 0)
+	slot0.movieController:SetSelectedIndex(slot0.showMovie and 1 or 0)
 
-	arg_17_0.playSound = MusicData:GetPlayKeyEffectSound()
+	slot0.playSound = MusicData:GetPlayKeyEffectSound()
 
-	arg_17_0.soundController:SetSelectedIndex(arg_17_0.playSound and 1 or 0)
+	slot0.soundController:SetSelectedIndex(slot0.playSound and 1 or 0)
 end
 
-function var_0_0.OnExit(arg_18_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_19_0)
-	var_0_0.super.Dispose(arg_19_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

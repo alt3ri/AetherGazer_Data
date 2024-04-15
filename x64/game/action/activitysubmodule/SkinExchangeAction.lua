@@ -1,75 +1,63 @@
-local var_0_0 = {}
-local var_0_1 = false
-local var_0_2 = {}
+slot1 = false
+slot2 = {}
 
-function var_0_0.Init()
-	if var_0_1 then
-		return
-	end
+return {
+	Init = function ()
+		if uv0 then
+			return
+		end
 
-	var_0_1 = true
+		uv0 = true
 
-	SkinExchangeData:Init()
+		SkinExchangeData:Init()
 
-	var_0_2 = {}
-	var_0_2.all = {}
+		uv1 = {
+			all = {}
+		}
 
-	manager.net:Bind(60069, function(arg_2_0)
-		SkinExchangeData:SetData(arg_2_0)
+		manager.net:Bind(60069, function (slot0)
+			SkinExchangeData:SetData(slot0)
 
-		local var_2_0 = arg_2_0.activity_id
+			if ActivitySkinExchangeCfg[slot0.activity_id] then
+				for slot6, slot7 in ipairs(ActivitySkinExchangeCfg[slot1].cost or {}) do
+					if not uv0[slot7[1]] then
+						uv0[slot8] = {}
 
-		if ActivitySkinExchangeCfg[var_2_0] then
-			local var_2_1 = ActivitySkinExchangeCfg[var_2_0].cost or {}
+						table.insert(uv0.all, slot8)
+					end
 
-			for iter_2_0, iter_2_1 in ipairs(var_2_1) do
-				local var_2_2 = iter_2_1[1]
-
-				if not var_0_2[var_2_2] then
-					var_0_2[var_2_2] = {}
-
-					table.insert(var_0_2.all, var_2_2)
+					table.insert(uv0[slot8], slot1)
 				end
-
-				table.insert(var_0_2[var_2_2], var_2_0)
 			end
-		end
-	end)
-	manager.notify:RegistListener(CURRENCY_UPDATE, function(arg_3_0)
-		local var_3_0
-		local var_3_1
+		end)
+		manager.notify:RegistListener(CURRENCY_UPDATE, function (slot0)
+			slot1, slot2 = nil
 
-		if var_0_2[arg_3_0] then
-			for iter_3_0, iter_3_1 in ipairs(var_0_2[arg_3_0]) do
-				manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. iter_3_1, SkinExchangeTool.IsCanExchange(iter_3_1) and 1 or 0)
+			if uv0[slot0] then
+				for slot6, slot7 in ipairs(uv0[slot0]) do
+					manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. slot7, SkinExchangeTool.IsCanExchange(slot7) and 1 or 0)
+				end
 			end
+		end)
+	end,
+	InitRedPointKey = function (slot0)
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. slot0, SkinExchangeTool.IsCanExchange(slot0) and 1 or 0)
+	end,
+	ExchangeSkin = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(60066, {
+			activity_id = slot1
+		}, 60067, handler(slot0, slot0.OnExchangeSkin))
+	end,
+	OnExchangeSkin = function (slot0, slot1, slot2)
+		if isSuccess(slot1.result) then
+			SkinExchangeData:SetState(slot2.activity_id)
+			manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. slot2.activity_id, 0)
+			manager.notify:CallUpdateFunc(ACTIVITY_SKIN_EXCHANGE)
+			getReward2(slot1.reward_list, {
+				ItemConst.ITEM_TYPE.HERO_SKIN
+			})
+		else
+			ShowTips(slot1.result)
 		end
-	end)
-end
-
-function var_0_0.InitRedPointKey(arg_4_0)
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. arg_4_0, SkinExchangeTool.IsCanExchange(arg_4_0) and 1 or 0)
-end
-
-function var_0_0.ExchangeSkin(arg_5_0, arg_5_1)
-	local var_5_0 = {
-		activity_id = arg_5_1
-	}
-
-	manager.net:SendWithLoadingNew(60066, var_5_0, 60067, handler(arg_5_0, arg_5_0.OnExchangeSkin))
-end
-
-function var_0_0.OnExchangeSkin(arg_6_0, arg_6_1, arg_6_2)
-	if isSuccess(arg_6_1.result) then
-		SkinExchangeData:SetState(arg_6_2.activity_id)
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. arg_6_2.activity_id, 0)
-		manager.notify:CallUpdateFunc(ACTIVITY_SKIN_EXCHANGE)
-		getReward2(arg_6_1.reward_list, {
-			ItemConst.ITEM_TYPE.HERO_SKIN
-		})
-	else
-		ShowTips(arg_6_1.result)
 	end
-end
-
-return var_0_0
+}

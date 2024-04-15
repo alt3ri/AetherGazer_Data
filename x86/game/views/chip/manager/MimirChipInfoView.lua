@@ -1,91 +1,84 @@
-local var_0_0 = class("MimirChipInfoView", ReduxView)
+slot0 = class("MimirChipInfoView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.pCtrl = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.pCtrl = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.btnState = arg_1_0.btnControllerexcollection_:GetController("btn")
-	arg_1_0.conditionControl = arg_1_0.conditionControllerexcollection_:GetController("clear")
+	slot0.btnState = slot0.btnControllerexcollection_:GetController("btn")
+	slot0.conditionControl = slot0.conditionControllerexcollection_:GetController("clear")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0.clickItemHandler_ = handler(arg_2_0, arg_2_0.OnClickItem)
+function slot0.AddListeners(slot0)
+	slot0.clickItemHandler_ = handler(slot0, slot0.OnClickItem)
 
-	manager.notify:RegistListener(ON_CLICK_CHIP_ITEM, arg_2_0.clickItemHandler_)
-	arg_2_0:AddBtnListener(arg_2_0.btn_unlock1Btn_, nil, function()
+	manager.notify:RegistListener(ON_CLICK_CHIP_ITEM, slot0.clickItemHandler_)
+	slot0:AddBtnListener(slot0.btn_unlock1Btn_, nil, function ()
 		ShowTips("CHIP_HERO_UNLOCK_FAILED")
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.btn_unlock2Btn_, nil, function()
-		ChipAction.UnlockChip(arg_2_0.chipID)
+	slot0:AddBtnListener(slot0.btn_unlock2Btn_, nil, function ()
+		ChipAction.UnlockChip(uv0.chipID)
 	end)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnClickItem(arg_6_0, arg_6_1)
-	arg_6_0:RefreshData(arg_6_1)
+function slot0.OnClickItem(slot0, slot1)
+	slot0:RefreshData(slot1)
 end
 
-function var_0_0.RefreshData(arg_7_0, arg_7_1)
-	if not ChipCfg[arg_7_1] then
+function slot0.RefreshData(slot0, slot1)
+	if not ChipCfg[slot1] then
 		return
 	end
 
-	arg_7_0.chipID = arg_7_1
+	slot0.chipID = slot1
+	slot3 = ChipCfg[slot1]
+	slot0.iconchipImg_.sprite = getSpriteViaConfig("ChipSkillIcon", slot3.picture_id)
+	slot0.txt_dyn_nameText_.text = GetI18NText(slot3.suit_name)
+	slot0.textText_.text = GetI18NText(slot3.desc)
+	slot4, slot5, slot6 = IsConditionAchieved(slot3.new_condition)
+	slot0.conditiondescireText_.text = GetI18NText(ConditionCfg[slot3.new_condition].desc)
 
-	local var_7_0 = ChipCfg[arg_7_1]
-
-	arg_7_0.iconchipImg_.sprite = getSpriteViaConfig("ChipSkillIcon", var_7_0.picture_id)
-	arg_7_0.txt_dyn_nameText_.text = GetI18NText(var_7_0.suit_name)
-	arg_7_0.textText_.text = GetI18NText(var_7_0.desc)
-
-	local var_7_1, var_7_2, var_7_3 = IsConditionAchieved(var_7_0.new_condition)
-
-	arg_7_0.conditiondescireText_.text = GetI18NText(ConditionCfg[var_7_0.new_condition].desc)
-
-	local var_7_4 = arg_7_0.chipManagerDataTemplate_:GetIsUnlockChip(arg_7_1)
-
-	if var_7_4 == false then
-		if var_7_1 then
-			arg_7_0.btnState:SetSelectedState("unLock2")
-			arg_7_0.conditionControl:SetSelectedState("clear")
+	if slot0.chipManagerDataTemplate_:GetIsUnlockChip(slot1) == false then
+		if slot4 then
+			slot0.btnState:SetSelectedState("unLock2")
+			slot0.conditionControl:SetSelectedState("clear")
 		else
-			arg_7_0.btnState:SetSelectedState("unLock1")
-			arg_7_0.conditionControl:SetSelectedState("notClear")
+			slot0.btnState:SetSelectedState("unLock1")
+			slot0.conditionControl:SetSelectedState("notClear")
 		end
 	else
-		arg_7_0.btnState:SetSelectedState("unlocked")
+		slot0.btnState:SetSelectedState("unlocked")
 	end
 
-	SetActive(arg_7_0.conditionGo_, not var_7_4)
+	SetActive(slot0.conditionGo_, not slot7)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	manager.notify:RemoveListener(ON_CLICK_CHIP_ITEM, arg_8_0.clickItemHandler_)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(ON_CLICK_CHIP_ITEM, slot0.clickItemHandler_)
 
-	arg_8_0.clickItemHandler_ = nil
+	slot0.clickItemHandler_ = nil
 end
 
-function var_0_0.SetChipManagerID(arg_9_0, arg_9_1)
-	arg_9_0.chipManagerID = arg_9_1
+function slot0.SetChipManagerID(slot0, slot1)
+	slot0.chipManagerID = slot1
 end
 
-function var_0_0.SetTemplateData(arg_10_0, arg_10_1)
-	arg_10_0.chipManagerDataTemplate_ = arg_10_1
+function slot0.SetTemplateData(slot0, slot1)
+	slot0.chipManagerDataTemplate_ = slot1
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
-	manager.notify:RemoveListener(ON_CLICK_CHIP_ITEM, arg_11_0.clickItemHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(ON_CLICK_CHIP_ITEM, slot0.clickItemHandler_)
 
-	arg_11_0.clickItemHandler_ = nil
-	arg_11_0.pCtrl = nil
+	slot0.clickItemHandler_ = nil
+	slot0.pCtrl = nil
 end
 
-return var_0_0
+return slot0

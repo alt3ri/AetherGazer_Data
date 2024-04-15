@@ -1,130 +1,122 @@
-local var_0_0 = import("game.views.matrixOver.MatrixOverView")
-local var_0_1 = class("StrategyMatrixOverView", var_0_0)
+slot1 = class("StrategyMatrixOverView", import("game.views.matrixOver.MatrixOverView"))
 
-function var_0_1.UIBackCount(arg_1_0)
+function slot1.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_1.UIName(arg_2_0)
+function slot1.UIName(slot0)
 	return "UI/StrategyMatrix/StrategyBattleMatrixOverUI"
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroItemList_ = {}
+	slot0.heroItemList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		local var_3_0 = arg_3_0[string.format("heroItem%s_", iter_3_0)]
-
-		arg_3_0.heroItemList_[iter_3_0] = StrategyMatrixOverHeroItem.New(var_3_0)
+	for slot4 = 1, 3 do
+		slot0.heroItemList_[slot4] = StrategyMatrixOverHeroItem.New(slot0[string.format("heroItem%s_", slot4)])
 	end
 
-	arg_3_0.affixList_ = LuaList.New(handler(arg_3_0, arg_3_0.AffixIndexItem), arg_3_0.m_affixList, MatrixOverAffixItem)
-	arg_3_0.treasureList_ = LuaList.New(handler(arg_3_0, arg_3_0.ArtifactIndexItem), arg_3_0.m_treasureList, MatrixOverArtifactItem)
-	arg_3_0.beaconList_ = LuaList.New(handler(arg_3_0, arg_3_0.BeaconIndexItem), arg_3_0.m_beaconList, MatrixOverBeaconItem)
-	arg_3_0.resultController_ = ControllerUtil.GetController(arg_3_0.transform_, "result")
-	arg_3_0.difficultyController_ = ControllerUtil.GetController(arg_3_0.transform_, "difficulty")
+	slot0.affixList_ = LuaList.New(handler(slot0, slot0.AffixIndexItem), slot0.m_affixList, MatrixOverAffixItem)
+	slot0.treasureList_ = LuaList.New(handler(slot0, slot0.ArtifactIndexItem), slot0.m_treasureList, MatrixOverArtifactItem)
+	slot0.beaconList_ = LuaList.New(handler(slot0, slot0.BeaconIndexItem), slot0.m_beaconList, MatrixOverBeaconItem)
+	slot0.resultController_ = ControllerUtil.GetController(slot0.transform_, "result")
+	slot0.difficultyController_ = ControllerUtil.GetController(slot0.transform_, "difficulty")
 end
 
-function var_0_1.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.closeBtn_, nil, function()
-		if arg_4_0:GetGameState() == MatrixConst.STATE_TYPE.NOTSTARTED then
-			StrategyMatrixAction.GotoStrategyMatrixPrepare(arg_4_0.matrix_activity_id)
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		if uv0:GetGameState() == MatrixConst.STATE_TYPE.NOTSTARTED then
+			StrategyMatrixAction.GotoStrategyMatrixPrepare(uv0.matrix_activity_id)
 		else
-			StrategyMatrixAction.QueryMatrixOver(arg_4_0.matrix_activity_id)
+			StrategyMatrixAction.QueryMatrixOver(uv0.matrix_activity_id)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.statisticsBtn_, nil, function()
+	slot0:AddBtnListener(slot0.statisticsBtn_, nil, function ()
 		JumpTools.OpenPageByJump("battleStatisticsStrategyMatrixOver", {
-			matrix_activity_id = arg_4_0.matrix_activity_id
+			matrix_activity_id = uv0.matrix_activity_id
 		})
 	end)
 end
 
-function var_0_1.OnEnter(arg_7_0)
-	arg_7_0.matrix_activity_id = arg_7_0.params_.matrix_activity_id
+function slot1.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 
-	for iter_7_0 = 1, 3 do
-		arg_7_0.heroItemList_[iter_7_0]:SetMatrixActivityId(arg_7_0.matrix_activity_id)
+	for slot4 = 1, 3 do
+		slot0.heroItemList_[slot4]:SetMatrixActivityId(slot0.matrix_activity_id)
 	end
 
-	arg_7_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_1.Refresh(arg_8_0)
-	var_0_1.super.Refresh(arg_8_0)
+function slot1.Refresh(slot0)
+	uv0.super.Refresh(slot0)
 end
 
-function var_0_1.OnMatrixUserUpdate(arg_9_0)
-	local var_9_0 = MatrixData:GetGameState()
-
-	if MatrixConst.STATE_TYPE.NOTSTARTED == var_9_0 then
-		-- block empty
-	elseif MatrixConst.STATE_TYPE.SUCCESS ~= var_9_0 and MatrixConst.STATE_TYPE.FAIL == var_9_0 then
-		-- block empty
+function slot1.OnMatrixUserUpdate(slot0)
+	if MatrixConst.STATE_TYPE.NOTSTARTED == MatrixData:GetGameState() then
+		-- Nothing
+	elseif MatrixConst.STATE_TYPE.SUCCESS ~= slot1 and MatrixConst.STATE_TYPE.FAIL == slot1 then
+		-- Nothing
 	end
 end
 
-function var_0_1.GetGameState(arg_10_0)
-	return StrategyMatrixData:GetGameState(arg_10_0.matrix_activity_id)
+function slot1.GetGameState(slot0)
+	return StrategyMatrixData:GetGameState(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetCurrentClearTime(arg_11_0)
-	return StrategyMatrixData:GetCurrentClearTime(arg_11_0.matrix_activity_id)
+function slot1.GetCurrentClearTime(slot0)
+	return StrategyMatrixData:GetCurrentClearTime(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetMinClearTime(arg_12_0)
-	return StrategyMatrixData:GetMinClearTime(arg_12_0.matrix_activity_id)
+function slot1.GetMinClearTime(slot0)
+	return StrategyMatrixData:GetMinClearTime(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetEvaluateList(arg_13_0)
+function slot1.GetEvaluateList(slot0)
 	return {}
 end
 
-function var_0_1.GetTierDes(arg_14_0)
-	local var_14_0 = StrategyMatrixData:GetTierID(arg_14_0.matrix_activity_id)
-	local var_14_1 = StrategyMatrixTierTemplateCfg[var_14_0]
+function slot1.GetTierDes(slot0)
+	slot2 = StrategyMatrixTierTemplateCfg[StrategyMatrixData:GetTierID(slot0.matrix_activity_id)]
 
-	return string.format("%s-%s", var_14_1.tier, var_14_1.level)
+	return string.format("%s-%s", slot2.tier, slot2.level)
 end
 
-function var_0_1.GetAffixList(arg_15_0)
-	return StrategyMatrixData:GetAffixList(arg_15_0.matrix_activity_id)
+function slot1.GetAffixList(slot0)
+	return StrategyMatrixData:GetAffixList(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetArtifactList(arg_16_0)
-	return StrategyMatrixData:GetArtifactList(arg_16_0.matrix_activity_id)
+function slot1.GetArtifactList(slot0)
+	return StrategyMatrixData:GetArtifactList(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetUseBeaconList(arg_17_0)
+function slot1.GetUseBeaconList(slot0)
 	return {}
 end
 
-function var_0_1.GetMatrixCurrencyList(arg_18_0)
-	return StrategyMatrixData:GetMatrixCurrencyList(arg_18_0.matrix_activity_id)
+function slot1.GetMatrixCurrencyList(slot0)
+	return StrategyMatrixData:GetMatrixCurrencyList(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetMatrixHeroTeam(arg_19_0)
-	return StrategyMatrixData:GetMatrixHeroTeam(arg_19_0.matrix_activity_id)
+function slot1.GetMatrixHeroTeam(slot0)
+	return StrategyMatrixData:GetMatrixHeroTeam(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetMatrixOverScore(arg_20_0)
-	return StrategyMatrixData:GetMatrixOverPoint(arg_20_0.matrix_activity_id)
+function slot1.GetMatrixOverScore(slot0)
+	return StrategyMatrixData:GetMatrixOverPoint(slot0.matrix_activity_id)
 end
 
-function var_0_1.GetDifficulty(arg_21_0)
-	local var_21_0 = StrategyMatrixCfg[arg_21_0.matrix_activity_id]
-
-	return var_21_0 and var_21_0.activity_difficulty or 1
+function slot1.GetDifficulty(slot0)
+	return StrategyMatrixCfg[slot0.matrix_activity_id] and slot1.activity_difficulty or 1
 end
 
-function var_0_1.GetRegularAffix(arg_22_0)
+function slot1.GetRegularAffix(slot0)
 	return {}
 end
 
-function var_0_1.GetCustomAffix(arg_23_0)
-	return StrategyMatrixData:GetCustomAffix(arg_23_0.matrix_activity_id)
+function slot1.GetCustomAffix(slot0)
+	return StrategyMatrixData:GetCustomAffix(slot0.matrix_activity_id)
 end
 
-return var_0_1
+return slot1

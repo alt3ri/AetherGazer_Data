@@ -1,66 +1,63 @@
-local var_0_0 = class("EquipFilterSkillItem", ReduxView)
+slot0 = class("EquipFilterSkillItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.selectController_ = arg_1_0.controllerEx_:GetController("state")
+	slot0.selectController_ = slot0.controllerEx_:GetController("state")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		if arg_3_0.data_.cnt <= 0 then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.data_.cnt <= 0 then
 			return
 		end
 
-		local var_4_0 = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.REMOVE
+		slot0 = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.REMOVE
 
-		if arg_3_0.selectState_ == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
-			var_4_0 = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD
+		if uv0.selectState_ == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
+			slot0 = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD
 		end
 
 		manager.notify:Invoke(EQUIP_FILTER_SELECT_CHANGE, {
-			type = arg_3_0.data_.type,
-			id = arg_3_0.data_.id,
-			state = var_4_0
+			type = uv0.data_.type,
+			id = uv0.data_.id,
+			state = slot0
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.data_ = arg_5_1
-	arg_5_0.selectState_ = arg_5_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.selectState_ = slot2
+	slot4 = slot1.cnt
+	slot5 = EquipSkillCfg[slot1.id]
+	slot0.name_.text = GetI18NText(slot5.name)
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. slot5.icon)
+	slot0.num_.text = slot4
 
-	local var_5_0 = arg_5_1.id
-	local var_5_1 = arg_5_1.cnt
-	local var_5_2 = EquipSkillCfg[var_5_0]
+	if slot4 <= 0 then
+		slot0.selectController_:SetSelectedState("lock")
+	elseif slot2 then
+		slot0.selectController_:SetSelectedState("select")
 
-	arg_5_0.name_.text = GetI18NText(var_5_2.name)
-	arg_5_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. var_5_2.icon)
-	arg_5_0.num_.text = var_5_1
-
-	if var_5_1 <= 0 then
-		arg_5_0.selectController_:SetSelectedState("lock")
-	elseif arg_5_2 then
-		arg_5_0.selectController_:SetSelectedState("select")
-
-		arg_5_0.selectState_ = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.REMOVE
+		slot0.selectState_ = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.REMOVE
 	else
-		arg_5_0.selectController_:SetSelectedState("false")
+		slot0.selectController_:SetSelectedState("false")
 
-		arg_5_0.selectState_ = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD
+		slot0.selectState_ = StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD
 	end
 end
 
-function var_0_0.GetData(arg_6_0)
-	return arg_6_0.data_
+function slot0.GetData(slot0)
+	return slot0.data_
 end
 
-return var_0_0
+return slot0

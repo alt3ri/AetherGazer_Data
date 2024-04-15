@@ -1,101 +1,89 @@
-local var_0_0 = class("SpringFestivalGreetingLetterView", ReduxView)
+slot0 = class("SpringFestivalGreetingLetterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/letter/EDream_letterpop_2"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.adaptImg_ = arg_3_0:FindCom("AdaptImage", nil, arg_3_0.portraitImage_.transform)
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.transform_, "name")
+	slot0.adaptImg_ = slot0:FindCom("AdaptImage", nil, slot0.portraitImage_.transform)
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.commonItemView_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.commonItemView_:Dispose()
 
-	arg_6_0.commonItemView_ = nil
+	slot0.commonItemView_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.receiveBtn_, nil, function()
-		local var_9_0 = arg_7_0:GetActivityID()
-
-		if not ActivityData:GetActivityIsOpen(var_9_0) then
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0:GetActivityID()) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_9_1 = SpringFestivalGreetingData:GetUnlockCnt(var_9_0)
-		local var_9_2 = ActivityPointRewardCfg.get_id_list_by_activity_id[var_9_0][var_9_1]
-
-		SpringFestivalGreetingAction.GetGreetingReward(var_9_0, var_9_2, function(arg_10_0)
-			if isSuccess(arg_10_0.result) then
-				getReward2(arg_10_0.reward_list)
-				arg_7_0:RefreshReceiveState()
+		SpringFestivalGreetingAction.GetGreetingReward(slot0, ActivityPointRewardCfg.get_id_list_by_activity_id[slot0][SpringFestivalGreetingData:GetUnlockCnt(slot0)], function (slot0)
+			if isSuccess(slot0.result) then
+				getReward2(slot0.reward_list)
+				uv0:RefreshReceiveState()
 			else
-				ShowTips(arg_10_0.result)
+				ShowTips(slot0.result)
 			end
 		end)
 	end)
 end
 
-function var_0_0.GetActivityID(arg_11_0)
+function slot0.GetActivityID(slot0)
 	return ActivityConst.SPRING_FESTIVAL_GREETING
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = arg_12_0:GetActivityID()
-	local var_12_1 = SpringFestivalGreetingData:GetUnlockCnt(var_12_0)
-	local var_12_2 = ActivitySpringFestivalGreetingCfg.get_id_list_by_activity_id[var_12_0][var_12_1]
-	local var_12_3 = ActivitySpringFestivalGreetingCfg[var_12_2]
-	local var_12_4 = SkinCfg[var_12_3.story_name].picture_id
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetActivityID()
+	slot2 = SpringFestivalGreetingData:GetUnlockCnt(slot1)
+	slot5 = ActivitySpringFestivalGreetingCfg[ActivitySpringFestivalGreetingCfg.get_id_list_by_activity_id[slot1][slot2]]
+	slot0.portraitImage_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/letter_role_title/" .. SkinCfg[slot5.story_name].picture_id)
+	slot0.titleText_.text = string.format(GetTips("ACTIVITY_HERO_PRESENT"), GetI18NText(HeroCfg[SkinCfg[slot5.story_name].hero].suffix))
+	slot0.greetingText_.text = GetI18NText(slot5.story_word)
+	slot9 = ActivityPointRewardCfg[ActivityPointRewardCfg.get_id_list_by_activity_id[slot1][slot2]].reward_item_list[1]
 
-	arg_12_0.portraitImage_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/letter_role_title/" .. var_12_4)
-	arg_12_0.titleText_.text = string.format(GetTips("ACTIVITY_HERO_PRESENT"), GetI18NText(HeroCfg[SkinCfg[var_12_3.story_name].hero].suffix))
-	arg_12_0.greetingText_.text = GetI18NText(var_12_3.story_word)
-
-	local var_12_5 = ActivityPointRewardCfg.get_id_list_by_activity_id[var_12_0][var_12_1]
-	local var_12_6 = ActivityPointRewardCfg[var_12_5].reward_item_list[1]
-
-	if arg_12_0.commonItemView_ == nil then
-		arg_12_0.commonItemView_ = CommonItem.New(arg_12_0.itemGo_)
+	if slot0.commonItemView_ == nil then
+		slot0.commonItemView_ = CommonItem.New(slot0.itemGo_)
 	end
 
-	arg_12_0.commonItemView_:RefreshData(formatReward(var_12_6))
-	arg_12_0.commonItemView_:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_12_6)
+	slot0.commonItemView_:RefreshData(formatReward(slot9))
+	slot0.commonItemView_:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
-	arg_12_0:RefreshReceiveState()
+	slot0:RefreshReceiveState()
 end
 
-function var_0_0.RefreshReceiveState(arg_14_0)
-	local var_14_0 = arg_14_0:GetActivityID()
-	local var_14_1 = SpringFestivalGreetingData:GetUnlockCnt(var_14_0)
+function slot0.RefreshReceiveState(slot0)
+	slot1 = slot0:GetActivityID()
 
-	if SpringFestivalGreetingData:GetReceiveCnt(var_14_0) == var_14_1 then
-		arg_14_0.controller_:SetSelectedState("true")
+	if SpringFestivalGreetingData:GetReceiveCnt(slot1) == SpringFestivalGreetingData:GetUnlockCnt(slot1) then
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_14_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-return var_0_0
+return slot0

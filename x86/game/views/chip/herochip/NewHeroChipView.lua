@@ -1,44 +1,44 @@
-local var_0_0 = class("NewHeroChipView", ReduxView)
+slot0 = class("NewHeroChipView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_chip/HeroChipEditUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.chipClickCallBack_ = handler(arg_3_0, arg_3_0.OnChipClick)
-	arg_3_0.chipListList_ = {}
-	arg_3_0.chipControllers_ = {}
+	slot0.chipClickCallBack_ = handler(slot0, slot0.OnChipClick)
+	slot0.chipListList_ = {}
+	slot0.chipControllers_ = {}
 
-	for iter_3_0 = 1, 4 do
-		arg_3_0.chipListList_[iter_3_0] = NewHeroChipListItem.New(arg_3_0["chiplistGo_" .. iter_3_0], arg_3_0.chipItemGo_)
+	for slot4 = 1, 4 do
+		slot0.chipListList_[slot4] = NewHeroChipListItem.New(slot0["chiplistGo_" .. slot4], slot0.chipItemGo_)
 
-		arg_3_0.chipListList_[iter_3_0]:SetChipClickCallBack(arg_3_0.chipClickCallBack_)
+		slot0.chipListList_[slot4]:SetChipClickCallBack(slot0.chipClickCallBack_)
 
-		arg_3_0.chipControllers_[iter_3_0] = arg_3_0["chipCon_" .. iter_3_0]:GetController("state")
+		slot0.chipControllers_[slot4] = slot0["chipCon_" .. slot4]:GetController("state")
 	end
 
-	arg_3_0.chipTypeController_ = arg_3_0.typeTrans_:GetComponent("ControllerExCollection"):GetController("type")
-	arg_3_0.conditionController_ = arg_3_0.conditionTrans_:GetComponent("ControllerExCollection"):GetController("clear")
-	arg_3_0.enoughController_ = arg_3_0.gameObject_.transform:GetComponent("ControllerExCollection"):GetController("enough")
-	arg_3_0.btnController_ = arg_3_0.btnTrans_:GetComponent("ControllerExCollection"):GetController("btnState")
+	slot0.chipTypeController_ = slot0.typeTrans_:GetComponent("ControllerExCollection"):GetController("type")
+	slot0.conditionController_ = slot0.conditionTrans_:GetComponent("ControllerExCollection"):GetController("clear")
+	slot0.enoughController_ = slot0.gameObject_.transform:GetComponent("ControllerExCollection"):GetController("enough")
+	slot0.btnController_ = slot0.btnTrans_:GetComponent("ControllerExCollection"):GetController("btnState")
 
-	arg_3_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnChipClick(arg_4_0, arg_4_1)
-	arg_4_0.curChipID_ = arg_4_1
+function slot0.OnChipClick(slot0, slot1)
+	slot0.curChipID_ = slot1
 
-	arg_4_0:RefreshUI(false)
+	slot0:RefreshUI(false)
 end
 
-function var_0_0.OnTop(arg_5_0)
-	arg_5_0:RefreshChipInfo()
+function slot0.OnTop(slot0)
+	slot0:RefreshChipInfo()
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -47,192 +47,178 @@ function var_0_0.OnTop(arg_5_0)
 	manager.windowBar:SetBarCanClick(CurrencyConst.CURRENCY_TYPE_CHIP_COST, true)
 end
 
-function var_0_0.OnChipStatusUpdate(arg_6_0)
-	arg_6_0:RefreshUI(false)
+function slot0.OnChipStatusUpdate(slot0)
+	slot0:RefreshUI(false)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroID_ = arg_7_0.params_.heroID
-	arg_7_0.curHeroChipInfo_ = {}
+function slot0.OnEnter(slot0)
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.curHeroChipInfo_ = {}
 
-	for iter_7_0, iter_7_1 in pairs(ChipCfg.get_id_list_by_spec_char[arg_7_0.heroID_]) do
-		local var_7_0 = ChipCfg[iter_7_1].role_type_id
-
-		if arg_7_0.curHeroChipInfo_[var_7_0] then
-			table.insert(arg_7_0.curHeroChipInfo_[var_7_0], iter_7_1)
+	for slot4, slot5 in pairs(ChipCfg.get_id_list_by_spec_char[slot0.heroID_]) do
+		if slot0.curHeroChipInfo_[ChipCfg[slot5].role_type_id] then
+			table.insert(slot0.curHeroChipInfo_[slot6], slot5)
 		else
-			arg_7_0.curHeroChipInfo_[var_7_0] = {
-				iter_7_1
+			slot0.curHeroChipInfo_[slot6] = {
+				slot5
 			}
 		end
 	end
 
-	arg_7_0.curType_ = arg_7_0.params_.type
+	slot0.curType_ = slot0.params_.type
 
-	if arg_7_0.params_.chipID > 0 then
-		arg_7_0.curChipID_ = arg_7_0.params_.chipID
+	if slot0.params_.chipID > 0 then
+		slot0.curChipID_ = slot0.params_.chipID
 	else
-		arg_7_0.curChipID_ = arg_7_0.curHeroChipInfo_[arg_7_0.curType_][1]
+		slot0.curChipID_ = slot0.curHeroChipInfo_[slot0.curType_][1]
 	end
 
-	arg_7_0:RefreshUI(true)
+	slot0:RefreshUI(true)
 end
 
-function var_0_0.CameraEnter(arg_8_0)
+function slot0.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		6,
 		1
 	}, false)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.btn_, nil, function()
-		local var_11_0 = ChipCfg[arg_10_0.curChipID_].role_type_id
-
-		if arg_10_0.btnController_.selectedIndex == 0 or arg_10_0.btnController_.selectedIndex == 3 then
-			ChipAction.EnabledHeroChip(arg_10_0.heroID_, arg_10_0.curChipID_, var_11_0)
-		elseif arg_10_0.btnController_.selectedIndex == 1 then
-			ChipAction.EnabledHeroChip(arg_10_0.heroID_, 0, var_11_0)
-		elseif arg_10_0.btnController_.selectedIndex == 2 then
-			ChipAction.UnlockHeroChip(arg_10_0.curChipID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.btnController_.selectedIndex == 0 or uv0.btnController_.selectedIndex == 3 then
+			ChipAction.EnabledHeroChip(uv0.heroID_, uv0.curChipID_, ChipCfg[uv0.curChipID_].role_type_id)
+		elseif uv0.btnController_.selectedIndex == 1 then
+			ChipAction.EnabledHeroChip(uv0.heroID_, 0, slot0)
+		elseif uv0.btnController_.selectedIndex == 2 then
+			ChipAction.UnlockHeroChip(uv0.curChipID_)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_12_0, arg_12_1)
-	local var_12_0 = ChipData:GetEnableHeroChipIdByHeroId(arg_12_0.heroID_)
+function slot0.RefreshUI(slot0, slot1)
+	slot2 = ChipData:GetEnableHeroChipIdByHeroId(slot0.heroID_)
 
-	if arg_12_1 then
-		for iter_12_0, iter_12_1 in pairs(arg_12_0.curHeroChipInfo_) do
-			arg_12_0.curHeroChipInfo_[iter_12_0] = ChipTools.SortChipList(var_12_0[iter_12_0], arg_12_0.curHeroChipInfo_[iter_12_0], nil, true)
+	if slot1 then
+		for slot6, slot7 in pairs(slot0.curHeroChipInfo_) do
+			slot0.curHeroChipInfo_[slot6] = ChipTools.SortChipList(slot2[slot6], slot0.curHeroChipInfo_[slot6], nil, true)
 		end
 	end
 
-	for iter_12_2 = 1, 4 do
-		if arg_12_0.curHeroChipInfo_[iter_12_2] then
-			arg_12_0.chipListList_[iter_12_2]:SetIsShow(true)
-			arg_12_0.chipListList_[iter_12_2]:SetData(arg_12_0.heroID_, arg_12_0.curHeroChipInfo_[iter_12_2], arg_12_0.curChipID_)
-			arg_12_0.chipControllers_[iter_12_2]:SetSelectedState(var_12_0[iter_12_2] > 0 and "equip" or "normal")
+	for slot6 = 1, 4 do
+		if slot0.curHeroChipInfo_[slot6] then
+			slot0.chipListList_[slot6]:SetIsShow(true)
+			slot0.chipListList_[slot6]:SetData(slot0.heroID_, slot0.curHeroChipInfo_[slot6], slot0.curChipID_)
+			slot0.chipControllers_[slot6]:SetSelectedState(slot2[slot6] > 0 and "equip" or "normal")
 		else
-			arg_12_0.chipListList_[iter_12_2]:SetIsShow(false)
-			arg_12_0.chipControllers_[iter_12_2]:SetSelectedState("lock")
+			slot0.chipListList_[slot6]:SetIsShow(false)
+			slot0.chipControllers_[slot6]:SetSelectedState("lock")
 		end
 	end
 
-	arg_12_0:RefreshChipInfo()
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_12_0.chipContent_)
+	slot0:RefreshChipInfo()
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.chipContent_)
 end
 
-function var_0_0.RefreshChipInfo(arg_13_0)
-	local var_13_0 = ChipCfg[arg_13_0.curChipID_]
+function slot0.RefreshChipInfo(slot0)
+	slot1 = ChipCfg[slot0.curChipID_]
+	slot0.nameText_.text = slot1.suit_name
+	slot0.iconImage_.sprite = getSpriteViaConfig("ChipSkillIcon", slot1.picture_id)
 
-	arg_13_0.nameText_.text = var_13_0.suit_name
-	arg_13_0.iconImage_.sprite = getSpriteViaConfig("ChipSkillIcon", var_13_0.picture_id)
+	slot0.chipTypeController_:SetSelectedState(slot1.role_type_id)
 
-	arg_13_0.chipTypeController_:SetSelectedState(var_13_0.role_type_id)
+	slot0.desText_.text = slot1.desc
+	slot0.typeText_.text = GetTips("CHIP_HERO_TYPE_" .. slot1.role_type_id)
+	slot0.grayText_.text = slot1.title
 
-	arg_13_0.desText_.text = var_13_0.desc
-	arg_13_0.typeText_.text = GetTips("CHIP_HERO_TYPE_" .. var_13_0.role_type_id)
-	arg_13_0.grayText_.text = var_13_0.title
+	if ChipData:GetIsUnlockHeroChip(slot0.curChipID_) then
+		SetActive(slot0.conditionTrans_.gameObject, false)
+		SetActive(slot0.costImage_.gameObject, false)
 
-	if ChipData:GetIsUnlockHeroChip(arg_13_0.curChipID_) then
-		SetActive(arg_13_0.conditionTrans_.gameObject, false)
-		SetActive(arg_13_0.costImage_.gameObject, false)
+		slot2, slot3 = ChipData:GetHeroChipIsEnableByChipId(slot0.curChipID_)
 
-		local var_13_1, var_13_2 = ChipData:GetHeroChipIsEnableByChipId(arg_13_0.curChipID_)
+		if slot2 then
+			slot0.btnText_.text = GetTips("CHIP_UNLOAD")
 
-		if var_13_1 then
-			arg_13_0.btnText_.text = GetTips("CHIP_UNLOAD")
+			slot0.btnController_:SetSelectedState("unequip")
+		elseif slot3 > 0 then
+			slot0.btnText_.text = GetTips("TIP_CHANGE")
 
-			arg_13_0.btnController_:SetSelectedState("unequip")
-		elseif var_13_2 > 0 then
-			arg_13_0.btnText_.text = GetTips("TIP_CHANGE")
-
-			arg_13_0.btnController_:SetSelectedState("exchange")
+			slot0.btnController_:SetSelectedState("exchange")
 		else
-			arg_13_0.btnText_.text = GetTips("TIP_EQUIP")
+			slot0.btnText_.text = GetTips("TIP_EQUIP")
 
-			arg_13_0.btnController_:SetSelectedState("equip")
+			slot0.btnController_:SetSelectedState("equip")
 		end
 	else
-		if var_13_0.new_condition ~= 0 then
-			SetActive(arg_13_0.conditionTrans_.gameObject, true)
-			SetActive(arg_13_0.costImage_.gameObject, false)
+		if slot1.new_condition ~= 0 then
+			SetActive(slot0.conditionTrans_.gameObject, true)
+			SetActive(slot0.costImage_.gameObject, false)
 
-			arg_13_0.conditionText_.text = ConditionCfg[var_13_0.new_condition].desc
+			slot0.conditionText_.text = ConditionCfg[slot1.new_condition].desc
+			slot2, slot3, slot4 = nil
 
-			local var_13_3
-			local var_13_4
-			local var_13_5
-
-			if var_13_0.spec_char > 0 then
-				var_13_3, var_13_4, var_13_5 = IsConditionAchieved(var_13_0.new_condition, {
-					heroId = var_13_0.spec_char
+			if slot1.spec_char > 0 then
+				slot2, slot3, slot4 = IsConditionAchieved(slot1.new_condition, {
+					heroId = slot1.spec_char
 				})
 			else
-				var_13_3, var_13_4, var_13_5 = IsConditionAchieved(var_13_0.new_condition)
+				slot2, slot3, slot4 = IsConditionAchieved(slot1.new_condition)
 			end
 
-			for iter_13_0, iter_13_1 in ipairs(GameSetting.hero_trust_unlock_condition.value) do
-				if var_13_0.new_condition == iter_13_1 then
-					local var_13_6 = HeroCfg[var_13_0.spec_char].name
-					local var_13_7 = HeroCfg[var_13_0.spec_char].suffix
-
-					var_13_4 = var_13_3 and 1 or 0
-					var_13_5 = 1
-					arg_13_0.conditionText_.text = var_13_6 .. "·" .. var_13_7 .. ConditionCfg[var_13_0.new_condition].desc
+			for slot8, slot9 in ipairs(GameSetting.hero_trust_unlock_condition.value) do
+				if slot1.new_condition == slot9 then
+					slot3 = slot2 and 1 or 0
+					slot4 = 1
+					slot0.conditionText_.text = HeroCfg[slot1.spec_char].name .. "·" .. HeroCfg[slot1.spec_char].suffix .. ConditionCfg[slot1.new_condition].desc
 
 					break
 				end
 			end
 
-			if var_13_3 then
-				arg_13_0.conditionController_:SetSelectedState("clear")
+			if slot2 then
+				slot0.conditionController_:SetSelectedState("clear")
 			else
-				arg_13_0.conditionController_:SetSelectedState("notclear")
+				slot0.conditionController_:SetSelectedState("notclear")
 
-				var_13_4 = string.format("<color=#eb0000>%s</color>", var_13_4)
+				slot3 = string.format("<color=#eb0000>%s</color>", slot3)
 			end
 
-			arg_13_0.conditionNumText_.text = var_13_4 .. "/" .. var_13_5
+			slot0.conditionNumText_.text = slot3 .. "/" .. slot4
 		else
-			SetActive(arg_13_0.conditionTrans_.gameObject, false)
-			SetActive(arg_13_0.costImage_.gameObject, true)
+			SetActive(slot0.conditionTrans_.gameObject, false)
+			SetActive(slot0.costImage_.gameObject, true)
 
-			arg_13_0.costText_.text = var_13_0.cost_condition[1][2]
+			slot0.costText_.text = slot1.cost_condition[1][2]
+			slot0.costImage_.sprite = ItemTools.getItemSprite(slot1.cost_condition[1][1])
 
-			local var_13_8 = ItemTools.getItemNum(var_13_0.cost_condition[1][1])
-
-			arg_13_0.costImage_.sprite = ItemTools.getItemSprite(var_13_0.cost_condition[1][1])
-
-			if var_13_8 >= var_13_0.cost_condition[1][2] then
-				arg_13_0.enoughController_:SetSelectedState("true")
+			if slot1.cost_condition[1][2] <= ItemTools.getItemNum(slot1.cost_condition[1][1]) then
+				slot0.enoughController_:SetSelectedState("true")
 			else
-				arg_13_0.enoughController_:SetSelectedState("false")
+				slot0.enoughController_:SetSelectedState("false")
 			end
 		end
 
-		arg_13_0.btnText_.text = GetTips("TIP_UNLOCK")
+		slot0.btnText_.text = GetTips("TIP_UNLOCK")
 
-		arg_13_0.btnController_:SetSelectedState("unlock")
+		slot0.btnController_:SetSelectedState("unlock")
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_14_0 = 1, 4 do
-		arg_14_0.chipListList_[iter_14_0]:Dispose()
+	for slot4 = 1, 4 do
+		slot0.chipListList_[slot4]:Dispose()
 
-		arg_14_0.chipListList_[iter_14_0] = nil
+		slot0.chipListList_[slot4] = nil
 	end
 
-	arg_14_0.chipListList_ = nil
-	arg_14_0.chipClickCallBack_ = nil
+	slot0.chipListList_ = nil
+	slot0.chipClickCallBack_ = nil
 end
 
-return var_0_0
+return slot0

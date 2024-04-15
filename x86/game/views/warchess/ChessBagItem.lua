@@ -1,43 +1,35 @@
-local var_0_0 = class("ChessBagItem", ReduxView)
+slot0 = class("ChessBagItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = arg_4_2.id
-	local var_4_1 = WarchessItemCfg[var_4_0].params[1][1]
-	local var_4_2 = WarchessItemCfg[var_4_0].params[1][2]
-	local var_4_3 = AffixTypeCfg[var_4_1].description[1]
-	local var_4_4 = GetCfgDescription(var_4_3, var_4_2)
-
-	arg_4_0.textinfoText_.text = var_4_4
-	arg_4_0.textnameText_.text = WarchessItemCfg[var_4_0].name
-	arg_4_0.iconitemImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[var_4_0].icon)
-
-	local var_4_5 = WarchessItemCfg[var_4_0].item_rare
-
-	arg_4_0.itemrareImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "board_warcheese_sq_" .. var_4_5)
-	arg_4_0.rarebgImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "bg_bfi_top_" .. var_4_5)
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot3 = slot2.id
+	slot0.textinfoText_.text = GetCfgDescription(AffixTypeCfg[WarchessItemCfg[slot3].params[1][1]].description[1], WarchessItemCfg[slot3].params[1][2])
+	slot0.textnameText_.text = WarchessItemCfg[slot3].name
+	slot0.iconitemImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[slot3].icon)
+	slot8 = WarchessItemCfg[slot3].item_rare
+	slot0.itemrareImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "board_warcheese_sq_" .. slot8)
+	slot0.rarebgImg_.sprite = getSprite("Atlas/WarChess_BattleAtlas", "bg_bfi_top_" .. slot8)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

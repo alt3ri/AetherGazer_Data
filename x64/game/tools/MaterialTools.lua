@@ -1,46 +1,42 @@
 return {
-	Sort = function(arg_1_0)
-		local var_1_0 = {}
+	Sort = function (slot0)
+		slot1 = {}
 
-		for iter_1_0, iter_1_1 in pairs(arg_1_0) do
-			table.insert(var_1_0, iter_1_1)
+		for slot5, slot6 in pairs(slot0) do
+			table.insert(slot1, slot6)
 		end
 
-		local function var_1_1(arg_2_0, arg_2_1)
-			return arg_2_0.id < arg_2_1.id
-		end
+		table.sort(slot1, function (slot0, slot1)
+			return slot0.id < slot1.id
+		end)
 
-		table.sort(var_1_0, var_1_1)
-
-		return var_1_0
+		return slot1
 	end,
-	materialGiveBack = function(arg_3_0, arg_3_1)
-		local var_3_0 = ItemCfg.get_id_list_by_sub_type[arg_3_1]
+	materialGiveBack = function (slot0, slot1)
+		slot2 = ItemCfg.get_id_list_by_sub_type[slot1]
 
-		if arg_3_0 <= 0 then
+		if slot0 <= 0 then
 			return {}
 		end
 
-		local var_3_1 = {}
-
-		for iter_3_0 = #var_3_0, 1, -1 do
-			local var_3_2 = ItemCfg[var_3_0[iter_3_0]].param[1]
-
-			var_3_1[iter_3_0] = math.modf(arg_3_0 / var_3_2)
-			arg_3_0 = arg_3_0 - var_3_1[iter_3_0] * var_3_2
+		for slot7 = #slot2, 1, -1 do
+			slot8 = ItemCfg[slot2[slot7]].param[1]
+			slot0 = slot0 - ({
+				[slot7] = math.modf(slot0 / slot8)
+			})[slot7] * slot8
 		end
 
-		local var_3_3 = {}
+		slot4 = {}
 
-		for iter_3_1 = 1, 3 do
-			if var_3_1[iter_3_1] ~= 0 then
-				var_3_3[#var_3_3 + 1] = {
-					var_3_0[iter_3_1],
-					var_3_1[iter_3_1]
+		for slot8 = 1, 3 do
+			if slot3[slot8] ~= 0 then
+				slot4[#slot4 + 1] = {
+					slot2[slot8],
+					slot3[slot8]
 				}
 			end
 		end
 
-		return var_3_3
+		return slot4
 	end
 }

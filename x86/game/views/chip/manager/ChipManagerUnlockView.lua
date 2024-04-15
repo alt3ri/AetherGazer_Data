@@ -1,92 +1,88 @@
-local var_0_0 = class("ChipManagerUnlockView", ReduxView)
+slot0 = class("ChipManagerUnlockView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.handler_ = handler(arg_1_0, arg_1_0.RefreshBtn)
+	slot0.handler_ = handler(slot0, slot0.RefreshBtn)
 
-	manager.notify:RegistListener(ENABLED_CHIP_MANAGER, arg_1_0.handler_)
+	manager.notify:RegistListener(ENABLED_CHIP_MANAGER, slot0.handler_)
 
-	arg_1_0.btnCon_ = arg_1_0.btnControllerexcollection_:GetController("btn")
+	slot0.btnCon_ = slot0.btnControllerexcollection_:GetController("btn")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	for iter_2_0 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
-		arg_2_0:AddBtnListener(arg_2_0[string.format("chipBtn%s_", iter_2_0)], nil, function()
-			arg_2_0:OnSelectChipBtn(iter_2_0)
+function slot0.AddListeners(slot0)
+	for slot4 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
+		slot0:AddBtnListener(slot0[string.format("chipBtn%s_", slot4)], nil, function ()
+			uv0:OnSelectChipBtn(uv1)
 		end)
 	end
 end
 
-function var_0_0.SetDataTemplate(arg_4_0, arg_4_1)
-	arg_4_0.chipDatatemplate_ = arg_4_1
+function slot0.SetDataTemplate(slot0, slot1)
+	slot0.chipDatatemplate_ = slot1
 end
 
-function var_0_0.SetChipManagerID(arg_5_0, arg_5_1)
-	arg_5_0.chipManagerID_ = arg_5_1
+function slot0.SetChipManagerID(slot0, slot1)
+	slot0.chipManagerID_ = slot1
+	slot2 = ChipCfg[slot1]
 
-	local var_5_0 = ChipCfg[arg_5_1]
-	local var_5_1 = arg_5_0:GetChipData()
+	for slot7 = 1, #slot0:GetChipData() do
+		slot0[string.format("chipIcon%s_", slot7)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot3[slot7]].picture_id)
 
-	for iter_5_0 = 1, #var_5_1 do
-		arg_5_0[string.format("chipIcon%s_", iter_5_0)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[var_5_1[iter_5_0]].picture_id)
-
-		arg_5_0[string.format("use%s_", iter_5_0)]:GetController("useState"):SetSelectedState("use")
+		slot0[string.format("use%s_", slot7)]:GetController("useState"):SetSelectedState("use")
 	end
 
-	for iter_5_1 = #var_5_1 + 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
-		if arg_5_0[string.format("use%s_", iter_5_1)] then
-			arg_5_0[string.format("use%s_", iter_5_1)]:GetController("useState"):SetSelectedState("nouse")
+	for slot7 = #slot3 + 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
+		if slot0[string.format("use%s_", slot7)] then
+			slot0[string.format("use%s_", slot7)]:GetController("useState"):SetSelectedState("nouse")
 		end
 	end
 end
 
-function var_0_0.RefreshBtn(arg_6_0)
-	arg_6_0.btnCon_:SetSelectedState("unlock")
+function slot0.RefreshBtn(slot0)
+	slot0.btnCon_:SetSelectedState("unlock")
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:UnbindRedPoint()
-	var_0_0.super.Dispose(arg_7_0)
-	manager.notify:RemoveListener(ENABLED_CHIP_MANAGER, arg_7_0.handler_)
+function slot0.Dispose(slot0)
+	slot0:UnbindRedPoint()
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(ENABLED_CHIP_MANAGER, slot0.handler_)
 
-	arg_7_0.handler_ = nil
+	slot0.handler_ = nil
 end
 
-function var_0_0.GetChipData(arg_8_0)
-	return arg_8_0.chipDatatemplate_:GetEquipChipList()
+function slot0.GetChipData(slot0)
+	return slot0.chipDatatemplate_:GetEquipChipList()
 end
 
-function var_0_0.GetEnabledManagerID(arg_9_0)
-	return arg_9_0.chipDatatemplate_.useChipmanagerId
+function slot0.GetEnabledManagerID(slot0)
+	return slot0.chipDatatemplate_.useChipmanagerId
 end
 
-function var_0_0.BindRedPoint(arg_10_0)
-	manager.redPoint:bindUIandKey(arg_10_0.chipBtnTransform_, RedPointConst.CHIP_CHIP)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.chipBtnTransform_, RedPointConst.CHIP_CHIP)
 end
 
-function var_0_0.UnbindRedPoint(arg_11_0)
-	manager.redPoint:unbindUIandKey(arg_11_0.chipBtnTransform_)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.chipBtnTransform_)
 end
 
-function var_0_0.OnSelectChipBtn(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_0.chipDatatemplate_:GetChipInfoViewPath() or "/chipInfo"
-
-	arg_12_0:Go(var_12_0, {
-		chipManagerID = arg_12_0.chipManagerID_,
-		selectChipIndex = arg_12_1,
-		chipDataTemplate = arg_12_0.chipDatatemplate_
+function slot0.OnSelectChipBtn(slot0, slot1)
+	slot0:Go(slot0.chipDatatemplate_:GetChipInfoViewPath() or "/chipInfo", {
+		chipManagerID = slot0.chipManagerID_,
+		selectChipIndex = slot1,
+		chipDataTemplate = slot0.chipDatatemplate_
 	})
 end
 
-function var_0_0.SetActive(arg_13_0, arg_13_1)
-	if arg_13_0.gameObject_ then
-		SetActive(arg_13_0.gameObject_, arg_13_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-return var_0_0
+return slot0

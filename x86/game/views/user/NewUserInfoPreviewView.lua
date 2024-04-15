@@ -1,375 +1,347 @@
-local var_0_0 = class("NewUserInfoPreviewView", ReduxView)
-local var_0_1 = 1
-local var_0_2 = 860
+slot0 = class("NewUserInfoPreviewView", ReduxView)
+slot1 = 1
+slot2 = 860
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Main/PlayercardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	local var_4_0 = GameToSDK.CURRENT_SDK_ID == SDK_PLATFORM.DEV or not SDKTools.GetIsOverSea() and _G.CHANNEL_MASTER_ID ~= 1
+	slot1 = GameToSDK.CURRENT_SDK_ID == SDK_PLATFORM.DEV or not SDKTools.GetIsOverSea() and _G.CHANNEL_MASTER_ID ~= 1
 
-	SetActive(arg_4_0.userCenterBtn_.gameObject, not var_4_0)
-	SetActive(arg_4_0.logoutBtn_.gameObject, var_4_0)
+	SetActive(slot0.userCenterBtn_.gameObject, not slot1)
+	SetActive(slot0.logoutBtn_.gameObject, slot1)
 
-	arg_4_0.tagItem_ = {}
-	arg_4_0.tagContentFitter_ = arg_4_0.tagScrollPanel_:GetComponent("ContentSizeFitter")
-	arg_4_0.tagCon_ = ControllerUtil.GetController(arg_4_0.transform_, "tag")
-	arg_4_0.dormCon_ = ControllerUtil.GetController(arg_4_0.transform_, "dorm")
-	arg_4_0.guildCon_ = ControllerUtil.GetController(arg_4_0.transform_, "guild")
+	slot0.tagItem_ = {}
+	slot0.tagContentFitter_ = slot0.tagScrollPanel_:GetComponent("ContentSizeFitter")
+	slot0.tagCon_ = ControllerUtil.GetController(slot0.transform_, "tag")
+	slot0.dormCon_ = ControllerUtil.GetController(slot0.transform_, "dorm")
+	slot0.guildCon_ = ControllerUtil.GetController(slot0.transform_, "guild")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:RefreshUserData()
-	arg_8_0:RefreshExpInfo(arg_8_0.lv_, arg_8_0.exp_)
-	arg_8_0:RefreshIP(arg_8_0.ip_)
-	arg_8_0:RefreshID(arg_8_0.userID_)
-	arg_8_0:RefreshName(arg_8_0.nick_)
-	SetActive(arg_8_0.signInput_.gameObject, false)
-	SetActive(arg_8_0.signTxt_.gameObject, true)
-	arg_8_0:RefreshSign(arg_8_0.sign_)
-	arg_8_0:RefreshLvInfo(arg_8_0.lv_)
-	arg_8_0:RefreshHead(arg_8_0.headIconID_)
-	arg_8_0:RefreshFrame(arg_8_0.iconFrameID_)
-	arg_8_0:RefreshGuild(arg_8_0.guildID_, arg_8_0.guildName_)
-	arg_8_0:RefreshBirthday()
-	arg_8_0:RefreshTag(arg_8_0.tagList_)
-	arg_8_0:RefreshCardBg(arg_8_0.cardBg_)
-	arg_8_0:RefreshDorm(arg_8_0.dormID_, arg_8_0.dormName_)
-	arg_8_0:RefreshAchievement()
-	arg_8_0:RefreshLike(arg_8_0.likeCnt_)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshUserData()
+	slot0:RefreshExpInfo(slot0.lv_, slot0.exp_)
+	slot0:RefreshIP(slot0.ip_)
+	slot0:RefreshID(slot0.userID_)
+	slot0:RefreshName(slot0.nick_)
+	SetActive(slot0.signInput_.gameObject, false)
+	SetActive(slot0.signTxt_.gameObject, true)
+	slot0:RefreshSign(slot0.sign_)
+	slot0:RefreshLvInfo(slot0.lv_)
+	slot0:RefreshHead(slot0.headIconID_)
+	slot0:RefreshFrame(slot0.iconFrameID_)
+	slot0:RefreshGuild(slot0.guildID_, slot0.guildName_)
+	slot0:RefreshBirthday()
+	slot0:RefreshTag(slot0.tagList_)
+	slot0:RefreshCardBg(slot0.cardBg_)
+	slot0:RefreshDorm(slot0.dormID_, slot0.dormName_)
+	slot0:RefreshAchievement()
+	slot0:RefreshLike(slot0.likeCnt_)
 end
 
-function var_0_0.RefreshUserData(arg_9_0)
-	local var_9_0 = PlayerData:GetPlayerInfo()
+function slot0.RefreshUserData(slot0)
+	slot1 = PlayerData:GetPlayerInfo()
+	slot0.ip_ = slot1.ip
+	slot0.nick_ = slot1.nick
+	slot0.sign_ = slot1.sign
+	slot0.lv_ = slot1.userLevel
+	slot0.userID_ = slot1.userID
+	slot0.exp_ = slot1.remain_exp
+	slot0.headIconID_ = slot1.portrait
+	slot0.iconFrameID_ = slot1.icon_frame
+	slot0.birthdayMonth_ = slot1.birthday_month
+	slot0.birthdayDay_ = slot1.birthday_day
+	slot0.likeCnt_ = slot1.likes
+	slot0.cardBg_ = slot0.params_.previewID
+	slot0.tagList_ = PlayerData:GetUsingTagListInfo()
 
-	arg_9_0.ip_ = var_9_0.ip
-	arg_9_0.nick_ = var_9_0.nick
-	arg_9_0.sign_ = var_9_0.sign
-	arg_9_0.lv_ = var_9_0.userLevel
-	arg_9_0.userID_ = var_9_0.userID
-	arg_9_0.exp_ = var_9_0.remain_exp
-	arg_9_0.headIconID_ = var_9_0.portrait
-	arg_9_0.iconFrameID_ = var_9_0.icon_frame
-	arg_9_0.birthdayMonth_ = var_9_0.birthday_month
-	arg_9_0.birthdayDay_ = var_9_0.birthday_day
-	arg_9_0.likeCnt_ = var_9_0.likes
-	arg_9_0.cardBg_ = arg_9_0.params_.previewID
-	arg_9_0.tagList_ = PlayerData:GetUsingTagListInfo()
-
-	local var_9_1 = GuildData:GetGuildInfo()
-
-	if var_9_1 and var_9_1.id and var_9_1.name then
-		arg_9_0.guildID_ = var_9_1.id
-		arg_9_0.guildName_ = var_9_1.name
+	if GuildData:GetGuildInfo() and slot2.id and slot2.name then
+		slot0.guildID_ = slot2.id
+		slot0.guildName_ = slot2.name
 	else
-		arg_9_0.guildID_ = 0
-		arg_9_0.guildName_ = ""
+		slot0.guildID_ = 0
+		slot0.guildName_ = ""
 	end
 
-	arg_9_0.dormID_ = 0
-	arg_9_0.dormName_ = ""
+	slot0.dormID_ = 0
+	slot0.dormName_ = ""
 
 	if not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
-		local var_9_2 = DormVisitTools:GetCurTemplateExhibit()
+		slot0.dormID_ = DormVisitTools:GetCurTemplateExhibit() == 0 and DormConst.PUBLIC_DORM_ID or slot3
 
-		arg_9_0.dormID_ = var_9_2 == 0 and DormConst.PUBLIC_DORM_ID or var_9_2
-
-		if BackHomeCfg[arg_9_0.dormID_].type == DormConst.BACKHOME_TYPE.PublicDorm then
-			arg_9_0.dormName_ = GetTips("DORM_LOBBY_NAME")
-		else
-			local var_9_3 = DormitoryData:GetDormSceneData(arg_9_0.dormID_).archiveIDList[1]
-			local var_9_4 = HeroRecordCfg.get_id_list_by_hero_id[var_9_3][1]
-
-			if var_9_4 then
-				local var_9_5 = HeroRecordCfg[var_9_4].name
-
-				if var_9_5 then
-					arg_9_0.dormName_ = string.format(GetTips("DORM_HERO_ROOM_NAME"), var_9_5)
-				end
-			end
+		if BackHomeCfg[slot0.dormID_].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			slot0.dormName_ = GetTips("DORM_LOBBY_NAME")
+		elseif HeroRecordCfg.get_id_list_by_hero_id[DormitoryData:GetDormSceneData(slot0.dormID_).archiveIDList[1]][1] and HeroRecordCfg[slot5].name then
+			slot0.dormName_ = string.format(GetTips("DORM_HERO_ROOM_NAME"), slot6)
 		end
 	end
 
-	arg_9_0.heroAll_ = 0
-	arg_9_0.heroNum_ = HeroData:GetHeroNum()
+	slot0.heroAll_ = 0
+	slot0.heroNum_ = HeroData:GetHeroNum()
 
-	local var_9_6 = HideInfoData:GetHeadIconHideList()
-	local var_9_7 = HeroCfg.get_id_list_by_private[0]
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_7) do
-		if not var_9_6[iter_9_1] then
-			arg_9_0.heroAll_ = arg_9_0.heroAll_ + 1
+	for slot8, slot9 in ipairs(HeroCfg.get_id_list_by_private[0]) do
+		if not HideInfoData:GetHeadIconHideList()[slot9] then
+			slot0.heroAll_ = slot0.heroAll_ + 1
 		end
 	end
 
-	arg_9_0.weaponServantAll_ = 0
-	arg_9_0.weaponServantNum_ = table.length(IllustratedData:GetServantInfo())
+	slot0.weaponServantAll_ = 0
+	slot0.weaponServantNum_ = table.length(IllustratedData:GetServantInfo())
 
-	for iter_9_2, iter_9_3 in ipairs(WeaponServantCfg.all) do
-		local var_9_8 = IllustratedData:GetServantInfo()[iter_9_3]
-
-		if not ServantTools.GetIsHide(iter_9_3) and (var_9_8 or WeaponServantCfg[iter_9_3].display_type ~= 1) then
-			arg_9_0.weaponServantAll_ = arg_9_0.weaponServantAll_ + 1
+	for slot8, slot9 in ipairs(WeaponServantCfg.all) do
+		if not ServantTools.GetIsHide(slot9) and (IllustratedData:GetServantInfo()[slot9] or WeaponServantCfg[slot9].display_type ~= 1) then
+			slot0.weaponServantAll_ = slot0.weaponServantAll_ + 1
 		end
 	end
 
-	arg_9_0.stickerAll_ = #ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.NORMAL_STICKER]
-	arg_9_0.stickerNum_ = #var_9_0.all_sticker_list
+	slot0.stickerAll_ = #ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.NORMAL_STICKER]
+	slot0.stickerNum_ = #slot1.all_sticker_list
 
-	for iter_9_4, iter_9_5 in ipairs(var_9_0.all_sticker_list) do
-		if ItemCfg[iter_9_5].sub_type == ItemConst.ITEM_SUB_TYPE.SPECIAL_STICKER then
-			arg_9_0.stickerAll_ = arg_9_0.stickerAll_ + 1
+	for slot8, slot9 in ipairs(slot1.all_sticker_list) do
+		if ItemCfg[slot9].sub_type == ItemConst.ITEM_SUB_TYPE.SPECIAL_STICKER then
+			slot0.stickerAll_ = slot0.stickerAll_ + 1
 		end
 	end
 
-	arg_9_0.achieveAll_ = AchievementData:GetAchievementTotalCnt()
-	arg_9_0.achieveNum_ = AchievementData:GetFinishAchievementCnt()
+	slot0.achieveAll_ = AchievementData:GetAchievementTotalCnt()
+	slot0.achieveNum_ = AchievementData:GetFinishAchievementCnt()
 end
 
-function var_0_0.RefreshExpInfo(arg_10_0, arg_10_1, arg_10_2)
-	if LvTools.GetIsMaxLv(arg_10_1, "user") then
-		arg_10_0.expTxt_.text = "-/-"
-		arg_10_0.progressTrs_.value = 1
+function slot0.RefreshExpInfo(slot0, slot1, slot2)
+	if LvTools.GetIsMaxLv(slot1, "user") then
+		slot0.expTxt_.text = "-/-"
+		slot0.progressTrs_.value = 1
 	else
-		local var_10_0 = GameLevelSetting[arg_10_1].user_level_exp
-
-		arg_10_0.expTxt_.text = string.format("%d/%d", arg_10_2, var_10_0)
-		arg_10_0.progressTrs_.value = arg_10_2 / var_10_0
+		slot3 = GameLevelSetting[slot1].user_level_exp
+		slot0.expTxt_.text = string.format("%d/%d", slot2, slot3)
+		slot0.progressTrs_.value = slot2 / slot3
 	end
 end
 
-function var_0_0.RefreshIP(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
+function slot0.RefreshIP(slot0, slot1)
+	SetActive(slot0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
 
-	arg_11_0.ipTxt_.text = arg_11_1
+	slot0.ipTxt_.text = slot1
 
-	if arg_11_0.ipGo_.activeSelf then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.ipGo_.transform)
+	if slot0.ipGo_.activeSelf then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.ipGo_.transform)
 	end
 end
 
-function var_0_0.RefreshID(arg_12_0, arg_12_1)
-	arg_12_0.uid_.text = arg_12_1
+function slot0.RefreshID(slot0, slot1)
+	slot0.uid_.text = slot1
 end
 
-function var_0_0.RefreshName(arg_13_0, arg_13_1)
+function slot0.RefreshName(slot0, slot1)
 	if not OperationData:IsOperationOpen(OperationConst.MANUAL_WORD_VERIFY) then
-		local var_13_0, var_13_1 = wordVerify(arg_13_1, {
+		slot2, slot0.name_.text = wordVerify(slot1, {
 			isReplace = true
 		})
-
-		arg_13_0.name_.text = var_13_1
 	else
-		arg_13_0.name_.text = arg_13_1
+		slot0.name_.text = slot1
 	end
 end
 
-function var_0_0.RefreshSign(arg_14_0, arg_14_1)
+function slot0.RefreshSign(slot0, slot1)
 	if not OperationData:IsOperationOpen(OperationConst.MANUAL_WORD_VERIFY) then
-		local var_14_0, var_14_1 = wordVerify(arg_14_1, {
+		slot2, slot3 = wordVerify(slot1, {
 			isReplace = true
 		})
-
-		arg_14_0.signTxt_.text = var_14_1 == "" and GetTips("PROFILE_PERSONAL_PROFILE_DEFAULT") or var_14_1
+		slot0.signTxt_.text = slot3 == "" and GetTips("PROFILE_PERSONAL_PROFILE_DEFAULT") or slot3
 	else
-		arg_14_0.signTxt_.text = arg_14_1 == "" and GetTips("PROFILE_PERSONAL_PROFILE_DEFAULT") or arg_14_1
+		slot0.signTxt_.text = slot1 == "" and GetTips("PROFILE_PERSONAL_PROFILE_DEFAULT") or slot1
 	end
 end
 
-function var_0_0.RefreshHead(arg_15_0, arg_15_1)
-	arg_15_0.headIcon_.sprite = ItemTools.getItemSprite(arg_15_1)
+function slot0.RefreshHead(slot0, slot1)
+	slot0.headIcon_.sprite = ItemTools.getItemSprite(slot1)
 
-	arg_15_0.headIcon_:SetNativeSize()
+	slot0.headIcon_:SetNativeSize()
 end
 
-function var_0_0.RefreshFrame(arg_16_0, arg_16_1)
-	arg_16_0.headFrameIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_16_1)
+function slot0.RefreshFrame(slot0, slot1)
+	slot0.headFrameIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1)
 
-	arg_16_0.headFrameIcon_:SetNativeSize()
+	slot0.headFrameIcon_:SetNativeSize()
 end
 
-function var_0_0.RefreshLvInfo(arg_17_0, arg_17_1)
-	arg_17_0.lvTxt_.text = arg_17_1
+function slot0.RefreshLvInfo(slot0, slot1)
+	slot0.lvTxt_.text = slot1
 end
 
-function var_0_0.RefreshGuild(arg_18_0, arg_18_1, arg_18_2)
-	if arg_18_1 == 0 then
-		arg_18_0.guildCon_:SetSelectedState("false")
+function slot0.RefreshGuild(slot0, slot1, slot2)
+	if slot1 == 0 then
+		slot0.guildCon_:SetSelectedState("false")
 	else
-		arg_18_0.guildTxt_.text = arg_18_2
+		slot0.guildTxt_.text = slot2
 
-		arg_18_0.guildCon_:SetSelectedState("true")
+		slot0.guildCon_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.RefreshBirthday(arg_19_0)
-	if arg_19_0.birthdayDay_ == 0 then
-		arg_19_0.brithdayTxt_.text = GetTips("UNSET_BIRTHDAY")
+function slot0.RefreshBirthday(slot0)
+	if slot0.birthdayDay_ == 0 then
+		slot0.brithdayTxt_.text = GetTips("UNSET_BIRTHDAY")
 	else
-		arg_19_0.brithdayTxt_.text = string.format(GetTips("OTHER_BIRTHDAY"), arg_19_0.birthdayMonth_, arg_19_0.birthdayDay_)
+		slot0.brithdayTxt_.text = string.format(GetTips("OTHER_BIRTHDAY"), slot0.birthdayMonth_, slot0.birthdayDay_)
 	end
 end
 
-function var_0_0.RefreshDorm(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_1 == 0 then
-		arg_20_0.dormCon_:SetSelectedState("false")
+function slot0.RefreshDorm(slot0, slot1, slot2)
+	if slot1 == 0 then
+		slot0.dormCon_:SetSelectedState("false")
 	else
-		arg_20_0.dormText_.text = arg_20_2
+		slot0.dormText_.text = slot2
 
-		arg_20_0.dormCon_:SetSelectedState("true")
+		slot0.dormCon_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.RefreshTag(arg_21_0, arg_21_1)
-	arg_21_0.tagCon_:SetSelectedState(#arg_21_1 > 0 and "off" or "on")
-	arg_21_0:StopTagScroll()
+function slot0.RefreshTag(slot0, slot1)
+	slot0.tagCon_:SetSelectedState(#slot1 > 0 and "off" or "on")
+	slot0:StopTagScroll()
 
-	for iter_21_0, iter_21_1 in ipairs(arg_21_1) do
-		if not arg_21_0.tagItem_[iter_21_0] then
-			local var_21_0 = Object.Instantiate(arg_21_0.tagTemplate_, arg_21_0.tagContent_)
-
-			arg_21_0.tagItem_[iter_21_0] = NewUserAndPlayerInfoTagItem.New(var_21_0)
+	for slot5, slot6 in ipairs(slot1) do
+		if not slot0.tagItem_[slot5] then
+			slot0.tagItem_[slot5] = NewUserAndPlayerInfoTagItem.New(Object.Instantiate(slot0.tagTemplate_, slot0.tagContent_))
 		end
 
-		arg_21_0.tagItem_[iter_21_0]:SetData(iter_21_1)
+		slot0.tagItem_[slot5]:SetData(slot6)
 	end
 
-	for iter_21_2 = #arg_21_1 + 1, #arg_21_0.tagItem_ do
-		arg_21_0.tagItem_[iter_21_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.tagItem_ do
+		slot0.tagItem_[slot5]:Show(false)
 	end
 
-	local var_21_1 = var_0_2
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.tagPanel_)
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.tagPanel_)
+	if slot0.tagContent_.transform.rect.width <= uv0 then
+		slot0.tagContentFitter_.horizontalFit = ContentSizeFitter.FitMode.PreferredSize
 
-	if var_21_1 >= arg_21_0.tagContent_.transform.rect.width then
-		arg_21_0.tagContentFitter_.horizontalFit = ContentSizeFitter.FitMode.PreferredSize
-
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.tagScrollPanel_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.tagScrollPanel_)
 	else
-		arg_21_0.tagContentFitter_.horizontalFit = ContentSizeFitter.FitMode.Unconstrained
-		arg_21_0.tagScrollPanel_.sizeDelta = Vector2(var_21_1, arg_21_0.tagScrollPanel_.sizeDelta.y)
-		arg_21_0.tagContent_.anchoredPosition = Vector3.New(0, arg_21_0.tagContent_.anchoredPosition.y, 0)
-		arg_21_0.tagScrollTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function()
-			if arg_21_0.tagContent_.anchoredPosition.x <= -1 * arg_21_0.tagContent_.transform.rect.width then
-				arg_21_0.tagContent_.anchoredPosition = Vector3.New(var_21_1, arg_21_0.tagContent_.anchoredPosition.y, 0)
+		slot0.tagContentFitter_.horizontalFit = ContentSizeFitter.FitMode.Unconstrained
+		slot0.tagScrollPanel_.sizeDelta = Vector2(slot2, slot0.tagScrollPanel_.sizeDelta.y)
+		slot0.tagContent_.anchoredPosition = Vector3.New(0, slot0.tagContent_.anchoredPosition.y, 0)
+		slot0.tagScrollTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
+			if uv0.tagContent_.anchoredPosition.x <= -1 * uv0.tagContent_.transform.rect.width then
+				uv0.tagContent_.anchoredPosition = Vector3.New(uv1, uv0.tagContent_.anchoredPosition.y, 0)
 			end
 
-			arg_21_0.tagContent_.anchoredPosition = Vector3.New(arg_21_0.tagContent_.anchoredPosition.x - var_0_1, arg_21_0.tagContent_.anchoredPosition.y, 0)
+			uv0.tagContent_.anchoredPosition = Vector3.New(uv0.tagContent_.anchoredPosition.x - uv2, uv0.tagContent_.anchoredPosition.y, 0)
 		end, -1, true)
 	end
 end
 
-function var_0_0.RefreshCardBg(arg_23_0, arg_23_1)
-	local var_23_0 = ProfileBusinessCardCfg[arg_23_1]
-	local var_23_1 = var_23_0.resource
+function slot0.RefreshCardBg(slot0, slot1)
+	slot2 = ProfileBusinessCardCfg[slot1]
 
-	if var_23_0.type == 1 then
-		arg_23_0.cardBgIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/UserInfor/" .. var_23_1)
-	elseif var_23_0.type == 2 then
-		-- block empty
-	elseif var_23_0.type == 3 then
-		-- block empty
+	if slot2.type == 1 then
+		slot0.cardBgIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/UserInfor/" .. slot2.resource)
+	elseif slot2.type == 2 then
+		-- Nothing
+	elseif slot2.type == 3 then
+		-- Nothing
 	end
 
-	arg_23_0.cardName_.text = "<" .. ItemTools.getItemName(arg_23_1) .. ">"
+	slot0.cardName_.text = "<" .. ItemTools.getItemName(slot1) .. ">"
 end
 
-function var_0_0.RefreshAchievement(arg_24_0)
-	arg_24_0.heroTxt_.text = arg_24_0.heroNum_ .. "/" .. arg_24_0.heroAll_
+function slot0.RefreshAchievement(slot0)
+	slot0.heroTxt_.text = slot0.heroNum_ .. "/" .. slot0.heroAll_
 
-	if arg_24_0.heroNum_ == arg_24_0.heroAll_ then
-		arg_24_0.heroPre_.text = "100%"
+	if slot0.heroNum_ == slot0.heroAll_ then
+		slot0.heroPre_.text = "100%"
 	else
-		arg_24_0.heroPre_.text = math.floor(arg_24_0.heroNum_ * 100 / arg_24_0.heroAll_) .. "%"
+		slot0.heroPre_.text = math.floor(slot0.heroNum_ * 100 / slot0.heroAll_) .. "%"
 	end
 
-	arg_24_0.stickerTxt_.text = arg_24_0.stickerNum_ .. "/" .. arg_24_0.stickerAll_
+	slot0.stickerTxt_.text = slot0.stickerNum_ .. "/" .. slot0.stickerAll_
 
-	if arg_24_0.stickerNum_ == arg_24_0.stickerAll_ then
-		arg_24_0.stickerPre_.text = "100%"
+	if slot0.stickerNum_ == slot0.stickerAll_ then
+		slot0.stickerPre_.text = "100%"
 	else
-		arg_24_0.stickerPre_.text = math.floor(arg_24_0.stickerNum_ * 100 / arg_24_0.stickerAll_) .. "%"
+		slot0.stickerPre_.text = math.floor(slot0.stickerNum_ * 100 / slot0.stickerAll_) .. "%"
 	end
 
-	arg_24_0.weaponServantTxt_.text = arg_24_0.weaponServantNum_ .. "/" .. arg_24_0.weaponServantAll_
+	slot0.weaponServantTxt_.text = slot0.weaponServantNum_ .. "/" .. slot0.weaponServantAll_
 
-	if arg_24_0.weaponServantNum_ == arg_24_0.weaponServantAll_ then
-		arg_24_0.weaponServantPre_.text = "100%"
+	if slot0.weaponServantNum_ == slot0.weaponServantAll_ then
+		slot0.weaponServantPre_.text = "100%"
 	else
-		arg_24_0.weaponServantPre_.text = math.floor(arg_24_0.weaponServantNum_ * 100 / arg_24_0.weaponServantAll_) .. "%"
+		slot0.weaponServantPre_.text = math.floor(slot0.weaponServantNum_ * 100 / slot0.weaponServantAll_) .. "%"
 	end
 
-	arg_24_0.achieveTxt_.text = arg_24_0.achieveNum_ .. "/" .. arg_24_0.achieveAll_
+	slot0.achieveTxt_.text = slot0.achieveNum_ .. "/" .. slot0.achieveAll_
 
-	if arg_24_0.achieveNum_ == arg_24_0.achieveAll_ then
-		arg_24_0.achievePre_.text = "100%"
+	if slot0.achieveNum_ == slot0.achieveAll_ then
+		slot0.achievePre_.text = "100%"
 	else
-		arg_24_0.achievePre_.text = math.floor(arg_24_0.achieveNum_ * 100 / arg_24_0.achieveAll_) .. "%"
-	end
-end
-
-function var_0_0.RefreshLike(arg_25_0, arg_25_1)
-	if arg_25_1 > 10000 then
-		arg_25_0.like_.text = string.format("%.1f%%", arg_25_1 / 1000) .. "K"
-	else
-		arg_25_0.like_.text = arg_25_1
+		slot0.achievePre_.text = math.floor(slot0.achieveNum_ * 100 / slot0.achieveAll_) .. "%"
 	end
 end
 
-function var_0_0.StopTagScroll(arg_26_0)
-	if arg_26_0.tagScrollTimer_ then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_26_0.tagScrollTimer_)
-
-		arg_26_0.tagScrollTimer_ = nil
+function slot0.RefreshLike(slot0, slot1)
+	if slot1 > 10000 then
+		slot0.like_.text = string.format("%.1f%%", slot1 / 1000) .. "K"
+	else
+		slot0.like_.text = slot1
 	end
 end
 
-function var_0_0.OnTop(arg_27_0)
+function slot0.StopTagScroll(slot0)
+	if slot0.tagScrollTimer_ then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.tagScrollTimer_)
+
+		slot0.tagScrollTimer_ = nil
+	end
+end
+
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_28_0)
-	arg_28_0:StopTagScroll()
+function slot0.OnExit(slot0)
+	slot0:StopTagScroll()
 
-	for iter_28_0, iter_28_1 in ipairs(arg_28_0.tagItem_) do
-		iter_28_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.tagItem_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_29_0)
-	arg_29_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_29_0, iter_29_1 in ipairs(arg_29_0.tagItem_) do
-		iter_29_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.tagItem_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

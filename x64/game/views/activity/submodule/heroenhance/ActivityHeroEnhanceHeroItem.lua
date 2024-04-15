@@ -1,91 +1,85 @@
-local var_0_0 = class("ActivityHeroEnhanceHeroItem", ReduxView)
+slot0 = class("ActivityHeroEnhanceHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selController_ = arg_2_0.controller_:GetController("selected")
-	arg_2_0.lockController_ = arg_2_0.controller_:GetController("lock")
-	arg_2_0.passController_ = arg_2_0.controller_:GetController("pass")
+	slot0.selController_ = slot0.controller_:GetController("selected")
+	slot0.lockController_ = slot0.controller_:GetController("lock")
+	slot0.passController_ = slot0.controller_:GetController("pass")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.selfBtn_, nil, function()
-		if arg_3_0.onClickHandler_ then
-			arg_3_0.onClickHandler_(arg_3_0.heroID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.selfBtn_, nil, function ()
+		if uv0.onClickHandler_ then
+			uv0.onClickHandler_(uv0.heroID)
 		end
 	end)
 end
 
-function var_0_0.SetClickHandler(arg_5_0, arg_5_1)
-	if arg_5_1 then
-		arg_5_0.onClickHandler_ = arg_5_1
+function slot0.SetClickHandler(slot0, slot1)
+	if slot1 then
+		slot0.onClickHandler_ = slot1
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.cfgId_ = arg_6_1
+function slot0.SetData(slot0, slot1)
+	slot0.cfgId_ = slot1
 end
 
-function var_0_0.SetIgnorePass(arg_7_0, arg_7_1)
-	arg_7_0.isIgnorePass_ = arg_7_1
+function slot0.SetIgnorePass(slot0, slot1)
+	slot0.isIgnorePass_ = slot1
 end
 
-function var_0_0.SetSelected(arg_8_0, arg_8_1)
-	arg_8_0.selected_ = arg_8_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.selected_ = slot1
 
-	return arg_8_0.selected_
+	return slot0.selected_
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = ActivityHeroEnhanceCfg[arg_9_0.cfgId_]
-	local var_9_1 = var_9_0.activity_id
-	local var_9_2 = var_9_0.hero_id
-	local var_9_3 = HeroData:GetHeroData(var_9_2)
-	local var_9_4 = HeroCfg[var_9_2]
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityHeroEnhanceCfg[slot0.cfgId_]
+	slot2 = slot1.activity_id
+	slot3 = slot1.hero_id
+	slot4 = HeroData:GetHeroData(slot3)
+	slot5 = HeroCfg[slot3]
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite(slot3)
+	slot0.nameText_.text = HeroTools.GetHeroFullName(slot3)
+	slot6, slot7 = ActivityHeroEnhanceTools.IsCfgHeroLock(slot1)
 
-	arg_9_0.headIcon_.sprite = HeroTools.GetHeadSprite(var_9_2)
-	arg_9_0.nameText_.text = HeroTools.GetHeroFullName(var_9_2)
+	slot0.selController_:SetSelectedState(slot0.selected_ and "true" or "false")
+	slot0.lockController_:SetSelectedState(slot6 and "true" or "false")
 
-	local var_9_5, var_9_6 = ActivityHeroEnhanceTools.IsCfgHeroLock(var_9_0)
-
-	arg_9_0.selController_:SetSelectedState(arg_9_0.selected_ and "true" or "false")
-	arg_9_0.lockController_:SetSelectedState(var_9_5 and "true" or "false")
-
-	if not arg_9_0.isIgnorePass_ then
-		local var_9_7 = not var_9_5 and ActivityHeroEnhanceTools.IsCfgHeroPass(var_9_0)
-
-		arg_9_0.passController_:SetSelectedState(var_9_7 and "true" or "false")
+	if not slot0.isIgnorePass_ then
+		slot0.passController_:SetSelectedState(not slot6 and ActivityHeroEnhanceTools.IsCfgHeroPass(slot1) and "true" or "false")
 	end
 
-	if var_9_5 then
-		if var_9_6.isBeforeStartDay then
-			local var_9_8 = GetTips("ACTIVITY_HERO_ENHANCE_HERO_UNLOCK_CONDITION")
-
-			arg_9_0.lockText_.text = string.format(var_9_8, var_9_6.startDay - var_9_6.curDay)
+	if slot6 then
+		if slot7.isBeforeStartDay then
+			slot0.lockText_.text = string.format(GetTips("ACTIVITY_HERO_ENHANCE_HERO_UNLOCK_CONDITION"), slot7.startDay - slot7.curDay)
 		else
-			arg_9_0.lockText_.text = GetTips("ACTIVITY_HERO_ENHANCE_HERO_UNLOCK_CONDITION_2")
+			slot0.lockText_.text = GetTips("ACTIVITY_HERO_ENHANCE_HERO_UNLOCK_CONDITION_2")
 		end
 	end
 end
 
-function var_0_0.GetRedPointTransform(arg_10_0)
-	return arg_10_0.selfBtn_.transform
+function slot0.GetRedPointTransform(slot0)
+	return slot0.selfBtn_.transform
 end
 
-function var_0_0.GetCfgId(arg_11_0)
-	return arg_11_0.cfgId_
+function slot0.GetCfgId(slot0)
+	return slot0.cfgId_
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

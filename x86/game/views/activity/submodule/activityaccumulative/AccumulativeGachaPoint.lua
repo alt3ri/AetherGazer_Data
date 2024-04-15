@@ -1,30 +1,30 @@
-local var_0_0 = class("AccumulativeGachaPoint", ReduxView)
+slot0 = class("AccumulativeGachaPoint", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.controller_ = arg_1_0.lastControllerexcollection_:GetController("default0")
+	slot0.controller_ = slot0.lastControllerexcollection_:GetController("default0")
 end
 
-function var_0_0.SetIsDraw(arg_2_0, arg_2_1)
-	if arg_2_1 then
-		arg_2_0.controller_:SetSelectedState("light")
+function slot0.SetIsDraw(slot0, slot1)
+	if slot1 then
+		slot0.controller_:SetSelectedState("light")
 	else
-		arg_2_0.controller_:SetSelectedState("normal")
+		slot0.controller_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.SetPosX(arg_3_0, arg_3_1)
-	if arg_3_0.gameObject_ then
-		arg_3_0.transform_.localPosition = Vector3.New(arg_3_1, 0, 0)
+function slot0.SetPosX(slot0, slot1)
+	if slot0.gameObject_ then
+		slot0.transform_.localPosition = Vector3.New(slot1, 0, 0)
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

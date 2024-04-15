@@ -1,96 +1,90 @@
-local var_0_0 = class("ValentineGameV2SelectHeroItem", ReduxView)
+slot0 = class("ValentineGameV2SelectHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockController_ = ControllerUtil.GetController(arg_3_0.transform_, "mask")
-	arg_3_0.getController_ = ControllerUtil.GetController(arg_3_0.transform_, "Invited")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "mask")
+	slot0.getController_ = ControllerUtil.GetController(slot0.transform_, "Invited")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
-			ValentineGameData:SetNotNewOpen(arg_4_0.activityID_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.activityID_) then
+			ValentineGameData:SetNotNewOpen(uv0.activityID_)
 			JumpTools.OpenPageByJump("/valentineGameV2HeroInfoView", {
-				activityID = arg_4_0.activityID_
+				activityID = uv0.activityID_
 			})
-		elseif manager.time:GetServerTime() < ActivityData:GetActivityData(arg_4_0.activityID_).startTime then
-			local var_5_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_4_0.activityID_).startTime)
-
-			ShowTips(string.format(GetTips("OPEN_TIME"), var_5_0))
+		elseif manager.time:GetServerTime() < ActivityData:GetActivityData(uv0.activityID_).startTime then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.activityID_).startTime)))
 		else
 			ShowTips(GetTips("TIME_OVER"))
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.activityID_ = arg_6_1
-	arg_6_0.cfg_ = ActivityValentineCfg[arg_6_0.activityID_]
-	arg_6_0.nameText_.text = arg_6_0.cfg_.name
-	arg_6_0.iconImage_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/Role/" .. arg_6_0.cfg_.hero_id)
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot0.cfg_ = ActivityValentineCfg[slot0.activityID_]
+	slot0.nameText_.text = slot0.cfg_.name
+	slot0.iconImage_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/Role/" .. slot0.cfg_.hero_id)
 
-	arg_6_0:RefreshStatus()
-	manager.redPoint:bindUIandKey(arg_6_0.redTrans_, RedPointConst.VALENTINE_GAME .. "_" .. arg_6_0.activityID_)
-	arg_6_0:RegistEventListener(ACTIVITY_UPDATE, handler(arg_6_0, arg_6_0.OnActivityUpdate))
+	slot0:RefreshStatus()
+	manager.redPoint:bindUIandKey(slot0.redTrans_, RedPointConst.VALENTINE_GAME .. "_" .. slot0.activityID_)
+	slot0:RegistEventListener(ACTIVITY_UPDATE, handler(slot0, slot0.OnActivityUpdate))
 end
 
-function var_0_0.RefreshStatus(arg_7_0)
-	if ActivityData:GetActivityIsOpen(arg_7_0.activityID_) then
-		arg_7_0.lockController_:SetSelectedState("false")
+function slot0.RefreshStatus(slot0)
+	if ActivityData:GetActivityIsOpen(slot0.activityID_) then
+		slot0.lockController_:SetSelectedState("false")
 
-		if ValentineGameData:GetData(arg_7_0.activityID_) and ValentineGameData:GetData(arg_7_0.activityID_).isClear then
-			arg_7_0.getController_:SetSelectedState("yes")
+		if ValentineGameData:GetData(slot0.activityID_) and ValentineGameData:GetData(slot0.activityID_).isClear then
+			slot0.getController_:SetSelectedState("yes")
 		else
-			arg_7_0.getController_:SetSelectedState("no")
+			slot0.getController_:SetSelectedState("no")
 		end
 	else
-		arg_7_0.lockController_:SetSelectedState("true")
-		arg_7_0.getController_:SetSelectedState("no")
+		slot0.lockController_:SetSelectedState("true")
+		slot0.getController_:SetSelectedState("no")
 
-		if manager.time:GetServerTime() < ActivityData:GetActivityData(arg_7_0.activityID_).startTime then
-			local var_7_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_7_0.activityID_).startTime)
-
-			arg_7_0.lockText_.text = string.format(GetTips("OPEN_TIME"), var_7_0)
+		if manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.activityID_).startTime then
+			slot0.lockText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.activityID_).startTime))
 		else
-			arg_7_0.lockText_.text = GetTips("TIME_OVER")
+			slot0.lockText_.text = GetTips("TIME_OVER")
 		end
 	end
 end
 
-function var_0_0.RefreshTimeText(arg_8_0)
-	if not ActivityData:GetActivityIsOpen(arg_8_0.activityID_) and manager.time:GetServerTime() < ActivityData:GetActivityData(arg_8_0.activityID_).startTime then
-		local var_8_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_8_0.activityID_).startTime)
-
-		arg_8_0.lockText_.text = string.format(GetTips("OPEN_TIME"), var_8_0)
+function slot0.RefreshTimeText(slot0)
+	if not ActivityData:GetActivityIsOpen(slot0.activityID_) and manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.activityID_).startTime then
+		slot0.lockText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.activityID_).startTime))
 	end
 end
 
-function var_0_0.OnActivityUpdate(arg_9_0, arg_9_1)
-	if arg_9_1 == arg_9_0.activityID_ then
-		arg_9_0:RefreshStatus()
+function slot0.OnActivityUpdate(slot0, slot1)
+	if slot1 == slot0.activityID_ then
+		slot0:RefreshStatus()
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.redTrans_, RedPointConst.VALENTINE_GAME .. "_" .. arg_10_0.activityID_)
-	arg_10_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.redTrans_, RedPointConst.VALENTINE_GAME .. "_" .. slot0.activityID_)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,11 +1,9 @@
-local var_0_0 = singletonClass("HeroDisplayData")
-local var_0_1 = require("cjson")
+slot0 = singletonClass("HeroDisplayData")
+slot1 = require("cjson")
 
-function var_0_0.Init(arg_1_0)
-	local var_1_0 = getData("HeroDisplay", "settingProfile")
-
-	if var_1_0 == nil then
-		arg_1_0.settingProfile_ = {
+function slot0.Init(slot0)
+	if getData("HeroDisplay", "settingProfile") == nil then
+		slot0.settingProfile_ = {
 			cardShowUID = true,
 			cardShowLv = true,
 			logoPos = 0,
@@ -13,161 +11,150 @@ function var_0_0.Init(arg_1_0)
 			cardShow = true
 		}
 	else
-		arg_1_0.settingProfile_ = var_1_0
+		slot0.settingProfile_ = slot1
 	end
 
-	arg_1_0.heroExpressionParams_ = {}
-	arg_1_0.heroCustomExpression_ = {}
-	arg_1_0.heroPoseList_ = {}
+	slot0.heroExpressionParams_ = {}
+	slot0.heroCustomExpression_ = {}
+	slot0.heroPoseList_ = {}
 end
 
-function var_0_0.SaveSetting(arg_2_0, arg_2_1)
-	arg_2_0.settingProfile_.logoPos = arg_2_1.logoPos
-	arg_2_0.settingProfile_.cardPos = arg_2_1.cardPos
-	arg_2_0.settingProfile_.cardShow = arg_2_1.cardShow
-	arg_2_0.settingProfile_.cardShowLv = arg_2_1.cardShowLv
-	arg_2_0.settingProfile_.cardShowUID = arg_2_1.cardShowUID
+function slot0.SaveSetting(slot0, slot1)
+	slot0.settingProfile_.logoPos = slot1.logoPos
+	slot0.settingProfile_.cardPos = slot1.cardPos
+	slot0.settingProfile_.cardShow = slot1.cardShow
+	slot0.settingProfile_.cardShowLv = slot1.cardShowLv
+	slot0.settingProfile_.cardShowUID = slot1.cardShowUID
 
-	saveData("HeroDisplay", "settingProfile", arg_2_0.settingProfile_)
+	saveData("HeroDisplay", "settingProfile", slot0.settingProfile_)
 end
 
-function var_0_0.GetSetting(arg_3_0)
-	return arg_3_0.settingProfile_
+function slot0.GetSetting(slot0)
+	return slot0.settingProfile_
 end
 
-function var_0_0.GetCustomExpressionParams(arg_4_0, arg_4_1)
-	if arg_4_0.heroCustomExpression_[arg_4_1] == nil then
-		local var_4_0 = getData("HeroDisplay", "expressionParams" .. arg_4_1)
-
-		if var_4_0 then
-			arg_4_0.heroCustomExpression_[arg_4_1] = var_4_0
+function slot0.GetCustomExpressionParams(slot0, slot1)
+	if slot0.heroCustomExpression_[slot1] == nil then
+		if getData("HeroDisplay", "expressionParams" .. slot1) then
+			slot0.heroCustomExpression_[slot1] = slot2
 		else
-			arg_4_0.heroCustomExpression_[arg_4_1] = {}
+			slot0.heroCustomExpression_[slot1] = {}
 		end
 	end
 
-	return arg_4_0.heroCustomExpression_[arg_4_1]
+	return slot0.heroCustomExpression_[slot1]
 end
 
-function var_0_0.AddCustomExpressionParams(arg_5_0, arg_5_1, arg_5_2)
-	table.insert(arg_5_0.heroCustomExpression_[arg_5_1], arg_5_2)
-	saveData("HeroDisplay", "expressionParams" .. arg_5_1, arg_5_0.heroCustomExpression_[arg_5_1])
+function slot0.AddCustomExpressionParams(slot0, slot1, slot2)
+	table.insert(slot0.heroCustomExpression_[slot1], slot2)
+	saveData("HeroDisplay", "expressionParams" .. slot1, slot0.heroCustomExpression_[slot1])
 end
 
-function var_0_0.ReplaceCustomExpressionParams(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.heroCustomExpression_[arg_6_1][arg_6_2] = arg_6_3
+function slot0.ReplaceCustomExpressionParams(slot0, slot1, slot2, slot3)
+	slot0.heroCustomExpression_[slot1][slot2] = slot3
 
-	saveData("HeroDisplay", "expressionParams" .. arg_6_1, arg_6_0.heroCustomExpression_[arg_6_1])
+	saveData("HeroDisplay", "expressionParams" .. slot1, slot0.heroCustomExpression_[slot1])
 end
 
-function var_0_0.DeleteCustomExpressionParams(arg_7_0, arg_7_1, arg_7_2)
-	table.remove(arg_7_0.heroCustomExpression_[arg_7_1], arg_7_2)
-	saveData("HeroDisplay", "expressionParams" .. arg_7_1, arg_7_0.heroCustomExpression_[arg_7_1])
+function slot0.DeleteCustomExpressionParams(slot0, slot1, slot2)
+	table.remove(slot0.heroCustomExpression_[slot1], slot2)
+	saveData("HeroDisplay", "expressionParams" .. slot1, slot0.heroCustomExpression_[slot1])
 end
 
-function var_0_0.InitPreset(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.heroExpressionParams_[arg_8_1] = {}
-	arg_8_0.heroExpressionParams_[arg_8_1][1] = {
+function slot0.InitPreset(slot0, slot1, slot2)
+	slot0.heroExpressionParams_[slot1] = {}
+	slot7 = "DEFAULT_PRESET"
+	slot0.heroExpressionParams_[slot1][1] = {
 		preset = true,
 		effectID = 0,
-		name = GetTips("DEFAULT_PRESET"),
-		values = arg_8_2
+		name = GetTips(slot7),
+		values = slot2
 	}
 
-	local var_8_0 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_2) do
-		var_8_0[iter_8_0] = 0
+	for slot7, slot8 in ipairs(slot2) do
+		-- Nothing
 	end
 
-	arg_8_0.heroExpressionParams_[arg_8_1][2] = {
+	slot8 = "INIT_PRESET"
+	slot0.heroExpressionParams_[slot1][2] = {
 		preset = true,
 		effectID = 0,
-		name = GetTips("INIT_PRESET"),
-		values = var_8_0
+		name = GetTips(slot8),
+		values = {
+			[slot7] = 0
+		}
 	}
 
-	local var_8_1 = HeroDisplayCfg[arg_8_1]
-
-	for iter_8_2, iter_8_3 in ipairs(var_8_1.skinMeshPresetName) do
-		table.insert(arg_8_0.heroExpressionParams_[arg_8_1], {
+	for slot8, slot9 in ipairs(HeroDisplayCfg[slot1].skinMeshPresetName) do
+		table.insert(slot0.heroExpressionParams_[slot1], {
 			preset = true,
-			name = iter_8_3,
-			values = var_8_1.skinMeshPresetValue[iter_8_2],
-			effectID = var_8_1.skinMeshPresetEffect[iter_8_2] or 0
+			name = slot9,
+			values = slot4.skinMeshPresetValue[slot8],
+			effectID = slot4.skinMeshPresetEffect[slot8] or 0
 		})
 	end
 
-	local var_8_2 = arg_8_0:GetCustomExpressionParams(arg_8_1)
-
-	for iter_8_4, iter_8_5 in ipairs(var_8_2) do
-		table.insert(arg_8_0.heroExpressionParams_[arg_8_1], iter_8_5)
+	for slot9, slot10 in ipairs(slot0:GetCustomExpressionParams(slot1)) do
+		table.insert(slot0.heroExpressionParams_[slot1], slot10)
 	end
 end
 
-function var_0_0.GetHeroExpressionParams(arg_9_0, arg_9_1)
-	return arg_9_0.heroExpressionParams_[arg_9_1]
+function slot0.GetHeroExpressionParams(slot0, slot1)
+	return slot0.heroExpressionParams_[slot1]
 end
 
-function var_0_0.ReplaceHeroExpressionParams(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	arg_10_0.heroExpressionParams_[arg_10_1][arg_10_2] = arg_10_3
+function slot0.ReplaceHeroExpressionParams(slot0, slot1, slot2, slot3)
+	slot0.heroExpressionParams_[slot1][slot2] = slot3
 
-	local var_10_0 = arg_10_2 - arg_10_0:GetCustomStartIndex(arg_10_1)
-
-	arg_10_0:ReplaceCustomExpressionParams(arg_10_1, var_10_0, arg_10_3)
+	slot0:ReplaceCustomExpressionParams(slot1, slot2 - slot0:GetCustomStartIndex(slot1), slot3)
 end
 
-function var_0_0.SaveHeroExpressionParams(arg_11_0, arg_11_1, arg_11_2)
-	table.insert(arg_11_0.heroExpressionParams_[arg_11_1], arg_11_2)
-	arg_11_0:AddCustomExpressionParams(arg_11_1, arg_11_2)
+function slot0.SaveHeroExpressionParams(slot0, slot1, slot2)
+	table.insert(slot0.heroExpressionParams_[slot1], slot2)
+	slot0:AddCustomExpressionParams(slot1, slot2)
 end
 
-function var_0_0.DeleteHeroExpressionParams(arg_12_0, arg_12_1, arg_12_2)
-	table.remove(arg_12_0.heroExpressionParams_[arg_12_1], arg_12_2)
-
-	local var_12_0 = arg_12_2 - arg_12_0:GetCustomStartIndex(arg_12_1)
-
-	arg_12_0:DeleteCustomExpressionParams(arg_12_1, var_12_0)
+function slot0.DeleteHeroExpressionParams(slot0, slot1, slot2)
+	table.remove(slot0.heroExpressionParams_[slot1], slot2)
+	slot0:DeleteCustomExpressionParams(slot1, slot2 - slot0:GetCustomStartIndex(slot1))
 end
 
-function var_0_0.GetCustomStartIndex(arg_13_0, arg_13_1)
-	return #HeroDisplayCfg[arg_13_1].skinMeshPresetName + 2
+function slot0.GetCustomStartIndex(slot0, slot1)
+	return #HeroDisplayCfg[slot1].skinMeshPresetName + 2
 end
 
-function var_0_0.InitCacheExpressionParams(arg_14_0, arg_14_1)
-	arg_14_0.cacheExpressionParams_ = {
-		values = clone(arg_14_0.heroExpressionParams_[arg_14_1][1].values),
-		effectID = arg_14_0.heroExpressionParams_[arg_14_1][1].effectID
+function slot0.InitCacheExpressionParams(slot0, slot1)
+	slot0.cacheExpressionParams_ = {
+		values = clone(slot0.heroExpressionParams_[slot1][1].values),
+		effectID = slot0.heroExpressionParams_[slot1][1].effectID
 	}
 end
 
-function var_0_0.SetCacheExpressionParams(arg_15_0, arg_15_1, arg_15_2)
-	arg_15_0.cacheExpressionParams_.values[arg_15_1] = arg_15_2
+function slot0.SetCacheExpressionParams(slot0, slot1, slot2)
+	slot0.cacheExpressionParams_.values[slot1] = slot2
 end
 
-function var_0_0.SetCacheExpressionEffect(arg_16_0, arg_16_1)
-	arg_16_0.cacheExpressionParams_.effectID = arg_16_1
+function slot0.SetCacheExpressionEffect(slot0, slot1)
+	slot0.cacheExpressionParams_.effectID = slot1
 end
 
-function var_0_0.GetCacheExpressionParams(arg_17_0)
-	return arg_17_0.cacheExpressionParams_
+function slot0.GetCacheExpressionParams(slot0)
+	return slot0.cacheExpressionParams_
 end
 
-function var_0_0.InitHeroPose(arg_18_0, arg_18_1, arg_18_2)
-	arg_18_0.heroPoseList_[arg_18_1] = {}
+function slot0.InitHeroPose(slot0, slot1, slot2)
+	slot0.heroPoseList_[slot1] = {}
 
-	local var_18_0 = HeroDisplayCfg[arg_18_2] or HeroDisplayCfg[arg_18_1]
-
-	for iter_18_0, iter_18_1 in ipairs(var_18_0.poseList) do
-		table.insert(arg_18_0.heroPoseList_[arg_18_1], {
-			id = iter_18_1[1],
-			weaponState = iter_18_1[2]
+	for slot7, slot8 in ipairs((HeroDisplayCfg[slot2] or HeroDisplayCfg[slot1]).poseList) do
+		table.insert(slot0.heroPoseList_[slot1], {
+			id = slot8[1],
+			weaponState = slot8[2]
 		})
 	end
 end
 
-function var_0_0.GetHeroPoseList(arg_19_0, arg_19_1)
-	return arg_19_0.heroPoseList_[arg_19_1]
+function slot0.GetHeroPoseList(slot0, slot1)
+	return slot0.heroPoseList_[slot1]
 end
 
-return var_0_0
+return slot0

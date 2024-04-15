@@ -1,140 +1,137 @@
-local var_0_0 = class("ActivityReforgeSkillView", ReduxView)
-local var_0_1 = "D46068"
-local var_0_2 = {
+slot0 = class("ActivityReforgeSkillView", ReduxView)
+slot1 = "D46068"
+slot2 = {
 	USE = 2,
 	ILLUSTRATED = 1
 }
-local var_0_3 = {
+slot3 = {
 	PASSIVE = 2,
 	INITIATIVE = 1
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_ActivityReforge/NorseUI_3_0_ActivityReforgeSkillUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.initiativeSkillList_ = {
+	slot0.initiativeSkillList_ = {
 		{},
 		{},
 		{},
 		{}
 	}
-	arg_4_0.passiveSkillList_ = {}
+	slot0.passiveSkillList_ = {}
 
-	for iter_4_0, iter_4_1 in pairs(ActivityReforgeSkillCfg.all) do
-		local var_4_0 = ActivityReforgeSkillCfg[iter_4_1]
-
-		if var_4_0.type == 1 then
-			table.insert(arg_4_0.initiativeSkillList_[var_4_0.slot], iter_4_1)
+	for slot4, slot5 in pairs(ActivityReforgeSkillCfg.all) do
+		if ActivityReforgeSkillCfg[slot5].type == 1 then
+			table.insert(slot0.initiativeSkillList_[slot6.slot], slot5)
 		else
-			table.insert(arg_4_0.passiveSkillList_, iter_4_1)
+			table.insert(slot0.passiveSkillList_, slot5)
 		end
 	end
 
-	arg_4_0.viewStatusController_ = arg_4_0.controllerEx_:GetController("viewStatus")
-	arg_4_0.curSkillStatusController_ = arg_4_0.controllerEx_:GetController("curSkillStatus")
-	arg_4_0.skillStatusController_ = arg_4_0.controllerEx_:GetController("skillStatus")
-	arg_4_0.initiativeList_ = {}
+	slot0.viewStatusController_ = slot0.controllerEx_:GetController("viewStatus")
+	slot0.curSkillStatusController_ = slot0.controllerEx_:GetController("curSkillStatus")
+	slot4 = "skillStatus"
+	slot0.skillStatusController_ = slot0.controllerEx_:GetController(slot4)
+	slot0.initiativeList_ = {}
 
-	for iter_4_2 = 1, 4 do
-		arg_4_0.initiativeList_[iter_4_2] = ActivityReforgeInitiativeSkillItem.New(arg_4_0["initiativeSkillListGo" .. iter_4_2 .. "_"])
+	for slot4 = 1, 4 do
+		slot0.initiativeList_[slot4] = ActivityReforgeInitiativeSkillItem.New(slot0["initiativeSkillListGo" .. slot4 .. "_"])
 	end
 
-	arg_4_0.passiveList_ = {}
+	slot0.passiveList_ = {}
 
-	for iter_4_3 = 1, 1 do
-		arg_4_0.passiveList_[iter_4_3] = ActivityReforgePassiveSkillItem.New(arg_4_0["passiveSkillListGo" .. iter_4_3 .. "_"])
+	for slot4 = 1, 1 do
+		slot0.passiveList_[slot4] = ActivityReforgePassiveSkillItem.New(slot0["passiveSkillListGo" .. slot4 .. "_"])
 	end
 
-	arg_4_0.itemSelectHandler_ = handler(arg_4_0, arg_4_0.OnItemSelect)
+	slot0.itemSelectHandler_ = handler(slot0, slot0.OnItemSelect)
 end
 
-function var_0_0.OnItemSelect(arg_5_0, arg_5_1)
-	arg_5_0.skillID_ = arg_5_1
+function slot0.OnItemSelect(slot0, slot1)
+	slot0.skillID_ = slot1
 
-	if ActivityReforgeSkillCfg[arg_5_0.skillID_].type == 1 then
-		arg_5_0.curViewStatus_ = var_0_3.INITIATIVE
+	if ActivityReforgeSkillCfg[slot0.skillID_].type == 1 then
+		slot0.curViewStatus_ = uv0.INITIATIVE
 	else
-		arg_5_0.curViewStatus_ = var_0_3.PASSIVE
+		slot0.curViewStatus_ = uv0.PASSIVE
 	end
 
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.toggleBtn_, nil, function()
-		if arg_6_0.curViewStatus_ == var_0_3.INITIATIVE then
-			arg_6_0.curViewStatus_ = var_0_3.PASSIVE
-			arg_6_0.skillID_ = arg_6_0.passiveSkillList_[1]
-		elseif arg_6_0.curViewStatus_ == var_0_3.PASSIVE then
-			arg_6_0.curViewStatus_ = var_0_3.INITIATIVE
-			arg_6_0.skillID_ = arg_6_0.initiativeSkillList_[1][1]
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.toggleBtn_, nil, function ()
+		if uv0.curViewStatus_ == uv1.INITIATIVE then
+			uv0.curViewStatus_ = uv1.PASSIVE
+			uv0.skillID_ = uv0.passiveSkillList_[1]
+		elseif uv0.curViewStatus_ == uv1.PASSIVE then
+			uv0.curViewStatus_ = uv1.INITIATIVE
+			uv0.skillID_ = uv0.initiativeSkillList_[1][1]
 		end
 
-		arg_6_0:RefreshUI()
+		uv0:RefreshUI()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buyBtn_, nil, function()
-		ActivityReforgeAction.BuySkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_, function()
-			ActivityReforgeAction.SelectSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_, function()
+	slot0:AddBtnListener(slot0.buyBtn_, nil, function ()
+		ActivityReforgeAction.BuySkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_, function ()
+			ActivityReforgeAction.SelectSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_, function ()
 				ShowTips("ACTIVITY_REFORGE_BUY_SKILL")
 			end)
 		end)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.useBtn_, nil, function()
-		ActivityReforgeAction.SelectSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_, function()
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		ActivityReforgeAction.SelectSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_, function ()
 			ShowTips("ACTIVITY_REFORGE_USE_SKILL")
 		end)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.unUsebtn_, nil, function()
-		ActivityReforgeAction.UnSelectSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_)
+	slot0:AddBtnListener(slot0.unUsebtn_, nil, function ()
+		ActivityReforgeAction.UnSelectSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.panelUseBtn_, nil, function()
-		ActivityReforgeAction.SelectSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_)
+	slot0:AddBtnListener(slot0.panelUseBtn_, nil, function ()
+		ActivityReforgeAction.SelectSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.panelUnUseBtn_, nil, function()
-		ActivityReforgeAction.UnSelectSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_)
+	slot0:AddBtnListener(slot0.panelUnUseBtn_, nil, function ()
+		ActivityReforgeAction.UnSelectSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.panelSellBtn_, nil, function()
-		ActivityReforgeAction.SellSkill(arg_6_0.chapterActivityID_, arg_6_0.levelID_, arg_6_0.skillID_)
+	slot0:AddBtnListener(slot0.panelSellBtn_, nil, function ()
+		ActivityReforgeAction.SellSkill(uv0.chapterActivityID_, uv0.levelID_, uv0.skillID_)
 	end)
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	arg_17_0.activityID_ = arg_17_0.params_.activityID
-	arg_17_0.chapterActivityID_ = arg_17_0.params_.chapterActivityID
-	arg_17_0.levelID_ = arg_17_0.params_.levelID
-	arg_17_0.viewType_ = arg_17_0.params_.viewType
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.chapterActivityID_ = slot0.params_.chapterActivityID
+	slot0.levelID_ = slot0.params_.levelID
+	slot0.viewType_ = slot0.params_.viewType
 
-	if arg_17_0.viewType_ == var_0_2.ILLUSTRATED then
-		arg_17_0.curViewStatus_ = var_0_3.INITIATIVE
-		arg_17_0.skillID_ = arg_17_0.initiativeSkillList_[1][1]
+	if slot0.viewType_ == uv0.ILLUSTRATED then
+		slot0.curViewStatus_ = uv1.INITIATIVE
+		slot0.skillID_ = slot0.initiativeSkillList_[1][1]
 	else
-		arg_17_0:InitEnterSelectSkill()
+		slot0:InitEnterSelectSkill()
 	end
 
-	arg_17_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_18_0)
-	if arg_18_0.viewType_ == var_0_2.USE then
-		local var_18_0 = CurrencyConst.CURRENCY_TYPE_ACTIVITY_REFORGE
-
+function slot0.OnTop(slot0)
+	if slot0.viewType_ == uv0.USE then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
-			var_18_0
+			CurrencyConst.CURRENCY_TYPE_ACTIVITY_REFORGE
 		})
 	else
 		manager.windowBar:SwitchBar({
@@ -144,170 +141,170 @@ function var_0_0.OnTop(arg_18_0)
 	end
 end
 
-function var_0_0.OnExit(arg_19_0)
-	for iter_19_0 = 1, 4 do
-		arg_19_0.initiativeList_[iter_19_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4 = 1, 4 do
+		slot0.initiativeList_[slot4]:OnExit()
 	end
 
-	for iter_19_1 = 1, 1 do
-		arg_19_0.passiveList_[iter_19_1]:OnExit()
+	for slot4 = 1, 1 do
+		slot0.passiveList_[slot4]:OnExit()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.InitEnterSelectSkill(arg_20_0)
-	if arg_20_0.params_.skillID ~= nil and arg_20_0.params_.skillID ~= 0 then
-		arg_20_0.skillID_ = arg_20_0.params_.skillID
+function slot0.InitEnterSelectSkill(slot0)
+	if slot0.params_.skillID ~= nil and slot0.params_.skillID ~= 0 then
+		slot0.skillID_ = slot0.params_.skillID
 
-		if ActivityReforgeSkillCfg[arg_20_0.skillID_].type == 1 then
-			arg_20_0.curViewStatus_ = var_0_3.INITIATIVE
+		if ActivityReforgeSkillCfg[slot0.skillID_].type == 1 then
+			slot0.curViewStatus_ = uv0.INITIATIVE
 		else
-			arg_20_0.curViewStatus_ = var_0_3.PASSIVE
+			slot0.curViewStatus_ = uv0.PASSIVE
 		end
-	elseif arg_20_0.params_.slot_ and arg_20_0.params_.viewStatus then
-		if arg_20_0.params_.viewStatus == var_0_3.INITIATIVE then
-			if arg_20_0.params_.slot_ < 1 or arg_20_0.params_.slot_ > 4 then
-				arg_20_0.params_.slot_ = 1
+	elseif slot0.params_.slot_ and slot0.params_.viewStatus then
+		if slot0.params_.viewStatus == uv0.INITIATIVE then
+			if slot0.params_.slot_ < 1 or slot0.params_.slot_ > 4 then
+				slot0.params_.slot_ = 1
 			end
 
-			arg_20_0.skillID_ = arg_20_0.initiativeSkillList_[arg_20_0.params_.slot_][1]
+			slot0.skillID_ = slot0.initiativeSkillList_[slot0.params_.slot_][1]
 		else
-			arg_20_0.skillID_ = arg_20_0.passiveSkillList_[1]
+			slot0.skillID_ = slot0.passiveSkillList_[1]
 		end
-	elseif arg_20_0.params_.viewStatus then
-		arg_20_0.curViewStatus_ = arg_20_0.params_.viewStatus
+	elseif slot0.params_.viewStatus then
+		slot0.curViewStatus_ = slot0.params_.viewStatus
 
-		if arg_20_0.params_.viewStatus == var_0_3.INITIATIVE then
-			arg_20_0.skillID_ = arg_20_0.initiativeSkillList_[1][1]
+		if slot0.params_.viewStatus == uv0.INITIATIVE then
+			slot0.skillID_ = slot0.initiativeSkillList_[1][1]
 		else
-			arg_20_0.skillID_ = arg_20_0.passiveSkillList_[1]
+			slot0.skillID_ = slot0.passiveSkillList_[1]
 		end
 	end
 end
 
-function var_0_0.RefreshUI(arg_21_0)
-	if arg_21_0.curViewStatus_ == var_0_3.INITIATIVE then
-		arg_21_0.viewStatusController_:SetSelectedState("initiative")
+function slot0.RefreshUI(slot0)
+	if slot0.curViewStatus_ == uv0.INITIATIVE then
+		slot4 = "initiative"
 
-		for iter_21_0 = 1, 4 do
-			arg_21_0.initiativeList_[iter_21_0]:SetData(arg_21_0.viewType_, arg_21_0.initiativeSkillList_[iter_21_0], arg_21_0.itemSelectHandler_, arg_21_0.activityID_, arg_21_0.levelID_, iter_21_0, arg_21_0.skillID_)
+		slot0.viewStatusController_:SetSelectedState(slot4)
+
+		for slot4 = 1, 4 do
+			slot0.initiativeList_[slot4]:SetData(slot0.viewType_, slot0.initiativeSkillList_[slot4], slot0.itemSelectHandler_, slot0.activityID_, slot0.levelID_, slot4, slot0.skillID_)
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.initiativeSkillContentTrans_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.initiativeSkillContentTrans_)
 	else
-		arg_21_0.viewStatusController_:SetSelectedState("passive")
+		slot4 = "passive"
 
-		for iter_21_1 = 1, 1 do
-			arg_21_0.passiveList_[iter_21_1]:SetData(arg_21_0.viewType_, arg_21_0.passiveSkillList_, arg_21_0.itemSelectHandler_, arg_21_0.activityID_, arg_21_0.levelID_, arg_21_0.skillID_)
+		slot0.viewStatusController_:SetSelectedState(slot4)
+
+		for slot4 = 1, 1 do
+			slot0.passiveList_[slot4]:SetData(slot0.viewType_, slot0.passiveSkillList_, slot0.itemSelectHandler_, slot0.activityID_, slot0.levelID_, slot0.skillID_)
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.passiveSkillContentTrans_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.passiveSkillContentTrans_)
 	end
 
-	local var_21_0 = ActivityReforgeSkillCfg[arg_21_0.skillID_]
+	if slot0.viewType_ == uv1.ILLUSTRATED then
+		if ActivityReforgeData:GetSkillIsLock(slot0.activityID_, slot0.skillID_) then
+			slot0.curSkillStatusController_:SetSelectedState("lock")
 
-	if arg_21_0.viewType_ == var_0_2.ILLUSTRATED then
-		if ActivityReforgeData:GetSkillIsLock(arg_21_0.activityID_, arg_21_0.skillID_) then
-			arg_21_0.curSkillStatusController_:SetSelectedState("lock")
-
-			arg_21_0.lockDesText_.text = var_21_0.lock_des
+			slot0.lockDesText_.text = ActivityReforgeSkillCfg[slot0.skillID_].lock_des
 		else
-			arg_21_0.skillImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", var_21_0.icon)
-			arg_21_0.skillBgImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", var_21_0.bg_name)
-			arg_21_0.skillName_.text = var_21_0.name
-			arg_21_0.buffText_.text = var_21_0.desc_effect
-			arg_21_0.debuffText_.text = var_21_0.desc_negative
-			arg_21_0.skillDesText_.text = var_21_0.desc_background
-			arg_21_0.costText_.text = var_21_0.cost
+			slot0.skillImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", slot1.icon)
+			slot0.skillBgImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", slot1.bg_name)
+			slot0.skillName_.text = slot1.name
+			slot0.buffText_.text = slot1.desc_effect
+			slot0.debuffText_.text = slot1.desc_negative
+			slot0.skillDesText_.text = slot1.desc_background
+			slot0.costText_.text = slot1.cost
 
-			if var_21_0.count == -1 then
-				arg_21_0.curSkillStatusController_:SetSelectedState("illustratedFreeNormal")
+			if slot1.count == -1 then
+				slot0.curSkillStatusController_:SetSelectedState("illustratedFreeNormal")
 			else
-				arg_21_0.curSkillStatusController_:SetSelectedState("illustratedNormal")
+				slot0.curSkillStatusController_:SetSelectedState("illustratedNormal")
 
-				local var_21_1 = "useNum" .. var_21_0.count
+				slot6 = "useNum" .. slot1.count
 
-				arg_21_0.skillStatusController_:SetSelectedState(var_21_1)
+				slot0.skillStatusController_:SetSelectedState(slot6)
 
-				for iter_21_2 = 1, 3 do
-					SetActive(arg_21_0["useNumGo" .. iter_21_2 .. "_"], true)
+				for slot6 = 1, 3 do
+					SetActive(slot0["useNumGo" .. slot6 .. "_"], true)
 				end
 			end
 		end
 	else
-		arg_21_0.skillStatus_, arg_21_0.skillCanUseNum_ = ActivityReforgeData:GetSkillStatus(arg_21_0.activityID_, arg_21_0.levelID_, arg_21_0.skillID_)
+		slot0.skillStatus_, slot0.skillCanUseNum_ = ActivityReforgeData:GetSkillStatus(slot0.activityID_, slot0.levelID_, slot0.skillID_)
 
-		arg_21_0.curSkillStatusController_:SetSelectedState(arg_21_0.skillStatus_)
+		slot0.curSkillStatusController_:SetSelectedState(slot0.skillStatus_)
 
-		if arg_21_0.skillStatus_ == "lock" then
-			arg_21_0.lockDesText_.text = var_21_0.lock_des
+		if slot0.skillStatus_ == "lock" then
+			slot0.lockDesText_.text = slot1.lock_des
 		end
 
-		if arg_21_0.skillStatus_ == "freeUsing" or arg_21_0.skillStatus_ == "freeNormal" or arg_21_0.skillStatus_ == "haveNot" or arg_21_0.skillStatus_ == "using" or arg_21_0.skillStatus_ == "haveNotFree" or arg_21_0.skillStatus_ == "infiniteUsing" or arg_21_0.skillStatus_ == "infiniteNormal" or arg_21_0.skillStatus_ == "normal" then
-			arg_21_0.skillImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", var_21_0.icon)
-			arg_21_0.skillBgImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", var_21_0.bg_name)
-			arg_21_0.skillName_.text = var_21_0.name
-			arg_21_0.buffText_.text = var_21_0.desc_effect
-			arg_21_0.debuffText_.text = var_21_0.desc_negative
-			arg_21_0.skillDesText_.text = var_21_0.desc_background
+		if slot0.skillStatus_ == "freeUsing" or slot0.skillStatus_ == "freeNormal" or slot0.skillStatus_ == "haveNot" or slot0.skillStatus_ == "using" or slot0.skillStatus_ == "haveNotFree" or slot0.skillStatus_ == "infiniteUsing" or slot0.skillStatus_ == "infiniteNormal" or slot0.skillStatus_ == "normal" then
+			slot0.skillImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", slot1.icon)
+			slot0.skillBgImage_.sprite = getSprite("Atlas/ValhallaSkillAtlas", slot1.bg_name)
+			slot0.skillName_.text = slot1.name
+			slot0.buffText_.text = slot1.desc_effect
+			slot0.debuffText_.text = slot1.desc_negative
+			slot0.skillDesText_.text = slot1.desc_background
 
-			if ActivityReforgeAction.CheckGold(var_21_0.cost, false) then
-				arg_21_0.costText_.text = var_21_0.cost
+			if ActivityReforgeAction.CheckGold(slot1.cost, false) then
+				slot0.costText_.text = slot1.cost
 			else
-				arg_21_0.costText_.text = "<color=#" .. var_0_1 .. ">" .. var_21_0.cost .. "</color>"
+				slot0.costText_.text = "<color=#" .. uv2 .. ">" .. slot1.cost .. "</color>"
 			end
 		end
 
-		if arg_21_0.skillStatus_ == "haveNot" or arg_21_0.skillStatus_ == "using" or arg_21_0.skillStatus_ == "normal" then
-			local var_21_2 = "useNum" .. var_21_0.count
+		if slot0.skillStatus_ == "haveNot" or slot0.skillStatus_ == "using" or slot0.skillStatus_ == "normal" then
+			slot6 = "useNum" .. slot1.count
 
-			arg_21_0.skillStatusController_:SetSelectedState(var_21_2)
+			slot0.skillStatusController_:SetSelectedState(slot6)
 
-			for iter_21_3 = 1, 3 do
-				if iter_21_3 <= arg_21_0.skillCanUseNum_ then
-					SetActive(arg_21_0["useNumGo" .. iter_21_3 .. "_"], true)
+			for slot6 = 1, 3 do
+				if slot6 <= slot0.skillCanUseNum_ then
+					SetActive(slot0["useNumGo" .. slot6 .. "_"], true)
 				else
-					SetActive(arg_21_0["useNumGo" .. iter_21_3 .. "_"], false)
+					SetActive(slot0["useNumGo" .. slot6 .. "_"], false)
 				end
 			end
 		end
 	end
 end
 
-function var_0_0.OnActivityReforgeCurLevelUpdate(arg_22_0)
-	arg_22_0:RefreshUI()
+function slot0.OnActivityReforgeCurLevelUpdate(slot0)
+	slot0:RefreshUI()
 
-	if arg_22_0.viewType_ == var_0_2.USE then
-		local var_22_0 = CurrencyConst.CURRENCY_TYPE_ACTIVITY_REFORGE
-
+	if slot0.viewType_ == uv0.USE then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
-			var_22_0
+			CurrencyConst.CURRENCY_TYPE_ACTIVITY_REFORGE
 		})
 	end
 end
 
-function var_0_0.Dispose(arg_23_0)
-	for iter_23_0, iter_23_1 in pairs(arg_23_0.initiativeList_) do
-		arg_23_0.initiativeList_[iter_23_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.initiativeList_) do
+		slot0.initiativeList_[slot4]:Dispose()
 
-		arg_23_0.initiativeList_[iter_23_0] = nil
+		slot0.initiativeList_[slot4] = nil
 	end
 
-	arg_23_0.initiativeList_ = nil
+	slot0.initiativeList_ = nil
 
-	for iter_23_2, iter_23_3 in pairs(arg_23_0.passiveList_) do
-		arg_23_0.passiveList_[iter_23_2]:Dispose()
+	for slot4, slot5 in pairs(slot0.passiveList_) do
+		slot0.passiveList_[slot4]:Dispose()
 
-		arg_23_0.passiveList_[iter_23_2] = nil
+		slot0.passiveList_[slot4] = nil
 	end
 
-	arg_23_0.passiveList_ = nil
-	arg_23_0.itemSelectHandler_ = nil
+	slot0.passiveList_ = nil
+	slot0.itemSelectHandler_ = nil
 
-	arg_23_0.super.Dispose(arg_23_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

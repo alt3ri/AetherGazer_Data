@@ -1,113 +1,110 @@
-local var_0_0 = class("AbyssBossDetailView", ReduxView)
+slot0 = class("AbyssBossDetailView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Abyss/AbyssBoss"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uiListGo_, AbyssBossDetailItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, AbyssBossDetailItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.bossIdList_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.bossIdList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0.uiList_:SetPageChangeHandler(handler(arg_7_0, arg_7_0.OnPageChange))
-	arg_7_0:AddBtnListener(arg_7_0.leftBtn_, nil, function()
-		if arg_7_0.pageIndex_ > 1 then
-			arg_7_0.pageIndex_ = arg_7_0.pageIndex_ - 1
+function slot0.AddUIListener(slot0)
+	slot0.uiList_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
+	slot0:AddBtnListener(slot0.leftBtn_, nil, function ()
+		if uv0.pageIndex_ > 1 then
+			uv0.pageIndex_ = uv0.pageIndex_ - 1
 
-			arg_7_0.uiList_:SwitchToPage(arg_7_0.pageIndex_)
+			uv0.uiList_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.rightBtn_, nil, function()
-		if arg_7_0.pageIndex_ < arg_7_0.maxLv_ then
-			arg_7_0.pageIndex_ = arg_7_0.pageIndex_ + 1
+	slot0:AddBtnListener(slot0.rightBtn_, nil, function ()
+		if uv0.pageIndex_ < uv0.maxLv_ then
+			uv0.pageIndex_ = uv0.pageIndex_ + 1
 
-			arg_7_0.uiList_:SwitchToPage(arg_7_0.pageIndex_)
+			uv0.uiList_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnPageChange(arg_11_0, arg_11_1)
-	arg_11_0.pageIndex_ = arg_11_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
 
-	arg_11_0:RefreshBtn()
+	slot0:RefreshBtn()
 end
 
-function var_0_0.RefreshBtn(arg_12_0)
-	SetActive(arg_12_0.leftBtn_.gameObject, arg_12_0.pageIndex_ > 1)
-	SetActive(arg_12_0.rightBtn_.gameObject, arg_12_0.pageIndex_ < #arg_12_0.bossIdList_)
+function slot0.RefreshBtn(slot0)
+	SetActive(slot0.leftBtn_.gameObject, slot0.pageIndex_ > 1)
+	SetActive(slot0.rightBtn_.gameObject, slot0.pageIndex_ < #slot0.bossIdList_)
 end
 
-function var_0_0.AddEventListeners(arg_13_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_14_0)
-	arg_14_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_15_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_16_0)
-	arg_16_0:ShowDefaultBar()
+function slot0.UpdateBar(slot0)
+	slot0:ShowDefaultBar()
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	arg_17_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_17_0.pageIndex_ = 1
-	arg_17_0.bossIdList_ = arg_17_0.params_.bossIdList
+	slot0.pageIndex_ = 1
+	slot0.bossIdList_ = slot0.params_.bossIdList
 
-	arg_17_0.uiList_:StartScroll(#arg_17_0.bossIdList_)
-	arg_17_0:RefreshBtn()
+	slot0.uiList_:StartScroll(#slot0.bossIdList_)
+	slot0:RefreshBtn()
 end
 
-function var_0_0.OnExit(arg_18_0)
-	arg_18_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_19_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.OnAbyssRefresh(arg_20_0)
+function slot0.OnAbyssRefresh(slot0)
 	JumpTools.OpenPageByJump("/abyssMain", {
 		refresh = true
 	})
 end
 
-function var_0_0.Dispose(arg_21_0)
-	if arg_21_0.uiList_ then
-		arg_21_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_21_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_21_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

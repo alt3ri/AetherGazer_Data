@@ -1,122 +1,103 @@
-local var_0_0 = class("ScrollPartner")
+slot0 = class("ScrollPartner")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.partner_ = arg_1_2
-	arg_1_0.scrollRect_ = arg_1_1:GetComponent("ScrollRectEx")
-	arg_1_0.grid_ = arg_1_1.transform:Find("Grid").gameObject
-	arg_1_0.rect_ = arg_1_0.grid_.gameObject:GetComponent("RectTransform")
-	arg_1_0.partnerRect_ = arg_1_3:GetComponent("RectTransform")
-	arg_1_0.gameObject_.transform.localPosition = arg_1_2.transform.localPosition
-	arg_1_0.gameObject_:GetComponent("RectTransform").sizeDelta = arg_1_2:GetComponent("RectTransform").sizeDelta
-	arg_1_0.helper_ = arg_1_4
-	arg_1_0.childCnt_ = arg_1_0.grid_.transform.childCount
-	arg_1_0.ceilPos_ = arg_1_5
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.gameObject_ = slot1
+	slot0.partner_ = slot2
+	slot0.scrollRect_ = slot1:GetComponent("ScrollRectEx")
+	slot0.grid_ = slot1.transform:Find("Grid").gameObject
+	slot0.rect_ = slot0.grid_.gameObject:GetComponent("RectTransform")
+	slot0.partnerRect_ = slot3:GetComponent("RectTransform")
+	slot0.gameObject_.transform.localPosition = slot2.transform.localPosition
+	slot0.gameObject_:GetComponent("RectTransform").sizeDelta = slot2:GetComponent("RectTransform").sizeDelta
+	slot0.helper_ = slot4
+	slot0.childCnt_ = slot0.grid_.transform.childCount
+	slot0.ceilPos_ = slot5
 
-	arg_1_0:OnCtor()
+	slot0:OnCtor()
 end
 
-function var_0_0.OnCtor(arg_2_0)
-	arg_2_0.children_ = {}
+function slot0.OnCtor(slot0)
+	slot0.children_ = {}
 
-	for iter_2_0 = 1, arg_2_0.childCnt_ do
-		local var_2_0 = arg_2_0.grid_.transform:Find("item" .. iter_2_0)
-
-		arg_2_0.children_[iter_2_0] = {
-			trs = var_2_0,
-			x = var_2_0.localPosition.x
+	for slot4 = 1, slot0.childCnt_ do
+		slot5 = slot0.grid_.transform:Find("item" .. slot4)
+		slot0.children_[slot4] = {
+			trs = slot5,
+			x = slot5.localPosition.x
 		}
 
-		if iter_2_0 == 1 then
-			arg_2_0.startPos_ = -var_2_0.localPosition.y
+		if slot4 == 1 then
+			slot0.startPos_ = -slot5.localPosition.y
 		end
 	end
 
-	local var_2_1 = arg_2_0.partner_:GetComponent("ScrollRectEx")
-
-	arg_2_0.timer_ = FrameTimer.New(function()
-		local var_3_0 = var_2_1.normalizedPosition
-
-		arg_2_0:OnScroll(var_3_0)
+	slot1 = slot0.partner_:GetComponent("ScrollRectEx")
+	slot0.timer_ = FrameTimer.New(function ()
+		uv1:OnScroll(uv0.normalizedPosition)
 	end, 1, -1)
 
-	arg_2_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.OnScroll(arg_4_0, arg_4_1)
-	arg_4_0:SetPage()
+function slot0.OnScroll(slot0, slot1)
+	slot0:SetPage()
 
-	arg_4_0.scrollRect_.normalizedPosition = arg_4_1
+	slot0.scrollRect_.normalizedPosition = slot1
 end
 
-function var_0_0.SetPage(arg_5_0)
-	local var_5_0 = arg_5_0.helper_.headIndex_
-	local var_5_1 = arg_5_0.helper_.maxNum_
-	local var_5_2 = arg_5_0.helper_.tailIndex_
-	local var_5_3 = arg_5_0.helper_.perLineNum_
-	local var_5_4 = arg_5_0.helper_.perPageNum_
-	local var_5_5 = math.floor(var_5_0 / var_5_3)
-	local var_5_6 = arg_5_0.helper_.layOutGroup_.spacing.y
-	local var_5_7 = arg_5_0.helper_.layOutGroup_.cellSize.y
-	local var_5_8 = (var_5_6 + var_5_7) * var_5_5
-	local var_5_9 = math.ceil((var_5_8 - arg_5_0.startPos_) / arg_5_0.ceilPos_) + 1
+function slot0.SetPage(slot0)
+	slot2 = slot0.helper_.maxNum_
+	slot3 = slot0.helper_.tailIndex_
+	slot5 = slot0.helper_.perPageNum_
 
-	if var_5_9 < 1 then
-		var_5_9 = 1
+	if math.ceil(((slot0.helper_.layOutGroup_.spacing.y + slot0.helper_.layOutGroup_.cellSize.y) * math.floor(slot0.helper_.headIndex_ / slot0.helper_.perLineNum_) - slot0.startPos_) / slot0.ceilPos_) + 1 < 1 then
+		slot10 = 1
 	end
 
-	local var_5_10 = arg_5_0.startPos_ + (var_5_9 - 1) * arg_5_0.ceilPos_ - var_5_8
-
-	if var_5_10 < 0 then
-		var_5_10 = 0
+	if slot0.startPos_ + (slot10 - 1) * slot0.ceilPos_ - slot9 < 0 then
+		slot11 = 0
 	end
 
-	local var_5_11 = (var_5_9 - 1) % arg_5_0.childCnt_ + 1
-	local var_5_12 = arg_5_0.pageSize_
-	local var_5_13 = var_5_4 / var_5_3
+	slot10 = (slot10 - 1) % slot0.childCnt_ + 1
+	slot12 = slot0.pageSize_
+	slot13 = slot5 / slot4
 
-	if var_5_1 <= var_5_4 then
-		var_5_13 = math.ceil(var_5_1 / var_5_3)
+	if slot2 <= slot5 then
+		slot13 = math.ceil(slot2 / slot4)
 	end
 
-	arg_5_0.pageSize_ = var_5_13 * var_5_7 + (var_5_13 - 1) * var_5_6
+	slot0.pageSize_ = slot13 * slot8 + (slot13 - 1) * slot7
 
-	if arg_5_0.pageSize_ ~= var_5_12 then
-		arg_5_0.rect_.sizeDelta = Vector2(arg_5_0.rect_.sizeDelta.x, arg_5_0.pageSize_)
+	if slot0.pageSize_ ~= slot12 then
+		slot0.rect_.sizeDelta = Vector2(slot0.rect_.sizeDelta.x, slot0.pageSize_)
 	end
 
-	if arg_5_0.head_ == var_5_0 then
+	if slot0.head_ == slot1 then
 		return
 	end
 
-	arg_5_0.head_ = var_5_0
+	slot0.head_ = slot1
+	slot15 = 0
 
-	local var_5_14 = var_5_10
-	local var_5_15 = 0
-
-	for iter_5_0 = var_5_11, arg_5_0.childCnt_ do
-		local var_5_16 = arg_5_0.children_[iter_5_0]
-		local var_5_17 = -var_5_15 * arg_5_0.ceilPos_ - var_5_14
-
-		var_5_16.trs.localPosition = Vector3(var_5_16.x, var_5_17, 0)
-		var_5_15 = var_5_15 + 1
+	for slot19 = slot10, slot0.childCnt_ do
+		slot20 = slot0.children_[slot19]
+		slot20.trs.localPosition = Vector3(slot20.x, -slot15 * slot0.ceilPos_ - slot11, 0)
+		slot15 = slot15 + 1
 	end
 
-	for iter_5_1 = 1, var_5_11 - 1 do
-		local var_5_18 = arg_5_0.children_[iter_5_1]
-		local var_5_19 = -var_5_15 * arg_5_0.ceilPos_ - var_5_14
-
-		var_5_18.trs.localPosition = Vector3(var_5_18.x, var_5_19, 0)
-		var_5_15 = var_5_15 + 1
+	for slot19 = 1, slot10 - 1 do
+		slot20 = slot0.children_[slot19]
+		slot20.trs.localPosition = Vector3(slot20.x, -slot15 * slot0.ceilPos_ - slot14, 0)
+		slot15 = slot15 + 1
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	if arg_6_0.timer_ then
-		arg_6_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_6_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

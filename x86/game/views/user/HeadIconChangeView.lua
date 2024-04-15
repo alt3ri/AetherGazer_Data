@@ -1,387 +1,369 @@
-local var_0_0 = class("HeadIconChangeView", ReduxView)
+slot0 = class("HeadIconChangeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/AvatarSystemUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.page_ = {
+	slot0.page_ = {
 		"portrait",
 		"frame",
 		"cardBg",
 		"chatBubble"
 	}
-	arg_4_0.lockCon_ = ControllerUtil.GetController(arg_4_0.transform_, "lock")
-	arg_4_0.pageCon_ = ControllerUtil.GetController(arg_4_0.transform_, "page")
-	arg_4_0.btnCon_1 = arg_4_0.btn_1.transform:GetComponent("ControllerExCollection"):GetController("status")
-	arg_4_0.btnCon_2 = arg_4_0.btn_2.transform:GetComponent("ControllerExCollection"):GetController("status")
-	arg_4_0.btnCon_3 = arg_4_0.btn_3.transform:GetComponent("ControllerExCollection"):GetController("status")
-	arg_4_0.btnCon_4 = arg_4_0.btn_4.transform:GetComponent("ControllerExCollection"):GetController("status")
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, UserHeadItem)
+	slot0.lockCon_ = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.pageCon_ = ControllerUtil.GetController(slot0.transform_, "page")
+	slot0.btnCon_1 = slot0.btn_1.transform:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.btnCon_2 = slot0.btn_2.transform:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.btnCon_3 = slot0.btn_3.transform:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.btnCon_4 = slot0.btn_4.transform:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, UserHeadItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.curList_[arg_5_1].id
-	local var_5_1 = arg_5_0:IsUsed(var_5_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.curList_[slot1].id
 
-	arg_5_2:SetUsed(var_5_1)
-	arg_5_2:SetSelected(arg_5_0.curID_ == var_5_0)
-	arg_5_2:RefreshItem(var_5_0, arg_5_0.curPage_)
-	arg_5_2:RegisterClickListener(function()
-		arg_5_0:SetCurID(var_5_0)
+	slot2:SetUsed(slot0:IsUsed(slot3))
+	slot2:SetSelected(slot0.curID_ == slot3)
+	slot2:RefreshItem(slot3, slot0.curPage_)
+	slot2:RegisterClickListener(function ()
+		uv0:SetCurID(uv1)
 
-		if arg_5_0.curPage_ == "chatBubble" and not RedPointData:GetIsRedPointOpen(RedPointConst.CHAT_BUBBLE_RANGE + var_5_0) and table.keyof(PlayerData:GetUnlockChatBubbleIDList(), var_5_0) then
-			RedPointAction.HandleRedPoint(RedPointConst.CHAT_BUBBLE_RANGE + var_5_0)
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.CHAT_BUBBLE, var_5_0), 0)
+		if uv0.curPage_ == "chatBubble" and not RedPointData:GetIsRedPointOpen(RedPointConst.CHAT_BUBBLE_RANGE + uv1) and table.keyof(PlayerData:GetUnlockChatBubbleIDList(), uv1) then
+			RedPointAction.HandleRedPoint(RedPointConst.CHAT_BUBBLE_RANGE + uv1)
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.CHAT_BUBBLE, uv1), 0)
 		end
 
-		arg_5_0.scrollHelper_:Refresh()
+		uv0.scrollHelper_:Refresh()
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.useBtn_, nil, function()
-		if arg_7_0.curPage_ == "portrait" then
-			PlayerAction.ChangePortrait(arg_7_0.curID_)
-		elseif arg_7_0.curPage_ == "frame" then
-			PlayerAction.ChangeFrameIcon(arg_7_0.curID_)
-		elseif arg_7_0.curPage_ == "cardBg" then
-			PlayerAction.ChangeCardBg(arg_7_0.curID_)
-		elseif arg_7_0.curPage_ == "chatBubble" then
-			PlayerAction.ChangeChatBubble(arg_7_0.curID_, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		if uv0.curPage_ == "portrait" then
+			PlayerAction.ChangePortrait(uv0.curID_)
+		elseif uv0.curPage_ == "frame" then
+			PlayerAction.ChangeFrameIcon(uv0.curID_)
+		elseif uv0.curPage_ == "cardBg" then
+			PlayerAction.ChangeCardBg(uv0.curID_)
+		elseif uv0.curPage_ == "chatBubble" then
+			PlayerAction.ChangeChatBubble(uv0.curID_, function ()
 				ShowTips("DORM_CANTEEN_HERO_CHANGE_SUCCESS")
 
-				arg_7_0.chatBubbleID_ = PlayerData:GetCurChatBubbleID()
+				uv0.chatBubbleID_ = PlayerData:GetCurChatBubbleID()
 
-				arg_7_0:SetCurID(arg_7_0.curID_)
-				arg_7_0.scrollHelper_:Refresh()
+				uv0:SetCurID(uv0.curID_)
+				uv0.scrollHelper_:Refresh()
 			end)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.previewBtn_, nil, function()
-		if arg_7_0.curPage_ == "cardBg" then
+
+	slot4 = nil
+
+	function slot5()
+		if uv0.curPage_ == "cardBg" then
 			JumpTools.OpenPageByJump("/newUserInfoPreviewPop", {
-				previewID = arg_7_0.curID_
+				previewID = uv0.curID_
 			})
 		end
-	end)
+	end
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.page_) do
-		arg_7_0:AddBtnListener(arg_7_0["btn_" .. iter_7_0], nil, function()
-			arg_7_0.index_ = iter_7_0
-			arg_7_0.curPage_ = arg_7_0.page_[iter_7_0]
+	slot0:AddBtnListener(slot0.previewBtn_, slot4, slot5)
 
-			if arg_7_0.curPage_ == "portrait" then
-				arg_7_0:SetCurID(arg_7_0.portraitID_)
-			elseif arg_7_0.curPage_ == "frame" then
-				arg_7_0:SetCurID(arg_7_0.frameID_)
-			elseif arg_7_0.curPage_ == "cardBg" then
-				arg_7_0:SetCurID(arg_7_0.cardBgID_)
-			elseif arg_7_0.curPage_ == "chatBubble" then
-				arg_7_0:SetCurID(arg_7_0.chatBubbleID_)
+	for slot4, slot5 in ipairs(slot0.page_) do
+		slot0:AddBtnListener(slot0["btn_" .. slot4], nil, function ()
+			uv0.index_ = uv1
+			uv0.curPage_ = uv0.page_[uv1]
+
+			if uv0.curPage_ == "portrait" then
+				uv0:SetCurID(uv0.portraitID_)
+			elseif uv0.curPage_ == "frame" then
+				uv0:SetCurID(uv0.frameID_)
+			elseif uv0.curPage_ == "cardBg" then
+				uv0:SetCurID(uv0.cardBgID_)
+			elseif uv0.curPage_ == "chatBubble" then
+				uv0:SetCurID(uv0.chatBubbleID_)
 			end
 
-			arg_7_0:ChangeBtnController(iter_7_0)
-			OperationRecorder.RecordButtonTouch("userinfo_headportrait_" .. arg_7_0.index_)
-			arg_7_0.scrollHelper_:StartScroll(#arg_7_0.curList_)
+			uv0:ChangeBtnController(uv1)
+			OperationRecorder.RecordButtonTouch("userinfo_headportrait_" .. uv0.index_)
+			uv0.scrollHelper_:StartScroll(#uv0.curList_)
 		end)
 	end
 end
 
-function var_0_0.ChangeBtnController(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.page_) do
-		arg_13_0["btnCon_" .. iter_13_0]:SetSelectedIndex(iter_13_0 == arg_13_1 and 1 or 0)
+function slot0.ChangeBtnController(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.page_) do
+		slot0["btnCon_" .. slot5]:SetSelectedIndex(slot5 == slot1 and 1 or 0)
 	end
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.curList_ = {}
+function slot0.OnEnter(slot0)
+	slot0.curList_ = {}
 
-	if arg_14_0.params_.isEnter then
-		arg_14_0.index_ = 1
-		arg_14_0.params_.isEnter = nil
+	if slot0.params_.isEnter then
+		slot0.index_ = 1
+		slot0.params_.isEnter = nil
 	end
 
-	arg_14_0:ChangeBtnController(1)
-	arg_14_0:RefreshUI()
+	slot0:ChangeBtnController(1)
+	slot0:RefreshUI()
 
-	arg_14_0.index_ = arg_14_0.index_ or 1
-	arg_14_0.curPage_ = arg_14_0.page_[arg_14_0.index_]
+	slot0.index_ = slot0.index_ or 1
+	slot0.curPage_ = slot0.page_[slot0.index_]
 
-	if arg_14_0.curPage_ == "portrait" then
-		arg_14_0:SetCurID(arg_14_0.portraitID_)
-	elseif arg_14_0.curPage_ == "frame" then
-		arg_14_0:SetCurID(arg_14_0.frameID_)
-	elseif arg_14_0.curPage_ == "cardBg" then
-		arg_14_0:SetCurID(arg_14_0.cardBgID_)
-	elseif arg_14_0.curPage_ == "chatBubble" then
-		arg_14_0:SetCurID(arg_14_0.chatBubbleID_)
+	if slot0.curPage_ == "portrait" then
+		slot0:SetCurID(slot0.portraitID_)
+	elseif slot0.curPage_ == "frame" then
+		slot0:SetCurID(slot0.frameID_)
+	elseif slot0.curPage_ == "cardBg" then
+		slot0:SetCurID(slot0.cardBgID_)
+	elseif slot0.curPage_ == "chatBubble" then
+		slot0:SetCurID(slot0.chatBubbleID_)
 	end
 
-	arg_14_0.scrollHelper_:StartScroll(#arg_14_0.curList_)
-	arg_14_0:BindRedPoint()
+	slot0.scrollHelper_:StartScroll(#slot0.curList_)
+	slot0:BindRedPoint()
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	arg_15_0:RefreshData()
-	arg_15_0:RefreshCurID()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshData()
+	slot0:RefreshCurID()
 end
 
-function var_0_0.RefreshData(arg_16_0)
-	arg_16_0:GetPortraitList()
-	arg_16_0:GetFrameList()
-	arg_16_0:GetCardBgList()
-	arg_16_0:GetChatBubbleList()
+function slot0.RefreshData(slot0)
+	slot0:GetPortraitList()
+	slot0:GetFrameList()
+	slot0:GetCardBgList()
+	slot0:GetChatBubbleList()
 end
 
-function var_0_0.RefreshCurID(arg_17_0)
-	arg_17_0.portraitID_ = PlayerData:GetCurPortrait()
-	arg_17_0.frameID_ = PlayerData:GetCurFrame()
-	arg_17_0.cardBgID_ = PlayerData:GetCurCardBg()
-	arg_17_0.chatBubbleID_ = PlayerData:GetCurChatBubbleID()
+function slot0.RefreshCurID(slot0)
+	slot0.portraitID_ = PlayerData:GetCurPortrait()
+	slot0.frameID_ = PlayerData:GetCurFrame()
+	slot0.cardBgID_ = PlayerData:GetCurCardBg()
+	slot0.chatBubbleID_ = PlayerData:GetCurChatBubbleID()
 end
 
-function var_0_0.SetCurID(arg_18_0, arg_18_1)
-	arg_18_0.curID_ = arg_18_1
+function slot0.SetCurID(slot0, slot1)
+	slot0.curID_ = slot1
 
-	arg_18_0.pageCon_:SetSelectedState(arg_18_0.curPage_)
+	slot0.pageCon_:SetSelectedState(slot0.curPage_)
 
-	local var_18_0 = arg_18_0:IsUsed(arg_18_0.curID_)
+	slot2 = slot0:IsUsed(slot0.curID_)
 
-	if arg_18_0.curPage_ ~= "chatBubble" then
-		arg_18_0.icon_.sprite = ItemTools.getItemSprite(arg_18_0.curPage_ == "portrait" and arg_18_0.curID_ or arg_18_0.portraitID_)
+	if slot0.curPage_ ~= "chatBubble" then
+		slot0.icon_.sprite = ItemTools.getItemSprite(slot0.curPage_ == "portrait" and slot0.curID_ or slot0.portraitID_)
 
-		arg_18_0.icon_:SetNativeSize()
+		slot0.icon_:SetNativeSize()
 
-		local var_18_1 = arg_18_0.curPage_ == "frame" and arg_18_0.curID_ or arg_18_0.frameID_
+		slot0.frameIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. (slot0.curPage_ == "frame" and slot0.curID_ or slot0.frameID_))
 
-		arg_18_0.frameIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_18_1)
+		slot0.frameIcon_:SetNativeSize()
 
-		arg_18_0.frameIcon_:SetNativeSize()
+		slot0.cardBgIcon_.sprite = ItemTools.getItemSprite(slot0.curPage_ == "cardBg" and slot0.curID_ or slot0.cardBgID_)
 
-		arg_18_0.cardBgIcon_.sprite = ItemTools.getItemSprite(arg_18_0.curPage_ == "cardBg" and arg_18_0.curID_ or arg_18_0.cardBgID_)
-
-		arg_18_0.cardBgIcon_:SetNativeSize()
+		slot0.cardBgIcon_:SetNativeSize()
 	else
-		local var_18_2 = arg_18_0.curPage_ == "chatBubble" and arg_18_0.curID_ or arg_18_0.chatBubbleID_
-
-		arg_18_0.chatBubbleImg_.sprite = ItemTools.getItemSprite(var_18_2)
-
-		local var_18_3 = ChatBubbleCfg[var_18_2].color1
-
-		arg_18_0.chatBubbleTxt_.color = Color(var_18_3[1], var_18_3[2], var_18_3[3])
+		slot3 = slot0.curPage_ == "chatBubble" and slot0.curID_ or slot0.chatBubbleID_
+		slot0.chatBubbleImg_.sprite = ItemTools.getItemSprite(slot3)
+		slot4 = ChatBubbleCfg[slot3].color1
+		slot0.chatBubbleTxt_.color = Color(slot4[1], slot4[2], slot4[3])
 	end
 
-	arg_18_0.itemCfg_ = ItemCfg[arg_18_0.curID_]
-	arg_18_0.nameTxt_.text = ItemTools.getItemName(arg_18_0.itemCfg_.id)
-	arg_18_0.descTxt_.text = ItemTools.getItemDesc(arg_18_0.itemCfg_.id)
-	arg_18_0.wayTxt_.text = GetI18NText(arg_18_0.itemCfg_.desc_source) or ""
+	slot0.itemCfg_ = ItemCfg[slot0.curID_]
+	slot0.nameTxt_.text = ItemTools.getItemName(slot0.itemCfg_.id)
+	slot0.descTxt_.text = ItemTools.getItemDesc(slot0.itemCfg_.id)
+	slot0.wayTxt_.text = GetI18NText(slot0.itemCfg_.desc_source) or ""
+	slot3 = nil
 
-	local var_18_4
-
-	if arg_18_0.curPage_ == "portrait" then
-		arg_18_0.curList_ = arg_18_0.portraitList_
-		var_18_4 = PlayerData:GetPortrait(arg_18_0.curID_)
-	elseif arg_18_0.curPage_ == "frame" then
-		arg_18_0.curList_ = arg_18_0.frameList_
-		var_18_4 = PlayerData:GetFrame(arg_18_0.curID_)
+	if slot0.curPage_ == "portrait" then
+		slot0.curList_ = slot0.portraitList_
+		slot3 = PlayerData:GetPortrait(slot0.curID_)
+	elseif slot0.curPage_ == "frame" then
+		slot0.curList_ = slot0.frameList_
+		slot3 = PlayerData:GetFrame(slot0.curID_)
 
 		PlayerData:DealOverdueFrame()
-	elseif arg_18_0.curPage_ == "cardBg" then
-		arg_18_0.curList_ = arg_18_0.cardBgList_
-		var_18_4 = PlayerData:GetCardBg(arg_18_0.curID_)
+	elseif slot0.curPage_ == "cardBg" then
+		slot0.curList_ = slot0.cardBgList_
+		slot3 = PlayerData:GetCardBg(slot0.curID_)
 
 		PlayerData:DealOverdueCardBgList()
 		PlayerData:ClearCardBgRed()
-	elseif arg_18_0.curPage_ == "chatBubble" then
-		arg_18_0.curList_ = arg_18_0.chatBubbleList_
-		var_18_4 = {
-			unlock = table.keyof(PlayerData:GetUnlockChatBubbleIDList(), arg_18_0.curID_) and 1 or 0
+	elseif slot0.curPage_ == "chatBubble" then
+		slot0.curList_ = slot0.chatBubbleList_
+		slot3 = {
+			unlock = table.keyof(PlayerData:GetUnlockChatBubbleIDList(), slot0.curID_) and 1 or 0
 		}
 	end
 
-	if var_18_4.lasted_time and var_18_4.lasted_time > 0 then
-		arg_18_0.timeCntText_.text = manager.time:STimeDescS(var_18_4.lasted_time, "!%Y/%m/%d %H:%M")
+	if slot3.lasted_time and slot3.lasted_time > 0 then
+		slot0.timeCntText_.text = manager.time:STimeDescS(slot3.lasted_time, "!%Y/%m/%d %H:%M")
 
-		SetActive(arg_18_0.timeCntGo_, true)
+		SetActive(slot0.timeCntGo_, true)
 	else
-		SetActive(arg_18_0.timeCntGo_, false)
+		SetActive(slot0.timeCntGo_, false)
 	end
 
-	arg_18_0.lockCon_:SetSelectedState(var_18_4.unlock == 0 and "lock" or "default")
+	slot0.lockCon_:SetSelectedState(slot3.unlock == 0 and "lock" or "default")
 
-	if var_18_0 then
-		arg_18_0.useBtn_.interactable = false
+	if slot2 then
+		slot0.useBtn_.interactable = false
 
-		arg_18_0.lockCon_:SetSelectedState("value_2")
+		slot0.lockCon_:SetSelectedState("value_2")
 	else
-		arg_18_0.useBtn_.interactable = true
-		arg_18_0.btnTxt_.text = GetTips("TIP_USE")
+		slot0.useBtn_.interactable = true
+		slot0.btnTxt_.text = GetTips("TIP_USE")
 	end
 end
 
-function var_0_0.GetPortraitList(arg_19_0)
-	arg_19_0.portraitList_ = {}
+function slot0.GetPortraitList(slot0)
+	slot0.portraitList_ = {}
 
-	local var_19_0 = PlayerData:GetPortraitList()
-	local var_19_1 = HideInfoData:GetHeadIconHideList()
-
-	for iter_19_0, iter_19_1 in ipairs(var_19_0) do
-		if not var_19_1[iter_19_1] then
-			table.insert(arg_19_0.portraitList_, PlayerData:GetPortrait(iter_19_1))
+	for slot6, slot7 in ipairs(PlayerData:GetPortraitList()) do
+		if not HideInfoData:GetHeadIconHideList()[slot7] then
+			table.insert(slot0.portraitList_, PlayerData:GetPortrait(slot7))
 		end
 	end
 
-	table.sort(arg_19_0.portraitList_, function(arg_20_0, arg_20_1)
-		if arg_20_0.unlock ~= arg_20_1.unlock then
-			return arg_20_0.unlock > arg_20_1.unlock
+	table.sort(slot0.portraitList_, function (slot0, slot1)
+		if slot0.unlock ~= slot1.unlock then
+			return slot1.unlock < slot0.unlock
 		end
 
-		return arg_20_0.id < arg_20_1.id
+		return slot0.id < slot1.id
 	end)
 end
 
-function var_0_0.GetFrameList(arg_21_0)
-	arg_21_0.frameList_ = {}
+function slot0.GetFrameList(slot0)
+	slot0.frameList_ = {}
 
-	local var_21_0 = PlayerData:GetFrameList()
-
-	for iter_21_0, iter_21_1 in ipairs(var_21_0) do
-		local var_21_1 = ItemCfg[iter_21_1]
-		local var_21_2 = PlayerData:GetFrame(iter_21_1)
-
-		if var_21_1.sub_type ~= ItemConst.ITEM_SUB_TYPE.FRAME_LINK then
-			table.insert(arg_21_0.frameList_, var_21_2)
-		elseif var_21_2.unlock == 1 or var_21_2.lasted_time > 0 then
-			table.insert(arg_21_0.frameList_, var_21_2)
+	for slot5, slot6 in ipairs(PlayerData:GetFrameList()) do
+		if ItemCfg[slot6].sub_type ~= ItemConst.ITEM_SUB_TYPE.FRAME_LINK then
+			table.insert(slot0.frameList_, PlayerData:GetFrame(slot6))
+		elseif slot8.unlock == 1 or slot8.lasted_time > 0 then
+			table.insert(slot0.frameList_, slot8)
 		end
 	end
 
-	table.sort(arg_21_0.frameList_, function(arg_22_0, arg_22_1)
-		if arg_22_0.unlock ~= arg_22_1.unlock then
-			return arg_22_0.unlock > arg_22_1.unlock
+	table.sort(slot0.frameList_, function (slot0, slot1)
+		if slot0.unlock ~= slot1.unlock then
+			return slot1.unlock < slot0.unlock
 		end
 
-		return arg_22_0.id < arg_22_1.id
+		return slot0.id < slot1.id
 	end)
 end
 
-function var_0_0.GetCardBgList(arg_23_0)
-	arg_23_0.cardBgList_ = {}
+function slot0.GetCardBgList(slot0)
+	slot0.cardBgList_ = {}
 
-	local var_23_0 = PlayerData:GetCardBgList()
-
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		local var_23_1 = ItemCfg[iter_23_1]
-		local var_23_2 = PlayerData:GetCardBg(iter_23_1)
-
-		if var_23_1.sub_type ~= ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
-			table.insert(arg_23_0.cardBgList_, var_23_2)
-		elseif var_23_2.unlock == 1 or var_23_2.lasted_time > 0 then
-			table.insert(arg_23_0.cardBgList_, var_23_2)
+	for slot5, slot6 in ipairs(PlayerData:GetCardBgList()) do
+		if ItemCfg[slot6].sub_type ~= ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
+			table.insert(slot0.cardBgList_, PlayerData:GetCardBg(slot6))
+		elseif slot8.unlock == 1 or slot8.lasted_time > 0 then
+			table.insert(slot0.cardBgList_, slot8)
 		end
 	end
 
-	table.sort(arg_23_0.cardBgList_, function(arg_24_0, arg_24_1)
-		if arg_24_0.unlock ~= arg_24_1.unlock then
-			return arg_24_0.unlock > arg_24_1.unlock
+	table.sort(slot0.cardBgList_, function (slot0, slot1)
+		if slot0.unlock ~= slot1.unlock then
+			return slot1.unlock < slot0.unlock
 		end
 
-		return arg_24_0.id < arg_24_1.id
+		return slot0.id < slot1.id
 	end)
 end
 
-function var_0_0.GetChatBubbleList(arg_25_0)
-	local var_25_0 = clone(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.CHAT_BUBBLE])
-	local var_25_1 = PlayerData:GetUnlockChatBubbleIDList()
+function slot0.GetChatBubbleList(slot0)
+	slot1 = clone(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.CHAT_BUBBLE])
+	slot2 = PlayerData:GetUnlockChatBubbleIDList()
 
-	table.sort(var_25_0, function(arg_26_0, arg_26_1)
-		local var_26_0 = table.keyof(var_25_1, arg_26_0)
-		local var_26_1 = table.keyof(var_25_1, arg_26_1)
-
-		if var_26_0 and var_26_1 then
-			return arg_26_0 < arg_26_1
-		elseif var_26_0 then
+	table.sort(slot1, function (slot0, slot1)
+		if table.keyof(uv0, slot0) and table.keyof(uv0, slot1) then
+			return slot0 < slot1
+		elseif slot2 then
 			return true
-		elseif var_26_1 then
+		elseif slot3 then
 			return false
 		else
-			return arg_26_0 < arg_26_1
+			return slot0 < slot1
 		end
 	end)
 
-	arg_25_0.chatBubbleList_ = {}
+	slot0.chatBubbleList_ = {}
 
-	for iter_25_0, iter_25_1 in ipairs(var_25_0) do
-		table.insert(arg_25_0.chatBubbleList_, {
-			id = iter_25_1
+	for slot6, slot7 in ipairs(slot1) do
+		table.insert(slot0.chatBubbleList_, {
+			id = slot7
 		})
 	end
 end
 
-function var_0_0.IsUsed(arg_27_0, arg_27_1)
-	return arg_27_1 == arg_27_0.portraitID_ or arg_27_1 == arg_27_0.frameID_ or arg_27_1 == arg_27_0.cardBgID_ or arg_27_1 == arg_27_0.chatBubbleID_
+function slot0.IsUsed(slot0, slot1)
+	return slot1 == slot0.portraitID_ or slot1 == slot0.frameID_ or slot1 == slot0.cardBgID_ or slot1 == slot0.chatBubbleID_
 end
 
-function var_0_0.OnChangePortrait(arg_28_0)
-	arg_28_0:RefreshCurID()
-	arg_28_0:SetCurID(arg_28_0.curID_)
-	arg_28_0.scrollHelper_:Refresh()
+function slot0.OnChangePortrait(slot0)
+	slot0:RefreshCurID()
+	slot0:SetCurID(slot0.curID_)
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.OnChangeFrame(arg_29_0)
-	arg_29_0:RefreshCurID()
-	arg_29_0:SetCurID(arg_29_0.curID_)
-	arg_29_0.scrollHelper_:Refresh()
+function slot0.OnChangeFrame(slot0)
+	slot0:RefreshCurID()
+	slot0:SetCurID(slot0.curID_)
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.OnChangeCardBg(arg_30_0)
-	arg_30_0:RefreshCurID()
-	arg_30_0:SetCurID(arg_30_0.curID_)
-	arg_30_0.scrollHelper_:Refresh()
+function slot0.OnChangeCardBg(slot0)
+	slot0:RefreshCurID()
+	slot0:SetCurID(slot0.curID_)
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.BindRedPoint(arg_31_0)
-	manager.redPoint:bindUIandKey(arg_31_0.btn_3.transform, RedPointConst.CARD_BG)
-	manager.redPoint:bindUIandKey(arg_31_0.btn_4.transform, RedPointConst.CHAT_BUBBLE)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.btn_3.transform, RedPointConst.CARD_BG)
+	manager.redPoint:bindUIandKey(slot0.btn_4.transform, RedPointConst.CHAT_BUBBLE)
 end
 
-function var_0_0.UnbindRedPoint(arg_32_0)
-	manager.redPoint:unbindUIandKey(arg_32_0.btn_3.transform, RedPointConst.CARD_BG)
-	manager.redPoint:unbindUIandKey(arg_32_0.btn_4.transform, RedPointConst.CHAT_BUBBLE)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.btn_3.transform, RedPointConst.CARD_BG)
+	manager.redPoint:unbindUIandKey(slot0.btn_4.transform, RedPointConst.CHAT_BUBBLE)
 end
 
-function var_0_0.OnExit(arg_33_0)
-	arg_33_0:UnbindRedPoint()
+function slot0.OnExit(slot0)
+	slot0:UnbindRedPoint()
 
-	for iter_33_0, iter_33_1 in pairs(arg_33_0.scrollHelper_:GetItemList()) do
-		iter_33_1:OnExit()
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_34_0)
-	arg_34_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_34_0, iter_34_1 in pairs(arg_34_0.scrollHelper_:GetItemList()) do
-		iter_34_1:Dispose()
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:Dispose()
 	end
 
-	arg_34_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_34_0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

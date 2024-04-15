@@ -1,47 +1,47 @@
-local var_0_0 = class("PolyhedronRankSquadsView", ReduxView)
+slot0 = class("PolyhedronRankSquadsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/PolyhedronRankpopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, PolyhedronRankSquadsItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, PolyhedronRankSquadsItem)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		arg_5_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroList_ = arg_7_0.params_.list
+function slot0.OnEnter(slot0)
+	slot0.heroList_ = slot0.params_.list
 
-	arg_7_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_8_0)
-	arg_8_0.list_:StartScroll(#arg_8_0.heroList_)
+function slot0.Refresh(slot0)
+	slot0.list_:StartScroll(#slot0.heroList_)
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetData(arg_9_0.heroList_[arg_9_1], arg_9_1 == 1)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.heroList_[slot1], slot1 == 1)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

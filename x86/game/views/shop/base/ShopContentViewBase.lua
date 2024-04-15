@@ -1,152 +1,132 @@
-local var_0_0 = class("ShopContentViewBase", ReduxView)
+slot0 = class("ShopContentViewBase", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.containerGo_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.containerGo_ = slot1
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.ScrollByPosition(arg_5_0, arg_5_1, arg_5_2)
-	return
+function slot0.ScrollByPosition(slot0, slot1, slot2)
 end
 
-function var_0_0.ResetFilter(arg_6_0)
-	return
+function slot0.ResetFilter(slot0)
 end
 
-function var_0_0.SetShopId(arg_7_0, arg_7_1)
-	arg_7_0.shopId_ = arg_7_1
+function slot0.SetShopId(slot0, slot1)
+	slot0.shopId_ = slot1
 end
 
-function var_0_0.SetShopHideHome(arg_8_0, arg_8_1)
-	arg_8_0.hideHomeBtn_ = arg_8_1
+function slot0.SetShopHideHome(slot0, slot1)
+	slot0.hideHomeBtn_ = slot1
 end
 
-function var_0_0.UpdateBarByShopId(arg_9_0)
-	local var_9_0 = arg_9_0.shopId_
-	local var_9_1 = {}
+function slot0.UpdateBarByShopId(slot0)
+	slot1 = slot0.shopId_
 
-	table.insert(var_9_1, BACK_BAR)
+	table.insert({}, BACK_BAR)
 
-	if arg_9_0.hideHomeBtn_ == nil or arg_9_0.hideHomeBtn_ == 0 then
-		table.insert(var_9_1, HOME_BAR)
+	if slot0.hideHomeBtn_ == nil or slot0.hideHomeBtn_ == 0 then
+		table.insert(slot2, HOME_BAR)
 	end
 
-	table.insert(var_9_1, NAVI_BAR)
+	table.insert(slot2, NAVI_BAR)
 
-	local var_9_2 = {}
-	local var_9_3 = ShopListCfg[var_9_0]
+	slot3 = {}
 
-	for iter_9_0 = 1, #var_9_3.cost_id do
-		local var_9_4
+	for slot8 = 1, #ShopListCfg[slot1].cost_id do
+		slot9 = nil
 
-		if CurrencyIdMapCfg[var_9_3.cost_id[iter_9_0]] then
-			var_9_4 = CurrencyIdMapCfg[var_9_3.cost_id[iter_9_0]].item_id
-		else
-			var_9_4 = var_9_3.cost_id[iter_9_0]
+		if ((not CurrencyIdMapCfg[slot4.cost_id[slot8]] or CurrencyIdMapCfg[slot4.cost_id[slot8]].item_id) and slot4.cost_id[slot8]) == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id then
+			slot9 = CurrencyConst.GetPlatformDiamondId()
 		end
 
-		if var_9_4 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id then
-			var_9_4 = CurrencyConst.GetPlatformDiamondId()
-		end
-
-		table.insert(var_9_1, var_9_4)
-		table.insert(var_9_2, var_9_4)
+		table.insert(slot2, slot9)
+		table.insert(slot3, slot9)
 	end
 
-	manager.windowBar:SwitchBar(var_9_1)
+	manager.windowBar:SwitchBar(slot2)
 
-	for iter_9_1 = 1, #var_9_2 do
-		manager.windowBar:SetBarCanAdd(var_9_2[iter_9_1], ShopConst.ADD_CURRENCY[var_9_2[iter_9_1]] == true)
+	for slot8 = 1, #slot3 do
+		manager.windowBar:SetBarCanAdd(slot3[slot8], ShopConst.ADD_CURRENCY[slot3[slot8]] == true)
 	end
 end
 
-function var_0_0.OnShopClick(arg_10_0, arg_10_1)
-	local var_10_0 = getShopCfg(arg_10_1.id, arg_10_0.shopId_)
-
-	if ItemCfg[var_10_0.give_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
-		if ShopTools.HaveSkin(var_10_0.give_id) then
+function slot0.OnShopClick(slot0, slot1)
+	if ItemCfg[getShopCfg(slot1.id, slot0.shopId_).give_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+		if ShopTools.HaveSkin(slot2.give_id) then
 			return
 		end
-	elseif var_10_0.limit_num then
-		if var_10_0.limit_num ~= -1 and var_10_0.limit_num <= arg_10_1.buyTime then
+	elseif slot2.limit_num then
+		if slot2.limit_num ~= -1 and slot2.limit_num <= slot1.buyTime then
 			return
 		end
 
-		local var_10_1, var_10_2 = ShopTools.JudgeIsLvLimit(var_10_0.level_limit)
+		slot4, slot5 = ShopTools.JudgeIsLvLimit(slot2.level_limit)
 
-		if var_10_1 then
+		if slot4 then
 			return
 		end
 	end
 
 	JumpTools.OpenPopUp("shopBuy", {
-		goodInfo = arg_10_1
+		goodInfo = slot1
 	})
 end
 
-function var_0_0.GetShopGoodList(arg_11_0)
-	return ShopTools.FilterShopDataList(arg_11_0.shopId_)
+function slot0.GetShopGoodList(slot0)
+	return ShopTools.FilterShopDataList(slot0.shopId_)
 end
 
-function var_0_0.GetLuaList(arg_12_0)
-	return arg_12_0.list_
+function slot0.GetLuaList(slot0)
+	return slot0.list_
 end
 
-function var_0_0.GetItemList(arg_13_0)
-	return
+function slot0.GetItemList(slot0)
 end
 
-function var_0_0.RefreshShopGoodInfo(arg_14_0, arg_14_1)
-	for iter_14_0, iter_14_1 in pairs(arg_14_0:GetItemList()) do
-		local var_14_0 = iter_14_1:GetItemInfo()
-		local var_14_1 = ShopData.GetShop(arg_14_0.shopId_)[arg_14_1]
-		local var_14_2 = var_14_1 ~= nil and var_14_1.buy_times or 0
+function slot0.RefreshShopGoodInfo(slot0, slot1)
+	for slot5, slot6 in pairs(slot0:GetItemList()) do
+		slot9 = ShopData.GetShop(slot0.shopId_)[slot1] ~= nil and slot8.buy_times or 0
 
-		if arg_14_1 == var_14_0.id and var_14_2 ~= var_14_0.buyTime then
-			local var_14_3 = {
-				id = arg_14_1,
-				shopId = arg_14_0.shopId_,
-				buyTime = var_14_2,
-				next_refresh_timestamp = var_14_1.next_refresh_timestamp
-			}
-
-			iter_14_1:SetData(var_14_3)
+		if slot1 == slot6:GetItemInfo().id and slot9 ~= slot7.buyTime then
+			slot6:SetData({
+				id = slot1,
+				shopId = slot0.shopId_,
+				buyTime = slot9,
+				next_refresh_timestamp = slot8.next_refresh_timestamp
+			})
 		end
 	end
 end
 
-function var_0_0.RefreshList(arg_15_0, arg_15_1)
-	arg_15_0:UpdateBarByShopId()
+function slot0.RefreshList(slot0, slot1)
+	slot0:UpdateBarByShopId()
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_17_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetScrolledPosition(arg_19_0)
-	return arg_19_0:GetLuaList():GetScrolledPosition()
+function slot0.GetScrolledPosition(slot0)
+	return slot0:GetLuaList():GetScrolledPosition()
 end
 
-return var_0_0
+return slot0

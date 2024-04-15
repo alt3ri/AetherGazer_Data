@@ -1,24 +1,24 @@
-local var_0_0 = class("GameHelpProDotItem", ReduxView)
+slot0 = class("GameHelpProDotItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.selectController_ = arg_1_0.controllerEx_:GetController("sel")
+	slot0.selectController_ = slot0.controllerEx_:GetController("sel")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	if arg_2_1 then
-		arg_2_0.selectController_:SetSelectedState("state1")
+function slot0.SetData(slot0, slot1)
+	if slot1 then
+		slot0.selectController_:SetSelectedState("state1")
 	else
-		arg_2_0.selectController_:SetSelectedState("state0")
+		slot0.selectController_:SetSelectedState("state0")
 	end
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

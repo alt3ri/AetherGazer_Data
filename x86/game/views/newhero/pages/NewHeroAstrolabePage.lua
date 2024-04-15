@@ -1,228 +1,219 @@
-local var_0_0 = import("game.views.newHero.HeroPageBase")
-local var_0_1 = class("NewHeroAstrolabePage", var_0_0)
+slot1 = class("NewHeroAstrolabePage", import("game.views.newHero.HeroPageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot1.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.infoSGo_ = {}
-	arg_3_0.desItemList = {}
-	arg_3_0.isSelfController_ = arg_3_0.controller_:GetController("isSelf")
-	arg_3_0.isPreviewController_ = arg_3_0.controller_:GetController("isPreview")
+	slot0.infoSGo_ = {}
+	slot0.desItemList = {}
+	slot0.isSelfController_ = slot0.controller_:GetController("isSelf")
+	slot0.isPreviewController_ = slot0.controller_:GetController("isPreview")
 end
 
-function var_0_1.AddUIListener(arg_4_0)
-	if arg_4_0.astrolabeInfoView_ then
-		arg_4_0.astrolabeInfoView_:SetClickAnimaton(true)
+function slot1.AddUIListener(slot0)
+	if slot0.astrolabeInfoView_ then
+		slot0.astrolabeInfoView_:SetClickAnimaton(true)
 	end
 
-	arg_4_0:AddBtnListenerScale(arg_4_0.adjustBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.adjustBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/astrolabeAdjust", {
-			heroId = arg_4_0.heroInfo_.id,
+			heroId = uv0.heroInfo_.id,
 			selectPos = {
 				0
 			},
-			astrolabe = arg_4_0.astrolabeInfoView_,
-			heroProxy = arg_4_0.heroViewProxy_
+			astrolabe = uv0.astrolabeInfoView_,
+			heroProxy = uv0.heroViewProxy_
 		})
 	end)
 end
 
-function var_0_1.SetHeroInfo(arg_6_0, arg_6_1)
-	arg_6_0.heroInfo_ = arg_6_1
+function slot1.SetHeroInfo(slot0, slot1)
+	slot0.heroInfo_ = slot1
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_1.HideMaskMessage(arg_7_0)
-	return
+function slot1.HideMaskMessage(slot0)
 end
 
-function var_0_1.Show(arg_8_0, arg_8_1)
-	arg_8_0.super.Show(arg_8_0)
-	arg_8_0:UpdateView()
+function slot1.Show(slot0, slot1)
+	slot0.super.Show(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_1.IsCanBackAnimation(arg_9_0)
+function slot1.IsCanBackAnimation(slot0)
 	if gameContext:GetLastOpenPage() ~= "astrolabeAdjust" then
 		return false
 	end
 
-	if arg_9_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+	if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
 		return gameContext:IsBack("/heroPreviewChange") > 0
 	else
 		return gameContext:IsBack("/newHero") > 0
 	end
 end
 
-function var_0_1.ShowBackAnimation(arg_10_0)
-	if arg_10_0.astrolabeInfoView_ then
-		arg_10_0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.HeroInfo)
+function slot1.ShowBackAnimation(slot0)
+	if slot0.astrolabeInfoView_ then
+		slot0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.HeroInfo)
 	end
 end
 
-function var_0_1.UpdateView(arg_11_0)
-	if arg_11_0.heroInfo_ and arg_11_0.heroViewProxy_ then
-		arg_11_0:RefreshAstrolabeInfo()
-		arg_11_0:ShowBackAnimation()
+function slot1.UpdateView(slot0)
+	if slot0.heroInfo_ and slot0.heroViewProxy_ then
+		slot0:RefreshAstrolabeInfo()
+		slot0:ShowBackAnimation()
 
-		arg_11_0.viewDataType = arg_11_0.heroViewProxy_:GetViewDataType()
+		slot0.viewDataType = slot0.heroViewProxy_:GetViewDataType()
 
-		arg_11_0:RefreshAstrolabeEffect()
+		slot0:RefreshAstrolabeEffect()
 	end
 end
 
-function var_0_1.SelectItem(arg_12_0, arg_12_1)
-	if arg_12_0.heroViewProxy_ and not arg_12_0.heroViewProxy_.notGotoAstrolabeAdjust then
+function slot1.SelectItem(slot0, slot1)
+	if slot0.heroViewProxy_ and not slot0.heroViewProxy_.notGotoAstrolabeAdjust then
 		return
 	end
 
-	local var_12_0 = arg_12_1:GetItemInfo()
+	slot2 = slot1:GetItemInfo()
 
-	if arg_12_0.astrolabeInfoView_ then
-		arg_12_0.astrolabeInfoView_:SetClickAnimaton(true)
+	if slot0.astrolabeInfoView_ then
+		slot0.astrolabeInfoView_:SetClickAnimaton(true)
 	end
 
 	JumpTools.OpenPageByJump("/astrolabeAdjust", {
-		heroId = arg_12_0.heroInfo_.id,
+		heroId = slot0.heroInfo_.id,
 		selectPos = {
-			var_12_0.posX,
-			var_12_0.posY
+			slot2.posX,
+			slot2.posY
 		},
-		heroProxy = arg_12_0.heroViewProxy_,
-		astrolabe = arg_12_0.astrolabeInfoView_
+		heroProxy = slot0.heroViewProxy_,
+		astrolabe = slot0.astrolabeInfoView_
 	})
 end
 
-function var_0_1.RefreshAstrolabeInfo(arg_13_0)
-	if arg_13_0.heroInfo_ and arg_13_0.heroViewProxy_ then
-		arg_13_0.currentHeroID = arg_13_0.heroInfo_ and arg_13_0.heroInfo_.id or 1
+function slot1.RefreshAstrolabeInfo(slot0)
+	if slot0.heroInfo_ and slot0.heroViewProxy_ then
+		slot0.currentHeroID = slot0.heroInfo_ and slot0.heroInfo_.id or 1
+		slot1 = false
 
-		local var_13_0 = false
+		if slot0.astrolabeInfoView_ and slot0.lastHeroID ~= slot0.currentHeroID then
+			slot1 = true
 
-		if arg_13_0.astrolabeInfoView_ and arg_13_0.lastHeroID ~= arg_13_0.currentHeroID then
-			var_13_0 = true
-
-			arg_13_0.astrolabeInfoView_:OnExit()
+			slot0.astrolabeInfoView_:OnExit()
 		end
 
-		if not arg_13_0.astrolabeInfoView_ then
-			var_13_0 = true
-			arg_13_0.astrolabeInfoView_ = manager.heroRaiseTrack.astrolableController
+		if not slot0.astrolabeInfoView_ then
+			slot1 = true
+			slot0.astrolabeInfoView_ = manager.heroRaiseTrack.astrolableController
 		end
 
-		if arg_13_0.astrolabeInfoView_ then
-			if var_13_0 then
-				arg_13_0.astrolabeInfoView_:LoadAstrolabeByPath(AstrolabeTools.GetAstrolabePrafabName(arg_13_0.heroInfo_.id), arg_13_0.heroInfo_.id)
+		if slot0.astrolabeInfoView_ then
+			if slot1 then
+				slot0.astrolabeInfoView_:LoadAstrolabeByPath(AstrolabeTools.GetAstrolabePrafabName(slot0.heroInfo_.id), slot0.heroInfo_.id)
 
-				arg_13_0.lastHeroID = arg_13_0.currentHeroID
+				slot0.lastHeroID = slot0.currentHeroID
 
-				arg_13_0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.none)
+				slot0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.none)
 			end
 
-			arg_13_0.astrolabeInfoView_:SetNodeNameIsHide(true)
-			arg_13_0.astrolabeInfoView_:SetProxy(arg_13_0.heroViewProxy_)
-
-			local var_13_1 = arg_13_0:GetAstrolabeInfo(arg_13_0.heroInfo_.id)
-
-			arg_13_0.astrolabeInfoView_:RegistCallBack(handler(arg_13_0, arg_13_0.SelectItem))
-			arg_13_0.astrolabeInfoView_:RefreshData(arg_13_0.heroInfo_, var_13_1)
+			slot0.astrolabeInfoView_:SetNodeNameIsHide(true)
+			slot0.astrolabeInfoView_:SetProxy(slot0.heroViewProxy_)
+			slot0.astrolabeInfoView_:RegistCallBack(handler(slot0, slot0.SelectItem))
+			slot0.astrolabeInfoView_:RefreshData(slot0.heroInfo_, slot0:GetAstrolabeInfo(slot0.heroInfo_.id))
 		end
 
-		arg_13_0:UpdateNotice()
+		slot0:UpdateNotice()
 	end
 end
 
-function var_0_1.GetHeroAstrolabeInfoView(arg_14_0)
+function slot1.GetHeroAstrolabeInfoView(slot0)
 	return HeroAstrolabeInfoView
 end
 
-function var_0_1.GetAstrolabeInfo(arg_15_0, arg_15_1)
-	if arg_15_0.heroViewProxy_ then
-		return arg_15_0.heroViewProxy_:GetHeroAstrolabeS(arg_15_1)
+function slot1.GetAstrolabeInfo(slot0, slot1)
+	if slot0.heroViewProxy_ then
+		return slot0.heroViewProxy_:GetHeroAstrolabeS(slot1)
 	end
 
 	return {}
 end
 
-function var_0_1.RefreshAstrolabeEffect(arg_16_0)
-	if not arg_16_0.heroInfo_ then
+function slot1.RefreshAstrolabeEffect(slot0)
+	if not slot0.heroInfo_ then
 		return
 	end
 
-	local var_16_0 = clone(arg_16_0.heroViewProxy_:GetUsingAstrolabe(arg_16_0.heroInfo_.id) or {})
+	slot1 = clone(slot0.heroViewProxy_:GetUsingAstrolabe(slot0.heroInfo_.id) or {})
 
-	table.sort(var_16_0, function(arg_17_0, arg_17_1)
-		return arg_17_0 < arg_17_1
+	table.sort(slot1, function (slot0, slot1)
+		return slot0 < slot1
 	end)
 
-	local var_16_1 = #var_16_0
-	local var_16_2 = var_16_1 > 0
-	local var_16_3 = ""
+	slot3 = #slot1 > 0
+	slot4 = ""
 
-	for iter_16_0 = 1, var_16_1 do
-		if not arg_16_0.desItemList[iter_16_0] then
-			local var_16_4 = Object.Instantiate(arg_16_0.messageGo_, arg_16_0.contentTrs_)
-
-			arg_16_0.desItemList[iter_16_0] = AstrolabeSuitDesItem.New(var_16_4)
+	for slot8 = 1, slot2 do
+		if not slot0.desItemList[slot8] then
+			slot0.desItemList[slot8] = AstrolabeSuitDesItem.New(Object.Instantiate(slot0.messageGo_, slot0.contentTrs_))
 		end
 
-		arg_16_0.desItemList[iter_16_0]:SetProxy(arg_16_0.heroViewProxy_)
-		arg_16_0.desItemList[iter_16_0]:SetData(var_16_0[iter_16_0], arg_16_0.heroInfo_, arg_16_0.viewDataType)
-		arg_16_0.desItemList[iter_16_0]:SetActive(true)
+		slot0.desItemList[slot8]:SetProxy(slot0.heroViewProxy_)
+		slot0.desItemList[slot8]:SetData(slot1[slot8], slot0.heroInfo_, slot0.viewDataType)
+		slot0.desItemList[slot8]:SetActive(true)
 	end
 
-	for iter_16_1 = var_16_1 + 1, #arg_16_0.desItemList do
-		arg_16_0.desItemList[iter_16_1]:SetActive(false)
+	for slot8 = slot2 + 1, #slot0.desItemList do
+		slot0.desItemList[slot8]:SetActive(false)
 	end
 
-	SetActive(arg_16_0.nullGo_, not var_16_2)
-	TimeTools.StartAfterSeconds(0.1, function()
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_16_0.contentTrs_)
+	SetActive(slot0.nullGo_, not slot3)
+	TimeTools.StartAfterSeconds(0.1, function ()
+		LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.contentTrs_)
 	end, {})
 end
 
-function var_0_1.OnTop(arg_19_0)
-	arg_19_0:UpdateNotice()
+function slot1.OnTop(slot0)
+	slot0:UpdateNotice()
 
-	if arg_19_0.astrolabeInfoView_ then
-		arg_19_0.astrolabeInfoView_:RegistCallBack(handler(arg_19_0, arg_19_0.SelectItem))
+	if slot0.astrolabeInfoView_ then
+		slot0.astrolabeInfoView_:RegistCallBack(handler(slot0, slot0.SelectItem))
 	end
 end
 
-function var_0_1.UpdateNotice(arg_20_0)
-	if arg_20_0.heroViewProxy_.showRedPoint then
-		manager.redPoint:bindUIandKey(arg_20_0.adjustBtn_.transform, RedPointConst.ASTROLABE_UNLOCK)
+function slot1.UpdateNotice(slot0)
+	if slot0.heroViewProxy_.showRedPoint then
+		manager.redPoint:bindUIandKey(slot0.adjustBtn_.transform, RedPointConst.ASTROLABE_UNLOCK)
 	end
 end
 
-function var_0_1.OnEnter(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_0.heroViewProxy_ = arg_21_1
-	arg_21_0.isHided = true
-	arg_21_0.params_ = arg_21_2
+function slot1.OnEnter(slot0, slot1, slot2)
+	slot0.heroViewProxy_ = slot1
+	slot0.isHided = true
+	slot0.params_ = slot2
 
-	if arg_21_0.heroViewProxy_:GetViewDataType() ~= HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-		arg_21_0.isSelfController_:SetSelectedState(tostring(arg_21_0.heroViewProxy_.isSelf))
+	if slot0.heroViewProxy_:GetViewDataType() ~= HeroConst.HERO_DATA_TYPE.POLYHEDRON then
+		slot0.isSelfController_:SetSelectedState(tostring(slot0.heroViewProxy_.isSelf))
 	else
-		arg_21_0.isSelfController_:SetSelectedState("true")
+		slot0.isSelfController_:SetSelectedState("true")
 	end
 
-	arg_21_0.isPreviewController_:SetSelectedState(tostring(arg_21_0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
+	slot0.isPreviewController_:SetSelectedState(tostring(slot0.heroViewProxy_:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
 end
 
-function var_0_1.CameraEnter(arg_22_0)
+function slot1.CameraEnter(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		5,
 		0
@@ -230,29 +221,29 @@ function var_0_1.CameraEnter(arg_22_0)
 	manager.heroRaiseTrack:RefreshAstrolabeColor(true)
 end
 
-function var_0_1.OnExit(arg_23_0)
-	manager.redPoint:unbindUIandKey(arg_23_0.adjustBtn_.transform)
-	arg_23_0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.Hide)
+function slot1.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.adjustBtn_.transform)
+	slot0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.Hide)
 	manager.heroRaiseTrack:RefreshAstrolabeColor(false)
 end
 
-function var_0_1.Hide(arg_24_0)
+function slot1.Hide(slot0)
 	manager.heroRaiseTrack:RefreshAstrolabeColor(false)
-	var_0_1.super.Hide(arg_24_0)
-	arg_24_0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.Hide)
+	uv0.super.Hide(slot0)
+	slot0.astrolabeInfoView_:RefreshAnimationState(AstrolabeConst.AnimationState.Hide)
 	HeroTools.StopTalk()
 end
 
-function var_0_1.Dispose(arg_25_0)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.desItemList or {}) do
-		if iter_25_1 then
-			iter_25_1:Dispose()
+function slot1.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.desItemList or {}) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	arg_25_0.desItemList = nil
+	slot0.desItemList = nil
 
-	var_0_1.super.Dispose(arg_25_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

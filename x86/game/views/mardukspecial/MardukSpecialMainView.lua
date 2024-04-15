@@ -1,63 +1,59 @@
-local var_0_0 = class("MardukSpecialMainView", ReduxView)
+slot0 = class("MardukSpecialMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/special/MardukSpecialUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.items_ = {}
+function slot0.Init(slot0)
+	slot0.items_ = {}
 
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.rankLockController_ = ControllerUtil.GetController(arg_5_0.rankBtn_.transform, "rankLock")
+	slot0.rankLockController_ = ControllerUtil.GetController(slot0.rankBtn_.transform, "rankLock")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.rewardBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("mardukSpecialReward", {
-			activityID = arg_6_0.params_.activityID
+			activityID = uv0.params_.activityID
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rankBtn_, nil, function()
-		if not arg_6_0.rankOpen_ then
+	slot0:AddBtnListener(slot0.rankBtn_, nil, function ()
+		if not uv0.rankOpen_ then
 			return
 		end
 
-		local var_8_0 = arg_6_0.activityIds_[arg_6_0.curIndex_]
-
 		JumpTools.OpenPageByJump("/mardukSpecialRank", {
-			activityID = arg_6_0.params_.activityID,
-			subActivityId = var_8_0
+			activityID = uv0.params_.activityID,
+			subActivityId = uv0.activityIds_[uv0.curIndex_]
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_11_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_12_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -66,185 +62,172 @@ function var_0_0.UpdateBar(arg_12_0)
 	manager.windowBar:SetGameHelpKey("MARDUK_SPECIAL_NOTE")
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_13_0.activityIds_ = ActivityCfg[arg_13_0.params_.activityID].sub_activity_list
+	slot0.activityIds_ = ActivityCfg[slot0.params_.activityID].sub_activity_list
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.activityIds_) do
-		if not arg_13_0.items_[iter_13_0] then
-			arg_13_0.items_[iter_13_0] = arg_13_0:CreateItem(iter_13_0)
+	for slot4, slot5 in ipairs(slot0.activityIds_) do
+		if not slot0.items_[slot4] then
+			slot0.items_[slot4] = slot0:CreateItem(slot4)
 		end
 
-		arg_13_0.items_[iter_13_0]:SetData(iter_13_0, arg_13_0.params_.activityID, iter_13_1)
+		slot0.items_[slot4]:SetData(slot4, slot0.params_.activityID, slot5)
 	end
 
-	manager.redPoint:bindUIandKey(arg_13_0.rewardbtntrans_, string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, ActivityConst.FACTORY_MARDUK))
-	arg_13_0:StartTimer()
-	arg_13_0:UpdateTimer()
+	manager.redPoint:bindUIandKey(slot0.rewardbtntrans_, string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, ActivityConst.FACTORY_MARDUK))
+	slot0:StartTimer()
+	slot0:UpdateTimer()
 end
 
-function var_0_0.OnExit(arg_14_0)
+function slot0.OnExit(slot0)
 	AnimatorTools.Stop()
-	arg_14_0:StopTimer()
-	arg_14_0:RemoveAllEventListener()
-	manager.redPoint:unbindUIandKey(arg_14_0.rewardbtntrans_, string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, ActivityConst.FACTORY_MARDUK))
+	slot0:StopTimer()
+	slot0:RemoveAllEventListener()
+	manager.redPoint:unbindUIandKey(slot0.rewardbtntrans_, string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, ActivityConst.FACTORY_MARDUK))
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.StartTimer(arg_15_0)
-	if arg_15_0.timer_ == nil then
-		arg_15_0.timer_ = Timer.New(function()
-			arg_15_0:UpdateTimer()
+function slot0.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_15_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_17_0)
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.CreateItem(arg_18_0, arg_18_1)
-	local var_18_0 = arg_18_0["item" .. arg_18_1 .. "Go_"]
-	local var_18_1 = MardukSpecialItemView.New(var_18_0)
+function slot0.CreateItem(slot0, slot1)
+	slot3 = MardukSpecialItemView.New(slot0["item" .. slot1 .. "Go_"])
 
-	var_18_1:SetItemSelectHandler(handler(arg_18_0, arg_18_0.OnNodeSelect))
+	slot3:SetItemSelectHandler(handler(slot0, slot0.OnNodeSelect))
 
-	return var_18_1
+	return slot3
 end
 
-function var_0_0.OnNodeSelect(arg_19_0, arg_19_1, arg_19_2)
-	if not arg_19_2 then
-		arg_19_0.items_[arg_19_0.curIndex_]:ShowSelect(false)
+function slot0.OnNodeSelect(slot0, slot1, slot2)
+	if not slot2 then
+		slot0.items_[slot0.curIndex_]:ShowSelect(false)
 
-		arg_19_0.curIndex_ = nil
+		slot0.curIndex_ = nil
 
-		arg_19_0:UpdateView()
+		slot0:UpdateView()
 
 		return
 	end
 
-	if arg_19_0.curIndex_ ~= nil and arg_19_1 == arg_19_0.curIndex_ then
+	if slot0.curIndex_ ~= nil and slot1 == slot0.curIndex_ then
 		return
 	end
 
-	arg_19_0:SetSelect(arg_19_1)
+	slot0:SetSelect(slot1)
 end
 
-function var_0_0.SetSelect(arg_20_0, arg_20_1)
-	if arg_20_0.curIndex_ then
-		arg_20_0.items_[arg_20_0.curIndex_]:ShowSelect(false)
+function slot0.SetSelect(slot0, slot1)
+	if slot0.curIndex_ then
+		slot0.items_[slot0.curIndex_]:ShowSelect(false)
 	end
 
-	arg_20_0.curIndex_ = arg_20_1
+	slot0.curIndex_ = slot1
 
-	if arg_20_0.curIndex_ then
-		arg_20_0:ScrollToItem(arg_20_1)
+	if slot0.curIndex_ then
+		slot0:ScrollToItem(slot1)
 	end
 
-	arg_20_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.ScrollToItem(arg_21_0, arg_21_1)
-	local var_21_0 = arg_21_0.container_.rect.width
-	local var_21_1 = 491
-	local var_21_2 = 1091
-	local var_21_3 = arg_21_0.scrollViewTransform_.rect.width
-	local var_21_4 = 21 + var_21_1 * (arg_21_1 - 1) + var_21_2 / 2 - var_21_3 / 2
+function slot0.ScrollToItem(slot0, slot1)
+	slot2 = slot0.container_.rect.width
 
-	if var_21_4 < 0 then
-		var_21_4 = 0
+	if 21 + 491 * (slot1 - 1) + 1091 / 2 - slot0.scrollViewTransform_.rect.width / 2 < 0 then
+		slot6 = 0
 	end
 
-	arg_21_0.container_.localPosition.x = -var_21_4
+	slot0.container_.localPosition.x = -slot6
 
-	LeanTween.moveLocalX(arg_21_0.container_.gameObject, -var_21_4, 0.2)
-	arg_21_0.items_[arg_21_1]:ShowSelect(true)
+	LeanTween.moveLocalX(slot0.container_.gameObject, -slot6, 0.2)
+	slot0.items_[slot1]:ShowSelect(true)
 end
 
-function var_0_0.UpdateView(arg_22_0)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_22_0.contenttrans_)
+function slot0.UpdateView(slot0)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contenttrans_)
 
-	local var_22_0 = ActivityData:GetActivityData(arg_22_0.params_.activityID).stopTime
-
-	arg_22_0.lastTimeLabel_.text = manager.time:GetLostTimeStr(var_22_0)
+	slot0.lastTimeLabel_.text = manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.params_.activityID).stopTime)
 end
 
-function var_0_0.UpdateTimer(arg_23_0)
-	local var_23_0 = false
-	local var_23_1 = 0
+function slot0.UpdateTimer(slot0)
+	slot1 = false
 
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.activityIds_) do
-		if #ActivityCfg[iter_23_1].sub_activity_list > 0 then
-			if var_23_1 == 0 then
-				var_23_1 = iter_23_1
+	for slot6, slot7 in ipairs(slot0.activityIds_) do
+		if #ActivityCfg[slot7].sub_activity_list > 0 then
+			if 0 == 0 then
+				slot2 = slot7
 			end
 
-			if ActivityData:GetActivityIsOpen(iter_23_1) then
-				var_23_0 = true
+			if ActivityData:GetActivityIsOpen(slot7) then
+				slot1 = true
 
 				break
 			end
 		end
 	end
 
-	arg_23_0.rankOpen_ = var_23_0
+	slot0.rankOpen_ = slot1
 
-	if var_23_0 then
-		arg_23_0.rankLockController_:SetSelectedState("false")
+	if slot1 then
+		slot0.rankLockController_:SetSelectedState("false")
 	else
-		arg_23_0.rankLockController_:SetSelectedState("true")
+		slot0.rankLockController_:SetSelectedState("true")
 
-		local var_23_2 = ActivityData:GetActivityData(var_23_1).stopTime
+		slot4 = ActivityData:GetActivityData(slot2).stopTime
 
-		if ActivityData:GetActivityData(var_23_1).stopTime < manager.time:GetServerTime() then
-			arg_23_0.timeLabel_.text = GetTips("TIME_OVER")
+		if ActivityData:GetActivityData(slot2).stopTime < manager.time:GetServerTime() then
+			slot0.timeLabel_.text = GetTips("TIME_OVER")
 		else
-			local var_23_3 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(var_23_1).startTime)
-
-			arg_23_0.timeLabel_.text = string.format(GetTips("OPEN_TIME"), var_23_3)
+			slot0.timeLabel_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot2).startTime))
 		end
 	end
 
-	local var_23_4 = ActivityData:GetActivityData(arg_23_0.params_.activityID).stopTime
-
-	if var_23_4 > manager.time:GetServerTime() then
-		arg_23_0.lastTimeLabel_.text = manager.time:GetLostTimeStr(var_23_4)
+	if manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.params_.activityID).stopTime then
+		slot0.lastTimeLabel_.text = manager.time:GetLostTimeStr(slot4)
 	else
-		arg_23_0.lastTimeLabel_.text = GetTips("TIME_OVER")
+		slot0.lastTimeLabel_.text = GetTips("TIME_OVER")
 	end
 
-	for iter_23_2, iter_23_3 in pairs(arg_23_0.items_) do
-		iter_23_3:UpdateTime()
+	for slot8, slot9 in pairs(slot0.items_) do
+		slot9:UpdateTime()
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_24_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_25_0)
-	if arg_25_0.items_ then
-		for iter_25_0, iter_25_1 in pairs(arg_25_0.items_) do
-			iter_25_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.items_ then
+		for slot4, slot5 in pairs(slot0.items_) do
+			slot5:Dispose()
 		end
 
-		arg_25_0.items_ = nil
+		slot0.items_ = nil
 	end
 
-	if arg_25_0.timer_ then
-		arg_25_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_25_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_25_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

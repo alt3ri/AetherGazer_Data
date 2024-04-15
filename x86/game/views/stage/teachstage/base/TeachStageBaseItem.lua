@@ -1,118 +1,103 @@
-local var_0_0 = class("TeachStageBaseItem", ReduxView)
+slot0 = class("TeachStageBaseItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.transform_.name = arg_1_3
-	arg_1_0.stageID_ = arg_1_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.transform_.name = slot3
+	slot0.stageID_ = slot3
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
-	arg_2_0:SetData(arg_2_0.stageID_)
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
+	slot0:SetData(slot0.stageID_)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	SetActive(arg_3_0.gameObject_, true)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	SetActive(slot0.gameObject_, true)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectcontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.selectcontroller_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.itemBtn_, nil, function()
-		if arg_4_0.isLock_ then
-			ShowTips(arg_4_0.lockStr_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.itemBtn_, nil, function ()
+		if uv0.isLock_ then
+			ShowTips(uv0.lockStr_)
 
 			return
 		end
 
-		local var_5_0 = getChapterAndSectionID(arg_4_0.stageID_)
-
-		BattleFieldData:SetCacheStage(var_5_0, arg_4_0.stageID_)
-		arg_4_0:Go("teachSectionInfo", {
-			section = arg_4_0.stageID_,
+		BattleFieldData:SetCacheStage(getChapterAndSectionID(uv0.stageID_), uv0.stageID_)
+		uv0:Go("teachSectionInfo", {
+			section = uv0.stageID_,
 			sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING
 		})
 	end)
 end
 
-function var_0_0.RefreshSelect(arg_6_0, arg_6_1)
-	arg_6_0.selectcontroller_:SetSelectedState(arg_6_1 == arg_6_0.stageID_ and "choice" or "normal")
+function slot0.RefreshSelect(slot0, slot1)
+	slot0.selectcontroller_:SetSelectedState(slot1 == slot0.stageID_ and "choice" or "normal")
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.icon_ = nil
-	arg_7_0.itemBtn_ = nil
-	arg_7_0.text_ = nil
-	arg_7_0.clear_ = nil
+function slot0.Dispose(slot0)
+	slot0.icon_ = nil
+	slot0.itemBtn_ = nil
+	slot0.text_ = nil
+	slot0.clear_ = nil
 
-	Object.Destroy(arg_7_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.gameObject_ = nil
-	arg_7_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.stageID_ = arg_8_1
+function slot0.SetData(slot0, slot1)
+	slot0.stageID_ = slot1
 
-	for iter_8_0, iter_8_1 in ipairs(GameSetting.new_player_study_stage_unlock.value) do
-		if iter_8_1[1] == arg_8_1 then
-			local var_8_0 = BattleStageData:GetStageData()[iter_8_1[2]]
-
-			if var_8_0 and var_8_0.clear_times > 0 then
-				arg_8_0.isLock_ = false
+	for slot5, slot6 in ipairs(GameSetting.new_player_study_stage_unlock.value) do
+		if slot6[1] == slot1 then
+			if BattleStageData:GetStageData()[slot6[2]] and slot7.clear_times > 0 then
+				slot0.isLock_ = false
 			else
-				arg_8_0.isLock_ = true
-
-				local var_8_1 = getChapterDifficulty(iter_8_1[2])
-				local var_8_2 = getChapterClientCfgByStageID(iter_8_1[2]).toggle
-				local var_8_3, var_8_4 = BattleStageTools.GetChapterSectionIndex(var_8_2, iter_8_1[2])
-
-				arg_8_0.lockStr_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), var_8_1, GetI18NText(var_8_3), GetI18NText(var_8_4))
+				slot0.isLock_ = true
+				slot10, slot11 = BattleStageTools.GetChapterSectionIndex(getChapterClientCfgByStageID(slot6[2]).toggle, slot6[2])
+				slot0.lockStr_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), getChapterDifficulty(slot6[2]), GetI18NText(slot10), GetI18NText(slot11))
 			end
 		end
 	end
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	if arg_9_0.oldStageID_ ~= arg_9_0.stageID_ then
-		arg_9_0.oldStageID_ = arg_9_0.stageID_
-
-		local var_9_0 = BattleBaseTeachStageCfg[arg_9_0.stageID_]
-
-		arg_9_0.transform_.localPosition = Vector3(var_9_0.position[1], var_9_0.position[2], 0)
-		arg_9_0.icon_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.StageHDPaint.path, var_9_0.hd_image))
-		arg_9_0.text_.text = GetI18NText(var_9_0.name)
+function slot0.RefreshUI(slot0)
+	if slot0.oldStageID_ ~= slot0.stageID_ then
+		slot0.oldStageID_ = slot0.stageID_
+		slot1 = BattleBaseTeachStageCfg[slot0.stageID_]
+		slot0.transform_.localPosition = Vector3(slot1.position[1], slot1.position[2], 0)
+		slot0.icon_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.StageHDPaint.path, slot1.hd_image))
+		slot0.text_.text = GetI18NText(slot1.name)
 	end
 
-	local var_9_1 = BattleTeachData:GetBaseTeachList()[arg_9_0.stageID_]
-
-	SetActive(arg_9_0.gameObject_, true)
-
-	local var_9_2 = var_9_1 and var_9_1 > 0 or false
-
-	SetActive(arg_9_0.clear_, var_9_2)
-	SetActive(arg_9_0.lockGo_, arg_9_0.isLock_)
+	SetActive(slot0.gameObject_, true)
+	SetActive(slot0.clear_, BattleTeachData:GetBaseTeachList()[slot0.stageID_] and slot1 > 0 or false)
+	SetActive(slot0.lockGo_, slot0.isLock_)
 end
 
-function var_0_0.GetLocalPosition(arg_10_0)
-	return arg_10_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-function var_0_0.Show(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.gameObject_, arg_11_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.IsOpenSectionInfo(arg_12_0)
-	return arg_12_0:IsOpenRoute("teachSectionInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("teachSectionInfo")
 end
 
-return var_0_0
+return slot0

@@ -1,134 +1,120 @@
-local var_0_0 = class("SequentialBattleFactoryTeamItem", ReduxView)
+slot0 = class("SequentialBattleFactoryTeamItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.heroItemList_ = {}
+	slot0.heroItemList_ = {}
 
-	for iter_1_0 = 1, 3 do
-		arg_1_0.heroItemList_[iter_1_0] = SequentialBattleFactoryTeamHero.New(arg_1_0[string.format("heroGo%s_", iter_1_0)], iter_1_0)
+	for slot5 = 1, 3 do
+		slot0.heroItemList_[slot5] = SequentialBattleFactoryTeamHero.New(slot0[string.format("heroGo%s_", slot5)], slot5)
 	end
 
-	arg_1_0.buffItemList_ = {}
-	arg_1_0.bossController_ = ControllerUtil.GetController(arg_1_0.transform_, "boss")
-	arg_1_0.buffController_ = ControllerUtil.GetController(arg_1_0.transform_, "affix")
+	slot0.buffItemList_ = {}
+	slot0.bossController_ = ControllerUtil.GetController(slot0.transform_, "boss")
+	slot0.buffController_ = ControllerUtil.GetController(slot0.transform_, "affix")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_1
-	arg_2_0.stageIndex_ = arg_2_2
-	arg_2_0.stageID_ = SequentialBattleChapterCfg[arg_2_0.activityID_].stage_id[arg_2_0.stageIndex_]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.stageIndex_ = slot2
+	slot0.stageID_ = SequentialBattleChapterCfg[slot0.activityID_].stage_id[slot0.stageIndex_]
 
-	SequentialBattleTools.CheckHeroTeam(arg_2_1, arg_2_2)
+	SequentialBattleTools.CheckHeroTeam(slot1, slot2)
 
-	local var_2_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, arg_2_0.activityID_, arg_2_0.stageIndex_, {
-		stageType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
-		stageID = arg_2_0.stageID_,
-		activityID = arg_2_0.activityID_
-	})
-	local var_2_1 = ReserveTools.GetHeroList(var_2_0)
+	slot8 = slot0.activityID_
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.heroItemList_) do
-		iter_2_1:SetData(arg_2_1, arg_2_2, var_2_1[iter_2_0])
+	for slot8, slot9 in ipairs(slot0.heroItemList_) do
+		slot9:SetData(slot1, slot2, ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, slot0.activityID_, slot0.stageIndex_, {
+			stageType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
+			stageID = slot0.stageID_,
+			activityID = slot8
+		}))[slot8])
 	end
 
-	arg_2_0.titleText_.text = GetTips(string.format("TEAM_%s", arg_2_2))
+	slot0.titleText_.text = GetTips(string.format("TEAM_%s", slot2))
 
-	local var_2_2 = SequentialBattleChapterCfg[arg_2_1]
+	if SequentialBattleChapterCfg[slot1].boss_list[slot2] ~= 0 then
+		slot0.bossController_:SetSelectedState("true")
 
-	if var_2_2.boss_list[arg_2_2] ~= 0 then
-		arg_2_0.bossController_:SetSelectedState("true")
-
-		local var_2_3
-
-		for iter_2_2, iter_2_3 in pairs(var_2_2.boss_list[arg_2_2]) do
-			if var_2_3 == nil then
-				var_2_3 = tostring(iter_2_3)
-			else
-				var_2_3 = var_2_3 .. tostring(iter_2_3)
-			end
+		for slot10, slot11 in pairs(slot5.boss_list[slot2]) do
+			slot6 = (nil ~= nil or tostring(slot11)) and tostring(slot11) .. tostring(slot11)
 		end
 
-		arg_2_0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/icon/%s", var_2_3))
+		slot0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/icon/%s", slot6))
 	else
-		arg_2_0.bossController_:SetSelectedState("false")
+		slot0.bossController_:SetSelectedState("false")
 	end
 
-	arg_2_0:RefreshBuffItem()
+	slot0:RefreshBuffItem()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.heroItemList_) do
-		iter_3_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.heroItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.heroItemList_ = nil
+	slot0.heroItemList_ = nil
 
-	for iter_3_2, iter_3_3 in ipairs(arg_3_0.buffItemList_) do
-		iter_3_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.buffItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.buffItemList_ = nil
+	slot0.buffItemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bossBtn_, nil, function()
-		local var_5_0 = 0
-		local var_5_1 = SequentialBattleChapterCfg[arg_4_0.activityID_].boss_list
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bossBtn_, nil, function ()
+		slot0 = 0
 
-		if var_5_1[arg_4_0.stageIndex_] ~= 0 then
-			for iter_5_0, iter_5_1 in ipairs(var_5_1) do
-				if iter_5_1 ~= 0 then
-					var_5_0 = var_5_0 + 1
+		if SequentialBattleChapterCfg[uv0.activityID_].boss_list[uv0.stageIndex_] ~= 0 then
+			for slot5, slot6 in ipairs(slot1) do
+				if slot6 ~= 0 then
+					slot0 = slot0 + 1
 				end
 
-				if iter_5_0 == arg_4_0.stageIndex_ then
+				if slot5 == uv0.stageIndex_ then
 					break
 				end
 			end
 		else
-			var_5_0 = 1
+			slot0 = 1
 		end
 
 		JumpTools.OpenPageByJump("sequentialBattleBossInfo", {
-			activityID = arg_4_0.activityID_,
-			bossIndex = var_5_0
+			activityID = uv0.activityID_,
+			bossIndex = slot0
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.buffBtn_, nil, function()
-		local var_6_0 = SequentialBattleChapterCfg[arg_4_0.activityID_].stage_id[arg_4_0.stageIndex_]
-
+	slot0:AddBtnListener(slot0.buffBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sequentialBattleBuffInfo", {
-			activityID = arg_4_0.activityID_,
-			stageID = var_6_0
+			activityID = uv0.activityID_,
+			stageID = SequentialBattleChapterCfg[uv0.activityID_].stage_id[uv0.stageIndex_]
 		})
 	end)
 end
 
-function var_0_0.RefreshBuffItem(arg_7_0)
-	local var_7_0 = SequentialBattleTools.GetEnabledBuff(arg_7_0.activityID_, arg_7_0.stageIndex_)
-
-	if #var_7_0 <= 0 then
-		arg_7_0.buffController_:SetSelectedState("off")
+function slot0.RefreshBuffItem(slot0)
+	if #SequentialBattleTools.GetEnabledBuff(slot0.activityID_, slot0.stageIndex_) <= 0 then
+		slot0.buffController_:SetSelectedState("off")
 	else
-		arg_7_0.buffController_:SetSelectedState("on")
+		slot0.buffController_:SetSelectedState("on")
 
-		for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-			arg_7_0.buffItemList_[iter_7_0] = arg_7_0.buffItemList_[iter_7_0] or SequentialBattleFactoryTeamBuff.New(arg_7_0.buffItem_, arg_7_0.buffParent_)
+		for slot5, slot6 in ipairs(slot1) do
+			slot0.buffItemList_[slot5] = slot0.buffItemList_[slot5] or SequentialBattleFactoryTeamBuff.New(slot0.buffItem_, slot0.buffParent_)
 
-			arg_7_0.buffItemList_[iter_7_0]:SetData(SequentialBattleBuffCfg[iter_7_1].affix_id)
+			slot0.buffItemList_[slot5]:SetData(SequentialBattleBuffCfg[slot6].affix_id)
 		end
 
-		for iter_7_2 = #var_7_0 + 1, #arg_7_0.buffItemList_ do
-			arg_7_0.buffItemList_[iter_7_2]:Show(false)
+		for slot5 = #slot1 + 1, #slot0.buffItemList_ do
+			slot0.buffItemList_[slot5]:Show(false)
 		end
 	end
 end
 
-return var_0_0
+return slot0

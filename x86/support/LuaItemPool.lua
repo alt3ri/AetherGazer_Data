@@ -1,71 +1,61 @@
-local var_0_0 = class("LuaItemPool")
-local var_0_1 = 30
+slot0 = class("LuaItemPool")
+slot1 = 30
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.uselessParent_ = GameObject.Find("/Pool").transform
-	arg_1_0._templatePath = arg_1_2
-	arg_1_0._class = arg_1_1
-	arg_1_0._pool = {}
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.uselessParent_ = GameObject.Find("/Pool").transform
+	slot0._templatePath = slot2
+	slot0._class = slot1
+	slot0._pool = {}
 end
 
-function var_0_0.LoadItem(arg_2_0, arg_2_1)
-	arg_2_0._template = Asset.Load(arg_2_0._templatePath)
+function slot0.LoadItem(slot0, slot1)
+	slot0._template = Asset.Load(slot0._templatePath)
 
-	for iter_2_0 = 1, arg_2_1 do
-		arg_2_0:AddPool()
+	for slot5 = 1, slot1 do
+		slot0:AddPool()
 	end
 end
 
-function var_0_0.AddPool(arg_3_0, arg_3_1)
-	if not arg_3_0._template then
-		arg_3_0._template = Asset.Load(arg_3_0._templatePath)
+function slot0.AddPool(slot0, slot1)
+	if not slot0._template then
+		slot0._template = Asset.Load(slot0._templatePath)
 	end
 
-	local var_3_0
+	slot2 = nil
+	slot0._pool[#slot0._pool + 1] = slot0._class.New((not slot1 or Object.Instantiate(slot0._template, slot1.transform)) and Object.Instantiate(slot0._template, slot0.uselessParent_.transform))
+end
 
-	if arg_3_1 then
-		var_3_0 = Object.Instantiate(arg_3_0._template, arg_3_1.transform)
-	else
-		var_3_0 = Object.Instantiate(arg_3_0._template, arg_3_0.uselessParent_.transform)
+function slot0.Get(slot0, slot1)
+	if #slot0._pool >= 1 then
+		slot2 = slot0._pool[#slot0._pool]
+		slot0._pool[#slot0._pool] = nil
+
+		slot2.gameObject_.transform:SetParent(slot1.transform, false)
+
+		return slot2
 	end
 
-	arg_3_0._pool[#arg_3_0._pool + 1] = arg_3_0._class.New(var_3_0)
+	slot0:AddPool(slot1)
+
+	slot0._pool[#slot0._pool] = nil
+
+	return slot0._pool[#slot0._pool]
 end
 
-function var_0_0.Get(arg_4_0, arg_4_1)
-	if #arg_4_0._pool >= 1 then
-		local var_4_0 = arg_4_0._pool[#arg_4_0._pool]
+function slot0.Release(slot0, slot1)
+	slot1.transform_:SetParent(slot0.uselessParent_, false)
 
-		arg_4_0._pool[#arg_4_0._pool] = nil
+	slot0._pool[#slot0._pool + 1] = slot1
+end
 
-		var_4_0.gameObject_.transform:SetParent(arg_4_1.transform, false)
-
-		return var_4_0
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0._pool) do
+		Object.Destroy(slot5.gameObject_)
+		slot5:Dispose()
 	end
 
-	arg_4_0:AddPool(arg_4_1)
-
-	local var_4_1 = arg_4_0._pool[#arg_4_0._pool]
-
-	arg_4_0._pool[#arg_4_0._pool] = nil
-
-	return var_4_1
+	slot0._pool = nil
+	slot0._template = nil
 end
 
-function var_0_0.Release(arg_5_0, arg_5_1)
-	arg_5_1.transform_:SetParent(arg_5_0.uselessParent_, false)
-
-	arg_5_0._pool[#arg_5_0._pool + 1] = arg_5_1
-end
-
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0._pool) do
-		Object.Destroy(iter_6_1.gameObject_)
-		iter_6_1:Dispose()
-	end
-
-	arg_6_0._pool = nil
-	arg_6_0._template = nil
-end
-
-return var_0_0
+return slot0

@@ -1,14 +1,14 @@
-local function var_0_0(arg_1_0, arg_1_1)
-	return arg_1_0 == arg_1_1
+function slot0(slot0, slot1)
+	return slot0 == slot1
 end
 
-local function var_0_1(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_1 == nil or arg_2_2 == nil or #arg_2_1 ~= #arg_2_2 then
+function slot1(slot0, slot1, slot2)
+	if slot1 == nil or slot2 == nil or #slot1 ~= #slot2 then
 		return false
 	end
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		if not arg_2_0(iter_2_1, arg_2_2[iter_2_0]) then
+	for slot6, slot7 in ipairs(slot1) do
+		if not slot0(slot7, slot2[slot6]) then
 			return false
 		end
 	end
@@ -16,143 +16,125 @@ local function var_0_1(arg_2_0, arg_2_1, arg_2_2)
 	return true
 end
 
-local function var_0_2(arg_3_0, arg_3_1)
-	if arg_3_1 == nil then
-		arg_3_1 = var_0_0
+function slot2(slot0, slot1)
+	if slot1 == nil then
+		slot1 = uv0
 	end
 
-	local var_3_0
-	local var_3_1
+	slot2, slot3 = nil
 
-	return function(...)
-		local var_4_0 = {
+	return function (...)
+		if not uv0(uv1, uv2, {
 			...
-		}
-
-		if not var_0_1(arg_3_1, var_3_0, var_4_0) then
-			var_3_1 = arg_3_0(unpack(var_4_0))
+		}) then
+			uv3 = uv4(unpack(slot0))
 		end
 
-		var_3_0 = var_4_0
+		uv2 = slot0
 
-		return var_3_1
+		return uv3
 	end
 end
 
-local function var_0_3(arg_5_0)
-	local var_5_0
+function slot3(slot0)
+	slot1 = nil
+	slot2 = true
 
-	if type(arg_5_0[1]) == "table" then
-		var_5_0 = arg_5_0[1]
-	else
-		var_5_0 = {
-			unpack(arg_5_0)
-		}
-	end
-
-	local var_5_1 = true
-
-	for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-		if type(iter_5_1) ~= "function" then
-			var_5_1 = false
+	for slot6, slot7 in ipairs((type(slot0[1]) ~= "table" or slot0[1]) and {
+		unpack(slot0)
+	}) do
+		if type(slot7) ~= "function" then
+			slot2 = false
 
 			break
 		end
 	end
 
-	if not var_5_1 then
-		local var_5_2 = {}
+	if not slot2 then
+		slot3 = {}
 
-		for iter_5_2, iter_5_3 in ipairs(var_5_0) do
-			table.insert(var_5_2, type(iter_5_3))
+		for slot7, slot8 in ipairs(slot1) do
+			table.insert(slot3, type(slot8))
 		end
 
-		error(string.format("        Selector creators expect all input-selectors to be functions,\n        instead received the following types: [%s]", table.concat(var_5_2, ", ")))
+		error(string.format("        Selector creators expect all input-selectors to be functions,\n        instead received the following types: [%s]", table.concat(slot3, ", ")))
 	end
 
-	return var_5_0
+	return slot1
 end
 
-local function var_0_4(arg_6_0, ...)
-	local var_6_0 = {
+function slot4(slot0, ...)
+	slot2 = {
 		...
 	}
 
-	return function(...)
-		local var_7_0 = {
+	return function (...)
+		slot0 = {
 			...
 		}
-		local var_7_1 = 0
-		local var_7_2 = table.remove(var_7_0)
-		local var_7_3 = var_0_3(var_7_0)
-		local var_7_4 = arg_6_0(function(...)
-			var_7_1 = var_7_1 + 1
+		slot1 = 0
+		slot4 = uv1(function (...)
+			uv0 = uv0 + 1
 
-			return var_7_2(unpack({
+			return uv1(unpack({
 				...
 			}))
-		end, unpack(var_6_0))
-		local var_7_5 = arg_6_0(function(...)
-			local var_9_0 = {}
-
-			for iter_9_0, iter_9_1 in ipairs(var_7_3) do
-				table.insert(var_9_0, iter_9_1(unpack({
-					...
-				})))
-			end
-
-			return var_7_4(unpack(var_9_0))
-		end)
+		end, unpack(uv2))
 
 		return {
-			compute = var_7_5,
-			resultFunc = var_7_2,
-			dependencies = var_7_3,
-			recomputations = function()
-				return var_7_1
+			compute = uv1(function (...)
+				slot0 = {}
+
+				for slot4, slot5 in ipairs(uv0) do
+					table.insert(slot0, slot5(unpack({
+						...
+					})))
+				end
+
+				return uv1(unpack(slot0))
+			end),
+			resultFunc = table.remove(slot0),
+			dependencies = uv0(slot0),
+			recomputations = function ()
+				return uv0
 			end,
-			resetRecomputations = function()
-				var_7_1 = 0
+			resetRecomputations = function ()
+				uv0 = 0
 			end
 		}
 	end
-end
-
-local var_0_5 = var_0_4(var_0_2)
-
-local function var_0_6(arg_12_0, arg_12_1)
-	if arg_12_1 == nil then
-		arg_12_1 = var_0_5
-	end
-
-	if type(arg_12_0) ~= "table" then
-		error(string.format("        createStructuredSelector expects first argument to be an object\n        where each property is a selecotr, instead received a %s", type(arg_12_0)))
-	end
-
-	local var_12_0 = {}
-	local var_12_1 = {}
-
-	for iter_12_0, iter_12_1 in pairs(arg_12_0) do
-		table.insert(var_12_1, iter_12_0)
-		table.insert(var_12_0, iter_12_1)
-	end
-
-	return arg_12_1(var_12_0, function(...)
-		local var_13_0 = {}
-
-		for iter_13_0, iter_13_1 in ipairs({
-			...
-		}) do
-			var_13_0[var_12_1[iter_13_0]] = iter_13_1
-		end
-
-		return var_13_0
-	end)
 end
 
 return {
-	defaultMemoize = var_0_2,
-	createSelectorCreator = var_0_4,
-	createSelector = var_0_5,
-	createStructuredSelector = var_0_6
+	defaultMemoize = slot2,
+	createSelectorCreator = slot4,
+	createSelector = slot4(slot2),
+	createStructuredSelector = function (slot0, slot1)
+		if slot1 == nil then
+			slot1 = uv0
+		end
+
+		if type(slot0) ~= "table" then
+			error(string.format("        createStructuredSelector expects first argument to be an object\n        where each property is a selecotr, instead received a %s", type(slot0)))
+		end
+
+		slot2 = {}
+
+		for slot7, slot8 in pairs(slot0) do
+			table.insert({}, slot7)
+			table.insert(slot2, slot8)
+		end
+
+		return slot1(slot2, function (...)
+			for slot4, slot5 in ipairs({
+				...
+			}) do
+				-- Nothing
+			end
+
+			return {
+				[uv0[slot4]] = slot5
+			}
+		end)
+	end
 }

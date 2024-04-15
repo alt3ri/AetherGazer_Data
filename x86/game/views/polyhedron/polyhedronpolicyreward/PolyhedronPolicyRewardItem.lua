@@ -1,80 +1,76 @@
-local var_0_0 = class("PolyhedronPolicyRewardItem", ReduxView)
+slot0 = class("PolyhedronPolicyRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	if arg_4_0.btn_ then
-		arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-			PolyhedronAction.QueryPolicyReward(2, arg_4_0.level_)
+function slot0.AddUIListener(slot0)
+	if slot0.btn_ then
+		slot0:AddBtnListener(slot0.btn_, nil, function ()
+			PolyhedronAction.QueryPolicyReward(2, uv0.level_)
 		end)
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.ID_ = arg_6_1
-	arg_6_0.rewardCfg_ = PolyhedronPolicyCfg[arg_6_0.ID_].rewards[1]
-	arg_6_0.level_ = PolyhedronPolicyCfg[arg_6_0.ID_].level
-	arg_6_0.curLevel_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.ID_ = slot1
+	slot0.rewardCfg_ = PolyhedronPolicyCfg[slot0.ID_].rewards[1]
+	slot0.level_ = PolyhedronPolicyCfg[slot0.ID_].level
+	slot0.curLevel_ = slot2
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.levelText_.text = arg_7_0.level_
+function slot0.UpdateView(slot0)
+	slot0.levelText_.text = slot0.level_
+	slot1 = clone(ItemTemplateData)
+	slot1.id = slot0.rewardCfg_[1]
+	slot1.number = slot0.rewardCfg_[2]
 
-	local var_7_0 = clone(ItemTemplateData)
-
-	var_7_0.id = arg_7_0.rewardCfg_[1]
-	var_7_0.number = arg_7_0.rewardCfg_[2]
-
-	function var_7_0.clickFun(arg_8_0)
+	function slot1.clickFun(slot0)
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_8_0.id,
-			arg_8_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	if arg_7_0.commonItem_ == nil then
-		arg_7_0.commonItem_ = CommonItemPool.New(arg_7_0.rewardPanelGo_, var_7_0)
+	if slot0.commonItem_ == nil then
+		slot0.commonItem_ = CommonItemPool.New(slot0.rewardPanelGo_, slot1)
 	else
-		arg_7_0.commonItem_:SetData(var_7_0)
+		slot0.commonItem_:SetData(slot1)
 	end
 
-	local var_7_1 = PolyhedronData:GetPolicyApplyList()
-
-	if arg_7_0.stateController_ then
-		if var_7_1[arg_7_0.level_] == true then
-			arg_7_0.stateController_:SetSelectedState("received")
-		elseif arg_7_0.curLevel_ >= arg_7_0.level_ then
-			arg_7_0.stateController_:SetSelectedState("unreceive")
+	if slot0.stateController_ then
+		if PolyhedronData:GetPolicyApplyList()[slot0.level_] == true then
+			slot0.stateController_:SetSelectedState("received")
+		elseif slot0.level_ <= slot0.curLevel_ then
+			slot0.stateController_:SetSelectedState("unreceive")
 		else
-			arg_7_0.stateController_:SetSelectedState("uncomplete")
+			slot0.stateController_:SetSelectedState("uncomplete")
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.commonItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.commonItem_:Dispose()
 
-	arg_9_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

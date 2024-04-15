@@ -1,29 +1,28 @@
-local var_0_0 = class("RepairAssetsView", ReduxView)
+slot0 = class("RepairAssetsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/LoginInterface/ResourcesCheckStartUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
 		if RepairAssetsToLua.HasError() then
 			ShowMessageBox({
 				isTop = true,
 				title = GetTips("PROMPT"),
 				content = GetTips("VERIFY_ASSETS_HAS_ERROR"),
-				OkCallback = function()
+				OkCallback = function ()
 					LuaHelper.Quit()
 				end
 			})
@@ -33,53 +32,52 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.Init(arg_8_0)
-	arg_8_0:InitUI()
-	arg_8_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.SetTitle(arg_9_0, arg_9_1)
-	arg_9_0.titleText_.text = GetI18NText(arg_9_1)
+function slot0.SetTitle(slot0, slot1)
+	slot0.titleText_.text = GetI18NText(slot1)
 end
 
-function var_0_0.SetContent(arg_10_0, arg_10_1)
-	arg_10_0.contentText_.text = GetI18NText(arg_10_1)
+function slot0.SetContent(slot0, slot1)
+	slot0.contentText_.text = GetI18NText(slot1)
 end
 
-function var_0_0.SetProgress(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.progressImg_.fillAmount = arg_11_1
-	arg_11_0.progressText_.text = arg_11_2
+function slot0.SetProgress(slot0, slot1, slot2)
+	slot0.progressImg_.fillAmount = slot1
+	slot0.progressText_.text = slot2
 end
 
-function var_0_0.OnEnter(arg_12_0)
+function slot0.OnEnter(slot0)
 	RepairAssetsToLua.VerifyAssets()
-	arg_12_0:SetTitle(GetTips("VERIFY_ASSETS_PROCESSING_TITLE"))
-	arg_12_0:SetContent(GetTips("VERIFY_ASSETS_PROCESSING_CONTENT"))
-	arg_12_0:SetProgress(0, "")
+	slot0:SetTitle(GetTips("VERIFY_ASSETS_PROCESSING_TITLE"))
+	slot0:SetContent(GetTips("VERIFY_ASSETS_PROCESSING_CONTENT"))
+	slot0:SetProgress(0, "")
 
-	if arg_12_0.updateTimer ~= nil then
-		arg_12_0.updateTimer:Stop()
+	if slot0.updateTimer ~= nil then
+		slot0.updateTimer:Stop()
 
-		arg_12_0.updateTimer = nil
+		slot0.updateTimer = nil
 	end
 
-	if arg_12_0.updateTimer == nil then
-		arg_12_0.updateTimer = Timer.New(function()
-			local var_13_0 = RepairAssetsToLua.GetCurrentVerifyIndex()
-			local var_13_1 = RepairAssetsToLua.GetTotalVerifyCount()
-			local var_13_2 = 0
+	if slot0.updateTimer == nil then
+		slot0.updateTimer = Timer.New(function ()
+			slot0 = RepairAssetsToLua.GetCurrentVerifyIndex()
+			slot2 = 0
 
-			if var_13_1 ~= 0 then
-				var_13_2 = var_13_0 / var_13_1
+			if RepairAssetsToLua.GetTotalVerifyCount() ~= 0 then
+				slot2 = slot0 / slot1
 			end
 
-			arg_12_0:SetProgress(var_13_2, string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), var_13_0, var_13_1))
+			uv0:SetProgress(slot2, string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), slot0, slot1))
 
 			if not RepairAssetsToLua.IsVerifying() then
-				if arg_12_0.updateTimer ~= nil then
-					arg_12_0.updateTimer:Stop()
+				if uv0.updateTimer ~= nil then
+					uv0.updateTimer:Stop()
 
-					arg_12_0.updateTimer = nil
+					uv0.updateTimer = nil
 				end
 
 				if RepairAssetsToLua.HasError() then
@@ -87,7 +85,7 @@ function var_0_0.OnEnter(arg_12_0)
 						isTop = true,
 						title = GetTips("PROMPT"),
 						content = GetTips("VERIFY_ASSETS_HAS_ERROR"),
-						OkCallback = function()
+						OkCallback = function ()
 							LuaHelper.Quit()
 						end
 					})
@@ -96,7 +94,7 @@ function var_0_0.OnEnter(arg_12_0)
 						isTop = true,
 						title = GetTips("PROMPT"),
 						content = GetTips("VERIFY_ASSETS_COMPLETE"),
-						OkCallback = function()
+						OkCallback = function ()
 							if gameContext:IsOpenRoute("repairAssetsView") then
 								JumpTools.Back()
 							end
@@ -107,23 +105,23 @@ function var_0_0.OnEnter(arg_12_0)
 		end, 0.1, -1)
 	end
 
-	arg_12_0.updateTimer:Start()
+	slot0.updateTimer:Start()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.updateTimer ~= nil then
-		arg_16_0.updateTimer:Stop()
+function slot0.OnExit(slot0)
+	if slot0.updateTimer ~= nil then
+		slot0.updateTimer:Stop()
 
-		arg_16_0.updateTimer = nil
+		slot0.updateTimer = nil
 	end
 
 	RepairAssetsToLua.StopVerify()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.params_ = nil
+function slot0.Dispose(slot0)
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

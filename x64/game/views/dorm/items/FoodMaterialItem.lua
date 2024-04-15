@@ -1,104 +1,101 @@
-local var_0_0 = class("FoodMaterialItem", ReduxView)
+slot0 = class("FoodMaterialItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.colorController = ControllerUtil.GetController(arg_2_0.transform_, "numcolor1")
-	arg_2_0.shopController = ControllerUtil.GetController(arg_2_0.transform_, "shopBtn")
+	slot0.colorController = ControllerUtil.GetController(slot0.transform_, "numcolor1")
+	slot0.shopController = ControllerUtil.GetController(slot0.transform_, "shopBtn")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.shopBtn_, nil, function()
-		if arg_4_0.goodID then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
+		if uv0.goodID then
 			JumpTools.GoToSystem("/activityShop", {
 				hideHomeBtn = 1,
 				shopId = ShopConst.SHOP_ID.CANTEEN_SHOP,
 				showShops = {
 					ShopConst.SHOP_ID.CANTEEN_SHOP
 				},
-				goodId = arg_4_0.goodID
+				goodId = uv0.goodID
 			}, ViewConst.SYSTEM_ID.SHOP)
 		end
 	end)
 end
 
-function var_0_0.RefreshItem(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.id = arg_6_1[1]
-	arg_6_0.num = arg_6_1[2]
-	arg_6_0.textText_.text = ItemTools.getItemName(arg_6_0.id)
+function slot0.RefreshItem(slot0, slot1, slot2, slot3, slot4)
+	slot0.id = slot1[1]
+	slot0.num = slot1[2]
+	slot0.textText_.text = ItemTools.getItemName(slot0.id)
 
-	arg_6_0.colorController:SetSelectedState("1")
+	slot0.colorController:SetSelectedState("1")
 
-	arg_6_0.iconImg_.sprite = ItemTools.getItemSprite(arg_6_0.id)
+	slot0.iconImg_.sprite = ItemTools.getItemSprite(slot0.id)
 
-	if arg_6_2 then
-		local var_6_0 = BackHomeCanteenFoodCfg[arg_6_2].ingredient_list
-		local var_6_1 = 0
+	if slot2 then
+		slot6 = 0
 
-		for iter_6_0, iter_6_1 in ipairs(var_6_0) do
-			if iter_6_1[1] == arg_6_0.id then
-				var_6_1 = iter_6_1[2]
+		for slot10, slot11 in ipairs(BackHomeCanteenFoodCfg[slot2].ingredient_list) do
+			if slot11[1] == slot0.id then
+				slot6 = slot11[2]
 			end
 		end
 
-		arg_6_0.num = var_6_1 * arg_6_3
+		slot0.num = slot6 * slot3
 	end
 
-	arg_6_0.costNumText_.text = NumberTools.RetractNumberForWindBar(arg_6_0.num)
+	slot0.costNumText_.text = NumberTools.RetractNumberForWindBar(slot0.num)
 
-	if arg_6_4 == DormEnum.FoodSellType.SignFood then
-		arg_6_0.hadNumText_.text = ""
+	if slot4 == DormEnum.FoodSellType.SignFood then
+		slot0.hadNumText_.text = ""
 	else
-		local var_6_2 = CanteenFoodData:GetCateenIngredientNum(arg_6_0.id)
+		slot5 = CanteenFoodData:GetCateenIngredientNum(slot0.id)
+		slot0.hadNumText_.text = NumberTools.RetractNumberForWindBar(slot5)
 
-		arg_6_0.hadNumText_.text = NumberTools.RetractNumberForWindBar(var_6_2)
-
-		if var_6_2 < arg_6_0.num then
-			arg_6_0.colorController:SetSelectedState("2")
+		if slot5 < slot0.num then
+			slot0.colorController:SetSelectedState("2")
 		end
 
-		arg_6_0.costNumText_.text = "/" .. NumberTools.RetractNumberForWindBar(arg_6_0.num)
+		slot0.costNumText_.text = "/" .. NumberTools.RetractNumberForWindBar(slot0.num)
 	end
 
-	local var_6_3 = getGoodListByGiveID(arg_6_0.id)
-	local var_6_4 = false
+	slot6 = false
 
-	for iter_6_2, iter_6_3 in ipairs(var_6_3) do
-		if ShopTools.IsGoodCanBuy(ShopConst.SHOP_ID.CANTEEN_SHOP, iter_6_3) then
-			var_6_4 = true
-			arg_6_0.goodID = iter_6_3
+	for slot10, slot11 in ipairs(getGoodListByGiveID(slot0.id)) do
+		if ShopTools.IsGoodCanBuy(ShopConst.SHOP_ID.CANTEEN_SHOP, slot11) then
+			slot6 = true
+			slot0.goodID = slot11
 
 			break
 		end
 	end
 
-	if var_6_4 then
-		arg_6_0.shopController:SetSelectedState("true")
+	if slot6 then
+		slot0.shopController:SetSelectedState("true")
 	else
-		arg_6_0.shopController:SetSelectedState("false")
+		slot0.shopController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.btnCallBack = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	if slot1 then
+		slot0.btnCallBack = slot1
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,106 +1,102 @@
-local var_0_0 = class("SwitchHeroRewardView", RewardView)
+slot0 = class("SwitchHeroRewardView", RewardView)
 
-function var_0_0.OnCtor(arg_1_0)
-	var_0_0.super.OnCtor(arg_1_0)
+function slot0.OnCtor(slot0)
+	uv0.super.OnCtor(slot0)
 
-	arg_1_0.timerList = {}
+	slot0.timerList = {}
 end
 
-function var_0_0.InitUI(arg_2_0)
-	var_0_0.super.InitUI(arg_2_0)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_2_0.effctItem_ = Asset.Load("Widget/Common/Com_Prefab/ZhuanHuaAni")
+	slot0.effctItem_ = Asset.Load("Widget/Common/Com_Prefab/ZhuanHuaAni")
 end
 
-local function var_0_1(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_2.idx == arg_3_1 then
-		var_0_0.super.indexItem(arg_3_0, arg_3_1, arg_3_2)
+function slot1(slot0, slot1, slot2)
+	if slot2.idx == slot1 then
+		uv0.super.indexItem(slot0, slot1, slot2)
 	end
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2.idx = arg_4_1
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2.idx = slot1
+	slot3 = slot0.itemList_[slot1]
 
-	local var_4_0 = arg_4_0.itemList_[arg_4_1]
-
-	var_0_0.super.indexItem(arg_4_0, arg_4_1, arg_4_2)
+	uv0.super.indexItem(slot0, slot1, slot2)
 end
 
-function var_0_0.IsConvertAnimePlayed(arg_5_0, arg_5_1)
-	return arg_5_0.timerList[arg_5_1] ~= nil
+function slot0.IsConvertAnimePlayed(slot0, slot1)
+	return slot0.timerList[slot1] ~= nil
 end
 
-function var_0_0.PlayConvertAnime(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_0:IsConvertAnimePlayed(arg_6_1) then
+function slot0.PlayConvertAnime(slot0, slot1, slot2)
+	if slot0:IsConvertAnimePlayed(slot1) then
 		return false
 	end
 
-	local var_6_0 = arg_6_2:FindTrs("ZhuanHuaAni")
-
-	if var_6_0 then
-		SetActive(var_6_0.gameObject, false)
+	if slot2:FindTrs("ZhuanHuaAni") then
+		SetActive(slot3.gameObject, false)
 	end
 
-	if not var_6_0 then
-		local var_6_1 = Object.Instantiate(arg_6_0.effctItem_, arg_6_2.transform_)
+	if not slot3 then
+		slot4 = Object.Instantiate(slot0.effctItem_, slot2.transform_)
+		slot3 = slot4.transform
+		slot4.name = "ZhuanHuaAni"
 
-		var_6_0 = var_6_1.transform
-		var_6_1.name = "ZhuanHuaAni"
-
-		SetActive(var_6_1, false)
+		SetActive(slot4, false)
 	end
 
-	SetActive(var_6_0.gameObject, true)
+	SetActive(slot3.gameObject, true)
 
-	var_6_0.localPosition = Vector3.New(127, -124, 0)
+	slot3.localPosition = Vector3.New(127, -124, 0)
 
-	var_6_0:GetComponent("Animator"):Play("CommonItem_zhuanhua", 0, 0)
+	slot3:GetComponent("Animator"):Play("CommonItem_zhuanhua", 0, 0)
 	manager.audio:PlayEffect("ui_system_search", "search_itemTransform", "")
 
 	return true
 end
 
-function var_0_0.AddTimer(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.timerList[arg_7_1] = arg_7_2
+function slot0.AddTimer(slot0, slot1, slot2)
+	slot0.timerList[slot1] = slot2
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI(arg_8_0.params_.list)
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI(slot0.params_.list)
 
-	arg_8_0.callBack_ = arg_8_0.params_.callBack
+	slot0.callBack_ = slot0.params_.callBack
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.bgBtn_, nil, function()
-		if arg_9_0.params_.lateCallback then
-			arg_9_0:StopTime()
-			arg_9_0:Back(arg_9_0.callBack_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0.params_.lateCallback then
+			uv0:StopTime()
+			uv0:Back(uv0.callBack_)
 		else
-			arg_9_0:Back(arg_9_0.params_.callBack)
+			uv0:Back(uv0.params_.callBack)
 		end
 	end)
 end
 
-function var_0_0.StopTime(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.timerList) do
-		iter_11_1:Stop()
+function slot0.StopTime(slot0)
+	for slot4, slot5 in pairs(slot0.timerList) do
+		slot5:Stop()
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0.params_.callBack = nil
+function slot0.OnExit(slot0)
+	slot0.params_.callBack = nil
 
-	for iter_12_0, iter_12_1 in pairs(arg_12_0.timerList) do
-		if iter_12_1 then
-			iter_12_1:Stop()
+	for slot4, slot5 in pairs(slot0.timerList) do
+		if slot5 then
+			slot5:Stop()
 
-			iter_12_1 = nil
+			slot5 = nil
 		end
 	end
 
-	arg_12_0.timerList = {}
+	slot0.timerList = {}
 
-	var_0_0.super.OnExit(arg_12_0)
+	uv0.super.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

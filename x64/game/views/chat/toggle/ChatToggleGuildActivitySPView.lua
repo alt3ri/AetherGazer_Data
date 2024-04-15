@@ -1,36 +1,32 @@
-local var_0_0 = import(".ChatToggleBaseView")
-local var_0_1 = class("ChatToggleGuildActivitySPView", var_0_0)
+slot1 = class("ChatToggleGuildActivitySPView", import(".ChatToggleBaseView"))
 
-function var_0_1.Show(arg_1_0, arg_1_1)
-	var_0_1.super.Show(arg_1_0, arg_1_1)
+function slot1.Show(slot0, slot1)
+	uv0.super.Show(slot0, slot1)
 
-	if arg_1_1 then
-		arg_1_0:RefreshGuildActivityToggle(toggle)
+	if slot1 then
+		slot0:RefreshGuildActivityToggle(toggle)
 	end
 end
 
-function var_0_1.RefreshGuildActivityToggle(arg_2_0, arg_2_1)
-	local var_2_0 = GuildActivitySPData:GetCurRunActivityID()
-	local var_2_1 = ActivityData:GetActivityIsOpen(var_2_0) or arg_2_0.toggle_.isOn == arg_2_0.chatToggleID_ or manager.windowBar:GetWhereTag() == "guildActivitySP"
-
-	SetActive(arg_2_0.gameObject_, var_2_1)
+function slot1.RefreshGuildActivityToggle(slot0, slot1)
+	SetActive(slot0.gameObject_, ActivityData:GetActivityIsOpen(GuildActivitySPData:GetCurRunActivityID()) or slot0.toggle_.isOn == slot0.chatToggleID_ or manager.windowBar:GetWhereTag() == "guildActivitySP")
 end
 
-function var_0_1.OnClickToggle(arg_3_0)
-	if arg_3_0:IsLock() then
+function slot1.OnClickToggle(slot0)
+	if slot0:IsLock() then
 		ShowTips("ACTIVITY_CLUB_NOT_JOIN")
 		manager.notify:Invoke(CHAT_REVERT_TOGGLE)
 
 		return
 	end
 
-	arg_3_0:Go("chat", {
-		chatToggleID = arg_3_0.chatToggleID_
+	slot0:Go("chat", {
+		chatToggleID = slot0.chatToggleID_
 	})
 end
 
-function var_0_1.IsLock(arg_4_0)
+function slot1.IsLock(slot0)
 	return not GuildActivitySPData:HaveRegister()
 end
 
-return var_0_1
+return slot1

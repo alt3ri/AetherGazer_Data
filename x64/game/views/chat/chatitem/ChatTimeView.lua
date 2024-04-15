@@ -1,14 +1,14 @@
-local var_0_0 = class("ChatTimeView", ChatBaseItemView)
+slot0 = class("ChatTimeView", ChatBaseItemView)
 
-function var_0_0.IsTimeBar(arg_1_0)
+function slot0.IsTimeBar(slot0)
 	return true
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.textTimeStamp_.text = manager.time:FormatTime(arg_2_1.timestamp)
-	arg_2_0.index_ = arg_2_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.textTimeStamp_.text = manager.time:FormatTime(slot1.timestamp)
+	slot0.index_ = slot2
 
-	arg_2_0:Show(true)
+	slot0:Show(true)
 end
 
-return var_0_0
+return slot0

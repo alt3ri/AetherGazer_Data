@@ -1,119 +1,112 @@
-local var_0_0 = class("ChooseCharacterView", ReduxView)
+slot0 = class("ChooseCharacterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamHreoTaskPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.characterScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexCharacter), arg_4_0.characteruilistUilist_, CharacterItem)
-	arg_4_0.recomendScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexRecommendClass), arg_4_0.recuilistUilist_, DormRecommendBigItem)
+	slot0.characterScroll_ = LuaList.New(handler(slot0, slot0.indexCharacter), slot0.characteruilistUilist_, CharacterItem)
+	slot0.recomendScroll_ = LuaList.New(handler(slot0, slot0.indexRecommendClass), slot0.recuilistUilist_, DormRecommendBigItem)
 end
 
-function var_0_0.RegisterEvent(arg_5_0)
-	arg_5_0:RegistEventListener(DORM_REFRESH_DISPATCH_LIST, function()
-		arg_5_0.characterScroll_:Refresh()
-		arg_5_0.recomendScroll_:Refresh()
-		arg_5_0:UpdateSuccess()
-		arg_5_0:UpdataDispatchNum()
-		arg_5_0:UpdataNeedFatigue()
+function slot0.RegisterEvent(slot0)
+	slot0:RegistEventListener(DORM_REFRESH_DISPATCH_LIST, function ()
+		uv0.characterScroll_:Refresh()
+		uv0.recomendScroll_:Refresh()
+		uv0:UpdateSuccess()
+		uv0:UpdataDispatchNum()
+		uv0:UpdataNeedFatigue()
 	end)
-	arg_5_0:RegistEventListener(BACKHOME_HERO_FATIGUR_REFRESH, function()
-		arg_5_0.characterScroll_:Refresh()
+	slot0:RegistEventListener(BACKHOME_HERO_FATIGUR_REFRESH, function ()
+		uv0.characterScroll_:Refresh()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RegisterEvent()
-	arg_8_0:UpdateItemData()
-	arg_8_0:UpdataRecItem()
-	arg_8_0:UpdataDispatchNum()
-	arg_8_0:UpdataNeedFatigue()
-	arg_8_0.characterScroll_:StartScroll(#arg_8_0.itemList_)
-	arg_8_0.recomendScroll_:StartScroll(#arg_8_0.reList_)
+function slot0.OnEnter(slot0)
+	slot0:RegisterEvent()
+	slot0:UpdateItemData()
+	slot0:UpdataRecItem()
+	slot0:UpdataDispatchNum()
+	slot0:UpdataNeedFatigue()
+	slot0.characterScroll_:StartScroll(#slot0.itemList_)
+	slot0.recomendScroll_:StartScroll(#slot0.reList_)
 
-	arg_8_0.successnumText_.text = 0
-	arg_8_0.tasknmaeText_.text = GetI18NText(BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].name)
+	slot0.successnumText_.text = 0
+	slot0.tasknmaeText_.text = GetI18NText(BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].name)
 end
 
-function var_0_0.indexCharacter(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:RegistCallBack(function(arg_10_0, arg_10_1)
-		local var_10_0 = DormData:GetHeroTemplateInfo(arg_10_0)
-
-		if CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_10_0) == true or var_10_0.jobType then
+function slot0.indexCharacter(slot0, slot1, slot2)
+	slot2:RegistCallBack(function (slot0, slot1)
+		if CanteenEntrustData:CheckHasChooseEntrustCharacter(slot0) == true or DormData:GetHeroTemplateInfo(slot0).jobType then
 			ShowTips("CANTEEN_TASK_CANT_CHOOSE")
 
 			return
 		end
 
-		if DormData:GetHeroFatigue(arg_10_0) < GameSetting.dorm_canteen_work_fatigue.value[1] / 100 then
+		if DormData:GetHeroFatigue(slot0) < GameSetting.dorm_canteen_work_fatigue.value[1] / 100 then
 			ShowTips("CANTEEN_HERO_FATIGUE_NULL")
 
 			return
 		end
 
-		if #CanteenEntrustData:GetDispatchCharacterList() <= DormConst.CANTEEN_TRUST_CHARACTER_NUM and CanteenEntrustData:CheckDispatchCharacterList(arg_10_0) == false then
-			CanteenEntrustData:SetDispatchCharacterList(arg_10_0)
-			arg_10_1:SetSelectedState("select")
-		elseif CanteenEntrustData:CheckDispatchCharacterList(arg_10_0) == true then
-			CanteenEntrustData:RemoveDispatchCharacterList(arg_10_0)
-			arg_10_1:SetSelectedState("normal")
+		if #CanteenEntrustData:GetDispatchCharacterList() <= DormConst.CANTEEN_TRUST_CHARACTER_NUM and CanteenEntrustData:CheckDispatchCharacterList(slot0) == false then
+			CanteenEntrustData:SetDispatchCharacterList(slot0)
+			slot1:SetSelectedState("select")
+		elseif CanteenEntrustData:CheckDispatchCharacterList(slot0) == true then
+			CanteenEntrustData:RemoveDispatchCharacterList(slot0)
+			slot1:SetSelectedState("normal")
 		end
 
 		manager.notify:Invoke(DORM_REFRESH_DISPATCH_LIST)
 	end)
-	arg_9_2:RegistFullListCallBack(function(arg_11_0, arg_11_1)
+	slot2:RegistFullListCallBack(function (slot0, slot1)
 		if #CanteenEntrustData:GetDispatchCharacterList() == BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].need[2] then
-			if not CanteenEntrustData:CheckDispatchCharacterList(arg_11_0) then
-				if not CanteenEntrustData:CheckDispatchCharacterArchiveList(arg_11_0) then
-					arg_11_1:SetSelectedState("full")
+			if not CanteenEntrustData:CheckDispatchCharacterList(slot0) then
+				if not CanteenEntrustData:CheckDispatchCharacterArchiveList(slot0) then
+					slot1:SetSelectedState("full")
 				else
-					arg_11_1:SetSelectedState("normal")
+					slot1:SetSelectedState("normal")
 				end
 			else
-				arg_11_1:SetSelectedState("select")
+				slot1:SetSelectedState("select")
 			end
-		elseif not CanteenEntrustData:CheckDispatchCharacterList(arg_11_0) then
-			arg_11_1:SetSelectedState("normal")
+		elseif not CanteenEntrustData:CheckDispatchCharacterList(slot0) then
+			slot1:SetSelectedState("normal")
 		else
-			arg_11_1:SetSelectedState("select")
+			slot1:SetSelectedState("select")
 		end
 	end)
-	arg_9_2:RefreshUI(arg_9_0.itemList_[arg_9_1])
+	slot2:RefreshUI(slot0.itemList_[slot1])
 end
 
-function var_0_0.indexRecommendClass(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_2:RefreshUI(arg_12_0.reList_[arg_12_1])
+function slot0.indexRecommendClass(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.reList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_13_0)
-	arg_13_0:AddBtnListener(arg_13_0.battlebtnBtn_, nil, function()
-		local var_14_0 = CanteenEntrustData:GetCurDispatchTask()
-		local var_14_1 = CanteenEntrustData:GetDispatchCharacterList()
-
-		if #var_14_1 < BackHomeCanteenTaskCfg[var_14_0.id].need[1] then
-			ShowTips(string.format(GetTips("CANTEEN_TASK_NOT_CHOOSE"), BackHomeCanteenTaskCfg[var_14_0.id].need[1]))
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.battlebtnBtn_, nil, function ()
+		if #CanteenEntrustData:GetDispatchCharacterList() < BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].need[1] then
+			ShowTips(string.format(GetTips("CANTEEN_TASK_NOT_CHOOSE"), BackHomeCanteenTaskCfg[slot0.id].need[1]))
 
 			return false
 		end
 
-		local var_14_2 = 0
-
-		for iter_14_0, iter_14_1 in ipairs(var_14_1) do
-			var_14_2 = var_14_2 + DormData:GetHeroFatigue(iter_14_1)
+		for slot6, slot7 in ipairs(slot1) do
+			slot2 = 0 + DormData:GetHeroFatigue(slot7)
 		end
 
-		if var_14_2 < arg_13_0.fatigue then
+		if slot2 < uv0.fatigue then
 			ShowTips("CANTEEN_TASK_FATIGUE_NOT_ENOUGH")
 
 			return false
@@ -123,250 +116,222 @@ function var_0_0.AddUIListener(arg_13_0)
 		JumpTools.OpenPageByJump("/dormTaskDispatchView")
 		ShowTips("CANTEEN_TASK_DISPATCH")
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.bgmaskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.quickBtn_, nil, function()
-		local var_16_0 = CanteenEntrustData:GetCurDispatchTask()
+	slot0:AddBtnListener(slot0.quickBtn_, nil, function ()
+		slot0 = CanteenEntrustData:GetCurDispatchTask()
 
 		CanteenEntrustData:ClearDispatchCharacterList()
 
-		arg_13_0.autoHeroList = {}
+		uv0.autoHeroList = {}
 
-		for iter_16_0 = DormConst.DORM_HERO_TAG_MAX, 0, -1 do
-			arg_13_0.autoHeroList[iter_16_0] = {}
+		for slot4 = DormConst.DORM_HERO_TAG_MAX, 0, -1 do
+			uv0.autoHeroList[slot4] = {}
 		end
 
-		local var_16_1 = CanteenEntrustData:GetEntrustByPos(var_16_0.pos).tags
+		slot1 = CanteenEntrustData:GetEntrustByPos(slot0.pos).tags
 
-		for iter_16_1, iter_16_2 in ipairs(arg_13_0.itemList_) do
-			repeat
-				if GameSetting.dorm_canteen_work_fatigue.value[1] / 100 > DormData:GetHeroFatigue(iter_16_2) then
+		for slot5, slot6 in ipairs(uv0.itemList_) do
+			while true do
+				if DormData:GetHeroFatigue(slot6) < GameSetting.dorm_canteen_work_fatigue.value[1] / 100 then
 					break
 				end
 
-				local var_16_2 = DormData:GetHeroTemplateInfo(iter_16_2)
-
-				if CanteenEntrustData:CheckHasChooseEntrustCharacter(iter_16_2) == true or var_16_2.jobType then
+				if CanteenEntrustData:CheckHasChooseEntrustCharacter(slot6) == true or DormData:GetHeroTemplateInfo(slot6).jobType then
 					break
 				end
 
-				local var_16_3 = CanteenEntrustData:CalHeroMatchNum(iter_16_2, var_16_1) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustExternSucceedAdd, iter_16_2) / BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].tag_success
-
-				if var_16_3 > DormConst.DORM_HERO_TAG_MAX then
-					var_16_3 = DormConst.DORM_HERO_TAG_MAX
+				if DormConst.DORM_HERO_TAG_MAX < CanteenEntrustData:CalHeroMatchNum(slot6, slot1) + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustExternSucceedAdd, slot6) / BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].tag_success then
+					slot10 = DormConst.DORM_HERO_TAG_MAX
 				end
 
-				if not arg_13_0.autoHeroList[var_16_3] then
-					arg_13_0.autoHeroList[var_16_3] = {}
+				if not uv0.autoHeroList[slot10] then
+					uv0.autoHeroList[slot10] = {}
 				end
 
-				table.insert(arg_13_0.autoHeroList[var_16_3], iter_16_2)
-			until true
+				table.insert(uv0.autoHeroList[slot10], slot6)
+
+				break
+			end
 		end
 
-		for iter_16_3, iter_16_4 in pairs(arg_13_0.autoHeroList) do
-			if #iter_16_4 > 0 then
-				CommonTools.UniversalSortEx(iter_16_4, {
-					map = function(arg_17_0)
-						return (DormData:GetHeroFatigue(arg_17_0))
+		for slot5, slot6 in pairs(uv0.autoHeroList) do
+			if #slot6 > 0 then
+				CommonTools.UniversalSortEx(slot6, {
+					map = function (slot0)
+						return DormData:GetHeroFatigue(slot0)
 					end
 				})
 			end
 		end
 
-		local var_16_4 = BackHomeCanteenTaskCfg[var_16_0.id].need[2]
-		local var_16_5 = {}
-		local var_16_6 = BackHomeCanteenTaskCfg[var_16_0.id].cost
+		slot3 = {}
+		slot4 = BackHomeCanteenTaskCfg[slot0.id].cost
+		uv0.trackFlag = false
+		uv0.fatigueNum = slot4
+		uv0.fatigueNum = 0
 
-		arg_13_0.trackFlag = false
-		arg_13_0.fatigueNum = var_16_6
-		arg_13_0.fatigueNum = 0
+		uv0:BackTrack(slot3, BackHomeCanteenTaskCfg[slot0.id].need[2], DormConst.DORM_HERO_TAG_MAX, 1, slot4)
 
-		arg_13_0:BackTrack(var_16_5, var_16_4, DormConst.DORM_HERO_TAG_MAX, 1, var_16_6)
-
-		if #var_16_5 == 0 then
+		if #slot3 == 0 then
 			ShowTips(GetTips("DORM_CANTEEN_TASK_CANT_FIT"))
 			manager.notify:Invoke(DORM_REFRESH_DISPATCH_LIST)
 
 			return
 		end
 
-		for iter_16_5, iter_16_6 in ipairs(var_16_5) do
-			CanteenEntrustData:SetDispatchCharacterList(iter_16_6)
+		for slot8, slot9 in ipairs(slot3) do
+			CanteenEntrustData:SetDispatchCharacterList(slot9)
 		end
 
 		manager.notify:Invoke(DORM_REFRESH_DISPATCH_LIST)
 	end)
 end
 
-function var_0_0.BackTrack(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_4, arg_18_5)
-	if arg_18_2 == 0 then
-		if arg_18_5 <= 0 then
-			arg_18_0.trackFlag = true
+function slot0.BackTrack(slot0, slot1, slot2, slot3, slot4, slot5)
+	if slot2 == 0 then
+		if slot5 <= 0 then
+			slot0.trackFlag = true
 		end
 
 		return
 	end
 
-	for iter_18_0 = arg_18_3, 0, -1 do
-		repeat
-			if #arg_18_0.autoHeroList[iter_18_0] == 0 or #arg_18_0.autoHeroList[iter_18_0] > 0 and arg_18_4 > #arg_18_0.autoHeroList[iter_18_0] then
-				if iter_18_0 == 0 and arg_18_5 <= 0 then
-					arg_18_0.trackFlag = true
+	for slot9 = slot3, 0, -1 do
+		while true do
+			if #slot0.autoHeroList[slot9] == 0 or #slot0.autoHeroList[slot9] > 0 and slot4 > #slot0.autoHeroList[slot9] then
+				if slot9 == 0 and slot5 <= 0 then
+					slot0.trackFlag = true
 
 					return
 				end
 
-				arg_18_4 = 1
+				slot4 = 1
 
 				break
 			end
 
-			arg_18_4 = 1
+			for slot13 = 1, #slot0.autoHeroList[slot9] do
+				if slot0.autoHeroList[slot9][slot13] then
+					while true do
+						slot16 = false
 
-			for iter_18_1 = arg_18_4, #arg_18_0.autoHeroList[iter_18_0] do
-				local var_18_0 = arg_18_0.autoHeroList[iter_18_0][iter_18_1]
-
-				if var_18_0 then
-					repeat
-						local var_18_1 = HeroRecordCfg.get_id_list_by_hero_id[var_18_0][1]
-						local var_18_2 = false
-
-						for iter_18_2, iter_18_3 in ipairs(arg_18_1) do
-							if var_18_1 == HeroRecordCfg.get_id_list_by_hero_id[iter_18_3][1] then
-								var_18_2 = true
+						for slot20, slot21 in ipairs(slot1) do
+							if HeroRecordCfg.get_id_list_by_hero_id[slot14][1] == HeroRecordCfg.get_id_list_by_hero_id[slot21][1] then
+								slot16 = true
 
 								break
 							end
 						end
 
-						if var_18_2 then
+						if slot16 then
 							break
 						end
 
-						local var_18_3 = DormData:GetHeroFatigue(var_18_0)
+						table.insert(slot1, slot14)
+						slot0:BackTrack(slot1, slot2 - 1, slot9, slot13 + 1, slot5 - DormData:GetHeroFatigue(slot14) - (slot0.fatigueNum - math.ceil(slot0.fatigueNum * (100 - DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustTotalFatigueReduce, slot14)) / 100)))
 
-						table.insert(arg_18_1, var_18_0)
-
-						local var_18_4 = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustTotalFatigueReduce, var_18_0)
-						local var_18_5 = arg_18_0.fatigueNum - math.ceil(arg_18_0.fatigueNum * (100 - var_18_4) / 100)
-
-						arg_18_0:BackTrack(arg_18_1, arg_18_2 - 1, iter_18_0, iter_18_1 + 1, arg_18_5 - var_18_3 - var_18_5)
-
-						if arg_18_0.trackFlag then
-							do return end
+						if slot0.trackFlag then
+							return
 
 							break
 						end
 
-						table.remove(arg_18_1, #arg_18_1)
-					until true
+						table.remove(slot1, #slot1)
+
+						break
+					end
 				end
 			end
-		until true
+
+			break
+		end
 	end
 end
 
-function var_0_0.UpdateItemData(arg_19_0)
-	arg_19_0.itemList_ = DormHeroTools:GetUnLockBackHomeHeroIDList()
+function slot0.UpdateItemData(slot0)
+	slot0.itemList_ = DormHeroTools:GetUnLockBackHomeHeroIDList()
 
-	CommonTools.UniversalSortEx(arg_19_0.itemList_, {
+	CommonTools.UniversalSortEx(slot0.itemList_, {
 		ascend = true,
-		map = function(arg_20_0)
-			local var_20_0 = DormData:GetHeroTemplateInfo(arg_20_0)
-
-			if (CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_20_0) or var_20_0.jobType ~= nil) == false then
+		map = function (slot0)
+			if (CanteenEntrustData:CheckHasChooseEntrustCharacter(slot0) or DormData:GetHeroTemplateInfo(slot0).jobType ~= nil) == false then
 				return 1
 			else
 				return 2
 			end
 		end
 	}, {
-		map = function(arg_21_0)
-			return DormData:GetHeroFatigue(arg_21_0)
+		map = function (slot0)
+			return DormData:GetHeroFatigue(slot0)
 		end
 	}, {
-		map = function(arg_22_0)
-			return (DormData:GetHeroArchiveID(arg_22_0))
+		map = function (slot0)
+			return DormData:GetHeroArchiveID(slot0)
 		end
 	}, {
-		map = function(arg_23_0)
-			return arg_23_0
+		map = function (slot0)
+			return slot0
 		end
 	})
 end
 
-function var_0_0.UpdataRecItem(arg_24_0)
-	local var_24_0 = CanteenEntrustData:GetCurDispatchTask().pos
+function slot0.UpdataRecItem(slot0)
+	slot0.reList_ = {}
 
-	arg_24_0.reList_ = {}
-
-	local var_24_1 = CanteenEntrustData:GetEntrustList()[var_24_0]
-
-	for iter_24_0 = 1, #var_24_1.tags do
-		local var_24_2 = {
-			type = var_24_1.tags[iter_24_0].type,
-			tag = var_24_1.tags[iter_24_0].tag
-		}
-
-		table.insert(arg_24_0.reList_, var_24_2)
+	for slot6 = 1, #CanteenEntrustData:GetEntrustList()[CanteenEntrustData:GetCurDispatchTask().pos].tags do
+		table.insert(slot0.reList_, {
+			type = slot2.tags[slot6].type,
+			tag = slot2.tags[slot6].tag
+		})
 	end
 
-	arg_24_0.recomendScroll_:StartScroll(#arg_24_0.reList_)
+	slot0.recomendScroll_:StartScroll(#slot0.reList_)
 
-	arg_24_0.recuilistUilist_:GetComponent("ScrollRectEx").horizontal = false
+	slot0.recuilistUilist_:GetComponent("ScrollRectEx").horizontal = false
 end
 
-function var_0_0.UpdateSuccess(arg_25_0)
-	local var_25_0 = CanteenEntrustData:CalculateEntrustSuccess()
-
-	arg_25_0.successnumText_.text = var_25_0 .. "%"
+function slot0.UpdateSuccess(slot0)
+	slot0.successnumText_.text = CanteenEntrustData:CalculateEntrustSuccess() .. "%"
 end
 
-function var_0_0.UpdataDispatchNum(arg_26_0)
-	local var_26_0 = CanteenEntrustData:GetCurDispatchTask().id
-	local var_26_1 = BackHomeCanteenTaskCfg[var_26_0].need[2]
-	local var_26_2 = #CanteenEntrustData:GetDispatchCharacterList()
-
-	arg_26_0.numText_.text = string.format("%d<size=28><color=#767878>/%d</color></size>", var_26_2, var_26_1)
+function slot0.UpdataDispatchNum(slot0)
+	slot0.numText_.text = string.format("%d<size=28><color=#767878>/%d</color></size>", #CanteenEntrustData:GetDispatchCharacterList(), BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].need[2])
 end
 
-function var_0_0.UpdataNeedFatigue(arg_27_0)
-	local var_27_0 = CanteenEntrustData:GetDispatchCharacterList()
-	local var_27_1 = 0
+function slot0.UpdataNeedFatigue(slot0)
+	slot2 = 0
 
-	if var_27_0 then
-		for iter_27_0, iter_27_1 in ipairs(var_27_0) do
-			var_27_1 = var_27_1 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustTotalFatigueReduce, iter_27_1)
+	if CanteenEntrustData:GetDispatchCharacterList() then
+		for slot6, slot7 in ipairs(slot1) do
+			slot2 = slot2 + DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.EntrustTotalFatigueReduce, slot7)
 		end
 
-		if var_27_1 > 100 then
-			var_27_1 = 100
+		if slot2 > 100 then
+			slot2 = 100
 		end
 	end
 
-	local var_27_2 = BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id]
-
-	arg_27_0.fatigue = math.ceil(var_27_2.cost * (100 - var_27_1) / 100)
-	arg_27_0.resourcetextText_.text = arg_27_0.fatigue
+	slot0.fatigue = math.ceil(BackHomeCanteenTaskCfg[CanteenEntrustData:GetCurDispatchTask().id].cost * (100 - slot2) / 100)
+	slot0.resourcetextText_.text = slot0.fatigue
 end
 
-function var_0_0.OnExit(arg_28_0)
+function slot0.OnExit(slot0)
 	CanteenEntrustData:ClearDispatchCharacterList()
-	arg_28_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_29_0)
-	if arg_29_0.characterScroll_ then
-		arg_29_0.characterScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.characterScroll_ then
+		slot0.characterScroll_:Dispose()
 	end
 
-	if arg_29_0.recomendScroll_ then
-		arg_29_0.recomendScroll_:Dispose()
+	if slot0.recomendScroll_ then
+		slot0.recomendScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,64 +1,64 @@
-local var_0_0 = class("PushSnowBallMatchPopView", ReduxView)
+slot0 = class("PushSnowBallMatchPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballMatchmakingUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.cancelHandler_ = handler(arg_4_0, function()
-		arg_4_0:Back()
+	slot0.cancelHandler_ = handler(slot0, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.cancelBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
 		PushSnowBallAction:SendCancelMatching()
-		arg_6_0.cancelHandler_()
+		uv0.cancelHandler_()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.matchingTimer = 0
-	arg_8_0.timeText_.text = arg_8_0.matchingTimer .. "s"
+function slot0.OnEnter(slot0)
+	slot0.matchingTimer = 0
+	slot0.timeText_.text = slot0.matchingTimer .. "s"
 
-	arg_8_0:AddTimer()
-	manager.notify:RegistListener(PUSH_SNOWBALL_CANCLE_MATCHING, arg_8_0.cancelHandler_)
-	manager.notify:RegistListener(PUSH_SNOWBALL_SUCCESS_MATCHING, arg_8_0.cancelHandler_)
+	slot0:AddTimer()
+	manager.notify:RegistListener(PUSH_SNOWBALL_CANCLE_MATCHING, slot0.cancelHandler_)
+	manager.notify:RegistListener(PUSH_SNOWBALL_SUCCESS_MATCHING, slot0.cancelHandler_)
 end
 
-function var_0_0.AddTimer(arg_9_0)
-	arg_9_0.timer_ = Timer.New(function()
-		arg_9_0.matchingTimer = arg_9_0.matchingTimer + 1
-		arg_9_0.timeText_.text = arg_9_0.matchingTimer .. "s"
+function slot0.AddTimer(slot0)
+	slot0.timer_ = Timer.New(function ()
+		uv0.matchingTimer = uv0.matchingTimer + 1
+		uv0.timeText_.text = uv0.matchingTimer .. "s"
 	end, 1, -1, true)
 
-	arg_9_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	manager.notify:RemoveListener(PUSH_SNOWBALL_CANCLE_MATCHING, arg_11_0.cancelHandler_)
-	manager.notify:RemoveListener(PUSH_SNOWBALL_SUCCESS_MATCHING, arg_11_0.cancelHandler_)
+	manager.notify:RemoveListener(PUSH_SNOWBALL_CANCLE_MATCHING, slot0.cancelHandler_)
+	manager.notify:RemoveListener(PUSH_SNOWBALL_SUCCESS_MATCHING, slot0.cancelHandler_)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

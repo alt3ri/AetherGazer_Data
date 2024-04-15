@@ -1,50 +1,49 @@
-local var_0_0 = class("NewChessTipsManager")
+slot0 = class("NewChessTipsManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.gameObject_ = Object.Instantiate(Asset.Load("UI/NewWarChess/NewWarChessTipsManager"), manager.ui.canvas.transform)
+function slot0.Ctor(slot0)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/NewWarChess/NewWarChessTipsManager"), manager.ui.canvas.transform)
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_1_0, arg_1_0.gameObject_)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.gameObject_)
 
-	arg_1_0.tipsItems_ = {}
-	arg_1_0.tipsDispose_ = handler(arg_1_0, arg_1_0.OnTipsDispose)
+	slot0.tipsItems_ = {}
+	slot0.tipsDispose_ = handler(slot0, slot0.OnTipsDispose)
 end
 
-function var_0_0.CreateTips(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.tipsItems_) do
-		if not iter_2_1:GetIsShow() then
-			iter_2_1:SetData(arg_2_1)
-			iter_2_1:SetIsShow(true)
-			LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.contentTrans_)
+function slot0.CreateTips(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.tipsItems_) do
+		if not slot6:GetIsShow() then
+			slot6:SetData(slot1)
+			slot6:SetIsShow(true)
+			LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 
 			return
 		end
 	end
 
-	local var_2_0 = GameObject.Instantiate(arg_2_0.tipsGo_, arg_2_0.contentTrans_)
-	local var_2_1 = NewChessTipsItem.New(var_2_0)
+	slot3 = NewChessTipsItem.New(GameObject.Instantiate(slot0.tipsGo_, slot0.contentTrans_))
 
-	var_2_1:SetDisposeHandler(arg_2_0.tipsDispose_)
-	var_2_1:SetData(arg_2_1)
-	var_2_1:SetIsShow(true)
-	table.insert(arg_2_0.tipsItems_, var_2_1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.contentTrans_)
+	slot3:SetDisposeHandler(slot0.tipsDispose_)
+	slot3:SetData(slot1)
+	slot3:SetIsShow(true)
+	table.insert(slot0.tipsItems_, slot3)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 end
 
-function var_0_0.OnTipsDispose(arg_3_0, arg_3_1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.contentTrans_)
+function slot0.OnTipsDispose(slot0, slot1)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.tipsItems_) do
-		iter_4_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.tipsItems_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.tipsItems_ = {}
-	arg_4_0.tipsDispose_ = nil
+	slot0.tipsItems_ = {}
+	slot0.tipsDispose_ = nil
 
-	Object.Destroy(arg_4_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_4_0.gameObject_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

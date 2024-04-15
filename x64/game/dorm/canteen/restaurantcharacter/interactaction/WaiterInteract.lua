@@ -1,65 +1,61 @@
-local var_0_0 = import(".InteractUtil")
-local var_0_1 = var_0_0.NewTask
+slot1 = import(".InteractUtil").NewTask
 
-local function var_0_2(arg_1_0)
-	local var_1_0 = arg_1_0.entityID
-	local var_1_1 = arg_1_0.targetID
-	local var_1_2 = arg_1_0.finish
-	local var_1_3 = arg_1_0.entityData
-	local var_1_4 = arg_1_0.targetData
+function slot2(slot0)
+	slot1 = slot0.entityID
+	slot2 = slot0.targetID
+	slot3 = slot0.finish
+	slot4 = slot0.entityData
 
-	for iter_1_0, iter_1_1 in pairs(var_1_4.booked) do
-		CanteenAIFunction:SetItemAvailable(iter_1_1, false)
+	for slot9, slot10 in pairs(slot0.targetData.booked) do
+		CanteenAIFunction:SetItemAvailable(slot10, false)
 	end
 
-	var_0_0.commonAction.PlaceCarryingItemAction(var_1_0, var_1_1, function(arg_2_0)
-		var_0_0.PutFoodOnTable(arg_2_0, var_1_1)
-		var_0_0.RefreshFoodContainer(var_1_1)
+	uv0.commonAction.PlaceCarryingItemAction(slot1, slot2, function (slot0)
+		slot4 = uv1
 
-		for iter_2_0, iter_2_1 in pairs(var_1_4.booked) do
-			CanteenAIFunction:SetItemAvailable(iter_2_1, true)
+		uv0.PutFoodOnTable(slot0, slot4)
+		uv0.RefreshFoodContainer(uv1)
+
+		for slot4, slot5 in pairs(uv2.booked) do
+			CanteenAIFunction:SetItemAvailable(slot5, true)
 		end
-	end):Then(function()
-		var_1_2:Notify()
+	end):Then(function ()
+		uv0:Notify()
 	end):Start()
 end
 
-local function var_0_3(arg_4_0)
-	local var_4_0 = arg_4_0.entityID
-	local var_4_1 = arg_4_0.targetID
-	local var_4_2 = arg_4_0.finish
-	local var_4_3 = arg_4_0.entityData
+function slot3(slot0)
+	slot3 = slot0.finish
 
-	if var_4_3.pick then
-		var_0_0.PlaceCarryingItemAction(var_4_0, var_4_1, function(arg_5_0)
-			var_0_0.PutFoodOnTable(arg_5_0, var_4_1)
-			var_0_0.RefreshFoodContainer(var_4_1)
-		end):Then(function(arg_6_0)
-			var_4_2:Notify()
+	if slot0.entityData.pick then
+		uv0.PlaceCarryingItemAction(slot0.entityID, slot0.targetID, function (slot0)
+			uv0.PutFoodOnTable(slot0, uv1)
+			uv0.RefreshFoodContainer(uv1)
+		end):Then(function (slot0)
+			uv0:Notify()
 		end):Start()
 	else
 		CanteenManager.RefreshOrder()
 
-		var_4_3.target = var_0_0.PickFoodFromTable(var_4_3.target, var_4_1)
+		slot4.target = uv0.PickFoodFromTable(slot4.target, slot2)
 
-		var_0_0.commonAction.PickItemAction(var_4_0, var_4_1, function(arg_7_0)
-			var_0_0.RefreshFoodContainer(var_4_1)
-		end):Then(function()
-			var_4_2:Notify()
+		uv0.commonAction.PickItemAction(slot1, slot2, function (slot0)
+			uv0.RefreshFoodContainer(uv1)
+		end):Then(function ()
+			uv0:Notify()
 		end):Start()
 	end
 end
 
-return function(arg_9_0)
-	local var_9_0 = arg_9_0.targetType
-	local var_9_1 = arg_9_0.finish
+return function (slot0)
+	slot2 = slot0.finish
 
-	if var_9_0 == DormEnum.ItemType.DinningTable then
-		var_0_2(arg_9_0)
-	elseif var_9_0 == DormEnum.ItemType.PassTable then
-		var_0_3(arg_9_0)
+	if slot0.targetType == DormEnum.ItemType.DinningTable then
+		uv0(slot0)
+	elseif slot1 == DormEnum.ItemType.PassTable then
+		uv1(slot0)
 	else
-		var_9_1:Notify(false)
+		slot2:Notify(false)
 		error("错误交互")
 	end
 end

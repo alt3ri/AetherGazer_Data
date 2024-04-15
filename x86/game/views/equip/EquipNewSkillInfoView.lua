@@ -1,100 +1,96 @@
-local var_0_0 = class("EquipNewSkillInfoView", ReduxView)
+slot0 = class("EquipNewSkillInfoView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.transform_ = slot1.transform
+	slot0.gameObject_ = slot1
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.skillInfoList_ = {}
-	arg_2_0.locationList = {}
-	arg_2_0.infoScrollHelper_ = LuaList.New(handler(arg_2_0, arg_2_0.indexInfoItem), arg_2_0.skillListGo_, EquipSkillInfoItem)
-	arg_2_0.locationScrollHelper_ = LuaList.New(handler(arg_2_0, arg_2_0.indexLocationItem), arg_2_0.locationListGo_, EquipSkillLocationItem)
-	arg_2_0.stateController_ = arg_2_0.skillCon_:GetController("state")
-	arg_2_0.tabController_ = arg_2_0.skillCon_:GetController("tab")
+	slot0.skillInfoList_ = {}
+	slot0.locationList = {}
+	slot0.infoScrollHelper_ = LuaList.New(handler(slot0, slot0.indexInfoItem), slot0.skillListGo_, EquipSkillInfoItem)
+	slot0.locationScrollHelper_ = LuaList.New(handler(slot0, slot0.indexLocationItem), slot0.locationListGo_, EquipSkillLocationItem)
+	slot0.stateController_ = slot0.skillCon_:GetController("state")
+	slot0.tabController_ = slot0.skillCon_:GetController("tab")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btnSkill_, nil, function()
-		arg_3_0.tabController_:SetSelectedState("skill")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnSkill_, nil, function ()
+		uv0.tabController_:SetSelectedState("skill")
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btnLoacation_, nil, function()
-		arg_3_0.tabController_:SetSelectedState("location")
+	slot0:AddBtnListener(slot0.btnLoacation_, nil, function ()
+		uv0.tabController_:SetSelectedState("location")
 	end)
 end
 
-function var_0_0.RefreshData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.handler_ = arg_6_1
-	arg_6_0.info_ = arg_6_2
-	arg_6_0.isShowLocate_ = arg_6_3
+function slot0.RefreshData(slot0, slot1, slot2, slot3)
+	slot0.handler_ = slot1
+	slot0.info_ = slot2
+	slot0.isShowLocate_ = slot3
 
-	arg_6_0:RefreshInfoList()
-	arg_6_0:RefreshUI()
+	slot0:RefreshInfoList()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. arg_7_0.skillCfg_.icon)
-	arg_7_0.name_.text = GetI18NText(arg_7_0.skillCfg_.name)
-	arg_7_0.lv_.text = string.format("%s/%s", arg_7_0.info_.num, arg_7_0.skillCfg_.lvmax)
+function slot0.RefreshUI(slot0)
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. slot0.skillCfg_.icon)
+	slot0.name_.text = GetI18NText(slot0.skillCfg_.name)
+	slot0.lv_.text = string.format("%s/%s", slot0.info_.num, slot0.skillCfg_.lvmax)
 
-	arg_7_0.stateController_:SetSelectedState(arg_7_0.isShowLocate_ and "on" or "off")
-	arg_7_0.tabController_:SetSelectedState("skill")
-	arg_7_0.infoScrollHelper_:StartScroll(#arg_7_0.skillInfoList_)
+	slot0.stateController_:SetSelectedState(slot0.isShowLocate_ and "on" or "off")
+	slot0.tabController_:SetSelectedState("skill")
+	slot0.infoScrollHelper_:StartScroll(#slot0.skillInfoList_)
 
-	if arg_7_0.isShowLocate_ and arg_7_0.info_.location then
-		arg_7_0.locationScrollHelper_:StartScroll(#arg_7_0.info_.location)
+	if slot0.isShowLocate_ and slot0.info_.location then
+		slot0.locationScrollHelper_:StartScroll(#slot0.info_.location)
 	end
 end
 
-function var_0_0.RefreshInfoList(arg_8_0)
-	arg_8_0.skillInfoList_ = {}
-	arg_8_0.skillCfg_ = EquipSkillCfg[arg_8_0.info_.id]
+function slot0.RefreshInfoList(slot0)
+	slot0.skillInfoList_ = {}
+	slot0.skillCfg_ = EquipSkillCfg[slot0.info_.id]
 
-	for iter_8_0 = 1, arg_8_0.skillCfg_.lvmax do
-		local var_8_0 = {
-			level = GetTips("LEVEL") .. string.format("%d", iter_8_0)
-		}
-		local var_8_1 = arg_8_0.skillCfg_.upgrade / arg_8_0.skillCfg_.percent * iter_8_0
-
-		var_8_0.desc = GetCfgDescriptionWithValue(arg_8_0.skillCfg_.desc[1], tostring(var_8_1))
-
-		if arg_8_0.skillCfg_.desc_spec_value ~= nil and arg_8_0.skillCfg_.desc_spec_value ~= "" then
-			var_8_0.desc = string.gsub(desc, tostring(var_8_1), arg_8_0.skillCfg_.desc_spec_value[iter_8_0])
+	for slot4 = 1, slot0.skillCfg_.lvmax do
+		if slot0.skillCfg_.desc_spec_value ~= nil and slot0.skillCfg_.desc_spec_value ~= "" then
+			-- Nothing
 		end
 
-		var_8_0.alpha = iter_8_0 <= arg_8_0.info_.num and 1 or 0.5
-
-		table.insert(arg_8_0.skillInfoList_, var_8_0)
+		table.insert(slot0.skillInfoList_, {
+			level = GetTips("LEVEL") .. string.format("%d", slot4),
+			desc = GetCfgDescriptionWithValue(slot0.skillCfg_.desc[1], tostring(slot0.skillCfg_.upgrade / slot0.skillCfg_.percent * slot4)),
+			desc = string.gsub(desc, tostring(slot6), slot0.skillCfg_.desc_spec_value[slot4]),
+			alpha = slot4 <= slot0.info_.num and 1 or 0.5
+		})
 	end
 end
 
-function var_0_0.indexInfoItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:RefreshData(arg_9_0, arg_9_0.skillInfoList_[arg_9_1])
+function slot0.indexInfoItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot0, slot0.skillInfoList_[slot1])
 end
 
-function var_0_0.indexLocationItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:RefreshData(arg_10_0, arg_10_0.info_.location[arg_10_1])
+function slot0.indexLocationItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot0, slot0.info_.location[slot1])
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.infoScrollHelper_ then
-		arg_11_0.infoScrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.infoScrollHelper_ then
+		slot0.infoScrollHelper_:Dispose()
 
-		arg_11_0.infoScrollHelper_ = nil
+		slot0.infoScrollHelper_ = nil
 	end
 
-	if arg_11_0.locationScrollHelper_ then
-		arg_11_0.locationScrollHelper_:Dispose()
+	if slot0.locationScrollHelper_ then
+		slot0.locationScrollHelper_:Dispose()
 
-		arg_11_0.locationScrollHelper_ = nil
+		slot0.locationScrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

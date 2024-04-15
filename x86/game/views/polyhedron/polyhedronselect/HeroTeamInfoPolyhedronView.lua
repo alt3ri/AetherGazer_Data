@@ -1,119 +1,103 @@
-local var_0_0 = import("game.views.heroTeamInfo.HeroTeamInfoBaseView")
-local var_0_1 = class("HeroTeamInfoPolyhedronView", var_0_0)
+slot1 = class("HeroTeamInfoPolyhedronView", import("game.views.heroTeamInfo.HeroTeamInfoBaseView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "Widget/System/Polyhedron/HeroPolyhedronTeamInfoUI"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.emptyController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "empty")
-	arg_2_0.contorller_ = ControllerUtil.GetController(arg_2_0.joinBtn_.transform, "upgradeBtn")
-	arg_2_0.heroAvatarView_ = HeroAvatarView.New(arg_2_0, arg_2_0.displayGo_)
-	arg_2_0.heroHeadList_ = LuaList.New(handler(arg_2_0, arg_2_0.HeadRenderer), arg_2_0.uiListGo_, PolyhedronTeamHeadItem)
-	arg_2_0.filterView_ = arg_2_0:GetFilterClass().New(arg_2_0.filterGo_)
+	slot0.emptyController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "empty")
+	slot0.contorller_ = ControllerUtil.GetController(slot0.joinBtn_.transform, "upgradeBtn")
+	slot0.heroAvatarView_ = HeroAvatarView.New(slot0, slot0.displayGo_)
+	slot0.heroHeadList_ = LuaList.New(handler(slot0, slot0.HeadRenderer), slot0.uiListGo_, PolyhedronTeamHeadItem)
+	slot0.filterView_ = slot0:GetFilterClass().New(slot0.filterGo_)
 
-	arg_2_0.filterView_:SetExtraSorter(handler(arg_2_0, arg_2_0.ExtraSorter))
-	arg_2_0.filterView_:SetListChangeHandler(handler(arg_2_0, arg_2_0.OnListChange))
+	slot0.filterView_:SetExtraSorter(handler(slot0, slot0.ExtraSorter))
+	slot0.filterView_:SetListChangeHandler(handler(slot0, slot0.OnListChange))
 end
 
-function var_0_1.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_infoBtn, nil, function()
-		PolyhedronData:SetCacheSelectHero(arg_3_0.selectID_)
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_infoBtn, nil, function ()
+		PolyhedronData:SetCacheSelectHero(uv0.selectID_)
 
-		local var_4_0 = arg_3_0:GetCustomHeroList()
-
-		if not table.keyof(var_4_0, arg_3_0.selectTrialID_) then
-			var_4_0 = arg_3_0.trialHeroList_
+		if not table.keyof(uv0:GetCustomHeroList(), uv0.selectTrialID_) then
+			slot0 = uv0.trialHeroList_
 		end
 
-		arg_3_0:Go("/polyhedronHero", {
+		uv0:Go("/polyhedronHero", {
 			isEnter = true,
-			hid = arg_3_0.selectTrialID_ ~= 0 and arg_3_0.selectTrialID_ or arg_3_0.selectID_,
-			isTemp = arg_3_0.selectTrialID_ ~= 0 and true or false,
-			tempHeroList = var_4_0
+			hid = uv0.selectTrialID_ ~= 0 and uv0.selectTrialID_ or uv0.selectID_,
+			isTemp = uv0.selectTrialID_ ~= 0 and true or false,
+			tempHeroList = slot0
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.m_okBtn, nil, function()
-		PolyhedronData:SetCacheSelectHero(arg_3_0.selectID_)
+	slot0:AddBtnListener(slot0.m_okBtn, nil, function ()
+		PolyhedronData:SetCacheSelectHero(uv0.selectID_)
 		JumpTools.OpenPageByJump("/polyhedronBeacon", {})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.m_backBtn, nil, function()
-		arg_3_0:Back()
+	slot0:AddBtnListener(slot0.m_backBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_1.HeadRenderer(arg_7_0, arg_7_1, arg_7_2)
-	var_0_1.super.HeadRenderer(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2.lockedController_:SetSelectedState("false")
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
+	slot2.lockedController_:SetSelectedState("false")
 
-	local var_7_0 = arg_7_0.heroDataList_[arg_7_1].id
-	local var_7_1 = PolyhedronHeroCfg[var_7_0].standard_id
-	local var_7_2 = HeroStandardSystemCfg[var_7_1]
-
-	arg_7_2.levelText_.text = var_7_2.hero_lv
+	slot2.levelText_.text = HeroStandardSystemCfg[PolyhedronHeroCfg[slot0.heroDataList_[slot1].id].standard_id].hero_lv
 end
 
-function var_0_1.UpdateHeroView(arg_8_0)
-	local var_8_0 = arg_8_0.selectID_
-	local var_8_1 = HeroCfg[var_8_0]
+function slot1.UpdateHeroView(slot0)
+	slot1 = slot0.selectID_
+	slot2 = HeroCfg[slot1]
+	slot0.m_heroName.text = GetI18NText(slot2.name)
+	slot0.m_heroSuffix.text = GetI18NText(slot2.suffix)
+	slot4 = PolyhedronHeroCfg[slot1].standard_id
 
-	arg_8_0.m_heroName.text = GetI18NText(var_8_1.name)
-	arg_8_0.m_heroSuffix.text = GetI18NText(var_8_1.suffix)
+	slot0.heroAvatarView_:SetSkinId(PolyhedronData:GetHeroUsingSkinInfo(slot1).id)
 
-	local var_8_2 = PolyhedronHeroCfg[var_8_0].standard_id
-	local var_8_3 = PolyhedronData:GetHeroUsingSkinInfo(var_8_0).id
-
-	arg_8_0.heroAvatarView_:SetSkinId(var_8_3)
-
-	arg_8_0.fightPowerText_.text = arg_8_0.heroViewProxy_:GetBattlePower(var_8_0)
+	slot0.fightPowerText_.text = slot0.heroViewProxy_:GetBattlePower(slot1)
 end
 
-function var_0_1.IsInTeam(arg_9_0, arg_9_1, arg_9_2)
+function slot1.IsInTeam(slot0, slot1, slot2)
 	return false, false, -1
 end
 
-function var_0_1.GetHeroTeam(arg_10_0)
-	arg_10_0.heroTeam_ = arg_10_0.params_.heroTeam
-	arg_10_0.lockStateList_ = {}
-	arg_10_0.lockHeroList_ = {}
-	arg_10_0.heroTrialList_ = {
+function slot1.GetHeroTeam(slot0)
+	slot0.heroTeam_ = slot0.params_.heroTeam
+	slot0.lockStateList_ = {}
+	slot0.lockHeroList_ = {}
+	slot0.heroTrialList_ = {
 		0
 	}
 end
 
-function var_0_1.GetDefaultHeroData(arg_11_0)
-	local var_11_0 = PolyhedronData:GetCacheSelectHero()
-
-	if var_11_0 ~= 0 then
-		return var_11_0, 0
+function slot1.GetDefaultHeroData(slot0)
+	if PolyhedronData:GetCacheSelectHero() ~= 0 then
+		return slot1, 0
 	end
 
-	local var_11_1 = arg_11_0.heroTeam_[arg_11_0.params_.selectHeroPos] or 0
-
-	if var_11_1 == 0 then
-		for iter_11_0, iter_11_1 in pairs(arg_11_0.heroDataList_) do
-			local var_11_2 = iter_11_1.id
-
-			if not arg_11_0:IsInTeam(var_11_2) and not table.keyof(arg_11_0.lockHeroList_, var_11_2) then
-				return var_11_2, 0
+	if (slot0.heroTeam_[slot0.params_.selectHeroPos] or 0) == 0 then
+		for slot6, slot7 in pairs(slot0.heroDataList_) do
+			if not slot0:IsInTeam(slot7.id) and not table.keyof(slot0.lockHeroList_, slot8) then
+				return slot8, 0
 			end
 		end
 	end
 
-	if var_11_1 == 0 then
-		for iter_11_2, iter_11_3 in pairs(arg_11_0.heroDataList_) do
-			return iter_11_3.id, 0
+	if slot2 == 0 then
+		for slot6, slot7 in pairs(slot0.heroDataList_) do
+			return slot7.id, 0
 		end
 	end
 
-	return var_11_1, 0
+	return slot2, 0
 end
 
-function var_0_1.GetHeroList(arg_12_0)
+function slot1.GetHeroList(slot0)
 	return PolyhedronData:GetUnlockHeroList()
 end
 
-return var_0_1
+return slot1

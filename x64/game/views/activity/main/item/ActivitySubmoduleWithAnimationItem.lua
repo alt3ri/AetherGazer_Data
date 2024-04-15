@@ -1,32 +1,29 @@
 ActivitySubmoduleItem = import("game.views.activity.Main.item.ActivitySubmoduleItem")
+slot0 = class("ActivitySubmoduleWithAnimationItem", ActivitySubmoduleItem)
 
-local var_0_0 = class("ActivitySubmoduleWithAnimationItem", ActivitySubmoduleItem)
-
-function var_0_0.AddListeners(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.button_, nil, function()
-		if manager.time:GetServerTime() < arg_1_0.startTime_ then
-			local var_2_0 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_2_0, manager.time:GetLostTimeStr(arg_1_0.startTime_)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.startTime_)))
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_1_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		manager.notify:Invoke(ACTIVITY_MAIN_CLICK_BTN)
-		LeanTween.delayedCall(0.6, System.Action(function()
-			ActivityTools.JumpToSubmodulePage(arg_1_0.activityId_)
+		LeanTween.delayedCall(0.6, System.Action(function ()
+			ActivityTools.JumpToSubmodulePage(uv0.activityId_)
 		end))
 	end)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

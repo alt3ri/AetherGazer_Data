@@ -1,55 +1,54 @@
-local var_0_0 = class("StageArchiveView", ReduxView)
+slot0 = class("StageArchiveView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationDiaryUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.clueController_ = arg_3_0.controllerEx_:GetController("verClue")
+	slot0.clueController_ = slot0.controllerEx_:GetController("verClue")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = arg_4_0.params_.archiveID
+function slot0.OnEnter(slot0)
+	slot1 = slot0.params_.archiveID
 
-	if arg_4_0.params_.isClue then
-		arg_4_0.clueController_:SetSelectedState("state1")
+	if slot0.params_.isClue then
+		slot0.clueController_:SetSelectedState("state1")
 	else
-		arg_4_0.clueController_:SetSelectedState("state0")
+		slot0.clueController_:SetSelectedState("state0")
 	end
 
-	local var_4_1 = StageArchiveCfg[var_4_0]
+	slot2 = StageArchiveCfg[slot1]
+	slot0.nameText_.text = formatText(slot2.name)
+	slot0.archiveText_.text = formatText(slot2.desc)
 
-	arg_4_0.nameText_.text = formatText(var_4_1.name)
-	arg_4_0.archiveText_.text = formatText(var_4_1.desc)
-
-	if arg_4_0.iconImage_ then
-		arg_4_0.iconImage_.sprite = getSpriteWithoutAtlas(var_4_1.iconPath)
+	if slot0.iconImage_ then
+		slot0.iconImage_.sprite = getSpriteWithoutAtlas(slot2.iconPath)
 	end
 
-	arg_4_0.scrollView_.verticalNormalizedPosition = 1
+	slot0.scrollView_.verticalNormalizedPosition = 1
 end
 
-function var_0_0.OnExit(arg_5_0)
-	if arg_5_0.iconImage_ then
-		arg_5_0.iconImage_.sprite = nil
+function slot0.OnExit(slot0)
+	if slot0.iconImage_ then
+		slot0.iconImage_.sprite = nil
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.maskBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_0
+return slot0

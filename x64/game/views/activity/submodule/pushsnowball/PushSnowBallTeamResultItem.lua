@@ -1,45 +1,45 @@
-local var_0_0 = class("PushSnowBallTeamResultItem", ReduxView)
+slot0 = class("PushSnowBallTeamResultItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
+	slot0:initUI()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.rankController_ = ControllerUtil.GetController(arg_2_0.transform_, "rank")
+	slot0.rankController_ = ControllerUtil.GetController(slot0.transform_, "rank")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.data_ = arg_3_2
-	arg_3_0.index_ = arg_3_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot2
+	slot0.index_ = slot1
 
-	arg_3_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_4_0)
-	if arg_4_0.rankText_ then
-		arg_4_0.rankText_.text = arg_4_0.data_.rank
+function slot0.Refresh(slot0)
+	if slot0.rankText_ then
+		slot0.rankText_.text = slot0.data_.rank
 	end
 
-	if arg_4_0.scoreText_ then
-		arg_4_0.scoreText_.text = arg_4_0.data_.score
+	if slot0.scoreText_ then
+		slot0.scoreText_.text = slot0.data_.score
 	end
 
-	if arg_4_0.rankController_ then
-		if arg_4_0.data_.rank <= 3 then
-			arg_4_0.rankController_:SetSelectedIndex(arg_4_0.data_.rank - 1)
+	if slot0.rankController_ then
+		if slot0.data_.rank <= 3 then
+			slot0.rankController_:SetSelectedIndex(slot0.data_.rank - 1)
 		else
-			arg_4_0.rankController_:SetSelectedIndex(0)
+			slot0.rankController_:SetSelectedIndex(0)
 		end
 	end
 
-	arg_4_0.nameText_.text = arg_4_0.data_.nick
-	arg_4_0.iconImg_.sprite = ItemTools.getItemSprite(arg_4_0.data_.icon)
-	arg_4_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_4_0.data_.frame)
+	slot0.nameText_.text = slot0.data_.nick
+	slot0.iconImg_.sprite = ItemTools.getItemSprite(slot0.data_.icon)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data_.frame)
 end
 
-return var_0_0
+return slot0

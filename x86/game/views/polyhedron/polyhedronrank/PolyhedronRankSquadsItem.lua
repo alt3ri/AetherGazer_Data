@@ -1,38 +1,36 @@
-local var_0_0 = class("PolyhedronRankSquadsItem", ReduxView)
+slot0 = class("PolyhedronRankSquadsItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
+	slot0:initUI()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.typeController_ = ControllerUtil.GetController(arg_2_0.transform_, "type")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	if HeroStandardSystemCfg[arg_3_1.id] ~= nil then
-		arg_3_0.heroID_ = HeroStandardSystemCfg[arg_3_1.id].hero_id
-		arg_3_0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. arg_3_1.skin_id)
+function slot0.SetData(slot0, slot1, slot2)
+	if HeroStandardSystemCfg[slot1.id] ~= nil then
+		slot0.heroID_ = HeroStandardSystemCfg[slot1.id].hero_id
+		slot0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. slot1.skin_id)
 	else
-		arg_3_0.heroID_ = arg_3_1.hero_id
+		slot0.heroID_ = slot1.hero_id
 
-		if not arg_3_1.skin_id or arg_3_1.skin_id == 0 then
-			arg_3_0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. arg_3_0.heroID_)
+		if not slot1.skin_id or slot1.skin_id == 0 then
+			slot0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. slot0.heroID_)
 		else
-			arg_3_0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. arg_3_1.skin_id)
+			slot0.portraitImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroIcon.path .. slot1.skin_id)
 		end
 	end
 
-	arg_3_0.typeController_:SetSelectedIndex(arg_3_2 and 1 or 0)
+	slot0.typeController_:SetSelectedIndex(slot2 and 1 or 0)
 
-	local var_3_0 = HeroCfg[arg_3_0.heroID_]
-
-	arg_3_0.nameText_.text = GetI18NText(var_3_0.name)
-	arg_3_0.rangeTypeText_.text = CharactorParamCfg[arg_3_0.heroID_].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
+	slot0.nameText_.text = GetI18NText(HeroCfg[slot0.heroID_].name)
+	slot0.rangeTypeText_.text = CharactorParamCfg[slot0.heroID_].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
 end
 
-return var_0_0
+return slot0

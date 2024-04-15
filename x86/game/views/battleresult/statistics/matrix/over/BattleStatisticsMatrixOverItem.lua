@@ -1,55 +1,51 @@
-local var_0_0 = import("..BattleStatisticsMatrixHeroItem")
-local var_0_1 = class("BattleStatisticsMatrixOverItem", var_0_0)
+slot1 = class("BattleStatisticsMatrixOverItem", import("..BattleStatisticsMatrixHeroItem"))
 
-function var_0_1.RefreshUI(arg_1_0)
-	if arg_1_0.heroData_ then
-		arg_1_0.haveHeroController_:SetSelectedState("true")
+function slot1.RefreshUI(slot0)
+	if slot0.heroData_ then
+		slot0.haveHeroController_:SetSelectedState("true")
 
-		local var_1_0 = arg_1_0.heroData_
-		local var_1_1 = HeroCfg[arg_1_0.heroData_.id]
-		local var_1_2 = arg_1_0.data_
-		local var_1_3 = arg_1_0.maxData_
-		local var_1_4 = arg_1_0.totalData_
-		local var_1_5 = SkinCfg[var_1_0.skin_id]
+		slot1 = slot0.heroData_
+		slot2 = HeroCfg[slot0.heroData_.id]
+		slot3 = slot0.data_
+		slot5 = slot0.totalData_
+		slot0.battleCountIcon_.sprite = getSpriteViaConfig("HeroIcon", SkinCfg[slot1.skin_id].picture_id)
 
-		arg_1_0.battleCountIcon_.sprite = getSpriteViaConfig("HeroIcon", var_1_5.picture_id)
+		SetActive(slot0.battleCountIcon_.gameObject, true)
 
-		SetActive(arg_1_0.battleCountIcon_.gameObject, true)
+		slot0.battleCountLv_.text = slot1.level
+		slot0.battleCountDamageNum_.text = slot3.damage
+		slot0.battleCountHurtNum_.text = slot3.hurt
+		slot0.battleCountCureNum_.text = slot3.cure
+		slot0.battleCountDamageImg_.enabled = slot0.maxData_.damage == slot3.damage and slot4.damage > 0
+		slot0.battleCountHurtNumImg_.enabled = slot4.hurt == slot3.hurt and slot4.hurt > 0
+		slot0.battleCountCureNumImg_.enabled = slot4.cure == slot3.cure and slot4.cure > 0
 
-		arg_1_0.battleCountLv_.text = var_1_0.level
-		arg_1_0.battleCountDamageNum_.text = var_1_2.damage
-		arg_1_0.battleCountHurtNum_.text = var_1_2.hurt
-		arg_1_0.battleCountCureNum_.text = var_1_2.cure
-		arg_1_0.battleCountDamageImg_.enabled = var_1_3.damage == var_1_2.damage and var_1_3.damage > 0
-		arg_1_0.battleCountHurtNumImg_.enabled = var_1_3.hurt == var_1_2.hurt and var_1_3.hurt > 0
-		arg_1_0.battleCountCureNumImg_.enabled = var_1_3.cure == var_1_2.cure and var_1_3.cure > 0
+		if slot3.damage == 0 then
+			slot0.controllers_[1]:SetSelectedState("true")
 
-		if var_1_2.damage == 0 then
-			arg_1_0.controllers_[1]:SetSelectedState("true")
-
-			arg_1_0.battleCountDamageNum_.text = "--"
+			slot0.battleCountDamageNum_.text = "--"
 		else
-			arg_1_0.controllers_[1]:SetSelectedState("false")
+			slot0.controllers_[1]:SetSelectedState("false")
 		end
 
-		if var_1_2.hurt == 0 then
-			arg_1_0.controllers_[2]:SetSelectedState("true")
+		if slot3.hurt == 0 then
+			slot0.controllers_[2]:SetSelectedState("true")
 
-			arg_1_0.battleCountHurtNum_.text = "--"
+			slot0.battleCountHurtNum_.text = "--"
 		else
-			arg_1_0.controllers_[2]:SetSelectedState("false")
+			slot0.controllers_[2]:SetSelectedState("false")
 		end
 
-		if var_1_2.cure == 0 then
-			arg_1_0.controllers_[3]:SetSelectedState("true")
+		if slot3.cure == 0 then
+			slot0.controllers_[3]:SetSelectedState("true")
 
-			arg_1_0.battleCountCureNum_.text = "--"
+			slot0.battleCountCureNum_.text = "--"
 		else
-			arg_1_0.controllers_[3]:SetSelectedState("false")
+			slot0.controllers_[3]:SetSelectedState("false")
 		end
 	else
-		arg_1_0.haveHeroController_:SetSelectedState("false")
+		slot0.haveHeroController_:SetSelectedState("false")
 	end
 end
 
-return var_0_1
+return slot1

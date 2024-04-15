@@ -1,285 +1,257 @@
-local var_0_0 = class("DormPartSuitInfoPopView", ReduxView)
+slot0 = class("DormPartSuitInfoPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormFurnitureSuitInfoPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.scrollHelper_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uilistGo_, FurnitureItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, FurnitureItem)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.suitID = arg_6_0.params_.suitID
+function slot0.OnEnter(slot0)
+	slot0.suitID = slot0.params_.suitID
 
-	arg_6_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	if arg_7_0.scrollHelper_ then
-		arg_7_0.scrollHelper_:Refresh()
+function slot0.OnTop(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Refresh()
 	end
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListenerScale(arg_9_0.getAllBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.getAllBtn_, nil, function ()
 		JumpTools.OpenPageByJump("dormSuitGetFurListView", {
-			furEidList = arg_9_0.canStorageList,
-			callBack = handler(arg_9_0, function()
-				arg_9_0:RefreshFurInfoList()
-				arg_9_0:RefreshCanRestorageState()
+			furEidList = uv0.canStorageList,
+			callBack = handler(uv0, function ()
+				uv0:RefreshFurInfoList()
+				uv0:RefreshCanRestorageState()
 			end)
 		})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.bgmaskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.RefreshView(arg_13_0)
-	arg_13_0:RefreshSuitInfo()
-	arg_13_0:RefreshCanRestorageState()
-	arg_13_0:RefreshFurInfoList()
+function slot0.RefreshView(slot0)
+	slot0:RefreshSuitInfo()
+	slot0:RefreshCanRestorageState()
+	slot0:RefreshFurInfoList()
 end
 
-function var_0_0.RefreshCanRestorageState(arg_14_0)
-	local var_14_0, var_14_1 = arg_14_0:CheckCanRecycleFur()
+function slot0.RefreshCanRestorageState(slot0)
+	slot1, slot2 = slot0:CheckCanRecycleFur()
+	slot0.canStorageFlag = slot1
 
-	arg_14_0.canStorageFlag = var_14_0
-
-	if not var_14_0 then
-		arg_14_0.canStorageList = nil
+	if not slot1 then
+		slot0.canStorageList = nil
 	else
-		arg_14_0.canStorageList = var_14_1
+		slot0.canStorageList = slot2
 	end
 end
 
-function var_0_0.RefreshSuitInfo(arg_15_0)
-	if ItemCfg[arg_15_0.suitID] then
-		arg_15_0.suitName.text = ItemTools.getItemName(arg_15_0.suitID)
-		arg_15_0.furNum.text = DormSuitData:GetSuitNeedTotalFurNumList(arg_15_0.suitID)
+function slot0.RefreshSuitInfo(slot0)
+	if ItemCfg[slot0.suitID] then
+		slot0.suitName.text = ItemTools.getItemName(slot0.suitID)
+		slot0.furNum.text = DormSuitData:GetSuitNeedTotalFurNumList(slot0.suitID)
 
-		local var_15_0 = BackHomeSuitCfg[arg_15_0.suitID].suit_num
-		local var_15_1 = 0
-
-		for iter_15_0, iter_15_1 in ipairs(var_15_0) do
-			var_15_1 = var_15_1 + BackHomeFurniture[iter_15_1[1]].dorm_exp * iter_15_1[2]
+		for slot7, slot8 in ipairs(BackHomeSuitCfg[slot0.suitID].suit_num) do
+			slot3 = 0 + BackHomeFurniture[slot8[1]].dorm_exp * slot8[2]
 		end
 
-		arg_15_0.comfortNum.text = var_15_1
-		arg_15_0.suitImg.sprite = DormSuitTools:GetSuitHighDefinitionIcon(arg_15_0.suitID)
+		slot0.comfortNum.text = slot3
+		slot0.suitImg.sprite = DormSuitTools:GetSuitHighDefinitionIcon(slot0.suitID)
 	end
 end
 
-function var_0_0.RefreshFurInfoList(arg_16_0)
-	local var_16_0 = DormSuitData:GetNeedUseFurNumInfoBySuitID(arg_16_0.suitID)
+function slot0.RefreshFurInfoList(slot0)
+	slot0.furInfoList = {}
 
-	arg_16_0.furInfoList = {}
-
-	for iter_16_0, iter_16_1 in ipairs(var_16_0) do
-		local var_16_1 = {
-			furID = iter_16_1[1],
-			suitID = arg_16_0.suitID
-		}
-
-		table.insert(arg_16_0.furInfoList, var_16_1)
+	for slot5, slot6 in ipairs(DormSuitData:GetNeedUseFurNumInfoBySuitID(slot0.suitID)) do
+		table.insert(slot0.furInfoList, {
+			furID = slot6[1],
+			suitID = slot0.suitID
+		})
 	end
 
-	arg_16_0.scrollHelper_:StartScroll(#arg_16_0.furInfoList)
+	slot0.scrollHelper_:StartScroll(#slot0.furInfoList)
 end
 
-function var_0_0.indexItem(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_2:RefreshUI(arg_17_0.furInfoList[arg_17_1], nil, DormEnum.FurItemType.SuitFurShow, nil, arg_17_1)
-	arg_17_2:OnClickBtn(function(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_4)
-		local var_18_0 = DormData:GetFurNumInfo(arg_18_0)
-		local var_18_1 = 0
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.furInfoList[slot1], nil, DormEnum.FurItemType.SuitFurShow, nil, slot1)
+	slot2:OnClickBtn(function (slot0, slot1, slot2, slot3, slot4)
+		slot5 = DormData:GetFurNumInfo(slot0)
+		slot6 = 0
 
-		if arg_18_3 == "enough" then
-			if var_18_0 then
-				var_18_1 = var_18_0.num
+		if slot3 == "enough" then
+			if slot5 then
+				slot6 = slot5.num
 			end
 
 			ShowPopItem(POP_ITEM, {
-				arg_18_0,
-				var_18_1
+				slot0,
+				slot6
 			})
-		elseif arg_18_3 == "canGift" then
+		elseif slot3 == "canGift" then
 			JumpTools.OpenPageByJump("dormFurBuyAndGiftView", {
 				state = "gift",
-				furID = arg_18_0,
-				needNum = arg_18_4,
-				defaultNum = arg_18_4
+				furID = slot0,
+				needNum = slot4,
+				defaultNum = slot4
 			})
-		elseif arg_18_3 == "noEnough" then
-			local var_18_2 = {}
-			local var_18_3 = ShopListCfg[ShopConst.SHOP_ID.FURNITURE_SHOP].display_group
-
-			for iter_18_0, iter_18_1 in ipairs(ShopListCfg.all) do
-				if ShopListCfg[iter_18_1].display_group == var_18_3 then
-					table.insert(var_18_2, iter_18_1)
+		elseif slot3 == "noEnough" then
+			for slot12, slot13 in ipairs(ShopListCfg.all) do
+				if ShopListCfg[slot13].display_group == ShopListCfg[ShopConst.SHOP_ID.FURNITURE_SHOP].display_group then
+					table.insert({}, slot13)
 				end
 			end
 
-			local var_18_4 = getGoodListByGiveID(arg_18_0)
-			local var_18_5 = false
-			local var_18_6
+			slot10 = false
+			slot11 = nil
 
-			for iter_18_2, iter_18_3 in ipairs(var_18_4) do
-				for iter_18_4, iter_18_5 in ipairs(var_18_2) do
-					if ShopTools.IsGoodCanBuy(iter_18_5, iter_18_3) then
-						var_18_5 = true
-
-						local var_18_7 = iter_18_3
+			for slot15, slot16 in ipairs(getGoodListByGiveID(slot0)) do
+				for slot20, slot21 in ipairs(slot7) do
+					if ShopTools.IsGoodCanBuy(slot21, slot16) then
+						slot10 = true
+						slot11 = slot16
 
 						break
 					end
 				end
 			end
 
-			if var_18_5 then
+			if slot10 then
 				JumpTools.OpenPageByJump("dormFurBuyAndGiftView", {
 					state = "buy",
-					furID = arg_18_0,
-					needNum = arg_18_4,
-					defaultNum = arg_18_4
+					furID = slot0,
+					needNum = slot4,
+					defaultNum = slot4
 				})
 			else
 				ShowPopItem(POP_ITEM, {
-					arg_18_0,
-					var_18_1
+					slot0,
+					slot6
 				})
 			end
 		end
 	end)
-	arg_17_2:GrayCallBack(function(arg_19_0, arg_19_1, arg_19_2, arg_19_3, arg_19_4)
-		local var_19_0 = DormData:GetFurNumInfo(arg_19_0)
-		local var_19_1 = 0
+	slot2:GrayCallBack(function (slot0, slot1, slot2, slot3, slot4)
+		slot5 = DormData:GetFurNumInfo(slot0)
+		slot6 = 0
 
-		if arg_19_3 == "enough" then
-			if var_19_0 then
-				var_19_1 = var_19_0.num
+		if slot3 == "enough" then
+			if slot5 then
+				slot6 = slot5.num
 			end
 
 			ShowPopItem(POP_ITEM, {
-				arg_19_0,
-				var_19_1
+				slot0,
+				slot6
 			})
-		elseif arg_19_3 == "canGift" then
+		elseif slot3 == "canGift" then
 			JumpTools.OpenPageByJump("dormFurBuyAndGiftView", {
 				state = "gift",
-				furID = arg_19_0,
-				needNum = arg_19_4,
-				defaultNum = arg_19_4
+				furID = slot0,
+				needNum = slot4,
+				defaultNum = slot4
 			})
-		elseif arg_19_3 == "noEnough" then
-			local var_19_2 = {}
-			local var_19_3 = ShopListCfg[ShopConst.SHOP_ID.DORM_SHOP].display_group
-
-			for iter_19_0, iter_19_1 in ipairs(ShopListCfg.all) do
-				if ShopListCfg[iter_19_1].display_group == var_19_3 then
-					table.insert(var_19_2, iter_19_1)
+		elseif slot3 == "noEnough" then
+			for slot12, slot13 in ipairs(ShopListCfg.all) do
+				if ShopListCfg[slot13].display_group == ShopListCfg[ShopConst.SHOP_ID.DORM_SHOP].display_group then
+					table.insert({}, slot13)
 				end
 			end
 
-			local var_19_4 = getGoodListByGiveID(arg_19_0)
-			local var_19_5 = false
-			local var_19_6
+			slot10 = false
+			slot11 = nil
 
-			for iter_19_2, iter_19_3 in ipairs(var_19_4) do
-				for iter_19_4, iter_19_5 in ipairs(var_19_2) do
-					if ShopTools.IsGoodCanBuy(iter_19_5, iter_19_3) then
-						var_19_5 = true
-
-						local var_19_7 = iter_19_3
+			for slot15, slot16 in ipairs(getGoodListByGiveID(slot0)) do
+				for slot20, slot21 in ipairs(slot7) do
+					if ShopTools.IsGoodCanBuy(slot21, slot16) then
+						slot10 = true
+						slot11 = slot16
 
 						break
 					end
 				end
 			end
 
-			if var_19_5 then
+			if slot10 then
 				JumpTools.OpenPageByJump("dormFurBuyAndGiftView", {
 					state = "buy",
-					furID = arg_19_0,
-					needNum = arg_19_4,
-					defaultNum = arg_19_4
+					furID = slot0,
+					needNum = slot4,
+					defaultNum = slot4
 				})
 			else
 				ShowPopItem(POP_ITEM, {
-					arg_19_0,
-					var_19_1
+					slot0,
+					slot6
 				})
 			end
 		end
 	end)
 end
 
-function var_0_0.CheckCanRecycleFur(arg_20_0)
-	local var_20_0 = DormSuitData:GetSuitFurInfo(arg_20_0.suitID)
-	local var_20_1 = {}
-	local var_20_2 = DormData:GetCurrectSceneID()
+function slot0.CheckCanRecycleFur(slot0)
+	slot2 = {}
+	slot3 = DormData:GetCurrectSceneID()
 
-	if var_20_0 then
-		local var_20_3 = var_20_0.suit_num
-		local var_20_4 = DormData:GetCurrectSceneID()
+	if DormSuitData:GetSuitFurInfo(slot0.suitID) then
+		for slot9, slot10 in ipairs(slot1.suit_num) do
+			slot11 = slot10[1]
+			slot12 = DormSuitData:GetFurNeedNumBySuitID(slot0.suitID, slot11)
+			slot14 = math.min(DormRoomTools:GetHasPlaceFurInfoByRoom(DormData:GetCurrectSceneID(), slot11) + DormFurEditStateData:GetCacheFurNum(slot11), slot12)
 
-		for iter_20_0, iter_20_1 in ipairs(var_20_3) do
-			local var_20_5 = iter_20_1[1]
-			local var_20_6 = DormSuitData:GetFurNeedNumBySuitID(arg_20_0.suitID, var_20_5)
-			local var_20_7 = math.min(DormFurEditStateData:GetCanUseFurNumInRoom(var_20_2, var_20_5), var_20_6)
-			local var_20_8 = math.min(DormRoomTools:GetHasPlaceFurInfoByRoom(var_20_4, var_20_5) + DormFurEditStateData:GetCacheFurNum(var_20_5), var_20_6)
-
-			if var_20_7 < var_20_6 and var_20_8 > 0 then
-				local var_20_9 = {
-					furID = var_20_5,
-					num = math.min(var_20_6 - var_20_7, var_20_8)
-				}
-
-				table.insert(var_20_1, var_20_9)
+			if math.min(DormFurEditStateData:GetCanUseFurNumInRoom(slot3, slot11), slot12) < slot12 and slot14 > 0 then
+				table.insert(slot2, {
+					furID = slot11,
+					num = math.min(slot12 - slot13, slot14)
+				})
 			end
 		end
 	end
 
-	local var_20_10 = {}
-	local var_20_11 = false
+	slot5 = false
 
-	for iter_20_2, iter_20_3 in ipairs(var_20_1) do
-		local var_20_12 = DormLuaBridge.GetCanRestoreFur(iter_20_3.furID, iter_20_3.num)
-
-		if var_20_12.Length > 0 then
-			var_20_10[iter_20_3.furID] = {}
-			var_20_10[iter_20_3.furID] = var_20_12
-			var_20_11 = true
+	for slot9, slot10 in ipairs(slot2) do
+		if DormLuaBridge.GetCanRestoreFur(slot10.furID, slot10.num).Length > 0 then
+			slot5 = true
 		end
 	end
 
-	return var_20_11, var_20_10
+	return slot5, {
+		[slot10.furID] = {},
+		[slot10.furID] = slot11
+	}
 end
 
-function var_0_0.Dispose(arg_21_0)
-	if arg_21_0.scrollHelper_ then
-		arg_21_0.scrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_21_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

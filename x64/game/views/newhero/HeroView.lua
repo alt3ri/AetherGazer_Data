@@ -1,18 +1,18 @@
-local var_0_0 = class("HeroView", ReduxView)
+slot0 = class("HeroView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero/HeroUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.dirty_ = true
-	arg_3_0.curPageIndex_ = 1
-	arg_3_0.isChangePageAndBack_ = false
-	arg_3_0.pageIndexS_ = {
+function slot0.OnCtor(slot0)
+	slot0.dirty_ = true
+	slot0.curPageIndex_ = 1
+	slot0.isChangePageAndBack_ = false
+	slot0.pageIndexS_ = {
 		weapon = 3,
 		astrolabe = 6,
 		skill = 2,
@@ -21,16 +21,16 @@ function var_0_0.OnCtor(arg_3_0)
 		property = 1,
 		equip = 4
 	}
-	arg_3_0.viewType_ = {
-		[1] = 1,
-		[2] = 2,
+	slot0.viewType_ = {
+		[1.0] = 1,
+		[2.0] = 2,
 		[3] = ViewConst.SYSTEM_ID.WEAPON,
 		[4] = ViewConst.SYSTEM_ID.HERO_EQUIP,
 		[5] = ViewConst.SYSTEM_ID.TRANSITION,
 		[6] = ViewConst.SYSTEM_ID.HERO_ASTROLABE,
 		[7] = ViewConst.SYSTEM_ID.HERO_CHIP
 	}
-	arg_3_0.sdkTeach_ = {
+	slot0.sdkTeach_ = {
 		"attribute",
 		"skill",
 		"weapon",
@@ -41,780 +41,760 @@ function var_0_0.OnCtor(arg_3_0)
 	}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitConfig(arg_5_0)
-	arg_5_0.filterView_:SetExtraSorter(nil)
-	arg_5_0.filterView_:SetHeroIdList(HeroCfg.get_id_list_by_private[0])
+function slot0.InitConfig(slot0)
+	slot0.filterView_:SetExtraSorter(nil)
+	slot0.filterView_:SetHeroIdList(HeroCfg.get_id_list_by_private[0])
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.mainPageController_ = ControllerUtil.GetController(arg_6_0.transform_, "mainPage")
-	arg_6_0.astroToggleController_ = ControllerUtil.GetController(arg_6_0.toggle6_.transform, "lock")
-	arg_6_0.chipToggleController_ = ControllerUtil.GetController(arg_6_0.toggle7_.transform, "lock")
-	arg_6_0.trasitionToggleController_ = ControllerUtil.GetController(arg_6_0.toggle5_.transform, "lock")
-	arg_6_0.pages_ = {}
+	slot0.mainPageController_ = ControllerUtil.GetController(slot0.transform_, "mainPage")
+	slot0.astroToggleController_ = ControllerUtil.GetController(slot0.toggle6_.transform, "lock")
+	slot0.chipToggleController_ = ControllerUtil.GetController(slot0.toggle7_.transform, "lock")
+	slot0.trasitionToggleController_ = ControllerUtil.GetController(slot0.toggle5_.transform, "lock")
+	slot0.pages_ = {}
 
-	arg_6_0:InitHeroHeadList()
+	slot0:InitHeroHeadList()
 
-	arg_6_0.curScrollHelper_ = arg_6_0.shortScrollHelper_
+	slot0.curScrollHelper_ = slot0.shortScrollHelper_
 
-	if arg_6_0.pageContainerPop_ ~= nil then
-		arg_6_0.pageContainerPop_.parent = arg_6_0.pageContainer_.parent
+	if slot0.pageContainerPop_ ~= nil then
+		slot0.pageContainerPop_.parent = slot0.pageContainer_.parent
 	end
 
-	arg_6_0.toggles_ = {
-		arg_6_0.toggle1_,
-		arg_6_0.toggle2_,
-		arg_6_0.toggle3_,
-		arg_6_0.toggle4_,
-		arg_6_0.toggle5_,
-		arg_6_0.toggle6_,
-		arg_6_0.toggle7_
+	slot0.toggles_ = {
+		slot0.toggle1_,
+		slot0.toggle2_,
+		slot0.toggle3_,
+		slot0.toggle4_,
+		slot0.toggle5_,
+		slot0.toggle6_,
+		slot0.toggle7_
 	}
-	arg_6_0.filterView_ = NewHeroListFilterView.New(arg_6_0.filterGo_)
+	slot0.filterView_ = NewHeroListFilterView.New(slot0.filterGo_)
 
-	arg_6_0.filterView_:SetListChangeHandler(handler(arg_6_0, arg_6_0.OnListChange))
+	slot0.filterView_:SetListChangeHandler(handler(slot0, slot0.OnListChange))
 
-	arg_6_0.lockController_ = arg_6_0.controller_:GetController("lock")
-	arg_6_0.strategyRedController_ = arg_6_0.strategyCon_:GetController("redpoint")
+	slot0.lockController_ = slot0.controller_:GetController("lock")
+	slot0.strategyRedController_ = slot0.strategyCon_:GetController("redpoint")
 end
 
-function var_0_0.InitHeroHeadList(arg_7_0)
-	arg_7_0.shortScrollHelper_ = LuaList.New(handler(arg_7_0, arg_7_0.ShortHeadRenderer), arg_7_0.heroShortListGo_, HeroShortHead)
-	arg_7_0.completeScrollHelper_ = LuaList.New(handler(arg_7_0, arg_7_0.LongHeadRenderer), arg_7_0.heroCompleteListGo_, HeroLongHead)
+function slot0.InitHeroHeadList(slot0)
+	slot0.shortScrollHelper_ = LuaList.New(handler(slot0, slot0.ShortHeadRenderer), slot0.heroShortListGo_, HeroShortHead)
+	slot0.completeScrollHelper_ = LuaList.New(handler(slot0, slot0.LongHeadRenderer), slot0.heroCompleteListGo_, HeroLongHead)
 end
 
-function var_0_0.CameraEnter(arg_8_0)
-	return
+function slot0.CameraEnter(slot0)
 end
 
-function var_0_0.OnListChange(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.heroIdList_ = arg_9_1
-	arg_9_0.guidePlaying, arg_9_0.gudieId_ = manager.guide:IsPlaying()
+function slot0.OnListChange(slot0, slot1, slot2, slot3)
+	slot0.heroIdList_ = slot1
+	slot0.guidePlaying, slot0.gudieId_ = manager.guide:IsPlaying()
 
-	if arg_9_0.guidePlaying and arg_9_0.gudieId_ ~= 46 then
-		table.sort(arg_9_0.heroIdList_, function(arg_10_0, arg_10_1)
-			return arg_10_0 == 1084
+	if slot0.guidePlaying and slot0.gudieId_ ~= 46 then
+		table.sort(slot0.heroIdList_, function (slot0, slot1)
+			return slot0 == 1084
 		end)
 	end
 
-	arg_9_0.completeScrollHelper_:StartScroll(#arg_9_0.heroIdList_)
+	slot0.completeScrollHelper_:StartScroll(#slot0.heroIdList_)
 
-	if #arg_9_0.heroIdList_ > 0 then
-		local var_9_0 = arg_9_0.curHeroId_
+	if #slot0.heroIdList_ > 0 then
+		slot4 = slot0.curHeroId_
 
-		if arg_9_0.dirty_ then
-			local var_9_1
+		if slot0.dirty_ then
+			slot5 = nil
 
-			if arg_9_0.isEnter and arg_9_0.params_.hid then
-				if table.indexof(arg_9_0.heroIdList_, arg_9_0.params_.hid) then
-					var_9_1 = arg_9_0.params_.hid
+			if slot0.isEnter and slot0.params_.hid then
+				if table.indexof(slot0.heroIdList_, slot0.params_.hid) then
+					slot5 = slot0.params_.hid
 				end
 			else
-				var_9_1 = arg_9_0.heroIdList_[1]
+				slot5 = slot0.heroIdList_[1]
 			end
 
-			arg_9_0:SelectHero(var_9_1)
+			slot0:SelectHero(slot5)
 		else
-			if table.indexof(arg_9_0.heroIdList_, arg_9_0.curHeroId_) then
-				arg_9_0:SelectHero(arg_9_0.curHeroId_)
+			if table.indexof(slot0.heroIdList_, slot0.curHeroId_) then
+				slot0:SelectHero(slot0.curHeroId_)
 
-				var_9_0 = arg_9_0.curHeroId_
+				slot4 = slot0.curHeroId_
 			else
-				arg_9_0:SelectHero(arg_9_0.heroIdList_[1])
+				slot0:SelectHero(slot0.heroIdList_[1])
 
-				var_9_0 = arg_9_0.heroIdList_[1]
+				slot4 = slot0.heroIdList_[1]
 			end
 
-			if not (var_9_0 ~= arg_9_0.curHeroId_ and true or false) then
+			if not (slot4 ~= slot0.curHeroId_ and true or false) then
 				manager.audio:PlayUIAudioByVoice("hero_change")
 			end
 		end
 	end
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.completeScrollHelper_:GetItemList()) do
-		iter_9_1:ShowFavorability(arg_9_3 == 2)
+	slot6 = slot0.completeScrollHelper_
+	slot8 = slot6
+
+	for slot7, slot8 in pairs(slot6.GetItemList(slot8)) do
+		slot8:ShowFavorability(slot3 == 2)
 	end
 end
 
-function var_0_0.ShortHeadRenderer(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.heroIdList_[arg_11_1]
+function slot0.ShortHeadRenderer(slot0, slot1, slot2)
+	slot3 = slot0.heroIdList_[slot1]
+	slot2.gameObject_.name = tostring(slot3)
 
-	arg_11_2.gameObject_.name = tostring(var_11_0)
-
-	arg_11_2:SetProxy(arg_11_0.heroViewProxy_)
-	arg_11_2:SetHeroId(var_11_0, arg_11_0.type_, arg_11_0.tempHeroList_)
-	arg_11_2:SetRedPointEnable(arg_11_0.heroViewProxy_.showHeroHeadRedPoint)
-	arg_11_2:SetSelected(arg_11_2.heroId_ == arg_11_0.curHeroId_)
-	arg_11_2:RegisterClickListener(function()
-		arg_11_0:SelectHero(arg_11_2.heroId_)
+	slot2:SetProxy(slot0.heroViewProxy_)
+	slot2:SetHeroId(slot3, slot0.type_, slot0.tempHeroList_)
+	slot2:SetRedPointEnable(slot0.heroViewProxy_.showHeroHeadRedPoint)
+	slot2:SetSelected(slot2.heroId_ == slot0.curHeroId_)
+	slot2:RegisterClickListener(function ()
+		uv0:SelectHero(uv1.heroId_)
 		OperationRecorder.Record("hero", "selectHero")
 	end)
 end
 
-function var_0_0.LongHeadRenderer(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.heroIdList_[arg_13_1]
+function slot0.LongHeadRenderer(slot0, slot1, slot2)
+	slot3 = slot0.heroIdList_[slot1]
+	slot2.gameObject_.name = tostring(slot3)
 
-	arg_13_2.gameObject_.name = tostring(var_13_0)
-
-	arg_13_2:SetProxy(arg_13_0.heroViewProxy_)
-	arg_13_2:SetHeroId(var_13_0, arg_13_0.type_, arg_13_0.tempHeroList_)
-	arg_13_2:SetRedPointEnable(arg_13_0.heroViewProxy_.showHeroHeadRedPoint)
-	arg_13_2:SetSelected(arg_13_2.heroId_ == arg_13_0.curHeroId_)
-	arg_13_2:RegisterClickListener(function()
-		arg_13_0:SelectHero(arg_13_2.heroId_)
+	slot2:SetProxy(slot0.heroViewProxy_)
+	slot2:SetHeroId(slot3, slot0.type_, slot0.tempHeroList_)
+	slot2:SetRedPointEnable(slot0.heroViewProxy_.showHeroHeadRedPoint)
+	slot2:SetSelected(slot2.heroId_ == slot0.curHeroId_)
+	slot2:RegisterClickListener(function ()
+		uv0:SelectHero(uv1.heroId_)
 		OperationRecorder.Record("hero", "selectHero")
 	end)
 end
 
-function var_0_0.GetCurHeroInfo(arg_15_0, arg_15_1)
-	return arg_15_0.heroViewProxy_:GetHeroData(arg_15_1)
+function slot0.GetCurHeroInfo(slot0, slot1)
+	return slot0.heroViewProxy_:GetHeroData(slot1)
 end
 
-function var_0_0.SelectHero(arg_16_0, arg_16_1)
-	arg_16_0.changeHero = arg_16_1 ~= arg_16_0.curHeroId_ and true or false
-	arg_16_0.curHeroId_ = arg_16_1
-	arg_16_0.curHeroInfo_ = arg_16_0:GetCurHeroInfo(arg_16_0.curHeroId_)
+function slot0.SelectHero(slot0, slot1)
+	slot0.changeHero = slot1 ~= slot0.curHeroId_ and true or false
+	slot0.curHeroId_ = slot1
+	slot0.curHeroInfo_ = slot0:GetCurHeroInfo(slot0.curHeroId_)
 
-	HeroAction.UpdateModuleRedPointByHeroID(arg_16_0.curHeroId_)
-	AstrolabeAction.UpdateHeroAstrolabeCanUnLockRed(arg_16_0.curHeroInfo_.id)
+	HeroAction.UpdateModuleRedPointByHeroID(slot0.curHeroId_)
+	AstrolabeAction.UpdateHeroAstrolabeCanUnLockRed(slot0.curHeroInfo_.id)
 
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.curScrollHelper_:GetItemList()) do
-		iter_16_1:SetSelected(iter_16_1.heroId_ == arg_16_1)
+	slot6 = slot0.curScrollHelper_
+
+	for slot5, slot6 in pairs(slot4.GetItemList(slot6)) do
+		slot6:SetSelected(slot6.heroId_ == slot1)
 	end
 
-	if arg_16_0.curHeroInfo_.unlock == 0 then
-		if arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.chip then
-			arg_16_0.toggles_[1].isOn = true
+	if slot0.curHeroInfo_.unlock == 0 then
+		if slot0.curPageIndex_ == slot0.pageIndexS_.chip then
+			slot0.toggles_[1].isOn = true
 		end
 
-		arg_16_0:SwitchPage(1)
-	elseif arg_16_0.dirty_ then
-		if arg_16_0.params_.pageIndex then
-			arg_16_0:SwitchPage(arg_16_0.params_.pageIndex)
+		slot0:SwitchPage(1)
+	elseif slot0.dirty_ then
+		if slot0.params_.pageIndex then
+			slot0:SwitchPage(slot0.params_.pageIndex)
 
-			arg_16_0.params_.pageIndex = nil
+			slot0.params_.pageIndex = nil
 		else
-			arg_16_0:SwitchPage(_G.heroViewPageIndex_ or 1)
+			slot0:SwitchPage(_G.heroViewPageIndex_ or 1)
 		end
 
-		arg_16_0.dirty_ = false
+		slot0.dirty_ = false
 	else
-		arg_16_0:SwitchPage(arg_16_0.curPageIndex_)
+		slot0:SwitchPage(slot0.curPageIndex_)
 	end
 
-	arg_16_0:UpdateHeroView()
+	slot0:UpdateHeroView()
 
-	if arg_16_0.curHeroInfo_.unlock == 1 and arg_16_0.mainPageController_:GetSelectedState() == "detail" then
-		arg_16_0.toggles_[arg_16_0.curPageIndex_].isOn = true
+	if slot0.curHeroInfo_.unlock == 1 and slot0.mainPageController_:GetSelectedState() == "detail" then
+		slot0.toggles_[slot0.curPageIndex_].isOn = true
 	end
 
-	arg_16_0.params_.hid = arg_16_1
+	slot0.params_.hid = slot1
 
-	arg_16_0.pages_[arg_16_0.curPageIndex_]:PlayEnterAni()
+	slot0.pages_[slot0.curPageIndex_]:PlayEnterAni()
 
-	local var_16_0 = arg_16_0.mainPageController_:GetSelectedState()
+	slot2 = slot0.mainPageController_:GetSelectedState()
 
-	if arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.chip then
-		if arg_16_0.mainPageController_:GetSelectedState() == "list" then
-			if ChipData:GetHeroIsHaveChip(arg_16_0.curHeroId_) == false then
-				arg_16_0.isChangePageAndBack_ = true
+	if slot0.curPageIndex_ == slot0.pageIndexS_.chip then
+		if slot0.mainPageController_:GetSelectedState() == "list" then
+			if ChipData:GetHeroIsHaveChip(slot0.curHeroId_) == false then
+				slot0.isChangePageAndBack_ = true
 			else
-				arg_16_0.isChangePageAndBack_ = false
+				slot0.isChangePageAndBack_ = false
 			end
-		elseif ChipData:GetHeroIsHaveChip(arg_16_0.curHeroId_) == false then
-			arg_16_0:SwitchPage(1)
+		elseif ChipData:GetHeroIsHaveChip(slot0.curHeroId_) == false then
+			slot0:SwitchPage(1)
 
-			arg_16_0.toggles_[arg_16_0.curPageIndex_].isOn = true
+			slot0.toggles_[slot0.curPageIndex_].isOn = true
 		end
 	end
 
-	if var_16_0 == "detail" and (arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.equip or arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.weapon or arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.transition) then
+	if slot2 == "detail" and (slot0.curPageIndex_ == slot0.pageIndexS_.equip or slot0.curPageIndex_ == slot0.pageIndexS_.weapon or slot0.curPageIndex_ == slot0.pageIndexS_.transition) then
 		manager.audio:PlayEffect("ui_system", "page", "")
-	elseif var_16_0 == "detail" and arg_16_0.curPageIndex_ == arg_16_0.pageIndexS_.astrolabe then
+	elseif slot2 == "detail" and slot0.curPageIndex_ == slot0.pageIndexS_.astrolabe then
 		manager.audio:PlayEffect("ui_system", "astrolabe_appear", "")
 	end
 
-	if (arg_16_0.changeHero or arg_16_0.isEnter) and arg_16_0.curPageIndex_ == 1 and not arg_16_0.params_.isBack then
+	if (slot0.changeHero or slot0.isEnter) and slot0.curPageIndex_ == 1 and not slot0.params_.isBack then
 		HeroTools.StopTalk()
 		manager.heroRaiseTrack:PlayTalk()
 	end
 
-	arg_16_0.changeHero = false
+	slot0.changeHero = false
 
-	SetActive(arg_16_0.toggle7_.gameObject, ChipData:GetHeroIsHaveChip(arg_16_0.curHeroId_) and not arg_16_0.heroViewProxy_.hideChipToggle)
+	SetActive(slot0.toggle7_.gameObject, ChipData:GetHeroIsHaveChip(slot0.curHeroId_) and not slot0.heroViewProxy_.hideChipToggle)
 end
 
-function var_0_0.SwitchToDetail(arg_17_0)
-	if arg_17_0.heroIdList_ and #arg_17_0.heroIdList_ <= 0 then
-		arg_17_0.filterView_:RefreshSort(true)
-		arg_17_0.filterView_:Reset()
+function slot0.SwitchToDetail(slot0)
+	if slot0.heroIdList_ and #slot0.heroIdList_ <= 0 then
+		slot0.filterView_:RefreshSort(true)
+		slot0.filterView_:Reset()
 	end
 
-	arg_17_0.pageType_ = "detail"
-	arg_17_0.curScrollHelper_ = arg_17_0.shortScrollHelper_
+	slot0.pageType_ = "detail"
+	slot0.curScrollHelper_ = slot0.shortScrollHelper_
 
-	arg_17_0.mainPageController_:SetSelectedState(arg_17_0.pageType_)
+	slot0.mainPageController_:SetSelectedState(slot0.pageType_)
 
-	local var_17_0 = table.indexof(arg_17_0.heroIdList_, arg_17_0.curHeroId_)
-
-	if var_17_0 then
-		arg_17_0.shortScrollHelper_:StartScroll(#arg_17_0.heroIdList_, var_17_0)
+	if table.indexof(slot0.heroIdList_, slot0.curHeroId_) then
+		slot0.shortScrollHelper_:StartScroll(#slot0.heroIdList_, slot1)
 	end
 
-	if arg_17_0.pages_[1] then
-		arg_17_0.pages_[1]:SwichToDetail()
+	if slot0.pages_[1] then
+		slot0.pages_[1]:SwichToDetail()
 	end
 
-	if arg_17_0.isChangePageAndBack_ then
-		arg_17_0.isChangePageAndBack_ = false
+	if slot0.isChangePageAndBack_ then
+		slot0.isChangePageAndBack_ = false
 
-		arg_17_0:SwitchPage(1)
+		slot0:SwitchPage(1)
 
-		arg_17_0.toggles_[arg_17_0.curPageIndex_].isOn = true
+		slot0.toggles_[slot0.curPageIndex_].isOn = true
 	end
 end
 
-function var_0_0.AddUIListener(arg_18_0)
-	arg_18_0:AddBtnListener(arg_18_0.allHeroBtn_, nil, function()
-		arg_18_0:SwitchPage(1)
-		arg_18_0.pages_[1]:SwichToAll(arg_18_0, arg_18_0.SwitchToDetail)
+function slot0.AddUIListener(slot0)
+	slot4 = slot0.allHeroBtn_
+	slot5 = nil
 
-		arg_18_0.toggles_[1].isOn = true
-		arg_18_0.pageType_ = "list"
-		arg_18_0.curScrollHelper_ = arg_18_0.completeScrollHelper_
+	slot0:AddBtnListener(slot4, slot5, function ()
+		uv0:SwitchPage(1)
+		uv0.pages_[1]:SwichToAll(uv0, uv0.SwitchToDetail)
 
-		arg_18_0.mainPageController_:SetSelectedState(arg_18_0.pageType_)
+		uv0.toggles_[1].isOn = true
+		uv0.pageType_ = "list"
+		uv0.curScrollHelper_ = uv0.completeScrollHelper_
 
-		local var_19_0 = table.indexof(arg_18_0.heroIdList_, arg_18_0.curHeroId_)
+		uv0.mainPageController_:SetSelectedState(uv0.pageType_)
 
-		if var_19_0 then
-			arg_18_0.completeScrollHelper_:StartScroll(#arg_18_0.heroIdList_, var_19_0)
+		if table.indexof(uv0.heroIdList_, uv0.curHeroId_) then
+			uv0.completeScrollHelper_:StartScroll(#uv0.heroIdList_, slot0)
 		end
 	end)
 
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.toggles_) do
-		iter_18_1.onValueChanged:AddListener(function(arg_20_0)
-			if arg_20_0 then
-				arg_18_0:SwitchPage(iter_18_0)
+	for slot4, slot5 in pairs(slot0.toggles_) do
+		slot5.onValueChanged:AddListener(function (slot0)
+			if slot0 then
+				uv0:SwitchPage(uv1)
 
-				if iter_18_0 == 1 then
+				if uv1 == 1 then
 					OperationRecorder.Record("hero", "propertyPage")
-				elseif iter_18_0 == 2 then
+				elseif uv1 == 2 then
 					OperationRecorder.Record("hero", "skillPage")
-				elseif iter_18_0 == 3 then
+				elseif uv1 == 3 then
 					OperationRecorder.Record("hero", "weaponPage")
-				elseif iter_18_0 == 4 then
+				elseif uv1 == 4 then
 					OperationRecorder.Record("hero", "equipPage")
-				elseif iter_18_0 == 5 then
+				elseif uv1 == 5 then
 					OperationRecorder.Record("hero", "transition")
-				elseif iter_18_0 == 6 then
+				elseif uv1 == 6 then
 					OperationRecorder.Record("hero", "astroPage")
-				elseif iter_18_0 == 7 then
+				elseif uv1 == 7 then
 					OperationRecorder.Record("hero", "chipPage")
 				end
 			end
 		end)
 	end
 
-	arg_18_0:AddBtnListener(arg_18_0.cultureGravureBtn_, nil, function()
-		OperationRecorder.RecordButtonTouch("hero_teach_" .. arg_18_0.sdkTeach_[arg_18_0.curPageIndex_])
+	slot0:AddBtnListener(slot0.cultureGravureBtn_, nil, function ()
+		OperationRecorder.RecordButtonTouch("hero_teach_" .. uv0.sdkTeach_[uv0.curPageIndex_])
 		JumpTools.OpenPageByJump("/cultureGravureView", {
 			selectIndex = 1,
-			heroID = arg_18_0.curHeroInfo_.id
+			heroID = uv0.curHeroInfo_.id
 		})
 	end)
 end
 
-function var_0_0.SwitchPage(arg_22_0, arg_22_1)
-	local var_22_0 = true
-	local var_22_1 = ""
-	local var_22_2, var_22_3 = arg_22_0:CheckConditionByType(arg_22_0.viewType_[arg_22_1])
+function slot0.SwitchPage(slot0, slot1)
+	slot2 = true
+	slot3 = ""
+	slot2, slot3 = slot0:CheckConditionByType(slot0.viewType_[slot1])
 
-	if arg_22_0.heroViewProxy_.unlockToggle then
-		var_22_2 = true
+	if slot0.heroViewProxy_.unlockToggle then
+		slot2 = true
 	end
 
-	if not var_22_2 then
-		ShowTips(var_22_3)
+	if not slot2 then
+		ShowTips(slot3)
 
-		arg_22_0.toggles_[arg_22_0.curPageIndex_].isOn = true
+		slot0.toggles_[slot0.curPageIndex_].isOn = true
 
 		return
 	end
 
-	if arg_22_0.curPageIndex_ == arg_22_1 and not arg_22_0.changeHero then
-		arg_22_0.pages_[arg_22_0.curPageIndex_]:SetHeroInfo(arg_22_0.curHeroInfo_)
-		arg_22_0.pages_[arg_22_0.curPageIndex_]:UpdateView()
-		arg_22_0.pages_[arg_22_0.curPageIndex_]:CameraEnter()
+	if slot0.curPageIndex_ == slot1 and not slot0.changeHero then
+		slot0.pages_[slot0.curPageIndex_]:SetHeroInfo(slot0.curHeroInfo_)
+		slot0.pages_[slot0.curPageIndex_]:UpdateView()
+		slot0.pages_[slot0.curPageIndex_]:CameraEnter()
 
 		return
 	end
 
-	local var_22_4 = arg_22_0.pages_[arg_22_0.curPageIndex_]
-
-	if var_22_4 then
-		var_22_4:Hide()
+	if slot0.pages_[slot0.curPageIndex_] then
+		slot4:Hide()
 	end
 
-	local var_22_5 = arg_22_0.curPageIndex_
+	slot5 = slot0.curPageIndex_
+	slot0.curPageIndex_ = slot1
+	_G.heroViewPageIndex_ = slot1
 
-	arg_22_0.curPageIndex_ = arg_22_1
-	_G.heroViewPageIndex_ = arg_22_1
+	if not slot0.pages_[slot1] then
+		slot6 = slot0.heroViewProxy_:GetUIClassByType(slot0.curPageIndex_)
 
-	if not arg_22_0.pages_[arg_22_1] then
-		local var_22_6 = arg_22_0.heroViewProxy_:GetUIClassByType(arg_22_0.curPageIndex_)
-		local var_22_7 = arg_22_0.heroViewProxy_:GetUIPrefabByType(arg_22_0.curPageIndex_)
-
-		if var_22_7 and var_22_6 then
-			local var_22_8 = Asset.Load(var_22_7)
-			local var_22_9 = Object.Instantiate(var_22_8, arg_22_0.pageContainer_)
-
-			arg_22_0.pages_[arg_22_1] = var_22_6.New(arg_22_0, var_22_9)
+		if slot0.heroViewProxy_:GetUIPrefabByType(slot0.curPageIndex_) and slot6 then
+			slot0.pages_[slot1] = slot6.New(slot0, Object.Instantiate(Asset.Load(slot7), slot0.pageContainer_))
 		end
 	end
 
-	if arg_22_0.isEnter then
-		arg_22_0:CheckPageEnter(arg_22_0.curPageIndex_)
+	if slot0.isEnter then
+		slot0:CheckPageEnter(slot0.curPageIndex_)
 	end
 
-	arg_22_0.pages_[arg_22_0.curPageIndex_]:SetHeroInfo(arg_22_0.curHeroInfo_)
+	slot0.pages_[slot0.curPageIndex_]:SetHeroInfo(slot0.curHeroInfo_)
 
-	if arg_22_0.pages_[arg_22_0.curPageIndex_].HideMaskMessage then
-		arg_22_0.pages_[arg_22_0.curPageIndex_]:HideMaskMessage()
+	if slot0.pages_[slot0.curPageIndex_].HideMaskMessage then
+		slot0.pages_[slot0.curPageIndex_]:HideMaskMessage()
 	end
 
-	arg_22_0.pages_[arg_22_0.curPageIndex_]:Show()
-	arg_22_0.pages_[arg_22_0.curPageIndex_]:CameraEnter()
+	slot0.pages_[slot0.curPageIndex_]:Show()
+	slot0.pages_[slot0.curPageIndex_]:CameraEnter()
 
-	if arg_22_0.mainPageController_:GetSelectedState() == "list" or arg_22_0.curHeroInfo_.unlock == 0 then
-		for iter_22_0, iter_22_1 in ipairs(arg_22_0.toggles_) do
-			iter_22_1.isOn = iter_22_0 == arg_22_0.curPageIndex_
+	if slot0.mainPageController_:GetSelectedState() == "list" or slot0.curHeroInfo_.unlock == 0 then
+		for slot9, slot10 in ipairs(slot0.toggles_) do
+			slot10.isOn = slot9 == slot0.curPageIndex_
 		end
 	end
 
-	if arg_22_0.curPageIndex_ == arg_22_0.pageIndexS_.equip then
+	if slot0.curPageIndex_ == slot0.pageIndexS_.equip then
 		manager.audio:PlayEffect("ui_system", "equip_appear", "")
-	elseif arg_22_0.curPageIndex_ == arg_22_0.pageIndexS_.astrolabe then
+	elseif slot0.curPageIndex_ == slot0.pageIndexS_.astrolabe then
 		manager.audio:PlayEffect("ui_system", "astrolabe_appear", "")
 	end
 
-	arg_22_0:RecordStay(var_22_5)
+	slot0:RecordStay(slot5)
 end
 
-function var_0_0.UpdateAvatarView(arg_23_0)
-	local var_23_0 = arg_23_0.heroViewProxy_:GetHeroUsingSkinInfo(arg_23_0.curHeroId_).id
-
-	manager.heroRaiseTrack:SetModelState(var_23_0)
+function slot0.UpdateAvatarView(slot0)
+	manager.heroRaiseTrack:SetModelState(slot0.heroViewProxy_:GetHeroUsingSkinInfo(slot0.curHeroId_).id)
 end
 
-function var_0_0.CheckPageEnter(arg_24_0, arg_24_1)
-	if not arg_24_0.enteredPage_[arg_24_1] then
-		arg_24_0.pages_[arg_24_1]:OnEnter(arg_24_0.heroViewProxy_, arg_24_0.params_)
+function slot0.CheckPageEnter(slot0, slot1)
+	if not slot0.enteredPage_[slot1] then
+		slot0.pages_[slot1]:OnEnter(slot0.heroViewProxy_, slot0.params_)
 
-		arg_24_0.enteredPage_[arg_24_1] = true
+		slot0.enteredPage_[slot1] = true
 	end
 end
 
-function var_0_0.UpdateHeroView(arg_25_0)
-	arg_25_0:UpdateAvatarView()
-	arg_25_0.lockController_:SetSelectedState(arg_25_0.curHeroInfo_.unlock == 0 and "true" or "false")
-	arg_25_0.strategyRedController_:SetSelectedState(tostring(HeroData:GetHeroStrategyRedPoint(arg_25_0.curHeroId_) and arg_25_0.curHeroInfo_.unlock > 0))
-	SetActive(arg_25_0.cultureGravureBtn_.gameObject, not arg_25_0.heroViewProxy_.hideCultureGrvureBtn and arg_25_0.curHeroInfo_.unlock > 0)
+function slot0.UpdateHeroView(slot0)
+	slot0:UpdateAvatarView()
+	slot0.lockController_:SetSelectedState(slot0.curHeroInfo_.unlock == 0 and "true" or "false")
+	slot0.strategyRedController_:SetSelectedState(tostring(HeroData:GetHeroStrategyRedPoint(slot0.curHeroId_) and slot0.curHeroInfo_.unlock > 0))
+	SetActive(slot0.cultureGravureBtn_.gameObject, not slot0.heroViewProxy_.hideCultureGrvureBtn and slot0.curHeroInfo_.unlock > 0)
 
-	local var_25_0 = HeroCfg[arg_25_0.curHeroId_].study_stage[1]
+	slot1 = HeroCfg[slot0.curHeroId_].study_stage[1]
 
-	if arg_25_0.heroViewProxy_.showRedPoint then
-		manager.redPoint:bindUIandKey(arg_25_0.toggle1_.transform, RedPointConst.HERO_PROPERTY_PAGE .. arg_25_0.curHeroInfo_.id)
-		manager.redPoint:bindUIandKey(arg_25_0.toggle3_.transform, RedPointConst.HERO_WEAPON .. arg_25_0.curHeroInfo_.id)
-		manager.redPoint:bindUIandKey(arg_25_0.toggle6_.transform, RedPointConst.ASTROLABE_UNLOCK)
+	if slot0.heroViewProxy_.showRedPoint then
+		manager.redPoint:bindUIandKey(slot0.toggle1_.transform, RedPointConst.HERO_PROPERTY_PAGE .. slot0.curHeroInfo_.id)
+		manager.redPoint:bindUIandKey(slot0.toggle3_.transform, RedPointConst.HERO_WEAPON .. slot0.curHeroInfo_.id)
+		manager.redPoint:bindUIandKey(slot0.toggle6_.transform, RedPointConst.ASTROLABE_UNLOCK)
 	end
 end
 
-function var_0_0.OnTop(arg_26_0)
-	arg_26_0.curHeroInfo_ = arg_26_0:GetCurHeroInfo(arg_26_0.curHeroId_)
+function slot0.OnTop(slot0)
+	slot0.curHeroInfo_ = slot0:GetCurHeroInfo(slot0.curHeroId_)
 
-	if arg_26_0.pages_ then
-		for iter_26_0, iter_26_1 in pairs(arg_26_0.pages_) do
-			iter_26_1:OnTop()
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:OnTop()
 		end
 	end
 
-	local var_26_0 = {
-		BACK_BAR,
-		HOME_BAR
-	}
-
-	if arg_26_0.heroViewProxy_.showInfoWindowBar then
-		table.insert(var_26_0, INFO_BAR)
+	if slot0.heroViewProxy_.showInfoWindowBar then
+		table.insert({
+			BACK_BAR,
+			HOME_BAR
+		}, INFO_BAR)
 	end
 
-	if arg_26_0.heroViewProxy_.showCurrencyWindowBar then
-		table.insert(var_26_0, CurrencyConst.CURRENCY_TYPE_VITALITY)
-		table.insert(var_26_0, CurrencyConst.CURRENCY_TYPE_GOLD)
-		table.insert(var_26_0, CurrencyConst.CURRENCY_TYPE_DIAMOND)
-		manager.windowBar:SwitchBar(var_26_0)
+	if slot0.heroViewProxy_.showCurrencyWindowBar then
+		table.insert(slot1, CurrencyConst.CURRENCY_TYPE_VITALITY)
+		table.insert(slot1, CurrencyConst.CURRENCY_TYPE_GOLD)
+		table.insert(slot1, CurrencyConst.CURRENCY_TYPE_DIAMOND)
+		manager.windowBar:SwitchBar(slot1)
 		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_VITALITY, true)
 		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 		manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 	else
-		manager.windowBar:SwitchBar(var_26_0)
+		manager.windowBar:SwitchBar(slot1)
 	end
 
-	if arg_26_0.heroViewProxy_.showInfoWindowBar then
-		local var_26_1 = SettingData:GetCurrentLanguageKey()
+	if slot0.heroViewProxy_.showInfoWindowBar then
+		slot2 = SettingData:GetCurrentLanguageKey()
 
 		ChipAction.UpdateHeroChipRedPoint()
-		HeroAction.UpdateModuleRedPointByHeroID(arg_26_0.curHeroId_)
+		HeroAction.UpdateModuleRedPointByHeroID(slot0.curHeroId_)
 
-		local var_26_2 = GameSetting.hero_view_describe and GameSetting.hero_view_describe.value or {}
+		slot3 = GameSetting.hero_view_describe and GameSetting.hero_view_describe.value or {}
 
-		manager.windowBar:RegistInfoCallBack(function()
+		manager.windowBar:RegistInfoCallBack(function ()
 			JumpTools.OpenPageByJump("gameHelpPro", {
 				isPrefab = true,
-				pages = var_26_2
+				pages = uv0
 			})
 		end)
 	end
 
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_26_0.mainPageController_:GetSelectedState() == "list" then
-			arg_26_0:SwitchToDetail()
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.mainPageController_:GetSelectedState() == "list" then
+			uv0:SwitchToDetail()
 		else
 			JumpTools:Back()
 		end
 	end)
 
-	local var_26_3 = manager.windowBar:GetWhereTag()
-
-	if var_26_3 ~= "guildActivity" and var_26_3 ~= "chess" and var_26_3 ~= "newchess" then
-		manager.windowBar:RegistHomeCallBack(function()
-			gameContext:Go("/home", nil, nil, true)
+	if manager.windowBar:GetWhereTag() ~= "guildActivity" and slot2 ~= "chess" and slot2 ~= "newchess" then
+		manager.windowBar:RegistHomeCallBack(function ()
+			gameContext:Go("/home", nil, , true)
 		end)
 	end
 
-	if arg_26_0.params_.nextJump ~= nil then
-		arg_26_0:HandleNextJump(arg_26_0.params_.nextJump)
+	if slot0.params_.nextJump ~= nil then
+		slot0:HandleNextJump(slot0.params_.nextJump)
 
-		arg_26_0.params_.nextJump = nil
+		slot0.params_.nextJump = nil
 	end
 end
 
-function var_0_0.OnEnter(arg_30_0)
-	arg_30_0.type_ = arg_30_0.params_.type or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_30_0.tempHeroList_ = arg_30_0.params_.tempHeroList
-	arg_30_0.heroViewProxy_ = HeroViewDataProxy.New(arg_30_0.type_)
-	arg_30_0.isEnter = arg_30_0.params_.isEnter
+function slot0.OnEnter(slot0)
+	slot0.type_ = slot0.params_.type or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.tempHeroList_ = slot0.params_.tempHeroList
+	slot0.heroViewProxy_ = HeroViewDataProxy.New(slot0.type_)
+	slot0.isEnter = slot0.params_.isEnter
 
-	if arg_30_0.params_.isSkillReturn then
-		arg_30_0.leftAnimator_:Update(0)
+	if slot0.params_.isSkillReturn then
+		slot0.leftAnimator_:Update(0)
 	end
 
-	if arg_30_0.tempHeroList_ then
-		arg_30_0.heroViewProxy_:SetTempHeroList(arg_30_0.tempHeroList_)
+	if slot0.tempHeroList_ then
+		slot0.heroViewProxy_:SetTempHeroList(slot0.tempHeroList_)
 	end
 
-	arg_30_0.enteredPage_ = {}
+	slot0.enteredPage_ = {}
 
-	if arg_30_0.params_.pageIndex or arg_30_0.params_.isEnter then
-		arg_30_0.dirty_ = true
+	if slot0.params_.pageIndex or slot0.params_.isEnter then
+		slot0.dirty_ = true
 	end
 
-	arg_30_0.heroIdList_ = arg_30_0.heroViewProxy_:GetHeroIDList()
+	slot0.heroIdList_ = slot0.heroViewProxy_:GetHeroIDList()
 
-	if (arg_30_0.dirty_ or arg_30_0.guidePlaying) and arg_30_0.filterView_ then
-		arg_30_0.filterView_:Reset()
+	if (slot0.dirty_ or slot0.guidePlaying) and slot0.filterView_ then
+		slot0.filterView_:Reset()
 	end
 
-	arg_30_0.filterView_:OnEnter(arg_30_0.heroViewProxy_)
-	arg_30_0.filterView_:SetExtraSorter(arg_30_0.heroViewProxy_:GetExFilterSorterFunc())
+	slot0.filterView_:OnEnter(slot0.heroViewProxy_)
+	slot0.filterView_:SetExtraSorter(slot0.heroViewProxy_:GetExFilterSorterFunc())
 
-	if (arg_30_0.type_ == HeroConst.HERO_DATA_TYPE.TRIAL or arg_30_0.type_ == HeroConst.HERO_DATA_TYPE.CUSTOM) and arg_30_0.params_.hid then
-		local var_30_0 = arg_30_0.params_.hid
-
-		if table.indexof(arg_30_0.tempHeroList_, var_30_0) then
-			local var_30_1 = HeroStandardSystemCfg[var_30_0]
-
-			arg_30_0.params_.hid = SkinCfg[var_30_1.hero_id].hero
-		end
+	if (slot0.type_ == HeroConst.HERO_DATA_TYPE.TRIAL or slot0.type_ == HeroConst.HERO_DATA_TYPE.CUSTOM) and slot0.params_.hid and table.indexof(slot0.tempHeroList_, slot0.params_.hid) then
+		slot0.params_.hid = SkinCfg[HeroStandardSystemCfg[slot1].hero_id].hero
 	end
 
-	local var_30_2 = 1
+	slot1 = 1
 
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.pages_) do
-		arg_30_0:CheckPageEnter(iter_30_0)
+	for slot5, slot6 in pairs(slot0.pages_) do
+		slot0:CheckPageEnter(slot5)
 	end
 
-	local var_30_3 = {}
+	for slot6, slot7 in ipairs(slot0.heroIdList_) do
+		-- Nothing
+	end
 
-	for iter_30_2, iter_30_3 in ipairs(arg_30_0.heroIdList_) do
-		local var_30_4 = arg_30_0.heroViewProxy_:GetHeroData(iter_30_3).tempID or 0
-
-		var_30_3[iter_30_2] = {
-			id = iter_30_3,
-			trialID = var_30_4,
-			type = arg_30_0.type_,
-			heroViewProxy = arg_30_0.heroViewProxy_
+	slot0.filterView_:SetHeroIdList({
+		[slot6] = {
+			id = slot7,
+			trialID = slot0.heroViewProxy_:GetHeroData(slot7).tempID or 0,
+			type = slot0.type_,
+			heroViewProxy = slot0.heroViewProxy_
 		}
-	end
+	})
+	slot0:RegistEventListener(HERO_DATA_MODIFY, handler(slot0, slot0.OnHeroUpdate))
+	slot0:RegistEventListener(HERO_PIECE_MODIFY, handler(slot0, slot0.OnHeroUpdate))
+	slot0:RegistEventListener(HERO_UNLOCK_SUCCESS, handler(slot0, slot0.OnHeroUnlock))
 
-	arg_30_0.filterView_:SetHeroIdList(var_30_3)
-	arg_30_0:RegistEventListener(HERO_DATA_MODIFY, handler(arg_30_0, arg_30_0.OnHeroUpdate))
-	arg_30_0:RegistEventListener(HERO_PIECE_MODIFY, handler(arg_30_0, arg_30_0.OnHeroUpdate))
-	arg_30_0:RegistEventListener(HERO_UNLOCK_SUCCESS, handler(arg_30_0, arg_30_0.OnHeroUnlock))
-	arg_30_0:RegistEventListener(FAVORITE_HERO, handler(arg_30_0, arg_30_0.OnHeroFavorite))
+	slot6 = FAVORITE_HERO
 
-	for iter_30_4 = 1, #arg_30_0.heroIdList_ do
-		if arg_30_0.curHeroId_ == arg_30_0.heroIdList_[iter_30_4] then
-			var_30_2 = iter_30_4
+	slot0:RegistEventListener(slot6, handler(slot0, slot0.OnHeroFavorite))
+
+	for slot6 = 1, #slot0.heroIdList_ do
+		if slot0.curHeroId_ == slot0.heroIdList_[slot6] then
+			slot1 = slot6
 
 			break
 		end
 	end
 
-	arg_30_0:SwitchToDetail()
+	slot0:SwitchToDetail()
 
-	if arg_30_0.heroIdList_ and #arg_30_0.heroIdList_ <= 0 then
-		arg_30_0.filterView_:RefreshSort(true)
-		arg_30_0.filterView_:Reset()
+	if slot0.heroIdList_ and #slot0.heroIdList_ <= 0 then
+		slot0.filterView_:RefreshSort(true)
+		slot0.filterView_:Reset()
 	end
 
-	arg_30_0.shortScrollHelper_:StartScroll(#arg_30_0.heroIdList_, var_30_2)
-	arg_30_0:CheckLocked()
+	slot0.shortScrollHelper_:StartScroll(#slot0.heroIdList_, slot1)
+	slot0:CheckLocked()
 
-	arg_30_0.params_.isBack = false
+	slot0.params_.isBack = false
 end
 
-function var_0_0.OnHeroFavorite(arg_31_0)
-	arg_31_0.curScrollHelper_:Refresh()
+function slot0.OnHeroFavorite(slot0)
+	slot0.curScrollHelper_:Refresh()
 end
 
-function var_0_0.CheckLocked(arg_32_0)
-	SetActive(arg_32_0.toggle5_.gameObject, not arg_32_0.heroViewProxy_.hideTransitionToggle)
-	SetActive(arg_32_0.allHeroBtn_.gameObject, not arg_32_0.heroViewProxy_.hideFilterBtn)
+function slot0.CheckLocked(slot0)
+	SetActive(slot0.toggle5_.gameObject, not slot0.heroViewProxy_.hideTransitionToggle)
+	SetActive(slot0.allHeroBtn_.gameObject, not slot0.heroViewProxy_.hideFilterBtn)
 
 	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.HERO_CHIP) then
-		arg_32_0.chipToggleController_:SetSelectedState("true")
+		slot0.chipToggleController_:SetSelectedState("true")
 	else
-		arg_32_0.chipToggleController_:SetSelectedState("false")
-
-		local var_32_0 = RedPointConst.CHIP_HERO_CHIP .. "_" .. arg_32_0.curHeroId_
-
-		manager.redPoint:bindUIandKey(arg_32_0.toggle7_.transform, var_32_0)
+		slot0.chipToggleController_:SetSelectedState("false")
+		manager.redPoint:bindUIandKey(slot0.toggle7_.transform, RedPointConst.CHIP_HERO_CHIP .. "_" .. slot0.curHeroId_)
 	end
 
-	arg_32_0.astroToggleController_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.HERO_ASTROLABE) and not arg_32_0.heroViewProxy_.unlockToggle and "true" or "false")
-	arg_32_0.trasitionToggleController_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.TRANSITION) and not arg_32_0.heroViewProxy_.unlockToggle and "true" or "false")
+	slot0.astroToggleController_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.HERO_ASTROLABE) and not slot0.heroViewProxy_.unlockToggle and "true" or "false")
+	slot0.trasitionToggleController_:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.TRANSITION) and not slot0.heroViewProxy_.unlockToggle and "true" or "false")
 end
 
-function var_0_0.OnHeroUnlock(arg_33_0, arg_33_1)
-	if arg_33_1 == arg_33_0.curHeroId_ then
+function slot0.OnHeroUnlock(slot0, slot1)
+	if slot1 == slot0.curHeroId_ then
 		HeroTools.StopTalk()
 
-		arg_33_0.curHeroInfo_ = arg_33_0.heroViewProxy_:GetHeroData(arg_33_0.curHeroInfo_.id)
+		slot0.curHeroInfo_ = slot0.heroViewProxy_:GetHeroData(slot0.curHeroInfo_.id)
 
-		arg_33_0.filterView_:UpdateList()
-		arg_33_0.curScrollHelper_:Refresh()
+		slot0.filterView_:UpdateList()
+		slot0.curScrollHelper_:Refresh()
 
-		arg_33_0.curPageIndex_ = 1
+		slot0.curPageIndex_ = 1
 
-		arg_33_0:UpdateHeroView()
-		arg_33_0:SwitchPage(arg_33_0.curPageIndex_)
+		slot0:UpdateHeroView()
+		slot0:SwitchPage(slot0.curPageIndex_)
 	end
 end
 
-function var_0_0.OnServantLock(arg_34_0, arg_34_1, arg_34_2)
-	arg_34_0.pages_[3]:OnServantLock(arg_34_1, arg_34_2)
+function slot0.OnServantLock(slot0, slot1, slot2)
+	slot0.pages_[3]:OnServantLock(slot1, slot2)
 end
 
-function var_0_0.OnHeroSkillUpgrade(arg_35_0, arg_35_1, arg_35_2)
-	if isSuccess(arg_35_1.result) and arg_35_2.hero_id == arg_35_0.curHeroId_ and arg_35_0.pages_[arg_35_0.pageIndexS_.skill] and arg_35_0.curPageIndex_ == arg_35_0.pageIndexS_.skill then
-		arg_35_0.pages_[arg_35_0.pageIndexS_.skill]:OnHeroSkillUpgrade(arg_35_1, arg_35_2)
+function slot0.OnHeroSkillUpgrade(slot0, slot1, slot2)
+	if isSuccess(slot1.result) and slot2.hero_id == slot0.curHeroId_ and slot0.pages_[slot0.pageIndexS_.skill] and slot0.curPageIndex_ == slot0.pageIndexS_.skill then
+		slot0.pages_[slot0.pageIndexS_.skill]:OnHeroSkillUpgrade(slot1, slot2)
 	end
 end
 
-function var_0_0.OnHeroStarUp(arg_36_0, arg_36_1, arg_36_2)
-	if isSuccess(arg_36_1.result) and arg_36_2.id == arg_36_0.curHeroId_ and arg_36_0.pages_[arg_36_0.pageIndexS_.star] and arg_36_0.curPageIndex_ == arg_36_0.pageIndexS_.star then
-		arg_36_0.pages_[arg_36_0.pageIndexS_.star]:OnHeroStarUp(arg_36_1, arg_36_2)
+function slot0.OnHeroStarUp(slot0, slot1, slot2)
+	if isSuccess(slot1.result) and slot2.id == slot0.curHeroId_ and slot0.pages_[slot0.pageIndexS_.star] and slot0.curPageIndex_ == slot0.pageIndexS_.star then
+		slot0.pages_[slot0.pageIndexS_.star]:OnHeroStarUp(slot1, slot2)
 	end
 end
 
-function var_0_0.OnHeroUpdate(arg_37_0, arg_37_1)
-	for iter_37_0, iter_37_1 in pairs(arg_37_0.shortScrollHelper_:GetItemList()) do
-		if iter_37_1.heroId_ == arg_37_1 then
-			iter_37_1:SetHeroData(arg_37_1, iter_37_1.heroDataType_)
+function slot0.OnHeroUpdate(slot0, slot1)
+	slot4 = slot0.shortScrollHelper_
+	slot6 = slot4
+
+	for slot5, slot6 in pairs(slot4.GetItemList(slot6)) do
+		if slot6.heroId_ == slot1 then
+			slot6:SetHeroData(slot1, slot6.heroDataType_)
 		end
 	end
 
-	for iter_37_2, iter_37_3 in pairs(arg_37_0.completeScrollHelper_:GetItemList()) do
-		if iter_37_3.heroId_ == arg_37_1 then
-			iter_37_3:SetHeroData(arg_37_1, iter_37_3.heroDataType_)
+	slot4 = slot0.completeScrollHelper_
+	slot6 = slot4
+
+	for slot5, slot6 in pairs(slot4.GetItemList(slot6)) do
+		if slot6.heroId_ == slot1 then
+			slot6:SetHeroData(slot1, slot6.heroDataType_)
 		end
 	end
 
-	if arg_37_1 == arg_37_0.curHeroId_ then
-		arg_37_0:UpdateHeroView()
+	if slot1 == slot0.curHeroId_ then
+		slot0:UpdateHeroView()
 	end
 end
 
-function var_0_0.CheckConditionByType(arg_38_0, arg_38_1)
-	if not table.keyof(ViewConst.SYSTEM_ID, arg_38_1) then
+function slot0.CheckConditionByType(slot0, slot1)
+	if not table.keyof(ViewConst.SYSTEM_ID, slot1) then
 		return true, ""
 	end
 
-	local var_38_0 = JumpTools.IsSystemLocked(arg_38_1)
-
-	if not var_38_0 then
+	if not JumpTools.IsSystemLocked(slot1) then
 		return true, ""
 	else
-		return false, JumpTools.GetSystemLockedTip(arg_38_1, var_38_0)
+		return false, JumpTools.GetSystemLockedTip(slot1, slot2)
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_39_0)
-	arg_39_0.dirty_ = true
+function slot0.OnMainHomeViewTop(slot0)
+	slot0.dirty_ = true
 	_G.heroViewPageIndex_ = 1
 end
 
-function var_0_0.GetPopContainer(arg_40_0)
-	return arg_40_0.pageContainerPop_
+function slot0.GetPopContainer(slot0)
+	return slot0.pageContainerPop_
 end
 
-function var_0_0.OnExit(arg_41_0)
-	if arg_41_0.type_ == HeroConst.HERO_DATA_TYPE.COOPERATION then
-		arg_41_0.dirty_ = true
+function slot0.OnExit(slot0)
+	if slot0.type_ == HeroConst.HERO_DATA_TYPE.COOPERATION then
+		slot0.dirty_ = true
 	end
 
-	arg_41_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if #arg_41_0.heroIdList_ <= 0 then
+	if #slot0.heroIdList_ <= 0 then
 		HeroData:ResetSortValue()
-		arg_41_0.filterView_:Reset()
+		slot0.filterView_:Reset()
 
-		if arg_41_0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
-			arg_41_0:InitConfig()
+		if slot0.type_ == HeroConst.HERO_DATA_TYPE.DEFAULT then
+			slot0:InitConfig()
 		end
 	end
 
-	if arg_41_0.pages_ then
-		for iter_41_0, iter_41_1 in pairs(arg_41_0.pages_) do
-			iter_41_1:OnExit()
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:OnExit()
 		end
 	end
 
-	arg_41_0.filterView_:OnExit()
-	manager.redPoint:unbindUIandKey(arg_41_0.toggle1_.transform)
-	manager.redPoint:unbindUIandKey(arg_41_0.toggle3_.transform)
-	manager.redPoint:unbindUIandKey(arg_41_0.toggle6_.transform)
-	manager.redPoint:unbindUIandKey(arg_41_0.toggle5_.transform)
-	manager.redPoint:unbindUIandKey(arg_41_0.toggle7_.transform)
-	arg_41_0:RecordStay(arg_41_0.curPageIndex_)
+	slot0.filterView_:OnExit()
+	manager.redPoint:unbindUIandKey(slot0.toggle1_.transform)
+	manager.redPoint:unbindUIandKey(slot0.toggle3_.transform)
+	manager.redPoint:unbindUIandKey(slot0.toggle6_.transform)
+	manager.redPoint:unbindUIandKey(slot0.toggle5_.transform)
+	manager.redPoint:unbindUIandKey(slot0.toggle7_.transform)
+	slot0:RecordStay(slot0.curPageIndex_)
 
-	if arg_41_0.talkTimer_ then
-		arg_41_0.talkTimer_:Stop()
+	if slot0.talkTimer_ then
+		slot0.talkTimer_:Stop()
 
-		arg_41_0.talkTimer_ = nil
+		slot0.talkTimer_ = nil
 	end
 
 	HeroTools.StopTalk()
 end
 
-function var_0_0.Dispose(arg_42_0)
-	arg_42_0.mainPageController_:RemoveAllListeners()
-	arg_42_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0.mainPageController_:RemoveAllListeners()
+	slot0:RemoveAllListeners()
 
-	if arg_42_0.filterView_ then
-		arg_42_0.filterView_:Dispose()
+	if slot0.filterView_ then
+		slot0.filterView_:Dispose()
 
-		arg_42_0.filterView_ = nil
+		slot0.filterView_ = nil
 	end
 
-	if arg_42_0.shortScrollHelper_ then
-		arg_42_0.shortScrollHelper_:Dispose()
+	if slot0.shortScrollHelper_ then
+		slot0.shortScrollHelper_:Dispose()
 
-		arg_42_0.shortScrollHelper_ = nil
+		slot0.shortScrollHelper_ = nil
 	end
 
-	if arg_42_0.completeScrollHelper_ then
-		arg_42_0.completeScrollHelper_:Dispose()
+	if slot0.completeScrollHelper_ then
+		slot0.completeScrollHelper_:Dispose()
 
-		arg_42_0.completeScrollHelper_ = nil
+		slot0.completeScrollHelper_ = nil
 	end
 
-	if arg_42_0.pages_ then
-		for iter_42_0, iter_42_1 in pairs(arg_42_0.pages_) do
-			iter_42_1:Dispose()
+	if slot0.pages_ then
+		for slot4, slot5 in pairs(slot0.pages_) do
+			slot5:Dispose()
 		end
 
-		arg_42_0.pages_ = nil
+		slot0.pages_ = nil
 	end
 
-	if arg_42_0.toggles_ then
-		for iter_42_2, iter_42_3 in pairs(arg_42_0.toggles_) do
-			iter_42_3.onValueChanged:RemoveAllListeners()
+	if slot0.toggles_ then
+		for slot4, slot5 in pairs(slot0.toggles_) do
+			slot5.onValueChanged:RemoveAllListeners()
 		end
 
-		arg_42_0.toggles_ = nil
+		slot0.toggles_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_42_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RecordStay(arg_43_0, arg_43_1)
-	local var_43_0 = arg_43_0:GetStayTime()
-
-	if var_43_0 == 0 then
+function slot0.RecordStay(slot0, slot1)
+	if slot0:GetStayTime() == 0 then
 		return
 	end
 
-	local var_43_1 = 0
+	slot3 = 0
 
-	if arg_43_1 == arg_43_0.pageIndexS_.property then
-		var_43_1 = 20101
-	elseif arg_43_1 == arg_43_0.pageIndexS_.skill then
-		var_43_1 = 20102
-	elseif arg_43_1 == arg_43_0.pageIndexS_.weapon then
-		var_43_1 = 20103
-	elseif arg_43_1 == arg_43_0.pageIndexS_.equip then
-		var_43_1 = 20104
-	elseif arg_43_1 == arg_43_0.pageIndexS_.astrolabe then
-		var_43_1 = 20105
+	if slot1 == slot0.pageIndexS_.property then
+		slot3 = 20101
+	elseif slot1 == slot0.pageIndexS_.skill then
+		slot3 = 20102
+	elseif slot1 == slot0.pageIndexS_.weapon then
+		slot3 = 20103
+	elseif slot1 == slot0.pageIndexS_.equip then
+		slot3 = 20104
+	elseif slot1 == slot0.pageIndexS_.astrolabe then
+		slot3 = 20105
 	end
 
-	OperationRecorder.RecordStayView("STAY_VIEW_HERO", var_43_0, arg_43_0.curHeroId_, var_43_1)
-	arg_43_0:UpdateLastOpenTime()
+	OperationRecorder.RecordStayView("STAY_VIEW_HERO", slot2, slot0.curHeroId_, slot3)
+	slot0:UpdateLastOpenTime()
 end
 
-function var_0_0.OnHeroSort(arg_44_0, arg_44_1, arg_44_2, arg_44_3, arg_44_4, arg_44_5)
-	arg_44_0.filterView_:RefreshSort(arg_44_1, arg_44_2, arg_44_3, arg_44_4, arg_44_5)
+function slot0.OnHeroSort(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.filterView_:RefreshSort(slot1, slot2, slot3, slot4, slot5)
 end
 
-function var_0_0.HandleNextJump(arg_45_0, arg_45_1)
-	if arg_45_1[1] == 231 then
-		for iter_45_0, iter_45_1 in ipairs(arg_45_0.heroIdList_) do
-			local var_45_0 = HeroTools.GetHeroOntologyID(iter_45_1)
-
-			if #HeroRecordCfg[var_45_0].plot_id > 0 then
-				table.insert(arg_45_1, iter_45_1)
-				arg_45_0:SelectHero(iter_45_1)
-				JumpTools.JumpToPage2(arg_45_1)
+function slot0.HandleNextJump(slot0, slot1)
+	if slot1[1] == 231 then
+		for slot5, slot6 in ipairs(slot0.heroIdList_) do
+			if #HeroRecordCfg[HeroTools.GetHeroOntologyID(slot6)].plot_id > 0 then
+				table.insert(slot1, slot6)
+				slot0:SelectHero(slot6)
+				JumpTools.JumpToPage2(slot1)
 
 				return
 			end
 		end
 	else
-		table.insert(arg_45_1, arg_45_0.curHeroId_)
-		JumpTools.JumpToPage2(arg_45_1)
+		table.insert(slot1, slot0.curHeroId_)
+		JumpTools.JumpToPage2(slot1)
 
 		return
 	end
 end
 
-return var_0_0
+return slot0

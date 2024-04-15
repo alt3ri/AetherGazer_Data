@@ -1,323 +1,309 @@
-local var_0_0 = class("GameKeyboardOperationView", ReduxView)
-local var_0_1 = require("cjson")
-local var_0_2 = "KeyboardLayout"
+slot0 = class("GameKeyboardOperationView", ReduxView)
+slot1 = require("cjson")
+slot2 = "KeyboardLayout"
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.toggleController_ = ControllerUtil.GetController(arg_3_0.keyboardBtn_.transform, "toggle")
+	slot0.toggleController_ = ControllerUtil.GetController(slot0.keyboardBtn_.transform, "toggle")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddGamepadSettingListener()
+function slot0.AddUIListener(slot0)
+	slot0:AddGamepadSettingListener()
 end
 
-function var_0_0.AddEventListeners(arg_5_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_6_0.changed_ = false
-	arg_6_0.gamepadType_ = LuaForGamepad.GetGamepadType()
-	arg_6_0.oldLayoutJson_ = LuaForGamepad.GetLayoutJson(var_0_2, LuaForGamepad.GetDefaultLayoutFileName(var_0_2))
+	slot0.changed_ = false
+	slot0.gamepadType_ = LuaForGamepad.GetGamepadType()
+	slot0.oldLayoutJson_ = LuaForGamepad.GetLayoutJson(uv0, LuaForGamepad.GetDefaultLayoutFileName(uv0))
 end
 
-function var_0_0.SaveData(arg_7_0)
-	arg_7_0.changed_ = false
-	arg_7_0.gamepadType_ = LuaForGamepad.GetGamepadType()
-	arg_7_0.oldLayoutJson_ = LuaForGamepad.GetLayoutJson(var_0_2, LuaForGamepad.GetDefaultLayoutFileName(var_0_2))
+function slot0.SaveData(slot0)
+	slot0.changed_ = false
+	slot0.gamepadType_ = LuaForGamepad.GetGamepadType()
+	slot0.oldLayoutJson_ = LuaForGamepad.GetLayoutJson(uv0, LuaForGamepad.GetDefaultLayoutFileName(uv0))
 end
 
-function var_0_0.CheckDataChange(arg_8_0)
-	return arg_8_0.changed_
+function slot0.CheckDataChange(slot0)
+	return slot0.changed_
 end
 
-function var_0_0.RecoverTmpData(arg_9_0)
-	LuaForGamepad.SetGamePadType(arg_9_0.gamepadType_)
-	LuaForGamepad.SaveLayoutJson(var_0_2, arg_9_0.oldLayoutJson_)
+function slot0.RecoverTmpData(slot0)
+	LuaForGamepad.SetGamePadType(slot0.gamepadType_)
+	LuaForGamepad.SaveLayoutJson(uv0, slot0.oldLayoutJson_)
 	LuaForGamepad.ReloadLayout()
-	arg_9_0:RefreshGamepadSetting()
+	slot0:RefreshGamepadSetting()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0:RemoveAllEventListener()
-	arg_10_0:StopGampadSetting()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	slot0:StopGampadSetting()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.UpdatePageData(arg_12_0)
-	arg_12_0:RefreshGamepadSetting()
+function slot0.UpdatePageData(slot0)
+	slot0:RefreshGamepadSetting()
 end
 
-function var_0_0.AddGamepadSettingListener(arg_13_0)
-	arg_13_0:AddBtnListener(arg_13_0.keyboardBtn_, nil, function()
-		if arg_13_0.toggleController_:GetSelectedState() == "off" then
-			arg_13_0.toggleController_:SetSelectedState("on")
+function slot0.AddGamepadSettingListener(slot0)
+	slot0:AddBtnListener(slot0.keyboardBtn_, nil, function ()
+		if uv0.toggleController_:GetSelectedState() == "off" then
+			uv0.toggleController_:SetSelectedState("on")
 			LuaForGamepad.SetGamePadType(1)
-			arg_13_0:RefreshGamepadSetting()
+			uv0:RefreshGamepadSetting()
 
-			arg_13_0.changed_ = true
+			uv0.changed_ = true
 		else
-			arg_13_0.toggleController_:SetSelectedState("off")
+			uv0.toggleController_:SetSelectedState("off")
 			LuaForGamepad.SetGamePadType(0)
-			arg_13_0:RefreshGamepadSetting()
+			uv0:RefreshGamepadSetting()
 
-			arg_13_0.changed_ = true
+			uv0.changed_ = true
 		end
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadMoveUpBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadMoveUpTxt_, P08.Gamepad.En_ButtonType.MoveUp:ToInt())
+	slot0:AddBtnListener(slot0.gamepadMoveUpBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadMoveUpTxt_, P08.Gamepad.En_ButtonType.MoveUp:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadMoveDownBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadMoveDownTxt_, P08.Gamepad.En_ButtonType.MoveDown:ToInt())
+	slot0:AddBtnListener(slot0.gamepadMoveDownBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadMoveDownTxt_, P08.Gamepad.En_ButtonType.MoveDown:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadMoveLeftBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadMoveLeftTxt_, P08.Gamepad.En_ButtonType.MoveLeft:ToInt())
+	slot0:AddBtnListener(slot0.gamepadMoveLeftBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadMoveLeftTxt_, P08.Gamepad.En_ButtonType.MoveLeft:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadMoveRightBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadMoveRightTxt_, P08.Gamepad.En_ButtonType.MoveRight:ToInt())
+	slot0:AddBtnListener(slot0.gamepadMoveRightBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadMoveRightTxt_, P08.Gamepad.En_ButtonType.MoveRight:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadCameraLeftBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadCameraLeftTxt_, P08.Gamepad.En_ButtonType.CameraLeft:ToInt())
+	slot0:AddBtnListener(slot0.gamepadCameraLeftBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadCameraLeftTxt_, P08.Gamepad.En_ButtonType.CameraLeft:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadCameraRightBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadCameraRightTxt_, P08.Gamepad.En_ButtonType.CameraRight:ToInt())
+	slot0:AddBtnListener(slot0.gamepadCameraRightBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadCameraRightTxt_, P08.Gamepad.En_ButtonType.CameraRight:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSubStickUpBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSubStickUpTxt_, P08.Gamepad.En_ButtonType.SubJoystickUp:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSubStickUpBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSubStickUpTxt_, P08.Gamepad.En_ButtonType.SubJoystickUp:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSubStickDownBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSubStickDownTxt_, P08.Gamepad.En_ButtonType.SubJoystickDown:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSubStickDownBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSubStickDownTxt_, P08.Gamepad.En_ButtonType.SubJoystickDown:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSubStickLeftBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSubStickLeftTxt_, P08.Gamepad.En_ButtonType.SubJoystickLeft:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSubStickLeftBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSubStickLeftTxt_, P08.Gamepad.En_ButtonType.SubJoystickLeft:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSubStickRightBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSubStickRightTxt_, P08.Gamepad.En_ButtonType.SubJoystickRight:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSubStickRightBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSubStickRightTxt_, P08.Gamepad.En_ButtonType.SubJoystickRight:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadMeleeBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadMeleeTxt_, P08.Gamepad.En_ButtonType.Melee:ToInt())
+	slot0:AddBtnListener(slot0.gamepadMeleeBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadMeleeTxt_, P08.Gamepad.En_ButtonType.Melee:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSkill1Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSkill1Txt_, P08.Gamepad.En_ButtonType.Skill1:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSkill1Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSkill1Txt_, P08.Gamepad.En_ButtonType.Skill1:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSkill2Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSkill2Txt_, P08.Gamepad.En_ButtonType.Skill2:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSkill2Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSkill2Txt_, P08.Gamepad.En_ButtonType.Skill2:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadSkill3Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadSkill3Txt_, P08.Gamepad.En_ButtonType.Skill3:ToInt())
+	slot0:AddBtnListener(slot0.gamepadSkill3Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadSkill3Txt_, P08.Gamepad.En_ButtonType.Skill3:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadAvoidBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadAvoidTxt_, P08.Gamepad.En_ButtonType.Avoid:ToInt())
+	slot0:AddBtnListener(slot0.gamepadAvoidBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadAvoidTxt_, P08.Gamepad.En_ButtonType.Avoid:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadUltimate1Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadUltimate1Txt_, P08.Gamepad.En_ButtonType.Ultimate1:ToInt())
+	slot0:AddBtnListener(slot0.gamepadUltimate1Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadUltimate1Txt_, P08.Gamepad.En_ButtonType.Ultimate1:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadUltimate2Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadUltimate2Txt_, P08.Gamepad.En_ButtonType.Ultimate2:ToInt())
+	slot0:AddBtnListener(slot0.gamepadUltimate2Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadUltimate2Txt_, P08.Gamepad.En_ButtonType.Ultimate2:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadUltimate3Btn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadUltimate3Txt_, P08.Gamepad.En_ButtonType.Ultimate3:ToInt())
+	slot0:AddBtnListener(slot0.gamepadUltimate3Btn_, nil, function ()
+		uv0:InputListener(uv0.gamepadUltimate3Txt_, P08.Gamepad.En_ButtonType.Ultimate3:ToInt())
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.gamepadLockBtn_, nil, function()
-		arg_13_0:InputListener(arg_13_0.gamepadLockTxt_, P08.Gamepad.En_ButtonType.Lock:ToInt())
+	slot0:AddBtnListener(slot0.gamepadLockBtn_, nil, function ()
+		uv0:InputListener(uv0.gamepadLockTxt_, P08.Gamepad.En_ButtonType.Lock:ToInt())
 	end)
-	arg_13_0:AddToggleListener(arg_13_0.sensitivitySlider_, function()
-		arg_13_0:SetCameraSensitivity(arg_13_0.sensitivitySlider_.value)
+	slot0:AddToggleListener(slot0.sensitivitySlider_, function ()
+		uv0:SetCameraSensitivity(uv0.sensitivitySlider_.value)
 	end)
-	arg_13_0:AddPressingByTimeListener(arg_13_0.sensitivityReduceBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_13_0.sensitivitySlider_.value > 1 then
-			local var_35_0 = arg_13_0.sensitivitySlider_.value - 1
-
-			arg_13_0:SetCameraSensitivity(var_35_0)
+	slot0:AddPressingByTimeListener(slot0.sensitivityReduceBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.sensitivitySlider_.value > 1 then
+			uv0:SetCameraSensitivity(uv0.sensitivitySlider_.value - 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_13_0:AddPressingByTimeListener(arg_13_0.sensitivityAddBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_13_0.sensitivitySlider_.value < 100 then
-			local var_36_0 = arg_13_0.sensitivitySlider_.value + 1
-
-			arg_13_0:SetCameraSensitivity(var_36_0)
+	slot0:AddPressingByTimeListener(slot0.sensitivityAddBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.sensitivitySlider_.value < 100 then
+			uv0:SetCameraSensitivity(uv0.sensitivitySlider_.value + 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_13_0:AddBtnListener(arg_13_0.resetBtn_, nil, function()
+	slot0:AddBtnListener(slot0.resetBtn_, nil, function ()
 		ShowMessageBox({
 			content = GetTips("RESET_CAMERAANDKEYBOARD"),
-			OkCallback = function()
-				LuaForGamepad.DeleteLayoutJson(var_0_2)
+			OkCallback = function ()
+				LuaForGamepad.DeleteLayoutJson(uv0)
 				LuaForGamepad.ReloadLayout()
-				arg_13_0:RefreshGamepadSetting()
+				uv1:RefreshGamepadSetting()
 
-				arg_13_0.changed_ = true
+				uv1.changed_ = true
 			end
 		})
 	end)
 end
 
-function var_0_0.InputListener(arg_39_0, arg_39_1, arg_39_2)
-	if arg_39_0.textCom_ ~= arg_39_1 then
-		if arg_39_0.textCom_ then
-			arg_39_0.textCom_.text = arg_39_0.textCache_
+function slot0.InputListener(slot0, slot1, slot2)
+	if slot0.textCom_ ~= slot1 then
+		if slot0.textCom_ then
+			slot0.textCom_.text = slot0.textCache_
 		end
 
-		arg_39_0.textCom_ = arg_39_1
+		slot0.textCom_ = slot1
 
-		if arg_39_0.timer_ then
-			arg_39_0.timer_:Stop()
+		if slot0.timer_ then
+			slot0.timer_:Stop()
 
-			arg_39_0.timer_ = nil
+			slot0.timer_ = nil
 		end
 
-		arg_39_0.textCache_ = arg_39_1.text
-		arg_39_0.localCnt_ = 0
-		arg_39_0.timer_ = Timer.New(function()
-			arg_39_0.localCnt_ = arg_39_0.localCnt_ + 1
+		slot0.textCache_ = slot1.text
+		slot0.localCnt_ = 0
+		slot0.timer_ = Timer.New(function ()
+			uv0.localCnt_ = uv0.localCnt_ + 1
 
-			if arg_39_0.localCnt_ < 10 then
-				arg_39_1.text = GetTips("INITING")
+			if uv0.localCnt_ < 10 then
+				uv1.text = GetTips("INITING")
 
 				return
 			end
 
-			arg_39_1.text = GetTips("PLEASE_INPUT_KEY")
+			uv1.text = GetTips("PLEASE_INPUT_KEY")
 
-			local var_40_0 = LuaForGamepad.GetLastInputValue()
-
-			if var_40_0 == "" then
+			if LuaForGamepad.GetLastInputValue() == "" then
 				return
 			end
 
-			local var_40_1 = var_0_1.decode(var_40_0)
+			slot1 = uv2.decode(slot0)
+			uv1.text = slot1.m_axisName
 
-			arg_39_1.text = var_40_1.m_axisName
+			LuaForGamepad.SetLayoutItem(uv3, LuaForGamepad.GetDefaultLayoutFileName(uv3), uv4, slot1.m_axisName)
+			uv0:StopGampadSetting()
+			uv0:RefreshGamepadSetting()
 
-			LuaForGamepad.SetLayoutItem(var_0_2, LuaForGamepad.GetDefaultLayoutFileName(var_0_2), arg_39_2, var_40_1.m_axisName)
-			arg_39_0:StopGampadSetting()
-			arg_39_0:RefreshGamepadSetting()
-
-			arg_39_0.textCache_ = arg_39_1.text
-			arg_39_0.changed_ = true
-			arg_39_0.textCom_ = nil
+			uv0.textCache_ = uv1.text
+			uv0.changed_ = true
+			uv0.textCom_ = nil
 		end, 0.033, -1)
 
-		arg_39_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.SetCameraSensitivity(arg_41_0, arg_41_1)
-	if arg_41_1 < 1 then
-		arg_41_1 = 1
-	elseif arg_41_1 > 100 then
-		arg_41_1 = 100
+function slot0.SetCameraSensitivity(slot0, slot1)
+	if slot1 < 1 then
+		slot1 = 1
+	elseif slot1 > 100 then
+		slot1 = 100
 	end
 
-	LuaForGamepad.SetCameraSensitivity(var_0_2, LuaForGamepad.GetDefaultLayoutFileName(var_0_2), arg_41_1)
-	arg_41_0:RefreshGamepadSetting()
+	LuaForGamepad.SetCameraSensitivity(uv0, LuaForGamepad.GetDefaultLayoutFileName(uv0), slot1)
+	slot0:RefreshGamepadSetting()
 
-	arg_41_0.changed_ = true
+	slot0.changed_ = true
 end
 
-function var_0_0.StopGampadSetting(arg_42_0)
-	if arg_42_0.timer_ then
-		arg_42_0.timer_:Stop()
+function slot0.StopGampadSetting(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_42_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
 	LuaForGamepad.ClearInputValue()
 	LuaForGamepad.DisableListenerEnable()
 end
 
-function var_0_0.RefreshGamepadSetting(arg_43_0)
-	local var_43_0 = LuaForGamepad.GetGamepadType()
-
-	if var_43_0 == 1 then
-		arg_43_0.toggleController_:SetSelectedState("on")
+function slot0.RefreshGamepadSetting(slot0)
+	if LuaForGamepad.GetGamepadType() == 1 then
+		slot0.toggleController_:SetSelectedState("on")
 	else
-		arg_43_0.toggleController_:SetSelectedState("off")
+		slot0.toggleController_:SetSelectedState("off")
 	end
 
-	if var_43_0 ~= 1 then
+	if slot1 ~= 1 then
 		return
 	end
 
-	local var_43_1 = LuaForGamepad.GetLayoutJson(var_0_2, LuaForGamepad.GetDefaultLayoutFileName(var_0_2))
-	local var_43_2 = var_0_1.decode(var_43_1)
-
-	if var_43_2 == nil or var_43_2.m_buttonMapLayouts == nil then
+	if uv1.decode(LuaForGamepad.GetLayoutJson(uv0, LuaForGamepad.GetDefaultLayoutFileName(uv0))) == nil or slot3.m_buttonMapLayouts == nil then
 		return
 	end
 
-	for iter_43_0, iter_43_1 in pairs(var_43_2.m_buttonMapLayouts) do
-		if iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.MoveUp:ToInt() then
-			arg_43_0.gamepadMoveUpTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.MoveDown:ToInt() then
-			arg_43_0.gamepadMoveDownTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.MoveLeft:ToInt() then
-			arg_43_0.gamepadMoveLeftTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.MoveRight:ToInt() then
-			arg_43_0.gamepadMoveRightTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.CameraLeft:ToInt() then
-			arg_43_0.gamepadCameraLeftTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.CameraRight:ToInt() then
-			arg_43_0.gamepadCameraRightTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickUp:ToInt() then
-			arg_43_0.gamepadSubStickUpTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickDown:ToInt() then
-			arg_43_0.gamepadSubStickDownTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickLeft:ToInt() then
-			arg_43_0.gamepadSubStickLeftTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickRight:ToInt() then
-			arg_43_0.gamepadSubStickRightTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Melee:ToInt() then
-			arg_43_0.gamepadMeleeTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Skill1:ToInt() then
-			arg_43_0.gamepadSkill1Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Skill2:ToInt() then
-			arg_43_0.gamepadSkill2Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Skill3:ToInt() then
-			arg_43_0.gamepadSkill3Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Avoid:ToInt() then
-			arg_43_0.gamepadAvoidTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate1:ToInt() then
-			arg_43_0.gamepadUltimate1Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate2:ToInt() then
-			arg_43_0.gamepadUltimate2Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate3:ToInt() then
-			arg_43_0.gamepadUltimate3Txt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
-		elseif iter_43_1.m_buttonType == P08.Gamepad.En_ButtonType.Lock:ToInt() then
-			arg_43_0.gamepadLockTxt_.text = LuaForGamepad.ConvertName(iter_43_1.m_value)
+	for slot7, slot8 in pairs(slot3.m_buttonMapLayouts) do
+		if slot8.m_buttonType == P08.Gamepad.En_ButtonType.MoveUp:ToInt() then
+			slot0.gamepadMoveUpTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.MoveDown:ToInt() then
+			slot0.gamepadMoveDownTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.MoveLeft:ToInt() then
+			slot0.gamepadMoveLeftTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.MoveRight:ToInt() then
+			slot0.gamepadMoveRightTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.CameraLeft:ToInt() then
+			slot0.gamepadCameraLeftTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.CameraRight:ToInt() then
+			slot0.gamepadCameraRightTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickUp:ToInt() then
+			slot0.gamepadSubStickUpTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickDown:ToInt() then
+			slot0.gamepadSubStickDownTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickLeft:ToInt() then
+			slot0.gamepadSubStickLeftTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.SubJoystickRight:ToInt() then
+			slot0.gamepadSubStickRightTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Melee:ToInt() then
+			slot0.gamepadMeleeTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Skill1:ToInt() then
+			slot0.gamepadSkill1Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Skill2:ToInt() then
+			slot0.gamepadSkill2Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Skill3:ToInt() then
+			slot0.gamepadSkill3Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Avoid:ToInt() then
+			slot0.gamepadAvoidTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate1:ToInt() then
+			slot0.gamepadUltimate1Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate2:ToInt() then
+			slot0.gamepadUltimate2Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Ultimate3:ToInt() then
+			slot0.gamepadUltimate3Txt_.text = LuaForGamepad.ConvertName(slot8.m_value)
+		elseif slot8.m_buttonType == P08.Gamepad.En_ButtonType.Lock:ToInt() then
+			slot0.gamepadLockTxt_.text = LuaForGamepad.ConvertName(slot8.m_value)
 		end
 	end
 
-	local var_43_3 = LuaForGamepad.GetCameraSensitivity()
-
-	arg_43_0.sensitivitySlider_.value = var_43_3
-	arg_43_0.sensitivityTxt_.text = var_43_3
+	slot4 = LuaForGamepad.GetCameraSensitivity()
+	slot0.sensitivitySlider_.value = slot4
+	slot0.sensitivityTxt_.text = slot4
 end
 
-return var_0_0
+return slot0

@@ -1,24 +1,24 @@
-local var_0_0 = singletonClass("ActivityAdvertiseData")
+slot0 = singletonClass("ActivityAdvertiseData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.openAdvertiseFlag_ = {}
-	arg_1_0.defaultPrompt_ = true
+function slot0.Init(slot0)
+	slot0.openAdvertiseFlag_ = {}
+	slot0.defaultPrompt_ = true
 end
 
-function var_0_0.SetOpenAdvertiseFlag(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.openAdvertiseFlag_[arg_2_1] = arg_2_2
+function slot0.SetOpenAdvertiseFlag(slot0, slot1, slot2)
+	slot0.openAdvertiseFlag_[slot1] = slot2
 end
 
-function var_0_0.GetOpenAdvertiseFlag(arg_3_0, arg_3_1)
-	return arg_3_0.openAdvertiseFlag_[arg_3_1]
+function slot0.GetOpenAdvertiseFlag(slot0, slot1)
+	return slot0.openAdvertiseFlag_[slot1]
 end
 
-function var_0_0.SetDefaultPrompt(arg_4_0, arg_4_1)
-	arg_4_0.defaultPrompt_ = arg_4_1
+function slot0.SetDefaultPrompt(slot0, slot1)
+	slot0.defaultPrompt_ = slot1
 end
 
-function var_0_0.GetDefaultPrompt(arg_5_0)
-	return arg_5_0.defaultPrompt_
+function slot0.GetDefaultPrompt(slot0)
+	return slot0.defaultPrompt_
 end
 
-return var_0_0
+return slot0

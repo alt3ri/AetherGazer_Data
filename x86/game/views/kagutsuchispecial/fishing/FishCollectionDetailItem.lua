@@ -1,77 +1,72 @@
-local var_0_0 = class("FishCollectionDetailItem", BaseView)
+slot0 = class("FishCollectionDetailItem", BaseView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0)
 
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	if arg_2_0.card_ then
-		arg_2_0.cardItem = HanafudaCardView.New(arg_2_0.card_)
+	if slot0.card_ then
+		slot0.cardItem = HanafudaCardView.New(slot0.card_)
 	end
 
-	arg_2_0:AddBtnListener(arg_2_0.detailMaskBtn_, nil, function()
-		if arg_2_0.clickOnMaskFunc then
-			arg_2_0.clickOnMaskFunc()
+	slot0:AddBtnListener(slot0.detailMaskBtn_, nil, function ()
+		if uv0.clickOnMaskFunc then
+			uv0.clickOnMaskFunc()
 		end
 	end)
 
-	arg_2_0.controller = ControllerUtil.GetController(arg_2_0.transform_, "rarity")
+	slot0.controller = ControllerUtil.GetController(slot0.transform_, "rarity")
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_4_0.cardItem then
-		arg_4_0.cardItem:Dispose()
+	if slot0.cardItem then
+		slot0.cardItem:Dispose()
 	end
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	local var_5_0 = HanafudaCardCfg[arg_5_1]
-	local var_5_1 = RareFishCfg[var_5_0.desc]
+function slot0.SetData(slot0, slot1)
+	slot2 = HanafudaCardCfg[slot1]
+	slot0.name = RareFishCfg[slot2.desc].name
+	slot0.name_.text = slot0.name
 
-	arg_5_0.name = var_5_1.name
-	arg_5_0.name_.text = arg_5_0.name
-
-	local var_5_2 = KagutsuchiFishingEventData:GetRarity(arg_5_1)
-	local var_5_3 = {
-		id = arg_5_1,
-		race = var_5_0.race,
-		desc = var_5_0.desc,
-		placeType = HanafudaData.CARD_PLACE_TYPE.COLLECTION,
-		rarity = var_5_2.order
-	}
-
-	if arg_5_0.cardItem then
-		arg_5_0.cardItem:SetData(1, var_5_3)
+	if slot0.cardItem then
+		slot0.cardItem:SetData(1, {
+			id = slot1,
+			race = slot2.race,
+			desc = slot2.desc,
+			placeType = HanafudaData.CARD_PLACE_TYPE.COLLECTION,
+			rarity = KagutsuchiFishingEventData:GetRarity(slot1).order
+		})
 	end
 
-	if var_5_2 == KagutsuchiFishingEventData.EnumFishRarity.B then
-		arg_5_0.descText_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_CARD_UNLOCK_TIPS", var_5_1.name)
+	if slot4 == KagutsuchiFishingEventData.EnumFishRarity.B then
+		slot0.descText_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_CARD_UNLOCK_TIPS", slot3.name)
 	else
-		arg_5_0.descText_.text = var_5_1.desc
+		slot0.descText_.text = slot3.desc
 	end
 
-	arg_5_0.descText2_.text = var_5_1.talk
+	slot0.descText2_.text = slot3.talk
 
-	if arg_5_0.controller then
-		local var_5_4, var_5_5 = KagutsuchiFishingEventData:GetNextRarity(arg_5_1)
+	if slot0.controller then
+		slot6, slot7 = KagutsuchiFishingEventData:GetNextRarity(slot1)
 
-		arg_5_0.controller:SetSelectedState(var_5_2.name)
+		slot0.controller:SetSelectedState(slot4.name)
 
-		arg_5_0.tips_.text = var_5_4 and GetTipsF("ACTIVITY_KAGUTSUCHI_CARD_LEVEL_UP", var_5_5, var_5_1.name, var_5_4.name) or ""
+		slot0.tips_.text = slot6 and GetTipsF("ACTIVITY_KAGUTSUCHI_CARD_LEVEL_UP", slot7, slot3.name, slot6.name) or ""
 	end
 end
 
-function var_0_0.SetClickOnMask(arg_6_0, arg_6_1)
-	arg_6_0.clickOnMaskFunc = arg_6_1
+function slot0.SetClickOnMask(slot0, slot1)
+	slot0.clickOnMaskFunc = slot1
 end
 
-return var_0_0
+return slot0

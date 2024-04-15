@@ -1,99 +1,95 @@
-local var_0_0 = class("CoreVerificationInfoView", ReduxView)
+slot0 = class("CoreVerificationInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Core_Verification/CoreVerificationInfo"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.bossModel_ = {}
-	arg_4_0.loadIndexList_ = {}
-	arg_4_0.bossAnimatorList_ = {}
-	arg_4_0.cacheRootMotionList_ = {}
-	arg_4_0.animatorTimer_ = {}
-	arg_4_0.affixGoList_ = {
-		arg_4_0.affix1Go_,
-		arg_4_0.affix2Go_,
-		arg_4_0.affix3Go_
+	slot0.bossModel_ = {}
+	slot0.loadIndexList_ = {}
+	slot0.bossAnimatorList_ = {}
+	slot0.cacheRootMotionList_ = {}
+	slot0.animatorTimer_ = {}
+	slot0.affixGoList_ = {
+		slot0.affix1Go_,
+		slot0.affix2Go_,
+		slot0.affix3Go_
 	}
-	arg_4_0.affixImgList_ = {
-		arg_4_0.affix1Img_,
-		arg_4_0.affix2Img_,
-		arg_4_0.affix3Img_
+	slot0.affixImgList_ = {
+		slot0.affix1Img_,
+		slot0.affix2Img_,
+		slot0.affix3Img_
 	}
-	arg_4_0.affixTextList_ = {
-		arg_4_0.affix1Text_,
-		arg_4_0.affix2Text_,
-		arg_4_0.affix3Text_
+	slot0.affixTextList_ = {
+		slot0.affix1Text_,
+		slot0.affix2Text_,
+		slot0.affix3Text_
 	}
-	arg_4_0.tabList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexTabItem), arg_4_0.tabUilist_, CoreVerificationInfoTabItem)
-	arg_4_0.heroHeadItem_ = {}
+	slot4 = slot0.tabUilist_
+	slot0.tabList_ = LuaList.New(handler(slot0, slot0.IndexTabItem), slot4, CoreVerificationInfoTabItem)
+	slot0.heroHeadItem_ = {}
 
-	for iter_4_0 = 1, 6 do
-		arg_4_0.heroHeadItem_[iter_4_0] = CoreVerificationRoleIcon.New(arg_4_0["hero" .. iter_4_0 .. "Go_"])
+	for slot4 = 1, 6 do
+		slot0.heroHeadItem_[slot4] = CoreVerificationRoleIcon.New(slot0["hero" .. slot4 .. "Go_"])
 	end
 
-	arg_4_0.passController_ = arg_4_0.mainControllerEx_:GetController("passState")
+	slot0.passController_ = slot0.mainControllerEx_:GetController("passState")
 end
 
-function var_0_0.IndexTabItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.bossType_, arg_5_1, arg_5_0.curTab_, function()
-		local var_6_0 = CoreVerificationData:GetInfoCfgByTypeAndDiff(arg_5_0.bossType_, arg_5_1)
-		local var_6_1 = CoreVerificationData:GetStageInfoByTypeAndDiff(arg_5_0.bossType_, arg_5_1 - 1)
+function slot0.IndexTabItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.bossType_, slot1, slot0.curTab_, function ()
+		slot1 = CoreVerificationData:GetStageInfoByTypeAndDiff(uv0.bossType_, uv1 - 1)
 
-		if PlayerData:GetPlayerInfo().userLevel < var_6_0.unlock_level then
-			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_6_0.unlock_level))
-
-			return
-		end
-
-		if arg_5_1 > 1 and not var_6_1 then
-			ShowTips(string.format(GetTips("SOLO_HEART_DEMON_LOCK"), var_6_0.unlock_level))
+		if PlayerData:GetPlayerInfo().userLevel < CoreVerificationData:GetInfoCfgByTypeAndDiff(uv0.bossType_, uv1).unlock_level then
+			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot0.unlock_level))
 
 			return
 		end
 
-		local var_6_2 = arg_5_0.tabList_:GetItemByIndex(arg_5_0.curTab_)
+		if uv1 > 1 and not slot1 then
+			ShowTips(string.format(GetTips("SOLO_HEART_DEMON_LOCK"), slot0.unlock_level))
 
-		if var_6_2 then
-			var_6_2:Select(false)
+			return
 		end
 
-		arg_5_2:Select(true)
+		if uv0.tabList_:GetItemByIndex(uv0.curTab_) then
+			slot3:Select(false)
+		end
 
-		arg_5_0.curTab_ = arg_5_1
+		uv2:Select(true)
 
-		arg_5_0:UpdateView()
+		uv0.curTab_ = uv1
+
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.battleBtn_, nil, function()
-		local var_8_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.CORE_VERIFICATION, arg_7_0.bossType_, nil, {
-			stageType = BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION,
-			stageID = arg_7_0.curStageID_
-		})
-
-		arg_7_0:Go("/sectionSelectHero", {
-			section = arg_7_0.curStageID_,
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		uv0:Go("/sectionSelectHero", {
+			section = uv0.curStageID_,
 			sectionType = BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION,
-			reserveParams = var_8_0,
-			activityID = arg_7_0.infoID_
+			reserveParams = ReserveParams.New(ReserveConst.RESERVE_TYPE.CORE_VERIFICATION, uv0.bossType_, nil, {
+				stageType = BattleConst.STAGE_TYPE_NEW.CORE_VERIFICATION,
+				stageID = uv0.curStageID_
+			}),
+			activityID = uv0.infoID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -102,225 +98,207 @@ function var_0_0.OnEnter(arg_9_0)
 	manager.windowBar:SetGameHelpKey("CORE_VERIFICATION_DES")
 	manager.ui:SetMainCamera("bossChallenge")
 
-	arg_9_0.exitView_ = false
-	arg_9_0.bossType_ = arg_9_0.params_.bossType
-	arg_9_0.curTab_ = CoreVerificationData:GetMaxUnlockByBossType(arg_9_0.bossType_)
+	slot0.exitView_ = false
+	slot0.bossType_ = slot0.params_.bossType
+	slot0.curTab_ = CoreVerificationData:GetMaxUnlockByBossType(slot0.bossType_)
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
+	slot0.tabList_:StartScroll(#CoreVerificationData:GetDiffListByBossType(slot0.bossType_))
+	slot0.tabList_:ScrollToIndex(slot0.curTab_)
 
-	local var_9_0 = CoreVerificationData:GetDiffListByBossType(arg_9_0.bossType_)
+	slot0.nameText_.text = GetI18NText(CoreVerificationData:GetBossUICfgByBossType(slot0.bossType_).main_name)
 
-	arg_9_0.tabList_:StartScroll(#var_9_0)
-	arg_9_0.tabList_:ScrollToIndex(arg_9_0.curTab_)
+	if CoreVerificationData:GetRecommendByBossType(slot0.bossType_)[1] then
+		SetActive(slot0.recommend1Img_.gameObject, true)
 
-	local var_9_1 = CoreVerificationData:GetBossUICfgByBossType(arg_9_0.bossType_)
-
-	arg_9_0.nameText_.text = GetI18NText(var_9_1.main_name)
-
-	local var_9_2 = CoreVerificationData:GetRecommendByBossType(arg_9_0.bossType_)
-
-	if var_9_2[1] then
-		SetActive(arg_9_0.recommend1Img_.gameObject, true)
-
-		arg_9_0.recommend1Img_.sprite = HeroTools.GetSkillAttributeIcon(var_9_2[1])
+		slot0.recommend1Img_.sprite = HeroTools.GetSkillAttributeIcon(slot3[1])
 	else
-		SetActive(arg_9_0.recommend1Img_.gameObject, false)
+		SetActive(slot0.recommend1Img_.gameObject, false)
 	end
 
-	if var_9_2[2] then
-		SetActive(arg_9_0.recommend2Img_.gameObject, true)
+	if slot3[2] then
+		SetActive(slot0.recommend2Img_.gameObject, true)
 
-		arg_9_0.recommend2Img_.sprite = HeroTools.GetSkillAttributeIcon(var_9_2[2])
+		slot0.recommend2Img_.sprite = HeroTools.GetSkillAttributeIcon(slot3[2])
 	else
-		SetActive(arg_9_0.recommend2Img_.gameObject, false)
+		SetActive(slot0.recommend2Img_.gameObject, false)
 	end
 
-	arg_9_0:LoadModel()
-	arg_9_0:LoadBackScene()
+	slot0:LoadModel()
+	slot0:LoadBackScene()
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
 
-	arg_10_0.exitView_ = true
+	slot0.exitView_ = true
 
-	arg_10_0:UnloadModel()
-	arg_10_0:UnloadBackScene()
+	slot0:UnloadModel()
+	slot0:UnloadBackScene()
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	local var_11_0 = CoreVerificationData:GetAffixByTypeAndDiff(arg_11_0.bossType_, arg_11_0.curTab_)
-	local var_11_1 = getMosterAffix(var_11_0) or getHeroAffixs(var_11_0)
+function slot0.UpdateView(slot0)
+	slot2 = getMosterAffix(CoreVerificationData:GetAffixByTypeAndDiff(slot0.bossType_, slot0.curTab_)) or getHeroAffixs(slot1)
 
-	for iter_11_0 = 1, 3 do
-		if var_11_1[iter_11_0] then
-			SetActive(arg_11_0.affixGoList_[iter_11_0], true)
+	for slot6 = 1, 3 do
+		if slot2[slot6] then
+			SetActive(slot0.affixGoList_[slot6], true)
 
-			arg_11_0.affixImgList_[iter_11_0].sprite = getAffixSprite(var_11_1[iter_11_0])
-			arg_11_0.affixTextList_[iter_11_0].text = GetI18NText(getAffixDesc(var_11_1[iter_11_0]))
+			slot0.affixImgList_[slot6].sprite = getAffixSprite(slot2[slot6])
+			slot0.affixTextList_[slot6].text = GetI18NText(getAffixDesc(slot2[slot6]))
 		else
-			SetActive(arg_11_0.affixGoList_[iter_11_0], false)
+			SetActive(slot0.affixGoList_[slot6], false)
 		end
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.affixRoot_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.affixRoot_)
 
-	local var_11_2 = CoreVerificationData:GetInfoCfgByTypeAndDiff(arg_11_0.bossType_, arg_11_0.curTab_)
+	slot3 = CoreVerificationData:GetInfoCfgByTypeAndDiff(slot0.bossType_, slot0.curTab_)
+	slot0.curStageID_ = slot3.stage_id
+	slot0.infoID_ = slot3.id
+	slot0.lockHero_ = CoreVerificationData:GetLockHeroByBossType(slot0.bossType_)
 
-	arg_11_0.curStageID_ = var_11_2.stage_id
-	arg_11_0.infoID_ = var_11_2.id
-	arg_11_0.lockHero_ = CoreVerificationData:GetLockHeroByBossType(arg_11_0.bossType_)
+	if CoreVerificationData:GetStageInfoByTypeAndDiff(slot0.bossType_, slot0.curTab_) and slot4.passState then
+		slot0.passController_:SetSelectedState("complete")
 
-	local var_11_3 = CoreVerificationData:GetStageInfoByTypeAndDiff(arg_11_0.bossType_, arg_11_0.curTab_)
+		slot6 = manager.time
+		slot8 = slot6
+		slot0.timeText_.text = slot6.DescCdTime2(slot8, slot4.passTime)
 
-	if var_11_3 and var_11_3.passState then
-		arg_11_0.passController_:SetSelectedState("complete")
-
-		arg_11_0.timeText_.text = manager.time:DescCdTime2(var_11_3.passTime)
-
-		for iter_11_1 = 1, 6 do
-			arg_11_0.heroHeadItem_[iter_11_1]:SetData(arg_11_0.lockHero_[iter_11_1])
+		for slot8 = 1, 6 do
+			slot0.heroHeadItem_[slot8]:SetData(slot0.lockHero_[slot8])
 		end
-	elseif var_11_3 then
-		arg_11_0.passController_:SetSelectedState("empty")
-	elseif arg_11_0.curTab_ == 1 or CoreVerificationData:GetStageInfoByTypeAndDiff(arg_11_0.bossType_, arg_11_0.curTab_ - 1) then
-		arg_11_0.passController_:SetSelectedState("empty")
+	elseif slot4 then
+		slot0.passController_:SetSelectedState("empty")
+	elseif slot0.curTab_ == 1 or CoreVerificationData:GetStageInfoByTypeAndDiff(slot0.bossType_, slot0.curTab_ - 1) then
+		slot0.passController_:SetSelectedState("empty")
 	else
-		arg_11_0.passController_:SetSelectedState("lock")
+		slot0.passController_:SetSelectedState("lock")
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	for iter_12_0 = 1, 6 do
-		if arg_12_0.heroHeadItem_[iter_12_0] then
-			arg_12_0.heroHeadItem_[iter_12_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, 6 do
+		if slot0.heroHeadItem_[slot4] then
+			slot0.heroHeadItem_[slot4]:Dispose()
 
-			arg_12_0.heroHeadItem_[iter_12_0] = nil
+			slot0.heroHeadItem_[slot4] = nil
 		end
 	end
 
-	if arg_12_0.tabList_ then
-		arg_12_0.tabList_:Dispose()
+	if slot0.tabList_ then
+		slot0.tabList_:Dispose()
 
-		arg_12_0.tabList_ = nil
+		slot0.tabList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.LoadModel(arg_13_0)
-	arg_13_0:UnloadModel()
+function slot0.LoadModel(slot0)
+	slot0:UnloadModel()
 
-	local var_13_0 = CoreVerificationData:GetBossUICfgByBossType(arg_13_0.bossType_)
-
-	for iter_13_0, iter_13_1 in pairs(var_13_0.boss_id_list) do
-		arg_13_0.loadIndexList_[iter_13_0] = manager.resourcePool:AsyncLoad("Char/" .. MonsterCfg[iter_13_1].model_name, ASSET_TYPE.TPOSE, function(arg_14_0)
-			if arg_13_0.exitView_ then
-				manager.resourcePool:DestroyOrReturn(arg_14_0, ASSET_TYPE.TPOSE)
+	for slot5, slot6 in pairs(CoreVerificationData:GetBossUICfgByBossType(slot0.bossType_).boss_id_list) do
+		slot0.loadIndexList_[slot5] = manager.resourcePool:AsyncLoad("Char/" .. MonsterCfg[slot6].model_name, ASSET_TYPE.TPOSE, function (slot0)
+			if uv0.exitView_ then
+				manager.resourcePool:DestroyOrReturn(slot0, ASSET_TYPE.TPOSE)
 
 				return
 			end
 
-			local var_14_0 = var_13_0.model_pos[iter_13_0]
-			local var_14_1 = var_13_0.model_rot[iter_13_0]
-			local var_14_2 = var_13_0.model_scale[iter_13_0]
+			slot1 = uv1.model_pos[uv2]
+			slot2 = uv1.model_rot[uv2]
+			slot3 = uv1.model_scale[uv2]
+			uv0.bossModel_[uv2] = slot0
+			uv0.bossModel_[uv2].transform.localPosition = Vector3(slot1[1], slot1[2], slot1[3])
+			uv0.bossModel_[uv2].transform.localEulerAngles = Vector3(slot2[1], slot2[2], slot2[3])
+			uv0.bossModel_[uv2].transform.localScale = Vector3(slot3[1], slot3[2], slot3[3])
+			uv0.bossAnimatorList_[uv2] = uv0.bossModel_[uv2]:GetComponent(typeof(Animator))
 
-			arg_13_0.bossModel_[iter_13_0] = arg_14_0
-			arg_13_0.bossModel_[iter_13_0].transform.localPosition = Vector3(var_14_0[1], var_14_0[2], var_14_0[3])
-			arg_13_0.bossModel_[iter_13_0].transform.localEulerAngles = Vector3(var_14_1[1], var_14_1[2], var_14_1[3])
-			arg_13_0.bossModel_[iter_13_0].transform.localScale = Vector3(var_14_2[1], var_14_2[2], var_14_2[3])
-			arg_13_0.bossAnimatorList_[iter_13_0] = arg_13_0.bossModel_[iter_13_0]:GetComponent(typeof(Animator))
-
-			arg_13_0:PlayAppearAnimation(iter_13_0, function()
-				arg_13_0.bossAnimatorList_[iter_13_0]:CrossFadeInFixedTime("stand", 0.01)
+			uv0:PlayAppearAnimation(uv2, function ()
+				uv0.bossAnimatorList_[uv1]:CrossFadeInFixedTime("stand", 0.01)
 			end)
 		end)
 	end
 end
 
-function var_0_0.UnloadModel(arg_16_0)
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.bossModel_) do
-		arg_16_0.bossAnimatorList_[iter_16_0].applyRootMotion = arg_16_0.cacheRootMotionList_[iter_16_0]
+function slot0.UnloadModel(slot0)
+	for slot4, slot5 in pairs(slot0.bossModel_) do
+		slot0.bossAnimatorList_[slot4].applyRootMotion = slot0.cacheRootMotionList_[slot4]
 
-		manager.resourcePool:DestroyOrReturn(iter_16_1, ASSET_TYPE.TPOSE)
+		manager.resourcePool:DestroyOrReturn(slot5, ASSET_TYPE.TPOSE)
 	end
 
-	arg_16_0.bossModel_ = {}
-	arg_16_0.bossAnimatorList_ = {}
+	slot0.bossModel_ = {}
+	slot0.bossAnimatorList_ = {}
 
-	for iter_16_2, iter_16_3 in pairs(arg_16_0.loadIndexList_) do
-		manager.resourcePool:StopAsyncQuest(iter_16_3)
+	for slot4, slot5 in pairs(slot0.loadIndexList_) do
+		manager.resourcePool:StopAsyncQuest(slot5)
 	end
 
-	arg_16_0.loadIndexList_ = {}
+	slot0.loadIndexList_ = {}
 
-	arg_16_0:StopAllAnimatorTimer()
+	slot0:StopAllAnimatorTimer()
 end
 
-function var_0_0.PlayAppearAnimation(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = CoreVerificationData:GetBossUICfgByBossType(arg_17_0.bossType_)
-	local var_17_1 = arg_17_0.bossAnimatorList_[arg_17_1]
+function slot0.PlayAppearAnimation(slot0, slot1, slot2)
+	slot4 = slot0.bossAnimatorList_[slot1]
+	slot0.cacheRootMotionList_[slot1] = slot0.bossAnimatorList_[slot1].applyRootMotion
+	slot0.bossAnimatorList_[slot1].applyRootMotion = false
 
-	arg_17_0.cacheRootMotionList_[arg_17_1] = arg_17_0.bossAnimatorList_[arg_17_1].applyRootMotion
-	arg_17_0.bossAnimatorList_[arg_17_1].applyRootMotion = false
+	if type(CoreVerificationData:GetBossUICfgByBossType(slot0.bossType_).appear_ani) == "table" and slot3.appear_ani[slot1] ~= "" then
+		slot0.bossAnimatorList_[slot1]:Play(slot3.appear_ani[slot1])
 
-	if type(var_17_0.appear_ani) == "table" and var_17_0.appear_ani[arg_17_1] ~= "" then
-		arg_17_0.bossAnimatorList_[arg_17_1]:Play(var_17_0.appear_ani[arg_17_1])
+		slot5 = nil
+		slot5 = FrameTimer.New(function ()
+			if uv0:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
+				uv1:Stop()
+				table.removebyvalue(uv2.animatorTimer_, uv1)
 
-		local var_17_2
+				uv1 = nil
 
-		var_17_2 = FrameTimer.New(function()
-			if var_17_1:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
-				var_17_2:Stop()
-				table.removebyvalue(arg_17_0.animatorTimer_, var_17_2)
-
-				var_17_2 = nil
-
-				arg_17_2()
+				uv3()
 			end
 		end, 1, -1)
 
-		table.insert(arg_17_0.animatorTimer_, var_17_2)
-		var_17_2:Start()
-	else
-		arg_17_2()
+		table.insert(slot0.animatorTimer_, slot5)
+		slot5:Start()
+
+		return
+	end
+
+	slot2()
+end
+
+function slot0.StopAllAnimatorTimer(slot0)
+	for slot4 = #slot0.animatorTimer_, 1, -1 do
+		slot0.animatorTimer_[slot4]:Stop()
+
+		slot0.animatorTimer_[slot4] = nil
 	end
 end
 
-function var_0_0.StopAllAnimatorTimer(arg_19_0)
-	for iter_19_0 = #arg_19_0.animatorTimer_, 1, -1 do
-		arg_19_0.animatorTimer_[iter_19_0]:Stop()
+function slot0.LoadBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-		arg_19_0.animatorTimer_[iter_19_0] = nil
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
+
+	slot2 = GameDisplayCfg.boss_background_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], slot2[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot3 = GameDisplayCfg.boss_background_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(2, 2, 2)
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureBg/Core_Verification/bg2")
+end
+
+function slot0.UnloadBackScene(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
+
+		slot0.backGround_ = nil
 	end
 end
 
-function var_0_0.LoadBackScene(arg_20_0)
-	local var_20_0 = "UI/Common/BackgroundQuad"
-
-	arg_20_0.backGround_ = manager.resourcePool:Get(var_20_0, ASSET_TYPE.SCENE)
-	arg_20_0.backGroundTrs_ = arg_20_0.backGround_.transform
-
-	arg_20_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_20_1 = GameDisplayCfg.boss_background_pos.value
-
-	arg_20_0.backGroundTrs_.localPosition = Vector3(var_20_1[1], var_20_1[2], var_20_1[3])
-	arg_20_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_20_2 = GameDisplayCfg.boss_background_pos.scale
-
-	arg_20_0.backGroundTrs_.localScale = Vector3(2, 2, 2)
-	arg_20_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureBg/Core_Verification/bg2")
-end
-
-function var_0_0.UnloadBackScene(arg_21_0)
-	if arg_21_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_21_0.backGround_, ASSET_TYPE.SCENE)
-
-		arg_21_0.backGround_ = nil
-	end
-end
-
-return var_0_0
+return slot0

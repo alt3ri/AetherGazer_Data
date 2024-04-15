@@ -1,89 +1,81 @@
-local function var_0_0(arg_1_0, arg_1_1)
-	return (arg_1_0.x - arg_1_1.x) * (arg_1_0.x - arg_1_1.x) + (arg_1_0.y - arg_1_1.y) * (arg_1_0.y - arg_1_1.y) + (arg_1_0.z - arg_1_1.z) * (arg_1_0.z - arg_1_1.z)
+function slot0(slot0, slot1)
+	return (slot0.x - slot1.x) * (slot0.x - slot1.x) + (slot0.y - slot1.y) * (slot0.y - slot1.y) + (slot0.z - slot1.z) * (slot0.z - slot1.z)
 end
 
 return {
-	inc = function(arg_2_0)
-		return arg_2_0 + 1
+	inc = function (slot0)
+		return slot0 + 1
 	end,
-	dec = function(arg_3_0)
-		return arg_3_0 - 1
+	dec = function (slot0)
+		return slot0 - 1
 	end,
-	sum = function(...)
-		local var_4_0 = 0
-		local var_4_1 = {
+	sum = function (...)
+		for slot5 = 1, #{
 			...
-		}
-
-		for iter_4_0 = 1, #var_4_1 do
-			var_4_0 = var_4_0 + var_4_1[iter_4_0]
+		} do
+			slot0 = 0 + slot1[slot5]
 		end
 
-		return var_4_0
+		return slot0
 	end,
-	dist = function(arg_5_0, arg_5_1)
-		return math.sqrt(var_0_0(arg_5_0, arg_5_1))
+	dist = function (slot0, slot1)
+		return math.sqrt(uv0(slot0, slot1))
 	end,
-	count = function(arg_6_0)
-		return #arg_6_0
+	count = function (slot0)
+		return #slot0
 	end,
-	index = function(arg_7_0, arg_7_1)
-		return arg_7_0[arg_7_1]
+	index = function (slot0, slot1)
+		return slot0[slot1]
 	end,
-	pointAtCircle = function(arg_8_0, arg_8_1, arg_8_2)
-		local var_8_0 = Vector3.New(arg_8_0.x - arg_8_1.x, arg_8_0.y - arg_8_1.y, arg_8_0.z - arg_8_1.z)
-		local var_8_1 = Vector3.Normalize(var_8_0)
+	pointAtCircle = function (slot0, slot1, slot2)
+		slot3 = Vector3.Normalize(Vector3.New(slot0.x - slot1.x, slot0.y - slot1.y, slot0.z - slot1.z))
 
-		var_8_1:Mul(arg_8_2)
-		var_8_1:Add(arg_8_1)
+		slot3:Mul(slot2)
+		slot3:Add(slot1)
 
-		return var_8_1
+		return slot3
 	end,
-	radians4point2d = function(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-		return lk.math2d.radians4point(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
+	radians4point2d = function (slot0, slot1, slot2, slot3)
+		return lk.math2d.radians4point(slot0, slot1, slot2, slot3)
 	end,
-	radians2degrees = function(arg_10_0)
-		return lk.math2d.radians2degrees(arg_10_0)
+	radians2degrees = function (slot0)
+		return lk.math2d.radians2degrees(slot0)
 	end,
-	kvPair = function(arg_11_0, arg_11_1)
+	kvPair = function (slot0, slot1)
 		return {
-			[arg_11_0] = arg_11_1
+			[slot0] = slot1
 		}
 	end,
-	["and"] = function(...)
-		local var_12_0 = {
+	["and"] = function (...)
+		for slot4 = 1, #{
 			...
-		}
-
-		for iter_12_0 = 1, #var_12_0 do
-			if not var_12_0[iter_12_0] then
+		} do
+			if not slot0[slot4] then
 				return false
 			end
 		end
 
 		return true
 	end,
-	["or"] = function(...)
-		local var_13_0 = {
+	["or"] = function (...)
+		for slot4 = 1, #{
 			...
-		}
-
-		for iter_13_0 = 1, #var_13_0 do
-			if var_13_0[iter_13_0] then
+		} do
+			if slot0[slot4] then
 				return true
 			end
 		end
 
 		return false
 	end,
-	["not"] = function(arg_14_0)
-		return not arg_14_0
+	["not"] = function (slot0)
+		return not slot0
 	end,
-	["if"] = function(arg_15_0, arg_15_1, arg_15_2)
-		if arg_15_0 then
-			return arg_15_1
+	["if"] = function (slot0, slot1, slot2)
+		if slot0 then
+			return slot1
 		else
-			return arg_15_2
+			return slot2
 		end
 	end
 }

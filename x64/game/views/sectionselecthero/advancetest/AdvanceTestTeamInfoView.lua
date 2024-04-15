@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("AdvanceTestTeamInfoView", var_0_0)
+slot1 = class("AdvanceTestTeamInfoView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.GetHeroList(arg_1_0)
+function slot1.GetHeroList(slot0)
 	return AdvanceTestData:GetSortedHeroList()
 end
 
-return var_0_1
+return slot1

@@ -1,224 +1,213 @@
-local var_0_0 = class("PosterGirlMgr")
+slot0 = class("PosterGirlMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.view_tag = PosterGirlConst.ViewTag.null
-	arg_1_0.view_data = nil
-	arg_1_0.actor = nil
+function slot0.Ctor(slot0)
+	slot0.view_tag = PosterGirlConst.ViewTag.null
+	slot0.view_data = nil
+	slot0.actor = nil
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	return
+function slot0.Init(slot0)
 end
 
-function var_0_0.SetViewTag(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_1 == arg_3_0.view_tag then
+function slot0.SetViewTag(slot0, slot1, slot2)
+	if slot1 == slot0.view_tag then
 		return
 	end
 
-	arg_3_0.view_tag = arg_3_1
-	arg_3_0.view_data = arg_3_2
+	slot0.view_tag = slot1
+	slot0.view_data = slot2
 
-	if PosterGirlConst.ViewTag.null == arg_3_0.view_tag then
-		if arg_3_0.actor then
-			arg_3_0.actor:Dispose()
+	if PosterGirlConst.ViewTag.null == slot0.view_tag then
+		if slot0.actor then
+			slot0.actor:Dispose()
 		end
 
-		arg_3_0.actor = nil
+		slot0.actor = nil
 	else
-		arg_3_0:RefreshModel()
+		slot0:RefreshModel()
 	end
 end
 
-function var_0_0.GetViewTag(arg_4_0)
-	return arg_4_0.view_tag
+function slot0.GetViewTag(slot0)
+	return slot0.view_tag
 end
 
-function var_0_0.RefreshModel(arg_5_0)
-	if arg_5_0.view_tag == PosterGirlConst.ViewTag.playerInfo_other then
-		arg_5_0:RefreshOtherModel(arg_5_0.view_data)
+function slot0.RefreshModel(slot0)
+	if slot0.view_tag == PosterGirlConst.ViewTag.playerInfo_other then
+		slot0:RefreshOtherModel(slot0.view_data)
 	else
-		arg_5_0:RefreshCommonModel()
+		slot0:RefreshCommonModel()
 	end
 
-	if arg_5_0.actor then
-		arg_5_0.actor:UpdateViewTag(arg_5_0.view_tag)
-		arg_5_0.actor:DoInit(arg_5_0.view_tag)
+	if slot0.actor then
+		slot0.actor:UpdateViewTag(slot0.view_tag)
+		slot0.actor:DoInit(slot0.view_tag)
 	end
 end
 
-function var_0_0.RefreshCommonModel(arg_6_0)
-	local var_6_0 = PlayerData:GetPlayerInfo().poster_girl
-	local var_6_1 = HeroTools.HeroUsingSkinInfo(var_6_0).id
-	local var_6_2 = SkinCfg[var_6_1]
-	local var_6_3 = SkinSceneActionCfg[var_6_1]
-	local var_6_4 = HomeSceneSettingData:GetCurScene()
+function slot0.RefreshCommonModel(slot0)
+	slot3 = HeroTools.HeroUsingSkinInfo(PlayerData:GetPlayerInfo().poster_girl).id
+	slot4 = SkinCfg[slot3]
+	slot6 = HomeSceneSettingData:GetCurScene()
 
-	if var_6_3 and var_6_3.special_scene_id == var_6_4 then
-		local var_6_5 = var_6_3.special_action
-
-		if arg_6_0.actor and arg_6_0.actor:GetSkinId() == var_6_1 and arg_6_0.actor:GetModelId() == var_6_5 then
+	if SkinSceneActionCfg[slot3] and slot5.special_scene_id == slot6 then
+		if slot0.actor and slot0.actor:GetSkinId() == slot3 and slot0.actor:GetModelId() == slot5.special_action then
 			return
 		end
 
-		if arg_6_0.actor then
-			arg_6_0.actor:Dispose()
+		if slot0.actor then
+			slot0.actor:Dispose()
 		end
 
-		if HomeSceneSettingCfg[var_6_4].limit_display == 0 then
-			arg_6_0.actor = PosterGirlDlcActor.New(var_6_1, var_6_5)
+		if HomeSceneSettingCfg[slot6].limit_display == 0 then
+			slot0.actor = PosterGirlDlcActor.New(slot3, slot7)
 		else
-			arg_6_0.actor = PosterTzeroActor.New(var_6_1, var_6_5)
+			slot0.actor = PosterTzeroActor.New(slot3, slot7)
 		end
 	else
-		local var_6_6 = var_6_2.main_model_id
-
-		if arg_6_0.actor and arg_6_0.actor:GetSkinId() == var_6_1 and arg_6_0.actor:GetModelId() == var_6_6 then
+		if slot0.actor and slot0.actor:GetSkinId() == slot3 and slot0.actor:GetModelId() == slot4.main_model_id then
 			return
 		end
 
-		if arg_6_0.actor then
-			arg_6_0.actor:Dispose()
+		if slot0.actor then
+			slot0.actor:Dispose()
 		end
 
-		arg_6_0.actor = PosterCommonActor.New(var_6_1, var_6_6)
+		slot0.actor = PosterCommonActor.New(slot3, slot7)
 	end
 end
 
-function var_0_0.RefreshOtherModel(arg_7_0, arg_7_1)
-	local var_7_0 = SkinCfg[arg_7_1].main_model_id
-
-	if arg_7_0.actor and arg_7_0.actor:GetSkinId() == arg_7_1 and arg_7_0.actor:GetModelId() == var_7_0 then
+function slot0.RefreshOtherModel(slot0, slot1)
+	if slot0.actor and slot0.actor:GetSkinId() == slot1 and slot0.actor:GetModelId() == SkinCfg[slot1].main_model_id then
 		return
 	end
 
-	if arg_7_0.actor then
-		arg_7_0.actor:Dispose()
+	if slot0.actor then
+		slot0.actor:Dispose()
 	end
 
-	arg_7_0.actor = PosterCommonActor.New(arg_7_1, var_7_0)
+	slot0.actor = PosterCommonActor.New(slot1, slot3)
 end
 
-function var_0_0.GetTag(arg_8_0)
-	if arg_8_0.actor then
-		return arg_8_0.actor:GetTag()
+function slot0.GetTag(slot0)
+	if slot0.actor then
+		return slot0.actor:GetTag()
 	end
 
 	return PosterGirlConst.PosterGirlTag.null
 end
 
-function var_0_0.GetViewDirect(arg_9_0)
-	if arg_9_0.actor then
-		return arg_9_0.actor:GetViewDirect()
+function slot0.GetViewDirect(slot0)
+	if slot0.actor then
+		return slot0.actor:GetViewDirect()
 	end
 
 	return 0
 end
 
-function var_0_0.Dispose(arg_10_0)
-	if arg_10_0.actor then
-		arg_10_0.actor:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.actor then
+		slot0.actor:Dispose()
 	end
 
-	arg_10_0.actor = nil
-	arg_10_0.view_tag = PosterGirlConst.ViewTag.null
+	slot0.actor = nil
+	slot0.view_tag = PosterGirlConst.ViewTag.null
 end
 
-function var_0_0.SetForceRandomIndex(arg_11_0, arg_11_1)
-	arg_11_0.randomIndex = arg_11_1
+function slot0.SetForceRandomIndex(slot0, slot1)
+	slot0.randomIndex = slot1
 end
 
-function var_0_0.GetForceRandomIndex(arg_12_0)
-	local var_12_0 = arg_12_0.randomIndex
+function slot0.GetForceRandomIndex(slot0)
+	slot0.randomIndex = nil
 
-	arg_12_0.randomIndex = nil
-
-	return var_12_0
+	return slot0.randomIndex
 end
 
-function var_0_0.CheckDebut(arg_13_0)
-	if not arg_13_0.actor then
+function slot0.CheckDebut(slot0)
+	if not slot0.actor then
 		return false
 	end
 
-	return arg_13_0.actor:CheckDebut()
+	return slot0.actor:CheckDebut()
 end
 
-function var_0_0.SkipDebut(arg_14_0)
-	if not arg_14_0.actor then
+function slot0.SkipDebut(slot0)
+	if not slot0.actor then
 		return false
 	end
 
-	return arg_14_0.actor:SkipDebut()
+	return slot0.actor:SkipDebut()
 end
 
-function var_0_0.IsPlayingDebut(arg_15_0)
-	if arg_15_0.actor then
-		return arg_15_0.actor:IsPlayingDebut()
+function slot0.IsPlayingDebut(slot0)
+	if slot0.actor then
+		return slot0.actor:IsPlayingDebut()
 	end
 
 	return false
 end
 
-function var_0_0.DoShacking(arg_16_0)
-	if arg_16_0.actor and #arg_16_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.shaking] ~= 0 then
-		arg_16_0.actor:DoShacking()
+function slot0.DoShacking(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.shaking] ~= 0 then
+		slot0.actor:DoShacking()
 	end
 end
 
-function var_0_0.DoTouch(arg_17_0)
-	if arg_17_0.actor and #arg_17_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.mainTouch] ~= 0 then
-		arg_17_0.actor:DoTouch()
+function slot0.DoTouch(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.mainTouch] ~= 0 then
+		slot0.actor:DoTouch()
 	end
 end
 
-function var_0_0.DoQuickTouch(arg_18_0)
-	if arg_18_0.actor and #arg_18_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.mainQuickTouch] ~= 0 then
-		arg_18_0.actor:DoQuickTouch()
+function slot0.DoQuickTouch(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.mainQuickTouch] ~= 0 then
+		slot0.actor:DoQuickTouch()
 	end
 end
 
-function var_0_0.DoShowing(arg_19_0)
-	if arg_19_0.actor and #arg_19_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.showing] ~= 0 then
-		arg_19_0.actor:DoShowing()
+function slot0.DoShowing(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.showing] ~= 0 then
+		slot0.actor:DoShowing()
 	end
 end
 
-function var_0_0.DoGreeting(arg_20_0)
-	if arg_20_0.actor and #arg_20_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.greeting] ~= 0 then
-		arg_20_0.actor:DoGreeting()
+function slot0.DoGreeting(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.greeting] ~= 0 then
+		slot0.actor:DoGreeting()
 	end
 end
 
-function var_0_0.DoIdle(arg_21_0)
-	if arg_21_0.actor and #arg_21_0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.idle] ~= 0 then
-		arg_21_0.actor:DoIdle()
+function slot0.DoIdle(slot0)
+	if slot0.actor and #slot0.actor:GetInteractionCfg()[PosterGirlConst.InteractionKey.idle] ~= 0 then
+		slot0.actor:DoIdle()
 	end
 end
 
-function var_0_0.InitTouchHelp(arg_22_0, arg_22_1)
-	if arg_22_0.actor then
-		arg_22_0.actor:InitTouchHelp(arg_22_1)
+function slot0.InitTouchHelp(slot0, slot1)
+	if slot0.actor then
+		slot0.actor:InitTouchHelp(slot1)
 	end
 end
 
-function var_0_0.TouchHelpIdle(arg_23_0)
-	if arg_23_0.actor then
-		arg_23_0.actor:TouchHelpIdle()
+function slot0.TouchHelpIdle(slot0)
+	if slot0.actor then
+		slot0.actor:TouchHelpIdle()
 	end
 end
 
-function var_0_0.TouchHelpSingleDrag(arg_24_0, arg_24_1, arg_24_2)
-	if arg_24_0.actor then
-		arg_24_0.actor:TouchHelpSingleDrag(arg_24_1, arg_24_2)
+function slot0.TouchHelpSingleDrag(slot0, slot1, slot2)
+	if slot0.actor then
+		slot0.actor:TouchHelpSingleDrag(slot1, slot2)
 	end
 end
 
-function var_0_0.TouchHelpMutiDrag(arg_25_0, arg_25_1)
-	if arg_25_0.actor then
-		arg_25_0.actor:TouchHelpMutiDrag(arg_25_1)
+function slot0.TouchHelpMutiDrag(slot0, slot1)
+	if slot0.actor then
+		slot0.actor:TouchHelpMutiDrag(slot1)
 	end
 end
 
-return var_0_0
+return slot0

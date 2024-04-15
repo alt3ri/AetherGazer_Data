@@ -1,16 +1,16 @@
-local var_0_0 = class("MailBoxView", ReduxView)
+slot0 = class("MailBoxView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Mail/MailUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.letterContentItems_ = {}
-	arg_3_0.letterContentClass_ = {
+function slot0.OnCtor(slot0)
+	slot0.letterContentItems_ = {}
+	slot0.letterContentClass_ = {
 		MailImageItemView,
 		MailTextItemView,
 		MailRewardItemView,
@@ -18,32 +18,32 @@ function var_0_0.OnCtor(arg_3_0)
 	}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.letterTemplate_ = {
-		arg_4_0.imageTemplate_,
-		arg_4_0.textTemplate_,
-		arg_4_0.rewardTemplate_,
-		arg_4_0.titleTemplate_
+	slot0.letterTemplate_ = {
+		slot0.imageTemplate_,
+		slot0.textTemplate_,
+		slot0.rewardTemplate_,
+		slot0.titleTemplate_
 	}
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.letterUiList_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexLetterItem), arg_5_0.mailListGo_, MailBoxListItem)
-	arg_5_0.rewardUiList_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexRewardItem), arg_5_0.rewardListGo_, MailBoxRewardItem)
-	arg_5_0.allReceiveCon_ = arg_5_0.conExCollection_:GetController("Receive_All")
-	arg_5_0.emptyController_ = arg_5_0.conExCollection_:GetController("empty")
-	arg_5_0.rewardController_ = arg_5_0.conExCollection_:GetController("reward")
-	arg_5_0.starController_ = ControllerUtil.GetController(arg_5_0.starBtn_.transform, "star")
-	arg_5_0.modeController_ = arg_5_0.conExCollection_:GetController("mode")
+	slot0.letterUiList_ = LuaList.New(handler(slot0, slot0.IndexLetterItem), slot0.mailListGo_, MailBoxListItem)
+	slot0.rewardUiList_ = LuaList.New(handler(slot0, slot0.IndexRewardItem), slot0.rewardListGo_, MailBoxRewardItem)
+	slot0.allReceiveCon_ = slot0.conExCollection_:GetController("Receive_All")
+	slot0.emptyController_ = slot0.conExCollection_:GetController("empty")
+	slot0.rewardController_ = slot0.conExCollection_:GetController("reward")
+	slot0.starController_ = ControllerUtil.GetController(slot0.starBtn_.transform, "star")
+	slot0.modeController_ = slot0.conExCollection_:GetController("mode")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.delBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.delBtn_, nil, function ()
 		if MailData.GetTotal() <= MailData.GetUnread() then
 			ShowTips("NO_MAIL_CAN_BE_DELETED")
 
@@ -54,18 +54,17 @@ function var_0_0.AddUIListener(arg_6_0)
 			title = GetTips("PROMPT"),
 			content = GetTips("MAIL_DELETE_CONFIRM"),
 			SecondTip = GetTips("MAIL_DELETE_CONFIRM_NOTICE"),
-			OkCallback = function()
+			OkCallback = function ()
 				MailAction.TryToDeteleMail(0)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.letterBtn_, nil, function()
+	slot0:AddBtnListener(slot0.letterBtn_, nil, function ()
 		JumpTools.GoToSystem("/letterBox")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.allReceiveBtn_, nil, function()
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
 		if MailData.GetTotal() == 0 then
 			ShowTips("ERROR_NO_MAIL_CAN_RECEIVE")
 
@@ -74,407 +73,377 @@ function var_0_0.AddUIListener(arg_6_0)
 
 		MailAction.ReceiveAllMails()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.receiveBtn_, nil, function()
-		if MailData.GetMail(arg_6_0.curMailId_).attach_flag == 2 then
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if MailData.GetMail(uv0.curMailId_).attach_flag == 2 then
 			return
 		end
 
-		arg_6_0:OnClickReceiveBtn()
+		uv0:OnClickReceiveBtn()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.removeBtn_, nil, function()
-		if MailData.GetMail(arg_6_0.curMailId_).attach_flag == 1 then
+	slot0:AddBtnListener(slot0.removeBtn_, nil, function ()
+		if MailData.GetMail(uv0.curMailId_).attach_flag == 1 then
 			return
 		end
 
-		arg_6_0:OnClickDeleteBtn()
+		uv0:OnClickDeleteBtn()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.starBtn_, nil, function()
-		local var_14_0 = MailData.GetMail(arg_6_0.curMailId_).star_state
-
-		MailAction.SetMailStar(arg_6_0.curMailId_, var_14_0 == 1 and 0 or 1)
+	slot0:AddBtnListener(slot0.starBtn_, nil, function ()
+		MailAction.SetMailStar(uv0.curMailId_, MailData.GetMail(uv0.curMailId_).star_state == 1 and 0 or 1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.dlcBtn_, nil, function()
-		arg_6_0:OnClickGotoPurchase()
+	slot0:AddBtnListener(slot0.dlcBtn_, nil, function ()
+		uv0:OnClickGotoPurchase()
 	end)
 end
 
-function var_0_0.AddEventListener(arg_16_0)
-	arg_16_0:RegistEventListener(MAIL_BRIEF_UPDATE, handler(arg_16_0, arg_16_0.OnBriefUpdate))
-	arg_16_0:RegistEventListener(MAIL_LIST_UPDATE, handler(arg_16_0, arg_16_0.OnMailListUpdate))
-	arg_16_0:RegistEventListener(MAIL_INFO_UPDATE, handler(arg_16_0, arg_16_0.OnMailInfoUpdate))
-	arg_16_0:RegistEventListener(MAIL_STAR_UPDATE, handler(arg_16_0, arg_16_0.OnMailStarUpdate))
+function slot0.AddEventListener(slot0)
+	slot0:RegistEventListener(MAIL_BRIEF_UPDATE, handler(slot0, slot0.OnBriefUpdate))
+	slot0:RegistEventListener(MAIL_LIST_UPDATE, handler(slot0, slot0.OnMailListUpdate))
+	slot0:RegistEventListener(MAIL_INFO_UPDATE, handler(slot0, slot0.OnMailInfoUpdate))
+	slot0:RegistEventListener(MAIL_STAR_UPDATE, handler(slot0, slot0.OnMailStarUpdate))
 end
 
-function var_0_0.IndexRewardItem(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = MailData.GetMail(arg_17_0.curMailId_)
+function slot0.IndexRewardItem(slot0, slot1, slot2)
+	slot3 = MailData.GetMail(slot0.curMailId_)
 
-	arg_17_2:SetRewardData(var_17_0.rewardList[arg_17_1], var_17_0.attach_flag == 2)
+	slot2:SetRewardData(slot3.rewardList[slot1], slot3.attach_flag == 2)
 end
 
-function var_0_0.IndexLetterItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = arg_18_0:GetMailSortedList()[arg_18_1]
-	local var_18_1 = MailData.GetMail(var_18_0)
-
-	arg_18_2:SetMailData(var_18_1)
-	arg_18_2:SetClickHandler(function()
-		arg_18_0:OnClickLetter(arg_18_1, arg_18_2)
+function slot0.IndexLetterItem(slot0, slot1, slot2)
+	slot2:SetMailData(MailData.GetMail(slot0:GetMailSortedList()[slot1]))
+	slot2:SetClickHandler(function ()
+		uv0:OnClickLetter(uv1, uv2)
 	end)
 
-	if arg_18_0.curMailId_ then
-		if arg_18_0.curMailId_ == var_18_0 then
-			arg_18_2:SetSelected(true)
+	if slot0.curMailId_ then
+		if slot0.curMailId_ == slot3 then
+			slot2:SetSelected(true)
 		else
-			arg_18_2:SetSelected(false)
+			slot2:SetSelected(false)
 		end
-	elseif arg_18_1 == 1 then
-		arg_18_0:SelectItem(1)
+	elseif slot1 == 1 then
+		slot0:SelectItem(1)
 	end
 
-	arg_18_2:UpdateView()
+	slot2:UpdateView()
 end
 
-function var_0_0.OnEnter(arg_20_0)
+function slot0.OnEnter(slot0)
 	MailAction.SortMailManual()
-	arg_20_0:AddEventListener()
-	manager.redPoint:bindUIandKey(arg_20_0.letterTrans_, RedPointConst.LETTER_UNREAD)
-	arg_20_0:RefreshUI()
-	arg_20_0:StartTimer()
+	slot0:AddEventListener()
+	manager.redPoint:bindUIandKey(slot0.letterTrans_, RedPointConst.LETTER_UNREAD)
+	slot0:RefreshUI()
+	slot0:StartTimer()
 end
 
-function var_0_0.OnTop(arg_21_0)
-	arg_21_0:ShowDefaultBar()
+function slot0.OnTop(slot0)
+	slot0:ShowDefaultBar()
 end
 
-function var_0_0.OnExit(arg_22_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_22_0:RemoveAllEventListener()
-	arg_22_0:RemoveTimer()
-	manager.redPoint:unbindUIandKey(arg_22_0.letterTrans_)
-	arg_22_0:SelectItem(nil)
+	slot0:RemoveAllEventListener()
+	slot0:RemoveTimer()
+	manager.redPoint:unbindUIandKey(slot0.letterTrans_)
+	slot0:SelectItem(nil)
 end
 
-function var_0_0.RefreshUI(arg_23_0)
-	arg_23_0:UpdateList(true)
-	arg_23_0:RefreshLeftUI()
+function slot0.RefreshUI(slot0)
+	slot0:UpdateList(true)
+	slot0:RefreshLeftUI()
 end
 
-function var_0_0.OnMailInfoUpdate(arg_24_0, arg_24_1)
-	if arg_24_0.curMailId_ ~= nil and arg_24_1.id == arg_24_0.curMailId_ then
-		arg_24_0:RefreshLetterUI(arg_24_1.id, true)
+function slot0.OnMailInfoUpdate(slot0, slot1)
+	if slot0.curMailId_ ~= nil and slot1.id == slot0.curMailId_ then
+		slot0:RefreshLetterUI(slot1.id, true)
 	end
 end
 
-function var_0_0.OnMailStarUpdate(arg_25_0, arg_25_1)
-	if arg_25_1.id == arg_25_0.curMailId_ then
-		arg_25_0:RefreshStarUI()
+function slot0.OnMailStarUpdate(slot0, slot1)
+	if slot1.id == slot0.curMailId_ then
+		slot0:RefreshStarUI()
 
-		if arg_25_1.star_state == 1 then
-			arg_25_0:UpdateList(false)
+		if slot1.star_state == 1 then
+			slot0:UpdateList(false)
 		end
 	end
 end
 
-function var_0_0.OnBriefUpdate(arg_26_0)
-	arg_26_0:RefreshLeftUI()
+function slot0.OnBriefUpdate(slot0)
+	slot0:RefreshLeftUI()
 end
 
-function var_0_0.OnMailListUpdate(arg_27_0)
+function slot0.OnMailListUpdate(slot0)
 	if not MailData.IsMailDataComplete() then
-		MailData.GetMailListFromServer(handler(arg_27_0, function()
-			arg_27_0:UpdateList()
-			arg_27_0:RefreshLeftUI()
+		MailData.GetMailListFromServer(handler(slot0, function ()
+			uv0:UpdateList()
+			uv0:RefreshLeftUI()
 		end))
 	else
-		arg_27_0:UpdateList()
-		arg_27_0:RefreshLeftUI()
+		slot0:UpdateList()
+		slot0:RefreshLeftUI()
 	end
 end
 
-function var_0_0.DeleteCurrentMail(arg_29_0, arg_29_1)
-	local var_29_0 = arg_29_1 or arg_29_0.curMailId_
-
-	if var_29_0 == nil then
+function slot0.DeleteCurrentMail(slot0, slot1)
+	if (slot1 or slot0.curMailId_) == nil then
 		return
 	end
 
-	if table.indexof(arg_29_0:GetMailSortedList(), var_29_0) == false then
+	if table.indexof(slot0:GetMailSortedList(), slot2) == false then
 		return
 	end
 
-	MailAction.DeleteOneMail(var_29_0)
+	MailAction.DeleteOneMail(slot2)
 end
 
-function var_0_0.SelectItem(arg_30_0, arg_30_1)
-	if arg_30_1 == nil then
-		arg_30_0.curIndex_ = nil
-		arg_30_0.curMailId_ = nil
+function slot0.SelectItem(slot0, slot1)
+	if slot1 == nil then
+		slot0.curIndex_ = nil
+		slot0.curMailId_ = nil
 
-		if arg_30_0.curLetterItem_ then
-			arg_30_0.curLetterItem_:SetSelected(false)
-			arg_30_0.curLetterItem_:UpdateView()
+		if slot0.curLetterItem_ then
+			slot0.curLetterItem_:SetSelected(false)
+			slot0.curLetterItem_:UpdateView()
 
-			arg_30_0.curLetterItem_ = nil
+			slot0.curLetterItem_ = nil
 		end
 
 		return
 	end
 
-	local var_30_0 = arg_30_0:GetMailSortedList()[arg_30_1]
-
-	if var_30_0 == 0 then
+	if slot0:GetMailSortedList()[slot1] == 0 then
 		return
 	end
 
-	if arg_30_0.curLetterItem_ then
-		arg_30_0.curLetterItem_:SetSelected(false)
-		arg_30_0.curLetterItem_:UpdateView()
+	if slot0.curLetterItem_ then
+		slot0.curLetterItem_:SetSelected(false)
+		slot0.curLetterItem_:UpdateView()
 	end
 
-	local var_30_1 = arg_30_0.letterUiList_:GetItemByIndex(arg_30_1)
+	slot4 = slot0.letterUiList_:GetItemByIndex(slot1)
+	slot0.curIndex_ = slot1
+	slot0.curMailId_ = slot3
+	slot0.curLetterItem_ = slot4
 
-	arg_30_0.curIndex_ = arg_30_1
-	arg_30_0.curMailId_ = var_30_0
-	arg_30_0.curLetterItem_ = var_30_1
-
-	var_30_1:SetSelected(true)
-	MailAction.ReadMail(var_30_0)
-	arg_30_0:RefreshLetterUI(var_30_0)
+	slot4:SetSelected(true)
+	MailAction.ReadMail(slot3)
+	slot0:RefreshLetterUI(slot3)
 end
 
-function var_0_0.OnClickLetter(arg_31_0, arg_31_1, arg_31_2)
-	arg_31_0:SelectItem(arg_31_1)
+function slot0.OnClickLetter(slot0, slot1, slot2)
+	slot0:SelectItem(slot1)
 end
 
-function var_0_0.OnClickDeleteBtn(arg_32_0)
-	local var_32_0 = arg_32_0.curMailId_
-
-	if var_32_0 ~= nil and var_32_0 ~= 0 then
-		if MailData.GetMail(var_32_0).star_state == 1 then
+function slot0.OnClickDeleteBtn(slot0)
+	if slot0.curMailId_ ~= nil and slot1 ~= 0 then
+		if MailData.GetMail(slot1).star_state == 1 then
 			ShowMessageBox({
 				isTop = true,
 				title = GetTips("PROMPT"),
 				content = string.format(GetTips("MAIL_STAR_DELETE_TIP")),
-				OkCallback = function()
-					arg_32_0:DeleteCurrentMail(var_32_0)
+				OkCallback = function ()
+					uv0:DeleteCurrentMail(uv1)
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		else
-			arg_32_0:DeleteCurrentMail()
+			slot0:DeleteCurrentMail()
 		end
 	end
 end
 
-function var_0_0.OnClickReceiveBtn(arg_35_0)
-	MailAction.TryToGetMailAttachment(arg_35_0.curMailId_)
+function slot0.OnClickReceiveBtn(slot0)
+	MailAction.TryToGetMailAttachment(slot0.curMailId_)
 end
 
-function var_0_0.OnClickGotoPurchase(arg_36_0)
-	local var_36_0 = MailData.GetMail(arg_36_0.curMailId_)
-
-	if var_36_0 and MailTools.CheckIsPurchaseTemplate(var_36_0.mail_template_id) then
-		if var_36_0.mail_template_id == MailConst.MAIL_ID_CONST.SKIN_DLC_EXPIRE and var_36_0.link_param[1] and var_36_0.link_param[2] and var_36_0.link_param[3] then
-			ShopTools.JumpToSkinShop(var_36_0.link_param[2], true, var_36_0.link_param[1], var_36_0.link_param[3])
-		elseif var_36_0.mail_template_id == MailConst.MAIL_ID_CONST.SKIN_EXPIRE and var_36_0.link_param[1] then
-			ShopTools.JumpToSkinShop(var_36_0.link_param[1], false)
+function slot0.OnClickGotoPurchase(slot0)
+	if MailData.GetMail(slot0.curMailId_) and MailTools.CheckIsPurchaseTemplate(slot1.mail_template_id) then
+		if slot1.mail_template_id == MailConst.MAIL_ID_CONST.SKIN_DLC_EXPIRE and slot1.link_param[1] and slot1.link_param[2] and slot1.link_param[3] then
+			ShopTools.JumpToSkinShop(slot1.link_param[2], true, slot1.link_param[1], slot1.link_param[3])
+		elseif slot1.mail_template_id == MailConst.MAIL_ID_CONST.SKIN_EXPIRE and slot1.link_param[1] then
+			ShopTools.JumpToSkinShop(slot1.link_param[1], false)
 		end
 	end
 end
 
-function var_0_0.RefreshLetterUI(arg_37_0, arg_37_1, arg_37_2)
-	local var_37_0 = MailData.GetMail(arg_37_1)
+function slot0.RefreshLetterUI(slot0, slot1, slot2)
+	slot0.titleText_.text = MailData.GetMailTitle(slot1)
+	slot0.dateText_.text = manager.time:STimeDescS(MailData.GetMail(slot1).date, "!%Y-%m-%d")
 
-	arg_37_0.titleText_.text = MailData.GetMailTitle(arg_37_1)
-	arg_37_0.dateText_.text = manager.time:STimeDescS(var_37_0.date, "!%Y-%m-%d")
-
-	if not arg_37_2 then
-		SetActive(arg_37_0.itemParent_.gameObject, false)
-		MailData.TryToGetMailDetail(var_37_0.id, handler(arg_37_0, function()
-			arg_37_0:UpdateMailContentView(var_37_0)
-			TimeTools.StartAfterSeconds(0.1, function()
-				UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_37_0.itemParent_.transform)
-				SetActive(arg_37_0.itemParent_.gameObject, true)
+	if not slot2 then
+		SetActive(slot0.itemParent_.gameObject, false)
+		MailData.TryToGetMailDetail(slot3.id, handler(slot0, function ()
+			uv0:UpdateMailContentView(uv1)
+			TimeTools.StartAfterSeconds(0.1, function ()
+				UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.itemParent_.transform)
+				SetActive(uv0.itemParent_.gameObject, true)
 			end, {})
 		end))
 	else
-		SetActive(arg_37_0.itemParent_.gameObject, true)
+		SetActive(slot0.itemParent_.gameObject, true)
 	end
 
-	arg_37_0.rewardUiList_:StartScroll(#var_37_0.rewardList)
-	arg_37_0:RenderRewardState(var_37_0)
+	slot0.rewardUiList_:StartScroll(#slot3.rewardList)
+	slot0:RenderRewardState(slot3)
 end
 
-function var_0_0.RenderRewardState(arg_40_0, arg_40_1)
-	if MailTools.CheckIsPurchaseTemplate(arg_40_1.mail_template_id) then
-		arg_40_0.rewardController_:SetSelectedState("dlc")
-		arg_40_0.modeController_:SetSelectedState("delete")
+function slot0.RenderRewardState(slot0, slot1)
+	if MailTools.CheckIsPurchaseTemplate(slot1.mail_template_id) then
+		slot0.rewardController_:SetSelectedState("dlc")
+		slot0.modeController_:SetSelectedState("delete")
 
 		return
 	end
 
-	if arg_40_1.attach_flag == 0 then
-		arg_40_0.rewardController_:SetSelectedState("false")
-		arg_40_0.modeController_:SetSelectedState("delete")
-	elseif arg_40_1.attach_flag == 2 then
-		arg_40_0.rewardController_:SetSelectedState("true")
-		arg_40_0.modeController_:SetSelectedState("delete")
+	if slot1.attach_flag == 0 then
+		slot0.rewardController_:SetSelectedState("false")
+		slot0.modeController_:SetSelectedState("delete")
+	elseif slot1.attach_flag == 2 then
+		slot0.rewardController_:SetSelectedState("true")
+		slot0.modeController_:SetSelectedState("delete")
 	else
-		arg_40_0.rewardController_:SetSelectedState("true")
-		arg_40_0.modeController_:SetSelectedState("reward")
+		slot0.rewardController_:SetSelectedState("true")
+		slot0.modeController_:SetSelectedState("reward")
 	end
 end
 
-function var_0_0.RefreshStarUI(arg_41_0)
-	if MailData.GetMail(arg_41_0.curMailId_).star_state == 1 then
-		arg_41_0.starController_:SetSelectedState("true")
+function slot0.RefreshStarUI(slot0)
+	if MailData.GetMail(slot0.curMailId_).star_state == 1 then
+		slot0.starController_:SetSelectedState("true")
 	else
-		arg_41_0.starController_:SetSelectedState("false")
+		slot0.starController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshLeftUI(arg_42_0)
-	local var_42_0 = GameSetting.max_mail_count.value[1]
+function slot0.RefreshLeftUI(slot0)
+	slot0.mailNumText_.text = string.format("%d/%d", MailData.GetTotal(), GameSetting.max_mail_count.value[1])
 
-	arg_42_0.mailNumText_.text = string.format("%d/%d", MailData.GetTotal(), var_42_0)
-
-	arg_42_0:RefreshAllReceiveUI()
+	slot0:RefreshAllReceiveUI()
 end
 
-function var_0_0.RefreshCountdownUI(arg_43_0)
-	for iter_43_0, iter_43_1 in pairs(arg_43_0.letterUiList_:GetItemList()) do
-		if iter_43_1 then
-			iter_43_1:UpdateCountdown()
+function slot0.RefreshCountdownUI(slot0)
+	slot3 = slot0.letterUiList_
+	slot5 = slot3
+
+	for slot4, slot5 in pairs(slot3.GetItemList(slot5)) do
+		if slot5 then
+			slot5:UpdateCountdown()
 		end
 	end
 end
 
-function var_0_0.RefreshAllReceiveUI(arg_44_0)
-	local var_44_0 = arg_44_0:GetMailSortedList()
-	local var_44_1 = false
+function slot0.RefreshAllReceiveUI(slot0)
+	slot2 = false
 
-	for iter_44_0, iter_44_1 in pairs(var_44_0) do
-		local var_44_2 = MailData.GetMail(iter_44_1)
-
-		if var_44_2 and var_44_2.attach_flag == 1 then
-			var_44_1 = true
+	for slot6, slot7 in pairs(slot0:GetMailSortedList()) do
+		if MailData.GetMail(slot7) and slot8.attach_flag == 1 then
+			slot2 = true
 
 			break
 		end
 	end
 
-	arg_44_0.allReceiveCon_:SetSelectedState(var_44_1 and "true" or "false")
+	slot0.allReceiveCon_:SetSelectedState(slot2 and "true" or "false")
 end
 
-function var_0_0.UpdateMailContentView(arg_45_0, arg_45_1)
-	arg_45_0.senderText_.text = MailData.GetMailSender(arg_45_1.id)
+function slot0.UpdateMailContentView(slot0, slot1)
+	slot0.senderText_.text = MailData.GetMailSender(slot1.id)
 
-	arg_45_0:RefreshStarUI()
-	arg_45_0:ClearLetterContent()
+	slot0:RefreshStarUI()
+	slot0:ClearLetterContent()
 
-	local var_45_0 = MailData.GetMailContent(arg_45_1.id)
-
-	for iter_45_0, iter_45_1 in ipairs(var_45_0) do
-		arg_45_0:CreateContent(iter_45_1)
+	for slot6, slot7 in ipairs(MailData.GetMailContent(slot1.id)) do
+		slot0:CreateContent(slot7)
 	end
 end
 
-function var_0_0.CreateContent(arg_46_0, arg_46_1)
-	local var_46_0 = arg_46_1.content_type
-	local var_46_1 = arg_46_0.letterContentClass_[var_46_0]
-	local var_46_2 = arg_46_0.letterTemplate_[var_46_0]
-	local var_46_3 = Object.Instantiate(var_46_2, arg_46_0.itemParent_.transform)
-	local var_46_4 = var_46_1.New(var_46_3)
+function slot0.CreateContent(slot0, slot1)
+	slot2 = slot1.content_type
+	slot6 = slot0.letterContentClass_[slot2].New(Object.Instantiate(slot0.letterTemplate_[slot2], slot0.itemParent_.transform))
 
-	var_46_4:SetData(arg_46_1)
-	table.insert(arg_46_0.letterContentItems_, var_46_4)
+	slot6:SetData(slot1)
+	table.insert(slot0.letterContentItems_, slot6)
 end
 
-function var_0_0.UpdateList(arg_47_0, arg_47_1)
-	local var_47_0 = MailData.GetTotal()
+function slot0.UpdateList(slot0, slot1)
+	slot0.emptyController_:SetSelectedState(MailData.GetTotal() <= 0 and "true" or "false")
 
-	arg_47_0.emptyController_:SetSelectedState(var_47_0 <= 0 and "true" or "false")
-
-	if var_47_0 <= 0 then
-		arg_47_0.letterUiList_:StartScroll(0)
-		arg_47_0:SelectItem(nil)
+	if slot2 <= 0 then
+		slot0.letterUiList_:StartScroll(0)
+		slot0:SelectItem(nil)
 	else
-		local var_47_1 = arg_47_0:GetMailSortedList()
+		slot3 = slot0:GetMailSortedList()
 
-		if arg_47_0.curMailId_ then
-			local var_47_2 = table.indexof(var_47_1, arg_47_0.curMailId_)
-
-			if var_47_2 then
-				arg_47_0.curIndex_ = var_47_2
+		if slot0.curMailId_ then
+			if table.indexof(slot3, slot0.curMailId_) then
+				slot0.curIndex_ = slot4
 			else
-				arg_47_0.curIndex_ = math.min(arg_47_0.curIndex_, #var_47_1)
+				slot0.curIndex_ = math.min(slot0.curIndex_, #slot3)
 			end
 
-			arg_47_0.letterUiList_:StartScroll(#var_47_1, arg_47_0.curIndex_, not arg_47_1)
-			arg_47_0:SelectItem(arg_47_0.curIndex_)
+			slot0.letterUiList_:StartScroll(#slot3, slot0.curIndex_, not slot1)
+			slot0:SelectItem(slot0.curIndex_)
 		else
-			arg_47_0.letterUiList_:StartScroll(#var_47_1)
+			slot0.letterUiList_:StartScroll(#slot3)
 		end
 	end
 end
 
-function var_0_0.StartTimer(arg_48_0)
-	if not arg_48_0.timer_ then
-		arg_48_0.timer_ = Timer.New(function()
-			local var_49_0 = MailData.GetTimeoutMailIdList()
-
-			if #var_49_0 > 0 then
-				MailData.DeleteMail(var_49_0)
+function slot0.StartTimer(slot0)
+	if not slot0.timer_ then
+		slot0.timer_ = Timer.New(function ()
+			if #MailData.GetTimeoutMailIdList() > 0 then
+				MailData.DeleteMail(slot0)
 				ShowTips("MAIL_EXPIRED")
 			end
 
-			arg_48_0:RefreshCountdownUI()
+			uv0:RefreshCountdownUI()
 		end, 1, -1)
 	end
 
-	arg_48_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.RemoveTimer(arg_50_0)
-	if arg_50_0.timer_ then
-		arg_50_0.timer_:Stop()
+function slot0.RemoveTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_50_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_51_0)
-	if arg_51_0.letterUiList_ then
-		arg_51_0.letterUiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.letterUiList_ then
+		slot0.letterUiList_:Dispose()
 
-		arg_51_0.letterUiList_ = nil
+		slot0.letterUiList_ = nil
 	end
 
-	if arg_51_0.rewardUiList_ then
-		arg_51_0.rewardUiList_:Dispose()
+	if slot0.rewardUiList_ then
+		slot0.rewardUiList_:Dispose()
 
-		arg_51_0.rewardUiList_ = nil
+		slot0.rewardUiList_ = nil
 	end
 
-	arg_51_0:ClearLetterContent()
+	slot0:ClearLetterContent()
 
-	arg_51_0.letterContentItems_ = nil
+	slot0.letterContentItems_ = nil
 
 	manager.classPool:DisposeOnePool(MailBoxListItem)
-	var_0_0.super.Dispose(arg_51_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.ClearLetterContent(arg_52_0)
-	for iter_52_0 = #arg_52_0.letterContentItems_, 1, -1 do
-		arg_52_0.letterContentItems_[iter_52_0]:Dispose()
+function slot0.ClearLetterContent(slot0)
+	for slot4 = #slot0.letterContentItems_, 1, -1 do
+		slot0.letterContentItems_[slot4]:Dispose()
 
-		arg_52_0.letterContentItems_[iter_52_0] = nil
+		slot0.letterContentItems_[slot4] = nil
 	end
 end
 
-function var_0_0.GetMailSortedList(arg_53_0)
+function slot0.GetMailSortedList(slot0)
 	return MailData.GetMailSort()
 end
 
-return var_0_0
+return slot0

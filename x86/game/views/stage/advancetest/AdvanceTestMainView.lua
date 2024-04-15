@@ -1,125 +1,120 @@
-local var_0_0 = class("AdvanceTestMainView", ReduxView)
+slot0 = class("AdvanceTestMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/AdvancetestingUI/AtestingMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.mainActivityID = AdvanceTestData:GetMainActivityID()
+function slot0.Init(slot0)
+	slot0.mainActivityID = AdvanceTestData:GetMainActivityID()
 
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.stageEasyItem_ = AdvanceTestMainItem.New(arg_3_0.stageEasyGo_, 1)
-	arg_3_0.stageNormalItem_ = AdvanceTestMainItem.New(arg_3_0.stageNormalGo_, 2)
-	arg_3_0.stageHardItem_ = AdvanceTestMainItem.New(arg_3_0.stageHardGo_, 3)
-	arg_3_0.stageItem_ = {
-		arg_3_0.stageEasyItem_,
-		arg_3_0.stageNormalItem_,
-		arg_3_0.stageHardItem_
+	slot0.stageEasyItem_ = AdvanceTestMainItem.New(slot0.stageEasyGo_, 1)
+	slot0.stageNormalItem_ = AdvanceTestMainItem.New(slot0.stageNormalGo_, 2)
+	slot0.stageHardItem_ = AdvanceTestMainItem.New(slot0.stageHardGo_, 3)
+	slot0.stageItem_ = {
+		slot0.stageEasyItem_,
+		slot0.stageNormalItem_,
+		slot0.stageHardItem_
 	}
-	arg_3_0.bossItem_ = AdvanceTestBossItem.New(arg_3_0.bossItem_)
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
-	arg_3_0.clickItemHandler = handler(arg_3_0, arg_3_0.ChooseItemMode)
+	slot0.bossItem_ = AdvanceTestBossItem.New(slot0.bossItem_)
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.clickItemHandler = handler(slot0, slot0.ChooseItemMode)
 
-	arg_3_0.stageEasyItem_:RegistClickFunc(arg_3_0.clickItemHandler)
-	arg_3_0.stageNormalItem_:RegistClickFunc(arg_3_0.clickItemHandler)
-	arg_3_0.stageHardItem_:RegistClickFunc(arg_3_0.clickItemHandler)
+	slot0.stageEasyItem_:RegistClickFunc(slot0.clickItemHandler)
+	slot0.stageNormalItem_:RegistClickFunc(slot0.clickItemHandler)
+	slot0.stageHardItem_:RegistClickFunc(slot0.clickItemHandler)
 
-	arg_3_0.clickBossBtnHandler = handler(arg_3_0, arg_3_0.ClickBtn)
+	slot0.clickBossBtnHandler = handler(slot0, slot0.ClickBtn)
 
-	arg_3_0.bossItem_:RegistClickFunc(arg_3_0.clickBossBtnHandler)
+	slot0.bossItem_:RegistClickFunc(slot0.clickBossBtnHandler)
 end
 
-function var_0_0.ChooseItemMode(arg_4_0, arg_4_1)
-	arg_4_0.chooseIndex_ = arg_4_1
+function slot0.ChooseItemMode(slot0, slot1)
+	slot0.chooseIndex_ = slot1
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
 
-	local var_5_0 = ActivityData:GetActivityData(arg_5_0.mainActivityID)
-
-	arg_5_0.startTime_ = var_5_0.startTime
-	arg_5_0.stopTime_ = var_5_0.stopTime
-	arg_5_0.chooseIndex_ = AdvanceTestData:GetLastSelectIndex()
-	arg_5_0.goBtn_.enabled = false
+	slot1 = ActivityData:GetActivityData(slot0.mainActivityID)
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
+	slot0.chooseIndex_ = AdvanceTestData:GetLastSelectIndex()
+	slot0.goBtn_.enabled = false
 
 	AdvanceTestData:InitDefalutHeroList()
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_5_0.selectController_:GetSelectedState() == "detail" then
-			arg_5_0.selectController_:SetSelectedState("list")
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.selectController_:GetSelectedState() == "detail" then
+			uv0.selectController_:SetSelectedState("list")
 		else
 			JumpTools.Back()
 		end
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_5_0.selectController_:SetSelectedState("list")
-		gameContext:Go("/home", nil, nil, true)
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0.selectController_:SetSelectedState("list")
+		gameContext:Go("/home", nil, , true)
 	end)
 	manager.windowBar:SetGameHelpKey(GetTips("TEST_CHALLENGE_DESCRIBE"))
 
-	local var_5_1 = AdvanceTestCfg.get_id_list_by_activity_id[arg_5_0.mainActivityID]
+	slot2 = AdvanceTestCfg.get_id_list_by_activity_id[slot0.mainActivityID]
 
-	for iter_5_0 = 1, 3 do
-		SetActive(arg_5_0.stageItem_[iter_5_0].gameObject_, false)
+	for slot6 = 1, 3 do
+		SetActive(slot0.stageItem_[slot6].gameObject_, false)
 	end
 
-	for iter_5_1 = 1, 3 do
-		if var_5_1[iter_5_1] then
-			local var_5_2 = AdvanceTestCfg[var_5_1[iter_5_1]]
-
-			SetActive(arg_5_0.stageItem_[var_5_2.stage_type].gameObject_, true)
+	for slot6 = 1, 3 do
+		if slot2[slot6] then
+			SetActive(slot0.stageItem_[AdvanceTestCfg[slot2[slot6]].stage_type].gameObject_, true)
 		end
 	end
 
-	arg_5_0:RefreshUI()
-	arg_5_0:AddTimer()
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0.chooseIndex_ = nil
+function slot0.OnExit(slot0)
+	slot0.chooseIndex_ = nil
 
-	arg_8_0.selectController_:SetSelectedState("list")
+	slot0.selectController_:SetSelectedState("list")
 
-	arg_8_0.panelAni_.enabled = true
+	slot0.panelAni_.enabled = true
 
-	arg_8_0:StopTimer()
+	slot0:StopTimer()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_9_0.clickItemHandler = nil
+	slot0.clickItemHandler = nil
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.goBtn_, nil, function()
-		arg_10_0.selectController_:SetSelectedState("detail")
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		uv0.selectController_:SetSelectedState("detail")
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.rankBtn_, nil, function()
-		local var_12_0 = AdvanceTestData:GetCurActivityID()
-		local var_12_1 = manager.time:GetServerTime()
+	slot0:AddBtnListener(slot0.rankBtn_, nil, function ()
+		slot1 = manager.time:GetServerTime()
 
-		if var_12_0 ~= 0 then
-			local var_12_2 = ActivityData:GetActivityData(var_12_0)
-			local var_12_3 = var_12_2.stopTime
+		if AdvanceTestData:GetCurActivityID() ~= 0 then
+			slot2 = ActivityData:GetActivityData(slot0)
 
-			if var_12_1 > var_12_2.startTime and var_12_1 < var_12_3 then
+			if slot2.startTime < slot1 and slot1 < slot2.stopTime then
 				gameContext:Go("/advanceTestRank", {
-					activityID = var_12_0,
-					stageType = arg_10_0.chooseIndex_
+					activityID = slot0,
+					stageType = uv0.chooseIndex_
 				})
 
 				return
@@ -130,82 +125,79 @@ function var_0_0.AddListeners(arg_10_0)
 	end)
 end
 
-function var_0_0.ClickBtn(arg_13_0)
-	AdvanceTestData:SetLastSelectIndex(arg_13_0.chooseIndex_)
+function slot0.ClickBtn(slot0)
+	AdvanceTestData:SetLastSelectIndex(slot0.chooseIndex_)
 
-	local var_13_0 = AdvanceTestData:GetCurCfgByIndex(arg_13_0.chooseIndex_)
+	slot1 = AdvanceTestData:GetCurCfgByIndex(slot0.chooseIndex_)
 
-	AdvanceTestData:SetHeroListByDifficult(var_13_0.stage_type)
+	AdvanceTestData:SetHeroListByDifficult(slot1.stage_type)
 	gameContext:Go("/sectionSelectHero", {
-		section = var_13_0.stage_id,
+		section = slot1.stage_id,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_ADVANCE_TEST,
-		stageDifficult = var_13_0.stage_type,
-		activityID = arg_13_0.mainActivityID,
-		dest = var_13_0.id
+		stageDifficult = slot1.stage_type,
+		activityID = slot0.mainActivityID,
+		dest = slot1.id
 	})
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	SetActive(arg_14_0.panelGo_, true)
+function slot0.RefreshUI(slot0)
+	SetActive(slot0.panelGo_, true)
 
-	local var_14_0 = string.split(GetTips("TEST_CHALLENGE_TIPS_1"), ",")
-	local var_14_1 = AdvanceTestData:GetCurCfgByIndex(arg_14_0.chooseIndex_)
-
-	if var_14_0 ~= nil then
-		arg_14_0.tipTopText_.text = string.format(var_14_0[1], arg_14_0:GetStrByIndex(arg_14_0.chooseIndex_))
-		arg_14_0.tipBottomText_.text = string.format(var_14_0[2], var_14_1.weapon)
+	if string.split(GetTips("TEST_CHALLENGE_TIPS_1"), ",") ~= nil then
+		slot0.tipTopText_.text = string.format(slot1[1], slot0:GetStrByIndex(slot0.chooseIndex_))
+		slot0.tipBottomText_.text = string.format(slot1[2], AdvanceTestData:GetCurCfgByIndex(slot0.chooseIndex_).weapon)
 	end
 
-	arg_14_0.chooseIndex_ = arg_14_0.chooseIndex_
+	slot0.chooseIndex_ = slot0.chooseIndex_
 
-	arg_14_0.stageEasyItem_:RefreshUI(arg_14_0.chooseIndex_)
-	arg_14_0.stageNormalItem_:RefreshUI(arg_14_0.chooseIndex_)
-	arg_14_0.stageHardItem_:RefreshUI(arg_14_0.chooseIndex_)
-	arg_14_0.bossItem_:RefreshUI(arg_14_0.chooseIndex_)
+	slot0.stageEasyItem_:RefreshUI(slot0.chooseIndex_)
+	slot0.stageNormalItem_:RefreshUI(slot0.chooseIndex_)
+	slot0.stageHardItem_:RefreshUI(slot0.chooseIndex_)
+	slot0.bossItem_:RefreshUI(slot0.chooseIndex_)
 end
 
-function var_0_0.GetStrByIndex(arg_15_0, arg_15_1)
-	local var_15_0
+function slot0.GetStrByIndex(slot0, slot1)
+	slot2 = nil
 
-	if arg_15_1 == 1 then
-		var_15_0 = "SS"
-	elseif arg_15_1 == 2 then
-		var_15_0 = "SSS"
-	elseif arg_15_1 == 3 then
-		var_15_0 = "Ω"
+	if slot1 == 1 then
+		slot2 = "SS"
+	elseif slot1 == 2 then
+		slot2 = "SSS"
+	elseif slot1 == 3 then
+		slot2 = "Ω"
 	end
 
-	return var_15_0
+	return slot2
 end
 
-function var_0_0.AddTimer(arg_16_0)
-	arg_16_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_16_0.leftTimeText_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(arg_16_0.stopTime_, nil, true)
-	arg_16_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > arg_16_0.stopTime_ then
+	slot0.leftTimeText_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(slot0.stopTime_, nil, true)
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ < manager.time:GetServerTime() then
 			return
 		end
 
-		arg_16_0.leftTimeText_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(arg_16_0.stopTime_, nil, true)
+		uv0.leftTimeText_.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(uv0.stopTime_, nil, true)
 	end, 1, -1)
 
-	arg_16_0.timer_:Start()
+	slot0.timer_:Start()
 
-	arg_16_0.aniTimer_ = Timer.New(function()
-		arg_16_0.panelAni_.enabled = false
-		arg_16_0.goBtn_.enabled = true
+	slot0.aniTimer_ = Timer.New(function ()
+		uv0.panelAni_.enabled = false
+		uv0.goBtn_.enabled = true
 	end, 0.5, 1)
 
-	arg_16_0.aniTimer_:Start()
+	slot0.aniTimer_:Start()
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,81 +1,78 @@
-local var_0_0 = class("PuzzlePiece", ReduxView)
+slot0 = class("PuzzlePiece", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.onClickHandler_ = handler(arg_2_0, arg_2_0.OnClick)
+function slot0.Init(slot0)
+	slot0.onClickHandler_ = handler(slot0, slot0.OnClick)
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0.clickListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(arg_4_0.onClickHandler_))
+function slot0.AddUIListener(slot0)
+	slot0.clickListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerClick, LuaHelper.EventTriggerAction1(slot0.onClickHandler_))
 end
 
-function var_0_0.OnClick(arg_5_0)
-	if arg_5_0.ID_ ~= arg_5_0.emptyFlag_ and arg_5_0.selectCallBack_ ~= nil then
-		arg_5_0.selectCallBack_(arg_5_0.index_)
+function slot0.OnClick(slot0)
+	if slot0.ID_ ~= slot0.emptyFlag_ and slot0.selectCallBack_ ~= nil then
+		slot0.selectCallBack_(slot0.index_)
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.activityID_ = arg_6_3
-	arg_6_0.ID_ = arg_6_1
-	arg_6_0.index_ = arg_6_2
-	arg_6_0.emptyFlag_ = ActivityPuzzleCfg[arg_6_0.activityID_].block
-	arg_6_0.size_ = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.activityID_ = slot3
+	slot0.ID_ = slot1
+	slot0.index_ = slot2
+	slot0.emptyFlag_ = ActivityPuzzleCfg[slot0.activityID_].block
+	slot0.size_ = slot4
 
-	arg_6_0:RefreshUI()
-	SetActive(arg_6_0.gameObject_, true)
+	slot0:RefreshUI()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.SetID(arg_7_0, arg_7_1)
-	arg_7_0.ID_ = arg_7_1
+function slot0.SetID(slot0, slot1)
+	slot0.ID_ = slot1
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetSelectCallBack(arg_8_0, arg_8_1)
-	arg_8_0.selectCallBack_ = arg_8_1
+function slot0.SetSelectCallBack(slot0, slot1)
+	slot0.selectCallBack_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	if arg_9_0.ID_ ~= arg_9_0.emptyFlag_ then
-		local var_9_0 = ActivityPuzzleCfg[arg_9_0.activityID_].picture_array
-		local var_9_1 = ActivityPuzzleCfg[arg_9_0.activityID_].path
-
-		arg_9_0.renderer_.sprite = getSprite(var_9_1, tostring(var_9_0[arg_9_0.ID_]))
+function slot0.RefreshUI(slot0)
+	if slot0.ID_ ~= slot0.emptyFlag_ then
+		slot0.renderer_.sprite = getSprite(ActivityPuzzleCfg[slot0.activityID_].path, tostring(ActivityPuzzleCfg[slot0.activityID_].picture_array[slot0.ID_]))
 	else
-		arg_9_0.renderer_.sprite = nil
+		slot0.renderer_.sprite = nil
 	end
 
-	arg_9_0.renderer_.size = arg_9_0.size_
+	slot0.renderer_.size = slot0.size_
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.clickListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerClick)
+function slot0.Dispose(slot0)
+	slot0.clickListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerClick)
 
-	arg_10_0.transform_ = nil
-	arg_10_0.gameObject_ = nil
-	arg_10_0.selectCallBack_ = nil
-	arg_10_0.onClickHandler_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.selectCallBack_ = nil
+	slot0.onClickHandler_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetActive(arg_11_0, arg_11_1)
-	SetActive(arg_11_0.gameObject_, arg_11_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

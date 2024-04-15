@@ -1,263 +1,253 @@
-local var_0_0 = class("GuildBossSelectHeroView", SectionSelectHeroBaseView)
+slot0 = class("GuildBossSelectHeroView", SectionSelectHeroBaseView)
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_1_0.heroInfoList_ = {}
+	slot0.heroInfoList_ = {}
 
-	for iter_1_0 = 1, 3 do
-		arg_1_0["assistantController" .. iter_1_0] = ControllerUtil.GetController(arg_1_0["heroRect_" .. iter_1_0], "assistant")
+	for slot4 = 1, 3 do
+		slot0["assistantController" .. slot4] = ControllerUtil.GetController(slot0["heroRect_" .. slot4], "assistant")
 	end
 end
 
-function var_0_0.GoHeroInfoUI(arg_2_0, arg_2_1)
-	arg_2_0:Go("/guildBossTeamInfo", {
+function slot0.GoHeroInfoUI(slot0, slot1)
+	slot0:Go("/guildBossTeamInfo", {
 		isEnter = true,
-		selectHeroPos = arg_2_1,
-		stageID = arg_2_0.stageID_,
-		activityID = arg_2_0.params_.activityID,
-		stageType = arg_2_0.stageType_,
-		heroList = arg_2_0.heroInfoList_,
-		reserveParams = arg_2_0.reserveParams_
+		selectHeroPos = slot1,
+		stageID = slot0.stageID_,
+		activityID = slot0.params_.activityID,
+		stageType = slot0.stageType_,
+		heroList = slot0.heroInfoList_,
+		reserveParams = slot0.reserveParams_
 	})
 end
 
-function var_0_0.GetSelectHero(arg_3_0)
-	local var_3_0 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
+function slot0.GetSelectHero(slot0)
+	slot1 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
+	slot0.cacheHeroTeam_, slot0.lockStateList_, slot0.lockList_, slot0.heroTrialList_, _ = slot1:GetHeroList(slot0.reserveParams_)
+	slot0.heroInfoList_ = slot1:GetCurHeroInfoList()
 
-	arg_3_0.cacheHeroTeam_, arg_3_0.lockStateList_, arg_3_0.lockList_, arg_3_0.heroTrialList_, _ = var_3_0:GetHeroList(arg_3_0.reserveParams_)
-	arg_3_0.heroInfoList_ = var_3_0:GetCurHeroInfoList()
-
-	arg_3_0:RefreshAssistantHero()
+	slot0:RefreshAssistantHero()
 end
 
-function var_0_0.SaveTeamInfo(arg_4_0)
-	arg_4_0:GuildBossChangeHeroTeam(arg_4_0.heroInfoList_)
+function slot0.SaveTeamInfo(slot0)
+	slot0:GuildBossChangeHeroTeam(slot0.heroInfoList_)
 end
 
-function var_0_0.OnHeroChange(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_2 == nil then
-		arg_5_2 = 0
+function slot0.OnHeroChange(slot0, slot1, slot2)
+	if slot2 == nil then
+		slot2 = 0
 	end
 
-	if arg_5_2 == 0 then
-		for iter_5_0 = arg_5_1, 2 do
-			arg_5_0.heroInfoList_[iter_5_0] = arg_5_0.heroInfoList_[iter_5_0 + 1]
+	if slot2 == 0 then
+		for slot6 = slot1, 2 do
+			slot0.heroInfoList_[slot6] = slot0.heroInfoList_[slot6 + 1]
 		end
 
-		arg_5_0.heroInfoList_[3] = nil
+		slot0.heroInfoList_[3] = nil
 	else
-		local var_5_0 = arg_5_0.heroInfoList_[1]
-
-		if var_5_0 ~= nil and var_5_0.type == 1 and var_5_0.heroId == arg_5_2 and arg_5_0.heroInfoList_[arg_5_1] == nil then
+		if slot0.heroInfoList_[1] ~= nil and slot3.type == 1 and slot3.heroId == slot2 and slot0.heroInfoList_[slot1] == nil then
 			return
 		end
 
-		if arg_5_2 ~= nil and arg_5_2 > 0 then
-			arg_5_0.heroInfoList_[arg_5_1] = {
+		if slot2 ~= nil and slot2 > 0 then
+			slot0.heroInfoList_[slot1] = {
 				type = 1,
-				heroId = arg_5_2
+				heroId = slot2
 			}
 		else
-			arg_5_0.heroInfoList_[arg_5_1] = nil
+			slot0.heroInfoList_[slot1] = nil
 		end
 	end
 
-	arg_5_0:GuildBossChangeHeroTeam(arg_5_0.heroInfoList_)
+	slot0:GuildBossChangeHeroTeam(slot0.heroInfoList_)
 end
 
-function var_0_0.OnAssistantHeroChange(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_2 == nil then
-		for iter_6_0 = arg_6_1, 2 do
-			arg_6_0.heroInfoList_[iter_6_0] = arg_6_0.heroInfoList_[iter_6_0 + 1]
+function slot0.OnAssistantHeroChange(slot0, slot1, slot2)
+	if slot2 == nil then
+		for slot6 = slot1, 2 do
+			slot0.heroInfoList_[slot6] = slot0.heroInfoList_[slot6 + 1]
 		end
 
-		arg_6_0.heroInfoList_[3] = nil
+		slot0.heroInfoList_[3] = nil
 	else
-		local var_6_0 = arg_6_0.heroInfoList_[1]
-
-		if var_6_0 ~= nil and var_6_0.type == 2 and var_6_0.info.assist_hero_id == arg_6_2.assist_hero_id and var_6_0.info.member_id == arg_6_2.member_id and arg_6_0.heroInfoList_[arg_6_1] == nil then
+		if slot0.heroInfoList_[1] ~= nil and slot3.type == 2 and slot3.info.assist_hero_id == slot2.assist_hero_id and slot3.info.member_id == slot2.member_id and slot0.heroInfoList_[slot1] == nil then
 			return
 		end
 
-		if arg_6_2 ~= nil then
-			arg_6_0.heroInfoList_[arg_6_1] = {
+		if slot2 ~= nil then
+			slot0.heroInfoList_[slot1] = {
 				type = 2,
-				info = arg_6_2
+				info = slot2
 			}
 		else
-			arg_6_0.heroInfoList_[arg_6_1] = nil
+			slot0.heroInfoList_[slot1] = nil
 		end
 	end
 
-	arg_6_0:GuildBossChangeHeroTeam(arg_6_0.heroInfoList_)
+	slot0:GuildBossChangeHeroTeam(slot0.heroInfoList_)
 end
 
-function var_0_0.GetHeroPower(arg_7_0, arg_7_1)
-	if arg_7_0.heroInfoList_[arg_7_1] and arg_7_0.heroInfoList_[arg_7_1].type == 2 then
-		return arg_7_0.heroInfoList_[arg_7_1].info.fight_capacity
+function slot0.GetHeroPower(slot0, slot1)
+	if slot0.heroInfoList_[slot1] and slot0.heroInfoList_[slot1].type == 2 then
+		return slot0.heroInfoList_[slot1].info.fight_capacity
 	end
 
-	return getHeroPower(arg_7_0.heroInfoList_[arg_7_1].heroId, false)
+	return getHeroPower(slot0.heroInfoList_[slot1].heroId, false)
 end
 
-function var_0_0.GetSkinCfg(arg_8_0, arg_8_1)
-	if arg_8_0.heroInfoList_[arg_8_1] and arg_8_0.heroInfoList_[arg_8_1].type == 2 then
-		local var_8_0 = arg_8_0.heroInfoList_[arg_8_1].info.assist_hero_skin
-
-		if var_8_0 == 0 then
-			var_8_0 = arg_8_0.heroInfoList_[arg_8_1].info.assist_hero_id
+function slot0.GetSkinCfg(slot0, slot1)
+	if slot0.heroInfoList_[slot1] and slot0.heroInfoList_[slot1].type == 2 then
+		if slot0.heroInfoList_[slot1].info.assist_hero_skin == 0 then
+			slot2 = slot0.heroInfoList_[slot1].info.assist_hero_id
 		end
 
-		return SkinCfg[var_8_0]
+		return SkinCfg[slot2]
 	end
 
-	return arg_8_0:GetHeroCfg(arg_8_0.heroInfoList_[arg_8_1].heroId)
+	return slot0:GetHeroCfg(slot0.heroInfoList_[slot1].heroId)
 end
 
-function var_0_0.ChangeHeroTeam(arg_9_0, arg_9_1)
-	local var_9_0 = {}
+function slot0.ChangeHeroTeam(slot0, slot1)
+	slot2 = {}
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_1) do
-		for iter_9_2, iter_9_3 in ipairs(arg_9_0.heroInfoList_) do
-			if iter_9_3.type == 2 and iter_9_3.info.assist_hero_id == iter_9_1 then
-				var_9_0[iter_9_1] = iter_9_3
-			elseif iter_9_3.type == 1 and iter_9_3.heroId == iter_9_1 then
-				var_9_0[iter_9_1] = iter_9_3
+	for slot6, slot7 in ipairs(slot1) do
+		for slot11, slot12 in ipairs(slot0.heroInfoList_) do
+			if slot12.type == 2 and slot12.info.assist_hero_id == slot7 then
+				slot2[slot7] = slot12
+			elseif slot12.type == 1 and slot12.heroId == slot7 then
+				slot2[slot7] = slot12
 			end
 		end
 	end
 
-	local var_9_1 = {}
-
-	for iter_9_4, iter_9_5 in pairs(arg_9_1) do
-		var_9_1[iter_9_4] = var_9_0[iter_9_5]
+	for slot7, slot8 in pairs(slot1) do
+		-- Nothing
 	end
 
-	arg_9_0.heroInfoList_ = var_9_1
+	slot0.heroInfoList_ = {
+		[slot7] = slot2[slot8]
+	}
 
-	arg_9_0:GuildBossChangeHeroTeam(arg_9_0.heroInfoList_)
-	arg_9_0:RefreshAddBtn()
+	slot0:GuildBossChangeHeroTeam(slot0.heroInfoList_)
+	slot0:RefreshAddBtn()
 end
 
-function var_0_0.RefreshAssistantHero(arg_10_0)
-	for iter_10_0 = 1, 3 do
-		arg_10_0["assistantController" .. iter_10_0]:SetSelectedState("false")
+function slot0.RefreshAssistantHero(slot0)
+	for slot4 = 1, 3 do
+		slot0["assistantController" .. slot4]:SetSelectedState("false")
 	end
 
-	if arg_10_0.heroInfoList_ then
-		for iter_10_1, iter_10_2 in ipairs(arg_10_0.heroInfoList_) do
-			if iter_10_2.type == 2 then
-				arg_10_0["assistantController" .. iter_10_1]:SetSelectedState("true")
+	if slot0.heroInfoList_ then
+		for slot4, slot5 in ipairs(slot0.heroInfoList_) do
+			if slot5.type == 2 then
+				slot0["assistantController" .. slot4]:SetSelectedState("true")
 			else
-				arg_10_0["assistantController" .. iter_10_1]:SetSelectedState("false")
+				slot0["assistantController" .. slot4]:SetSelectedState("false")
 			end
 		end
 	end
 end
 
-function var_0_0.GuildBossChangeHeroTeam(arg_11_0, arg_11_1)
-	local var_11_0 = {}
-	local var_11_1 = {
+function slot0.GuildBossChangeHeroTeam(slot0, slot1)
+	slot3 = {
 		0,
 		0,
 		0
 	}
-	local var_11_2 = {}
-	local var_11_3 = {}
-	local var_11_4 = 1
+	slot4 = {}
+	slot5 = {}
+	slot6 = 1
 
-	for iter_11_0 = 1, 3 do
-		if arg_11_1[iter_11_0] then
-			local var_11_5 = arg_11_1[iter_11_0]
-
-			if var_11_5.type == 1 then
-				var_11_0[var_11_4] = var_11_5.heroId
-			elseif var_11_5.type == 2 then
-				var_11_0[var_11_4] = var_11_5.info.assist_hero_id
-				var_11_2[var_11_4] = var_11_5.info.member_id
+	for slot10 = 1, 3 do
+		if slot1[slot10] then
+			if slot1[slot10].type == 1 then
+				-- Nothing
+			elseif slot11.type == 2 then
+				slot2[slot6] = slot11.info.assist_hero_id
+				slot4[slot6] = slot11.info.member_id
 			end
 
-			var_11_4 = var_11_4 + 1
+			slot6 = slot6 + 1
 		end
 	end
 
-	local var_11_6 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
+	slot7 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
 
-	var_11_6:SetHeroList(arg_11_0.reserveParams_, var_11_0, var_11_1)
-	var_11_6:SetOwnerID(var_11_2)
+	slot7:SetHeroList(slot0.reserveParams_, {
+		[slot6] = slot11.heroId
+	}, slot3)
+	slot7:SetOwnerID(slot4)
 end
 
-function var_0_0.CheckComboSkillExist(arg_12_0, arg_12_1)
+function slot0.CheckComboSkillExist(slot0, slot1)
 	return true
 end
 
-function var_0_0.StartBattle(arg_13_0)
-	local var_13_0 = BattleStageFactory.Produce(arg_13_0.stageType_, arg_13_0.stageID_, 1, arg_13_0.reserveParams_)
-	local var_13_1 = {}
-	local var_13_2 = {}
-	local var_13_3 = {}
-	local var_13_4 = {}
+function slot0.StartBattle(slot0)
+	slot1 = BattleStageFactory.Produce(slot0.stageType_, slot0.stageID_, 1, slot0.reserveParams_)
+	slot2 = {}
+	slot3 = {}
+	slot4 = {}
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.heroInfoList_) do
-		if iter_13_1.type == 2 then
-			table.insert(var_13_1, iter_13_1.info.assist_hero_id)
-			table.insert(var_13_2, iter_13_1.info.member_id)
-			table.insert(var_13_3, iter_13_1.info.assist_hero_id)
-			table.insert(var_13_4, iter_13_1.info.member_id)
+	for slot9, slot10 in ipairs(slot0.heroInfoList_) do
+		if slot10.type == 2 then
+			table.insert(slot2, slot10.info.assist_hero_id)
+			table.insert(slot3, slot10.info.member_id)
+			table.insert(slot4, slot10.info.assist_hero_id)
+			table.insert({}, slot10.info.member_id)
 		else
-			table.insert(var_13_1, iter_13_1.heroId)
-			table.insert(var_13_2, "0")
+			table.insert(slot2, slot10.heroId)
+			table.insert(slot3, "0")
 		end
 	end
 
-	local var_13_5 = 0
+	slot6 = 0
 
-	var_13_0:SetGuildBossTeam(var_13_1, var_13_2)
-	var_13_0:SetMultiple(arg_13_0.multiple_)
-	var_13_0:SetDest(arg_13_0.params_.dest)
-	var_13_0:InitChipData()
+	slot1:SetGuildBossTeam(slot2, slot3)
+	slot1:SetMultiple(slot0.multiple_)
+	slot1:SetDest(slot0.params_.dest)
+	slot1:InitChipData()
 
-	if #var_13_3 > 0 then
-		for iter_13_2, iter_13_3 in ipairs(var_13_3) do
-			ForeignInfoAction:TryToCheckForeignHeroInfo(var_13_4[iter_13_2], iter_13_3, 2, function()
-				var_13_5 = var_13_5 + 1
+	if #slot4 > 0 then
+		for slot10, slot11 in ipairs(slot4) do
+			ForeignInfoAction:TryToCheckForeignHeroInfo(slot5[slot10], slot11, 2, function ()
+				uv0 = uv0 + 1
 
-				if var_13_5 >= #var_13_3 then
-					local var_14_0 = {}
+				if uv0 >= #uv1 then
+					slot0 = {}
 
-					for iter_14_0, iter_14_1 in ipairs(var_13_3) do
-						local var_14_1 = ForeignInfoData:GetHeroInfo(iter_14_1)
-						local var_14_2 = {}
+					for slot4, slot5 in ipairs(uv1) do
+						slot7 = {}
 
-						if var_14_1.using_hero_chip then
-							for iter_14_2, iter_14_3 in ipairs(var_14_1.using_hero_chip) do
-								if iter_14_3 > 0 then
-									table.insert(var_14_2, iter_14_3)
+						if ForeignInfoData:GetHeroInfo(slot5).using_hero_chip then
+							for slot11, slot12 in ipairs(slot6.using_hero_chip) do
+								if slot12 > 0 then
+									table.insert(slot7, slot12)
 								end
 							end
 						end
 
-						var_14_0[iter_14_1] = var_14_2
+						slot0[slot5] = slot7
 					end
 
-					var_13_0:SetChipDic(var_14_0)
-					BattleController.GetInstance():LaunchBattle(var_13_0)
+					uv2:SetChipDic(slot0)
+					BattleController.GetInstance():LaunchBattle(uv2)
 				end
 			end)
 		end
 	else
-		BattleController.GetInstance():LaunchBattle(var_13_0)
+		BattleController.GetInstance():LaunchBattle(slot1)
 	end
 end
 
-function var_0_0.GotoReservesUI(arg_15_0)
-	if arg_15_0.heroInfoList_ then
-		local var_15_0 = arg_15_0.cacheHeroTeam_
+function slot0.GotoReservesUI(slot0)
+	if slot0.heroInfoList_ then
+		slot1 = slot0.cacheHeroTeam_
 
-		for iter_15_0, iter_15_1 in ipairs(arg_15_0.heroInfoList_) do
-			if iter_15_1.type == 2 then
-				var_15_0 = {}
+		for slot5, slot6 in ipairs(slot0.heroInfoList_) do
+			if slot6.type == 2 then
+				slot1 = {}
 
 				break
 			end
@@ -265,31 +255,31 @@ function var_0_0.GotoReservesUI(arg_15_0)
 
 		JumpTools.OpenPageByJump("/reservesUI", {
 			isInit = true,
-			stage_type = arg_15_0.stageType_,
-			activityID = arg_15_0.params_.activityID,
-			hero_list = var_15_0,
-			hero_trial_list = arg_15_0.heroTrialList_,
-			lockList = arg_15_0.lockList_,
-			comboSkill = arg_15_0.comboSkillView_:GetCurComboSkill(),
+			stage_type = slot0.stageType_,
+			activityID = slot0.params_.activityID,
+			hero_list = slot1,
+			hero_trial_list = slot0.heroTrialList_,
+			lockList = slot0.lockList_,
+			comboSkill = slot0.comboSkillView_:GetCurComboSkill(),
 			chipInfo = {
-				enabledID = arg_15_0.chipView_:GetCurEnabledID(),
-				chipList = arg_15_0.chipView_:GetCurChipList()
+				enabledID = slot0.chipView_:GetCurEnabledID(),
+				chipList = slot0.chipView_:GetCurChipList()
 			},
-			reserveParams = arg_15_0.reserveParams_
+			reserveParams = slot0.reserveParams_
 		})
 	end
 end
 
-function var_0_0.GetHeroId(arg_16_0, arg_16_1)
-	if arg_16_0.heroInfoList_[arg_16_1] == nil then
+function slot0.GetHeroId(slot0, slot1)
+	if slot0.heroInfoList_[slot1] == nil then
 		return 0
 	end
 
-	if arg_16_0.heroInfoList_[arg_16_1].type == 1 then
-		return arg_16_0.heroInfoList_[arg_16_1].heroId
+	if slot0.heroInfoList_[slot1].type == 1 then
+		return slot0.heroInfoList_[slot1].heroId
 	end
 
-	return arg_16_0.heroInfoList_[arg_16_1].assist_hero_id
+	return slot0.heroInfoList_[slot1].assist_hero_id
 end
 
-return var_0_0
+return slot0

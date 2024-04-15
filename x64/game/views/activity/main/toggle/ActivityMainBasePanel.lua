@@ -1,109 +1,99 @@
-local var_0_0 = class("ActivityMainBasePanel", ReduxView)
+slot0 = class("ActivityMainBasePanel", ReduxView)
 
-function var_0_0.GetUIName(arg_1_0)
-	return
+function slot0.GetUIName(slot0)
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:GetUIName()), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_2_0 = Asset.Load(arg_2_0:GetUIName())
-
-	arg_2_0.gameObject_ = Object.Instantiate(var_2_0, arg_2_1.transform)
-	arg_2_0.transform_ = arg_2_0.gameObject_.transform
-
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = ActivityData:GetActivityData(arg_4_0.activityID_)
+function slot0.OnEnter(slot0)
+	slot1 = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
 
-	arg_4_0.startTime_ = var_4_0.startTime
-	arg_4_0.stopTime_ = var_4_0.stopTime
-
-	arg_4_0:AddTimer()
-	arg_4_0:HideRedPoint()
+	slot0:AddTimer()
+	slot0:HideRedPoint()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	arg_5_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.OnTop(arg_6_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.UpdateBar(arg_7_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
-	Object.Destroy(arg_8_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_8_0.transform_ = nil
-	arg_8_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.Show(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.HideRedPoint(arg_11_0)
-	return
+function slot0.HideRedPoint(slot0)
 end
 
-function var_0_0.AddTimer(arg_12_0)
-	arg_12_0:StopTimer()
-	arg_12_0:RefreshTimeText()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
+	slot0:RefreshTimeText()
 
-	arg_12_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > arg_12_0.stopTime_ then
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ < manager.time:GetServerTime() then
 			return
 		end
 
-		arg_12_0:RefreshTimeText()
+		uv0:RefreshTimeText()
 	end, 1, -1)
 
-	arg_12_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_14_0)
-	if arg_14_0.timer_ then
-		arg_14_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_14_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTimeText(arg_15_0)
-	if arg_15_0.timeText_ then
-		arg_15_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_15_0.stopTime_, true)
+function slot0.RefreshTimeText(slot0)
+	if slot0.timeText_ then
+		slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_, true)
 	end
 end
 
-function var_0_0.IsActivityTime(arg_16_0)
-	if manager.time:GetServerTime() < arg_16_0.startTime_ then
-		local var_16_0 = GetTips("OPEN_TIME")
-
-		ShowTips(string.format(var_16_0, manager.time:GetLostTimeStrWith2Unit(arg_16_0.startTime_, true)))
+function slot0.IsActivityTime(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStrWith2Unit(slot0.startTime_, true)))
 
 		return false
 	end
 
-	if manager.time:GetServerTime() >= arg_16_0.stopTime_ then
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
 		ShowTips("TIME_OVER")
 
 		return false
@@ -112,4 +102,4 @@ function var_0_0.IsActivityTime(arg_16_0)
 	return true
 end
 
-return var_0_0
+return slot0

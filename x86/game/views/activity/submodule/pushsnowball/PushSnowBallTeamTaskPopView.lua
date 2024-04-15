@@ -1,74 +1,69 @@
-local var_0_0 = class("PushSnowBallTeamTaskPopView", ReduxView)
+slot0 = class("PushSnowBallTeamTaskPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballQuestPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.uiList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.taskList_, PushSnowBallTeamTaskItem)
-	arg_4_0.rewardController_ = ControllerUtil.GetController(arg_4_0.transform_, "clear")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.taskList_, PushSnowBallTeamTaskItem)
+	slot0.rewardController_ = ControllerUtil.GetController(slot0.transform_, "clear")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		local var_7_0 = {}
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		slot0 = {}
 
-		for iter_7_0, iter_7_1 in ipairs(arg_5_0.taskDataList_) do
-			local var_7_1 = iter_7_1.complete_flag >= 1
-
-			if AssignmentCfg[iter_7_1.id].need <= iter_7_1.progress and not var_7_1 then
-				var_7_0[#var_7_0 + 1] = iter_7_1.id
+		for slot4, slot5 in ipairs(uv0.taskDataList_) do
+			if AssignmentCfg[slot5.id].need <= slot5.progress and not (slot5.complete_flag >= 1) then
+				slot0[#slot0 + 1] = slot5.id
 			end
 		end
 
-		TaskAction:SubmitTaskList(var_7_0)
+		TaskAction:SubmitTaskList(slot0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTaskListChange(arg_9_0)
-	arg_9_0:RefreshUI()
+function slot0.OnTaskListChange(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:SetData(arg_10_1, arg_10_0.taskDataList_[arg_10_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.taskDataList_[slot1])
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0.taskDataList_ = PushSnowBallData:GetTeamParticipateTaskList()
+function slot0.RefreshUI(slot0)
+	slot0.taskDataList_ = PushSnowBallData:GetTeamParticipateTaskList()
 
-	arg_11_0.uiList_:StartScroll(#arg_11_0.taskDataList_)
-
-	local var_11_0 = PushSnowBallData:GetHasCompeletedTeamTask()
-
-	arg_11_0.rewardController_:SetSelectedState(tostring(var_11_0))
+	slot0.uiList_:StartScroll(#slot0.taskDataList_)
+	slot0.rewardController_:SetSelectedState(tostring(PushSnowBallData:GetHasCompeletedTeamTask()))
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.uiList_ then
-		arg_12_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_12_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

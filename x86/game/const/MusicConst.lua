@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	MusicNodeHitRating = {
 		Perfect = 2,
 		PerfectPlus = 3,
@@ -22,23 +22,22 @@ local var_0_0 = {
 		None = 0
 	}
 }
-
-var_0_0.MusicViewRoutesName = {
-	[var_0_0.MusicViewType.Volume] = {
+slot0.MusicViewRoutesName = {
+	[slot0.MusicViewType.Volume] = {
 		settlement = "volumeMusicSettlement",
 		musicStop = "volumeMusicstop",
 		musicMain = "/volumeMusicMain",
 		musicName = "/volumeMusicGame",
 		activityID = ActivityConst.VOLUME_MUSIC
 	},
-	[var_0_0.MusicViewType.Enternal] = {
+	[slot0.MusicViewType.Enternal] = {
 		settlement = "enternalMusicSettlement",
 		musicStop = "enternalMusicStop",
 		musicMain = "/enternalMusicMain",
 		musicName = "/enternalMusicGame",
 		activityID = ActivityConst.ENTERNAL_MUSIC
 	},
-	[var_0_0.MusicViewType.V210] = {
+	[slot0.MusicViewType.V210] = {
 		settlement = "V210MusicSettlement",
 		musicStop = "V210MusicStop",
 		musicMain = "/V210MusicMain",
@@ -47,4 +46,4 @@ var_0_0.MusicViewRoutesName = {
 	}
 }
 
-return var_0_0
+return slot0

@@ -1,86 +1,82 @@
-local var_0_0 = class("GameHelpProView", ReduxView)
+slot0 = class("GameHelpProView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/UIfunctionpopup04"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.m_list, GameHelpProItem)
-	arg_4_0.dotList_ = LuaList.New(handler(arg_4_0, arg_4_0.DotIndexItem), arg_4_0.m_dotList, GameHelpProDotItem)
-	arg_4_0.hideBgController_ = arg_4_0.m_controller:GetController("hideBg")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, GameHelpProItem)
+	slot0.dotList_ = LuaList.New(handler(slot0, slot0.DotIndexItem), slot0.m_dotList, GameHelpProDotItem)
+	slot0.hideBgController_ = slot0.m_controller:GetController("hideBg")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0.list_:SetPageChangeHandler(handler(arg_5_0, arg_5_0.OnPageChange))
-	arg_5_0:AddBtnListener(arg_5_0.m_preBtn, nil, function()
-		arg_5_0.list_:SwitchToPage(arg_5_0.pageIndex_ - 1)
+function slot0.AddUIListeners(slot0)
+	slot0.list_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
+	slot0:AddBtnListener(slot0.m_preBtn, nil, function ()
+		uv0.list_:SwitchToPage(uv0.pageIndex_ - 1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_nextBtn, nil, function()
-		arg_5_0.list_:SwitchToPage(arg_5_0.pageIndex_ + 1)
+	slot0:AddBtnListener(slot0.m_nextBtn, nil, function ()
+		uv0.list_:SwitchToPage(uv0.pageIndex_ + 1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_closeBtn, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.m_closeBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnPageChange(arg_9_0, arg_9_1)
-	arg_9_0.pageIndex_ = arg_9_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
 
-	SetActive(arg_9_0.m_preBtn.gameObject, arg_9_1 > 1)
-	SetActive(arg_9_0.m_nextBtn.gameObject, arg_9_1 < #arg_9_0.pages)
-	arg_9_0.dotList_:ScrollToIndex(arg_9_1)
+	SetActive(slot0.m_preBtn.gameObject, slot1 > 1)
+	SetActive(slot0.m_nextBtn.gameObject, slot1 < #slot0.pages)
+	slot0.dotList_:ScrollToIndex(slot1)
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:HideBar()
 
-	arg_10_0.pages = arg_10_0.params_.pages or {}
-	arg_10_0.isPrefab_ = arg_10_0.params_.isPrefab or false
-	arg_10_0.hideBg_ = arg_10_0.params_.hideBg or false
-	arg_10_0.hideHomeBtn = arg_10_0.params_.hideHomeBtn or nil
+	slot0.pages = slot0.params_.pages or {}
+	slot0.isPrefab_ = slot0.params_.isPrefab or false
+	slot0.hideBg_ = slot0.params_.hideBg or false
+	slot0.hideHomeBtn = slot0.params_.hideHomeBtn or nil
+	slot1 = slot0.params_.startIndex or 1
 
-	local var_10_0 = arg_10_0.params_.startIndex or 1
+	slot0.list_:StartScroll(#slot0.pages, slot1, true, false)
+	slot0.dotList_:StartScroll(#slot0.pages, slot1, true, false)
+	slot0:OnPageChange(slot1)
+	slot0.hideBgController_:SetSelectedState(tostring(slot0.hideBg_))
 
-	arg_10_0.list_:StartScroll(#arg_10_0.pages, var_10_0, true, false)
-	arg_10_0.dotList_:StartScroll(#arg_10_0.pages, var_10_0, true, false)
-	arg_10_0:OnPageChange(var_10_0)
-	arg_10_0.hideBgController_:SetSelectedState(tostring(arg_10_0.hideBg_))
-
-	arg_10_0.params_.startIndex = nil
+	slot0.params_.startIndex = nil
 end
 
-function var_0_0.indexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.pages[arg_11_1]
-	local var_11_1 = #arg_11_0.pages
+function slot0.indexItem(slot0, slot1, slot2)
+	slot4 = #slot0.pages
 
-	arg_11_2:SetData(arg_11_1, var_11_0, arg_11_0.isPrefab_)
+	slot2:SetData(slot1, slot0.pages[slot1], slot0.isPrefab_)
 end
 
-function var_0_0.DotIndexItem(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_2:SetData(arg_12_0.pageIndex_ == arg_12_1)
+function slot0.DotIndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.pageIndex_ == slot1)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	local var_13_0 = arg_13_0:GetStayTime()
-
-	OperationRecorder.RecordStayView("STAY_VIEW_GAME_HELP", var_13_0, 50103)
+function slot0.OnExit(slot0)
+	OperationRecorder.RecordStayView("STAY_VIEW_GAME_HELP", slot0:GetStayTime(), 50103)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.list_:Dispose()
-	arg_14_0.dotList_:Dispose()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	slot0.dotList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

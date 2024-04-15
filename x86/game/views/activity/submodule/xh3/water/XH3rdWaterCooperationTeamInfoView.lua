@@ -1,9 +1,8 @@
-local var_0_0 = import("game.views.cooperation.HeroTeamInfoCooperationView")
-local var_0_1 = class("XH3rdWaterCooperationTeamInfoView", var_0_0)
+slot1 = class("XH3rdWaterCooperationTeamInfoView", import("game.views.cooperation.HeroTeamInfoCooperationView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	var_0_1.super.OnEnter(arg_1_0)
-	SetActive(arg_1_0.filterGo_, false)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	SetActive(slot0.filterGo_, false)
 end
 
-return var_0_1
+return slot1

@@ -1,110 +1,100 @@
 SubPlotBaseView = import("game.views.sectionSelect.subPlot.base.SubPlotBaseView")
+slot0 = class("SubPlotLuWuAndZhiMingView", SubPlotBaseView)
 
-local var_0_0 = class("SubPlotLuWuAndZhiMingView", SubPlotBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/IndiaChapterSectionUI"
 end
 
-function var_0_0.GetItemClass(arg_2_0)
+function slot0.GetItemClass(slot0)
 	return SubPlotLuWuAndZhiMingItem
 end
 
-function var_0_0.Init(arg_3_0)
-	var_0_0.super.Init(arg_3_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_3_0.chapterPartBtnView_ = ChapterPartBtnView.New(arg_3_0.chapterBranchGo_)
+	slot0.chapterPartBtnView_ = ChapterPartBtnView.New(slot0.chapterBranchGo_)
 
-	arg_3_0.chapterPartBtnView_:Show(true)
+	slot0.chapterPartBtnView_:Show(true)
 
-	arg_3_0.lineList_ = {}
-	arg_3_0.itemWidth_ = arg_3_0.sectionItem_.transform:GetComponent("RectTransform").rect.width
+	slot0.lineList_ = {}
+	slot0.itemWidth_ = slot0.sectionItem_.transform:GetComponent("RectTransform").rect.width
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	var_0_0.super.OnEnter(arg_4_0)
-	arg_4_0.chapterPartBtnView_:OnEnter()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0.chapterPartBtnView_:OnEnter()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	var_0_0.super.OnExit(arg_5_0)
-	arg_5_0.chapterPartBtnView_:OnExit()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0.chapterPartBtnView_:OnExit()
 end
 
-function var_0_0.RefreshData(arg_6_0)
-	var_0_0.super.RefreshData(arg_6_0)
+function slot0.RefreshData(slot0)
+	uv0.super.RefreshData(slot0)
 
-	arg_6_0.openStageList_ = ChapterTools.GetOpenStageList(arg_6_0.chapterID_, arg_6_0:GetCfgName())
+	slot0.openStageList_ = ChapterTools.GetOpenStageList(slot0.chapterID_, slot0:GetCfgName())
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	var_0_0.super.RefreshUI(arg_7_0)
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
 
-	arg_7_0.titleText_.text = ChapterCfg[arg_7_0.chapterID_].subhead
+	slot0.titleText_.text = ChapterCfg[slot0.chapterID_].subhead
 
-	arg_7_0.chapterPartBtnView_:RefreshUI(arg_7_0.chapterID_)
-	arg_7_0:RefreshLineItemList()
-	arg_7_0:SwitchBG()
+	slot0.chapterPartBtnView_:RefreshUI(slot0.chapterID_)
+	slot0:RefreshLineItemList()
+	slot0:SwitchBG()
 end
 
-function var_0_0.RefreshLineItemList(arg_8_0)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.lineList_) do
-		iter_8_1:Show(false)
+function slot0.RefreshLineItemList(slot0)
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		slot5:Show(false)
 	end
 
-	local var_8_0 = 1
-	local var_8_1 = arg_8_0.openStageList_
+	slot1 = 1
 
-	for iter_8_2, iter_8_3 in ipairs(var_8_1) do
-		local var_8_2 = table.keyof(arg_8_0.stageList_, iter_8_3)
-		local var_8_3 = arg_8_0.stageItemList_[var_8_2]:GetLocalPosition() + Vector3(arg_8_0.itemWidth_ / -2, 0, 0)
-		local var_8_4 = arg_8_0:GetCfgName()[iter_8_3].pre_show_id_list or {}
-		local var_8_5
+	for slot6, slot7 in ipairs(slot0.openStageList_) do
+		slot9 = slot0.stageItemList_[table.keyof(slot0.stageList_, slot7)]:GetLocalPosition() + Vector3(slot0.itemWidth_ / -2, 0, 0)
+		slot11 = #(slot0:GetCfgName()[slot7].pre_show_id_list or {}) > 1
 
-		var_8_5 = #var_8_4 > 1
-
-		for iter_8_4, iter_8_5 in ipairs(var_8_4) do
-			if arg_8_0.stageData_[iter_8_5] and arg_8_0.stageData_[iter_8_5].clear_times > 0 then
-				-- block empty
-			else
-				local var_8_6 = false
+		for slot15, slot16 in ipairs(slot10) do
+			if not slot0.stageData_[slot16] or slot0.stageData_[slot16].clear_times <= 0 then
+				slot11 = false
 
 				break
 			end
 		end
 
-		for iter_8_6, iter_8_7 in ipairs(var_8_4) do
-			local var_8_7 = arg_8_0:GetCfgName()[iter_8_3]
+		for slot15, slot16 in ipairs(slot10) do
+			slot17 = slot0:GetCfgName()[slot7]
 
-			if table.keyof(var_8_1, iter_8_7) then
-				local var_8_8 = table.keyof(arg_8_0.stageList_, iter_8_7)
-				local var_8_9 = arg_8_0.stageItemList_[var_8_8]:GetLocalPosition() + Vector3(arg_8_0.itemWidth_ / 2, 0, 0)
-				local var_8_10 = arg_8_0.lineList_[var_8_0] or SectionSingleLineItem.New(arg_8_0.lineGo_, arg_8_0.content_, 11)
+			if table.keyof(slot2, slot16) then
+				slot20 = slot0.lineList_[slot1] or SectionSingleLineItem.New(slot0.lineGo_, slot0.content_, 11)
 
-				var_8_10:Show(true)
+				slot20:Show(true)
 
-				arg_8_0.lineList_[var_8_0] = var_8_10
+				slot0.lineList_[slot1] = slot20
 
-				var_8_10:RefreshUI(var_8_9, var_8_3)
+				slot20:RefreshUI(slot0.stageItemList_[table.keyof(slot0.stageList_, slot16)]:GetLocalPosition() + Vector3(slot0.itemWidth_ / 2, 0, 0), slot9)
 
-				var_8_0 = var_8_0 + 1
+				slot1 = slot1 + 1
 			end
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.chapterPartBtnView_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.chapterPartBtnView_:Dispose()
 
-	arg_9_0.chapterPartBtnView_ = nil
+	slot0.chapterPartBtnView_ = nil
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.lineList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.lineList_ = nil
+	slot0.lineList_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,315 +1,268 @@
-local var_0_0 = {
-	GetDormAdditionByHeroID = function(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-		local var_1_0 = {
-			attribute = {},
-			voice = {}
-		}
-		local var_1_1 = DormData:GetHeroArchiveID(arg_1_1)
-		local var_1_2 = table.indexof(DormHeroTools:GetCanUseHeroInDorm(), var_1_1)
+slot1 = {}
 
-		if not arg_1_2 and not var_1_2 then
-			return var_1_0
+function dump_value_(slot0)
+	if type(slot0) == "string" then
+		slot0 = "\"" .. slot0 .. "\""
+	end
+
+	return tostring(slot0)
+end
+
+function split(slot0, slot1)
+	slot0 = tostring(slot0)
+
+	if tostring(slot1) == "" then
+		return false
+	end
+
+	slot3 = {}
+
+	for slot7, slot8 in function ()
+		return string.find(uv0, uv1, uv2, true)
+	end, nil,  do
+		table.insert(slot3, string.sub(slot0, 0, slot7 - 1))
+
+		slot2 = slot8 + 1
+	end
+
+	table.insert(slot3, string.sub(slot0, slot2))
+
+	return slot3
+end
+
+function trim(slot0)
+	return string.gsub(slot0, "^%s*(.-)%s*$", "%1")
+end
+
+function slot2(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		print(slot5)
+	end
+end
+
+function dump(slot0, slot1, slot2, slot3)
+	if type(slot2) ~= "number" then
+		slot2 = 7
+	end
+
+	slot4 = {}
+	slot6 = split(debug.traceback("", 2), "\n")
+
+	function (slot0, slot1, slot2, slot3, slot4)
+		slot5 = ""
+
+		if type(slot4) == "number" then
+			slot5 = string.rep(" ", slot4 - string.len(dump_value_(slot1 or "<var>")))
 		end
 
-		local var_1_3 = DormHeroTools:GetTemplateIDInDorm(var_1_1)
-		local var_1_4 = 0
+		if type(slot0) ~= "table" then
+			uv0[#uv0 + 1] = string.format("%s%s%s = %s", slot2, dump_value_(slot1), slot5, dump_value_(slot0))
+		elseif uv1[tostring(slot0)] then
+			uv0[#uv0 + 1] = string.format("%s%s%s = *REF*", slot2, dump_value_(slot1), slot5)
+		else
+			uv1[tostring(slot0)] = true
 
-		if not arg_1_3 then
-			var_1_4 = arg_1_2 or DormHeroTools:GetDormLevelByHeroID(var_1_3)
-		end
+			if uv2 < slot3 then
+				uv0[#uv0 + 1] = string.format("%s%s = *MAX NESTING*", slot2, dump_value_(slot1))
+			else
+				slot14 = slot1
+				uv0[#uv0 + 1] = string.format("%s%s = {", slot2, dump_value_(slot14))
+				slot6 = slot2 .. "    "
+				slot7 = {}
+				slot9 = {}
 
-		for iter_1_0 = 1, var_1_4 do
-			local var_1_5 = BackHomeHeroCfg[var_1_3].level_reward[iter_1_0]
+				for slot13, slot14 in pairs(slot0) do
+					slot7[#slot7 + 1] = slot13
 
-			for iter_1_1, iter_1_2 in ipairs(var_1_5) do
-				local var_1_6 = BackHomeDormLevelRewardCfg[iter_1_2]
-
-				if var_1_6.type == 1 then
-					if not var_1_0.attribute[var_1_6.reward[1]] then
-						var_1_0.attribute[var_1_6.reward[1]] = 0
+					if 0 < string.len(dump_value_(slot13)) then
+						slot8 = slot16
 					end
 
-					var_1_0.attribute[var_1_6.reward[1]] = var_1_0.attribute[var_1_6.reward[1]] + var_1_6.reward[2]
-				elseif var_1_6.type == 2 then
-					table.insert(var_1_0.voice, var_1_6.reward[1])
+					slot9[slot13] = slot14
+				end
+
+				function slot13(slot0, slot1)
+					if type(slot0) == "number" and type(slot1) == "number" then
+						return slot0 < slot1
+					else
+						return tostring(slot0) < tostring(slot1)
+					end
+				end
+
+				table.sort(slot7, slot13)
+
+				for slot13, slot14 in ipairs(slot7) do
+					uv3(slot9[slot14], slot14, slot6, slot3 + 1, slot8)
+				end
+
+				uv0[#uv0 + 1] = string.format("%s}", slot2)
+			end
+		end
+	end(slot0, slot1, "- ", 1)
+
+	return slot3 or uv0({})
+end
+
+return {
+	GetDormAdditionByHeroID = function (slot0, slot1, slot2, slot3)
+		if not slot2 and not table.indexof(DormHeroTools:GetCanUseHeroInDorm(), DormData:GetHeroArchiveID(slot1)) then
+			return {
+				attribute = {},
+				voice = {}
+			}
+		end
+
+		slot8 = 0
+
+		if not slot3 then
+			slot8 = slot2 or DormHeroTools:GetDormLevelByHeroID(DormHeroTools:GetTemplateIDInDorm(slot5))
+		end
+
+		for slot12 = 1, slot8 do
+			for slot17, slot18 in ipairs(BackHomeHeroCfg[slot7].level_reward[slot12]) do
+				if BackHomeDormLevelRewardCfg[slot18].type == 1 then
+					if not slot4.attribute[slot19.reward[1]] then
+						slot4.attribute[slot19.reward[1]] = 0
+					end
+
+					slot4.attribute[slot19.reward[1]] = slot4.attribute[slot19.reward[1]] + slot19.reward[2]
+				elseif slot19.type == 2 then
+					table.insert(slot4.voice, slot19.reward[1])
 				end
 			end
 		end
 
-		return var_1_0
+		return slot4
 	end,
-	SecondSwitchTime = function(arg_2_0, arg_2_1)
-		local var_2_0 = math.ceil(arg_2_1 / 60)
-		local var_2_1 = math.modf(var_2_0 / 60)
-		local var_2_2 = var_2_0 % 60
-		local var_2_3 = GetTips("HOUR")
-		local var_2_4 = GetTips("MINUTE")
+	SecondSwitchTime = function (slot0, slot1)
+		slot2 = math.ceil(slot1 / 60)
 
-		return string.format("%d%s%02d%s", var_2_1, var_2_3, var_2_2, var_2_4)
+		return string.format("%d%s%02d%s", math.modf(slot2 / 60), GetTips("HOUR"), slot2 % 60, GetTips("MINUTE"))
 	end,
-	MinSwitchTime = function(arg_3_0, arg_3_1)
-		if arg_3_1 then
-			local var_3_0, var_3_1 = math.modf(arg_3_1 / 60)
+	MinSwitchTime = function (slot0, slot1)
+		if slot1 then
+			slot2, slot3 = math.modf(slot1 / 60)
 
-			return string.format("%02d:%02d:%02d", var_3_0, var_3_1, 0)
+			return string.format("%02d:%02d:%02d", slot2, slot3, 0)
 		end
 	end,
-	GetRoomTypeName = function(arg_4_0, arg_4_1)
-		if arg_4_1 == DormConst.BACKHOME_TYPE.PublicDorm then
+	GetRoomTypeName = function (slot0, slot1)
+		if slot1 == DormConst.BACKHOME_TYPE.PublicDorm then
 			return GetTips("DORM_FUR_INFO_TAG5")
-		elseif arg_4_1 == DormConst.BACKHOME_TYPE.PrivateDorm then
+		elseif slot1 == DormConst.BACKHOME_TYPE.PrivateDorm then
 			return GetTips("DORM_FUR_INFO_TAG6")
 		end
 	end,
-	GetAllDormShopIDList = function(arg_5_0)
+	GetAllDormShopIDList = function (slot0)
 		return ShopTools.CollectShopInGroup(GameSetting.dorm_shop_display_group_furniture.value)
 	end,
-	GetShopStyleImage = function(arg_6_0)
-		return getSpriteViaConfig("DormShopPreview", arg_6_0)
+	GetShopStyleImage = function (slot0)
+		return getSpriteViaConfig("DormShopPreview", slot0)
 	end,
-	GetFurLable = function(arg_7_0, arg_7_1)
-		local var_7_0 = {}
-		local var_7_1 = BackHomeFurniture[arg_7_1]
+	GetFurLable = function (slot0, slot1)
+		slot2 = {}
+		slot3 = BackHomeFurniture[slot1]
 
-		table.insert(var_7_0, "is_give")
-		table.insert(var_7_0, "dorm_exp")
-		table.insert(var_7_0, "hero_id")
-		table.insert(var_7_0, "scene_id")
+		table.insert(slot2, "is_give")
+		table.insert(slot2, "dorm_exp")
+		table.insert(slot2, "hero_id")
+		table.insert(slot2, "scene_id")
 
-		return var_7_0
+		return slot2
 	end,
-	GetFurLableDesc = function(arg_8_0, arg_8_1, arg_8_2)
-		local var_8_0 = ""
+	GetFurLableDesc = function (slot0, slot1, slot2)
+		slot3 = ""
 
-		if arg_8_2 == "is_give" then
-			if BackHomeFurniture[arg_8_1].is_give == 1 then
-				local var_8_1 = BackHomeFurniture[arg_8_1].give_max
-
-				var_8_0 = string.format(GetTips("DORM_FUR_INFO_TAG2"), var_8_1)
+		if slot2 == "is_give" then
+			if BackHomeFurniture[slot1].is_give == 1 then
+				slot3 = string.format(GetTips("DORM_FUR_INFO_TAG2"), BackHomeFurniture[slot1].give_max)
 			else
-				var_8_0 = GetTips("DORM_FUR_INFO_TAG1")
+				slot3 = GetTips("DORM_FUR_INFO_TAG1")
 			end
-		elseif arg_8_2 == "dorm_exp" then
-			var_8_0 = string.format(GetTips("DORM_FUR_INFO_TAG7"), BackHomeFurniture[arg_8_1].dorm_exp)
-		elseif arg_8_2 == "hero_id" then
-			local var_8_2 = BackHomeFurniture[arg_8_1].hero_id
-
-			if HeroRecordCfg[var_8_2] then
-				local var_8_3 = HeroRecordCfg[var_8_2].name
-
-				var_8_0 = string.format(GetTips("DORM_FUR_INFO_TAG3"), var_8_3)
+		elseif slot2 == "dorm_exp" then
+			slot3 = string.format(GetTips("DORM_FUR_INFO_TAG7"), BackHomeFurniture[slot1].dorm_exp)
+		elseif slot2 == "hero_id" then
+			if HeroRecordCfg[BackHomeFurniture[slot1].hero_id] then
+				slot3 = string.format(GetTips("DORM_FUR_INFO_TAG3"), HeroRecordCfg[slot4].name)
 			end
-		elseif arg_8_2 == "scene_id" then
-			local var_8_4 = BackHomeFurniture[arg_8_1].scene_id
-
-			var_8_0 = GetTips("DORM_FUR_INFO_TAG4")
-
-			for iter_8_0, iter_8_1 in ipairs(var_8_4) do
-				var_8_0 = var_8_0 .. arg_8_0:GetRoomTypeName(iter_8_1) .. " "
+		elseif slot2 == "scene_id" then
+			for slot8, slot9 in ipairs(BackHomeFurniture[slot1].scene_id) do
+				slot3 = GetTips("DORM_FUR_INFO_TAG4") .. slot0:GetRoomTypeName(slot9) .. " "
 			end
 
-			string.sub(var_8_0, 1, -2)
+			string.sub(slot3, 1, -2)
 		end
 
-		return var_8_0
+		return slot3
 	end,
-	GetFurGiftTypeDesc = function(arg_9_0, arg_9_1)
-		local var_9_0 = ""
+	GetFurGiftTypeDesc = function (slot0, slot1)
+		slot2 = ""
 
-		if BackHomeFurniture[arg_9_1].is_give == 1 then
-			local var_9_1 = BackHomeFurniture[arg_9_1].give_max
-
-			var_9_0 = GetTips("DORM_FUR_INFO_CAN_GIFT")
-		elseif BackHomeFurniture[arg_9_1].is_give == 0 then
-			var_9_0 = GetTips("DORM_FUR_INFO_TAG1")
-		elseif BackHomeFurniture[arg_9_1].is_give == 3 then
-			local var_9_2 = BackHomeFurniture[arg_9_1].hero_id
-
-			if HeroRecordCfg[var_9_2] then
-				local var_9_3 = HeroRecordCfg[var_9_2].name
-
-				var_9_0 = string.format(GetTips("DORM_FUR_INFO_TAG3"), var_9_3)
-			end
+		if BackHomeFurniture[slot1].is_give == 1 then
+			slot3 = BackHomeFurniture[slot1].give_max
+			slot2 = GetTips("DORM_FUR_INFO_CAN_GIFT")
+		elseif BackHomeFurniture[slot1].is_give == 0 then
+			slot2 = GetTips("DORM_FUR_INFO_TAG1")
+		elseif BackHomeFurniture[slot1].is_give == 3 and HeroRecordCfg[BackHomeFurniture[slot1].hero_id] then
+			slot2 = string.format(GetTips("DORM_FUR_INFO_TAG3"), HeroRecordCfg[slot3].name)
 		end
 
-		return var_9_0
+		return slot2
 	end,
-	GetFurPlaceSceneDesc = function(arg_10_0, arg_10_1)
-		local var_10_0 = ""
-		local var_10_1 = BackHomeFurniture[arg_10_1].scene_id
-		local var_10_2 = GetTips("DORM_FUR_INFO_TAG4")
+	GetFurPlaceSceneDesc = function (slot0, slot1)
+		slot2 = ""
 
-		for iter_10_0, iter_10_1 in ipairs(var_10_1) do
-			var_10_2 = var_10_2 .. arg_10_0:GetRoomTypeName(iter_10_1) .. " "
+		for slot7, slot8 in ipairs(BackHomeFurniture[slot1].scene_id) do
+			slot2 = GetTips("DORM_FUR_INFO_TAG4") .. slot0:GetRoomTypeName(slot8) .. " "
 		end
 
-		string.sub(var_10_2, 1, -2)
+		string.sub(slot2, 1, -2)
 
-		return var_10_2
+		return slot2
 	end,
-	GetFurGiftMaxDesc = function(arg_11_0, arg_11_1)
-		if BackHomeFurniture[arg_11_1].give_max > 0 then
-			return tostring(BackHomeFurniture[arg_11_1].give_max)
+	GetFurGiftMaxDesc = function (slot0, slot1)
+		if BackHomeFurniture[slot1].give_max > 0 then
+			return tostring(BackHomeFurniture[slot1].give_max)
 		else
 			return GetTips("DORM_FUR_GIFT_NUM_NONE")
 		end
 	end,
-	GetFurComfortDesc = function(arg_12_0, arg_12_1)
-		if BackHomeFurniture[arg_12_1].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
+	GetFurComfortDesc = function (slot0, slot1)
+		if BackHomeFurniture[slot1].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
 			return GetTips("DORM_FUR_COMFORT_NONE")
 		else
-			return tostring(BackHomeFurniture[arg_12_1].dorm_exp)
+			return tostring(BackHomeFurniture[slot1].dorm_exp)
 		end
 	end,
-	PlayDormAudioEffect = function(arg_13_0, arg_13_1)
-		manager.audio:PlayEffect("ui_dorm", arg_13_1, "")
+	PlayDormAudioEffect = function (slot0, slot1)
+		manager.audio:PlayEffect("ui_dorm", slot1, "")
 	end,
-	ShouldShowBirthdayBtn = function(arg_14_0, arg_14_1)
+	ShouldShowBirthdayBtn = function (slot0, slot1)
 		return false
-	end
-}
-local var_0_1 = {}
+	end,
+	SystemStayTime = function (slot0, slot1, slot2)
+		if not uv0 then
+			uv0 = {}
+		end
 
-function var_0_0.SystemStayTime(arg_15_0, arg_15_1, arg_15_2)
-	if not var_0_1 then
-		var_0_1 = {}
-	end
+		if slot2 == true then
+			if uv0[slot1] then
+				SDKTools.SendMessageToSDK("backhome_dorm_opt", {
+					backhome_type = slot1,
+					opt_time = manager.time:GetServerTime() - uv0[slot1]
+				})
 
-	if arg_15_2 == true then
-		if var_0_1[arg_15_1] then
-			local var_15_0 = manager.time:GetServerTime()
+				uv0[slot1] = nil
+			else
+				CustomLog.log("未记录系统开始时间")
+			end
+		else
+			uv0[slot1] = manager.time:GetServerTime()
 
 			SDKTools.SendMessageToSDK("backhome_dorm_opt", {
-				backhome_type = arg_15_1,
-				opt_time = var_15_0 - var_0_1[arg_15_1]
+				opt_time = -1,
+				backhome_type = slot1
 			})
-
-			var_0_1[arg_15_1] = nil
-		else
-			CustomLog.log("未记录系统开始时间")
-		end
-	else
-		var_0_1[arg_15_1] = manager.time:GetServerTime()
-
-		SDKTools.SendMessageToSDK("backhome_dorm_opt", {
-			opt_time = -1,
-			backhome_type = arg_15_1
-		})
-	end
-end
-
-function dump_value_(arg_16_0)
-	if type(arg_16_0) == "string" then
-		arg_16_0 = "\"" .. arg_16_0 .. "\""
-	end
-
-	return tostring(arg_16_0)
-end
-
-function split(arg_17_0, arg_17_1)
-	arg_17_0 = tostring(arg_17_0)
-	arg_17_1 = tostring(arg_17_1)
-
-	if arg_17_1 == "" then
-		return false
-	end
-
-	local var_17_0 = 0
-	local var_17_1 = {}
-
-	for iter_17_0, iter_17_1 in function()
-		return string.find(arg_17_0, arg_17_1, var_17_0, true)
-	end do
-		table.insert(var_17_1, string.sub(arg_17_0, var_17_0, iter_17_0 - 1))
-
-		var_17_0 = iter_17_1 + 1
-	end
-
-	table.insert(var_17_1, string.sub(arg_17_0, var_17_0))
-
-	return var_17_1
-end
-
-function trim(arg_19_0)
-	return (string.gsub(arg_19_0, "^%s*(.-)%s*$", "%1"))
-end
-
-local function var_0_2(arg_20_0)
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0) do
-		print(iter_20_1)
-	end
-end
-
-function dump(arg_21_0, arg_21_1, arg_21_2, arg_21_3)
-	if type(arg_21_2) ~= "number" then
-		arg_21_2 = 7
-	end
-
-	local var_21_0 = {}
-	local var_21_1 = {}
-	local var_21_2 = split(debug.traceback("", 2), "\n")
-
-	local function var_21_3(arg_22_0, arg_22_1, arg_22_2, arg_22_3, arg_22_4)
-		arg_22_1 = arg_22_1 or "<var>"
-
-		local var_22_0 = ""
-
-		if type(arg_22_4) == "number" then
-			var_22_0 = string.rep(" ", arg_22_4 - string.len(dump_value_(arg_22_1)))
-		end
-
-		if type(arg_22_0) ~= "table" then
-			var_21_1[#var_21_1 + 1] = string.format("%s%s%s = %s", arg_22_2, dump_value_(arg_22_1), var_22_0, dump_value_(arg_22_0))
-		elseif var_21_0[tostring(arg_22_0)] then
-			var_21_1[#var_21_1 + 1] = string.format("%s%s%s = *REF*", arg_22_2, dump_value_(arg_22_1), var_22_0)
-		else
-			var_21_0[tostring(arg_22_0)] = true
-
-			if arg_22_3 > arg_21_2 then
-				var_21_1[#var_21_1 + 1] = string.format("%s%s = *MAX NESTING*", arg_22_2, dump_value_(arg_22_1))
-			else
-				var_21_1[#var_21_1 + 1] = string.format("%s%s = {", arg_22_2, dump_value_(arg_22_1))
-
-				local var_22_1 = arg_22_2 .. "    "
-				local var_22_2 = {}
-				local var_22_3 = 0
-				local var_22_4 = {}
-
-				for iter_22_0, iter_22_1 in pairs(arg_22_0) do
-					var_22_2[#var_22_2 + 1] = iter_22_0
-
-					local var_22_5 = dump_value_(iter_22_0)
-					local var_22_6 = string.len(var_22_5)
-
-					if var_22_3 < var_22_6 then
-						var_22_3 = var_22_6
-					end
-
-					var_22_4[iter_22_0] = iter_22_1
-				end
-
-				table.sort(var_22_2, function(arg_23_0, arg_23_1)
-					if type(arg_23_0) == "number" and type(arg_23_1) == "number" then
-						return arg_23_0 < arg_23_1
-					else
-						return tostring(arg_23_0) < tostring(arg_23_1)
-					end
-				end)
-
-				for iter_22_2, iter_22_3 in ipairs(var_22_2) do
-					var_21_3(var_22_4[iter_22_3], iter_22_3, var_22_1, arg_22_3 + 1, var_22_3)
-				end
-
-				var_21_1[#var_21_1 + 1] = string.format("%s}", arg_22_2)
-			end
 		end
 	end
-
-	var_21_3(arg_21_0, arg_21_1, "- ", 1)
-
-	arg_21_3 = arg_21_3 or var_0_2
-
-	return arg_21_3(var_21_1)
-end
-
-return var_0_0
+}

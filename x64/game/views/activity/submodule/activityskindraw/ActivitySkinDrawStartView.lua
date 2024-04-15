@@ -1,164 +1,154 @@
-local var_0_0 = class("ActivitySkinDrawStartView", ReduxView)
+slot0 = class("ActivitySkinDrawStartView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivitySkinDrawTools.GetDrawStartUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivitySkinDrawTools.GetDrawStartUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.soundEffect_ = {
+	slot0.soundEffect_ = {
 		sound_2 = "search_scene_02_purple",
 		sound_3 = "search_scene_02_gold",
 		sound_1 = "search_scene_02_blue",
 		sound_special = "search_scene_02_special"
 	}
-	arg_4_0.typeCon_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.skipBtn_, nil, function()
-		arg_5_0.skip_ = true
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.skipBtn_, nil, function ()
+		uv0.skip_ = true
 
-		if arg_5_0.isPlaying_ then
-			if arg_5_0.playable_ then
-				arg_5_0.playable_:Stop()
+		if uv0.isPlaying_ then
+			if uv0.playable_ then
+				uv0.playable_:Stop()
 			end
 		else
-			arg_5_0:SkipFunc()
+			uv0:SkipFunc()
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.drawInteractBtn_, nil, function()
-		arg_5_0.isPlaying_ = true
-		arg_5_0.drawInteractBtn_.enabled = false
+	slot0:AddBtnListener(slot0.drawInteractBtn_, nil, function ()
+		uv0.isPlaying_ = true
+		uv0.drawInteractBtn_.enabled = false
 
-		manager.audio:PlayEffect("ui_system_search", arg_5_0.effect_, "")
+		manager.audio:PlayEffect("ui_system_search", uv0.effect_, "")
 
-		if arg_5_0.playable_ then
-			TimelineTools.PlayTimelineWithCallback(arg_5_0.playable_, arg_5_0.playable_.playableAsset, function()
-				if not arg_5_0.skip_ then
-					arg_5_0:AfterTimeline(arg_5_0.list_)
+		if uv0.playable_ then
+			TimelineTools.PlayTimelineWithCallback(uv0.playable_, uv0.playable_.playableAsset, function ()
+				if not uv0.skip_ then
+					uv0:AfterTimeline(uv0.list_)
 				else
-					arg_5_0:SkipFunc()
+					uv0:SkipFunc()
 				end
 			end)
 		else
-			arg_5_0:AfterTimeline(arg_5_0.list_)
+			uv0:AfterTimeline(uv0.list_)
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.skip_ = false
-	arg_9_0.isPlaying_ = false
+function slot0.OnEnter(slot0)
+	slot0.skip_ = false
+	slot0.isPlaying_ = false
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.drawInteractBtn_.enabled = true
+function slot0.RefreshUI(slot0)
+	slot0.drawInteractBtn_.enabled = true
+	slot1 = slot0.params_.draw_list or {}
+	slot0.list_ = {}
+	slot0.maxRare_ = 0
+	slot0.isSkin_ = false
+	slot0.isScene_ = false
+	slot2 = {}
 
-	local var_10_0 = arg_10_0.params_.draw_list or {}
-
-	arg_10_0.list_ = {}
-	arg_10_0.maxRare_ = 0
-	arg_10_0.isSkin_ = false
-	arg_10_0.isScene_ = false
-
-	local var_10_1 = {}
-
-	for iter_10_0 = #var_10_0, 1, -1 do
-		local var_10_2 = var_10_0[iter_10_0]
-		local var_10_3 = ActivityLimitedDrawPoolCfg[var_10_2].reward[1]
-		local var_10_4 = var_10_3[1]
-		local var_10_5 = ItemCfg[var_10_4]
-		local var_10_6 = var_10_5.type
-
-		if var_10_6 == ItemConst.ITEM_TYPE.HERO_SKIN then
-			arg_10_0.isSkin_ = true
-			arg_10_0.skinDropID_ = var_10_2
-		elseif var_10_6 == ItemConst.ITEM_TYPE.SCENE then
-			arg_10_0.isScene_ = true
+	for slot6 = #slot1, 1, -1 do
+		if ItemCfg[ActivityLimitedDrawPoolCfg[slot1[slot6]].reward[1][1]].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+			slot0.isSkin_ = true
+			slot0.skinDropID_ = slot7
+		elseif slot12 == ItemConst.ITEM_TYPE.SCENE then
+			slot0.isScene_ = true
 		end
 
-		table.insert(arg_10_0.list_, var_10_2)
-		table.insert(var_10_1, var_10_3)
+		table.insert(slot0.list_, slot7)
+		table.insert(slot2, slot9)
 
-		local var_10_7 = 1
-		local var_10_8 = var_10_5.rare >= 5 and 3 or var_10_5.rare == 4 and 2 or 1
-
-		arg_10_0.maxRare_ = var_10_8 < arg_10_0.maxRare_ and arg_10_0.maxRare_ or var_10_8
+		slot13 = 1
+		slot13 = slot11.rare >= 5 and 3 or slot11.rare == 4 and 2 or 1
+		slot0.maxRare_ = slot13 < slot0.maxRare_ and slot0.maxRare_ or slot13
 	end
 
-	local var_10_9
+	slot3 = nil
 
-	if arg_10_0.isSkin_ or arg_10_0.isScene_ then
-		arg_10_0.typeCon_:SetSelectedState("special")
+	if slot0.isSkin_ or slot0.isScene_ then
+		slot0.typeCon_:SetSelectedState("special")
 
-		var_10_9 = arg_10_0.timelineGo_special
-		arg_10_0.effect_ = arg_10_0.soundEffect_.sound_special
+		slot3 = slot0.timelineGo_special
+		slot0.effect_ = slot0.soundEffect_.sound_special
 	else
-		arg_10_0.typeCon_:SetSelectedState(arg_10_0.maxRare_)
+		slot0.typeCon_:SetSelectedState(slot0.maxRare_)
 
-		var_10_9 = arg_10_0["timelineGo_" .. arg_10_0.maxRare_]
-		arg_10_0.effect_ = arg_10_0.soundEffect_["sound_" .. arg_10_0.maxRare_]
+		slot3 = slot0["timelineGo_" .. slot0.maxRare_]
+		slot0.effect_ = slot0.soundEffect_["sound_" .. slot0.maxRare_]
 	end
 
-	if var_10_9 then
-		arg_10_0.playable_ = var_10_9:GetComponent("PlayableDirector")
+	if slot3 then
+		slot0.playable_ = slot3:GetComponent("PlayableDirector")
 
-		arg_10_0.playable_:Evaluate()
+		slot0.playable_:Evaluate()
 
-		arg_10_0.playable_.time = 0
+		slot0.playable_.time = 0
 	end
 end
 
-function var_0_0.SkipFunc(arg_11_0)
-	if #arg_11_0.list_ > 1 then
-		if arg_11_0.isSkin_ then
-			arg_11_0:AfterTimeline({
-				arg_11_0.skinDropID_
+function slot0.SkipFunc(slot0)
+	if #slot0.list_ > 1 then
+		if slot0.isSkin_ then
+			slot0:AfterTimeline({
+				slot0.skinDropID_
 			})
 		else
 			JumpTools.OpenPageByJump("/activitySkinResultReward", {
-				list = arg_11_0.list_,
-				activityID = arg_11_0.params_.activityID
+				list = slot0.list_,
+				activityID = slot0.params_.activityID
 			})
 		end
 	else
-		arg_11_0:AfterTimeline(arg_11_0.list_)
+		slot0:AfterTimeline(slot0.list_)
 	end
 end
 
-function var_0_0.AfterTimeline(arg_12_0, arg_12_1)
+function slot0.AfterTimeline(slot0, slot1)
 	JumpTools.OpenPageByJump("/activitySkinDrawReward", {
-		showList = arg_12_1,
-		list = arg_12_0.list_,
-		activityID = arg_12_0.params_.activityID
+		showList = slot1,
+		list = slot0.list_,
+		activityID = slot0.params_.activityID
 	})
 end
 
-function var_0_0.OnTop(arg_13_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0.playable_.time = 0
-	arg_14_0.playable_ = nil
+function slot0.OnExit(slot0)
+	slot0.playable_.time = 0
+	slot0.playable_ = nil
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
-	arg_15_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

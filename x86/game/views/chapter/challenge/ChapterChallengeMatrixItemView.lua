@@ -1,112 +1,100 @@
-local var_0_0 = import(".ChapterChallengeItemWithCD")
-local var_0_1 = class("ChapterChallengeMatrixItemView", var_0_0)
+slot1 = class("ChapterChallengeMatrixItemView", import(".ChapterChallengeItemWithCD"))
 
-function var_0_1.Ctor(arg_1_0, ...)
-	var_0_1.super.Ctor(arg_1_0, ...)
+function slot1.Ctor(slot0, ...)
+	uv0.super.Ctor(slot0, ...)
 
-	arg_1_0.updateHandler_ = handler(arg_1_0, arg_1_0.UpdateMatrix)
+	slot0.updateHandler_ = handler(slot0, slot0.UpdateMatrix)
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	var_0_1.super.OnEnter(arg_2_0)
-	manager.notify:RegistListener(MATRIX_UPDATE, arg_2_0.updateHandler_)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.notify:RegistListener(MATRIX_UPDATE, slot0.updateHandler_)
 end
 
-function var_0_1.OnExit(arg_3_0)
-	manager.notify:RemoveListener(MATRIX_UPDATE, arg_3_0.updateHandler_)
-	var_0_1.super.OnExit(arg_3_0)
+function slot1.OnExit(slot0)
+	manager.notify:RemoveListener(MATRIX_UPDATE, slot0.updateHandler_)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_1.Dispose(arg_4_0)
-	arg_4_0.updateHandler_ = nil
+function slot1.Dispose(slot0)
+	slot0.updateHandler_ = nil
 
-	var_0_1.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.GetLostTime(arg_5_0)
-	local var_5_0 = PolyhedronData:GetActivityID()
-
-	return ActivityData:GetActivityData(var_5_0).stopTime
+function slot1.GetLostTime(slot0)
+	return ActivityData:GetActivityData(PolyhedronData:GetActivityID()).stopTime
 end
 
-function var_0_1.ClickItem(arg_6_0)
-	if arg_6_0.isAbove_ then
+function slot1.ClickItem(slot0)
+	if slot0.isAbove_ then
 		OperationRecorder.RecordButtonTouch("challenge_polyhedron_above")
 
-		arg_6_0.isAbove_ = false
+		slot0.isAbove_ = false
 	else
 		OperationRecorder.RecordButtonTouch("challenge_polyhedron_below")
 	end
 
-	if arg_6_0.isLock_ then
-		ShowTips(arg_6_0.lockTips_)
+	if slot0.isLock_ then
+		ShowTips(slot0.lockTips_)
 
 		return
 	end
 
-	local var_6_0 = PolyhedronData:GetPolyhedronInfo()
-
-	if not var_6_0 then
+	if not PolyhedronData:GetPolyhedronInfo() then
 		return
 	end
 
-	local var_6_1 = PolyhedronData:GetActivityID()
-
-	if not ActivityData:GetActivityIsOpen(var_6_1) then
+	if not ActivityData:GetActivityIsOpen(PolyhedronData:GetActivityID()) then
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	if arg_6_0.isShowNew_ == 1 and not arg_6_0.isLock_ then
-		arg_6_0.isShowNew_ = 0
+	if slot0.isShowNew_ == 1 and not slot0.isLock_ then
+		slot0.isShowNew_ = 0
 
 		RedPointData:SetJsonCacheRedPoint("Polyhedron")
-		manager.redPoint:bindUIandKey(arg_6_0.panelTf_, RedPointConst.POLYHEDRON)
+		manager.redPoint:bindUIandKey(slot0.panelTf_, RedPointConst.POLYHEDRON)
 	end
 
-	local var_6_2 = var_6_0:GetState()
-
-	if PolyhedronConst.STATE_TYPE.SETTLEMENT == var_6_2 then
+	if PolyhedronConst.STATE_TYPE.SETTLEMENT == slot1:GetState() then
 		JumpTools.GoToSystem("/polyhedronBlank/polyhedronOver", nil, ViewConst.SYSTEM_ID.MATRIX)
 	else
 		JumpTools.GoToSystem("/polyhedronBlank/polyhedronLobby", nil, ViewConst.SYSTEM_ID.MATRIX)
 	end
 end
 
-function var_0_1.AddRedPoint(arg_7_0)
-	arg_7_0.isShowNew_ = RedPointData:GetJsonCacheRedPoint("Polyhedron")
+function slot1.AddRedPoint(slot0)
+	slot0.isShowNew_ = RedPointData:GetJsonCacheRedPoint("Polyhedron")
 
-	manager.redPoint:bindUIandKey(arg_7_0.panelTf_, RedPointConst.POLYHEDRON)
+	manager.redPoint:bindUIandKey(slot0.panelTf_, RedPointConst.POLYHEDRON)
 end
 
-function var_0_1.RemoveRedPoint(arg_8_0)
-	manager.redPoint:unbindUIandKey(arg_8_0.panelTf_)
+function slot1.RemoveRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.panelTf_)
 end
 
-function var_0_1.UpdateMatrix(arg_9_0)
-	manager.redPoint:unbindUIandKey(arg_9_0.panelTf_)
-	arg_9_0:AddRedPoint()
+function slot1.UpdateMatrix(slot0)
+	manager.redPoint:unbindUIandKey(slot0.panelTf_)
+	slot0:AddRedPoint()
 end
 
-function var_0_1.AddCountdown(arg_10_0)
-	return
+function slot1.AddCountdown(slot0)
 end
 
-function var_0_1.RefreshTimeText(arg_11_0)
-	local var_11_0 = arg_11_0.tiemLock_
+function slot1.RefreshTimeText(slot0)
+	slot0.timeLock_ = slot0:GetLostTime() <= manager.time:GetServerTime()
 
-	arg_11_0.timeLock_ = manager.time:GetServerTime() >= arg_11_0:GetLostTime()
-
-	if var_11_0 ~= arg_11_0.timeLock_ then
-		arg_11_0:RefreshLock()
+	if slot0.tiemLock_ ~= slot0.timeLock_ then
+		slot0:RefreshLock()
 	end
 
-	if arg_11_0.timeLock_ then
-		arg_11_0.openText_.text = ""
+	if slot0.timeLock_ then
+		slot0.openText_.text = ""
 	else
-		arg_11_0.openText_.text = string.format(GetTips("TIME_DISPLAY_1"), manager.time:GetLostTimeStr(arg_11_0:GetLostTime(), nil, true))
+		slot0.openText_.text = string.format(GetTips("TIME_DISPLAY_1"), manager.time:GetLostTimeStr(slot0:GetLostTime(), nil, true))
 	end
 end
 
-return var_0_1
+return slot1

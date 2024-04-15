@@ -1,195 +1,170 @@
-local var_0_0 = class("WeaponBreakSubView", ReduxView)
+slot0 = class("WeaponBreakSubView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:Init()
+	slot0:BindCfgUI()
+	slot0:Init()
 
-	arg_1_0.pageIsInOpen = false
+	slot0.pageIsInOpen = false
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.scrollHelper_ = LuaList.New(handler(arg_2_0, arg_2_0.RenderItem), arg_2_0.consumeList_, CommonItemView)
+function slot0.Init(slot0)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.RenderItem), slot0.consumeList_, CommonItemView)
 
-	arg_2_0:AddUIListener()
+	slot0:AddUIListener()
 
-	arg_2_0.conditionController = arg_2_0.conditionController_:GetController("conditionItem")
+	slot0.conditionController = slot0.conditionController_:GetController("conditionItem")
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_4_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.buildContext(arg_5_0, arg_5_1)
-	arg_5_1 = arg_5_1 or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_5_0.context = {
+function slot0.buildContext(slot0, slot1)
+	slot1 = slot1 or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.context = {
 		cost = 0,
 		itemCount = 0,
 		heroId = 0,
 		isActive = false,
 		weaponInfo = {},
 		itemList = {},
-		type = arg_5_1,
-		dataPorxy = HeroViewDataProxy.New(arg_5_1)
+		type = slot1,
+		dataPorxy = HeroViewDataProxy.New(slot1)
 	}
-	arg_5_0.constVar = {
+	slot0.constVar = {
 		yellow = "363A42",
 		red = "CD421E"
 	}
 end
 
-function var_0_0.ShowWeaponInfoLocal(arg_6_0)
-	arg_6_0:UpdateWeaponInfo()
-	arg_6_0:ShowWeaponInfo(arg_6_0.context.heroId, arg_6_0.context.weaponInfo)
+function slot0.ShowWeaponInfoLocal(slot0)
+	slot0:UpdateWeaponInfo()
+	slot0:ShowWeaponInfo(slot0.context.heroId, slot0.context.weaponInfo)
 end
 
-function var_0_0.ShowWeaponInfo(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0:buildContext(arg_7_3)
-	arg_7_0:SetPageStatus(true)
+function slot0.ShowWeaponInfo(slot0, slot1, slot2, slot3)
+	slot0:buildContext(slot3)
+	slot0:SetPageStatus(true)
 
-	arg_7_0.context.heroId = arg_7_1
-	arg_7_0.context.weaponInfo = arg_7_2
+	slot0.context.heroId = slot1
+	slot0.context.weaponInfo = slot2
 
-	arg_7_0:RefreshMaterialList()
-	arg_7_0.scrollHelper_:StartScroll(arg_7_0.context.itemCount)
-	arg_7_0:RenderView()
+	slot0:RefreshMaterialList()
+	slot0.scrollHelper_:StartScroll(slot0.context.itemCount)
+	slot0:RenderView()
 end
 
-function var_0_0.RenderItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.context.itemList[arg_8_1]
-
-	var_8_0.index = arg_8_1
-
-	local var_8_1 = ItemTools.getItemNum(var_8_0[1])
-	local var_8_2 = clone(ItemTemplateData)
-
-	var_8_2.index = arg_8_1
-	var_8_2.bottomText = {
-		var_8_1,
-		var_8_0[2]
+function slot0.RenderItem(slot0, slot1, slot2)
+	slot3 = slot0.context.itemList[slot1]
+	slot3.index = slot1
+	slot5 = clone(ItemTemplateData)
+	slot5.index = slot1
+	slot5.bottomText = {
+		ItemTools.getItemNum(slot3[1]),
+		slot3[2]
 	}
-	var_8_2.id = var_8_0[1]
-	var_8_2.number = nil
+	slot5.id = slot3[1]
+	slot5.number = nil
 
-	function var_8_2.clickFun(arg_9_0)
+	function slot5.clickFun(slot0)
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_9_0.id,
-			var_8_1
+			slot0.id,
+			uv0
 		})
 	end
 
-	arg_8_2:SetData(var_8_2)
+	slot2:SetData(slot5)
 end
 
-function var_0_0.RenderView(arg_10_0)
-	local var_10_0 = arg_10_0.context.heroId
-	local var_10_1 = arg_10_0.context.weaponInfo
-	local var_10_2 = var_10_1.level
-	local var_10_3 = var_10_1.breakthrough
-	local var_10_4 = GameSetting.weapon_user_limit.value[var_10_3 + 1]
-	local var_10_5 = GameSetting.weapon_exp_limit.value[var_10_3 + 2]
-	local var_10_6 = HeroCfg[var_10_0].weapon_break_attribute[var_10_1.breakthrough + 1][2]
-	local var_10_7 = HeroCfg[var_10_0].weapon_break_attribute[var_10_1.breakthrough + 2][2]
-	local var_10_8 = string.format("%d", WeaponTools.WeaponAtk(var_10_2, var_10_3))
-	local var_10_9 = string.format("%d", WeaponTools.WeaponAtk(var_10_2, var_10_3 + 1))
-	local var_10_10 = PlayerData:GetPlayerInfo().userLevel
-	local var_10_11 = GameSetting.weapon_user_limit.value[var_10_3 + 1]
+function slot0.RenderView(slot0)
+	slot1 = slot0.context.heroId
+	slot2 = slot0.context.weaponInfo
+	slot3 = slot2.level
+	slot4 = slot2.breakthrough
+	slot5 = GameSetting.weapon_user_limit.value[slot4 + 1]
+	slot6 = GameSetting.weapon_exp_limit.value[slot4 + 2]
+	slot7 = HeroCfg[slot1].weapon_break_attribute[slot2.breakthrough + 1][2]
+	slot8 = HeroCfg[slot1].weapon_break_attribute[slot2.breakthrough + 2][2]
+	slot9 = string.format("%d", WeaponTools.WeaponAtk(slot3, slot4))
+	slot10 = string.format("%d", WeaponTools.WeaponAtk(slot3, slot4 + 1))
 
-	arg_10_0:RenderCost()
-	SetActive(arg_10_0.markObj_, var_10_11 <= var_10_10)
+	slot0:RenderCost()
+	SetActive(slot0.markObj_, GameSetting.weapon_user_limit.value[slot4 + 1] <= PlayerData:GetPlayerInfo().userLevel)
 
-	if var_10_11 <= var_10_10 then
-		arg_10_0.conditionTxt_.text = string.format(GetTips("UPGRADE_LIMIT_LEVEL"), var_10_11)
+	if slot12 <= slot11 then
+		slot0.conditionTxt_.text = string.format(GetTips("UPGRADE_LIMIT_LEVEL"), slot12)
 
-		arg_10_0.conditionController:SetSelectedState("achieve")
+		slot0.conditionController:SetSelectedState("achieve")
 	else
-		arg_10_0.conditionTxt_.text = string.format(GetTips("UPGRADE_LIMIT_LEVEL_RED"), var_10_11)
+		slot0.conditionTxt_.text = string.format(GetTips("UPGRADE_LIMIT_LEVEL_RED"), slot12)
 
-		arg_10_0.conditionController:SetSelectedState("unsuccessful")
+		slot0.conditionController:SetSelectedState("unsuccessful")
 	end
 
-	arg_10_0.beforeLvTxt_.text = var_10_2
-	arg_10_0.afterLvTxt_.text = var_10_5
-	arg_10_0.beforeAtkTxt_.text = var_10_8
-	arg_10_0.afterAtkTxt_.text = var_10_9
-
-	local var_10_12, var_10_13 = SkillTools.GetAttr(HeroCfg[var_10_0].weapon_break_attribute[var_10_1.breakthrough + 1])
-
-	arg_10_0.beforeSubTxt_.text = var_10_13
-
-	local var_10_14, var_10_15 = SkillTools.GetAttr(HeroCfg[var_10_0].weapon_break_attribute[var_10_1.breakthrough + 2])
-
-	arg_10_0.subDescTxt_.text = var_10_14
-	arg_10_0.afterSubTxt_.text = var_10_15
+	slot0.beforeLvTxt_.text = slot3
+	slot0.afterLvTxt_.text = slot6
+	slot0.beforeAtkTxt_.text = slot9
+	slot0.afterAtkTxt_.text = slot10
+	slot13, slot0.beforeSubTxt_.text = SkillTools.GetAttr(HeroCfg[slot1].weapon_break_attribute[slot2.breakthrough + 1])
+	slot0.subDescTxt_.text, slot0.afterSubTxt_.text = SkillTools.GetAttr(HeroCfg[slot1].weapon_break_attribute[slot2.breakthrough + 2])
 end
 
-function var_0_0.RefreshMaterialList(arg_11_0)
-	local var_11_0 = arg_11_0.context.weaponInfo
-	local var_11_1, var_11_2 = WeaponTools.BreakMaterial(var_11_0.breakthrough)
-
-	arg_11_0.context.itemList = var_11_2
-	arg_11_0.context.itemCount = #var_11_2
-	arg_11_0.context.cost = var_11_1
+function slot0.RefreshMaterialList(slot0)
+	slot0.context.cost, slot3 = WeaponTools.BreakMaterial(slot0.context.weaponInfo.breakthrough)
+	slot0.context.itemList = slot3
+	slot0.context.itemCount = #slot3
 end
 
-function var_0_0.AddUIListener(arg_12_0)
-	arg_12_0:AddBtnListener(arg_12_0.breakUpBtn_, nil, function()
-		arg_12_0:OnBreakBtnClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.breakUpBtn_, nil, function ()
+		uv0:OnBreakBtnClick()
 	end)
 end
 
-function var_0_0.RenderCost(arg_14_0)
-	local var_14_0 = arg_14_0.context.weaponInfo.breakthrough
-	local var_14_1, var_14_2 = WeaponTools.BreakMaterial(var_14_0)
-	local var_14_3 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-
-	arg_14_0.tokenTxt_.text = setTextColor(arg_14_0.constVar.yellow, arg_14_0.constVar.red, var_14_1, var_14_3)
+function slot0.RenderCost(slot0)
+	slot3, slot4 = WeaponTools.BreakMaterial(slot0.context.weaponInfo.breakthrough)
+	slot0.tokenTxt_.text = setTextColor(slot0.constVar.yellow, slot0.constVar.red, slot3, ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD))
 end
 
-function var_0_0.OnGoldChange(arg_15_0)
-	arg_15_0:RefreshMaterialList()
-	arg_15_0.scrollHelper_:StartScroll(arg_15_0.context.itemCount)
-	arg_15_0:RenderView()
+function slot0.OnGoldChange(slot0)
+	slot0:RefreshMaterialList()
+	slot0.scrollHelper_:StartScroll(slot0.context.itemCount)
+	slot0:RenderView()
 end
 
-function var_0_0.OnBreakBtnClick(arg_16_0)
-	if WeaponAction.CheckBreak(arg_16_0.context.heroId, true) then
-		WeaponAction.WeaponBreak(arg_16_0.context.heroId)
+function slot0.OnBreakBtnClick(slot0)
+	if WeaponAction.CheckBreak(slot0.context.heroId, true) then
+		WeaponAction.WeaponBreak(slot0.context.heroId)
 	end
 end
 
-function var_0_0.UpdateWeaponInfo(arg_17_0)
-	local var_17_0 = arg_17_0.context.heroId
-
-	if var_17_0 and var_17_0 ~= 0 then
-		local var_17_1 = deepClone(arg_17_0.context.dataPorxy:GetHeroWeaponInfo(var_17_0))
-
-		arg_17_0.context.weaponInfo = var_17_1
+function slot0.UpdateWeaponInfo(slot0)
+	if slot0.context.heroId and slot1 ~= 0 then
+		slot0.context.weaponInfo = deepClone(slot0.context.dataPorxy:GetHeroWeaponInfo(slot1))
 	end
 end
 
-function var_0_0.SetPageStatus(arg_18_0, arg_18_1)
-	arg_18_0.pageIsInOpen = arg_18_1
+function slot0.SetPageStatus(slot0, slot1)
+	slot0.pageIsInOpen = slot1
 end
 
-function var_0_0.GetPageOpenStatus(arg_19_0)
-	return arg_19_0.pageIsInOpen
+function slot0.GetPageOpenStatus(slot0)
+	return slot0.pageIsInOpen
 end
 
-function var_0_0.OnExit(arg_20_0)
-	arg_20_0:SetPageStatus(false)
+function slot0.OnExit(slot0)
+	slot0:SetPageStatus(false)
 end
 
-function var_0_0.Dispose(arg_21_0)
-	arg_21_0.scrollHelper_:Dispose()
-	arg_21_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_21_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

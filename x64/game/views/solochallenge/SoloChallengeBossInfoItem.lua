@@ -1,17 +1,16 @@
-local var_0_0 = import("game.views.IllustratedHandleBook.IlluEnemyFiles.IlluEnemyFileDetailItem")
-local var_0_1 = class("SoloChallengeBossInfoItem", var_0_0)
+slot1 = class("SoloChallengeBossInfoItem", import("game.views.IllustratedHandleBook.IlluEnemyFiles.IlluEnemyFileDetailItem"))
 
-function var_0_1.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_1.RefreshUI(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.gameObject_, true)
+function slot1.RefreshUI(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_2_0.titleText_.text = GetI18NText(arg_2_1.name)
-	arg_2_0.descText_.text = GetI18NText(arg_2_1.info)
+	slot0.titleText_.text = GetI18NText(slot1.name)
+	slot0.descText_.text = GetI18NText(slot1.info)
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.transform_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-return var_0_1
+return slot1

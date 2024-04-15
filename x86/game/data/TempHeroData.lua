@@ -1,110 +1,98 @@
-local var_0_0 = singletonClass("TempHeroData", BaseHeroViewData)
-local var_0_1 = {}
+slot0 = singletonClass("TempHeroData", BaseHeroViewData)
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.GetHeroList(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function slot0.GetHeroList(slot0, slot1)
+	slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		if not var_0_1[iter_2_1] then
-			arg_2_0:GetTempHeroDataByTempID(iter_2_1)
+	for slot6, slot7 in ipairs(slot1) do
+		if not uv0[slot7] then
+			slot0:GetTempHeroDataByTempID(slot7)
 		end
 
-		var_2_0[iter_2_1] = var_0_1[iter_2_1]
+		slot2[slot7] = uv0[slot7]
 	end
 
-	return var_2_0
+	return slot2
 end
 
-function var_0_0.GetTempHeroDataByTempID(arg_3_0, arg_3_1)
-	if var_0_1[arg_3_1] then
-		return var_0_1[arg_3_1]
+function slot0.GetTempHeroDataByTempID(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1]
 	end
 
-	local var_3_0 = HeroStandardSystemCfg[arg_3_1]
-	local var_3_1 = SkinCfg[var_3_0.skin_id].hero
+	slot2 = HeroStandardSystemCfg[slot1]
+	uv0[slot1] = TemplateHeroDataTemplate.New(SkinCfg[slot2.skin_id].hero)
 
-	var_0_1[arg_3_1] = TemplateHeroDataTemplate.New(var_3_1)
+	uv0[slot1]:Init(slot2)
 
-	var_0_1[arg_3_1]:Init(var_3_0)
-
-	return var_0_1[arg_3_1]
+	return uv0[slot1]
 end
 
-function var_0_0.GetTempHeroList(arg_4_0, arg_4_1)
-	local var_4_0
-	local var_4_1
-	local var_4_2 = {}
+function slot0.GetTempHeroList(slot0, slot1)
+	slot2, slot3 = nil
+	slot4 = {}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1) do
-		local var_4_3 = HeroStandardSystemCfg[iter_4_1]
-
-		if var_4_3 then
-			local var_4_4 = SkinCfg[var_4_3.hero_id].hero
-
-			table.insert(var_4_2, var_4_4)
+	for slot8, slot9 in ipairs(slot1) do
+		if HeroStandardSystemCfg[slot9] then
+			table.insert(slot4, SkinCfg[slot2.hero_id].hero)
 		end
 	end
 
-	return var_4_2
+	return slot4
 end
 
-function var_0_0.GetHeroData(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0
+function slot0.GetHeroData(slot0, slot1, slot2)
+	slot3 = nil
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_2) do
-		local var_5_1 = arg_5_0:GetTempHeroDataByTempID(iter_5_1)
-
-		if var_5_1.id == arg_5_1 then
-			return var_5_1
+	for slot7, slot8 in ipairs(slot2) do
+		if slot0:GetTempHeroDataByTempID(slot8).id == slot1 then
+			return slot3
 		end
 	end
 
 	return {}
 end
 
-function var_0_0.GetBattlePower(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0:GetTempHeroDataByTempID(arg_6_1)
+function slot0.GetBattlePower(slot0, slot1)
+	slot2 = slot0:GetTempHeroDataByTempID(slot1)
 
-	return calcBattlePower(var_6_0, var_6_0.servantInfo, var_6_0.equip_list, arg_6_1)
+	return calcBattlePower(slot2, slot2.servantInfo, slot2.equip_list, slot1)
 end
 
-function var_0_0.GetEquipInfoList(arg_7_0, arg_7_1, arg_7_2)
-	return arg_7_0:GetHeroData(arg_7_1, arg_7_2):GetEquipInfoList()
+function slot0.GetEquipInfoList(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2):GetEquipInfoList()
 end
 
-function var_0_0.GetEquipDataList(arg_8_0, arg_8_1, arg_8_2)
-	return arg_8_0:GetHeroData(arg_8_1, arg_8_2).equip_list
+function slot0.GetEquipDataList(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2).equip_list
 end
 
-function var_0_0.GetHeroWeaponInfo(arg_9_0, arg_9_1, arg_9_2)
-	return arg_9_0:GetHeroData(arg_9_1, arg_9_2).weapon_info
+function slot0.GetHeroWeaponInfo(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2).weapon_info
 end
 
-function var_0_0.GetHeroUsingSkinInfo(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0:GetHeroData(arg_10_1, arg_10_2)
-	local var_10_1 = var_10_0 and var_10_0.using_skin or 0
-
-	if var_10_1 == 0 then
-		var_10_1 = arg_10_1
+function slot0.GetHeroUsingSkinInfo(slot0, slot1, slot2)
+	if (slot0:GetHeroData(slot1, slot2) and slot3.using_skin or 0) == 0 then
+		slot4 = slot1
 	end
 
-	return SkinCfg[var_10_1]
+	return SkinCfg[slot4]
 end
 
-function var_0_0.GetHeroServantInfo(arg_11_0, arg_11_1, arg_11_2)
-	return arg_11_0:GetHeroData(arg_11_1, arg_11_2):GetServantInfo()
+function slot0.GetHeroServantInfo(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2):GetServantInfo()
 end
 
-function var_0_0.GetHeroSkillInfoList(arg_12_0, arg_12_1, arg_12_2)
-	return arg_12_0:GetHeroData(arg_12_1, arg_12_2):GetSkillInfoList()
+function slot0.GetHeroSkillInfoList(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2):GetSkillInfoList()
 end
 
-function var_0_0.GetHeroTransitionInfoList(arg_13_0, arg_13_1, arg_13_2)
-	return arg_13_0:GetHeroData(arg_13_1, arg_13_2):GetTransitionInfoList()
+function slot0.GetHeroTransitionInfoList(slot0, slot1, slot2)
+	return slot0:GetHeroData(slot1, slot2):GetTransitionInfoList()
 end
 
-return var_0_0
+return slot0

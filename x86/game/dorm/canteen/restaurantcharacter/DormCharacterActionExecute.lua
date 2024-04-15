@@ -1,96 +1,93 @@
-local var_0_0 = singletonClass("DormCharacterActionExecute")
-local var_0_1 = import(".InteractAction.InteractUtil")
+slot0 = singletonClass("DormCharacterActionExecute")
+slot1 = import(".InteractAction.InteractUtil")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.listen = {
-		[ON_DORM_CHARACTER_INTERACT] = handler(arg_1_0, arg_1_0.Interact),
-		[ON_DORM_CHARACTER_INTERACT_FINISH] = handler(arg_1_0, arg_1_0.OnInteractFin)
+function slot0.Ctor(slot0)
+	slot0.listen = {
+		[ON_DORM_CHARACTER_INTERACT] = handler(slot0, slot0.Interact),
+		[ON_DORM_CHARACTER_INTERACT_FINISH] = handler(slot0, slot0.OnInteractFin)
 	}
 end
 
-local var_0_2 = {
-	NewTask = function(arg_2_0, arg_2_1)
-		return DormCharacterActionManager.taskRunner:NewTask():Then(arg_2_0)
+slot2 = {
+	NewTask = function (slot0, slot1)
+		return DormCharacterActionManager.taskRunner:NewTask():Then(slot0)
 	end,
-	NewTimer = function(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-		return DormCharacterActionManager.taskRunner:NewTimer(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
+	NewTimer = function (slot0, slot1, slot2, slot3)
+		return DormCharacterActionManager.taskRunner:NewTimer(slot0, slot1, slot2, slot3)
 	end
 }
+slot0.GetEntityBB = slot1.GetEntityBB
+slot0.GetEntityType = slot1.GetEntityType
 
-var_0_0.GetEntityBB = var_0_1.GetEntityBB
-var_0_0.GetEntityType = var_0_1.GetEntityType
-
-function var_0_0.Init(arg_4_0)
-	arg_4_0:RegisterEvents()
+function slot0.Init(slot0)
+	slot0:RegisterEvents()
 end
 
-function var_0_0.Reset(arg_5_0)
-	arg_5_0:RemoveEvents()
+function slot0.Reset(slot0)
+	slot0:RemoveEvents()
 end
 
-function var_0_0.RegisterEvents(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.listen) do
-		manager.notify:RegistListener(iter_6_0, iter_6_1)
+function slot0.RegisterEvents(slot0)
+	for slot4, slot5 in pairs(slot0.listen) do
+		manager.notify:RegistListener(slot4, slot5)
 	end
 end
 
-function var_0_0.RemoveEvents(arg_7_0)
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.listen) do
-		manager.notify:RemoveListener(iter_7_0, iter_7_1)
+function slot0.RemoveEvents(slot0)
+	for slot4, slot5 in pairs(slot0.listen) do
+		manager.notify:RemoveListener(slot4, slot5)
 	end
 end
 
-function var_0_0.OnInteractFin(arg_8_0, arg_8_1)
-	DormUtils.GetEntityData(arg_8_1).isDuringInteract = false
+function slot0.OnInteractFin(slot0, slot1)
+	DormUtils.GetEntityData(slot1).isDuringInteract = false
 end
 
-function var_0_0.Interact(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	local var_9_0 = {
-		entityID = arg_9_1,
-		targetID = arg_9_2,
-		finish = arg_9_3,
-		entityType = var_0_1.GetEntityType(arg_9_1),
-		targetType = var_0_1.GetEntityType(arg_9_2),
-		entityData = var_0_1.GetEntityBB(arg_9_1),
-		targetData = var_0_1.GetEntityBB(arg_9_2)
-	}
-	local var_9_1 = var_9_0.entityType
-	local var_9_2
+function slot0.Interact(slot0, slot1, slot2, slot3)
+	slot6 = nil
 
-	if var_9_1 == DormEnum.CharacterType.RestaurantCashier then
-		var_9_2 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CashierInteract")
-	elseif var_9_1 == DormEnum.CharacterType.RestaurantCook then
-		var_9_2 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CookInteract")
-	elseif var_9_1 == DormEnum.CharacterType.RestaurantWaiter then
-		var_9_2 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.WaiterInteract")
-	elseif var_0_1.IsCustomer(var_9_1) then
-		var_9_2 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CustomerInteract")
+	if ({
+		entityID = slot1,
+		targetID = slot2,
+		finish = slot3,
+		entityType = uv0.GetEntityType(slot1),
+		targetType = uv0.GetEntityType(slot2),
+		entityData = uv0.GetEntityBB(slot1),
+		targetData = uv0.GetEntityBB(slot2)
+	}).entityType == DormEnum.CharacterType.RestaurantCashier then
+		slot6 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CashierInteract")
+	elseif slot5 == DormEnum.CharacterType.RestaurantCook then
+		slot6 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CookInteract")
+	elseif slot5 == DormEnum.CharacterType.RestaurantWaiter then
+		slot6 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.WaiterInteract")
+	elseif uv0.IsCustomer(slot5) then
+		slot6 = require("game.dorm.canteen.RestaurantCharacter.InteractAction.CustomerInteract")
 	end
 
-	if var_9_2 then
-		var_9_0.entityData.isDuringInteract = true
+	if slot6 then
+		slot4.entityData.isDuringInteract = true
 
-		var_9_2(var_9_0)
+		slot6(slot4)
 	end
 end
 
-function var_0_0.FindAllItemGroup(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = CanteenItemManager.ItemEIdNamespace(arg_10_1)
-	local var_10_1 = {}
+function slot0.FindAllItemGroup(slot0, slot1, slot2)
+	slot4 = {}
+	slot8 = pairs
 
-	for iter_10_0, iter_10_1 in Dorm.storage:ForeachData(var_10_0, pairs) do
-		if arg_10_0.GetEntityBB(iter_10_1).group == arg_10_2 then
-			table.insert(var_10_1, iter_10_1)
+	for slot8, slot9 in Dorm.storage:ForeachData(CanteenItemManager.ItemEIdNamespace(slot1), slot8) do
+		if slot0.GetEntityBB(slot9).group == slot2 then
+			table.insert(slot4, slot9)
 		end
 	end
 
-	return var_10_1
+	return slot4
 end
 
-local function var_0_3(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0) do
-		iter_11_1.statue = DormEnum.FoodState.HasServer
+function slot3(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		slot5.statue = DormEnum.FoodState.HasServer
 	end
 end
 
-return var_0_0
+return slot0

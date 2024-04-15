@@ -1,86 +1,82 @@
-local var_0_0 = class("GuildBossRankItem", ReduxView)
+slot0 = class("GuildBossRankItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroCountController_ = arg_3_0.conExCollection_:GetController("heroCount")
-	arg_3_0.rankController_ = arg_3_0.conExCollection_:GetController("rank")
-	arg_3_0.positionController_ = arg_3_0.posExCon_:GetController("position")
+	slot0.heroCountController_ = slot0.conExCollection_:GetController("heroCount")
+	slot0.rankController_ = slot0.conExCollection_:GetController("rank")
+	slot0.positionController_ = slot0.posExCon_:GetController("position")
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.index_ = arg_4_1
-	arg_4_0.data_ = arg_4_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	arg_5_0.userID_ = arg_5_0.data_.id
-	arg_5_0.nickText_.text = GetI18NText(arg_5_0.data_.nick)
-	arg_5_0.rankText_.text = tostring(arg_5_0.index_)
-	arg_5_0.scoreText_.text = arg_5_0.data_.score
-	arg_5_0.headImg_.sprite = ItemTools.getItemSprite(arg_5_0.data_.icon)
-	arg_5_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_5_0.data_.icon_frame)
+function slot0.UpdateView(slot0)
+	slot0.userID_ = slot0.data_.id
+	slot0.nickText_.text = GetI18NText(slot0.data_.nick)
+	slot0.rankText_.text = tostring(slot0.index_)
+	slot0.scoreText_.text = slot0.data_.score
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot0.data_.icon)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data_.icon_frame)
 
-	arg_5_0.positionController_:SetSelectedState(tostring(arg_5_0.data_.member_post))
+	slot0.positionController_:SetSelectedState(tostring(slot0.data_.member_post))
 
-	local var_5_0 = math.min(#arg_5_0.data_.hero_type_info, 3)
-	local var_5_1 = arg_5_0.data_.hero_type_info
+	slot1 = math.min(#slot0.data_.hero_type_info, 3)
+	slot2 = slot0.data_.hero_type_info
+	slot6 = slot1
 
-	arg_5_0.heroCountController_:SetSelectedIndex(var_5_0)
+	slot0.heroCountController_:SetSelectedIndex(slot6)
 
-	for iter_5_0 = 1, var_5_0 do
-		local var_5_2 = var_5_1[iter_5_0].skin_id
-
-		if var_5_2 == 0 then
-			var_5_2 = var_5_1[iter_5_0].hero_id
+	for slot6 = 1, slot1 do
+		if slot2[slot6].skin_id == 0 then
+			slot7 = slot2[slot6].hero_id
 		end
 
-		arg_5_0["heroImg_" .. iter_5_0].sprite = getSpriteViaConfig("HeroLittleIcon", var_5_2)
+		slot0["heroImg_" .. slot6].sprite = getSpriteViaConfig("HeroLittleIcon", slot7)
 	end
 
-	if arg_5_0.index_ <= 3 then
-		arg_5_0.rankController_:SetSelectedState(arg_5_0.index_)
+	if slot0.index_ <= 3 then
+		slot0.rankController_:SetSelectedState(slot0.index_)
 	else
-		arg_5_0.rankController_:SetSelectedState(0)
+		slot0.rankController_:SetSelectedState(0)
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_10_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

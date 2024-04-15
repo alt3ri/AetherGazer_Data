@@ -1,428 +1,395 @@
 require("game.data.PolyhedronDataTemplate")
 
-local var_0_0 = singletonClass("PolyhedronData", BaseHeroViewData)
-local var_0_1 = {}
-local var_0_2
-local var_0_3
-local var_0_4 = 0
-local var_0_5 = {}
-local var_0_6 = 1
-local var_0_7 = 0
-local var_0_8 = {}
-local var_0_9 = 0
-local var_0_10 = {}
-local var_0_11 = {}
-local var_0_12 = {}
-local var_0_13 = {}
-local var_0_14 = {}
-local var_0_15
-local var_0_16 = 0
-local var_0_17 = 1
-local var_0_18 = {}
-local var_0_19 = {}
-local var_0_20 = {}
-local var_0_21 = 1
-local var_0_22 = 0
+slot0 = singletonClass("PolyhedronData", BaseHeroViewData)
+slot1 = {}
+slot2, slot3 = nil
+slot4 = 0
+slot5 = {}
+slot6 = 1
+slot7 = 0
+slot8 = {}
+slot9 = 0
+slot10 = {}
+slot11 = {}
+slot12 = {}
+slot13 = {}
+slot14 = {}
+slot15 = nil
+slot16 = 0
+slot17 = 1
+slot18 = {}
+slot19 = {}
+slot20 = {}
+slot21 = 1
+slot22 = 0
 
-function var_0_0.Init(arg_1_0)
-	var_0_2 = nil
-	var_0_3 = nil
-	var_0_4 = 0
-	var_0_1 = {}
-	var_0_5 = {}
-	var_0_6 = 1
-	var_0_7 = 0
-	var_0_8 = {}
-	var_0_9 = 0
-	var_0_10 = {}
-	var_0_12 = {}
-	var_0_13 = {}
-	var_0_14 = {}
-	var_0_15 = 0
-	var_0_16 = 0
-	var_0_17 = 1
-	var_0_18 = {}
-	var_0_19 = {}
+function slot0.Init(slot0)
+	uv0 = nil
+	uv1 = nil
+	uv2 = 0
+	uv3 = {}
+	uv4 = {}
+	uv5 = 1
+	uv6 = 0
+	uv7 = {}
+	uv8 = 0
+	uv9 = {}
+	uv10 = {}
+	uv11 = {}
+	uv12 = {}
+	uv13 = 0
+	uv14 = 0
+	uv15 = 1
+	uv16 = {}
+	uv17 = {}
 end
 
-function var_0_0.InitPolyhedronGameData(arg_2_0, arg_2_1)
-	var_0_4 = arg_2_1.activity_id
+function slot0.InitPolyhedronGameData(slot0, slot1)
+	uv0 = slot1.activity_id
 
-	arg_2_0:UpdateTerminalLevel()
+	slot0:UpdateTerminalLevel()
 
-	local var_2_0 = arg_2_1.terminal
+	slot2 = slot1.terminal
+	uv1 = slot2.reset_times
+	uv2 = {}
 
-	var_0_9 = var_2_0.reset_times
-	var_0_8 = {}
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0.upgrade_id_list) do
-		table.insert(var_0_8, iter_2_1)
+	for slot6, slot7 in ipairs(slot2.upgrade_id_list) do
+		table.insert(uv2, slot7)
 	end
 
-	var_0_10 = {}
+	uv3 = {}
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.beacon_id_list) do
-		table.insert(var_0_10, iter_2_3)
+	for slot6, slot7 in ipairs(slot1.beacon_id_list) do
+		table.insert(uv3, slot7)
 	end
 
-	local var_2_1 = arg_2_1.game
-
-	if not var_0_2 then
-		var_0_2 = PolyhedronTemplate.New(var_2_1)
+	if not uv4 then
+		uv4 = PolyhedronTemplate.New(slot1.game)
 	else
-		var_0_2:UpdateGame(var_2_1)
+		uv4:UpdateGame(slot3)
 	end
 
-	var_0_20 = var_0_2:GetTipsList()
+	uv5 = uv4:GetTipsList()
 
-	local var_2_2 = arg_2_1.decision
-
-	for iter_2_4, iter_2_5 in ipairs(var_2_2.apply_id_list) do
-		var_0_5[iter_2_5] = true
+	for slot9, slot10 in ipairs(slot1.decision.apply_id_list) do
+		uv6[slot10] = true
 	end
 
-	var_0_11 = {}
-	var_0_12 = {}
+	uv7 = {}
+	uv8 = {}
 
-	for iter_2_6, iter_2_7 in ipairs(arg_2_1.unlocked_hero_list) do
-		local var_2_3 = iter_2_7.hero_id
+	for slot9, slot10 in ipairs(slot1.unlocked_hero_list) do
+		table.insert(uv7, slot10.hero_id)
 
-		table.insert(var_0_11, var_2_3)
+		slot12 = {}
 
-		local var_2_4 = {}
-
-		for iter_2_8, iter_2_9 in ipairs(iter_2_7.astrolabe_id_list) do
-			table.insert(var_2_4, iter_2_9)
+		for slot16, slot17 in ipairs(slot10.astrolabe_id_list) do
+			table.insert(slot12, slot17)
 		end
 
-		var_0_12[var_2_3] = var_2_4
+		uv8[slot11] = slot12
 	end
 
-	var_0_13 = {}
+	uv9 = {}
 
-	for iter_2_10, iter_2_11 in ipairs(arg_2_1.clear_difficulty_list) do
-		table.insert(var_0_13, iter_2_11)
+	for slot9, slot10 in ipairs(slot1.clear_difficulty_list) do
+		table.insert(uv9, slot10)
 	end
 
-	table.sort(var_0_13, function(arg_3_0, arg_3_1)
-		return arg_3_1 < arg_3_0
+	table.sort(uv9, function (slot0, slot1)
+		return slot1 < slot0
 	end)
 
-	local var_2_5 = arg_2_1.manual
+	uv10 = {}
 
-	var_0_14 = {}
-
-	for iter_2_12, iter_2_13 in ipairs(var_2_5.sample_list) do
-		var_0_14[iter_2_13.id] = iter_2_13.state
+	for slot10, slot11 in ipairs(slot1.manual.sample_list) do
+		uv10[slot11.id] = slot11.state
 	end
 
-	var_0_15 = arg_2_1.already_challenge_times or 0
-	var_0_22 = arg_2_1.is_new or 0
+	uv11 = slot1.already_challenge_times or 0
+	uv12 = slot1.is_new or 0
 end
 
-function var_0_0.GetHeroIDList(arg_4_0)
-	local var_4_0 = var_0_0:GetActivityID()
-	local var_4_1 = PolyhedronHeroShelvesCfg[var_4_0] and PolyhedronHeroShelvesCfg[var_4_0].leader_hero_id or PolyhedronHeroCfg.all
-
-	if PolyhedronHeroShelvesCfg[var_4_0] then
-		return var_4_1
+function slot0.GetHeroIDList(slot0)
+	if PolyhedronHeroShelvesCfg[slot1] then
+		return PolyhedronHeroShelvesCfg[uv0:GetActivityID()] and PolyhedronHeroShelvesCfg[slot1].leader_hero_id or PolyhedronHeroCfg.all
 	else
-		Debug.LogError(string.format("PolyhedronHeroShelvesCfg%s,无配置,", var_4_0))
+		Debug.LogError(string.format("PolyhedronHeroShelvesCfg%s,无配置,", slot1))
 
 		return {}
 	end
 end
 
-function var_0_0.UpdatePolyhedronProcess(arg_5_0, arg_5_1)
-	if var_0_2 then
-		var_0_2:UpdateProcess(arg_5_1.progress)
+function slot0.UpdatePolyhedronProcess(slot0, slot1)
+	if uv0 then
+		uv0:UpdateProcess(slot1.progress)
 	else
 		error("UpdatePolyhedronProcess error")
 	end
 
-	var_0_20 = var_0_2:GetTipsList()
+	uv1 = uv0:GetTipsList()
 end
 
-function var_0_0.ResetCacheTipInfoIndex(arg_6_0)
-	var_0_21 = 1
+function slot0.ResetCacheTipInfoIndex(slot0)
+	uv0 = 1
 end
 
-function var_0_0.UpdatePolyhedronSettlement(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_1.end_info
-
-	var_0_3 = {
-		point = var_7_0.point,
-		decision_exp = var_7_0.decision_exp,
-		terminal_exp = var_7_0.terminal_exp
+function slot0.UpdatePolyhedronSettlement(slot0, slot1)
+	slot2 = slot1.end_info
+	uv0 = {
+		point = slot2.point,
+		decision_exp = slot2.decision_exp,
+		terminal_exp = slot2.terminal_exp
 	}
 end
 
-function var_0_0.GetPolyhedronInfo(arg_8_0)
-	return var_0_2
+function slot0.GetPolyhedronInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetPolyhedronSettlement(arg_9_0)
-	return var_0_3
+function slot0.GetPolyhedronSettlement(slot0)
+	return uv0
 end
 
-function var_0_0.GetClearMaxDifficulty(arg_10_0)
-	return var_0_13[1] or 0
+function slot0.GetClearMaxDifficulty(slot0)
+	return uv0[1] or 0
 end
 
-function var_0_0.UpdateTerminalLevel(arg_11_0)
-	local var_11_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_POLYHEDRON_TERMINAL_EXP)
-
-	var_0_6, var_0_7 = PolyhedronTools.PolyhedronTerminalExpToLevel(var_11_0)
+function slot0.UpdateTerminalLevel(slot0)
+	uv0, uv1 = PolyhedronTools.PolyhedronTerminalExpToLevel(ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_POLYHEDRON_TERMINAL_EXP))
 end
 
-function var_0_0.GetTerminalLevel(arg_12_0)
-	return var_0_6
+function slot0.GetTerminalLevel(slot0)
+	return uv0
 end
 
-function var_0_0.GetTerminalExp(arg_13_0)
-	return var_0_7
+function slot0.GetTerminalExp(slot0)
+	return uv0
 end
 
-function var_0_0.GetTerminalGift(arg_14_0)
-	return var_0_8
+function slot0.GetTerminalGift(slot0)
+	return uv0
 end
 
-function var_0_0.SetTerminalGift(arg_15_0, arg_15_1)
-	var_0_8 = arg_15_1
+function slot0.SetTerminalGift(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetResetTimes(arg_16_0)
-	return var_0_9
+function slot0.GetResetTimes(slot0)
+	return uv0
 end
 
-function var_0_0.AddUnlockBeacon(arg_17_0, arg_17_1)
-	if not table.indexof(var_0_10, arg_17_1) then
-		table.insert(var_0_10, arg_17_1)
+function slot0.AddUnlockBeacon(slot0, slot1)
+	if not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
 	end
 end
 
-function var_0_0.GetUnlockBeaconList(arg_18_0)
-	return var_0_10
+function slot0.GetUnlockBeaconList(slot0)
+	return uv0
 end
 
-function var_0_0.GetBeaconIsLock(arg_19_0, arg_19_1)
-	return not table.indexof(var_0_10, arg_19_1)
+function slot0.GetBeaconIsLock(slot0, slot1)
+	return not table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetBeaconMaxBeaconSelect(arg_20_0)
-	local var_20_0 = {
-		3001,
-		3005,
-		3011
-	}
-	local var_20_1 = 0
-
-	for iter_20_0, iter_20_1 in ipairs(var_0_8) do
-		if table.indexof(var_20_0, iter_20_1) then
-			var_20_1 = var_20_1 + 1
+function slot0.GetBeaconMaxBeaconSelect(slot0)
+	for slot6, slot7 in ipairs(uv0) do
+		if table.indexof({
+			3001,
+			3005,
+			3011
+		}, slot7) then
+			slot2 = 0 + 1
 		end
 	end
 
-	return var_20_1
+	return slot2
 end
 
-function var_0_0.GetArtifaceAtlasState(arg_21_0, arg_21_1)
-	return var_0_14[arg_21_1] or 0
+function slot0.GetArtifaceAtlasState(slot0, slot1)
+	return uv0[slot1] or 0
 end
 
-function var_0_0.GetPolyhedronHeroUnlock(arg_22_0, arg_22_1)
-	return table.indexof(var_0_11, arg_22_1)
+function slot0.GetPolyhedronHeroUnlock(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.UnlockHero(arg_23_0, arg_23_1)
-	if not table.indexof(var_0_11, arg_23_1) then
-		table.insert(var_0_11, arg_23_1)
+function slot0.UnlockHero(slot0, slot1)
+	if not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
 	end
 
-	arg_23_0:GetHeroData(arg_23_1).unlock = 1
+	slot0:GetHeroData(slot1).unlock = 1
 end
 
-function var_0_0.GetUnlockHeroList(arg_24_0)
-	return var_0_11
+function slot0.GetUnlockHeroList(slot0)
+	return uv0
 end
 
-function var_0_0.GetHeroData(arg_25_0, arg_25_1)
-	local var_25_0 = PolyhedronHeroCfg[arg_25_1].standard_id
-	local var_25_1 = HeroStandardSystemCfg[var_25_0]
-	local var_25_2 = SkinCfg[var_25_1.skin_id].hero
+function slot0.GetHeroData(slot0, slot1)
+	slot4 = SkinCfg[HeroStandardSystemCfg[PolyhedronHeroCfg[slot1].standard_id].skin_id].hero
 
-	if not var_0_1[arg_25_1] then
-		var_0_1[arg_25_1] = PolyhedronHeroDataTemplate.New(var_25_2, arg_25_1)
+	if not uv0[slot1] then
+		uv0[slot1] = PolyhedronHeroDataTemplate.New(slot4, slot1)
 
-		var_0_1[arg_25_1]:Init(var_25_1, arg_25_1)
+		uv0[slot1]:Init(slot3, slot1)
 
-		var_0_1[arg_25_1].unlock = not arg_25_0:GetPolyhedronHeroUnlock(arg_25_1) and 0 or 1
+		uv0[slot1].unlock = not slot0:GetPolyhedronHeroUnlock(slot1) and 0 or 1
 
-		local var_25_3 = arg_25_0:GetUseAstrolabe(var_25_2)
-
-		PolyhedronData:SetUseAstrolabe(var_25_2, var_25_3)
+		PolyhedronData:SetUseAstrolabe(slot4, slot0:GetUseAstrolabe(slot4))
 	end
 
-	if var_0_1[arg_25_1].unlock == 1 then
-		var_0_1[arg_25_1].using_skin = HeroData:GetHeroData(var_25_2).using_skin
+	if uv0[slot1].unlock == 1 then
+		uv0[slot1].using_skin = HeroData:GetHeroData(slot4).using_skin
 
-		if var_0_1[arg_25_1].using_skin == 0 then
-			var_0_1[arg_25_1].using_skin = var_25_2
+		if uv0[slot1].using_skin == 0 then
+			uv0[slot1].using_skin = slot4
 		end
 	end
 
-	return var_0_1[arg_25_1]
+	return uv0[slot1]
 end
 
-function var_0_0.GetPolicyApplyList(arg_26_0)
-	return var_0_5
+function slot0.GetPolicyApplyList(slot0)
+	return uv0
 end
 
-function var_0_0.SetPolicyApplyList(arg_27_0, arg_27_1)
-	for iter_27_0, iter_27_1 in ipairs(arg_27_1) do
-		var_0_5[iter_27_1] = true
+function slot0.SetPolicyApplyList(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6] = true
 	end
 end
 
-function var_0_0.GetActivityID(arg_28_0)
-	return var_0_4
+function slot0.GetActivityID(slot0)
+	return uv0
 end
 
-function var_0_0.GetSortRankHeroIDList(arg_29_0)
-	local var_29_0 = RankData:GetCommonRankList(RankConst.RANK_ID.POLYHERON)
-	local var_29_1 = clone(PolyhedronData.GetHeroIDList())
+function slot0.GetSortRankHeroIDList(slot0)
+	slot1 = RankData:GetCommonRankList(RankConst.RANK_ID.POLYHERON)
+	slot2 = clone(PolyhedronData.GetHeroIDList())
 
-	table.sort(var_29_1, function(arg_30_0, arg_30_1)
-		local var_30_0 = var_29_0[arg_30_0]
-		local var_30_1 = var_29_0[arg_30_1]
-		local var_30_2 = var_30_0 and var_30_0.score or 0
-		local var_30_3 = var_30_1 and var_30_1.score or 0
+	table.sort(slot2, function (slot0, slot1)
+		slot3 = uv0[slot1]
 
-		if var_30_2 ~= var_30_3 then
-			return var_30_3 < var_30_2
+		if (uv0[slot0] and slot2.score or 0) ~= (slot3 and slot3.score or 0) then
+			return slot5 < slot4
 		else
-			return arg_30_0 < arg_30_1
+			return slot0 < slot1
 		end
 	end)
 
-	return var_29_1
+	return slot2
 end
 
-function var_0_0.ResetTerminalCallback(arg_31_0)
-	var_0_8 = {}
+function slot0.ResetTerminalCallback(slot0)
+	uv0 = {}
 
 	manager.notify:Invoke(POLYHEDRON_TERMINAL_RESET, {})
 end
 
-function var_0_0.SetCacheSelectHero(arg_32_0, arg_32_1)
-	var_0_16 = arg_32_1
+function slot0.SetCacheSelectHero(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCacheSelectHero(arg_33_0)
-	return var_0_16
+function slot0.GetCacheSelectHero(slot0)
+	return uv0
 end
 
-function var_0_0.SetCacheSelectDifficulty(arg_34_0, arg_34_1)
-	var_0_17 = arg_34_1
+function slot0.SetCacheSelectDifficulty(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCacheSelectDifficulty(arg_35_0)
-	return var_0_17
+function slot0.GetCacheSelectDifficulty(slot0)
+	return uv0
 end
 
-function var_0_0.SetCacheBeaconList(arg_36_0, arg_36_1)
-	var_0_18 = arg_36_1
+function slot0.SetCacheBeaconList(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCacheBeaconList(arg_37_0)
-	return var_0_18
+function slot0.GetCacheBeaconList(slot0)
+	return uv0
 end
 
-function var_0_0.GetStandardId(arg_38_0)
+function slot0.GetStandardId(slot0)
 	return 1
 end
 
-function var_0_0.GetHeroClicked(arg_39_0, arg_39_1)
-	return var_0_19[arg_39_1] or false
+function slot0.GetHeroClicked(slot0, slot1)
+	return uv0[slot1] or false
 end
 
-function var_0_0.SetHeroClicked(arg_40_0, arg_40_1)
-	if PolyhedronAction:GetPolyhedronHeroRedPointCount(arg_40_1) > 0 then
-		var_0_19[arg_40_1] = true
+function slot0.SetHeroClicked(slot0, slot1)
+	if PolyhedronAction:GetPolyhedronHeroRedPointCount(slot1) > 0 then
+		uv0[slot1] = true
 
 		PolyhedronAction:RefreshHeroesRedPoint()
 	end
 end
 
-function var_0_0.GetTipsData(arg_41_0)
-	if var_0_20[var_0_21] then
-		local var_41_0 = deepClone(var_0_20[var_0_21])
+function slot0.GetTipsData(slot0)
+	if uv0[uv1] then
+		uv1 = uv1 + 1
 
-		var_0_21 = var_0_21 + 1
-
-		return var_41_0
+		return deepClone(uv0[uv1])
 	else
 		return nil
 	end
 end
 
-function var_0_0.GetUseAstrolabe(arg_42_0, arg_42_1)
-	if var_0_12[arg_42_1] then
-		return var_0_12[arg_42_1]
+function slot0.GetUseAstrolabe(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1]
 	end
 
-	local var_42_0 = PolyhedronHeroCfg[arg_42_1].standard_id
-	local var_42_1 = HeroStandardSystemCfg[var_42_0]
-
-	if var_42_1.astrolabe_suit_id and var_42_1.astrolabe_suit_id ~= 0 then
-		return HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[var_42_1.astrolabe_suit_id]
+	if HeroStandardSystemCfg[PolyhedronHeroCfg[slot1].standard_id].astrolabe_suit_id and slot4.astrolabe_suit_id ~= 0 then
+		return HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot4.astrolabe_suit_id]
 	end
 end
 
-function var_0_0.SetUseAstrolabe(arg_43_0, arg_43_1, arg_43_2)
-	var_0_12[arg_43_1] = arg_43_2
-	var_0_1[arg_43_1].using_astrolabe = arg_43_2
+function slot0.SetUseAstrolabe(slot0, slot1, slot2)
+	uv0[slot1] = slot2
+	uv1[slot1].using_astrolabe = slot2
 end
 
-function var_0_0.GetAlreadyChallengeTimes(arg_44_0)
-	return var_0_15
+function slot0.GetAlreadyChallengeTimes(slot0)
+	return uv0
 end
 
-function var_0_0.ResetAlreadyChallengeTimes(arg_45_0)
-	var_0_15 = 0
+function slot0.ResetAlreadyChallengeTimes(slot0)
+	uv0 = 0
 end
 
-function var_0_0.GetExFilterSorterFunc(arg_46_0)
-	return function(arg_47_0, arg_47_1)
-		local var_47_0 = not PolyhedronData:GetPolyhedronHeroUnlock(arg_47_0.id) and 0 or 1
-		local var_47_1 = not PolyhedronData:GetPolyhedronHeroUnlock(arg_47_1.id) and 0 or 1
-		local var_47_2 = HeroData:GetHeroData(arg_47_0.id).unlock
-		local var_47_3 = HeroData:GetHeroData(arg_47_1.id).unlock
+function slot0.GetExFilterSorterFunc(slot0)
+	return function (slot0, slot1)
+		slot4 = HeroData:GetHeroData(slot0.id).unlock
+		slot5 = HeroData:GetHeroData(slot1.id).unlock
 
-		if var_47_0 ~= var_47_1 then
-			return true, var_47_1 < var_47_0
-		elseif var_47_2 ~= var_47_3 then
-			return true, var_47_3 < var_47_2
+		if (not PolyhedronData:GetPolyhedronHeroUnlock(slot0.id) and 0 or 1) ~= (not PolyhedronData:GetPolyhedronHeroUnlock(slot1.id) and 0 or 1) then
+			return true, slot3 < slot2
+		elseif slot4 ~= slot5 then
+			return true, slot5 < slot4
 		end
 
 		return false, false
 	end
 end
 
-function var_0_0.GetHeroList(arg_48_0)
-	return var_0_1
+function slot0.GetHeroList(slot0)
+	return uv0
 end
 
-function var_0_0.GetEquipDataList(arg_49_0, arg_49_1)
-	return arg_49_0:GetHeroData(arg_49_1).equip_list
+function slot0.GetEquipDataList(slot0, slot1)
+	return slot0:GetHeroData(slot1).equip_list
 end
 
-function var_0_0.GetIsNewRed(arg_50_0)
-	return var_0_22 == 1
+function slot0.GetIsNewRed(slot0)
+	return uv0 == 1
 end
 
-function var_0_0.SetNewRedValue(arg_51_0, arg_51_1)
-	var_0_22 = arg_51_1
+function slot0.SetNewRedValue(slot0, slot1)
+	uv0 = slot1
 end
 
-return var_0_0
+return slot0

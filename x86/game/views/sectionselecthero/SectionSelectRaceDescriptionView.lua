@@ -1,92 +1,86 @@
-local var_0_0 = class("SectionSelectRaceDescriptionView", ReduxView)
+slot0 = class("SectionSelectRaceDescriptionView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Formation/FormationGodPopUPUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.itemList = {}
+	slot0.itemList = {}
 end
 
-function var_0_0.AddListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.itemList) do
-		iter_7_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.raceID_ = arg_8_0.params_.raceID
-	arg_8_0.sameCamp_ = arg_8_0.params_.sameCamp
-	arg_8_0.raceIDList_ = arg_8_0:GetRaceIDList()
+function slot0.OnEnter(slot0)
+	slot0.raceID_ = slot0.params_.raceID
+	slot0.sameCamp_ = slot0.params_.sameCamp
+	slot0.raceIDList_ = slot0:GetRaceIDList()
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.raceIDList_) do
-		if not arg_8_0.itemList[iter_8_0] then
-			local var_8_0 = Object.Instantiate(arg_8_0.godlistnewGo_, arg_8_0.contentTrs_)
+	for slot4, slot5 in ipairs(slot0.raceIDList_) do
+		if not slot0.itemList[slot4] then
+			slot6 = Object.Instantiate(slot0.godlistnewGo_, slot0.contentTrs_)
 
-			SetActive(var_8_0, true)
+			SetActive(slot6, true)
 
-			arg_8_0.itemList[iter_8_0] = arg_8_0:GetItemClass().New(var_8_0)
+			slot0.itemList[slot4] = slot0:GetItemClass().New(slot6)
 		end
 
-		local var_8_1 = arg_8_0.raceID_ == arg_8_0.raceIDList_[iter_8_0]
-
-		arg_8_0.itemList[iter_8_0]:SetData(arg_8_0.raceIDList_[iter_8_0], var_8_1, arg_8_0.sameCamp_)
+		slot0.itemList[slot4]:SetData(slot0.raceIDList_[slot4], slot0.raceID_ == slot0.raceIDList_[slot4], slot0.sameCamp_)
 	end
 
-	local var_8_2 = arg_8_0.contentTrs_.localPosition
+	slot0.contentTrs_.localPosition = Vector3(slot0.contentTrs_.localPosition.x, 0, 0)
 
-	arg_8_0.contentTrs_.localPosition = Vector3(var_8_2.x, 0, 0)
-
-	TimeTools.StartAfterSeconds(0.1, function()
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.contentTrs_)
+	TimeTools.StartAfterSeconds(0.1, function ()
+		LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.contentTrs_)
 	end, {})
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.raceID_ == arg_10_0.raceIDList_[arg_10_1]
-
-	arg_10_2:SetData(arg_10_0.raceIDList_[arg_10_1], var_10_0, arg_10_0.sameCamp_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.raceIDList_[slot1], slot0.raceID_ == slot0.raceIDList_[slot1], slot0.sameCamp_)
 end
 
-function var_0_0.GetRaceIDList(arg_11_0)
-	local var_11_0 = clone(RaceEffectCfg.all)
+function slot0.GetRaceIDList(slot0)
+	slot1 = clone(RaceEffectCfg.all)
 
-	table.sort(var_11_0, function(arg_12_0, arg_12_1)
-		if arg_12_0 == arg_11_0.raceID_ then
+	table.sort(slot1, function (slot0, slot1)
+		if slot0 == uv0.raceID_ then
 			return true
 		end
 
-		if arg_12_1 == arg_11_0.raceID_ then
+		if slot1 == uv0.raceID_ then
 			return false
 		end
 
-		return arg_12_0 < arg_12_1
+		return slot0 < slot1
 	end)
 
-	return var_11_0
+	return slot1
 end
 
-function var_0_0.GetItemClass(arg_13_0)
+function slot0.GetItemClass(slot0)
 	return SectionSelectRaceDescriptionItem
 end
 
-return var_0_0
+return slot0

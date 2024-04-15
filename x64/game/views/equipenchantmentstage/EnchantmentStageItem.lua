@@ -1,61 +1,61 @@
-local var_0_0 = class("EnchantmentStageItem", ReduxView)
-local var_0_1 = {
+slot0 = class("EnchantmentStageItem", ReduxView)
+slot1 = {
 	"icon_ee_boss_b",
 	"icon_ee_boss_a",
 	"icon_ee_boss_s"
 }
-local var_0_2 = {
+slot2 = {
 	"bg_ee_boss_b",
 	"bg_ee_boss_a",
 	"bg_ee_boss_s"
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.onClick_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.onClick_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.selectBtn_, nil, function()
-		if arg_3_0.onClick_ then
-			arg_3_0.onClick_()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.selectBtn_, nil, function ()
+		if uv0.onClick_ then
+			uv0.onClick_()
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.rareBgImg_.sprite = getSprite("Atlas/EnchantmentStageAtlas", var_0_2[arg_5_2])
-	arg_5_0.bossImg_.sprite = getSpriteWithoutAtlas("TextureConfig/EnchantmentStage/" .. BattleEnchantmentStageCfg[arg_5_1].hd_image)
-	arg_5_0.rareTagImg_.sprite = getSprite("Atlas/BattleStage", var_0_1[arg_5_2] .. SettingData:GetCurrentLanguageKey())
-	arg_5_0.buff_ = getHeroAffixs(BattleEnchantmentStageCfg[arg_5_1].affix_type)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.rareBgImg_.sprite = getSprite("Atlas/EnchantmentStageAtlas", uv0[slot2])
+	slot0.bossImg_.sprite = getSpriteWithoutAtlas("TextureConfig/EnchantmentStage/" .. BattleEnchantmentStageCfg[slot1].hd_image)
+	slot0.rareTagImg_.sprite = getSprite("Atlas/BattleStage", uv1[slot2] .. SettingData:GetCurrentLanguageKey())
+	slot0.buff_ = getHeroAffixs(BattleEnchantmentStageCfg[slot1].affix_type)
 
-	if arg_5_0.buff_ and arg_5_0.buff_ ~= "" and arg_5_0.buff_[1] then
-		arg_5_0.buffImg_.sprite = getAffixSprite(arg_5_0.buff_[1])
+	if slot0.buff_ and slot0.buff_ ~= "" and slot0.buff_[1] then
+		slot0.buffImg_.sprite = getAffixSprite(slot0.buff_[1])
 	else
-		arg_5_0.buffImg_.sprite = nil
+		slot0.buffImg_.sprite = nil
 	end
 
-	arg_5_0.debuff_ = BattleEnchantmentStageCfg[arg_5_1].affix_type_in_map == "" and getMosterAffix(BattleEnchantmentStageCfg[arg_5_1].affix_type) or BattleEnchantmentStageCfg[arg_5_1].affix_type_in_map
+	slot0.debuff_ = BattleEnchantmentStageCfg[slot1].affix_type_in_map == "" and getMosterAffix(BattleEnchantmentStageCfg[slot1].affix_type) or BattleEnchantmentStageCfg[slot1].affix_type_in_map
 
-	if arg_5_0.debuff_ and arg_5_0.debuff_ ~= "" and arg_5_0.debuff_[1] then
-		arg_5_0.debuffImg_.sprite = getAffixSprite(arg_5_0.debuff_[1])
+	if slot0.debuff_ and slot0.debuff_ ~= "" and slot0.debuff_[1] then
+		slot0.debuffImg_.sprite = getAffixSprite(slot0.debuff_[1])
 	else
-		arg_5_0.debuffImg_.sprite = nil
+		slot0.debuffImg_.sprite = nil
 	end
 
-	arg_5_0.stageID_ = arg_5_1
+	slot0.stageID_ = slot1
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

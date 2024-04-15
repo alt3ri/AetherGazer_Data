@@ -1,22 +1,22 @@
-local var_0_0 = class("GotoSkadiStage", BattleSettlementStrategyBase)
+slot0 = class("GotoSkadiStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoSkadiStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoSkadiStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoSkadiStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	if isSuccess(arg_2_1) then
+function slot0.GotoSkadiStage(slot0, slot1, slot2, slot3, slot4)
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/battleLittleGameResultView", {
-				stageData = arg_2_2,
+				stageData = uv0,
 				rewardList = {},
-				battleResult = arg_2_4
+				battleResult = uv1
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv2)
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

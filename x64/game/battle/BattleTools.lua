@@ -1,7 +1,7 @@
 return {
-	GetBattleStatisticsData = function()
-		local var_1_0 = LuaExchangeHelper.GetBattleStatisticsData() or LuaExchangeHelper.GetBattleStatisticsDataBeforeBattleEnd()
-		local var_1_1 = {
+	GetBattleStatisticsData = function ()
+		slot0 = LuaExchangeHelper.GetBattleStatisticsData() or LuaExchangeHelper.GetBattleStatisticsDataBeforeBattleEnd()
+		slot1 = {
 			{
 				damage = int64.zero,
 				hurt = int64.zero,
@@ -19,95 +19,87 @@ return {
 			}
 		}
 
-		for iter_1_0 = 0, var_1_0.hurtInfos.Count - 1 do
-			local var_1_2 = var_1_0.hurtInfos[iter_1_0]
-
-			if var_1_2.agentOrder ~= 0 and var_1_2.damageValue < int64.zero then
-				var_1_1[var_1_2.agentOrder].hurt = var_1_1[var_1_2.agentOrder].hurt + -1 * var_1_2.damageValue
+		for slot5 = 0, slot0.hurtInfos.Count - 1 do
+			if slot0.hurtInfos[slot5].agentOrder ~= 0 and slot6.damageValue < int64.zero then
+				slot1[slot6.agentOrder].hurt = slot1[slot6.agentOrder].hurt + -1 * slot6.damageValue
 			end
 
-			if var_1_2.casterOrder ~= 0 then
-				if var_1_2.damageValue < int64.zero then
-					var_1_1[var_1_2.casterOrder].damage = var_1_1[var_1_2.casterOrder].damage + -1 * var_1_2.damageValue
+			if slot6.casterOrder ~= 0 then
+				if slot6.damageValue < int64.zero then
+					slot1[slot6.casterOrder].damage = slot1[slot6.casterOrder].damage + -1 * slot6.damageValue
 				else
-					var_1_1[var_1_2.casterOrder].cure = var_1_1[var_1_2.casterOrder].cure + var_1_2.damageValue
+					slot1[slot6.casterOrder].cure = slot1[slot6.casterOrder].cure + slot6.damageValue
 				end
 			end
 		end
 
-		local var_1_3 = {
+		slot2 = {
 			damage = int64.zero,
 			hurt = int64.zero,
 			cure = int64.zero
 		}
-		local var_1_4 = {
+		slot3 = {
 			damage = int64.zero,
 			hurt = int64.zero,
 			cure = int64.zero
 		}
 
-		for iter_1_1 = 1, 3 do
-			var_1_3.damage = var_1_3.damage + var_1_1[iter_1_1].damage
-			var_1_3.hurt = var_1_3.hurt + var_1_1[iter_1_1].hurt
-			var_1_3.cure = var_1_3.cure + var_1_1[iter_1_1].cure
+		for slot7 = 1, 3 do
+			slot2.damage = slot2.damage + slot1[slot7].damage
+			slot2.hurt = slot2.hurt + slot1[slot7].hurt
+			slot2.cure = slot2.cure + slot1[slot7].cure
 
-			if var_1_1[iter_1_1].damage > var_1_4.damage then
-				var_1_4.damage = var_1_1[iter_1_1].damage
+			if slot3.damage < slot1[slot7].damage then
+				slot3.damage = slot1[slot7].damage
 			end
 
-			if var_1_1[iter_1_1].hurt > var_1_4.hurt then
-				var_1_4.hurt = var_1_1[iter_1_1].hurt
+			if slot3.hurt < slot1[slot7].hurt then
+				slot3.hurt = slot1[slot7].hurt
 			end
 
-			if var_1_1[iter_1_1].cure > var_1_4.cure then
-				var_1_4.cure = var_1_1[iter_1_1].cure
+			if slot3.cure < slot1[slot7].cure then
+				slot3.cure = slot1[slot7].cure
 			end
 		end
 
-		return var_1_1, var_1_3, var_1_4
+		return slot1, slot2, slot3
 	end,
-	FixBattleAttributeListAndWeaponModule = function(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-		local var_2_0 = LuaExchangeHelper.GetBattleModuleBuffEnum()
-		local var_2_1 = SkinCfg[arg_2_2].hero
-		local var_2_2 = HeroTools.GetModuleEffectByHeroAndLevel(var_2_1, arg_2_3)
-
-		for iter_2_0, iter_2_1 in pairs(var_2_2) do
-			table.insert(arg_2_0, var_2_0 + iter_2_0 - 1)
-			table.insert(arg_2_1, iter_2_1)
+	FixBattleAttributeListAndWeaponModule = function (slot0, slot1, slot2, slot3)
+		for slot10, slot11 in pairs(HeroTools.GetModuleEffectByHeroAndLevel(SkinCfg[slot2].hero, slot3)) do
+			table.insert(slot0, LuaExchangeHelper.GetBattleModuleBuffEnum() + slot10 - 1)
+			table.insert(slot1, slot11)
 		end
 
-		return arg_2_0, arg_2_1
+		return slot0, slot1
 	end,
-	GetAffixPlayerTargetByPos = function(arg_3_0)
-		if arg_3_0 == 1 then
+	GetAffixPlayerTargetByPos = function (slot0)
+		if slot0 == 1 then
 			return BattleConst.ENEMY_TYPE.PLAYER_1
-		elseif arg_3_0 == 2 then
+		elseif slot0 == 2 then
 			return BattleConst.ENEMY_TYPE.PLAYER_2
-		elseif arg_3_0 == 3 then
+		elseif slot0 == 3 then
 			return BattleConst.ENEMY_TYPE.PLAYER_3
 		else
 			error("GetAffixPlayerTargetByPos error pos")
 		end
 	end,
-	GetMaxRaceData = function(arg_4_0)
-		local var_4_0 = {}
-		local var_4_1 = 0
-		local var_4_2 = false
+	GetMaxRaceData = function (slot0)
+		slot1 = {}
+		slot2 = 0
+		slot3 = false
 
-		for iter_4_0, iter_4_1 in ipairs(arg_4_0) do
-			if iter_4_1 ~= 0 then
-				local var_4_3 = HeroCfg[iter_4_1].race
+		for slot7, slot8 in ipairs(slot0) do
+			if slot8 ~= 0 then
+				slot1[slot9] = (slot1[HeroCfg[slot8].race] or 0) + 1
 
-				var_4_0[var_4_3] = (var_4_0[var_4_3] or 0) + 1
-
-				if var_4_0[var_4_3] == 2 then
-					var_4_1 = var_4_3
-				elseif var_4_0[var_4_3] == 3 then
-					var_4_2 = true
+				if slot1[slot9] == 2 then
+					slot2 = slot9
+				elseif slot1[slot9] == 3 then
+					slot3 = true
 				end
 			end
 		end
 
-		return var_4_1, var_4_0[var_4_1] or 1, var_4_2
+		return slot2, slot1[slot2] or 1, slot3
 	end
 }

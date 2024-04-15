@@ -1,66 +1,64 @@
-local var_0_0 = class("AdvanceTestMainItem", ReduxView)
+slot0 = class("AdvanceTestMainItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.mainActivityID = AdvanceTestData:GetMainActivityID()
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.mainActivityID = AdvanceTestData:GetMainActivityID()
+	slot0.index_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
-	arg_1_0:InitUI()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
+	slot0:InitUI()
 
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.InitUI(arg_2_0)
-	local var_2_0
+function slot0.InitUI(slot0)
+	slot1 = nil
 
-	if arg_2_0.index_ == 1 then
-		var_2_0 = "SS"
-	elseif arg_2_0.index_ == 2 then
-		var_2_0 = "SSS"
-	elseif arg_2_0.index_ == 3 then
-		var_2_0 = "Ω"
+	if slot0.index_ == 1 then
+		slot1 = "SS"
+	elseif slot0.index_ == 2 then
+		slot1 = "SSS"
+	elseif slot0.index_ == 3 then
+		slot1 = "Ω"
 	end
 
-	arg_2_0.stageText_.text = string.format(GetTips("TEST_CHALLENGE_TIPS_6"), var_2_0)
+	slot0.stageText_.text = string.format(GetTips("TEST_CHALLENGE_TIPS_6"), slot1)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.button_, nil, function()
-		if arg_4_0.clickFunc_ then
-			arg_4_0.clickFunc_(arg_4_0.index_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.clickFunc_ then
+			uv0.clickFunc_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1)
-	arg_6_0:SetSelectMode(arg_6_0.index_ == arg_6_1)
+function slot0.RefreshUI(slot0, slot1)
+	slot0:SetSelectMode(slot0.index_ == slot1)
 
-	local var_6_0 = AdvanceTestData:GetHistortyMaxScoreByIndex(arg_6_0.index_)
-
-	if var_6_0 == -1 then
-		arg_6_0.scoreText_.text = ""
+	if AdvanceTestData:GetHistortyMaxScoreByIndex(slot0.index_) == -1 then
+		slot0.scoreText_.text = ""
 	else
-		arg_6_0.scoreText_.text = var_6_0
+		slot0.scoreText_.text = slot2
 	end
 end
 
-function var_0_0.SetSelectMode(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.selectController_:SetSelectedState("selected")
+function slot0.SetSelectMode(slot0, slot1)
+	if slot1 then
+		slot0.selectController_:SetSelectedState("selected")
 	else
-		arg_7_0.selectController_:SetSelectedState("normal")
+		slot0.selectController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.RegistClickFunc(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc_ = arg_8_1
+function slot0.RegistClickFunc(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-return var_0_0
+return slot0

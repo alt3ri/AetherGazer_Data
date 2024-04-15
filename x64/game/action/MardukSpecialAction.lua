@@ -1,64 +1,43 @@
-local var_0_0 = {
-	Init = function(arg_1_0)
-		return
-	end
-}
-
-manager.net:Bind(64001, function(arg_2_0)
-	MardukSpecialData:InitDataFromServer(arg_2_0)
-	var_0_0.UpdateNotFightRedPoint(arg_2_0.activity_id)
+manager.net:Bind(64001, function (slot0)
+	MardukSpecialData:InitDataFromServer(slot0)
+	uv0.UpdateNotFightRedPoint(slot0.activity_id)
 end)
-manager.notify:RegistListener(ACTIVITY_REWARD_GET, function(arg_3_0)
-	MardukSpecialData:OnGotReward(arg_3_0.point_reward_id_list)
+manager.notify:RegistListener(ACTIVITY_REWARD_GET, function (slot0)
+	MardukSpecialData:OnGotReward(slot0.point_reward_id_list)
 end)
 
-function var_0_0.UpdateRedPoint(arg_4_0)
-	local var_4_0 = false
-	local var_4_1 = ActivityCfg[arg_4_0].sub_activity_list
+return {
+	Init = function (slot0)
+	end,
+	UpdateRedPoint = function (slot0)
+		slot1 = false
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_1) do
-		local var_4_2 = MardukSpecialData:GetPoint(iter_4_1)
-		local var_4_3
+		for slot6, slot7 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			slot9 = nil
 
-		for iter_4_2, iter_4_3 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[iter_4_1]) do
-			local var_4_4 = ActivityPointRewardCfg[iter_4_3]
-			local var_4_5 = MardukSpecialData:HaveGotReward(iter_4_1, iter_4_3)
+			for slot13, slot14 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot7]) do
+				if ActivityPointRewardCfg[slot14].need <= MardukSpecialData:GetPoint(slot7) and not MardukSpecialData:HaveGotReward(slot7, slot14) then
+					slot1 = true
+					slot9 = true
 
-			if var_4_2 >= var_4_4.need and not var_4_5 then
-				var_4_0 = true
-				var_4_3 = true
+					break
+				end
+			end
 
+			if slot9 then
 				break
 			end
 		end
 
-		if var_4_3 then
-			break
-		end
+		manager.redPoint:setTip(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, slot0), slot1 and 1 or 0)
+	end,
+	UpdateNotFightRedPoint = function (slot0)
+		slot2 = true
+
+		manager.redPoint:setTip(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_NOT_FIGHT, slot0), (MardukSpecialData:GetPoint(slot0) <= 0 or false) and (not getData(tostring(slot0), "nextTime") or manager.time:GetServerTime() >= slot4) and 1 or 0)
+	end,
+	ClickMardukSpecial = function (slot0)
+		saveData(tostring(slot0), "nextTime", _G.gameTimer:GetNextDayFreshTime())
+		uv0.UpdateNotFightRedPoint(slot0)
 	end
-
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_REWARD, arg_4_0), var_4_0 and 1 or 0)
-end
-
-function var_0_0.UpdateNotFightRedPoint(arg_5_0)
-	local var_5_0 = manager.time:GetServerTime()
-	local var_5_1 = true
-	local var_5_2
-
-	if MardukSpecialData:GetPoint(arg_5_0) > 0 then
-		var_5_2 = false
-	else
-		local var_5_3 = getData(tostring(arg_5_0), "nextTime")
-
-		var_5_2 = not var_5_3 or not (var_5_0 < var_5_3)
-	end
-
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.MARDUK_SPECIAL_NOT_FIGHT, arg_5_0), var_5_2 and 1 or 0)
-end
-
-function var_0_0.ClickMardukSpecial(arg_6_0)
-	saveData(tostring(arg_6_0), "nextTime", _G.gameTimer:GetNextDayFreshTime())
-	var_0_0.UpdateNotFightRedPoint(arg_6_0)
-end
-
-return var_0_0
+}

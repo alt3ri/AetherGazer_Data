@@ -1,72 +1,57 @@
-local var_0_0 = class("PolyhedronInteractiveView", ReduxView)
+slot0 = class("PolyhedronInteractiveView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/PolyhedronBattle/PolyhedronInteractiveUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_btn, nil, function()
-		PolyhedronAction.QuerySelectStagePolyhedron(arg_5_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		PolyhedronAction.QuerySelectStagePolyhedron(uv0.index)
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.index = arg_7_0.params_.index
+function slot0.OnEnter(slot0)
+	slot0.index = slot0.params_.index
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+function slot0.RefreshUI(slot0)
+	slot0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+	slot1 = slot0.polyhedronInfo:GetGateData(slot0.index)
+	slot0.m_des.text = GetI18NText(PolyhedronTools.GetGateCfg(slot1.id, slot1.reward_type).gate_des)
 
-	local var_8_0 = arg_8_0.polyhedronInfo:GetGateData(arg_8_0.index)
-	local var_8_1 = var_8_0.id
-	local var_8_2 = var_8_0.reward_type
-	local var_8_3 = PolyhedronTools.GetGateCfg(var_8_1, var_8_2)
-
-	arg_8_0.m_des.text = GetI18NText(var_8_3.gate_des)
-
-	local var_8_4 = arg_8_0.polyhedronInfo:GetTierId()
-	local var_8_5 = var_8_4 + 1
-	local var_8_6 = PolyhedronTierCfg[var_8_5]
-
-	if var_8_6 == nil then
-		local var_8_7 = PolyhedronTierCfg[var_8_4].tier
-
-		if PolyhedronTierCfg.get_id_list_by_tier[var_8_7 + 1] then
-			local var_8_8 = PolyhedronTierCfg.get_id_list_by_tier[var_8_7 + 1][1]
-
-			var_8_6 = PolyhedronTierCfg[var_8_8]
-		end
+	if PolyhedronTierCfg[slot0.polyhedronInfo:GetTierId() + 1] == nil and PolyhedronTierCfg.get_id_list_by_tier[PolyhedronTierCfg[slot5].tier + 1] then
+		slot7 = PolyhedronTierCfg[PolyhedronTierCfg.get_id_list_by_tier[slot8 + 1][1]]
 	end
 
-	if var_8_6 then
-		if var_8_3.gate_title then
-			arg_8_0.m_btnLab.text = string.format(GetI18NText(var_8_3.gate_title), GetI18NText(var_8_6.tier), var_8_6.level)
+	if slot7 then
+		if slot4.gate_title then
+			slot0.m_btnLab.text = string.format(GetI18NText(slot4.gate_title), GetI18NText(slot7.tier), slot7.level)
 		else
-			arg_8_0.m_btnLab.text = GetTips("GO_UP_TO") .. GetI18NText(var_8_6.tier) .. "-" .. var_8_6.level
+			slot0.m_btnLab.text = GetTips("GO_UP_TO") .. GetI18NText(slot7.tier) .. "-" .. slot7.level
 		end
 	else
-		arg_8_0.m_btnLab.text = GetTips("GO_UP_TO")
+		slot0.m_btnLab.text = GetTips("GO_UP_TO")
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.m_titleTextTrans)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.m_titleContentTrans)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.m_desTrs)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.m_contentTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_titleTextTrans)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_titleContentTrans)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_desTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_contentTrs)
 end
 
-return var_0_0
+return slot0

@@ -1,145 +1,140 @@
-local var_0_0 = class("NewSectionHeroChipView", ReduxView)
+slot0 = class("NewSectionHeroChipView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Show(true)
-	arg_1_0:Init()
+	slot0:Show(true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockController_ = arg_3_0.controllerExCollection_:GetController("lock")
-	arg_3_0.managerController_ = arg_3_0.controllerExCollection_:GetController("chipManager")
+	slot0.lockController_ = slot0.controllerExCollection_:GetController("lock")
+	slot0.managerController_ = slot0.controllerExCollection_:GetController("chipManager")
 end
 
-function var_0_0.AddListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.isLock_ then
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.isLock_ then
 			return
 		end
 
-		if arg_4_0.isCustom_ then
+		if uv0.isCustom_ then
 			ShowTips("CANNOT_CHANGE_CHIP")
 
 			return
 		end
 
 		ChipAction:UpdateChipRed()
-		arg_4_0:Go("/battleChipManager", {
-			stageType = arg_4_0.stageType_,
-			stageID = arg_4_0.stageID_,
-			reserveParams = arg_4_0.reserveParams_
+		uv0:Go("/battleChipManager", {
+			stageType = uv0.stageType_,
+			stageID = uv0.stageID_,
+			reserveParams = uv0.reserveParams_
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.stageType_ = arg_6_1
-	arg_6_0.stageID_ = arg_6_2
-	arg_6_0.reserveParams_ = arg_6_3
-	arg_6_0.isCustom_ = false
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.stageType_ = slot1
+	slot0.stageID_ = slot2
+	slot0.reserveParams_ = slot3
+	slot0.isCustom_ = false
 
-	local var_6_0 = BattleStageTools.GetStageCfg(arg_6_1, arg_6_2)
+	if BattleStageTools.GetStageCfg(slot1, slot2) and type(slot4.chip_list) == "table" then
+		slot0.isCustom_ = true
+		slot0.enabledID_ = slot4.chip_list[1]
+		slot0.chipList_ = {}
 
-	if var_6_0 and type(var_6_0.chip_list) == "table" then
-		arg_6_0.isCustom_ = true
-		arg_6_0.enabledID_ = var_6_0.chip_list[1]
-		arg_6_0.chipList_ = {}
-
-		for iter_6_0 = 2, 3 do
-			arg_6_0.chipList_[iter_6_0 - 1] = var_6_0.chip_list[iter_6_0]
+		for slot8 = 2, 3 do
+			slot0.chipList_[slot8 - 1] = slot4.chip_list[slot8]
 		end
 
-		arg_6_0:RefreshUI()
+		slot0:RefreshUI()
 
 		return
 	end
 
-	arg_6_0.enabledID_ = arg_6_0:GetChipManagerID()
-	arg_6_0.chipList_ = arg_6_0:GetChipList()
+	slot0.enabledID_ = slot0:GetChipManagerID()
+	slot0.chipList_ = slot0:GetChipList()
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshLock()
-	arg_7_0:RefreshChipManager()
-	arg_7_0:RefreshChipList()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshLock()
+	slot0:RefreshChipManager()
+	slot0:RefreshChipList()
 end
 
-function var_0_0.RefreshLock(arg_8_0)
-	arg_8_0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CHIP_MANAGER) == true
+function slot0.RefreshLock(slot0)
+	slot0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CHIP_MANAGER) == true
 
-	arg_8_0.lockController_:SetSelectedState(tostring(arg_8_0.isLock_))
+	slot0.lockController_:SetSelectedState(tostring(slot0.isLock_))
 end
 
-function var_0_0.RefreshChipManager(arg_9_0)
-	local var_9_0 = arg_9_0.enabledID_ or 0
+function slot0.RefreshChipManager(slot0)
+	if (slot0.enabledID_ or 0) ~= 0 then
+		slot0.managerController_:SetSelectedState("true")
 
-	if var_9_0 ~= 0 then
-		arg_9_0.managerController_:SetSelectedState("true")
-
-		arg_9_0.chipManagerIcon_.sprite = ChipTools.GetChipManagerIcon(var_9_0)
+		slot0.chipManagerIcon_.sprite = ChipTools.GetChipManagerIcon(slot1)
 	else
-		arg_9_0.managerController_:SetSelectedState("false")
+		slot0.managerController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshChipList(arg_10_0)
-	local var_10_0 = arg_10_0.chipList_
-	local var_10_1 = GameSetting.ai_secondary_chip_equip_num.value[1]
+function slot0.RefreshChipList(slot0)
+	slot1 = slot0.chipList_
 
-	if var_10_1 < #arg_10_0.chipList_ then
-		for iter_10_0 = #arg_10_0.chipList_, var_10_1 + 1, -1 do
-			arg_10_0.chipList_[iter_10_0] = nil
+	if GameSetting.ai_secondary_chip_equip_num.value[1] < #slot0.chipList_ then
+		for slot6 = #slot0.chipList_, slot2 + 1, -1 do
+			slot0.chipList_[slot6] = nil
 		end
 	end
 
-	for iter_10_1, iter_10_2 in ipairs(var_10_0) do
-		if iter_10_2 == nil or iter_10_2 == 0 then
+	for slot6, slot7 in ipairs(slot1) do
+		if slot7 == nil or slot7 == 0 then
 			break
 		end
 
-		SetActive(arg_10_0[string.format("chipIconGo_%s", iter_10_1)], true)
+		SetActive(slot0[string.format("chipIconGo_%s", slot6)], true)
 
-		if ChipCfg[iter_10_2] == nil then
-			print(string.format("ChipCfg[%s] is nil", iter_10_2))
+		if ChipCfg[slot7] == nil then
+			print(string.format("ChipCfg[%s] is nil", slot7))
 		end
 
-		arg_10_0[string.format("chipIcon_%s", iter_10_1)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[iter_10_2].picture_id)
+		slot0[string.format("chipIcon_%s", slot6)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot7].picture_id)
 	end
 
-	for iter_10_3 = #var_10_0 + 1, var_10_1 do
-		SetActive(arg_10_0[string.format("chipIconGo_%s", iter_10_3)], false)
+	for slot6 = #slot1 + 1, slot2 do
+		SetActive(slot0[string.format("chipIconGo_%s", slot6)], false)
 	end
 end
 
-function var_0_0.GetChipManagerID(arg_11_0)
-	return ReserveTools.GetMimirID(arg_11_0.reserveParams_)
+function slot0.GetChipManagerID(slot0)
+	return ReserveTools.GetMimirID(slot0.reserveParams_)
 end
 
-function var_0_0.GetChipList(arg_12_0)
-	return ReserveTools.GetMimirChipList(arg_12_0.reserveParams_)
+function slot0.GetChipList(slot0)
+	return ReserveTools.GetMimirChipList(slot0.reserveParams_)
 end
 
-function var_0_0.GetCurEnabledID(arg_13_0)
-	return arg_13_0.enabledID_ or 0
+function slot0.GetCurEnabledID(slot0)
+	return slot0.enabledID_ or 0
 end
 
-function var_0_0.GetCurChipList(arg_14_0)
-	return arg_14_0.chipList_ or {}
+function slot0.GetCurChipList(slot0)
+	return slot0.chipList_ or {}
 end
 
-function var_0_0.Show(arg_15_0, arg_15_1)
-	SetActive(arg_15_0.gameObject_, arg_15_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

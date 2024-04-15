@@ -1,60 +1,56 @@
-local var_0_0 = class("GotoScoreWithMaxScoreStage", BattleSettlementStrategyBase)
+slot0 = class("GotoScoreWithMaxScoreStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.num
-	local var_1_1 = arg_1_1.stageData
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot2 = slot1.num
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
 
-	if arg_1_1.isHalfWay_ == true then
-		var_1_0 = 3
+	if slot1.isHalfWay_ == true then
+		slot2 = 3
 	end
 
-	local var_1_4 = DestroyBoxGameCfg.get_id_list_by_activity_id[var_1_1:GetActivityID()][1]
-	local var_1_5 = var_1_1:GetDest()
-	local var_1_6 = DestroyBoxGameData:GetStageData(var_1_5)
-	local var_1_7 = var_1_6 and var_1_6.score or 0
-	local var_1_8 = var_1_6 and var_1_6.historyMaxScore or 0
+	slot6 = DestroyBoxGameCfg.get_id_list_by_activity_id[slot3:GetActivityID()][1]
 
-	arg_1_0:GotoScoreWithMaxScoreResult(var_1_7, var_1_8, var_1_0, var_1_1, var_1_2, var_1_3, true)
+	slot0:GotoScoreWithMaxScoreResult(DestroyBoxGameData:GetStageData(slot3:GetDest()) and slot8.score or 0, slot8 and slot8.historyMaxScore or 0, slot2, slot3, slot4, slot5, true)
 end
 
-function var_0_0.GotoScoreWithMaxScoreResult(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5, arg_2_6, arg_2_7)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoScoreWithMaxScoreResult(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	slot8, slot9 = GetResultReward()
 
-	if isSuccess(arg_2_3) then
+	if isSuccess(slot3) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/battleScorWithMaxScoreResult", {
-				stageData = arg_2_4,
-				rewardList = var_2_1,
-				score = arg_2_1,
-				maxScore = arg_2_2,
-				battleResult = arg_2_6
+				stageData = uv0,
+				rewardList = uv1,
+				score = uv2,
+				maxScore = uv3,
+				battleResult = uv4
 			})
-			EndBattleLogic(arg_2_3)
+			EndBattleLogic(uv5)
 		end
 	else
 		function BattleCallLuaCallBack()
-			if arg_2_7 then
+			if uv0 then
 				JumpTools.OpenPageByJump("/battlefailedBossChallenge", {
-					stageData = arg_2_4,
-					starMissionData = arg_2_5,
-					battleResult = arg_2_6,
-					isHalfWay_ = arg_2_0.tempData.isHalfWay_
+					stageData = uv1,
+					starMissionData = uv2,
+					battleResult = uv3,
+					isHalfWay_ = uv4.tempData.isHalfWay_
 				})
 			else
 				JumpTools.OpenPageByJump("/battlefailed", {
-					stageData = arg_2_4,
-					starMissionData = arg_2_5,
-					battleResult = arg_2_6,
-					isHalfWay_ = arg_2_0.tempData.isHalfWay_
+					stageData = uv1,
+					starMissionData = uv2,
+					battleResult = uv3,
+					isHalfWay_ = uv4.tempData.isHalfWay_
 				})
 			end
 
 			manager.story:RemovePlayer()
-			EndBattleLogic(arg_2_3)
+			EndBattleLogic(uv5)
 		end
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,198 +1,184 @@
-local var_0_0 = class("IdolTraineeTrainInfoPage", ReduxView)
+slot0 = class("IdolTraineeTrainInfoPage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.override1_ = arg_1_2
-	arg_1_0.override2_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.override1_ = slot2
+	slot0.override2_ = slot3
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.curHeroID_ = 0
-	arg_2_0.curContent_ = 0
-	arg_2_0.propertyItemList_ = {}
+	slot0.curHeroID_ = 0
+	slot0.curContent_ = 0
+	slot0.propertyItemList_ = {}
 
-	for iter_2_0 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
-		arg_2_0.propertyItemList_[iter_2_0] = TrainInfoPropertyItem.New(arg_2_0["property" .. iter_2_0 .. "Go_"])
+	for slot4 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
+		slot0.propertyItemList_[slot4] = TrainInfoPropertyItem.New(slot0["property" .. slot4 .. "Go_"])
 	end
 
-	arg_2_0.skillItemList_ = {}
+	slot0.skillItemList_ = {}
 
-	for iter_2_1 = 1, 3 do
-		arg_2_0.skillItemList_[iter_2_1] = TrainInfoSkillItem.New(arg_2_0["skill" .. iter_2_1 .. "Go_"])
+	for slot4 = 1, 3 do
+		slot0.skillItemList_[slot4] = TrainInfoSkillItem.New(slot0["skill" .. slot4 .. "Go_"])
 	end
 
-	arg_2_0.heroAllProperty_ = 0
-	arg_2_0.styleData_ = {}
-	arg_2_0.styleUIList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexStyleItem), arg_2_0.styleList_, EnterBattleStyleListItem)
-	arg_2_0.contentController_ = arg_2_0.mainControllerEx_:GetController("content")
-	arg_2_0.flashBarController_ = arg_2_0.mainControllerEx_:GetController("flashBar")
+	slot0.heroAllProperty_ = 0
+	slot0.styleData_ = {}
+	slot0.styleUIList_ = LuaList.New(handler(slot0, slot0.IndexStyleItem), slot0.styleList_, EnterBattleStyleListItem)
+	slot0.contentController_ = slot0.mainControllerEx_:GetController("content")
+	slot0.flashBarController_ = slot0.mainControllerEx_:GetController("flashBar")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.propertyBtn_, nil, function()
-		if arg_3_0.override1_ then
-			arg_3_0.override1_()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.propertyBtn_, nil, function ()
+		if uv0.override1_ then
+			uv0.override1_()
 
 			return
 		end
 
-		arg_3_0:ChangeContent(1)
+		uv0:ChangeContent(1)
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.skillBtn_, nil, function()
-		if arg_3_0.override2_ then
-			arg_3_0.override2_()
+	slot0:AddBtnListener(slot0.skillBtn_, nil, function ()
+		if uv0.override2_ then
+			uv0.override2_()
 
 			return
 		end
 
-		arg_3_0:ChangeContent(2)
+		uv0:ChangeContent(2)
 	end)
 end
 
-function var_0_0.IndexStyleItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_0.styleData_[arg_6_1])
+function slot0.IndexStyleItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.styleData_[slot1])
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.curContent_ = nil
+function slot0.RefreshUI(slot0, slot1)
+	slot0.curContent_ = nil
 
-	if arg_7_1 and arg_7_1.heroID == 0 then
+	if slot1 and slot1.heroID == 0 then
 		dump("空状态")
 	else
-		arg_7_0.template = arg_7_1
-		arg_7_0.curHeroID_ = arg_7_1.heroID
-		arg_7_0.heroAllProperty_ = 0
+		slot0.template = slot1
+		slot0.curHeroID_ = slot1.heroID
+		slot0.heroAllProperty_ = 0
 
-		for iter_7_0, iter_7_1 in ipairs(arg_7_0.template.propertyData) do
-			arg_7_0.heroAllProperty_ = arg_7_0.heroAllProperty_ + iter_7_1
+		for slot5, slot6 in ipairs(slot0.template.propertyData) do
+			slot0.heroAllProperty_ = slot0.heroAllProperty_ + slot6
 		end
 
-		if HeroCfg[arg_7_0.curHeroID_] then
-			arg_7_0.name_.text = HeroCfg[arg_7_0.curHeroID_].suffix
-			arg_7_0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(arg_7_0.curHeroID_)
-		elseif IdolPveNpcCfg[arg_7_0.curHeroID_] then
-			arg_7_0.name_.text = IdolPveNpcCfg[arg_7_0.curHeroID_].name
-
-			local var_7_0 = IdolPveNpcCfg[arg_7_0.curHeroID_].race
-
-			arg_7_0.raceIcon_.sprite = HeroTools.GetRaceIcon(var_7_0)
+		if HeroCfg[slot0.curHeroID_] then
+			slot0.name_.text = HeroCfg[slot0.curHeroID_].suffix
+			slot0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(slot0.curHeroID_)
+		elseif IdolPveNpcCfg[slot0.curHeroID_] then
+			slot0.name_.text = IdolPveNpcCfg[slot0.curHeroID_].name
+			slot0.raceIcon_.sprite = HeroTools.GetRaceIcon(IdolPveNpcCfg[slot0.curHeroID_].race)
 		end
 
-		if BackHomeHeroCfg[arg_7_0.curHeroID_] then
-			arg_7_0.styleData_ = BackHomeHeroCfg[arg_7_0.curHeroID_].idol_style
+		if BackHomeHeroCfg[slot0.curHeroID_] then
+			slot0.styleData_ = BackHomeHeroCfg[slot0.curHeroID_].idol_style
 
-			arg_7_0.styleUIList_:StartScroll(#arg_7_0.styleData_)
+			slot0.styleUIList_:StartScroll(#slot0.styleData_)
 		end
 
-		arg_7_0.heroIcon_.sprite = arg_7_1.heroIcon
+		slot0.heroIcon_.sprite = slot1.heroIcon
 
-		arg_7_0:ChangeContent(2)
-		arg_7_0:ChangeContent(1)
+		slot0:ChangeContent(2)
+		slot0:ChangeContent(1)
 	end
 end
 
-function var_0_0.ChangeContent(arg_8_0, arg_8_1)
-	if arg_8_0.curContent_ == arg_8_1 then
+function slot0.ChangeContent(slot0, slot1)
+	if slot0.curContent_ == slot1 then
 		return
 	end
 
-	arg_8_0.curContent_ = arg_8_1
+	slot0.curContent_ = slot1
 
-	if arg_8_1 == 1 then
-		arg_8_0.contentController_:SetSelectedState("property")
+	if slot1 == 1 then
+		slot0.contentController_:SetSelectedState("property")
 
-		local var_8_0 = arg_8_0.template.propertyData
-		local var_8_1 = arg_8_0.template.propertyMax
-
-		for iter_8_0 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
-			arg_8_0.propertyItemList_[iter_8_0]:SetData(var_8_0[iter_8_0], var_8_1[iter_8_0])
+		for slot7 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
+			slot0.propertyItemList_[slot7]:SetData(slot0.template.propertyData[slot7], slot0.template.propertyMax[slot7])
 		end
 	else
-		arg_8_0.contentController_:SetSelectedState("skill")
+		slot0.contentController_:SetSelectedState("skill")
 
-		local var_8_2 = arg_8_0.template.skill
-
-		for iter_8_1 = 1, #var_8_2 do
-			arg_8_0.skillItemList_[iter_8_1]:SetData(var_8_2[iter_8_1], arg_8_0.heroAllProperty_)
-			SetActive(arg_8_0.skillItemList_[iter_8_1].gameObject_, true)
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.skillItemList_[iter_8_1].transform_)
+		for slot6 = 1, #slot0.template.skill do
+			slot0.skillItemList_[slot6]:SetData(slot2[slot6], slot0.heroAllProperty_)
+			SetActive(slot0.skillItemList_[slot6].gameObject_, true)
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.skillItemList_[slot6].transform_)
 		end
 
-		for iter_8_2 = #var_8_2 + 1, #arg_8_0.skillItemList_ do
-			SetActive(arg_8_0.skillItemList_[iter_8_2].gameObject_, false)
+		for slot6 = #slot2 + 1, #slot0.skillItemList_ do
+			SetActive(slot0.skillItemList_[slot6].gameObject_, false)
 		end
 
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.skillRootTrs_)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.skillRootTrs_)
 	end
 end
 
-function var_0_0.SelectFlashBar(arg_9_0, arg_9_1)
-	arg_9_0.flashBarController_:SetSelectedState(arg_9_1)
+function slot0.SelectFlashBar(slot0, slot1)
+	slot0.flashBarController_:SetSelectedState(slot1)
 
-	if arg_9_1 == 0 then
+	if slot1 == 0 then
 		return
 	end
 
-	arg_9_0.previewTrs_:SetAnchoredPositionY(arg_9_0.propertyItemList_[arg_9_1].transform_.anchoredPosition.y - 284)
+	slot0.previewTrs_:SetAnchoredPositionY(slot0.propertyItemList_[slot1].transform_.anchoredPosition.y - 284)
 
-	local var_9_0 = DormData:GetHeroTemplateInfo(arg_9_0.template.heroID):GetFatigue()
-	local var_9_1 = arg_9_0.template.propertyData[arg_9_1]
-	local var_9_2 = arg_9_0.template.propertyMax[arg_9_1]
-	local var_9_3 = 10
+	slot3 = DormData:GetHeroTemplateInfo(slot0.template.heroID):GetFatigue()
+	slot6 = 10
 
-	for iter_9_0, iter_9_1 in ipairs(GameSetting.dorm_idol_hero_exercise_default_value.value) do
-		if var_9_1 / var_9_2 * 100 >= iter_9_1[1] then
-			var_9_3 = iter_9_1[2]
+	for slot10, slot11 in ipairs(GameSetting.dorm_idol_hero_exercise_default_value.value) do
+		if slot11[1] <= slot0.template.propertyData[slot1] / slot0.template.propertyMax[slot1] * 100 then
+			slot6 = slot11[2]
 		end
 	end
 
-	local var_9_4 = 0
+	slot7 = 0
 
-	for iter_9_2, iter_9_3 in ipairs(GameSetting.dorm_idol_hero_exercise_fatigue_addition.value) do
-		if var_9_0 >= iter_9_3[1] then
-			var_9_4 = iter_9_3[2]
+	for slot11, slot12 in ipairs(GameSetting.dorm_idol_hero_exercise_fatigue_addition.value) do
+		if slot12[1] <= slot3 then
+			slot7 = slot12[2]
 		end
 	end
 
-	local var_9_5 = 0
+	slot8 = 0
 
-	if IdolTraineeTools:CheckHeroRaceBuff(arg_9_0.template.heroID) then
-		var_9_5 = GameSetting.dorm_idol_hero_exercise_camp_addition.value[1]
+	if IdolTraineeTools:CheckHeroRaceBuff(slot0.template.heroID) then
+		slot8 = GameSetting.dorm_idol_hero_exercise_camp_addition.value[1]
 	end
 
-	local var_9_6 = math.floor(var_9_3 * (100 + var_9_4 + var_9_5) / 10000 * GameSetting.dorm_idol_hero_exercise_random.value[1])
-	local var_9_7 = math.floor(var_9_3 * (100 + var_9_4 + var_9_5) / 10000 * GameSetting.dorm_idol_hero_exercise_random.value[2])
-	local var_9_8 = math.floor(var_9_2 - var_9_1)
-
-	if var_9_7 < var_9_8 then
-		arg_9_0.previewText_.text = "+" .. var_9_6 .. "~" .. var_9_7
-	elseif var_9_6 < var_9_8 then
-		arg_9_0.previewText_.text = "+" .. var_9_6 .. "~" .. var_9_8
+	if math.floor(slot6 * (100 + slot7 + slot8) / 10000 * GameSetting.dorm_idol_hero_exercise_random.value[2]) < math.floor(slot5 - slot4) then
+		slot0.previewText_.text = "+" .. math.floor(slot6 * (100 + slot7 + slot8) / 10000 * GameSetting.dorm_idol_hero_exercise_random.value[1]) .. "~" .. slot10
+	elseif slot9 < slot11 then
+		slot0.previewText_.text = "+" .. slot9 .. "~" .. slot11
 	else
-		arg_9_0.previewText_.text = "+" .. var_9_8
+		slot0.previewText_.text = "+" .. slot11
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.propertyItemList_) do
-		iter_10_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.propertyItemList_) do
+		slot5:Dispose()
 	end
 
-	for iter_10_2, iter_10_3 in pairs(arg_10_0.skillItemList_) do
-		iter_10_3:Dispose()
+	for slot4, slot5 in pairs(slot0.skillItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.styleUIList_:Dispose()
+	slot0.styleUIList_:Dispose()
 
-	arg_10_0.styleUIList_ = nil
+	slot0.styleUIList_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

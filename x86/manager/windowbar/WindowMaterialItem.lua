@@ -1,133 +1,129 @@
-local var_0_0 = class("WindowMaterialItem", import("game.extend.ReduxView"))
+slot0 = class("WindowMaterialItem", import("game.extend.ReduxView"))
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.materialType_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.materialType_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
-	arg_2_0:RefreshText()
-	arg_2_0:InitIcon()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:InitUI()
+	slot0:AddListeners()
+	slot0:RefreshText()
+	slot0:InitIcon()
 
-	arg_2_0.isCanAdd_ = true
-	arg_2_0.isCanClick_ = false
+	slot0.isCanAdd_ = true
+	slot0.isCanClick_ = false
 
-	arg_2_0:AddBtnListener(nil, nil, "OnClick")
-	arg_2_0:RegistEventListener(MATERIAL_MODIFY, handler(arg_2_0, arg_2_0.UpdateMaterial))
+	slot0:AddBtnListener(nil, , "OnClick")
+	slot0:RegistEventListener(MATERIAL_MODIFY, handler(slot0, slot0.UpdateMaterial))
 end
 
-function var_0_0.UpdateMaterial(arg_3_0, arg_3_1)
-	if arg_3_1 == arg_3_0.materialType_ then
-		arg_3_0:RefreshText()
+function slot0.UpdateMaterial(slot0, slot1)
+	if slot1 == slot0.materialType_ then
+		slot0:RefreshText()
 	end
 end
 
-function var_0_0.OnClick(arg_4_0)
-	if arg_4_0.isCanAdd_ or arg_4_0.isCanClick_ then
-		OperationRecorder.Record(gameContext:GetLastOpenPage() .. "_" .. arg_4_0.class.__cname, string.format("%d", arg_4_0.materialType_))
+function slot0.OnClick(slot0)
+	if slot0.isCanAdd_ or slot0.isCanClick_ then
+		OperationRecorder.Record(gameContext:GetLastOpenPage() .. "_" .. slot0.class.__cname, string.format("%d", slot0.materialType_))
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_4_0.materialType_
+			slot0.materialType_
 		})
 	end
 end
 
-function var_0_0.CloseOther(arg_5_0)
-	local var_5_0 = gameContext:GetAllOpenRoute()
-	local var_5_1 = false
+function slot0.CloseOther(slot0)
+	slot2 = false
 
-	for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-		if iter_5_1 == "currencyBuyGold" or iter_5_1 == "diamondExchange" or iter_5_1 == "currencyBuyFatigue" then
-			var_5_1 = true
+	for slot6, slot7 in ipairs(gameContext:GetAllOpenRoute()) do
+		if slot7 == "currencyBuyGold" or slot7 == "diamondExchange" or slot7 == "currencyBuyFatigue" then
+			slot2 = true
 		end
 	end
 
-	if var_5_1 then
+	if slot2 then
 		JumpTools.Back()
 	end
 end
 
-function var_0_0.UnBindListener(arg_6_0)
-	arg_6_0:RemoveAllEventListener()
+function slot0.UnBindListener(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:RemoveListeners()
-	arg_7_0:RemoveAllListeners()
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	slot0:RemoveAllListeners()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.transform_ = nil
-	arg_7_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_8_0)
-	arg_8_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.buttonIcon_, nil, function()
-		manager.notify:Invoke(WINDOW_BAR_INFO, arg_9_0.materialType_, arg_9_0.gameObject_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonIcon_, nil, function ()
+		manager.notify:Invoke(WINDOW_BAR_INFO, uv0.materialType_, uv0.gameObject_)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_11_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.SetCanAdd(arg_12_0, arg_12_1)
-	if arg_12_0.isCanAdd_ == arg_12_1 then
+function slot0.SetCanAdd(slot0, slot1)
+	if slot0.isCanAdd_ == slot1 then
 		return
 	end
 
-	arg_12_0.isCanAdd_ = arg_12_1
+	slot0.isCanAdd_ = slot1
 
-	SetActive(arg_12_0.add_, arg_12_1)
+	SetActive(slot0.add_, slot1)
 end
 
-function var_0_0.SetCanClick(arg_13_0, arg_13_1)
-	arg_13_0.isCanClick_ = arg_13_1
+function slot0.SetCanClick(slot0, slot1)
+	slot0.isCanClick_ = slot1
 end
 
-function var_0_0.SetActive(arg_14_0, arg_14_1)
-	SetActive(arg_14_0.gameObject_, arg_14_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_14_1 then
-		arg_14_0:RegistEventListener(MATERIAL_MODIFY, handler(arg_14_0, arg_14_0.UpdateMaterial))
-		arg_14_0:RefreshText()
-		arg_14_0.transform_:SetAsLastSibling()
+	if slot1 then
+		slot0:RegistEventListener(MATERIAL_MODIFY, handler(slot0, slot0.UpdateMaterial))
+		slot0:RefreshText()
+		slot0.transform_:SetAsLastSibling()
 	end
 end
 
-function var_0_0.RefreshText(arg_15_0)
-	arg_15_0.text_.text = NumberTools.RetractNumberForWindBar(arg_15_0:GetCnt())
+function slot0.RefreshText(slot0)
+	slot0.text_.text = NumberTools.RetractNumberForWindBar(slot0:GetCnt())
 end
 
-function var_0_0.InitIcon(arg_16_0)
-	arg_16_0.icon_.sprite = ItemTools.getItemLittleSprite(arg_16_0.materialType_)
+function slot0.InitIcon(slot0)
+	slot0.icon_.sprite = ItemTools.getItemLittleSprite(slot0.materialType_)
 end
 
-function var_0_0.GetCnt(arg_17_0)
-	local var_17_0 = arg_17_0.materialType_
-
-	if var_17_0 == CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A then
+function slot0.GetCnt(slot0)
+	if slot0.materialType_ == CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A then
 		return CommunityData:GetCurrenyA()
 	end
 
-	return ItemTools.getItemNum(var_17_0)
+	return ItemTools.getItemNum(slot1)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_18_0.transform_ = nil
-	arg_18_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

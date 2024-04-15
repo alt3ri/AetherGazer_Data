@@ -1,154 +1,143 @@
 require("game.data.CooperationDataTemplate")
 
-local var_0_0 = singletonClass("ComboSkillData")
-local var_0_1
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7
-local var_0_8 = false
-local var_0_9 = "0"
+slot0 = singletonClass("ComboSkillData")
+slot1 = nil
+slot2 = {}
+slot3 = {}
+slot4 = {}
+slot5 = {}
+slot6 = {}
+slot7 = nil
+slot8 = false
+slot9 = "0"
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = nil
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_4 = {}
-	var_0_5 = {}
-	var_0_6 = {}
-	var_0_7 = nil
-	var_0_8 = false
+function slot0.Init(slot0)
+	uv0 = nil
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
+	uv5 = {}
+	uv6 = nil
+	uv7 = false
 end
 
-function var_0_0.InitRoomData(arg_2_0, arg_2_1)
-	if not var_0_1 then
-		var_0_1 = CooperationRoomTemplate.New()
+function slot0.InitRoomData(slot0, slot1)
+	if not uv0 then
+		uv0 = CooperationRoomTemplate.New()
 	end
 
-	var_0_1:Init(arg_2_1)
+	uv0:Init(slot1)
 end
 
-function var_0_0.UpdateRoomData(arg_3_0, arg_3_1)
-	if not var_0_1 then
+function slot0.UpdateRoomData(slot0, slot1)
+	if not uv0 then
 		error("room info update error")
 
 		return
 	end
 
-	var_0_1:Update(arg_3_1)
+	uv0:Update(slot1)
 end
 
-function var_0_0.ClearRoomData(arg_4_0)
-	var_0_1 = nil
+function slot0.ClearRoomData(slot0)
+	uv0 = nil
 end
 
-function var_0_0.GetRoomData(arg_5_0)
-	return var_0_1
+function slot0.GetRoomData(slot0)
+	return uv0
 end
 
-function var_0_0.CheckInRoom(arg_6_0)
-	return var_0_1 ~= nil
+function slot0.CheckInRoom(slot0)
+	return uv0 ~= nil
 end
 
-function var_0_0.GetIsMatching(arg_7_0)
-	return var_0_8
+function slot0.GetIsMatching(slot0)
+	return uv0
 end
 
-function var_0_0.SetIsMatching(arg_8_0, arg_8_1)
-	var_0_8 = arg_8_1
+function slot0.SetIsMatching(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.InitInviteInfo(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_1.invite_list
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0) do
-		local var_9_1 = CooperationInviteTemplate.New(iter_9_1)
-		local var_9_2 = var_9_1.uid
-
-		var_0_2[var_9_2] = var_9_1
+function slot0.InitInviteInfo(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1.invite_list) do
+		slot8 = CooperationInviteTemplate.New(slot7)
+		uv0[slot8.uid] = slot8
 	end
 
-	local var_9_3 = arg_9_1.type_list
-
-	for iter_9_2, iter_9_3 in ipairs(var_9_3) do
-		table.insert(var_0_3, iter_9_3)
+	for slot7, slot8 in ipairs(slot1.type_list) do
+		table.insert(uv1, slot8)
 	end
 end
 
-function var_0_0.AddInviteInfo(arg_10_0, arg_10_1)
-	local var_10_0 = arg_10_1.invite
-	local var_10_1 = CooperationInviteTemplate.New(var_10_0)
-	local var_10_2 = var_10_1.uid
-	local var_10_3 = var_10_1.invite_type
+function slot0.AddInviteInfo(slot0, slot1)
+	slot3 = CooperationInviteTemplate.New(slot1.invite)
+	uv0[slot3.uid] = slot3
 
-	var_0_2[var_10_2] = var_10_1
-
-	if not table.indexof(var_0_3, var_10_3) then
-		var_0_7 = {
+	if not table.indexof(uv1, slot3.invite_type) then
+		uv2 = {
 			overdue_time = manager.time:GetServerTime() + 10,
-			invite = var_10_1
+			invite = slot3
 		}
 
 		manager.notify:Invoke(COOPERATION_NEW_INVITE)
 	end
 end
 
-function var_0_0.GetNewInviteTip(arg_11_0)
-	return var_0_7
+function slot0.GetNewInviteTip(slot0)
+	return uv0
 end
 
-function var_0_0.ClearNewInviteTip(arg_12_0)
-	var_0_7 = nil
+function slot0.ClearNewInviteTip(slot0)
+	uv0 = nil
 end
 
-function var_0_0.GetAllInviteList(arg_13_0)
-	return var_0_2
+function slot0.GetAllInviteList(slot0)
+	return uv0
 end
 
-function var_0_0.GetInvite(arg_14_0, arg_14_1)
-	return var_0_2[arg_14_1]
+function slot0.GetInvite(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.RefuseInvite(arg_15_0, arg_15_1)
-	if var_0_2[arg_15_1] then
-		var_0_2[arg_15_1]:Refuse()
+function slot0.RefuseInvite(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1]:Refuse()
 	end
 end
 
-function var_0_0.DelectInvite(arg_16_0, arg_16_1)
-	var_0_2[arg_16_1] = nil
+function slot0.DelectInvite(slot0, slot1)
+	uv0[slot1] = nil
 end
 
-function var_0_0.ClearInvite(arg_17_0, arg_17_1)
-	var_0_2 = {}
+function slot0.ClearInvite(slot0, slot1)
+	uv0 = {}
 end
 
-function var_0_0.GetInviteList(arg_18_0, arg_18_1)
-	local var_18_0 = {}
+function slot0.GetInviteList(slot0, slot1)
+	slot2 = {}
 
-	for iter_18_0, iter_18_1 in pairs(var_0_2) do
-		local var_18_1 = iter_18_1.invite_type
-		local var_18_2 = iter_18_1.activity_id
+	for slot6, slot7 in pairs(uv0) do
+		slot9 = slot7.activity_id
 
-		if table.indexof(arg_18_1, var_18_1) then
-			if var_18_2 and var_18_2 ~= 0 then
-				if ActivityData:GetActivityIsOpen(var_18_2) then
-					table.insert(var_18_0, iter_18_1)
+		if table.indexof(slot1, slot7.invite_type) then
+			if slot9 and slot9 ~= 0 then
+				if ActivityData:GetActivityIsOpen(slot9) then
+					table.insert(slot2, slot7)
 				end
 			else
-				table.insert(var_18_0, iter_18_1)
+				table.insert(slot2, slot7)
 			end
 		end
 	end
 
-	return var_18_0
+	return slot2
 end
 
-function var_0_0.CheckInviteEntryShow(arg_19_0)
-	for iter_19_0, iter_19_1 in pairs(var_0_2) do
-		if not iter_19_1:IsOverdue() and not iter_19_1.refuse then
+function slot0.CheckInviteEntryShow(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if not slot5:IsOverdue() and not slot5.refuse then
 			return true
 		end
 	end
@@ -156,136 +145,116 @@ function var_0_0.CheckInviteEntryShow(arg_19_0)
 	return false
 end
 
-function var_0_0.SetInviteRestrict(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = table.indexof(var_0_3, arg_20_1)
-
-	if arg_20_2 == 1 and not var_20_0 then
-		table.insert(var_0_3, arg_20_1)
-	elseif arg_20_2 == 2 and var_20_0 then
-		table.remove(var_0_3, var_20_0)
+function slot0.SetInviteRestrict(slot0, slot1, slot2)
+	if slot2 == 1 and not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
+	elseif slot2 == 2 and slot3 then
+		table.remove(uv0, slot3)
 	end
 end
 
-function var_0_0.GetInviteRestrict(arg_21_0, arg_21_1)
-	return table.indexof(var_0_3, arg_21_1)
+function slot0.GetInviteRestrict(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetRecentVisitList(arg_22_0)
-	return var_0_4
+function slot0.GetRecentVisitList(slot0)
+	return uv0
 end
 
-function var_0_0.InitVisiteList(arg_23_0, arg_23_1)
-	var_0_4 = {}
+function slot0.InitVisiteList(slot0, slot1)
+	uv0 = {}
 
-	local var_23_0 = arg_23_1.player_list
-
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		local var_23_1 = CooperationRecentVisitTemplate.New(iter_23_1)
-
-		table.insert(var_0_4, var_23_1)
+	for slot6, slot7 in ipairs(slot1.player_list) do
+		table.insert(uv0, CooperationRecentVisitTemplate.New(slot7))
 	end
 end
 
-function var_0_0.GetIsMaster(arg_24_0)
-	local var_24_0 = PlayerData:GetPlayerInfo().userID
-	local var_24_1 = var_0_1 and var_0_1:GetRoomPlayerData(var_24_0)
-
-	if var_24_1 then
-		return var_24_1.is_master == 1
+function slot0.GetIsMaster(slot0)
+	if uv0 and uv0:GetRoomPlayerData(PlayerData:GetPlayerInfo().userID) then
+		return slot2.is_master == 1
 	else
 		return false
 	end
 end
 
-function var_0_0.SetInviteVisible(arg_25_0, arg_25_1, arg_25_2)
-	var_0_5[arg_25_1] = arg_25_2
+function slot0.SetInviteVisible(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 
-	saveData("CooperationVisible", tostring(arg_25_1), arg_25_2)
+	saveData("CooperationVisible", tostring(slot1), slot2)
 end
 
-function var_0_0.GetInviteVisible(arg_26_0, arg_26_1)
-	if not var_0_5[arg_26_1] then
-		var_0_5[arg_26_1] = getData("CooperationVisible", tostring(arg_26_1))
+function slot0.GetInviteVisible(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = getData("CooperationVisible", tostring(slot1))
 	end
 
-	if type(var_0_5[arg_26_1]) ~= "boolean" then
-		var_0_5[arg_26_1] = true
+	if type(uv0[slot1]) ~= "boolean" then
+		uv0[slot1] = true
 	end
 
-	return var_0_5[arg_26_1]
+	return uv0[slot1]
 end
 
-function var_0_0.SetHadInvited(arg_27_0, arg_27_1, arg_27_2)
-	table.insert(var_0_6, arg_27_1)
+function slot0.SetHadInvited(slot0, slot1, slot2)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetHadInvited(arg_28_0, arg_28_1, arg_28_2)
-	return table.indexof(var_0_6, arg_28_1)
+function slot0.GetHadInvited(slot0, slot1, slot2)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.ClearHadInvited(arg_29_0)
-	var_0_6 = {}
+function slot0.ClearHadInvited(slot0)
+	uv0 = {}
 end
 
-function var_0_0.GetCooperationHero(arg_30_0, arg_30_1, arg_30_2, arg_30_3)
-	local var_30_0 = CooperationTools.GetCooperationTeamHeroList(arg_30_1, arg_30_2, arg_30_3)
-	local var_30_1 = getData("cooperation", "cooperation_hero_" .. arg_30_1)
+function slot0.GetCooperationHero(slot0, slot1, slot2, slot3)
+	slot4 = CooperationTools.GetCooperationTeamHeroList(slot1, slot2, slot3)
 
-	if var_30_1 and type(var_30_1) == "table" then
-		local var_30_2 = var_30_1.hero_type
-		local var_30_3 = 0
-		local var_30_4 = 0
+	if getData("cooperation", "cooperation_hero_" .. slot1) and type(slot5) == "table" then
+		slot7 = 0
+		slot8 = 0
 
-		if var_30_2 == 2 then
-			var_30_4 = var_30_1.hero_id
-
-			local var_30_5 = HeroStandardSystemCfg[var_30_4]
-
-			var_30_3 = var_30_5 and var_30_5.hero_id
+		if slot5.hero_type == 2 then
+			slot7 = HeroStandardSystemCfg[slot5.hero_id] and slot9.hero_id
 		else
-			var_30_4 = 0
-			var_30_3 = var_30_1.hero_id
+			slot8 = 0
+			slot7 = slot5.hero_id
 		end
 
-		for iter_30_0, iter_30_1 in ipairs(var_30_0) do
-			if iter_30_1.trialID == var_30_4 and iter_30_1.id == var_30_3 then
-				return var_30_1
+		for slot12, slot13 in ipairs(slot4) do
+			if slot13.trialID == slot8 and slot13.id == slot7 then
+				return slot5
 			end
 		end
 	end
 
-	if #var_30_0 == 0 then
+	if #slot4 == 0 then
 		error("GetCooperationHero error")
 	end
 
-	local var_30_6 = var_30_0[1]
-
-	if var_30_6.trialID ~= 0 then
+	if slot4[1].trialID ~= 0 then
 		return {
 			hero_type = 2,
-			hero_id = var_30_6.trialID,
+			hero_id = slot6.trialID,
 			owner_id = BattleTeamData.NO_OWNER
 		}
 	else
 		return {
 			hero_type = 1,
-			hero_id = var_30_6.id,
+			hero_id = slot6.id,
 			owner_id = BattleTeamData.NO_OWNER
 		}
 	end
 
-	return var_30_0[1]
+	return slot4[1]
 end
 
-function var_0_0.SetCooperationHero(arg_31_0, arg_31_1)
-	local var_31_0 = CooperationData:GetRoomData()
+function slot0.SetCooperationHero(slot0, slot1)
+	if CooperationData:GetRoomData() then
+		slot4 = slot2.dest
 
-	if var_31_0 then
-		local var_31_1 = var_31_0.type
-		local var_31_2 = var_31_0.dest
-
-		saveData("cooperation", "cooperation_hero_" .. var_31_1, arg_31_1)
+		saveData("cooperation", "cooperation_hero_" .. slot2.type, slot1)
 	end
 end
 
-return var_0_0
+return slot0

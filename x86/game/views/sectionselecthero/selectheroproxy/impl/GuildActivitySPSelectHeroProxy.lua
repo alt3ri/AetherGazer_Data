@@ -1,64 +1,47 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("GuildActivitySPSelectHeroProxy", var_0_0)
+slot1 = class("GuildActivitySPSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0, arg_1_1)
-	arg_1_0.activityClubCfg = ActivityClubSPCfg[arg_1_1.nodeId]
-	arg_1_0.nodeId = arg_1_1.nodeId
-	arg_1_0.pathList = arg_1_1.pathList
-	arg_1_0.needPresetReservePanel = false
-	arg_1_0.needHeroEnergy = true
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.activityClubCfg = ActivityClubSPCfg[slot1.nodeId]
+	slot0.nodeId = slot1.nodeId
+	slot0.pathList = slot1.pathList
+	slot0.needPresetReservePanel = false
+	slot0.needHeroEnergy = true
 end
 
-function var_0_1.UpdateBar(arg_2_0)
+function slot1.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		NAVI_BAR
 	})
-	manager.windowBar:RegistHomeCallBack(function()
-		local var_3_0 = GuildActivitySPData:GetCurrentGrid()
-		local var_3_1
-
-		if var_3_0 ~= nil and var_3_0 > 0 then
-			local var_3_2 = ActivityClubSPCfg[var_3_0].map_id
-			local var_3_3 = GuildActivitySPData:GetCurRunActivityID()
-			local var_3_4 = ActivityClubSPMapCfg.get_id_list_by_activity[var_3_3]
-
-			var_3_1 = table.indexof(var_3_4, var_3_2)
-		else
-			var_3_1 = 1
-		end
-
-		local var_3_5 = GuildActivitySPData:GetCurRunActivityID()
+	manager.windowBar:RegistHomeCallBack(function ()
+		slot1 = nil
+		slot2 = GuildActivitySPData:GetCurRunActivityID()
 
 		gameContext:Go("/guildActivitySPWarField", {
-			level = var_3_1,
-			activityID = var_3_5,
-			totalActivityID = var_3_5
+			level = (GuildActivitySPData:GetCurrentGrid() == nil or slot0 <= 0 or table.indexof(ActivityClubSPMapCfg.get_id_list_by_activity[GuildActivitySPData:GetCurRunActivityID()], ActivityClubSPCfg[slot0].map_id)) and 1,
+			activityID = slot2,
+			totalActivityID = slot2
 		})
 	end)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_1.CustomGetHeroEnergy(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	local var_5_0 = arg_5_0.activityClubCfg.vitality_cost
-	local var_5_1 = arg_5_0:GetHeroIDList()
-	local var_5_2 = 0
+function slot1.CustomGetHeroEnergy(slot0, slot1, slot2, slot3)
+	slot4 = slot0.activityClubCfg.vitality_cost
 
-	for iter_5_0, iter_5_1 in pairs(var_5_1) do
-		if iter_5_1 and iter_5_1 > 0 then
-			var_5_2 = var_5_2 + 1
+	for slot10, slot11 in pairs(slot0:GetHeroIDList()) do
+		if slot11 and slot11 > 0 then
+			slot6 = 0 + 1
 		end
 	end
 
-	local var_5_3 = math.floor(var_5_0 / var_5_2)
-
-	return string.format("%d(-%d)", GuildActivitySPData:GetHeroFatigue(arg_5_2), var_5_3)
+	return string.format("%d(-%d)", GuildActivitySPData:GetHeroFatigue(slot2), math.floor(slot4 / slot6))
 end
 
-function var_0_1.CustomCheckBeforeGotoHeroInfoUI(arg_6_0)
+function slot1.CustomCheckBeforeGotoHeroInfoUI(slot0)
 	if #GuildActivitySPData:GetFightHeroList() <= 0 then
 		return false, "ACTIVITY_CLUB_NO_FIGHT_HERO_TIP"
 	end
@@ -66,28 +49,24 @@ function var_0_1.CustomCheckBeforeGotoHeroInfoUI(arg_6_0)
 	return true
 end
 
-function var_0_1.GetHeroTeamInfoRoute(arg_7_0)
+function slot1.GetHeroTeamInfoRoute(slot0)
 	return "/guildActivitySPTeamInfo"
 end
 
-function var_0_1.CustomCheckBeforeBattle(arg_8_0)
-	local var_8_0 = arg_8_0:GetHeroIDList()
-	local var_8_1 = arg_8_0.activityClubCfg.vitality_cost
-	local var_8_2 = 0
+function slot1.CustomCheckBeforeBattle(slot0)
+	slot2 = slot0.activityClubCfg.vitality_cost
 
-	for iter_8_0, iter_8_1 in pairs(var_8_0) do
-		if iter_8_1 and iter_8_1 > 0 then
-			var_8_2 = var_8_2 + 1
+	for slot7, slot8 in pairs(slot0:GetHeroIDList()) do
+		if slot8 and slot8 > 0 then
+			slot3 = 0 + 1
 		end
 	end
 
-	local var_8_3 = math.floor(var_8_1 / var_8_2)
+	for slot8, slot9 in pairs(slot1) do
+		if slot9 and slot9 > 0 then
+			slot10 = GuildActivitySPData:GetFightHeroById(slot9)
 
-	for iter_8_2, iter_8_3 in pairs(var_8_0) do
-		if iter_8_3 and iter_8_3 > 0 then
-			local var_8_4 = GuildActivitySPData:GetFightHeroById(iter_8_3)
-
-			if var_8_3 > GuildActivitySPData:GetHeroFatigue(iter_8_3) then
+			if GuildActivitySPData:GetHeroFatigue(slot9) < math.floor(slot2 / slot3) then
 				return false, "ACTIVITY_CLUB_HERO_VITALITY_NOT_ENOUGH_TIP"
 			end
 		end
@@ -96,13 +75,13 @@ function var_0_1.CustomCheckBeforeBattle(arg_8_0)
 	return true
 end
 
-function var_0_1.GetStageData(arg_9_0)
-	local var_9_0 = BattleStageFactory.Produce(arg_9_0.stageType, arg_9_0.stageID, arg_9_0.activityID)
+function slot1.GetStageData(slot0)
+	slot1 = BattleStageFactory.Produce(slot0.stageType, slot0.stageID, slot0.activityID)
 
-	var_9_0:SetNodeId(arg_9_0.activityClubCfg.id)
-	var_9_0:SetPathList(arg_9_0.pathList)
+	slot1:SetNodeId(slot0.activityClubCfg.id)
+	slot1:SetPathList(slot0.pathList)
 
-	return var_9_0
+	return slot1
 end
 
-return var_0_1
+return slot1

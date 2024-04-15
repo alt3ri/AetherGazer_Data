@@ -1,31 +1,29 @@
-local var_0_0 = class("ReserveBaseTemplate")
+slot0 = class("ReserveBaseTemplate")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.team_type = arg_1_1 or ReserveConst.RESERVE_TYPE.DEFAULT
-	arg_1_0.cont_teams = {}
-	arg_1_0.cont_dic = {}
+function slot0.Ctor(slot0, slot1)
+	slot0.team_type = slot1 or ReserveConst.RESERVE_TYPE.DEFAULT
+	slot0.cont_teams = {}
+	slot0.cont_dic = {}
 end
 
-function var_0_0.UpdateServerData(arg_2_0, arg_2_1)
-	arg_2_0.team_type = arg_2_1.team_type
+function slot0.UpdateServerData(slot0, slot1)
+	slot0.team_type = slot1.team_type
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.cont_teams) do
-		local var_2_0 = iter_2_1.cont_id
-
-		arg_2_0:GetContDataTemplateById(var_2_0):UpdateServerData(iter_2_1)
+	for slot5, slot6 in ipairs(slot1.cont_teams) do
+		slot0:GetContDataTemplateById(slot6.cont_id):UpdateServerData(slot6)
 	end
 end
 
-function var_0_0.GetTeamType(arg_3_0)
-	return arg_3_0.team_type
+function slot0.GetTeamType(slot0)
+	return slot0.team_type
 end
 
-function var_0_0.SetHeroList(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0:GetContDataTemplateById(arg_4_1.contID):SetHeroList(arg_4_2, arg_4_3, arg_4_1.teamIndex)
+function slot0.SetHeroList(slot0, slot1, slot2, slot3)
+	slot0:GetContDataTemplateById(slot1.contID):SetHeroList(slot2, slot3, slot1.teamIndex)
 end
 
-function var_0_0.GetHeroList(arg_5_0, arg_5_1)
-	local var_5_0 = {
+function slot0.GetHeroList(slot0, slot1)
+	slot2 = {
 		isInVaild = false,
 		resultHeroList = {
 			0,
@@ -45,33 +43,31 @@ function var_0_0.GetHeroList(arg_5_0, arg_5_1)
 		}
 	}
 
-	if arg_5_1.reserveType ~= ReserveConst.RESERVE_TYPE.NOT_NEED_RESERVE then
-		local var_5_1 = arg_5_0:GetContDataTemplateById(arg_5_1.contID):GetHeroList(arg_5_1.teamIndex)
+	if slot1.reserveType ~= ReserveConst.RESERVE_TYPE.NOT_NEED_RESERVE then
+		slot0:FormatHeroList(slot1, slot2, slot0:GetContDataTemplateById(slot1.contID):GetHeroList(slot1.teamIndex))
 
-		arg_5_0:FormatHeroList(arg_5_1, var_5_0, var_5_1)
-
-		if arg_5_1.needDefaultTeam and arg_5_0:IsEmptyTeam(var_5_0) then
-			arg_5_0:GetDefaultTeam(arg_5_1, var_5_0)
+		if slot1.needDefaultTeam and slot0:IsEmptyTeam(slot2) then
+			slot0:GetDefaultTeam(slot1, slot2)
 		end
 	end
 
-	arg_5_0:FilterInvalidTeamData(arg_5_1, var_5_0)
-	arg_5_0:GetLockHero(arg_5_1, var_5_0)
-	arg_5_0:ReorderHeroList(arg_5_1, var_5_0)
+	slot0:FilterInvalidTeamData(slot1, slot2)
+	slot0:GetLockHero(slot1, slot2)
+	slot0:ReorderHeroList(slot1, slot2)
 
-	return var_5_0.resultHeroList, var_5_0.lockStateList, var_5_0.lockHeroList, var_5_0.resultTrialList, var_5_0.isInVaild
+	return slot2.resultHeroList, slot2.lockStateList, slot2.lockHeroList, slot2.resultTrialList, slot2.isInVaild
 end
 
-function var_0_0.FormatHeroList(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_3) do
-		arg_6_2.resultHeroList[iter_6_0] = iter_6_1:GetHeroID()
-		arg_6_2.resultTrialList[iter_6_0] = iter_6_1:GetTrialID()
+function slot0.FormatHeroList(slot0, slot1, slot2, slot3)
+	for slot7, slot8 in ipairs(slot3) do
+		slot2.resultHeroList[slot7] = slot8:GetHeroID()
+		slot2.resultTrialList[slot7] = slot8:GetTrialID()
 	end
 end
 
-function var_0_0.IsEmptyTeam(arg_7_0, arg_7_1)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_1.resultHeroList) do
-		if iter_7_1 ~= 0 then
+function slot0.IsEmptyTeam(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.resultHeroList) do
+		if slot6 ~= 0 then
 			return false
 		end
 	end
@@ -79,122 +75,101 @@ function var_0_0.IsEmptyTeam(arg_7_0, arg_7_1)
 	return true
 end
 
-function var_0_0.GetLockHero(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = {}
-	local var_8_1 = {}
-	local var_8_2
-	local var_8_3
-	local var_8_4
+function slot0.GetLockHero(slot0, slot1, slot2)
+	slot3 = {}
+	slot4 = {}
+	slot5, slot6, slot7 = nil
 
-	if arg_8_1.stageType and arg_8_1.stageID then
-		var_8_2, var_8_3 = BattleStageTools.GetRestrictHeroList(arg_8_1.stageType, arg_8_1.stageID)
+	if slot1.stageType and slot1.stageID then
+		slot5, slot9 = BattleStageTools.GetRestrictHeroList(slot1.stageType, slot1.stageID)
 
-		if type(var_8_3) ~= "table" then
-			var_8_3 = {}
+		if type(slot9) ~= "table" then
+			slot6 = {}
 		end
 
-		local var_8_5 = BattleStageTools.GetStageCfg(arg_8_1.stageType, arg_8_1.stageID)
-
-		var_8_4 = var_8_5.auto_next_stage_group and var_8_5.auto_next_stage_group > 0
+		slot7 = BattleStageTools.GetStageCfg(slot1.stageType, slot1.stageID).auto_next_stage_group and slot8.auto_next_stage_group > 0
 	end
 
-	if type(var_8_2) == "table" then
-		local var_8_6 = {}
+	if type(slot5) == "table" then
+		slot8 = {
+			[slot14] = slot12
+		}
 
-		for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-			if iter_8_1[1] then
-				local var_8_7 = iter_8_1[1]
-
-				if var_8_7 ~= 0 and HeroCfg[var_8_7] and HeroCfg[var_8_7].private == 0 then
-					var_8_6[var_8_7] = iter_8_0
-				end
+		for slot12, slot13 in ipairs(slot5) do
+			if slot13[1] and slot13[1] ~= 0 and HeroCfg[slot14] and HeroCfg[slot14].private == 0 then
+				-- Nothing
 			end
 		end
 
-		for iter_8_2 = 1, 3 do
-			local var_8_8 = var_8_2[iter_8_2][1]
-			local var_8_9 = var_8_2[iter_8_2][2]
-
-			if var_8_8 then
-				if var_8_8 ~= 0 then
-					if not var_8_4 and var_8_3[iter_8_2] and var_8_3[iter_8_2] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
-						local var_8_10 = arg_8_2.resultHeroList[iter_8_2]
-
-						if var_8_10 == 0 or not var_8_6[var_8_10] or var_8_6[var_8_10] ~= iter_8_2 then
-							var_8_0[iter_8_2] = var_8_8
-							var_8_1[iter_8_2] = var_8_9
+		for slot12 = 1, 3 do
+			if slot5[slot12][1] then
+				if slot13 ~= 0 then
+					if not slot7 and slot6[slot12] and slot6[slot12] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+						if slot2.resultHeroList[slot12] == 0 or not slot8[slot15] or slot8[slot15] ~= slot12 then
+							slot3[slot12] = slot13
+							slot4[slot12] = slot5[slot12][2]
 						else
-							var_8_0[iter_8_2] = arg_8_2.resultHeroList[iter_8_2]
-							var_8_1[iter_8_2] = arg_8_2.resultTrialList[iter_8_2]
+							slot3[slot12] = slot2.resultHeroList[slot12]
+							slot4[slot12] = slot2.resultTrialList[slot12]
 						end
 					else
-						var_8_0[iter_8_2] = var_8_8
-						var_8_1[iter_8_2] = var_8_9
-						arg_8_2.lockStateList[iter_8_2] = true
+						slot3[slot12] = slot13
+						slot4[slot12] = slot14
+						slot2.lockStateList[slot12] = true
 					end
 				else
-					var_8_0[iter_8_2] = 0
-					var_8_1[iter_8_2] = 0
-					arg_8_2.lockStateList[iter_8_2] = true
+					slot3[slot12] = 0
+					slot4[slot12] = 0
+					slot2.lockStateList[slot12] = true
 				end
+			elseif slot8[slot2.resultHeroList[slot12]] and slot8[slot15] ~= slot12 then
+				slot3[slot12] = 0
+				slot4[slot12] = 0
 			else
-				local var_8_11 = arg_8_2.resultHeroList[iter_8_2]
-
-				if var_8_6[var_8_11] and var_8_6[var_8_11] ~= iter_8_2 then
-					var_8_0[iter_8_2] = 0
-					var_8_1[iter_8_2] = 0
-				else
-					var_8_0[iter_8_2] = arg_8_2.resultHeroList[iter_8_2]
-					var_8_1[iter_8_2] = arg_8_2.resultTrialList[iter_8_2]
-				end
+				slot3[slot12] = slot2.resultHeroList[slot12]
+				slot4[slot12] = slot2.resultTrialList[slot12]
 			end
 		end
 
-		arg_8_2.resultHeroList = var_8_0
-		arg_8_2.resultTrialList = var_8_1
+		slot2.resultHeroList = slot3
+		slot2.resultTrialList = slot4
 	end
 end
 
-function var_0_0.FilterInvalidTeamData(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0
-	local var_9_1
+function slot0.FilterInvalidTeamData(slot0, slot1, slot2)
+	slot3, slot4 = nil
 
-	if arg_9_1.stageType and arg_9_1.stageID then
-		local var_9_2
-
-		var_9_2, var_9_1 = BattleStageTools.GetRestrictHeroList(arg_9_1.stageType, arg_9_1.stageID)
+	if slot1.stageType and slot1.stageID then
+		slot3, slot4 = BattleStageTools.GetRestrictHeroList(slot1.stageType, slot1.stageID)
 	end
 
-	local var_9_3 = arg_9_0:GetTrialHeroList(arg_9_1)
-	local var_9_4 = clone(arg_9_2.resultTrialList)
+	for slot10, slot11 in ipairs(clone(slot2.resultTrialList)) do
+		if slot11 ~= 0 and not table.keyof(slot0:GetTrialHeroList(slot1), slot11) then
+			slot2.resultTrialList[slot10] = 0
+			slot2.resultHeroList[slot10] = 0
 
-	for iter_9_0, iter_9_1 in ipairs(var_9_4) do
-		if iter_9_1 ~= 0 and not table.keyof(var_9_3, iter_9_1) then
-			arg_9_2.resultTrialList[iter_9_0] = 0
-			arg_9_2.resultHeroList[iter_9_0] = 0
-
-			if type(var_9_1) == "table" then
-				for iter_9_2, iter_9_3 in ipairs(var_9_1) do
-					if iter_9_3 ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
-						arg_9_2.isInVaild = false
+			if type(slot4) == "table" then
+				for slot15, slot16 in ipairs(slot4) do
+					if slot16 ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+						slot2.isInVaild = false
 					end
 				end
 			else
-				arg_9_2.isInVaild = true
+				slot2.isInVaild = true
 			end
 		end
 	end
 end
 
-function var_0_0.ReorderHeroList(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_2.isInVaild then
-		for iter_10_0 = 1, 2 do
-			for iter_10_1 = iter_10_0 + 1, 3 do
-				if arg_10_2.resultHeroList[iter_10_0] == 0 and arg_10_2.lockStateList[iter_10_0] ~= true and arg_10_2.lockStateList[iter_10_1] ~= true then
-					arg_10_2.resultHeroList[iter_10_0] = arg_10_2.resultHeroList[iter_10_1]
-					arg_10_2.resultHeroList[iter_10_1] = 0
-					arg_10_2.resultTrialList[iter_10_0] = arg_10_2.resultTrialList[iter_10_1]
-					arg_10_2.resultTrialList[iter_10_1] = 0
+function slot0.ReorderHeroList(slot0, slot1, slot2)
+	if slot2.isInVaild then
+		for slot6 = 1, 2 do
+			for slot10 = slot6 + 1, 3 do
+				if slot2.resultHeroList[slot6] == 0 and slot2.lockStateList[slot6] ~= true and slot2.lockStateList[slot10] ~= true then
+					slot2.resultHeroList[slot6] = slot2.resultHeroList[slot10]
+					slot2.resultHeroList[slot10] = 0
+					slot2.resultTrialList[slot6] = slot2.resultTrialList[slot10]
+					slot2.resultTrialList[slot10] = 0
 
 					break
 				end
@@ -203,96 +178,87 @@ function var_0_0.ReorderHeroList(arg_10_0, arg_10_1, arg_10_2)
 	end
 end
 
-function var_0_0.GetTrialHeroList(arg_11_0, arg_11_1)
-	local var_11_0 = 0
+function slot0.GetTrialHeroList(slot0, slot1)
+	slot2 = 0
 
-	if arg_11_1.customData and arg_11_1.customData.activityID then
-		var_11_0 = arg_11_1.customData.activityID
+	if slot1.customData and slot1.customData.activityID then
+		slot2 = slot1.customData.activityID
 	end
 
-	return GetTrialHeroList(arg_11_1.stageType, arg_11_1.stageID, var_11_0)
+	return GetTrialHeroList(slot1.stageType, slot1.stageID, slot2)
 end
 
-function var_0_0.GetDefaultTeam(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_2.resultHeroList, arg_12_2.lockStateList, arg_12_2.lockHeroList, arg_12_2.resultTrialList, arg_12_2.isInVaild = ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.DEFAULT))
+function slot0.GetDefaultTeam(slot0, slot1, slot2)
+	slot2.resultHeroList, slot2.lockStateList, slot2.lockHeroList, slot2.resultTrialList, slot2.isInVaild = ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.DEFAULT))
 end
 
-function var_0_0.GetComboSkillID(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_0:GetContDataTemplateById(arg_13_1.contID):GetComboSkillID(arg_13_1.teamIndex)
-	local var_13_1 = ReserveTools.GetHeroList(arg_13_1)
+function slot0.GetComboSkillID(slot0, slot1)
+	slot4 = ReserveTools.GetHeroList(slot1)
 
-	if var_13_0 ~= 0 and not ComboSkillTools.IsAllMatch(var_13_0, var_13_1) then
-		return ComboSkillTools.GetRecommendSkillID(var_13_1, true)
+	if slot0:GetContDataTemplateById(slot1.contID):GetComboSkillID(slot1.teamIndex) ~= 0 and not ComboSkillTools.IsAllMatch(slot3, slot4) then
+		return ComboSkillTools.GetRecommendSkillID(slot4, true)
 	end
 
-	return var_13_0
+	return slot3
 end
 
-function var_0_0.SetComboSkillID(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0:GetContDataTemplateById(arg_14_1.contID):SetComboSkillID(arg_14_2, arg_14_1.teamIndex)
+function slot0.SetComboSkillID(slot0, slot1, slot2)
+	slot0:GetContDataTemplateById(slot1.contID):SetComboSkillID(slot2, slot1.teamIndex)
 end
 
-function var_0_0.GetMimirData(arg_15_0, arg_15_1)
-	local var_15_0 = arg_15_0:GetMimirID(arg_15_1)
-	local var_15_1 = arg_15_0:GetMimirChipList(arg_15_1)
-
-	return var_15_0, var_15_1
+function slot0.GetMimirData(slot0, slot1)
+	return slot0:GetMimirID(slot1), slot0:GetMimirChipList(slot1)
 end
 
-function var_0_0.GetMimirID(arg_16_0, arg_16_1)
-	return arg_16_0:GetContDataTemplateById(arg_16_1.contID):GetMimirID(arg_16_1.teamIndex)
+function slot0.GetMimirID(slot0, slot1)
+	return slot0:GetContDataTemplateById(slot1.contID):GetMimirID(slot1.teamIndex)
 end
 
-function var_0_0.SetMimirID(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0:GetContDataTemplateById(arg_17_1.contID):SetMimirID(arg_17_2, arg_17_1.teamIndex)
+function slot0.SetMimirID(slot0, slot1, slot2)
+	slot0:GetContDataTemplateById(slot1.contID):SetMimirID(slot2, slot1.teamIndex)
 end
 
-function var_0_0.GetMimirChipList(arg_18_0, arg_18_1)
-	return arg_18_0:GetContDataTemplateById(arg_18_1.contID):GetMimirChipList(arg_18_1.teamIndex)
+function slot0.GetMimirChipList(slot0, slot1)
+	return slot0:GetContDataTemplateById(slot1.contID):GetMimirChipList(slot1.teamIndex)
 end
 
-function var_0_0.SetMimirChipList(arg_19_0, arg_19_1, arg_19_2)
-	return arg_19_0:GetContDataTemplateById(arg_19_1.contID):SetMimirChipList(arg_19_2, arg_19_1.teamIndex)
+function slot0.SetMimirChipList(slot0, slot1, slot2)
+	return slot0:GetContDataTemplateById(slot1.contID):SetMimirChipList(slot2, slot1.teamIndex)
 end
 
-function var_0_0.ResetMimirChipList(arg_20_0, arg_20_1)
-	arg_20_0:GetContDataTemplateById(arg_20_1.contID):ResetMimirChipList(arg_20_1.teamIndex)
+function slot0.ResetMimirChipList(slot0, slot1)
+	slot0:GetContDataTemplateById(slot1.contID):ResetMimirChipList(slot1.teamIndex)
 end
 
-function var_0_0.GetContDataTemplateById(arg_21_0, arg_21_1)
-	arg_21_1 = arg_21_1 or ReserveConst.DETAULT_CONT_ID
-
-	if not arg_21_0.cont_dic[arg_21_1] then
-		arg_21_0.cont_dic[arg_21_1] = arg_21_0:GetContDataTemplateClass().New(arg_21_0:GetTeamType(), arg_21_1)
-		arg_21_0.cont_teams[#arg_21_0.cont_teams + 1] = arg_21_0.cont_dic[arg_21_1]
+function slot0.GetContDataTemplateById(slot0, slot1)
+	if not slot0.cont_dic[slot1 or ReserveConst.DETAULT_CONT_ID] then
+		slot0.cont_dic[slot1] = slot0:GetContDataTemplateClass().New(slot0:GetTeamType(), slot1)
+		slot0.cont_teams[#slot0.cont_teams + 1] = slot0.cont_dic[slot1]
 	end
 
-	return arg_21_0.cont_dic[arg_21_1]
+	return slot0.cont_dic[slot1]
 end
 
-function var_0_0.GetSingleTeamData(arg_22_0, arg_22_1)
-	local var_22_0 = arg_22_1.contID or ReserveTools.GetContID(arg_22_1.stageType, arg_22_1.stageID)
-	local var_22_1 = arg_22_1.teamIndex or arg_22_0:GetTeamIndex(arg_22_1)
-
-	return (arg_22_0:GetContDataTemplateById(var_22_0):GetSingleTeamData(var_22_1))
+function slot0.GetSingleTeamData(slot0, slot1)
+	return slot0:GetContDataTemplateById(slot1.contID or ReserveTools.GetContID(slot1.stageType, slot1.stageID)):GetSingleTeamData(slot1.teamIndex or slot0:GetTeamIndex(slot1))
 end
 
-function var_0_0.CleanCacheData(arg_23_0)
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.cont_teams) do
-		iter_23_1:CleanCacheData()
+function slot0.CleanCacheData(slot0)
+	for slot4, slot5 in ipairs(slot0.cont_teams) do
+		slot5:CleanCacheData()
 	end
 end
 
-function var_0_0.GetTeamIndex(arg_24_0, arg_24_1)
+function slot0.GetTeamIndex(slot0, slot1)
 	return ReserveConst.DEFAULT_TEAM_INDEX
 end
 
-function var_0_0.GetContDataTemplateClass(arg_25_0)
-	return ReserveTools.GetContDataClass(arg_25_0:GetTeamType())
+function slot0.GetContDataTemplateClass(slot0)
+	return ReserveTools.GetContDataClass(slot0:GetTeamType())
 end
 
-function var_0_0.Clone(arg_26_0)
-	return deepClone(arg_26_0)
+function slot0.Clone(slot0)
+	return deepClone(slot0)
 end
 
-return var_0_0
+return slot0

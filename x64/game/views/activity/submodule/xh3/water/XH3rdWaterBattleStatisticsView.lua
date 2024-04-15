@@ -1,98 +1,72 @@
-local var_0_0 = import("game.views.battleResult.statistics.BattleStatisticsView")
-local var_0_1 = class("XH3rdWaterBattleStatisticsView", var_0_0)
+slot1 = class("XH3rdWaterBattleStatisticsView", import("game.views.battleResult.statistics.BattleStatisticsView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdWaterparkUI/XH3rdWPStatisticsUI"
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	var_0_1.super.OnEnter(arg_2_0)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	local var_2_0, var_2_1 = arg_2_0.stageData:GetIsCooperation()
-	local var_2_2 = 0
-	local var_2_3 = 0
-	local var_2_4 = 45
-	local var_2_5 = 59
+	slot1, slot2 = slot0.stageData:GetIsCooperation()
+	slot4 = 0
+	slot6 = 59
 
-	for iter_2_0 = 1, 3 do
-		local var_2_6
-		local var_2_7
-		local var_2_8 = false
+	for slot10 = 1, 3 do
+		slot11, slot12 = nil
+		slot13 = false
 
-		if var_2_0 then
-			var_2_6 = var_2_1[iter_2_0]
-
-			if var_2_6 then
-				local var_2_9 = var_2_6.playerID
-				local var_2_10 = BattleFieldData:GetBattleResultData().battle_record_dir
-
-				var_2_7 = var_2_10 and var_2_10[var_2_9]
-
-				if var_2_7 then
-					local var_2_11 = var_2_7[var_2_4] or 0
-
-					if var_2_2 < var_2_11 then
-						var_2_2 = var_2_11
+		if slot1 then
+			if slot2[slot10] then
+				if BattleFieldData:GetBattleResultData().battle_record_dir and slot15[slot11.playerID] then
+					if 0 < (slot12[45] or 0) then
+						slot3 = slot16
 					end
 
-					local var_2_12 = var_2_7[var_2_5] or 0
-
-					if var_2_3 < var_2_12 then
-						var_2_3 = var_2_12
+					if slot4 < (slot12[slot6] or 0) then
+						slot4 = slot17
 					end
 				end
 
-				var_2_8 = var_2_6.is_master
+				slot13 = slot11.is_master
 			end
 		else
-			local var_2_13, var_2_14, var_2_15 = BattleTools.GetBattleStatisticsData()
+			slot14, slot15, slot16 = BattleTools.GetBattleStatisticsData()
+			slot13 = slot10 == 1
+			slot19 = slot0.stageData:GetHeroTeam()
+			slot21 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas
+			slot12 = {}
 
-			var_2_8 = iter_2_0 == 1
-
-			local var_2_16 = LuaExchangeHelper.GetBattleStatisticsData()
-			local var_2_17 = var_2_16 and var_2_16.dataForLua.currentHPHero or {}
-			local var_2_18 = arg_2_0.stageData:GetHeroTeam()
-			local var_2_19 = var_2_17.Count or 0
-			local var_2_20 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.recordDatas
-
-			var_2_7 = {}
-
-			if iter_2_0 <= var_2_19 then
-				var_2_6 = {
+			if slot10 <= ((LuaExchangeHelper.GetBattleStatisticsData() and slot17.dataForLua.currentHPHero or {}).Count or 0) then
+				slot11 = {
 					playerID = PlayerData:GetPlayerInfo().userID,
 					nick = PlayerData:GetPlayerInfo().nick
 				}
+				slot22 = nil
 
-				local var_2_21
-
-				if iter_2_0 == 1 and var_2_20:TryGetValue(var_2_4, var_2_21) then
-					local var_2_22 = var_2_20[var_2_4] or 0
-
-					if var_2_2 < var_2_22 then
-						var_2_2 = var_2_22
+				if slot10 == 1 and slot21:TryGetValue(slot5, slot22) then
+					if slot3 < (slot21[slot5] or 0) then
+						slot3 = slot23
 					end
 
-					var_2_7[var_2_4] = var_2_22
+					slot12[slot5] = slot23
 				end
 
-				if iter_2_0 == 1 and var_2_20:TryGetValue(var_2_5, var_2_21) then
-					local var_2_23 = var_2_20[var_2_5] or 0
-
-					if var_2_3 < var_2_23 then
-						var_2_3 = var_2_23
+				if slot10 == 1 and slot21:TryGetValue(slot6, slot22) then
+					if slot4 < (slot21[slot6] or 0) then
+						slot4 = slot23
 					end
 
-					var_2_7[var_2_5] = var_2_23
+					slot12[slot6] = slot23
 				end
 			end
 		end
 
-		arg_2_0.statisticsHeroItem_[iter_2_0]:SetPlayer(iter_2_0, arg_2_0.stageData:GetActivityID(), var_2_6, var_2_2, var_2_3, var_2_0, var_2_7, var_2_8)
+		slot0.statisticsHeroItem_[slot10]:SetPlayer(slot10, slot0.stageData:GetActivityID(), slot11, slot3, slot4, slot1, slot12, slot13)
 	end
 end
 
-function var_0_1.GetStatisticsItem(arg_3_0)
+function slot1.GetStatisticsItem(slot0)
 	return XH3rdWaterBattleStatisticsItemView
 end
 
-return var_0_1
+return slot1

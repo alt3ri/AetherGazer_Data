@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.AffixSelect.AffixSelectScoreRewardView")
-local var_0_1 = class("AffixSelectScoreRewardJapanRegionView", var_0_0)
+slot1 = class("AffixSelectScoreRewardJapanRegionView", import("game.views.AffixSelect.AffixSelectScoreRewardView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionAffixSelect/AffixSelectRewardUI"
 end
 
-return var_0_1
+return slot1

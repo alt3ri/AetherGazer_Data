@@ -1,45 +1,39 @@
 return {
-	GetEquipHaveNum = function(arg_1_0)
-		local var_1_0 = IllustratedData:GetEquipInfo()[arg_1_0]
-
-		if var_1_0 then
-			local var_1_1 = 0
-
-			for iter_1_0, iter_1_1 in pairs(var_1_0.pos_list) do
-				if iter_1_1 == 1 then
-					var_1_1 = var_1_1 + 1
+	GetEquipHaveNum = function (slot0)
+		if IllustratedData:GetEquipInfo()[slot0] then
+			for slot6, slot7 in pairs(slot1.pos_list) do
+				if slot7 == 1 then
+					slot2 = 0 + 1
 				end
 			end
 
-			return var_1_1
+			return slot2
 		end
 
 		return 0
 	end,
-	GetEquipAll = function()
-		local var_2_0 = IllustratedData:GetEquipInfo()
-		local var_2_1 = 0
+	GetEquipAll = function ()
+		slot1 = 0
 
-		for iter_2_0, iter_2_1 in pairs(var_2_0) do
-			for iter_2_2, iter_2_3 in pairs(iter_2_1.pos_list) do
-				if iter_2_3 == 1 then
-					var_2_1 = var_2_1 + 1
+		for slot5, slot6 in pairs(IllustratedData:GetEquipInfo()) do
+			for slot10, slot11 in pairs(slot6.pos_list) do
+				if slot11 == 1 then
+					slot1 = slot1 + 1
 				end
 			end
 		end
 
-		return var_2_1
+		return slot1
 	end,
-	GetIllustrationNotRewardList = function()
-		local var_3_0 = IllustratedData:GetIllustrationInfo()
-		local var_3_1 = {}
+	GetIllustrationNotRewardList = function ()
+		slot1 = {}
 
-		for iter_3_0, iter_3_1 in pairs(var_3_0) do
-			if iter_3_1.is_receive == 0 then
-				table.insert(var_3_1, iter_3_0)
+		for slot5, slot6 in pairs(IllustratedData:GetIllustrationInfo()) do
+			if slot6.is_receive == 0 then
+				table.insert(slot1, slot5)
 			end
 		end
 
-		return var_3_1
+		return slot1
 	end
 }

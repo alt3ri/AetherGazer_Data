@@ -1,72 +1,71 @@
-local var_0_0 = class("ComboSkillSelectView", ReduxView)
+slot0 = class("ComboSkillSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/HeroSkill/MeaningUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.comboSkillUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItemSelect), arg_3_0.uiList_, arg_3_0:GetComboSkillItemView())
+	slot0.comboSkillUIList_ = LuaList.New(handler(slot0, slot0.RefreshItemSelect), slot0.uiList_, slot0:GetComboSkillItemView())
 end
 
-function var_0_0.GetComboSkillItemView(arg_4_0)
+function slot0.GetComboSkillItemView(slot0)
 	return ComboSkillSelectItem
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.buttonClose_, nil, function()
-		arg_5_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function(arg_7_0, arg_7_1)
-		if arg_7_0 == arg_7_1.pointerEnter and not arg_7_1.dragging then
-			arg_5_0:Back()
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		if slot0 == slot1.pointerEnter and not slot1.dragging then
+			uv0:Back()
 		end
 	end))
 end
 
-function var_0_0.RemoveListeners(arg_8_0)
-	arg_8_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
+function slot0.RemoveListeners(slot0)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.heroList_ = arg_9_0.params_.heroList
-	arg_9_0.trialHeroList_ = arg_9_0.params_.trailList
-	arg_9_0.stageType_ = arg_9_0.params_.stageType
-	arg_9_0.stageID_ = arg_9_0.params_.stageID
-	arg_9_0.activityID_ = arg_9_0.params_.activityID
-	arg_9_0.reserveParams_ = arg_9_0.params_.reserveParams
-	arg_9_0.comboSkillID_ = arg_9_0.params_.comboSkillID
-	arg_9_0.comboSkillIDList_ = arg_9_0:GetComboSkillList()
+function slot0.OnEnter(slot0)
+	slot0.heroList_ = slot0.params_.heroList
+	slot0.trialHeroList_ = slot0.params_.trailList
+	slot0.stageType_ = slot0.params_.stageType
+	slot0.stageID_ = slot0.params_.stageID
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.reserveParams_ = slot0.params_.reserveParams
+	slot0.comboSkillID_ = slot0.params_.comboSkillID
+	slot0.comboSkillIDList_ = slot0:GetComboSkillList()
 
-	arg_9_0.comboSkillUIList_:StartScroll(#arg_9_0.comboSkillIDList_, 1)
+	slot0.comboSkillUIList_:StartScroll(#slot0.comboSkillIDList_, 1)
 end
 
-function var_0_0.GetComboSkillList(arg_10_0)
-	return ComboSkillTools.GetComboSkillList(arg_10_0.heroList_, true)
+function slot0.GetComboSkillList(slot0)
+	return ComboSkillTools.GetComboSkillList(slot0.heroList_, true)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
-	arg_12_0:RemoveListeners()
-	arg_12_0.comboSkillUIList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:RemoveListeners()
+	slot0.comboSkillUIList_:Dispose()
 
-	arg_12_0.comboSkillUIList_ = nil
+	slot0.comboSkillUIList_ = nil
 end
 
-function var_0_0.RefreshItemSelect(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.comboSkillIDList_[arg_13_1]
+function slot0.RefreshItemSelect(slot0, slot1, slot2)
+	slot3 = slot0.comboSkillIDList_[slot1]
 
-	arg_13_2:RefreshUI(arg_13_0.stageType_, arg_13_0.stageID_, arg_13_0.activityID_, var_13_0, arg_13_0.comboSkillID_ == var_13_0, arg_13_0.heroList_, arg_13_0.reserveParams_)
+	slot2:RefreshUI(slot0.stageType_, slot0.stageID_, slot0.activityID_, slot3, slot0.comboSkillID_ == slot3, slot0.heroList_, slot0.reserveParams_)
 end
 
-return var_0_0
+return slot0

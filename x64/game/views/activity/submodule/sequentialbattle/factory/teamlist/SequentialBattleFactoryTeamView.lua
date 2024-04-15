@@ -1,101 +1,93 @@
-local var_0_0 = class("SequentialBattleFactoryTeamView", ReduxView)
+slot0 = class("SequentialBattleFactoryTeamView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/continuousBattle/MardukContinuousBattleTeamUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.teamUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.uiList_, SequentialBattleFactoryTeamItem)
+	slot0.teamUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uiList_, SequentialBattleFactoryTeamItem)
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_4_0.activityID_ = arg_4_0.params_.activityID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_4_0.teamUIList_:StartScroll(#SequentialBattleChapterCfg[arg_4_0.activityID_].stage_id)
+	slot0.teamUIList_:StartScroll(#SequentialBattleChapterCfg[slot0.activityID_].stage_id)
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.teamUIList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.teamUIList_:Dispose()
 
-	arg_6_0.teamUIList_ = nil
+	slot0.teamUIList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buffBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buffBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sequentialBattleBuffInfo", {
-			activityID = arg_7_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.resetBtn_, nil, function()
+	slot0:AddBtnListener(slot0.resetBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("SEQUENTIAL_BATTLE_RESET_TEAM"),
-			OkCallback = function()
-				SequentialBattleAction.ResetTeam(arg_7_0.activityID_, function(arg_11_0)
-					if isSuccess(arg_11_0.result) then
-						ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, arg_7_0.activityID_)
-						arg_7_0.teamUIList_:StartScroll(#SequentialBattleChapterCfg[arg_7_0.activityID_].stage_id)
+			OkCallback = function ()
+				SequentialBattleAction.ResetTeam(uv0.activityID_, function (slot0)
+					if isSuccess(slot0.result) then
+						ReserveTools.ResetContData(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, uv0.activityID_)
+						uv0.teamUIList_:StartScroll(#SequentialBattleChapterCfg[uv0.activityID_].stage_id)
 					else
-						ShowTips(arg_11_0.result)
+						ShowTips(slot0.result)
 					end
 				end)
 			end
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.battleBtn_, nil, function()
-		for iter_12_0 = 1, #SequentialBattleChapterCfg[arg_7_0.activityID_].stage_id do
-			local var_12_0 = SequentialBattleChapterCfg[arg_7_0.activityID_].stage_id[iter_12_0]
-			local var_12_1 = ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, arg_7_0.activityID_, iter_12_0, {
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		for slot3 = 1, #SequentialBattleChapterCfg[uv0.activityID_].stage_id do
+			if ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, uv0.activityID_, slot3, {
 				stageType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
-				stageID = var_12_0,
-				activityID = arg_7_0.activityID_
-			})
-
-			if ReserveTools.GetHeroList(var_12_1)[1] == 0 then
+				stageID = SequentialBattleChapterCfg[uv0.activityID_].stage_id[slot3],
+				activityID = uv0.activityID_
+			}))[1] == 0 then
 				ShowTips("SEQUENTIAL_BATTLE_TEAM_IS_NULL")
 
 				return
 			end
 		end
 
-		SequentialBattleAction.SaveAllTeam(arg_7_0.activityID_, function(arg_13_0)
-			if isSuccess(arg_13_0.result) then
-				local var_13_0 = arg_7_0.activityID_
-				local var_13_1 = 1
-				local var_13_2 = ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, var_13_0, var_13_1, {
+		SequentialBattleAction.SaveAllTeam(uv0.activityID_, function (slot0)
+			if isSuccess(slot0.result) then
+				BattleController.GetInstance():LaunchBattle(BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE, SequentialBattleChapterCfg[uv0.activityID_].stage_id[1], uv0.activityID_, ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, uv0.activityID_, 1, {
 					stageType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
-					stageID = SequentialBattleChapterCfg[arg_7_0.activityID_].stage_id[1],
-					activityID = arg_7_0.activityID_
-				})
-				local var_13_3 = BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE, SequentialBattleChapterCfg[arg_7_0.activityID_].stage_id[1], arg_7_0.activityID_, var_13_2)
-
-				BattleController.GetInstance():LaunchBattle(var_13_3)
+					stageID = SequentialBattleChapterCfg[uv0.activityID_].stage_id[1],
+					activityID = uv0.activityID_
+				})))
 			else
-				ShowTips(arg_13_0.result)
+				ShowTips(slot0.result)
 			end
 		end)
 	end)
 end
 
-function var_0_0.RefreshItem(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_2:SetData(arg_14_0.activityID_, arg_14_1)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityID_, slot1)
 end
 
-return var_0_0
+return slot0

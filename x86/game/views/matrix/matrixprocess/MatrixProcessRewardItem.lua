@@ -1,155 +1,139 @@
-local var_0_0 = class("MatrixProcessRewardItem", ReduxView)
+slot0 = class("MatrixProcessRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.m_des1 = arg_2_0.m_des1Go:GetComponent("ExtendText")
-	arg_2_0.extendScrollRect = arg_2_0.m_des1Go:GetComponent("ScrollRect")
-	arg_2_0.selectedController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "selected")
-	arg_2_0.typeController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "type")
-	arg_2_0.rareController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "rare")
-	arg_2_0.astrolabeImgs_ = {}
+	slot0.m_des1 = slot0.m_des1Go:GetComponent("ExtendText")
+	slot0.extendScrollRect = slot0.m_des1Go:GetComponent("ScrollRect")
+	slot0.selectedController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "selected")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "type")
+	slot0.rareController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "rare")
+	slot0.astrolabeImgs_ = {}
 
-	for iter_2_0 = 1, 3 do
-		table.insert(arg_2_0.astrolabeImgs_, arg_2_0["m_astrolabeImg" .. iter_2_0])
+	for slot4 = 1, 3 do
+		table.insert(slot0.astrolabeImgs_, slot0["m_astrolabeImg" .. slot4])
 	end
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc(arg_3_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetDesc(arg_5_0, arg_5_1)
-	arg_5_0.m_des1:Hide()
-	arg_5_0.m_des1:SetText(arg_5_1)
+function slot0.SetDesc(slot0, slot1)
+	slot0.m_des1:Hide()
+	slot0.m_des1:SetText(slot1)
 
-	arg_5_0.m_des2.text = GetI18NText(arg_5_1)
-	arg_5_0.extendScrollRect.verticalNormalizedPosition = 1
+	slot0.m_des2.text = GetI18NText(slot1)
+	slot0.extendScrollRect.verticalNormalizedPosition = 1
 end
 
-function var_0_0.Refresh(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.id = arg_6_1
-	arg_6_0.index = arg_6_2
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.id = slot1
+	slot0.index = slot2
+	slot3 = MatrixItemCfg[slot1]
+	slot0.m_name1.text = GetI18NText(slot3.name)
+	slot0.m_name2.text = GetI18NText(slot3.name)
 
-	local var_6_0 = MatrixItemCfg[arg_6_1]
+	slot0:SetDesc(slot0:GetItemDes(slot1))
+	slot0.rareController_:SetSelectedIndex(slot3.rare - 1)
 
-	arg_6_0.m_name1.text = GetI18NText(var_6_0.name)
-	arg_6_0.m_name2.text = GetI18NText(var_6_0.name)
+	slot5 = slot3.matrix_item_type
 
-	local var_6_1 = arg_6_0:GetItemDes(arg_6_1)
+	slot0.typeController_:SetSelectedIndex(slot5 - 1)
 
-	arg_6_0:SetDesc(var_6_1)
-	arg_6_0.rareController_:SetSelectedIndex(var_6_0.rare - 1)
+	if slot5 == MatrixConst.ITEM_TYPE.ASTROLABE then
+		slot0:UpdateAstrolabePreview()
 
-	local var_6_2 = var_6_0.matrix_item_type
+		slot0.m_suit_name.text = GetI18NText(slot3.name)
+	elseif slot5 == MatrixConst.ITEM_TYPE.EQUIP then
+		slot0.m_equipImg.sprite = MatrixTools.GetMatrixItemSprite(slot1)
+	elseif slot5 == MatrixConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot0.m_weaponImg.sprite = MatrixTools.GetMatrixItemSprite(slot1)
 
-	arg_6_0.typeController_:SetSelectedIndex(var_6_2 - 1)
-
-	if var_6_2 == MatrixConst.ITEM_TYPE.ASTROLABE then
-		arg_6_0:UpdateAstrolabePreview()
-
-		arg_6_0.m_suit_name.text = GetI18NText(var_6_0.name)
-	elseif var_6_2 == MatrixConst.ITEM_TYPE.EQUIP then
-		arg_6_0.m_equipImg.sprite = MatrixTools.GetMatrixItemSprite(arg_6_1)
-	elseif var_6_2 == MatrixConst.ITEM_TYPE.WEAPON_SERVANT then
-		arg_6_0.m_weaponImg.sprite = MatrixTools.GetMatrixItemSprite(arg_6_1)
-
-		local var_6_3 = var_6_0.params[1]
-
-		if MatrixTools.GetWeaponSpecHero(var_6_3) ~= 0 then
-			-- block empty
+		if MatrixTools.GetWeaponSpecHero(slot3.params[1]) ~= 0 then
+			-- Nothing
 		end
-	elseif var_6_2 == MatrixConst.ITEM_TYPE.TREASURE then
-		arg_6_0.m_treasureImg.sprite = MatrixTools.GetMatrixItemSprite(arg_6_1)
-	elseif var_6_2 == MatrixConst.ITEM_TYPE.ITEM then
-		arg_6_0.m_itemImg.sprite = MatrixTools.GetMatrixItemSprite(arg_6_1)
-	elseif var_6_2 == MatrixConst.ITEM_TYPE.EFFECT then
-		arg_6_0.m_buffImg.sprite = MatrixTools.GetMatrixItemSprite(arg_6_1)
+	elseif slot5 == MatrixConst.ITEM_TYPE.TREASURE then
+		slot0.m_treasureImg.sprite = MatrixTools.GetMatrixItemSprite(slot1)
+	elseif slot5 == MatrixConst.ITEM_TYPE.ITEM then
+		slot0.m_itemImg.sprite = MatrixTools.GetMatrixItemSprite(slot1)
+	elseif slot5 == MatrixConst.ITEM_TYPE.EFFECT then
+		slot0.m_buffImg.sprite = MatrixTools.GetMatrixItemSprite(slot1)
 	end
 end
 
-function var_0_0.SetSelected(arg_7_0, arg_7_1)
-	arg_7_0.selectedController_:SetSelectedIndex(arg_7_1 and 1 or 0)
+function slot0.SetSelected(slot0, slot1)
+	slot0.selectedController_:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.RegistCallBack(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc = arg_8_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.GetIndex(arg_9_0)
-	return arg_9_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.UpdateAstrolabePreview(arg_10_0)
-	local var_10_0 = MatrixItemCfg[arg_10_0.id]
-
-	if var_10_0.matrix_item_type ~= MatrixConst.ITEM_TYPE.ASTROLABE then
+function slot0.UpdateAstrolabePreview(slot0)
+	if MatrixItemCfg[slot0.id].matrix_item_type ~= MatrixConst.ITEM_TYPE.ASTROLABE then
 		return
 	end
 
-	local var_10_1 = var_10_0.params[1]
-	local var_10_2 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[var_10_1]
-	local var_10_3 = math.floor(var_10_0.params[1] / 1000)
-	local var_10_4 = arg_10_0:GetHeroData(var_10_3):GetAstrolabeNum(var_10_0.params[1])
-	local var_10_5 = arg_10_0:GetHeroSkin(var_10_3)
+	slot3 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot1.params[1]]
+	slot4 = math.floor(slot1.params[1] / 1000)
+	slot11 = slot0:GetHeroSkin(slot4)
+	slot0.m_heroImg.sprite = getSpriteViaConfig("HeroLittleIcon", slot11)
+	slot6 = math.min(3, slot0:GetHeroData(slot4):GetAstrolabeNum(slot1.params[1]) + 1)
 
-	arg_10_0.m_heroImg.sprite = getSpriteViaConfig("HeroLittleIcon", var_10_5)
+	for slot11, slot12 in ipairs(slot0.astrolabeImgs_) do
+		if slot11 <= slot6 then
+			SetActive(slot12.gameObject, true)
 
-	local var_10_6 = var_10_4 + 1
-	local var_10_7 = math.min(3, var_10_6)
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.astrolabeImgs_) do
-		if iter_10_0 <= var_10_7 then
-			SetActive(iter_10_1.gameObject, true)
-
-			iter_10_1.sprite = MatrixTools.GetMatrixItemSprite(arg_10_0.id)
+			slot12.sprite = MatrixTools.GetMatrixItemSprite(slot0.id)
 		else
-			SetActive(iter_10_1.gameObject, false)
+			SetActive(slot12.gameObject, false)
 		end
 	end
 
-	if var_10_7 > 0 then
-		local var_10_8 = var_10_2[var_10_7]
-		local var_10_9 = AstrolabeEffectCfg[var_10_8].desc[1]
-		local var_10_10 = GetCfgDescription(var_10_9, 1)
+	if slot6 > 0 then
+		slot8 = slot3[slot6]
 
-		arg_10_0:SetDesc(var_10_10)
+		slot0:SetDesc(GetCfgDescription(AstrolabeEffectCfg[slot8].desc[1], 1))
 
-		local var_10_11 = HeroAstrolabeCfg[var_10_8]
-
-		arg_10_0.m_name1.text = GetI18NText(var_10_11.name)
-		arg_10_0.m_name2.text = GetI18NText(var_10_11.name)
+		slot12 = HeroAstrolabeCfg[slot8]
+		slot0.m_name1.text = GetI18NText(slot12.name)
+		slot0.m_name2.text = GetI18NText(slot12.name)
 	else
-		arg_10_0:SetDesc(var_10_0.desc)
+		slot0:SetDesc(slot1.desc)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetHeroData(arg_12_0, arg_12_1)
-	return MatrixData:GetHeroData(arg_12_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-function var_0_0.GetHeroSkin(arg_13_0, arg_13_1)
-	return MatrixData:GetHeroSkin(arg_13_1)
+function slot0.GetHeroSkin(slot0, slot1)
+	return MatrixData:GetHeroSkin(slot1)
 end
 
-function var_0_0.GetItemDes(arg_14_0, arg_14_1)
-	return MatrixTools.GetMatrixItemDes(arg_14_1)
+function slot0.GetItemDes(slot0, slot1)
+	return MatrixTools.GetMatrixItemDes(slot1)
 end
 
-return var_0_0
+return slot0

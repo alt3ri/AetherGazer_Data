@@ -1,73 +1,68 @@
-local var_0_0 = class("SectionSelectHeroActivityMatrixView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroActivityMatrixView", SectionSelectHeroBaseView)
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	arg_1_0.matrix_activity_id = arg_1_0.params_.matrix_activity_id
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 end
 
-function var_0_0.GetChipView(arg_2_0)
+function slot0.GetChipView(slot0)
 	return SectionSelectHeroMatrixChip
 end
 
-function var_0_0.GetComboSkillView(arg_3_0)
+function slot0.GetComboSkillView(slot0)
 	return SectionComboSkillMatrixView
 end
 
-function var_0_0.ChangeHeroTeam(arg_4_0, arg_4_1)
-	ActivityMatrixData:SetMatrixBattleHeroTeam(arg_4_0.matrix_activity_id, arg_4_1)
+function slot0.ChangeHeroTeam(slot0, slot1)
+	ActivityMatrixData:SetMatrixBattleHeroTeam(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetHeroCfg(arg_5_0, arg_5_1)
-	local var_5_0 = ActivityMatrixData:GetHeroSkin(arg_5_0.matrix_activity_id, arg_5_1)
-
-	return SkinCfg[var_5_0]
+function slot0.GetHeroCfg(slot0, slot1)
+	return SkinCfg[ActivityMatrixData:GetHeroSkin(slot0.matrix_activity_id, slot1)]
 end
 
-function var_0_0.GetSkinCfg(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_0.heroTrialList_[arg_6_1] ~= 0 then
-		return SkinCfg[HeroStandardSystemCfg[arg_6_0.heroTrialList_[arg_6_1]].skin_id]
+function slot0.GetSkinCfg(slot0, slot1, slot2)
+	if slot0.heroTrialList_[slot1] ~= 0 then
+		return SkinCfg[HeroStandardSystemCfg[slot0.heroTrialList_[slot1]].skin_id]
 	else
-		return arg_6_0:GetHeroCfg(arg_6_2)
+		return slot0:GetHeroCfg(slot2)
 	end
 end
 
-function var_0_0.StartBattle(arg_7_0)
-	if ActivityMatrixData:GetGameState(arg_7_0.matrix_activity_id) == MatrixConst.STATE_TYPE.NOTSTARTED then
+function slot0.StartBattle(slot0)
+	if ActivityMatrixData:GetGameState(slot0.matrix_activity_id) == MatrixConst.STATE_TYPE.NOTSTARTED then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MATRIX_REFRESH_DATA"),
-			OkCallback = function()
-				local var_8_0 = ActivityMatrixData:GetMainActivityId(arg_7_0.matrix_activity_id)
-
+			OkCallback = function ()
 				JumpTools.GoToSystem("/matrixBlank/activityMatrix", {
-					main_matrix_activity_id = var_8_0,
-					matrix_activity_id = arg_7_0.matrix_activity_id
+					main_matrix_activity_id = ActivityMatrixData:GetMainActivityId(uv0.matrix_activity_id),
+					matrix_activity_id = uv0.matrix_activity_id
 				})
 			end
 		})
 	else
-		local var_7_0 = ActivityMatrixData:GetMatrixPhaseData(arg_7_0.matrix_activity_id):GetPhase()
-		local var_7_1 = arg_7_0.params_.eventId
+		slot4 = slot0.params_.eventId
 
-		if var_7_0 == 2 then
-			ActivityMatrixAction.DoEvent(arg_7_0.matrix_activity_id)
+		if ActivityMatrixData:GetMatrixPhaseData(slot0.matrix_activity_id):GetPhase() == 2 then
+			ActivityMatrixAction.DoEvent(slot0.matrix_activity_id)
 		else
-			ActivityMatrixAction.QueryNextProgress(arg_7_0.matrix_activity_id, {
-				var_7_1
+			ActivityMatrixAction.QueryNextProgress(slot0.matrix_activity_id, {
+				slot4
 			})
 		end
 	end
 end
 
-function var_0_0.ClickHero(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	if not arg_9_3.dragging then
-		if arg_9_0.selectIndex_ then
+function slot0.ClickHero(slot0, slot1, slot2, slot3)
+	if not slot3.dragging then
+		if slot0.selectIndex_ then
 			return
 		end
 
-		if #arg_9_0.loadingList_ > 0 then
+		if #slot0.loadingList_ > 0 then
 			return
 		end
 
@@ -75,110 +70,99 @@ function var_0_0.ClickHero(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
 	end
 end
 
-function var_0_0.GetTotalPower(arg_10_0)
+function slot0.GetTotalPower(slot0)
 	return 0
 end
 
-function var_0_0.RefreshPower(arg_11_0)
-	return
+function slot0.RefreshPower(slot0)
 end
 
-function var_0_0.RefreshAddBtn(arg_12_0)
-	for iter_12_0 = 1, 3 do
-		SetActive(arg_12_0.addBtnGo_[iter_12_0], false)
-		SetActive(arg_12_0.heroPowerPanel_[iter_12_0].gameObject, false)
+function slot0.RefreshAddBtn(slot0)
+	for slot4 = 1, 3 do
+		SetActive(slot0.addBtnGo_[slot4], false)
+		SetActive(slot0.heroPowerPanel_[slot4].gameObject, false)
 	end
 end
 
-function var_0_0.RefreshChip(arg_13_0)
-	SetActive(arg_13_0.chipPanel_, false)
+function slot0.RefreshChip(slot0)
+	SetActive(slot0.chipPanel_, false)
 end
 
-function var_0_0.RefreshRace(arg_14_0)
-	local var_14_0, var_14_1 = arg_14_0:GetRaceEffect()
+function slot0.RefreshRace(slot0)
+	slot1, slot2 = slot0:GetRaceEffect()
 
-	SetActive(arg_14_0.effectTitlePanel_, var_14_0 ~= 0)
+	SetActive(slot0.effectTitlePanel_, slot1 ~= 0)
 
-	if var_14_1 then
-		local var_14_2 = RaceEffectCfg[var_14_0]
-
-		arg_14_0.effectText_.text = GetI18NText(var_14_2.battle_desc)
-		arg_14_0.titleCanvasGroup2_.alpha = 1
+	if slot2 then
+		slot0.effectText_.text = GetI18NText(RaceEffectCfg[slot1].battle_desc)
+		slot0.titleCanvasGroup2_.alpha = 1
 	else
-		if ActivityMatrixData:GetRaceEffect(arg_14_0.matrix_activity_id) then
-			arg_14_0.effectText_.text = GetTips("MATRIX_NO_BATTLE_BUFF")
+		if ActivityMatrixData:GetRaceEffect(slot0.matrix_activity_id) then
+			slot0.effectText_.text = GetTips("MATRIX_NO_BATTLE_BUFF")
 		else
-			arg_14_0.effectText_.text = GetTips("NO_BATTLE_BUFF")
+			slot0.effectText_.text = GetTips("NO_BATTLE_BUFF")
 		end
 
-		arg_14_0.titleCanvasGroup2_.alpha = 0.8
+		slot0.titleCanvasGroup2_.alpha = 0.8
 	end
 
-	SetActive(arg_14_0.activeGo2_, not var_14_1)
-	SetActive(arg_14_0.activeGo1_, var_14_0 == 0)
+	SetActive(slot0.activeGo2_, not slot2)
+	SetActive(slot0.activeGo1_, slot1 == 0)
 
-	if var_14_0 == 0 then
-		arg_14_0.titleCanvasGroup1_.alpha = 0.8
-		arg_14_0.effectHeroText_.text = GetTips("NO_CORRECTOR_BUFF")
+	if slot1 == 0 then
+		slot0.titleCanvasGroup1_.alpha = 0.8
+		slot0.effectHeroText_.text = GetTips("NO_CORRECTOR_BUFF")
 
 		return
 	end
 
-	arg_14_0.titleCanvasGroup1_.alpha = 1
-
-	local var_14_3 = RaceEffectCfg[var_14_0]
-
-	arg_14_0.effectName_.text = GetI18NText(var_14_3.name)
-	arg_14_0.effectHeroText_.text = GetI18NText(var_14_3.desc)
-	arg_14_0.effectImage_.sprite = getSprite("Atlas/CampItemAtlas", var_14_3.icon)
+	slot0.titleCanvasGroup1_.alpha = 1
+	slot3 = RaceEffectCfg[slot1]
+	slot0.effectName_.text = GetI18NText(slot3.name)
+	slot0.effectHeroText_.text = GetI18NText(slot3.desc)
+	slot0.effectImage_.sprite = getSprite("Atlas/CampItemAtlas", slot3.icon)
 end
 
-function var_0_0.GetRaceEffect(arg_15_0)
-	local var_15_0 = {}
-	local var_15_1 = 0
-	local var_15_2 = false
-	local var_15_3 = arg_15_0.cacheHeroTeam_
+function slot0.GetRaceEffect(slot0)
+	slot1 = {}
+	slot2 = 0
+	slot3 = false
 
-	for iter_15_0, iter_15_1 in pairs(var_15_3) do
-		if iter_15_1 ~= 0 then
-			local var_15_4 = HeroCfg[iter_15_1].race
+	for slot8, slot9 in pairs(slot0.cacheHeroTeam_) do
+		if slot9 ~= 0 then
+			slot1[slot10] = (slot1[HeroCfg[slot9].race] or 0) + 1
 
-			var_15_0[var_15_4] = (var_15_0[var_15_4] or 0) + 1
+			if slot1[slot10] == 2 then
+				slot2 = slot10
 
-			if var_15_0[var_15_4] == 2 then
-				var_15_1 = var_15_4
-
-				if ActivityMatrixData:GetRaceEffect(arg_15_0.matrix_activity_id) then
-					var_15_2 = true
+				if ActivityMatrixData:GetRaceEffect(slot0.matrix_activity_id) then
+					slot3 = true
 				end
-			elseif var_15_0[var_15_4] == 3 then
-				var_15_2 = true
+			elseif slot1[slot10] == 3 then
+				slot3 = true
 			end
 		end
 	end
 
-	return var_15_1, var_15_2, var_15_0[var_15_1] or 1
+	return slot2, slot3, slot1[slot2] or 1
 end
 
-function var_0_0.GetSelectHero(arg_16_0)
-	local var_16_0 = false
+function slot0.GetSelectHero(slot0)
+	slot1 = false
 
-	if arg_16_0.roomProxy_ then
-		local var_16_1 = arg_16_0.roomProxy_:GetHeroTeam()
+	if slot0.roomProxy_ then
+		slot2 = slot0.roomProxy_:GetHeroTeam()
+		slot0.cacheHeroTeam_ = slot2.HeroList
+		slot0.lockStateList_ = slot2.LockStateList
+		slot0.lockList_ = slot2.LockHeroList
+		slot0.heroTrialList_ = slot2.TrialHeroList
 
-		arg_16_0.cacheHeroTeam_ = var_16_1.HeroList
-		arg_16_0.lockStateList_ = var_16_1.LockStateList
-		arg_16_0.lockList_ = var_16_1.LockHeroList
-		arg_16_0.heroTrialList_ = var_16_1.TrialHeroList
-
-		if var_16_1.IsInvalid then
-			arg_16_0:ChangeHeroTeam(arg_16_0.cacheHeroTeam_)
+		if slot2.IsInvalid then
+			slot0:ChangeHeroTeam(slot0.cacheHeroTeam_)
 		end
 	else
-		local var_16_2
-
-		arg_16_0.cacheHeroTeam_, arg_16_0.lockStateList_, arg_16_0.lockList_, arg_16_0.heroTrialList_, var_16_2 = GetLocalHeroTeam(arg_16_0.stageType_, arg_16_0.stageID_, arg_16_0.params_.activityID)
+		slot0.cacheHeroTeam_, slot0.lockStateList_, slot0.lockList_, slot0.heroTrialList_, slot1 = GetLocalHeroTeam(slot0.stageType_, slot0.stageID_, slot0.params_.activityID)
 	end
 end
 
-return var_0_0
+return slot0

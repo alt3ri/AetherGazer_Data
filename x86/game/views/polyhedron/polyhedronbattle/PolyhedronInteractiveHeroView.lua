@@ -1,71 +1,63 @@
-local var_0_0 = import("game.views.polyhedron.polyhedronBattle.PolyhedronInteractiveView")
-local var_0_1 = class("PolyhedronInteractiveHeroView", var_0_0)
+slot1 = class("PolyhedronInteractiveHeroView", import("game.views.polyhedron.polyhedronBattle.PolyhedronInteractiveView"))
 
-function var_0_1.AddUIListener(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.m_btn, nil, function()
-		local var_2_0 = arg_1_0.polyhedronInfo:GetRewardType()
-
-		if PolyhedronConst.REWARD_TYEP.TEAMMATE == var_2_0 then
-			local var_2_1 = arg_1_0.enlistHero.enlist_type
-			local var_2_2 = arg_1_0.enlistHero.heroId
-
-			if PolyhedronConst.ENLIST_TYPE.PAY == var_2_1 and PolyhedronHeroCfg[var_2_2].need_coin > arg_1_0.polyhedronInfo:GetCoinCount() then
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if PolyhedronConst.REWARD_TYEP.TEAMMATE == uv0.polyhedronInfo:GetRewardType() then
+			if PolyhedronConst.ENLIST_TYPE.PAY == uv0.enlistHero.enlist_type and uv0.polyhedronInfo:GetCoinCount() < PolyhedronHeroCfg[uv0.enlistHero.heroId].need_coin then
 				ShowTips("POLYHEDRON_INTERACTIVE_HERO_FAIL")
 
 				return
 			end
 
-			PolyhedronAction.QueryEnlistHero(arg_1_0.enlistHero)
+			PolyhedronAction.QueryEnlistHero(uv0.enlistHero)
 		else
 			DoPolyhedronNextTrigger()
 		end
 	end)
 end
 
-function var_0_1.RefreshUI(arg_3_0)
-	arg_3_0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+function slot1.RefreshUI(slot0)
+	slot0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
 
-	if arg_3_0.index == 0 then
-		arg_3_0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_GIVE_UP_DES")
-		arg_3_0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_GIVE_UP_TITLE")
-		arg_3_0.enlistHero = {
+	if slot0.index == 0 then
+		slot0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_GIVE_UP_DES")
+		slot0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_GIVE_UP_TITLE")
+		slot0.enlistHero = {
 			heroId = 0,
 			enlist_type = PolyhedronConst.ENLIST_TYPE.GIVE_UP
 		}
 	else
-		arg_3_0.enlistHeroList = arg_3_0.polyhedronInfo:GetEnlistHeroList()
-		arg_3_0.enlistHero = arg_3_0.enlistHeroList[arg_3_0.index]
+		slot0.enlistHeroList = slot0.polyhedronInfo:GetEnlistHeroList()
+		slot0.enlistHero = slot0.enlistHeroList[slot0.index]
 
-		if arg_3_0.enlistHero then
-			local var_3_0 = arg_3_0.enlistHero.enlist_type
-			local var_3_1 = arg_3_0.enlistHero.heroId
+		if slot0.enlistHero then
+			slot2 = slot0.enlistHero.heroId
 
-			if PolyhedronConst.ENLIST_TYPE.BATTLE == var_3_0 then
-				arg_3_0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_1")
-				arg_3_0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_1")
-			elseif PolyhedronConst.ENLIST_TYPE.PAY == var_3_0 then
-				local var_3_2 = PolyhedronHeroCfg[var_3_1].need_coin
-				local var_3_3 = arg_3_0.polyhedronInfo:GetCoinCount()
-				local var_3_4 = var_3_2
+			if PolyhedronConst.ENLIST_TYPE.BATTLE == slot0.enlistHero.enlist_type then
+				slot0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_1")
+				slot0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_1")
+			elseif PolyhedronConst.ENLIST_TYPE.PAY == slot1 then
+				slot4 = PolyhedronHeroCfg[slot2].need_coin
+				slot6 = slot4
 
-				if var_3_3 < var_3_2 then
-					var_3_4 = string.format("<color=#F63D2F>%s</color>", var_3_2)
+				if slot0.polyhedronInfo:GetCoinCount() < slot4 then
+					slot6 = string.format("<color=#F63D2F>%s</color>", slot4)
 				end
 
-				arg_3_0.m_des.text = string.format(GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_2"), var_3_4)
-				arg_3_0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_2")
+				slot0.m_des.text = string.format(GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_2"), slot6)
+				slot0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_2")
 			else
-				arg_3_0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_3")
-				arg_3_0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_3")
+				slot0.m_des.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_DES_3")
+				slot0.m_btnLab.text = GetTips("POLYHEDRON_INTERACTIVE_HERO_TITLE_3")
 			end
 		else
-			arg_3_0.m_des.text = "error"
-			arg_3_0.m_btnLab.text = ""
+			slot0.m_des.text = "error"
+			slot0.m_btnLab.text = ""
 		end
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.m_desTrs)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.m_contentTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_desTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_contentTrs)
 end
 
-return var_0_1
+return slot1

@@ -1,13 +1,13 @@
-local var_0_0 = class("ReserveParams")
+slot0 = class("ReserveParams")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.customData = arg_1_4 or {}
-	arg_1_0.stageType = arg_1_0.customData.stageType
-	arg_1_0.stageID = arg_1_0.customData.stageID
-	arg_1_0.reserveType = arg_1_1 or ReserveTools.GetReserveType(arg_1_0.stageType, arg_1_0.stageID)
-	arg_1_0.contID = arg_1_2 or ReserveTools.GetContID(arg_1_0.stageType, arg_1_0.stageID)
-	arg_1_0.teamIndex = arg_1_3 or ReserveConst.DEFAULT_TEAM_INDEX
-	arg_1_0.needDefaultTeam = ReserveTools.NeedDefaultTeam(arg_1_0.stageType, arg_1_0.stageID)
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4)
+	slot0.customData = slot4 or {}
+	slot0.stageType = slot0.customData.stageType
+	slot0.stageID = slot0.customData.stageID
+	slot0.reserveType = slot1 or ReserveTools.GetReserveType(slot0.stageType, slot0.stageID)
+	slot0.contID = slot2 or ReserveTools.GetContID(slot0.stageType, slot0.stageID)
+	slot0.teamIndex = slot3 or ReserveConst.DEFAULT_TEAM_INDEX
+	slot0.needDefaultTeam = ReserveTools.NeedDefaultTeam(slot0.stageType, slot0.stageID)
 end
 
-return var_0_0
+return slot0

@@ -1,56 +1,56 @@
-local var_0_0 = class("CommonTaskPopView", ReduxView)
+slot0 = class("CommonTaskPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/CommonTask"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitContext(arg_3_0)
-	arg_3_0.constVar = {
+function slot0.InitContext(slot0)
+	slot0.constVar = {
 		taskIdList = {},
-		taskListModule = CommonTaskListModule.New(arg_3_0.m_taskList)
+		taskListModule = CommonTaskListModule.New(slot0.m_taskList)
 	}
 end
 
-function var_0_0.BuildContext(arg_4_0)
-	arg_4_0.data = {
-		activityId = arg_4_0.params_.activityId,
-		taskType = arg_4_0.params_.taskType
+function slot0.BuildContext(slot0)
+	slot0.data = {
+		activityId = slot0.params_.activityId,
+		taskType = slot0.params_.taskType
 	}
 end
 
-function var_0_0.Init(arg_5_0)
-	arg_5_0:BindCfgUI()
-	arg_5_0:InitContext()
-	arg_5_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:InitContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:BuildContext()
-	arg_6_0.constVar.taskListModule:OnEnter()
+function slot0.OnEnter(slot0)
+	slot0:BuildContext()
+	slot0.constVar.taskListModule:OnEnter()
 
-	if arg_6_0.data.activityId then
-		arg_6_0.constVar.taskListModule:RenderActivityTaskList(arg_6_0.data.activityId)
-	elseif arg_6_0.data.taskType then
-		arg_6_0.constVar.taskListModule:RenderTypeTaskList(arg_6_0.data.taskType)
+	if slot0.data.activityId then
+		slot0.constVar.taskListModule:RenderActivityTaskList(slot0.data.activityId)
+	elseif slot0.data.taskType then
+		slot0.constVar.taskListModule:RenderTypeTaskList(slot0.data.taskType)
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0.constVar.taskListModule:OnExit()
+function slot0.OnExit(slot0)
+	slot0.constVar.taskListModule:OnExit()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.constVar.taskListModule:Dispose()
+function slot0.Dispose(slot0)
+	slot0.constVar.taskListModule:Dispose()
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.m_mask, nil, function()
-		arg_9_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_0
+return slot0

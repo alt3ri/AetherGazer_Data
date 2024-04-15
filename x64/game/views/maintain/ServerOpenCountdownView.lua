@@ -1,105 +1,97 @@
-local var_0_0 = class("ServerOpenCountdownView", ReduxView)
+slot0 = class("ServerOpenCountdownView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/PopUp/ServerUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
-		local var_6_0 = {
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		OperationAction.OpenOperationUrl("FORUM_URL", {
 			gameAppId = _G.ChannelLoginInfo.channelAppId,
 			token = _G.ChannelLoginInfo.channelToken
-		}
-
-		OperationAction.OpenOperationUrl("FORUM_URL", var_6_0)
+		})
 		SDKTools.SendMessageToSDK("direction", {
 			direction_type = 8,
 			direction_channel = 3
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.okBtn_, nil, function()
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
 		Application.OpenURL("https://open.ys4fun.com/web-api/pass/linkrouter/qqun")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.now_ = arg_9_0.params_.now
-	arg_9_0.currentServerTime_ = manager.time:GetServerTime()
-	arg_9_0.passedSeconds_ = 0
+function slot0.OnEnter(slot0)
+	slot0.now_ = slot0.params_.now
+	slot0.currentServerTime_ = manager.time:GetServerTime()
+	slot0.passedSeconds_ = 0
 
-	if not arg_9_0.timer_ then
-		arg_9_0.timer_ = Timer.New(function()
-			arg_9_0:UpdateTime()
+	if not slot0.timer_ then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTime()
 		end, 0.2, -1)
 	end
 
-	arg_9_0.timer_:Start()
-	arg_9_0:UpdateTime()
+	slot0.timer_:Start()
+	slot0:UpdateTime()
 
 	if tostring(_G.CHANNEL_MASTER_ID) == "1" or GameToSDK.PLATFORM_ID == 1 then
-		SetActive(arg_9_0.okBtn_.gameObject, true)
-		SetActive(arg_9_0.cancelBtn_.gameObject, true)
+		SetActive(slot0.okBtn_.gameObject, true)
+		SetActive(slot0.cancelBtn_.gameObject, true)
 	else
-		SetActive(arg_9_0.okBtn_.gameObject, false)
-		SetActive(arg_9_0.cancelBtn_.gameObject, false)
+		SetActive(slot0.okBtn_.gameObject, false)
+		SetActive(slot0.cancelBtn_.gameObject, false)
 	end
 end
 
-function var_0_0.UpdateTime(arg_11_0)
-	arg_11_0.passedSeconds_ = manager.time:GetServerTime() - arg_11_0.currentServerTime_
-	arg_11_0.contentText_.text = arg_11_0.params_.content
+function slot0.UpdateTime(slot0)
+	slot0.passedSeconds_ = manager.time:GetServerTime() - slot0.currentServerTime_
+	slot0.contentText_.text = slot0.params_.content
+	slot1 = slot0.params_.countdown
+	slot2 = ""
+	slot5 = slot0.params_.countdown - (slot0.params_.now + slot0.passedSeconds_)
+	slot6 = math.floor(slot5 / 86400)
 
-	local var_11_0 = arg_11_0.params_.countdown
-	local var_11_1 = ""
-	local var_11_2 = arg_11_0.params_.countdown - (arg_11_0.params_.now + arg_11_0.passedSeconds_)
-	local var_11_3 = math.floor(var_11_2 / 86400)
-	local var_11_4 = math.floor(var_11_2 / 3600) - var_11_3 * 24
-	local var_11_5 = math.floor(var_11_2 / 60) - var_11_3 * 24 * 60 - var_11_4 * 60
-
-	if var_11_2 >= 86400 then
-		var_11_1 = TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_1].desc
-		var_11_1 = string.format(var_11_1, var_11_3, var_11_4, var_11_5)
-	elseif var_11_2 >= 3600 then
-		var_11_1 = TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_2].desc
-		var_11_1 = string.format(var_11_1, var_11_4, var_11_5)
-	elseif var_11_2 >= 600 then
-		var_11_1 = TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_3].desc
-		var_11_1 = string.format(var_11_1, var_11_5)
-	elseif var_11_2 > 0 then
-		var_11_1 = TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_4].desc
+	if slot5 >= 86400 then
+		slot2 = string.format(TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_1].desc, slot6, slot7, math.floor(slot5 / 60) - slot6 * 24 * 60 - (math.floor(slot5 / 3600) - slot6 * 24) * 60)
+	elseif slot5 >= 3600 then
+		slot2 = string.format(TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_2].desc, slot7, slot8)
+	elseif slot5 >= 600 then
+		slot2 = string.format(TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_3].desc, slot8)
+	elseif slot5 > 0 then
+		slot2 = TipsCfg[TipsCfg.get_id_list_by_define.SERVER_OPEN_COUNTDOWN_4].desc
 	else
-		arg_11_0:Back()
+		slot0:Back()
 	end
 
-	arg_11_0.countdownText_.text = var_11_1
+	slot0.countdownText_.text = slot2
 end
 
-function var_0_0.OnExit(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

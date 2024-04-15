@@ -1,13 +1,11 @@
 ActivityChessItem = import("game.views.activity.Submodule.Chess.ActivityChessItem")
+slot0 = class("SummerStoryMainWarchessItem", ActivityChessItem)
 
-local var_0_0 = class("SummerStoryMainWarchessItem", ActivityChessItem)
-
-function var_0_0.RefreshUI(arg_1_0)
-	local var_1_0 = ChessTools.GetChapterProgress(arg_1_0.chapterID_)
-
-	arg_1_0.progressText_.text = string.format("%d%%", math.floor(var_1_0))
-	arg_1_0.slider_.fillAmount = var_1_0 / 100
-	arg_1_0.textName_.text = GetI18NText(WarchessLevelCfg[arg_1_0.chapterID_].name_level)
+function slot0.RefreshUI(slot0)
+	slot1 = ChessTools.GetChapterProgress(slot0.chapterID_)
+	slot0.progressText_.text = string.format("%d%%", math.floor(slot1))
+	slot0.slider_.fillAmount = slot1 / 100
+	slot0.textName_.text = GetI18NText(WarchessLevelCfg[slot0.chapterID_].name_level)
 end
 
-return var_0_0
+return slot0

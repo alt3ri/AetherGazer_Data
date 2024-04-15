@@ -1,68 +1,66 @@
-local var_0_0 = class("ReservesChipManagerView", ChipManagerView)
+slot0 = class("ReservesChipManagerView", ChipManagerView)
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.index_ = arg_1_0.params_.index
+function slot0.OnEnter(slot0)
+	slot0.index_ = slot0.params_.index
 
-	var_0_0.super.OnEnter(arg_1_0)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_1_0:Back(1, {
+	uv0.super.OnEnter(slot0)
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			isInit = false
 		})
 	end)
 end
 
-function var_0_0.RefreshChipManagerItem(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = arg_3_0.chipManagerList_[arg_3_1]
+function slot0.RefreshChipManagerItem(slot0, slot1, slot2)
+	slot3 = slot0.chipManagerList_[slot1]
 
-	arg_3_2:SetIndex(arg_3_0.index_)
-	arg_3_2:SetTemplateData(arg_3_0.chipManagerDataTemplate_)
-	arg_3_2:SetChipManagerID(var_3_0)
-	arg_3_2:RefreshUI(var_3_0 == arg_3_0.defaultSelectID_)
+	slot2:SetIndex(slot0.index_)
+	slot2:SetTemplateData(slot0.chipManagerDataTemplate_)
+	slot2:SetChipManagerID(slot3)
+	slot2:RefreshUI(slot3 == slot0.defaultSelectID_)
 end
 
-function var_0_0.GetChipManagerList(arg_4_0)
-	local var_4_0 = BattleTeamData:GetReservesTempTeamList()[arg_4_0.index_].chipInfo.id
-
-	return ChipTools.SortChipManager(var_4_0)
+function slot0.GetChipManagerList(slot0)
+	return ChipTools.SortChipManager(BattleTeamData:GetReservesTempTeamList()[slot0.index_].chipInfo.id)
 end
 
-function var_0_0.GetChipManagerInfoView(arg_5_0)
+function slot0.GetChipManagerInfoView(slot0)
 	return BattleChipManagerInfoView
 end
 
-function var_0_0.GetChipDataTemplate(arg_6_0)
-	local var_6_0 = ChipManagerDataTemplate.New({
-		id = arg_6_0.defaultSelectID_,
-		unlockChipManagerIDList_ = arg_6_0:GetUnlockChipManagerList(),
-		unlockChipIDList_ = arg_6_0:GetUnlockChipList()
+function slot0.GetChipDataTemplate(slot0)
+	slot1 = ChipManagerDataTemplate.New({
+		id = slot0.defaultSelectID_,
+		unlockChipManagerIDList_ = slot0:GetUnlockChipManagerList(),
+		unlockChipIDList_ = slot0:GetUnlockChipList()
 	})
 
-	var_6_0:SetUseChipmanagerId(arg_6_0.defaultSelectID_)
-	var_6_0:SetReservesIndex(arg_6_0.index_)
-	var_6_0:SetUseChipmanagerId(BattleTeamData:GetReservesTempTeamList()[arg_6_0.index_].chipInfo.id or 0)
-	var_6_0:SetChipInfoViewPath("/reservesChipInfo")
+	slot1:SetUseChipmanagerId(slot0.defaultSelectID_)
+	slot1:SetReservesIndex(slot0.index_)
+	slot1:SetUseChipmanagerId(BattleTeamData:GetReservesTempTeamList()[slot0.index_].chipInfo.id or 0)
+	slot1:SetChipInfoViewPath("/reservesChipInfo")
 
-	var_6_0.useChipIdList = BattleTeamData:GetReservesTempTeamList()[arg_6_0.index_].chipInfo.list
+	slot1.useChipIdList = BattleTeamData:GetReservesTempTeamList()[slot0.index_].chipInfo.list
 
-	return var_6_0
+	return slot1
 end
 
-function var_0_0.EnableChipManagerIDFunc(arg_7_0, arg_7_1)
-	BattleTeamData:SetReservesTempTeamChip(arg_7_0.index_, arg_7_1)
-	arg_7_0:RefreshUI()
-	arg_7_0.chipManagerUIList_:Refresh()
+function slot0.EnableChipManagerIDFunc(slot0, slot1)
+	BattleTeamData:SetReservesTempTeamChip(slot0.index_, slot1)
+	slot0:RefreshUI()
+	slot0.chipManagerUIList_:Refresh()
 end
 
-function var_0_0.GetChipManagerItem(arg_8_0)
+function slot0.GetChipManagerItem(slot0)
 	return ReservesChipManagerItem
 end
 
-function var_0_0.OnSchemeBtn(arg_9_0)
-	arg_9_0:Go("/reservesChipScheme", {
-		chipManagerID = arg_9_0.chipManagerID_,
-		template = arg_9_0.chipManagerDataTemplate_,
-		index = arg_9_0.index_
+function slot0.OnSchemeBtn(slot0)
+	slot0:Go("/reservesChipScheme", {
+		chipManagerID = slot0.chipManagerID_,
+		template = slot0.chipManagerDataTemplate_,
+		index = slot0.index_
 	})
 end
 
-return var_0_0
+return slot0

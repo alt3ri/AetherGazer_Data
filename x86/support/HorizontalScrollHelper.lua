@@ -1,265 +1,250 @@
-local var_0_0 = class("HorizontalScrollHelper")
+slot0 = class("HorizontalScrollHelper")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.delegateObj_ = arg_1_1
-	arg_1_0.scrollView_ = arg_1_2
-	arg_1_0.isVertical_ = arg_1_3
-	arg_1_0.startIndex_ = 0
-	arg_1_0.endIndex_ = 0
-	arg_1_0.maxIndex_ = 0
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.delegateObj_ = slot1
+	slot0.scrollView_ = slot2
+	slot0.isVertical_ = slot3
+	slot0.startIndex_ = 0
+	slot0.endIndex_ = 0
+	slot0.maxIndex_ = 0
 
-	arg_1_0:OnCtor()
+	slot0:OnCtor()
 end
 
-function var_0_0.OnCtor(arg_2_0)
-	arg_2_0.itemS_ = {}
-	arg_2_0.currentIndex_ = 0
+function slot0.OnCtor(slot0)
+	slot0.itemS_ = {}
+	slot0.currentIndex_ = 0
 end
 
-function var_0_0.SetSpacing(arg_3_0, arg_3_1)
-	arg_3_0.space_ = arg_3_1
+function slot0.SetSpacing(slot0, slot1)
+	slot0.space_ = slot1
 end
 
-function var_0_0.SetDataList(arg_4_0, arg_4_1)
-	arg_4_0.dataList_ = arg_4_1
-	arg_4_0.maxIndex_ = #arg_4_1
+function slot0.SetDataList(slot0, slot1)
+	slot0.dataList_ = slot1
+	slot0.maxIndex_ = #slot1
 end
 
-function var_0_0.RecycleAllItem(arg_5_0)
-	for iter_5_0 = #arg_5_0.itemS_, 1, -1 do
-		arg_5_0:RecycleItem(iter_5_0)
+function slot0.RecycleAllItem(slot0)
+	for slot4 = #slot0.itemS_, 1, -1 do
+		slot0:RecycleItem(slot4)
 	end
 
-	arg_5_0.itemS_ = {}
+	slot0.itemS_ = {}
 end
 
-function var_0_0.RecycleItem(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0.itemS_[arg_6_1]
-
-	if var_6_0 == nil then
+function slot0.RecycleItem(slot0, slot1)
+	if slot0.itemS_[slot1] == nil then
 		return
 	end
 
-	var_6_0:Show(false)
+	slot2:Show(false)
 
-	if var_6_0.pools and var_6_0.recycleIndex then
-		var_6_0.pools:FinishIndex(var_6_0.recycleIndex)
+	if slot2.pools and slot2.recycleIndex then
+		slot2.pools:FinishIndex(slot2.recycleIndex)
 
-		var_6_0.isFree = true
+		slot2.isFree = true
 	end
 
-	table.remove(arg_6_0.itemS_, arg_6_1)
+	table.remove(slot0.itemS_, slot1)
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_0.scrollView_:GetViewBounds()
-	local var_7_1 = arg_7_0.scrollView_:GetContentBounds()
+function slot0.Show(slot0, slot1)
+	slot2 = slot0.scrollView_:GetViewBounds()
+	slot3 = slot0.scrollView_:GetContentBounds()
+	slot0.startIndex_ = slot1 - 1
+	slot0.endIndex_ = slot0.startIndex_
 
-	arg_7_0.startIndex_ = arg_7_1 - 1
-	arg_7_0.endIndex_ = arg_7_0.startIndex_
+	if slot0.isVertical_ == true then
+		for slot7 = slot0.endIndex_, slot0.maxIndex_ do
+			if slot3.max.y <= slot2.max.y then
+				slot0:NewItemAtEnd()
 
-	if arg_7_0.isVertical_ == true then
-		for iter_7_0 = arg_7_0.endIndex_, arg_7_0.maxIndex_ do
-			if var_7_1.max.y <= var_7_0.max.y then
-				arg_7_0:NewItemAtEnd()
-
-				var_7_0 = arg_7_0.scrollView_:GetViewBounds()
-				var_7_1 = arg_7_0.scrollView_:GetContentBounds()
+				slot2 = slot0.scrollView_:GetViewBounds()
+				slot3 = slot0.scrollView_:GetContentBounds()
 			else
 				break
 			end
 		end
 
-		while var_7_0.max.y - var_7_0.min.y > var_7_1.max.y - var_7_1.min.y and arg_7_0.startIndex_ > 0 do
-			arg_7_0:NewItemAtStart()
+		while slot2.max.y - slot2.min.y > slot3.max.y - slot3.min.y and slot0.startIndex_ > 0 do
+			slot0:NewItemAtStart()
 
-			var_7_0 = arg_7_0.scrollView_:GetViewBounds()
-			var_7_1 = arg_7_0.scrollView_:GetContentBounds()
+			slot2 = slot0.scrollView_:GetViewBounds()
+			slot3 = slot0.scrollView_:GetContentBounds()
 		end
 	else
-		for iter_7_1 = arg_7_0.startIndex_, arg_7_0.maxIndex_ do
-			if var_7_1.max.x <= var_7_0.max.x then
-				arg_7_0:NewItemAtEnd()
+		for slot7 = slot0.startIndex_, slot0.maxIndex_ do
+			if slot3.max.x <= slot2.max.x then
+				slot0:NewItemAtEnd()
 
-				var_7_0 = arg_7_0.scrollView_:GetViewBounds()
-				var_7_1 = arg_7_0.scrollView_:GetContentBounds()
+				slot2 = slot0.scrollView_:GetViewBounds()
+				slot3 = slot0.scrollView_:GetContentBounds()
 			else
 				break
 			end
 		end
 
-		while var_7_0.max.x - var_7_0.min.x - (var_7_1.max.x - var_7_1.min.x) > 0.001 and arg_7_0.startIndex_ > 0 do
-			arg_7_0:NewItemAtStart()
+		while slot2.max.x - slot2.min.x - (slot3.max.x - slot3.min.x) > 0.001 and slot0.startIndex_ > 0 do
+			slot0:NewItemAtStart()
 
-			var_7_0 = arg_7_0.scrollView_:GetViewBounds()
-			var_7_1 = arg_7_0.scrollView_:GetContentBounds()
+			slot2 = slot0.scrollView_:GetViewBounds()
+			slot3 = slot0.scrollView_:GetContentBounds()
 		end
 	end
 
-	if not arg_7_0.scrollView_.onUpdateItems then
-		function arg_7_0.scrollView_.onUpdateItems(arg_8_0, arg_8_1)
-			arg_7_0:UpdateItems(arg_8_0, arg_8_1)
+	if not slot0.scrollView_.onUpdateItems then
+		function slot0.scrollView_.onUpdateItems(slot0, slot1)
+			uv0:UpdateItems(slot0, slot1)
 		end
 	end
 end
 
-function var_0_0.UpdateItems(arg_9_0, arg_9_1, arg_9_2)
-	if arg_9_0.isVertical_ then
-		arg_9_0:UpdateVertical(arg_9_1, arg_9_2)
+function slot0.UpdateItems(slot0, slot1, slot2)
+	if slot0.isVertical_ then
+		slot0:UpdateVertical(slot1, slot2)
 	else
-		arg_9_0:UpdateHorizontal(arg_9_1, arg_9_2)
+		slot0:UpdateHorizontal(slot1, slot2)
 	end
 end
 
-function var_0_0.UpdateVertical(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_1.max.y > arg_10_2.max.y - 0 * arg_10_0:CaculateItemSize(1) then
-		arg_10_0:NewItemAtStart()
+function slot0.UpdateVertical(slot0, slot1, slot2)
+	if slot1.max.y > slot2.max.y - 0 * slot0:CaculateItemSize(1) then
+		slot0:NewItemAtStart()
 	end
 
-	if arg_10_1.min.y < arg_10_2.min.y - 0 * arg_10_0:CaculateItemSize(#arg_10_0.itemS_) then
-		arg_10_0:NewItemAtEnd()
+	if slot1.min.y < slot2.min.y - 0 * slot0:CaculateItemSize(#slot0.itemS_) then
+		slot0:NewItemAtEnd()
 	end
 
-	arg_10_1 = arg_10_0.scrollView_:GetViewBounds()
-	arg_10_2 = arg_10_0.scrollView_:GetContentBounds()
-
-	if arg_10_1.max.y < arg_10_2.max.y - 1 * arg_10_0:CaculateItemSize(1) then
-		arg_10_0:RemoveItemAtStart()
+	if slot0.scrollView_:GetViewBounds().max.y < slot0.scrollView_:GetContentBounds().max.y - 1 * slot0:CaculateItemSize(1) then
+		slot0:RemoveItemAtStart()
 	end
 
-	if arg_10_1.min.y > arg_10_2.min.y + 1 * arg_10_0:CaculateItemSize(#arg_10_0.itemS_) then
-		arg_10_0:RemoveItemAtEnd()
+	if slot1.min.y > slot2.min.y + 1 * slot0:CaculateItemSize(#slot0.itemS_) then
+		slot0:RemoveItemAtEnd()
 	end
 end
 
-function var_0_0.UpdateHorizontal(arg_11_0, arg_11_1, arg_11_2)
-	if arg_11_1.min.x < arg_11_2.min.x - 0 * arg_11_0:CaculateItemSize(1) then
-		arg_11_0:NewItemAtStart()
+function slot0.UpdateHorizontal(slot0, slot1, slot2)
+	if slot1.min.x < slot2.min.x - 0 * slot0:CaculateItemSize(1) then
+		slot0:NewItemAtStart()
 	end
 
-	if arg_11_1.max.x > arg_11_2.max.x + 0 * arg_11_0:CaculateItemSize(1) then
-		arg_11_0:NewItemAtEnd()
+	if slot1.max.x > slot2.max.x + 0 * slot0:CaculateItemSize(1) then
+		slot0:NewItemAtEnd()
 	end
 
-	arg_11_1 = arg_11_0.scrollView_:GetViewBounds()
-	arg_11_2 = arg_11_0.scrollView_:GetContentBounds()
-
-	if arg_11_1.min.x > arg_11_2.min.x + 1 * arg_11_0:CaculateItemSize(1) then
-		arg_11_0:RemoveItemAtStart()
+	if slot0.scrollView_:GetViewBounds().min.x > slot0.scrollView_:GetContentBounds().min.x + 1 * slot0:CaculateItemSize(1) then
+		slot0:RemoveItemAtStart()
 	end
 
-	if arg_11_1.max.x < arg_11_2.max.x - 1 * arg_11_0:CaculateItemSize(#arg_11_0.itemS_) then
-		arg_11_0:RemoveItemAtEnd()
+	if slot1.max.x < slot2.max.x - 1 * slot0:CaculateItemSize(#slot0.itemS_) then
+		slot0:RemoveItemAtEnd()
 	end
 end
 
-function var_0_0.NewItemAtStart(arg_12_0)
-	if arg_12_0.startIndex_ < 1 then
+function slot0.NewItemAtStart(slot0)
+	if slot0.startIndex_ < 1 then
 		return
 	end
 
-	table.insert(arg_12_0.itemS_, 1, arg_12_0.delegateObj_:GetItem(arg_12_0.startIndex_))
+	table.insert(slot0.itemS_, 1, slot0.delegateObj_:GetItem(slot0.startIndex_))
 
-	arg_12_0.startIndex_ = arg_12_0.startIndex_ - 1
+	slot0.startIndex_ = slot0.startIndex_ - 1
 
-	arg_12_0.itemS_[1]:Show(true)
-	arg_12_0.itemS_[1].gameObject_.transform:SetAsFirstSibling()
+	slot0.itemS_[1]:Show(true)
+	slot0.itemS_[1].gameObject_.transform:SetAsFirstSibling()
 
-	if arg_12_0.isVertical_ then
-		arg_12_0.scrollView_:AddContentPosition(Vector2(0, arg_12_0:CaculateItemSize(1) * 1))
+	if slot0.isVertical_ then
+		slot0.scrollView_:AddContentPosition(Vector2(0, slot0:CaculateItemSize(1) * 1))
 	else
-		arg_12_0.scrollView_:AddContentPosition(Vector2(arg_12_0:CaculateItemSize(1) * -1, 0))
+		slot0.scrollView_:AddContentPosition(Vector2(slot0:CaculateItemSize(1) * -1, 0))
 	end
 end
 
-function var_0_0.RemoveItemAtStart(arg_13_0)
-	if arg_13_0.endIndex_ >= arg_13_0.maxIndex_ then
+function slot0.RemoveItemAtStart(slot0)
+	if slot0.maxIndex_ <= slot0.endIndex_ then
 		return
 	end
 
-	arg_13_0:RecycleItem(1)
+	slot0:RecycleItem(1)
 
-	arg_13_0.startIndex_ = arg_13_0.startIndex_ + 1
+	slot0.startIndex_ = slot0.startIndex_ + 1
 
-	if arg_13_0.isVertical_ then
-		arg_13_0.scrollView_:AddContentPosition(Vector2(0, arg_13_0:CaculateItemSize(1) * -1))
+	if slot0.isVertical_ then
+		slot0.scrollView_:AddContentPosition(Vector2(0, slot0:CaculateItemSize(1) * -1))
 	else
-		arg_13_0.scrollView_:AddContentPosition(Vector2(arg_13_0:CaculateItemSize(1), 0))
+		slot0.scrollView_:AddContentPosition(Vector2(slot0:CaculateItemSize(1), 0))
 	end
 end
 
-function var_0_0.NewItemAtEnd(arg_14_0)
-	if arg_14_0.endIndex_ >= arg_14_0.maxIndex_ then
+function slot0.NewItemAtEnd(slot0)
+	if slot0.maxIndex_ <= slot0.endIndex_ then
 		return
 	end
 
-	arg_14_0.endIndex_ = arg_14_0.endIndex_ + 1
+	slot0.endIndex_ = slot0.endIndex_ + 1
 
-	table.insert(arg_14_0.itemS_, arg_14_0.delegateObj_:GetItem(arg_14_0.endIndex_))
-	arg_14_0.itemS_[#arg_14_0.itemS_]:Show(true)
-	arg_14_0.itemS_[#arg_14_0.itemS_].gameObject_.transform:SetAsLastSibling()
+	table.insert(slot0.itemS_, slot0.delegateObj_:GetItem(slot0.endIndex_))
+	slot0.itemS_[#slot0.itemS_]:Show(true)
+	slot0.itemS_[#slot0.itemS_].gameObject_.transform:SetAsLastSibling()
 end
 
-function var_0_0.RemoveItemAtEnd(arg_15_0)
-	arg_15_0:RecycleItem(#arg_15_0.itemS_)
+function slot0.RemoveItemAtEnd(slot0)
+	slot0:RecycleItem(#slot0.itemS_)
 
-	arg_15_0.endIndex_ = arg_15_0.endIndex_ - 1
+	slot0.endIndex_ = slot0.endIndex_ - 1
 end
 
-function var_0_0.CaculateItemSize(arg_16_0, arg_16_1)
-	if arg_16_0.isVertical_ then
-		return arg_16_0:CaculateVerticalItemSize(arg_16_1)
+function slot0.CaculateItemSize(slot0, slot1)
+	if slot0.isVertical_ then
+		return slot0:CaculateVerticalItemSize(slot1)
 	else
-		return arg_16_0:CaculateHorizontalItemSize(arg_16_1)
+		return slot0:CaculateHorizontalItemSize(slot1)
 	end
 end
 
-function var_0_0.CaculateVerticalItemSize(arg_17_0, arg_17_1)
-	local var_17_0 = 0
-	local var_17_1 = arg_17_0.itemS_[arg_17_1]
+function slot0.CaculateVerticalItemSize(slot0, slot1)
+	slot3 = slot0.itemS_[slot1]
 
-	if arg_17_1 <= 0 or not var_17_1 then
-		return var_17_0
+	if slot1 <= 0 or not slot3 then
+		return 0
 	end
 
-	local var_17_2 = var_17_1:GetRectTransform()
-
-	if var_17_2 then
-		var_17_0 = var_17_0 + var_17_2.sizeDelta.y + arg_17_0.space_
+	if slot3:GetRectTransform() then
+		slot2 = slot2 + slot4.sizeDelta.y + slot0.space_
 	end
 
-	return var_17_0
+	return slot2
 end
 
-function var_0_0.CaculateHorizontalItemSize(arg_18_0, arg_18_1)
-	local var_18_0 = 0
-	local var_18_1 = arg_18_0.itemS_[arg_18_1]
+function slot0.CaculateHorizontalItemSize(slot0, slot1)
+	slot3 = slot0.itemS_[slot1]
 
-	if arg_18_1 <= 0 or not var_18_1 then
-		return var_18_0
+	if slot1 <= 0 or not slot3 then
+		return 0
 	end
 
-	local var_18_2 = var_18_1:GetRectTransform()
-
-	if var_18_2 then
-		var_18_0 = var_18_0 + var_18_2.sizeDelta.x + arg_18_0.space_
+	if slot3:GetRectTransform() then
+		slot2 = slot2 + slot4.sizeDelta.x + slot0.space_
 	end
 
-	return var_18_0
+	return slot2
 end
 
-function var_0_0.GetStartIndex(arg_19_0)
-	return arg_19_0.startIndex_
+function slot0.GetStartIndex(slot0)
+	return slot0.startIndex_
 end
 
-function var_0_0.GetEndIndex(arg_20_0)
-	return arg_20_0.endIndex_
+function slot0.GetEndIndex(slot0)
+	return slot0.endIndex_
 end
 
-function var_0_0.OnDispose(arg_21_0)
-	arg_21_0.scrollView_.onUpdateItems = nil
-	arg_21_0.dataList_ = nil
-	arg_21_0.itemS_ = nil
+function slot0.OnDispose(slot0)
+	slot0.scrollView_.onUpdateItems = nil
+	slot0.dataList_ = nil
+	slot0.itemS_ = nil
 end
 
-return var_0_0
+return slot0

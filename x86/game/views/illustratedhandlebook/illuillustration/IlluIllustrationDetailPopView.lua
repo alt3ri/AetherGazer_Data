@@ -1,78 +1,77 @@
-local var_0_0 = class("IlluIllustrationDetailPopView", ReduxView)
+slot0 = class("IlluIllustrationDetailPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluIllustrationSettingPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.typeCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "type")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "type")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.addBtn_, nil, function()
-		if #IllustratedData:GetAllLoadingSet() >= GameSetting.loading_pic_max.value[1] then
+	slot0:AddBtnListener(slot0.addBtn_, nil, function ()
+		if GameSetting.loading_pic_max.value[1] <= #IllustratedData:GetAllLoadingSet() then
 			ShowTips("SET_FAILED")
 
 			return
 		end
 
-		IllustratedAction.ChangeLoadingSet(true, arg_5_0.ID_)
+		IllustratedAction.ChangeLoadingSet(true, uv0.ID_)
 		ShowTips("SET_CONFIRMED")
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.removeBtn, nil, function()
-		IllustratedAction.ChangeLoadingSet(false, arg_5_0.ID_)
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.removeBtn, nil, function ()
+		IllustratedAction.ChangeLoadingSet(false, uv0.ID_)
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.ID_ = arg_10_0.params_.ID
-	arg_10_0.cfg_ = CollectPictureCfg[arg_10_0.ID_]
+function slot0.OnEnter(slot0)
+	slot0.ID_ = slot0.params_.ID
+	slot0.cfg_ = CollectPictureCfg[slot0.ID_]
 
-	arg_10_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0.img_.sprite = getSpriteWithoutAtlas("TextureConfig/Background/" .. arg_11_0.cfg_.picture)
-	arg_11_0.name_.text = GetI18NText(arg_11_0.cfg_.name)
-	arg_11_0.desc_.text = GetI18NText(arg_11_0.cfg_.desc)
+function slot0.RefreshUI(slot0)
+	slot0.img_.sprite = getSpriteWithoutAtlas("TextureConfig/Background/" .. slot0.cfg_.picture)
+	slot0.name_.text = GetI18NText(slot0.cfg_.name)
+	slot0.desc_.text = GetI18NText(slot0.cfg_.desc)
 
-	if IllustratedData:IsInLoadingSet(arg_11_0.ID_) then
-		arg_11_0.typeCon_:SetSelectedState("remove")
+	if IllustratedData:IsInLoadingSet(slot0.ID_) then
+		slot0.typeCon_:SetSelectedState("remove")
 
-		arg_11_0.title_.text = string.format(GetTips("REMOVE_CONFIRMED"), GetI18NText(arg_11_0.cfg_.name), #IllustratedData:GetAllLoadingSet() .. "/" .. GameSetting.loading_pic_max.value[1])
+		slot0.title_.text = string.format(GetTips("REMOVE_CONFIRMED"), GetI18NText(slot0.cfg_.name), #IllustratedData:GetAllLoadingSet() .. "/" .. GameSetting.loading_pic_max.value[1])
 	else
-		arg_11_0.typeCon_:SetSelectedState("add")
+		slot0.typeCon_:SetSelectedState("add")
 
-		arg_11_0.title_.text = string.format(GetTips("SET_CONFIRMED_2"), GetI18NText(arg_11_0.cfg_.name), #IllustratedData:GetAllLoadingSet() .. "/" .. GameSetting.loading_pic_max.value[1])
+		slot0.title_.text = string.format(GetTips("SET_CONFIRMED_2"), GetI18NText(slot0.cfg_.name), #IllustratedData:GetAllLoadingSet() .. "/" .. GameSetting.loading_pic_max.value[1])
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

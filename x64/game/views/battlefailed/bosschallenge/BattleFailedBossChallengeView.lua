@@ -1,33 +1,32 @@
 NewBattleFailedWithButtonView = import("game.views.battleFailed.newBattleFailed.NewBattleFailedWithButtonView")
+slot0 = class("BattleFailedBossChallengeView", NewBattleFailedWithButtonView)
 
-local var_0_0 = class("BattleFailedBossChallengeView", NewBattleFailedWithButtonView)
-
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	arg_1_0:AddTimer()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	var_0_0.super.OnExit(arg_2_0)
-	arg_2_0:StopTimer()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.AddTimer(arg_3_0)
-	arg_3_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_3_0.timer_ = Timer.New(function()
-		arg_3_0:QuitUI()
+	slot0.timer_ = Timer.New(function ()
+		uv0:QuitUI()
 	end, 20, 1)
 
-	arg_3_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_5_0)
-	if arg_5_0.timer_ then
-		arg_5_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_5_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

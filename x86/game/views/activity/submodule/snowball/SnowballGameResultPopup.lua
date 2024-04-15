@@ -1,135 +1,119 @@
-local var_0_0 = class("SnowballGameResultPopup", ReduxView)
+slot0 = class("SnowballGameResultPopup", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionSnowballUI/SnowballGameResultPopup"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.modeController = ControllerUtil.GetController(arg_3_0.transform_, "mode")
-	arg_3_0.rewardController = ControllerUtil.GetController(arg_3_0.transform_, "reward")
+	slot0.modeController = ControllerUtil.GetController(slot0.transform_, "mode")
+	slot0.rewardController = ControllerUtil.GetController(slot0.transform_, "reward")
 
-	arg_3_0:AddBtnListener(arg_3_0.okBtn_, nil, function()
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
 		JumpTools.Back()
 
-		if arg_3_0.OkCallback then
-			arg_3_0.OkCallback()
+		if uv0.OkCallback then
+			uv0.OkCallback()
 		end
 	end)
 end
 
-local var_0_1 = {
+slot1 = {
 	"normal",
 	"hard",
 	"infinite"
 }
 
-local function var_0_2(arg_5_0, arg_5_1)
-	local var_5_0
-	local var_5_1 = arg_5_1.level_reward[#arg_5_1.level_score]
+function slot2(slot0, slot1)
+	slot2 = nil
 
-	for iter_5_0 = 1, #arg_5_1.level_score + 1 do
-		local var_5_2 = arg_5_1.level_score[iter_5_0] or math.huge
-		local var_5_3 = arg_5_1.level_reward[iter_5_0] or var_5_1
-
-		if arg_5_0 <= var_5_2 then
-			return var_5_3
+	for slot7 = 1, #slot1.level_score + 1 do
+		if slot0 <= (slot1.level_score[slot7] or math.huge) then
+			return slot1.level_reward[slot7] or slot1.level_reward[#slot1.level_score]
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	local var_6_0 = arg_6_0.params_.level
-	local var_6_1 = SnowballGameCfg[var_6_0]
-	local var_6_2 = arg_6_0.params_.hitGuestCount or 0
+function slot0.OnEnter(slot0)
+	slot2 = SnowballGameCfg[slot0.params_.level]
+	slot3 = slot0.params_.hitGuestCount or 0
 
-	arg_6_0.modeController:SetSelectedState(var_0_1[var_6_1.level_mode])
+	slot0.modeController:SetSelectedState(uv0[slot2.level_mode])
 
-	arg_6_0.OkCallback = arg_6_0.params_.OkCallback
+	slot0.OkCallback = slot0.params_.OkCallback
+	slot4 = GameSetting.activity_snowball_score_difficulty_factor.value[slot2.level_mode] or 1
+	slot7 = slot0.params_.score + math.floor(math.ceil(slot0.params_.extraTime) * GameSetting.activity_snowball_score_countdown_bonus.value[1])
+	slot8 = math.ceil(slot7 * slot4)
+	slot0.score_.text = slot7
 
-	local var_6_3 = GameSetting.activity_snowball_score_difficulty_factor.value[var_6_1.level_mode] or 1
-	local var_6_4 = math.ceil(arg_6_0.params_.extraTime)
-	local var_6_5 = math.floor(var_6_4 * GameSetting.activity_snowball_score_countdown_bonus.value[1])
-	local var_6_6 = arg_6_0.params_.score + var_6_5
-	local var_6_7 = math.ceil(var_6_6 * var_6_3)
-
-	arg_6_0.score_.text = var_6_6
-
-	if var_6_3 == 1 then
-		arg_6_0.scale_.gameObject:SetActive(false)
+	if slot4 == 1 then
+		slot0.scale_.gameObject:SetActive(false)
 	else
-		arg_6_0.scale_.gameObject:SetActive(true)
+		slot0.scale_.gameObject:SetActive(true)
 
-		arg_6_0.scale_.text = "x" .. var_6_3
+		slot0.scale_.text = "x" .. slot4
 
-		if arg_6_0.textAni then
-			LeanTween.cancel(arg_6_0.textAni.id)
+		if slot0.textAni then
+			LeanTween.cancel(slot0.textAni.id)
 		end
 
-		local var_6_8 = LeanTween.value(var_6_6, var_6_7, 2):setEase(LeanTweenType.easeInOutQuad):setDelay(1.5)
+		slot9 = LeanTween.value(slot7, slot8, 2):setEase(LeanTweenType.easeInOutQuad):setDelay(1.5)
 
-		var_6_8:setOnUpdate(LuaHelper.FloatAction(function(arg_7_0)
-			arg_6_0.score_.text = math.floor(arg_7_0)
+		slot9:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.score_.text = math.floor(slot0)
 		end))
-		var_6_8:setOnComplete(System.Action(function()
-			arg_6_0.score_.text = var_6_7
-			arg_6_0.textAni = nil
+		slot9:setOnComplete(System.Action(function ()
+			uv0.score_.text = uv1
+			uv0.textAni = nil
 		end))
 
-		arg_6_0.textAni = var_6_8
+		slot0.textAni = slot9
 	end
 
-	arg_6_0.time_.text = manager.time:DescCDTime(var_6_1.time_limit - var_6_4)
+	slot0.time_.text = manager.time:DescCDTime(slot2.time_limit - slot5)
 
-	local var_6_9 = var_0_2(var_6_7, var_6_1)
+	slot0.rewardController:SetSelectedState(uv1(slot8, slot2) ~= nil and "show" or "hide")
 
-	arg_6_0.rewardController:SetSelectedState(var_6_9 ~= nil and "show" or "hide")
-
-	if var_6_9 then
-		arg_6_0.rewardIcon_.sprite = ItemTools.getItemLittleSprite(var_6_9[1])
-		arg_6_0.reward_.text = string.format("+%d", var_6_9[2])
+	if slot9 then
+		slot0.rewardIcon_.sprite = ItemTools.getItemLittleSprite(slot9[1])
+		slot0.reward_.text = string.format("+%d", slot9[2])
 	end
 
-	local var_6_10 = {}
-	local var_6_11 = 1
+	slot11 = 1
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.params_.enemyList) do
-		var_6_10[var_6_11] = {
-			id = iter_6_0,
-			count = iter_6_1
-		}
-		var_6_11 = var_6_11 + 1
+	for slot15, slot16 in pairs(slot0.params_.enemyList) do
+		slot11 = slot11 + 1
 	end
 
-	local var_6_12 = SnowballGameMgr.GetInstance()
-
-	var_6_10[var_6_11] = {
-		count = var_6_2,
-		id = var_6_12:GetGuestCfgID()
-	}
-
-	local var_6_13 = {
-		level = var_6_0,
-		score = var_6_7,
-		seconds = var_6_1.time_limit - var_6_4,
+	SnowballGameAction.LevelClearAction({
+		level = slot1,
+		score = slot8,
+		seconds = slot2.time_limit - slot5,
 		heroId = SnowballGameMgr.GetInstance():GetPlayerCfgID(),
-		enemy_list = var_6_10
-	}
-
-	SnowballGameAction.LevelClearAction(var_6_13)
+		enemy_list = {
+			[slot11] = {
+				id = slot15,
+				count = slot16
+			},
+			[slot11] = {
+				count = slot3,
+				id = SnowballGameMgr.GetInstance():GetGuestCfgID()
+			}
+		}
+	})
 end
 
-function var_0_0.OnExit(arg_9_0)
-	if arg_9_0.textAni then
-		LeanTween.cancel(arg_9_0.textAni.id)
+function slot0.OnExit(slot0)
+	if slot0.textAni then
+		LeanTween.cancel(slot0.textAni.id)
 
-		arg_9_0.textAni = nil
+		slot0.textAni = nil
 	end
 end
 
-return var_0_0
+return slot0

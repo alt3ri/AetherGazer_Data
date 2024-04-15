@@ -1,26 +1,26 @@
-local var_0_0 = class("GotoCoreVerificationStage", BattleSettlementStrategyBase)
+slot0 = class("GotoCoreVerificationStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
+function slot0.OnGotoSettlement(slot0, slot1)
 	function BattleCallLuaCallBack()
-		if isSuccess(arg_1_1.num) then
+		if isSuccess(uv0.num) then
 			JumpTools.OpenPageByJump("/coreVerificationBattleResult", {
-				result = arg_1_1.num,
+				result = uv0.num,
 				rewardList = {},
-				stageData = arg_1_1.stageData,
-				starMissionData = arg_1_1.starMissionData,
-				battleResult = arg_1_1.battleResult
+				stageData = uv0.stageData,
+				starMissionData = uv0.starMissionData,
+				battleResult = uv0.battleResult
 			})
 		else
 			JumpTools.OpenPageByJump("/battlefailedWithButton", {
-				stageData = arg_1_1.stageData,
-				starMissionData = arg_1_1.starMissionData,
-				battleResult = arg_1_1.battleResult,
-				isHalfWay_ = arg_1_0.tempData.isHalfWay_
+				stageData = uv0.stageData,
+				starMissionData = uv0.starMissionData,
+				battleResult = uv0.battleResult,
+				isHalfWay_ = uv1.tempData.isHalfWay_
 			})
 		end
 
-		EndBattleLogic(arg_1_1.num)
+		EndBattleLogic(uv0.num)
 	end
 end
 
-return var_0_0
+return slot0

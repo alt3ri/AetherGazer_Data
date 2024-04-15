@@ -1,195 +1,187 @@
-local var_0_0 = class("ChipManagerView", ReduxView)
+slot0 = class("ChipManagerView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/MimirChip/MimirChipUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.isBattle = false
-	arg_3_0.tabIndex = 1
+function slot0.Init(slot0)
+	slot0.isBattle = false
+	slot0.tabIndex = 1
 
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.chipManagerUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshChipManagerItem), arg_3_0.uiList_, arg_3_0:GetChipManagerItem())
-	arg_3_0.chipManagerInfoView_ = arg_3_0:GetChipManagerInfoView().New(arg_3_0.panelGo_, arg_3_0)
+	slot0.chipManagerUIList_ = LuaList.New(handler(slot0, slot0.RefreshChipManagerItem), slot0.uiList_, slot0:GetChipManagerItem())
+	slot0.chipManagerInfoView_ = slot0:GetChipManagerInfoView().New(slot0.panelGo_, slot0)
 
-	arg_3_0.chipManagerInfoView_:RegistEnableIDFunc(handler(arg_3_0, arg_3_0.EnableChipManagerIDFunc))
+	slot0.chipManagerInfoView_:RegistEnableIDFunc(handler(slot0, slot0.EnableChipManagerIDFunc))
 end
 
-function var_0_0.SetWindowBar(arg_4_0)
+function slot0.SetWindowBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_4_0:Back(1, {
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			isSorted = true
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:SetWindowBar()
+function slot0.OnEnter(slot0)
+	slot0:SetWindowBar()
 
-	arg_6_0.handler_ = handler(arg_6_0, arg_6_0.OnUnlockChipManager)
+	slot0.handler_ = handler(slot0, slot0.OnUnlockChipManager)
 
-	manager.notify:RegistListener(UNLOCK_CHIP_MANAGER, arg_6_0.handler_)
+	manager.notify:RegistListener(UNLOCK_CHIP_MANAGER, slot0.handler_)
 
-	arg_6_0.enabledChipHandler_ = handler(arg_6_0, arg_6_0.OnBattleChipUse)
+	slot0.enabledChipHandler_ = handler(slot0, slot0.OnBattleChipUse)
 
-	manager.notify:RegistListener(ENABLED_CHIP, arg_6_0.enabledChipHandler_)
+	manager.notify:RegistListener(ENABLED_CHIP, slot0.enabledChipHandler_)
 
-	if not arg_6_0.chipManagerDataTemplate_ then
-		arg_6_0.chipManagerDataTemplate_ = arg_6_0:GetChipDataTemplate()
+	if not slot0.chipManagerDataTemplate_ then
+		slot0.chipManagerDataTemplate_ = slot0:GetChipDataTemplate()
 	end
 
-	arg_6_0:SetViewParam()
+	slot0:SetViewParam()
 
-	arg_6_0.chipManagerList_ = arg_6_0:GetChipManagerList()
-	arg_6_0.defaultSelectID_ = arg_6_0.params_.chipManagerID or arg_6_0.chipManagerList_[1]
+	slot0.chipManagerList_ = slot0:GetChipManagerList()
+	slot0.defaultSelectID_ = slot0.params_.chipManagerID or slot0.chipManagerList_[1]
 
-	arg_6_0.chipManagerUIList_:StartScroll(#arg_6_0.chipManagerList_, table.keyof(arg_6_0.chipManagerList_, arg_6_0.defaultSelectID_))
-	arg_6_0:RefreshUI()
+	slot0.chipManagerUIList_:StartScroll(#slot0.chipManagerList_, table.keyof(slot0.chipManagerList_, slot0.defaultSelectID_))
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnUpdate(arg_7_0)
-	arg_7_0.defaultSelectID_ = arg_7_0.params_.chipManagerID or arg_7_0.chipManagerList_[1]
+function slot0.OnUpdate(slot0)
+	slot0.defaultSelectID_ = slot0.params_.chipManagerID or slot0.chipManagerList_[1]
 
-	arg_7_0:RefreshUI()
-	arg_7_0.chipManagerUIList_:Refresh()
+	slot0:RefreshUI()
+	slot0.chipManagerUIList_:Refresh()
 end
 
-function var_0_0.OnExit(arg_8_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(UNLOCK_CHIP_MANAGER, arg_8_0.handler_)
+	manager.notify:RemoveListener(UNLOCK_CHIP_MANAGER, slot0.handler_)
 
-	arg_8_0.handler_ = nil
+	slot0.handler_ = nil
 
-	manager.notify:RemoveListener(ENABLED_CHIP, arg_8_0.enabledChipHandler_)
+	manager.notify:RemoveListener(ENABLED_CHIP, slot0.enabledChipHandler_)
 
-	arg_8_0.enabledChipHandler_ = nil
+	slot0.enabledChipHandler_ = nil
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.schemeBtn_, nil, function()
-		arg_9_0:OnSchemeBtn()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.schemeBtn_, nil, function ()
+		uv0:OnSchemeBtn()
 	end)
 end
 
-function var_0_0.OnUnlockChipManager(arg_11_0)
-	arg_11_0:RefreshUI()
-	arg_11_0.chipManagerUIList_:Refresh()
+function slot0.OnUnlockChipManager(slot0)
+	slot0:RefreshUI()
+	slot0.chipManagerUIList_:Refresh()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = ChipCfg[arg_12_0.defaultSelectID_]
+function slot0.RefreshUI(slot0)
+	slot1 = ChipCfg[slot0.defaultSelectID_]
 
-	if arg_12_0.chipManagerInfoView_ then
-		arg_12_0.chipManagerInfoView_:OnEnter()
-		arg_12_0.chipManagerInfoView_:SetTemplateData(arg_12_0.chipManagerDataTemplate_)
-		arg_12_0.chipManagerInfoView_:RefreshData(arg_12_0.defaultSelectID_)
+	if slot0.chipManagerInfoView_ then
+		slot0.chipManagerInfoView_:OnEnter()
+		slot0.chipManagerInfoView_:SetTemplateData(slot0.chipManagerDataTemplate_)
+		slot0.chipManagerInfoView_:RefreshData(slot0.defaultSelectID_)
 	end
 
-	arg_12_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. var_12_0.picture_id)
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. slot1.picture_id)
 end
 
-function var_0_0.RefreshChipManagerItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.chipManagerList_[arg_13_1]
+function slot0.RefreshChipManagerItem(slot0, slot1, slot2)
+	slot2:SetChipManagerID(slot0.chipManagerList_[slot1])
 
-	arg_13_2:SetChipManagerID(var_13_0)
-
-	if arg_13_0.chipManagerDataTemplate_ and arg_13_2.SetTemplateData then
-		arg_13_2:SetTemplateData(arg_13_0.chipManagerDataTemplate_)
+	if slot0.chipManagerDataTemplate_ and slot2.SetTemplateData then
+		slot2:SetTemplateData(slot0.chipManagerDataTemplate_)
 	end
 
-	arg_13_2:RefreshUI(var_13_0 == arg_13_0.defaultSelectID_)
+	slot2:RefreshUI(slot3 == slot0.defaultSelectID_)
 end
 
-function var_0_0.RefreshManagerInfo(arg_14_0)
-	local var_14_0 = ChipCfg[arg_14_0.defaultSelectID_]
-
-	arg_14_0.chipManagerName_.text = GetI18NText(var_14_0.suit_name)
-	arg_14_0.skillText_.text = GetI18NText(var_14_0.desc)
-	arg_14_0.descText_.text = GetI18NText(var_14_0.profile)
-	arg_14_0.textStory_.text = GetI18NText(var_14_0.story)
+function slot0.RefreshManagerInfo(slot0)
+	slot1 = ChipCfg[slot0.defaultSelectID_]
+	slot0.chipManagerName_.text = GetI18NText(slot1.suit_name)
+	slot0.skillText_.text = GetI18NText(slot1.desc)
+	slot0.descText_.text = GetI18NText(slot1.profile)
+	slot0.textStory_.text = GetI18NText(slot1.story)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	var_0_0.super.Dispose(arg_15_0)
-	manager.notify:RemoveListener(UNLOCK_CHIP_MANAGER, arg_15_0.handler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(UNLOCK_CHIP_MANAGER, slot0.handler_)
 
-	arg_15_0.handler_ = nil
+	slot0.handler_ = nil
 
-	manager.notify:RemoveListener(ENABLED_CHIP, arg_15_0.enabledChipHandler_)
+	manager.notify:RemoveListener(ENABLED_CHIP, slot0.enabledChipHandler_)
 
-	arg_15_0.enabledChipHandler_ = nil
+	slot0.enabledChipHandler_ = nil
 
-	if arg_15_0.chipManagerInfoView_ then
-		arg_15_0.chipManagerInfoView_:Dispose()
+	if slot0.chipManagerInfoView_ then
+		slot0.chipManagerInfoView_:Dispose()
 
-		arg_15_0.chipManagerInfoView_ = nil
+		slot0.chipManagerInfoView_ = nil
 	end
 
-	if arg_15_0.chipManagerUIList_ then
-		arg_15_0.chipManagerUIList_:Dispose()
+	if slot0.chipManagerUIList_ then
+		slot0.chipManagerUIList_:Dispose()
 
-		arg_15_0.chipManagerUIList_ = nil
+		slot0.chipManagerUIList_ = nil
 	end
 end
 
-function var_0_0.GetChipDataTemplate(arg_16_0)
+function slot0.GetChipDataTemplate(slot0)
 	return ChipManagerDataTemplate.New({
-		id = arg_16_0.defaultSelectID_,
-		unlockChipManagerIDList_ = arg_16_0:GetUnlockChipManagerList(),
-		unlockChipIDList_ = arg_16_0:GetUnlockChipList()
+		id = slot0.defaultSelectID_,
+		unlockChipManagerIDList_ = slot0:GetUnlockChipManagerList(),
+		unlockChipIDList_ = slot0:GetUnlockChipList()
 	})
 end
 
-function var_0_0.GetChipManagerList(arg_17_0)
-	local var_17_0 = ChipData:GetEnabledChipManagerID()
-
-	return ChipTools.SortChipManager(var_17_0)
+function slot0.GetChipManagerList(slot0)
+	return ChipTools.SortChipManager(ChipData:GetEnabledChipManagerID())
 end
 
-function var_0_0.GetUnlockChipManagerList(arg_18_0)
+function slot0.GetUnlockChipManagerList(slot0)
 	return ChipData:GetUnlockChipManagerIDList()
 end
 
-function var_0_0.GetUnlockChipList(arg_19_0)
+function slot0.GetUnlockChipList(slot0)
 	return ChipData:GetUnlockChipIDList()
 end
 
-function var_0_0.GetChipTypeCntList(arg_20_0)
+function slot0.GetChipTypeCntList(slot0)
 	return ChipCfg.get_id_list_by_type_id[ChipConst.TYPE_CHIP]
 end
 
-function var_0_0.GetManagerUnlockView(arg_21_0)
+function slot0.GetManagerUnlockView(slot0)
 	return MimirChipManagerInfoView
 end
 
-function var_0_0.GetChipManagerItem(arg_22_0)
+function slot0.GetChipManagerItem(slot0)
 	return ChipManagerItem
 end
 
-function var_0_0.GetChipManagerInfoView(arg_23_0)
+function slot0.GetChipManagerInfoView(slot0)
 	return BattleChipManagerInfoView
 end
 
-function var_0_0.OnSchemeBtn(arg_24_0)
-	return
+function slot0.OnSchemeBtn(slot0)
 end
 
-function var_0_0.SetViewParam(arg_25_0)
-	return
+function slot0.SetViewParam(slot0)
 end
 
-function var_0_0.EnableChipManagerIDFunc(arg_26_0, arg_26_1)
-	return
+function slot0.EnableChipManagerIDFunc(slot0, slot1)
 end
 
-return var_0_0
+return slot0

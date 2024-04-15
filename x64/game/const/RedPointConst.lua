@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	STICKER = "STICKER",
 	MOON_CAKE_STAGE = "MOON_CAKE_STAGE",
 	NEW_WARCHESS = "NEW_WARCHESS",
@@ -560,7 +560,6 @@ local var_0_0 = {
 	MUSIC = "MUSIC",
 	FOLLOW_GIFT = "FOLLOW_GIFT"
 }
-
 ServerRedPointPrefix = "SERVER_REDDOT_%s_ID_%s"
 ServerRedPoint = {
 	GACHE_POOL_NEW_RED = 3,
@@ -574,32 +573,26 @@ RedPointStyle = {
 	None = 0
 }
 
-function GetSystemNewRedKey(arg_1_0)
-	return "systemNewUnlock_" .. (arg_1_0 or "NIL")
+function GetSystemNewRedKey(slot0)
+	return "systemNewUnlock_" .. (slot0 or "NIL")
 end
 
-function GetSystemNewRedKeyByChapter(arg_2_0)
-	return GetSystemNewRedKey(GetSystemIdByClientChapterId(arg_2_0))
+function GetSystemNewRedKeyByChapter(slot0)
+	return GetSystemNewRedKey(GetSystemIdByClientChapterId(slot0))
 end
 
-function GetSystemIdByClientChapterId(arg_3_0)
-	local var_3_0 = ChapterClientCfg[arg_3_0]
-
-	if var_3_0 and var_3_0.jump_system then
-		local var_3_1 = type(var_3_0.jump_system) == "table" and var_3_0.jump_system[1]
-
-		if var_3_1 then
-			return SystemLinkCfg[var_3_1].system_id
-		end
+function GetSystemIdByClientChapterId(slot0)
+	if ChapterClientCfg[slot0] and slot1.jump_system and type(slot1.jump_system) == "table" and slot1.jump_system[1] then
+		return SystemLinkCfg[slot2].system_id
 	end
 
 	return nil
 end
 
-setmetatable(var_0_0, {
-	__index = function(arg_4_0, arg_4_1)
-		Debug.LogError("访问到了RedPointConst中的空值: " .. arg_4_1)
+setmetatable(slot0, {
+	__index = function (slot0, slot1)
+		Debug.LogError("访问到了RedPointConst中的空值: " .. slot1)
 	end
 })
 
-return var_0_0
+return slot0

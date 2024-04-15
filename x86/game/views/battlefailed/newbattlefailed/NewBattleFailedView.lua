@@ -1,216 +1,202 @@
-local var_0_0 = class("NewBattleFailedView", ReduxView)
-local var_0_1 = import("game.tools.BattleInstance")
+slot0 = class("NewBattleFailedView", ReduxView)
+slot1 = import("game.tools.BattleInstance")
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/BattleResult/BattleFailed/BattleResultLoseUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.styleController = arg_4_0.controllerEx_:GetController("default0")
-	arg_4_0.lvController = arg_4_0.lvController_:GetController("red")
-	arg_4_0.btnController = arg_4_0.btnController_:GetController("btn")
-	arg_4_0.typeImgs = {}
-	arg_4_0.criList = LuaList.New(handler(arg_4_0, arg_4_0.indexTypeItem), arg_4_0.criListObj_, BattleFailedCriItem)
+	slot0.styleController = slot0.controllerEx_:GetController("default0")
+	slot0.lvController = slot0.lvController_:GetController("red")
+	slot0.btnController = slot0.btnController_:GetController("btn")
+	slot0.typeImgs = {}
+	slot0.criList = LuaList.New(handler(slot0, slot0.indexTypeItem), slot0.criListObj_, BattleFailedCriItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnBattleCount_, nil, function()
-		arg_5_0:GoToBattleStatistics()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnBattleCount_, nil, function ()
+		uv0:GoToBattleStatistics()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.exitBtn_, nil, function()
-		arg_5_0:OnClickBack()
+	slot0:AddBtnListener(slot0.exitBtn_, nil, function ()
+		uv0:OnClickBack()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.restartBtn_, nil, function()
-		arg_5_0:OnClickRestart()
+	slot0:AddBtnListener(slot0.restartBtn_, nil, function ()
+		uv0:OnClickRestart()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnMask_, nil, function()
-		arg_5_0:OnClickBack()
+	slot0:AddBtnListener(slot0.btnMask_, nil, function ()
+		uv0:OnClickBack()
 	end)
-	SetActive(arg_5_0.btnMask_.gameObject, true)
-	arg_5_0.btnController:SetSelectedState("nobtn")
+	SetActive(slot0.btnMask_.gameObject, true)
+	slot0.btnController:SetSelectedState("nobtn")
 end
 
-function var_0_0.GoToBattleStatistics(arg_10_0)
+function slot0.GoToBattleStatistics(slot0)
 	JumpTools.OpenPageByJump("battleStatistics", {
-		stageData = arg_10_0.params_.stageData,
-		battleTime = arg_10_0:GetBattleTime()
+		stageData = slot0.params_.stageData,
+		battleTime = slot0:GetBattleTime()
 	})
 end
 
-function var_0_0.GetBattleTime(arg_11_0)
-	local var_11_0 = (LuaExchangeHelper.GetBattleStatisticsData() or LuaExchangeHelper.GetBattleStatisticsDataBeforeBattleEnd()).dataForLua.battleTime
-
-	return manager.time:DescCdTime2(var_11_0)
+function slot0.GetBattleTime(slot0)
+	return manager.time:DescCdTime2((LuaExchangeHelper.GetBattleStatisticsData() or LuaExchangeHelper.GetBattleStatisticsDataBeforeBattleEnd()).dataForLua.battleTime)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.stageData_ = arg_12_0.params_.stageData
-	arg_12_0.stageID_ = arg_12_0.stageData_:GetStageId()
-	arg_12_0.stageType_ = arg_12_0.stageData_:GetType()
-	arg_12_0.recommendAttriList = {}
+function slot0.OnEnter(slot0)
+	slot0.stageData_ = slot0.params_.stageData
+	slot0.stageID_ = slot0.stageData_:GetStageId()
+	slot0.stageType_ = slot0.stageData_:GetType()
+	slot0.recommendAttriList = {}
 
-	var_0_1.hideBattlePanel()
-	arg_12_0:RebuildUI()
-	arg_12_0:RecordThreeStar()
+	uv0.hideBattlePanel()
+	slot0:RebuildUI()
+	slot0:RecordThreeStar()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RebuildUI(arg_14_0)
-	arg_14_0:ChangeStyle()
-	arg_14_0:RefreshRecommendType()
-	arg_14_0:RefreshRecommendLevel()
+function slot0.RebuildUI(slot0)
+	slot0:ChangeStyle()
+	slot0:RefreshRecommendType()
+	slot0:RefreshRecommendLevel()
 
-	arg_14_0.battleTimeText_.text = table.concat({
+	slot0.battleTimeText_.text = table.concat({
 		GetTips("BATTLE_TOTAL_TIME"),
 		": ",
-		arg_14_0:GetBattleTime() or "00"
+		slot0:GetBattleTime() or "00"
 	})
-	arg_14_0.titleTxt_.text = BattleStageTools.GetStageName(arg_14_0.stageType_, arg_14_0.stageID_)
+	slot0.titleTxt_.text = BattleStageTools.GetStageName(slot0.stageType_, slot0.stageID_)
 end
 
-function var_0_0.ChangeStyle(arg_15_0)
-	if arg_15_0.params_.isHalfWay_ then
-		arg_15_0.styleController:SetSelectedState("end")
+function slot0.ChangeStyle(slot0)
+	if slot0.params_.isHalfWay_ then
+		slot0.styleController:SetSelectedState("end")
 	else
-		arg_15_0.styleController:SetSelectedState("lose")
+		slot0.styleController:SetSelectedState("lose")
 	end
 end
 
-function var_0_0.OnClickBack(arg_16_0)
-	arg_16_0:QuitUI()
+function slot0.OnClickBack(slot0)
+	slot0:QuitUI()
 end
 
-function var_0_0.QuitUI(arg_17_0)
-	local var_17_0 = PlayerData:GetlevelUpInfos()
-
-	if #var_17_0 > 0 then
+function slot0.QuitUI(slot0)
+	if #PlayerData:GetlevelUpInfos() > 0 then
 		PlayerAction.LevelUpFinish()
-		arg_17_0:Go("levelUp", {
-			levelUpInfoList = var_17_0,
-			callback = function()
-				FrameTimer.New(function()
-					var_0_1.QuitBattle(arg_17_0.params_.stageData, true, true)
+		slot0:Go("levelUp", {
+			levelUpInfoList = slot1,
+			callback = function ()
+				FrameTimer.New(function ()
+					uv0.QuitBattle(uv1.params_.stageData, true, true)
 				end, 1, 1):Start()
 			end
 		})
 	else
-		var_0_1.QuitBattle(arg_17_0.params_.stageData, true, true)
+		uv0.QuitBattle(slot0.params_.stageData, true, true)
 	end
 end
 
-function var_0_0.OnClickRestart(arg_20_0)
+function slot0.OnClickRestart(slot0)
 	LuaExchangeHelper.GameOver(2)
-	BattleController.GetInstance():LaunchBattle(arg_20_0.params_.stageData)
+	BattleController.GetInstance():LaunchBattle(slot0.params_.stageData)
 end
 
-function var_0_0.RecordThreeStar(arg_21_0)
-	local var_21_0 = arg_21_0.params_.starMissionData
-	local var_21_1 = {}
+function slot0.RecordThreeStar(slot0)
+	slot1 = slot0.params_.starMissionData
+	slot2 = {}
 
-	for iter_21_0 = 1, 3 do
-		if var_21_0 ~= nil and var_21_0[iter_21_0] ~= nil then
-			local var_21_2 = ThreeStarConditionCfg[var_21_0[iter_21_0].id]
-			local var_21_3
+	for slot6 = 1, 3 do
+		if slot1 ~= nil and slot1[slot6] ~= nil then
+			slot7 = ThreeStarConditionCfg[slot1[slot6].id]
+			slot8 = nil
 
-			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_21_0.stageType_ then
-				var_21_3 = BattleStageData:GetStageData()[arg_21_0.stageID_]
-			elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == arg_21_0.stageType_ then
-				var_21_3 = BattleBossChallengeNormalData:GetStarList(arg_21_0.stageID_)
+			if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot0.stageType_ then
+				slot8 = BattleStageData:GetStageData()[slot0.stageID_]
+			elseif BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE == slot0.stageType_ then
+				slot8 = BattleBossChallengeNormalData:GetStarList(slot0.stageID_)
 			end
 
-			local var_21_4 = false
+			slot9 = false
 
-			if var_21_3 and var_21_3.stars and var_21_3.stars[iter_21_0] == 1 then
-				var_21_4 = true
+			if slot8 and slot8.stars and slot8.stars[slot6] == 1 then
+				slot9 = true
 			end
 
-			local var_21_5 = false
+			slot10 = false
 
-			if var_21_2.id == 15 or var_21_2.id == 16 then
-				var_21_5 = var_21_0[iter_21_0].isComplete
+			if slot7.id == 15 or slot7.id == 16 then
+				slot10 = slot1[slot6].isComplete
 			end
 
-			var_21_1[iter_21_0] = (var_21_5 or var_21_4) and 1 or 0
+			slot2[slot6] = (slot10 or slot9) and 1 or 0
 		end
 	end
 
-	var_0_1.RecordThreeStar(arg_21_0.stageType_, arg_21_0.stageID_, var_21_1)
+	uv0.RecordThreeStar(slot0.stageType_, slot0.stageID_, slot2)
 end
 
-function var_0_0.RefreshRecommendType(arg_22_0)
-	local var_22_0 = BattleStageTools.GetStageCfg(arg_22_0.stageType_, arg_22_0.stageID_)
+function slot0.RefreshRecommendType(slot0)
+	if BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_) then
+		if #(slot1.recommend_attribute_list or {}) > 0 then
+			SetActive(slot0.recommendTypeObj_, true)
 
-	if var_22_0 then
-		local var_22_1 = var_22_0.recommend_attribute_list or {}
+			slot0.recommendAttriList = slot2
 
-		if #var_22_1 > 0 then
-			SetActive(arg_22_0.recommendTypeObj_, true)
-
-			arg_22_0.recommendAttriList = var_22_1
-
-			arg_22_0.criList:StartScroll(#var_22_1)
+			slot0.criList:StartScroll(#slot2)
 		else
-			SetActive(arg_22_0.recommendTypeObj_, false)
+			SetActive(slot0.recommendTypeObj_, false)
 		end
 	else
-		SetActive(arg_22_0.recommendTypeObj_, false)
+		SetActive(slot0.recommendTypeObj_, false)
 	end
 end
 
-function var_0_0.RefreshRecommendLevel(arg_23_0)
-	local var_23_0 = 0
-	local var_23_1, var_23_2 = arg_23_0.params_.stageData:GetHeroTeam()
+function slot0.RefreshRecommendLevel(slot0)
+	slot2, slot3 = slot0.params_.stageData:GetHeroTeam()
 
-	for iter_23_0 = 1, 3 do
-		if var_23_1[iter_23_0] and var_23_1[iter_23_0] ~= 0 then
-			local var_23_3 = arg_23_0.params_.stageData:GetHeroDataByPos(iter_23_0)
-
-			var_23_0 = math.max(var_23_3.level, var_23_0)
+	for slot7 = 1, 3 do
+		if slot2[slot7] and slot2[slot7] ~= 0 then
+			slot1 = math.max(slot0.params_.stageData:GetHeroDataByPos(slot7).level, 0)
 		end
 	end
 
-	local var_23_4 = arg_23_0:GetRecommendLevel()
+	if slot0:GetRecommendLevel() and slot4 ~= 0 then
+		SetActive(slot0.lvController_.gameObject, true)
 
-	if var_23_4 and var_23_4 ~= 0 then
-		SetActive(arg_23_0.lvController_.gameObject, true)
+		slot0.recommendNumTxt_.text = slot4
 
-		arg_23_0.recommendNumTxt_.text = var_23_4
-
-		if var_23_4 <= var_23_0 then
-			arg_23_0.lvController:SetSelectedState("state0")
+		if slot4 <= slot1 then
+			slot0.lvController:SetSelectedState("state0")
 		else
-			arg_23_0.lvController:SetSelectedState("state1")
+			slot0.lvController:SetSelectedState("state1")
 		end
 	else
-		SetActive(arg_23_0.lvController_.gameObject, false)
+		SetActive(slot0.lvController_.gameObject, false)
 	end
 end
 
-function var_0_0.indexTypeItem(arg_24_0, arg_24_1, arg_24_2)
-	arg_24_2:OnRenderItem(HeroTools.GetSkillAttributeIcon(arg_24_0.recommendAttriList[arg_24_1]))
+function slot0.indexTypeItem(slot0, slot1, slot2)
+	slot2:OnRenderItem(HeroTools.GetSkillAttributeIcon(slot0.recommendAttriList[slot1]))
 end
 
-function var_0_0.GetRecommendLevel(arg_25_0)
-	return BattleStageTools.GetStageCfg(arg_25_0.stageType_, arg_25_0.stageID_).recommend_level
+function slot0.GetRecommendLevel(slot0)
+	return BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).recommend_level
 end
 
-function var_0_0.Dispose(arg_26_0)
-	arg_26_0.criList:Dispose()
-	var_0_0.super.Dispose(arg_26_0)
+function slot0.Dispose(slot0)
+	slot0.criList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,21 +1,20 @@
-local var_0_0 = import(".ChapterChallengeItemView")
-local var_0_1 = class("ChapterChallengeMythicItemView", var_0_0)
+slot1 = class("ChapterChallengeMythicItemView", import(".ChapterChallengeItemView"))
 
-function var_0_1.GetLostTime(arg_1_0)
+function slot1.GetLostTime(slot0)
 	return MythicData:GetNextRefreshTime()
 end
 
-function var_0_1.ClickItem(arg_2_0)
-	if arg_2_0.isAbove_ then
+function slot1.ClickItem(slot0)
+	if slot0.isAbove_ then
 		OperationRecorder.RecordButtonTouch("challenge_mythic_above")
 
-		arg_2_0.isAbove_ = false
+		slot0.isAbove_ = false
 	else
 		OperationRecorder.RecordButtonTouch("challenge_mythic_below")
 	end
 
-	if arg_2_0.isLock_ then
-		ShowTips(arg_2_0.lockTips_)
+	if slot0.isLock_ then
+		ShowTips(slot0.lockTips_)
 
 		return
 	end
@@ -27,4 +26,4 @@ function var_0_1.ClickItem(arg_2_0)
 	end
 end
 
-return var_0_1
+return slot1

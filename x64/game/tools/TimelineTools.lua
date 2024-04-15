@@ -1,34 +1,33 @@
-local var_0_0 = {}
-local var_0_1
-local var_0_2
-local var_0_3 = handler(var_0_0, var_0_0.StopCallback)
+slot0 = {}
+slot1, slot2 = nil
+slot3 = handler(slot0, slot0.StopCallback)
 
-function var_0_0.StopCallback()
-	var_0_1.stopped = var_0_1.stopped - var_0_0.StopCallback
-	var_0_1.extrapolationMode = UnityEngine.Playables.DirectorWrapMode.Loop
+function slot0.StopCallback()
+	uv0.stopped = uv0.stopped - uv1.StopCallback
+	uv0.extrapolationMode = UnityEngine.Playables.DirectorWrapMode.Loop
 
-	if var_0_2 ~= nil then
-		var_0_2()
+	if uv2 ~= nil then
+		uv2()
 
-		var_0_2 = nil
+		uv2 = nil
 	end
 
-	var_0_1 = nil
+	uv0 = nil
 end
 
-function var_0_0.PlayTimelineWithCallback(arg_2_0, arg_2_1, arg_2_2)
-	if var_0_1 ~= nil then
-		var_0_1.stopped = var_0_1.stopped - var_0_0.StopCallback
+function slot0.PlayTimelineWithCallback(slot0, slot1, slot2)
+	if uv0 ~= nil then
+		uv0.stopped = uv0.stopped - uv1.StopCallback
 	end
 
-	var_0_1 = arg_2_0
-	var_0_2 = arg_2_2
+	uv0 = slot0
+	uv2 = slot2
 
-	arg_2_0:Play(arg_2_1)
+	slot0:Play(slot1)
 
-	arg_2_0.extrapolationMode = UnityEngine.Playables.DirectorWrapMode.None
-	arg_2_0.time = 0
-	arg_2_0.stopped = arg_2_0.stopped + var_0_0.StopCallback
+	slot0.extrapolationMode = UnityEngine.Playables.DirectorWrapMode.None
+	slot0.time = 0
+	slot0.stopped = slot0.stopped + uv1.StopCallback
 end
 
-return var_0_0
+return slot0

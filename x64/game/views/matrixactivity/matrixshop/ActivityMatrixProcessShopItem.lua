@@ -1,15 +1,15 @@
-local var_0_0 = class("ActivityMatrixProcessShopItem", MatrixProcessShopItem)
+slot0 = class("ActivityMatrixProcessShopItem", MatrixProcessShopItem)
 
-function var_0_0.initUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.rewardItem = ActivityMatrixProcessRewardItem.New(arg_1_0.m_reward)
-	arg_1_0.discountController = ControllerUtil.GetController(arg_1_0.transform_, "discount")
+	slot0.rewardItem = ActivityMatrixProcessRewardItem.New(slot0.m_reward)
+	slot0.discountController = ControllerUtil.GetController(slot0.transform_, "discount")
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.m_priceBtn, nil, function()
-		if ActivityMatrixData:GetMatrixCoint(arg_2_0.matrix_activity_id) < arg_2_0.priceNum then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_priceBtn, nil, function ()
+		if ActivityMatrixData:GetMatrixCoint(uv0.matrix_activity_id) < uv0.priceNum then
 			ShowTips("LACK_CURRENCY")
 
 			return
@@ -18,108 +18,98 @@ function var_0_0.AddUIListener(arg_2_0)
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("MATRIX_SHOP_BUY_CONFIRM"),
-			OkCallback = function()
-				arg_2_0:OnRewardAction()
+			OkCallback = function ()
+				uv0:OnRewardAction()
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.SetMatrixActivityId(arg_6_0, arg_6_1)
-	arg_6_0.rewardItem:SetMatrixActivityId(arg_6_1)
+function slot0.SetMatrixActivityId(slot0, slot1)
+	slot0.rewardItem:SetMatrixActivityId(slot1)
 
-	arg_6_0.matrix_activity_id = arg_6_1
+	slot0.matrix_activity_id = slot1
 end
 
-function var_0_0.OnRewardAction(arg_7_0)
-	local var_7_0 = arg_7_0.id
-	local var_7_1 = MatrixItemCfg[var_7_0]
-
-	if not var_7_1 then
-		print("MatrixItemCfg cant find item by id :" .. var_7_0)
+function slot0.OnRewardAction(slot0)
+	if not MatrixItemCfg[slot0.id] then
+		print("MatrixItemCfg cant find item by id :" .. slot1)
 
 		return
 	end
 
-	local var_7_2 = var_7_1.matrix_item_type
+	if MatrixConst.ITEM_TYPE.ASTROLABE == slot2.matrix_item_type then
+		slot5 = slot0:GetHeroData(math.floor(slot2.params[1] / 1000))
+		slot6 = slot5:GetAstrolabeList()
 
-	if MatrixConst.ITEM_TYPE.ASTROLABE == var_7_2 then
-		local var_7_3 = math.floor(var_7_1.params[1] / 1000)
-		local var_7_4 = arg_7_0:GetHeroData(var_7_3)
-		local var_7_5 = var_7_4:GetAstrolabeList()
-
-		if var_7_4:GetAstrolabeNum(var_7_1.params[1]) >= 3 then
+		if slot5:GetAstrolabeNum(slot2.params[1]) >= 3 then
 			ShowTips(GetTips("MATRIX_NOT_GET_ASTROLABEL"))
 
 			return
 		end
 
-		if arg_7_0:GetAstrolabeMaxCount() <= #var_7_5 then
+		if slot0:GetAstrolabeMaxCount() <= #slot6 then
 			JumpTools.OpenPageByJump("activityMatrixProcessAstrolabeReplace", {
-				matrix_activity_id = arg_7_0.matrix_activity_id,
-				heroId = var_7_3,
-				astrolabeId = var_7_0,
-				callback = function(arg_8_0)
-					ActivityMatrixAction.BuyShopItem(arg_7_0.matrix_activity_id, arg_7_0.shopIndex, var_7_4:GetStandardId(), arg_8_0)
+				matrix_activity_id = slot0.matrix_activity_id,
+				heroId = slot4,
+				astrolabeId = slot1,
+				callback = function (slot0)
+					ActivityMatrixAction.BuyShopItem(uv0.matrix_activity_id, uv0.shopIndex, uv1:GetStandardId(), slot0)
 				end
 			})
 		else
-			ActivityMatrixAction.BuyShopItem(arg_7_0.matrix_activity_id, arg_7_0.shopIndex, var_7_4:GetStandardId(), 0)
+			ActivityMatrixAction.BuyShopItem(slot0.matrix_activity_id, slot0.shopIndex, slot5:GetStandardId(), 0)
 		end
-	elseif MatrixConst.ITEM_TYPE.EQUIP == var_7_2 then
-		JumpTools.OpenPageByJump("activityMatrixProcessShopSelectHero", {
-			matrix_activity_id = arg_7_0.matrix_activity_id,
-			index = arg_7_0.shopIndex,
-			id = var_7_0
-		})
-	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == var_7_2 then
-		local var_7_6 = MatrixTools.GetWeaponSpecHero(var_7_1.params[1])
 
-		if var_7_6 == 0 then
+		return
+	end
+
+	if MatrixConst.ITEM_TYPE.EQUIP == slot3 then
+		JumpTools.OpenPageByJump("activityMatrixProcessShopSelectHero", {
+			matrix_activity_id = slot0.matrix_activity_id,
+			index = slot0.shopIndex,
+			id = slot1
+		})
+	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == slot3 then
+		if MatrixTools.GetWeaponSpecHero(slot2.params[1]) == 0 then
 			JumpTools.OpenPageByJump("activityMatrixProcessShopSelectHero", {
-				matrix_activity_id = arg_7_0.matrix_activity_id,
-				index = arg_7_0.shopIndex,
-				id = var_7_0
+				matrix_activity_id = slot0.matrix_activity_id,
+				index = slot0.shopIndex,
+				id = slot1
+			})
+		elseif slot0:GetHeroData(slot4):GetWeaponServant() ~= 0 then
+			JumpTools.OpenPageByJump("activityMatrixProcessWeaponReplace", {
+				matrix_activity_id = slot0.matrix_activity_id,
+				heroId = slot4,
+				weaponId = slot1,
+				callback = function ()
+					ActivityMatrixAction.BuyShopItem(uv0.matrix_activity_id, uv0.shopIndex, uv1:GetStandardId(), uv2)
+				end
 			})
 		else
-			local var_7_7 = arg_7_0:GetHeroData(var_7_6)
-			local var_7_8 = var_7_7:GetWeaponServant()
-
-			if var_7_8 ~= 0 then
-				JumpTools.OpenPageByJump("activityMatrixProcessWeaponReplace", {
-					matrix_activity_id = arg_7_0.matrix_activity_id,
-					heroId = var_7_6,
-					weaponId = var_7_0,
-					callback = function()
-						ActivityMatrixAction.BuyShopItem(arg_7_0.matrix_activity_id, arg_7_0.shopIndex, var_7_7:GetStandardId(), var_7_8)
-					end
-				})
-			else
-				ActivityMatrixAction.BuyShopItem(arg_7_0.matrix_activity_id, arg_7_0.shopIndex, var_7_7:GetStandardId(), 0)
-			end
+			ActivityMatrixAction.BuyShopItem(slot0.matrix_activity_id, slot0.shopIndex, slot5:GetStandardId(), 0)
 		end
 	else
-		ActivityMatrixAction.BuyShopItem(arg_7_0.matrix_activity_id, arg_7_0.shopIndex, 0, 0)
+		ActivityMatrixAction.BuyShopItem(slot0.matrix_activity_id, slot0.shopIndex, 0, 0)
 	end
 end
 
-function var_0_0.GetHeroData(arg_10_0, arg_10_1)
-	return ActivityMatrixData:GetHeroData(arg_10_0.matrix_activity_id, arg_10_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetAstrolabeMaxCount(arg_11_0)
-	return ActivityMatrixData:GetAstrolabeMaxCount(arg_11_0.matrix_activity_id)
+function slot0.GetAstrolabeMaxCount(slot0)
+	return ActivityMatrixData:GetAstrolabeMaxCount(slot0.matrix_activity_id)
 end
 
-function var_0_0.GetSwitchItemIcon(arg_12_0, arg_12_1)
-	if arg_12_1 == 26 then
-		return ActivityMatrixTools.GetCoinItem(arg_12_0.matrix_activity_id)
+function slot0.GetSwitchItemIcon(slot0, slot1)
+	if slot1 == 26 then
+		return ActivityMatrixTools.GetCoinItem(slot0.matrix_activity_id)
 	end
 
-	return arg_12_1
+	return slot1
 end
 
-return var_0_0
+return slot0

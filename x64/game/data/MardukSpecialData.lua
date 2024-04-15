@@ -1,21 +1,21 @@
-local var_0_0 = singletonClass("MardukSpecialData")
-local var_0_1 = {}
+slot0 = singletonClass("MardukSpecialData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.InitDataFromServer(arg_2_0, arg_2_1)
-	if not var_0_1[arg_2_1.activity_id] then
-		var_0_1[arg_2_1.activity_id] = {}
+function slot0.InitDataFromServer(slot0, slot1)
+	if not uv0[slot1.activity_id] then
+		uv0[slot1.activity_id] = {}
 	end
 
-	var_0_1[arg_2_1.activity_id].activity_id = arg_2_1.activity_id
-	var_0_1[arg_2_1.activity_id].point = arg_2_1.point
-	var_0_1[arg_2_1.activity_id].got_reward_id_list = {}
+	uv0[slot1.activity_id].activity_id = slot1.activity_id
+	uv0[slot1.activity_id].point = slot1.point
+	uv0[slot1.activity_id].got_reward_id_list = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.got_reward_id_list) do
-		table.insert(var_0_1[arg_2_1.activity_id].got_reward_id_list, iter_2_1)
+	for slot5, slot6 in ipairs(slot1.got_reward_id_list) do
+		table.insert(uv0[slot1.activity_id].got_reward_id_list, slot6)
 	end
 
 	MardukSpecialAction.UpdateRedPoint(ActivityConst.FACTORY_MARDUK)
@@ -23,29 +23,21 @@ function var_0_0.InitDataFromServer(arg_2_0, arg_2_1)
 	manager.notify:Invoke(MARDUK_SPECIAL_DATA_UPDATE, {})
 end
 
-function var_0_0.GetPoint(arg_3_0, arg_3_1)
-	local var_3_0 = var_0_1[arg_3_1]
-
-	if not var_3_0 then
+function slot0.GetPoint(slot0, slot1)
+	if not uv0[slot1] then
 		return 0
 	end
 
-	return var_3_0.point
+	return slot2.point
 end
 
-function var_0_0.GetCanGetRewardIndex(arg_4_0, arg_4_1)
-	local var_4_0 = ActivityCfg[arg_4_1].sub_activity_list
+function slot0.GetCanGetRewardIndex(slot0, slot1)
+	for slot6, slot7 in ipairs(ActivityCfg[slot1].sub_activity_list) do
+		slot9 = nil
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-		local var_4_1 = MardukSpecialData:GetPoint(iter_4_1)
-		local var_4_2
-
-		for iter_4_2, iter_4_3 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[iter_4_1]) do
-			local var_4_3 = ActivityPointRewardCfg[iter_4_3]
-			local var_4_4 = MardukSpecialData:HaveGotReward(iter_4_1, iter_4_3)
-
-			if var_4_1 >= var_4_3.need and not var_4_4 then
-				return table.indexof(var_4_0, iter_4_1)
+		for slot13, slot14 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot7]) do
+			if ActivityPointRewardCfg[slot14].need <= MardukSpecialData:GetPoint(slot7) and not MardukSpecialData:HaveGotReward(slot7, slot14) then
+				return table.indexof(slot2, slot7)
 			end
 		end
 	end
@@ -53,64 +45,48 @@ function var_0_0.GetCanGetRewardIndex(arg_4_0, arg_4_1)
 	return 1
 end
 
-function var_0_0.GetGotRewardNum(arg_5_0, arg_5_1)
-	local var_5_0 = 0
-
-	for iter_5_0, iter_5_1 in pairs(arg_5_1) do
-		if var_0_1[iter_5_1] then
-			var_5_0 = var_5_0 + #var_0_1[iter_5_1].got_reward_id_list
+function slot0.GetGotRewardNum(slot0, slot1)
+	for slot6, slot7 in pairs(slot1) do
+		if uv0[slot7] then
+			slot2 = 0 + #uv0[slot7].got_reward_id_list
 		end
 	end
 
-	return var_5_0
+	return slot2
 end
 
-function var_0_0.HaveGotReward(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = var_0_1[arg_6_1]
-
-	if not var_6_0 then
+function slot0.HaveGotReward(slot0, slot1, slot2)
+	if not uv0[slot1] then
 		return false
 	end
 
-	if table.indexof(var_6_0.got_reward_id_list, arg_6_2) then
+	if table.indexof(slot3.got_reward_id_list, slot2) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnGotReward(arg_7_0, arg_7_1)
-	local var_7_0 = ActivityCfg[ActivityConst.FACTORY_MARDUK].sub_activity_list
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-		local var_7_1 = ActivityPointRewardCfg.get_id_list_by_activity_id[iter_7_1]
-
-		for iter_7_2, iter_7_3 in ipairs(var_7_1) do
-			if table.indexof(arg_7_1, iter_7_3) then
-				local var_7_2 = var_0_1[iter_7_1]
-
-				table.insert(var_7_2.got_reward_id_list, iter_7_3)
+function slot0.OnGotReward(slot0, slot1)
+	for slot6, slot7 in ipairs(ActivityCfg[ActivityConst.FACTORY_MARDUK].sub_activity_list) do
+		for slot12, slot13 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot7]) do
+			if table.indexof(slot1, slot13) then
+				table.insert(uv0[slot7].got_reward_id_list, slot13)
 				MardukSpecialAction.UpdateRedPoint(ActivityConst.FACTORY_MARDUK)
 			end
 		end
 	end
 
-	local var_7_3 = ActivityCfg[ActivityConst.ACTIVITY_2_2_SPECIAL].sub_activity_list
-
-	for iter_7_4, iter_7_5 in ipairs(var_7_3) do
-		local var_7_4 = ActivityPointRewardCfg.get_id_list_by_activity_id[iter_7_5]
-
-		for iter_7_6, iter_7_7 in ipairs(var_7_4) do
-			if table.indexof(arg_7_1, iter_7_7) then
-				local var_7_5 = var_0_1[iter_7_5]
-
-				table.insert(var_7_5.got_reward_id_list, iter_7_7)
+	for slot7, slot8 in ipairs(ActivityCfg[ActivityConst.ACTIVITY_2_2_SPECIAL].sub_activity_list) do
+		for slot13, slot14 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot8]) do
+			if table.indexof(slot1, slot14) then
+				table.insert(uv0[slot8].got_reward_id_list, slot14)
 				MardukSpecialAction.UpdateRedPoint(ActivityConst.ACTIVITY_2_2_SPECIAL)
 			end
 		end
 	end
 
-	manager.notify:Invoke(MARDUK_SPECIAL_REWARD_UPDATE, arg_7_1)
+	manager.notify:Invoke(MARDUK_SPECIAL_REWARD_UPDATE, slot1)
 end
 
-return var_0_0
+return slot0

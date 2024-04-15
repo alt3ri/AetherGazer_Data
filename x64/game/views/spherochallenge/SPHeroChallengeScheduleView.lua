@@ -1,55 +1,52 @@
-local var_0_0 = class("SPHeroChallengeScheduleView", ReduxView)
+slot0 = class("SPHeroChallengeScheduleView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/SPHeroChallengeScheduleUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.curScheduleScroll = LuaList.New(handler(arg_5_0, arg_5_0.indexSchedule), arg_5_0.uilistGo_, SPHeroChallengeScheduleStartItem)
-	arg_5_0.awardItme = CommonItemView.New(arg_5_0.commonitemGo_1)
-	arg_5_0.btnController = arg_5_0.controller:GetController("state")
+	slot0.curScheduleScroll = LuaList.New(handler(slot0, slot0.indexSchedule), slot0.uilistGo_, SPHeroChallengeScheduleStartItem)
+	slot0.awardItme = CommonItemView.New(slot0.commonitemGo_1)
+	slot0.btnController = slot0.controller:GetController("state")
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.data = SPHeroChallengeData:GetCurActivityInfo()
-	arg_6_0.scheduleStart = arg_6_0.data:CheckCurScheduleStart()
+function slot0.OnEnter(slot0)
+	slot0.data = SPHeroChallengeData:GetCurActivityInfo()
+	slot0.scheduleStart = slot0.data:CheckCurScheduleStart()
 
-	arg_6_0:RegisterEvents()
-	arg_6_0:InitCanChooseScheduleList()
-	arg_6_0:RefreshCanChooseScheduleList()
-	arg_6_0:RefreshHadChossScheduleList()
-	arg_6_0:RefreshDailyAwardInfo()
+	slot0:RegisterEvents()
+	slot0:InitCanChooseScheduleList()
+	slot0:RefreshCanChooseScheduleList()
+	slot0:RefreshHadChossScheduleList()
+	slot0:RefreshDailyAwardInfo()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0:RefreshBar()
-	arg_7_0:BindRedPonit()
+function slot0.OnTop(slot0)
+	slot0:RefreshBar()
+	slot0:BindRedPonit()
 end
 
-function var_0_0.BindRedPonit(arg_8_0)
-	return
+function slot0.BindRedPonit(slot0)
 end
 
-function var_0_0.UnBindRedPonit(arg_9_0)
-	return
+function slot0.UnBindRedPonit(slot0)
 end
 
-function var_0_0.RefreshBar(arg_10_0)
+function slot0.RefreshBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -57,183 +54,167 @@ function var_0_0.RefreshBar(arg_10_0)
 	})
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_11_0:UnBindRedPonit()
-	arg_11_0:RemoveAllEventListener()
+	slot0:UnBindRedPonit()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.AddUIListener(arg_12_0)
-	arg_12_0:AddBtnListenerScale(arg_12_0.autoBtn_, nil, function()
-		if not arg_12_0.scheduleStart then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.autoBtn_, nil, function ()
+		if not uv0.scheduleStart then
 			SPHeroChallengeTools:AutoChooseSchedule()
 		end
 	end)
-	arg_12_0:AddBtnListenerScale(arg_12_0.confirmBtn_, nil, function()
-		if arg_12_0.hadChooseList and not arg_12_0.scheduleStart then
-			local var_14_0 = arg_12_0.data:GetScheduleDailyList()
-
-			for iter_14_0, iter_14_1 in ipairs(var_14_0) do
-				if iter_14_1 == 0 then
+	slot0:AddBtnListenerScale(slot0.confirmBtn_, nil, function ()
+		if uv0.hadChooseList and not uv0.scheduleStart then
+			for slot4, slot5 in ipairs(uv0.data:GetScheduleDailyList()) do
+				if slot5 == 0 then
 					ShowTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_EMPTY")
 
 					return
 				end
 			end
 
-			if #var_14_0 < SpHeroChallengeConst.scheduleNum then
+			if #slot0 < SpHeroChallengeConst.scheduleNum then
 				ShowTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_EMPTY")
 
 				return
 			end
 
-			SPHeroChallengeAction:ConfirmScheduleList(var_14_0)
+			SPHeroChallengeAction:ConfirmScheduleList(slot0)
 		end
 	end)
 end
 
-function var_0_0.RegisterEvents(arg_15_0)
-	arg_15_0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CONFIRM, function()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CONFIRM, function ()
 		JumpTools.OpenPageByJump("/spHeroChallengeMainView")
 		ShowTips("ACTIVITY_HERO_CHALLENGE_SET_SCHEDULE_SUCCESS")
 	end)
-	arg_15_0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CHANGE, function(arg_17_0)
-		if arg_17_0 then
-			arg_15_0:RefreshCanChooseScheduleList()
-			arg_15_0:RefreshSingleScheduleState(arg_17_0)
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CHANGE, function (slot0)
+		if slot0 then
+			uv0:RefreshCanChooseScheduleList()
+			uv0:RefreshSingleScheduleState(slot0)
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.scheduleTypePool then
-		for iter_18_0, iter_18_1 in pairs(arg_18_0.scheduleTypePool) do
-			iter_18_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scheduleTypePool then
+		for slot4, slot5 in pairs(slot0.scheduleTypePool) do
+			slot5:Dispose()
 		end
 
-		arg_18_0.scheduleTypePool = nil
+		slot0.scheduleTypePool = nil
 	end
 
-	if arg_18_0.curScheduleScroll then
-		arg_18_0.curScheduleScroll:Dispose()
+	if slot0.curScheduleScroll then
+		slot0.curScheduleScroll:Dispose()
 	end
 
-	if arg_18_0.awardItme then
-		arg_18_0.awardItme:Dispose()
+	if slot0.awardItme then
+		slot0.awardItme:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitCanChooseScheduleList(arg_19_0)
-	if not arg_19_0.initFlag then
-		arg_19_0.initFlag = true
-		arg_19_0.schedulePool = {}
-		arg_19_0.scheduleTypePool = {}
+function slot0.InitCanChooseScheduleList(slot0)
+	if not slot0.initFlag then
+		slot0.initFlag = true
+		slot0.schedulePool = {}
+		slot0.scheduleTypePool = {}
 
-		local var_19_0 = ActivityHeroChallengeScheduleCfg.get_id_list_by_type
-
-		for iter_19_0, iter_19_1 in ipairs(var_19_0) do
-			arg_19_0.scheduleTypePool[iter_19_0] = SPHeroChallengeScheduleTypeItem.New(arg_19_0.typegroupGo_, arg_19_0.contentTrs_, iter_19_0)
+		for slot5, slot6 in ipairs(ActivityHeroChallengeScheduleCfg.get_id_list_by_type) do
+			slot0.scheduleTypePool[slot5] = SPHeroChallengeScheduleTypeItem.New(slot0.typegroupGo_, slot0.contentTrs_, slot5)
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_19_0.contentTrs_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 	end
 end
 
-function var_0_0.RefreshHadChossScheduleList(arg_20_0)
-	local var_20_0 = arg_20_0.data:GetScheduleDailyList()
+function slot0.RefreshHadChossScheduleList(slot0)
+	slot1 = slot0.data:GetScheduleDailyList()
+	slot0.hadChooseList = {}
 
-	arg_20_0.hadChooseList = {}
-
-	for iter_20_0 = 1, SpHeroChallengeConst.scheduleNum do
-		if var_20_0[iter_20_0] and var_20_0[iter_20_0] ~= 0 then
-			arg_20_0.hadChooseList[iter_20_0] = {
-				scheduleID = var_20_0[iter_20_0],
-				index = iter_20_0
+	for slot5 = 1, SpHeroChallengeConst.scheduleNum do
+		if slot1[slot5] and slot1[slot5] ~= 0 then
+			slot0.hadChooseList[slot5] = {
+				scheduleID = slot1[slot5],
+				index = slot5
 			}
 		else
-			arg_20_0.hadChooseList[iter_20_0] = {
-				index = iter_20_0
+			slot0.hadChooseList[slot5] = {
+				index = slot5
 			}
 		end
 	end
 
-	arg_20_0.curScheduleScroll:StartScroll(#arg_20_0.hadChooseList)
-	arg_20_0:RefreshConfirmBtnState()
+	slot0.curScheduleScroll:StartScroll(#slot0.hadChooseList)
+	slot0:RefreshConfirmBtnState()
 end
 
-function var_0_0.RefreshDailyAwardInfo(arg_21_0)
-	local var_21_0 = GameSetting.activity_hero_challenge_daily_time.value[1]
-	local var_21_1 = {
-		id = var_21_0[1],
-		number = var_21_0[2],
-		clickFun = function(arg_22_0)
+function slot0.RefreshDailyAwardInfo(slot0)
+	slot1 = GameSetting.activity_hero_challenge_daily_time.value[1]
+
+	slot0.awardItme:SetData({
+		id = slot1[1],
+		number = slot1[2],
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_22_0.id
+				slot0.id
 			})
 		end
-	}
-
-	arg_21_0.awardItme:SetData(var_21_1)
+	})
 end
 
-function var_0_0.RefreshCanChooseScheduleList(arg_23_0)
-	if arg_23_0.scheduleTypePool then
-		for iter_23_0, iter_23_1 in ipairs(arg_23_0.scheduleTypePool) do
-			iter_23_1:RefreshUI()
+function slot0.RefreshCanChooseScheduleList(slot0)
+	if slot0.scheduleTypePool then
+		for slot4, slot5 in ipairs(slot0.scheduleTypePool) do
+			slot5:RefreshUI()
 		end
 	end
 end
 
-function var_0_0.indexSchedule(arg_24_0, arg_24_1, arg_24_2)
-	if not arg_24_0.scheduleStart then
-		arg_24_2:RefreshUI(arg_24_0.hadChooseList[arg_24_1])
-		arg_24_2:RegisterCancelCallBack(function()
-			arg_24_0:RefreshSingleScheduleState(arg_24_1)
+function slot0.indexSchedule(slot0, slot1, slot2)
+	if not slot0.scheduleStart then
+		slot2:RefreshUI(slot0.hadChooseList[slot1])
+		slot2:RegisterCancelCallBack(function ()
+			uv0:RefreshSingleScheduleState(uv1)
 		end)
 	end
 end
 
-function var_0_0.RefreshConfirmBtnState(arg_26_0)
-	local var_26_0 = arg_26_0.data:GetScheduleDailyList()
-	local var_26_1 = true
+function slot0.RefreshConfirmBtnState(slot0)
+	slot1 = slot0.data:GetScheduleDailyList()
+	slot2 = true
 
-	for iter_26_0 = 1, SpHeroChallengeConst.scheduleNum do
-		if var_26_0 and var_26_0[iter_26_0] and var_26_0[iter_26_0] ~= 0 then
-			-- block empty
-		else
-			var_26_1 = false
+	for slot6 = 1, SpHeroChallengeConst.scheduleNum do
+		if not slot1 or not slot1[slot6] or slot1[slot6] == 0 then
+			slot2 = false
 
 			break
 		end
 	end
 
-	if var_26_1 then
-		arg_26_0.btnController:SetSelectedState("normal")
+	if slot2 then
+		slot0.btnController:SetSelectedState("normal")
 	else
-		arg_26_0.btnController:SetSelectedState("unusable")
+		slot0.btnController:SetSelectedState("unusable")
 	end
 end
 
-function var_0_0.RefreshSingleScheduleState(arg_27_0, arg_27_1)
-	local var_27_0 = arg_27_0.data:GetScheduleDailyList()
-	local var_27_1 = arg_27_0.curScheduleScroll:GetItemByIndex(arg_27_1)
-	local var_27_2 = {}
+function slot0.RefreshSingleScheduleState(slot0, slot1)
+	slot4 = {}
 
-	if var_27_0[arg_27_1] and var_27_0[arg_27_1] ~= 0 then
-		var_27_2 = {
-			scheduleID = var_27_0[arg_27_1],
-			index = arg_27_1
-		}
-	else
-		var_27_2 = {
-			index = arg_27_1
-		}
-	end
-
-	var_27_1:RefreshUI(var_27_2)
-	arg_27_0:RefreshConfirmBtnState()
+	slot0.curScheduleScroll:GetItemByIndex(slot1):RefreshUI((not slot0.data:GetScheduleDailyList()[slot1] or slot2[slot1] == 0 or {
+		scheduleID = slot2[slot1],
+		index = slot1
+	}) and {
+		index = slot1
+	})
+	slot0:RefreshConfirmBtnState()
 end
 
-return var_0_0
+return slot0

@@ -1,395 +1,362 @@
-local var_0_0 = singletonClass("NewWarChessMain")
+slot0 = singletonClass("NewWarChessMain")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.IsExecuting_ = false
-	arg_1_0.ExecutingChess_ = nil
-	arg_1_0.isSelectEventInteracting_ = false
-	arg_1_0.selectEventInteracChess_ = nil
-	arg_1_0.curChanceID_ = 0
-	arg_1_0.curChanceItemID_ = 0
-	arg_1_0.curDiceNumList_ = {}
-	arg_1_0.curAffixList_ = {}
-	arg_1_0.characterPos_ = nil
-	arg_1_0.eventQueueManager_ = NewChessEventQueue.New()
-	arg_1_0.buffManager_ = NewChessBuffManager.New()
-	arg_1_0.taskManager_ = NewChessTaskManager.New()
-	arg_1_0.globalManager_ = NewWarChessGlobalManager.New()
+function slot0.Ctor(slot0)
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
+	slot0.isSelectEventInteracting_ = false
+	slot0.selectEventInteracChess_ = nil
+	slot0.curChanceID_ = 0
+	slot0.curChanceItemID_ = 0
+	slot0.curDiceNumList_ = {}
+	slot0.curAffixList_ = {}
+	slot0.characterPos_ = nil
+	slot0.eventQueueManager_ = NewChessEventQueue.New()
+	slot0.buffManager_ = NewChessBuffManager.New()
+	slot0.taskManager_ = NewChessTaskManager.New()
+	slot0.globalManager_ = NewWarChessGlobalManager.New()
 end
 
-function var_0_0.SetUp(arg_2_0, arg_2_1)
-	arg_2_0:LoadMap(arg_2_1)
+function slot0.SetUp(slot0, slot1)
+	slot0:LoadMap(slot1)
 
-	local var_2_0 = NewWarChessData:GetCurrentIndex()
-
-	arg_2_0.characterPos_ = {
-		var_2_0.x,
-		var_2_0.z
+	slot2 = NewWarChessData:GetCurrentIndex()
+	slot0.characterPos_ = {
+		slot2.x,
+		slot2.z
 	}
+	slot3 = NewWarChessData:GetCurrentWarChessMapData()
 
-	local var_2_1 = NewWarChessData:GetCurrentWarChessMapData()
-
-	arg_2_0.taskManager_:SetServerData(var_2_1.taskList)
-	arg_2_0.buffManager_:SetServerData(var_2_1.buffList)
-	arg_2_0.globalManager_:SetServerData(var_2_1.globalEventList)
+	slot0.taskManager_:SetServerData(slot3.taskList)
+	slot0.buffManager_:SetServerData(slot3.buffList)
+	slot0.globalManager_:SetServerData(slot3.globalEventList)
 end
 
-function var_0_0.CreateSupportModule(arg_3_0)
-	if arg_3_0.blockerManager_ == nil then
-		arg_3_0.blockerManager_ = NewWarChessBlockerManager.New(manager.ui.canvas)
+function slot0.CreateSupportModule(slot0)
+	if slot0.blockerManager_ == nil then
+		slot0.blockerManager_ = NewWarChessBlockerManager.New(manager.ui.canvas)
 	end
 
-	if arg_3_0.tipsManager_ == nil then
-		arg_3_0.tipsManager_ = NewChessTipsManager.New()
-	end
-end
-
-function var_0_0.DisposeSupportModule(arg_4_0)
-	if arg_4_0.blockerManager_ then
-		arg_4_0.blockerManager_:Dispose()
-
-		arg_4_0.blockerManager_ = nil
-	end
-
-	if arg_4_0.tipsManager_ then
-		arg_4_0.tipsManager_:Dispose()
-
-		arg_4_0.tipsManager_ = nil
+	if slot0.tipsManager_ == nil then
+		slot0.tipsManager_ = NewChessTipsManager.New()
 	end
 end
 
-function var_0_0.LoadMap(arg_5_0, arg_5_1)
-	arg_5_0.ChapterID = arg_5_1
-	arg_5_0.map_ = NewChessTools.LoadMap(arg_5_1)
+function slot0.DisposeSupportModule(slot0)
+	if slot0.blockerManager_ then
+		slot0.blockerManager_:Dispose()
 
-	if not arg_5_0.map_ then
-		-- block empty
+		slot0.blockerManager_ = nil
 	end
 
-	local var_5_0 = {}
+	if slot0.tipsManager_ then
+		slot0.tipsManager_:Dispose()
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.map_.mapInfo) do
-		local var_5_1 = iter_5_1.x
-		local var_5_2 = iter_5_1.z
-
-		var_5_0[NewChessTools.TwoDToOneD(var_5_1, var_5_2)] = iter_5_1
+		slot0.tipsManager_ = nil
 	end
-
-	NewWarChessData:SetExtendMap(arg_5_0.map_.extendInfo)
-	NewWarChessData:SetExtendObjectMap(arg_5_0.map_.extendThingInfo)
-	NewWarChessData:SetJsonMap(var_5_0)
 end
 
-function var_0_0.ShowPathEffect(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0:ClearAllSelectEffect()
+function slot0.LoadMap(slot0, slot1)
+	slot0.ChapterID = slot1
+	slot0.map_ = NewChessTools.LoadMap(slot1)
+
+	if not slot0.map_ then
+		-- Nothing
+	end
+
+	for slot6, slot7 in pairs(slot0.map_.mapInfo) do
+		-- Nothing
+	end
+
+	NewWarChessData:SetExtendMap(slot0.map_.extendInfo)
+	NewWarChessData:SetExtendObjectMap(slot0.map_.extendThingInfo)
+	NewWarChessData:SetJsonMap({
+		[NewChessTools.TwoDToOneD(slot7.x, slot7.z)] = slot7
+	})
+end
+
+function slot0.ShowPathEffect(slot0, slot1, slot2, slot3)
+	slot0:ClearAllSelectEffect()
 	NewChessLuaBridge.ShowGridSelectEffect()
 	manager.audio:PlayEffect("ui_system", "button", "")
-	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.READY, arg_6_1, arg_6_2, arg_6_3)
+	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.READY, slot1, slot2, slot3)
 end
 
-function var_0_0.ClearGridSelectEffect(arg_7_0, arg_7_1, arg_7_2)
-	NewChessLuaBridge.ClearGridSelectEffect(arg_7_1, arg_7_2)
+function slot0.ClearGridSelectEffect(slot0, slot1, slot2)
+	NewChessLuaBridge.ClearGridSelectEffect(slot1, slot2)
 end
 
-function var_0_0.ClearAllSelectEffect(arg_8_0)
+function slot0.ClearAllSelectEffect(slot0)
 	NewChessLuaBridge.ClearAllSelectEffect()
 end
 
-function var_0_0.StartMoveToCaChePath(arg_9_0)
-	arg_9_0.blockerManager_:ShowMoveBlocker()
+function slot0.StartMoveToCaChePath(slot0)
+	slot0.blockerManager_:ShowMoveBlocker()
 	NewChessLuaBridge.MoveToCachePos()
 	manager.notify:CallUpdateFunc(NEWWARCHESS_CAMERA_MOVE, false)
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.MOVING)
 end
 
-function var_0_0.ClearEndPoint(arg_10_0)
-	arg_10_0:ClearAllSelectEffect()
+function slot0.ClearEndPoint(slot0)
+	slot0:ClearAllSelectEffect()
 
-	arg_10_0.IsExecuting_ = false
-	arg_10_0.ExecutingChess_ = nil
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
 
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.NORMAL)
 end
 
-function var_0_0.ExecuteChessTiming(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_2.gridData
-	local var_11_1 = arg_11_2.cost
-	local var_11_2 = arg_11_2.isTelePort
-	local var_11_3 = arg_11_2.dir
-	local var_11_4 = arg_11_2.screenPos
+function slot0.ExecuteChessTiming(slot0, slot1, slot2)
+	slot3 = slot2.gridData
+	slot4 = slot2.cost
+	slot5 = slot2.isTelePort
+	slot6 = slot2.dir
+	slot7 = slot2.screenPos
 
-	if arg_11_1 == NewChessConst.TIMING_START then
+	if slot1 == NewChessConst.TIMING_START then
 		NewWarChessData:SetAttribute("GAME_NEWCHESS_ATTRIBUTE_FIRST_IN", 1)
 
-		local var_11_5 = NewWarChessLevelCfg[NewWarChessData:GetCurrentWarChessMapID()].eventpool_id
-		local var_11_6 = NewWarChessData:GetServerEvent(arg_11_1, {})
+		slot8 = NewWarChessLevelCfg[NewWarChessData:GetCurrentWarChessMapID()].eventpool_id
 
-		arg_11_0:ExecutChess(arg_11_1, nil, var_11_6)
-	elseif arg_11_1 == NewChessConst.TIMING_WALK_OUT then
-		if var_11_0.exitParamList and var_11_0.exitParamList.Length > 0 then
-			local var_11_7 = NewWarChessData:GetServerEvent(arg_11_1, {
-				var_11_0.x,
-				var_11_0.z
-			})
-
-			arg_11_0:ExecutChess(arg_11_1, var_11_0, var_11_7)
+		slot0:ExecutChess(slot1, nil, NewWarChessData:GetServerEvent(slot1, {}))
+	elseif slot1 == NewChessConst.TIMING_WALK_OUT then
+		if slot3.exitParamList and slot3.exitParamList.Length > 0 then
+			slot0:ExecutChess(slot1, slot3, NewWarChessData:GetServerEvent(slot1, {
+				slot3.x,
+				slot3.z
+			}))
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_WALK_INTO then
-		if var_11_0.enterParamList and var_11_0.enterParamList.Length > 0 then
-			local var_11_8 = NewWarChessData:GetServerEvent(arg_11_1, {
-				var_11_0.x,
-				var_11_0.z
-			})
-
-			arg_11_0:ExecutChess(arg_11_1, var_11_0, var_11_8)
+	elseif slot1 == NewChessConst.TIMING_WALK_INTO then
+		if slot3.enterParamList and slot3.enterParamList.Length > 0 then
+			slot0:ExecutChess(slot1, slot3, NewWarChessData:GetServerEvent(slot1, {
+				slot3.x,
+				slot3.z
+			}))
 		end
 
-		if not var_11_2 then
-			local var_11_9 = -NewWarChessHexCfg[var_11_0.typeID].penalty * (NewWarChessData:GetAttribute("GAME_NEWCHESS_ATTRIBUTE_MOVE_POINT_COST_TIMES") / 1000)
-			local var_11_10 = math.floor(var_11_9)
-
-			NewWarChessData:SubAttribute("GAME_NEWCHESS_ATTRIBUTE_MOVE_POINT", var_11_10)
-			arg_11_0:UpdateBuff()
+		if not slot5 then
+			NewWarChessData:SubAttribute("GAME_NEWCHESS_ATTRIBUTE_MOVE_POINT", math.floor(-NewWarChessHexCfg[slot3.typeID].penalty * NewWarChessData:GetAttribute("GAME_NEWCHESS_ATTRIBUTE_MOVE_POINT_COST_TIMES") / 1000))
+			slot0:UpdateBuff()
 		end
 
-		if arg_11_0.eventQueueManager_:IsEmpty() then
-			arg_11_0.globalManager_:CheckSettlementGlobalEventList()
+		if slot0.eventQueueManager_:IsEmpty() then
+			slot0.globalManager_:CheckSettlementGlobalEventList()
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_INTERACT then
-		var_11_0 = arg_11_0.ExecutingChess_
-
-		if var_11_0.clickParamList and var_11_0.clickParamList.Length > 0 then
-			if NewWarChessEventPoolCfg[var_11_0.clickParamList[0]] == nil then
-				error("clickParamList触发的eventPoolID不存在！", var_11_0.clickParamList[0])
+	elseif slot1 == NewChessConst.TIMING_INTERACT then
+		if slot0.ExecutingChess_.clickParamList and slot3.clickParamList.Length > 0 then
+			if NewWarChessEventPoolCfg[slot3.clickParamList[0]] == nil then
+				error("clickParamList触发的eventPoolID不存在！", slot3.clickParamList[0])
 
 				return
 			end
 
-			NewWarChessAction.ClickGrid(var_11_0.x, var_11_0.z, false, function()
-				local var_12_0 = var_11_0.clickParamList[0]
-
-				if NewWarChessEventPoolCfg[var_12_0].type == NewChessConst.EVENTPOOL_TYPE.NEWWARCHESS_EVENT then
-					local var_12_1 = NewWarChessData:GetServerEvent(arg_11_1, {
-						var_11_0.x,
-						var_11_0.z
-					})
-
-					arg_11_0:ExecutChess(arg_11_1, var_11_0, var_12_1)
-					arg_11_0:StartExecuteEvent()
+			NewWarChessAction.ClickGrid(slot3.x, slot3.z, false, function ()
+				if NewWarChessEventPoolCfg[uv0.clickParamList[0]].type == NewChessConst.EVENTPOOL_TYPE.NEWWARCHESS_EVENT then
+					uv2:ExecutChess(uv1, uv0, NewWarChessData:GetServerEvent(uv1, {
+						uv0.x,
+						uv0.z
+					}))
+					uv2:StartExecuteEvent()
 				else
-					manager.NewChessManager:SetChanceInteract(true, var_11_0)
+					manager.NewChessManager:SetChanceInteract(true, uv0)
 					JumpTools.OpenPageByJump("/newWarChessChanceView", {
 						chanceID = NewWarChessData:GetServerChanceID()
 					})
-					arg_11_0:ClearInteractChess()
+					uv2:ClearInteractChess()
 				end
 			end)
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_WALK_OUT_OBJECT then
-		if var_11_0.objectExitParamList and var_11_0.objectExitParamList.Length > 0 then
-			local var_11_11 = NewWarChessData:GetServerEvent(arg_11_1, {
-				var_11_0.x,
-				var_11_0.z
-			})
-
-			arg_11_0:ExecutChess(arg_11_1, var_11_0, var_11_11)
+	elseif slot1 == NewChessConst.TIMING_WALK_OUT_OBJECT then
+		if slot3.objectExitParamList and slot3.objectExitParamList.Length > 0 then
+			slot0:ExecutChess(slot1, slot3, NewWarChessData:GetServerEvent(slot1, {
+				slot3.x,
+				slot3.z
+			}))
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_WALK_INTO_OBJECT then
-		if var_11_0.objectEnterParamList and var_11_0.objectEnterParamList.Length > 0 then
-			local var_11_12 = NewWarChessData:GetServerEvent(arg_11_1, {
-				var_11_0.x,
-				var_11_0.z
-			})
-
-			arg_11_0:ExecutChess(arg_11_1, var_11_0, var_11_12)
+	elseif slot1 == NewChessConst.TIMING_WALK_INTO_OBJECT then
+		if slot3.objectEnterParamList and slot3.objectEnterParamList.Length > 0 then
+			slot0:ExecutChess(slot1, slot3, NewWarChessData:GetServerEvent(slot1, {
+				slot3.x,
+				slot3.z
+			}))
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_INTERACT_OBJECT then
-		var_11_0 = arg_11_0.ExecutingChess_
-
-		if var_11_0.objectClickParamList and var_11_0.objectClickParamList.Length > 0 then
-			if NewWarChessEventPoolCfg[var_11_0.objectClickParamList[0]] == nil then
-				error("objectClickParamList触发的eventPoolID不存在！", var_11_0.objectClickParamList[0])
+	elseif slot1 == NewChessConst.TIMING_INTERACT_OBJECT then
+		if slot0.ExecutingChess_.objectClickParamList and slot3.objectClickParamList.Length > 0 then
+			if NewWarChessEventPoolCfg[slot3.objectClickParamList[0]] == nil then
+				error("objectClickParamList触发的eventPoolID不存在！", slot3.objectClickParamList[0])
 
 				return
 			end
 
-			NewWarChessAction.ClickGrid(var_11_0.x, var_11_0.z, false, function()
-				local var_13_0 = var_11_0.objectClickParamList[0]
-
-				if NewWarChessEventPoolCfg[var_13_0].type == NewChessConst.EVENTPOOL_TYPE.NEWWARCHESS_EVENT then
-					local var_13_1 = NewWarChessData:GetServerEvent(arg_11_1, {
-						var_11_0.x,
-						var_11_0.z
-					})
-
-					arg_11_0:ExecutChess(arg_11_1, var_11_0, var_13_1)
-					arg_11_0:StartExecuteEvent()
+			NewWarChessAction.ClickGrid(slot3.x, slot3.z, false, function ()
+				if NewWarChessEventPoolCfg[uv0.objectClickParamList[0]].type == NewChessConst.EVENTPOOL_TYPE.NEWWARCHESS_EVENT then
+					uv2:ExecutChess(uv1, uv0, NewWarChessData:GetServerEvent(uv1, {
+						uv0.x,
+						uv0.z
+					}))
+					uv2:StartExecuteEvent()
 				else
-					manager.NewChessManager:SetChanceInteract(true, var_11_0)
+					manager.NewChessManager:SetChanceInteract(true, uv0)
 					JumpTools.OpenPageByJump("/newWarChessChanceView", {
 						chanceID = NewWarChessData:GetServerChanceID()
 					})
 				end
 			end)
 		end
-	elseif arg_11_1 == NewChessConst.TIMING_FARCLICK_OBJECT and var_11_0.objectFarClickParamList and var_11_0.objectFarClickParamList.Length > 0 then
-		local var_11_13 = NewWarChessData:GetServerEvent(arg_11_1, {
-			var_11_0.x,
-			var_11_0.z
-		})
-
-		arg_11_0:ExecutChess(arg_11_1, var_11_0, var_11_13)
+	elseif slot1 == NewChessConst.TIMING_FARCLICK_OBJECT and slot3.objectFarClickParamList and slot3.objectFarClickParamList.Length > 0 then
+		slot0:ExecutChess(slot1, slot3, NewWarChessData:GetServerEvent(slot1, {
+			slot3.x,
+			slot3.z
+		}))
 	end
 end
 
-function var_0_0.SetInteractChess(arg_14_0, arg_14_1)
-	arg_14_0.IsExecuting_ = true
-	arg_14_0.ExecutingChess_ = arg_14_1
+function slot0.SetInteractChess(slot0, slot1)
+	slot0.IsExecuting_ = true
+	slot0.ExecutingChess_ = slot1
 end
 
-function var_0_0.ClearInteractChess(arg_15_0)
-	arg_15_0.IsExecuting_ = false
-	arg_15_0.ExecutingChess_ = nil
+function slot0.ClearInteractChess(slot0)
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
 end
 
-function var_0_0.IsExecuting(arg_16_0)
-	return arg_16_0.IsExecuting_
+function slot0.IsExecuting(slot0)
+	return slot0.IsExecuting_
 end
 
-function var_0_0.EventsEnd(arg_17_0)
-	if arg_17_0.eventQueueManager_:CurEventTiming() == NewChessConst.TIMING_INTERACT then
-		arg_17_0.IsExecuting_ = false
-		arg_17_0.ExecutingChess_ = nil
+function slot0.EventsEnd(slot0)
+	if slot0.eventQueueManager_:CurEventTiming() == NewChessConst.TIMING_INTERACT then
+		slot0.IsExecuting_ = false
+		slot0.ExecutingChess_ = nil
 	end
 
-	arg_17_0.taskManager_:CheckTask()
+	slot0.taskManager_:CheckTask()
 
-	if arg_17_0.eventQueueManager_:PromoteToNextEvent() then
-		arg_17_0:DoNextEvent()
+	if slot0.eventQueueManager_:PromoteToNextEvent() then
+		slot0:DoNextEvent()
 	else
-		arg_17_0.eventQueueManager_:Clear()
-		arg_17_0.globalManager_:CheckSettlementGlobalEventList()
-		arg_17_0.globalManager_:CheckStartGlobalEventList()
+		slot0.eventQueueManager_:Clear()
+		slot0.globalManager_:CheckSettlementGlobalEventList()
+		slot0.globalManager_:CheckStartGlobalEventList()
 	end
 end
 
-function var_0_0.ExecutChess(arg_18_0, arg_18_1, arg_18_2, arg_18_3)
-	if arg_18_3 ~= nil then
-		arg_18_0:CreateEventQueue(arg_18_2, arg_18_3, arg_18_1)
+function slot0.ExecutChess(slot0, slot1, slot2, slot3)
+	if slot3 ~= nil then
+		slot0:CreateEventQueue(slot2, slot3, slot1)
 	end
 end
 
-function var_0_0.StartExecuteEvent(arg_19_0)
-	if arg_19_0.eventQueueManager_:CurEventTiming() then
+function slot0.StartExecuteEvent(slot0)
+	if slot0.eventQueueManager_:CurEventTiming() then
 		return
 	end
 
-	if arg_19_0.eventQueueManager_:PromoteToNextEvent() then
-		arg_19_0:DoNextEvent()
+	if slot0.eventQueueManager_:PromoteToNextEvent() then
+		slot0:DoNextEvent()
 	else
-		arg_19_0:EventsEnd()
+		slot0:EventsEnd()
 	end
 end
 
-function var_0_0.CreateEventQueue(arg_20_0, arg_20_1, arg_20_2, arg_20_3)
-	arg_20_0.eventQueueManager_:InsertNewEventQueue(arg_20_2, arg_20_3, arg_20_1)
+function slot0.CreateEventQueue(slot0, slot1, slot2, slot3)
+	slot0.eventQueueManager_:InsertNewEventQueue(slot2, slot3, slot1)
 end
 
-function var_0_0.DoNextEvent(arg_21_0)
-	if arg_21_0.eventQueueManager_:IsEventEnd() then
-		arg_21_0:EventsEnd()
+function slot0.DoNextEvent(slot0)
+	if slot0.eventQueueManager_:IsEventEnd() then
+		slot0:EventsEnd()
 
 		return
 	end
 
-	local var_21_0, var_21_1 = arg_21_0.eventQueueManager_:GetCurFunc()
+	slot1, slot2 = slot0.eventQueueManager_:GetCurFunc()
 
-	arg_21_0.eventQueueManager_:PromoteCurEventProgress()
+	slot0.eventQueueManager_:PromoteCurEventProgress()
 
-	return var_21_0(unpack(var_21_1))
+	return slot1(unpack(slot2))
 end
 
-function var_0_0.GetExecutingChess(arg_22_0)
-	return arg_22_0.eventQueueManager_:GetExecutingChess()
+function slot0.GetExecutingChess(slot0)
+	return slot0.eventQueueManager_:GetExecutingChess()
 end
 
-function var_0_0.SetPosition(arg_23_0, arg_23_1, arg_23_2)
-	if arg_23_0.characterPos_ and arg_23_0.characterPos_[1] == arg_23_1 and arg_23_0.characterPos_[2] == arg_23_2 then
+function slot0.SetPosition(slot0, slot1, slot2)
+	if slot0.characterPos_ and slot0.characterPos_[1] == slot1 and slot0.characterPos_[2] == slot2 then
 		return false
 	end
 
-	NewWarChessData:SetCurrentIndex(arg_23_1, arg_23_2)
+	NewWarChessData:SetCurrentIndex(slot1, slot2)
 
-	arg_23_0.characterPos_ = {
-		arg_23_1,
-		arg_23_2
+	slot0.characterPos_ = {
+		slot1,
+		slot2
 	}
 
 	return true
 end
 
-function var_0_0.GetPosition(arg_24_0)
-	return arg_24_0.characterPos_
+function slot0.GetPosition(slot0)
+	return slot0.characterPos_
 end
 
-function var_0_0.SetChanceInteract(arg_25_0, arg_25_1, arg_25_2)
-	arg_25_0.isSelectEventInteracting_ = arg_25_1
-	arg_25_0.selectEventInteracChess_ = arg_25_2
+function slot0.SetChanceInteract(slot0, slot1, slot2)
+	slot0.isSelectEventInteracting_ = slot1
+	slot0.selectEventInteracChess_ = slot2
 end
 
-function var_0_0.GetChanceInteracChess(arg_26_0)
-	return arg_26_0.selectEventInteracChess_
+function slot0.GetChanceInteracChess(slot0)
+	return slot0.selectEventInteracChess_
 end
 
-function var_0_0.JumpBoard(arg_27_0, arg_27_1, arg_27_2, arg_27_3, arg_27_4, arg_27_5)
-	arg_27_0:ShowBlock()
-	NewChessLuaBridge.JumpBoard(arg_27_1, arg_27_2, arg_27_3, arg_27_4, arg_27_5)
+function slot0.JumpBoard(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:ShowBlock()
+	NewChessLuaBridge.JumpBoard(slot1, slot2, slot3, slot4, slot5)
 end
 
-function var_0_0.BattleStart(arg_28_0, arg_28_1, arg_28_2, arg_28_3, arg_28_4)
-	arg_28_0.battleStart_ = true
-	arg_28_0.battleResult_ = nil
-	arg_28_0.curChanceID_ = arg_28_1
-	arg_28_0.curChanceItemID_ = arg_28_2
-	arg_28_0.curDiceNumList_ = arg_28_3
-	arg_28_0.curAffixList_ = arg_28_4
+function slot0.BattleStart(slot0, slot1, slot2, slot3, slot4)
+	slot0.battleStart_ = true
+	slot0.battleResult_ = nil
+	slot0.curChanceID_ = slot1
+	slot0.curChanceItemID_ = slot2
+	slot0.curDiceNumList_ = slot3
+	slot0.curAffixList_ = slot4
 
-	local var_28_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-	if var_28_0 then
-		arg_28_0.originShadowRotationImmediately = var_28_0.shadowRotationImmediately
-		var_28_0.shadowRotationImmediately = true
+	if manager.ui.mainCamera:GetComponent("CameraExtension") then
+		slot0.originShadowRotationImmediately = slot5.shadowRotationImmediately
+		slot5.shadowRotationImmediately = true
 	end
 
 	NewChessLuaBridge.SetCameraControlEnable(false)
 	NewWarChessData:SetCharacterDirection(NewChessLuaBridge.GetPlayerDirection())
 end
 
-function var_0_0.GetCurBattleAffix(arg_29_0)
-	return arg_29_0.curAffixList_
+function slot0.GetCurBattleAffix(slot0)
+	return slot0.curAffixList_
 end
 
-function var_0_0.BattleSuccess(arg_30_0)
-	arg_30_0.battleResult_ = true
+function slot0.BattleSuccess(slot0)
+	slot0.battleResult_ = true
 end
 
-function var_0_0.IsBattleBack(arg_31_0)
-	return arg_31_0.battleStart_
+function slot0.IsBattleBack(slot0)
+	return slot0.battleStart_
 end
 
-function var_0_0.BattleFinish(arg_32_0)
-	if arg_32_0.battleStart_ then
-		local var_32_0 = {}
+function slot0.BattleFinish(slot0)
+	if slot0.battleStart_ then
+		slot1 = {}
 
-		for iter_32_0 = 1, #arg_32_0.curDiceNumList_ do
-			table.insert(var_32_0, arg_32_0.curDiceNumList_[iter_32_0])
+		for slot5 = 1, #slot0.curDiceNumList_ do
+			table.insert(slot1, slot0.curDiceNumList_[slot5])
 		end
 
-		NewWarChessData:RemoveDice(var_32_0)
+		NewWarChessData:RemoveDice(slot1)
 
-		if arg_32_0.battleResult_ then
+		if slot0.battleResult_ then
 			JumpTools.OpenPageByJump("/newWarChessChanceView", {
-				chanceID = arg_32_0.curChanceID_,
-				chanceItemID = arg_32_0.curChanceItemID_
+				chanceID = slot0.curChanceID_,
+				chanceItemID = slot0.curChanceItemID_
 			})
 		else
 			JumpTools.OpenPageByJump("/newWarChessChanceView", {
@@ -398,168 +365,166 @@ function var_0_0.BattleFinish(arg_32_0)
 		end
 	end
 
-	if not arg_32_0.battleStart_ then
+	if not slot0.battleStart_ then
 		return
 	end
 
-	arg_32_0:ClearBattleData()
+	slot0:ClearBattleData()
 end
 
-function var_0_0.ClearBattleData(arg_33_0)
-	arg_33_0.battleStart_ = false
-	arg_33_0.battleResult_ = nil
-	arg_33_0.curChanceID_ = 0
-	arg_33_0.curChanceItemID_ = 0
-	arg_33_0.curDiceNumList_ = {}
-	arg_33_0.curAffixList_ = {}
+function slot0.ClearBattleData(slot0)
+	slot0.battleStart_ = false
+	slot0.battleResult_ = nil
+	slot0.curChanceID_ = 0
+	slot0.curChanceItemID_ = 0
+	slot0.curDiceNumList_ = {}
+	slot0.curAffixList_ = {}
 
-	local var_33_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-	if var_33_0 then
-		var_33_0.shadowRotationImmediately = arg_33_0.originShadowRotationImmediately
+	if manager.ui.mainCamera:GetComponent("CameraExtension") then
+		slot1.shadowRotationImmediately = slot0.originShadowRotationImmediately
 	end
 
 	NewChessLuaBridge.SetCameraControlEnable(true)
 end
 
-function var_0_0.ChangeGridByExtentID(arg_34_0, arg_34_1, arg_34_2, arg_34_3, arg_34_4, arg_34_5)
-	arg_34_0:ShowBlock()
-	NewChessLuaBridge.ChangeGridByIndex(arg_34_1, arg_34_2, arg_34_3, arg_34_4, function()
-		arg_34_0:CloseBlock()
+function slot0.ChangeGridByExtentID(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:ShowBlock()
+	NewChessLuaBridge.ChangeGridByIndex(slot1, slot2, slot3, slot4, function ()
+		uv0:CloseBlock()
 
-		if arg_34_4 then
-			NewWarChessData:ChangeGridLuaInheritDir(arg_34_1, arg_34_2, arg_34_3)
+		if uv1 then
+			NewWarChessData:ChangeGridLuaInheritDir(uv2, uv3, uv4)
 		else
-			NewWarChessData:ChangeGridLua(arg_34_1, arg_34_2, arg_34_3)
+			NewWarChessData:ChangeGridLua(uv2, uv3, uv4)
 		end
 
-		if arg_34_5 then
-			arg_34_5()
-		end
-	end)
-end
-
-function var_0_0.ChangeObjectByExtentID(arg_36_0, arg_36_1, arg_36_2, arg_36_3, arg_36_4)
-	arg_36_0:ShowBlock()
-	NewChessLuaBridge.ChangeObjectByIndex(arg_36_1, arg_36_2, arg_36_3, function()
-		arg_36_0:CloseBlock()
-		NewWarChessData:ChangeObjectLua(arg_36_1, arg_36_2, arg_36_3)
-
-		if arg_36_4 then
-			arg_36_4()
+		if uv5 then
+			uv5()
 		end
 	end)
 end
 
-function var_0_0.DeleteObject(arg_38_0, arg_38_1, arg_38_2, arg_38_3)
-	arg_38_0:ShowBlock()
-	NewChessLuaBridge.DeleteObject(arg_38_1, arg_38_2, function()
-		arg_38_0:CloseBlock()
-		NewWarChessData:DeleteObjectLua(arg_38_1, arg_38_2)
+function slot0.ChangeObjectByExtentID(slot0, slot1, slot2, slot3, slot4)
+	slot0:ShowBlock()
+	NewChessLuaBridge.ChangeObjectByIndex(slot1, slot2, slot3, function ()
+		uv0:CloseBlock()
+		NewWarChessData:ChangeObjectLua(uv1, uv2, uv3)
 
-		if arg_38_3 then
-			arg_38_3()
+		if uv4 then
+			uv4()
 		end
 	end)
 end
 
-function var_0_0.ChangeGridDirection(arg_40_0, arg_40_1, arg_40_2, arg_40_3, arg_40_4, arg_40_5)
-	arg_40_0:ShowBlock()
-	NewChessLuaBridge.RotateGrid(arg_40_1, arg_40_2, arg_40_3 * 60, arg_40_4, function()
-		arg_40_0:CloseBlock()
-		NewWarChessData:ChangeGridDirection(arg_40_1, arg_40_2, arg_40_3)
+function slot0.DeleteObject(slot0, slot1, slot2, slot3)
+	slot0:ShowBlock()
+	NewChessLuaBridge.DeleteObject(slot1, slot2, function ()
+		uv0:CloseBlock()
+		NewWarChessData:DeleteObjectLua(uv1, uv2)
 
-		if arg_40_5 then
-			arg_40_5()
+		if uv3 then
+			uv3()
 		end
 	end)
 end
 
-function var_0_0.LookAtPlayerWithCurPos(arg_42_0, arg_42_1, arg_42_2, arg_42_3)
-	local var_42_0 = NewWarChessData:GetCurrentIndex()
+function slot0.ChangeGridDirection(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:ShowBlock()
+	NewChessLuaBridge.RotateGrid(slot1, slot2, slot3 * 60, slot4, function ()
+		uv0:CloseBlock()
+		NewWarChessData:ChangeGridDirection(uv1, uv2, uv3)
 
-	if math.abs(var_42_0.x - arg_42_1) + math.abs(var_42_0.z - arg_42_2) > 2 then
-		NewChessLuaBridge.LookAtPlayer(function()
-			if arg_42_3 then
-				arg_42_3()
+		if uv4 then
+			uv4()
+		end
+	end)
+end
+
+function slot0.LookAtPlayerWithCurPos(slot0, slot1, slot2, slot3)
+	slot4 = NewWarChessData:GetCurrentIndex()
+
+	if math.abs(slot4.x - slot1) + math.abs(slot4.z - slot2) > 2 then
+		NewChessLuaBridge.LookAtPlayer(function ()
+			if uv0 then
+				uv0()
 			end
 		end)
-	elseif arg_42_3 then
-		arg_42_3()
+	elseif slot3 then
+		slot3()
 	end
 end
 
-function var_0_0.MoveToTarget(arg_44_0, arg_44_1, arg_44_2, arg_44_3)
-	arg_44_0:ShowBlock()
-	arg_44_0:ClearAllSelectEffect()
+function slot0.MoveToTarget(slot0, slot1, slot2, slot3)
+	slot0:ShowBlock()
+	slot0:ClearAllSelectEffect()
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.NORMAL)
-	NewChessLuaBridge.MoveTargetSmooth(arg_44_1, arg_44_2, function()
+	NewChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
 		manager.notify:CallUpdateFunc(NEWWARCHESS_CAMERA_MOVE, true)
-		arg_44_0:CloseBlock()
+		uv0:CloseBlock()
 
-		if arg_44_3 then
-			arg_44_3()
+		if uv1 then
+			uv1()
 		end
 	end, true)
 end
 
-function var_0_0.PlayGridAnimation(arg_46_0, arg_46_1, arg_46_2, arg_46_3, arg_46_4, arg_46_5)
-	arg_46_0.blockerManager_:ShowBlocker()
-	NewChessLuaBridge.PlayGridAnimation(arg_46_1, arg_46_2, arg_46_3, arg_46_4, function()
-		arg_46_0.blockerManager_:HideBlocker()
-		arg_46_5()
+function slot0.PlayGridAnimation(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.blockerManager_:ShowBlocker()
+	NewChessLuaBridge.PlayGridAnimation(slot1, slot2, slot3, slot4, function ()
+		uv0.blockerManager_:HideBlocker()
+		uv1()
 	end)
 end
 
-function var_0_0.OnMoveEnd(arg_48_0)
-	arg_48_0.blockerManager_:HideMoveBlocker()
-	arg_48_0:ClearAllSelectEffect()
+function slot0.OnMoveEnd(slot0)
+	slot0.blockerManager_:HideMoveBlocker()
+	slot0:ClearAllSelectEffect()
 	manager.notify:CallUpdateFunc(NEWCHESSHOME_UPDATESTATE, NewChessConst.HOME_STATUS.NORMAL)
 end
 
-function var_0_0.ShowBlock(arg_49_0)
-	arg_49_0.blockerManager_:ShowBlocker()
+function slot0.ShowBlock(slot0)
+	slot0.blockerManager_:ShowBlocker()
 end
 
-function var_0_0.CloseBlock(arg_50_0)
-	arg_50_0.blockerManager_:HideBlocker()
+function slot0.CloseBlock(slot0)
+	slot0.blockerManager_:HideBlocker()
 end
 
-function var_0_0.CreateTips(arg_51_0, arg_51_1)
-	arg_51_0.tipsManager_:CreateTips(arg_51_1)
+function slot0.CreateTips(slot0, slot1)
+	slot0.tipsManager_:CreateTips(slot1)
 end
 
-function var_0_0.AddBuff(arg_52_0, arg_52_1)
-	arg_52_0.buffManager_:AddBuff(arg_52_1)
+function slot0.AddBuff(slot0, slot1)
+	slot0.buffManager_:AddBuff(slot1)
 end
 
-function var_0_0.UpdateBuff(arg_53_0)
-	arg_53_0.buffManager_:UpdateBuff()
+function slot0.UpdateBuff(slot0)
+	slot0.buffManager_:UpdateBuff()
 end
 
-function var_0_0.RemoveBuff(arg_54_0, arg_54_1)
-	arg_54_0.buffManager_:RemoveBuff(arg_54_1)
+function slot0.RemoveBuff(slot0, slot1)
+	slot0.buffManager_:RemoveBuff(slot1)
 end
 
-function var_0_0.Dispose(arg_55_0)
+function slot0.Dispose(slot0)
 	manager.windowBar:ClearWhereTag()
 
-	arg_55_0.characterPos_ = nil
-	arg_55_0.map_ = nil
-	arg_55_0.IsExecuting_ = false
-	arg_55_0.ExecutingChess_ = nil
-	arg_55_0.isSelectEventInteracting_ = false
-	arg_55_0.selectEventInteracChess_ = nil
-	arg_55_0.curChanceID_ = 0
-	arg_55_0.curChanceItemID_ = 0
-	arg_55_0.curDiceNumList_ = {}
-	arg_55_0.curAffixList_ = {}
+	slot0.characterPos_ = nil
+	slot0.map_ = nil
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
+	slot0.isSelectEventInteracting_ = false
+	slot0.selectEventInteracChess_ = nil
+	slot0.curChanceID_ = 0
+	slot0.curChanceItemID_ = 0
+	slot0.curDiceNumList_ = {}
+	slot0.curAffixList_ = {}
 
-	arg_55_0.eventQueueManager_:Clear()
-	arg_55_0.buffManager_:Dispose()
-	arg_55_0.taskManager_:Dispose()
-	arg_55_0.globalManager_:Dispose()
-	arg_55_0:DisposeSupportModule()
+	slot0.eventQueueManager_:Clear()
+	slot0.buffManager_:Dispose()
+	slot0.taskManager_:Dispose()
+	slot0.globalManager_:Dispose()
+	slot0:DisposeSupportModule()
 end
 
-return var_0_0
+return slot0

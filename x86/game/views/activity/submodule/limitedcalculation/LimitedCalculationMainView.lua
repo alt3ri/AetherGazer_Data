@@ -1,229 +1,214 @@
-local var_0_0 = class("LimitedCalculationMainView", ReduxView)
+slot0 = class("LimitedCalculationMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return LimitedCalculationTools.GetMainUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return LimitedCalculationTools.GetMainUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.difficultyCon_ = ControllerUtil.GetController(arg_4_0.transform_, "difficulty")
+	slot0.difficultyCon_ = ControllerUtil.GetController(slot0.transform_, "difficulty")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		local var_6_0 = manager.time:GetServerTime()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		slot0 = manager.time:GetServerTime()
 
-		if arg_5_0.openState_ == 0 and var_6_0 < arg_5_0.startTime_ or var_6_0 >= arg_5_0.stopTime_ then
+		if uv0.openState_ == 0 and slot0 < uv0.startTime_ or uv0.stopTime_ <= slot0 then
 			ShowTips("ERROR_ACTIVITY_NOT_OPEN")
 
 			return
 		end
 
-		local var_6_1 = ActivityLimitCalculationCfg[arg_5_0.curDifficulty_].stage_id
-
-		arg_5_0:Go("/sectionSelectHero", {
-			section = var_6_1,
+		uv0:Go("/sectionSelectHero", {
+			section = ActivityLimitCalculationCfg[uv0.curDifficulty_].stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.LIMITED_CALCULATION,
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("limitedCalculationReward", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.difficultBtn_, nil, function()
+	slot0:AddBtnListener(slot0.difficultBtn_, nil, function ()
 		JumpTools.OpenPageByJump("limitedCalculationDifficulty", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rankBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rankBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/limitedCalculationRank", {
-			activityID = arg_5_0.rank_id
+			activityID = uv0.rank_id
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.debuffBtn_, nil, function()
+	slot0:AddBtnListener(slot0.debuffBtn_, nil, function ()
 		JumpTools.OpenPageByJump("buffDescription", {
 			type = "debuff",
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.buffBtn_, nil, function()
+	slot0:AddBtnListener(slot0.buffBtn_, nil, function ()
 		JumpTools.OpenPageByJump("buffDescription", {
 			type = "buff",
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:GetActivityData()
-	arg_12_0:RefreshUI()
-	arg_12_0:BindRedPointUI()
-	RankAction.QueryActivityRank(arg_12_0.rank_id)
+function slot0.OnEnter(slot0)
+	slot0:GetActivityData()
+	slot0:RefreshUI()
+	slot0:BindRedPointUI()
+	RankAction.QueryActivityRank(slot0.rank_id)
 
-	local var_12_0 = GuildData:GetGuildInfo()
-
-	if var_12_0 and var_12_0.id ~= nil and var_12_0.id ~= 0 then
-		RankAction.QueryGuildActivityRank(arg_12_0.rank_id)
+	if GuildData:GetGuildInfo() and slot1.id ~= nil and slot1.id ~= 0 then
+		RankAction.QueryGuildActivityRank(slot0.rank_id)
 	end
 end
 
-function var_0_0.GetRankId(arg_13_0, arg_13_1)
-	local var_13_0 = ActivityCfg[arg_13_1]
-
-	if not var_13_0 then
+function slot0.GetRankId(slot0, slot1)
+	if not ActivityCfg[slot1] then
 		return 0
 	end
 
-	for iter_13_0, iter_13_1 in ipairs(var_13_0.sub_activity_list) do
-		local var_13_1 = ActivityCfg[iter_13_1]
-
-		if var_13_1 and var_13_1.activity_template == ActivityTemplateConst.LIMITED_RANK then
-			return iter_13_1
+	for slot6, slot7 in ipairs(slot2.sub_activity_list) do
+		if ActivityCfg[slot7] and slot8.activity_template == ActivityTemplateConst.LIMITED_RANK then
+			return slot7
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.GetActivityData(arg_14_0)
-	arg_14_0.activityID_ = arg_14_0.params_.activityID
-	arg_14_0.activityData_ = ActivityData:GetActivityData(arg_14_0.activityID_)
-	arg_14_0.startTime_ = arg_14_0.activityData_.startTime
-	arg_14_0.stopTime_ = arg_14_0.activityData_.stopTime
-	arg_14_0.openState_ = arg_14_0.activityData_.state
-	arg_14_0.rank_id = arg_14_0:GetRankId(arg_14_0.activityID_)
+function slot0.GetActivityData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
+	slot0.openState_ = slot0.activityData_.state
+	slot0.rank_id = slot0:GetRankId(slot0.activityID_)
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	arg_15_0:RefreshDifficultDes()
-	arg_15_0:RefreshLock()
-	arg_15_0:RefreshScore()
-	arg_15_0:RefreshTime()
-	arg_15_0:RefreshRank()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshDifficultDes()
+	slot0:RefreshLock()
+	slot0:RefreshScore()
+	slot0:RefreshTime()
+	slot0:RefreshRank()
 end
 
-function var_0_0.RefreshDifficultDes(arg_16_0)
-	arg_16_0.curDifficulty_ = LimitedCalculationData:GetCurDifficulty(arg_16_0.activityID_)
+function slot0.RefreshDifficultDes(slot0)
+	slot0.curDifficulty_ = LimitedCalculationData:GetCurDifficulty(slot0.activityID_)
+	slot1 = ActivityLimitCalculationCfg[slot0.curDifficulty_]
+	slot0.debuffLv_ = slot1.enemy_level
+	slot0.buffLv_ = slot1.player_level
+	slot0.oddsDes_.text = string.format(GetTips("ACTIVITY_LIMIT_CALCULATION_POINT_RANK"), slot1.reward_point / 100)
+	slot0.debuffDes_.text = slot0.debuffLv_
+	slot0.buffDes_.text = slot0.buffLv_
 
-	local var_16_0 = ActivityLimitCalculationCfg[arg_16_0.curDifficulty_]
-
-	arg_16_0.debuffLv_ = var_16_0.enemy_level
-	arg_16_0.buffLv_ = var_16_0.player_level
-	arg_16_0.oddsDes_.text = string.format(GetTips("ACTIVITY_LIMIT_CALCULATION_POINT_RANK"), var_16_0.reward_point / 100)
-	arg_16_0.debuffDes_.text = arg_16_0.debuffLv_
-	arg_16_0.buffDes_.text = arg_16_0.buffLv_
-
-	arg_16_0.difficultyCon_:SetSelectedState(var_16_0.difficulty)
+	slot0.difficultyCon_:SetSelectedState(slot1.difficulty)
 end
 
-function var_0_0.RefreshLock(arg_17_0)
-	SetActive(arg_17_0.debuffLock_, arg_17_0.debuffLv_ <= 0)
-	SetActive(arg_17_0.buffLock_, arg_17_0.buffLv_ <= 0)
+function slot0.RefreshLock(slot0)
+	SetActive(slot0.debuffLock_, slot0.debuffLv_ <= 0)
+	SetActive(slot0.buffLock_, slot0.buffLv_ <= 0)
 end
 
-function var_0_0.RefreshScore(arg_18_0)
-	local var_18_0 = LimitedCalculationData:GetScore(arg_18_0.activityID_)
-
-	arg_18_0.score_.text = var_18_0 > 0 and var_18_0 or GetTips("MATRIX_RANK_NO_INFO")
+function slot0.RefreshScore(slot0)
+	slot0.score_.text = LimitedCalculationData:GetScore(slot0.activityID_) > 0 and slot1 or GetTips("MATRIX_RANK_NO_INFO")
 end
 
-function var_0_0.RefreshTime(arg_19_0)
-	local var_19_0
-	local var_19_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_19_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_19_1 < arg_19_0.startTime_ and arg_19_0.openState_ == 0 then
-		arg_19_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_19_0.timer_ = Timer.New(function()
-			var_19_0 = arg_19_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ and slot0.openState_ == 0 then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_19_0 <= 0 then
-				arg_19_0:StopTimer()
-				arg_19_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_19_0.timer_:Start()
-	elseif var_19_1 >= arg_19_0.startTime_ and arg_19_0.openState_ == 0 then
-		arg_19_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_19_0.timer_ = Timer.New(function()
-			arg_19_0:StopTimer()
-			arg_19_0:RefreshTime()
+		slot0.timer_:Start()
+	elseif slot0.startTime_ <= slot2 and slot0.openState_ == 0 then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0:StopTimer()
+			uv0:RefreshTime()
 		end, 10, 1)
 
-		arg_19_0.timer_:Start()
-	elseif var_19_1 < arg_19_0.stopTime_ then
-		arg_19_0.timeTxt_.text = manager.time:GetLostTimeStr2(arg_19_0.stopTime_, nil, true)
-		arg_19_0.timer_ = Timer.New(function()
-			var_19_0 = arg_19_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timeTxt_.text = manager.time:GetLostTimeStr2(slot0.stopTime_, nil, true)
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			if var_19_0 <= 0 then
-				arg_19_0:StopTimer()
-				arg_19_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 
-			arg_19_0.timeTxt_.text = manager.time:GetLostTimeStr2(arg_19_0.stopTime_, nil, true)
+			uv1.timeTxt_.text = manager.time:GetLostTimeStr2(uv1.stopTime_, nil, true)
 		end, 1, -1)
 
-		arg_19_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_19_0.timeTxt_.text = GetTips("TIME_OVER")
+		slot0.timeTxt_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.RefreshRank(arg_23_0)
-	SetActive(arg_23_0.rankBtn_.gameObject, ActivityData:GetActivityIsOpen(arg_23_0.rank_id))
+function slot0.RefreshRank(slot0)
+	SetActive(slot0.rankBtn_.gameObject, ActivityData:GetActivityIsOpen(slot0.rank_id))
 end
 
-function var_0_0.StopTimer(arg_24_0)
-	if arg_24_0.timer_ then
-		arg_24_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_24_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.BindRedPointUI(arg_25_0)
-	LimitedCalculationData:SetIsNeed(arg_25_0.activityID_, false)
-	manager.redPoint:bindUIandKey(arg_25_0.rewardBtn_.transform, RedPointConst.LIMITED_CALCULATION_REWARD .. arg_25_0.activityID_)
+function slot0.BindRedPointUI(slot0)
+	LimitedCalculationData:SetIsNeed(slot0.activityID_, false)
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, RedPointConst.LIMITED_CALCULATION_REWARD .. slot0.activityID_)
 end
 
-function var_0_0.UnBindRedPointUI(arg_26_0)
-	manager.redPoint:unbindUIandKey(arg_26_0.rewardBtn_.transform, RedPointConst.LIMITED_CALCULATION_REWARD .. arg_26_0.activityID_)
+function slot0.UnBindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, RedPointConst.LIMITED_CALCULATION_REWARD .. slot0.activityID_)
 end
 
-function var_0_0.OnLimitedDifficultyChange(arg_27_0)
-	arg_27_0:RefreshDifficultDes()
-	arg_27_0:RefreshLock()
+function slot0.OnLimitedDifficultyChange(slot0)
+	slot0:RefreshDifficultDes()
+	slot0:RefreshLock()
 end
 
-function var_0_0.OnTop(arg_28_0)
-	local var_28_0 = LimitedCalculationTools.GetGameHelpKey(arg_28_0.activityID_)
-
-	if var_28_0 ~= "" then
+function slot0.OnTop(slot0)
+	if LimitedCalculationTools.GetGameHelpKey(slot0.activityID_) ~= "" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR
 		})
-		manager.windowBar:SetGameHelpKey(var_28_0)
+		manager.windowBar:SetGameHelpKey(slot1)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -232,16 +217,16 @@ function var_0_0.OnTop(arg_28_0)
 	end
 end
 
-function var_0_0.OnExit(arg_29_0)
-	arg_29_0:StopTimer()
-	arg_29_0:UnBindRedPointUI()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:UnBindRedPointUI()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_30_0)
-	arg_30_0:RemoveAllListeners()
-	arg_30_0:StopTimer()
-	var_0_0.super.Dispose(arg_30_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

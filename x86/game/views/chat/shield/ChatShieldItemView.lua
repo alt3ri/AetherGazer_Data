@@ -1,95 +1,89 @@
-local var_0_0 = class("ChatShieldItemView", ReduxView)
+slot0 = class("ChatShieldItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = arg_1_0:FindGo("ScrollView/Viewport/Content", arg_1_1.transform).transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot0:FindGo("ScrollView/Viewport/Content/wordItem", slot1.transform), slot0:FindGo("ScrollView/Viewport/Content", slot1.transform).transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_0:FindGo("ScrollView/Viewport/Content/wordItem", arg_1_1.transform), var_1_0)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:SetViewProp("itemIndex", arg_1_2)
-	arg_1_0:CreateSelector()
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:SetViewProp("itemIndex", slot2)
+	slot0:CreateSelector()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.itemModel_ = arg_2_0.selector_.compute(gameStore.getState(), arg_2_0:GetViewProp("itemIndex"))
+	slot0.itemModel_ = slot0.selector_.compute(gameStore.getState(), slot0:GetViewProp("itemIndex"))
 
-	arg_2_0:RefreshItem(arg_2_0.itemModel_.word)
+	slot0:RefreshItem(slot0.itemModel_.word)
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	arg_3_0.unsubscribeFun = gameStore.subscribe(function(arg_4_0)
-		arg_3_0:OnSubscribe()
+function slot0.OnEnter(slot0)
+	slot0.unsubscribeFun = gameStore.subscribe(function (slot0)
+		uv0:OnSubscribe()
 	end)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	arg_5_0.unsubscribeFun()
+function slot0.OnExit(slot0)
+	slot0.unsubscribeFun()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0:RemoveListeners()
-	Object.Destroy(arg_6_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_6_0.gameObject_ = nil
-	arg_6_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_7_0)
-	arg_7_0.closeBtn_ = arg_7_0:FindCom(typeof(Button), "closeBtn")
-	arg_7_0.context_ = arg_7_0:FindCom(typeof(Text), "Text")
+function slot0.InitUI(slot0)
+	slot0.closeBtn_ = slot0:FindCom(typeof(Button), "closeBtn")
+	slot0.context_ = slot0:FindCom(typeof(Text), "Text")
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.closeBtn_, nil, function()
-		local var_9_0 = arg_8_0.itemModel_.word
-
-		ActionCreators.DeleteShieldWord(var_9_0):next(function(arg_10_0)
-			if arg_10_0.result == 0 then
-				ActionCreators.DeleteShieldWordSuccess(arg_8_0:GetViewProp("itemIndex"))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		ActionCreators.DeleteShieldWord(uv0.itemModel_.word):next(function (slot0)
+			if slot0.result == 0 then
+				ActionCreators.DeleteShieldWordSuccess(uv0:GetViewProp("itemIndex"))
 			else
-				ShowTips(arg_10_0.result)
+				ShowTips(slot0.result)
 			end
-		end, function(arg_11_0)
-			print(arg_11_0)
+		end, function (slot0)
+			print(slot0)
 		end)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_12_0)
-	arg_12_0.closeBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.closeBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.CreateSelector(arg_13_0)
-	arg_13_0.selector_ = createStructuredSelector({
-		word = function(arg_14_0, arg_14_1)
-			return arg_14_0.chat.shieldWordList[arg_14_1]
+function slot0.CreateSelector(slot0)
+	slot0.selector_ = createStructuredSelector({
+		word = function (slot0, slot1)
+			return slot0.chat.shieldWordList[slot1]
 		end
 	})
 end
 
-function var_0_0.OnSubscribe(arg_15_0)
-	local var_15_0 = arg_15_0.selector_.compute(gameStore.getState(), arg_15_0:GetViewProp("itemIndex"))
+function slot0.OnSubscribe(slot0)
+	if slot0.selector_.compute(gameStore.getState(), slot0:GetViewProp("itemIndex")).word ~= slot0.itemModel_.word then
+		slot0.itemModel_.word = slot1.word
 
-	if var_15_0.word ~= arg_15_0.itemModel_.word then
-		arg_15_0.itemModel_.word = var_15_0.word
-
-		arg_15_0:RefreshItem(arg_15_0.itemModel_.word)
+		slot0:RefreshItem(slot0.itemModel_.word)
 	end
 end
 
-function var_0_0.RefreshItem(arg_16_0, arg_16_1)
-	if arg_16_1 == nil then
+function slot0.RefreshItem(slot0, slot1)
+	if slot1 == nil then
 		return
 	end
 
-	arg_16_0.context_.text = shortenString(arg_16_1, 15)
+	slot0.context_.text = shortenString(slot1, 15)
 end
 
-return var_0_0
+return slot0

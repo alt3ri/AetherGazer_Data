@@ -1,169 +1,161 @@
-local var_0_0 = class("HanafudaCardView", ReduxView)
+slot0 = class("HanafudaCardView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	if arg_3_0.btn_ then
-		arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-			local var_4_0 = HanafudaData:GetGameState()
+function slot0.AddUIListener(slot0)
+	if slot0.btn_ then
+		slot0:AddBtnListener(slot0.btn_, nil, function ()
+			slot0 = HanafudaData:GetGameState()
 
-			if arg_3_0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.COLLECTION then
-				if arg_3_0.clickPlayerCallBack then
-					arg_3_0:clickPlayerCallBack()
+			if uv0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.COLLECTION then
+				if uv0.clickPlayerCallBack then
+					uv0:clickPlayerCallBack()
 				end
-			elseif var_4_0 == HanafudaData.GAME_STATE.PLAYER_TURN then
-				if arg_3_0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.PLAYER then
-					if arg_3_0.clickPlayerCallBack then
-						arg_3_0:clickPlayerCallBack()
+			elseif slot0 == HanafudaData.GAME_STATE.PLAYER_TURN then
+				if uv0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.PLAYER then
+					if uv0.clickPlayerCallBack then
+						uv0:clickPlayerCallBack()
 					end
-				elseif arg_3_0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.PLACE and arg_3_0.clickPlaceCallBack then
-					arg_3_0:clickPlaceCallBack()
+				elseif uv0.data_.placeType == HanafudaData.CARD_PLACE_TYPE.PLACE and uv0.clickPlaceCallBack then
+					uv0:clickPlaceCallBack()
 				end
 			end
 		end)
 	end
 
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.faceUpController_ = ControllerUtil.GetController(arg_3_0.transform_, "faceup")
-	arg_3_0.hasCardController_ = ControllerUtil.GetController(arg_3_0.transform_, "hasCard")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.faceUpController_ = ControllerUtil.GetController(slot0.transform_, "faceup")
+	slot0.hasCardController_ = ControllerUtil.GetController(slot0.transform_, "hasCard")
 end
 
-function var_0_0.SetPlayerClickCallBack(arg_5_0, arg_5_1)
-	arg_5_0.clickPlayerCallBack = arg_5_1
+function slot0.SetPlayerClickCallBack(slot0, slot1)
+	slot0.clickPlayerCallBack = slot1
 end
 
-function var_0_0.SetPlaceClickCallBack(arg_6_0, arg_6_1)
-	arg_6_0.clickPlaceCallBack = arg_6_1
+function slot0.SetPlaceClickCallBack(slot0, slot1)
+	slot0.clickPlaceCallBack = slot1
 end
 
-function var_0_0.SetFlipCallBack(arg_7_0, arg_7_1)
-	arg_7_0.flipCallBack = arg_7_1
+function slot0.SetFlipCallBack(slot0, slot1)
+	slot0.flipCallBack = slot1
 end
 
-function var_0_0.PlayFlipCardAni(arg_8_0)
-	if arg_8_0.isFlipping then
+function slot0.PlayFlipCardAni(slot0)
+	if slot0.isFlipping then
 		return
 	end
 
-	arg_8_0.isFlipping = true
-	arg_8_0.rotateLeanTween_ = LeanTween.rotateAroundLocal(arg_8_0.gameObject_, Vector3.up, -180, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_8_0.flipCallBack then
-			arg_8_0.flipCallBack()
+	slot0.isFlipping = true
+	slot0.rotateLeanTween_ = LeanTween.rotateAroundLocal(slot0.gameObject_, Vector3.up, -180, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0.flipCallBack then
+			uv0.flipCallBack()
 		end
 
-		arg_8_0.isFlipping = false
+		uv0.isFlipping = false
 
-		arg_8_0:RefreshUI()
+		uv0:RefreshUI()
 	end))
-	arg_8_0.timer_ = Timer.New(function()
-		arg_8_0:RefreshUI()
+	slot0.timer_ = Timer.New(function ()
+		uv0:RefreshUI()
 	end, 0.25, 2, true)
 
-	arg_8_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.FlipToFaceUp(arg_11_0)
-	arg_11_0.gameObject_.transform.localEulerAngles = Vector3(0, 0, 0)
+function slot0.FlipToFaceUp(slot0)
+	slot0.gameObject_.transform.localEulerAngles = Vector3(0, 0, 0)
 
-	arg_11_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.FlipToBackUp(arg_12_0)
-	arg_12_0.gameObject_.transform.localEulerAngles = Vector3(0, 180, 0)
+function slot0.FlipToBackUp(slot0)
+	slot0.gameObject_.transform.localEulerAngles = Vector3(0, 180, 0)
 
-	arg_12_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetData(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	arg_13_0.index_ = arg_13_1
-	arg_13_0.data_ = arg_13_2
-	arg_13_0.hasCard_ = arg_13_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
+	slot0.hasCard_ = slot3
 
-	if arg_13_0.hasCardController_ then
-		arg_13_0.hasCardController_:SetSelectedState(tostring(arg_13_0.hasCard_))
+	if slot0.hasCardController_ then
+		slot0.hasCardController_:SetSelectedState(tostring(slot0.hasCard_))
 	end
 
-	local var_13_0 = string.format("icon_group_%d_c", arg_13_0.data_.race)
-	local var_13_1 = KagutsuchiFishingEventData:GetRarity(arg_13_0.data_.id).order
+	slot0.nameText_.text = RareFishCfg[slot0.data_.desc].name
+	slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. slot0.data_.id)
+	slot0.rarityImg_.sprite = getSprite("Atlas/Common", "star_" .. KagutsuchiFishingEventData:GetRarity(slot0.data_.id).order)
+	slot0.raceImg_.sprite = getSprite("Atlas/CampItemAtlas", string.format("icon_group_%d_c", slot0.data_.race))
 
-	arg_13_0.nameText_.text = RareFishCfg[arg_13_0.data_.desc].name
-	arg_13_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. arg_13_0.data_.id)
-	arg_13_0.rarityImg_.sprite = getSprite("Atlas/Common", "star_" .. var_13_1)
-	arg_13_0.raceImg_.sprite = getSprite("Atlas/CampItemAtlas", var_13_0)
-
-	arg_13_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_14_0, arg_14_1, arg_14_2, arg_14_3)
-	arg_14_0.isFaceUp_ = arg_14_0.gameObject_.transform.localEulerAngles.y < 90
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.isFaceUp_ = slot0.gameObject_.transform.localEulerAngles.y < 90
 
-	if arg_14_0.isFaceUp_ then
-		arg_14_0.faceUpController_:SetSelectedState("yes")
+	if slot0.isFaceUp_ then
+		slot0.faceUpController_:SetSelectedState("yes")
 	else
-		arg_14_0.faceUpController_:SetSelectedState("no")
+		slot0.faceUpController_:SetSelectedState("no")
 	end
 
-	if arg_14_0.selectController_ then
-		if arg_14_0.index_ == arg_14_1 then
-			if not arg_14_2 then
-				arg_14_0.selectController_:SetSelectedState("selected")
+	if slot0.selectController_ then
+		if slot0.index_ == slot1 then
+			if not slot2 then
+				slot0.selectController_:SetSelectedState("selected")
 			else
-				arg_14_0.selectController_:SetSelectedState("canselect")
+				slot0.selectController_:SetSelectedState("canselect")
 			end
 		else
-			arg_14_0.selectController_:SetSelectedState("unselected")
+			slot0.selectController_:SetSelectedState("unselected")
 		end
 	end
 
-	local var_14_0 = HanafudaData:GetGameState()
-
-	if arg_14_0.pointText_ then
-		if arg_14_0.index_ == arg_14_1 and arg_14_2 and var_14_0 == HanafudaData.GAME_STATE.PLAYER_TURN then
-			local var_14_1 = HanafudaData:GetNewCombineList(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE, {
-				arg_14_1,
-				arg_14_3
-			}, false)
-			local var_14_2 = 0
-
-			for iter_14_0, iter_14_1 in ipairs(var_14_1) do
-				var_14_2 = var_14_2 + HanafudaCardCombineCfg[iter_14_1].score
+	if slot0.pointText_ then
+		if slot0.index_ == slot1 and slot2 and HanafudaData:GetGameState() == HanafudaData.GAME_STATE.PLAYER_TURN then
+			for slot10, slot11 in ipairs(HanafudaData:GetNewCombineList(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE, {
+				slot1,
+				slot3
+			}, false)) do
+				slot6 = 0 + HanafudaCardCombineCfg[slot11].score
 			end
 
-			arg_14_0.pointText_.text = "+" .. var_14_2
+			slot0.pointText_.text = "+" .. slot6
 
-			SetActive(arg_14_0.pointText_.gameObject, var_14_2 ~= 0)
+			SetActive(slot0.pointText_.gameObject, slot6 ~= 0)
 		else
-			SetActive(arg_14_0.pointText_.gameObject, false)
+			SetActive(slot0.pointText_.gameObject, false)
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_15_0)
-	if arg_15_0.timer_ then
-		arg_15_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_15_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_16_0.timer_ then
-		arg_16_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_16_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

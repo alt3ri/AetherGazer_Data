@@ -1,211 +1,178 @@
-local var_0_0 = singletonClass("ActivityAffixSelectData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
+slot0 = singletonClass("ActivityAffixSelectData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 end
 
-function var_0_0.OnPushMainActivityData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-	local var_2_1 = {}
+function slot0.OnPushMainActivityData(slot0, slot1)
+	slot2 = slot1.activity_id
+	slot3 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.got_reward_list) do
-		table.insert(var_2_1, iter_2_1)
+	for slot7, slot8 in ipairs(slot1.got_reward_list) do
+		table.insert(slot3, slot8)
 	end
 
-	var_0_1[var_2_0] = {
-		got_reward_list = var_2_1
+	uv0[slot2] = {
+		got_reward_list = slot3
 	}
 
 	manager.notify:Invoke(AFFIX_SELECT_MAIN_ACTIVITY_UPDATE, {})
 end
 
-function var_0_0.OnPushSubActivityData(arg_3_0, arg_3_1)
-	local var_3_0 = {
-		activityId = arg_3_1.activity_id,
-		clearState = arg_3_1.first_clear_reward_apply_state,
+function slot0.OnPushSubActivityData(slot0, slot1)
+	slot2 = {
+		activityId = slot1.activity_id,
+		clearState = slot1.first_clear_reward_apply_state,
 		affixList = {},
-		point = arg_3_1.point
+		point = slot1.point
 	}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.custom_affix_list) do
-		table.insert(var_3_0.affixList, iter_3_1)
+	for slot6, slot7 in ipairs(slot1.custom_affix_list) do
+		table.insert(slot2.affixList, slot7)
 	end
 
-	var_0_2[arg_3_1.activity_id] = var_3_0
+	uv0[slot1.activity_id] = slot2
 
 	manager.notify:Invoke(AFFIX_SELECT_SUB_ACTIVITY_UPDATE, {})
 end
 
-function var_0_0.GetClearState(arg_4_0, arg_4_1)
-	local var_4_0 = var_0_2[arg_4_1]
-
-	if not var_4_0 then
+function slot0.GetClearState(slot0, slot1)
+	if not uv0[slot1] then
 		error("找不到对应的活动，未开启")
 
 		return 0
 	end
 
-	return var_4_0.clearState
+	return slot2.clearState
 end
 
-function var_0_0.HaveGotScoreReward(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = var_0_1[arg_5_1] and var_0_1[arg_5_1].got_reward_list or {}
-
-	if not table.indexof(var_5_0, arg_5_2) then
+function slot0.HaveGotScoreReward(slot0, slot1, slot2)
+	if not table.indexof(uv0[slot1] and uv0[slot1].got_reward_list or {}, slot2) then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.OnGetFirstBonus(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_2[arg_6_1]
-
-	if not var_6_0 then
+function slot0.OnGetFirstBonus(slot0, slot1)
+	if not uv0[slot1] then
 		error("找不到对应的活动，未开启")
 	end
 
-	var_6_0.clearState = 3
+	slot2.clearState = 3
 
-	manager.notify:Invoke(AFFIX_SELECT_FIRST_BONUS_UPDATE, arg_6_1)
+	manager.notify:Invoke(AFFIX_SELECT_FIRST_BONUS_UPDATE, slot1)
 end
 
-function var_0_0.OnSetAffix(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = var_0_2[arg_7_1]
-
-	if not var_7_0 then
+function slot0.OnSetAffix(slot0, slot1, slot2)
+	if not uv0[slot1] then
 		error("找不到对应的活动，未开启")
 	end
 
-	var_7_0.affixList = arg_7_2
+	slot3.affixList = slot2
 
-	manager.notify:Invoke(AFFIX_SELECT_CUSTOM_AFFIX_UPDATE, arg_7_1)
+	manager.notify:Invoke(AFFIX_SELECT_CUSTOM_AFFIX_UPDATE, slot1)
 end
 
-function var_0_0.GetSubActivityData(arg_8_0, arg_8_1)
-	return var_0_2[arg_8_1]
+function slot0.GetSubActivityData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetOpenedSubActivityDatas(arg_9_0, arg_9_1)
-	local var_9_0 = {}
-	local var_9_1 = ActivityCfg[arg_9_1]
+function slot0.GetOpenedSubActivityDatas(slot0, slot1)
+	slot2 = {}
 
-	for iter_9_0, iter_9_1 in ipairs(var_9_1.sub_activity_list) do
-		table.insert(var_9_0, var_0_2[iter_9_1])
+	for slot7, slot8 in ipairs(ActivityCfg[slot1].sub_activity_list) do
+		table.insert(slot2, uv0[slot8])
 	end
 
-	return var_9_0
+	return slot2
 end
 
-function var_0_0.GetGodRewardList(arg_10_0, arg_10_1)
-	return var_0_1[arg_10_1] and var_0_1[arg_10_1].got_reward_list or {}
+function slot0.GetGodRewardList(slot0, slot1)
+	return uv0[slot1] and uv0[slot1].got_reward_list or {}
 end
 
-function var_0_0.GetCurrentActivityReward(arg_11_0, arg_11_1)
-	local var_11_0 = ActivityPointRewardCfg.get_id_list_by_activity_id[arg_11_1]
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		local var_11_1 = arg_11_0:GetRewardStatus(arg_11_1, iter_11_1)
-
-		if var_11_1 == 1 or var_11_1 == 2 then
-			return iter_11_1
+function slot0.GetCurrentActivityReward(slot0, slot1)
+	for slot6, slot7 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot1]) do
+		if slot0:GetRewardStatus(slot1, slot7) == 1 or slot8 == 2 then
+			return slot7
 		end
 	end
 
-	return var_11_0[#var_11_0]
+	return slot2[#slot2]
 end
 
-function var_0_0.ScoreRewardGetCount(arg_12_0, arg_12_1)
-	return #(var_0_1[arg_12_1] and var_0_1[arg_12_1].got_reward_list or {})
+function slot0.ScoreRewardGetCount(slot0, slot1)
+	return #(uv0[slot1] and uv0[slot1].got_reward_list or {})
 end
 
-function var_0_0.GetTotalScore(arg_13_0, arg_13_1)
-	local var_13_0 = 0
-	local var_13_1 = ActivityCfg[arg_13_1]
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_1.sub_activity_list) do
-		if var_0_2[iter_13_1] then
-			var_13_0 = var_13_0 + var_0_2[iter_13_1].point
+function slot0.GetTotalScore(slot0, slot1)
+	for slot7, slot8 in ipairs(ActivityCfg[slot1].sub_activity_list) do
+		if uv0[slot8] then
+			slot2 = 0 + uv0[slot8].point
 		end
 	end
 
-	return var_13_0
+	return slot2
 end
 
-function var_0_0.GetLevelScore(arg_14_0, arg_14_1)
-	local var_14_0 = ActivityAffixSelectCfg[arg_14_1].base_point
-	local var_14_1 = var_0_2[arg_14_1]
-
-	for iter_14_0, iter_14_1 in ipairs(var_14_1.affixList) do
-		var_14_0 = var_14_0 + ActivityAffixPoolCfg[iter_14_1].point
+function slot0.GetLevelScore(slot0, slot1)
+	for slot8, slot9 in ipairs(uv0[slot1].affixList) do
+		slot3 = ActivityAffixSelectCfg[slot1].base_point + ActivityAffixPoolCfg[slot9].point
 	end
 
-	return var_14_0
+	return slot3
 end
 
-function var_0_0.GetRewardStatus(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = false
-	local var_15_1 = var_0_1[arg_15_1] and var_0_1[arg_15_1].got_reward_list or {}
+function slot0.GetRewardStatus(slot0, slot1, slot2)
+	slot3 = false
 
-	if table.indexof(var_15_1, arg_15_2) then
-		var_15_0 = true
+	if table.indexof(uv0[slot1] and uv0[slot1].got_reward_list or {}, slot2) then
+		slot3 = true
 	end
 
-	if var_15_0 then
+	if slot3 then
 		return 0
 	end
 
-	local var_15_2 = ActivityPointRewardCfg[arg_15_2]
-
-	if arg_15_0:GetTotalScore(arg_15_1) >= var_15_2.need then
+	if ActivityPointRewardCfg[slot2].need <= slot0:GetTotalScore(slot1) then
 		return 2
 	end
 
 	return 1
 end
 
-function var_0_0.OnScoreRewardGet(arg_16_0, arg_16_1)
-	for iter_16_0, iter_16_1 in ipairs(arg_16_1) do
-		local var_16_0 = ActivityPointRewardCfg[iter_16_1].activity_id
-
-		if var_0_1[var_16_0] and not table.indexof(var_0_1[var_16_0].got_reward_list, iter_16_1) then
-			table.insert(var_0_1[var_16_0].got_reward_list, iter_16_1)
+function slot0.OnScoreRewardGet(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if uv0[ActivityPointRewardCfg[slot6].activity_id] and not table.indexof(uv0[slot8].got_reward_list, slot6) then
+			table.insert(uv0[slot8].got_reward_list, slot6)
 		end
 	end
 end
 
-function var_0_0.GetAffix(arg_17_0, arg_17_1)
-	local var_17_0 = ActivityAffixSelectCfg[arg_17_1].boss_affix
-	local var_17_1 = {}
+function slot0.GetAffix(slot0, slot1)
+	table.insert({}, ActivityAffixSelectCfg[slot1].boss_affix)
 
-	table.insert(var_17_1, var_17_0)
-
-	local var_17_2 = var_0_2[arg_17_1]
-
-	if var_17_2 then
-		local var_17_3 = var_17_2.affixList
-
-		for iter_17_0, iter_17_1 in ipairs(var_17_3) do
-			local var_17_4 = ActivityAffixPoolCfg[iter_17_1]
-
-			table.insert(var_17_1, var_17_4.affix)
+	if uv0[slot1] then
+		for slot10, slot11 in ipairs(slot5.affixList) do
+			table.insert(slot4, ActivityAffixPoolCfg[slot11].affix)
 		end
 	end
 
-	return var_17_1
+	return slot4
 end
 
-function var_0_0.ReadInnerRedPoint(arg_18_0, arg_18_1)
-	var_0_3[arg_18_1] = true
+function slot0.ReadInnerRedPoint(slot0, slot1)
+	uv0[slot1] = true
 end
 
-function var_0_0.HaveReadInnerPoint(arg_19_0, arg_19_1)
-	return var_0_3[arg_19_1] ~= nil
+function slot0.HaveReadInnerPoint(slot0, slot1)
+	return uv0[slot1] ~= nil
 end
 
-return var_0_0
+return slot0

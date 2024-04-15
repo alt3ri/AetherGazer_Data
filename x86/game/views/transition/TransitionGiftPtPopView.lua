@@ -1,293 +1,275 @@
-local var_0_0 = class("TransitionGiftPtPopView", ReduxView)
+slot0 = class("TransitionGiftPtPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_jumps/HeroJumpsUpPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.tryToImproveTransitionGiftPtHandler_ = handler(arg_4_0, arg_4_0.OnTryToImproveTransitionGiftPt)
-	arg_4_0.icon_.sprite = ItemTools.getItemLittleSprite(CurrencyIdMapCfg.CURRENCY_TYPE_GOLD.item_id)
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, CommonItemView)
+	slot0.tryToImproveTransitionGiftPtHandler_ = handler(slot0, slot0.OnTryToImproveTransitionGiftPt)
+	slot0.icon_.sprite = ItemTools.getItemLittleSprite(CurrencyIdMapCfg.CURRENCY_TYPE_GOLD.item_id)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, CommonItemView)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.cost_[arg_5_1]
-	local var_5_1 = ""
-	local var_5_2 = ItemTools.getItemNum(var_5_0.id)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.cost_[slot1]
+	slot4 = ""
 
-	function var_5_0.clickFun()
+	function slot3.clickFun()
 		ShowPopItem(POP_SOURCE_ITEM, {
-			var_5_0.id,
-			var_5_0._num
+			uv0.id,
+			uv0._num
 		})
 	end
 
-	var_5_0.bottomText = {
-		var_5_2,
-		var_5_0._num
+	slot3.bottomText = {
+		ItemTools.getItemNum(slot3.id),
+		slot3._num
 	}
-	var_5_0.animatorType = ItemConst.ITEM_ANIMATOR_TYPE.NULL
+	slot3.animatorType = ItemConst.ITEM_ANIMATOR_TYPE.NULL
 
-	arg_5_2:SetData(var_5_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.btn_, nil, function()
-		if arg_7_0.addLevel_ == 1 then
-			for iter_8_0, iter_8_1 in ipairs(arg_7_0.cost_) do
-				local var_8_0 = iter_8_1.id
-				local var_8_1 = iter_8_1._num
-
-				if var_8_1 > ItemTools.getItemNum(var_8_0) then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.addLevel_ == 1 then
+			for slot3, slot4 in ipairs(uv0.cost_) do
+				if ItemTools.getItemNum(slot4.id) < slot4._num then
 					ShowPopItem(POP_SOURCE_ITEM, {
-						var_8_0,
-						var_8_1
+						slot5,
+						slot6
 					})
 
 					return
 				end
 			end
 
-			if not checkGold(arg_7_0.goldNeed_) then
+			if not checkGold(uv0.goldNeed_) then
 				return
 			end
 		end
 
-		local var_8_2 = {
+		table.insertto({
 			{
 				id = CurrencyIdMapCfg.CURRENCY_TYPE_GOLD.item_id,
-				number = arg_7_0.goldNeed_
+				number = uv0.goldNeed_
 			}
-		}
-
-		table.insertto(var_8_2, arg_7_0.cost_)
+		}, uv0.cost_)
 
 		if not _G.SkipTip.TransitionGiftPtImproveTip then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("EXCLUSIVE_SKILL_POINT_UP_CONFIRMATION"),
-				OkCallback = function()
-					_G.SkipTip.TransitionGiftPtImproveTip = arg_7_0.TransitionGiftPtImproveTip_
+				OkCallback = function ()
+					_G.SkipTip.TransitionGiftPtImproveTip = uv0.TransitionGiftPtImproveTip_
 
-					HeroAction.TryToImproveTransitionGiftPt(arg_7_0.params_.heroID, arg_7_0.params_.index, arg_7_0.addLevel_, var_8_2)
-					arg_7_0:Back()
+					HeroAction.TryToImproveTransitionGiftPt(uv0.params_.heroID, uv0.params_.index, uv0.addLevel_, uv1)
+					uv0:Back()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end,
-				ToggleCallback = function(arg_11_0)
-					arg_7_0.TransitionGiftPtImproveTip_ = arg_11_0
+				ToggleCallback = function (slot0)
+					uv0.TransitionGiftPtImproveTip_ = slot0
 				end
 			})
 
 			return
 		end
 
-		HeroAction.TryToImproveTransitionGiftPt(arg_7_0.params_.heroID, arg_7_0.params_.index, arg_7_0.addLevel_, var_8_2)
-		arg_7_0:Back()
+		HeroAction.TryToImproveTransitionGiftPt(uv0.params_.heroID, uv0.params_.index, uv0.addLevel_, slot0)
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.delBtn_, nil, function()
-		arg_7_0.addLevel_ = arg_7_0.addLevel_ - 1
+	slot0:AddBtnListener(slot0.delBtn_, nil, function ()
+		uv0.addLevel_ = uv0.addLevel_ - 1
 
-		arg_7_0:RefreshUI()
+		uv0:RefreshUI()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.addBtn_, nil, function()
-		arg_7_0.addLevel_ = arg_7_0.addLevel_ + 1
+	slot0:AddBtnListener(slot0.addBtn_, nil, function ()
+		uv0.addLevel_ = uv0.addLevel_ + 1
 
-		arg_7_0:RefreshUI()
+		uv0:RefreshUI()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.maskBtn_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0.slider_.onValueChanged:AddListener(function(arg_15_0)
-		arg_7_0:OnSliderValueChanged(arg_15_0)
+	slot0.slider_.onValueChanged:AddListener(function (slot0)
+		uv0:OnSliderValueChanged(slot0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_16_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SetAsLastSibling()
 	manager.windowBar:SwitchBar({
 		CurrencyConst.CURRENCY_TYPE_GOLD
 	})
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 
-	arg_16_0.curLevel_ = arg_16_0.params_.giftPt
-	arg_16_0.addLevel_ = arg_16_0.params_.isEnter and 1 or arg_16_0.params_.addLevel
-	arg_16_0.maxLevel_ = arg_16_0:GetMaxLevel()
-	arg_16_0.maxLevel_ = arg_16_0.maxLevel_ < arg_16_0.curLevel_ + 1 and arg_16_0.curLevel_ + 1 or arg_16_0.maxLevel_
+	slot0.curLevel_ = slot0.params_.giftPt
+	slot0.addLevel_ = slot0.params_.isEnter and 1 or slot0.params_.addLevel
+	slot0.maxLevel_ = slot0:GetMaxLevel()
+	slot0.maxLevel_ = slot0.maxLevel_ < slot0.curLevel_ + 1 and slot0.curLevel_ + 1 or slot0.maxLevel_
 
-	arg_16_0:RegistEventListener(CURRENCY_UPDATE, handler(arg_16_0, arg_16_0.OnGoldChange))
-	arg_16_0:RefreshUI()
+	slot0:RegistEventListener(CURRENCY_UPDATE, handler(slot0, slot0.OnGoldChange))
+	slot0:RefreshUI()
 end
 
-function var_0_0.GetMaxLevel(arg_17_0)
-	local var_17_0 = GameSetting.exclusive_skill_talent_strengthen_cost.value
-	local var_17_1 = arg_17_0.curLevel_ + 1
-	local var_17_2 = {}
+function slot0.GetMaxLevel(slot0)
+	slot1 = GameSetting.exclusive_skill_talent_strengthen_cost.value
+	slot3 = {}
 
-	for iter_17_0 = var_17_1, GameSetting.exclusive_skill_talent_num_max.value[1] do
-		local var_17_3 = var_17_0[iter_17_0]
+	for slot7 = slot0.curLevel_ + 1, GameSetting.exclusive_skill_talent_num_max.value[1] do
+		for slot12, slot13 in ipairs(slot1[slot7]) do
+			slot15 = slot13[2]
 
-		for iter_17_1, iter_17_2 in ipairs(var_17_3) do
-			local var_17_4 = iter_17_2[1]
-			local var_17_5 = iter_17_2[2]
-
-			if not var_17_2[var_17_4] then
-				var_17_2[var_17_4] = 0
+			if not slot3[slot13[1]] then
+				slot3[slot14] = 0
 			end
 
-			if var_17_2[var_17_4] + var_17_5 > ItemTools.getItemNum(var_17_4) then
-				return iter_17_0 - 1
+			if ItemTools.getItemNum(slot14) < slot3[slot14] + slot15 then
+				return slot7 - 1
 			end
 
-			var_17_2[var_17_4] = var_17_2[var_17_4] + var_17_5
+			slot3[slot14] = slot3[slot14] + slot15
 		end
 
-		var_17_1 = iter_17_0
+		slot2 = slot7
 	end
 
-	return var_17_1
+	return slot2
 end
 
-function var_0_0.RefreshUI(arg_18_0)
-	arg_18_0:RefreshCost()
-	arg_18_0:RefreshGold()
-	arg_18_0:RefreshButton()
-	arg_18_0.scrollHelper_:StartScroll(#arg_18_0.cost_)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshCost()
+	slot0:RefreshGold()
+	slot0:RefreshButton()
+	slot0.scrollHelper_:StartScroll(#slot0.cost_)
 end
 
-function var_0_0.RefreshCost(arg_19_0)
-	arg_19_0.cost_ = {}
-
-	local var_19_0 = {
+function slot0.RefreshCost(slot0)
+	slot0.cost_ = {}
+	slot1 = {
 		all = {}
 	}
 
-	if arg_19_0.addLevel_ > 0 then
-		local var_19_1 = GameSetting.exclusive_skill_talent_strengthen_cost.value
+	if slot0.addLevel_ > 0 then
+		slot2 = GameSetting.exclusive_skill_talent_strengthen_cost.value
 
-		for iter_19_0 = arg_19_0.curLevel_ + 1, arg_19_0.curLevel_ + arg_19_0.addLevel_ do
-			local var_19_2 = var_19_1[iter_19_0]
+		for slot6 = slot0.curLevel_ + 1, slot0.curLevel_ + slot0.addLevel_ do
+			for slot11, slot12 in ipairs(slot2[slot6]) do
+				slot14 = slot12[2]
 
-			for iter_19_1, iter_19_2 in ipairs(var_19_2) do
-				local var_19_3 = iter_19_2[1]
-				local var_19_4 = iter_19_2[2]
+				if not slot1[slot12[1]] then
+					slot1[slot13] = 0
 
-				if not var_19_0[var_19_3] then
-					var_19_0[var_19_3] = 0
-
-					table.insert(var_19_0.all, var_19_3)
+					table.insert(slot1.all, slot13)
 				end
 
-				var_19_0[var_19_3] = var_19_0[var_19_3] + var_19_4
+				slot1[slot13] = slot1[slot13] + slot14
 			end
 		end
 
-		arg_19_0.goldNeed_ = var_19_0[CurrencyConst.CURRENCY_TYPE_GOLD]
+		slot0.goldNeed_ = slot1[CurrencyConst.CURRENCY_TYPE_GOLD]
 	else
-		arg_19_0.goldNeed_ = 0
+		slot0.goldNeed_ = 0
 	end
 
-	table.sort(var_19_0.all, function(arg_20_0, arg_20_1)
-		return arg_20_1 < arg_20_0
+	table.sort(slot1.all, function (slot0, slot1)
+		return slot1 < slot0
 	end)
 
-	for iter_19_3, iter_19_4 in ipairs(var_19_0.all) do
-		if iter_19_4 ~= CurrencyIdMapCfg.CURRENCY_TYPE_GOLD.item_id then
-			local var_19_5 = clone(ItemTemplateData)
+	for slot5, slot6 in ipairs(slot1.all) do
+		if slot6 ~= CurrencyIdMapCfg.CURRENCY_TYPE_GOLD.item_id then
+			slot7 = clone(ItemTemplateData)
+			slot7.id = slot6
+			slot7._num = slot1[slot6]
+			slot7.number = nil
 
-			var_19_5.id = iter_19_4
-			var_19_5._num = var_19_0[iter_19_4]
-			var_19_5.number = nil
-
-			table.insert(arg_19_0.cost_, var_19_5)
+			table.insert(slot0.cost_, slot7)
 		end
 	end
 end
 
-function var_0_0.RefreshGold(arg_21_0)
-	if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD) < arg_21_0.goldNeed_ then
-		arg_21_0.gold_.text = "<color=#CF3232>" .. arg_21_0.goldNeed_ .. "</color>"
+function slot0.RefreshGold(slot0)
+	if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD) < slot0.goldNeed_ then
+		slot0.gold_.text = "<color=#CF3232>" .. slot0.goldNeed_ .. "</color>"
 	else
-		arg_21_0.gold_.text = arg_21_0.goldNeed_
+		slot0.gold_.text = slot0.goldNeed_
 	end
 end
 
-function var_0_0.RefreshButton(arg_22_0)
-	arg_22_0.delBtn_.interactable = arg_22_0.addLevel_ > 1
-	arg_22_0.addBtn_.interactable = arg_22_0.curLevel_ + arg_22_0.addLevel_ < arg_22_0.maxLevel_
-	arg_22_0.slider_.value = arg_22_0.addLevel_ / (arg_22_0.maxLevel_ - arg_22_0.curLevel_)
-	arg_22_0.numTxt1_.text = "+" .. arg_22_0.addLevel_
-	arg_22_0.numTxt2_.text = "+" .. arg_22_0.addLevel_
-	arg_22_0.enhanceCnt_.text = table.concat({
+function slot0.RefreshButton(slot0)
+	slot0.delBtn_.interactable = slot0.addLevel_ > 1
+	slot0.addBtn_.interactable = slot0.curLevel_ + slot0.addLevel_ < slot0.maxLevel_
+	slot0.slider_.value = slot0.addLevel_ / (slot0.maxLevel_ - slot0.curLevel_)
+	slot0.numTxt1_.text = "+" .. slot0.addLevel_
+	slot0.numTxt2_.text = "+" .. slot0.addLevel_
+	slot0.enhanceCnt_.text = table.concat({
 		GetTips("COMMON_ENHANCE_NUMBER"),
 		":",
-		arg_22_0.addLevel_
+		slot0.addLevel_
 	})
 end
 
-function var_0_0.OnSliderValueChanged(arg_23_0, arg_23_1)
-	local var_23_0 = math.floor((arg_23_0.maxLevel_ - arg_23_0.curLevel_) * arg_23_1 + 0.5)
-
-	if var_23_0 == 0 then
-		var_23_0 = 1
+function slot0.OnSliderValueChanged(slot0, slot1)
+	if math.floor((slot0.maxLevel_ - slot0.curLevel_) * slot1 + 0.5) == 0 then
+		slot2 = 1
 	end
 
-	if var_23_0 == arg_23_0.addLevel_ then
-		arg_23_0:RefreshButton()
+	if slot2 == slot0.addLevel_ then
+		slot0:RefreshButton()
 	else
-		arg_23_0.addLevel_ = var_23_0
+		slot0.addLevel_ = slot2
 
-		arg_23_0:RefreshUI()
+		slot0:RefreshUI()
 	end
 end
 
-function var_0_0.OnGoldChange(arg_24_0)
-	arg_24_0.maxLevel_ = arg_24_0:GetMaxLevel()
-	arg_24_0.maxLevel_ = arg_24_0.maxLevel_ < arg_24_0.curLevel_ + 1 and arg_24_0.curLevel_ + 1 or arg_24_0.maxLevel_
+function slot0.OnGoldChange(slot0)
+	slot0.maxLevel_ = slot0:GetMaxLevel()
+	slot0.maxLevel_ = slot0.maxLevel_ < slot0.curLevel_ + 1 and slot0.curLevel_ + 1 or slot0.maxLevel_
 
-	arg_24_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTryToImproveTransitionGiftPt(arg_25_0)
-	if arg_25_0.level_ >= GameSetting.exclusive_skill_talent_num_max.value[1] then
-		arg_25_0:Back()
+function slot0.OnTryToImproveTransitionGiftPt(slot0)
+	if GameSetting.exclusive_skill_talent_num_max.value[1] <= slot0.level_ then
+		slot0:Back()
 	else
-		arg_25_0.level_ = arg_25_0.level_ + 1
+		slot0.level_ = slot0.level_ + 1
 
-		arg_25_0:RefreshUI()
+		slot0:RefreshUI()
 	end
 end
 
-function var_0_0.OnExit(arg_26_0)
-	arg_26_0.params_.addLevel = arg_26_0.addLevel_
-	arg_26_0.params_.isEnter = false
+function slot0.OnExit(slot0)
+	slot0.params_.addLevel = slot0.addLevel_
+	slot0.params_.isEnter = false
 
-	arg_26_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_27_0)
-	arg_27_0:RemoveAllEventListener()
-	arg_27_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
+	slot0:RemoveAllListeners()
 
-	if arg_27_0.scrollHelper_ then
-		arg_27_0.scrollHelper_:Dispose()
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_27_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_27_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,53 +1,53 @@
-local var_0_0 = class("SummerStageBaseItem", ReduxView)
+slot0 = class("SummerStageBaseItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.controller_ = ControllerUtil.GetController(arg_2_0.controllerTransform_, "name")
-	arg_2_0.clearController_ = ControllerUtil.GetController(arg_2_0.controllerTransform_, "getn")
+	slot0.controller_ = ControllerUtil.GetController(slot0.controllerTransform_, "name")
+	slot0.clearController_ = ControllerUtil.GetController(slot0.controllerTransform_, "getn")
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	Object.Destroy(arg_3_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.button_, nil, function()
-		arg_4_0:OnClick()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		uv0:OnClick()
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.stageID_ = arg_6_1
-	arg_6_0.chapterID_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.stageID_ = slot1
+	slot0.chapterID_ = slot2
 
-	arg_6_0:RefreshLockData(arg_6_1, arg_6_2)
-	arg_6_0:RefreshData()
-	arg_6_0:RefreshUI()
+	slot0:RefreshLockData(slot1, slot2)
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshLockData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.isLock_ = false
+function slot0.RefreshLockData(slot0, slot1, slot2)
+	slot0.isLock_ = false
 
-	for iter_7_0, iter_7_1 in pairs(GameSetting.activity_plot_unlock.value) do
-		if iter_7_1[1][1] == arg_7_2 and iter_7_1[1][2] == arg_7_1 then
-			for iter_7_2, iter_7_3 in ipairs(iter_7_1[2]) do
-				arg_7_0.isLock_ = ChessTools.GetChapterProgress(iter_7_3) < 100
+	for slot6, slot7 in pairs(GameSetting.activity_plot_unlock.value) do
+		if slot7[1][1] == slot2 and slot7[1][2] == slot1 then
+			for slot11, slot12 in ipairs(slot7[2]) do
+				slot0.isLock_ = ChessTools.GetChapterProgress(slot12) < 100
 
-				if arg_7_0.isLock_ then
-					arg_7_0.preStageID_ = iter_7_3
+				if slot0.isLock_ then
+					slot0.preStageID_ = slot12
 
 					return
 				end
@@ -58,84 +58,78 @@ function var_0_0.RefreshLockData(arg_7_0, arg_7_1, arg_7_2)
 	end
 end
 
-function var_0_0.IsOpenSectionInfo(arg_8_0)
-	return arg_8_0:IsOpenRoute("storyStageInfoActivity")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("storyStageInfoActivity")
 end
 
-function var_0_0.GetPosition(arg_9_0)
-	local var_9_0 = BattleActivityStoryStageCfg[arg_9_0.stageID_]
-
-	return var_9_0 and var_9_0.position or {
+function slot0.GetPosition(slot0)
+	return BattleActivityStoryStageCfg[slot0.stageID_] and slot1.position or {
 		0,
 		0
 	}
 end
 
-function var_0_0.RefreshData(arg_10_0)
-	local var_10_0 = StoryStageActivityData:GetStageData(arg_10_0.chapterID_)[arg_10_0.stageID_]
-
-	if var_10_0 then
-		arg_10_0.clearTimes_ = var_10_0.clear_times
+function slot0.RefreshData(slot0)
+	if StoryStageActivityData:GetStageData(slot0.chapterID_)[slot0.stageID_] then
+		slot0.clearTimes_ = slot1.clear_times
 	else
-		arg_10_0.clearTimes_ = 0
+		slot0.clearTimes_ = 0
 	end
 end
 
-function var_0_0.OnClick(arg_11_0)
-	if arg_11_0.isLock_ then
+function slot0.OnClick(slot0)
+	if slot0.isLock_ then
 		ShowTips("ACTIVITY_FINISH_ALL_SUMMER_CHESS")
 	else
-		StoryStageActivityData:SaveHistoryStage(arg_11_0.chapterID_, arg_11_0.stageID_)
-		arg_11_0:Go("storyStageInfoActivity", {
+		StoryStageActivityData:SaveHistoryStage(slot0.chapterID_, slot0.stageID_)
+		slot0:Go("storyStageInfoActivity", {
 			sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY,
-			section = arg_11_0.stageID_,
-			chapterID = arg_11_0.chapterID_
+			section = slot0.stageID_,
+			chapterID = slot0.chapterID_
 		})
 	end
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = arg_12_0:GetPosition()
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetPosition()
+	slot0.transform_.localPosition = Vector3(slot1[1], slot1[2], 0)
 
-	arg_12_0.transform_.localPosition = Vector3(var_12_0[1], var_12_0[2], 0)
+	slot0:RefreshText()
 
-	arg_12_0:RefreshText()
-
-	if arg_12_0.isLock_ then
-		arg_12_0.controller_:SetSelectedState("off")
+	if slot0.isLock_ then
+		slot0.controller_:SetSelectedState("off")
 	else
-		arg_12_0.controller_:SetSelectedState("on")
+		slot0.controller_:SetSelectedState("on")
 	end
 
-	if arg_12_0.clearTimes_ > 0 then
-		arg_12_0.clearController_:SetSelectedState("get")
+	if slot0.clearTimes_ > 0 then
+		slot0.clearController_:SetSelectedState("get")
 	else
-		arg_12_0.clearController_:SetSelectedState("nor")
+		slot0.clearController_:SetSelectedState("nor")
 	end
 
-	arg_12_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.GetLocalPosition(arg_13_0)
-	return arg_13_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-function var_0_0.SelectorItem(arg_14_0, arg_14_1)
-	if arg_14_0.stageID_ == arg_14_1 and arg_14_0:IsOpenSectionInfo() then
-		arg_14_0.controller_:SetSelectedState("selected")
-	elseif arg_14_0.isLock_ then
-		arg_14_0.controller_:SetSelectedState("off")
+function slot0.SelectorItem(slot0, slot1)
+	if slot0.stageID_ == slot1 and slot0:IsOpenSectionInfo() then
+		slot0.controller_:SetSelectedState("selected")
+	elseif slot0.isLock_ then
+		slot0.controller_:SetSelectedState("off")
 	else
-		arg_14_0.controller_:SetSelectedState("on")
+		slot0.controller_:SetSelectedState("on")
 	end
 end
 
-function var_0_0.Show(arg_15_0, arg_15_1)
-	SetActive(arg_15_0.gameObject_, arg_15_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.RefreshText(arg_16_0)
-	return
+function slot0.RefreshText(slot0)
 end
 
-return var_0_0
+return slot0

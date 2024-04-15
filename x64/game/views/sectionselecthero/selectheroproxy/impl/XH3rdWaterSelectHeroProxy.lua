@@ -1,31 +1,30 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("XH3rdWaterSelectHeroProxy", var_0_0)
+slot1 = class("XH3rdWaterSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0, arg_1_1)
-	arg_1_0.roomProxy = arg_1_1.roomProxy
-	arg_1_0.mainActivityID = arg_1_1.mainActivityID
-	arg_1_0.needComboSkillPanel = false
-	arg_1_0.needMimirPanel = false
-	arg_1_0.needPresetReservePanel = false
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.roomProxy = slot1.roomProxy
+	slot0.mainActivityID = slot1.mainActivityID
+	slot0.needComboSkillPanel = false
+	slot0.needMimirPanel = false
+	slot0.needPresetReservePanel = false
 end
 
-function var_0_1.GetHeroTeamInfoRoute(arg_2_0)
+function slot1.GetHeroTeamInfoRoute(slot0)
 	return "/xH3rdWaterTeamInfo"
 end
 
-function var_0_1.GetCustomeTeamInfoParams(arg_3_0, arg_3_1)
+function slot1.GetCustomeTeamInfoParams(slot0, slot1)
 	return {
-		mainActivityID = arg_3_0.mainActivityID,
-		roomProxy = arg_3_0.roomProxy
+		mainActivityID = slot0.mainActivityID,
+		roomProxy = slot0.roomProxy
 	}
 end
 
-function var_0_1.GetStageData(arg_4_0)
-	local var_4_0 = BattleStageFactory.Produce(arg_4_0.stageType_, arg_4_0.stageID_, arg_4_0.activityID)
+function slot1.GetStageData(slot0)
+	slot1 = BattleStageFactory.Produce(slot0.stageType_, slot0.stageID_, slot0.activityID)
 
-	var_4_0:SetMainActivityId(arg_4_0.mainActivityID)
+	slot1:SetMainActivityId(slot0.mainActivityID)
 
-	return var_4_0
+	return slot1
 end
 
-return var_0_1
+return slot1

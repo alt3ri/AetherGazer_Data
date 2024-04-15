@@ -1,51 +1,51 @@
-local var_0_0 = class("IdolTraineeCampView", ReduxView)
+slot0 = class("IdolTraineeCampView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/IdolTrainee/IdolTraineeCampView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.quickView = BackHomeQuickJumpView.New(arg_4_0.quickJumpSubView_)
+	slot0.quickView = BackHomeQuickJumpView.New(slot0.quickJumpSubView_)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.taskBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/idolTraineeQuest")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.changeHeroBtn_, nil, function()
+	slot0:AddBtnListener(slot0.changeHeroBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/idolTraineeDepolyChara")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.heroPropBtn_, nil, function()
+	slot0:AddBtnListener(slot0.heroPropBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/idolTraineeTrain")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.pvpBtn_, nil, function()
+	slot0:AddBtnListener(slot0.pvpBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/idolTraineeEnterBattleView", {
 			pvpBattle = true
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.challengeBtn_, nil, function()
+	slot0:AddBtnListener(slot0.challengeBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/idolTraineeChapterMain")
 	end)
-	arg_5_0.quickView:AddClickCallBack(function()
+	slot0.quickView:AddClickCallBack(function ()
 		manager.windowBar:HideBar()
 	end)
-	arg_5_0.quickView:CloseCallBack(function()
-		arg_5_0:RefreshBar()
+	slot0.quickView:CloseCallBack(function ()
+		uv0:RefreshBar()
 	end)
 end
 
-local var_0_1 = {
+slot1 = {
 	"CamShootAtPos1",
 	"CamShootAtPos2",
 	"CamShootAtPos3",
@@ -53,109 +53,104 @@ local var_0_1 = {
 	"CamShootAtPos5"
 }
 
-function var_0_0.RestoreVCam(arg_13_0)
-	for iter_13_0, iter_13_1 in ipairs(var_0_1) do
-		IdolTraineeCampBridge.SetVCamActive(iter_13_1, false)
+function slot0.RestoreVCam(slot0)
+	for slot4, slot5 in ipairs(uv0) do
+		IdolTraineeCampBridge.SetVCamActive(slot5, false)
 	end
 
 	if IdolTraineeCampBridge.cinemachineBrain.IsBlending then
-		arg_13_0:StartWaitCamBlend()
+		slot0:StartWaitCamBlend()
 	end
 end
 
-function var_0_0.RegisterEvents(arg_14_0)
-	arg_14_0:RegistEventListener(DORM_CLICK_ENTITY, function(arg_15_0)
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_CLICK_ENTITY, function (slot0)
 		manager.windowBar:HideBar()
-
-		local var_15_0 = IdolTraineeCampBridge.GetPosByCharacter(arg_15_0)
-
-		IdolTraineeCampBridge.SetVCamActive(var_0_1[var_15_0], true)
-		arg_14_0:StartWaitCamBlend(function()
+		IdolTraineeCampBridge.SetVCamActive(uv0[IdolTraineeCampBridge.GetPosByCharacter(slot0)], true)
+		uv1:StartWaitCamBlend(function ()
 			JumpTools.OpenPageByJump("/heroInteractView", {
-				heroEID = arg_15_0,
-				camPos = var_0_1[var_15_0]
+				heroEID = uv0,
+				camPos = uv1[uv2]
 			})
 		end)
 		DormTools:PlayDormAudioEffect(DormConst.DORM_AUDIO_EFFECT.InteractCam)
 	end)
 end
 
-function var_0_0.StartWaitCamBlend(arg_17_0, arg_17_1)
-	arg_17_0:StopWaitCamBlend()
-	SetActive(arg_17_0.gameObject_, false)
+function slot0.StartWaitCamBlend(slot0, slot1)
+	slot0:StopWaitCamBlend()
+	SetActive(slot0.gameObject_, false)
 
-	arg_17_0.timer = Timer.New(function()
+	slot0.timer = Timer.New(function ()
 		if not IdolTraineeCampBridge.cinemachineBrain.IsBlending then
-			arg_17_0:StopWaitCamBlend()
-			SetActive(arg_17_0.gameObject_, true)
+			uv0:StopWaitCamBlend()
+			SetActive(uv0.gameObject_, true)
 
-			if arg_17_1 then
-				arg_17_1()
+			if uv1 then
+				uv1()
 			end
 		end
 	end, 0.34, -1)
 
-	arg_17_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.StopWaitCamBlend(arg_19_0)
-	if arg_19_0.timer then
-		arg_19_0.timer:Stop()
+function slot0.StopWaitCamBlend(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_19_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-function var_0_0.OnEnter(arg_20_0)
-	arg_20_0:RefreshBar()
-	arg_20_0:RegisterEvents()
-	arg_20_0.quickView:OnEnter()
-	arg_20_0.quickView:ShowView(false)
-	arg_20_0:RestoreVCam()
-	manager.redPoint:bindUIandKey(arg_20_0.taskBtn_.transform, RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK)
+function slot0.OnEnter(slot0)
+	slot0:RefreshBar()
+	slot0:RegisterEvents()
+	slot0.quickView:OnEnter()
+	slot0.quickView:ShowView(false)
+	slot0:RestoreVCam()
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK)
 	BackHomeCricketBattleData:InvokeDanceBackCB()
 end
 
-function var_0_0.RefreshBar(arg_21_0)
+function slot0.RefreshBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.OpenPageByJump("/dormChooseRoomView")
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
+	manager.windowBar:RegistHomeCallBack(function ()
 		BackHomeTools:BackHomeGotoMain()
 	end)
 
-	local var_21_0 = GameSetting.idol_dance_info_describe.value
-
-	if #var_21_0 > 0 then
+	if #GameSetting.idol_dance_info_describe.value > 0 then
 		manager.windowBar:SetGameHelpKey({
 			view = "/gameHelpPro",
 			type = "jump",
 			params = {
 				hideHomeBtn = 1,
 				isPrefab = true,
-				pages = var_21_0
+				pages = slot1
 			}
 		})
 	end
 end
 
-function var_0_0.OnExit(arg_24_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_24_0:RemoveAllEventListener()
-	arg_24_0:StopWaitCamBlend()
-	arg_24_0.quickView:OnExit()
-	manager.redPoint:unbindUIandKey(arg_24_0.taskBtn_.transform, RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK)
+	slot0:RemoveAllEventListener()
+	slot0:StopWaitCamBlend()
+	slot0.quickView:OnExit()
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, RedPointConst.IDOL_TRAINEE_DAY_AND_WEEK_TASK)
 end
 
-function var_0_0.Dispose(arg_25_0)
-	arg_25_0.quickView:Dispose()
-	arg_25_0:StopWaitCamBlend()
-	var_0_0.super.Dispose(arg_25_0)
+function slot0.Dispose(slot0)
+	slot0.quickView:Dispose()
+	slot0:StopWaitCamBlend()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

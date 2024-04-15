@@ -1,18 +1,15 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("ActivityWorldBossSelectHeroProxy", var_0_0)
+slot1 = class("ActivityWorldBossSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.CustomCheckBeforeBattle(arg_1_0)
-	if not ActivityData:GetActivityIsOpen(arg_1_0.activityID) then
+function slot1.CustomCheckBeforeBattle(slot0)
+	if not ActivityData:GetActivityIsOpen(slot0.activityID) then
 		return false, "TIME_OVER"
 	end
 
 	return true
 end
 
-function var_0_1.GetStageData(arg_2_0)
-	local var_2_0 = ActivityWorldBossData:GetStageId(arg_2_0.activityID)
-
-	return (BattleActivityWorldBossTemplate.New(var_2_0, arg_2_0.activityID))
+function slot1.GetStageData(slot0)
+	return BattleActivityWorldBossTemplate.New(ActivityWorldBossData:GetStageId(slot0.activityID), slot0.activityID)
 end
 
-return var_0_1
+return slot1

@@ -1,45 +1,42 @@
-local var_0_0 = singletonClass("TalentTreeData")
-
+slot0 = singletonClass("TalentTreeData")
 talentList_ = {}
 
-function var_0_0.InitData(arg_1_0)
+function slot0.InitData(slot0)
 	talentList_ = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		talentList_[iter_2_1.id] = iter_2_1.level
+function slot0.SetData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		talentList_[slot6.id] = slot6.level
 	end
 end
 
-function var_0_0.UpTalent(arg_3_0, arg_3_1)
-	talentList_[arg_3_1] = (talentList_[arg_3_1] or 0) + 1
+function slot0.UpTalent(slot0, slot1)
+	talentList_[slot1] = (talentList_[slot1] or 0) + 1
 end
 
-function var_0_0.GetTalentList(arg_4_0)
+function slot0.GetTalentList(slot0)
 	return talentList_
 end
 
-function var_0_0.GetTalentLevel(arg_5_0, arg_5_1)
-	return talentList_[arg_5_1] or 0
+function slot0.GetTalentLevel(slot0, slot1)
+	return talentList_[slot1] or 0
 end
 
-function var_0_0.GetTalentListByTheme(arg_6_0, arg_6_1)
-	local var_6_0 = {}
+function slot0.GetTalentListByTheme(slot0, slot1)
+	slot2 = {}
 
-	for iter_6_0, iter_6_1 in pairs(talentList_) do
-		local var_6_1 = TalentTreeCfg[iter_6_0]
-
-		if ActivityTools.GetActivityTheme(var_6_1.activity_id) == arg_6_1 then
-			table.insert(var_6_0, {
-				var_6_1.affix_id,
-				iter_6_1,
-				var_6_1.affix_user
+	for slot6, slot7 in pairs(talentList_) do
+		if ActivityTools.GetActivityTheme(TalentTreeCfg[slot6].activity_id) == slot1 then
+			table.insert(slot2, {
+				slot8.affix_id,
+				slot7,
+				slot8.affix_user
 			})
 		end
 	end
 
-	return var_6_0
+	return slot2
 end
 
-return var_0_0
+return slot0

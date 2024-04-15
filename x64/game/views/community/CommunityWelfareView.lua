@@ -1,68 +1,68 @@
-local var_0_0 = class("CommunityWelfareView", ReduxView)
+slot0 = class("CommunityWelfareView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubWelfarePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.tree_ = LuaTree.New(arg_4_0.goTree_)
+	slot0.tree_ = LuaTree.New(slot0.goTree_)
 
-	arg_4_0.tree_:SetSelectedHandler(handler(arg_4_0, arg_4_0.OnGroupSelect), nil)
+	slot0.tree_:SetSelectedHandler(handler(slot0, slot0.OnGroupSelect), nil)
 
-	arg_4_0.CommunityCon_ = arg_4_0.controller:GetController("community")
-	arg_4_0.welfareCon_ = arg_4_0.controller:GetController("welfare")
-	arg_4_0.welfare_ = CommonItemView.New(arg_4_0.commonItemGo_)
+	slot0.CommunityCon_ = slot0.controller:GetController("community")
+	slot0.welfareCon_ = slot0.controller:GetController("welfare")
+	slot0.welfare_ = CommonItemView.New(slot0.commonItemGo_)
 end
 
-function var_0_0.OnGroupSelect(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4)
-	if arg_5_1 == arg_5_0.pageIndex and not arg_5_0.enterflag then
+function slot0.OnGroupSelect(slot0, slot1, slot2, slot3, slot4)
+	if slot1 == slot0.pageIndex and not slot0.enterflag then
 		return
 	end
 
-	arg_5_0.pageIndex = arg_5_1
+	slot0.pageIndex = slot1
 
-	arg_5_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.RefreshView(arg_6_0)
-	if arg_6_0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
-		arg_6_0:RefreshWelfare(GameSetting.club_welfare.value[1])
+function slot0.RefreshView(slot0)
+	if slot0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
+		slot0:RefreshWelfare(GameSetting.club_welfare.value[1])
 
-		arg_6_0.tittleText_.text = ItemCfg[GameSetting.club_welfare.value[1]].name
-	elseif arg_6_0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
-		arg_6_0:RefreshWelfare(GameSetting.club_special_welfare.value[1])
+		slot0.tittleText_.text = ItemCfg[GameSetting.club_welfare.value[1]].name
+	elseif slot0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
+		slot0:RefreshWelfare(GameSetting.club_special_welfare.value[1])
 
-		arg_6_0.tittleText_.text = ItemCfg[GameSetting.club_special_welfare.value[1]].name
+		slot0.tittleText_.text = ItemCfg[GameSetting.club_special_welfare.value[1]].name
 	end
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.openBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.openBtn_, nil, function ()
 		if GameSetting.club_welfare_cost.value[1] <= CommunityData:GetCurrenyA() then
 			CommunityAction:OpenWelfare()
 		else
 			ShowTips("ERROR_CLUB_COIN_NO_ENOUGH")
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.receiveBtn_, nil, function()
-		if arg_7_0.identity_ == CommunityConst.MEMBER_TYPE.NEWBIE or arg_7_0.identity_ == CommunityConst.MEMBER_TYPE.STRANGER then
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.identity_ == CommunityConst.MEMBER_TYPE.NEWBIE or uv0.identity_ == CommunityConst.MEMBER_TYPE.STRANGER then
 			ShowTips("ERROR_CLUB_REWARD_ONLY_FORMAT_RECEIVE")
 		else
 			CommunityAction:ReceiveWelfare()
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.deepBtn, nil, function()
+	slot0:AddBtnListener(slot0.deepBtn, nil, function ()
 		if CommunityData:GetWelfareExchangeCnt() <= 0 then
 			ShowTips("EXCEED_MAX_CNT")
 
@@ -71,53 +71,53 @@ function var_0_0.AddUIListener(arg_7_0)
 
 		JumpTools.OpenPageByJump("communitySpecialWelfareShop")
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.backBtn_, nil, function()
-		arg_7_0:RestoreBar()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:RestoreBar()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.enterflag = true
+function slot0.OnEnter(slot0)
+	slot0.enterflag = true
 
-	arg_12_0:SaveBar()
+	slot0:SaveBar()
 	CommunityAction:RefreshCurrencyA()
-	arg_12_0.tree_:SelectGroup(GuildConst.WELFARE_TYPE.COMMON)
+	slot0.tree_:SelectGroup(GuildConst.WELFARE_TYPE.COMMON)
 
-	arg_12_0.enterflag = false
+	slot0.enterflag = false
 end
 
-function var_0_0.SaveBar(arg_13_0)
-	arg_13_0.lastHomeFunc_ = manager.windowBar:GetLastHomeFunc()
-	arg_13_0.lastBackFunc_ = manager.windowBar:GetLastBackFunc()
-	arg_13_0.lastInfoFunc_ = manager.windowBar:GetLastInfoFunc()
-	arg_13_0.lastBarList_ = manager.windowBar:GetLastBarList()
-	arg_13_0.lastAddBarList_ = manager.windowBar:GetLastAddBarList()
-	arg_13_0.lastCanClickBarList_ = manager.windowBar:GetLastCanClickBarList()
+function slot0.SaveBar(slot0)
+	slot0.lastHomeFunc_ = manager.windowBar:GetLastHomeFunc()
+	slot0.lastBackFunc_ = manager.windowBar:GetLastBackFunc()
+	slot0.lastInfoFunc_ = manager.windowBar:GetLastInfoFunc()
+	slot0.lastBarList_ = manager.windowBar:GetLastBarList()
+	slot0.lastAddBarList_ = manager.windowBar:GetLastAddBarList()
+	slot0.lastCanClickBarList_ = manager.windowBar:GetLastCanClickBarList()
 end
 
-function var_0_0.RefreshMemberTypeUI(arg_14_0)
+function slot0.RefreshMemberTypeUI(slot0)
 	manager.windowBar:SetAsLastSibling()
 
-	arg_14_0.identity_ = CommunityData:GetIdentity()
-	arg_14_0.welfareType_ = CommunityData:GetWelfareType()
+	slot0.identity_ = CommunityData:GetIdentity()
+	slot0.welfareType_ = CommunityData:GetWelfareType()
 
-	if arg_14_0.identity_ == CommunityConst.MEMBER_TYPE.HEAD or arg_14_0.identity_ == CommunityConst.MEMBER_TYPE.DEPUTY then
-		arg_14_0.openBtn_.interactable = true
+	if slot0.identity_ == CommunityConst.MEMBER_TYPE.HEAD or slot0.identity_ == CommunityConst.MEMBER_TYPE.DEPUTY then
+		slot0.openBtn_.interactable = true
 
-		arg_14_0.CommunityCon_:SetSelectedState("type1")
-		arg_14_0:RefreshType1Bar()
-	elseif arg_14_0.identity_ == CommunityConst.MEMBER_TYPE.MEMBER or arg_14_0.identity_ == CommunityConst.MEMBER_TYPE.NEWBIE or arg_14_0.identity_ == CommunityConst.MEMBER_TYPE.STRANGER then
-		arg_14_0.openBtn_.interactable = false
+		slot0.CommunityCon_:SetSelectedState("type1")
+		slot0:RefreshType1Bar()
+	elseif slot0.identity_ == CommunityConst.MEMBER_TYPE.MEMBER or slot0.identity_ == CommunityConst.MEMBER_TYPE.NEWBIE or slot0.identity_ == CommunityConst.MEMBER_TYPE.STRANGER then
+		slot0.openBtn_.interactable = false
 
-		arg_14_0.CommunityCon_:SetSelectedState("type2")
-		arg_14_0:RefreshType2Bar()
+		slot0.CommunityCon_:SetSelectedState("type2")
+		slot0:RefreshType2Bar()
 	else
 		print("暂未设计")
 	end
 end
 
-function var_0_0.RefreshType1Bar(arg_15_0)
+function slot0.RefreshType1Bar(slot0)
 	manager.windowBar:SwitchBar({
 		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A,
 		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
@@ -126,126 +126,122 @@ function var_0_0.RefreshType1Bar(arg_15_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B, true)
 end
 
-function var_0_0.RefreshType2Bar(arg_16_0)
+function slot0.RefreshType2Bar(slot0)
 	manager.windowBar:SwitchBar({
 		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
 	})
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B, true)
 end
 
-function var_0_0.RefreshCost(arg_17_0)
-	if arg_17_0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
-		arg_17_0.priceImg_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A)
+function slot0.RefreshCost(slot0)
+	if slot0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
+		slot0.priceImg_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A)
 
-		local var_17_0 = GameSetting.club_welfare_cost.value[1]
-
-		if var_17_0 <= CommunityData:GetCurrenyA() then
-			arg_17_0.cost_.text = "<color='#28282B'>X" .. var_17_0 .. "</color>"
+		if GameSetting.club_welfare_cost.value[1] <= CommunityData:GetCurrenyA() then
+			slot0.cost_.text = "<color='#28282B'>X" .. slot1 .. "</color>"
 		else
-			arg_17_0.cost_.text = "<color='#FF0000'>X" .. var_17_0 .. "</color>"
+			slot0.cost_.text = "<color='#FF0000'>X" .. slot1 .. "</color>"
 		end
 
-		SetActive(arg_17_0.descText_.gameObject, true)
-	elseif arg_17_0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
-		local var_17_1 = math.abs(CommunityData:GetWelfareExchangeCnt() - GameSetting.club_special_reward_buy_limit_weekly.value[1])
+		SetActive(slot0.descText_.gameObject, true)
+	elseif slot0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
+		slot0.tipsText_.text = string.format("%s%d/%d", GetTips("LIMIT_WEEK"), math.abs(CommunityData:GetWelfareExchangeCnt() - GameSetting.club_special_reward_buy_limit_weekly.value[1]), GameSetting.club_special_reward_buy_limit_weekly.value[1])
 
-		arg_17_0.tipsText_.text = string.format("%s%d/%d", GetTips("LIMIT_WEEK"), var_17_1, GameSetting.club_special_reward_buy_limit_weekly.value[1])
-
-		SetActive(arg_17_0.descText_.gameObject, false)
+		SetActive(slot0.descText_.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshWelfare(arg_18_0, arg_18_1)
-	arg_18_0:RefreshMemberTypeUI()
-	arg_18_0:RefreshItem(arg_18_1)
-	arg_18_0:RefreshBtnState()
-	arg_18_0:RefreshCost()
+function slot0.RefreshWelfare(slot0, slot1)
+	slot0:RefreshMemberTypeUI()
+	slot0:RefreshItem(slot1)
+	slot0:RefreshBtnState()
+	slot0:RefreshCost()
 end
 
-function var_0_0.RefreshBtnState(arg_19_0)
-	if arg_19_0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
-		if arg_19_0.welfareType_ == CommunityConst.WELFARE_TYPE.CLOSE then
-			if arg_19_0.identity_ == CommunityConst.MEMBER_TYPE.HEAD or arg_19_0.identity_ == CommunityConst.MEMBER_TYPE.DEPUTY then
-				arg_19_0.welfareCon_:SetSelectedState("close")
+function slot0.RefreshBtnState(slot0)
+	if slot0.pageIndex == GuildConst.WELFARE_TYPE.COMMON then
+		if slot0.welfareType_ == CommunityConst.WELFARE_TYPE.CLOSE then
+			if slot0.identity_ == CommunityConst.MEMBER_TYPE.HEAD or slot0.identity_ == CommunityConst.MEMBER_TYPE.DEPUTY then
+				slot0.welfareCon_:SetSelectedState("close")
 			else
-				arg_19_0.welfareCon_:SetSelectedState("lock")
+				slot0.welfareCon_:SetSelectedState("lock")
 			end
-		elseif arg_19_0.welfareType_ == CommunityConst.WELFARE_TYPE.RECEIVE then
-			arg_19_0.receiveBtn_.interactable = true
+		elseif slot0.welfareType_ == CommunityConst.WELFARE_TYPE.RECEIVE then
+			slot0.receiveBtn_.interactable = true
 
-			arg_19_0.welfareCon_:SetSelectedState("receive")
-		elseif arg_19_0.welfareType_ == CommunityConst.WELFARE_TYPE.FINISH then
-			arg_19_0.receiveBtn_.interactable = false
+			slot0.welfareCon_:SetSelectedState("receive")
+		elseif slot0.welfareType_ == CommunityConst.WELFARE_TYPE.FINISH then
+			slot0.receiveBtn_.interactable = false
 
-			arg_19_0.welfareCon_:SetSelectedState("finish")
+			slot0.welfareCon_:SetSelectedState("finish")
 		else
 			print("暂未设计")
 		end
-	elseif arg_19_0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
+	elseif slot0.pageIndex == GuildConst.WELFARE_TYPE.DEEP then
 		if CommunityData:GetWelfareExchangeCnt() > 0 then
-			arg_19_0.welfareCon_:SetSelectedState("buyDeep")
+			slot0.welfareCon_:SetSelectedState("buyDeep")
 		else
-			arg_19_0.welfareCon_:SetSelectedState("buyMax")
+			slot0.welfareCon_:SetSelectedState("buyMax")
 		end
 	end
 end
 
-function var_0_0.RefreshItem(arg_20_0, arg_20_1)
-	local var_20_0 = {
-		id = arg_20_1,
-		clickFun = function(arg_21_0)
+function slot0.RefreshItem(slot0, slot1)
+	slot0.welfare_:SetData({
+		id = slot1,
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_21_0.id
+				slot0.id
 			})
 		end
-	}
-
-	arg_20_0.welfare_:SetData(var_20_0)
+	})
 end
 
-function var_0_0.RestoreBar(arg_22_0)
-	manager.windowBar:SwitchBar(arg_22_0.lastBarList_)
+function slot0.RestoreBar(slot0)
+	slot4 = slot0.lastBarList_
 
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.lastAddBarList_) do
-		manager.windowBar:SetBarCanAdd(iter_22_1, true)
+	manager.windowBar:SwitchBar(slot4)
+
+	for slot4, slot5 in ipairs(slot0.lastAddBarList_) do
+		manager.windowBar:SetBarCanAdd(slot5, true)
 	end
 
-	for iter_22_2, iter_22_3 in ipairs(arg_22_0.lastCanClickBarList_) do
-		manager.windowBar:SetBarCanClick(iter_22_3, true)
+	for slot4, slot5 in ipairs(slot0.lastCanClickBarList_) do
+		manager.windowBar:SetBarCanClick(slot5, true)
 	end
 
-	manager.windowBar:RegistHomeCallBack(arg_22_0.lastHomeFunc_)
-	manager.windowBar:RegistBackCallBack(arg_22_0.lastBackFunc_)
-	manager.windowBar:RegistInfoCallBack(arg_22_0.lastInfoFunc_)
+	manager.windowBar:RegistHomeCallBack(slot0.lastHomeFunc_)
+	manager.windowBar:RegistBackCallBack(slot0.lastBackFunc_)
+	manager.windowBar:RegistInfoCallBack(slot0.lastInfoFunc_)
 end
 
-function var_0_0.OnReceiveWelfare(arg_23_0)
-	arg_23_0:RefreshView()
+function slot0.OnReceiveWelfare(slot0)
+	slot0:RefreshView()
 end
 
-function var_0_0.OnRefreshWelfare(arg_24_0)
-	arg_24_0:RefreshView()
+function slot0.OnRefreshWelfare(slot0)
+	slot0:RefreshView()
 end
 
-function var_0_0.OnExit(arg_25_0)
-	arg_25_0.lastHomeFunc_ = nil
-	arg_25_0.lastBackFunc_ = nil
-	arg_25_0.lastInfoFunc_ = nil
-	arg_25_0.lastBarList_ = nil
-	arg_25_0.lastAddBarList_ = nil
-	arg_25_0.lastCanClickBarList_ = nil
+function slot0.OnExit(slot0)
+	slot0.lastHomeFunc_ = nil
+	slot0.lastBackFunc_ = nil
+	slot0.lastInfoFunc_ = nil
+	slot0.lastBarList_ = nil
+	slot0.lastAddBarList_ = nil
+	slot0.lastCanClickBarList_ = nil
 end
 
-function var_0_0.OnExitInput(arg_26_0)
+function slot0.OnExitInput(slot0)
 	JumpTools.Back()
 
 	return true
 end
 
-function var_0_0.Dispose(arg_27_0)
-	arg_27_0:RemoveAllListeners()
-	arg_27_0.welfare_:Dispose()
-	var_0_0.super.Dispose(arg_27_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.welfare_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

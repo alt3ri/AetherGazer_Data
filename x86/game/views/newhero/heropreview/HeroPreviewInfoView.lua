@@ -1,71 +1,66 @@
-local var_0_0 = class("HeroPreviewInfoView", ReduxView)
+slot0 = class("HeroPreviewInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.rewardBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("raceCollectReward", {})
 	end)
 end
 
-function var_0_0.SetHeroInfo(arg_6_0, arg_6_1)
-	manager.redPoint:bindUIandKey(arg_6_0.rewardTrs_, RedPointConst.HERO_RACE_COLLECT_REWARD)
+function slot0.SetHeroInfo(slot0, slot1)
+	manager.redPoint:bindUIandKey(slot0.rewardTrs_, RedPointConst.HERO_RACE_COLLECT_REWARD)
 
-	arg_6_0.heroInfo_ = arg_6_1
-	arg_6_0.heroCfg_ = HeroCfg[arg_6_1.id]
-	arg_6_0.curHeroId_ = arg_6_1.id
+	slot0.heroInfo_ = slot1
+	slot0.heroCfg_ = HeroCfg[slot1.id]
+	slot0.curHeroId_ = slot1.id
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.nameText_.text = GetI18NText(arg_7_0.heroCfg_.name)
-	arg_7_0.subNameText_.text = GetI18NText(arg_7_0.heroCfg_.suffix)
-	arg_7_0.campLogo_.sprite = HeroTools.GetRaceIcon(arg_7_0.heroCfg_.race)
-	arg_7_0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. arg_7_0.heroCfg_.rare)
-	arg_7_0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_7_0.heroCfg_.id)
-	arg_7_0.rangeTypeText_.text = CharactorParamCfg[arg_7_0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
-	arg_7_0.infoText_.text = arg_7_0.heroCfg_.hero_desc
+function slot0.UpdateView(slot0)
+	slot0.nameText_.text = GetI18NText(slot0.heroCfg_.name)
+	slot0.subNameText_.text = GetI18NText(slot0.heroCfg_.suffix)
+	slot0.campLogo_.sprite = HeroTools.GetRaceIcon(slot0.heroCfg_.race)
+	slot0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. slot0.heroCfg_.rare)
+	slot0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroCfg_.id)
+	slot0.rangeTypeText_.text = CharactorParamCfg[slot0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
+	slot0.infoText_.text = slot0.heroCfg_.hero_desc
 
-	arg_7_0:RefreshChargeType()
-
-	local var_7_0 = ObtainHeroMovieCfg[arg_7_0.curHeroId_]
-
-	SetActive(arg_7_0.playBtnGo_, var_7_0 ~= nil and arg_7_0.heroInfo_.unlock == 1)
+	slot0:RefreshChargeType()
+	SetActive(slot0.playBtnGo_, ObtainHeroMovieCfg[slot0.curHeroId_] ~= nil and slot0.heroInfo_.unlock == 1)
 end
 
-function var_0_0.RefreshChargeType(arg_8_0)
-	function var_0_0.RefreshChargeType(arg_9_0)
-		local var_9_0 = arg_9_0.heroCfg_.mechanism_type[1]
-
-		if var_9_0 == HeroConst.HERO_CHARGE_TYPE.RAGE then
-			arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
-		elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
-			arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
-		elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.TRACES then
-			arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
-		elseif var_9_0 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
-			arg_9_0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
+function slot0.RefreshChargeType(slot0)
+	function uv0.RefreshChargeType(slot0)
+		if slot0.heroCfg_.mechanism_type[1] == HeroConst.HERO_CHARGE_TYPE.RAGE then
+			slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_1")
+		elseif slot1 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
+			slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_2")
+		elseif slot1 == HeroConst.HERO_CHARGE_TYPE.TRACES then
+			slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_3")
+		elseif slot1 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
+			slot0.chargeType_.text = GetTips("NOTE_ENERGYTYPE_4")
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.rewardTrs_, RedPointConst.HERO_RACE_COLLECT_REWARD)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.rewardTrs_, RedPointConst.HERO_RACE_COLLECT_REWARD)
 end
 
-return var_0_0
+return slot0

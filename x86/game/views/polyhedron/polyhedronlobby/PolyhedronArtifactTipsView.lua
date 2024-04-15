@@ -1,71 +1,69 @@
-local var_0_0 = class("PolyhedronArtifactTipsView", ReduxView)
+slot0 = class("PolyhedronArtifactTipsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/PolyhedronTreasureUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = {}
+	slot0.list = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_mask, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.id = arg_8_0.params_.artifact_id
+function slot0.OnEnter(slot0)
+	slot0.id = slot0.params_.artifact_id
+	slot1 = PolyhedronArtifactCfg[slot0.id]
+	slot0.m_name.text = GetI18NText(slot1.name)
+	slot0.m_story.text = GetI18NText(slot1.story) or ""
+	slot0.affix_id = slot1.affix_id
+	slot0.max_level = math.min(slot1.max_level, AffixTypeCfg[slot0.affix_id].max_level)
 
-	local var_8_0 = PolyhedronArtifactCfg[arg_8_0.id]
-
-	arg_8_0.m_name.text = GetI18NText(var_8_0.name)
-	arg_8_0.m_story.text = GetI18NText(var_8_0.story) or ""
-	arg_8_0.affix_id = var_8_0.affix_id
-	arg_8_0.max_level = math.min(var_8_0.max_level, AffixTypeCfg[arg_8_0.affix_id].max_level)
-
-	for iter_8_0 = 1, arg_8_0.max_level do
-		if not arg_8_0.list[iter_8_0] then
-			arg_8_0.list[iter_8_0] = PolyhedronArtifactTipsItem.New(arg_8_0.m_explainGo, arg_8_0.m_content)
+	for slot5 = 1, slot0.max_level do
+		if not slot0.list[slot5] then
+			slot0.list[slot5] = PolyhedronArtifactTipsItem.New(slot0.m_explainGo, slot0.m_content)
 		end
 
-		arg_8_0.list[iter_8_0]:SetData(arg_8_0.affix_id, iter_8_0)
+		slot0.list[slot5]:SetData(slot0.affix_id, slot5)
 	end
 
-	for iter_8_1 = arg_8_0.max_level + 1, #arg_8_0.list do
-		arg_8_0.list[iter_8_1]:SetActive(false)
+	for slot5 = slot0.max_level + 1, #slot0.list do
+		slot0.list[slot5]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.m_content)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_content)
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.list) do
-		iter_10_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.list) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.list = nil
+	slot0.list = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

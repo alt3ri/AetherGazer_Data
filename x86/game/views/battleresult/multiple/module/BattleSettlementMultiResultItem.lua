@@ -1,120 +1,113 @@
-local var_0_0 = class("BattleSettlementMultiResultItem", ReduxView)
+slot0 = class("BattleSettlementMultiResultItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.TryInitScroll(arg_2_0, arg_2_1)
-	arg_2_0.parentScrollRect = arg_2_1
+function slot0.TryInitScroll(slot0, slot1)
+	slot0.parentScrollRect = slot1
 
-	arg_2_0:BuildEventDispatch()
+	slot0:BuildEventDispatch()
 end
 
-function var_0_0.BuildEventDispatch(arg_3_0)
-	arg_3_0.eventTrigger = arg_3_0.rewardsListObj_.transform:GetComponent(typeof(EventTriggerListener))
+function slot0.BuildEventDispatch(slot0)
+	slot0.eventTrigger = slot0.rewardsListObj_.transform:GetComponent(typeof(EventTriggerListener))
 
-	if not isNil(arg_3_0.eventTrigger) then
-		function arg_3_0.eventTrigger.onBeginDrag(arg_4_0, arg_4_1)
-			if not isNil(arg_3_0.parentScrollRect) then
-				arg_3_0.parentScrollRect:OnBeginDrag(arg_4_1)
+	if not isNil(slot0.eventTrigger) then
+		function slot0.eventTrigger.onBeginDrag(slot0, slot1)
+			if not isNil(uv0.parentScrollRect) then
+				uv0.parentScrollRect:OnBeginDrag(slot1)
 			end
 		end
 
-		function arg_3_0.eventTrigger.onEndDrag(arg_5_0, arg_5_1)
-			if not isNil(arg_3_0.parentScrollRect) then
-				arg_3_0.parentScrollRect:OnEndDrag(arg_5_1)
+		function slot0.eventTrigger.onEndDrag(slot0, slot1)
+			if not isNil(uv0.parentScrollRect) then
+				uv0.parentScrollRect:OnEndDrag(slot1)
 			end
 		end
 
-		function arg_3_0.eventTrigger.onDrag(arg_6_0, arg_6_1)
-			if not isNil(arg_3_0.parentScrollRect) then
-				arg_3_0.parentScrollRect:OnDrag(arg_6_1)
+		function slot0.eventTrigger.onDrag(slot0, slot1)
+			if not isNil(uv0.parentScrollRect) then
+				uv0.parentScrollRect:OnDrag(slot1)
 			end
 		end
 	end
 end
 
-function var_0_0.ClearRef(arg_7_0)
-	if not isNil(arg_7_0.eventTrigger) then
-		arg_7_0.eventTrigger:RemoveAllListeners()
+function slot0.ClearRef(slot0)
+	if not isNil(slot0.eventTrigger) then
+		slot0.eventTrigger:RemoveAllListeners()
 	end
 
-	arg_7_0.eventTrigger = nil
-	arg_7_0.parentScrollRect = nil
+	slot0.eventTrigger = nil
+	slot0.parentScrollRect = nil
 end
 
-function var_0_0.Init(arg_8_0)
-	arg_8_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_8_0.scrollHelper = LuaList.New(handler(arg_8_0, arg_8_0.RenderItem), arg_8_0.rewardsListObj_, CommonItemView)
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.RenderItem), slot0.rewardsListObj_, CommonItemView)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RenderView(arg_11_0, arg_11_1, arg_11_2)
-	if arg_11_0.index_ ~= arg_11_1 then
-		arg_11_0.index_ = arg_11_1
-		arg_11_0.rewardList_ = arg_11_2 or {}
+function slot0.RenderView(slot0, slot1, slot2)
+	if slot0.index_ ~= slot1 then
+		slot0.index_ = slot1
+		slot0.rewardList_ = slot2 or {}
 
-		arg_11_0:Render()
+		slot0:Render()
 	end
 end
 
-function var_0_0.Render(arg_12_0)
-	arg_12_0.indexTxt_.text = arg_12_0.index_
+function slot0.Render(slot0)
+	slot0.indexTxt_.text = slot0.index_
+	slot1 = {}
 
-	local var_12_0 = {}
-
-	for iter_12_0, iter_12_1 in pairs(arg_12_0.rewardList_) do
-		table.insert(var_12_0, iter_12_1)
+	for slot5, slot6 in pairs(slot0.rewardList_) do
+		table.insert(slot1, slot6)
 	end
 
-	local var_12_1 = formatRewardCfgList(var_12_0)
-	local var_12_2 = mergeReward(var_12_1)
-	local var_12_3 = sortReward(var_12_2)
+	slot1 = sortReward(mergeReward(formatRewardCfgList(slot1)))
+	slot0.rewardList_ = slot1
 
-	arg_12_0.rewardList_ = var_12_3
-
-	arg_12_0.scrollHelper:StartScroll(#var_12_3, 1)
+	slot0.scrollHelper:StartScroll(#slot1, 1)
 end
 
-function var_0_0.RenderItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.rewardList_[arg_13_1]
-	local var_13_1 = clone(ItemTemplateData)
+function slot0.RenderItem(slot0, slot1, slot2)
+	slot3 = slot0.rewardList_[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3.id
+	slot4.number = slot3.num
 
-	var_13_1.id = var_13_0.id
-	var_13_1.number = var_13_0.num
-
-	if ItemCfg[var_13_0.id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[var_13_0.id].type then
-		var_13_1.race = EquipCfg[var_13_0.id] and EquipCfg[var_13_0.id].race or 0
+	if ItemCfg[slot3.id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[slot3.id].type then
+		slot4.race = EquipCfg[slot3.id] and EquipCfg[slot3.id].race or 0
 	end
 
-	function var_13_1.clickFun(arg_14_0)
+	function slot4.clickFun(slot0)
 		ShowPopItemOnly(POP_OTHER_ITEM, {
-			arg_14_0.id,
-			arg_14_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_13_2:SetData(var_13_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.scrollHelper:Dispose()
+function slot0.Dispose(slot0)
+	slot0.scrollHelper:Dispose()
 
-	arg_15_0.scrollHelper = nil
+	slot0.scrollHelper = nil
 
-	arg_15_0:ClearRef()
-	var_0_0.super.Dispose(arg_15_0)
+	slot0:ClearRef()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

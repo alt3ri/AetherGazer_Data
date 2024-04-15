@@ -1,39 +1,36 @@
-local var_0_0 = class("GotoRaceTrialStage", BattleSettlementStrategyBase)
+slot0 = class("GotoRaceTrialStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoRaceTrial(arg_1_1)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoRaceTrial(slot1)
 end
 
-function var_0_0.GotoRaceTrial(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.num
-	local var_2_1 = arg_2_1.stageData
-	local var_2_2 = arg_2_1.starMissionData
-	local var_2_3 = arg_2_1.battleResult
+function slot0.GotoRaceTrial(slot0, slot1)
+	slot2 = slot1.num
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
 
-	if arg_2_1.isHalfWay_ == true then
-		var_2_0 = 3
+	if slot1.isHalfWay_ == true then
+		slot2 = 3
 	end
 
-	local var_2_4, var_2_5 = GetResultReward()
+	slot7, slot8 = GetResultReward()
 
-	if isSuccess(var_2_0) then
+	if isSuccess(slot2) then
 		function BattleCallLuaCallBack()
-			local var_3_0 = var_2_1:GetStageId()
-			local var_3_1 = RaceTrialData:GetBattleResultGoal(var_3_0)
-			local var_3_2 = var_2_1:GetActivityID()
-			local var_3_3 = ActivityTools.GetActivityTheme(var_3_2)
+			slot3 = ActivityTools.GetActivityTheme(uv0:GetActivityID())
 
 			gameContext:Go("/battleScorResult", {
-				stageData = var_2_1,
-				rewardList = var_2_5,
-				score = var_3_1,
-				battleResult = var_2_3
+				stageData = uv0,
+				rewardList = uv1,
+				score = RaceTrialData:GetBattleResultGoal(uv0:GetStageId()),
+				battleResult = uv2
 			})
-			EndBattleLogic(var_2_0)
+			EndBattleLogic(uv3)
 		end
 	else
-		arg_2_0:GotoBattleFaild(var_2_0, var_2_1, var_2_2, var_2_3)
+		slot0:GotoBattleFaild(slot2, slot3, slot4, slot5)
 	end
 end
 
-return var_0_0
+return slot0

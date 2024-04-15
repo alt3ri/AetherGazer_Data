@@ -1,247 +1,237 @@
-local var_0_0 = class("AlphaActivityView", ReduxView)
+slot0 = class("AlphaActivityView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Alpha/PhaseActivityUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.taskItems_ = {}
-	arg_4_0.generalTask_ = AlphaStageTaskItem.New(arg_4_0.generalTaskGo_)
-	arg_4_0.itemPool_ = Pool.New(arg_4_0.taskItemTemplate_, arg_4_0.taskItemContent_, 0)
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.taskItemScroll_, AlphaTaskItem)
+	slot0.taskItems_ = {}
+	slot0.generalTask_ = AlphaStageTaskItem.New(slot0.generalTaskGo_)
+	slot0.itemPool_ = Pool.New(slot0.taskItemTemplate_, slot0.taskItemContent_, 0)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.taskItemScroll_, AlphaTaskItem)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.leftBtn_:GetComponent(typeof(Button)), nil, function()
-		arg_5_0:RefreshContent(arg_5_0.stage_ - 1)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.leftBtn_:GetComponent(typeof(Button)), nil, function ()
+		uv0:RefreshContent(uv0.stage_ - 1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rightBtn_:GetComponent(typeof(Button)), nil, function()
-		arg_5_0:RefreshContent(arg_5_0.stage_ + 1)
+	slot0:AddBtnListener(slot0.rightBtn_:GetComponent(typeof(Button)), nil, function ()
+		uv0:RefreshContent(uv0.stage_ + 1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.phaseBtn_, nil, function()
+	slot0:AddBtnListener(slot0.phaseBtn_, nil, function ()
 		JumpTools.OpenPageByJump("PopupPhaseActivityUI")
 	end)
-	arg_5_0:AddDragListener(arg_5_0.scrollGo_, function()
-		return
-	end, function()
-		return
-	end, function(arg_11_0, arg_11_1)
-		arg_5_0:RefreshContentByDrag(arg_11_0, arg_11_1)
+	slot0:AddDragListener(slot0.scrollGo_, function ()
+	end, function ()
+	end, function (slot0, slot1)
+		uv0:RefreshContentByDrag(slot0, slot1)
 	end)
-	arg_5_0:AddDragListener(arg_5_0.backGo_, function()
-		return
-	end, function()
-		return
-	end, function(arg_14_0, arg_14_1)
-		arg_5_0:RefreshContentByDrag(arg_14_0, arg_14_1)
+	slot0:AddDragListener(slot0.backGo_, function ()
+	end, function ()
+	end, function (slot0, slot1)
+		uv0:RefreshContentByDrag(slot0, slot1)
 	end)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.stage_ = arg_15_0:GetAlphaTaskStage()
+function slot0.OnEnter(slot0)
+	slot0.stage_ = slot0:GetAlphaTaskStage()
 
-	arg_15_0.generalTask_:OnEnter()
+	slot0.generalTask_:OnEnter()
 
-	for iter_15_0 = 1, #arg_15_0.taskItems_ do
-		arg_15_0.taskItems_[iter_15_0]:OnEnter()
+	for slot4 = 1, #slot0.taskItems_ do
+		slot0.taskItems_[slot4]:OnEnter()
 	end
 
-	arg_15_0:RefreshContent(arg_15_0.stage_)
+	slot0:RefreshContent(slot0.stage_)
 end
 
-function var_0_0.GetAlphaTaskStage(arg_16_0)
+function slot0.GetAlphaTaskStage(slot0)
 	return TaskData2:GetAssignmentPhase()
 end
 
-function var_0_0.GetTaskList(arg_17_0)
-	local var_17_0 = {
+function slot0.GetTaskList(slot0)
+	slot1 = {
 		stageTask = {}
 	}
-	local var_17_1 = TaskData2:GetTypedTaskSortList(TaskConst.TASK_TYPE.ALPHA)
 
-	for iter_17_0, iter_17_1 in pairs(var_17_1) do
-		if AssignmentCfg[iter_17_1.id].type == TaskConst.TASK_TYPE.ALPHA then
-			local var_17_2 = AssignmentCfg[iter_17_1.id].phase
-
-			if not var_17_0[var_17_2] then
-				var_17_0[var_17_2] = {}
+	for slot6, slot7 in pairs(TaskData2:GetTypedTaskSortList(TaskConst.TASK_TYPE.ALPHA)) do
+		if AssignmentCfg[slot7.id].type == TaskConst.TASK_TYPE.ALPHA then
+			if not slot1[AssignmentCfg[slot7.id].phase] then
+				slot1[slot8] = {}
 			end
 
-			if AssignmentCfg[iter_17_1.id].condition == TaskConst.STAGE_TASK_ID and AssignmentCfg[iter_17_1.id].additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
-				var_17_0.stageTask[var_17_2] = iter_17_1.id
+			if AssignmentCfg[slot7.id].condition == TaskConst.STAGE_TASK_ID and AssignmentCfg[slot7.id].additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
+				slot1.stageTask[slot8] = slot7.id
 			else
-				var_17_0[var_17_2][#var_17_0[var_17_2] + 1] = TaskData2:GetTask(iter_17_1.id)
+				slot1[slot8][#slot1[slot8] + 1] = TaskData2:GetTask(slot7.id)
 			end
 		end
 	end
 
-	return var_17_0
+	return slot1
 end
 
-function var_0_0.GetTaskIDByStage(arg_18_0, arg_18_1)
-	return arg_18_0:GetTaskList().stageTask[arg_18_1]
+function slot0.GetTaskIDByStage(slot0, slot1)
+	return slot0:GetTaskList().stageTask[slot1]
 end
 
-function var_0_0.GetStage(arg_19_0)
-	return arg_19_0.stage_
+function slot0.GetStage(slot0)
+	return slot0.stage_
 end
 
-function var_0_0.indexItem(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_2:RefreshUI(arg_20_0.sortedList_[arg_20_1].id)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.sortedList_[slot1].id)
 end
 
-function var_0_0.RefreshContentByDrag(arg_21_0, arg_21_1, arg_21_2)
-	if arg_21_1 == 0 then
+function slot0.RefreshContentByDrag(slot0, slot1, slot2)
+	if slot1 == 0 then
 		return
 	end
 
-	if math.abs(arg_21_1) > UnityEngine.Screen.width then
+	if UnityEngine.Screen.width < math.abs(slot1) then
 		return
 	end
 
-	if math.abs(arg_21_2) > UnityEngine.Screen.height then
+	if UnityEngine.Screen.height < math.abs(slot2) then
 		return
 	end
 
-	if math.abs(arg_21_2 / arg_21_1) < 0.5773 then
-		if arg_21_1 > 0 then
-			arg_21_0:RefreshContent(arg_21_0.stage_ + 1)
+	if math.abs(slot2 / slot1) < 0.5773 then
+		if slot1 > 0 then
+			slot0:RefreshContent(slot0.stage_ + 1)
 
 			return
 		end
 
-		if arg_21_1 < 0 then
-			arg_21_0:RefreshContent(arg_21_0.stage_ - 1)
+		if slot1 < 0 then
+			slot0:RefreshContent(slot0.stage_ - 1)
 
 			return
 		end
 	end
 end
 
-function var_0_0.RefreshContent(arg_22_0, arg_22_1)
-	if arg_22_1 > TaskConst.ALPHA_LAST_STAGE then
-		arg_22_0:RefreshContent(TaskConst.ALPHA_LAST_STAGE)
+function slot0.RefreshContent(slot0, slot1)
+	if TaskConst.ALPHA_LAST_STAGE < slot1 then
+		slot0:RefreshContent(TaskConst.ALPHA_LAST_STAGE)
 
 		return
 	end
 
-	if arg_22_1 < 1 then
-		arg_22_0:RefreshContent(1)
+	if slot1 < 1 then
+		slot0:RefreshContent(1)
 
 		return
 	end
 
-	arg_22_0.sortedList_ = arg_22_0:SortedTask(arg_22_1)
-	arg_22_0.stage_ = arg_22_1
-	arg_22_0.titleText_.text = GetI18NText(AssignmentCfg[arg_22_0:GetTaskIDByStage(arg_22_1)].desc)
+	slot0.sortedList_ = slot0:SortedTask(slot1)
+	slot0.stage_ = slot1
+	slot0.titleText_.text = GetI18NText(AssignmentCfg[slot0:GetTaskIDByStage(slot1)].desc)
 
-	arg_22_0.generalTask_:RefreshUI(arg_22_0:GetTaskIDByStage(arg_22_1))
-	arg_22_0.scrollHelper_:StartScroll(#arg_22_0.sortedList_)
+	slot0.generalTask_:RefreshUI(slot0:GetTaskIDByStage(slot1))
+	slot0.scrollHelper_:StartScroll(#slot0.sortedList_)
 
-	if arg_22_1 > arg_22_0:GetAlphaTaskStage() then
-		ShowTips(string.format(GetTips("NOTE_TASK_UNLOCK"), AssignmentCfg[arg_22_0:GetTaskList().stageTask[arg_22_1 - 1]].desc))
+	if slot0:GetAlphaTaskStage() < slot1 then
+		ShowTips(string.format(GetTips("NOTE_TASK_UNLOCK"), AssignmentCfg[slot0:GetTaskList().stageTask[slot1 - 1]].desc))
 	end
 
-	if arg_22_1 <= 1 then
-		SetActive(arg_22_0.leftBtn_, false)
-	elseif arg_22_1 >= TaskConst.ALPHA_LAST_STAGE then
-		SetActive(arg_22_0.rightBtn_, false)
+	if slot1 <= 1 then
+		SetActive(slot0.leftBtn_, false)
+	elseif TaskConst.ALPHA_LAST_STAGE <= slot1 then
+		SetActive(slot0.rightBtn_, false)
 	else
-		SetActive(arg_22_0.leftBtn_, true)
-		SetActive(arg_22_0.rightBtn_, true)
+		SetActive(slot0.leftBtn_, true)
+		SetActive(slot0.rightBtn_, true)
 	end
 end
 
-function var_0_0.SortedTask(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_0:GetTaskList()[arg_23_1]
-	local var_23_1 = {}
-	local var_23_2 = {}
-	local var_23_3 = {}
+function slot0.SortedTask(slot0, slot1)
+	slot3 = {}
+	slot4 = {}
+	slot5 = {}
 
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		if iter_23_1.complete_flag < 1 then
-			if AssignmentCfg[iter_23_1.id].need <= iter_23_1.progress then
-				table.insert(var_23_1, iter_23_1)
+	for slot9, slot10 in ipairs(slot0:GetTaskList()[slot1]) do
+		if slot10.complete_flag < 1 then
+			if AssignmentCfg[slot10.id].need <= slot10.progress then
+				table.insert(slot3, slot10)
 			else
-				table.insert(var_23_2, iter_23_1)
+				table.insert(slot4, slot10)
 			end
 		else
-			table.insert(var_23_3, iter_23_1)
+			table.insert(slot5, slot10)
 		end
 	end
 
-	local var_23_4 = {}
+	slot6 = {}
 
-	local function var_23_5(arg_24_0, arg_24_1)
-		return arg_24_0.id < arg_24_1.id
+	function slot7(slot0, slot1)
+		return slot0.id < slot1.id
 	end
 
-	table.sort(var_23_1, var_23_5)
-	table.sort(var_23_2, var_23_5)
-	table.sort(var_23_3, var_23_5)
-	table.insertto(var_23_4, var_23_1)
-	table.insertto(var_23_4, var_23_2)
-	table.insertto(var_23_4, var_23_3)
+	table.sort(slot3, slot7)
+	table.sort(slot4, slot7)
+	table.sort(slot5, slot7)
+	table.insertto(slot6, slot3)
+	table.insertto(slot6, slot4)
+	table.insertto(slot6, slot5)
 
-	return var_23_4
+	return slot6
 end
 
-function var_0_0.RefreshIcon(arg_25_0)
-	local var_25_0 = AssignmentCfg[arg_25_0:GetTaskIDByStage(arg_25_0.stage_)].reward[1][1]
-
-	if ItemCfg[var_25_0].type == ItemConst.ITEM_TYPE.HERO then
-		arg_25_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. var_25_0)
+function slot0.RefreshIcon(slot0)
+	if ItemCfg[AssignmentCfg[slot0:GetTaskIDByStage(slot0.stage_)].reward[1][1]].type == ItemConst.ITEM_TYPE.HERO then
+		slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot1)
 	else
-		arg_25_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l" .. var_25_0)
+		slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l" .. slot1)
 	end
 end
 
-function var_0_0.OnTaskListChange(arg_26_0)
-	if arg_26_0:GetAlphaTaskStage() > TaskConst.ALPHA_LAST_STAGE then
-		arg_26_0:RefreshContent(TaskConst.ALPHA_LAST_STAGE)
+function slot0.OnTaskListChange(slot0)
+	if TaskConst.ALPHA_LAST_STAGE < slot0:GetAlphaTaskStage() then
+		slot0:RefreshContent(TaskConst.ALPHA_LAST_STAGE)
 
 		return
 	end
 
-	arg_26_0:RefreshContent(arg_26_0:GetAlphaTaskStage())
+	slot0:RefreshContent(slot0:GetAlphaTaskStage())
 end
 
-function var_0_0.OnTop(arg_27_0)
-	arg_27_0:ShowDefaultBar()
+function slot0.OnTop(slot0)
+	slot0:ShowDefaultBar()
 end
 
-function var_0_0.OnExit(arg_28_0)
-	arg_28_0.generalTask_:OnExit()
+function slot0.OnExit(slot0)
+	slot0.generalTask_:OnExit()
 
-	for iter_28_0 = 1, #arg_28_0.taskItems_ do
-		arg_28_0.taskItems_[iter_28_0]:OnExit()
+	for slot4 = 1, #slot0.taskItems_ do
+		slot0.taskItems_[slot4]:OnExit()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_29_0)
-	arg_29_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_29_0 = 1, #arg_29_0.taskItems_ do
-		arg_29_0.taskItems_[iter_29_0]:Dispose()
+	for slot4 = 1, #slot0.taskItems_ do
+		slot0.taskItems_[slot4]:Dispose()
 	end
 
-	arg_29_0.generalTask_:Dispose()
-	arg_29_0.itemPool_:Dispose()
-	arg_29_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_29_0)
+	slot0.generalTask_:Dispose()
+	slot0.itemPool_:Dispose()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

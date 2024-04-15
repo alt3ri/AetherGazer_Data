@@ -1,107 +1,97 @@
-local var_0_0 = class("HeroPreviewPropertyPage", HeroPageBase)
+slot0 = class("HeroPreviewPropertyPage", HeroPageBase)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.campController_ = ControllerUtil.GetController(arg_3_0.infoViewGo_.transform, "camp")
-	arg_3_0.attackTypeController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "attackType")
+	slot0.campController_ = ControllerUtil.GetController(slot0.infoViewGo_.transform, "camp")
+	slot0.attackTypeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "attackType")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.campBgBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.campBgBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sectionSelectRaceDescription")
 	end)
 end
 
-function var_0_0.SetHeroInfo(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0.heroInfo_
+function slot0.SetHeroInfo(slot0, slot1)
+	slot2 = slot0.heroInfo_
+	slot0.heroInfo_ = HeroData:GetHeroData(slot1.id)
 
-	arg_6_0.heroInfo_ = HeroData:GetHeroData(arg_6_1.id)
-
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.heroCfg_ = HeroCfg[arg_7_0.heroInfo_.id]
-	arg_7_0.nameText_.text = GetI18NText(arg_7_0.heroCfg_.name)
-	arg_7_0.subNameText_.text = GetI18NText(arg_7_0.heroCfg_.suffix)
-	arg_7_0.friendlyDescText_.text = GetI18NText(arg_7_0.heroCfg_.hero_desc)
+function slot0.UpdateView(slot0)
+	slot0.heroCfg_ = HeroCfg[slot0.heroInfo_.id]
+	slot0.nameText_.text = GetI18NText(slot0.heroCfg_.name)
+	slot0.subNameText_.text = GetI18NText(slot0.heroCfg_.suffix)
+	slot0.friendlyDescText_.text = GetI18NText(slot0.heroCfg_.hero_desc)
+	slot0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. HeroStarCfg[slot0.heroCfg_.unlock_star].star)
+	slot0.rangeTypeText_.text = CharactorParamCfg[slot0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
 
-	local var_7_0 = HeroStarCfg[arg_7_0.heroCfg_.unlock_star]
-
-	arg_7_0.starImg_.sprite = getSprite("Atlas/Common", "star_" .. var_7_0.star)
-	arg_7_0.rangeTypeText_.text = CharactorParamCfg[arg_7_0.heroInfo_.id].RangeType == 0 and GetTips("RANGETYPE_CLOSE") or GetTips("RANGETYPE_LONG")
-
-	local var_7_1 = arg_7_0.heroCfg_.mechanism_type[1]
-
-	if var_7_1 == HeroConst.HERO_CHARGE_TYPE.RAGE then
-		arg_7_0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_1")
-	elseif var_7_1 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
-		arg_7_0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_2")
-	elseif var_7_1 == HeroConst.HERO_CHARGE_TYPE.TRACES then
-		arg_7_0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_3")
-	elseif var_7_1 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
-		arg_7_0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_4")
+	if slot0.heroCfg_.mechanism_type[1] == HeroConst.HERO_CHARGE_TYPE.RAGE then
+		slot0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_1")
+	elseif slot2 == HeroConst.HERO_CHARGE_TYPE.ENERGY then
+		slot0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_2")
+	elseif slot2 == HeroConst.HERO_CHARGE_TYPE.TRACES then
+		slot0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_3")
+	elseif slot2 == HeroConst.HERO_CHARGE_TYPE.DIVINE_GRACE then
+		slot0.compatTypeText_.text = GetTips("NOTE_ENERGYTYPE_4")
 	end
 
-	if #arg_7_0.heroCfg_.ATK_attribute > 1 then
-		arg_7_0.attackTypeController_:SetSelectedState(-1)
+	if #slot0.heroCfg_.ATK_attribute > 1 then
+		slot0.attackTypeController_:SetSelectedState(-1)
 	else
-		local var_7_2 = arg_7_0.heroCfg_.ATK_attribute[1]
-
-		arg_7_0.attackTypeController_:SetSelectedState(var_7_2)
+		slot0.attackTypeController_:SetSelectedState(slot0.heroCfg_.ATK_attribute[1])
 	end
 
-	arg_7_0.campController_:SetSelectedState(tostring(arg_7_0.heroCfg_.race))
+	slot0.campController_:SetSelectedState(tostring(slot0.heroCfg_.race))
 end
 
-function var_0_0.PlayEnterAni(arg_8_0)
-	arg_8_0.playableDirector_ = arg_8_0.playableDirector_ or arg_8_0:FindCom(typeof(PlayableDirector), "panel")
+function slot0.PlayEnterAni(slot0)
+	slot0.playableDirector_ = slot0.playableDirector_ or slot0:FindCom(typeof(PlayableDirector), "panel")
 
-	if arg_8_0.playableDirector_ then
-		arg_8_0.playableDirector_.time = 0
+	if slot0.playableDirector_ then
+		slot0.playableDirector_.time = 0
 
-		arg_8_0.playableDirector_:Play()
+		slot0.playableDirector_:Play()
 	end
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnHeroModify(arg_11_0, arg_11_1)
-	if arg_11_1 == arg_11_0.heroInfo_.id then
-		arg_11_0:UpdateView()
+function slot0.OnHeroModify(slot0, slot1)
+	if slot1 == slot0.heroInfo_.id then
+		slot0:UpdateView()
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_12_0.heroInfoView_ then
-		arg_12_0.heroInfoView_:Dispose()
+	if slot0.heroInfoView_ then
+		slot0.heroInfoView_:Dispose()
 
-		arg_12_0.heroInfoView_ = nil
+		slot0.heroInfoView_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

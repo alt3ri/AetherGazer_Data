@@ -1,96 +1,85 @@
-local var_0_0 = class("ActivityHeroEnhanceBattleSettlementModule", ReduxView)
+slot0 = class("ActivityHeroEnhanceBattleSettlementModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_0:InstView(arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot0:InstView(slot1)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InstView(arg_2_0, arg_2_1)
-	local var_2_0 = "Widget/Version/NorseUI_3_0/NorseUI_3_0_HeroEnhanceUI/NorseUI_3_0_HeroEnhanceBattleResultContent"
-
-	return (Object.Instantiate(Asset.Load(var_2_0), arg_2_1))
+function slot0.InstView(slot0, slot1)
+	return Object.Instantiate(Asset.Load("Widget/Version/NorseUI_3_0/NorseUI_3_0_HeroEnhanceUI/NorseUI_3_0_HeroEnhanceBattleResultContent"), slot1)
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	arg_3_0.rewardItemList = {}
-	arg_3_0.rewardList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexAwardItem), arg_3_0.rewardList_, CommonItemView)
-	arg_3_0.talentList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexTalentItem), arg_3_0.talentListGo_, ActivityHeroEnhanceTalentItem)
+function slot0.BuildContext(slot0)
+	slot0.rewardItemList = {}
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.IndexAwardItem), slot0.rewardList_, CommonItemView)
+	slot0.talentList_ = LuaList.New(handler(slot0, slot0.IndexTalentItem), slot0.talentListGo_, ActivityHeroEnhanceTalentItem)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BuildContext()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RenderView(arg_7_0, arg_7_1)
-	arg_7_0.talentIdList_ = arg_7_1.stageData:GetTalentIdList()
+function slot0.RenderView(slot0, slot1)
+	slot0.talentIdList_ = slot1.stageData:GetTalentIdList()
 
-	arg_7_0.talentList_:StartScroll(4)
-	arg_7_0:RenderRewards(arg_7_1.rewardList)
+	slot0.talentList_:StartScroll(4)
+	slot0:RenderRewards(slot1.rewardList)
 end
 
-function var_0_0.RenderRewards(arg_8_0, arg_8_1)
-	local var_8_0 = {}
+function slot0.RenderRewards(slot0, slot1)
+	slot2 = {}
 
-	if arg_8_1 then
-		for iter_8_0, iter_8_1 in pairs(arg_8_1[1]) do
-			table.insert(var_8_0, iter_8_1)
+	if slot1 then
+		for slot6, slot7 in pairs(slot1[1]) do
+			table.insert(slot2, slot7)
 		end
 
-		var_8_0 = formatRewardCfgList(var_8_0)
-		var_8_0 = mergeReward(var_8_0)
-		var_8_0 = sortReward(var_8_0)
+		slot2 = sortReward(mergeReward(formatRewardCfgList(slot2)))
 	end
 
-	arg_8_0.rewardItemList = var_8_0
+	slot0.rewardItemList = slot2
 
-	arg_8_0.rewardList_:StartScroll(#var_8_0, 1)
+	slot0.rewardList_:StartScroll(#slot2, 1)
 end
 
-function var_0_0.IndexAwardItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.rewardItemList[arg_9_1]
-
-	if ItemCfg[var_9_0.id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[var_9_0.id].type then
-		var_9_0.race = EquipCfg[var_9_0.id] and EquipCfg[var_9_0.id].race or 0
+function slot0.IndexAwardItem(slot0, slot1, slot2)
+	if ItemCfg[slot0.rewardItemList[slot1].id] and ItemConst.ITEM_TYPE.EQUIP == ItemCfg[slot3.id].type then
+		slot3.race = EquipCfg[slot3.id] and EquipCfg[slot3.id].race or 0
 	end
 
-	local var_9_1 = clone(ItemTemplateData)
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3.id
+	slot4.number = slot3.num
+	slot4.race = slot3.race
 
-	var_9_1.id = var_9_0.id
-	var_9_1.number = var_9_0.num
-	var_9_1.race = var_9_0.race
-
-	function var_9_1.clickFun(arg_10_0)
+	function slot4.clickFun(slot0)
 		ShowPopItemOnly(POP_OTHER_ITEM, {
-			arg_10_0.id,
-			arg_10_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_9_2:SetData(var_9_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.IndexTalentItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.talentIdList_[arg_11_1]
-
-	arg_11_2:SetData(arg_11_0.activityId_, var_11_0)
-	arg_11_2:RefreshUI()
+function slot0.IndexTalentItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityId_, slot0.talentIdList_[slot1])
+	slot2:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.talentList_:Dispose()
-	arg_12_0.rewardList_:Dispose()
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	slot0.talentList_:Dispose()
+	slot0.rewardList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

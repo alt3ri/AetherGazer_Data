@@ -1,213 +1,195 @@
-local var_0_0 = class("StrategyMatrixMapView", ReduxView)
+slot0 = class("StrategyMatrixMapView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = Asset.Load("UI/StrategyMatrix/Map/StrategyMatrixMap_" .. arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/StrategyMatrix/Map/StrategyMatrixMap_" .. slot1), slot2)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.mapId = slot1
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.mapId = arg_1_1
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.node_list = {}
+	slot0.node_list = {}
 
-	local var_3_0 = StrategyMatrixMapCfg.get_id_list_by_map_id[arg_3_0.mapId] or {}
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_0) do
-		local var_3_1 = arg_3_0.m_nodes:Find(tostring(iter_3_1))
-
-		if var_3_1 == nil then
-			print(iter_3_1)
+	for slot5, slot6 in ipairs(StrategyMatrixMapCfg.get_id_list_by_map_id[slot0.mapId] or {}) do
+		if slot0.m_nodes:Find(tostring(slot6)) == nil then
+			print(slot6)
 		end
 
-		local var_3_2 = StrategyMatrixMapNode.New(var_3_1, iter_3_1)
+		slot8 = StrategyMatrixMapNode.New(slot7, slot6)
 
-		var_3_2:RegistCallBack(handler(arg_3_0, arg_3_0.SetSelectNode))
+		slot8:RegistCallBack(handler(slot0, slot0.SetSelectNode))
 
-		arg_3_0.node_list[iter_3_1] = var_3_2
+		slot0.node_list[slot6] = slot8
 	end
 
-	arg_3_0.animator = arg_3_0:FindCom(typeof(Animator), "", arg_3_0.transform_)
+	slot0.animator = slot0:FindCom(typeof(Animator), "", slot0.transform_)
 end
 
-function var_0_0.PlayerAnim(arg_4_0, arg_4_1)
-	if not arg_4_0.animator then
+function slot0.PlayerAnim(slot0, slot1)
+	if not slot0.animator then
 		return
 	end
 
-	if arg_4_1 then
-		arg_4_0.animator:Play("StrategyMatrixMap", 0, 0)
+	if slot1 then
+		slot0.animator:Play("StrategyMatrixMap", 0, 0)
 	else
-		arg_4_0.animator:Play("StrategyMatrixMap", 0, 9999999)
+		slot0.animator:Play("StrategyMatrixMap", 0, 9999999)
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
-		if arg_5_0:IsOpenSectionInfo() then
-			arg_5_0:SetSelectNode(0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		if uv0:IsOpenSectionInfo() then
+			uv0:SetSelectNode(0)
 			JumpTools.Back()
 		end
 	end)
-	arg_5_0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function(arg_7_0, arg_7_1)
-		if arg_5_0:IsOpenSectionInfo() then
-			arg_5_0:SetSelectNode(0)
+	slot0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		if uv0:IsOpenSectionInfo() then
+			uv0:SetSelectNode(0)
 			JumpTools.Back()
 		end
 	end))
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.matrix_activity_id = arg_8_1
+function slot0.SetData(slot0, slot1)
+	slot0.matrix_activity_id = slot1
+	slot2 = nil
 
-	local var_8_0
-	local var_8_1 = StrategyMatrixData:GetNodeList(arg_8_0.matrix_activity_id)
+	for slot7, slot8 in pairs(StrategyMatrixData:GetNodeList(slot0.matrix_activity_id)) do
+		slot0.node_list[slot7]:SetData(slot0.matrix_activity_id, slot8)
+		slot0.node_list[slot7]:SetSelect(slot7 == slot0.selectNodeId)
 
-	for iter_8_0, iter_8_1 in pairs(var_8_1) do
-		arg_8_0.node_list[iter_8_0]:SetData(arg_8_0.matrix_activity_id, iter_8_1)
-		arg_8_0.node_list[iter_8_0]:SetSelect(iter_8_0 == arg_8_0.selectNodeId)
-
-		if iter_8_1.state == StrategyMatrixConst.NODE_STATE.CURRENT then
-			var_8_0 = iter_8_0
+		if slot8.state == StrategyMatrixConst.NODE_STATE.CURRENT then
+			slot2 = slot7
 		end
 	end
 
-	if arg_8_0.selectNodeId == nil or arg_8_0.selectNodeId == 0 then
-		arg_8_0.selectNodeId = var_8_0
+	if slot0.selectNodeId == nil or slot0.selectNodeId == 0 then
+		slot0.selectNodeId = slot2
 	end
 
-	if arg_8_0.selectNodeId and arg_8_0.selectNodeId ~= 0 then
-		local var_8_2 = arg_8_0:GetPosition(arg_8_0.selectNodeId)
+	if slot0.selectNodeId and slot0.selectNodeId ~= 0 then
+		slot0.m_scrollContent.localPosition = Vector3(slot0:GetPosition(slot0.selectNodeId), 0, 0)
 
-		arg_8_0.m_scrollContent.localPosition = Vector3(var_8_2, 0, 0)
-
-		if arg_8_0:IsOpenSectionInfo() then
-			arg_8_0.m_scrollCom.horizontal = false
+		if slot0:IsOpenSectionInfo() then
+			slot0.m_scrollCom.horizontal = false
 		else
-			arg_8_0.m_scrollCom.horizontal = true
+			slot0.m_scrollCom.horizontal = true
 		end
 	else
-		arg_8_0:SetSelectNode(0)
+		slot0:SetSelectNode(0)
 
-		arg_8_0.m_scrollContent.localPosition = Vector3(0, 0, 0)
+		slot0.m_scrollContent.localPosition = Vector3(0, 0, 0)
 	end
 end
 
-function var_0_0.OnTop(arg_9_0)
-	arg_9_0:SetSelectNode(0)
+function slot0.OnTop(slot0)
+	slot0:SetSelectNode(0)
 end
 
-function var_0_0.GoBack(arg_10_0)
-	if arg_10_0:IsOpenSectionInfo() then
-		arg_10_0:SetSelectNode(0)
+function slot0.GoBack(slot0)
+	if slot0:IsOpenSectionInfo() then
+		slot0:SetSelectNode(0)
 	end
 
 	JumpTools.Back()
 end
 
-function var_0_0.Exit(arg_11_0)
-	arg_11_0:RemoveTween()
+function slot0.Exit(slot0)
+	slot0:RemoveTween()
 end
 
-function var_0_0.GetMapId(arg_12_0)
-	return arg_12_0.mapId
+function slot0.GetMapId(slot0)
+	return slot0.mapId
 end
 
-function var_0_0.SetSelectNode(arg_13_0, arg_13_1, arg_13_2)
-	if arg_13_2 == nil then
-		arg_13_2 = true
+function slot0.SetSelectNode(slot0, slot1, slot2)
+	if slot2 == nil then
+		slot2 = true
 	end
 
-	if arg_13_1 == arg_13_0.selectNodeId then
-		arg_13_2 = false
+	if slot1 == slot0.selectNodeId then
+		slot2 = false
 	end
 
-	arg_13_0.selectNodeId = arg_13_1
+	slot0.selectNodeId = slot1
 
-	if arg_13_0.node_list[arg_13_1] then
-		local var_13_0 = arg_13_0:GetPosition(arg_13_1)
+	if slot0.node_list[slot1] then
+		slot0.m_scrollCom.horizontal = false
 
-		arg_13_0.m_scrollCom.horizontal = false
+		slot0:RemoveTween()
 
-		arg_13_0:RemoveTween()
-
-		if arg_13_2 then
-			arg_13_0.tween_ = LeanTween.value(arg_13_0.m_scrollContent.gameObject, arg_13_0.m_scrollContent.localPosition.x, var_13_0, 0.2):setOnUpdate(LuaHelper.FloatAction(function(arg_14_0)
-				arg_13_0.m_scrollContent.localPosition = Vector3(arg_14_0, 0, 0)
+		if slot2 then
+			slot0.tween_ = LeanTween.value(slot0.m_scrollContent.gameObject, slot0.m_scrollContent.localPosition.x, slot0:GetPosition(slot1), 0.2):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+				uv0.m_scrollContent.localPosition = Vector3(slot0, 0, 0)
 			end))
 		else
-			arg_13_0.m_scrollContent.localPosition = Vector3(var_13_0, 0, 0)
+			slot0.m_scrollContent.localPosition = Vector3(slot4, 0, 0)
 		end
 	else
-		arg_13_0.m_scrollCom.horizontal = true
+		slot0.m_scrollCom.horizontal = true
 	end
 
-	if arg_13_0.selectNodeId ~= 0 then
-		arg_13_0:Go("strategyMatrixInfo", {
-			nodeId = arg_13_0.selectNodeId,
-			matrix_activity_id = arg_13_0.matrix_activity_id
+	if slot0.selectNodeId ~= 0 then
+		slot0:Go("strategyMatrixInfo", {
+			nodeId = slot0.selectNodeId,
+			matrix_activity_id = slot0.matrix_activity_id
 		})
 	end
 
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.node_list) do
-		local var_13_1 = iter_13_1:GetNodeId()
-
-		iter_13_1:SetSelect(var_13_1 == arg_13_0.selectNodeId)
+	for slot7, slot8 in pairs(slot0.node_list) do
+		slot8:SetSelect(slot8:GetNodeId() == slot0.selectNodeId)
 	end
 end
 
-function var_0_0.GetPosition(arg_15_0, arg_15_1)
-	local var_15_0 = arg_15_0.node_list[arg_15_1]
-
-	if var_15_0 then
-		local var_15_1 = var_15_0.transform_.localPosition
-
-		return arg_15_0.m_scrollView.rect.width / 2 - (arg_15_0.m_scrollContent.rect.width / 2 + var_15_1.x)
+function slot0.GetPosition(slot0, slot1)
+	if slot0.node_list[slot1] then
+		return slot0.m_scrollView.rect.width / 2 - (slot0.m_scrollContent.rect.width / 2 + slot2.transform_.localPosition.x)
 	else
 		return 0
 	end
 end
 
-function var_0_0.RemoveTween(arg_16_0)
-	if arg_16_0.tween_ then
-		arg_16_0.tween_:setOnUpdate(nil)
-		LeanTween.cancel(arg_16_0.m_scrollContent.gameObject)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil)
+		LeanTween.cancel(slot0.m_scrollContent.gameObject)
 
-		arg_16_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.IsOpenSectionInfo(arg_17_0)
-	return arg_17_0:IsOpenRoute("strategyMatrixInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("strategyMatrixInfo")
 end
 
-function var_0_0.Dispose(arg_18_0)
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.node_list) do
-		iter_18_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.node_list) do
+		slot5:Dispose()
 	end
 
-	arg_18_0.m_scrollEvent:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_18_0)
+	slot0.m_scrollEvent:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 
-	if not isNil(arg_18_0.gameObject_) then
-		Object.Destroy(arg_18_0.gameObject_)
+	if not isNil(slot0.gameObject_) then
+		Object.Destroy(slot0.gameObject_)
 
-		arg_18_0.gameObject_ = nil
-		arg_18_0.transform_ = nil
+		slot0.gameObject_ = nil
+		slot0.transform_ = nil
 	end
 end
 
-function var_0_0.GoBack(arg_19_0)
-	arg_19_0:Back()
+function slot0.GoBack(slot0)
+	slot0:Back()
 end
 
-return var_0_0
+return slot0

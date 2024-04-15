@@ -1,66 +1,64 @@
-local var_0_0 = class("ActvitiyAdvertiseView", ReduxView)
+slot0 = class("ActvitiyAdvertiseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Activity/ActivityAdvertiseParentUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:CreateItem()
+function slot0.OnEnter(slot0)
+	slot0:CreateItem()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	arg_5_0:DestroyItem()
+function slot0.OnExit(slot0)
+	slot0:DestroyItem()
 end
 
-function var_0_0.CreateItem(arg_6_0)
-	arg_6_0.itemView_ = ActivityAdvertiseItem.New(arg_6_0.itemParent_)
+function slot0.CreateItem(slot0)
+	slot0.itemView_ = ActivityAdvertiseItem.New(slot0.itemParent_)
 end
 
-function var_0_0.DestroyItem(arg_7_0)
-	arg_7_0.itemView_:Dispose()
+function slot0.DestroyItem(slot0)
+	slot0.itemView_:Dispose()
 
-	arg_7_0.itemView_ = nil
+	slot0.itemView_ = nil
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.closeBtn_, nil, function()
-		local var_10_0 = 0
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		slot0 = 0
 
-		if arg_9_0.itemView_ and arg_9_0.itemView_.cfgID_ then
-			local var_10_1 = ActivityAdvertiseCfg[arg_9_0.itemView_.cfgID_]
-
-			var_10_0 = var_10_1 and var_10_1.activity_id
+		if uv0.itemView_ and uv0.itemView_.cfgID_ then
+			slot0 = ActivityAdvertiseCfg[uv0.itemView_.cfgID_] and slot1.activity_id
 		end
 
 		SDKTools.SendMessageToSDK("activity_publicize_page_jump", {
 			opt = 2,
-			activity_id = var_10_0
+			activity_id = slot0
 		})
 
 		if ActivityAdvertiseTools.NeedShowAdvertise() then
-			arg_9_0:DestroyItem()
-			arg_9_0:CreateItem()
+			uv0:DestroyItem()
+			uv0:CreateItem()
 		else
-			arg_9_0:Back()
+			uv0:Back()
 		end
 	end)
 end
 
-function var_0_0.Cacheable(arg_11_0)
+function slot0.Cacheable(slot0)
 	return false
 end
 
-return var_0_0
+return slot0

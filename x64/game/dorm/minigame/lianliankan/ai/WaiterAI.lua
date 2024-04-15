@@ -1,46 +1,37 @@
-local var_0_0 = {}
-local var_0_1 = "lianliankan.path.RestaurantWaiter"
-local var_0_2
-local var_0_3
+slot0 = {
+	SetEntity = function (slot0)
+		uv0 = slot0
+	end,
+	Work = function ()
+		slot1 = uv1
+		uv2 = true
 
-function var_0_0.SetEntity(arg_1_0)
-	var_0_2 = arg_1_0
-end
+		Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(slot1, "gua_R_hand_bone")
+		Dorm.DormEntityManager.PlayEffect(slot1, "gua_R_hand_bone", "Effect/Dorm/food03", -1)
+		Dorm.DormEntityManager.ChangeEntityAnimeScheme(slot1, "carry")
+		Dorm.DormEntityManager.StopAllCmd(slot1)
+		Dorm.DormEntityManager.SendDoActionCMD(slot1, "serve", "01", false)
+		DormUtils.MoveByPath(slot1, Dorm.storage:PickData(uv0), true, false)
+	end,
+	Back = function ()
+		uv0 = false
+		slot1 = uv2
 
-function var_0_0.Work()
-	local var_2_0 = Dorm.storage:PickData(var_0_1)
-	local var_2_1 = var_0_2
-
-	var_0_3 = true
-
-	Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(var_2_1, "gua_R_hand_bone")
-	Dorm.DormEntityManager.PlayEffect(var_2_1, "gua_R_hand_bone", "Effect/Dorm/food03", -1)
-	Dorm.DormEntityManager.ChangeEntityAnimeScheme(var_2_1, "carry")
-	Dorm.DormEntityManager.StopAllCmd(var_2_1)
-	Dorm.DormEntityManager.SendDoActionCMD(var_2_1, "serve", "01", false)
-	DormUtils.MoveByPath(var_2_1, var_2_0, true, false)
-end
-
-function var_0_0.Back()
-	var_0_3 = false
-
-	local var_3_0 = Dorm.storage:PickData(var_0_1)
-	local var_3_1 = var_0_2
-
-	Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(var_3_1, "gua_R_hand_bone")
-	Dorm.DormEntityManager.RestoreEntityAnimeScheme(var_3_1)
-	DormUtils.MoveByPath(var_3_1, var_3_0, true, true)
-end
-
-function var_0_0.OnEntityCompleteAllCmd(arg_4_0)
-	if arg_4_0 == var_0_2 and var_0_3 then
-		var_0_0.Back()
+		Dorm.DormEntityManager.ClearInteractEffectOnAttachPoint(slot1, "gua_R_hand_bone")
+		Dorm.DormEntityManager.RestoreEntityAnimeScheme(slot1)
+		DormUtils.MoveByPath(slot1, Dorm.storage:PickData(uv1), true, true)
+	end,
+	OnEntityCompleteAllCmd = function (slot0)
+		if slot0 == uv0 and uv1 then
+			uv2.Back()
+		end
 	end
-end
-
-var_0_0.events = {
-	[ON_DORM_CHARACTER_WAIT_CMD] = var_0_0.OnEntityCompleteAllCmd,
-	[LIANLIANKAN_ITEM_OVERFLOW] = var_0_0.Work
+}
+slot1 = "lianliankan.path.RestaurantWaiter"
+slot2, slot3 = nil
+slot0.events = {
+	[ON_DORM_CHARACTER_WAIT_CMD] = slot0.OnEntityCompleteAllCmd,
+	[LIANLIANKAN_ITEM_OVERFLOW] = slot0.Work
 }
 
-return var_0_0
+return slot0

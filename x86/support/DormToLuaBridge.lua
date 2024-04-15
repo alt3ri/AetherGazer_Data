@@ -1,26 +1,26 @@
 Dorm.timer = {}
 
 function Dorm.NewTimer(...)
-	local var_1_0 = Timer.New(...)
+	slot0 = Timer.New(...)
 
-	table.insert(Dorm.timer, var_1_0)
+	table.insert(Dorm.timer, slot0)
 
-	return var_1_0
+	return slot0
 end
 
-local function var_0_0(arg_2_0)
+function slot0(slot0)
 	Dorm.heroSpecialVfxInfo = {}
 
 	Dorm.storage:MapToData(DormEnum.Namespace.HeroShowSpecialVfx, Dorm.heroSpecialVfxInfo)
 
-	Dorm.charaVfxActiveType = arg_2_0
+	Dorm.charaVfxActiveType = slot0
 end
 
-function OnEnterDormScene(arg_3_0)
+function OnEnterDormScene(slot0)
 	gameContext:SetSystemLayer("battle")
 	DormLuaBridge.CalcDormSpawnBounds()
 
-	if DormData:GetCurrectSceneID() >= DormConst.DORM_VISIT_ROOM_MIN then
+	if DormConst.DORM_VISIT_ROOM_MIN <= DormData:GetCurrectSceneID() then
 		Dorm.DormEntityManager.EnablePlayerInput = false
 	else
 		Dorm.DormEntityManager.EnablePlayerInput = true
@@ -31,7 +31,7 @@ function OnEnterDormScene(arg_3_0)
 	Dorm.storage:Reset()
 	LuaForUtil.UpdateCameraSetting()
 
-	if not arg_3_0 then
+	if not slot0 then
 		manager.uiInit()
 	end
 
@@ -40,7 +40,7 @@ function OnEnterDormScene(arg_3_0)
 
 	Dorm.globalSubtitleView:OnEnter()
 	DormRegisterCMDEvent()
-	var_0_0({
+	uv0({
 		DormEnum.SpecialVfx.Hungry
 	})
 	DormFurnitureManager.GetInstance():Init()
@@ -48,11 +48,8 @@ function OnEnterDormScene(arg_3_0)
 	DormCharacterActionManager:Init()
 	DormCharacterInteractBehaviour:Init()
 
-	local var_3_0 = DormData:GetCurrectSceneID()
-	local var_3_1 = BackHomeCfg[var_3_0].type
-
-	if var_3_1 == DormConst.BACKHOME_TYPE.PublicDorm or var_3_1 == DormConst.BACKHOME_TYPE.PrivateDorm then
-		DormAction.AskDormRoomLikeNum(var_3_0)
+	if BackHomeCfg[DormData:GetCurrectSceneID()].type == DormConst.BACKHOME_TYPE.PublicDorm or slot2 == DormConst.BACKHOME_TYPE.PrivateDorm then
+		DormAction.AskDormRoomLikeNum(slot1)
 	end
 
 	if DormitoryData:GetFlag() then
@@ -68,7 +65,7 @@ function OnEnterDormScene(arg_3_0)
 	Dorm.Enter()
 end
 
-function OnExitDormScene(arg_4_0)
+function OnExitDormScene(slot0)
 	Dorm.Leave()
 	manager.audio:StopAll()
 	manager.windowBar:ClearWhereTag()
@@ -77,7 +74,7 @@ function OnExitDormScene(arg_4_0)
 	Dorm.globalSubtitleView = Dorm.globalSubtitleView:Dispose()
 	Dorm.subtitleViewStack = nil
 
-	if arg_4_0 then
+	if slot0 then
 		gameContext:DestroyCurRoutes()
 	else
 		DestroyLua()
@@ -92,33 +89,33 @@ function OnExitDormScene(arg_4_0)
 	Dorm.heroSpecialVfxInfo = nil
 end
 
-function OnClickFurniture(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0
+function OnClickFurniture(slot0, slot1, slot2)
+	slot3 = nil
 
-	if arg_5_2 and arg_5_2 >= 0 then
-		var_5_0 = arg_5_2
+	if slot2 and slot2 >= 0 then
+		slot3 = slot2
 	end
 
 	JumpTools.OpenPageByJump("/furnitureEdit", {
 		type = "edit",
-		itemId = arg_5_0,
-		furEntityID = arg_5_1,
-		furSuitEid = var_5_0
+		itemId = slot0,
+		furEntityID = slot1,
+		furSuitEid = slot3
 	})
 end
 
-function OnClickIllegalSuitFurniture(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_2 == "otherSuit" then
+function OnClickIllegalSuitFurniture(slot0, slot1, slot2)
+	if slot2 == "otherSuit" then
 		ShowTips("DORM_FURNITURE_CANT_ADD_OTHER_SUIT")
-	elseif arg_6_2 == "cantPlace" then
+	elseif slot2 == "cantPlace" then
 		ShowTips("DORM_SUIT_CANT_PlACE_ADD_FURNITURE")
-	elseif arg_6_2 == "wallFur" then
+	elseif slot2 == "wallFur" then
 		ShowTips("DORM_FURNITURE_CANT_ADD_SUIT")
 	end
 end
 
-function EnterSuitAllEditMode(arg_7_0, arg_7_1, arg_7_2)
-	manager.notify:Invoke(DORM_ENTER_SUIT_EDIT_MODE, arg_7_0, arg_7_1, arg_7_2)
+function EnterSuitAllEditMode(slot0, slot1, slot2)
+	manager.notify:Invoke(DORM_ENTER_SUIT_EDIT_MODE, slot0, slot1, slot2)
 end
 
 function OnEnterCanteenScene()
@@ -143,7 +140,7 @@ function OnEnterCanteenScene()
 	manager.uiInit()
 	DormRegisterCMDEvent()
 	manager.windowBar:SetWhereTag("canteen")
-	var_0_0({
+	uv0({
 		DormEnum.SpecialVfx.Tired
 	})
 	Dorm.restaurant:RegisterEvent()
@@ -157,8 +154,8 @@ end
 function OnExitCanteenScene()
 	Dorm.Leave()
 
-	for iter_9_0, iter_9_1 in pairs(Dorm.timer) do
-		iter_9_1:Stop()
+	for slot3, slot4 in pairs(Dorm.timer) do
+		slot4:Stop()
 	end
 
 	manager.audio:StopAll()
@@ -178,16 +175,9 @@ function ChangeDormScene()
 end
 
 function ChangeDormBackGround()
-	local var_11_0 = GameDisplayCfg.dorm_loading_tips
-	local var_11_1 = GameDisplayCfg.dorm_loading_picture
+	slot1 = GameDisplayCfg.dorm_loading_picture
 
-	if var_11_0 and var_11_1 then
-		local var_11_2 = math.random(1, #var_11_0.value)
-		local var_11_3 = math.random(1, #var_11_1.value)
-		local var_11_4 = GetTips(var_11_0.value[var_11_2][1]) or ""
-		local var_11_5 = GetTips(var_11_0.value[var_11_2][2]) or ""
-		local var_11_6 = var_11_1.value[var_11_3] or "loading_11"
-
-		LoadingUIManager.inst:UpdateLoadingInfo(var_11_4, var_11_5, var_11_6)
+	if GameDisplayCfg.dorm_loading_tips and slot1 then
+		LoadingUIManager.inst:UpdateLoadingInfo(GetTips(slot0.value[math.random(1, #slot0.value)][1]) or "", GetTips(slot0.value[slot2][2]) or "", slot1.value[math.random(1, #slot1.value)] or "loading_11")
 	end
 end

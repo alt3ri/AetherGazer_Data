@@ -1,269 +1,259 @@
-local var_0_0 = class("StoreEquipFilterView", ReduxView)
+slot0 = class("StoreEquipFilterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Bag/BagEquipFilterUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.suitUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexSuitItem), arg_3_0.suitListGo_, EquipFilterSuitItem)
-	arg_3_0.skillUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexSkillItem), arg_3_0.skillListGo_, EquipFilterSkillItem)
-	arg_3_0.tabController_ = arg_3_0.filterController_:GetController("tab")
-	arg_3_0.selectController_ = arg_3_0.filterController_:GetController("select")
-	arg_3_0.suitList_ = {}
-	arg_3_0.skillList_ = {}
-	arg_3_0.selectList_ = {}
-	arg_3_0.selectItemList_ = {}
-	arg_3_0.selectPanelType_ = StoreConst.EQUIP_FILTER_TYPE.SUIT
-	arg_3_0.OnEquipFilterSelectChangeHandler = handler(arg_3_0, arg_3_0.OnEquipFilterSelectChange)
+	slot0.suitUIList_ = LuaList.New(handler(slot0, slot0.IndexSuitItem), slot0.suitListGo_, EquipFilterSuitItem)
+	slot0.skillUIList_ = LuaList.New(handler(slot0, slot0.IndexSkillItem), slot0.skillListGo_, EquipFilterSkillItem)
+	slot0.tabController_ = slot0.filterController_:GetController("tab")
+	slot0.selectController_ = slot0.filterController_:GetController("select")
+	slot0.suitList_ = {}
+	slot0.skillList_ = {}
+	slot0.selectList_ = {}
+	slot0.selectItemList_ = {}
+	slot0.selectPanelType_ = StoreConst.EQUIP_FILTER_TYPE.SUIT
+	slot0.OnEquipFilterSelectChangeHandler = handler(slot0, slot0.OnEquipFilterSelectChange)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	manager.notify:RegistListener(EQUIP_FILTER_SELECT_CHANGE, arg_4_0.OnEquipFilterSelectChangeHandler)
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(EQUIP_FILTER_SELECT_CHANGE, slot0.OnEquipFilterSelectChangeHandler)
 
-	arg_4_0.filterParams_ = clone(arg_4_0.params_.filterParams)
+	slot0.filterParams_ = clone(slot0.params_.filterParams)
 
-	arg_4_0:InitSuitDataList()
-	arg_4_0:InitSkillDataList()
-	arg_4_0:InitSelectList()
-	arg_4_0.suitUIList_:StartScroll(#arg_4_0.suitList_)
-	arg_4_0.skillUIList_:StartScroll(#arg_4_0.skillList_)
-	arg_4_0:RefreshSelectPanel()
+	slot0:InitSuitDataList()
+	slot0:InitSkillDataList()
+	slot0:InitSelectList()
+	slot0.suitUIList_:StartScroll(#slot0.suitList_)
+	slot0.skillUIList_:StartScroll(#slot0.skillList_)
+	slot0:RefreshSelectPanel()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	manager.notify:RemoveListener(EQUIP_FILTER_SELECT_CHANGE, arg_5_0.OnEquipFilterSelectChangeHandler)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(EQUIP_FILTER_SELECT_CHANGE, slot0.OnEquipFilterSelectChangeHandler)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.OnEquipFilterSelectChangeHandler = nil
+function slot0.Dispose(slot0)
+	slot0.OnEquipFilterSelectChangeHandler = nil
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.selectItemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.selectItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.selectItemList_ = nil
+	slot0.selectItemList_ = nil
 
-	arg_6_0.suitUIList_:Dispose()
+	slot0.suitUIList_:Dispose()
 
-	arg_6_0.suitUIList_ = nil
+	slot0.suitUIList_ = nil
 
-	arg_6_0.skillUIList_:Dispose()
+	slot0.skillUIList_:Dispose()
 
-	arg_6_0.skillUIList_ = nil
+	slot0.skillUIList_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.btnConfirm_, nil, function()
-		local var_8_0 = {}
-
-		for iter_8_0, iter_8_1 in ipairs(arg_7_0.filterParams_.suit) do
-			table.insert(var_8_0, iter_8_1)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnConfirm_, nil, function ()
+		for slot4, slot5 in ipairs(uv0.filterParams_.suit) do
+			table.insert({}, slot5)
 		end
 
-		local var_8_1 = {}
+		slot1 = {}
 
-		for iter_8_2, iter_8_3 in ipairs(arg_7_0.filterParams_.skill) do
-			table.insert(var_8_1, iter_8_3)
+		for slot5, slot6 in ipairs(uv0.filterParams_.skill) do
+			table.insert(slot1, slot6)
 		end
 
 		manager.notify:Invoke(EQUIP_FILTER_SELECT_APPLY, {
-			suitList = var_8_0,
-			skillList = var_8_1
+			suitList = slot0,
+			skillList = slot1
 		})
-		arg_7_0:Back()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.btnSuit_, nil, function()
-		arg_7_0:SwitchPanel(StoreConst.EQUIP_FILTER_TYPE.SUIT)
+	slot0:AddBtnListener(slot0.btnSuit_, nil, function ()
+		uv0:SwitchPanel(StoreConst.EQUIP_FILTER_TYPE.SUIT)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.btnSkill_, nil, function()
-		arg_7_0:SwitchPanel(StoreConst.EQUIP_FILTER_TYPE.SKILL)
+	slot0:AddBtnListener(slot0.btnSkill_, nil, function ()
+		uv0:SwitchPanel(StoreConst.EQUIP_FILTER_TYPE.SKILL)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.btnMask_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.btnMask_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.brnCloseSelected_, nil, function()
-		arg_7_0.filterParams_.suit = {}
-		arg_7_0.filterParams_.skill = {}
+	slot0:AddBtnListener(slot0.brnCloseSelected_, nil, function ()
+		uv0.filterParams_.suit = {}
+		uv0.filterParams_.skill = {}
 
-		arg_7_0:ClearSelectItemData()
-		arg_7_0:RefreshSuitUIList()
-		arg_7_0:RefreshSkillUIList()
-		arg_7_0:RefreshSelectPanel()
+		uv0:ClearSelectItemData()
+		uv0:RefreshSuitUIList()
+		uv0:RefreshSkillUIList()
+		uv0:RefreshSelectPanel()
 	end)
 end
 
-function var_0_0.OnEquipFilterSelectChange(arg_13_0, arg_13_1)
-	if arg_13_1.type == StoreConst.EQUIP_FILTER_TYPE.SUIT then
-		if arg_13_1.state == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
-			table.insert(arg_13_0.filterParams_.suit, arg_13_1.id)
-			arg_13_0:AddSelectItemData(arg_13_1)
+function slot0.OnEquipFilterSelectChange(slot0, slot1)
+	if slot1.type == StoreConst.EQUIP_FILTER_TYPE.SUIT then
+		if slot1.state == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
+			table.insert(slot0.filterParams_.suit, slot1.id)
+			slot0:AddSelectItemData(slot1)
 		else
-			table.removebyvalue(arg_13_0.filterParams_.suit, arg_13_1.id)
-			arg_13_0:RemoveSelectItemData(arg_13_1)
+			table.removebyvalue(slot0.filterParams_.suit, slot1.id)
+			slot0:RemoveSelectItemData(slot1)
 		end
 
-		arg_13_0:RefreshSuitUIList()
+		slot0:RefreshSuitUIList()
 	else
-		if arg_13_1.state == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
-			table.insert(arg_13_0.filterParams_.skill, arg_13_1.id)
-			arg_13_0:AddSelectItemData(arg_13_1)
+		if slot1.state == StoreConst.EQUIP_FILTER_ITEM_ADD_OR_REMOVE.ADD then
+			table.insert(slot0.filterParams_.skill, slot1.id)
+			slot0:AddSelectItemData(slot1)
 		else
-			table.removebyvalue(arg_13_0.filterParams_.skill, arg_13_1.id)
-			arg_13_0:RemoveSelectItemData(arg_13_1)
+			table.removebyvalue(slot0.filterParams_.skill, slot1.id)
+			slot0:RemoveSelectItemData(slot1)
 		end
 
-		arg_13_0:RefreshSkillUIList()
+		slot0:RefreshSkillUIList()
 	end
 
-	arg_13_0:RefreshSelectPanel()
+	slot0:RefreshSelectPanel()
 end
 
-function var_0_0.SwitchPanel(arg_14_0, arg_14_1)
-	if arg_14_0.selectPanelType_ ~= arg_14_1 then
-		arg_14_0.selectPanelType_ = arg_14_1
-		arg_14_0.filterParams_.suit = {}
-		arg_14_0.filterParams_.skill = {}
+function slot0.SwitchPanel(slot0, slot1)
+	if slot0.selectPanelType_ ~= slot1 then
+		slot0.selectPanelType_ = slot1
+		slot0.filterParams_.suit = {}
+		slot0.filterParams_.skill = {}
 
-		arg_14_0:ClearSelectItemData()
-		arg_14_0:RefreshSelectPanel()
+		slot0:ClearSelectItemData()
+		slot0:RefreshSelectPanel()
 
-		if arg_14_1 == StoreConst.EQUIP_FILTER_TYPE.SUIT then
-			arg_14_0.tabController_:SetSelectedState("suit")
+		if slot1 == StoreConst.EQUIP_FILTER_TYPE.SUIT then
+			slot0.tabController_:SetSelectedState("suit")
 		else
-			arg_14_0.tabController_:SetSelectedState("skill")
+			slot0.tabController_:SetSelectedState("skill")
 		end
 
-		arg_14_0:RefreshPanel()
+		slot0:RefreshPanel()
 	end
 end
 
-function var_0_0.RefreshPanel(arg_15_0)
-	if arg_15_0.selectPanelType_ == StoreConst.EQUIP_FILTER_TYPE.SUIT then
-		arg_15_0.suitUIList_:StartScroll(#arg_15_0.suitList_)
+function slot0.RefreshPanel(slot0)
+	if slot0.selectPanelType_ == StoreConst.EQUIP_FILTER_TYPE.SUIT then
+		slot0.suitUIList_:StartScroll(#slot0.suitList_)
 	else
-		arg_15_0.skillUIList_:StartScroll(#arg_15_0.skillList_)
+		slot0.skillUIList_:StartScroll(#slot0.skillList_)
 	end
 end
 
-function var_0_0.RefreshSelectPanel(arg_16_0)
-	if #arg_16_0.selectList_ <= 0 then
-		arg_16_0.selectController_:SetSelectedState("noselect")
+function slot0.RefreshSelectPanel(slot0)
+	if #slot0.selectList_ <= 0 then
+		slot0.selectController_:SetSelectedState("noselect")
 	else
-		arg_16_0.selectController_:SetSelectedState("select")
-		arg_16_0:RefreshAllSelectItem()
+		slot0.selectController_:SetSelectedState("select")
+		slot0:RefreshAllSelectItem()
 	end
 end
 
-function var_0_0.RefreshSuitUIList(arg_17_0)
-	arg_17_0.suitUIList_:Refresh()
+function slot0.RefreshSuitUIList(slot0)
+	slot0.suitUIList_:Refresh()
 end
 
-function var_0_0.InitSuitDataList(arg_18_0)
-	arg_18_0.suitList_ = {}
+function slot0.InitSuitDataList(slot0)
+	slot0.suitList_ = {}
 
-	for iter_18_0, iter_18_1 in ipairs(EquipSuitCfg.all) do
-		local var_18_0 = EquipTools.GetSuitEquipNum(iter_18_1, nil, arg_18_0.params_.equipPosition)
-
-		arg_18_0.suitList_[iter_18_0] = {
+	for slot4, slot5 in ipairs(EquipSuitCfg.all) do
+		slot0.suitList_[slot4] = {
 			type = StoreConst.EQUIP_FILTER_TYPE.SUIT,
-			id = iter_18_1,
-			cnt = var_18_0
+			id = slot5,
+			cnt = EquipTools.GetSuitEquipNum(slot5, nil, slot0.params_.equipPosition)
 		}
 	end
 end
 
-function var_0_0.IndexSuitItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.suitList_[arg_19_1]
+function slot0.IndexSuitItem(slot0, slot1, slot2)
+	slot3 = slot0.suitList_[slot1]
 
-	arg_19_2:SetData(var_19_0, table.keyof(arg_19_0.filterParams_.suit, var_19_0.id) ~= nil)
+	slot2:SetData(slot3, table.keyof(slot0.filterParams_.suit, slot3.id) ~= nil)
 end
 
-function var_0_0.RefreshSkillUIList(arg_20_0)
-	arg_20_0.skillUIList_:Refresh()
+function slot0.RefreshSkillUIList(slot0)
+	slot0.skillUIList_:Refresh()
 end
 
-function var_0_0.InitSkillDataList(arg_21_0)
-	arg_21_0.skillList_ = {}
+function slot0.InitSkillDataList(slot0)
+	slot0.skillList_ = {}
 
-	for iter_21_0, iter_21_1 in ipairs(EquipSkillCfg.get_id_list_by_skill_type[EquipConst.EQUIP_ATTRIBUTE_TYPE.ENCHANT]) do
-		local var_21_0 = EquipTools.GetEquipSkillNum(iter_21_1, nil, arg_21_0.params_.equipPosition)
-
-		arg_21_0.skillList_[iter_21_0] = {
+	for slot4, slot5 in ipairs(EquipSkillCfg.get_id_list_by_skill_type[EquipConst.EQUIP_ATTRIBUTE_TYPE.ENCHANT]) do
+		slot0.skillList_[slot4] = {
 			type = StoreConst.EQUIP_FILTER_TYPE.SKILL,
-			id = iter_21_1,
-			cnt = var_21_0
+			id = slot5,
+			cnt = EquipTools.GetEquipSkillNum(slot5, nil, slot0.params_.equipPosition)
 		}
 	end
 end
 
-function var_0_0.IndexSkillItem(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = arg_22_0.skillList_[arg_22_1]
+function slot0.IndexSkillItem(slot0, slot1, slot2)
+	slot3 = slot0.skillList_[slot1]
 
-	arg_22_2:SetData(var_22_0, table.keyof(arg_22_0.filterParams_.skill, var_22_0.id) ~= nil)
+	slot2:SetData(slot3, table.keyof(slot0.filterParams_.skill, slot3.id) ~= nil)
 end
 
-function var_0_0.InitSelectList(arg_23_0)
-	arg_23_0.selectList_ = {}
+function slot0.InitSelectList(slot0)
+	slot0.selectList_ = {}
 
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.filterParams_.suit) do
-		local var_23_0 = {
+	for slot4, slot5 in ipairs(slot0.filterParams_.suit) do
+		table.insert(slot0.selectList_, {
 			type = StoreConst.EQUIP_FILTER_TYPE.SUIT,
-			id = iter_23_1
-		}
-
-		table.insert(arg_23_0.selectList_, var_23_0)
+			id = slot5
+		})
 	end
 
-	for iter_23_2, iter_23_3 in ipairs(arg_23_0.filterParams_.skill) do
-		local var_23_1 = {
+	for slot4, slot5 in ipairs(slot0.filterParams_.skill) do
+		table.insert(slot0.selectList_, {
 			type = StoreConst.EQUIP_FILTER_TYPE.SKILL,
-			id = iter_23_3
-		}
-
-		table.insert(arg_23_0.selectList_, var_23_1)
+			id = slot5
+		})
 	end
 end
 
-function var_0_0.AddSelectItemData(arg_24_0, arg_24_1)
-	table.insert(arg_24_0.selectList_, {
-		type = arg_24_1.type,
-		id = arg_24_1.id
+function slot0.AddSelectItemData(slot0, slot1)
+	table.insert(slot0.selectList_, {
+		type = slot1.type,
+		id = slot1.id
 	})
 end
 
-function var_0_0.RemoveSelectItemData(arg_25_0, arg_25_1)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.selectList_) do
-		if iter_25_1.type == arg_25_1.type and iter_25_1.id == arg_25_1.id then
-			table.remove(arg_25_0.selectList_, iter_25_0)
+function slot0.RemoveSelectItemData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.selectList_) do
+		if slot6.type == slot1.type and slot6.id == slot1.id then
+			table.remove(slot0.selectList_, slot5)
 
 			return
 		end
 	end
 end
 
-function var_0_0.ClearSelectItemData(arg_26_0)
-	arg_26_0.selectList_ = {}
+function slot0.ClearSelectItemData(slot0)
+	slot0.selectList_ = {}
 end
 
-function var_0_0.RefreshAllSelectItem(arg_27_0)
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.selectList_) do
-		arg_27_0.selectItemList_[iter_27_0] = arg_27_0.selectItemList_[iter_27_0] or EquipFilterSelectItem.New(arg_27_0.filterItemGo_, arg_27_0.filterItemParentGo_)
+function slot0.RefreshAllSelectItem(slot0)
+	for slot4, slot5 in ipairs(slot0.selectList_) do
+		slot0.selectItemList_[slot4] = slot0.selectItemList_[slot4] or EquipFilterSelectItem.New(slot0.filterItemGo_, slot0.filterItemParentGo_)
 
-		arg_27_0.selectItemList_[iter_27_0]:SetData(iter_27_1)
+		slot0.selectItemList_[slot4]:SetData(slot5)
 	end
 
-	for iter_27_2 = #arg_27_0.selectList_ + 1, #arg_27_0.selectItemList_ do
-		arg_27_0.selectItemList_[iter_27_2]:Show(false)
+	for slot4 = #slot0.selectList_ + 1, #slot0.selectItemList_ do
+		slot0.selectItemList_[slot4]:Show(false)
 	end
 end
 
-return var_0_0
+return slot0

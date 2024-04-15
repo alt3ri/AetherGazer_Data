@@ -1,70 +1,64 @@
-local var_0_0 = class("ChapterEquipBreakThroughMaterialItemView", import(".ChapterEquipItemView"))
+slot0 = class("ChapterEquipBreakThroughMaterialItemView", import(".ChapterEquipItemView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	manager.redPoint:bindUIandKey(arg_1_0.transform_, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL, {
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL, {
 		x = 195.4,
 		y = 296
 	})
 
-	if arg_1_0.isLock_ then
-		SetActive(arg_1_0.timeGo_, false)
+	if slot0.isLock_ then
+		SetActive(slot0.timeGo_, false)
 	else
-		SetActive(arg_1_0.timeGo_, true)
+		SetActive(slot0.timeGo_, true)
 	end
 
-	arg_1_0:AddRefreshTimer()
+	slot0:AddRefreshTimer()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	var_0_0.super.OnExit(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.transform_, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL)
-	arg_2_0:StopRefreshTimer()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.EQUIP_BREAK_THROUGH_MATERIAL)
+	slot0:StopRefreshTimer()
 end
 
-function var_0_0.IsLock(arg_3_0)
-	arg_3_0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL) and true or false
+function slot0.IsLock(slot0)
+	slot0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL) and true or false
 end
 
-function var_0_0.GetIconPath(arg_4_0, arg_4_1)
+function slot0.GetIconPath(slot0, slot1)
 	return SpritePathCfg.ItemIcon.path
 end
 
-function var_0_0.ClickItemListener(arg_5_0)
-	local var_5_0 = arg_5_0.chapterClientID_
+function slot0.ClickItemListener(slot0)
+	slot1 = slot0.chapterClientID_
 
-	if arg_5_0.isLock_ then
-		local var_5_1 = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL)
-
-		ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL, var_5_1))
+	if slot0.isLock_ then
+		ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL, JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_EQUIP_BREAK_THROUGH_MATERIAL)))
 
 		return
 	end
 
-	arg_5_0:ClickItem(var_5_0)
+	slot0:ClickItem(slot1)
 end
 
-function var_0_0.AddRefreshTimer(arg_6_0)
-	arg_6_0:StopRefreshTimer()
+function slot0.AddRefreshTimer(slot0)
+	slot0:StopRefreshTimer()
 
-	local var_6_0 = EquipBreakThroughMaterialData:GetRefreshTimestamp()
-
-	arg_6_0.timeText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(var_6_0, nil, true))
-	arg_6_0.timer_ = Timer.New(function()
-		local var_7_0 = EquipBreakThroughMaterialData:GetRefreshTimestamp()
-
-		arg_6_0.timeText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(var_7_0, nil, true))
+	slot0.timeText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(EquipBreakThroughMaterialData:GetRefreshTimestamp(), nil, true))
+	slot0.timer_ = Timer.New(function ()
+		uv0.timeText_.text = string.format(GetTips("REFRESH_LOST_TIME"), manager.time:GetLostTimeStr(EquipBreakThroughMaterialData:GetRefreshTimestamp(), nil, true))
 	end, 1, -1)
 
-	arg_6_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopRefreshTimer(arg_8_0)
-	if arg_8_0.timer_ then
-		arg_8_0.timer_:Stop()
+function slot0.StopRefreshTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_8_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

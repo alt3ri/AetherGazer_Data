@@ -1,139 +1,127 @@
-local var_0_0 = class("LeviathanLittleGameItem", ReduxView)
+slot0 = class("LeviathanLittleGameItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_4
-	arg_1_0.chapterID_ = arg_1_2
-	arg_1_0.activityID_ = arg_1_3
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot4
+	slot0.chapterID_ = slot2
+	slot0.activityID_ = slot3
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.nameText_.text = GetI18NText(ActivityBubblesCfg[arg_2_0.chapterID_].name)
+function slot0.OnEnter(slot0)
+	slot0.nameText_.text = GetI18NText(ActivityBubblesCfg[slot0.chapterID_].name)
 
-	arg_2_0:AddTimer()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.transform_ = nil
-	arg_4_0.gameObject_ = nil
+function slot0.Dispose(slot0)
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnBtn_, nil, function()
-		if manager.time:GetServerTime() < arg_5_0:GetOpenTimestamp() then
-			local var_6_0 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_6_0, manager.time:GetLostTimeStr(arg_5_0:GetOpenTimestamp())))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnBtn_, nil, function ()
+		if manager.time:GetServerTime() < uv0:GetOpenTimestamp() then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0:GetOpenTimestamp())))
 
 			return
 		end
 
-		local var_6_1 = ActivityBubblesCfg[arg_5_0.chapterID_].stage_id
-
-		arg_5_0:Go("leviathanSectionInfo", {
-			chapterID = arg_5_0.chapterID_,
-			section = var_6_1,
+		uv0:Go("leviathanSectionInfo", {
+			chapterID = uv0.chapterID_,
+			section = ActivityBubblesCfg[uv0.chapterID_].stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.LEVIATHAN_GAME
 		})
 
-		if arg_5_0.func_ then
-			arg_5_0.func_(arg_5_0.index_)
+		if uv0.func_ then
+			uv0.func_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.GetOpenTimestamp(arg_7_0)
-	return ActivityData:GetActivityData(arg_7_0.chapterID_).startTime or 0
+function slot0.GetOpenTimestamp(slot0)
+	return ActivityData:GetActivityData(slot0.chapterID_).startTime or 0
 end
 
-function var_0_0.AddClickFunc(arg_8_0, arg_8_1)
-	arg_8_0.func_ = arg_8_1
+function slot0.AddClickFunc(slot0, slot1)
+	slot0.func_ = slot1
 end
 
-function var_0_0.AddTimer(arg_9_0)
-	arg_9_0:RefreshState()
+function slot0.AddTimer(slot0)
+	slot0:RefreshState()
 
-	local var_9_0 = manager.time:GetServerTime() - arg_9_0:GetOpenTimestamp()
-
-	if var_9_0 >= 0 then
+	if manager.time:GetServerTime() - slot0:GetOpenTimestamp() >= 0 then
 		return
 	end
 
-	local var_9_1 = manager.time:GetLostTimeStr(arg_9_0:GetOpenTimestamp())
+	slot0.timetextText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot0:GetOpenTimestamp()))
 
-	arg_9_0.timetextText_.text = string.format(GetTips("OPEN_TIME"), var_9_1)
+	slot0:StopTimer()
 
-	arg_9_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		uv0 = manager.time:GetServerTime() - uv1:GetOpenTimestamp()
 
-	arg_9_0.timer_ = Timer.New(function()
-		var_9_0 = manager.time:GetServerTime() - arg_9_0:GetOpenTimestamp()
+		uv1:RefreshState()
 
-		arg_9_0:RefreshState()
+		uv1.timetextText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv1:GetOpenTimestamp()))
 
-		local var_10_0 = manager.time:GetLostTimeStr(arg_9_0:GetOpenTimestamp())
-
-		arg_9_0.timetextText_.text = string.format(GetTips("OPEN_TIME"), var_10_0)
-
-		if var_9_0 >= 0 then
-			arg_9_0:StopTimer()
+		if uv0 >= 0 then
+			uv1:StopTimer()
 		end
 	end, 1, -1)
 
-	arg_9_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshState(arg_12_0)
-	if arg_12_0:IsClear() then
-		arg_12_0.controller_:SetSelectedState("clear")
+function slot0.RefreshState(slot0)
+	if slot0:IsClear() then
+		slot0.controller_:SetSelectedState("clear")
 
 		return
 	end
 
-	if manager.time:GetServerTime() >= arg_12_0:GetOpenTimestamp() then
-		arg_12_0.controller_:SetSelectedState("normal")
+	if slot0:GetOpenTimestamp() <= manager.time:GetServerTime() then
+		slot0.controller_:SetSelectedState("normal")
 
 		return
 	end
 
-	arg_12_0.controller_:SetSelectedState("lock")
+	slot0.controller_:SetSelectedState("lock")
 end
 
-function var_0_0.IsOpen(arg_13_0)
-	if manager.time:GetServerTime() >= arg_13_0:GetOpenTimestamp() then
+function slot0.IsOpen(slot0)
+	if slot0:GetOpenTimestamp() <= manager.time:GetServerTime() then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsClear(arg_14_0)
-	local var_14_0 = SummerLittleGameData:GetLeviathanState(arg_14_0.chapterID_)
-
-	if var_14_0 == 1 or var_14_0 == 2 then
+function slot0.IsClear(slot0)
+	if SummerLittleGameData:GetLeviathanState(slot0.chapterID_) == 1 or slot1 == 2 then
 		return true
 	end
 
 	return false
 end
 
-return var_0_0
+return slot0

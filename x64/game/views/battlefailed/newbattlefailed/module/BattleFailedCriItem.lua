@@ -1,18 +1,18 @@
-local var_0_0 = class("BattleFailedCriItem", ReduxView)
+slot0 = class("BattleFailedCriItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnRenderItem(arg_2_0, arg_2_1)
-	arg_2_0.typeImg_.sprite = arg_2_1
+function slot0.OnRenderItem(slot0, slot1)
+	slot0.typeImg_.sprite = slot1
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

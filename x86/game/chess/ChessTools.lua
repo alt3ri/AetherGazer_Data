@@ -1,5 +1,5 @@
-local var_0_0 = require("cjson")
-local var_0_1 = {
+slot0 = require("cjson")
+slot1 = {
 	{
 		1,
 		1
@@ -25,505 +25,410 @@ local var_0_1 = {
 		0
 	}
 }
-local var_0_2 = {
-	IsInteract = function(arg_1_0, arg_1_1)
-		local var_1_0 = arg_1_1 == 0 and arg_1_0 or arg_1_0 * 10 + arg_1_1
 
-		if WarchessHexCfg[var_1_0] then
-			return WarchessHexCfg[var_1_0].interact == 1
+return {
+	IsInteract = function (slot0, slot1)
+		if WarchessHexCfg[slot1 == 0 and slot0 or slot0 * 10 + slot1] then
+			return WarchessHexCfg[slot2].interact == 1
 		end
 
-		return WarchessHexCfg[arg_1_0].interact == 1
+		return WarchessHexCfg[slot0].interact == 1
 	end,
-	IsMove = function(arg_2_0, arg_2_1)
-		local var_2_0 = arg_2_1 == 0 and arg_2_0 or arg_2_0 * 10 + arg_2_1
-
-		if WarchessHexCfg[var_2_0] then
-			return WarchessHexCfg[var_2_0].move ~= 0
+	IsMove = function (slot0, slot1)
+		if WarchessHexCfg[slot1 == 0 and slot0 or slot0 * 10 + slot1] then
+			return WarchessHexCfg[slot2].move ~= 0
 		end
 
-		return WarchessHexCfg[arg_2_0].move ~= 0
+		return WarchessHexCfg[slot0].move ~= 0
 	end,
-	WayFindingWeight = function(arg_3_0, arg_3_1)
-		local var_3_0 = arg_3_1 == 0 and arg_3_0 or arg_3_0 * 10 + arg_3_1
-
-		if WarchessHexCfg[var_3_0] then
-			return WarchessHexCfg[var_3_0].move
+	WayFindingWeight = function (slot0, slot1)
+		if WarchessHexCfg[slot1 == 0 and slot0 or slot0 * 10 + slot1] then
+			return WarchessHexCfg[slot2].move
 		end
 
-		return WarchessHexCfg[arg_3_0].move
+		return WarchessHexCfg[slot0].move
 	end,
-	IsWalkEvent = function(arg_4_0, arg_4_1)
-		local var_4_0 = arg_4_1 == 0 and arg_4_0 or arg_4_0 * 10 + arg_4_1
-
-		if WarchessHexCfg[var_4_0] then
-			return WarchessHexCfg[var_4_0].interact == 2
+	IsWalkEvent = function (slot0, slot1)
+		if WarchessHexCfg[slot1 == 0 and slot0 or slot0 * 10 + slot1] then
+			return WarchessHexCfg[slot2].interact == 2
 		end
 
-		return WarchessHexCfg[arg_4_0].interact == 2
+		return WarchessHexCfg[slot0].interact == 2
 	end,
-	IsStoneInteract = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = arg_5_1 == 0 and arg_5_0 or arg_5_0 * 10 + arg_5_1
-
-		if var_5_0 == ChessConst.HOLE_GRID_ID and arg_5_2 == 2 then
+	IsStoneInteract = function (slot0, slot1, slot2)
+		if (slot1 == 0 and slot0 or slot0 * 10 + slot1) == ChessConst.HOLE_GRID_ID and slot2 == 2 then
 			return false
 		end
 
-		if WarchessHexCfg[var_5_0] then
-			return WarchessHexCfg[var_5_0].stonecaninteract == 1
+		if WarchessHexCfg[slot3] then
+			return WarchessHexCfg[slot3].stonecaninteract == 1
 		end
 
-		return WarchessHexCfg[arg_5_0].stonecaninteract == 1
+		return WarchessHexCfg[slot0].stonecaninteract == 1
 	end,
-	IsExplode = function(arg_6_0)
-		local var_6_0 = arg_6_0.typeID
-		local var_6_1 = arg_6_0.status
-		local var_6_2 = var_6_1 == 0 and var_6_0 or var_6_0 * 10 + var_6_1
+	IsExplode = function (slot0)
+		slot1 = slot0.typeID
 
-		if WarchessHexCfg[var_6_2].explode == 1 then
+		if WarchessHexCfg[slot0.status == 0 and slot1 or slot1 * 10 + slot2].explode == 1 then
 			return true
 		end
 
 		return false
-	end
-}
+	end,
+	IsBreakAuto = function (slot0)
+		slot1 = uv0.ParseParameter(slot0)
+		slot2 = slot0.typeID
 
-function var_0_2.IsBreakAuto(arg_7_0)
-	local var_7_0 = var_0_2.ParseParameter(arg_7_0)
-	local var_7_1 = arg_7_0.typeID
-	local var_7_2 = arg_7_0.status
-	local var_7_3 = var_7_2 == 0 and var_7_1 or var_7_1 * 10 + var_7_2
-
-	if WarchessHexCfg[var_7_3].interact ~= 2 then
-		return false
-	end
-
-	for iter_7_0, iter_7_1 in pairs(var_7_0) do
-		if iter_7_1.eventID == 10402 then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_2.LoadMap(arg_8_0)
-	local var_8_0
-	local var_8_1 = AssetEx.LoadText("Map/Chess/JsonMap/" .. arg_8_0 .. ".json")
-
-	return (var_0_0.decode(var_8_1))
-end
-
-function var_0_2.GetPosViaDir(arg_9_0, arg_9_1, arg_9_2)
-	return arg_9_0 + var_0_1[arg_9_2 + 1][1], arg_9_1 + var_0_1[arg_9_2 + 1][2]
-end
-
-function var_0_2.ParseParameter(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0
-
-	if arg_10_1 then
-		if type(arg_10_0.paramList) ~= "table" or #arg_10_0.paramList <= 0 then
-			return {}
+		if WarchessHexCfg[slot0.status == 0 and slot2 or slot2 * 10 + slot3].interact ~= 2 then
+			return false
 		end
 
-		var_10_0 = arg_10_0.paramList[1]
-	else
-		if arg_10_0.paramList.Length <= 0 then
-			return {}
-		end
-
-		var_10_0 = arg_10_0.paramList[0]
-	end
-
-	if not WarchessEventPoolCfg[var_10_0] or not var_10_0 then
-		return {}
-	end
-
-	local var_10_1
-
-	if not arg_10_2 then
-		var_10_1 = WarchessEventPoolCfg[var_10_0].event_group
-	else
-		var_10_1 = WarchessEventPoolCfg[var_10_0].event_group_second
-	end
-
-	if not var_10_1 or var_10_1 == "" then
-		return {}
-	end
-
-	return var_0_2.ParseEventPollCfg(var_10_1)
-end
-
-function var_0_2.ParseEventPollCfg(arg_11_0)
-	local var_11_0 = {}
-
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0) do
-		var_11_0[iter_11_0] = {}
-		var_11_0[iter_11_0].params = {}
-
-		for iter_11_2 = 1, #iter_11_1 do
-			if iter_11_2 == 1 then
-				var_11_0[iter_11_0].eventID = iter_11_1[iter_11_2]
-			else
-				var_11_0[iter_11_0].params[#var_11_0[iter_11_0].params + 1] = iter_11_1[iter_11_2]
+		for slot8, slot9 in pairs(slot1) do
+			if slot9.eventID == 10402 then
+				return true
 			end
 		end
-	end
 
-	return var_11_0
-end
+		return false
+	end,
+	LoadMap = function (slot0)
+		slot1 = nil
 
-function var_0_2.ParseToEvents(arg_12_0, arg_12_1)
-	local var_12_0 = {}
+		return uv0.decode(AssetEx.LoadText("Map/Chess/JsonMap/" .. slot0 .. ".json"))
+	end,
+	GetPosViaDir = function (slot0, slot1, slot2)
+		return slot0 + uv0[slot2 + 1][1], slot1 + uv0[slot2 + 1][2]
+	end,
+	ParseParameter = function (slot0, slot1, slot2)
+		slot3 = nil
 
-	for iter_12_0, iter_12_1 in pairs(arg_12_0) do
-		if ChessEventConfig[iter_12_1.eventID][arg_12_1] then
-			var_12_0[#var_12_0 + 1] = iter_12_1.eventID
-		elseif arg_12_1 ~= ChessConst.TIMING_CLICK and ChessEventConfig[iter_12_1.eventID][ChessConst.TIMING_ALL] then
-			var_12_0[#var_12_0 + 1] = iter_12_1.eventID
-		end
-	end
+		if slot1 then
+			if type(slot0.paramList) ~= "table" or #slot0.paramList <= 0 then
+				return {}
+			end
 
-	return var_12_0
-end
-
-function var_0_2.IsSavingEvent(arg_13_0)
-	for iter_13_0, iter_13_1 in pairs(ChessConst.EVENT) do
-		if not ChessEventConfig[arg_13_0] then
-			-- block empty
-		end
-
-		if ChessEventConfig[arg_13_0][iter_13_1] then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_2.GetProgress(arg_14_0)
-	local var_14_0 = WarChessData:GetBoxNum(arg_14_0, ChessConst.BOX.SMALL)
-	local var_14_1 = WarChessData:GetBoxNum(arg_14_0, ChessConst.BOX.BIG)
-	local var_14_2 = var_14_0 * WarchessLevelCfg[arg_14_0].sbox_progress
-	local var_14_3 = var_14_1 * WarchessLevelCfg[arg_14_0].lbox_progress
-
-	return var_14_2 + var_14_3 > 100 and 100 or var_14_2 + var_14_3
-end
-
-function var_0_2.IsFinish(arg_15_0)
-	return WarchessLevelCfg[arg_15_0].success_progress <= var_0_2.GetProgress(arg_15_0)
-end
-
-function var_0_2.TwoDToOneD(arg_16_0, arg_16_1)
-	return arg_16_1 * 1000 + arg_16_0
-end
-
-function var_0_2.OneDToTwoD(arg_17_0)
-	local var_17_0
-	local var_17_1
-	local var_17_2 = math.fmod(arg_17_0, 1000)
-	local var_17_3 = math.floor(arg_17_0 / 1000)
-
-	return var_17_2, var_17_3
-end
-
-function var_0_2.GetExtendID(arg_18_0, arg_18_1)
-	local var_18_0
-	local var_18_1 = table.keyof(arg_18_0, arg_18_1)
-
-	if #arg_18_0 <= 1 then
-		var_18_0 = arg_18_0[1]
-	elseif not var_18_1 then
-		var_18_0 = arg_18_0[1]
-	else
-		local var_18_2 = math.fmod(var_18_1 + 1, #arg_18_0 + 1)
-
-		if var_18_2 == 0 then
-			var_18_2 = var_18_2 + 1
-		end
-
-		var_18_0 = arg_18_0[var_18_2]
-	end
-
-	return var_18_0
-end
-
-function var_0_2.GetWarChessItemSprite(arg_19_0)
-	return getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[arg_19_0].icon)
-end
-
-function var_0_2.GetChapterProgress(arg_20_0)
-	if WarchessLevelCfg[arg_20_0] == nil then
-		return 0
-	end
-
-	local var_20_0 = WarChessData:GetBoxNum(arg_20_0, ChessConst.BOX.SMALL)
-	local var_20_1 = WarChessData:GetBoxNum(arg_20_0, ChessConst.BOX.BIG)
-	local var_20_2 = var_20_0 * WarchessLevelCfg[arg_20_0].sbox_progress
-	local var_20_3 = var_20_1 * WarchessLevelCfg[arg_20_0].lbox_progress
-
-	return var_20_2 + var_20_3 > 100 and 100 or var_20_2 + var_20_3
-end
-
-function var_0_2.EnterChessMap(arg_21_0, arg_21_1)
-	local var_21_0
-
-	if not arg_21_1 then
-		var_21_0 = ChapterClientCfg[arg_21_0].chapter_list[1]
-	else
-		var_21_0 = arg_21_0
-	end
-
-	if not WarchessLevelCfg[var_21_0] then
-		-- block empty
-	end
-
-	local var_21_1 = WarchessLevelCfg[var_21_0].type
-	local var_21_2 = WarChessData:GetCurrentChapter(var_21_1)
-
-	if var_21_2 == 0 or var_21_2 ~= var_21_0 then
-		WarChessData:AboutToStart()
-	end
-
-	local function var_21_3()
-		WarChessData:SetRedPoint(var_21_0)
-
-		local var_22_0, var_22_1 = gameContext:GetLastHistoryAndParams()
-
-		WarChessData:SetTemporaryData("url", var_22_0)
-		WarChessData:SetTemporaryData("urlParams", var_22_1)
-
-		local var_22_2 = getStoryViaStageID(var_21_0, manager.story.BEFORE)
-
-		if var_22_2 and not manager.story:IsStoryPlayed(var_22_2) then
-			manager.story:StartStoryOnEnterChessMap(var_22_2, function()
-				PlayerAction.ChangeStoryList(var_22_2)
-				WarChessAction.RequireWarChessInfo(var_21_0)
-			end)
+			slot3 = slot0.paramList[1]
 		else
-			WarChessAction.RequireWarChessInfo(var_21_0)
+			if slot0.paramList.Length <= 0 then
+				return {}
+			end
+
+			slot3 = slot0.paramList[0]
 		end
-	end
 
-	if var_21_2 == 0 then
-		var_21_3()
+		if not WarchessEventPoolCfg[slot3] or not slot3 then
+			return {}
+		end
 
-		return
-	end
+		slot4 = nil
 
-	local var_21_4
-	local var_21_5
+		if not slot2 and not WarchessEventPoolCfg[slot3].event_group or not WarchessEventPoolCfg[slot3].event_group_second or slot4 == "" then
+			return {}
+		end
 
-	if var_21_2 ~= 0 then
-		local var_21_6
+		return uv0.ParseEventPollCfg(slot4)
+	end,
+	ParseEventPollCfg = function (slot0)
+		slot1 = {
+			[slot5] = {}
+		}
 
-		if ChapterClientCfg[var_21_2] then
-			local var_21_7 = ChapterClientCfg[var_21_2]
+		for slot5, slot6 in ipairs(slot0) do
+			slot1[slot5].params = {}
 
-			var_21_4 = GetTips("CHESS_NAME_" .. WarchessLevelCfg[var_21_2].tag)
-			var_21_5 = var_21_7.name
+			for slot10 = 1, #slot6 do
+				if slot10 == 1 then
+					slot1[slot5].eventID = slot6[slot10]
+				else
+					slot1[slot5].params[#slot1[slot5].params + 1] = slot6[slot10]
+				end
+			end
+		end
+
+		return slot1
+	end,
+	ParseToEvents = function (slot0, slot1)
+		slot2 = {}
+
+		for slot6, slot7 in pairs(slot0) do
+			if ChessEventConfig[slot7.eventID][slot1] then
+				slot2[#slot2 + 1] = slot7.eventID
+			elseif slot1 ~= ChessConst.TIMING_CLICK and ChessEventConfig[slot7.eventID][ChessConst.TIMING_ALL] then
+				slot2[#slot2 + 1] = slot7.eventID
+			end
+		end
+
+		return slot2
+	end,
+	IsSavingEvent = function (slot0)
+		for slot4, slot5 in pairs(ChessConst.EVENT) do
+			if not ChessEventConfig[slot0] then
+				-- Nothing
+			end
+
+			if ChessEventConfig[slot0][slot5] then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetProgress = function (slot0)
+		return WarChessData:GetBoxNum(slot0, ChessConst.BOX.SMALL) * WarchessLevelCfg[slot0].sbox_progress + WarChessData:GetBoxNum(slot0, ChessConst.BOX.BIG) * WarchessLevelCfg[slot0].lbox_progress > 100 and 100 or slot3 + slot4
+	end,
+	IsFinish = function (slot0)
+		return WarchessLevelCfg[slot0].success_progress <= uv0.GetProgress(slot0)
+	end,
+	TwoDToOneD = function (slot0, slot1)
+		return slot1 * 1000 + slot0
+	end,
+	OneDToTwoD = function (slot0)
+		slot1, slot2 = nil
+
+		return math.fmod(slot0, 1000), math.floor(slot0 / 1000)
+	end,
+	GetExtendID = function (slot0, slot1)
+		slot2 = nil
+		slot3 = table.keyof(slot0, slot1)
+
+		if #slot0 <= 1 then
+			slot2 = slot0[1]
+		elseif not slot3 then
+			slot2 = slot0[1]
 		else
-			var_21_5 = WarchessLevelCfg[var_21_2].name_level
-		end
-	end
+			if math.fmod(slot3 + 1, #slot0 + 1) == 0 then
+				slot3 = slot3 + 1
+			end
 
-	if var_21_2 ~= var_21_0 then
-		ShowMessageBox({
-			isTop = true,
-			title = GetTips("PROMPT"),
-			content = string.format(GetTips("OPEN_NEW_WARCHESS"), GetI18NText(var_21_4), GetI18NText(var_21_5), GetI18NText(var_21_4), GetI18NText(var_21_5)),
-			OkCallback = function()
-				var_21_3()
+			slot2 = slot0[slot3]
+		end
+
+		return slot2
+	end,
+	GetWarChessItemSprite = function (slot0)
+		return getSprite("Atlas/WarChess_BattleAtlas", WarchessItemCfg[slot0].icon)
+	end,
+	GetChapterProgress = function (slot0)
+		if WarchessLevelCfg[slot0] == nil then
+			return 0
+		end
+
+		return WarChessData:GetBoxNum(slot0, ChessConst.BOX.SMALL) * WarchessLevelCfg[slot0].sbox_progress + WarChessData:GetBoxNum(slot0, ChessConst.BOX.BIG) * WarchessLevelCfg[slot0].lbox_progress > 100 and 100 or slot3 + slot4
+	end,
+	EnterChessMap = function (slot0, slot1)
+		slot2 = nil
+
+		if not WarchessLevelCfg[(slot1 or ChapterClientCfg[slot0].chapter_list[1]) and slot0] then
+			-- Nothing
+		end
+
+		if WarChessData:GetCurrentChapter(WarchessLevelCfg[slot2].type) == 0 or slot4 ~= slot2 then
+			WarChessData:AboutToStart()
+		end
+
+		if slot4 == 0 then
+			function ()
+				WarChessData:SetRedPoint(uv0)
+
+				slot0, slot1 = gameContext:GetLastHistoryAndParams()
+
+				WarChessData:SetTemporaryData("url", slot0)
+				WarChessData:SetTemporaryData("urlParams", slot1)
+
+				if getStoryViaStageID(uv0, manager.story.BEFORE) and not manager.story:IsStoryPlayed(slot2) then
+					manager.story:StartStoryOnEnterChessMap(slot2, function ()
+						PlayerAction.ChangeStoryList(uv0)
+						WarChessAction.RequireWarChessInfo(uv1)
+					end)
+				else
+					WarChessAction.RequireWarChessInfo(uv0)
+				end
+			end()
+
+			return
+		end
+
+		slot6, slot7 = nil
+
+		if slot4 ~= 0 then
+			slot8 = nil
+
+			if ChapterClientCfg[slot4] then
+				slot6 = GetTips("CHESS_NAME_" .. WarchessLevelCfg[slot4].tag)
+				slot7 = ChapterClientCfg[slot4].name
+			else
+				slot7 = WarchessLevelCfg[slot4].name_level
+			end
+		end
+
+		if slot4 ~= slot2 then
+			ShowMessageBox({
+				isTop = true,
+				title = GetTips("PROMPT"),
+				content = string.format(GetTips("OPEN_NEW_WARCHESS"), GetI18NText(slot6), GetI18NText(slot7), GetI18NText(slot6), GetI18NText(slot7)),
+				OkCallback = function ()
+					uv0()
+				end,
+				CancelCallback = function ()
+				end
+			})
+		else
+			slot5()
+		end
+	end,
+	IsShowMessage = function (slot0, slot1)
+		if WarchessEventPoolCfg[slot0].click_form == "" then
+			return slot2
+		end
+
+		for slot6, slot7 in ipairs(slot2) do
+			if slot7[1] == slot1 then
+				return {
+					slot7[2],
+					slot7[3]
+				}
+			end
+		end
+
+		return ""
+	end,
+	CantReach = function (slot0, slot1)
+		ShowTips("CANNOT_GO")
+		TimeTools.StartAfterSeconds(1.2, function (slot0, slot1)
+			if manager.ChessManager then
+				manager.ChessManager:SetGridSelectOutline(slot0, slot1, false)
+			end
+		end, {
+			slot0,
+			slot1
+		})
+	end,
+	IsInRange = function (slot0, slot1, slot2)
+		return slot0 >= -slot2 and slot0 <= slot2 and math.max(-slot2, slot0 - slot2) <= slot1 and slot1 <= math.min(slot2, slot0 + slot2)
+	end,
+	PhraseArea = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in ipairs(slot0) do
+			if slot6[1] == 1 then
+				slot8 = slot6[2]
+				slot9 = slot6[3]
+				slot10 = slot6[4]
+
+				for slot14 = -slot10, slot10 do
+					slot18 = slot14 + slot10
+
+					for slot18 = math.max(-slot10, slot14 - slot10), math.min(slot10, slot18) do
+						slot1[uv0.TwoDToOneD(slot14 + slot8, slot18 + slot9)] = true
+					end
+				end
+			elseif slot7 == 2 then
+				slot8 = slot6[2]
+				slot9 = slot6[3]
+				slot10 = slot6[4]
+				slot11 = slot6[5]
+				slot1[uv0.TwoDToOneD(slot8, slot9)] = true
+				slot1[uv0.TwoDToOneD(slot8, slot11)] = true
+				slot1[uv0.TwoDToOneD(slot10, slot9)] = true
+				slot1[uv0.TwoDToOneD(slot10, slot11)] = true
+			elseif slot7 == 3 then
+				for slot11 = 2, #slot6, 2 do
+					slot1[uv0.TwoDToOneD(slot6[slot11], slot6[slot11 + 1])] = true
+				end
+			end
+		end
+
+		return slot1
+	end,
+	DoSpecialEvent = function (slot0, slot1)
+		ChessSpecialEventConfig[slot0][slot1] or ChessSpecialEventConfig[slot0][ChessConst.TIMING_ALL](unpack(WarchessSpecialEventCfg[slot0].param))
+	end,
+	CreateChessData = function (slot0, slot1, slot2, slot3)
+		return {
+			tag = 0,
+			pos = {
+				x = slot0,
+				z = slot1
+			},
+			direction = (slot2[slot3].rotationY or 0) / 60,
+			status = slot2[slot3].status,
+			attribute = {}
+		}
+	end,
+	CheckCanEnterMutiBattle = function (slot0, slot1)
+		for slot5 = 1, slot0 do
+			if #ReserveTools.GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.MULTI_CHESS, slot1, slot5)) == 0 or slot7[1] == 0 then
+				return false
+			end
+		end
+
+		return true
+	end,
+	CreateChessDataViaJson = function (slot0)
+		slot1 = Chess.GridData.New()
+		slot1.paramList = slot0.paramList
+		slot1.prefab = slot0.prefab
+		slot1.rotationY = slot0.rotationY
+		slot1.status = slot0.status
+		slot1.typeID = slot0.typeID
+		slot1.x = slot0.x
+		slot1.z = slot0.z
+
+		return slot1
+	end,
+	CreateStack = function ()
+		slot0 = {}
+		slot1 = 1
+
+		setmetatable(slot0, {
+			__index = function (slot0, slot1)
+				if slot1 == "push" then
+					return function (slot0)
+						uv0[uv1] = slot0
+						uv1 = uv1 + 1
+					end
+				end
+
+				if slot1 == "pop" then
+					return function ()
+						uv0 = uv0 - 1
+						uv1[uv0] = nil
+
+						return uv1[uv0]
+					end
+				end
+
+				return rawget(uv0, slot1)
 			end,
-			CancelCallback = function()
-				return
+			__newindex = function (slot0, slot1, slot2)
+				rawset(uv0, slot1, slot2)
+			end,
+			__pairs = function ()
+				return function (slot0, slot1)
+					slot2, slot3 = next(uv0, slot1)
+
+					return slot2, slot3
+				end
+			end,
+			__len = function ()
+				return #uv0
 			end
 		})
-	else
-		var_21_3()
-	end
-end
 
-function var_0_2.IsShowMessage(arg_26_0, arg_26_1)
-	local var_26_0 = WarchessEventPoolCfg[arg_26_0].click_form
-
-	if var_26_0 == "" then
-		return var_26_0
-	end
-
-	for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-		if iter_26_1[1] == arg_26_1 then
-			return {
-				iter_26_1[2],
-				iter_26_1[3]
-			}
+		return slot0
+	end,
+	GetExtendIDByStoneStatus = function (slot0)
+		if slot0 == 1 then
+			return WarChessData:GetCacheExtendID("stone_1")
+		else
+			return WarChessData:GetCacheExtendID("stone_2")
+		end
+	end,
+	GetStoneNextState = function (slot0, slot1)
+		if slot0 == slot1[1] then
+			return slot1[2]
+		else
+			return slot1[1]
 		end
 	end
-
-	return ""
-end
-
-function var_0_2.CantReach(arg_27_0, arg_27_1)
-	ShowTips("CANNOT_GO")
-	TimeTools.StartAfterSeconds(1.2, function(arg_28_0, arg_28_1)
-		if manager.ChessManager then
-			manager.ChessManager:SetGridSelectOutline(arg_28_0, arg_28_1, false)
-		end
-	end, {
-		arg_27_0,
-		arg_27_1
-	})
-end
-
-function var_0_2.IsInRange(arg_29_0, arg_29_1, arg_29_2)
-	return arg_29_0 >= -arg_29_2 and arg_29_0 <= arg_29_2 and arg_29_1 >= math.max(-arg_29_2, arg_29_0 - arg_29_2) and arg_29_1 <= math.min(arg_29_2, arg_29_0 + arg_29_2)
-end
-
-function var_0_2.PhraseArea(arg_30_0)
-	local var_30_0 = {}
-
-	for iter_30_0, iter_30_1 in ipairs(arg_30_0) do
-		local var_30_1 = iter_30_1[1]
-
-		if var_30_1 == 1 then
-			local var_30_2 = iter_30_1[2]
-			local var_30_3 = iter_30_1[3]
-			local var_30_4 = iter_30_1[4]
-
-			for iter_30_2 = -var_30_4, var_30_4 do
-				for iter_30_3 = math.max(-var_30_4, iter_30_2 - var_30_4), math.min(var_30_4, iter_30_2 + var_30_4) do
-					var_30_0[var_0_2.TwoDToOneD(iter_30_2 + var_30_2, iter_30_3 + var_30_3)] = true
-				end
-			end
-		elseif var_30_1 == 2 then
-			local var_30_5 = iter_30_1[2]
-			local var_30_6 = iter_30_1[3]
-			local var_30_7 = iter_30_1[4]
-			local var_30_8 = iter_30_1[5]
-
-			var_30_0[var_0_2.TwoDToOneD(var_30_5, var_30_6)] = true
-			var_30_0[var_0_2.TwoDToOneD(var_30_5, var_30_8)] = true
-			var_30_0[var_0_2.TwoDToOneD(var_30_7, var_30_6)] = true
-			var_30_0[var_0_2.TwoDToOneD(var_30_7, var_30_8)] = true
-		elseif var_30_1 == 3 then
-			for iter_30_4 = 2, #iter_30_1, 2 do
-				local var_30_9 = iter_30_1[iter_30_4]
-				local var_30_10 = iter_30_1[iter_30_4 + 1]
-
-				var_30_0[var_0_2.TwoDToOneD(var_30_9, var_30_10)] = true
-			end
-		end
-	end
-
-	return var_30_0
-end
-
-function var_0_2.DoSpecialEvent(arg_31_0, arg_31_1)
-	local var_31_0 = WarchessSpecialEventCfg[arg_31_0].param
-
-	;(ChessSpecialEventConfig[arg_31_0][arg_31_1] or ChessSpecialEventConfig[arg_31_0][ChessConst.TIMING_ALL])(unpack(var_31_0))
-end
-
-function var_0_2.CreateChessData(arg_32_0, arg_32_1, arg_32_2, arg_32_3)
-	return {
-		tag = 0,
-		pos = {
-			x = arg_32_0,
-			z = arg_32_1
-		},
-		direction = (arg_32_2[arg_32_3].rotationY or 0) / 60,
-		status = arg_32_2[arg_32_3].status,
-		attribute = {}
-	}
-end
-
-function var_0_2.CheckCanEnterMutiBattle(arg_33_0, arg_33_1)
-	for iter_33_0 = 1, arg_33_0 do
-		local var_33_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.MULTI_CHESS, arg_33_1, iter_33_0)
-		local var_33_1 = ReserveTools.GetHeroList(var_33_0)
-
-		if #var_33_1 == 0 or var_33_1[1] == 0 then
-			return false
-		end
-	end
-
-	return true
-end
-
-function var_0_2.CreateChessDataViaJson(arg_34_0)
-	local var_34_0 = Chess.GridData.New()
-
-	var_34_0.paramList = arg_34_0.paramList
-	var_34_0.prefab = arg_34_0.prefab
-	var_34_0.rotationY = arg_34_0.rotationY
-	var_34_0.status = arg_34_0.status
-	var_34_0.typeID = arg_34_0.typeID
-	var_34_0.x = arg_34_0.x
-	var_34_0.z = arg_34_0.z
-
-	return var_34_0
-end
-
-function var_0_2.CreateStack()
-	local var_35_0 = {}
-	local var_35_1 = 1
-	local var_35_2 = {
-		__index = function(arg_36_0, arg_36_1)
-			if arg_36_1 == "push" then
-				return function(arg_37_0)
-					var_35_0[var_35_1] = arg_37_0
-					var_35_1 = var_35_1 + 1
-				end
-			end
-
-			if arg_36_1 == "pop" then
-				return function()
-					var_35_1 = var_35_1 - 1
-
-					local var_38_0 = var_35_0[var_35_1]
-
-					var_35_0[var_35_1] = nil
-
-					return var_38_0
-				end
-			end
-
-			return rawget(var_35_0, arg_36_1)
-		end,
-		__newindex = function(arg_39_0, arg_39_1, arg_39_2)
-			rawset(var_35_0, arg_39_1, arg_39_2)
-		end,
-		__pairs = function()
-			return function(arg_41_0, arg_41_1)
-				local var_41_0, var_41_1 = next(var_35_0, arg_41_1)
-
-				return var_41_0, var_41_1
-			end
-		end,
-		__len = function()
-			return #var_35_0
-		end
-	}
-
-	setmetatable(var_35_0, var_35_2)
-
-	return var_35_0
-end
-
-function var_0_2.GetExtendIDByStoneStatus(arg_43_0)
-	if arg_43_0 == 1 then
-		return WarChessData:GetCacheExtendID("stone_1")
-	else
-		return WarChessData:GetCacheExtendID("stone_2")
-	end
-end
-
-function var_0_2.GetStoneNextState(arg_44_0, arg_44_1)
-	if arg_44_0 == arg_44_1[1] then
-		return arg_44_1[2]
-	else
-		return arg_44_1[1]
-	end
-end
-
-return var_0_2
+}

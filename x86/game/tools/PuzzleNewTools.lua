@@ -1,205 +1,148 @@
-local var_0_0 = {
-	GetTaskUIName = function(arg_1_0)
-		local var_1_0 = ActivityTools.GetActivityTheme(arg_1_0)
-
-		if var_1_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+return {
+	GetTaskUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawUI"
-		elseif var_1_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return "UI/VersionUI/IndiaUI_2_8/IndiaJigsawUI/IndiaJigsawUI"
 		else
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawUI"
 		end
 	end,
-	GetPlayViewUIName = function(arg_2_0)
-		local var_2_0 = ActivityTools.GetActivityTheme(arg_2_0)
-
-		if var_2_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+	GetPlayViewUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzleUI"
-		elseif var_2_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return "UI/VersionUI/IndiaUI_2_8/IndiaJigsawUI/IndiaJigsawPuzzleUI"
 		else
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzleUI"
 		end
 	end,
-	GetRewardViewUIName = function(arg_3_0)
-		local var_3_0 = ActivityTools.GetActivityTheme(arg_3_0)
-
-		if var_3_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+	GetRewardViewUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop2UI"
-		elseif var_3_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return "UI/VersionUI/IndiaUI_2_8/IndiaJigsawUI/IndiaJigsawPuzzlePop2UI"
 		else
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop2UI"
 		end
 	end,
-	GetPreviewUIName = function(arg_4_0)
-		local var_4_0 = ActivityTools.GetActivityTheme(arg_4_0)
-
-		if var_4_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+	GetPreviewUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop1UI"
-		elseif var_4_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return "UI/VersionUI/IndiaUI_2_8/IndiaJigsawUI/IndiaJigsawPuzzlePop1UI"
 		else
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop1UI"
 		end
 	end,
-	GetCheckPreviewUIName = function(arg_5_0)
-		local var_5_0 = ActivityTools.GetActivityTheme(arg_5_0)
-
-		if var_5_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+	GetCheckPreviewUIName = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop3UI"
-		elseif var_5_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return "UI/VersionUI/IndiaUI_2_8/IndiaJigsawUI/IndiaJigsawPuzzlePop3UI"
 		else
 			return "UI/VersionUI/XuHeng2ndUI/XH2ndJigsawUI/XH2ndJigsawPuzzlePop3UI"
 		end
 	end,
-	GetTaskItemClass = function(arg_6_0)
-		local var_6_0 = ActivityTools.GetActivityTheme(arg_6_0)
-
-		if var_6_0 == ActivityConst.THEME.ACTIVITY_2_1 then
+	GetTaskItemClass = function (slot0)
+		if ActivityTools.GetActivityTheme(slot0) == ActivityConst.THEME.ACTIVITY_2_1 then
 			return PuzzleNewTaskItem
-		elseif var_6_0 == ActivityConst.THEME.ACTIVITY_2_8 then
+		elseif slot1 == ActivityConst.THEME.ACTIVITY_2_8 then
 			return IndiaPuzzleNewTaskItem
 		else
 			return PuzzleNewTaskItem
 		end
-	end
-}
+	end,
+	InitConfig = function (slot0)
+		slot1 = PuzzleNewCfg[slot0]
+		uv0.puzzlePosDic = uv0.puzzlePosDic or {}
+		uv0.puzzlePosDic[slot0] = {}
 
-function var_0_0.InitConfig(arg_7_0)
-	local var_7_0 = PuzzleNewCfg[arg_7_0]
+		for slot5, slot6 in ipairs(slot1.correct_array) do
+			uv0.puzzlePosDic[slot0][slot6] = slot5
+		end
 
-	var_0_0.puzzlePosDic = var_0_0.puzzlePosDic or {}
-	var_0_0.puzzlePosDic[arg_7_0] = {}
+		uv0.regionPosDic = uv0.regionPosDic or {}
+		uv0.regionPosDic[slot0] = {}
+		uv0.regionCfgList = uv0.regionCfgList or {}
+		uv0.regionCfgList[slot0] = {}
 
-	for iter_7_0, iter_7_1 in ipairs(var_7_0.correct_array) do
-		var_0_0.puzzlePosDic[arg_7_0][iter_7_1] = iter_7_0
-	end
+		for slot6, slot7 in ipairs(slot1.area_fragment_list) do
+			slot8 = slot7[1]
+			uv0.regionPosDic[slot0][slot8] = slot6
+			uv0.regionCfgList[slot0][slot8] = {
+				reward = slot1.reward_area_list[slot6][2],
+				puzzle = slot7[2]
+			}
+		end
+	end,
+	GetPuzzlePosDic = function (slot0)
+		slot1 = nil
 
-	local var_7_1 = var_7_0.reward_area_list
+		return (not uv0.puzzlePosDic or not uv0.puzzlePosDic[slot0] or uv0.puzzlePosDic[slot0]) and {}
+	end,
+	GetRegionPosDic = function (slot0)
+		slot1 = nil
 
-	var_0_0.regionPosDic = var_0_0.regionPosDic or {}
-	var_0_0.regionPosDic[arg_7_0] = {}
-	var_0_0.regionCfgList = var_0_0.regionCfgList or {}
-	var_0_0.regionCfgList[arg_7_0] = {}
+		return (not uv0.regionPosDic or not uv0.regionPosDic[slot0] or uv0.regionPosDic[slot0]) and {}
+	end,
+	GetRegionCfgList = function (slot0)
+		slot1 = nil
 
-	for iter_7_2, iter_7_3 in ipairs(var_7_0.area_fragment_list) do
-		local var_7_2 = iter_7_3[1]
-		local var_7_3 = iter_7_3[2]
-		local var_7_4 = var_7_1[iter_7_2][2]
+		return (not uv0.regionCfgList or not uv0.regionCfgList[slot0] or uv0.regionCfgList[slot0]) and {}
+	end,
+	FindPuzzleByScreenPos = function (slot0, slot1, slot2, slot3)
+		slot4, slot5 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(slot0, slot3.position, slot3.pressEventCamera, nil)
+		slot6 = slot0.sizeDelta
+		slot8 = slot6.y
+		slot11 = math.ceil((slot8 - slot5.y) / slot8 * slot2)
 
-		var_0_0.regionPosDic[arg_7_0][var_7_2] = iter_7_2
-		var_0_0.regionCfgList[arg_7_0][var_7_2] = {}
-		var_0_0.regionCfgList[arg_7_0][var_7_2].reward = var_7_4
-		var_0_0.regionCfgList[arg_7_0][var_7_2].puzzle = var_7_3
-	end
-end
-
-function var_0_0.GetPuzzlePosDic(arg_8_0)
-	local var_8_0
-
-	if var_0_0.puzzlePosDic and var_0_0.puzzlePosDic[arg_8_0] then
-		var_8_0 = var_0_0.puzzlePosDic[arg_8_0]
-	else
-		var_8_0 = {}
-	end
-
-	return var_8_0
-end
-
-function var_0_0.GetRegionPosDic(arg_9_0)
-	local var_9_0
-
-	if var_0_0.regionPosDic and var_0_0.regionPosDic[arg_9_0] then
-		var_9_0 = var_0_0.regionPosDic[arg_9_0]
-	else
-		var_9_0 = {}
-	end
-
-	return var_9_0
-end
-
-function var_0_0.GetRegionCfgList(arg_10_0)
-	local var_10_0
-
-	if var_0_0.regionCfgList and var_0_0.regionCfgList[arg_10_0] then
-		var_10_0 = var_0_0.regionCfgList[arg_10_0]
-	else
-		var_10_0 = {}
-	end
-
-	return var_10_0
-end
-
-function var_0_0.FindPuzzleByScreenPos(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	local var_11_0, var_11_1 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(arg_11_0, arg_11_3.position, arg_11_3.pressEventCamera, nil)
-	local var_11_2 = arg_11_0.sizeDelta
-	local var_11_3 = var_11_2.x
-	local var_11_4 = var_11_2.y
-	local var_11_5 = var_11_1.x
-	local var_11_6 = var_11_4 - var_11_1.y
-	local var_11_7 = math.ceil(var_11_6 / var_11_4 * arg_11_2)
-	local var_11_8 = math.ceil(var_11_5 / var_11_3 * arg_11_1)
-
-	if var_11_8 < 1 or var_11_7 < 1 or arg_11_1 < var_11_8 or arg_11_2 < var_11_7 then
-		return false, -1
-	else
-		local var_11_9 = (var_11_7 - 1) * arg_11_1 + var_11_8
-
-		return true, var_11_9
-	end
-end
-
-function var_0_0.CheckWrongSide(arg_12_0, arg_12_1)
-	local var_12_0 = PuzzleNewCfg[arg_12_1].correct_array
-	local var_12_1 = PuzzleNewData:GetCurPuzzleList(arg_12_1)
-
-	for iter_12_0, iter_12_1 in pairs(var_12_0) do
-		if arg_12_0 then
-			if var_12_1[iter_12_0] == nil then
+		if math.ceil(slot5.x / slot6.x * slot1) < 1 or slot11 < 1 or slot1 < slot12 or slot2 < slot11 then
+			return false, -1
+		else
+			return true, (slot11 - 1) * slot1 + slot12
+		end
+	end,
+	CheckWrongSide = function (slot0, slot1)
+		for slot8, slot9 in pairs(PuzzleNewCfg[slot1].correct_array) do
+			if slot0 then
+				if PuzzleNewData:GetCurPuzzleList(slot1)[slot8] == nil then
+					return true
+				end
+			elseif slot4[slot8] ~= nil and slot4[slot8] ~= slot9 then
 				return true
 			end
-		elseif var_12_1[iter_12_0] ~= nil and var_12_1[iter_12_0] ~= iter_12_1 then
-			return true
 		end
-	end
 
-	return false
-end
-
-function var_0_0.CheckRegionResult(arg_13_0)
-	local var_13_0 = {}
-	local var_13_1 = {}
-
-	for iter_13_0, iter_13_1 in pairs(var_0_0.regionCfgList[arg_13_0]) do
-		if var_0_0.CheckRegionResultByRegionID(iter_13_0, arg_13_0) then
-			table.insertto(var_13_1, iter_13_1.reward)
-
-			var_13_0[#var_13_0 + 1] = iter_13_0
-		end
-	end
-
-	return var_13_0, var_13_1
-end
-
-function var_0_0.CheckRegionResultByRegionID(arg_14_0, arg_14_1)
-	if PuzzleNewData:GetRegionReceivedList(arg_14_1)[arg_14_0] then
 		return false
-	else
-		local var_14_0 = PuzzleNewData:GetCurPuzzleList(arg_14_1)
-		local var_14_1 = var_0_0.regionCfgList[arg_14_1][arg_14_0].puzzle
+	end,
+	CheckRegionResult = function (slot0)
+		slot1 = {}
+		slot2 = {}
 
-		for iter_14_0, iter_14_1 in ipairs(var_14_1) do
-			local var_14_2 = var_0_0.puzzlePosDic[arg_14_1][iter_14_1]
+		for slot6, slot7 in pairs(uv0.regionCfgList[slot0]) do
+			if uv0.CheckRegionResultByRegionID(slot6, slot0) then
+				table.insertto(slot2, slot7.reward)
 
-			if not var_14_0[var_14_2] or var_14_0[var_14_2] ~= iter_14_1 then
-				return false
+				slot1[#slot1 + 1] = slot6
 			end
 		end
+
+		return slot1, slot2
+	end,
+	CheckRegionResultByRegionID = function (slot0, slot1)
+		if PuzzleNewData:GetRegionReceivedList(slot1)[slot0] then
+			return false
+		else
+			slot3 = PuzzleNewData:GetCurPuzzleList(slot1)
+
+			for slot8, slot9 in ipairs(uv0.regionCfgList[slot1][slot0].puzzle) do
+				if not slot3[uv0.puzzlePosDic[slot1][slot9]] or slot3[slot10] ~= slot9 then
+					return false
+				end
+			end
+		end
+
+		return true
 	end
-
-	return true
-end
-
-return var_0_0
+}

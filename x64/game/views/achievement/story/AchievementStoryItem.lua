@@ -1,61 +1,59 @@
-local var_0_0 = class("AchievementStoryItem", ReduxView)
+slot0 = class("AchievementStoryItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stateController_ = ControllerUtil.GetController(arg_1_0.transform_, "state")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
 
-	arg_1_0:SetData(arg_1_2)
-	arg_1_0:Refresh()
+	slot0:SetData(slot2)
+	slot0:Refresh()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.buttonStory_, nil, function()
-		if AchievementData:GetStoryReadFlag(arg_2_0.id_) ~= true then
-			AchievementAction.ReadAchievementStory(arg_2_0.id_, function(arg_4_0)
-				if isSuccess(arg_4_0.result) then
-					arg_2_0:Refresh()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonStory_, nil, function ()
+		if AchievementData:GetStoryReadFlag(uv0.id_) ~= true then
+			AchievementAction.ReadAchievementStory(uv0.id_, function (slot0)
+				if isSuccess(slot0.result) then
+					uv0:Refresh()
 				else
-					ShowTips(arg_4_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
 		end
 
 		JumpTools.OpenPageByJump("achievementStoryInfo", {
-			storyID = arg_2_0.id_
+			storyID = uv0.id_
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.id_ = arg_5_1
-
-	local var_5_0 = AchievementStoryCfg[arg_5_0.id_]
-
-	arg_5_0.textTitle_.text = GetI18NText(var_5_0.name)
-	arg_5_0.textTitle2_.text = GetI18NText(var_5_0.name)
+function slot0.SetData(slot0, slot1)
+	slot0.id_ = slot1
+	slot2 = AchievementStoryCfg[slot0.id_]
+	slot0.textTitle_.text = GetI18NText(slot2.name)
+	slot0.textTitle2_.text = GetI18NText(slot2.name)
 end
 
-function var_0_0.Refresh(arg_6_0)
-	if AchievementStoryCfg[arg_6_0.id_].unlock_point <= AchievementData:GetAchievementPoint() then
-		arg_6_0.stateController_:SetSelectedState("unlock")
+function slot0.Refresh(slot0)
+	if AchievementStoryCfg[slot0.id_].unlock_point <= AchievementData:GetAchievementPoint() then
+		slot0.stateController_:SetSelectedState("unlock")
 	else
-		arg_6_0.stateController_:SetSelectedState("lock")
+		slot0.stateController_:SetSelectedState("lock")
 	end
 
-	if AchievementData:GetStoryReadFlag(arg_6_0.id_) == true then
-		SetActive(arg_6_0.goRedPoint_, false)
+	if AchievementData:GetStoryReadFlag(slot0.id_) == true then
+		SetActive(slot0.goRedPoint_, false)
 	else
-		SetActive(arg_6_0.goRedPoint_, true)
+		SetActive(slot0.goRedPoint_, true)
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

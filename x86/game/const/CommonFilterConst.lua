@@ -1,6 +1,5 @@
-local var_0_0 = {}
-local var_0_1 = var_0_0
-
+slot0 = {}
+slot1 = slot0
 Filter_Tags_Define = {
 	MECHAINISM4 = 28,
 	FURNITURETYPE1 = 29,
@@ -211,58 +210,56 @@ Filter_Root_Define = {
 	}
 }
 
-function var_0_1.GetFilterList(arg_1_0)
-	return var_0_1.GetGroupCfg(arg_1_0).tags or {}
+function slot1.GetFilterList(slot0)
+	return uv0.GetGroupCfg(slot0).tags or {}
 end
 
-function var_0_1.GetFilterTagCfg(arg_2_0)
-	return CommonFilterCfg[arg_2_0]
+function slot1.GetFilterTagCfg(slot0)
+	return CommonFilterCfg[slot0]
 end
 
-function var_0_1.GetFilterCfg(arg_3_0)
-	if not var_0_1.Filter_Cfg then
-		var_0_1.Filter_Cfg = {}
+function slot1.GetFilterCfg(slot0)
+	if not uv0.Filter_Cfg then
+		uv0.Filter_Cfg = {}
 
-		for iter_3_0, iter_3_1 in pairs(Filter_Root_Define) do
-			var_0_1.Filter_Cfg[iter_3_1.filter_id] = iter_3_1
+		for slot4, slot5 in pairs(Filter_Root_Define) do
+			uv0.Filter_Cfg[slot5.filter_id] = slot5
 		end
 	end
 
-	return var_0_1.Filter_Cfg[arg_3_0]
+	return uv0.Filter_Cfg[slot0]
 end
 
-function var_0_1.GetFilterGroups(arg_4_0)
-	return var_0_1.GetFilterCfg(arg_4_0).groupList
+function slot1.GetFilterGroups(slot0)
+	return uv0.GetFilterCfg(slot0).groupList
 end
 
-function var_0_1.GetGroupCfg(arg_5_0)
-	if not var_0_1.Filter_Group_Cfg then
-		var_0_1.Filter_Group_Cfg = {}
+function slot1.GetGroupCfg(slot0)
+	if not uv0.Filter_Group_Cfg then
+		uv0.Filter_Group_Cfg = {}
 
-		for iter_5_0, iter_5_1 in pairs(Filter_Group_Define) do
-			var_0_1.Filter_Group_Cfg[iter_5_1.groupID] = iter_5_1
+		for slot4, slot5 in pairs(Filter_Group_Define) do
+			uv0.Filter_Group_Cfg[slot5.groupID] = slot5
 		end
 	end
 
-	return var_0_1.Filter_Group_Cfg[arg_5_0]
+	return uv0.Filter_Group_Cfg[slot0]
 end
 
-function var_0_1.GetTagIndexAtGroup(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_1.GetGroupCfg(arg_6_0)
+function slot1.GetTagIndexAtGroup(slot0, slot1)
+	if uv0.GetGroupCfg(slot0) then
+		if not slot2.tagIndex then
+			slot2.tagIndex = {}
 
-	if var_6_0 then
-		if not var_6_0.tagIndex then
-			var_6_0.tagIndex = {}
-
-			for iter_6_0, iter_6_1 in ipairs(var_6_0.tags) do
-				var_6_0.tagIndex[iter_6_1] = iter_6_0 - 1
+			for slot6, slot7 in ipairs(slot2.tags) do
+				slot2.tagIndex[slot7] = slot6 - 1
 			end
 		end
 
-		return var_6_0.tagIndex[arg_6_1] or -1
+		return slot2.tagIndex[slot1] or -1
 	end
 
 	return -1
 end
 
-return var_0_0
+return slot0

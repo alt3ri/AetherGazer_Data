@@ -1,84 +1,78 @@
 GuildActivitySpTools = import("game.tools.GuildActivitySPTools")
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("GuildActivitySpEnterView", ActivityMainBasePanel)
 
-local var_0_0 = class("GuildActivitySpEnterView", ActivityMainBasePanel)
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(GuildActivitySpTools.GetActivityEnterViewPrefab(slot2), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.activityID_ = arg_1_2
-
-	local var_1_0 = GuildActivitySpTools.GetActivityEnterViewPrefab(arg_1_2)
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.phaseController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "phase")
+	slot0.phaseController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "phase")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.goBtn_, nil, function()
-		local var_5_0 = GuildActivitySPData:HaveRegister()
-		local var_5_1, var_5_2 = GuildActivitySpTools.CheckActivityCurState(arg_4_0.mainActivityID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		slot1, slot2 = GuildActivitySpTools.CheckActivityCurState(uv0.mainActivityID)
 
-		if var_5_1 == "start" then
-			if var_5_0 then
+		if slot1 == "start" then
+			if GuildActivitySPData:HaveRegister() then
 				StartGuildActivitySP(GuildActivitySPData:GetCurrentGrid())
 			else
-				arg_4_0:DoSignup()
+				uv0:DoSignup()
 			end
-		elseif var_5_1 == "register" then
-			arg_4_0:DoSignup()
+		elseif slot1 == "register" then
+			uv0:DoSignup()
 		end
 
-		if not var_5_0 and manager.redPoint:getTipValue(RedPointConst.GUILD_ACTIVITY_SP_UNREGISTER) == 1 then
+		if not slot0 and manager.redPoint:getTipValue(RedPointConst.GUILD_ACTIVITY_SP_UNREGISTER) == 1 then
 			GuildActivitySPAction.SetUnRegisterRedPointClicked(true)
 		end
 
-		GuildActivitySPAction.SetCoinRedPointClicked(true, arg_4_0.activityID_)
+		GuildActivitySPAction.SetCoinRedPointClicked(true, uv0.activityID_)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.helpBtn_, nil, function()
-		local var_6_0, var_6_1 = GuildActivitySpTools.GetCurActivityDescribe()
+	slot0:AddBtnListener(slot0.helpBtn_, nil, function ()
+		slot0, slot1 = GuildActivitySpTools.GetCurActivityDescribe()
 
 		JumpTools.OpenPageByJump("gameHelpPro", {
-			pages = var_6_0,
-			isPrefab = var_6_1
+			pages = slot0,
+			isPrefab = slot1
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.shopBtn_, nil, function()
-		local var_7_0 = {}
-		local var_7_1 = ShopListCfg[arg_4_0.shopID].display_group
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
+		slot0 = {}
 
-		for iter_7_0, iter_7_1 in ipairs(ShopListCfg.all) do
-			if ShopListCfg[iter_7_1].display_group == var_7_1 then
-				table.insert(var_7_0, iter_7_1)
+		for slot5, slot6 in ipairs(ShopListCfg.all) do
+			if ShopListCfg[slot6].display_group == ShopListCfg[uv0.shopID].display_group then
+				table.insert(slot0, slot6)
 			end
 		end
 
 		JumpTools.GoToSystem("/shop", {
 			hideHomeBtn = 1,
-			shopId = arg_4_0.shopID,
-			showShops = var_7_0
+			shopId = uv0.shopID,
+			showShops = slot0
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
 end
 
-function var_0_0.DoSignup(arg_8_0)
-	if PlayerData:GetPlayerInfo().userLevel >= GameSetting.activity_club_sp_user_level_limit.value[1] then
-		GuildActivitySPAction.Register(function()
-			if ActivityData:GetActivityIsOpen(arg_8_0.startActivityID) then
+function slot0.DoSignup(slot0)
+	if GameSetting.activity_club_sp_user_level_limit.value[1] <= PlayerData:GetPlayerInfo().userLevel then
+		GuildActivitySPAction.Register(function ()
+			if ActivityData:GetActivityIsOpen(uv0.startActivityID) then
 				StartGuildActivitySP(GuildActivitySPData:GetCurrentGrid())
 			else
-				arg_8_0:UpdateView()
+				uv0:UpdateView()
 			end
 		end)
 	else
@@ -86,138 +80,120 @@ function var_0_0.DoSignup(arg_8_0)
 	end
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_11_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_12_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.StartTimer(arg_13_0)
-	if arg_13_0.timer_ == nil then
-		arg_13_0.timer_ = Timer.New(function()
-			arg_13_0:UpdateView()
+function slot0.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateView()
 		end, 1, -1)
 	end
 
-	arg_13_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_15_0)
-	if arg_15_0.timer_ then
-		arg_15_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_15_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	arg_16_0.mainActivityID = GuildActivitySPData:GetCurMainActivityID()
-	arg_16_0.activityInfo = GuildActivitySpTools.GetCurActivityIDInfo(arg_16_0.mainActivityID)
+function slot0.OnEnter(slot0)
+	slot0.mainActivityID = GuildActivitySPData:GetCurMainActivityID()
+	slot0.activityInfo = GuildActivitySpTools.GetCurActivityIDInfo(slot0.mainActivityID)
 
-	if arg_16_0.activityInfo then
-		arg_16_0.startActivityID = arg_16_0.activityInfo.start
-		arg_16_0.registerActivityID = arg_16_0.activityInfo.register
-		arg_16_0.shopID = arg_16_0.activityInfo.shopID
+	if slot0.activityInfo then
+		slot0.startActivityID = slot0.activityInfo.start
+		slot0.registerActivityID = slot0.activityInfo.register
+		slot0.shopID = slot0.activityInfo.shopID
 	end
 
-	arg_16_0:StartTimer()
-	arg_16_0:UpdateView()
-	arg_16_0:BindRedPoint()
+	slot0:StartTimer()
+	slot0:UpdateView()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.OnExit(arg_17_0)
-	arg_17_0:StopTimer()
-	arg_17_0:UnBindRedPoint()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:UnBindRedPoint()
 end
 
-function var_0_0.BindRedPoint(arg_18_0)
-	manager.redPoint:bindUIandKey(arg_18_0.goBtn_.transform, string.format("%s_%d", RedPointConst.GUILD_ACTIVITY_SP, arg_18_0.mainActivityID))
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.goBtn_.transform, string.format("%s_%d", RedPointConst.GUILD_ACTIVITY_SP, slot0.mainActivityID))
 end
 
-function var_0_0.UnBindRedPoint(arg_19_0)
-	manager.redPoint:unbindUIandKey(arg_19_0.goBtn_.transform, string.format("%s_%d", RedPointConst.GUILD_ACTIVITY_SP, arg_19_0.mainActivityID))
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.goBtn_.transform, string.format("%s_%d", RedPointConst.GUILD_ACTIVITY_SP, slot0.mainActivityID))
 end
 
-function var_0_0.UpdateView(arg_20_0)
-	local var_20_0 = manager.time:GetServerTime()
-	local var_20_1 = GuildActivitySPData:HaveRegister()
-	local var_20_2 = GuildActivitySpTools.GetCurOpenActivityStateInfo()
+function slot0.UpdateView(slot0)
+	slot2 = GuildActivitySPData:HaveRegister()
+	slot3 = GuildActivitySpTools.GetCurOpenActivityStateInfo()
 
-	if ActivityData:GetActivityIsOpen(arg_20_0.startActivityID) then
-		local var_20_3 = ActivityData:GetActivityData(arg_20_0.startActivityID)
-		local var_20_4 = var_20_3.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600
-		local var_20_5 = var_20_3.stopTime
+	if ActivityData:GetActivityIsOpen(slot0.startActivityID) then
+		slot4 = ActivityData:GetActivityData(slot0.startActivityID)
 
-		if var_20_4 < var_20_0 then
-			arg_20_0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP2"))
-			arg_20_0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_20_5)
+		if slot4.startTime + GameSetting.activity_club_sp_phase_two_open.value[1] * 24 * 3600 < manager.time:GetServerTime() then
+			slot0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP2"))
+			slot0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(slot4.stopTime)
 		else
-			arg_20_0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP1"))
-			arg_20_0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_20_4)
+			slot0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP1"))
+			slot0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(slot6)
 		end
 
-		if var_20_1 then
-			arg_20_0.activityDesc.text = string.format(GetTips(var_20_2.introduction))
+		if slot2 then
+			slot0.activityDesc.text = string.format(GetTips(slot3.introduction))
 
-			arg_20_0.phaseController_:SetSelectedState("setout")
+			slot0.phaseController_:SetSelectedState("setout")
 		else
-			arg_20_0.activityDesc.text = string.format(GetTips(var_20_2.application_2))
+			slot0.activityDesc.text = string.format(GetTips(slot3.application_2))
 
-			arg_20_0.phaseController_:SetSelectedState("replenish")
+			slot0.phaseController_:SetSelectedState("replenish")
 		end
 	else
-		local var_20_6 = ActivityData:GetActivityData(arg_20_0.registerActivityID).stopTime
+		slot0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP0"))
+		slot0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(ActivityData:GetActivityData(slot0.registerActivityID).stopTime)
+		slot0.activityDesc.text = string.format(GetTips(slot3.application_1), manager.time:STimeDescS(ActivityData:GetActivityData(slot0.startActivityID).startTime, GetTips("!%Y/%m/%d %H:%M:%S")))
 
-		arg_20_0.stageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP0"))
-		arg_20_0.lastDayLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_20_6)
-
-		local var_20_7 = ActivityData:GetActivityData(arg_20_0.startActivityID).startTime
-		local var_20_8 = manager.time:STimeDescS(var_20_7, GetTips("!%Y/%m/%d %H:%M:%S"))
-
-		arg_20_0.activityDesc.text = string.format(GetTips(var_20_2.application_1), var_20_8)
-
-		if var_20_1 then
-			arg_20_0.phaseController_:SetSelectedState("setout")
+		if slot2 then
+			slot0.phaseController_:SetSelectedState("setout")
 		else
-			arg_20_0.phaseController_:SetSelectedState("replenish")
+			slot0.phaseController_:SetSelectedState("replenish")
 		end
 
-		if var_20_1 then
-			arg_20_0.phaseController_:SetSelectedState("registered")
+		if slot2 then
+			slot0.phaseController_:SetSelectedState("registered")
 		else
-			arg_20_0.phaseController_:SetSelectedState("unregistered")
+			slot0.phaseController_:SetSelectedState("unregistered")
 		end
 	end
 
-	local var_20_9
-	local var_20_10 = PlayerData:GetPlayerInfo().userLevel
-	local var_20_11 = GameSetting.activity_club_sp_user_level_limit.value[1]
-
-	if var_20_11 <= var_20_10 then
-		var_20_9 = string.format(GetTips("UPGRADE_LIMIT_LEVEL"), var_20_11)
-	else
-		var_20_9 = string.format(GetTips("UPGRADE_LIMIT_LEVEL_RED"), var_20_11)
-	end
-
-	arg_20_0.conditionLabel_.text = var_20_9
+	slot4 = nil
+	slot0.conditionLabel_.text = (GameSetting.activity_club_sp_user_level_limit.value[1] > PlayerData:GetPlayerInfo().userLevel or string.format(GetTips("UPGRADE_LIMIT_LEVEL"), slot6)) and string.format(GetTips("UPGRADE_LIMIT_LEVEL_RED"), slot6)
 end
 
-function var_0_0.Show(arg_21_0, arg_21_1)
-	SetActive(arg_21_0.gameObject_, arg_21_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_22_0)
-	arg_22_0:StopTimer()
-	var_0_0.super.Dispose(arg_22_0)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

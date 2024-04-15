@@ -1,111 +1,108 @@
-local var_0_0 = class("SurviveSoloRewardItem", ReduxView)
+slot0 = class("SurviveSoloRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.btn_ = {}
-	arg_3_0.title_ = {}
-	arg_3_0.rewards_ = {}
-	arg_3_0.stateCon_ = {}
-	arg_3_0.rewardPanel_ = {}
+	slot0.btn_ = {}
+	slot0.title_ = {}
+	slot0.rewards_ = {}
+	slot0.stateCon_ = {}
+	slot0.rewardPanel_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.btn_[iter_3_0] = arg_3_0["btn_" .. iter_3_0]
-		arg_3_0.title_[iter_3_0] = arg_3_0["title_" .. iter_3_0]
-		arg_3_0.rewards_[iter_3_0] = {}
-		arg_3_0.stateCon_[iter_3_0] = ControllerUtil.GetController(arg_3_0["item_" .. iter_3_0].transform, "state")
-		arg_3_0.rewardPanel_[iter_3_0] = arg_3_0["rewardPanel_" .. iter_3_0]
+	for slot4 = 1, 3 do
+		slot0.btn_[slot4] = slot0["btn_" .. slot4]
+		slot0.title_[slot4] = slot0["title_" .. slot4]
+		slot0.rewards_[slot4] = {}
+		slot0.stateCon_[slot4] = ControllerUtil.GetController(slot0["item_" .. slot4].transform, "state")
+		slot0.rewardPanel_[slot4] = slot0["rewardPanel_" .. slot4]
 	end
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.btn_) do
-		arg_4_0:AddBtnListener(arg_4_0.btn_[iter_4_0], nil, function()
-			SurviveSoloAction:GetReward(arg_4_0.activityID_, arg_4_0.cfg_.reward_item_list[iter_4_0][1])
+function slot0.AddUIListeners(slot0)
+	for slot4, slot5 in ipairs(slot0.btn_) do
+		slot0:AddBtnListener(slot0.btn_[slot4], nil, function ()
+			SurviveSoloAction:GetReward(uv0.activityID_, uv0.cfg_.reward_item_list[uv1][1])
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.Refresh(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activityID_ = arg_7_1
-	arg_7_0.mainActivityID_ = arg_7_2
-	arg_7_0.cfg_ = ActivitySoloSlayerCfg[arg_7_0.activityID_]
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.mainActivityID_ = slot2
+	slot0.cfg_ = ActivitySoloSlayerCfg[slot0.activityID_]
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.level_.text = GetI18NText(BattleSoloSlayerCfg[arg_8_0.cfg_.stage_id].name)
+function slot0.RefreshUI(slot0)
+	slot5 = slot0.cfg_.stage_id
+	slot0.level_.text = GetI18NText(BattleSoloSlayerCfg[slot5].name)
+	slot1 = SurviveSoloData:GetData(slot0.activityID_)
 
-	local var_8_0 = SurviveSoloData:GetData(arg_8_0.activityID_)
+	for slot5 = 1, 3 do
+		slot6 = slot0.cfg_.reward_item_list[slot5]
+		slot10 = GetTips("ACTIVITY_SOLO_SLAYER_REWARD")
+		slot11 = slot6[1]
+		slot0.title_[slot5].text = string.format(slot10, slot11)
 
-	for iter_8_0 = 1, 3 do
-		local var_8_1 = arg_8_0.cfg_.reward_item_list[iter_8_0]
-
-		arg_8_0.title_[iter_8_0].text = string.format(GetTips("ACTIVITY_SOLO_SLAYER_REWARD"), var_8_1[1])
-
-		for iter_8_1, iter_8_2 in ipairs(var_8_1[2]) do
-			if not arg_8_0.rewards_[iter_8_0][iter_8_1] then
-				local var_8_2 = Object.Instantiate(arg_8_0.rewardItem_, arg_8_0.rewardPanel_[iter_8_0])
-
-				arg_8_0.rewards_[iter_8_0][iter_8_1] = SurviveSoloTools.GetRewardItemSkin(arg_8_0.mainActivityID_).New(var_8_2, arg_8_0.rewardPanel_[iter_8_0])
+		for slot10, slot11 in ipairs(slot6[2]) do
+			if not slot0.rewards_[slot5][slot10] then
+				slot0.rewards_[slot5][slot10] = SurviveSoloTools.GetRewardItemSkin(slot0.mainActivityID_).New(Object.Instantiate(slot0.rewardItem_, slot0.rewardPanel_[slot5]), slot0.rewardPanel_[slot5])
 			end
 
-			arg_8_0.rewards_[iter_8_0][iter_8_1]:SetData(iter_8_2, POP_ITEM)
+			slot0.rewards_[slot5][slot10]:SetData(slot11, POP_ITEM)
 		end
 
-		for iter_8_3 = #var_8_1[2] + 1, #arg_8_0.rewards_[iter_8_0] do
-			arg_8_0.rewards_[iter_8_0][iter_8_3]:Show(false)
+		for slot10 = #slot6[2] + 1, #slot0.rewards_[slot5] do
+			slot0.rewards_[slot5][slot10]:Show(false)
 		end
 
-		if var_8_0 and var_8_0.time >= var_8_1[1] then
-			if table.indexof(var_8_0.rewards, var_8_1[1]) then
-				arg_8_0.stateCon_[iter_8_0]:SetSelectedState("received")
+		if slot1 and slot6[1] <= slot1.time then
+			if table.indexof(slot1.rewards, slot6[1]) then
+				slot0.stateCon_[slot5]:SetSelectedState("received")
 			else
-				arg_8_0.stateCon_[iter_8_0]:SetSelectedState("complete")
+				slot0.stateCon_[slot5]:SetSelectedState("complete")
 			end
 		else
-			arg_8_0.stateCon_[iter_8_0]:SetSelectedState("incomplete")
+			slot0.stateCon_[slot5]:SetSelectedState("incomplete")
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_10_0 = 1, 3 do
-		for iter_10_1, iter_10_2 in ipairs(arg_10_0.rewards_[iter_10_0]) do
-			iter_10_2:Dispose()
+	for slot4 = 1, 3 do
+		for slot8, slot9 in ipairs(slot0.rewards_[slot4]) do
+			slot9:Dispose()
 
-			iter_10_2 = nil
+			slot9 = nil
 		end
 
-		arg_10_0.rewards_[iter_10_0] = nil
+		slot0.rewards_[slot4] = nil
 	end
 
-	arg_10_0.rewards_ = {}
+	slot0.rewards_ = {}
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

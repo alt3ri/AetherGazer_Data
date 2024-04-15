@@ -1,42 +1,42 @@
-local var_0_0 = class("StrategyMatrixHeroAstrolabePage", MatrixHeroAstrolabePage)
+slot0 = class("StrategyMatrixHeroAstrolabePage", MatrixHeroAstrolabePage)
 
-function var_0_0.SetMatirxHeroInfo(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.matrix_activity_id = arg_1_1
+function slot0.SetMatirxHeroInfo(slot0, slot1, slot2)
+	slot0.matrix_activity_id = slot1
 
-	var_0_0.super.SetMatirxHeroInfo(arg_1_0, arg_1_2)
+	uv0.super.SetMatirxHeroInfo(slot0, slot2)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListenerScale(arg_2_0.adjustBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.adjustBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/strategyMatrixAstrolabeAdjust", {
-			heroId = arg_2_0.heroInfo_.id,
+			heroId = uv0.heroInfo_.id,
 			selectPos = {
 				0
 			},
-			matrix_activity_id = arg_2_0.matrix_activity_id
+			matrix_activity_id = uv0.matrix_activity_id
 		})
 	end)
 end
 
-function var_0_0.SelectItem(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1:GetItemInfo()
+function slot0.SelectItem(slot0, slot1)
+	slot2 = slot1:GetItemInfo()
 
 	JumpTools.OpenPageByJump("/strategyMatrixAstrolabeAdjust", {
-		heroId = arg_4_0.heroInfo_.id,
+		heroId = slot0.heroInfo_.id,
 		selectPos = {
-			var_4_0.posX,
-			var_4_0.posY
+			slot2.posX,
+			slot2.posY
 		},
-		matrix_activity_id = arg_4_0.matrix_activity_id
+		matrix_activity_id = slot0.matrix_activity_id
 	})
 end
 
-function var_0_0.GetHeroData(arg_5_0, arg_5_1)
-	return StrategyMatrixData:GetHeroData(arg_5_0.matrix_activity_id, arg_5_1)
+function slot0.GetHeroData(slot0, slot1)
+	return StrategyMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetAstrolabeMaxCount(arg_6_0)
-	return StrategyMatrixData:GetAstrolabeMaxCount(arg_6_0.matrix_activity_id)
+function slot0.GetAstrolabeMaxCount(slot0)
+	return StrategyMatrixData:GetAstrolabeMaxCount(slot0.matrix_activity_id)
 end
 
-return var_0_0
+return slot0

@@ -1,74 +1,72 @@
-local var_0_0 = class("ChapterPlot19StoryCollectView", ReduxView)
+slot0 = class("ChapterPlot19StoryCollectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationVerStoryUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.itemList_ = {}
+	slot0.itemList_ = {}
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.chapterID_ = arg_4_0.params_.chapterID
+function slot0.OnEnter(slot0)
+	slot0.chapterID_ = slot0.params_.chapterID
 
-	arg_4_0:RefreshItemList()
+	slot0:RefreshItemList()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.itemList_) do
-		iter_6_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.itemList_ = nil
+	slot0.itemList_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.backBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.RefreshItemList(arg_9_0)
-	local var_9_0 = arg_9_0:GetItemDataList()
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0) do
-		if arg_9_0.itemList_[iter_9_0] == nil then
-			arg_9_0.itemList_[iter_9_0] = ChapterPlot19StoryCollectItem.New(arg_9_0.item_, arg_9_0.itemParent_)
+function slot0.RefreshItemList(slot0)
+	for slot5, slot6 in ipairs(slot0:GetItemDataList()) do
+		if slot0.itemList_[slot5] == nil then
+			slot0.itemList_[slot5] = ChapterPlot19StoryCollectItem.New(slot0.item_, slot0.itemParent_)
 		end
 
-		arg_9_0.itemList_[iter_9_0]:SetData(iter_9_1)
+		slot0.itemList_[slot5]:SetData(slot6)
 	end
 
-	for iter_9_2 = #arg_9_0.itemList_, #var_9_0 + 1, -1 do
-		arg_9_0.itemList_[iter_9_2]:Dispose()
+	for slot5 = #slot0.itemList_, #slot1 + 1, -1 do
+		slot0.itemList_[slot5]:Dispose()
 
-		arg_9_0.itemList_[iter_9_2] = nil
+		slot0.itemList_[slot5] = nil
 	end
 end
 
-function var_0_0.GetItemDataList(arg_10_0)
-	local var_10_0 = {}
+function slot0.GetItemDataList(slot0)
+	slot1 = {}
+	slot5 = slot0.chapterID_
 
-	for iter_10_0, iter_10_1 in ipairs(ChapterStoryCollectCfg.get_id_list_by_chapter_id[arg_10_0.chapterID_]) do
-		if ChapterTools.HasReadEvent(iter_10_1) then
-			table.insert(var_10_0, iter_10_1)
+	for slot5, slot6 in ipairs(ChapterStoryCollectCfg.get_id_list_by_chapter_id[slot5]) do
+		if ChapterTools.HasReadEvent(slot6) then
+			table.insert(slot1, slot6)
 		end
 	end
 
-	return var_10_0
+	return slot1
 end
 
-return var_0_0
+return slot0

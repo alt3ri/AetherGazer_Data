@@ -1,79 +1,75 @@
-local var_0_0 = class("IdolTraineeRewardStageItem", ReduxView)
+slot0 = class("IdolTraineeRewardStageItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	arg_3_0.stageID = arg_3_1
+function slot0.SetData(slot0, slot1)
+	slot0.stageID = slot1
 
-	if arg_3_0.stageID then
-		arg_3_0.nameText_.text = IdolTraineePveBattleCfg[arg_3_0.stageID].name
+	if slot0.stageID then
+		slot0.nameText_.text = IdolTraineePveBattleCfg[slot0.stageID].name
 
-		arg_3_0:InitRewardList()
+		slot0:InitRewardList()
 	end
 end
 
-function var_0_0.InitRewardList(arg_4_0)
-	if not arg_4_0.awardList then
-		arg_4_0.awardList = {}
+function slot0.InitRewardList(slot0)
+	if not slot0.awardList then
+		slot0.awardList = {}
 
-		local var_4_0 = IdolTraineePveBattleCfg[arg_4_0.stageID].taskIDList
+		if IdolTraineePveBattleCfg[slot0.stageID].taskIDList and slot1 ~= "" then
+			for slot5, slot6 in ipairs(slot1) do
+				slot0.awardList[slot6] = IdolTraineeRewardListItem.New(Object.Instantiate(slot0.levelitemGo_, slot0.contentTrs_))
 
-		if var_4_0 and var_4_0 ~= "" then
-			for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-				local var_4_1 = Object.Instantiate(arg_4_0.levelitemGo_, arg_4_0.contentTrs_)
-
-				arg_4_0.awardList[iter_4_1] = IdolTraineeRewardListItem.New(var_4_1)
-
-				arg_4_0.awardList[iter_4_1]:SetData(iter_4_1)
+				slot0.awardList[slot6]:SetData(slot6)
 			end
 		end
 
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.contentTrs_)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 	end
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	if arg_5_0.awardList then
-		for iter_5_0, iter_5_1 in pairs(arg_5_0.awardList) do
-			iter_5_1:SetData(iter_5_0)
+function slot0.RefreshUI(slot0)
+	if slot0.awardList then
+		for slot4, slot5 in pairs(slot0.awardList) do
+			slot5:SetData(slot4)
 		end
 	end
 end
 
-function var_0_0.GetCanReciveAwardList(arg_6_0)
-	local var_6_0 = {}
+function slot0.GetCanReciveAwardList(slot0)
+	slot1 = {}
 
-	if arg_6_0.awardList then
-		for iter_6_0, iter_6_1 in pairs(arg_6_0.awardList) do
-			if iter_6_1.stateController_:GetSelectedState() == "complete" then
-				table.insert(var_6_0, iter_6_0)
+	if slot0.awardList then
+		for slot5, slot6 in pairs(slot0.awardList) do
+			if slot6.stateController_:GetSelectedState() == "complete" then
+				table.insert(slot1, slot5)
 			end
 		end
 	end
 
-	return var_6_0
+	return slot1
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.awardList then
-		for iter_7_0, iter_7_1 in pairs(arg_7_0.awardList) do
-			iter_7_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.awardList then
+		for slot4, slot5 in pairs(slot0.awardList) do
+			slot5:Dispose()
 		end
 
-		arg_7_0.awardList = nil
+		slot0.awardList = nil
 	end
 
-	Object.DestroyImmediate(arg_7_0.gameObject_)
-	var_0_0.super.Dispose(arg_7_0)
+	Object.DestroyImmediate(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

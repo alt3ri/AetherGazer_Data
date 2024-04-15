@@ -1,5 +1,15 @@
-local var_0_0 = require("cjson")
-local var_0_1 = {
+slot0 = require("cjson")
+
+function slot2(slot0, slot1)
+	slot2 = DormFurnitureManager.GetInstance():Generate(slot1.id)
+
+	DormLuaBridge.SetFurniturePosition(slot2, slot0, slot1.pos, slot1.rotation)
+	DormLuaBridge.ChangeFurnitureState(slot2, DormFurnitureManager.FurnitureState.Placed)
+
+	return slot2
+end
+
+return {
 	DORM_SUIT_STATE = {
 		CAN_USE = 1,
 		NOT_GET = 4,
@@ -11,402 +21,326 @@ local var_0_1 = {
 		FULL_SET = 1,
 		CUSTOM_SET = 3,
 		PART_SET = 2
-	}
-}
+	},
+	SerializeDormSuitData = function (slot0, slot1, slot2)
+		slot3, slot4 = uv0:FurSerializeDataFilter(slot1, slot2)
 
-function var_0_1.SerializeDormSuitData(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0, var_1_1 = var_0_1:FurSerializeDataFilter(arg_1_1, arg_1_2)
-	local var_1_2 = arg_1_2.name
-	local var_1_3 = {
-		furList = var_1_0,
-		numList = var_1_1
-	}
-	local var_1_4 = var_0_1:GetWriteHeadDormSuitSerializePath(arg_1_2.suitType)
-
-	if var_1_4 then
-		local var_1_5 = var_0_0.encode(var_1_3)
-		local var_1_6 = var_1_4 .. var_1_2 .. ".json"
-		local var_1_7 = io.open(var_1_6, "w")
-
-		if var_1_7 then
-			var_1_7:write(var_1_5)
-			var_1_7:close()
-			ShowTips("家具套装序列化成功")
+		if uv0:GetWriteHeadDormSuitSerializePath(slot2.suitType) then
+			if io.open(slot7 .. slot2.name .. ".json", "w") then
+				slot10:write(uv1.encode({
+					furList = slot3,
+					numList = slot4
+				}))
+				slot10:close()
+				ShowTips("家具套装序列化成功")
+			else
+				ShowTips("家具套装序列化失败")
+			end
 		else
-			ShowTips("家具套装序列化失败")
+			ShowTips("未获取到对应类型的文件前缀，套装类型索引为" .. slot2.suitType)
 		end
-	else
-		ShowTips("未获取到对应类型的文件前缀，套装类型索引为" .. arg_1_2.suitType)
-	end
-end
+	end,
+	FurSerializeDataFilter = function (slot0, slot1, slot2)
+		slot3 = nil
+		slot4 = {}
 
-function var_0_1.FurSerializeDataFilter(arg_2_0, arg_2_1, arg_2_2)
-	local var_2_0
-	local var_2_1 = {}
+		if slot2.suitType == uv0.DORM_SUIT_TYPE.PART_SET then
+			slot3 = {}
 
-	if arg_2_2.suitType == var_0_1.DORM_SUIT_TYPE.PART_SET then
-		var_2_0 = {}
+			for slot8, slot9 in ipairs(slot1) do
+				if slot9.type == 5 then
+					slot10 = {
+						type = slot9.type,
+						furniture_pos = {}
+					}
+					slot11 = {}
 
-		for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-			if iter_2_1.type == 5 then
-				local var_2_2 = {
-					type = iter_2_1.type,
-					furniture_pos = {}
-				}
-				local var_2_3 = {}
+					for slot15, slot16 in ipairs(slot9.furniture_pos) do
+						if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot16.furniture_id) and BackHomeFurniture[slot16.furniture_id].sub_type == 0 then
+							table.insert(slot11, slot16)
+						end
+					end
 
-				for iter_2_2, iter_2_3 in ipairs(iter_2_1.furniture_pos) do
-					if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(iter_2_3.furniture_id) and BackHomeFurniture[iter_2_3.furniture_id].sub_type == 0 then
-						table.insert(var_2_3, iter_2_3)
+					slot12 = uv0:GetFurSuitCenter(slot11)
+
+					for slot16, slot17 in ipairs(slot11) do
+						slot17.x = slot17.x - slot12.x
+						slot17.y = slot17.y - slot12.y
+
+						table.insert(slot10.furniture_pos, slot17)
+
+						slot4[slot17.furniture_id] = slot4[slot17.furniture_id] or 0
+						slot4[slot17.furniture_id] = slot4[slot17.furniture_id] + 1
+					end
+
+					table.insert(slot3, slot10)
+				else
+					table.insert(slot3, {
+						type = slot9.type,
+						furniture_pos = {}
+					})
+				end
+			end
+		else
+			slot3 = slot1
+
+			for slot8, slot9 in ipairs(slot1) do
+				for slot13, slot14 in ipairs(slot9.furniture_pos) do
+					slot4[slot14.furniture_id] = slot4[slot14.furniture_id] or 0
+					slot4[slot14.furniture_id] = slot4[slot14.furniture_id] + 1
+				end
+			end
+		end
+
+		slot5 = {}
+
+		for slot9, slot10 in pairs(slot4) do
+			table.insert(slot5, {
+				slot9,
+				slot10
+			})
+		end
+
+		return slot3, slot5
+	end,
+	GetFurSuitCenter = function (slot0, slot1)
+		slot2, slot3, slot4, slot5 = nil
+
+		for slot9, slot10 in ipairs(slot1) do
+			slot12, slot13 = nil
+
+			if slot10.rotation / 90 % 2 == 1 then
+				slot12 = BackHomeFurniture[slot10.furniture_id].title[2] * DormConst.gridLen / 2
+				slot13 = BackHomeFurniture[slot10.furniture_id].title[1] * DormConst.gridLen / 2
+			else
+				slot12 = BackHomeFurniture[slot10.furniture_id].title[1] * DormConst.gridLen / 2
+				slot13 = BackHomeFurniture[slot10.furniture_id].title[2] * DormConst.gridLen / 2
+			end
+
+			slot2 = math.min(slot2 or slot10.x, slot10.x - slot12)
+			slot3 = math.max(slot3 or slot10.x, slot10.x + slot12)
+			slot4 = math.min(slot4 or slot10.y, slot10.y - slot13)
+			slot5 = math.max(slot5 or slot10.y, slot10.y + slot13)
+		end
+
+		if slot2 and slot3 and slot4 and slot5 then
+			slot7 = (slot4 + slot5) / 2
+
+			if (slot3 + slot2) / 2 % 5 ~= 0 then
+				slot6 = math.floor(slot6 / 5) * 5
+			end
+
+			if slot7 % 5 ~= 0 then
+				slot7 = math.floor(slot7 / 5) * 5
+			end
+
+			return Vector2(slot6, slot7)
+		else
+			print("散件套装中心数据计算错误")
+		end
+	end,
+	GetHeadDormSuitSerializePath = function (slot0, slot1)
+		slot2 = nil
+
+		if slot1 == uv0.DORM_SUIT_TYPE.FULL_SET then
+			slot2 = "Dorm/SuitJson/FullSet/"
+		elseif slot1 == uv0.DORM_SUIT_TYPE.PART_SET then
+			slot2 = "Dorm/SuitJson/PartSet/"
+		end
+
+		return slot2
+	end,
+	GetWriteHeadDormSuitSerializePath = function (slot0, slot1)
+		slot2 = nil
+
+		if slot1 == uv0.DORM_SUIT_TYPE.FULL_SET then
+			slot2 = "./Assets/ABResources/Dorm/SuitJson/FullSet/"
+		elseif slot1 == uv0.DORM_SUIT_TYPE.PART_SET then
+			slot2 = "./Assets/ABResources/Dorm/SuitJson/PartSet/"
+		end
+
+		return slot2
+	end,
+	GetDormDormSuitSerializePath = function (slot0, slot1)
+		slot3 = nil
+
+		if uv0:GetHeadDormSuitSerializePath(BackHomeSuitCfg[slot1].type) then
+			slot3 = slot4 .. tostring(BackHomeSuitCfg[slot1].model)
+		end
+
+		return slot3
+	end,
+	GetDeSerializeDormSuitDataInScene = function (slot0, slot1)
+		slot3 = {}
+		slot4 = {}
+		slot5 = BackHomeSuitCfg[slot1]
+
+		if uv0:GetDeSerializeDormSuitData(slot1) and slot2.furList then
+			for slot9, slot10 in ipairs(slot2.furList) do
+				if slot10.type then
+					DormFurnitureTools:AddFurnitureInfo(slot3, slot10.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[slot10.type])
+				end
+
+				if slot10.type == 5 and BackHomeSuitCfg[slot1].type == uv0.DORM_SUIT_TYPE.FULL_SET then
+					DormSpecialFurnitureTools:AddSpecialFurInfo(slot4, BackHomeSuitCfg[slot1].scene_id[1], slot10.furniture_pos, false)
+				end
+			end
+		end
+
+		slot6 = RoomInfo.New()
+		slot6.furnitureInfoS = slot3
+
+		return slot6.furnitureInfoS, slot4.specialFur
+	end,
+	GetDeSerializeDormSuitData = function (slot0, slot1)
+		if BackHomeSuitCfg[slot1] then
+			slot3 = nil
+
+			if uv0:GetDormDormSuitSerializePath(slot1) .. ".json" then
+				if AssetEx.LoadText(slot2) then
+					slot3 = uv1.decode(slot4)
+				else
+					print("未获取到json数据")
+				end
+			end
+
+			if slot3 and slot3.furList then
+				for slot7, slot8 in ipairs(slot3.furList) do
+					if slot8.type then
+						for slot12, slot13 in ipairs(slot8.furniture_pos) do
+							slot13.x = slot13.x
+							slot13.y = slot13.y
+							slot13.rotation = slot13.rotation
+						end
 					end
 				end
+			end
 
-				local var_2_4 = var_0_1:GetFurSuitCenter(var_2_3)
-
-				for iter_2_4, iter_2_5 in ipairs(var_2_3) do
-					iter_2_5.x = iter_2_5.x - var_2_4.x
-					iter_2_5.y = iter_2_5.y - var_2_4.y
-
-					table.insert(var_2_2.furniture_pos, iter_2_5)
-
-					var_2_1[iter_2_5.furniture_id] = var_2_1[iter_2_5.furniture_id] or 0
-					var_2_1[iter_2_5.furniture_id] = var_2_1[iter_2_5.furniture_id] + 1
+			return slot3
+		end
+	end,
+	GetDeSerializeDormSuitDataInLuaData = function (slot0, slot1)
+		for slot6, slot7 in ipairs(uv0:GetDeSerializeDormSuitData(slot1).furList) do
+			if slot7.type then
+				for slot11, slot12 in ipairs(slot7.furniture_pos) do
+					slot12.x = slot12.x / DormConst.POS_PRECISION
+					slot12.y = slot12.y / DormConst.POS_PRECISION
+					slot12.rotation = slot12.rotation / DormConst.POS_PRECISION
 				end
-
-				table.insert(var_2_0, var_2_2)
-			else
-				local var_2_5 = {
-					type = iter_2_1.type,
-					furniture_pos = {}
-				}
-
-				table.insert(var_2_0, var_2_5)
 			end
 		end
-	else
-		var_2_0 = arg_2_1
 
-		for iter_2_6, iter_2_7 in ipairs(arg_2_1) do
-			for iter_2_8, iter_2_9 in ipairs(iter_2_7.furniture_pos) do
-				var_2_1[iter_2_9.furniture_id] = var_2_1[iter_2_9.furniture_id] or 0
-				var_2_1[iter_2_9.furniture_id] = var_2_1[iter_2_9.furniture_id] + 1
+		return slot2
+	end,
+	GenerateSuitInfoList = function (slot0, slot1, slot2)
+		if slot1 then
+			for slot6, slot7 in pairs(slot1) do
+				uv0:GenerateFurSuit(slot6, slot7.pos, slot2, slot7.furList)
 			end
 		end
-	end
+	end,
+	GenerateFullSetFurSuit = function (slot0, slot1)
+		slot2 = DormSuitData:GetSuitFurInfo(slot1)
 
-	local var_2_6 = {}
+		DormFurnitureTools:GenFurListInCurRoom(slot2.furList)
+		DormSpecialFurnitureTools:ChangeDormFloorOrWallData(slot2.specialFur)
+	end,
+	GenerateFurSuit = function (slot0, slot1, slot2, slot3, slot4)
+		slot5, slot6 = DormSuitData:CheckIsSuit(slot1)
 
-	for iter_2_10, iter_2_11 in pairs(var_2_1) do
-		local var_2_7 = {
-			iter_2_10,
-			iter_2_11
+		if not slot4 and slot1 > 1000 then
+			slot7 = DormSuitData:GetSuitFurInfo(slot1)
+		end
+
+		slot8 = {}
+
+		if slot7 == nil then
+			return
+		end
+
+		slot2 = slot2 or {
+			rotation = 0,
+			x = 0,
+			y = 0
 		}
+		slot9, slot10 = nil
 
-		table.insert(var_2_6, var_2_7)
-	end
-
-	return var_2_0, var_2_6
-end
-
-function var_0_1.GetFurSuitCenter(arg_3_0, arg_3_1)
-	local var_3_0
-	local var_3_1
-	local var_3_2
-	local var_3_3
-
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		local var_3_4 = iter_3_1.rotation
-		local var_3_5
-		local var_3_6
-
-		if var_3_4 / 90 % 2 == 1 then
-			var_3_5 = BackHomeFurniture[iter_3_1.furniture_id].title[2] * DormConst.gridLen / 2
-			var_3_6 = BackHomeFurniture[iter_3_1.furniture_id].title[1] * DormConst.gridLen / 2
-		else
-			var_3_5 = BackHomeFurniture[iter_3_1.furniture_id].title[1] * DormConst.gridLen / 2
-			var_3_6 = BackHomeFurniture[iter_3_1.furniture_id].title[2] * DormConst.gridLen / 2
+		if slot6 == uv0.DORM_SUIT_TYPE.PART_SET then
+			slot9 = slot7.furList
+			slot10 = slot7.tileType
+		elseif slot6 == uv0.DORM_SUIT_TYPE.CUSTOM_SET then
+			slot9 = slot7
+			slot10 = DormConst.PROTOCOL_TILE_TYPE[5]
+			slot1 = 0
 		end
 
-		var_3_0 = var_3_0 or iter_3_1.x
-		var_3_0 = math.min(var_3_0, iter_3_1.x - var_3_5)
-		var_3_1 = var_3_1 or iter_3_1.x
-		var_3_1 = math.max(var_3_1, iter_3_1.x + var_3_5)
-		var_3_2 = var_3_2 or iter_3_1.y
-		var_3_2 = math.min(var_3_2, iter_3_1.y - var_3_6)
-		var_3_3 = var_3_3 or iter_3_1.y
-		var_3_3 = math.max(var_3_3, iter_3_1.y + var_3_6)
-	end
-
-	if var_3_0 and var_3_1 and var_3_2 and var_3_3 then
-		local var_3_7 = (var_3_1 + var_3_0) / 2
-		local var_3_8 = (var_3_2 + var_3_3) / 2
-
-		if var_3_7 % 5 ~= 0 then
-			var_3_7 = math.floor(var_3_7 / 5) * 5
+		for slot14 = 0, slot9.Length - 1 do
+			table.insert(slot8, uv1(slot10, slot9[slot14]))
 		end
 
-		if var_3_8 % 5 ~= 0 then
-			var_3_8 = math.floor(var_3_8 / 5) * 5
+		slot11 = DormLuaBridge.GenerateSuitPrefab(slot1, slot6 == uv0.DORM_SUIT_TYPE.PART_SET, slot10)
+
+		for slot15, slot16 in pairs(slot8) do
+			DormLuaBridge.SetFurInSuitChild(slot11, slot16)
 		end
 
-		return Vector2(var_3_7, var_3_8)
-	else
-		print("散件套装中心数据计算错误")
-	end
-end
+		DormLuaBridge.SetFurniturePosition(slot11, slot10, Vector2(slot2.x or 0, slot2.y or 0), 0)
+		DormLuaBridge.RotateFurnitureSuit(slot11, slot2.rotation or 0)
 
-function var_0_1.GetHeadDormSuitSerializePath(arg_4_0, arg_4_1)
-	local var_4_0
+		if slot3 then
+			DormLuaBridge.SetFurnitureSuitOccupy(slot11, slot3)
+		end
 
-	if arg_4_1 == var_0_1.DORM_SUIT_TYPE.FULL_SET then
-		var_4_0 = "Dorm/SuitJson/FullSet/"
-	elseif arg_4_1 == var_0_1.DORM_SUIT_TYPE.PART_SET then
-		var_4_0 = "Dorm/SuitJson/PartSet/"
-	end
+		DormLuaBridge.UpdateAllWallMountDitherAlphaControl()
+		DormLuaBridge.UpdateAllFurnitureInteractAreaEnabled()
 
-	return var_4_0
-end
+		return slot11
+	end,
+	DestoryFurSuitObject = function (slot0, slot1, slot2, slot3)
+		slot5 = {}
 
-function var_0_1.GetWriteHeadDormSuitSerializePath(arg_5_0, arg_5_1)
-	local var_5_0
+		for slot9 = 0, DormLuaBridge.GetSuitFurEidList(slot1).Length - 1 do
+			table.insert(slot5, slot4[slot9])
+		end
 
-	if arg_5_1 == var_0_1.DORM_SUIT_TYPE.FULL_SET then
-		var_5_0 = "./Assets/ABResources/Dorm/SuitJson/FullSet/"
-	elseif arg_5_1 == var_0_1.DORM_SUIT_TYPE.PART_SET then
-		var_5_0 = "./Assets/ABResources/Dorm/SuitJson/PartSet/"
-	end
+		for slot9, slot10 in ipairs(slot5) do
+			slot11 = DormUtils.GetEntityData(slot10)
 
-	return var_5_0
-end
-
-function var_0_1.GetDormDormSuitSerializePath(arg_6_0, arg_6_1)
-	local var_6_0 = BackHomeSuitCfg[arg_6_1].type
-	local var_6_1
-	local var_6_2 = var_0_1:GetHeadDormSuitSerializePath(var_6_0)
-
-	if var_6_2 then
-		var_6_1 = var_6_2 .. tostring(BackHomeSuitCfg[arg_6_1].model)
-	end
-
-	return var_6_1
-end
-
-function var_0_1.GetDeSerializeDormSuitDataInScene(arg_7_0, arg_7_1)
-	local var_7_0 = var_0_1:GetDeSerializeDormSuitData(arg_7_1)
-	local var_7_1 = {}
-	local var_7_2 = {}
-	local var_7_3 = BackHomeSuitCfg[arg_7_1]
-
-	if var_7_0 and var_7_0.furList then
-		for iter_7_0, iter_7_1 in ipairs(var_7_0.furList) do
-			if iter_7_1.type then
-				DormFurnitureTools:AddFurnitureInfo(var_7_1, iter_7_1.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[iter_7_1.type])
+			if slot2 then
+				slot11.noOccupy = true
 			end
 
-			if iter_7_1.type == 5 and BackHomeSuitCfg[arg_7_1].type == var_0_1.DORM_SUIT_TYPE.FULL_SET then
-				local var_7_4 = BackHomeSuitCfg[arg_7_1].scene_id[1]
+			slot12 = slot11.cfgID
 
-				DormSpecialFurnitureTools:AddSpecialFurInfo(var_7_2, var_7_4, iter_7_1.furniture_pos, false)
+			if slot3 and slot12 then
+				DormFurEditStateData:ReviseFurNumInEditRoom(slot12, -1)
 			end
+
+			DormFurnitureManager.GetInstance().FindAndRemove(slot10)
 		end
-	end
 
-	local var_7_5 = RoomInfo.New()
+		DormLuaBridge.RemoveFurniture(slot1, false)
+	end,
+	RelieveSuit = function (slot0, slot1)
+		DormLuaBridge.DisassembleFurSuit(slot1)
+		DormLuaBridge.ExitSuitEditMode(slot1)
+		manager.notify:Invoke(DORM_EXIT_SUIT_EDIT_MODE, slot1)
+		DormLuaBridge.RemoveFurniture(slot1, false)
+	end,
+	GetSuitHighDefinitionIcon = function (slot0, slot1)
+		if BackHomeSuitCfg[slot1] and slot2.icon then
+			return getSpriteViaConfig("DormSuitPreview", slot3)
+		end
+	end,
+	GetFurSuitGoodListByShopID = function (slot0, slot1)
+		slot3 = {}
 
-	var_7_5.furnitureInfoS = var_7_1
-
-	return var_7_5.furnitureInfoS, var_7_2.specialFur
-end
-
-function var_0_1.GetDeSerializeDormSuitData(arg_8_0, arg_8_1)
-	if BackHomeSuitCfg[arg_8_1] then
-		local var_8_0 = var_0_1:GetDormDormSuitSerializePath(arg_8_1) .. ".json"
-		local var_8_1
-
-		if var_8_0 then
-			local var_8_2 = AssetEx.LoadText(var_8_0)
-
-			if var_8_2 then
-				var_8_1 = var_0_0.decode(var_8_2)
-			else
-				print("未获取到json数据")
+		for slot7, slot8 in ipairs(getShopIDListByShopID(slot1)) do
+			if DormSuitData:CheckIsConfigSuit(getShopCfg(slot8, slot1).give_id) then
+				table.insert(slot3, slot8)
 			end
 		end
 
-		if var_8_1 and var_8_1.furList then
-			for iter_8_0, iter_8_1 in ipairs(var_8_1.furList) do
-				if iter_8_1.type then
-					for iter_8_2, iter_8_3 in ipairs(iter_8_1.furniture_pos) do
-						iter_8_3.x = iter_8_3.x
-						iter_8_3.y = iter_8_3.y
-						iter_8_3.rotation = iter_8_3.rotation
-					end
-				end
-			end
-		end
-
-		return var_8_1
+		return slot3
 	end
-end
-
-function var_0_1.GetDeSerializeDormSuitDataInLuaData(arg_9_0, arg_9_1)
-	local var_9_0 = var_0_1:GetDeSerializeDormSuitData(arg_9_1)
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0.furList) do
-		if iter_9_1.type then
-			for iter_9_2, iter_9_3 in ipairs(iter_9_1.furniture_pos) do
-				iter_9_3.x = iter_9_3.x / DormConst.POS_PRECISION
-				iter_9_3.y = iter_9_3.y / DormConst.POS_PRECISION
-				iter_9_3.rotation = iter_9_3.rotation / DormConst.POS_PRECISION
-			end
-		end
-	end
-
-	return var_9_0
-end
-
-function var_0_1.GenerateSuitInfoList(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_1 then
-		for iter_10_0, iter_10_1 in pairs(arg_10_1) do
-			var_0_1:GenerateFurSuit(iter_10_0, iter_10_1.pos, arg_10_2, iter_10_1.furList)
-		end
-	end
-end
-
-local function var_0_2(arg_11_0, arg_11_1)
-	local var_11_0 = DormFurnitureManager.GetInstance():Generate(arg_11_1.id)
-
-	DormLuaBridge.SetFurniturePosition(var_11_0, arg_11_0, arg_11_1.pos, arg_11_1.rotation)
-	DormLuaBridge.ChangeFurnitureState(var_11_0, DormFurnitureManager.FurnitureState.Placed)
-
-	return var_11_0
-end
-
-function var_0_1.GenerateFullSetFurSuit(arg_12_0, arg_12_1)
-	local var_12_0 = DormSuitData:GetSuitFurInfo(arg_12_1)
-
-	DormFurnitureTools:GenFurListInCurRoom(var_12_0.furList)
-	DormSpecialFurnitureTools:ChangeDormFloorOrWallData(var_12_0.specialFur)
-end
-
-function var_0_1.GenerateFurSuit(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4)
-	local var_13_0, var_13_1 = DormSuitData:CheckIsSuit(arg_13_1)
-	local var_13_2 = arg_13_4
-
-	if not var_13_2 and arg_13_1 > 1000 then
-		var_13_2 = DormSuitData:GetSuitFurInfo(arg_13_1)
-	end
-
-	local var_13_3 = {}
-
-	if var_13_2 == nil then
-		return
-	end
-
-	arg_13_2 = arg_13_2 or {
-		rotation = 0,
-		x = 0,
-		y = 0
-	}
-
-	local var_13_4
-	local var_13_5
-
-	if var_13_1 == var_0_1.DORM_SUIT_TYPE.PART_SET then
-		var_13_4 = var_13_2.furList
-		var_13_5 = var_13_2.tileType
-	elseif var_13_1 == var_0_1.DORM_SUIT_TYPE.CUSTOM_SET then
-		var_13_4 = var_13_2
-		var_13_5 = DormConst.PROTOCOL_TILE_TYPE[5]
-		arg_13_1 = 0
-	end
-
-	for iter_13_0 = 0, var_13_4.Length - 1 do
-		local var_13_6 = var_13_4[iter_13_0]
-
-		table.insert(var_13_3, var_0_2(var_13_5, var_13_6))
-	end
-
-	local var_13_7 = DormLuaBridge.GenerateSuitPrefab(arg_13_1, var_13_1 == var_0_1.DORM_SUIT_TYPE.PART_SET, var_13_5)
-
-	for iter_13_1, iter_13_2 in pairs(var_13_3) do
-		DormLuaBridge.SetFurInSuitChild(var_13_7, iter_13_2)
-	end
-
-	local var_13_8 = Vector2(arg_13_2.x or 0, arg_13_2.y or 0)
-
-	DormLuaBridge.SetFurniturePosition(var_13_7, var_13_5, var_13_8, 0)
-	DormLuaBridge.RotateFurnitureSuit(var_13_7, arg_13_2.rotation or 0)
-
-	if arg_13_3 then
-		DormLuaBridge.SetFurnitureSuitOccupy(var_13_7, arg_13_3)
-	end
-
-	DormLuaBridge.UpdateAllWallMountDitherAlphaControl()
-	DormLuaBridge.UpdateAllFurnitureInteractAreaEnabled()
-
-	return var_13_7
-end
-
-function var_0_1.DestoryFurSuitObject(arg_14_0, arg_14_1, arg_14_2, arg_14_3)
-	local var_14_0 = DormLuaBridge.GetSuitFurEidList(arg_14_1)
-	local var_14_1 = {}
-
-	for iter_14_0 = 0, var_14_0.Length - 1 do
-		table.insert(var_14_1, var_14_0[iter_14_0])
-	end
-
-	for iter_14_1, iter_14_2 in ipairs(var_14_1) do
-		local var_14_2 = DormUtils.GetEntityData(iter_14_2)
-
-		if arg_14_2 then
-			var_14_2.noOccupy = true
-		end
-
-		local var_14_3 = var_14_2.cfgID
-
-		if arg_14_3 and var_14_3 then
-			DormFurEditStateData:ReviseFurNumInEditRoom(var_14_3, -1)
-		end
-
-		DormFurnitureManager.GetInstance().FindAndRemove(iter_14_2)
-	end
-
-	DormLuaBridge.RemoveFurniture(arg_14_1, false)
-end
-
-function var_0_1.RelieveSuit(arg_15_0, arg_15_1)
-	DormLuaBridge.DisassembleFurSuit(arg_15_1)
-	DormLuaBridge.ExitSuitEditMode(arg_15_1)
-	manager.notify:Invoke(DORM_EXIT_SUIT_EDIT_MODE, arg_15_1)
-	DormLuaBridge.RemoveFurniture(arg_15_1, false)
-end
-
-function var_0_1.GetSuitHighDefinitionIcon(arg_16_0, arg_16_1)
-	local var_16_0 = BackHomeSuitCfg[arg_16_1]
-
-	if var_16_0 then
-		local var_16_1 = var_16_0.icon
-
-		if var_16_1 then
-			return getSpriteViaConfig("DormSuitPreview", var_16_1)
-		end
-	end
-end
-
-function var_0_1.GetFurSuitGoodListByShopID(arg_17_0, arg_17_1)
-	local var_17_0 = getShopIDListByShopID(arg_17_1)
-	local var_17_1 = {}
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_0) do
-		local var_17_2 = getShopCfg(iter_17_1, arg_17_1)
-
-		if DormSuitData:CheckIsConfigSuit(var_17_2.give_id) then
-			table.insert(var_17_1, iter_17_1)
-		end
-	end
-
-	return var_17_1
-end
-
-return var_0_1
+}

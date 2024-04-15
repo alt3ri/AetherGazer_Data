@@ -1,66 +1,63 @@
-local var_0_0 = class("SpringPreheatPrayBranchView", ReduxView)
+slot0 = class("SpringPreheatPrayBranchView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeWishUIRewardsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.branch_ = SpringPreheatPrayBubbleView.New(arg_3_0.branchGo_)
+	slot0.branch_ = SpringPreheatPrayBubbleView.New(slot0.branchGo_)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.maskBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.day_ = arg_6_0.params_.day or SpringPreheatData:GetNextSelectionIndex()
+function slot0.OnEnter(slot0)
+	slot0.day_ = slot0.params_.day or SpringPreheatData:GetNextSelectionIndex()
 
-	arg_6_0.branch_:SetData(arg_6_0.day_)
-	arg_6_0.branch_:SetClickHandler(function(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-		arg_6_0:OnClickBubble(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
+	slot0.branch_:SetData(slot0.day_)
+	slot0.branch_:SetClickHandler(function (slot0, slot1, slot2, slot3)
+		uv0:OnClickBubble(slot0, slot1, slot2, slot3)
 	end)
-	arg_6_0.branch_:OnEnter()
-	arg_6_0:RefreshUI()
+	slot0.branch_:OnEnter()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0.branch_:OnExit()
+function slot0.OnExit(slot0)
+	slot0.branch_:OnExit()
 end
 
-function var_0_0.OnTop(arg_9_0)
-	SetActive(arg_9_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_10_0)
-	SetActive(arg_10_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.branch_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.branch_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	return
+function slot0.RefreshUI(slot0)
 end
 
-function var_0_0.OnClickBubble(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4)
-	if arg_13_4 then
-		local var_13_0 = arg_13_3:GetItemId()
-
+function slot0.OnClickBubble(slot0, slot1, slot2, slot3, slot4)
+	if slot4 then
 		ShowPopItem(POP_ITEM, {
-			var_13_0
+			slot3:GetItemId()
 		})
 	end
 end
 
-return var_0_0
+return slot0

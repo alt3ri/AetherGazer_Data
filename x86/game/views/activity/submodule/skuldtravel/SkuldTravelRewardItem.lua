@@ -1,66 +1,64 @@
-local var_0_0 = class("SkuldTravelRewardItem", ReduxView)
+slot0 = class("SkuldTravelRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listgo_, CommonItemView)
-	arg_3_0.statucontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "reward")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listgo_, CommonItemView)
+	slot0.statucontroller_ = ControllerUtil.GetController(slot0.transform_, "reward")
 end
 
-function var_0_0.IndexItem(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = {
-		id = arg_4_0.rewardlist_[arg_4_1][1],
-		number = arg_4_0.rewardlist_[arg_4_1][2],
-		clickFun = function(arg_5_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData({
+		id = slot0.rewardlist_[slot1][1],
+		number = slot0.rewardlist_[slot1][2],
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_5_0.id
+				slot0.id
 			})
 		end
-	}
-
-	arg_4_2:SetData(var_4_0)
+	})
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.receiveBtn_, nil, function()
-		if arg_6_0.statu_ == 1 then
-			SkuldTravelAction:GetTravelReward(arg_6_0.rewardid_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.statu_ == 1 then
+			SkuldTravelAction:GetTravelReward(uv0.rewardid_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.rewardid_ = arg_8_1
-	arg_8_0.desctext_.text = GetI18NText(SkuldTravelData:GetTaskTextByTaskId(arg_8_0.rewardid_))
-	arg_8_0.statu_ = SkuldTravelData:GetTaskStatuByTaskId(arg_8_0.rewardid_)
+function slot0.SetData(slot0, slot1)
+	slot0.rewardid_ = slot1
+	slot0.desctext_.text = GetI18NText(SkuldTravelData:GetTaskTextByTaskId(slot0.rewardid_))
+	slot0.statu_ = SkuldTravelData:GetTaskStatuByTaskId(slot0.rewardid_)
 
-	arg_8_0.statucontroller_:SetSelectedState(SkuldTravelData:GetTaskControllerStatu(arg_8_0.statu_))
+	slot0.statucontroller_:SetSelectedState(SkuldTravelData:GetTaskControllerStatu(slot0.statu_))
 
-	arg_8_0.rewardlist_ = TravelSkuldRewardCfg[arg_8_0.rewardid_].reward_item_list
+	slot0.rewardlist_ = TravelSkuldRewardCfg[slot0.rewardid_].reward_item_list
 
-	arg_8_0.list_:StartScroll(#arg_8_0.rewardlist_)
+	slot0.list_:StartScroll(#slot0.rewardlist_)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.list_ then
-		arg_9_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_9_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

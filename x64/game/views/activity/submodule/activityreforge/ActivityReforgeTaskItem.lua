@@ -1,96 +1,88 @@
-local var_0_0 = class("ActivityReforgeTaskItem", ReduxView)
+slot0 = class("ActivityReforgeTaskItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.rewardItems_ = {}
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.rewardItems_ = {}
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0.rewardItems_[iter_2_0] = CommonItemView.New(arg_2_0["rewardItem" .. iter_2_0 .. "_"])
+	for slot4 = 1, 3 do
+		slot0.rewardItems_[slot4] = CommonItemView.New(slot0["rewardItem" .. slot4 .. "_"])
 	end
 
-	arg_2_0.statusController_ = arg_2_0.controllerEx_:GetController("status")
-	arg_2_0.rewardNumController_ = arg_2_0.controllerEx_:GetController("reward")
+	slot0.statusController_ = slot0.controllerEx_:GetController("status")
+	slot0.rewardNumController_ = slot0.controllerEx_:GetController("reward")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_3_0.taskID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	if not arg_5_1 then
+function slot0.SetData(slot0, slot1)
+	if not slot1 then
 		return
 	end
 
-	arg_5_0.taskID_ = arg_5_1
-	arg_5_0.taskProgress = TaskData2:GetTaskProgress(arg_5_1)
-	arg_5_0.taskComplete_ = TaskData2:GetTaskComplete(arg_5_1)
+	slot0.taskID_ = slot1
+	slot0.taskProgress = TaskData2:GetTaskProgress(slot1)
+	slot0.taskComplete_ = TaskData2:GetTaskComplete(slot1)
 
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = AssignmentCfg[arg_6_0.taskID_]
+function slot0.RefreshUI(slot0)
+	slot1 = AssignmentCfg[slot0.taskID_]
+	slot0.descText_.text = GetI18NText(slot1.desc)
+	slot2 = slot1.need <= slot0.taskProgress
 
-	arg_6_0.descText_.text = GetI18NText(var_6_0.desc)
-
-	local var_6_1 = arg_6_0.taskProgress >= var_6_0.need
-
-	if arg_6_0.taskComplete_ then
-		arg_6_0.statusController_:SetSelectedState("received")
-	elseif var_6_1 then
-		arg_6_0.statusController_:SetSelectedState("complete")
+	if slot0.taskComplete_ then
+		slot0.statusController_:SetSelectedState("received")
+	elseif slot2 then
+		slot0.statusController_:SetSelectedState("complete")
 	else
-		arg_6_0.statusController_:SetSelectedState("unfinish")
+		slot0.statusController_:SetSelectedState("unfinish")
 	end
 
-	local var_6_2 = var_6_0.reward or {}
+	slot0.rewardNumController_:SetSelectedState(#(slot1.reward or {}))
 
-	arg_6_0.rewardNumController_:SetSelectedState(#var_6_2)
+	for slot7 = 1, 3 do
+		if slot3[slot7] then
+			slot10 = false
+			slot11 = rewardToItemTemplate(formatReward(slot8))
+			slot11.completedFlag = slot0.taskComplete_
+			slot11.clickFun = handler(slot0, slot0.OnClickCommonItem)
 
-	for iter_6_0 = 1, 3 do
-		local var_6_3 = var_6_2[iter_6_0]
-
-		if var_6_3 then
-			local var_6_4 = formatReward(var_6_3)
-			local var_6_5 = false
-			local var_6_6 = rewardToItemTemplate(var_6_4)
-
-			var_6_6.completedFlag = arg_6_0.taskComplete_
-			var_6_6.clickFun = handler(arg_6_0, arg_6_0.OnClickCommonItem)
-
-			arg_6_0.rewardItems_[iter_6_0]:SetData(var_6_6)
+			slot0.rewardItems_[slot7]:SetData(slot11)
 		end
 	end
 end
 
-function var_0_0.OnClickCommonItem(arg_7_0, arg_7_1)
+function slot0.OnClickCommonItem(slot0, slot1)
 	ShowPopItem(POP_ITEM, {
-		arg_7_1.id,
-		arg_7_1.number
+		slot1.id,
+		slot1.number
 	})
 	OperationRecorder.Record("task", "task_item")
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.rewardItems_) do
-		if iter_8_1 then
-			iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	arg_8_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

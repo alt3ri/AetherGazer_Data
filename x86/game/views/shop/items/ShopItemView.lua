@@ -1,159 +1,148 @@
-local var_0_0 = class("ShopItemView", ShopItemBase)
+slot0 = class("ShopItemView", ShopItemBase)
 
-function var_0_0.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.limitController_ = arg_1_0.controller_:GetController("lock")
-	arg_1_0.commonItem_ = CommonItemView.New(arg_1_0.commonGo_)
-	arg_1_0.commonData = clone(ItemTemplateData)
+	slot0.limitController_ = slot0.controller_:GetController("lock")
+	slot0.commonItem_ = CommonItemView.New(slot0.commonGo_)
+	slot0.commonData = clone(ItemTemplateData)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(nil, nil, "OnClick")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, , "OnClick")
 end
 
-function var_0_0.UpdateTimerView(arg_3_0)
-	if arg_3_0.isExchange or arg_3_0.isLock then
+function slot0.UpdateTimerView(slot0)
+	if slot0.isExchange or slot0.isLock then
 		return
 	end
 
-	local var_3_0 = arg_3_0.shopCfg.refresh_cycle
-
-	if var_3_0 == 1 then
+	if slot0.shopCfg.refresh_cycle == 1 then
 		return
 	end
 
-	local var_3_1
+	slot2 = nil
 
-	if not arg_3_0.isExchange then
-		if var_3_0 == 2 then
-			var_3_1 = _G.gameTimer:GetNextMonthFreshTime()
-		elseif var_3_0 == 3 then
-			var_3_1 = _G.gameTimer:GetNextWeekFreshTime()
-		elseif var_3_0 == 4 then
-			var_3_1 = _G.gameTimer:GetNextDayFreshTime()
-		elseif var_3_0 == 5 then
-			var_3_1 = arg_3_0.data.next_refresh_timestamp
+	if not slot0.isExchange then
+		if slot1 == 2 then
+			slot2 = _G.gameTimer:GetNextMonthFreshTime()
+		elseif slot1 == 3 then
+			slot2 = _G.gameTimer:GetNextWeekFreshTime()
+		elseif slot1 == 4 then
+			slot2 = _G.gameTimer:GetNextDayFreshTime()
+		elseif slot1 == 5 then
+			slot2 = slot0.data.next_refresh_timestamp
 		end
 
-		arg_3_0.countdownText_.text = string.format(GetTips("TIME_DISPLAY_5"), manager.time:DescCdTime3(var_3_1 - manager.time:GetServerTime()))
+		slot0.countdownText_.text = string.format(GetTips("TIME_DISPLAY_5"), manager.time:DescCdTime3(slot2 - manager.time:GetServerTime()))
 	end
 end
 
-function var_0_0.OnClick(arg_4_0)
-	if not ShopTools.CheckShopIsUnLock(arg_4_0.shopID) then
-		if arg_4_0.shopCfg then
+function slot0.OnClick(slot0)
+	if not ShopTools.CheckShopIsUnLock(slot0.shopID) then
+		if slot0.shopCfg then
 			ShowPopItem(POP_ITEM, {
-				arg_4_0.shopCfg.give_id
+				slot0.shopCfg.give_id
 			})
 		end
 
 		return
 	end
 
-	arg_4_0:ClickFunction()
+	slot0:ClickFunction()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	arg_5_0:SetCommonItem()
+function slot0.UpdateView(slot0)
+	slot0:SetCommonItem()
 
-	arg_5_0.nameText_.text = string.format("%s x%d", ItemTools.getItemName(arg_5_0.itemCfg.id), arg_5_0.shopCfg.give)
-	arg_5_0.isLock = ShopData.IsGoodUnlock(arg_5_0.goodID, arg_5_0.shopID) == 0
+	slot0.nameText_.text = string.format("%s x%d", ItemTools.getItemName(slot0.itemCfg.id), slot0.shopCfg.give)
+	slot0.isLock = ShopData.IsGoodUnlock(slot0.goodID, slot0.shopID) == 0
 
-	if arg_5_0.isLock then
-		local var_5_0, var_5_1 = ShopData.GetLockTypeAndCondition(arg_5_0.goodID, arg_5_0.shopID)
+	if slot0.isLock then
+		slot1, slot2 = ShopData.GetLockTypeAndCondition(slot0.goodID, slot0.shopID)
 
-		SetActive(arg_5_0.null_, true)
-		SetActive(arg_5_0.countdownText_.gameObject, true)
+		SetActive(slot0.null_, true)
+		SetActive(slot0.countdownText_.gameObject, true)
 
-		if var_5_0 == 5 then
-			arg_5_0.nullText_.text = GetTips("EXPLORE_SHOP_TIPS_1")
-			arg_5_0.countdownText_.text = string.format(GetTips("EXPLORE_SHOP_TIPS_2"), var_5_1)
+		if slot1 == 5 then
+			slot0.nullText_.text = GetTips("EXPLORE_SHOP_TIPS_1")
+			slot0.countdownText_.text = string.format(GetTips("EXPLORE_SHOP_TIPS_2"), slot2)
 		end
-	elseif arg_5_0.shopCfg.limit_num == -1 or arg_5_0.shopCfg.limit_num == nil then
-		SetActive(arg_5_0.limitGo_, false)
-		SetActive(arg_5_0.null_, false)
+	elseif slot0.shopCfg.limit_num == -1 or slot0.shopCfg.limit_num == nil then
+		SetActive(slot0.limitGo_, false)
+		SetActive(slot0.null_, false)
 	else
-		local var_5_2 = arg_5_0.shopCfg.limit_num - arg_5_0.data.buyTime
+		slot1 = slot0.shopCfg.limit_num - slot0.data.buyTime
 
-		if arg_5_0.itemCfg.type == ItemConst.ITEM_TYPE.HERO_SKIN and ShopTools.HaveSkin(arg_5_0.itemCfg.id) then
-			var_5_2 = 0
+		if slot0.itemCfg.type == ItemConst.ITEM_TYPE.HERO_SKIN and ShopTools.HaveSkin(slot0.itemCfg.id) then
+			slot1 = 0
 		end
 
-		if var_5_2 > 0 then
-			SetActive(arg_5_0.limitGo_, true)
-			SetActive(arg_5_0.null_, false)
+		if slot1 > 0 then
+			SetActive(slot0.limitGo_, true)
+			SetActive(slot0.null_, false)
 
-			arg_5_0.limitNum_.text = string.format("<color=#0d89bf>%d</color>/%d", var_5_2, arg_5_0.shopCfg.limit_num)
-			arg_5_0.limitText_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[arg_5_0.shopCfg.refresh_cycle or 7])
+			slot0.limitNum_.text = string.format("<color=#0d89bf>%d</color>/%d", slot1, slot0.shopCfg.limit_num)
+			slot0.limitText_.text = GetTips(ShopConst.SHOP_LIMIT_TEXT[slot0.shopCfg.refresh_cycle or 7])
 		else
-			if arg_5_0.isExchange then
-				arg_5_0.limitController_:SetSelectedState("empty1")
+			if slot0.isExchange then
+				slot0.limitController_:SetSelectedState("empty1")
 
-				arg_5_0.nullText_.text = GetTips("SOLD_OUT")
-			else
-				local var_5_3 = arg_5_0.shopCfg.refresh_cycle
-
-				if var_5_3 == 1 then
-					arg_5_0.nullText_.text = GetTips("SOLD_OUT")
-				elseif var_5_3 == 2 then
-					arg_5_0.nullText_.text = GetTips("MONTHLY_SOLD_OUT")
-				elseif var_5_3 == 3 then
-					arg_5_0.nullText_.text = GetTips("WEEKLY_SOLD_OUT")
-				elseif var_5_3 == 4 then
-					arg_5_0.nullText_.text = GetTips("DAILY_SOLD_OUT")
-				elseif var_5_3 == 5 then
-					arg_5_0.nullText_.text = GetTips("ACTIVITY_SOLD_OUT")
-				end
+				slot0.nullText_.text = GetTips("SOLD_OUT")
+			elseif slot0.shopCfg.refresh_cycle == 1 then
+				slot0.nullText_.text = GetTips("SOLD_OUT")
+			elseif slot2 == 2 then
+				slot0.nullText_.text = GetTips("MONTHLY_SOLD_OUT")
+			elseif slot2 == 3 then
+				slot0.nullText_.text = GetTips("WEEKLY_SOLD_OUT")
+			elseif slot2 == 4 then
+				slot0.nullText_.text = GetTips("DAILY_SOLD_OUT")
+			elseif slot2 == 5 then
+				slot0.nullText_.text = GetTips("ACTIVITY_SOLD_OUT")
 			end
 
-			SetActive(arg_5_0.limitGo_, false)
-			SetActive(arg_5_0.null_, true)
+			SetActive(slot0.limitGo_, false)
+			SetActive(slot0.null_, true)
 		end
 	end
 
-	if arg_5_0.shopCfg.limit_num == 0 then
-		SetActive(arg_5_0.limitGo_, false)
+	if slot0.shopCfg.limit_num == 0 then
+		SetActive(slot0.limitGo_, false)
 	end
 
-	local var_5_4 = arg_5_0.shopCfg.cost
+	slot1 = slot0.shopCfg.cost
 
-	arg_5_0:SetCostIcon()
+	slot0:SetCostIcon()
 
-	local var_5_5
-	local var_5_6
-	local var_5_7
-	local var_5_8 = ShopTools.GetDiscount(arg_5_0.goodID, arg_5_0.shopID)
-	local var_5_9 = ShopTools.GetDiscountLabel(arg_5_0.goodID, arg_5_0.shopID)
-	local var_5_10 = ShopTools.GetOriPrice(arg_5_0.goodID, arg_5_0.shopID)
+	slot2, slot3, slot4 = nil
 
-	if var_5_8 ~= 100 then
-		local var_5_11 = arg_5_0.shopCfg.cheap_cost
+	if ShopTools.GetDiscount(slot0.goodID, slot0.shopID) ~= 100 then
+		slot1 = slot0.shopCfg.cheap_cost
 
-		SetActive(arg_5_0.discountGo_, true)
+		SetActive(slot0.discountGo_, true)
 
-		arg_5_0.discountText_.text = var_5_9
+		slot0.discountText_.text = ShopTools.GetDiscountLabel(slot0.goodID, slot0.shopID)
 
-		SetActive(arg_5_0.oldPriceGo_, true)
+		SetActive(slot0.oldPriceGo_, true)
 
-		arg_5_0.oldPriceText_.text = tostring(var_5_10)
+		slot0.oldPriceText_.text = tostring(ShopTools.GetOriPrice(slot0.goodID, slot0.shopID))
 	else
-		SetActive(arg_5_0.oldPriceGo_, false)
+		SetActive(slot0.oldPriceGo_, false)
 
-		if arg_5_0.shopCfg.tag == 2 then
-			SetActive(arg_5_0.discountGo_, true)
+		if slot0.shopCfg.tag == 2 then
+			SetActive(slot0.discountGo_, true)
 
-			arg_5_0.discountText_.text = GetTips("NEW_ADD")
+			slot0.discountText_.text = GetTips("NEW_ADD")
 		else
-			SetActive(arg_5_0.discountGo_, false)
+			SetActive(slot0.discountGo_, false)
 		end
 	end
 
-	arg_5_0:SetPriceText()
+	slot0:SetPriceText()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

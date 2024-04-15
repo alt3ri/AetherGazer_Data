@@ -1,104 +1,84 @@
 SectionInfoBaseView = import("game.views.sectionInfo.SectionInfoBaseView")
+slot0 = class("SlayerSectionInfoView", SectionInfoBaseView)
 
-local var_0_0 = class("SlayerSectionInfoView", SectionInfoBaseView)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
+	SetActive(slot0.tipsPanel_, true)
 
-function var_0_0.InitUI(arg_1_0)
-	var_0_0.super.InitUI(arg_1_0)
-	SetActive(arg_1_0.tipsPanel_, true)
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_:SetSelectedState("slayer")
 
-	arg_1_0.controller_:SetSelectedState("slayer")
-
-	if arg_1_0.readyTxt_ then
-		arg_1_0.readyTxt_.text = GetTips("BATTLE_READY_1")
+	if slot0.readyTxt_ then
+		slot0.readyTxt_.text = GetTips("BATTLE_READY_1")
 	end
 
-	arg_1_0.slayerComs = {}
+	slot0.slayerComs = {}
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_1_0.slayerComs, arg_1_0.slayerPanel_)
+	ComponentBinder.GetInstance():BindCfgUI(slot0.slayerComs, slot0.slayerPanel_)
 
-	arg_1_0.slayerBuffList = {}
+	slot0.slayerBuffList = {}
 
-	SetActive(arg_1_0.resourcePanel_, false)
+	SetActive(slot0.resourcePanel_, false)
 end
 
-function var_0_0.OnClickBtn(arg_2_0)
-	local var_2_0 = arg_2_0.stageID_
-	local var_2_1 = arg_2_0.params_.region_activity_id
-	local var_2_2 = arg_2_0.params_.slayer_activity_id
-
-	arg_2_0:Go("/sectionSelectHero", {
-		section = var_2_0,
-		sectionType = arg_2_0.stageType_,
-		region_activity_id = var_2_1,
-		activityID = var_2_2
+function slot0.OnClickBtn(slot0)
+	slot0:Go("/sectionSelectHero", {
+		section = slot0.stageID_,
+		sectionType = slot0.stageType_,
+		region_activity_id = slot0.params_.region_activity_id,
+		activityID = slot0.params_.slayer_activity_id
 	})
 end
 
-function var_0_0.RefreshData(arg_3_0)
-	var_0_0.super.RefreshData(arg_3_0)
+function slot0.RefreshData(slot0)
+	uv0.super.RefreshData(slot0)
 
-	local var_3_0 = BattleSlayerStageCfg[arg_3_0.stageID_]
-
-	arg_3_0.lock_ = PlayerData:GetPlayerInfo().userLevel < var_3_0.level
-	arg_3_0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_3_0.level)
-	arg_3_0.cost = 0
-	arg_3_0.drop_lib_id = 0
-	arg_3_0.isFirstClear_ = false
+	slot0.lock_ = PlayerData:GetPlayerInfo().userLevel < BattleSlayerStageCfg[slot0.stageID_].level
+	slot0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot1.level)
+	slot0.cost = 0
+	slot0.drop_lib_id = 0
+	slot0.isFirstClear_ = false
 end
 
-function var_0_0.RefreshStageInfo(arg_4_0)
-	local var_4_0 = BattleSlayerStageCfg[arg_4_0.stageID_]
-
-	if arg_4_0.oldCfgID_ ~= var_4_0.id then
-		arg_4_0.sectionName_.text = GetI18NText(var_4_0.name)
-		arg_4_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, var_4_0.background_1))
-		arg_4_0.slayerComs.m_tips.text = GetI18NText(var_4_0.tips)
-		arg_4_0.oldCfgID_ = var_4_0.id
+function slot0.RefreshStageInfo(slot0)
+	if slot0.oldCfgID_ ~= BattleSlayerStageCfg[slot0.stageID_].id then
+		slot0.sectionName_.text = GetI18NText(slot1.name)
+		slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot1.background_1))
+		slot0.slayerComs.m_tips.text = GetI18NText(slot1.tips)
+		slot0.oldCfgID_ = slot1.id
 	end
 
-	local var_4_1 = arg_4_0.params_.region_activity_id
-	local var_4_2 = arg_4_0.params_.slayer_activity_id
-	local var_4_3 = ActivitySlayerCfg[var_4_1]
+	slot3 = slot0.params_.slayer_activity_id
+	slot0.buffData = ActivitySlayerCfg[slot0.params_.region_activity_id] and slot4.buff_desc or {}
 
-	arg_4_0.buffData = var_4_3 and var_4_3.buff_desc or {}
-
-	local var_4_4 = #arg_4_0.buffData
-
-	for iter_4_0 = 1, var_4_4 do
-		if not arg_4_0.slayerBuffList[iter_4_0] then
-			local var_4_5 = Object.Instantiate(arg_4_0.slayerComs.m_buffItem, arg_4_0.slayerComs.m_buffParent)
-
-			arg_4_0.slayerBuffList[iter_4_0] = SlayerSectionItem.New(var_4_5)
+	for slot9 = 1, #slot0.buffData do
+		if not slot0.slayerBuffList[slot9] then
+			slot0.slayerBuffList[slot9] = SlayerSectionItem.New(Object.Instantiate(slot0.slayerComs.m_buffItem, slot0.slayerComs.m_buffParent))
 		end
 
-		local var_4_6 = arg_4_0.buffData[iter_4_0]
-
-		arg_4_0.slayerBuffList[iter_4_0]:SetData(var_4_6)
-		arg_4_0.slayerBuffList[iter_4_0]:SetActive(true)
+		slot0.slayerBuffList[slot9]:SetData(slot0.buffData[slot9])
+		slot0.slayerBuffList[slot9]:SetActive(true)
 	end
 
-	for iter_4_1 = var_4_4 + 1, #arg_4_0.slayerBuffList do
-		arg_4_0.slayerBuffList[iter_4_1]:SetActive(false)
+	for slot9 = slot5 + 1, #slot0.slayerBuffList do
+		slot0.slayerBuffList[slot9]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.slayerComs.m_buffParent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.slayerComs.m_buffParent)
 
-	local var_4_7 = SlayerData:GetPoint(var_4_2, var_4_1)
-
-	arg_4_0.slayerComs.m_maxScore.text = var_4_7
-	arg_4_0.slayerComs.m_scrollView.verticalNormalizedPosition = 1
+	slot0.slayerComs.m_maxScore.text = SlayerData:GetPoint(slot3, slot2)
+	slot0.slayerComs.m_scrollView.verticalNormalizedPosition = 1
 end
 
-function var_0_0.Dispose(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.slayerBuffList) do
-		iter_5_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.slayerBuffList) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.slayerBuffList = {}
+	slot0.slayerBuffList = {}
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

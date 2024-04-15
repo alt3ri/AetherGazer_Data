@@ -1,50 +1,47 @@
-local var_0_0 = class("PassportMainView", ReduxView)
-local var_0_1 = {
+slot0 = class("PassportMainView", ReduxView)
+slot1 = {
 	pay = 201,
 	free = 0,
 	vip = 202
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Passport/PassportMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	local var_5_0 = Asset.Load(BattlePassListCfg[PassportData:GetId()].prefab_path)
+	slot0.controller = Object.Instantiate(Asset.Load(BattlePassListCfg[PassportData:GetId()].prefab_path), slot0.container_.transform):GetComponent("ControllerExCollection"):GetController("default")
 
-	arg_5_0.controller = Object.Instantiate(var_5_0, arg_5_0.container_.transform):GetComponent("ControllerExCollection"):GetController("default")
+	slot0.controller:SetSelectedState("PassportMainUI")
 
-	arg_5_0.controller:SetSelectedState("PassportMainUI")
-
-	arg_5_0.list_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.listGo_, PassportRewardItemView)
-	arg_5_0.nextCommonItem1_ = CommonItemView.New(arg_5_0.rightCommonItem1_)
-	arg_5_0.nextCommonItem2_ = CommonItemView.New(arg_5_0.rightCommonItem2_)
-	arg_5_0.CommonData1 = clone(ItemTemplateData)
-	arg_5_0.CommonData2 = clone(ItemTemplateData)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, PassportRewardItemView)
+	slot0.nextCommonItem1_ = CommonItemView.New(slot0.rightCommonItem1_)
+	slot0.nextCommonItem2_ = CommonItemView.New(slot0.rightCommonItem2_)
+	slot0.CommonData1 = clone(ItemTemplateData)
+	slot0.CommonData2 = clone(ItemTemplateData)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.rewardIdList_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.rewardIdList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0.list_:SetHeadTailChangeHandler(handler(arg_7_0, arg_7_0.HeadTailChangeHandler))
-	arg_7_0:AddBtnListener(arg_7_0.buyLevelBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0.list_:SetHeadTailChangeHandler(handler(slot0, slot0.HeadTailChangeHandler))
+	slot0:AddBtnListener(slot0.buyLevelBtn_, nil, function ()
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
 			payment_bp_level = PassportData:GetLevel()
 		})
@@ -52,83 +49,74 @@ function var_0_0.AddUIListener(arg_7_0)
 			notRemainLevel = true
 		}, ViewConst.SYSTEM_ID.PASSPORT_BUY_LEVEL)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.taskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/passportTask")
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.shopBtn_, nil, function()
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
 		OperationRecorder.RecordButtonTouch("bp_shop")
 		JumpTools.GoToSystem("/shop", {
 			shopId = ShopConst.SHOP_ID.PASSPORT_SHOP
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.unlockBtn_, nil, function()
+	slot0:AddBtnListener(slot0.unlockBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/passportBuy")
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.oneKeyGetBtn_, nil, function()
-		local var_12_0 = PassportData:GetCanGetBonusList()
-
-		if #var_12_0 > 0 then
-			PassportAction.OneKeyGet(var_12_0)
+	slot0:AddBtnListener(slot0.oneKeyGetBtn_, nil, function ()
+		if #PassportData:GetCanGetBonusList() > 0 then
+			PassportAction.OneKeyGet(slot0)
 		end
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.commonItem2_, nil, function()
+	slot0:AddBtnListener(slot0.commonItem2_, nil, function ()
 		JumpTools.OpenPageByJump("passportShow", {
 			type = 2
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.commonItem1_, nil, function()
+	slot0:AddBtnListener(slot0.commonItem1_, nil, function ()
 		JumpTools.OpenPageByJump("passportShow", {
 			type = 1
 		})
 	end)
 
-	function arg_7_0.CommonData1.clickFun(arg_15_0)
-		local var_15_0 = BattlePassCfg[arg_7_0.rewardIdList_[arg_7_0.nearestBonusIndex_]]
-		local var_15_1 = PassportData:GetRewardStatus(arg_7_0.nearestBonusIndex_, var_15_0.id)
-
-		if var_15_1 ~= "freeCanGet" and var_15_1 ~= "payCanGet" then
+	function slot0.CommonData1.clickFun(slot0)
+		if PassportData:GetRewardStatus(uv0.nearestBonusIndex_, BattlePassCfg[uv0.rewardIdList_[uv0.nearestBonusIndex_]].id) ~= "freeCanGet" and slot2 ~= "payCanGet" then
 			ShowPopItem(POP_ITEM, {
-				arg_15_0.id,
-				arg_15_0.number
+				slot0.id,
+				slot0.number
 			})
 
 			return
 		end
 
-		PassportAction.RequestGetBonus(var_15_0.id, PassportData:GetPayLevel() > 0 and 1 or 0)
+		PassportAction.RequestGetBonus(slot1.id, PassportData:GetPayLevel() > 0 and 1 or 0)
 	end
 
-	function arg_7_0.CommonData2.clickFun(arg_16_0)
-		local var_16_0 = BattlePassCfg[arg_7_0.rewardIdList_[arg_7_0.nearestBonusIndex_]]
-		local var_16_1 = PassportData:GetRewardStatus(arg_7_0.nearestBonusIndex_, var_16_0.id)
-
-		if var_16_1 ~= "payCanGet" and var_16_1 ~= "payHalfCanGet" then
+	function slot0.CommonData2.clickFun(slot0)
+		if PassportData:GetRewardStatus(uv0.nearestBonusIndex_, BattlePassCfg[uv0.rewardIdList_[uv0.nearestBonusIndex_]].id) ~= "payCanGet" and slot2 ~= "payHalfCanGet" then
 			ShowPopItem(POP_ITEM, {
-				arg_16_0.id,
-				arg_16_0.number
+				slot0.id,
+				slot0.number
 			})
 
 			return
 		end
 
-		PassportAction.RequestGetBonus(var_16_0.id, PassportData:GetPayLevel() > 0 and 1 or 0)
+		PassportAction.RequestGetBonus(slot1.id, PassportData:GetPayLevel() > 0 and 1 or 0)
 	end
 end
 
-function var_0_0.HeadTailChangeHandler(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_2 = arg_17_2 + 1
-	arg_17_2 = math.max(1, arg_17_2)
+function slot0.HeadTailChangeHandler(slot0, slot1, slot2)
+	slot2 = math.max(1, slot2 + 1)
 
-	if not arg_17_0.minEndIndex_ then
-		arg_17_0.minEndIndex_ = arg_17_2
+	if not slot0.minEndIndex_ then
+		slot0.minEndIndex_ = slot2
 	end
 
-	arg_17_0.nearestBonusIndex_ = arg_17_0:GetNextBonusIndex(arg_17_2)
+	slot0.nearestBonusIndex_ = slot0:GetNextBonusIndex(slot2)
 
-	arg_17_0:UpdateNextBonus()
+	slot0:UpdateNextBonus()
 end
 
-function var_0_0.UpdateBar(arg_18_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -141,194 +129,177 @@ function var_0_0.UpdateBar(arg_18_0)
 	})
 end
 
-function var_0_0.UpdateView(arg_19_0)
-	arg_19_0.levelLabel_.text = PassportData:GetLevel()
+function slot0.UpdateView(slot0)
+	slot0.levelLabel_.text = PassportData:GetLevel()
+	slot1 = PassportData:GetCurrentExp()
+	slot2 = PassportData:GetUpgradeNeedExp()
 
-	local var_19_0 = PassportData:GetCurrentExp()
-	local var_19_1 = PassportData:GetUpgradeNeedExp()
-
-	if PassportData:GetLevel() >= PassportData:GetMaxLevel() then
-		var_19_0 = var_19_1
+	if PassportData:GetMaxLevel() <= PassportData:GetLevel() then
+		slot1 = slot2
 	end
 
-	local var_19_2 = math.min(var_19_0, var_19_1)
+	slot1 = math.min(slot1, slot2)
+	slot0.expProgress_.value = slot1 / slot2
+	slot0.expLabel_.text = string.format("%d/%d", slot1, slot2)
+	slot0.expLimitLabel_.text = string.format("%d/%d", PassportData:GetExpWeekly(), GameSetting.battlepass_exp_limit_weekly.value[1])
 
-	arg_19_0.expProgress_.value = var_19_2 / var_19_1
-	arg_19_0.expLabel_.text = string.format("%d/%d", var_19_2, var_19_1)
-	arg_19_0.expLimitLabel_.text = string.format("%d/%d", PassportData:GetExpWeekly(), GameSetting.battlepass_exp_limit_weekly.value[1])
-
-	SetActive(arg_19_0.buyLevelBtn_.gameObject, PassportData:GetLevel() < PassportData:GetMaxLevel())
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_19_0.bglvTransform_)
+	SetActive(slot0.buyLevelBtn_.gameObject, PassportData:GetLevel() < PassportData:GetMaxLevel())
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.bglvTransform_)
 end
 
-function var_0_0.UpdateNextBonus(arg_20_0, arg_20_1)
-	arg_20_1 = arg_20_1 or false
+function slot0.UpdateNextBonus(slot0, slot1)
+	slot2 = BattlePassCfg[slot0.rewardIdList_[slot0.nearestBonusIndex_]]
+	slot0.nextBonusLevelLabel_.text = string.format("%d", slot0.nearestBonusIndex_)
+	slot0.nextBonusBottomLabel_.text = string.format("%d", slot0.nearestBonusIndex_)
+	slot3 = slot0.CommonData1.animatorType
 
-	local var_20_0 = BattlePassCfg[arg_20_0.rewardIdList_[arg_20_0.nearestBonusIndex_]]
-
-	arg_20_0.nextBonusLevelLabel_.text = string.format("%d", arg_20_0.nearestBonusIndex_)
-	arg_20_0.nextBonusBottomLabel_.text = string.format("%d", arg_20_0.nearestBonusIndex_)
-
-	local var_20_1 = arg_20_0.CommonData1.animatorType
-
-	if arg_20_1 == false then
-		local var_20_2 = ItemConst.ITEM_ANIMATOR_TYPE.STOP
+	if (slot1 or false) == false then
+		slot3 = ItemConst.ITEM_ANIMATOR_TYPE.STOP
 	end
 
-	local var_20_3 = PassportData:GetRewardStatus(arg_20_0.nearestBonusIndex_, var_20_0.id)
-	local var_20_4 = {
-		id = var_20_0.reward_free[1][1],
-		number = var_20_0.reward_free[1][2]
+	slot4 = PassportData:GetRewardStatus(slot0.nearestBonusIndex_, slot2.id)
+	slot5 = {
+		id = slot2.reward_free[1][1],
+		number = slot2.reward_free[1][2],
+		highLight = false,
+		completedFlag = false
 	}
-	local var_20_5 = {
-		id = var_20_0.reward_pay[1][1],
-		number = var_20_0.reward_pay[1][2]
-	}
-
-	var_20_4.highLight = false
-	var_20_4.completedFlag = false
-	var_20_5.highLight = false
-	var_20_5.completedFlag = false
-	var_20_5.locked = false
 
 	if PassportData:GetPayLevel() <= 0 then
-		var_20_5.locked = true
+		-- Nothing
 	end
 
-	if var_20_3 == "payHaveGet" then
-		var_20_5.completedFlag = true
-		var_20_4.completedFlag = true
-	elseif var_20_3 == "payCanGet" then
-		var_20_5.highLight = true
-		var_20_4.highLight = true
-	elseif var_20_3 == "freeHaveGet" then
-		var_20_4.completedFlag = true
-	elseif var_20_3 == "freeCanGet" then
-		var_20_4.highLight = true
+	if slot4 == "payHaveGet" then
+		slot6.completedFlag = true
+		slot5.completedFlag = true
+	elseif slot4 == "payCanGet" then
+		slot6.highLight = true
+		slot5.highLight = true
+	elseif slot4 == "freeHaveGet" then
+		slot5.completedFlag = true
+	elseif slot4 == "freeCanGet" then
+		slot5.highLight = true
 	end
 
-	CommonTools.SetCommonData(arg_20_0.nextCommonItem1_, var_20_4, arg_20_0.CommonData1)
-	CommonTools.SetCommonData(arg_20_0.nextCommonItem2_, var_20_5, arg_20_0.CommonData2)
+	CommonTools.SetCommonData(slot0.nextCommonItem1_, slot5, slot0.CommonData1)
+	CommonTools.SetCommonData(slot0.nextCommonItem2_, {
+		id = slot2.reward_pay[1][1],
+		number = slot2.reward_pay[1][2],
+		highLight = false,
+		completedFlag = false,
+		locked = false,
+		locked = true
+	}, slot0.CommonData2)
 end
 
-function var_0_0.GetFirstIndex(arg_21_0)
-	local var_21_0, var_21_1 = PassportData:GetCurrentStatus()
+function slot0.GetFirstIndex(slot0)
+	slot1, slot2 = PassportData:GetCurrentStatus()
 
-	if var_21_0 > 0 then
-		return var_21_0
+	if slot1 > 0 then
+		return slot1
 	end
 
-	if var_21_1 > 0 then
-		return var_21_1
+	if slot2 > 0 then
+		return slot2
 	end
 
 	return 1
 end
 
-function var_0_0.InitData(arg_22_0)
-	arg_22_0.rewardIdList_ = BattlePassCfg.get_id_list_by_type[BattlePassListCfg[PassportData:GetId()].battlepass_type]
-	arg_22_0.nearestBonusIndex_ = arg_22_0:GetNextBonusIndex(arg_22_0.minEndIndex_ or 1)
+function slot0.InitData(slot0)
+	slot0.rewardIdList_ = BattlePassCfg.get_id_list_by_type[BattlePassListCfg[PassportData:GetId()].battlepass_type]
+	slot0.nearestBonusIndex_ = slot0:GetNextBonusIndex(slot0.minEndIndex_ or 1)
 end
 
-function var_0_0.GetNextBonusIndex(arg_23_0, arg_23_1)
-	for iter_23_0 = arg_23_1, #arg_23_0.rewardIdList_ do
-		local var_23_0 = BattlePassCfg[arg_23_0.rewardIdList_[iter_23_0]]
-
-		if not var_23_0 then
+function slot0.GetNextBonusIndex(slot0, slot1)
+	for slot5 = slot1, #slot0.rewardIdList_ do
+		if not BattlePassCfg[slot0.rewardIdList_[slot5]] then
 			print("rewardData is null")
 		end
 
-		if var_23_0.display == 1 then
-			return iter_23_0
+		if slot6.display == 1 then
+			return slot5
 		end
 	end
 
-	return arg_23_0.nearestBonusIndex_
+	return slot0.nearestBonusIndex_
 end
 
-function var_0_0.UpdateRewardView(arg_24_0)
-	SetActive(arg_24_0.unlockBtn_.gameObject, PassportData:GetPayLevel() ~= var_0_1.vip)
-	SetActive(arg_24_0.leftLockIconGo_, PassportData:GetPayLevel() <= 0)
-	SetActive(arg_24_0.oneKeyGetBtn_.gameObject, #PassportData:GetCanGetBonusList() > 0)
+function slot0.UpdateRewardView(slot0)
+	SetActive(slot0.unlockBtn_.gameObject, PassportData:GetPayLevel() ~= uv0.vip)
+	SetActive(slot0.leftLockIconGo_, PassportData:GetPayLevel() <= 0)
+	SetActive(slot0.oneKeyGetBtn_.gameObject, #PassportData:GetCanGetBonusList() > 0)
 end
 
-function var_0_0.AddEventListeners(arg_25_0)
-	arg_25_0:RegistEventListener(GET_BONUS_SUCCESS, handler(arg_25_0, arg_25_0.OnGetBonus))
-	arg_25_0:RegistEventListener(CURRENCY_UPDATE, function(arg_26_0)
-		if arg_26_0 == CurrencyConst.CURRENCY_TYPE_BATTLEPASS_EXP then
-			arg_25_0:UpdateView()
-			arg_25_0:OnPassportBuyed()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GET_BONUS_SUCCESS, handler(slot0, slot0.OnGetBonus))
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		if slot0 == CurrencyConst.CURRENCY_TYPE_BATTLEPASS_EXP then
+			uv0:UpdateView()
+			uv0:OnPassportBuyed()
 		end
 	end)
-	arg_25_0:RegistEventListener(PASSPORT_BUYED, handler(arg_25_0, arg_25_0.OnPassportBuyed))
+	slot0:RegistEventListener(PASSPORT_BUYED, handler(slot0, slot0.OnPassportBuyed))
 end
 
-function var_0_0.OnGetBonus(arg_27_0, arg_27_1)
-	arg_27_0:UpdateRewardView()
+function slot0.OnGetBonus(slot0, slot1)
+	slot0:UpdateRewardView()
 
-	if arg_27_1 == BattlePassCfg[arg_27_0.rewardIdList_[arg_27_0.nearestBonusIndex_]].id or arg_27_1 == 0 then
-		arg_27_0:UpdateNextBonus()
+	if slot1 == BattlePassCfg[slot0.rewardIdList_[slot0.nearestBonusIndex_]].id or slot1 == 0 then
+		slot0:UpdateNextBonus()
 	end
 end
 
-function var_0_0.OnPassportBuyed(arg_28_0)
-	arg_28_0.list_:Refresh()
-	arg_28_0:UpdateRewardView()
-	arg_28_0:UpdateNextBonus()
+function slot0.OnPassportBuyed(slot0)
+	slot0.list_:Refresh()
+	slot0:UpdateRewardView()
+	slot0:UpdateNextBonus()
 end
 
-function var_0_0.OnEnter(arg_29_0)
-	arg_29_0.enteredPage_ = {}
+function slot0.OnEnter(slot0)
+	slot0.enteredPage_ = {}
 
-	if arg_29_0:CheckOutofDate() then
+	if slot0:CheckOutofDate() then
 		return
 	end
 
-	arg_29_0:InitData()
-	arg_29_0:UpdateView()
-	arg_29_0:UpdateRewardView()
-	arg_29_0:UpdateNextBonus(true)
+	slot0:InitData()
+	slot0:UpdateView()
+	slot0:UpdateRewardView()
+	slot0:UpdateNextBonus(true)
+	slot0.list_:StartScroll(#slot0.rewardIdList_, slot0:GetFirstIndex())
 
-	local var_29_0 = arg_29_0:GetFirstIndex()
-
-	arg_29_0.list_:StartScroll(#arg_29_0.rewardIdList_, var_29_0)
-
-	if not arg_29_0.timer_ then
-		arg_29_0.timer_ = Timer.New(function()
-			arg_29_0:UpdateTimer()
+	if not slot0.timer_ then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_29_0.timer_:Start()
-	arg_29_0:UpdateTimer()
-	arg_29_0:AddEventListeners()
+	slot0.timer_:Start()
+	slot0:UpdateTimer()
+	slot0:AddEventListeners()
 
 	if getData("passport", "poster_" .. PassportData:GetId()) ~= "1" then
 		saveData("passport", "poster_" .. PassportData:GetId(), "1")
 		manager.redPoint:setTip(RedPointConst.PASSPORT_NEW_SEASON, 0, RedPointStyle.SHOW_NEW_TAG)
-		TimeTools.StartAfterSeconds(0.1, function()
+		TimeTools.StartAfterSeconds(0.1, function ()
 			JumpTools.OpenPageByJump("passportPoster")
 		end, {})
 	end
 
-	arg_29_0:RegisterRedPoint()
+	slot0:RegisterRedPoint()
 end
 
-function var_0_0.UpdateTimer(arg_32_0)
-	local var_32_0 = manager.time:STimeDescS(PassportData:GetStartTimestamp(), "!%Y/%m/%d %H:%M:%S")
-	local var_32_1 = manager.time:STimeDescS(PassportData:GetEndTimestamp(), "!%Y/%m/%d %H:%M:%S")
+function slot0.UpdateTimer(slot0)
+	slot0.duringLabel1_.text = string.format(GetTips("TIME_DISPLAY_6"), manager.time:GetLostTimeStr(PassportData:GetEndTimestamp())) .. string.format("  %s-%s", manager.time:STimeDescS(PassportData:GetStartTimestamp(), "!%Y/%m/%d %H:%M:%S"), manager.time:STimeDescS(PassportData:GetEndTimestamp(), "!%Y/%m/%d %H:%M:%S"))
 
-	arg_32_0.duringLabel1_.text = string.format(GetTips("TIME_DISPLAY_6"), manager.time:GetLostTimeStr(PassportData:GetEndTimestamp())) .. string.format("  %s-%s", var_32_0, var_32_1)
-
-	arg_32_0:CheckOutofDate()
+	slot0:CheckOutofDate()
 end
 
-function var_0_0.CheckOutofDate(arg_33_0)
-	local var_33_0 = manager.time:GetServerTime()
-
-	if not PassportData:IsOpen() or var_33_0 >= PassportData:GetEndTimestamp() then
-		TimeTools.StartAfterSeconds(0.1, function()
-			arg_33_0:Go("/home")
+function slot0.CheckOutofDate(slot0)
+	if not PassportData:IsOpen() or PassportData:GetEndTimestamp() <= manager.time:GetServerTime() then
+		TimeTools.StartAfterSeconds(0.1, function ()
+			uv0:Go("/home")
 			ShowTips("BATTLEPASS_EXPIRED")
 		end, {})
 
@@ -338,51 +309,51 @@ function var_0_0.CheckOutofDate(arg_33_0)
 	return false
 end
 
-function var_0_0.OnBuyPassportLevel(arg_35_0)
-	arg_35_0:OnPassportBuyed()
+function slot0.OnBuyPassportLevel(slot0)
+	slot0:OnPassportBuyed()
 end
 
-function var_0_0.OnExit(arg_36_0)
-	arg_36_0:UnRegisterRedPoint()
-	arg_36_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:UnRegisterRedPoint()
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if arg_36_0.timer_ then
-		arg_36_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_36_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RegisterRedPoint(arg_37_0)
-	manager.redPoint:bindUIandKey(arg_37_0.taskBtn_.transform, RedPointConst.PASSPORT_TASKS)
-	manager.redPoint:bindUIandKey(arg_37_0.oneKeyGetBtn_.transform, RedPointConst.PASSPORT_BONUS)
+function slot0.RegisterRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, RedPointConst.PASSPORT_TASKS)
+	manager.redPoint:bindUIandKey(slot0.oneKeyGetBtn_.transform, RedPointConst.PASSPORT_BONUS)
 end
 
-function var_0_0.UnRegisterRedPoint(arg_38_0)
-	manager.redPoint:unbindUIandKey(arg_38_0.taskBtn_.transform, RedPointConst.PASSPORT_TASKS)
-	manager.redPoint:unbindUIandKey(arg_38_0.oneKeyGetBtn_.transform, RedPointConst.PASSPORT_BONUS)
+function slot0.UnRegisterRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, RedPointConst.PASSPORT_TASKS)
+	manager.redPoint:unbindUIandKey(slot0.oneKeyGetBtn_.transform, RedPointConst.PASSPORT_BONUS)
 end
 
-function var_0_0.OnTop(arg_39_0)
-	arg_39_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_40_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_41_0)
-	if arg_41_0.list_ then
-		arg_41_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_41_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	arg_41_0.CommonData1 = nil
-	arg_41_0.CommonData2 = nil
+	slot0.CommonData1 = nil
+	slot0.CommonData2 = nil
 
-	var_0_0.super.Dispose(arg_41_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

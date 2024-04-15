@@ -1,111 +1,99 @@
-local var_0_0 = class("GotoGuildBossStage", BattleSettlementStrategyBase)
-
-var_0_0.StageNum = {
+slot0 = class("GotoGuildBossStage", BattleSettlementStrategyBase)
+slot0.StageNum = {
 	[BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_PREPARE] = 1,
 	[BattleConst.STAGE_TYPE_NEW.GUILD_BOSS_CHALLENGE] = 2
 }
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.stageData:GetType()
-
-	arg_1_0:GotoGuildBossStage(var_0_0.StageNum[var_1_0] or 1, arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoGuildBossStage(uv0.StageNum[slot1.stageData:GetType()] or 1, slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoGuildBossStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoGuildBossStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6, slot7 = GetResultReward()
 
-	if arg_2_2 + 1 ~= BattleConst.BATTLE_RESULT.QUIT then
+	if slot2 + 1 ~= BattleConst.BATTLE_RESULT.QUIT then
 		function BattleCallLuaCallBack()
-			local var_3_0 = 0
+			slot0 = 0
 
 			if not GuildData:GetBossData().initedFromServer then
-				local var_3_1 = 0
-
 				gameContext:Go("/battleScorResult", {
-					stageData = arg_2_3,
-					rewardList = var_2_1,
-					score = var_3_1,
-					battleResult = arg_2_5
+					stageData = uv0,
+					rewardList = uv1,
+					score = 0,
+					battleResult = uv2
 				})
-				EndBattleLogic(arg_2_2)
+				EndBattleLogic(uv3)
 				ShowTips("CLUB_KICK")
 
 				return
 			end
 
-			local var_3_2 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-			local var_3_3 = math.floor(var_3_2)
-			local var_3_4, var_3_5, var_3_6 = BattleTools.GetBattleStatisticsData()
-			local var_3_7 = var_3_5.damage
-			local var_3_8 = ClubBossIdCfg[GuildData:GetBossData().challengeInfo.boss_id].boss_hp[GuildData:GetBossDifficulty()]
+			slot3, slot4, slot5 = BattleTools.GetBattleStatisticsData()
+			slot6 = slot4.damage
+			slot7 = ClubBossIdCfg[GuildData:GetBossData().challengeInfo.boss_id].boss_hp[GuildData:GetBossDifficulty()]
 
-			if arg_2_1 == 1 then
-				local var_3_9 = GameSetting.club_boss_point_cal_pre_stage.value
-				local var_3_10 = var_3_9[1] + (1 - var_3_3 / var_3_9[2]) * var_3_9[3]
-				local var_3_11 = math.floor(var_3_10)
+			if uv4 == 1 then
+				slot8 = GameSetting.club_boss_point_cal_pre_stage.value
 
-				if isSuccess(arg_2_2) then
+				if isSuccess(uv3) then
 					GuildData:OnPreposeSuccess()
 					gameContext:Go("/battleScorResult", {
-						stageData = arg_2_3,
-						rewardList = var_2_1,
-						score = var_3_11,
-						battleResult = arg_2_5,
-						condition = function()
+						stageData = uv0,
+						rewardList = uv1,
+						score = math.floor(slot8[1] + (1 - math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime) / slot8[2]) * slot8[3]),
+						battleResult = uv2,
+						condition = function ()
 							if GuildData:GetBossLastTime() <= 0 then
 								return false, GetTips("ERROR_BATTLE_DAILY_BATTLE_TIMES_LIMIT")
 							end
 
-							local var_4_0, var_4_1 = GuildData:GetLastTime()
+							slot0, slot1 = GuildData:GetLastTime()
 
-							if var_4_0 ~= "prepose" then
+							if slot0 ~= "prepose" then
 								return false, GetTips("CLUB_BOSS_PREPOSE_FINISH_TIP")
 							end
 
 							return true, ""
 						end
 					})
-					EndBattleLogic(arg_2_2)
+					EndBattleLogic(uv3)
 				else
-					local var_3_12 = arg_2_3:GetStageId()
-
-					manager.story:CheckBattleStory(var_3_12, manager.story.LOSE, function()
+					manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
 						JumpTools.OpenPageByJump("/battlefailed", {
-							stageData = arg_2_3,
-							starMissionData = arg_2_4,
-							battleResult = arg_2_5,
-							isHalfWay_ = arg_2_0.tempData.isHalfWay_
+							stageData = uv0,
+							starMissionData = uv1,
+							battleResult = uv2,
+							isHalfWay_ = uv3.tempData.isHalfWay_
 						})
 						manager.story:RemovePlayer()
-						EndBattleLogic(arg_2_2)
+						EndBattleLogic(uv4)
 					end)
 				end
 			else
-				CustomLog.Log(debug.traceback(string.format("公会BOSS总伤害：%s", tostring(var_3_7))))
+				CustomLog.Log(debug.traceback(string.format("公会BOSS总伤害：%s", tostring(slot6))))
 
-				local var_3_13 = GameSetting.club_boss_point_cal.value
-				local var_3_14 = 0
+				slot8 = GameSetting.club_boss_point_cal.value
+				slot9 = 0
 
-				if isSuccess(arg_2_2) then
-					var_3_14 = (1 - var_3_3 / var_3_13[2]) * var_3_13[3]
+				if isSuccess(uv3) then
+					slot9 = (1 - slot2 / slot8[2]) * slot8[3]
 				end
 
-				local var_3_15 = math.min(tonumber(tostring(var_3_7)) / var_3_8, 1) * var_3_13[1] + var_3_14
-				local var_3_16 = math.floor(var_3_15)
+				slot0 = math.floor(math.min(tonumber(tostring(slot6)) / slot7, 1) * slot8[1] + slot9)
 
-				GuildData:ResetBossPersonalScore(var_3_16)
+				GuildData:ResetBossPersonalScore(slot0)
 				gameContext:Go("/battleScorResult", {
-					stageData = arg_2_3,
-					rewardList = var_2_1,
-					score = var_3_16,
-					battleResult = arg_2_5
+					stageData = uv0,
+					rewardList = uv1,
+					score = slot0,
+					battleResult = uv2
 				})
-				EndBattleLogic(arg_2_2)
+				EndBattleLogic(uv3)
 			end
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_2, arg_2_3, arg_2_4, arg_2_5)
+		slot0:GotoBattleFaild(slot2, slot3, slot4, slot5)
 	end
 end
 
-return var_0_0
+return slot0

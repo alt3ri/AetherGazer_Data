@@ -1,62 +1,58 @@
-local var_0_0 = class("AdvanceTestRewardItemView", ReduxView)
+slot0 = class("AdvanceTestRewardItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.rewardListGo_, CommonItem)
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.rewardListGo_, CommonItem)
 end
 
-function var_0_0.OnTop(arg_4_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.startRank = arg_5_1
-	arg_5_0.endRank = ActivityPointRewardCfg[arg_5_2].need
-	arg_5_0.rewardCfg = ActivityPointRewardCfg[arg_5_2].reward_item_list
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.startRank = slot1
+	slot0.endRank = ActivityPointRewardCfg[slot2].need
+	slot0.rewardCfg = ActivityPointRewardCfg[slot2].reward_item_list
 
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.rewardCfg[arg_6_1]
-
-	arg_6_2:RefreshData(formatReward(var_6_0))
-	arg_6_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_6_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.rewardCfg[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.descText_.text = string.format("排名:%s", arg_8_0.startRank .. "-" .. arg_8_0.endRank)
+function slot0.RefreshUI(slot0)
+	slot0.descText_.text = string.format("排名:%s", slot0.startRank .. "-" .. slot0.endRank)
 
-	arg_8_0.itemList_:StartScroll(#arg_8_0.rewardCfg)
+	slot0.itemList_:StartScroll(#slot0.rewardCfg)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	if arg_10_0.itemList_ then
-		arg_10_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_10_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

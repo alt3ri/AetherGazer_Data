@@ -1,275 +1,263 @@
-local var_0_0 = class("VideoPlayMgr", import("game.extend.ReduxView"))
+slot0 = class("VideoPlayMgr", import("game.extend.ReduxView"))
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0.gameObject_ = Object.Instantiate(Asset.Load("UI/Stage/VideoPlayUI"), manager.ui.uiStory.transform)
-	arg_2_0.transform_ = arg_2_0.gameObject_.transform
+function slot0.InitUI(slot0)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/Stage/VideoPlayUI"), manager.ui.uiStory.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_2_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_2_0.criManaMovieController_ = arg_2_0.goMovie_:GetComponent("CriManaMovieControllerForUI")
-	arg_2_0.criplayer_ = arg_2_0.criManaMovieController_.player
-	arg_2_0.criplayer_.statusChangeCallback = handler(arg_2_0, arg_2_0.StatusChangeCallback)
+	slot0.criManaMovieController_ = slot0.goMovie_:GetComponent("CriManaMovieControllerForUI")
+	slot0.criplayer_ = slot0.criManaMovieController_.player
+	slot0.criplayer_.statusChangeCallback = handler(slot0, slot0.StatusChangeCallback)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.buttonClose_, nil, function()
-		return
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.buttonSkip_, nil, function()
-		if Time.realtimeSinceStartup == arg_3_0.lastTime then
+	slot0:AddBtnListener(slot0.buttonSkip_, nil, function ()
+		if Time.realtimeSinceStartup == uv0.lastTime then
 			return
 		end
 
-		arg_3_0.lastTime = Time.realtimeSinceStartup
+		uv0.lastTime = Time.realtimeSinceStartup
 
-		arg_3_0.criManaMovieController_:Pause(true)
+		uv0.criManaMovieController_:Pause(true)
 
-		if arg_3_0.onPauseCallback then
-			arg_3_0.onPauseCallback(true)
+		if uv0.onPauseCallback then
+			uv0.onPauseCallback(true)
 		end
 
-		arg_3_0:RemoveCaptionTimer()
+		uv0:RemoveCaptionTimer()
 		ShowMessageBox({
 			isTop = true,
 			title = GetTips("PROMPT"),
 			content = GetTips("TIP_SKIP_PLOT"),
-			OkCallback = function()
-				if not isNil(arg_3_0.criManaMovieController_) then
-					arg_3_0.criManaMovieController_:Pause(false)
-					arg_3_0.criManaMovieController_:Stop()
+			OkCallback = function ()
+				if not isNil(uv0.criManaMovieController_) then
+					uv0.criManaMovieController_:Pause(false)
+					uv0.criManaMovieController_:Stop()
 				end
 
-				if arg_3_0.onFinishCallback_ then
-					arg_3_0.onFinishCallback_(StoryOperDefine.PASS)
+				if uv0.onFinishCallback_ then
+					uv0.onFinishCallback_(StoryOperDefine.PASS)
 				end
 			end,
-			CancelCallback = function()
-				if not isNil(arg_3_0.criManaMovieController_) then
-					arg_3_0.criManaMovieController_:Pause(false)
+			CancelCallback = function ()
+				if not isNil(uv0.criManaMovieController_) then
+					uv0.criManaMovieController_:Pause(false)
 				end
 
-				if arg_3_0.onPauseCallback then
-					arg_3_0.onPauseCallback(false)
+				if uv0.onPauseCallback then
+					uv0.onPauseCallback(false)
 				end
 
-				arg_3_0:StartCaptionTimer()
+				uv0:StartCaptionTimer()
 			end,
-			MaskCallback = function()
-				if not isNil(arg_3_0.criManaMovieController_) then
-					arg_3_0.criManaMovieController_:Pause(false)
+			MaskCallback = function ()
+				if not isNil(uv0.criManaMovieController_) then
+					uv0.criManaMovieController_:Pause(false)
 				end
 
-				if arg_3_0.onPauseCallback then
-					arg_3_0.onPauseCallback(false)
+				if uv0.onPauseCallback then
+					uv0.onPauseCallback(false)
 				end
 
-				arg_3_0:StartCaptionTimer()
+				uv0:StartCaptionTimer()
 			end
 		})
 	end)
 end
 
-function var_0_0.Play(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4, arg_9_5, arg_9_6)
-	if arg_9_0.gameObject_ == nil then
-		arg_9_0:InitUI()
-		arg_9_0:AddListeners()
+function slot0.Play(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	if slot0.gameObject_ == nil then
+		slot0:InitUI()
+		slot0:AddListeners()
 	end
 
-	arg_9_0.startStop_ = false
+	slot0.startStop_ = false
 
-	if arg_9_3 == nil then
-		arg_9_0.autoHide_ = true
+	if slot3 == nil then
+		slot0.autoHide_ = true
 	else
-		arg_9_0.autoHide_ = arg_9_3
+		slot0.autoHide_ = slot3
 	end
 
-	SetActive(arg_9_0.goSkip_, true)
+	SetActive(slot0.goSkip_, true)
+	slot0.criplayer_:SetVolume(manager.audio:GetMusicVolume())
 
-	local var_9_0 = manager.audio:GetMusicVolume()
+	slot8 = manager.audio:GetLocalizationFlag()
+	slot9 = 0
+	slot10 = nil
 
-	arg_9_0.criplayer_:SetVolume(var_9_0)
-
-	local var_9_1 = manager.audio:GetLocalizationFlag()
-	local var_9_2 = 0
-	local var_9_3
-
-	for iter_9_0 in string.gmatch(arg_9_1, "[^/]+$") do
-		var_9_3 = iter_9_0
+	for slot14 in string.gmatch(slot1, "[^/]+$") do
+		slot10 = slot14
 	end
 
-	local var_9_4 = VideoTrackCfg[var_9_3]
-
-	if var_9_4 and var_9_4.has_tracks == 1 then
-		if var_9_1 == "zh" then
-			var_9_2 = 0
-		elseif var_9_1 == "ja" then
-			var_9_2 = 1
-		elseif var_9_1 == "en" then
-			var_9_2 = 2
-		elseif var_9_1 == "ko" then
-			var_9_2 = 3
+	if VideoTrackCfg[slot10] and slot11.has_tracks == 1 then
+		if slot8 == "zh" then
+			slot9 = 0
+		elseif slot8 == "ja" then
+			slot9 = 1
+		elseif slot8 == "en" then
+			slot9 = 2
+		elseif slot8 == "ko" then
+			slot9 = 3
 		end
 	end
 
-	arg_9_0.criplayer_:SetAudioTrack(var_9_2)
-	arg_9_0.criplayer_:SetSubtitleChannel(var_9_2)
+	slot0.criplayer_:SetAudioTrack(slot9)
+	slot0.criplayer_:SetSubtitleChannel(slot9)
 
-	if arg_9_4 == nil then
-		arg_9_0.criplayer_:Loop(false)
+	if slot4 == nil then
+		slot0.criplayer_:Loop(false)
 	else
-		arg_9_0.criplayer_:Loop(arg_9_4)
+		slot0.criplayer_:Loop(slot4)
 	end
 
-	arg_9_0.criplayer_:SetFile(nil, arg_9_1)
+	slot0.criplayer_:SetFile(nil, slot1)
 
-	arg_9_0.onFinishCallback_ = arg_9_2
-	arg_9_0.onPauseCallback = arg_9_5
-	arg_9_0.videoId = arg_9_6
+	slot0.onFinishCallback_ = slot2
+	slot0.onPauseCallback = slot5
+	slot0.videoId = slot6
 
-	SetActive(arg_9_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	if not isNil(arg_9_0.criManaMovieController_) then
-		arg_9_0.criManaMovieController_:Play()
+	if not isNil(slot0.criManaMovieController_) then
+		slot0.criManaMovieController_:Play()
 	end
 
-	arg_9_0:CaptionPlay()
+	slot0:CaptionPlay()
 	manager.windowBar:HideBar()
-	arg_9_0:AdaptScreen()
+	slot0:AdaptScreen()
 end
 
-function var_0_0.CaptionPlay(arg_10_0)
-	arg_10_0.time = 0
-	arg_10_0.currentPlayId = 1
+function slot0.CaptionPlay(slot0)
+	slot0.time = 0
+	slot0.currentPlayId = 1
 
-	arg_10_0:StartCaptionTimer()
+	slot0:StartCaptionTimer()
 end
 
-function var_0_0.StartCaptionTimer(arg_11_0)
-	if arg_11_0.videoId == nil or arg_11_0.videoId == 0 then
-		arg_11_0.text_.text = ""
+function slot0.StartCaptionTimer(slot0)
+	if slot0.videoId == nil or slot0.videoId == 0 then
+		slot0.text_.text = ""
 
 		return
 	end
 
-	local var_11_0 = SettingData:GetCurrentLanguage()
-	local var_11_1 = import("game.subtitle.subtitle" .. arg_11_0.videoId)
+	slot1 = SettingData:GetCurrentLanguage()
 
-	if var_11_1 == nil then
-		arg_11_0:RemoveCaptionTimer()
+	if import("game.subtitle.subtitle" .. slot0.videoId) == nil then
+		slot0:RemoveCaptionTimer()
 
 		return
 	else
-		var_11_1 = var_11_1[var_11_0]
+		slot2 = slot2[slot1]
 	end
 
-	table.sort(var_11_1, function(arg_12_0, arg_12_1)
-		return arg_12_0.start < arg_12_1.start
+	table.sort(slot2, function (slot0, slot1)
+		return slot0.start < slot1.start
 	end)
 
-	if not arg_11_0.captionTimer then
-		arg_11_0.captionTimer = FuncTimerManager.inst:CreateFuncFrameTimer(function()
-			arg_11_0.text_.text = ""
-			arg_11_0.time = arg_11_0.time + Time.deltaTime
+	if not slot0.captionTimer then
+		slot0.captionTimer = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
+			uv0.text_.text = ""
+			uv0.time = uv0.time + Time.deltaTime
 
-			local var_13_0 = var_11_1[arg_11_0.currentPlayId]
-
-			if var_13_0 == nil then
-				arg_11_0:RemoveCaptionTimer()
+			if uv1[uv0.currentPlayId] == nil then
+				uv0:RemoveCaptionTimer()
 
 				return
 			end
 
-			if arg_11_0.time < var_13_0.endTime and arg_11_0.time > var_13_0.start then
-				arg_11_0.text_.text = GetI18NText(var_13_0.content)
-			elseif arg_11_0.time > var_13_0.endTime then
-				arg_11_0.currentPlayId = arg_11_0.currentPlayId + 1
+			if uv0.time < slot0.endTime and slot0.start < uv0.time then
+				uv0.text_.text = GetI18NText(slot0.content)
+			elseif slot0.endTime < uv0.time then
+				uv0.currentPlayId = uv0.currentPlayId + 1
 			end
 		end, -1, true)
 	end
 end
 
-function var_0_0.PauseCaptionTimer(arg_14_0)
-	if arg_14_0.captionTimer then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_14_0.captionTimer)
+function slot0.PauseCaptionTimer(slot0)
+	if slot0.captionTimer then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.captionTimer)
 
-		arg_14_0.captionTimer = nil
+		slot0.captionTimer = nil
 	end
 end
 
-function var_0_0.RemoveCaptionTimer(arg_15_0)
-	if arg_15_0.captionTimer then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_15_0.captionTimer)
+function slot0.RemoveCaptionTimer(slot0)
+	if slot0.captionTimer then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.captionTimer)
 
-		arg_15_0.captionTimer = nil
+		slot0.captionTimer = nil
 	end
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_16_0.gameObject_ then
-		arg_16_0.criplayer_.statusChangeCallback = nil
+	if slot0.gameObject_ then
+		slot0.criplayer_.statusChangeCallback = nil
 
-		arg_16_0:RemoveCaptionTimer()
-		Object.Destroy(arg_16_0.gameObject_)
+		slot0:RemoveCaptionTimer()
+		Object.Destroy(slot0.gameObject_)
 
-		arg_16_0.gameObject_ = nil
-		arg_16_0.transform_ = nil
-		arg_16_0.onFinishCallback_ = nil
-		arg_16_0.onPauseCallback = nil
+		slot0.gameObject_ = nil
+		slot0.transform_ = nil
+		slot0.onFinishCallback_ = nil
+		slot0.onPauseCallback = nil
 	end
 end
 
-function var_0_0.StatusChangeCallback(arg_17_0, arg_17_1)
-	local var_17_0 = tostring(arg_17_1)
-
-	if var_17_0 == "PlayEnd" then
-		if not isNil(arg_17_0.criManaMovieController_) then
-			arg_17_0.criManaMovieController_:Stop()
+function slot0.StatusChangeCallback(slot0, slot1)
+	if tostring(slot1) == "PlayEnd" then
+		if not isNil(slot0.criManaMovieController_) then
+			slot0.criManaMovieController_:Stop()
 		end
 
-		arg_17_0:RemoveCaptionTimer()
+		slot0:RemoveCaptionTimer()
 
-		if arg_17_0.onFinishCallback_ then
-			arg_17_0.onFinishCallback_(StoryOperDefine.NORMAL)
+		if slot0.onFinishCallback_ then
+			slot0.onFinishCallback_(StoryOperDefine.NORMAL)
 		end
-	elseif var_17_0 == "StopProcessing" then
-		arg_17_0.startStop_ = true
+	elseif slot2 == "StopProcessing" then
+		slot0.startStop_ = true
 
 		return
-	elseif var_17_0 == "Stop" and arg_17_0.startStop_ and arg_17_0.autoHide_ then
-		SetActive(arg_17_0.gameObject_, false)
+	elseif slot2 == "Stop" and slot0.startStop_ and slot0.autoHide_ then
+		SetActive(slot0.gameObject_, false)
 	end
 
-	arg_17_0.startStop_ = false
+	slot0.startStop_ = false
 end
 
-function var_0_0.HidePlayer(arg_18_0)
-	if arg_18_0.startStop_ then
-		arg_18_0.autoHide_ = true
+function slot0.HidePlayer(slot0)
+	if slot0.startStop_ then
+		slot0.autoHide_ = true
 
 		return
 	end
 
-	if arg_18_0.gameObject_ then
-		SetActive(arg_18_0.gameObject_, false)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, false)
 	end
 
-	arg_18_0.autoHide_ = true
+	slot0.autoHide_ = true
 end
 
-function var_0_0.AdaptRight(arg_19_0)
-	if arg_19_0.rightTrs_ == nil then
-		arg_19_0.rightGo_ = arg_19_0.goSkip_
-		arg_19_0.rightTrs_ = arg_19_0.rightGo_:GetComponent(typeof(RectTransform))
-		arg_19_0.needAdaptRight_ = false
+function slot0.AdaptRight(slot0)
+	if slot0.rightTrs_ == nil then
+		slot0.rightGo_ = slot0.goSkip_
+		slot0.rightTrs_ = slot0.rightGo_:GetComponent(typeof(RectTransform))
+		slot0.needAdaptRight_ = false
 	end
 
-	var_0_0.super.AdaptRight(arg_19_0)
+	uv0.super.AdaptRight(slot0)
 end
 
-return var_0_0
+return slot0

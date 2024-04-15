@@ -1,19 +1,19 @@
-local var_0_0 = class("HanafudaGameView", ReduxView)
+slot0 = class("HanafudaGameView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionHanafudaUI/JapanRegionHanafudaGameUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
-	arg_3_0:InitCardPoolItem()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:InitCardPoolItem()
 
-	arg_3_0.winBar = KagutsuchiSpecialWinBarItem.New(arg_3_0, arg_3_0.winBar_, {
+	slot0.winBar = KagutsuchiSpecialWinBarItem.New(slot0, slot0.winBar_, {
 		CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id,
 		CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id
 	})
@@ -21,645 +21,605 @@ function var_0_0.Init(arg_3_0)
 	HanafudaData:InitTotalCardsList()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateController_ = ControllerUtil.GetController(arg_4_0.transform_, "gameState")
-	arg_4_0.bellController_ = ControllerUtil.GetController(arg_4_0.transform_, "bell")
-	arg_4_0.turnController_ = ControllerUtil.GetController(arg_4_0.trunChangeTrs_, "turn")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "gameState")
+	slot0.bellController_ = ControllerUtil.GetController(slot0.transform_, "bell")
+	slot0.turnController_ = ControllerUtil.GetController(slot0.trunChangeTrs_, "turn")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.playBtn_, nil, function()
-		SetActive(arg_5_0.playBtn_.gameObject, false)
-		arg_5_0:PlayCardByIndex(arg_5_0.selectedCardIndex_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.playBtn_, nil, function ()
+		SetActive(uv0.playBtn_.gameObject, false)
+		uv0:PlayCardByIndex(uv0.selectedCardIndex_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.startBtn_, nil, function()
-		local var_7_0 = ActivityData:GetActivityData(HanafudaData:GetActivityID())
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		slot0 = ActivityData:GetActivityData(HanafudaData:GetActivityID())
+		uv0.startTime_ = slot0.startTime
+		uv0.stopTime_ = slot0.stopTime
 
-		arg_5_0.startTime_ = var_7_0.startTime
-		arg_5_0.stopTime_ = var_7_0.stopTime
-
-		if manager.time:GetServerTime() < arg_5_0.startTime_ then
-			local var_7_1 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_7_1, manager.time:GetLostTimeStr2(arg_5_0.startTime_, nil, true)))
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(uv0.startTime_, nil, true)))
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_5_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		arg_5_0:RefreshEnemyScoreUI()
-		arg_5_0:RefreshPlayerScoreUI()
+		uv0:RefreshEnemyScoreUI()
+		uv0:RefreshPlayerScoreUI()
 		JumpTools.OpenPageByJump("hanafudaSelectFirstPopView", {
 			type = 2,
-			callback = function()
-				arg_5_0:StartDealCards()
+			callback = function ()
+				uv0:StartDealCards()
 			end
 		})
 
-		arg_5_0.leftCardNumText_.text = 24
+		uv0.leftCardNumText_.text = 24
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.descBtn_, nil, function()
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaDescView")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.cardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.cardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/kagutsuchiFishingGameCollection")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaRewardView")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.enemyCombineBtn_, nil, function()
+	slot0:AddBtnListener(slot0.enemyCombineBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaCheckCombineView", {
 			playerType = HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE,
-			callback = function()
-				arg_5_0.isOpenCheck = false
+			callback = function ()
+				uv0.isOpenCheck = false
 			end
 		})
 
-		arg_5_0.isOpenCheck = true
+		uv0.isOpenCheck = true
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.enemyCombineCardBackBtn_, nil, function()
+	slot0:AddBtnListener(slot0.enemyCombineCardBackBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaCheckCombineView", {
 			playerType = HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE,
-			callback = function()
-				arg_5_0.isOpenCheck = false
+			callback = function ()
+				uv0.isOpenCheck = false
 			end
 		})
 
-		arg_5_0.isOpenCheck = true
+		uv0.isOpenCheck = true
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.playerCombineBtn_, nil, function()
+	slot0:AddBtnListener(slot0.playerCombineBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaCheckCombineView", {
 			playerType = HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE,
-			callback = function()
-				arg_5_0.isOpenCheck = false
+			callback = function ()
+				uv0.isOpenCheck = false
 			end
 		})
 
-		arg_5_0.isOpenCheck = true
+		uv0.isOpenCheck = true
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.combineCardBackBtn_, nil, function()
+	slot0:AddBtnListener(slot0.combineCardBackBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaCheckCombineView", {
 			playerType = HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE,
-			callback = function()
-				arg_5_0.isOpenCheck = false
+			callback = function ()
+				uv0.isOpenCheck = false
 			end
 		})
 
-		arg_5_0.isOpenCheck = true
+		uv0.isOpenCheck = true
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bellBtn_, nil, function()
-		arg_5_0.bellAni_.enabled = true
+	slot0:AddBtnListener(slot0.bellBtn_, nil, function ()
+		uv0.bellAni_.enabled = true
 
-		arg_5_0.bellAni_:Play("Fx_bell_cx", 0, 0)
-		arg_5_0.bellAni_:Update(0)
+		uv0.bellAni_:Play("Fx_bell_cx", 0, 0)
+		uv0.bellAni_:Update(0)
 
-		if arg_5_0.isOpenDetail then
-			arg_5_0.isOpenDetail = false
+		if uv0.isOpenDetail then
+			uv0.isOpenDetail = false
 
-			arg_5_0.bellController_:SetSelectedState("off")
+			uv0.bellController_:SetSelectedState("off")
 		else
-			arg_5_0.isOpenDetail = true
+			uv0.isOpenDetail = true
 
-			arg_5_0.bellController_:SetSelectedState("on")
+			uv0.bellController_:SetSelectedState("on")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.descGameBtn_, nil, function()
+	slot0:AddBtnListener(slot0.descGameBtn_, nil, function ()
 		JumpTools.OpenPageByJump("hanafudaDescView", {
-			callback = function()
-				arg_5_0.isOpenDesc = false
+			callback = function ()
+				uv0.isOpenDesc = false
 			end
 		})
 
-		arg_5_0.isOpenDesc = true
+		uv0.isOpenDesc = true
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.giveUpBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.giveUpBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.InitCardPoolItem(arg_24_0)
-	arg_24_0.cardItemPool_ = {}
+function slot0.InitCardPoolItem(slot0)
+	slot0.cardItemPool_ = {}
 
-	for iter_24_0 = 1, 24 do
-		local var_24_0 = GameObject.Instantiate(arg_24_0.cardGo_, arg_24_0.cardPoolList_)
-		local var_24_1 = HanafudaCardView.New(var_24_0)
+	for slot4 = 1, 24 do
+		slot6 = HanafudaCardView.New(GameObject.Instantiate(slot0.cardGo_, slot0.cardPoolList_))
 
-		table.insert(arg_24_0.cardItemPool_, var_24_1)
-		var_24_1:SetPlayerClickCallBack(function()
-			if not arg_24_0.isDealingCard then
-				arg_24_0:ClickPlayerCard(var_24_1.index_)
+		table.insert(slot0.cardItemPool_, slot6)
+		slot6:SetPlayerClickCallBack(function ()
+			if not uv0.isDealingCard then
+				uv0:ClickPlayerCard(uv1.index_)
 			end
 		end)
-		var_24_1:SetPlaceClickCallBack(function()
-			if not arg_24_0.isDealingCard then
-				arg_24_0:ClickPlaceCard(var_24_1.index_)
+		slot6:SetPlaceClickCallBack(function ()
+			if not uv0.isDealingCard then
+				uv0:ClickPlaceCard(uv1.index_)
 			end
 		end)
 	end
 end
 
-function var_0_0.PlayCardByIndex(arg_27_0, arg_27_1)
-	local var_27_0 = arg_27_0.cardItemPool_[arg_27_1]
-	local var_27_1 = arg_27_0.cardItemPool_[arg_27_1].data_.placeType
+function slot0.PlayCardByIndex(slot0, slot1)
+	slot3 = slot0.cardItemPool_[slot1].data_.placeType
 
-	if not var_27_0.isFaceUp_ then
-		var_27_0:FlipToFaceUp()
+	if not slot0.cardItemPool_[slot1].isFaceUp_ then
+		slot2:FlipToFaceUp()
 	end
 
-	arg_27_0:MoveCardToList(var_27_0.gameObject_, arg_27_0.playAreaCardList_)
-	HanafudaData:MoveCardToList(var_27_1, HanafudaData.CARD_PLACE_TYPE.PLACE, arg_27_1)
+	slot0:MoveCardToList(slot2.gameObject_, slot0.playAreaCardList_)
+	HanafudaData:MoveCardToList(slot3, HanafudaData.CARD_PLACE_TYPE.PLACE, slot1)
 	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_card_intable", "")
 
-	if var_27_1 ~= HanafudaData.CARD_PLACE_TYPE.POOL then
-		arg_27_0:CheckPoolCards(var_27_0)
+	if slot3 ~= HanafudaData.CARD_PLACE_TYPE.POOL then
+		slot0:CheckPoolCards(slot2)
 	else
-		arg_27_0.selectedCardIndex_ = 0
+		slot0.selectedCardIndex_ = 0
 
 		HanafudaData:NextTurn()
-		arg_27_0:ShowChangeTrun()
+		slot0:ShowChangeTrun()
 	end
 end
 
-function var_0_0.ClickPlayerCard(arg_28_0, arg_28_1)
-	if arg_28_0.cardItemPool_[arg_28_0.selectedCardIndex_] and arg_28_0.cardItemPool_[arg_28_0.selectedCardIndex_].data_.placeType == HanafudaData.CARD_PLACE_TYPE.POOL then
+function slot0.ClickPlayerCard(slot0, slot1)
+	if slot0.cardItemPool_[slot0.selectedCardIndex_] and slot0.cardItemPool_[slot0.selectedCardIndex_].data_.placeType == HanafudaData.CARD_PLACE_TYPE.POOL then
 		return
 	end
 
-	arg_28_0:ShowMatchingCard(arg_28_1)
+	slot0:ShowMatchingCard(slot1)
 
-	if arg_28_0.cardItemPool_[arg_28_0.selectedCardIndex_] then
-		arg_28_0.cardItemPool_[arg_28_0.selectedCardIndex_]:RefreshUI(arg_28_1)
+	if slot0.cardItemPool_[slot0.selectedCardIndex_] then
+		slot0.cardItemPool_[slot0.selectedCardIndex_]:RefreshUI(slot1)
 	end
 
 	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_card_click", "")
-	arg_28_0.cardItemPool_[arg_28_1]:RefreshUI(arg_28_1)
+	slot0.cardItemPool_[slot1]:RefreshUI(slot1)
 
-	arg_28_0.selectedCardIndex_ = arg_28_1
+	slot0.selectedCardIndex_ = slot1
 end
 
-function var_0_0.ShowMatchingCard(arg_29_0, arg_29_1)
-	local var_29_0 = HanafudaData:GetMatchingCardsIndexList(arg_29_1)
-	local var_29_1 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLACE)
+function slot0.ShowMatchingCard(slot0, slot1)
+	slot3 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLACE)
+	slot0.gameState = HanafudaData:GetGameState()
 
-	arg_29_0.gameState = HanafudaData:GetGameState()
-
-	if arg_29_1 ~= 0 and arg_29_0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
-		SetActive(arg_29_0.playBtn_.gameObject, table.isEmpty(var_29_0))
+	if slot1 ~= 0 and slot0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
+		SetActive(slot0.playBtn_.gameObject, table.isEmpty(HanafudaData:GetMatchingCardsIndexList(slot1)))
 	end
 
-	for iter_29_0, iter_29_1 in ipairs(var_29_1) do
-		if table.indexof(var_29_0, iter_29_1.index) then
-			arg_29_0.cardItemPool_[iter_29_1.index]:RefreshUI(iter_29_1.index, true, arg_29_1)
+	for slot7, slot8 in ipairs(slot3) do
+		if table.indexof(slot2, slot8.index) then
+			slot0.cardItemPool_[slot8.index]:RefreshUI(slot8.index, true, slot1)
 		else
-			arg_29_0.cardItemPool_[iter_29_1.index]:RefreshUI(0)
+			slot0.cardItemPool_[slot8.index]:RefreshUI(0)
 		end
 	end
 end
 
-function var_0_0.ClickPlaceCard(arg_30_0, arg_30_1)
-	if arg_30_0.selectedCardIndex_ == 0 then
+function slot0.ClickPlaceCard(slot0, slot1)
+	if slot0.selectedCardIndex_ == 0 then
 		return
 	end
 
-	arg_30_0.gameState = HanafudaData:GetGameState()
+	slot0.gameState = HanafudaData:GetGameState()
+	slot2, slot3 = nil
 
-	local var_30_0
-	local var_30_1
-
-	if arg_30_0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
-		var_30_0 = HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE
-		var_30_1 = arg_30_0.playerCombineCardList_
-	elseif arg_30_0.gameState == HanafudaData.GAME_STATE.COMPUTER_TURN then
-		var_30_0 = HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE
-		var_30_1 = arg_30_0.enemyCombineCardList_
+	if slot0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
+		slot2 = HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE
+		slot3 = slot0.playerCombineCardList_
+	elseif slot0.gameState == HanafudaData.GAME_STATE.COMPUTER_TURN then
+		slot2 = HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE
+		slot3 = slot0.enemyCombineCardList_
 	end
 
-	local var_30_2 = arg_30_0.cardItemPool_[arg_30_0.selectedCardIndex_]
-	local var_30_3 = var_30_2.data_.placeType
-	local var_30_4 = arg_30_0.cardItemPool_[arg_30_1]
+	slot4 = slot0.cardItemPool_[slot0.selectedCardIndex_]
+	slot5 = slot4.data_.placeType
 
-	if var_30_4.data_.race == var_30_2.data_.race then
-		arg_30_0:ShowMatchingCard(0)
+	if slot0.cardItemPool_[slot1].data_.race == slot4.data_.race then
+		slot0:ShowMatchingCard(0)
 
-		if not var_30_2.isFaceUp_ then
-			var_30_2:FlipToFaceUp()
+		if not slot4.isFaceUp_ then
+			slot4:FlipToFaceUp()
 		end
 
-		local var_30_5 = HanafudaData:GetNewCombineList(var_30_0, {
-			arg_30_0.selectedCardIndex_
+		slot7 = HanafudaData:GetNewCombineList(slot2, {
+			slot0.selectedCardIndex_
 		}, true)
 
-		HanafudaData:MoveCardToList(var_30_2.data_.placeType, var_30_0, arg_30_0.selectedCardIndex_)
+		HanafudaData:MoveCardToList(slot4.data_.placeType, slot2, slot0.selectedCardIndex_)
 
-		local var_30_6 = HanafudaData:GetNewCombineList(var_30_0, {
-			arg_30_1
+		slot8 = HanafudaData:GetNewCombineList(slot2, {
+			slot1
 		}, true)
 
-		HanafudaData:MoveCardToList(var_30_4.data_.placeType, var_30_0, arg_30_1)
+		HanafudaData:MoveCardToList(slot6.data_.placeType, slot2, slot1)
 		manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_card_inbook", "")
-		arg_30_0:MoveCardToList(var_30_4.gameObject_, var_30_1)
-		arg_30_0:MoveCardToList(var_30_2.gameObject_, var_30_1)
+		slot0:MoveCardToList(slot6.gameObject_, slot3)
+		slot0:MoveCardToList(slot4.gameObject_, slot3)
 
-		if arg_30_0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN and (not table.isEmpty(var_30_5) or not table.isEmpty(var_30_6)) then
-			for iter_30_0, iter_30_1 in ipairs(var_30_6) do
-				table.insert(var_30_5, iter_30_1)
+		if slot0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN and (not table.isEmpty(slot7) or not table.isEmpty(slot8)) then
+			for slot12, slot13 in ipairs(slot8) do
+				table.insert(slot7, slot13)
 			end
 
-			arg_30_0.isShowingCombine = true
+			slot0.isShowingCombine = true
 
 			JumpTools.OpenPageByJump("hanafudaShowCombinePopView", {
-				combineIdList = var_30_5,
-				callback = function()
-					arg_30_0.isShowingCombine = false
+				combineIdList = slot7,
+				callback = function ()
+					uv0.isShowingCombine = false
 
-					arg_30_0:RefreshPlayerScoreUI()
-					arg_30_0:RefreshUI()
+					uv0:RefreshPlayerScoreUI()
+					uv0:RefreshUI()
 
-					if var_30_3 == HanafudaData.CARD_PLACE_TYPE.POOL then
-						arg_30_0.selectedCardIndex_ = 0
+					if uv1 == HanafudaData.CARD_PLACE_TYPE.POOL then
+						uv0.selectedCardIndex_ = 0
 
 						HanafudaData:NextTurn()
-						arg_30_0:ShowChangeTrun()
+						uv0:ShowChangeTrun()
 					end
 				end
 			})
 		else
-			arg_30_0:RefreshEnemyScoreUI()
-			arg_30_0:RefreshPlayerScoreUI()
+			slot0:RefreshEnemyScoreUI()
+			slot0:RefreshPlayerScoreUI()
 		end
 
-		if var_30_3 ~= HanafudaData.CARD_PLACE_TYPE.POOL then
-			arg_30_0:CheckPoolCards(var_30_2)
-		elseif not arg_30_0.isShowingCombine then
-			arg_30_0.selectedCardIndex_ = 0
+		if slot5 ~= HanafudaData.CARD_PLACE_TYPE.POOL then
+			slot0:CheckPoolCards(slot4)
+		elseif not slot0.isShowingCombine then
+			slot0.selectedCardIndex_ = 0
 
 			HanafudaData:NextTurn()
-			arg_30_0:ShowChangeTrun()
+			slot0:ShowChangeTrun()
 		end
 
-		arg_30_0:RefreshPoolLeftCardUI()
+		slot0:RefreshPoolLeftCardUI()
 	end
 end
 
-function var_0_0.ShowChangeTrun(arg_32_0)
-	local var_32_0 = HanafudaData:GetGameState()
+function slot0.ShowChangeTrun(slot0)
+	slot1 = HanafudaData:GetGameState()
 
-	if arg_32_0.turnTimer_ then
-		SetActive(arg_32_0.trunChangeTrs_.gameObject, false)
-		arg_32_0.turnTimer_:Stop()
+	if slot0.turnTimer_ then
+		SetActive(slot0.trunChangeTrs_.gameObject, false)
+		slot0.turnTimer_:Stop()
 	end
 
-	if var_32_0 == HanafudaData.GAME_STATE.PLAYER_TURN then
-		arg_32_0.turnController_:SetSelectedState("player")
-		SetActive(arg_32_0.trunChangeTrs_.gameObject, true)
-	elseif var_32_0 == HanafudaData.GAME_STATE.COMPUTER_TURN then
-		arg_32_0.turnController_:SetSelectedState("enemy")
-		SetActive(arg_32_0.trunChangeTrs_.gameObject, true)
+	if slot1 == HanafudaData.GAME_STATE.PLAYER_TURN then
+		slot0.turnController_:SetSelectedState("player")
+		SetActive(slot0.trunChangeTrs_.gameObject, true)
+	elseif slot1 == HanafudaData.GAME_STATE.COMPUTER_TURN then
+		slot0.turnController_:SetSelectedState("enemy")
+		SetActive(slot0.trunChangeTrs_.gameObject, true)
 	end
 
-	arg_32_0.turnTimer_ = Timer.New(function()
-		SetActive(arg_32_0.trunChangeTrs_.gameObject, false)
+	slot0.turnTimer_ = Timer.New(function ()
+		SetActive(uv0.trunChangeTrs_.gameObject, false)
 	end, 1, 1, true)
 
-	arg_32_0.turnTimer_:Start()
-	arg_32_0:RefreshUI()
+	slot0.turnTimer_:Start()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshEnemyScoreUI(arg_34_0)
-	arg_34_0.enemyScoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
+function slot0.RefreshEnemyScoreUI(slot0)
+	slot0.enemyScoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
 end
 
-function var_0_0.RefreshPlayerScoreUI(arg_35_0)
-	arg_35_0.playerScoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
+function slot0.RefreshPlayerScoreUI(slot0)
+	slot0.playerScoreText_.text = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
 end
 
-function var_0_0.RefreshPoolLeftCardUI(arg_36_0, arg_36_1)
-	if arg_36_0.isDealingCard then
-		arg_36_0.leftCardNumText_.text = arg_36_1
+function slot0.RefreshPoolLeftCardUI(slot0, slot1)
+	if slot0.isDealingCard then
+		slot0.leftCardNumText_.text = slot1
 	else
-		arg_36_0.leftCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.POOL)
+		slot0.leftCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.POOL)
 	end
 
-	arg_36_0.enemyCombineCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE)
-	arg_36_0.playerCombineCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE)
+	slot0.enemyCombineCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE)
+	slot0.playerCombineCardNumText_.text = #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE)
+	slot3 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE)
 
-	local var_36_0 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE)
-	local var_36_1 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLAYERCOMBINE)
+	SetActive(slot0.enemyCombineGo_, #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMYCOMBINE) > 0)
+	SetActive(slot0.enemyCombineRaceTypeGo_, #slot2 > 0)
+	SetActive(slot0.playerCombineGo_, #slot3 > 0)
+	SetActive(slot0.playerCombineRaceTypeGo_, #slot3 > 0)
 
-	SetActive(arg_36_0.enemyCombineGo_, #var_36_0 > 0)
-	SetActive(arg_36_0.enemyCombineRaceTypeGo_, #var_36_0 > 0)
-	SetActive(arg_36_0.playerCombineGo_, #var_36_1 > 0)
-	SetActive(arg_36_0.playerCombineRaceTypeGo_, #var_36_1 > 0)
-
-	if #var_36_0 > 0 then
-		local var_36_2 = var_36_0[#var_36_0]
-		local var_36_3 = string.format("icon_group_%d_c", var_36_2.race)
-
-		arg_36_0.enemyCombineIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. var_36_2.id)
-		arg_36_0.enemyCombineRaceTypeImg_.sprite = getSprite("Atlas/CampItemAtlas", var_36_3)
+	if #slot2 > 0 then
+		slot4 = slot2[#slot2]
+		slot0.enemyCombineIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. slot4.id)
+		slot0.enemyCombineRaceTypeImg_.sprite = getSprite("Atlas/CampItemAtlas", string.format("icon_group_%d_c", slot4.race))
 	end
 
-	if #var_36_1 > 0 then
-		local var_36_4 = var_36_1[#var_36_1]
-		local var_36_5 = string.format("icon_group_%d_c", var_36_4.race)
-
-		arg_36_0.playerCombineIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. var_36_4.id)
-		arg_36_0.playerCombineRaceTypeImg_.sprite = getSprite("Atlas/CampItemAtlas", var_36_5)
+	if #slot3 > 0 then
+		slot4 = slot3[#slot3]
+		slot0.playerCombineIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/Hanafuda/" .. slot4.id)
+		slot0.playerCombineRaceTypeImg_.sprite = getSprite("Atlas/CampItemAtlas", string.format("icon_group_%d_c", slot4.race))
 	end
 end
 
-function var_0_0.CheckPoolCards(arg_37_0, arg_37_1)
-	local var_37_0 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.POOL)
-	local var_37_1 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLACE)
+function slot0.CheckPoolCards(slot0, slot1)
+	slot0.gameState = HanafudaData:GetGameState()
 
-	arg_37_0.gameState = HanafudaData:GetGameState()
+	if #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.POOL) > 0 and #HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.PLACE) > 0 and slot1.data_.type ~= HanafudaData.CARD_PLACE_TYPE.POOL then
+		slot4 = slot2[#slot2].index
+		slot0.selectedCardIndex_ = slot4
 
-	if #var_37_0 > 0 and #var_37_1 > 0 and arg_37_1.data_.type ~= HanafudaData.CARD_PLACE_TYPE.POOL then
-		local var_37_2 = var_37_0[#var_37_0].index
+		slot0:ShowMatchingCard(slot4)
 
-		arg_37_0.selectedCardIndex_ = var_37_2
-
-		arg_37_0:ShowMatchingCard(var_37_2)
-
-		if arg_37_0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
-			arg_37_0.cardItemPool_[var_37_2]:SetFlipCallBack(function()
-				arg_37_0:MovePoolCardToList(arg_37_0.cardItemPool_[var_37_2].gameObject_, arg_37_0.playerCardList_)
+		if slot0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN then
+			slot0.cardItemPool_[slot4]:SetFlipCallBack(function ()
+				uv0:MovePoolCardToList(uv0.cardItemPool_[uv1].gameObject_, uv0.playerCardList_)
 			end)
 		else
-			arg_37_0.cardItemPool_[var_37_2]:SetFlipCallBack(function()
-				arg_37_0:MovePoolCardToList(arg_37_0.cardItemPool_[var_37_2].gameObject_, arg_37_0.enemyCardList_)
+			slot0.cardItemPool_[slot4]:SetFlipCallBack(function ()
+				uv0:MovePoolCardToList(uv0.cardItemPool_[uv1].gameObject_, uv0.enemyCardList_)
 			end)
 		end
 
-		arg_37_0.cardItemPool_[var_37_2]:PlayFlipCardAni()
+		slot0.cardItemPool_[slot4]:PlayFlipCardAni()
 	end
 end
 
-function var_0_0.UpdateSelectCardIndex(arg_40_0, arg_40_1)
-	arg_40_0.selectedCardIndex_ = arg_40_1
+function slot0.UpdateSelectCardIndex(slot0, slot1)
+	slot0.selectedCardIndex_ = slot1
 end
 
-function var_0_0.OnEnter(arg_41_0)
-	local var_41_0 = HanafudaData:GetActivityID()
+function slot0.OnEnter(slot0)
+	slot1 = HanafudaData:GetActivityID()
 
-	arg_41_0.winBar:SetGameHelpKey("ACTIVITY_KAGUTSUCHI_CARD_DESCRIBE")
-	arg_41_0.winBar:RegistBackCallBack(function()
-		arg_41_0:Back()
+	slot0.winBar:SetGameHelpKey("ACTIVITY_KAGUTSUCHI_CARD_DESCRIBE")
+	slot0.winBar:RegistBackCallBack(function ()
+		uv0:Back()
 	end)
-	arg_41_0:ResetAnimator(arg_41_0.bellAni_, "Fx_bell_cx")
+	slot0:ResetAnimator(slot0.bellAni_, "Fx_bell_cx")
 
-	arg_41_0.isOpenCheck = false
-	arg_41_0.isOpenDesc = false
-	arg_41_0.isOpenDetail = false
+	slot0.isOpenCheck = false
+	slot0.isOpenDesc = false
+	slot0.isOpenDetail = false
 
-	SetActive(arg_41_0.playBtn_.gameObject, false)
+	SetActive(slot0.playBtn_.gameObject, false)
 	HanafudaData:ResetGameData()
 	HanafudaData:ResetGameState()
-	arg_41_0:ResetCardUI()
-	arg_41_0:RefreshUI()
+	slot0:ResetCardUI()
+	slot0:RefreshUI()
 
-	arg_41_0.leftCardNumText_.text = 24
+	slot0.leftCardNumText_.text = 24
 
 	if (getData("HanafudaGame", "hasPop") or 0) == 0 then
 		saveData("HanafudaGame", "hasPop", 1)
 		JumpTools.OpenPageByJump("hanafudaDescView")
 	end
 
-	manager.redPoint:bindUIandKey(arg_41_0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, var_41_0))
-	arg_41_0:AddTimer()
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, slot1))
+	slot0:AddTimer()
 end
 
-function var_0_0.AddTimer(arg_43_0)
-	local var_43_0 = KagutsuchiFishingEventData.activityID
-	local var_43_1 = ActivityData:GetActivityData(var_43_0).stopTime
-
-	arg_43_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_43_1)
-	arg_43_0.leftTimeTimer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= var_43_1 then
-			arg_43_0.leftTimeText_.text = GetTips("TIME_OVER")
+function slot0.AddTimer(slot0)
+	slot0.leftTimeText_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(KagutsuchiFishingEventData.activityID).stopTime)
+	slot0.leftTimeTimer_ = Timer.New(function ()
+		if uv0 <= manager.time:GetServerTime() then
+			uv1.leftTimeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		arg_43_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_43_1)
+		uv1.leftTimeText_.text = manager.time:GetLostTimeStr2(uv0)
 	end, 1, -1, true)
 
-	arg_43_0.leftTimeTimer_:Start()
+	slot0.leftTimeTimer_:Start()
 end
 
-function var_0_0.ResetAnimator(arg_45_0, arg_45_1, arg_45_2)
-	arg_45_1:Play(arg_45_2, 0, 0)
-	arg_45_1:Update(0)
+function slot0.ResetAnimator(slot0, slot1, slot2)
+	slot1:Play(slot2, 0, 0)
+	slot1:Update(0)
 
-	arg_45_1.enabled = false
+	slot1.enabled = false
 end
 
-function var_0_0.StartDealCards(arg_46_0)
-	local var_46_0 = 24
-	local var_46_1 = HanafudaData:GetTotoalCardsList()
-	local var_46_2 = HanafudaData:ShuffleCardList(var_46_1)
+function slot0.StartDealCards(slot0)
+	slot0.selectedCardIndex_ = 0
 
-	arg_46_0.selectedCardIndex_ = 0
+	slot0:RefreshUI()
 
-	local var_46_3 = HanafudaData:DealCards(var_46_2)
+	slot0.isDealingCard = true
 
-	arg_46_0:RefreshUI()
+	slot0:RefreshPoolLeftCardUI(24)
 
-	arg_46_0.isDealingCard = true
-
-	arg_46_0:RefreshPoolLeftCardUI(var_46_0)
-
-	for iter_46_0 = 24, 1, -1 do
-		arg_46_0.cardItemPool_[iter_46_0]:SetData(iter_46_0, var_46_3[iter_46_0])
-		arg_46_0.cardItemPool_[iter_46_0]:FlipToBackUp()
+	for slot8 = 24, 1, -1 do
+		slot0.cardItemPool_[slot8]:SetData(slot8, HanafudaData:DealCards(HanafudaData:ShuffleCardList(HanafudaData:GetTotoalCardsList()))[slot8])
+		slot0.cardItemPool_[slot8]:FlipToBackUp()
 	end
 
 	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_card_start", "")
 
-	arg_46_0.timer_ = Timer.New(function()
-		local var_47_0 = arg_46_0.cardItemPool_[var_46_0].gameObject_
-
-		if var_46_0 > 20 then
-			arg_46_0:MoveCardToList(var_47_0, arg_46_0.playerCardList_)
-			arg_46_0.cardItemPool_[var_46_0]:PlayFlipCardAni()
-		elseif var_46_0 > 16 then
-			arg_46_0:MoveCardToList(var_47_0, arg_46_0.enemyCardList_)
-		elseif var_46_0 > 8 then
-			arg_46_0:MoveCardToList(var_47_0, arg_46_0.playAreaCardList_)
-			arg_46_0.cardItemPool_[var_46_0]:PlayFlipCardAni()
+	slot0.timer_ = Timer.New(function ()
+		if uv1 > 20 then
+			uv0:MoveCardToList(uv0.cardItemPool_[uv1].gameObject_, uv0.playerCardList_)
+			uv0.cardItemPool_[uv1]:PlayFlipCardAni()
+		elseif uv1 > 16 then
+			uv0:MoveCardToList(slot0, uv0.enemyCardList_)
+		elseif uv1 > 8 then
+			uv0:MoveCardToList(slot0, uv0.playAreaCardList_)
+			uv0.cardItemPool_[uv1]:PlayFlipCardAni()
 		end
 
-		var_46_0 = var_46_0 - 1
+		uv1 = uv1 - 1
 
-		arg_46_0:RefreshPoolLeftCardUI(var_46_0)
+		uv0:RefreshPoolLeftCardUI(uv1)
 
-		if var_46_0 == 8 then
-			if arg_46_0.isOpenCheck or arg_46_0.isOpenDesc then
-				arg_46_0:Back()
+		if uv1 == 8 then
+			if uv0.isOpenCheck or uv0.isOpenDesc then
+				uv0:Back()
 
-				arg_46_0.isOpenCheck = false
-				arg_46_0.isOpenDesc = false
+				uv0.isOpenCheck = false
+				uv0.isOpenDesc = false
 			end
 
-			arg_46_0.isDealingCard = false
+			uv0.isDealingCard = false
 
-			arg_46_0:CheckPlayerCards()
+			uv0:CheckPlayerCards()
 
 			if HanafudaData:GetGameState() ~= HanafudaData.GAME_STATE.GAMEOVER then
 				JumpTools.OpenPageByJump("hanafudaSelectFirstPopView", {
 					type = 1,
-					callback = function()
-						arg_46_0:RefreshEnemyCardsUI()
-						arg_46_0:ShowChangeTrun()
+					callback = function ()
+						uv0:RefreshEnemyCardsUI()
+						uv0:ShowChangeTrun()
 					end
 				})
 			end
 		end
 	end, 0.2, 16, false)
-	arg_46_0.aniTimer_ = Timer.New(function()
-		arg_46_0.timer_:Start()
+	slot0.aniTimer_ = Timer.New(function ()
+		uv0.timer_:Start()
 	end, 0.7, 1, true)
 
-	arg_46_0.aniTimer_:Start()
+	slot0.aniTimer_:Start()
 end
 
-function var_0_0.RefreshEnemyCardsUI(arg_50_0)
-	local var_50_0 = HanafudaData:GetComputerDiffculty()
-	local var_50_1 = HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
-
-	for iter_50_0, iter_50_1 in ipairs(var_50_1) do
-		if var_50_0 == 1 then
-			arg_50_0.cardItemPool_[iter_50_1.index]:PlayFlipCardAni()
+function slot0.RefreshEnemyCardsUI(slot0)
+	for slot6, slot7 in ipairs(HanafudaData:GetCardsListByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)) do
+		if HanafudaData:GetComputerDiffculty() == 1 then
+			slot0.cardItemPool_[slot7.index]:PlayFlipCardAni()
 		else
-			arg_50_0.cardItemPool_[iter_50_1.index].gameObject_.transform.localEulerAngles = Vector3.zero
+			slot0.cardItemPool_[slot7.index].gameObject_.transform.localEulerAngles = Vector3.zero
 		end
 	end
 end
 
-function var_0_0.CheckPlayerCards(arg_51_0)
+function slot0.CheckPlayerCards(slot0)
 	HanafudaData:CheckPlayerCards(HanafudaData.CARD_PLACE_TYPE.PLAYER)
 
 	if HanafudaData:GetGameState() ~= HanafudaData.GAME_STATE.GAMEOVER then
 		HanafudaData:CheckPlayerCards(HanafudaData.CARD_PLACE_TYPE.ENEMY)
 	end
 
-	arg_51_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.MoveCardToList(arg_52_0, arg_52_1, arg_52_2)
-	LeanTween.move(arg_52_1, arg_52_2.position, 0.4):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_52_0.callback then
-			arg_52_0.callback()
+function slot0.MoveCardToList(slot0, slot1, slot2)
+	LeanTween.move(slot1, slot2.position, 0.4):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0.callback then
+			uv0.callback()
 		end
 
-		arg_52_1.transform:SetParent(arg_52_2, false)
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_52_2)
+		uv1.transform:SetParent(uv2, false)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv2)
 	end))
 end
 
-function var_0_0.MovePoolCardToList(arg_54_0, arg_54_1, arg_54_2)
-	local var_54_0 = 0
-	local var_54_1 = arg_54_0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN and 0.2 or -0.2
+function slot0.MovePoolCardToList(slot0, slot1, slot2)
+	slot3 = 0
 
 	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_card_hand", "")
-	LeanTween.move(arg_54_1, Vector3(0, arg_54_2.position.y + var_54_1, arg_54_2.position.z), 0.4):setEase(LeanTweenType.easeOutCubic)
+	LeanTween.move(slot1, Vector3(0, slot2.position.y + (slot0.gameState == HanafudaData.GAME_STATE.PLAYER_TURN and 0.2 or -0.2), slot2.position.z), 0.4):setEase(LeanTweenType.easeOutCubic)
 end
 
-function var_0_0.RefreshUI(arg_55_0)
-	local var_55_0 = HanafudaData:GetGameState()
+function slot0.RefreshUI(slot0)
+	if HanafudaData:GetGameState() == HanafudaData.GAME_STATE.STOP then
+		slot0.stateController_:SetSelectedState("stop")
+		slot0.bellController_:SetSelectedState("off")
 
-	if var_55_0 == HanafudaData.GAME_STATE.STOP then
-		arg_55_0.stateController_:SetSelectedState("stop")
-		arg_55_0.bellController_:SetSelectedState("off")
-
-		for iter_55_0, iter_55_1 in ipairs(arg_55_0.cardItemPool_) do
-			iter_55_1.gameObject_.transform:SetParent(arg_55_0.cardPoolList_, false)
+		for slot5, slot6 in ipairs(slot0.cardItemPool_) do
+			slot6.gameObject_.transform:SetParent(slot0.cardPoolList_, false)
 		end
 
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_55_0.cardPoolList_)
-		arg_55_0:ResetAnimator(arg_55_0.bgAni_, "Fx_JapanRegionHanafudaGameUI_cx")
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.cardPoolList_)
+		slot0:ResetAnimator(slot0.bgAni_, "Fx_JapanRegionHanafudaGameUI_cx")
 	else
-		arg_55_0.bgAni_.enabled = true
+		slot0.bgAni_.enabled = true
 
-		arg_55_0.stateController_:SetSelectedState("start")
+		slot0.stateController_:SetSelectedState("start")
 	end
 
-	if var_55_0 == HanafudaData.GAME_STATE.GAMEOVER and not arg_55_0.isShowingCombine and not arg_55_0.isDealingCard then
+	if slot1 == HanafudaData.GAME_STATE.GAMEOVER and not slot0.isShowingCombine and not slot0.isDealingCard then
 		KagutsuchiHanafudaAction.SendHanafudaGameOver(HanafudaData:GetActivityID(), HanafudaData:GetIsSuccess(), HanafudaData:GetPlayerCombineIDList())
 
-		if arg_55_0.isOpenCheck or arg_55_0.isOpenDesc then
-			arg_55_0:Back()
+		if slot0.isOpenCheck or slot0.isOpenDesc then
+			slot0:Back()
 
-			arg_55_0.isOpenCheck = false
-			arg_55_0.isOpenDesc = false
+			slot0.isOpenCheck = false
+			slot0.isOpenDesc = false
 		end
 
 		JumpTools.OpenPageByJump("hanafudaGameOverPopView", {
-			callback = function()
-				arg_55_0:RefreshUI()
+			callback = function ()
+				uv0:RefreshUI()
 			end
 		})
 	end
 
-	arg_55_0:RefreshPoolLeftCardUI()
+	slot0:RefreshPoolLeftCardUI()
 end
 
-function var_0_0.ResetCardUI(arg_57_0)
-	for iter_57_0, iter_57_1 in ipairs(arg_57_0.cardItemPool_) do
-		arg_57_0:MoveCardToList(iter_57_1.gameObject_, arg_57_0.cardPoolList_)
+function slot0.ResetCardUI(slot0)
+	for slot4, slot5 in ipairs(slot0.cardItemPool_) do
+		slot0:MoveCardToList(slot5.gameObject_, slot0.cardPoolList_)
 
-		iter_57_1.gameObject_.transform.localEulerAngles = Vector3.zero
-		iter_57_1.flipCallBack = nil
+		slot5.gameObject_.transform.localEulerAngles = Vector3.zero
+		slot5.flipCallBack = nil
 	end
 end
 
-function var_0_0.OnExit(arg_58_0)
-	if arg_58_0.timer_ then
-		arg_58_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_58_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	if arg_58_0.aniTimer_ then
-		arg_58_0.aniTimer_:Stop()
+	if slot0.aniTimer_ then
+		slot0.aniTimer_:Stop()
 
-		arg_58_0.aniTimer_ = nil
+		slot0.aniTimer_ = nil
 	end
 
-	if arg_58_0.leftTimeTimer_ then
-		arg_58_0.leftTimeTimer_:Stop()
+	if slot0.leftTimeTimer_ then
+		slot0.leftTimeTimer_:Stop()
 
-		arg_58_0.leftTimeTimer_ = nil
+		slot0.leftTimeTimer_ = nil
 	end
 
 	HanafudaComputer.Stop()
-	arg_58_0:ResetCardUI()
-
-	local var_58_0 = HanafudaData:GetActivityID()
-
-	manager.redPoint:unbindUIandKey(arg_58_0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, var_58_0))
+	slot0:ResetCardUI()
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, HanafudaData:GetActivityID()))
 	HanafudaData:ResetGameData()
 	HanafudaData:ResetGameState()
-	arg_58_0:ResetCardUI()
+	slot0:ResetCardUI()
 end
 
-function var_0_0.Dispose(arg_59_0)
-	var_0_0.super.Dispose(arg_59_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_59_0, iter_59_1 in ipairs(arg_59_0.cardItemPool_) do
-		iter_59_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.cardItemPool_) do
+		slot5:Dispose()
 	end
 
-	arg_59_0.cardItemPool_ = nil
+	slot0.cardItemPool_ = nil
 
-	arg_59_0.winBar:Dispose()
+	slot0.winBar:Dispose()
 end
 
-return var_0_0
+return slot0

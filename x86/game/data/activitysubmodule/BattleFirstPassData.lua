@@ -1,62 +1,60 @@
-local var_0_0 = singletonClass("BattleFirstPassData")
-local var_0_1 = {}
-local var_0_2 = {}
+slot0 = singletonClass("BattleFirstPassData")
+slot1 = {}
+slot2 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	if not var_0_1[arg_2_1.activity_id] then
-		var_0_1[arg_2_1.activity_id] = {
+function slot0.SetData(slot0, slot1)
+	if not uv0[slot1.activity_id] then
+		uv0[slot1.activity_id] = {
 			isNeedRedPoint = true,
-			activityID = arg_2_1.activity_id
+			activityID = slot1.activity_id
 		}
 	end
 
-	local var_2_0 = {}
+	uv0[slot1.activity_id].battleList = {}
 
-	var_0_1[arg_2_1.activity_id].battleList = {}
-
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.sub_shot_list) do
-		var_2_0[iter_2_1.activity_id] = {
-			battleID = iter_2_1.activity_id,
-			battleState = iter_2_1.first_clear_reward_apply_state
-		}
-
-		table.insert(var_0_1[arg_2_1.activity_id].battleList, iter_2_1.activity_id)
+	for slot6, slot7 in ipairs(slot1.sub_shot_list) do
+		table.insert(uv0[slot1.activity_id].battleList, slot7.activity_id)
 	end
 
-	var_0_1[arg_2_1.activity_id].battleInfo = var_2_0
+	uv0[slot1.activity_id].battleInfo = {
+		[slot7.activity_id] = {
+			battleID = slot7.activity_id,
+			battleState = slot7.first_clear_reward_apply_state
+		}
+	}
 end
 
-function var_0_0.SetBattleState(arg_3_0, arg_3_1, arg_3_2)
-	var_0_1[arg_3_1].battleInfo[arg_3_2].battleState = ActivityConst.BATTLE_FIRST_PASS_STATE.REWARDED
+function slot0.SetBattleState(slot0, slot1, slot2)
+	uv0[slot1].battleInfo[slot2].battleState = ActivityConst.BATTLE_FIRST_PASS_STATE.REWARDED
 end
 
-function var_0_0.SetIsNeedRedPoint(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1[arg_4_1].isNeedRedPoint = arg_4_2
+function slot0.SetIsNeedRedPoint(slot0, slot1, slot2)
+	uv0[slot1].isNeedRedPoint = slot2
 end
 
-function var_0_0.SetLastBattleID(arg_5_0, arg_5_1, arg_5_2)
-	var_0_2[arg_5_1] = arg_5_2
+function slot0.SetLastBattleID(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.GetBattleFirstPassActivityData(arg_6_0, arg_6_1)
-	return var_0_1[arg_6_1]
+function slot0.GetBattleFirstPassActivityData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetBattleList(arg_7_0, arg_7_1)
-	return var_0_1[arg_7_1].battleList
+function slot0.GetBattleList(slot0, slot1)
+	return uv0[slot1].battleList
 end
 
-function var_0_0.GetBattleData(arg_8_0, arg_8_1, arg_8_2)
-	return var_0_1[arg_8_1].battleInfo[arg_8_2]
+function slot0.GetBattleData(slot0, slot1, slot2)
+	return uv0[slot1].battleInfo[slot2]
 end
 
-function var_0_0.GetLastBattleID(arg_9_0, arg_9_1)
-	return var_0_2[arg_9_1]
+function slot0.GetLastBattleID(slot0, slot1)
+	return uv0[slot1]
 end
 
-return var_0_0
+return slot0

@@ -1,144 +1,138 @@
-local var_0_0 = class("GuildMainView", ReduxView)
+slot0 = class("GuildMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubHomeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.chatTextExtension_ = arg_3_0.textChat_:GetComponent(typeof(TextExtension))
-	arg_3_0.controller_ = arg_3_0.clubInfo:GetController("edit")
-	arg_3_0.noticeController_ = arg_3_0.clubInfo:GetController("noticeEmpty")
+	slot0.chatTextExtension_ = slot0.textChat_:GetComponent(typeof(TextExtension))
+	slot0.controller_ = slot0.clubInfo:GetController("edit")
+	slot0.noticeController_ = slot0.clubInfo:GetController("noticeEmpty")
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	if GuildData:GetGuildInfo().id == nil then
-		arg_4_0:Go("/home")
+		slot0:Go("/home")
 
 		return
 	end
 
 	CommunityAction:RefreshCurrencyA()
-	arg_4_0:RefreshGuildUI()
-	arg_4_0:RegisterEvents()
-	arg_4_0:ShowImpeachTips()
-	arg_4_0:BindUIRedPoint()
+	slot0:RefreshGuildUI()
+	slot0:RegisterEvents()
+	slot0:ShowImpeachTips()
+	slot0:BindUIRedPoint()
 end
 
-function var_0_0.RegisterEvents(arg_5_0)
-	arg_5_0:RegistEventListener(GUILD_SWITCH_HEAD_ICON, handler(arg_5_0, arg_5_0.SwitchHeadIcon))
-	arg_5_0:RegistEventListener(GUILD_RENAME, handler(arg_5_0, arg_5_0.GuildRename))
-	arg_5_0:RegistEventListener(GUILD_NOTICE, handler(arg_5_0, arg_5_0.RefreshGuildNotice))
-	arg_5_0:RegistEventListener(GUILD_SWITCH_ICON_SERVER, handler(arg_5_0, arg_5_0.GuildSwitchIconServer))
-	arg_5_0:RegistEventListener(CHAT_GUILD_NEW_MESSAGE, handler(arg_5_0, arg_5_0.NewMessage))
-	arg_5_0:RegistEventListener(GUILD_REFRESH_MEMBER, handler(arg_5_0, arg_5_0.RefreshMember))
-	arg_5_0:RegistEventListener(GUILD_SHARE, handler(arg_5_0, arg_5_0.RefreshShareBtn))
-	arg_5_0:RegistEventListener(CHAT_GUILD_RESET, handler(arg_5_0, arg_5_0.RefreshMessage))
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(GUILD_SWITCH_HEAD_ICON, handler(slot0, slot0.SwitchHeadIcon))
+	slot0:RegistEventListener(GUILD_RENAME, handler(slot0, slot0.GuildRename))
+	slot0:RegistEventListener(GUILD_NOTICE, handler(slot0, slot0.RefreshGuildNotice))
+	slot0:RegistEventListener(GUILD_SWITCH_ICON_SERVER, handler(slot0, slot0.GuildSwitchIconServer))
+	slot0:RegistEventListener(CHAT_GUILD_NEW_MESSAGE, handler(slot0, slot0.NewMessage))
+	slot0:RegistEventListener(GUILD_REFRESH_MEMBER, handler(slot0, slot0.RefreshMember))
+	slot0:RegistEventListener(GUILD_SHARE, handler(slot0, slot0.RefreshShareBtn))
+	slot0:RegistEventListener(CHAT_GUILD_RESET, handler(slot0, slot0.RefreshMessage))
 end
 
-function var_0_0.OnTop(arg_6_0)
+function slot0.OnTop(slot0)
 	if GuildData:GetGuildInfo().id == nil then
-		arg_6_0:Go("/home")
+		slot0:Go("/home")
 
 		return
 	end
 
-	arg_6_0:RefreshWindowBar()
-	manager.windowBar:RegistBackCallBack(function()
-		arg_6_0:Back(2)
+	slot0:RefreshWindowBar()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(2)
 	end)
 end
 
-function var_0_0.BindUIRedPoint(arg_8_0)
-	manager.redPoint:bindUIandKey(arg_8_0.buttonManager_.transform, RedPointConst.GUILD_MANAGER)
-	manager.redPoint:bindUIandKey(arg_8_0.buttonTask_.transform, RedPointConst.CLUB_TASK)
-	manager.redPoint:bindUIandKey(arg_8_0.buttonWelfare_.transform, RedPointConst.CLUB_WELFARE)
-	manager.redPoint:bindUIandKey(arg_8_0.noticeContainer_, RedPointConst.GUILD_BOSS, {
+function slot0.BindUIRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.buttonManager_.transform, RedPointConst.GUILD_MANAGER)
+	manager.redPoint:bindUIandKey(slot0.buttonTask_.transform, RedPointConst.CLUB_TASK)
+	manager.redPoint:bindUIandKey(slot0.buttonWelfare_.transform, RedPointConst.CLUB_WELFARE)
+	manager.redPoint:bindUIandKey(slot0.noticeContainer_, RedPointConst.GUILD_BOSS, {
 		x = 0,
 		y = 0
 	})
 end
 
-function var_0_0.UnBindUIRedPoint(arg_9_0)
-	manager.redPoint:unbindUIandKey(arg_9_0.buttonManager_.transform, RedPointConst.GUILD_MANAGER)
-	manager.redPoint:unbindUIandKey(arg_9_0.buttonTask_.transform, RedPointConst.CLUB_TASK)
-	manager.redPoint:unbindUIandKey(arg_9_0.buttonWelfare_.transform, RedPointConst.CLUB_WELFARE)
-	manager.redPoint:unbindUIandKey(arg_9_0.noticeContainer_, RedPointConst.GUILD_BOSS)
+function slot0.UnBindUIRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.buttonManager_.transform, RedPointConst.GUILD_MANAGER)
+	manager.redPoint:unbindUIandKey(slot0.buttonTask_.transform, RedPointConst.CLUB_TASK)
+	manager.redPoint:unbindUIandKey(slot0.buttonWelfare_.transform, RedPointConst.CLUB_WELFARE)
+	manager.redPoint:unbindUIandKey(slot0.noticeContainer_, RedPointConst.GUILD_BOSS)
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_10_0:RemoveAllEventListener()
-	arg_10_0:UnBindUIRedPoint()
-	arg_10_0:StopTimer()
-	arg_10_0:StopShareTimer()
+	slot0:RemoveAllEventListener()
+	slot0:UnBindUIRedPoint()
+	slot0:StopTimer()
+	slot0:StopShareTimer()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_12_0)
-	arg_12_0:AddBtnListener(arg_12_0.btnCopy_, nil, function()
-		local var_13_0 = GuildData:GetGuildInfo()
-
-		UnityEngine.GUIUtility.systemCopyBuffer = var_13_0.id
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btnCopy_, nil, function ()
+		UnityEngine.GUIUtility.systemCopyBuffer = GuildData:GetGuildInfo().id
 
 		ShowTips("COPY_SUCCESS")
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonName_, nil, function()
+	slot0:AddBtnListener(slot0.buttonName_, nil, function ()
 		JumpTools.OpenPageByJump("guildRename")
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonNotice_, nil, function()
+	slot0:AddBtnListener(slot0.buttonNotice_, nil, function ()
 		JumpTools.OpenPageByJump("guildChangeNotice")
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonLogo_, nil, function()
-		local var_16_0 = GuildData:GetGuildInfo()
-
-		if var_16_0.post >= GuildConst.GUILD_POST.DEPUTY then
+	slot0:AddBtnListener(slot0.buttonLogo_, nil, function ()
+		if GuildConst.GUILD_POST.DEPUTY <= GuildData:GetGuildInfo().post then
 			return
 		end
 
 		JumpTools.OpenPageByJump("guildHeadIconSelect", {
-			selectID = var_16_0.icon
+			selectID = slot0.icon
 		})
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonManager_, nil, function()
-		GuildAction.RequiredGuildMemberList(function(arg_18_0)
-			arg_12_0:Go("/guildManager")
+	slot0:AddBtnListener(slot0.buttonManager_, nil, function ()
+		GuildAction.RequiredGuildMemberList(function (slot0)
+			uv0:Go("/guildManager")
 		end)
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonShop_, nil, function()
+	slot0:AddBtnListener(slot0.buttonShop_, nil, function ()
 		JumpTools.GoToSystem("/shop", {
 			shopId = ShopConst.SHOP_ID.GUIDE_SHOP
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonTask_, nil, function()
+	slot0:AddBtnListener(slot0.buttonTask_, nil, function ()
 		JumpTools.OpenPageByJump("/communityTask")
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonWelfare_, nil, function()
+	slot0:AddBtnListener(slot0.buttonWelfare_, nil, function ()
 		JumpTools.OpenPageByJump("communityWelfare")
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.buttonChat_, nil, function()
+	slot0:AddBtnListener(slot0.buttonChat_, nil, function ()
 		JumpTools.OpenPageByJump("chat", {
 			ignoreBG = true,
 			chatToggleID = ChatConst.CHAT_CHANNEL_GUILD
 		}, ViewConst.SYSTEM_ID.CHAT)
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.btnLevel_, nil, function()
-		local var_23_0 = GuildData:GetGuildInfo()
+	slot0:AddBtnListener(slot0.btnLevel_, nil, function ()
+		uv0.textLimitExp_.text = string.format("%s/%s", GuildData:GetGuildInfo().curWeekExp, GuildData:GetMaxWeekExp())
 
-		arg_12_0.textLimitExp_.text = string.format("%s/%s", var_23_0.curWeekExp, GuildData:GetMaxWeekExp())
-
-		arg_12_0:AddTimer()
+		uv0:AddTimer()
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.bossBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bossBtn_, nil, function ()
 		if not GuildData:GetBossData().initedFromServer then
 			ShowTips("GUILD_BOSS_CD_TIP")
 
@@ -149,68 +143,52 @@ function var_0_0.AddListeners(arg_12_0)
 			isEnter = 1
 		}, ViewConst.SYSTEM_ID.GUILD_BOSS)
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.guildShareBtn_, nil, function()
-		local var_25_0 = GuildData:GetShareTimestamp()
-
-		if var_25_0 > manager.time:GetServerTime() then
-			ShowTips(string.format(GetTips("CLUB_SHARE_CD_TIPS"), manager.time:GetLostTimeStr(var_25_0)))
+	slot0:AddBtnListener(slot0.guildShareBtn_, nil, function ()
+		if manager.time:GetServerTime() < GuildData:GetShareTimestamp() then
+			ShowTips(string.format(GetTips("CLUB_SHARE_CD_TIPS"), manager.time:GetLostTimeStr(slot0)))
 		else
 			JumpTools.OpenPageByJump("guildShareInfo")
 		end
 	end)
-	arg_12_0:AddBtnListener(arg_12_0.spBtn_, nil, function()
-		local var_26_0 = GuildActivitySPData:GetCurMainActivityID()
-
-		ActivityTools.JumpBackToActivityMainViewByActivityID(var_26_0)
+	slot0:AddBtnListener(slot0.spBtn_, nil, function ()
+		ActivityTools.JumpBackToActivityMainViewByActivityID(GuildActivitySPData:GetCurMainActivityID())
 	end)
 end
 
-function var_0_0.RefreshWindowBar(arg_27_0)
-	local var_27_0 = {}
-	local var_27_1 = GameSetting.club_info_describe.value
+function slot0.RefreshWindowBar(slot0)
+	slot1 = {}
+	slot2 = GameSetting.club_info_describe.value
 
-	if GuildData:GetGuildInfo().post <= GuildConst.GUILD_POST.DEPUTY then
-		if #var_27_1 > 0 then
-			var_27_0 = {
-				BACK_BAR,
-				HOME_BAR,
-				INFO_BAR,
-				CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A,
-				CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
-			}
-		else
-			var_27_0 = {
-				BACK_BAR,
-				HOME_BAR,
-				CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A,
-				CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
-			}
-		end
-	elseif #var_27_1 > 0 then
-		var_27_0 = {
-			BACK_BAR,
-			HOME_BAR,
-			INFO_BAR,
-			CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
-		}
-	else
-		var_27_0 = {
-			BACK_BAR,
-			HOME_BAR,
-			CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
-		}
-	end
+	manager.windowBar:SwitchBar((GuildData:GetGuildInfo().post > GuildConst.GUILD_POST.DEPUTY or (#slot2 <= 0 or {
+		BACK_BAR,
+		HOME_BAR,
+		INFO_BAR,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
+	}) and {
+		BACK_BAR,
+		HOME_BAR,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_A,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
+	}) and (#slot2 <= 0 or {
+		BACK_BAR,
+		HOME_BAR,
+		INFO_BAR,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
+	}) and {
+		BACK_BAR,
+		HOME_BAR,
+		CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B
+	})
 
-	manager.windowBar:SwitchBar(var_27_0)
-
-	if #var_27_1 > 0 then
+	if #slot2 > 0 then
 		manager.windowBar:SetGameHelpKey({
 			view = "gameHelpPro",
 			type = "jump",
 			params = {
 				hideHomeBtn = 1,
 				isPrefab = true,
-				pages = var_27_1
+				pages = slot2
 			}
 		})
 	end
@@ -219,295 +197,271 @@ function var_0_0.RefreshWindowBar(arg_27_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_CLUB_COIN_B, true)
 end
 
-function var_0_0.RefreshGuildUI(arg_28_0)
-	local var_28_0 = GuildData:GetGuildInfo()
+function slot0.RefreshGuildUI(slot0)
+	slot1 = GuildData:GetGuildInfo()
 
-	arg_28_0:GuildRename(var_28_0.name)
+	slot0:GuildRename(slot1.name)
 
-	arg_28_0.textID_.text = string.format("ID:%s", var_28_0.id)
-	arg_28_0.textCaptain_.text = GetI18NText(var_28_0.captain)
+	slot0.textID_.text = string.format("ID:%s", slot1.id)
+	slot0.textCaptain_.text = GetI18NText(slot1.captain)
 
-	arg_28_0:RefreshGuildNotice(var_28_0.notice)
-	arg_28_0:GuildSwitchIconServer(var_28_0.icon)
-	arg_28_0:RefreshGuildExp()
-	arg_28_0:RefreshMember()
-	arg_28_0:RefreshMessage()
-	arg_28_0:RefreshSpActivityState()
-	TimeTools.StartAfterSeconds(0.1, function()
-		arg_28_0:UpdateTimer()
+	slot0:RefreshGuildNotice(slot1.notice)
+	slot0:GuildSwitchIconServer(slot1.icon)
+	slot0:RefreshGuildExp()
+	slot0:RefreshMember()
+	slot0:RefreshMessage()
+	slot0:RefreshSpActivityState()
+	TimeTools.StartAfterSeconds(0.1, function ()
+		uv0:UpdateTimer()
 	end, {})
 end
 
-function var_0_0.RefreshSpActivityState(arg_30_0)
-	local var_30_0, var_30_1 = GuildActivitySPTools.CheckGuildActivitySPIsOpen()
+function slot0.RefreshSpActivityState(slot0)
+	slot1, slot0.activitySpID = GuildActivitySPTools.CheckGuildActivitySPIsOpen()
 
-	if var_30_0 then
-		arg_30_0.activitySpID = var_30_1
+	if slot1 then
+		SetActive(slot0.spBtn_.gameObject, true)
 
-		SetActive(arg_30_0.spBtn_.gameObject, true)
+		slot0.spbtnImg_.sprite = getSpriteViaConfig("ActivityClubSPEnterIcon", slot2)
 
-		arg_30_0.spbtnImg_.sprite = getSpriteViaConfig("ActivityClubSPEnterIcon", var_30_1)
-
-		local var_30_2 = GuildActivitySpTools.GetCurOpenActivityStateInfo()
-
-		if var_30_2.activityName ~= "" then
-			arg_30_0.activityName.text = GetTips(var_30_2.activityName)
+		if GuildActivitySpTools.GetCurOpenActivityStateInfo().activityName ~= "" then
+			slot0.activityName.text = GetTips(slot3.activityName)
 		end
 	else
-		arg_30_0.activitySpID = nil
+		slot0.activitySpID = nil
 
-		SetActive(arg_30_0.spBtn_.gameObject, false)
+		SetActive(slot0.spBtn_.gameObject, false)
 	end
 end
 
-function var_0_0.ShowImpeachTips(arg_31_0)
-	local var_31_0 = GuildData:GetGuildInfo()
-
-	if var_31_0.post == GuildConst.GUILD_POST.CAPTAIN and var_31_0.impeachTime - manager.time:GetServerTime() > 0 and not GuildData:GetImpeachFlag() then
+function slot0.ShowImpeachTips(slot0)
+	if GuildData:GetGuildInfo().post == GuildConst.GUILD_POST.CAPTAIN and slot1.impeachTime - manager.time:GetServerTime() > 0 and not GuildData:GetImpeachFlag() then
 		JumpTools.OpenPageByJump("guildImpeachTips")
 	end
 end
 
-function var_0_0.RefreshMessage(arg_32_0)
+function slot0.RefreshMessage(slot0)
 	ChatGuildData:InitCacheGuildContent()
-	arg_32_0:NewMessage()
+	slot0:NewMessage()
 end
 
-function var_0_0.UpdateTimer(arg_33_0)
-	local var_33_0, var_33_1 = GuildData:GetLastTime()
+function slot0.UpdateTimer(slot0)
+	slot1, slot2 = GuildData:GetLastTime()
+	slot0.lastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(slot2)
 
-	arg_33_0.lastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_33_1)
-
-	if arg_33_0.statusName_ ~= var_33_0 then
-		if var_33_0 == "prepose" then
-			arg_33_0.stageLabel_.text = GetTips("CLUB_BOSS_PREPOSE_TIP")
-			arg_33_0.lastTimeText_.text = GetTips("GONGHUIBOSS_LIEXIZHENGZHAO")
-			arg_33_0.bossBtnImage_.sprite = getSpriteWithoutAtlas("TextureConfig/ClubUI/Boss_btn_002")
+	if slot0.statusName_ ~= slot1 then
+		if slot1 == "prepose" then
+			slot0.stageLabel_.text = GetTips("CLUB_BOSS_PREPOSE_TIP")
+			slot0.lastTimeText_.text = GetTips("GONGHUIBOSS_LIEXIZHENGZHAO")
+			slot0.bossBtnImage_.sprite = getSpriteWithoutAtlas("TextureConfig/ClubUI/Boss_btn_002")
 		else
-			arg_33_0.stageLabel_.text = GetTips("CLUB_BOSS_CHALLENGE_TIP")
-			arg_33_0.lastTimeText_.text = GetTips("GONGHUIBOSS_LIEXIKAIFANG")
-			arg_33_0.bossBtnImage_.sprite = getSpriteWithoutAtlas("TextureConfig/ClubUI/Boss_btn_001")
+			slot0.stageLabel_.text = GetTips("CLUB_BOSS_CHALLENGE_TIP")
+			slot0.lastTimeText_.text = GetTips("GONGHUIBOSS_LIEXIKAIFANG")
+			slot0.bossBtnImage_.sprite = getSpriteWithoutAtlas("TextureConfig/ClubUI/Boss_btn_001")
 		end
 
-		arg_33_0.statusName_ = var_33_0
+		slot0.statusName_ = slot1
 	end
 
-	local var_33_2 = manager.time:GetServerTime()
+	slot3 = manager.time:GetServerTime()
 
-	if arg_33_0.activitySpID then
-		local var_33_3, var_33_4 = GuildActivitySPTools.CheckActivityCurState(arg_33_0.activitySpID)
+	if slot0.activitySpID then
+		slot4, slot5 = GuildActivitySPTools.CheckActivityCurState(slot0.activitySpID)
 
-		if var_33_3 == "start" then
-			local var_33_5, var_33_6, var_33_7 = GuildActivitySPTools.GetCurActivityTimeStage(var_33_4)
+		if slot4 == "start" then
+			slot6, slot7, slot8 = GuildActivitySPTools.GetCurActivityTimeStage(slot5)
 
-			if var_33_5 == 2 then
-				arg_33_0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_33_6)
-				arg_33_0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP2"))
-			elseif var_33_5 == 1 then
-				arg_33_0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_33_7)
-				arg_33_0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP1"))
+			if slot6 == 2 then
+				slot0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(slot7)
+				slot0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP2"))
+			elseif slot6 == 1 then
+				slot0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(slot8)
+				slot0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP1"))
 			end
 		end
 
-		if var_33_3 == "register" then
-			local var_33_8 = ActivityData:GetActivityData(var_33_4).stopTime
-
-			arg_33_0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(var_33_8)
-			arg_33_0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP0"))
+		if slot4 == "register" then
+			slot0.spLastTimeLabel_.text = manager.time:GetLostTimeStrWith2Unit(ActivityData:GetActivityData(slot5).stopTime)
+			slot0.spStageLabel_.text = string.format(GetTips("ACTIVITY_CLUB_SP_LAST_TIME_TIP0"))
 		end
 	end
 end
 
-function var_0_0.SwitchHeadIcon(arg_34_0, arg_34_1)
-	GuildAction.GuildSwitchIcon(arg_34_1, function(arg_35_0)
-		if isSuccess(arg_35_0.result) then
+function slot0.SwitchHeadIcon(slot0, slot1)
+	GuildAction.GuildSwitchIcon(slot1, function (slot0)
+		if isSuccess(slot0.result) then
 			ShowTips("CLUB_CHANGED_ICON_SUCCESS")
 		else
-			ShowTips(arg_35_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.GuildRename(arg_36_0, arg_36_1)
-	arg_36_0.textName_.text = GetI18NText(arg_36_1)
+function slot0.GuildRename(slot0, slot1)
+	slot0.textName_.text = GetI18NText(slot1)
 end
 
-function var_0_0.RefreshGuildNotice(arg_37_0, arg_37_1)
-	if arg_37_1 and #arg_37_1 > 0 then
-		arg_37_0.noticeController_:SetSelectedState("full")
+function slot0.RefreshGuildNotice(slot0, slot1)
+	if slot1 and #slot1 > 0 then
+		slot0.noticeController_:SetSelectedState("full")
 	else
-		arg_37_0.noticeController_:SetSelectedState("empty")
+		slot0.noticeController_:SetSelectedState("empty")
 	end
 
-	arg_37_0.textNotice_.text = GetI18NText(arg_37_1)
+	slot0.textNotice_.text = GetI18NText(slot1)
 end
 
-function var_0_0.GuildSwitchIconServer(arg_38_0, arg_38_1)
-	local var_38_0 = ClubHeadIconCfg[arg_38_1]
-
-	arg_38_0.imageIcon_.sprite = getSpriteViaConfig("ClubHeadIcon", var_38_0.icon_bg)
+function slot0.GuildSwitchIconServer(slot0, slot1)
+	slot0.imageIcon_.sprite = getSpriteViaConfig("ClubHeadIcon", ClubHeadIconCfg[slot1].icon_bg)
 end
 
-function var_0_0.NewMessage(arg_39_0)
-	local var_39_0 = ChatGuildData:GetCacheContent()
-	local var_39_1 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
-	local var_39_2
-	local var_39_3
+function slot0.NewMessage(slot0)
+	slot2 = FriendsData:GetList(FriendsConst.FRIEND_TYPE.BLACKLIST)
+	slot3, slot4 = nil
 
-	if #var_39_0 > 0 then
-		for iter_39_0 = #var_39_0, 1, -1 do
-			var_39_2 = var_39_0[iter_39_0]
-
-			if var_39_2.id and not table.keyof(var_39_1, var_39_2.id) then
-				if var_39_2.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-					var_39_3 = string.format("[%s]", ChatStickerCfg[tonumber(var_39_2.content)].name)
+	if #ChatGuildData:GetCacheContent() > 0 then
+		for slot8 = #slot1, 1, -1 do
+			if slot1[slot8].id and not table.keyof(slot2, slot3.id) then
+				if slot3.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+					slot4 = string.format("[%s]", ChatStickerCfg[tonumber(slot3.content)].name)
 
 					break
 				end
 
-				var_39_3 = var_39_2.content
+				slot4 = slot3.content
 
 				break
 			end
 		end
 
-		if var_39_2.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			var_39_3 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(var_39_2.content)].name))
+		if slot3.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+			slot4 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(slot3.content)].name))
 		end
 
-		arg_39_0.chatTextExtension_:SetText(string.format("%s:%s", var_39_2.nick, var_39_3))
+		slot0.chatTextExtension_:SetText(string.format("%s:%s", slot3.nick, slot4))
 	else
-		arg_39_0.textChat_.text = ""
+		slot0.textChat_.text = ""
 	end
 end
 
-function var_0_0.RefreshGuildExp(arg_40_0)
-	local var_40_0 = GuildData:GetGuildInfo()
-	local var_40_1 = var_40_0.level
-	local var_40_2 = var_40_0.exp
+function slot0.RefreshGuildExp(slot0)
+	slot1 = GuildData:GetGuildInfo()
 
-	for iter_40_0 = var_40_1 - 1, 1, -1 do
-		var_40_2 = var_40_2 - ClubLevelCfg[iter_40_0].club_level_exp
+	for slot7 = slot1.level - 1, 1, -1 do
+		slot3 = slot1.exp - ClubLevelCfg[slot7].club_level_exp
 	end
 
-	local var_40_3 = ClubLevelCfg[var_40_1].club_level_exp
+	slot4 = ClubLevelCfg[slot2].club_level_exp
 
-	if var_40_1 >= GameSetting.club_max_level.value[1] then
-		arg_40_0.textExp_.text = "-/-"
-		arg_40_0.imageProcess_.value = 1
+	if GameSetting.club_max_level.value[1] <= slot2 then
+		slot0.textExp_.text = "-/-"
+		slot0.imageProcess_.value = 1
 	else
-		arg_40_0.textExp_.text = string.format("%s/%s", var_40_2, var_40_3)
-		arg_40_0.imageProcess_.value = var_40_2 / var_40_3
+		slot0.textExp_.text = string.format("%s/%s", slot3, slot4)
+		slot0.imageProcess_.value = slot3 / slot4
 	end
 
-	arg_40_0.textLevel_.text = string.format(GetTips("CLUB_LEVEL"), var_40_1)
+	slot0.textLevel_.text = string.format(GetTips("CLUB_LEVEL"), slot2)
 end
 
-function var_0_0.RefreshMember(arg_41_0)
-	local var_41_0 = GuildData:GetGuildInfo()
+function slot0.RefreshMember(slot0)
+	slot1 = GuildData:GetGuildInfo()
+	slot0.textMember_.text = string.format("%s/%s", slot1.memberCnt, ClubLevelCfg[slot1.level].user_num_max)
 
-	arg_41_0.textMember_.text = string.format("%s/%s", var_41_0.memberCnt, ClubLevelCfg[var_41_0.level].user_num_max)
+	if slot1.post == GuildConst.GUILD_POST.CAPTAIN then
+		slot0.controller_:SetSelectedState("CAPTAIN")
 
-	if var_41_0.post == GuildConst.GUILD_POST.CAPTAIN then
-		arg_41_0.controller_:SetSelectedState("CAPTAIN")
+		slot0.mangerText.text = GetTips("CLUB_BOSS_MANAGER")
+	elseif slot1.post == GuildConst.GUILD_POST.DEPUTY then
+		slot0.controller_:SetSelectedState("DEPUTY")
 
-		arg_41_0.mangerText.text = GetTips("CLUB_BOSS_MANAGER")
-	elseif var_41_0.post == GuildConst.GUILD_POST.DEPUTY then
-		arg_41_0.controller_:SetSelectedState("DEPUTY")
-
-		arg_41_0.mangerText.text = GetTips("CLUB_BOSS_MANAGER")
+		slot0.mangerText.text = GetTips("CLUB_BOSS_MANAGER")
 	else
-		arg_41_0.controller_:SetSelectedState("MEMBER")
+		slot0.controller_:SetSelectedState("MEMBER")
 
-		arg_41_0.mangerText.text = GetTips("CLUB_BOSS_MEMBER")
+		slot0.mangerText.text = GetTips("CLUB_BOSS_MEMBER")
 	end
 
-	arg_41_0:RefreshShareBtn()
-	arg_41_0:RefreshWindowBar()
+	slot0:RefreshShareBtn()
+	slot0:RefreshWindowBar()
 end
 
-function var_0_0.AddTimer(arg_42_0)
-	arg_42_0:StopTimer()
-	SetActive(arg_42_0.goLevelTips_, true)
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
+	SetActive(slot0.goLevelTips_, true)
 
-	arg_42_0.timer_ = Timer.New(function()
-		arg_42_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		uv0:StopTimer()
 	end, 3, 1)
 
-	arg_42_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_44_0)
-	SetActive(arg_44_0.goLevelTips_, false)
+function slot0.StopTimer(slot0)
+	SetActive(slot0.goLevelTips_, false)
 
-	if arg_44_0.timer_ then
-		arg_44_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_44_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.AddShareTimer(arg_45_0)
-	arg_45_0:StopShareTimer()
+function slot0.AddShareTimer(slot0)
+	slot0:StopShareTimer()
 
-	local var_45_0 = GuildData:GetGuildInfo()
-	local var_45_1 = GuildData:GetShareTimestamp()
+	slot1 = GuildData:GetGuildInfo()
 
-	if var_45_1 < manager.time:GetServerTime() then
-		arg_45_0:RefreshShareBtn()
+	if GuildData:GetShareTimestamp() < manager.time:GetServerTime() then
+		slot0:RefreshShareBtn()
 
 		return
 	end
 
-	local var_45_2 = manager.time:GetServerTime() - var_45_1
+	slot3 = manager.time:GetServerTime() - slot2
+	slot0.timeText_.text = manager.time:GetLostTimeStr(slot2)
+	slot0.shareTimer_ = Timer.New(function ()
+		uv1.timeText_.text = manager.time:GetLostTimeStr(uv0)
 
-	arg_45_0.timeText_.text = manager.time:GetLostTimeStr(var_45_1)
-	arg_45_0.shareTimer_ = Timer.New(function()
-		local var_46_0 = manager.time:GetServerTime() - var_45_1
-
-		arg_45_0.timeText_.text = manager.time:GetLostTimeStr(var_45_1)
-
-		if var_46_0 >= 0 then
-			arg_45_0:StopShareTimer()
-			arg_45_0:RefreshShareBtn()
+		if manager.time:GetServerTime() - uv0 >= 0 then
+			uv1:StopShareTimer()
+			uv1:RefreshShareBtn()
 
 			return
 		end
 	end, 1, -1)
 
-	arg_45_0.shareTimer_:Start()
+	slot0.shareTimer_:Start()
 end
 
-function var_0_0.StopShareTimer(arg_47_0)
-	if arg_47_0.shareTimer_ then
-		arg_47_0.shareTimer_:Stop()
+function slot0.StopShareTimer(slot0)
+	if slot0.shareTimer_ then
+		slot0.shareTimer_:Stop()
 
-		arg_47_0.shareTimer_ = nil
+		slot0.shareTimer_ = nil
 	end
 end
 
-function var_0_0.RefreshShareBtn(arg_48_0)
-	local var_48_0 = GuildData:GetGuildInfo()
-
-	if table.keyof(GameSetting.club_share_member_list.value, var_48_0.post) then
-		SetActive(arg_48_0.guildShareGo_, true)
+function slot0.RefreshShareBtn(slot0)
+	if table.keyof(GameSetting.club_share_member_list.value, GuildData:GetGuildInfo().post) then
+		SetActive(slot0.guildShareGo_, true)
 	else
-		SetActive(arg_48_0.guildShareGo_, false)
+		SetActive(slot0.guildShareGo_, false)
 
 		return
 	end
 
 	if GuildData:GetShareTimestamp() <= manager.time:GetServerTime() then
-		SetActive(arg_48_0.timeGo_, false)
+		SetActive(slot0.timeGo_, false)
 
-		arg_48_0.guildShareBtn_.interactable = true
+		slot0.guildShareBtn_.interactable = true
 	else
-		SetActive(arg_48_0.timeGo_, true)
+		SetActive(slot0.timeGo_, true)
 
-		arg_48_0.guildShareBtn_.interactable = false
+		slot0.guildShareBtn_.interactable = false
 
-		arg_48_0:AddShareTimer()
+		slot0:AddShareTimer()
 	end
 end
 
-return var_0_0
+return slot0

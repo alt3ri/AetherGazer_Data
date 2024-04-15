@@ -1,199 +1,191 @@
-local var_0_0 = class("SectionSelectHeroInfoItem", ReduxView)
+slot0 = class("SectionSelectHeroInfoItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.pos_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.pos_ = slot2
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.postController_ = arg_2_0.controllerExCollection_:GetController("post")
-	arg_2_0.emptyController_ = arg_2_0.controllerExCollection_:GetController("empty")
-	arg_2_0.hpController_ = arg_2_0.controllerExCollection_:GetController("HP")
-	arg_2_0.assistantController_ = arg_2_0.controllerExCollection_:GetController("assistant")
-	arg_2_0.powerController_ = arg_2_0.controllerExCollection_:GetController("power")
-	arg_2_0.energyController_ = arg_2_0.controllerExCollection_:GetController("energy")
+	slot0.postController_ = slot0.controllerExCollection_:GetController("post")
+	slot0.emptyController_ = slot0.controllerExCollection_:GetController("empty")
+	slot0.hpController_ = slot0.controllerExCollection_:GetController("HP")
+	slot0.assistantController_ = slot0.controllerExCollection_:GetController("assistant")
+	slot0.powerController_ = slot0.controllerExCollection_:GetController("power")
+	slot0.energyController_ = slot0.controllerExCollection_:GetController("energy")
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0.stateComtroller_ = nil
+function slot0.Dispose(slot0)
+	slot0.stateComtroller_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.Show(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetProxy(arg_5_0, arg_5_1)
-	arg_5_0.sectionProxy_ = arg_5_1
+function slot0.SetProxy(slot0, slot1)
+	slot0.sectionProxy_ = slot1
 end
 
-function var_0_0.OnEnter(arg_6_0, arg_6_1)
-	arg_6_0:BindRedPoint()
+function slot0.OnEnter(slot0, slot1)
+	slot0:BindRedPoint()
 
-	local var_6_0 = GameObject.Find(string.format("X104/X104_SceneSteps/X104_Formation_HeroPos_%s", arg_6_1))
-
-	if var_6_0 then
-		arg_6_0.stateComtroller_ = var_6_0:GetComponent("ControllerExCollection"):GetController("state")
+	if GameObject.Find(string.format("X104/X104_SceneSteps/X104_Formation_HeroPos_%s", slot1)) then
+		slot0.stateComtroller_ = slot2:GetComponent("ControllerExCollection"):GetController("state")
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0:UnBindRedPoint()
+function slot0.OnExit(slot0)
+	slot0:UnBindRedPoint()
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.pos_ = arg_8_1
-	arg_8_0.isCaptain_ = arg_8_1 == 1
-	arg_8_0.heroID_ = arg_8_0.sectionProxy_.heroInfoList[arg_8_0.pos_].heroID
-	arg_8_0.trialID_ = arg_8_0.sectionProxy_.heroInfoList[arg_8_0.pos_].trialID
-	arg_8_0.isLock_ = arg_8_0.sectionProxy_.heroInfoList[arg_8_0.pos_].isLock
+function slot0.SetData(slot0, slot1)
+	slot0.pos_ = slot1
+	slot0.isCaptain_ = slot1 == 1
+	slot0.heroID_ = slot0.sectionProxy_.heroInfoList[slot0.pos_].heroID
+	slot0.trialID_ = slot0.sectionProxy_.heroInfoList[slot0.pos_].trialID
+	slot0.isLock_ = slot0.sectionProxy_.heroInfoList[slot0.pos_].isLock
 
-	arg_8_0:RefreshUI()
-	arg_8_0:RefreshCustomUI()
+	slot0:RefreshUI()
+	slot0:RefreshCustomUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshAddBtn()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshAddBtn()
 
-	if not arg_9_0.heroID_ or arg_9_0.heroID_ == 0 then
-		arg_9_0.emptyController_:SetSelectedState("true")
+	if not slot0.heroID_ or slot0.heroID_ == 0 then
+		slot0.emptyController_:SetSelectedState("true")
 
 		return
 	else
-		arg_9_0.emptyController_:SetSelectedState("false")
+		slot0.emptyController_:SetSelectedState("false")
 	end
 
-	arg_9_0:RefershPower()
-	arg_9_0:RefreshRace()
-	arg_9_0:RefreshPost()
-	arg_9_0:RefreshAttackType()
-	arg_9_0:RefreshHP()
-	arg_9_0:RefreshAssistant()
-	arg_9_0:RefreshEnergy()
+	slot0:RefershPower()
+	slot0:RefreshRace()
+	slot0:RefreshPost()
+	slot0:RefreshAttackType()
+	slot0:RefreshHP()
+	slot0:RefreshAssistant()
+	slot0:RefreshEnergy()
 end
 
-function var_0_0.RefreshCustomUI(arg_10_0)
-	return
+function slot0.RefreshCustomUI(slot0)
 end
 
-function var_0_0.RefershPower(arg_11_0)
-	arg_11_0.powerController_:SetSelectedState(tostring(arg_11_0.sectionProxy_.needHeroPower))
+function slot0.RefershPower(slot0)
+	slot0.powerController_:SetSelectedState(tostring(slot0.sectionProxy_.needHeroPower))
 
-	if arg_11_0.sectionProxy_.needHeroPower then
-		arg_11_0:RefreshPowerUI()
+	if slot0.sectionProxy_.needHeroPower then
+		slot0:RefreshPowerUI()
 	end
 end
 
-function var_0_0.RefreshPowerUI(arg_12_0)
-	arg_12_0.powerText_.text = arg_12_0:GetHeroPower()
+function slot0.RefreshPowerUI(slot0)
+	slot0.powerText_.text = slot0:GetHeroPower()
 end
 
-function var_0_0.RefreshRace(arg_13_0)
-	arg_13_0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(arg_13_0.heroID_)
+function slot0.RefreshRace(slot0)
+	slot0.raceIcon_.sprite = HeroTools.GetHeroRaceIcon(slot0.heroID_)
 end
 
-function var_0_0.RefreshPost(arg_14_0)
-	arg_14_0.postController_:SetSelectedState(tostring(arg_14_0.isCaptain_))
+function slot0.RefreshPost(slot0)
+	slot0.postController_:SetSelectedState(tostring(slot0.isCaptain_))
 end
 
-function var_0_0.RefreshAttackType(arg_15_0)
-	local var_15_0 = HeroTools.GetHeroSkillAttributeIcon(arg_15_0.heroID_)
+function slot0.RefreshAttackType(slot0)
+	if HeroTools.GetHeroSkillAttributeIcon(slot0.heroID_) then
+		SetActive(slot0.attackTypeIcon_.gameObject, true)
 
-	if var_15_0 then
-		SetActive(arg_15_0.attackTypeIcon_.gameObject, true)
-
-		arg_15_0.attackTypeIcon_.sprite = var_15_0
+		slot0.attackTypeIcon_.sprite = slot1
 	else
-		SetActive(arg_15_0.attackTypeIcon_.gameObject, false)
+		SetActive(slot0.attackTypeIcon_.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshAddBtn(arg_16_0)
-	if arg_16_0.stateComtroller_ then
-		if arg_16_0.heroID_ and arg_16_0.heroID_ ~= 0 then
-			arg_16_0.stateComtroller_:SetSelectedState("selected")
-		elseif arg_16_0.isLock_ == true or not arg_16_0.sectionProxy_.canChangeTeam then
-			arg_16_0.stateComtroller_:SetSelectedState("lock")
+function slot0.RefreshAddBtn(slot0)
+	if slot0.stateComtroller_ then
+		if slot0.heroID_ and slot0.heroID_ ~= 0 then
+			slot0.stateComtroller_:SetSelectedState("selected")
+		elseif slot0.isLock_ == true or not slot0.sectionProxy_.canChangeTeam then
+			slot0.stateComtroller_:SetSelectedState("lock")
 		else
-			arg_16_0.stateComtroller_:SetSelectedState("empty")
+			slot0.stateComtroller_:SetSelectedState("empty")
 		end
 	end
 end
 
-function var_0_0.RefreshHP(arg_17_0)
-	arg_17_0.hpController_:SetSelectedState(tostring(arg_17_0.sectionProxy_.needHeroHP))
+function slot0.RefreshHP(slot0)
+	slot0.hpController_:SetSelectedState(tostring(slot0.sectionProxy_.needHeroHP))
 
-	if arg_17_0.sectionProxy_.needHeroHP then
-		arg_17_0:RefreshHPUI()
+	if slot0.sectionProxy_.needHeroHP then
+		slot0:RefreshHPUI()
 	end
 end
 
-function var_0_0.RefreshHPUI(arg_18_0)
-	local var_18_0, var_18_1 = arg_18_0:GetHeroHP()
-
-	arg_18_0.hpImg_.fillAmount = var_18_1 / 100
-	arg_18_0.hpText_.text = var_18_1 .. "%"
+function slot0.RefreshHPUI(slot0)
+	slot1, slot2 = slot0:GetHeroHP()
+	slot0.hpImg_.fillAmount = slot2 / 100
+	slot0.hpText_.text = slot2 .. "%"
 end
 
-function var_0_0.RefreshAssistant(arg_19_0)
-	arg_19_0.assistantController_:SetSelectedState(tostring(arg_19_0.sectionProxy_.needHeroAssistant))
+function slot0.RefreshAssistant(slot0)
+	slot0.assistantController_:SetSelectedState(tostring(slot0.sectionProxy_.needHeroAssistant))
 
-	if arg_19_0.sectionProxy_.needHeroAssistant then
-		arg_19_0:RefreshAssistantUI()
+	if slot0.sectionProxy_.needHeroAssistant then
+		slot0:RefreshAssistantUI()
 	end
 end
 
-function var_0_0.RefreshAssistantUI(arg_20_0)
-	local var_20_0 = arg_20_0.sectionProxy_.heroInfoList[arg_20_0.pos_].isAssistant
-
-	arg_20_0.assistantController_:SetSelectedState(tostring(var_20_0))
+function slot0.RefreshAssistantUI(slot0)
+	slot0.assistantController_:SetSelectedState(tostring(slot0.sectionProxy_.heroInfoList[slot0.pos_].isAssistant))
 end
 
-function var_0_0.RefreshEnergy(arg_21_0)
-	arg_21_0.energyController_:SetSelectedState(tostring(arg_21_0.sectionProxy_.needHeroEnergy))
+function slot0.RefreshEnergy(slot0)
+	slot0.energyController_:SetSelectedState(tostring(slot0.sectionProxy_.needHeroEnergy))
 
-	if arg_21_0.sectionProxy_.needHeroEnergy then
-		arg_21_0:RefreshEnergyUI()
+	if slot0.sectionProxy_.needHeroEnergy then
+		slot0:RefreshEnergyUI()
 	end
 end
 
-function var_0_0.RefreshEnergyUI(arg_22_0)
-	if arg_22_0.heroID_ ~= 0 then
-		arg_22_0.energyController_:SetSelectedState("true")
+function slot0.RefreshEnergyUI(slot0)
+	if slot0.heroID_ ~= 0 then
+		slot0.energyController_:SetSelectedState("true")
 
-		arg_22_0.energyText_.text = arg_22_0:GetHeroEnergy()
+		slot0.energyText_.text = slot0:GetHeroEnergy()
 
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_22_0.energyBgTrans_)
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.energyBgTrans_)
 	else
-		arg_22_0.energyController_:SetSelectedState("false")
+		slot0.energyController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.BindRedPoint(arg_23_0)
-	arg_23_0.sectionProxy_:CustomHeroBindRedPoint(arg_23_0.pos_, arg_23_0)
+function slot0.BindRedPoint(slot0)
+	slot0.sectionProxy_:CustomHeroBindRedPoint(slot0.pos_, slot0)
 end
 
-function var_0_0.UnBindRedPoint(arg_24_0)
-	arg_24_0.sectionProxy_:CustomHeroUnBindRedPoint(arg_24_0.pos_, arg_24_0)
+function slot0.UnBindRedPoint(slot0)
+	slot0.sectionProxy_:CustomHeroUnBindRedPoint(slot0.pos_, slot0)
 end
 
-function var_0_0.GetHeroPower(arg_25_0)
-	return arg_25_0.sectionProxy_:CustomGetHeroPower(arg_25_0.pos_, arg_25_0.heroID_, arg_25_0.trialID_)
+function slot0.GetHeroPower(slot0)
+	return slot0.sectionProxy_:CustomGetHeroPower(slot0.pos_, slot0.heroID_, slot0.trialID_)
 end
 
-function var_0_0.GetHeroHP(arg_26_0)
-	return arg_26_0.sectionProxy_:CustomGetHeroHP(arg_26_0.pos_, arg_26_0.heroID_, arg_26_0.trialID_)
+function slot0.GetHeroHP(slot0)
+	return slot0.sectionProxy_:CustomGetHeroHP(slot0.pos_, slot0.heroID_, slot0.trialID_)
 end
 
-function var_0_0.GetHeroEnergy(arg_27_0)
-	return arg_27_0.sectionProxy_:CustomGetHeroEnergy(arg_27_0.pos_, arg_27_0.heroID_, arg_27_0.trialID_)
+function slot0.GetHeroEnergy(slot0)
+	return slot0.sectionProxy_:CustomGetHeroEnergy(slot0.pos_, slot0.heroID_, slot0.trialID_)
 end
 
-return var_0_0
+return slot0

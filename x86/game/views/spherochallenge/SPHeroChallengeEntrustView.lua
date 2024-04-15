@@ -1,68 +1,66 @@
-local var_0_0 = class("SPHeroChallengeEntrustView", ReduxView)
+slot0 = class("SPHeroChallengeEntrustView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/SPHeroChallengeEntrustView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.activityID = SPHeroChallengeData:GetActivityID()
-	arg_5_0.curEntrustItemList = {}
+	slot0.activityID = SPHeroChallengeData:GetActivityID()
+	slot0.curEntrustItemList = {}
+	slot4 = slot0.activityID
 
-	for iter_5_0 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(arg_5_0.activityID) do
-		local var_5_0 = SPHeroChallengeEntrustStartItem.New(arg_5_0["entrustitem" .. iter_5_0 .. "Go_"], iter_5_0)
+	for slot4 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(slot4) do
+		slot5 = SPHeroChallengeEntrustStartItem.New(slot0["entrustitem" .. slot4 .. "Go_"], slot4)
 
-		var_5_0:ClickEmptyFunc(handler(arg_5_0, arg_5_0.OpenChooseList))
+		slot5:ClickEmptyFunc(handler(slot0, slot0.OpenChooseList))
 
-		arg_5_0.curEntrustItemList[iter_5_0] = var_5_0
+		slot0.curEntrustItemList[slot4] = slot5
 	end
 
-	arg_5_0.waitEntrustItemScroll = LuaList.New(handler(arg_5_0, arg_5_0.indexWaitEntrust), arg_5_0.waitListGo_, SPHeroChallengeEntrustWaitItem)
+	slot0.waitEntrustItemScroll = LuaList.New(handler(slot0, slot0.indexWaitEntrust), slot0.waitListGo_, SPHeroChallengeEntrustWaitItem)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.activityInfo = SPHeroChallengeData:GetCurActivityInfo()
+function slot0.OnEnter(slot0)
+	slot0.activityInfo = SPHeroChallengeData:GetCurActivityInfo()
 
-	arg_6_0:RefreshStartEntrust()
-	arg_6_0:RefreshWaitEntrustList()
-	arg_6_0:StartTimer()
-	arg_6_0:RefreshBar()
-	arg_6_0:RegisterEvents()
+	slot0:RefreshStartEntrust()
+	slot0:RefreshWaitEntrustList()
+	slot0:StartTimer()
+	slot0:RefreshBar()
+	slot0:RegisterEvents()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0:BindRedPonit()
-	arg_7_0:StartTimer()
+function slot0.OnTop(slot0)
+	slot0:BindRedPonit()
+	slot0:StartTimer()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.BindRedPonit(arg_9_0)
-	return
+function slot0.BindRedPonit(slot0)
 end
 
-function var_0_0.UnBindRedPonit(arg_10_0)
-	return
+function slot0.UnBindRedPonit(slot0)
 end
 
-function var_0_0.RefreshBar(arg_11_0)
+function slot0.RefreshBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -71,22 +69,18 @@ function var_0_0.RefreshBar(arg_11_0)
 	})
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_12_0:StopTimer()
-	arg_12_0:UnBindRedPonit()
-	arg_12_0:RemoveAllEventListener()
+	slot0:StopTimer()
+	slot0:UnBindRedPonit()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.AddUIListener(arg_13_0)
-	arg_13_0:AddBtnListener(arg_13_0.receiveBtn_, nil, function()
-		local var_14_0 = SPHeroChallengeData:GetCurActivityInfo()
-
-		if var_14_0 then
-			local var_14_1 = var_14_0:GetCanGetRewardEntrustIndexList()
-
-			if #var_14_1 > 0 then
-				SPHeroChallengeAction:GetEntrustAward(var_14_1)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if SPHeroChallengeData:GetCurActivityInfo() then
+			if #slot0:GetCanGetRewardEntrustIndexList() > 0 then
+				SPHeroChallengeAction:GetEntrustAward(slot1)
 			else
 				ShowTips("ACTIVITY_HERO_CHALLENGE_NONE_ENTRUST_FINISH")
 			end
@@ -94,135 +88,120 @@ function var_0_0.AddUIListener(arg_13_0)
 	end)
 end
 
-function var_0_0.RegisterEvents(arg_15_0)
-	arg_15_0:RegistEventListener(SP_HERO_CHALLENGE_START_ENTRUST, function()
-		arg_15_0:RefreshStartEntrust()
-		arg_15_0:RefreshWaitEntrustList()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_START_ENTRUST, function ()
+		uv0:RefreshStartEntrust()
+		uv0:RefreshWaitEntrustList()
 	end)
-	arg_15_0:RegistEventListener(SP_HERO_CHALLENGE_FIN_ENTRUST, function()
-		arg_15_0:RefreshStartEntrust()
-		arg_15_0:RefreshWaitEntrustList()
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_FIN_ENTRUST, function ()
+		uv0:RefreshStartEntrust()
+		uv0:RefreshWaitEntrustList()
 	end)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.curEntrustItemList then
-		for iter_18_0, iter_18_1 in pairs(arg_18_0.curEntrustItemList) do
-			iter_18_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.curEntrustItemList then
+		for slot4, slot5 in pairs(slot0.curEntrustItemList) do
+			slot5:Dispose()
 		end
 	end
 
-	if arg_18_0.waitEntrustItemList then
-		arg_18_0.waitEntrustItemList:Dispose()
+	if slot0.waitEntrustItemList then
+		slot0.waitEntrustItemList:Dispose()
 	end
 
-	if arg_18_0.waitEntrustItemScroll then
-		arg_18_0.waitEntrustItemScroll:Dispose()
+	if slot0.waitEntrustItemScroll then
+		slot0.waitEntrustItemScroll:Dispose()
 	end
 
-	arg_18_0:StopTimer()
-	var_0_0.super.Dispose(arg_18_0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshStartEntrust(arg_19_0)
-	if arg_19_0.curEntrustItemList then
-		for iter_19_0, iter_19_1 in ipairs(arg_19_0.curEntrustItemList) do
-			local var_19_0 = arg_19_0.activityInfo:GetShowIndexEntrustInfo(iter_19_0)
-			local var_19_1 = {
-				showIndex = iter_19_0
-			}
-
-			if var_19_0 then
-				if arg_19_0.activityInfo:GetEntrustEndTime(var_19_0.index) then
-					var_19_1.state = "end"
+function slot0.RefreshStartEntrust(slot0)
+	if slot0.curEntrustItemList then
+		for slot4, slot5 in ipairs(slot0.curEntrustItemList) do
+			if slot0.activityInfo:GetShowIndexEntrustInfo(slot4) then
+				if slot0.activityInfo:GetEntrustEndTime(slot6.index) then
+					-- Nothing
 				else
-					var_19_1.state = "start"
+					slot7.state = "start"
 				end
-			elseif SPHeroChallengeTools:GetEntrustPosState(arg_19_0.activityID, iter_19_0) == SpHeroChallengeConst.EntrustPosState.empty then
-				var_19_1.state = "empty"
+			elseif SPHeroChallengeTools:GetEntrustPosState(slot0.activityID, slot4) == SpHeroChallengeConst.EntrustPosState.empty then
+				slot7.state = "empty"
 			else
-				var_19_1.state = "lock"
+				slot7.state = "lock"
 			end
 
-			iter_19_1:RefreshUI(var_19_1)
+			slot5:RefreshUI({
+				showIndex = slot4,
+				state = "end"
+			})
 		end
 	end
 end
 
-function var_0_0.RefreshWaitEntrustList(arg_20_0)
-	arg_20_0.startWaitList = {}
+function slot0.RefreshWaitEntrustList(slot0)
+	slot0.startWaitList = {}
+	slot2 = SPHeroChallengeTools:GetMaxStartEntrustPosNum(slot0.activityID)
 
-	local var_20_0 = SPHeroChallengeTools:GetMaxWaitEntrustPosNum(arg_20_0.activityID)
-	local var_20_1 = SPHeroChallengeTools:GetMaxStartEntrustPosNum(arg_20_0.activityID)
-
-	for iter_20_0 = 1, var_20_0 do
-		local var_20_2 = {}
-		local var_20_3 = arg_20_0.activityInfo:GetShowIndexEntrustInfo(iter_20_0 + var_20_1)
-
-		if var_20_3 then
-			var_20_2 = {
-				showIndex = iter_20_0 + var_20_1,
-				entrustIndex = var_20_3.index
-			}
-		elseif SPHeroChallengeTools:GetEntrustPosState(arg_20_0.activityID, iter_20_0 + var_20_1) == SpHeroChallengeConst.EntrustPosState.lock then
-			var_20_2 = {
-				state = "lock"
-			}
-		else
-			var_20_2 = {
-				state = "empty"
-			}
-		end
-
-		var_20_2.showiIndex = iter_20_0 + var_20_1
-		arg_20_0.startWaitList[iter_20_0] = var_20_2
+	for slot6 = 1, SPHeroChallengeTools:GetMaxWaitEntrustPosNum(slot0.activityID) do
+		slot7 = {}
+		slot7 = (not slot0.activityInfo:GetShowIndexEntrustInfo(slot6 + slot2) or {
+			showIndex = slot6 + slot2,
+			entrustIndex = slot8.index
+		}) and (SPHeroChallengeTools:GetEntrustPosState(slot0.activityID, slot6 + slot2) ~= SpHeroChallengeConst.EntrustPosState.lock or {
+			state = "lock"
+		}) and {
+			state = "empty"
+		}
+		slot7.showiIndex = slot6 + slot2
+		slot0.startWaitList[slot6] = slot7
 	end
 
-	arg_20_0.waitEntrustItemScroll:StartScroll(#arg_20_0.startWaitList)
+	slot0.waitEntrustItemScroll:StartScroll(#slot0.startWaitList)
 end
 
-function var_0_0.indexCanEntrust(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = {
-		index = arg_21_1,
-		id = arg_21_0.canChooseList[arg_21_1]
-	}
-
-	arg_21_2:RefreshUI(var_21_0)
+function slot0.indexCanEntrust(slot0, slot1, slot2)
+	slot2:RefreshUI({
+		index = slot1,
+		id = slot0.canChooseList[slot1]
+	})
 end
 
-function var_0_0.indexWaitEntrust(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_2:RefreshUI(arg_22_0.startWaitList[arg_22_1])
-	arg_22_2:ClickEmptyFunc(handler(arg_22_0, arg_22_0.OpenChooseList))
+function slot0.indexWaitEntrust(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.startWaitList[slot1])
+	slot2:ClickEmptyFunc(handler(slot0, slot0.OpenChooseList))
 end
 
-function var_0_0.OpenChooseList(arg_23_0)
+function slot0.OpenChooseList(slot0)
 	JumpTools.OpenPageByJump("spHeroChallengeChooseEntrustPop")
 end
 
-function var_0_0.StartTimer(arg_24_0)
-	if arg_24_0.timer then
-		arg_24_0.timer:Stop()
+function slot0.StartTimer(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_24_0.timer = nil
+		slot0.timer = nil
 	end
 
-	arg_24_0.timer = Timer.New(function()
-		if arg_24_0.curEntrustItemList then
-			for iter_25_0, iter_25_1 in pairs(arg_24_0.curEntrustItemList) do
-				iter_25_1:RefreshTime()
+	slot0.timer = Timer.New(function ()
+		if uv0.curEntrustItemList then
+			for slot3, slot4 in pairs(uv0.curEntrustItemList) do
+				slot4:RefreshTime()
 			end
 		end
 	end, 1, -1)
 
-	arg_24_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.StopTimer(arg_26_0)
-	if arg_26_0.timer then
-		arg_26_0.timer:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_26_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-return var_0_0
+return slot0

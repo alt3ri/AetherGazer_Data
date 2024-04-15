@@ -1,126 +1,120 @@
-local var_0_0 = class("ProposalCheck", ReduxView)
+slot0 = class("ProposalCheck", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/EquipmentUsePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.equipS_ = {}
-	arg_3_0.itemS_ = {}
+function slot0.Init(slot0)
+	slot0.equipS_ = {}
+	slot0.itemS_ = {}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.InitItem(arg_5_0, arg_5_1)
-	local var_5_0 = {}
+function slot0.InitItem(slot0, slot1)
+	slot2 = {}
 
-	ComponentBinder.GetInstance():BindCfgUI(var_5_0, arg_5_1)
+	ComponentBinder.GetInstance():BindCfgUI(slot2, slot1)
 
-	var_5_0.gameObject_ = arg_5_1
-	var_5_0.equip = EquipItem.New(var_5_0.equipItemGo_)
+	slot2.gameObject_ = slot1
+	slot2.equip = EquipItem.New(slot2.equipItemGo_)
 
-	function var_5_0.RefreshUI(arg_6_0, arg_6_1)
-		arg_6_0.equip:RefreshData(arg_6_1, true)
+	function slot2.RefreshUI(slot0, slot1)
+		slot0.equip:RefreshData(slot1, true)
 
-		arg_6_0.heroIcon_.sprite = HeroTools.GetSmallHeadSprite(arg_6_1.equiping)
+		slot0.heroIcon_.sprite = HeroTools.GetSmallHeadSprite(slot1.equiping)
 	end
 
-	return var_5_0
+	return slot2
 end
 
-function var_0_0.RefreshItems(arg_7_0)
-	for iter_7_0 = 1, #arg_7_0.list_ do
-		if not arg_7_0.itemS_[iter_7_0] then
-			local var_7_0 = Object.Instantiate(arg_7_0.itemGo_, arg_7_0.equipTrs_)
+function slot0.RefreshItems(slot0)
+	for slot4 = 1, #slot0.list_ do
+		if not slot0.itemS_[slot4] then
+			slot5 = Object.Instantiate(slot0.itemGo_, slot0.equipTrs_)
+			slot0.itemS_[slot4] = slot0:InitItem(slot5)
 
-			arg_7_0.itemS_[iter_7_0] = arg_7_0:InitItem(var_7_0)
-
-			SetActive(var_7_0, true)
-			arg_7_0.itemS_[iter_7_0]:RefreshUI(arg_7_0.list_[iter_7_0])
+			SetActive(slot5, true)
+			slot0.itemS_[slot4]:RefreshUI(slot0.list_[slot4])
 		else
-			SetActive(arg_7_0.itemS_[iter_7_0].gameObject_, true)
-			arg_7_0.itemS_[iter_7_0]:RefreshUI(arg_7_0.list_[iter_7_0])
+			SetActive(slot0.itemS_[slot4].gameObject_, true)
+			slot0.itemS_[slot4]:RefreshUI(slot0.list_[slot4])
 		end
 	end
 
-	for iter_7_1 = #arg_7_0.list_ + 1, #arg_7_0.itemS_ do
-		SetActive(arg_7_0.itemS_[iter_7_1].gameObject_, false)
+	for slot4 = #slot0.list_ + 1, #slot0.itemS_ do
+		SetActive(slot0.itemS_[slot4].gameObject_, false)
 	end
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.btn_okBtn_, nil, function()
-		local var_9_0 = {}
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_okBtn_, nil, function ()
+		for slot4 = 1, #uv0.equipS_ do
+		end
 
-		for iter_9_0 = 1, #arg_8_0.equipS_ do
-			var_9_0[iter_9_0] = {
-				pos = arg_8_0.equipS_[iter_9_0].pos,
-				equip_id = arg_8_0.equipS_[iter_9_0].equip_id
+		EquipAction.EquipQuickDressOn(uv0.heroID_, {
+			[slot4] = {
+				pos = uv0.equipS_[slot4].pos,
+				equip_id = uv0.equipS_[slot4].equip_id
 			}
-		end
-
-		EquipAction.EquipQuickDressOn(arg_8_0.heroID_, var_9_0)
+		})
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.btn_cancelBtn_, nil, function()
-		arg_8_0:Back()
+	slot0:AddBtnListener(slot0.btn_cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEquipQuickDressOn(arg_11_0, arg_11_1, arg_11_2)
-	for iter_11_0 = 1, 6 do
-		HeroAction.HeroChangeEquip(arg_11_2.hero_id, arg_11_2.use_equip_list[iter_11_0].equip_id, arg_11_2.use_equip_list[iter_11_0].pos)
+function slot0.OnEquipQuickDressOn(slot0, slot1, slot2)
+	for slot6 = 1, 6 do
+		HeroAction.HeroChangeEquip(slot2.hero_id, slot2.use_equip_list[slot6].equip_id, slot2.use_equip_list[slot6].pos)
 	end
 
-	arg_11_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.equipS_ = arg_12_0.params_.equipS
-	arg_12_0.heroID_ = arg_12_0.params_.heroID
+function slot0.OnEnter(slot0)
+	slot0.equipS_ = slot0.params_.equipS
+	slot0.heroID_ = slot0.params_.heroID
 
-	arg_12_0:UpdateData()
-	arg_12_0:RefreshItems()
+	slot0:UpdateData()
+	slot0:RefreshItems()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.UpdateData(arg_14_0)
-	arg_14_0.list_ = {}
+function slot0.UpdateData(slot0)
+	slot0.list_ = {}
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.equipS_) do
-		local var_14_0 = iter_14_1.equip_id
+	for slot4, slot5 in pairs(slot0.equipS_) do
+		if slot5.equip_id ~= 0 and slot5.equiping then
+			slot7 = deepClone(EquipData:GetEquipData(slot6))
+			slot7.equiping = slot5.equiping
 
-		if var_14_0 ~= 0 and iter_14_1.equiping then
-			local var_14_1 = deepClone(EquipData:GetEquipData(var_14_0))
-
-			var_14_1.equiping = iter_14_1.equiping
-
-			table.insert(arg_14_0.list_, var_14_1)
+			table.insert(slot0.list_, slot7)
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.itemS_) do
-		iter_15_1.equip:Dispose()
+	for slot4, slot5 in pairs(slot0.itemS_) do
+		slot5.equip:Dispose()
 	end
 
-	arg_15_0.itemS_ = nil
+	slot0.itemS_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

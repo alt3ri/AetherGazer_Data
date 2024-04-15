@@ -1,72 +1,72 @@
-local var_0_0 = class("StoryKipView", ReduxView)
+slot0 = class("StoryKipView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.textTyper_ = arg_3_0.m_content.transform:GetComponent("TextTypeWrite")
-	arg_3_0.skipBtnCon_ = ControllerUtil.GetController(arg_3_0.transform_, "skip")
+	slot0.textTyper_ = slot0.m_content.transform:GetComponent("TextTypeWrite")
+	slot0.skipBtnCon_ = ControllerUtil.GetController(slot0.transform_, "skip")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_sureBtn, nil, function()
-		arg_4_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.m_sureBtn, nil, function ()
+		uv0:Back()
 
-		if arg_4_0.handler_ then
-			arg_4_0.handler_()
+		if uv0.handler_ then
+			uv0.handler_()
 
-			arg_4_0.handler_ = nil
+			uv0.handler_ = nil
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_cancelBtn, nil, function()
-		arg_4_0:Back()
+	slot0:AddBtnListener(slot0.m_cancelBtn, nil, function ()
+		uv0:Back()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_maskBtn, nil, function()
-		if arg_4_0.textTyper_:isTypeing() then
-			arg_4_0.textTyper_:ShowAllText()
-		elseif arg_4_0.handler_ then
-			arg_4_0.handler_()
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		if uv0.textTyper_:isTypeing() then
+			uv0.textTyper_:ShowAllText()
+		elseif uv0.handler_ then
+			uv0.handler_()
 
-			arg_4_0.handler_ = nil
+			uv0.handler_ = nil
 		end
 	end)
 end
 
-function var_0_0.SetCallback(arg_8_0, arg_8_1)
-	arg_8_0.handler_ = arg_8_1
+function slot0.SetCallback(slot0, slot1)
+	slot0.handler_ = slot1
 end
 
-function var_0_0.SetContentTitle(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.content_ = arg_9_2
-	arg_9_0.title_ = arg_9_1
+function slot0.SetContentTitle(slot0, slot1, slot2)
+	slot0.content_ = slot2
+	slot0.title_ = slot1
 
-	arg_9_0:OnEnter()
+	slot0:OnEnter()
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.skipBtnCon_:SetSelectedState(0)
-	arg_10_0.textTyper_:StartTyping(arg_10_0.content_ or "", function()
-		arg_10_0.skipBtnCon_:SetSelectedState(1)
+function slot0.OnEnter(slot0)
+	slot0.skipBtnCon_:SetSelectedState(0)
+	slot0.textTyper_:StartTyping(slot0.content_ or "", function ()
+		uv0.skipBtnCon_:SetSelectedState(1)
 	end)
-	arg_10_0.textTyper_:ClearLinePrefixSymbol()
+	slot0.textTyper_:ClearLinePrefixSymbol()
 
-	arg_10_0.m_title.text = GetI18NText(arg_10_0.title_) or ""
+	slot0.m_title.text = GetI18NText(slot0.title_) or ""
 end
 
-function var_0_0.Dispose(arg_12_0)
-	Object.Destroy(arg_12_0.gameObject_)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

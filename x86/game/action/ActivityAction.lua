@@ -1,516 +1,450 @@
-local var_0_0 = {}
-
-manager.net:Bind(11001, function(arg_1_0)
-	ActivityData:InitActivityData(arg_1_0)
-	var_0_0.DealWithAllActivityData()
-	ActivityRedPoint:OnActivityUpdate(arg_1_0.activity_list or {})
+manager.net:Bind(11001, function (slot0)
+	ActivityData:InitActivityData(slot0)
+	uv0.DealWithAllActivityData()
+	ActivityRedPoint:OnActivityUpdate(slot0.activity_list or {})
 end)
-manager.net:Bind(11003, function(arg_2_0)
-	ActivityData:UpdateActivityData(arg_2_0.activity)
+manager.net:Bind(11003, function (slot0)
+	ActivityData:UpdateActivityData(slot0.activity)
 	ActivityRedPoint:OnActivityUpdate({
-		arg_2_0.activity
+		slot0.activity
 	})
 end)
-manager.net:Bind(64031, function(arg_3_0)
-	ActivityData:RefreshActivityTime(arg_3_0)
+manager.net:Bind(64031, function (slot0)
+	ActivityData:RefreshActivityTime(slot0)
+end)
+manager.notify:RegistListener(ACTIVITY_UPDATE, function (slot0)
+	uv0.UpdateRedPoint(slot0)
 end)
 
-function var_0_0.DealWithAllActivityData()
-	local var_4_0 = ActivityData:GetAllActivityData()
+return {
+	DealWithAllActivityData = function ()
+		for slot4, slot5 in pairs(ActivityData:GetAllActivityData()) do
+			uv0.DealWithActivityData(slot5)
+		end
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0) do
-		var_0_0.DealWithActivityData(iter_4_1)
-	end
-
-	var_0_0.AfterDealWithActivityData()
-end
-
-function var_0_0.DealWithActivityData(arg_5_0)
-	local var_5_0 = ActivityTools.GetActivityType(arg_5_0.id)
-
-	if ActivityTemplateConst.MAIN_ACTIVITY == var_5_0 then
-		var_0_0.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.DEMON == var_5_0 then
-		SubDemonChallengeAction.Init()
-		SubDemonChallengeAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.NEW_DEMON == var_5_0 then
-		NewDemonChallengeAction.Init()
-		NewDemonChallengeAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.TALENT_TREE == var_5_0 then
-		TalentTreeAction.Init()
-	elseif ActivityTemplateConst.BATTLE_FIRST_PASS == var_5_0 then
-		BattleFirstPassAction.Init()
-		BattleFirstPassAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.STORY == var_5_0 then
-		var_0_0.InitStoryRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.SOLO_CHALLENGE == var_5_0 then
-		SoloChallengeAction.InitRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.FISHING == var_5_0 then
-		FishingAction.Init()
-	elseif ActivityTemplateConst.LIMITED_CALCULATION == var_5_0 then
-		LimitedCalculationAction.Init()
-		LimitedCalculationAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.SKIN_EXCHANGE == var_5_0 then
-		SkinExchangeAction.Init()
-		SkinExchangeAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.SUMMER_ACTIVITY_PT == var_5_0 then
-		SummerActivityPtAction.Init()
-	elseif ActivityTemplateConst.ACTIVITY_PUZZLE == var_5_0 then
-		PuzzleAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.COWBOY == var_5_0 then
-		CowboyAction.Init()
-		CowboyAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_RACE == var_5_0 then
-		ActivityRaceAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.GUILD_ACTIVITY == var_5_0 then
-		GuildActivityAction.Init()
-	elseif ActivityTemplateConst.GUILD_ACTIVITY_SP == var_5_0 then
-		GuildActivitySPAction.Init()
-	elseif ActivityTemplateConst.XH1ST_SEAL == var_5_0 then
-		XH1stSealAction.Init()
-		XH1stSealAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.RACE_TRIAL == var_5_0 then
-		RaceTrialAction.Init(arg_5_0.id)
-		RaceTrialAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.INFINITY_POOL_TASK == var_5_0 then
-		var_0_0.InitInfinityPoolTaskRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.MARDUK_SPECIAL == var_5_0 then
-		MardukSpecialAction.Init(arg_5_0.id)
-	elseif ActivityTemplateConst.SURVIVE_SOLO == var_5_0 then
-		SurviveSoloAction.Init(arg_5_0.id)
-		SurviveSoloAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.PAPER_CUT == var_5_0 then
-		PaperCutAction.Init(arg_5_0.id)
-	elseif ActivityTemplateConst.SPRING_ANTITHETICAL_COUPLET == var_5_0 then
-		AntitheticalCoupletAction.Init()
-		AntitheticalCoupletAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.VALENTINE_GAME == var_5_0 or ActivityTemplateConst.INDIA_VALENTINE_GAME_V2 == var_5_0 then
-		ValentineGameAction.Init()
-		ValentineGameAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_AFFIX_SELECT == var_5_0 then
-		ActivityAffixSelectAction.Init()
-		ActivityAffixSelectAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_CULTIVATE_HERO == var_5_0 then
-		CultivateHeroAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_PT_2 == var_5_0 then
-		ActivityPt2Action.Init()
-		ActivityPt2Action.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_SET == var_5_0 then
-		var_0_0.InitActivitySetRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_RECALL == var_5_0 then
-		ActivityRecallAction.Init()
-	elseif ActivityTemplateConst.SAIL_GAME == var_5_0 then
-		SailGameAction.UpdateRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.CHESS_ACTIVITY_CHINESE_ZONE == var_5_0 then
-		RedPointData:UpdateRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_2_2_WATER == var_5_0 then
-		ActivityWaterAction.Init(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_FLIP_CARD == var_5_0 then
-		XH3rdFlipCardAction:InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_SKIN_DRAW == var_5_0 then
-		ActivitySkinDrawAction.Init()
-		ActivitySkinDrawAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.JAPAN_SOLO_HEART_DEMON == var_5_0 then
-		-- block empty
-	elseif ActivityTemplateConst.ACTIVITY_INVITE == var_5_0 then
-		InviteAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.DESTROY_BOX_GAME == var_5_0 then
-		DestroyBoxGameAction.InitRedPoint(arg_5_0.id)
-	elseif ActivityTemplateConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL == var_5_0 then
-		ActivityPtScrollAction.Init()
-		ActivityPtScrollAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_QUIZ == var_5_0 then
-		ActivityQuizAction.Init()
-		ActivityQuizAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_MEMORY == var_5_0 then
-		ActivityMemoryAction.Init(arg_5_0.id)
-		ActivityMemoryAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.ACTIVITY_PUSH_BOX == var_5_0 then
-		ActivityPushBoxAction.Init()
-		ActivityPushBoxAction.InitRedPointKey(arg_5_0.id)
-	elseif ActivityTemplateConst.HERO_LETTER == var_5_0 then
-		ActivityHeroLetterAction.Init()
-		ActivityHeroLetterAction.InitRedPointKey(arg_5_0.id)
-	end
-end
-
-function var_0_0.AfterDealWithActivityData()
-	SkuldTravelData:InitRedPointGroup()
-end
-
-manager.notify:RegistListener(ACTIVITY_UPDATE, function(arg_7_0)
-	var_0_0.UpdateRedPoint(arg_7_0)
-end)
-
-function var_0_0.UpdateRedPoint(arg_8_0)
-	local var_8_0 = ActivityTools.GetActivityType(arg_8_0)
-
-	if var_8_0 == ActivityTemplateConst.ACTIVITY_PUZZLE then
-		if ActivityData:GetActivityData(arg_8_0).stopTime <= manager.time:GetServerTime() then
-			local var_8_1 = arg_8_0
-			local var_8_2 = ActivityCfg[var_8_1].sub_activity_list
-
-			for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-				manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, var_8_1, iter_8_1), 0)
-				manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, var_8_1, iter_8_1), 0)
+		uv0.AfterDealWithActivityData()
+	end,
+	DealWithActivityData = function (slot0)
+		if ActivityTemplateConst.MAIN_ACTIVITY == ActivityTools.GetActivityType(slot0.id) then
+			uv0.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.DEMON == slot1 then
+			SubDemonChallengeAction.Init()
+			SubDemonChallengeAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.NEW_DEMON == slot1 then
+			NewDemonChallengeAction.Init()
+			NewDemonChallengeAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.TALENT_TREE == slot1 then
+			TalentTreeAction.Init()
+		elseif ActivityTemplateConst.BATTLE_FIRST_PASS == slot1 then
+			BattleFirstPassAction.Init()
+			BattleFirstPassAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.STORY == slot1 then
+			uv0.InitStoryRedPoint(slot0.id)
+		elseif ActivityTemplateConst.SOLO_CHALLENGE == slot1 then
+			SoloChallengeAction.InitRedPoint(slot0.id)
+		elseif ActivityTemplateConst.FISHING == slot1 then
+			FishingAction.Init()
+		elseif ActivityTemplateConst.LIMITED_CALCULATION == slot1 then
+			LimitedCalculationAction.Init()
+			LimitedCalculationAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.SKIN_EXCHANGE == slot1 then
+			SkinExchangeAction.Init()
+			SkinExchangeAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.SUMMER_ACTIVITY_PT == slot1 then
+			SummerActivityPtAction.Init()
+		elseif ActivityTemplateConst.ACTIVITY_PUZZLE == slot1 then
+			PuzzleAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.COWBOY == slot1 then
+			CowboyAction.Init()
+			CowboyAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_RACE == slot1 then
+			ActivityRaceAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.GUILD_ACTIVITY == slot1 then
+			GuildActivityAction.Init()
+		elseif ActivityTemplateConst.GUILD_ACTIVITY_SP == slot1 then
+			GuildActivitySPAction.Init()
+		elseif ActivityTemplateConst.XH1ST_SEAL == slot1 then
+			XH1stSealAction.Init()
+			XH1stSealAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.RACE_TRIAL == slot1 then
+			RaceTrialAction.Init(slot0.id)
+			RaceTrialAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.INFINITY_POOL_TASK == slot1 then
+			uv0.InitInfinityPoolTaskRedPoint(slot0.id)
+		elseif ActivityTemplateConst.MARDUK_SPECIAL == slot1 then
+			MardukSpecialAction.Init(slot0.id)
+		elseif ActivityTemplateConst.SURVIVE_SOLO == slot1 then
+			SurviveSoloAction.Init(slot0.id)
+			SurviveSoloAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.PAPER_CUT == slot1 then
+			PaperCutAction.Init(slot0.id)
+		elseif ActivityTemplateConst.SPRING_ANTITHETICAL_COUPLET == slot1 then
+			AntitheticalCoupletAction.Init()
+			AntitheticalCoupletAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.VALENTINE_GAME == slot1 or ActivityTemplateConst.INDIA_VALENTINE_GAME_V2 == slot1 then
+			ValentineGameAction.Init()
+			ValentineGameAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_AFFIX_SELECT == slot1 then
+			ActivityAffixSelectAction.Init()
+			ActivityAffixSelectAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_CULTIVATE_HERO == slot1 then
+			CultivateHeroAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_PT_2 == slot1 then
+			ActivityPt2Action.Init()
+			ActivityPt2Action.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_SET == slot1 then
+			uv0.InitActivitySetRedPoint(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_RECALL == slot1 then
+			ActivityRecallAction.Init()
+		elseif ActivityTemplateConst.SAIL_GAME == slot1 then
+			SailGameAction.UpdateRedPoint(slot0.id)
+		elseif ActivityTemplateConst.CHESS_ACTIVITY_CHINESE_ZONE == slot1 then
+			RedPointData:UpdateRedPoint(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_2_2_WATER == slot1 then
+			ActivityWaterAction.Init(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_FLIP_CARD == slot1 then
+			XH3rdFlipCardAction:InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_SKIN_DRAW == slot1 then
+			ActivitySkinDrawAction.Init()
+			ActivitySkinDrawAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.JAPAN_SOLO_HEART_DEMON == slot1 then
+			-- Nothing
+		elseif ActivityTemplateConst.ACTIVITY_INVITE == slot1 then
+			InviteAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.DESTROY_BOX_GAME == slot1 then
+			DestroyBoxGameAction.InitRedPoint(slot0.id)
+		elseif ActivityTemplateConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL == slot1 then
+			ActivityPtScrollAction.Init()
+			ActivityPtScrollAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_QUIZ == slot1 then
+			ActivityQuizAction.Init()
+			ActivityQuizAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_MEMORY == slot1 then
+			ActivityMemoryAction.Init(slot0.id)
+			ActivityMemoryAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.ACTIVITY_PUSH_BOX == slot1 then
+			ActivityPushBoxAction.Init()
+			ActivityPushBoxAction.InitRedPointKey(slot0.id)
+		elseif ActivityTemplateConst.HERO_LETTER == slot1 then
+			ActivityHeroLetterAction.Init()
+			ActivityHeroLetterAction.InitRedPointKey(slot0.id)
+		end
+	end,
+	AfterDealWithActivityData = function ()
+		SkuldTravelData:InitRedPointGroup()
+	end,
+	UpdateRedPoint = function (slot0)
+		if ActivityTools.GetActivityType(slot0) == ActivityTemplateConst.ACTIVITY_PUZZLE then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+				for slot8, slot9 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+					manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, slot3, slot9), 0)
+					manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, slot3, slot9), 0)
+				end
 			end
-		end
-	elseif arg_8_0 == ActivityConst.MOONBO then
-		MoonBoData:FreshTime()
-	elseif var_8_0 == ActivityTemplateConst.HERO_TRIAL and (not (manager.time:GetServerTime() >= ActivityData:GetActivityData(arg_8_0).stopTime) or true) then
-		-- block empty
-	elseif var_8_0 == ActivityTemplateConst.SKIN_TRIAL then
-		SkinTrialAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.SUMMER_ACTIVITY_PT then
-		SummerActivityPtAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.COWBOY then
-		CowboyAction:CloseActivity(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.ACTIVITY_RACE then
-		ActivityRaceAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.GUILD_ACTIVITY then
-		GuildActivityAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.GUILD_ACTIVITY_SP then
-		GuildActivitySPAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.DEMON then
-		SubDemonChallengeAction.RefreshRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.RACE_TRIAL then
-		RaceTrialAction.UpdateRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.STORY then
-		local var_8_3 = ActivityData:GetActivityData(arg_8_0).stopTime
-		local var_8_4 = ActivityTools.GetRedPointKey(arg_8_0) .. arg_8_0
-
-		if var_8_3 <= manager.time:GetServerTime() then
-			var_0_0.ClearRedPoint(arg_8_0)
-			manager.redPoint:updateKey(var_8_4)
-		elseif #(manager.redPoint:getchildKeys(var_8_4) or {}) <= 0 then
-			var_0_0.InitStoryRedPoint(arg_8_0)
-			manager.redPoint:updateKey(var_8_4)
-		end
-
-		TaskRedPoint:UpdateChapterPlot19RedTip()
-	elseif var_8_0 == ActivityTemplateConst.STORY_STAGE then
-		if ActivityData:GetActivityData(arg_8_0).stopTime <= manager.time:GetServerTime() then
-			ActivityStoryAction.UpdateRedPoint(arg_8_0, 0)
-		end
-	elseif var_8_0 == ActivityTemplateConst.MAIN_STORY then
-		if ActivityData:GetActivityData(arg_8_0).stopTime <= manager.time:GetServerTime() then
-			for iter_8_2, iter_8_3 in ipairs(ActivityCfg[arg_8_0].sub_activity_list) do
-				manager.redPoint:setTip(string.format("%s%s", ActivityTools.GetRedPointKey(iter_8_3), iter_8_3), 0)
+		elseif slot0 == ActivityConst.MOONBO then
+			MoonBoData:FreshTime()
+		elseif slot1 == ActivityTemplateConst.HERO_TRIAL then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+				-- Nothing
 			end
-		end
+		elseif slot1 == ActivityTemplateConst.SKIN_TRIAL then
+			SkinTrialAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.SUMMER_ACTIVITY_PT then
+			SummerActivityPtAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.COWBOY then
+			CowboyAction:CloseActivity(slot0)
+		elseif slot1 == ActivityTemplateConst.ACTIVITY_RACE then
+			ActivityRaceAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.GUILD_ACTIVITY then
+			GuildActivityAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.GUILD_ACTIVITY_SP then
+			GuildActivitySPAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.DEMON then
+			SubDemonChallengeAction.RefreshRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.RACE_TRIAL then
+			RaceTrialAction.UpdateRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.STORY then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+				uv0.ClearRedPoint(slot0)
+				manager.redPoint:updateKey(ActivityTools.GetRedPointKey(slot0) .. slot0)
+			elseif #(manager.redPoint:getchildKeys(slot3) or {}) <= 0 then
+				uv0.InitStoryRedPoint(slot0)
+				manager.redPoint:updateKey(slot3)
+			end
 
-		BattleStageAction.UpdateActivityRedPoint()
-	elseif var_8_0 == ActivityTemplateConst.SUB_PLOT then
-		BattleStageAction.UpdateSubPlotRedPoint()
-	elseif var_8_0 == ActivityTemplateConst.ENDLESS then
-		BattleStageAction.UpdateActivityRedPoint()
-	elseif var_8_0 == ActivityTemplateConst.MARDUK_SPECIAL then
-		if arg_8_0 == ActivityConst.FACTORY_MARDUK then
-			MardukSpecialAction.UpdateRedPoint(arg_8_0)
-		end
+			TaskRedPoint:UpdateChapterPlot19RedTip()
+		elseif slot1 == ActivityTemplateConst.STORY_STAGE then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+				ActivityStoryAction.UpdateRedPoint(slot0, 0)
+			end
+		elseif slot1 == ActivityTemplateConst.MAIN_STORY then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() then
+				for slot6, slot7 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+					manager.redPoint:setTip(string.format("%s%s", ActivityTools.GetRedPointKey(slot7), slot7), 0)
+				end
+			end
 
-		if arg_8_0 == ActivityConst.ACTIVITY_2_2_SPECIAL then
-			MardukSpecialAction.UpdateRedPoint(arg_8_0)
-		end
-	elseif var_8_0 == ActivityTemplateConst.SEQUENTIAL_BATTLE_SUB then
-		SequentialBattleAction.StopRedPoint(arg_8_0)
-	elseif var_8_0 == ActivityTemplateConst.SPRING_FESTIVAL_GREETING then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, arg_8_0), 0)
-	elseif var_8_0 == ActivityTemplateConst.SPRING_FESTIVAL_RIDDLE then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, arg_8_0))
-	elseif arg_8_0 == ActivityConst.ACTIVITY_1_6 then
-		SkuldTravelAction:CheckUnBindActivitySkuld()
-		SkuldTravelAction:CheckUnBindChapterKey()
-	elseif arg_8_0 == ActivityConst.CHESS_ACTIVITY_CHINESE_ZONE then
-		RedPointData:UpdateRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_PROMOTINAL == var_8_0 then
-		var_0_0.UpdatePromotinalRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_2_2_WATER_SCHEDULE == var_8_0 or ActivityTemplateConst.ACTIVITY_2_2_WATER == var_8_0 then
-		ActivityWaterAction.UpdateOpenRedPoint()
-		ActivityWaterAction.UpdateNewScheduleRedPoint()
-	elseif ActivityTemplateConst.LIMITED_CALCULATION == var_8_0 then
-		LimitedCalculationAction:RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.SOLO_CHALLENGE == var_8_0 then
-		SoloChallengeAction.CloseRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ABYSS == var_8_0 then
-		local var_8_5 = ActivityData:GetActivityData(arg_8_0).stopTime
-		local var_8_6 = manager.time:GetServerTime() + 1
+			BattleStageAction.UpdateActivityRedPoint()
+		elseif slot1 == ActivityTemplateConst.SUB_PLOT then
+			BattleStageAction.UpdateSubPlotRedPoint()
+		elseif slot1 == ActivityTemplateConst.ENDLESS then
+			BattleStageAction.UpdateActivityRedPoint()
+		elseif slot1 == ActivityTemplateConst.MARDUK_SPECIAL then
+			if slot0 == ActivityConst.FACTORY_MARDUK then
+				MardukSpecialAction.UpdateRedPoint(slot0)
+			end
 
-		if var_8_5 <= var_8_6 and var_8_6 >= AbyssData:GetRefreshTimestamp() then
-			AbyssAction.UpdateRedPoints()
-		end
-	elseif ActivityTemplateConst.POLYHEDRON_ACTIVITY == var_8_0 then
-		local var_8_7 = ActivityData:GetActivityData(arg_8_0).stopTime
-		local var_8_8 = manager.time:GetServerTime() + 1
-
-		if var_8_7 <= var_8_8 then
-			local var_8_9 = PolyhedronData:GetActivityID()
-
-			if var_8_8 >= ActivityData:GetActivityData(var_8_9).stopTime then
+			if slot0 == ActivityConst.ACTIVITY_2_2_SPECIAL then
+				MardukSpecialAction.UpdateRedPoint(slot0)
+			end
+		elseif slot1 == ActivityTemplateConst.SEQUENTIAL_BATTLE_SUB then
+			SequentialBattleAction.StopRedPoint(slot0)
+		elseif slot1 == ActivityTemplateConst.SPRING_FESTIVAL_GREETING then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_GREETING, slot0), 0)
+		elseif slot1 == ActivityTemplateConst.SPRING_FESTIVAL_RIDDLE then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SPRING_FESTIVAL_RIDDLE, slot0))
+		elseif slot0 == ActivityConst.ACTIVITY_1_6 then
+			SkuldTravelAction:CheckUnBindActivitySkuld()
+			SkuldTravelAction:CheckUnBindChapterKey()
+		elseif slot0 == ActivityConst.CHESS_ACTIVITY_CHINESE_ZONE then
+			RedPointData:UpdateRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_PROMOTINAL == slot1 then
+			uv0.UpdatePromotinalRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_2_2_WATER_SCHEDULE == slot1 or ActivityTemplateConst.ACTIVITY_2_2_WATER == slot1 then
+			ActivityWaterAction.UpdateOpenRedPoint()
+			ActivityWaterAction.UpdateNewScheduleRedPoint()
+		elseif ActivityTemplateConst.LIMITED_CALCULATION == slot1 then
+			LimitedCalculationAction:RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.SOLO_CHALLENGE == slot1 then
+			SoloChallengeAction.CloseRedPoint(slot0)
+		elseif ActivityTemplateConst.ABYSS == slot1 then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() + 1 and AbyssData:GetRefreshTimestamp() <= slot3 then
+				AbyssAction.UpdateRedPoints()
+			end
+		elseif ActivityTemplateConst.POLYHEDRON_ACTIVITY == slot1 then
+			if ActivityData:GetActivityData(slot0).stopTime <= manager.time:GetServerTime() + 1 and ActivityData:GetActivityData(PolyhedronData:GetActivityID()).stopTime <= slot3 then
 				PolyhedronAction.RefreshPolicyRedPoint()
 				PolyhedronAction.CheckBeaconRedPoint()
 				PolyhedronAction.CheckTerminalRedPoint()
 				PolyhedronAction.RefreshHeroesRedPoint()
 			end
+
+			manager.notify:Invoke(MATRIX_UPDATE)
+		elseif ActivityTemplateConst.MOON_CAKE_MAKE == slot1 then
+			if not ActivityData:GetActivityIsOpen(slot0) then
+				MoonCakeAction.CloseCakeStageRedPoint(slot0)
+			end
+		elseif ActivityTemplateConst.MOON_CAKE_PARTY == slot1 then
+			if not ActivityData:GetActivityIsOpen(slot0) then
+				MoonCakeAction.ClosePartytageRedPoint(slot0)
+			end
+		elseif ActivityTemplateConst.DESTROY_BOX_GAME == slot1 then
+			DestroyBoxGameAction.UpdateMainActivityRedPoint(slot0)
+		elseif ActivityTemplateConst.DESTROY_BOX_GAME_STAGE == slot1 then
+			DestroyBoxGameAction.UpdateRedPoint(slot0)
+		elseif ActivityTemplateConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL == slot1 then
+			ActivityPtScrollAction.RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.VALENTINE_GAME_LEVEL == slot1 or ActivityTemplateConst.INDIA_VALENTINE_GAME_V2_SUBACTIVITY == slot1 then
+			ValentineGameAction:RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_QUIZ == slot1 then
+			ActivityQuizAction.RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_MEMORY == slot1 then
+			ActivityMemoryAction.RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.SURVIVE_SOLO == slot1 then
+			SurviveSoloAction:RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_CULTIVATE_HERO == slot1 then
+			CultivateHeroAction.RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.ACTIVITY_PUSH_BOX == slot1 then
+			ActivityPushBoxAction.RefreshRedPoint(slot0)
+		elseif ActivityTemplateConst.HERO_LETTER == slot1 then
+			ActivityHeroLetterAction.RefreshRedPoint(slot0)
 		end
 
-		manager.notify:Invoke(MATRIX_UPDATE)
-	elseif ActivityTemplateConst.MOON_CAKE_MAKE == var_8_0 then
-		if not ActivityData:GetActivityIsOpen(arg_8_0) then
-			MoonCakeAction.CloseCakeStageRedPoint(arg_8_0)
-		end
-	elseif ActivityTemplateConst.MOON_CAKE_PARTY == var_8_0 then
-		if not ActivityData:GetActivityIsOpen(arg_8_0) then
-			MoonCakeAction.ClosePartytageRedPoint(arg_8_0)
-		end
-	elseif ActivityTemplateConst.DESTROY_BOX_GAME == var_8_0 then
-		DestroyBoxGameAction.UpdateMainActivityRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.DESTROY_BOX_GAME_STAGE == var_8_0 then
-		DestroyBoxGameAction.UpdateRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.KAGUTSUCHI_ACTIVITY_PT_SCROLL == var_8_0 then
-		ActivityPtScrollAction.RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.VALENTINE_GAME_LEVEL == var_8_0 or ActivityTemplateConst.INDIA_VALENTINE_GAME_V2_SUBACTIVITY == var_8_0 then
-		ValentineGameAction:RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_QUIZ == var_8_0 then
-		ActivityQuizAction.RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_MEMORY == var_8_0 then
-		ActivityMemoryAction.RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.SURVIVE_SOLO == var_8_0 then
-		SurviveSoloAction:RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_CULTIVATE_HERO == var_8_0 then
-		CultivateHeroAction.RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.ACTIVITY_PUSH_BOX == var_8_0 then
-		ActivityPushBoxAction.RefreshRedPoint(arg_8_0)
-	elseif ActivityTemplateConst.HERO_LETTER == var_8_0 then
-		ActivityHeroLetterAction.RefreshRedPoint(arg_8_0)
-	end
-
-	if SpringPreheatAction then
-		SpringPreheatAction:RefreshRedPoint()
-	end
-
-	if HeroTrialData then
-		HeroTrialData:RefreshRedData()
-	end
-
-	var_0_0.UpdateShopRedPoint(arg_8_0)
-end
-
-function var_0_0.InitRedPointKey(arg_9_0)
-	local var_9_0
-	local var_9_1 = {}
-	local var_9_2 = ActivityCfg[arg_9_0].sub_activity_list
-
-	if not var_9_2 or #var_9_2 == 0 then
-		return
-	end
-
-	if arg_9_0 == ActivityConst.OSIRIS_ACTIVITY then
-		manager.redPoint:addGroup(string.format("%s%s", RedPointConst.MAIN_ACTIVITY, arg_9_0), {
-			string.format("%s_%s", RedPointConst.ACTIVITY_TASK, ActivityConst.OSIRIS_TASK_DAILY),
-			string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS),
-			RedPointConst.OSIRIS_DEMON,
-			RedPointConst.OSIRIS_RACE_TRIAL,
-			string.format("%s_%s", RedPointConst.HERO_TRIAL, ActivityConst.OSIRIS_HERO_TRIAL_STAGE)
-		})
-
-		return
-	end
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_2) do
-		local var_9_3 = ActivityTools.GetRedPointKey(iter_9_1) .. iter_9_1
-
-		table.insert(var_9_1, var_9_3)
-	end
-
-	local var_9_4 = RedPointConst.MAIN_ACTIVITY .. arg_9_0
-
-	manager.redPoint:addGroup(var_9_4, var_9_1)
-end
-
-function var_0_0.InitSubRedPoint(arg_10_0)
-	local var_10_0 = ActivityCfg[arg_10_0].sub_activity_list
-
-	if #var_10_0 <= 0 then
-		return
-	end
-
-	local var_10_1 = {}
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		var_0_0.InitSubRedPoint(iter_10_1)
-		table.insert(var_10_1, ActivityTools.GetRedPointKey(iter_10_1) .. iter_10_1)
-	end
-
-	manager.redPoint:addGroup(ActivityTools.GetRedPointKey(arg_10_0) .. arg_10_0, var_10_1)
-end
-
-function var_0_0.InitStoryRedPoint(arg_11_0)
-	local var_11_0 = {}
-
-	if ActivityCfg[arg_11_0] == nil then
-		return
-	end
-
-	for iter_11_0, iter_11_1 in ipairs(ActivityCfg[arg_11_0].sub_activity_list) do
-		if ActivityCfg[iter_11_1].activity_template == ActivityTemplateConst.STORY_STAGE or ActivityCfg[iter_11_1].activity_template == ActivityTemplateConst.SUB_PLOT or ActivityCfg[iter_11_1].activity_template == ActivityTemplateConst.MAIN_STORY then
-			table.insert(var_11_0, ActivityTools.GetRedPointKey(iter_11_1) .. iter_11_1)
-			var_0_0.InitSubRedPoint(iter_11_1)
-		elseif ActivityCfg[iter_11_1].activity_template == ActivityTemplateConst.CHESS then
-			table.insert(var_11_0, string.format("%s_%s", RedPointConst.WAR_CHESS, iter_11_1))
-		end
-	end
-
-	if ActivityCfg[arg_11_0].activity_theme == ActivityConst.THEME.SUMMER then
-		local var_11_1 = ActivityCfg[arg_11_0].activity_theme
-
-		table.insert(var_11_0, string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, var_11_1))
-
-		local var_11_2 = {}
-
-		for iter_11_2, iter_11_3 in ipairs(ActivityStoryCollect[ActivityCfg[arg_11_0].activity_theme].story_id) do
-			table.insert(var_11_2, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, var_11_1, iter_11_3))
+		if SpringPreheatAction then
+			SpringPreheatAction:RefreshRedPoint()
 		end
 
-		manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, var_11_1), var_11_2)
-		table.insert(var_11_0, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, 6010003))
-	end
-
-	manager.redPoint:addGroup(ActivityTools.GetRedPointKey(arg_11_0) .. arg_11_0, var_11_0)
-end
-
-function var_0_0.ClearRedPoint(arg_12_0)
-	manager.redPoint:addGroup(ActivityTools.GetRedPointKey(arg_12_0) .. arg_12_0, {}, true)
-end
-
-function var_0_0.InitInfinityPoolTaskRedPoint(arg_13_0)
-	local var_13_0 = {}
-
-	for iter_13_0, iter_13_1 in ipairs(ActivityCfg[arg_13_0].sub_activity_list) do
-		if ActivityCfg[iter_13_1].activity_template == ActivityTemplateConst.TASK then
-			table.insert(var_13_0, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, iter_13_1))
+		if HeroTrialData then
+			HeroTrialData:RefreshRedData()
 		end
-	end
 
-	manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.INFINITY_POOL_TASK, arg_13_0), var_13_0)
-end
+		uv0.UpdateShopRedPoint(slot0)
+	end,
+	InitRedPointKey = function (slot0)
+		slot1 = nil
+		slot2 = {}
 
-function var_0_0.InitActivitySetRedPoint(arg_14_0)
-	local var_14_0 = {}
-
-	for iter_14_0, iter_14_1 in ipairs(ActivityCfg[arg_14_0].sub_activity_list) do
-		if ActivityCfg[iter_14_1].activity_template == ActivityTemplateConst.TASK then
-			table.insert(var_14_0, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, iter_14_1))
-		elseif ActivityCfg[iter_14_1].activity_template == ActivityTemplateConst.ACTIVITY_SHOP then
-			table.insert(var_14_0, string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, iter_14_1))
+		if not ActivityCfg[slot0].sub_activity_list or #slot3 == 0 then
+			return
 		end
-	end
 
-	manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ACTIVITY_SET, arg_14_0), var_14_0)
-end
+		if slot0 == ActivityConst.OSIRIS_ACTIVITY then
+			manager.redPoint:addGroup(string.format("%s%s", RedPointConst.MAIN_ACTIVITY, slot0), {
+				string.format("%s_%s", RedPointConst.ACTIVITY_TASK, ActivityConst.OSIRIS_TASK_DAILY),
+				string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.OSIRIS_CHESS),
+				RedPointConst.OSIRIS_DEMON,
+				RedPointConst.OSIRIS_RACE_TRIAL,
+				string.format("%s_%s", RedPointConst.HERO_TRIAL, ActivityConst.OSIRIS_HERO_TRIAL_STAGE)
+			})
 
-function var_0_0.InitLoginShopRedPoint()
-	for iter_15_0, iter_15_1 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_SHOP]) do
-		if ActivityData:GetActivityIsOpen(iter_15_1) then
-			local var_15_0 = ActivityData:GetActivityData(iter_15_1)
+			return
+		end
 
-			if manager.time:GetServerTime() + 259200 >= var_15_0.stopTime and ActivityShopCfg[iter_15_1] then
-				local var_15_1 = ActivityShopCfg[iter_15_1].shop_id
-				local var_15_2 = ShopListCfg[var_15_1].cost_id or {}
+		for slot7, slot8 in ipairs(slot3) do
+			table.insert(slot2, ActivityTools.GetRedPointKey(slot8) .. slot8)
+		end
 
-				for iter_15_2, iter_15_3 in ipairs(var_15_2) do
-					if ItemTools.getItemNum(iter_15_3) > 0 then
-						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, iter_15_1), 1)
+		manager.redPoint:addGroup(RedPointConst.MAIN_ACTIVITY .. slot0, slot2)
+	end,
+	InitSubRedPoint = function (slot0)
+		if #ActivityCfg[slot0].sub_activity_list <= 0 then
+			return
+		end
+
+		slot2 = {}
+
+		for slot6, slot7 in ipairs(slot1) do
+			uv0.InitSubRedPoint(slot7)
+			table.insert(slot2, ActivityTools.GetRedPointKey(slot7) .. slot7)
+		end
+
+		manager.redPoint:addGroup(ActivityTools.GetRedPointKey(slot0) .. slot0, slot2)
+	end,
+	InitStoryRedPoint = function (slot0)
+		slot1 = {}
+
+		if ActivityCfg[slot0] == nil then
+			return
+		end
+
+		for slot5, slot6 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == ActivityTemplateConst.STORY_STAGE or ActivityCfg[slot6].activity_template == ActivityTemplateConst.SUB_PLOT or ActivityCfg[slot6].activity_template == ActivityTemplateConst.MAIN_STORY then
+				table.insert(slot1, ActivityTools.GetRedPointKey(slot6) .. slot6)
+				uv0.InitSubRedPoint(slot6)
+			elseif ActivityCfg[slot6].activity_template == ActivityTemplateConst.CHESS then
+				table.insert(slot1, string.format("%s_%s", RedPointConst.WAR_CHESS, slot6))
+			end
+		end
+
+		if ActivityCfg[slot0].activity_theme == ActivityConst.THEME.SUMMER then
+			slot7 = RedPointConst.ACTIVITY_SIDE_STORY
+			slot8 = ActivityCfg[slot0].activity_theme
+
+			table.insert(slot1, string.format("%s_%s", slot7, slot8))
+
+			slot3 = {}
+
+			for slot7, slot8 in ipairs(ActivityStoryCollect[ActivityCfg[slot0].activity_theme].story_id) do
+				table.insert(slot3, string.format("%s_%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, slot2, slot8))
+			end
+
+			manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, slot2), slot3)
+			table.insert(slot1, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, 6010003))
+		end
+
+		manager.redPoint:addGroup(ActivityTools.GetRedPointKey(slot0) .. slot0, slot1)
+	end,
+	ClearRedPoint = function (slot0)
+		manager.redPoint:addGroup(ActivityTools.GetRedPointKey(slot0) .. slot0, {}, true)
+	end,
+	InitInfinityPoolTaskRedPoint = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == ActivityTemplateConst.TASK then
+				table.insert(slot1, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot6))
+			end
+		end
+
+		manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.INFINITY_POOL_TASK, slot0), slot1)
+	end,
+	InitActivitySetRedPoint = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			if ActivityCfg[slot6].activity_template == ActivityTemplateConst.TASK then
+				table.insert(slot1, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot6))
+			elseif ActivityCfg[slot6].activity_template == ActivityTemplateConst.ACTIVITY_SHOP then
+				table.insert(slot1, string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, slot6))
+			end
+		end
+
+		manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ACTIVITY_SET, slot0), slot1)
+	end,
+	InitLoginShopRedPoint = function ()
+		for slot3, slot4 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_SHOP]) do
+			if ActivityData:GetActivityIsOpen(slot4) and ActivityData:GetActivityData(slot4).stopTime <= manager.time:GetServerTime() + 259200 and ActivityShopCfg[slot4] then
+				for slot12, slot13 in ipairs(ShopListCfg[ActivityShopCfg[slot4].shop_id].cost_id or {}) do
+					if ItemTools.getItemNum(slot13) > 0 then
+						manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, slot4), 1)
 
 						break
 					end
 				end
 			end
 		end
-	end
-end
+	end,
+	UpdateShopRedPoint = function (slot0)
+		if ActivityCfg[slot0] == nil then
+			print("no exist activity config :", acitvityID)
 
-function var_0_0.UpdateShopRedPoint(arg_16_0)
-	local var_16_0 = ActivityCfg[arg_16_0]
-
-	if var_16_0 == nil then
-		print("no exist activity config :", acitvityID)
-
-		return
-	end
-
-	if var_16_0.activity_template == ActivityTemplateConst.ACTIVITY_SHOP and not ActivityData:GetActivityIsOpen(arg_16_0) then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, arg_16_0), 0)
-	end
-end
-
-function var_0_0.UpdatePromotinalRedPoint(arg_17_0)
-	local var_17_0 = string.format("%s%s", ActivityTools.GetRedPointKey(arg_17_0), arg_17_0)
-
-	if not RedPointData:GetIsRedPointOpen(RedPointConst.ACTIVITY_RANGE + arg_17_0) and ActivityTools.GetActivityStatus(arg_17_0) == 1 then
-		manager.redPoint:setTip(var_17_0, 1)
-	else
-		manager.redPoint:setTip(var_17_0, 0)
-	end
-end
-
-function var_0_0.OnLogin(arg_18_0)
-	return
-end
-
-function var_0_0.OnLogout()
-	PaperCutTool:OnLogout()
-	SailGameTools.ShutDown()
-end
-
-function var_0_0.ReceivePointReward(arg_20_0)
-	local var_20_0 = {
-		point_reward_id_list = arg_20_0
-	}
-
-	manager.net:SendWithLoadingNew(60054, var_20_0, 60055, var_0_0.OnReceivePointReward)
-end
-
-function var_0_0.OnReceivePointReward(arg_21_0, arg_21_1)
-	if isSuccess(arg_21_0.result) then
-		for iter_21_0, iter_21_1 in ipairs(arg_21_1.point_reward_id_list) do
-			local var_21_0 = ActivityPointRewardCfg[iter_21_1]
-			local var_21_1 = ActivityTools.GetActivityType(var_21_0.activity_id)
-
-			if ActivityTemplateConst.LIMITED_CALCULATION == var_21_1 then
-				LimitedCalculationAction:OnReceivePointReward(var_21_0.activity_id, var_21_0.id)
-			elseif ActivityTemplateConst.SUB_SINGLE_MATRIX == var_21_1 then
-				ActivityMatrixAction.OnReceivePointReward(var_21_0.activity_id, var_21_0.id)
-			end
+			return
 		end
 
-		getReward2(mergeReward2(arg_21_0.reward_list))
-		manager.notify:Invoke(ACTIVITY_REWARD_GET, {
-			point_reward_id_list = arg_21_1.point_reward_id_list
-		})
-		manager.notify:CallUpdateFunc(RECEIVE_POINT_REWARD, arg_21_1.point_reward_id_list)
-	else
-		ShowTips(arg_21_0.result)
+		if slot1.activity_template == ActivityTemplateConst.ACTIVITY_SHOP and not ActivityData:GetActivityIsOpen(slot0) then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ACTIVITY_SHOP, slot0), 0)
+		end
+	end,
+	UpdatePromotinalRedPoint = function (slot0)
+		if not RedPointData:GetIsRedPointOpen(RedPointConst.ACTIVITY_RANGE + slot0) and ActivityTools.GetActivityStatus(slot0) == 1 then
+			manager.redPoint:setTip(string.format("%s%s", ActivityTools.GetRedPointKey(slot0), slot0), 1)
+		else
+			manager.redPoint:setTip(slot1, 0)
+		end
+	end,
+	OnLogin = function (slot0)
+	end,
+	OnLogout = function ()
+		PaperCutTool:OnLogout()
+		SailGameTools.ShutDown()
+	end,
+	ReceivePointReward = function (slot0)
+		manager.net:SendWithLoadingNew(60054, {
+			point_reward_id_list = slot0
+		}, 60055, uv0.OnReceivePointReward)
+	end,
+	OnReceivePointReward = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			for slot5, slot6 in ipairs(slot1.point_reward_id_list) do
+				if ActivityTemplateConst.LIMITED_CALCULATION == ActivityTools.GetActivityType(ActivityPointRewardCfg[slot6].activity_id) then
+					LimitedCalculationAction:OnReceivePointReward(slot7.activity_id, slot7.id)
+				elseif ActivityTemplateConst.SUB_SINGLE_MATRIX == slot8 then
+					ActivityMatrixAction.OnReceivePointReward(slot7.activity_id, slot7.id)
+				end
+			end
+
+			getReward2(mergeReward2(slot0.reward_list))
+			manager.notify:Invoke(ACTIVITY_REWARD_GET, {
+				point_reward_id_list = slot1.point_reward_id_list
+			})
+			manager.notify:CallUpdateFunc(RECEIVE_POINT_REWARD, slot1.point_reward_id_list)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	GetBonus = function (slot0)
+		manager.net:SendWithLoadingNew(60054, {
+			point_reward_id_list = slot0
+		}, 60055, uv0.OnGetBonusCallback)
+	end,
+	OnGetBonusCallback = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			getReward2(mergeReward2(slot0.reward_list))
+			manager.notify:Invoke(ACTIVITY_REWARD_GET, {
+				point_reward_id_list = slot1.point_reward_id_list
+			})
+		else
+			ShowTips(GetTips(slot0.result))
+		end
 	end
-end
-
-function var_0_0.GetBonus(arg_22_0)
-	local var_22_0 = {
-		point_reward_id_list = arg_22_0
-	}
-
-	manager.net:SendWithLoadingNew(60054, var_22_0, 60055, var_0_0.OnGetBonusCallback)
-end
-
-function var_0_0.OnGetBonusCallback(arg_23_0, arg_23_1)
-	if isSuccess(arg_23_0.result) then
-		getReward2(mergeReward2(arg_23_0.reward_list))
-		manager.notify:Invoke(ACTIVITY_REWARD_GET, {
-			point_reward_id_list = arg_23_1.point_reward_id_list
-		})
-	else
-		ShowTips(GetTips(arg_23_0.result))
-	end
-end
-
-return var_0_0
+}

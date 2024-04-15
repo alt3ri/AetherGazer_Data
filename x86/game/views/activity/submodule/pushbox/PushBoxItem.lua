@@ -1,133 +1,128 @@
-local var_0_0 = class("PushBoxItem", ReduxView)
+slot0 = class("PushBoxItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.dirctMap_ = {
+	slot0.dirctMap_ = {
 		"up",
 		"right",
 		"down",
 		"left"
 	}
-	arg_3_0.selectCon_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
+	slot0.selectCon_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddPressByTimeListener(arg_4_0.gameObject_, 0.1, function()
-		manager.notify:Invoke(PUSH_BOX_SELECT, arg_4_0.index_)
-	end, function(arg_6_0, arg_6_1, arg_6_2)
-		manager.notify:Invoke(PUSH_BOX_SELECT, arg_4_0.index_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddPressByTimeListener(slot0.gameObject_, 0.1, function ()
+		manager.notify:Invoke(PUSH_BOX_SELECT, uv0.index_)
+	end, function (slot0, slot1, slot2)
+		manager.notify:Invoke(PUSH_BOX_SELECT, uv0.index_)
 
-		arg_4_0.pressPos_ = arg_6_1.position
-	end, function(arg_7_0, arg_7_1, arg_7_2)
-		arg_4_0.endPos_ = arg_7_1.position
+		uv0.pressPos_ = slot1.position
+	end, function (slot0, slot1, slot2)
+		uv0.endPos_ = slot1.position
 
-		if arg_4_0.dragFunc_ then
-			arg_4_0.dragFunc_(arg_4_0.pressPos_, arg_4_0.endPos_)
+		if uv0.dragFunc_ then
+			uv0.dragFunc_(uv0.pressPos_, uv0.endPos_)
 		end
-	end, arg_4_0.index_)
+	end, slot0.index_)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1)
-	arg_9_0.isLock_ = false
-	arg_9_0.index_ = arg_9_1
+function slot0.SetData(slot0, slot1)
+	slot0.isLock_ = false
+	slot0.index_ = slot1
 
-	arg_9_0:StopAni()
+	slot0:StopAni()
 end
 
-function var_0_0.SetPos(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
-	arg_10_0.dirct_ = 0
-	arg_10_0.coordinateX_ = arg_10_1
-	arg_10_0.coordinateY_ = arg_10_2
-	arg_10_0.transform_.localPosition = Vector3.New(arg_10_3, arg_10_4, arg_10_0.transform_.localPosition.z)
+function slot0.SetPos(slot0, slot1, slot2, slot3, slot4)
+	slot0.dirct_ = 0
+	slot0.coordinateX_ = slot1
+	slot0.coordinateY_ = slot2
+	slot0.transform_.localPosition = Vector3.New(slot3, slot4, slot0.transform_.localPosition.z)
 end
 
-function var_0_0.GetCoordinate(arg_11_0)
-	return arg_11_0.coordinateX_, arg_11_0.coordinateY_
+function slot0.GetCoordinate(slot0)
+	return slot0.coordinateX_, slot0.coordinateY_
 end
 
-function var_0_0.SetSelect(arg_12_0, arg_12_1)
-	arg_12_0.selectCon_:SetSelectedState(arg_12_1 and "click" or "normal")
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectCon_:SetSelectedState(slot1 and "click" or "normal")
 
-	if arg_12_1 then
-		local var_12_0, var_12_1, var_12_2, var_12_3 = PushBoxTool:GetCanPassDir(arg_12_0.index_)
+	if slot1 then
+		slot2, slot3, slot4, slot5 = PushBoxTool:GetCanPassDir(slot0.index_)
 
-		SetActive(arg_12_0.uGo_, var_12_0)
-		SetActive(arg_12_0.dGo_, var_12_1)
-		SetActive(arg_12_0.lGo_, var_12_2)
-		SetActive(arg_12_0.rGo_, var_12_3)
+		SetActive(slot0.uGo_, slot2)
+		SetActive(slot0.dGo_, slot3)
+		SetActive(slot0.lGo_, slot4)
+		SetActive(slot0.rGo_, slot5)
 	end
 end
 
-function var_0_0.StopAni(arg_13_0)
-	arg_13_0.dirct_ = 0
+function slot0.StopAni(slot0)
+	slot0.dirct_ = 0
 
-	arg_13_0.ani_:Play("idle", -1, 0)
+	slot0.ani_:Play("idle", -1, 0)
 end
 
-function var_0_0.PlayDirct(arg_14_0, arg_14_1)
-	arg_14_0.selectCon_:SetSelectedState("normal")
+function slot0.PlayDirct(slot0, slot1)
+	slot0.selectCon_:SetSelectedState("normal")
 
-	local var_14_0 = 0
-	local var_14_1 = arg_14_1[1]
-	local var_14_2 = arg_14_1[2]
+	slot2 = 0
 
-	if var_14_1 == 0 and var_14_2 == 1 then
-		local var_14_3 = 1
-	elseif var_14_1 == 1 and var_14_2 == 0 then
-		local var_14_4 = 2
-	elseif var_14_1 == 0 and var_14_2 == -1 then
-		local var_14_5 = 3
-	elseif var_14_1 == -1 and var_14_2 == 0 then
-		local var_14_6 = 4
+	if slot1[1] == 0 and slot1[2] == 1 then
+		slot2 = 1
+	elseif slot3 == 1 and slot4 == 0 then
+		slot2 = 2
+	elseif slot3 == 0 and slot4 == -1 then
+		slot2 = 3
+	elseif slot3 == -1 and slot4 == 0 then
+		slot2 = 4
 	end
 end
 
-function var_0_0.SetLock(arg_15_0, arg_15_1)
-	arg_15_0.isLock_ = arg_15_1
+function slot0.SetLock(slot0, slot1)
+	slot0.isLock_ = slot1
 end
 
-function var_0_0.IsLock(arg_16_0)
-	return arg_16_0.isLock_
+function slot0.IsLock(slot0)
+	return slot0.isLock_
 end
 
-function var_0_0.GetCoordinate(arg_17_0)
-	return arg_17_0.coordinateX_, arg_17_0.coordinateY_
+function slot0.GetCoordinate(slot0)
+	return slot0.coordinateX_, slot0.coordinateY_
 end
 
-function var_0_0.SetSize(arg_18_0, arg_18_1)
-	local var_18_0 = arg_18_1 / arg_18_0.transform_.rect.width
-
-	arg_18_0.rect_.localScale = Vector2.New(var_18_0, var_18_0)
+function slot0.SetSize(slot0, slot1)
+	slot2 = slot1 / slot0.transform_.rect.width
+	slot0.rect_.localScale = Vector2.New(slot2, slot2)
 end
 
-function var_0_0.RegistDragFunc(arg_19_0, arg_19_1)
-	arg_19_0.dragFunc_ = arg_19_1
+function slot0.RegistDragFunc(slot0, slot1)
+	slot0.dragFunc_ = slot1
 end
 
-function var_0_0.OnExit(arg_20_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_21_0)
-	arg_21_0:RemoveAllListeners()
-	arg_21_0.super.Dispose(arg_21_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

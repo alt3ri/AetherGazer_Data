@@ -1,194 +1,189 @@
-local var_0_0 = class("AdminCatExplorePopView", ReduxView)
+slot0 = class("AdminCatExplorePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ExploreUI/ExplpreInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.hourList = {}
+	slot0.hourList = {}
 
-	for iter_4_0 = 4, 12 do
-		arg_4_0.hourList[iter_4_0] = arg_4_0["hour" .. iter_4_0 .. "_"]
+	for slot4 = 4, 12 do
+		slot0.hourList[slot4] = slot0["hour" .. slot4 .. "_"]
 	end
 
-	arg_4_0.rewardList = LuaList.New(handler(arg_4_0, arg_4_0.SetRewardItem), arg_4_0.rewardList_, CommonItemView)
-	arg_4_0.adminCatList = LuaList.New(handler(arg_4_0, arg_4_0.SetAdminCatItem), arg_4_0.adminCatList_, AdminCatExploreItem)
+	slot0.rewardList = LuaList.New(handler(slot0, slot0.SetRewardItem), slot0.rewardList_, CommonItemView)
+	slot0.adminCatList = LuaList.New(handler(slot0, slot0.SetAdminCatItem), slot0.adminCatList_, AdminCatExploreItem)
 end
 
-function var_0_0.SetRewardItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = ExploreAreaCfg[arg_5_0.regionId].reward
-
-	CommonTools.SetCommonData(arg_5_2, {
-		id = var_5_0[arg_5_1][1],
-		clickFun = function(arg_6_0)
+function slot0.SetRewardItem(slot0, slot1, slot2)
+	CommonTools.SetCommonData(slot2, {
+		id = ExploreAreaCfg[slot0.regionId].reward[slot1][1],
+		clickFun = function (slot0)
 			ShowPopItem(POP_OTHER_ITEM, {
-				arg_6_0.id
+				slot0.id
 			})
 		end
 	})
 end
 
-function var_0_0.SetAdminCatItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.catList[arg_7_1]
+function slot0.SetAdminCatItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.catList[slot1], slot1 == slot0.selectAdminCat, handler(slot0, slot0.AdminCatItemRegisterFunction), slot1)
 
-	arg_7_2:SetData(var_7_0, arg_7_1 == arg_7_0.selectAdminCat, handler(arg_7_0, arg_7_0.AdminCatItemRegisterFunction), arg_7_1)
-
-	arg_7_0.adminCatItemList[arg_7_1] = arg_7_2
+	slot0.adminCatItemList[slot1] = slot2
 end
 
-function var_0_0.AdminCatItemRegisterFunction(arg_8_0, arg_8_1)
-	if arg_8_0.catList[arg_8_1] == nil or arg_8_0.catList[arg_8_1].canUse == false then
+function slot0.AdminCatItemRegisterFunction(slot0, slot1)
+	if slot0.catList[slot1] == nil or slot0.catList[slot1].canUse == false then
 		return
 	end
 
-	for iter_8_0 = 1, #arg_8_0.catList do
-		local var_8_0 = arg_8_0.adminCatItemList[iter_8_0]:GetStateController()
+	for slot5 = 1, #slot0.catList do
+		if slot0.adminCatItemList[slot5]:GetStateController():GetSelectedState() ~= "lock" then
+			slot6:SetSelectedState(slot5 == slot1 and "sel" or "normal")
 
-		if var_8_0:GetSelectedState() ~= "lock" then
-			var_8_0:SetSelectedState(iter_8_0 == arg_8_1 and "sel" or "normal")
-
-			arg_8_0.selectAdminCat = arg_8_1
+			slot0.selectAdminCat = slot1
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.exploreBtn_, nil, function()
-		local var_10_0 = AdminCatExploreData:GetDataByPara("exploringCount")
-		local var_10_1 = AdminCatExploreData:GetDataByPara("level")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.exploreBtn_, nil, function ()
+		slot0 = AdminCatExploreData:GetDataByPara("exploringCount")
+		slot1 = AdminCatExploreData:GetDataByPara("level")
 
 		if not GuideData:IsFinish(56) then
-			arg_9_0:Back()
+			uv0:Back()
 
 			return
 		end
 
-		if var_10_0 >= ExploreLevelCfg[var_10_1].amount then
+		if ExploreLevelCfg[slot1].amount <= slot0 then
 			ShowTips("EXPLORE_BEGIN_CONDITION_3")
 
 			return
 		end
 
-		if arg_9_0.catList[arg_9_0.selectAdminCat].canUse == false then
+		if uv0.catList[uv0.selectAdminCat].canUse == false then
 			ShowTips("EXPLORE_MIMIR_NO_EXIST")
 
 			return
 		end
 
-		AdminCatExploreAction.AdminCatExplore(arg_9_0.catList[arg_9_0.selectAdminCat].id, arg_9_0.selectHour, arg_9_0.regionId)
+		AdminCatExploreAction.AdminCatExplore(uv0.catList[uv0.selectAdminCat].id, uv0.selectHour, uv0.regionId)
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.cancelBtn_, nil, function()
-		arg_9_0:Back()
-	end)
-	arg_9_0:AddBtnListener(arg_9_0.bgBtn_, nil, function()
-		arg_9_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.hourList) do
-		arg_9_0:AddBtnListener(iter_9_1, nil, function()
-			arg_9_0:SetHourState(iter_9_0)
+	slot4 = slot0.bgBtn_
+	slot5 = nil
+
+	slot0:AddBtnListener(slot4, slot5, function ()
+		uv0:Back()
+	end)
+
+	for slot4, slot5 in pairs(slot0.hourList) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:SetHourState(uv1)
 		end)
 	end
 end
 
-function var_0_0.SetData(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0.data = arg_14_1
-	arg_14_0.index = arg_14_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data = slot1
+	slot0.index = slot2
 end
 
-function var_0_0.SetHourState(arg_15_0, arg_15_1)
-	if arg_15_1 > arg_15_0.maxExploreHour then
+function slot0.SetHourState(slot0, slot1)
+	if slot0.maxExploreHour < slot1 then
 		return
 	end
 
-	for iter_15_0 = 4, arg_15_0.maxExploreHour do
-		ControllerUtil.GetController(arg_15_0.hourList[iter_15_0].transform, "name"):SetSelectedState(iter_15_0 == arg_15_1 and "sel" or "normal")
+	for slot5 = 4, slot0.maxExploreHour do
+		ControllerUtil.GetController(slot0.hourList[slot5].transform, "name"):SetSelectedState(slot5 == slot1 and "sel" or "normal")
 
-		arg_15_0.selectHour = arg_15_1
+		slot0.selectHour = slot1
 	end
 end
 
-function var_0_0.UpdateView(arg_16_0)
-	local var_16_0 = ExploreAreaCfg[arg_16_0.regionId]
+function slot0.UpdateView(slot0)
+	slot1 = ExploreAreaCfg[slot0.regionId]
+	slot0.adminCatItemList = {}
+	slot0.regionMapImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. slot1.icon)
+	slot0.regionNameTxt_.text = GetI18NText(slot1.area_name)
+	slot0.regionDescTxt_.text = GetI18NText(slot1.description)
+	slot0.catList = AdminCatExploreData:SortAdminCatList(slot0.regionId)
 
-	arg_16_0.adminCatItemList = {}
-	arg_16_0.regionMapImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. var_16_0.icon)
-	arg_16_0.regionNameTxt_.text = GetI18NText(var_16_0.area_name)
-	arg_16_0.regionDescTxt_.text = GetI18NText(var_16_0.description)
-	arg_16_0.catList = AdminCatExploreData:SortAdminCatList(arg_16_0.regionId)
-
-	arg_16_0.adminCatList:StartScroll(#arg_16_0.catList > 6 and #arg_16_0.catList or 6)
-	arg_16_0.rewardList:StartScroll(#ExploreAreaCfg[arg_16_0.regionId].reward)
+	slot0.adminCatList:StartScroll(#slot0.catList > 6 and #slot0.catList or 6)
+	slot0.rewardList:StartScroll(#ExploreAreaCfg[slot0.regionId].reward)
 	AdminCatExploreData:CalculateMaxExploreHour()
 end
 
-function var_0_0.OnExploreUpdate(arg_17_0)
+function slot0.OnExploreUpdate(slot0)
 	ShowTips("EXPLORE_BEGIN")
-	arg_17_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.SetLockHour(arg_18_0)
-	for iter_18_0 = 4, 12 do
-		local var_18_0 = ControllerUtil.GetController(arg_18_0.hourList[iter_18_0].transform, "name")
-
-		if iter_18_0 > arg_18_0.maxExploreHour then
-			var_18_0:SetSelectedState("lock")
+function slot0.SetLockHour(slot0)
+	for slot4 = 4, 12 do
+		if slot0.maxExploreHour < slot4 then
+			ControllerUtil.GetController(slot0.hourList[slot4].transform, "name"):SetSelectedState("lock")
 		else
-			var_18_0:SetSelectedState(iter_18_0 == arg_18_0.maxExploreHour and "sel" or "normal")
+			slot5:SetSelectedState(slot4 == slot0.maxExploreHour and "sel" or "normal")
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0.selectAdminCat = 1
-	arg_19_0.regionId = arg_19_0.params_.regionId
+function slot0.OnEnter(slot0)
+	slot0.selectAdminCat = 1
+	slot0.regionId = slot0.params_.regionId
 
-	arg_19_0:UpdateView()
+	slot0:UpdateView()
 
-	arg_19_0.maxExploreHour = AdminCatExploreData:GetDataByPara("maxExploreHour")
-	arg_19_0.selectHour = arg_19_0.maxExploreHour
+	slot0.maxExploreHour = AdminCatExploreData:GetDataByPara("maxExploreHour")
+	slot0.selectHour = slot0.maxExploreHour
 
-	arg_19_0:SetLockHour()
+	slot0:SetLockHour()
 end
 
-function var_0_0.OnExit(arg_20_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.adminCatItemList) do
-		iter_20_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.adminCatItemList) do
+		slot5:OnExit()
 	end
 
-	arg_20_0.adminCatItemList = {}
+	slot0.adminCatItemList = {}
 end
 
-function var_0_0.Dispose(arg_21_0)
-	if arg_21_0.rewardList then
-		arg_21_0.rewardList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.rewardList then
+		slot0.rewardList:Dispose()
 
-		arg_21_0.rewardList = nil
+		slot0.rewardList = nil
 	end
 
-	if arg_21_0.adminCatList then
-		arg_21_0.adminCatList:Dispose()
+	if slot0.adminCatList then
+		slot0.adminCatList:Dispose()
 
-		arg_21_0.adminCatList = nil
+		slot0.adminCatList = nil
 	end
 
-	var_0_0.super.Dispose(arg_21_0)
-	Object.Destroy(arg_21_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_21_0.hourList = {}
+	slot0.hourList = {}
 end
 
-return var_0_0
+return slot0

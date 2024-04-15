@@ -1,28 +1,28 @@
-local var_0_0 = class("TransitionSkillView", ReduxView)
+slot0 = class("TransitionSkillView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:BuildContext()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:BuildContext()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	arg_3_0.context = {
+function slot0.BuildContext(slot0)
+	slot0.context = {
 		curTabIdx = 1,
-		tabModule = TransitionSkillListTabModule.New(arg_3_0.tabModuleObj_)
+		tabModule = TransitionSkillListTabModule.New(slot0.tabModuleObj_)
 	}
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.uiListObj_, TransitionSkillItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListObj_, TransitionSkillItem)
 end
 
-function var_0_0.InitContext(arg_4_0)
-	arg_4_0.data = {
+function slot0.InitContext(slot0)
+	slot0.data = {
 		curGiftPt = 0,
 		curSelectID = 0,
 		index = 1,
@@ -36,373 +36,343 @@ function var_0_0.InitContext(arg_4_0)
 	}
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.data.list[arg_6_1]
-	local var_6_1 = arg_6_0.data.curUseList[var_6_0] or 1
-
-	arg_6_2:RefreshUI(var_6_0, var_6_1)
-	arg_6_2:SetUsed(arg_6_0:IsUsed(var_6_0))
-	arg_6_2:SetSelect(arg_6_0.data.curSelectID == var_6_0)
-	arg_6_2:RegistCallBack(function()
-		arg_6_0:OnItemClick(var_6_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot3, slot0.data.curUseList[slot0.data.list[slot1]] or 1)
+	slot2:SetUsed(slot0:IsUsed(slot3))
+	slot2:SetSelect(slot0.data.curSelectID == slot3)
+	slot2:RegistCallBack(function ()
+		uv0:OnItemClick(uv1)
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_8_0)
-	arg_8_0.context.tabModule:RegisterClickCallback(handler(arg_8_0, arg_8_0.OnTabClick))
+function slot0.AddUIListeners(slot0)
+	slot0.context.tabModule:RegisterClickCallback(handler(slot0, slot0.OnTabClick))
 
-	arg_8_0.tryToImproveTransitionGiftPtHandler_ = handler(arg_8_0, arg_8_0.OnTryToImproveTransitionGiftPt)
+	slot0.tryToImproveTransitionGiftPtHandler_ = handler(slot0, slot0.OnTryToImproveTransitionGiftPt)
 
-	manager.notify:RegistListener(IMPROVE_TRANSITION_GIFT_PT, arg_8_0.tryToImproveTransitionGiftPtHandler_)
+	manager.notify:RegistListener(IMPROVE_TRANSITION_GIFT_PT, slot0.tryToImproveTransitionGiftPtHandler_)
 end
 
-function var_0_0.RenderView(arg_9_0, arg_9_1)
-	arg_9_0:InitContext()
+function slot0.RenderView(slot0, slot1)
+	slot0:InitContext()
 
-	arg_9_0.data.index = arg_9_1.index or 1
-	arg_9_0.data.heroID = arg_9_1.heroID
-	arg_9_0.data.type = arg_9_1.type or HeroConst.HERO_DATA_TYPE.DEFAULT
-	arg_9_0.data.heroDataProxy = HeroViewDataProxy.New(arg_9_0.data.type)
+	slot0.data.index = slot1.index or 1
+	slot0.data.heroID = slot1.heroID
+	slot0.data.type = slot1.type or HeroConst.HERO_DATA_TYPE.DEFAULT
+	slot0.data.heroDataProxy = HeroViewDataProxy.New(slot0.data.type)
 
-	arg_9_0.context.tabModule:OnTabClick(arg_9_0.data.index)
+	slot0.context.tabModule:OnTabClick(slot0.data.index)
 end
 
-function var_0_0.GetData(arg_10_0)
-	arg_10_0:GetUseList()
-	arg_10_0:GetCurUseList()
+function slot0.GetData(slot0)
+	slot0:GetUseList()
+	slot0:GetCurUseList()
 end
 
-function var_0_0.GetUseList(arg_11_0)
-	local var_11_0 = {}
-	local var_11_1 = arg_11_0:GetHeroTransition()
+function slot0.GetUseList(slot0)
+	slot0.data.curGiftPt = 0
 
-	arg_11_0.data.curGiftPt = 0
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-		local var_11_2 = iter_11_1.slot_id
-
-		var_11_0[var_11_2] = deepClone(iter_11_1.skill_list)
-
-		if var_11_2 == arg_11_0.data.index then
-			arg_11_0.data.curGiftPt = iter_11_1.talent_points
+	for slot6, slot7 in ipairs(slot0:GetHeroTransition()) do
+		if slot7.slot_id == slot0.data.index then
+			slot0.data.curGiftPt = slot7.talent_points
 
 			break
 		end
 	end
 
-	arg_11_0.data.useList = var_11_0
+	slot0.data.useList = {
+		[slot8] = deepClone(slot7.skill_list)
+	}
 end
 
-function var_0_0.GetCurUseList(arg_12_0)
-	local var_12_0 = {
-		all = {}
+function slot0.GetCurUseList(slot0)
+	slot1 = {
+		all = {},
+		[slot7] = slot6.skill_level
 	}
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.data.useList[arg_12_0.data.index] or {}) do
-		local var_12_1 = iter_12_1.skill_id
-
-		var_12_0[var_12_1] = iter_12_1.skill_level
-
-		table.insert(var_12_0.all, var_12_1)
+	for slot5, slot6 in ipairs(slot0.data.useList[slot0.data.index] or {}) do
+		table.insert(slot1.all, slot6.skill_id)
 	end
 
-	arg_12_0.data.curUseList = var_12_0
+	slot0.data.curUseList = slot1
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	arg_13_0:RefreshList()
-	arg_13_0:RefreshType()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshList()
+	slot0:RefreshType()
 end
 
-function var_0_0.RefreshList(arg_14_0)
-	local var_14_0 = HeroCfg[arg_14_0.data.heroID].hero_equip_skill[arg_14_0.data.index] or {}
+function slot0.RefreshList(slot0)
+	slot1 = HeroCfg[slot0.data.heroID].hero_equip_skill[slot0.data.index] or {}
 
-	table.sort(var_14_0, function(arg_15_0, arg_15_1)
-		if arg_14_0:IsUsed(arg_15_0) ~= arg_14_0:IsUsed(arg_15_1) then
-			return arg_14_0:IsUsed(arg_15_0)
+	table.sort(slot1, function (slot0, slot1)
+		if uv0:IsUsed(slot0) ~= uv0:IsUsed(slot1) then
+			return uv0:IsUsed(slot0)
 		end
 
-		if arg_14_0:IsUsed(arg_15_0) and arg_14_0:IsUsed(arg_15_1) then
-			local var_15_0 = arg_14_0.data.curUseList[arg_15_0]
-			local var_15_1 = arg_14_0.data.curUseList[arg_15_1]
-
-			if var_15_0 ~= var_15_1 then
-				return var_15_1 < var_15_0
-			end
+		if uv0:IsUsed(slot0) and uv0:IsUsed(slot1) and uv0.data.curUseList[slot0] ~= uv0.data.curUseList[slot1] then
+			return slot3 < slot2
 		end
 
-		return arg_15_0 < arg_15_1
+		return slot0 < slot1
 	end)
 
-	arg_14_0.data.list = var_14_0
-	arg_14_0.data.curSelectID = arg_14_0.data.list[1]
+	slot0.data.list = slot1
+	slot0.data.curSelectID = slot0.data.list[1]
 
-	arg_14_0.scrollHelper_:StartScroll(#arg_14_0.data.list)
-	arg_14_0:OnItemClick(arg_14_0.data.curSelectID)
+	slot0.scrollHelper_:StartScroll(#slot0.data.list)
+	slot0:OnItemClick(slot0.data.curSelectID)
 end
 
-function var_0_0.RefreshType(arg_16_0)
-	arg_16_0.data.leftPt = arg_16_0.data.curGiftPt
+function slot0.RefreshType(slot0)
+	slot0.data.leftPt = slot0.data.curGiftPt
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.data.curUseList.all) do
-		arg_16_0.data.leftPt = arg_16_0.data.leftPt - arg_16_0.data.curUseList[iter_16_1]
+	for slot4, slot5 in ipairs(slot0.data.curUseList.all) do
+		slot0.data.leftPt = slot0.data.leftPt - slot0.data.curUseList[slot5]
 	end
 
-	local var_16_0 = #arg_16_0.data.curUseList.all
-
-	arg_16_0.restrictTxt_.text = table.concat({
+	slot0.restrictTxt_.text = table.concat({
 		GetTips("JUMP_EQUIP_UPPER_DESC"),
-		var_16_0,
+		#slot0.data.curUseList.all,
 		"/",
 		GameSetting.exclusive_skill_use_num_max.value[1]
 	})
 
-	arg_16_0:DispatchJumpElementChangeEmitter()
+	slot0:DispatchJumpElementChangeEmitter()
 end
 
-function var_0_0.IsUsed(arg_17_0, arg_17_1)
-	return arg_17_0.data.curUseList[arg_17_1] ~= nil
+function slot0.IsUsed(slot0, slot1)
+	return slot0.data.curUseList[slot1] ~= nil
 end
 
-function var_0_0.IsSelected(arg_18_0, arg_18_1)
-	return arg_18_1 == arg_18_0.data.curSelectID
+function slot0.IsSelected(slot0, slot1)
+	return slot1 == slot0.data.curSelectID
 end
 
-function var_0_0.SaveData(arg_19_0, arg_19_1)
-	if manager.net ~= nil and manager.net.tcpConnection_ ~= nil then
-		local var_19_0 = manager.net.tcpConnection_:GetMachineState()
+function slot0.SaveData(slot0, slot1)
+	if manager.net ~= nil and manager.net.tcpConnection_ ~= nil and manager.net.tcpConnection_:GetMachineState() and (slot2 == "connected" or slot2 == "connecting") then
+		slot3 = {}
 
-		if var_19_0 and (var_19_0 == "connected" or var_19_0 == "connecting") then
-			local var_19_1 = {}
-
-			if not arg_19_0.data.curUseList or not arg_19_0.data.curUseList.all then
-				return
-			end
-
-			for iter_19_0, iter_19_1 in ipairs(arg_19_0.data.curUseList.all) do
-				var_19_1[iter_19_0] = {
-					skill_id = iter_19_1,
-					skill_level = arg_19_0.data.curUseList[iter_19_1]
-				}
-			end
-
-			HeroAction.TryToSaveTransitionSkill(arg_19_0.data.heroID, arg_19_0.data.index, var_19_1, arg_19_1)
+		if not slot0.data.curUseList or not slot0.data.curUseList.all then
+			return
 		end
+
+		for slot7, slot8 in ipairs(slot0.data.curUseList.all) do
+			slot3[slot7] = {
+				skill_id = slot8,
+				skill_level = slot0.data.curUseList[slot8]
+			}
+		end
+
+		HeroAction.TryToSaveTransitionSkill(slot0.data.heroID, slot0.data.index, slot3, slot1)
 	end
 end
 
-function var_0_0.OnTryToImproveTransitionGiftPt(arg_20_0)
+function slot0.OnTryToImproveTransitionGiftPt(slot0)
 	ShowTips("EXCLUSIVE_SKILL_POINT_UP")
-	arg_20_0:GetUseList()
-	arg_20_0.scrollHelper_:Refresh()
-	arg_20_0:RefreshType()
+	slot0:GetUseList()
+	slot0.scrollHelper_:Refresh()
+	slot0:RefreshType()
 end
 
-function var_0_0.OnExit(arg_21_0)
-	arg_21_0:SaveData()
+function slot0.OnExit(slot0)
+	slot0:SaveData()
 end
 
-function var_0_0.Dispose(arg_22_0)
-	manager.notify:RemoveListener(IMPROVE_TRANSITION_GIFT_PT, arg_22_0.tryToImproveTransitionGiftPtHandler_)
-	arg_22_0:RemoveAllEventListener()
-	arg_22_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	manager.notify:RemoveListener(IMPROVE_TRANSITION_GIFT_PT, slot0.tryToImproveTransitionGiftPtHandler_)
+	slot0:RemoveAllEventListener()
+	slot0:RemoveAllListeners()
 
-	if arg_22_0.scrollHelper_ then
-		arg_22_0.scrollHelper_:Dispose()
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_22_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	arg_22_0.context.tabModule:Dispose()
+	slot0.context.tabModule:Dispose()
 
-	arg_22_0.context.tabModule = nil
+	slot0.context.tabModule = nil
 
-	var_0_0.super.Dispose(arg_22_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegisterTabListener(arg_23_0, arg_23_1)
-	arg_23_0.context.tabSwitchEmitter = arg_23_1
+function slot0.RegisterTabListener(slot0, slot1)
+	slot0.context.tabSwitchEmitter = slot1
 end
 
-function var_0_0.RegisterItemClickListener(arg_24_0, arg_24_1)
-	arg_24_0.context.itemClickEmitter = arg_24_1
+function slot0.RegisterItemClickListener(slot0, slot1)
+	slot0.context.itemClickEmitter = slot1
 end
 
-function var_0_0.RegisterRefreshJumpElement(arg_25_0, arg_25_1)
-	arg_25_0.context.jumpElementChangeEmitter = arg_25_1
+function slot0.RegisterRefreshJumpElement(slot0, slot1)
+	slot0.context.jumpElementChangeEmitter = slot1
 end
 
-function var_0_0.RegisterRefreshJumpSlotView(arg_26_0, arg_26_1)
-	arg_26_0.context.jumpSlotRefreshEmitter = arg_26_1
+function slot0.RegisterRefreshJumpSlotView(slot0, slot1)
+	slot0.context.jumpSlotRefreshEmitter = slot1
 end
 
-function var_0_0.OnTabClick(arg_27_0, arg_27_1)
-	arg_27_0:SaveData()
+function slot0.OnTabClick(slot0, slot1)
+	slot0:SaveData()
 
-	arg_27_0.data.index = arg_27_1
+	slot0.data.index = slot1
 
-	arg_27_0:GetData()
-	arg_27_0:RefreshUI()
-	arg_27_0:DispatchTabSwitchEmitter(arg_27_1)
+	slot0:GetData()
+	slot0:RefreshUI()
+	slot0:DispatchTabSwitchEmitter(slot1)
 end
 
-function var_0_0.OnItemClick(arg_28_0, arg_28_1)
-	arg_28_0.data.curSelectID = arg_28_1
+function slot0.OnItemClick(slot0, slot1)
+	slot0.data.curSelectID = slot1
 
-	arg_28_0.scrollHelper_:Refresh()
-	arg_28_0:DispatchItemClickEmitter(arg_28_1)
+	slot0.scrollHelper_:Refresh()
+	slot0:DispatchItemClickEmitter(slot1)
 end
 
-function var_0_0.DispatchTabSwitchEmitter(arg_29_0, arg_29_1)
-	local var_29_0 = arg_29_0.context.tabSwitchEmitter
-
-	if var_29_0 then
-		var_29_0(arg_29_1)
+function slot0.DispatchTabSwitchEmitter(slot0, slot1)
+	if slot0.context.tabSwitchEmitter then
+		slot2(slot1)
 	end
 end
 
-function var_0_0.DispatchItemClickEmitter(arg_30_0, arg_30_1)
-	local var_30_0 = arg_30_0.context.itemClickEmitter
-
-	if var_30_0 then
-		var_30_0({
-			skillID = arg_30_1,
-			level = arg_30_0.data.curUseList[arg_30_1] or 1,
-			equipped = arg_30_0:IsUsed(arg_30_1)
+function slot0.DispatchItemClickEmitter(slot0, slot1)
+	if slot0.context.itemClickEmitter then
+		slot2({
+			skillID = slot1,
+			level = slot0.data.curUseList[slot1] or 1,
+			equipped = slot0:IsUsed(slot1)
 		})
 	end
 end
 
-function var_0_0.DispatchJumpElementChangeEmitter(arg_31_0)
-	local var_31_0 = arg_31_0.context.jumpElementChangeEmitter
-
-	if var_31_0 then
-		var_31_0({
-			totalElement = arg_31_0.data.curGiftPt,
-			leftElement = arg_31_0.data.leftPt
+function slot0.DispatchJumpElementChangeEmitter(slot0)
+	if slot0.context.jumpElementChangeEmitter then
+		slot1({
+			totalElement = slot0.data.curGiftPt,
+			leftElement = slot0.data.leftPt
 		})
 	end
 end
 
-function var_0_0.DispatchJumpSlotRefreshEmitter(arg_32_0, arg_32_1)
-	local var_32_0 = arg_32_0.context.jumpSlotRefreshEmitter
-
-	if var_32_0 then
-		var_32_0(arg_32_0:GetSlotParam(arg_32_1))
+function slot0.DispatchJumpSlotRefreshEmitter(slot0, slot1)
+	if slot0.context.jumpSlotRefreshEmitter then
+		slot2(slot0:GetSlotParam(slot1))
 	end
 end
 
-function var_0_0.OnSkillEquip(arg_33_0)
-	if #arg_33_0.data.curUseList.all >= GameSetting.exclusive_skill_use_num_max.value[1] then
+function slot0.OnSkillEquip(slot0)
+	if GameSetting.exclusive_skill_use_num_max.value[1] <= #slot0.data.curUseList.all then
 		ShowTips("EXCLUSIVE_SKILL_MAX")
 
 		return
 	end
 
-	if arg_33_0.data.leftPt <= 0 then
+	if slot0.data.leftPt <= 0 then
 		JumpTools.OpenPageByJump("transitionGiftPt", {
 			isEnter = true,
-			giftPt = arg_33_0.data.curGiftPt,
-			heroID = arg_33_0.data.heroID,
-			index = arg_33_0.data.index
+			giftPt = slot0.data.curGiftPt,
+			heroID = slot0.data.heroID,
+			index = slot0.data.index
 		})
 
 		return
 	end
 
-	arg_33_0.data.curUseList[arg_33_0.data.curSelectID] = 1
+	slot0.data.curUseList[slot0.data.curSelectID] = 1
 
-	table.insert(arg_33_0.data.curUseList.all, arg_33_0.data.curSelectID)
-	arg_33_0.scrollHelper_:Refresh()
-	arg_33_0:RefreshType()
-	arg_33_0:DispatchItemClickEmitter(arg_33_0.data.curSelectID)
-	arg_33_0:DispatchJumpSlotRefreshEmitter(arg_33_0.data.index)
+	table.insert(slot0.data.curUseList.all, slot0.data.curSelectID)
+	slot0.scrollHelper_:Refresh()
+	slot0:RefreshType()
+	slot0:DispatchItemClickEmitter(slot0.data.curSelectID)
+	slot0:DispatchJumpSlotRefreshEmitter(slot0.data.index)
 	ShowTips("EXCLUSIVE_SKILL_LOAD")
 end
 
-function var_0_0.OnSkillExchange(arg_34_0)
-	local var_34_0 = arg_34_0.data.curUseList
-	local var_34_1 = arg_34_0.data.curSelectID
+function slot0.OnSkillExchange(slot0)
+	slot1 = slot0.data.curUseList
+	slot2 = slot0.data.curSelectID
 
-	table.remove(var_34_0.all, table.indexof(var_34_0.all, var_34_1))
+	table.remove(slot1.all, table.indexof(slot1.all, slot2))
 
-	var_34_0[var_34_1] = nil
+	slot1[slot2] = nil
 
-	arg_34_0.scrollHelper_:Refresh()
-	arg_34_0:RefreshType()
-	arg_34_0:DispatchItemClickEmitter(arg_34_0.data.curSelectID)
-	arg_34_0:DispatchJumpSlotRefreshEmitter(arg_34_0.data.index)
+	slot0.scrollHelper_:Refresh()
+	slot0:RefreshType()
+	slot0:DispatchItemClickEmitter(slot0.data.curSelectID)
+	slot0:DispatchJumpSlotRefreshEmitter(slot0.data.index)
 	ShowTips("EXCLUSIVE_SKILL_UNLOAD")
 end
 
-function var_0_0.OnSkillLevelUp(arg_35_0)
-	if arg_35_0.data.leftPt <= 0 then
+function slot0.OnSkillLevelUp(slot0)
+	if slot0.data.leftPt <= 0 then
 		JumpTools.OpenPageByJump("transitionGiftPt", {
 			isEnter = true,
-			giftPt = arg_35_0.data.curGiftPt,
-			heroID = arg_35_0.data.heroID,
-			index = arg_35_0.data.index
+			giftPt = slot0.data.curGiftPt,
+			heroID = slot0.data.heroID,
+			index = slot0.data.index
 		})
 
 		return
 	end
 
-	local var_35_0 = arg_35_0.data.curUseList
-	local var_35_1 = arg_35_0.data.curSelectID
+	slot1 = slot0.data.curUseList
+	slot2 = slot0.data.curSelectID
+	slot1[slot2] = slot1[slot2] + 1
 
-	var_35_0[var_35_1] = var_35_0[var_35_1] + 1
-
-	arg_35_0.scrollHelper_:Refresh()
-	arg_35_0:RefreshType()
-	arg_35_0:DispatchItemClickEmitter(arg_35_0.data.curSelectID)
-	arg_35_0:DispatchJumpSlotRefreshEmitter(arg_35_0.data.index)
+	slot0.scrollHelper_:Refresh()
+	slot0:RefreshType()
+	slot0:DispatchItemClickEmitter(slot0.data.curSelectID)
+	slot0:DispatchJumpSlotRefreshEmitter(slot0.data.index)
 	ShowTips("EXCLUSIVE_SKILL_LEVEL_UP")
 end
 
-function var_0_0.ResetUseList(arg_36_0)
-	arg_36_0.data.curUseList = {}
-	arg_36_0.data.curUseList.all = {}
+function slot0.ResetUseList(slot0)
+	slot0.data.curUseList = {
+		all = {}
+	}
 
-	arg_36_0.scrollHelper_:Refresh()
-	arg_36_0:RefreshType()
-	arg_36_0:DispatchItemClickEmitter(arg_36_0.data.curSelectID)
+	slot0.scrollHelper_:Refresh()
+	slot0:RefreshType()
+	slot0:DispatchItemClickEmitter(slot0.data.curSelectID)
 end
 
-function var_0_0.GetCurGiftPoint(arg_37_0)
-	return arg_37_0.data.curGiftPt
+function slot0.GetCurGiftPoint(slot0)
+	return slot0.data.curGiftPt
 end
 
-function var_0_0.GetSlotParam(arg_38_0, arg_38_1)
-	local var_38_0 = {
-		slotIdx = arg_38_1,
-		heroId = arg_38_0.data.heroID,
+function slot0.GetSlotParam(slot0, slot1)
+	slot2 = {
+		slotIdx = slot1,
+		heroId = slot0.data.heroID,
 		skills = {}
 	}
 
-	for iter_38_0, iter_38_1 in ipairs(arg_38_0.data.curUseList.all) do
-		var_38_0.skills[iter_38_0] = {
-			skillId = iter_38_1,
-			level = arg_38_0.data.curUseList[iter_38_1]
+	for slot6, slot7 in ipairs(slot0.data.curUseList.all) do
+		slot2.skills[slot6] = {
+			skillId = slot7,
+			level = slot0.data.curUseList[slot7]
 		}
 	end
 
-	return var_38_0
+	return slot2
 end
 
-function var_0_0.GetHeroData(arg_39_0)
-	return arg_39_0.data.heroDataProxy:GetHeroData(arg_39_0.data.heroID)
+function slot0.GetHeroData(slot0)
+	return slot0.data.heroDataProxy:GetHeroData(slot0.data.heroID)
 end
 
-function var_0_0.GetHeroTransition(arg_40_0)
-	return arg_40_0.data.heroDataProxy:GetHeroTransitionInfoList(arg_40_0.data.heroID) or {}
+function slot0.GetHeroTransition(slot0)
+	return slot0.data.heroDataProxy:GetHeroTransitionInfoList(slot0.data.heroID) or {}
 end
 
-function var_0_0.GetHeroEquip(arg_41_0)
-	return arg_41_0.heroDataProxy:GetEquipInfoList(arg_41_0.data.heroID)
+function slot0.GetHeroEquip(slot0)
+	return slot0.heroDataProxy:GetEquipInfoList(slot0.data.heroID)
 end
 
-return var_0_0
+return slot0

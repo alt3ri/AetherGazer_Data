@@ -1,30 +1,30 @@
-local var_0_0 = class("GotoPushSnowBallSingleBattleStage", BattleSettlementStrategyBase)
+slot0 = class("GotoPushSnowBallSingleBattleStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.num
-	local var_1_1 = arg_1_1.stageData
-	local var_1_2 = arg_1_1.starMissionData
-	local var_1_3 = arg_1_1.battleResult
-	local var_1_4 = PushSnowBallData:GetBattleResultScore()
-	local var_1_5 = PushSnowBallData:GetBattleResultSecond()
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot2 = slot1.num
+	slot3 = slot1.stageData
+	slot4 = slot1.starMissionData
+	slot5 = slot1.battleResult
+	slot6 = PushSnowBallData:GetBattleResultScore()
+	slot7 = PushSnowBallData:GetBattleResultSecond()
 
 	function BattleCallLuaCallBack()
-		if isSuccess(var_1_0) then
+		if isSuccess(uv0) then
 			JumpTools.OpenPageByJump("/battlePushSnowBallSingleResult", {
-				score = var_1_4,
-				useSecond = var_1_5,
-				stageData = var_1_1,
-				battleResult = var_1_3
+				score = uv1,
+				useSecond = uv2,
+				stageData = uv3,
+				battleResult = uv4
 			})
 		else
 			gameContext:Go("/battlePushSnowBallFail", {
-				stageData = var_1_1,
-				battleResult = var_1_3
+				stageData = uv3,
+				battleResult = uv4
 			})
 		end
 
-		EndBattleLogic(var_1_0)
+		EndBattleLogic(uv0)
 	end
 end
 
-return var_0_0
+return slot0

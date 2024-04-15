@@ -1,33 +1,28 @@
 ActivityStoryStageBaseItem = import("game.views.activity.Submodule.storyStage.base.ActivityStoryStageBaseItem")
+slot0 = class("ActivityAthenaStoryItem", ActivityStoryStageBaseItem)
 
-local var_0_0 = class("ActivityAthenaStoryItem", ActivityStoryStageBaseItem)
+function slot0.Ctor(slot0, ...)
+	uv0.super.Ctor(slot0, ...)
 
-function var_0_0.Ctor(arg_1_0, ...)
-	var_0_0.super.Ctor(arg_1_0, ...)
-
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.RefreshUI(arg_2_0)
-	local var_2_0 = arg_2_0:GetPosition()
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetPosition()
+	slot0.transform_.localPosition = Vector3(slot1[1], slot1[2], 0)
+	slot2 = ActivityStoryChapterCfg[slot0.chapterID_]
+	slot3 = slot2.activity_id
+	slot0.textIndex_.text = string.format("%02d", table.keyof(slot2.stage_list, slot0.stageID_))
 
-	arg_2_0.transform_.localPosition = Vector3(var_2_0[1], var_2_0[2], 0)
-
-	local var_2_1 = ActivityStoryChapterCfg[arg_2_0.chapterID_]
-	local var_2_2 = var_2_1.activity_id
-	local var_2_3 = table.keyof(var_2_1.stage_list, arg_2_0.stageID_)
-
-	arg_2_0.textIndex_.text = string.format("%02d", var_2_3)
-
-	arg_2_0:RefreshClear()
+	slot0:RefreshClear()
 end
 
-function var_0_0.SelectorItem(arg_3_0, arg_3_1)
-	if arg_3_0.stageID_ == arg_3_1 and arg_3_0:IsOpenSectionInfo() then
-		arg_3_0.selectController_:SetSelectedState("on")
+function slot0.SelectorItem(slot0, slot1)
+	if slot0.stageID_ == slot1 and slot0:IsOpenSectionInfo() then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_3_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-return var_0_0
+return slot0

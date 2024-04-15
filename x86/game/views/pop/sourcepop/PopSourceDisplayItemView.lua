@@ -1,35 +1,36 @@
-local var_0_0 = class("PopSourceDisplayItemView", ReduxView)
-local var_0_1 = import("game.tools.JumpTools")
+slot0 = class("PopSourceDisplayItemView", ReduxView)
+slot1 = import("game.tools.JumpTools")
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.data_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.data_ = slot3
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:RefreshUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0.btn_ = nil
-	arg_3_0.sourceText_ = nil
-	arg_3_0.sourceContent_ = nil
+function slot0.Dispose(slot0)
+	slot0.btn_ = nil
+	slot0.sourceText_ = nil
+	slot0.sourceContent_ = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	arg_4_0.sourceContent_.text, arg_4_0.sourceText_.text = GetI18NText(arg_4_0.data_[3]), GetI18NText(arg_4_0.data_[2])
+function slot0.RefreshUI(slot0)
+	slot0.sourceText_.text = GetI18NText(slot0.data_[2])
+	slot0.sourceContent_.text = GetI18NText(slot0.data_[3])
 end
 
-return var_0_0
+return slot0

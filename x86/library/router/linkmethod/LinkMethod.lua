@@ -1,40 +1,38 @@
-local var_0_0 = class("LinkMethod")
+slot0 = class("LinkMethod")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.methodList_ = {}
-	arg_1_0.peek_ = 100
+function slot0.Ctor(slot0)
+	slot0.methodList_ = {}
+	slot0.peek_ = 100
 end
 
-function var_0_0.AddMethod(arg_2_0, arg_2_1)
-	table.insert(arg_2_0.methodList_, arg_2_1)
+function slot0.AddMethod(slot0, slot1)
+	table.insert(slot0.methodList_, slot1)
 end
 
-function var_0_0.AddMethodList(arg_3_0, arg_3_1)
-	arg_3_0.methodList_ = arg_3_1
+function slot0.AddMethodList(slot0, slot1)
+	slot0.methodList_ = slot1
 end
 
-function var_0_0.StartNext(arg_4_0)
-	arg_4_0.peek_ = 1
+function slot0.StartNext(slot0)
+	slot0.peek_ = 1
 
-	arg_4_0:DoNext()
+	slot0:DoNext()
 end
 
-function var_0_0.DoNext(arg_5_0)
-	local var_5_0 = arg_5_0.methodList_[arg_5_0.peek_]
+function slot0.DoNext(slot0)
+	if slot0.methodList_[slot0.peek_] then
+		slot0.peek_ = slot0.peek_ + 1
 
-	if var_5_0 then
-		arg_5_0.peek_ = arg_5_0.peek_ + 1
-
-		var_5_0()
+		slot1()
 	end
 end
 
-function var_0_0.IsFree(arg_6_0)
-	return arg_6_0.peek_ > #arg_6_0.methodList_
+function slot0.IsFree(slot0)
+	return slot0.peek_ > #slot0.methodList_
 end
 
-function var_0_0.Stop(arg_7_0)
-	arg_7_0.peek_ = #arg_7_0.methodList_ + 1
+function slot0.Stop(slot0)
+	slot0.peek_ = #slot0.methodList_ + 1
 end
 
-return var_0_0
+return slot0

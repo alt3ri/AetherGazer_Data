@@ -1,65 +1,65 @@
-local var_0_0 = class("ProposalPopup", ReduxView)
+slot0 = class("ProposalPopup", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/EquipSchemeNamePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.backHandler_ = handler(arg_3_0, arg_3_0.Back)
+	slot0.backHandler_ = handler(slot0, slot0.Back)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:GetOrAddComponent(arg_4_0.input_.gameObject, typeof(InputFieldHelper))
-	dealEnter(arg_4_0.input_.gameObject)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:GetOrAddComponent(slot0.input_.gameObject, typeof(InputFieldHelper))
+	dealEnter(slot0.input_.gameObject)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	local var_5_0, var_5_1 = gameContext:GetLastHistoryAndParams()
+function slot0.OnEnter(slot0)
+	slot1, slot2 = gameContext:GetLastHistoryAndParams()
 
-	if string.char(string.byte(var_5_0)) == "/" then
-		var_5_0 = string.sub(var_5_0, 2)
+	if string.char(string.byte(slot1)) == "/" then
+		slot1 = string.sub(slot1, 2)
 	end
 
-	arg_5_0.lastRecord_ = var_5_0
-	arg_5_0.input_.text = GetI18NText(arg_5_0.params_.defaultText) or ""
+	slot0.lastRecord_ = slot1
+	slot0.input_.text = GetI18NText(slot0.params_.defaultText) or ""
 
-	manager.notify:RegistListener(INPUT_POP_BACK, arg_5_0.backHandler_)
+	manager.notify:RegistListener(INPUT_POP_BACK, slot0.backHandler_)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	manager.notify:RemoveListener(INPUT_POP_BACK, arg_6_0.backHandler_)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(INPUT_POP_BACK, slot0.backHandler_)
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.cancelbtnBtn_, nil, function()
-		OperationRecorder.Record(arg_7_0.lastRecord_, "proposal_cancelBtn")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelbtnBtn_, nil, function ()
+		OperationRecorder.Record(uv0.lastRecord_, "proposal_cancelBtn")
 		manager.notify:Invoke(INPUT_POP_CLICK_CANCEL)
 		JumpTools.Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.bgmaskBtn_, nil, function()
-		manager.notify:Invoke(INPUT_POP_CLICK_CLOSE, arg_7_0.input_.text, arg_7_0.input_)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		manager.notify:Invoke(INPUT_POP_CLICK_CLOSE, uv0.input_.text, uv0.input_)
 		JumpTools.Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.okbtnBtn_, nil, function()
-		OperationRecorder.Record(arg_7_0.lastRecord_, "proposal_okBtn")
-		manager.notify:Invoke(INPUT_POP_CLICK_OK, arg_7_0.input_.text, arg_7_0.input_)
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
+		OperationRecorder.Record(uv0.lastRecord_, "proposal_okBtn")
+		manager.notify:Invoke(INPUT_POP_CLICK_OK, uv0.input_.text, uv0.input_)
 	end)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_11_0.backHandler_ = nil
+	slot0.backHandler_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

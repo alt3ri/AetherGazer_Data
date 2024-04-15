@@ -1,90 +1,81 @@
-local var_0_0 = class("DormLinkGameDailyItem", ReduxView)
+slot0 = class("DormLinkGameDailyItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.stateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
+	slot0.rewardItems_ = {}
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListenerScale(arg_4_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_4_0.taskID_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.taskID_ = arg_6_1
-	arg_6_0.activityID_ = arg_6_2
-	arg_6_0.taskActivityID_ = DormLinkGameTools:GetTaskActivityID(arg_6_0.activityID_)
-	arg_6_0.info_ = TaskData2:GetTask(arg_6_0.taskID_)
-	arg_6_0.cfg_ = AssignmentCfg[arg_6_1]
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.taskID_ = slot1
+	slot0.activityID_ = slot2
+	slot0.taskActivityID_ = DormLinkGameTools:GetTaskActivityID(slot0.activityID_)
+	slot0.info_ = TaskData2:GetTask(slot0.taskID_)
+	slot0.cfg_ = AssignmentCfg[slot1]
 
-	arg_6_0:RefreshReward()
-	arg_6_0:RefreshTask()
+	slot0:RefreshReward()
+	slot0:RefreshTask()
 end
 
-function var_0_0.RefreshReward(arg_7_0)
-	local var_7_0 = arg_7_0.cfg_.reward
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(slot0.cfg_.reward) do
+		if not slot0.rewardItems_[slot5] then
+			slot0.rewardItems_[slot5] = RewardItem.New(slot0.rewardItem_, slot0.rewardParent_)
 
-	for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-		if not arg_7_0.rewardItems_[iter_7_0] then
-			arg_7_0.rewardItems_[iter_7_0] = RewardItem.New(arg_7_0.rewardItem_, arg_7_0.rewardParent_)
-
-			arg_7_0.rewardItems_[iter_7_0]:UpdateCommonItemAni()
+			slot0.rewardItems_[slot5]:UpdateCommonItemAni()
 		end
 
-		arg_7_0.rewardItems_[iter_7_0]:SetData(iter_7_1)
+		slot0.rewardItems_[slot5]:SetData(slot6)
 	end
 
-	for iter_7_2 = #var_7_0 + 1, #arg_7_0.rewardItems_ do
-		arg_7_0.rewardItems_[iter_7_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.RefreshTask(arg_8_0)
-	arg_8_0.desc_.text = arg_8_0.cfg_.desc
+function slot0.RefreshTask(slot0)
+	slot0.desc_.text = slot0.cfg_.desc
+	slot1 = 0
+	slot1 = (slot0.cfg_.need > slot0.info_.progress or slot0.cfg_.need) and slot0.info_.progress
+	slot0.progress_.text = slot1 .. "/" .. slot0.cfg_.need
+	slot0.slider_.value = slot1 / slot0.cfg_.need
 
-	local var_8_0 = 0
-
-	if arg_8_0.info_.progress >= arg_8_0.cfg_.need then
-		var_8_0 = arg_8_0.cfg_.need
+	if slot0.info_.complete_flag >= 1 then
+		slot0.stateCon_:SetSelectedState("received")
+	elseif slot0.cfg_.need <= slot1 then
+		slot0.stateCon_:SetSelectedState("complete")
 	else
-		var_8_0 = arg_8_0.info_.progress
-	end
-
-	arg_8_0.progress_.text = var_8_0 .. "/" .. arg_8_0.cfg_.need
-	arg_8_0.slider_.value = var_8_0 / arg_8_0.cfg_.need
-
-	if arg_8_0.info_.complete_flag >= 1 then
-		arg_8_0.stateCon_:SetSelectedState("received")
-	elseif var_8_0 >= arg_8_0.cfg_.need then
-		arg_8_0.stateCon_:SetSelectedState("complete")
-	else
-		arg_8_0.stateCon_:SetSelectedState("unfinish")
+		slot0.stateCon_:SetSelectedState("unfinish")
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_9_0 = 1, #arg_9_0.rewardItems_ do
-		arg_9_0.rewardItems_[iter_9_0]:Dispose()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Dispose()
 	end
 
-	arg_9_0.super.Dispose(arg_9_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

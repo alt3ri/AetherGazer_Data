@@ -1,15 +1,15 @@
-local var_0_0 = class("ServantBeyondViewConsumeModule", ReduxView)
+slot0 = class("ServantBeyondViewConsumeModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.BuildContext(arg_2_0)
-	arg_2_0.controller = {
-		comps = arg_2_0.controllerComps_,
+function slot0.BuildContext(slot0)
+	slot0.controller = {
+		comps = slot0.controllerComps_,
 		state = {
 			select = {
 				False = "false",
@@ -18,69 +18,65 @@ function var_0_0.BuildContext(arg_2_0)
 			}
 		}
 	}
-	arg_2_0.staticVar = {
-		costItem_ = CommonItemView.New(arg_2_0.resModuleObj_),
+	slot0.staticVar = {
+		costItem_ = CommonItemView.New(slot0.resModuleObj_),
 		commonData = clone(ItemTemplateData)
 	}
-	arg_2_0.data = {}
+	slot0.data = {}
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:BuildContext()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.RefreshData(arg_4_0, arg_4_1)
-	if arg_4_1 then
-		SetActive(arg_4_0.resModuleObj_, true)
+function slot0.RefreshData(slot0, slot1)
+	if slot1 then
+		SetActive(slot0.resModuleObj_, true)
 
-		arg_4_0.staticVar.commonData = CommonTools.SetCommonData(arg_4_0.staticVar.costItem_, arg_4_1, arg_4_0.staticVar.commonData)
-		arg_4_0.resName_.text = ItemTools.getItemName(arg_4_1.id)
+		slot0.staticVar.commonData = CommonTools.SetCommonData(slot0.staticVar.costItem_, slot1, slot0.staticVar.commonData)
+		slot0.resName_.text = ItemTools.getItemName(slot1.id)
 	else
-		SetActive(arg_4_0.resModuleObj_, false)
+		SetActive(slot0.resModuleObj_, false)
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	if arg_5_0.staticVar.costItem_ then
-		arg_5_0.staticVar.costItem_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.staticVar.costItem_ then
+		slot0.staticVar.costItem_:Dispose()
 
-		arg_5_0.staticVar.costItem_ = nil
+		slot0.staticVar.costItem_ = nil
 	end
 
-	arg_5_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_5_0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetSelect(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0:SwitchControllerState(arg_6_0.controller.state.select.name, arg_6_0.controller.state.select.True)
+function slot0.SetSelect(slot0, slot1)
+	if slot1 then
+		slot0:SwitchControllerState(slot0.controller.state.select.name, slot0.controller.state.select.True)
 	else
-		arg_6_0:SwitchControllerState(arg_6_0.controller.state.select.name, arg_6_0.controller.state.select.False)
+		slot0:SwitchControllerState(slot0.controller.state.select.name, slot0.controller.state.select.False)
 	end
 end
 
-function var_0_0.SwitchControllerState(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.controller.comps:GetController(arg_7_1)
-
-	if var_7_0 then
-		var_7_0:SetSelectedState(arg_7_2)
+function slot0.SwitchControllerState(slot0, slot1, slot2)
+	if slot0.controller.comps:GetController(slot1) then
+		slot4:SetSelectedState(slot2)
 	end
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.cellBtn_, nil, function()
-		local var_9_0 = arg_8_0.data.onClick
-
-		if var_9_0 then
-			var_9_0()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cellBtn_, nil, function ()
+		if uv0.data.onClick then
+			slot0()
 		end
 	end)
 end
 
-function var_0_0.RegisteBtnListener(arg_10_0, arg_10_1)
-	arg_10_0.data.onClick = arg_10_1
+function slot0.RegisteBtnListener(slot0, slot1)
+	slot0.data.onClick = slot1
 end
 
-return var_0_0
+return slot0

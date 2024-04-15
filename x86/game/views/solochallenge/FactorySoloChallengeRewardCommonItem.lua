@@ -1,29 +1,28 @@
-local var_0_0 = import("game.views.skinTrialActivity.Factory.FactorySkinTrialRewardItem")
-local var_0_1 = class("FactorySoloChallengeRewardCommonItem", var_0_0)
+slot1 = class("FactorySoloChallengeRewardCommonItem", import("game.views.skinTrialActivity.Factory.FactorySkinTrialRewardItem"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1)
-	var_0_1.super.OnCtor(arg_1_0, arg_1_1)
-	SetActive(arg_1_0.gameObject_, true)
+function slot1.OnCtor(slot0, slot1)
+	uv0.super.OnCtor(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_1.SetData(arg_2_0, arg_2_1, arg_2_2)
-	SetActive(arg_2_0.gameObject_, true)
+function slot1.SetData(slot0, slot1, slot2)
+	SetActive(slot0.gameObject_, true)
 
-	arg_2_0.data_ = arg_2_1
-	arg_2_0.popType_ = arg_2_2
+	slot0.data_ = slot1
+	slot0.popType_ = slot2
 
-	arg_2_0.commonItem_:RefreshData(formatReward(arg_2_1))
-	arg_2_0.commonItem_:RegistCallBack(function()
-		if arg_2_0.clickCallback_ then
-			if arg_2_0.clickCallback_() then
-				ShowPopItem(arg_2_0.popType_, arg_2_1)
+	slot0.commonItem_:RefreshData(formatReward(slot1))
+	slot0.commonItem_:RegistCallBack(function ()
+		if uv0.clickCallback_ then
+			if uv0.clickCallback_() then
+				ShowPopItem(uv0.popType_, uv1)
 			end
 		else
-			ShowPopItem(arg_2_0.popType_, arg_2_1)
+			ShowPopItem(uv0.popType_, uv1)
 		end
 	end)
-	arg_2_0.commonItem_:Show(true)
-	arg_2_0:RefreshText()
+	slot0.commonItem_:Show(true)
+	slot0:RefreshText()
 end
 
-return var_0_1
+return slot1

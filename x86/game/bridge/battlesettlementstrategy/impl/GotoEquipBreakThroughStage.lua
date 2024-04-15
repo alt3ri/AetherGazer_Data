@@ -1,26 +1,26 @@
-local var_0_0 = class("GotoEquipBreakThroughStage", BattleSettlementStrategyBase)
+slot0 = class("GotoEquipBreakThroughStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoEquipBreakThroughStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoEquipBreakThroughStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoEquipBreakThroughStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoEquipBreakThroughStage(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/equipBreakThroughResult", {
-				result = arg_2_1,
-				rewardList = var_2_0,
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+				result = uv0,
+				rewardList = uv1,
+				stageData = uv2,
+				starMissionData = uv3,
+				battleResult = uv4
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv0)
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

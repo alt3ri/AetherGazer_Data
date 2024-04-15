@@ -1,27 +1,22 @@
-local var_0_0 = import("game.views.AffixSelect.AffixSelectBossInfoView")
-local var_0_1 = class("AffixSelectBossInfoJapanRegionView", var_0_0)
+slot1 = class("AffixSelectBossInfoJapanRegionView", import("game.views.AffixSelect.AffixSelectBossInfoView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionAffixSelect/AffixSelectBossInfoUI"
 end
 
-function var_0_1.UpdateView(arg_2_0)
-	local var_2_0 = MonsterCfg[arg_2_0.bossIDList_[1]]
+function slot1.UpdateView(slot0)
+	slot0.nameText_.text = GetMonsterName(slot0.bossIDList_)
+	slot0.raceText_.text = GetTips("RACE_TYPE_" .. MonsterCfg[slot0.bossIDList_[1]].race)
 
-	arg_2_0.nameText_.text = GetMonsterName(arg_2_0.bossIDList_)
-	arg_2_0.raceText_.text = GetTips("RACE_TYPE_" .. var_2_0.race)
-
-	local var_2_1 = ""
-
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.bossIDList_) do
-		var_2_1 = var_2_1 .. iter_2_1
+	for slot6, slot7 in pairs(slot0.bossIDList_) do
+		slot2 = "" .. slot7
 	end
 
-	arg_2_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectBoss.path .. var_2_1)
-	arg_2_0.riskText_.text = NumberTools.IntToRomam(var_2_0.type + 1)
+	slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.CollectBoss.path .. slot2)
+	slot0.riskText_.text = NumberTools.IntToRomam(slot1.type + 1)
 
-	arg_2_0:UpdateData()
-	arg_2_0:RefreshSkill()
+	slot0:UpdateData()
+	slot0:RefreshSkill()
 end
 
-return var_0_1
+return slot1

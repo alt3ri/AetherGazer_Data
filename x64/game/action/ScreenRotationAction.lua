@@ -1,282 +1,254 @@
-local var_0_0 = {}
-local var_0_1
+slot1 = nil
 
-function var_0_0.RotateToPortrait(arg_1_0)
-	if GameToSDK.PLATFORM_ID == 0 then
-		var_0_1 = Screen.orientation
+return {
+	RotateToPortrait = function (slot0)
+		if GameToSDK.PLATFORM_ID == 0 then
+			uv0 = Screen.orientation
 
-		var_0_0.RotateToPortraitAndroid(arg_1_0)
-	else
-		var_0_0.RotateToPortraitIOS(arg_1_0)
-	end
-end
+			uv1.RotateToPortraitAndroid(slot0)
+		else
+			uv1.RotateToPortraitIOS(slot0)
+		end
+	end,
+	RotateToPortraitIOS = function (slot0)
+		slot2, slot3 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
-function var_0_0.RotateToPortraitIOS(arg_2_0)
-	local var_2_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-	local var_2_1, var_2_2 = SettingTools.GetSettingScreenSize(var_2_0)
+		ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
+		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+		setScreenOrientation(false)
+		U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+		SetActive(manager.ui.mainCamera, false)
+		Screen.SetResolution(slot3, slot2, true)
 
-	ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
-	UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-	setScreenOrientation(false)
-	U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-	SetActive(manager.ui.mainCamera, false)
-	Screen.SetResolution(var_2_2, var_2_1, true)
+		slot4 = nil
 
-	local var_2_3
+		FrameTimer.New(function ()
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.Portrait then
+				uv0:Stop()
+				SetActive(manager.ui.mainCamera, true)
+				manager.ui.mainCameraCom_:ResetAspect()
 
-	var_2_3 = FrameTimer.New(function()
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.Portrait then
-			var_2_3:Stop()
-			SetActive(manager.ui.mainCamera, true)
-			manager.ui.mainCameraCom_:ResetAspect()
-
-			if arg_2_0 then
-				arg_2_0()
+				if uv1 then
+					uv1()
+				end
 			end
-		end
-	end, 1, -1)
+		end, 1, -1):Start()
+	end,
+	RotateToPortraitAndroid = function (slot0)
+		slot2, slot3 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
-	var_2_3:Start()
-end
+		ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
 
-function var_0_0.RotateToPortraitAndroid(arg_4_0)
-	local var_4_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-	local var_4_1, var_4_2 = SettingTools.GetSettingScreenSize(var_4_0)
+		Screen.autorotateToPortrait = true
+		Screen.autorotateToPortraitUpsideDown = false
+		Screen.autorotateToLandscapeLeft = false
+		Screen.autorotateToLandscapeRight = false
 
-	ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+		setScreenOrientation(false)
+		U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+		SetActive(manager.ui.mainCamera, false)
+		FrameTimer.New(function ()
+			Screen.SetResolution(uv0, uv1, true)
+			uv2.AutoRotation2AutoRotation(function ()
+				SetActive(manager.ui.mainCamera, true)
+				UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+				U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+				Screen.SetResolution(uv0, uv1, true)
+				manager.ui.mainCameraCom_:ResetAspect()
 
-	Screen.autorotateToPortrait = true
-	Screen.autorotateToPortraitUpsideDown = false
-	Screen.autorotateToLandscapeLeft = false
-	Screen.autorotateToLandscapeRight = false
+				if uv2 then
+					uv2()
+				end
+			end)
+		end, 1, 1):Start()
+	end,
+	AutoRotation2AutoRotation = function (slot0)
+		slot1 = nil
+		slot2 = 0
 
-	UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-	setScreenOrientation(false)
-	U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-	SetActive(manager.ui.mainCamera, false)
-	FrameTimer.New(function()
-		Screen.SetResolution(var_4_2, var_4_1, true)
-		var_0_0.AutoRotation2AutoRotation(function()
-			SetActive(manager.ui.mainCamera, true)
-			UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-			U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-			Screen.SetResolution(var_4_2, var_4_1, true)
-			manager.ui.mainCameraCom_:ResetAspect()
+		FrameTimer.New(function ()
+			uv0 = uv0 + 1
 
-			if arg_4_0 then
-				arg_4_0()
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeLeft or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeRight then
+				uv1:Stop()
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+
+				Screen.autorotateToPortrait = false
+				Screen.autorotateToPortraitUpsideDown = false
+				Screen.autorotateToLandscapeLeft = true
+				Screen.autorotateToLandscapeRight = true
+
+				uv2.AutoRotation2Portrait(uv3)
+
+				return
 			end
-		end)
-	end, 1, 1):Start()
-end
 
-function var_0_0.AutoRotation2AutoRotation(arg_7_0)
-	local var_7_0
-	local var_7_1 = 0
+			if uv0 == 10 then
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
+			elseif uv0 >= 15 then
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeRight)
 
-	var_7_0 = FrameTimer.New(function()
-		var_7_1 = var_7_1 + 1
+				uv0 = 0
+			end
+		end, 1, -1):Start()
+	end,
+	AutoRotation2Portrait = function (slot0)
+		slot1 = nil
 
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeLeft or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeRight then
-			var_7_0:Stop()
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+		FrameTimer.New(function ()
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeLeft or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeRight then
+				uv0:Stop()
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
 
-			Screen.autorotateToPortrait = false
-			Screen.autorotateToPortraitUpsideDown = false
-			Screen.autorotateToLandscapeLeft = true
-			Screen.autorotateToLandscapeRight = true
+				slot0 = 0
+				uv0 = FrameTimer.New(function ()
+					uv0 = uv0 + 1
 
-			var_0_0.AutoRotation2Portrait(arg_7_0)
+					if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.Portrait then
+						uv1:Stop()
 
-			return
-		end
+						if uv2 then
+							uv2()
 
-		if var_7_1 == 10 then
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
-		elseif var_7_1 >= 15 then
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeRight)
-
-			var_7_1 = 0
-		end
-	end, 1, -1)
-
-	var_7_0:Start()
-end
-
-function var_0_0.AutoRotation2Portrait(arg_9_0)
-	local var_9_0
-
-	var_9_0 = FrameTimer.New(function()
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeLeft or Screen.orientation == UnityEngine.ScreenOrientation.LandscapeRight then
-			var_9_0:Stop()
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
-
-			local var_10_0 = 0
-
-			var_9_0 = FrameTimer.New(function()
-				var_10_0 = var_10_0 + 1
-
-				if GameToSDK.PLATFORM_ID == 2 or Screen.orientation == UnityEngine.ScreenOrientation.Portrait then
-					var_9_0:Stop()
-
-					if arg_9_0 then
-						arg_9_0()
-
-						return
+							return
+						end
 					end
-				end
 
-				if var_10_0 == 10 then
-					ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.PortraitUpsideDown)
-				elseif var_10_0 >= 15 then
-					ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
+					if uv0 == 10 then
+						ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.PortraitUpsideDown)
+					elseif uv0 >= 15 then
+						ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
 
-					var_10_0 = 0
-				end
-			end, 1, -1)
+						uv0 = 0
+					end
+				end, 1, -1)
 
-			var_9_0:Start()
-		end
-	end, 1, -1)
-
-	var_9_0:Start()
-end
-
-function var_0_0.RotateToLandscape(arg_12_0)
-	if GameToSDK.PLATFORM_ID == 0 then
-		var_0_0.RotateToLandscapeAndroid(arg_12_0)
-	else
-		var_0_0.RotateToLandScapeIOS(arg_12_0)
-	end
-end
-
-function var_0_0.RotateToLandScapeIOS(arg_13_0)
-	ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
-	ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
-
-	Screen.autorotateToPortrait = false
-	Screen.autorotateToPortraitUpsideDown = false
-	Screen.autorotateToLandscapeLeft = true
-	Screen.autorotateToLandscapeRight = true
-
-	local var_13_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-	local var_13_1, var_13_2 = SettingTools.GetSettingScreenSize(var_13_0)
-
-	UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
-	setScreenOrientation(true)
-	U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
-	SetActive(manager.ui.mainCamera, false)
-	Screen.SetResolution(var_13_1, var_13_2, true)
-
-	local var_13_3
-
-	var_13_3 = FrameTimer.New(function()
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
-			var_13_3:Stop()
-			SetActive(manager.ui.mainCamera, true)
-			manager.ui.mainCameraCom_:ResetAspect()
-
-			if arg_13_0 then
-				arg_13_0()
+				uv0:Start()
 			end
-
-			manager.notify:Invoke(HERO_DISPLAY_EXIT)
+		end, 1, -1):Start()
+	end,
+	RotateToLandscape = function (slot0)
+		if GameToSDK.PLATFORM_ID == 0 then
+			uv0.RotateToLandscapeAndroid(slot0)
+		else
+			uv0.RotateToLandScapeIOS(slot0)
 		end
-	end, 1, -1)
-
-	var_13_3:Start()
-end
-
-function var_0_0.RotateToLandscapeAndroid(arg_15_0)
-	if GameToSDK.PLATFORM_ID ~= 2 then
-		ScreenRotateUtil.ChangeScreenOrientation(var_0_1)
+	end,
+	RotateToLandScapeIOS = function (slot0)
+		ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
+		ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
 
 		Screen.autorotateToPortrait = false
 		Screen.autorotateToPortraitUpsideDown = false
 		Screen.autorotateToLandscapeLeft = true
 		Screen.autorotateToLandscapeRight = true
-	end
+		slot2, slot3 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
-	local var_15_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-	local var_15_1, var_15_2 = SettingTools.GetSettingScreenSize(var_15_0)
+		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
+		setScreenOrientation(true)
+		U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
+		SetActive(manager.ui.mainCamera, false)
+		Screen.SetResolution(slot2, slot3, true)
 
-	UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
-	setScreenOrientation(true)
-	U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
-	SetActive(manager.ui.mainCamera, false)
-	FrameTimer.New(function()
-		Screen.SetResolution(var_15_1, var_15_2, true)
-		var_0_0.Portrait2AutoRotation(function()
-			SetActive(manager.ui.mainCamera, true)
-			UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
-			U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
-			Screen.SetResolution(var_15_1, var_15_2, true)
-			manager.ui.mainCameraCom_:ResetAspect()
+		slot4 = nil
 
-			if arg_15_0 then
-				arg_15_0()
-			end
-		end)
-	end, 1, 1):Start()
-end
+		FrameTimer.New(function ()
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
+				uv0:Stop()
+				SetActive(manager.ui.mainCamera, true)
+				manager.ui.mainCameraCom_:ResetAspect()
 
-function var_0_0.Portrait2AutoRotation(arg_18_0)
-	local var_18_0
-	local var_18_1 = 0
-
-	var_18_0 = FrameTimer.New(function()
-		var_18_1 = var_18_1 + 1
-
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
-			var_18_0:Stop()
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
-
-			Screen.autorotateToPortrait = false
-			Screen.autorotateToPortraitUpsideDown = false
-			Screen.autorotateToLandscapeLeft = true
-			Screen.autorotateToLandscapeRight = true
-
-			arg_18_0()
-
-			return
-		end
-
-		if var_18_1 == 10 then
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
-		elseif var_18_1 >= 15 then
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeRight)
-
-			var_18_1 = 0
-		end
-	end, 1, -1)
-
-	var_18_0:Start()
-end
-
-function var_0_0.AutoRotation2LandscapeLeft(arg_20_0)
-	local var_20_0
-
-	var_20_0 = FrameTimer.New(function()
-		if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
-			var_20_0:Stop()
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
-
-			Screen.autorotateToPortrait = false
-			Screen.autorotateToPortraitUpsideDown = false
-			Screen.autorotateToLandscapeLeft = true
-			Screen.autorotateToLandscapeRight = true
-			var_20_0 = FrameTimer.New(function()
-				if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
-					var_20_0:Stop()
-					arg_20_0()
+				if uv1 then
+					uv1()
 				end
-			end, 1, -1)
 
-			var_20_0:Start()
+				manager.notify:Invoke(HERO_DISPLAY_EXIT)
+			end
+		end, 1, -1):Start()
+	end,
+	RotateToLandscapeAndroid = function (slot0)
+		if GameToSDK.PLATFORM_ID ~= 2 then
+			ScreenRotateUtil.ChangeScreenOrientation(uv0)
+
+			Screen.autorotateToPortrait = false
+			Screen.autorotateToPortraitUpsideDown = false
+			Screen.autorotateToLandscapeLeft = true
+			Screen.autorotateToLandscapeRight = true
 		end
-	end, 1, -1)
 
-	var_20_0:Start()
-end
+		slot2, slot3 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
-return var_0_0
+		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
+		setScreenOrientation(true)
+		U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
+		SetActive(manager.ui.mainCamera, false)
+		FrameTimer.New(function ()
+			Screen.SetResolution(uv0, uv1, true)
+			uv2.Portrait2AutoRotation(function ()
+				SetActive(manager.ui.mainCamera, true)
+				UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
+				U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
+				Screen.SetResolution(uv0, uv1, true)
+				manager.ui.mainCameraCom_:ResetAspect()
+
+				if uv2 then
+					uv2()
+				end
+			end)
+		end, 1, 1):Start()
+	end,
+	Portrait2AutoRotation = function (slot0)
+		slot1 = nil
+		slot2 = 0
+
+		FrameTimer.New(function ()
+			uv0 = uv0 + 1
+
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
+				uv1:Stop()
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+
+				Screen.autorotateToPortrait = false
+				Screen.autorotateToPortraitUpsideDown = false
+				Screen.autorotateToLandscapeLeft = true
+				Screen.autorotateToLandscapeRight = true
+
+				uv2()
+
+				return
+			end
+
+			if uv0 == 10 then
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeLeft)
+			elseif uv0 >= 15 then
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.LandscapeRight)
+
+				uv0 = 0
+			end
+		end, 1, -1):Start()
+	end,
+	AutoRotation2LandscapeLeft = function (slot0)
+		slot1 = nil
+
+		FrameTimer.New(function ()
+			if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
+				uv0:Stop()
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+
+				Screen.autorotateToPortrait = false
+				Screen.autorotateToPortraitUpsideDown = false
+				Screen.autorotateToLandscapeLeft = true
+				Screen.autorotateToLandscapeRight = true
+				uv0 = FrameTimer.New(function ()
+					if GameToSDK.PLATFORM_ID == 2 or Screen.orientation ~= UnityEngine.ScreenOrientation.Portrait then
+						uv0:Stop()
+						uv1()
+					end
+				end, 1, -1)
+
+				uv0:Start()
+			end
+		end, 1, -1):Start()
+	end
+}

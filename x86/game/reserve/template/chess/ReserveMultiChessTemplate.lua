@@ -1,18 +1,14 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveMultiChessTemplate", var_0_0)
+slot1 = class("ReserveMultiChessTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.UpdateServerData(arg_1_0, arg_1_1)
-	var_0_1.super.UpdateServerData(arg_1_0, arg_1_1)
+function slot1.UpdateServerData(slot0, slot1)
+	uv0.super.UpdateServerData(slot0, slot1)
 
-	local var_1_0 = arg_1_1.data
-	local var_1_1 = var_1_0.cont_id
+	if slot0.cont_dic[slot1.data.cont_id] then
+		slot4 = slot0:GetContDataTemplateById(slot3)
 
-	if arg_1_0.cont_dic[var_1_1] then
-		local var_1_2 = arg_1_0:GetContDataTemplateById(var_1_1)
-
-		var_1_2:UpdatePosData(var_1_0.chess_data_info_1)
-		var_1_2:UpdateAiChip(var_1_0.chess_data_info_2)
+		slot4:UpdatePosData(slot2.chess_data_info_1)
+		slot4:UpdateAiChip(slot2.chess_data_info_2)
 	end
 end
 
-return var_0_1
+return slot1

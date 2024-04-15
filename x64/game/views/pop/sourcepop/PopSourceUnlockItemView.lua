@@ -1,114 +1,107 @@
-local var_0_0 = class("PopSourceUnlockItemView", ReduxView)
+slot0 = class("PopSourceUnlockItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.data_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.data_ = slot3
 
-	arg_1_0:Init()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:Init()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.controller_ = ControllerUtil.GetController(arg_2_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0:StopTimer()
-	arg_3_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	slot0:RemoveListeners()
 
-	arg_3_0.callback_ = nil
-	arg_3_0.btn_ = nil
-	arg_3_0.sourceText_ = nil
-	arg_3_0.sourceContent_ = nil
+	slot0.callback_ = nil
+	slot0.btn_ = nil
+	slot0.sourceText_ = nil
+	slot0.sourceContent_ = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.callback_ ~= nil then
-			arg_4_0.callback_()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.callback_ ~= nil then
+			uv0.callback_()
 		end
 
-		JumpTools.JumpToPage2(arg_4_0.data_)
+		JumpTools.JumpToPage2(uv0.data_)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_6_0)
-	arg_6_0.btn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.btn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.SetJumpCallback(arg_7_0, arg_7_1)
-	arg_7_0.callback_ = arg_7_1
+function slot0.SetJumpCallback(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.sourceContent_.text, arg_8_0.sourceText_.text = JumpTools.GetName(arg_8_0.data_)
+function slot0.RefreshUI(slot0)
+	slot0.sourceContent_.text, slot0.sourceText_.text = JumpTools.GetName(slot0.data_)
+	slot1 = SystemLinkCfg[slot0.data_[1]]
+	slot2 = slot1.activity_id
 
-	local var_8_0 = SystemLinkCfg[arg_8_0.data_[1]]
-	local var_8_1 = var_8_0.activity_id
+	if type(slot1.paramName) == "table" and (table.keyof(slot1.paramName, "activityId") or table.keyof(slot1.paramName, "activityID")) then
+		slot2 = slot0.data_[slot3 + 1]
+	end
 
-	if type(var_8_0.paramName) == "table" then
-		local var_8_2 = table.keyof(var_8_0.paramName, "activityId") or table.keyof(var_8_0.paramName, "activityID")
+	if slot2 and slot2 ~= 0 then
+		slot0.startTime_, slot4, slot5 = JumpTools.GetActivityTime(slot2)
+		slot0.stopTime_ = slot4
 
-		if var_8_2 then
-			var_8_1 = arg_8_0.data_[var_8_2 + 1]
+		if manager.time:GetServerTime() < slot4 then
+			slot0:AddTimer()
 		end
 	end
 
-	if var_8_1 and var_8_1 ~= 0 then
-		local var_8_3, var_8_4, var_8_5 = JumpTools.GetActivityTime(var_8_1)
-
-		arg_8_0.startTime_ = var_8_3
-		arg_8_0.stopTime_ = var_8_4
-
-		if var_8_4 > manager.time:GetServerTime() then
-			arg_8_0:AddTimer()
-		end
-	end
-
-	arg_8_0:RefreshLock()
+	slot0:RefreshLock()
 end
 
-function var_0_0.RefreshLock(arg_9_0)
-	if JumpTools.GetLinkIsLocked(arg_9_0.data_) then
-		arg_9_0.controller_:SetSelectedState("true")
+function slot0.RefreshLock(slot0)
+	if JumpTools.GetLinkIsLocked(slot0.data_) then
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_9_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddTimer(arg_10_0)
-	arg_10_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_10_0.timer_ = Timer.New(function()
-		arg_10_0:RefreshLock()
+	slot0.timer_ = Timer.New(function ()
+		uv0:RefreshLock()
 
-		if manager.time:GetServerTime() > arg_10_0.stopTime_ then
-			arg_10_0:StopTimer()
+		if uv0.stopTime_ < manager.time:GetServerTime() then
+			uv0:StopTimer()
 		end
 	end, 1, -1)
 
-	arg_10_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

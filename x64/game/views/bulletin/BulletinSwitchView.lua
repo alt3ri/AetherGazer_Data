@@ -1,177 +1,166 @@
-local var_0_0 = class("BulletinSwitchView", ReduxView)
+slot0 = class("BulletinSwitchView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Bulletin/BulletinUI_new"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
-	arg_3_0:AddEventListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.contentView_ = BulletinContentView.New(arg_4_0.mainContent_)
-	arg_4_0.titleItems_ = {
-		arg_4_0.titleItem1_:GetComponent(typeof(Toggle)),
-		arg_4_0.titleItem2_:GetComponent(typeof(Toggle)),
-		arg_4_0.titleItem3_:GetComponent(typeof(Toggle))
+	slot0.contentView_ = BulletinContentView.New(slot0.mainContent_)
+	slot0.titleItems_ = {
+		slot0.titleItem1_:GetComponent(typeof(Toggle)),
+		slot0.titleItem2_:GetComponent(typeof(Toggle)),
+		slot0.titleItem3_:GetComponent(typeof(Toggle))
 	}
-	arg_4_0.toggles_ = {
-		arg_4_0.toggle1_,
-		arg_4_0.toggle2_,
-		arg_4_0.toggle3_
+	slot0.toggles_ = {
+		slot0.toggle1_,
+		slot0.toggle2_,
+		slot0.toggle3_
 	}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
-	end)
-	arg_5_0:AddBtnListener(arg_5_0.closeBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.toggles_) do
-		arg_5_0:AddToggleListener(iter_5_1, function(arg_8_0)
-			if arg_8_0 then
+	slot4 = slot0.closeBtn_
+	slot5 = nil
+
+	slot0:AddBtnListener(slot4, slot5, function ()
+		uv0:Back()
+	end)
+
+	for slot4, slot5 in ipairs(slot0.toggles_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
 				OperationRecorder.Record("bulletin", "changeType")
 
-				local var_8_0
+				slot1 = nil
 
-				if iter_5_0 == 1 then
-					var_8_0 = BulletinData.GetBulletinIDList()[101]
+				if uv0 == 1 then
+					slot1 = BulletinData.GetBulletinIDList()[101]
 
 					SDKTools.SendMessageToSDK("announcement_touch", {
 						touch_times_activity = 1,
 						touch_times_game = 0
 					})
-				elseif iter_5_0 == 2 then
-					var_8_0 = BulletinData.GetBulletinIDList()[102]
+				elseif uv0 == 2 then
+					slot1 = BulletinData.GetBulletinIDList()[102]
 
 					SDKTools.SendMessageToSDK("announcement_touch", {
 						touch_times_game = 1,
 						touch_times_activity = 0
 					})
 				else
-					var_8_0 = BulletinData.GetBulletinIDList()[104]
+					slot1 = BulletinData.GetBulletinIDList()[104]
 				end
 
-				for iter_8_0, iter_8_1 in pairs(var_8_0) do
-					arg_5_0:SelectItem(BulletinData.GetBulletinPageList()[iter_8_1])
+				for slot5, slot6 in pairs(slot1) do
+					uv1:SelectItem(BulletinData.GetBulletinPageList()[slot6])
 
 					break
 				end
 
-				arg_5_0:UpdateLayout()
+				uv1:UpdateLayout()
 			end
 		end)
 	end
 end
 
-function var_0_0.AddEventListener(arg_9_0)
-	arg_9_0:RegistEventListener(BULLETIN_LIST_UPDATE, handler(arg_9_0, arg_9_0.OnBulletinListUpdate))
-	arg_9_0:RegistEventListener(RED_POINT_UPDATE, handler(arg_9_0, arg_9_0.RedPointUpdate))
+function slot0.AddEventListener(slot0)
+	slot0:RegistEventListener(BULLETIN_LIST_UPDATE, handler(slot0, slot0.OnBulletinListUpdate))
+	slot0:RegistEventListener(RED_POINT_UPDATE, handler(slot0, slot0.RedPointUpdate))
 end
 
-function var_0_0.OnBulletinListUpdate(arg_10_0)
-	arg_10_0:UpdateBtnItems()
+function slot0.OnBulletinListUpdate(slot0)
+	slot0:UpdateBtnItems()
 end
 
-function var_0_0.OnBulletinDelete(arg_11_0, arg_11_1)
-	arg_11_0:UpdateBtnItems()
+function slot0.OnBulletinDelete(slot0, slot1)
+	slot0:UpdateBtnItems()
 
-	if arg_11_0.currentItem_ ~= nil and arg_11_0.currentItem_.data_ ~= nil and arg_11_0.currentItem_.data_.id == arg_11_1.id then
-		local var_11_0 = arg_11_0:FindFirstBulletin(arg_11_1)
-
-		if var_11_0 then
-			arg_11_0:SelectItem(var_11_0)
+	if slot0.currentItem_ ~= nil and slot0.currentItem_.data_ ~= nil and slot0.currentItem_.data_.id == slot1.id then
+		if slot0:FindFirstBulletin(slot1) then
+			slot0:SelectItem(slot2)
 		else
-			arg_11_0:Back()
+			slot0:Back()
 		end
 	end
 end
 
-function var_0_0.OnSubscribe(arg_12_0)
-	return
+function slot0.OnSubscribe(slot0)
 end
 
-function var_0_0.RedPointUpdate(arg_13_0, arg_13_1)
-	if arg_13_1 == RedPointConst.BULLETIN_UNREAD_101 then
-		local var_13_0 = manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_101)
-
-		SetActive(arg_13_0.notice1_, var_13_0 > 0)
-	elseif arg_13_1 == RedPointConst.BULLETIN_UNREAD_102 then
-		local var_13_1 = manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_102)
-
-		SetActive(arg_13_0.notice2_, var_13_1 > 0)
-	elseif arg_13_1 == RedPointConst.BULLETIN_UNREAD_104 then
-		local var_13_2 = manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_104)
-
-		SetActive(arg_13_0.notice3_, var_13_2 > 0)
+function slot0.RedPointUpdate(slot0, slot1)
+	if slot1 == RedPointConst.BULLETIN_UNREAD_101 then
+		SetActive(slot0.notice1_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_101) > 0)
+	elseif slot1 == RedPointConst.BULLETIN_UNREAD_102 then
+		SetActive(slot0.notice2_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_102) > 0)
+	elseif slot1 == RedPointConst.BULLETIN_UNREAD_104 then
+		SetActive(slot0.notice3_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_104) > 0)
 	end
 end
 
-function var_0_0.UpdateTimer(arg_14_0)
-	arg_14_0:RemoveAllUpdateTimer()
+function slot0.UpdateTimer(slot0)
+	slot0:RemoveAllUpdateTimer()
 
-	arg_14_0.updateTimers_ = {}
+	slot0.updateTimers_ = {}
 
-	for iter_14_0, iter_14_1 in pairs(BulletinData.GetBulletinPageList()) do
-		local var_14_0 = iter_14_1.id
-		local var_14_1 = Timer.New(function()
-			arg_14_0.updateTimers_[var_14_0]:Stop()
+	for slot4, slot5 in pairs(BulletinData.GetBulletinPageList()) do
+		slot7 = Timer.New(function ()
+			uv0.updateTimers_[uv1]:Stop()
 
-			arg_14_0.updateTimers_[var_14_0] = nil
+			uv0.updateTimers_[uv1] = nil
 
-			BulletinAction.BulletinDelete(var_14_0)
-			arg_14_0:UpdateBtnItems()
+			BulletinAction.BulletinDelete(uv1)
+			uv0:UpdateBtnItems()
 
-			if arg_14_0:GetViewProp("bulletinID") == var_14_0 then
-				local var_15_0 = arg_14_0:FindFirstBulletin(iter_14_1)
-
-				if var_15_0 then
-					arg_14_0:SelectItem(var_15_0)
+			if uv0:GetViewProp("bulletinID") == uv1 then
+				if uv0:FindFirstBulletin(uv2) then
+					uv0:SelectItem(slot0)
 				else
-					arg_14_0:Back()
+					uv0:Back()
 				end
 			end
-		end, iter_14_1.endTime - manager.time:GetServerTime(), 1)
+		end, slot5.endTime - manager.time:GetServerTime(), 1)
 
-		var_14_1:Start()
+		slot7:Start()
 
-		arg_14_0.updateTimers_[var_14_0] = var_14_1
+		slot0.updateTimers_[slot5.id] = slot7
 	end
 end
 
-function var_0_0.RemoveAllUpdateTimer(arg_16_0)
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.updateTimers_ or {}) do
-		iter_16_1:Stop()
+function slot0.RemoveAllUpdateTimer(slot0)
+	for slot4, slot5 in pairs(slot0.updateTimers_ or {}) do
+		slot5:Stop()
 	end
 
-	arg_16_0.updateTimers_ = nil
+	slot0.updateTimers_ = nil
 end
 
-function var_0_0.FindFirstBulletin(arg_17_0, arg_17_1)
-	local var_17_0 = BulletinData.GetBulletinIDList()
-	local var_17_1 = var_17_0[arg_17_1.type]
-
-	if #var_17_1 > 0 then
-		for iter_17_0, iter_17_1 in pairs(var_17_1) do
-			return BulletinData.GetBulletinPageList()[iter_17_1]
+function slot0.FindFirstBulletin(slot0, slot1)
+	if #BulletinData.GetBulletinIDList()[slot1.type] > 0 then
+		for slot7, slot8 in pairs(slot3) do
+			return BulletinData.GetBulletinPageList()[slot8]
 		end
 	end
 
-	for iter_17_2, iter_17_3 in pairs(var_17_0) do
-		if #iter_17_3 > 0 then
-			for iter_17_4, iter_17_5 in pairs(iter_17_3) do
-				return BulletinData.GetBulletinPageList()[iter_17_5]
+	for slot7, slot8 in pairs(slot2) do
+		if #slot8 > 0 then
+			for slot12, slot13 in pairs(slot8) do
+				return BulletinData.GetBulletinPageList()[slot13]
 			end
 		end
 	end
@@ -179,225 +168,215 @@ function var_0_0.FindFirstBulletin(arg_17_0, arg_17_1)
 	return nil
 end
 
-function var_0_0.OnEnter(arg_18_0)
-	arg_18_0.treeScrollRect_.verticalNormalizedPosition = 1
+function slot0.OnEnter(slot0)
+	slot0.treeScrollRect_.verticalNormalizedPosition = 1
 
-	arg_18_0:UpdateBtnItems()
-	arg_18_0:SetViewProp("bulletinID", arg_18_0.params_.bulletinID)
-	arg_18_0.contentView_:SetBulletInId(arg_18_0:GetViewProp("bulletinID"))
+	slot0:UpdateBtnItems()
 
-	for iter_18_0, iter_18_1 in pairs(BulletinData.GetBulletinPageList()) do
-		if iter_18_1.id == arg_18_0.params_.bulletinID then
-			arg_18_0:SelectItem(iter_18_1)
+	slot5 = slot0.params_.bulletinID
+
+	slot0:SetViewProp("bulletinID", slot5)
+
+	slot4 = slot0.GetViewProp
+
+	slot0.contentView_:SetBulletInId(slot4(slot0, "bulletinID"))
+
+	for slot4, slot5 in pairs(BulletinData.GetBulletinPageList()) do
+		if slot5.id == slot0.params_.bulletinID then
+			slot0:SelectItem(slot5)
 
 			break
 		end
 	end
 
-	SetActive(arg_18_0.notice1_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_101) > 0)
-	SetActive(arg_18_0.notice2_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_102) > 0)
-	SetActive(arg_18_0.notice3_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_104) > 0)
+	SetActive(slot0.notice1_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_101) > 0)
+	SetActive(slot0.notice2_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_102) > 0)
+	SetActive(slot0.notice3_, manager.redPoint:getTipValue(RedPointConst.BULLETIN_UNREAD_104) > 0)
 end
 
-function var_0_0.ClearBtnItems(arg_19_0)
-	if arg_19_0.activityBtnItems_ then
-		for iter_19_0, iter_19_1 in ipairs(arg_19_0.activityBtnItems_) do
-			iter_19_1:Dispose()
+function slot0.ClearBtnItems(slot0)
+	if slot0.activityBtnItems_ then
+		for slot4, slot5 in ipairs(slot0.activityBtnItems_) do
+			slot5:Dispose()
 		end
 
-		arg_19_0.activityBtnItems_ = nil
+		slot0.activityBtnItems_ = nil
 	end
 
-	if arg_19_0.gameBtnItems_ then
-		for iter_19_2, iter_19_3 in ipairs(arg_19_0.gameBtnItems_) do
-			iter_19_3:Dispose()
+	if slot0.gameBtnItems_ then
+		for slot4, slot5 in ipairs(slot0.gameBtnItems_) do
+			slot5:Dispose()
 		end
 
-		arg_19_0.gameBtnItems_ = nil
+		slot0.gameBtnItems_ = nil
 	end
 
-	if arg_19_0.infoBtnItems_ then
-		for iter_19_4, iter_19_5 in pairs(arg_19_0.infoBtnItems_) do
-			iter_19_5:Dispose()
+	if slot0.infoBtnItems_ then
+		for slot4, slot5 in pairs(slot0.infoBtnItems_) do
+			slot5:Dispose()
 		end
 
-		arg_19_0.infoBtnItems_ = nil
+		slot0.infoBtnItems_ = nil
 	end
 end
 
-function var_0_0.UpdateBtnItems(arg_20_0)
-	if not arg_20_0.activityBtnItems_ then
-		arg_20_0.activityBtnItems_ = {}
+function slot0.UpdateBtnItems(slot0)
+	if not slot0.activityBtnItems_ then
+		slot0.activityBtnItems_ = {}
 	end
 
-	if not arg_20_0.gameBtnItems_ then
-		arg_20_0.gameBtnItems_ = {}
+	if not slot0.gameBtnItems_ then
+		slot0.gameBtnItems_ = {}
 	end
 
-	if not arg_20_0.infoBtnItems_ then
-		arg_20_0.infoBtnItems_ = {}
+	if not slot0.infoBtnItems_ then
+		slot0.infoBtnItems_ = {}
 	end
 
-	local var_20_0 = BulletinData.GetBulletinIDList()[101] or {}
-	local var_20_1 = BulletinData.GetBulletinIDList()[102] or {}
-	local var_20_2 = BulletinData.GetBulletinIDList()[104] or {}
+	slot1 = BulletinData.GetBulletinIDList()[101] or {}
 
-	arg_20_0:UpdateBtnItemByList(arg_20_0.activityBtnItems_, var_20_0, arg_20_0.activityContainer_)
-	arg_20_0:UpdateBtnItemByList(arg_20_0.gameBtnItems_, var_20_1, arg_20_0.gameContainer_)
-	arg_20_0:UpdateBtnItemByList(arg_20_0.infoBtnItems_, var_20_2, arg_20_0.infoContainer_)
+	slot0:UpdateBtnItemByList(slot0.activityBtnItems_, slot1, slot0.activityContainer_)
+	slot0:UpdateBtnItemByList(slot0.gameBtnItems_, BulletinData.GetBulletinIDList()[102] or {}, slot0.gameContainer_)
+	slot0:UpdateBtnItemByList(slot0.infoBtnItems_, BulletinData.GetBulletinIDList()[104] or {}, slot0.infoContainer_)
 
-	if #var_20_0 ~= 0 then
-		SetActive(arg_20_0.titleItem1_, true)
+	if #slot1 ~= 0 then
+		SetActive(slot0.titleItem1_, true)
 	else
-		SetActive(arg_20_0.titleItem1_, false)
+		SetActive(slot0.titleItem1_, false)
 	end
 
-	if #var_20_1 ~= 0 then
-		SetActive(arg_20_0.titleItem2_, true)
+	if #slot2 ~= 0 then
+		SetActive(slot0.titleItem2_, true)
 	else
-		SetActive(arg_20_0.titleItem2_, false)
+		SetActive(slot0.titleItem2_, false)
 	end
 
-	if #var_20_2 ~= 0 then
-		SetActive(arg_20_0.titleItem3_, true)
+	if #slot3 ~= 0 then
+		SetActive(slot0.titleItem3_, true)
 	else
-		SetActive(arg_20_0.titleItem3_, false)
+		SetActive(slot0.titleItem3_, false)
 	end
 
-	arg_20_0:UpdateLayout()
+	slot0:UpdateLayout()
 end
 
-function var_0_0.UpdateLayout(arg_21_0)
-	local var_21_0 = BulletinData.GetBulletinIDList()[101] or {}
-	local var_21_1 = BulletinData.GetBulletinIDList()[102] or {}
-	local var_21_2 = BulletinData.GetBulletinIDList()[104] or {}
+function slot0.UpdateLayout(slot0)
+	slot2 = BulletinData.GetBulletinIDList()[102] or {}
+	slot3 = BulletinData.GetBulletinIDList()[104] or {}
 
-	if #var_21_0 ~= 0 then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.activityContainer_)
+	if #(BulletinData.GetBulletinIDList()[101] or {}) ~= 0 then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.activityContainer_)
 	end
 
-	if #var_21_1 ~= 0 then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.gameContainer_)
+	if #slot2 ~= 0 then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.gameContainer_)
 	end
 
-	if #var_21_2 ~= 0 then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.infoContainer_)
+	if #slot3 ~= 0 then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.infoContainer_)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.treeContainer_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.treeContainer_)
 end
 
-function var_0_0.UpdateBtnItemByList(arg_22_0, arg_22_1, arg_22_2, arg_22_3)
-	local var_22_0 = 0
+function slot0.UpdateBtnItemByList(slot0, slot1, slot2, slot3)
+	slot4 = 0
 
-	for iter_22_0, iter_22_1 in pairs(arg_22_2) do
-		var_22_0 = var_22_0 + 1
-
-		local var_22_1 = BulletinData.GetBulletinPageList()[iter_22_1]
-
-		if var_22_0 <= #arg_22_1 then
-			arg_22_1[var_22_0]:SetData(var_22_1)
+	for slot8, slot9 in pairs(slot2) do
+		if slot4 + 1 <= #slot1 then
+			slot1[slot4]:SetData(BulletinData.GetBulletinPageList()[slot9])
 		else
-			local var_22_2 = Object.Instantiate(arg_22_0.btnItemPrefab_, arg_22_3)
+			slot11 = Object.Instantiate(slot0.btnItemPrefab_, slot3)
 
-			SetActive(var_22_2, true)
+			SetActive(slot11, true)
 
-			local var_22_3 = BulletinBtnItem.New(handler(arg_22_0, arg_22_0.OnClickBtnItem), var_22_2)
+			slot12 = BulletinBtnItem.New(handler(slot0, slot0.OnClickBtnItem), slot11)
 
-			var_22_3:SetData(var_22_1)
-			table.insert(arg_22_1, var_22_3)
+			slot12:SetData(slot10)
+			table.insert(slot1, slot12)
 		end
 
-		local var_22_4 = arg_22_1[var_22_0]
+		if slot1[slot4] then
+			if slot0.currentId_ and slot0.currentId_ == slot9 then
+				slot0.currentItem_ = slot11
 
-		if var_22_4 then
-			if arg_22_0.currentId_ and arg_22_0.currentId_ == iter_22_1 then
-				arg_22_0.currentItem_ = var_22_4
-
-				var_22_4:SetSelected(true)
+				slot11:SetSelected(true)
 			else
-				var_22_4:SetSelected(false)
+				slot11:SetSelected(false)
 			end
 		end
 	end
 
-	local var_22_5 = 0
-
-	for iter_22_2, iter_22_3 in pairs(arg_22_2) do
-		var_22_5 = var_22_5 + 1
+	for slot9, slot10 in pairs(slot2) do
+		slot5 = 0 + 1
 	end
 
-	while var_22_5 < #arg_22_1 do
-		arg_22_1[#arg_22_1]:Dispose()
-		table.remove(arg_22_1, #arg_22_1)
+	while slot5 < #slot1 do
+		slot1[#slot1]:Dispose()
+		table.remove(slot1, #slot1)
 	end
 end
 
-function var_0_0.OnClickBtnItem(arg_23_0, arg_23_1)
-	arg_23_0:SelectItem(arg_23_1)
+function slot0.OnClickBtnItem(slot0, slot1)
+	slot0:SelectItem(slot1)
 end
 
-function var_0_0.SelectItem(arg_24_0, arg_24_1)
-	if arg_24_0.currentItem_ then
-		arg_24_0.currentItem_:SetSelected(false)
+function slot0.SelectItem(slot0, slot1)
+	if slot0.currentItem_ then
+		slot0.currentItem_:SetSelected(false)
 	end
 
-	arg_24_0.contentView_:SwitchBulletinPage(arg_24_1.id)
+	slot0.contentView_:SwitchBulletinPage(slot1.id)
 
-	if getData("bulletin", "bulletin_" .. arg_24_1.id) ~= "true" then
-		BulletinAction.BulletinRead(arg_24_1.id)
+	if getData("bulletin", "bulletin_" .. slot1.id) ~= "true" then
+		BulletinAction.BulletinRead(slot1.id)
 	end
 
-	local var_24_0
-	local var_24_1 = false
-	local var_24_2 = false
-	local var_24_3 = false
+	slot2 = nil
+	slot3 = false
+	slot4 = false
+	slot5 = false
 
-	if arg_24_1.type == 101 then
-		var_24_0 = arg_24_0.activityBtnItems_
-		var_24_1 = true
-	elseif arg_24_1.type == 102 then
-		var_24_0 = arg_24_0.gameBtnItems_
-		var_24_2 = true
-	elseif arg_24_1.type == 104 then
-		var_24_0 = arg_24_0.infoBtnItems_
-		var_24_3 = true
+	if slot1.type == 101 then
+		slot2 = slot0.activityBtnItems_
+		slot3 = true
+	elseif slot1.type == 102 then
+		slot2 = slot0.gameBtnItems_
+		slot4 = true
+	elseif slot1.type == 104 then
+		slot2 = slot0.infoBtnItems_
+		slot5 = true
 	end
 
-	arg_24_0.titleItems_[1].isOn = var_24_1
-	arg_24_0.titleItems_[2].isOn = var_24_2
-	arg_24_0.titleItems_[3].isOn = var_24_3
+	slot0.titleItems_[1].isOn = slot3
+	slot0.titleItems_[2].isOn = slot4
+	slot0.titleItems_[3].isOn = slot5
 
-	for iter_24_0, iter_24_1 in ipairs(var_24_0) do
-		if iter_24_1.data_.id == arg_24_1.id then
-			arg_24_0.currentItem_ = iter_24_1
+	for slot9, slot10 in ipairs(slot2) do
+		if slot10.data_.id == slot1.id then
+			slot0.currentItem_ = slot10
 
-			iter_24_1:SetSelected(true)
+			slot10:SetSelected(true)
 
-			arg_24_0.currentId_ = iter_24_1.data_.id
+			slot0.currentId_ = slot10.data_.id
 
 			break
 		end
 	end
 end
 
-function var_0_0.GetFirstBulletin(arg_25_0)
-	local var_25_0 = manager.time:GetServerTime()
-	local var_25_1 = {
+function slot0.GetFirstBulletin(slot0)
+	slot1 = manager.time:GetServerTime()
+
+	for slot6, slot7 in ipairs({
 		101,
 		102,
 		104
-	}
-
-	for iter_25_0, iter_25_1 in ipairs(var_25_1) do
-		local var_25_2 = BulletinData.GetBulletinIDList()[iter_25_1]
-
-		if var_25_2 then
-			for iter_25_2, iter_25_3 in pairs(var_25_2) do
-				local var_25_3 = BulletinData.GetBulletinPageList()[iter_25_3]
-
-				if var_25_0 < var_25_3.endTime then
-					return var_25_3
+	}) do
+		if BulletinData.GetBulletinIDList()[slot7] then
+			for slot12, slot13 in pairs(slot8) do
+				if slot1 < BulletinData.GetBulletinPageList()[slot13].endTime then
+					return slot14
 				end
 			end
 		end
@@ -406,42 +385,42 @@ function var_0_0.GetFirstBulletin(arg_25_0)
 	return false
 end
 
-function var_0_0.OnExit(arg_26_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0.activityBtnItems_) do
-		iter_26_1:OnExit()
+	for slot4, slot5 in pairs(slot0.activityBtnItems_) do
+		slot5:OnExit()
 	end
 
-	for iter_26_2, iter_26_3 in pairs(arg_26_0.gameBtnItems_) do
-		iter_26_3:OnExit()
+	for slot4, slot5 in pairs(slot0.gameBtnItems_) do
+		slot5:OnExit()
 	end
 
-	for iter_26_4, iter_26_5 in pairs(arg_26_0.infoBtnItems_) do
-		iter_26_5:OnExit()
+	for slot4, slot5 in pairs(slot0.infoBtnItems_) do
+		slot5:OnExit()
 	end
 
-	arg_26_0:RemoveAllUpdateTimer()
+	slot0:RemoveAllUpdateTimer()
 end
 
-function var_0_0.OnExitInput(arg_27_0)
+function slot0.OnExitInput(slot0)
 	JumpTools.Back()
 
 	return true
 end
 
-function var_0_0.Dispose(arg_28_0)
-	arg_28_0:RemoveAllListeners()
-	arg_28_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
 
-	if arg_28_0.contentView_ then
-		arg_28_0.contentView_:Dispose()
+	if slot0.contentView_ then
+		slot0.contentView_:Dispose()
 
-		arg_28_0.contentView_ = nil
+		slot0.contentView_ = nil
 	end
 
-	arg_28_0:ClearBtnItems()
-	var_0_0.super.Dispose(arg_28_0)
+	slot0:ClearBtnItems()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

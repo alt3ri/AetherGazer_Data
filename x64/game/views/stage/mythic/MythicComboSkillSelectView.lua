@@ -1,7 +1,7 @@
-local var_0_0 = class("MythicComboSkillSelectView", ComboSkillSelectView)
+slot0 = class("MythicComboSkillSelectView", ComboSkillSelectView)
 
-function var_0_0.GetComboSkillItemView(arg_1_0)
+function slot0.GetComboSkillItemView(slot0)
 	return MythicComboSkillSelectItem
 end
 
-return var_0_0
+return slot0

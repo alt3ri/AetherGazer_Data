@@ -1,48 +1,41 @@
-local var_0_0 = class("DrawSelectPool", DrawBasePool)
+slot0 = class("DrawSelectPool", DrawBasePool)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = Asset.Load("Widget/System/Pool/pool_" .. arg_1_2)
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/Pool/pool_" .. slot2), slot1)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.poolId = slot2
+	slot0.showId = slot3
+	slot0.detailBtnList_ = {}
+	slot0.btnNameList_ = {}
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.poolId = arg_1_2
-	arg_1_0.showId = arg_1_3
-	arg_1_0.detailBtnList_ = {}
-	arg_1_0.btnNameList_ = {}
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	var_0_0.super.InitUI(arg_2_0)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_2_0.firstController_ = ControllerUtil.GetController(arg_2_0.gameObject_.transform, "first")
-	arg_2_0.showController_ = arg_2_0.controller_:GetController("show")
+	slot0.firstController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "first")
+	slot0.showController_ = slot0.controller_:GetController("show")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	var_0_0.super.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.detailBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	uv0.super.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.detailBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewMain", {
 			isEnter = true,
-			hid = arg_3_0.heroId
+			hid = uv0.heroId
 		})
 	end)
 
-	if arg_3_0.m_changeBtn then
-		arg_3_0:AddBtnListener(arg_3_0.m_changeBtn, nil, function()
-			local var_5_0 = DrawPoolCfg[arg_3_0.poolId].pool_change
-			local var_5_1 = DrawData:GetPoolUpTimes(arg_3_0.poolId)
+	if slot0.m_changeBtn then
+		slot0:AddBtnListener(slot0.m_changeBtn, nil, function ()
+			if DrawPoolCfg[uv0.poolId].pool_change == 0 or DrawData:GetPoolUpTimes(uv0.poolId) < slot0 then
+				slot2 = DrawPoolCfg[uv0.poolId]
 
-			if var_5_0 == 0 or var_5_1 < var_5_0 then
-				local var_5_2 = DrawPoolCfg[arg_3_0.poolId]
-				local var_5_3 = table.indexof(var_5_2.optional_lists_poolId, arg_3_0.showId)
-				local var_5_4 = var_5_2.optional_detail[var_5_3]
-
-				arg_3_0:Go("/drawAllHeroSelect", {
-					poolId = arg_3_0.poolId,
-					heroIdList = var_5_2.optional_detail,
-					heroId = var_5_4
+				uv0:Go("/drawAllHeroSelect", {
+					poolId = uv0.poolId,
+					heroIdList = slot2.optional_detail,
+					heroId = slot2.optional_detail[table.indexof(slot2.optional_lists_poolId, uv0.showId)]
 				})
 			else
 				ShowTips("DRAW_LACK_UP_TIMES")
@@ -51,47 +44,40 @@ function var_0_0.AddUIListener(arg_3_0)
 	end
 end
 
-function var_0_0.Refresh(arg_6_0, arg_6_1)
-	var_0_0.super.Refresh(arg_6_0, arg_6_1)
+function slot0.Refresh(slot0, slot1)
+	uv0.super.Refresh(slot0, slot1)
 
-	arg_6_0.showId = arg_6_1
-	arg_6_0.upID = DrawData:GetPollUpID(arg_6_0.poolId)
+	slot0.showId = slot1
+	slot0.upID = DrawData:GetPollUpID(slot0.poolId)
 
-	if arg_6_0.upID == 0 then
-		arg_6_0.showController_:SetSelectedState("no_role")
+	if slot0.upID == 0 then
+		slot0.showController_:SetSelectedState("no_role")
 	else
-		arg_6_0.showController_:SetSelectedState("role")
+		slot0.showController_:SetSelectedState("role")
 	end
 
-	local var_6_0 = DrawPoolCfg[arg_6_0.poolId]
-	local var_6_1 = table.indexof(var_6_0.optional_lists_poolId, arg_6_1)
+	slot3 = table.indexof(DrawPoolCfg[slot0.poolId].optional_lists_poolId, slot1)
+	slot0.heroId = DrawData:ConvertUpId(slot0.poolId, slot0.upID, 0)
+	slot4 = HeroCfg[slot0.heroId]
 
-	arg_6_0.heroId = DrawData:ConvertUpId(arg_6_0.poolId, arg_6_0.upID, 0)
-
-	local var_6_2 = HeroCfg[arg_6_0.heroId]
-
-	if arg_6_0.m_changeCount then
-		local var_6_3 = DrawPoolCfg[arg_6_0.poolId].pool_change
-
-		if var_6_3 == 0 then
-			arg_6_0.m_changeCount.text = ""
+	if slot0.m_changeCount then
+		if DrawPoolCfg[slot0.poolId].pool_change == 0 then
+			slot0.m_changeCount.text = ""
 		else
-			local var_6_4 = var_6_3 - DrawData:GetPoolUpTimes(arg_6_0.poolId)
-
-			arg_6_0.m_changeCount.text = string.format(GetTips("DRAW_REMAIN_UP_TIMES"), tostring(var_6_4))
+			slot0.m_changeCount.text = string.format(GetTips("DRAW_REMAIN_UP_TIMES"), tostring(slot5 - DrawData:GetPoolUpTimes(slot0.poolId)))
 		end
 	end
 
-	if arg_6_0.upID ~= 0 then
-		arg_6_0.suffixText_.text = GetI18NText(var_6_2.name)
-		arg_6_0.nameText_.text = GetI18NText(var_6_2.suffix)
-		arg_6_0.pic_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/Character/Portrait/%d", arg_6_0.heroId))
-		arg_6_0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(arg_6_0.heroId)
+	if slot0.upID ~= 0 then
+		slot0.suffixText_.text = GetI18NText(slot4.name)
+		slot0.nameText_.text = GetI18NText(slot4.suffix)
+		slot0.pic_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/Character/Portrait/%d", slot0.heroId))
+		slot0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(slot0.heroId)
 
-		arg_6_0.pic_:SetNativeSize()
+		slot0.pic_:SetNativeSize()
 	end
 
-	arg_6_0.countText_.text = DrawData:GetUpRemainTime(arg_6_0.poolId)
+	slot0.countText_.text = DrawData:GetUpRemainTime(slot0.poolId)
 end
 
-return var_0_0
+return slot0

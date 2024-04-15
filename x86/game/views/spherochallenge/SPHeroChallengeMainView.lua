@@ -1,111 +1,108 @@
-local var_0_0 = class("SPHeroChallengeMainView", ReduxView)
+slot0 = class("SPHeroChallengeMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/SPHeroChallengeMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.scheduleList = {}
+	slot0.scheduleList = {}
 
-	for iter_4_0 = 1, SpHeroChallengeConst.scheduleNum do
-		arg_4_0.scheduleList[iter_4_0] = SPHeroChallengeScheduleItem.New(arg_4_0["scheduleitem" .. iter_4_0 .. "Btn_"].gameObject)
+	for slot4 = 1, SpHeroChallengeConst.scheduleNum do
+		slot0.scheduleList[slot4] = SPHeroChallengeScheduleItem.New(slot0["scheduleitem" .. slot4 .. "Btn_"].gameObject)
 	end
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
-	arg_5_0:InitController()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:InitController()
 
-	arg_5_0.timeLine1 = arg_5_0.gameObject_:GetComponent("PlayableDirector")
-	arg_5_0.timeLine2 = arg_5_0.canvasGo_:GetComponent("PlayableDirector")
+	slot0.timeLine1 = slot0.gameObject_:GetComponent("PlayableDirector")
+	slot0.timeLine2 = slot0.canvasGo_:GetComponent("PlayableDirector")
 end
 
-function var_0_0.FinPlayable(arg_6_0)
-	if arg_6_0.timeLine1 then
-		arg_6_0.timeLine1:Stop()
+function slot0.FinPlayable(slot0)
+	if slot0.timeLine1 then
+		slot0.timeLine1:Stop()
 	end
 
-	if arg_6_0.timeLine2 then
-		arg_6_0.timeLine2:Stop()
+	if slot0.timeLine2 then
+		slot0.timeLine2:Stop()
 	end
 end
 
-function var_0_0.InitController(arg_7_0)
-	local var_7_0 = SPHeroChallengeData:GetActivityID()
+function slot0.InitController(slot0)
+	slot0.entrustController = {}
+	slot5 = SPHeroChallengeData:GetActivityID()
 
-	arg_7_0.entrustController = {}
-
-	for iter_7_0 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(var_7_0) do
-		arg_7_0.entrustController[iter_7_0] = arg_7_0["entrust" .. iter_7_0 .. "Con"]:GetController("State")
+	for slot5 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(slot5) do
+		slot0.entrustController[slot5] = slot0["entrust" .. slot5 .. "Con"]:GetController("State")
 	end
 
-	arg_7_0.spAwardController = arg_7_0.spAwardCon:GetController("chipState")
-	arg_7_0.scheduleController = arg_7_0.scheduleCon:GetController("Finish")
-	arg_7_0.bossOpenController = arg_7_0.bossopenCon:GetController("bossOpen")
-	arg_7_0.animator = arg_7_0.middleGo_:GetComponent("Animator")
-	arg_7_0.scheduleSelectController = arg_7_0.scheduleCon:GetController("Select")
-	arg_7_0.miniGameSelectController = arg_7_0.entrustCon:GetController("Select")
-	arg_7_0.scheduleAniamtor = arg_7_0.scheduleShowCon:GetComponent("Animator")
-	arg_7_0.miniGameAniamtor = arg_7_0.miniGameCon:GetComponent("Animator")
+	slot0.spAwardController = slot0.spAwardCon:GetController("chipState")
+	slot0.scheduleController = slot0.scheduleCon:GetController("Finish")
+	slot0.bossOpenController = slot0.bossopenCon:GetController("bossOpen")
+	slot0.animator = slot0.middleGo_:GetComponent("Animator")
+	slot0.scheduleSelectController = slot0.scheduleCon:GetController("Select")
+	slot0.miniGameSelectController = slot0.entrustCon:GetController("Select")
+	slot0.scheduleAniamtor = slot0.scheduleShowCon:GetComponent("Animator")
+	slot0.miniGameAniamtor = slot0.miniGameCon:GetComponent("Animator")
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID = SPHeroChallengeData:GetActivityID()
-	arg_8_0.activityInfo = SPHeroChallengeData:GetCurActivityInfo()
+function slot0.OnEnter(slot0)
+	slot0.activityID = SPHeroChallengeData:GetActivityID()
+	slot0.activityInfo = SPHeroChallengeData:GetCurActivityInfo()
 
-	if arg_8_0.activityInfo then
-		arg_8_0.scheduleInfo = arg_8_0.activityInfo.curScheduleList
+	if slot0.activityInfo then
+		slot0.scheduleInfo = slot0.activityInfo.curScheduleList
 	end
 
-	arg_8_0.curButtonState = arg_8_0.curButtonState or SPHeroChallengeData:GetPageState() or "schedule"
-	arg_8_0.isOpenFlag = true
+	slot0.curButtonState = slot0.curButtonState or SPHeroChallengeData:GetPageState() or "schedule"
+	slot0.isOpenFlag = true
 
-	arg_8_0:StartTimeLine()
-	arg_8_0:RegisterEvents()
-	arg_8_0:RefreshView()
-	arg_8_0:RefreshAutoInfo()
-	arg_8_0:RefreshBar()
-	arg_8_0:BindRedPonit()
-	arg_8_0:StartEnterTimer()
-	arg_8_0:RefreshSelectState()
+	slot0:StartTimeLine()
+	slot0:RegisterEvents()
+	slot0:RefreshView()
+	slot0:RefreshAutoInfo()
+	slot0:RefreshBar()
+	slot0:BindRedPonit()
+	slot0:StartEnterTimer()
+	slot0:RefreshSelectState()
 end
 
-function var_0_0.OnTop(arg_9_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.StartTimeLine(arg_10_0)
-	if arg_10_0.curButtonState == "schedule" then
-		arg_10_0.timeLine1:Play()
+function slot0.StartTimeLine(slot0)
+	if slot0.curButtonState == "schedule" then
+		slot0.timeLine1:Play()
 	else
-		arg_10_0.timeLine2:Play()
+		slot0.timeLine2:Play()
 	end
 end
 
-function var_0_0.BindRedPonit(arg_11_0)
-	manager.redPoint:bindUIandKey(arg_11_0.entrustBtn_.transform, RedPointConst.SP_HERO_CHALLENGE_3_1_ENTRUST)
-	manager.redPoint:bindUIandKey(arg_11_0.heroChipBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].heroChipActivityID))
-	manager.redPoint:bindUIandKey(arg_11_0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].taskActivityID))
+function slot0.BindRedPonit(slot0)
+	manager.redPoint:bindUIandKey(slot0.entrustBtn_.transform, RedPointConst.SP_HERO_CHALLENGE_3_1_ENTRUST)
+	manager.redPoint:bindUIandKey(slot0.heroChipBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].heroChipActivityID))
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].taskActivityID))
 end
 
-function var_0_0.UnBindRedPonit(arg_12_0)
-	manager.redPoint:unbindUIandKey(arg_12_0.entrustBtn_.transform, RedPointConst.SP_HERO_CHALLENGE_3_1_ENTRUST)
-	manager.redPoint:unbindUIandKey(arg_12_0.heroChipBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].heroChipActivityID))
-	manager.redPoint:unbindUIandKey(arg_12_0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].taskActivityID))
+function slot0.UnBindRedPonit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.entrustBtn_.transform, RedPointConst.SP_HERO_CHALLENGE_3_1_ENTRUST)
+	manager.redPoint:unbindUIandKey(slot0.heroChipBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].heroChipActivityID))
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, SPHeroChallengeData.activityCfg[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1].taskActivityID))
 end
 
-function var_0_0.RefreshBar(arg_13_0)
+function slot0.RefreshBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -113,474 +110,447 @@ function var_0_0.RefreshBar(arg_13_0)
 		CurrencyConst.CURRENCY_HERO_CHALLENGE_COIN_1
 	})
 	manager.windowBar:SetBarCanClick(CurrencyConst.CURRENCY_HERO_CHALLENGE_COIN_1, true)
-
-	local var_13_0 = SPHeroChallengeData:GetActivityID()
-	local var_13_1 = SPHeroChallengeData.activityCfg[var_13_0].helpKey
-
-	manager.windowBar:SetGameHelpKey(var_13_1)
+	manager.windowBar:SetGameHelpKey(SPHeroChallengeData.activityCfg[SPHeroChallengeData:GetActivityID()].helpKey)
 end
 
-function var_0_0.OnExit(arg_14_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_14_0:UnBindRedPonit()
-	arg_14_0:RemoveAllEventListener()
+	slot0:UnBindRedPonit()
+	slot0:RemoveAllEventListener()
 
-	if arg_14_0.timer then
-		arg_14_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_14_0.timer = nil
+		slot0.timer = nil
 	end
 
 	AnimatorTools.Stop()
-	arg_14_0:FinPlayable()
+	slot0:FinPlayable()
 end
 
-function var_0_0.AddUIListener(arg_15_0)
-	arg_15_0:AddBtnListenerScale(arg_15_0.trainBtn_, nil, function()
-		if not arg_15_0.playAnimation then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.trainBtn_, nil, function ()
+		if not uv0.playAnimation then
 			JumpTools.OpenPageByJump("/spHeroChallengeBattleToggleView", {
 				groupIndex = SpHeroChallengeConst.ChapterType.story
 			})
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.shopBtn_, nil, function()
-		if arg_15_0.activityID and not arg_15_0.playAnimation then
-			local var_17_0 = SPHeroChallengeData.activityCfg[arg_15_0.activityID].shopID
+	slot0:AddBtnListenerScale(slot0.shopBtn_, nil, function ()
+		if uv0.activityID and not uv0.playAnimation then
+			slot0 = SPHeroChallengeData.activityCfg[uv0.activityID].shopID
 
 			JumpTools.GoToSystem("/activityShop", {
-				shopId = var_17_0,
+				shopId = slot0,
 				showShops = {
-					var_17_0
+					slot0
 				}
 			}, ViewConst.SYSTEM_ID.SHOP)
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.heroChipBtn_, nil, function()
-		if arg_15_0.activityID and not arg_15_0.playAnimation then
-			local var_18_0 = SPHeroChallengeData.activityCfg[arg_15_0.activityID].heroChipActivityID
-
+	slot0:AddBtnListenerScale(slot0.heroChipBtn_, nil, function ()
+		if uv0.activityID and not uv0.playAnimation then
 			JumpTools.OpenPageByJump("spHeroChallengeHeroChipTaskView", {
-				activityID = var_18_0
+				activityID = SPHeroChallengeData.activityCfg[uv0.activityID].heroChipActivityID
 			})
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.taskBtn_, nil, function()
-		if arg_15_0.activityID and not arg_15_0.playAnimation then
-			local var_19_0 = SPHeroChallengeData.activityCfg[arg_15_0.activityID].taskActivityID
-
+	slot0:AddBtnListenerScale(slot0.taskBtn_, nil, function ()
+		if uv0.activityID and not uv0.playAnimation then
 			JumpTools.OpenPageByJump("spHeroChallengeActivityTaskView", {
-				activityID = var_19_0
+				activityID = SPHeroChallengeData.activityCfg[uv0.activityID].taskActivityID
 			})
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.scheduleBtn_, nil, function()
-		if arg_15_0.curButtonState == "schedule" and arg_15_0.activityInfo:CheckCurScheduleFinish() and not arg_15_0.activityInfo:CheckDailyScheduleAwardReceived() then
+
+	slot4 = nil
+
+	slot0:AddBtnListenerScale(slot0.scheduleBtn_, slot4, function ()
+		if uv0.curButtonState == "schedule" and uv0.activityInfo:CheckCurScheduleFinish() and not uv0.activityInfo:CheckDailyScheduleAwardReceived() then
 			SPHeroChallengeAction:GetScheduleAward()
 
 			return
 		end
 
-		if not arg_15_0.playAnimation then
-			if arg_15_0.curButtonState == "schedule" then
-				arg_15_0:ShowBtnList("schedule", not arg_15_0.isOpenFlag)
+		if not uv0.playAnimation then
+			if uv0.curButtonState == "schedule" then
+				uv0:ShowBtnList("schedule", not uv0.isOpenFlag)
 			else
-				arg_15_0:ExchangePosition()
+				uv0:ExchangePosition()
 			end
 		end
 	end)
 
-	for iter_15_0 = 1, SpHeroChallengeConst.scheduleNum do
-		if not arg_15_0.playAnimation then
-			arg_15_0:AddBtnListener(arg_15_0["scheduleitem" .. iter_15_0 .. "Btn_"], nil, function()
-				arg_15_0:ClickScheduleItem(iter_15_0)
+	for slot4 = 1, SpHeroChallengeConst.scheduleNum do
+		if not slot0.playAnimation then
+			slot0:AddBtnListener(slot0["scheduleitem" .. slot4 .. "Btn_"], nil, function ()
+				uv0:ClickScheduleItem(uv1)
 			end)
 		end
 	end
 
-	arg_15_0:AddBtnListenerScale(arg_15_0.miniGameBtn_, nil, function()
-		if not arg_15_0.playAnimation then
-			if arg_15_0.curButtonState == "miniGame" then
-				arg_15_0:ShowBtnList("miniGame", not arg_15_0.isOpenFlag)
+	slot0:AddBtnListenerScale(slot0.miniGameBtn_, nil, function ()
+		if not uv0.playAnimation then
+			if uv0.curButtonState == "miniGame" then
+				uv0:ShowBtnList("miniGame", not uv0.isOpenFlag)
 			else
-				arg_15_0:ExchangePosition()
+				uv0:ExchangePosition()
 			end
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.entrustBtn_, nil, function()
-		if not arg_15_0.playAnimation then
+	slot0:AddBtnListenerScale(slot0.entrustBtn_, nil, function ()
+		if not uv0.playAnimation then
 			JumpTools.OpenPageByJump("/spHeroChallengeEntrustView")
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.barbecueBtn_, nil, function()
-		if not arg_15_0.playAnimation then
-			SPHeroChallengeTools:JumpSystemByScheduleType(SpHeroChallengeConst.ScheduleSubType.barbuce, nil, arg_15_0.curButtonState)
+	slot0:AddBtnListenerScale(slot0.barbecueBtn_, nil, function ()
+		if not uv0.playAnimation then
+			SPHeroChallengeTools:JumpSystemByScheduleType(SpHeroChallengeConst.ScheduleSubType.barbuce, nil, uv0.curButtonState)
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.mysteryBtn_, nil, function()
-		if not arg_15_0.playAnimation then
+
+	function slot5()
+		if not uv0.playAnimation then
 			SPHeroChallengeTools:JumpSystemByScheduleType(SpHeroChallengeConst.ScheduleSubType.decode)
 		end
-	end)
+	end
 
-	local var_15_0 = {
-		arg_15_0.scheduleBtn_.gameObject,
-		arg_15_0.miniGameBtn_.gameObject,
-		arg_15_0.scorllbtnBtn_.gameObject
-	}
+	slot0:AddBtnListenerScale(slot0.mysteryBtn_, nil, slot5)
 
-	for iter_15_1, iter_15_2 in ipairs(var_15_0) do
-		arg_15_0:AddPressByTimeListener(iter_15_2, 0.2, function()
-			return
-		end, function(arg_27_0, arg_27_1, arg_27_2)
-			if arg_27_0 == arg_15_0.scheduleBtn_.gameObject and arg_15_0.curButtonState == "miniGame" then
+	for slot5, slot6 in ipairs({
+		slot0.scheduleBtn_.gameObject,
+		slot0.miniGameBtn_.gameObject,
+		slot0.scorllbtnBtn_.gameObject
+	}) do
+		slot0:AddPressByTimeListener(slot6, 0.2, function ()
+		end, function (slot0, slot1, slot2)
+			if slot0 == uv0.scheduleBtn_.gameObject and uv0.curButtonState == "miniGame" then
 				return
 			end
 
-			if arg_27_0 == arg_15_0.miniGameBtn_.gameObject and arg_15_0.curButtonState == "schedule" then
+			if slot0 == uv0.miniGameBtn_.gameObject and uv0.curButtonState == "schedule" then
 				return
 			end
 
-			if not arg_15_0.playAnimation then
-				arg_15_0:StartDrag()
+			if not uv0.playAnimation then
+				uv0:StartDrag()
 			end
-		end, function(arg_28_0, arg_28_1, arg_28_2)
-			arg_15_0:EndDrag()
+		end, function (slot0, slot1, slot2)
+			uv0:EndDrag()
 		end)
-		arg_15_0:AddDragListener(iter_15_2, function()
-			return
-		end, function()
-			arg_15_0:OnDrag()
-		end, function()
-			return
+		slot0:AddDragListener(slot6, function ()
+		end, function ()
+			uv0:OnDrag()
+		end, function ()
 		end)
 	end
 end
 
-function var_0_0.StartDrag(arg_32_0)
-	arg_32_0.startPos = Vector2.New(Input.mousePosition.x, Input.mousePosition.y)
+function slot0.StartDrag(slot0)
+	slot0.startPos = Vector2.New(Input.mousePosition.x, Input.mousePosition.y)
 end
 
-function var_0_0.EndDrag(arg_33_0)
-	arg_33_0.startPos = nil
+function slot0.EndDrag(slot0)
+	slot0.startPos = nil
 end
 
-function var_0_0.OnDrag(arg_34_0)
-	if arg_34_0.startPos then
-		local var_34_0 = Vector2.New(Input.mousePosition.x, Input.mousePosition.y)
+function slot0.OnDrag(slot0)
+	if slot0.startPos and GameDisplayCfg.activity_hero_challenge_slide.value[1] < MathTools.GetDistance(slot0.startPos, Vector2.New(Input.mousePosition.x, Input.mousePosition.y)) then
+		slot0.playAnimation = true
 
-		if MathTools.GetDistance(arg_34_0.startPos, var_34_0) > GameDisplayCfg.activity_hero_challenge_slide.value[1] then
-			local var_34_1 = arg_34_0.startPos - var_34_0
+		if (slot0.startPos - slot1).y < 0 then
+			if slot0.curButtonState == "schedule" then
+				slot0.miniGameSelectController:SetSelectedState("closeTrain")
+				slot0:ShowBtnList("schedule", false, function ()
+					AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_startScheduleList_counterclockwise", function ()
+						uv0:ShowBtnList("miniGame", true)
 
-			arg_34_0.playAnimation = true
+						uv0.curButtonState = "miniGame"
 
-			if var_34_1.y < 0 then
-				if arg_34_0.curButtonState == "schedule" then
-					arg_34_0.miniGameSelectController:SetSelectedState("closeTrain")
-					arg_34_0:ShowBtnList("schedule", false, function()
-						AnimatorTools.PlayAnimatorWithCallback(arg_34_0.animator, "Fx_startScheduleList_counterclockwise", function()
-							arg_34_0:ShowBtnList("miniGame", true)
-
-							arg_34_0.curButtonState = "miniGame"
-
-							arg_34_0:RefreshSelectState()
-						end, false)
-					end)
-				else
-					arg_34_0:ShowBtnList("miniGame", false, function()
-						AnimatorTools.PlayAnimatorWithCallback(arg_34_0.animator, "Fx_miniGameList_counterclockwise", function()
-							arg_34_0:ShowBtnList("schedule", true)
-
-							arg_34_0.curButtonState = "schedule"
-
-							arg_34_0:RefreshSelectState()
-						end, false)
-					end)
-				end
-			elseif arg_34_0.curButtonState == "schedule" then
-				arg_34_0.miniGameSelectController:SetSelectedState("closeTrain")
-				arg_34_0:ShowBtnList("schedule", false, function()
-					AnimatorTools.PlayAnimatorWithCallback(arg_34_0.animator, "Fx_miniGameList_clockwise", function()
-						arg_34_0:ShowBtnList("miniGame", true)
-
-						arg_34_0.curButtonState = "miniGame"
-
-						arg_34_0:RefreshSelectState()
+						uv0:RefreshSelectState()
 					end, false)
 				end)
 			else
-				arg_34_0:ShowBtnList("miniGame", false, function()
-					AnimatorTools.PlayAnimatorWithCallback(arg_34_0.animator, "Fx_startScheduleList_clockwise", function()
-						arg_34_0:ShowBtnList("schedule", true)
+				slot0:ShowBtnList("miniGame", false, function ()
+					AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_miniGameList_counterclockwise", function ()
+						uv0:ShowBtnList("schedule", true)
 
-						arg_34_0.curButtonState = "schedule"
+						uv0.curButtonState = "schedule"
 
-						arg_34_0:RefreshSelectState()
+						uv0:RefreshSelectState()
 					end, false)
 				end)
 			end
+		elseif slot0.curButtonState == "schedule" then
+			slot0.miniGameSelectController:SetSelectedState("closeTrain")
+			slot0:ShowBtnList("schedule", false, function ()
+				AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_miniGameList_clockwise", function ()
+					uv0:ShowBtnList("miniGame", true)
 
-			arg_34_0:EndDrag()
+					uv0.curButtonState = "miniGame"
+
+					uv0:RefreshSelectState()
+				end, false)
+			end)
+		else
+			slot0:ShowBtnList("miniGame", false, function ()
+				AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_startScheduleList_clockwise", function ()
+					uv0:ShowBtnList("schedule", true)
+
+					uv0.curButtonState = "schedule"
+
+					uv0:RefreshSelectState()
+				end, false)
+			end)
 		end
+
+		slot0:EndDrag()
 	end
 end
 
-function var_0_0.RegisterEvents(arg_43_0)
-	arg_43_0:RegistEventListener(SP_HERO_CHALLENGE_UPDATE_SCHEDULE, function()
-		arg_43_0:RefreshView()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_UPDATE_SCHEDULE, function ()
+		uv0:RefreshView()
 	end)
-	arg_43_0:RegistEventListener(SP_HERO_CHALLENGE_GET_SCHEDULE_AWARD, function()
-		arg_43_0:RefreshScheduleState()
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_GET_SCHEDULE_AWARD, function ()
+		uv0:RefreshScheduleState()
 	end)
-	arg_43_0:RegistEventListener(ON_TASK_SUBMIT_RESPONSE, function()
-		arg_43_0:RefreshHeroChipInfo()
+	slot0:RegistEventListener(ON_TASK_SUBMIT_RESPONSE, function ()
+		uv0:RefreshHeroChipInfo()
 	end)
-	arg_43_0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CONFIRM, function()
-		arg_43_0:RefreshView()
+	slot0:RegistEventListener(SP_HERO_CHALLENGE_SCHEDULE_CONFIRM, function ()
+		uv0:RefreshView()
 	end)
 end
 
-function var_0_0.Dispose(arg_48_0)
-	if arg_48_0.scheduleList then
-		for iter_48_0, iter_48_1 in pairs(arg_48_0.scheduleList) do
-			iter_48_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scheduleList then
+		for slot4, slot5 in pairs(slot0.scheduleList) do
+			slot5:Dispose()
 		end
 
-		arg_48_0.scheduleList = nil
+		slot0.scheduleList = nil
 	end
 
-	if arg_48_0.timer then
-		arg_48_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_48_0.timer = nil
+		slot0.timer = nil
 	end
 
 	AnimatorTools.Stop()
-	arg_48_0:FinPlayable()
-	var_0_0.super.Dispose(arg_48_0)
+	slot0:FinPlayable()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshView(arg_49_0)
-	arg_49_0:RefreshHeroChipInfo()
-	arg_49_0:RefreshButtonLayer()
-	arg_49_0:RefreshEntrustState()
-	arg_49_0:RefreshScheduleState()
-	arg_49_0:RefreshBossOpenState()
+function slot0.RefreshView(slot0)
+	slot0:RefreshHeroChipInfo()
+	slot0:RefreshButtonLayer()
+	slot0:RefreshEntrustState()
+	slot0:RefreshScheduleState()
+	slot0:RefreshBossOpenState()
 end
 
-function var_0_0.RefreshAutoInfo(arg_50_0)
-	if SPHeroChallengeTools:ShowAutoScheduleTips(arg_50_0.activityID) then
-		local var_50_0 = getData("SPHeroChallenge", "AutoTime") or manager.time:GetServerTime()
-
-		if manager.time:IsToday(var_50_0) then
-			local var_50_1 = manager.time:GetServerTime()
-
-			saveData("SPHeroChallenge", "AutoTime", var_50_1)
-			ShowMessageBox({
-				title = GetTips("PROMPT"),
-				content = GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_AUTO_TIPS"),
-				OkCallback = function()
-					SPHeroChallengeTools:AutoChooseSchedule()
-
-					local var_51_0 = arg_50_0.activityInfo:GetScheduleDailyList()
-
-					SPHeroChallengeAction:ConfirmScheduleList(var_51_0)
-				end,
-				CancelCallback = function()
-					return
-				end
-			})
-		end
+function slot0.RefreshAutoInfo(slot0)
+	if SPHeroChallengeTools:ShowAutoScheduleTips(slot0.activityID) and manager.time:IsToday(getData("SPHeroChallenge", "AutoTime") or manager.time:GetServerTime()) then
+		saveData("SPHeroChallenge", "AutoTime", manager.time:GetServerTime())
+		ShowMessageBox({
+			title = GetTips("PROMPT"),
+			content = GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_AUTO_TIPS"),
+			OkCallback = function ()
+				SPHeroChallengeTools:AutoChooseSchedule()
+				SPHeroChallengeAction:ConfirmScheduleList(uv0.activityInfo:GetScheduleDailyList())
+			end,
+			CancelCallback = function ()
+			end
+		})
 	end
 end
 
-function var_0_0.RefreshHeroChipInfo(arg_53_0)
-	local var_53_0, var_53_1, var_53_2, var_53_3 = arg_53_0.activityInfo:CheckCanGetHeroChipTaskAward()
+function slot0.RefreshHeroChipInfo(slot0)
+	slot1, slot2, slot3, slot4 = slot0.activityInfo:CheckCanGetHeroChipTaskAward()
 
-	if var_53_1 then
-		arg_53_0.spAwardController:SetSelectedState("received")
-	elseif var_53_3 < var_53_2 then
-		arg_53_0.spAwardController:SetSelectedState("unavaliable")
+	if slot2 then
+		slot0.spAwardController:SetSelectedState("received")
+	elseif slot4 < slot3 then
+		slot0.spAwardController:SetSelectedState("unavaliable")
 	else
-		arg_53_0.spAwardController:SetSelectedState("obtainable")
+		slot0.spAwardController:SetSelectedState("obtainable")
 	end
 
-	arg_53_0.heroChipText.text = string.format(GetTips("ACTIVITY_HERO_CLUE_COLLECT"), tostring(var_53_3), tostring(var_53_2))
+	slot0.heroChipText.text = string.format(GetTips("ACTIVITY_HERO_CLUE_COLLECT"), tostring(slot4), tostring(slot3))
 end
 
-function var_0_0.RefreshBossOpenState(arg_54_0)
-	local var_54_0 = SPHeroChallengeData.activityCfg[arg_54_0.activityID].bossActivityID
-
-	if ActivityData:GetActivityIsOpen(var_54_0) and arg_54_0.activityInfo.bossStart then
-		arg_54_0.bossOpenController:SetSelectedState("open")
+function slot0.RefreshBossOpenState(slot0)
+	if ActivityData:GetActivityIsOpen(SPHeroChallengeData.activityCfg[slot0.activityID].bossActivityID) and slot0.activityInfo.bossStart then
+		slot0.bossOpenController:SetSelectedState("open")
 	else
-		arg_54_0.bossOpenController:SetSelectedState("close")
+		slot0.bossOpenController:SetSelectedState("close")
 	end
 end
 
-function var_0_0.RefreshButtonLayer(arg_55_0)
-	if arg_55_0.isOpenFlag then
-		arg_55_0:RefreshEntrustState()
-		arg_55_0:RefreshScheduleList()
+function slot0.RefreshButtonLayer(slot0)
+	if slot0.isOpenFlag then
+		slot0:RefreshEntrustState()
+		slot0:RefreshScheduleList()
 	end
 end
 
-function var_0_0.ShowBtnList(arg_56_0, arg_56_1, arg_56_2, arg_56_3)
-	arg_56_0.playAnimation = true
+function slot0.ShowBtnList(slot0, slot1, slot2, slot3)
+	slot0.playAnimation = true
 
-	if arg_56_1 == "schedule" then
-		if arg_56_2 then
-			AnimatorTools.PlayAnimatorWithCallback(arg_56_0.scheduleAniamtor, "Fx_activityHeroChallengeScheduleBtn_cx", function()
-				if arg_56_3 then
-					arg_56_3()
+	if slot1 == "schedule" then
+		if slot2 then
+			AnimatorTools.PlayAnimatorWithCallback(slot0.scheduleAniamtor, "Fx_activityHeroChallengeScheduleBtn_cx", function ()
+				if uv0 then
+					uv0()
 				else
-					arg_56_0.playAnimation = false
+					uv1.playAnimation = false
 				end
 			end, false)
 		else
-			AnimatorTools.PlayAnimatorWithCallback(arg_56_0.scheduleAniamtor, "Fx_activityHeroChallengeScheduleBtn_xs", function()
-				if arg_56_3 then
-					arg_56_3()
+			AnimatorTools.PlayAnimatorWithCallback(slot0.scheduleAniamtor, "Fx_activityHeroChallengeScheduleBtn_xs", function ()
+				if uv0 then
+					uv0()
 				else
-					arg_56_0.playAnimation = false
+					uv1.playAnimation = false
 				end
 			end, false)
 		end
-	elseif arg_56_1 == "miniGame" then
-		if arg_56_2 then
-			AnimatorTools.PlayAnimatorWithCallback(arg_56_0.miniGameAniamtor, "Fx_activityHeroChallengeMiniGameBtn_cx", function()
-				if arg_56_3 then
-					arg_56_3()
+	elseif slot1 == "miniGame" then
+		if slot2 then
+			AnimatorTools.PlayAnimatorWithCallback(slot0.miniGameAniamtor, "Fx_activityHeroChallengeMiniGameBtn_cx", function ()
+				if uv0 then
+					uv0()
 				else
-					arg_56_0.playAnimation = false
+					uv1.playAnimation = false
 				end
 			end, false)
 		else
-			AnimatorTools.PlayAnimatorWithCallback(arg_56_0.miniGameAniamtor, "Fx_activityHeroChallengeMiniGameBtn_xs", function()
-				if arg_56_3 then
-					arg_56_3()
+			AnimatorTools.PlayAnimatorWithCallback(slot0.miniGameAniamtor, "Fx_activityHeroChallengeMiniGameBtn_xs", function ()
+				if uv0 then
+					uv0()
 				else
-					arg_56_0.playAnimation = false
+					uv1.playAnimation = false
 				end
 			end, false)
 		end
 	end
 
-	arg_56_0.isOpenFlag = arg_56_2
+	slot0.isOpenFlag = slot2
 
-	arg_56_0:RefreshButtonLayer()
+	slot0:RefreshButtonLayer()
 end
 
-function var_0_0.RefreshScheduleList(arg_61_0)
-	if arg_61_0.scheduleList then
-		for iter_61_0, iter_61_1 in pairs(arg_61_0.scheduleList) do
-			iter_61_1:RefreshUI(iter_61_0)
+function slot0.RefreshScheduleList(slot0)
+	if slot0.scheduleList then
+		for slot4, slot5 in pairs(slot0.scheduleList) do
+			slot5:RefreshUI(slot4)
 		end
 	end
 end
 
-function var_0_0.RefreshEntrustState(arg_62_0)
-	local var_62_0
+function slot0.RefreshEntrustState(slot0)
+	slot1 = nil
+	slot5 = slot0.activityID
 
-	for iter_62_0 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(arg_62_0.activityID) do
-		local var_62_1 = SPHeroChallengeTools:GetEntrustPosState(arg_62_0.activityID, iter_62_0)
+	for slot5 = 1, SPHeroChallengeTools:GetMaxStartEntrustPosNum(slot5) do
+		slot6 = SPHeroChallengeTools:GetEntrustPosState(slot0.activityID, slot5)
 
-		if arg_62_0.entrustController and arg_62_0.entrustController[iter_62_0] then
-			arg_62_0.entrustController[iter_62_0]:SetSelectedState(var_62_1)
+		if slot0.entrustController and slot0.entrustController[slot5] then
+			slot0.entrustController[slot5]:SetSelectedState(slot6)
 
-			if var_62_1 == SpHeroChallengeConst.EntrustPosState.empty or var_62_1 == SpHeroChallengeConst.EntrustPosState.fin then
-				local var_62_2 = SpHeroChallengeConst.EntrustPosState.empty
+			if slot6 == SpHeroChallengeConst.EntrustPosState.empty or slot6 == SpHeroChallengeConst.EntrustPosState.fin then
+				slot1 = SpHeroChallengeConst.EntrustPosState.empty
 			end
 		end
 	end
 end
 
-function var_0_0.RefreshScheduleState(arg_63_0)
-	if arg_63_0.activityInfo:CheckCurScheduleFinish() then
-		if arg_63_0.activityInfo:CheckDailyScheduleAwardReceived() then
-			arg_63_0.scheduleController:SetSelectedState("recived")
+function slot0.RefreshScheduleState(slot0)
+	if slot0.activityInfo:CheckCurScheduleFinish() then
+		if slot0.activityInfo:CheckDailyScheduleAwardReceived() then
+			slot0.scheduleController:SetSelectedState("recived")
 		else
-			arg_63_0.scheduleController:SetSelectedState("award")
+			slot0.scheduleController:SetSelectedState("award")
 		end
 	else
-		arg_63_0.scheduleController:SetSelectedState("none")
+		slot0.scheduleController:SetSelectedState("none")
 	end
 end
 
-function var_0_0.ClickScheduleItem(arg_64_0, arg_64_1)
-	if arg_64_0.scheduleInfo and arg_64_0.scheduleInfo[arg_64_1] then
-		if arg_64_0.scheduleInfo[arg_64_1].isFinish then
+function slot0.ClickScheduleItem(slot0, slot1)
+	if slot0.scheduleInfo and slot0.scheduleInfo[slot1] then
+		if slot0.scheduleInfo[slot1].isFinish then
 			return
 		end
 
-		local var_64_0 = arg_64_0.scheduleInfo[arg_64_1].scheduleID
-		local var_64_1 = ActivityHeroChallengeScheduleCfg[var_64_0].server_type
-
-		SPHeroChallengeTools:JumpSystemByScheduleType(var_64_1, true, arg_64_0.curButtonState)
+		SPHeroChallengeTools:JumpSystemByScheduleType(ActivityHeroChallengeScheduleCfg[slot0.scheduleInfo[slot1].scheduleID].server_type, true, slot0.curButtonState)
 	else
 		JumpTools.OpenPageByJump("/spHeroChallengeScheduleView")
 	end
 end
 
-function var_0_0.StartEnterTimer(arg_65_0)
-	if arg_65_0.timer then
-		arg_65_0.timer:Stop()
+function slot0.StartEnterTimer(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_65_0.timer = nil
+		slot0.timer = nil
 	end
 
-	arg_65_0.playAnimation = true
-	arg_65_0.timer = Timer.New(function()
-		arg_65_0.timer:Stop()
+	slot0.playAnimation = true
+	slot0.timer = Timer.New(function ()
+		uv0.timer:Stop()
 
-		arg_65_0.timer = nil
-		arg_65_0.playAnimation = false
+		uv0.timer = nil
+		uv0.playAnimation = false
 	end, 1, 1)
 
-	arg_65_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.ExchangePosition(arg_67_0)
-	if arg_67_0.curButtonState == "schedule" then
-		arg_67_0.miniGameSelectController:SetSelectedState("closeTrain")
-		arg_67_0:ShowBtnList("schedule", false, function()
-			arg_67_0.playAnimation = true
+function slot0.ExchangePosition(slot0)
+	if slot0.curButtonState == "schedule" then
+		slot0.miniGameSelectController:SetSelectedState("closeTrain")
+		slot0:ShowBtnList("schedule", false, function ()
+			uv0.playAnimation = true
 
-			AnimatorTools.PlayAnimatorWithCallback(arg_67_0.animator, "Fx_miniGameList_clockwise", function()
-				arg_67_0:ShowBtnList("miniGame", true)
+			AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_miniGameList_clockwise", function ()
+				uv0:ShowBtnList("miniGame", true)
 
-				arg_67_0.curButtonState = "miniGame"
+				uv0.curButtonState = "miniGame"
 
-				arg_67_0:RefreshSelectState()
+				uv0:RefreshSelectState()
 			end, false)
 		end)
 	else
-		arg_67_0:ShowBtnList("miniGame", false, function()
-			arg_67_0.playAnimation = true
+		slot0:ShowBtnList("miniGame", false, function ()
+			uv0.playAnimation = true
 
-			AnimatorTools.PlayAnimatorWithCallback(arg_67_0.animator, "Fx_startScheduleList_clockwise", function()
-				arg_67_0:ShowBtnList("schedule", true)
+			AnimatorTools.PlayAnimatorWithCallback(uv0.animator, "Fx_startScheduleList_clockwise", function ()
+				uv0:ShowBtnList("schedule", true)
 
-				arg_67_0.curButtonState = "schedule"
+				uv0.curButtonState = "schedule"
 
-				arg_67_0:RefreshSelectState()
+				uv0:RefreshSelectState()
 			end, false)
 		end)
 	end
 end
 
-function var_0_0.RefreshSelectState(arg_72_0)
-	if arg_72_0.curButtonState == "schedule" then
-		arg_72_0.scheduleSelectController:SetSelectedState("Selected")
+function slot0.RefreshSelectState(slot0)
+	if slot0.curButtonState == "schedule" then
+		slot0.scheduleSelectController:SetSelectedState("Selected")
 
 		if SPHeroChallengeTools:CheckBossActivityIsOpen() then
-			arg_72_0.miniGameSelectController:SetSelectedState("UnSelected")
+			slot0.miniGameSelectController:SetSelectedState("UnSelected")
 		else
-			arg_72_0.miniGameSelectController:SetSelectedState("closeTrain")
+			slot0.miniGameSelectController:SetSelectedState("closeTrain")
 		end
 	else
-		arg_72_0.scheduleSelectController:SetSelectedState("UnSelected")
-		arg_72_0.miniGameSelectController:SetSelectedState("Selected")
+		slot0.scheduleSelectController:SetSelectedState("UnSelected")
+		slot0.miniGameSelectController:SetSelectedState("Selected")
 	end
 end
 
-return var_0_0
+return slot0

@@ -6,7 +6,14 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "新人入职限定探测",
-		detail_note = "在「新人入职限定探测」中，10次探测只需使用<color=#FF9500>6</color>枚修正者探测凭证。\n「新人入职限定探测」一共可进行20次，前<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级修正者<color=#FF9500>夜之寄生·霍德尔</color>。\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+在「新人入职限定探测」中，10次探测只需使用<color=#FF9500>6</color>枚修正者探测凭证。
+「新人入职限定探测」一共可进行20次，前<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级修正者<color=#FF9500>夜之寄生·霍德尔</color>。
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_1",
 		pool_show_type = 5,
 		recharge_shop_list = "",
@@ -42,7 +49,13 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_2",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -81,7 +94,16 @@ return {
 		pool_type = 2,
 		pool_change = 0,
 		name = "选择钥从",
-		detail_note = "在钥从探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>4</color>星或以上品质钥从，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>5</color>星钥从。获得5星钥从时将会重置当前探测种类已探测的次数。\n当探测获得4星钥从时，<color=#FF9500>必定</color>为当前选择的神系的钥从。\n当探测获得5星钥从时，<color=#FF9500>必定</color>为当前选择的沉睡之子。\n\n更换UP的钥从不会重置已探测的次数。\n\n获得5星钥从时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得4星钥从时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+在钥从探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>4</color>星或以上品质钥从，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>5</color>星钥从。获得5星钥从时将会重置当前探测种类已探测的次数。
+当探测获得4星钥从时，<color=#FF9500>必定</color>为当前选择的神系的钥从。
+当探测获得5星钥从时，<color=#FF9500>必定</color>为当前选择的沉睡之子。
+
+更换UP的钥从不会重置已探测的次数。
+
+获得5星钥从时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得4星钥从时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_4",
 		pool_show_type = 2,
 		order = 5,
@@ -176,7 +198,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "雷光的剑息",
-		detail_note = "「雷光的剑息」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「雷光的剑息」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「雷光的剑息」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「雷光的剑息」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「雷光的剑息」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「雷光的剑息」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -218,7 +253,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "绝处逢生魂",
-		detail_note = "「绝处逢生魂」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「绝处逢生魂」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「绝处逢生魂」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「绝处逢生魂」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「绝处逢生魂」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「绝处逢生魂」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -260,7 +308,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "海拉池子",
-		detail_note = "「永夜暗星」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「朔望·月读」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「永夜暗星」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「暗星·海拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「朔望·月读」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「永夜暗星」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「永夜暗星」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「朔望·月读」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「永夜暗星」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「暗星·海拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「朔望·月读」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「永夜暗星」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -302,7 +363,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "赫拉池子",
-		detail_note = "「瞬息幻光」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「瞬息幻光」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「瞬息幻光」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「瞬息幻光」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「瞬息幻光」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「瞬息幻光」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -344,7 +418,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "波涛的奔行",
-		detail_note = "「波涛的奔行」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「光煌·阿波罗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「波涛的奔行」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「光煌·阿波罗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「波涛的奔行」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「波涛的奔行」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「光煌·阿波罗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「波涛的奔行」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「光煌·阿波罗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「波涛的奔行」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -386,7 +473,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "鲸歌的鸣奏",
-		detail_note = "「鲸歌的鸣奏」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「逆潮·利维坦」</color>以及A级修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n限定修正者不会进入「修正者共鸣」常规探测。\n\n在「鲸歌的鸣奏」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「鲸歌的鸣奏」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「鲸歌的鸣奏」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「逆潮·利维坦」</color>以及A级修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+限定修正者不会进入「修正者共鸣」常规探测。
+
+在「鲸歌的鸣奏」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「鲸歌的鸣奏」属于精准探测，探测次数会一直累计在精准探测中，所有的精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -428,7 +528,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -472,7 +583,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "缪斯茶会",
-		detail_note = "「缪斯茶会」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「操偶师·哈迪斯」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「缪斯茶会」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「操偶师·哈迪斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「缪斯茶会」属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「缪斯茶会」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「操偶师·哈迪斯」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「缪斯茶会」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「操偶师·哈迪斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「缪斯茶会」属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -514,7 +638,19 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "旧时流萤",
-		detail_note = "「旧时流萤」活动探测开启。活动期间，S级修正者<color=#FF9500>「流萤岚雾·休」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n\n在「旧时流萤」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「旧时流萤」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「旧时流萤」活动探测开启。活动期间，S级修正者<color=#FF9500>「流萤岚雾·休」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+
+在「旧时流萤」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「旧时流萤」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_9",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -556,7 +692,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「龙切·迦具土」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「龙切·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「龙切·迦具土」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「龙切·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -600,7 +747,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「流萤岚雾·休」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「流萤岚雾·休」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -644,7 +802,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "雅典娜",
-		detail_note = "「剑怅弦鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>以及A级修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「剑怅弦鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「剑怅弦鸣」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「剑怅弦鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>以及A级修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「剑怅弦鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「剑怅弦鸣」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -686,7 +857,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -728,7 +910,27 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "震离、欧申纳斯",
-		detail_note = "「风掠洋转」与「月华的剑语」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。\n\n<color=#295886>「风掠洋转」活动探测</color>\n活动期间，S级修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「风掠洋转」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n<color=#295886>「月华的剑语」活动探测</color>\n活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「风掠洋转」和「月华的剑语」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「风掠洋转」与「月华的剑语」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。
+
+<color=#295886>「风掠洋转」活动探测</color>
+活动期间，S级修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「风掠洋转」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+<color=#295886>「月华的剑语」活动探测</color>
+活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「震离·月读」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「风掠洋转」和「月华的剑语」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_6",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -779,7 +981,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流转之洋·欧申纳斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -823,7 +1036,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "陨铁星火",
-		detail_note = "「陨铁星火」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「怒蛇·马尔杜克」</color>以及A级修正者<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「陨铁星火」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「怒蛇·马尔杜克」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「陨铁星火」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「陨铁星火」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「怒蛇·马尔杜克」</color>以及A级修正者<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「陨铁星火」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「怒蛇·马尔杜克」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「陨铁星火」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -865,7 +1091,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「障月·阿修罗」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「障月·阿修罗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「障月·阿修罗」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「障月·阿修罗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -901,7 +1138,27 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "幽魂倩影、启奏晨辉",
-		detail_note = "「幽魂倩影」与「启奏晨辉」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。\n\n<color=#295886>「幽魂倩影」活动探测</color>\n活动期间，S级修正者<color=#FF9500>「胡狼·阿努比斯」</color>以及A级修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「幽魂倩影」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「胡狼·阿努比斯」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n<color=#295886>「启奏晨辉」活动探测</color>\n活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「启奏晨辉」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「幽魂倩影」和「启奏晨辉」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「幽魂倩影」与「启奏晨辉」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。
+
+<color=#295886>「幽魂倩影」活动探测</color>
+活动期间，S级修正者<color=#FF9500>「胡狼·阿努比斯」</color>以及A级修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「幽魂倩影」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「胡狼·阿努比斯」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+<color=#295886>「启奏晨辉」活动探测</color>
+活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「启奏晨辉」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「灵猫·芭丝特」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「幽魂倩影」和「启奏晨辉」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_7",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -952,7 +1209,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「胡狼·阿努比斯」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「胡狼·阿努比斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「胡狼·阿努比斯」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「胡狼·阿努比斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -990,7 +1258,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "极昼的闪电宫",
-		detail_note = "「极昼的闪电宫」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「轰雷·托尔」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「启明·海姆达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「极昼的闪电宫」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「轰雷·托尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「启明·海姆达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「极昼的闪电宫」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「极昼的闪电宫」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「轰雷·托尔」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「启明·海姆达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「极昼的闪电宫」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「轰雷·托尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「启明·海姆达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「极昼的闪电宫」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1032,7 +1313,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「冰渊·波塞冬」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「冰渊·波塞冬」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「冰渊·波塞冬」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「冰渊·波塞冬」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1070,7 +1362,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "刺耳的安魂曲",
-		detail_note = "「刺耳的安魂曲」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n\n在「刺耳的安魂曲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「刺耳的安魂曲」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「刺耳的安魂曲」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+
+在「刺耳的安魂曲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「刺耳的安魂曲」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1112,7 +1417,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「早樱·大国主」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「早樱·大国主」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「早樱·大国主」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「早樱·大国主」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1156,7 +1472,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "暗焰重燃",
-		detail_note = "「暗焰重燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「烙焰·提尔」</color>以及A级修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「暗焰重燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「烙焰·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「暗焰重燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「暗焰重燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「烙焰·提尔」</color>以及A级修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「暗焰重燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「烙焰·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「暗焰重燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1198,7 +1527,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「流萤岚雾·休」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「流萤岚雾·休」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「流萤岚雾·休」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1236,7 +1576,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "缪斯茶会",
-		detail_note = "「缪斯茶会」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「操偶师·哈迪斯」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「缪斯茶会」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「操偶师·哈迪斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「缪斯茶会」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「缪斯茶会」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「操偶师·哈迪斯」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「缪斯茶会」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「操偶师·哈迪斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「缪斯茶会」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1278,7 +1631,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "修正者常规探测",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「觅影·国常立」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「觅影·国常立」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「觅影·国常立」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「觅影·国常立」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1314,7 +1678,19 @@ return {
 		pool_change = 6,
 		optional_lists_a = "",
 		name = "自选UP池",
-		detail_note = "「自选扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「胡狼·阿努比斯」</color>、<color=#FF9500>「黎幻·赫拉」</color>、<color=#FF9500>「流萤岚雾·休」</color>、<color=#FF9500>「早樱·大国主」</color>、<color=#FF9500>「觅影·国常立」</color>、<color=#FF9500>「障月·阿修罗」</color>、<color=#FF9500>「龙切·迦具土」</color>、<color=#FF9500>「冰渊·波塞冬」</color>、<color=#FF9500>「熯天·提尔」</color>、<color=#FF9500>「逆潮·利维坦」</color>、<color=#FF9500>「操偶师·哈迪斯」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「怒蛇·马尔杜克」</color>中选择一位S级修正者使其探测获取概率<color=#FF9500>大幅提升</color>！\n在「自选扩充探测」中，管理员可以更换UP修正者，本次活动探测期间最多可更换<color=#FF9500>5</color>次。更换UP修正者不会重置已探测次数。\n \n在「自选扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「自选扩充探测」属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「自选扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「胡狼·阿努比斯」</color>、<color=#FF9500>「黎幻·赫拉」</color>、<color=#FF9500>「流萤岚雾·休」</color>、<color=#FF9500>「早樱·大国主」</color>、<color=#FF9500>「觅影·国常立」</color>、<color=#FF9500>「障月·阿修罗」</color>、<color=#FF9500>「龙切·迦具土」</color>、<color=#FF9500>「冰渊·波塞冬」</color>、<color=#FF9500>「熯天·提尔」</color>、<color=#FF9500>「逆潮·利维坦」</color>、<color=#FF9500>「操偶师·哈迪斯」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「怒蛇·马尔杜克」</color>中选择一位S级修正者使其探测获取概率<color=#FF9500>大幅提升</color>！
+在「自选扩充探测」中，管理员可以更换UP修正者，本次活动探测期间最多可更换<color=#FF9500>5</color>次。更换UP修正者不会重置已探测次数。
+ 
+在「自选扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「自选扩充探测」属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_5",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1400,7 +1776,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "丹焰还真",
-		detail_note = "「丹焰还真」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「澄心·陵光」</color>以及A级修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「丹焰还真」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「澄心·陵光」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「丹焰还真」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「丹焰还真」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「澄心·陵光」</color>以及A级修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「丹焰还真」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「澄心·陵光」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「雷獠·伽梨」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「丹焰还真」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1442,7 +1831,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "十曜",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「十曜·金乌」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「十曜·金乌」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「十曜·金乌」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「十曜·金乌」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1480,7 +1880,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "玉龙吟风",
-		detail_note = "「玉龙吟风」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「青君·孟章」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「玉龙吟风」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「玉龙吟风」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「玉龙吟风」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「青君·孟章」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「玉龙吟风」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「玉龙吟风」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -1522,7 +1935,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "青君",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「青君·孟章」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「青君·孟章」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -1560,7 +1984,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "乾坤开吾",
-		detail_note = "「乾坤开吾」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「太一·庚辰」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「乾坤开吾」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「太一·庚辰」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「乾坤开吾」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「乾坤开吾」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「太一·庚辰」</color>以及A级修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「乾坤开吾」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「太一·庚辰」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「光煌·阿波罗」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「乾坤开吾」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 2,
@@ -1607,7 +2044,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "熯天",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -1648,7 +2096,27 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "灵识宝鉴、迷蝶来归",
-		detail_note = "「灵识宝鉴」与「迷蝶来归」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。\n\n<color=#295886>「灵识宝鉴」活动探测</color>\n活动期间，S级修正者<color=#FF9500>「百解·禄良」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「灵识宝鉴」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n<color=#295886>「迷蝶来归」活动探测</color>\n活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在「迷蝶来归」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「暗星·海拉」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「灵识宝鉴」和「迷蝶来归」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「灵识宝鉴」与「迷蝶来归」活动探测开启。活动期间，管理员可<color=#FF9500>自选</color>任意活动探测参与，更换活动探测不会重置已探测次数。
+
+<color=#295886>「灵识宝鉴」活动探测</color>
+活动期间，S级修正者<color=#FF9500>「百解·禄良」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「灵识宝鉴」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+<color=#295886>「迷蝶来归」活动探测</color>
+活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>以及A级修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在「迷蝶来归」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者<color=#FF9500>「暗星·海拉」</color>。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「暗星·海拉」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「灵识宝鉴」和「迷蝶来归」均属于精准扩充探测，所有的精准扩充探测和精准探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_8",
 		pool_show_type = 3,
 		order = 2,
@@ -1704,7 +2172,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "百解",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「百解·禄良」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「百解·禄良」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 3,
@@ -1747,7 +2226,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "浮生忘闲",
-		detail_note = "「浮生忘闲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「巡天·英招」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「浮生忘闲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「巡天·英招」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「浮生忘闲」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「浮生忘闲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「巡天·英招」</color>以及A级修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「浮生忘闲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「巡天·英招」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「浮生忘闲」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 2,
@@ -1794,7 +2286,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "十曜",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「十曜·金乌」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「十曜·金乌」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「十曜·金乌」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「十曜·金乌」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -1836,7 +2339,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "雪浪的回漩",
-		detail_note = "「雪浪的回漩」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「雪浪的回漩」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「雪浪的回漩」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「雪浪的回漩」活动探测开启。活动期间，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+在本期活动探测期间及结束后，<color=#FF9500>限定</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「雪浪的回漩」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「雪浪的回漩」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 2,
@@ -1883,7 +2399,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "逆潮",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -1925,7 +2452,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "霜月侠影",
-		detail_note = "「霜月侠影」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「霜影·暗御津羽」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「霜月侠影」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「霜影·暗御津羽」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「霜月侠影」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「霜月侠影」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「霜影·暗御津羽」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「霜月侠影」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「霜影·暗御津羽」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「霜月侠影」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 2,
@@ -1972,7 +2512,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "月华的剑语",
-		detail_note = "「月华的剑语」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「月华的剑语」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「月华的剑语」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「月华的剑语」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 3,
@@ -2023,7 +2576,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "龙切",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「龙切·迦具土」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「龙切·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「龙切·迦具土」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「龙切·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -2065,7 +2629,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "启奏晨辉",
-		detail_note = "「启奏晨辉」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「羽灼·赫拉」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「启奏晨辉」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「羽灼·赫拉」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「启奏晨辉」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「启奏晨辉」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「黎幻·赫拉」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「羽灼·赫拉」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「启奏晨辉」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「黎幻·赫拉」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「羽灼·赫拉」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「启奏晨辉」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_2",
 		pool_show_type = 3,
 		order = 2,
@@ -2112,7 +2689,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "觅影",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「觅影·国常立」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「觅影·国常立」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「觅影·国常立」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「觅影·国常立」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -2154,7 +2742,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "镜华落羽",
-		detail_note = "「镜华落羽」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「镜华落羽」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「镜华落羽」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「镜华落羽」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「镜华落羽」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「镜华落羽」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_3",
 		pool_show_type = 3,
 		order = 2,
@@ -2205,7 +2806,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "丹焰还真",
-		detail_note = "「丹焰还真」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「澄心·陵光」</color>以及A级修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「丹焰还真」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「澄心·陵光」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「丹焰还真」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「丹焰还真」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「澄心·陵光」</color>以及A级修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「丹焰还真」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「澄心·陵光」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「丹焰还真」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_3",
 		pool_show_type = 3,
 		order = 3,
@@ -2253,7 +2867,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "熯天",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「熯天·提尔」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「熯天·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -2295,7 +2920,19 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "镜华落羽",
-		detail_note = "精准锚定「镜华落羽」活动探测开启。活动期间，S级修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n\n在精准锚定「镜华落羽」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「镜华落羽」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「镜华落羽」活动探测开启。活动期间，S级修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+
+在精准锚定「镜华落羽」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「镜花黄泉·伊邪那美」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「镜华落羽」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_6",
 		pool_show_type = 6,
 		order = 1,
@@ -2343,7 +2980,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "心火烈燃",
-		detail_note = "「心火烈燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「惑火灼心·迦具土」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「心火烈燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「惑火灼心·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「心火烈燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「心火烈燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「惑火灼心·迦具土」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「心火烈燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「惑火灼心·迦具土」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「心火烈燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_3",
 		pool_show_type = 3,
 		order = 2,
@@ -2390,7 +3040,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "暗焰重燃",
-		detail_note = "「暗焰重燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「烙焰·提尔」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「暗焰重燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「烙焰·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「暗焰重燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「暗焰重燃」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「烙焰·提尔」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「暗焰重燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「烙焰·提尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「疾风之枪·休」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「暗焰重燃」属于精准扩充探测，所有的精准扩充探测和精准探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_3",
 		pool_show_type = 3,
 		order = 3,
@@ -2437,7 +3100,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "早樱",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「早樱·大国主」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「早樱·大国主」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「早樱·大国主」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「早樱·大国主」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -2479,7 +3153,19 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "心火烈燃",
-		detail_note = "精准锚定「心火烈燃」活动探测开启。活动期间，S级修正者<color=#FF9500>「惑火灼心·迦具土」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n\n在精准锚定「心火烈燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「惑火灼心·迦具土」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「心火烈燃」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「心火烈燃」活动探测开启。活动期间，S级修正者<color=#FF9500>「惑火灼心·迦具土」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+
+在精准锚定「心火烈燃」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「惑火灼心·迦具土」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「银臂·努阿达」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「心火烈燃」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_6",
 		pool_show_type = 6,
 		order = 1,
@@ -2526,7 +3212,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "破阵乐",
-		detail_note = "「破阵乐」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「九司·陆吾」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「破阵乐」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「九司·陆吾」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「破阵乐」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「破阵乐」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「九司·陆吾」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「破阵乐」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「九司·陆吾」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「破阵乐」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 1,
@@ -2573,7 +3272,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "剑怅弦鸣",
-		detail_note = "「剑怅弦鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>以及A级修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「剑怅弦鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「剑怅弦鸣」属于精准再临探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「剑怅弦鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>以及A级修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「剑怅弦鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「铃兰之弦·雅典娜」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「羽灼·赫拉」</color>、<color=#B67FE3>「启明·海姆达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「剑怅弦鸣」属于精准再临探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_5",
 		pool_show_type = 7,
 		order = 3,
@@ -2630,7 +3342,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "浮生忘闲",
-		detail_note = "「浮生忘闲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「巡天·英招」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「浮生忘闲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「巡天·英招」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「浮生忘闲」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「浮生忘闲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「巡天·英招」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「浮生忘闲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「巡天·英招」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「浮生忘闲」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 2,
@@ -2677,7 +3402,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "百解",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「百解·禄良」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「百解·禄良」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「百解·禄良」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		order = 4,
@@ -2720,7 +3456,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "念良游",
-		detail_note = "「念良游」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「玄机·执明」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「念良游」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「玄机·执明」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「念良游」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「念良游」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「玄机·执明」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「念良游」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「玄机·执明」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「念良游」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 1,
@@ -2771,7 +3520,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "乾坤开吾",
-		detail_note = "「乾坤开吾」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「太一·庚辰」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「乾坤开吾」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「太一·庚辰」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「乾坤开吾」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「乾坤开吾」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「太一·庚辰」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「乾坤开吾」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「太一·庚辰」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「乾坤开吾」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 2,
@@ -2822,7 +3584,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "青君",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「青君·孟章」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「青君·孟章」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「青君·孟章」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -2860,7 +3633,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "破阵乐",
-		detail_note = "精准锚定「破阵乐」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「九司·陆吾」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在精准锚定「破阵乐」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「九司·陆吾」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「破阵乐」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「破阵乐」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「九司·陆吾」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在精准锚定「破阵乐」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「九司·陆吾」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「荒獠·金固」</color>、<color=#B67FE3>「雏心·奥西里斯」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「破阵乐」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_7",
 		pool_show_type = 6,
 		order = 1,
@@ -2907,7 +3693,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "念良游",
-		detail_note = "精准锚定「念良游」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「玄机·执明」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在精准锚定「念良游」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「玄机·执明」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「念良游」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「念良游」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「玄机·执明」</color>以及A级修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在精准锚定「念良游」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「玄机·执明」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「念良游」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_7",
 		pool_show_type = 6,
 		order = 1,
@@ -2958,7 +3757,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "刺耳的安魂曲",
-		detail_note = "「刺耳的安魂曲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「刺耳的安魂曲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「刺耳的安魂曲」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「刺耳的安魂曲」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「刺耳的安魂曲」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「沐风·恩利尔」</color>、<color=#B67FE3>「旧誓·薇儿丹蒂」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「刺耳的安魂曲」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 3,
@@ -3009,7 +3821,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "樱华尽起",
-		detail_note = "「樱华尽起」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「绯染·丰前坊天狗」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「樱华尽起」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「绯染·丰前坊天狗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「樱华尽起」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「樱华尽起」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「绯染·丰前坊天狗」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「樱华尽起」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「绯染·丰前坊天狗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「樱华尽起」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -3051,7 +3876,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "月华的剑语",
-		detail_note = "「月华的剑语」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「月华的剑语」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「月华的剑语」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「震离·月读」</color>以及A级修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「月华的剑语」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「震离·月读」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「夜之寄生·霍德尔」</color>、<color=#B67FE3>「寒霜之牙·维达尔」</color>、<color=#B67FE3>「小困·俄尼里伊」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「月华的剑语」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		recharge_shop_list = "",
@@ -3093,7 +3931,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "闪雷轰鸣",
-		detail_note = "「闪雷轰鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「轰雷·托尔」</color>以及A级修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「闪雷轰鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「轰雷·托尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「闪雷轰鸣」属于精准再临探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「闪雷轰鸣」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「轰雷·托尔」</color>以及A级修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「闪雷轰鸣」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「轰雷·托尔」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「雷獠·伽梨」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「闪雷轰鸣」属于精准再临探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_5",
 		pool_show_type = 7,
 		recharge_shop_list = "",
@@ -3137,7 +3988,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "障月",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「障月·阿修罗」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「障月·阿修罗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「障月·阿修罗」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「障月·阿修罗」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -3175,7 +4037,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "樱华尽起",
-		detail_note = "精准锚定「樱华尽起」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「绯染·丰前坊天狗」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在精准锚定「樱华尽起」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「绯染·丰前坊天狗」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「樱华尽起」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「樱华尽起」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「绯染·丰前坊天狗」</color>以及A级修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在精准锚定「樱华尽起」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「绯染·丰前坊天狗」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「银臂·努阿达」</color>、<color=#B67FE3>「低吹雪·利维坦」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「樱华尽起」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_7",
 		pool_show_type = 6,
 		recharge_shop_list = "",
@@ -3217,7 +4092,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "历世狂歌",
-		detail_note = "「历世狂歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「狂狮·塞赫麦特」</color>以及A级修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「历世狂歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「狂狮·塞赫麦特」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「历世狂歌」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「历世狂歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「狂狮·塞赫麦特」</color>以及A级修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「历世狂歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「狂狮·塞赫麦特」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「历世狂歌」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 2,
@@ -3264,7 +4152,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "罪魂裁断",
-		detail_note = "「罪魂裁断」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「沐风·恩利尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「罪魂裁断」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「沐风·恩利尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「罪魂裁断」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「罪魂裁断」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「生魂·奥西里斯」</color>以及A级修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「沐风·恩利尔」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「罪魂裁断」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「生魂·奥西里斯」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「雏心·奥西里斯」</color>、<color=#B67FE3>「疾风之枪·休」</color>、<color=#B67FE3>「沐风·恩利尔」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「罪魂裁断」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 3,
@@ -3311,7 +4212,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "波涛的奔行",
-		detail_note = "「波涛的奔行」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「波涛的奔行」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「波涛的奔行」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「波涛的奔行」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「斩浪·丝卡蒂」</color>以及A级修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「波涛的奔行」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「斩浪·丝卡蒂」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「狂鳄·索贝克」</color>、<color=#B67FE3>「彗光·前鬼坊天狗」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「波涛的奔行」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 4,
@@ -3358,7 +4272,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "逆潮",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「逆潮·利维坦」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「逆潮·利维坦」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -3396,7 +4321,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "历世狂歌",
-		detail_note = "精准锚定「历世狂歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「狂狮·塞赫麦特」</color>以及A级修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在精准锚定「历世狂歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「狂狮·塞赫麦特」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「历世狂歌」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「历世狂歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「狂狮·塞赫麦特」</color>以及A级修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在精准锚定「历世狂歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「狂狮·塞赫麦特」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「光煌·阿波罗」</color>、<color=#B67FE3>「风行·赫尔墨斯」</color>、<color=#B67FE3>「灵猫·芭丝特」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「历世狂歌」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_7",
 		pool_show_type = 6,
 		order = 1,
@@ -3441,7 +4379,19 @@ return {
 		pool_change = 3,
 		optional_lists_a = "",
 		name = "选择修正者",
-		detail_note = "「定向扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「生魂·奥西里斯」</color>、<color=#FF9500>「暗星·海拉」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「青君·孟章」</color>、<color=#FF9500>「轰雷·托尔」</color>中选择一位S级修正者为定向修正者。在「定向扩充探测」活动探测中首个获得的S级修正者必定为定向修正者！！\n在「定向扩充探测」中，管理员可以更换定向修正者，本次活动探测期间最多可更换<color=#FF9500>2</color>次。更换定向修正者不会重置已探测次数。\n \n在「定向扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>40</color>次探测必出<color=#FF9500>S</color>级修正者。本次探测获得S级修正者时，「定向扩充探测」活动探测关闭。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「定向扩充探测」属于定向扩充探测，不与精准扩充探测、精准锚定探测、精准再临探测、精准探测和修正者常规探测共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「定向扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「生魂·奥西里斯」</color>、<color=#FF9500>「暗星·海拉」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「青君·孟章」</color>、<color=#FF9500>「轰雷·托尔」</color>中选择一位S级修正者为定向修正者。在「定向扩充探测」活动探测中首个获得的S级修正者必定为定向修正者！！
+在「定向扩充探测」中，管理员可以更换定向修正者，本次活动探测期间最多可更换<color=#FF9500>2</color>次。更换定向修正者不会重置已探测次数。
+ 
+在「定向扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>40</color>次探测必出<color=#FF9500>S</color>级修正者。本次探测获得S级修正者时，「定向扩充探测」活动探测关闭。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「定向扩充探测」属于定向扩充探测，不与精准扩充探测、精准锚定探测、精准再临探测、精准探测和修正者常规探测共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_3",
 		pool_show_type = 8,
 		recharge_shop_list = "",
@@ -3503,7 +4453,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "丝与刃之歌",
-		detail_note = "精准锚定「丝与刃之歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「苍鹭·托特」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在精准锚定「丝与刃之歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「苍鹭·托特」</color>。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「丝与刃之歌」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+精准锚定「丝与刃之歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「苍鹭·托特」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在精准锚定「丝与刃之歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>90</color>次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。获得本期UP的S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>55%</color>的概率为本期UP修正者<color=#FF9500>「苍鹭·托特」</color>。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「丝与刃之歌」属于精准锚定探测，所有的精准锚定探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_7",
 		pool_show_type = 6,
 		order = 1,
@@ -3559,7 +4522,20 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "丝与刃之歌",
-		detail_note = "「丝与刃之歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「苍鹭·托特」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！\n精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。\n\n在「丝与刃之歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「苍鹭·托特」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「丝与刃之歌」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「丝与刃之歌」活动探测开启。活动期间，<color=#FF9500>精准扩充</color>S级修正者<color=#FF9500>「苍鹭·托特」</color>以及A级修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>的探测获取概率<color=#FF9500>大幅提升</color>！
+精准扩充修正者始终可以在精准扩充探测、精准锚定探测、精准再临探测、精准探测中获取，但不会进入「修正者共鸣」常规探测。
+
+在「丝与刃之歌」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「苍鹭·托特」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+当探测获得A级修正者时，有<color=#FF9500>90%</color>的概率为本期UP修正者<color=#B67FE3>「朔望·月读」</color>、<color=#B67FE3>「真红·丰前坊天狗」</color>、<color=#B67FE3>「荒獠·金固」</color>中的一个（概率均等）。如果本次探测获得的A级修正者非本期UP的A级修正者，下次探测获得的A级修正者<color=#FF9500>必定</color>为本期UP的A级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「丝与刃之歌」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_4",
 		pool_show_type = 3,
 		order = 2,
@@ -3615,7 +4591,18 @@ return {
 		pool_change = 0,
 		optional_lists_a = "",
 		name = "冰渊",
-		detail_note = "修正者探测限时UP开启。S级修正者<color=#FF9500>「冰渊·波塞冬」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！\n\n在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「冰渊·波塞冬」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\nUP修正者的变更不会影响修正者探测的保底。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+修正者探测限时UP开启。S级修正者<color=#FF9500>「冰渊·波塞冬」</color>的探测获取概率<color=#FF9500>限时大幅提升</color>！
+
+在修正者探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时将会重置当前探测种类已探测的次数。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为本期UP修正者<color=#FF9500>「冰渊·波塞冬」</color>。如果本次探测获得的S级修正者非本期UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得本期UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+UP修正者的变更不会影响修正者探测的保底。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_1",
 		pool_show_type = 1,
 		recharge_shop_list = "",
@@ -3651,7 +4638,19 @@ return {
 		pool_change = 6,
 		optional_lists_a = "",
 		name = "自选扩充探测",
-		detail_note = "「自选扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「九司·陆吾」</color>、<color=#FF9500>「惑火灼心·迦具土」</color>、<color=#FF9500>「镜花黄泉·伊邪那美」</color>、<color=#FF9500>「霜影·暗御津羽」</color>、<color=#FF9500>「青君·孟章」</color>、<color=#FF9500>「百解·禄良」</color>、<color=#FF9500>「十曜·金乌」</color>、<color=#FF9500>「巡天·英招」</color>、<color=#FF9500>「澄心·陵光」</color>、<color=#FF9500>「太一·庚辰」</color>、<color=#FF9500>「生魂·奥西里斯」</color>、<color=#FF9500>「暗星·海拉」</color>、<color=#FF9500>「轰雷·托尔」</color>、<color=#FF9500>「烙焰·提尔」</color>、<color=#FF9500>「斩浪·丝卡蒂」</color>、<color=#FF9500>「胡狼·阿努比斯」</color>、<color=#FF9500>「黎幻·赫拉」</color>、<color=#FF9500>「流萤岚雾·休」</color>、<color=#FF9500>「早樱·大国主」</color>、<color=#FF9500>「觅影·国常立」</color>、<color=#FF9500>「障月·阿修罗」</color>、<color=#FF9500>「龙切·迦具土」</color>、<color=#FF9500>「冰渊·波塞冬」</color>、<color=#FF9500>「熯天·提尔」</color>、<color=#FF9500>「逆潮·利维坦」</color>、<color=#FF9500>「操偶师·哈迪斯」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「怒蛇·马尔杜克」</color>中选择一位S级修正者使其探测获取概率<color=#FF9500>大幅提升</color>！\n在「自选扩充探测」中，管理员可以更换UP修正者，本次活动探测期间最多可更换<color=#FF9500>5</color>次。更换UP修正者不会重置已探测次数。\n \n在「自选扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。\n\n若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。\n\n获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。\n\n「自选扩充探测」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。\n\n<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>",
+		detail_note = [[
+「自选扩充探测」活动探测开启。活动期间，管理员可以在<color=#FF9500>「九司·陆吾」</color>、<color=#FF9500>「惑火灼心·迦具土」</color>、<color=#FF9500>「镜花黄泉·伊邪那美」</color>、<color=#FF9500>「霜影·暗御津羽」</color>、<color=#FF9500>「青君·孟章」</color>、<color=#FF9500>「百解·禄良」</color>、<color=#FF9500>「十曜·金乌」</color>、<color=#FF9500>「巡天·英招」</color>、<color=#FF9500>「澄心·陵光」</color>、<color=#FF9500>「太一·庚辰」</color>、<color=#FF9500>「生魂·奥西里斯」</color>、<color=#FF9500>「暗星·海拉」</color>、<color=#FF9500>「轰雷·托尔」</color>、<color=#FF9500>「烙焰·提尔」</color>、<color=#FF9500>「斩浪·丝卡蒂」</color>、<color=#FF9500>「胡狼·阿努比斯」</color>、<color=#FF9500>「黎幻·赫拉」</color>、<color=#FF9500>「流萤岚雾·休」</color>、<color=#FF9500>「早樱·大国主」</color>、<color=#FF9500>「觅影·国常立」</color>、<color=#FF9500>「障月·阿修罗」</color>、<color=#FF9500>「龙切·迦具土」</color>、<color=#FF9500>「冰渊·波塞冬」</color>、<color=#FF9500>「熯天·提尔」</color>、<color=#FF9500>「逆潮·利维坦」</color>、<color=#FF9500>「操偶师·哈迪斯」</color>、<color=#FF9500>「铃兰之弦·雅典娜」</color>、<color=#FF9500>「震离·月读」</color>、<color=#FF9500>「流转之洋·欧申纳斯」</color>、<color=#FF9500>「怒蛇·马尔杜克」</color>中选择一位S级修正者使其探测获取概率<color=#FF9500>大幅提升</color>！
+在「自选扩充探测」中，管理员可以更换UP修正者，本次活动探测期间最多可更换<color=#FF9500>5</color>次。更换UP修正者不会重置已探测次数。
+ 
+在「自选扩充探测」活动探测中，每<color=#FF9500>10</color>次探测必出<color=#FF9500>A</color>级或以上品质修正者，最多<color=#FF9500>70</color>次探测必出<color=#FF9500>S</color>级修正者。获得S级修正者时，已探测的次数将重置为0，并重新开始计算。当探测获得S级修正者时，有<color=#FF9500>50%</color>的概率为当前自选活动探测的UP修正者。如果本次探测获得的S级修正者非当前自选活动探测UP的S级修正者，下次最多70次探测<color=#FF9500>必定</color>获得当前自选活动探测UP的S级修正者。
+
+若获得重复修正者，将自动转换为一定数量的该修正者的<color=#FF9500>情报</color>。
+
+获得S级修正者时，会同时获得100个<color=#B67FE3>共鸣辉芒</color>；获得A级修正者时，会同时获得20个<color=#B67FE3>共鸣辉芒</color>；获得B级修正者时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>；获得3星钥从时，会同时获得10个<color=#B67FE3>共鸣辉芒</color>。
+
+「自选扩充探测」属于精准扩充探测，所有的精准扩充探测、精准探测、精准再临探测将共享探测保底次数。
+
+<color=#9A9A9A>※每日最多可以进行15000次探测（包含全部探测种类）。</color>]],
 		draw_pool_desc = "DRAW_POOL_DESC_TEMP_FIXED_13",
 		pool_show_type = 3,
 		order = 3,

@@ -1,6 +1,4 @@
-local var_0_0 = require("cjson")
-local var_0_1 = {}
-
+slot0 = require("cjson")
 JUDGE_MESSAGE_TYPE = {
 	GUILD_NOTICE = 4,
 	CHAT_GUILD = 6,
@@ -21,38 +19,33 @@ JUDGE_MESSAGE_TYPE = {
 	DORM_TEMPLATE = 14
 }
 
-function var_0_1.JudgePlayerInfo()
-	local var_1_0 = PlayerData:GetPlayerInfo()
+return {
+	JudgePlayerInfo = function ()
+		slot0 = PlayerData:GetPlayerInfo()
 
-	var_0_1.JudgeKeyAndPush(var_1_0.nick, JUDGE_MESSAGE_TYPE.PLAYER_NAME_LOGIN)
-	var_0_1.JudgeKeyAndPush(var_1_0.sign, JUDGE_MESSAGE_TYPE.PLAYER_SIGN_LOGIN)
+		uv0.JudgeKeyAndPush(slot0.nick, JUDGE_MESSAGE_TYPE.PLAYER_NAME_LOGIN)
+		uv0.JudgeKeyAndPush(slot0.sign, JUDGE_MESSAGE_TYPE.PLAYER_SIGN_LOGIN)
 
-	local var_1_1 = GuildData:GetGuildInfo()
+		if GuildData:GetGuildInfo() and slot1.id and slot1.id ~= 0 then
+			uv0.JudgeKeyAndPush(slot1.name, JUDGE_MESSAGE_TYPE.GUILD_NAME_LOGIN)
+			uv0.JudgeKeyAndPush(slot1.notice, JUDGE_MESSAGE_TYPE.GUILD_NOTICE_LOGIN)
+		end
+	end,
+	JudgeKeyAndPush = function (slot0, slot1)
+		WordVerifyBySDK(slot0, function (slot0, slot1)
+		end, slot1)
+	end,
+	SendMessageToSDK = function (slot0, slot1)
+		slot2 = {}
+		slot3 = uv0.encode(slot1)
 
-	if var_1_1 and var_1_1.id and var_1_1.id ~= 0 then
-		var_0_1.JudgeKeyAndPush(var_1_1.name, JUDGE_MESSAGE_TYPE.GUILD_NAME_LOGIN)
-		var_0_1.JudgeKeyAndPush(var_1_1.notice, JUDGE_MESSAGE_TYPE.GUILD_NOTICE_LOGIN)
+		table.insert(slot2, {
+			event_name = slot0,
+			attribute_json = slot3
+		})
+		print(string.format("sendMessageToSDK(GS), eventId = %s, message = %s", slot0, slot3))
+		manager.net:Push(38014, {
+			log_list = slot2
+		})
 	end
-end
-
-function var_0_1.JudgeKeyAndPush(arg_2_0, arg_2_1)
-	WordVerifyBySDK(arg_2_0, function(arg_3_0, arg_3_1)
-		return
-	end, arg_2_1)
-end
-
-function var_0_1.SendMessageToSDK(arg_4_0, arg_4_1)
-	local var_4_0 = {}
-	local var_4_1 = var_0_0.encode(arg_4_1)
-
-	table.insert(var_4_0, {
-		event_name = arg_4_0,
-		attribute_json = var_4_1
-	})
-	print(string.format("sendMessageToSDK(GS), eventId = %s, message = %s", arg_4_0, var_4_1))
-	manager.net:Push(38014, {
-		log_list = var_4_0
-	})
-end
-
-return var_0_1
+}

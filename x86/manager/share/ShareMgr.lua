@@ -1,237 +1,221 @@
-local var_0_0 = require("cjson")
-local var_0_1 = import("manager.share.ShareLogoView")
-local var_0_2 = class("ShareMgr")
+slot0 = require("cjson")
+slot1 = import("manager.share.ShareLogoView")
+slot2 = class("ShareMgr")
 
-function var_0_2.Ctor(arg_1_0)
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
-	SetActive(arg_1_0.gameObject_, false)
+function slot2.Ctor(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
+	SetActive(slot0.gameObject_, false)
 
-	arg_1_0.shareCallbackHandler_ = handler(arg_1_0, arg_1_0.ShareCallback)
+	slot0.shareCallbackHandler_ = handler(slot0, slot0.ShareCallback)
 
-	manager.notify:RegistListener(SHARE_CALLBACK, arg_1_0.shareCallbackHandler_)
+	manager.notify:RegistListener(SHARE_CALLBACK, slot0.shareCallbackHandler_)
 end
 
-function var_0_2.InitUI(arg_2_0)
-	arg_2_0.screenSnapPath_ = Application.persistentDataPath .. "/screen_snap/picture_for_share" .. manager.time:GetServerTime() .. ".jpg"
+function slot2.InitUI(slot0)
+	slot0.screenSnapPath_ = Application.persistentDataPath .. "/screen_snap/picture_for_share" .. manager.time:GetServerTime() .. ".jpg"
+	slot3 = Asset.Load("Atlas/Share", true)
+	slot0.gameObject_ = GameObject.Instantiate(Asset.Load("UI/Common/ShareUI"), GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/Canvas").transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_2_0 = GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/Canvas")
-	local var_2_1 = "Atlas/Share"
-	local var_2_2 = Asset.Load(var_2_1, true)
-	local var_2_3 = "UI/Common/ShareUI"
-	local var_2_4 = Asset.Load(var_2_3)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.gameObject_)
 
-	arg_2_0.gameObject_ = GameObject.Instantiate(var_2_4, var_2_0.transform)
-	arg_2_0.transform_ = arg_2_0.gameObject_.transform
-
-	ComponentBinder.GetInstance():BindCfgUI(arg_2_0, arg_2_0.gameObject_)
-
-	arg_2_0.shareLogoView_ = var_0_1.New(arg_2_0.goSnapPanel_)
+	slot0.shareLogoView_ = uv0.New(slot0.goSnapPanel_)
 
 	if not SDKTools.GetIsOverSea() then
-		if arg_2_0.buttonTwiiter_ then
-			SetActive(arg_2_0.buttonTwiiter_.transform.gameObject, false)
+		if slot0.buttonTwiiter_ then
+			SetActive(slot0.buttonTwiiter_.transform.gameObject, false)
 		end
 	else
-		SetActive(arg_2_0.buttonQQ_.transform.gameObject, false)
-		SetActive(arg_2_0.buttonQQZone_.transform.gameObject, false)
-		SetActive(arg_2_0.buttonWechat_.transform.gameObject, false)
-		SetActive(arg_2_0.buttonWeibo_.transform.gameObject, false)
-		SetActive(arg_2_0.buttonWechatMoments_.transform.gameObject, false)
+		SetActive(slot0.buttonQQ_.transform.gameObject, false)
+		SetActive(slot0.buttonQQZone_.transform.gameObject, false)
+		SetActive(slot0.buttonWechat_.transform.gameObject, false)
+		SetActive(slot0.buttonWeibo_.transform.gameObject, false)
+		SetActive(slot0.buttonWechatMoments_.transform.gameObject, false)
 
-		if arg_2_0.buttonTwiiter_ then
-			SetActive(arg_2_0.buttonTwiiter_.transform.gameObject, true)
+		if slot0.buttonTwiiter_ then
+			SetActive(slot0.buttonTwiiter_.transform.gameObject, true)
 		end
 
 		if SDKTools.GetIsThisServer({
 			"kr"
-		}) and arg_2_0.buttonTwiiter_ then
-			SetActive(arg_2_0.buttonTwiiter_.transform.gameObject, false)
+		}) and slot0.buttonTwiiter_ then
+			SetActive(slot0.buttonTwiiter_.transform.gameObject, false)
 		end
 	end
 end
 
-function var_0_2.Share(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4, arg_3_5)
-	SetActive(arg_3_0.gameObject_, true)
+function slot2.Share(slot0, slot1, slot2, slot3, slot4, slot5)
+	SetActive(slot0.gameObject_, true)
 
-	arg_3_0.shareCallback_ = arg_3_3
+	slot0.shareCallback_ = slot3
 
 	manager.ui:EventEnabled(false)
 	manager.tips:Show(false)
-	arg_3_1()
-	arg_3_0.shareLogoView_:HideLogo()
+	slot1()
+	slot0.shareLogoView_:HideLogo()
 	manager.ui:ShowScreenTap(false)
-	SetActive(arg_3_0.goSharePanel_, false)
+	SetActive(slot0.goSharePanel_, false)
 	manager.achievementTips:Hide(true)
-	WaitRenderFrameUtil.inst.StartScreenShot(function()
-		local var_4_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-		local var_4_1, var_4_2 = SettingTools.GetSettingScreenSize(var_4_0)
+	WaitRenderFrameUtil.inst.StartScreenShot(function ()
+		slot1, slot2 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
 		if not SDKTools.IsSDK() then
-			var_4_1, var_4_2 = Screen.width, Screen.height
+			slot2 = Screen.height
+			slot1 = Screen.width
 		end
 
-		if arg_3_4 then
-			arg_3_0.screenSnap_ = ScreenSnap.New(var_4_2, var_4_1)
-			arg_3_0.screenSnap2_ = ScreenSnap.New(var_4_2, var_4_1)
+		if uv0 then
+			uv1.screenSnap_ = ScreenSnap.New(slot2, slot1)
+			uv1.screenSnap2_ = ScreenSnap.New(slot2, slot1)
 		else
-			arg_3_0.screenSnap_ = ScreenSnap.New(var_4_1, var_4_2)
-			arg_3_0.screenSnap2_ = ScreenSnap.New(var_4_1, var_4_2)
+			uv1.screenSnap_ = ScreenSnap.New(slot1, slot2)
+			uv1.screenSnap2_ = ScreenSnap.New(slot1, slot2)
 		end
 
-		arg_3_0.screenSnap_:Take()
+		uv1.screenSnap_:Take()
 
-		local var_4_3 = arg_3_0.screenSnap_:GetSprite()
+		uv1.imageBg_.sprite = uv1.screenSnap_:GetSprite()
 
-		arg_3_0.imageBg_.sprite = var_4_3
-
-		arg_3_0.shareLogoView_:ShowLogo(arg_3_5)
-		WaitRenderFrameUtil.inst.StartScreenShot(function()
-			arg_3_0.screenSnap2_:Take()
-			arg_3_0.shareLogoView_:HideLogo()
-			SetActive(arg_3_0.goSharePanel_, true)
+		uv1.shareLogoView_:ShowLogo(uv2)
+		WaitRenderFrameUtil.inst.StartScreenShot(function ()
+			uv0.screenSnap2_:Take()
+			uv0.shareLogoView_:HideLogo()
+			SetActive(uv0.goSharePanel_, true)
 			manager.achievementTips:Hide(false)
 			manager.ui:ShowScreenTap(true)
-			arg_3_2()
+			uv1()
 			manager.tips:Show(true)
 			manager.ui:EventEnabled(true)
 
-			var_4_3 = arg_3_0.screenSnap2_:GetSprite()
-			arg_3_0.imageShot_.sprite = var_4_3
-			arg_3_0.screenSnapPath_ = Application.persistentDataPath .. "/screen_snap/picture_for_share" .. manager.time:GetServerTime() .. ".jpg"
+			uv2 = uv0.screenSnap2_:GetSprite()
+			uv0.imageShot_.sprite = uv2
+			uv0.screenSnapPath_ = Application.persistentDataPath .. "/screen_snap/picture_for_share" .. manager.time:GetServerTime() .. ".jpg"
 
-			arg_3_0.screenSnap2_:SaveSnap(arg_3_0.screenSnapPath_)
+			uv0.screenSnap2_:SaveSnap(uv0.screenSnapPath_)
 		end)
 	end)
 end
 
-function var_0_2.AddListeners(arg_6_0)
-	arg_6_0.buttonCancel_.onClick:AddListener(function()
-		arg_6_0:OnClickClose()
+function slot2.AddListeners(slot0)
+	slot0.buttonCancel_.onClick:AddListener(function ()
+		uv0:OnClickClose()
 	end)
 
-	if arg_6_0.buttonQQ_ then
-		arg_6_0.buttonQQ_.onClick:AddListener(function()
-			arg_6_0:OnClickShare("QQ")
+	if slot0.buttonQQ_ then
+		slot0.buttonQQ_.onClick:AddListener(function ()
+			uv0:OnClickShare("QQ")
 		end)
 	end
 
-	if arg_6_0.buttonQQZone_ then
-		arg_6_0.buttonQQZone_.onClick:AddListener(function()
-			arg_6_0:OnClickShare("QZone")
+	if slot0.buttonQQZone_ then
+		slot0.buttonQQZone_.onClick:AddListener(function ()
+			uv0:OnClickShare("QZone")
 		end)
 	end
 
-	if arg_6_0.buttonWechat_ then
-		arg_6_0.buttonWechat_.onClick:AddListener(function()
-			arg_6_0:OnClickShare("Wechat")
+	if slot0.buttonWechat_ then
+		slot0.buttonWechat_.onClick:AddListener(function ()
+			uv0:OnClickShare("Wechat")
 		end)
 	end
 
-	if arg_6_0.buttonWechatMoments_ then
-		arg_6_0.buttonWechatMoments_.onClick:AddListener(function()
-			arg_6_0:OnClickShare("WechatMoments")
+	if slot0.buttonWechatMoments_ then
+		slot0.buttonWechatMoments_.onClick:AddListener(function ()
+			uv0:OnClickShare("WechatMoments")
 		end)
 	end
 
-	if arg_6_0.buttonWeibo_ then
-		arg_6_0.buttonWeibo_.onClick:AddListener(function()
-			arg_6_0:OnClickShare("SinaWeibo")
+	if slot0.buttonWeibo_ then
+		slot0.buttonWeibo_.onClick:AddListener(function ()
+			uv0:OnClickShare("SinaWeibo")
 		end)
 	end
 
-	if arg_6_0.buttonTwiiter_ then
-		arg_6_0.buttonTwiiter_.onClick:AddListener(function()
-			arg_6_0:OnClickShare(nil)
+	if slot0.buttonTwiiter_ then
+		slot0.buttonTwiiter_.onClick:AddListener(function ()
+			uv0:OnClickShare(nil)
 		end)
 	end
 
-	arg_6_0.buttonSave_.onClick:AddListener(function()
+	slot0.buttonSave_.onClick:AddListener(function ()
 		if GameToSDK.PLATFORM_ID == 2 then
 			ReceiveSavePhotoMessage(true)
 		else
-			LuaForUtil.SavePhotoToAlbum(arg_6_0.screenSnapPath_)
+			LuaForUtil.SavePhotoToAlbum(uv0.screenSnapPath_)
 		end
 	end)
 end
 
-function var_0_2.RemoveListeners(arg_15_0)
-	arg_15_0.buttonCancel_.onClick:RemoveAllListeners()
-	arg_15_0.buttonQQ_.onClick:RemoveAllListeners()
-	arg_15_0.buttonQQZone_.onClick:RemoveAllListeners()
-	arg_15_0.buttonWechat_.onClick:RemoveAllListeners()
-	arg_15_0.buttonWechatMoments_.onClick:RemoveAllListeners()
-	arg_15_0.buttonWeibo_.onClick:RemoveAllListeners()
-	arg_15_0.buttonTwiiter_.onClick:RemoveAllListeners()
-	arg_15_0.buttonSave_.onClick:RemoveAllListeners()
+function slot2.RemoveListeners(slot0)
+	slot0.buttonCancel_.onClick:RemoveAllListeners()
+	slot0.buttonQQ_.onClick:RemoveAllListeners()
+	slot0.buttonQQZone_.onClick:RemoveAllListeners()
+	slot0.buttonWechat_.onClick:RemoveAllListeners()
+	slot0.buttonWechatMoments_.onClick:RemoveAllListeners()
+	slot0.buttonWeibo_.onClick:RemoveAllListeners()
+	slot0.buttonTwiiter_.onClick:RemoveAllListeners()
+	slot0.buttonSave_.onClick:RemoveAllListeners()
 end
 
-function var_0_2.OnClickClose(arg_16_0)
-	SetActive(arg_16_0.gameObject_, false)
+function slot2.OnClickClose(slot0)
+	SetActive(slot0.gameObject_, false)
 
-	arg_16_0.screenSnap_ = nil
-	arg_16_0.screenSnap2_ = nil
-	arg_16_0.shareCallback_ = nil
+	slot0.screenSnap_ = nil
+	slot0.screenSnap2_ = nil
+	slot0.shareCallback_ = nil
 end
 
-function var_0_2.OnClickShare(arg_17_0, arg_17_1)
+function slot2.OnClickShare(slot0, slot1)
 	if not SDKTools.IsSDK() then
 		ShowTips("USE_MOBILE")
 
 		return
 	end
 
-	local var_17_0 = GetTips("SHARE_TITLE")
-	local var_17_1 = GetTips("SHARE_CONTENT")
-	local var_17_2 = GetTips("SHARE_URL")
-	local var_17_3 = {}
-	local var_17_4
-	local var_17_5 = arg_17_1 == nil and "Share" or "ShareWithPlatform"
-	local var_17_6 = {
+	slot5 = {}
+	slot6 = nil
+	slot0.paltform_ = slot1
+
+	SendMessageToSDK(uv0.encode({
 		imageUrl = "",
-		messageType = var_17_5,
-		url = var_17_2,
-		title = var_17_0,
-		content = var_17_1,
-		imagePath = arg_17_0.screenSnapPath_,
-		platform = arg_17_1
-	}
-
-	arg_17_0.paltform_ = arg_17_1
-
-	local var_17_7 = var_0_0.encode(var_17_6)
-
-	SendMessageToSDK(var_17_7)
+		messageType = slot1 == nil and "Share" or "ShareWithPlatform",
+		url = GetTips("SHARE_URL"),
+		title = GetTips("SHARE_TITLE"),
+		content = GetTips("SHARE_CONTENT"),
+		imagePath = slot0.screenSnapPath_,
+		platform = slot1
+	}))
 end
 
-function var_0_2.ShareCallback(arg_18_0, arg_18_1)
-	if arg_18_1 == 0 then
-		if arg_18_0.shareCallback_ then
-			arg_18_0.shareCallback_()
+function slot2.ShareCallback(slot0, slot1)
+	if slot1 == 0 then
+		if slot0.shareCallback_ then
+			slot0.shareCallback_()
 		end
-	elseif arg_18_1 == 2 then
-		-- block empty
+	elseif slot1 == 2 then
+		-- Nothing
 	end
 end
 
-function var_0_2.Dispose(arg_19_0)
-	if arg_19_0.shareLogoView_ then
-		arg_19_0.shareLogoView_:Dispose()
+function slot2.Dispose(slot0)
+	if slot0.shareLogoView_ then
+		slot0.shareLogoView_:Dispose()
 
-		arg_19_0.shareLogoView_ = nil
+		slot0.shareLogoView_ = nil
 	end
 
-	if arg_19_0.gameObject_ then
-		manager.notify:RemoveListener(SHARE_CALLBACK, arg_19_0.shareCallbackHandler_)
+	if slot0.gameObject_ then
+		manager.notify:RemoveListener(SHARE_CALLBACK, slot0.shareCallbackHandler_)
 
-		arg_19_0.shareCallbackHandler_ = nil
+		slot0.shareCallbackHandler_ = nil
 
-		arg_19_0:RemoveListeners()
-		Object.Destroy(arg_19_0.gameObject_)
+		slot0:RemoveListeners()
+		Object.Destroy(slot0.gameObject_)
 
-		arg_19_0.gameObject_ = nil
-		arg_19_0.transform_ = nil
+		slot0.gameObject_ = nil
+		slot0.transform_ = nil
 	end
 end
 
-return var_0_2
+return slot2

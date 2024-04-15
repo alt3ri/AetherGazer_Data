@@ -1,337 +1,304 @@
-local var_0_0 = class("TeachStageHeroView", ReduxView)
+slot0 = class("TeachStageHeroView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.switchType_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.switchType_ = slot2
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI(arg_2_0.gameObject_)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI(slot0.gameObject_)
 
-	arg_2_0.curIndex_ = 0
-	arg_2_0.inited_ = false
-	arg_2_0.isScroll_ = false
-	arg_2_0.list_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.listGo_, TeachStageHeroItem)
+	slot0.curIndex_ = 0
+	slot0.inited_ = false
+	slot0.isScroll_ = false
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, TeachStageHeroItem)
 
-	arg_2_0.list_:SetHeadTailChangeHandler(handler(arg_2_0, arg_2_0.OnListInit))
+	slot0.list_:SetHeadTailChangeHandler(handler(slot0, slot0.OnListInit))
 
-	arg_2_0.selectStageItemHandler_ = handler(arg_2_0, arg_2_0.OnSelectStageItem)
+	slot0.selectStageItemHandler_ = handler(slot0, slot0.OnSelectStageItem)
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	arg_3_0:InitHeroList()
-	arg_3_0:RefreshUI()
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_3_0:IsOpenSectionView() then
-			arg_3_0.inited_ = true
+function slot0.OnEnter(slot0)
+	slot0:InitHeroList()
+	slot0:RefreshUI()
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0:IsOpenSectionView() then
+			uv0.inited_ = true
 
-			local var_4_0 = arg_3_0.list_:GetItemList()
-
-			for iter_4_0, iter_4_1 in pairs(var_4_0) do
-				iter_4_1:RefreshSelect(0)
+			for slot4, slot5 in pairs(uv0.list_:GetItemList()) do
+				slot5:RefreshSelect(0)
 			end
 
-			arg_3_0.m_scrollCom.horizontal = true
+			uv0.m_scrollCom.horizontal = true
 		end
 
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	if arg_5_0.heroID_ then
-		if arg_5_0.inited_ then
-			if arg_5_0.herolist_ == nil then
-				arg_5_0:InitHeroList()
+function slot0.RefreshUI(slot0)
+	if slot0.heroID_ then
+		if slot0.inited_ then
+			if slot0.herolist_ == nil then
+				slot0:InitHeroList()
 			end
 
-			local var_5_0 = table.indexof(arg_5_0.herolist_, arg_5_0.heroID_)
+			slot1 = table.indexof(slot0.herolist_, slot0.heroID_)
 
-			arg_5_0.list_:StartScroll(arg_5_0:GetHeroNum(), var_5_0)
-			arg_5_0:RefreshSelectStageItem(var_5_0)
+			slot0.list_:StartScroll(slot0:GetHeroNum(), slot1)
+			slot0:RefreshSelectStageItem(slot1)
 
-			local var_5_1 = arg_5_0.list_:GetItemList()[var_5_0]
+			if slot0.list_:GetItemList()[slot1] then
+				slot0:RemoveTween()
 
-			if var_5_1 then
-				local var_5_2 = -var_5_1.transform_.localPosition.x + arg_5_0.m_scrollViewTrans.rect.width / 3 - var_5_1.transform_.rect.width / 2
-
-				arg_5_0:RemoveTween()
-
-				arg_5_0.tween_ = LeanTween.value(arg_5_0.m_scrollContent, arg_5_0.m_scrollContent.transform.localPosition.x, var_5_2, 0):setOnUpdate(LuaHelper.FloatAction(function(arg_6_0)
-					arg_5_0.m_scrollContent.transform.localPosition = Vector3(arg_6_0, 0, 0)
+				slot0.tween_ = LeanTween.value(slot0.m_scrollContent, slot0.m_scrollContent.transform.localPosition.x, -slot3.transform_.localPosition.x + slot0.m_scrollViewTrans.rect.width / 3 - slot3.transform_.rect.width / 2, 0):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+					uv0.m_scrollContent.transform.localPosition = Vector3(slot0, 0, 0)
 				end))
-				arg_5_0.m_scrollCom.horizontal = false
+				slot0.m_scrollCom.horizontal = false
 			else
-				arg_5_0.m_scrollCom.horizontal = true
+				slot0.m_scrollCom.horizontal = true
 			end
 
-			arg_5_0.heroID_ = nil
+			slot0.heroID_ = nil
 		else
-			if arg_5_0.herolist_ == nil then
-				arg_5_0:InitHeroList()
+			if slot0.herolist_ == nil then
+				slot0:InitHeroList()
 			end
 
-			arg_5_0.curIndex_ = table.indexof(arg_5_0.herolist_, arg_5_0.heroID_)
+			slot0.curIndex_ = table.indexof(slot0.herolist_, slot0.heroID_)
 
-			if not arg_5_0.isScroll_ then
-				arg_5_0.list_:StartScroll(arg_5_0:GetHeroNum())
+			if not slot0.isScroll_ then
+				slot0.list_:StartScroll(slot0:GetHeroNum())
 
-				arg_5_0.isScroll_ = true
+				slot0.isScroll_ = true
 			end
 
-			arg_5_0:ScrollToCurIndex()
+			slot0:ScrollToCurIndex()
 		end
-	elseif arg_5_0.curIndex_ > 0 then
-		local var_5_3 = arg_5_0.list_:GetItemList()[arg_5_0.curIndex_]
+	elseif slot0.curIndex_ > 0 then
+		if slot0.list_:GetItemList()[slot0.curIndex_] then
+			slot0:RemoveTween()
 
-		if var_5_3 then
-			local var_5_4 = -var_5_3.transform_.localPosition.x + arg_5_0.m_scrollViewTrans.rect.width / 3 - var_5_3.transform_.rect.width / 2
-
-			arg_5_0:RemoveTween()
-
-			arg_5_0.tween_ = LeanTween.value(arg_5_0.m_scrollContent, arg_5_0.m_scrollContent.transform.localPosition.x, var_5_4, 0):setOnUpdate(LuaHelper.FloatAction(function(arg_7_0)
-				arg_5_0.m_scrollContent.transform.localPosition = Vector3(arg_7_0, 0, 0)
+			slot0.tween_ = LeanTween.value(slot0.m_scrollContent, slot0.m_scrollContent.transform.localPosition.x, -slot2.transform_.localPosition.x + slot0.m_scrollViewTrans.rect.width / 3 - slot2.transform_.rect.width / 2, 0):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+				uv0.m_scrollContent.transform.localPosition = Vector3(slot0, 0, 0)
 			end))
 		end
 
-		if arg_5_0:IsOpenSectionInfo() then
-			local var_5_5 = arg_5_0.list_:GetItemList()
-
-			for iter_5_0, iter_5_1 in pairs(var_5_5) do
-				iter_5_1:RefreshSelect(arg_5_0.curIndex_)
+		if slot0:IsOpenSectionInfo() then
+			for slot7, slot8 in pairs(slot0.list_:GetItemList()) do
+				slot8:RefreshSelect(slot0.curIndex_)
 			end
 
-			arg_5_0.m_scrollCom.horizontal = false
+			slot0.m_scrollCom.horizontal = false
 		else
-			local var_5_6 = arg_5_0.list_:GetItemList()
-
-			for iter_5_2, iter_5_3 in pairs(var_5_6) do
-				iter_5_3:RefreshSelect(0)
+			for slot7, slot8 in pairs(slot0.list_:GetItemList()) do
+				slot8:RefreshSelect(0)
 			end
 
-			arg_5_0.m_scrollCom.horizontal = true
+			slot0.m_scrollCom.horizontal = true
 		end
 	else
-		arg_5_0.list_:StartScroll(arg_5_0:GetHeroNum())
+		slot0.list_:StartScroll(slot0:GetHeroNum())
 	end
 end
 
-function var_0_0.OnListInit(arg_8_0, arg_8_1, arg_8_2)
-	if not arg_8_0.inited_ and arg_8_0.heroID_ then
-		if arg_8_0.herolist_ == nil then
-			arg_8_0:InitHeroList()
+function slot0.OnListInit(slot0, slot1, slot2)
+	if not slot0.inited_ and slot0.heroID_ then
+		if slot0.herolist_ == nil then
+			slot0:InitHeroList()
 		end
 
-		local var_8_0 = table.indexof(arg_8_0.herolist_, arg_8_0.heroID_)
-
-		arg_8_0.curIndex_ = table.indexof(arg_8_0.herolist_, arg_8_0.heroID_)
-
-		local var_8_1 = -(303 * arg_8_0.curIndex_ - arg_8_0.m_scrollViewTrans.rect.width / 3)
-
-		arg_8_0.m_scrollCom.horizontal = false
-		arg_8_0.m_scrollContent.transform.localPosition = Vector3(var_8_1, 0, 0)
+		slot3 = table.indexof(slot0.herolist_, slot0.heroID_)
+		slot0.curIndex_ = table.indexof(slot0.herolist_, slot0.heroID_)
+		slot0.m_scrollCom.horizontal = false
+		slot0.m_scrollContent.transform.localPosition = Vector3(-(303 * slot0.curIndex_ - slot0.m_scrollViewTrans.rect.width / 3), 0, 0)
 	end
 end
 
-function var_0_0.OnSelectStageItem(arg_9_0, arg_9_1)
-	arg_9_0.inited_ = true
+function slot0.OnSelectStageItem(slot0, slot1)
+	slot0.inited_ = true
 
-	arg_9_0:RefreshSelectStageItem(arg_9_1)
+	slot0:RefreshSelectStageItem(slot1)
 
-	local var_9_0 = arg_9_0.list_:GetItemList()[arg_9_1]
+	if slot0.list_:GetItemList()[slot1] then
+		slot0:RemoveTween()
 
-	if var_9_0 then
-		local var_9_1 = -var_9_0.transform_.localPosition.x + arg_9_0.m_scrollViewTrans.rect.width / 3 - var_9_0.transform_.rect.width / 2
-
-		arg_9_0:RemoveTween()
-
-		arg_9_0.tween_ = LeanTween.value(arg_9_0.m_scrollContent, arg_9_0.m_scrollContent.transform.localPosition.x, var_9_1, 0.2):setOnUpdate(LuaHelper.FloatAction(function(arg_10_0)
-			arg_9_0.m_scrollContent.transform.localPosition = Vector3(arg_10_0, 0, 0)
+		slot0.tween_ = LeanTween.value(slot0.m_scrollContent, slot0.m_scrollContent.transform.localPosition.x, -slot3.transform_.localPosition.x + slot0.m_scrollViewTrans.rect.width / 3 - slot3.transform_.rect.width / 2, 0.2):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.m_scrollContent.transform.localPosition = Vector3(slot0, 0, 0)
 		end))
-		arg_9_0.m_scrollCom.horizontal = false
+		slot0.m_scrollCom.horizontal = false
 	else
-		arg_9_0.m_scrollCom.horizontal = true
+		slot0.m_scrollCom.horizontal = true
 	end
 end
 
-function var_0_0.TryToCloseSectionView(arg_11_0)
-	if arg_11_0:IsOpenSectionView() then
-		arg_11_0.inited_ = true
+function slot0.TryToCloseSectionView(slot0)
+	if slot0:IsOpenSectionView() then
+		slot0.inited_ = true
 
-		local var_11_0 = arg_11_0.list_:GetItemList()
-
-		for iter_11_0, iter_11_1 in pairs(var_11_0) do
-			iter_11_1:RefreshSelect(0)
+		for slot5, slot6 in pairs(slot0.list_:GetItemList()) do
+			slot6:RefreshSelect(0)
 		end
 
-		arg_11_0.m_scrollCom.horizontal = true
+		slot0.m_scrollCom.horizontal = true
 
 		JumpTools.Back()
 	end
 end
 
-function var_0_0.RefreshSelectStageItem(arg_12_0, arg_12_1)
-	arg_12_0.curIndex_ = arg_12_1
+function slot0.RefreshSelectStageItem(slot0, slot1)
+	slot0.curIndex_ = slot1
 
-	local var_12_0 = arg_12_0.list_:GetItemList()
-
-	for iter_12_0, iter_12_1 in pairs(var_12_0) do
-		iter_12_1:RefreshSelect(arg_12_1)
+	for slot6, slot7 in pairs(slot0.list_:GetItemList()) do
+		slot7:RefreshSelect(slot1)
 	end
 end
 
-function var_0_0.RemoveTween(arg_13_0)
-	if arg_13_0.tween_ then
-		arg_13_0.tween_:setOnUpdate(nil)
-		LeanTween.cancel(arg_13_0.m_scrollContent)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil)
+		LeanTween.cancel(slot0.m_scrollContent)
 
-		arg_13_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.IsOpenSectionView(arg_14_0)
-	return arg_14_0:IsOpenRoute("teachSectionInfo")
+function slot0.IsOpenSectionView(slot0)
+	return slot0:IsOpenRoute("teachSectionInfo")
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0:RemoveTween()
+function slot0.OnExit(slot0)
+	slot0:RemoveTween()
 
-	arg_15_0.inited_ = true
+	slot0.inited_ = true
 
-	if not arg_15_0:IsOpenSectionInfo() then
-		local var_15_0 = arg_15_0.list_:GetItemList()
-
-		for iter_15_0, iter_15_1 in pairs(var_15_0) do
-			iter_15_1:RefreshSelect(0)
+	if not slot0:IsOpenSectionInfo() then
+		for slot5, slot6 in pairs(slot0.list_:GetItemList()) do
+			slot6:RefreshSelect(0)
 		end
 
-		arg_15_0.m_scrollCom.horizontal = true
+		slot0.m_scrollCom.horizontal = true
 	end
 end
 
-function var_0_0.OnClickTeachViewBtn(arg_16_0)
-	local var_16_0 = arg_16_0.list_:GetItemList()
-
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		iter_16_1:RefreshSelect(0)
+function slot0.OnClickTeachViewBtn(slot0)
+	for slot5, slot6 in pairs(slot0.list_:GetItemList()) do
+		slot6:RefreshSelect(0)
 	end
 
-	arg_16_0.m_scrollCom.horizontal = true
+	slot0.m_scrollCom.horizontal = true
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.m_scrollEvent:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerDown)
-	arg_17_0.m_scrollEvent:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0.m_scrollEvent:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerDown)
+	slot0.m_scrollEvent:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	uv0.super.Dispose(slot0)
 
-	if arg_17_0.list_ then
-		arg_17_0.list_:Dispose()
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_17_0.list_ = nil
+		slot0.list_ = nil
 	end
 end
 
-function var_0_0.IndexItem(arg_18_0, arg_18_1, arg_18_2)
-	arg_18_2:SetData(arg_18_1, arg_18_0.curIndex_, arg_18_0.inited_)
-	arg_18_2:SetHeroID(arg_18_0.herolist_[arg_18_1])
-	arg_18_2:SetSelectCallBack(arg_18_0.selectStageItemHandler_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.curIndex_, slot0.inited_)
+	slot2:SetHeroID(slot0.herolist_[slot1])
+	slot2:SetSelectCallBack(slot0.selectStageItemHandler_)
 end
 
-function var_0_0.AddListeners(arg_19_0)
-	arg_19_0:AddBtnListener(arg_19_0.bgbtn_, nil, function()
-		arg_19_0:TryToCloseSectionView()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgbtn_, nil, function ()
+		uv0:TryToCloseSectionView()
 	end)
-	arg_19_0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function(arg_21_0, arg_21_1)
-		arg_19_0:TryToCloseSectionView()
+	slot0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:TryToCloseSectionView()
 	end))
-	arg_19_0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function(arg_22_0, arg_22_1)
-		arg_19_0:TryToCloseSectionView()
+	slot0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:TryToCloseSectionView()
 	end))
 end
 
-function var_0_0.RemoveListeners(arg_23_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.SwitchPageUI(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = arg_24_0.switchType_ == arg_24_1
+function slot0.SwitchPageUI(slot0, slot1, slot2)
+	slot3 = slot0.switchType_ == slot1
 
-	SetActive(arg_24_0.gameObject_, var_24_0)
+	SetActive(slot0.gameObject_, slot3)
 
-	if var_24_0 then
-		arg_24_0.heroID_ = arg_24_2
+	if slot3 then
+		slot0.heroID_ = slot2
 
-		arg_24_0:ScrollToCurIndex()
+		slot0:ScrollToCurIndex()
 		BattleTeachAction.CancelHeroTeachRedPoint()
 	end
 end
 
-function var_0_0.ScrollToCurIndex(arg_25_0)
-	if arg_25_0.curIndex_ > 0 then
-		local var_25_0 = arg_25_0.curIndex_ * 303 - 200
-
-		arg_25_0.list_:SetScrolledPosition(Vector2.New(var_25_0 / arg_25_0.m_scrollContent.transform.rect.width, 0))
+function slot0.ScrollToCurIndex(slot0)
+	if slot0.curIndex_ > 0 then
+		slot0.list_:SetScrolledPosition(Vector2.New((slot0.curIndex_ * 303 - 200) / slot0.m_scrollContent.transform.rect.width, 0))
 	end
 end
 
-function var_0_0.InitHeroList(arg_26_0)
-	local var_26_0 = {}
-	local var_26_1 = {}
-	local var_26_2 = {}
-	local var_26_3 = {}
+function slot0.InitHeroList(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
+	slot4 = {}
+	slot7 = HeroData
+	slot9 = slot7
 
-	for iter_26_0, iter_26_1 in pairs(HeroData:GetHeroList()) do
-		if not HeroTools.GetIsHide(iter_26_1.id) then
-			table.insert(var_26_3, iter_26_1)
+	for slot8, slot9 in pairs(slot7.GetHeroList(slot9)) do
+		if not HeroTools.GetIsHide(slot9.id) then
+			table.insert(slot4, slot9)
 		end
 	end
 
-	table.sort(var_26_3, function(arg_27_0, arg_27_1)
-		if arg_27_0.id < arg_27_1.id then
+	function slot8(slot0, slot1)
+		if slot0.id < slot1.id then
 			return true
 		end
 
 		return false
-	end)
+	end
 
-	for iter_26_2, iter_26_3 in pairs(var_26_3) do
-		if iter_26_3.unlock == 1 then
-			local var_26_4 = HeroCfg[iter_26_3.id].study_stage[1]
+	table.sort(slot4, slot8)
 
-			if BattleTeachData:GetHeroTeachInfo(iter_26_3.id, var_26_4) > 0 then
-				table.insert(var_26_1, iter_26_3.id)
+	for slot8, slot9 in pairs(slot4) do
+		if slot9.unlock == 1 then
+			if BattleTeachData:GetHeroTeachInfo(slot9.id, HeroCfg[slot9.id].study_stage[1]) > 0 then
+				table.insert(slot2, slot9.id)
 			else
-				table.insert(var_26_0, iter_26_3.id)
+				table.insert(slot1, slot9.id)
 			end
 		else
-			table.insert(var_26_2, iter_26_3.id)
+			table.insert(slot3, slot9.id)
 		end
 	end
 
-	table.insertto(var_26_0, var_26_1)
-	table.insertto(var_26_0, var_26_2)
+	table.insertto(slot1, slot2)
+	table.insertto(slot1, slot3)
 
-	arg_26_0.herolist_ = var_26_0
+	slot0.herolist_ = slot1
 end
 
-function var_0_0.GetHeroNum(arg_28_0)
-	local var_28_0 = 0
-
-	for iter_28_0, iter_28_1 in ipairs(HeroCfg.get_id_list_by_private[0]) do
-		if not HeroTools.GetIsHide(iter_28_1) then
-			var_28_0 = var_28_0 + 1
+function slot0.GetHeroNum(slot0)
+	for slot5, slot6 in ipairs(HeroCfg.get_id_list_by_private[0]) do
+		if not HeroTools.GetIsHide(slot6) then
+			slot1 = 0 + 1
 		end
 	end
 
-	return var_28_0
+	return slot1
 end
 
-function var_0_0.IsOpenSectionInfo(arg_29_0)
-	return arg_29_0:IsOpenRoute("teachSectionInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("teachSectionInfo")
 end
 
-return var_0_0
+return slot0

@@ -1,51 +1,46 @@
-local var_0_0 = import("game.views.recharge.pages.RechargePageBase")
-local var_0_1 = class("RechargeSkinDlcPageView", var_0_0)
+slot1 = class("RechargeSkinDlcPageView", import("game.views.recharge.pages.RechargePageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot1.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.goodTypeController_ = ControllerUtil.GetController(arg_2_0.transform_, "text")
-
-	local var_2_0 = arg_2_0.viewTrs_.rect.width
-	local var_2_1 = arg_2_0.contTrs_:GetComponent("HorizontalLayoutGroup").spacing
-
-	arg_2_0.loopScrollView_ = LoopScrollView.New(arg_2_0, arg_2_0.scrollEx_, arg_2_0.contTrs_, arg_2_0.viewTrs_, var_2_0, var_2_1, nil, true)
-	arg_2_0.item1Pool = {}
-	arg_2_0.item2Pool = {}
+	slot0.goodTypeController_ = ControllerUtil.GetController(slot0.transform_, "text")
+	slot0.loopScrollView_ = LoopScrollView.New(slot0, slot0.scrollEx_, slot0.contTrs_, slot0.viewTrs_, slot0.viewTrs_.rect.width, slot0.contTrs_:GetComponent("HorizontalLayoutGroup").spacing, nil, true)
+	slot0.item1Pool = {}
+	slot0.item2Pool = {}
 end
 
-function var_0_1.OnItemOutOfDate(arg_3_0, arg_3_1)
-	arg_3_0:RefreshList()
+function slot1.OnItemOutOfDate(slot0, slot1)
+	slot0:RefreshList()
 
-	if #arg_3_0.skinDataList_ == 0 and arg_3_0.treeRefreshHandler_ ~= nil then
-		arg_3_0.treeRefreshHandler_()
+	if #slot0.skinDataList_ == 0 and slot0.treeRefreshHandler_ ~= nil then
+		slot0.treeRefreshHandler_()
 	end
 end
 
-function var_0_1.AddEventListeners(arg_4_0)
-	arg_4_0:RegistEventListener(SHOP_LIST_UPDATE, function(arg_5_0)
-		if arg_5_0 > 0 and arg_5_0 == arg_4_0.curShopId_ then
-			arg_4_0:RefreshList()
+function slot1.AddEventListeners(slot0)
+	slot0:RegistEventListener(SHOP_LIST_UPDATE, function (slot0)
+		if slot0 > 0 and slot0 == uv0.curShopId_ then
+			uv0:RefreshList()
 		end
 	end)
-	arg_4_0:RegistEventListener(SHOP_ITEM_UPDATE, function(arg_6_0, arg_6_1)
-		arg_4_0:RefreshShopGoodInfo(arg_6_0, arg_6_1)
+	slot0:RegistEventListener(SHOP_ITEM_UPDATE, function (slot0, slot1)
+		uv0:RefreshShopGoodInfo(slot0, slot1)
 	end)
-	arg_4_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_7_0)
-		arg_4_0:SwitchPage(arg_4_0.curShopId_)
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		uv0:SwitchPage(uv0.curShopId_)
 	end)
 end
 
-function var_0_1.AddUIListener(arg_8_0)
+function slot1.AddUIListener(slot0)
 	if SDKTools.GetIsInputServer("kr") then
-		arg_8_0:AddBtnListener(arg_8_0.refundbtn_, nil, function()
+		slot0:AddBtnListener(slot0.refundbtn_, nil, function ()
 			JumpTools.OpenPageByJump("gameHelpPro", {
 				pages = {
 					"TextureConfig/RechargeUI/RefundPolicy@kr"
@@ -54,218 +49,203 @@ function var_0_1.AddUIListener(arg_8_0)
 		end)
 	end
 
-	if arg_8_0.fundsettlementmethodBtn_ and arg_8_0.commercialBtn_ then
-		arg_8_0:AddBtnListener(arg_8_0.fundsettlementmethodBtn_, nil, function()
+	if slot0.fundsettlementmethodBtn_ and slot0.commercialBtn_ then
+		slot0:AddBtnListener(slot0.fundsettlementmethodBtn_, nil, function ()
 			GameToSDK.SendMessage(string.format("{\"messageType\" : \"ShowAgreement\" , \"type\" : \"%s\"}", fund_settlement_algorithm))
 		end)
-		arg_8_0:AddBtnListener(arg_8_0.commercialBtn_, nil, function()
+		slot0:AddBtnListener(slot0.commercialBtn_, nil, function ()
 			GameToSDK.SendMessage(string.format("{\"messageType\" : \"ShowAgreement\" , \"type\" : \"%s\"}", specific_commercial_transaction_act))
 		end)
 	end
 end
 
-function var_0_1.SwitchPage(arg_12_0, arg_12_1)
-	arg_12_0.curShopId_ = arg_12_1
-	arg_12_0.skinDataList_ = arg_12_0:InitDataList(arg_12_1)
+function slot1.SwitchPage(slot0, slot1)
+	slot0.curShopId_ = slot1
+	slot0.skinDataList_ = slot0:InitDataList(slot1)
 
-	arg_12_0.loopScrollView_:NavigateIndex(1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_12_0.loopScrollView_.rectGrid_)
+	slot0.loopScrollView_:NavigateIndex(1)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.loopScrollView_.rectGrid_)
 
-	arg_12_0.loopScrollView_.scrollView_.horizontalNormalizedPosition = 0
+	slot0.loopScrollView_.scrollView_.horizontalNormalizedPosition = 0
 end
 
-function var_0_1.RefreshList(arg_13_0, arg_13_1)
-	return
+function slot1.RefreshList(slot0, slot1)
 end
 
-function var_0_1.InitDataList(arg_14_0, arg_14_1)
-	local var_14_0 = ShopTools.FilterShopDataList(arg_14_1)
-	local var_14_1 = {}
+function slot1.InitDataList(slot0, slot1)
+	slot3 = {}
 
-	for iter_14_0, iter_14_1 in ipairs(var_14_0) do
-		local var_14_2 = getShopCfg(iter_14_1.id).description
-		local var_14_3 = RechargeShopDescriptionCfg[var_14_2]
-
-		if SkinCfg[var_14_3.param[1]] then
-			table.insert(var_14_1, iter_14_1)
+	for slot7, slot8 in ipairs(ShopTools.FilterShopDataList(slot1)) do
+		if SkinCfg[RechargeShopDescriptionCfg[getShopCfg(slot8.id).description].param[1]] then
+			table.insert(slot3, slot8)
 		end
 	end
 
-	return ShopTools.CommonSort(var_14_1)
+	return ShopTools.CommonSort(slot3)
 end
 
-function var_0_1.GetGoodStatus(arg_15_0, arg_15_1)
-	local var_15_0 = getShopCfg(arg_15_1).description
-	local var_15_1 = RechargeShopDescriptionCfg[var_15_0].param[1]
-
-	if ShopTools.HaveSkin(var_15_1) or HeroTools.CanChangeSkin(var_15_1) then
+function slot1.GetGoodStatus(slot0, slot1)
+	if ShopTools.HaveSkin(RechargeShopDescriptionCfg[getShopCfg(slot1).description].param[1]) or HeroTools.CanChangeSkin(slot5) then
 		return 2
 	end
 
-	if ShopData.IsGoodUnlock(arg_15_1) == 0 then
+	if ShopData.IsGoodUnlock(slot1) == 0 then
 		return 1
 	end
 
 	return 0
 end
 
-function var_0_1.RefreshShopGoodInfo(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_0.curShopId_ ~= arg_16_1 then
+function slot1.RefreshShopGoodInfo(slot0, slot1, slot2)
+	if slot0.curShopId_ ~= slot1 then
 		return
 	end
 end
 
-function var_0_1.OnEnter(arg_17_0)
-	arg_17_0:AddEventListeners()
-	SetActive(arg_17_0.refundGo_, not SDKTools.GetIsInputServer("kr"))
-	SetActive(arg_17_0.refundbtn_.gameObject, false)
+function slot1.OnEnter(slot0)
+	slot0:AddEventListeners()
+	SetActive(slot0.refundGo_, not SDKTools.GetIsInputServer("kr"))
+	SetActive(slot0.refundbtn_.gameObject, false)
 
-	if arg_17_0.timer_ == nil then
-		arg_17_0.timer_ = FrameTimer.New(function()
-			for iter_18_0, iter_18_1 in ipairs(arg_17_0.item1Pool) do
-				iter_18_1.itemView:UpdateTimerView()
+	if slot0.timer_ == nil then
+		slot0.timer_ = FrameTimer.New(function ()
+			for slot3, slot4 in ipairs(uv0.item1Pool) do
+				slot4.itemView:UpdateTimerView()
 			end
 
-			for iter_18_2, iter_18_3 in ipairs(arg_17_0.item2Pool) do
-				iter_18_3.itemView:UpdateTimerView()
+			for slot3, slot4 in ipairs(uv0.item2Pool) do
+				slot4.itemView:UpdateTimerView()
 			end
 
-			arg_17_0:UpdateTimer()
+			uv0:UpdateTimer()
 		end, 1, -1)
 
-		arg_17_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 
-	SetActive(arg_17_0.btnsGo_, GameToSDK.CURRENT_SERVER == SERVER_REGION.JAPAN)
-	SetActive(arg_17_0.refundGo_, not SDKTools.GetIsKorea())
-	SetActive(arg_17_0.refundbtn_.gameObject, false)
+	SetActive(slot0.btnsGo_, GameToSDK.CURRENT_SERVER == SERVER_REGION.JAPAN)
+	SetActive(slot0.refundGo_, not SDKTools.GetIsKorea())
+	SetActive(slot0.refundbtn_.gameObject, false)
 
 	if SDKTools.GetIsInputServer("kr") then
-		SetActive(arg_17_0.refundbtn_.gameObject, arg_17_0.curPageIndex_ ~= 4 and arg_17_0.curPageIndex_ ~= 6)
+		SetActive(slot0.refundbtn_.gameObject, slot0.curPageIndex_ ~= 4 and slot0.curPageIndex_ ~= 6)
 	end
 end
 
-function var_0_1.UpdateTimer(arg_19_0)
-	return
+function slot1.UpdateTimer(slot0)
 end
 
-function var_0_1.Show(arg_20_0)
-	var_0_1.super.Show(arg_20_0)
-	arg_20_0:RefreshList()
+function slot1.Show(slot0)
+	uv0.super.Show(slot0)
+	slot0:RefreshList()
 end
 
-function var_0_1.OnExit(arg_21_0)
-	if arg_21_0.timer_ ~= nil then
-		arg_21_0.timer_:Stop()
+function slot1.OnExit(slot0)
+	if slot0.timer_ ~= nil then
+		slot0.timer_:Stop()
 
-		arg_21_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	for iter_21_0, iter_21_1 in pairs(arg_21_0.item1Pool) do
-		iter_21_1.itemView:OnExit()
+	for slot4, slot5 in pairs(slot0.item1Pool) do
+		slot5.itemView:OnExit()
 	end
 
-	for iter_21_2, iter_21_3 in pairs(arg_21_0.item2Pool) do
-		iter_21_3.itemView:OnExit()
-	end
-end
-
-function var_0_1.Hide(arg_22_0)
-	var_0_1.super.Hide(arg_22_0)
-end
-
-function var_0_1.SetTreeRefreshHandler(arg_23_0, arg_23_1)
-	arg_23_0.treeRefreshHandler_ = arg_23_1
-end
-
-function var_0_1.Dispose(arg_24_0)
-	arg_24_0:RemoveAllEventListener()
-
-	if arg_24_0.skinList_ then
-		arg_24_0.skinList_:Dispose()
-
-		arg_24_0.skinList_ = nil
-	end
-
-	arg_24_0.treeRefreshHandler_ = nil
-
-	for iter_24_0, iter_24_1 in ipairs(arg_24_0.item1Pool) do
-		iter_24_1.itemView:Dispose()
-	end
-
-	for iter_24_2, iter_24_3 in ipairs(arg_24_0.item2Pool) do
-		iter_24_3.itemView:Dispose()
-	end
-
-	arg_24_0.item1Pool = nil
-	arg_24_0.item2Pool = nil
-	arg_24_0.itemEquipPool = nil
-
-	var_0_1.super.Dispose(arg_24_0)
-end
-
-function var_0_1.OnBuySuccess(arg_25_0, arg_25_1, arg_25_2)
-	if arg_25_0.curShopId_ == arg_25_2 or arg_25_2 == 54 then
-		arg_25_0:RefreshList(true)
+	for slot4, slot5 in pairs(slot0.item2Pool) do
+		slot5.itemView:OnExit()
 	end
 end
 
-function var_0_1.LsRemoveItem(arg_26_0, arg_26_1)
-	arg_26_1.itemView:Show(false)
-
-	arg_26_1.isFree = true
+function slot1.Hide(slot0)
+	uv0.super.Hide(slot0)
 end
 
-function var_0_1.GetFreeItem(arg_27_0, arg_27_1, arg_27_2)
-	for iter_27_0, iter_27_1 in pairs(arg_27_1) do
-		if iter_27_1.isFree == true then
-			iter_27_1.isFree = false
+function slot1.SetTreeRefreshHandler(slot0, slot1)
+	slot0.treeRefreshHandler_ = slot1
+end
 
-			return iter_27_1
+function slot1.Dispose(slot0)
+	slot0:RemoveAllEventListener()
+
+	if slot0.skinList_ then
+		slot0.skinList_:Dispose()
+
+		slot0.skinList_ = nil
+	end
+
+	slot0.treeRefreshHandler_ = nil
+
+	for slot4, slot5 in ipairs(slot0.item1Pool) do
+		slot5.itemView:Dispose()
+	end
+
+	for slot4, slot5 in ipairs(slot0.item2Pool) do
+		slot5.itemView:Dispose()
+	end
+
+	slot0.item1Pool = nil
+	slot0.item2Pool = nil
+	slot0.itemEquipPool = nil
+
+	uv0.super.Dispose(slot0)
+end
+
+function slot1.OnBuySuccess(slot0, slot1, slot2)
+	if slot0.curShopId_ == slot2 or slot2 == 54 then
+		slot0:RefreshList(true)
+	end
+end
+
+function slot1.LsRemoveItem(slot0, slot1)
+	slot1.itemView:Show(false)
+
+	slot1.isFree = true
+end
+
+function slot1.GetFreeItem(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot1) do
+		if slot7.isFree == true then
+			slot7.isFree = false
+
+			return slot7
 		end
 	end
 
-	local var_27_0 = {
+	slot3 = {
 		isFree = false,
-		itemView = arg_27_2()
+		itemView = slot2()
 	}
 
-	table.insert(arg_27_1, var_27_0)
+	table.insert(slot1, slot3)
 
-	return var_27_0
+	return slot3
 end
 
-function var_0_1.LsAddItem(arg_28_0, arg_28_1, arg_28_2)
-	local var_28_0
-	local var_28_1 = getShopCfg(arg_28_1.id)
-	local var_28_2 = var_28_1.dlc ~= nil and var_28_1.dlc ~= 0
-	local var_28_3
+function slot1.LsAddItem(slot0, slot1, slot2)
+	slot3 = nil
+	slot6 = nil
 
-	if var_28_2 then
-		var_28_3 = getShopCfg(var_28_1.dlc)
+	if getShopCfg(slot1.id).dlc ~= nil and slot4.dlc ~= 0 then
+		slot6 = getShopCfg(slot4.dlc)
 	end
 
-	if var_28_2 and var_28_3 then
-		var_28_0 = arg_28_0:GetFreeItem(arg_28_0.item1Pool, function()
-			return RechargeSkinAllItem.New(arg_28_0.item1Go_, arg_28_0.contTrs_.gameObject)
-		end)
-	else
-		var_28_0 = arg_28_0:GetFreeItem(arg_28_0.item2Pool, function()
-			return RechargeSkinNormalItem.New(arg_28_0.item2Go_, arg_28_0.contTrs_.gameObject)
-		end)
-	end
+	slot3 = (not slot5 or not slot6 or slot0:GetFreeItem(slot0.item1Pool, function ()
+		return RechargeSkinAllItem.New(uv0.item1Go_, uv0.contTrs_.gameObject)
+	end)) and slot0:GetFreeItem(slot0.item2Pool, function ()
+		return RechargeSkinNormalItem.New(uv0.item2Go_, uv0.contTrs_.gameObject)
+	end)
 
-	var_28_0.itemView:SetData(arg_28_1, arg_28_2)
+	slot3.itemView:SetData(slot1, slot2)
 
-	return var_28_0
+	return slot3
 end
 
-function var_0_1.LsGetItemData(arg_31_0)
-	return arg_31_0.skinDataList_
+function slot1.LsGetItemData(slot0)
+	return slot0.skinDataList_
 end
 
-function var_0_1.LsUpdateItem(arg_32_0, arg_32_1, arg_32_2, arg_32_3)
-	arg_32_1.itemView:SetData(arg_32_2, arg_32_3)
+function slot1.LsUpdateItem(slot0, slot1, slot2, slot3)
+	slot1.itemView:SetData(slot2, slot3)
 end
 
-return var_0_1
+return slot1

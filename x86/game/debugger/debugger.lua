@@ -1,7 +1,6 @@
-local var_0_0 = class("debugger")
+slot0 = class("debugger")
 
-function var_0_0.Start()
-	return
+function slot0.Start()
 end
 
-return var_0_0
+return slot0

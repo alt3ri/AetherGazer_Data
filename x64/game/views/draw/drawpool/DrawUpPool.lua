@@ -1,16 +1,13 @@
-local var_0_0 = class("DrawUpPool", DrawBasePool)
+slot0 = class("DrawUpPool", DrawBasePool)
 
-function var_0_0.AddUIListener(arg_1_0)
-	var_0_0.super.AddUIListener(arg_1_0)
+function slot0.AddUIListener(slot0)
+	uv0.super.AddUIListener(slot0)
 
-	if arg_1_0.m_changeBtn then
-		arg_1_0:AddBtnListener(arg_1_0.m_changeBtn, nil, function()
-			local var_2_0 = DrawPoolCfg[arg_1_0.poolId].pool_change
-			local var_2_1 = DrawData:GetPoolUpTimes(arg_1_0.poolId)
-
-			if var_2_0 == 0 or var_2_1 < var_2_0 then
-				arg_1_0:Go("/drawHeroSelect", {
-					poolId = arg_1_0.poolId
+	if slot0.m_changeBtn then
+		slot0:AddBtnListener(slot0.m_changeBtn, nil, function ()
+			if DrawPoolCfg[uv0.poolId].pool_change == 0 or DrawData:GetPoolUpTimes(uv0.poolId) < slot0 then
+				uv0:Go("/drawHeroSelect", {
+					poolId = uv0.poolId
 				})
 			else
 				ShowTips("DRAW_LACK_UP_TIMES")
@@ -19,20 +16,16 @@ function var_0_0.AddUIListener(arg_1_0)
 	end
 end
 
-function var_0_0.Refresh(arg_3_0)
-	var_0_0.super.Refresh(arg_3_0)
+function slot0.Refresh(slot0)
+	uv0.super.Refresh(slot0)
 
-	if arg_3_0.m_changeCount then
-		local var_3_0 = DrawPoolCfg[arg_3_0.poolId].pool_change
-
-		if var_3_0 == 0 then
-			arg_3_0.m_changeCount.text = ""
+	if slot0.m_changeCount then
+		if DrawPoolCfg[slot0.poolId].pool_change == 0 then
+			slot0.m_changeCount.text = ""
 		else
-			local var_3_1 = var_3_0 - DrawData:GetPoolUpTimes(arg_3_0.poolId)
-
-			arg_3_0.m_changeCount.text = string.format(GetTips("DRAW_REMAIN_UP_TIMES"), tostring(var_3_1))
+			slot0.m_changeCount.text = string.format(GetTips("DRAW_REMAIN_UP_TIMES"), tostring(slot1 - DrawData:GetPoolUpTimes(slot0.poolId)))
 		end
 	end
 end
 
-return var_0_0
+return slot0

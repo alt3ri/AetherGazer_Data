@@ -1,12 +1,11 @@
-local var_0_0 = import("game.views.newHero.skin.NewHeroSkinView")
-local var_0_1 = class("NewHeroSkinPreview", var_0_0)
+slot1 = class("NewHeroSkinPreview", import("game.views.newHero.skin.NewHeroSkinView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "Widget/System/Hero/HeroSkinUI_new"
 end
 
-function var_0_1.InitBtnState(arg_2_0)
-	arg_2_0.btnState = {
+function slot1.InitBtnState(slot0)
+	slot0.btnState = {
 		nil,
 		nil,
 		"btn_go",
@@ -22,437 +21,399 @@ function var_0_1.InitBtnState(arg_2_0)
 	}
 end
 
-function var_0_1.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.portraitBtn_, nil, function()
-		if arg_3_0.showDlcState_ == 1 then
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.portraitBtn_, nil, function ()
+		if uv0.showDlcState_ == 1 then
 			JumpTools.OpenPageByJump("/skinDlcShow", {
-				goodId = arg_3_0.dlcID_
+				goodId = uv0.dlcID_
 			})
 		else
-			arg_3_0:Go("heroPortrait", {
-				skinID = arg_3_0.skinID_
+			uv0:Go("heroPortrait", {
+				skinID = uv0.skinID_
 			})
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.replaceBtn_, nil, function()
-		HeroAction.SelectSkin(arg_3_0.heroID_, arg_3_0.skinID_)
-		arg_3_0:PlayVoice()
+	slot0:AddBtnListener(slot0.replaceBtn_, nil, function ()
+		HeroAction.SelectSkin(uv0.heroID_, uv0.skinID_)
+		uv0:PlayVoice()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.goBtn_, nil, function()
-		arg_3_0.params_.skinID = arg_3_0.skinID_
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		uv0.params_.skinID = uv0.skinID_
+		slot0 = HeroTools.GetShopIdBySkinId(uv0.skinID_)
 
-		local var_6_0 = HeroTools.GetShopIdBySkinId(arg_3_0.skinID_)
-		local var_6_1 = JumpTools.IsSystemLocked(501)
-
-		if var_6_1 then
-			ShowTips(JumpTools.GetSystemLockedTip(501, var_6_1))
-		elseif arg_3_0.showDlcState_ == 1 then
-			if arg_3_0:CheckIsSpecial() == 0 then
+		if JumpTools.IsSystemLocked(501) then
+			ShowTips(JumpTools.GetSystemLockedTip(501, slot1))
+		elseif uv0.showDlcState_ == 1 then
+			if uv0:CheckIsSpecial() == 0 then
 				JumpTools.OpenPageByJump("newSkinBuyCheck", {
 					onlySkin = false,
-					goodID = var_6_0,
-					heroID = arg_3_0.heroID_,
-					skinID = arg_3_0.skinID_
+					goodID = slot0,
+					heroID = uv0.heroID_,
+					skinID = uv0.skinID_
 				}, ViewConst.SYSTEM_ID.RECHARGE_SKIN)
 			else
 				JumpTools.OpenPageByJump("newSkinBuyCheck", {
 					onlySkin = true,
-					goodID = var_6_0,
-					heroID = arg_3_0.heroID_,
-					skinID = arg_3_0.skinID_
+					goodID = slot0,
+					heroID = uv0.heroID_,
+					skinID = uv0.skinID_
 				}, ViewConst.SYSTEM_ID.RECHARGE_SKIN)
 			end
 		else
 			JumpTools.OpenPageByJump("newSkinBuyCheck", {
 				onlySkin = true,
-				goodID = var_6_0,
-				heroID = arg_3_0.heroID_,
-				skinID = arg_3_0.skinID_
+				goodID = slot0,
+				heroID = uv0.heroID_,
+				skinID = uv0.skinID_
 			}, ViewConst.SYSTEM_ID.RECHARGE_SKIN)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.pcRmbBtn_, nil, function()
+	slot0:AddBtnListener(slot0.pcRmbBtn_, nil, function ()
 		if ShopTools.IsPC() then
 			ShowTips("PC_SHOP_TIPS2")
 
 			return
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.unlockBtn_, nil, function()
-		if arg_3_0.isCanUnlock_ then
-			HeroAction.UnLockSkin(arg_3_0.skinID_)
+	slot0:AddBtnListener(slot0.unlockBtn_, nil, function ()
+		if uv0.isCanUnlock_ then
+			HeroAction.UnLockSkin(uv0.skinID_)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.giftBtn_, nil, function()
-		if arg_3_0:isUnlock(arg_3_0.skinID_) then
-			PlayerAction.ReceiveSkinGift(arg_3_0.skinID_)
+	slot0:AddBtnListener(slot0.giftBtn_, nil, function ()
+		if uv0:isUnlock(uv0.skinID_) then
+			PlayerAction.ReceiveSkinGift(uv0.skinID_)
 		else
-			local var_9_0 = (SkinCfg[arg_3_0.skinID_] or {}).gift or {}
-
 			JumpTools.OpenPageByJump("rewardPreview", {
 				is_receive = false,
-				rewardList = var_9_0
+				rewardList = (SkinCfg[uv0.skinID_] or {}).gift or {}
 			}, ViewConst.SYSTEM_ID.REWARD_PREVIEW)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.battleBtn_, nil, function()
-		arg_3_0.params_.skinID = arg_3_0.skinID_
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		uv0.params_.skinID = uv0.skinID_
+		slot0 = 0
+		slot2 = SkinTagCfg[uv0.skinID_].trial_activity
+		slot3 = slot2[1]
 
-		local var_10_0 = 0
-		local var_10_1 = SkinTagCfg[arg_3_0.skinID_]
-		local var_10_2 = var_10_1.trial_activity
-		local var_10_3 = var_10_2[1]
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_2) do
-			local var_10_4 = ActivitySkinTrialCfg[iter_10_1].activity_id
-
-			if ActivityData:GetActivityIsOpen(var_10_4) then
-				var_10_0 = var_10_4
-				var_10_3 = iter_10_1
+		for slot7, slot8 in ipairs(slot2) do
+			if ActivityData:GetActivityIsOpen(ActivitySkinTrialCfg[slot8].activity_id) then
+				slot0 = slot9
+				slot3 = slot8
 
 				break
 			end
 		end
 
-		SkinTrialData:SaveStageID(var_10_3)
-		arg_3_0:SaveRoute()
-		arg_3_0:Go("/sectionSelectHero", {
-			activityID = var_10_0,
-			section = var_10_1.trial_stage,
+		SkinTrialData:SaveStageID(slot3)
+		uv0:SaveRoute()
+		uv0:Go("/sectionSelectHero", {
+			activityID = slot0,
+			section = slot1.trial_stage,
 			sectionType = BattleConst.STAGE_TYPE_NEW.SKIN_TRIAL
 		})
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.plotBtn_, nil, function()
-		if not arg_3_0.isOpenPlotTalk then
-			arg_3_0:IndexPlotItem()
-			arg_3_0.plotController_:SetSelectedState("on")
-			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.talkStateGo_.transform)
+	slot0:AddBtnListener(slot0.plotBtn_, nil, function ()
+		if not uv0.isOpenPlotTalk then
+			uv0:IndexPlotItem()
+			uv0.plotController_:SetSelectedState("on")
+			UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.talkStateGo_.transform)
 
-			arg_3_0.isOpenPlotTalk = true
+			uv0.isOpenPlotTalk = true
 		else
-			arg_3_0.plotController_:SetSelectedState("off")
+			uv0.plotController_:SetSelectedState("off")
 
-			arg_3_0.isOpenPlotTalk = false
+			uv0.isOpenPlotTalk = false
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.plotTalkMaskBtn_, nil, function()
-		arg_3_0.plotController_:SetSelectedState("off")
 
-		arg_3_0.isOpenPlotTalk = false
-	end)
+	slot4 = nil
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.descBtn_) do
-		arg_3_0:AddBtnListener(iter_3_1, nil, function()
-			arg_3_0:ShowMessage()
+	function slot5()
+		uv0.plotController_:SetSelectedState("off")
+
+		uv0.isOpenPlotTalk = false
+	end
+
+	slot0:AddBtnListener(slot0.plotTalkMaskBtn_, slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.descBtn_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			uv0:ShowMessage()
 		end)
 	end
 
-	arg_3_0:AddBtnListener(nil, arg_3_0.hideMessageBtn_, function()
-		arg_3_0:HideMessage()
-		SetActive(arg_3_0.hideMessageGo_, false)
+	slot0:AddBtnListener(nil, slot0.hideMessageBtn_, function ()
+		uv0:HideMessage()
+		SetActive(uv0.hideMessageGo_, false)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.dlc_skinBtn_, function()
-		arg_3_0.showDlc_ = false
+	slot0:AddBtnListener(nil, slot0.dlc_skinBtn_, function ()
+		uv0.showDlc_ = false
 
-		arg_3_0:ChangeShowDlcState(0)
+		uv0:ChangeShowDlcState(0)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.dlc_dlcBtn_, function()
-		if arg_3_0.dlcID_ then
-			local var_16_0 = getShopCfg(arg_3_0.dlcID_)
-
-			if var_16_0 then
-				local var_16_1 = var_16_0.give_id or var_16_0.description
-
-				if var_16_1 then
-					OperationRecorder.RecordButtonTouch("skin_dlc_pre_" .. var_16_1)
-				end
-			end
+	slot0:AddBtnListener(nil, slot0.dlc_dlcBtn_, function ()
+		if uv0.dlcID_ and getShopCfg(uv0.dlcID_) and (slot0.give_id or slot0.description) then
+			OperationRecorder.RecordButtonTouch("skin_dlc_pre_" .. slot1)
 		end
 
-		arg_3_0.showDlc_ = true
+		uv0.showDlc_ = true
 
-		arg_3_0:ChangeShowDlcState(1)
+		uv0:ChangeShowDlcState(1)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.buyDlcBtn_, function()
-		arg_3_0.params_.skinID = arg_3_0.skinID_
+	slot0:AddBtnListener(nil, slot0.buyDlcBtn_, function ()
+		uv0.params_.skinID = uv0.skinID_
+		slot0 = HeroTools.GetShopIdBySkinId(uv0.skinID_)
 
-		local var_17_0 = HeroTools.GetShopIdBySkinId(arg_3_0.skinID_)
-		local var_17_1 = JumpTools.IsSystemLocked(501)
-
-		if var_17_1 then
-			ShowTips(JumpTools.GetSystemLockedTip(501, var_17_1))
+		if JumpTools.IsSystemLocked(501) then
+			ShowTips(JumpTools.GetSystemLockedTip(501, slot1))
+		elseif getShopCfg(uv0.dlcID_) == nil then
+			return
+		elseif ShopConst.SHOP_ID.DLC_SHOP == slot2.shop_id then
+			JumpTools.OpenPageByJump("newSkinBuyCheck", {
+				goodID = slot0,
+				heroID = uv0.heroID_,
+				skinID = uv0.skinID_
+			}, ViewConst.SYSTEM_ID.SHOP)
 		else
-			local var_17_2 = getShopCfg(arg_3_0.dlcID_)
-
-			if var_17_2 == nil then
-				return
-			elseif ShopConst.SHOP_ID.DLC_SHOP == var_17_2.shop_id then
-				JumpTools.OpenPageByJump("newSkinBuyCheck", {
-					goodID = var_17_0,
-					heroID = arg_3_0.heroID_,
-					skinID = arg_3_0.skinID_
-				}, ViewConst.SYSTEM_ID.SHOP)
-			else
-				local var_17_3 = getShopCfg(arg_3_0.dlcID_)
-
-				JumpTools.GoToSystem("/shop", {
-					shopId = var_17_3.shop_id
-				}, ViewConst.SYSTEM_ID.SHOP)
-			end
+			JumpTools.GoToSystem("/shop", {
+				shopId = getShopCfg(uv0.dlcID_).shop_id
+			}, ViewConst.SYSTEM_ID.SHOP)
 		end
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.btn_dlcSpecialExchangeBtn_, nil, function()
-		local var_18_0 = getShopCfg(arg_3_0.dlcID_)
-
+	slot0:AddBtnListener(slot0.btn_dlcSpecialExchangeBtn_, nil, function ()
 		ShowMessageBox({
-			content = string.format(GetTips("SHOP_DLC_LINK"), ItemTools.getItemName(var_18_0.give_id)),
-			OkCallback = function()
-				if var_18_0 then
+			content = string.format(GetTips("SHOP_DLC_LINK"), ItemTools.getItemName(getShopCfg(uv0.dlcID_).give_id)),
+			OkCallback = function ()
+				if uv0 then
 					JumpTools.GoToSystem("/shop", {
-						shopId = var_18_0.shop_id,
-						goodId = var_18_0.goods_id
+						shopId = uv0.shop_id,
+						goodId = uv0.goods_id
 					}, ViewConst.SYSTEM_ID.SHOP)
 				end
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_3_0.scrollView_.onValueChanged:AddListener(function()
-		arg_3_0:RefreshItemScale()
+	slot0.scrollView_.onValueChanged:AddListener(function ()
+		uv0:RefreshItemScale()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.switchInfoBtn_, nil, function()
-		if arg_3_0.infoController_:GetSelectedState() == "tag" then
-			arg_3_0:SwitchInfoController("description")
+	slot0:AddBtnListener(slot0.switchInfoBtn_, nil, function ()
+		if uv0.infoController_:GetSelectedState() == "tag" then
+			uv0:SwitchInfoController("description")
 		else
-			arg_3_0:SwitchInfoController("tag")
+			uv0:SwitchInfoController("tag")
 		end
 	end)
 end
 
-function var_0_1.OnTryToUseItem(arg_23_0, arg_23_1, arg_23_2)
-	if isSuccess(arg_23_1.result) then
-		local var_23_0 = arg_23_2.use_item_list[1].item_info.id
-		local var_23_1 = ItemCfg[var_23_0].param[1]
+function slot1.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		slot4 = ItemCfg[slot2.use_item_list[1].item_info.id].param[1]
 
 		getReward({
 			{
 				num = 1,
-				id = var_23_1
+				id = slot4
 			}
 		}, {
 			ItemConst.ITEM_TYPE.HERO_SKIN
 		})
-
-		local var_23_2 = SkinCfg[var_23_1].hero
-
-		HeroAction.UpdateSkinCouponRedPoint(var_23_2)
-		HeroAction.SkinAdd(arg_23_0.skinID_)
-		arg_23_0:SetButtonActive(8)
+		HeroAction.UpdateSkinCouponRedPoint(SkinCfg[slot4].hero)
+		HeroAction.SkinAdd(slot0.skinID_)
+		slot0:SetButtonActive(8)
 	else
-		ShowTips(arg_23_1.result)
+		ShowTips(slot1.result)
 	end
 
-	arg_23_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_1.OnSelectSkin(arg_24_0, arg_24_1, arg_24_2)
-	arg_24_0:SetButtonActive(8)
+function slot1.OnSelectSkin(slot0, slot1, slot2)
+	slot0:SetButtonActive(8)
 end
 
-function var_0_1.CameraEnter(arg_25_0)
-	if not arg_25_0.params_.isBack then
+function slot1.CameraEnter(slot0)
+	if not slot0.params_.isBack then
 		manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 			1,
 			4
-		}, arg_25_0.displayGo_)
-	elseif arg_25_0.showDlcState_ == 1 then
+		}, slot0.displayGo_)
+	elseif slot0.showDlcState_ == 1 then
 		manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.null)
 	else
 		manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 			1,
 			4
-		}, arg_25_0.displayGo_)
+		}, slot0.displayGo_)
 	end
 end
 
-function var_0_1.OnEnter(arg_26_0)
-	arg_26_0.descList_ = {}
-	arg_26_0.showDlc_ = false
+function slot1.OnEnter(slot0)
+	slot0.descList_ = {}
+	slot0.showDlc_ = false
 
-	local var_26_0 = HeroSkinRouteData:GetRoute()
-
-	if not arg_26_0.params_.heroID then
-		arg_26_0.heroID_ = var_26_0.heroID
+	if not slot0.params_.heroID then
+		slot0.heroID_ = HeroSkinRouteData:GetRoute().heroID
 	else
-		arg_26_0.heroID_ = arg_26_0.params_.heroID
+		slot0.heroID_ = slot0.params_.heroID
 	end
 
-	if not arg_26_0.params_.isBack then
-		if not arg_26_0.params_.skinID then
-			arg_26_0.skinID_ = HeroTools.HeroUsingSkinInfo(arg_26_0.heroID_).id
+	if not slot0.params_.isBack then
+		if not slot0.params_.skinID then
+			slot0.skinID_ = HeroTools.HeroUsingSkinInfo(slot0.heroID_).id
 		else
-			arg_26_0.skinID_ = arg_26_0.params_.skinID
+			slot0.skinID_ = slot0.params_.skinID
 		end
 	end
 
-	arg_26_0.plotController_:SetSelectedState("off")
+	slot0.plotController_:SetSelectedState("off")
 
-	arg_26_0.isOpenPlotTalk = false
+	slot0.isOpenPlotTalk = false
 
-	manager.heroRaiseTrack:SetModelState(arg_26_0.skinID_)
-	arg_26_0:RefreshShop()
-	arg_26_0:RegistEventListener(GET_SKIN_GIFT, handler(arg_26_0, arg_26_0.OnGetSkinGift))
-	arg_26_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_27_0)
-		arg_26_0:RefreshUI()
+	manager.heroRaiseTrack:SetModelState(slot0.skinID_)
+	slot0:RefreshShop()
+	slot0:RegistEventListener(GET_SKIN_GIFT, handler(slot0, slot0.OnGetSkinGift))
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		uv0:RefreshUI()
 	end)
-	arg_26_0:RefreshUI()
+	slot0:RefreshUI()
 
-	if arg_26_0.params_.isDlc then
-		arg_26_0:ChangeShowDlcState(1)
-	elseif not arg_26_0.params_.isBack then
-		arg_26_0:ChangeShowDlcState(0)
+	if slot0.params_.isDlc then
+		slot0:ChangeShowDlcState(1)
+	elseif not slot0.params_.isBack then
+		slot0:ChangeShowDlcState(0)
 	else
-		arg_26_0:ChangeShowDlcState(arg_26_0.showDlcState_)
+		slot0:ChangeShowDlcState(slot0.showDlcState_)
 	end
 
-	arg_26_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_26_0, arg_26_0.BeginDragFun)))
-	arg_26_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_26_0, arg_26_0.EndDragFun)))
-	arg_26_0:Scroll2SelectItem(100)
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
+	slot0:Scroll2SelectItem(100)
 end
 
-function var_0_1.RefreshShop(arg_28_0)
-	arg_28_0:RefreshCurrencyToken(true)
+function slot1.RefreshShop(slot0)
+	slot0:RefreshCurrencyToken(true)
 end
 
-function var_0_1.RefreshSkinItemList(arg_29_0)
-	if arg_29_0.skinIdList_ and #arg_29_0.skinIdList_ > 0 then
-		for iter_29_0, iter_29_1 in pairs(arg_29_0.skinItemList_) do
-			iter_29_1:SetActive(false)
+function slot1.RefreshSkinItemList(slot0)
+	if slot0.skinIdList_ and #slot0.skinIdList_ > 0 then
+		for slot4, slot5 in pairs(slot0.skinItemList_) do
+			slot5:SetActive(false)
 		end
 
-		for iter_29_2, iter_29_3 in ipairs(arg_29_0.skinIdList_) do
-			local var_29_0
+		for slot4, slot5 in ipairs(slot0.skinIdList_) do
+			slot6 = nil
 
-			if arg_29_0.skinItemList_[iter_29_2] then
-				var_29_0 = arg_29_0.skinItemList_[iter_29_2]
+			if slot0.skinItemList_[slot4] then
+				slot6 = slot0.skinItemList_[slot4]
 			else
-				var_29_0 = NewHeroSkinPreviewItem.New(arg_29_0.itemGo_, arg_29_0.contentTf_)
+				slot6 = NewHeroSkinPreviewItem.New(slot0.itemGo_, slot0.contentTf_)
 
-				table.insert(arg_29_0.skinItemList_, var_29_0)
-				var_29_0:SetDelegate(handler(arg_29_0, arg_29_0.RefreshButton))
+				table.insert(slot0.skinItemList_, slot6)
+				slot6:SetDelegate(handler(slot0, slot0.RefreshButton))
 			end
 
-			var_29_0:Show(arg_29_0.skinIdList_[iter_29_2], iter_29_2)
-			var_29_0:ShowSelect(arg_29_0.selectIndex_ == iter_29_2)
-			var_29_0:CheckDLC(arg_29_0:JudgeDLC(arg_29_0.skinIdList_[iter_29_2]))
-			var_29_0:SetActive(true)
+			slot6:Show(slot0.skinIdList_[slot4], slot4)
+			slot6:ShowSelect(slot0.selectIndex_ == slot4)
+			slot6:CheckDLC(slot0:JudgeDLC(slot0.skinIdList_[slot4]))
+			slot6:SetActive(true)
 		end
 	end
 
-	arg_29_0:Scroll2SelectItem(5)
+	slot0:Scroll2SelectItem(5)
 end
 
-function var_0_1.RefreshUIWithOutScroll(arg_30_0)
-	arg_30_0:RefreshInfo()
-	arg_30_0:RefreshCost()
-	arg_30_0:SetButtonActive(arg_30_0:SkinState(arg_30_0.skinID_))
+function slot1.RefreshUIWithOutScroll(slot0)
+	slot0:RefreshInfo()
+	slot0:RefreshCost()
+	slot0:SetButtonActive(slot0:SkinState(slot0.skinID_))
 end
 
-function var_0_1.RefreshCost(arg_31_0)
-	local var_31_0 = getShopCfg(HeroTools.GetShopIdBySkinId(arg_31_0.skinID_))
+function slot1.RefreshCost(slot0)
+	SetActive(slot0.tokenPlusGo_, false)
 
-	SetActive(arg_31_0.tokenPlusGo_, false)
+	if getShopCfg(HeroTools.GetShopIdBySkinId(slot0.skinID_)) then
+		slot2 = 0
+		slot3 = 0
+		slot4 = nil
 
-	if var_31_0 then
-		local var_31_1 = 0
-		local var_31_2 = 0
-		local var_31_3
-		local var_31_4 = var_31_0.dlc or nil
-
-		if var_31_4 and var_31_4 ~= 0 and getShopCfg(var_31_4) then
-			var_31_1 = ShopTools.GetPrice(var_31_4)
+		if (slot1.dlc or nil) and slot5 ~= 0 and getShopCfg(slot5) then
+			slot2 = ShopTools.GetPrice(slot5)
 		end
 
-		local var_31_5 = ShopTools.GetPrice(var_31_0.goods_id, var_31_0.shop_id)
+		if slot0:CheckIsSpecial() == 0 and slot0.showDlcState_ == 1 then
+			SetActive(slot0.tokenPlusGo_, true)
 
-		if arg_31_0:CheckIsSpecial() == 0 and arg_31_0.showDlcState_ == 1 then
-			SetActive(arg_31_0.tokenPlusGo_, true)
-
-			var_31_5 = var_31_5 + var_31_1
+			slot3 = ShopTools.GetPrice(slot1.goods_id, slot1.shop_id) + slot2
 		end
 
-		if var_31_0.cost_type == 1 then
-			arg_31_0.currencyImage_.sprite = nil
-			arg_31_0.currencyText_.text = ShopTools.GetMoneySymbol(var_31_0.goods_id) .. var_31_5
+		if slot1.cost_type == 1 then
+			slot0.currencyImage_.sprite = nil
+			slot0.currencyText_.text = ShopTools.GetMoneySymbol(slot1.goods_id) .. slot3
 
-			SetActive(arg_31_0.currencyGo_, false)
+			SetActive(slot0.currencyGo_, false)
 		else
-			arg_31_0.currencyImage_.sprite = ItemTools.getItemLittleSprite(var_31_0.cost_id)
-			arg_31_0.currencyText_.text = var_31_5
+			slot0.currencyImage_.sprite = ItemTools.getItemLittleSprite(slot1.cost_id)
+			slot0.currencyText_.text = slot3
 
-			SetActive(arg_31_0.currencyGo_, true)
+			SetActive(slot0.currencyGo_, true)
 		end
 
-		if var_31_1 and var_31_1 ~= 0 then
-			if ShopTools.IsRMB(var_31_4) then
-				arg_31_0.dlccurrencyImage_.sprite = nil
-				arg_31_0.dlccurrencyText_.text = ShopTools.GetMoneySymbol(var_31_4) .. var_31_1
+		if slot2 and slot2 ~= 0 then
+			if ShopTools.IsRMB(slot5) then
+				slot0.dlccurrencyImage_.sprite = nil
+				slot0.dlccurrencyText_.text = ShopTools.GetMoneySymbol(slot5) .. slot2
 
-				SetActive(arg_31_0.dlccurrencyGo_, false)
+				SetActive(slot0.dlccurrencyGo_, false)
 			else
-				arg_31_0.dlccurrencyImage_.sprite = ItemTools.getItemLittleSprite(var_31_0.cost_id)
-				arg_31_0.dlccurrencyText_.text = var_31_1
+				slot0.dlccurrencyImage_.sprite = ItemTools.getItemLittleSprite(slot1.cost_id)
+				slot0.dlccurrencyText_.text = slot2
 
-				SetActive(arg_31_0.dlccurrencyGo_, true)
+				SetActive(slot0.dlccurrencyGo_, true)
 			end
 		end
 	end
 
-	arg_31_0:RefreshTokenNumText()
+	slot0:RefreshTokenNumText()
 end
 
-function var_0_1.RefreshButton(arg_32_0, arg_32_1)
-	arg_32_0.selectIndex_ = arg_32_1.index_
+function slot1.RefreshButton(slot0, slot1)
+	slot0.selectIndex_ = slot1.index_
+	slot2 = slot1:SkinState()
 
-	local var_32_0 = arg_32_1:SkinState()
-	local var_32_1 = arg_32_1.skinID_
+	manager.redPoint:setTip(RedPointConst.HERO_SKIN_ROUTE_ID .. slot1.skinID_, 0, RedPointStyle.SHOW_NEW_TAG)
 
-	manager.redPoint:setTip(RedPointConst.HERO_SKIN_ROUTE_ID .. arg_32_1.skinID_, 0, RedPointStyle.SHOW_NEW_TAG)
-
-	if var_32_1 == arg_32_0.skinID_ then
-		arg_32_0:Scroll2SelectItem(5)
+	if slot1.skinID_ == slot0.skinID_ then
+		slot0:Scroll2SelectItem(5)
 
 		return
 	end
 
-	arg_32_0.skinID_ = var_32_1
+	slot0.skinID_ = slot3
 
-	arg_32_0:ChangeShowDlcState(0)
+	slot0:ChangeShowDlcState(0)
+	slot0:SetButtonActive(slot2)
+	manager.heroRaiseTrack:SetModelState(slot0.skinID_)
+	SetActive(slot0.plotBtn_, #SkinCfg[slot3].plot_title > 0)
+	slot0.plotController_:SetSelectedState("off")
 
-	local var_32_2 = SkinCfg[var_32_1]
+	slot0.isOpenPlotTalk = false
 
-	arg_32_0:SetButtonActive(var_32_0)
-	manager.heroRaiseTrack:SetModelState(arg_32_0.skinID_)
-	SetActive(arg_32_0.plotBtn_, #var_32_2.plot_title > 0)
-	arg_32_0.plotController_:SetSelectedState("off")
-
-	arg_32_0.isOpenPlotTalk = false
-
-	arg_32_0:RefreshInfo()
-	arg_32_0:RefreshCost()
-	arg_32_0:CheckDlc(var_32_1, var_32_0)
-	arg_32_0:RefreshDlcBtn()
-	arg_32_0:RefreshDescBtn()
-	arg_32_0:RefreshGiftBtn()
-	arg_32_0:HideMessage()
-	arg_32_0:RefreshUI()
-	arg_32_0:Scroll2SelectItem(5)
+	slot0:RefreshInfo()
+	slot0:RefreshCost()
+	slot0:CheckDlc(slot3, slot2)
+	slot0:RefreshDlcBtn()
+	slot0:RefreshDescBtn()
+	slot0:RefreshGiftBtn()
+	slot0:HideMessage()
+	slot0:RefreshUI()
+	slot0:Scroll2SelectItem(5)
 end
 
-function var_0_1.UpdateBar(arg_33_0)
-	if arg_33_0.btnState_ == 3 or arg_33_0.dlcBtnController_:GetSelectedState() == "buyDlc" then
+function slot1.UpdateBar(slot0)
+	if slot0.btnState_ == 3 or slot0.dlcBtnController_:GetSelectedState() == "buyDlc" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
@@ -472,184 +433,166 @@ function var_0_1.UpdateBar(arg_33_0)
 	end
 end
 
-function var_0_1.SetButtonActive(arg_34_0, arg_34_1)
-	arg_34_0:CheckDlc(arg_34_0.skinID_, arg_34_1)
+function slot1.SetButtonActive(slot0, slot1)
+	slot0:CheckDlc(slot0.skinID_, slot1)
 
-	if arg_34_0:JudgeDLC(arg_34_0.skinID_) then
-		if not ShopTools.CheckDlcPurchased(arg_34_0.dlcID_) then
-			arg_34_0.dlc_dlcController_:SetSelectedIndex(0)
+	if slot0:JudgeDLC(slot0.skinID_) then
+		if not ShopTools.CheckDlcPurchased(slot0.dlcID_) then
+			slot0.dlc_dlcController_:SetSelectedIndex(0)
 		else
-			arg_34_0.dlc_dlcController_:SetSelectedIndex(1)
+			slot0.dlc_dlcController_:SetSelectedIndex(1)
 		end
 	end
 
-	if arg_34_1 == 8 or arg_34_1 == 7 and arg_34_0.skinID_ ~= arg_34_0.heroID_ or arg_34_1 == 9 and arg_34_0:CheckIsSpecial() then
-		arg_34_0.dlc_skinController_:SetSelectedIndex(1)
+	if slot1 == 8 or slot1 == 7 and slot0.skinID_ ~= slot0.heroID_ or slot1 == 9 and slot0:CheckIsSpecial() then
+		slot0.dlc_skinController_:SetSelectedIndex(1)
 	else
-		arg_34_0.dlc_skinController_:SetSelectedIndex(0)
+		slot0.dlc_skinController_:SetSelectedIndex(0)
 	end
 
-	if arg_34_0.btnState_ == arg_34_1 then
+	if slot0.btnState_ == slot1 then
 		return
 	end
 
-	arg_34_0.statusController_:SetSelectedIndex(arg_34_1 - 1)
+	slot0.statusController_:SetSelectedIndex(slot1 - 1)
 
-	arg_34_0.btnState_ = arg_34_1
+	slot0.btnState_ = slot1
 
-	arg_34_0:UpdateBar()
+	slot0:UpdateBar()
 end
 
-function var_0_1.ChangeShowDlcState(arg_35_0, arg_35_1)
-	arg_35_0.showDlcState_ = arg_35_1
+function slot1.ChangeShowDlcState(slot0, slot1)
+	slot0.showDlcState_ = slot1
 
-	arg_35_0.dlcController_:SetSelectedIndex(arg_35_1)
+	slot0.dlcController_:SetSelectedIndex(slot1)
 
-	if arg_35_1 == 0 then
-		arg_35_0.dlc_skinBtn_.interactable = false
-		arg_35_0.dlc_dlcBtn_.interactable = true
+	if slot1 == 0 then
+		slot0.dlc_skinBtn_.interactable = false
+		slot0.dlc_dlcBtn_.interactable = true
 
 		manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 			1,
 			4
-		}, arg_35_0.displayGo_)
-		arg_35_0:PauseDlcMovie()
-	elseif arg_35_1 == 1 then
-		arg_35_0.dlc_skinBtn_.interactable = true
-		arg_35_0.dlc_dlcBtn_.interactable = false
+		}, slot0.displayGo_)
+		slot0:PauseDlcMovie()
+	elseif slot1 == 1 then
+		slot0.dlc_skinBtn_.interactable = true
+		slot0.dlc_dlcBtn_.interactable = false
 
 		manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.null)
-		arg_35_0:RefreshDlcMovie()
+		slot0:RefreshDlcMovie()
 	end
 
-	arg_35_0:RefreshCost()
-	arg_35_0:ChangeDlcBtn()
-	arg_35_0:RefreshInfo()
-	arg_35_0:SetButtonActive(arg_35_0:SkinState(arg_35_0.skinID_))
+	slot0:RefreshCost()
+	slot0:ChangeDlcBtn()
+	slot0:RefreshInfo()
+	slot0:SetButtonActive(slot0:SkinState(slot0.skinID_))
 end
 
-function var_0_1.SkinState(arg_36_0, arg_36_1)
-	arg_36_0:ChangeDlcBtn()
+function slot1.SkinState(slot0, slot1)
+	slot0:ChangeDlcBtn()
 
-	if arg_36_0:isUnlockOrCanChange(arg_36_1) then
-		if HeroTools.GetHeroIsUnlock(SkinCfg[arg_36_0.skinID_].hero) == false and arg_36_0.skinID_ == SkinCfg[arg_36_0.skinID_].hero then
+	if slot0:isUnlockOrCanChange(slot1) then
+		if HeroTools.GetHeroIsUnlock(SkinCfg[slot0.skinID_].hero) == false and slot0.skinID_ == SkinCfg[slot0.skinID_].hero then
 			return 7
 		end
 
-		if arg_36_0.showDlcState_ == 1 and not ShopTools.CheckDlcPurchased(arg_36_0.dlcID_) then
+		if slot0.showDlcState_ == 1 and not ShopTools.CheckDlcPurchased(slot0.dlcID_) then
 			return 9
 		end
 
 		return 8
 	else
-		if HeroTools.IsSkinOutOfDate(arg_36_1) then
+		if HeroTools.IsSkinOutOfDate(slot1) then
 			return 4
 		end
 
-		if ShopTools.IsPC() then
-			local var_36_0 = HeroTools.GetShopIdBySkinId(arg_36_0.skinID_)
-
-			if ShopTools.IsRMB(var_36_0) then
-				return 12
-			end
+		if ShopTools.IsPC() and ShopTools.IsRMB(HeroTools.GetShopIdBySkinId(slot0.skinID_)) then
+			return 12
 		end
 
 		return 3
 	end
 end
 
-function var_0_1.ChangeDlcBtn(arg_37_0)
-	arg_37_0.dlcBtnController_:SetSelectedIndex(0)
+function slot1.ChangeDlcBtn(slot0)
+	slot0.dlcBtnController_:SetSelectedIndex(0)
 
-	if arg_37_0:CheckIsSpecial() == 1 then
-		arg_37_0:ChangeDlcBtnSpecial()
+	if slot0:CheckIsSpecial() == 1 then
+		slot0:ChangeDlcBtnSpecial()
 
 		return
 	end
 
-	if arg_37_0:isUnlock(arg_37_0.skinID_) and arg_37_0:JudgeDLC(arg_37_0.skinID_) and not ShopTools.CheckDlcPurchased(arg_37_0.dlcID_) then
-		local var_37_0 = getShopCfg(arg_37_0.dlcID_)
-
-		if ShopTools.CheckShopIsUnLock(var_37_0.shop_id) and ShopTools.IsGoodCanDisplay(var_37_0.shop_id, var_37_0.goods_id) then
-			arg_37_0.dlcBtnController_:SetSelectedIndex(1)
-		end
+	if slot0:isUnlock(slot0.skinID_) and slot0:JudgeDLC(slot0.skinID_) and not ShopTools.CheckDlcPurchased(slot0.dlcID_) and ShopTools.CheckShopIsUnLock(getShopCfg(slot0.dlcID_).shop_id) and ShopTools.IsGoodCanDisplay(slot1.shop_id, slot1.goods_id) then
+		slot0.dlcBtnController_:SetSelectedIndex(1)
 	end
 end
 
-function var_0_1.RefreshTokenNumText(arg_38_0)
+function slot1.RefreshTokenNumText(slot0)
 	if ShopTools.IsPC() then
-		SetActive(arg_38_0.tokenNum1Go_, false)
-		SetActive(arg_38_0.tokenNum2Go_, false)
+		SetActive(slot0.tokenNum1Go_, false)
+		SetActive(slot0.tokenNum2Go_, false)
 
 		return
 	end
 
-	if arg_38_0:CheckIsSpecial() == 1 then
-		SetActive(arg_38_0.tokenNum1Go_, false)
-		SetActive(arg_38_0.tokenNum2Go_, false)
+	if slot0:CheckIsSpecial() == 1 then
+		SetActive(slot0.tokenNum1Go_, false)
+		SetActive(slot0.tokenNum2Go_, false)
 
 		return
 	end
 
-	if arg_38_0.showDlcState_ == 1 and not arg_38_0:isUnlock(arg_38_0.skinID_) then
-		SetActive(arg_38_0.tokenNum1Go_, false)
-		SetActive(arg_38_0.tokenNum2Go_, true)
+	if slot0.showDlcState_ == 1 and not slot0:isUnlock(slot0.skinID_) then
+		SetActive(slot0.tokenNum1Go_, false)
+		SetActive(slot0.tokenNum2Go_, true)
 
 		return
 	end
 
-	if arg_38_0.showDlcState_ == 0 and not arg_38_0:isUnlockOrCanChange(arg_38_0.skinID_) or arg_38_0:isUnlockOrCanChange(arg_38_0.skinID_) and not ShopTools.CheckDlcPurchased(arg_38_0.dlcID_) then
-		SetActive(arg_38_0.tokenNum1Go_, true)
-		SetActive(arg_38_0.tokenNum2Go_, false)
+	if slot0.showDlcState_ == 0 and not slot0:isUnlockOrCanChange(slot0.skinID_) or slot0:isUnlockOrCanChange(slot0.skinID_) and not ShopTools.CheckDlcPurchased(slot0.dlcID_) then
+		SetActive(slot0.tokenNum1Go_, true)
+		SetActive(slot0.tokenNum2Go_, false)
 
 		return
 	end
 
-	SetActive(arg_38_0.tokenNum1Go_, false)
-	SetActive(arg_38_0.tokenNum2Go_, false)
+	SetActive(slot0.tokenNum1Go_, false)
+	SetActive(slot0.tokenNum2Go_, false)
 end
 
-function var_0_1.RefreshInfo(arg_39_0)
-	if arg_39_0.showDlcState_ == 1 then
-		local var_39_0 = getShopCfg(arg_39_0.dlcID_)
-		local var_39_1 = RechargeShopDescriptionCfg[var_39_0.description]
-
-		if var_39_1 == nil then
-			var_39_1 = ItemCfg[var_39_0.give_id]
+function slot1.RefreshInfo(slot0)
+	if slot0.showDlcState_ == 1 then
+		if RechargeShopDescriptionCfg[getShopCfg(slot0.dlcID_).description] == nil then
+			slot2 = ItemCfg[slot1.give_id]
 		end
 
-		local var_39_2 = string.format("%s", var_39_1.name)
-		local var_39_3 = string.format("%s", var_39_1.desc)
-
-		arg_39_0.nameText_.text = GetI18NText(var_39_2)
-		arg_39_0.infoText_.text = GetI18NText(var_39_3)
+		slot0.nameText_.text = GetI18NText(string.format("%s", slot2.name))
+		slot0.infoText_.text = GetI18NText(string.format("%s", slot2.desc))
 	else
-		arg_39_0.nameText_.text = GetI18NText(SkinCfg[arg_39_0.skinID_].name)
-		arg_39_0.infoText_.text = GetI18NText(SkinCfg[arg_39_0.skinID_].desc)
+		slot0.nameText_.text = GetI18NText(SkinCfg[slot0.skinID_].name)
+		slot0.infoText_.text = GetI18NText(SkinCfg[slot0.skinID_].desc)
 	end
 
-	arg_39_0:CleanMessage()
+	slot0:CleanMessage()
 
-	local var_39_4 = HeroTools.GetSkinChangeItem(arg_39_0.skinID_)
-
-	if var_39_4 then
-		arg_39_0.sourcetextText_.text = GetI18NText(ItemCfg[var_39_4].desc_source) or ""
-		arg_39_0.couponImg_.sprite = ItemTools.getItemLittleSprite(var_39_4)
+	if HeroTools.GetSkinChangeItem(slot0.skinID_) then
+		slot0.sourcetextText_.text = GetI18NText(ItemCfg[slot1].desc_source) or ""
+		slot0.couponImg_.sprite = ItemTools.getItemLittleSprite(slot1)
 	else
-		arg_39_0.sourcetextText_.text = GetI18NText(ItemCfg[arg_39_0.skinID_].desc_source) or ""
+		slot0.sourcetextText_.text = GetI18NText(ItemCfg[slot0.skinID_].desc_source) or ""
 	end
 
-	arg_39_0:RefreshLimitTime(arg_39_0.skinID_)
+	slot0:RefreshLimitTime(slot0.skinID_)
 end
 
-function var_0_1.SaveRoute(arg_40_0)
-	local var_40_0 = {
+function slot1.SaveRoute(slot0)
+	SkinTrialData:SaveRoute({
 		name = "heroSkinPreview",
-		skinID = arg_40_0.skinID_,
-		heroID = arg_40_0.heroID_
-	}
-
-	SkinTrialData:SaveRoute(var_40_0)
+		skinID = slot0.skinID_,
+		heroID = slot0.heroID_
+	})
 end
 
-return var_0_1
+return slot1

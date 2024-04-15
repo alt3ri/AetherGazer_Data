@@ -1,94 +1,91 @@
-local var_0_0 = class("MardukSpecialRewardConditionItemView", ReduxView)
+slot0 = class("MardukSpecialRewardConditionItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uilistGo_, FactorySoloChallengeRewardCommonItem)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, FactorySoloChallengeRewardCommonItem)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_0.cfg_.reward_item_list[arg_4_1], POP_ITEM)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.cfg_.reward_item_list[slot1], POP_ITEM)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.getBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
 		ActivityAction.GetBonus({
-			arg_5_0.rewardId_
+			uv0.rewardId_
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	arg_7_0:RegistEventListener(MARDUK_SPECIAL_REWARD_UPDATE, function(arg_8_0)
-		if table.indexof(arg_8_0, arg_7_0.rewardId_) then
-			arg_7_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(MARDUK_SPECIAL_REWARD_UPDATE, function (slot0)
+		if table.indexof(slot0, uv0.rewardId_) then
+			uv0:UpdateView()
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.activityId_ = arg_9_3
-	arg_9_0.index_ = arg_9_1
-	arg_9_0.rewardId_ = arg_9_2
-	arg_9_0.cfg_ = ActivityPointRewardCfg[arg_9_2]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.activityId_ = slot3
+	slot0.index_ = slot1
+	slot0.rewardId_ = slot2
+	slot0.cfg_ = ActivityPointRewardCfg[slot2]
 
-	arg_9_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	arg_10_0.conditionLabel_.text = string.format(GetTips("FACTORY_ACTIVITY_POINT_REWARD"), arg_10_0.cfg_.need)
+function slot0.UpdateView(slot0)
+	slot0.conditionLabel_.text = string.format(GetTips("FACTORY_ACTIVITY_POINT_REWARD"), slot0.cfg_.need)
 
-	arg_10_0.uiList_:StartScroll(#arg_10_0.cfg_.reward_item_list)
+	slot0.uiList_:StartScroll(#slot0.cfg_.reward_item_list)
 
-	local var_10_0 = MardukSpecialData:GetPoint(arg_10_0.activityId_)
+	slot1 = MardukSpecialData:GetPoint(slot0.activityId_)
 
-	if MardukSpecialData:HaveGotReward(arg_10_0.activityId_, arg_10_0.rewardId_) then
-		arg_10_0.statusController_:SetSelectedState("haveGet")
-	elseif var_10_0 >= arg_10_0.cfg_.need then
-		arg_10_0.statusController_:SetSelectedState("canGet")
+	if MardukSpecialData:HaveGotReward(slot0.activityId_, slot0.rewardId_) then
+		slot0.statusController_:SetSelectedState("haveGet")
+	elseif slot0.cfg_.need <= slot1 then
+		slot0.statusController_:SetSelectedState("canGet")
 	else
-		arg_10_0.statusController_:SetSelectedState("unFinish")
+		slot0.statusController_:SetSelectedState("unFinish")
 	end
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_13_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	arg_14_0.data_ = nil
+	slot0.data_ = nil
 
-	if arg_14_0.uiList_ then
-		arg_14_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_14_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

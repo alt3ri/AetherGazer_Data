@@ -3,7 +3,7 @@ if jit then
 	jit.flush()
 
 	if jit.opt then
-		-- block empty
+		-- Nothing
 	end
 
 	print("jit", jit.status())
@@ -108,31 +108,21 @@ PhysicsRaycaster = UnityEngine.EventSystems.PhysicsRaycaster
 CinemachineBrain = Cinemachine.CinemachineBrain
 math.randomseed_ = math.randomseed
 math.random_ = math.random
+slot0 = nil
 
-local var_0_0
-
-function math.randomseed(arg_1_0)
-	var_0_0 = RandomUtil.GenRandom(arg_1_0)
+function math.randomseed(slot0)
+	uv0 = RandomUtil.GenRandom(slot0)
 end
 
 math.randomseed(os.time())
 
-function math.random(arg_2_0, arg_2_1)
-	local var_2_0
-
-	if arg_2_0 == nil and arg_2_1 == nil then
-		var_2_0 = var_0_0:NextDouble()
-	elseif arg_2_1 == nil then
-		var_2_0 = 1 + var_0_0:NextInt(arg_2_0)
-	else
-		var_2_0 = arg_2_0 + var_0_0:NextInt(arg_2_1 - arg_2_0 + 1)
-	end
+function math.random(slot0, slot1)
+	slot2 = nil
+	slot2 = (slot0 ~= nil or slot1 ~= nil or uv0:NextDouble()) and (slot1 == nil and 1 + uv0:NextInt(slot0) or slot0 + uv0:NextInt(slot1 - slot0 + 1))
 
 	if MathRandomFlag == true then
-		local var_2_1 = debug.getinfo(2, "nfS")
-
-		print("<color=#ff0000>游戏帧请使用BattleMath.Random()产生随机数</color>" .. " source:" .. var_2_1.source)
+		print("<color=#ff0000>游戏帧请使用BattleMath.Random()产生随机数</color>" .. " source:" .. debug.getinfo(2, "nfS").source)
 	end
 
-	return var_2_0
+	return slot2
 end

@@ -1,86 +1,78 @@
-local var_0_0 = class("VoiceSwitchItem", ReduxView)
+slot0 = class("VoiceSwitchItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.statusController_ = arg_2_0.comps_:GetController("status")
+	slot0.statusController_ = slot0.comps_:GetController("status")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddToggleListener(arg_3_0.toggle_, function(arg_4_0)
-		if arg_4_0 then
-			manager.notify:CallUpdateFunc(GAME_VOICE_SETTING, arg_3_0.info_.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.toggle_, function (slot0)
+		if slot0 then
+			manager.notify:CallUpdateFunc(GAME_VOICE_SETTING, uv0.info_.id)
 		end
 	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.downloadBtn_, nil, function()
-		if VoicePackageManager.Instance:GetPackageSize(arg_3_0.info_.affix) + 200 > LuaForUtil.GetFreeDiskSpace() then
+	slot0:AddBtnListenerScale(slot0.downloadBtn_, nil, function ()
+		if LuaForUtil.GetFreeDiskSpace() < VoicePackageManager.Instance:GetPackageSize(uv0.info_.affix) + 200 then
 			ShowMessageBox({
 				content = GetTips("VOICE_STORAGE_FULL"),
-				OkCallback = function()
-					return
+				OkCallback = function ()
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end,
-				MaskCallback = function()
-					return
+				MaskCallback = function ()
 				end
 			})
 		else
-			OpenDownLoadPage(nil, arg_3_0.info_.affix)
+			OpenDownLoadPage(nil, uv0.info_.affix)
 		end
 	end)
 end
 
-function var_0_0.Init(arg_9_0)
-	arg_9_0:InitUI()
-	arg_9_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.Render(arg_10_0)
-	arg_10_0:RefreshData(arg_10_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshData(slot0.info_)
 end
 
-function var_0_0.RefreshData(arg_11_0, arg_11_1)
-	if arg_11_1 then
-		arg_11_0.info_ = arg_11_1
-		arg_11_0.nameText_.text = GetI18NText(arg_11_1.name)
+function slot0.RefreshData(slot0, slot1)
+	if slot1 then
+		slot0.info_ = slot1
+		slot0.nameText_.text = GetI18NText(slot1.name)
+		slot4 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
 
-		local var_11_0 = VoicePackageManager.Instance:IsHavePackage(arg_11_1.affix)
-		local var_11_1 = SettingData:GetSoundSettingData().voice_language
-		local var_11_2 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
+		if VoicePackageManager.Instance:IsHavePackage(slot1.affix) then
+			slot0.spaceText_.text = ""
 
-		if var_11_0 then
-			arg_11_0.spaceText_.text = ""
+			if SettingData:GetSoundSettingData().voice_language == slot1.id then
+				slot0.statusController_:SetSelectedState("in_use")
 
-			if var_11_1 == arg_11_1.id then
-				arg_11_0.statusController_:SetSelectedState("in_use")
-
-				arg_11_0.toggle_.isOn = true
+				slot0.toggle_.isOn = true
 			else
-				arg_11_0.statusController_:SetSelectedState("downloaded")
+				slot0.statusController_:SetSelectedState("downloaded")
 			end
 		else
-			arg_11_0.statusController_:SetSelectedState("not_downloaded")
+			slot0.statusController_:SetSelectedState("not_downloaded")
 
-			local var_11_3 = string.format("(%.2fMB)", VoicePackageManager.Instance:GetPackageSize(arg_11_1.affix))
-
-			arg_11_0.spaceText_.text = var_11_3
+			slot0.spaceText_.text = string.format("(%.2fMB)", VoicePackageManager.Instance:GetPackageSize(slot1.affix))
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.params_ = nil
+function slot0.Dispose(slot0)
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,17 +1,16 @@
 InfinityTaskBaseView = import("game.views.activity.Submodule.infinityTask.base.InfinityTaskBaseView")
+slot0 = class("OsirisActivityView", InfinityTaskBaseView)
 
-local var_0_0 = class("OsirisActivityView", InfinityTaskBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/OsirisUI/OsirisUITaskUI"
 end
 
-function var_0_0.GetTaskViewClass(arg_2_0)
+function slot0.GetTaskViewClass(slot0)
 	return OsirisTaskView
 end
 
-function var_0_0.GetInfinityPoolViewClass(arg_3_0)
+function slot0.GetInfinityPoolViewClass(slot0)
 	return OsirisLotteryView
 end
 
-return var_0_0
+return slot0

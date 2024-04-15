@@ -1,69 +1,64 @@
-local var_0_0 = class("ScrollContentLineView", BaseView)
+slot0 = class("ScrollContentLineView", BaseView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5)
-	arg_1_0.goLineItem_ = arg_1_1
-	arg_1_0.goItemParent_ = arg_1_2
-	arg_1_0.stageItemWidth_ = arg_1_3
-	arg_1_0.offsetX_ = arg_1_4
-	arg_1_0.lineHeight_ = arg_1_5
-	arg_1_0.lineItemList_ = {}
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.goLineItem_ = slot1
+	slot0.goItemParent_ = slot2
+	slot0.stageItemWidth_ = slot3
+	slot0.offsetX_ = slot4
+	slot0.lineHeight_ = slot5
+	slot0.lineItemList_ = {}
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_2_0 = #arg_2_0.lineItemList_, 1, -1 do
-		Object.Destroy(arg_2_0.lineItemList_[iter_2_0])
+	for slot4 = #slot0.lineItemList_, 1, -1 do
+		Object.Destroy(slot0.lineItemList_[slot4])
 	end
 
-	arg_2_0.lineItemList_ = nil
+	slot0.lineItemList_ = nil
 end
 
-function var_0_0.CreateLineItemList(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	for iter_3_0 = #arg_3_0.lineItemList_, 1, -1 do
-		SetActive(arg_3_0.lineItemList_[iter_3_0], false)
+function slot0.CreateLineItemList(slot0, slot1, slot2, slot3)
+	for slot7 = #slot0.lineItemList_, 1, -1 do
+		SetActive(slot0.lineItemList_[slot7], false)
 	end
 
-	for iter_3_1, iter_3_2 in ipairs(arg_3_2) do
-		if iter_3_1 > 1 and arg_3_1[iter_3_2] then
-			local var_3_0 = arg_3_3[iter_3_1 - 1]:GetLocalPosition() + Vector3(arg_3_0.stageItemWidth_ / 2 - arg_3_0.offsetX_, 0, 0)
-			local var_3_1 = arg_3_3[iter_3_1]:GetLocalPosition() + Vector3(arg_3_0.stageItemWidth_ / -2 + arg_3_0.offsetX_, 0, 0)
-			local var_3_2 = arg_3_0.lineItemList_[iter_3_1] or Object.Instantiate(arg_3_0.goLineItem_, arg_3_0.goItemParent_.transform)
+	for slot7, slot8 in ipairs(slot2) do
+		if slot7 > 1 and slot1[slot8] then
+			slot9 = slot3[slot7 - 1]:GetLocalPosition() + Vector3(slot0.stageItemWidth_ / 2 - slot0.offsetX_, 0, 0)
+			slot10 = slot3[slot7]:GetLocalPosition() + Vector3(slot0.stageItemWidth_ / -2 + slot0.offsetX_, 0, 0)
+			slot11 = slot0.lineItemList_[slot7] or Object.Instantiate(slot0.goLineItem_, slot0.goItemParent_.transform)
 
-			if not arg_3_0.lineItemList_[iter_3_1] then
-				table.insert(arg_3_0.lineItemList_, var_3_2)
+			if not slot0.lineItemList_[slot7] then
+				table.insert(slot0.lineItemList_, slot11)
 			end
 
-			local var_3_3 = var_3_2.transform
+			slot12 = slot11.transform
+			slot12.localPosition = slot0:GetMidpoint(slot9, slot10)
+			slot12:GetComponent("RectTransform").sizeDelta = Vector2(slot0:GetDistance(slot9, slot10), slot0.lineHeight_)
+			slot12:GetComponent("RectTransform").localEulerAngles = Vector3(0, 0, slot0:GetAngle(slot9, slot10))
 
-			var_3_3.localPosition = arg_3_0:GetMidpoint(var_3_0, var_3_1)
-			var_3_3:GetComponent("RectTransform").sizeDelta = Vector2(arg_3_0:GetDistance(var_3_0, var_3_1), arg_3_0.lineHeight_)
-			var_3_3:GetComponent("RectTransform").localEulerAngles = Vector3(0, 0, arg_3_0:GetAngle(var_3_0, var_3_1))
-
-			var_3_3:SetAsFirstSibling()
-			SetActive(var_3_2, true)
+			slot12:SetAsFirstSibling()
+			SetActive(slot11, true)
 		end
 	end
 end
 
-function var_0_0.GetDistance(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = (arg_4_1.x - arg_4_2.x) * (arg_4_1.x - arg_4_2.x) + (arg_4_1.y - arg_4_2.y) * (arg_4_1.y - arg_4_2.y)
-
-	return math.sqrt(var_4_0)
+function slot0.GetDistance(slot0, slot1, slot2)
+	return math.sqrt((slot1.x - slot2.x) * (slot1.x - slot2.x) + (slot1.y - slot2.y) * (slot1.y - slot2.y))
 end
 
-function var_0_0.GetMidpoint(arg_5_0, arg_5_1, arg_5_2)
-	return (arg_5_1 + arg_5_2) / 2
+function slot0.GetMidpoint(slot0, slot1, slot2)
+	return (slot1 + slot2) / 2
 end
 
-function var_0_0.GetAngle(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0:GetDistance(arg_6_1, arg_6_2)
-
-	if arg_6_1.x - arg_6_2.x < 0 then
-		return math.asin((arg_6_1.y - arg_6_2.y) / var_6_0) / math.pi * -180
+function slot0.GetAngle(slot0, slot1, slot2)
+	if slot1.x - slot2.x < 0 then
+		return math.asin((slot1.y - slot2.y) / slot0:GetDistance(slot1, slot2)) / math.pi * -180
 	else
-		return math.asin((arg_6_1.y - arg_6_2.y) / var_6_0) / math.pi * 180 + 180
+		return math.asin((slot1.y - slot2.y) / slot3) / math.pi * 180 + 180
 	end
 end
 
-return var_0_0
+return slot0

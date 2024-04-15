@@ -1,12 +1,8 @@
 require("game.data.SPHeroChallengeDataTemplate")
 
-local var_0_0 = singletonClass("SPHeroChallengeData")
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
-
-var_0_0.activityCfg = {
+slot0 = singletonClass("SPHeroChallengeData")
+slot1, slot2, slot3, slot4 = nil
+slot0.activityCfg = {
 	[ActivityConst.ACTIVITY_HERO_CHALLENGE_3_1] = {
 		bossChapter = 703,
 		colorPuzzleActiVityID = 242861,
@@ -29,108 +25,106 @@ var_0_0.activityCfg = {
 	}
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = nil
-	var_0_2 = nil
-	var_0_3 = {
+function slot0.Init(slot0)
+	uv0 = nil
+	uv1 = nil
+	uv2 = {
 		accelerateNum = 0,
 		awardNum = 0
 	}
-	var_0_4 = nil
+	uv3 = nil
 end
 
-function var_0_0.InitEnterData(arg_2_0, arg_2_1)
-	var_0_2 = {}
+function slot0.InitEnterData(slot0, slot1)
+	uv0 = {}
 
-	if arg_2_1.activity_id then
-		var_0_2[arg_2_1.activity_id] = SPHeroChallengeActivityTemplate.New(arg_2_1)
+	if slot1.activity_id then
+		uv0[slot1.activity_id] = SPHeroChallengeActivityTemplate.New(slot1)
 	end
 end
 
-function var_0_0.RefreshDormDailyZero(arg_3_0)
-	if var_0_2 then
-		for iter_3_0, iter_3_1 in ipairs(var_0_2) do
-			iter_3_1:RefreshDormDailyZero()
+function slot0.RefreshDormDailyZero(slot0)
+	if uv0 then
+		for slot4, slot5 in ipairs(uv0) do
+			slot5:RefreshDormDailyZero()
 		end
 	end
 end
 
-function var_0_0.SetCurActivityID(arg_4_0, arg_4_1)
-	var_0_1 = arg_4_1
+function slot0.SetCurActivityID(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.ExitCurSystem(arg_5_0)
-	var_0_1 = nil
+function slot0.ExitCurSystem(slot0)
+	uv0 = nil
 end
 
-function var_0_0.DisposeActivityInfo(arg_6_0, arg_6_1)
-	if var_0_2 and var_0_2[arg_6_1] then
-		var_0_2[arg_6_1]:Dispose()
+function slot0.DisposeActivityInfo(slot0, slot1)
+	if uv0 and uv0[slot1] then
+		uv0[slot1]:Dispose()
 
-		var_0_2[arg_6_1] = nil
+		uv0[slot1] = nil
 	end
 end
 
-function var_0_0.GetActivityID(arg_7_0)
-	return var_0_1
+function slot0.GetActivityID(slot0)
+	return uv0
 end
 
-function var_0_0.GetTotalInfo(arg_8_0)
-	return var_0_2
+function slot0.GetTotalInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetActivityData(arg_9_0, arg_9_1)
-	if var_0_2 and var_0_2[arg_9_1] then
-		return var_0_2[arg_9_1]
+function slot0.GetActivityData(slot0, slot1)
+	if uv0 and uv0[slot1] then
+		return uv0[slot1]
 	end
 end
 
-function var_0_0.GetCurActivityInfo(arg_10_0)
-	if var_0_1 then
-		return var_0_2[var_0_1]
+function slot0.GetCurActivityInfo(slot0)
+	if uv0 then
+		return uv1[uv0]
 	end
 end
 
-function var_0_0.GetBrabuceGameAwardNum(arg_11_0)
-	return var_0_3.awardNum or 0
+function slot0.GetBrabuceGameAwardNum(slot0)
+	return uv0.awardNum or 0
 end
 
-function var_0_0.InitBarbuceAwardData(arg_12_0, arg_12_1)
-	if var_0_3 then
-		var_0_3.awardNum = arg_12_1
+function slot0.InitBarbuceAwardData(slot0, slot1)
+	if uv0 then
+		uv0.awardNum = slot1
 	end
 end
 
-function var_0_0.InitAccelerateData(arg_13_0, arg_13_1)
-	if var_0_3 then
-		var_0_3.accelerateNum = arg_13_1
+function slot0.InitAccelerateData(slot0, slot1)
+	if uv0 then
+		uv0.accelerateNum = slot1
 	end
 end
 
-function var_0_0.GetBarbuceAccelerateNum(arg_14_0)
-	local var_14_0 = 0
+function slot0.GetBarbuceAccelerateNum(slot0)
+	slot1 = 0
 
-	if var_0_3 then
-		var_14_0 = var_0_3.accelerateNum or 0
+	if uv0 then
+		slot1 = uv0.accelerateNum or 0
 	end
 
-	return var_14_0
+	return slot1
 end
 
-function var_0_0.GetAccelerateNum(arg_15_0)
+function slot0.GetAccelerateNum(slot0)
 	return ItemTools.getItemNum(SpHeroChallengeConst.accelerateID)
 end
 
-function var_0_0.SavePageState(arg_16_0, arg_16_1)
-	var_0_4 = arg_16_1
+function slot0.SavePageState(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetPageState(arg_17_0)
-	local var_17_0 = var_0_4
+function slot0.GetPageState(slot0)
+	uv0 = nil
 
-	var_0_4 = nil
-
-	return var_17_0
+	return uv0
 end
 
-return var_0_0
+return slot0

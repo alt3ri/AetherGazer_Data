@@ -1,144 +1,142 @@
-local var_0_0 = class("SpringWelfareLetterBoxView", ReduxView)
-local var_0_1 = {
+slot0 = class("SpringWelfareLetterBoxView", ReduxView)
+slot1 = {
 	PLAYER = 1,
 	SYSTEM = 0
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeMailUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.page_ = var_0_1.SYSTEM
-	arg_3_0.pageController_ = ControllerUtil.GetController(arg_3_0.transform_, "tap")
-	arg_3_0.letterUiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.letterListGo_, SpringWelfareLetterBoxItem)
+	slot0.page_ = uv0.SYSTEM
+	slot0.pageController_ = ControllerUtil.GetController(slot0.transform_, "tap")
+	slot0.letterUiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.letterListGo_, SpringWelfareLetterBoxItem)
 
-	arg_3_0:UpdateLetterList()
+	slot0:UpdateLetterList()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnTop(arg_6_0)
-	SetActive(arg_6_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_7_0)
-	SetActive(arg_7_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.letterUiList_:Dispose()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0.letterUiList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.maskBtn_, nil, function()
-		arg_9_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.systemBtn_, nil, function()
-		arg_9_0:SwitchPage(var_0_1.SYSTEM)
+	slot0:AddBtnListener(slot0.systemBtn_, nil, function ()
+		uv0:SwitchPage(uv1.SYSTEM)
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.playerBtn_, nil, function()
-		arg_9_0:SwitchPage(var_0_1.PLAYER)
+	slot0:AddBtnListener(slot0.playerBtn_, nil, function ()
+		uv0:SwitchPage(uv1.PLAYER)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	if arg_13_0.page_ == var_0_1.SYSTEM then
-		arg_13_0:RefreshSystemLetterUI()
-	elseif arg_13_0.page_ == var_0_1.PLAYER then
-		arg_13_0:RefreshPlayerLetterUI()
+function slot0.RefreshUI(slot0)
+	if slot0.page_ == uv0.SYSTEM then
+		slot0:RefreshSystemLetterUI()
+	elseif slot0.page_ == uv0.PLAYER then
+		slot0:RefreshPlayerLetterUI()
 	end
 
-	arg_13_0.letterUiList_:Refresh()
+	slot0.letterUiList_:Refresh()
 end
 
-function var_0_0.RefreshSystemLetterUI(arg_14_0)
-	arg_14_0.letterUiList_:StartScroll(#arg_14_0.systemLetterIdList_)
-	arg_14_0.pageController_:SetSelectedState("system")
+function slot0.RefreshSystemLetterUI(slot0)
+	slot0.letterUiList_:StartScroll(#slot0.systemLetterIdList_)
+	slot0.pageController_:SetSelectedState("system")
 end
 
-function var_0_0.RefreshPlayerLetterUI(arg_15_0)
+function slot0.RefreshPlayerLetterUI(slot0)
 	if SpringWelfareData:IsFetched() then
-		arg_15_0.letterUiList_:StartScroll(#arg_15_0.playerLetterIdList_)
+		slot0.letterUiList_:StartScroll(#slot0.playerLetterIdList_)
 	else
-		arg_15_0.letterUiList_:StartScroll(0)
+		slot0.letterUiList_:StartScroll(0)
 	end
 
-	arg_15_0.pageController_:SetSelectedState("player")
+	slot0.pageController_:SetSelectedState("player")
 end
 
-function var_0_0.OnLetterPlayerInfoFetched(arg_16_0)
-	arg_16_0:RefreshPlayerLetterUI()
+function slot0.OnLetterPlayerInfoFetched(slot0)
+	slot0:RefreshPlayerLetterUI()
 end
 
-function var_0_0.SwitchPage(arg_17_0, arg_17_1)
-	if arg_17_0.page_ == arg_17_1 then
+function slot0.SwitchPage(slot0, slot1)
+	if slot0.page_ == slot1 then
 		return
 	end
 
-	arg_17_0.page_ = arg_17_1
+	slot0.page_ = slot1
 
-	arg_17_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.UpdateLetterList(arg_18_0)
-	arg_18_0.systemLetterIdList_ = SpringWelfareData:GetSystemLetterIdList()
-	arg_18_0.playerLetterIdList_ = SpringWelfareData:GetPlayerLetterIdList()
+function slot0.UpdateLetterList(slot0)
+	slot0.systemLetterIdList_ = SpringWelfareData:GetSystemLetterIdList()
+	slot0.playerLetterIdList_ = SpringWelfareData:GetPlayerLetterIdList()
 end
 
-function var_0_0.IndexSystemLetter(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.systemLetterIdList_[arg_19_1]
-
-	arg_19_2:SetLetterServerId(var_19_0)
-	arg_19_2:RefreshUI()
+function slot0.IndexSystemLetter(slot0, slot1, slot2)
+	slot2:SetLetterServerId(slot0.systemLetterIdList_[slot1])
+	slot2:RefreshUI()
 end
 
-function var_0_0.IndexPlayerLetter(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_0.playerLetterIdList_[arg_20_1]
-
-	arg_20_2:SetLetterServerId(var_20_0)
-	arg_20_2:RefreshUI()
+function slot0.IndexPlayerLetter(slot0, slot1, slot2)
+	slot2:SetLetterServerId(slot0.playerLetterIdList_[slot1])
+	slot2:RefreshUI()
 end
 
-function var_0_0.IndexItem(arg_21_0, arg_21_1, arg_21_2)
-	if arg_21_0.page_ == var_0_1.SYSTEM then
-		arg_21_0:IndexSystemLetter(arg_21_1, arg_21_2)
-	elseif arg_21_0.page_ == var_0_1.PLAYER then
-		arg_21_0:IndexPlayerLetter(arg_21_1, arg_21_2)
+function slot0.IndexItem(slot0, slot1, slot2)
+	if slot0.page_ == uv0.SYSTEM then
+		slot0:IndexSystemLetter(slot1, slot2)
+	elseif slot0.page_ == uv0.PLAYER then
+		slot0:IndexPlayerLetter(slot1, slot2)
 	end
 end
 
-function var_0_0.OnNewDay(arg_22_0)
-	arg_22_0:UpdateLetterList()
-	arg_22_0:RefreshUI()
+function slot0.OnNewDay(slot0)
+	slot0:UpdateLetterList()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnActivitySpringWelfareInit(arg_23_0)
-	arg_23_0:OnNewDay()
+function slot0.OnActivitySpringWelfareInit(slot0)
+	slot0:OnNewDay()
 end
 
-function var_0_0.OnFriendsListChange(arg_24_0)
-	for iter_24_0, iter_24_1 in ipairs(arg_24_0.letterUiList_:GetItemList()) do
-		iter_24_1:OnFriendsListChange()
+function slot0.OnFriendsListChange(slot0)
+	slot3 = slot0.letterUiList_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:OnFriendsListChange()
 	end
 end
 
-function var_0_0.GetActivityID(arg_25_0)
-	return arg_25_0.params_.activityId
+function slot0.GetActivityID(slot0)
+	return slot0.params_.activityId
 end
 
-return var_0_0
+return slot0

@@ -1,323 +1,283 @@
-local var_0_0 = class("RankBaseView", ReduxView)
+slot0 = class("RankBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Polyhedron/PolyhedronRankUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_3_0.rankTypeController_ = ControllerUtil.GetController(arg_3_0.m_rankTypeController, "toggle")
-	arg_3_0.subTypeController_ = ControllerUtil.GetController(arg_3_0.m_subTypeController, "subType")
+	slot0.rankTypeController_ = ControllerUtil.GetController(slot0.m_rankTypeController, "toggle")
+	slot0.subTypeController_ = ControllerUtil.GetController(slot0.m_subTypeController, "subType")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, RankItemBase)
-	arg_4_0.heroList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexHeroItem), arg_4_0.heroListGo_, RankHeroItemBase)
-	arg_4_0.heroClickHandler_ = handler(arg_4_0, arg_4_0.OnClickHero)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, RankItemBase)
+	slot0.heroList_ = LuaList.New(handler(slot0, slot0.IndexHeroItem), slot0.heroListGo_, RankHeroItemBase)
+	slot0.heroClickHandler_ = handler(slot0, slot0.OnClickHero)
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	SetActive(arg_5_0.panelGo_, false)
+	SetActive(slot0.panelGo_, false)
 
-	arg_5_0.initCache_ = {}
-	arg_5_0.heroCache_ = {}
+	slot0.initCache_ = {}
+	slot0.heroCache_ = {}
 
-	arg_5_0:RefreshGuildRankGo()
-	RankAction.QueryActivityAllRank(arg_5_0:GetRankID(), function()
-		RankAction.QueryActivityRankWitchCallBack(arg_5_0:GetRankID(), 0, function()
-			arg_5_0.heroIDList_, arg_5_0.trialIDList_ = arg_5_0:GetHeroList()
-			arg_5_0.rankType_ = arg_5_0.params_.type or RankBaseConst.RANK_TYPE.ALL
-			arg_5_0.subType_ = arg_5_0.params_.subType or RankBaseConst.SUB_TYPE.BASE
-			arg_5_0.heroID_ = arg_5_0.params_.heroID or arg_5_0.heroIDList_[1]
+	slot0:RefreshGuildRankGo()
+	RankAction.QueryActivityAllRank(slot0:GetRankID(), function ()
+		RankAction.QueryActivityRankWitchCallBack(uv0:GetRankID(), 0, function ()
+			uv0.heroIDList_, uv0.trialIDList_ = uv0:GetHeroList()
+			uv0.rankType_ = uv0.params_.type or RankBaseConst.RANK_TYPE.ALL
+			uv0.subType_ = uv0.params_.subType or RankBaseConst.SUB_TYPE.BASE
+			uv0.heroID_ = uv0.params_.heroID or uv0.heroIDList_[1]
 
-			arg_5_0:Refresh(arg_5_0.rankType_, arg_5_0.subType_, arg_5_0.heroID_)
-			arg_5_0:AddTimer()
+			uv0:Refresh(uv0.rankType_, uv0.subType_, uv0.heroID_)
+			uv0:AddTimer()
 		end)
 	end)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
 
-	arg_9_0.list_ = nil
+	slot0.list_ = nil
 
-	arg_9_0.heroList_:Dispose()
+	slot0.heroList_:Dispose()
 
-	arg_9_0.heroList_ = nil
-	arg_9_0.heroClickHandler_ = nil
+	slot0.heroList_ = nil
+	slot0.heroClickHandler_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.m_scoreBtn, nil, function()
-		if arg_10_0.subType_ == RankBaseConst.SUB_TYPE.SCORE then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_scoreBtn, nil, function ()
+		if uv0.subType_ == RankBaseConst.SUB_TYPE.SCORE then
 			return
 		end
 
-		arg_10_0:SwitchRank(arg_10_0.rankType_, RankBaseConst.SUB_TYPE.SCORE, arg_10_0.heroID_)
+		uv0:SwitchRank(uv0.rankType_, RankBaseConst.SUB_TYPE.SCORE, uv0.heroID_)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.m_heroBtn, nil, function()
-		if arg_10_0.subType_ == RankBaseConst.SUB_TYPE.HERO then
+	slot0:AddBtnListener(slot0.m_heroBtn, nil, function ()
+		if uv0.subType_ == RankBaseConst.SUB_TYPE.HERO then
 			return
 		end
 
-		local var_12_0 = arg_10_0:GetSendSeverHeroID(arg_10_0.heroID_)
-
-		RankAction.QueryActivityRankWitchCallBack(arg_10_0:GetRankID(), var_12_0, function()
-			local var_13_0 = arg_10_0.heroID_ or arg_10_0.heroIDList_[1]
-
-			arg_10_0:SwitchRank(arg_10_0.rankType_, RankBaseConst.SUB_TYPE.HERO, var_13_0)
-			arg_10_0.heroList_:StartScroll(#arg_10_0.heroIDList_)
+		RankAction.QueryActivityRankWitchCallBack(uv0:GetRankID(), uv0:GetSendSeverHeroID(uv0.heroID_), function ()
+			uv0:SwitchRank(uv0.rankType_, RankBaseConst.SUB_TYPE.HERO, uv0.heroID_ or uv0.heroIDList_[1])
+			uv0.heroList_:StartScroll(#uv0.heroIDList_)
 		end)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.m_guildBtn, nil, function()
-		if arg_10_0.rankType_ == RankBaseConst.RANK_TYPE.GUILD then
+	slot0:AddBtnListener(slot0.m_guildBtn, nil, function ()
+		if uv0.rankType_ == RankBaseConst.RANK_TYPE.GUILD then
 			return
 		end
 
-		arg_10_0:SwitchRank(RankBaseConst.RANK_TYPE.GUILD, arg_10_0.subType_, arg_10_0.heroID_)
+		uv0:SwitchRank(RankBaseConst.RANK_TYPE.GUILD, uv0.subType_, uv0.heroID_)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.m_allBtn, nil, function()
-		if arg_10_0.rankType_ == RankBaseConst.RANK_TYPE.ALL then
+	slot0:AddBtnListener(slot0.m_allBtn, nil, function ()
+		if uv0.rankType_ == RankBaseConst.RANK_TYPE.ALL then
 			return
 		end
 
-		arg_10_0:SwitchRank(RankBaseConst.RANK_TYPE.ALL, arg_10_0.subType_, arg_10_0.heroID_)
+		uv0:SwitchRank(RankBaseConst.RANK_TYPE.ALL, uv0.subType_, uv0.heroID_)
 	end)
 end
 
-function var_0_0.SwitchRank(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	local var_16_0 = true
+function slot0.SwitchRank(slot0, slot1, slot2, slot3)
+	slot4 = true
 
-	if arg_16_0.initCache_[arg_16_1] and arg_16_0.initCache_[arg_16_1][arg_16_2] then
-		if arg_16_2 == RankBaseConst.SUB_TYPE.HERO and not arg_16_0.initCache_[arg_16_1][arg_16_2][arg_16_3] then
-			var_16_0 = false
+	if slot0.initCache_[slot1] and slot0.initCache_[slot1][slot2] then
+		if slot2 == RankBaseConst.SUB_TYPE.HERO and not slot0.initCache_[slot1][slot2][slot3] then
+			slot4 = false
 		end
 	else
-		var_16_0 = false
+		slot4 = false
 	end
 
-	if var_16_0 == true then
-		arg_16_0:Refresh(arg_16_1, arg_16_2, arg_16_3)
+	if slot4 == true then
+		slot0:Refresh(slot1, slot2, slot3)
 	else
-		local var_16_1 = 0
+		slot5 = 0
 
-		if arg_16_2 == RankBaseConst.SUB_TYPE.HERO then
-			var_16_1 = arg_16_0:GetSendSeverHeroID(arg_16_3)
-		else
-			var_16_1 = 0
-		end
-
-		if arg_16_1 == RankBaseConst.RANK_TYPE.GUILD then
-			RankAction.QueryGuildActivityRankWitchCallBack(arg_16_0:GetRankID(), var_16_1, function()
-				arg_16_0:Refresh(arg_16_1, arg_16_2, arg_16_3)
+		if slot1 == RankBaseConst.RANK_TYPE.GUILD then
+			RankAction.QueryGuildActivityRankWitchCallBack(slot0:GetRankID(), (slot2 ~= RankBaseConst.SUB_TYPE.HERO or slot0:GetSendSeverHeroID(slot3)) and 0, function ()
+				uv0:Refresh(uv1, uv2, uv3)
 			end)
 		else
-			RankAction.QueryActivityRankWitchCallBack(arg_16_0:GetRankID(), var_16_1, function()
-				arg_16_0:Refresh(arg_16_1, arg_16_2, arg_16_3)
+			RankAction.QueryActivityRankWitchCallBack(slot0:GetRankID(), slot5, function ()
+				uv0:Refresh(uv1, uv2, uv3)
 			end)
 		end
 	end
 end
 
-function var_0_0.OnClickHero(arg_19_0, arg_19_1)
-	if arg_19_0.heroID_ == arg_19_1 then
+function slot0.OnClickHero(slot0, slot1)
+	if slot0.heroID_ == slot1 then
 		return
 	end
 
-	local var_19_0 = arg_19_0.heroList_:GetItemList()
-
-	for iter_19_0, iter_19_1 in pairs(var_19_0) do
-		iter_19_1:SetSelect(arg_19_1)
+	for slot6, slot7 in pairs(slot0.heroList_:GetItemList()) do
+		slot7:SetSelect(slot1)
 	end
 
-	arg_19_0:SwitchRank(arg_19_0.rankType_, arg_19_0.subType_, arg_19_1)
+	slot0:SwitchRank(slot0.rankType_, slot0.subType_, slot1)
 end
 
-function var_0_0.Refresh(arg_20_0, arg_20_1, arg_20_2, arg_20_3)
-	arg_20_0.initCache_[arg_20_1] = arg_20_0.initCache_[arg_20_1] or {}
+function slot0.Refresh(slot0, slot1, slot2, slot3)
+	slot0.initCache_[slot1] = slot0.initCache_[slot1] or {}
 
-	if arg_20_2 == RankBaseConst.SUB_TYPE.SCORE then
-		arg_20_0.initCache_[arg_20_1][arg_20_2] = true
+	if slot2 == RankBaseConst.SUB_TYPE.SCORE then
+		slot0.initCache_[slot1][slot2] = true
 	else
-		arg_20_0.initCache_[arg_20_1][arg_20_2] = arg_20_0.initCache_[arg_20_1][arg_20_2] or {}
-		arg_20_0.initCache_[arg_20_1][arg_20_2][arg_20_3] = true
+		slot0.initCache_[slot1][slot2] = slot0.initCache_[slot1][slot2] or {}
+		slot0.initCache_[slot1][slot2][slot3] = true
 	end
 
-	arg_20_0.rankType_ = arg_20_1
-	arg_20_0.subType_ = arg_20_2
+	slot0.rankType_ = slot1
+	slot0.subType_ = slot2
 
-	if arg_20_2 == RankBaseConst.SUB_TYPE.HERO then
-		arg_20_3 = arg_20_3 or arg_20_0.heroIDList_[1]
-		arg_20_0.heroID_ = arg_20_3
+	if slot2 == RankBaseConst.SUB_TYPE.HERO then
+		slot0.heroID_ = slot3 or slot0.heroIDList_[1]
 	end
 
-	local var_20_0 = 0
+	slot4 = 0
 
-	if arg_20_0.subType_ == RankBaseConst.SUB_TYPE.HERO then
-		var_20_0 = arg_20_0:GetSendSeverHeroID(arg_20_0.heroID_)
-	else
-		var_20_0 = 0
-	end
+	if slot0.rankType_ == RankBaseConst.RANK_TYPE.ALL then
+		slot0.rankList_ = RankData:GetActivityRank(slot0:GetRankID(), (slot0.subType_ ~= RankBaseConst.SUB_TYPE.HERO or slot0:GetSendSeverHeroID(slot0.heroID_)) and 0) and slot5.rankList or {}
 
-	if arg_20_0.rankType_ == RankBaseConst.RANK_TYPE.ALL then
-		local var_20_1 = RankData:GetActivityRank(arg_20_0:GetRankID(), var_20_0)
-
-		arg_20_0.rankList_ = var_20_1 and var_20_1.rankList or {}
-
-		if var_20_1 then
-			local var_20_2, var_20_3 = var_20_1:GetCurRankDes()
-
-			arg_20_0.m_rank.text = var_20_2
-			arg_20_0.m_score.text = var_20_3
+		if slot5 then
+			slot0.m_rank.text, slot0.m_score.text = slot5:GetCurRankDes()
 		else
-			arg_20_0.m_rank.text = ""
-			arg_20_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 	else
-		local var_20_4 = RankData:GetGuildActivityRank(arg_20_0:GetRankID(), var_20_0)
+		slot0.rankList_ = RankData:GetGuildActivityRank(slot0:GetRankID(), slot4) and slot5.rankList or {}
 
-		arg_20_0.rankList_ = var_20_4 and var_20_4.rankList or {}
-
-		if var_20_4 then
-			local var_20_5, var_20_6 = var_20_4:GetCurRankDes()
-
-			arg_20_0.m_rank.text = var_20_5
-			arg_20_0.m_score.text = var_20_6
+		if slot5 then
+			slot0.m_rank.text, slot0.m_score.text = slot5:GetCurRankDes()
 		else
-			arg_20_0.m_rank.text = ""
-			arg_20_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 	end
 
-	arg_20_0.list_:StartScroll(#arg_20_0.rankList_)
+	slot0.list_:StartScroll(#slot0.rankList_)
 
-	if arg_20_2 == RankBaseConst.SUB_TYPE.SCORE then
-		local var_20_7 = PlayerData:GetPlayerInfo()
+	if slot2 == RankBaseConst.SUB_TYPE.SCORE then
+		slot0.m_icon.sprite = ItemTools.getItemSprite(PlayerData:GetPlayerInfo() and slot5.portrait)
+		slot0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. (slot5 and slot5.icon_frame))
 
-		arg_20_0.m_icon.sprite = ItemTools.getItemSprite(var_20_7 and var_20_7.portrait)
-		arg_20_0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. (var_20_7 and var_20_7.icon_frame))
-
-		if arg_20_0.playerAnimator_ then
-			SetActive(arg_20_0.playerIconGo_, false)
-			arg_20_0.playerAnimator_:Play("PolyhedronRankUI_Hero", -1, 0)
+		if slot0.playerAnimator_ then
+			SetActive(slot0.playerIconGo_, false)
+			slot0.playerAnimator_:Play("PolyhedronRankUI_Hero", -1, 0)
 		end
 	else
-		local var_20_8 = HeroCfg[arg_20_3]
-		local var_20_9 = arg_20_0:GetHeroSkinID(arg_20_3)
+		slot5 = HeroCfg[slot3]
+		slot0.m_heroIcon.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. slot0:GetHeroSkinID(slot3))
+		slot0.m_heroNameText_.text = string.format("%s·%s", slot5.name, slot5.suffix)
 
-		arg_20_0.m_heroIcon.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. var_20_9)
-		arg_20_0.m_heroNameText_.text = string.format("%s·%s", var_20_8.name, var_20_8.suffix)
-
-		if arg_20_0.heroAnimator_ then
-			SetActive(arg_20_0.heroIconGo_, false)
-			arg_20_0.heroAnimator_:Play("PolyhedronRankUI_Hero", -1, 0)
+		if slot0.heroAnimator_ then
+			SetActive(slot0.heroIconGo_, false)
+			slot0.heroAnimator_:Play("PolyhedronRankUI_Hero", -1, 0)
 		end
 	end
 
-	arg_20_0.rankTypeController_:SetSelectedIndex(arg_20_0.rankType_ - 1)
-	arg_20_0.subTypeController_:SetSelectedIndex(arg_20_0.subType_ - 1)
+	slot0.rankTypeController_:SetSelectedIndex(slot0.rankType_ - 1)
+	slot0.subTypeController_:SetSelectedIndex(slot0.subType_ - 1)
 end
 
-function var_0_0.IndexItem(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = arg_21_0.rankList_[arg_21_1]
-
-	arg_21_2:Refresh(var_21_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.rankList_[slot1])
 end
 
-function var_0_0.RefreshGuildRankGo(arg_22_0)
+function slot0.RefreshGuildRankGo(slot0)
 	if GuildData:GetGuildInfo().id == nil then
-		SetActive(arg_22_0.m_guildGo, false)
+		SetActive(slot0.m_guildGo, false)
 	else
-		SetActive(arg_22_0.m_guildGo, true)
+		SetActive(slot0.m_guildGo, true)
 	end
 end
 
-function var_0_0.IndexHeroItem(arg_23_0, arg_23_1, arg_23_2)
-	local var_23_0 = arg_23_0.heroIDList_[arg_23_1]
+function slot0.IndexHeroItem(slot0, slot1, slot2)
+	slot3 = slot0.heroIDList_[slot1]
 
-	arg_23_2:SetData(var_23_0, arg_23_0:GetRankID(), arg_23_0:GetHeroSkinID(var_23_0), arg_23_0:GetSendSeverHeroID(var_23_0))
-	arg_23_2:SetClickHandler(arg_23_0.heroClickHandler_)
-	arg_23_2:SetSelect(arg_23_0.heroID_)
+	slot2:SetData(slot3, slot0:GetRankID(), slot0:GetHeroSkinID(slot3), slot0:GetSendSeverHeroID(slot3))
+	slot2:SetClickHandler(slot0.heroClickHandler_)
+	slot2:SetSelect(slot0.heroID_)
 end
 
-function var_0_0.AddTimer(arg_24_0)
-	arg_24_0.activityID_ = arg_24_0:GetActivityID()
-	arg_24_0.stopTime_ = ActivityData:GetActivityData(arg_24_0.activityID_).stopTime
+function slot0.AddTimer(slot0)
+	slot0.activityID_ = slot0:GetActivityID()
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	arg_24_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_24_0.timeText_.text = manager.time:GetLostTimeStr(arg_24_0.stopTime_)
-	arg_24_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_24_0.stopTime_ then
-			arg_24_0:StopTimer()
+	slot0.timeText_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
-			arg_24_0.timeText_.text = GetTips("TIME_OVER")
+			uv0.timeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		arg_24_0.timeText_.text = manager.time:GetLostTimeStr(arg_24_0.stopTime_)
+		uv0.timeText_.text = manager.time:GetLostTimeStr(uv0.stopTime_)
 	end, 1, -1)
 end
 
-function var_0_0.StopTimer(arg_26_0)
-	if arg_26_0.timer_ then
-		arg_26_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 	end
 
-	arg_26_0.timer_ = nil
+	slot0.timer_ = nil
 end
 
-function var_0_0.GetRankID(arg_27_0)
-	return arg_27_0.params_.rankID or arg_27_0:GetActivityID()
+function slot0.GetRankID(slot0)
+	return slot0.params_.rankID or slot0:GetActivityID()
 end
 
-function var_0_0.GetActivityID(arg_28_0)
-	return arg_28_0.params_.activityID
+function slot0.GetActivityID(slot0)
+	return slot0.params_.activityID
 end
 
-function var_0_0.GetHeroList(arg_29_0)
-	return RankTools.GetRankHeroList(arg_29_0:GetRankID(), arg_29_0:GetActivityID())
+function slot0.GetHeroList(slot0)
+	return RankTools.GetRankHeroList(slot0:GetRankID(), slot0:GetActivityID())
 end
 
-function var_0_0.GetHeroSkinID(arg_30_0, arg_30_1)
-	local var_30_0 = table.keyof(arg_30_0.heroIDList_, arg_30_1)
-	local var_30_1 = arg_30_0.trialIDList_[var_30_0]
-
-	if var_30_1 == nil or var_30_1 == 0 then
-		return HeroTools.HeroUsingSkinInfo(arg_30_1).id
+function slot0.GetHeroSkinID(slot0, slot1)
+	if slot0.trialIDList_[table.keyof(slot0.heroIDList_, slot1)] == nil or slot3 == 0 then
+		return HeroTools.HeroUsingSkinInfo(slot1).id
 	else
-		return HeroStandardSystemCfg[var_30_1].skin_id
+		return HeroStandardSystemCfg[slot3].skin_id
 	end
 end
 
-function var_0_0.GetSendSeverHeroID(arg_31_0, arg_31_1)
-	local var_31_0 = table.keyof(arg_31_0.heroIDList_, arg_31_1)
-
-	if arg_31_0.trialIDList_[var_31_0] and arg_31_0.trialIDList_[var_31_0] ~= 0 then
-		return arg_31_0.trialIDList_[var_31_0]
+function slot0.GetSendSeverHeroID(slot0, slot1)
+	if slot0.trialIDList_[table.keyof(slot0.heroIDList_, slot1)] and slot0.trialIDList_[slot2] ~= 0 then
+		return slot0.trialIDList_[slot2]
 	end
 
-	return arg_31_1
+	return slot1
 end
 
-return var_0_0
+return slot0

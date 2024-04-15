@@ -1,62 +1,56 @@
-local var_0_0 = class("AwakeNameView", ReduxView)
+slot0 = class("AwakeNameView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/LoginInterface/Login_name"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.confirmBtn_, nil, function()
-		if arg_7_0.nameInputField_.text == "" then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.confirmBtn_, nil, function ()
+		if uv0.nameInputField_.text == "" then
 			ShowTips("INPUT_CHAT_CONTENT")
 		else
-			local var_8_0 = arg_7_0.nameInputField_.text
-			local var_8_1, var_8_2 = textLimit(var_8_0, GameSetting.user_name_max.value[1])
+			slot1, slot2 = textLimit(uv0.nameInputField_.text, GameSetting.user_name_max.value[1])
+			uv0.nameInputField_.text = GetI18NText(slot1)
 
-			arg_7_0.nameInputField_.text = GetI18NText(var_8_1)
-
-			local var_8_3 = var_8_1
-
-			if not nameRule(var_8_3) then
+			if not nameRule(slot1) then
 				ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
 				return
 			end
 
-			WordVerifyBySDK(var_8_3, function(arg_9_0)
-				if arg_9_0 then
-					if not var_8_2 then
+			WordVerifyBySDK(slot0, function (slot0)
+				if slot0 then
+					if not uv0 then
 						return
 					end
 
-					PlayerAction.AwakeName(var_8_3, function()
+					PlayerAction.AwakeName(uv1, function ()
 						SendMessageManagerToSDK("role_create", {
-							curNameText = var_8_3
+							curNameText = uv0
 						})
 						CheckNewGuide()
 
-						if arg_7_0.gameObject_ then
-							SetActive(arg_7_0.gameObject_, false)
+						if uv1.gameObject_ then
+							SetActive(uv1.gameObject_, false)
 						end
 					end)
 				else
@@ -67,8 +61,8 @@ function var_0_0.AddListeners(arg_7_0)
 	end)
 end
 
-function var_0_0.Cacheable(arg_11_0)
+function slot0.Cacheable(slot0)
 	return false
 end
 
-return var_0_0
+return slot0

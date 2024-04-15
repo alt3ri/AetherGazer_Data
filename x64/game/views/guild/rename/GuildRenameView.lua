@@ -1,34 +1,32 @@
-local var_0_0 = class("GuildRenameView", ReduxView)
+slot0 = class("GuildRenameView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubCommunitynamePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.textCost_.text = GetI18NText(GameSetting.club_rename_cost.value[1])
-	arg_3_0.freeController_ = arg_3_0.controller:GetController("free")
+	slot0.textCost_.text = GetI18NText(GameSetting.club_rename_cost.value[1])
+	slot0.freeController_ = slot0.controller:GetController("free")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = GuildData:GetRenameFreeCnt()
-
-	if var_4_0 > 0 then
-		arg_4_0.freeController_:SetSelectedState("false")
+function slot0.OnEnter(slot0)
+	if GuildData:GetRenameFreeCnt() > 0 then
+		slot0.freeController_:SetSelectedState("false")
 	else
-		arg_4_0.freeController_:SetSelectedState("true")
+		slot0.freeController_:SetSelectedState("true")
 	end
 
-	arg_4_0.freeRenameCnt_ = var_4_0
+	slot0.freeRenameCnt_ = slot1
 end
 
-function var_0_0.OnTop(arg_5_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		CurrencyConst.CURRENCY_TYPE_DIAMOND,
 		CurrencyConst.GetPlatformDiamondId()
@@ -38,111 +36,102 @@ function var_0_0.OnTop(arg_5_0)
 	manager.windowBar:SetAsLastSibling()
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.buttonClose_, nil, function()
-		arg_8_0.inputFieldNick_.text = ""
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0.inputFieldNick_.text = ""
 
-		arg_8_0:Back()
+		uv0:Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.buttonCancel_, nil, function()
-		arg_8_0.inputFieldNick_.text = ""
+	slot0:AddBtnListener(slot0.buttonCancel_, nil, function ()
+		uv0.inputFieldNick_.text = ""
 
-		arg_8_0:Back()
+		uv0:Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.buttonOk_, nil, function()
+	slot0:AddBtnListener(slot0.buttonOk_, nil, function ()
 		if OperationData:IsFunctionStoped(OperationConst.OPERATION_STOP.CHANGE_CLUB_NICK) then
 			ShowTips("ERROR_FUNCTION_STOP")
 
 			return
 		end
 
-		local var_11_0 = arg_8_0.inputFieldNick_.text
-
-		if var_11_0 == "" then
+		if uv0.inputFieldNick_.text == "" then
 			ShowTips("CLUB_NEED_NAME")
 
 			return
 		end
 
-		if IsAllSpace(var_11_0) then
+		if IsAllSpace(slot0) then
 			ShowTips("INPUT_CHAT_CONTENT")
 
-			arg_8_0.inputFieldNick_.text = ""
+			uv0.inputFieldNick_.text = ""
 
 			return
 		end
 
-		local var_11_1, var_11_2 = textLimit(var_11_0, 16)
-		local var_11_3 = var_11_1
+		slot1, slot2 = textLimit(slot0, 16)
 
-		if not nameRule(var_11_3) then
+		if not nameRule(slot1) then
 			ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
 			return
 		end
 
-		WordVerifyBySDK(var_11_3, function(arg_12_0)
-			if not arg_12_0 then
+		WordVerifyBySDK(slot0, function (slot0)
+			if not slot0 then
 				ShowTips("SENSITIVE_WORD")
 
 				return
 			end
 
-			if not var_11_2 then
+			if not uv0 then
 				ShowTips("CLUB_FOUNDED_NAME_MAX")
 
 				return
 			end
 
-			local var_12_0 = 2
+			slot1 = 2
 
-			if arg_8_0.freeRenameCnt_ > 0 then
-				var_12_0 = 1
-			else
-				local var_12_1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_DIAMOND)
+			if uv1.freeRenameCnt_ > 0 then
+				slot1 = 1
+			elseif ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_DIAMOND) < GameSetting.club_rename_cost.value[1] then
+				slot3 = GameSetting.club_rename_cost.value[1] - slot2
 
-				if var_12_1 < GameSetting.club_rename_cost.value[1] then
-					local var_12_2 = GameSetting.club_rename_cost.value[1] - var_12_1
+				JumpTools.OpenPopUp("rechargeDiamondExchange", {
+					defaultNum = 1,
+					useBaseNum = slot3,
+					getBaseNum = slot3,
+					useId = CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE,
+					getId = CurrencyConst.CURRENCY_TYPE_DIAMOND
+				}, ViewConst.SYSTEM_ID.RECHARGE_DIAMOND_EXCHANGE)
 
-					JumpTools.OpenPopUp("rechargeDiamondExchange", {
-						defaultNum = 1,
-						useBaseNum = var_12_2,
-						getBaseNum = var_12_2,
-						useId = CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE,
-						getId = CurrencyConst.CURRENCY_TYPE_DIAMOND
-					}, ViewConst.SYSTEM_ID.RECHARGE_DIAMOND_EXCHANGE)
-
-					return
-				end
+				return
 			end
 
-			GuildAction.GuildRename(var_11_3, var_12_0, function(arg_13_0)
-				if isSuccess(arg_13_0.result) then
+			GuildAction.GuildRename(uv2, slot1, function (slot0)
+				if isSuccess(slot0.result) then
 					ShowTips("CLUB_RENANE_SUCCESS")
 
-					if arg_8_0.freeRenameCnt_ <= 0 then
-						-- block empty
-					else
+					if uv0.freeRenameCnt_ > 0 then
 						GuildData:UseRenameFree()
 					end
 
-					arg_8_0.inputFieldNick_.text = ""
+					uv0.inputFieldNick_.text = ""
 
-					arg_8_0:Back()
+					uv0:Back()
 				else
-					ShowTips(arg_13_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
 		end, JUDGE_MESSAGE_TYPE.GUILD_NAME)
 	end)
 end
 
-return var_0_0
+return slot0

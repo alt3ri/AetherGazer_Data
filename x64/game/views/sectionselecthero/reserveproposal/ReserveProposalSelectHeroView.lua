@@ -1,103 +1,94 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroBaseView")
-local var_0_1 = class("ReserveProposalSelectHeroView", var_0_0)
+slot1 = class("ReserveProposalSelectHeroView", import("game.views.sectionSelectHero.SelectHeroBaseView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	arg_1_0:RegistEventListener(COMBO_SKILL_SELECT, arg_1_0.selectComboSkillHandler_)
-	arg_1_0:SubViewOnEnter()
+function slot1.OnEnter(slot0)
+	slot0:RegistEventListener(COMBO_SKILL_SELECT, slot0.selectComboSkillHandler_)
+	slot0:SubViewOnEnter()
 end
 
-function var_0_1.SetContID(arg_2_0, arg_2_1)
-	if #arg_2_0.loadingList_ > 0 then
+function slot1.SetContID(slot0, slot1)
+	if #slot0.loadingList_ > 0 then
 		return
 	end
 
-	arg_2_0.reserveParams_.contID = arg_2_1
+	slot0.reserveParams_.contID = slot1
 
-	local var_2_0 = clone(arg_2_0.cacheHeroTeam_)
-
-	arg_2_0:RefreshHeroTeam()
-	arg_2_0:RefreshMimir()
-	arg_2_0:LoadHeroModels(var_2_0)
+	slot0:RefreshHeroTeam()
+	slot0:RefreshMimir()
+	slot0:LoadHeroModels(clone(slot0.cacheHeroTeam_))
 end
 
-function var_0_1.LoadHeroModels(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_0.heroModel_
-	local var_3_1 = {}
+function slot1.LoadHeroModels(slot0, slot1)
+	slot2 = slot0.heroModel_
+	slot3 = {
+		[slot8] = slot7
+	}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		if iter_3_1 ~= 0 then
-			var_3_1[iter_3_1] = iter_3_0
+	for slot7, slot8 in ipairs(slot1) do
+		if slot8 ~= 0 then
+			-- Nothing
 		end
 	end
 
-	arg_3_0.heroModel_ = {}
+	slot0.heroModel_ = {}
 
-	for iter_3_2, iter_3_3 in ipairs(arg_3_0.cacheHeroTeam_) do
-		local var_3_2 = var_3_1[iter_3_3]
+	for slot7, slot8 in ipairs(slot0.cacheHeroTeam_) do
+		slot3[slot8] = nil
 
-		var_3_1[iter_3_3] = nil
+		if slot3[slot8] ~= nil and slot9 ~= slot7 then
+			slot2[slot9] = nil
 
-		if var_3_2 ~= nil and var_3_2 ~= iter_3_2 then
-			local var_3_3 = var_3_0[var_3_2]
-
-			var_3_0[var_3_2] = nil
-
-			arg_3_0:SetHeroModelPos(var_3_3, iter_3_2)
+			slot0:SetHeroModelPos(slot2[slot9], slot7)
 		end
 	end
 
-	for iter_3_4, iter_3_5 in pairs(var_3_0) do
-		manager.resourcePool:DestroyOrReturn(iter_3_5, ASSET_TYPE.TPOSE)
+	for slot7, slot8 in pairs(slot2) do
+		manager.resourcePool:DestroyOrReturn(slot8, ASSET_TYPE.TPOSE)
 	end
 
-	for iter_3_6, iter_3_7 in pairs(arg_3_0.loadAsyncIndex_) do
-		manager.resourcePool:StopAsyncQuest(arg_3_0.loadAsyncIndex_[iter_3_6])
+	for slot7, slot8 in pairs(slot0.loadAsyncIndex_) do
+		manager.resourcePool:StopAsyncQuest(slot0.loadAsyncIndex_[slot7])
 	end
 
-	arg_3_0.loadAsyncIndex_ = {}
-	arg_3_0.loadingList_ = {}
-	arg_3_0.cacheHeroNumber_ = {
+	slot0.loadAsyncIndex_ = {}
+	slot0.loadingList_ = {}
+	slot0.cacheHeroNumber_ = {
 		1,
 		2,
 		3
 	}
 
-	for iter_3_8, iter_3_9 in ipairs(arg_3_0.cacheHeroTeam_) do
-		if iter_3_9 ~= 0 and iter_3_9 and arg_3_0.heroModel_[iter_3_8] == nil then
-			local var_3_4 = arg_3_0:GetSkinCfg(iter_3_8)
+	for slot7, slot8 in ipairs(slot0.cacheHeroTeam_) do
+		if slot8 ~= 0 and slot8 and slot0.heroModel_[slot7] == nil then
+			table.insert(slot0.loadingList_, slot8)
 
-			table.insert(arg_3_0.loadingList_, iter_3_9)
+			slot0.loadAsyncIndex_[slot7] = manager.resourcePool:AsyncLoad("Char/" .. slot0:GetSkinCfg(slot7).ui_modelId, ASSET_TYPE.TPOSE, function (slot0)
+				uv0:SetHeroModelPos(slot0, uv1)
 
-			arg_3_0.loadAsyncIndex_[iter_3_8] = manager.resourcePool:AsyncLoad("Char/" .. var_3_4.ui_modelId, ASSET_TYPE.TPOSE, function(arg_4_0)
-				arg_3_0:SetHeroModelPos(arg_4_0, iter_3_8)
-
-				local var_4_0 = table.keyof(arg_3_0.loadingList_, iter_3_9)
-
-				if var_4_0 then
-					table.remove(arg_3_0.loadingList_, var_4_0)
+				if table.keyof(uv0.loadingList_, uv2) then
+					table.remove(uv0.loadingList_, slot1)
 				end
 			end)
 		end
 	end
 end
 
-function var_0_1.SetHeroModelPos(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.heroModel_[arg_5_2] = arg_5_1
-	arg_5_0.heroModel_[arg_5_2].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[arg_5_2].rotation
-	arg_5_0.heroModel_[arg_5_2].transform.localPosition = SectionSelectHeroTools.HeroTransform[arg_5_2].position
-	arg_5_0.heroModel_[arg_5_2].transform.localScale = SectionSelectHeroTools.HeroTransform[arg_5_2].scale
+function slot1.SetHeroModelPos(slot0, slot1, slot2)
+	slot0.heroModel_[slot2] = slot1
+	slot0.heroModel_[slot2].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[slot2].rotation
+	slot0.heroModel_[slot2].transform.localPosition = SectionSelectHeroTools.HeroTransform[slot2].position
+	slot0.heroModel_[slot2].transform.localScale = SectionSelectHeroTools.HeroTransform[slot2].scale
 end
 
-function var_0_1.GetHeroInfoItemClass(arg_6_0)
+function slot1.GetHeroInfoItemClass(slot0)
 	return SectionSelectHeroInfoItem
 end
 
-function var_0_1.GetMimirInfoViewClass(arg_7_0)
+function slot1.GetMimirInfoViewClass(slot0)
 	return NewSectionMimirView
 end
 
-function var_0_1.GetComboSkillViewClass(arg_8_0)
+function slot1.GetComboSkillViewClass(slot0)
 	return NewSectionComboSkillView
 end
 
-return var_0_1
+return slot1

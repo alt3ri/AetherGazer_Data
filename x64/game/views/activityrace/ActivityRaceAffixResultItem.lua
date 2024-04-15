@@ -1,35 +1,32 @@
-local var_0_0 = class("ActivityRaceAffixResultItem", ReduxView)
+slot0 = class("ActivityRaceAffixResultItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.affixID_ = arg_4_1
+function slot0.SetData(slot0, slot1)
+	slot0.affixID_ = slot1
 
-	if arg_4_0.affixID_ then
-		local var_4_0 = AffixTypeCfg[arg_4_0.affixID_]
-		local var_4_1 = PublicBuffCfg[var_4_0.affix_buff_id].icon
-
-		if var_4_1 == "" then
-			-- block empty
+	if slot0.affixID_ then
+		if PublicBuffCfg[AffixTypeCfg[slot0.affixID_].affix_buff_id].icon == "" then
+			-- Nothing
 		end
 
-		arg_4_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. var_4_1)
-		arg_4_0.name_.text = GetI18NText(var_4_0.name)
+		slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. slot3)
+		slot0.name_.text = GetI18NText(slot2.name)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,395 +1,340 @@
-local var_0_0 = {
+slot0 = {
 	GRID_ENTRUST = 2,
 	GRID_NORMAL = 1,
 	GRID_BOSS = 3,
 	GRID_BLANK = 4
 }
-local var_0_1 = class("PlayGridData")
+slot1 = class("PlayGridData")
 
-local function var_0_2(arg_1_0)
-	return arg_1_0 == var_0_0.GRID_NORMAL or arg_1_0 == var_0_0.GRID_BOSS or arg_1_0 == var_0_0.GRID_ENTRUST
+function slot2(slot0)
+	return slot0 == uv0.GRID_NORMAL or slot0 == uv0.GRID_BOSS or slot0 == uv0.GRID_ENTRUST
 end
 
-function var_0_1.Ctor(arg_2_0, arg_2_1)
-	if not var_0_2(arg_2_1.type) then
-		-- block empty
+function slot1.Ctor(slot0, slot1)
+	if not uv0(slot1.type) then
+		-- Nothing
 	end
 
-	arg_2_0.id = arg_2_1.id
-	arg_2_0.type = arg_2_1.type
-	arg_2_0.cleared = arg_2_1.cleared
-	arg_2_0.minTime = arg_2_1.minTime
-	arg_2_0.level_ = arg_2_1.level
-	arg_2_0.stageId_ = arg_2_1.stageId
+	slot0.id = slot1.id
+	slot0.type = slot1.type
+	slot0.cleared = slot1.cleared
+	slot0.minTime = slot1.minTime
+	slot0.level_ = slot1.level
+	slot0.stageId_ = slot1.stageId
 end
 
-function var_0_1.IsBattle(arg_3_0)
-	return arg_3_0.type == var_0_0.GRID_NORMAL or arg_3_0.type == var_0_0.GRID_BOSS
+function slot1.IsBattle(slot0)
+	return slot0.type == uv0.GRID_NORMAL or slot0.type == uv0.GRID_BOSS
 end
 
-function var_0_1.IsEntrust(arg_4_0)
-	return arg_4_0.type == var_0_0.GRID_ENTRUST
+function slot1.IsEntrust(slot0)
+	return slot0.type == uv0.GRID_ENTRUST
 end
 
-function var_0_1.IsBoss(arg_5_0)
-	return arg_5_0.type == var_0_0.GRID_BOSS
+function slot1.IsBoss(slot0)
+	return slot0.type == uv0.GRID_BOSS
 end
 
-function var_0_1.GetLevel(arg_6_0)
-	return arg_6_0.level_
+function slot1.GetLevel(slot0)
+	return slot0.level_
 end
 
-function var_0_1.GetBattleStageId(arg_7_0)
-	return arg_7_0.stageId_
+function slot1.GetBattleStageId(slot0)
+	return slot0.stageId_
 end
 
-function var_0_1.GetBattleStageCfg(arg_8_0)
-	return BattleStageTools.GetStageCfg(BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME, arg_8_0.stageId_)
+function slot1.GetBattleStageCfg(slot0)
+	return BattleStageTools.GetStageCfg(BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME, slot0.stageId_)
 end
 
-function var_0_1.GetName(arg_9_0)
-	if arg_9_0:IsBattle() then
-		return arg_9_0:GetBattleStageCfg().name
+function slot1.GetName(slot0)
+	if slot0:IsBattle() then
+		return slot0:GetBattleStageCfg().name
 	end
 
-	local var_9_0 = KagutsuchiWorkData:GetEntrustTips(arg_9_0:GetEntrustIndex())[1]
-
-	return GetTips(var_9_0)
+	return GetTips(KagutsuchiWorkData:GetEntrustTips(slot0:GetEntrustIndex())[1])
 end
 
-function var_0_1.GetSummary(arg_10_0)
-	if arg_10_0:IsBattle() then
-		return arg_10_0:GetBattleStageCfg().tips
+function slot1.GetSummary(slot0)
+	if slot0:IsBattle() then
+		return slot0:GetBattleStageCfg().tips
 	end
 
-	local var_10_0 = KagutsuchiWorkData:GetEntrustTips(arg_10_0:GetEntrustIndex())[2]
-
-	return GetTips(var_10_0)
+	return GetTips(KagutsuchiWorkData:GetEntrustTips(slot0:GetEntrustIndex())[2])
 end
 
-function var_0_1.GetCompleteText(arg_11_0)
-	if arg_11_0:IsBattle() then
+function slot1.GetCompleteText(slot0)
+	if slot0:IsBattle() then
 		return "no text"
 	end
 
-	local var_11_0 = KagutsuchiWorkData:GetEntrustTips(arg_11_0:GetEntrustIndex())[3]
-
-	return GetTips(var_11_0)
+	return GetTips(KagutsuchiWorkData:GetEntrustTips(slot0:GetEntrustIndex())[3])
 end
 
-function var_0_1.GetReward(arg_12_0)
-	if arg_12_0.type == var_0_0.GRID_ENTRUST then
+function slot1.GetReward(slot0)
+	if slot0.type == uv0.GRID_ENTRUST then
 		return GameSetting.activity_kagutsuchi_battle_entrust_reward.value[1][2]
 	end
 
-	local var_12_0 = arg_12_0:GetBattleStageCfg().drop_lib_id
-
-	if var_12_0 == 0 then
+	if slot0:GetBattleStageCfg().drop_lib_id == 0 then
 		return 0
 	end
 
-	local var_12_1 = getRewardFromDropCfg(var_12_0, not arg_12_0.cleared)
-	local var_12_2 = ActivityKagutsuchiBattleCfg[arg_12_0:GetLevel()].addition_reward
+	slot4 = ActivityKagutsuchiBattleCfg[slot0:GetLevel()].addition_reward
 
-	if #var_12_1 == 0 then
+	if #getRewardFromDropCfg(slot2, not slot0.cleared) == 0 then
 		return 0
 	end
 
-	return var_12_1[1].num + var_12_2[arg_12_0:IsBoss() and 2 or 1]
+	return slot3[1].num + slot4[slot0:IsBoss() and 2 or 1]
 end
 
-function var_0_1.IsCleared(arg_13_0)
-	return arg_13_0.cleared
+function slot1.IsCleared(slot0)
+	return slot0.cleared
 end
 
-function var_0_1.GetCost(arg_14_0)
-	if arg_14_0:IsCleared() then
+function slot1.GetCost(slot0)
+	if slot0:IsCleared() then
 		return 0
 	end
 
-	if arg_14_0.type == var_0_0.GRID_NORMAL then
+	if slot0.type == uv0.GRID_NORMAL then
 		return GameSetting.activity_kagutsuchi_battle_fatigue_normal_stage_cost.value[1]
-	elseif arg_14_0.type == var_0_0.GRID_BOSS then
+	elseif slot0.type == uv0.GRID_BOSS then
 		return GameSetting.activity_kagutsuchi_battle_fatigue_boss_stage_cost.value[1]
 	end
 
 	return 0
 end
 
-function var_0_1.GetId(arg_15_0)
-	return arg_15_0.id
+function slot1.GetId(slot0)
+	return slot0.id
 end
 
-function var_0_1.GetEntrustIndex(arg_16_0)
-	local var_16_0 = KagutsuchiWorkData:GetBattleGridCount()
-
-	return arg_16_0.id - var_16_0
+function slot1.GetEntrustIndex(slot0)
+	return slot0.id - KagutsuchiWorkData:GetBattleGridCount()
 end
 
-function var_0_1.GetBattleMinTime(arg_17_0)
-	return arg_17_0.minTime
+function slot1.GetBattleMinTime(slot0)
+	return slot0.minTime
 end
 
-local var_0_3 = singletonClass("KagutsuchiWorkData")
+slot3 = singletonClass("KagutsuchiWorkData")
 
-function var_0_3.InitData(arg_18_0, arg_18_1)
-	arg_18_0.activityId = arg_18_1.activity_id
-	arg_18_0.day = arg_18_1.map_type
-	arg_18_0.mapLevel = arg_18_1.map_level
-	arg_18_0.totalCoins = arg_18_1.total_currency_num
-	arg_18_0.maxMapLevel = 10
+function slot3.InitData(slot0, slot1)
+	slot0.activityId = slot1.activity_id
+	slot0.day = slot1.map_type
+	slot0.mapLevel = slot1.map_level
+	slot0.totalCoins = slot1.total_currency_num
+	slot0.maxMapLevel = 10
 
-	arg_18_0:InitEntrustHeros(arg_18_1)
-	arg_18_0:InitPlayGrids(arg_18_1)
+	slot0:InitEntrustHeros(slot1)
+	slot0:InitPlayGrids(slot1)
 	manager.notify:CallUpdateFunc("OnKagutsuchiWorkDataInit")
 end
 
-function var_0_3.InitPlayGrids(arg_19_0, arg_19_1)
-	local var_19_0 = {}
-	local var_19_1
+function slot3.InitPlayGrids(slot0, slot1)
+	slot2 = {}
+	slot3 = nil
 
-	if arg_19_0:IsBossDay() then
-		var_19_1 = GameSetting.activity_kagutsuchi_battle_boss_stage_list.value[arg_19_0:GetBossDayIndex()]
-	else
-		var_19_1 = GameSetting.activity_kagutsuchi_battle_normal_stage_list.value[arg_19_0:GetNormalDayIndex()]
-	end
-
-	for iter_19_0, iter_19_1 in ipairs(var_19_1) do
-		local var_19_2 = {
-			id = iter_19_0,
-			level = arg_19_0.mapLevel,
-			stageId = iter_19_1
+	for slot7, slot8 in ipairs((not slot0:IsBossDay() or GameSetting.activity_kagutsuchi_battle_boss_stage_list.value[slot0:GetBossDayIndex()]) and GameSetting.activity_kagutsuchi_battle_normal_stage_list.value[slot0:GetNormalDayIndex()]) do
+		slot9 = {
+			id = slot7,
+			level = slot0.mapLevel,
+			stageId = slot8,
+			cleared = false,
+			minTime = -1,
+			cleared = slot14.clear_times > 0,
+			minTime = slot14.min_time
 		}
 
-		var_19_2.cleared = false
-		var_19_2.minTime = -1
-
-		for iter_19_2, iter_19_3 in ipairs(arg_19_1.mission_list) do
-			if iter_19_3.id == iter_19_1 then
-				var_19_2.cleared = iter_19_3.clear_times > 0
-				var_19_2.minTime = iter_19_3.min_time
-
+		for slot13, slot14 in ipairs(slot1.mission_list) do
+			if slot14.id == slot8 then
 				break
 			end
 		end
 
-		if arg_19_0:IsBossDay() then
-			var_19_2.type = var_0_0.GRID_BOSS
+		if slot0:IsBossDay() then
+			slot9.type = uv0.GRID_BOSS
 		else
-			var_19_2.type = var_0_0.GRID_NORMAL
+			slot9.type = uv0.GRID_NORMAL
 		end
 
-		local var_19_3 = var_0_1.New(var_19_2)
-
-		table.insert(var_19_0, var_19_3)
+		table.insert(slot2, uv1.New(slot9))
 	end
 
-	local var_19_4 = GameSetting.activity_kagutsuchi_battle_entrust_num.value[1]
+	slot4 = GameSetting.activity_kagutsuchi_battle_entrust_num.value[1]
 
-	if not arg_19_0:IsBossDay() then
-		for iter_19_4 = 1, var_19_4 do
-			local var_19_5 = {
-				id = iter_19_4 + #var_19_1,
-				level = arg_19_0.mapLevel
+	if not slot0:IsBossDay() then
+		for slot8 = 1, slot4 do
+			slot9 = {
+				id = slot8 + #slot3,
+				level = slot0.mapLevel,
+				cleared = false,
+				type = uv0.GRID_ENTRUST
 			}
 
-			var_19_5.cleared = false
-			var_19_5.type = var_0_0.GRID_ENTRUST
-
-			for iter_19_5, iter_19_6 in ipairs(arg_19_1.entrust_battle_list) do
-				if iter_19_6.grid_id == var_19_5.id then
-					var_19_5.cleared = true
+			for slot13, slot14 in ipairs(slot1.entrust_battle_list) do
+				if slot14.grid_id == slot9.id then
+					slot9.cleared = true
 
 					break
 				end
 			end
 
-			local var_19_6 = var_0_1.New(var_19_5)
-
-			table.insert(var_19_0, var_19_6)
+			table.insert(slot2, uv1.New(slot9))
 		end
 	end
 
-	arg_19_0.playGridList = var_19_0
+	slot0.playGridList = slot2
 end
 
-function var_0_3.InitEntrustHeros(arg_20_0, arg_20_1)
-	arg_20_0.entrustHeroIds = GameSetting.activity_kagutsuchi_battle_entrust_hero_list.value
-	arg_20_0.isHeroEntrusted = {}
+function slot3.InitEntrustHeros(slot0, slot1)
+	slot0.entrustHeroIds = GameSetting.activity_kagutsuchi_battle_entrust_hero_list.value
+	slot0.isHeroEntrusted = {}
 
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.entrustHeroIds) do
-		arg_20_0.isHeroEntrusted[iter_20_1] = false
+	for slot5, slot6 in ipairs(slot0.entrustHeroIds) do
+		slot0.isHeroEntrusted[slot6] = false
 	end
 
-	for iter_20_2, iter_20_3 in ipairs(arg_20_1.entrust_battle_list) do
-		arg_20_0:UpdateEntrustedHeros(iter_20_3.hero_list)
-	end
-end
-
-function var_0_3.UpdateEntrustedHeros(arg_21_0, arg_21_1)
-	for iter_21_0, iter_21_1 in ipairs(arg_21_1) do
-		arg_21_0.isHeroEntrusted[iter_21_1] = true
+	for slot5, slot6 in ipairs(slot1.entrust_battle_list) do
+		slot0:UpdateEntrustedHeros(slot6.hero_list)
 	end
 end
 
-function var_0_3.GetUpgradeCondition(arg_22_0)
-	local var_22_0 = ActivityKagutsuchiBattleCfg[arg_22_0.mapLevel].level_up_condition[1]
-
-	return ConditionCfg[var_22_0]
+function slot3.UpdateEntrustedHeros(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.isHeroEntrusted[slot6] = true
+	end
 end
 
-function var_0_3.GetUpgradeConditionText(arg_23_0)
-	local var_23_0 = arg_23_0:GetUpgradeCondition()
-
-	return string.format(var_23_0.desc, var_23_0.params[1], arg_23_0.mapLevel + 1)
+function slot3.GetUpgradeCondition(slot0)
+	return ConditionCfg[ActivityKagutsuchiBattleCfg[slot0.mapLevel].level_up_condition[1]]
 end
 
-function var_0_3.IsMaxLevel(arg_24_0)
-	return arg_24_0.mapLevel == arg_24_0.maxMapLevel
+function slot3.GetUpgradeConditionText(slot0)
+	slot1 = slot0:GetUpgradeCondition()
+
+	return string.format(slot1.desc, slot1.params[1], slot0.mapLevel + 1)
 end
 
-function var_0_3.IsBossDay(arg_25_0)
-	local var_25_0 = GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1
-
-	return math.fmod(arg_25_0.day, var_25_0) == 0
+function slot3.IsMaxLevel(slot0)
+	return slot0.mapLevel == slot0.maxMapLevel
 end
 
-function var_0_3.GetEntrustHeroList(arg_26_0)
-	local var_26_0 = {}
-	local var_26_1 = {}
+function slot3.IsBossDay(slot0)
+	return math.fmod(slot0.day, GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1) == 0
+end
 
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.entrustHeroIds) do
-		var_26_1[iter_26_1] = true
+function slot3.GetEntrustHeroList(slot0)
+	slot1 = {}
+	slot2 = {
+		[slot7] = true
+	}
+
+	for slot6, slot7 in ipairs(slot0.entrustHeroIds) do
+		-- Nothing
 	end
 
-	local var_26_2 = HeroData:GetHeroList()
-
-	for iter_26_2, iter_26_3 in pairs(var_26_2) do
-		if var_26_1[iter_26_3.id] then
-			table.insert(var_26_0, iter_26_3)
+	for slot7, slot8 in pairs(HeroData:GetHeroList()) do
+		if slot2[slot8.id] then
+			table.insert(slot1, slot8)
 		end
 	end
 
-	return var_26_0
+	return slot1
 end
 
-function var_0_3.GetEntrustHeroIdList(arg_27_0)
-	return arg_27_0.entrustHeroIds
+function slot3.GetEntrustHeroIdList(slot0)
+	return slot0.entrustHeroIds
 end
 
-function var_0_3.GetAttributeFactor(arg_28_0)
-	local var_28_0 = ActivityKagutsuchiBattleCfg[arg_28_0.mapLevel].attribute_factor
-
-	if var_28_0 and var_28_0[3] then
-		local var_28_1 = var_28_0[1] / 1000
-		local var_28_2 = var_28_0[2] / 1000
-		local var_28_3 = var_28_0[3] / 1000
-
-		return Vector3.New(var_28_1, var_28_2, var_28_3)
+function slot3.GetAttributeFactor(slot0)
+	if ActivityKagutsuchiBattleCfg[slot0.mapLevel].attribute_factor and slot1[3] then
+		return Vector3.New(slot1[1] / 1000, slot1[2] / 1000, slot1[3] / 1000)
 	end
 
 	return Vector3.New(1, 1, 1)
 end
 
-function var_0_3.IsEntrusted(arg_29_0, arg_29_1)
-	return arg_29_0.isHeroEntrusted[arg_29_1]
+function slot3.IsEntrusted(slot0, slot1)
+	return slot0.isHeroEntrusted[slot1]
 end
 
-function var_0_3.GetMinEntrustHeroNum(arg_30_0)
+function slot3.GetMinEntrustHeroNum(slot0)
 	return GameSetting.activity_kagutsuchi_battle_entrust_hero_num_need.value[1]
 end
 
-function var_0_3.GetMinEntrustHeroLevel(arg_31_0)
+function slot3.GetMinEntrustHeroLevel(slot0)
 	return GameSetting.activity_kagutsuchi_battle_entrust_hero_level.value[1]
 end
 
-function var_0_3.GetIndexByStageId(arg_32_0, arg_32_1)
-	for iter_32_0, iter_32_1 in ipairs(arg_32_0.playGridList) do
-		if iter_32_1:GetBattleStageId() == arg_32_1 then
-			return iter_32_0
+function slot3.GetIndexByStageId(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.playGridList) do
+		if slot6:GetBattleStageId() == slot1 then
+			return slot5
 		end
 	end
 
 	return -1
 end
 
-function var_0_3.GetPlayGridData(arg_33_0, arg_33_1)
-	return arg_33_0.playGridList[arg_33_1]
+function slot3.GetPlayGridData(slot0, slot1)
+	return slot0.playGridList[slot1]
 end
 
-function var_0_3.GetPlayGridNum(arg_34_0)
-	return #arg_34_0.playGridList
+function slot3.GetPlayGridNum(slot0)
+	return #slot0.playGridList
 end
 
-function var_0_3.GetCoins(arg_35_0)
-	local var_35_0 = CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id
-
-	return ItemTools.getItemNum(var_35_0)
+function slot3.GetCoins(slot0)
+	return ItemTools.getItemNum(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id)
 end
 
-function var_0_3.GetStamina(arg_36_0)
-	local var_36_0 = CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id
-
-	return ItemTools.getItemNum(var_36_0)
+function slot3.GetStamina(slot0)
+	return ItemTools.getItemNum(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
 end
 
-function var_0_3.GetTotalCoins(arg_37_0)
-	return arg_37_0.totalCoins
+function slot3.GetTotalCoins(slot0)
+	return slot0.totalCoins
 end
 
-function var_0_3.GetDay(arg_38_0)
-	return arg_38_0.day
+function slot3.GetDay(slot0)
+	return slot0.day
 end
 
-function var_0_3.GetNextBossTime(arg_39_0)
-	local var_39_0 = 86400
-	local var_39_1 = 3600
-	local var_39_2 = GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1
-	local var_39_3 = ActivityData:GetActivityData(arg_39_0:GetActivityID())
-	local var_39_4 = arg_39_0.day
-	local var_39_5 = (math.floor(var_39_4 / var_39_2) + 1) * var_39_2
-	local var_39_6 = var_39_3.startTime + var_39_0 * (var_39_5 - 1)
-	local var_39_7 = manager.time:GetNextFreshTime()
+function slot3.GetNextBossTime(slot0)
+	slot3 = GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1
+	slot7 = ActivityData:GetActivityData(slot0:GetActivityID()).startTime + 86400 * ((math.floor(slot0.day / slot3) + 1) * slot3 - 1)
 
-	return var_39_6 - (tonumber(manager.time:STimeDescS(var_39_6, "!%H")) - tonumber(manager.time:STimeDescS(var_39_7, "!%H"))) * var_39_1
+	return slot7 - (tonumber(manager.time:STimeDescS(slot7, "!%H")) - tonumber(manager.time:STimeDescS(manager.time:GetNextFreshTime(), "!%H"))) * 3600
 end
 
-function var_0_3.GetBossDayIndex(arg_40_0)
-	local var_40_0 = GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1
-	local var_40_1 = #GameSetting.activity_kagutsuchi_battle_boss_stage_list.value
-	local var_40_2 = math.floor(arg_40_0.day / var_40_0) - 1
-
-	return math.fmod(var_40_2, var_40_1) + 1
+function slot3.GetBossDayIndex(slot0)
+	return math.fmod(math.floor(slot0.day / (GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1)) - 1, #GameSetting.activity_kagutsuchi_battle_boss_stage_list.value) + 1
 end
 
-function var_0_3.GetNormalDayIndex(arg_41_0)
-	local var_41_0 = GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1
-	local var_41_1 = #GameSetting.activity_kagutsuchi_battle_normal_stage_list.value
-	local var_41_2 = arg_41_0.day - math.floor(arg_41_0.day / var_41_0) - 1
-
-	return math.fmod(var_41_2, var_41_1) + 1
+function slot3.GetNormalDayIndex(slot0)
+	return math.fmod(slot0.day - math.floor(slot0.day / (GameSetting.activity_kagutsuchi_battle_boss_come.value[1] + 1)) - 1, #GameSetting.activity_kagutsuchi_battle_normal_stage_list.value) + 1
 end
 
-function var_0_3.GetBattleGridCount(arg_42_0)
-	if arg_42_0:IsBossDay() then
-		return #GameSetting.activity_kagutsuchi_battle_boss_stage_list.value[arg_42_0:GetBossDayIndex()]
+function slot3.GetBattleGridCount(slot0)
+	if slot0:IsBossDay() then
+		return #GameSetting.activity_kagutsuchi_battle_boss_stage_list.value[slot0:GetBossDayIndex()]
 	else
-		return #GameSetting.activity_kagutsuchi_battle_normal_stage_list.value[arg_42_0:GetNormalDayIndex()]
+		return #GameSetting.activity_kagutsuchi_battle_normal_stage_list.value[slot0:GetNormalDayIndex()]
 	end
 end
 
-function var_0_3.GetEntrustTips(arg_43_0, arg_43_1)
-	local var_43_0 = GameSetting.activity_kagutsuchi_battle_entrust_tips.value
-	local var_43_1 = arg_43_0:GetNormalDayIndex() + arg_43_1 - 1
+function slot3.GetEntrustTips(slot0, slot1)
+	slot2 = GameSetting.activity_kagutsuchi_battle_entrust_tips.value
 
-	return var_43_0[math.fmod(var_43_1, #var_43_0) + 1]
+	return slot2[math.fmod(slot0:GetNormalDayIndex() + slot1 - 1, #slot2) + 1]
 end
 
-function var_0_3.IsUpgraded(arg_44_0)
-	local var_44_0 = arg_44_0:GetUpgradeCondition().params[1]
-
-	for iter_44_0, iter_44_1 in ipairs(arg_44_0.playGridList) do
-		if iter_44_1.cleared and iter_44_1:IsBattle() and iter_44_1.minTime >= 0 and var_44_0 >= iter_44_1.minTime then
+function slot3.IsUpgraded(slot0)
+	for slot6, slot7 in ipairs(slot0.playGridList) do
+		if slot7.cleared and slot7:IsBattle() and slot7.minTime >= 0 and slot7.minTime <= slot0:GetUpgradeCondition().params[1] then
 			return true
 		end
 	end
@@ -397,9 +342,9 @@ function var_0_3.IsUpgraded(arg_44_0)
 	return false
 end
 
-function var_0_3.IsAllClear(arg_45_0)
-	for iter_45_0, iter_45_1 in ipairs(arg_45_0.playGridList) do
-		if not iter_45_1:IsCleared() then
+function slot3.IsAllClear(slot0)
+	for slot4, slot5 in ipairs(slot0.playGridList) do
+		if not slot5:IsCleared() then
 			return false
 		end
 	end
@@ -407,40 +352,34 @@ function var_0_3.IsAllClear(arg_45_0)
 	return true
 end
 
-function var_0_3.GetMapSeed(arg_46_0)
-	return arg_46_0.day
+function slot3.GetMapSeed(slot0)
+	return slot0.day
 end
 
-function var_0_3.SetGridClear(arg_47_0, arg_47_1)
-	local var_47_0 = arg_47_0:GetPlayGridData(arg_47_1)
-
-	if var_47_0:IsBattle() then
-		local var_47_1 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-
-		if var_47_0.minTime >= 0 then
-			var_47_0.minTime = math.min(var_47_1, var_47_0.minTime)
+function slot3.SetGridClear(slot0, slot1)
+	if slot0:GetPlayGridData(slot1):IsBattle() then
+		if slot2.minTime >= 0 then
+			slot2.minTime = math.min(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime, slot2.minTime)
 		else
-			var_47_0.minTime = var_47_1
+			slot2.minTime = slot3
 		end
 	end
 
-	if var_47_0.cleared then
+	if slot2.cleared then
 		return
 	end
 
-	local var_47_2 = var_47_0:GetReward()
-	local var_47_3 = var_47_0:GetCost()
-
-	var_47_0.cleared = true
-	arg_47_0.totalCoins = arg_47_0.totalCoins + var_47_2
+	slot4 = slot2:GetCost()
+	slot2.cleared = true
+	slot0.totalCoins = slot0.totalCoins + slot2:GetReward()
 end
 
-function var_0_3.GetActivityID(arg_48_0)
+function slot3.GetActivityID(slot0)
 	return ActivityConst.KAGUTSUCHI_ACTIVITY
 end
 
-function var_0_3.GetServerActivityID(arg_49_0)
-	return arg_49_0.activityId
+function slot3.GetServerActivityID(slot0)
+	return slot0.activityId
 end
 
-return var_0_3
+return slot3

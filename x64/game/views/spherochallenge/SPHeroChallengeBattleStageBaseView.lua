@@ -1,34 +1,30 @@
-local var_0_0 = class("SPHeroChallengeBattleStageBaseView", ReduxView)
+slot0 = class("SPHeroChallengeBattleStageBaseView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.activityID_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:UIName()), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load(arg_1_0:UIName())
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.GetUIName(arg_2_0)
-	return
+function slot0.GetUIName(slot0)
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Show(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, arg_4_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	Object.Destroy(arg_5_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_5_0.transform_ = nil
-	arg_5_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

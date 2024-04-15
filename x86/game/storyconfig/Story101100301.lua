@@ -1,869 +1,714 @@
 return {
-	Play110031001 = function(arg_1_0, arg_1_1)
-		arg_1_1.time_ = 0
-		arg_1_1.frameCnt_ = 0
-		arg_1_1.state_ = "playing"
-		arg_1_1.curTalkId_ = 110031001
-		arg_1_1.duration_ = 4.262999999999
+	Play110031001 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031001
+		slot1.duration_ = 4.262999999999
 
-		SetActive(arg_1_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_1_1.onSingleLineFinish_()
-			arg_1_1.onSingleLineUpdate_ = nil
-			arg_1_1.onSingleLineFinish_ = nil
-			arg_1_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_1_1.playNext_(arg_3_0)
-			if arg_3_0 == 1 then
-				arg_1_0:Play110031002(arg_1_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031002(uv1)
 			end
 		end
 
-		function arg_1_1.onSingleLineUpdate_(arg_4_0)
-			local var_4_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.fswbg_:SetActive(true)
+				uv0.dialog_:SetActive(false)
 
-			if var_4_0 < arg_1_1.time_ and arg_1_1.time_ <= var_4_0 + arg_4_0 then
-				arg_1_1.fswbg_:SetActive(true)
-				arg_1_1.dialog_:SetActive(false)
+				uv0.fswtw_.percent = 0
+				uv0.fswt_.text = uv0:FormatText(uv0:GetWordFromCfg(110031001).content)
 
-				arg_1_1.fswtw_.percent = 0
+				LuaForUtil.ClearLinePrefixSymbol(uv0.fswt_)
 
-				local var_4_1 = arg_1_1:GetWordFromCfg(110031001)
-				local var_4_2 = arg_1_1:FormatText(var_4_1.content)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_1_1.fswt_.text = var_4_2
+				uv0.fswtw_:SetDirty()
 
-				LuaForUtil.ClearLinePrefixSymbol(arg_1_1.fswt_)
+				uv0.typewritterCharCountI18N = 0
 
-				arg_1_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_1_1.fswtw_:SetDirty()
-
-				arg_1_1.typewritterCharCountI18N = 0
-
-				arg_1_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_4_3 = 0.0166666666666667
+			if 0.0166666666666667 < uv0.time_ and uv0.time_ <= slot2 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_4_3 < arg_1_1.time_ and arg_1_1.time_ <= var_4_3 + arg_4_0 then
-				arg_1_1.var_.oldValueTypewriter = arg_1_1.fswtw_.percent
-
-				arg_1_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_4_4 = 24
-			local var_4_5 = 1.6
-			local var_4_6 = arg_1_1:GetWordFromCfg(110031001)
-			local var_4_7 = arg_1_1:FormatText(var_4_6.content)
-			local var_4_8, var_4_9 = arg_1_1:GetPercentByPara(var_4_7, 1)
+			slot3 = 24
+			slot4 = 1.6
+			slot7, slot8 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031001).content), 1)
 
-			if var_4_3 < arg_1_1.time_ and arg_1_1.time_ <= var_4_3 + arg_4_0 then
-				arg_1_1.talkMaxDuration = 0
+			if slot2 < uv0.time_ and uv0.time_ <= slot2 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_4_10 = var_4_4 <= 0 and var_4_5 or var_4_5 * ((var_4_9 - arg_1_1.typewritterCharCountI18N) / var_4_4)
+				if (slot3 <= 0 and slot4 or slot4 * (slot8 - uv0.typewritterCharCountI18N) / slot3) > 0 and slot4 < slot9 then
+					uv0.talkMaxDuration = slot9
 
-				if var_4_10 > 0 and var_4_5 < var_4_10 then
-					arg_1_1.talkMaxDuration = var_4_10
-
-					if var_4_10 + var_4_3 > arg_1_1.duration_ then
-						arg_1_1.duration_ = var_4_10 + var_4_3
+					if uv0.duration_ < slot9 + slot2 then
+						uv0.duration_ = slot9 + slot2
 					end
 				end
 			end
 
-			local var_4_11 = 1.6
-			local var_4_12 = math.max(var_4_11, arg_1_1.talkMaxDuration)
+			slot9 = math.max(1.6, uv0.talkMaxDuration)
 
-			if var_4_3 <= arg_1_1.time_ and arg_1_1.time_ < var_4_3 + var_4_12 then
-				local var_4_13 = (arg_1_1.time_ - var_4_3) / var_4_12
+			if slot2 <= uv0.time_ and uv0.time_ < slot2 + slot9 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot7, (uv0.time_ - slot2) / slot9)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_1_1.fswtw_.percent = Mathf.Lerp(arg_1_1.var_.oldValueTypewriter, var_4_8, var_4_13)
-				arg_1_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_1_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_1_1.time_ >= var_4_3 + var_4_12 and arg_1_1.time_ < var_4_3 + var_4_12 + arg_4_0 then
-				arg_1_1.fswtw_.percent = var_4_8
+			if uv0.time_ >= slot2 + slot9 and uv0.time_ < slot2 + slot9 + slot0 then
+				uv0.fswtw_.percent = slot7
 
-				arg_1_1.fswtw_:SetDirty()
-				arg_1_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_1_1.typewritterCharCountI18N = var_4_9
+				uv0.typewritterCharCountI18N = slot8
 			end
 
-			local var_4_14 = 0
-			local var_4_15 = 4.263
-			local var_4_16 = manager.audio:GetVoiceLength("story_v_out_110031", "110031001", "story_v_out_110031.awb") / 1000
+			slot10 = 0
 
-			if var_4_16 > 0 and var_4_15 < var_4_16 and var_4_16 + var_4_14 > arg_1_1.duration_ then
-				local var_4_17 = var_4_16
-
-				arg_1_1.duration_ = var_4_16 + var_4_14
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031001", "story_v_out_110031.awb") / 1000 > 0 and 4.263 < slot12 and uv0.duration_ < slot12 + slot10 then
+				slot11 = slot12
+				uv0.duration_ = slot12 + slot10
 			end
 
-			if var_4_14 < arg_1_1.time_ and arg_1_1.time_ <= var_4_14 + arg_4_0 then
-				local var_4_18 = "play"
-				local var_4_19 = "voice"
-
-				arg_1_1:AudioAction(var_4_18, var_4_19, "story_v_out_110031", "110031001", "story_v_out_110031.awb")
+			if slot10 < uv0.time_ and uv0.time_ <= slot10 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031001", "story_v_out_110031.awb")
 			end
 
-			local var_4_20 = 0
-			local var_4_21 = 0.6
+			slot14 = 0.6
 
-			if var_4_20 < arg_1_1.time_ and arg_1_1.time_ <= var_4_20 + arg_4_0 then
-				local var_4_22 = "play"
-				local var_4_23 = "music"
-
-				arg_1_1:AudioAction(var_4_22, var_4_23, "ui_battle", "ui_battle_stopbgm", "")
+			if 0 < uv0.time_ and uv0.time_ <= slot13 + slot0 then
+				uv0:AudioAction("play", "music", "ui_battle", "ui_battle_stopbgm", "")
 			end
 
-			local var_4_24 = 0.738461699336767
-			local var_4_25 = 1
+			slot16 = 1
 
-			if var_4_24 < arg_1_1.time_ and arg_1_1.time_ <= var_4_24 + arg_4_0 then
-				local var_4_26 = "play"
-				local var_4_27 = "music"
-
-				arg_1_1:AudioAction(var_4_26, var_4_27, "bgm_activity_1_0_1_osiris_ui", "bgm_activity_1_0_1_osiris_ui", "bgm_activity_1_0_1_osiris_ui.awb")
+			if 0.738461699336767 < uv0.time_ and uv0.time_ <= slot15 + slot0 then
+				uv0:AudioAction("play", "music", "bgm_activity_1_0_1_osiris_ui", "bgm_activity_1_0_1_osiris_ui", "bgm_activity_1_0_1_osiris_ui.awb")
 			end
 		end
 	end,
-	Play110031002 = function(arg_5_0, arg_5_1)
-		arg_5_1.time_ = 0
-		arg_5_1.frameCnt_ = 0
-		arg_5_1.state_ = "playing"
-		arg_5_1.curTalkId_ = 110031002
-		arg_5_1.duration_ = 8.640999999999
+	Play110031002 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031002
+		slot1.duration_ = 8.640999999999
 
-		SetActive(arg_5_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_5_1.onSingleLineFinish_()
-			arg_5_1.onSingleLineUpdate_ = nil
-			arg_5_1.onSingleLineFinish_ = nil
-			arg_5_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_5_1.playNext_(arg_7_0)
-			if arg_7_0 == 1 then
-				arg_5_0:Play110031003(arg_5_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031003(uv1)
 			end
 		end
 
-		function arg_5_1.onSingleLineUpdate_(arg_8_0)
-			local var_8_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_8_0 < arg_5_1.time_ and arg_5_1.time_ <= var_8_0 + arg_8_0 then
-				arg_5_1.var_.oldValueTypewriter = arg_5_1.fswtw_.percent
-
-				arg_5_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_8_1 = 52
-			local var_8_2 = 3.26666666666667
-			local var_8_3 = arg_5_1:GetWordFromCfg(110031001)
-			local var_8_4 = arg_5_1:FormatText(var_8_3.content)
-			local var_8_5, var_8_6 = arg_5_1:GetPercentByPara(var_8_4, 2)
+			slot2 = 52
+			slot3 = 3.26666666666667
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031001).content), 2)
 
-			if var_8_0 < arg_5_1.time_ and arg_5_1.time_ <= var_8_0 + arg_8_0 then
-				arg_5_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_8_7 = var_8_1 <= 0 and var_8_2 or var_8_2 * ((var_8_6 - arg_5_1.typewritterCharCountI18N) / var_8_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_8_7 > 0 and var_8_2 < var_8_7 then
-					arg_5_1.talkMaxDuration = var_8_7
-
-					if var_8_7 + var_8_0 > arg_5_1.duration_ then
-						arg_5_1.duration_ = var_8_7 + var_8_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_8_8 = 3.26666666666667
-			local var_8_9 = math.max(var_8_8, arg_5_1.talkMaxDuration)
+			slot8 = math.max(3.26666666666667, uv0.talkMaxDuration)
 
-			if var_8_0 <= arg_5_1.time_ and arg_5_1.time_ < var_8_0 + var_8_9 then
-				local var_8_10 = (arg_5_1.time_ - var_8_0) / var_8_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_5_1.fswtw_.percent = Mathf.Lerp(arg_5_1.var_.oldValueTypewriter, var_8_5, var_8_10)
-				arg_5_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_5_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_5_1.time_ >= var_8_0 + var_8_9 and arg_5_1.time_ < var_8_0 + var_8_9 + arg_8_0 then
-				arg_5_1.fswtw_.percent = var_8_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_5_1.fswtw_:SetDirty()
-				arg_5_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_5_1.typewritterCharCountI18N = var_8_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_8_11 = 0
-			local var_8_12 = 8.641
-			local var_8_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031002", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_8_13 > 0 and var_8_12 < var_8_13 and var_8_13 + var_8_11 > arg_5_1.duration_ then
-				local var_8_14 = var_8_13
-
-				arg_5_1.duration_ = var_8_13 + var_8_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031002", "story_v_out_110031.awb") / 1000 > 0 and 8.641 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_8_11 < arg_5_1.time_ and arg_5_1.time_ <= var_8_11 + arg_8_0 then
-				local var_8_15 = "play"
-				local var_8_16 = "voice"
-
-				arg_5_1:AudioAction(var_8_15, var_8_16, "story_v_out_110031", "110031002", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031002", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031003 = function(arg_9_0, arg_9_1)
-		arg_9_1.time_ = 0
-		arg_9_1.frameCnt_ = 0
-		arg_9_1.state_ = "playing"
-		arg_9_1.curTalkId_ = 110031003
-		arg_9_1.duration_ = 10.555999999999
+	Play110031003 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031003
+		slot1.duration_ = 10.555999999999
 
-		SetActive(arg_9_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_9_1.onSingleLineFinish_()
-			arg_9_1.onSingleLineUpdate_ = nil
-			arg_9_1.onSingleLineFinish_ = nil
-			arg_9_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_9_1.playNext_(arg_11_0)
-			if arg_11_0 == 1 then
-				arg_9_0:Play110031004(arg_9_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031004(uv1)
 			end
 		end
 
-		function arg_9_1.onSingleLineUpdate_(arg_12_0)
-			local var_12_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_12_0 < arg_9_1.time_ and arg_9_1.time_ <= var_12_0 + arg_12_0 then
-				arg_9_1.var_.oldValueTypewriter = arg_9_1.fswtw_.percent
-
-				arg_9_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_12_1 = 70
-			local var_12_2 = 4.66666666666667
-			local var_12_3 = arg_9_1:GetWordFromCfg(110031001)
-			local var_12_4 = arg_9_1:FormatText(var_12_3.content)
-			local var_12_5, var_12_6 = arg_9_1:GetPercentByPara(var_12_4, 3)
+			slot2 = 70
+			slot3 = 4.66666666666667
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031001).content), 3)
 
-			if var_12_0 < arg_9_1.time_ and arg_9_1.time_ <= var_12_0 + arg_12_0 then
-				arg_9_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_12_7 = var_12_1 <= 0 and var_12_2 or var_12_2 * ((var_12_6 - arg_9_1.typewritterCharCountI18N) / var_12_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_12_7 > 0 and var_12_2 < var_12_7 then
-					arg_9_1.talkMaxDuration = var_12_7
-
-					if var_12_7 + var_12_0 > arg_9_1.duration_ then
-						arg_9_1.duration_ = var_12_7 + var_12_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_12_8 = 4.66666666666667
-			local var_12_9 = math.max(var_12_8, arg_9_1.talkMaxDuration)
+			slot8 = math.max(4.66666666666667, uv0.talkMaxDuration)
 
-			if var_12_0 <= arg_9_1.time_ and arg_9_1.time_ < var_12_0 + var_12_9 then
-				local var_12_10 = (arg_9_1.time_ - var_12_0) / var_12_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_9_1.fswtw_.percent = Mathf.Lerp(arg_9_1.var_.oldValueTypewriter, var_12_5, var_12_10)
-				arg_9_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_9_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_9_1.time_ >= var_12_0 + var_12_9 and arg_9_1.time_ < var_12_0 + var_12_9 + arg_12_0 then
-				arg_9_1.fswtw_.percent = var_12_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_9_1.fswtw_:SetDirty()
-				arg_9_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_9_1.typewritterCharCountI18N = var_12_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_12_11 = 0
-			local var_12_12 = 10.556
-			local var_12_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031003", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_12_13 > 0 and var_12_12 < var_12_13 and var_12_13 + var_12_11 > arg_9_1.duration_ then
-				local var_12_14 = var_12_13
-
-				arg_9_1.duration_ = var_12_13 + var_12_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031003", "story_v_out_110031.awb") / 1000 > 0 and 10.556 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_12_11 < arg_9_1.time_ and arg_9_1.time_ <= var_12_11 + arg_12_0 then
-				local var_12_15 = "play"
-				local var_12_16 = "voice"
-
-				arg_9_1:AudioAction(var_12_15, var_12_16, "story_v_out_110031", "110031003", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031003", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031004 = function(arg_13_0, arg_13_1)
-		arg_13_1.time_ = 0
-		arg_13_1.frameCnt_ = 0
-		arg_13_1.state_ = "playing"
-		arg_13_1.curTalkId_ = 110031004
-		arg_13_1.duration_ = 5.555999999999
+	Play110031004 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031004
+		slot1.duration_ = 5.555999999999
 
-		SetActive(arg_13_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_13_1.onSingleLineFinish_()
-			arg_13_1.onSingleLineUpdate_ = nil
-			arg_13_1.onSingleLineFinish_ = nil
-			arg_13_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_13_1.playNext_(arg_15_0)
-			if arg_15_0 == 1 then
-				arg_13_0:Play110031005(arg_13_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031005(uv1)
 			end
 		end
 
-		function arg_13_1.onSingleLineUpdate_(arg_16_0)
-			local var_16_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_16_0 < arg_13_1.time_ and arg_13_1.time_ <= var_16_0 + arg_16_0 then
-				arg_13_1.var_.oldValueTypewriter = arg_13_1.fswtw_.percent
-
-				arg_13_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_16_1 = 35
-			local var_16_2 = 2.33333333333333
-			local var_16_3 = arg_13_1:GetWordFromCfg(110031001)
-			local var_16_4 = arg_13_1:FormatText(var_16_3.content)
-			local var_16_5, var_16_6 = arg_13_1:GetPercentByPara(var_16_4, 4)
+			slot2 = 35
+			slot3 = 2.33333333333333
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031001).content), 4)
 
-			if var_16_0 < arg_13_1.time_ and arg_13_1.time_ <= var_16_0 + arg_16_0 then
-				arg_13_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_16_7 = var_16_1 <= 0 and var_16_2 or var_16_2 * ((var_16_6 - arg_13_1.typewritterCharCountI18N) / var_16_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_16_7 > 0 and var_16_2 < var_16_7 then
-					arg_13_1.talkMaxDuration = var_16_7
-
-					if var_16_7 + var_16_0 > arg_13_1.duration_ then
-						arg_13_1.duration_ = var_16_7 + var_16_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_16_8 = 2.33333333333333
-			local var_16_9 = math.max(var_16_8, arg_13_1.talkMaxDuration)
+			slot8 = math.max(2.33333333333333, uv0.talkMaxDuration)
 
-			if var_16_0 <= arg_13_1.time_ and arg_13_1.time_ < var_16_0 + var_16_9 then
-				local var_16_10 = (arg_13_1.time_ - var_16_0) / var_16_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_13_1.fswtw_.percent = Mathf.Lerp(arg_13_1.var_.oldValueTypewriter, var_16_5, var_16_10)
-				arg_13_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_13_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_13_1.time_ >= var_16_0 + var_16_9 and arg_13_1.time_ < var_16_0 + var_16_9 + arg_16_0 then
-				arg_13_1.fswtw_.percent = var_16_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_13_1.fswtw_:SetDirty()
-				arg_13_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_13_1.typewritterCharCountI18N = var_16_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_16_11 = 0
-			local var_16_12 = 5.556
-			local var_16_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031004", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_16_13 > 0 and var_16_12 < var_16_13 and var_16_13 + var_16_11 > arg_13_1.duration_ then
-				local var_16_14 = var_16_13
-
-				arg_13_1.duration_ = var_16_13 + var_16_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031004", "story_v_out_110031.awb") / 1000 > 0 and 5.556 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_16_11 < arg_13_1.time_ and arg_13_1.time_ <= var_16_11 + arg_16_0 then
-				local var_16_15 = "play"
-				local var_16_16 = "voice"
-
-				arg_13_1:AudioAction(var_16_15, var_16_16, "story_v_out_110031", "110031004", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031004", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031005 = function(arg_17_0, arg_17_1)
-		arg_17_1.time_ = 0
-		arg_17_1.frameCnt_ = 0
-		arg_17_1.state_ = "playing"
-		arg_17_1.curTalkId_ = 110031005
-		arg_17_1.duration_ = 4.857999999999
+	Play110031005 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031005
+		slot1.duration_ = 4.857999999999
 
-		SetActive(arg_17_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_17_1.onSingleLineFinish_()
-			arg_17_1.onSingleLineUpdate_ = nil
-			arg_17_1.onSingleLineFinish_ = nil
-			arg_17_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_17_1.playNext_(arg_19_0)
-			if arg_19_0 == 1 then
-				arg_17_0:Play110031006(arg_17_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031006(uv1)
 			end
 		end
 
-		function arg_17_1.onSingleLineUpdate_(arg_20_0)
-			local var_20_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_20_0 < arg_17_1.time_ and arg_17_1.time_ <= var_20_0 + arg_20_0 then
-				arg_17_1.var_.oldValueTypewriter = arg_17_1.fswtw_.percent
-
-				arg_17_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_20_1 = 28
-			local var_20_2 = 1.93333333333333
-			local var_20_3 = arg_17_1:GetWordFromCfg(110031001)
-			local var_20_4 = arg_17_1:FormatText(var_20_3.content)
-			local var_20_5, var_20_6 = arg_17_1:GetPercentByPara(var_20_4, 5)
+			slot2 = 28
+			slot3 = 1.93333333333333
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031001).content), 5)
 
-			if var_20_0 < arg_17_1.time_ and arg_17_1.time_ <= var_20_0 + arg_20_0 then
-				arg_17_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_20_7 = var_20_1 <= 0 and var_20_2 or var_20_2 * ((var_20_6 - arg_17_1.typewritterCharCountI18N) / var_20_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_20_7 > 0 and var_20_2 < var_20_7 then
-					arg_17_1.talkMaxDuration = var_20_7
-
-					if var_20_7 + var_20_0 > arg_17_1.duration_ then
-						arg_17_1.duration_ = var_20_7 + var_20_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_20_8 = 1.93333333333333
-			local var_20_9 = math.max(var_20_8, arg_17_1.talkMaxDuration)
+			slot8 = math.max(1.93333333333333, uv0.talkMaxDuration)
 
-			if var_20_0 <= arg_17_1.time_ and arg_17_1.time_ < var_20_0 + var_20_9 then
-				local var_20_10 = (arg_17_1.time_ - var_20_0) / var_20_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_17_1.fswtw_.percent = Mathf.Lerp(arg_17_1.var_.oldValueTypewriter, var_20_5, var_20_10)
-				arg_17_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_17_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_17_1.time_ >= var_20_0 + var_20_9 and arg_17_1.time_ < var_20_0 + var_20_9 + arg_20_0 then
-				arg_17_1.fswtw_.percent = var_20_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_17_1.fswtw_:SetDirty()
-				arg_17_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_17_1.typewritterCharCountI18N = var_20_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_20_11 = 0
-			local var_20_12 = 4.858
-			local var_20_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031005", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_20_13 > 0 and var_20_12 < var_20_13 and var_20_13 + var_20_11 > arg_17_1.duration_ then
-				local var_20_14 = var_20_13
-
-				arg_17_1.duration_ = var_20_13 + var_20_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031005", "story_v_out_110031.awb") / 1000 > 0 and 4.858 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_20_11 < arg_17_1.time_ and arg_17_1.time_ <= var_20_11 + arg_20_0 then
-				local var_20_15 = "play"
-				local var_20_16 = "voice"
-
-				arg_17_1:AudioAction(var_20_15, var_20_16, "story_v_out_110031", "110031005", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031005", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031006 = function(arg_21_0, arg_21_1)
-		arg_21_1.time_ = 0
-		arg_21_1.frameCnt_ = 0
-		arg_21_1.state_ = "playing"
-		arg_21_1.curTalkId_ = 110031006
-		arg_21_1.duration_ = 10.893999999999
+	Play110031006 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031006
+		slot1.duration_ = 10.893999999999
 
-		SetActive(arg_21_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_21_1.onSingleLineFinish_()
-			arg_21_1.onSingleLineUpdate_ = nil
-			arg_21_1.onSingleLineFinish_ = nil
-			arg_21_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_21_1.playNext_(arg_23_0)
-			if arg_23_0 == 1 then
-				arg_21_0:Play110031007(arg_21_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031007(uv1)
 			end
 		end
 
-		function arg_21_1.onSingleLineUpdate_(arg_24_0)
-			local var_24_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.fswbg_:SetActive(true)
+				uv0.dialog_:SetActive(false)
 
-			if var_24_0 < arg_21_1.time_ and arg_21_1.time_ <= var_24_0 + arg_24_0 then
-				arg_21_1.fswbg_:SetActive(true)
-				arg_21_1.dialog_:SetActive(false)
+				uv0.fswtw_.percent = 0
+				uv0.fswt_.text = uv0:FormatText(uv0:GetWordFromCfg(110031006).content)
 
-				arg_21_1.fswtw_.percent = 0
+				LuaForUtil.ClearLinePrefixSymbol(uv0.fswt_)
 
-				local var_24_1 = arg_21_1:GetWordFromCfg(110031006)
-				local var_24_2 = arg_21_1:FormatText(var_24_1.content)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_21_1.fswt_.text = var_24_2
+				uv0.fswtw_:SetDirty()
 
-				LuaForUtil.ClearLinePrefixSymbol(arg_21_1.fswt_)
+				uv0.typewritterCharCountI18N = 0
 
-				arg_21_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_21_1.fswtw_:SetDirty()
-
-				arg_21_1.typewritterCharCountI18N = 0
-
-				arg_21_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_24_3 = 0.0166666666666667
+			if 0.0166666666666667 < uv0.time_ and uv0.time_ <= slot2 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_24_3 < arg_21_1.time_ and arg_21_1.time_ <= var_24_3 + arg_24_0 then
-				arg_21_1.var_.oldValueTypewriter = arg_21_1.fswtw_.percent
-
-				arg_21_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_24_4 = 46
-			local var_24_5 = 3.06666666666667
-			local var_24_6 = arg_21_1:GetWordFromCfg(110031006)
-			local var_24_7 = arg_21_1:FormatText(var_24_6.content)
-			local var_24_8, var_24_9 = arg_21_1:GetPercentByPara(var_24_7, 1)
+			slot3 = 46
+			slot4 = 3.06666666666667
+			slot7, slot8 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031006).content), 1)
 
-			if var_24_3 < arg_21_1.time_ and arg_21_1.time_ <= var_24_3 + arg_24_0 then
-				arg_21_1.talkMaxDuration = 0
+			if slot2 < uv0.time_ and uv0.time_ <= slot2 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_24_10 = var_24_4 <= 0 and var_24_5 or var_24_5 * ((var_24_9 - arg_21_1.typewritterCharCountI18N) / var_24_4)
+				if (slot3 <= 0 and slot4 or slot4 * (slot8 - uv0.typewritterCharCountI18N) / slot3) > 0 and slot4 < slot9 then
+					uv0.talkMaxDuration = slot9
 
-				if var_24_10 > 0 and var_24_5 < var_24_10 then
-					arg_21_1.talkMaxDuration = var_24_10
-
-					if var_24_10 + var_24_3 > arg_21_1.duration_ then
-						arg_21_1.duration_ = var_24_10 + var_24_3
+					if uv0.duration_ < slot9 + slot2 then
+						uv0.duration_ = slot9 + slot2
 					end
 				end
 			end
 
-			local var_24_11 = 3.06666666666667
-			local var_24_12 = math.max(var_24_11, arg_21_1.talkMaxDuration)
+			slot9 = math.max(3.06666666666667, uv0.talkMaxDuration)
 
-			if var_24_3 <= arg_21_1.time_ and arg_21_1.time_ < var_24_3 + var_24_12 then
-				local var_24_13 = (arg_21_1.time_ - var_24_3) / var_24_12
+			if slot2 <= uv0.time_ and uv0.time_ < slot2 + slot9 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot7, (uv0.time_ - slot2) / slot9)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_21_1.fswtw_.percent = Mathf.Lerp(arg_21_1.var_.oldValueTypewriter, var_24_8, var_24_13)
-				arg_21_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_21_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_21_1.time_ >= var_24_3 + var_24_12 and arg_21_1.time_ < var_24_3 + var_24_12 + arg_24_0 then
-				arg_21_1.fswtw_.percent = var_24_8
+			if uv0.time_ >= slot2 + slot9 and uv0.time_ < slot2 + slot9 + slot0 then
+				uv0.fswtw_.percent = slot7
 
-				arg_21_1.fswtw_:SetDirty()
-				arg_21_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_21_1.typewritterCharCountI18N = var_24_9
+				uv0.typewritterCharCountI18N = slot8
 			end
 
-			local var_24_14 = 0
-			local var_24_15 = 10.894
-			local var_24_16 = manager.audio:GetVoiceLength("story_v_out_110031", "110031006", "story_v_out_110031.awb") / 1000
+			slot10 = 0
 
-			if var_24_16 > 0 and var_24_15 < var_24_16 and var_24_16 + var_24_14 > arg_21_1.duration_ then
-				local var_24_17 = var_24_16
-
-				arg_21_1.duration_ = var_24_16 + var_24_14
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031006", "story_v_out_110031.awb") / 1000 > 0 and 10.894 < slot12 and uv0.duration_ < slot12 + slot10 then
+				slot11 = slot12
+				uv0.duration_ = slot12 + slot10
 			end
 
-			if var_24_14 < arg_21_1.time_ and arg_21_1.time_ <= var_24_14 + arg_24_0 then
-				local var_24_18 = "play"
-				local var_24_19 = "voice"
-
-				arg_21_1:AudioAction(var_24_18, var_24_19, "story_v_out_110031", "110031006", "story_v_out_110031.awb")
+			if slot10 < uv0.time_ and uv0.time_ <= slot10 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031006", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031007 = function(arg_25_0, arg_25_1)
-		arg_25_1.time_ = 0
-		arg_25_1.frameCnt_ = 0
-		arg_25_1.state_ = "playing"
-		arg_25_1.curTalkId_ = 110031007
-		arg_25_1.duration_ = 4.207999999999
+	Play110031007 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031007
+		slot1.duration_ = 4.207999999999
 
-		SetActive(arg_25_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_25_1.onSingleLineFinish_()
-			arg_25_1.onSingleLineUpdate_ = nil
-			arg_25_1.onSingleLineFinish_ = nil
-			arg_25_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_25_1.playNext_(arg_27_0)
-			if arg_27_0 == 1 then
-				arg_25_0:Play110031008(arg_25_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031008(uv1)
 			end
 		end
 
-		function arg_25_1.onSingleLineUpdate_(arg_28_0)
-			local var_28_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_28_0 < arg_25_1.time_ and arg_25_1.time_ <= var_28_0 + arg_28_0 then
-				arg_25_1.var_.oldValueTypewriter = arg_25_1.fswtw_.percent
-
-				arg_25_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_28_1 = 25
-			local var_28_2 = 1.66666666666667
-			local var_28_3 = arg_25_1:GetWordFromCfg(110031006)
-			local var_28_4 = arg_25_1:FormatText(var_28_3.content)
-			local var_28_5, var_28_6 = arg_25_1:GetPercentByPara(var_28_4, 2)
+			slot2 = 25
+			slot3 = 1.66666666666667
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031006).content), 2)
 
-			if var_28_0 < arg_25_1.time_ and arg_25_1.time_ <= var_28_0 + arg_28_0 then
-				arg_25_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_28_7 = var_28_1 <= 0 and var_28_2 or var_28_2 * ((var_28_6 - arg_25_1.typewritterCharCountI18N) / var_28_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_28_7 > 0 and var_28_2 < var_28_7 then
-					arg_25_1.talkMaxDuration = var_28_7
-
-					if var_28_7 + var_28_0 > arg_25_1.duration_ then
-						arg_25_1.duration_ = var_28_7 + var_28_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_28_8 = 1.66666666666667
-			local var_28_9 = math.max(var_28_8, arg_25_1.talkMaxDuration)
+			slot8 = math.max(1.66666666666667, uv0.talkMaxDuration)
 
-			if var_28_0 <= arg_25_1.time_ and arg_25_1.time_ < var_28_0 + var_28_9 then
-				local var_28_10 = (arg_25_1.time_ - var_28_0) / var_28_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_25_1.fswtw_.percent = Mathf.Lerp(arg_25_1.var_.oldValueTypewriter, var_28_5, var_28_10)
-				arg_25_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_25_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_25_1.time_ >= var_28_0 + var_28_9 and arg_25_1.time_ < var_28_0 + var_28_9 + arg_28_0 then
-				arg_25_1.fswtw_.percent = var_28_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_25_1.fswtw_:SetDirty()
-				arg_25_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_25_1.typewritterCharCountI18N = var_28_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_28_11 = 0
-			local var_28_12 = 4.208
-			local var_28_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031007", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_28_13 > 0 and var_28_12 < var_28_13 and var_28_13 + var_28_11 > arg_25_1.duration_ then
-				local var_28_14 = var_28_13
-
-				arg_25_1.duration_ = var_28_13 + var_28_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031007", "story_v_out_110031.awb") / 1000 > 0 and 4.208 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_28_11 < arg_25_1.time_ and arg_25_1.time_ <= var_28_11 + arg_28_0 then
-				local var_28_15 = "play"
-				local var_28_16 = "voice"
-
-				arg_25_1:AudioAction(var_28_15, var_28_16, "story_v_out_110031", "110031007", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031007", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031008 = function(arg_29_0, arg_29_1)
-		arg_29_1.time_ = 0
-		arg_29_1.frameCnt_ = 0
-		arg_29_1.state_ = "playing"
-		arg_29_1.curTalkId_ = 110031008
-		arg_29_1.duration_ = 14.095999999999
+	Play110031008 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031008
+		slot1.duration_ = 14.095999999999
 
-		SetActive(arg_29_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_29_1.onSingleLineFinish_()
-			arg_29_1.onSingleLineUpdate_ = nil
-			arg_29_1.onSingleLineFinish_ = nil
-			arg_29_1.state_ = "waiting"
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
 		end
 
-		function arg_29_1.playNext_(arg_31_0)
-			if arg_31_0 == 1 then
-				arg_29_0:Play110031009(arg_29_1)
+		function slot1.playNext_(slot0)
+			if slot0 == 1 then
+				uv0:Play110031009(uv1)
 			end
 		end
 
-		function arg_29_1.onSingleLineUpdate_(arg_32_0)
-			local var_32_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_32_0 < arg_29_1.time_ and arg_29_1.time_ <= var_32_0 + arg_32_0 then
-				arg_29_1.var_.oldValueTypewriter = arg_29_1.fswtw_.percent
-
-				arg_29_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_32_1 = 62
-			local var_32_2 = 4.13333333333333
-			local var_32_3 = arg_29_1:GetWordFromCfg(110031006)
-			local var_32_4 = arg_29_1:FormatText(var_32_3.content)
-			local var_32_5, var_32_6 = arg_29_1:GetPercentByPara(var_32_4, 3)
+			slot2 = 62
+			slot3 = 4.13333333333333
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031006).content), 3)
 
-			if var_32_0 < arg_29_1.time_ and arg_29_1.time_ <= var_32_0 + arg_32_0 then
-				arg_29_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_32_7 = var_32_1 <= 0 and var_32_2 or var_32_2 * ((var_32_6 - arg_29_1.typewritterCharCountI18N) / var_32_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_32_7 > 0 and var_32_2 < var_32_7 then
-					arg_29_1.talkMaxDuration = var_32_7
-
-					if var_32_7 + var_32_0 > arg_29_1.duration_ then
-						arg_29_1.duration_ = var_32_7 + var_32_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_32_8 = 4.13333333333333
-			local var_32_9 = math.max(var_32_8, arg_29_1.talkMaxDuration)
+			slot8 = math.max(4.13333333333333, uv0.talkMaxDuration)
 
-			if var_32_0 <= arg_29_1.time_ and arg_29_1.time_ < var_32_0 + var_32_9 then
-				local var_32_10 = (arg_29_1.time_ - var_32_0) / var_32_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_29_1.fswtw_.percent = Mathf.Lerp(arg_29_1.var_.oldValueTypewriter, var_32_5, var_32_10)
-				arg_29_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_29_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_29_1.time_ >= var_32_0 + var_32_9 and arg_29_1.time_ < var_32_0 + var_32_9 + arg_32_0 then
-				arg_29_1.fswtw_.percent = var_32_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_29_1.fswtw_:SetDirty()
-				arg_29_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_29_1.typewritterCharCountI18N = var_32_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_32_11 = 0
-			local var_32_12 = 14.096
-			local var_32_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031008", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_32_13 > 0 and var_32_12 < var_32_13 and var_32_13 + var_32_11 > arg_29_1.duration_ then
-				local var_32_14 = var_32_13
-
-				arg_29_1.duration_ = var_32_13 + var_32_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031008", "story_v_out_110031.awb") / 1000 > 0 and 14.096 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_32_11 < arg_29_1.time_ and arg_29_1.time_ <= var_32_11 + arg_32_0 then
-				local var_32_15 = "play"
-				local var_32_16 = "voice"
-
-				arg_29_1:AudioAction(var_32_15, var_32_16, "story_v_out_110031", "110031008", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031008", "story_v_out_110031.awb")
 			end
 		end
 	end,
-	Play110031009 = function(arg_33_0, arg_33_1)
-		arg_33_1.time_ = 0
-		arg_33_1.frameCnt_ = 0
-		arg_33_1.state_ = "playing"
-		arg_33_1.curTalkId_ = 110031009
-		arg_33_1.duration_ = 14.788999999999
+	Play110031009 = function (slot0, slot1)
+		slot1.time_ = 0
+		slot1.frameCnt_ = 0
+		slot1.state_ = "playing"
+		slot1.curTalkId_ = 110031009
+		slot1.duration_ = 14.788999999999
 
-		SetActive(arg_33_1.tipsGo_, false)
+		SetActive(slot1.tipsGo_, false)
 
-		function arg_33_1.onSingleLineFinish_()
-			arg_33_1.onSingleLineUpdate_ = nil
-			arg_33_1.onSingleLineFinish_ = nil
-			arg_33_1.state_ = "waiting"
-			arg_33_1.auto_ = false
+		function slot1.onSingleLineFinish_()
+			uv0.onSingleLineUpdate_ = nil
+			uv0.onSingleLineFinish_ = nil
+			uv0.state_ = "waiting"
+			uv0.auto_ = false
 		end
 
-		function arg_33_1.playNext_(arg_35_0)
-			arg_33_1.onStoryFinished_()
+		function slot1.playNext_(slot0)
+			uv0.onStoryFinished_()
 		end
 
-		function arg_33_1.onSingleLineUpdate_(arg_36_0)
-			local var_36_0 = 0
+		function slot1.onSingleLineUpdate_(slot0)
+			if 0 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.var_.oldValueTypewriter = uv0.fswtw_.percent
 
-			if var_36_0 < arg_33_1.time_ and arg_33_1.time_ <= var_36_0 + arg_36_0 then
-				arg_33_1.var_.oldValueTypewriter = arg_33_1.fswtw_.percent
-
-				arg_33_1:ShowNextGo(false)
+				uv0:ShowNextGo(false)
 			end
 
-			local var_36_1 = 56
-			local var_36_2 = 3.73333333333333
-			local var_36_3 = arg_33_1:GetWordFromCfg(110031006)
-			local var_36_4 = arg_33_1:FormatText(var_36_3.content)
-			local var_36_5, var_36_6 = arg_33_1:GetPercentByPara(var_36_4, 4)
+			slot2 = 56
+			slot3 = 3.73333333333333
+			slot6, slot7 = uv0:GetPercentByPara(uv0:FormatText(uv0:GetWordFromCfg(110031006).content), 4)
 
-			if var_36_0 < arg_33_1.time_ and arg_33_1.time_ <= var_36_0 + arg_36_0 then
-				arg_33_1.talkMaxDuration = 0
+			if slot1 < uv0.time_ and uv0.time_ <= slot1 + slot0 then
+				uv0.talkMaxDuration = 0
 
-				local var_36_7 = var_36_1 <= 0 and var_36_2 or var_36_2 * ((var_36_6 - arg_33_1.typewritterCharCountI18N) / var_36_1)
+				if (slot2 <= 0 and slot3 or slot3 * (slot7 - uv0.typewritterCharCountI18N) / slot2) > 0 and slot3 < slot8 then
+					uv0.talkMaxDuration = slot8
 
-				if var_36_7 > 0 and var_36_2 < var_36_7 then
-					arg_33_1.talkMaxDuration = var_36_7
-
-					if var_36_7 + var_36_0 > arg_33_1.duration_ then
-						arg_33_1.duration_ = var_36_7 + var_36_0
+					if uv0.duration_ < slot8 + slot1 then
+						uv0.duration_ = slot8 + slot1
 					end
 				end
 			end
 
-			local var_36_8 = 3.73333333333333
-			local var_36_9 = math.max(var_36_8, arg_33_1.talkMaxDuration)
+			slot8 = math.max(3.73333333333333, uv0.talkMaxDuration)
 
-			if var_36_0 <= arg_33_1.time_ and arg_33_1.time_ < var_36_0 + var_36_9 then
-				local var_36_10 = (arg_33_1.time_ - var_36_0) / var_36_9
+			if slot1 <= uv0.time_ and uv0.time_ < slot1 + slot8 then
+				uv0.fswtw_.percent = Mathf.Lerp(uv0.var_.oldValueTypewriter, slot6, (uv0.time_ - slot1) / slot8)
+				uv0.fswt_:GetComponent("Text").color = Color(1, 1, 1)
 
-				arg_33_1.fswtw_.percent = Mathf.Lerp(arg_33_1.var_.oldValueTypewriter, var_36_5, var_36_10)
-				arg_33_1.fswt_:GetComponent("Text").color = Color(1, 1, 1)
-
-				arg_33_1.fswtw_:SetDirty()
+				uv0.fswtw_:SetDirty()
 			end
 
-			if arg_33_1.time_ >= var_36_0 + var_36_9 and arg_33_1.time_ < var_36_0 + var_36_9 + arg_36_0 then
-				arg_33_1.fswtw_.percent = var_36_5
+			if uv0.time_ >= slot1 + slot8 and uv0.time_ < slot1 + slot8 + slot0 then
+				uv0.fswtw_.percent = slot6
 
-				arg_33_1.fswtw_:SetDirty()
-				arg_33_1:ShowNextGo(true)
+				uv0.fswtw_:SetDirty()
+				uv0:ShowNextGo(true)
 
-				arg_33_1.typewritterCharCountI18N = var_36_6
+				uv0.typewritterCharCountI18N = slot7
 			end
 
-			local var_36_11 = 0
-			local var_36_12 = 14.789
-			local var_36_13 = manager.audio:GetVoiceLength("story_v_out_110031", "110031009", "story_v_out_110031.awb") / 1000
+			slot9 = 0
 
-			if var_36_13 > 0 and var_36_12 < var_36_13 and var_36_13 + var_36_11 > arg_33_1.duration_ then
-				local var_36_14 = var_36_13
-
-				arg_33_1.duration_ = var_36_13 + var_36_11
+			if manager.audio:GetVoiceLength("story_v_out_110031", "110031009", "story_v_out_110031.awb") / 1000 > 0 and 14.789 < slot11 and uv0.duration_ < slot11 + slot9 then
+				slot10 = slot11
+				uv0.duration_ = slot11 + slot9
 			end
 
-			if var_36_11 < arg_33_1.time_ and arg_33_1.time_ <= var_36_11 + arg_36_0 then
-				local var_36_15 = "play"
-				local var_36_16 = "voice"
-
-				arg_33_1:AudioAction(var_36_15, var_36_16, "story_v_out_110031", "110031009", "story_v_out_110031.awb")
+			if slot9 < uv0.time_ and uv0.time_ <= slot9 + slot0 then
+				uv0:AudioAction("play", "voice", "story_v_out_110031", "110031009", "story_v_out_110031.awb")
 			end
 		end
 	end,

@@ -1,193 +1,170 @@
-local var_0_0 = class("IdolTraineeTrainView", ReduxView)
+slot0 = class("IdolTraineeTrainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/IdolTrainee/IdolTraineeTrainView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.infoPage_ = IdolTraineeTrainInfoPage.New(arg_4_0.pageGo_)
-	arg_4_0.trainBtnItemList_ = {}
+	slot0.infoPage_ = IdolTraineeTrainInfoPage.New(slot0.pageGo_)
+	slot0.trainBtnItemList_ = {}
 
-	for iter_4_0 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
-		arg_4_0.trainBtnItemList_[iter_4_0] = TrainBtnItem.New(arg_4_0["train" .. iter_4_0 .. "Btn_"])
+	for slot4 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
+		slot0.trainBtnItemList_[slot4] = TrainBtnItem.New(slot0["train" .. slot4 .. "Btn_"])
 
-		arg_4_0.trainBtnItemList_[iter_4_0]:RegisterClickFunc(handler(arg_4_0, arg_4_0.UpdataSelectBtnState))
+		slot0.trainBtnItemList_[slot4]:RegisterClickFunc(handler(slot0, slot0.UpdataSelectBtnState))
 	end
 
-	arg_4_0.heroList_ = {}
-	arg_4_0.curHeroID_ = 0
-	arg_4_0.curHeroIndex_ = 0
-	arg_4_0.heroUIList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.heroUIList_, IdolTraineeHeadItem)
-	arg_4_0.trainAnimController_ = arg_4_0.mainControllerEx_:GetController("trainAnimation")
+	slot0.heroList_ = {}
+	slot0.curHeroID_ = 0
+	slot0.curHeroIndex_ = 0
+	slot0.heroUIList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.heroUIList_, IdolTraineeHeadItem)
+	slot0.trainAnimController_ = slot0.mainControllerEx_:GetController("trainAnimation")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.skipBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.skipBtn_, nil, function ()
 		manager.notify:Invoke(ON_FINISH_STORY)
 	end)
 end
 
-function var_0_0.RegisterEvents(arg_7_0)
-	arg_7_0:RegistEventListener(IDOL_TRAINEE_TRAIN_HERO_PROPERTY_CALLBACK, function(arg_8_0, arg_8_1, arg_8_2)
-		arg_7_0:UpdateView(arg_7_0.curHeroID_)
-		arg_7_0:RefreshTitle()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(IDOL_TRAINEE_TRAIN_HERO_PROPERTY_CALLBACK, function (slot0, slot1, slot2)
+		uv0:UpdateView(uv0.curHeroID_)
+		uv0:RefreshTitle()
 		manager.windowBar:HideBar()
 
-		arg_7_0.trainAddIcon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.IdolDanceSkillIcon.path .. "IdolTrainee_icon_skill_00" .. arg_8_1)
-		arg_7_0.trainAddName_.text = GetTips("IDOL_SKILL_ATTRIBUTE_" .. arg_8_1)
-		arg_7_0.trainAddNum_.text = "+" .. arg_8_2
+		uv0.trainAddIcon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.IdolDanceSkillIcon.path .. "IdolTrainee_icon_skill_00" .. slot1)
+		uv0.trainAddName_.text = GetTips("IDOL_SKILL_ATTRIBUTE_" .. slot1)
+		uv0.trainAddNum_.text = "+" .. slot2
 
-		arg_7_0.trainAnimController_:SetSelectedState("true")
+		uv0.trainAnimController_:SetSelectedState("true")
 	end)
-	arg_7_0:RegistEventListener(ON_FINISH_STORY, function()
+	slot0:RegistEventListener(ON_FINISH_STORY, function ()
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR
 		})
-		arg_7_0.trainAnimController_:SetSelectedState("false")
+		uv0.trainAnimController_:SetSelectedState("false")
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	IdolTraineeCampBridge.SetVCamActive("CamShootAtTrainningPos", true)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	arg_10_0:RegisterEvents()
+	slot0:RegisterEvents()
 
-	arg_10_0.heroList_ = IdolTraineeData:GetIdolHeroList()
-	arg_10_0.curHeroIndex_ = arg_10_0.params_.index or 1
+	slot0.heroList_ = IdolTraineeData:GetIdolHeroList()
+	slot0.curHeroIndex_ = slot0.params_.index or 1
 
-	arg_10_0:UpdateView(arg_10_0.params_.heroID or arg_10_0.heroList_[arg_10_0.curHeroIndex_])
-	arg_10_0.heroUIList_:StartScroll(#arg_10_0.heroList_)
-	arg_10_0:RefreshTitle()
+	slot0:UpdateView(slot0.params_.heroID or slot0.heroList_[slot0.curHeroIndex_])
+	slot0.heroUIList_:StartScroll(#slot0.heroList_)
+	slot0:RefreshTitle()
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 	IdolTraineeCampBridge.SetVCamActive("CamShootAtTrainningPos", false)
-	arg_11_0:RegisterEvents()
+	slot0:RegisterEvents()
 end
 
-function var_0_0.IndexItem(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_2:SetData(arg_12_0.heroList_[arg_12_1], arg_12_0.curHeroID_, function()
-		if arg_12_0.curHeroID_ ~= 0 and arg_12_0.curHeroIndex_ ~= 0 then
-			local var_13_0 = arg_12_0.heroUIList_:GetItemByIndex(arg_12_0.curHeroIndex_)
-
-			if var_13_0 then
-				var_13_0:SelectOff()
-			end
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.heroList_[slot1], slot0.curHeroID_, function ()
+		if uv0.curHeroID_ ~= 0 and uv0.curHeroIndex_ ~= 0 and uv0.heroUIList_:GetItemByIndex(uv0.curHeroIndex_) then
+			slot0:SelectOff()
 		end
 
-		arg_12_0.curHeroIndex_ = arg_12_1
+		uv0.curHeroIndex_ = uv1
 
-		arg_12_2:SelectOn()
-		arg_12_0:UpdateView(arg_12_0.heroList_[arg_12_1])
+		uv2:SelectOn()
+		uv0:UpdateView(uv0.heroList_[uv1])
 	end)
 end
 
-function var_0_0.RefreshTitle(arg_14_0)
-	local var_14_0 = IdolTraineeTools:GetCurTrainMaxTimes()
-	local var_14_1 = IdolTraineeData:GetCurTrainTimes()
+function slot0.RefreshTitle(slot0)
+	slot1 = IdolTraineeTools:GetCurTrainMaxTimes()
+	slot0.trainCountText_.text = slot1 - IdolTraineeData:GetCurTrainTimes() .. "/" .. slot1
+	slot4 = {}
 
-	arg_14_0.trainCountText_.text = var_14_0 - var_14_1 .. "/" .. var_14_0
-
-	local var_14_2 = IdolTraineeData:GetCurBuffCamp()
-	local var_14_3 = {}
-
-	for iter_14_0, iter_14_1 in pairs(var_14_2) do
-		table.insert(var_14_3, iter_14_0)
+	for slot8, slot9 in pairs(IdolTraineeData:GetCurBuffCamp()) do
+		table.insert(slot4, slot8)
 	end
 
-	if var_14_3[1] then
-		SetActive(arg_14_0.race1Img_.gameObject, true)
+	if slot4[1] then
+		SetActive(slot0.race1Img_.gameObject, true)
 
-		arg_14_0.race1Img_.sprite = HeroTools.GetRaceIcon(var_14_3[1])
+		slot0.race1Img_.sprite = HeroTools.GetRaceIcon(slot4[1])
 	else
-		SetActive(arg_14_0.race1Img_.gameObject, false)
+		SetActive(slot0.race1Img_.gameObject, false)
 	end
 
-	if var_14_3[2] then
-		SetActive(arg_14_0.race2Img_.gameObject, true)
+	if slot4[2] then
+		SetActive(slot0.race2Img_.gameObject, true)
 
-		arg_14_0.race2Img_.sprite = HeroTools.GetRaceIcon(var_14_3[2])
+		slot0.race2Img_.sprite = HeroTools.GetRaceIcon(slot4[2])
 	else
-		SetActive(arg_14_0.race2Img_.gameObject, false)
+		SetActive(slot0.race2Img_.gameObject, false)
 	end
 end
 
-function var_0_0.UpdateView(arg_15_0, arg_15_1)
-	arg_15_0.curHeroID_ = arg_15_1
+function slot0.UpdateView(slot0, slot1)
+	slot0.curHeroID_ = slot1
 
-	IdolTraineeCampBridge.SetTrainingCharacter(arg_15_0.curHeroID_)
+	IdolTraineeCampBridge.SetTrainingCharacter(slot0.curHeroID_)
+	slot0.infoPage_:RefreshUI(IdolTraineeTools:GetHeroBattleInfoTemplate(slot0.curHeroID_))
 
-	local var_15_0 = IdolTraineeTools:GetHeroBattleInfoTemplate(arg_15_0.curHeroID_)
-
-	arg_15_0.infoPage_:RefreshUI(var_15_0)
-
-	local var_15_1 = IdolTraineeData:GetIdolHeroData(arg_15_0.curHeroID_)
-	local var_15_2 = IdolTraineeTools:GetHeroIdolMaxProperty(arg_15_0.curHeroID_)
-	local var_15_3 = DormData:GetHeroTemplateInfo(arg_15_1)
-	local var_15_4 = var_15_3:GetFatigue()
-	local var_15_5 = IdolTraineeData:GetCurTrainTimes()
-	local var_15_6 = IdolTraineeTools:GetCurTrainMaxTimes()
-	local var_15_7 = var_15_4 >= GameSetting.dorm_idol_hero_exercise_cost.value[1]
-	local var_15_8 = IdolTraineeTools:CheckHeroRaceBuff(arg_15_0.curHeroID_)
-	local var_15_9 = var_15_6 <= var_15_5
-
-	for iter_15_0 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
-		local var_15_10 = var_15_1[iter_15_0] >= var_15_2[iter_15_0]
-
-		arg_15_0.trainBtnItemList_[iter_15_0]:SetData(arg_15_0.curHeroID_, iter_15_0, var_15_10, var_15_7, var_15_8, var_15_9)
+	for slot15 = 1, DormConst.IDOL_TRAINEE_PROPERTY_COUNT do
+		slot0.trainBtnItemList_[slot15]:SetData(slot0.curHeroID_, slot15, IdolTraineeTools:GetHeroIdolMaxProperty(slot0.curHeroID_)[slot15] <= IdolTraineeData:GetIdolHeroData(slot0.curHeroID_)[slot15], GameSetting.dorm_idol_hero_exercise_cost.value[1] <= DormData:GetHeroTemplateInfo(slot1):GetFatigue(), IdolTraineeTools:CheckHeroRaceBuff(slot0.curHeroID_), IdolTraineeTools:GetCurTrainMaxTimes() <= IdolTraineeData:GetCurTrainTimes())
 	end
 
-	arg_15_0.maxFText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
-	arg_15_0.curFText_.text = var_15_3:GetFatigue()
-	arg_15_0.recFText_.text = string.format(GetTips("DORM_FATIGUE_PER_HOUR"), var_15_3:GetRecoverFatigueNum())
+	slot0.maxFText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
+	slot0.curFText_.text = slot5:GetFatigue()
+	slot0.recFText_.text = string.format(GetTips("DORM_FATIGUE_PER_HOUR"), slot5:GetRecoverFatigueNum())
 
-	arg_15_0:UpdataSelectBtnState(0)
+	slot0:UpdataSelectBtnState(0)
 end
 
-function var_0_0.UpdataSelectBtnState(arg_16_0, arg_16_1)
-	arg_16_0.infoPage_:SelectFlashBar(arg_16_1)
+function slot0.UpdataSelectBtnState(slot0, slot1)
+	slot0.infoPage_:SelectFlashBar(slot1)
 
-	arg_16_0.selIndex = arg_16_1
+	slot0.selIndex = slot1
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.trainBtnItemList_) do
-		iter_16_1:RefreshBtnState(arg_16_0.selIndex)
+	for slot5, slot6 in ipairs(slot0.trainBtnItemList_) do
+		slot6:RefreshBtnState(slot0.selIndex)
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.heroUIList_ then
-		arg_17_0.heroUIList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.heroUIList_ then
+		slot0.heroUIList_:Dispose()
 
-		arg_17_0.heroUIList_ = nil
+		slot0.heroUIList_ = nil
 	end
 
-	if arg_17_0.infoPage_ then
-		arg_17_0.infoPage_:Dispose()
+	if slot0.infoPage_ then
+		slot0.infoPage_:Dispose()
 
-		arg_17_0.infoPage_ = nil
+		slot0.infoPage_ = nil
 	end
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.trainBtnItemList_) do
-		iter_17_1:Dispose()
+	for slot4, slot5 in pairs(slot0.trainBtnItemList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

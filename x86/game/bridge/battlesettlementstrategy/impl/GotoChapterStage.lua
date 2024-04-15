@@ -1,26 +1,24 @@
-local var_0_0 = class("GotoChapterStage", BattleSettlementStrategyBase)
+slot0 = class("GotoChapterStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoChapterStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoChapterStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoChapterStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoChapterStage(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	local function var_2_2()
-		local var_3_0 = {}
+	function slot7()
+		slot0 = {}
 
-		for iter_3_0, iter_3_1 in pairs(var_2_0) do
-			local var_3_1 = ItemCfg[iter_3_1[1]]
-
-			if var_3_1 then
-				if ItemConst.ITEM_TYPE.HERO == var_3_1.type then
-					table.insert(var_3_0, {
-						id = iter_3_1[1]
+		for slot4, slot5 in pairs(uv0) do
+			if ItemCfg[slot5[1]] then
+				if ItemConst.ITEM_TYPE.HERO == slot6.type then
+					table.insert(slot0, {
+						id = slot5[1]
 					})
-				elseif ItemConst.ITEM_TYPE.WEAPON_SERVANT == var_3_1.type and (not IllustratedData:GetExistServant(iter_3_1[1]) or var_3_1.display_rare > 3) then
-					table.insert(var_3_0, {
-						id = iter_3_1[1]
+				elseif ItemConst.ITEM_TYPE.WEAPON_SERVANT == slot6.type and (not IllustratedData:GetExistServant(slot5[1]) or slot6.display_rare > 3) then
+					table.insert(slot0, {
+						id = slot5[1]
 					})
 				end
 			end
@@ -28,78 +26,62 @@ function var_0_0.GotoChapterStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
 
 		manager.story:RemovePlayer()
 
-		local function var_3_2()
-			local var_4_0 = arg_2_2:GetType()
-			local var_4_1 = arg_2_2:GetStageId()
-			local var_4_2 = getChapterIDByStageID(var_4_1)
-			local var_4_3 = StageTools.GetChapterNextStageID(var_4_2, var_4_1)
-			local var_4_4 = BattleStageTools.GetStageCfg(var_4_0, var_4_1)
-			local var_4_5
+		if #slot0 > 0 then
+			gameContext:Go("obtainView", {
+				doNextHandler = function ()
+					slot1 = uv0:GetStageId()
+					slot5 = nil
 
-			if var_4_4.auto_next_stage_group ~= 0 then
-				var_4_5 = BattleStageTools.GetStageCfg(var_4_0, var_4_3)
-			end
+					if BattleStageTools.GetStageCfg(uv0:GetType(), slot1).auto_next_stage_group ~= 0 then
+						slot5 = BattleStageTools.GetStageCfg(slot0, StageTools.GetChapterNextStageID(getChapterIDByStageID(slot1), slot1))
+					end
 
-			local var_4_6 = BattleStageData:GetStageData()[var_4_1]
-			local var_4_7 = false
+					slot6 = BattleStageData:GetStageData()[slot1]
+					slot7 = false
 
-			if var_4_5 and var_4_5.auto_next_stage_group ~= 0 then
-				var_4_7 = var_4_4.auto_next_stage_group == var_4_5.auto_next_stage_group
-			end
+					if slot5 and slot5.auto_next_stage_group ~= 0 then
+						slot7 = slot4.auto_next_stage_group == slot5.auto_next_stage_group
+					end
 
-			if var_4_4.auto_next_stage_group ~= 0 and var_4_7 and (BattleStageData:GetAutoNextBattle() or var_4_4.auto_next_stage_group > 10) and StageTools.HasStageCost(var_4_0, var_4_3) and not StageTools.IsLockStage(var_4_2, var_4_3) then
-				if BattleConst.BATTLE_TAG.STORY == var_4_5.tag then
-					BattleController.GetInstance():LaunchStoryBattle(var_4_0, var_4_3, arg_2_2:GetActivityID())
-				else
-					local var_4_8 = BattleStageFactory.Produce(var_4_0, var_4_3, arg_2_2:GetActivityID())
+					if slot4.auto_next_stage_group ~= 0 and slot7 and (BattleStageData:GetAutoNextBattle() or slot4.auto_next_stage_group > 10) and StageTools.HasStageCost(slot0, slot3) and not StageTools.IsLockStage(slot2, slot3) then
+						if BattleConst.BATTLE_TAG.STORY == slot5.tag then
+							BattleController.GetInstance():LaunchStoryBattle(slot0, slot3, uv0:GetActivityID())
+						else
+							BattleController.GetInstance():LaunchBattle(BattleStageFactory.Produce(slot0, slot3, uv0:GetActivityID()))
+						end
 
-					BattleController.GetInstance():LaunchBattle(var_4_8)
-				end
+						return
+					end
 
-				return
-			end
-
-			JumpTools.OpenPageByJump("/battleChapterResult", {
-				result = arg_2_1,
-				rewardList = var_2_0,
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+					JumpTools.OpenPageByJump("/battleChapterResult", {
+						result = uv1,
+						rewardList = uv2,
+						stageData = uv0,
+						starMissionData = uv3,
+						battleResult = uv4
+					})
+					EndBattleLogic(uv1)
+				end,
+				itemList = slot0
 			})
-			EndBattleLogic(arg_2_1)
-		end
-
-		if #var_3_0 > 0 then
-			local var_3_3 = {
-				doNextHandler = var_3_2,
-				itemList = var_3_0
-			}
-
-			gameContext:Go("obtainView", var_3_3)
 		else
-			var_3_2()
+			slot1()
 		end
 	end
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
-			local var_5_0 = arg_2_2:GetType()
-
-			if var_5_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-				manager.story:CheckChessBattleStory(manager.story.WIN, var_2_2)
-			elseif var_5_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or var_5_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT then
-				local var_5_1 = arg_2_2:GetStageId()
-
-				manager.story:CheckBattleStory(var_5_1, manager.story.WIN, var_2_2, false)
+			if uv0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+				manager.story:CheckChessBattleStory(manager.story.WIN, uv1)
+			elseif slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or slot0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_SUB_PLOT then
+				manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.WIN, uv1, false)
 			else
-				local var_5_2 = arg_2_2:GetStageId()
-
-				manager.story:CheckBattleStory(var_5_2, manager.story.WIN, var_2_2)
+				manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.WIN, uv1)
 			end
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

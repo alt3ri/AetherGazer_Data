@@ -1,47 +1,43 @@
-local var_0_0 = class("GotoSoloHeartDemonStage", BattleSettlementStrategyBase)
+slot0 = class("GotoSoloHeartDemonStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoSoloHeartDemonStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoSoloHeartDemonStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoSoloHeartDemonStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
-	local var_2_0 = 1
+function slot0.GotoSoloHeartDemonStage(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6 = 1
 
-	if isSuccess(arg_2_1) then
-		local var_2_1 = 10
-
-		arg_2_0:GotoSoloHeartDemonSuccess(arg_2_5, var_2_1, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+	if isSuccess(slot1) then
+		slot0:GotoSoloHeartDemonSuccess(slot5, 10, slot1, slot2, slot3, slot4)
 	else
 		function BattleCallLuaCallBack()
-			local var_3_0 = arg_2_2:GetStageId()
-
-			manager.story:CheckBattleStory(var_3_0, manager.story.LOSE, function()
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
 				gameContext:Go("/SoloHeartDemonFail", {
-					stageData = arg_2_2,
-					battleResult = arg_2_4
+					stageData = uv0,
+					battleResult = uv1
 				})
 				manager.story:RemovePlayer()
-				EndBattleLogic(arg_2_1)
+				EndBattleLogic(uv2)
 			end)
 		end
 	end
 end
 
-function var_0_0.GotoSoloHeartDemonSuccess(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4, arg_5_5, arg_5_6, arg_5_7)
-	if arg_5_1 == true then
-		arg_5_3 = 3
+function slot0.GotoSoloHeartDemonSuccess(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	if slot1 == true then
+		slot3 = 3
 	end
 
-	if isSuccess(arg_5_3) then
+	if isSuccess(slot3) then
 		function BattleCallLuaCallBack()
 			gameContext:Go("/soloHeartDemonResult", {
-				stageData = arg_5_4,
-				score = arg_5_2,
-				battleResult = arg_5_6
+				stageData = uv0,
+				score = uv1,
+				battleResult = uv2
 			})
-			EndBattleLogic(arg_5_3)
+			EndBattleLogic(uv3)
 		end
 	end
 end
 
-return var_0_0
+return slot0

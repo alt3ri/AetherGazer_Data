@@ -1,90 +1,85 @@
-local var_0_0 = class("WarChessReviveView", ReduxView)
+slot0 = class("WarChessReviveView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/WarChess_Battle/WarChessReviveUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.selectItem_ = 1
+function slot0.Init(slot0)
+	slot0.selectItem_ = 1
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.panelitemGo_, ChessReviveItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.panelitemGo_, ChessReviveItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.okbtnBtn_, nil, function()
-		if arg_5_0.selectItem_ ~= 0 then
-			WarChessAction.ReviveHero(arg_5_0.pos_, arg_5_0.itemList_[arg_5_0.selectItem_])
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
+		if uv0.selectItem_ ~= 0 then
+			WarChessAction.ReviveHero(uv0.pos_, uv0.itemList_[uv0.selectItem_])
 		end
 	end)
 end
 
-function var_0_0.UpdateData(arg_7_0)
-	arg_7_0.itemList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.itemList_ = {}
 
-	local var_7_0 = WarChessData:GetHeroList()
-
-	for iter_7_0, iter_7_1 in pairs(var_7_0) do
-		if iter_7_1 <= 0 then
-			table.insert(arg_7_0.itemList_, iter_7_0)
+	for slot5, slot6 in pairs(WarChessData:GetHeroList()) do
+		if slot6 <= 0 then
+			table.insert(slot0.itemList_, slot5)
 		end
 	end
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshUI(arg_8_0.itemList_[arg_8_1], arg_8_1)
-	arg_8_2:ShowSelect(arg_8_1 == arg_8_0.selectItem_)
-	arg_8_2:RegisterListener(function(arg_9_0)
-		local var_9_0 = arg_8_0.scrollHelper_:GetItemList()
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1], slot1)
+	slot2:ShowSelect(slot1 == slot0.selectItem_)
+	slot2:RegisterListener(function (slot0)
+		for slot5, slot6 in pairs(uv0.scrollHelper_:GetItemList()) do
+			slot6:ShowSelect(slot0 == slot5)
 
-		for iter_9_0, iter_9_1 in pairs(var_9_0) do
-			iter_9_1:ShowSelect(arg_9_0 == iter_9_0)
-
-			arg_8_0.selectItem_ = arg_9_0
+			uv0.selectItem_ = slot0
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.selectItem_ = 1
-	arg_10_0.pos_ = {
-		x = arg_10_0.params_.x,
-		z = arg_10_0.params_.z
+function slot0.OnEnter(slot0)
+	slot0.selectItem_ = 1
+	slot0.pos_ = {
+		x = slot0.params_.x,
+		z = slot0.params_.z
 	}
-	arg_10_0.callback_ = arg_10_0.params_.callback
+	slot0.callback_ = slot0.params_.callback
 
-	arg_10_0:UpdateData()
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.itemList_)
+	slot0:UpdateData()
+	slot0.scrollHelper_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnReviveHero(arg_12_0, arg_12_1, arg_12_2)
-	if isSuccess(arg_12_1.result) then
-		WarChessData:ModifyHp(arg_12_2.param, 10000)
-		arg_12_0:Back()
-		arg_12_0.callback_()
+function slot0.OnReviveHero(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
+		WarChessData:ModifyHp(slot2.param, 10000)
+		slot0:Back()
+		slot0.callback_()
 	else
 		manager.ChessManager:EventsEnd()
-		ShowTips(arg_12_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

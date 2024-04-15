@@ -1,229 +1,212 @@
-local var_0_0 = class("ChessGlobalOrderEventModel")
+slot0 = class("ChessGlobalOrderEventModel")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.curIndex_ = nil
-	arg_1_0.curEventID_ = nil
-	arg_1_0.curGridList_ = nil
-	arg_1_0.changeGrid_ = nil
-	arg_1_0.isRight_ = false
+function slot0.Ctor(slot0, slot1)
+	slot0.curIndex_ = nil
+	slot0.curEventID_ = nil
+	slot0.curGridList_ = nil
+	slot0.changeGrid_ = nil
+	slot0.isRight_ = false
 end
 
-function var_0_0.SetUp(arg_2_0, arg_2_1)
-	if arg_2_0.curEventID_ and arg_2_0.curEventID_ ~= arg_2_1 then
-		arg_2_0.handler_:ClearGlobalEventByID(arg_2_0.curEventID_)
+function slot0.SetUp(slot0, slot1)
+	if slot0.curEventID_ and slot0.curEventID_ ~= slot1 then
+		slot0.handler_:ClearGlobalEventByID(slot0.curEventID_)
 	end
 
-	arg_2_0.curIndex_ = WarChessData:GetGlobalEventProgress(arg_2_1) or 0
-	arg_2_0.curEventID_ = arg_2_1
-	arg_2_0.curGridList_ = {}
+	slot0.curIndex_ = WarChessData:GetGlobalEventProgress(slot1) or 0
+	slot0.curEventID_ = slot1
+	slot0.curGridList_ = {}
 
-	local var_2_0 = WarchessGlobalCfg[arg_2_0.curEventID_].sub_type
+	WarChessData:SetGlobalEventProgress(WarchessGlobalCfg[slot0.curEventID_].type, slot1, slot0.curIndex_)
 
-	WarChessData:SetGlobalEventProgress(WarchessGlobalCfg[arg_2_0.curEventID_].type, arg_2_1, arg_2_0.curIndex_)
-
-	if var_2_0 == 701 then
-		local var_2_1 = WarchessGlobalCfg[arg_2_0.curEventID_].params
-
-		for iter_2_0, iter_2_1 in pairs(var_2_1) do
-			table.insert(arg_2_0.curGridList_, {
-				x = iter_2_1[1],
-				z = iter_2_1[2]
+	if WarchessGlobalCfg[slot0.curEventID_].sub_type == 701 then
+		for slot7, slot8 in pairs(WarchessGlobalCfg[slot0.curEventID_].params) do
+			table.insert(slot0.curGridList_, {
+				x = slot8[1],
+				z = slot8[2]
 			})
 		end
-	elseif var_2_0 == 702 then
-		local var_2_2 = WarchessGlobalCfg[arg_2_0.curEventID_].params[1]
-
-		for iter_2_2, iter_2_3 in pairs(var_2_2) do
-			table.insert(arg_2_0.curGridList_, {
-				x = iter_2_3[1],
-				z = iter_2_3[2]
+	elseif slot2 == 702 then
+		for slot7, slot8 in pairs(WarchessGlobalCfg[slot0.curEventID_].params[1]) do
+			table.insert(slot0.curGridList_, {
+				x = slot8[1],
+				z = slot8[2]
 			})
 		end
 
-		arg_2_0.changeGrid_ = WarchessGlobalCfg[arg_2_0.curEventID_].params[2]
+		slot0.changeGrid_ = WarchessGlobalCfg[slot0.curEventID_].params[2]
 
-		if #arg_2_0.changeGrid_ ~= 2 then
-			error("配置错误：数量不对" .. arg_2_0.curEventID_)
+		if #slot0.changeGrid_ ~= 2 then
+			error("配置错误：数量不对" .. slot0.curEventID_)
 		end
 	end
 end
 
-function var_0_0.IsConditionCheck(arg_3_0, arg_3_1, arg_3_2)
-	if not arg_3_0.curEventID_ then
+function slot0.IsConditionCheck(slot0, slot1, slot2)
+	if not slot0.curEventID_ then
 		return
 	end
 
-	if arg_3_2 == ChessConst.TIMING_INTERACT and arg_3_0.curIndex_ >= #arg_3_0.curGridList_ then
+	if slot2 == ChessConst.TIMING_INTERACT and slot0.curIndex_ >= #slot0.curGridList_ then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.ExternExecutePhase(arg_4_0, arg_4_1, arg_4_2)
-	if arg_4_2 ~= ChessConst.TIMING_INTERACT then
+function slot0.ExternExecutePhase(slot0, slot1, slot2)
+	if slot2 ~= ChessConst.TIMING_INTERACT then
 		return
 	end
 
-	local var_4_0 = WarchessGlobalCfg[arg_4_0.curEventID_].sub_type
-	local var_4_1 = manager.ChessManager:GetExecutingChess()
-	local var_4_2 = false
+	slot3 = WarchessGlobalCfg[slot0.curEventID_].sub_type
+	slot4 = manager.ChessManager:GetExecutingChess()
+	slot5 = false
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.curGridList_) do
-		if iter_4_1.x == var_4_1.x and iter_4_1.z == var_4_1.z then
-			var_4_2 = iter_4_0
+	for slot9, slot10 in ipairs(slot0.curGridList_) do
+		if slot10.x == slot4.x and slot10.z == slot4.z then
+			slot5 = slot9
 
 			break
 		end
 	end
 
-	if not var_4_2 then
+	if not slot5 then
 		return false
 	end
 
-	local var_4_3 = var_4_1.paramList[0]
+	slot6 = slot4.paramList[0]
 
-	if arg_4_0.isRight_ then
-		if WarchessEventPoolCfg[var_4_3].event_group_second == "" then
+	if slot0.isRight_ then
+		if WarchessEventPoolCfg[slot6].event_group_second == "" then
 			return nil
 		end
 
-		local var_4_4 = deepClone(WarchessEventPoolCfg[var_4_3].event_group_second)
-
-		if var_4_0 == 702 then
-			if arg_4_0.curIndex_ == 3 then
-				local var_4_5 = {
+		if slot3 == 702 then
+			if slot0.curIndex_ == 3 then
+				table.insert(deepClone(WarchessEventPoolCfg[slot6].event_group_second), {
 					10602,
 					{
 						{
 							10304,
-							arg_4_0.curGridList_[1].x,
-							arg_4_0.curGridList_[1].z,
+							slot0.curGridList_[1].x,
+							slot0.curGridList_[1].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.curGridList_[2].x,
-							arg_4_0.curGridList_[2].z,
+							slot0.curGridList_[2].x,
+							slot0.curGridList_[2].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.curGridList_[3].x,
-							arg_4_0.curGridList_[3].z,
+							slot0.curGridList_[3].x,
+							slot0.curGridList_[3].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.changeGrid_[1],
-							arg_4_0.changeGrid_[2],
+							slot0.changeGrid_[1],
+							slot0.changeGrid_[2],
 							{
 								1
 							}
 						}
 					}
-				}
-
-				table.insert(var_4_4, var_4_5)
-			elseif arg_4_0.curIndex_ == 6 then
-				local var_4_6 = {
+				})
+			elseif slot0.curIndex_ == 6 then
+				table.insert(slot7, {
 					10602,
 					{
 						{
 							10304,
-							arg_4_0.curGridList_[4].x,
-							arg_4_0.curGridList_[4].z,
+							slot0.curGridList_[4].x,
+							slot0.curGridList_[4].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.curGridList_[5].x,
-							arg_4_0.curGridList_[5].z,
+							slot0.curGridList_[5].x,
+							slot0.curGridList_[5].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.curGridList_[6].x,
-							arg_4_0.curGridList_[6].z,
+							slot0.curGridList_[6].x,
+							slot0.curGridList_[6].z,
 							{
 								2
 							}
 						},
 						{
 							10304,
-							arg_4_0.changeGrid_[1],
-							arg_4_0.changeGrid_[2],
+							slot0.changeGrid_[1],
+							slot0.changeGrid_[2],
 							{
 								2
 							}
 						}
 					}
-				}
-
-				table.insert(var_4_4, var_4_6)
+				})
 			end
 		end
 
-		return ChessTools.ParseEventPollCfg(var_4_4)
+		return ChessTools.ParseEventPollCfg(slot7)
 	else
-		if WarchessEventPoolCfg[var_4_3].event_group_third == "" then
+		if WarchessEventPoolCfg[slot6].event_group_third == "" then
 			return nil
 		end
 
-		local var_4_7 = deepClone(WarchessEventPoolCfg[var_4_3].event_group_third)
+		slot7 = deepClone(WarchessEventPoolCfg[slot6].event_group_third)
 
-		if var_4_0 == 702 then
-			for iter_4_2, iter_4_3 in ipairs(WarchessGlobalCfg[arg_4_0.curEventID_].event_list2) do
-				table.insert(var_4_7, iter_4_3)
+		if slot3 == 702 then
+			for slot11, slot12 in ipairs(WarchessGlobalCfg[slot0.curEventID_].event_list2) do
+				table.insert(slot7, slot12)
 			end
 		end
 
-		return ChessTools.ParseEventPollCfg(var_4_7)
+		return ChessTools.ParseEventPollCfg(slot7)
 	end
 end
 
-function var_0_0.ExecutePhase(arg_5_0, arg_5_1)
-	arg_5_0.curIndex_ = nil
-	arg_5_0.curEventID_ = nil
-	arg_5_0.curGridList_ = nil
+function slot0.ExecutePhase(slot0, slot1)
+	slot0.curIndex_ = nil
+	slot0.curEventID_ = nil
+	slot0.curGridList_ = nil
 end
 
-function var_0_0.UpdateProgress(arg_6_0, arg_6_1, arg_6_2)
-	if not arg_6_0.curEventID_ then
+function slot0.UpdateProgress(slot0, slot1, slot2)
+	if not slot0.curEventID_ then
 		return
 	end
 
-	if arg_6_2 == ChessConst.TIMING_INTERACT then
-		local var_6_0 = manager.ChessManager:GetExecutingChess()
-		local var_6_1 = arg_6_0.curGridList_[arg_6_0.curIndex_ + 1]
+	if slot2 == ChessConst.TIMING_INTERACT then
+		if slot0.curGridList_[slot0.curIndex_ + 1].x == manager.ChessManager:GetExecutingChess().x and slot4.z == slot3.z then
+			slot0.curIndex_ = slot0.curIndex_ + 1
+			slot0.isRight_ = true
 
-		if var_6_1.x == var_6_0.x and var_6_1.z == var_6_0.z then
-			arg_6_0.curIndex_ = arg_6_0.curIndex_ + 1
-			arg_6_0.isRight_ = true
-
-			local var_6_2 = WarchessGlobalCfg[arg_6_1].type
-
-			WarChessData:SetGlobalEventProgress(var_6_2, arg_6_1, arg_6_0.curIndex_)
+			WarChessData:SetGlobalEventProgress(WarchessGlobalCfg[slot1].type, slot1, slot0.curIndex_)
 		else
-			arg_6_0.isRight_ = false
+			slot0.isRight_ = false
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.curIndex_ = nil
-	arg_7_0.curEventID_ = nil
-	arg_7_0.curGridList_ = nil
+function slot0.Dispose(slot0)
+	slot0.curIndex_ = nil
+	slot0.curEventID_ = nil
+	slot0.curGridList_ = nil
 end
 
-return var_0_0
+return slot0

@@ -1,53 +1,51 @@
-local var_0_0 = class("RechargeTitleItem", ReduxView)
+slot0 = class("RechargeTitleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.controller = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select")
-	arg_3_0.selectLock = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "select_lock")
-	arg_3_0.upSelectLock = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "upselect_lock")
+	slot0.controller = ControllerUtil.GetController(slot0.gameObject_.transform, "select")
+	slot0.selectLock = ControllerUtil.GetController(slot0.gameObject_.transform, "select_lock")
+	slot0.upSelectLock = ControllerUtil.GetController(slot0.gameObject_.transform, "upselect_lock")
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	arg_4_0.data = arg_4_1
-	arg_4_0.index = arg_4_2
-	arg_4_0.callback = arg_4_3
-	arg_4_0.shopId = arg_4_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.data = slot1
+	slot0.index = slot2
+	slot0.callback = slot3
+	slot0.shopId = slot4
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	return
+function slot0.UpdateView(slot0)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.clickBtn_, nil, function()
-		if arg_6_0.callback then
-			arg_6_0.callback(arg_6_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.clickBtn_, nil, function ()
+		if uv0.callback then
+			uv0.callback(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	arg_8_0.nameTxt1_.text = arg_8_0.data.remark
-	arg_8_0.nameTxt2_.text = arg_8_0.data.remark
+function slot0.UpdateView(slot0)
+	slot0.nameTxt1_.text = slot0.data.remark
+	slot0.nameTxt2_.text = slot0.data.remark
+	slot1 = ShopTools.IsPC() and ShopConst.PC_LOCK_SHOP[slot0.shopId] or not ShopTools.CheckShopIsUnLock(slot0.shopId)
 
-	local var_8_0 = ShopTools.IsPC() and ShopConst.PC_LOCK_SHOP[arg_8_0.shopId] or not ShopTools.CheckShopIsUnLock(arg_8_0.shopId)
-
-	arg_8_0.selectLock:SetSelectedState(var_8_0 and "on" or "off")
-	arg_8_0.upSelectLock:SetSelectedState(var_8_0 and "on" or "off")
+	slot0.selectLock:SetSelectedState(slot1 and "on" or "off")
+	slot0.upSelectLock:SetSelectedState(slot1 and "on" or "off")
 end
 
-return var_0_0
+return slot0

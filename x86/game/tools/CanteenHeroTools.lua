@@ -1,143 +1,117 @@
-local var_0_0 = {
-	InitCanteenJobState = function(arg_1_0, arg_1_1)
-		for iter_1_0, iter_1_1 in ipairs(arg_1_1) do
-			local var_1_0 = iter_1_1.hero_id
+slot1 = nil
 
-			if DormNpcTools:CheckIDIsNpc(var_1_0) then
-				local var_1_1 = BackHomeNpcData:GetNpcInfoById(var_1_0)
-
-				if var_1_1 then
-					var_1_1:SetJob(iter_1_1.type)
+return {
+	InitCanteenJobState = function (slot0, slot1)
+		for slot5, slot6 in ipairs(slot1) do
+			if DormNpcTools:CheckIDIsNpc(slot6.hero_id) then
+				if BackHomeNpcData:GetNpcInfoById(slot7) then
+					slot8:SetJob(slot6.type)
 				end
-			else
-				local var_1_2 = DormData:GetHeroInfoList()[DormData:GetHeroArchiveID(var_1_0)]
-
-				if var_1_2 then
-					var_1_2:SetJob(iter_1_1.type)
-					var_1_2:SetCurHeroID(var_1_0)
-				end
+			elseif DormData:GetHeroInfoList()[DormData:GetHeroArchiveID(slot7)] then
+				slot10:SetJob(slot6.type)
+				slot10:SetCurHeroID(slot7)
 			end
 		end
 
 		CanteenHeroTools:RefreshCanteenJobList()
 	end,
-	GetCurWorkIDListByJobType = function(arg_2_0, arg_2_1)
-		local var_2_0 = DormData:GetHeroInfoList()
-		local var_2_1 = {}
-
-		for iter_2_0, iter_2_1 in pairs(var_2_0) do
-			if iter_2_1.jobType == arg_2_1 then
-				table.insert(var_2_1, iter_2_0)
+	GetCurWorkIDListByJobType = function (slot0, slot1)
+		for slot7, slot8 in pairs(DormData:GetHeroInfoList()) do
+			if slot8.jobType == slot1 then
+				table.insert({}, slot7)
 			end
 		end
 
-		local var_2_2 = BackHomeNpcData:GetBackHomeNpcInfoList()
-
-		for iter_2_2, iter_2_3 in pairs(var_2_2) do
-			if iter_2_3.jobType == arg_2_1 then
-				table.insert(var_2_1, iter_2_2)
+		for slot8, slot9 in pairs(BackHomeNpcData:GetBackHomeNpcInfoList()) do
+			if slot9.jobType == slot1 then
+				table.insert(slot3, slot8)
 			end
 		end
 
-		return var_2_1
+		return slot3
 	end,
-	HasJobAssignedToHero = function(arg_3_0, arg_3_1)
-		local var_3_0 = DormData:GetHeroInfoList()
+	HasJobAssignedToHero = function (slot0, slot1)
+		if DormData:GetHeroInfoList() then
+			slot3 = DormEnum.RestaurantJobToServerMap[slot1]
 
-		if var_3_0 then
-			local var_3_1 = DormEnum.RestaurantJobToServerMap[arg_3_1]
-
-			for iter_3_0, iter_3_1 in pairs(var_3_0) do
-				if iter_3_1.jobType == var_3_1 then
+			for slot7, slot8 in pairs(slot2) do
+				if slot8.jobType == slot3 then
 					return true
 				end
 			end
 
-			if DormNpcTools:CheckHasNpcWorkOnJob(var_3_1) then
+			if DormNpcTools:CheckHasNpcWorkOnJob(slot3) then
 				return true
 			end
 		end
 
 		return false
+	end,
+	GetCanteenJobList = function (slot0)
+		if uv0 then
+			return uv0
+		end
+	end,
+	GetJobTypeByHeroID = function (slot0, slot1)
+		if DormData:GetHeroInfoList()[DormData:GetHeroArchiveID(slot1)] then
+			return slot4.jobType
+		end
+	end,
+	RefreshCanteenJobList = function (slot0)
+		slot2 = BackHomeNpcData:GetBackHomeNpcInfoList()
+		slot3 = {
+			{},
+			{},
+			{}
+		}
+
+		if DormData:GetHeroInfoList() then
+			for slot7, slot8 in pairs(slot1) do
+				if slot8.jobType then
+					slot9 = slot1[slot7]:GetHeroId()
+					slot3[slot8.jobType].heroID = slot9
+					slot3[slot8.jobType].skinID = DormHeroTools:GetCurSkinID(slot9)
+				end
+			end
+		end
+
+		if slot2 then
+			for slot7, slot8 in pairs(slot2) do
+				if slot8.jobType then
+					slot3[slot8.jobType].heroID = slot7
+					slot3[slot8.jobType].skinID = slot7
+				end
+			end
+		end
+
+		uv0 = slot3
+	end,
+	GetJobDispatchMaxCount = function (slot0, slot1)
+		if slot1 == DormEnum.CharacterType.RestaurantCook then
+			return 1
+		elseif slot1 == DormEnum.CharacterType.RestaurantWaiter then
+			return 1
+		elseif slot1 == DormEnum.CharacterType.RestaurantCashier then
+			return 1
+		end
+	end,
+	CheckHeroConcertTag = function (slot0, slot1, slot2, slot3)
+		if slot2 == 1 then
+			if slot3 == CharactorParamCfg[slot1].RangeType then
+				return true
+			end
+		elseif slot2 == 2 then
+			if slot3 == HeroCfg[slot1].race then
+				return true
+			end
+		elseif slot2 == 3 then
+			if slot3 == HeroCfg[slot1].ATK_attribute[1] then
+				return true
+			end
+		elseif slot2 == 4 and slot3 == HeroCfg[slot1].mechanism_type[1] then
+			return true
+		end
+
+		return false
 	end
 }
-local var_0_1
-
-function var_0_0.GetCanteenJobList(arg_4_0)
-	if var_0_1 then
-		return var_0_1
-	end
-end
-
-function var_0_0.GetJobTypeByHeroID(arg_5_0, arg_5_1)
-	local var_5_0 = DormData:GetHeroInfoList()[DormData:GetHeroArchiveID(arg_5_1)]
-
-	if var_5_0 then
-		return var_5_0.jobType
-	end
-end
-
-function var_0_0.RefreshCanteenJobList(arg_6_0)
-	local var_6_0 = DormData:GetHeroInfoList()
-	local var_6_1 = BackHomeNpcData:GetBackHomeNpcInfoList()
-	local var_6_2 = {
-		{},
-		{},
-		{}
-	}
-
-	if var_6_0 then
-		for iter_6_0, iter_6_1 in pairs(var_6_0) do
-			if iter_6_1.jobType then
-				local var_6_3 = var_6_0[iter_6_0]:GetHeroId()
-				local var_6_4 = DormHeroTools:GetCurSkinID(var_6_3)
-
-				var_6_2[iter_6_1.jobType].heroID = var_6_3
-				var_6_2[iter_6_1.jobType].skinID = var_6_4
-			end
-		end
-	end
-
-	if var_6_1 then
-		for iter_6_2, iter_6_3 in pairs(var_6_1) do
-			if iter_6_3.jobType then
-				var_6_2[iter_6_3.jobType].heroID = iter_6_2
-				var_6_2[iter_6_3.jobType].skinID = iter_6_2
-			end
-		end
-	end
-
-	var_0_1 = var_6_2
-end
-
-function var_0_0.GetJobDispatchMaxCount(arg_7_0, arg_7_1)
-	if arg_7_1 == DormEnum.CharacterType.RestaurantCook then
-		return 1
-	elseif arg_7_1 == DormEnum.CharacterType.RestaurantWaiter then
-		return 1
-	elseif arg_7_1 == DormEnum.CharacterType.RestaurantCashier then
-		return 1
-	end
-end
-
-function var_0_0.CheckHeroConcertTag(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	if arg_8_2 == 1 then
-		if arg_8_3 == CharactorParamCfg[arg_8_1].RangeType then
-			return true
-		end
-	elseif arg_8_2 == 2 then
-		if arg_8_3 == HeroCfg[arg_8_1].race then
-			return true
-		end
-	elseif arg_8_2 == 3 then
-		if arg_8_3 == HeroCfg[arg_8_1].ATK_attribute[1] then
-			return true
-		end
-	elseif arg_8_2 == 4 and arg_8_3 == HeroCfg[arg_8_1].mechanism_type[1] then
-		return true
-	end
-
-	return false
-end
-
-return var_0_0

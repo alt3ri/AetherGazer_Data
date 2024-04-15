@@ -1,23 +1,22 @@
-local var_0_0 = class("ActivityMatrixAstrolabeAdjustView", MatrixAstrolabeAdjustView)
+slot0 = class("ActivityMatrixAstrolabeAdjustView", MatrixAstrolabeAdjustView)
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.matrix_activity_id = arg_1_0.params_.matrix_activity_id
+function slot0.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 
-	var_0_0.super.OnEnter(arg_1_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.overviewBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.overviewBtn_, nil, function ()
 		JumpTools.OpenPageByJump("activityMatrixOrigin/activityMatrixMiniHero")
 	end)
 end
 
-function var_0_0.OnTop(arg_4_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.GetHeroData(arg_5_0, arg_5_1)
-	return ActivityMatrixData:GetHeroData(arg_5_0.matrix_activity_id, arg_5_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

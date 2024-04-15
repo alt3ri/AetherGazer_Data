@@ -1,96 +1,87 @@
-local var_0_0 = class("ObtainSkinView", ObtainBaseView)
+slot0 = class("ObtainSkinView", ObtainBaseView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	var_0_0.super.Init(arg_2_0)
+function slot0.Init(slot0)
+	slot0:InitUI()
+	uv0.super.Init(slot0)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.AdaptImg_ = arg_3_0:FindCom("AdaptImage", nil, arg_3_0.portrait_.transform)
+	slot0.AdaptImg_ = slot0:FindCom("AdaptImage", nil, slot0.portrait_.transform)
 end
 
-function var_0_0.SetInfo(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = SkinCfg[arg_4_1] or SkinCfg[ItemCfg[arg_4_1].param[1]]
+function slot0.SetInfo(slot0, slot1, slot2)
+	slot0.obtainsParams_ = slot2
+	slot4 = ShopTools.GetGoodsIdBySkinId(slot1)
 
-	arg_4_0.obtainsParams_ = arg_4_2
-
-	local var_4_1 = ShopTools.GetGoodsIdBySkinId(arg_4_1)
-
-	if HeroTools.GetHasOwnedSkin(var_4_0.id) then
-		arg_4_0.limitTimeText_.text = GetTips("ALREADY_GET")
-	elseif ItemCfg[arg_4_1].time then
-		arg_4_0.limitTimeText_.text = string.format(GetTips("SKIN_LIMIT_TIME"), ItemCfg[arg_4_1].time[2][1])
+	if HeroTools.GetHasOwnedSkin((SkinCfg[slot1] or SkinCfg[ItemCfg[slot1].param[1]]).id) then
+		slot0.limitTimeText_.text = GetTips("ALREADY_GET")
+	elseif ItemCfg[slot1].time then
+		slot0.limitTimeText_.text = string.format(GetTips("SKIN_LIMIT_TIME"), ItemCfg[slot1].time[2][1])
 	end
 
-	SetActive(arg_4_0.limitTimeGo_, ItemCfg[arg_4_1].time ~= nil)
-	SetActive(arg_4_0.dlcGo_, arg_4_0.obtainsParams_.HasDlc)
+	SetActive(slot0.limitTimeGo_, ItemCfg[slot1].time ~= nil)
+	SetActive(slot0.dlcGo_, slot0.obtainsParams_.HasDlc)
 
-	if arg_4_0.obtainsParams_.HasDlc then
-		local var_4_2
-		local var_4_3 = HomeSceneSettingCfg[arg_4_0.obtainsParams_.dlcCfg.param[1]]
-		local var_4_4 = HomeSceneSettingData:GetUsedState(var_4_3.id) == SceneConst.HOME_SCENE_TYPE.UNLOCK
+	if slot0.obtainsParams_.HasDlc then
+		slot5 = nil
 
-		if var_4_4 then
-			arg_4_0.leftTimeText_.text = GetTips("ALREADY_GET")
-		elseif arg_4_0.obtainsParams_.dlcCfg.time then
-			var_4_2 = string.format(GetTips("SKIN_LIMIT_TIME"), arg_4_0.obtainsParams_.dlcCfg.time[2][1])
-			arg_4_0.leftTimeText_.text = var_4_2
+		if HomeSceneSettingData:GetUsedState(HomeSceneSettingCfg[slot0.obtainsParams_.dlcCfg.param[1]].id) == SceneConst.HOME_SCENE_TYPE.UNLOCK then
+			slot0.leftTimeText_.text = GetTips("ALREADY_GET")
+		elseif slot0.obtainsParams_.dlcCfg.time then
+			slot0.leftTimeText_.text = string.format(GetTips("SKIN_LIMIT_TIME"), slot0.obtainsParams_.dlcCfg.time[2][1])
 		end
 
-		arg_4_0.dlcNameText_.text = GetI18NText(arg_4_0.obtainsParams_.dlcCfg.name)
-		arg_4_0.dlcImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l/" .. var_4_3.id)
+		slot0.dlcNameText_.text = GetI18NText(slot0.obtainsParams_.dlcCfg.name)
+		slot0.dlcImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l/" .. slot6.id)
 
-		SetActive(arg_4_0.leftTimeText_.gameObject, var_4_2 ~= nil)
-		SetActive(arg_4_0.get1content_, var_4_2 ~= nil)
-		SetActive(arg_4_0.dlcGo_, not var_4_4)
+		SetActive(slot0.leftTimeText_.gameObject, slot5 ~= nil)
+		SetActive(slot0.get1content_, slot5 ~= nil)
+		SetActive(slot0.dlcGo_, not slot7)
 	end
 
-	if not var_4_0 then
+	if not slot3 then
 		return
 	end
 
-	local var_4_5 = HeroCfg[var_4_0.hero]
+	slot5 = HeroCfg[slot3.hero]
+	slot0.portrait_.sprite = AssetEx.LoadSprite("TextureConfig/Character/Portrait/" .. slot3.id)
+	slot0.heroNameTxt_.text = HeroTools.GetHeroFullName(slot3.hero)
 
-	arg_4_0.portrait_.sprite = AssetEx.LoadSprite("TextureConfig/Character/Portrait/" .. var_4_0.id)
-	arg_4_0.heroNameTxt_.text = HeroTools.GetHeroFullName(var_4_0.hero)
+	slot0.AdaptImg_:AdaptImg()
 
-	arg_4_0.AdaptImg_:AdaptImg()
+	slot0.name_.text = GetI18NText(slot3.name)
 
-	arg_4_0.name_.text = GetI18NText(var_4_0.name)
-
-	if var_4_1 then
-		local var_4_6 = getShopCfg(var_4_1)
-
-		if var_4_6.give_back_list and #var_4_6.give_back_list > 0 then
-			SetActive(arg_4_0.itemGo_, true)
+	if slot4 then
+		if getShopCfg(slot4).give_back_list and #slot6.give_back_list > 0 then
+			SetActive(slot0.itemGo_, true)
 		else
-			SetActive(arg_4_0.itemGo_, false)
+			SetActive(slot0.itemGo_, false)
 
 			return
 		end
 
-		arg_4_0.itemNameTxt_.text = ItemTools.getItemName(var_4_6.give_back_list[1].id) .. "x" .. var_4_6.give_back_list[1].num
-		arg_4_0.itemIcon_.sprite = ItemTools.getItemSprite(var_4_6.give_back_list[1].id)
+		slot0.itemNameTxt_.text = ItemTools.getItemName(slot6.give_back_list[1].id) .. "x" .. slot6.give_back_list[1].num
+		slot0.itemIcon_.sprite = ItemTools.getItemSprite(slot6.give_back_list[1].id)
 	else
-		SetActive(arg_4_0.itemGo_, false)
+		SetActive(slot0.itemGo_, false)
 	end
 end
 
-function var_0_0.GetTimeLineEndTime(arg_5_0)
+function slot0.GetTimeLineEndTime(slot0)
 	return 6.27
 end
 
-function var_0_0.Hide(arg_6_0)
-	var_0_0.super.Hide(arg_6_0)
+function slot0.Hide(slot0)
+	uv0.super.Hide(slot0)
 
-	arg_6_0.portrait_.sprite = nil
+	slot0.portrait_.sprite = nil
 end
 
-return var_0_0
+return slot0

@@ -1,68 +1,65 @@
-local var_0_0 = class("RewardPreviewView", ReduxView)
+slot0 = class("RewardPreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Common/Pop/RewardPreviewPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollList = LuaList.New(handler(arg_4_0, arg_4_0.indexAwardItem), arg_4_0.itemListGo_, CommonItemView)
+	slot0.scrollList = LuaList.New(handler(slot0, slot0.indexAwardItem), slot0.itemListGo_, CommonItemView)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.scrollList then
-		arg_9_0.scrollList:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scrollList then
+		slot0.scrollList:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.rewardList = formatRewardCfgList(arg_10_0.params_.rewardList)
+function slot0.RefreshUI(slot0)
+	slot0.rewardList = formatRewardCfgList(slot0.params_.rewardList)
 
-	arg_10_0.scrollList:StartScroll(#arg_10_0.rewardList)
+	slot0.scrollList:StartScroll(#slot0.rewardList)
 end
 
-function var_0_0.indexAwardItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = rewardToItemTemplate(arg_11_0.rewardList[arg_11_1])
+function slot0.indexAwardItem(slot0, slot1, slot2)
+	slot3 = rewardToItemTemplate(slot0.rewardList[slot1])
 
-	if arg_11_0.params_.extraItemTemplateDataList and arg_11_0.params_.extraItemTemplateDataList[var_11_0.id] then
-		local var_11_1 = arg_11_0.params_.extraItemTemplateDataList[var_11_0.id]
-
-		for iter_11_0, iter_11_1 in pairs(var_11_1) do
-			var_11_0[iter_11_0] = iter_11_1
+	if slot0.params_.extraItemTemplateDataList and slot0.params_.extraItemTemplateDataList[slot3.id] then
+		for slot8, slot9 in pairs(slot0.params_.extraItemTemplateDataList[slot3.id]) do
+			slot3[slot8] = slot9
 		end
 	end
 
-	function var_11_0.clickFun(arg_12_0)
-		ShowPopItem(POP_ITEM, arg_12_0)
+	function slot3.clickFun(slot0)
+		ShowPopItem(POP_ITEM, slot0)
 	end
 
-	arg_11_2:SetData(var_11_0)
+	slot2:SetData(slot3)
 end
 
-return var_0_0
+return slot0

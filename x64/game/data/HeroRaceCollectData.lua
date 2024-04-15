@@ -1,144 +1,129 @@
-local var_0_0 = singletonClass("HeroRaceCollectData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
+slot0 = singletonClass("HeroRaceCollectData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 
-	local var_1_0 = RaceEffectCfg.all
-
-	for iter_1_0, iter_1_1 in pairs(var_1_0) do
-		var_0_1[iter_1_1] = 0
+	for slot5, slot6 in pairs(RaceEffectCfg.all) do
+		uv0[slot6] = 0
 	end
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.hero_race_collect) do
-		table.insert(var_0_2, iter_2_1)
+function slot0.InitData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.hero_race_collect) do
+		table.insert(uv0, slot6)
 	end
 
-	var_0_0:RefreshHeroRaceCounts()
-	var_0_0:RefreshTasksState()
+	uv1:RefreshHeroRaceCounts()
+	uv1:RefreshTasksState()
 end
 
-function var_0_0.RefreshHeroRaceCounts(arg_3_0)
-	local var_3_0 = RaceEffectCfg.all
-
-	for iter_3_0, iter_3_1 in pairs(var_3_0) do
-		var_0_1[iter_3_1] = 0
+function slot0.RefreshHeroRaceCounts(slot0)
+	for slot5, slot6 in pairs(RaceEffectCfg.all) do
+		uv0[slot6] = 0
 	end
 
-	local var_3_1 = HeroData:GetUnlockHeros()
-
-	for iter_3_2, iter_3_3 in pairs(var_3_1) do
-		local var_3_2 = HeroCfg[iter_3_3].race
-
-		var_0_1[var_3_2] = var_0_1[var_3_2] + 1
+	for slot6, slot7 in pairs(HeroData:GetUnlockHeros()) do
+		slot8 = HeroCfg[slot7].race
+		uv0[slot8] = uv0[slot8] + 1
 	end
 end
 
-function var_0_0.NewHeroUnlock(arg_4_0, arg_4_1)
-	arg_4_0:RefreshHeroRaceCounts()
-	var_0_0:RefreshTasksState()
+function slot0.NewHeroUnlock(slot0, slot1)
+	slot0:RefreshHeroRaceCounts()
+	uv0:RefreshTasksState()
 end
 
-function var_0_0.GetHeroRaceCount(arg_5_0, arg_5_1)
-	if var_0_1[arg_5_1] then
-		return var_0_1[arg_5_1]
+function slot0.GetHeroRaceCount(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1]
 	end
 end
 
-function var_0_0.RefreshTasksState(arg_6_0)
-	local var_6_0 = CollectHeroRaceCfg.all
+function slot0.RefreshTasksState(slot0)
+	for slot5, slot6 in pairs(CollectHeroRaceCfg.all) do
+		slot7 = CollectHeroRaceCfg[slot6]
 
-	for iter_6_0, iter_6_1 in pairs(var_6_0) do
-		local var_6_1 = CollectHeroRaceCfg[iter_6_1]
-
-		if var_0_1[var_6_1.hero_race] < var_6_1.need then
-			var_0_0:SetTaskState(iter_6_1, 0)
-		elseif table.indexof(var_0_2, iter_6_1) then
-			var_0_0:SetTaskState(iter_6_1, 2)
+		if uv0[slot7.hero_race] < slot7.need then
+			uv1:SetTaskState(slot6, 0)
+		elseif table.indexof(uv2, slot6) then
+			uv1:SetTaskState(slot6, 2)
 		else
-			var_0_0:SetTaskState(iter_6_1, 1)
+			uv1:SetTaskState(slot6, 1)
 		end
 	end
 
-	var_0_0:UpdateRedPoint()
+	uv1:UpdateRedPoint()
 end
 
-function var_0_0.GetTaskState(arg_7_0, arg_7_1)
-	return var_0_3[arg_7_1]
+function slot0.GetTaskState(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.SetTaskState(arg_8_0, arg_8_1, arg_8_2)
-	var_0_3[arg_8_1] = arg_8_2
+function slot0.SetTaskState(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.GetAllCanReceiveTasks(arg_9_0)
-	local var_9_0 = {}
+function slot0.GetAllCanReceiveTasks(slot0)
+	slot1 = {}
 
-	for iter_9_0, iter_9_1 in pairs(var_0_3) do
-		if iter_9_1 == 1 then
-			table.insert(var_9_0, iter_9_0)
+	for slot5, slot6 in pairs(uv0) do
+		if slot6 == 1 then
+			table.insert(slot1, slot5)
 		end
 	end
 
-	return var_9_0
+	return slot1
 end
 
-function var_0_0.SetTasksReceived(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in pairs(arg_10_1) do
-		table.insert(var_0_2, iter_10_1)
+function slot0.SetTasksReceived(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		table.insert(uv0, slot6)
 	end
 
-	var_0_0:RefreshTasksState()
+	uv1:RefreshTasksState()
 end
 
-function var_0_0.GetTasksReceivedCount(arg_11_0)
-	local var_11_0 = 0
-
-	for iter_11_0, iter_11_1 in pairs(var_0_3) do
-		if iter_11_1 == 2 then
-			var_11_0 = var_11_0 + 1
+function slot0.GetTasksReceivedCount(slot0)
+	for slot5, slot6 in pairs(uv0) do
+		if slot6 == 2 then
+			slot1 = 0 + 1
 		end
 	end
 
-	return var_11_0
+	return slot1
 end
 
-function var_0_0.GetCanGetRewardIndex(arg_12_0)
-	for iter_12_0, iter_12_1 in pairs(var_0_3) do
-		if iter_12_1 == 1 then
-			local var_12_0 = CollectHeroRaceCfg[iter_12_0].race
-
-			return table.indexof(RaceEffectCfg.all, var_12_0)
+function slot0.GetCanGetRewardIndex(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if slot5 == 1 then
+			return table.indexof(RaceEffectCfg.all, CollectHeroRaceCfg[slot4].race)
 		end
 	end
 
 	return 1
 end
 
-function var_0_0.UpdateRedPoint(arg_13_0)
-	local var_13_0 = var_0_0:HasRewardReceive()
-
-	manager.redPoint:setTip(RedPointConst.HERO_RACE_COLLECT_REWARD, var_13_0 and 1 or 0)
+function slot0.UpdateRedPoint(slot0)
+	manager.redPoint:setTip(RedPointConst.HERO_RACE_COLLECT_REWARD, uv0:HasRewardReceive() and 1 or 0)
 end
 
-function var_0_0.HasRewardReceive(arg_14_0)
-	local var_14_0 = false
+function slot0.HasRewardReceive(slot0)
+	slot1 = false
 
-	for iter_14_0, iter_14_1 in pairs(var_0_3) do
-		if iter_14_1 == 1 then
-			var_14_0 = true
+	for slot5, slot6 in pairs(uv0) do
+		if slot6 == 1 then
+			slot1 = true
 
 			break
 		end
 	end
 
-	return var_14_0
+	return slot1
 end
 
-return var_0_0
+return slot0

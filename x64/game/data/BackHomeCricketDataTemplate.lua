@@ -1,105 +1,104 @@
 BackHomeCricketBattleResult = class("BackHomeCricketBattleResult")
 
-function BackHomeCricketBattleResult.InitRoundList(arg_1_0, arg_1_1)
-	local var_1_0 = {}
+function BackHomeCricketBattleResult.InitRoundList(slot0, slot1)
+	slot2 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1) do
-		local var_1_1 = {
-			roundIndex = iter_1_1.round_index,
-			myAction = arg_1_0:InitActionOrder(iter_1_1.attack_user_action),
-			enemyAction = arg_1_0:InitActionOrder(iter_1_1.defend_user_action),
-			myScore = arg_1_0:InitScoreData(iter_1_1.attack_user_score),
-			enemyScore = arg_1_0:InitScoreData(iter_1_1.defend_user_score)
+	for slot6, slot7 in ipairs(slot1) do
+		slot8 = {
+			roundIndex = slot7.round_index,
+			myAction = slot0:InitActionOrder(slot7.attack_user_action),
+			enemyAction = slot0:InitActionOrder(slot7.defend_user_action),
+			myScore = slot0:InitScoreData(slot7.attack_user_score),
+			enemyScore = slot0:InitScoreData(slot7.defend_user_score)
 		}
 
-		if var_1_0[iter_1_1.round_index] then
-			Debugger.LogError("有重复数据初始化，回合数为" .. iter_1_1.round_index)
+		if slot2[slot7.round_index] then
+			Debugger.LogError("有重复数据初始化，回合数为" .. slot7.round_index)
 
 			return
 		end
 
-		var_1_0[iter_1_1.round_index] = var_1_1
+		slot2[slot7.round_index] = slot8
 	end
 
-	return var_1_0, #var_1_0
+	return slot2, #slot2
 end
 
-local function var_0_0(arg_2_0)
-	local var_2_0 = {}
+function slot0(slot0)
+	slot1 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0) do
-		table.insert(var_2_0, tonumber(iter_2_1))
+	for slot5, slot6 in ipairs(slot0) do
+		table.insert(slot1, tonumber(slot6))
 	end
 
-	return var_2_0
+	return slot1
 end
 
-function BackHomeCricketBattleResult.InitPrepareInfo(arg_3_0, arg_3_1)
+function BackHomeCricketBattleResult.InitPrepareInfo(slot0, slot1)
 	return {
-		myActiveBuffList = var_0_0(arg_3_1.attacker_active_buff_list),
-		enemyActiveBuffList = var_0_0(arg_3_1.defender_active_buff_list)
+		myActiveBuffList = uv0(slot1.attacker_active_buff_list),
+		enemyActiveBuffList = uv0(slot1.defender_active_buff_list)
 	}
 end
 
-function BackHomeCricketBattleResult.Ctor(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.settleType = arg_4_3
-	arg_4_0.mySkinID = arg_4_1.attacker_skin_id
-	arg_4_0.enemySkinID = arg_4_1.defender_skin_id
-	arg_4_0.prepareInfo = arg_4_0:InitPrepareInfo(arg_4_1.prepare_info)
-	arg_4_0.roundList, arg_4_0.lastRound = arg_4_0:InitRoundList(arg_4_1.round_list)
+function BackHomeCricketBattleResult.Ctor(slot0, slot1, slot2, slot3)
+	slot0.settleType = slot3
+	slot0.mySkinID = slot1.attacker_skin_id
+	slot0.enemySkinID = slot1.defender_skin_id
+	slot0.prepareInfo = slot0:InitPrepareInfo(slot1.prepare_info)
+	slot0.roundList, slot0.lastRound = slot0:InitRoundList(slot1.round_list)
 
-	if arg_4_3 == BackHomeCricketConst.ROOM_TYPE.Video then
-		arg_4_0.stageID = arg_4_1.stage_id
-		arg_4_0.battle_result = arg_4_1.battle_result
-		arg_4_0.attacker_data = arg_4_1.attacker_data
-		arg_4_0.defender_data = arg_4_1.defender_data
-		arg_4_0.battleID = arg_4_2.battle_id
-		arg_4_0.battleType = IdolTraineeData:GetHistoryBattleData()[arg_4_0.battleID].friendType
+	if slot3 == BackHomeCricketConst.ROOM_TYPE.Video then
+		slot0.stageID = slot1.stage_id
+		slot0.battle_result = slot1.battle_result
+		slot0.attacker_data = slot1.attacker_data
+		slot0.defender_data = slot1.defender_data
+		slot0.battleID = slot2.battle_id
+		slot0.battleType = IdolTraineeData:GetHistoryBattleData()[slot0.battleID].friendType
 	else
-		arg_4_0.stageID = arg_4_2.stage_id
-		arg_4_0.battleType = arg_4_2.battle_type
-		arg_4_0.enemyID = arg_4_2.defender_uid
+		slot0.stageID = slot2.stage_id
+		slot0.battleType = slot2.battle_type
+		slot0.enemyID = slot2.defender_uid
 	end
 end
 
-function BackHomeCricketBattleResult.AddCompleteInfo(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.attacker_data = arg_5_2.attacker_data
-	arg_5_0.defender_data = arg_5_2.defender_data
-	arg_5_0.battle_result = arg_5_2.battle_result
+function BackHomeCricketBattleResult.AddCompleteInfo(slot0, slot1, slot2)
+	slot0.attacker_data = slot2.attacker_data
+	slot0.defender_data = slot2.defender_data
+	slot0.battle_result = slot2.battle_result
 end
 
-function BackHomeCricketBattleResult.InitActionOrder(arg_6_0, arg_6_1)
-	local var_6_0 = {
-		actionID = arg_6_1.atk_style_id,
-		skillID = arg_6_1.skill_id
+function BackHomeCricketBattleResult.InitActionOrder(slot0, slot1)
+	slot2 = {
+		actionID = slot1.atk_style_id,
+		skillID = slot1.skill_id
 	}
-	local var_6_1 = {}
+	slot3 = {}
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1.index_list) do
-		table.insert(var_6_1, iter_6_1)
+	for slot7, slot8 in ipairs(slot1.index_list) do
+		table.insert(slot3, slot8)
 	end
 
-	var_6_0.effectList = var_6_1
+	slot2.effectList = slot3
 
-	return var_6_0
+	return slot2
 end
 
-function BackHomeCricketBattleResult.InitScoreData(arg_7_0, arg_7_1)
+function BackHomeCricketBattleResult.InitScoreData(slot0, slot1)
 	return {
-		type = arg_7_1.peculiarity_score,
-		actionScore = arg_7_1.skill_score,
-		isHit = arg_7_1.sum_score
+		type = slot1.peculiarity_score,
+		actionScore = slot1.skill_score,
+		isHit = slot1.sum_score
 	}
 end
 
-function BackHomeCricketBattleResult.GetBattleDataByRound(arg_8_0, arg_8_1)
-	if arg_8_0.roundList and arg_8_0.roundList[arg_8_1] then
-		return arg_8_0.roundList[arg_8_1]
+function BackHomeCricketBattleResult.GetBattleDataByRound(slot0, slot1)
+	if slot0.roundList and slot0.roundList[slot1] then
+		return slot0.roundList[slot1]
 	else
-		Debugger.LogError("未获取对应回合数据" .. arg_8_1)
+		Debugger.LogError("未获取对应回合数据" .. slot1)
 	end
 end
 
-function BackHomeCricketBattleResult.Dispose(arg_9_0)
-	return
+function BackHomeCricketBattleResult.Dispose(slot0)
 end

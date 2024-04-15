@@ -1,15 +1,16 @@
 return {
-	GetHeroWeaponInfo = function(arg_1_0, arg_1_1)
-		local var_1_0 = arg_1_0.dataClass:GetHeroWeaponInfo(arg_1_1, arg_1_0.tempHeroList)
+	GetHeroWeaponInfo = function (slot0, slot1)
+		slot2 = slot0.dataClass:GetHeroWeaponInfo(slot1, slot0.tempHeroList)
 
-		if arg_1_0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
-			local var_1_1 = deepClone(var_1_0)
+		if slot0:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW then
+			slot3 = deepClone(slot2)
+			slot3.breakthrough = 0
+			slot3.exp = 0
+			slot3.level = 1
 
-			var_1_1.level, var_1_1.exp, var_1_1.breakthrough = 1, 0, 0
-
-			return var_1_1
+			return slot3
 		end
 
-		return var_1_0
+		return slot2
 	end
 }

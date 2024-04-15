@@ -1,50 +1,46 @@
-local var_0_0 = class("HeroDisplayPoseItem", ReduxView)
+slot0 = class("HeroDisplayPoseItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.clickBtn_, nil, function()
-		manager.notify:Invoke(HERO_POSE_SELECT, arg_2_0.index_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.clickBtn_, nil, function ()
+		manager.notify:Invoke(HERO_POSE_SELECT, uv0.index_)
 	end)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_4_0.transform_ = nil
-	arg_4_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0:Show(true)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0:Show(true)
 
-	arg_5_0.index_ = arg_5_2
-
-	local var_5_0 = HeroDisplayData:GetHeroPoseList(arg_5_1)[arg_5_2]
-	local var_5_1 = HeroDisplayPoseCfg[var_5_0.id].name
-
-	arg_5_0.tagTxt_.text = GetI18NText(var_5_1)
+	slot0.index_ = slot2
+	slot0.tagTxt_.text = GetI18NText(HeroDisplayPoseCfg[HeroDisplayData:GetHeroPoseList(slot1)[slot2].id].name)
 end
 
-function var_0_0.SetSelect(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0.controller_:SetSelectedState("on")
+function slot0.SetSelect(slot0, slot1)
+	if slot1 then
+		slot0.controller_:SetSelectedState("on")
 	else
-		arg_6_0.controller_:SetSelectedState("off")
+		slot0.controller_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

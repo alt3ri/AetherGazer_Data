@@ -1,8 +1,6 @@
-local var_0_0 = singletonClass("PlayerData")
-
-var_0_0.INVALID_PLAYER = "0"
-
-local var_0_1 = {
+slot0 = singletonClass("PlayerData")
+slot0.INVALID_PLAYER = "0"
+slot1 = {
 	userID = 1,
 	show_hero_flag = 1,
 	remain_exp = 0,
@@ -48,1160 +46,1083 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_1.levelUpInfos = {}
+function slot0.Init(slot0)
+	uv0.levelUpInfos = {}
 end
 
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7 = {}
-local var_0_8 = {}
-local var_0_9 = {}
-local var_0_10 = {}
-local var_0_11 = {}
-local var_0_12 = {}
-local var_0_13 = {}
-local var_0_14 = {}
+slot2 = {}
+slot3 = {}
+slot4 = {}
+slot5 = {}
+slot6 = {}
+slot7 = {}
+slot8 = {}
+slot9 = {}
+slot10 = {}
+slot11 = {}
+slot12 = {}
+slot13 = {}
+slot14 = {}
 
-function var_0_0.PlayInfoInit(arg_2_0, arg_2_1)
-	var_0_1.total_exp = arg_2_1.total_exp
-	var_0_1.userLevel, var_0_1.remain_exp = LvTools.CheckExp(1, var_0_1.total_exp, "user_level_exp")
-	var_0_1.is_changed_nick = arg_2_1.is_changed_nick
-	var_0_1.extra_chang_nick_time = arg_2_1.system_change_nick_times or 0
+function slot0.PlayInfoInit(slot0, slot1)
+	uv0.total_exp = slot1.total_exp
+	uv0.userLevel, uv0.remain_exp = LvTools.CheckExp(1, uv0.total_exp, "user_level_exp")
+	uv0.is_changed_nick = slot1.is_changed_nick
+	uv0.extra_chang_nick_time = slot1.system_change_nick_times or 0
 
-	if var_0_1.nick ~= "" and var_0_1.nick ~= arg_2_1.nick then
-		manager.notify:CallUpdateFunc(CHANGE_NAME, arg_2_1)
+	if uv0.nick ~= "" and uv0.nick ~= slot1.nick then
+		manager.notify:CallUpdateFunc(CHANGE_NAME, slot1)
 	end
 
-	var_0_1.nick = arg_2_1.nick
-	var_0_1.hero_num = arg_2_1.hero_num
-	var_0_1.plot_progress = arg_2_1.plot_progress
+	uv0.nick = slot1.nick
+	uv0.hero_num = slot1.hero_num
+	uv0.plot_progress = slot1.plot_progress
 
 	manager.notify:Invoke(PLAYER_MODIFIED)
 
-	if var_0_1.ip == "" then
-		var_0_1.ip = GetTips("IP_UNKNOWN")
+	if uv0.ip == "" then
+		uv0.ip = GetTips("IP_UNKNOWN")
 	end
 end
 
-function var_0_0.SetPlayerIP(arg_3_0, arg_3_1)
-	var_0_1.ip = arg_3_1.ip_location or GetTips("IP_UNKNOWN")
+function slot0.SetPlayerIP(slot0, slot1)
+	uv0.ip = slot1.ip_location or GetTips("IP_UNKNOWN")
 end
 
-function var_0_0.SetPlayerBirthday(arg_4_0, arg_4_1)
-	var_0_1.birthday_month = arg_4_1.month
-	var_0_1.birthday_day = arg_4_1.day
+function slot0.SetPlayerBirthday(slot0, slot1)
+	uv0.birthday_month = slot1.month
+	uv0.birthday_day = slot1.day
 
-	manager.redPoint:setTip(RedPointConst.BRITHDAY, arg_4_1.month == 0 and 1 or 0)
+	manager.redPoint:setTip(RedPointConst.BRITHDAY, slot1.month == 0 and 1 or 0)
 end
 
-function var_0_0.GetPlayerBrithday(arg_5_0)
-	return var_0_1.birthday_month, var_0_1.birthday_day
+function slot0.GetPlayerBrithday(slot0)
+	return uv0.birthday_month, uv0.birthday_day
 end
 
-function var_0_0.GetPlayerInfo(arg_6_0)
-	var_0_1.icon_frame = arg_6_0:GetCurFrame()
-	var_0_1.card_bg_id = arg_6_0:GetCurCardBg()
+function slot0.GetPlayerInfo(slot0)
+	uv0.icon_frame = slot0:GetCurFrame()
+	uv0.card_bg_id = slot0:GetCurCardBg()
 
-	return var_0_1
+	return uv0
 end
 
-function var_0_0.GetStoryList(arg_7_0)
-	return var_0_1.storylist
+function slot0.GetStoryList(slot0)
+	return uv0.storylist
 end
 
-function var_0_0.GetlevelUpInfos(arg_8_0)
-	return var_0_1.levelUpInfos and deepClone(var_0_1.levelUpInfos) or {}
+function slot0.GetlevelUpInfos(slot0)
+	return uv0.levelUpInfos and deepClone(uv0.levelUpInfos) or {}
 end
 
-function var_0_0.UserBaseInfoInit(arg_9_0, arg_9_1)
-	var_0_1.userID = arg_9_1.userID
-	var_0_1.register_timestamp = arg_9_1.register_timestamp
-	var_0_1.signUserId = arg_9_1.uid_sign
+function slot0.UserBaseInfoInit(slot0, slot1)
+	uv0.userID = slot1.userID
+	uv0.register_timestamp = slot1.register_timestamp
+	uv0.signUserId = slot1.uid_sign
 end
 
-function var_0_0.UserLoginTimestampInit(arg_10_0, arg_10_1)
-	var_0_1.timestamp = arg_10_1.timestamp
+function slot0.UserLoginTimestampInit(slot0, slot1)
+	uv0.timestamp = slot1.timestamp
 end
 
-function var_0_0.PlayerProtraitChange(arg_11_0, arg_11_1)
-	var_0_1.portrait = arg_11_1.portrait
+function slot0.PlayerProtraitChange(slot0, slot1)
+	uv0.portrait = slot1.portrait
 end
 
-function var_0_0.PlayerNicknameChange(arg_12_0, arg_12_1)
-	var_0_1.nick = arg_12_1
+function slot0.PlayerNicknameChange(slot0, slot1)
+	uv0.nick = slot1
 end
 
-function var_0_0.GetExtraChangeNickTime(arg_13_0)
-	return var_0_1.extra_chang_nick_time
+function slot0.GetExtraChangeNickTime(slot0)
+	return uv0.extra_chang_nick_time
 end
 
-function var_0_0.UpdateNameChangeInfo(arg_14_0, arg_14_1)
-	if not arg_14_1 then
+function slot0.UpdateNameChangeInfo(slot0, slot1)
+	if not slot1 then
 		return
 	end
 
-	var_0_1.extra_chang_nick_time = arg_14_1.system_change_nick_times or 0
-	var_0_1.is_changed_nick = arg_14_1.is_changed_nick or 0
+	uv0.extra_chang_nick_time = slot1.system_change_nick_times or 0
+	uv0.is_changed_nick = slot1.is_changed_nick or 0
 end
 
-function var_0_0.GetIP(arg_15_0)
-	return var_0_1.ip
+function slot0.GetIP(slot0)
+	return uv0.ip
 end
 
-function var_0_0.EXPChange(arg_16_0, arg_16_1)
-	var_0_1.total_exp = arg_16_1
+function slot0.EXPChange(slot0, slot1)
+	uv0.total_exp = slot1
+	uv0.userLevel, uv0.remain_exp = LvTools.CheckExp(1, uv0.total_exp, "user_level_exp")
 
-	local var_16_0 = var_0_1.userLevel
-
-	var_0_1.userLevel, var_0_1.remain_exp = LvTools.CheckExp(1, var_0_1.total_exp, "user_level_exp")
-
-	local var_16_1 = var_0_1.userLevel
-
-	if var_16_0 ~= var_16_1 then
-		manager.notify:Invoke(PLAYER_LEVEL_UP, var_16_0, var_16_1)
+	if uv0.userLevel ~= uv0.userLevel then
+		manager.notify:Invoke(PLAYER_LEVEL_UP, slot2, slot3)
 		SDKTools.SetDefaultPublicAttribute()
 		SendMessageManagerToSDK("role_level", {
-			level = var_16_1
+			level = slot3
 		})
 	end
 end
 
-function var_0_0.PlayerCardInit(arg_17_0, arg_17_1)
-	var_0_1.sign = arg_17_1.sign
-	var_0_1.heroes = cleanProtoTable(arg_17_1.heroes)
-	var_0_1.sticker_show = cleanProtoTable(arg_17_1.sticker_show, {
+function slot0.PlayerCardInit(slot0, slot1)
+	uv0.sign = slot1.sign
+	uv0.heroes = cleanProtoTable(slot1.heroes)
+	uv0.sticker_show = cleanProtoTable(slot1.sticker_show, {
 		"sticker_id",
 		"location"
 	})
-	var_0_1.all_background_list = cleanProtoTable(arg_17_1.all_background_list)
-	var_0_1.sticker_show_info = var_0_0:InitStickerShowList(arg_17_1.sticker_show_info or {})
-	var_0_1.sticker_background = arg_17_1.sticker_background or GameSetting.sticker_background_default.value[1]
-	var_0_1.all_sticker_list = cleanProtoTable(arg_17_1.all_sticker_list)
-	var_0_1.unlocked_portraits = cleanProtoTable(arg_17_1.icon_list)
-	var_0_1.icon_frame_list = cleanProtoTable(arg_17_1.icon_frame_list, {
+	uv0.all_background_list = cleanProtoTable(slot1.all_background_list)
+	uv0.sticker_show_info = uv1:InitStickerShowList(slot1.sticker_show_info or {})
+	uv0.sticker_background = slot1.sticker_background or GameSetting.sticker_background_default.value[1]
+	uv0.all_sticker_list = cleanProtoTable(slot1.all_sticker_list)
+	uv0.unlocked_portraits = cleanProtoTable(slot1.icon_list)
+	uv0.icon_frame_list = cleanProtoTable(slot1.icon_frame_list, {
 		"id",
 		"lasted_time"
 	})
-	var_0_1.likes = arg_17_1.likes
-	var_0_1.likes_list = cleanProtoTable(arg_17_1.info_list, {
+	uv0.likes = slot1.likes
+	uv0.likes_list = cleanProtoTable(slot1.info_list, {
 		"id",
 		"time"
 	})
-	var_0_1.today_send_like = cleanProtoTable(arg_17_1.today_send_like)
-	var_0_1.card_background_list = cleanProtoTable(arg_17_1.information_background_list, {
+	uv0.today_send_like = cleanProtoTable(slot1.today_send_like)
+	uv0.card_background_list = cleanProtoTable(slot1.information_background_list, {
 		"id",
 		"lasted_time"
 	})
-	var_0_1.tag_info_list = cleanProtoTable(arg_17_1.tag_info_list, {
+	uv0.tag_info_list = cleanProtoTable(slot1.tag_info_list, {
 		"id",
 		"lasted_time",
 		"obtain_time"
 	})
-	var_0_1.used_tag_list = cleanProtoTable(arg_17_1.used_tag_list or {})
-	var_0_1.card_bg_id = arg_17_1.information_background_id
-	var_0_1.used_chat_buddle_id = arg_17_1.chat_bubble or GameSetting.profile_chat_bubble_default.value[1]
-	var_0_1.chat_bubble_unlock_id_list = cleanProtoTable(arg_17_1.chat_bubble_list or {
+	uv0.used_tag_list = cleanProtoTable(slot1.used_tag_list or {})
+	uv0.card_bg_id = slot1.information_background_id
+	uv0.used_chat_buddle_id = slot1.chat_bubble or GameSetting.profile_chat_bubble_default.value[1]
+	uv0.chat_bubble_unlock_id_list = cleanProtoTable(slot1.chat_bubble_list or {
 		GameSetting.profile_chat_bubble_default.value[1]
 	})
 
-	if arg_17_1.poster_girl and arg_17_1.poster_girl ~= 0 then
-		var_0_1.poster_girl = arg_17_1.poster_girl
+	if slot1.poster_girl and slot1.poster_girl ~= 0 then
+		uv0.poster_girl = slot1.poster_girl
 	else
-		var_0_1.poster_girl = 1084
+		uv0.poster_girl = 1084
 	end
 
-	if arg_17_1.icon and arg_17_1.icon ~= 0 and arg_17_1.icon ~= 1 then
-		var_0_1.portrait = arg_17_1.icon
+	if slot1.icon and slot1.icon ~= 0 and slot1.icon ~= 1 then
+		uv0.portrait = slot1.icon
 	else
-		var_0_1.portrait = GameSetting.profile_avatar_default.value[1]
+		uv0.portrait = GameSetting.profile_avatar_default.value[1]
 	end
 
-	if arg_17_1.icon_frame and arg_17_1.icon_frame ~= 0 and arg_17_1.icon_frame ~= 1 then
-		var_0_1.icon_frame = arg_17_1.icon_frame
+	if slot1.icon_frame and slot1.icon_frame ~= 0 and slot1.icon_frame ~= 1 then
+		uv0.icon_frame = slot1.icon_frame
 	else
-		var_0_1.icon_frame = GameSetting.profile_avatar_frame_default.value[1]
+		uv0.icon_frame = GameSetting.profile_avatar_frame_default.value[1]
 	end
 
-	var_0_0:InitStickerList()
-	var_0_0:InitStickerBgList()
-	var_0_0:InitPortraitList()
-	var_0_0:InitFrameList()
-	var_0_0:InitCardBgList()
-	var_0_0:InitTagInfoList()
+	uv1:InitStickerList()
+	uv1:InitStickerBgList()
+	uv1:InitPortraitList()
+	uv1:InitFrameList()
+	uv1:InitCardBgList()
+	uv1:InitTagInfoList()
 
-	var_0_7 = {}
-	var_0_11 = {}
-	var_0_13 = {}
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
 end
 
-function var_0_0.InitStickerShowList(arg_18_0, arg_18_1)
-	local var_18_0 = {}
+function slot0.InitStickerShowList(slot0, slot1)
+	slot2 = {}
 
-	for iter_18_0, iter_18_1 in ipairs(arg_18_1) do
-		local var_18_1 = {}
-
-		for iter_18_2, iter_18_3 in ipairs(iter_18_1.sticker_display_info) do
-			var_18_1[iter_18_3.location] = {
-				stickerID = iter_18_3.sticker_id,
-				size = iter_18_3.size
-			}
+	for slot6, slot7 in ipairs(slot1) do
+		for slot12, slot13 in ipairs(slot7.sticker_display_info) do
+			-- Nothing
 		end
 
-		var_18_0[iter_18_1.page_id] = {
-			index = iter_18_1.page_id,
-			viewID = iter_18_1.template_id,
-			sticker = var_18_1
+		slot2[slot7.page_id] = {
+			index = slot7.page_id,
+			viewID = slot7.template_id,
+			sticker = {
+				[slot13.location] = {
+					stickerID = slot13.sticker_id,
+					size = slot13.size
+				}
+			}
 		}
 	end
 
-	return var_18_0
+	return slot2
 end
 
-function var_0_0.InitOverdueFrameList(arg_19_0, arg_19_1)
-	if #arg_19_1 > 0 then
-		for iter_19_0, iter_19_1 in ipairs(arg_19_1) do
-			local var_19_0 = iter_19_1.id
-			local var_19_1 = iter_19_1.num
-			local var_19_2 = iter_19_1.time_valid
-
-			table.insert(var_0_7, {
-				id = var_19_0,
-				num = var_19_1,
-				timeValid = var_19_2
+function slot0.InitOverdueFrameList(slot0, slot1)
+	if #slot1 > 0 then
+		for slot5, slot6 in ipairs(slot1) do
+			table.insert(uv0, {
+				id = slot6.id,
+				num = slot6.num,
+				timeValid = slot6.time_valid
 			})
 		end
 	end
 end
 
-function var_0_0.InitOverdueCardBgList(arg_20_0, arg_20_1)
-	if #arg_20_1 > 0 then
-		for iter_20_0, iter_20_1 in ipairs(arg_20_1) do
-			local var_20_0 = {
+function slot0.InitOverdueCardBgList(slot0, slot1)
+	if #slot1 > 0 then
+		for slot5, slot6 in ipairs(slot1) do
+			table.insert(uv0, {
 				num = 1,
-				id = iter_20_1.id,
-				timeValid = iter_20_1.time_valid
-			}
-
-			table.insert(var_0_11, var_20_0)
+				id = slot6.id,
+				timeValid = slot6.time_valid
+			})
 		end
 	end
 end
 
-function var_0_0.InitOverdueTagList(arg_21_0, arg_21_1)
-	if #arg_21_1 > 0 then
-		for iter_21_0, iter_21_1 in ipairs(arg_21_1) do
-			local var_21_0 = {
+function slot0.InitOverdueTagList(slot0, slot1)
+	if #slot1 > 0 then
+		for slot5, slot6 in ipairs(slot1) do
+			table.insert(uv0, {
 				num = 1,
-				id = iter_21_1.id,
-				time_valid = iter_21_1.time_valid
-			}
-
-			table.insert(var_0_13, var_21_0)
+				id = slot6.id,
+				time_valid = slot6.time_valid
+			})
 		end
 	end
 end
 
-function var_0_0.PlayerSignChange(arg_22_0, arg_22_1)
-	var_0_1.sign = arg_22_1
+function slot0.PlayerSignChange(slot0, slot1)
+	uv0.sign = slot1
 end
 
-function var_0_0.PlayerShowHeroChange(arg_23_0, arg_23_1)
-	var_0_1.heroes = cleanProtoTable(arg_23_1)
+function slot0.PlayerShowHeroChange(slot0, slot1)
+	uv0.heroes = cleanProtoTable(slot1)
 end
 
-function var_0_0.PlayerPosterGirlChange(arg_24_0, arg_24_1)
-	var_0_1.poster_girl = arg_24_1
+function slot0.PlayerPosterGirlChange(slot0, slot1)
+	uv0.poster_girl = slot1
 end
 
-function var_0_0.StoryInit(arg_25_0, arg_25_1)
-	var_0_1.storylist = {}
+function slot0.StoryInit(slot0, slot1)
+	uv0.storylist = {}
 
-	for iter_25_0, iter_25_1 in ipairs(arg_25_1) do
-		var_0_1.storylist[iter_25_1] = true
+	for slot5, slot6 in ipairs(slot1) do
+		uv0.storylist[slot6] = true
 	end
 end
 
-function var_0_0.StoryModify(arg_26_0, arg_26_1)
-	var_0_1.storylist[arg_26_1] = true
+function slot0.StoryModify(slot0, slot1)
+	uv0.storylist[slot1] = true
 end
 
-function var_0_0.PlayerOriginalLevel(arg_27_0, arg_27_1)
-	var_0_1.originalLevel = arg_27_1.user_level
+function slot0.PlayerOriginalLevel(slot0, slot1)
+	uv0.originalLevel = slot1.user_level
 end
 
-function var_0_0.ChangeLevel(arg_28_0, arg_28_1)
-	if not var_0_1.levelUpInfos then
-		var_0_1.levelUpInfos = {}
+function slot0.ChangeLevel(slot0, slot1)
+	if not uv0.levelUpInfos then
+		uv0.levelUpInfos = {}
 	end
 
-	local var_28_0 = arg_28_1.fromLevel
-	local var_28_1 = arg_28_1.toLevel
-
-	if #var_0_1.levelUpInfos > 0 then
-		var_28_0 = math.min(var_0_1.levelUpInfos[1].fromLevel, var_28_0)
-		var_28_1 = math.max(var_0_1.levelUpInfos[1].toLevel, var_28_1)
+	if #uv0.levelUpInfos > 0 then
+		slot2 = math.min(uv0.levelUpInfos[1].fromLevel, slot1.fromLevel)
+		slot3 = math.max(uv0.levelUpInfos[1].toLevel, slot1.toLevel)
 	end
 
-	var_0_1.levelUpInfos[1] = {
-		fromLevel = var_28_0,
-		toLevel = var_28_1
+	uv0.levelUpInfos[1] = {
+		fromLevel = slot2,
+		toLevel = slot3
 	}
 end
 
-function var_0_0.LevelUpFinish(arg_29_0, arg_29_1)
-	if var_0_1.levelUpInfos then
-		while table.getn(var_0_1.levelUpInfos) > 0 do
-			table.remove(var_0_1.levelUpInfos, 1)
+function slot0.LevelUpFinish(slot0, slot1)
+	if uv0.levelUpInfos then
+		while table.getn(uv0.levelUpInfos) > 0 do
+			table.remove(uv0.levelUpInfos, 1)
 		end
 	end
 end
 
-function var_0_0.InitModuleSwitchData(arg_30_0, arg_30_1)
-	return
+function slot0.InitModuleSwitchData(slot0, slot1)
 end
 
-function var_0_0.GetModuleSwitchData(arg_31_0, arg_31_1)
-	return var_0_2[arg_31_1]
+function slot0.GetModuleSwitchData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.InitStickerList(arg_32_0)
-	var_0_4 = {}
-	var_0_4.get_sticker_id_list = {}
+function slot0.InitStickerList(slot0)
+	uv0 = {
+		get_sticker_id_list = {}
+	}
 
-	local var_32_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER]
-
-	for iter_32_0, iter_32_1 in ipairs(var_32_0) do
-		var_0_4[iter_32_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER]) do
+		uv0[slot6] = {
 			unlock = 0,
-			id = iter_32_1
+			id = slot6
 		}
 
-		table.insert(var_0_4.get_sticker_id_list, iter_32_1)
+		table.insert(uv0.get_sticker_id_list, slot6)
 	end
 
-	for iter_32_2, iter_32_3 in ipairs(var_0_1.all_sticker_list) do
-		if var_0_4[iter_32_3] then
-			var_0_4[iter_32_3].unlock = 1
+	for slot5, slot6 in ipairs(uv1.all_sticker_list) do
+		if uv0[slot6] then
+			uv0[slot6].unlock = 1
 		end
 	end
 end
 
-function var_0_0.InitStickerBgList(arg_33_0)
-	var_0_3 = {}
-	var_0_3.get_sticker_bg_id_list = {}
+function slot0.InitStickerBgList(slot0)
+	uv0 = {
+		get_sticker_bg_id_list = {}
+	}
 
-	local var_33_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER_BG]
-
-	for iter_33_0, iter_33_1 in ipairs(var_33_0) do
-		var_0_3[iter_33_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.STICKER_BG]) do
+		uv0[slot6] = {
 			unlock = 0,
-			id = iter_33_1
+			id = slot6
 		}
 
-		table.insert(var_0_3.get_sticker_bg_id_list, iter_33_1)
+		table.insert(uv0.get_sticker_bg_id_list, slot6)
 	end
 
-	for iter_33_2, iter_33_3 in ipairs(var_0_1.all_background_list) do
-		if var_0_3[iter_33_3] then
-			var_0_3[iter_33_3].unlock = 1
+	for slot5, slot6 in ipairs(uv1.all_background_list) do
+		if uv0[slot6] then
+			uv0[slot6].unlock = 1
 		end
 	end
 end
 
-function var_0_0.InitPortraitList(arg_34_0)
-	var_0_5 = {}
-	var_0_5.get_portrait_id_list = {}
+function slot0.InitPortraitList(slot0)
+	uv0 = {
+		get_portrait_id_list = {}
+	}
 
-	local var_34_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.PORTRAIT]
-
-	for iter_34_0, iter_34_1 in ipairs(var_34_0) do
-		var_0_5[iter_34_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.PORTRAIT]) do
+		uv0[slot6] = {
 			unlock = 0,
-			id = iter_34_1
+			id = slot6
 		}
 
-		table.insert(var_0_5.get_portrait_id_list, iter_34_1)
+		table.insert(uv0.get_portrait_id_list, slot6)
 	end
 
-	for iter_34_2, iter_34_3 in ipairs(var_0_1.unlocked_portraits) do
-		if var_0_5[iter_34_3] then
-			var_0_5[iter_34_3].unlock = 1
+	for slot5, slot6 in ipairs(uv1.unlocked_portraits) do
+		if uv0[slot6] then
+			uv0[slot6].unlock = 1
 		end
 	end
 end
 
-function var_0_0.InitFrameList(arg_35_0)
-	var_0_6 = {}
-	var_0_6.get_frame_id_list = {}
+function slot0.InitFrameList(slot0)
+	uv0 = {
+		get_frame_id_list = {}
+	}
 
-	local var_35_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.FRAME]
-
-	for iter_35_0, iter_35_1 in ipairs(var_35_0) do
-		if ItemCfg[iter_35_1].sub_type ~= ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT then
-			var_0_6[iter_35_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.FRAME]) do
+		if ItemCfg[slot6].sub_type ~= ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT then
+			uv0[slot6] = {
 				lasted_time = 0,
 				unlock = 0,
-				id = iter_35_1
+				id = slot6
 			}
 
-			table.insert(var_0_6.get_frame_id_list, iter_35_1)
+			table.insert(uv0.get_frame_id_list, slot6)
 		end
 	end
 
-	local var_35_1
+	slot2 = nil
 
-	for iter_35_2, iter_35_3 in ipairs(var_0_1.icon_frame_list) do
-		local var_35_2 = iter_35_3.id
-
-		if var_0_6[var_35_2] then
-			var_0_6[var_35_2].unlock = 1
-			var_0_6[var_35_2].lasted_time = iter_35_3.lasted_time
+	for slot6, slot7 in ipairs(uv1.icon_frame_list) do
+		if uv0[slot7.id] then
+			uv0[slot2].unlock = 1
+			uv0[slot2].lasted_time = slot7.lasted_time
 		end
 	end
 end
 
-function var_0_0.InitCardBgList(arg_36_0)
-	var_0_10 = {}
-	var_0_10.get_cardBg_id_list = {}
+function slot0.InitCardBgList(slot0)
+	uv0 = {
+		get_cardBg_id_list = {}
+	}
 
-	local var_36_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.CARD_BG]
-
-	for iter_36_0, iter_36_1 in ipairs(var_36_0) do
-		if ItemCfg[iter_36_1].sub_type ~= ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
-			var_0_10[iter_36_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.CARD_BG]) do
+		if ItemCfg[slot6].sub_type ~= ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
+			uv0[slot6] = {
 				lasted_time = 0,
 				unlock = 0,
-				id = iter_36_1
+				id = slot6
 			}
 
-			table.insert(var_0_10.get_cardBg_id_list, iter_36_1)
+			table.insert(uv0.get_cardBg_id_list, slot6)
 		end
 	end
 
-	for iter_36_2, iter_36_3 in ipairs(var_0_1.card_background_list) do
-		local var_36_1 = iter_36_3.id
-
-		if var_0_10[var_36_1] then
-			var_0_10[var_36_1].unlock = 1
-			var_0_10[var_36_1].lasted_time = iter_36_3.lasted_time
+	for slot5, slot6 in ipairs(uv1.card_background_list) do
+		if uv0[slot6.id] then
+			uv0[slot7].unlock = 1
+			uv0[slot7].lasted_time = slot6.lasted_time
 		end
 	end
 end
 
-function var_0_0.InitTagInfoList(arg_37_0)
-	var_0_12 = {}
-	var_0_12.get_tagList_id_list = {}
+function slot0.InitTagInfoList(slot0)
+	uv0 = {
+		get_tagList_id_list = {}
+	}
 
-	local var_37_0 = ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.TAG]
-
-	for iter_37_0, iter_37_1 in ipairs(var_37_0) do
-		if ItemCfg[iter_37_1].sub_type ~= ItemConst.ITEM_SUB_TYPE.TAG_LIMIT then
-			var_0_12[iter_37_1] = {
+	for slot5, slot6 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.TAG]) do
+		if ItemCfg[slot6].sub_type ~= ItemConst.ITEM_SUB_TYPE.TAG_LIMIT then
+			uv0[slot6] = {
 				obtain_time = 0,
 				lasted_time = 0,
 				unlock = 0,
-				id = iter_37_1
+				id = slot6
 			}
 
-			table.insert(var_0_12.get_tagList_id_list, iter_37_1)
+			table.insert(uv0.get_tagList_id_list, slot6)
 		end
 	end
 
-	for iter_37_2, iter_37_3 in ipairs(var_0_1.tag_info_list) do
-		local var_37_1 = iter_37_3.id
-
-		if var_0_12[var_37_1] then
-			var_0_12[var_37_1].unlock = 1
-			var_0_12[var_37_1].lasted_time = iter_37_3.lasted_time
-			var_0_12[var_37_1].obtain_time = iter_37_3.obtain_time
+	for slot5, slot6 in ipairs(uv1.tag_info_list) do
+		if uv0[slot6.id] then
+			uv0[slot7].unlock = 1
+			uv0[slot7].lasted_time = slot6.lasted_time
+			uv0[slot7].obtain_time = slot6.obtain_time
 		end
 	end
 end
 
-function var_0_0.InItReceivedSkinGift(arg_38_0, arg_38_1)
-	var_0_9 = {}
-	var_0_9.all = {}
+function slot0.InItReceivedSkinGift(slot0, slot1)
+	uv0 = {
+		all = {}
+	}
 
-	for iter_38_0, iter_38_1 in ipairs(arg_38_1.list) do
-		var_0_9[iter_38_1.skin_id] = iter_38_1.gift_acquire
+	for slot5, slot6 in ipairs(slot1.list) do
+		uv0[slot6.skin_id] = slot6.gift_acquire
 
-		table.insert(var_0_9.all, iter_38_1.skin_id)
+		table.insert(uv0.all, slot6.skin_id)
 	end
 end
 
-function var_0_0.ReceiveSkinGift(arg_39_0, arg_39_1)
-	var_0_9[arg_39_1] = true
+function slot0.ReceiveSkinGift(slot0, slot1)
+	uv0[slot1] = true
 
-	if not table.indexof(var_0_9.all, arg_39_1) then
-		table.insert(var_0_9.all, arg_39_1)
+	if not table.indexof(uv0.all, slot1) then
+		table.insert(uv0.all, slot1)
 	end
 end
 
-function var_0_0.IsNotReceived(arg_40_0, arg_40_1)
-	if not var_0_9[arg_40_1] or var_0_9[arg_40_1] == false then
+function slot0.IsNotReceived(slot0, slot1)
+	if not uv0[slot1] or uv0[slot1] == false then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.ChangeHeros(arg_41_0, arg_41_1)
-	for iter_41_0 = 1, 3 do
-		var_0_1.heroes[iter_41_0] = arg_41_1[iter_41_0]
+function slot0.ChangeHeros(slot0, slot1)
+	for slot5 = 1, 3 do
+		uv0.heroes[slot5] = slot1[slot5]
 	end
 end
 
-function var_0_0.ChangeHeroShow(arg_42_0, arg_42_1)
-	var_0_1.show_hero_flag = arg_42_1
+function slot0.ChangeHeroShow(slot0, slot1)
+	uv0.show_hero_flag = slot1
 end
 
-function var_0_0.ChangeStickerShow(arg_43_0, arg_43_1)
-	var_0_1.show_sticker_flag = arg_43_1
+function slot0.ChangeStickerShow(slot0, slot1)
+	uv0.show_sticker_flag = slot1
 end
 
-function var_0_0.ChangeStickerList(arg_44_0, arg_44_1, arg_44_2)
-	var_0_1.sticker_show_info = var_0_0:InitStickerShowList(arg_44_1)
-	var_0_1.sticker_background = arg_44_2
+function slot0.ChangeStickerList(slot0, slot1, slot2)
+	uv0.sticker_show_info = uv1:InitStickerShowList(slot1)
+	uv0.sticker_background = slot2
 
-	manager.notify:CallUpdateFunc(CHANGE_STICKER_LIST, var_0_1.sticker_show_info, var_0_1.sticker_background)
+	manager.notify:CallUpdateFunc(CHANGE_STICKER_LIST, uv0.sticker_show_info, uv0.sticker_background)
 end
 
-function var_0_0.ChangePortrait(arg_45_0, arg_45_1)
-	var_0_1.portrait = arg_45_1
+function slot0.ChangePortrait(slot0, slot1)
+	uv0.portrait = slot1
 end
 
-function var_0_0.ChangeFrameIcon(arg_46_0, arg_46_1)
-	var_0_1.icon_frame = arg_46_1
+function slot0.ChangeFrameIcon(slot0, slot1)
+	uv0.icon_frame = slot1
 end
 
-function var_0_0.GetHeroShowList(arg_47_0)
-	return var_0_1.heroes
+function slot0.GetHeroShowList(slot0)
+	return uv0.heroes
 end
 
-function var_0_0.GetCurPortrait(arg_48_0)
-	return var_0_1.portrait
+function slot0.GetCurPortrait(slot0)
+	return uv0.portrait
 end
 
-function var_0_0.GetCurFrame(arg_49_0)
-	local var_49_0 = var_0_6[var_0_1.icon_frame]
-
-	if var_49_0 and var_49_0.lasted_time > 0 and var_49_0.unlock == 1 and var_49_0.lasted_time < manager.time:GetServerTime() then
-		arg_49_0:RefreshFrameList(function()
-			return var_0_1.icon_frame
+function slot0.GetCurFrame(slot0)
+	if uv0[uv1.icon_frame] and slot1.lasted_time > 0 and slot1.unlock == 1 and slot1.lasted_time < manager.time:GetServerTime() then
+		slot0:RefreshFrameList(function ()
+			return uv0.icon_frame
 		end)
 	end
 
-	return var_0_1.icon_frame
+	return uv1.icon_frame
 end
 
-function var_0_0.GetCurCardBg(arg_51_0)
-	local var_51_0 = var_0_10[var_0_1.card_bg_id]
+function slot0.GetCurCardBg(slot0)
+	if uv0[uv1.card_bg_id] and slot1.unlock == 1 and slot1.lasted_time > 0 and slot1.lasted_time < manager.time:GetServerTime() then
+		slot0:LockCardBg(uv1.card_bg_id)
+		PlayerAction.ChangeCardBg(GameSetting.profile_business_card_default.value[1])
 
-	if var_51_0 and var_51_0.unlock == 1 and var_51_0.lasted_time > 0 and var_51_0.lasted_time < manager.time:GetServerTime() then
-		arg_51_0:LockCardBg(var_0_1.card_bg_id)
-
-		local var_51_1 = GameSetting.profile_business_card_default.value[1]
-
-		PlayerAction.ChangeCardBg(var_51_1)
-
-		return var_0_1.card_bg_id
+		return uv1.card_bg_id
 	end
 
-	return var_0_1.card_bg_id
+	return uv1.card_bg_id
 end
 
-function var_0_0.GetStickerShow(arg_52_0)
-	return var_0_1.sticker_show_info
+function slot0.GetStickerShow(slot0)
+	return uv0.sticker_show_info
 end
 
-function var_0_0.GetStickerList(arg_53_0)
-	return var_0_4.get_sticker_id_list
+function slot0.GetStickerList(slot0)
+	return uv0.get_sticker_id_list
 end
 
-function var_0_0.GetSticker(arg_54_0, arg_54_1)
-	return var_0_4[arg_54_1]
+function slot0.GetSticker(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetStickerBg(arg_55_0, arg_55_1)
-	return var_0_3[arg_55_1]
+function slot0.GetStickerBg(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetPortraitList(arg_56_0)
-	return var_0_5.get_portrait_id_list
+function slot0.GetPortraitList(slot0)
+	return uv0.get_portrait_id_list
 end
 
-function var_0_0.GetPortrait(arg_57_0, arg_57_1)
-	return var_0_5[arg_57_1]
+function slot0.GetPortrait(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetFrameList(arg_58_0)
-	return var_0_6.get_frame_id_list
+function slot0.GetFrameList(slot0)
+	return uv0.get_frame_id_list
 end
 
-function var_0_0.GetFrame(arg_59_0, arg_59_1)
-	return var_0_6[arg_59_1]
+function slot0.GetFrame(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetCardBgList(arg_60_0)
-	return var_0_10.get_cardBg_id_list
+function slot0.GetCardBgList(slot0)
+	return uv0.get_cardBg_id_list
 end
 
-function var_0_0.GetCardBg(arg_61_0, arg_61_1)
-	return var_0_10[arg_61_1]
+function slot0.GetCardBg(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetIsStickerShow(arg_62_0)
-	return var_0_1.show_sticker_flag
+function slot0.GetIsStickerShow(slot0)
+	return uv0.show_sticker_flag
 end
 
-function var_0_0.UnlockSticker(arg_63_0, arg_63_1)
-	if var_0_4[arg_63_1] then
-		if var_0_4[arg_63_1].unlock == 0 then
-			PlayerRedPoint:SetStickerUnlock(arg_63_1)
+function slot0.UnlockSticker(slot0, slot1)
+	if uv0[slot1] then
+		if uv0[slot1].unlock == 0 then
+			PlayerRedPoint:SetStickerUnlock(slot1)
 		end
 
-		var_0_4[arg_63_1].unlock = 1
+		uv0[slot1].unlock = 1
 
-		table.insert(var_0_1.all_sticker_list, arg_63_1)
+		table.insert(uv1.all_sticker_list, slot1)
 	end
 end
 
-function var_0_0.UnlockStickerBg(arg_64_0, arg_64_1)
-	if var_0_3[arg_64_1] and var_0_3[arg_64_1].unlock == 0 then
-		var_0_3[arg_64_1].unlock = 1
+function slot0.UnlockStickerBg(slot0, slot1)
+	if uv0[slot1] and uv0[slot1].unlock == 0 then
+		uv0[slot1].unlock = 1
 
-		manager.redPoint:setTip(RedPointConst.STICKER_BG .. "_" .. arg_64_1, 1)
+		manager.redPoint:setTip(RedPointConst.STICKER_BG .. "_" .. slot1, 1)
 	end
 end
 
-function var_0_0.UnlockPortrait(arg_65_0, arg_65_1)
-	if var_0_5[arg_65_1] then
-		var_0_5[arg_65_1].unlock = 1
+function slot0.UnlockPortrait(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].unlock = 1
 
-		table.insert(var_0_1.unlocked_portraits, arg_65_1)
+		table.insert(uv1.unlocked_portraits, slot1)
 	end
 end
 
-function var_0_0.UnlockFrame(arg_66_0, arg_66_1)
-	local var_66_0 = ItemCfg[arg_66_1]
-	local var_66_1 = var_66_0.param[1]
+function slot0.UnlockFrame(slot0, slot1)
+	if uv0[ItemCfg[slot1].param[1]] then
+		if slot2.sub_type == ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT or slot2.sub_type == ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT_COVER then
+			if uv0[slot3].unlock == 0 then
+				uv0[slot3].unlock = 1
+				uv0[slot3].lasted_time = manager.time:GetServerTime() + slot2.param[2] * 86400
 
-	if var_0_6[var_66_1] then
-		if var_66_0.sub_type == ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT or var_66_0.sub_type == ItemConst.ITEM_SUB_TYPE.FRAME_LIMIT_COVER then
-			local var_66_2 = var_66_0.param[2]
-
-			if var_0_6[var_66_1].unlock == 0 then
-				var_0_6[var_66_1].unlock = 1
-				var_0_6[var_66_1].lasted_time = manager.time:GetServerTime() + var_66_2 * 86400
-
-				table.insert(var_0_1.icon_frame_list, {
-					id = var_66_1,
-					lasted_time = var_0_6[var_66_1].lasted_time
+				table.insert(uv1.icon_frame_list, {
+					id = slot3,
+					lasted_time = uv0[slot3].lasted_time
 				})
-			elseif var_0_6[var_66_1].lasted_time == 0 then
+			elseif uv0[slot3].lasted_time == 0 then
 				return
 			else
-				var_0_6[var_66_1].lasted_time = var_0_6[var_66_1].lasted_time + var_66_2 * 86400
+				uv0[slot3].lasted_time = uv0[slot3].lasted_time + slot4 * 86400
 			end
 		else
-			var_0_6[var_66_1].unlock = 1
-			var_0_6[var_66_1].lasted_time = 0
+			uv0[slot3].unlock = 1
+			uv0[slot3].lasted_time = 0
 		end
 	end
 end
 
-function var_0_0.LockFrame(arg_67_0, arg_67_1)
-	if var_0_6[arg_67_1] then
-		var_0_6[arg_67_1].unlock = 0
+function slot0.LockFrame(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].unlock = 0
+		slot2 = nil
 
-		local var_67_0
-
-		for iter_67_0, iter_67_1 in ipairs(var_0_1.icon_frame_list) do
-			if iter_67_1.id == arg_67_1 then
-				table.remove(var_0_1.icon_frame_list, iter_67_0)
+		for slot6, slot7 in ipairs(uv1.icon_frame_list) do
+			if slot7.id == slot1 then
+				table.remove(uv1.icon_frame_list, slot6)
 			end
 		end
 	end
 end
 
-function var_0_0.UnlockTag(arg_68_0, arg_68_1)
-	local var_68_0 = manager.time:GetServerTime()
-	local var_68_1 = ItemCfg[arg_68_1]
-	local var_68_2 = var_68_1.param[1]
+function slot0.UnlockTag(slot0, slot1)
+	slot2 = manager.time:GetServerTime()
 
-	if var_0_12[var_68_2] then
-		if var_68_1.sub_type == ItemConst.ITEM_SUB_TYPE.TAG_LIMIT then
-			local var_68_3 = var_68_1.param[2]
-			local var_68_4 = 0
+	if uv0[ItemCfg[slot1].param[1]] then
+		if slot3.sub_type == ItemConst.ITEM_SUB_TYPE.TAG_LIMIT then
+			slot6 = 0
 
-			if var_68_3 == 0 then
-				var_68_4 = 0
-			elseif var_68_3 == 1 then
-				var_68_4 = 7
-			elseif var_68_3 == 2 then
-				var_68_4 = 14
-			elseif var_68_3 == 3 then
-				var_68_4 = 30
+			if slot3.param[2] == 0 then
+				slot6 = 0
+			elseif slot5 == 1 then
+				slot6 = 7
+			elseif slot5 == 2 then
+				slot6 = 14
+			elseif slot5 == 3 then
+				slot6 = 30
 			end
 
-			if var_0_12[var_68_2].unlock == 0 then
-				var_0_12[var_68_2].unlock = 1
-				var_0_12[var_68_2].lasted_time = manager.time:GetServerTime() + var_68_4 * 86400
+			if uv0[slot4].unlock == 0 then
+				uv0[slot4].unlock = 1
+				uv0[slot4].lasted_time = manager.time:GetServerTime() + slot6 * 86400
 
-				table.insert(var_0_1.tag_info_list, {
-					id = var_68_2,
-					lasted_time = var_0_12[var_68_2].lasted_time,
-					obtain_time = var_0_12[var_68_2].obtain_time
+				table.insert(uv1.tag_info_list, {
+					id = slot4,
+					lasted_time = uv0[slot4].lasted_time,
+					obtain_time = uv0[slot4].obtain_time
 				})
-				manager.redPoint:setTip(RedPointConst.TAG .. "_" .. var_68_2, 1)
-				saveData("limitRed", "tag_" .. var_68_2, 1)
-			elseif var_0_12[var_68_2].lasted_time == 0 then
+				manager.redPoint:setTip(RedPointConst.TAG .. "_" .. slot4, 1)
+				saveData("limitRed", "tag_" .. slot4, 1)
+			elseif uv0[slot4].lasted_time == 0 then
 				return
 			else
-				var_0_12[var_68_2].lasted_time = var_0_12[var_68_2].lasted_time + var_68_4 * 86400
+				uv0[slot4].lasted_time = uv0[slot4].lasted_time + slot6 * 86400
 			end
 		else
-			if var_0_12[var_68_2].unlock == 0 then
-				var_0_12[var_68_2].obtain_time = var_68_0
+			if uv0[slot4].unlock == 0 then
+				uv0[slot4].obtain_time = slot2
 
-				saveData("limitRed", "tag_" .. var_68_2, 1)
-				manager.redPoint:setTip(RedPointConst.TAG .. "_" .. var_68_2, 1)
+				saveData("limitRed", "tag_" .. slot4, 1)
+				manager.redPoint:setTip(RedPointConst.TAG .. "_" .. slot4, 1)
 			end
 
-			var_0_12[var_68_2].unlock = 1
-			var_0_12[var_68_2].lasted_time = 0
+			uv0[slot4].unlock = 1
+			uv0[slot4].lasted_time = 0
 		end
 	end
 end
 
-function var_0_0.LockTag(arg_69_0, arg_69_1)
-	if var_0_12[arg_69_1] then
-		var_0_12[arg_69_1].unlock = 0
+function slot0.LockTag(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].unlock = 0
 
-		for iter_69_0, iter_69_1 in ipairs(var_0_1.tag_info_list) do
-			if iter_69_1.id == arg_69_1 then
-				table.remove(var_0_1.tag_info_list, iter_69_0)
+		for slot5, slot6 in ipairs(uv1.tag_info_list) do
+			if slot6.id == slot1 then
+				table.remove(uv1.tag_info_list, slot5)
 			end
 		end
 	end
 end
 
-function var_0_0.UnlockCardBg(arg_70_0, arg_70_1)
-	local var_70_0 = ItemCfg[arg_70_1]
-	local var_70_1 = var_70_0.param[1]
+function slot0.UnlockCardBg(slot0, slot1)
+	if uv0[ItemCfg[slot1].param[1]] then
+		if slot2.sub_type == ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
+			slot5 = 0
 
-	if var_0_10[var_70_1] then
-		if var_70_0.sub_type == ItemConst.ITEM_SUB_TYPE.CARD_BG_LIMIT then
-			local var_70_2 = var_70_0.param[2]
-			local var_70_3 = 0
-
-			if var_70_2 == 0 then
-				var_70_3 = 0
-			elseif var_70_2 == 1 then
-				var_70_3 = 7
-			elseif var_70_2 == 2 then
-				var_70_3 = 14
-			elseif var_70_2 == 3 then
-				var_70_3 = 30
+			if slot2.param[2] == 0 then
+				slot5 = 0
+			elseif slot4 == 1 then
+				slot5 = 7
+			elseif slot4 == 2 then
+				slot5 = 14
+			elseif slot4 == 3 then
+				slot5 = 30
 			end
 
-			if var_0_10[var_70_1].unlock == 0 then
-				var_0_10[var_70_1].unlock = 1
-				var_0_10[var_70_1].lasted_time = manager.time:GetServerTime() + var_70_3 * 86400
+			if uv0[slot3].unlock == 0 then
+				uv0[slot3].unlock = 1
+				uv0[slot3].lasted_time = manager.time:GetServerTime() + slot5 * 86400
 
-				table.insert(var_0_1.card_background_list, {
-					id = var_70_1,
-					lasted_time = var_0_10[var_70_1].lasted_time
+				table.insert(uv1.card_background_list, {
+					id = slot3,
+					lasted_time = uv0[slot3].lasted_time
 				})
-				manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. var_70_1, 1)
-				saveData("limitRed", "cardBg_" .. var_70_1, 1)
-			elseif var_0_10[var_70_1].lasted_time == 0 then
+				manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. slot3, 1)
+				saveData("limitRed", "cardBg_" .. slot3, 1)
+			elseif uv0[slot3].lasted_time == 0 then
 				return
 			else
-				var_0_10[var_70_1].lasted_time = var_0_10[var_70_1].lasted_time + var_70_3 * 86400
+				uv0[slot3].lasted_time = uv0[slot3].lasted_time + slot5 * 86400
 			end
 		else
-			if var_0_10[var_70_1].unlock == 0 then
-				saveData("limitRed", "cardBg_" .. var_70_1, 1)
-				manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. var_70_1, 1)
+			if uv0[slot3].unlock == 0 then
+				saveData("limitRed", "cardBg_" .. slot3, 1)
+				manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. slot3, 1)
 			end
 
-			var_0_10[var_70_1].unlock = 1
-			var_0_10[var_70_1].lasted_time = 0
+			uv0[slot3].unlock = 1
+			uv0[slot3].lasted_time = 0
 		end
 	end
 end
 
-function var_0_0.LockCardBg(arg_71_0, arg_71_1)
-	if var_0_10[arg_71_1] then
-		var_0_10[arg_71_1].unlock = 0
+function slot0.LockCardBg(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].unlock = 0
 
-		for iter_71_0, iter_71_1 in ipairs(var_0_1.card_background_list) do
-			if iter_71_1.id == arg_71_1 then
-				table.remove(var_0_1.card_background_list, iter_71_0)
+		for slot5, slot6 in ipairs(uv1.card_background_list) do
+			if slot6.id == slot1 then
+				table.remove(uv1.card_background_list, slot5)
 			end
 		end
 	end
 end
 
-function var_0_0.RefreshFrameList(arg_72_0, arg_72_1)
-	local var_72_0
-	local var_72_1 = false
-	local var_72_2 = var_0_1.icon_frame
-	local var_72_3 = manager.time:GetServerTime()
+function slot0.RefreshFrameList(slot0, slot1)
+	slot2 = nil
+	slot3 = false
 
-	for iter_72_0, iter_72_1 in ipairs(var_0_6.get_frame_id_list) do
-		local var_72_4 = var_0_6[iter_72_1]
+	for slot9, slot10 in ipairs(uv1.get_frame_id_list) do
+		if uv1[slot10].unlock == 1 and slot2.lasted_time > 0 and slot2.lasted_time < manager.time:GetServerTime() then
+			slot0:LockFrame(slot10)
 
-		if var_72_4.unlock == 1 and var_72_4.lasted_time > 0 and var_72_3 > var_72_4.lasted_time then
-			arg_72_0:LockFrame(iter_72_1)
-
-			if iter_72_1 == var_72_2 then
-				var_72_1 = true
+			if slot10 == uv0.icon_frame then
+				slot3 = true
 			end
 		end
 	end
 
-	if var_72_1 then
-		local var_72_5 = GameSetting.profile_avatar_frame_default.value[1]
-
-		PlayerAction.ChangeFrameIcon(var_72_5)
+	if slot3 then
+		PlayerAction.ChangeFrameIcon(GameSetting.profile_avatar_frame_default.value[1])
 	end
 
-	if arg_72_1 then
-		arg_72_1()
+	if slot1 then
+		slot1()
 	end
 end
 
-function var_0_0.DealOverdueFrame(arg_73_0)
-	if var_0_7 and #var_0_7 > 0 then
+function slot0.DealOverdueFrame(slot0)
+	if uv0 and #uv0 > 0 then
 		JumpTools.OpenPageByJump("FrameExpired", {
-			expiredList = var_0_7,
+			expiredList = uv0,
 			type = ItemConst.ITEM_TYPE.FRAME
 		})
 		PlayerAction.DealOverdueFrame()
 
-		var_0_7 = {}
+		uv0 = {}
 	end
 end
 
-function var_0_0.DealOverdueCardBgList(arg_74_0)
-	if var_0_11 and #var_0_11 > 0 then
+function slot0.DealOverdueCardBgList(slot0)
+	if uv0 and #uv0 > 0 then
 		JumpTools.OpenPageByJump("FrameExpired", {
-			expiredList = var_0_11,
+			expiredList = uv0,
 			type = ItemConst.ITEM_TYPE.CARD_BG
 		})
 		PlayerAction.DealOverdueCardBgList()
 
-		var_0_11 = {}
+		uv0 = {}
 	end
 end
 
-function var_0_0.DealOverdueTagList(arg_75_0)
-	if var_0_13 and #var_0_13 > 0 then
+function slot0.DealOverdueTagList(slot0)
+	if uv0 and #uv0 > 0 then
 		JumpTools.OpenPageByJump("FrameExpired", {
-			expiredList = var_0_13,
+			expiredList = uv0,
 			type = ItemConst.ITEM_TYPE.TAG
 		})
 		PlayerAction.DealOverdueTagList()
 
-		var_0_13 = {}
+		uv0 = {}
 	end
 end
 
-function var_0_0.SetUnclaimedListFromServer(arg_76_0, arg_76_1)
-	var_0_8 = {}
+function slot0.SetUnclaimedListFromServer(slot0, slot1)
+	uv0 = {}
 
-	for iter_76_0, iter_76_1 in ipairs(arg_76_1.reward) do
-		var_0_8[iter_76_1.id] = iter_76_1.stage
+	for slot5, slot6 in ipairs(slot1.reward) do
+		uv0[slot6.id] = slot6.stage
 	end
 end
 
-function var_0_0.GetUnclaimed(arg_77_0, arg_77_1)
-	return var_0_8[arg_77_1] or nil
+function slot0.GetUnclaimed(slot0, slot1)
+	return uv0[slot1] or nil
 end
 
-function var_0_0.ReadUnclaimed(arg_78_0, arg_78_1)
-	var_0_8[arg_78_1] = nil
+function slot0.ReadUnclaimed(slot0, slot1)
+	uv0[slot1] = nil
 end
 
-function var_0_0.SetUsingTagList(arg_79_0, arg_79_1)
-	var_0_1.used_tag_list = arg_79_1
+function slot0.SetUsingTagList(slot0, slot1)
+	uv0.used_tag_list = slot1
 end
 
-function var_0_0.GetUnlockTagListInfo(arg_80_0)
-	local var_80_0 = {}
-	local var_80_1 = manager.time:GetServerTime()
+function slot0.GetUnlockTagListInfo(slot0)
+	slot1 = {}
 
-	for iter_80_0, iter_80_1 in ipairs(var_0_12.get_tagList_id_list) do
-		local var_80_2 = var_0_12[iter_80_1]
-
-		if var_80_2 and var_80_2.unlock == 1 then
-			if var_80_2.lasted_time == 0 or var_80_1 < var_80_2.lasted_time then
-				table.insert(var_80_0, var_80_2)
+	for slot6, slot7 in ipairs(uv0.get_tagList_id_list) do
+		if uv0[slot7] and slot8.unlock == 1 then
+			if slot8.lasted_time == 0 or manager.time:GetServerTime() < slot8.lasted_time then
+				table.insert(slot1, slot8)
 			else
-				arg_80_0:LockTag(iter_80_1)
+				slot0:LockTag(slot7)
 			end
 		end
 	end
 
-	table.sort(var_80_0, function(arg_81_0, arg_81_1)
-		local var_81_0 = ProfileLabelCfg[arg_81_0.id]
-		local var_81_1 = ProfileLabelCfg[arg_81_1.id]
-
-		if var_81_0.type ~= var_81_1.type then
-			return var_81_0.type > var_81_1.type
+	table.sort(slot1, function (slot0, slot1)
+		if ProfileLabelCfg[slot0.id].type ~= ProfileLabelCfg[slot1.id].type then
+			return slot3.type < slot2.type
 		end
 
-		if arg_81_0.obtain_time ~= arg_81_0.obtain_time then
-			return arg_81_0.obtain_time < arg_81_0.obtain_time
+		if slot0.obtain_time ~= slot0.obtain_time then
+			return slot0.obtain_time < slot0.obtain_time
 		end
 
-		return arg_81_0.id < arg_81_1.id
+		return slot0.id < slot1.id
 	end)
 
-	return var_80_0
+	return slot1
 end
 
-function var_0_0.GetUsingTagListInfo(arg_82_0)
-	local var_82_0 = {}
-	local var_82_1 = manager.time:GetServerTime()
+function slot0.GetUsingTagListInfo(slot0)
+	slot1 = {}
 
-	for iter_82_0, iter_82_1 in ipairs(var_0_1.used_tag_list) do
-		local var_82_2 = var_0_12[iter_82_1]
-
-		if var_82_2 and var_82_2.unlock == 1 and (var_82_2.lasted_time == 0 or var_82_1 < var_82_2.lasted_time) then
-			table.insert(var_82_0, iter_82_1)
+	for slot6, slot7 in ipairs(uv0.used_tag_list) do
+		if uv1[slot7] and slot8.unlock == 1 and (slot8.lasted_time == 0 or manager.time:GetServerTime() < slot8.lasted_time) then
+			table.insert(slot1, slot7)
 		end
 	end
 
-	table.sort(var_82_0, function(arg_83_0, arg_83_1)
-		local var_83_0 = ProfileLabelCfg[arg_83_0]
-		local var_83_1 = ProfileLabelCfg[arg_83_1]
-
-		if var_83_0.type ~= var_83_1.type then
-			return var_83_0.type > var_83_1.type
+	table.sort(slot1, function (slot0, slot1)
+		if ProfileLabelCfg[slot0].type ~= ProfileLabelCfg[slot1].type then
+			return slot3.type < slot2.type
 		end
 
-		if var_0_12[arg_83_0].obtain_time ~= var_0_12[arg_83_1].obtain_time then
-			return var_0_12[arg_83_0].obtain_time < var_0_12[arg_83_1].obtain_time
+		if uv0[slot0].obtain_time ~= uv0[slot1].obtain_time then
+			return uv0[slot0].obtain_time < uv0[slot1].obtain_time
 		end
 
-		return arg_83_0 < arg_83_1
+		return slot0 < slot1
 	end)
 
-	return var_82_0
+	return slot1
 end
 
-function var_0_0.GetTagInfo(arg_84_0, arg_84_1)
-	return var_0_12[arg_84_1]
+function slot0.GetTagInfo(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.ResetSendLikeList(arg_85_0)
-	var_0_1.today_send_like = {}
+function slot0.ResetSendLikeList(slot0)
+	uv0.today_send_like = {}
 end
 
-function var_0_0.GetTodaySendLikeList(arg_86_0)
-	return var_0_1.today_send_like
+function slot0.GetTodaySendLikeList(slot0)
+	return uv0.today_send_like
 end
 
-function var_0_0.SetCardBg(arg_87_0, arg_87_1)
-	var_0_1.card_bg_id = arg_87_1
+function slot0.SetCardBg(slot0, slot1)
+	uv0.card_bg_id = slot1
 end
 
-function var_0_0.OnSendLike(arg_88_0, arg_88_1)
-	table.insert(var_0_1.today_send_like, arg_88_1)
+function slot0.OnSendLike(slot0, slot1)
+	table.insert(uv0.today_send_like, slot1)
 end
 
-function var_0_0.GetLikeInfo(arg_89_0)
-	local var_89_0 = {}
+function slot0.GetLikeInfo(slot0)
+	slot1 = {}
 
-	for iter_89_0 = 1, GameSetting.profile_like_record.value[1] do
-		if var_0_1.likes_list[iter_89_0] then
-			table.insert(var_89_0, var_0_1.likes_list[iter_89_0])
+	for slot5 = 1, GameSetting.profile_like_record.value[1] do
+		if uv0.likes_list[slot5] then
+			table.insert(slot1, uv0.likes_list[slot5])
 		else
 			break
 		end
 	end
 
-	return var_89_0
+	return slot1
 end
 
-function var_0_0.AddLikeInfo(arg_90_0, arg_90_1)
-	table.sort(arg_90_1, function(arg_91_0, arg_91_1)
-		return arg_91_0.time > arg_91_1.time
+function slot0.AddLikeInfo(slot0, slot1)
+	table.sort(slot1, function (slot0, slot1)
+		return slot1.time < slot0.time
 	end)
 
-	local var_90_0 = {}
+	slot2 = {}
 
-	table.insertto(var_90_0, arg_90_1)
-	table.insertto(var_90_0, var_0_1.likes_list)
+	table.insertto(slot2, slot1)
 
-	for iter_90_0 = #var_90_0, GameSetting.profile_like_record.value[1] + 1, -1 do
-		table.remove(var_90_0, iter_90_0)
+	slot6 = uv0.likes_list
+
+	table.insertto(slot2, slot6)
+
+	for slot6 = #slot2, GameSetting.profile_like_record.value[1] + 1, -1 do
+		table.remove(slot2, slot6)
 	end
 
-	var_0_1.likes_list = var_90_0
-	var_0_1.likes = var_0_1.likes + #arg_90_1
+	uv0.likes_list = slot2
+	uv0.likes = uv0.likes + #slot1
 
 	manager.notify:CallUpdateFunc(GET_LIKE)
 end
 
-local var_0_15
+slot15 = nil
 
-function var_0_0.RefreshTagRed(arg_92_0)
-	arg_92_0:StopTagRed()
+function slot0.RefreshTagRed(slot0)
+	slot0:StopTagRed()
 
-	var_0_15 = Timer.New(function()
-		local var_93_0 = 0
-		local var_93_1 = manager.time:GetServerTime()
+	uv0 = Timer.New(function ()
+		for slot5, slot6 in ipairs(uv0.get_tagList_id_list) do
+			if uv0[slot6].unlock == 1 and slot7.lasted_time > 0 and (getData("limitRed", "tag_" .. slot6) or 0) == 1 then
+				slot0 = 0 + 1
 
-		for iter_93_0, iter_93_1 in ipairs(var_0_12.get_tagList_id_list) do
-			local var_93_2 = var_0_12[iter_93_1]
-			local var_93_3 = getData("limitRed", "tag_" .. iter_93_1) or 0
-
-			if var_93_2.unlock == 1 and var_93_2.lasted_time > 0 and var_93_3 == 1 then
-				var_93_0 = var_93_0 + 1
-
-				if var_93_1 < var_93_2.lasted_time then
-					arg_92_0:LockTag(iter_93_1)
-					saveData("limitRed", "tag_" .. iter_93_1, 0)
-					manager.redPoint:setTip(RedPointConst.TAG .. "_" .. iter_93_1, 0)
+				if manager.time:GetServerTime() < slot7.lasted_time then
+					uv1:LockTag(slot6)
+					saveData("limitRed", "tag_" .. slot6, 0)
+					manager.redPoint:setTip(RedPointConst.TAG .. "_" .. slot6, 0)
 				else
-					manager.redPoint:setTip(RedPointConst.TAG .. "_" .. iter_93_1, 1)
+					manager.redPoint:setTip(RedPointConst.TAG .. "_" .. slot6, 1)
 				end
 			end
 		end
 
-		if var_93_0 == 0 then
-			arg_92_0:StopTagRed()
+		if slot0 == 0 then
+			uv1:StopTagRed()
 		end
 	end, 1, -1)
 
-	var_0_15:Start()
+	uv0:Start()
 end
 
-function var_0_0.ClearTagRed(arg_94_0)
-	for iter_94_0, iter_94_1 in ipairs(var_0_12.get_tagList_id_list) do
-		saveData("limitRed", "tag_" .. iter_94_1, 0)
-		manager.redPoint:setTip(RedPointConst.TAG .. "_" .. iter_94_1, 0)
+function slot0.ClearTagRed(slot0)
+	for slot4, slot5 in ipairs(uv0.get_tagList_id_list) do
+		saveData("limitRed", "tag_" .. slot5, 0)
+		manager.redPoint:setTip(RedPointConst.TAG .. "_" .. slot5, 0)
 	end
 end
 
-function var_0_0.StopTagRed(arg_95_0)
-	if var_0_15 then
-		var_0_15:Stop()
+function slot0.StopTagRed(slot0)
+	if uv0 then
+		uv0:Stop()
 
-		var_0_15 = nil
+		uv0 = nil
 	end
 end
 
-local var_0_16
+slot16 = nil
 
-function var_0_0.RefreshCardBgRed(arg_96_0)
-	arg_96_0:StopCardRed()
+function slot0.RefreshCardBgRed(slot0)
+	slot0:StopCardRed()
 
-	var_0_16 = Timer.New(function()
-		local var_97_0 = 0
-		local var_97_1 = manager.time:GetServerTime()
+	uv0 = Timer.New(function ()
+		for slot5, slot6 in ipairs(uv0.get_cardBg_id_list) do
+			if uv0[slot6].unlock == 1 and slot7.lasted_time > 0 and (getData("limitRed", "cardBg_" .. slot6) or 0) == 1 then
+				slot0 = 0 + 1
 
-		for iter_97_0, iter_97_1 in ipairs(var_0_10.get_cardBg_id_list) do
-			local var_97_2 = var_0_10[iter_97_1]
-			local var_97_3 = getData("limitRed", "cardBg_" .. iter_97_1) or 0
-
-			if var_97_2.unlock == 1 and var_97_2.lasted_time > 0 and var_97_3 == 1 then
-				var_97_0 = var_97_0 + 1
-
-				if var_97_1 < var_97_2.lasted_time then
-					arg_96_0:LockCardBg(iter_97_1)
-					saveData("limitRed", "cardBg_" .. iter_97_1, 0)
-					manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. iter_97_1, 0)
+				if manager.time:GetServerTime() < slot7.lasted_time then
+					uv1:LockCardBg(slot6)
+					saveData("limitRed", "cardBg_" .. slot6, 0)
+					manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. slot6, 0)
 				else
-					manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. iter_97_1, 1)
+					manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. slot6, 1)
 				end
 			end
 		end
 
-		if var_97_0 == 0 then
-			arg_96_0:StopCardRed()
+		if slot0 == 0 then
+			uv1:StopCardRed()
 		end
 	end, 1, -1)
 
-	var_0_16:Start()
+	uv0:Start()
 end
 
-function var_0_0.ClearCardBgRed(arg_98_0)
-	for iter_98_0, iter_98_1 in ipairs(var_0_10.get_cardBg_id_list) do
-		saveData("limitRed", "cardBg_" .. iter_98_1, 0)
-		manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. iter_98_1, 0)
+function slot0.ClearCardBgRed(slot0)
+	for slot4, slot5 in ipairs(uv0.get_cardBg_id_list) do
+		saveData("limitRed", "cardBg_" .. slot5, 0)
+		manager.redPoint:setTip(RedPointConst.CARD_BG .. "_" .. slot5, 0)
 	end
 end
 
-function var_0_0.StopCardRed(arg_99_0)
-	if var_0_16 then
-		var_0_16:Stop()
+function slot0.StopCardRed(slot0)
+	if uv0 then
+		uv0:Stop()
 
-		var_0_16 = nil
+		uv0 = nil
 	end
 end
 
-function var_0_0.SetCurChatBubbleID(arg_100_0, arg_100_1)
-	var_0_1.used_chat_buddle_id = arg_100_1
+function slot0.SetCurChatBubbleID(slot0, slot1)
+	uv0.used_chat_buddle_id = slot1
 end
 
-function var_0_0.GetCurChatBubbleID(arg_101_0)
-	return var_0_1.used_chat_buddle_id
+function slot0.GetCurChatBubbleID(slot0)
+	return uv0.used_chat_buddle_id
 end
 
-function var_0_0.UnlockChatBubble(arg_102_0, arg_102_1)
-	table.insert(var_0_1.chat_bubble_unlock_id_list, arg_102_1)
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.CHAT_BUBBLE, arg_102_1), 1)
+function slot0.UnlockChatBubble(slot0, slot1)
+	table.insert(uv0.chat_bubble_unlock_id_list, slot1)
+	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.CHAT_BUBBLE, slot1), 1)
 end
 
-function var_0_0.GetUnlockChatBubbleIDList(arg_103_0)
-	return var_0_1.chat_bubble_unlock_id_list
+function slot0.GetUnlockChatBubbleIDList(slot0)
+	return uv0.chat_bubble_unlock_id_list
 end
 
-function var_0_0.InitPlayerStoryTrigger(arg_104_0, arg_104_1)
-	var_0_14 = {}
+function slot0.InitPlayerStoryTrigger(slot0, slot1)
+	uv0 = {}
 
-	for iter_104_0, iter_104_1 in ipairs(arg_104_1.info_list) do
-		var_0_14[iter_104_1.trigger_group_id] = {}
+	for slot5, slot6 in ipairs(slot1.info_list) do
+		uv0[slot6.trigger_group_id] = {}
 
-		for iter_104_2, iter_104_3 in ipairs(iter_104_1.completed_trigger_list) do
-			table.insert(var_0_14[iter_104_1.trigger_group_id], iter_104_3)
+		for slot10, slot11 in ipairs(slot6.completed_trigger_list) do
+			table.insert(uv0[slot6.trigger_group_id], slot11)
 		end
 	end
 end
 
-function var_0_0.AddPlayerStoryTrigger(arg_105_0, arg_105_1)
-	local var_105_0 = StoryTriggerCfg[arg_105_1]
-
-	if var_0_14[var_105_0.trigger_group] then
-		if table.indexof(var_0_14[var_105_0.trigger_group], arg_105_1) == false then
-			table.insert(var_0_14[var_105_0.trigger_group], arg_105_1)
+function slot0.AddPlayerStoryTrigger(slot0, slot1)
+	if uv0[StoryTriggerCfg[slot1].trigger_group] then
+		if table.indexof(uv0[slot2.trigger_group], slot1) == false then
+			table.insert(uv0[slot2.trigger_group], slot1)
 		end
 	else
-		var_0_14[var_105_0.trigger_group] = {
-			arg_105_1
+		uv0[slot2.trigger_group] = {
+			slot1
 		}
 	end
 end
 
-function var_0_0.GetPlayerStoryTriggerGroupInfo(arg_106_0, arg_106_1)
-	local var_106_0 = StoryTriggerCfg[arg_106_1]
-	local var_106_1 = #StoryTriggerCfg.get_id_list_by_trigger_group[var_106_0.trigger_group]
-	local var_106_2 = 0
+function slot0.GetPlayerStoryTriggerGroupInfo(slot0, slot1)
+	slot2 = StoryTriggerCfg[slot1]
+	slot3 = #StoryTriggerCfg.get_id_list_by_trigger_group[slot2.trigger_group]
+	slot4 = 0
 
-	if var_0_14[var_106_0.trigger_group] then
-		var_106_2 = #var_0_14[var_106_0.trigger_group]
+	if uv0[slot2.trigger_group] then
+		slot4 = #uv0[slot2.trigger_group]
 	end
 
-	return var_106_2, var_106_1
+	return slot4, slot3
 end
 
-return var_0_0
+return slot0

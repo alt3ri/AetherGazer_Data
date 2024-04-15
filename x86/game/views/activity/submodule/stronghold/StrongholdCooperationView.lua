@@ -1,69 +1,62 @@
-local var_0_0 = import("game.views.cooperation.CooperationView")
-local var_0_1 = class("StrongholdCooperationView", var_0_0)
+slot1 = class("StrongholdCooperationView", import("game.views.cooperation.CooperationView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/Stronghold/StrongholdCooperationUI"
 end
 
-function var_0_1.InitUI(arg_2_0)
-	var_0_1.super.InitUI(arg_2_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0["skillTypeController_" .. iter_2_0] = ControllerUtil.GetController(arg_2_0["m_skillTrs" .. iter_2_0], "click")
-		arg_2_0["skillLockController_" .. iter_2_0] = ControllerUtil.GetController(arg_2_0["m_skillTrs" .. iter_2_0], "lock")
+	for slot4 = 1, 3 do
+		slot0["skillTypeController_" .. slot4] = ControllerUtil.GetController(slot0["m_skillTrs" .. slot4], "click")
+		slot0["skillLockController_" .. slot4] = ControllerUtil.GetController(slot0["m_skillTrs" .. slot4], "lock")
 	end
 
-	arg_2_0.selfSkillTypeController = ControllerUtil.GetController(arg_2_0.m_skillContent, "select")
+	slot0.selfSkillTypeController = ControllerUtil.GetController(slot0.m_skillContent, "select")
 end
 
-function var_0_1.AddUIListener(arg_3_0)
-	var_0_1.super.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(nil, arg_3_0.m_skillBtn1, function()
-		StrongholdAction.QueryChooseRoomSkillType(arg_3_0.roomData.room_id, 1)
+function slot1.AddUIListener(slot0)
+	uv0.super.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_skillBtn1, function ()
+		StrongholdAction.QueryChooseRoomSkillType(uv0.roomData.room_id, 1)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.m_skillBtn2, function()
-		StrongholdAction.QueryChooseRoomSkillType(arg_3_0.roomData.room_id, 2)
+	slot0:AddBtnListener(nil, slot0.m_skillBtn2, function ()
+		StrongholdAction.QueryChooseRoomSkillType(uv0.roomData.room_id, 2)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.m_skillBtn3, function()
-		StrongholdAction.QueryChooseRoomSkillType(arg_3_0.roomData.room_id, 3)
+	slot0:AddBtnListener(nil, slot0.m_skillBtn3, function ()
+		StrongholdAction.QueryChooseRoomSkillType(uv0.roomData.room_id, 3)
 	end)
-	arg_3_0:AddBtnListener(nil, arg_3_0.m_skillInfoBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_skillInfoBtn, function ()
 		JumpTools.OpenPageByJump("strongholdSkillInfo")
 	end)
 end
 
-function var_0_1.RefreshUI(arg_8_0)
-	arg_8_0.skillTypes = StrongholdData:GetRoomSkillTypes(arg_8_0.roomData.room_id)
+function slot1.RefreshUI(slot0)
+	slot0.skillTypes = StrongholdData:GetRoomSkillTypes(slot0.roomData.room_id)
 
-	for iter_8_0 = 1, 3 do
-		local var_8_0 = arg_8_0.skillTypes[iter_8_0] or 0
+	for slot4 = 1, 3 do
+		slot0["skillTypeController_" .. slot4]:SetSelectedIndex(slot0.skillTypes[slot4] or 0)
 
-		arg_8_0["skillTypeController_" .. iter_8_0]:SetSelectedIndex(var_8_0)
+		slot6, slot7, slot8, slot9 = StrongholdData:GetStrongholdLevel(slot4)
 
-		local var_8_1, var_8_2, var_8_3, var_8_4 = StrongholdData:GetStrongholdLevel(iter_8_0)
-
-		if var_8_2 < StrongholdData:GetSkillLimitLv() then
-			arg_8_0["skillLockController_" .. iter_8_0]:SetSelectedIndex(1)
+		if slot7 < StrongholdData:GetSkillLimitLv() then
+			slot0["skillLockController_" .. slot4]:SetSelectedIndex(1)
 		else
-			arg_8_0["skillLockController_" .. iter_8_0]:SetSelectedIndex(0)
+			slot0["skillLockController_" .. slot4]:SetSelectedIndex(0)
 		end
 
-		arg_8_0["m_skillIcon" .. iter_8_0].sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. iter_8_0)
+		slot0["m_skillIcon" .. slot4].sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. slot4)
 	end
 
-	local var_8_5 = StrongholdData:GetSelfRoomSkillType(arg_8_0.roomData.room_id)
-
-	arg_8_0.selfSkillTypeController:SetSelectedIndex(var_8_5)
+	slot0.selfSkillTypeController:SetSelectedIndex(StrongholdData:GetSelfRoomSkillType(slot0.roomData.room_id))
 end
 
-function var_0_1.GetRoomName(arg_9_0)
-	local var_9_0 = arg_9_0.roomData.dest
-
-	return ActivityStrongholdCfg[var_9_0] and ActivityStrongholdCfg[var_9_0].room_name or ""
+function slot1.GetRoomName(slot0)
+	return ActivityStrongholdCfg[slot0.roomData.dest] and ActivityStrongholdCfg[slot1].room_name or ""
 end
 
-function var_0_1.ShowComboIncreaseGo(arg_10_0)
+function slot1.ShowComboIncreaseGo(slot0)
 	return true
 end
 
-return var_0_1
+return slot1

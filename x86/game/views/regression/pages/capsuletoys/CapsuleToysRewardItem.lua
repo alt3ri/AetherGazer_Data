@@ -1,92 +1,90 @@
-local var_0_0 = class("CapsuleToysRewardItem", ReduxView)
+slot0 = class("CapsuleToysRewardItem", ReduxView)
 
-function var_0_0.GetItemPath(arg_1_0)
-	if arg_1_0.isSmall_ then
+function slot0.GetItemPath(slot0)
+	if slot0.isSmall_ then
 		return "Widget/System/Com_dynamic/CommonItem_s"
 	else
 		return "Widget/System/Com_dynamic/CommonItem"
 	end
 end
 
-function var_0_0.OnCtor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.parentGo_ = Object.Instantiate(arg_2_2, arg_2_1.transform, false)
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.parentGo_ = Object.Instantiate(slot2, slot1.transform, false)
 
-	arg_2_0:BindCfgUI(arg_2_0.parentGo_)
+	slot0:BindCfgUI(slot0.parentGo_)
 
-	arg_2_0.isSmall_ = arg_2_3
-	arg_2_0.gameObject_ = arg_2_0.parentGo_
-	arg_2_0.transform_ = arg_2_0.parentGo_.transform
+	slot0.isSmall_ = slot3
+	slot0.gameObject_ = slot0.parentGo_
+	slot0.transform_ = slot0.parentGo_.transform
 
-	SetActive(arg_2_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	arg_2_0.commonItemGo_ = manager.objectPool:Get(arg_2_0:GetItemPath())
-	arg_2_0.commonItem_ = CommonItemView.New(arg_2_0.commonItemGo_)
+	slot0.commonItemGo_ = manager.objectPool:Get(slot0:GetItemPath())
+	slot0.commonItem_ = CommonItemView.New(slot0.commonItemGo_)
 
-	arg_2_0:SetParent()
+	slot0:SetParent()
 
-	arg_2_0.parentGo_.transform.localScale = Vector3.one
+	slot0.parentGo_.transform.localScale = Vector3.one
 
-	if arg_2_0.soldOutGo_ then
-		arg_2_0.soldOutGo_.transform:SetAsLastSibling()
+	if slot0.soldOutGo_ then
+		slot0.soldOutGo_.transform:SetAsLastSibling()
 	end
 end
 
-function var_0_0.SetParent(arg_3_0)
-	arg_3_0.commonItemGo_.transform:SetParent(arg_3_0.contentTrans_, true)
-	arg_3_0.commonItem_:ResetTransform()
+function slot0.SetParent(slot0)
+	slot0.commonItemGo_.transform:SetParent(slot0.contentTrans_, true)
+	slot0.commonItem_:ResetTransform()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.rewardID_ = arg_4_1
+function slot0.SetData(slot0, slot1)
+	slot0.rewardID_ = slot1
+	slot2 = RegressionCapsuleToysCfg[slot1]
+	slot4 = 0
 
-	local var_4_0 = RegressionCapsuleToysCfg[arg_4_1]
-	local var_4_1 = RegressionData:GetCapsuleToysStatus()[arg_4_1]
-	local var_4_2 = 0
-
-	if var_4_1 then
-		var_4_2 = var_4_1.remain_num
+	if RegressionData:GetCapsuleToysStatus()[slot1] then
+		slot4 = slot3.remain_num
 	end
 
-	arg_4_0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), var_4_2, var_4_0.total)
+	slot0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), slot4, slot2.total)
 
-	if arg_4_0.soldOutGo_ then
-		SetActive(arg_4_0.soldOutGo_, var_4_2 == 0)
+	if slot0.soldOutGo_ then
+		SetActive(slot0.soldOutGo_, slot4 == 0)
 	end
 
-	local var_4_3 = RegressionCapsuleToysCfg[arg_4_0.rewardID_].reward
+	slot5 = RegressionCapsuleToysCfg[slot0.rewardID_].reward
 
-	if not arg_4_0.itemData_ then
-		arg_4_0.itemData_ = clone(ItemTemplateData)
+	if not slot0.itemData_ then
+		slot0.itemData_ = clone(ItemTemplateData)
 
-		function arg_4_0.itemData_.clickFun(arg_5_0)
+		function slot0.itemData_.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_5_0.id,
-				arg_5_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 	end
 
-	arg_4_0.itemData_.id = var_4_3[1]
-	arg_4_0.itemData_.number = var_4_3[2]
+	slot0.itemData_.id = slot5[1]
+	slot0.itemData_.number = slot5[2]
 
-	arg_4_0.commonItem_:SetData(arg_4_0.itemData_)
+	slot0.commonItem_:SetData(slot0.itemData_)
 end
 
-function var_0_0.Show(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.parentGo_, arg_6_1)
-	var_0_0.super.Show(arg_6_0, arg_6_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.parentGo_, slot1)
+	uv0.super.Show(slot0, slot1)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0.commonItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.commonItem_:Dispose()
 
-	arg_7_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 
-	manager.objectPool:Return(arg_7_0:GetItemPath(), arg_7_0.commonItemGo_)
+	manager.objectPool:Return(slot0:GetItemPath(), slot0.commonItemGo_)
 
-	arg_7_0.commonItemGo_ = nil
+	slot0.commonItemGo_ = nil
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

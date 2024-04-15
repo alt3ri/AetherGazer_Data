@@ -1,103 +1,90 @@
-local var_0_0 = class("BaseGuide")
+slot0 = class("BaseGuide")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0:Init(arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	slot0:Init(slot1)
 end
 
-function var_0_0.Init(arg_2_0, arg_2_1)
-	arg_2_0._starTime = 0
-	arg_2_0._guideId = arg_2_1
-	arg_2_0._cfg = GuideBaseCfg[arg_2_1]
-	arg_2_0.open_condition = arg_2_0._cfg.open_condition
-	arg_2_0.is_no_home = arg_2_0._cfg.is_no_home
-	arg_2_0.narrator_name = arg_2_0._cfg.narrator_name or ""
-	arg_2_0.narrator_icon = arg_2_0._cfg.narrator_icon or ""
-	arg_2_0.group = arg_2_0._cfg.group or 0
-	arg_2_0.ignore_group_condition = arg_2_0._cfg.ignore_group_condition
+function slot0.Init(slot0, slot1)
+	slot0._starTime = 0
+	slot0._guideId = slot1
+	slot0._cfg = GuideBaseCfg[slot1]
+	slot0.open_condition = slot0._cfg.open_condition
+	slot0.is_no_home = slot0._cfg.is_no_home
+	slot0.narrator_name = slot0._cfg.narrator_name or ""
+	slot0.narrator_icon = slot0._cfg.narrator_icon or ""
+	slot0.group = slot0._cfg.group or 0
+	slot0.ignore_group_condition = slot0._cfg.ignore_group_condition
 end
 
-function var_0_0.ProduceStep(arg_3_0, arg_3_1)
-	local var_3_0 = GuideStepCfg[arg_3_1]
-
-	if var_3_0 then
-		local var_3_1 = var_3_0.type
-
-		if var_3_1 == "EnterStage" then
-			return EnterStageStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "WaitBattleResult" then
-			return WaitBattleResultStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "ClickButton" then
-			return ClickButtonStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "ClickCToggle" then
-			return ClickCToggleStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "EventTrigger" then
-			return EventTriggerStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "ClickButtonNoMask" then
-			return ClickButtonNoMaskStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "HighLight" then
-			return HighLightStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "JumpTo" then
-			return JumpToStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "SetTeam" then
-			return SetTeamStep.New(arg_3_0, arg_3_1)
-		elseif var_3_1 == "CombineGameStep" then
-			return CombineGameStep.New(arg_3_0, arg_3_1)
+function slot0.ProduceStep(slot0, slot1)
+	if GuideStepCfg[slot1] then
+		if slot2.type == "EnterStage" then
+			return EnterStageStep.New(slot0, slot1)
+		elseif slot3 == "WaitBattleResult" then
+			return WaitBattleResultStep.New(slot0, slot1)
+		elseif slot3 == "ClickButton" then
+			return ClickButtonStep.New(slot0, slot1)
+		elseif slot3 == "ClickCToggle" then
+			return ClickCToggleStep.New(slot0, slot1)
+		elseif slot3 == "EventTrigger" then
+			return EventTriggerStep.New(slot0, slot1)
+		elseif slot3 == "ClickButtonNoMask" then
+			return ClickButtonNoMaskStep.New(slot0, slot1)
+		elseif slot3 == "HighLight" then
+			return HighLightStep.New(slot0, slot1)
+		elseif slot3 == "JumpTo" then
+			return JumpToStep.New(slot0, slot1)
+		elseif slot3 == "SetTeam" then
+			return SetTeamStep.New(slot0, slot1)
+		elseif slot3 == "CombineGameStep" then
+			return CombineGameStep.New(slot0, slot1)
 		end
 	end
 
-	error("Guide Produce Step Error by Id : " .. arg_3_1)
+	error("Guide Produce Step Error by Id : " .. slot1)
 
 	return nil
 end
 
-function var_0_0.InitSteps(arg_4_0)
-	arg_4_0._steps = {}
+function slot0.InitSteps(slot0)
+	slot0._steps = {}
 
-	arg_4_0:OnGuideStart()
+	slot0:OnGuideStart()
 
-	local var_4_0 = arg_4_0._cfg.steps
-	local var_4_1 = 1
-	local var_4_2 = arg_4_0._cfg.leaps
+	slot1 = slot0._cfg.steps
+	slot2 = 1
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_2) do
-		local var_4_3 = iter_4_1[1]
-		local var_4_4 = iter_4_1[2]
-
+	for slot7, slot8 in ipairs(slot0._cfg.leaps) do
 		if GuideTool.SatisfyCondition({
 			{
 				"uiName",
-				var_4_3
+				slot8[1]
 			}
 		}) then
-			var_4_1 = var_4_4
+			slot2 = slot8[2]
 		end
 	end
 
-	local var_4_5 = #var_4_0
-
-	for iter_4_2 = var_4_1, var_4_5 do
-		local var_4_6 = var_4_0[iter_4_2]
-		local var_4_7 = arg_4_0:ProduceStep(var_4_6)
-
-		if var_4_7 then
-			table.insert(arg_4_0._steps, var_4_7)
+	for slot8 = slot2, #slot1 do
+		if slot0:ProduceStep(slot1[slot8]) then
+			table.insert(slot0._steps, slot10)
 		end
 	end
 end
 
-function var_0_0.OnGuideStart(arg_5_0)
-	arg_5_0._starTime = Time.realtimeSinceStartup
+function slot0.OnGuideStart(slot0)
+	slot0._starTime = Time.realtimeSinceStartup
 end
 
-function var_0_0.CheckGuide(arg_6_0)
-	return GuideTool.SatisfyCondition(arg_6_0.open_condition)
+function slot0.CheckGuide(slot0)
+	return GuideTool.SatisfyCondition(slot0.open_condition)
 end
 
-function var_0_0.Check(arg_7_0)
-	if arg_7_0:IsPlaying() then
-		return arg_7_0._steps[1]:Check()
+function slot0.Check(slot0)
+	if slot0:IsPlaying() then
+		return slot0._steps[1]:Check()
 	else
-		if arg_7_0:CheckGuide() and (manager.guide:CheckGroupLastTime(arg_7_0.group) or #arg_7_0.ignore_group_condition > 0 and GuideTool.SatisfyCondition(arg_7_0.ignore_group_condition)) then
+		if slot0:CheckGuide() and (manager.guide:CheckGroupLastTime(slot0.group) or #slot0.ignore_group_condition > 0 and GuideTool.SatisfyCondition(slot0.ignore_group_condition)) then
 			return true
 		end
 
@@ -105,110 +92,89 @@ function var_0_0.Check(arg_7_0)
 	end
 end
 
-function var_0_0.Play(arg_8_0)
-	local var_8_0 = arg_8_0._steps[1]:GetStepId()
-
-	arg_8_0._steps[1]:UpdateStarTime()
-	GuideTool.Log("Guide Start Step :" .. var_8_0)
-	arg_8_0._steps[1]:Play()
+function slot0.Play(slot0)
+	slot0._steps[1]:UpdateStarTime()
+	GuideTool.Log("Guide Start Step :" .. slot0._steps[1]:GetStepId())
+	slot0._steps[1]:Play()
 end
 
-function var_0_0.OnStepEnd(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_1:GetStepId()
-	local var_9_1 = arg_9_1:GetStarTime()
-	local var_9_2 = Time.realtimeSinceStartup - var_9_1
+function slot0.OnStepEnd(slot0, slot1)
+	slot2 = slot1:GetStepId()
 
 	SDKTools.SendMessageToSDK("guide_complete", {
-		guide_id = var_9_0,
-		use_time = var_9_2
+		guide_id = slot2,
+		use_time = Time.realtimeSinceStartup - slot1:GetStarTime()
 	})
-	GuideTool.Log("Guide End Step :" .. var_9_0)
+	GuideTool.Log("Guide End Step :" .. slot2)
 
-	local var_9_3 = table.indexof(arg_9_0._steps, arg_9_1)
-
-	if var_9_3 then
-		table.remove(arg_9_0._steps, var_9_3)
+	if table.indexof(slot0._steps, slot1) then
+		table.remove(slot0._steps, slot5)
 	end
 
-	local var_9_4 = not (table.length(arg_9_0._steps) > 0) or arg_9_0._steps[1]:GetShowMask() ~= true
+	manager.guide:OnStepEnd(slot0, table.length(slot0._steps) <= 0 or slot0._steps[1]:GetShowMask() ~= true)
 
-	manager.guide:OnStepEnd(arg_9_0, var_9_4)
-
-	if arg_9_1:IsFinish() then
-		manager.guide:OnGuideFinish(arg_9_0)
+	if slot1:IsFinish() then
+		manager.guide:OnGuideFinish(slot0)
 	end
 end
 
-function var_0_0.AddSteps(arg_10_0, arg_10_1)
-	for iter_10_0 = #arg_10_1, 1, -1 do
-		local var_10_0 = arg_10_1[iter_10_0]
-		local var_10_1 = arg_10_0:ProduceStep(var_10_0)
-
-		if var_10_1 then
-			table.insert(arg_10_0._steps, 2, var_10_1)
+function slot0.AddSteps(slot0, slot1)
+	for slot6 = #slot1, 1, -1 do
+		if slot0:ProduceStep(slot1[slot6]) then
+			table.insert(slot0._steps, 2, slot8)
 		end
 	end
 end
 
-function var_0_0.IsPlaying(arg_11_0)
-	return arg_11_0._steps ~= nil and table.length(arg_11_0._steps) > 0
+function slot0.IsPlaying(slot0)
+	return slot0._steps ~= nil and table.length(slot0._steps) > 0
 end
 
-function var_0_0.GetNarratorInfo(arg_12_0)
-	return arg_12_0.narrator_name, arg_12_0.narrator_icon
+function slot0.GetNarratorInfo(slot0)
+	return slot0.narrator_name, slot0.narrator_icon
 end
 
-function var_0_0.GetId(arg_13_0)
-	return arg_13_0._guideId
+function slot0.GetId(slot0)
+	return slot0._guideId
 end
 
-function var_0_0.IsGoToHome(arg_14_0)
-	return not arg_14_0.is_no_home
+function slot0.IsGoToHome(slot0)
+	return not slot0.is_no_home
 end
 
-function var_0_0.GetStarTime(arg_15_0)
-	return arg_15_0._starTime
+function slot0.GetStarTime(slot0)
+	return slot0._starTime
 end
 
-function var_0_0.AddNextStep(arg_16_0, arg_16_1)
-	local var_16_0 = arg_16_1.id
-	local var_16_1 = arg_16_0:ProduceStep(var_16_0)
-
-	if var_16_1 then
-		table.insert(arg_16_0._steps, 2, var_16_1)
+function slot0.AddNextStep(slot0, slot1)
+	if slot0:ProduceStep(slot1.id) then
+		table.insert(slot0._steps, 2, slot3)
 	end
 end
 
-function var_0_0.RemoveStep(arg_17_0)
-	table.remove(arg_17_0._steps, 2)
+function slot0.RemoveStep(slot0)
+	table.remove(slot0._steps, 2)
 end
 
-function var_0_0.Click(arg_18_0)
-	local var_18_0 = arg_18_0._steps[1]
-
-	if var_18_0 ~= nil then
-		var_18_0:Click()
+function slot0.Click(slot0)
+	if slot0._steps[1] ~= nil then
+		slot1:Click()
 	end
 end
 
-function var_0_0.EventTrigger(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0._steps[1]
-
-	if var_19_0 ~= nil then
-		var_19_0:EventTrigger(arg_19_1, arg_19_2)
+function slot0.EventTrigger(slot0, slot1, slot2)
+	if slot0._steps[1] ~= nil then
+		slot3:EventTrigger(slot1, slot2)
 	end
 end
 
-function var_0_0.BattleFinish(arg_20_0, arg_20_1)
-	local var_20_0 = arg_20_0._steps[1]
-
-	if var_20_0 ~= nil then
-		var_20_0:BattleFinish(arg_20_1)
+function slot0.BattleFinish(slot0, slot1)
+	if slot0._steps[1] ~= nil then
+		slot2:BattleFinish(slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_21_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

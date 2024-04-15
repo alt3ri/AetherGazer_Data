@@ -1,22 +1,17 @@
-local var_0_0 = {}
-local var_0_1 = {}
-
-function var_0_0.SetEntity(arg_1_0, arg_1_1)
-	var_0_1[arg_1_0] = arg_1_1
-end
-
-function var_0_0.Clear()
-	var_0_1 = {}
-end
-
-function var_0_0.Work(arg_3_0)
-	local var_3_0 = var_0_1[arg_3_0]
-
-	Dorm.DormEntityManager.SendDoActionCMD(var_3_0, "sit_eat", false)
-end
-
-var_0_0.events = {
-	[LIANLIANKAN_CUSTOMER_EAT] = var_0_0.Work
+slot0 = {
+	SetEntity = function (slot0, slot1)
+		uv0[slot0] = slot1
+	end,
+	Clear = function ()
+		uv0 = {}
+	end,
+	Work = function (slot0)
+		Dorm.DormEntityManager.SendDoActionCMD(uv0[slot0], "sit_eat", false)
+	end
+}
+slot1 = {}
+slot0.events = {
+	[LIANLIANKAN_CUSTOMER_EAT] = slot0.Work
 }
 
-return var_0_0
+return slot0

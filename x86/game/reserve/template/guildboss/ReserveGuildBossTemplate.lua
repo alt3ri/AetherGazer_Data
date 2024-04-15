@@ -1,70 +1,67 @@
-local var_0_0 = import("game.reserve.template.ReserveBaseTemplate")
-local var_0_1 = class("ReserveGuildBossTemplate", var_0_0)
+slot1 = class("ReserveGuildBossTemplate", import("game.reserve.template.ReserveBaseTemplate"))
 
-function var_0_1.SetOwnerID(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_0:GetContDataTemplateById():GetSingleTeamData():GetHeroList()
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_0) do
-		if arg_1_1[iter_1_0] then
-			iter_1_1:SetOwnerID(arg_1_1[iter_1_0])
+function slot1.SetOwnerID(slot0, slot1)
+	for slot8, slot9 in ipairs(slot0:GetContDataTemplateById():GetSingleTeamData():GetHeroList()) do
+		if slot1[slot8] then
+			slot9:SetOwnerID(slot1[slot8])
 		end
 	end
 end
 
-function var_0_1.FormatHeroList(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	local var_2_0 = GuildData:GetAssistantBriefList()
-	local var_2_1 = {}
+function slot1.FormatHeroList(slot0, slot1, slot2, slot3)
+	slot4 = GuildData:GetAssistantBriefList()
+	slot5 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_3) do
-		if iter_2_1:GetHeroType() == 3 then
-			local var_2_2 = false
-			local var_2_3
+	for slot9, slot10 in ipairs(slot3) do
+		if slot10:GetHeroType() == 3 then
+			slot11 = false
+			slot12 = nil
 
-			for iter_2_2, iter_2_3 in ipairs(var_2_0) do
-				if iter_2_3.member_id == iter_2_1:GetOwnerID() then
-					var_2_3 = iter_2_3
+			for slot16, slot17 in ipairs(slot4) do
+				if slot17.member_id == slot10:GetOwnerID() then
+					slot12 = slot17
 
-					if iter_2_3.assist_hero_id == iter_2_1:GetHeroID() then
-						var_2_2 = true
+					if slot17.assist_hero_id == slot10:GetHeroID() then
+						slot11 = true
 
 						break
 					end
 				end
 			end
 
-			if var_2_2 and var_2_3 ~= nil then
-				table.insert(var_2_1, {
+			if slot11 and slot12 ~= nil then
+				table.insert(slot5, {
 					type = 2,
-					info = var_2_3
+					info = slot12
 				})
 			end
-		elseif iter_2_1:GetHeroType() == 1 then
-			table.insert(var_2_1, {
+		elseif slot10:GetHeroType() == 1 then
+			table.insert(slot5, {
 				type = 1,
-				heroId = iter_2_1:GetHeroID()
+				heroId = slot10:GetHeroID()
 			})
 		else
 			error("不支持试用角色")
 		end
 	end
 
-	arg_2_0.heroInfoList_ = var_2_1
+	slot0.heroInfoList_ = slot5
 
-	for iter_2_4 = 1, 3 do
-		if arg_2_0.heroInfoList_[iter_2_4] ~= nil then
-			if arg_2_0.heroInfoList_[iter_2_4].type == 1 then
-				arg_2_2.resultHeroList[iter_2_4] = arg_2_0.heroInfoList_[iter_2_4].heroId
+	for slot9 = 1, 3 do
+		if slot0.heroInfoList_[slot9] ~= nil then
+			if slot0.heroInfoList_[slot9].type == 1 then
+				slot2.resultHeroList[slot9] = slot0.heroInfoList_[slot9].heroId
 			else
-				arg_2_2.resultHeroList[iter_2_4] = arg_2_0.heroInfoList_[iter_2_4].info.assist_hero_id
+				slot2.resultHeroList[slot9] = slot0.heroInfoList_[slot9].info.assist_hero_id
 			end
 		else
-			arg_2_2.resultHeroList[iter_2_4] = 0
+			slot2.resultHeroList[slot9] = 0
 		end
 	end
 end
 
-function var_0_1.GetCurHeroInfoList(arg_3_0)
-	return arg_3_0.heroInfoList_ or {}
+function slot1.GetCurHeroInfoList(slot0)
+	return slot0.heroInfoList_ or {}
 end
 
-return var_0_1
+return slot1

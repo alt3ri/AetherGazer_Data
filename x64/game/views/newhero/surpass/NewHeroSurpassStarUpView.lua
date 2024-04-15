@@ -1,5 +1,5 @@
-local var_0_0 = class("NewHeroSurpassView", ReduxView)
-local var_0_1 = {
+slot0 = class("NewHeroSurpassView", ReduxView)
+slot1 = {
 	showEx = {
 		name = "infoShow",
 		skill = "skill",
@@ -7,104 +7,95 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_transition/HeroPrintLvUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.attrInfo = SurpassUpAttrNode.New(arg_4_0.levelcapbreakthroughGo_)
-	arg_4_0.skillInfo = SurpassUpSkillNode.New(arg_4_0.skilllevelimprovementGo_)
-	arg_4_0.showController = arg_4_0.heroprintlvuiControllerexcollection_:GetController(var_0_1.showEx.name)
+	slot0.attrInfo = SurpassUpAttrNode.New(slot0.levelcapbreakthroughGo_)
+	slot0.skillInfo = SurpassUpSkillNode.New(slot0.skilllevelimprovementGo_)
+	slot0.showController = slot0.heroprintlvuiControllerexcollection_:GetController(uv0.showEx.name)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.fullscreenBtn_, nil, function()
-		arg_5_0:OnClose()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.fullscreenBtn_, nil, function ()
+		uv0:OnClose()
 	end)
 end
 
-function var_0_0.OnClose(arg_7_0)
-	if arg_7_0.exitTimer then
+function slot0.OnClose(slot0)
+	if slot0.exitTimer then
 		return
 	end
 
-	arg_7_0.compopui04Ani_:Play("Fx_CompopUI04_xs", 0, 0)
+	slot0.compopui04Ani_:Play("Fx_CompopUI04_xs", 0, 0)
 
-	arg_7_0.exitTimer = Timer.New(function()
+	slot0.exitTimer = Timer.New(function ()
 		JumpTools.Back()
 	end, 0.467)
 
-	arg_7_0.exitTimer:Start()
+	slot0.exitTimer:Start()
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.starID = arg_9_0.params_.starID
-	arg_9_0.heroID = arg_9_0.params_.heroID
-	arg_9_0.dataProxy = arg_9_0.params_.dataProxy
+function slot0.OnEnter(slot0)
+	slot0.starID = slot0.params_.starID
+	slot0.heroID = slot0.params_.heroID
+	slot0.dataProxy = slot0.params_.dataProxy
 
-	if arg_9_0.exitTimer then
-		arg_9_0.exitTimer:Stop()
+	if slot0.exitTimer then
+		slot0.exitTimer:Stop()
 
-		arg_9_0.exitTimer = nil
+		slot0.exitTimer = nil
 	end
 
-	arg_9_0:Refresh()
+	slot0:Refresh()
 	manager.audio:PlayEffect("ui_system", "starsup_small", "")
 end
 
-function var_0_0.Refresh(arg_10_0)
-	local var_10_0 = HeroStarCfg[arg_10_0.starID]
-	local var_10_1 = HeroCfg[arg_10_0.heroID]
+function slot0.Refresh(slot0)
+	SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, HeroStarCfg[slot0.starID].star)
 
-	SurpassTools.ChangeIconStarSpirte(arg_10_0.iconImg_, var_10_0.star)
+	slot3, slot4, slot5 = SurpassTools.GetStarUpAttrShowDesc(HeroCfg[slot0.heroID], slot0.starID)
+	slot6 = ""
 
-	local var_10_2, var_10_3, var_10_4 = SurpassTools.GetStarUpAttrShowDesc(var_10_1, arg_10_0.starID)
-	local var_10_5 = ""
-
-	if HeroConst.HERO_STAR_SKILL_TYPE.ATTRIBUTE_UP == var_10_4.type then
-		arg_10_0.showController:SetSelectedState(var_0_1.showEx.attr)
-
-		local var_10_6 = arg_10_0.dataProxy:GetHeroAllAttribute(arg_10_0.heroID)
-
-		arg_10_0.attrInfo:RefreshUi(var_10_4, var_10_6)
-	elseif HeroConst.HERO_STAR_SKILL_TYPE.SKILL_UP == var_10_4.type then
-		arg_10_0.showController:SetSelectedState(var_0_1.showEx.skill)
-		arg_10_0.skillInfo:RefreshUi(var_10_2, GetTips("SKILL_LEVEL_UP"))
+	if HeroConst.HERO_STAR_SKILL_TYPE.ATTRIBUTE_UP == slot5.type then
+		slot0.showController:SetSelectedState(uv0.showEx.attr)
+		slot0.attrInfo:RefreshUi(slot5, slot0.dataProxy:GetHeroAllAttribute(slot0.heroID))
+	elseif HeroConst.HERO_STAR_SKILL_TYPE.SKILL_UP == slot5.type then
+		slot0.showController:SetSelectedState(uv0.showEx.skill)
+		slot0.skillInfo:RefreshUi(slot3, GetTips("SKILL_LEVEL_UP"))
 	else
-		arg_10_0.showController:SetSelectedState(var_0_1.showEx.skill)
-		arg_10_0.skillInfo:RefreshUi(var_10_2, GetTips("SPECIAL_SKILL"))
+		slot0.showController:SetSelectedState(uv0.showEx.skill)
+		slot0.skillInfo:RefreshUi(slot3, GetTips("SPECIAL_SKILL"))
 	end
 
-	local var_10_7 = SurpassTools.GetSmallStageShow(arg_10_0.starID)
-
-	arg_10_0.lvText_.text = var_10_7
+	slot0.lvText_.text = SurpassTools.GetSmallStageShow(slot0.starID)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.exitTimer then
-		arg_12_0.exitTimer:Stop()
+function slot0.Dispose(slot0)
+	if slot0.exitTimer then
+		slot0.exitTimer:Stop()
 
-		arg_12_0.exitTimer = nil
+		slot0.exitTimer = nil
 	end
 
-	arg_12_0.attrInfo:Dispose()
-	arg_12_0.skillInfo:Dispose()
-	var_0_0.super.Dispose(arg_12_0)
+	slot0.attrInfo:Dispose()
+	slot0.skillInfo:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

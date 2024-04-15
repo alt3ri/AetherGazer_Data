@@ -1,68 +1,63 @@
-local var_0_0 = class("ArtifactSettingToggle", BaseSettingToggle)
+slot0 = class("ArtifactSettingToggle", BaseSettingToggle)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.params_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.params_ = slot1
 end
 
-function var_0_0.GetName(arg_2_0)
+function slot0.GetName(slot0)
 	return "Artifact"
 end
 
-function var_0_0.UIClass(arg_3_0)
-	local var_3_0 = arg_3_0.params_.stageData
-
-	if var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
+function slot0.UIClass(slot0)
+	if slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
 		return MatrixArtifactSettingView
-	elseif var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
 		return MatrixArtifactSettingView
-	elseif var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
 		return MatrixArtifactSettingView
-	elseif var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
 		return WarChessArtifactSettingView
 	end
 end
 
-function var_0_0.GetPath(arg_4_0)
+function slot0.GetPath(slot0)
 	return "Widget/System/Setting/InformationSettingUI"
 end
 
-function var_0_0.Order(arg_5_0)
+function slot0.Order(slot0)
 	return 7
 end
 
-function var_0_0.RedPointKey(arg_6_0)
+function slot0.RedPointKey(slot0)
 	return nil
 end
 
-function var_0_0.Image(arg_7_0)
+function slot0.Image(slot0)
 	return getSprite("Atlas/SettingAtlas", "icon_setting08")
 end
 
-function var_0_0.GetParams(arg_8_0)
-	local var_8_0 = arg_8_0.params_.stageData
-
-	if var_8_0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
+function slot0.GetParams(slot0)
+	if slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
 		return MatrixData:GetArtifactList()
-	elseif var_8_0:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
-		return ActivityMatrixData:GetArtifactList(var_8_0:GetActivityID())
-	elseif var_8_0:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
-		arg_8_0.viewList_[view] = MatrixArtifactSettingView.New(arg_8_0.viewListGo_[view], StrategyMatrixData:GetArtifactList(var_8_0:GetActivityID()))
-	elseif var_8_0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-		local var_8_1 = WarChessData:GetArtifactData()
-		local var_8_2 = {}
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
+		return ActivityMatrixData:GetArtifactList(slot1:GetActivityID())
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
+		slot0.viewList_[view] = MatrixArtifactSettingView.New(slot0.viewListGo_[view], StrategyMatrixData:GetArtifactList(slot1:GetActivityID()))
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+		slot3 = {}
 
-		for iter_8_0, iter_8_1 in pairs(var_8_1) do
-			table.insert(var_8_2, {
-				id = iter_8_0
+		for slot7, slot8 in pairs(WarChessData:GetArtifactData()) do
+			table.insert(slot3, {
+				id = slot7
 			})
 		end
 
-		return var_8_2
+		return slot3
 	end
 end
 
-function var_0_0.IsSetting(arg_9_0)
+function slot0.IsSetting(slot0)
 	return false
 end
 
-return var_0_0
+return slot0

@@ -1,27 +1,27 @@
-local function var_0_0(arg_1_0, arg_1_1)
-	return function(...)
-		return arg_1_1(arg_1_0(unpack({
+function slot0(slot0, slot1)
+	return function (...)
+		return uv0(uv1(unpack({
 			...
 		})))
 	end
 end
 
-return function(arg_3_0, arg_3_1)
-	if type(arg_3_0) == "function" then
-		return var_0_0(arg_3_0, arg_3_1)
+return function (slot0, slot1)
+	if type(slot0) == "function" then
+		return uv0(slot0, slot1)
 	end
 
-	if type(arg_3_0) ~= "table" then
+	if type(slot0) ~= "table" then
 		error("        bindActionCreators expected a table or a function.")
 	end
 
-	local var_3_0 = {}
-
-	for iter_3_0, iter_3_1 in pairs(arg_3_0) do
-		if type(iter_3_1) == "function" then
-			var_3_0[iter_3_0] = var_0_0(iter_3_1, arg_3_1)
+	for slot6, slot7 in pairs(slot0) do
+		if type(slot7) == "function" then
+			-- Nothing
 		end
 	end
 
-	return var_3_0
+	return {
+		[slot6] = uv0(slot7, slot1)
+	}
 end

@@ -1,192 +1,174 @@
-local var_0_0 = class("RaceTrialReadyView", ReduxView)
+slot0 = class("RaceTrialReadyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return RaceTrialTools.GetReadyUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return RaceTrialTools.GetReadyUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.customScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.CustomIndexItem), arg_4_0.customListGo_, CustomBox)
-	arg_4_0.customDesScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.CustomDesIndexItem), arg_4_0.customDesListGo_, CustomDesItem)
+	slot0.customScrollHelper_ = LuaList.New(handler(slot0, slot0.CustomIndexItem), slot0.customListGo_, CustomBox)
+	slot0.customDesScrollHelper_ = LuaList.New(handler(slot0, slot0.CustomDesIndexItem), slot0.customDesListGo_, CustomDesItem)
 end
 
-function var_0_0.CustomIndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.customTable_.all[arg_5_1]
-	local var_5_1 = arg_5_0:GetSelectCustom(var_5_0)
+function slot0.CustomIndexItem(slot0, slot1, slot2)
+	slot3 = slot0.customTable_.all[slot1]
 
-	arg_5_2:RefreshUI(var_5_0, arg_5_0.customTable_[var_5_0], var_5_1)
-	arg_5_2:RegisterClickListener(function(arg_6_0)
-		local var_6_0 = ActivityAffixPoolCfg[arg_6_0].affix[1]
-
-		if arg_5_0:GetSelectCustom(var_6_0) ~= arg_6_0 then
-			arg_5_0:SetSelectCustom(var_6_0, arg_6_0)
+	slot2:RefreshUI(slot3, slot0.customTable_[slot3], slot0:GetSelectCustom(slot3))
+	slot2:RegisterClickListener(function (slot0)
+		if uv0:GetSelectCustom(ActivityAffixPoolCfg[slot0].affix[1]) ~= slot0 then
+			uv0:SetSelectCustom(slot1, slot0)
 		else
-			arg_5_0:SetSelectCustom(var_6_0)
+			uv0:SetSelectCustom(slot1)
 		end
 
-		arg_5_2:RefreshUI(var_6_0, arg_5_0.customTable_[var_6_0], arg_5_0:GetSelectCustom(var_6_0))
-		arg_5_0:CalculatePoint()
-		arg_5_0:RefreshDesList(false, arg_6_0)
+		uv1:RefreshUI(slot1, uv0.customTable_[slot1], uv0:GetSelectCustom(slot1))
+		uv0:CalculatePoint()
+		uv0:RefreshDesList(false, slot0)
 	end)
 end
 
-function var_0_0.CustomDesIndexItem(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2:RefreshUI(arg_7_0.customSelectList_[arg_7_1])
+function slot0.CustomDesIndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.customSelectList_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.battleBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_8_0.activityID_) then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		RaceTrialAction:SaveCustomList(arg_8_0.activityID_, arg_8_0.customSelectList_)
-		arg_8_0:Go("/sectionSelectHero", {
-			section = arg_8_0.activityID_,
+		RaceTrialAction:SaveCustomList(uv0.activityID_, uv0.customSelectList_)
+		uv0:Go("/sectionSelectHero", {
+			section = uv0.activityID_,
 			sectionType = BattleConst.STAGE_TYPE_NEW.RACE_TRIAL,
-			forceRace = ActivityRaceTrialCfg[arg_8_0.activityID_].race,
-			activityID = arg_8_0.params_.activityID
+			forceRace = ActivityRaceTrialCfg[uv0.activityID_].race,
+			activityID = uv0.params_.activityID
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.activityID_ = arg_10_0.params_.activityID
-	arg_10_0.mainActivityID_ = arg_10_0.params_.mainActivityID
-	arg_10_0.customSelectList_ = RaceTrialData:GetCustomList(arg_10_0.activityID_)
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
+	slot0.customSelectList_ = RaceTrialData:GetCustomList(slot0.activityID_)
 
-	arg_10_0:CreatCustomTable()
-	arg_10_0:CreatCustomSelectTable()
-	arg_10_0:RefreshUI()
+	slot0:CreatCustomTable()
+	slot0:CreatCustomSelectTable()
+	slot0:RefreshUI()
 end
 
-function var_0_0.CreatCustomTable(arg_11_0)
-	local var_11_0 = ActivityRaceTrialCfg[arg_11_0.activityID_].pool
-
-	arg_11_0.customTable_ = {
+function slot0.CreatCustomTable(slot0)
+	slot0.customTable_ = {
 		all = {}
 	}
+	slot2 = nil
 
-	local var_11_1
+	for slot6, slot7 in ipairs(ActivityRaceTrialCfg[slot0.activityID_].pool) do
+		if ActivityAffixPoolCfg[slot7] then
+			if not slot0.customTable_[slot2.affix[1]] then
+				slot0.customTable_[slot2.affix[1]] = {}
 
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		local var_11_2 = ActivityAffixPoolCfg[iter_11_1]
-
-		if var_11_2 then
-			if not arg_11_0.customTable_[var_11_2.affix[1]] then
-				arg_11_0.customTable_[var_11_2.affix[1]] = {}
-
-				table.insert(arg_11_0.customTable_.all, var_11_2.affix[1])
+				table.insert(slot0.customTable_.all, slot2.affix[1])
 			end
 
-			table.insert(arg_11_0.customTable_[var_11_2.affix[1]], iter_11_1)
+			table.insert(slot0.customTable_[slot2.affix[1]], slot7)
 		end
 	end
 end
 
-function var_0_0.CreatCustomSelectTable(arg_12_0)
-	local var_12_0
+function slot0.CreatCustomSelectTable(slot0)
+	slot1 = nil
+	slot0.customSelectTable_ = {}
 
-	arg_12_0.customSelectTable_ = {}
-
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.customSelectList_) do
-		local var_12_1 = ActivityAffixPoolCfg[iter_12_1]
-
-		arg_12_0.customSelectTable_[var_12_1.affix[1]] = iter_12_1
+	for slot5, slot6 in ipairs(slot0.customSelectList_) do
+		slot0.customSelectTable_[ActivityAffixPoolCfg[slot6].affix[1]] = slot6
 	end
 end
 
-function var_0_0.GetSelectCustom(arg_13_0, arg_13_1)
-	if arg_13_0.customSelectTable_[arg_13_1] then
-		return arg_13_0.customSelectTable_[arg_13_1]
+function slot0.GetSelectCustom(slot0, slot1)
+	if slot0.customSelectTable_[slot1] then
+		return slot0.customSelectTable_[slot1]
 	end
 
 	return nil
 end
 
-function var_0_0.SetSelectCustom(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_0.customSelectTable_[arg_14_1]
-
-	if var_14_0 then
-		table.remove(arg_14_0.customSelectList_, table.indexof(arg_14_0.customSelectList_, var_14_0))
+function slot0.SetSelectCustom(slot0, slot1, slot2)
+	if slot0.customSelectTable_[slot1] then
+		table.remove(slot0.customSelectList_, table.indexof(slot0.customSelectList_, slot3))
 	end
 
-	if arg_14_2 then
-		arg_14_0.customSelectTable_[arg_14_1] = arg_14_2
+	if slot2 then
+		slot0.customSelectTable_[slot1] = slot2
 
-		table.insert(arg_14_0.customSelectList_, arg_14_2)
+		table.insert(slot0.customSelectList_, slot2)
 	else
-		arg_14_0.customSelectTable_[arg_14_1] = nil
+		slot0.customSelectTable_[slot1] = nil
 	end
 end
 
-function var_0_0.RefreshUI(arg_15_0)
-	arg_15_0:CalculatePoint()
-	arg_15_0:RefreshDesList(true)
-	arg_15_0.customScrollHelper_:StartScroll(#arg_15_0.customTable_.all)
+function slot0.RefreshUI(slot0)
+	slot0:CalculatePoint()
+	slot0:RefreshDesList(true)
+	slot0.customScrollHelper_:StartScroll(#slot0.customTable_.all)
 end
 
-function var_0_0.CalculatePoint(arg_16_0)
-	local var_16_0
-	local var_16_1 = ActivityRaceTrialCfg[arg_16_0.activityID_].base_point
+function slot0.CalculatePoint(slot0)
+	slot1 = nil
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.customSelectList_) do
-		var_16_1 = var_16_1 + ActivityAffixPoolCfg[iter_16_1].point
+	for slot6, slot7 in ipairs(slot0.customSelectList_) do
+		slot2 = ActivityRaceTrialCfg[slot0.activityID_].base_point + ActivityAffixPoolCfg[slot7].point
 	end
 
-	arg_16_0.pointText_.text = string.format("<color=#FE972E>%d</color>", var_16_1)
+	slot0.pointText_.text = string.format("<color=#FE972E>%d</color>", slot2)
 end
 
-function var_0_0.RefreshDesList(arg_17_0, arg_17_1, arg_17_2)
-	if arg_17_1 then
-		arg_17_0.customDesScrollHelper_:StartScroll(#arg_17_0.customSelectList_)
+function slot0.RefreshDesList(slot0, slot1, slot2)
+	if slot1 then
+		slot0.customDesScrollHelper_:StartScroll(#slot0.customSelectList_)
+	elseif table.indexof(slot0.customSelectList_, slot2) then
+		slot0.customDesScrollHelper_:StartScroll(#slot0.customSelectList_, slot3)
 	else
-		local var_17_0 = table.indexof(arg_17_0.customSelectList_, arg_17_2)
-
-		if var_17_0 then
-			arg_17_0.customDesScrollHelper_:StartScroll(#arg_17_0.customSelectList_, var_17_0)
-		else
-			arg_17_0.customDesScrollHelper_:StartScrollByPosition(#arg_17_0.customSelectList_, arg_17_0.customDesScrollHelper_:GetScrolledPosition())
-		end
+		slot0.customDesScrollHelper_:StartScrollByPosition(#slot0.customSelectList_, slot0.customDesScrollHelper_:GetScrolledPosition())
 	end
 end
 
-function var_0_0.OnTop(arg_18_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistHomeCallBack(function()
-		RaceTrialAction:SaveCustomList(arg_18_0.activityID_, arg_18_0.customSelectList_)
-		arg_18_0:Go("/home", nil, nil, true)
+	manager.windowBar:RegistHomeCallBack(function ()
+		RaceTrialAction:SaveCustomList(uv0.activityID_, uv0.customSelectList_)
+		uv0:Go("/home", nil, , true)
 	end)
-	manager.windowBar:RegistBackCallBack(function()
-		RaceTrialAction:SaveCustomList(arg_18_0.activityID_, arg_18_0.customSelectList_)
-		arg_18_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		RaceTrialAction:SaveCustomList(uv0.activityID_, uv0.customSelectList_)
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnExit(arg_21_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_22_0)
-	arg_22_0:RemoveAllListeners()
-	arg_22_0.customScrollHelper_:Dispose()
-	arg_22_0.customDesScrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_22_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.customScrollHelper_:Dispose()
+	slot0.customDesScrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

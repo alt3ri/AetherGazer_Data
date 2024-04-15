@@ -1,713 +1,678 @@
-local var_0_0 = class("CombineGameView", ReduxView)
-local var_0_1 = CombineGameConst.Type
-local var_0_2 = CombineGameConst.TypeText
-local var_0_3 = CombineGameConst.VictoryCondition
-local var_0_4 = CombineGameConst.BaseInfoConst
+slot0 = class("CombineGameView", ReduxView)
+slot1 = CombineGameConst.Type
+slot2 = CombineGameConst.TypeText
+slot3 = CombineGameConst.VictoryCondition
+slot4 = CombineGameConst.BaseInfoConst
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaKf/IndiaKfGameUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stageController = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "stage")
+	slot0.stageController = ControllerUtil.GetController(slot0.gameObject_.transform, "stage")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.factorBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.factorBtn_, nil, function ()
 		JumpTools.GoToSystem("CombineGameWatchFactorView", {
-			id = arg_5_0.levelId,
-			factorList = arg_5_0.factorList
+			id = uv0.levelId,
+			factorList = uv0.factorList
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.heroBtn_, nil, function()
+	slot0:AddBtnListener(slot0.heroBtn_, nil, function ()
 		JumpTools.GoToSystem("CombineGameRoleView", {
-			roleId = arg_5_0.heroId,
-			lv = arg_5_0.gameData.roleLv
+			roleId = uv0.heroId,
+			lv = uv0.gameData.roleLv
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.winMaskBtn_, nil, function()
-		SetActive(arg_5_0.winGo_, false)
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.winMaskBtn_, nil, function ()
+		SetActive(uv0.winGo_, false)
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.failMaskBtn_, nil, function()
-		SetActive(arg_5_0.loseGo_, false)
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.failMaskBtn_, nil, function ()
+		SetActive(uv0.loseGo_, false)
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.levelMaskBtn_, nil, function()
-		SetActive(arg_5_0.levelUpGo_, false)
+	slot0:AddBtnListener(slot0.levelMaskBtn_, nil, function ()
+		SetActive(uv0.levelUpGo_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.informationBgBtn_, nil, function()
-		SetActive(arg_5_0.informationGo_, false)
+	slot0:AddBtnListener(slot0.informationBgBtn_, nil, function ()
+		SetActive(uv0.informationGo_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.foodBtn_, nil, function()
-		arg_5_0:ShowBaseInfoView(var_0_1.FOOD, arg_5_0.pos1Go_)
+	slot0:AddBtnListener(slot0.foodBtn_, nil, function ()
+		uv0:ShowBaseInfoView(uv1.FOOD, uv0.pos1Go_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.industBtn_, nil, function()
-		arg_5_0:ShowBaseInfoView(var_0_1.ROCK, arg_5_0.pos2Go_)
+	slot0:AddBtnListener(slot0.industBtn_, nil, function ()
+		uv0:ShowBaseInfoView(uv1.ROCK, uv0.pos2Go_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.techBtn_, nil, function()
-		arg_5_0:ShowBaseInfoView(var_0_1.TECH, arg_5_0.pos3Go_)
+	slot0:AddBtnListener(slot0.techBtn_, nil, function ()
+		uv0:ShowBaseInfoView(uv1.TECH, uv0.pos3Go_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.pop6MaskBtn_, nil, function()
-		SetActive(arg_5_0.pop6Go_, false)
+	slot0:AddBtnListener(slot0.pop6MaskBtn_, nil, function ()
+		SetActive(uv0.pop6Go_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tipsBtn_, nil, function()
-		SetActive(arg_5_0.tipsPopGo_, true)
+	slot0:AddBtnListener(slot0.tipsBtn_, nil, function ()
+		SetActive(uv0.tipsPopGo_, true)
 
-		arg_5_0.tipsTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_1"), arg_5_0.gameData.speed) .. "\n" .. string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_2"), arg_5_0.gameData.maxLevel) .. "\n" .. string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_3"), arg_5_0.gameData.minLevel)
+		uv0.tipsTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_1"), uv0.gameData.speed) .. "\n" .. string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_2"), uv0.gameData.maxLevel) .. "\n" .. string.format(GetTips("ACTIVITY_COMBINE_GAME_GAME_SETTING_3"), uv0.gameData.minLevel)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tipsMask_, nil, function()
-		SetActive(arg_5_0.tipsPopGo_, false)
+	slot0:AddBtnListener(slot0.tipsMask_, nil, function ()
+		SetActive(uv0.tipsPopGo_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.costMaskBtn_, nil, function()
-		SetActive(arg_5_0.tipsGo_, false)
+	slot0:AddBtnListener(slot0.costMaskBtn_, nil, function ()
+		SetActive(uv0.tipsGo_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.guideMaskBtn_, nil, function()
-		SetActive(arg_5_0.levelUpGo_, false)
+	slot0:AddBtnListener(slot0.guideMaskBtn_, nil, function ()
+		SetActive(uv0.levelUpGo_, false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		ShowMessageBox({
 			content = GetTips("ACTIVITY_COMBINE_GAME_EXIT_CONFIRM_TIPS"),
-			OkCallback = function()
-				arg_5_0:Back()
+			OkCallback = function ()
+				uv0:Back()
 			end
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.homeBtn_, nil, function()
+	slot0:AddBtnListener(slot0.homeBtn_, nil, function ()
 		ShowMessageBox({
 			content = GetTips("ACTIVITY_COMBINE_GAME_EXIT_CONFIRM_TIPS"),
-			OkCallback = function()
+			OkCallback = function ()
 				OperationRecorder.Record(gameContext:GetLastOpenPage(), "homeBtn")
-				gameContext:Go("/home", nil, nil, true)
+				gameContext:Go("/home", nil, , true)
 			end
 		})
 	end)
 end
 
-function var_0_0.UpdateView(arg_24_0)
-	local var_24_0 = ActivityCombineHeroCfg[arg_24_0.heroId]
-	local var_24_1 = ActivityCombineLevelCfg[arg_24_0.levelId]
+function slot0.UpdateView(slot0)
+	slot1 = ActivityCombineHeroCfg[slot0.heroId]
 
-	if var_24_1.victory_condition_type == var_0_3.ROLE_LEVEL then
-		arg_24_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_1"), var_24_1.victory_condition[1])
-	elseif var_24_1.victory_condition_type == var_0_3.TURN then
-		arg_24_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_2"), var_24_1.victory_condition[1])
-	elseif var_24_1.victory_condition_type == var_0_3.RESOURCE then
-		arg_24_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_3"), arg_24_0.gameData.totalRock .. "/" .. var_24_1.victory_condition[2], GetTips(var_0_2[var_24_1.victory_condition[1]]))
-	elseif var_24_1.victory_condition_type == var_0_3.BEAST then
-		arg_24_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_4"), arg_24_0.tools.beastDestoryCount .. "/" .. var_24_1.victory_condition[2], GetTips(var_0_2[var_24_1.victory_condition[1]]))
+	if ActivityCombineLevelCfg[slot0.levelId].victory_condition_type == uv0.ROLE_LEVEL then
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_1"), slot2.victory_condition[1])
+	elseif slot2.victory_condition_type == uv0.TURN then
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_2"), slot2.victory_condition[1])
+	elseif slot2.victory_condition_type == uv0.RESOURCE then
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_3"), slot0.gameData.totalRock .. "/" .. slot2.victory_condition[2], GetTips(uv1[slot2.victory_condition[1]]))
+	elseif slot2.victory_condition_type == uv0.BEAST then
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_4"), slot0.tools.beastDestoryCount .. "/" .. slot2.victory_condition[2], GetTips(uv1[slot2.victory_condition[1]]))
 	end
 
-	if arg_24_0.gameData.nextTechNeed == 0 then
-		arg_24_0.techTxt_.text = arg_24_0.gameData.tech
-		arg_24_0.expSlider_.value = 1
+	if slot0.gameData.nextTechNeed == 0 then
+		slot0.techTxt_.text = slot0.gameData.tech
+		slot0.expSlider_.value = 1
 	else
-		arg_24_0.techTxt_.text = arg_24_0.gameData.tech .. "/" .. arg_24_0.gameData.nextTechNeed
-		arg_24_0.expSlider_.value = arg_24_0.gameData.tech / arg_24_0.gameData.nextTechNeed
+		slot0.techTxt_.text = slot0.gameData.tech .. "/" .. slot0.gameData.nextTechNeed
+		slot0.expSlider_.value = slot0.gameData.tech / slot0.gameData.nextTechNeed
 	end
 
-	SetActive(arg_24_0.nextGo_, arg_24_0.gameData.nextStageTurn < 999)
+	SetActive(slot0.nextGo_, slot0.gameData.nextStageTurn < 999)
 
-	if arg_24_0.gameData.nextStageTurn >= 999 then
-		arg_24_0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN_2"), arg_24_0.gameData.nowTurn)
+	if slot0.gameData.nextStageTurn >= 999 then
+		slot0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN_2"), slot0.gameData.nowTurn)
 	else
-		arg_24_0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN"), arg_24_0.gameData.nowTurn, arg_24_0.gameData.nextStageTurn)
+		slot0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN"), slot0.gameData.nowTurn, slot0.gameData.nextStageTurn)
 	end
 
-	arg_24_0.foodTxt_.text = arg_24_0.gameData.food .. "(-" .. arg_24_0.gameData.nextTurnCost[1] .. ")"
-	arg_24_0.industryTxt_.text = arg_24_0.gameData.rock
-	arg_24_0.heroNameTxt_.text = GetI18NText(var_24_0.name)
-	arg_24_0.heroLevelTxt_.text = "lv" .. arg_24_0.gameData.roleLv
-	arg_24_0.winTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_TASK_NAME")
-	arg_24_0.factorTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR")
+	slot0.foodTxt_.text = slot0.gameData.food .. "(-" .. slot0.gameData.nextTurnCost[1] .. ")"
+	slot0.industryTxt_.text = slot0.gameData.rock
+	slot0.heroNameTxt_.text = GetI18NText(slot1.name)
+	slot0.heroLevelTxt_.text = "lv" .. slot0.gameData.roleLv
+	slot0.winTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_TASK_NAME")
+	slot0.factorTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR")
 end
 
-function var_0_0.OnEnter(arg_25_0)
-	arg_25_0.levelId = arg_25_0.params_.levelId
-	arg_25_0.heroId = arg_25_0.params_.heroId
-	arg_25_0.factorList = arg_25_0.params_.factorList
-	arg_25_0.result = 3
-	arg_25_0.needBury = true
-	arg_25_0.gameData = CombineGameFactory:GetGameData()
+function slot0.OnEnter(slot0)
+	slot0.levelId = slot0.params_.levelId
+	slot0.heroId = slot0.params_.heroId
+	slot0.factorList = slot0.params_.factorList
+	slot0.result = 3
+	slot0.needBury = true
+	slot0.gameData = CombineGameFactory:GetGameData()
 
-	arg_25_0:PrepareAction()
-	arg_25_0:UpdateView()
+	slot0:PrepareAction()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateGameData(arg_26_0)
-	arg_26_0.tools.speed = arg_26_0.gameData.speed
-	arg_26_0.tools.maxLevel = arg_26_0.gameData.maxLevel
-	arg_26_0.tools.minLevel = arg_26_0.gameData.minLevel
+function slot0.UpdateGameData(slot0)
+	slot0.tools.speed = slot0.gameData.speed
+	slot0.tools.maxLevel = slot0.gameData.maxLevel
+	slot0.tools.minLevel = slot0.gameData.minLevel
 
-	arg_26_0.tools.gailv:Clear()
-	arg_26_0.tools.gailv:Add(0)
+	slot0.tools.gailv:Clear()
+	slot0.tools.gailv:Add(0)
 
-	for iter_26_0 = 1, 5 do
-		arg_26_0.tools.gailv:Add(math.max(arg_26_0.gameData.pool[iter_26_0], 0))
+	for slot4 = 1, 5 do
+		slot0.tools.gailv:Add(math.max(slot0.gameData.pool[slot4], 0))
 	end
 end
 
-function var_0_0.PrepareAction(arg_27_0)
-	arg_27_0.tools = CombineGameWorld.Instance
-	arg_27_0.foodLock = false
-	arg_27_0.techLock = false
-	arg_27_0.rockLock = false
-	arg_27_0.foodList = {}
-	arg_27_0.techList = {}
-	arg_27_0.rockList = {}
-
-	local var_27_0 = ActivityCombineLevelCfg[arg_27_0.levelId]
+function slot0.PrepareAction(slot0)
+	slot0.tools = CombineGameWorld.Instance
+	slot0.foodLock = false
+	slot0.techLock = false
+	slot0.rockLock = false
+	slot0.foodList = {}
+	slot0.techList = {}
+	slot0.rockList = {}
+	slot1 = ActivityCombineLevelCfg[slot0.levelId]
 
 	if manager.guide:IsPlaying() and not GuideData:IsFinish(59) then
-		arg_27_0.isTech = var_27_0.type == 1
-		arg_27_0.tools.isTeach = arg_27_0.isTech
-		CombineGameWorld.Instance.canDrag = arg_27_0.isTech == false
+		slot0.isTech = slot1.type == 1
+		slot0.tools.isTeach = slot0.isTech
+		CombineGameWorld.Instance.canDrag = slot0.isTech == false
 	end
 
-	arg_27_0:NextStageView()
-	arg_27_0:UpdateStartRole()
+	slot0:NextStageView()
+	slot0:UpdateStartRole()
 
-	arg_27_0.tools.nextYearAction = handler(arg_27_0, arg_27_0.NextTurnUpdate)
-	arg_27_0.tools.startGameAction = handler(arg_27_0, arg_27_0.StartGame)
-	arg_27_0.tools.mapExtensionAction = handler(arg_27_0, arg_27_0.MapExtension)
+	slot0.tools.nextYearAction = handler(slot0, slot0.NextTurnUpdate)
+	slot0.tools.startGameAction = handler(slot0, slot0.StartGame)
+	slot5 = slot0.MapExtension
+	slot0.tools.mapExtensionAction = handler(slot0, slot5)
 
-	function arg_27_0.tools.newResourceAction(arg_28_0, arg_28_1)
-		arg_27_0:ChangeResource(arg_28_0, arg_28_1)
-		arg_27_0:CheckGame()
+	function slot0.tools.newResourceAction(slot0, slot1)
+		uv0:ChangeResource(slot0, slot1)
+		uv0:CheckGame()
 	end
 
-	function arg_27_0.tools.buildResourceAction(arg_29_0, arg_29_1)
-		arg_27_0:BuildChangeResource(arg_29_0, arg_29_1)
-		arg_27_0:CheckGame()
+	function slot0.tools.buildResourceAction(slot0, slot1)
+		uv0:BuildChangeResource(slot0, slot1)
+		uv0:CheckGame()
 	end
 
-	function arg_27_0.tools.informationAction(arg_30_0, arg_30_1, arg_30_2)
-		arg_27_0:ShowInformationView(arg_30_0, arg_30_1, arg_30_2)
+	function slot0.tools.informationAction(slot0, slot1, slot2)
+		uv0:ShowInformationView(slot0, slot1, slot2)
 	end
 
-	arg_27_0.tools:StartGame()
-	arg_27_0:UpdateSkill()
+	slot0.tools:StartGame()
+	slot0:UpdateSkill()
 
-	for iter_27_0, iter_27_1 in ipairs(var_27_0.create_cells_location) do
-		arg_27_0.tools:AddInitList(iter_27_1[1], iter_27_1[2], iter_27_1[3])
+	for slot5, slot6 in ipairs(slot1.create_cells_location) do
+		slot0.tools:AddInitList(slot6[1], slot6[2], slot6[3])
 	end
 end
 
-function var_0_0.UpdateStartRole(arg_31_0)
-	local var_31_0 = ActivityCombineHeroCfg[arg_31_0.heroId]
-
-	for iter_31_0, iter_31_1 in ipairs(var_31_0.level_unlock) do
-		if iter_31_0 <= arg_31_0.gameData.roleLv then
-			CombineGameFactory:NewFactor(iter_31_1)
+function slot0.UpdateStartRole(slot0)
+	for slot5, slot6 in ipairs(ActivityCombineHeroCfg[slot0.heroId].level_unlock) do
+		if slot5 <= slot0.gameData.roleLv then
+			CombineGameFactory:NewFactor(slot6)
 		end
 	end
 
-	local var_31_1 = var_31_0.level_exp[arg_31_0.gameData.roleLv]
-	local var_31_2 = ActivityCombineSettingCfg[arg_31_0.gameData.age].score
+	slot0.gameData.nextTechNeed = math.floor(slot1.level_exp[slot0.gameData.roleLv] * slot0.gameData.techRate * (100 + ActivityCombineSettingCfg[slot0.gameData.age].score) / 100)
 
-	arg_31_0.gameData.nextTechNeed = math.floor(var_31_1 * arg_31_0.gameData.techRate * (100 + var_31_2) / 100)
-
-	if arg_31_0.gameData.roleLv == #var_31_0.level_exp then
-		arg_31_0.gameData.nextTechNeed = 0
+	if slot0.gameData.roleLv == #slot1.level_exp then
+		slot0.gameData.nextTechNeed = 0
 	end
 end
 
-function var_0_0.StartGame(arg_32_0)
-	arg_32_0.tools.rock = arg_32_0.gameData.rock
+function slot0.StartGame(slot0)
+	slot0.tools.rock = slot0.gameData.rock
 
-	arg_32_0.tools.spriteList:Clear()
-	arg_32_0.tools.spriteList:Add(getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. 1))
+	slot0.tools.spriteList:Clear()
 
-	for iter_32_0, iter_32_1 in ipairs(GameSetting.activity_combine_game_icon.value) do
-		arg_32_0.tools.spriteList:Add(getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. iter_32_1))
+	slot5 = 1
+	slot4 = "TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot5
+
+	slot0.tools.spriteList:Add(getSpriteWithoutAtlas(slot4))
+
+	for slot4, slot5 in ipairs(GameSetting.activity_combine_game_icon.value) do
+		slot0.tools.spriteList:Add(getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot5))
 	end
 
-	arg_32_0.tools.skillSprites:Clear()
+	slot0.tools.skillSprites:Clear()
 
-	for iter_32_2, iter_32_3 in ipairs(ActivityCombineSkillCfg.all) do
-		local var_32_0 = ActivityCombineSkillCfg[iter_32_3]
-
-		arg_32_0.tools.skillSprites[var_32_0.id] = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. var_32_0.icon)
+	for slot4, slot5 in ipairs(ActivityCombineSkillCfg.all) do
+		slot6 = ActivityCombineSkillCfg[slot5]
+		slot0.tools.skillSprites[slot6.id] = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot6.icon)
 	end
 
-	arg_32_0.heroIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/" .. ActivityCombineHeroCfg[arg_32_0.heroId].Icon_2)
+	slot0.heroIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/" .. ActivityCombineHeroCfg[slot0.heroId].Icon_2)
 
-	arg_32_0.stageController:SetSelectedState("box1")
-	arg_32_0:SetInitBlock()
-	arg_32_0:UpdateGameData()
+	slot0.stageController:SetSelectedState("box1")
+	slot0:SetInitBlock()
+	slot0:UpdateGameData()
 end
 
-function var_0_0.MapExtension(arg_33_0)
-	arg_33_0.stageController:SetSelectedState("box2")
+function slot0.MapExtension(slot0)
+	slot0.stageController:SetSelectedState("box2")
 
-	for iter_33_0 = 1, 10 do
-		arg_33_0.tools:NewBlock()
+	for slot4 = 1, 10 do
+		slot0.tools:NewBlock()
 	end
 end
 
-function var_0_0.ShowInformationView(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	SetActive(arg_34_0.informationGo_, true)
+function slot0.ShowInformationView(slot0, slot1, slot2, slot3)
+	SetActive(slot0.informationGo_, true)
 
-	if arg_34_1 ~= 0 then
-		local var_34_0 = ActivityCombineSkillCfg[arg_34_1]
-
-		arg_34_0.informationTxt_.text = GetI18NText(var_34_0.description)
-		arg_34_0.cdTxt_.text = "CD:" .. math.max(var_34_0.cd + arg_34_0.gameData.effectCD, 0)
+	if slot1 ~= 0 then
+		slot4 = ActivityCombineSkillCfg[slot1]
+		slot0.informationTxt_.text = GetI18NText(slot4.description)
+		slot0.cdTxt_.text = "CD:" .. math.max(slot4.cd + slot0.gameData.effectCD, 0)
 	end
 
-	arg_34_0.informationGo_.transform.position = arg_34_3.position
+	slot0.informationGo_.transform.position = slot3.position
 end
 
-function var_0_0.SetInitBlock(arg_35_0)
-	local var_35_0 = GameSetting.activity_combine_game_init_cells_location.value
-	local var_35_1 = ActivityCombineLevelCfg[arg_35_0.levelId]
+function slot0.SetInitBlock(slot0)
+	slot1 = GameSetting.activity_combine_game_init_cells_location.value
 
-	if next(var_35_1.init_cells_location) then
-		for iter_35_0, iter_35_1 in ipairs(var_35_1.init_cells_location) do
-			arg_35_0.tools:NewBlock(iter_35_1[1], iter_35_1[2], iter_35_1[3], iter_35_1[4])
+	if next(ActivityCombineLevelCfg[slot0.levelId].init_cells_location) then
+		for slot6, slot7 in ipairs(slot2.init_cells_location) do
+			slot0.tools:NewBlock(slot7[1], slot7[2], slot7[3], slot7[4])
 		end
 	else
-		local var_35_2 = 0
+		slot0.tools.minLevel = slot0.gameData.minLevel
 
-		arg_35_0.tools.minLevel = arg_35_0.gameData.minLevel
+		slot0.tools.gailv:Clear()
+		slot0.tools.gailv:Add(0)
 
-		arg_35_0.tools.gailv:Clear()
-		arg_35_0.tools.gailv:Add(0)
+		for slot7 = 1, 5 do
+			slot0.tools.gailv:Add(slot1[slot7])
 
-		for iter_35_2 = 1, 5 do
-			arg_35_0.tools.gailv:Add(var_35_0[iter_35_2])
-
-			var_35_2 = var_35_2 + var_35_0[iter_35_2]
+			slot3 = 0 + slot1[slot7]
 		end
 
-		arg_35_0.tools:NewPoor()
+		slot0.tools:NewPoor()
 
-		for iter_35_3 = 1, var_35_2 do
-			arg_35_0.tools:NewBlock()
+		for slot7 = 1, slot3 do
+			slot0.tools:NewBlock()
 		end
 	end
 end
 
-function var_0_0.UpdateSkill(arg_36_0)
-	for iter_36_0, iter_36_1 in ipairs(arg_36_0.gameData.skillList) do
-		local var_36_0 = ActivityCombineSkillCfg[iter_36_1]
+function slot0.UpdateSkill(slot0)
+	for slot4, slot5 in ipairs(slot0.gameData.skillList) do
+		slot6 = ActivityCombineSkillCfg[slot5]
 
-		arg_36_0.tools:UpdateSkill(iter_36_0 - 1, iter_36_1, math.max(var_36_0.cost + arg_36_0.gameData.skillCost, 0), math.max(var_36_0.cd + arg_36_0.gameData.effectCD, 0))
+		slot0.tools:UpdateSkill(slot4 - 1, slot5, math.max(slot6.cost + slot0.gameData.skillCost, 0), math.max(slot6.cd + slot0.gameData.effectCD, 0))
 	end
 end
 
-function var_0_0.PlayAnimation(arg_37_0, arg_37_1, arg_37_2)
-	local function var_37_0(arg_38_0)
-		TimeTools.StartAfterSeconds(0.5, function()
-			arg_37_0[arg_38_0 .. "Lock"] = false
+function slot0.PlayAnimation(slot0, slot1, slot2)
+	table.insert(slot0[slot1 .. "List"], (slot2 >= 0 and "+" or "") .. slot2)
 
-			if arg_37_0[arg_38_0 .. "List"][1] then
-				arg_37_0[arg_38_0 .. "AddAni_"]:Play("token_text", -1, 0)
+	if slot0[slot1 .. "Lock"] == false then
+		slot0[slot1 .. "Lock"] = true
+		slot0[slot1 .. "AddTxt_"].text = slot0[slot1 .. "List"][1]
 
-				arg_37_0[arg_38_0 .. "AddTxt_"].text = arg_37_0[arg_38_0 .. "List"][1]
+		slot0[slot1 .. "AddAni_"]:Play("token_text", -1, 0)
+		table.remove(slot0[slot1 .. "List"], 1)
+		function (slot0)
+			TimeTools.StartAfterSeconds(0.5, function ()
+				uv0[uv1 .. "Lock"] = false
 
-				table.remove(arg_37_0[arg_38_0 .. "List"], 1)
+				if uv0[uv1 .. "List"][1] then
+					uv0[uv1 .. "AddAni_"]:Play("token_text", -1, 0)
 
-				arg_37_0[arg_38_0 .. "Lock"] = true
+					uv0[uv1 .. "AddTxt_"].text = uv0[uv1 .. "List"][1]
 
-				var_37_0(arg_38_0)
-			end
-		end, {})
-	end
+					table.remove(uv0[uv1 .. "List"], 1)
 
-	table.insert(arg_37_0[arg_37_1 .. "List"], (arg_37_2 >= 0 and "+" or "") .. arg_37_2)
+					uv0[uv1 .. "Lock"] = true
 
-	if arg_37_0[arg_37_1 .. "Lock"] == false then
-		arg_37_0[arg_37_1 .. "Lock"] = true
-		arg_37_0[arg_37_1 .. "AddTxt_"].text = arg_37_0[arg_37_1 .. "List"][1]
-
-		arg_37_0[arg_37_1 .. "AddAni_"]:Play("token_text", -1, 0)
-		table.remove(arg_37_0[arg_37_1 .. "List"], 1)
-		var_37_0(arg_37_1)
+					uv2(uv1)
+				end
+			end, {})
+		end(slot1)
 	end
 end
 
-function var_0_0.BuildChangeResource(arg_40_0, arg_40_1, arg_40_2)
-	local var_40_0 = 0
-
-	for iter_40_0 = 1, arg_40_2 do
-		var_40_0 = var_40_0 + CombineGameFactory.ChangeResource(var_0_1.TECH, arg_40_1)
+function slot0.BuildChangeResource(slot0, slot1, slot2)
+	for slot7 = 1, slot2 do
+		slot3 = 0 + CombineGameFactory.ChangeResource(uv0.TECH, slot1)
 	end
 
-	if var_40_0 == 0 then
+	if slot3 == 0 then
 		return
 	end
 
-	arg_40_0.gameData.tech = arg_40_0.gameData.tech + var_40_0
+	slot0.gameData.tech = slot0.gameData.tech + slot3
 
-	if arg_40_0.gameData.nextTechNeed == 0 then
-		arg_40_0.techTxt_.text = arg_40_0.gameData.tech
+	if slot0.gameData.nextTechNeed == 0 then
+		slot0.techTxt_.text = slot0.gameData.tech
 	else
-		arg_40_0.techTxt_.text = arg_40_0.gameData.tech .. "/" .. arg_40_0.gameData.nextTechNeed
+		slot0.techTxt_.text = slot0.gameData.tech .. "/" .. slot0.gameData.nextTechNeed
 	end
 
-	arg_40_0.expSlider_.value = arg_40_0.gameData.tech / arg_40_0.gameData.nextTechNeed
-	arg_40_0.gameData.totalTech = arg_40_0.gameData.totalTech + (var_40_0 > 0 and var_40_0 or 0)
+	slot0.expSlider_.value = slot0.gameData.tech / slot0.gameData.nextTechNeed
+	slot0.gameData.totalTech = slot0.gameData.totalTech + (slot3 > 0 and slot3 or 0)
 
-	arg_40_0:PlayAnimation("tech", var_40_0)
+	slot0:PlayAnimation("tech", slot3)
 end
 
-function var_0_0.ChangeResource(arg_41_0, arg_41_1, arg_41_2)
-	arg_41_2 = CombineGameFactory.ChangeResource(arg_41_1, arg_41_2)
-
-	if arg_41_2 == 0 then
+function slot0.ChangeResource(slot0, slot1, slot2)
+	if CombineGameFactory.ChangeResource(slot1, slot2) == 0 then
 		return
 	end
 
-	if arg_41_1 == var_0_1.FOOD then
-		arg_41_0.gameData.food = arg_41_0.gameData.food + arg_41_2
-		arg_41_0.foodTxt_.text = arg_41_0.gameData.food .. "(-" .. arg_41_0.gameData.nextTurnCost[1] .. ")"
-		arg_41_0.gameData.totalFood = arg_41_0.gameData.totalFood + (arg_41_2 > 0 and arg_41_2 or 0)
+	if slot1 == uv0.FOOD then
+		slot0.gameData.food = slot0.gameData.food + slot2
+		slot0.foodTxt_.text = slot0.gameData.food .. "(-" .. slot0.gameData.nextTurnCost[1] .. ")"
+		slot0.gameData.totalFood = slot0.gameData.totalFood + (slot2 > 0 and slot2 or 0)
 
-		arg_41_0:PlayAnimation("food", arg_41_2)
-	elseif arg_41_1 == var_0_1.TECH then
-		arg_41_0.gameData.tech = arg_41_0.gameData.tech + arg_41_2
+		slot0:PlayAnimation("food", slot2)
+	elseif slot1 == uv0.TECH then
+		slot0.gameData.tech = slot0.gameData.tech + slot2
 
-		if arg_41_0.gameData.nextTechNeed == 0 then
-			arg_41_0.techTxt_.text = arg_41_0.gameData.tech
+		if slot0.gameData.nextTechNeed == 0 then
+			slot0.techTxt_.text = slot0.gameData.tech
 		else
-			arg_41_0.techTxt_.text = arg_41_0.gameData.tech .. "/" .. arg_41_0.gameData.nextTechNeed
+			slot0.techTxt_.text = slot0.gameData.tech .. "/" .. slot0.gameData.nextTechNeed
 		end
 
-		arg_41_0.expSlider_.value = arg_41_0.gameData.tech / arg_41_0.gameData.nextTechNeed
-		arg_41_0.gameData.totalTech = arg_41_0.gameData.totalTech + (arg_41_2 > 0 and arg_41_2 or 0)
+		slot0.expSlider_.value = slot0.gameData.tech / slot0.gameData.nextTechNeed
+		slot0.gameData.totalTech = slot0.gameData.totalTech + (slot2 > 0 and slot2 or 0)
 
-		arg_41_0:PlayAnimation("tech", arg_41_2)
-	elseif arg_41_1 == var_0_1.ROCK then
-		arg_41_0.gameData.rock = arg_41_0.gameData.rock + arg_41_2
-		arg_41_0.industryTxt_.text = arg_41_0.gameData.rock
-		arg_41_0.tools.rock = arg_41_0.gameData.rock
-		arg_41_0.gameData.totalRock = arg_41_0.gameData.totalRock + (arg_41_2 > 0 and arg_41_2 or 0)
+		slot0:PlayAnimation("tech", slot2)
+	elseif slot1 == uv0.ROCK then
+		slot0.gameData.rock = slot0.gameData.rock + slot2
+		slot0.industryTxt_.text = slot0.gameData.rock
+		slot0.tools.rock = slot0.gameData.rock
+		slot0.gameData.totalRock = slot0.gameData.totalRock + (slot2 > 0 and slot2 or 0)
 
-		arg_41_0:PlayAnimation("rock", arg_41_2)
+		slot0:PlayAnimation("rock", slot2)
 	end
 end
 
-function var_0_0.CheckGame(arg_42_0)
-	arg_42_0.tools:RefreshSkillStage()
-	SetActive(arg_42_0.foodPopGo_, arg_42_0.gameData.food <= 10)
+function slot0.CheckGame(slot0)
+	slot0.tools:RefreshSkillStage()
+	SetActive(slot0.foodPopGo_, slot0.gameData.food <= 10)
 
-	if arg_42_0.gameData.tech >= arg_42_0.gameData.nextTechNeed and arg_42_0.gameData.nextTechNeed ~= 0 then
-		arg_42_0:RoleLevelUpView()
-		arg_42_0:UpdateGameData()
-		arg_42_0:UpdateView()
+	if slot0.gameData.nextTechNeed <= slot0.gameData.tech and slot0.gameData.nextTechNeed ~= 0 then
+		slot0:RoleLevelUpView()
+		slot0:UpdateGameData()
+		slot0:UpdateView()
 	end
 
-	if arg_42_0.gameData.food < 0 then
-		arg_42_0:GameFail()
+	if slot0.gameData.food < 0 then
+		slot0:GameFail()
 
 		return
 	end
 
-	if arg_42_0:CheckVictory() then
-		arg_42_0:GameWin()
+	if slot0:CheckVictory() then
+		slot0:GameWin()
 
 		return
 	end
 end
 
-function var_0_0.NextTurnUpdate(arg_43_0)
-	arg_43_0:ChangeResource(var_0_1.FOOD, -arg_43_0.gameData.nextTurnCost[var_0_1.FOOD])
-	arg_43_0:ChangeResource(var_0_1.ROCK, -arg_43_0.gameData.nextTurnCost[var_0_1.ROCK])
-	arg_43_0:ChangeResource(var_0_1.TECH, -arg_43_0.gameData.nextTurnCost[var_0_1.TECH])
+function slot0.NextTurnUpdate(slot0)
+	slot0:ChangeResource(uv0.FOOD, -slot0.gameData.nextTurnCost[uv0.FOOD])
+	slot0:ChangeResource(uv0.ROCK, -slot0.gameData.nextTurnCost[uv0.ROCK])
+	slot0:ChangeResource(uv0.TECH, -slot0.gameData.nextTurnCost[uv0.TECH])
 
-	arg_43_0.gameData.nowTurn = arg_43_0.gameData.nowTurn + 1
+	slot0.gameData.nowTurn = slot0.gameData.nowTurn + 1
 
-	arg_43_0:CheckGame()
+	slot0:CheckGame()
 
-	if arg_43_0.gameData.nextStageTurn >= 999 then
-		arg_43_0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN_2"), arg_43_0.gameData.nowTurn)
+	if slot0.gameData.nextStageTurn >= 999 then
+		slot0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN_2"), slot0.gameData.nowTurn)
 	else
-		arg_43_0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN"), arg_43_0.gameData.nowTurn, arg_43_0.gameData.nextStageTurn)
+		slot0.roundTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_TURN"), slot0.gameData.nowTurn, slot0.gameData.nextStageTurn)
 	end
 
-	if arg_43_0.gameData.nowTurn > arg_43_0.gameData.nextStageTurn then
-		arg_43_0:NextStageView()
-		arg_43_0:UpdateGameData()
-		arg_43_0:UpdateView()
+	if slot0.gameData.nextStageTurn < slot0.gameData.nowTurn then
+		slot0:NextStageView()
+		slot0:UpdateGameData()
+		slot0:UpdateView()
 	end
 
-	arg_43_0.tools.speed = arg_43_0.gameData.speed
-	arg_43_0.tools.maxLevel = arg_43_0.gameData.maxLevel
-	arg_43_0.tools.minLevel = arg_43_0.gameData.minLevel
+	slot0.tools.speed = slot0.gameData.speed
+	slot0.tools.maxLevel = slot0.gameData.maxLevel
+	slot0.tools.minLevel = slot0.gameData.minLevel
 end
 
-function var_0_0.CheckVictory(arg_44_0)
-	local var_44_0 = ActivityCombineLevelCfg[arg_44_0.levelId]
+function slot0.CheckVictory(slot0)
+	if ActivityCombineLevelCfg[slot0.levelId].victory_condition_type == uv0.ROLE_LEVEL then
+		return slot1.victory_condition[1] <= slot0.gameData.roleLv
+	elseif slot1.victory_condition_type == uv0.TURN then
+		return slot1.victory_condition[1] <= slot0.gameData.nowTurn
+	elseif slot1.victory_condition_type == uv0.RESOURCE then
+		slot2 = nil
 
-	if var_44_0.victory_condition_type == var_0_3.ROLE_LEVEL then
-		return arg_44_0.gameData.roleLv >= var_44_0.victory_condition[1]
-	elseif var_44_0.victory_condition_type == var_0_3.TURN then
-		return arg_44_0.gameData.nowTurn >= var_44_0.victory_condition[1]
-	elseif var_44_0.victory_condition_type == var_0_3.RESOURCE then
-		local var_44_1
-
-		if var_44_0.victory_condition[1] == var_0_1.FOOD then
-			var_44_1 = arg_44_0.gameData.totalFood
-		elseif var_44_0.victory_condition[1] == var_0_1.ROCK then
-			var_44_1 = arg_44_0.gameData.totalRock
-		elseif var_44_0.victory_condition[1] == var_0_1.TECH then
-			var_44_1 = arg_44_0.gameData.totalTech
+		if slot1.victory_condition[1] == uv1.FOOD then
+			slot2 = slot0.gameData.totalFood
+		elseif slot1.victory_condition[1] == uv1.ROCK then
+			slot2 = slot0.gameData.totalRock
+		elseif slot1.victory_condition[1] == uv1.TECH then
+			slot2 = slot0.gameData.totalTech
 		end
 
-		arg_44_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_3"), var_44_1 .. "/" .. var_44_0.victory_condition[2], GetTips(var_0_2[var_44_0.victory_condition[1]]))
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_3"), slot2 .. "/" .. slot1.victory_condition[2], GetTips(uv2[slot1.victory_condition[1]]))
 
-		return var_44_1 >= var_44_0.victory_condition[2]
-	elseif var_44_0.victory_condition_type == var_0_3.BEAST then
-		arg_44_0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_4"), arg_44_0.tools.beastDestoryCount .. "/" .. var_44_0.victory_condition[2], GetTips(var_0_2[var_44_0.victory_condition[1]]))
+		return slot1.victory_condition[2] <= slot2
+	elseif slot1.victory_condition_type == uv0.BEAST then
+		slot0.winConditionTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_VICTORY_CONDITION_4"), slot0.tools.beastDestoryCount .. "/" .. slot1.victory_condition[2], GetTips(uv2[slot1.victory_condition[1]]))
 
-		return arg_44_0.tools.beastDestoryCount >= var_44_0.victory_condition[2]
+		return slot1.victory_condition[2] <= slot0.tools.beastDestoryCount
 	end
 
 	return false
 end
 
-function var_0_0.GameWin(arg_45_0)
-	arg_45_0.winTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_VICTORY")
-	arg_45_0.result = 1
+function slot0.GameWin(slot0)
+	slot0.winTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_VICTORY")
+	slot0.result = 1
 
-	SetActive(arg_45_0.winGo_, true)
-	CombineGameFactory:EndGame(arg_45_0.levelId, arg_45_0.factorList, true)
+	SetActive(slot0.winGo_, true)
+	CombineGameFactory:EndGame(slot0.levelId, slot0.factorList, true)
 
-	local var_45_0 = arg_45_0:CalculateScore()
-	local var_45_1 = CombineGameData:GetDataByPara("stageDataTable")[arg_45_0.levelId]
-	local var_45_2 = ActivityCombineLevelCfg[arg_45_0.levelId]
-
-	if arg_45_0.result == 1 and (var_45_1 ~= true or var_45_2.type == CombineGameConst.TypeConst.ENDLESS) then
-		CombineGameAction.GameWin(arg_45_0.levelId, var_45_0)
+	if slot0.result == 1 and (CombineGameData:GetDataByPara("stageDataTable")[slot0.levelId] ~= true or ActivityCombineLevelCfg[slot0.levelId].type == CombineGameConst.TypeConst.ENDLESS) then
+		CombineGameAction.GameWin(slot0.levelId, slot0:CalculateScore())
 	end
 end
 
-function var_0_0.GameFail(arg_46_0)
-	arg_46_0.loseTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_DEFEAT")
-	arg_46_0.result = 2
+function slot0.GameFail(slot0)
+	slot0.loseTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_DEFEAT")
+	slot0.result = 2
 
-	SetActive(arg_46_0.loseGo_, true)
-	CombineGameFactory:EndGame(arg_46_0.levelId, arg_46_0.factorList, false)
+	SetActive(slot0.loseGo_, true)
+	CombineGameFactory:EndGame(slot0.levelId, slot0.factorList, false)
 end
 
-function var_0_0.NextStageView(arg_47_0)
-	arg_47_0.gameData.age = arg_47_0.gameData.age + 1
+function slot0.NextStageView(slot0)
+	slot0.gameData.age = slot0.gameData.age + 1
 
-	local var_47_0 = ActivityCombineSettingCfg[arg_47_0.gameData.age]
-
-	if var_47_0 == nil then
-		arg_47_0.gameData.nextStageTurn = 999
+	if ActivityCombineSettingCfg[slot0.gameData.age] == nil then
+		slot0.gameData.nextStageTurn = 999
 
 		return
 	end
 
-	arg_47_0.gameData.nextStageTurn = var_47_0.rounds * arg_47_0.gameData.turnRate
-	arg_47_0.gameData.nextTurnCost[1] = math.max(arg_47_0.gameData.nextTurnCost[1] + var_47_0.food_cost, 0)
+	slot0.gameData.nextStageTurn = slot1.rounds * slot0.gameData.turnRate
+	slot5 = 0
+	slot0.gameData.nextTurnCost[1] = math.max(slot0.gameData.nextTurnCost[1] + slot1.food_cost, slot5)
 
-	for iter_47_0, iter_47_1 in ipairs(var_47_0.cells_list) do
-		arg_47_0.gameData.pool[iter_47_0] = arg_47_0.gameData.pool[iter_47_0] + iter_47_1
+	for slot5, slot6 in ipairs(slot1.cells_list) do
+		slot0.gameData.pool[slot5] = slot0.gameData.pool[slot5] + slot6
 	end
 
-	if arg_47_0.gameData.stageFoodChange[arg_47_0.gameData.age] then
-		arg_47_0.gameData.resourceChange[var_0_1.FOOD] = arg_47_0.gameData.resourceChange[var_0_1.FOOD] + arg_47_0.gameData.stageFoodChange[arg_47_0.gameData.age]
+	if slot0.gameData.stageFoodChange[slot0.gameData.age] then
+		slot0.gameData.resourceChange[uv0.FOOD] = slot0.gameData.resourceChange[uv0.FOOD] + slot0.gameData.stageFoodChange[slot0.gameData.age]
 	end
 
-	arg_47_0.tools.mapExtension = var_47_0.map_bigger == 1
+	slot0.tools.mapExtension = slot1.map_bigger == 1
 
-	if arg_47_0.gameData.age ~= 1 then
-		arg_47_0.nextStageTipsTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_CONSUME_INCREASE"), var_47_0.food_cost)
-		arg_47_0.stageDescTxt_.text = GetI18NText(var_47_0.desc)
+	if slot0.gameData.age ~= 1 then
+		slot0.nextStageTipsTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_CONSUME_INCREASE"), slot1.food_cost)
+		slot0.stageDescTxt_.text = GetI18NText(slot1.desc)
 
-		SetActive(arg_47_0.nextStageTipsTxt_.transform.parent.gameObject, var_47_0.food_cost ~= 0)
-		TimeTools.StartAfterSeconds(1, function()
-			SetActive(arg_47_0.tipsGo_, true)
+		SetActive(slot0.nextStageTipsTxt_.transform.parent.gameObject, slot1.food_cost ~= 0)
+		TimeTools.StartAfterSeconds(1, function ()
+			SetActive(uv0.tipsGo_, true)
 		end, {})
 	end
 end
 
-function var_0_0.RoleLevelUpView(arg_49_0)
-	local var_49_0 = ActivityCombineHeroCfg[arg_49_0.heroId]
-
-	if arg_49_0.gameData.roleLv == #var_49_0.level_unlock then
+function slot0.RoleLevelUpView(slot0)
+	if slot0.gameData.roleLv == #ActivityCombineHeroCfg[slot0.heroId].level_unlock then
 		return
 	end
 
-	arg_49_0.oldLvTxt_.text = string.format(GetTips("DORM_LEVEL_TIPS"), arg_49_0.gameData.roleLv)
-	arg_49_0.gameData.roleLv = math.min(arg_49_0.gameData.roleLv + 1, #var_49_0.level_unlock)
-	arg_49_0.newLvTxt_.text = string.format(GetTips("DORM_LEVEL_TIPS"), arg_49_0.gameData.roleLv)
-	arg_49_0.levelUpTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_HERO_LEVEL_UP"), arg_49_0.gameData.roleLv)
-	arg_49_0.gameData.tech = arg_49_0.gameData.tech - arg_49_0.gameData.nextTechNeed
+	slot0.oldLvTxt_.text = string.format(GetTips("DORM_LEVEL_TIPS"), slot0.gameData.roleLv)
+	slot0.gameData.roleLv = math.min(slot0.gameData.roleLv + 1, #slot1.level_unlock)
+	slot0.newLvTxt_.text = string.format(GetTips("DORM_LEVEL_TIPS"), slot0.gameData.roleLv)
+	slot0.levelUpTxt_.text = string.format(GetTips("ACTIVITY_COMBINE_GAME_HERO_LEVEL_UP"), slot0.gameData.roleLv)
+	slot0.gameData.tech = slot0.gameData.tech - slot0.gameData.nextTechNeed
 
-	local var_49_1 = ActivityCombineSettingCfg[arg_49_0.gameData.age]
+	if ActivityCombineSettingCfg[slot0.gameData.age] == nil then
+		print("daawasdfasfdaw" .. slot0.gameData.age)
 
-	if var_49_1 == nil then
-		print("daawasdfasfdaw" .. arg_49_0.gameData.age)
-
-		var_49_1 = ActivityCombineSettingCfg[arg_49_0.gameData.age - 1]
+		slot2 = ActivityCombineSettingCfg[slot0.gameData.age - 1]
 	end
 
-	local var_49_2 = var_49_1.score
+	slot3 = slot2.score
 
-	if arg_49_0.gameData.roleLv == #var_49_0.level_unlock then
-		arg_49_0.gameData.nextTechNeed = 0
+	if slot0.gameData.roleLv == #slot1.level_unlock then
+		slot0.gameData.nextTechNeed = 0
 	else
-		arg_49_0.gameData.nextTechNeed = math.floor(var_49_0.level_exp[arg_49_0.gameData.roleLv] * arg_49_0.gameData.techRate * (100 + var_49_2) / 100)
+		slot0.gameData.nextTechNeed = math.floor(slot1.level_exp[slot0.gameData.roleLv] * slot0.gameData.techRate * (100 + slot3) / 100)
 	end
 
-	local var_49_3 = ActivityCombineFactorCfg[var_49_0.level_unlock[arg_49_0.gameData.roleLv]]
-
-	if var_49_3.effect_type == 1 then
-		local var_49_4 = ActivityCombineSkillCfg[var_49_3.effect[1]]
-
-		arg_49_0.skillDescTxt_.text = GetI18NText(var_49_4.description)
-		arg_49_0.skillImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. var_49_4.icon)
+	if ActivityCombineFactorCfg[slot1.level_unlock[slot0.gameData.roleLv]].effect_type == 1 then
+		slot5 = ActivityCombineSkillCfg[slot4.effect[1]]
+		slot0.skillDescTxt_.text = GetI18NText(slot5.description)
+		slot0.skillImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot5.icon)
 	else
-		arg_49_0.skillDescTxt_.text = GetI18NText(var_49_3.description)
-		arg_49_0.skillImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. var_49_3.icon)
+		slot0.skillDescTxt_.text = GetI18NText(slot4.description)
+		slot0.skillImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot4.icon)
 	end
 
-	if arg_49_0.gameData.nextTechNeed == 0 then
-		arg_49_0.expSlider_.value = 1
+	if slot0.gameData.nextTechNeed == 0 then
+		slot0.expSlider_.value = 1
 	else
-		arg_49_0.expSlider_.value = arg_49_0.gameData.tech / arg_49_0.gameData.nextTechNeed
+		slot0.expSlider_.value = slot0.gameData.tech / slot0.gameData.nextTechNeed
 	end
 
 	if manager.guide:IsPlaying() then
-		TimeTools.StartAfterSeconds(0.07, function()
-			SetActive(arg_49_0.levelUpGo_, true)
+		TimeTools.StartAfterSeconds(0.07, function ()
+			SetActive(uv0.levelUpGo_, true)
 		end, {})
 	else
-		TimeTools.StartAfterSeconds(1, function()
-			SetActive(arg_49_0.levelUpGo_, true)
+		TimeTools.StartAfterSeconds(1, function ()
+			SetActive(uv0.levelUpGo_, true)
 		end, {})
 	end
 
-	CombineGameFactory:NewFactor(var_49_0.level_unlock[arg_49_0.gameData.roleLv], true)
+	CombineGameFactory:NewFactor(slot1.level_unlock[slot0.gameData.roleLv], true)
 
-	if arg_49_0.gameData.needRefreshSkill then
-		arg_49_0.gameData.needRefreshSkill = false
+	if slot0.gameData.needRefreshSkill then
+		slot0.gameData.needRefreshSkill = false
 
-		arg_49_0:UpdateGameData()
-		arg_49_0:UpdateSkill()
-	elseif arg_49_0.gameData.needRefreshBlock then
-		arg_49_0.gameData.needRefreshBlock = false
+		slot0:UpdateGameData()
+		slot0:UpdateSkill()
+	elseif slot0.gameData.needRefreshBlock then
+		slot0.gameData.needRefreshBlock = false
 
-		arg_49_0:UpdateGameData()
-		arg_49_0.tools:RefreshAllBlock()
+		slot0:UpdateGameData()
+		slot0.tools:RefreshAllBlock()
 	end
 
-	arg_49_0.tools:RefreshSkillStage()
+	slot0.tools:RefreshSkillStage()
 end
 
-function var_0_0.ShowBaseInfoView(arg_52_0, arg_52_1, arg_52_2)
-	SetActive(arg_52_0.pop6Go_, true)
+function slot0.ShowBaseInfoView(slot0, slot1, slot2)
+	SetActive(slot0.pop6Go_, true)
 
-	arg_52_0.pop6Go_.transform.position = arg_52_2.transform.position
-	arg_52_0.pop6DescTxt_.text = GetTips(var_0_4[arg_52_1])
+	slot0.pop6Go_.transform.position = slot2.transform.position
+	slot0.pop6DescTxt_.text = GetTips(uv0[slot1])
 end
 
-function var_0_0.CalculateScore(arg_53_0)
-	local var_53_0 = 0
-
-	for iter_53_0, iter_53_1 in pairs(arg_53_0.factorList or {}) do
-		var_53_0 = var_53_0 + ActivityCombineFactorCfg[iter_53_0].score
+function slot0.CalculateScore(slot0)
+	for slot5, slot6 in pairs(slot0.factorList or {}) do
+		slot1 = 0 + ActivityCombineFactorCfg[slot5].score
 	end
 
-	return var_53_0
+	return slot1
 end
 
-function var_0_0.BuryPoint(arg_54_0)
-	if arg_54_0.needBury == false then
+function slot0.BuryPoint(slot0)
+	if slot0.needBury == false then
 		return
 	end
 
-	if arg_54_0.needBury == true then
-		arg_54_0.needBury = false
+	if slot0.needBury == true then
+		slot0.needBury = false
 	end
 
-	local var_54_0 = arg_54_0.tools:DetailBuryPointNeedData()
-	local var_54_1 = {}
+	slot2 = {}
 
-	for iter_54_0 = 1, var_54_0.Count do
-		if var_54_1[var_54_0[iter_54_0 - 1]] == nil then
-			var_54_1[var_54_0[iter_54_0 - 1]] = 1
+	for slot6 = 1, slot0.tools:DetailBuryPointNeedData().Count do
+		if slot2[slot1[slot6 - 1]] == nil then
+			slot2[slot1[slot6 - 1]] = 1
 		else
-			var_54_1[var_54_0[iter_54_0 - 1]] = var_54_1[var_54_0[iter_54_0 - 1]] + 1
+			slot2[slot1[slot6 - 1]] = slot2[slot1[slot6 - 1]] + 1
 		end
 	end
 
-	local var_54_2 = {}
-
-	for iter_54_1, iter_54_2 in pairs(var_54_1) do
-		table.insert(var_54_2, iter_54_1 .. "," .. iter_54_2)
+	for slot7, slot8 in pairs(slot2) do
+		table.insert({}, slot7 .. "," .. slot8)
 	end
 
-	local var_54_3 = {}
-	local var_54_4 = arg_54_0.tools.skillUseCount
-	local var_54_5
+	slot4 = slot0.tools.skillUseCount
 
-	for iter_54_3, iter_54_4 in ipairs(ActivityCombineSkillCfg.all) do
-		if var_54_4:TryGetValue(iter_54_4, var_54_5) then
-			var_54_3[iter_54_4] = var_54_4[iter_54_4]
+	for slot9, slot10 in ipairs(ActivityCombineSkillCfg.all) do
+		if slot4:TryGetValue(slot10, nil) then
+			-- Nothing
 		end
 	end
 
-	local var_54_6 = {}
+	slot6 = {}
 
-	for iter_54_5, iter_54_6 in pairs(var_54_3) do
-		table.insert(var_54_6, iter_54_5 .. "," .. iter_54_6)
+	for slot10, slot11 in pairs({
+		[slot10] = slot4[slot10]
+	}) do
+		table.insert(slot6, slot10 .. "," .. slot11)
 	end
-
-	local var_54_7 = arg_54_0:CalculateScore()
-	local var_54_8 = ActivityCombineLevelCfg[arg_54_0.levelId]
 
 	SDKTools.SendMessageToSDK("match_threepuzzle_over", {
-		hero_id = arg_54_0.heroId,
-		level_id = arg_54_0.gameData.roleLv,
-		stage_id = arg_54_0.levelId,
-		battle_times = arg_54_0.gameData.nowTurn,
-		point_list = table.toString(var_54_2),
-		skill_list = table.toString(var_54_6),
-		result = arg_54_0.result,
-		score = var_54_8.type == 3 and var_54_7 or nil
+		hero_id = slot0.heroId,
+		level_id = slot0.gameData.roleLv,
+		stage_id = slot0.levelId,
+		battle_times = slot0.gameData.nowTurn,
+		point_list = table.toString(slot3),
+		skill_list = table.toString(slot6),
+		result = slot0.result,
+		score = ActivityCombineLevelCfg[slot0.levelId].type == 3 and slot0:CalculateScore() or nil
 	})
 end
 
-function var_0_0.OnExit(arg_55_0)
-	arg_55_0:BuryPoint()
-	arg_55_0.tools:ResetGame()
-	arg_55_0.tools:EndDrag()
+function slot0.OnExit(slot0)
+	slot0:BuryPoint()
+	slot0.tools:ResetGame()
+	slot0.tools:EndDrag()
 
-	arg_55_0.foodAddTxt_.text = ""
-	arg_55_0.rockAddTxt_.text = ""
-	arg_55_0.techAddTxt_.text = ""
+	slot0.foodAddTxt_.text = ""
+	slot0.rockAddTxt_.text = ""
+	slot0.techAddTxt_.text = ""
 
-	SetActive(arg_55_0.tipsGo_, false)
-	SetActive(arg_55_0.winGo_, false)
-	SetActive(arg_55_0.loseGo_, false)
-	SetActive(arg_55_0.levelUpGo_, false)
-	SetActive(arg_55_0.informationGo_, false)
-	SetActive(arg_55_0.pop6Go_, false)
-	SetActive(arg_55_0.foodPopGo_, false)
-	SetActive(arg_55_0.tipsPopGo_, false)
+	SetActive(slot0.tipsGo_, false)
+	SetActive(slot0.winGo_, false)
+	SetActive(slot0.loseGo_, false)
+	SetActive(slot0.levelUpGo_, false)
+	SetActive(slot0.informationGo_, false)
+	SetActive(slot0.pop6Go_, false)
+	SetActive(slot0.foodPopGo_, false)
+	SetActive(slot0.tipsPopGo_, false)
 end
 
-function var_0_0.Dispose(arg_56_0)
-	arg_56_0:BuryPoint()
-	var_0_0.super.Dispose(arg_56_0)
-	Object.Destroy(arg_56_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0:BuryPoint()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

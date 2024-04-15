@@ -1,79 +1,76 @@
-local var_0_0 = class("ChessMessageBtn", ReduxView)
+slot0 = class("ChessMessageBtn", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/WarChess_Battle/WarChessTextPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.controller_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "conName")
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
-		arg_5_0.cancelCallBack()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
+		uv0.cancelCallBack()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.checkBtn_, nil, function()
-		arg_5_0:Back()
-		arg_5_0.checkCallBack()
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
+		uv0:Back()
+		uv0.checkCallBack()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.logId_ = arg_8_0.params_.logId
-	arg_8_0.checkCallBack = arg_8_0.params_.checkCallBack
-	arg_8_0.cancelCallBack = arg_8_0.params_.cancelCallBack
-	arg_8_0.style_ = arg_8_0.params_.style
+function slot0.OnEnter(slot0)
+	slot0.logId_ = slot0.params_.logId
+	slot0.checkCallBack = slot0.params_.checkCallBack
+	slot0.cancelCallBack = slot0.params_.cancelCallBack
+	slot0.style_ = slot0.params_.style
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.controller_:SetSelectedState(arg_10_0.style_)
+function slot0.RefreshUI(slot0)
+	slot0.controller_:SetSelectedState(slot0.style_)
 
-	if arg_10_0.style_ == "cantReach" then
-		arg_10_0.checkBtn_.interactable = false
-		arg_10_0.checkText_.text = GetTips("CAN_NOT_TEACH")
-	elseif arg_10_0.style_ == "no" then
-		arg_10_0.checkBtn_.interactable = true
-		arg_10_0.checkText_.text = GetTips("CONFIRM")
+	if slot0.style_ == "cantReach" then
+		slot0.checkBtn_.interactable = false
+		slot0.checkText_.text = GetTips("CAN_NOT_TEACH")
+	elseif slot0.style_ == "no" then
+		slot0.checkBtn_.interactable = true
+		slot0.checkText_.text = GetTips("CONFIRM")
 	else
-		arg_10_0.checkBtn_.interactable = true
-		arg_10_0.checkText_.text = GetTips("GO_UP_TO")
+		slot0.checkBtn_.interactable = true
+		slot0.checkText_.text = GetTips("GO_UP_TO")
 	end
 
-	if not WarchessContentCfg[arg_10_0.logId_] then
-		error("不存在的Id :", arg_10_0.logId_)
+	if not WarchessContentCfg[slot0.logId_] then
+		error("不存在的Id :", slot0.logId_)
 	end
 
-	arg_10_0.textinfoText_.text = GetI18NText(WarchessContentCfg[arg_10_0.logId_].content)
+	slot0.textinfoText_.text = GetI18NText(WarchessContentCfg[slot0.logId_].content)
 
-	local var_10_0 = WarchessContentCfg[arg_10_0.logId_].icon
-
-	if var_10_0 ~= "" then
-		arg_10_0.itemiconImg_.sprite = getSpriteViaConfig("WarchessItem", var_10_0)
+	if WarchessContentCfg[slot0.logId_].icon ~= "" then
+		slot0.itemiconImg_.sprite = getSpriteViaConfig("WarchessItem", slot1)
 	end
 
-	arg_10_0.textnameText_.text = GetI18NText(WarchessContentCfg[arg_10_0.logId_].name)
+	slot0.textnameText_.text = GetI18NText(WarchessContentCfg[slot0.logId_].name)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

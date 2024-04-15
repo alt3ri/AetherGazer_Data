@@ -1,3 +1,3 @@
-return function(arg_1_0)
-	return type(arg_1_0) == "table"
+return function (slot0)
+	return type(slot0) == "table"
 end

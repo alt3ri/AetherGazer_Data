@@ -1,753 +1,680 @@
-local var_0_0 = singletonClass("WarChessData")
-local var_0_1 = 0
-local var_0_2 = {}
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6 = {}
-local var_0_7 = false
-local var_0_8 = {}
-local var_0_9
-local var_0_10 = {}
-local var_0_11 = {}
-local var_0_12
-local var_0_13 = {}
-local var_0_14
-local var_0_15 = {}
-local var_0_16 = false
+slot0 = singletonClass("WarChessData")
+slot1 = 0
+slot2 = {}
+slot3, slot4, slot5 = nil
+slot6 = {}
+slot7 = false
+slot8 = {}
+slot9 = nil
+slot10 = {}
+slot11 = {}
+slot12 = nil
+slot13 = {}
+slot14 = nil
+slot15 = {}
+slot16 = false
 
-function var_0_0.Init(arg_1_0)
-	var_0_2 = {}
-	var_0_3 = nil
-	var_0_6 = {}
-	var_0_1 = 0
-	var_0_10 = {}
-	var_0_11 = {}
-	var_0_12 = nil
-	var_0_5 = 0
-	var_0_13 = {}
-	var_0_14 = nil
-	var_0_15 = {}
-	arg_1_0.teamData_ = {}
-	arg_1_0.activiteList_ = {}
-	var_0_16 = false
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = nil
+	uv2 = {}
+	uv3 = 0
+	uv4 = {}
+	uv5 = {}
+	uv6 = nil
+	uv7 = 0
+	uv8 = {}
+	uv9 = nil
+	uv10 = {}
+	slot0.teamData_ = {}
+	slot0.activiteList_ = {}
+	uv11 = false
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
+function slot0.InitData(slot0, slot1)
+	slot2 = slot1.activity_id
 
-	if arg_2_1.chapter ~= 0 then
-		var_2_0 = WarchessLevelCfg[arg_2_1.chapter].type
+	if slot1.chapter ~= 0 then
+		slot2 = WarchessLevelCfg[slot1.chapter].type
 	end
 
-	var_0_2[var_2_0] = arg_2_1.chapter
+	uv0[slot2] = slot1.chapter
 
-	local var_2_1 = cleanProtoTable(arg_2_1.chapter_info)
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_1) do
-		if not var_0_6[iter_2_1.chapter_id] then
-			var_0_6[iter_2_1.chapter_id] = {}
-			var_0_6[iter_2_1.chapter_id].box = {}
+	for slot7, slot8 in ipairs(cleanProtoTable(slot1.chapter_info)) do
+		if not uv1[slot8.chapter_id] then
+			uv1[slot8.chapter_id] = {
+				box = {}
+			}
 		end
 
-		var_0_6[iter_2_1.chapter_id].id = iter_2_1.chapter_id
+		uv1[slot8.chapter_id].id = slot8.chapter_id
 
-		local var_2_2 = cleanProtoTable(iter_2_1.box)
-
-		for iter_2_2, iter_2_3 in ipairs(var_2_2) do
-			var_0_6[iter_2_1.chapter_id].box[iter_2_3.id] = iter_2_3.num
+		for slot13, slot14 in ipairs(cleanProtoTable(slot8.box)) do
+			uv1[slot8.chapter_id].box[slot14.id] = slot14.num
 		end
 	end
 end
 
-function var_0_0.InitRedPoint(arg_3_0)
-	for iter_3_0, iter_3_1 in pairs(WarchessLevelCfg.all) do
-		local var_3_0 = WarchessLevelCfg[iter_3_1]
-
-		if var_3_0.tag ~= 0 then
-			local var_3_1 = string.format("%s_%s_%s", RedPointConst.WAR_CHESS, var_3_0.tag, iter_3_1)
-
-			if arg_3_0:GetChessLevelIsLock(iter_3_1) then
-				manager.redPoint:setTip(var_3_1, 0)
-			elseif not RedPointData:GetIsRedPointOpen(RedPointConst.WARCHESS_RANGE + iter_3_1) then
-				manager.redPoint:setTip(var_3_1, 1)
+function slot0.InitRedPoint(slot0)
+	for slot4, slot5 in pairs(WarchessLevelCfg.all) do
+		if WarchessLevelCfg[slot5].tag ~= 0 then
+			if slot0:GetChessLevelIsLock(slot5) then
+				manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.WAR_CHESS, slot6.tag, slot5), 0)
+			elseif not RedPointData:GetIsRedPointOpen(RedPointConst.WARCHESS_RANGE + slot5) then
+				manager.redPoint:setTip(slot7, 1)
 			else
-				manager.redPoint:setTip(var_3_1, 0)
+				manager.redPoint:setTip(slot7, 0)
 			end
 		end
 	end
 end
 
-function var_0_0.GetChessLevelIsLock(arg_4_0, arg_4_1)
-	local var_4_0 = WarchessLevelCfg[arg_4_1]
-	local var_4_1 = var_4_0.unlock_level
-
-	if var_4_1 ~= 0 and ChessTools.GetChapterProgress(var_4_1) < var_4_0.success_progress then
+function slot0.GetChessLevelIsLock(slot0, slot1)
+	if WarchessLevelCfg[slot1].unlock_level ~= 0 and ChessTools.GetChapterProgress(slot3) < slot2.success_progress then
 		return true
 	end
 
-	local var_4_2 = WarchessLevelCfg[arg_4_1].unlock_condition
-
-	if var_4_2 ~= "" then
-		if var_4_2[1] == 1 then
-			local var_4_3 = StoryStageActivityData:GetStageData(var_4_2[2][1])[var_4_2[2][2]]
-
-			if var_4_3 and var_4_3.clear_times >= 1 then
-				-- block empty
-			else
+	if WarchessLevelCfg[slot1].unlock_condition ~= "" then
+		if slot4[1] == 1 then
+			if not StoryStageActivityData:GetStageData(slot4[2][1])[slot4[2][2]] or slot5.clear_times < 1 then
 				return true
 			end
-		elseif var_4_2[1] == 2 then
-			return not ChapterTools.IsClearStage(var_4_2[2][2])
+		elseif slot4[1] == 2 then
+			return not ChapterTools.IsClearStage(slot4[2][2])
 		end
 	end
 
 	return false
 end
 
-function var_0_0.InitChessTime(arg_5_0, arg_5_1)
-	arg_5_0.activiteList_ = clone(arg_5_1)
+function slot0.InitChessTime(slot0, slot1)
+	slot0.activiteList_ = clone(slot1)
 end
 
-function var_0_0.GetChessTime(arg_6_0, arg_6_1)
-	return arg_6_0.activiteList_[arg_6_1]
+function slot0.GetChessTime(slot0, slot1)
+	return slot0.activiteList_[slot1]
 end
 
-function var_0_0.GetChapterInfo(arg_7_0, arg_7_1)
-	if not var_0_6[arg_7_1] then
-		var_0_6[arg_7_1] = {
+function slot0.GetChapterInfo(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = {
 			box = {},
-			id = arg_7_1
+			id = slot1
 		}
 	end
 
-	return var_0_6[arg_7_1]
+	return uv0[slot1]
 end
 
-function var_0_0.ModifyData(arg_8_0, arg_8_1)
-	return
+function slot0.ModifyData(slot0, slot1)
 end
 
-function var_0_0.SetWarChessData(arg_9_0, arg_9_1, arg_9_2)
-	var_0_3 = WarchessLevelCfg[arg_9_1].type
-	var_0_2[var_0_3] = arg_9_1
-	var_0_10 = {}
-	var_0_10.mapId = arg_9_1
-	var_0_10.bronPos = {
-		x = arg_9_2.pos.x,
-		z = arg_9_2.pos.z
+function slot0.SetWarChessData(slot0, slot1, slot2)
+	uv0 = WarchessLevelCfg[slot1].type
+	uv1[uv0] = slot1
+	uv2 = {
+		mapId = slot1,
+		bronPos = {
+			x = slot2.pos.x,
+			z = slot2.pos.z
+		},
+		bag = {
+			item = {},
+			artifact = {}
+		},
+		hp_list = {},
+		event_list = {},
+		global_event = {},
+		direction = slot2.direction,
+		eventInfo = {},
+		log = {}
 	}
-	var_0_10.bag = {
-		item = {},
-		artifact = {}
-	}
-	var_0_10.hp_list = {}
-	var_0_10.event_list = {}
-	var_0_10.global_event = {}
-	var_0_10.direction = arg_9_2.direction
-	var_0_10.eventInfo = {}
-	var_0_10.log = {}
+	slot3 = cleanProtoTable(slot2.bag.artifact)
+	slot5 = cleanProtoTable(slot2.log)
+	slot6 = cleanProtoTable(slot2.hp_list)
 
-	local var_9_0 = cleanProtoTable(arg_9_2.bag.artifact)
-	local var_9_1 = cleanProtoTable(arg_9_2.bag.item)
-	local var_9_2 = cleanProtoTable(arg_9_2.log)
-	local var_9_3 = cleanProtoTable(arg_9_2.hp_list)
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-		var_0_10.bag.item[iter_9_1.type] = iter_9_1.num
+	for slot10, slot11 in ipairs(cleanProtoTable(slot2.bag.item)) do
+		uv2.bag.item[slot11.type] = slot11.num
 	end
 
-	for iter_9_2, iter_9_3 in ipairs(var_9_0) do
-		var_0_10.bag.artifact[iter_9_3] = 1
+	for slot10, slot11 in ipairs(slot3) do
+		uv2.bag.artifact[slot11] = 1
 	end
 
-	for iter_9_4, iter_9_5 in ipairs(var_9_2) do
-		var_0_10.log[iter_9_4] = {
-			index = iter_9_5.index,
-			tag = iter_9_5.tag,
-			log = iter_9_5.log
+	for slot10, slot11 in ipairs(slot5) do
+		uv2.log[slot10] = {
+			index = slot11.index,
+			tag = slot11.tag,
+			log = slot11.log
 		}
 	end
 
-	for iter_9_6, iter_9_7 in ipairs(arg_9_2.event_list) do
-		local var_9_4 = WarchessGlobalCfg[iter_9_7.id]
-
-		if not var_9_4 then
-			error("服务端下发了客户端不存在的全局事件 id:" .. iter_9_7.id)
+	for slot10, slot11 in ipairs(slot2.event_list) do
+		if not WarchessGlobalCfg[slot11.id] then
+			error("服务端下发了客户端不存在的全局事件 id:" .. slot11.id)
 		end
 
-		if var_9_4.type == ChessConst.GLOBAL.EVENT then
-			var_0_10.event_list[var_9_4.params[1]] = iter_9_7.progress
+		if slot12.type == ChessConst.GLOBAL.EVENT then
+			uv2.event_list[slot12.params[1]] = slot11.progress
 		end
 
-		arg_9_0:SetGlobalEventProgress(var_9_4.type, iter_9_7.id, iter_9_7.progress or 0)
+		slot0:SetGlobalEventProgress(slot12.type, slot11.id, slot11.progress or 0)
 	end
 
-	for iter_9_8, iter_9_9 in ipairs(var_9_3) do
-		var_0_10.hp_list[iter_9_9.id] = iter_9_9.hp
+	for slot10, slot11 in ipairs(slot6) do
+		uv2.hp_list[slot11.id] = slot11.hp
 	end
 
-	local var_9_5 = {}
+	for slot11, slot12 in ipairs(slot2.map) do
+		-- Nothing
+	end
 
-	for iter_9_10, iter_9_11 in ipairs(arg_9_2.map) do
-		var_9_5[ChessTools.TwoDToOneD(iter_9_11.pos.x, iter_9_11.pos.z)] = {
-			tag = iter_9_11.tag,
+	uv2.mapChangeInfo = {
+		[ChessTools.TwoDToOneD(slot12.pos.x, slot12.pos.z)] = {
+			tag = slot12.tag,
 			pos = {
-				x = iter_9_11.pos.x,
-				z = iter_9_11.pos.z
+				x = slot12.pos.x,
+				z = slot12.pos.z
 			},
-			status = iter_9_11.state or 0,
-			attribute = cleanProtoTable(iter_9_11.attribute),
-			direction = (iter_9_11.rotation or 0) / 60
+			status = slot12.state or 0,
+			attribute = cleanProtoTable(slot12.attribute),
+			direction = (slot12.rotation or 0) / 60
 		}
-	end
+	}
+	uv2.is_fog = slot2.is_fog
 
-	var_0_10.mapChangeInfo = var_9_5
-	var_0_10.is_fog = arg_9_2.is_fog
-
-	if var_0_10.is_fog then
-		var_0_10.fogInfo = WarChessTools.DecodeFogInfo(arg_9_2.fog)
+	if uv2.is_fog then
+		uv2.fogInfo = WarChessTools.DecodeFogInfo(slot2.fog)
 	else
-		var_0_10.fogInfo = {}
+		uv2.fogInfo = {}
 
-		for iter_9_12 = 1, arg_9_2.fog[1] do
-			for iter_9_13 = 1, arg_9_2.fog[2] do
-				table.insert(var_0_10.fogInfo, true)
+		for slot11 = 1, slot2.fog[1] do
+			for slot15 = 1, slot2.fog[2] do
+				table.insert(uv2.fogInfo, true)
 			end
 		end
 	end
 
-	if arg_9_2.guide_pos and arg_9_2.guide_pos[1] then
-		var_0_10.guidePos = {
-			arg_9_2.guide_pos[1],
-			arg_9_2.guide_pos[2]
+	if slot2.guide_pos and slot2.guide_pos[1] then
+		uv2.guidePos = {
+			slot2.guide_pos[1],
+			slot2.guide_pos[2]
 		}
 	else
-		var_0_10.guidePos = nil
+		uv2.guidePos = nil
 	end
 
-	var_0_10.direction = arg_9_2.direction
+	uv2.direction = slot2.direction
+	slot8 = {}
 
-	local var_9_6 = {}
-
-	for iter_9_14, iter_9_15 in ipairs(arg_9_2.event_info) do
-		local var_9_7 = iter_9_15.event_id
-
-		if not var_9_6[var_9_7] then
-			var_9_6[var_9_7] = {}
+	for slot12, slot13 in ipairs(slot2.event_info) do
+		if not slot8[slot13.event_id] then
+			slot8[slot14] = {}
 		end
 
-		for iter_9_16, iter_9_17 in ipairs(iter_9_15.pos_list) do
-			local var_9_8 = ChessTools.TwoDToOneD(iter_9_17.pos.x, iter_9_17.pos.z)
-
-			if not var_9_6[var_9_7][var_9_8] then
-				var_9_6[var_9_7][var_9_8] = {}
+		for slot18, slot19 in ipairs(slot13.pos_list) do
+			if not slot8[slot14][ChessTools.TwoDToOneD(slot19.pos.x, slot19.pos.z)] then
+				slot8[slot14][slot20] = {}
 			end
 
-			table.insert(var_9_6[var_9_7][var_9_8], iter_9_17.tag)
+			table.insert(slot8[slot14][slot20], slot19.tag)
 		end
 	end
 
-	var_0_10.eventInfo = var_9_6
+	uv2.eventInfo = slot8
 
-	if arg_9_2.extra_gameplay and arg_9_2.extra_gameplay.ocean_gameplay then
-		local var_9_9 = arg_9_2.extra_gameplay.ocean_gameplay
+	if slot2.extra_gameplay and slot2.extra_gameplay.ocean_gameplay then
+		slot9 = slot2.extra_gameplay.ocean_gameplay
 
-		if not var_0_10.extra_gameplay then
-			var_0_10.extra_gameplay = {}
+		if not uv2.extra_gameplay then
+			uv2.extra_gameplay = {}
 		end
 
-		var_0_10.extra_gameplay.research_vessel_hp = var_9_9.research_vessel_hp
-		var_0_10.extra_gameplay.detector_pos = cleanProtoTable(var_9_9.detector_pos)
-		var_0_10.extra_gameplay.boss_pos = cleanProtoTable(var_9_9.boss_pos)
+		uv2.extra_gameplay.research_vessel_hp = slot9.research_vessel_hp
+		uv2.extra_gameplay.detector_pos = cleanProtoTable(slot9.detector_pos)
+		uv2.extra_gameplay.boss_pos = cleanProtoTable(slot9.boss_pos)
 	end
 end
 
-function var_0_0.ChangeFogInfo(arg_10_0, arg_10_1)
-	for iter_10_0 = 0, arg_10_1.Count - 1 do
-		var_0_10.fogInfo[arg_10_1[iter_10_0]] = true
+function slot0.ChangeFogInfo(slot0, slot1)
+	for slot5 = 0, slot1.Count - 1 do
+		uv0.fogInfo[slot1[slot5]] = true
 	end
 end
 
-function var_0_0.GetCurrentWarChessMapData(arg_11_0)
-	return var_0_10
+function slot0.GetCurrentWarChessMapData(slot0)
+	return uv0
 end
 
-function var_0_0.SetCurrentIndex(arg_12_0, arg_12_1, arg_12_2)
-	if var_0_10.bronPos.x == arg_12_1 and var_0_10.bronPos.z == arg_12_2 then
+function slot0.SetCurrentIndex(slot0, slot1, slot2)
+	if uv0.bronPos.x == slot1 and uv0.bronPos.z == slot2 then
 		return false
 	end
 
-	var_0_10.bronPos = {
-		x = arg_12_1,
-		z = arg_12_2
+	uv0.bronPos = {
+		x = slot1,
+		z = slot2
 	}
 
 	return true
 end
 
-function var_0_0.GetCurrentIndex(arg_13_0)
-	return var_0_10.bronPos
+function slot0.GetCurrentIndex(slot0)
+	return uv0.bronPos
 end
 
-function var_0_0.SetBattleIndex(arg_14_0, arg_14_1)
-	var_0_1 = arg_14_1
+function slot0.SetBattleIndex(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetBattleIndex(arg_15_0)
-	return var_0_1
+function slot0.GetBattleIndex(slot0)
+	return uv0
 end
 
-function var_0_0.GetItemData(arg_16_0)
-	return var_0_10.bag.item
+function slot0.GetItemData(slot0)
+	return uv0.bag.item
 end
 
-function var_0_0.GetArtifactData(arg_17_0)
-	return var_0_10.bag.artifact
+function slot0.GetArtifactData(slot0)
+	return uv0.bag.artifact
 end
 
-function var_0_0.ModifyItemData(arg_18_0, arg_18_1, arg_18_2)
-	if var_0_10.bag.item[arg_18_1] == nil then
-		var_0_10.bag.item[arg_18_1] = 0
+function slot0.ModifyItemData(slot0, slot1, slot2)
+	if uv0.bag.item[slot1] == nil then
+		uv0.bag.item[slot1] = 0
 	end
 
-	if arg_18_2 > 0 and WarchessObjectCfg[arg_18_1].max ~= 0 then
-		var_0_10.bag.item[arg_18_1] = math.min(WarchessObjectCfg[arg_18_1].max, var_0_10.bag.item[arg_18_1] + arg_18_2)
+	if slot2 > 0 and WarchessObjectCfg[slot1].max ~= 0 then
+		uv0.bag.item[slot1] = math.min(WarchessObjectCfg[slot1].max, uv0.bag.item[slot1] + slot2)
 	else
-		var_0_10.bag.item[arg_18_1] = var_0_10.bag.item[arg_18_1] + arg_18_2
+		uv0.bag.item[slot1] = uv0.bag.item[slot1] + slot2
 	end
 
-	if arg_18_2 > 0 then
-		local var_18_0 = arg_18_0:GetGlobalEventList()[ChessConst.GLOBAL.KEY] or {}
-
-		for iter_18_0, iter_18_1 in pairs(var_18_0) do
-			if arg_18_1 == WarchessGlobalCfg[iter_18_0].params[1] then
-				arg_18_0:SetGlobalEventProgress(ChessConst.GLOBAL.KEY, iter_18_0, iter_18_1 + arg_18_2)
+	if slot2 > 0 then
+		for slot7, slot8 in pairs(slot0:GetGlobalEventList()[ChessConst.GLOBAL.KEY] or {}) do
+			if slot1 == WarchessGlobalCfg[slot7].params[1] then
+				slot0:SetGlobalEventProgress(ChessConst.GLOBAL.KEY, slot7, slot8 + slot2)
 			end
 		end
 	end
 
-	if var_0_10.bag.item[arg_18_1] == 0 then
-		var_0_10.bag.item[arg_18_1] = nil
+	if uv0.bag.item[slot1] == 0 then
+		uv0.bag.item[slot1] = nil
 	end
 
-	if arg_18_1 == ChessConst.BULLET then
+	if slot1 == ChessConst.BULLET then
 		manager.notify:CallUpdateFunc(GET_BULLET, true)
 	end
 end
 
-function var_0_0.ModifyArtifactData(arg_19_0, arg_19_1, arg_19_2)
-	if arg_19_2 > 0 then
-		var_0_10.bag.artifact[arg_19_1] = 1
+function slot0.ModifyArtifactData(slot0, slot1, slot2)
+	if slot2 > 0 then
+		uv0.bag.artifact[slot1] = 1
 	else
-		var_0_10.bag.artifact[arg_19_1] = nil
+		uv0.bag.artifact[slot1] = nil
 	end
 end
 
-function var_0_0.AddAllHp(arg_20_0, arg_20_1)
-	for iter_20_0, iter_20_1 in pairs(var_0_10.hp_list) do
-		local var_20_0
-		local var_20_1 = iter_20_1 == 0 and 0 or iter_20_1 + arg_20_1
+function slot0.AddAllHp(slot0, slot1)
+	for slot5, slot6 in pairs(uv0.hp_list) do
+		slot7 = nil
 
-		if var_20_1 > 10000 then
-			var_20_1 = 10000
+		if (slot6 == 0 and 0 or slot6 + slot1) > 10000 then
+			slot7 = 10000
 		end
 
-		if var_20_1 < 0 then
-			var_20_1 = 0
+		if slot7 < 0 then
+			slot7 = 0
 		end
 
-		var_0_10.hp_list[iter_20_0] = var_20_1
+		uv0.hp_list[slot5] = slot7
 	end
 end
 
-function var_0_0.ModifyHp(arg_21_0, arg_21_1, arg_21_2)
-	var_0_10.hp_list[arg_21_1] = arg_21_2
+function slot0.ModifyHp(slot0, slot1, slot2)
+	uv0.hp_list[slot1] = slot2
 end
 
-function var_0_0.GetHeroHp(arg_22_0, arg_22_1)
-	return var_0_10.hp_list[arg_22_1]
+function slot0.GetHeroHp(slot0, slot1)
+	return uv0.hp_list[slot1]
 end
 
-function var_0_0.GetHeroList(arg_23_0)
-	return var_0_10.hp_list
+function slot0.GetHeroList(slot0)
+	return uv0.hp_list
 end
 
-function var_0_0.SetChapterClientID(arg_24_0, arg_24_1)
-	var_0_4 = arg_24_1
+function slot0.SetChapterClientID(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetChapterClientID(arg_25_0)
-	return var_0_4
+function slot0.GetChapterClientID(slot0)
+	return uv0
 end
 
-function var_0_0.GetBoxNum(arg_26_0, arg_26_1, arg_26_2)
-	return var_0_0:GetChapterInfo(arg_26_1).box[arg_26_2] or 0
+function slot0.GetBoxNum(slot0, slot1, slot2)
+	return uv0:GetChapterInfo(slot1).box[slot2] or 0
 end
 
-function var_0_0.AddBoxNum(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = var_0_0:GetChapterInfo(arg_27_1)
-	local var_27_1 = var_27_0.box[arg_27_2] or 0
+function slot0.AddBoxNum(slot0, slot1, slot2)
+	slot3.box[slot2] = (uv0:GetChapterInfo(slot1).box[slot2] or 0) + 1
 
-	var_27_0.box[arg_27_2] = var_27_1 + 1
-
-	manager.notify:Invoke(CHESS_BOX_OPEN, arg_27_1)
+	manager.notify:Invoke(CHESS_BOX_OPEN, slot1)
 end
 
-function var_0_0.GetLogs(arg_28_0)
-	return var_0_10.log
+function slot0.GetLogs(slot0)
+	return uv0.log
 end
 
-function var_0_0.AddLog(arg_29_0, arg_29_1, arg_29_2, arg_29_3, arg_29_4)
-	local var_29_0 = manager.ChessManager.map_.width
-	local var_29_1 = {
-		index = arg_29_2 * var_29_0 + arg_29_1 + 1,
-		tag = arg_29_3,
-		log = arg_29_4
+function slot0.AddLog(slot0, slot1, slot2, slot3, slot4)
+	slot6 = {
+		index = slot2 * manager.ChessManager.map_.width + slot1 + 1,
+		tag = slot3,
+		log = slot4
 	}
 
-	for iter_29_0, iter_29_1 in ipairs(var_0_10.log) do
-		if table.equal(iter_29_1, var_29_1, "all") then
+	for slot10, slot11 in ipairs(uv0.log) do
+		if table.equal(slot11, slot6, "all") then
 			return
 		end
 	end
 
-	var_0_10.log[#var_0_10.log + 1] = var_29_1
+	uv0.log[#uv0.log + 1] = slot6
 end
 
-function var_0_0.SetExtendMap(arg_30_0, arg_30_1)
-	var_0_11 = arg_30_1
+function slot0.SetExtendMap(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.SetJsonMap(arg_31_0, arg_31_1)
-	var_0_12 = arg_31_1
+function slot0.SetJsonMap(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetJsonData(arg_32_0, arg_32_1, arg_32_2)
-	return var_0_12[ChessTools.TwoDToOneD(arg_32_1, arg_32_2)]
+function slot0.GetJsonData(slot0, slot1, slot2)
+	return uv0[ChessTools.TwoDToOneD(slot1, slot2)]
 end
 
-function var_0_0.GetTypeIDViaExtendID(arg_33_0, arg_33_1)
-	return var_0_11[arg_33_1].typeID
+function slot0.GetTypeIDViaExtendID(slot0, slot1)
+	return uv0[slot1].typeID
 end
 
-function var_0_0.ChangeGridLua(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	local var_34_0 = var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_34_1, arg_34_2)]
+function slot0.ChangeGridLua(slot0, slot1, slot2, slot3)
+	slot4 = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)]
+	slot4 = (slot3 == 0 or ChessTools.CreateChessData(slot1, slot2, uv1, slot3)) and ChessTools.CreateChessData(slot1, slot2, uv2, ChessTools.TwoDToOneD(slot1, slot2))
+	slot4.tag = slot3
+	uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] = slot4
+end
 
-	if arg_34_3 ~= 0 then
-		var_34_0 = ChessTools.CreateChessData(arg_34_1, arg_34_2, var_0_11, arg_34_3)
-	else
-		var_34_0 = ChessTools.CreateChessData(arg_34_1, arg_34_2, var_0_12, ChessTools.TwoDToOneD(arg_34_1, arg_34_2))
+function slot0.ChangeGridStatusLua(slot0, slot1, slot2, slot3)
+	slot4 = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] or ChessTools.CreateChessData(slot1, slot2, uv1, ChessTools.TwoDToOneD(slot1, slot2))
+	slot4.status = slot3
+	uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] = slot4
+end
+
+function slot0.ChangeGridDirection(slot0, slot1, slot2, slot3)
+	slot4 = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] or ChessTools.CreateChessData(slot1, slot2, uv1, ChessTools.TwoDToOneD(slot1, slot2))
+	slot4.direction = math.fmod(slot4.direction + slot3, 6)
+	uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] = slot4
+end
+
+function slot0.GetGridDirection(slot0, slot1, slot2)
+	slot3 = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] or ChessTools.CreateChessData(slot1, slot2, uv1, ChessTools.TwoDToOneD(slot1, slot2))
+	uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] = slot3
+
+	return slot3.direction
+end
+
+function slot0.GetGridAttribute(slot0, slot1, slot2)
+	uv0.mapChangeInfo[slot3] = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] or ChessTools.CreateChessData(slot1, slot2, uv1, slot3)
+
+	return uv0.mapChangeInfo[slot3].attribute
+end
+
+function slot0.SetGridAttribute(slot0, slot1, slot2, slot3)
+	uv0.mapChangeInfo[slot4] = uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] or ChessTools.CreateChessData(slot1, slot2, uv1, slot4)
+	uv0.mapChangeInfo[slot4].attribute = slot3
+end
+
+function slot0.GetGridLua(slot0, slot1, slot2)
+	if not uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] then
+		return ChessTools.CreateChessData(slot1, slot2, uv1, ChessTools.TwoDToOneD(slot1, slot2))
 	end
 
-	var_34_0.tag = arg_34_3
-	var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_34_1, arg_34_2)] = var_34_0
+	return slot3
 end
 
-function var_0_0.ChangeGridStatusLua(arg_35_0, arg_35_1, arg_35_2, arg_35_3)
-	local var_35_0 = var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_35_1, arg_35_2)] or ChessTools.CreateChessData(arg_35_1, arg_35_2, var_0_12, ChessTools.TwoDToOneD(arg_35_1, arg_35_2))
-
-	var_35_0.status = arg_35_3
-	var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_35_1, arg_35_2)] = var_35_0
+function slot0.GetCurrentChapter(slot0, slot1)
+	return uv1[slot1 or uv0] or 0
 end
 
-function var_0_0.ChangeGridDirection(arg_36_0, arg_36_1, arg_36_2, arg_36_3)
-	local var_36_0 = var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_36_1, arg_36_2)] or ChessTools.CreateChessData(arg_36_1, arg_36_2, var_0_12, ChessTools.TwoDToOneD(arg_36_1, arg_36_2))
-
-	var_36_0.direction = math.fmod(var_36_0.direction + arg_36_3, 6)
-	var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_36_1, arg_36_2)] = var_36_0
+function slot0.SetCurrentChapter(slot0, slot1, slot2)
+	uv1[slot2 or uv0] = slot1
 end
 
-function var_0_0.GetGridDirection(arg_37_0, arg_37_1, arg_37_2)
-	local var_37_0 = var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_37_1, arg_37_2)] or ChessTools.CreateChessData(arg_37_1, arg_37_2, var_0_12, ChessTools.TwoDToOneD(arg_37_1, arg_37_2))
-
-	var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_37_1, arg_37_2)] = var_37_0
-
-	return var_37_0.direction
+function slot0.RemoveCurrentActivity(slot0)
+	uv0 = 0
 end
 
-function var_0_0.GetGridAttribute(arg_38_0, arg_38_1, arg_38_2)
-	local var_38_0 = ChessTools.TwoDToOneD(arg_38_1, arg_38_2)
-	local var_38_1 = var_0_10.mapChangeInfo[var_38_0] or ChessTools.CreateChessData(arg_38_1, arg_38_2, var_0_12, var_38_0)
-
-	var_0_10.mapChangeInfo[var_38_0] = var_38_1
-
-	return var_0_10.mapChangeInfo[var_38_0].attribute
+function slot0.GetCurrentActivity(slot0)
+	return uv0
 end
 
-function var_0_0.SetGridAttribute(arg_39_0, arg_39_1, arg_39_2, arg_39_3)
-	local var_39_0 = ChessTools.TwoDToOneD(arg_39_1, arg_39_2)
-	local var_39_1 = var_0_10.mapChangeInfo[var_39_0] or ChessTools.CreateChessData(arg_39_1, arg_39_2, var_0_12, var_39_0)
-
-	var_0_10.mapChangeInfo[var_39_0] = var_39_1
-	var_0_10.mapChangeInfo[var_39_0].attribute = arg_39_3
+function slot0.SetTemporaryData(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.GetGridLua(arg_40_0, arg_40_1, arg_40_2)
-	local var_40_0 = var_0_10.mapChangeInfo[ChessTools.TwoDToOneD(arg_40_1, arg_40_2)]
+function slot0.GetTemporaryData(slot0, slot1, slot2)
+	uv0[slot1] = nil
 
-	if not var_40_0 then
-		return ChessTools.CreateChessData(arg_40_1, arg_40_2, var_0_12, ChessTools.TwoDToOneD(arg_40_1, arg_40_2))
+	return uv0[slot1]
+end
+
+function slot0.AboutToStart(slot0)
+	uv0 = true
+end
+
+function slot0.IsAboutToStart(slot0)
+	uv0 = false
+
+	return uv0
+end
+
+function slot0.ExecuteEventOneTime(slot0, slot1)
+	uv0.event_list[slot1] = (uv0.event_list[slot1] or 0) + 1
+end
+
+function slot0.GetEventExecuteTime(slot0, slot1)
+	return uv0.event_list[slot1] or 0
+end
+
+function slot0.GetGlobalEventList(slot0)
+	return uv0.global_event
+end
+
+function slot0.SetGlobalEventProgress(slot0, slot1, slot2, slot3)
+	if not uv0.global_event[slot1] then
+		uv0.global_event[slot1] = {}
 	end
 
-	return var_40_0
-end
+	uv0.global_event[slot1][slot2] = slot3
 
-function var_0_0.GetCurrentChapter(arg_41_0, arg_41_1)
-	arg_41_1 = arg_41_1 or var_0_3
-
-	return var_0_2[arg_41_1] or 0
-end
-
-function var_0_0.SetCurrentChapter(arg_42_0, arg_42_1, arg_42_2)
-	arg_42_2 = arg_42_2 or var_0_3
-	var_0_2[arg_42_2] = arg_42_1
-end
-
-function var_0_0.RemoveCurrentActivity(arg_43_0)
-	var_0_3 = 0
-end
-
-function var_0_0.GetCurrentActivity(arg_44_0)
-	return var_0_3
-end
-
-function var_0_0.SetTemporaryData(arg_45_0, arg_45_1, arg_45_2)
-	var_0_13[arg_45_1] = arg_45_2
-end
-
-function var_0_0.GetTemporaryData(arg_46_0, arg_46_1, arg_46_2)
-	local var_46_0 = var_0_13[arg_46_1]
-
-	var_0_13[arg_46_1] = nil
-
-	return var_46_0
-end
-
-function var_0_0.AboutToStart(arg_47_0)
-	var_0_14 = true
-end
-
-function var_0_0.IsAboutToStart(arg_48_0)
-	local var_48_0 = var_0_14
-
-	var_0_14 = false
-
-	return var_48_0
-end
-
-function var_0_0.ExecuteEventOneTime(arg_49_0, arg_49_1)
-	var_0_10.event_list[arg_49_1] = (var_0_10.event_list[arg_49_1] or 0) + 1
-end
-
-function var_0_0.GetEventExecuteTime(arg_50_0, arg_50_1)
-	return var_0_10.event_list[arg_50_1] or 0
-end
-
-function var_0_0.GetGlobalEventList(arg_51_0)
-	return var_0_10.global_event
-end
-
-function var_0_0.SetGlobalEventProgress(arg_52_0, arg_52_1, arg_52_2, arg_52_3)
-	if not var_0_10.global_event[arg_52_1] then
-		var_0_10.global_event[arg_52_1] = {}
-	end
-
-	var_0_10.global_event[arg_52_1][arg_52_2] = arg_52_3
-
-	if arg_52_1 == ChessConst.GLOBAL.COUNT_STEP and manager.ChessManager and arg_52_3 >= 0 then
-		manager.ChessManager:SetCountDown(arg_52_3)
+	if slot1 == ChessConst.GLOBAL.COUNT_STEP and manager.ChessManager and slot3 >= 0 then
+		manager.ChessManager:SetCountDown(slot3)
 	end
 end
 
-function var_0_0.GetGlobalEventProgress(arg_53_0, arg_53_1)
-	local var_53_0 = WarchessGlobalCfg[arg_53_1].type
-
-	if not var_0_10.global_event[var_53_0] then
+function slot0.GetGlobalEventProgress(slot0, slot1)
+	if not uv0.global_event[WarchessGlobalCfg[slot1].type] then
 		return nil
 	end
 
-	return var_0_10.global_event[var_53_0][arg_53_1]
+	return uv0.global_event[slot2][slot1]
 end
 
-function var_0_0.GetGlobalEventByType(arg_54_0, arg_54_1)
-	return var_0_10.global_event[arg_54_1]
+function slot0.GetGlobalEventByType(slot0, slot1)
+	return uv0.global_event[slot1]
 end
 
-function var_0_0.ClearGlobalEvent(arg_55_0, arg_55_1, arg_55_2)
-	if not var_0_10.global_event[arg_55_1] then
+function slot0.ClearGlobalEvent(slot0, slot1, slot2)
+	if not uv0.global_event[slot1] then
 		return
 	end
 
-	var_0_10.global_event[arg_55_1][arg_55_2] = nil
+	uv0.global_event[slot1][slot2] = nil
 
-	if table.length(var_0_10.global_event[arg_55_1]) == 0 then
-		var_0_10.global_event[arg_55_1] = nil
+	if table.length(uv0.global_event[slot1]) == 0 then
+		uv0.global_event[slot1] = nil
 	end
 
-	if arg_55_1 == ChessConst.GLOBAL.COUNT_STEP and manager.ChessManager then
+	if slot1 == ChessConst.GLOBAL.COUNT_STEP and manager.ChessManager then
 		manager.ChessManager:SetCountDown(false)
 	end
 end
 
-function var_0_0.SetStartTime(arg_56_0, arg_56_1)
-	var_0_5 = arg_56_1
+function slot0.SetStartTime(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetStartTime(arg_57_0)
-	return var_0_5
+function slot0.GetStartTime(slot0)
+	return uv0
 end
 
-function var_0_0.GetBulletNum(arg_58_0)
-	return var_0_10.bag.item[ChessConst.BULLET] or 0
+function slot0.GetBulletNum(slot0)
+	return uv0.bag.item[ChessConst.BULLET] or 0
 end
 
-function var_0_0.SetButterFlyPos(arg_59_0, arg_59_1)
-	var_0_10.guidePos = arg_59_1
+function slot0.SetButterFlyPos(slot0, slot1)
+	uv0.guidePos = slot1
 end
 
-function var_0_0.GetButterFlyPos(arg_60_0)
-	return var_0_10.guidePos
+function slot0.GetButterFlyPos(slot0)
+	return uv0.guidePos
 end
 
-function var_0_0.GetCharacterDirection(arg_61_0)
-	return var_0_10.direction
+function slot0.GetCharacterDirection(slot0)
+	return uv0.direction
 end
 
-function var_0_0.SetCharacterDirection(arg_62_0, arg_62_1)
-	var_0_10.direction = arg_62_1
+function slot0.SetCharacterDirection(slot0, slot1)
+	uv0.direction = slot1
 end
 
-function var_0_0.GetBattleIsFinish(arg_63_0, arg_63_1, arg_63_2, arg_63_3)
-	return arg_63_0:IsEventExecute(10201, arg_63_1, arg_63_2, arg_63_3)
+function slot0.GetBattleIsFinish(slot0, slot1, slot2, slot3)
+	return slot0:IsEventExecute(10201, slot1, slot2, slot3)
 end
 
-function var_0_0.GetMutiBattleIsFinish(arg_64_0, arg_64_1, arg_64_2, arg_64_3)
-	return arg_64_0:IsEventExecute(10207, arg_64_1, arg_64_2, arg_64_3)
+function slot0.GetMutiBattleIsFinish(slot0, slot1, slot2, slot3)
+	return slot0:IsEventExecute(10207, slot1, slot2, slot3)
 end
 
-function var_0_0.IsEventExecute(arg_65_0, arg_65_1, arg_65_2, arg_65_3, arg_65_4)
-	local var_65_0 = var_0_10.eventInfo[arg_65_1]
-
-	if not var_65_0 then
+function slot0.IsEventExecute(slot0, slot1, slot2, slot3, slot4)
+	if not uv0.eventInfo[slot1] then
 		return false
 	end
 
-	local var_65_1 = var_65_0[ChessTools.TwoDToOneD(arg_65_2, arg_65_3)]
-
-	if not var_65_1 then
+	if not slot5[ChessTools.TwoDToOneD(slot2, slot3)] then
 		return false
 	end
 
-	if not table.indexof(var_65_1, arg_65_4) then
+	if not table.indexof(slot6, slot4) then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.SetEventExecute(arg_66_0, arg_66_1, arg_66_2, arg_66_3, arg_66_4)
-	if not var_0_10.eventInfo[arg_66_1] then
-		var_0_10.eventInfo[arg_66_1] = {}
+function slot0.SetEventExecute(slot0, slot1, slot2, slot3, slot4)
+	if not uv0.eventInfo[slot1] then
+		uv0.eventInfo[slot1] = {}
 	end
 
-	local var_66_0 = ChessTools.TwoDToOneD(arg_66_2, arg_66_3)
-	local var_66_1 = var_0_10.eventInfo[arg_66_1][var_66_0]
-
-	if not var_66_1 then
-		var_0_10.eventInfo[arg_66_1][var_66_0] = {}
-		var_66_1 = var_0_10.eventInfo[arg_66_1][var_66_0]
+	if not uv0.eventInfo[slot1][ChessTools.TwoDToOneD(slot2, slot3)] then
+		uv0.eventInfo[slot1][slot6] = {}
+		slot7 = uv0.eventInfo[slot1][slot6]
 	end
 
-	if table.indexof(var_66_1, arg_66_4) then
+	if table.indexof(slot7, slot4) then
 		error("不应该存在两个相同的一次性事件")
 	end
 
-	table.insert(var_66_1, arg_66_4)
+	table.insert(slot7, slot4)
 end
 
-function var_0_0.SetRedPoint(arg_67_0, arg_67_1)
-	local var_67_0 = string.format("%s_%s_%s", RedPointConst.WAR_CHESS, WarchessLevelCfg[arg_67_1].tag, arg_67_1)
-
-	manager.redPoint:setTip(var_67_0, 0)
-	RedPointAction.HandleRedPoint(RedPointConst.WARCHESS_RANGE + arg_67_1)
+function slot0.SetRedPoint(slot0, slot1)
+	manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.WAR_CHESS, WarchessLevelCfg[slot1].tag, slot1), 0)
+	RedPointAction.HandleRedPoint(RedPointConst.WARCHESS_RANGE + slot1)
 end
 
-function var_0_0.GetStepCountDownNum(arg_68_0)
-	local var_68_0 = var_0_10.global_event[ChessConst.GLOBAL.COUNT_STEP]
-
-	if not var_68_0 then
+function slot0.GetStepCountDownNum(slot0)
+	if not uv0.global_event[ChessConst.GLOBAL.COUNT_STEP] then
 		return 0
 	end
 
-	for iter_68_0, iter_68_1 in pairs(var_68_0) do
-		return iter_68_1
+	for slot5, slot6 in pairs(slot1) do
+		return slot6
 	end
 end
 
-function var_0_0.GetShipHp(arg_69_0)
-	return var_0_10.extra_gameplay.research_vessel_hp
+function slot0.GetShipHp(slot0)
+	return uv0.extra_gameplay.research_vessel_hp
 end
 
-function var_0_0.CostShipHp(arg_70_0, arg_70_1)
-	var_0_10.extra_gameplay.research_vessel_hp = var_0_10.extra_gameplay.research_vessel_hp + arg_70_1
+function slot0.CostShipHp(slot0, slot1)
+	uv0.extra_gameplay.research_vessel_hp = uv0.extra_gameplay.research_vessel_hp + slot1
 
-	manager.notify:CallUpdateFunc(SHIP_HP_CHANGE, arg_70_1)
+	manager.notify:CallUpdateFunc(SHIP_HP_CHANGE, slot1)
 end
 
-function var_0_0.GetBossPos(arg_71_0)
-	return var_0_10.extra_gameplay.boss_pos
+function slot0.GetBossPos(slot0)
+	return uv0.extra_gameplay.boss_pos
 end
 
-function var_0_0.ModifyBossPos(arg_72_0, arg_72_1, arg_72_2)
-	var_0_10.extra_gameplay.boss_pos = {
-		arg_72_1,
-		arg_72_2
+function slot0.ModifyBossPos(slot0, slot1, slot2)
+	uv0.extra_gameplay.boss_pos = {
+		slot1,
+		slot2
 	}
 end
 
-function var_0_0.GetDetectorPos(arg_73_0)
-	return var_0_10.extra_gameplay.detector_pos
+function slot0.GetDetectorPos(slot0)
+	return uv0.extra_gameplay.detector_pos
 end
 
-function var_0_0.SetDetectorPos(arg_74_0, arg_74_1, arg_74_2)
-	var_0_10.extra_gameplay.detector_pos = {
-		arg_74_1,
-		arg_74_2
+function slot0.SetDetectorPos(slot0, slot1, slot2)
+	uv0.extra_gameplay.detector_pos = {
+		slot1,
+		slot2
 	}
 end
 
-function var_0_0.SetMutiBattleData(arg_75_0, arg_75_1, arg_75_2, arg_75_3)
-	local var_75_0 = arg_75_0:GetMutiBattleDataWithoutType(arg_75_1) or {
+function slot0.SetMutiBattleData(slot0, slot1, slot2, slot3)
+	(slot0:GetMutiBattleDataWithoutType(slot1) or {
 		{},
-		[2] = 0,
-		[3] = 0
-	}
+		[2.0] = 0,
+		[3.0] = 0
+	})[slot2] = slot3
 
-	var_75_0[arg_75_2] = arg_75_3
-
-	if arg_75_2 == 1 then
-		for iter_75_0 = 1, 3 do
-			local var_75_1 = arg_75_0:GetMutiBattleDataWithoutType(iter_75_0)
-
-			if var_75_1 ~= var_75_0 and var_75_1 and var_75_1[1] then
-				local var_75_2 = {
+	if slot2 == 1 then
+		for slot8 = 1, 3 do
+			if slot0:GetMutiBattleDataWithoutType(slot8) ~= slot4 and slot9 and slot9[1] then
+				slot10 = {
 					{},
-					var_75_1[2],
-					var_75_1[3]
+					slot9[2],
+					slot9[3]
 				}
 
-				for iter_75_1, iter_75_2 in pairs(var_75_1[1]) do
-					local var_75_3 = false
+				for slot14, slot15 in pairs(slot9[1]) do
+					slot16 = false
 
-					for iter_75_3, iter_75_4 in pairs(var_75_0[1]) do
-						if iter_75_4 == iter_75_2 then
-							var_75_3 = true
+					for slot20, slot21 in pairs(slot4[1]) do
+						if slot21 == slot15 then
+							slot16 = true
 
-							if ComboSkillCfg[var_75_2[3]] then
-								for iter_75_5, iter_75_6 in pairs(ComboSkillCfg[var_75_2[3]].cooperate_role_ids) do
-									if iter_75_4 == iter_75_6 then
-										var_75_2[3] = 0
+							if ComboSkillCfg[slot10[3]] then
+								slot25 = slot10[3]
+
+								for slot25, slot26 in pairs(ComboSkillCfg[slot25].cooperate_role_ids) do
+									if slot21 == slot26 then
+										slot10[3] = 0
 									end
 								end
 							end
@@ -756,116 +683,98 @@ function var_0_0.SetMutiBattleData(arg_75_0, arg_75_1, arg_75_2, arg_75_3)
 						end
 					end
 
-					if var_75_3 == false then
-						table.insert(var_75_2[1], iter_75_2)
+					if slot16 == false then
+						table.insert(slot10[1], slot15)
 					end
 				end
 
-				for iter_75_7 = 1, 3 do
-					if var_75_2[1][iter_75_7] == nil then
-						var_75_2[1][iter_75_7] = 0
+				for slot14 = 1, 3 do
+					if slot10[1][slot14] == nil then
+						slot10[1][slot14] = 0
 					end
 				end
 
-				arg_75_0.teamData_[iter_75_0] = var_75_2
+				slot0.teamData_[slot8] = slot10
 
-				local var_75_4 = "team_" .. iter_75_0
-
-				saveData("chessMutiBattleData", var_75_4, var_75_2)
+				saveData("chessMutiBattleData", "team_" .. slot8, slot10)
 			end
 		end
 	end
 
-	local var_75_5 = "team_" .. arg_75_1
-
-	saveData("chessMutiBattleData", var_75_5, var_75_0)
+	saveData("chessMutiBattleData", "team_" .. slot1, slot4)
 end
 
-function var_0_0.GetMutiBattleData(arg_76_0, arg_76_1, arg_76_2)
-	if arg_76_0.teamData_[arg_76_1] == nil then
-		local var_76_0 = "team_" .. arg_76_1
-		local var_76_1 = getData("chessMutiBattleData", var_76_0) or {
+function slot0.GetMutiBattleData(slot0, slot1, slot2)
+	if slot0.teamData_[slot1] == nil then
+		slot0.teamData_[slot1] = getData("chessMutiBattleData", "team_" .. slot1) or {
 			{},
-			[2] = 0,
-			[3] = 0
+			[2.0] = 0,
+			[3.0] = 0
 		}
-
-		arg_76_0.teamData_[arg_76_1] = var_76_1
 	end
 
-	return arg_76_0.teamData_[arg_76_1][arg_76_2]
+	return slot0.teamData_[slot1][slot2]
 end
 
-function var_0_0.GetMutiBattleDataWithoutType(arg_77_0, arg_77_1)
-	if arg_77_0.teamData_[arg_77_1] == nil then
-		local var_77_0 = "team_" .. arg_77_1
-		local var_77_1 = getData("chessMutiBattleData", var_77_0) or {
+function slot0.GetMutiBattleDataWithoutType(slot0, slot1)
+	if slot0.teamData_[slot1] == nil then
+		slot0.teamData_[slot1] = getData("chessMutiBattleData", "team_" .. slot1) or {
 			{},
-			[2] = 0,
-			[3] = 0
+			[2.0] = 0,
+			[3.0] = 0
 		}
-
-		arg_77_0.teamData_[arg_77_1] = var_77_1
 	end
 
-	return arg_77_0.teamData_[arg_77_1]
+	return slot0.teamData_[slot1]
 end
 
-function var_0_0.SwapTeam(arg_78_0, arg_78_1, arg_78_2)
-	local var_78_0
-	local var_78_1 = deepClone(arg_78_0.teamData_[arg_78_1])
+function slot0.SwapTeam(slot0, slot1, slot2)
+	slot3 = nil
+	slot0.teamData_[slot1] = slot0.teamData_[slot2]
+	slot0.teamData_[slot2] = deepClone(slot0.teamData_[slot1])
+	slot3 = nil
 
-	arg_78_0.teamData_[arg_78_1] = arg_78_0.teamData_[arg_78_2]
-	arg_78_0.teamData_[arg_78_2] = var_78_1
-
-	local var_78_2
-	local var_78_3 = "team_" .. arg_78_1
-	local var_78_4 = "team_" .. arg_78_2
-
-	saveData("chessMutiBattleData", var_78_3, arg_78_0.teamData_[arg_78_1])
-	saveData("chessMutiBattleData", var_78_4, arg_78_0.teamData_[arg_78_2])
+	saveData("chessMutiBattleData", "team_" .. slot1, slot0.teamData_[slot1])
+	saveData("chessMutiBattleData", "team_" .. slot2, slot0.teamData_[slot2])
 end
 
-function var_0_0.SetCacheExtendID(arg_79_0, arg_79_1, arg_79_2)
-	var_0_8[arg_79_1] = arg_79_2
+function slot0.SetCacheExtendID(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.GetCacheExtendID(arg_80_0, arg_80_1)
-	if var_0_8[arg_80_1] == nil then
-		-- block empty
+function slot0.GetCacheExtendID(slot0, slot1)
+	if uv0[slot1] == nil then
+		-- Nothing
 	end
 
-	return var_0_8[arg_80_1]
+	return uv0[slot1]
 end
 
-function var_0_0.CacheGridData(arg_81_0, arg_81_1)
-	var_0_7 = true
-	var_0_9 = arg_81_1
+function slot0.CacheGridData(slot0, slot1)
+	uv0 = true
+	uv1 = slot1
 end
 
-function var_0_0.GetCacheGridData(arg_82_0)
-	if var_0_9 == nil then
-		-- block empty
+function slot0.GetCacheGridData(slot0)
+	if uv0 == nil then
+		-- Nothing
 	end
 
-	return var_0_9
+	return uv0
 end
 
-function var_0_0.ClearCacheGridData(arg_83_0)
-	var_0_7 = false
-	var_0_9 = nil
+function slot0.ClearCacheGridData(slot0)
+	uv0 = false
+	uv1 = nil
 end
 
-function var_0_0.GetMapChangeInfo(arg_84_0)
-	return var_0_10.mapChangeInfo
+function slot0.GetMapChangeInfo(slot0)
+	return uv0.mapChangeInfo
 end
 
-function var_0_0.GetGridIsChanged(arg_85_0, arg_85_1, arg_85_2)
-	local var_85_0 = ChessTools.TwoDToOneD(arg_85_1, arg_85_2)
-	local var_85_1 = var_0_10.mapChangeInfo[var_85_0]
-
-	if var_85_1 then
-		if var_85_1.tag == 0 then
+function slot0.GetGridIsChanged(slot0, slot1, slot2)
+	if uv0.mapChangeInfo[ChessTools.TwoDToOneD(slot1, slot2)] then
+		if slot4.tag == 0 then
 			return false
 		else
 			return true
@@ -875,26 +784,26 @@ function var_0_0.GetGridIsChanged(arg_85_0, arg_85_1, arg_85_2)
 	end
 end
 
-function var_0_0.GetStoneIsMoving(arg_86_0)
-	return var_0_7
+function slot0.GetStoneIsMoving(slot0)
+	return uv0
 end
 
-local var_0_17 = 0
+slot17 = 0
 
-function var_0_0.CacheViewPos(arg_87_0, arg_87_1)
-	var_0_17 = arg_87_1
+function slot0.CacheViewPos(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetViewPos(arg_88_0)
-	return var_0_17
+function slot0.GetViewPos(slot0)
+	return uv0
 end
 
-function var_0_0.GetIsGoingChess(arg_89_0)
-	return var_0_16
+function slot0.GetIsGoingChess(slot0)
+	return uv0
 end
 
-function var_0_0.SetIsGoingWarChess(arg_90_0, arg_90_1)
-	var_0_16 = arg_90_1
+function slot0.SetIsGoingWarChess(slot0, slot1)
+	uv0 = slot1
 end
 
-return var_0_0
+return slot0

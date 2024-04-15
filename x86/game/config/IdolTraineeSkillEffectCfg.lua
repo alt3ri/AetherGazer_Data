@@ -374,11 +374,11 @@ return {
 			10
 		}
 	},
-	[9039010201] = {
+	[9039010201.0] = {
 		trigger_time = 3,
 		probability = 100,
 		effect_type = 1,
-		id = 9039010201,
+		id = 9039010201.0,
 		effect_icon = "IdolTrainee_icon_skill_004",
 		round = 5,
 		object = 1,
@@ -387,11 +387,11 @@ return {
 			10
 		}
 	},
-	[9039010202] = {
+	[9039010202.0] = {
 		trigger_time = 0,
 		probability = 100,
 		effect_type = 1,
-		id = 9039010202,
+		id = 9039010202.0,
 		effect_icon = "IdolTrainee_icon_skill_005",
 		round = 5,
 		object = 1,
@@ -400,11 +400,11 @@ return {
 			10
 		}
 	},
-	[9084010101] = {
+	[9084010101.0] = {
 		trigger_time = 0,
 		probability = 100,
 		effect_type = 1,
-		id = 9084010101,
+		id = 9084010101.0,
 		effect_icon = "IdolTrainee_icon_skill_001",
 		round = 2,
 		object = 1,
@@ -413,11 +413,11 @@ return {
 			15
 		}
 	},
-	[9084010102] = {
+	[9084010102.0] = {
 		trigger_time = 0,
 		probability = 100,
 		effect_type = 2,
-		id = 9084010102,
+		id = 9084010102.0,
 		effect_icon = "IdolTrainee_icon_skill_017",
 		round = 3,
 		object = 1,
@@ -426,11 +426,11 @@ return {
 			25
 		}
 	},
-	[9148010101] = {
+	[9148010101.0] = {
 		trigger_time = 0,
 		probability = 50,
 		effect_type = 1,
-		id = 9148010101,
+		id = 9148010101.0,
 		effect_icon = "IdolTrainee_icon_skill_002",
 		round = 3,
 		object = 1,
@@ -439,11 +439,11 @@ return {
 			25
 		}
 	},
-	[9148010102] = {
+	[9148010102.0] = {
 		trigger_time = 0,
 		probability = 50,
 		effect_type = 1,
-		id = 9148010102,
+		id = 9148010102.0,
 		effect_icon = "IdolTrainee_icon_skill_003",
 		round = 3,
 		object = 1,
@@ -452,11 +452,11 @@ return {
 			25
 		}
 	},
-	[9148010103] = {
+	[9148010103.0] = {
 		trigger_time = 0,
 		probability = 100,
 		effect_type = 3,
-		id = 9148010103,
+		id = 9148010103.0,
 		effect_icon = "IdolTrainee_icon_skill_015",
 		round = 3,
 		object = 2,
@@ -464,11 +464,11 @@ return {
 			-5
 		}
 	},
-	[9148010201] = {
+	[9148010201.0] = {
 		trigger_time = 0,
 		probability = 50,
 		effect_type = 6,
-		id = 9148010201,
+		id = 9148010201.0,
 		effect_icon = "IdolTrainee_icon_skill_014",
 		round = 6,
 		object = 2,
@@ -507,13 +507,13 @@ return {
 		10950201,
 		10950202,
 		10950203,
-		9039010201,
-		9039010202,
-		9084010101,
-		9084010102,
-		9148010101,
-		9148010102,
-		9148010103,
-		9148010201
+		9039010201.0,
+		9039010202.0,
+		9084010101.0,
+		9084010102.0,
+		9148010101.0,
+		9148010102.0,
+		9148010103.0,
+		9148010201.0
 	}
 }

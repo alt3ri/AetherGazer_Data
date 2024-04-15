@@ -1,28 +1,28 @@
-local var_0_0 = class("MatrixTreasureMiniView", ReduxView)
+slot0 = class("MatrixTreasureMiniView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Prepare/MatrixTreasureMiniUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.list_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.m_list, MatrixTreasureAtlasItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, MatrixTreasureAtlasItem)
 end
 
-function var_0_0.OnTop(arg_6_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -41,44 +41,35 @@ function var_0_0.OnTop(arg_6_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_PT, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.GoToSystem("/matrixBlank/matrixPrepare")
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.data = arg_8_0:GetArtifactList()
+function slot0.OnEnter(slot0)
+	slot0.data = slot0:GetArtifactList()
 
-	table.sort(arg_8_0.data, function(arg_9_0, arg_9_1)
-		local var_9_0 = MatrixItemCfg[arg_9_0.id]
-		local var_9_1 = MatrixItemCfg[arg_9_1.id]
-
-		if var_9_0.rare ~= var_9_1.rare then
-			return var_9_0.rare > var_9_1.rare
+	table.sort(slot0.data, function (slot0, slot1)
+		if MatrixItemCfg[slot0.id].rare ~= MatrixItemCfg[slot1.id].rare then
+			return slot3.rare < slot2.rare
 		end
 
-		return arg_9_0.id < arg_9_1.id
+		return slot0.id < slot1.id
 	end)
-
-	local var_8_0 = #arg_8_0.data
-
-	arg_8_0.list_:StartScroll(var_8_0)
+	slot0.list_:StartScroll(#slot0.data)
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.data[arg_10_1].id
-	local var_10_1 = arg_10_0.data[arg_10_1].wins
-
-	arg_10_2:Refresh(var_10_0, var_10_1)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.data[slot1].id, slot0.data[slot1].wins)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetArtifactList(arg_12_0)
+function slot0.GetArtifactList(slot0)
 	return MatrixData:GetArtifactList()
 end
 
-return var_0_0
+return slot0

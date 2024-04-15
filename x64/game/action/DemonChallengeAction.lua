@@ -1,9 +1,9 @@
 return {
-	RequireReceive = function(arg_1_0, arg_1_1)
+	RequireReceive = function (slot0, slot1)
 		manager.net:SendWithLoadingNew(11032, {
-			stage_id = arg_1_0
-		}, 11033, function(arg_2_0)
-			arg_1_1(arg_2_0)
+			stage_id = slot0
+		}, 11033, function (slot0)
+			uv0(slot0)
 		end)
 	end
 }

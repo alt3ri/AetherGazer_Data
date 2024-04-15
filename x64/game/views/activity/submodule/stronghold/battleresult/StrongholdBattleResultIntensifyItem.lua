@@ -1,40 +1,38 @@
-local var_0_0 = class("StrongholdBattleResultIntensifyItem", ReduxView)
+slot0 = class("StrongholdBattleResultIntensifyItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.id = arg_6_1
-
-	local var_6_0 = ActivityStrongholdArtifactCfg[arg_6_1]
-
-	arg_6_0.m_icon.sprite = getSpriteWithoutAtlas(var_6_0.icon)
-	arg_6_0.m_name.text = var_6_0.name
+function slot0.SetData(slot0, slot1)
+	slot0.id = slot1
+	slot2 = ActivityStrongholdArtifactCfg[slot1]
+	slot0.m_icon.sprite = getSpriteWithoutAtlas(slot2.icon)
+	slot0.m_name.text = slot2.name
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	arg_7_0.callback_ = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-return var_0_0
+return slot0

@@ -1,35 +1,30 @@
-local var_0_0 = {}
-
-manager.net:Bind(76101, function(arg_1_0)
-	KagutsuchiGachaData:InitDrawData(arg_1_0)
+manager.net:Bind(76101, function (slot0)
+	KagutsuchiGachaData:InitDrawData(slot0)
 end)
 
-function var_0_0.StartDraw(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	manager.net:SendWithLoadingNew(76102, {
-		activity_id = arg_2_2,
-		draw_num = arg_2_1,
-		pool_id = arg_2_3
-	}, 76103, function(arg_3_0, arg_3_1)
-		arg_2_0:OnGetDrawReward(arg_3_0, arg_3_1, arg_2_4)
-	end)
-end
+return {
+	StartDraw = function (slot0, slot1, slot2, slot3, slot4)
+		manager.net:SendWithLoadingNew(76102, {
+			activity_id = slot2,
+			draw_num = slot1,
+			pool_id = slot3
+		}, 76103, function (slot0, slot1)
+			uv0:OnGetDrawReward(slot0, slot1, uv1)
+		end)
+	end,
+	OnGetDrawReward = function (slot0, slot1, slot2, slot3)
+		if not isSuccess(slot1.result) then
+			ShowTips(slot1.result)
 
-function var_0_0.OnGetDrawReward(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	if not isSuccess(arg_4_1.result) then
-		ShowTips(arg_4_1.result)
+			return
+		end
 
-		return
+		KagutsuchiGachaData:RefreshData(slot2.pool_id, slot1.reward_list)
+
+		if slot2.activity_id == ActivityConst.KAGUTSUCHI_ACTIVITY then
+			KagutsuchiWorkAction:UpdateRedPoint(slot4)
+		end
+
+		slot3(slot1, slot2)
 	end
-
-	KagutsuchiGachaData:RefreshData(arg_4_2.pool_id, arg_4_1.reward_list)
-
-	local var_4_0 = arg_4_2.activity_id
-
-	if var_4_0 == ActivityConst.KAGUTSUCHI_ACTIVITY then
-		KagutsuchiWorkAction:UpdateRedPoint(var_4_0)
-	end
-
-	arg_4_3(arg_4_1, arg_4_2)
-end
-
-return var_0_0
+}

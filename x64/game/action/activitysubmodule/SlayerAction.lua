@@ -1,128 +1,99 @@
-local var_0_0 = {}
-
-manager.net:Bind(11043, function(arg_1_0)
-	SlayerData:InitSlayerData(arg_1_0)
-	SlayerAction.UpdateRedPoint(arg_1_0.slayer.activity_id)
+manager.net:Bind(11043, function (slot0)
+	SlayerData:InitSlayerData(slot0)
+	SlayerAction.UpdateRedPoint(slot0.slayer.activity_id)
 end)
-manager.notify:RegistListener(ACTIVITY_UPDATE, function(arg_2_0)
-	local var_2_0 = ActivityTools.GetActivityType(arg_2_0)
-
-	if var_2_0 == ActivityTemplateConst.SLAYER then
-		SlayerAction.UpdateRedPoint(arg_2_0)
-	elseif var_2_0 == ActivityTemplateConst.SLAYER_REGION then
-		local var_2_1 = ActivityTools.GetMainActivityId(arg_2_0)
-
-		if var_2_1 ~= nil then
-			SlayerAction.UpdateRedPoint(var_2_1)
-		end
+manager.notify:RegistListener(ACTIVITY_UPDATE, function (slot0)
+	if ActivityTools.GetActivityType(slot0) == ActivityTemplateConst.SLAYER then
+		SlayerAction.UpdateRedPoint(slot0)
+	elseif slot1 == ActivityTemplateConst.SLAYER_REGION and ActivityTools.GetMainActivityId(slot0) ~= nil then
+		SlayerAction.UpdateRedPoint(slot2)
 	end
 end)
 
-function var_0_0.QueryPointReward(arg_3_0, arg_3_1)
-	manager.net:SendWithLoadingNew(11044, {
-		activity_id = arg_3_0,
-		point_reward_id = arg_3_1
-	}, 11045, var_0_0.PointRewardCallBack)
-end
-
-function var_0_0.PointRewardCallBack(arg_4_0, arg_4_1)
-	if isSuccess(arg_4_0.result) then
-		SlayerData:SetReceivedReward(arg_4_1.activity_id, arg_4_1.point_reward_id)
-
-		local var_4_0 = arg_4_0.item_list
-
-		getReward2(var_4_0)
-		manager.notify:CallUpdateFunc(SLAYER_REWARD)
-		SlayerAction.CheckSlayerRewardRedPoint(arg_4_1.activity_id)
-	else
-		ShowTips(arg_4_0.result)
-	end
-end
-
-function var_0_0.UpdateRedPoint(arg_5_0)
-	if not ActivityData:GetActivityIsOpen(arg_5_0) then
-		local var_5_0 = ActivityCfg[arg_5_0].sub_activity_list
-
-		if #var_5_0 > 0 then
-			for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, iter_5_1), 0)
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_REWARD, iter_5_1), 0)
-			end
+return {
+	QueryPointReward = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(11044, {
+			activity_id = slot0,
+			point_reward_id = slot1
+		}, 11045, uv0.PointRewardCallBack)
+	end,
+	PointRewardCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			SlayerData:SetReceivedReward(slot1.activity_id, slot1.point_reward_id)
+			getReward2(slot0.item_list)
+			manager.notify:CallUpdateFunc(SLAYER_REWARD)
+			SlayerAction.CheckSlayerRewardRedPoint(slot1.activity_id)
+		else
+			ShowTips(slot0.result)
 		end
-
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLYAER_REWARD, arg_5_0), 0)
-
-		return
-	end
-
-	SlayerAction.CheckSlayerRewardRedPoint(arg_5_0)
-	SlayerAction.CheckSlayerRegionRedPoint(arg_5_0)
-end
-
-function var_0_0.CheckSlayerRegionRedPoint(arg_6_0)
-	local var_6_0 = ActivityCfg[arg_6_0].sub_activity_list
-
-	for iter_6_0, iter_6_1 in pairs(var_6_0) do
-		if not SlayerData:GetRead(iter_6_1) then
-			if ActivityData:GetActivityIsOpen(iter_6_1) and SlayerData:GetPoint(arg_6_0, iter_6_1) == 0 then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, iter_6_1), 1)
-			else
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, iter_6_1), 0)
-			end
-		end
-	end
-end
-
-function var_0_0.CheckSlayerRewardRedPoint(arg_7_0)
-	local var_7_0 = ActivityCfg[arg_7_0].sub_activity_list
-	local var_7_1 = 0
-
-	for iter_7_0, iter_7_1 in pairs(var_7_0) do
-		local var_7_2 = SlayerData:GetPoint(arg_7_0, iter_7_1)
-
-		if var_7_2 > 0 then
-			local var_7_3 = ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[iter_7_1]
-			local var_7_4 = 0
-
-			for iter_7_2, iter_7_3 in ipairs(var_7_3) do
-				if not SlayerData:GetReceivedReward(arg_7_0, iter_7_3) and var_7_2 >= ActivitySlayerPointRewardCfg[iter_7_3].need then
-					var_7_1 = 1
-					var_7_4 = 1
-
-					break
+	end,
+	UpdateRedPoint = function (slot0)
+		if not ActivityData:GetActivityIsOpen(slot0) then
+			if #ActivityCfg[slot0].sub_activity_list > 0 then
+				for slot5, slot6 in ipairs(slot1) do
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, slot6), 0)
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_REWARD, slot6), 0)
 				end
 			end
 
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_REWARD, iter_7_1), var_7_4)
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLYAER_REWARD, slot0), 0)
+
+			return
 		end
-	end
 
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLYAER_REWARD, arg_7_0), var_7_1)
-end
-
-function var_0_0.SetSlayerRead(arg_8_0)
-	if manager.redPoint:getTipValue(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, arg_8_0)) == 1 then
-		SlayerData:SetRead(arg_8_0)
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, arg_8_0), 0)
-	end
-end
-
-function var_0_0.GetSlayerRewardState(arg_9_0, arg_9_1)
-	local var_9_0 = SlayerData:GetPoint(arg_9_0, arg_9_1)
-
-	if var_9_0 > 0 then
-		local var_9_1 = ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[arg_9_1]
-
-		for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-			if not SlayerData:GetReceivedReward(arg_9_0, iter_9_1) and var_9_0 >= ActivitySlayerPointRewardCfg[iter_9_1].need then
-				return true
+		SlayerAction.CheckSlayerRewardRedPoint(slot0)
+		SlayerAction.CheckSlayerRegionRedPoint(slot0)
+	end,
+	CheckSlayerRegionRedPoint = function (slot0)
+		for slot5, slot6 in pairs(ActivityCfg[slot0].sub_activity_list) do
+			if not SlayerData:GetRead(slot6) then
+				if ActivityData:GetActivityIsOpen(slot6) and SlayerData:GetPoint(slot0, slot6) == 0 then
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, slot6), 1)
+				else
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, slot6), 0)
+				end
 			end
+		end
+	end,
+	CheckSlayerRewardRedPoint = function (slot0)
+		slot2 = 0
+
+		for slot6, slot7 in pairs(ActivityCfg[slot0].sub_activity_list) do
+			if SlayerData:GetPoint(slot0, slot7) > 0 then
+				slot10 = 0
+
+				for slot14, slot15 in ipairs(ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[slot7]) do
+					if not SlayerData:GetReceivedReward(slot0, slot15) and ActivitySlayerPointRewardCfg[slot15].need <= slot8 then
+						slot2 = 1
+						slot10 = 1
+
+						break
+					end
+				end
+
+				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_REWARD, slot7), slot10)
+			end
+		end
+
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLYAER_REWARD, slot0), slot2)
+	end,
+	SetSlayerRead = function (slot0)
+		if manager.redPoint:getTipValue(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, slot0)) == 1 then
+			SlayerData:SetRead(slot0)
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SLAYER_REGIONS_SELECT, slot0), 0)
+		end
+	end,
+	GetSlayerRewardState = function (slot0, slot1)
+		if SlayerData:GetPoint(slot0, slot1) > 0 then
+			for slot7, slot8 in ipairs(ActivitySlayerPointRewardCfg.get_id_list_by_activity_id[slot1]) do
+				if not SlayerData:GetReceivedReward(slot0, slot8) and ActivitySlayerPointRewardCfg[slot8].need <= slot2 then
+					return true
+				end
+			end
+
+			return false
 		end
 
 		return false
 	end
-
-	return false
-end
-
-return var_0_0
+}

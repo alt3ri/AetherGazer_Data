@@ -1,62 +1,57 @@
-local var_0_0 = class("HeroPageBase", ReduxView)
+slot0 = class("HeroPageBase", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	return
+function slot0.InitUI(slot0)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetHeroInfo(arg_5_0, arg_5_1)
-	return
+function slot0.SetHeroInfo(slot0, slot1)
 end
 
-function var_0_0.PlayEnterAni(arg_6_0)
-	arg_6_0.playableDirector_ = arg_6_0.playableDirector_ or arg_6_0:FindCom(typeof(PlayableDirector), "panel")
+function slot0.PlayEnterAni(slot0)
+	slot0.playableDirector_ = slot0.playableDirector_ or slot0:FindCom(typeof(PlayableDirector), "panel")
 
-	if arg_6_0.playableDirector_ then
-		arg_6_0.playableDirector_.time = 0
+	if slot0.playableDirector_ then
+		slot0.playableDirector_.time = 0
 
-		arg_6_0.playableDirector_:Play()
+		slot0.playableDirector_:Play()
 	end
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Hide(arg_9_0)
-	SetActive(arg_9_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Show(arg_10_0)
-	SetActive(arg_10_0.gameObject_, true)
+function slot0.Show(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_11_0.handler_ = nil
+	slot0.handler_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

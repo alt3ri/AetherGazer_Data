@@ -1,67 +1,63 @@
-local var_0_0 = class("AccumulativeGachaItem", ReduxView)
+slot0 = class("AccumulativeGachaItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.drawstateController_ = arg_1_0.itemControllerexcollection_:GetController("drawstate")
-	arg_1_0.showController_ = arg_1_0.itemControllerexcollection_:GetController("show")
+	slot0.drawstateController_ = slot0.itemControllerexcollection_:GetController("drawstate")
+	slot0.showController_ = slot0.itemControllerexcollection_:GetController("show")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.data = arg_2_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data = slot1
 
-	arg_2_0.showController_:SetSelectedState("state" .. tostring(3))
+	slot0.showController_:SetSelectedState("state" .. tostring(3))
 
-	if not arg_2_0.commonItemView_ then
-		arg_2_0.commonItemView_ = CommonItemView.New(arg_2_0.commonItem_)
+	if not slot0.commonItemView_ then
+		slot0.commonItemView_ = CommonItemView.New(slot0.commonItem_)
 	end
 
-	local var_2_0 = formatReward(ActivityPointRewardCfg[arg_2_1.id].reward_item_list[1])
+	slot3 = formatReward(ActivityPointRewardCfg[slot1.id].reward_item_list[1])
 
-	CommonTools.SetCommonData(arg_2_0.commonItemView_, {
-		id = var_2_0.id,
-		number = var_2_0.num,
-		clickFun = function(arg_3_0)
+	CommonTools.SetCommonData(slot0.commonItemView_, {
+		id = slot3.id,
+		number = slot3.num,
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_3_0.id,
-				arg_3_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
-	}, arg_2_0.CommonData1)
+	}, slot0.CommonData1)
 
-	arg_2_0.processText_.text = ActivityPointRewardCfg[arg_2_1.id].need
+	slot0.processText_.text = ActivityPointRewardCfg[slot1.id].need
 
-	arg_2_0.drawstateController_:SetSelectedState(tostring(arg_2_1.state + 1))
+	slot0.drawstateController_:SetSelectedState(tostring(slot1.state + 1))
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bg01Btn_, nil, function()
-		local var_6_0 = ActivityPointRewardCfg[arg_5_0.data.id]
-
-		if var_6_0 and ActivityAccumulativeData:GetNum() < var_6_0.need then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bg01Btn_, nil, function ()
+		if ActivityPointRewardCfg[uv0.data.id] and ActivityAccumulativeData:GetNum() < slot0.need then
 			ShowTips("ACTIVITY_ACCUMULATIVE_TIPS")
 
 			return
 		end
 
-		ActivityAccumulativeAction.GetAccumulateReward(arg_5_0.data.id)
+		ActivityAccumulativeAction.GetAccumulateReward(uv0.data.id)
 	end)
 end
 
-function var_0_0.RefreshBtnState(arg_7_0)
-	return
+function slot0.RefreshBtnState(slot0)
 end
 
-function var_0_0.AddTimer(arg_8_0)
-	return
+function slot0.AddTimer(slot0)
 end
 
-return var_0_0
+return slot0

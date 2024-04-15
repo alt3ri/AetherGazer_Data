@@ -1,136 +1,128 @@
-local var_0_0 = class("MailBoxListItem", ReduxView)
+slot0 = class("MailBoxListItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.starController_ = arg_3_0.conExCollection_:GetController("star")
-	arg_3_0.readController_ = arg_3_0.conExCollection_:GetController("read")
-	arg_3_0.rewardController_ = arg_3_0.conExCollection_:GetController("reward")
-	arg_3_0.selectController_ = arg_3_0.conExCollection_:GetController("select")
+	slot0.starController_ = slot0.conExCollection_:GetController("star")
+	slot0.readController_ = slot0.conExCollection_:GetController("read")
+	slot0.rewardController_ = slot0.conExCollection_:GetController("reward")
+	slot0.selectController_ = slot0.conExCollection_:GetController("select")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.onClickHandler_ ~= nil then
-			arg_4_0.onClickHandler_(arg_4_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.onClickHandler_ ~= nil then
+			uv0:onClickHandler_()
 		end
 	end)
 end
 
-function var_0_0.AddEventListener(arg_6_0)
-	arg_6_0:RegistEventListener(MAIL_INFO_UPDATE, handler(arg_6_0, arg_6_0.OnMailInfoUpdate))
-	arg_6_0:RegistEventListener(MAIL_STAR_UPDATE, handler(arg_6_0, arg_6_0.OnMailStarUpdate))
+function slot0.AddEventListener(slot0)
+	slot0:RegistEventListener(MAIL_INFO_UPDATE, handler(slot0, slot0.OnMailInfoUpdate))
+	slot0:RegistEventListener(MAIL_STAR_UPDATE, handler(slot0, slot0.OnMailStarUpdate))
 end
 
-function var_0_0.OnMailInfoUpdate(arg_7_0, arg_7_1)
-	if arg_7_1.id == arg_7_0.data_.id then
-		arg_7_0:UpdateView()
+function slot0.OnMailInfoUpdate(slot0, slot1)
+	if slot1.id == slot0.data_.id then
+		slot0:UpdateView()
 	end
 end
 
-function var_0_0.OnMailStarUpdate(arg_8_0, arg_8_1)
-	if arg_8_1.id == arg_8_0.data_.id then
-		arg_8_0:UpdateStar()
+function slot0.OnMailStarUpdate(slot0, slot1)
+	if slot1.id == slot0.data_.id then
+		slot0:UpdateStar()
 	end
 end
 
-function var_0_0.UpdateBar(arg_9_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.SetMailData(arg_10_0, arg_10_1)
-	arg_10_0.data_ = arg_10_1
+function slot0.SetMailData(slot0, slot1)
+	slot0.data_ = slot1
 end
 
-function var_0_0.SetClickHandler(arg_11_0, arg_11_1)
-	arg_11_0.onClickHandler_ = arg_11_1
+function slot0.SetClickHandler(slot0, slot1)
+	slot0.onClickHandler_ = slot1
 end
 
-function var_0_0.UpdateView(arg_12_0)
-	if MailData.GetMail(arg_12_0.data_.id) == nil then
+function slot0.UpdateView(slot0)
+	if MailData.GetMail(slot0.data_.id) == nil then
 		return
 	end
 
-	local var_12_0 = MailData.GetMailTitle(arg_12_0.data_.id)
+	slot0.nameText_.text = MailData.GetMailTitle(slot0.data_.id)
 
-	arg_12_0.nameText_.text = var_12_0
+	slot0.rewardController_:SetSelectedState(slot0.data_.attach_flag > 0 and "true" or "false")
 
-	local var_12_1 = arg_12_0.data_.attach_flag > 0
-
-	arg_12_0.rewardController_:SetSelectedState(var_12_1 and "true" or "false")
-
-	if arg_12_0.data_.attach_flag == 2 then
-		arg_12_0.rewardController_:SetSelectedState("false")
+	if slot0.data_.attach_flag == 2 then
+		slot0.rewardController_:SetSelectedState("false")
 	else
-		arg_12_0.rewardController_:SetSelectedState(var_12_1 and "true" or "false")
+		slot0.rewardController_:SetSelectedState(slot3 and "true" or "false")
 	end
 
-	arg_12_0:UpdateRead()
-	arg_12_0:UpdateStar()
-	arg_12_0:UpdateCountdown()
-	arg_12_0.selectController_:SetSelectedState(arg_12_0.selected_ and "true" or "false")
+	slot0:UpdateRead()
+	slot0:UpdateStar()
+	slot0:UpdateCountdown()
+	slot0.selectController_:SetSelectedState(slot0.selected_ and "true" or "false")
 end
 
-function var_0_0.UpdateStar(arg_13_0)
-	if arg_13_0.data_.star_state == 1 then
-		arg_13_0.starController_:SetSelectedState("true")
+function slot0.UpdateStar(slot0)
+	if slot0.data_.star_state == 1 then
+		slot0.starController_:SetSelectedState("true")
 	else
-		arg_13_0.starController_:SetSelectedState("false")
+		slot0.starController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.UpdateRead(arg_14_0)
-	if arg_14_0.selected_ then
-		arg_14_0.readController_:SetSelectedState("false")
-	elseif MailData.HaveMailRead(arg_14_0.data_.id) then
-		arg_14_0.readController_:SetSelectedState("true")
+function slot0.UpdateRead(slot0)
+	if slot0.selected_ then
+		slot0.readController_:SetSelectedState("false")
+	elseif MailData.HaveMailRead(slot0.data_.id) then
+		slot0.readController_:SetSelectedState("true")
 	else
-		arg_14_0.readController_:SetSelectedState("false")
+		slot0.readController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.SetSelected(arg_15_0, arg_15_1)
-	arg_15_0.selected_ = arg_15_1
+function slot0.SetSelected(slot0, slot1)
+	slot0.selected_ = slot1
 end
 
-function var_0_0.UpdateCountdown(arg_16_0)
-	local var_16_0 = MailTools.GetLostTimeStr(arg_16_0.data_.timeout_timestamp)
-
-	arg_16_0.tipsText_.text = string.format(GetTips("TIME_DISPLAY_5"), var_16_0)
+function slot0.UpdateCountdown(slot0)
+	slot0.tipsText_.text = string.format(GetTips("TIME_DISPLAY_5"), MailTools.GetLostTimeStr(slot0.data_.timeout_timestamp))
 end
 
-function var_0_0.GetData(arg_17_0)
-	return arg_17_0.data_
+function slot0.GetData(slot0)
+	return slot0.data_
 end
 
-function var_0_0.OnEnter(arg_18_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_19_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_20_0)
-	arg_20_0:RemoveAllListeners()
-	arg_20_0:RemoveAllEventListener()
-	var_0_0.super.Dispose(arg_20_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

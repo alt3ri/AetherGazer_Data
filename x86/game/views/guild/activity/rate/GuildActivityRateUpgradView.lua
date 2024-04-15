@@ -1,36 +1,34 @@
-local var_0_0 = class("GuildActivityRateUpgradView", ReduxView)
+slot0 = class("GuildActivityRateUpgradView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivityUI/GuildActivityUpgradeSuccessUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.rateID_ = arg_7_0.params_.rateID
-
-	local var_7_0 = ActivityClubLevelSettingCfg[arg_7_0.rateID_]
-
-	arg_7_0.rateText_.text = var_7_0.user_level
-	arg_7_0.domainMaxCount_.text = string.format(GetTips("CLUB_ACTIVITY_MAX_DOMAIN"), var_7_0.max_domain)
-	arg_7_0.heroMaxCount_.text = string.format(GetTips("CLUB_ACTIVITY_MAX_HERO"), var_7_0.max_hero)
+function slot0.OnEnter(slot0)
+	slot0.rateID_ = slot0.params_.rateID
+	slot1 = ActivityClubLevelSettingCfg[slot0.rateID_]
+	slot0.rateText_.text = slot1.user_level
+	slot0.domainMaxCount_.text = string.format(GetTips("CLUB_ACTIVITY_MAX_DOMAIN"), slot1.max_domain)
+	slot0.heroMaxCount_.text = string.format(GetTips("CLUB_ACTIVITY_MAX_HERO"), slot1.max_hero)
 end
 
-return var_0_0
+return slot0

@@ -1,45 +1,43 @@
-local var_0_0 = class("CanteenPassTableFoodItem", ReduxView)
+slot0 = class("CanteenPassTableFoodItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.RefreshItem(arg_4_0, arg_4_1)
-	arg_4_0.foodEid = arg_4_1
-
-	local var_4_0 = CanteenAIFunction:GetEntityData(arg_4_1)
-
-	arg_4_0.foodCfgID = var_4_0.cfgID
-	arg_4_0.nameText_.text = string.format("<color=#%s>%s</color>", CanteenConst.FoodTaste[var_4_0.taste][2], GetTips(CanteenConst.FoodTaste[var_4_0.taste][1]))
-	arg_4_0.iconImg_.sprite = getSpriteWithoutAtlas(DormConst.CANTEEN_FOOD_PATH .. BackHomeCanteenFoodCfg[arg_4_0.foodCfgID].icon)
+function slot0.RefreshItem(slot0, slot1)
+	slot0.foodEid = slot1
+	slot2 = CanteenAIFunction:GetEntityData(slot1)
+	slot0.foodCfgID = slot2.cfgID
+	slot0.nameText_.text = string.format("<color=#%s>%s</color>", CanteenConst.FoodTaste[slot2.taste][2], GetTips(CanteenConst.FoodTaste[slot2.taste][1]))
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas(DormConst.CANTEEN_FOOD_PATH .. BackHomeCanteenFoodCfg[slot0.foodCfgID].icon)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.fooditemBtn_, nil, function()
-		if arg_5_0.btnCallBack then
-			arg_5_0.btnCallBack(arg_5_0.foodEid)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.fooditemBtn_, nil, function ()
+		if uv0.btnCallBack then
+			uv0.btnCallBack(uv0.foodEid)
 		end
 	end)
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	arg_7_0.btnCallBack = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.btnCallBack = slot1
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

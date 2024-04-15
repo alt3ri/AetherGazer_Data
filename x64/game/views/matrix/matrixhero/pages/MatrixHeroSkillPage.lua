@@ -1,111 +1,100 @@
-local var_0_0 = import("game.views.newHero.pages.HeroSkillPage")
-local var_0_1 = class("MatrixHeroSkillPage", var_0_0)
+slot1 = class("MatrixHeroSkillPage", import("game.views.newHero.pages.HeroSkillPage"))
 
-function var_0_1.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.skillItemGo_ = {}
-	arg_1_0.skillItem_ = {}
+	slot0.skillItemGo_ = {}
+	slot0.skillItem_ = {}
 
-	for iter_1_0 = 1, 6 do
-		arg_1_0.skillItemGo_[iter_1_0] = arg_1_0["skillItem" .. iter_1_0 .. "Go_"]
-		arg_1_0.skillItem_[iter_1_0] = MatrixHeroSkillItem.New(arg_1_0, arg_1_0.skillItemGo_[iter_1_0])
+	for slot4 = 1, 6 do
+		slot0.skillItemGo_[slot4] = slot0["skillItem" .. slot4 .. "Go_"]
+		slot0.skillItem_[slot4] = MatrixHeroSkillItem.New(slot0, slot0.skillItemGo_[slot4])
 	end
 
-	SetActive(arg_1_0.teachingBtn_.gameObject, false)
+	SetActive(slot0.teachingBtn_.gameObject, false)
 end
 
-function var_0_1.AddUIListener(arg_2_0)
-	for iter_2_0 = 1, 6 do
-		arg_2_0.skillItem_[iter_2_0]:RegistCallBack(function(arg_3_0)
+function slot1.AddUIListener(slot0)
+	for slot4 = 1, 6 do
+		slot0.skillItem_[slot4]:RegistCallBack(function (slot0)
 			JumpTools.OpenPageByJump("matrixSkillUpgrade", {
-				skillId = arg_3_0.id,
-				heroId = arg_3_0.heroId,
-				standardId = arg_2_0.standardID,
-				servantId = arg_3_0.servantId,
-				lv = arg_3_0.lv
+				skillId = slot0.id,
+				heroId = slot0.heroId,
+				standardId = uv0.standardID,
+				servantId = slot0.servantId,
+				lv = slot0.lv
 			})
 		end)
 	end
 
-	arg_2_0:AddBtnListener(arg_2_0.buttonComboSkill_, nil, function()
-		arg_2_0:Go("matrixOrigin/matrixComboSkillInfo", {
-			heroId = arg_2_0.heroInfo_.id
+	slot0:AddBtnListener(slot0.buttonComboSkill_, nil, function ()
+		uv0:Go("matrixOrigin/matrixComboSkillInfo", {
+			heroId = uv0.heroInfo_.id
 		})
 	end)
 end
 
-function var_0_1.OnEnter(arg_5_0, arg_5_1)
-	return
+function slot1.OnEnter(slot0, slot1)
 end
 
-function var_0_1.SetMatirxHeroInfo(arg_6_0, arg_6_1)
-	arg_6_0.heroId_ = arg_6_1
+function slot1.SetMatirxHeroInfo(slot0, slot1)
+	slot0.heroId_ = slot1
+	slot2 = slot0:GetHeroData(slot1)
+	slot0.standardID = slot2:GetStandardId()
+	slot4 = nil
+	slot0.heroInfo_ = (not slot2:GetIsOwnerHero() or GetPracticalData(slot2:GetEntrySnapShot())) and GetVirtualData(slot3)
+	slot0.heroInfo_.servantId = slot2:GetWeaponServantEffect()
 
-	local var_6_0 = arg_6_0:GetHeroData(arg_6_1)
-	local var_6_1 = var_6_0:GetStandardId()
-
-	arg_6_0.standardID = var_6_1
-
-	local var_6_2
-
-	if var_6_0:GetIsOwnerHero() then
-		local var_6_3 = var_6_0:GetEntrySnapShot()
-
-		var_6_2 = GetPracticalData(var_6_3)
-	else
-		var_6_2 = GetVirtualData(var_6_1)
-	end
-
-	arg_6_0.heroInfo_ = var_6_2
-	arg_6_0.heroInfo_.servantId = var_6_0:GetWeaponServantEffect()
-
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_1.RefreshSkillItemS(arg_7_0)
-	arg_7_0.skillList_ = arg_7_0:GetMatrixHeroSkillInfo(arg_7_0.heroInfo_)
+function slot1.RefreshSkillItemS(slot0)
+	slot4 = slot0.heroInfo_
+	slot0.skillList_ = slot0:GetMatrixHeroSkillInfo(slot4)
 
-	for iter_7_0 = 1, 6 do
-		arg_7_0.skillItem_[iter_7_0]:RefreshData(arg_7_0, arg_7_0.skillList_[iter_7_0])
+	for slot4 = 1, 6 do
+		slot0.skillItem_[slot4]:RefreshData(slot0, slot0.skillList_[slot4])
 	end
 end
 
-function var_0_1.GetMatrixHeroSkillInfo(arg_8_0, arg_8_1)
-	local var_8_0 = {}
+function slot1.GetMatrixHeroSkillInfo(slot0, slot1)
+	slot2 = {
+		[slot7.skill_id] = 1
+	}
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_1.skill) do
-		if SkillTools.GetIsDodgeSkill(iter_8_1.skill_id) then
-			var_8_0[iter_8_1.skill_id] = 1
+	for slot6, slot7 in ipairs(slot1.skill) do
+		if SkillTools.GetIsDodgeSkill(slot7.skill_id) then
+			-- Nothing
 		else
-			var_8_0[iter_8_1.skill_id] = iter_8_1.skill_level
+			slot2[slot7.skill_id] = slot7.skill_level
 		end
 	end
 
-	local var_8_1 = {}
+	slot3 = {}
+	slot7 = slot1.id
 
-	for iter_8_2, iter_8_3 in ipairs(HeroCfg[arg_8_1.id].skills) do
-		local var_8_2 = HeroTools.GetHeroSkillAddLevel(arg_8_1, iter_8_3)
+	for slot7, slot8 in ipairs(HeroCfg[slot7].skills) do
+		slot9 = HeroTools.GetHeroSkillAddLevel(slot1, slot8)
 
-		if SkillTools.GetIsDodgeSkill(iter_8_3) then
-			var_8_2 = 0
+		if SkillTools.GetIsDodgeSkill(slot8) then
+			slot9 = 0
 		end
 
-		table.insert(var_8_1, {
+		table.insert(slot3, {
 			isCanUp = false,
-			id = iter_8_3,
-			heroId = arg_8_1.id,
-			lv = var_8_0[iter_8_3] or 0,
-			addSkillLv = var_8_2,
-			servantId = arg_8_1.servantId
+			id = slot8,
+			heroId = slot1.id,
+			lv = slot2[slot8] or 0,
+			addSkillLv = slot9,
+			servantId = slot1.servantId
 		})
 	end
 
-	return var_8_1
+	return slot3
 end
 
-function var_0_1.GetHeroData(arg_9_0, arg_9_1)
-	return MatrixData:GetHeroData(arg_9_1)
+function slot1.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-return var_0_1
+return slot1

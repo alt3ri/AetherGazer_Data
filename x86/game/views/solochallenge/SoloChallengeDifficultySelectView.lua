@@ -1,105 +1,104 @@
-local var_0_0 = class("SoloChallengeDifficultySelectView", ReduxView)
+slot0 = class("SoloChallengeDifficultySelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/SoloChallenge/MardukSoloChallengeChoosedifficult"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.selectItemHandler_ = handler(arg_3_0, arg_3_0.OnSelectItem)
-	arg_3_0.difficultyItemList_ = {}
+	slot0.selectItemHandler_ = handler(slot0, slot0.OnSelectItem)
+	slot0.difficultyItemList_ = {}
 
-	local var_3_0 = arg_3_0.panelTrans_.childCount
+	for slot5 = 1, slot0.panelTrans_.childCount do
+		slot0.difficultyItemList_[slot5] = SoloChallengeDifficultyItem.New(slot0.panelTrans_:GetChild(slot5 - 1))
 
-	for iter_3_0 = 1, var_3_0 do
-		arg_3_0.difficultyItemList_[iter_3_0] = SoloChallengeDifficultyItem.New(arg_3_0.panelTrans_:GetChild(iter_3_0 - 1))
-
-		arg_3_0.difficultyItemList_[iter_3_0]:SetSelectCallBack(arg_3_0.selectItemHandler_)
+		slot0.difficultyItemList_[slot5]:SetSelectCallBack(slot0.selectItemHandler_)
 	end
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.startBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_4_0.difficultyIndex_ == nil then
+		if uv0.difficultyIndex_ == nil then
 			ShowTips("SELECT_CURRENT")
 
 			return
 		end
 
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		SoloChallengeAction.SaveDifficulty(arg_4_0.activityID_, arg_4_0.difficultyIndex_, handler(arg_4_0, arg_4_0.OnStart))
+		SoloChallengeAction.SaveDifficulty(uv0.activityID_, uv0.difficultyIndex_, handler(uv0, uv0.OnStart))
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.backBtn_, nil, function()
-		arg_4_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnStart(arg_7_0)
-	SoloChallengeData:SetSelectedDifficultyIndex(arg_7_0.activityID_, arg_7_0.difficultyIndex_)
-	arg_7_0:Go("/factorySoloChallengeSelect", {
-		activityID = arg_7_0.activityID_,
-		difficultyIndex = arg_7_0.difficultyIndex_
+function slot0.OnStart(slot0)
+	SoloChallengeData:SetSelectedDifficultyIndex(slot0.activityID_, slot0.difficultyIndex_)
+	slot0:Go("/factorySoloChallengeSelect", {
+		activityID = slot0.activityID_,
+		difficultyIndex = slot0.difficultyIndex_
 	})
 end
 
-function var_0_0.OnEnter(arg_8_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:HideBar()
 
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.difficultyIndex_ = SoloChallengeData:GetSelectedDifficultyIndex(arg_8_0.activityID_) or 1
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.difficultyIndex_ = SoloChallengeData:GetSelectedDifficultyIndex(slot0.activityID_) or 1
 
-	SoloChallengeData:SetSelectedDifficultyIndex(arg_8_0.activityID_, arg_8_0.difficultyIndex_)
-	arg_8_0:RefreshUI()
+	SoloChallengeData:SetSelectedDifficultyIndex(slot0.activityID_, slot0.difficultyIndex_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0.difficultyIndex_ = nil
+function slot0.OnExit(slot0)
+	slot0.difficultyIndex_ = nil
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.selectItemHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.selectItemHandler_ = nil
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.difficultyItemList_) do
-		iter_10_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.difficultyItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.difficultyItemList_ = nil
+	slot0.difficultyItemList_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnSelectItem(arg_11_0, arg_11_1)
-	arg_11_0.difficultyIndex_ = arg_11_1
+function slot0.OnSelectItem(slot0, slot1)
+	slot0.difficultyIndex_ = slot1
+	slot5 = slot0.difficultyIndex_
 
-	SoloChallengeData:SetSelectedDifficultyIndex(arg_11_0.activityID_, arg_11_0.difficultyIndex_)
+	SoloChallengeData:SetSelectedDifficultyIndex(slot0.activityID_, slot5)
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.difficultyItemList_) do
-		iter_11_1:SetSelect(arg_11_1)
-	end
-end
-
-function var_0_0.RefreshUI(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.difficultyItemList_) do
-		iter_12_1:SetData(arg_12_0.activityID_, iter_12_0)
-		iter_12_1:SetSelect(arg_12_0.difficultyIndex_)
+	for slot5, slot6 in ipairs(slot0.difficultyItemList_) do
+		slot6:SetSelect(slot1)
 	end
 end
 
-return var_0_0
+function slot0.RefreshUI(slot0)
+	for slot4, slot5 in ipairs(slot0.difficultyItemList_) do
+		slot5:SetData(slot0.activityID_, slot4)
+		slot5:SetSelect(slot0.difficultyIndex_)
+	end
+end
+
+return slot0

@@ -1,68 +1,59 @@
-local var_0_0 = (...):gsub("%.SevenDaySkinData", "")
-local var_0_1 = require(var_0_0 .. ".SignInfoStruct")
-local var_0_2 = singletonClass("SevenDaySkinData")
+slot1 = require(...:gsub("%.SevenDaySkinData", "") .. ".SignInfoStruct")
+slot2 = singletonClass("SevenDaySkinData")
 
-function var_0_2.Ctor(arg_1_0)
-	arg_1_0.activity_map = {}
+function slot2.Ctor(slot0)
+	slot0.activity_map = {}
 end
 
-function var_0_2.InitData(arg_2_0, arg_2_1)
+function slot2.InitData(slot0, slot1)
 	print("七日签到皮肤初始化", 11080)
 
-	local var_2_0 = var_0_1.New(arg_2_1)
+	slot0.activity_map[slot1.activity_id] = uv0.New(slot1)
 
-	arg_2_0.activity_map[arg_2_1.activity_id] = var_2_0
-
-	arg_2_0:UpdateRedDotCount(arg_2_1.activity_id)
+	slot0:UpdateRedDotCount(slot1.activity_id)
 end
 
-function var_0_2.Clear(arg_3_0)
-	if not arg_3_0.activity_map then
+function slot2.Clear(slot0)
+	if not slot0.activity_map then
 		return
 	end
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.activity_map) do
-		iter_3_1:OnCrossDay()
-		var_0_2:UpdateRedDotCount(iter_3_0)
+	for slot4, slot5 in pairs(slot0.activity_map) do
+		slot5:OnCrossDay()
+		uv0:UpdateRedDotCount(slot4)
 	end
 end
 
-function var_0_2.MaxSignDay(arg_4_0)
-	local var_4_0 = ActivityCumulativeSignCfg[arg_4_0.activity_id]
-
-	return var_4_0 and #var_4_0.config_list or 7
+function slot2.MaxSignDay(slot0)
+	return ActivityCumulativeSignCfg[slot0.activity_id] and #slot1.config_list or 7
 end
 
-function var_0_2.GetActivityData(arg_5_0, arg_5_1)
-	arg_5_0.activity_map = arg_5_0.activity_map or {}
+function slot2.GetActivityData(slot0, slot1)
+	slot0.activity_map = slot0.activity_map or {}
 
-	local var_5_0 = arg_5_0.activity_map[arg_5_1]
-
-	if not var_5_0 then
-		var_5_0 = var_0_1.New({
-			activity_id = arg_5_1
+	if not slot0.activity_map[slot1] then
+		slot0.activity_map[slot1] = uv0.New({
+			activity_id = slot1
 		})
-		arg_5_0.activity_map[arg_5_1] = var_5_0
 	end
 
-	return var_5_0
+	return slot2
 end
 
-function var_0_2.UpdateActivityData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0:GetActivityData(arg_6_1):Update(arg_6_2)
-	arg_6_0:UpdateRedDotCount(arg_6_1)
+function slot2.UpdateActivityData(slot0, slot1, slot2)
+	slot0:GetActivityData(slot1):Update(slot2)
+	slot0:UpdateRedDotCount(slot1)
 end
 
-function var_0_2.GetRedDotCount(arg_7_0, arg_7_1)
-	return arg_7_0:GetActivityData(arg_7_1):RedDotCount()
+function slot2.GetRedDotCount(slot0, slot1)
+	return slot0:GetActivityData(slot1):RedDotCount()
 end
 
-function var_0_2.UpdateRedDotCount(arg_8_0, arg_8_1)
-	local var_8_0 = string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, arg_8_1)
-	local var_8_1 = arg_8_0:GetRedDotCount(arg_8_1)
+function slot2.UpdateRedDotCount(slot0, slot1)
+	slot3 = slot0:GetRedDotCount(slot1)
 
-	print(arg_8_1, "------------------------->", var_8_1)
-	manager.redPoint:setTip(var_8_0, var_8_1)
+	print(slot1, "------------------------->", slot3)
+	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SEVEN_DAY_SIGN_SKIN, slot1), slot3)
 end
 
-return var_0_2
+return slot2

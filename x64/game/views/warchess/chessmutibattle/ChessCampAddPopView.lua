@@ -1,92 +1,85 @@
-local var_0_0 = class("ChessCampAddPopView", ReduxView)
+slot0 = class("ChessCampAddPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/WarChess_Battle/WarChessGodUpUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 
-	arg_5_0.heroController_ = ControllerUtil.GetController(arg_5_0.heroGo_.transform, "name")
-	arg_5_0.fightController_ = ControllerUtil.GetController(arg_5_0.fightingGo_.transform, "name")
+	slot0.heroController_ = ControllerUtil.GetController(slot0.heroGo_.transform, "name")
+	slot0.fightController_ = ControllerUtil.GetController(slot0.fightingGo_.transform, "name")
 end
 
-function var_0_0.GetRaceEffect(arg_7_0)
-	local var_7_0 = {}
-	local var_7_1 = 0
-	local var_7_2 = false
-	local var_7_3 = ReserveTools.GetHeroList(arg_7_0.reserveParams_)
+function slot0.GetRaceEffect(slot0)
+	slot1 = {}
+	slot2 = 0
+	slot3 = false
 
-	for iter_7_0, iter_7_1 in pairs(var_7_3) do
-		if iter_7_1 ~= 0 then
-			local var_7_4 = HeroCfg[iter_7_1].race
+	for slot8, slot9 in pairs(ReserveTools.GetHeroList(slot0.reserveParams_)) do
+		if slot9 ~= 0 then
+			slot1[slot10] = (slot1[HeroCfg[slot9].race] or 0) + 1
 
-			var_7_0[var_7_4] = (var_7_0[var_7_4] or 0) + 1
-
-			if var_7_0[var_7_4] == 2 then
-				var_7_1 = var_7_4
-			elseif var_7_0[var_7_4] == 3 then
-				var_7_2 = true
+			if slot1[slot10] == 2 then
+				slot2 = slot10
+			elseif slot1[slot10] == 3 then
+				slot3 = true
 			end
 		end
 	end
 
-	return var_7_1, var_7_2, var_7_0[var_7_1] or 1
+	return slot2, slot3, slot1[slot2] or 1
 end
 
-function var_0_0.RefreshRace(arg_8_0)
-	local var_8_0, var_8_1, var_8_2 = arg_8_0:GetRaceEffect()
+function slot0.RefreshRace(slot0)
+	slot1, slot2, slot3 = slot0:GetRaceEffect()
 
-	arg_8_0.heroController_:SetSelectedState(var_8_0 ~= 0 and "on" or "off")
-	arg_8_0.fightController_:SetSelectedState(var_8_1 and "on" or "off")
+	slot0.heroController_:SetSelectedState(slot1 ~= 0 and "on" or "off")
+	slot0.fightController_:SetSelectedState(slot2 and "on" or "off")
 
-	if var_8_0 ~= 0 then
-		local var_8_3 = RaceEffectCfg[var_8_0]
-
-		arg_8_0.text1Text_.text = GetI18NText(var_8_3.desc)
+	if slot1 ~= 0 then
+		slot0.text1Text_.text = GetI18NText(RaceEffectCfg[slot1].desc)
 	else
-		arg_8_0.text1Text_.text = GetTips("NO_CORRECTOR_BUFF")
+		slot0.text1Text_.text = GetTips("NO_CORRECTOR_BUFF")
 	end
 
-	if var_8_1 then
-		local var_8_4 = RaceEffectCfg[var_8_0]
-
-		arg_8_0.text2Text_.text = GetI18NText(var_8_4.battle_desc)
+	if slot2 then
+		slot0.text2Text_.text = GetI18NText(RaceEffectCfg[slot1].battle_desc)
 	else
-		arg_8_0.text2Text_.text = GetTips("NO_BATTLE_BUFF")
+		slot0.text2Text_.text = GetTips("NO_BATTLE_BUFF")
 	end
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.reserveParams_ = arg_9_0.params_.reserveParams
+function slot0.OnEnter(slot0)
+	slot0.reserveParams_ = slot0.params_.reserveParams
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR
 	})
-	arg_9_0:RefreshRace()
+	slot0:RefreshRace()
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

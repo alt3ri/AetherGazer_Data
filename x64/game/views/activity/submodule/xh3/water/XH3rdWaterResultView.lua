@@ -1,209 +1,184 @@
-local var_0_0 = class("XH3rdWaterResultView", ReduxView)
+slot0 = class("XH3rdWaterResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdWaterparkUI/XH3rdWPResult"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.leftSelectController_ = ControllerUtil.GetController(arg_5_0.leftGo_.transform, "select")
-	arg_5_0.leftWinController_ = ControllerUtil.GetController(arg_5_0.leftGo_.transform, "win")
-	arg_5_0.rightSelectController_ = ControllerUtil.GetController(arg_5_0.rightGo_.transform, "select")
-	arg_5_0.rightWinController_ = ControllerUtil.GetController(arg_5_0.rightGo_.transform, "win")
+	slot0.leftSelectController_ = ControllerUtil.GetController(slot0.leftGo_.transform, "select")
+	slot0.leftWinController_ = ControllerUtil.GetController(slot0.leftGo_.transform, "win")
+	slot0.rightSelectController_ = ControllerUtil.GetController(slot0.rightGo_.transform, "select")
+	slot0.rightWinController_ = ControllerUtil.GetController(slot0.rightGo_.transform, "win")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_8_0)
-	arg_8_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_9_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_10_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		local var_11_0 = 0
-		local var_11_1 = ActivityCfg[arg_10_0.params_.activityID]
-		local var_11_2 = {}
+	manager.windowBar:RegistBackCallBack(function ()
+		slot2 = {}
 
-		for iter_11_0, iter_11_1 in ipairs(var_11_1.sub_activity_list) do
-			if ActivityCfg[iter_11_1].activity_template == ActivityTemplateConst.ACTIVITY_2_2_WATER_SCHEDULE then
-				var_11_0 = var_11_0 + 1
+		for slot6, slot7 in ipairs(ActivityCfg[uv0.params_.activityID].sub_activity_list) do
+			if ActivityCfg[slot7].activity_template == ActivityTemplateConst.ACTIVITY_2_2_WATER_SCHEDULE then
+				slot0 = 0 + 1
 
-				table.insert(var_11_2, iter_11_1)
+				table.insert(slot2, slot7)
 			end
 		end
 
-		local var_11_3 = ActivityWaterCfg[arg_10_0.data_.schedule_id]
-		local var_11_4 = table.indexof(var_11_2, var_11_3.activity_id)
-
-		if var_11_4 then
-			if var_11_4 == #var_11_2 then
-				local var_11_5 = ActivityCfg.get_id_list_by_sub_activity_list[arg_10_0.params_.activityID][1]
-
+		if table.indexof(slot2, ActivityWaterCfg[uv0.data_.schedule_id].activity_id) then
+			if slot4 == #slot2 then
 				JumpTools.OpenPageByJump("/activityMain_2_2", {
-					activityID = var_11_5,
-					subActivityID = arg_10_0.params_.activityID
+					activityID = ActivityCfg.get_id_list_by_sub_activity_list[uv0.params_.activityID][1],
+					subActivityID = uv0.params_.activityID
 				})
 			else
 				JumpTools.OpenPageByJump("/cooperationBlank/xH3rdWaterSelectAssistant", {
-					activityID = arg_10_0.params_.activityID
+					activityID = uv0.params_.activityID
 				})
 			end
 		else
 			JumpTools.OpenPageByJump("/cooperationBlank/xH3rdWaterSelectAssistant", {
-				activityID = arg_10_0.params_.activityID
+				activityID = uv0.params_.activityID
 			})
 		end
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
-		gameContext:Go("/home", nil, nil, true)
+	manager.windowBar:RegistHomeCallBack(function ()
+		gameContext:Go("/home", nil, , true)
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_13_0.historyDataList_ = ActivityWaterData:GetHistoryList(arg_13_0.params_.activityID)
+	slot0.historyDataList_ = ActivityWaterData:GetHistoryList(slot0.params_.activityID)
 
-	table.sort(arg_13_0.historyDataList_, function(arg_14_0, arg_14_1)
-		return arg_14_0.schedule_id > arg_14_1.schedule_id
+	table.sort(slot0.historyDataList_, function (slot0, slot1)
+		return slot1.schedule_id < slot0.schedule_id
 	end)
 
-	arg_13_0.data_ = arg_13_0.historyDataList_[1]
+	slot0.data_ = slot0.historyDataList_[1]
 
-	arg_13_0:UpdateView()
+	slot0:UpdateView()
 
-	local var_13_0 = ActivityWaterData:GetCurrentSchedule(arg_13_0.params_.activityID)
-	local var_13_1 = 0
+	slot2 = 0
 
-	if var_13_0 then
-		var_13_1 = var_13_0.schedule_id
+	if ActivityWaterData:GetCurrentSchedule(slot0.params_.activityID) then
+		slot2 = slot1.schedule_id
 	end
 
-	if var_13_1 ~= 0 then
-		ActivityWaterAction.RequestCurrentSchedule(var_13_1)
+	if slot2 ~= 0 then
+		ActivityWaterAction.RequestCurrentSchedule(slot2)
 	end
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateView(arg_16_0)
-	local var_16_0 = arg_16_0.data_
-	local var_16_1 = ActivityWaterCfg[arg_16_0.data_.schedule_id]
-	local var_16_2 = var_16_0.competition_list[1]
-	local var_16_3 = var_16_0.competition_list[2]
-	local var_16_4 = ActivityWaterCompetitionCfg[var_16_2.competition_id]
-	local var_16_5 = ActivityWaterCompetitionCfg[var_16_3.competition_id]
-	local var_16_6 = HeroStandardSystemCfg[var_16_4.hero_id]
-	local var_16_7 = HeroStandardSystemCfg[var_16_5.hero_id]
-	local var_16_8 = HeroCfg[var_16_6.hero_id]
-	local var_16_9 = HeroCfg[var_16_7.hero_id]
+function slot0.UpdateView(slot0)
+	slot1 = slot0.data_
+	slot3 = slot1.competition_list[1]
+	slot4 = slot1.competition_list[2]
+	slot9 = HeroCfg[HeroStandardSystemCfg[ActivityWaterCompetitionCfg[slot3.competition_id].hero_id].hero_id]
+	slot10 = HeroCfg[HeroStandardSystemCfg[ActivityWaterCompetitionCfg[slot4.competition_id].hero_id].hero_id]
+	slot0.titleLabel_.text = string.format(GetTips("ACTIVITY_WATER_END_TITLE"), ActivityWaterCfg[slot0.data_.schedule_id].schedule_name)
+	slot0.nameLabel1_.text = string.format("%s·%s", slot9.name, slot9.suffix)
+	slot0.nameLabel2_.text = string.format("%s·%s", slot10.name, slot10.suffix)
+	slot0.roleImage1_.sprite = ActivityWaterData:GetCompetitionImage(slot3.competition_id)
 
-	arg_16_0.titleLabel_.text = string.format(GetTips("ACTIVITY_WATER_END_TITLE"), var_16_1.schedule_name)
-	arg_16_0.nameLabel1_.text = string.format("%s·%s", var_16_8.name, var_16_8.suffix)
-	arg_16_0.nameLabel2_.text = string.format("%s·%s", var_16_9.name, var_16_9.suffix)
-	arg_16_0.roleImage1_.sprite = ActivityWaterData:GetCompetitionImage(var_16_2.competition_id)
+	slot0.roleImage1_:SetNativeSize()
 
-	arg_16_0.roleImage1_:SetNativeSize()
+	slot0.roleImage2_.sprite = ActivityWaterData:GetCompetitionImage(slot4.competition_id)
 
-	arg_16_0.roleImage2_.sprite = ActivityWaterData:GetCompetitionImage(var_16_3.competition_id)
+	slot0.roleImage2_:SetNativeSize()
 
-	arg_16_0.roleImage2_:SetNativeSize()
+	slot11, slot12 = nil
 
-	local var_16_10
-	local var_16_11
-
-	if arg_16_0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(arg_16_0.params_.activityID) then
-		local var_16_12 = ActivityWaterData:GetClientProgress(arg_16_0.params_.activityID)
-
-		var_16_10 = var_16_12[1]
-		var_16_11 = var_16_12[2]
+	if slot0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(slot0.params_.activityID) then
+		slot13 = ActivityWaterData:GetClientProgress(slot0.params_.activityID)
+		slot11 = slot13[1]
+		slot12 = slot13[2]
 	else
-		var_16_10 = var_16_2.assistance_process
-		var_16_11 = var_16_3.assistance_process
+		slot11 = slot3.assistance_process
+		slot12 = slot4.assistance_process
 	end
 
-	arg_16_0.progressLabel1_.text = NumberTools.FormatNumberWithThousandsSeparator(var_16_10)
-	arg_16_0.progressLabel2_.text = NumberTools.FormatNumberWithThousandsSeparator(var_16_11)
+	slot0.progressLabel1_.text = NumberTools.FormatNumberWithThousandsSeparator(slot11)
+	slot0.progressLabel2_.text = NumberTools.FormatNumberWithThousandsSeparator(slot12)
+	slot13 = math.max(slot5.process_reward[#slot5.process_reward][1], slot6.process_reward[#slot6.process_reward][1])
 
-	local var_16_13 = math.max(var_16_4.process_reward[#var_16_4.process_reward][1], var_16_5.process_reward[#var_16_5.process_reward][1])
+	slot0.progressBar1_:SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 320 * slot11 / slot13 + 20)
+	slot0.progressBar2_:SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 320 * slot12 / slot13 + 20)
 
-	arg_16_0.progressBar1_:SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 320 * var_16_10 / var_16_13 + 20)
-	arg_16_0.progressBar2_:SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 320 * var_16_11 / var_16_13 + 20)
-
-	if var_16_0.is_success and var_16_0.is_success > 0 then
-		local var_16_14 = ActivityWaterCompetitionCfg[var_16_0.selected_contestant_id]
-		local var_16_15 = HeroStandardSystemCfg[var_16_14.hero_id]
-		local var_16_16 = HeroCfg[var_16_15.hero_id]
-		local var_16_17 = string.format("%s·%s", var_16_16.name, var_16_16.suffix)
-
-		arg_16_0.tipLabel_.text = string.format(GetTips("ACTIVITY_WATER_END_TIP"), PlayerData:GetPlayerInfo().nick, var_16_17)
+	if slot1.is_success and slot1.is_success > 0 then
+		slot16 = HeroCfg[HeroStandardSystemCfg[ActivityWaterCompetitionCfg[slot1.selected_contestant_id].hero_id].hero_id]
+		slot0.tipLabel_.text = string.format(GetTips("ACTIVITY_WATER_END_TIP"), PlayerData:GetPlayerInfo().nick, string.format("%s·%s", slot16.name, slot16.suffix))
 	else
-		arg_16_0.tipLabel_.text = ""
+		slot0.tipLabel_.text = ""
 	end
 
-	if var_16_0.selected_contestant_id == var_16_2.competition_id then
-		arg_16_0.leftSelectController_:SetSelectedState("yes")
-		arg_16_0.rightSelectController_:SetSelectedState("no")
-	elseif var_16_0.selected_contestant_id == var_16_2.competition_id then
-		arg_16_0.leftSelectController_:SetSelectedState("no")
-		arg_16_0.rightSelectController_:SetSelectedState("yes")
+	if slot1.selected_contestant_id == slot3.competition_id then
+		slot0.leftSelectController_:SetSelectedState("yes")
+		slot0.rightSelectController_:SetSelectedState("no")
+	elseif slot1.selected_contestant_id == slot3.competition_id then
+		slot0.leftSelectController_:SetSelectedState("no")
+		slot0.rightSelectController_:SetSelectedState("yes")
 	else
-		arg_16_0.leftSelectController_:SetSelectedState("no")
-		arg_16_0.rightSelectController_:SetSelectedState("no")
+		slot0.leftSelectController_:SetSelectedState("no")
+		slot0.rightSelectController_:SetSelectedState("no")
 	end
 
-	if arg_16_0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(arg_16_0.params_.activityID).schedule_id then
-		arg_16_0.leftWinController_:SetSelectedState("no")
-		arg_16_0.rightWinController_:SetSelectedState("no")
-	elseif var_16_11 < var_16_10 then
-		arg_16_0.leftWinController_:SetSelectedState("yes")
-		arg_16_0.rightWinController_:SetSelectedState("no")
-	elseif var_16_10 == var_16_11 then
-		arg_16_0.leftWinController_:SetSelectedState("draw")
-		arg_16_0.rightWinController_:SetSelectedState("draw")
+	if slot0.data_.schedule_id == ActivityWaterData:GetCurrentSchedule(slot0.params_.activityID).schedule_id then
+		slot0.leftWinController_:SetSelectedState("no")
+		slot0.rightWinController_:SetSelectedState("no")
+	elseif slot12 < slot11 then
+		slot0.leftWinController_:SetSelectedState("yes")
+		slot0.rightWinController_:SetSelectedState("no")
+	elseif slot11 == slot12 then
+		slot0.leftWinController_:SetSelectedState("draw")
+		slot0.rightWinController_:SetSelectedState("draw")
 	else
-		arg_16_0.leftWinController_:SetSelectedState("no")
-		arg_16_0.rightWinController_:SetSelectedState("yes")
+		slot0.leftWinController_:SetSelectedState("no")
+		slot0.rightWinController_:SetSelectedState("yes")
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_17_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

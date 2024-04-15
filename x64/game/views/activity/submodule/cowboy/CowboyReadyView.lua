@@ -1,53 +1,52 @@
-local var_0_0 = class("CowboyReadyView", ReduxView)
+slot0 = class("CowboyReadyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIUI/VolumeSignXiuGmaeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.startBtn_, nil, function()
-		CowboyData:SetLastLevel(arg_5_0.mainActivityID_, arg_5_0.activityID_)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		CowboyData:SetLastLevel(uv0.mainActivityID_, uv0.activityID_)
 		JumpTools.OpenPageByJump("/cowboyGame", {
-			mainActivityID = arg_5_0.mainActivityID_,
-			activityID = arg_5_0.activityID_
+			mainActivityID = uv0.mainActivityID_,
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.mainActivityID_ = arg_8_0.params_.mainActivityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.title_.text = string.format(GetTips("ACTIVITY_COWBOY_ROUND"), arg_9_0.params_.index)
+function slot0.RefreshUI(slot0)
+	slot0.title_.text = string.format(GetTips("ACTIVITY_COWBOY_ROUND"), slot0.params_.index)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

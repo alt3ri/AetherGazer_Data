@@ -1,13 +1,12 @@
 ChapterVariantBaseItem = import("game.views.chapterVariant.base.ChapterVariantBaseItem")
+slot0 = class("ChapterVariant17Item", ChapterVariantBaseItem)
 
-local var_0_0 = class("ChapterVariant17Item", ChapterVariantBaseItem)
-
-function var_0_0.BindRedPoint(arg_1_0)
-	manager.redPoint:bindUIandKey(arg_1_0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_CHAPTER, arg_1_0.chapterID_))
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_CHAPTER, slot0.chapterID_))
 end
 
-function var_0_0.UnBindRedPoint(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_CHAPTER, arg_2_0.chapterID_))
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_PLOT_CHAPTER, slot0.chapterID_))
 end
 
-return var_0_0
+return slot0

@@ -1,122 +1,111 @@
-local var_0_0 = class("ChapterSectionInfoView", import("..SectionInfoBaseView"))
+slot0 = class("ChapterSectionInfoView", import("..SectionInfoBaseView"))
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 
-	arg_1_0.sectionInfoThreeStarBar_ = SectionInfoThreeStarBar.New(arg_1_0.threeStarGo_)
+	slot0.sectionInfoThreeStarBar_ = SectionInfoThreeStarBar.New(slot0.threeStarGo_)
 
-	arg_1_0.hideStageNumController_:SetSelectedState("false")
-	arg_1_0.hideThreeStarController_:SetSelectedState("false")
-	arg_1_0.hideDropPanelController_:SetSelectedState("false")
+	slot0.hideStageNumController_:SetSelectedState("false")
+	slot0.hideThreeStarController_:SetSelectedState("false")
+	slot0.hideDropPanelController_:SetSelectedState("false")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	arg_2_0.sectionInfoThreeStarBar_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.sectionInfoThreeStarBar_:Dispose()
 
-	arg_2_0.sectionInfoThreeStarBar_ = nil
+	slot0.sectionInfoThreeStarBar_ = nil
 
-	var_0_0.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnTop(arg_3_0)
-	arg_3_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.RefreshData(arg_4_0)
-	var_0_0.super.RefreshData(arg_4_0)
+function slot0.RefreshData(slot0)
+	uv0.super.RefreshData(slot0)
 
-	local var_4_0 = BattleChapterStageCfg[arg_4_0.stageID_]
+	slot0.dropLibID_ = BattleChapterStageCfg[slot0.stageID_].drop_lib_id
 
-	arg_4_0.dropLibID_ = var_4_0.drop_lib_id
-
-	local var_4_1 = BattleStageData:GetStageData()[arg_4_0.stageID_]
-
-	if var_4_1 then
-		arg_4_0.isFirstClear_ = var_4_1.clear_times <= 0
+	if BattleStageData:GetStageData()[slot0.stageID_] then
+		slot0.isFirstClear_ = slot2.clear_times <= 0
 	else
-		arg_4_0.isFirstClear_ = true
+		slot0.isFirstClear_ = true
 	end
 
-	if arg_4_0.isFirstClear_ then
-		arg_4_0.cost_ = var_4_0.cost or 0
+	if slot0.isFirstClear_ then
+		slot0.cost_ = slot1.cost or 0
 	else
-		arg_4_0.cost_ = 0
+		slot0.cost_ = 0
 	end
 
-	arg_4_0:RefreshLock()
-	arg_4_0:RefreshThreeStarData()
+	slot0:RefreshLock()
+	slot0:RefreshThreeStarData()
 end
 
-function var_0_0.RefreshLock(arg_5_0)
-	local var_5_0 = BattleChapterStageCfg[arg_5_0.stageID_]
-	local var_5_1 = getChapterAndSectionID(arg_5_0.stageID_)
+function slot0.RefreshLock(slot0)
+	slot1 = BattleChapterStageCfg[slot0.stageID_]
+	slot2 = getChapterAndSectionID(slot0.stageID_)
 
-	BattleFieldData:SetCacheStage(var_5_1, arg_5_0.stageID_)
+	BattleFieldData:SetCacheStage(slot2, slot0.stageID_)
 
-	if ActivityData:GetActivityIsOpen(ChapterCfg[var_5_1].activity_id) then
-		arg_5_0.lock_ = false
+	if ActivityData:GetActivityIsOpen(ChapterCfg[slot2].activity_id) then
+		slot0.lock_ = false
 	else
-		arg_5_0.lock_ = PlayerData:GetPlayerInfo().userLevel < var_5_0.level
-		arg_5_0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_5_0.level)
+		slot0.lock_ = PlayerData:GetPlayerInfo().userLevel < slot1.level
+		slot0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot1.level)
 
-		if arg_5_0.lock_ then
+		if slot0.lock_ then
 			return
 		end
 	end
 
-	local var_5_2 = BattleStageData:GetStageData()
+	slot3 = BattleStageData:GetStageData()
 
-	for iter_5_0, iter_5_1 in pairs(var_5_0.pre_unlock_id_list or {}) do
-		if var_5_2[iter_5_1] == nil or var_5_2[iter_5_1] and var_5_2[iter_5_1].clear_times <= 0 then
-			arg_5_0.lock_ = true
-
-			local var_5_3 = getChapterDifficulty(iter_5_1)
-			local var_5_4 = getChapterClientCfgByStageID(iter_5_1).toggle
-			local var_5_5, var_5_6 = BattleStageTools.GetChapterSectionIndex(var_5_4, iter_5_1)
-
-			arg_5_0.lockTips_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), var_5_3, GetI18NText(var_5_5), GetI18NText(var_5_6))
+	for slot7, slot8 in pairs(slot1.pre_unlock_id_list or {}) do
+		if slot3[slot8] == nil or slot3[slot8] and slot3[slot8].clear_times <= 0 then
+			slot0.lock_ = true
+			slot11, slot12 = BattleStageTools.GetChapterSectionIndex(getChapterClientCfgByStageID(slot8).toggle, slot8)
+			slot0.lockTips_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), getChapterDifficulty(slot8), GetI18NText(slot11), GetI18NText(slot12))
 
 			return
 		end
 	end
 
-	arg_5_0.lock_ = false
+	slot0.lock_ = false
 end
 
-function var_0_0.RefreshThreeStarData(arg_6_0)
-	arg_6_0.threeStarDataList_ = {}
+function slot0.RefreshThreeStarData(slot0)
+	slot0.threeStarDataList_ = {}
+	slot2 = BattleStageData:GetStageData()[slot0.stageID_]
 
-	local var_6_0 = BattleChapterStageCfg[arg_6_0.stageID_]
-	local var_6_1 = BattleStageData:GetStageData()[arg_6_0.stageID_]
-
-	for iter_6_0 = 1, 3 do
-		arg_6_0.threeStarDataList_[iter_6_0] = {
-			var_6_1 and var_6_1.stars[iter_6_0] == 1 or false,
-			var_6_0.three_star_need[iter_6_0]
+	for slot6 = 1, 3 do
+		slot0.threeStarDataList_[slot6] = {
+			slot2 and slot2.stars[slot6] == 1 or false,
+			BattleChapterStageCfg[slot0.stageID_].three_star_need[slot6]
 		}
 	end
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	var_0_0.super.RefreshUI(arg_7_0)
-	arg_7_0.sectionInfoThreeStarBar_:SetData(arg_7_0.threeStarDataList_)
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
+	slot0.sectionInfoThreeStarBar_:SetData(slot0.threeStarDataList_)
 end
 
-function var_0_0.OnClickBtn(arg_8_0)
-	local var_8_0 = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT
-	local var_8_1 = BattleChapterStageCfg[arg_8_0.stageID_]
+function slot0.OnClickBtn(slot0)
+	slot2 = BattleChapterStageCfg[slot0.stageID_]
 
-	if StageTools.NeedShowContinueBattleWindow(var_8_0, arg_8_0.stageID_) then
+	if StageTools.NeedShowContinueBattleWindow(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, slot0.stageID_) then
 		JumpTools.OpenPopUp("continueBattleCostPop", {
-			stageType = var_8_0,
-			stageID = arg_8_0.stageID_,
-			callback = function()
-				ChapterTools.DoReadyBattle(var_8_0, arg_8_0.stageID_)
+			stageType = slot1,
+			stageID = slot0.stageID_,
+			callback = function ()
+				ChapterTools.DoReadyBattle(uv0, uv1.stageID_)
 			end
 		})
 	else
-		ChapterTools.DoReadyBattle(var_8_0, arg_8_0.stageID_)
+		ChapterTools.DoReadyBattle(slot1, slot0.stageID_)
 	end
 end
 
-return var_0_0
+return slot0

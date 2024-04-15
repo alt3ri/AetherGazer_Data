@@ -1,53 +1,52 @@
-local var_0_0 = class("EquipBreakThroughMaterialBuffView", ReduxView)
+slot0 = class("EquipBreakThroughMaterialBuffView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.buffList_ = LuaList.New(handler(arg_1_0, arg_1_0.RefreshBuffItem), arg_1_0.buffUIList_, EquipBreakThroughMaterialBuffItem)
-	arg_1_0.attributeList_ = LuaList.New(handler(arg_1_0, arg_1_0.RefreshAttributeItem), arg_1_0.attributeUIList_, EquipBreakThroughMaterialAttributeItem)
+	slot0.buffList_ = LuaList.New(handler(slot0, slot0.RefreshBuffItem), slot0.buffUIList_, EquipBreakThroughMaterialBuffItem)
+	slot0.attributeList_ = LuaList.New(handler(slot0, slot0.RefreshAttributeItem), slot0.attributeUIList_, EquipBreakThroughMaterialAttributeItem)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.buffDataList_ = EquipBreakThroughMaterialData:GetBuffList()
+function slot0.OnEnter(slot0)
+	slot0.buffDataList_ = EquipBreakThroughMaterialData:GetBuffList()
 
-	arg_2_0.buffList_:StartScroll(#arg_2_0.buffDataList_)
+	slot0.buffList_:StartScroll(#slot0.buffDataList_)
 
-	arg_2_0.attributeDataList_ = EquipBreakThroughMaterialData:GetAttributeList()
-	arg_2_0.itemIDList_ = {}
+	slot0.attributeDataList_ = EquipBreakThroughMaterialData:GetAttributeList()
+	slot0.itemIDList_ = {}
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.attributeDataList_) do
-		table.insert(arg_2_0.itemIDList_, iter_2_0)
+	for slot4, slot5 in pairs(slot0.attributeDataList_) do
+		table.insert(slot0.itemIDList_, slot4)
 	end
 
-	arg_2_0.attributeList_:StartScroll(#arg_2_0.itemIDList_)
+	slot0.attributeList_:StartScroll(#slot0.itemIDList_)
 end
 
-function var_0_0.OnEixt(arg_3_0)
-	return
+function slot0.OnEixt(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
-	arg_4_0.buffList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.buffList_:Dispose()
 
-	arg_4_0.buffList_ = nil
+	slot0.buffList_ = nil
 
-	arg_4_0.attributeList_:Dispose()
+	slot0.attributeList_:Dispose()
 
-	arg_4_0.attributeList_ = nil
+	slot0.attributeList_ = nil
 end
 
-function var_0_0.RefreshBuffItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.buffDataList_[arg_5_1])
+function slot0.RefreshBuffItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.buffDataList_[slot1])
 end
 
-function var_0_0.RefreshAttributeItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.itemIDList_[arg_6_1]
+function slot0.RefreshAttributeItem(slot0, slot1, slot2)
+	slot3 = slot0.itemIDList_[slot1]
 
-	arg_6_2:SetData(var_6_0, arg_6_0.attributeDataList_[var_6_0])
+	slot2:SetData(slot3, slot0.attributeDataList_[slot3])
 end
 
-return var_0_0
+return slot0

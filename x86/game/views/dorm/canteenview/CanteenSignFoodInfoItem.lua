@@ -1,34 +1,33 @@
-local var_0_0 = class("CanteenSignFoodInfoItem", ReduxView)
+slot0 = class("CanteenSignFoodInfoItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
 
-	SetActive(arg_1_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	arg_1_0.transform_ = arg_1_1.transform
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	local var_3_0 = BackHomeCanteenFoodCfg[arg_3_1]
-	local var_3_1 = CanteenFoodData:GetSignFoodInfo(arg_3_1)
+function slot0.RefreshUI(slot0, slot1)
+	slot3 = CanteenFoodData:GetSignFoodInfo(slot1)
 
-	if var_3_0 and var_3_1 then
-		arg_3_0.foodName.text = var_3_0.name
-		arg_3_0.soldNum.text = var_3_1.soldNum .. "/" .. var_3_1.sellNum
-		arg_3_0.soldIncom.text = var_3_1.soldIncome or 0
-		arg_3_0.foodIcon.sprite = CanteenTools.GetFoodSprite(arg_3_1)
+	if BackHomeCanteenFoodCfg[slot1] and slot3 then
+		slot0.foodName.text = slot2.name
+		slot0.soldNum.text = slot3.soldNum .. "/" .. slot3.sellNum
+		slot0.soldIncom.text = slot3.soldIncome or 0
+		slot0.foodIcon.sprite = CanteenTools.GetFoodSprite(slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

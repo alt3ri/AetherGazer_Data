@@ -1,43 +1,43 @@
-local var_0_0 = class("ActivityNoobSignView", ReduxView)
+slot0 = class("ActivityNoobSignView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.contentTrans_ = arg_1_1
-	arg_1_0.contenViewList_ = {}
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.contentTrans_ = slot1
+	slot0.contenViewList_ = {}
 end
 
-function var_0_0.Dispose(arg_2_0)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.contenViewList_) do
-		iter_2_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.contenViewList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetActive(arg_3_0, arg_3_1)
-	if arg_3_0.curView_ then
-		arg_3_0.curView_:SetActive(arg_3_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.curView_ then
+		slot0.curView_:SetActive(slot1)
 	end
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	if arg_4_1 == nil then
+function slot0.SetData(slot0, slot1)
+	if slot1 == nil then
 		return
 	end
 
-	if arg_4_0.curView_ then
-		arg_4_0.curView_:SetActive(false)
+	if slot0.curView_ then
+		slot0.curView_:SetActive(false)
 	end
 
-	if not arg_4_0.contenViewList_[arg_4_1] then
-		arg_4_0.contenViewList_[arg_4_1] = ActivityNoobSignContentView.New(arg_4_0.contentTrans_, arg_4_1)
+	if not slot0.contenViewList_[slot1] then
+		slot0.contenViewList_[slot1] = ActivityNoobSignContentView.New(slot0.contentTrans_, slot1)
 	end
 
-	arg_4_0.curView_ = arg_4_0.contenViewList_[arg_4_1]
+	slot0.curView_ = slot0.contenViewList_[slot1]
 
-	arg_4_0.curView_:SetData(arg_4_1)
-	arg_4_0.curView_:SetActive(true)
+	slot0.curView_:SetData(slot1)
+	slot0.curView_:SetActive(true)
 end
 
-return var_0_0
+return slot0

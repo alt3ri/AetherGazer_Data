@@ -1,71 +1,70 @@
-local var_0_0 = class("GuideStuckPopView", ReduxView)
+slot0 = class("GuideStuckPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/GuideNewUI/GuideStuckPopView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiTips.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0.okBtn_.onClick:AddListener(function()
-		arg_5_0:OnClickOk()
+function slot0.AddListeners(slot0)
+	slot0.okBtn_.onClick:AddListener(function ()
+		uv0:OnClickOk()
 	end)
-	arg_5_0.cancelBtn_.onClick:AddListener(function()
-		arg_5_0:OnClickCancel()
+	slot0.cancelBtn_.onClick:AddListener(function ()
+		uv0:OnClickCancel()
 	end)
-	arg_5_0.maskBtn_.onClick:AddListener(function()
-		arg_5_0:OnClickCancel()
+	slot0.maskBtn_.onClick:AddListener(function ()
+		uv0:OnClickCancel()
 	end)
 end
 
-function var_0_0.OnClickOk(arg_9_0)
-	if arg_9_0.info_.OkCallback then
-		arg_9_0.info_.OkCallback()
+function slot0.OnClickOk(slot0)
+	if slot0.info_.OkCallback then
+		slot0.info_.OkCallback()
 	end
 
-	arg_9_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.OnClickCancel(arg_10_0)
-	if arg_10_0.info_.CancelCallback then
-		arg_10_0.info_.CancelCallback()
+function slot0.OnClickCancel(slot0)
+	if slot0.info_.CancelCallback then
+		slot0.info_.CancelCallback()
 	end
 
-	arg_10_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.RemoveListeners(arg_11_0)
-	arg_11_0.okBtn_.onClick:RemoveAllListeners()
-	arg_11_0.cancelBtn_.onClick:RemoveAllListeners()
-	arg_11_0.tipsBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.okBtn_.onClick:RemoveAllListeners()
+	slot0.cancelBtn_.onClick:RemoveAllListeners()
+	slot0.tipsBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.info_ = arg_12_0.params_
-	arg_12_0.tipContent_.text = arg_12_0.info_.content
+function slot0.OnEnter(slot0)
+	slot0.info_ = slot0.params_
+	slot0.tipContent_.text = slot0.info_.content
 end
 
-function var_0_0.SetGaussionBg(arg_13_0)
+function slot0.SetGaussionBg(slot0)
 	manager.ui:SetUISeparateRender(true)
 end
 
-function var_0_0.Hide(arg_14_0)
-	return
+function slot0.Hide(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

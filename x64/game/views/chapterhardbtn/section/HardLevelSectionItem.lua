@@ -1,33 +1,22 @@
-local var_0_0 = class("HardLevelSectionItem", import("..HardLevelBaseItem"))
+slot0 = class("HardLevelSectionItem", import("..HardLevelBaseItem"))
 
-function var_0_0.IsLock(arg_1_0)
-	local var_1_0 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_1_1 = BattleFieldData:GetCacheChapter(var_1_0)
-	local var_1_2 = ChapterCfg[var_1_1].sub_type
-
-	if arg_1_0.hardLevel_ ~= 1 and var_1_2 <= 1 then
-		var_1_2 = 2
+function slot0.IsLock(slot0)
+	if slot0.hardLevel_ ~= 1 and ChapterCfg[BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))].sub_type <= 1 then
+		slot3 = 2
 	end
 
-	if getChapterNumList(var_1_2)[arg_1_0.hardLevel_] then
-		local var_1_3 = getChapterNumList(var_1_2)[arg_1_0.hardLevel_][1]
-
-		arg_1_0.isLock_ = not ChapterTools.IsFinishPreChapter(var_1_3)
+	if getChapterNumList(slot3)[slot0.hardLevel_] then
+		slot0.isLock_ = not ChapterTools.IsFinishPreChapter(getChapterNumList(slot3)[slot0.hardLevel_][1])
 	else
-		arg_1_0.isLock_ = false
+		slot0.isLock_ = false
 	end
 end
 
-function var_0_0.LockTips(arg_2_0)
-	local var_2_0 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_2_1 = BattleFieldData:GetCacheChapter(var_2_0)
-	local var_2_2 = ChapterCfg[var_2_1].sub_type
-	local var_2_3 = getChapterClientCfgByChapterID(getChapterNumList(var_2_2)[arg_2_0.hardLevel_][1]).id
-	local var_2_4 = BattleFieldData:GetCacheChapter(var_2_3)
-	local var_2_5, var_2_6 = ChapterTools.IsFinishPreChapter(var_2_4)
+function slot0.LockTips(slot0)
+	slot6, slot7 = ChapterTools.IsFinishPreChapter(BattleFieldData:GetCacheChapter(getChapterClientCfgByChapterID(getChapterNumList(ChapterCfg[BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))].sub_type)[slot0.hardLevel_][1]).id))
 
-	if not var_2_5 then
-		ShowTips(ChapterTools.GetChapterLockText(var_2_4, var_2_6, true))
+	if not slot6 then
+		ShowTips(ChapterTools.GetChapterLockText(slot5, slot7, true))
 
 		return
 	end
@@ -35,38 +24,28 @@ function var_0_0.LockTips(arg_2_0)
 	ShowTips("ERROR_FUNCTION_NOT_OPEN")
 end
 
-function var_0_0.ClickBtn(arg_3_0)
-	local var_3_0 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_3_1 = BattleFieldData:GetCacheChapter(var_3_0)
-	local var_3_2 = ChapterCfg[var_3_1].sub_type
-	local var_3_3 = getChapterClientCfgByChapterID(getChapterNumList(var_3_2)[arg_3_0.hardLevel_][1]).id
-	local var_3_4 = BattleFieldData:GetCacheChapter(var_3_3)
+function slot0.ClickBtn(slot0)
+	slot2 = BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))
 
-	if var_3_1 ~= var_3_4 then
-		arg_3_0:Go("/chapterSection", {
-			chapterID = var_3_4
+	if slot2 ~= BattleFieldData:GetCacheChapter(getChapterClientCfgByChapterID(getChapterNumList(ChapterCfg[slot2].sub_type)[slot0.hardLevel_][1]).id) then
+		slot0:Go("/chapterSection", {
+			chapterID = slot5
 		})
 	end
 end
 
-function var_0_0.RefreshItem(arg_4_0)
-	var_0_0.super.RefreshItem(arg_4_0)
+function slot0.RefreshItem(slot0)
+	uv0.super.RefreshItem(slot0)
 
-	local var_4_0 = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT)
-	local var_4_1 = BattleFieldData:GetCacheChapter(var_4_0)
-	local var_4_2 = ChapterCfg[var_4_1].sub_type
-
-	if arg_4_0.hardLevel_ ~= 1 and var_4_2 <= 1 then
-		var_4_2 = 2
+	if slot0.hardLevel_ ~= 1 and ChapterCfg[BattleFieldData:GetCacheChapter(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.PLOT))].sub_type <= 1 then
+		slot3 = 2
 	end
 
-	if getChapterNumList(var_4_2)[arg_4_0.hardLevel_] then
-		local var_4_3 = getChapterNumList(var_4_2)[arg_4_0.hardLevel_][1]
-
-		arg_4_0.percentageText_.text = string.format("%s%%", math.floor(ChapterTools.GetChapterStarPercentage(var_4_3) * 100))
+	if getChapterNumList(slot3)[slot0.hardLevel_] then
+		slot0.percentageText_.text = string.format("%s%%", math.floor(ChapterTools.GetChapterStarPercentage(getChapterNumList(slot3)[slot0.hardLevel_][1]) * 100))
 	else
-		arg_4_0.percentageText_.text = "0%"
+		slot0.percentageText_.text = "0%"
 	end
 end
 
-return var_0_0
+return slot0

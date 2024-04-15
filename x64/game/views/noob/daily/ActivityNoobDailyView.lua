@@ -1,8 +1,7 @@
-local var_0_0 = import("game.views.newbie.daily.ActivityNewbieDailyView")
-local var_0_1 = class("ActivityNoobDailyView", var_0_0)
+slot1 = class("ActivityNoobDailyView", import("game.views.newbie.daily.ActivityNewbieDailyView"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "Widget/System/Activitynewbie/NewbieDailyUI_new"
 end
 
-return var_0_1
+return slot1

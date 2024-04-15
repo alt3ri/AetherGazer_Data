@@ -1,297 +1,270 @@
-local var_0_0 = class("PolyhedronAdditionSettingView", ReduxView)
+slot0 = class("PolyhedronAdditionSettingView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.hander_ = arg_2_1
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.stageData = arg_2_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.hander_ = slot1
+	slot0.transform_ = slot2.transform
+	slot0.gameObject_ = slot2
+	slot0.stageData = slot3
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.clickTerminalHandler_ = handler(arg_3_0, arg_3_0.PopInfo)
+function slot0.Init(slot0)
+	slot0.clickTerminalHandler_ = handler(slot0, slot0.PopInfo)
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_beaconTrs, function()
-		arg_4_0:Select(3)
-		SetActive(arg_4_0.m_terminalDescGo, false)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_beaconTrs, function ()
+		uv0:Select(3)
+		SetActive(uv0.m_terminalDescGo, false)
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_artifaceTrs, function()
-		arg_4_0:Select(1)
-		SetActive(arg_4_0.m_terminalDescGo, false)
+	slot0:AddBtnListener(nil, slot0.m_artifaceTrs, function ()
+		uv0:Select(1)
+		SetActive(uv0.m_terminalDescGo, false)
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_talentTrs, function()
-		arg_4_0:Select(2)
-		SetActive(arg_4_0.m_terminalDescGo, false)
+	slot0:AddBtnListener(nil, slot0.m_talentTrs, function ()
+		uv0:Select(2)
+		SetActive(uv0.m_terminalDescGo, false)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_infoMask, nil, function()
-		SetActive(arg_4_0.m_terminalDescGo, false)
+	slot0:AddBtnListener(slot0.m_infoMask, nil, function ()
+		SetActive(uv0.m_terminalDescGo, false)
 	end)
 end
 
-function var_0_0.PopInfo(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	SetActive(arg_9_0.m_terminalDescGo, true)
+function slot0.PopInfo(slot0, slot1, slot2, slot3)
+	SetActive(slot0.m_terminalDescGo, true)
 
-	arg_9_0.m_terminalDescTrans.position = arg_9_3
-	arg_9_0.m_terminalDescTitle.text = GetI18NText(arg_9_1)
-	arg_9_0.m_terminalDesc.text = GetI18NText(arg_9_2)
+	slot0.m_terminalDescTrans.position = slot3
+	slot0.m_terminalDescTitle.text = GetI18NText(slot1)
+	slot0.m_terminalDesc.text = GetI18NText(slot2)
 end
 
-function var_0_0.Select(arg_10_0, arg_10_1)
-	arg_10_0.toggleController_1:SetSelectedIndex(arg_10_1 == 1 and 1 or 0)
-	arg_10_0.toggleController_2:SetSelectedIndex(arg_10_1 == 2 and 1 or 0)
-	arg_10_0.toggleController_3:SetSelectedIndex(arg_10_1 == 3 and 1 or 0)
+function slot0.Select(slot0, slot1)
+	slot0.toggleController_1:SetSelectedIndex(slot1 == 1 and 1 or 0)
+	slot0.toggleController_2:SetSelectedIndex(slot1 == 2 and 1 or 0)
+	slot0.toggleController_3:SetSelectedIndex(slot1 == 3 and 1 or 0)
 
-	if arg_10_1 == 1 then
-		arg_10_0:RefreshArtifact()
+	if slot1 == 1 then
+		slot0:RefreshArtifact()
 	end
 end
 
-function var_0_0.InitUI(arg_11_0)
-	arg_11_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_11_0.beaconList = {}
-	arg_11_0.toggleController_3 = ControllerUtil.GetController(arg_11_0.m_beaconTrs, "name")
-	arg_11_0.toggleController_1 = ControllerUtil.GetController(arg_11_0.m_artifaceTrs, "name")
-	arg_11_0.toggleController_2 = ControllerUtil.GetController(arg_11_0.m_talentTrs, "name")
-	arg_11_0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
-	arg_11_0.beacon_id_list = arg_11_0.polyhedronInfo:GetBeaconList()
+	slot0.beaconList = {}
+	slot0.toggleController_3 = ControllerUtil.GetController(slot0.m_beaconTrs, "name")
+	slot0.toggleController_1 = ControllerUtil.GetController(slot0.m_artifaceTrs, "name")
+	slot0.toggleController_2 = ControllerUtil.GetController(slot0.m_talentTrs, "name")
+	slot0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+	slot0.beacon_id_list = slot0.polyhedronInfo:GetBeaconList()
 
-	local var_11_0 = #arg_11_0.beacon_id_list
-
-	for iter_11_0 = 1, var_11_0 do
-		if not arg_11_0.beaconList[iter_11_0] then
-			arg_11_0.beaconList[iter_11_0] = PolyhedronSetBeaconItem.New(arg_11_0.m_beaconTemplate, arg_11_0.m_beaconContentTrs)
+	for slot5 = 1, #slot0.beacon_id_list do
+		if not slot0.beaconList[slot5] then
+			slot0.beaconList[slot5] = PolyhedronSetBeaconItem.New(slot0.m_beaconTemplate, slot0.m_beaconContentTrs)
 		end
 
-		arg_11_0.beaconList[iter_11_0]:SetData(arg_11_0.beacon_id_list[iter_11_0])
+		slot0.beaconList[slot5]:SetData(slot0.beacon_id_list[slot5])
 	end
 
-	for iter_11_1 = var_11_0 + 1, #arg_11_0.beaconList do
-		arg_11_0.beaconList[iter_11_1]:SetActive(false)
+	for slot5 = slot1 + 1, #slot0.beaconList do
+		slot0.beaconList[slot5]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.m_beaconContentTrs)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_beaconContentTrs)
 
-	if var_11_0 > 0 then
-		SetActive(arg_11_0.m_beaconEmpty, false)
+	if slot1 > 0 then
+		SetActive(slot0.m_beaconEmpty, false)
 	else
-		SetActive(arg_11_0.m_beaconEmpty, true)
+		SetActive(slot0.m_beaconEmpty, true)
 	end
 
-	arg_11_0.artifactGroupList = {}
+	slot0.artifactGroupList = {}
 
-	arg_11_0:RefreshArtifact()
+	slot0:RefreshArtifact()
 
-	arg_11_0.terminalGroupList = {}
-	arg_11_0.terminal_id_list = arg_11_0.polyhedronInfo:GetTerminalIdList()
-	arg_11_0.terminal_group_data = {}
+	slot0.terminalGroupList = {}
+	slot0.terminal_id_list = slot0.polyhedronInfo:GetTerminalIdList()
+	slot0.terminal_group_data = {}
 
-	for iter_11_2, iter_11_3 in ipairs(arg_11_0.terminal_id_list) do
-		local var_11_1 = PolyhedronTerminalCfg[iter_11_3]
-
-		if not arg_11_0.terminal_group_data[var_11_1.classify] then
-			arg_11_0.terminal_group_data[var_11_1.classify] = {}
+	for slot5, slot6 in ipairs(slot0.terminal_id_list) do
+		if not slot0.terminal_group_data[PolyhedronTerminalCfg[slot6].classify] then
+			slot0.terminal_group_data[slot7.classify] = {}
 		end
 
-		table.insert(arg_11_0.terminal_group_data[var_11_1.classify], iter_11_3)
+		table.insert(slot0.terminal_group_data[slot7.classify], slot6)
 	end
 
-	local var_11_2 = 1
+	slot2 = 1
 
-	for iter_11_4, iter_11_5 in pairs(arg_11_0.terminal_group_data) do
-		if not arg_11_0.terminalGroupList[var_11_2] then
-			local var_11_3 = Object.Instantiate(arg_11_0.m_termianlGroup, arg_11_0.m_termianlContent)
-
-			arg_11_0.terminalGroupList[var_11_2] = PolyhedronSetTerminalGroup.New(var_11_3)
+	for slot6, slot7 in pairs(slot0.terminal_group_data) do
+		if not slot0.terminalGroupList[slot2] then
+			slot0.terminalGroupList[slot2] = PolyhedronSetTerminalGroup.New(Object.Instantiate(slot0.m_termianlGroup, slot0.m_termianlContent))
 		end
 
-		arg_11_0.terminalGroupList[var_11_2]:SetActive(true)
-		arg_11_0.terminalGroupList[var_11_2]:SetData(iter_11_4, iter_11_5)
-		arg_11_0.terminalGroupList[var_11_2]:RegistCallBack(arg_11_0.clickTerminalHandler_)
+		slot0.terminalGroupList[slot2]:SetActive(true)
+		slot0.terminalGroupList[slot2]:SetData(slot6, slot7)
+		slot0.terminalGroupList[slot2]:RegistCallBack(slot0.clickTerminalHandler_)
 
-		var_11_2 = var_11_2 + 1
+		slot2 = slot2 + 1
 	end
 
-	local var_11_4 = #arg_11_0.terminalGroupList
-
-	for iter_11_6 = var_11_2, var_11_4 do
-		arg_11_0.terminalGroupList[iter_11_6]:SetActive(false)
+	for slot7 = slot2, #slot0.terminalGroupList do
+		slot0.terminalGroupList[slot7]:SetActive(false)
 	end
 
-	if table.length(arg_11_0.terminal_group_data) > 0 then
-		SetActive(arg_11_0.m_terminalEmpty, false)
+	if table.length(slot0.terminal_group_data) > 0 then
+		SetActive(slot0.m_terminalEmpty, false)
 	else
-		SetActive(arg_11_0.m_terminalEmpty, true)
+		SetActive(slot0.m_terminalEmpty, true)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.m_termianlContent)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.m_termianlContent)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.m_termianlContent)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_11_0.transform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_termianlContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_termianlContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_termianlContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 
-	arg_11_0.data = clone(PolyhedronData:GetTerminalGift())
+	slot0.data = clone(PolyhedronData:GetTerminalGift())
+	slot0.allPoint = PolyhedronTerminalLevelCfg[PolyhedronData:GetTerminalLevel()].point
+	slot5 = PolyhedronData:GetTerminalLevel()
+	slot6 = PolyhedronData:GetTerminalExp()
+	slot0.m_levelLab.text = "" .. slot5
 
-	local var_11_5 = PolyhedronData:GetTerminalLevel()
-
-	arg_11_0.allPoint = PolyhedronTerminalLevelCfg[var_11_5].point
-
-	local var_11_6 = PolyhedronData:GetTerminalLevel()
-	local var_11_7 = PolyhedronData:GetTerminalExp()
-
-	arg_11_0.m_levelLab.text = "" .. var_11_6
-
-	if var_11_6 == #PolyhedronTerminalLevelCfg.all then
-		arg_11_0.m_expSlider.fillAmount = 1
-
-		local var_11_8 = PolyhedronTerminalLevelCfg[var_11_6].exp - PolyhedronTerminalLevelCfg[var_11_6 - 1].exp
-
-		arg_11_0.m_expLab.text = var_11_8 .. "/" .. var_11_8
+	if slot5 == #PolyhedronTerminalLevelCfg.all then
+		slot0.m_expSlider.fillAmount = 1
+		slot7 = PolyhedronTerminalLevelCfg[slot5].exp - PolyhedronTerminalLevelCfg[slot5 - 1].exp
+		slot0.m_expLab.text = slot7 .. "/" .. slot7
 	else
-		local var_11_9 = PolyhedronTerminalLevelCfg[var_11_6 + 1].exp - PolyhedronTerminalLevelCfg[var_11_6].exp
-
-		arg_11_0.m_expSlider.fillAmount = var_11_7 / var_11_9
-		arg_11_0.m_expLab.text = var_11_7 .. "/" .. var_11_9
+		slot7 = PolyhedronTerminalLevelCfg[slot5 + 1].exp - PolyhedronTerminalLevelCfg[slot5].exp
+		slot0.m_expSlider.fillAmount = slot6 / slot7
+		slot0.m_expLab.text = slot6 .. "/" .. slot7
 	end
 
-	local var_11_10 = arg_11_0.allPoint - arg_11_0:GetUsePoint()
+	slot0.m_pointLab.text = slot0.allPoint - slot0:GetUsePoint()
+	slot0.clickhandler = handler(slot0, slot0.PopInfo)
 
-	arg_11_0.m_pointLab.text = var_11_10
-	arg_11_0.clickhandler = handler(arg_11_0, arg_11_0.PopInfo)
-
-	arg_11_0:Select(1)
+	slot0:Select(1)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	SetActive(arg_12_0.m_terminalDescGo, false)
+function slot0.OnEnter(slot0)
+	SetActive(slot0.m_terminalDescGo, false)
 
-	arg_12_0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+	slot0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
 
-	arg_12_0:RefreshArtifact()
+	slot0:RefreshArtifact()
 end
 
-function var_0_0.RefreshArtifact(arg_13_0)
-	arg_13_0.artifact_list = arg_13_0.polyhedronInfo:GetArtifactList()
-	arg_13_0.artifact_group_data = {}
+function slot0.RefreshArtifact(slot0)
+	slot0.artifact_list = slot0.polyhedronInfo:GetArtifactList()
+	slot0.artifact_group_data = {}
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.artifact_list) do
-		local var_13_0 = iter_13_1.id
-		local var_13_1 = PolyhedronArtifactCfg[var_13_0]
-
-		if not arg_13_0.artifact_group_data[var_13_1.sub_type] then
-			arg_13_0.artifact_group_data[var_13_1.sub_type] = {}
+	for slot4, slot5 in ipairs(slot0.artifact_list) do
+		if not slot0.artifact_group_data[PolyhedronArtifactCfg[slot5.id].sub_type] then
+			slot0.artifact_group_data[slot7.sub_type] = {}
 		end
 
-		table.insert(arg_13_0.artifact_group_data[var_13_1.sub_type], iter_13_1)
+		table.insert(slot0.artifact_group_data[slot7.sub_type], slot5)
 	end
 
-	local var_13_2 = table.keys(arg_13_0.artifact_group_data)
+	slot1 = table.keys(slot0.artifact_group_data)
 
-	table.sort(var_13_2, PolyhedronTools.ArtifactSubTypeSorter)
+	table.sort(slot1, PolyhedronTools.ArtifactSubTypeSorter)
 
-	local var_13_3 = 1
+	slot2 = 1
 
-	for iter_13_2, iter_13_3 in ipairs(var_13_2) do
-		local var_13_4 = arg_13_0.artifact_group_data[iter_13_3]
+	for slot6, slot7 in ipairs(slot1) do
+		slot8 = slot0.artifact_group_data[slot7]
 
-		if not arg_13_0.artifactGroupList[var_13_3] then
-			local var_13_5 = Object.Instantiate(arg_13_0.m_artifactGroup, arg_13_0.m_artifactContent)
-
-			arg_13_0.artifactGroupList[var_13_3] = PolyhedronSetArtifactGroup.New(var_13_5)
+		if not slot0.artifactGroupList[slot2] then
+			slot0.artifactGroupList[slot2] = PolyhedronSetArtifactGroup.New(Object.Instantiate(slot0.m_artifactGroup, slot0.m_artifactContent))
 		end
 
-		arg_13_0.artifactGroupList[var_13_3]:SetActive(true)
-		arg_13_0.artifactGroupList[var_13_3]:SetData(iter_13_3, var_13_4)
-		arg_13_0.artifactGroupList[var_13_3]:RegistCallBack(arg_13_0.clickhandler)
+		slot0.artifactGroupList[slot2]:SetActive(true)
+		slot0.artifactGroupList[slot2]:SetData(slot7, slot8)
+		slot0.artifactGroupList[slot2]:RegistCallBack(slot0.clickhandler)
 
-		var_13_3 = var_13_3 + 1
+		slot2 = slot2 + 1
 	end
 
-	local var_13_6 = #arg_13_0.artifactGroupList
-
-	for iter_13_4 = var_13_3, var_13_6 do
-		arg_13_0.artifactGroupList[iter_13_4]:SetActive(false)
+	for slot7 = slot2, #slot0.artifactGroupList do
+		slot0.artifactGroupList[slot7]:SetActive(false)
 	end
 
-	if table.length(arg_13_0.artifact_group_data) > 0 then
-		SetActive(arg_13_0.m_artifactEmpty, false)
+	if table.length(slot0.artifact_group_data) > 0 then
+		SetActive(slot0.m_artifactEmpty, false)
 	else
-		SetActive(arg_13_0.m_artifactEmpty, true)
+		SetActive(slot0.m_artifactEmpty, true)
 	end
 
-	arg_13_0:RebuildArtifactLayout()
+	slot0:RebuildArtifactLayout()
 end
 
-function var_0_0.RebuildArtifactLayout(arg_14_0)
-	if arg_14_0.artifactRebuildTimer_ then
-		arg_14_0.artifactRebuildTimer_:Stop()
+function slot0.RebuildArtifactLayout(slot0)
+	if slot0.artifactRebuildTimer_ then
+		slot0.artifactRebuildTimer_:Stop()
 
-		arg_14_0.artifactRebuildTimer_ = nil
+		slot0.artifactRebuildTimer_ = nil
 	end
 
-	arg_14_0.artifactRebuildTimer_ = FrameTimer.New(function()
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_14_0.m_artifactContent)
+	slot0.artifactRebuildTimer_ = FrameTimer.New(function ()
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.m_artifactContent)
 
-		if arg_14_0.artifactRebuildTimer_ then
-			arg_14_0.artifactRebuildTimer_:Stop()
+		if uv0.artifactRebuildTimer_ then
+			uv0.artifactRebuildTimer_:Stop()
 
-			arg_14_0.artifactRebuildTimer_ = nil
+			uv0.artifactRebuildTimer_ = nil
 		end
 	end, 1, 1)
 
-	arg_14_0.artifactRebuildTimer_:Start()
+	slot0.artifactRebuildTimer_:Start()
 end
 
-function var_0_0.GetUsePoint(arg_16_0)
-	local var_16_0 = 0
-
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.data) do
-		var_16_0 = var_16_0 + PolyhedronTerminalCfg[iter_16_1].cost
+function slot0.GetUsePoint(slot0)
+	for slot5, slot6 in pairs(slot0.data) do
+		slot1 = 0 + PolyhedronTerminalCfg[slot6].cost
 	end
 
-	return var_16_0
+	return slot1
 end
 
-function var_0_0.Dispose(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.artifactGroupList) do
-		iter_17_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.artifactGroupList) do
+		slot5:Dispose()
 	end
 
-	arg_17_0.artifactGroupList = nil
+	slot0.artifactGroupList = nil
 
-	for iter_17_2, iter_17_3 in ipairs(arg_17_0.terminalGroupList) do
-		iter_17_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.terminalGroupList) do
+		slot5:Dispose()
 	end
 
-	arg_17_0.terminalGroupList = nil
+	slot0.terminalGroupList = nil
 
-	for iter_17_4, iter_17_5 in ipairs(arg_17_0.beaconList) do
-		iter_17_5:Dispose()
+	for slot4, slot5 in ipairs(slot0.beaconList) do
+		slot5:Dispose()
 	end
 
-	arg_17_0.beaconList = nil
+	slot0.beaconList = nil
 
-	if arg_17_0.artifactRebuildTimer_ then
-		arg_17_0.artifactRebuildTimer_:Stop()
+	if slot0.artifactRebuildTimer_ then
+		slot0.artifactRebuildTimer_:Stop()
 
-		arg_17_0.artifactRebuildTimer_ = nil
+		slot0.artifactRebuildTimer_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 
-	arg_17_0.transform_ = nil
-	arg_17_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

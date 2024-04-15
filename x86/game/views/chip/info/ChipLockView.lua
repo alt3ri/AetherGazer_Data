@@ -1,25 +1,22 @@
-local var_0_0 = class("ChipLockView", ReduxView)
+slot0 = class("ChipLockView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetChipID(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.chipID_ = arg_2_1
-
-	local var_2_0 = ChipCfg[arg_2_1]
-	local var_2_1, var_2_2, var_2_3 = IsConditionAchieved(var_2_0.new_condition)
-
-	arg_2_0.requireText_.text = GetI18NText(ConditionCfg[var_2_0.new_condition].desc)
-	arg_2_0.requireNumText_.text = GetConditionProgressText(var_2_0.new_condition, var_2_2, var_2_3)
-	arg_2_0.isUnlock_ = var_2_1
+function slot0.SetChipID(slot0, slot1, slot2)
+	slot0.chipID_ = slot1
+	slot3 = ChipCfg[slot1]
+	slot0.isUnlock_, slot5, slot6 = IsConditionAchieved(slot3.new_condition)
+	slot0.requireText_.text = GetI18NText(ConditionCfg[slot3.new_condition].desc)
+	slot0.requireNumText_.text = GetConditionProgressText(slot3.new_condition, slot5, slot6)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

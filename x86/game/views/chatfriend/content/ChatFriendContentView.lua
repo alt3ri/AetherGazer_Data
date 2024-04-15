@@ -1,140 +1,135 @@
-local var_0_0 = class("ChatFriendContentView", ReduxView)
+slot0 = class("ChatFriendContentView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:InitItemPool()
+	slot0:BindCfgUI()
+	slot0:InitItemPool()
 
-	local var_1_0 = arg_1_0.viewPort_.rect.height
-	local var_1_1 = arg_1_0.goItemParent_:GetComponent("VerticalLayoutGroup").spacing
+	slot0.loopScrollView_ = LoopScrollView.New(slot0, slot0.scrollView_, slot0.rectGrid_, slot0.viewPort_, slot0.viewPort_.rect.height, slot0.goItemParent_:GetComponent("VerticalLayoutGroup").spacing, true)
 
-	arg_1_0.loopScrollView_ = LoopScrollView.New(arg_1_0, arg_1_0.scrollView_, arg_1_0.rectGrid_, arg_1_0.viewPort_, var_1_0, var_1_1, true)
+	slot0:AddListeners()
 
-	arg_1_0:AddListeners()
-
-	arg_1_0.onlineController_ = ControllerUtil.GetController(arg_1_0.rectOnlineState_, "online")
-	arg_1_0.chatStickerView_ = ChatStickerView.New(arg_1_0.goSticker_)
+	slot0.onlineController_ = ControllerUtil.GetController(slot0.rectOnlineState_, "online")
+	slot0.chatStickerView_ = ChatStickerView.New(slot0.goSticker_)
 end
 
-function var_0_0.OnEnter(arg_2_0, arg_2_1)
-	arg_2_0.friendID_ = arg_2_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.friendID_ = slot1
 
-	arg_2_0.chatStickerView_:OnEnter()
-	arg_2_0:RefreshContent()
+	slot0.chatStickerView_:OnEnter()
+	slot0:RefreshContent()
 
-	arg_2_0.sendStickerHandler_ = handler(arg_2_0, arg_2_0.OnSendSticker)
+	slot0.sendStickerHandler_ = handler(slot0, slot0.OnSendSticker)
 
-	manager.notify:RegistListener(CHAT_SEND_STICKER, arg_2_0.sendStickerHandler_)
+	manager.notify:RegistListener(CHAT_SEND_STICKER, slot0.sendStickerHandler_)
 
-	arg_2_0.newMsgHandler_ = handler(arg_2_0, arg_2_0.OnReceiveMsg)
+	slot0.newMsgHandler_ = handler(slot0, slot0.OnReceiveMsg)
 
-	manager.notify:RegistListener(CHAT_FRIEND_NEW_MESSAGE, arg_2_0.newMsgHandler_)
+	manager.notify:RegistListener(CHAT_FRIEND_NEW_MESSAGE, slot0.newMsgHandler_)
 
-	arg_2_0.chatReportHandler_ = handler(arg_2_0, arg_2_0.OnChatReport)
+	slot0.chatReportHandler_ = handler(slot0, slot0.OnChatReport)
 
-	manager.notify:RegistListener(CHAT_REPORT, arg_2_0.chatReportHandler_)
+	manager.notify:RegistListener(CHAT_REPORT, slot0.chatReportHandler_)
 
-	arg_2_0.chatReportHideHandler_ = handler(arg_2_0, arg_2_0.OnHideChatReport)
+	slot0.chatReportHideHandler_ = handler(slot0, slot0.OnHideChatReport)
 
-	manager.notify:RegistListener(CHAT_REPORT_HIDE, arg_2_0.chatReportHideHandler_)
+	manager.notify:RegistListener(CHAT_REPORT_HIDE, slot0.chatReportHideHandler_)
 
-	arg_2_0.recallMsgHandler_ = handler(arg_2_0, arg_2_0.OnRecallMsg)
+	slot0.recallMsgHandler_ = handler(slot0, slot0.OnRecallMsg)
 
-	manager.notify:RegistListener(CHAT_FRIEND_CHAT_RESET, arg_2_0.recallMsgHandler_)
+	manager.notify:RegistListener(CHAT_FRIEND_CHAT_RESET, slot0.recallMsgHandler_)
 end
 
-function var_0_0.OnUpdate(arg_3_0, arg_3_1)
-	if arg_3_0.friendID_ == arg_3_1 then
+function slot0.OnUpdate(slot0, slot1)
+	if slot0.friendID_ == slot1 then
 		return
 	end
 
-	arg_3_0.friendID_ = arg_3_1
+	slot0.friendID_ = slot1
 
-	arg_3_0:RefreshContent()
+	slot0:RefreshContent()
 end
 
-function var_0_0.OnExit(arg_4_0)
-	manager.notify:RemoveListener(CHAT_SEND_STICKER, arg_4_0.sendStickerHandler_)
-	manager.notify:RemoveListener(CHAT_FRIEND_NEW_MESSAGE, arg_4_0.newMsgHandler_)
-	manager.notify:RemoveListener(CHAT_REPORT, arg_4_0.chatReportHandler_)
-	manager.notify:RemoveListener(CHAT_REPORT_HIDE, arg_4_0.chatReportHideHandler_)
-	manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, arg_4_0.recallMsgHandler_)
-	arg_4_0.chatStickerView_:OnExit()
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(CHAT_SEND_STICKER, slot0.sendStickerHandler_)
+	manager.notify:RemoveListener(CHAT_FRIEND_NEW_MESSAGE, slot0.newMsgHandler_)
+	manager.notify:RemoveListener(CHAT_REPORT, slot0.chatReportHandler_)
+	manager.notify:RemoveListener(CHAT_REPORT_HIDE, slot0.chatReportHideHandler_)
+	manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, slot0.recallMsgHandler_)
+	slot0.chatStickerView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_5_0)
-	arg_5_0:DisposeItemPool()
+function slot0.Dispose(slot0)
+	slot0:DisposeItemPool()
 
-	arg_5_0.sendStickerHandler_ = nil
-	arg_5_0.newMsgHandler_ = nil
-	arg_5_0.chatReportHandler_ = nil
-	arg_5_0.chatReportHideHandler_ = nil
-	arg_5_0.recallMsgHandler_ = nil
+	slot0.sendStickerHandler_ = nil
+	slot0.newMsgHandler_ = nil
+	slot0.chatReportHandler_ = nil
+	slot0.chatReportHideHandler_ = nil
+	slot0.recallMsgHandler_ = nil
 
-	if arg_5_0.chatStickerView_ then
-		arg_5_0.chatStickerView_:Dispose()
+	if slot0.chatStickerView_ then
+		slot0.chatStickerView_:Dispose()
 
-		arg_5_0.chatStickerView_ = nil
+		slot0.chatStickerView_ = nil
 	end
 
-	arg_5_0.loopScrollView_:Dispose()
+	slot0.loopScrollView_:Dispose()
 
-	arg_5_0.loopScrollView_ = nil
+	slot0.loopScrollView_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 
-	arg_5_0.transform_ = nil
-	arg_5_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.buttonSend_, nil, function()
-		if arg_6_0.inputField_.text == "" then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonSend_, nil, function ()
+		if uv0.inputField_.text == "" then
 			ShowTips("INPUT_CHAT_CONTENT")
 
 			return
 		end
 
 		if ChatData:IsMuted() then
-			arg_6_0.inputField_.text = ""
+			uv0.inputField_.text = ""
 
 			JumpTools.OpenPageByJump("chatMuted")
 
 			return
 		end
 
-		if IsAllSpace(arg_6_0.inputField_.text) then
+		if IsAllSpace(uv0.inputField_.text) then
 			ShowTips("INPUT_CHAT_CONTENT")
 
-			arg_6_0.inputField_.text = ""
+			uv0.inputField_.text = ""
 
 			return
 		end
 
-		local var_7_0 = GameSetting.chat_length_max.value[1]
-		local var_7_1, var_7_2 = textLimit(arg_6_0.inputField_.text, var_7_0)
+		slot1, slot2 = textLimit(uv0.inputField_.text, GameSetting.chat_length_max.value[1])
+		uv0.inputField_.text = GetI18NText(slot1)
 
-		arg_6_0.inputField_.text = GetI18NText(var_7_1)
-
-		if not var_7_2 then
-			ShowTips(string.format(GetTips("ERROR_CHAT_MESSAGE_CONTENT_OVER_SIZE"), var_7_0))
+		if not slot2 then
+			ShowTips(string.format(GetTips("ERROR_CHAT_MESSAGE_CONTENT_OVER_SIZE"), slot0))
 
 			return
 		end
 
-		if not nameRule(var_7_1, true) then
+		if not nameRule(slot1, true) then
 			ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
 			return
 		end
 
-		WordVerifyBySDK(arg_6_0.inputField_.text, function(arg_8_0, arg_8_1)
-			if not arg_8_0 then
+		WordVerifyBySDK(uv0.inputField_.text, function (slot0, slot1)
+			if not slot0 then
 				ShowTips("SENSITIVE_WORD")
 			else
-				if arg_6_0.inputField_.text == "" then
+				if uv0.inputField_.text == "" then
 					return
 				end
 
@@ -144,67 +139,67 @@ function var_0_0.AddListeners(arg_6_0)
 					return
 				end
 
-				ChatAction.SendFriendMsg(arg_6_0.friendID_, arg_6_0.inputField_.text, arg_8_1, function(arg_9_0)
-					if isSuccess(arg_9_0.result) then
+				ChatAction.SendFriendMsg(uv0.friendID_, uv0.inputField_.text, slot1, function (slot0)
+					if isSuccess(slot0.result) then
 						ChatData:SetSendTextTimestamp()
 
-						arg_6_0.inputField_.text = ""
-					elseif arg_9_0.result == TipsCfg.get_id_list_by_define.ERROR_CHAT_BAN then
-						arg_6_0.inputField_.text = ""
+						uv0.inputField_.text = ""
+					elseif slot0.result == TipsCfg.get_id_list_by_define.ERROR_CHAT_BAN then
+						uv0.inputField_.text = ""
 
 						JumpTools.OpenPageByJump("chatMuted")
 
 						return
 					else
-						ShowTips(arg_9_0.result)
+						ShowTips(slot0.result)
 					end
 				end)
 			end
 		end, JUDGE_MESSAGE_TYPE.CHAT_FRIEND)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonSticker_, nil, function()
-		SetActive(arg_6_0.goStickerHide_, true)
-		arg_6_0.chatStickerView_:Show(true)
-		SetActive(arg_6_0.bgGo_, true)
+	slot0:AddBtnListener(slot0.buttonSticker_, nil, function ()
+		SetActive(uv0.goStickerHide_, true)
+		uv0.chatStickerView_:Show(true)
+		SetActive(uv0.bgGo_, true)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonStickerHide_, nil, function()
-		arg_6_0:HideStickerPanel()
-		SetActive(arg_6_0.goReportTips_, false)
+	slot0:AddBtnListener(slot0.buttonStickerHide_, nil, function ()
+		uv0:HideStickerPanel()
+		SetActive(uv0.goReportTips_, false)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonNewMsg_, nil, function()
-		arg_6_0.loopScrollView_:Scroll2End()
-		ChatFriendData:UpdateSeek(arg_6_0.friendID_)
-		SetActive(arg_6_0.goNewMsg_, false)
-		ChatFriendData:SaveRecordCnt(arg_6_0.friendID_)
-		manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, arg_6_0.friendID_)
-		FriendsAction:RefreshUnread(arg_6_0.friendID_, 0)
+	slot0:AddBtnListener(slot0.buttonNewMsg_, nil, function ()
+		uv0.loopScrollView_:Scroll2End()
+		ChatFriendData:UpdateSeek(uv0.friendID_)
+		SetActive(uv0.goNewMsg_, false)
+		ChatFriendData:SaveRecordCnt(uv0.friendID_)
+		manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, uv0.friendID_)
+		FriendsAction:RefreshUnread(uv0.friendID_, 0)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonReport_, nil, function()
-		SetActive(arg_6_0.goReportTips_, false)
-		SetActive(arg_6_0.goStickerHide_, false)
+	slot0:AddBtnListener(slot0.buttonReport_, nil, function ()
+		SetActive(uv0.goReportTips_, false)
+		SetActive(uv0.goStickerHide_, false)
 		JumpTools.OpenPageByJump("chatReport", {
 			reportType = ChatConst.CHAT_REPORT_TYPE.CONTENT,
-			reportData = arg_6_0.reportData_
+			reportData = uv0.reportData_
 		}, ViewConst.SYSTEM_ID.CHAT_REPORT)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonHead_, nil, function()
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_6_0.friendID_)
+	slot0:AddBtnListener(slot0.buttonHead_, nil, function ()
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.friendID_)
 	end)
 end
 
-function var_0_0.HideStickerPanel(arg_15_0)
-	SetActive(arg_15_0.goStickerHide_, false)
-	arg_15_0.chatStickerView_:Show(false)
-	SetActive(arg_15_0.bgGo_, false)
+function slot0.HideStickerPanel(slot0)
+	SetActive(slot0.goStickerHide_, false)
+	slot0.chatStickerView_:Show(false)
+	SetActive(slot0.bgGo_, false)
 end
 
-function var_0_0.RefreshContent(arg_16_0)
-	arg_16_0:RefreshTitle()
-	arg_16_0.loopScrollView_:Scroll2End()
+function slot0.RefreshContent(slot0)
+	slot0:RefreshTitle()
+	slot0.loopScrollView_:Scroll2End()
 end
 
-function var_0_0.OnSendSticker(arg_17_0, arg_17_1)
-	arg_17_0:HideStickerPanel()
+function slot0.OnSendSticker(slot0, slot1)
+	slot0:HideStickerPanel()
 
 	if ChatData:IsMuted() then
 		JumpTools.OpenPageByJump("chatMuted")
@@ -218,224 +213,211 @@ function var_0_0.OnSendSticker(arg_17_0, arg_17_1)
 		return
 	end
 
-	ChatAction.SendFriendSticker(arg_17_0.friendID_, arg_17_1, function(arg_18_0)
-		if isSuccess(arg_18_0.result) then
+	ChatAction.SendFriendSticker(slot0.friendID_, slot1, function (slot0)
+		if isSuccess(slot0.result) then
 			ChatData:SetSendStickerTimestamp()
 
-			arg_17_0.inputField_.text = ""
-		elseif arg_18_0.result == TipsCfg.get_id_list_by_define.ERROR_CHAT_BAN then
-			arg_17_0.inputField_.text = ""
+			uv0.inputField_.text = ""
+		elseif slot0.result == TipsCfg.get_id_list_by_define.ERROR_CHAT_BAN then
+			uv0.inputField_.text = ""
 
 			JumpTools.OpenPageByJump("chatMuted")
 
 			return
 		else
-			ShowTips(arg_18_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.OnReceiveMsg(arg_19_0, arg_19_1)
-	if arg_19_0.friendID_ ~= arg_19_1 then
+function slot0.OnReceiveMsg(slot0, slot1)
+	if slot0.friendID_ ~= slot1 then
 		return
 	end
 
-	for iter_19_0 = 0, ChatFriendData:GetUnreadMsgCnt(arg_19_1) - 1 do
-		if arg_19_0:LsGetItemData()[#arg_19_0:LsGetItemData() - iter_19_0].senderID == USER_ID then
-			arg_19_0.loopScrollView_:Scroll2End()
-			ChatFriendData:UpdateSeek(arg_19_0.friendID_)
+	slot5 = slot1
+
+	for slot5 = 0, ChatFriendData:GetUnreadMsgCnt(slot5) - 1 do
+		if slot0:LsGetItemData()[#slot0:LsGetItemData() - slot5].senderID == USER_ID then
+			slot0.loopScrollView_:Scroll2End()
+			ChatFriendData:UpdateSeek(slot0.friendID_)
 
 			return
 		end
 	end
 
-	if not arg_19_0.loopScrollView_:IsFillContent() or arg_19_0.scrollView_.verticalNormalizedPosition <= 0.0001 then
-		arg_19_0.loopScrollView_:Scroll2End()
-		ChatFriendData:UpdateSeek(arg_19_0.friendID_)
+	if not slot0.loopScrollView_:IsFillContent() or slot0.scrollView_.verticalNormalizedPosition <= 0.0001 then
+		slot0.loopScrollView_:Scroll2End()
+		ChatFriendData:UpdateSeek(slot0.friendID_)
 
 		return
 	end
 
-	SetActive(arg_19_0.goNewMsg_, true)
-	arg_19_0.loopScrollView_:RefreshScrollView()
+	SetActive(slot0.goNewMsg_, true)
+	slot0.loopScrollView_:RefreshScrollView()
 end
 
-function var_0_0.OnRecallMsg(arg_20_0, arg_20_1)
-	if arg_20_0.friendID_ ~= arg_20_1 then
+function slot0.OnRecallMsg(slot0, slot1)
+	if slot0.friendID_ ~= slot1 then
 		return
 	end
 
-	arg_20_0.loopScrollView_:RefreshScrollView(true)
-	SetActive(arg_20_0.goNewMsg_, ChatFriendData:GetUnreadMsgCnt(arg_20_1) > 0)
+	slot0.loopScrollView_:RefreshScrollView(true)
+	SetActive(slot0.goNewMsg_, ChatFriendData:GetUnreadMsgCnt(slot1) > 0)
 end
 
-function var_0_0.OnChatReport(arg_21_0, arg_21_1)
-	arg_21_0.transformReport_:SetParent(arg_21_1.parentRect.transform, false)
+function slot0.OnChatReport(slot0, slot1)
+	slot0.transformReport_:SetParent(slot1.parentRect.transform, false)
 
-	arg_21_0.transformReport_.localPosition = Vector2(arg_21_1.x, arg_21_1.y)
-	arg_21_0.reportData_ = arg_21_1.reportData
+	slot0.transformReport_.localPosition = Vector2(slot1.x, slot1.y)
+	slot0.reportData_ = slot1.reportData
 
-	SetActive(arg_21_0.goReportTips_, true)
-	SetActive(arg_21_0.goStickerHide_, true)
+	SetActive(slot0.goReportTips_, true)
+	SetActive(slot0.goStickerHide_, true)
 end
 
-function var_0_0.OnHideChatReport(arg_22_0)
-	SetActive(arg_22_0.goReportTips_, false)
+function slot0.OnHideChatReport(slot0)
+	SetActive(slot0.goReportTips_, false)
 end
 
-function var_0_0.RefreshTitle(arg_23_0)
-	local var_23_0 = FriendsData:GetInfoByID(arg_23_0.friendID_)
+function slot0.RefreshTitle(slot0)
+	slot1 = FriendsData:GetInfoByID(slot0.friendID_)
 
-	SetActive(arg_23_0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
+	SetActive(slot0.ipGo_, GameToSDK.CURRENT_SERVER == AreaConst.CHINA)
 
-	if arg_23_0.gameObject_.activeSelf then
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_23_0.ipGo_.transform)
+	if slot0.gameObject_.activeSelf then
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.ipGo_.transform)
 	end
 
-	arg_23_0.textIp_.text = var_23_0.ip
-	arg_23_0.textNick_.text = GetI18NText(var_23_0.nick)
-	arg_23_0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[var_23_0.icon].icon)
-	arg_23_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_23_0.icon_frame)
-	arg_23_0.textSign_.text = GetI18NText(var_23_0.sign)
+	slot0.textIp_.text = slot1.ip
+	slot0.textNick_.text = GetI18NText(slot1.nick)
+	slot0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[slot1.icon].icon)
+	slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.icon_frame)
+	slot0.textSign_.text = GetI18NText(slot1.sign)
 
-	if var_23_0.online_state == 0 then
-		arg_23_0.onlineController_:SetSelectedState("on")
+	if slot1.online_state == 0 then
+		slot0.onlineController_:SetSelectedState("on")
 	else
-		arg_23_0.onlineController_:SetSelectedState("off")
+		slot0.onlineController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.InitItemPool(arg_24_0)
-	arg_24_0.itemSelfPool_ = {}
-	arg_24_0.itemFriendPool_ = {}
-	arg_24_0.historyTipsPool_ = {}
+function slot0.InitItemPool(slot0)
+	slot0.itemSelfPool_ = {}
+	slot0.itemFriendPool_ = {}
+	slot0.historyTipsPool_ = {}
 end
 
-function var_0_0.GetSelfFreeItem(arg_25_0)
-	for iter_25_0, iter_25_1 in pairs(arg_25_0.itemSelfPool_) do
-		if iter_25_1.isFree == true then
-			iter_25_1.isFree = false
+function slot0.GetSelfFreeItem(slot0)
+	for slot4, slot5 in pairs(slot0.itemSelfPool_) do
+		if slot5.isFree == true then
+			slot5.isFree = false
 
-			return iter_25_1
+			return slot5
 		end
 	end
 
-	local var_25_0 = ChatFriendContentItem.New(arg_25_0.goSelfItem_, arg_25_0.goItemParent_)
-	local var_25_1 = {
+	slot2 = {
 		isFree = false,
-		itemView = var_25_0
+		itemView = ChatFriendContentItem.New(slot0.goSelfItem_, slot0.goItemParent_)
 	}
 
-	table.insert(arg_25_0.itemSelfPool_, var_25_1)
+	table.insert(slot0.itemSelfPool_, slot2)
 
-	return var_25_1
+	return slot2
 end
 
-function var_0_0.GetFriendFreeItem(arg_26_0)
-	for iter_26_0, iter_26_1 in pairs(arg_26_0.itemFriendPool_) do
-		if iter_26_1.isFree == true then
-			iter_26_1.isFree = false
+function slot0.GetFriendFreeItem(slot0)
+	for slot4, slot5 in pairs(slot0.itemFriendPool_) do
+		if slot5.isFree == true then
+			slot5.isFree = false
 
-			return iter_26_1
+			return slot5
 		end
 	end
 
-	local var_26_0 = ChatFriendContentItem.New(arg_26_0.goFriendItem_, arg_26_0.goItemParent_)
-	local var_26_1 = {
+	slot2 = {
 		isFree = false,
-		itemView = var_26_0
+		itemView = ChatFriendContentItem.New(slot0.goFriendItem_, slot0.goItemParent_)
 	}
 
-	table.insert(arg_26_0.itemFriendPool_, var_26_1)
+	table.insert(slot0.itemFriendPool_, slot2)
 
-	return var_26_1
+	return slot2
 end
 
-function var_0_0.GetHistoryTipsFreeItem(arg_27_0)
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.historyTipsPool_) do
-		if iter_27_1.isFree == true then
-			iter_27_1.isFree = false
+function slot0.GetHistoryTipsFreeItem(slot0)
+	for slot4, slot5 in pairs(slot0.historyTipsPool_) do
+		if slot5.isFree == true then
+			slot5.isFree = false
 
-			return iter_27_1
+			return slot5
 		end
 	end
 
-	local var_27_0 = ChatFriendHistoryTipsItem.New(arg_27_0.goHistoryTips_, arg_27_0.goItemParent_)
-	local var_27_1 = {
+	slot2 = {
 		isFree = false,
-		itemView = var_27_0
+		itemView = ChatFriendHistoryTipsItem.New(slot0.goHistoryTips_, slot0.goItemParent_)
 	}
 
-	table.insert(arg_27_0.historyTipsPool_, var_27_1)
+	table.insert(slot0.historyTipsPool_, slot2)
 
-	return var_27_1
+	return slot2
 end
 
-function var_0_0.DisposeItemPool(arg_28_0)
-	for iter_28_0, iter_28_1 in ipairs(arg_28_0.itemSelfPool_) do
-		iter_28_1.itemView:Dispose()
+function slot0.DisposeItemPool(slot0)
+	for slot4, slot5 in ipairs(slot0.itemSelfPool_) do
+		slot5.itemView:Dispose()
 	end
 
-	arg_28_0.itemSelfPool_ = nil
+	slot0.itemSelfPool_ = nil
 
-	for iter_28_2, iter_28_3 in ipairs(arg_28_0.itemFriendPool_) do
-		iter_28_3.itemView:Dispose()
+	for slot4, slot5 in ipairs(slot0.itemFriendPool_) do
+		slot5.itemView:Dispose()
 	end
 
-	arg_28_0.itemFriendPool_ = nil
+	slot0.itemFriendPool_ = nil
 
-	for iter_28_4, iter_28_5 in ipairs(arg_28_0.historyTipsPool_) do
-		iter_28_5.itemView:Dispose()
+	for slot4, slot5 in ipairs(slot0.historyTipsPool_) do
+		slot5.itemView:Dispose()
 	end
 
-	arg_28_0.historyTipsPool_ = nil
+	slot0.historyTipsPool_ = nil
 end
 
-function var_0_0.LsAddItem(arg_29_0, arg_29_1, arg_29_2)
-	local var_29_0
+function slot0.LsAddItem(slot0, slot1, slot2)
+	slot3 = nil
 
-	if arg_29_1.contentType == ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS then
-		var_29_0 = arg_29_0:GetHistoryTipsFreeItem()
-	elseif arg_29_1.senderID == tostring(PlayerData:GetPlayerInfo().userID) then
-		var_29_0 = arg_29_0:GetSelfFreeItem()
-	else
-		var_29_0 = arg_29_0:GetFriendFreeItem()
+	((slot1.contentType ~= ChatConst.CHAT_CONTENT_TYPE.HISTORY_TIPS or slot0:GetHistoryTipsFreeItem()) and (slot1.senderID ~= tostring(PlayerData:GetPlayerInfo().userID) or slot0:GetSelfFreeItem()) and slot0:GetFriendFreeItem()).itemView:SetData(slot1, slot2)
+
+	slot4 = ChatFriendData:GetUnreadMsgCnt(slot0.friendID_)
+
+	if slot2 >= #slot0:LsGetItemData() then
+		SetActive(slot0.goNewMsg_, false)
+		ChatFriendData:SaveRecordCnt(slot0.friendID_)
+		FriendsAction:RefreshUnread(slot0.friendID_, 0)
+		manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, slot0.friendID_)
+	elseif slot4 > #slot0:LsGetItemData() - slot2 then
+		ChatFriendData:SaveRecordCnt(slot0.friendID_, slot5)
+		FriendsAction:RefreshUnread(slot0.friendID_, slot5)
+		manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, slot0.friendID_)
 	end
 
-	var_29_0.itemView:SetData(arg_29_1, arg_29_2)
-
-	local var_29_1 = ChatFriendData:GetUnreadMsgCnt(arg_29_0.friendID_)
-
-	if arg_29_2 >= #arg_29_0:LsGetItemData() then
-		SetActive(arg_29_0.goNewMsg_, false)
-		ChatFriendData:SaveRecordCnt(arg_29_0.friendID_)
-		FriendsAction:RefreshUnread(arg_29_0.friendID_, 0)
-		manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, arg_29_0.friendID_)
-	else
-		local var_29_2 = #arg_29_0:LsGetItemData() - arg_29_2
-
-		if var_29_2 < var_29_1 then
-			ChatFriendData:SaveRecordCnt(arg_29_0.friendID_, var_29_2)
-			FriendsAction:RefreshUnread(arg_29_0.friendID_, var_29_2)
-			manager.notify:Invoke(CHAT_FRIEND_READ_MESSAGE, arg_29_0.friendID_)
-		end
-	end
-
-	return var_29_0
+	return slot3
 end
 
-function var_0_0.LsUpdateItem(arg_30_0, arg_30_1, arg_30_2, arg_30_3)
-	arg_30_1.itemView:SetData(arg_30_2, arg_30_3)
+function slot0.LsUpdateItem(slot0, slot1, slot2, slot3)
+	slot1.itemView:SetData(slot2, slot3)
 end
 
-function var_0_0.LsRemoveItem(arg_31_0, arg_31_1)
-	arg_31_1.itemView:Show(false)
+function slot0.LsRemoveItem(slot0, slot1)
+	slot1.itemView:Show(false)
 
-	arg_31_1.isFree = true
+	slot1.isFree = true
 end
 
-function var_0_0.LsGetItemData(arg_32_0)
-	return ChatFriendData:GetCacheContent(arg_32_0.friendID_)
+function slot0.LsGetItemData(slot0)
+	return ChatFriendData:GetCacheContent(slot0.friendID_)
 end
 
-return var_0_0
+return slot0

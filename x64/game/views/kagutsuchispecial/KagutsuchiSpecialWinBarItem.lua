@@ -1,40 +1,38 @@
-local var_0_0 = class("KagutsuchiSpecialWinBarItem")
-local var_0_1 = import("manager.windowBar.WindowCurrencyItem")
-local var_0_2 = import("manager.windowBar.WindowMaterialItem")
-local var_0_3 = import("manager.windowBar.WindowActivityMatrixCoinItem")
+slot0 = class("KagutsuchiSpecialWinBarItem")
+slot1 = import("manager.windowBar.WindowCurrencyItem")
+slot2 = import("manager.windowBar.WindowMaterialItem")
+slot3 = import("manager.windowBar.WindowActivityMatrixCoinItem")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	var_0_0.gameObject_ = arg_1_2
-	var_0_0.transform_ = arg_1_2.transform
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	uv0.gameObject_ = slot2
+	uv0.transform_ = slot2.transform
 
-	arg_1_0:Init(arg_1_3)
-	arg_1_0:AddListeners(arg_1_1)
+	slot0:Init(slot3)
+	slot0:AddListeners(slot1)
 end
 
-var_0_0.RegistEventListener = BaseView.RegistEventListener
-var_0_0.RemoveAllEventListener = BaseView.RemoveAllEventListener
+slot0.RegistEventListener = BaseView.RegistEventListener
+slot0.RemoveAllEventListener = BaseView.RemoveAllEventListener
 
-function var_0_0.TryInitDisplayTokenItem(arg_2_0)
-	arg_2_0.materialItemCount = 0
+function slot0.TryInitDisplayTokenItem(slot0)
+	slot0.materialItemCount = 0
 
-	for iter_2_0 = 1, 4 do
-		local var_2_0 = nullable(arg_2_0, "token" .. iter_2_0 .. "_")
-
-		if isNil(var_2_0) then
+	for slot4 = 1, 4 do
+		if isNil(nullable(slot0, "token" .. slot4 .. "_")) then
 			break
 		else
-			arg_2_0.materialItemCount = iter_2_0
+			slot0.materialItemCount = slot4
 		end
 	end
 end
 
-function var_0_0.AddListeners(arg_3_0, arg_3_1)
-	if arg_3_0.homeBtn_ then
-		arg_3_1:AddBtnListener(arg_3_0.homeBtn_, nil, function()
+function slot0.AddListeners(slot0, slot1)
+	if slot0.homeBtn_ then
+		slot1:AddBtnListener(slot0.homeBtn_, nil, function ()
 			OperationRecorder.Record(gameContext:GetLastOpenPage(), "homeBtn")
 
-			if arg_3_0.homeFunc_ then
-				arg_3_0.homeFunc_()
+			if uv0.homeFunc_ then
+				uv0.homeFunc_()
 			else
 				DestroyLua()
 				LuaExchangeHelper.GoToMain()
@@ -43,106 +41,100 @@ function var_0_0.AddListeners(arg_3_0, arg_3_1)
 		end)
 	end
 
-	if arg_3_0.backBtn_ then
-		arg_3_1:AddBtnListener(arg_3_0.backBtn_, nil, function()
+	if slot0.backBtn_ then
+		slot1:AddBtnListener(slot0.backBtn_, nil, function ()
 			OperationRecorder.Record(gameContext:GetLastOpenPage(), "backBtn")
 
-			if arg_3_0.backFunc_ then
-				arg_3_0.backFunc_()
+			if uv0.backFunc_ then
+				uv0.backFunc_()
 			else
 				JumpTools.Back()
 			end
 		end)
 	end
 
-	if arg_3_0.infoBtn_ then
-		arg_3_1:AddBtnListener(arg_3_0.infoBtn_, nil, function()
+	if slot0.infoBtn_ then
+		slot1:AddBtnListener(slot0.infoBtn_, nil, function ()
 			OperationRecorder.Record(gameContext:GetLastOpenPage(), "infoBtn")
 
-			if arg_3_0.infoFunc_ then
-				arg_3_0.infoFunc_()
-			elseif type(arg_3_0.gameHelpKey) == "table" then
-				if arg_3_0.gameHelpKey.type == "jump" then
-					local var_6_0 = arg_3_0.gameHelpKey.view
-					local var_6_1 = arg_3_0.gameHelpKey.params
-
-					JumpTools.OpenPageByJump(var_6_0, var_6_1)
+			if uv0.infoFunc_ then
+				uv0.infoFunc_()
+			elseif type(uv0.gameHelpKey) == "table" then
+				if uv0.gameHelpKey.type == "jump" then
+					JumpTools.OpenPageByJump(uv0.gameHelpKey.view, uv0.gameHelpKey.params)
 				end
 			else
-				local var_6_2 = GetTips(arg_3_0.gameHelpKey)
-
 				JumpTools.OpenPageByJump("gameHelp", {
 					icon = "icon_i",
 					iconColor = Color(1, 1, 1),
 					title = GetTips("STAGE_DESCRIPE"),
-					content = var_6_2,
-					key = arg_3_0.gameHelpKey
+					content = GetTips(uv0.gameHelpKey),
+					key = uv0.gameHelpKey
 				})
 			end
 		end)
 	end
 end
 
-function var_0_0.RegistHomeCallBack(arg_7_0, arg_7_1)
-	arg_7_0.homeFunc_ = arg_7_1
+function slot0.RegistHomeCallBack(slot0, slot1)
+	slot0.homeFunc_ = slot1
 end
 
-function var_0_0.RegistBackCallBack(arg_8_0, arg_8_1)
-	arg_8_0.backFunc_ = arg_8_1
+function slot0.RegistBackCallBack(slot0, slot1)
+	slot0.backFunc_ = slot1
 end
 
-function var_0_0.RegistInfoCallBack(arg_9_0, arg_9_1)
-	arg_9_0.infoFunc_ = arg_9_1
+function slot0.RegistInfoCallBack(slot0, slot1)
+	slot0.infoFunc_ = slot1
 end
 
-function var_0_0.SetGameHelpKey(arg_10_0, arg_10_1)
-	arg_10_0.gameHelpKey = arg_10_1
+function slot0.SetGameHelpKey(slot0, slot1)
+	slot0.gameHelpKey = slot1
 end
 
-local function var_0_4(arg_11_0, arg_11_1)
-	local var_11_0 = 0
+function slot4(slot0, slot1)
+	slot2 = 0
 
-	if arg_11_1 == nil then
+	if slot1 == nil then
 		return
 	end
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-		if bar == BACK_BAR or bar == HOME_BAR or bar == INFO_BAR then
-			-- block empty
-		elseif nullable(ItemCfg, iter_11_1, "type") == ItemConst.ITEM_TYPE.CURRENCY and var_11_0 < arg_11_0.materialItemCount then
-			var_11_0 = var_11_0 + 1
+	for slot6, slot7 in ipairs(slot1) do
+		if bar ~= BACK_BAR and bar ~= HOME_BAR then
+			if bar == INFO_BAR then
+				-- Nothing
+			elseif nullable(ItemCfg, slot7, "type") == ItemConst.ITEM_TYPE.CURRENCY and slot2 < slot0.materialItemCount then
+				slot8 = "token" .. slot2 + 1 .. "_"
+				slot9 = slot0.barGo[slot8]
+				slot9 = uv0.New(nullable(slot0, slot8), slot7)
 
-			local var_11_1 = "token" .. var_11_0 .. "_"
-			local var_11_2 = arg_11_0.barGo[var_11_1]
-			local var_11_3 = nullable(arg_11_0, var_11_1)
-			local var_11_4 = var_0_1.New(var_11_3, iter_11_1)
+				slot9:SetActive(true)
+				slot9:SetCanAdd(false)
+				slot9:SetCanClick(true)
 
-			var_11_4:SetActive(true)
-			var_11_4:SetCanAdd(false)
-			var_11_4:SetCanClick(true)
-
-			arg_11_0.barGo[var_11_1] = var_11_4
+				slot0.barGo[slot8] = slot9
+			end
 		end
 	end
 
-	for iter_11_2 = var_11_0 + 1, arg_11_0.materialItemCount do
-		SetActive(arg_11_0["token" .. iter_11_2 .. "_"], false)
+	for slot6 = slot2 + 1, slot0.materialItemCount do
+		SetActive(slot0["token" .. slot6 .. "_"], false)
 	end
 end
 
-function var_0_0.Init(arg_12_0, arg_12_1)
-	BaseView.BindCfgUI(arg_12_0)
-	arg_12_0:TryInitDisplayTokenItem()
+function slot0.Init(slot0, slot1)
+	BaseView.BindCfgUI(slot0)
+	slot0:TryInitDisplayTokenItem()
 
-	arg_12_0.barGo = {}
+	slot0.barGo = {}
 
-	var_0_4(arg_12_0, arg_12_1)
+	uv0(slot0, slot1)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.barGo) do
-		iter_13_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.barGo) do
+		slot5:Dispose()
 	end
 end
 
-return var_0_0
+return slot0

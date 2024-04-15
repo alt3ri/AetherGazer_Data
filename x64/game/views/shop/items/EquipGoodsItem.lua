@@ -1,81 +1,79 @@
-local var_0_0 = class("EquipGoodsItem", ShopItemBase)
+slot0 = class("EquipGoodsItem", ShopItemBase)
 
-function var_0_0.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.commonItem_ = CommonItemView.New(arg_1_0.commonGo_)
+	slot0.commonItem_ = CommonItemView.New(slot0.commonGo_)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.buyBtn_, nil, function()
-		arg_2_0:ClickFunction()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.buyBtn_, nil, function ()
+		uv0:ClickFunction()
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.index = arg_4_2
-	arg_4_0.data = arg_4_1
-	arg_4_0.shopCfg = getShopCfg(arg_4_1.id)
-	arg_4_0.goodID = arg_4_1.id
-	arg_4_0.dlcID = arg_4_0.shopCfg.dlc or nil
-	arg_4_0.haveDlc = arg_4_0.dlcID ~= nil and arg_4_0.dlcID ~= 0
-	arg_4_0.isExchange = arg_4_0.shopCfg.shop_refresh == 2
-	arg_4_0.shopID = arg_4_1.shopId
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index = slot2
+	slot0.data = slot1
+	slot0.shopCfg = getShopCfg(slot1.id)
+	slot0.goodID = slot1.id
+	slot0.dlcID = slot0.shopCfg.dlc or nil
+	slot0.haveDlc = slot0.dlcID ~= nil and slot0.dlcID ~= 0
+	slot0.isExchange = slot0.shopCfg.shop_refresh == 2
+	slot0.shopID = slot1.shopId
+	slot3 = nil
 
-	local var_4_0
-
-	if arg_4_0.shopCfg.description then
-		arg_4_0.isDesc = true
-		arg_4_0.itemCfg = RechargeShopDescriptionCfg[arg_4_0.shopCfg.description]
-		var_4_0 = arg_4_0.itemCfg.param[1]
+	if slot0.shopCfg.description then
+		slot0.isDesc = true
+		slot0.itemCfg = RechargeShopDescriptionCfg[slot0.shopCfg.description]
+		slot3 = slot0.itemCfg.param[1]
 	else
-		arg_4_0.isDesc = false
-		arg_4_0.itemCfg = ItemCfg[arg_4_0.shopCfg.give_id]
+		slot0.isDesc = false
+		slot0.itemCfg = ItemCfg[slot0.shopCfg.give_id]
 	end
 
-	if var_4_0 and SkinCfg[var_4_0] then
-		arg_4_0.skinCfg = SkinCfg[var_4_0]
-		arg_4_0.skinID = var_4_0
-		arg_4_0.heroCfg = HeroCfg[arg_4_0.skinCfg.hero]
+	if slot3 and SkinCfg[slot3] then
+		slot0.skinCfg = SkinCfg[slot3]
+		slot0.skinID = slot3
+		slot0.heroCfg = HeroCfg[slot0.skinCfg.hero]
 	end
 
-	if arg_4_0.haveDlc then
-		arg_4_0.shopDlcCfg = getShopCfg(arg_4_0.dlcID)
-		arg_4_0.itemDlcCfg = RechargeShopDescriptionCfg[arg_4_0.shopDlcCfg.description]
+	if slot0.haveDlc then
+		slot0.shopDlcCfg = getShopCfg(slot0.dlcID)
+		slot0.itemDlcCfg = RechargeShopDescriptionCfg[slot0.shopDlcCfg.description]
 
-		if arg_4_0.itemDlcCfg == nil then
-			arg_4_0.itemDlcCfg = ItemCfg[getShopCfg(arg_4_0.dlcID).give_id]
+		if slot0.itemDlcCfg == nil then
+			slot0.itemDlcCfg = ItemCfg[getShopCfg(slot0.dlcID).give_id]
 		end
 
-		arg_4_0.canBuyDlc = ShopConst.SHOP_ID.DLC_SHOP == arg_4_0.shopDlcCfg.shop_id
+		slot0.canBuyDlc = ShopConst.SHOP_ID.DLC_SHOP == slot0.shopDlcCfg.shop_id
 	end
 
-	arg_4_0.buyTime = ShopData.GetShop(arg_4_0.shopID)[arg_4_0.goodID] ~= nil and ShopData.GetShop(arg_4_0.shopID)[arg_4_0.goodID].buy_times or 0
-	arg_4_0.restNum = arg_4_0.shopCfg.limit_num - arg_4_0.data.buyTime
+	slot0.buyTime = ShopData.GetShop(slot0.shopID)[slot0.goodID] ~= nil and ShopData.GetShop(slot0.shopID)[slot0.goodID].buy_times or 0
+	slot0.restNum = slot0.shopCfg.limit_num - slot0.data.buyTime
 
-	arg_4_0:UpdateView()
-	arg_4_0:UpdateTimerView()
+	slot0:UpdateView()
+	slot0:UpdateTimerView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	arg_5_0:SetCommonItem()
-	arg_5_0:SetCostIcon()
-	arg_5_0:SetPriceText(arg_5_0.goodID)
+function slot0.UpdateView(slot0)
+	slot0:SetCommonItem()
+	slot0:SetCostIcon()
+	slot0:SetPriceText(slot0.goodID)
 
-	arg_5_0.titleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Common/com_equip_icon_0" .. arg_5_0.index)
+	slot0.titleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Common/com_equip_icon_0" .. slot0.index)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
-	Object.Destroy(arg_8_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

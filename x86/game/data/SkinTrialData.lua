@@ -1,112 +1,104 @@
-local var_0_0 = singletonClass("SkinTrialData")
-local var_0_1 = {}
+slot0 = singletonClass("SkinTrialData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.skinTrialStateList_ = {}
-	arg_1_0.completedSkinTrialIDList_ = {}
-	arg_1_0.stageIDToSkinTrialID_ = {}
+function slot0.Init(slot0)
+	slot0.skinTrialStateList_ = {}
+	slot0.completedSkinTrialIDList_ = {}
+	slot0.stageIDToSkinTrialID_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function slot0.InitData(slot0, slot1)
+	slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.activity_info) do
-		local var_2_1 = iter_2_1.id
+	for slot6, slot7 in ipairs(slot1.activity_info) do
+		if ActivitySkinTrialCfg[slot7.id] ~= nil then
+			slot0.skinTrialStateList_[slot8] = slot7.state
 
-		if ActivitySkinTrialCfg[var_2_1] ~= nil then
-			arg_2_0.skinTrialStateList_[var_2_1] = iter_2_1.state
-
-			if not var_2_0[var_2_1] then
-				var_2_0[var_2_1] = 0
+			if not slot2[slot8] then
+				slot2[slot8] = 0
 			end
 
-			if iter_2_1.state == 1 then
-				if table.keyof(arg_2_0.completedSkinTrialIDList_, var_2_1) == nil then
-					table.insert(arg_2_0.completedSkinTrialIDList_, var_2_1)
+			if slot7.state == 1 then
+				if table.keyof(slot0.completedSkinTrialIDList_, slot8) == nil then
+					table.insert(slot0.completedSkinTrialIDList_, slot8)
 				end
 			else
-				var_2_0[var_2_1] = 1
+				slot2[slot8] = 1
 			end
 		end
 	end
 
-	for iter_2_2, iter_2_3 in pairs(var_2_0) do
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SKIN_TRIAL, iter_2_2), iter_2_3)
+	for slot6, slot7 in pairs(slot2) do
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SKIN_TRIAL, slot6), slot7)
 	end
 end
 
-function var_0_0.OnRewardSuccess(arg_3_0, arg_3_1)
-	arg_3_0.skinTrialStateList_[arg_3_1] = 1
+function slot0.OnRewardSuccess(slot0, slot1)
+	slot0.skinTrialStateList_[slot1] = 1
 
-	arg_3_0:SetSelectSkinTrialID(arg_3_1)
+	slot0:SetSelectSkinTrialID(slot1)
 end
 
-function var_0_0.GetSkinTrialStateList(arg_4_0)
-	return arg_4_0.skinTrialStateList_
+function slot0.GetSkinTrialStateList(slot0)
+	return slot0.skinTrialStateList_
 end
 
-function var_0_0.SetSelectSkinTrialID(arg_5_0, arg_5_1)
-	local var_5_0 = ActivitySkinTrialCfg[arg_5_1].activity_id
+function slot0.SetSelectSkinTrialID(slot0, slot1)
+	saveData("SkinTrial", string.format("select_%s_%s", ActivitySkinTrialCfg[slot1].activity_id, slot1), true)
 
-	saveData("SkinTrial", string.format("select_%s_%s", var_5_0, arg_5_1), true)
+	slot3 = ActivitySkinTrialCfg[slot1]
 
-	local var_5_1 = ActivitySkinTrialCfg[arg_5_1]
-
-	if arg_5_0:GetSkinTrialStatus(arg_5_1) ~= 2 then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SKIN_TRIAL, arg_5_1), 0)
+	if slot0:GetSkinTrialStatus(slot1) ~= 2 then
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.SKIN_TRIAL, slot1), 0)
 	end
 end
 
-function var_0_0.GetSelectSkinTrialID(arg_6_0, arg_6_1)
-	local var_6_0 = ActivitySkinTrialCfg[arg_6_1].activity_id
-
-	return getData("SkinTrial", string.format("select_%s_%s", var_6_0, arg_6_1))
+function slot0.GetSelectSkinTrialID(slot0, slot1)
+	return getData("SkinTrial", string.format("select_%s_%s", ActivitySkinTrialCfg[slot1].activity_id, slot1))
 end
 
-function var_0_0.IsCompleted(arg_7_0, arg_7_1)
-	if table.keyof(arg_7_0.completedSkinTrialIDList_, arg_7_1) then
+function slot0.IsCompleted(slot0, slot1)
+	if table.keyof(slot0.completedSkinTrialIDList_, slot1) then
 		return true
 	else
 		return false
 	end
 end
 
-function var_0_0.SaveStageID(arg_8_0, arg_8_1)
-	local var_8_0 = ActivitySkinTrialCfg[arg_8_1].stage_id
-
-	arg_8_0.stageIDToSkinTrialID_[var_8_0] = arg_8_1
+function slot0.SaveStageID(slot0, slot1)
+	slot0.stageIDToSkinTrialID_[ActivitySkinTrialCfg[slot1].stage_id] = slot1
 end
 
-function var_0_0.GetSkinTrialID(arg_9_0, arg_9_1)
-	return arg_9_0.stageIDToSkinTrialID_[arg_9_1]
+function slot0.GetSkinTrialID(slot0, slot1)
+	return slot0.stageIDToSkinTrialID_[slot1]
 end
 
-function var_0_0.SaveRoute(arg_10_0, arg_10_1)
-	var_0_1 = deepClone(arg_10_1)
+function slot0.SaveRoute(slot0, slot1)
+	uv0 = deepClone(slot1)
 end
 
-function var_0_0.GetRoute(arg_11_0)
-	return var_0_1
+function slot0.GetRoute(slot0)
+	return uv0
 end
 
-function var_0_0.SaveSkinTrialMainScrollPos(arg_12_0, arg_12_1, arg_12_2)
-	if arg_12_2 == "Global" then
-		arg_12_0.selectTrialPos = arg_12_1
-	elseif arg_12_2 == "Back" then
-		arg_12_0.backTrialPos = arg_12_1
+function slot0.SaveSkinTrialMainScrollPos(slot0, slot1, slot2)
+	if slot2 == "Global" then
+		slot0.selectTrialPos = slot1
+	elseif slot2 == "Back" then
+		slot0.backTrialPos = slot1
 	end
 end
 
-function var_0_0.GetSkinTrialMainScrollPos(arg_13_0, arg_13_1)
-	if arg_13_1 == "Global" then
-		return arg_13_0.selectTrialPos
-	elseif arg_13_1 == "Back" then
-		return arg_13_0.backTrialPos
+function slot0.GetSkinTrialMainScrollPos(slot0, slot1)
+	if slot1 == "Global" then
+		return slot0.selectTrialPos
+	elseif slot1 == "Back" then
+		return slot0.backTrialPos
 	end
 end
 
-function var_0_0.GetSkinTrialStatus(arg_14_0, arg_14_1)
-	return arg_14_0.skinTrialStateList_[arg_14_1] or 0
+function slot0.GetSkinTrialStatus(slot0, slot1)
+	return slot0.skinTrialStateList_[slot1] or 0
 end
 
-return var_0_0
+return slot0

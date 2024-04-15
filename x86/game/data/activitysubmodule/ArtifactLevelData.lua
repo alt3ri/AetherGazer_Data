@@ -1,138 +1,136 @@
-local var_0_0 = singletonClass("ArtifactLevelData")
+slot0 = singletonClass("ArtifactLevelData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.curOpenLevelList_ = {}
-	arg_1_0.curAwardedLevelList_ = {}
-	arg_1_0.levelId_ = {}
-	arg_1_0.selectedLevelList_ = {}
-	arg_1_0.awardsList_ = {}
-	arg_1_0.levelCount_ = 0
-	arg_1_0.curLevelIndex_ = 1
+function slot0.Init(slot0)
+	slot0.curOpenLevelList_ = {}
+	slot0.curAwardedLevelList_ = {}
+	slot0.levelId_ = {}
+	slot0.selectedLevelList_ = {}
+	slot0.awardsList_ = {}
+	slot0.levelCount_ = 0
+	slot0.curLevelIndex_ = 1
+	slot2 = ActivityData:GetActivityData(ActivityConst.SUMMER_ARTIFACT)
 
-	local var_1_0 = ActivityConst.SUMMER_ARTIFACT
-	local var_1_1 = ActivityData:GetActivityData(var_1_0)
+	for slot6, slot7 in pairs(ActivityArtifactLevelCfg.all) do
+		table.insert(slot0.levelId_, slot7)
 
-	for iter_1_0, iter_1_1 in pairs(ActivityArtifactLevelCfg.all) do
-		table.insert(arg_1_0.levelId_, iter_1_1)
-
-		arg_1_0.levelCount_ = arg_1_0.levelCount_ + 1
+		slot0.levelCount_ = slot0.levelCount_ + 1
 	end
 
-	for iter_1_2, iter_1_3 in pairs(BattleArtifactCfg.all) do
-		arg_1_0.awardsList_[iter_1_2] = BattleArtifactCfg[iter_1_3].drop_lib_id
+	for slot6, slot7 in pairs(BattleArtifactCfg.all) do
+		slot0.awardsList_[slot6] = BattleArtifactCfg[slot7].drop_lib_id
 	end
 
-	arg_1_0:InitRedPoint(ActivityConst.SUMMER_ARTIFACT)
+	slot0:InitRedPoint(ActivityConst.SUMMER_ARTIFACT)
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.artifact
+function slot0.SetData(slot0, slot1)
+	slot2 = slot1.artifact
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.levelId_) do
-		arg_2_0.curAwardedLevelList_[iter_2_0] = false
+	for slot6, slot7 in pairs(slot0.levelId_) do
+		slot0.curAwardedLevelList_[slot6] = false
 	end
 
-	if var_2_0.already_clear_activity_id_list then
-		for iter_2_2, iter_2_3 in ipairs(var_2_0.already_clear_activity_id_list) do
-			if arg_2_0:GetIndexByLevelId(iter_2_3) then
-				arg_2_0.curAwardedLevelList_[arg_2_0:GetIndexByLevelId(iter_2_3)] = true
+	if slot2.already_clear_activity_id_list then
+		for slot6, slot7 in ipairs(slot2.already_clear_activity_id_list) do
+			if slot0:GetIndexByLevelId(slot7) then
+				slot0.curAwardedLevelList_[slot0:GetIndexByLevelId(slot7)] = true
 			end
 		end
 	end
 
-	for iter_2_4, iter_2_5 in pairs(ActivityArtifactLevelCfg.all) do
-		if ActivityData:GetActivityIsOpen(iter_2_5) then
-			arg_2_0.curOpenLevelList_[iter_2_4] = true
+	for slot6, slot7 in pairs(ActivityArtifactLevelCfg.all) do
+		if ActivityData:GetActivityIsOpen(slot7) then
+			slot0.curOpenLevelList_[slot6] = true
 		end
 	end
 
-	arg_2_0:UpdateRedPoint()
+	slot0:UpdateRedPoint()
 end
 
-function var_0_0.GetIndexByLevelId(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.levelId_) do
-		if iter_3_1 == arg_3_1 then
-			return iter_3_0
-		end
-	end
-
-	return nil
-end
-
-function var_0_0.GetLevelCount(arg_4_0)
-	return arg_4_0.levelCount_
-end
-
-function var_0_0.GetLevelIdByIndex(arg_5_0, arg_5_1)
-	return arg_5_0.levelId_[arg_5_1]
-end
-
-function var_0_0.GetIsAwardedByIndex(arg_6_0, arg_6_1)
-	return arg_6_0.curAwardedLevelList_[arg_6_1]
-end
-
-function var_0_0.GetLevelNameByIndex(arg_7_0, arg_7_1)
-	return ActivityArtifactLevelCfg[arg_7_0.levelId_[arg_7_1]].name
-end
-
-function var_0_0.GetLevelDesc(arg_8_0, arg_8_1)
-	return ActivityArtifactLevelCfg[arg_8_0.levelId_[arg_8_1]].desc
-end
-
-function var_0_0.GetIsOpenByIndex(arg_9_0, arg_9_1)
-	return ActivityData:GetActivityIsOpen(arg_9_0.levelId_[arg_9_1])
-end
-
-function var_0_0.GetAwardListByIndex(arg_10_0, arg_10_1)
-	return arg_10_0.awardsList_[arg_10_1]
-end
-
-function var_0_0.GetLevelIdByStageId(arg_11_0, arg_11_1)
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.levelId_) do
-		if ActivityArtifactLevelCfg[iter_11_1].stage_id == arg_11_1 then
-			return iter_11_1
+function slot0.GetIndexByLevelId(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.levelId_) do
+		if slot6 == slot1 then
+			return slot5
 		end
 	end
 
 	return nil
 end
 
-function var_0_0.GetCurLevelIndex(arg_12_0)
-	return arg_12_0.curLevelIndex_
+function slot0.GetLevelCount(slot0)
+	return slot0.levelCount_
 end
 
-function var_0_0.SetCurLevelIndex(arg_13_0, arg_13_1)
-	arg_13_0.curLevelIndex_ = arg_13_1
+function slot0.GetLevelIdByIndex(slot0, slot1)
+	return slot0.levelId_[slot1]
 end
 
-function var_0_0.SetSelectedByIndex(arg_14_0, arg_14_1)
-	arg_14_0.selectedLevelList_[arg_14_1] = true
+function slot0.GetIsAwardedByIndex(slot0, slot1)
+	return slot0.curAwardedLevelList_[slot1]
 end
 
-function var_0_0.UpdateRedPoint(arg_15_0)
-	for iter_15_0 = 1, arg_15_0.levelCount_ do
-		local var_15_0 = false
+function slot0.GetLevelNameByIndex(slot0, slot1)
+	return ActivityArtifactLevelCfg[slot0.levelId_[slot1]].name
+end
 
-		if ActivityData:GetActivityIsOpen(arg_15_0.levelId_[iter_15_0]) and arg_15_0.selectedLevelList_[iter_15_0] == nil and arg_15_0.curAwardedLevelList_[iter_15_0] == false then
-			var_15_0 = true
+function slot0.GetLevelDesc(slot0, slot1)
+	return ActivityArtifactLevelCfg[slot0.levelId_[slot1]].desc
+end
+
+function slot0.GetIsOpenByIndex(slot0, slot1)
+	return ActivityData:GetActivityIsOpen(slot0.levelId_[slot1])
+end
+
+function slot0.GetAwardListByIndex(slot0, slot1)
+	return slot0.awardsList_[slot1]
+end
+
+function slot0.GetLevelIdByStageId(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.levelId_) do
+		if ActivityArtifactLevelCfg[slot6].stage_id == slot1 then
+			return slot6
+		end
+	end
+
+	return nil
+end
+
+function slot0.GetCurLevelIndex(slot0)
+	return slot0.curLevelIndex_
+end
+
+function slot0.SetCurLevelIndex(slot0, slot1)
+	slot0.curLevelIndex_ = slot1
+end
+
+function slot0.SetSelectedByIndex(slot0, slot1)
+	slot0.selectedLevelList_[slot1] = true
+end
+
+function slot0.UpdateRedPoint(slot0)
+	for slot4 = 1, slot0.levelCount_ do
+		slot5 = false
+
+		if ActivityData:GetActivityIsOpen(slot0.levelId_[slot4]) and slot0.selectedLevelList_[slot4] == nil and slot0.curAwardedLevelList_[slot4] == false then
+			slot5 = true
 		end
 
-		if var_15_0 then
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ARTIFACT, arg_15_0.levelId_[iter_15_0]), 1)
+		if slot5 then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ARTIFACT, slot0.levelId_[slot4]), 1)
 		else
-			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ARTIFACT, arg_15_0.levelId_[iter_15_0]), 0)
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.ARTIFACT, slot0.levelId_[slot4]), 0)
 		end
 	end
 end
 
-function var_0_0.InitRedPoint(arg_16_0, arg_16_1)
-	local var_16_0 = {}
+function slot0.InitRedPoint(slot0, slot1)
+	slot2 = {}
 
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.levelId_) do
-		table.insert(var_16_0, string.format("%s_%s", RedPointConst.ARTIFACT, iter_16_1))
+	for slot6, slot7 in pairs(slot0.levelId_) do
+		table.insert(slot2, string.format("%s_%s", RedPointConst.ARTIFACT, slot7))
 	end
 
-	manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ARTIFACT, ActivityConst.SUMMER_ARTIFACT), var_16_0)
+	manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.ARTIFACT, ActivityConst.SUMMER_ARTIFACT), slot2)
 end
 
-return var_0_0
+return slot0

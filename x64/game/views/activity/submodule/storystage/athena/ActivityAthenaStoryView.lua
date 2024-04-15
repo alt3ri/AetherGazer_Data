@@ -1,13 +1,12 @@
 ActivityStoryStageBaseView = import("game.views.activity.Submodule.storyStage.base.ActivityStoryStageBaseView")
+slot0 = class("ActivityAthenaStoryView", ActivityStoryStageBaseView)
 
-local var_0_0 = class("ActivityAthenaStoryView", ActivityStoryStageBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIDownUI/SubPlot/VolumeIIIDownSubPlotUI"
 end
 
-function var_0_0.GetItemClass(arg_2_0)
+function slot0.GetItemClass(slot0)
 	return ActivityAthenaStoryItem
 end
 
-return var_0_0
+return slot0

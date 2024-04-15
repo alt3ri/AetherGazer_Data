@@ -1,33 +1,30 @@
 SpringPreheatPrayBranchView = import("game.views.activity.Submodule.springFestival.springPreheat.SpringPreheatPrayBranchView")
+slot0 = class("SpringWelfarePrayBranchView", SpringPreheatPrayBranchView)
 
-local var_0_0 = class("SpringWelfarePrayBranchView", SpringPreheatPrayBranchView)
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
-
-	arg_1_0.branch_ = SpringWelfarePrayBubbleView.New(arg_1_0.branchGo_)
+	slot0.branch_ = SpringWelfarePrayBubbleView.New(slot0.branchGo_)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.day_ = arg_2_0.params_.day or SpringWelfareData:GetCurPrayDay()
+function slot0.OnEnter(slot0)
+	slot0.day_ = slot0.params_.day or SpringWelfareData:GetCurPrayDay()
 
-	arg_2_0.branch_:SetData(arg_2_0.day_)
-	arg_2_0.branch_:SetClickHandler(function(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-		arg_2_0:OnClickBubble(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
+	slot0.branch_:SetData(slot0.day_)
+	slot0.branch_:SetClickHandler(function (slot0, slot1, slot2, slot3)
+		uv0:OnClickBubble(slot0, slot1, slot2, slot3)
 	end)
-	arg_2_0.branch_:OnEnter()
-	arg_2_0:RefreshUI()
+	slot0.branch_:OnEnter()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnClickBubble(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	if arg_4_4 then
-		local var_4_0 = arg_4_3:GetItemId()
-
+function slot0.OnClickBubble(slot0, slot1, slot2, slot3, slot4)
+	if slot4 then
 		ShowPopItem(POP_ITEM, {
-			var_4_0
+			slot3:GetItemId()
 		})
 	end
 end
 
-return var_0_0
+return slot0

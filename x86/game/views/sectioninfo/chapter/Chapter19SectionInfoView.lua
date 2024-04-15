@@ -1,93 +1,81 @@
-local var_0_0 = class("Chapter19SectionInfoView", import("..SectionInfoBaseView"))
+slot0 = class("Chapter19SectionInfoView", import("..SectionInfoBaseView"))
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
-	arg_1_0.hideStageNumController_:SetSelectedState("true")
-	arg_1_0.hideStageDescController_:SetSelectedState("false")
-	arg_1_0.hideDropPanelController_:SetSelectedState("true")
-	arg_1_0.showTipsController_:SetSelectedState("true")
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.hideStageNumController_:SetSelectedState("true")
+	slot0.hideStageDescController_:SetSelectedState("false")
+	slot0.hideDropPanelController_:SetSelectedState("true")
+	slot0.showTipsController_:SetSelectedState("true")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnTop(arg_3_0)
-	arg_3_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.RefreshData(arg_4_0)
-	var_0_0.super.RefreshData(arg_4_0)
+function slot0.RefreshData(slot0)
+	uv0.super.RefreshData(slot0)
 
-	local var_4_0 = BattleChapterStageCfg[arg_4_0.stageID_]
+	slot0.dropLibID_ = BattleChapterStageCfg[slot0.stageID_].drop_lib_id
 
-	arg_4_0.dropLibID_ = var_4_0.drop_lib_id
-
-	local var_4_1 = BattleStageData:GetStageData()[arg_4_0.stageID_]
-
-	if var_4_1 then
-		arg_4_0.isFirstClear_ = var_4_1.clear_times <= 0
+	if BattleStageData:GetStageData()[slot0.stageID_] then
+		slot0.isFirstClear_ = slot2.clear_times <= 0
 	else
-		arg_4_0.isFirstClear_ = true
+		slot0.isFirstClear_ = true
 	end
 
-	if arg_4_0.isFirstClear_ then
-		arg_4_0.cost_ = var_4_0.cost or 0
+	if slot0.isFirstClear_ then
+		slot0.cost_ = slot1.cost or 0
 	else
-		arg_4_0.cost_ = 0
+		slot0.cost_ = 0
 	end
 
-	arg_4_0:RefreshLock()
+	slot0:RefreshLock()
 end
 
-function var_0_0.RefreshLock(arg_5_0)
-	local var_5_0 = BattleChapterStageCfg[arg_5_0.stageID_]
-	local var_5_1 = getChapterAndSectionID(arg_5_0.stageID_)
+function slot0.RefreshLock(slot0)
+	slot1 = BattleChapterStageCfg[slot0.stageID_]
+	slot2 = getChapterAndSectionID(slot0.stageID_)
 
-	BattleFieldData:SetCacheStage(var_5_1, arg_5_0.stageID_)
+	BattleFieldData:SetCacheStage(slot2, slot0.stageID_)
 
-	if ActivityData:GetActivityIsOpen(ChapterCfg[var_5_1].activity_id) then
-		arg_5_0.lock_ = false
+	if ActivityData:GetActivityIsOpen(ChapterCfg[slot2].activity_id) then
+		slot0.lock_ = false
 	else
-		arg_5_0.lock_ = PlayerData:GetPlayerInfo().userLevel < var_5_0.level
-		arg_5_0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_5_0.level)
+		slot0.lock_ = PlayerData:GetPlayerInfo().userLevel < slot1.level
+		slot0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot1.level)
 
-		if arg_5_0.lock_ then
+		if slot0.lock_ then
 			return
 		end
 	end
 
-	local var_5_2 = BattleStageData:GetStageData()
+	slot3 = BattleStageData:GetStageData()
 
-	for iter_5_0, iter_5_1 in pairs(var_5_0.pre_unlock_id_list or {}) do
-		if var_5_2[iter_5_1] == nil or var_5_2[iter_5_1] and var_5_2[iter_5_1].clear_times <= 0 then
-			arg_5_0.lock_ = true
-
-			local var_5_3 = getChapterDifficulty(iter_5_1)
-			local var_5_4 = getChapterClientCfgByStageID(iter_5_1).toggle
-			local var_5_5, var_5_6 = BattleStageTools.GetChapterSectionIndex(var_5_4, iter_5_1)
-
-			arg_5_0.lockTips_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), var_5_3, GetI18NText(var_5_5), GetI18NText(var_5_6))
+	for slot7, slot8 in pairs(slot1.pre_unlock_id_list or {}) do
+		if slot3[slot8] == nil or slot3[slot8] and slot3[slot8].clear_times <= 0 then
+			slot0.lock_ = true
+			slot11, slot12 = BattleStageTools.GetChapterSectionIndex(getChapterClientCfgByStageID(slot8).toggle, slot8)
+			slot0.lockTips_ = string.format(GetTips("MISSION_PROGRESS_UNLOCK"), getChapterDifficulty(slot8), GetI18NText(slot11), GetI18NText(slot12))
 
 			return
 		end
 	end
 
-	arg_5_0.lock_ = false
+	slot0.lock_ = false
 end
 
-function var_0_0.RefreshStageInfo(arg_6_0)
-	var_0_0.super.RefreshStageInfo(arg_6_0)
+function slot0.RefreshStageInfo(slot0)
+	uv0.super.RefreshStageInfo(slot0)
 
-	local var_6_0 = BattleStageTools.GetStageCfg(arg_6_0.stageType_, arg_6_0.stageID_)
-
-	arg_6_0.storyText_.text = GetI18NText(var_6_0.tips)
+	slot0.storyText_.text = GetI18NText(BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).tips)
 end
 
-function var_0_0.OnClickBtn(arg_7_0)
-	local var_7_0 = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT
-
-	ChapterTools.DoReadyBattle(var_7_0, arg_7_0.stageID_)
+function slot0.OnClickBtn(slot0)
+	ChapterTools.DoReadyBattle(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT, slot0.stageID_)
 end
 
-return var_0_0
+return slot0

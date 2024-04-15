@@ -1,103 +1,99 @@
-local var_0_0 = class("ActivityAttributeArenaRewardView", ReduxView)
+slot0 = class("ActivityAttributeArenaRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return AttributeArenaTools.GetRewardUI(arg_1_0.params_.task_activity_id)
+function slot0.UIName(slot0)
+	return AttributeArenaTools.GetRewardUI(slot0.params_.task_activity_id)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.taskUpdateHandler_ = handler(arg_3_0, arg_3_0.RefreshScroll)
+	slot0.taskUpdateHandler_ = handler(slot0, slot0.RefreshScroll)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.m_list, ActivityAttributeArenaRewardItem)
-	arg_4_0.recevieAllController = ControllerUtil.GetController(arg_4_0.transform_, "recevieAll")
+	slot0.list = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, ActivityAttributeArenaRewardItem)
+	slot0.recevieAllController = ControllerUtil.GetController(slot0.transform_, "recevieAll")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_mask, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_recevieBtn, nil, function()
-		local var_7_0 = {}
+	slot0:AddBtnListener(slot0.m_recevieBtn, nil, function ()
+		slot0 = {}
 
-		for iter_7_0, iter_7_1 in ipairs(arg_5_0._taskIDList) do
-			if iter_7_1.progress < AssignmentCfg[iter_7_1.id].need or iter_7_1.complete_flag >= 1 then
+		for slot4, slot5 in ipairs(uv0._taskIDList) do
+			if slot5.progress < AssignmentCfg[slot5.id].need or slot5.complete_flag >= 1 then
 				break
 			end
 
-			var_7_0[#var_7_0 + 1] = iter_7_1.id
+			slot0[#slot0 + 1] = slot5.id
 		end
 
-		TaskAction:SubmitTaskList(var_7_0)
+		TaskAction:SubmitTaskList(slot0)
 	end)
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activity_id = arg_9_0.params_.task_activity_id
-	arg_9_0._taskIDList = TaskData2:GetActivityTaskSortList(arg_9_0.activity_id)
+function slot0.OnEnter(slot0)
+	slot0.activity_id = slot0.params_.task_activity_id
+	slot0._taskIDList = TaskData2:GetActivityTaskSortList(slot0.activity_id)
 
-	arg_9_0.list:StartScroll(#arg_9_0._taskIDList)
-	arg_9_0:RegistEventListener(OSIRIS_TASK_UPDATE, arg_9_0.taskUpdateHandler_)
-	arg_9_0:RefreshReceiveBtn()
+	slot0.list:StartScroll(#slot0._taskIDList)
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, slot0.taskUpdateHandler_)
+	slot0:RefreshReceiveBtn()
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_10_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.RefreshScroll(arg_11_0)
-	arg_11_0._taskIDList = TaskData2:GetActivityTaskSortList(arg_11_0.activity_id)
+function slot0.RefreshScroll(slot0)
+	slot0._taskIDList = TaskData2:GetActivityTaskSortList(slot0.activity_id)
 
-	local var_11_0 = arg_11_0.list:GetScrolledPosition()
-
-	arg_11_0.list:StartScrollWithoutAnimator(#arg_11_0._taskIDList, var_11_0)
-	arg_11_0:RefreshReceiveBtn()
+	slot0.list:StartScrollWithoutAnimator(#slot0._taskIDList, slot0.list:GetScrolledPosition())
+	slot0:RefreshReceiveBtn()
 end
 
-function var_0_0.RefreshReceiveBtn(arg_12_0)
-	local var_12_0 = 0
+function slot0.RefreshReceiveBtn(slot0)
+	slot1 = 0
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0._taskIDList) do
-		if iter_12_1.progress >= AssignmentCfg[iter_12_1.id].need and iter_12_1.complete_flag < 1 then
-			var_12_0 = 1
+	for slot5, slot6 in ipairs(slot0._taskIDList) do
+		if AssignmentCfg[slot6.id].need <= slot6.progress and slot6.complete_flag < 1 then
+			slot1 = 1
 
 			break
 		end
 	end
 
-	arg_12_0.recevieAllController:SetSelectedIndex(var_12_0 == 1 and 1 or 0)
+	slot0.recevieAllController:SetSelectedIndex(slot1 == 1 and 1 or 0)
 end
 
-function var_0_0.indexItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0._taskIDList[arg_13_1]
-
-	arg_13_2:SetData(var_13_0, arg_13_1)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0._taskIDList[slot1], slot1)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.list:Dispose()
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
 
-	arg_14_0.taskUpdateHandler_ = nil
+	slot0.taskUpdateHandler_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnTaskListChange(arg_15_0)
-	arg_15_0:RefreshScroll()
+function slot0.OnTaskListChange(slot0)
+	slot0:RefreshScroll()
 end
 
-return var_0_0
+return slot0

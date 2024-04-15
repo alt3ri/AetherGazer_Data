@@ -1,111 +1,110 @@
-local var_0_0 = class("HeroUpgradeSuccessView", ReduxView)
+slot0 = class("HeroUpgradeSuccessView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_arrt/HeroLevelUpUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.fromPropValueTexts_ = {
-		arg_5_0.fromValue1_,
-		arg_5_0.fromValue2_,
-		arg_5_0.fromValue3_
+	slot0.fromPropValueTexts_ = {
+		slot0.fromValue1_,
+		slot0.fromValue2_,
+		slot0.fromValue3_
 	}
-	arg_5_0.toPropValueTexts_ = {
-		arg_5_0.toValue1_,
-		arg_5_0.toValue2_,
-		arg_5_0.toValue3_
+	slot0.toPropValueTexts_ = {
+		slot0.toValue1_,
+		slot0.toValue2_,
+		slot0.toValue3_
 	}
-	arg_5_0.propNames_ = {
-		arg_5_0.propName1_,
-		arg_5_0.propName2_,
-		arg_5_0.propName3_
+	slot0.propNames_ = {
+		slot0.propName1_,
+		slot0.propName2_,
+		slot0.propName3_
 	}
-	arg_5_0.propIndexes_ = {
+	slot0.propIndexes_ = {
 		1,
 		2,
 		3
 	}
 
-	for iter_5_0 = 1, 3 do
-		arg_5_0.propNames_[iter_5_0].text = GetI18NText(PublicAttrCfg[arg_5_0.propIndexes_[iter_5_0]].name)
+	for slot4 = 1, 3 do
+		slot0.propNames_[slot4].text = GetI18NText(PublicAttrCfg[slot0.propIndexes_[slot4]].name)
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
-		arg_6_0.params_.callback()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
+		uv0.params_.callback()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.oldLv_ = arg_8_0.params_.oldLv
-	arg_8_0.oldAttr_ = arg_8_0.params_.oldAttr
-	arg_8_0.heroViewProxy_ = arg_8_0.params_.proxy
-	arg_8_0.heroInfo_ = HeroData:GetHeroList()[arg_8_0.params_.heroId]
-	arg_8_0.newAttr_ = arg_8_0.heroViewProxy_:GetHeroAllAttribute(arg_8_0.heroInfo_.id)
+function slot0.OnEnter(slot0)
+	slot0.oldLv_ = slot0.params_.oldLv
+	slot0.oldAttr_ = slot0.params_.oldAttr
+	slot0.heroViewProxy_ = slot0.params_.proxy
+	slot0.heroInfo_ = HeroData:GetHeroList()[slot0.params_.heroId]
+	slot0.newAttr_ = slot0.heroViewProxy_:GetHeroAllAttribute(slot0.heroInfo_.id)
 
-	arg_8_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	arg_9_0.fromLevelText_.text = string.format("%d", arg_9_0.oldLv_)
-	arg_9_0.toLevelText_.text = string.format("%d", arg_9_0.heroInfo_.level)
+function slot0.UpdateView(slot0)
+	slot0.fromLevelText_.text = string.format("%d", slot0.oldLv_)
+	slot4 = slot0.heroInfo_.level
+	slot0.toLevelText_.text = string.format("%d", slot4)
 
-	for iter_9_0 = 1, 3 do
-		arg_9_0.fromPropValueTexts_[iter_9_0].text = string.format("%d", arg_9_0.oldAttr_[iter_9_0])
-		arg_9_0.toPropValueTexts_[iter_9_0].text = string.format("%d", arg_9_0.newAttr_[iter_9_0])
+	for slot4 = 1, 3 do
+		slot0.fromPropValueTexts_[slot4].text = string.format("%d", slot0.oldAttr_[slot4])
+		slot0.toPropValueTexts_[slot4].text = string.format("%d", slot0.newAttr_[slot4])
 	end
 
-	arg_9_0:PlayHeroTalk(arg_9_0.heroInfo_.id)
+	slot0:PlayHeroTalk(slot0.heroInfo_.id)
 end
 
-function var_0_0.PlayHeroTalk(arg_10_0, arg_10_1)
-	if arg_10_0.isTalkCD_ then
+function slot0.PlayHeroTalk(slot0, slot1)
+	if slot0.isTalkCD_ then
 		return
 	end
 
-	HeroTools.PlayTalk(arg_10_1, "expup")
+	HeroTools.PlayTalk(slot1, "expup")
 
-	arg_10_0.isTalkCD_ = true
-	arg_10_0.talkCDTimer_ = Timer.New(function()
-		arg_10_0.isTalkCD_ = false
+	slot0.isTalkCD_ = true
+	slot0.talkCDTimer_ = Timer.New(function ()
+		uv0.isTalkCD_ = false
 	end, HeroConst.LEVEL_UPGRADE_VOICE_CD, 1)
 
-	arg_10_0.talkCDTimer_:Start()
+	slot0.talkCDTimer_:Start()
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_13_0.talkCDTimer_ then
-		arg_13_0.talkCDTimer_:Stop()
+	if slot0.talkCDTimer_ then
+		slot0.talkCDTimer_:Stop()
 
-		arg_13_0.talkCDTimer_ = nil
+		slot0.talkCDTimer_ = nil
 	end
 
-	arg_13_0.isTalkCD_ = nil
+	slot0.isTalkCD_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

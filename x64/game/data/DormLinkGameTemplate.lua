@@ -1,97 +1,87 @@
-local var_0_0 = class("DormLinkGameCustomerTemplate")
-local var_0_1
+slot0 = class("DormLinkGameCustomerTemplate")
+slot1 = nil
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.ID = arg_1_1.customerID
-	arg_1_0.eid = arg_1_1.customerEID
-	arg_1_0.posIndex = arg_1_1.posIndex
-	var_0_1 = 0
-	arg_1_0.satietyNum, arg_1_0.curPreference = ActivityLinkGameCustomerCfg[arg_1_0.ID].satiety_limit[1]
-	arg_1_0.satietyAddition = 0
-	arg_1_0.priority = ActivityLinkGameCustomerCfg[arg_1_0.ID].seat_priority
+function slot0.Ctor(slot0, slot1)
+	slot0.ID = slot1.customerID
+	slot0.eid = slot1.customerEID
+	slot0.posIndex = slot1.posIndex
+	uv0 = 0
+	slot0.curPreference = nil
+	slot0.satietyNum = ActivityLinkGameCustomerCfg[slot0.ID].satiety_limit[1]
+	slot0.satietyAddition = 0
+	slot0.priority = ActivityLinkGameCustomerCfg[slot0.ID].seat_priority
 
-	arg_1_0:CalSatietyExtendAddition()
-	arg_1_0:RefreshNextPreferenceFood()
+	slot0:CalSatietyExtendAddition()
+	slot0:RefreshNextPreferenceFood()
 end
 
-function var_0_0.FoodComplate(arg_2_0)
-	if arg_2_0.curPreference then
-		local var_2_0 = ActivityLinkGameComposeCfg[arg_2_0.curPreference].satiety_up
-
-		arg_2_0:ReviseSatiety(var_2_0)
-		arg_2_0:RefreshNextPreferenceFood()
-		manager.notify:Invoke(LIANLIANKAN_CUSTOMER_EAT, arg_2_0.posIndex)
+function slot0.FoodComplate(slot0)
+	if slot0.curPreference then
+		slot0:ReviseSatiety(ActivityLinkGameComposeCfg[slot0.curPreference].satiety_up)
+		slot0:RefreshNextPreferenceFood()
+		manager.notify:Invoke(LIANLIANKAN_CUSTOMER_EAT, slot0.posIndex)
 	end
 end
 
-function var_0_0.RefreshNextPreferenceFood(arg_3_0)
-	local var_3_0 = ActivityLinkGameCustomerCfg[arg_3_0.ID].compose_list
-
-	if var_3_0 then
-		local var_3_1 = var_3_0[math.random(#var_3_0)]
-
-		while var_3_1 == arg_3_0.curPreference and #var_3_0 > 1 do
-			var_3_1 = var_3_0[math.random(#var_3_0)]
+function slot0.RefreshNextPreferenceFood(slot0)
+	if ActivityLinkGameCustomerCfg[slot0.ID].compose_list then
+		while slot1[math.random(#slot1)] == slot0.curPreference and #slot1 > 1 do
+			slot2 = slot1[math.random(#slot1)]
 		end
 
-		arg_3_0.curPreference = var_3_1
+		slot0.curPreference = slot2
 
 		DormLinkGameData:UpdataCustomerNeed()
 	end
 end
 
-function var_0_0.ReviseSatiety(arg_4_0, arg_4_1)
-	local var_4_0 = ActivityLinkGameCustomerCfg[arg_4_0.ID].satiety_limit[2]
-	local var_4_1 = ActivityLinkGameCustomerCfg[arg_4_0.ID].satiety_limit[1]
+function slot0.ReviseSatiety(slot0, slot1)
+	slot0.satietyNum = slot0.satietyNum + ActivityLinkGameCustomerCfg[slot0.ID].satiety_limit[2] * slot1 / 100
 
-	arg_4_0.satietyNum = arg_4_0.satietyNum + var_4_0 * arg_4_1 / 100
-
-	if var_4_1 > arg_4_0.satietyNum then
-		arg_4_0.satietyNum = var_4_1
+	if slot0.satietyNum < ActivityLinkGameCustomerCfg[slot0.ID].satiety_limit[1] then
+		slot0.satietyNum = slot3
 	end
 
-	if var_4_0 < arg_4_0.satietyNum then
-		arg_4_0.satietyNum = var_4_0
+	if slot2 < slot0.satietyNum then
+		slot0.satietyNum = slot2
 	end
 
-	arg_4_0:CalSatietyExtendAddition()
-	manager.notify:Invoke(DORM_LINK_REFRESH_CUSTOMER_SATIETY, arg_4_0.ID)
+	slot0:CalSatietyExtendAddition()
+	manager.notify:Invoke(DORM_LINK_REFRESH_CUSTOMER_SATIETY, slot0.ID)
 end
 
-function var_0_0.CalSatietyExtendAddition(arg_5_0)
-	local var_5_0 = ActivityLinkGameCustomerCfg[arg_5_0.ID].satiety_score_up
-	local var_5_1 = arg_5_0.satietyAddition
+function slot0.CalSatietyExtendAddition(slot0)
+	slot2 = slot0.satietyAddition
 
-	for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-		local var_5_2 = iter_5_1[2][1]
-		local var_5_3 = iter_5_1[2][2]
+	for slot6, slot7 in ipairs(ActivityLinkGameCustomerCfg[slot0.ID].satiety_score_up) do
+		slot9 = slot7[2][2]
 
-		if var_5_2 <= arg_5_0.satietyNum and var_5_3 > arg_5_0.satietyNum then
-			arg_5_0.satietyAddition = iter_5_1[1]
+		if slot7[2][1] <= slot0.satietyNum and slot0.satietyNum < slot9 then
+			slot0.satietyAddition = slot7[1]
 
 			break
 		end
 
-		if iter_5_0 == #var_5_0 and var_5_3 <= arg_5_0.satietyAddition then
-			arg_5_0.satietyAddition = iter_5_1[1]
+		if slot6 == #slot1 and slot9 <= slot0.satietyAddition then
+			slot0.satietyAddition = slot7[1]
 		end
 	end
 
-	if var_5_1 ~= arg_5_0.satietyAddition then
+	if slot2 ~= slot0.satietyAddition then
 		DormLinkGameData:RefreshCustomerExtendAddition()
 	end
 end
 
-function var_0_0.GetSatiety(arg_6_0)
-	if var_0_1 then
-		return var_0_1
+function slot0.GetSatiety(slot0)
+	if uv0 then
+		return uv0
 	else
-		print(arg_6_0.ID .. "号客人不存在饱食度数据")
+		print(slot0.ID .. "号客人不存在饱食度数据")
 	end
 end
 
-function var_0_0.RefreshCustomerBubble(arg_7_0, arg_7_1)
-	DormLuaBridge.SetUIFollow(arg_7_1, arg_7_0.eid, "root")
+function slot0.RefreshCustomerBubble(slot0, slot1)
+	DormLuaBridge.SetUIFollow(slot1, slot0.eid, "root")
 end
 
-return var_0_0
+return slot0

@@ -1,51 +1,45 @@
-local var_0_0 = class("BattleCooperationDemoTemplate", BattleBaseCooperationTemplate)
+slot0 = class("BattleCooperationDemoTemplate", BattleBaseCooperationTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.activityID_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot3 = ActivityCooperationDemoCfg[slot1].stage_id
 
-	local var_1_0 = ActivityCooperationDemoCfg[arg_1_1].stage_id
+	uv0.super.Ctor(slot0)
 
-	var_0_0.super.Ctor(arg_1_0)
-
-	arg_1_0.id_ = var_1_0
-	arg_1_0.cfg = BattleCooperationDemoCfg[var_1_0]
+	slot0.id_ = slot3
+	slot0.cfg = BattleCooperationDemoCfg[slot3]
 end
 
-function var_0_0.GetStageId(arg_2_0)
-	return arg_2_0.id_
+function slot0.GetStageId(slot0)
+	return slot0.id_
 end
 
-function var_0_0.GetType(arg_3_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO
 end
 
-function var_0_0.GetMap(arg_4_0)
-	return arg_4_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetEnemyLevel(arg_5_0)
-	return arg_5_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.GetRevive(arg_6_0)
-	if type(arg_6_0.cfg.is_revive) ~= "table" then
+function slot0.GetRevive(slot0)
+	if type(slot0.cfg.is_revive) ~= "table" then
 		return false, 0, 0, 0
 	end
 
-	local var_6_0 = arg_6_0.cfg.is_revive
-	local var_6_1 = var_6_0[1] and true or false
-	local var_6_2 = var_6_0[1] or 0
-	local var_6_3 = var_6_0[1] and ItemTools.getItemNum(var_6_0[1]) or 0
-	local var_6_4 = var_6_0[2] or 0
-
-	return var_6_1, var_6_2, var_6_3, var_6_4
+	return slot0.cfg.is_revive[1] and true or false, slot1[1] or 0, slot1[1] and ItemTools.getItemNum(slot1[1]) or 0, slot1[2] or 0
 end
 
-function var_0_0.GetStageAffix(arg_7_0)
-	local var_7_0 = {}
-	local var_7_1 = {}
-	local var_7_2 = {}
-	local var_7_3 = {
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
+
+	for slot8, slot9 in pairs({
 		{
 			9491,
 			3,
@@ -61,15 +55,13 @@ function var_0_0.GetStageAffix(arg_7_0)
 			3,
 			3
 		}
-	}
-
-	for iter_7_0, iter_7_1 in pairs(var_7_3 or {}) do
-		table.insert(var_7_0, iter_7_1[1])
-		table.insert(var_7_1, iter_7_1[2])
-		table.insert(var_7_2, iter_7_1[3])
+	} or {}) do
+		table.insert(slot1, slot9[1])
+		table.insert(slot2, slot9[2])
+		table.insert(slot3, slot9[3])
 	end
 
-	return var_7_0, var_7_1, var_7_2
+	return slot1, slot2, slot3
 end
 
-return var_0_0
+return slot0

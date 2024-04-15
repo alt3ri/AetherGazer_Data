@@ -1,301 +1,297 @@
-local var_0_0 = singletonClass("IllustratedData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7 = {}
-local var_0_8 = {}
-local var_0_9 = {}
-local var_0_10 = 0
-local var_0_11 = {}
-local var_0_12 = {}
-local var_0_13 = {}
-local var_0_14 = {}
-local var_0_15 = {}
-local var_0_16 = {}
+slot0 = singletonClass("IllustratedData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = {}
+slot5 = {}
+slot6 = {}
+slot7 = {}
+slot8 = {}
+slot9 = {}
+slot10 = 0
+slot11 = {}
+slot12 = {}
+slot13 = {}
+slot14 = {}
+slot15 = {}
+slot16 = {}
 
-local function var_0_17(arg_1_0)
-	if arg_1_0 == CollectConst.INFORMATION then
-		return var_0_2
+function slot17(slot0)
+	if slot0 == CollectConst.INFORMATION then
+		return uv0
 	end
 
-	if arg_1_0 == CollectConst.ENEMY then
-		return var_0_3
+	if slot0 == CollectConst.ENEMY then
+		return uv1
 	end
 
-	if arg_1_0 == CollectConst.SERVANT then
-		return var_0_4
+	if slot0 == CollectConst.SERVANT then
+		return uv2
 	end
 
-	if arg_1_0 == CollectConst.EQUIP then
-		return var_0_6
+	if slot0 == CollectConst.EQUIP then
+		return uv3
 	end
 
-	if arg_1_0 == CollectConst.PLOT then
-		return var_0_7
+	if slot0 == CollectConst.PLOT then
+		return uv4
 	end
 
-	if arg_1_0 == CollectConst.ILLUSTRATION then
-		return var_0_8
+	if slot0 == CollectConst.ILLUSTRATION then
+		return uv5
 	end
 
-	if arg_1_0 == CollectConst.WORLDVIEW then
-		return var_0_9
+	if slot0 == CollectConst.WORLDVIEW then
+		return uv6
 	end
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_4 = {}
-	var_0_6 = {}
-	var_0_7 = {}
-	var_0_8 = {}
-	var_0_9 = {}
+function slot0.InitData(slot0, slot1)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
+	uv5 = {}
+	uv6 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.intelligence_reward) do
-		var_0_2[iter_2_1.id] = {
-			id = iter_2_1.id,
-			progress = iter_2_1.progress,
-			complete_flag = iter_2_1.complete_flag
+	for slot5, slot6 in ipairs(slot1.intelligence_reward) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			progress = slot6.progress,
+			complete_flag = slot6.complete_flag
 		}
 	end
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.enemy_info) do
-		var_0_3[iter_2_3.id] = {
-			id = iter_2_3.id,
-			times = iter_2_3.times,
-			is_view = iter_2_3.is_view
+	for slot5, slot6 in ipairs(slot1.enemy_info) do
+		uv1[slot6.id] = {
+			id = slot6.id,
+			times = slot6.times,
+			is_view = slot6.is_view
 		}
 	end
 
-	for iter_2_4, iter_2_5 in ipairs(arg_2_1.servant_info) do
-		var_0_4[iter_2_5.id] = {
-			id = iter_2_5.id,
-			is_view = iter_2_5.is_view
+	for slot5, slot6 in ipairs(slot1.servant_info) do
+		uv2[slot6.id] = {
+			id = slot6.id,
+			is_view = slot6.is_view
 		}
 	end
 
-	for iter_2_6, iter_2_7 in ipairs(arg_2_1.equip_info) do
-		var_0_6[iter_2_7.suit] = {
-			suit = iter_2_7.suit,
+	for slot5, slot6 in ipairs(slot1.equip_info) do
+		slot10 = slot6.is_view
+		uv3[slot6.suit] = {
+			suit = slot6.suit,
 			pos_list = {},
-			is_view = iter_2_7.is_view
+			is_view = slot10
 		}
 
-		for iter_2_8, iter_2_9 in ipairs(iter_2_7.pos_list) do
-			var_0_6[iter_2_7.suit].pos_list[iter_2_9] = 1
+		for slot10, slot11 in ipairs(slot6.pos_list) do
+			uv3[slot6.suit].pos_list[slot11] = 1
 		end
 	end
 
-	for iter_2_10, iter_2_11 in ipairs(arg_2_1.plot_info) do
-		var_0_7[iter_2_11.id] = {
-			id = iter_2_11.id,
-			is_view = iter_2_11.is_view
+	for slot5, slot6 in ipairs(slot1.plot_info) do
+		uv4[slot6.id] = {
+			id = slot6.id,
+			is_view = slot6.is_view
 		}
 	end
 
-	for iter_2_12, iter_2_13 in ipairs(arg_2_1.inbetweening_info) do
-		var_0_8[iter_2_13.id] = {
-			id = iter_2_13.id,
-			is_receive = iter_2_13.is_receive,
-			is_view = iter_2_13.is_view
+	for slot5, slot6 in ipairs(slot1.inbetweening_info) do
+		uv5[slot6.id] = {
+			id = slot6.id,
+			is_receive = slot6.is_receive,
+			is_view = slot6.is_view
 		}
 	end
 
-	for iter_2_14, iter_2_15 in ipairs(arg_2_1.affix_info) do
-		var_0_9[iter_2_15.id] = {
-			id = iter_2_15.id,
-			is_view = iter_2_15.is_view
+	for slot5, slot6 in ipairs(slot1.affix_info) do
+		uv6[slot6.id] = {
+			id = slot6.id,
+			is_view = slot6.is_view
 		}
 	end
 
-	var_0_0:InitComData()
+	uv7:InitComData()
 end
 
-function var_0_0.GetIntelligenceReward(arg_3_0)
-	return var_0_2
+function slot0.GetIntelligenceReward(slot0)
+	return uv0
 end
 
-function var_0_0.GetEnemyInfo(arg_4_0)
-	return var_0_3
+function slot0.GetEnemyInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetServantInfo(arg_5_0)
-	return var_0_4
+function slot0.GetServantInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetEquipInfo(arg_6_0)
-	return var_0_6
+function slot0.GetEquipInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetPlotInfo(arg_7_0)
-	return var_0_7
+function slot0.GetPlotInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetIllustrationInfo(arg_8_0)
-	return var_0_8
+function slot0.GetIllustrationInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetAffixInfo(arg_9_0)
-	return var_0_9
+function slot0.GetAffixInfo(slot0)
+	return uv0
 end
 
-function var_0_0.GetInfoIsView(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = var_0_17(arg_10_1)
-
-	if not var_10_0[arg_10_2] then
+function slot0.GetInfoIsView(slot0, slot1, slot2)
+	if not uv0(slot1)[slot2] then
 		return 0
 	end
 
-	return var_10_0[arg_10_2].is_view
+	return slot3[slot2].is_view
 end
 
-function var_0_0.ModifyEnemyInfo(arg_11_0, arg_11_1)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-		var_0_3[iter_11_1.id] = {
-			id = iter_11_1.id,
-			times = iter_11_1.times,
-			is_view = iter_11_1.is_view
+function slot0.ModifyEnemyInfo(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			times = slot6.times,
+			is_view = slot6.is_view
 		}
 	end
 end
 
-function var_0_0.ModifyIntelligenceReward(arg_12_0, arg_12_1)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1) do
-		var_0_2[iter_12_1.id] = {
-			id = iter_12_1.id,
-			progress = iter_12_1.progress,
-			complete_flag = iter_12_1.complete_flag
+function slot0.ModifyIntelligenceReward(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			progress = slot6.progress,
+			complete_flag = slot6.complete_flag
 		}
 	end
 end
 
-function var_0_0.ModifyIllustrationInfo(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in ipairs(arg_13_1) do
-		var_0_8[iter_13_1.id] = {
-			id = iter_13_1.id,
-			is_receive = iter_13_1.is_receive,
-			is_view = iter_13_1.is_view
+function slot0.ModifyIllustrationInfo(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			is_receive = slot6.is_receive,
+			is_view = slot6.is_view
 		}
 	end
 end
 
-function var_0_0.ModifyAffixInfo(arg_14_0, arg_14_1)
-	for iter_14_0, iter_14_1 in ipairs(arg_14_1) do
-		var_0_9[iter_14_1.id] = {
-			id = iter_14_1.id,
-			is_view = iter_14_1.is_view
+function slot0.ModifyAffixInfo(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			is_view = slot6.is_view
 		}
 	end
 end
 
-function var_0_0.ModifyServantInfo(arg_15_0, arg_15_1)
-	if not var_0_4[arg_15_1] then
-		local var_15_0 = {
+function slot0.ModifyServantInfo(slot0, slot1)
+	if not uv0[slot1] then
+		slot2 = {
 			is_view = 0,
-			id = arg_15_1
+			id = slot1
 		}
-
-		var_0_5[arg_15_1] = var_15_0
-		var_0_4[arg_15_1] = var_15_0
+		uv1[slot1] = slot2
+		uv0[slot1] = slot2
 	end
 end
 
-function var_0_0.ModifyPlotInfo(arg_16_0, arg_16_1)
-	for iter_16_0, iter_16_1 in ipairs(arg_16_1) do
-		var_0_7[iter_16_1.id] = {
-			id = iter_16_1.id,
-			is_view = iter_16_1.is_view
+function slot0.ModifyPlotInfo(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id] = {
+			id = slot6.id,
+			is_view = slot6.is_view
 		}
 	end
 end
 
-function var_0_0.GetNewObtainedServant(arg_17_0, arg_17_1)
-	return var_0_5[arg_17_1]
+function slot0.GetNewObtainedServant(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.ConsumeNewObtainedServant(arg_18_0)
-	local var_18_0
-	local var_18_1 = var_0_5
+function slot0.ConsumeNewObtainedServant(slot0)
+	slot1 = nil
+	uv0 = {}
 
-	var_0_5 = {}
-
-	return var_18_1
+	return uv0
 end
 
-function var_0_0.ModifyEquipInfo(arg_19_0, arg_19_1, arg_19_2)
-	if not var_0_6[arg_19_1] then
-		var_0_6[arg_19_1] = {
+function slot0.ModifyEquipInfo(slot0, slot1, slot2)
+	if not uv0[slot1] then
+		uv0[slot1] = {
 			is_view = 0,
-			suit = arg_19_1,
+			suit = slot1,
 			pos_list = {}
 		}
 	end
 
-	var_0_6[arg_19_1].pos_list[arg_19_2] = 1
+	uv0[slot1].pos_list[slot2] = 1
 end
 
-function var_0_0.ModifyPlot(arg_20_0, arg_20_1)
-	if not var_0_7[arg_20_1] then
-		var_0_7[arg_20_1] = {
+function slot0.ModifyPlot(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = {
 			is_view = 0,
-			id = arg_20_1
+			id = slot1
 		}
 	end
 end
 
-function var_0_0.GetIsView(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0
+function slot0.GetIsView(slot0, slot1, slot2)
+	slot3 = nil
 
-	if arg_21_2 == CollectConst.ENEMY then
-		var_21_0 = var_0_3[arg_21_1]
-	elseif arg_21_2 == CollectConst.SERVANT then
-		var_21_0 = var_0_4[arg_21_1]
-	elseif arg_21_2 == CollectConst.EQUIP then
-		var_21_0 = var_0_6[arg_21_1]
-	elseif arg_21_2 == CollectConst.PLOT then
-		var_21_0 = var_0_7[arg_21_1]
-	elseif arg_21_2 == CollectConst.ILLUSTRATION then
-		var_21_0 = var_0_8[arg_21_1]
-	elseif arg_21_2 == CollectConst.WORLDVIEW then
-		var_21_0 = var_0_9[arg_21_1]
+	if slot2 == CollectConst.ENEMY then
+		slot3 = uv0[slot1]
+	elseif slot2 == CollectConst.SERVANT then
+		slot3 = uv1[slot1]
+	elseif slot2 == CollectConst.EQUIP then
+		slot3 = uv2[slot1]
+	elseif slot2 == CollectConst.PLOT then
+		slot3 = uv3[slot1]
+	elseif slot2 == CollectConst.ILLUSTRATION then
+		slot3 = uv4[slot1]
+	elseif slot2 == CollectConst.WORLDVIEW then
+		slot3 = uv5[slot1]
 	else
 		error("未知类型")
 	end
 
-	if var_21_0 == nil then
+	if slot3 == nil then
 		return 0
 	end
 
-	return var_21_0.is_view
+	return slot3.is_view
 end
 
-function var_0_0.ModifyView(arg_22_0, arg_22_1, arg_22_2)
-	if arg_22_2 == CollectConst.ENEMY then
-		var_0_3[arg_22_1].is_view = 1
-	elseif arg_22_2 == CollectConst.SERVANT then
-		var_0_4[arg_22_1].is_view = 1
-	elseif arg_22_2 == CollectConst.EQUIP then
-		var_0_6[arg_22_1].is_view = 1
-	elseif arg_22_2 == CollectConst.PLOT then
-		var_0_7[arg_22_1].is_view = 1
-	elseif arg_22_2 == CollectConst.ILLUSTRATION then
-		var_0_8[arg_22_1].is_view = 1
-	elseif arg_22_2 == CollectConst.WORLDVIEW then
-		var_0_9[arg_22_1].is_view = 1
+function slot0.ModifyView(slot0, slot1, slot2)
+	if slot2 == CollectConst.ENEMY then
+		uv0[slot1].is_view = 1
+	elseif slot2 == CollectConst.SERVANT then
+		uv1[slot1].is_view = 1
+	elseif slot2 == CollectConst.EQUIP then
+		uv2[slot1].is_view = 1
+	elseif slot2 == CollectConst.PLOT then
+		uv3[slot1].is_view = 1
+	elseif slot2 == CollectConst.ILLUSTRATION then
+		uv4[slot1].is_view = 1
+	elseif slot2 == CollectConst.WORLDVIEW then
+		uv5[slot1].is_view = 1
 	else
 		error("未知类型")
 	end
 end
 
-function var_0_0.GetExistServant(arg_23_0, arg_23_1)
-	if not var_0_4[arg_23_1] then
-		var_0_4[arg_23_1] = {
+function slot0.GetExistServant(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = {
 			is_view = 0,
-			id = arg_23_1
+			id = slot1
 		}
 
 		return false
@@ -304,167 +300,152 @@ function var_0_0.GetExistServant(arg_23_0, arg_23_1)
 	return true
 end
 
-function var_0_0.ModifyData(arg_24_0, arg_24_1)
-	for iter_24_0, iter_24_1 in ipairs(arg_24_1) do
-		local var_24_0 = arg_24_1.type
-		local var_24_1 = arg_24_1.id
+function slot0.ModifyData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot8 = slot1.id
 
-		if not var_0_1[var_24_0] then
-			var_0_1[var_24_0] = {}
+		if not uv0[slot1.type] then
+			uv0[slot7] = {}
 		end
 
-		var_0_1[var_24_0][var_24_1] = {
-			id = arg_24_1.id,
-			progress = arg_24_1.progress,
-			complete_flag = arg_24_1.complete_flag
+		uv0[slot7][slot8] = {
+			id = slot1.id,
+			progress = slot1.progress,
+			complete_flag = slot1.complete_flag
 		}
 	end
 end
 
-function var_0_0.GetCollectionProgress(arg_25_0, arg_25_1, arg_25_2)
-	return var_0_1[arg_25_1][arg_25_2].progress
+function slot0.GetCollectionProgress(slot0, slot1, slot2)
+	return uv0[slot1][slot2].progress
 end
 
-function var_0_0.SetBgm(arg_26_0, arg_26_1)
-	var_0_10 = arg_26_1
+function slot0.SetBgm(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetBgm(arg_27_0)
-	return var_0_10
+function slot0.GetBgm(slot0)
+	return uv0
 end
 
-function var_0_0.GetAllLoadingSet(arg_28_0)
-	local var_28_0 = {}
+function slot0.GetAllLoadingSet(slot0)
+	slot1 = {}
 
-	for iter_28_0, iter_28_1 in pairs(var_0_11) do
-		table.insertto(var_28_0, var_0_11[iter_28_0])
+	for slot5, slot6 in pairs(uv0) do
+		table.insertto(slot1, uv0[slot5])
 	end
 
-	return var_28_0
+	return slot1
 end
 
-function var_0_0.GetLoadingSetByType(arg_29_0, arg_29_1)
-	return var_0_11[arg_29_1] or {}
+function slot0.GetLoadingSetByType(slot0, slot1)
+	return uv0[slot1] or {}
 end
 
-function var_0_0.SaveLoadingSet(arg_30_0, arg_30_1)
-	var_0_11 = {}
+function slot0.SaveLoadingSet(slot0, slot1)
+	uv0 = {}
 
-	for iter_30_0, iter_30_1 in ipairs(arg_30_1) do
-		local var_30_0 = CollectPictureCfg[iter_30_1].type
-
-		if not var_0_11[var_30_0] then
-			var_0_11[var_30_0] = {}
+	for slot5, slot6 in ipairs(slot1) do
+		if not uv0[CollectPictureCfg[slot6].type] then
+			uv0[slot7] = {}
 		end
 
-		table.insert(var_0_11[var_30_0], iter_30_1)
+		table.insert(uv0[slot7], slot6)
 	end
 
-	var_0_0:ResetLoading()
+	uv1:ResetLoading()
 end
 
-function var_0_0.ChangeLoadingSet(arg_31_0, arg_31_1, arg_31_2)
-	local var_31_0 = CollectPictureCfg[arg_31_2].type
+function slot0.ChangeLoadingSet(slot0, slot1, slot2)
+	slot3 = CollectPictureCfg[slot2].type
 
-	if arg_31_1 then
-		if not var_0_11[var_31_0] then
-			var_0_11[var_31_0] = {}
+	if slot1 then
+		if not uv0[slot3] then
+			uv0[slot3] = {}
 		end
 
-		table.insert(var_0_11[var_31_0], arg_31_2)
+		table.insert(uv0[slot3], slot2)
 	else
-		table.remove(var_0_11[var_31_0], table.indexof(var_0_11[var_31_0], arg_31_2))
+		table.remove(uv0[slot3], table.indexof(uv0[slot3], slot2))
 	end
 
-	var_0_0:ResetLoading()
+	uv1:ResetLoading()
 end
 
-function var_0_0.IsInLoadingSet(arg_32_0, arg_32_1)
-	local var_32_0 = CollectPictureCfg[arg_32_1].type
-
-	return var_0_11[var_32_0] and table.indexof(var_0_11[var_32_0], arg_32_1) ~= false
+function slot0.IsInLoadingSet(slot0, slot1)
+	return uv0[CollectPictureCfg[slot1].type] and table.indexof(uv0[slot2], slot1) ~= false
 end
 
-function var_0_0.InitComData(arg_33_0)
-	var_0_12 = {}
-	var_0_13 = {}
+function slot0.InitComData(slot0)
+	uv0 = {}
+	uv1 = {}
 
-	for iter_33_0, iter_33_1 in ipairs(LoadingTipsPoolCfg.all) do
-		local var_33_0 = LoadingTipsPoolCfg[iter_33_1].loading_picture
-
-		if var_33_0 and var_33_0 ~= "" then
-			table.insert(var_0_12, iter_33_1)
+	for slot4, slot5 in ipairs(LoadingTipsPoolCfg.all) do
+		if LoadingTipsPoolCfg[slot5].loading_picture and slot7 ~= "" then
+			table.insert(uv0, slot5)
 		else
-			table.insert(var_0_13, iter_33_1)
+			table.insert(uv1, slot5)
 		end
 	end
 end
 
-function var_0_0.ResetLoading(arg_34_0)
-	var_0_14 = deepClone(var_0_12)
-	var_0_15 = deepClone(LoadingTipsPicturePoolCfg.all)
-	var_0_16 = deepClone(var_0_0:GetAllLoadingSet())
+function slot0.ResetLoading(slot0)
+	uv0 = deepClone(uv1)
+	uv2 = deepClone(LoadingTipsPicturePoolCfg.all)
+	uv3 = deepClone(uv4:GetAllLoadingSet())
 end
 
-function var_0_0.GetRandomTips(arg_35_0)
-	if #var_0_14 <= 0 and #var_0_15 <= 0 and #var_0_16 <= 0 then
-		var_0_0:ResetLoading()
+function slot0.GetRandomTips(slot0)
+	if #uv0 <= 0 and #uv1 <= 0 and #uv2 <= 0 then
+		uv3:ResetLoading()
 	end
 
-	local var_35_0 = #var_0_14
-	local var_35_1 = #var_0_13
-	local var_35_2 = #var_0_16
+	slot1 = #uv0
+	slot2 = #uv4
+	slot3 = #uv2
 
-	if #var_0_15 <= 0 then
-		var_35_1 = 0
+	if #uv1 <= 0 then
+		slot2 = 0
 	end
 
-	local var_35_3 = math.random(1, var_35_0 + var_35_1 + var_35_2)
+	if math.random(1, slot1 + slot2 + slot3) <= slot1 then
+		slot7 = LoadingTipsPoolCfg[uv0[slot4]]
 
-	if var_35_3 <= var_35_0 then
-		local var_35_4 = var_35_3
-		local var_35_5 = var_0_14[var_35_3]
-		local var_35_6 = LoadingTipsPoolCfg[var_35_5]
+		table.remove(uv0, slot4)
 
-		table.remove(var_0_14, var_35_4)
-
-		for iter_35_0, iter_35_1 in ipairs(var_0_15) do
-			if LoadingTipsPicturePoolCfg[iter_35_1].loading_picture == var_35_6.loading_picture then
-				table.remove(var_0_15, iter_35_0)
+		for slot11, slot12 in ipairs(uv1) do
+			if LoadingTipsPicturePoolCfg[slot12].loading_picture == slot7.loading_picture then
+				table.remove(uv1, slot11)
 
 				break
 			end
 		end
 
-		return var_35_6.title, var_35_6.tips, var_35_6.loading_picture, true
-	elseif var_35_3 <= var_35_0 + var_35_1 then
-		local var_35_7 = var_35_3 - var_35_0
-		local var_35_8 = var_0_13[var_35_7]
-		local var_35_9 = LoadingTipsPoolCfg[var_35_8]
-		local var_35_10 = math.random(1, #var_0_15)
-		local var_35_11 = var_0_15[var_35_10]
-		local var_35_12 = LoadingTipsPicturePoolCfg[var_35_11].loading_picture
+		return slot7.title, slot7.tips, slot7.loading_picture, true
+	elseif slot4 <= slot1 + slot2 then
+		slot7 = LoadingTipsPoolCfg[uv4[slot4 - slot1]]
+		slot8 = math.random(1, #uv1)
+		slot10 = LoadingTipsPicturePoolCfg[uv1[slot8]].loading_picture
 
-		table.remove(var_0_15, var_35_10)
+		table.remove(uv1, slot8)
 
-		for iter_35_2, iter_35_3 in ipairs(var_0_14) do
-			if LoadingTipsPoolCfg[iter_35_3].loading_picture == var_35_12 then
-				table.remove(var_0_14, iter_35_2)
+		for slot14, slot15 in ipairs(uv0) do
+			if LoadingTipsPoolCfg[slot15].loading_picture == slot10 then
+				table.remove(uv0, slot14)
 
 				break
 			end
 		end
 
-		return var_35_9.title, var_35_9.tips, var_35_12, true
+		return slot7.title, slot7.tips, slot10, true
 	else
-		local var_35_13 = var_35_3 - var_35_0 - var_35_1
-		local var_35_14 = var_0_16[var_35_13]
-		local var_35_15 = CollectPictureCfg[var_35_14]
+		slot5 = slot4 - slot1 - slot2
+		slot7 = CollectPictureCfg[uv2[slot5]]
 
-		table.remove(var_0_16, var_35_13)
+		table.remove(uv2, slot5)
 
-		return var_35_15.name, var_35_15.desc, var_35_15.picture, false
+		return slot7.name, slot7.desc, slot7.picture, false
 	end
 end
 
-return var_0_0
+return slot0

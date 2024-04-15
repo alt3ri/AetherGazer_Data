@@ -1,88 +1,85 @@
-local var_0_0 = class("CanteenPassTablePop", ReduxView)
+slot0 = class("CanteenPassTablePop", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamPassTablePop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.ExitOnCanteenModeChange(arg_4_0)
-	arg_4_0.onSelect = nil
-	arg_4_0.onCanceled = nil
+function slot0.ExitOnCanteenModeChange(slot0)
+	slot0.onSelect = nil
+	slot0.onCanceled = nil
 
-	arg_4_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	local var_5_0 = CanteenAIFunction:GetNameSpace(DormEnum.ItemType.PassTable)
+function slot0.OnEnter(slot0)
+	slot0.passtableEntityEid = CanteenAIFunction:GetAllEIDNameSpace(CanteenAIFunction:GetNameSpace(DormEnum.ItemType.PassTable))[1]
+	slot0.passtableData = CanteenAIFunction:GetEntityData(slot0.passtableEntityEid)
+	slot0.foodList = nullable(slot0.passtableData, "foodList")
+	slot0.playerEID = slot0.params_.playerEID
+	slot0.onSelect = slot0.params_.onSelect
+	slot0.onCanceled = slot0.params_.onCanceled
 
-	arg_5_0.passtableEntityEid = CanteenAIFunction:GetAllEIDNameSpace(var_5_0)[1]
-	arg_5_0.passtableData = CanteenAIFunction:GetEntityData(arg_5_0.passtableEntityEid)
-	arg_5_0.foodList = nullable(arg_5_0.passtableData, "foodList")
-	arg_5_0.playerEID = arg_5_0.params_.playerEID
-	arg_5_0.onSelect = arg_5_0.params_.onSelect
-	arg_5_0.onCanceled = arg_5_0.params_.onCanceled
+	slot0.foodListScroll_:StartScroll(slot0.foodList and #slot0.foodList or 0)
 
-	arg_5_0.foodListScroll_:StartScroll(arg_5_0.foodList and #arg_5_0.foodList or 0)
+	slot0.select = false
+	slot2 = handler(slot0, slot0.ExitOnCanteenModeChange)
 
-	arg_5_0.select = false
-
-	local var_5_1 = handler(arg_5_0, arg_5_0.ExitOnCanteenModeChange)
-
-	arg_5_0:RegistEventListener(DORM_RESTAURANT_START_AUTO, var_5_1)
-	arg_5_0:RegistEventListener(DORM_RESTAURANT_START_MANUAL, var_5_1)
+	slot0:RegistEventListener(DORM_RESTAURANT_START_AUTO, slot2)
+	slot0:RegistEventListener(DORM_RESTAURANT_START_MANUAL, slot2)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.foodListScroll_ = LuaList.New(handler(arg_6_0, arg_6_0.foodItem), arg_6_0.foodlistUilist_, CanteenPassTableFoodItem)
+	slot0.foodListScroll_ = LuaList.New(handler(slot0, slot0.foodItem), slot0.foodlistUilist_, CanteenPassTableFoodItem)
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgmaskBtn_, nil, function()
-		arg_7_0.select = false
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0.select = false
 
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.foodItem(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:RefreshItem(arg_9_0.foodList[arg_9_1])
-	arg_9_2:RegistCallBack(function(arg_10_0)
-		CanteenAIFunction:SetCharacterTarget(arg_9_0.playerEID, arg_10_0)
+function slot0.foodItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.foodList[slot1])
+	slot2:RegistCallBack(function (slot0)
+		CanteenAIFunction:SetCharacterTarget(uv0.playerEID, slot0)
 
-		arg_9_0.select = true
+		uv0.select = true
 
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 
-	if arg_11_0.select then
-		if arg_11_0.onSelect then
-			arg_11_0.onSelect()
+	if slot0.select then
+		if slot0.onSelect then
+			slot0.onSelect()
 		end
-	elseif arg_11_0.onCanceled then
-		arg_11_0.onCanceled()
+	elseif slot0.onCanceled then
+		slot0.onCanceled()
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.foodListScroll_ then
-		arg_12_0.foodListScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.foodListScroll_ then
+		slot0.foodListScroll_:Dispose()
 
-		arg_12_0.foodListScroll_ = nil
+		slot0.foodListScroll_ = nil
 	end
 end
 
-return var_0_0
+return slot0

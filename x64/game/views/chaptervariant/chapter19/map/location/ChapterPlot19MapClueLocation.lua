@@ -1,96 +1,85 @@
 ChapterPlot19MapBaseLocation = import(".ChapterPlot19MapBaseLocation")
+slot0 = class("ChapterPlot19MapClue", ChapterPlot19MapBaseLocation)
 
-local var_0_0 = class("ChapterPlot19MapClue", ChapterPlot19MapBaseLocation)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+	slot0.controller_ = slot0.controllerEx_:GetController("clue")
+	slot0.onOpenClueInfoHandler_ = handler(slot0, slot0.OnOpenClueInfo)
 
-	arg_1_0.controller_ = arg_1_0.controllerEx_:GetController("clue")
-	arg_1_0.onOpenClueInfoHandler_ = handler(arg_1_0, arg_1_0.OnOpenClueInfo)
-
-	manager.notify:RegistListener(CHAPTER_GET_CLUE, arg_1_0.onOpenClueInfoHandler_)
+	manager.notify:RegistListener(CHAPTER_GET_CLUE, slot0.onOpenClueInfoHandler_)
 end
 
-function var_0_0.Dispose(arg_2_0)
-	manager.notify:RemoveListener(CHAPTER_GET_CLUE, arg_2_0.onOpenClueInfoHandler_)
+function slot0.Dispose(slot0)
+	manager.notify:RemoveListener(CHAPTER_GET_CLUE, slot0.onOpenClueInfoHandler_)
 
-	arg_2_0.onOpenClueInfoHandler_ = nil
+	slot0.onOpenClueInfoHandler_ = nil
 
-	var_0_0.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		if not ChapterTools.IsEnableLocation(arg_3_0.locationID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if not ChapterTools.IsEnableLocation(uv0.locationID_) then
 			return
 		end
 
-		local var_4_0 = ChapterLocationCfg[arg_3_0.locationID_]
-
-		if var_4_0.need_scan == 0 then
-			BattleStageAction.ReadLoacationClue(arg_3_0.mapID_, arg_3_0.locationID_, var_4_0.clue[1])
-
-			local var_4_1 = var_4_0.clue[1]
-
+		if ChapterLocationCfg[uv0.locationID_].need_scan == 0 then
+			BattleStageAction.ReadLoacationClue(uv0.mapID_, uv0.locationID_, slot0.clue[1])
 			JumpTools.OpenPageByJump("stageArchive", {
 				isClue = true,
-				archiveID = var_4_1
+				archiveID = slot0.clue[1]
 			})
-		elseif var_4_0.type == BattleConst.LOCATION_TYPE.CLUE then
-			if ChapterTools.IsReadClue(arg_3_0.mapID_, arg_3_0.locationID_) then
-				local var_4_2 = BattleStageData:GetMapLocationData(arg_3_0.mapID_)[arg_3_0.locationID_] or var_4_0.clue[1]
-
+		elseif slot0.type == BattleConst.LOCATION_TYPE.CLUE then
+			if ChapterTools.IsReadClue(uv0.mapID_, uv0.locationID_) then
 				JumpTools.OpenPageByJump("stageArchive", {
 					isClue = true,
-					archiveID = var_4_2
+					archiveID = BattleStageData:GetMapLocationData(uv0.mapID_)[uv0.locationID_] or slot0.clue[1]
 				})
 
 				return
 			end
 
-			BattleStageAction.GetClueLocation(arg_3_0.locationID_)
-		elseif var_4_0.type == BattleConst.LOCATION_TYPE.BATTLE_CLUE then
-			ChapterTools.DoReadyBattle(ChapterCfg[arg_3_0.chapterID_].type, var_4_0.sub_stage_list[1])
+			BattleStageAction.GetClueLocation(uv0.locationID_)
+		elseif slot0.type == BattleConst.LOCATION_TYPE.BATTLE_CLUE then
+			ChapterTools.DoReadyBattle(ChapterCfg[uv0.chapterID_].type, slot0.sub_stage_list[1])
 		end
 	end)
 end
 
-function var_0_0.UpdateLocation(arg_5_0)
-	var_0_0.super.UpdateLocation(arg_5_0)
+function slot0.UpdateLocation(slot0)
+	uv0.super.UpdateLocation(slot0)
 
-	local var_5_0 = ChapterLocationCfg[arg_5_0.locationID_]
+	slot1 = ChapterLocationCfg[slot0.locationID_]
 
-	if ChapterTools.IsReadClue(arg_5_0.mapID_, arg_5_0.locationID_) then
-		arg_5_0.controller_:SetSelectedState("state2")
-	elseif var_5_0.type == BattleConst.LOCATION_TYPE.CLUE then
-		arg_5_0.controller_:SetSelectedState("state0")
+	if ChapterTools.IsReadClue(slot0.mapID_, slot0.locationID_) then
+		slot0.controller_:SetSelectedState("state2")
+	elseif slot1.type == BattleConst.LOCATION_TYPE.CLUE then
+		slot0.controller_:SetSelectedState("state0")
 	else
-		arg_5_0.controller_:SetSelectedState("state1")
+		slot0.controller_:SetSelectedState("state1")
 	end
 end
 
-function var_0_0.OnOpenClueInfo(arg_6_0, arg_6_1)
-	if arg_6_1 ~= arg_6_0.locationID_ then
+function slot0.OnOpenClueInfo(slot0, slot1)
+	if slot1 ~= slot0.locationID_ then
 		return
 	end
 
-	arg_6_0:UpdateLocation()
-
-	local var_6_0 = BattleStageData:GetMapLocationData(arg_6_0.mapID_)[arg_6_0.locationID_]
-
+	slot0:UpdateLocation()
 	JumpTools.OpenPageByJump("stageArchive", {
-		archiveID = var_6_0
+		archiveID = BattleStageData:GetMapLocationData(slot0.mapID_)[slot0.locationID_]
 	})
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	var_0_0.super.Show(arg_7_0, arg_7_1)
+function slot0.Show(slot0, slot1)
+	uv0.super.Show(slot0, slot1)
 
-	if arg_7_1 and arg_7_0.needRefreshAnimaor_ then
-		arg_7_0.animator_:Play("verClue", -1, 0)
+	if slot1 and slot0.needRefreshAnimaor_ then
+		slot0.animator_:Play("verClue", -1, 0)
 	end
 
-	arg_7_0.needRefreshAnimaor_ = false
+	slot0.needRefreshAnimaor_ = false
 end
 
-return var_0_0
+return slot0

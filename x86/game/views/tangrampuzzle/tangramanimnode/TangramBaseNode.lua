@@ -1,23 +1,22 @@
-local var_0_0 = class("TangramBaseNode")
+slot0 = class("TangramBaseNode")
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-function var_0_0.Init(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.root_ = arg_2_1
-	arg_2_0.blackboard_ = arg_2_2
-	arg_2_0.manager_ = arg_2_3
+function slot0.Init(slot0, slot1, slot2, slot3)
+	slot0.root_ = slot1
+	slot0.blackboard_ = slot2
+	slot0.manager_ = slot3
 end
 
-function var_0_0.RunFunc(arg_3_0)
-	arg_3_0.root_:SetNodeRunComplete()
+function slot0.RunFunc(slot0)
+	slot0.root_:SetNodeRunComplete()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.root_ = nil
-	arg_4_0.blackboard_ = nil
-	arg_4_0.manager_ = nil
+function slot0.Dispose(slot0)
+	slot0.root_ = nil
+	slot0.blackboard_ = nil
+	slot0.manager_ = nil
 end
 
-return var_0_0
+return slot0

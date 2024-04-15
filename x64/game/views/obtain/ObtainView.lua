@@ -1,212 +1,165 @@
-local var_0_0 = class("ObtainView", ReduxView)
-local var_0_1 = "OBTAIN_HERO_MOVIE"
+slot0 = class("ObtainView", ReduxView)
+slot1 = "OBTAIN_HERO_MOVIE"
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ObtainUI/ObtainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Create(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = arg_3_0.content_
-	local var_3_1
+function slot0.Create(slot0, slot1, slot2)
+	slot4 = nil
 
-	if arg_3_1 == ItemConst.ITEM_TYPE.HERO then
-		local var_3_2
-
-		if arg_3_2 == 2 then
-			var_3_2 = Asset.Load("Widget/System/ObtainUI/ObtainHeroSUI")
-		elseif arg_3_2 == 1 then
-			var_3_2 = Asset.Load("Widget/System/ObtainUI/ObtainHeroAUI")
-		else
-			var_3_2 = Asset.Load("Widget/System/ObtainUI/ObtainHeroBUI")
-		end
-
-		var_3_1 = ObtainHeroView.New(var_3_2, var_3_0)
-	elseif arg_3_1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		local var_3_3
-
-		if arg_3_2 == 2 then
-			var_3_3 = Asset.Load("Widget/System/ObtainUI/ObtainWeaponSUI")
-		elseif arg_3_2 == 1 then
-			var_3_3 = Asset.Load("Widget/System/ObtainUI/ObtainWeaponAUI")
-		else
-			var_3_3 = Asset.Load("Widget/System/ObtainUI/ObtainWeaponBUI")
-		end
-
-		var_3_1 = ObtainWeaponView.New(var_3_3, var_3_0)
-	elseif arg_3_1 == ItemConst.ITEM_TYPE.HERO_SKIN then
-		local var_3_4
-
-		if arg_3_2 == 2 then
-			var_3_4 = Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinSUI")
-		elseif arg_3_2 == 1 then
-			var_3_4 = Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinAUI")
-		else
-			var_3_4 = Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinBUI")
-		end
-
-		var_3_1 = ObtainSkinView.New(var_3_4, var_3_0)
-	elseif arg_3_1 == var_0_1 then
-		local var_3_5 = Asset.Load("Widget/System/ObtainUI/HeroMovie/ObtainHeroMovieUI")
-
-		var_3_1 = ObtainHeroMovieView.New(var_3_5, var_3_0, arg_3_0.showSkipHandler, arg_3_0.refreshShareHandler_, arg_3_0.skipStart)
+	if slot1 == ItemConst.ITEM_TYPE.HERO then
+		slot5 = nil
+		slot4 = ObtainHeroView.New((slot2 ~= 2 or Asset.Load("Widget/System/ObtainUI/ObtainHeroSUI")) and (slot2 ~= 1 or Asset.Load("Widget/System/ObtainUI/ObtainHeroAUI")) and Asset.Load("Widget/System/ObtainUI/ObtainHeroBUI"), slot0.content_)
+	elseif slot1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+		slot5 = nil
+		slot4 = ObtainWeaponView.New((slot2 ~= 2 or Asset.Load("Widget/System/ObtainUI/ObtainWeaponSUI")) and (slot2 ~= 1 or Asset.Load("Widget/System/ObtainUI/ObtainWeaponAUI")) and Asset.Load("Widget/System/ObtainUI/ObtainWeaponBUI"), slot3)
+	elseif slot1 == ItemConst.ITEM_TYPE.HERO_SKIN then
+		slot5 = nil
+		slot4 = ObtainSkinView.New((slot2 ~= 2 or Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinSUI")) and (slot2 ~= 1 or Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinAUI")) and Asset.Load("Widget/System/ObtainUI/Skin/ObtainSkinBUI"), slot3)
 	else
-		local var_3_6 = Asset.Load("Widget/System/ObtainUI/ObtainItemUI")
-
-		var_3_1 = ObtainItemView.New(var_3_6, var_3_0)
+		slot4 = (slot1 ~= uv0 or ObtainHeroMovieView.New(Asset.Load("Widget/System/ObtainUI/HeroMovie/ObtainHeroMovieUI"), slot3, slot0.showSkipHandler, slot0.refreshShareHandler_, slot0.skipStart)) and ObtainItemView.New(Asset.Load("Widget/System/ObtainUI/ObtainItemUI"), slot3)
 	end
 
-	var_3_1:Init()
+	slot4:Init()
 
-	return var_3_1
+	return slot4
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.list = {}
+	slot0.list = {}
 
-	SetActive(arg_5_0.goShare_, OperationData:IsOperationOpen(OperationConst.SHARE_FLAG))
+	SetActive(slot0.goShare_, OperationData:IsOperationOpen(OperationConst.SHARE_FLAG))
 
-	arg_5_0.showSkipHandler = handler(arg_5_0, arg_5_0.ShowSkipBtn)
-	arg_5_0.refreshShareHandler_ = handler(arg_5_0, arg_5_0.RefreshShareBtn)
+	slot0.showSkipHandler = handler(slot0, slot0.ShowSkipBtn)
+	slot0.refreshShareHandler_ = handler(slot0, slot0.RefreshShareBtn)
 end
 
-function var_0_0.ShowSkipBtn(arg_6_0)
-	if arg_6_0.goSkip_ and arg_6_0.skipHandler then
-		SetActive(arg_6_0.goSkip_, not arg_6_0:GetIsHaveUnWatchHero())
+function slot0.ShowSkipBtn(slot0)
+	if slot0.goSkip_ and slot0.skipHandler then
+		SetActive(slot0.goSkip_, not slot0:GetIsHaveUnWatchHero())
 	end
 end
 
-function var_0_0.RefreshShareBtn(arg_7_0)
-	SetActive(arg_7_0.goShare_, OperationData:IsOperationOpen(OperationConst.SHARE_FLAG))
+function slot0.RefreshShareBtn(slot0)
+	SetActive(slot0.goShare_, OperationData:IsOperationOpen(OperationConst.SHARE_FLAG))
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	if arg_8_0.maskBtn_ then
-		arg_8_0:AddBtnListener(arg_8_0.maskBtn_, nil, handler(arg_8_0, arg_8_0.OnMaskBtnClick))
+function slot0.AddListeners(slot0)
+	if slot0.maskBtn_ then
+		slot0:AddBtnListener(slot0.maskBtn_, nil, handler(slot0, slot0.OnMaskBtnClick))
 	end
 
-	if arg_8_0.skipBtn_ then
-		arg_8_0:AddBtnListener(arg_8_0.skipBtn_, nil, handler(arg_8_0, arg_8_0.OnSkipBtnClick))
+	if slot0.skipBtn_ then
+		slot0:AddBtnListener(slot0.skipBtn_, nil, handler(slot0, slot0.OnSkipBtnClick))
 	end
 
-	arg_8_0:AddBtnListener(arg_8_0.buttonShare_, nil, function()
-		local var_9_0 = arg_8_0.itemList[arg_8_0.index]
+	slot0:AddBtnListener(slot0.buttonShare_, nil, function ()
+		slot0 = uv0.itemList[uv0.index]
 
-		arg_8_0.cur:Skip2End()
+		uv0.cur:Skip2End()
 
-		if arg_8_0.timer_ then
-			arg_8_0.timer_:Stop()
+		if uv0.timer_ then
+			uv0.timer_:Stop()
 		end
 
-		local var_9_1 = arg_8_0.goShare_.activeSelf
-		local var_9_2 = arg_8_0.goSkip_.activeSelf
+		slot1 = uv0.goShare_.activeSelf
+		slot2 = uv0.goSkip_.activeSelf
+		uv0.timer_ = Timer.New(function ()
+			uv0.timer_:Stop()
 
-		arg_8_0.timer_ = Timer.New(function()
-			arg_8_0.timer_:Stop()
+			uv0.timer_ = nil
 
-			arg_8_0.timer_ = nil
-
-			manager.share:Share(function()
-				SetActive(arg_8_0.goShare_, false)
-				SetActive(arg_8_0.goSkip_, false)
-				arg_8_0.cur:HideShareUI(var_9_0)
-			end, function()
-				SetActive(arg_8_0.goShare_, var_9_1)
-				SetActive(arg_8_0.goSkip_, var_9_2)
-				arg_8_0.cur:ShowShareUI(var_9_0)
-			end, function()
-				return
+			manager.share:Share(function ()
+				SetActive(uv0.goShare_, false)
+				SetActive(uv0.goSkip_, false)
+				uv0.cur:HideShareUI(uv1)
+			end, function ()
+				SetActive(uv0.goShare_, uv1)
+				SetActive(uv0.goSkip_, uv2)
+				uv0.cur:ShowShareUI(uv3)
+			end, function ()
 			end)
 		end, 0.066, 1)
 
-		arg_8_0.timer_:Start()
+		uv0.timer_:Start()
 	end)
 end
 
-function var_0_0.OnMaskBtnClick(arg_14_0)
-	if arg_14_0.cur and arg_14_0.cur:OnClick() then
-		arg_14_0:DoNext()
+function slot0.OnMaskBtnClick(slot0)
+	if slot0.cur and slot0.cur:OnClick() then
+		slot0:DoNext()
 	end
 end
 
-function var_0_0.OnSkipBtnClick(arg_15_0)
-	arg_15_0:Back()
+function slot0.OnSkipBtnClick(slot0)
+	slot0:Back()
 
-	if arg_15_0.skipHandler then
-		arg_15_0.skipHandler()
+	if slot0.skipHandler then
+		slot0.skipHandler()
 	end
 end
 
-function var_0_0.DoNext(arg_16_0)
-	if arg_16_0.cur then
-		arg_16_0.cur:Hide()
+function slot0.DoNext(slot0)
+	if slot0.cur then
+		slot0.cur:Hide()
 	end
 
-	arg_16_0.index = arg_16_0.index + 1
+	slot0.index = slot0.index + 1
 
-	if arg_16_0.index > #arg_16_0.itemList then
-		arg_16_0:Back()
+	if slot0.index > #slot0.itemList then
+		slot0:Back()
 
-		if arg_16_0.doNextHandler then
-			arg_16_0.doNextHandler()
+		if slot0.doNextHandler then
+			slot0.doNextHandler()
 		end
 	else
-		local var_16_0 = arg_16_0.itemList[arg_16_0.index]
-		local var_16_1 = ItemWillConvert(var_16_0) and var_16_0.convert_from.id or var_16_0.id
-		local var_16_2 = ItemCfg[var_16_1]
-		local var_16_3 = var_16_2.type
-
-		if var_16_3 ~= ItemConst.ITEM_TYPE.HERO and var_16_3 ~= ItemConst.ITEM_TYPE.WEAPON_SERVANT and var_16_3 ~= ItemConst.ITEM_TYPE.HERO_SKIN then
-			var_16_3 = 0
+		if ItemCfg[ItemWillConvert(slot0.itemList[slot0.index]) and slot1.convert_from.id or slot1.id].type ~= ItemConst.ITEM_TYPE.HERO and slot4 ~= ItemConst.ITEM_TYPE.WEAPON_SERVANT and slot4 ~= ItemConst.ITEM_TYPE.HERO_SKIN then
+			slot4 = 0
 		end
 
-		if not var_16_2 then
-			arg_16_0:DoNext()
+		if not slot3 then
+			slot0:DoNext()
 		else
-			local var_16_4 = var_16_2.display_rare
-			local var_16_5 = 0
-			local var_16_6 = var_16_4 >= 5 and 2 or var_16_4 >= 4 and 1 or 0
-			local var_16_7 = var_16_3 .. "_" .. var_16_6
+			slot6 = 0
+			slot7 = slot4 .. "_" .. (slot3.display_rare >= 5 and 2 or slot5 >= 4 and 1 or 0)
 
-			if var_16_3 == ItemConst.ITEM_TYPE.HERO and ObtainHeroMovieCfg[var_16_1] then
-				var_16_3 = var_0_1
-				var_16_7 = var_0_1
+			if slot4 == ItemConst.ITEM_TYPE.HERO and ObtainHeroMovieCfg[slot2] then
+				slot4 = uv0
+				slot7 = uv0
 
-				if not (getData(DrawConst.WATCH_TAG, tostring(var_16_1)) or false) then
-					SetActive(arg_16_0.goSkip_, false)
-					SetActive(arg_16_0.goShare_, false)
+				if not (getData(DrawConst.WATCH_TAG, tostring(slot2)) or false) then
+					SetActive(slot0.goSkip_, false)
+					SetActive(slot0.goShare_, false)
 				end
 			end
 
-			if not arg_16_0.list[var_16_7] then
-				arg_16_0.list[var_16_7] = arg_16_0:Create(var_16_3, var_16_6)
+			if not slot0.list[slot7] then
+				slot0.list[slot7] = slot0:Create(slot4, slot6)
 			end
 
-			arg_16_0.cur = arg_16_0.list[var_16_7]
+			slot0.cur = slot0.list[slot7]
 
-			arg_16_0.cur:Show(var_16_0, arg_16_0.obtainsParams)
+			slot0.cur:Show(slot1, slot0.obtainsParams)
 		end
 	end
 end
 
-function var_0_0.GetIsHaveUnWatchHero(arg_17_0)
-	local var_17_0 = #arg_17_0.itemList
-
-	if var_17_0 > 0 then
-		for iter_17_0 = arg_17_0.index + 1, var_17_0 do
-			local var_17_1 = arg_17_0.itemList[iter_17_0]
-
-			if ItemCfg[var_17_1.id].type == ItemConst.ITEM_TYPE.HERO and ObtainHeroMovieCfg[var_17_1.id] and not (getData(DrawConst.WATCH_TAG, tostring(var_17_1.id)) or false) then
+function slot0.GetIsHaveUnWatchHero(slot0)
+	if #slot0.itemList > 0 then
+		for slot5 = slot0.index + 1, slot1 do
+			if ItemCfg[slot0.itemList[slot5].id].type == ItemConst.ITEM_TYPE.HERO and ObtainHeroMovieCfg[slot6.id] and not (getData(DrawConst.WATCH_TAG, tostring(slot6.id)) or false) then
 				return true
 			end
 		end
@@ -215,66 +168,66 @@ function var_0_0.GetIsHaveUnWatchHero(arg_17_0)
 	return false
 end
 
-function var_0_0.OnEnter(arg_18_0)
-	arg_18_0.doNextHandler = arg_18_0.params_.doNextHandler
-	arg_18_0.skipHandler = arg_18_0.params_.skipHandler
-	arg_18_0.itemList = arg_18_0.params_.itemList
-	arg_18_0.skipStart = arg_18_0.params_.skipStart
-	arg_18_0.obtainsParams = arg_18_0.params_.obtainsParams
-	arg_18_0.index = 0
+function slot0.OnEnter(slot0)
+	slot0.doNextHandler = slot0.params_.doNextHandler
+	slot0.skipHandler = slot0.params_.skipHandler
+	slot0.itemList = slot0.params_.itemList
+	slot0.skipStart = slot0.params_.skipStart
+	slot0.obtainsParams = slot0.params_.obtainsParams
+	slot0.index = 0
 
-	if arg_18_0.goSkip_ and arg_18_0.skipHandler then
-		SetActive(arg_18_0.goSkip_, not arg_18_0:GetIsHaveUnWatchHero())
+	if slot0.goSkip_ and slot0.skipHandler then
+		SetActive(slot0.goSkip_, not slot0:GetIsHaveUnWatchHero())
 	else
-		SetActive(arg_18_0.goSkip_, false)
+		SetActive(slot0.goSkip_, false)
 	end
 
 	if manager.windowBar:GetIsShow() then
-		arg_18_0.barList = manager.windowBar:GetLastBarList()
+		slot0.barList = manager.windowBar:GetLastBarList()
 
 		manager.windowBar:HideBar()
 	else
-		arg_18_0.barList = nil
+		slot0.barList = nil
 	end
 
-	arg_18_0:DoNext()
+	slot0:DoNext()
 end
 
-function var_0_0.OnExit(arg_19_0)
-	if arg_19_0.cur then
-		arg_19_0.cur:Hide()
+function slot0.OnExit(slot0)
+	if slot0.cur then
+		slot0.cur:Hide()
 
-		arg_19_0.cur = nil
+		slot0.cur = nil
 	end
 
-	if arg_19_0.barList then
-		manager.windowBar:SwitchBar(arg_19_0.barList)
+	if slot0.barList then
+		manager.windowBar:SwitchBar(slot0.barList)
 	end
 
 	manager.gc:Collect()
 	Resources.UnloadUnusedAssets()
 
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_20_0)
-	for iter_20_0, iter_20_1 in pairs(arg_20_0.list) do
-		iter_20_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.list) do
+		slot5:Dispose()
 	end
 
-	arg_20_0.list = {}
+	slot0.list = {}
 
-	var_0_0.super.Dispose(arg_20_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnObtainHeroMovieAnimtionEvent(arg_21_0)
-	for iter_21_0, iter_21_1 in pairs(arg_21_0.list) do
-		iter_21_1:OnObtainHeroMovieAnimtionEvent()
+function slot0.OnObtainHeroMovieAnimtionEvent(slot0)
+	for slot4, slot5 in pairs(slot0.list) do
+		slot5:OnObtainHeroMovieAnimtionEvent()
 	end
 end
 
-return var_0_0
+return slot0

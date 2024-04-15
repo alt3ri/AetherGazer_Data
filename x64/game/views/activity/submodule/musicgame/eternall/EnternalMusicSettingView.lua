@@ -1,380 +1,359 @@
-local var_0_0 = class("EnternalMusicSettingView", ReduxView)
-local var_0_1 = 5
-local var_0_2 = 1
-local var_0_3 = 50
-local var_0_4 = -50
-local var_0_5 = 50
-local var_0_6 = -50
-local var_0_7 = 100
-local var_0_8 = 0
+slot0 = class("EnternalMusicSettingView", ReduxView)
+slot1 = 5
+slot2 = 1
+slot3 = 50
+slot4 = -50
+slot5 = 50
+slot6 = -50
+slot7 = 100
+slot8 = 0
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng1stUI/Music/XH1stMusicSetUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	local var_3_0 = Asset.Load("Music/MusicSet")
-
-	arg_3_0.musicSetGo = Object.Instantiate(var_3_0)
-	arg_3_0.musicSetController = arg_3_0.musicSetGo:GetComponent("MusicSetController")
+	slot0.musicSetGo = Object.Instantiate(Asset.Load("Music/MusicSet"))
+	slot0.musicSetController = slot0.musicSetGo:GetComponent("MusicSetController")
 
 	manager.ui:SetMainCamera("musicSet")
 
-	arg_3_0.speedNum = 0
-	arg_3_0.judgeNum = 0
-	arg_3_0.screanNum = 0
-	arg_3_0.showMovie = true
-	arg_3_0.test = true
-	arg_3_0.ratingController = ControllerUtil.GetController(arg_3_0.transform_, "rating")
+	slot0.speedNum = 0
+	slot0.judgeNum = 0
+	slot0.screanNum = 0
+	slot0.showMovie = true
+	slot0.test = true
+	slot0.ratingController = ControllerUtil.GetController(slot0.transform_, "rating")
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.m_speedSlider.minValue = var_0_2
-	arg_4_0.m_speedSlider.maxValue = var_0_1
-	arg_4_0.m_judgeSlider.minValue = var_0_4
-	arg_4_0.m_judgeSlider.maxValue = var_0_3
-	arg_4_0.m_screanSlider.minValue = var_0_6
-	arg_4_0.m_screanSlider.maxValue = var_0_5
-	arg_4_0.m_volumeSlider.minValue = var_0_8
-	arg_4_0.m_volumeSlider.maxValue = var_0_7
-	arg_4_0.testController = ControllerUtil.GetController(arg_4_0.transform_, "test")
-	arg_4_0.vedioController = ControllerUtil.GetController(arg_4_0.transform_, "vedio")
+	slot0.m_speedSlider.minValue = uv0
+	slot0.m_speedSlider.maxValue = uv1
+	slot0.m_judgeSlider.minValue = uv2
+	slot0.m_judgeSlider.maxValue = uv3
+	slot0.m_screanSlider.minValue = uv4
+	slot0.m_screanSlider.maxValue = uv5
+	slot0.m_volumeSlider.minValue = uv6
+	slot0.m_volumeSlider.maxValue = uv7
+	slot0.testController = ControllerUtil.GetController(slot0.transform_, "test")
+	slot0.vedioController = ControllerUtil.GetController(slot0.transform_, "vedio")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0.m_speedSlider.onValueChanged:AddListener(function()
-		local var_6_0 = string.format("%.1f", arg_5_0.m_speedSlider.value)
+function slot0.AddUIListener(slot0)
+	slot0.m_speedSlider.onValueChanged:AddListener(function ()
+		uv0.speedNum = tonumber(string.format("%.1f", uv0.m_speedSlider.value))
+		uv0.m_speedLab.text = uv0.speedNum
 
-		arg_5_0.speedNum = tonumber(var_6_0)
-		arg_5_0.m_speedLab.text = arg_5_0.speedNum
-
-		arg_5_0:ChangeSpeed()
+		uv0:ChangeSpeed()
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_speedAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.speedNum < var_0_1 then
-			arg_5_0.speedNum = arg_5_0.speedNum + 0.1
-			arg_5_0.speedNum = math.min(arg_5_0.speedNum, var_0_1)
-			arg_5_0.m_speedSlider.value = arg_5_0.speedNum
-			arg_5_0.m_speedLab.text = arg_5_0.speedNum
+	slot0:AddPressingByTimeListener(slot0.m_speedAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.speedNum < uv1 then
+			uv0.speedNum = uv0.speedNum + 0.1
+			uv0.speedNum = math.min(uv0.speedNum, uv1)
+			uv0.m_speedSlider.value = uv0.speedNum
+			uv0.m_speedLab.text = uv0.speedNum
 
-			arg_5_0:ChangeSpeed()
+			uv0:ChangeSpeed()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_speedDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.speedNum > var_0_2 then
-			arg_5_0.speedNum = arg_5_0.speedNum - 0.1
-			arg_5_0.speedNum = math.max(arg_5_0.speedNum, var_0_2)
-			arg_5_0.m_speedSlider.value = arg_5_0.speedNum
-			arg_5_0.m_speedLab.text = arg_5_0.speedNum
+	slot0:AddPressingByTimeListener(slot0.m_speedDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.speedNum then
+			uv0.speedNum = uv0.speedNum - 0.1
+			uv0.speedNum = math.max(uv0.speedNum, uv1)
+			uv0.m_speedSlider.value = uv0.speedNum
+			uv0.m_speedLab.text = uv0.speedNum
 
-			arg_5_0:ChangeSpeed()
-
-			return true
-		end
-
-		return false
-	end)
-	arg_5_0.m_judgeSlider.onValueChanged:AddListener(function()
-		local var_9_0 = string.format("%.0f", arg_5_0.m_judgeSlider.value)
-
-		arg_5_0.judgeNum = tonumber(var_9_0)
-		arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
-
-		arg_5_0:ChangeJudge()
-	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_judgeAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.judgeNum < var_0_3 then
-			arg_5_0.judgeNum = arg_5_0.judgeNum + 1
-			arg_5_0.judgeNum = math.min(arg_5_0.judgeNum, var_0_3)
-			arg_5_0.m_judgeSlider.value = arg_5_0.judgeNum
-			arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
-
-			arg_5_0:ChangeJudge()
+			uv0:ChangeSpeed()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_judgeDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.judgeNum > var_0_4 then
-			arg_5_0.judgeNum = arg_5_0.judgeNum - 1
-			arg_5_0.judgeNum = math.max(arg_5_0.judgeNum, var_0_4)
-			arg_5_0.m_judgeSlider.value = arg_5_0.judgeNum
-			arg_5_0.m_judgeLab.text = arg_5_0.judgeNum
+	slot0.m_judgeSlider.onValueChanged:AddListener(function ()
+		uv0.judgeNum = tonumber(string.format("%.0f", uv0.m_judgeSlider.value))
+		uv0.m_judgeLab.text = uv0.judgeNum
 
-			arg_5_0:ChangeJudge()
+		uv0:ChangeJudge()
+	end)
+	slot0:AddPressingByTimeListener(slot0.m_judgeAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.judgeNum < uv1 then
+			uv0.judgeNum = uv0.judgeNum + 1
+			uv0.judgeNum = math.min(uv0.judgeNum, uv1)
+			uv0.m_judgeSlider.value = uv0.judgeNum
+			uv0.m_judgeLab.text = uv0.judgeNum
+
+			uv0:ChangeJudge()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0.m_screanSlider.onValueChanged:AddListener(function()
-		local var_12_0 = string.format("%.0f", arg_5_0.m_screanSlider.value)
+	slot0:AddPressingByTimeListener(slot0.m_judgeDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.judgeNum then
+			uv0.judgeNum = uv0.judgeNum - 1
+			uv0.judgeNum = math.max(uv0.judgeNum, uv1)
+			uv0.m_judgeSlider.value = uv0.judgeNum
+			uv0.m_judgeLab.text = uv0.judgeNum
 
-		arg_5_0.screanNum = tonumber(var_12_0)
-		arg_5_0.m_screanLab.text = arg_5_0.screanNum
-
-		arg_5_0:ChangeScreen()
-	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_screanAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.screanNum < var_0_5 then
-			arg_5_0.screanNum = arg_5_0.screanNum + 1
-			arg_5_0.screanNum = math.min(arg_5_0.screanNum, var_0_5)
-			arg_5_0.m_screanSlider.value = arg_5_0.screanNum
-			arg_5_0.m_screanLab.text = arg_5_0.screanNum
-
-			arg_5_0:ChangeScreen()
+			uv0:ChangeJudge()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_screanDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.screanNum > var_0_6 then
-			arg_5_0.screanNum = arg_5_0.screanNum - 1
-			arg_5_0.screanNum = math.max(arg_5_0.screanNum, var_0_6)
-			arg_5_0.m_screanSlider.value = arg_5_0.screanNum
-			arg_5_0.m_screanLab.text = arg_5_0.screanNum
+	slot0.m_screanSlider.onValueChanged:AddListener(function ()
+		uv0.screanNum = tonumber(string.format("%.0f", uv0.m_screanSlider.value))
+		uv0.m_screanLab.text = uv0.screanNum
 
-			arg_5_0:ChangeScreen()
+		uv0:ChangeScreen()
+	end)
+	slot0:AddPressingByTimeListener(slot0.m_screanAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.screanNum < uv1 then
+			uv0.screanNum = uv0.screanNum + 1
+			uv0.screanNum = math.min(uv0.screanNum, uv1)
+			uv0.m_screanSlider.value = uv0.screanNum
+			uv0.m_screanLab.text = uv0.screanNum
+
+			uv0:ChangeScreen()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0.m_volumeSlider.onValueChanged:AddListener(function()
-		local var_15_0 = string.format("%.0f", arg_5_0.m_volumeSlider.value)
+	slot0:AddPressingByTimeListener(slot0.m_screanDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.screanNum then
+			uv0.screanNum = uv0.screanNum - 1
+			uv0.screanNum = math.max(uv0.screanNum, uv1)
+			uv0.m_screanSlider.value = uv0.screanNum
+			uv0.m_screanLab.text = uv0.screanNum
 
-		arg_5_0.volumeNum = tonumber(var_15_0)
-		arg_5_0.m_volumeLab.text = arg_5_0.volumeNum
-
-		arg_5_0:ChangeVolume()
-	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_volumeAddBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.volumeNum < var_0_7 then
-			arg_5_0.volumeNum = arg_5_0.volumeNum + 1
-			arg_5_0.volumeNum = math.min(arg_5_0.volumeNum, var_0_7)
-			arg_5_0.m_volumeSlider.value = arg_5_0.volumeNum
-			arg_5_0.m_volumeLab.text = arg_5_0.volumeNum
-
-			arg_5_0:ChangeVolume()
+			uv0:ChangeScreen()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddPressingByTimeListener(arg_5_0.m_volumeDelBtn.gameObject, 3, 0.5, 0.2, function()
-		if arg_5_0.volumeNum > var_0_8 then
-			arg_5_0.volumeNum = arg_5_0.volumeNum - 1
-			arg_5_0.volumeNum = math.max(arg_5_0.volumeNum, var_0_8)
-			arg_5_0.m_volumeSlider.value = arg_5_0.volumeNum
-			arg_5_0.m_volumeLab.text = arg_5_0.volumeNum
+	slot0.m_volumeSlider.onValueChanged:AddListener(function ()
+		uv0.volumeNum = tonumber(string.format("%.0f", uv0.m_volumeSlider.value))
+		uv0.m_volumeLab.text = uv0.volumeNum
 
-			arg_5_0:ChangeVolume()
+		uv0:ChangeVolume()
+	end)
+	slot0:AddPressingByTimeListener(slot0.m_volumeAddBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv0.volumeNum < uv1 then
+			uv0.volumeNum = uv0.volumeNum + 1
+			uv0.volumeNum = math.min(uv0.volumeNum, uv1)
+			uv0.m_volumeSlider.value = uv0.volumeNum
+			uv0.m_volumeLab.text = uv0.volumeNum
+
+			uv0:ChangeVolume()
 
 			return true
 		end
 
 		return false
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_testOn, nil, function()
-		arg_5_0:ChangeTestBool(true)
+	slot0:AddPressingByTimeListener(slot0.m_volumeDelBtn.gameObject, 3, 0.5, 0.2, function ()
+		if uv1 < uv0.volumeNum then
+			uv0.volumeNum = uv0.volumeNum - 1
+			uv0.volumeNum = math.max(uv0.volumeNum, uv1)
+			uv0.m_volumeSlider.value = uv0.volumeNum
+			uv0.m_volumeLab.text = uv0.volumeNum
+
+			uv0:ChangeVolume()
+
+			return true
+		end
+
+		return false
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_testOff, nil, function()
-		arg_5_0:ChangeTestBool(false)
+	slot0:AddBtnListener(slot0.m_testOn, nil, function ()
+		uv0:ChangeTestBool(true)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_vedioOn, nil, function()
-		arg_5_0:ChangeVedioBool(true)
+	slot0:AddBtnListener(slot0.m_testOff, nil, function ()
+		uv0:ChangeTestBool(false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_vedioOff, nil, function()
-		arg_5_0:ChangeVedioBool(false)
+	slot0:AddBtnListener(slot0.m_vedioOn, nil, function ()
+		uv0:ChangeVedioBool(true)
+	end)
+	slot0:AddBtnListener(slot0.m_vedioOff, nil, function ()
+		uv0:ChangeVedioBool(false)
 	end)
 end
 
-function var_0_0.OnTop(arg_22_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_23_0)
+function slot0.OnEnter(slot0)
 	manager.ui:SetMainCamera("musicSet")
-	arg_23_0.ratingController:SetSelectedIndex(0)
-	arg_23_0:InitBackScene()
+	slot0.ratingController:SetSelectedIndex(0)
+	slot0:InitBackScene()
 
-	arg_23_0.speedNum = MusicData:GetSpeedValue()
-	arg_23_0.m_speedSlider.value = arg_23_0.speedNum
-	arg_23_0.m_speedLab.text = arg_23_0.speedNum
+	slot0.speedNum = MusicData:GetSpeedValue()
+	slot0.m_speedSlider.value = slot0.speedNum
+	slot0.m_speedLab.text = slot0.speedNum
 
-	arg_23_0:ChangeSpeed()
+	slot0:ChangeSpeed()
 
-	arg_23_0.judgeNum = MusicData:GetJudgeValue()
-	arg_23_0.m_judgeSlider.value = arg_23_0.judgeNum
-	arg_23_0.m_judgeLab.text = arg_23_0.judgeNum
+	slot0.judgeNum = MusicData:GetJudgeValue()
+	slot0.m_judgeSlider.value = slot0.judgeNum
+	slot0.m_judgeLab.text = slot0.judgeNum
 
-	arg_23_0:ChangeJudge()
+	slot0:ChangeJudge()
 
-	arg_23_0.screanNum = MusicData:GetScreanValue()
-	arg_23_0.m_screanSlider.value = arg_23_0.screanNum
-	arg_23_0.m_screanLab.text = arg_23_0.screanNum
+	slot0.screanNum = MusicData:GetScreanValue()
+	slot0.m_screanSlider.value = slot0.screanNum
+	slot0.m_screanLab.text = slot0.screanNum
 
-	arg_23_0:ChangeScreen()
+	slot0:ChangeScreen()
 
-	arg_23_0.volumeNum = MusicData:GetVolumeValue()
-	arg_23_0.m_volumeSlider.value = arg_23_0.volumeNum
-	arg_23_0.m_volumeLab.text = arg_23_0.volumeNum
+	slot0.volumeNum = MusicData:GetVolumeValue()
+	slot0.m_volumeSlider.value = slot0.volumeNum
+	slot0.m_volumeLab.text = slot0.volumeNum
 
-	arg_23_0:ChangeVolume()
+	slot0:ChangeVolume()
 
-	arg_23_0.showMovie = MusicData:GetShowMovie()
+	slot0.showMovie = MusicData:GetShowMovie()
 
-	arg_23_0.vedioController:SetSelectedIndex(arg_23_0.showMovie and 1 or 0)
+	slot0.vedioController:SetSelectedIndex(slot0.showMovie and 1 or 0)
 
-	arg_23_0.test = arg_23_0.musicSetController.autoClick
+	slot0.test = slot0.musicSetController.autoClick
 
-	arg_23_0.testController:SetSelectedIndex(arg_23_0.test and 1 or 0)
-	SetActive(arg_23_0.musicSetGo, true)
+	slot0.testController:SetSelectedIndex(slot0.test and 1 or 0)
+	SetActive(slot0.musicSetGo, true)
 
-	arg_23_0.raycaster = manager.ui.mainCamera:AddComponent(typeof(PhysicsRaycaster))
+	slot0.raycaster = manager.ui.mainCamera:AddComponent(typeof(PhysicsRaycaster))
 
-	arg_23_0.musicSetController:Begain()
+	slot0.musicSetController:Begain()
 end
 
-function var_0_0.OnExit(arg_24_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_24_0.raycaster then
-		Object.Destroy(arg_24_0.raycaster_)
+	if slot0.raycaster then
+		Object.Destroy(slot0.raycaster_)
 	end
 
-	arg_24_0.musicSetController:End()
-	SetActive(arg_24_0.musicSetGo, false)
-	MusicData:SetSpeedValue(arg_24_0.speedNum)
-	MusicData:SetJudgeValue(arg_24_0.judgeNum)
-	MusicData:SetScreanValue(arg_24_0.screanNum)
-	MusicData:SetVolumeValue(arg_24_0.volumeNum)
-	MusicData:SetShoMovie(arg_24_0.showMovie)
+	slot0.musicSetController:End()
+	SetActive(slot0.musicSetGo, false)
+	MusicData:SetSpeedValue(slot0.speedNum)
+	MusicData:SetJudgeValue(slot0.judgeNum)
+	MusicData:SetScreanValue(slot0.screanNum)
+	MusicData:SetVolumeValue(slot0.volumeNum)
+	MusicData:SetShoMovie(slot0.showMovie)
 	SDKTools.SendMessageToSDK("activity_music_setting", {
 		activity_id = ActivityConst.VOLUME_MUSIC,
-		speed = tostring(arg_24_0.speedNum),
-		time = tostring(arg_24_0.judgeNum)
+		speed = tostring(slot0.speedNum),
+		time = tostring(slot0.judgeNum)
 	})
 
-	if arg_24_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_24_0.backGround_, ASSET_TYPE.SCENE)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 	end
 end
 
-function var_0_0.ChangeSpeed(arg_25_0)
-	local var_25_0 = 5 - arg_25_0.speedNum
-	local var_25_1 = 1500
-	local var_25_2 = 350
-	local var_25_3 = var_25_2 + var_25_0 * (var_25_1 - var_25_2) / 4
-
-	arg_25_0.musicSetController.stayTime = var_25_3
+function slot0.ChangeSpeed(slot0)
+	slot4 = 350
+	slot0.musicSetController.stayTime = slot4 + (5 - slot0.speedNum) * (1500 - slot4) / 4
 end
 
-function var_0_0.ChangeJudge(arg_26_0)
-	local var_26_0 = arg_26_0.judgeNum
-	local var_26_1 = math.abs(var_26_0) / 50 * 300
+function slot0.ChangeJudge(slot0)
+	slot1 = slot0.judgeNum
 
-	if var_26_0 < 0 then
-		var_26_1 = -1 * var_26_1
+	if slot1 < 0 then
+		slot2 = -1 * math.abs(slot1) / 50 * 300
 	end
 
-	MusicGame.MusicSetController.latency = var_26_1
+	MusicGame.MusicSetController.latency = slot2
 end
 
-function var_0_0.ChangeScreen(arg_27_0)
-	local var_27_0 = arg_27_0.screanNum
-	local var_27_1 = math.abs(var_27_0) / 50 * 300
+function slot0.ChangeScreen(slot0)
+	slot1 = slot0.screanNum
 
-	if var_27_0 < 0 then
-		var_27_1 = -1 * var_27_1
+	if slot1 < 0 then
+		slot2 = -1 * math.abs(slot1) / 50 * 300
 	end
 
-	MusicGame.MusicSetController.judgeLatency = var_27_1
+	MusicGame.MusicSetController.judgeLatency = slot2
 end
 
-function var_0_0.ChangeVolume(arg_28_0)
-	local var_28_0 = arg_28_0.volumeNum
-	local var_28_1 = math.abs(var_28_0) / 100
-
-	manager.audio:SetEffectAisacControl("musicgame_hitsound_volume", var_28_1)
+function slot0.ChangeVolume(slot0)
+	manager.audio:SetEffectAisacControl("musicgame_hitsound_volume", math.abs(slot0.volumeNum) / 100)
 end
 
-function var_0_0.ChangeTestBool(arg_29_0, arg_29_1)
-	if arg_29_0.test == arg_29_1 then
+function slot0.ChangeTestBool(slot0, slot1)
+	if slot0.test == slot1 then
 		return
 	end
 
-	arg_29_0.test = arg_29_1
+	slot0.test = slot1
 
-	arg_29_0.testController:SetSelectedIndex(arg_29_0.test and 1 or 0)
+	slot0.testController:SetSelectedIndex(slot0.test and 1 or 0)
 
-	arg_29_0.musicSetController.autoClick = arg_29_1
+	slot0.musicSetController.autoClick = slot1
 end
 
-function var_0_0.ChangeVedioBool(arg_30_0, arg_30_1)
-	if arg_30_1 == arg_30_0.showMovie then
+function slot0.ChangeVedioBool(slot0, slot1)
+	if slot1 == slot0.showMovie then
 		return
 	end
 
-	arg_30_0.showMovie = arg_30_1
+	slot0.showMovie = slot1
 
-	arg_30_0.vedioController:SetSelectedIndex(arg_30_0.showMovie and 1 or 0)
+	slot0.vedioController:SetSelectedIndex(slot0.showMovie and 1 or 0)
 end
 
-function var_0_0.InitBackScene(arg_31_0)
-	local var_31_0 = "UI/Common/BackgroundQuad"
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_31_0.backGround_ = manager.resourcePool:Get(var_31_0, ASSET_TYPE.SCENE)
-	arg_31_0.backGroundTrs_ = arg_31_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_31_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	arg_31_0.backGroundTrs_.localPosition = Vector3(0, 0, 100)
-	arg_31_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-	arg_31_0.backGroundTrs_.localScale = Vector3(11, 11, 1)
-	arg_31_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng1stUI/XuHeng1st_bg_00122")
+	slot0.backGroundTrs_.localPosition = Vector3(0, 0, 100)
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot0.backGroundTrs_.localScale = Vector3(11, 11, 1)
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng1stUI/XuHeng1st_bg_00122")
 end
 
-function var_0_0.OnMusicSetNodeHit(arg_32_0, arg_32_1, arg_32_2)
-	SetActive(arg_32_0.m_effect, false)
-	SetActive(arg_32_0.m_effect, true)
+function slot0.OnMusicSetNodeHit(slot0, slot1, slot2)
+	SetActive(slot0.m_effect, false)
+	SetActive(slot0.m_effect, true)
 
-	if arg_32_1 ~= MusicConst.MusicNodeHitRating.Miss and (MusicConst.MusicNodeHitType.Short == arg_32_2 or MusicConst.MusicNodeHitType.Long == arg_32_2) then
+	if slot1 ~= MusicConst.MusicNodeHitRating.Miss and (MusicConst.MusicNodeHitType.Short == slot2 or MusicConst.MusicNodeHitType.Long == slot2) then
 		manager.audio:PlayEffect("minigame_activity_2_0", "minigame_activity_2_0_musicgame_hitsound", "")
 	end
 
-	if MusicConst.MusicNodeHitRating.PerfectPlus == arg_32_1 then
-		arg_32_0.ratingController:SetSelectedIndex(4)
-	elseif MusicConst.MusicNodeHitRating.Perfect == arg_32_1 then
-		arg_32_0.ratingController:SetSelectedIndex(3)
-	elseif MusicConst.MusicNodeHitRating.Good == arg_32_1 then
-		arg_32_0.ratingController:SetSelectedIndex(2)
+	if MusicConst.MusicNodeHitRating.PerfectPlus == slot1 then
+		slot0.ratingController:SetSelectedIndex(4)
+	elseif MusicConst.MusicNodeHitRating.Perfect == slot1 then
+		slot0.ratingController:SetSelectedIndex(3)
+	elseif MusicConst.MusicNodeHitRating.Good == slot1 then
+		slot0.ratingController:SetSelectedIndex(2)
 	else
-		arg_32_0.ratingController:SetSelectedIndex(1)
+		slot0.ratingController:SetSelectedIndex(1)
 	end
 end
 
-return var_0_0
+return slot0

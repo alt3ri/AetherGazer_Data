@@ -1,81 +1,80 @@
-local var_0_0 = singletonClass("RestaurantManager")
+slot0 = singletonClass("RestaurantManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.characterManager = CanteenCharacterManager.GetInstance()
-	arg_1_0.dormItemManager = CanteenItemManager.GetInstance()
-	arg_1_0.listener = EventListener.New()
+function slot0.Ctor(slot0)
+	slot0.characterManager = CanteenCharacterManager.GetInstance()
+	slot0.dormItemManager = CanteenItemManager.GetInstance()
+	slot0.listener = EventListener.New()
 
-	arg_1_0:ResetAllData()
+	slot0:ResetAllData()
 end
 
-function var_0_0.PosNamespace(arg_2_0)
-	return "restaurant.pos." .. arg_2_0
+function slot0.PosNamespace(slot0)
+	return "restaurant.pos." .. slot0
 end
 
-function var_0_0.StartAutoRestaurant()
-	local var_3_0 = Dorm.restaurant
-	local var_3_1 = DormEnum.RestaurantMode.RestaurantAuto
+function slot0.StartAutoRestaurant()
+	slot0 = Dorm.restaurant
+	slot1 = DormEnum.RestaurantMode.RestaurantAuto
 
-	var_3_0:Reset()
+	slot0:Reset()
 	Dorm.storage:Reset()
-	var_3_0:Init(var_3_1)
-	var_3_0:StartGenCustomer(var_3_1)
+	slot0:Init(slot1)
+	slot0:StartGenCustomer(slot1)
 end
 
-function var_0_0.StartManualRestaurant()
-	local var_4_0 = Dorm.restaurant
-	local var_4_1 = DormEnum.RestaurantMode.RestaurantManual
+function slot0.StartManualRestaurant()
+	slot0 = Dorm.restaurant
+	slot1 = DormEnum.RestaurantMode.RestaurantManual
 
-	var_4_0:Reset()
+	slot0:Reset()
 	Dorm.storage:Reset()
-	var_4_0:Init(var_4_1)
-	var_4_0:StartGenCustomer(var_4_1)
+	slot0:Init(slot1)
+	slot0:StartGenCustomer(slot1)
 	CookAI.GetInstance():Dispose()
 end
 
-function var_0_0.RegisterEvent(arg_5_0)
-	local var_5_0 = {
-		[DORM_RESTAURANT_START_AUTO] = var_0_0.StartAutoRestaurant,
-		[DORM_RESTAURANT_START_MANUAL] = var_0_0.StartManualRestaurant,
-		[DORM_RESTAURANT_NEW_ITEM] = function(arg_6_0, arg_6_1)
-			if arg_6_0 == DormEnum.ItemType.DinningTable then
-				CanteenAIFunction:GetEntityData(arg_6_1).available = false
+function slot0.RegisterEvent(slot0)
+	for slot5, slot6 in pairs({
+		[DORM_RESTAURANT_START_AUTO] = uv0.StartAutoRestaurant,
+		[DORM_RESTAURANT_START_MANUAL] = uv0.StartManualRestaurant,
+		[DORM_RESTAURANT_NEW_ITEM] = function (slot0, slot1)
+			if slot0 == DormEnum.ItemType.DinningTable then
+				CanteenAIFunction:GetEntityData(slot1).available = false
 			end
 		end,
-		[DORM_CLICK_ENTITY] = var_0_0.OnClickEntity
-	}
-
-	for iter_5_0, iter_5_1 in pairs(var_5_0) do
-		arg_5_0.listener:Register(iter_5_0, iter_5_1)
+		[DORM_CLICK_ENTITY] = uv0.OnClickEntity
+	}) do
+		slot0.listener:Register(slot5, slot6)
 	end
 end
 
-function var_0_0.RemoveEvent(arg_7_0)
-	arg_7_0.listener:RemoveAll()
+function slot0.RemoveEvent(slot0)
+	slot0.listener:RemoveAll()
 end
 
-function var_0_0.ResetAllData(arg_8_0, arg_8_1)
-	arg_8_0.businessInfo = {}
-	arg_8_0.businessInfo[arg_8_0.businessModeField] = arg_8_1
-	arg_8_0.businessInfo[arg_8_0.orderFoodListField] = {}
+function slot0.ResetAllData(slot0, slot1)
+	slot0.businessInfo = {
+		[slot0.businessModeField] = slot1,
+		[slot0.orderFoodListField] = {}
+	}
 
-	Dorm.storage:MapToData(DormEnum.Namespace.RestaurantBusiness, arg_8_0.businessInfo)
+	Dorm.storage:MapToData(DormEnum.Namespace.RestaurantBusiness, slot0.businessInfo)
 	DormUtils.MapSceneItemTagInfo()
 end
 
-function var_0_0.Init(arg_9_0, arg_9_1)
-	arg_9_0:ResetAllData(arg_9_1)
-	arg_9_0.dormItemManager:Init()
+function slot0.Init(slot0, slot1)
+	slot0:ResetAllData(slot1)
+	slot0.dormItemManager:Init()
 	CookAI.GetInstance():Init()
 	CashierAI.GetInstance():Init()
 	NormalCustomerAI.GetInstance():Init()
 	WaiterAI.GetInstance():Init()
-	arg_9_0.characterManager:Init()
+	slot0.characterManager:Init()
 	DormCharacterActionManager:Init()
 	DormCharacterActionExecute.GetInstance():Init()
 end
 
-function var_0_0.Reset(arg_10_0)
+function slot0.Reset(slot0)
 	CookAI.GetInstance():Dispose()
 	CashierAI.GetInstance():Dispose()
 	NormalCustomerAI.GetInstance():Dispose()
@@ -83,272 +82,246 @@ function var_0_0.Reset(arg_10_0)
 	DormCharacterActionManager:Reset()
 	DormCharacterActionExecute.GetInstance():Reset()
 	manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_stop", "")
-	arg_10_0.characterManager:Reset()
-	arg_10_0.dormItemManager:Reset()
-	arg_10_0:ResetAllData()
+	slot0.characterManager:Reset()
+	slot0.dormItemManager:Reset()
+	slot0:ResetAllData()
 end
 
-var_0_0.businessModeField = "businessMode"
-var_0_0.orderFoodListField = "orderFoodList"
+slot0.businessModeField = "businessMode"
+slot0.orderFoodListField = "orderFoodList"
 
-local function var_0_1()
-	local var_11_0 = 0
-	local var_11_1 = CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.DinningTable)
+function slot1()
+	slot5 = pairs
 
-	for iter_11_0, iter_11_1 in Dorm.storage:ForeachData(var_11_1, pairs) do
-		local var_11_2 = CanteenAIFunction:GetEntityData(iter_11_1)
-
-		if var_11_2.level and var_11_2.level > 0 then
-			var_11_0 = var_11_0 + 1
+	for slot5, slot6 in Dorm.storage:ForeachData(CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.DinningTable), slot5) do
+		if CanteenAIFunction:GetEntityData(slot6).level and slot7.level > 0 then
+			slot0 = 0 + 1
 		end
 	end
 
-	return var_11_0
+	return slot0
 end
 
-local function var_0_2(arg_12_0)
-	local var_12_0 = var_0_1()
-	local var_12_1 = GameDisplayCfg.canteen_customer_limited.value
-	local var_12_2 = arg_12_0:QueryTime() / arg_12_0.duration * 100
-	local var_12_3 = {
+function slot2(slot0)
+	slot1 = uv0()
+	slot4 = {
 		0,
 		0
 	}
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_1) do
-		if var_12_2 < iter_12_1[1] then
+	for slot8, slot9 in ipairs(GameDisplayCfg.canteen_customer_limited.value) do
+		if slot0:QueryTime() / slot0.duration * 100 < slot9[1] then
 			break
 		end
 
-		var_12_3 = iter_12_1
+		slot4 = slot9
 	end
 
-	return math.min(var_12_0, var_12_3[2])
+	return math.min(slot1, slot4[2])
 end
 
-function var_0_0.StartGenCustomer(arg_13_0, arg_13_1)
-	if arg_13_1 == DormEnum.RestaurantMode.RestaurantManual then
-		local var_13_0 = arg_13_0:StartManualBusinessTimer()
+function slot0.StartGenCustomer(slot0, slot1)
+	if slot1 == DormEnum.RestaurantMode.RestaurantManual then
+		slot2 = slot0:StartManualBusinessTimer()
 
-		arg_13_0.characterManager:StartGenCustomerTask(function()
-			return var_0_2(var_13_0)
+		slot0.characterManager:StartGenCustomerTask(function ()
+			return uv0(uv1)
 		end)
-	else
-		arg_13_0.characterManager:StartGenCustomerTask(function()
-			return var_0_1()
-		end)
+
+		return
 	end
+
+	slot0.characterManager:StartGenCustomerTask(function ()
+		return uv0()
+	end)
 end
 
-function var_0_0.StartManualBusinessTimer(arg_16_0)
-	local var_16_0 = DormCharacterActionManager.taskRunner
-
-	local function var_16_1()
-		arg_16_0.characterManager:StopGenCustomerTask()
-		var_16_0:NewTask():WaitUntil(function()
-			local var_18_0 = DormEnum.CharacterType.RestaurantNormalCustomer
-
-			return arg_16_0.characterManager:GetCharacterCount(var_18_0) == 0
-		end):Then(function()
+function slot0.StartManualBusinessTimer(slot0)
+	slot4 = DormCharacterActionManager.taskRunner:NewTimer(function ()
+		uv0.characterManager:StopGenCustomerTask()
+		uv1:NewTask():WaitUntil(function ()
+			return uv0.characterManager:GetCharacterCount(DormEnum.CharacterType.RestaurantNormalCustomer) == 0
+		end):Then(function ()
 			CanteenData:SetCanteenState(DormEnum.RestaurantMode.RestaurantAuto)
 		end):Start()
-	end
+	end, GameSetting.dorm_operate_time.value[1], false, false)
 
-	local var_16_2 = GameSetting.dorm_operate_time.value[1]
-	local var_16_3 = var_16_0:NewTimer(var_16_1, var_16_2, false, false)
+	slot4:Start()
 
-	var_16_3:Start()
+	slot0.businessInfo.timer = slot4
 
-	arg_16_0.businessInfo.timer = var_16_3
-
-	return var_16_3
+	return slot4
 end
 
-function var_0_0.FinishManualRestaurant(arg_20_0)
-	return
+function slot0.FinishManualRestaurant(slot0)
 end
 
-function var_0_0.GetCurPopularity(arg_21_0)
+function slot0.GetCurPopularity(slot0)
 	return CanteenData:GetPopularityNum()
 end
 
-function var_0_0.OnChooseFood(arg_22_0, arg_22_1)
-	local var_22_0 = CanteenFoodData:GetChooseFoodList()
+function slot0.OnChooseFood(slot0, slot1)
+	slot0:ClearData("restaurant.foodList")
 
-	arg_22_0:ClearData("restaurant.foodList")
-
-	for iter_22_0, iter_22_1 in ipairs(var_22_0) do
-		arg_22_0:RecordData("restaurant.foodList", iter_22_0, iter_22_1)
+	for slot6, slot7 in ipairs(CanteenFoodData:GetChooseFoodList()) do
+		slot0:RecordData("restaurant.foodList", slot6, slot7)
 	end
 end
 
-var_0_0.InteractPointMap = "restaurant.interactPointMap"
+slot0.InteractPointMap = "restaurant.interactPointMap"
 
-function var_0_0.PointToGridKey(arg_23_0)
-	return Dorm.DormEntityManager.GetGridIndex(arg_23_0)
+function slot0.PointToGridKey(slot0)
+	return Dorm.DormEntityManager.GetGridIndex(slot0)
 end
 
-function var_0_0.RecordInteractPointInfo(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = var_0_0.PointToGridKey(arg_24_0)
-	local var_24_1 = Dorm.storage:GetData(var_0_0.InteractPointMap, var_24_0) or {}
+function slot0.RecordInteractPointInfo(slot0, slot1, slot2)
+	slot4 = Dorm.storage:GetData(uv0.InteractPointMap, uv0.PointToGridKey(slot0)) or {}
+	slot4[slot1] = slot2 or ""
 
-	var_24_1[arg_24_1] = arg_24_2 or ""
-
-	Dorm.storage:RecordData(var_0_0.InteractPointMap, var_24_0, var_24_1)
+	Dorm.storage:RecordData(uv0.InteractPointMap, slot3, slot4)
 end
 
-function var_0_0.RemoveInteractPointInfo(arg_25_0)
-	for iter_25_0, iter_25_1 in Dorm.storage:ForeachData(var_0_0.InteractPointMap, pairs) do
-		for iter_25_2, iter_25_3 in pairs(iter_25_1) do
-			if iter_25_2 == arg_25_0 then
-				iter_25_1[iter_25_2] = nil
+function slot0.RemoveInteractPointInfo(slot0)
+	slot4 = pairs
+
+	for slot4, slot5 in Dorm.storage:ForeachData(uv0.InteractPointMap, slot4) do
+		for slot9, slot10 in pairs(slot5) do
+			if slot9 == slot0 then
+				slot5[slot9] = nil
 			end
 		end
 	end
 end
 
-function var_0_0.GetItemInteractPointsOnGrid(arg_26_0)
-	return Dorm.storage:GetData(var_0_0.InteractPointMap, var_0_0.PointToGridKey(arg_26_0)) or {}
+function slot0.GetItemInteractPointsOnGrid(slot0)
+	return Dorm.storage:GetData(uv0.InteractPointMap, uv0.PointToGridKey(slot0)) or {}
 end
 
-function var_0_0.GetCustomerGroupCount(arg_27_0)
-	return arg_27_0.businessInfo.customerGroup or 0
+function slot0.GetCustomerGroupCount(slot0)
+	return slot0.businessInfo.customerGroup or 0
 end
 
-function var_0_0.OnCustomerCome(arg_28_0)
-	local var_28_0 = arg_28_0:GetCustomerGroupCount()
-
-	arg_28_0.businessInfo.customerGroup = var_28_0 + 1
+function slot0.OnCustomerCome(slot0)
+	slot0.businessInfo.customerGroup = slot0:GetCustomerGroupCount() + 1
 end
 
-function var_0_0.OnCustomerLeave(arg_29_0, arg_29_1)
-	local var_29_0 = arg_29_0:GetCustomerGroupCount() - 1
+function slot0.OnCustomerLeave(slot0, slot1)
+	slot2 = slot0:GetCustomerGroupCount() - 1
+	slot0.businessInfo.customerGroup = slot2
 
-	arg_29_0.businessInfo.customerGroup = var_29_0
+	uv0.ReleaseDinningTableFromCustomer(slot1)
 
-	var_0_0.ReleaseDinningTableFromCustomer(arg_29_1)
-
-	if var_29_0 == 0 and CanteenAIFunction:GetCurCanteenMode() == DormEnum.RestaurantMode.RestaurantManual and not CanteenCharacterManager.CheckFoodEnoughGenCustomer() then
+	if slot2 == 0 and CanteenAIFunction:GetCurCanteenMode() == DormEnum.RestaurantMode.RestaurantManual and not CanteenCharacterManager.CheckFoodEnoughGenCustomer() then
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("CANTEEN_MANNUALLY_FOOD_EMPTY"),
-			OkCallback = function()
+			OkCallback = function ()
 				CanteenData:SetCanteenState(DormEnum.RestaurantMode.RestaurantAuto)
 			end
 		})
 	end
 end
 
-function var_0_0.ReleaseDinningTableFromCustomer(arg_31_0)
-	local var_31_0 = CanteenAIFunction:GetEntityData(arg_31_0)
-
-	CanteenAIFunction:GetEntityData(var_31_0.tableEid).booked = nil
+function slot0.ReleaseDinningTableFromCustomer(slot0)
+	CanteenAIFunction:GetEntityData(CanteenAIFunction:GetEntityData(slot0).tableEid).booked = nil
 end
 
-function var_0_0.ArrangeDinningTableForCustomer()
-	local var_32_0 = CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.DinningTable)
-	local var_32_1 = {}
+function slot0.ArrangeDinningTableForCustomer()
+	slot1 = {}
+	slot5 = pairs
 
-	for iter_32_0, iter_32_1 in Dorm.storage:ForeachData(var_32_0, pairs) do
-		local var_32_2 = CanteenAIFunction:GetEntityData(iter_32_1)
-
-		if var_32_2.level and var_32_2.level > 0 and not var_32_2.booked then
-			table.insert(var_32_1, iter_32_1)
+	for slot5, slot6 in Dorm.storage:ForeachData(CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.DinningTable), slot5) do
+		if CanteenAIFunction:GetEntityData(slot6).level and slot7.level > 0 and not slot7.booked then
+			table.insert(slot1, slot6)
 		end
 	end
 
-	return var_32_1[math.random(1, #var_32_1)]
+	return slot1[math.random(1, #slot1)]
 end
 
-local function var_0_3(arg_33_0, arg_33_1)
-	arg_33_1 = arg_33_1 or {}
+function slot3(slot0, slot1)
+	slot1 = slot1 or {}
 
-	local var_33_0 = CanteenAIFunction:GetEntityData(arg_33_0)
-
-	if var_33_0.foodList then
-		for iter_33_0, iter_33_1 in pairs(var_33_0.foodList) do
-			arg_33_1[CanteenAIFunction:GetEntityData(iter_33_1).cfgID] = true
+	if CanteenAIFunction:GetEntityData(slot0).foodList then
+		for slot6, slot7 in pairs(slot2.foodList) do
+			slot1[CanteenAIFunction:GetEntityData(slot7).cfgID] = true
 		end
 	end
 
-	return arg_33_1
+	return slot1
 end
 
-local function var_0_4(arg_34_0, arg_34_1)
-	arg_34_1 = arg_34_1 or {}
+function slot4(slot0, slot1)
+	slot1 = slot1 or {}
 
-	local var_34_0 = CanteenAIFunction:GetEntityData(arg_34_0)
-
-	if var_34_0.pick then
-		arg_34_1[CanteenAIFunction:GetEntityData(var_34_0.pick).cfgID] = true
+	if CanteenAIFunction:GetEntityData(slot0).pick then
+		slot1[CanteenAIFunction:GetEntityData(slot2.pick).cfgID] = true
 	end
 
-	return arg_34_1
+	return slot1
 end
 
-function var_0_0.CalcCanOrderFoodList()
-	local var_35_0 = {}
+function slot0.CalcCanOrderFoodList()
+	slot0 = {
+		[slot5] = true
+	}
 
-	for iter_35_0, iter_35_1 in ipairs(CanteenFoodData:GetCanOrderFoodList()) do
-		var_35_0[iter_35_1] = true
+	for slot4, slot5 in ipairs(CanteenFoodData:GetCanOrderFoodList()) do
+		-- Nothing
 	end
 
 	if CanteenAIFunction:GetCurCanteenMode() == DormEnum.RestaurantMode.RestaurantManual then
-		local var_35_1 = CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.PassTable)
-		local var_35_2 = CanteenCharacterManager.EIdNamespace(DormEnum.CharacterType.RestaurantCook)
+		slot2 = CanteenCharacterManager.EIdNamespace(DormEnum.CharacterType.RestaurantCook)
+		slot6 = pairs
 
-		for iter_35_2, iter_35_3 in Dorm.storage:ForeachData(var_35_1, pairs) do
-			var_35_0 = var_0_3(iter_35_3, var_35_0)
+		for slot6, slot7 in Dorm.storage:ForeachData(CanteenItemManager.ItemEIdNamespace(DormEnum.ItemType.PassTable), slot6) do
+			slot0 = uv0(slot7, slot0)
 		end
 
-		for iter_35_4, iter_35_5 in Dorm.storage:ForeachData(var_35_2, pairs) do
-			var_35_0 = var_0_4(iter_35_5, var_35_0)
+		slot6 = pairs
+
+		for slot6, slot7 in Dorm.storage:ForeachData(slot2, slot6) do
+			slot0 = uv1(slot7, slot0)
 		end
 	end
 
-	return var_35_0
+	return slot0
 end
 
-function var_0_0.GetRestaurantOrderList()
-	return Dorm.storage:GetData(DormEnum.Namespace.RestaurantBusiness, var_0_0.orderFoodListField)
+function slot0.GetRestaurantOrderList()
+	return Dorm.storage:GetData(DormEnum.Namespace.RestaurantBusiness, uv0.orderFoodListField)
 end
 
-function var_0_0.AddOrder(arg_37_0)
-	arg_37_0.status = DormEnum.FoodState.Wait
+function slot0.AddOrder(slot0)
+	slot0.status = DormEnum.FoodState.Wait
 
-	table.insert(var_0_0.GetRestaurantOrderList(), arg_37_0)
+	table.insert(uv0.GetRestaurantOrderList(), slot0)
 	manager.notify:Invoke(CANTEEN_ORDER_FOOD_LIST_CHANGE)
 
-	return arg_37_0
+	return slot0
 end
 
-local function var_0_5(arg_38_0)
-	return arg_38_0.status == DormEnum.FoodState.TimeOut or arg_38_0.status == DormEnum.FoodState.HasServer or arg_38_0.status == DormEnum.FoodState.Canceled
+function slot5(slot0)
+	return slot0.status == DormEnum.FoodState.TimeOut or slot0.status == DormEnum.FoodState.HasServer or slot0.status == DormEnum.FoodState.Canceled
 end
 
-function var_0_0.RefreshOrder()
-	local var_39_0 = var_0_0.GetRestaurantOrderList()
-
-	for iter_39_0 = #var_39_0, 1, -1 do
-		local var_39_1 = var_39_0[iter_39_0]
-
-		if var_0_5(var_39_1) then
-			table.remove(var_39_0, iter_39_0)
+function slot0.RefreshOrder()
+	for slot4 = #uv0.GetRestaurantOrderList(), 1, -1 do
+		if uv1(slot0[slot4]) then
+			table.remove(slot0, slot4)
 		end
 	end
 end
 
-function var_0_0.OnClickEntity(arg_40_0)
-	local var_40_0 = CanteenAIFunction:GetEntityType(arg_40_0)
-	local var_40_1 = CanteenAIFunction:GetEntityData(arg_40_0)
+function slot0.OnClickEntity(slot0)
+	slot2 = CanteenAIFunction:GetEntityData(slot0)
 
-	if DormEnum.ItemType[var_40_0] and var_40_1.groupID then
-		manager.notify:Invoke(CANTEEN_FUR_LEVEL, var_40_1.groupID)
+	if DormEnum.ItemType[CanteenAIFunction:GetEntityType(slot0)] and slot2.groupID then
+		manager.notify:Invoke(CANTEEN_FUR_LEVEL, slot2.groupID)
 	end
 end
 
-function var_0_0.SetGroupItemLocked(arg_41_0, arg_41_1)
-	return
+function slot0.SetGroupItemLocked(slot0, slot1)
 end
 
-return var_0_0
+return slot0

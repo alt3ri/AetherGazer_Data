@@ -1,36 +1,28 @@
-local var_0_0 = import("game.views.newHero.NewHeroHead")
-local var_0_1 = class("MatrixHeroHead", var_0_0)
+slot1 = class("MatrixHeroHead", import("game.views.newHero.NewHeroHead"))
 
-function var_0_1.SetHeroId(arg_1_0, arg_1_1)
-	arg_1_0.standardId_ = arg_1_1
-	arg_1_0.heroId_ = HeroStandardSystemCfg[arg_1_1].hero_id
-	arg_1_0.heroCfg_ = HeroCfg[arg_1_0.heroId_]
+function slot1.SetHeroId(slot0, slot1)
+	slot0.standardId_ = slot1
+	slot0.heroId_ = HeroStandardSystemCfg[slot1].hero_id
+	slot0.heroCfg_ = HeroCfg[slot0.heroId_]
+	slot0.heroInfo_, slot4 = GetVirtualData(slot1)
 
-	local var_1_0, var_1_1 = GetVirtualData(arg_1_1)
-
-	arg_1_0.heroInfo_ = var_1_0
-
-	arg_1_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_1.GetHeroStandardId(arg_2_0)
-	return arg_2_0.standardId_
+function slot1.GetHeroStandardId(slot0)
+	return slot0.standardId_
 end
 
-function var_0_1.UpdateView(arg_3_0)
-	local var_3_0 = MatrixData:GetHeroSkin(arg_3_0.heroId_)
+function slot1.UpdateView(slot0)
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite(MatrixData:GetHeroSkin(slot0.heroId_))
 
-	arg_3_0.headIcon_.sprite = HeroTools.GetHeadSprite(var_3_0)
+	slot0.headIcon_:SetNativeSize()
+	slot0.campController_:SetSelectedState(slot0.heroCfg_.race)
+	slot0.lockedController_:SetSelectedState("false")
 
-	arg_3_0.headIcon_:SetNativeSize()
-	arg_3_0.campController_:SetSelectedState(arg_3_0.heroCfg_.race)
-	arg_3_0.lockedController_:SetSelectedState("false")
+	slot0.levelText_.text = tostring(slot0.heroInfo_.level or 1)
 
-	arg_3_0.levelText_.text = tostring(arg_3_0.heroInfo_.level or 1)
-
-	local var_3_1 = HeroStarCfg[arg_3_0.heroInfo_.star].star
-
-	arg_3_0.gradeController_:SetSelectedState(var_3_1)
+	slot0.gradeController_:SetSelectedState(HeroStarCfg[slot0.heroInfo_.star].star)
 end
 
-return var_0_1
+return slot1

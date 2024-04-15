@@ -1,111 +1,102 @@
-local var_0_0 = class("StoreExpiredView", ReduxView)
+slot0 = class("StoreExpiredView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Bag/BagExpiredUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.haveBonusController_ = arg_4_0.controllerEx_:GetController("haveBonus")
-	arg_4_0.expiredItemList_ = LuaList.New(handler(arg_4_0, arg_4_0.indexExpiredItem), arg_4_0.expiredListGo_, CommonItemView)
-	arg_4_0.expiredItemList2_ = LuaList.New(handler(arg_4_0, arg_4_0.indexExpiredItem), arg_4_0.expiredListGo2_, CommonItemView)
-	arg_4_0.getItemList_ = LuaList.New(handler(arg_4_0, arg_4_0.indexGetItem), arg_4_0.getListGo_, CommonItemView)
+	slot0.haveBonusController_ = slot0.controllerEx_:GetController("haveBonus")
+	slot0.expiredItemList_ = LuaList.New(handler(slot0, slot0.indexExpiredItem), slot0.expiredListGo_, CommonItemView)
+	slot0.expiredItemList2_ = LuaList.New(handler(slot0, slot0.indexExpiredItem), slot0.expiredListGo2_, CommonItemView)
+	slot0.getItemList_ = LuaList.New(handler(slot0, slot0.indexGetItem), slot0.getListGo_, CommonItemView)
 end
 
-function var_0_0.indexGetItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = clone(ItemTemplateData)
+function slot0.indexGetItem(slot0, slot1, slot2)
+	slot3 = clone(ItemTemplateData)
+	slot3.id = slot0.getItemDataList_[slot1].id
+	slot3.number = slot0.getItemDataList_[slot1].num
 
-	var_5_0.id = arg_5_0.getItemDataList_[arg_5_1].id
-	var_5_0.number = arg_5_0.getItemDataList_[arg_5_1].num
-
-	arg_5_2:SetData(var_5_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.indexExpiredItem(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.expiredList_[arg_6_1]
-	local var_6_1 = clone(ItemTemplateData)
+function slot0.indexExpiredItem(slot0, slot1, slot2)
+	slot3 = slot0.expiredList_[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3.id
+	slot4.number = slot3.num
 
-	var_6_1.id = var_6_0.id
-	var_6_1.number = var_6_0.num
-
-	arg_6_2:SetData(var_6_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.okBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.okBtn2_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.okBtn2_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.expiredList_ = arg_10_0.params_.expiredList
+function slot0.OnEnter(slot0)
+	slot0.expiredList_ = slot0.params_.expiredList
+	slot1 = {}
+	slot0.getItemDataList_ = {}
 
-	local var_10_0 = {}
-
-	arg_10_0.getItemDataList_ = {}
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.expiredList_) do
-		local var_10_1 = iter_10_1.id
-		local var_10_2 = iter_10_1.num
-		local var_10_3 = ItemTimeLimitExchangeCfg[var_10_1]
-
-		if var_10_3 then
-			if not var_10_0[var_10_3.exchange_item[1]] then
-				var_10_0[var_10_3.exchange_item[1]] = var_10_3.exchange_item[2] * var_10_2
+	for slot5, slot6 in ipairs(slot0.expiredList_) do
+		if ItemTimeLimitExchangeCfg[slot6.id] then
+			if not slot1[slot9.exchange_item[1]] then
+				slot1[slot9.exchange_item[1]] = slot9.exchange_item[2] * slot6.num
 			else
-				var_10_0[var_10_3.exchange_item[1]] = var_10_0[var_10_3.exchange_item[1]] + var_10_3.exchange_item[2] * var_10_2
+				slot1[slot9.exchange_item[1]] = slot1[slot9.exchange_item[1]] + slot9.exchange_item[2] * slot8
 			end
 		end
 	end
 
-	for iter_10_2, iter_10_3 in pairs(var_10_0) do
-		table.insert(arg_10_0.getItemDataList_, {
-			id = iter_10_2,
-			num = iter_10_3
+	for slot5, slot6 in pairs(slot1) do
+		table.insert(slot0.getItemDataList_, {
+			id = slot5,
+			num = slot6
 		})
 	end
 
-	if #arg_10_0.getItemDataList_ > 0 then
-		arg_10_0.haveBonusController_:SetSelectedState("true")
-		arg_10_0.expiredItemList_:StartScroll(#arg_10_0.expiredList_)
-		arg_10_0.getItemList_:StartScroll(#arg_10_0.getItemDataList_)
+	if #slot0.getItemDataList_ > 0 then
+		slot0.haveBonusController_:SetSelectedState("true")
+		slot0.expiredItemList_:StartScroll(#slot0.expiredList_)
+		slot0.getItemList_:StartScroll(#slot0.getItemDataList_)
 	else
-		arg_10_0.expiredItemList2_:StartScroll(#arg_10_0.expiredList_)
-		arg_10_0.haveBonusController_:SetSelectedState("false")
+		slot0.expiredItemList2_:StartScroll(#slot0.expiredList_)
+		slot0.haveBonusController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.expiredItemList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.expiredItemList_:Dispose()
 
-	arg_12_0.expiredItemList_ = nil
+	slot0.expiredItemList_ = nil
 
-	arg_12_0.expiredItemList2_:Dispose()
+	slot0.expiredItemList2_:Dispose()
 
-	arg_12_0.expiredItemList2_ = nil
+	slot0.expiredItemList2_ = nil
 
-	arg_12_0.getItemList_:Dispose()
+	slot0.getItemList_:Dispose()
 
-	arg_12_0.getItemList_ = nil
+	slot0.getItemList_ = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

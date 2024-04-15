@@ -1,33 +1,32 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("LimitedCalculationPageView", ActivityMainBasePanel)
 
-local var_0_0 = class("LimitedCalculationPageView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_10/JapanRegionUI_2_10ArtifactUI/JapanRegionUI_2_10ArtifactMainUI"
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	var_0_0.super.OnEnter(arg_2_0)
-	manager.redPoint:bindUIandKey(arg_2_0.btn_.transform, string.format("%s%s", ActivityTools.GetRedPointKey(arg_2_0.activityID_), arg_2_0.activityID_))
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.btn_.transform, string.format("%s%s", ActivityTools.GetRedPointKey(slot0.activityID_), slot0.activityID_))
 end
 
-function var_0_0.OnExit(arg_3_0)
-	var_0_0.super.OnExit(arg_3_0)
-	manager.redPoint:unbindUIandKey(arg_3_0.btn_.transform, string.format("%s%s", ActivityTools.GetRedPointKey(arg_3_0.activityID_), arg_3_0.activityID_))
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.btn_.transform, string.format("%s%s", ActivityTools.GetRedPointKey(slot0.activityID_), slot0.activityID_))
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		ActivityTools.JumpToSubmodulePage(arg_4_0.activityID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		ActivityTools.JumpToSubmodulePage(uv0.activityID_)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.descBtn_, nil, function()
-		local var_6_0 = LimitedCalculationTools.GetGameHelpKey(arg_4_0.activiytID_)
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
+		slot0 = LimitedCalculationTools.GetGameHelpKey(uv0.activiytID_)
 
 		JumpTools.OpenPageByJump("gameHelp", {
-			content = GetTips(var_6_0),
-			key = var_6_0
+			content = GetTips(slot0),
+			key = slot0
 		})
 	end)
 end
 
-return var_0_0
+return slot0

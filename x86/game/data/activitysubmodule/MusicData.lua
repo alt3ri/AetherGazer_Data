@@ -1,153 +1,139 @@
-local var_0_0 = singletonClass("MusicData")
-local var_0_1 = {}
-local var_0_2 = 0
-local var_0_3 = 0
-local var_0_4 = {}
-local var_0_5 = 0
-local var_0_6 = 0
-local var_0_7
-local var_0_8
-local var_0_9
-local var_0_10
-local var_0_11
-local var_0_12
-local var_0_13
-local var_0_14 = false
-local var_0_15
-local var_0_16 = {}
-local var_0_17 = {}
-local var_0_18 = {}
-local var_0_19 = false
-local var_0_20 = 0
+slot0 = singletonClass("MusicData")
+slot1 = {}
+slot2 = 0
+slot3 = 0
+slot4 = {}
+slot5 = 0
+slot6 = 0
+slot7, slot8, slot9, slot10, slot11, slot12, slot13 = nil
+slot14 = false
+slot15 = nil
+slot16 = {}
+slot17 = {}
+slot18 = {}
+slot19 = false
+slot20 = 0
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = 0
-	var_0_3 = 0
-	var_0_4 = {}
-	var_0_5 = 0
-	var_0_6 = 0
-	var_0_7 = nil
-	var_0_8 = nil
-	var_0_15 = nil
-	var_0_9 = nil
-	var_0_10 = nil
-	var_0_11 = nil
-	var_0_16 = {}
-	var_0_17 = {}
-	var_0_18 = {}
-	var_0_20 = 0
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = 0
+	uv2 = 0
+	uv3 = {}
+	uv4 = 0
+	uv5 = 0
+	uv6 = nil
+	uv7 = nil
+	uv8 = nil
+	uv9 = nil
+	uv10 = nil
+	uv11 = nil
+	uv12 = {}
+	uv13 = {}
+	uv14 = {}
+	uv15 = 0
 end
 
-function var_0_0.InitMusicData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-	local var_2_1 = arg_2_1.challenge_info
-	local var_2_2 = {}
+function slot0.InitMusicData(slot0, slot1)
+	slot2 = slot1.activity_id
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_1) do
-		var_2_2[iter_2_1.difficulty] = {
-			score = iter_2_1.score,
-			reward_state = iter_2_1.reward_state,
-			sign = iter_2_1.sign
-		}
+	for slot8, slot9 in ipairs(slot1.challenge_info) do
+		-- Nothing
 	end
 
-	var_0_1[var_2_0] = var_2_2
+	uv0[slot2] = {
+		[slot9.difficulty] = {
+			score = slot9.score,
+			reward_state = slot9.reward_state,
+			sign = slot9.sign
+		}
+	}
 end
 
-function var_0_0.CheckIsHaveNewMusicData(arg_3_0, arg_3_1)
-	if var_0_1[arg_3_1.activity_id] then
+function slot0.CheckIsHaveNewMusicData(slot0, slot1)
+	if uv0[slot1.activity_id] then
 		return false
 	end
 
-	local var_3_0 = arg_3_1.challenge_info
-	local var_3_1 = true
+	slot3 = true
 
-	for iter_3_0, iter_3_1 in ipairs(var_3_0) do
-		if iter_3_1.sign == 1 then
-			var_3_1 = false
+	for slot7, slot8 in ipairs(slot1.challenge_info) do
+		if slot8.sign == 1 then
+			slot3 = false
 		end
 	end
 
-	return var_3_1
+	return slot3
 end
 
-function var_0_0.SetRewardState(arg_4_0, arg_4_1, arg_4_2)
-	if var_0_1[arg_4_1] and var_0_1[arg_4_1][arg_4_2] then
-		var_0_1[arg_4_1][arg_4_2].reward_state = 1
+function slot0.SetRewardState(slot0, slot1, slot2)
+	if uv0[slot1] and uv0[slot1][slot2] then
+		uv0[slot1][slot2].reward_state = 1
 	end
 end
 
-function var_0_0.GetScore(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_2 == 3 then
-		arg_5_2 = 9
+function slot0.GetScore(slot0, slot1, slot2)
+	if slot2 == 3 then
+		slot2 = 9
 	end
 
-	if var_0_1[arg_5_1] and var_0_1[arg_5_1][arg_5_2] then
-		return var_0_1[arg_5_1][arg_5_2].score
+	if uv0[slot1] and uv0[slot1][slot2] then
+		return uv0[slot1][slot2].score
 	end
 
 	return 0
 end
 
-function var_0_0.GetIsComplete(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_2 == 3 then
-		arg_6_2 = 9
+function slot0.GetIsComplete(slot0, slot1, slot2)
+	if slot2 == 3 then
+		slot2 = 9
 	end
 
-	if var_0_1[arg_6_1] and var_0_1[arg_6_1][arg_6_2] then
-		return var_0_1[arg_6_1][arg_6_2].sign
+	if uv0[slot1] and uv0[slot1][slot2] then
+		return uv0[slot1][slot2].sign
 	end
 
 	return 0
 end
 
-function var_0_0.SetScore(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	if not var_0_1[arg_7_1] then
-		var_0_1[arg_7_1] = {}
+function slot0.SetScore(slot0, slot1, slot2, slot3)
+	if not uv0[slot1] then
+		uv0[slot1] = {}
 	end
 
-	if not var_0_1[arg_7_1][arg_7_2] then
-		var_0_1[arg_7_1][arg_7_2] = {
+	if not uv0[slot1][slot2] then
+		uv0[slot1][slot2] = {
 			sign = 1,
 			reward_state = 0,
-			score = arg_7_3
+			score = slot3
 		}
 	end
 
-	if var_0_1[arg_7_1] and var_0_1[arg_7_1][arg_7_2] then
-		var_0_1[arg_7_1][arg_7_2].score = arg_7_3
-		var_0_1[arg_7_1][arg_7_2].sign = 1
+	if uv0[slot1] and uv0[slot1][slot2] then
+		uv0[slot1][slot2].score = slot3
+		uv0[slot1][slot2].sign = 1
 	end
 end
 
-function var_0_0.GetRewardState(arg_8_0, arg_8_1)
-	local var_8_0 = ActivityMusicCfg[arg_8_1]
-	local var_8_1 = var_8_0.activity_id
-	local var_8_2 = var_8_0.difficult
-	local var_8_3 = var_0_1[var_8_1] and var_0_1[var_8_1][var_8_2]
-	local var_8_4 = var_8_3 and var_8_3.reward_state or 0
+function slot0.GetRewardState(slot0, slot1)
+	slot2 = ActivityMusicCfg[slot1]
+	slot5 = uv0[slot2.activity_id] and uv0[slot3][slot2.difficult]
+	slot6 = slot5 and slot5.reward_state or 0
 
-	if var_8_0.reward and #var_8_0.reward == 0 then
+	if slot2.reward and #slot2.reward == 0 then
 		return 0
 	end
 
-	if var_8_4 == 1 then
+	if slot6 == 1 then
 		return 2
-	elseif var_8_0.target == 0 then
-		for iter_8_0, iter_8_1 in pairs(var_0_1[var_8_1] or {}) do
-			if iter_8_1.sign == 1 then
+	elseif slot2.target == 0 then
+		for slot10, slot11 in pairs(uv0[slot3] or {}) do
+			if slot11.sign == 1 then
 				return 1
 			end
 		end
 	else
-		local var_8_5 = arg_8_0:GetTargetAccuracy(var_8_0.target)
-		local var_8_6 = ActivityMusicCfg.get_id_list_by_activity_id[var_8_1]
-
-		for iter_8_2, iter_8_3 in ipairs(var_8_6) do
-			local var_8_7 = ActivityMusicCfg[iter_8_3]
-
-			if var_8_2 <= var_8_7.difficult and var_8_5 <= arg_8_0:GetScore(var_8_1, var_8_7.difficult) / var_8_7.total_score * 100 then
+		for slot12, slot13 in ipairs(ActivityMusicCfg.get_id_list_by_activity_id[slot3]) do
+			if slot4 <= ActivityMusicCfg[slot13].difficult and slot0:GetTargetAccuracy(slot2.target) <= slot0:GetScore(slot3, slot14.difficult) / slot14.total_score * 100 then
 				return 1
 			end
 		end
@@ -156,11 +142,11 @@ function var_0_0.GetRewardState(arg_8_0, arg_8_1)
 	return 0
 end
 
-function var_0_0.GetTargetAccuracy(arg_9_0, arg_9_1)
-	return GameSetting.attach_music_grade.value[arg_9_1] or 0
+function slot0.GetTargetAccuracy(slot0, slot1)
+	return GameSetting.attach_music_grade.value[slot1] or 0
 end
 
-function var_0_0.GetTargetAccuracyDes(arg_10_0, arg_10_1)
+function slot0.GetTargetAccuracyDes(slot0, slot1)
 	return ({
 		"S+",
 		"S",
@@ -168,391 +154,370 @@ function var_0_0.GetTargetAccuracyDes(arg_10_0, arg_10_1)
 		"B",
 		"C",
 		"F"
-	})[arg_10_1] or ""
+	})[slot1] or ""
 end
 
-function var_0_0.ResetGameData(arg_11_0)
-	var_0_3 = 0
-	var_0_4 = {}
-	var_0_5 = 0
-	var_0_6 = 0
+function slot0.ResetGameData(slot0)
+	uv0 = 0
+	uv1 = {}
+	uv2 = 0
+	uv3 = 0
 end
 
-function var_0_0.ModifGameData(arg_12_0, arg_12_1)
-	if MusicConst.MusicNodeHitRating.PerfectPlus == arg_12_1 then
-		var_0_3 = var_0_3 + 101
-		var_0_6 = var_0_6 + 1
-	elseif MusicConst.MusicNodeHitRating.Perfect == arg_12_1 then
-		var_0_3 = var_0_3 + 100
-		var_0_6 = var_0_6 + 1
-	elseif MusicConst.MusicNodeHitRating.Good == arg_12_1 then
-		var_0_3 = var_0_3 + 70
-		var_0_6 = var_0_6 + 1
+function slot0.ModifGameData(slot0, slot1)
+	if MusicConst.MusicNodeHitRating.PerfectPlus == slot1 then
+		uv0 = uv0 + 101
+		uv1 = uv1 + 1
+	elseif MusicConst.MusicNodeHitRating.Perfect == slot1 then
+		uv0 = uv0 + 100
+		uv1 = uv1 + 1
+	elseif MusicConst.MusicNodeHitRating.Good == slot1 then
+		uv0 = uv0 + 70
+		uv1 = uv1 + 1
 	else
-		var_0_6 = 0
+		uv1 = 0
 	end
 
-	if var_0_6 > var_0_5 then
-		var_0_5 = var_0_6
+	if uv2 < uv1 then
+		uv2 = uv1
 	end
 
-	var_0_4[arg_12_1] = var_0_4[arg_12_1] and var_0_4[arg_12_1] + 1 or 1
+	uv3[slot1] = uv3[slot1] and uv3[slot1] + 1 or 1
 end
 
-function var_0_0.GetGameScore(arg_13_0)
-	return var_0_3
+function slot0.GetGameScore(slot0)
+	return uv0
 end
 
-function var_0_0.SetLookBackState(arg_14_0, arg_14_1)
-	var_0_19 = arg_14_1
+function slot0.SetLookBackState(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetLookBackState(arg_15_0)
-	return var_0_19
+function slot0.GetLookBackState(slot0)
+	return uv0
 end
 
-function var_0_0.SetGameId(arg_16_0, arg_16_1)
-	var_0_2 = arg_16_1
+function slot0.SetGameId(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetGameId(arg_17_0)
-	return var_0_2
+function slot0.GetGameId(slot0)
+	return uv0
 end
 
-function var_0_0.GetGameRecord(arg_18_0, arg_18_1)
-	return var_0_4[arg_18_1] or 0
+function slot0.GetGameRecord(slot0, slot1)
+	return uv0[slot1] or 0
 end
 
-function var_0_0.GetComboHit(arg_19_0)
-	return var_0_6
+function slot0.GetComboHit(slot0)
+	return uv0
 end
 
-function var_0_0.GetMaxComboHit(arg_20_0)
-	return var_0_5
+function slot0.GetMaxComboHit(slot0)
+	return uv0
 end
 
-function var_0_0.SetPageActivityId(arg_21_0, arg_21_1)
-	var_0_20 = arg_21_1
+function slot0.SetPageActivityId(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetSpeedValue(arg_22_0, arg_22_1)
-	if arg_22_1 then
-		if not var_0_8 then
-			var_0_8 = getData("Music", "VerticalSpeed")
+function slot0.GetSpeedValue(slot0, slot1)
+	if slot1 then
+		if not uv0 then
+			uv0 = getData("Music", "VerticalSpeed")
 		end
 
-		if type(var_0_8) ~= "number" then
-			var_0_8 = 3
+		if type(uv0) ~= "number" then
+			uv0 = 3
 		else
-			var_0_8 = math.max(var_0_8, 1)
-			var_0_8 = math.min(var_0_8, 5)
+			uv0 = math.max(uv0, 1)
+			uv0 = math.min(uv0, 5)
 		end
 
-		return var_0_8
+		return uv0
 	else
-		if not var_0_7 then
-			var_0_7 = getData("Music", "Speed")
+		if not uv1 then
+			uv1 = getData("Music", "Speed")
 		end
 
-		if type(var_0_7) ~= "number" then
-			var_0_7 = 3
+		if type(uv1) ~= "number" then
+			uv1 = 3
 		else
-			var_0_7 = math.max(var_0_7, 1)
-			var_0_7 = math.min(var_0_7, 5)
+			uv1 = math.max(uv1, 1)
+			uv1 = math.min(uv1, 5)
 		end
 
-		return var_0_7
+		return uv1
 	end
 end
 
-function var_0_0.SetSpeedValue(arg_23_0, arg_23_1, arg_23_2)
-	if arg_23_2 then
-		saveData("Music", "VerticalSpeed", arg_23_1)
+function slot0.SetSpeedValue(slot0, slot1, slot2)
+	if slot2 then
+		saveData("Music", "VerticalSpeed", slot1)
 
-		var_0_8 = arg_23_1
+		uv0 = slot1
 	else
-		saveData("Music", "Speed", arg_23_1)
+		saveData("Music", "Speed", slot1)
 
-		var_0_7 = arg_23_1
+		uv1 = slot1
 	end
 end
 
-function var_0_0.GetSpeedData(arg_24_0, arg_24_1)
-	local var_24_0 = 5 - arg_24_0:GetSpeedValue(arg_24_1)
-	local var_24_1 = 1500
-	local var_24_2 = 350
+function slot0.GetSpeedData(slot0, slot1)
+	slot5 = 350
 
-	return var_24_2 + var_24_0 * (var_24_1 - var_24_2) / 4
+	return slot5 + (5 - slot0:GetSpeedValue(slot1)) * (1500 - slot5) / 4
 end
 
-function var_0_0.GetJudgeValue(arg_25_0)
-	if not var_0_9 then
-		var_0_9 = getData("Music", "Judge")
+function slot0.GetJudgeValue(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "Judge")
 	end
 
-	if type(var_0_9) ~= "number" then
-		var_0_9 = 0
+	if type(uv0) ~= "number" then
+		uv0 = 0
 	else
-		var_0_9 = math.max(var_0_9, -50)
-		var_0_9 = math.min(var_0_9, 50)
+		uv0 = math.max(uv0, -50)
+		uv0 = math.min(uv0, 50)
 	end
 
-	return var_0_9
+	return uv0
 end
 
-function var_0_0.SetJudgeValue(arg_26_0, arg_26_1)
-	var_0_9 = arg_26_1
+function slot0.SetJudgeValue(slot0, slot1)
+	uv0 = slot1
 
-	saveData("Music", "Judge", arg_26_1)
+	saveData("Music", "Judge", slot1)
 end
 
-function var_0_0.GetJudgeData(arg_27_0)
-	local var_27_0 = arg_27_0:GetJudgeValue()
-	local var_27_1 = math.abs(var_27_0) / 50 * 300
+function slot0.GetJudgeData(slot0)
+	slot1 = slot0:GetJudgeValue()
+	slot2 = math.abs(slot1) / 50 * 300
 
-	if var_27_0 < 0 then
-		return -1 * var_27_1
+	if slot1 < 0 then
+		return -1 * slot2
 	end
 
-	return var_27_1
+	return slot2
 end
 
-function var_0_0.GetScreanValue(arg_28_0)
-	if not var_0_10 then
-		var_0_10 = getData("Music", "Screan")
+function slot0.GetScreanValue(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "Screan")
 	end
 
-	if type(var_0_10) ~= "number" then
-		var_0_10 = 0
+	if type(uv0) ~= "number" then
+		uv0 = 0
 	else
-		var_0_10 = math.max(var_0_10, -50)
-		var_0_10 = math.min(var_0_10, 50)
+		uv0 = math.max(uv0, -50)
+		uv0 = math.min(uv0, 50)
 	end
 
-	return var_0_10
+	return uv0
 end
 
-function var_0_0.SetScreanValue(arg_29_0, arg_29_1)
-	var_0_10 = arg_29_1
+function slot0.SetScreanValue(slot0, slot1)
+	uv0 = slot1
 
-	saveData("Music", "Screan", var_0_10)
+	saveData("Music", "Screan", uv0)
 end
 
-function var_0_0.GetScreanData(arg_30_0)
-	local var_30_0 = arg_30_0:GetScreanValue()
-	local var_30_1 = math.abs(var_30_0) / 50 * 300
+function slot0.GetScreanData(slot0)
+	slot1 = slot0:GetScreanValue()
+	slot2 = math.abs(slot1) / 50 * 300
 
-	if var_30_0 < 0 then
-		return -1 * var_30_1
+	if slot1 < 0 then
+		return -1 * slot2
 	end
 
-	return var_30_1
+	return slot2
 end
 
-function var_0_0.GetVolumeValue(arg_31_0)
-	if not var_0_11 then
-		var_0_11 = getData("Music", "Volume")
+function slot0.GetVolumeValue(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "Volume")
 	end
 
-	if type(var_0_11) ~= "number" then
-		var_0_11 = 50
+	if type(uv0) ~= "number" then
+		uv0 = 50
 	else
-		var_0_11 = math.max(var_0_11, 0)
-		var_0_11 = math.min(var_0_11, 100)
+		uv0 = math.max(uv0, 0)
+		uv0 = math.min(uv0, 100)
 	end
 
-	return var_0_11
+	return uv0
 end
 
-function var_0_0.SetVolumeValue(arg_32_0, arg_32_1)
-	var_0_11 = arg_32_1
+function slot0.SetVolumeValue(slot0, slot1)
+	uv0 = slot1
 
-	saveData("Music", "Volume", var_0_11)
+	saveData("Music", "Volume", uv0)
 end
 
-function var_0_0.GetVolumeData(arg_33_0)
-	local var_33_0 = arg_33_0:GetVolumeValue()
-
-	return math.abs(var_33_0) / 100
+function slot0.GetVolumeData(slot0)
+	return math.abs(slot0:GetVolumeValue()) / 100
 end
 
-function var_0_0.GetShowMovie(arg_34_0)
-	if not var_0_12 then
-		var_0_12 = getData("Music", "ShowMovie")
+function slot0.GetShowMovie(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "ShowMovie")
 	end
 
-	if type(var_0_12) ~= "number" then
-		var_0_12 = 1
+	if type(uv0) ~= "number" then
+		uv0 = 1
 	end
 
-	return var_0_12 ~= 0
+	return uv0 ~= 0
 end
 
-function var_0_0.SetShoMovie(arg_35_0, arg_35_1)
-	var_0_12 = arg_35_1 and 1 or 0
+function slot0.SetShoMovie(slot0, slot1)
+	uv0 = slot1 and 1 or 0
 
-	saveData("Music", "ShowMovie", var_0_12)
+	saveData("Music", "ShowMovie", uv0)
 end
 
-function var_0_0.GetVerical(arg_36_0)
-	if not var_0_14 then
-		var_0_14 = getData("Music", "isVertical")
+function slot0.GetVerical(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "isVertical")
 	end
 
-	if type(var_0_14) ~= "number" then
-		var_0_14 = 0
+	if type(uv0) ~= "number" then
+		uv0 = 0
 	end
 
-	return var_0_14 ~= 0
+	return uv0 ~= 0
 end
 
-function var_0_0.SetVerical(arg_37_0, arg_37_1)
-	var_0_14 = arg_37_1 and 1 or 0
+function slot0.SetVerical(slot0, slot1)
+	uv0 = slot1 and 1 or 0
 
-	saveData("Music", "isVertical", var_0_14)
+	saveData("Music", "isVertical", uv0)
 end
 
-function var_0_0.GetSpectralType(arg_38_0)
-	if not var_0_15 then
-		var_0_15 = getData("Music", "SpectralType")
+function slot0.GetSpectralType(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "SpectralType")
 	end
 
-	if type(var_0_15) ~= "number" then
-		var_0_15 = 0
+	if type(uv0) ~= "number" then
+		uv0 = 0
 	end
 
-	return var_0_15
+	return uv0
 end
 
-function var_0_0.SetSpectralType(arg_39_0, arg_39_1)
-	var_0_15 = arg_39_1
+function slot0.SetSpectralType(slot0, slot1)
+	uv0 = slot1
 
-	saveData("Music", "SpectralType", var_0_15)
+	saveData("Music", "SpectralType", uv0)
 end
 
-function var_0_0.GetSpectralAndVercialSDKKey(arg_40_0)
-	local var_40_0 = "[" .. arg_40_0:GetSpectralType() + 1 .. ","
+function slot0.GetSpectralAndVercialSDKKey(slot0)
+	slot1 = "[" .. slot0:GetSpectralType() + 1 .. ","
 
-	if arg_40_0:GetVerical() then
-		var_40_0 = var_40_0 .. 1
+	return (slot0:GetVerical() and slot1 .. 1 or slot1 .. 2) .. "]"
+end
+
+function slot0.GetSpectralSendData(slot0)
+	table.insert({}, slot0:GetSpectralType() + 1)
+
+	if slot0:GetVerical() then
+		table.insert(slot1, 1)
 	else
-		var_40_0 = var_40_0 .. 2
+		table.insert(slot1, 2)
 	end
 
-	return var_40_0 .. "]"
+	return slot1
 end
 
-function var_0_0.GetSpectralSendData(arg_41_0)
-	local var_41_0 = {}
-
-	table.insert(var_41_0, arg_41_0:GetSpectralType() + 1)
-
-	if arg_41_0:GetVerical() then
-		table.insert(var_41_0, 1)
-	else
-		table.insert(var_41_0, 2)
+function slot0.GetPlayKeyEffectSound(slot0)
+	if not uv0 then
+		uv0 = getData("Music", "PlayKeyEffectSound")
 	end
 
-	return var_41_0
-end
-
-function var_0_0.GetPlayKeyEffectSound(arg_42_0)
-	if not var_0_13 then
-		var_0_13 = getData("Music", "PlayKeyEffectSound")
+	if type(uv0) ~= "number" then
+		uv0 = 1
 	end
 
-	if type(var_0_13) ~= "number" then
-		var_0_13 = 1
+	return uv0 ~= 0
+end
+
+function slot0.SetPlayKeyEffectSound(slot0, slot1)
+	uv0 = slot1 and 1 or 0
+
+	saveData("Music", "PlayKeyEffectSound", uv0)
+end
+
+function slot0.GetDifficultyIndex(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = getData("MusicSelectDiffcult", tostring(slot1))
 	end
 
-	return var_0_13 ~= 0
-end
-
-function var_0_0.SetPlayKeyEffectSound(arg_43_0, arg_43_1)
-	var_0_13 = arg_43_1 and 1 or 0
-
-	saveData("Music", "PlayKeyEffectSound", var_0_13)
-end
-
-function var_0_0.GetDifficultyIndex(arg_44_0, arg_44_1)
-	if not var_0_16[arg_44_1] then
-		var_0_16[arg_44_1] = getData("MusicSelectDiffcult", tostring(arg_44_1))
+	if type(uv0[slot1]) ~= "number" then
+		uv0[slot1] = 0
 	end
 
-	if type(var_0_16[arg_44_1]) ~= "number" then
-		var_0_16[arg_44_1] = 0
-	end
-
-	return var_0_16[arg_44_1]
+	return uv0[slot1]
 end
 
-function var_0_0.SetDifficultIndex(arg_45_0, arg_45_1, arg_45_2)
-	var_0_16[arg_45_1] = arg_45_2
+function slot0.SetDifficultIndex(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 
-	saveData("MusicSelectDiffcult", tostring(arg_45_1), arg_45_2)
+	saveData("MusicSelectDiffcult", tostring(slot1), slot2)
 end
 
-function var_0_0.GetRead(arg_46_0, arg_46_1)
-	return table.indexof(var_0_17, arg_46_1)
+function slot0.GetRead(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.SetRead(arg_47_0, arg_47_1)
-	if not table.indexof(var_0_17, arg_47_1) then
-		table.insert(var_0_17, arg_47_1)
+function slot0.SetRead(slot0, slot1)
+	if not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
 	end
 end
 
-function var_0_0.SetSelectIndex(arg_48_0, arg_48_1)
-	var_0_18[arg_48_0] = arg_48_1
+function slot0.SetSelectIndex(slot0, slot1)
+	uv0[slot0] = slot1
 
-	saveData("MusicSelect", tostring(arg_48_0), arg_48_1)
+	saveData("MusicSelect", tostring(slot0), slot1)
 end
 
-function var_0_0.GetSelectIndex(arg_49_0)
-	if not var_0_18[arg_49_0] then
-		var_0_18[arg_49_0] = getData("MusicSelect", tostring(arg_49_0))
+function slot0.GetSelectIndex(slot0)
+	if not uv0[slot0] then
+		uv0[slot0] = getData("MusicSelect", tostring(slot0))
 	end
 
-	if type(var_0_18[arg_49_0]) ~= "number" then
-		var_0_18[arg_49_0] = 1
+	if type(uv0[slot0]) ~= "number" then
+		uv0[slot0] = 1
 	end
 
-	return var_0_18[arg_49_0]
+	return uv0[slot0]
 end
 
-function var_0_0.GetAisacSet(arg_50_0, arg_50_1)
-	local var_50_0 = {}
-	local var_50_1 = MusicRecordCfg[arg_50_1]
+function slot0.GetAisacSet(slot0, slot1)
+	slot2 = {}
 
-	if var_50_1 and var_50_1.initAISAC ~= "" then
-		for iter_50_0, iter_50_1 in ipairs(var_50_1.initAISAC) do
-			var_50_0[iter_50_1[1]] = iter_50_1[2]
+	if MusicRecordCfg[slot1] and slot3.initAISAC ~= "" then
+		for slot7, slot8 in ipairs(slot3.initAISAC) do
+			slot2[slot8[1]] = slot8[2]
 		end
 	end
 
-	return var_50_0
+	return slot2
 end
 
-function var_0_0.GetMusicViewPathList(arg_51_0, arg_51_1)
-	local var_51_0 = arg_51_0:GetMusicViewType(arg_51_1)
-
-	return MusicConst.MusicViewRoutesName[var_51_0]
+function slot0.GetMusicViewPathList(slot0, slot1)
+	return MusicConst.MusicViewRoutesName[slot0:GetMusicViewType(slot1)]
 end
 
-function var_0_0.GetMusicViewType(arg_52_0, arg_52_1)
-	local var_52_0
+function slot0.GetMusicViewType(slot0, slot1)
+	slot2 = nil
 
-	if arg_52_0:GetLookBackState() then
-		var_52_0 = ActivityTools.GetActivityTheme(var_0_20)
-	else
-		var_52_0 = ActivityTools.GetActivityTheme(arg_52_1)
-	end
-
-	if var_52_0 == ActivityConst.THEME.ACTIVITY_2_0 then
+	if ((not slot0:GetLookBackState() or ActivityTools.GetActivityTheme(uv0)) and ActivityTools.GetActivityTheme(slot1)) == ActivityConst.THEME.ACTIVITY_2_0 then
 		return MusicConst.MusicViewType.Enternal
 	else
 		return MusicConst.MusicViewType.V210
 	end
 end
 
-return var_0_0
+return slot0

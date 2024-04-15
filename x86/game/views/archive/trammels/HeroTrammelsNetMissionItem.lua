@@ -1,63 +1,52 @@
-local var_0_0 = class("HeroTrammelsNetMissionItem", ReduxView)
+slot0 = class("HeroTrammelsNetMissionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_unlockBtn, function()
-		ArchiveAction.QueryUnlockRelationNet(arg_4_0.net_id, arg_4_0.complete)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_unlockBtn, function ()
+		ArchiveAction.QueryUnlockRelationNet(uv0.net_id, uv0.complete)
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4, arg_6_5)
-	arg_6_0.net_id = HeroRelationNetCfg.get_id_list_by_hero_id[arg_6_4][arg_6_2]
-	arg_6_0.complete = arg_6_3
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.net_id = HeroRelationNetCfg.get_id_list_by_hero_id[slot4][slot2]
+	slot0.complete = slot3
+	slot7 = HeroRelationUpgradeCfg[slot1]
+	slot0.m_conditionDes.text = ArchiveTools.GetRelationUpgradeConditionDes(slot7.condition_id)
+	slot11 = slot7.attr[1]
+	slot12 = PublicAttrCfg[slot11[1]].name
+	slot13 = ""
+	slot13 = (PublicAttrCfg[slot11[1]].percent ~= 1 or string.format("%s+%.2f%%", slot12, slot11[2] / 10)) and string.format("%s+%d", slot12, slot11[2])
+	slot0.m_attrAdd.text = slot13
+	slot0.m_lockEffectDes.text = GetTipsF("HERO_RELATION_UPGRADE_UNLOCK", slot13)
 
-	local var_6_0 = HeroRelationUpgradeCfg[arg_6_1]
-	local var_6_1 = var_6_0.condition_id
-	local var_6_2 = ArchiveTools.GetRelationUpgradeConditionDes(var_6_1)
-
-	arg_6_0.m_conditionDes.text = var_6_2
-
-	local var_6_3 = var_6_0.attr[1]
-	local var_6_4 = PublicAttrCfg[var_6_3[1]].name
-	local var_6_5 = ""
-
-	if PublicAttrCfg[var_6_3[1]].percent == 1 then
-		var_6_5 = string.format("%s+%.2f%%", var_6_4, var_6_3[2] / 10)
+	if HeroData:GetHeroData(slot4).relation:GetIsUnlock(slot2, slot3) then
+		slot0.stateController:SetSelectedIndex(2)
+	elseif ArchiveTools.CheckRelationUpgradeCondition(slot8, slot5) then
+		slot0.stateController:SetSelectedIndex(1)
 	else
-		var_6_5 = string.format("%s+%d", var_6_4, var_6_3[2])
-	end
-
-	arg_6_0.m_attrAdd.text = var_6_5
-	arg_6_0.m_lockEffectDes.text = GetTipsF("HERO_RELATION_UPGRADE_UNLOCK", var_6_5)
-
-	if HeroData:GetHeroData(arg_6_4).relation:GetIsUnlock(arg_6_2, arg_6_3) then
-		arg_6_0.stateController:SetSelectedIndex(2)
-	elseif ArchiveTools.CheckRelationUpgradeCondition(var_6_1, arg_6_5) then
-		arg_6_0.stateController:SetSelectedIndex(1)
-	else
-		arg_6_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

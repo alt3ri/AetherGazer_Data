@@ -1,60 +1,57 @@
-local var_0_0 = class("ChapterSelectTitleView", ReduxView)
+slot0 = class("ChapterSelectTitleView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_2_0, arg_2_1)
-	if arg_2_0.chapterClientID_ then
-		arg_2_0:UnBindRedPoint()
+function slot0.OnEnter(slot0, slot1)
+	if slot0.chapterClientID_ then
+		slot0:UnBindRedPoint()
 	end
 
-	arg_2_0.chapterClientID_ = arg_2_1
+	slot0.chapterClientID_ = slot1
 
-	arg_2_0:BindRedPoint()
-	arg_2_0:RefreshUI()
+	slot0:BindRedPoint()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:UnBindRedPoint()
+function slot0.OnExit(slot0)
+	slot0:UnBindRedPoint()
 
-	arg_3_0.chapterClientID_ = nil
+	slot0.chapterClientID_ = nil
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.BindRedPoint(arg_5_0)
-	if ChapterClientCfg[arg_5_0.chapterClientID_].toggle == BattleConst.TOGGLE.PLOT then
-		manager.redPoint:bindUIandKey(arg_5_0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT, arg_5_0.chapterClientID_))
-	elseif ChapterClientCfg[arg_5_0.chapterClientID_].toggle == BattleConst.TOGGLE.SUB_PLOT then
-		manager.redPoint:bindUIandKey(arg_5_0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, arg_5_0.chapterClientID_))
-	end
-end
-
-function var_0_0.UnBindRedPoint(arg_6_0)
-	if ChapterClientCfg[arg_6_0.chapterClientID_].toggle == BattleConst.TOGGLE.PLOT then
-		manager.redPoint:unbindUIandKey(arg_6_0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT, arg_6_0.chapterClientID_))
-	elseif ChapterClientCfg[arg_6_0.chapterClientID_].toggle == BattleConst.TOGGLE.SUB_PLOT then
-		manager.redPoint:unbindUIandKey(arg_6_0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, arg_6_0.chapterClientID_))
+function slot0.BindRedPoint(slot0)
+	if ChapterClientCfg[slot0.chapterClientID_].toggle == BattleConst.TOGGLE.PLOT then
+		manager.redPoint:bindUIandKey(slot0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT, slot0.chapterClientID_))
+	elseif ChapterClientCfg[slot0.chapterClientID_].toggle == BattleConst.TOGGLE.SUB_PLOT then
+		manager.redPoint:bindUIandKey(slot0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, slot0.chapterClientID_))
 	end
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = arg_7_0.chapterClientID_
-	local var_7_1 = ChapterClientCfg[var_7_0]
-
-	arg_7_0.chapterIndexText_.text = var_7_1.desc
-	arg_7_0.chapterNameText_.text = var_7_1.name
-
-	local var_7_2 = ChapterTools.GetChapterClientFinishPercentage(var_7_0)
-
-	arg_7_0.percentageImage_.fillAmount = var_7_2
-	arg_7_0.percentageText_.text = string.format("%s<size=28>%%</size>", math.floor(var_7_2 * 100))
+function slot0.UnBindRedPoint(slot0)
+	if ChapterClientCfg[slot0.chapterClientID_].toggle == BattleConst.TOGGLE.PLOT then
+		manager.redPoint:unbindUIandKey(slot0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_PLOT, slot0.chapterClientID_))
+	elseif ChapterClientCfg[slot0.chapterClientID_].toggle == BattleConst.TOGGLE.SUB_PLOT then
+		manager.redPoint:unbindUIandKey(slot0.redPointTransform_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT, slot0.chapterClientID_))
+	end
 end
 
-return var_0_0
+function slot0.RefreshUI(slot0)
+	slot1 = slot0.chapterClientID_
+	slot2 = ChapterClientCfg[slot1]
+	slot0.chapterIndexText_.text = slot2.desc
+	slot0.chapterNameText_.text = slot2.name
+	slot3 = ChapterTools.GetChapterClientFinishPercentage(slot1)
+	slot0.percentageImage_.fillAmount = slot3
+	slot0.percentageText_.text = string.format("%s<size=28>%%</size>", math.floor(slot3 * 100))
+end
+
+return slot0

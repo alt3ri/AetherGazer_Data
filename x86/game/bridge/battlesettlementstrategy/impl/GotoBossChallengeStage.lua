@@ -1,55 +1,53 @@
-local var_0_0 = class("GotoBossChallengeStage", BattleSettlementStrategyBase)
+slot0 = class("GotoBossChallengeStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.stageData:GetType()
-
-	if var_1_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
-		arg_1_0:GotoNormalBossChallenge(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
-	elseif var_1_0 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
-		arg_1_0:GotoAdvanceBossChallenge(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	if slot1.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE then
+		slot0:GotoNormalBossChallenge(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
+	elseif slot3 == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE then
+		slot0:GotoAdvanceBossChallenge(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 	end
 end
 
-function var_0_0.GotoNormalBossChallenge(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+function slot0.GotoNormalBossChallenge(slot0, slot1, slot2, slot3, slot4)
 	function BattleCallLuaCallBack()
-		if isSuccess(arg_2_1) then
+		if isSuccess(uv0) then
 			JumpTools.OpenPageByJump("/battleBossChallengeResult", {
-				result = arg_2_1,
+				result = uv0,
 				rewardList = {},
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+				stageData = uv1,
+				starMissionData = uv2,
+				battleResult = uv3
 			})
 		else
 			JumpTools.OpenPageByJump("/battlefailedBossChallenge", {
-				stageData = arg_2_2,
-				battleResult = arg_2_4
+				stageData = uv1,
+				battleResult = uv3
 			})
 		end
 
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv0)
 	end
 end
 
-function var_0_0.GotoAdvanceBossChallenge(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0, var_4_1 = GetResultReward()
+function slot0.GotoAdvanceBossChallenge(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
 	function BattleCallLuaCallBack()
-		if isSuccess(arg_4_1) then
+		if isSuccess(uv0) then
 			gameContext:Go("/battleScorResult", {
-				stageData = arg_4_2,
-				rewardList = var_4_1,
-				battleResult = arg_4_4
+				stageData = uv1,
+				rewardList = uv2,
+				battleResult = uv3
 			})
 		else
 			JumpTools.OpenPageByJump("/battlefailedBossChallenge", {
-				stageData = arg_4_2,
-				battleResult = arg_4_4
+				stageData = uv1,
+				battleResult = uv3
 			})
 		end
 
-		EndBattleLogic(arg_4_1)
+		EndBattleLogic(uv0)
 	end
 end
 
-return var_0_0
+return slot0

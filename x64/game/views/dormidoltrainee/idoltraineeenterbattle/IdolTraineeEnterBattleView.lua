@@ -1,176 +1,175 @@
-local var_0_0 = class("IdolTraineeEnterBattleView", ReduxView)
+slot0 = class("IdolTraineeEnterBattleView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/IdolTrainee/IdolBattleEnterView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.raceData_ = {}
-	arg_4_0.styleData_ = {}
-	arg_4_0.selectHeroPage_ = EnterBattleSelectHeroPage.New(arg_4_0.selectHeroGo_)
+	slot0.raceData_ = {}
+	slot0.styleData_ = {}
+	slot0.selectHeroPage_ = EnterBattleSelectHeroPage.New(slot0.selectHeroGo_)
 
-	arg_4_0.selectHeroPage_:ShowPage(false)
+	slot0.selectHeroPage_:ShowPage(false)
 
-	arg_4_0.selectOpponentPage_ = EnterBattleSelectOpponentPage.New(arg_4_0.selectOpponentGo_)
+	slot0.selectOpponentPage_ = EnterBattleSelectOpponentPage.New(slot0.selectOpponentGo_)
 
-	arg_4_0.selectOpponentPage_:ShowPage(false)
+	slot0.selectOpponentPage_:ShowPage(false)
 
-	arg_4_0.stageInfoPage = IdolTraineeStageInfoPage.New(arg_4_0.stageInfo)
+	slot0.stageInfoPage = IdolTraineeStageInfoPage.New(slot0.stageInfo)
 
-	arg_4_0.stageInfoPage:ShowPage(true)
+	slot0.stageInfoPage:ShowPage(true)
 
-	arg_4_0.showHistoryController = arg_4_0.mainControllerEx_:GetController("showHistory")
+	slot0.showHistoryController = slot0.mainControllerEx_:GetController("showHistory")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.historyBtn_, nil, function()
-		if arg_5_0.pvpBattle_ then
-			IdolTraineeAction.AskHistoryBattleData(function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.historyBtn_, nil, function ()
+		if uv0.pvpBattle_ then
+			IdolTraineeAction.AskHistoryBattleData(function ()
 				JumpTools.OpenPageByJump("idolTraineeBattleHistoryPop")
 			end)
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.enterBtn_, nil, function()
-		if arg_5_0.selectOpponentPage_.showFlag and arg_5_0.pvpBattle_ then
+	slot0:AddBtnListener(slot0.enterBtn_, nil, function ()
+		if uv0.selectOpponentPage_.showFlag and uv0.pvpBattle_ then
 			return
 		end
 
-		local var_8_0 = IdolTraineeData:GetCurAttackHero()
-		local var_8_1
+		slot1 = nil
 
-		for iter_8_0, iter_8_1 in pairs(var_8_0) do
-			if iter_8_1 == true then
-				var_8_1 = iter_8_0
+		for slot5, slot6 in pairs(IdolTraineeData:GetCurAttackHero()) do
+			if slot6 == true then
+				slot1 = slot5
 			end
 		end
 
-		if var_8_1 then
-			if arg_5_0.pvpBattle_ then
-				arg_5_0.selectOpponentPage_:ShowPage(true)
-				SetActive(arg_5_0.maskImg_.gameObject, true)
-			elseif arg_5_0.stageID_ then
-				BackHomeCricketAction:AskPvEBattleData(arg_5_0.stageID_)
+		if slot1 then
+			if uv0.pvpBattle_ then
+				uv0.selectOpponentPage_:ShowPage(true)
+				SetActive(uv0.maskImg_.gameObject, true)
+			elseif uv0.stageID_ then
+				BackHomeCricketAction:AskPvEBattleData(uv0.stageID_)
 			end
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.heroBtn, nil, function()
-		arg_5_0.selectHeroPage_:ShowPage(true)
-		SetActive(arg_5_0.maskImg_.gameObject, true)
+	slot0:AddBtnListener(slot0.heroBtn, nil, function ()
+		uv0.selectHeroPage_:ShowPage(true)
+		SetActive(uv0.maskImg_.gameObject, true)
 	end)
 end
 
-function var_0_0.RefreshBar(arg_10_0)
+function slot0.RefreshBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_10_0.selectOpponentPage_.showFlag then
-			arg_10_0.selectOpponentPage_:ShowPage(false)
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.selectOpponentPage_.showFlag then
+			uv0.selectOpponentPage_:ShowPage(false)
 
-			if not arg_10_0.selectHeroPage_.showFlag then
-				SetActive(arg_10_0.maskImg_.gameObject, false)
+			if not uv0.selectHeroPage_.showFlag then
+				SetActive(uv0.maskImg_.gameObject, false)
 			end
 
 			return
 		end
 
-		if arg_10_0.selectHeroPage_.showFlag then
-			arg_10_0.selectHeroPage_:ShowPage(false)
-			SetActive(arg_10_0.maskImg_.gameObject, false)
+		if uv0.selectHeroPage_.showFlag then
+			uv0.selectHeroPage_:ShowPage(false)
+			SetActive(uv0.maskImg_.gameObject, false)
 
-			arg_10_0.selectHeroPage_.curHeroID_ = nil
+			uv0.selectHeroPage_.curHeroID_ = nil
 
-			arg_10_0.showHistoryController:SetSelectedState("open")
+			uv0.showHistoryController:SetSelectedState("open")
 
-			if arg_10_0.pvpBattle_ then
-				arg_10_0.showHistoryController:SetSelectedState("open")
+			if uv0.pvpBattle_ then
+				uv0.showHistoryController:SetSelectedState("open")
 			else
-				arg_10_0.showHistoryController:SetSelectedState("close")
+				uv0.showHistoryController:SetSelectedState("close")
 			end
 
 			return
 		end
 
 		IdolTraineeCampBridge.SetVCamActive("CamShootAtTrainningPos", false)
-		arg_10_0:Back()
+		uv0:Back()
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
-		arg_10_0.selectOpponentPage_:ShowPage(false)
-		SetActive(arg_10_0.maskImg_.gameObject, false)
-		arg_10_0.selectHeroPage_:ShowPage(false)
+	manager.windowBar:RegistHomeCallBack(function ()
+		uv0.selectOpponentPage_:ShowPage(false)
+		SetActive(uv0.maskImg_.gameObject, false)
+		uv0.selectHeroPage_:ShowPage(false)
 
-		arg_10_0.selectHeroPage_.curHeroID_ = nil
+		uv0.selectHeroPage_.curHeroID_ = nil
 
 		IdolTraineeCampBridge.SetVCamActive("CamShootAtTrainningPos", false)
 		JumpTools.OpenPageByJump("/idolTraineeCamp")
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
+function slot0.OnEnter(slot0)
 	IdolTraineeCampBridge.SetVCamActive("CamShootAtTrainningPos", true)
-	arg_13_0:RefreshBar()
+	slot0:RefreshBar()
 
-	arg_13_0.pvpBattle_ = arg_13_0.params_.pvpBattle
-	arg_13_0.stageID_ = arg_13_0.params_.stageID
+	slot0.pvpBattle_ = slot0.params_.pvpBattle
+	slot0.stageID_ = slot0.params_.stageID
 
-	if arg_13_0.pvpBattle_ then
-		arg_13_0.stageID_ = IdolTraineeData:GetCurPVPStage()
+	if slot0.pvpBattle_ then
+		slot0.stageID_ = IdolTraineeData:GetCurPVPStage()
 
-		arg_13_0.showHistoryController:SetSelectedState("open")
+		slot0.showHistoryController:SetSelectedState("open")
 	else
-		arg_13_0.showHistoryController:SetSelectedState("close")
+		slot0.showHistoryController:SetSelectedState("close")
 	end
 
-	arg_13_0.stageInfoPage:SetParams(arg_13_0.params_)
-	arg_13_0.stageInfoPage:OnEnter()
-	arg_13_0.selectHeroPage_:OnEnter()
-	arg_13_0.selectHeroPage_:RefreshUI()
-	arg_13_0.selectOpponentPage_:OnEnter()
+	slot0.stageInfoPage:SetParams(slot0.params_)
+	slot0.stageInfoPage:OnEnter()
+	slot0.selectHeroPage_:OnEnter()
+	slot0.selectHeroPage_:RefreshUI()
+	slot0.selectOpponentPage_:OnEnter()
 end
 
-function var_0_0.StopWaitCamBlend(arg_14_0)
-	if arg_14_0.timer then
-		arg_14_0.timer:Stop()
+function slot0.StopWaitCamBlend(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_14_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-function var_0_0.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_15_0.selectHeroPage_:OnExit()
-	arg_15_0.selectOpponentPage_:OnExit()
-	arg_15_0:StopWaitCamBlend()
+	slot0.selectHeroPage_:OnExit()
+	slot0.selectOpponentPage_:OnExit()
+	slot0:StopWaitCamBlend()
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:StopWaitCamBlend()
-	arg_16_0.selectHeroPage_:Dispose()
-	arg_16_0.selectOpponentPage_:Dispose()
-	arg_16_0.stageInfoPage:Dispose()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0:StopWaitCamBlend()
+	slot0.selectHeroPage_:Dispose()
+	slot0.selectOpponentPage_:Dispose()
+	slot0.stageInfoPage:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnTop(arg_17_0)
-	arg_17_0.gameObject_.layer = 18
-	arg_17_0.maskImg_.enabled = true
+function slot0.OnTop(slot0)
+	slot0.gameObject_.layer = 18
+	slot0.maskImg_.enabled = true
 end
 
-function var_0_0.OnBehind(arg_18_0)
-	arg_18_0.gameObject_.layer = 5
-	arg_18_0.maskImg_.enabled = false
+function slot0.OnBehind(slot0)
+	slot0.gameObject_.layer = 5
+	slot0.maskImg_.enabled = false
 end
 
-return var_0_0
+return slot0

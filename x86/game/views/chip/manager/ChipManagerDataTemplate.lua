@@ -1,27 +1,27 @@
-local var_0_0 = class("ChipManagerDataTemplate")
+slot0 = class("ChipManagerDataTemplate")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.enabledChipManagerID_ = 0
-	arg_1_0.unlockChipManagerIDList_ = {}
-	arg_1_0.unlockChipIDList_ = {}
-	arg_1_0.isNoRed = false
+function slot0.Ctor(slot0, slot1)
+	slot0.enabledChipManagerID_ = 0
+	slot0.unlockChipManagerIDList_ = {}
+	slot0.unlockChipIDList_ = {}
+	slot0.isNoRed = false
 
-	arg_1_0:InitData(arg_1_1)
+	slot0:InitData(slot1)
 
-	arg_1_0.useChipmanagerId = 0
-	arg_1_0.useChipIdList = {}
+	slot0.useChipmanagerId = 0
+	slot0.useChipIdList = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	arg_2_0.enabledChipManagerID_ = arg_2_1.id or 0
-	arg_2_0.unlockChipManagerIDList_ = arg_2_1.unlockChipManagerIDList_ or {}
-	arg_2_0.unlockChipIDList_ = arg_2_1.unlockChipIDList_ or {}
-	arg_2_0.isNoRed = arg_2_1.isNoRed
+function slot0.InitData(slot0, slot1)
+	slot0.enabledChipManagerID_ = slot1.id or 0
+	slot0.unlockChipManagerIDList_ = slot1.unlockChipManagerIDList_ or {}
+	slot0.unlockChipIDList_ = slot1.unlockChipIDList_ or {}
+	slot0.isNoRed = slot1.isNoRed
 end
 
-function var_0_0.GetChipManagerIsUnLock(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.unlockChipManagerIDList_) do
-		if iter_3_1 == arg_3_1 then
+function slot0.GetChipManagerIsUnLock(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.unlockChipManagerIDList_) do
+		if slot6 == slot1 then
 			return true
 		end
 	end
@@ -29,9 +29,9 @@ function var_0_0.GetChipManagerIsUnLock(arg_3_0, arg_3_1)
 	return false
 end
 
-function var_0_0.GetIsUnlockChip(arg_4_0, arg_4_1)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.unlockChipIDList_) do
-		if iter_4_1 == arg_4_1 then
+function slot0.GetIsUnlockChip(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.unlockChipIDList_) do
+		if slot6 == slot1 then
 			return true
 		end
 	end
@@ -39,72 +39,70 @@ function var_0_0.GetIsUnlockChip(arg_4_0, arg_4_1)
 	return false
 end
 
-function var_0_0.SetUseChipmanagerId(arg_5_0, arg_5_1)
-	arg_5_0.useChipmanagerId = arg_5_1
+function slot0.SetUseChipmanagerId(slot0, slot1)
+	slot0.useChipmanagerId = slot1
 end
 
-function var_0_0.SetUseChipId(arg_6_0, arg_6_1)
-	if #arg_6_0.useChipIdList < GameSetting.ai_secondary_chip_equip_num.value[1] and not arg_6_0:GetIsUesChipID(arg_6_1) then
-		if not arg_6_0.useChipIdList then
-			arg_6_0.useChipIdList = {}
+function slot0.SetUseChipId(slot0, slot1)
+	if #slot0.useChipIdList < GameSetting.ai_secondary_chip_equip_num.value[1] and not slot0:GetIsUesChipID(slot1) then
+		if not slot0.useChipIdList then
+			slot0.useChipIdList = {}
 		end
 
-		table.insert(arg_6_0.useChipIdList, arg_6_1)
+		table.insert(slot0.useChipIdList, slot1)
 	end
 end
 
-function var_0_0.SetNoUseChipId(arg_7_0, arg_7_1)
-	local var_7_0 = table.indexof(arg_7_0.useChipIdList, arg_7_1)
-
-	if arg_7_0.useChipIdList[var_7_0] then
-		table.remove(arg_7_0.useChipIdList, var_7_0)
+function slot0.SetNoUseChipId(slot0, slot1)
+	if slot0.useChipIdList[table.indexof(slot0.useChipIdList, slot1)] then
+		table.remove(slot0.useChipIdList, slot2)
 	end
 end
 
-function var_0_0.GetIsUesChipID(arg_8_0, arg_8_1)
-	return table.indexof(arg_8_0.useChipIdList, arg_8_1)
+function slot0.GetIsUesChipID(slot0, slot1)
+	return table.indexof(slot0.useChipIdList, slot1)
 end
 
-function var_0_0.GetISUseChipmanager(arg_9_0, arg_9_1)
-	return arg_9_0.useChipmanagerId == arg_9_1
+function slot0.GetISUseChipmanager(slot0, slot1)
+	return slot0.useChipmanagerId == slot1
 end
 
-function var_0_0.SetTeamInfo(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	arg_10_0.stageType_ = arg_10_1
-	arg_10_0.stageID_ = arg_10_2
-	arg_10_0.sectionProxy_ = arg_10_3
-	arg_10_0.useChipmanagerId = arg_10_3:GetMimirID()
-	arg_10_0.useChipIdList = arg_10_3:GetMimirChipList()
+function slot0.SetTeamInfo(slot0, slot1, slot2, slot3)
+	slot0.stageType_ = slot1
+	slot0.stageID_ = slot2
+	slot0.sectionProxy_ = slot3
+	slot0.useChipmanagerId = slot3:GetMimirID()
+	slot0.useChipIdList = slot3:GetMimirChipList()
 end
 
-function var_0_0.SetReservesIndex(arg_11_0, arg_11_1)
-	arg_11_0.reservesIndex_ = arg_11_1
+function slot0.SetReservesIndex(slot0, slot1)
+	slot0.reservesIndex_ = slot1
 end
 
-function var_0_0.SetChipInfoViewPath(arg_12_0, arg_12_1)
-	arg_12_0.chipInfoPath = arg_12_1
+function slot0.SetChipInfoViewPath(slot0, slot1)
+	slot0.chipInfoPath = slot1
 end
 
-function var_0_0.GetChipInfoViewPath(arg_13_0)
-	return arg_13_0.chipInfoPath or "/chipInfo"
+function slot0.GetChipInfoViewPath(slot0)
+	return slot0.chipInfoPath or "/chipInfo"
 end
 
-function var_0_0.SetChipSchemeViewPath(arg_14_0, arg_14_1)
-	arg_14_0.chipSchemePath = arg_14_1
+function slot0.SetChipSchemeViewPath(slot0, slot1)
+	slot0.chipSchemePath = slot1
 end
 
-function var_0_0.GetChipSchemeViewPath(arg_15_0)
-	return arg_15_0.chipSchemePath or "/chipScheme"
+function slot0.GetChipSchemeViewPath(slot0)
+	return slot0.chipSchemePath or "/chipScheme"
 end
 
-function var_0_0.GetEquipChipList(arg_16_0)
-	local var_16_0 = {}
+function slot0.GetEquipChipList(slot0)
+	slot1 = {}
 
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.useChipIdList or {}) do
-		table.insert(var_16_0, iter_16_1)
+	for slot5, slot6 in pairs(slot0.useChipIdList or {}) do
+		table.insert(slot1, slot6)
 	end
 
-	return var_16_0
+	return slot1
 end
 
-return var_0_0
+return slot0

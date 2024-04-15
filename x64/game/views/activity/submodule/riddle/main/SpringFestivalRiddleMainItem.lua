@@ -1,40 +1,38 @@
-local var_0_0 = class("SpringFestivalRiddleMainItem", ReduxView)
+slot0 = class("SpringFestivalRiddleMainItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.activityID_ = arg_1_2
-	arg_1_0.questionID_ = arg_1_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.activityID_ = slot2
+	slot0.questionID_ = slot3
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "riddlesBtn")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "riddlesBtn")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		JumpTools.OpenPageByJump("springFestivalRiddleQuestion", {
-			activityID = arg_3_0.activityID_,
-			questionID = arg_3_0.questionID_
+			activityID = uv0.activityID_,
+			questionID = uv0.questionID_
 		})
 	end)
 end
 
-function var_0_0.RefreshState(arg_5_0, arg_5_1)
-	local var_5_0 = SpringFestivalRiddleData:GetQuestionAnswerList(arg_5_0.activityID_, arg_5_0.questionID_)
-
-	if table.keyof(var_5_0, ActivitySpringFestivalRiddleCfg[arg_5_0.questionID_].correct_answer) then
-		arg_5_0.controller_:SetSelectedState("finish")
-	elseif arg_5_1 == false then
-		arg_5_0.controller_:SetSelectedState("normal")
+function slot0.RefreshState(slot0, slot1)
+	if table.keyof(SpringFestivalRiddleData:GetQuestionAnswerList(slot0.activityID_, slot0.questionID_), ActivitySpringFestivalRiddleCfg[slot0.questionID_].correct_answer) then
+		slot0.controller_:SetSelectedState("finish")
+	elseif slot1 == false then
+		slot0.controller_:SetSelectedState("normal")
 	else
-		arg_5_0.controller_:SetSelectedState("receive")
+		slot0.controller_:SetSelectedState("receive")
 	end
 end
 
-return var_0_0
+return slot0

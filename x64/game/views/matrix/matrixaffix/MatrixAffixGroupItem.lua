@@ -1,79 +1,73 @@
-local var_0_0 = class("MatrixAffixGroup", ReduxView)
+slot0 = class("MatrixAffixGroup", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.GetContainer(arg_2_0)
-	return arg_2_0.transform_
+function slot0.GetContainer(slot0)
+	return slot0.transform_
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.items = {}
+	slot0.items = {}
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.id = arg_5_1.id
-	arg_5_0.list = arg_5_1.list
-
-	local var_5_0 = getAffixName({
-		arg_5_0.id
+function slot0.Refresh(slot0, slot1, slot2, slot3)
+	slot0.id = slot1.id
+	slot0.list = slot1.list
+	slot8 = getAffixName({
+		slot0.id
 	})
+	slot0.m_name.text = GetI18NText(slot8)
 
-	arg_5_0.m_name.text = GetI18NText(var_5_0)
-
-	for iter_5_0 = 1, #arg_5_0.list do
-		if not arg_5_0.items[iter_5_0] then
-			local var_5_1 = Object.Instantiate(arg_5_0.m_item, arg_5_0.m_content)
-
-			arg_5_0.items[iter_5_0] = MatrixSelectAffixItem.New(var_5_1)
+	for slot8 = 1, #slot0.list do
+		if not slot0.items[slot8] then
+			slot0.items[slot8] = MatrixSelectAffixItem.New(Object.Instantiate(slot0.m_item, slot0.m_content))
 		end
 
-		local var_5_2 = arg_5_0.list[iter_5_0]
-		local var_5_3 = 0
-		local var_5_4 = table.indexof(arg_5_2, var_5_2) and 2 or table.indexof(arg_5_3, var_5_2) and 1 or 0
+		slot10 = 0
 
-		arg_5_0.items[iter_5_0]:Refresh(var_5_2, var_5_4)
+		slot0.items[slot8]:Refresh(slot9, table.indexof(slot2, slot0.list[slot8]) and 2 or table.indexof(slot3, slot9) and 1 or 0)
 	end
 
-	while #arg_5_0.items > #arg_5_0.list do
-		local var_5_5 = arg_5_0.items[#arg_5_0.items]
+	while #slot0.items > #slot0.list do
+		slot5 = slot0.items[#slot0.items]
 
-		SetActive(var_5_5.gameObject_, false)
-		var_5_5:Dispose()
-		table.remove(arg_5_0.items, #arg_5_0.items)
+		SetActive(slot5.gameObject_, false)
+		slot5:Dispose()
+		table.remove(slot0.items, #slot0.items)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.transform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.items) do
-		iter_6_1:RegistCallBack(arg_6_1)
+function slot0.RegistCallBack(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.items) do
+		slot6:RegistCallBack(slot1)
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_7_0.items then
-		for iter_7_0, iter_7_1 in ipairs(arg_7_0.items) do
-			iter_7_1:Dispose()
+	if slot0.items then
+		for slot4, slot5 in ipairs(slot0.items) do
+			slot5:Dispose()
 		end
 
-		arg_7_0.items = nil
+		slot0.items = nil
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

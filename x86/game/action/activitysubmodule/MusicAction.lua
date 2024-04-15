@@ -1,228 +1,179 @@
-local var_0_0 = {}
+manager.net:Bind(61047, function (slot0)
+	MusicData:InitMusicData(slot0)
 
-manager.net:Bind(61047, function(arg_1_0)
-	local var_1_0 = MusicData:CheckIsHaveNewMusicData(arg_1_0)
-
-	MusicData:InitMusicData(arg_1_0)
-
-	if var_1_0 then
-		local var_1_1 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_MUSIC]
-
-		for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-			if ActivityData:GetActivityIsOpen(iter_1_1) then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, iter_1_1), 1)
+	if MusicData:CheckIsHaveNewMusicData(slot0) then
+		for slot6, slot7 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_MUSIC]) do
+			if ActivityData:GetActivityIsOpen(slot7) then
+				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, slot7), 1)
 			end
 		end
 	else
 		MusicAction.CheckRedPoint()
 	end
 end)
-manager.notify:RegistListener(ACTIVITY_UPDATE, function(arg_2_0)
-	local var_2_0 = ActivityTools.GetActivityType(arg_2_0)
-
-	if var_2_0 == ActivityTemplateConst.ACTIVITY_MUSIC or var_2_0 == ActivityTemplateConst.ACTIVITY_MUSIC_GAME then
+manager.notify:RegistListener(ACTIVITY_UPDATE, function (slot0)
+	if ActivityTools.GetActivityType(slot0) == ActivityTemplateConst.ACTIVITY_MUSIC or slot1 == ActivityTemplateConst.ACTIVITY_MUSIC_GAME then
 		MusicAction.CheckRedPoint()
 	end
 end)
 
-function var_0_0.QueryCompelet(arg_3_0, arg_3_1)
-	local var_3_0 = ActivityMusicCfg[arg_3_0]
-	local var_3_1 = var_3_0.activity_id
-	local var_3_2 = var_3_0.difficult
-	local var_3_3 = MusicData:GetScore(var_3_1, var_3_2)
+return {
+	QueryCompelet = function (slot0, slot1)
+		slot2 = ActivityMusicCfg[slot0]
+		slot5 = MusicData:GetScore(slot2.activity_id, slot2.difficult)
 
-	manager.net:SendWithLoadingNew(61048, {
-		id = arg_3_0,
-		score = arg_3_1,
-		other_data = MusicData:GetSpectralSendData()
-	}, 61049, var_0_0.OnCampeletCallBack)
-end
+		manager.net:SendWithLoadingNew(61048, {
+			id = slot0,
+			score = slot1,
+			other_data = MusicData:GetSpectralSendData()
+		}, 61049, uv0.OnCampeletCallBack)
+	end,
+	OnCampeletCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			slot3 = ActivityMusicCfg[slot1.id]
 
-function var_0_0.OnCampeletCallBack(arg_4_0, arg_4_1)
-	if isSuccess(arg_4_0.result) then
-		local var_4_0 = arg_4_1.id
-		local var_4_1 = ActivityMusicCfg[var_4_0]
-		local var_4_2 = var_4_1.activity_id
-		local var_4_3 = var_4_1.difficult
-		local var_4_4 = MusicData:GetScore(var_4_2, var_4_3)
-
-		if var_4_4 <= arg_4_1.score or var_4_4 == 0 then
-			MusicData:SetScore(var_4_2, var_4_3, arg_4_1.score)
-			MusicAction.CheckRedPoint()
-			var_0_0.OpenSettlement(var_4_2, arg_4_1.score, arg_4_1.score, true)
+			if MusicData:GetScore(slot3.activity_id, slot3.difficult) <= slot1.score or slot6 == 0 then
+				MusicData:SetScore(slot4, slot5, slot1.score)
+				MusicAction.CheckRedPoint()
+				uv0.OpenSettlement(slot4, slot1.score, slot1.score, true)
+			else
+				uv0.OpenSettlement(slot4, slot1.score, slot6, false)
+			end
 		else
-			var_0_0.OpenSettlement(var_4_2, arg_4_1.score, var_4_4, false)
+			MusicLuaBridge.EndMusicGame()
+			ShowTips(slot0.result)
 		end
-	else
-		MusicLuaBridge.EndMusicGame()
-		ShowTips(arg_4_0.result)
-	end
-end
+	end,
+	OpenSettlement = function (slot0, slot1, slot2, slot3)
+		gameContext:Go(MusicData:GetMusicViewPathList(slot0).settlement, {
+			cur = slot1,
+			max = slot2,
+			new = slot3
+		})
+	end,
+	QueryReward = function (slot0)
+		manager.net:SendWithLoadingNew(61050, {
+			id = slot0
+		}, 61051, uv0.OnRewardCallBack)
+	end,
+	OnRewardCallBack = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			slot2 = slot1.id
+			slot3 = slot0.reward_list
 
-function var_0_0.OpenSettlement(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	local var_5_0 = MusicData:GetMusicViewPathList(arg_5_0)
+			getReward2(slot3)
+			MusicData:SetRewardState(slot3.activity_id, slot3.difficult)
+			MusicAction.CheckRedPoint()
+			manager.notify:CallUpdateFunc(MUSIC_REWARD_UPDATE)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	CheckRedPoint = function (slot0)
+		for slot5, slot6 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_MUSIC]) do
+			MusicAction.CheckOpenRedPoint(slot6)
+			MusicAction.CheckRewardRedPoint(slot6)
+		end
+	end,
+	CheckOpenRedPoint = function (slot0)
+		if not ActivityData:GetActivityIsOpen(slot0) or MusicData:GetRead(slot0) then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, slot0), 0)
 
-	gameContext:Go(var_5_0.settlement, {
-		cur = arg_5_1,
-		max = arg_5_2,
-		new = arg_5_3
-	})
-end
+			return
+		end
 
-function var_0_0.QueryReward(arg_6_0)
-	manager.net:SendWithLoadingNew(61050, {
-		id = arg_6_0
-	}, 61051, var_0_0.OnRewardCallBack)
-end
+		for slot6, slot7 in ipairs(ActivityCfg[slot0] and slot1.sub_activity_list or {}) do
+			if ActivityData:GetActivityIsOpen(slot7) then
+				slot9 = true
 
-function var_0_0.OnRewardCallBack(arg_7_0, arg_7_1)
-	if isSuccess(arg_7_0.result) then
-		local var_7_0 = arg_7_1.id
-		local var_7_1 = arg_7_0.reward_list
+				for slot13, slot14 in ipairs(ActivityMusicCfg.get_id_list_by_activity_id[slot7]) do
+					if MusicData:GetScore(slot7, ActivityMusicCfg[slot14].difficult) and slot16 ~= 0 then
+						slot9 = false
 
-		getReward2(var_7_1)
+						break
+					end
+				end
 
-		local var_7_2 = var_7_1.activity_id
-		local var_7_3 = var_7_1.difficult
+				if slot9 then
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, slot0), 1)
 
-		MusicData:SetRewardState(var_7_2, var_7_3)
-		MusicAction.CheckRedPoint()
-		manager.notify:CallUpdateFunc(MUSIC_REWARD_UPDATE)
-	else
-		ShowTips(arg_7_0.result)
-	end
-end
-
-function var_0_0.CheckRedPoint(arg_8_0)
-	local var_8_0 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.ACTIVITY_MUSIC]
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		MusicAction.CheckOpenRedPoint(iter_8_1)
-		MusicAction.CheckRewardRedPoint(iter_8_1)
-	end
-end
-
-function var_0_0.CheckOpenRedPoint(arg_9_0)
-	if not ActivityData:GetActivityIsOpen(arg_9_0) or MusicData:GetRead(arg_9_0) then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, arg_9_0), 0)
-
-		return
-	end
-
-	local var_9_0 = ActivityCfg[arg_9_0]
-	local var_9_1 = var_9_0 and var_9_0.sub_activity_list or {}
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-		if ActivityData:GetActivityIsOpen(iter_9_1) then
-			local var_9_2 = ActivityMusicCfg.get_id_list_by_activity_id[iter_9_1]
-			local var_9_3 = true
-
-			for iter_9_2, iter_9_3 in ipairs(var_9_2) do
-				local var_9_4 = ActivityMusicCfg[iter_9_3]
-				local var_9_5 = MusicData:GetScore(iter_9_1, var_9_4.difficult)
-
-				if var_9_5 and var_9_5 ~= 0 then
-					var_9_3 = false
-
-					break
+					return
 				end
 			end
+		end
 
-			if var_9_3 then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, arg_9_0), 1)
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, slot0), 0)
+	end,
+	CheckRewardRedPoint = function (slot0)
+		if not ActivityData:GetActivityIsOpen(slot0) then
+			manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, slot0), 0)
 
-				return
+			return
+		end
+
+		for slot6, slot7 in ipairs(ActivityCfg[slot0] and slot1.sub_activity_list or {}) do
+			for slot12, slot13 in ipairs(ActivityMusicCfg.get_id_list_by_activity_id[slot7]) do
+				slot14 = ActivityMusicCfg[slot13]
+
+				if ActivityData:GetActivityIsOpen(slot7) and (slot14.difficult == 1 or slot14.difficult == 2) and MusicData:GetRewardState(slot13) == 1 then
+					manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, slot0), 1)
+
+					return
+				end
 			end
 		end
-	end
 
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, arg_9_0), 0)
-end
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, slot0), 0)
+	end,
+	SetMusicRead = function (slot0)
+		MusicData:SetRead(slot0)
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, slot0), 0)
+	end,
+	Play = function (slot0)
+		if not ActivityMusicCfg[slot0] then
+			error("can not find ActivityMusicCfg")
 
-function var_0_0.CheckRewardRedPoint(arg_10_0)
-	if not ActivityData:GetActivityIsOpen(arg_10_0) then
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, arg_10_0), 0)
-
-		return
-	end
-
-	local var_10_0 = ActivityCfg[arg_10_0]
-	local var_10_1 = var_10_0 and var_10_0.sub_activity_list or {}
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_1) do
-		local var_10_2 = ActivityMusicCfg.get_id_list_by_activity_id[iter_10_1]
-
-		for iter_10_2, iter_10_3 in ipairs(var_10_2) do
-			local var_10_3 = ActivityMusicCfg[iter_10_3]
-
-			if ActivityData:GetActivityIsOpen(iter_10_1) and (var_10_3.difficult == 1 or var_10_3.difficult == 2) and MusicData:GetRewardState(iter_10_3) == 1 then
-				manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, arg_10_0), 1)
-
-				return
-			end
+			return
 		end
+
+		slot2 = GetMusicDataForExchange()
+		slot2.musicPath = slot1.path
+		slot2.cueSheetName = slot1.cueSheetName
+		slot2.cueName = slot1.cueName
+		slot2.awbFile = slot1.awbFile
+		slot2.aisacKey = slot1.aisacKey
+		slot2.aisacValue = slot1.aisacValue
+		slot2.isVertical = MusicData:GetVerical()
+		slot2.latency = MusicData:GetJudgeData()
+		slot2.stayTime = MusicData:GetSpeedData(slot2.isVertical)
+		slot2.judgeLatency = MusicData:GetScreanData()
+		slot2.goodArea = GameSetting.attach_music_judgment_good.value[1]
+		slot2.prefectArea = GameSetting.attach_music_judgment_perfect.value[1]
+		slot2.perfectPlusArea = GameSetting.attach_music_judgment_perfect_plus.value[1]
+		slot2.longStartArea = GameSetting.attach_music_judgment_good.value[1]
+		slot2.longEndArea = GameSetting.attach_music_judgment_good.value[1]
+		slot2.interval = GameSetting.attach_music_longnote.value[1]
+		slot2.preparationTime = 2000
+		slot2.spectralType = MusicData:GetSpectralType()
+
+		SDKTools.SendMessageToSDK("activity_music_start", {
+			is_restart = false,
+			activity_id = slot1.activity_id,
+			difficulty_id = slot1.difficult,
+			other_data = MusicData:GetSpectralAndVercialSDKKey()
+		})
+		MusicData:SetGameId(slot0)
+		DestroyLua()
+		MusicLuaBridge.Launcher(slot2)
+	end,
+	GoToMusicMain = function ()
+		DestroyLua()
+		LuaExchangeHelper.GoToMain()
+
+		slot2 = MusicData:GetMusicViewPathList(ActivityMusicCfg[MusicData:GetGameId()].activity_id)
+
+		OpenPageUntilLoaded(slot2.musicMain, {
+			activity_id = slot2.activityID
+		})
 	end
-
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_REWARD, arg_10_0), 0)
-end
-
-function var_0_0.SetMusicRead(arg_11_0)
-	MusicData:SetRead(arg_11_0)
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.MUSIC_OPEN, arg_11_0), 0)
-end
-
-function var_0_0.Play(arg_12_0)
-	local var_12_0 = ActivityMusicCfg[arg_12_0]
-
-	if not var_12_0 then
-		error("can not find ActivityMusicCfg")
-
-		return
-	end
-
-	local var_12_1 = GetMusicDataForExchange()
-
-	var_12_1.musicPath = var_12_0.path
-	var_12_1.cueSheetName = var_12_0.cueSheetName
-	var_12_1.cueName = var_12_0.cueName
-	var_12_1.awbFile = var_12_0.awbFile
-	var_12_1.aisacKey = var_12_0.aisacKey
-	var_12_1.aisacValue = var_12_0.aisacValue
-	var_12_1.isVertical = MusicData:GetVerical()
-	var_12_1.latency = MusicData:GetJudgeData()
-	var_12_1.stayTime = MusicData:GetSpeedData(var_12_1.isVertical)
-	var_12_1.judgeLatency = MusicData:GetScreanData()
-	var_12_1.goodArea = GameSetting.attach_music_judgment_good.value[1]
-	var_12_1.prefectArea = GameSetting.attach_music_judgment_perfect.value[1]
-	var_12_1.perfectPlusArea = GameSetting.attach_music_judgment_perfect_plus.value[1]
-	var_12_1.longStartArea = GameSetting.attach_music_judgment_good.value[1]
-	var_12_1.longEndArea = GameSetting.attach_music_judgment_good.value[1]
-	var_12_1.interval = GameSetting.attach_music_longnote.value[1]
-	var_12_1.preparationTime = 2000
-	var_12_1.spectralType = MusicData:GetSpectralType()
-
-	SDKTools.SendMessageToSDK("activity_music_start", {
-		is_restart = false,
-		activity_id = var_12_0.activity_id,
-		difficulty_id = var_12_0.difficult,
-		other_data = MusicData:GetSpectralAndVercialSDKKey()
-	})
-	MusicData:SetGameId(arg_12_0)
-	DestroyLua()
-	MusicLuaBridge.Launcher(var_12_1)
-end
-
-function var_0_0.GoToMusicMain()
-	DestroyLua()
-	LuaExchangeHelper.GoToMain()
-
-	local var_13_0 = MusicData:GetGameId()
-	local var_13_1 = ActivityMusicCfg[var_13_0].activity_id
-	local var_13_2 = MusicData:GetMusicViewPathList(var_13_1)
-
-	OpenPageUntilLoaded(var_13_2.musicMain, {
-		activity_id = var_13_2.activityID
-	})
-end
-
-return var_0_0
+}

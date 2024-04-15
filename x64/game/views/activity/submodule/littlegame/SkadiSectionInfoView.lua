@@ -1,26 +1,26 @@
-local var_0_0 = class("SectionInfoBaseView", ReduxView)
+slot0 = class("SectionInfoBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Stage/ChapterSectionInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.rewardGos_ = {}
+function slot0.Init(slot0)
+	slot0.rewardItems_ = {}
+	slot0.rewardGos_ = {}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_3_0.multiple_ = 1
+	slot0.multiple_ = 1
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.activityID_ = arg_4_0.params_.activityID
-	arg_4_0.chapterID_ = arg_4_0.params_.chapterID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.chapterID_ = slot0.params_.chapterID
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
@@ -33,196 +33,190 @@ function var_0_0.OnEnter(arg_4_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 
-	arg_4_0.stageID_ = arg_4_0.params_.section
-	arg_4_0.stageType_ = arg_4_0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
+	slot0.stageID_ = slot0.params_.section
+	slot0.stageType_ = slot0.params_.sectionType or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
 
-	arg_4_0:RefreshData()
-	arg_4_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnUpdate(arg_5_0)
-	if arg_5_0.stageID_ == arg_5_0.params_.section then
+function slot0.OnUpdate(slot0)
+	if slot0.stageID_ == slot0.params_.section then
 		return
 	end
 
-	arg_5_0.stageID_ = arg_5_0.params_.section
+	slot0.stageID_ = slot0.params_.section
 
-	arg_5_0:RefreshData()
-	arg_5_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_6_0)
-	manager.windowBar:SwitchBar({
+function slot0.OnExit(slot0)
+	slot4 = {
 		BACK_BAR,
-		HOME_BAR
-	})
+		slot5
+	}
+	slot5 = HOME_BAR
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.rewardItems_) do
-		iter_6_1:Dispose()
+	manager.windowBar:SwitchBar(slot4)
+
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.rewardItems_ = {}
+	slot0.rewardItems_ = {}
 end
 
-function var_0_0.InitUI(arg_7_0)
-	arg_7_0:BindCfgUI()
-	SetActive(arg_7_0.multiplePanel_, false)
-	SetActive(arg_7_0.tipsPanel_, false)
-	SetActive(arg_7_0.targetPanel_, false)
-	SetActive(arg_7_0.targetPanel_, true)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	SetActive(slot0.multiplePanel_, false)
+	SetActive(slot0.tipsPanel_, false)
+	SetActive(slot0.targetPanel_, false)
+	SetActive(slot0.targetPanel_, true)
 
-	arg_7_0.controller_ = ControllerUtil.GetController(arg_7_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 
-	arg_7_0.controller_:SetSelectedState("skadi")
+	slot0.controller_:SetSelectedState("skadi")
 
-	if arg_7_0.readyTxt_ then
-		arg_7_0.readyTxt_.text = GetTips("BATTLE_READY_1")
+	if slot0.readyTxt_ then
+		slot0.readyTxt_.text = GetTips("BATTLE_READY_1")
 	end
 
-	arg_7_0.sectionTargets_ = {}
+	slot0.sectionTargets_ = {}
 
-	for iter_7_0 = 1, 3 do
-		arg_7_0.sectionTargets_[iter_7_0] = SectionTargetItem.New(arg_7_0[string.format("targetItem%s_", iter_7_0)], iter_7_0)
+	for slot4 = 1, 3 do
+		slot0.sectionTargets_[slot4] = SectionTargetItem.New(slot0[string.format("targetItem%s_", slot4)], slot4)
 	end
 end
 
-function var_0_0.AddListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.battleBtn_, nil, function()
-		local var_9_0 = arg_8_0.stageID_
-		local var_9_1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		slot0 = uv0.stageID_
+		slot1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_VITALITY)
 
-		if arg_8_0.lock_ then
-			ShowTips(arg_8_0.lockTips_)
-		elseif var_9_1 < arg_8_0.cost * arg_8_0.multiple_ then
+		if uv0.lock_ then
+			ShowTips(uv0.lockTips_)
+		elseif slot1 < uv0.cost * uv0.multiple_ then
 			if CurrencyData:GetFatigueBuyTimes() < GameSetting.fatigue_max_buy_time.value[1] or hasVitalityProp() then
-				JumpTools.OpenPopUp("currencyBuyFatigue", arg_8_0.params_, ViewConst.SYSTEM_ID.BUY_FATIGUE)
+				JumpTools.OpenPopUp("currencyBuyFatigue", uv0.params_, ViewConst.SYSTEM_ID.BUY_FATIGUE)
 			else
 				ShowTips("ERROR_ITEM_NOT_ENOUGH_FATIGUE")
 			end
 		else
-			local var_9_2 = BattleSkadiLittleGameTemplate.New(arg_8_0.chapterID_, arg_8_0.activityID_)
-
-			BattleController.GetInstance():LaunchBattle(var_9_2)
+			BattleController.GetInstance():LaunchBattle(BattleSkadiLittleGameTemplate.New(uv0.chapterID_, uv0.activityID_))
 		end
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.maskBtn_, nil, function()
-		arg_8_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_11_0)
-	arg_11_0.battleBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.battleBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.RefreshData(arg_12_0)
-	arg_12_0.lock_ = false
-	arg_12_0.lockTips_ = ""
-	arg_12_0.cost = 0
-	arg_12_0.isFirstClear_ = false
-	arg_12_0.drop_lib_id = 0
-
-	local var_12_0 = BattleStageTools.GetStageCfg(arg_12_0.stageType_, arg_12_0.stageID_)
-
-	arg_12_0.lock_ = false
-	arg_12_0.lockTips_ = ""
-	arg_12_0.cost = var_12_0.cost or 0
-	arg_12_0.drop_lib_id = var_12_0.drop_lib_id
-	arg_12_0.isFirstClear_ = false
+function slot0.RefreshData(slot0)
+	slot0.lock_ = false
+	slot0.lockTips_ = ""
+	slot0.cost = 0
+	slot0.isFirstClear_ = false
+	slot0.drop_lib_id = 0
+	slot0.lock_ = false
+	slot0.lockTips_ = ""
+	slot0.cost = BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).cost or 0
+	slot0.drop_lib_id = slot1.drop_lib_id
+	slot0.isFirstClear_ = false
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	arg_13_0:RefreshStageInfo()
-	arg_13_0:RefreshReward()
-	arg_13_0:RefreshCost()
-	SetActive(arg_13_0.unlockGo_, arg_13_0.lock_)
-	SetActive(arg_13_0.battleBtnGo_, not arg_13_0.lock_)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshStageInfo()
+	slot0:RefreshReward()
+	slot0:RefreshCost()
+	SetActive(slot0.unlockGo_, slot0.lock_)
+	SetActive(slot0.battleBtnGo_, not slot0.lock_)
 
-	arg_13_0.lockText_.text = GetI18NText(arg_13_0.lockTips_)
-	arg_13_0.rewardView_.horizontalNormalizedPosition = 0
+	slot4 = slot0.lockTips_
+	slot0.lockText_.text = GetI18NText(slot4)
+	slot0.rewardView_.horizontalNormalizedPosition = 0
 
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.sectionTargets_) do
-		local var_13_0, var_13_1 = arg_13_0:GetThreeStar(iter_13_0)
+	for slot4, slot5 in pairs(slot0.sectionTargets_) do
+		slot6, slot7 = slot0:GetThreeStar(slot4)
 
-		iter_13_1:Refresh(var_13_0, var_13_1)
+		slot5:Refresh(slot6, slot7)
 	end
 end
 
-function var_0_0.RefreshStageInfo(arg_14_0)
-	local var_14_0 = BattleStageTools.GetStageCfg(arg_14_0.stageType_, arg_14_0.stageID_)
-
-	if arg_14_0.oldCfgID_ ~= var_14_0.id then
-		arg_14_0.sectionName_.text = GetI18NText(var_14_0.name)
-		arg_14_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, var_14_0.background_1))
-		arg_14_0.textStory_.text = GetI18NText(var_14_0.tips)
-		arg_14_0.oldCfgID_ = var_14_0.id
+function slot0.RefreshStageInfo(slot0)
+	if slot0.oldCfgID_ ~= BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).id then
+		slot0.sectionName_.text = GetI18NText(slot1.name)
+		slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot1.background_1))
+		slot0.textStory_.text = GetI18NText(slot1.tips)
+		slot0.oldCfgID_ = slot1.id
 	end
 end
 
-function var_0_0.RefreshReward(arg_15_0)
-	arg_15_0:RefreshRewardPanel(arg_15_0.drop_lib_id)
+function slot0.RefreshReward(slot0)
+	slot0:RefreshRewardPanel(slot0.drop_lib_id)
 end
 
-function var_0_0.RefreshRewardPanel(arg_16_0, arg_16_1)
-	local var_16_0 = getRewardFromDropCfg(arg_16_1, arg_16_0.isFirstClear_)
+function slot0.RefreshRewardPanel(slot0, slot1)
+	slot2 = getRewardFromDropCfg(slot1, slot0.isFirstClear_)
 
-	if arg_16_0.isFirstClear_ and DropCfg[arg_16_1] and #DropCfg[arg_16_1].base_drop >= 1 then
-		arg_16_0.rewardTitleText_.text = GetTips("FIRST_DROP")
+	if slot0.isFirstClear_ and DropCfg[slot1] and #DropCfg[slot1].base_drop >= 1 then
+		slot0.rewardTitleText_.text = GetTips("FIRST_DROP")
 	else
-		arg_16_0.rewardTitleText_.text = GetTips("MAYBE_DROP")
+		slot0.rewardTitleText_.text = GetTips("MAYBE_DROP")
 	end
 
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		if arg_16_0.rewardItems_[iter_16_0] then
-			arg_16_0.rewardItems_[iter_16_0]:SetData(iter_16_1, true)
+	for slot6, slot7 in pairs(slot2) do
+		if slot0.rewardItems_[slot6] then
+			slot0.rewardItems_[slot6]:SetData(slot7, true)
 		else
-			arg_16_0.rewardGos_[iter_16_0] = arg_16_0.rewardGos_[iter_16_0] or Object.Instantiate(arg_16_0.rewardItem_, arg_16_0.rewardParent_.transform)
-			arg_16_0.rewardItems_[iter_16_0] = RewardPoolItem.New(arg_16_0.rewardGos_[iter_16_0], iter_16_1, true)
+			slot0.rewardGos_[slot6] = slot0.rewardGos_[slot6] or Object.Instantiate(slot0.rewardItem_, slot0.rewardParent_.transform)
+			slot0.rewardItems_[slot6] = RewardPoolItem.New(slot0.rewardGos_[slot6], slot7, true)
 		end
 
-		SetActive(arg_16_0.rewardGos_[iter_16_0], true)
+		SetActive(slot0.rewardGos_[slot6], true)
 
-		if not arg_16_0.isFirstClear_ or not (#DropCfg[arg_16_1].base_drop >= 1) then
-			arg_16_0.rewardItems_[iter_16_0]:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
-			arg_16_0.rewardItems_[iter_16_0]:HideNum()
+		if not slot0.isFirstClear_ or #DropCfg[slot1].base_drop < 1 then
+			slot0.rewardItems_[slot6]:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
+			slot0.rewardItems_[slot6]:HideNum()
 		else
-			arg_16_0.rewardItems_[iter_16_0]:ShowFloor(ItemConst.ITEM_FLOOR.LONG)
+			slot0.rewardItems_[slot6]:ShowFloor(ItemConst.ITEM_FLOOR.LONG)
 		end
 	end
 
-	for iter_16_2 = #var_16_0 + 1, #arg_16_0.rewardItems_ do
-		SetActive(arg_16_0.rewardGos_[iter_16_2], false)
+	for slot6 = #slot2 + 1, #slot0.rewardItems_ do
+		SetActive(slot0.rewardGos_[slot6], false)
 	end
 end
 
-function var_0_0.GetThreeStar(arg_17_0, arg_17_1)
-	local var_17_0 = BattleStageTools.GetStageCfg(arg_17_0.stageType_, arg_17_0.stageID_)
-	local var_17_1 = SummerLittleGameData:GetSkadiStars(arg_17_0.chapterID_)
-
-	return table.indexof(var_17_1, arg_17_1), var_17_0.three_star_need[arg_17_1]
+function slot0.GetThreeStar(slot0, slot1)
+	return table.indexof(SummerLittleGameData:GetSkadiStars(slot0.chapterID_), slot1), BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).three_star_need[slot1]
 end
 
-function var_0_0.Dispose(arg_18_0)
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.sectionTargets_) do
-		iter_18_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.sectionTargets_) do
+		slot5:Dispose()
 	end
 
-	arg_18_0.sectionTargets_ = {}
+	slot0.sectionTargets_ = {}
 
-	arg_18_0:RemoveListeners()
+	slot0:RemoveListeners()
 
-	for iter_18_2, iter_18_3 in pairs(arg_18_0.rewardGos_) do
-		Object.Destroy(iter_18_3)
+	for slot4, slot5 in pairs(slot0.rewardGos_) do
+		Object.Destroy(slot5)
 	end
 
-	arg_18_0.rewardGos_ = nil
+	slot0.rewardGos_ = nil
 
-	for iter_18_4, iter_18_5 in pairs(arg_18_0.rewardItems_) do
-		iter_18_5:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_18_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,110 +1,73 @@
 return {
-	GotoBackHomeRoom = function(arg_1_0, arg_1_1, arg_1_2)
-		local var_1_0 = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM)
-
-		if var_1_0 then
-			ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.DORM, var_1_0))
+	GotoBackHomeRoom = function (slot0, slot1, slot2)
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM) then
+			ShowTips(JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.DORM, slot3))
 
 			return nil
 		end
 
-		local var_1_1
+		slot4 = nil
 
-		if arg_1_2 then
-			function var_1_1(arg_2_0)
-				BackHomeDataManager:GotoBackHomeCricketStage(BackHomeCricketConst.ROOM_TYPE.TRAIN)
-			end
-		else
-			function var_1_1(arg_3_0)
-				BackHomeDataManager:GotoBackHomeScene(arg_1_1)
-			end
-		end
-
-		BackHomeDataManager:EnterBackHomeSystem(var_1_1)
+		BackHomeDataManager:EnterBackHomeSystem((not slot2 or function (slot0)
+			BackHomeDataManager:GotoBackHomeCricketStage(BackHomeCricketConst.ROOM_TYPE.TRAIN)
+		end) and function (slot0)
+			BackHomeDataManager:GotoBackHomeScene(uv0)
+		end)
 	end,
-	BackHomeGotoMain = function(arg_4_0)
+	BackHomeGotoMain = function (slot0)
 		BackHomeDataManager:ExitBackHomeSystem()
 		LuaExchangeHelper.GoToMain()
 		OpenPageUntilLoaded("/home")
 	end,
-	OtherSystemVisitExit = function(arg_5_0)
+	OtherSystemVisitExit = function (slot0)
 		BackHomeDataManager:OtherSystemVisitBack()
 		LuaExchangeHelper.GoToMain()
 	end,
-	CheckBackHomeConditionAccord = function(arg_6_0, arg_6_1, arg_6_2)
-		local var_6_0 = ConditionCfg[arg_6_1]
-
-		if var_6_0 == nil then
+	CheckBackHomeConditionAccord = function (slot0, slot1, slot2)
+		if ConditionCfg[slot1] == nil then
 			return true, 0, 0
 		end
 
-		local var_6_1 = 0
+		slot4 = 0
 
-		if var_6_0 then
-			local var_6_2 = var_6_0.type
-
-			if var_6_2 == CanteenConst.UnLockCon.CookLevel then
-				local var_6_3 = CanteenData:GetFurnitureLevel(var_6_0.params[1])
-
-				return var_6_3 >= var_6_0.params[2], var_6_3, var_6_0.params[2]
-			elseif var_6_2 == CanteenConst.UnLockCon.TotleIncome then
-				local var_6_4 = CanteenData:GetCurEarning()
-
-				return var_6_4 >= var_6_0.params[1], var_6_4, var_6_0.params[1]
-			elseif var_6_2 == CanteenConst.UnLockCon.FoodProficiency then
-				local var_6_5 = CanteenFoodData:GetFoodProficiency(var_6_0.params[1])
-
-				return var_6_5 >= var_6_0.params[2], var_6_5, var_6_0.params[2]
-			elseif var_6_2 == CanteenConst.UnLockCon.FoodComplateNum then
-				local var_6_6 = CanteenFoodData:GetFoodCookNum(var_6_0.params[1])
-
-				return var_6_6 >= var_6_0.params[2], var_6_6, var_6_0.params[2]
-			elseif var_6_2 == CanteenConst.UnLockCon.FoodTypeComplateNum then
-				local var_6_7 = CanteenFoodData:GetFoodTypeCookNum(var_6_0.params[1])
-
-				return var_6_7 >= var_6_0.params[2], var_6_7, var_6_0.params[2]
-			elseif var_6_2 == CanteenConst.UnLockCon.RoomunLockNum then
-				local var_6_8 = DormRoomTools:GetUnlockRoomNum()
-
-				return var_6_8 >= var_6_0.params[1], var_6_8, var_6_0.params[1]
+		if slot3 then
+			if slot3.type == CanteenConst.UnLockCon.CookLevel then
+				return slot3.params[2] <= CanteenData:GetFurnitureLevel(slot3.params[1]), slot4, slot3.params[2]
+			elseif slot5 == CanteenConst.UnLockCon.TotleIncome then
+				return slot3.params[1] <= CanteenData:GetCurEarning(), slot4, slot3.params[1]
+			elseif slot5 == CanteenConst.UnLockCon.FoodProficiency then
+				return slot3.params[2] <= CanteenFoodData:GetFoodProficiency(slot3.params[1]), slot4, slot3.params[2]
+			elseif slot5 == CanteenConst.UnLockCon.FoodComplateNum then
+				return slot3.params[2] <= CanteenFoodData:GetFoodCookNum(slot3.params[1]), slot4, slot3.params[2]
+			elseif slot5 == CanteenConst.UnLockCon.FoodTypeComplateNum then
+				return slot3.params[2] <= CanteenFoodData:GetFoodTypeCookNum(slot3.params[1]), slot4, slot3.params[2]
+			elseif slot5 == CanteenConst.UnLockCon.RoomunLockNum then
+				return slot3.params[1] <= DormRoomTools:GetUnlockRoomNum(), slot4, slot3.params[1]
 			end
 		else
 			print("不存在该解锁条件")
 		end
 	end,
-	GetBackHomeConditionDes = function(arg_7_0, arg_7_1)
-		local var_7_0 = ConditionCfg[arg_7_1]
+	GetBackHomeConditionDes = function (slot0, slot1)
+		if ConditionCfg[slot1] then
+			if slot2.type == CanteenConst.UnLockCon.CookLevel then
+				return string.format(GetI18NText(slot2.desc), CanteenTools:GetCookCfgNameByEid(slot2.params[1]), slot2.params[2])
+			elseif slot4 == CanteenConst.UnLockCon.TotleIncome then
+				return string.format(slot3, CanteenData:GetCurEarning())
+			elseif slot4 == CanteenConst.UnLockCon.FoodProficiency then
+				slot5 = slot2.params[1]
 
-		if var_7_0 then
-			local var_7_1 = GetI18NText(var_7_0.desc)
-			local var_7_2 = var_7_0.type
+				return string.format(slot3, BackHomeCanteenFoodCfg[slot5].name, CanteenFoodData:GetFoodProficiency(slot5))
+			elseif slot4 == CanteenConst.UnLockCon.FoodComplateNum then
+				slot5 = slot2.params[1]
 
-			if var_7_2 == CanteenConst.UnLockCon.CookLevel then
-				local var_7_3 = CanteenTools:GetCookCfgNameByEid(var_7_0.params[1])
-				local var_7_4 = var_7_0.params[2]
+				return string.format(slot3, BackHomeCanteenFoodCfg[slot5].name, CanteenFoodData:GetFoodCookNum(slot5))
+			elseif slot4 == CanteenConst.UnLockCon.FoodTypeComplateNum then
+				slot5 = slot2.params[1]
 
-				return string.format(var_7_1, var_7_3, var_7_4)
-			elseif var_7_2 == CanteenConst.UnLockCon.TotleIncome then
-				local var_7_5 = CanteenData:GetCurEarning()
-
-				return string.format(var_7_1, var_7_5)
-			elseif var_7_2 == CanteenConst.UnLockCon.FoodProficiency then
-				local var_7_6 = var_7_0.params[1]
-				local var_7_7 = CanteenFoodData:GetFoodProficiency(var_7_6)
-
-				return (string.format(var_7_1, BackHomeCanteenFoodCfg[var_7_6].name, var_7_7))
-			elseif var_7_2 == CanteenConst.UnLockCon.FoodComplateNum then
-				local var_7_8 = var_7_0.params[1]
-				local var_7_9 = CanteenFoodData:GetFoodCookNum(var_7_8)
-
-				return (string.format(var_7_1, BackHomeCanteenFoodCfg[var_7_8].name, var_7_9))
-			elseif var_7_2 == CanteenConst.UnLockCon.FoodTypeComplateNum then
-				local var_7_10 = var_7_0.params[1]
-				local var_7_11 = CanteenFoodData:GetFoodTypeCookNum(var_7_10)
-
-				return (string.format(var_7_1, CanteenTools:ShowTipsGetCookCfgName(var_7_10), var_7_11))
-			elseif var_7_2 == CanteenConst.UnLockCon.RoomunLockNum then
-				return var_7_1
+				return string.format(slot3, CanteenTools:ShowTipsGetCookCfgName(slot5), CanteenFoodData:GetFoodTypeCookNum(slot5))
+			elseif slot4 == CanteenConst.UnLockCon.RoomunLockNum then
+				return slot3
 			end
 		else
 			print("不存在该解锁条件")

@@ -1,6 +1,6 @@
 MythicDifficultyTemplate = class("MythicDifficultyTemplate")
 
-function MythicDifficultyTemplate.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.partition = arg_1_1.partition
-	arg_1_0.stage_id = arg_1_1.stage_id
+function MythicDifficultyTemplate.Ctor(slot0, slot1)
+	slot0.partition = slot1.partition
+	slot0.stage_id = slot1.stage_id
 end

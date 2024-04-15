@@ -1,48 +1,42 @@
-local var_0_0 = class("StrongholdOperateSkillItem", ReduxView)
+slot0 = class("StrongholdOperateSkillItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.skill_type = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.skill_type = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockController = ControllerUtil.GetController(arg_3_0.transform_, "lock")
+	slot0.lockController = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	for iter_4_0 = 1, 3 do
-		local var_4_0 = StrongholdData:GetSkillAffix(arg_4_0.skill_type, iter_4_0)
+function slot0.RefreshUI(slot0)
+	for slot4 = 1, 3 do
+		slot0["m_skillDes" .. slot4].text = getAffixDesc(StrongholdData:GetSkillAffix(slot0.skill_type, slot4))
 
-		arg_4_0["m_skillDes" .. iter_4_0].text = getAffixDesc(var_4_0)
-
-		if iter_4_0 == 1 then
-			arg_4_0.m_name.text = getAffixName(var_4_0)
+		if slot4 == 1 then
+			slot0.m_name.text = getAffixName(slot5)
 		end
 	end
 
-	arg_4_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. arg_4_0.skill_type)
+	slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng3rdUI/StrongholdUI/StrongholdSkill/" .. slot0.skill_type)
+	slot1, slot2, slot3, slot4 = StrongholdData:GetStrongholdLevel(slot0.skill_type)
 
-	local var_4_1, var_4_2, var_4_3, var_4_4 = StrongholdData:GetStrongholdLevel(arg_4_0.skill_type)
-	local var_4_5 = StrongholdData:GetSkillLimitLv()
+	if slot2 < StrongholdData:GetSkillLimitLv() then
+		slot0.lockController:SetSelectedIndex(1)
 
-	if var_4_2 < var_4_5 then
-		arg_4_0.lockController:SetSelectedIndex(1)
-
-		local var_4_6 = GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. arg_4_0.skill_type)
-
-		arg_4_0.m_lockLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_TYPE_LIMIT_LV"), var_4_6, var_4_5)
+		slot0.m_lockLab.text = string.format(GetTips("ACTIVITY_STRONGHOLD_TYPE_LIMIT_LV"), GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. slot0.skill_type), slot5)
 	else
-		arg_4_0.lockController:SetSelectedIndex(0)
+		slot0.lockController:SetSelectedIndex(0)
 	end
 end
 
-return var_0_0
+return slot0

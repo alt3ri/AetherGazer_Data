@@ -1,156 +1,142 @@
-local function var_0_0(arg_1_0)
-	if arg_1_0 >= 5 then
+function slot0(slot0)
+	if slot0 >= 5 then
 		return "#FF9300"
-	elseif arg_1_0 >= 4 then
+	elseif slot0 >= 4 then
 		return "#B200FF"
 	else
 		return "#000000"
 	end
 end
 
-local var_0_1 = class("DrawRecordItem", ReduxView)
+slot1 = class("DrawRecordItem", ReduxView)
 
-function var_0_1.OnCtor(arg_2_0, arg_2_1)
-	arg_2_0.gameObject_ = arg_2_1
-	arg_2_0.transform_ = arg_2_1.transform
+function slot1.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.colorCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "conName")
+	slot0.colorCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_1.SetItemColor(arg_4_0, arg_4_1, arg_4_2)
-	if arg_4_1 == ItemConst.ITEM_TYPE.HERO then
-		arg_4_0.colorCon_:SetSelectedState(tostring(arg_4_2))
-	elseif arg_4_1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT and arg_4_2 >= 4 then
-		arg_4_0.colorCon_:SetSelectedState(tostring(arg_4_2))
+function slot1.SetItemColor(slot0, slot1, slot2)
+	if slot1 == ItemConst.ITEM_TYPE.HERO then
+		slot0.colorCon_:SetSelectedState(tostring(slot2))
+	elseif slot1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT and slot2 >= 4 then
+		slot0.colorCon_:SetSelectedState(tostring(slot2))
 	else
-		arg_4_0.colorCon_:SetSelectedState("white")
+		slot0.colorCon_:SetSelectedState("white")
 	end
 end
 
-function var_0_1.RefreshUI(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_1.item
-	local var_5_1 = arg_5_1.draw_timestamp
-	local var_5_2 = var_5_0.id
-	local var_5_3 = ItemCfg[var_5_2]
-	local var_5_4 = var_5_3.display_rare
-	local var_5_5 = manager.time:STimeDescS(var_5_1, "!%Y/%m/%d %H:%M")
-	local var_5_6 = ItemTools.getItemName(var_5_0.id)
-	local var_5_7 = string.format("[%s]", GetTips(ItemConst.ITEM_TYPE_NAME[var_5_3.type]))
+function slot1.RefreshUI(slot0, slot1, slot2)
+	slot3 = slot1.item
+	slot6 = ItemCfg[slot3.id]
+	slot0.num_label.text = manager.time:STimeDescS(slot1.draw_timestamp, "!%Y/%m/%d %H:%M")
+	slot0.name_label.text = GetI18NText(ItemTools.getItemName(slot3.id))
+	slot0.type_label.text = string.format("[%s]", GetTips(ItemConst.ITEM_TYPE_NAME[slot6.type]))
 
-	arg_5_0.num_label.text = var_5_5
-	arg_5_0.name_label.text = GetI18NText(var_5_6)
-	arg_5_0.type_label.text = var_5_7
-
-	arg_5_0:SetItemColor(var_5_3.type, var_5_4)
+	slot0:SetItemColor(slot6.type, slot6.display_rare)
 end
 
-local var_0_2 = class("TreasureRecordView", ReduxView)
+slot2 = class("TreasureRecordView", ReduxView)
 
-function var_0_2.UIName(arg_6_0)
+function slot2.UIName(slot0)
 	return "Widget/System/Pool/PoolRecordPopUI"
 end
 
-function var_0_2.UIParent(arg_7_0)
+function slot2.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_2.Init(arg_8_0)
-	arg_8_0:InitUI()
-	arg_8_0:AddListeners()
+function slot2.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_8_0.pageNum_ = 1
+	slot0.pageNum_ = 1
 end
 
-function var_0_2.InitUI(arg_9_0)
-	arg_9_0:BindCfgUI()
+function slot2.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_9_0.scrollHelper_ = LuaList.New(handler(arg_9_0, arg_9_0.indexItem), arg_9_0.scrollviewGo_, var_0_1)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.scrollviewGo_, uv0)
 end
 
-function var_0_2.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.bgmask_, nil, function()
-		arg_10_0:Back()
+function slot2.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgmask_, nil, function ()
+		uv0:Back()
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.buttonClose_, nil, function()
-		arg_10_0:Back()
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.rightBtn_, nil, function()
-		if arg_10_0.pageNum_ * 10 + 1 <= #arg_10_0.record_list then
-			arg_10_0.pageNum_ = arg_10_0.pageNum_ + 1
-			arg_10_0.pagenumText_.text = arg_10_0.pageNum_
+	slot0:AddBtnListener(slot0.rightBtn_, nil, function ()
+		if uv0.pageNum_ * 10 + 1 <= #uv0.record_list then
+			uv0.pageNum_ = uv0.pageNum_ + 1
+			uv0.pagenumText_.text = uv0.pageNum_
 
-			arg_10_0:UpdateData(arg_10_0.pageNum_)
-			arg_10_0.scrollHelper_:StartScroll(#arg_10_0.itemList_)
+			uv0:UpdateData(uv0.pageNum_)
+			uv0.scrollHelper_:StartScroll(#uv0.itemList_)
 		end
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.leftBtn_, nil, function()
-		if arg_10_0.pageNum_ > 1 then
-			arg_10_0.pageNum_ = arg_10_0.pageNum_ - 1
-			arg_10_0.pagenumText_.text = arg_10_0.pageNum_
+	slot0:AddBtnListener(slot0.leftBtn_, nil, function ()
+		if uv0.pageNum_ > 1 then
+			uv0.pageNum_ = uv0.pageNum_ - 1
+			uv0.pagenumText_.text = uv0.pageNum_
 
-			arg_10_0:UpdateData(arg_10_0.pageNum_)
-			arg_10_0.scrollHelper_:StartScroll(#arg_10_0.itemList_)
+			uv0:UpdateData(uv0.pageNum_)
+			uv0.scrollHelper_:StartScroll(#uv0.itemList_)
 		end
 	end)
 end
 
-function var_0_2.OnEnter(arg_15_0)
-	local var_15_0 = arg_15_0.params_.poolId
-	local var_15_1 = DrawData:GetDrawRecord(var_15_0)
+function slot2.OnEnter(slot0)
+	slot0.pageNum_ = 1
 
-	arg_15_0.pageNum_ = 1
+	if DrawData:GetDrawRecord(slot0.params_.poolId) then
+		slot0.times = slot2.ssr_draw_times
+		slot0.record_list = slot2.draw_record_list
 
-	if var_15_1 then
-		arg_15_0.times = var_15_1.ssr_draw_times
-		arg_15_0.record_list = var_15_1.draw_record_list
-
-		arg_15_0:RefreshUI()
+		slot0:RefreshUI()
 	else
-		DrawAction.RequestRecord(var_15_0)
+		DrawAction.RequestRecord(slot1)
 	end
 end
 
-function var_0_2.OnRequestRecord(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = DrawData:GetDrawRecord(arg_16_2.id)
+function slot2.OnRequestRecord(slot0, slot1, slot2)
+	if DrawData:GetDrawRecord(slot2.id) then
+		slot0.times = slot3.ssr_draw_times
+		slot0.record_list = slot3.draw_record_list or {}
 
-	if var_16_0 then
-		arg_16_0.times = var_16_0.ssr_draw_times
-		arg_16_0.record_list = var_16_0.draw_record_list or {}
-
-		arg_16_0:RefreshUI()
+		slot0:RefreshUI()
 	end
 end
 
-function var_0_2.RefreshUI(arg_17_0)
-	arg_17_0.pagenumText_.text = arg_17_0.pageNum_
+function slot2.RefreshUI(slot0)
+	slot0.pagenumText_.text = slot0.pageNum_
 
-	arg_17_0:UpdateData(arg_17_0.pageNum_)
-	arg_17_0.scrollHelper_:StartScroll(#arg_17_0.itemList_)
+	slot0:UpdateData(slot0.pageNum_)
+	slot0.scrollHelper_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_2.UpdateData(arg_18_0, arg_18_1)
-	arg_18_0.itemList_ = {}
+function slot2.UpdateData(slot0, slot1)
+	slot0.itemList_ = {}
 
-	local var_18_0 = math.min(arg_18_1 * 10, #arg_18_0.record_list)
-
-	for iter_18_0 = (arg_18_1 - 1) * 10 + 1, var_18_0 do
-		table.insert(arg_18_0.itemList_, arg_18_0.record_list[iter_18_0])
+	for slot6 = (slot1 - 1) * 10 + 1, math.min(slot1 * 10, #slot0.record_list) do
+		table.insert(slot0.itemList_, slot0.record_list[slot6])
 	end
 end
 
-function var_0_2.indexItem(arg_19_0, arg_19_1, arg_19_2)
-	arg_19_2:RefreshUI(arg_19_0.itemList_[arg_19_1], arg_19_0.params_.poolId)
+function slot2.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1], slot0.params_.poolId)
 end
 
-function var_0_2.Dispose(arg_20_0)
-	arg_20_0.scrollHelper_:Dispose()
-	var_0_2.super.Dispose(arg_20_0)
+function slot2.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_2
+return slot2

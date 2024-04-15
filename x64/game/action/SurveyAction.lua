@@ -1,156 +1,132 @@
-local var_0_0 = {}
-
-manager.net:Bind(40005, function(arg_1_0)
-	SurveyData:InitData(arg_1_0)
+manager.net:Bind(40005, function (slot0)
+	SurveyData:InitData(slot0)
 	RegressionAction.ChcekSurveyRedPoint()
 end)
-manager.net:Bind(40009, function(arg_2_0)
-	SurveyData:FinishSurvey(arg_2_0.id)
-	var_0_0.UpdateSurveyRedPoint(true)
-	manager.notify:CallUpdateFunc(FINISH_SURVEY, arg_2_0)
+manager.net:Bind(40009, function (slot0)
+	SurveyData:FinishSurvey(slot0.id)
+	uv0.UpdateSurveyRedPoint(true)
+	manager.notify:CallUpdateFunc(FINISH_SURVEY, slot0)
 	RegressionAction.ChcekSurveyRedPoint()
 end)
-manager.net:Bind(40023, function(arg_3_0)
-	SurveyData:ReservationGame(arg_3_0.state == 1)
+manager.net:Bind(40023, function (slot0)
+	SurveyData:ReservationGame(slot0.state == 1)
 end)
-manager.net:Bind(40011, function(arg_4_0)
+manager.net:Bind(40011, function (slot0)
 	SurveyData:SetPraise(true)
-	SurveyData:SetSourceId(arg_4_0.source_id)
+	SurveyData:SetSourceId(slot0.source_id)
 end)
 
-function var_0_0.Praise(arg_5_0)
-	manager.net:Push(40012, {
-		btn = arg_5_0
-	})
-end
+return {
+	Praise = function (slot0)
+		manager.net:Push(40012, {
+			btn = slot0
+		})
+	end,
+	GetReward = function (slot0)
+		manager.net:SendWithLoadingNew(40006, {
+			id = slot0
+		}, 40007, uv0.OnGetReward)
+	end,
+	OnGetReward = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			SurveyData:GotReward(slot1.id)
+			manager.notify:CallUpdateFunc(GET_SURVEY_GIFT, slot0, slot1)
+			uv0.UpdateSurveyRedPoint()
+			RegressionAction.ChcekSurveyRedPoint()
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ReservationGame = function ()
+		manager.net:SendWithLoadingNew(40024, {
+			state = 1
+		}, 40025, uv0.OnReservationGame)
+	end,
+	OnReservationGame = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			SurveyData:ReservationGame(true)
+			manager.notify:CallUpdateFunc(RESERVATION_GAME, slot0)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	SetSurveyRedPointData = function ()
+		slot5 = manager.time:GetServerTime()
 
-function var_0_0.GetReward(arg_6_0)
-	manager.net:SendWithLoadingNew(40006, {
-		id = arg_6_0
-	}, 40007, var_0_0.OnGetReward)
-end
+		saveData("SDK", "survey", slot5)
 
-function var_0_0.OnGetReward(arg_7_0, arg_7_1)
-	if isSuccess(arg_7_0.result) then
-		SurveyData:GotReward(arg_7_1.id)
-		manager.notify:CallUpdateFunc(GET_SURVEY_GIFT, arg_7_0, arg_7_1)
-		var_0_0.UpdateSurveyRedPoint()
-		RegressionAction.ChcekSurveyRedPoint()
-	else
-		ShowTips(arg_7_0.result)
-	end
-end
+		slot1 = {}
+		slot4 = SurveyData
+		slot6 = slot4
 
-function var_0_0.ReservationGame()
-	manager.net:SendWithLoadingNew(40024, {
-		state = 1
-	}, 40025, var_0_0.OnReservationGame)
-end
+		for slot5, slot6 in pairs(slot4.GetSurveyList(slot6)) do
+			table.insert(slot1, slot6.id)
+		end
 
-function var_0_0.OnReservationGame(arg_9_0, arg_9_1)
-	if isSuccess(arg_9_0.result) then
-		SurveyData:ReservationGame(true)
-		manager.notify:CallUpdateFunc(RESERVATION_GAME, arg_9_0)
-	else
-		ShowTips(arg_9_0.result)
-	end
-end
+		saveData("SDK", "surveyList", slot1)
+		uv0.UpdateSurveyRedPoint()
+	end,
+	UpdateSurveyRedPoint = function (slot0)
+		slot1 = nil
 
-function var_0_0.SetSurveyRedPointData()
-	local var_10_0 = manager.time:GetServerTime()
+		if not slot0 and getData("SDK", "survey") and manager.time:IsSameDay(slot2 - 18000, manager.time:GetServerTime() - 18000) then
+			slot1 = 0
+		end
 
-	saveData("SDK", "survey", var_10_0)
+		slot7 = SurveyData
 
-	local var_10_1 = {}
+		for slot6, slot7 in pairs(slot5.GetSurveyList(slot7)) do
+			if slot7.type ~= 2 and not table.keyof(getData("SDK", "surveyList") or {}, slot6) then
+				slot1 = 1
 
-	for iter_10_0, iter_10_1 in pairs(SurveyData:GetSurveyList()) do
-		table.insert(var_10_1, iter_10_1.id)
-	end
-
-	saveData("SDK", "surveyList", var_10_1)
-	var_0_0.UpdateSurveyRedPoint()
-end
-
-function var_0_0.UpdateSurveyRedPoint(arg_11_0)
-	local var_11_0
-
-	if not arg_11_0 then
-		local var_11_1 = getData("SDK", "survey")
-
-		if var_11_1 then
-			local var_11_2 = manager.time:GetServerTime()
-			local var_11_3 = var_11_1 - 18000
-			local var_11_4 = var_11_2 - 18000
-
-			if manager.time:IsSameDay(var_11_3, var_11_4) then
-				var_11_0 = 0
+				break
 			end
 		end
-	end
 
-	local var_11_5 = getData("SDK", "surveyList") or {}
+		for slot7, slot8 in pairs(SurveyData:GetSurveyList()) do
+			if slot8.type ~= 2 and slot8.status == 1 then
+				slot1 = 1
 
-	for iter_11_0, iter_11_1 in pairs(SurveyData:GetSurveyList()) do
-		if iter_11_1.type ~= 2 and not table.keyof(var_11_5, iter_11_0) then
-			var_11_0 = 1
-
-			break
+				break
+			end
 		end
-	end
 
-	local var_11_6 = SurveyData:GetSurveyList()
-
-	for iter_11_2, iter_11_3 in pairs(var_11_6) do
-		if iter_11_3.type ~= 2 and iter_11_3.status == 1 then
-			var_11_0 = 1
-
-			break
+		if not table.keyof(OperationData:GetOperationOpenList(), OperationConst.QUESTIONNAIRE) then
+			slot1 = 0
 		end
-	end
 
-	local var_11_7 = OperationData:GetOperationOpenList()
-
-	if not table.keyof(var_11_7, OperationConst.QUESTIONNAIRE) then
-		var_11_0 = 0
-	end
-
-	manager.redPoint:setTip(RedPointConst.SURVEY, var_11_0)
-end
-
-function var_0_0.FollowPlatform(arg_12_0)
-	manager.net:SendWithLoadingNew(40026, {
-		type = arg_12_0
-	}, 40027, var_0_0.OnFollowPlatform)
-end
-
-function var_0_0.OnFollowPlatform(arg_13_0, arg_13_1)
-	if isSuccess(arg_13_0.result) then
-		if OperationConst.PLATFORM.BILIBILI == arg_13_1.type then
-			SurveyData:CacheFollowTip(GetTips("WEIBO_REWARD_SENT"))
-		elseif OperationConst.PLATFORM.YOUTUBE == arg_13_1.type then
-			SurveyData:CacheFollowTip(GetTips("WEIBO_REWARD_SENT"))
+		manager.redPoint:setTip(RedPointConst.SURVEY, slot1)
+	end,
+	FollowPlatform = function (slot0)
+		manager.net:SendWithLoadingNew(40026, {
+			type = slot0
+		}, 40027, uv0.OnFollowPlatform)
+	end,
+	OnFollowPlatform = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			if OperationConst.PLATFORM.BILIBILI == slot1.type then
+				SurveyData:CacheFollowTip(GetTips("WEIBO_REWARD_SENT"))
+			elseif OperationConst.PLATFORM.YOUTUBE == slot1.type then
+				SurveyData:CacheFollowTip(GetTips("WEIBO_REWARD_SENT"))
+			else
+				ShowTips("WEIBO_REWARD_SENT")
+			end
+		elseif slot0.result == 6904 then
+			ShowTips("ERROR_DISCORD_SUBSCRIB_FAILED")
+		elseif OperationConst.PLATFORM.BILIBILI == slot1.type then
+			SurveyData:CacheFollowTip(GetTips("ERROR_WEIBO_REWARD_COLLECTED"))
+		elseif OperationConst.PLATFORM.YOUTUBE == slot1.type then
+			SurveyData:CacheFollowTip(GetTips("ERROR_WEIBO_REWARD_COLLECTED"))
 		else
-			ShowTips("WEIBO_REWARD_SENT")
+			ShowTips("ERROR_WEIBO_REWARD_COLLECTED")
 		end
-	elseif arg_13_0.result == 6904 then
-		ShowTips("ERROR_DISCORD_SUBSCRIB_FAILED")
-	elseif OperationConst.PLATFORM.BILIBILI == arg_13_1.type then
-		SurveyData:CacheFollowTip(GetTips("ERROR_WEIBO_REWARD_COLLECTED"))
-	elseif OperationConst.PLATFORM.YOUTUBE == arg_13_1.type then
-		SurveyData:CacheFollowTip(GetTips("ERROR_WEIBO_REWARD_COLLECTED"))
-	else
-		ShowTips("ERROR_WEIBO_REWARD_COLLECTED")
+
+		if OperationConst.PLATFORM.BILIBILI == slot1.type then
+			Application.OpenURL(OperationAction.GetOperationUrl("FOLLOW_BILIBILI"))
+			SDKTools.SendMessageToSDK("direction", {
+				direction_type = 53,
+				direction_channel = 4
+			})
+		end
 	end
-
-	if OperationConst.PLATFORM.BILIBILI == arg_13_1.type then
-		local var_13_0 = OperationAction.GetOperationUrl("FOLLOW_BILIBILI")
-
-		Application.OpenURL(var_13_0)
-		SDKTools.SendMessageToSDK("direction", {
-			direction_type = 53,
-			direction_channel = 4
-		})
-	end
-end
-
-return var_0_0
+}

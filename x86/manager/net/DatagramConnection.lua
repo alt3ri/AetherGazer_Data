@@ -1,7 +1,6 @@
-local var_0_0 = class("DatagramConnection")
+slot0 = class("DatagramConnection")
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-return var_0_0
+return slot0

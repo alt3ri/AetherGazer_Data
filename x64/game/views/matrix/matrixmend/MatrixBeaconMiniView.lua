@@ -1,30 +1,30 @@
-local var_0_0 = import("game.views.matrix.matrixPrepare.MatrixSelectBeaconItem")
-local var_0_1 = class("MatrixTreasureMiniView", ReduxView)
+slot0 = import("game.views.matrix.matrixPrepare.MatrixSelectBeaconItem")
+slot1 = class("MatrixTreasureMiniView", ReduxView)
 
-function var_0_1.UIBackCount(arg_1_0)
+function slot1.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_1.UIName(arg_2_0)
+function slot1.UIName(slot0)
 	return "UI/Matrix/Prepare/MatrixBeaconMiniUI"
 end
 
-function var_0_1.UIParent(arg_3_0)
+function slot1.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_1.Init(arg_4_0)
-	arg_4_0:InitUI()
+function slot1.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_1.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.list_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexBeaconItem), arg_5_0.m_list, var_0_0)
-	arg_5_0.stateController_ = ControllerUtil.GetController(arg_5_0.transform_, "state")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexBeaconItem), slot0.m_list, uv0)
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_1.OnTop(arg_6_0)
+function slot1.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -43,29 +43,26 @@ function var_0_1.OnTop(arg_6_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_PT, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.GoToSystem("/matrixBlank/matrixPrepare")
 	end)
 end
 
-function var_0_1.OnEnter(arg_8_0)
-	arg_8_0.beaconData = MatrixData:GetUseBeaconList()
+function slot1.OnEnter(slot0)
+	slot0.beaconData = MatrixData:GetUseBeaconList()
+	slot1 = #slot0.beaconData
 
-	local var_8_0 = #arg_8_0.beaconData
-
-	arg_8_0.list_:StartScroll(var_8_0)
-	arg_8_0.stateController_:SetSelectedIndex(var_8_0 == 0 and 1 or 0)
+	slot0.list_:StartScroll(slot1)
+	slot0.stateController_:SetSelectedIndex(slot1 == 0 and 1 or 0)
 end
 
-function var_0_1.IndexBeaconItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.beaconData[arg_9_1]
-
-	arg_9_2:Refresh(var_9_0)
+function slot1.IndexBeaconItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.beaconData[slot1])
 end
 
-function var_0_1.Dispose(arg_10_0)
-	arg_10_0.list_:Dispose()
-	var_0_1.super.Dispose(arg_10_0)
+function slot1.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

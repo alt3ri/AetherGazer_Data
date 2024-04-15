@@ -1,80 +1,74 @@
-local var_0_0 = import("game.views.shop.base.ShopItemBase")
-local var_0_1 = class("RechargeRechargeItemView", var_0_0)
+slot1 = class("RechargeRechargeItemView", import("game.views.shop.base.ShopItemBase"))
 
-function var_0_1.Init(arg_1_0)
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
-	arg_1_0:RegistEventListener(RECHARGE_UPDATE, function(arg_2_0)
-		if arg_2_0 == arg_1_0.Cfg.id then
-			arg_1_0:UpdateView()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:RegistEventListener(RECHARGE_UPDATE, function (slot0)
+		if slot0 == uv0.Cfg.id then
+			uv0:UpdateView()
 		end
 	end)
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.firstController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "first")
-	arg_3_0.picController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "pic")
-	arg_3_0.firstChargeController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "firstCharge")
+	slot0.firstController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "first")
+	slot0.picController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "pic")
+	slot0.firstChargeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "firstCharge")
 end
 
-function var_0_1.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		SDKTools.SendPaymentMessageToSDK("payment_touch", {
-			payment_recharge_id = arg_4_0.Cfg.id
+			payment_recharge_id = uv0.Cfg.id
 		})
-		PayAction.RequestGSPay(arg_4_0.Cfg.id, 1)
+		PayAction.RequestGSPay(uv0.Cfg.id, 1)
 	end)
 end
 
-function var_0_1.SetData(arg_6_0, arg_6_1)
-	arg_6_0.Cfg = arg_6_1
+function slot1.SetData(slot0, slot1)
+	slot0.Cfg = slot1
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_1.UpdateView(arg_7_0)
-	local var_7_0 = CurrencyConst.GetPlatformDiamondId()
+function slot1.UpdateView(slot0)
+	slot1 = CurrencyConst.GetPlatformDiamondId()
+	slot0.addIcon_.sprite = ItemTools.getItemSprite(slot1)
+	slot0.rewardIcon_.sprite = ItemTools.getItemSprite(slot1)
 
-	arg_7_0.addIcon_.sprite = ItemTools.getItemSprite(var_7_0)
-	arg_7_0.rewardIcon_.sprite = ItemTools.getItemSprite(var_7_0)
-
-	local var_7_1 = PaymentCfg[arg_7_0.Cfg.id]
-	local var_7_2 = var_7_1.cost / 100
-	local var_7_3 = SettingData:GetCurrentLanguage()
-
-	if var_7_3 == "fr" or var_7_3 == "de" then
-		var_7_2 = string.gsub(tostring(var_7_2), "%.", ",")
+	if SettingData:GetCurrentLanguage() == "fr" or slot4 == "de" then
+		slot3 = string.gsub(tostring(PaymentCfg[slot0.Cfg.id].cost / 100), "%.", ",")
 	end
 
-	arg_7_0.costLabel_.text = var_7_1.currency_symbol .. var_7_2
-	arg_7_0.rewardValueLabel_.text = string.format(GetTips("DIAMOND_AMOUNT"), tostring(arg_7_0.Cfg.charge_num))
+	slot0.costLabel_.text = slot2.currency_symbol .. slot3
+	slot0.rewardValueLabel_.text = string.format(GetTips("DIAMOND_AMOUNT"), tostring(slot0.Cfg.charge_num))
 
-	arg_7_0.picController_:SetSelectedIndex(arg_7_0.Cfg.id - 1)
+	slot0.picController_:SetSelectedIndex(slot0.Cfg.id - 1)
 
-	if arg_7_0:IsFirstRecharge() then
-		arg_7_0.firstController_:SetSelectedState("true")
+	if slot0:IsFirstRecharge() then
+		slot0.firstController_:SetSelectedState("true")
 
-		arg_7_0.addValueLabel_.text = arg_7_0.Cfg.first_charge
+		slot0.addValueLabel_.text = slot0.Cfg.first_charge
 
-		arg_7_0.firstChargeController_:SetSelectedState(arg_7_0.Cfg.first_charge > 0 and "true" or "false")
+		slot0.firstChargeController_:SetSelectedState(slot0.Cfg.first_charge > 0 and "true" or "false")
 	else
-		arg_7_0.firstController_:SetSelectedState("false")
+		slot0.firstController_:SetSelectedState("false")
 
-		arg_7_0.addValueLabel_.text = arg_7_0.Cfg.not_first_charge
+		slot0.addValueLabel_.text = slot0.Cfg.not_first_charge
 
-		arg_7_0.firstChargeController_:SetSelectedState(arg_7_0.Cfg.not_first_charge > 0 and "true" or "false")
-		arg_7_0.firstController_:SetSelectedState(arg_7_0.Cfg.not_first_charge > 0 and "reback" or "false")
+		slot0.firstChargeController_:SetSelectedState(slot0.Cfg.not_first_charge > 0 and "true" or "false")
+		slot0.firstController_:SetSelectedState(slot0.Cfg.not_first_charge > 0 and "reback" or "false")
 	end
 end
 
-function var_0_1.IsFirstRecharge(arg_8_0)
-	return not RechargeData:HaveRecharged(arg_8_0.Cfg.id)
+function slot1.IsFirstRecharge(slot0)
+	return not RechargeData:HaveRecharged(slot0.Cfg.id)
 end
 
-function var_0_1.Dispose(arg_9_0)
-	var_0_1.super.Dispose(arg_9_0)
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

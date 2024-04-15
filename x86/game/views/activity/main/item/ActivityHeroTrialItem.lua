@@ -1,36 +1,35 @@
 ActivitySubmoduleItem = import("game.views.activity.Main.item.ActivitySubmoduleItem")
+slot0 = class("ActivityHeroTrialItem", ActivitySubmoduleItem)
 
-local var_0_0 = class("ActivityHeroTrialItem", ActivitySubmoduleItem)
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.activityId_ = slot2
+	slot0.theme_ = ActivityTools.GetActivityTheme(slot0.activityId_)
+	slot0.refreshHeroTrialBtnHandler = handler(slot0, slot0.RefreshHeroTrialBtn)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.activityId_ = arg_1_2
-	arg_1_0.theme_ = ActivityTools.GetActivityTheme(arg_1_0.activityId_)
-	arg_1_0.refreshHeroTrialBtnHandler = handler(arg_1_0, arg_1_0.RefreshHeroTrialBtn)
-
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	manager.notify:RegistListener(HERO_TRIAL_UPDATE, arg_2_0.refreshHeroTrialBtnHandler)
-	arg_2_0:RefreshHeroTrialBtn()
-	arg_2_0.super.OnEnter(arg_2_0)
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(HERO_TRIAL_UPDATE, slot0.refreshHeroTrialBtnHandler)
+	slot0:RefreshHeroTrialBtn()
+	slot0.super.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.super.OnExit(arg_3_0)
-	manager.notify:RemoveListener(HERO_TRIAL_UPDATE, arg_3_0.refreshHeroTrialBtnHandler)
+function slot0.OnExit(slot0)
+	slot0.super.OnExit(slot0)
+	manager.notify:RemoveListener(HERO_TRIAL_UPDATE, slot0.refreshHeroTrialBtnHandler)
 end
 
-function var_0_0.RefreshHeroTrialBtn(arg_4_0)
-	local var_4_0
+function slot0.RefreshHeroTrialBtn(slot0)
+	slot1 = nil
 
-	for iter_4_0, iter_4_1 in pairs(ActivityHeroTrialCfg.get_id_list_by_activity_id) do
-		if ActivityData:GetActivityIsOpen(iter_4_0) and ActivityTools.GetActivityTheme(iter_4_0) == arg_4_0.theme_ then
-			arg_4_0.activityId_ = iter_4_0
+	for slot5, slot6 in pairs(ActivityHeroTrialCfg.get_id_list_by_activity_id) do
+		if ActivityData:GetActivityIsOpen(slot5) and ActivityTools.GetActivityTheme(slot5) == slot0.theme_ then
+			slot0.activityId_ = slot5
 		end
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,50 +1,48 @@
-local var_0_0 = singletonClass("OperationData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
+slot0 = singletonClass("OperationData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
 
-function var_0_0.InitOperationOpenList(arg_1_0, arg_1_1)
-	var_0_1 = cleanProtoTable(arg_1_1.id_list)
+function slot0.InitOperationOpenList(slot0, slot1)
+	uv0 = cleanProtoTable(slot1.id_list)
 end
 
-function var_0_0.InitFollowOpenList(arg_2_0, arg_2_1)
-	var_0_2 = {}
+function slot0.InitFollowOpenList(slot0, slot1)
+	uv0 = {}
 
-	local var_2_0 = arg_2_1.media_list
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		table.insert(var_0_2, iter_2_1)
+	for slot6, slot7 in ipairs(slot1.media_list) do
+		table.insert(uv0, slot7)
 	end
 end
 
-function var_0_0.GetOperationOpenList(arg_3_0)
-	return var_0_1
+function slot0.GetOperationOpenList(slot0)
+	return uv0
 end
 
-function var_0_0.IsOperationOpen(arg_4_0, arg_4_1)
-	if not table.keyof(var_0_1, arg_4_1) then
+function slot0.IsOperationOpen(slot0, slot1)
+	if not table.keyof(uv0, slot1) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsFollowOpen(arg_5_0, arg_5_1)
-	return not not table.keyof(var_0_2, arg_5_1)
+function slot0.IsFollowOpen(slot0, slot1)
+	return not not table.keyof(uv0, slot1)
 end
 
-function var_0_0.SetFunctionStopIdList(arg_6_0, arg_6_1)
-	var_0_3 = arg_6_1
+function slot0.SetFunctionStopIdList(slot0, slot1)
+	uv0 = slot1
 
 	manager.notify:Invoke(OPERATION_STOP_UPDATE, {})
 end
 
-function var_0_0.IsFunctionStoped(arg_7_0, arg_7_1)
-	if table.indexof(var_0_3, arg_7_1) then
+function slot0.IsFunctionStoped(slot0, slot1)
+	if table.indexof(uv0, slot1) then
 		return true
 	end
 
 	return false
 end
 
-return var_0_0
+return slot0

@@ -1,41 +1,40 @@
-local var_0_0 = import("game.views.recharge.pages.RechargePageBase")
-local var_0_1 = class("RechargeGiftPageView", var_0_0)
+slot1 = class("RechargeGiftPageView", import("game.views.recharge.pages.RechargePageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot1.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.giftList_ = LuaList.New(handler(arg_2_0, arg_2_0.indexItem), arg_2_0.listGo_, RechargeGiftItem)
+	slot0.giftList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, RechargeGiftItem)
 end
 
-function var_0_1.indexItem(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_2:SetData(arg_3_0.shopDataList_[arg_3_1])
-	arg_3_2:SetOutOfDateHandler(handler(arg_3_0, arg_3_0.OnItemOutOfDate))
+function slot1.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.shopDataList_[slot1])
+	slot2:SetOutOfDateHandler(handler(slot0, slot0.OnItemOutOfDate))
 end
 
-function var_0_1.OnItemOutOfDate(arg_4_0, arg_4_1)
-	arg_4_0:RefreshList()
+function slot1.OnItemOutOfDate(slot0, slot1)
+	slot0:RefreshList()
 
-	if #arg_4_0.shopDataList_ == 0 and arg_4_0.treeRefreshHandler_ ~= nil then
-		arg_4_0.treeRefreshHandler_()
+	if #slot0.shopDataList_ == 0 and slot0.treeRefreshHandler_ ~= nil then
+		slot0.treeRefreshHandler_()
 	end
 end
 
-function var_0_1.OnBuySuccess(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_0.curShopId_ == arg_5_2 then
-		arg_5_0:RefreshList(true)
+function slot1.OnBuySuccess(slot0, slot1, slot2)
+	if slot0.curShopId_ == slot2 then
+		slot0:RefreshList(true)
 	end
 end
 
-function var_0_1.AddUIListener(arg_6_0)
+function slot1.AddUIListener(slot0)
 	if SDKTools.GetIsInputServer("kr") then
-		arg_6_0:AddBtnListener(arg_6_0.refundbtn_, nil, function()
+		slot0:AddBtnListener(slot0.refundbtn_, nil, function ()
 			JumpTools.OpenPageByJump("gameHelpPro", {
 				pages = {
 					"TextureConfig/RechargeUI/RefundPolicy@kr"
@@ -45,197 +44,187 @@ function var_0_1.AddUIListener(arg_6_0)
 	end
 end
 
-function var_0_1.SwitchPage(arg_8_0, arg_8_1)
-	arg_8_0.curShopId_ = arg_8_1
-	arg_8_0.shopDataList_ = arg_8_0:InitShopList(arg_8_1)
+function slot1.SwitchPage(slot0, slot1)
+	slot0.curShopId_ = slot1
+	slot0.shopDataList_ = slot0:InitShopList(slot1)
 
-	arg_8_0.giftList_:StartScroll(#arg_8_0.shopDataList_)
+	slot0.giftList_:StartScroll(#slot0.shopDataList_)
 end
 
-function var_0_1.RefreshList(arg_9_0, arg_9_1)
-	arg_9_1 = arg_9_1 or false
-	arg_9_0.shopDataList_ = arg_9_0:InitShopList(arg_9_0.curShopId_)
+function slot1.RefreshList(slot0, slot1)
+	slot0.shopDataList_ = slot0:InitShopList(slot0.curShopId_)
 
-	if arg_9_1 then
-		local var_9_0 = arg_9_0.giftList_:GetScrolledPosition()
-
-		arg_9_0.giftList_:StartScrollByPosition(#arg_9_0.shopDataList_, var_9_0)
+	if slot1 or false then
+		slot0.giftList_:StartScrollByPosition(#slot0.shopDataList_, slot0.giftList_:GetScrolledPosition())
 	else
-		arg_9_0.giftList_:StartScroll(#arg_9_0.shopDataList_)
+		slot0.giftList_:StartScroll(#slot0.shopDataList_)
 	end
 end
 
-function var_0_1.InitShopList(arg_10_0, arg_10_1)
-	local var_10_0 = ShopTools.FilterShopDataList(arg_10_1)
+function slot1.InitShopList(slot0, slot1)
+	slot2 = ShopTools.FilterShopDataList(slot1)
 
-	table.sort(var_10_0, function(arg_11_0, arg_11_1)
-		local var_11_0 = getShopCfg(arg_11_0.id, arg_10_1)
-		local var_11_1 = getShopCfg(arg_11_1.id, arg_10_1)
-		local var_11_2 = arg_10_0:GetGoodStatus(arg_11_0.id, arg_10_1)
-		local var_11_3 = arg_10_0:GetGoodStatus(arg_11_1.id, arg_10_1)
+	table.sort(slot2, function (slot0, slot1)
+		slot2 = getShopCfg(slot0.id, uv0)
+		slot3 = getShopCfg(slot1.id, uv0)
 
-		if var_11_2 ~= var_11_3 then
-			return var_11_2 < var_11_3
+		if uv1:GetGoodStatus(slot0.id, uv0) ~= uv1:GetGoodStatus(slot1.id, uv0) then
+			return slot4 < slot5
 		end
 
-		if var_11_0.shop_sort ~= var_11_1.shop_sort then
-			return var_11_0.shop_sort > var_11_1.shop_sort
+		if slot2.shop_sort ~= slot3.shop_sort then
+			return slot3.shop_sort < slot2.shop_sort
 		end
 
-		return var_11_0.goods_id > var_11_1.goods_id
+		return slot3.goods_id < slot2.goods_id
 	end)
 
-	return var_10_0
+	return slot2
 end
 
-function var_0_1.GetGoodStatus(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = false
-	local var_12_1 = getShopCfg(arg_12_1, arg_12_2)
-	local var_12_2 = ShopData.GetShop(var_12_1.shop_id)[arg_12_1]
-	local var_12_3 = RechargeShopDescriptionCfg[var_12_1.description]
+function slot1.GetGoodStatus(slot0, slot1, slot2)
+	slot3 = false
+	slot4 = getShopCfg(slot1, slot2)
+	slot6 = ShopData.GetShop(slot4.shop_id)[slot1]
+	slot7 = RechargeShopDescriptionCfg[slot4.description]
 
-	if ShopData.IsGoodOutOfDate(arg_12_1, arg_12_2) then
+	if ShopData.IsGoodOutOfDate(slot1, slot2) then
 		return 3
 	end
 
-	if var_12_2 ~= nil and var_12_1.limit_num ~= nil and var_12_1.limit_num ~= -1 and var_12_1.limit_num - var_12_2.buy_times <= 0 then
-		var_12_0 = true
+	if slot6 ~= nil and slot4.limit_num ~= nil and slot4.limit_num ~= -1 and slot4.limit_num - slot6.buy_times <= 0 then
+		slot3 = true
 	end
 
-	if var_12_0 then
+	if slot3 then
 		return 3
 	end
 
-	if var_12_3 and var_12_3.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
-		for iter_12_0, iter_12_1 in ipairs(var_12_3.param) do
-			if iter_12_1[1] then
-				local var_12_4 = ItemCfg[iter_12_1[1]]
-
-				if ItemTools.getItemNum(iter_12_1[1]) == 1 and var_12_4.type == ItemConst.ITEM_TYPE.HERO_SKIN then
+	if slot7 and slot7.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
+		for slot11, slot12 in ipairs(slot7.param) do
+			if slot12[1] then
+				if ItemTools.getItemNum(slot12[1]) == 1 and ItemCfg[slot12[1]].type == ItemConst.ITEM_TYPE.HERO_SKIN then
 					return 2
 				end
 			end
 		end
 	end
 
-	if ShopData.IsGoodUnlock(arg_12_1, arg_12_2) == 0 then
+	if ShopData.IsGoodUnlock(slot1, slot2) == 0 then
 		return 1
 	end
 
 	return 0
 end
 
-function var_0_1.IsInChain(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = getShopCfg(arg_13_1, arg_13_2)
-	local var_13_1 = getShopIDListByShopID(var_13_0.shop_id)
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_1) do
-		local var_13_2 = getShopCfg(iter_13_1)
-
-		if #var_13_2.pre_goods_id > 0 and var_13_2.pre_goods_id[1] == arg_13_1 then
+function slot1.IsInChain(slot0, slot1, slot2)
+	for slot8, slot9 in ipairs(getShopIDListByShopID(getShopCfg(slot1, slot2).shop_id)) do
+		if #getShopCfg(slot9).pre_goods_id > 0 and slot10.pre_goods_id[1] == slot1 then
 			return true
 		end
 	end
 
-	if #var_13_0.pre_goods_id > 0 then
+	if #slot3.pre_goods_id > 0 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_1.AddEventListeners(arg_14_0)
-	arg_14_0:RegistEventListener(SHOP_LIST_UPDATE, function(arg_15_0)
-		if arg_15_0 > 0 and arg_15_0 == arg_14_0.curShopId_ then
-			arg_14_0:RefreshList()
+function slot1.AddEventListeners(slot0)
+	slot0:RegistEventListener(SHOP_LIST_UPDATE, function (slot0)
+		if slot0 > 0 and slot0 == uv0.curShopId_ then
+			uv0:RefreshList()
 		end
 	end)
-	arg_14_0:RegistEventListener(SHOP_ITEM_UPDATE, function(arg_16_0, arg_16_1)
-		arg_14_0:RefreshShopGoodInfo(arg_16_0, arg_16_1)
+	slot0:RegistEventListener(SHOP_ITEM_UPDATE, function (slot0, slot1)
+		uv0:RefreshShopGoodInfo(slot0, slot1)
 	end)
-	arg_14_0:RegistEventListener(RECHARGE_SUCCESS, function(arg_17_0)
-		arg_14_0:RefreshList(true)
+	slot0:RegistEventListener(RECHARGE_SUCCESS, function (slot0)
+		uv0:RefreshList(true)
 	end)
 end
 
-function var_0_1.UpdateShopList(arg_18_0, arg_18_1)
-	if arg_18_1 == arg_18_0.curShopId_ then
-		arg_18_0.giftList_:Refresh()
+function slot1.UpdateShopList(slot0, slot1)
+	if slot1 == slot0.curShopId_ then
+		slot0.giftList_:Refresh()
 	end
 end
 
-function var_0_1.RefreshShopGoodInfo(arg_19_0, arg_19_1, arg_19_2)
-	if arg_19_0.curShopId_ ~= arg_19_1 then
+function slot1.RefreshShopGoodInfo(slot0, slot1, slot2)
+	if slot0.curShopId_ ~= slot1 then
 		return
 	end
 
-	for iter_19_0, iter_19_1 in pairs(arg_19_0.giftList_:GetItemList()) do
-		if arg_19_2 == iter_19_1.goodId_ then
-			iter_19_1:SetData(iter_19_1.index_, iter_19_1.shopId_, iter_19_1.goodId_)
+	slot5 = slot0.giftList_
+	slot7 = slot5
+
+	for slot6, slot7 in pairs(slot5.GetItemList(slot7)) do
+		if slot2 == slot7.goodId_ then
+			slot7:SetData(slot7.index_, slot7.shopId_, slot7.goodId_)
 		end
 	end
 end
 
-function var_0_1.OnShopBuyResult(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4)
-	if arg_20_1 == 0 then
-		arg_20_0:RefreshList(true)
+function slot1.OnShopBuyResult(slot0, slot1, slot2, slot3, slot4)
+	if slot1 == 0 then
+		slot0:RefreshList(true)
 	end
 end
 
-function var_0_1.OnTop(arg_21_0)
-	return
+function slot1.OnTop(slot0)
 end
 
-function var_0_1.OnEnter(arg_22_0)
-	arg_22_0:AddEventListeners()
+function slot1.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	if arg_22_0.timer_ == nil then
-		arg_22_0.timer_ = FrameTimer.New(function()
-			if arg_22_0.giftList_ ~= nil then
-				for iter_23_0, iter_23_1 in ipairs(arg_22_0.giftList_:GetItemList()) do
-					iter_23_1:UpdateTimerView()
+	if slot0.timer_ == nil then
+		slot0.timer_ = FrameTimer.New(function ()
+			if uv0.giftList_ ~= nil then
+				slot2 = uv0.giftList_
+				slot4 = slot2
+
+				for slot3, slot4 in ipairs(slot2.GetItemList(slot4)) do
+					slot4:UpdateTimerView()
 				end
 			end
 
-			arg_22_0:UpdateTimer()
+			uv0:UpdateTimer()
 		end, 1, -1)
 
-		arg_22_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 
-	SetActive(arg_22_0.refundGo_, not SDKTools.GetIsInputServer("kr"))
-	SetActive(arg_22_0.refundbtn_.gameObject, false)
+	SetActive(slot0.refundGo_, not SDKTools.GetIsInputServer("kr"))
+	SetActive(slot0.refundbtn_.gameObject, false)
 
 	if SDKTools.GetIsInputServer("kr") then
-		SetActive(arg_22_0.refundbtn_.gameObject, arg_22_0.curPageIndex_ ~= 4 and arg_22_0.curPageIndex_ ~= 6)
+		SetActive(slot0.refundbtn_.gameObject, slot0.curPageIndex_ ~= 4 and slot0.curPageIndex_ ~= 6)
 	end
 end
 
-function var_0_1.UpdateTimer(arg_24_0)
-	return
+function slot1.UpdateTimer(slot0)
 end
 
-function var_0_1.OnExit(arg_25_0)
-	if arg_25_0.timer_ ~= nil then
-		arg_25_0.timer_:Stop()
+function slot1.OnExit(slot0)
+	if slot0.timer_ ~= nil then
+		slot0.timer_:Stop()
 
-		arg_25_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_1.Hide(arg_26_0)
-	var_0_1.super.Hide(arg_26_0)
+function slot1.Hide(slot0)
+	uv0.super.Hide(slot0)
 end
 
-function var_0_1.SetTreeRefreshHandler(arg_27_0, arg_27_1)
-	arg_27_0.treeRefreshHandler_ = arg_27_1
+function slot1.SetTreeRefreshHandler(slot0, slot1)
+	slot0.treeRefreshHandler_ = slot1
 end
 
-function var_0_1.HaveActivityGift(arg_28_0)
-	local var_28_0 = getShopIDListByShopID(15)
-
-	for iter_28_0, iter_28_1 in ipairs(var_28_0) do
-		if not ShopData.IsGoodOutOfDate(iter_28_1, 15) then
+function slot1.HaveActivityGift(slot0)
+	for slot5, slot6 in ipairs(getShopIDListByShopID(15)) do
+		if not ShopData.IsGoodOutOfDate(slot6, 15) then
 			return true
 		end
 	end
@@ -243,16 +232,16 @@ function var_0_1.HaveActivityGift(arg_28_0)
 	return false
 end
 
-function var_0_1.Dispose(arg_29_0)
-	if arg_29_0.giftList_ then
-		arg_29_0.giftList_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.giftList_ then
+		slot0.giftList_:Dispose()
 
-		arg_29_0.giftList_ = nil
+		slot0.giftList_ = nil
 	end
 
-	arg_29_0.treeRefreshHandler_ = nil
+	slot0.treeRefreshHandler_ = nil
 
-	var_0_1.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

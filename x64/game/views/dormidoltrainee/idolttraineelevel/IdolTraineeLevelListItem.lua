@@ -1,65 +1,63 @@
-local var_0_0 = class("IdolTraineeLevelListItem", ReduxView)
+slot0 = class("IdolTraineeLevelListItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.stateController_ = arg_2_0.mainControllerEx_:GetController("state")
+	slot0.stateController_ = slot0.mainControllerEx_:GetController("state")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.challengeBtn_, nil, function()
-		arg_3_0.timer = Timer.New(handler(arg_3_0, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.challengeBtn_, nil, function ()
+		uv0.timer = Timer.New(handler(uv0, function ()
 			if not IdolTraineeCampBridge.cinemachineBrain.IsBlending then
 				JumpTools.OpenPageByJump("/idolTraineeEnterBattleView", {
 					pvpBattle_ = false,
-					stageID = arg_3_0.stageID
+					stageID = uv0.stageID
 				})
 			end
 		end), 0.34, 1):Start()
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.stageID = arg_6_1
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.stageID = slot1
+	slot4 = IdolTraineePveBattleCfg[slot1]
+	slot6 = nil
 
-	local var_6_0 = IdolTraineePveBattleCfg[arg_6_1]
-	local var_6_1 = IdolTraineeTools:GetChapterScoreList(arg_6_3)
-	local var_6_2
-
-	if var_6_1 then
-		var_6_2 = var_6_1[arg_6_1]
+	if IdolTraineeTools:GetChapterScoreList(slot3) then
+		slot6 = slot5[slot1]
 	end
 
-	if not var_6_2 then
-		arg_6_0.stateController_:SetSelectedState("lock")
-	elseif not var_6_2.pass then
-		arg_6_0.stateController_:SetSelectedState("unlock")
+	if not slot6 then
+		slot0.stateController_:SetSelectedState("lock")
+	elseif not slot6.pass then
+		slot0.stateController_:SetSelectedState("unlock")
 	else
-		arg_6_0.stateController_:SetSelectedState("complete")
+		slot0.stateController_:SetSelectedState("complete")
 
-		arg_6_0.score_.text = var_6_2.score
+		slot0.score_.text = slot6.score
 	end
 
-	arg_6_0.levelID_.text = arg_6_3 .. "-" .. arg_6_2
-	arg_6_0.levelName_.text = var_6_0.name
+	slot0.levelID_.text = slot3 .. "-" .. slot2
+	slot0.levelName_.text = slot4.name
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.timer then
-		arg_7_0.timer:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_7_0.timer = nil
+		slot0.timer = nil
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

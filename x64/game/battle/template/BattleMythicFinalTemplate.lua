@@ -1,88 +1,81 @@
-local var_0_0 = class("BattleMythicFinalTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleMythicFinalTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.activityID_ = arg_1_2
-	arg_1_0.cfg = BattleMythicFinalCfg[arg_1_1]
-	arg_1_0.levelcfg = MythicFinalCfg[MythicData:GetCurHotLevelId()]
-	arg_1_0.nextBattleStage_ = nil
+	slot0.id = slot1
+	slot0.activityID_ = slot2
+	slot0.cfg = BattleMythicFinalCfg[slot1]
+	slot0.levelcfg = MythicFinalCfg[MythicData:GetCurHotLevelId()]
+	slot0.nextBattleStage_ = nil
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	return arg_3_0:GetTeamIndex()
+function slot0.GetDest(slot0)
+	return slot0:GetTeamIndex()
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_7_0)
-	return arg_7_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetAttributeFactor(arg_8_0)
-	local var_8_0 = MythicFinalCfg[MythicData:GetCurHotLevelId()]
-
-	if var_8_0.attribute_factor and var_8_0.attribute_factor[3] then
-		local var_8_1 = var_8_0.attribute_factor[1] / 1000
-		local var_8_2 = var_8_0.attribute_factor[2] / 1000
-		local var_8_3 = var_8_0.attribute_factor[3] / 1000
-
-		return Vector3.New(var_8_1, var_8_2, var_8_3)
+function slot0.GetAttributeFactor(slot0)
+	if MythicFinalCfg[MythicData:GetCurHotLevelId()].attribute_factor and slot1.attribute_factor[3] then
+		return Vector3.New(slot1.attribute_factor[1] / 1000, slot1.attribute_factor[2] / 1000, slot1.attribute_factor[3] / 1000)
 	end
 
 	return Vector3.New(1, 1, 1)
 end
 
-function var_0_0.GetStageAffix(arg_9_0)
-	local var_9_0 = {}
-	local var_9_1 = {}
-	local var_9_2 = {}
-	local var_9_3 = MythicData:GetFinalMonsterAffix()
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
 
-	for iter_9_0, iter_9_1 in pairs(var_9_3 or {}) do
-		table.insert(var_9_0, iter_9_1[1])
-		table.insert(var_9_1, iter_9_1[2])
-		table.insert(var_9_2, iter_9_1[3])
+	for slot8, slot9 in pairs(MythicData:GetFinalMonsterAffix() or {}) do
+		table.insert(slot1, slot9[1])
+		table.insert(slot2, slot9[2])
+		table.insert(slot3, slot9[3])
 	end
 
-	return var_9_0, var_9_1, var_9_2
+	return slot1, slot2, slot3
 end
 
-function var_0_0.GetHeroTeam(arg_10_0)
-	return arg_10_0.heroList_, arg_10_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.GetEnemyLevel(arg_11_0)
-	return arg_11_0.levelcfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.levelcfg.monster_level
 end
 
-function var_0_0.GetNextStage(arg_12_0)
-	return arg_12_0.nextBattleStage_
+function slot0.GetNextStage(slot0)
+	return slot0.nextBattleStage_
 end
 
-function var_0_0.SetNextStage(arg_13_0, arg_13_1)
-	arg_13_0.nextBattleStage_ = arg_13_1
+function slot0.SetNextStage(slot0, slot1)
+	slot0.nextBattleStage_ = slot1
 end
 
-function var_0_0.GetBattleTime(arg_14_0)
-	return MythicData:GetBattleRemainTime(arg_14_0:GetDest())
+function slot0.GetBattleTime(slot0)
+	return MythicData:GetBattleRemainTime(slot0:GetDest())
 end
 
-return var_0_0
+return slot0

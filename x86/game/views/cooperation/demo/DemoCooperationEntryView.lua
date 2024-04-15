@@ -1,81 +1,73 @@
-local var_0_0 = class("DemoCooperationEntryView", ReduxView)
+slot0 = class("DemoCooperationEntryView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Cooperation/Demo/DemoCooperationUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_createRoomBtn, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_createRoomBtn, function ()
 		if CooperationData:GetRoomData() then
 			CooperationTools.GotoCooperation()
 		else
-			local var_7_0 = CooperationData:GetCooperationHero(BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, arg_6_0.activity_id)
-
-			CooperationAction.CreateRoom(arg_6_0.activity_id, BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, {
-				var_7_0
+			CooperationAction.CreateRoom(uv0.activity_id, BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, {
+				CooperationData:GetCooperationHero(BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, uv0.activity_id)
 			})
 		end
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_quickJoinBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_quickJoinBtn, function ()
 		if CooperationData:GetIsMatching() then
 			CooperationAction.CancelMatching()
 		else
-			local var_8_0 = CooperationData:GetCooperationHero(BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, arg_6_0.activity_id)
-
-			CooperationAction.StartMatching(arg_6_0.activity_id, BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, {
-				var_8_0
+			CooperationAction.StartMatching(uv0.activity_id, BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, {
+				CooperationData:GetCooperationHero(BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO, uv0.activity_id)
 			})
 		end
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_inviteBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_inviteBtn, function ()
 		JumpTools.OpenPageByJump("cooperationApply", {
 			room_type = BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO
 		})
 	end)
 end
 
-function var_0_0.OnTop(arg_10_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.activity_id = ActivityConst.COOPERATION_DEMO
+function slot0.OnEnter(slot0)
+	slot0.activity_id = ActivityConst.COOPERATION_DEMO
+	slot1 = ActivityCooperationDemoCfg[slot0.activity_id]
+	slot0.m_stageName.text = GetI18NText(slot1.stage_name)
+	slot0.m_stageDes.text = GetI18NText(slot1.stage_des)
 
-	local var_11_0 = ActivityCooperationDemoCfg[arg_11_0.activity_id]
-
-	arg_11_0.m_stageName.text = GetI18NText(var_11_0.stage_name)
-	arg_11_0.m_stageDes.text = GetI18NText(var_11_0.stage_des)
-
-	arg_11_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = CooperationData:GetIsMatching()
-
-	arg_12_0.m_matchingLab.text = var_12_0 and GetTips("COOPERATION_MATCHING") or GetTips("COOPERATION_START_MATCH")
+function slot0.RefreshUI(slot0)
+	slot0.m_matchingLab.text = CooperationData:GetIsMatching() and GetTips("COOPERATION_MATCHING") or GetTips("COOPERATION_START_MATCH")
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
 	if CooperationData:GetIsMatching() then
@@ -83,12 +75,12 @@ function var_0_0.OnExit(arg_13_0)
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnCooperationIsMatchingChange(arg_15_0)
-	arg_15_0:RefreshUI()
+function slot0.OnCooperationIsMatchingChange(slot0)
+	slot0:RefreshUI()
 end
 
-return var_0_0
+return slot0

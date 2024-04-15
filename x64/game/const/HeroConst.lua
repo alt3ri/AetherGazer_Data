@@ -36,13 +36,13 @@ return {
 			grow_fixed = "atk_ratio",
 			base = "base_atk"
 		},
-		[3] = {
-			grow_fixed = "sta_ratio",
-			base = "base_sta"
-		},
 		{
 			grow_fixed = "arm_ratio",
 			base = "base_arm"
+		},
+		[3] = {
+			grow_fixed = "sta_ratio",
+			base = "base_sta"
 		},
 		[81] = {
 			grow_fixed = "crit_ratio",
@@ -88,12 +88,12 @@ return {
 		Color.New(0.2784, 0.5803, 0.7607, 1),
 		Color.New(0.8313, 0.3843, 0.7176, 1),
 		Color.New(0.9725, 0.5333, 0.2235, 1),
-		(Color.New(0.6583, 0.0466, 0.0009, 1))
+		Color.New(0.6583, 0.0466, 0.0009, 1)
 	},
 	HERO_RARE_COLOR = {
 		Color.New(0.2745, 0.5803, 0.7647, 1),
 		Color.New(0.6588, 0.2588, 0.7254, 1),
-		(Color.New(0.9686, 0.6509, 0.2431, 1))
+		Color.New(0.9686, 0.6509, 0.2431, 1)
 	},
 	HERO_RARE_LEVEL = {
 		SR = 4,

@@ -1,5 +1,5 @@
-local var_0_0 = class("HeroAttributeView", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroAttributeView", ReduxView)
+slot1 = {
 	BASE = {
 		1,
 		2,
@@ -33,67 +33,66 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_arrt/HeroArrtPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.attributeItemList_ = {}
+	slot0.attributeItemList_ = {}
 
-	for iter_3_0, iter_3_1 in pairs(var_0_1.BASE) do
-		arg_3_0.attributeItemList_[iter_3_1] = HeroAttributeItemView.New(arg_3_0.goAttributeItem_, arg_3_0.goBaseAttribute_, iter_3_0, iter_3_1)
+	for slot4, slot5 in pairs(uv0.BASE) do
+		slot0.attributeItemList_[slot5] = HeroAttributeItemView.New(slot0.goAttributeItem_, slot0.goBaseAttribute_, slot4, slot5)
 	end
 
-	for iter_3_2, iter_3_3 in pairs(var_0_1.ELEMENT) do
-		arg_3_0.attributeItemList_[iter_3_3] = HeroAttributeItemView.New(arg_3_0.goAttributeItem_, arg_3_0.goElementAttribute_, iter_3_2, iter_3_3)
+	for slot4, slot5 in pairs(uv0.ELEMENT) do
+		slot0.attributeItemList_[slot5] = HeroAttributeItemView.New(slot0.goAttributeItem_, slot0.goElementAttribute_, slot4, slot5)
 	end
 
-	for iter_3_4, iter_3_5 in pairs(var_0_1.TARGET) do
-		arg_3_0.attributeItemList_[iter_3_5] = HeroAttributeItemView.New(arg_3_0.goAttributeItem_, arg_3_0.goTargetAttribute_, iter_3_4, iter_3_5)
+	for slot4, slot5 in pairs(uv0.TARGET) do
+		slot0.attributeItemList_[slot5] = HeroAttributeItemView.New(slot0.goAttributeItem_, slot0.goTargetAttribute_, slot4, slot5)
 	end
 
-	for iter_3_6, iter_3_7 in pairs(var_0_1.SKILL) do
-		arg_3_0.attributeItemList_[iter_3_7] = HeroAttributeItemView.New(arg_3_0.goAttributeItem_, arg_3_0.goSkillAttribute_, iter_3_6, iter_3_7)
+	for slot4, slot5 in pairs(uv0.SKILL) do
+		slot0.attributeItemList_[slot5] = HeroAttributeItemView.New(slot0.goAttributeItem_, slot0.goSkillAttribute_, slot4, slot5)
 	end
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.heroID_ = arg_4_0.params_.heroID
-	arg_4_0.heroViewProxy_ = arg_4_0.params_.proxy
-	arg_4_0.attribute_ = arg_4_0.heroViewProxy_:GetHeroAllAttribute(arg_4_0.heroID_)
+function slot0.OnEnter(slot0)
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.heroViewProxy_ = slot0.params_.proxy
+	slot0.attribute_ = slot0.heroViewProxy_:GetHeroAllAttribute(slot0.heroID_)
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.attributeItemList_) do
-		iter_4_1:SetData(arg_4_0.attribute_[iter_4_0] or 0)
+	for slot4, slot5 in pairs(slot0.attributeItemList_) do
+		slot5:SetData(slot0.attribute_[slot4] or 0)
 	end
 
-	arg_4_0.scrollView_.verticalNormalizedPosition = 1
+	slot0.scrollView_.verticalNormalizedPosition = 1
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.attributeItemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.attributeItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.attributeItemList_ = nil
+	slot0.attributeItemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buttonClose_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_0
+return slot0

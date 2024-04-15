@@ -1,74 +1,64 @@
-local var_0_0 = class("AntitheticalCoupletResultView", ReduxView)
+slot0 = class("AntitheticalCoupletResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return AntitheticalCoupletTools.GetResultUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return AntitheticalCoupletTools.GetResultUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		if arg_5_0.animator_:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0.animator_:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
 			JumpTools.OpenPageByJump("/antitheticalCouplet", {
-				activityID = arg_5_0.params_.activityID
+				activityID = uv0.params_.activityID
 			})
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = ActivitySpringFestivalCoupletsCfg[arg_8_0.params_.id]
+function slot0.RefreshUI(slot0)
+	slot0.couplet1_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/couplets/" .. ActivitySpringFestivalCoupletsCfg[slot0.params_.id].start_picture)
+	slot2 = nil
 
-	arg_8_0.couplet1_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/couplets/" .. var_8_0.start_picture)
-
-	local var_8_1
-
-	if not arg_8_0.params_.isComplet then
-		var_8_1 = manager.story:GetStoryChoice()[1] or 1
-
-		AntitheticalCoupletAction:ChooseStoryID(arg_8_0.params_.id, var_8_1)
+	if not slot0.params_.isComplet then
+		AntitheticalCoupletAction:ChooseStoryID(slot0.params_.id, manager.story:GetStoryChoice()[1] or 1)
 	else
-		local var_8_2 = AntitheticalCoupletData:GetData(arg_8_0.params_.id)
-
-		var_8_1 = var_8_2 and var_8_2.chooseID or 1
+		slot2 = AntitheticalCoupletData:GetData(slot0.params_.id) and slot3.chooseID or 1
 	end
 
-	local var_8_3 = var_8_0.result_picture[var_8_1]
-
-	arg_8_0.couplet2_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/couplets/" .. var_8_3)
+	slot0.couplet2_.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/couplets/" .. slot1.result_picture[slot2])
 
 	if SDKTools.GetIsEnglish() then
-		arg_8_0.couplet1_text.text = GetI18NText(var_8_0.start_text)
-		arg_8_0.couplet2_text.text = GetI18NText(var_8_0.result_text[var_8_1])
+		slot0.couplet1_text.text = GetI18NText(slot1.start_text)
+		slot0.couplet2_text.text = GetI18NText(slot1.result_text[slot2])
 	end
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
-	arg_11_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

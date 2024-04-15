@@ -1,118 +1,88 @@
-local var_0_0 = class("GuideManager")
+slot0 = class("GuideManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0:Init()
+function slot0.Ctor(slot0)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.view = GuideView.New()
-	arg_2_0.weakView = GuideWeakView.New()
-	arg_2_0._guides = {}
-	arg_2_0._gorupTimes = {}
-	arg_2_0._timer = FrameTimer.New(handler(arg_2_0, arg_2_0.Process), 1, -1)
-	arg_2_0.stuckTime_ = GameSetting.newbie_stuck_time.value[1]
-	arg_2_0.startCheckTime_ = nil
+function slot0.Init(slot0)
+	slot0.view = GuideView.New()
+	slot0.weakView = GuideWeakView.New()
+	slot0._guides = {}
+	slot0._gorupTimes = {}
+	slot0._timer = FrameTimer.New(handler(slot0, slot0.Process), 1, -1)
+	slot0.stuckTime_ = GameSetting.newbie_stuck_time.value[1]
+	slot0.startCheckTime_ = nil
 end
 
-function var_0_0.IsPlaying(arg_3_0)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0._guides) do
-		if iter_3_1:IsPlaying() then
-			return true, iter_3_1:GetId()
+function slot0.IsPlaying(slot0)
+	for slot4, slot5 in ipairs(slot0._guides) do
+		if slot5:IsPlaying() then
+			return true, slot5:GetId()
 		end
 	end
 
 	return false
 end
 
-function var_0_0.AddGuide(arg_4_0, arg_4_1)
-	local var_4_0 = GuideBaseCfg[arg_4_1]
-
-	if not var_4_0 then
+function slot0.AddGuide(slot0, slot1)
+	if not GuideBaseCfg[slot1] then
 		return
 	end
 
-	if GuideData:IsFinish(arg_4_1) then
+	if GuideData:IsFinish(slot1) then
 		return
 	end
 
-	if var_4_0.skip_condition[1] ~= nil and GuideTool.SatisfyCondition(var_4_0.skip_condition) then
+	if slot2.skip_condition[1] ~= nil and GuideTool.SatisfyCondition(slot2.skip_condition) then
 		return
 	end
 
-	local var_4_1
+	slot3 = nil
 
-	if arg_4_1 == 3 then
-		var_4_1 = Guide_3.New(arg_4_1)
-	elseif arg_4_1 == 8 then
-		var_4_1 = Guide_8.New(arg_4_1)
-	elseif arg_4_1 == 11 then
-		var_4_1 = Guide_11.New(arg_4_1)
-	elseif arg_4_1 == 14 then
-		var_4_1 = Guide_14.New(arg_4_1)
-	elseif arg_4_1 == 15 then
-		var_4_1 = Guide_15.New(arg_4_1)
-	elseif arg_4_1 == 17 then
-		var_4_1 = Guide_17.New(arg_4_1)
-	elseif arg_4_1 == 19 then
-		var_4_1 = Guide_19.New(arg_4_1)
-	elseif arg_4_1 == 27 or arg_4_1 == 29 then
-		var_4_1 = Guide_skuld.New(arg_4_1)
-	elseif arg_4_1 == 28 then
-		var_4_1 = Guide_28.New(arg_4_1)
-	elseif arg_4_1 == 46 then
-		var_4_1 = Guide_46.New(arg_4_1)
-	elseif arg_4_1 == 53 then
-		var_4_1 = Guide_53.New(arg_4_1)
-	elseif arg_4_1 == 60 then
-		var_4_1 = Guide_60.New(arg_4_1)
-	else
-		var_4_1 = BaseGuide.New(arg_4_1)
-	end
-
-	if var_4_1 ~= nil then
-		table.insert(arg_4_0._guides, var_4_1)
+	if ((slot1 ~= 3 or Guide_3.New(slot1)) and (slot1 ~= 8 or Guide_8.New(slot1)) and (slot1 ~= 11 or Guide_11.New(slot1)) and (slot1 ~= 14 or Guide_14.New(slot1)) and (slot1 ~= 15 or Guide_15.New(slot1)) and (slot1 ~= 17 or Guide_17.New(slot1)) and (slot1 ~= 19 or Guide_19.New(slot1)) and (slot1 ~= 27 and slot1 ~= 29 or Guide_skuld.New(slot1)) and (slot1 ~= 28 or Guide_28.New(slot1)) and (slot1 ~= 46 or Guide_46.New(slot1)) and (slot1 ~= 53 or Guide_53.New(slot1)) and (slot1 ~= 60 or Guide_60.New(slot1)) and BaseGuide.New(slot1)) ~= nil then
+		table.insert(slot0._guides, slot3)
 	end
 end
 
-function var_0_0.InitGuide(arg_5_0)
+function slot0.InitGuide(slot0)
 	if PlayerPrefs.GetInt("OpenGuide", 0) == 1 then
 		return true
 	end
 
-	arg_5_0._guides = {}
+	slot0._guides = {}
 
-	for iter_5_0, iter_5_1 in ipairs(GuideBaseCfg.all) do
-		arg_5_0:AddGuide(iter_5_1)
+	for slot4, slot5 in ipairs(GuideBaseCfg.all) do
+		slot0:AddGuide(slot5)
 	end
 
-	if table.length(arg_5_0._guides) > 0 then
-		arg_5_0:Process()
-		arg_5_0._timer:Start()
+	if table.length(slot0._guides) > 0 then
+		slot0:Process()
+		slot0._timer:Start()
 	end
 end
 
-function var_0_0.Process(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0._guides) do
-		if iter_6_1:IsPlaying() then
-			if iter_6_1:Check() then
-				arg_6_0:onStepStart(iter_6_1)
-				iter_6_1:Play()
-				arg_6_0:ClearStuck()
+function slot0.Process(slot0)
+	for slot4, slot5 in ipairs(slot0._guides) do
+		if slot5:IsPlaying() then
+			if slot5:Check() then
+				slot0:onStepStart(slot5)
+				slot5:Play()
+				slot0:ClearStuck()
 			else
-				arg_6_0:CheckStuck(iter_6_1)
+				slot0:CheckStuck(slot5)
 			end
 
 			return
 		end
 	end
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_0._guides) do
-		if iter_6_3:Check() and manager.story.player_ == nil and not manager.posterGirl:IsPlayingDebut() then
-			iter_6_3:InitSteps()
-			GuideTool.Log("GuideBase Start id :" .. iter_6_3:GetId())
+	for slot4, slot5 in ipairs(slot0._guides) do
+		if slot5:Check() and manager.story.player_ == nil and not manager.posterGirl:IsPlayingDebut() then
+			slot5:InitSteps()
+			GuideTool.Log("GuideBase Start id :" .. slot5:GetId())
 
-			if arg_6_0.weakView:GetIsInWeakGuide() then
-				arg_6_0.weakView:Hide(true)
+			if slot0.weakView:GetIsInWeakGuide() then
+				slot0.weakView:Hide(true)
 			end
 
 			manager.notify:Invoke(GUIDE_START)
@@ -122,192 +92,179 @@ function var_0_0.Process(arg_6_0)
 	end
 end
 
-function var_0_0.onStepStart(arg_7_0)
-	arg_7_0._timer:Stop()
+function slot0.onStepStart(slot0)
+	slot0._timer:Stop()
 end
 
-function var_0_0.CheckStuck(arg_8_0, arg_8_1)
-	arg_8_0.startCheckTime_ = arg_8_0.startCheckTime_ or Time.time
+function slot0.CheckStuck(slot0, slot1)
+	slot0.startCheckTime_ = slot0.startCheckTime_ or Time.time
 
-	if Time.time - arg_8_0.startCheckTime_ > arg_8_0.stuckTime_ and not arg_8_0.hasShowStuckBtn_ and arg_8_1 ~= nil and not table.indexof(GuideBaseCfg.get_id_list_by_not_skip_guide[1], arg_8_1:GetId()) then
-		arg_8_0.view:ShowBreakStuck(arg_8_1, true)
+	if slot0.stuckTime_ < Time.time - slot0.startCheckTime_ and not slot0.hasShowStuckBtn_ and slot1 ~= nil and not table.indexof(GuideBaseCfg.get_id_list_by_not_skip_guide[1], slot1:GetId()) then
+		slot0.view:ShowBreakStuck(slot1, true)
 
-		arg_8_0.hasShowStuckBtn_ = true
+		slot0.hasShowStuckBtn_ = true
 
-		GuideTool.Log("GuideBase Stuck id :" .. arg_8_1:GetId())
+		GuideTool.Log("GuideBase Stuck id :" .. slot1:GetId())
 	end
 end
 
-function var_0_0.ClearStuck(arg_9_0)
-	arg_9_0.startCheckTime_ = nil
+function slot0.ClearStuck(slot0)
+	slot0.startCheckTime_ = nil
 
-	arg_9_0.view:ShowBreakStuck(nil, false)
+	slot0.view:ShowBreakStuck(nil, false)
 
-	arg_9_0.hasShowStuckBtn_ = false
+	slot0.hasShowStuckBtn_ = false
 end
 
-function var_0_0.OnStepEnd(arg_10_0, arg_10_1, arg_10_2)
-	if arg_10_2 then
-		arg_10_0.view:Hide()
+function slot0.OnStepEnd(slot0, slot1, slot2)
+	if slot2 then
+		slot0.view:Hide()
 	else
-		arg_10_0.view:HideButton()
+		slot0.view:HideButton()
 	end
 
-	if arg_10_1:IsPlaying() then
-		arg_10_0._timer:Start()
+	if slot1:IsPlaying() then
+		slot0._timer:Start()
 	else
-		arg_10_0:OnGuideEnd(arg_10_1)
+		slot0:OnGuideEnd(slot1)
 
-		local var_10_0 = table.indexof(arg_10_0._guides, arg_10_1)
-
-		if var_10_0 then
-			table.remove(arg_10_0._guides, var_10_0)
+		if table.indexof(slot0._guides, slot1) then
+			table.remove(slot0._guides, slot3)
 		end
 
-		if table.length(arg_10_0._guides) > 0 then
-			arg_10_0._timer:Start()
+		if table.length(slot0._guides) > 0 then
+			slot0._timer:Start()
 		else
 			SendMessageManagerToSDK("tutorial_complete")
 		end
 	end
 end
 
-function var_0_0.OnGuideFinish(arg_11_0, arg_11_1)
-	local var_11_0 = arg_11_1:GetId()
+function slot0.OnGuideFinish(slot0, slot1)
+	slot2 = slot1:GetId()
 
-	NewPlayerGuideAction.GuideUpdateID(var_11_0)
+	NewPlayerGuideAction.GuideUpdateID(slot2)
 	SendMessageManagerToSDK("tutorial", {
-		guideId = var_11_0
+		guideId = slot2
 	})
 
-	if var_11_0 == 8 then
+	if slot2 == 8 then
 		SendMessageManagerToSDK("tutorial_complete")
 	end
 
-	GuideTool.Log("GuideBase Finish id :" .. arg_11_1:GetId())
+	GuideTool.Log("GuideBase Finish id :" .. slot1:GetId())
 end
 
-function var_0_0.OnGuideEnd(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_1:GetId()
-	local var_12_1 = arg_12_1:GetStarTime()
-	local var_12_2 = Time.realtimeSinceStartup - var_12_1
+function slot0.OnGuideEnd(slot0, slot1)
+	slot2 = slot1:GetId()
+	slot4 = Time.realtimeSinceStartup - slot1:GetStarTime()
 
-	NewPlayerGuideAction.GuideUpdateIDEnd(var_12_0, var_12_2)
-	GuideTool.Log("GuideBase End id :" .. arg_12_1:GetId() .. "  useTime : " .. var_12_2)
-
-	local var_12_3 = GuideBaseCfg[var_12_0]
-
-	arg_12_0:UpdateGroupLastTime(var_12_3.group)
+	NewPlayerGuideAction.GuideUpdateIDEnd(slot2, slot4)
+	GuideTool.Log("GuideBase End id :" .. slot1:GetId() .. "  useTime : " .. slot4)
+	slot0:UpdateGroupLastTime(GuideBaseCfg[slot2].group)
 end
 
-function var_0_0.SkipGuide(arg_13_0, arg_13_1)
-	arg_13_0:ClearStuck()
-	arg_13_0:OnGuideFinish(arg_13_1)
+function slot0.SkipGuide(slot0, slot1)
+	slot0:ClearStuck()
+	slot0:OnGuideFinish(slot1)
 
-	local var_13_0 = table.indexof(arg_13_0._guides, arg_13_1)
-
-	if var_13_0 then
-		table.remove(arg_13_0._guides, var_13_0)
+	if table.indexof(slot0._guides, slot1) then
+		table.remove(slot0._guides, slot2)
 	end
 end
 
-function var_0_0.PaseGuide(arg_14_0, arg_14_1)
-	local var_14_0 = table.indexof(arg_14_0._guides, arg_14_1)
-
-	if var_14_0 then
-		table.remove(arg_14_0._guides, var_14_0)
+function slot0.PaseGuide(slot0, slot1)
+	if table.indexof(slot0._guides, slot1) then
+		table.remove(slot0._guides, slot2)
 	end
 end
 
-function var_0_0.SkipAll(arg_15_0)
-	return
+function slot0.SkipAll(slot0)
 end
 
-function var_0_0.OnComponentClick(arg_16_0)
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0._guides) do
-		if iter_16_1:IsPlaying() then
-			iter_16_1:Click()
+function slot0.OnComponentClick(slot0)
+	for slot4, slot5 in ipairs(slot0._guides) do
+		if slot5:IsPlaying() then
+			slot5:Click()
 		end
 	end
 end
 
-function var_0_0.OnEventTrigger(arg_17_0, arg_17_1, arg_17_2)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0._guides) do
-		if iter_17_1:IsPlaying() then
-			iter_17_1:EventTrigger(arg_17_1, arg_17_2)
+function slot0.OnEventTrigger(slot0, slot1, slot2)
+	for slot6, slot7 in ipairs(slot0._guides) do
+		if slot7:IsPlaying() then
+			slot7:EventTrigger(slot1, slot2)
 		end
 	end
 end
 
-function var_0_0.OnBattleFinish(arg_18_0, arg_18_1)
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0._guides) do
-		if iter_18_1:IsPlaying() then
-			iter_18_1:BattleFinish(arg_18_1)
+function slot0.OnBattleFinish(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0._guides) do
+		if slot6:IsPlaying() then
+			slot6:BattleFinish(slot1)
 		end
 	end
 end
 
-function var_0_0.IsGoToHome(arg_19_0)
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0._guides) do
-		if iter_19_1:IsPlaying() then
-			return iter_19_1:IsGoToHome()
+function slot0.IsGoToHome(slot0)
+	for slot4, slot5 in ipairs(slot0._guides) do
+		if slot5:IsPlaying() then
+			return slot5:IsGoToHome()
 		end
 	end
 
 	return true
 end
 
-function var_0_0.OnLogout(arg_20_0)
-	arg_20_0._timer:Stop()
+function slot0.OnLogout(slot0)
+	slot0._timer:Stop()
 
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0._guides) do
-		iter_20_1:Dispose()
+	for slot4, slot5 in ipairs(slot0._guides) do
+		slot5:Dispose()
 	end
 
-	arg_20_0._guides = {}
-	arg_20_0._gorupTimes = {}
+	slot0._guides = {}
+	slot0._gorupTimes = {}
 
-	arg_20_0.view:Dispose()
-	arg_20_0.weakView:Dispose()
+	slot0.view:Dispose()
+	slot0.weakView:Dispose()
 end
 
-function var_0_0.Dispose(arg_21_0)
-	arg_21_0:OnLogout()
+function slot0.Dispose(slot0)
+	slot0:OnLogout()
 end
 
-local var_0_1
+slot1 = nil
 
-function var_0_0.GetIntervalTime(arg_22_0)
-	if var_0_1 ~= nil then
-		return var_0_1
+function slot0.GetIntervalTime(slot0)
+	if uv0 ~= nil then
+		return uv0
 	end
 
-	var_0_1 = GameSetting.guide_base_time and GameSetting.guide_base_time.value[1] or 0
+	uv0 = GameSetting.guide_base_time and GameSetting.guide_base_time.value[1] or 0
 
-	return var_0_1
+	return uv0
 end
 
-function var_0_0.UpdateGroupLastTime(arg_23_0, arg_23_1)
-	if arg_23_1 == 0 then
+function slot0.UpdateGroupLastTime(slot0, slot1)
+	if slot1 == 0 then
 		return
 	end
 
-	arg_23_0._gorupTimes[arg_23_1] = os.time()
+	slot0._gorupTimes[slot1] = os.time()
 end
 
-function var_0_0.CheckGroupLastTime(arg_24_0, arg_24_1)
-	if arg_24_1 == 0 then
+function slot0.CheckGroupLastTime(slot0, slot1)
+	if slot1 == 0 then
 		return true
 	else
-		local var_24_0 = arg_24_0._gorupTimes[arg_24_1] or 0
-
-		return arg_24_0:GetIntervalTime() < os.time() - var_24_0
+		return slot0:GetIntervalTime() < os.time() - (slot0._gorupTimes[slot1] or 0)
 	end
 end
 
-function var_0_0.ShowWeakView(arg_25_0, arg_25_1, arg_25_2, arg_25_3)
-	arg_25_0.weakView:Init()
-	arg_25_0.weakView:UpdateView(arg_25_1, arg_25_2, arg_25_3)
+function slot0.ShowWeakView(slot0, slot1, slot2, slot3)
+	slot0.weakView:Init()
+	slot0.weakView:UpdateView(slot1, slot2, slot3)
 end
 
-return var_0_0
+return slot0

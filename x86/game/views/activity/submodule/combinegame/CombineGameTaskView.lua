@@ -1,149 +1,133 @@
-local var_0_0 = class("CombineGameTaskView", ReduxView)
+slot0 = class("CombineGameTaskView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaKf/IndiaKfRewardsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.SetItem), arg_4_0.listGo_, CombineGameTaskItem)
-	arg_4_0.rewardController = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "reward")
+	slot0.list = LuaList.New(handler(slot0, slot0.SetItem), slot0.listGo_, CombineGameTaskItem)
+	slot0.rewardController = ControllerUtil.GetController(slot0.gameObject_.transform, "reward")
 end
 
-function var_0_0.SetItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_1, arg_5_0.taskList[arg_5_1], arg_5_0.activityId)
+function slot0.SetItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.taskList[slot1], slot0.activityId)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.allGetBtn_, nil, function()
-		local var_7_0 = TaskTools:GetCanGetActivityTaskList(arg_6_0.activityId)
-
-		if #var_7_0 <= 0 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.allGetBtn_, nil, function ()
+		if #TaskTools:GetCanGetActivityTaskList(uv0.activityId) <= 0 then
 			return
 		end
 
-		local var_7_1 = {}
+		slot1 = {}
 
-		for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-			table.insert(var_7_1, iter_7_1.id)
+		for slot5, slot6 in ipairs(slot0) do
+			table.insert(slot1, slot6.id)
 		end
 
-		TaskAction:SubmitTaskList(var_7_1)
+		TaskAction:SubmitTaskList(slot1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.maskBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	local var_9_0 = CombineGameData:GetDataByPara("activityId")
-
-	if not ActivityData:GetActivityIsOpen(var_9_0) then
-		gameContext:Go("/home", nil, nil, true)
+function slot0.OnEnter(slot0)
+	if not ActivityData:GetActivityIsOpen(CombineGameData:GetDataByPara("activityId")) then
+		gameContext:Go("/home", nil, , true)
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	arg_9_0.activityId = ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_COMBINE_GAME_TASK
+	slot0.activityId = ActivityConst.SPRING_FESTIVAL_ACTIVITY_V2_COMBINE_GAME_TASK
 
-	arg_9_0:AddEventListeners()
-	arg_9_0:UpdateView()
+	slot0:AddEventListeners()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_10_0)
-	arg_10_0.taskList = {}
+function slot0.UpdateView(slot0)
+	slot0.taskList = {}
 
-	table.insertto(arg_10_0.taskList, AssignmentCfg.get_id_list_by_activity_id[arg_10_0.activityId], 1)
-	table.sort(arg_10_0.taskList, function(arg_11_0, arg_11_1)
-		local var_11_0 = arg_10_0:GetTaskStatus(arg_11_0)
-		local var_11_1 = arg_10_0:GetTaskStatus(arg_11_1)
-
-		if var_11_0 ~= var_11_1 then
-			return var_11_0 < var_11_1
+	table.insertto(slot0.taskList, AssignmentCfg.get_id_list_by_activity_id[slot0.activityId], 1)
+	table.sort(slot0.taskList, function (slot0, slot1)
+		if uv0:GetTaskStatus(slot0) ~= uv0:GetTaskStatus(slot1) then
+			return slot2 < slot3
 		end
 
-		local var_11_2 = AssignmentCfg[arg_11_0]
-		local var_11_3 = AssignmentCfg[arg_11_1]
-
-		if var_11_2.type ~= var_11_3.type then
-			return var_11_2.type < var_11_3.type
+		if AssignmentCfg[slot0].type ~= AssignmentCfg[slot1].type then
+			return slot4.type < slot5.type
 		end
 
-		return var_11_2.id < var_11_3.id
+		return slot4.id < slot5.id
 	end)
-	arg_10_0.list:StartScroll(#arg_10_0.taskList)
-
-	local var_10_0 = TaskTools:GetCanGetActivityTaskList(arg_10_0.activityId)
-
-	arg_10_0.rewardController:SetSelectedState(#var_10_0 > 0 and "true" or "false")
+	slot0.list:StartScroll(#slot0.taskList)
+	slot0.rewardController:SetSelectedState(#TaskTools:GetCanGetActivityTaskList(slot0.activityId) > 0 and "true" or "false")
 end
 
-function var_0_0.GetTaskStatus(arg_12_0, arg_12_1)
-	local var_12_0 = AssignmentCfg[arg_12_1]
-	local var_12_1 = TaskData2:GetTask(arg_12_1)
+function slot0.GetTaskStatus(slot0, slot1)
+	slot2 = AssignmentCfg[slot1]
 
-	if not var_12_1 then
+	if not TaskData2:GetTask(slot1) then
 		return 0
 	end
 
-	local var_12_2 = var_12_1.progress
+	slot4 = slot3.progress
 
-	if var_12_1 ~= nil and TaskData2:GetTaskComplete(arg_12_1) then
+	if slot3 ~= nil and TaskData2:GetTaskComplete(slot1) then
 		return 3
-	elseif var_12_2 >= var_12_0.need then
+	elseif slot2.need <= slot4 then
 		return 1
 	else
 		return 2
 	end
 end
 
-function var_0_0.BindRedPoint(arg_13_0)
-	return
+function slot0.BindRedPoint(slot0)
 end
 
-function var_0_0.UnbindRedPoint(arg_14_0)
-	return
+function slot0.UnbindRedPoint(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_15_0)
-	arg_15_0:RegistEventListener(OSIRIS_TASK_UPDATE, function()
-		arg_15_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, function ()
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.OnExit(arg_17_0)
-	arg_17_0:UnbindRedPoint()
-	arg_17_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:UnbindRedPoint()
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnTop(arg_18_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.Dispose(arg_19_0)
-	if arg_19_0.list then
-		arg_19_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_19_0.list = nil
+		slot0.list = nil
 	end
 
-	var_0_0.super.Dispose(arg_19_0)
-	Object.Destroy(arg_19_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

@@ -1,52 +1,48 @@
-local var_0_0 = class("VolumeMusicMainView", ReduxView)
+slot0 = class("VolumeMusicMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIDownUI/AthenaMusicGame/VolumeIIIDownMusicMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.pageIndex = 1
+	slot0.pageIndex = 1
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, VolumeMusicMainItem)
-	arg_4_0.lockController = ControllerUtil.GetController(arg_4_0.transform_, "lock")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, VolumeMusicMainItem)
+	slot0.lockController = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_rewardBtn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("VolumeMusicReward")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_settingBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_settingBtn, nil, function ()
 		JumpTools.OpenPageByJump("voumeMusicSetting")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_palyBtn, nil, function()
-		local var_8_0 = arg_5_0.musics[arg_5_0.pageIndex]
-		local var_8_1 = ActivityMusicCfg.get_id_list_by_activity_id[var_8_0]
-		local var_8_2 = MusicData:GetDifficultyIndex(var_8_0) + 1
+	slot0:AddBtnListener(slot0.m_palyBtn, nil, function ()
+		slot0 = uv0.musics[uv0.pageIndex]
 
-		MusicAction.Play(var_8_1[var_8_2])
+		MusicAction.Play(ActivityMusicCfg.get_id_list_by_activity_id[slot0][MusicData:GetDifficultyIndex(slot0) + 1])
 	end)
-	arg_5_0.m_scroller.onValueChanged:AddListener(function()
-		local var_9_0 = arg_5_0.list_:GetItemList()
-
-		for iter_9_0, iter_9_1 in pairs(var_9_0) do
-			iter_9_1:UpdateScale(arg_5_0.m_viewport)
+	slot0.m_scroller.onValueChanged:AddListener(function ()
+		for slot4, slot5 in pairs(uv0.list_:GetItemList()) do
+			slot5:UpdateScale(uv0.m_viewport)
 		end
 	end)
-	arg_5_0.list_:SetPageChangeHandler(handler(arg_5_0, arg_5_0.OnPageChange))
+	slot0.list_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
 end
 
-function var_0_0.OnTop(arg_10_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -55,117 +51,100 @@ function var_0_0.OnTop(arg_10_0)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_MUSIC_DESCRIBE")
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	local var_11_0 = SettingData:GetSoundSettingData()
-
-	if var_11_0 and var_11_0.music then
-		manager.audio:SetVolume("music", var_11_0.music / 100)
+function slot0.OnEnter(slot0)
+	if SettingData:GetSoundSettingData() and slot1.music then
+		manager.audio:SetVolume("music", slot1.music / 100)
 	end
 
-	arg_11_0.activity_id = arg_11_0.params_.activity_id
+	slot0.activity_id = slot0.params_.activity_id
+	slot0.musics = {}
 
-	local var_11_1 = ActivityCfg[arg_11_0.activity_id]
-
-	arg_11_0.musics = {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_1.sub_activity_list) do
-		if ActivityCfg[iter_11_1] and ActivityTemplateConst.ACTIVITY_MUSIC_GAME then
-			table.insert(arg_11_0.musics, iter_11_1)
+	for slot6, slot7 in ipairs(ActivityCfg[slot0.activity_id].sub_activity_list) do
+		if ActivityCfg[slot7] and ActivityTemplateConst.ACTIVITY_MUSIC_GAME then
+			table.insert(slot0.musics, slot7)
 		end
 	end
 
-	arg_11_0.pageIndex = MusicData:GetSelectIndex(arg_11_0.activity_id)
+	slot0.pageIndex = MusicData:GetSelectIndex(slot0.activity_id)
 
-	arg_11_0.list_:StartScroll(#arg_11_0.musics, arg_11_0.pageIndex, true, false)
-	arg_11_0.list_:SwitchToPage(arg_11_0.pageIndex)
-	arg_11_0:OnPageChange(arg_11_0.pageIndex)
-	arg_11_0:RefrenTime()
+	slot0.list_:StartScroll(#slot0.musics, slot0.pageIndex, true, false)
+	slot0.list_:SwitchToPage(slot0.pageIndex)
+	slot0:OnPageChange(slot0.pageIndex)
+	slot0:RefrenTime()
 
-	arg_11_0.timer = Timer.New(function()
-		arg_11_0:RefrenTime()
+	slot0.timer = Timer.New(function ()
+		uv0:RefrenTime()
 	end, 1, -1)
 
-	arg_11_0.timer:Start()
-	MusicAction.SetMusicRead(arg_11_0.activity_id)
-	manager.redPoint:bindUIandKey(arg_11_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.MUSIC_REWARD, arg_11_0.activity_id))
+	slot0.timer:Start()
+	MusicAction.SetMusicRead(slot0.activity_id)
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.MUSIC_REWARD, slot0.activity_id))
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_13_0.timer then
-		arg_13_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_13_0.timer = nil
+		slot0.timer = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_13_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.MUSIC_REWARD, arg_13_0.activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.MUSIC_REWARD, slot0.activity_id))
 end
 
-function var_0_0.RefrenTime(arg_14_0)
-	local var_14_0 = ActivityData:GetActivityData(arg_14_0.activity_id)
-
-	if var_14_0 and var_14_0:IsActivitying() then
-		arg_14_0.m_timeLab.text = manager.time:GetLostTimeStr(var_14_0.stopTime)
+function slot0.RefrenTime(slot0)
+	if ActivityData:GetActivityData(slot0.activity_id) and slot1:IsActivitying() then
+		slot0.m_timeLab.text = manager.time:GetLostTimeStr(slot1.stopTime)
 	else
-		arg_14_0.m_timeLab.text = GetTips("TIME_OVER")
+		slot0.m_timeLab.text = GetTips("TIME_OVER")
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_14_0.m_timeLab.transform)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_timeLab.transform)
 
-	local var_14_1 = arg_14_0.list_:GetItemList()
-
-	for iter_14_0, iter_14_1 in pairs(var_14_1) do
-		iter_14_1:RefrenTime()
+	for slot6, slot7 in pairs(slot0.list_:GetItemList()) do
+		slot7:RefrenTime()
 	end
 
-	local var_14_2 = arg_14_0.musics[arg_14_0.pageIndex]
-
-	if ActivityData:GetActivityIsOpen(var_14_2) then
-		arg_14_0.lockController:SetSelectedIndex(1)
+	if ActivityData:GetActivityIsOpen(slot0.musics[slot0.pageIndex]) then
+		slot0.lockController:SetSelectedIndex(1)
 	else
-		arg_14_0.lockController:SetSelectedIndex(0)
+		slot0.lockController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.IndexItem(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.musics[arg_15_1]
-
-	arg_15_2:SetData(var_15_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.musics[slot1])
 end
 
-function var_0_0.OnPageChange(arg_16_0, arg_16_1)
-	if arg_16_1 > #arg_16_0.musics then
-		arg_16_1 = #arg_16_0.musics
+function slot0.OnPageChange(slot0, slot1)
+	if slot1 > #slot0.musics then
+		slot1 = #slot0.musics
 	end
 
-	arg_16_0.pageIndex = arg_16_1
+	slot0.pageIndex = slot1
 
-	MusicData:SetSelectIndex(arg_16_0.pageIndex)
+	MusicData:SetSelectIndex(slot0.pageIndex)
 
-	local var_16_0 = arg_16_0.musics[arg_16_1]
-
-	if ActivityData:GetActivityIsOpen(var_16_0) then
-		arg_16_0.lockController:SetSelectedIndex(1)
+	if ActivityData:GetActivityIsOpen(slot0.musics[slot1]) then
+		slot0.lockController:SetSelectedIndex(1)
 	else
-		arg_16_0.lockController:SetSelectedIndex(0)
+		slot0.lockController:SetSelectedIndex(0)
 	end
 
-	arg_16_0:PlayBg()
+	slot0:PlayBg()
 end
 
-function var_0_0.PlayBg(arg_17_0)
-	local var_17_0 = arg_17_0.musics[arg_17_0.pageIndex]
-	local var_17_1 = ActivityMusicCfg.get_id_list_by_activity_id[var_17_0]
-	local var_17_2 = var_17_1[MusicData:GetDifficultyIndex(var_17_0) + 1] or var_17_1[1]
-	local var_17_3 = ActivityMusicCfg[var_17_2]
+function slot0.PlayBg(slot0)
+	slot1 = slot0.musics[slot0.pageIndex]
+	slot5 = ActivityMusicCfg[ActivityMusicCfg.get_id_list_by_activity_id[slot1][MusicData:GetDifficultyIndex(slot1) + 1] or slot2[1]]
 
-	manager.audio:PlayBGM(var_17_3.cueSheetName, var_17_3.cueName, var_17_3.awbFile)
+	manager.audio:PlayBGM(slot5.cueSheetName, slot5.cueName, slot5.awbFile)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0.list_:Dispose()
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	slot0.list_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

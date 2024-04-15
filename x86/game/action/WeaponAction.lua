@@ -1,146 +1,154 @@
-local var_0_0 = {
-	WeaponStr = function(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
+manager.notify:RegistListener(MATERIAL_INIT, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(HERO_DATA_INIT, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(PLAYER_LEVEL_UP, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(CURRENCY_UPDATE, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(MATERIAL_MODIFY, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(PLAYER_MODIFIED, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+manager.notify:RegistListener(WEAPON_DATA_MODIFY, function ()
+	uv0.UpdateWeaponBreakRedPoint()
+end)
+
+return {
+	WeaponStr = function (slot0, slot1, slot2, slot3)
 		manager.net:SendWithLoadingNew(46016, {
-			hero_id = arg_1_0,
-			material_list = arg_1_1,
-			servant_list = arg_1_2
-		}, 46017, function(arg_2_0, arg_2_1)
-			WeaponAction.OnWeaponStr(arg_2_0, arg_2_1, arg_1_3)
+			hero_id = slot0,
+			material_list = slot1,
+			servant_list = slot2
+		}, 46017, function (slot0, slot1)
+			WeaponAction.OnWeaponStr(slot0, slot1, uv0)
 		end)
 	end,
-	OnWeaponStr = function(arg_3_0, arg_3_1, arg_3_2)
-		if isSuccess(arg_3_0.result) then
-			WeaponAction.OnWeaponStrResponse(arg_3_0, arg_3_1, arg_3_2)
-			manager.notify:Invoke(WEAPON_STR, arg_3_0, arg_3_1)
-			manager.notify:Invoke(WEAPON_DATA_MODIFY, arg_3_1.hero_id)
+	OnWeaponStr = function (slot0, slot1, slot2)
+		if isSuccess(slot0.result) then
+			WeaponAction.OnWeaponStrResponse(slot0, slot1, slot2)
+			manager.notify:Invoke(WEAPON_STR, slot0, slot1)
+			manager.notify:Invoke(WEAPON_DATA_MODIFY, slot1.hero_id)
 		else
-			ShowTips(arg_3_0.result)
+			ShowTips(slot0.result)
 		end
 	end,
-	OnWeaponStrResponse = function(arg_4_0, arg_4_1, arg_4_2)
-		local var_4_0 = arg_4_1.hero_id
-		local var_4_1 = HeroData:GetHeroList()[var_4_0].weapon_info
-		local var_4_2, var_4_3, var_4_4 = WeaponTools.AddWeaponExp(var_4_1.exp, var_4_1.breakthrough, arg_4_2)
-		local var_4_5 = arg_4_2 - var_4_4
+	OnWeaponStrResponse = function (slot0, slot1, slot2)
+		slot4 = HeroData:GetHeroList()[slot1.hero_id].weapon_info
+		slot5, slot6, slot7 = WeaponTools.AddWeaponExp(slot4.exp, slot4.breakthrough, slot2)
 
-		HeroAction.WeaponStr(arg_4_1.hero_id, var_4_3, var_4_1.exp + var_4_5)
+		HeroAction.WeaponStr(slot1.hero_id, slot6, slot4.exp + slot2 - slot7)
 	end,
-	WeaponBreak = function(arg_5_0)
+	WeaponBreak = function (slot0)
 		manager.net:SendWithLoadingNew(46018, {
-			hero_id = arg_5_0
-		}, 46019, function(arg_6_0, arg_6_1)
-			WeaponAction.OnWeaponBreak(arg_6_0, arg_6_1)
+			hero_id = slot0
+		}, 46019, function (slot0, slot1)
+			WeaponAction.OnWeaponBreak(slot0, slot1)
 		end)
 	end,
-	OnWeaponBreak = function(arg_7_0, arg_7_1)
-		if isSuccess(arg_7_0.result) then
-			WeaponAction.OnWeaponBreakResponse(arg_7_0, arg_7_1)
-			manager.notify:Invoke(WEAPON_BREAK, arg_7_0, arg_7_1)
-			manager.notify:Invoke(WEAPON_DATA_MODIFY, arg_7_1.hero_id)
+	OnWeaponBreak = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			WeaponAction.OnWeaponBreakResponse(slot0, slot1)
+			manager.notify:Invoke(WEAPON_BREAK, slot0, slot1)
+			manager.notify:Invoke(WEAPON_DATA_MODIFY, slot1.hero_id)
 		else
-			ShowTips(arg_7_0.result)
+			ShowTips(slot0.result)
 		end
 	end,
-	OnWeaponBreakResponse = function(arg_8_0, arg_8_1)
-		local var_8_0 = arg_8_1.hero_id
-		local var_8_1 = HeroData:GetHeroList()[var_8_0].weapon_info
+	OnWeaponBreakResponse = function (slot0, slot1)
+		slot2 = slot1.hero_id
 
-		HeroAction.WeaponBreak(var_8_0, var_8_1.breakthrough + 1)
+		HeroAction.WeaponBreak(slot2, HeroData:GetHeroList()[slot2].weapon_info.breakthrough + 1)
 	end,
-	CheckLvUp = function(arg_9_0)
-		local var_9_0 = {}
-		local var_9_1 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-		local var_9_2 = deepClone(HeroData:GetHeroList()[arg_9_0].weapon_info)
-		local var_9_3 = GameSetting.weapon_exp_limit.value[var_9_2.breakthrough + 1]
+	CheckLvUp = function (slot0)
+		slot1 = {}
+		slot2 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
+		slot3 = deepClone(HeroData:GetHeroList()[slot0].weapon_info)
 
-		if var_9_3 <= var_9_2.level then
+		if GameSetting.weapon_exp_limit.value[slot3.breakthrough + 1] <= slot3.level then
 			return false
 		end
 
-		for iter_9_0, iter_9_1 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.MATERIAL]) do
-			local var_9_4 = ItemTools.getItemNum(iter_9_1)
+		for slot8, slot9 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.MATERIAL]) do
+			slot10 = ItemTools.getItemNum(slot9)
 
-			if ItemCfg[iter_9_1].sub_type == MaterialConst.MATERIAL_TYPE.WEAPON_LEVEL_UP and var_9_4 > 0 then
-				table.insert(var_9_0, {
+			if ItemCfg[slot9].sub_type == MaterialConst.MATERIAL_TYPE.WEAPON_LEVEL_UP and slot10 > 0 then
+				table.insert(slot1, {
 					index = 0,
 					select = 0,
 					type = ItemConst.ITEM_TYPE.MATERIAL,
-					id = iter_9_1,
-					number = var_9_4
+					id = slot9,
+					number = slot10
 				})
 			end
 		end
 
-		table.sort(var_9_0, function(arg_10_0, arg_10_1)
-			return ItemCfg[arg_10_0.id].rare < ItemCfg[arg_10_1.id].rare
+		table.sort(slot1, function (slot0, slot1)
+			return ItemCfg[slot0.id].rare < ItemCfg[slot1.id].rare
 		end)
 
-		local var_9_5 = GameLevelSetting[var_9_2.level + 1].weapon_lv_exp_sum - var_9_2.exp
-		local var_9_6 = var_9_5
+		slot6 = GameLevelSetting[slot3.level + 1].weapon_lv_exp_sum - slot3.exp
 
-		for iter_9_2 = #var_9_0, 1, -1 do
-			local var_9_7 = var_9_0[iter_9_2]
-			local var_9_8 = ItemCfg[var_9_7.id].param[1]
-			local var_9_9 = 0
+		for slot10 = #slot1, 1, -1 do
+			slot12 = ItemCfg[slot1[slot10].id].param[1]
+			slot13 = 0
 
-			while var_9_6 > 0 and var_9_9 < var_9_7.number do
-				var_9_6 = var_9_6 - var_9_8
-				var_9_9 = var_9_9 + 1
+			while slot6 > 0 and slot13 < slot11.number do
+				slot6 = slot6 - slot12
+				slot13 = slot13 + 1
 			end
 
-			if var_9_6 < 0 and iter_9_2 > 1 then
-				local var_9_10 = var_9_9 - 1
-
-				var_9_6 = var_9_6 + var_9_8
+			if slot6 < 0 and slot10 > 1 then
+				slot13 = slot13 - 1
+				slot6 = slot6 + slot12
 			end
 		end
 
-		if var_9_6 > 0 then
+		if slot6 > 0 then
 			return false
 		end
 
-		local var_9_11
+		slot7 = nil
 
-		if var_9_2.level + 1 == var_9_3 then
-			var_9_11 = var_9_5 * GameSetting.weapon_strengthen_gold_cost.value[1]
-		else
-			var_9_11 = (var_9_5 - var_9_6) * GameSetting.weapon_strengthen_gold_cost.value[1]
-		end
-
-		if var_9_1 < var_9_11 then
+		if slot2 < (slot3.level + 1 == slot4 and slot5 * GameSetting.weapon_strengthen_gold_cost.value[1] or (slot5 - slot6) * GameSetting.weapon_strengthen_gold_cost.value[1]) then
 			return false
 		end
 
 		return true
 	end,
-	CheckBreak = function(arg_11_0, arg_11_1)
-		local var_11_0 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
-		local var_11_1 = deepClone(HeroData:GetHeroList()[arg_11_0].weapon_info)
-		local var_11_2 = GameSetting.weapon_user_limit.value[var_11_1.breakthrough + 1]
-		local var_11_3 = PlayerData:GetPlayerInfo().userLevel
-		local var_11_4 = GameSetting.weapon_exp_limit.value[var_11_1.breakthrough + 1]
+	CheckBreak = function (slot0, slot1)
+		slot2 = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_GOLD)
+		slot3 = deepClone(HeroData:GetHeroList()[slot0].weapon_info)
+		slot4 = GameSetting.weapon_user_limit.value[slot3.breakthrough + 1]
+		slot5 = PlayerData:GetPlayerInfo().userLevel
 
-		if var_11_4 > var_11_1.level or var_11_4 == HeroConst.WEAPON_LV_MAX then
-			if arg_11_1 then
+		if slot3.level < GameSetting.weapon_exp_limit.value[slot3.breakthrough + 1] or slot6 == HeroConst.WEAPON_LV_MAX then
+			if slot1 then
 				ShowTips("ERROR_HERO_WEAPON_LEVEL_LIMIT")
 			end
 
 			return false
 		end
 
-		if var_11_3 < var_11_2 then
-			if arg_11_1 then
+		if slot5 < slot4 then
+			if slot1 then
 				ShowTips("ERROR_USER_LEVEL_LIMIT")
 			end
 
 			return false
 		end
 
-		local var_11_5, var_11_6 = WeaponTools.BreakMaterial(var_11_1.breakthrough)
+		slot7, slot8 = WeaponTools.BreakMaterial(slot3.breakthrough)
 
-		for iter_11_0, iter_11_1 in pairs(var_11_6) do
-			if ItemTools.getItemNum(iter_11_1[1]) < iter_11_1[2] then
-				if arg_11_1 then
+		for slot12, slot13 in pairs(slot8) do
+			if ItemTools.getItemNum(slot13[1]) < slot13[2] then
+				if slot1 then
 					ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
 				end
 
@@ -148,56 +156,27 @@ local var_0_0 = {
 			end
 		end
 
-		if var_11_0 < var_11_5 then
-			if arg_11_1 then
-				checkGold(var_11_5)
+		if slot2 < slot7 then
+			if slot1 then
+				checkGold(slot7)
 			end
 
 			return false
 		end
 
 		return true
-	end
-}
+	end,
+	UpdateWeaponBreakRedPoint = function ()
+		if not HeroData:GetHeroList() then
+			return
+		end
 
-manager.notify:RegistListener(MATERIAL_INIT, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(HERO_DATA_INIT, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(PLAYER_LEVEL_UP, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(CURRENCY_UPDATE, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(MATERIAL_MODIFY, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(PLAYER_MODIFIED, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-manager.notify:RegistListener(WEAPON_DATA_MODIFY, function()
-	var_0_0.UpdateWeaponBreakRedPoint()
-end)
-
-function var_0_0.UpdateWeaponBreakRedPoint()
-	local var_19_0 = HeroData:GetHeroList()
-
-	if not var_19_0 then
-		return
-	end
-
-	for iter_19_0, iter_19_1 in pairs(var_19_0) do
-		local var_19_1 = RedPointConst.HERO_WEAPON_BREAK_ID .. iter_19_0
-
-		if var_0_0.CheckBreak(iter_19_0, false) or var_0_0.CheckLvUp(iter_19_0) then
-			manager.redPoint:setTip(var_19_1, 1)
-		else
-			manager.redPoint:setTip(var_19_1, 0)
+		for slot4, slot5 in pairs(slot0) do
+			if uv0.CheckBreak(slot4, false) or uv0.CheckLvUp(slot4) then
+				manager.redPoint:setTip(RedPointConst.HERO_WEAPON_BREAK_ID .. slot4, 1)
+			else
+				manager.redPoint:setTip(slot6, 0)
+			end
 		end
 	end
-end
-
-return var_0_0
+}

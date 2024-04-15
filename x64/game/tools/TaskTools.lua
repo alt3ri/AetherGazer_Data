@@ -1,355 +1,278 @@
-local var_0_0 = {
-	GetTaskList = function(arg_1_0, arg_1_1, arg_1_2)
-		local var_1_0 = {}
+return {
+	GetTaskList = function (slot0, slot1, slot2)
+		slot3 = {}
 
-		for iter_1_0, iter_1_1 in pairs(arg_1_0) do
-			if AssignmentCfg[iter_1_1.id] == nil then
-				print("没有对应的任务ID:", iter_1_1.id)
-			elseif AssignmentCfg[iter_1_1.id].type == arg_1_1 then
-				if arg_1_2 then
-					if AssignmentCfg[iter_1_1.id].phase == arg_1_2 then
-						table.insert(var_1_0, iter_1_1.id)
+		for slot7, slot8 in pairs(slot0) do
+			if AssignmentCfg[slot8.id] == nil then
+				print("没有对应的任务ID:", slot8.id)
+			elseif AssignmentCfg[slot8.id].type == slot1 then
+				if slot2 then
+					if AssignmentCfg[slot8.id].phase == slot2 then
+						table.insert(slot3, slot8.id)
 					end
 				else
-					table.insert(var_1_0, iter_1_1.id)
+					table.insert(slot3, slot8.id)
 				end
 			end
 		end
 
-		table.sort(var_1_0)
+		table.sort(slot3)
 
-		return var_1_0
+		return slot3
 	end,
-	ActivityPtCanReceive = function(arg_2_0, arg_2_1)
-		return ActivityPtCfg[arg_2_0].target[arg_2_1] <= ActivityPtData:GetCurrentActivityPt(arg_2_0)
+	ActivityPtCanReceive = function (slot0, slot1)
+		return ActivityPtCfg[slot0].target[slot1] <= ActivityPtData:GetCurrentActivityPt(slot0)
 	end,
-	ActivityPtIsReceived = function(arg_3_0, arg_3_1)
-		local var_3_0 = ActivityPtCfg[arg_3_0]
-
-		if ActivityPtData:GetDailyGetRewardList()[arg_3_0][var_3_0.target[arg_3_1]] then
+	ActivityPtIsReceived = function (slot0, slot1)
+		if ActivityPtData:GetDailyGetRewardList()[slot0][ActivityPtCfg[slot0].target[slot1]] then
 			return true
 		end
 
 		return false
 	end,
-	GetCanGetActivityTaskList = function(arg_4_0, arg_4_1)
-		local var_4_0 = TaskData2:GetTaskIDListByActivity(arg_4_1)
-		local var_4_1 = {}
+	GetCanGetActivityTaskList = function (slot0, slot1)
+		slot3 = {}
 
-		for iter_4_0, iter_4_1 in pairs(var_4_0) do
-			if iter_4_0 then
-				local var_4_2 = TaskData2:GetTask(iter_4_0)
+		for slot7, slot8 in pairs(TaskData2:GetTaskIDListByActivity(slot1)) do
+			if slot7 and TaskData2:GetTask(slot7) then
+				if not TaskData2:GetTaskComplete(slot7) and AssignmentCfg[slot7].need <= slot9.progress then
+					table.insert(slot3, slot9)
+				end
+			end
+		end
 
-				if var_4_2 then
-					local var_4_3 = AssignmentCfg[iter_4_0]
-					local var_4_4 = var_4_2.progress
+		return slot3
+	end,
+	GetActivityTaskList = function (slot0, slot1)
+		for slot7, slot8 in pairs(TaskData2:GetActivityTaskSortList(slot1)) do
+			if slot8 then
+				-- Nothing
+			end
+		end
 
-					if not TaskData2:GetTaskComplete(iter_4_0) and var_4_4 >= var_4_3.need then
-						table.insert(var_4_1, var_4_2)
+		return {
+			[slot8.id] = slot8
+		}
+	end,
+	GetAllCanReciveTaskByActivityID = function (slot0, slot1, slot2)
+		if slot1 then
+			slot3 = {}
+
+			for slot8, slot9 in pairs(uv0:GetActivityTaskList(slot1)) do
+				if slot9 then
+					if AssignmentCfg[slot8].need <= TaskData2:GetTaskProgress(slot8) and not TaskData2:GetTaskComplete(slot8) then
+						table.insert(slot3, slot8)
 					end
 				end
 			end
-		end
 
-		return var_4_1
+			if next(slot3) then
+				TaskAction:SubmitTaskList(slot3)
+			end
+
+			if slot2 then
+				slot2()
+			end
+		end
 	end,
-	GetActivityTaskList = function(arg_5_0, arg_5_1)
-		local var_5_0 = TaskData2:GetActivityTaskSortList(arg_5_1)
-		local var_5_1 = {}
+	GetFinishTaskIds = function (slot0, slot1, slot2)
+		slot3 = manager.time:GetServerTime()
 
-		for iter_5_0, iter_5_1 in pairs(var_5_0) do
-			if iter_5_1 then
-				var_5_1[iter_5_1.id] = iter_5_1
+		return slot0:GetTaskListByPredict(slot1, slot2, function (slot0)
+			if AssignmentCfg[slot0].need <= TaskData2:GetTask(slot0).progress and slot2.complete_flag == 0 and (slot2.expired_timestamp == 0 or uv0 <= slot2.expired_timestamp) then
+				return true
 			end
-		end
 
-		return var_5_1
-	end
-}
+			return false
+		end)
+	end,
+	GetTaskListByPredict = function (slot0, slot1, slot2, slot3)
+		slot4 = {}
 
-function var_0_0.GetAllCanReciveTaskByActivityID(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_1 then
-		local var_6_0 = {}
-		local var_6_1 = var_0_0:GetActivityTaskList(arg_6_1)
-
-		for iter_6_0, iter_6_1 in pairs(var_6_1) do
-			if iter_6_1 then
-				local var_6_2 = TaskData2:GetTaskComplete(iter_6_0)
-
-				if TaskData2:GetTaskProgress(iter_6_0) >= AssignmentCfg[iter_6_0].need and not var_6_2 then
-					table.insert(var_6_0, iter_6_0)
-				end
-			end
-		end
-
-		if next(var_6_0) then
-			TaskAction:SubmitTaskList(var_6_0)
-		end
-
-		if arg_6_2 then
-			arg_6_2()
-		end
-	end
-end
-
-function var_0_0.GetFinishTaskIds(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = manager.time:GetServerTime()
-
-	local function var_7_1(arg_8_0)
-		local var_8_0 = AssignmentCfg[arg_8_0]
-		local var_8_1 = TaskData2:GetTask(arg_8_0)
-
-		if var_8_1.progress >= var_8_0.need and var_8_1.complete_flag == 0 and (var_8_1.expired_timestamp == 0 or var_8_1.expired_timestamp >= var_7_0) then
-			return true
-		end
-
-		return false
-	end
-
-	return (arg_7_0:GetTaskListByPredict(arg_7_1, arg_7_2, var_7_1))
-end
-
-function var_0_0.GetTaskListByPredict(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	local var_9_0 = {}
-
-	if arg_9_1 then
-		local var_9_1 = TaskData2:GetTaskIDListByType(arg_9_1)
-
-		if var_9_1 then
-			for iter_9_0, iter_9_1 in pairs(var_9_1) do
-				local var_9_2 = AssignmentCfg[iter_9_0]
-
-				if var_9_2 == nil then
-					print("没有对应的任务ID:", iter_9_0)
+		if slot1 and TaskData2:GetTaskIDListByType(slot1) then
+			for slot9, slot10 in pairs(slot5) do
+				if AssignmentCfg[slot9] == nil then
+					print("没有对应的任务ID:", slot9)
 
 					break
 				end
 
-				local var_9_3
+				slot12 = nil
 
-				if arg_9_2 then
-					if var_9_2.phase == arg_9_2 then
-						var_9_3 = iter_9_0
+				if slot2 then
+					if slot11.phase == slot2 then
+						slot12 = slot9
 					end
 				else
-					var_9_3 = iter_9_0
+					slot12 = slot9
 				end
 
-				if var_9_3 then
-					if arg_9_3 then
-						if arg_9_3(var_9_3) then
-							table.insert(var_9_0, var_9_3)
+				if slot12 then
+					if slot3 then
+						if slot3(slot12) then
+							table.insert(slot4, slot12)
 						end
 					else
-						table.insert(var_9_0, var_9_3)
+						table.insert(slot4, slot12)
 					end
 				end
 			end
 		end
-	end
 
-	return var_9_0
-end
-
-function var_0_0.GetTaskCountByType(arg_10_0, arg_10_1)
-	local var_10_0 = TaskData2:GetTypedTaskSortList(arg_10_1)
-	local var_10_1 = 0
-
-	for iter_10_0, iter_10_1 in pairs(var_10_0) do
-		if iter_10_1 and TaskData2:GetTask(iter_10_1.id) then
-			var_10_1 = var_10_1 + 1
-		end
-	end
-
-	return var_10_1
-end
-
-function var_0_0.GetPlotPhaseID(arg_11_0)
-	arg_11_0:GetTaskCountByType(TaskConst.TASK_TYPE.PLOT)
-
-	local var_11_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.PLOT)
-
-	for iter_11_0, iter_11_1 in pairs(var_11_0) do
-		if iter_11_0 and TaskData2:GetTask(iter_11_0) then
-			local var_11_1 = AssignmentCfg[iter_11_0]
-
-			if var_11_1.condition == GameSetting.task_top_type.value[1] and var_11_1.type == TaskConst.TASK_TYPE.PLOT and TaskData2:GetPlotPhase() <= var_11_1.phase then
-				return iter_11_0
+		return slot4
+	end,
+	GetTaskCountByType = function (slot0, slot1)
+		for slot7, slot8 in pairs(TaskData2:GetTypedTaskSortList(slot1)) do
+			if slot8 and TaskData2:GetTask(slot8.id) then
+				slot3 = 0 + 1
 			end
 		end
-	end
-end
 
-function var_0_0.GetNewbiePhaseTask(arg_12_0)
-	local var_12_0 = {}
-	local var_12_1 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.ALPHA)
+		return slot3
+	end,
+	GetPlotPhaseID = function (slot0)
+		slot0:GetTaskCountByType(TaskConst.TASK_TYPE.PLOT)
 
-	for iter_12_0, iter_12_1 in pairs(var_12_1) do
-		local var_12_2 = TaskData2:GetTask(iter_12_0)
-
-		if iter_12_0 and var_12_2 then
-			local var_12_3 = AssignmentCfg[iter_12_0]
-
-			if var_12_3.condition == TaskConst.STAGE_TASK_ID and var_12_3.additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
-				var_12_0[var_12_3.phase] = var_12_2
+		for slot5, slot6 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.PLOT)) do
+			if slot5 and TaskData2:GetTask(slot5) and AssignmentCfg[slot5].condition == GameSetting.task_top_type.value[1] and slot7.type == TaskConst.TASK_TYPE.PLOT and TaskData2:GetPlotPhase() <= slot7.phase then
+				return slot5
 			end
 		end
-	end
-
-	return var_12_0
-end
-
-function var_0_0.GetNoobPhaseTask(arg_13_0, arg_13_1)
-	local var_13_0 = {}
-	local var_13_1 = TaskData2:GetTaskIDListByType(arg_13_1)
-
-	for iter_13_0, iter_13_1 in pairs(var_13_1) do
-		local var_13_2 = TaskData2:GetTask(iter_13_0)
-
-		if iter_13_1 and var_13_2 then
-			local var_13_3 = AssignmentCfg[iter_13_0]
-
-			var_13_0[var_13_3.phase] = var_13_0[var_13_3.phase] or {}
-			var_13_0[var_13_3.phase][iter_13_0] = var_13_2
-		end
-	end
-
-	return var_13_0
-end
-
-function var_0_0.GetNoobReadyList(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = {}
-	local var_14_1 = TaskTools:GetNoobTaskSortList(arg_14_1, arg_14_2)
-
-	for iter_14_0, iter_14_1 in pairs(var_14_1) do
-		local var_14_2 = AssignmentCfg[iter_14_1.id]
-
-		if ActivityNoobData:GetUnlockPhase() >= var_14_2.phase and iter_14_1.progress >= var_14_2.need and iter_14_1.complete_flag < 1 then
-			table.insert(var_14_0, iter_14_1.id)
-		end
-	end
-
-	return var_14_0
-end
-
-function var_0_0.GetNoobCompletedList(arg_15_0, arg_15_1)
-	local var_15_0 = {}
-	local var_15_1 = TaskData2:GetTaskIDListByType(arg_15_1)
-
-	for iter_15_0, iter_15_1 in pairs(var_15_1) do
-		local var_15_2 = TaskData2:GetTask(iter_15_0)
-
-		if iter_15_1 and var_15_2 then
-			local var_15_3 = AssignmentCfg[iter_15_0]
-
-			if var_15_2.complete_flag >= 1 then
-				var_15_0[var_15_3.phase] = (var_15_0[var_15_3.phase] or 0) + 1
+	end,
+	GetNewbiePhaseTask = function (slot0)
+		for slot6, slot7 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.ALPHA)) do
+			if slot6 and TaskData2:GetTask(slot6) and AssignmentCfg[slot6].condition == TaskConst.STAGE_TASK_ID and slot9.additional_parameter[1] == TaskConst.TASK_TYPE.ALPHA then
+				-- Nothing
 			end
 		end
-	end
 
-	return var_15_0
-end
+		return {
+			[slot9.phase] = slot8
+		}
+	end,
+	GetNoobPhaseTask = function (slot0, slot1)
+		slot2 = {}
 
-function var_0_0.IsCompletedAllNoobAdvanceTask(arg_16_0, arg_16_1)
-	local var_16_0 = TaskData2:GetTaskIDListByType(arg_16_1)
+		for slot7, slot8 in pairs(TaskData2:GetTaskIDListByType(slot1)) do
+			slot9 = TaskData2:GetTask(slot7)
 
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		local var_16_1 = TaskData2:GetTask(iter_16_0)
-
-		if iter_16_1 and var_16_1 and (AssignmentCfg[iter_16_0].need > var_16_1.progress or var_16_1.complete_flag == 0) then
-			return false
-		end
-	end
-
-	return true
-end
-
-function var_0_0.GetNewbieDailyTaskFinishCnt(arg_17_0)
-	local var_17_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.DAILY_OFFER)
-	local var_17_1 = 0
-
-	for iter_17_0, iter_17_1 in pairs(var_17_0) do
-		local var_17_2 = TaskData2:GetTask(iter_17_0)
-
-		if iter_17_1 and var_17_2 and var_17_2.complete_flag == 1 then
-			local var_17_3 = AssignmentCfg[iter_17_0]
-
-			var_17_1 = var_17_1 + 1
-		end
-	end
-
-	return var_17_1
-end
-
-function var_0_0.GetTaskIDList(arg_18_0, arg_18_1)
-	local var_18_0 = TaskData2:GetTaskIDListByType(arg_18_1)
-	local var_18_1 = {}
-
-	for iter_18_0, iter_18_1 in pairs(var_18_0) do
-		if iter_18_1 and TaskData2:GetTask(iter_18_0) then
-			table.insert(var_18_1, iter_18_0)
-		end
-	end
-
-	return var_18_1
-end
-
-function var_0_0.GetNoobAdvanceTaskSortList(arg_19_0, arg_19_1, arg_19_2)
-	return TaskData2:GetSortedPhaseTaskList(arg_19_1, arg_19_2)
-end
-
-function var_0_0.GetNoobTaskSortList(arg_20_0, arg_20_1, arg_20_2)
-	return TaskData2:GetSortedPhaseTaskList(arg_20_1, arg_20_2)
-end
-
-function var_0_0.GetNewbieTaskSortList(arg_21_0, arg_21_1)
-	return TaskData2:GetSortedPhaseTaskList(TaskConst.TASK_TYPE.ALPHA, arg_21_1)
-end
-
-function var_0_0.GetIdolTraineeTaskSortList(arg_22_0)
-	local var_22_0 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY)
-	local var_22_1 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY)
-	local var_22_2 = {}
-
-	for iter_22_0, iter_22_1 in pairs(var_22_0) do
-		table.insert(var_22_2, iter_22_0)
-	end
-
-	for iter_22_2, iter_22_3 in pairs(var_22_1) do
-		table.insert(var_22_2, iter_22_2)
-	end
-
-	table.sort(var_22_2, function(arg_23_0, arg_23_1)
-		local var_23_0 = TaskData2:GetTaskComplete(arg_23_0)
-		local var_23_1 = TaskData2:GetTaskComplete(arg_23_1)
-		local var_23_2 = TaskData2:GetTaskProgress(arg_23_0) >= AssignmentCfg[arg_23_0].need
-		local var_23_3 = TaskData2:GetTaskProgress(arg_23_1) >= AssignmentCfg[arg_23_1].need
-
-		if var_23_0 ~= var_23_1 then
-			return var_23_1
+			if slot8 and slot9 then
+				slot10 = AssignmentCfg[slot7]
+				slot2[slot10.phase] = slot2[slot10.phase] or {}
+				slot2[slot10.phase][slot7] = slot9
+			end
 		end
 
-		if var_23_2 ~= var_23_3 then
-			return var_23_2
+		return slot2
+	end,
+	GetNoobReadyList = function (slot0, slot1, slot2)
+		slot3 = {}
+		slot8 = slot2
+
+		for slot8, slot9 in pairs(TaskTools:GetNoobTaskSortList(slot1, slot8)) do
+			if AssignmentCfg[slot9.id].phase <= ActivityNoobData:GetUnlockPhase() and slot10.need <= slot9.progress and slot9.complete_flag < 1 then
+				table.insert(slot3, slot9.id)
+			end
 		end
 
-		return arg_23_0 < arg_23_1
-	end)
+		return slot3
+	end,
+	GetNoobCompletedList = function (slot0, slot1)
+		slot2 = {}
 
-	return var_22_2
-end
+		for slot7, slot8 in pairs(TaskData2:GetTaskIDListByType(slot1)) do
+			slot9 = TaskData2:GetTask(slot7)
 
-function var_0_0.ShowActivityTaskPop(arg_24_0, arg_24_1)
-	JumpTools.OpenPageByJump("commonTaskPop", {
-		activityId = arg_24_1
-	})
-end
+			if slot8 and slot9 then
+				slot10 = AssignmentCfg[slot7]
 
-function var_0_0.ShowTypeTaskPop(arg_25_0, arg_25_1)
-	JumpTools.OpenPageByJump("commonTaskPop", {
-		taskType = arg_25_1
-	})
-end
+				if slot9.complete_flag >= 1 then
+					slot2[slot10.phase] = (slot2[slot10.phase] or 0) + 1
+				end
+			end
+		end
 
-return var_0_0
+		return slot2
+	end,
+	IsCompletedAllNoobAdvanceTask = function (slot0, slot1)
+		for slot6, slot7 in pairs(TaskData2:GetTaskIDListByType(slot1)) do
+			slot8 = TaskData2:GetTask(slot6)
+
+			if slot7 and slot8 and (slot8.progress < AssignmentCfg[slot6].need or slot8.complete_flag == 0) then
+				return false
+			end
+		end
+
+		return true
+	end,
+	GetNewbieDailyTaskFinishCnt = function (slot0)
+		for slot6, slot7 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.DAILY_OFFER)) do
+			slot8 = TaskData2:GetTask(slot6)
+
+			if slot7 and slot8 and slot8.complete_flag == 1 then
+				slot9 = AssignmentCfg[slot6]
+				slot2 = 0 + 1
+			end
+		end
+
+		return slot2
+	end,
+	GetTaskIDList = function (slot0, slot1)
+		slot3 = {}
+
+		for slot7, slot8 in pairs(TaskData2:GetTaskIDListByType(slot1)) do
+			if slot8 and TaskData2:GetTask(slot7) then
+				table.insert(slot3, slot7)
+			end
+		end
+
+		return slot3
+	end,
+	GetNoobAdvanceTaskSortList = function (slot0, slot1, slot2)
+		return TaskData2:GetSortedPhaseTaskList(slot1, slot2)
+	end,
+	GetNoobTaskSortList = function (slot0, slot1, slot2)
+		return TaskData2:GetSortedPhaseTaskList(slot1, slot2)
+	end,
+	GetNewbieTaskSortList = function (slot0, slot1)
+		return TaskData2:GetSortedPhaseTaskList(TaskConst.TASK_TYPE.ALPHA, slot1)
+	end,
+	GetIdolTraineeTaskSortList = function (slot0)
+		slot2 = TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.IDOL_TRAINEE_WEEKLY)
+
+		for slot7, slot8 in pairs(TaskData2:GetTaskIDListByType(TaskConst.TASK_TYPE.IDOL_TRAINEE_DAILY)) do
+			table.insert({}, slot7)
+		end
+
+		for slot7, slot8 in pairs(slot2) do
+			table.insert(slot3, slot7)
+		end
+
+		table.sort(slot3, function (slot0, slot1)
+			slot4 = AssignmentCfg[slot0].need <= TaskData2:GetTaskProgress(slot0)
+			slot5 = AssignmentCfg[slot1].need <= TaskData2:GetTaskProgress(slot1)
+
+			if TaskData2:GetTaskComplete(slot0) ~= TaskData2:GetTaskComplete(slot1) then
+				return slot3
+			end
+
+			if slot4 ~= slot5 then
+				return slot4
+			end
+
+			return slot0 < slot1
+		end)
+
+		return slot3
+	end,
+	ShowActivityTaskPop = function (slot0, slot1)
+		JumpTools.OpenPageByJump("commonTaskPop", {
+			activityId = slot1
+		})
+	end,
+	ShowTypeTaskPop = function (slot0, slot1)
+		JumpTools.OpenPageByJump("commonTaskPop", {
+			taskType = slot1
+		})
+	end
+}

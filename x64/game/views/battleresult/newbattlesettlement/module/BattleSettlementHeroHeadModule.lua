@@ -1,110 +1,101 @@
-local var_0_0 = class("BattleSettlementHeroHeadModule", ReduxView)
+slot0 = class("BattleSettlementHeroHeadModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.BuildContext(arg_2_0)
-	arg_2_0.levelUpTween = nil
-	arg_2_0.heroData = nil
+function slot0.BuildContext(slot0)
+	slot0.levelUpTween = nil
+	slot0.heroData = nil
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:BuildContext()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
 end
 
-function var_0_0.ShowCaptain(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.captainObj_, arg_4_1)
+function slot0.ShowCaptain(slot0, slot1)
+	SetActive(slot0.captainObj_, slot1)
 end
 
-function var_0_0.SetHeroData(arg_5_0, arg_5_1)
-	arg_5_0.heroData = arg_5_1
+function slot0.SetHeroData(slot0, slot1)
+	slot0.heroData = slot1
 
-	if not arg_5_1 then
-		SetActive(arg_5_0.heroNoneObj_, true)
-		SetActive(arg_5_0.heroHeadObj_, false)
+	if not slot1 then
+		SetActive(slot0.heroNoneObj_, true)
+		SetActive(slot0.heroHeadObj_, false)
 
 		return
 	else
-		SetActive(arg_5_0.heroNoneObj_, false)
-		SetActive(arg_5_0.heroHeadObj_, true)
+		SetActive(slot0.heroNoneObj_, false)
+		SetActive(slot0.heroHeadObj_, true)
 	end
 
-	local var_5_0 = arg_5_1.id
-	local var_5_1 = arg_5_1.using_skin
-	local var_5_2 = (arg_5_1.star or 0) / 100
-
-	arg_5_0:SetHeroCfgData(var_5_0, var_5_1, var_5_2)
+	slot0:SetHeroCfgData(slot1.id, slot1.using_skin, (slot1.star or 0) / 100)
 end
 
-function var_0_0.SetHeroLevelData(arg_6_0, arg_6_1)
-	local var_6_0, var_6_1 = math.modf(arg_6_1)
+function slot0.SetHeroLevelData(slot0, slot1)
+	slot2, slot3 = math.modf(slot1)
 
-	if LvTools.GetIsMaxLv(var_6_0, "hero") then
-		arg_6_0:ShowLevel(var_6_0, 1)
+	if LvTools.GetIsMaxLv(slot2, "hero") then
+		slot0:ShowLevel(slot2, 1)
 	else
-		arg_6_0:ShowLevel(var_6_0, var_6_1)
+		slot0:ShowLevel(slot2, slot3)
 	end
 end
 
-function var_0_0.ShowLevel(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.levelText_.text = tostring(arg_7_1 or 1)
-	arg_7_0.expSlider_.value = arg_7_2
+function slot0.ShowLevel(slot0, slot1, slot2)
+	slot0.levelText_.text = tostring(slot1 or 1)
+	slot0.expSlider_.value = slot2
 end
 
-function var_0_0.PlayLevelUpTween(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	arg_8_0:StopTween()
+function slot0.PlayLevelUpTween(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:StopTween()
 
-	arg_8_0.levelUpTween = LeanTween.value(arg_8_0.gameObject_, arg_8_1 + arg_8_3, arg_8_2 + arg_8_4, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function(arg_9_0)
-		arg_8_0:SetHeroLevelData(arg_9_0)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		arg_8_0:StopTween()
+	slot0.levelUpTween = LeanTween.value(slot0.gameObject_, slot1 + slot3, slot2 + slot4, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0:SetHeroLevelData(slot0)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		uv0:StopTween()
 	end))
 end
 
-function var_0_0.RenderContentView(arg_11_0, arg_11_1)
-	return
+function slot0.RenderContentView(slot0, slot1)
 end
 
-function var_0_0.StopTween(arg_12_0)
-	if not isNil(arg_12_0.levelUpTween) then
-		arg_12_0.levelUpTween:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_12_0.gameObject_)
+function slot0.StopTween(slot0)
+	if not isNil(slot0.levelUpTween) then
+		slot0.levelUpTween:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.gameObject_)
 
-		arg_12_0.levelUpTween = nil
+		slot0.levelUpTween = nil
 	end
 end
 
-function var_0_0.SetHeroCfgData(arg_13_0, arg_13_1, arg_13_2, arg_13_3)
-	local var_13_0 = HeroCfg[arg_13_1]
+function slot0.SetHeroCfgData(slot0, slot1, slot2, slot3)
+	slot0.heroCfg_ = HeroCfg[slot1]
+	slot0.campLogo_.sprite = HeroTools.GetHeroRaceIcon(slot1)
 
-	arg_13_0.heroCfg_ = var_13_0
-	arg_13_0.campLogo_.sprite = HeroTools.GetHeroRaceIcon(arg_13_1)
-
-	if arg_13_3 == 0 then
-		arg_13_0.rareImg_.sprite = HeroTools.GetRareSprite(math.floor(var_13_0.rare or 0))
+	if slot3 == 0 then
+		slot0.rareImg_.sprite = HeroTools.GetRareSprite(math.floor(slot4.rare or 0))
 	else
-		arg_13_0.rareImg_.sprite = HeroTools.GetRareSprite(math.floor(arg_13_3))
+		slot0.rareImg_.sprite = HeroTools.GetRareSprite(math.floor(slot3))
 	end
 
-	arg_13_0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_13_1)
+	slot0.attackType_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot1)
 
-	if arg_13_2 then
-		local var_13_1 = SkinCfg[arg_13_2]
+	if slot2 then
+		slot0.headIcon_.sprite = HeroTools.GetHeadSprite(SkinCfg[slot2].picture_id)
 
-		arg_13_0.headIcon_.sprite = HeroTools.GetHeadSprite(var_13_1.picture_id)
-
-		arg_13_0.headIcon_:SetNativeSize()
+		slot0.headIcon_:SetNativeSize()
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:StopTween()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0:StopTween()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

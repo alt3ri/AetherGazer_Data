@@ -1,68 +1,58 @@
-local var_0_0 = class("DailySectionInfoView", import("..SectionInfoMultipleBaseView"))
+slot0 = class("DailySectionInfoView", import("..SectionInfoMultipleBaseView"))
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
-	arg_1_0.hideStageDescController_:SetSelectedState("false")
-	arg_1_0.hideDropPanelController_:SetSelectedState("false")
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.hideStageDescController_:SetSelectedState("false")
+	slot0.hideDropPanelController_:SetSelectedState("false")
 end
 
-function var_0_0.OnClickBtn(arg_2_0)
-	local var_2_0 = arg_2_0.stageID_
-
-	arg_2_0:Go("/sectionSelectHero", {
-		section = var_2_0,
-		multiple = arg_2_0.multiple_,
+function slot0.OnClickBtn(slot0)
+	slot0:Go("/sectionSelectHero", {
+		section = slot0.stageID_,
+		multiple = slot0.multiple_,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY
 	})
 end
 
-function var_0_0.RefreshData(arg_3_0)
-	local var_3_0 = BattleDailyStageCfg[arg_3_0.stageID_]
+function slot0.RefreshData(slot0)
+	slot1 = BattleDailyStageCfg[slot0.stageID_]
+	slot0.cost_ = slot1.cost
+	slot0.dropLibID_ = slot1.drop_lib_id
+	slot0.isFirstClear_ = false
 
-	arg_3_0.cost_ = var_3_0.cost
-	arg_3_0.dropLibID_ = var_3_0.drop_lib_id
-	arg_3_0.isFirstClear_ = false
-
-	arg_3_0:RefreshLock()
-	var_0_0.super.RefreshData(arg_3_0)
+	slot0:RefreshLock()
+	uv0.super.RefreshData(slot0)
 end
 
-function var_0_0.RefreshLock(arg_4_0)
-	local var_4_0 = BattleDailyStageCfg[arg_4_0.stageID_]
-	local var_4_1 = getChapterAndSectionID(arg_4_0.stageID_)
+function slot0.RefreshLock(slot0)
+	BattleFieldData:SetCacheStage(getChapterAndSectionID(slot0.stageID_), slot0.stageID_)
 
-	BattleFieldData:SetCacheStage(var_4_1, arg_4_0.stageID_)
+	slot0.lock_ = PlayerData:GetPlayerInfo().userLevel < BattleDailyStageCfg[slot0.stageID_].level
+	slot0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot1.level)
 
-	arg_4_0.lock_ = PlayerData:GetPlayerInfo().userLevel < var_4_0.level
-	arg_4_0.lockTips_ = string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_4_0.level)
-
-	if arg_4_0.lock_ then
+	if slot0.lock_ then
 		return
 	end
 
-	local var_4_2 = BattleStageData:GetStageData()
+	slot3 = BattleStageData:GetStageData()
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0.pre_unlock_id_list or {}) do
-		if var_4_2[iter_4_1] == nil or var_4_2[iter_4_1] and var_4_2[iter_4_1].clear_times <= 0 then
-			arg_4_0.lock_ = true
-
-			local var_4_3, var_4_4 = BattleStageTools.GetChapterSectionIndex(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY, iter_4_1)
-
-			arg_4_0.lockTips_ = string.format(GetTips("ACTIVITY_RACE_UNLOCK"), string.format("%s-%s", GetI18NText(var_4_3), GetI18NText(var_4_4)))
+	for slot7, slot8 in pairs(slot1.pre_unlock_id_list or {}) do
+		if slot3[slot8] == nil or slot3[slot8] and slot3[slot8].clear_times <= 0 then
+			slot0.lock_ = true
+			slot9, slot10 = BattleStageTools.GetChapterSectionIndex(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY, slot8)
+			slot0.lockTips_ = string.format(GetTips("ACTIVITY_RACE_UNLOCK"), string.format("%s-%s", GetI18NText(slot9), GetI18NText(slot10)))
 
 			return
 		end
 	end
 
-	arg_4_0.lock_ = false
+	slot0.lock_ = false
 end
 
-function var_0_0.RefreshStageInfo(arg_5_0)
-	var_0_0.super.RefreshStageInfo(arg_5_0)
+function slot0.RefreshStageInfo(slot0)
+	uv0.super.RefreshStageInfo(slot0)
 
-	local var_5_0 = BattleStageTools.GetStageCfg(arg_5_0.stageType_, arg_5_0.stageID_)
-
-	arg_5_0.storyText_.text = GetI18NText(var_5_0.tips)
+	slot0.storyText_.text = GetI18NText(BattleStageTools.GetStageCfg(slot0.stageType_, slot0.stageID_).tips)
 end
 
-return var_0_0
+return slot0

@@ -1,38 +1,38 @@
-local var_0_0 = class("ActivityNewServerSwitchItem", ReduxView)
+slot0 = class("ActivityNewServerSwitchItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickHandler_ then
-			arg_4_0.clickHandler_(arg_4_0.index_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandler_ then
+			uv0.clickHandler_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.SetClickCallBack(arg_6_0, arg_6_1)
-	arg_6_0.clickHandler_ = arg_6_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-function var_0_0.RefreshSelect(arg_7_0, arg_7_1)
-	arg_7_0.selectController_:SetSelectedState(tostring(arg_7_0.index_ == arg_7_1))
+function slot0.RefreshSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedState(tostring(slot0.index_ == slot1))
 end
 
-return var_0_0
+return slot0

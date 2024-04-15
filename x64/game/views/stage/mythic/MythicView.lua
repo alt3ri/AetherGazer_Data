@@ -1,115 +1,104 @@
-local var_0_0 = class("MythicNewView", ReduxView)
+slot0 = class("MythicNewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Mythic/MythicUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0._affixHero = {}
-	arg_4_0._affixMonster = {}
-	arg_4_0.isStarController = ControllerUtil.GetController(arg_4_0.transform_, "isStar")
-	arg_4_0.stageControllers = {}
-	arg_4_0.selectControllers = {}
+	slot0._affixHero = {}
+	slot0._affixMonster = {}
+	slot4 = "isStar"
+	slot0.isStarController = ControllerUtil.GetController(slot0.transform_, slot4)
+	slot0.stageControllers = {}
+	slot0.selectControllers = {}
 
-	for iter_4_0 = 1, 3 do
-		local var_4_0 = arg_4_0["m_stage" .. iter_4_0]
-
-		arg_4_0.stageControllers[iter_4_0] = ControllerUtil.GetController(var_4_0.transform, "stage")
-		arg_4_0.selectControllers[iter_4_0] = ControllerUtil.GetController(var_4_0.transform, "select")
+	for slot4 = 1, 3 do
+		slot5 = slot0["m_stage" .. slot4]
+		slot0.stageControllers[slot4] = ControllerUtil.GetController(slot5.transform, "stage")
+		slot0.selectControllers[slot4] = ControllerUtil.GetController(slot5.transform, "select")
 	end
 
-	arg_4_0.mainController = ControllerUtil.GetController(arg_4_0.m_stageMain.transform, "stage")
-	arg_4_0.mainSelectController = ControllerUtil.GetController(arg_4_0.m_stageMain.transform, "select")
-	arg_4_0.heroAffixController = ControllerUtil.GetController(arg_4_0.m_heroAffixController, "affix")
-	arg_4_0.mosterAffixController = ControllerUtil.GetController(arg_4_0.m_mosterAffixController, "affix")
+	slot0.mainController = ControllerUtil.GetController(slot0.m_stageMain.transform, "stage")
+	slot0.mainSelectController = ControllerUtil.GetController(slot0.m_stageMain.transform, "select")
+	slot0.heroAffixController = ControllerUtil.GetController(slot0.m_heroAffixController, "affix")
+	slot0.mosterAffixController = ControllerUtil.GetController(slot0.m_mosterAffixController, "affix")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_shopBtn, nil, function()
-		arg_5_0:CloseSectionInfo()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_shopBtn, nil, function ()
+		uv0:CloseSectionInfo()
 		JumpTools.GoToSystem("/shop", {
 			shopId = ShopConst.SHOP_ID.BLACK_AREA
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_refreshBtn, nil, function()
-		arg_5_0:CloseSectionInfo()
+	slot0:AddBtnListener(slot0.m_refreshBtn, nil, function ()
+		uv0:CloseSectionInfo()
 		JumpTools.OpenPageByJump("popCostItem", {
 			costCount = 1,
 			costId = MaterialConst.MYTHIC_REFRESH_ITEM_ID,
 			content = string.format(GetTips("MYTHIC_REFRESH_CHECK"), ItemCfg[MaterialConst.MYTHIC_REFRESH_ITEM_ID].name, 1),
 			itemId = MaterialConst.MYTHIC_REFRESH_ITEM_ID,
-			popCostCallBack = handler(arg_5_0, arg_5_0.PopCostCallBack)
+			popCostCallBack = handler(uv0, uv0.PopCostCallBack)
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_stageMain, nil, function()
-		local var_8_0 = MythicData:GetDifficultyData(arg_5_0.difficulty)
-
-		if var_8_0 then
-			local var_8_1 = var_8_0.main_partition
-
-			arg_5_0:OpenSectionInfoView(var_8_1, true, 0)
-		end
-	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_stageMain_ball, nil, function()
-		local var_9_0 = MythicData:GetDifficultyData(arg_5_0.difficulty)
-
-		if var_9_0 then
-			local var_9_1 = var_9_0.main_partition
-
-			arg_5_0:OpenSectionInfoView(var_9_1, true, 0)
+	slot0:AddBtnListener(slot0.m_stageMain, nil, function ()
+		if MythicData:GetDifficultyData(uv0.difficulty) then
+			uv0:OpenSectionInfoView(slot0.main_partition, true, 0)
 		end
 	end)
 
-	for iter_5_0 = 1, 3 do
-		local var_5_0 = arg_5_0["m_stage" .. iter_5_0]
+	slot4 = slot0.m_stageMain_ball
 
-		if var_5_0 then
-			arg_5_0:AddBtnListener(var_5_0, nil, function()
-				local var_10_0 = MythicData:GetDifficultyData(arg_5_0.difficulty)
+	slot0:AddBtnListener(slot4, nil, function ()
+		if MythicData:GetDifficultyData(uv0.difficulty) then
+			uv0:OpenSectionInfoView(slot0.main_partition, true, 0)
+		end
+	end)
 
-				if var_10_0 and var_10_0.sub_partition_list[iter_5_0] then
-					local var_10_1 = var_10_0.sub_partition_list[iter_5_0]
-
-					arg_5_0:OpenSectionInfoView(var_10_1, false, iter_5_0)
+	for slot4 = 1, 3 do
+		if slot0["m_stage" .. slot4] then
+			slot0:AddBtnListener(slot5, nil, function ()
+				if MythicData:GetDifficultyData(uv0.difficulty) and slot0.sub_partition_list[uv1] then
+					uv0:OpenSectionInfoView(slot0.sub_partition_list[uv1], false, uv1)
 				end
 			end)
 		end
 	end
 
-	arg_5_0:AddBtnListener(arg_5_0.m_difficultyBtn, nil, function()
-		arg_5_0:CloseSectionInfo()
+	slot0:AddBtnListener(slot0.m_difficultyBtn, nil, function ()
+		uv0:CloseSectionInfo()
 
 		if MythicData:GetStarRewardCount() == 0 then
 			JumpTools.OpenPageByJump("mythicDifficulty")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_rewardBtn, nil, function()
-		arg_5_0:CloseSectionInfo()
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
+		uv0:CloseSectionInfo()
 		JumpTools.OpenPageByJump("mythicSectionReward", {
-			difficulty = arg_5_0.difficulty
+			difficulty = uv0.difficulty
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_btnMask, nil, function()
-		arg_5_0:CloseSectionInfo()
+	slot0:AddBtnListener(slot0.m_btnMask, nil, function ()
+		uv0:CloseSectionInfo()
 	end)
 end
 
-function var_0_0.PopCostCallBack(arg_14_0)
+function slot0.PopCostCallBack(slot0)
 	if MythicData:GetStarCount() == 0 then
 		ShowMessageBox({
 			content = GetTips("ERROR_MYTHIC_REFRESH"),
-			OkCallback = function()
+			OkCallback = function ()
 				CommonAction.TryToUseItem({
 					{
 						item_info = {
@@ -122,10 +111,8 @@ function var_0_0.PopCostCallBack(arg_14_0)
 			end
 		})
 	else
-		local var_14_0 = MythicData:GetStarCount()
-
-		for iter_14_0 = 1, var_14_0 do
-			if not MythicData:GetStarRewardState(iter_14_0) then
+		for slot5 = 1, MythicData:GetStarCount() do
+			if not MythicData:GetStarRewardState(slot5) then
 				ShowTips("ERROR_BATTLE_MYTHIC_REWARD_NO_RECEIVED")
 
 				return
@@ -144,383 +131,361 @@ function var_0_0.PopCostCallBack(arg_14_0)
 	end
 end
 
-function var_0_0.OnTop(arg_16_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
 	manager.windowBar:SetGameHelpKey("MYTHIC_DESCRIPE")
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_16_0:IsOpenRoute("mythicSectionInfo") then
-			arg_16_0:CloseSectionInfo()
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0:IsOpenRoute("mythicSectionInfo") then
+			uv0:CloseSectionInfo()
 		else
 			JumpTools.Back()
 		end
 	end)
-	arg_16_0:CheckDifficultyChange()
+	slot0:CheckDifficultyChange()
 
-	if not arg_16_0:IsOpenRoute("mythicSectionInfo") then
-		arg_16_0:OnMyticContentShow(false)
+	if not slot0:IsOpenRoute("mythicSectionInfo") then
+		slot0:OnMyticContentShow(false)
 	end
 
-	arg_16_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnEnter(arg_18_0)
+function slot0.OnEnter(slot0)
 	getSpriteWithoutAtlas("TextureConfig/Item_l/40701")
-	arg_18_0:RegistEventListener(MATERIAL_MODIFY, handler(arg_18_0, arg_18_0.RefreshMaterial))
-	manager.redPoint:bindUIandKey(arg_18_0.m_rewardBtn.transform, RedPointConst.MYTHIC_TIMES_AWARD)
+	slot0:RegistEventListener(MATERIAL_MODIFY, handler(slot0, slot0.RefreshMaterial))
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, RedPointConst.MYTHIC_TIMES_AWARD)
 
-	local var_18_0 = MythicData:GetNextRefreshTime()
-
-	arg_18_0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(var_18_0))
-	arg_18_0.updateTimer_ = Timer.New(function()
-		local var_19_0 = MythicData:GetNextRefreshTime()
-
-		arg_18_0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(var_19_0))
+	slot0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(MythicData:GetNextRefreshTime()))
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(MythicData:GetNextRefreshTime()))
 	end, 1, -1)
 
-	arg_18_0.updateTimer_:Start()
-	arg_18_0:RefreshUI()
+	slot0.updateTimer_:Start()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_20_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_20_0.m_rewardBtn.transform, RedPointConst.MYTHIC_TIMES_AWARD)
-	arg_20_0:HideAffixInfo()
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, RedPointConst.MYTHIC_TIMES_AWARD)
+	slot0:HideAffixInfo()
 
-	if arg_20_0.updateTimer_ then
-		arg_20_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_20_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 end
 
-function var_0_0.CheckDifficultyChange(arg_21_0)
+function slot0.CheckDifficultyChange(slot0)
 	if MythicData:GetIsNewDifficulty() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_NEW_LEVEL_UNLOCK"),
-			OkCallback = function()
+			OkCallback = function ()
 				MythicAction:QueryMythicRead()
-				arg_21_0:CheckMail()
+				uv0:CheckMail()
 			end
 		})
 	else
-		arg_21_0:CheckMail()
+		slot0:CheckMail()
 	end
 end
 
-function var_0_0.CheckMail(arg_23_0)
+function slot0.CheckMail(slot0)
 	if PlayerData:GetUnclaimed(3) ~= nil then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("UNCLAIMED_BONUS_MAIL_TIP"),
-			OkCallback = function()
+			OkCallback = function ()
 				PlayerAction.ReadUnclaimedMessage(3)
 
 				if MythicData:IsShowDifficultySelectView() then
-					TimeTools.StartAfterSeconds(0.033, function()
+					TimeTools.StartAfterSeconds(0.033, function ()
 						JumpTools.OpenPageByJump("mythicDifficulty")
 					end, {})
 				end
 			end
 		})
 	elseif MythicData:IsShowDifficultySelectView() then
-		TimeTools.StartAfterSeconds(0.033, function()
+		TimeTools.StartAfterSeconds(0.033, function ()
 			JumpTools.OpenPageByJump("mythicDifficulty")
 		end, {})
 	end
 end
 
-function var_0_0.RefreshUI(arg_27_0, arg_27_1)
-	arg_27_0.curDifficulty = MythicData:GetDifficulty()
-	arg_27_0.difficulty = arg_27_0.curDifficulty
+function slot0.RefreshUI(slot0, slot1)
+	slot0.curDifficulty = MythicData:GetDifficulty()
+	slot0.difficulty = slot0.curDifficulty
 
-	arg_27_0:RefreshMaterial()
+	slot0:RefreshMaterial()
 
-	if arg_27_0.difficulty == 0 then
+	if slot0.difficulty == 0 then
 		return
 	end
 
 	if MythicData:GetStarRewardCount() == 0 then
-		arg_27_0.isStarController:SetSelectedIndex(0)
+		slot0.isStarController:SetSelectedIndex(0)
 	else
-		arg_27_0.isStarController:SetSelectedIndex(1)
+		slot0.isStarController:SetSelectedIndex(1)
 	end
 
-	arg_27_0.m_romamLab.text = NumberTools.IntToRomam(arg_27_0.difficulty)
+	slot0.m_romamLab.text = NumberTools.IntToRomam(slot0.difficulty)
 
-	arg_27_0:RefreshAffixItems(MythicData:GetAllHeroAffix(), true, arg_27_0._affixHeroParent, arg_27_0._affixHero, arg_27_0.heroAffixController)
-	arg_27_0:RefreshAffixItems(MythicData:GetMonsterAffix(), false, arg_27_0._affixMonsterParent, arg_27_0._affixMonster, arg_27_0.mosterAffixController)
+	slot0:RefreshAffixItems(MythicData:GetAllHeroAffix(), true, slot0._affixHeroParent, slot0._affixHero, slot0.heroAffixController)
+	slot0:RefreshAffixItems(MythicData:GetMonsterAffix(), false, slot0._affixMonsterParent, slot0._affixMonster, slot0.mosterAffixController)
 
-	local var_27_0 = MythicData:GetDifficultyData(arg_27_0.difficulty)
-
-	if var_27_0 then
-		local var_27_1 = var_27_0.main_partition.partition
-
-		if MythicData:GetIsFirstClear(var_27_1) then
-			arg_27_0.mainController:SetSelectedIndex(0)
+	if MythicData:GetDifficultyData(slot0.difficulty) then
+		if MythicData:GetIsFirstClear(slot2.main_partition.partition) then
+			slot0.mainController:SetSelectedIndex(0)
 		else
-			arg_27_0.mainController:SetSelectedIndex(1)
+			slot0.mainController:SetSelectedIndex(1)
 		end
 
-		for iter_27_0 = 1, 3 do
-			local var_27_2 = arg_27_0.stageControllers[iter_27_0]
-
-			if var_27_2 and var_27_0 and var_27_0.sub_partition_list[iter_27_0] then
-				local var_27_3 = var_27_0.sub_partition_list[iter_27_0].partition
-
-				if MythicData:GetIsFirstClear(var_27_3) then
-					var_27_2:SetSelectedIndex(0)
+		for slot8 = 1, 3 do
+			if slot0.stageControllers[slot8] and slot2 and slot2.sub_partition_list[slot8] then
+				if MythicData:GetIsFirstClear(slot2.sub_partition_list[slot8].partition) then
+					slot9:SetSelectedIndex(0)
 				else
-					var_27_2:SetSelectedIndex(1)
+					slot9:SetSelectedIndex(1)
 				end
 			end
 		end
 	end
 
-	if not arg_27_0:IsOpenRoute("mythicSectionInfo") then
-		for iter_27_1, iter_27_2 in ipairs(arg_27_0.selectControllers) do
-			iter_27_2:SetSelectedIndex(0)
+	if not slot0:IsOpenRoute("mythicSectionInfo") then
+		for slot6, slot7 in ipairs(slot0.selectControllers) do
+			slot7:SetSelectedIndex(0)
 		end
 
-		arg_27_0.mainSelectController:SetSelectedIndex(0)
+		slot0.mainSelectController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.RefreshMaterial(arg_28_0)
-	local var_28_0 = ItemTools.getItemNum(MaterialConst.MYTHIC_REFRESH_ITEM_ID)
+function slot0.RefreshMaterial(slot0)
+	slot0.m_refreshCountText.text = "x1"
 
-	arg_28_0.m_refreshCountText.text = "x1"
-
-	if var_28_0 > 0 then
-		SetActive(arg_28_0.m_refreshBtn.gameObject, true)
+	if ItemTools.getItemNum(MaterialConst.MYTHIC_REFRESH_ITEM_ID) > 0 then
+		SetActive(slot0.m_refreshBtn.gameObject, true)
 	else
-		SetActive(arg_28_0.m_refreshBtn.gameObject, false)
+		SetActive(slot0.m_refreshBtn.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshAffixItems(arg_29_0, arg_29_1, arg_29_2, arg_29_3, arg_29_4, arg_29_5)
-	local var_29_0 = {}
+function slot0.RefreshAffixItems(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6 = {}
+	slot7 = 0
+	slot8 = math.min(#(slot1 or {}), 3)
+	slot9 = MythicNormalCfg[slot0.difficulty] and MythicNormalCfg[slot0.difficulty].sub_partition_list or {}
 
-	arg_29_1 = arg_29_1 or {}
-
-	local var_29_1 = 0
-	local var_29_2 = math.min(#arg_29_1, 3)
-	local var_29_3 = MythicNormalCfg[arg_29_0.difficulty] and MythicNormalCfg[arg_29_0.difficulty].sub_partition_list or {}
-
-	for iter_29_0, iter_29_1 in ipairs(arg_29_1) do
-		local var_29_4 = clone(iter_29_1)
-
-		if arg_29_2 then
-			if var_29_3[iter_29_0] and MythicData:GetIsFirstClear(var_29_3[iter_29_0]) then
-				var_29_4.lock = true
+	for slot13, slot14 in ipairs(slot1) do
+		if slot2 then
+			if slot9[slot13] and MythicData:GetIsFirstClear(slot9[slot13]) then
+				clone(slot14).lock = true
 			else
-				var_29_4.lock = false
+				slot15.lock = false
 			end
 		else
-			var_29_4.lock = false
+			slot15.lock = false
 		end
 
-		if iter_29_1[3] == 3 then
-			table.insert(var_29_0, 1, var_29_4)
+		if slot14[3] == 3 then
+			table.insert(slot6, 1, slot15)
 		else
-			var_29_1 = var_29_1 + 1
+			slot7 = slot7 + 1
 
-			table.insert(var_29_0, var_29_4)
+			table.insert(slot6, slot15)
 		end
 	end
 
-	arg_29_5:SetSelectedState(var_29_2 .. "_" .. var_29_1)
+	slot14 = "_"
+	slot13 = slot8 .. slot14 .. slot7
 
-	for iter_29_2, iter_29_3 in ipairs(var_29_0) do
-		if arg_29_4[iter_29_2] == nil then
-			arg_29_4[iter_29_2] = MythicAffixItem.New(arg_29_0._affixItem, arg_29_3, iter_29_3)
+	slot5:SetSelectedState(slot13)
+
+	for slot13, slot14 in ipairs(slot6) do
+		if slot4[slot13] == nil then
+			slot4[slot13] = MythicAffixItem.New(slot0._affixItem, slot3, slot14)
 		end
 
-		arg_29_4[iter_29_2]:SetData(iter_29_3)
+		slot4[slot13]:SetData(slot14)
 
-		local var_29_5 = arg_29_4[iter_29_2].transform_:GetComponent(typeof(Button))
+		slot15 = slot4[slot13].transform_:GetComponent(typeof(Button))
 
-		var_29_5.onClick:RemoveAllListeners()
-		arg_29_0:AddBtnListener(var_29_5, nil, function()
-			arg_29_0:ShowAffixInfo(arg_29_4[iter_29_2].transform_, iter_29_3)
+		slot15.onClick:RemoveAllListeners()
+		slot0:AddBtnListener(slot15, nil, function ()
+			uv0:ShowAffixInfo(uv1[uv2].transform_, uv3)
 		end)
 	end
 
-	for iter_29_4 = #var_29_0 + 1, #arg_29_4 do
-		arg_29_4[iter_29_4]:Show(false)
+	for slot13 = #slot6 + 1, #slot4 do
+		slot4[slot13]:Show(false)
 	end
 end
 
-function var_0_0.OpenSectionInfoView(arg_31_0, arg_31_1, arg_31_2, arg_31_3)
-	local var_31_0 = arg_31_1.partition
-	local var_31_1 = arg_31_1.stage_id
+function slot0.OpenSectionInfoView(slot0, slot1, slot2, slot3)
+	slot4 = slot1.partition
+	slot5 = slot1.stage_id
 
 	MythicData:SetIsNew(false)
-	arg_31_0:OnMyticContentShow(true)
+	slot0:OnMyticContentShow(true)
 
-	local var_31_2
+	slot6 = nil
 
-	if arg_31_2 then
-		var_31_2 = MythicData:GetHeroAffixWithStatus()
+	if slot2 then
+		slot6 = MythicData:GetHeroAffixWithStatus()
 	else
-		local var_31_3 = MythicData:GetAllHeroAffix()[arg_31_3]
-		local var_31_4
-
-		var_31_3.isLock = MythicData:GetIsFirstClear(var_31_0) and true or false
-		var_31_2 = {
-			var_31_3
+		slot7 = MythicData:GetAllHeroAffix()[slot3]
+		slot8 = nil
+		slot7.isLock = MythicData:GetIsFirstClear(slot4) and true or false
+		slot6 = {
+			slot7
 		}
 	end
 
-	arg_31_0:Go("mythicSectionInfo", {
-		stageID = var_31_1,
-		partition = var_31_0,
-		difficulty = arg_31_0.difficulty,
-		isMain = arg_31_2,
-		affix = var_31_2
-	})
+	slot10 = "mythicSectionInfo"
+	slot11 = {
+		stageID = slot5,
+		partition = slot4,
+		difficulty = slot0.difficulty,
+		isMain = slot2,
+		affix = slot6
+	}
 
-	for iter_31_0, iter_31_1 in ipairs(arg_31_0.selectControllers) do
-		iter_31_1:SetSelectedIndex(0)
+	slot0:Go(slot10, slot11)
+
+	for slot10, slot11 in ipairs(slot0.selectControllers) do
+		slot11:SetSelectedIndex(0)
 	end
 
-	arg_31_0.mainSelectController:SetSelectedIndex(0)
+	slot0.mainSelectController:SetSelectedIndex(0)
 
-	if arg_31_2 then
-		arg_31_0.mainSelectController:SetSelectedIndex(1)
+	if slot2 then
+		slot0.mainSelectController:SetSelectedIndex(1)
 	else
-		arg_31_0.selectControllers[arg_31_3]:SetSelectedIndex(1)
+		slot0.selectControllers[slot3]:SetSelectedIndex(1)
 	end
 end
 
-function var_0_0.OnMyticUpdate(arg_32_0)
-	arg_32_0:RefreshUI()
+function slot0.OnMyticUpdate(slot0)
+	slot0:RefreshUI()
 
 	if MythicData:GetDifficulty() == 0 then
 		JumpTools.OpenPageByJump("/mythic/mythicDifficulty", nil)
 	end
 end
 
-function var_0_0.OnTryToUseItem(arg_33_0, arg_33_1, arg_33_2)
-	if isSuccess(arg_33_1.result) then
+function slot0.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
 		MythicAction.QueryMythicInfo()
 	else
-		ShowTips(arg_33_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.Dispose(arg_34_0)
-	arg_34_0:RemoveTween()
+function slot0.Dispose(slot0)
+	slot0:RemoveTween()
 
-	for iter_34_0, iter_34_1 in pairs(arg_34_0._affixHero) do
-		iter_34_1:Dispose()
+	for slot4, slot5 in pairs(slot0._affixHero) do
+		slot5:Dispose()
 	end
 
-	arg_34_0._affixHero = {}
+	slot0._affixHero = {}
 
-	for iter_34_2, iter_34_3 in pairs(arg_34_0._affixMonster) do
-		iter_34_3:Dispose()
+	for slot4, slot5 in pairs(slot0._affixMonster) do
+		slot5:Dispose()
 	end
 
-	arg_34_0._affixMonster = {}
+	slot0._affixMonster = {}
 
-	var_0_0.super.Dispose(arg_34_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnMyticContentShow(arg_35_0, arg_35_1)
-	if arg_35_1 then
-		local var_35_0 = -300
+function slot0.OnMyticContentShow(slot0, slot1)
+	if slot1 then
+		slot0:RemoveTween()
 
-		arg_35_0:RemoveTween()
-
-		arg_35_0.tween_ = LeanTween.value(arg_35_0.m_middleContent.gameObject, arg_35_0.m_middleContent.localPosition.x, var_35_0, 0.2):setOnUpdate(LuaHelper.FloatAction(function(arg_36_0)
-			arg_35_0.m_middleContent.localPosition = Vector3(arg_36_0, 0, 0)
+		slot0.tween_ = LeanTween.value(slot0.m_middleContent.gameObject, slot0.m_middleContent.localPosition.x, -300, 0.2):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.m_middleContent.localPosition = Vector3(slot0, 0, 0)
 		end))
 	else
-		arg_35_0:RemoveTween()
+		slot0:RemoveTween()
 
-		arg_35_0.tween_ = LeanTween.value(arg_35_0.m_middleContent.gameObject, arg_35_0.m_middleContent.localPosition.x, 0, 0.2):setOnUpdate(LuaHelper.FloatAction(function(arg_37_0)
-			arg_35_0.m_middleContent.localPosition = Vector3(arg_37_0, 0, 0)
+		slot0.tween_ = LeanTween.value(slot0.m_middleContent.gameObject, slot0.m_middleContent.localPosition.x, 0, 0.2):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.m_middleContent.localPosition = Vector3(slot0, 0, 0)
 		end))
 	end
 end
 
-function var_0_0.RemoveTween(arg_38_0)
-	if arg_38_0.tween_ then
-		arg_38_0.tween_:setOnUpdate(nil)
-		LeanTween.cancel(arg_38_0.m_middleContent.gameObject)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil)
+		LeanTween.cancel(slot0.m_middleContent.gameObject)
 
-		arg_38_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.CloseSectionInfo(arg_39_0)
-	if arg_39_0:IsOpenRoute("mythicSectionInfo") then
-		arg_39_0:OnMyticContentShow(false)
+function slot0.CloseSectionInfo(slot0)
+	if slot0:IsOpenRoute("mythicSectionInfo") then
+		slot0:OnMyticContentShow(false)
 		JumpTools.Back()
 	end
 
-	for iter_39_0, iter_39_1 in ipairs(arg_39_0.selectControllers) do
-		iter_39_1:SetSelectedIndex(0)
+	for slot4, slot5 in ipairs(slot0.selectControllers) do
+		slot5:SetSelectedIndex(0)
 	end
 
-	arg_39_0.mainSelectController:SetSelectedIndex(0)
+	slot0.mainSelectController:SetSelectedIndex(0)
 end
 
-function var_0_0.ShowAffixInfo(arg_40_0, arg_40_1, arg_40_2)
-	arg_40_0:CloseSectionInfo()
-	arg_40_0.affixinfoTrs_:SetParent(arg_40_1)
+function slot0.ShowAffixInfo(slot0, slot1, slot2)
+	slot0:CloseSectionInfo()
+	slot0.affixinfoTrs_:SetParent(slot1)
 
-	arg_40_0.affixinfoTrs_.localPosition = Vector3(0, -60, 0)
+	slot0.affixinfoTrs_.localPosition = Vector3(0, -60, 0)
 
-	SetActive(arg_40_0.affixinfoTrs_.gameObject, true)
+	SetActive(slot0.affixinfoTrs_.gameObject, true)
 
-	local var_40_0 = arg_40_0.affixcontentTrs_.transform.localPosition
+	slot0.affixcontentTrs_.transform.localPosition = Vector3(261.505, slot0.affixcontentTrs_.transform.localPosition.y, 0)
 
-	arg_40_0.affixcontentTrs_.transform.localPosition = Vector3(261.505, var_40_0.y, 0)
-
-	local var_40_1 = arg_40_0.endPoint_:TransformPoint(Vector3(0, 0, 0))
-
-	if arg_40_0.affixcontentTrs_:TransformPoint(Vector3(0, 0, 0)).x >= var_40_1.x then
-		local var_40_2 = arg_40_0.affixinfoTrs_:InverseTransformPoint(var_40_1)
-
-		arg_40_0.affixcontentTrs_.transform.localPosition = Vector3(var_40_2.x, var_40_0.y, 0)
+	if slot0.endPoint_:TransformPoint(Vector3(0, 0, 0)).x <= slot0.affixcontentTrs_:TransformPoint(Vector3(0, 0, 0)).x then
+		slot0.affixcontentTrs_.transform.localPosition = Vector3(slot0.affixinfoTrs_:InverseTransformPoint(slot4).x, slot3.y, 0)
 	else
-		arg_40_0.affixcontentTrs_.transform.localPosition = Vector3(261.505, var_40_0.y, 0)
+		slot0.affixcontentTrs_.transform.localPosition = Vector3(261.505, slot3.y, 0)
 	end
 
-	arg_40_0.affixcontentText_.text = getAffixDesc(arg_40_2)
-	arg_40_0.affixnameText_.text = getAffixName(arg_40_2)
+	slot0.affixcontentText_.text = getAffixDesc(slot2)
+	slot0.affixnameText_.text = getAffixName(slot2)
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_40_0.affixcontentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.affixcontentTrs_)
 
-	if arg_40_0.countdownTimer_ then
-		arg_40_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_40_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
-	arg_40_0.countdownTimer_ = Timer.New(function()
-		SetActive(arg_40_0.affixinfoTrs_.gameObject, false)
+	slot0.countdownTimer_ = Timer.New(function ()
+		SetActive(uv0.affixinfoTrs_.gameObject, false)
 	end, 2, 1)
 
-	arg_40_0.countdownTimer_:Start()
+	slot0.countdownTimer_:Start()
 end
 
-function var_0_0.HideAffixInfo(arg_42_0)
-	if arg_42_0.countdownTimer_ then
-		arg_42_0.countdownTimer_:Stop()
+function slot0.HideAffixInfo(slot0)
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_42_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
-	SetActive(arg_42_0.affixinfoTrs_.gameObject, false)
+	SetActive(slot0.affixinfoTrs_.gameObject, false)
 end
 
-return var_0_0
+return slot0

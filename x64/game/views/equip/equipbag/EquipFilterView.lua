@@ -1,273 +1,255 @@
-local var_0_0 = class("EquipFilterView", ReduxView)
+slot0 = class("EquipFilterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Com_dynamic/FilterPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.suitScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexSuitItem), arg_4_0.suitListGo_, EquipBagSuitItem)
-	arg_4_0.skillScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.indexSkillItem), arg_4_0.skillListGo_, SkillSelectItem)
-	arg_4_0.filterBottomView_ = CommonFilterBottom.New(arg_4_0.fillListGo_)
+	slot0.suitScrollHelper_ = LuaList.New(handler(slot0, slot0.indexSuitItem), slot0.suitListGo_, EquipBagSuitItem)
+	slot0.skillScrollHelper_ = LuaList.New(handler(slot0, slot0.indexSkillItem), slot0.skillListGo_, SkillSelectItem)
+	slot0.filterBottomView_ = CommonFilterBottom.New(slot0.fillListGo_)
 
-	arg_4_0.filterBottomView_:RegisteClearBtnListener(handler(arg_4_0, arg_4_0.ClearFilter))
-	arg_4_0.filterBottomView_:RegisteItemClickListener(handler(arg_4_0, arg_4_0.OnFilterItemClick))
+	slot0.filterBottomView_:RegisteClearBtnListener(handler(slot0, slot0.ClearFilter))
+	slot0.filterBottomView_:RegisteItemClickListener(handler(slot0, slot0.OnFilterItemClick))
 
-	arg_4_0.tabController_ = arg_4_0.filterController_:GetController("tab")
-	arg_4_0.selectController_ = arg_4_0.filterController_:GetController("select")
+	slot0.tabController_ = slot0.filterController_:GetController("tab")
+	slot0.selectController_ = slot0.filterController_:GetController("select")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnConfirm_, nil, function()
-		arg_5_0:OnClose(true)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnConfirm_, nil, function ()
+		uv0:OnClose(true)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnSuit_, nil, function()
-		arg_5_0:ClearFilter()
-		arg_5_0.tabController_:SetSelectedState("suit")
+	slot0:AddBtnListener(slot0.btnSuit_, nil, function ()
+		uv0:ClearFilter()
+		uv0.tabController_:SetSelectedState("suit")
 
-		arg_5_0.filterIndex_ = 1
-		arg_5_0.filterList_ = arg_5_0.filterGroup[arg_5_0.filterIndex_]
+		uv0.filterIndex_ = 1
+		uv0.filterList_ = uv0.filterGroup[uv0.filterIndex_]
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnSkill_, nil, function()
-		arg_5_0:ClearFilter()
-		arg_5_0.tabController_:SetSelectedState("skill")
+	slot0:AddBtnListener(slot0.btnSkill_, nil, function ()
+		uv0:ClearFilter()
+		uv0.tabController_:SetSelectedState("skill")
 
-		arg_5_0.filterIndex_ = 2
-		arg_5_0.filterList_ = arg_5_0.filterGroup[arg_5_0.filterIndex_]
+		uv0.filterIndex_ = 2
+		uv0.filterList_ = uv0.filterGroup[uv0.filterIndex_]
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btnMask_, nil, function()
-		arg_5_0:OnClose(false)
+	slot0:AddBtnListener(slot0.btnMask_, nil, function ()
+		uv0:OnClose(false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.brnCloseSelected_, nil, function()
-		arg_5_0:ClearFilter()
+	slot0:AddBtnListener(slot0.brnCloseSelected_, nil, function ()
+		uv0:ClearFilter()
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:HideBar()
 
-	arg_11_0.info_ = clone(arg_11_0.params_.info) or {}
-	arg_11_0.info_.heroId = arg_11_0.info_ and arg_11_0.info_.heroId or 0
-	arg_11_0.info_.suitPos = arg_11_0.info_ and arg_11_0.info_.suitPos or 0
-	arg_11_0.lastInfo_ = clone(arg_11_0.info_)
-	arg_11_0.lastInfo_.filterIndex = arg_11_0.info_.filterIndex or 1
-	arg_11_0.closeFunc = arg_11_0.params_.closeFunc
-	arg_11_0.filterGroup = arg_11_0.info_.filterGroup or {
+	slot0.info_ = clone(slot0.params_.info) or {}
+	slot0.info_.heroId = slot0.info_ and slot0.info_.heroId or 0
+	slot0.info_.suitPos = slot0.info_ and slot0.info_.suitPos or 0
+	slot0.lastInfo_ = clone(slot0.info_)
+	slot0.lastInfo_.filterIndex = slot0.info_.filterIndex or 1
+	slot0.closeFunc = slot0.params_.closeFunc
+	slot0.filterGroup = slot0.info_.filterGroup or {
 		{},
 		{}
 	}
-	arg_11_0.selectedItem = arg_11_0.info_.selectedItem or {}
-	arg_11_0.filterIndex_ = arg_11_0.info_.filterIndex or 1
-	arg_11_0.filterList_ = arg_11_0.filterGroup[arg_11_0.filterIndex_]
-	arg_11_0.isFilterEquiped_ = arg_11_0.params_.isFilterEquiped
+	slot0.selectedItem = slot0.info_.selectedItem or {}
+	slot0.filterIndex_ = slot0.info_.filterIndex or 1
+	slot0.filterList_ = slot0.filterGroup[slot0.filterIndex_]
+	slot0.isFilterEquiped_ = slot0.params_.isFilterEquiped
 
-	arg_11_0:InitSuitList()
-	arg_11_0:InitSkillList()
-	arg_11_0:RefreshBottom()
-	arg_11_0.tabController_:SetSelectedState(arg_11_0.filterIndex_ == 1 and "suit" or "skill")
+	slot0:InitSuitList()
+	slot0:InitSkillList()
+	slot0:RefreshBottom()
+	slot0.tabController_:SetSelectedState(slot0.filterIndex_ == 1 and "suit" or "skill")
 end
 
-function var_0_0.InitSuitList(arg_12_0)
-	local var_12_0 = {}
-	local var_12_1 = EquipRecommendCfg[arg_12_0.info_.heroId] and EquipRecommendCfg[arg_12_0.info_.heroId].suit_list or {}
-	local var_12_2
+function slot0.InitSuitList(slot0)
+	slot1 = {}
+	slot0.suitList_, slot1 = EquipTools.GetHaveSuitList(true)
 
-	arg_12_0.suitList_, var_12_2 = EquipTools.GetHaveSuitList(true)
-
-	if #var_12_1 > 0 then
-		table.sort(arg_12_0.suitList_, function(arg_13_0, arg_13_1)
-			local var_13_0 = not not table.indexof(var_12_1, arg_13_0)
-			local var_13_1 = not not table.indexof(var_12_1, arg_13_1)
-
-			if var_12_2[arg_13_0] ~= var_12_2[arg_13_1] then
-				if var_13_0 == var_13_1 then
-					return not var_12_2[arg_13_1]
+	if #(EquipRecommendCfg[slot0.info_.heroId] and EquipRecommendCfg[slot0.info_.heroId].suit_list or {}) > 0 then
+		table.sort(slot0.suitList_, function (slot0, slot1)
+			if uv1[slot0] ~= uv1[slot1] then
+				if not not table.indexof(uv0, slot0) == not not table.indexof(uv0, slot1) then
+					return not uv1[slot1]
 				else
-					return not var_13_1
+					return not slot3
 				end
-			elseif var_13_0 == var_13_1 then
-				return arg_13_0 < arg_13_1
+			elseif slot2 == slot3 then
+				return slot0 < slot1
 			else
-				return not var_13_1
+				return not slot3
 			end
 		end)
 	end
 
-	arg_12_0.suitScrollHelper_:StartScroll(#arg_12_0.suitList_)
+	slot0.suitScrollHelper_:StartScroll(#slot0.suitList_)
 end
 
-function var_0_0.InitSkillList(arg_14_0)
-	arg_14_0.skillList_ = EquipTools.GetHaveSkillList(true)
+function slot0.InitSkillList(slot0)
+	slot0.skillList_ = EquipTools.GetHaveSkillList(true)
 
-	arg_14_0.skillScrollHelper_:StartScroll(#arg_14_0.skillList_)
+	slot0.skillScrollHelper_:StartScroll(#slot0.skillList_)
 end
 
-function var_0_0.indexSuitItem(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.suitList_[arg_15_1]
+function slot0.indexSuitItem(slot0, slot1, slot2)
+	slot3 = slot0.suitList_[slot1]
 
-	arg_15_2:RefreshData(arg_15_0.info_.heroId, var_15_0)
-	arg_15_2:RefreshPos(arg_15_0.info_.suitPos, arg_15_0.isFilterEquiped_)
+	slot2:RefreshData(slot0.info_.heroId, slot3)
+	slot2:RefreshPos(slot0.info_.suitPos, slot0.isFilterEquiped_)
 
-	local var_15_1 = arg_15_0.selectedItem[var_15_0] ~= nil and arg_15_0.filterIndex_ == 1
-
-	if var_15_1 then
-		arg_15_0.selectedItem[var_15_0] = arg_15_2
+	if slot0.selectedItem[slot3] ~= nil and slot0.filterIndex_ == 1 then
+		slot0.selectedItem[slot3] = slot2
 	end
 
-	arg_15_2:SetSelect(var_15_1)
-	arg_15_2:RegistCallBack(function(arg_16_0)
-		arg_15_0:FilterItemCb(arg_15_2, arg_16_0)
+	slot2:SetSelect(slot4)
+	slot2:RegistCallBack(function (slot0)
+		uv0:FilterItemCb(uv1, slot0)
 	end)
 end
 
-function var_0_0.indexSkillItem(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = arg_17_0.skillList_[arg_17_1]
+function slot0.indexSkillItem(slot0, slot1, slot2)
+	slot3 = slot0.skillList_[slot1]
 
-	arg_17_2:RefreshData(arg_17_0, {
-		id = var_17_0
+	slot2:RefreshData(slot0, {
+		id = slot3
 	})
-	arg_17_2:RefreshPos(arg_17_0.info_.suitPos, arg_17_0.isFilterEquiped_)
+	slot2:RefreshPos(slot0.info_.suitPos, slot0.isFilterEquiped_)
 
-	local var_17_1 = arg_17_0.selectedItem[var_17_0] ~= nil and arg_17_0.filterIndex_ == 2
-
-	if var_17_1 then
-		arg_17_0.selectedItem[var_17_0] = arg_17_2
+	if slot0.selectedItem[slot3] ~= nil and slot0.filterIndex_ == 2 then
+		slot0.selectedItem[slot3] = slot2
 	end
 
-	arg_17_2:SetSelect(var_17_1)
-	arg_17_2:RegistCallBack(function(arg_18_0)
-		arg_17_0:FilterItemCb(arg_17_2, arg_18_0)
+	slot2:SetSelect(slot4)
+	slot2:RegistCallBack(function (slot0)
+		uv0:FilterItemCb(uv1, slot0)
 	end)
 end
 
-function var_0_0.OnFilterItemClick(arg_19_0, arg_19_1)
-	arg_19_0:FilterItemCb(nil, arg_19_1.id)
+function slot0.OnFilterItemClick(slot0, slot1)
+	slot0:FilterItemCb(nil, slot1.id)
 end
 
-function var_0_0.FilterItemCb(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_0.selectedItem[arg_20_2] ~= nil then
-		local var_20_0 = table.indexof(arg_20_0.filterList_, arg_20_2)
+function slot0.FilterItemCb(slot0, slot1, slot2)
+	if slot0.selectedItem[slot2] ~= nil then
+		table.remove(slot0.filterList_, table.indexof(slot0.filterList_, slot2))
+		slot0.selectedItem[slot2]:SetSelect(false)
 
-		table.remove(arg_20_0.filterList_, var_20_0)
-		arg_20_0.selectedItem[arg_20_2]:SetSelect(false)
-
-		arg_20_0.selectedItem[arg_20_2] = nil
+		slot0.selectedItem[slot2] = nil
 	else
-		table.insert(arg_20_0.filterList_, arg_20_2)
+		table.insert(slot0.filterList_, slot2)
 
-		arg_20_0.selectedItem[arg_20_2] = arg_20_1
+		slot0.selectedItem[slot2] = slot1
 
-		arg_20_0.selectedItem[arg_20_2]:SetSelect(true)
+		slot0.selectedItem[slot2]:SetSelect(true)
 	end
 
-	arg_20_0:RefreshBottom()
+	slot0:RefreshBottom()
 end
 
-function var_0_0.RefreshBottom(arg_21_0)
-	local var_21_0 = #arg_21_0.filterList_ ~= 0
+function slot0.RefreshBottom(slot0)
+	slot1 = #slot0.filterList_ ~= 0
 
-	arg_21_0.selectController_:SetSelectedState(var_21_0 and "select" or "noselect")
+	slot0.selectController_:SetSelectedState(slot1 and "select" or "noselect")
 
-	local var_21_1 = {}
+	slot2 = {}
 
-	if var_21_0 then
-		for iter_21_0, iter_21_1 in ipairs(arg_21_0.filterList_) do
-			local var_21_2 = arg_21_0.filterIndex_ == 1 and EquipSuitCfg[iter_21_1].name or EquipSkillCfg[iter_21_1].name
-
-			table.insert(var_21_1, {
-				name = GetI18NText(var_21_2),
-				id = iter_21_1
+	if slot1 then
+		for slot6, slot7 in ipairs(slot0.filterList_) do
+			table.insert(slot2, {
+				name = GetI18NText(slot0.filterIndex_ == 1 and EquipSuitCfg[slot7].name or EquipSkillCfg[slot7].name),
+				id = slot7
 			})
 		end
 
-		arg_21_0.filterBottomView_:Refresh(var_21_1)
+		slot0.filterBottomView_:Refresh(slot2)
 	end
 end
 
-function var_0_0.OnClose(arg_22_0, arg_22_1)
-	arg_22_0:ShowDefaultBar()
+function slot0.OnClose(slot0, slot1)
+	slot0:ShowDefaultBar()
 
-	if arg_22_1 then
-		arg_22_0:RefrehBagView()
+	if slot1 then
+		slot0:RefrehBagView()
 	end
 
-	if arg_22_0.closeFunc then
-		arg_22_0.closeFunc()
+	if slot0.closeFunc then
+		slot0.closeFunc()
 	end
 
-	arg_22_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.ClearFilter(arg_23_0)
-	arg_23_0.selectController_:SetSelectedState("noselect")
+function slot0.ClearFilter(slot0)
+	slot4 = "noselect"
 
-	for iter_23_0, iter_23_1 in pairs(arg_23_0.selectedItem) do
-		iter_23_1:SetSelect(false)
+	slot0.selectController_:SetSelectedState(slot4)
+
+	for slot4, slot5 in pairs(slot0.selectedItem) do
+		slot5:SetSelect(false)
 	end
 
-	arg_23_0.filterGroup = {
+	slot0.filterGroup = {
 		{},
 		{}
 	}
-	arg_23_0.filterList_ = arg_23_0.filterGroup[arg_23_0.filterIndex_]
-	arg_23_0.selectedItem = {}
+	slot0.filterList_ = slot0.filterGroup[slot0.filterIndex_]
+	slot0.selectedItem = {}
 end
 
-function var_0_0.RefrehBagView(arg_24_0)
-	local var_24_0 = {
-		filterGroup = arg_24_0.filterGroup,
-		filterIndex = arg_24_0.filterIndex_,
-		selectedItem = arg_24_0.selectedItem
-	}
-
-	if arg_24_0:CheckFilterChange() then
-		manager.notify:Invoke(EQUIP_FILTER_CONFIRM, var_24_0)
+function slot0.RefrehBagView(slot0)
+	if slot0:CheckFilterChange() then
+		manager.notify:Invoke(EQUIP_FILTER_CONFIRM, {
+			filterGroup = slot0.filterGroup,
+			filterIndex = slot0.filterIndex_,
+			selectedItem = slot0.selectedItem
+		})
 	end
 end
 
-function var_0_0.CheckFilterChange(arg_25_0)
-	local var_25_0 = arg_25_0.filterGroup[1]
-	local var_25_1 = arg_25_0.filterGroup[2]
-	local var_25_2 = arg_25_0.lastInfo_.filterGroup and arg_25_0.lastInfo_.filterGroup[1] or {}
-	local var_25_3 = arg_25_0.lastInfo_.filterGroup and arg_25_0.lastInfo_.filterGroup[2] or {}
+function slot0.CheckFilterChange(slot0)
+	slot1 = slot0.filterGroup[1]
+	slot2 = slot0.filterGroup[2]
+	slot3 = slot0.lastInfo_.filterGroup and slot0.lastInfo_.filterGroup[1] or {}
+	slot4 = slot0.lastInfo_.filterGroup and slot0.lastInfo_.filterGroup[2] or {}
 
-	if arg_25_0.lastInfo_.filterIndex ~= arg_25_0.filterIndex_ then
+	if slot0.lastInfo_.filterIndex ~= slot0.filterIndex_ then
 		return true
 	end
 
-	if #var_25_2 ~= #var_25_0 or #var_25_3 ~= #var_25_1 then
+	if #slot3 ~= #slot1 or #slot4 ~= #slot2 then
 		return true
 	end
 
-	if #var_25_2 ~= 0 and #var_25_0 ~= 0 or #var_25_3 ~= 0 and #var_25_1 ~= 0 then
-		local var_25_4 = {
+	if #slot3 ~= 0 and #slot1 ~= 0 or #slot4 ~= 0 and #slot2 ~= 0 then
+		slot5 = {
 			{},
 			{}
 		}
 
-		for iter_25_0 = 1, 2 do
-			local var_25_5 = iter_25_0 == 1 and var_25_2 or var_25_3
-
-			for iter_25_1, iter_25_2 in ipairs(var_25_5) do
-				var_25_4[iter_25_0][iter_25_2] = true
+		for slot9 = 1, 2 do
+			for slot14, slot15 in ipairs(slot9 == 1 and slot3 or slot4) do
+				slot5[slot9][slot15] = true
 			end
 		end
 
-		for iter_25_3 = 1, 2 do
-			local var_25_6 = iter_25_3 == 1 and var_25_0 or var_25_1
-
-			for iter_25_4, iter_25_5 in ipairs(var_25_6) do
-				if not var_25_4[iter_25_3][iter_25_5] then
+		for slot9 = 1, 2 do
+			for slot14, slot15 in ipairs(slot9 == 1 and slot1 or slot2) do
+				if not slot5[slot9][slot15] then
 					return true
 				end
 			end
@@ -277,12 +259,12 @@ function var_0_0.CheckFilterChange(arg_25_0)
 	return false
 end
 
-function var_0_0.Dispose(arg_26_0)
-	arg_26_0:RemoveAllListeners()
-	arg_26_0.suitScrollHelper_:Dispose()
-	arg_26_0.skillScrollHelper_:Dispose()
-	arg_26_0.filterBottomView_:Dispose()
-	var_0_0.super.Dispose(arg_26_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.suitScrollHelper_:Dispose()
+	slot0.skillScrollHelper_:Dispose()
+	slot0.filterBottomView_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

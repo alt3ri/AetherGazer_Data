@@ -1,27 +1,26 @@
-local var_0_0 = class("ChapterEquipSeizureItemView", import(".ChapterEquipItemBaseView"))
+slot0 = class("ChapterEquipSeizureItemView", import(".ChapterEquipItemBaseView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-	manager.redPoint:bindUIandKey(arg_1_0.panelTf_, ChapterTools.GetRedPoint(arg_1_0.chapterClientID_))
-	arg_1_0:AddRefreshTimer()
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.panelTf_, ChapterTools.GetRedPoint(slot0.chapterClientID_))
+	slot0:AddRefreshTimer()
 end
 
-function var_0_0.OnExit(arg_2_0)
-	var_0_0.super.OnExit(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.panelTf_, ChapterTools.GetRedPoint(arg_2_0.chapterClientID_))
-	arg_2_0:StopRefreshTimer()
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.panelTf_, ChapterTools.GetRedPoint(slot0.chapterClientID_))
+	slot0:StopRefreshTimer()
 end
 
-function var_0_0.AddRefreshTimer(arg_3_0)
-	return
+function slot0.AddRefreshTimer(slot0)
 end
 
-function var_0_0.StopRefreshTimer(arg_4_0)
-	if arg_4_0.timer_ then
-		arg_4_0.timer_:Stop()
+function slot0.StopRefreshTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_4_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

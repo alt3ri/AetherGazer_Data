@@ -1,15 +1,15 @@
-local var_0_0 = class("WeaponServantDetailModule", ReduxView)
+slot0 = class("WeaponServantDetailModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.BuildContext(arg_2_0)
-	arg_2_0.controller = {
-		comps = arg_2_0.gameObject_:GetComponent("ControllerExCollection"),
+function slot0.BuildContext(slot0)
+	slot0.controller = {
+		comps = slot0.gameObject_:GetComponent("ControllerExCollection"),
 		state = {
 			btnState = {
 				beyond = "beyond",
@@ -19,8 +19,8 @@ function var_0_0.BuildContext(arg_2_0)
 			}
 		}
 	}
-	arg_2_0.data = {}
-	arg_2_0.constVar = {
+	slot0.data = {}
+	slot0.constVar = {
 		rareBg = "",
 		subDescColor = "#70767F",
 		lockImg = {
@@ -31,8 +31,8 @@ function var_0_0.BuildContext(arg_2_0)
 	}
 end
 
-function var_0_0.InitContext(arg_3_0)
-	arg_3_0.data = {
+function slot0.InitContext(slot0)
+	slot0.data = {
 		servantAddLv = 0,
 		heroId = 0,
 		descType = 1,
@@ -40,203 +40,177 @@ function var_0_0.InitContext(arg_3_0)
 	}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BuildContext()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.detailBtn_, nil, function()
-		arg_5_0:OnSwitchDescClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.detailBtn_, nil, function ()
+		uv0:OnSwitchDescClick()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.lockBtn_, nil, function()
-		arg_5_0:OnLockBtnClick()
+	slot0:AddBtnListener(slot0.lockBtn_, nil, function ()
+		uv0:OnLockBtnClick()
 	end)
-	arg_5_0:RegistEventListener(SERVANT_LOCK, handler(arg_5_0, arg_5_0.OnServantLock))
+	slot0:RegistEventListener(SERVANT_LOCK, handler(slot0, slot0.OnServantLock))
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
-	arg_10_0:RemoveAllEventListener()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:RemoveAllEventListener()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnRenderModule(arg_11_0, arg_11_1)
-	arg_11_0:InitContext()
+function slot0.OnRenderModule(slot0, slot1)
+	slot0:InitContext()
 
-	local var_11_0 = arg_11_1.heroId
-	local var_11_1 = clone(arg_11_1.servantData)
+	slot2 = slot1.heroId
+	slot3 = clone(slot1.servantData)
+	slot0.data.info = slot3
+	slot4 = slot3.stage
+	slot5 = 0
+	slot0.data.heroId = slot2
 
-	arg_11_0.data.info = var_11_1
-
-	local var_11_2 = var_11_1.stage
-	local var_11_3 = 0
-
-	arg_11_0.data.heroId = var_11_0
-
-	if var_11_0 then
-		local var_11_4 = arg_11_0:GetHeroInfo(var_11_0)
-
-		var_11_3 = HeroTools.GetHeroWeaponAddLevel(var_11_4)
+	if slot2 then
+		slot5 = HeroTools.GetHeroWeaponAddLevel(slot0:GetHeroInfo(slot2))
 	end
 
-	arg_11_0.data.servantAddLv = var_11_3
+	slot0.data.servantAddLv = slot5
 
-	if var_11_3 > 0 then
-		arg_11_0.stageTxt_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL"), var_11_2, var_11_3)
+	if slot5 > 0 then
+		slot0.stageTxt_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL"), slot4, slot5)
 	else
-		arg_11_0.stageTxt_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL_1"), var_11_2)
+		slot0.stageTxt_.text = string.format(GetTips("SERVANT_PROMOTE_LEVEL_1"), slot4)
 	end
 
-	local var_11_5 = var_11_1.id
-	local var_11_6 = WeaponServantCfg[var_11_5]
-	local var_11_7 = ItemCfg[var_11_5]
+	slot6 = slot3.id
+	slot7 = WeaponServantCfg[slot6]
+	slot0.nameTxt_.text = ItemTools.getItemName(ItemCfg[slot6].id)
+	slot9 = string.format("com_white_icon_group_%d_c", slot7.race)
+	slot0.groupImg_.sprite = getSprite("Atlas/SystemGroupAtlas", slot9)
+	slot0.groupTitleImg_.sprite = getSprite("Atlas/SystemGroupAtlas", slot9)
+	slot0.groupTitleTxt_.text = string.format(GetTips("EQUIP_RACE"), RaceEffectCfg[slot7.race].name)
 
-	arg_11_0.nameTxt_.text = ItemTools.getItemName(var_11_7.id)
+	slot0:RenderLock()
+	slot0:RefreshEffectText()
+	slot0:RefreshRecommend()
 
-	local var_11_8 = string.format("com_white_icon_group_%d_c", var_11_6.race)
-
-	arg_11_0.groupImg_.sprite = getSprite("Atlas/SystemGroupAtlas", var_11_8)
-	arg_11_0.groupTitleImg_.sprite = getSprite("Atlas/SystemGroupAtlas", var_11_8)
-	arg_11_0.groupTitleTxt_.text = string.format(GetTips("EQUIP_RACE"), RaceEffectCfg[var_11_6.race].name)
-
-	arg_11_0:RenderLock()
-	arg_11_0:RefreshEffectText()
-	arg_11_0:RefreshRecommend()
-
-	arg_11_0.attackRatioTxt_.text = table.concat({
+	slot0.attackRatioTxt_.text = table.concat({
 		"+",
-		var_11_6.attrib_addition,
+		slot7.attrib_addition,
 		"%"
 	})
+	slot0.subAttrNameTxt_.text, slot11, slot0.subAttrIconImg_.sprite = SkillTools.GetAttr(slot7.attribute)
+	slot0.subAttrTxt_.text = "+" .. slot11
 
-	local var_11_9, var_11_10, var_11_11 = SkillTools.GetAttr(var_11_6.attribute)
-
-	arg_11_0.subAttrNameTxt_.text = var_11_9
-	arg_11_0.subAttrTxt_.text = "+" .. var_11_10
-	arg_11_0.subAttrIconImg_.sprite = var_11_11
-
-	arg_11_0:RenderEquipStatus()
-	arg_11_0:RenderLockObj()
+	slot0:RenderEquipStatus()
+	slot0:RenderLockObj()
 end
 
-function var_0_0.RenderLock(arg_12_0)
-	if arg_12_0.data.info.locked == 1 then
-		arg_12_0.lockImg_.sprite = getSprite("Atlas/SystemCommonAtlas", arg_12_0.constVar.lockImg.locked)
+function slot0.RenderLock(slot0)
+	if slot0.data.info.locked == 1 then
+		slot0.lockImg_.sprite = getSprite("Atlas/SystemCommonAtlas", slot0.constVar.lockImg.locked)
 	else
-		arg_12_0.lockImg_.sprite = getSprite("Atlas/SystemCommonAtlas", arg_12_0.constVar.lockImg.unlocked)
+		slot0.lockImg_.sprite = getSprite("Atlas/SystemCommonAtlas", slot0.constVar.lockImg.unlocked)
 	end
 end
 
-function var_0_0.RenderLockObj(arg_13_0)
-	if arg_13_0.data.info.uid then
-		SetActive(arg_13_0.lockImg_.gameObject, true)
+function slot0.RenderLockObj(slot0)
+	if slot0.data.info.uid then
+		SetActive(slot0.lockImg_.gameObject, true)
 	else
-		SetActive(arg_13_0.lockImg_.gameObject, false)
+		SetActive(slot0.lockImg_.gameObject, false)
 	end
 end
 
-function var_0_0.SwitchControllerState(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_0.controller.comps:GetController(arg_14_1)
-
-	if var_14_0 then
-		var_14_0:SetSelectedState(arg_14_2)
+function slot0.SwitchControllerState(slot0, slot1, slot2)
+	if slot0.controller.comps:GetController(slot1) then
+		slot4:SetSelectedState(slot2)
 	end
 end
 
-function var_0_0.GetHeroInfo(arg_15_0, arg_15_1)
-	return arg_15_0.constVar.proxy:GetHeroData(arg_15_1)
+function slot0.GetHeroInfo(slot0, slot1)
+	return slot0.constVar.proxy:GetHeroData(slot1)
 end
 
-function var_0_0.RefreshEffectText(arg_16_0)
-	local var_16_0 = arg_16_0.data.descType
-	local var_16_1 = ""
-	local var_16_2 = arg_16_0.data.info
-	local var_16_3 = WeaponServantCfg[var_16_2.id].desc
+function slot0.RefreshEffectText(slot0)
+	slot2 = ""
+	slot5 = WeaponServantCfg[slot0.data.info.id].desc
 
-	if var_16_0 == 1 then
-		var_16_1 = arg_16_0.constVar.proxy:GetServantEffect(var_16_2.id, nil, true)
-		arg_16_0.detailTxt_.text = GetTips("SERVANT_DETAIL_FULL")
+	if slot0.data.descType == 1 then
+		slot2 = slot0.constVar.proxy:GetServantEffect(slot3.id, nil, true)
+		slot0.detailTxt_.text = GetTips("SERVANT_DETAIL_FULL")
 	else
-		var_16_1 = arg_16_0.constVar.proxy:GetServantEffect(var_16_2.id, var_16_2.stage + arg_16_0.data.servantAddLv)
-		arg_16_0.detailTxt_.text = GetTips("SERVANT_DETAIL_SIMPLE")
+		slot2 = slot0.constVar.proxy:GetServantEffect(slot3.id, slot3.stage + slot0.data.servantAddLv)
+		slot0.detailTxt_.text = GetTips("SERVANT_DETAIL_SIMPLE")
 	end
 
-	arg_16_0.descTxt_.text = table.concat({
-		var_16_1,
+	slot0.descTxt_.text = table.concat({
+		slot2,
 		"\n<color=",
-		arg_16_0.constVar.subDescColor,
+		slot0.constVar.subDescColor,
 		">",
-		var_16_3,
+		slot5,
 		"</color>"
 	})
 end
 
-function var_0_0.RefreshRecommend(arg_17_0)
-	local var_17_0 = arg_17_0.data.info
-	local var_17_1 = WeaponServantCfg[var_17_0.id].effect[1]
-	local var_17_2 = 0
+function slot0.RefreshRecommend(slot0)
+	slot3 = 0
 
-	if var_17_1 > 0 then
-		var_17_2 = WeaponEffectCfg[var_17_1].spec_char[1]
+	if WeaponServantCfg[slot0.data.info.id].effect[1] > 0 then
+		slot3 = WeaponEffectCfg[slot2].spec_char[1]
 	end
 
-	if var_17_2 ~= nil and var_17_2 > 0 then
-		SetActive(arg_17_0.recommendObj_, true)
+	if slot3 ~= nil and slot3 > 0 then
+		SetActive(slot0.recommendObj_, true)
 
-		arg_17_0.heroImg_.sprite = HeroTools.GetSmallHeadSprite(var_17_2)
+		slot0.heroImg_.sprite = HeroTools.GetSmallHeadSprite(slot3)
 	else
-		SetActive(arg_17_0.recommendObj_, false)
+		SetActive(slot0.recommendObj_, false)
 	end
 end
 
-function var_0_0.RenderEquipStatus(arg_18_0)
-	local var_18_0 = ServantTools.GetServantMap()
-	local var_18_1 = arg_18_0.data.info
+function slot0.RenderEquipStatus(slot0)
+	if slot0.data.info.uid then
+		if ServantTools.GetServantMap()[slot2.uid] then
+			SetActive(slot0.equipObj_, true)
 
-	if var_18_1.uid then
-		local var_18_2 = var_18_0[var_18_1.uid]
-
-		if var_18_2 then
-			SetActive(arg_18_0.equipObj_, true)
-
-			arg_18_0.equipHeroIcon_.sprite = HeroTools.GetSmallHeadSprite(var_18_2)
-			arg_18_0.equipHeroTxt_.text = string.format(GetTips("SERVANT_EQUIPED"), GetI18NText(HeroCfg[var_18_2].name))
+			slot0.equipHeroIcon_.sprite = HeroTools.GetSmallHeadSprite(slot3)
+			slot0.equipHeroTxt_.text = string.format(GetTips("SERVANT_EQUIPED"), GetI18NText(HeroCfg[slot3].name))
 		else
-			SetActive(arg_18_0.equipObj_, false)
+			SetActive(slot0.equipObj_, false)
 		end
 	else
-		SetActive(arg_18_0.equipObj_, false)
+		SetActive(slot0.equipObj_, false)
 	end
 end
 
-function var_0_0.OnSwitchDescClick(arg_19_0)
-	arg_19_0.data.descType = (arg_19_0.data.descType + 1) % 2
+function slot0.OnSwitchDescClick(slot0)
+	slot0.data.descType = (slot0.data.descType + 1) % 2
 
-	arg_19_0:RefreshEffectText()
+	slot0:RefreshEffectText()
 end
 
-function var_0_0.OnLockBtnClick(arg_20_0)
-	if arg_20_0.data.info.uid and arg_20_0.data.info.uid ~= 0 then
-		ServantAction.ServantLock(arg_20_0.data.info.uid)
+function slot0.OnLockBtnClick(slot0)
+	if slot0.data.info.uid and slot0.data.info.uid ~= 0 then
+		ServantAction.ServantLock(slot0.data.info.uid)
 	end
 end
 
-function var_0_0.OnServantLock(arg_21_0, arg_21_1, arg_21_2)
-	if arg_21_0.data.info.uid and arg_21_0.data.info.uid ~= 0 and arg_21_1 == arg_21_0.data.info.uid then
-		arg_21_0.data.info.locked = arg_21_2
+function slot0.OnServantLock(slot0, slot1, slot2)
+	if slot0.data.info.uid and slot0.data.info.uid ~= 0 and slot1 == slot0.data.info.uid then
+		slot0.data.info.locked = slot2
 
-		arg_21_0:RenderLock()
+		slot0:RenderLock()
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,76 +1,71 @@
-local var_0_0 = class("PolyhedronArtifactAtlasIItem", ReduxView)
+slot0 = class("PolyhedronArtifactAtlasIItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.state == 2 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.state == 2 then
 			JumpTools.OpenPageByJump("polyhedronArtifactTips", {
-				artifact_id = arg_4_0.artifact_id
+				artifact_id = uv0.artifact_id
 			})
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.artifact_id = arg_6_1
+function slot0.SetData(slot0, slot1)
+	slot0.artifact_id = slot1
+	slot2 = PolyhedronArtifactCfg[slot1]
+	slot0.m_name.text = GetI18NText(slot2.name)
+	slot0.m_icon.sprite = getSpriteWithoutAtlas(PolyhedronConst.ARTIFACT_ICON_PATH .. slot2.icon)
+	slot0.state = PolyhedronData:GetArtifaceAtlasState(slot1)
 
-	local var_6_0 = PolyhedronArtifactCfg[arg_6_1]
+	if slot0.state == 0 then
+		slot0.m_des.text = GetTips("POLYHEDRON_HANDBOOK_NOT_COLLECT")
 
-	arg_6_0.m_name.text = GetI18NText(var_6_0.name)
-	arg_6_0.m_icon.sprite = getSpriteWithoutAtlas(PolyhedronConst.ARTIFACT_ICON_PATH .. var_6_0.icon)
-	arg_6_0.state = PolyhedronData:GetArtifaceAtlasState(arg_6_1)
-
-	if arg_6_0.state == 0 then
-		arg_6_0.m_des.text = GetTips("POLYHEDRON_HANDBOOK_NOT_COLLECT")
-
-		arg_6_0.stateController:SetSelectedIndex(1)
+		slot0.stateController:SetSelectedIndex(1)
 	else
-		if arg_6_0.state == 1 then
-			arg_6_0.stateController:SetSelectedIndex(2)
+		if slot0.state == 1 then
+			slot0.stateController:SetSelectedIndex(2)
 		else
-			arg_6_0.stateController:SetSelectedIndex(0)
+			slot0.stateController:SetSelectedIndex(0)
 		end
 
-		arg_6_0.m_des.text = var_6_0.note or ""
+		slot0.m_des.text = slot2.note or ""
 	end
 
-	arg_6_0:SetActive(true)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.m_descTrans_)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.m_descPanelTrans_)
-
-	local var_6_1 = 0
-
-	arg_6_0.transform_:SetSizeDeltaY(arg_6_0.m_descPanelTrans_:GetSizeDeltaY(var_6_1))
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_6_0.transform_)
+	slot0:SetActive(true)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_descTrans_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_descPanelTrans_)
+	slot0.transform_:SetSizeDeltaY(slot0.m_descPanelTrans_:GetSizeDeltaY(0))
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.gameObject_ = nil
-	arg_7_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.SetActive(arg_8_0, arg_8_1)
-	SetActive(arg_8_0.gameObject_, arg_8_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

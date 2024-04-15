@@ -1,29 +1,20 @@
-local var_0_0 = class("Guide_15", BaseGuide)
+slot0 = class("Guide_15", BaseGuide)
 
-function var_0_0.InitSteps(arg_1_0)
-	local var_1_0 = {}
+function slot0.InitSteps(slot0)
+	slot0:OnGuideStart()
+	table.insert({}, 1501)
 
-	arg_1_0:OnGuideStart()
-	table.insert(var_1_0, 1501)
-
-	local var_1_1 = MatrixData:GetMatrixPhaseData()
-
-	if var_1_1 and var_1_1:GetPhase() == 1 then
-		table.insert(var_1_0, 1502)
+	if MatrixData:GetMatrixPhaseData() and slot2:GetPhase() == 1 then
+		table.insert(slot1, 1502)
 	end
 
-	arg_1_0._steps = {}
+	slot0._steps = {}
 
-	local var_1_2 = #var_1_0
-
-	for iter_1_0 = 1, var_1_2 do
-		local var_1_3 = var_1_0[iter_1_0]
-		local var_1_4 = arg_1_0:ProduceStep(var_1_3)
-
-		if var_1_4 then
-			table.insert(arg_1_0._steps, var_1_4)
+	for slot7 = 1, #slot1 do
+		if slot0:ProduceStep(slot1[slot7]) then
+			table.insert(slot0._steps, slot9)
 		end
 	end
 end
 
-return var_0_0
+return slot0

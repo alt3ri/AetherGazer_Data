@@ -1,141 +1,139 @@
-local var_0_0 = singletonClass("MailData")
-local var_0_1 = 0
-local var_0_2 = 0
-local var_0_3 = 0
-local var_0_4 = 0
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7 = {
+slot0 = singletonClass("MailData")
+slot1 = 0
+slot2 = 0
+slot3 = 0
+slot4 = 0
+slot5 = {}
+slot6 = {}
+slot7 = {
 	tag = "官方",
 	name = "奥林匹亚速运",
 	type = "mail"
 }
 
-function var_0_0.Init()
-	var_0_1 = 0
-	var_0_2 = 0
-	var_0_3 = 0
-	var_0_4 = 0
-	var_0_5 = {}
-	var_0_6 = {}
+function slot0.Init()
+	uv0 = 0
+	uv1 = 0
+	uv2 = 0
+	uv3 = 0
+	uv4 = {}
+	uv5 = {}
 end
 
-function var_0_0.MailInit(arg_2_0)
-	if arg_2_0.unread_number > var_0_1 then
-		var_0_3 = manager.time:GetServerTime()
+function slot0.MailInit(slot0)
+	if uv0 < slot0.unread_number then
+		uv1 = manager.time:GetServerTime()
 
 		saveData("mail", "arrive", manager.time:GetServerTime())
 	end
 
-	var_0_1 = arg_2_0.unread_number
-	var_0_2 = arg_2_0.total_number
+	uv0 = slot0.unread_number
+	uv2 = slot0.total_number
 
-	saveData("mail", "unread", tostring(var_0_1))
+	saveData("mail", "unread", tostring(uv0))
 	manager.notify:Invoke(MAIL_LIST_UPDATE)
 	manager.notify:Invoke(MAIL_BRIEF_UPDATE)
 end
 
-function var_0_0.getNextMail(arg_3_0)
+function slot0.getNextMail(slot0)
 	MailAction.TryToGetMailListFromServer()
 end
 
-function var_0_0.IsMailDataComplete()
-	return var_0_2 <= #var_0_6
+function slot0.IsMailDataComplete()
+	return uv0 <= #uv1
 end
 
-local var_0_8
+slot8 = nil
 
-function var_0_0.GetMailListFromServer(arg_5_0)
-	var_0_8 = arg_5_0
+function slot0.GetMailListFromServer(slot0)
+	uv0 = slot0
 
 	MailAction.TryToGetMailListFromServer()
 end
 
-function var_0_0.OnGetMailListFromServer(arg_6_0)
-	var_0_2 = arg_6_0.total_num
+function slot0.OnGetMailListFromServer(slot0)
+	uv0 = slot0.total_num
 
-	var_0_0.OnMailListGet(arg_6_0.mail_list)
-	var_0_0.OnGetWholeMailList()
+	uv1.OnMailListGet(slot0.mail_list)
+	uv1.OnGetWholeMailList()
 end
 
-function var_0_0.OnMailListGet(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0) do
-		local var_7_0 = var_0_5[iter_7_1.id] ~= nil
+function slot0.OnMailListGet(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		slot6 = uv0[slot5.id] ~= nil
 
-		if iter_7_1.id == "196690" then
+		if slot5.id == "196690" then
 			CustomLog.Log(debug.traceback(string.format("196690")))
 		end
 
-		var_0_5[iter_7_1.id] = {
-			id = iter_7_1.id,
-			date = iter_7_1.date,
-			title = iter_7_1.title,
-			attach_flag = iter_7_1.attach_flag,
-			read_flag = iter_7_1.read_flag,
-			timeout_timestamp = iter_7_1.timeout_timestamp,
-			star_state = iter_7_1.star_state or 0,
-			mail_template_id = iter_7_1.mail_template_id or 0,
+		uv0[slot5.id] = {
+			id = slot5.id,
+			date = slot5.date,
+			title = slot5.title,
+			attach_flag = slot5.attach_flag,
+			read_flag = slot5.read_flag,
+			timeout_timestamp = slot5.timeout_timestamp,
+			star_state = slot5.star_state or 0,
+			mail_template_id = slot5.mail_template_id or 0,
 			title_format = {},
 			i18n_info_title = {},
 			link_param = {}
 		}
 
-		for iter_7_2, iter_7_3 in ipairs(iter_7_1.i18n_info) do
-			var_0_5[iter_7_1.id].i18n_info_title[iter_7_3.language] = iter_7_3.string
+		for slot10, slot11 in ipairs(slot5.i18n_info) do
+			uv0[slot5.id].i18n_info_title[slot11.language] = slot11.string
 		end
 
-		if iter_7_1.link_param then
-			for iter_7_4, iter_7_5 in ipairs(iter_7_1.link_param) do
-				table.insert(var_0_5[iter_7_1.id].link_param, iter_7_5)
+		if slot5.link_param then
+			for slot10, slot11 in ipairs(slot5.link_param) do
+				table.insert(uv0[slot5.id].link_param, slot11)
 			end
 		end
 
-		if var_0_5[iter_7_1.id].mail_template_id ~= 0 then
-			for iter_7_6, iter_7_7 in ipairs(iter_7_1.title_format) do
-				table.insert(var_0_5[iter_7_1.id].title_format, iter_7_7)
+		if uv0[slot5.id].mail_template_id ~= 0 then
+			for slot10, slot11 in ipairs(slot5.title_format) do
+				table.insert(uv0[slot5.id].title_format, slot11)
 			end
 		end
 
-		if not var_7_0 then
-			table.insert(var_0_6, iter_7_1.id)
+		if not slot6 then
+			table.insert(uv1, slot5.id)
 		end
 
-		if var_0_0.GetCachedReadFlag(iter_7_1.id) >= 0 then
-			var_0_5[iter_7_1.id].read_flag = var_0_0.GetCachedReadFlag(iter_7_1.id)
+		if uv2.GetCachedReadFlag(slot5.id) >= 0 then
+			uv0[slot5.id].read_flag = uv2.GetCachedReadFlag(slot5.id)
 		end
 
-		local var_7_1 = formatRewardCfgList(iter_7_1.attachment_list)
-
-		var_0_5[iter_7_1.id].rewardList = var_7_1
+		uv0[slot5.id].rewardList = formatRewardCfgList(slot5.attachment_list)
 	end
 end
 
-function var_0_0.OnGetWholeMailList()
-	if var_0_8 then
-		var_0_8()
+function slot0.OnGetWholeMailList()
+	if uv0 then
+		uv0()
 
-		var_0_8 = nil
+		uv0 = nil
 	end
 end
 
-function var_0_0.DeleteMail(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0) do
-		if var_0_5[iter_9_1] == nil then
+function slot0.DeleteMail(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		if uv0[slot5] == nil then
 			break
 		end
 
-		var_0_0.DeleteCachedReadFlag(iter_9_1)
+		uv1.DeleteCachedReadFlag(slot5)
 
-		if var_0_5[iter_9_1].read_flag == 1 then
-			var_0_1 = var_0_1 - 1
+		if uv0[slot5].read_flag == 1 then
+			uv2 = uv2 - 1
 		end
 
-		var_0_5[iter_9_1] = nil
-		var_0_2 = var_0_2 - 1
+		uv0[slot5] = nil
+		uv3 = uv3 - 1
 
-		for iter_9_2 = #var_0_6, 1, -1 do
-			if var_0_6[iter_9_2] == iter_9_1 then
-				table.remove(var_0_6, iter_9_2)
+		for slot9 = #uv4, 1, -1 do
+			if uv4[slot9] == slot5 then
+				table.remove(uv4, slot9)
 
 				break
 			end
@@ -146,298 +144,275 @@ function var_0_0.DeleteMail(arg_9_0)
 	manager.notify:Invoke(MAIL_LIST_UPDATE)
 end
 
-local var_0_9
+slot9 = nil
 
-function var_0_0.TryToGetMailDetail(arg_10_0, arg_10_1)
-	var_0_9 = arg_10_1
+function slot0.TryToGetMailDetail(slot0, slot1)
+	uv0 = slot1
 
-	if var_0_5[arg_10_0].content_list then
-		if var_0_9 ~= nil then
-			var_0_9()
+	if uv1[slot0].content_list then
+		if uv0 ~= nil then
+			uv0()
 
-			var_0_9 = nil
+			uv0 = nil
 		end
 
 		return
 	end
 
-	MailAction.TryToGetMailDetailFromServer(arg_10_0)
+	MailAction.TryToGetMailDetailFromServer(slot0)
 end
 
-local var_0_10 = {
+slot10 = {
 	SENDER = 2,
 	TITLE = 1,
 	CONTENT = 3
 }
 
-function var_0_0.OnGetMailDetailFromServer(arg_11_0)
-	if arg_11_0.detail_info.id == "196690" then
+function slot0.OnGetMailDetailFromServer(slot0)
+	if slot0.detail_info.id == "196690" then
 		CustomLog.Log(debug.traceback(string.format("196690")))
 	end
 
-	local var_11_0 = var_0_5[arg_11_0.detail_info.id]
+	slot1 = uv0[slot0.detail_info.id]
+	slot1.content_list = slot0.detail_info.content_list
+	slot1.sender = slot0.detail_info.sender
+	slot1.mail_template_id = slot0.detail_info.mail_template_id or 0
+	slot1.sender_format = slot0.detail_info.sender_format
+	slot1.content_format = {}
 
-	var_11_0.content_list = arg_11_0.detail_info.content_list
-	var_11_0.sender = arg_11_0.detail_info.sender
-	var_11_0.mail_template_id = arg_11_0.detail_info.mail_template_id or 0
-	var_11_0.sender_format = arg_11_0.detail_info.sender_format
-	var_11_0.content_format = {}
-
-	if var_11_0.mail_template_id ~= 0 then
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.detail_info.content_format) do
-			table.insert(var_11_0.content_format, iter_11_1)
+	if slot1.mail_template_id ~= 0 then
+		for slot5, slot6 in ipairs(slot0.detail_info.content_format) do
+			table.insert(slot1.content_format, slot6)
 		end
 	end
 
-	var_11_0.i18n_info_sender = {}
-	var_11_0.i18n_info_content = {}
+	slot1.i18n_info_sender = {}
+	slot1.i18n_info_content = {}
 
-	for iter_11_2, iter_11_3 in pairs(arg_11_0.detail_info.i18n_info) do
-		if iter_11_3.type == var_0_10.SENDER then
-			var_11_0.i18n_info_sender[iter_11_3.language] = iter_11_3.string
-		elseif iter_11_3.type == var_0_10.CONTENT then
-			var_11_0.i18n_info_content[iter_11_3.language] = iter_11_3.content
+	for slot5, slot6 in pairs(slot0.detail_info.i18n_info) do
+		if slot6.type == uv1.SENDER then
+			slot1.i18n_info_sender[slot6.language] = slot6.string
+		elseif slot6.type == uv1.CONTENT then
+			slot1.i18n_info_content[slot6.language] = slot6.content
 		end
 	end
 
-	var_11_0.link_param = {}
+	slot1.link_param = {}
 
-	if arg_11_0.detail_info.link_param then
-		for iter_11_4, iter_11_5 in ipairs(arg_11_0.detail_info.link_param) do
-			table.insert(var_11_0.link_param, iter_11_5)
+	if slot0.detail_info.link_param then
+		for slot5, slot6 in ipairs(slot0.detail_info.link_param) do
+			table.insert(slot1.link_param, slot6)
 		end
 	end
 
-	var_11_0.read_flag = 2
+	slot1.read_flag = 2
 
-	if var_11_0.attach_flag == 0 then
-		var_0_1 = var_0_1 - 1
+	if slot1.attach_flag == 0 then
+		uv2 = uv2 - 1
 
 		MailAction.UpdateMailUnread()
-		saveData("mail", "unread", tostring(var_0_1))
+		saveData("mail", "unread", tostring(uv2))
 		manager.notify:Invoke(MAIL_BRIEF_UPDATE)
 	end
 
-	if var_0_9 ~= nil then
-		var_0_9()
+	if uv3 ~= nil then
+		uv3()
 
-		var_0_9 = nil
+		uv3 = nil
 	end
 
-	manager.notify:Invoke(MAIL_INFO_UPDATE, var_11_0)
+	manager.notify:Invoke(MAIL_INFO_UPDATE, slot1)
 end
 
-function var_0_0.GetMailAttachment(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0) do
-		if var_0_5[iter_12_1] then
-			var_0_5[iter_12_1].attach_flag = 2
-			var_0_5[iter_12_1].read_flag = 2
+function slot0.GetMailAttachment(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		if uv0[slot5] then
+			uv0[slot5].attach_flag = 2
+			uv0[slot5].read_flag = 2
 
-			manager.notify:Invoke(MAIL_INFO_UPDATE, var_0_5[iter_12_1])
+			manager.notify:Invoke(MAIL_INFO_UPDATE, uv0[slot5])
 		end
 
-		var_0_1 = var_0_1 - 1
+		uv1 = uv1 - 1
 
 		MailAction.UpdateMailUnread()
 	end
 
-	saveData("mail", "unread", tostring(var_0_1))
+	saveData("mail", "unread", tostring(uv1))
 	manager.notify:Invoke(MAIL_BRIEF_UPDATE)
 end
 
-function var_0_0.ClickMailBtn(arg_13_0)
-	var_0_4 = arg_13_0
+function slot0.ClickMailBtn(slot0)
+	uv0 = slot0
 end
 
-function var_0_0.HaveMailRead(arg_14_0)
-	if var_0_5[arg_14_0] then
-		return var_0_5[arg_14_0].read_flag == 0 or var_0_5[arg_14_0].read_flag == 2
+function slot0.HaveMailRead(slot0)
+	if uv0[slot0] then
+		return uv0[slot0].read_flag == 0 or uv0[slot0].read_flag == 2
 	end
 
 	return false
 end
 
-function var_0_0.CacheReadFlag(arg_15_0)
-	if var_0_5[arg_15_0] then
-		var_0_5[arg_15_0].read_flag = 2
+function slot0.CacheReadFlag(slot0)
+	if uv0[slot0] then
+		uv0[slot0].read_flag = 2
 
-		saveData("mail_read_flag", arg_15_0, 2)
-		manager.notify:Invoke(MAIL_INFO_UPDATE, var_0_5[arg_15_0])
+		saveData("mail_read_flag", slot0, 2)
+		manager.notify:Invoke(MAIL_INFO_UPDATE, uv0[slot0])
 	end
 end
 
-function var_0_0.DeleteCachedReadFlag(arg_16_0)
-	if var_0_5[arg_16_0] then
-		saveData("mail_read_flag", arg_16_0, nil)
+function slot0.DeleteCachedReadFlag(slot0)
+	if uv0[slot0] then
+		saveData("mail_read_flag", slot0, nil)
 	end
 end
 
-function var_0_0.GetCachedReadFlag(arg_17_0)
-	if var_0_5[arg_17_0] then
-		return getData("mail_read_flag", arg_17_0) or -1
+function slot0.GetCachedReadFlag(slot0)
+	if uv0[slot0] then
+		return getData("mail_read_flag", slot0) or -1
 	end
 
 	return -1
 end
 
-function var_0_0.SortMailManual()
-	table.sort(var_0_6, function(arg_19_0, arg_19_1)
-		local var_19_0 = var_0_5[arg_19_0]
-		local var_19_1 = var_0_5[arg_19_1]
-
-		if var_19_0.attach_flag == 1 and var_19_1.attach_flag ~= 1 then
+function slot0.SortMailManual()
+	table.sort(uv0, function (slot0, slot1)
+		if uv0[slot0].attach_flag == 1 and uv0[slot1].attach_flag ~= 1 then
 			return true
-		elseif var_19_0.attach_flag ~= 1 and var_19_1.attach_flag == 1 then
+		elseif slot2.attach_flag ~= 1 and slot3.attach_flag == 1 then
 			return false
 		end
 
-		local var_19_2 = (var_0_0.GetCachedReadFlag(arg_19_0) == 2 or var_19_0.read_flag == 2) and 1 or 0
-		local var_19_3 = (var_0_0.GetCachedReadFlag(arg_19_1) == 2 or var_19_1.read_flag == 2) and 1 or 0
-
-		if var_19_2 ~= var_19_3 then
-			return var_19_2 < var_19_3
+		if ((uv1.GetCachedReadFlag(slot0) == 2 or slot2.read_flag == 2) and 1 or 0) ~= ((uv1.GetCachedReadFlag(slot1) == 2 or slot3.read_flag == 2) and 1 or 0) then
+			return slot4 < slot5
 		end
 
-		if var_19_0.star_state ~= var_19_1.star_state then
-			return var_19_0.star_state > var_19_1.star_state
+		if slot2.star_state ~= slot3.star_state then
+			return slot3.star_state < slot2.star_state
 		end
 
-		if var_19_0.date > var_19_1.date then
+		if slot3.date < slot2.date then
 			return true
-		elseif var_19_0.date < var_19_1.date then
+		elseif slot2.date < slot3.date then
 			return false
 		end
 
-		return arg_19_1 < arg_19_0
+		return slot1 < slot0
 	end)
 end
 
-function var_0_0.SetMailStar(arg_20_0, arg_20_1)
-	local var_20_0 = var_0_0.GetMail(tostring(arg_20_0))
+function slot0.SetMailStar(slot0, slot1)
+	slot2 = uv0.GetMail(tostring(slot0))
+	slot2.star_state = slot1
 
-	var_20_0.star_state = arg_20_1
-
-	if var_20_0.star_state == 1 then
-		var_0_0.SortMailManual()
+	if slot2.star_state == 1 then
+		uv0.SortMailManual()
 	end
 
-	manager.notify:Invoke(MAIL_STAR_UPDATE, var_20_0)
+	manager.notify:Invoke(MAIL_STAR_UPDATE, slot2)
 end
 
-function var_0_0.GetMailSort()
-	return var_0_6
+function slot0.GetMailSort()
+	return uv0
 end
 
-function var_0_0.GetTimeoutMailIdList()
-	local var_22_0 = {}
-	local var_22_1 = manager.time:GetServerTime()
+function slot0.GetTimeoutMailIdList()
+	slot0 = {}
 
-	for iter_22_0, iter_22_1 in pairs(MailData.GetMailSort()) do
-		if var_22_1 >= MailData.GetMail(iter_22_1).timeout_timestamp then
-			table.insert(var_22_0, iter_22_1)
+	for slot5, slot6 in pairs(MailData.GetMailSort()) do
+		if MailData.GetMail(slot6).timeout_timestamp <= manager.time:GetServerTime() then
+			table.insert(slot0, slot6)
 		end
 	end
 
-	return var_22_0
+	return slot0
 end
 
-function var_0_0.GetTotal()
-	return var_0_2
+function slot0.GetTotal()
+	return uv0
 end
 
-function var_0_0.GetUnread()
-	return var_0_1
+function slot0.GetUnread()
+	return uv0
 end
 
-function var_0_0.GetArriveTime()
-	return var_0_3
+function slot0.GetArriveTime()
+	return uv0
 end
 
-function var_0_0.GetClickTime()
-	return var_0_4
+function slot0.GetClickTime()
+	return uv0
 end
 
-function var_0_0.GetMail(arg_27_0)
-	return var_0_5[arg_27_0]
+function slot0.GetMail(slot0)
+	return uv0[slot0]
 end
 
-function var_0_0.GetMailContent(arg_28_0)
-	local var_28_0 = var_0_0.GetMail(arg_28_0)
-	local var_28_1 = SettingData:GetCurrentLanguage()
+function slot0.GetMailContent(slot0)
+	slot2 = SettingData:GetCurrentLanguage()
 
-	if var_28_0.mail_template_id ~= nil and var_28_0.mail_template_id ~= 0 then
-		local var_28_2 = MailTemplateCfg[var_28_0.mail_template_id]
-		local var_28_3 = {}
-		local var_28_4 = {
+	if uv0.GetMail(slot0).mail_template_id ~= nil and slot1.mail_template_id ~= 0 then
+		slot3 = MailTemplateCfg[slot1.mail_template_id]
+
+		table.insert({}, {
 			content_type = 2,
-			text = string.format(GetI18NText(var_28_2.mail_desc), unpack(var_28_0.content_format))
-		}
+			text = string.format(GetI18NText(slot3.mail_desc), unpack(slot1.content_format))
+		})
 
-		table.insert(var_28_3, var_28_4)
-
-		if var_28_2.event_type ~= 0 and var_28_2.event_type == 2 then
-			local var_28_5 = {
+		if slot3.event_type ~= 0 and slot3.event_type == 2 then
+			table.insert(slot4, {
 				text = "",
 				content_type = 1,
-				image = var_28_2.image,
-				event_type = var_28_2.event_type,
-				event_arg = var_28_2.event_url
-			}
-
-			table.insert(var_28_3, var_28_5)
+				image = slot3.image,
+				event_type = slot3.event_type,
+				event_arg = slot3.event_url
+			})
 		end
 
-		return var_28_3
-	elseif var_28_0.i18n_info_content[var_28_1] then
-		return var_28_0.i18n_info_content[var_28_1]
+		return slot4
+	elseif slot1.i18n_info_content[slot2] then
+		return slot1.i18n_info_content[slot2]
 	else
-		return var_28_0.content_list
+		return slot1.content_list
 	end
 end
 
-function var_0_0.GetMailTitle(arg_29_0)
-	local var_29_0 = var_0_0.GetMail(arg_29_0)
-	local var_29_1 = SettingData:GetCurrentLanguage()
+function slot0.GetMailTitle(slot0)
+	slot2 = SettingData:GetCurrentLanguage()
 
-	if var_29_0.mail_template_id ~= nil and var_29_0.mail_template_id ~= 0 then
-		local var_29_2 = MailTemplateCfg[var_29_0.mail_template_id]
-		local var_29_3 = GetI18NText(var_29_2.mail_title)
-
-		return (string.format(var_29_3, unpack(var_29_0.title_format)))
-	elseif var_29_0.i18n_info_title[var_29_1] then
-		return var_29_0.i18n_info_title[var_29_1]
+	if uv0.GetMail(slot0).mail_template_id ~= nil and slot1.mail_template_id ~= 0 then
+		return string.format(GetI18NText(MailTemplateCfg[slot1.mail_template_id].mail_title), unpack(slot1.title_format))
+	elseif slot1.i18n_info_title[slot2] then
+		return slot1.i18n_info_title[slot2]
 	else
-		return var_29_0.title
+		return slot1.title
 	end
 end
 
-function var_0_0.GetMailSender(arg_30_0)
-	local var_30_0 = var_0_0.GetMail(arg_30_0)
-	local var_30_1 = SettingData:GetCurrentLanguage()
+function slot0.GetMailSender(slot0)
+	slot2 = SettingData:GetCurrentLanguage()
 
-	if var_30_0.mail_template_id ~= nil and var_30_0.mail_template_id ~= 0 then
-		local var_30_2 = MailTemplateCfg[var_30_0.mail_template_id].mail_sender
-
-		return (string.format(var_30_2, unpack(var_30_0.sender_format)))
-	elseif var_30_0.i18n_info_sender[var_30_1] then
-		return var_30_0.i18n_info_sender[var_30_1]
+	if uv0.GetMail(slot0).mail_template_id ~= nil and slot1.mail_template_id ~= 0 then
+		return string.format(MailTemplateCfg[slot1.mail_template_id].mail_sender, unpack(slot1.sender_format))
+	elseif slot1.i18n_info_sender[slot2] then
+		return slot1.i18n_info_sender[slot2]
 	else
-		return var_30_0.sender
+		return slot1.sender
 	end
 end
 
-function var_0_0.GetSimpleData()
-	return var_0_7
+function slot0.GetSimpleData()
+	return uv0
 end
 
-function var_0_0.IsSpecialMail(arg_32_0)
-	local var_32_0 = var_0_0.GetMail(arg_32_0)
-
-	if var_32_0.mail_template_id ~= nil and var_32_0.mail_template_id ~= 0 and MailTemplateCfg[var_32_0.mail_template_id].mail_type == 1 then
+function slot0.IsSpecialMail(slot0)
+	if uv0.GetMail(slot0).mail_template_id ~= nil and slot1.mail_template_id ~= 0 and MailTemplateCfg[slot1.mail_template_id].mail_type == 1 then
 		return true
 	end
 
 	return false
 end
 
-return var_0_0
+return slot0

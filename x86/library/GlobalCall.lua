@@ -1,27 +1,22 @@
-local var_0_0 = {
-	func = {}
+return {
+	func = {},
+	register = function (slot0, slot1)
+		uv0.func[slot0] = slot1
+	end,
+	call = function (slot0)
+		if not uv0.func[slot0] then
+			return
+		else
+			uv0.func[slot0]()
+
+			uv0.func[slot0] = nil
+
+			return
+		end
+	end,
+	printNames = function ()
+		for slot3, slot4 in pairs(uv0.func) do
+			print(slot3)
+		end
+	end
 }
-
-function var_0_0.register(arg_1_0, arg_1_1)
-	var_0_0.func[arg_1_0] = arg_1_1
-end
-
-function var_0_0.call(arg_2_0)
-	if not var_0_0.func[arg_2_0] then
-		return
-	else
-		var_0_0.func[arg_2_0]()
-
-		var_0_0.func[arg_2_0] = nil
-
-		return
-	end
-end
-
-function var_0_0.printNames()
-	for iter_3_0, iter_3_1 in pairs(var_0_0.func) do
-		print(iter_3_0)
-	end
-end
-
-return var_0_0

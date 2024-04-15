@@ -1,96 +1,93 @@
-local var_0_0 = class("NewHeroArchiveHeroFillterItemView", ReduxView)
+slot0 = class("NewHeroArchiveHeroFillterItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickHandler_ then
-			if arg_4_0.lock_ then
-				if arg_4_0.type_ == 1 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandler_ then
+			if uv0.lock_ then
+				if uv0.type_ == 1 then
 					ShowTips(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_RACE"))
-				elseif arg_4_0.type_ == 2 then
+				elseif uv0.type_ == 2 then
 					ShowTips(GetTips("HERO_HEART_CHAIN_SUPER_PLOT_UNLOCK_RACE"))
 				end
 
 				return
 			end
 
-			arg_4_0.clickHandler_(arg_4_0.id_, arg_4_0.index)
+			uv0.clickHandler_(uv0.id_, uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetClickCallBack(arg_6_0, arg_6_1)
-	arg_6_0.clickHandler_ = arg_6_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-function var_0_0.OnTop(arg_7_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.data_ = arg_8_1
-	arg_8_0.id_ = arg_8_1.id
-	arg_8_0.index_ = arg_8_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.id_ = slot1.id
+	slot0.index_ = slot2
 
-	arg_8_0:RefreshUI(1)
+	slot0:RefreshUI(1)
 end
 
-function var_0_0.ResetData(arg_9_0)
-	arg_9_0.data_ = nil
+function slot0.ResetData(slot0)
+	slot0.data_ = nil
 end
 
-function var_0_0.RefreshUI(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot3 = nil
+	slot0.type_ = slot1
 
-	arg_10_0.type_ = arg_10_1
-
-	if arg_10_1 == 1 then
-		var_10_0 = ArchiveData:GetContinuousHeartArchiveListByType(arg_10_0.id_)
-	elseif arg_10_1 == 2 then
-		var_10_0 = ArchiveData:GetContinuousSuperHeartArchiveListByType(arg_10_0.id_)
+	if slot1 == 1 then
+		slot3 = ArchiveData:GetContinuousHeartArchiveListByType(slot0.id_)
+	elseif slot1 == 2 then
+		slot3 = ArchiveData:GetContinuousSuperHeartArchiveListByType(slot0.id_)
 	end
 
-	if table.isEmpty(var_10_0) then
-		arg_10_0.stateController:SetSelectedState("lock")
+	if table.isEmpty(slot3) then
+		slot0.stateController:SetSelectedState("lock")
 
-		arg_10_0.lock_ = true
-	elseif arg_10_0.index_ == arg_10_2 then
-		arg_10_0.stateController:SetSelectedState("selected")
+		slot0.lock_ = true
+	elseif slot0.index_ == slot2 then
+		slot0.stateController:SetSelectedState("selected")
 
-		arg_10_0.lock_ = false
-	elseif arg_10_0.index_ ~= arg_10_2 then
-		arg_10_0.stateController:SetSelectedState("unselected")
+		slot0.lock_ = false
+	elseif slot0.index_ ~= slot2 then
+		slot0.stateController:SetSelectedState("unselected")
 
-		arg_10_0.lock_ = false
+		slot0.lock_ = false
 	end
 
-	arg_10_0.img_.sprite = getSprite("Atlas/CampItemAtlas", arg_10_0.data_.icon)
+	slot0.img_.sprite = getSprite("Atlas/CampItemAtlas", slot0.data_.icon)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

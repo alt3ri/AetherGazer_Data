@@ -1,256 +1,225 @@
-local var_0_0 = {}
-
+slot0 = {}
 DormHeroAINode = class("DormHeroAINode")
 
-function DormHeroAINode.Get(arg_1_0, arg_1_1, ...)
-	local var_1_0 = var_0_0[arg_1_0]
-	local var_1_1
+function DormHeroAINode.Get(slot0, slot1, ...)
+	slot3 = nil
 
-	if var_1_0 and #var_1_0 > 0 then
-		var_1_1 = table.remove(var_1_0)
-
-		arg_1_0.Ctor(var_1_1, arg_1_1, ...)
+	if uv0[slot0] and #slot2 > 0 then
+		slot0.Ctor(table.remove(slot2), slot1, ...)
 	else
-		var_1_1 = arg_1_0.New(arg_1_1, ...)
+		slot3 = slot0.New(slot1, ...)
 	end
 
-	return var_1_1
+	return slot3
 end
 
-function DormHeroAINode.Recycle(arg_2_0)
-	arg_2_0:Reset()
+function DormHeroAINode.Recycle(slot0)
+	slot0:Reset()
 
-	local var_2_0 = var_0_0[arg_2_0.class] or {}
+	slot1 = uv0[slot0.class] or {}
 
-	table.insert(var_2_0, arg_2_0)
+	table.insert(slot1, slot0)
 
-	var_0_0[arg_2_0.class] = var_2_0
+	uv0[slot0.class] = slot1
 end
 
-function DormHeroAINode.Process(arg_3_0, arg_3_1, ...)
-	local var_3_0 = nullable(arg_3_0.events, arg_3_1)
-
-	if var_3_0 then
-		var_3_0(arg_3_0, ...)
+function DormHeroAINode.Process(slot0, slot1, ...)
+	if nullable(slot0.events, slot1) then
+		slot2(slot0, ...)
 	end
 end
 
-function DormHeroAINode.Finish(arg_4_0)
-	return function(arg_5_0)
-		DormHeroAI:MoveNext(arg_5_0.entityID, arg_4_0 or IdleNode)
+function DormHeroAINode.Finish(slot0)
+	return function (slot0)
+		DormHeroAI:MoveNext(slot0.entityID, uv0 or IdleNode)
 	end
 end
 
-local var_0_1 = DormHeroAINode.Finish()
+slot1 = DormHeroAINode.Finish()
 
-function DormHeroAINode.Ctor(arg_6_0, arg_6_1, ...)
-	arg_6_0.entityID = arg_6_1
+function DormHeroAINode.Ctor(slot0, slot1, ...)
+	slot0.entityID = slot1
 end
 
-function DormHeroAINode.Reset(arg_7_0)
-	return
+function DormHeroAINode.Reset(slot0)
 end
 
-function DormHeroAINode.Start(arg_8_0)
-	return
+function DormHeroAINode.Start(slot0)
 end
 
-function DormHeroAINode.Exit(arg_9_0)
-	return
+function DormHeroAINode.Exit(slot0)
 end
 
 MoveNode = class("MoveNode", DormHeroAINode)
 MoveNode.state = DormEnum.CharacterAIState.Move
 
-function MoveNode.Start(arg_10_0)
-	local var_10_0
+function MoveNode.Start(slot0)
+	slot1 = nil
 
-	if arg_10_0.targetID then
-		local var_10_1 = Dorm.DormEntityManager.QueryPosition(arg_10_0.targetID)
-
-		var_10_0 = Dorm.DormEntityManager.SendMoveCMD(arg_10_0.entityID, var_10_1, true, false)
-	elseif arg_10_0.targetPos then
-		var_10_0 = Dorm.DormEntityManager.SendMoveCMD(arg_10_0.entityID, arg_10_0.targetPos, true, false)
-	else
-		var_10_0 = Dorm.DormEntityManager.SendRndWanderMoveCMD(arg_10_0.entityID, 1.5, false)
-	end
-
-	if not var_10_0 then
-		var_0_1(arg_10_0)
+	if not ((not slot0.targetID or Dorm.DormEntityManager.SendMoveCMD(slot0.entityID, Dorm.DormEntityManager.QueryPosition(slot0.targetID), true, false)) and (not slot0.targetPos or Dorm.DormEntityManager.SendMoveCMD(slot0.entityID, slot0.targetPos, true, false)) and Dorm.DormEntityManager.SendRndWanderMoveCMD(slot0.entityID, 1.5, false)) then
+		uv0(slot0)
 	end
 end
 
-function MoveNode.OnMoveInterrupt(arg_11_0, arg_11_1, ...)
-	if Dorm.DormEntityManager.QueryProvideInteraction(arg_11_1, arg_11_0.entityID) then
-		Dorm.DormEntityManager.StopAllCmd(arg_11_0.entityID)
+function MoveNode.OnMoveInterrupt(slot0, slot1, ...)
+	if Dorm.DormEntityManager.QueryProvideInteraction(slot1, slot0.entityID) then
+		Dorm.DormEntityManager.StopAllCmd(slot0.entityID)
 
-		local var_11_0, var_11_1, var_11_2 = ...
+		slot2, slot3, slot4 = ...
 
-		DormHeroAI:MoveNext(arg_11_0.entityID, InteractNode, arg_11_1, var_11_2, {
-			interactPos = var_11_0,
-			exitPos = var_11_1
+		DormHeroAI:MoveNext(slot0.entityID, InteractNode, slot1, slot4, {
+			interactPos = slot2,
+			exitPos = slot3
 		})
 	end
 end
 
 MoveNode.events = {
-	[ON_DORM_CHARACTER_WAIT_CMD] = var_0_1,
-	[ON_DORM_CHARACTER_MOVE_FINISH] = var_0_1,
+	[ON_DORM_CHARACTER_WAIT_CMD] = slot1,
+	[ON_DORM_CHARACTER_MOVE_FINISH] = slot1,
 	[ON_DORM_CHARACTER_MOVE_PICK_INTERACT_AREA] = MoveNode.OnMoveInterrupt
 }
 InteractNode = class("InteractNode", DormHeroAINode)
 InteractNode.state = DormEnum.CharacterAIState.Interact
 
-function InteractNode.SendInteract(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if arg_12_2 then
-		Dorm.DormEntityManager.SendInteractToEntityCMD(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
+function InteractNode.SendInteract(slot0, slot1, slot2, slot3)
+	if slot2 then
+		Dorm.DormEntityManager.SendInteractToEntityCMD(slot0, slot1, slot2, slot3)
 	else
-		Dorm.DormEntityManager.SendInteractToEntityCMD(arg_12_0, arg_12_1, arg_12_3)
+		Dorm.DormEntityManager.SendInteractToEntityCMD(slot0, slot1, slot3)
 	end
 end
 
-function InteractNode.Ctor(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4)
-	arg_13_0.class.super.Ctor(arg_13_0, arg_13_1)
+function InteractNode.Ctor(slot0, slot1, slot2, slot3, slot4)
+	slot0.class.super.Ctor(slot0, slot1)
 
-	arg_13_0.targetEID = arg_13_2
-	arg_13_0.actionID = arg_13_3
-	arg_13_0.extraData = arg_13_4
+	slot0.targetEID = slot2
+	slot0.actionID = slot3
+	slot0.extraData = slot4
 end
 
-local var_0_2 = DormCharacterInteractBehaviour.MakeDefaultCtx
+slot2 = DormCharacterInteractBehaviour.MakeDefaultCtx
 
-function InteractNode.Start(arg_14_0)
-	local var_14_0 = nullable(arg_14_0.extraData, "interactPos")
-	local var_14_1 = nullable(arg_14_0.extraData, "exitPos")
-	local var_14_2 = nullable(arg_14_0.extraData, "immediate")
+function InteractNode.Start(slot0)
+	slot1 = nullable(slot0.extraData, "interactPos")
+	slot2 = nullable(slot0.extraData, "exitPos")
+	slot3 = nullable(slot0.extraData, "immediate")
 
-	if Dorm.DormEntityManager.IsValidEntityID(arg_14_0.targetEID) and DormCharacterInteractBehaviour.ValidateAction(arg_14_0.entityID, arg_14_0.targetEID, arg_14_0.actionID) then
-		local var_14_3 = var_0_2(arg_14_0.entityID, arg_14_0.targetEID, arg_14_0.actionID, arg_14_0.extraData)
+	if Dorm.DormEntityManager.IsValidEntityID(slot0.targetEID) and DormCharacterInteractBehaviour.ValidateAction(slot0.entityID, slot0.targetEID, slot0.actionID) then
+		DormUtils.SetEntityInteractContext(slot0.entityID, uv0(slot0.entityID, slot0.targetEID, slot0.actionID, slot0.extraData))
+		Dorm.DormEntityManager.StopAllCmd(slot0.entityID)
+		Dorm.DormEntityManager.KeepAsInteractNotEnd(slot0.entityID, slot0.targetEID, true)
 
-		DormUtils.SetEntityInteractContext(arg_14_0.entityID, var_14_3)
-		Dorm.DormEntityManager.StopAllCmd(arg_14_0.entityID)
-		Dorm.DormEntityManager.KeepAsInteractNotEnd(arg_14_0.entityID, arg_14_0.targetEID, true)
+		slot5 = false
 
-		local var_14_4 = false
-
-		if var_14_0 then
-			var_14_4 = Dorm.DormEntityManager.SendMoveLookToDirCMD(arg_14_0.entityID, var_14_0, true, false)
+		if slot1 then
+			slot5 = Dorm.DormEntityManager.SendMoveLookToDirCMD(slot0.entityID, slot1, true, false)
 		end
 
-		if var_14_2 or not var_14_4 then
-			Dorm.DormEntityManager.TryExecuteInteractToEntityImmediate(arg_14_0.entityID, arg_14_0.targetEID, arg_14_0.actionID)
+		if slot3 or not slot5 then
+			Dorm.DormEntityManager.TryExecuteInteractToEntityImmediate(slot0.entityID, slot0.targetEID, slot0.actionID)
 		else
-			arg_14_0.SendInteract(arg_14_0.entityID, arg_14_0.targetEID, arg_14_0.actionID, true)
+			slot0.SendInteract(slot0.entityID, slot0.targetEID, slot0.actionID, true)
 		end
 
-		if var_14_1 and var_14_3.nextAction == nil then
-			Dorm.DormEntityManager.SendMoveLookToDirCMD(arg_14_0.entityID, var_14_1, true, true)
-			Dorm.DormEntityManager.SendRndResumeWanderCMD(arg_14_0.entityID, 1, true)
+		if slot2 and slot4.nextAction == nil then
+			Dorm.DormEntityManager.SendMoveLookToDirCMD(slot0.entityID, slot2, true, true)
+			Dorm.DormEntityManager.SendRndResumeWanderCMD(slot0.entityID, 1, true)
 		end
 	else
-		DormHeroAI.ConsumeInteractCtx(arg_14_0.entityID)
+		DormHeroAI.ConsumeInteractCtx(slot0.entityID)
 
-		local var_14_5 = Dorm.DormEntityManager.QueryRadius(arg_14_0.entityID)
-		local var_14_6 = DormLuaBridge.FindSpawnPosNearBy(arg_14_0.entityID) or DormLuaBridge.FindSpawnPos(var_14_5, 5, true)
-
-		if var_14_6 then
-			Dorm.DormEntityManager.PutEntityAt(arg_14_0.entityID, var_14_6)
+		if DormLuaBridge.FindSpawnPosNearBy(slot0.entityID) or DormLuaBridge.FindSpawnPos(Dorm.DormEntityManager.QueryRadius(slot0.entityID), 5, true) then
+			Dorm.DormEntityManager.PutEntityAt(slot0.entityID, slot5)
 		end
 
-		var_0_1(arg_14_0)
+		uv1(slot0)
 	end
 end
 
 InteractNode.events = {
-	[ON_DORM_CHARACTER_WAIT_CMD] = var_0_1
+	[ON_DORM_CHARACTER_WAIT_CMD] = slot1
 }
 IdleNode = class("IdleNode", DormHeroAINode)
 IdleNode.state = DormEnum.CharacterAIState.None
 IdleNode.idleTimeLimit = 15
 
-function IdleNode.Ctor(arg_15_0, ...)
-	arg_15_0.class.super.Ctor(arg_15_0, ...)
+function IdleNode.Ctor(slot0, ...)
+	slot0.class.super.Ctor(slot0, ...)
 
-	arg_15_0.nextActionCtx = DormHeroAI.ConsumeInteractCtx(arg_15_0.entityID)
-	arg_15_0.idleStartTime = Time.time
-	arg_15_0.idleAnimePlay = 0
+	slot0.nextActionCtx = DormHeroAI.ConsumeInteractCtx(slot0.entityID)
+	slot0.idleStartTime = Time.time
+	slot0.idleAnimePlay = 0
+	slot3 = nil
 
-	local var_15_0 = nullable(arg_15_0.nextActionCtx, "nextAction")
-	local var_15_1 = nullable(arg_15_0.nextActionCtx, "nextActionWaitTime")
-	local var_15_2
-
-	if var_15_0 then
-		arg_15_0.waitIdleAnimePlayTimes = 0
-		arg_15_0.duringIdleAnimePlaying = false
-		var_15_2 = var_15_1 or IdleNode.idleTimeLimit * math.random()
+	if nullable(slot0.nextActionCtx, "nextAction") then
+		slot0.waitIdleAnimePlayTimes = 0
+		slot0.duringIdleAnimePlaying = false
+		slot3 = nullable(slot0.nextActionCtx, "nextActionWaitTime") or IdleNode.idleTimeLimit * math.random()
 	else
-		arg_15_0.waitIdleAnimePlayTimes = math.random() > 0.5 and 1 or 0
-		var_15_2 = math.random(IdleNode.idleTimeLimit)
-		arg_15_0.duringIdleAnimePlaying = false
+		slot0.waitIdleAnimePlayTimes = math.random() > 0.5 and 1 or 0
+		slot3 = math.random(IdleNode.idleTimeLimit)
+		slot0.duringIdleAnimePlaying = false
 	end
 
-	arg_15_0.idleEndTime = arg_15_0.idleStartTime + var_15_2
+	slot0.idleEndTime = slot0.idleStartTime + slot3
 end
 
-function IdleNode.Start(arg_16_0)
-	if arg_16_0.idleStartTime == arg_16_0.idleEndTime then
-		arg_16_0:Update(arg_16_0.idleStartTime)
+function IdleNode.Start(slot0)
+	if slot0.idleStartTime == slot0.idleEndTime then
+		slot0:Update(slot0.idleStartTime)
 	end
 end
 
-function IdleNode.Update(arg_17_0, arg_17_1)
-	if DormHeroAI:HasControl(arg_17_0.entityID) then
-		arg_17_1 = arg_17_1 or Time.time
-
-		local var_17_0 = nullable(arg_17_0.nextActionCtx, "nextAction")
-
-		if not (var_17_0 == nil and arg_17_0.duringIdleAnimePlaying) and arg_17_1 >= arg_17_0.idleEndTime and arg_17_0.idleAnimePlay >= arg_17_0.waitIdleAnimePlayTimes then
-			if var_17_0 then
-				DormHeroAI:MoveNext(arg_17_0.entityID, InteractNode, arg_17_0.nextActionCtx.targetID, var_17_0, {
-					exitPos = arg_17_0.nextActionCtx.exitPos
+function IdleNode.Update(slot0, slot1)
+	if DormHeroAI:HasControl(slot0.entityID) then
+		if not (nullable(slot0.nextActionCtx, "nextAction") == nil and slot0.duringIdleAnimePlaying) and slot0.idleEndTime <= (slot1 or Time.time) and slot0.waitIdleAnimePlayTimes <= slot0.idleAnimePlay then
+			if slot2 then
+				DormHeroAI:MoveNext(slot0.entityID, InteractNode, slot0.nextActionCtx.targetID, slot2, {
+					exitPos = slot0.nextActionCtx.exitPos
 				})
 			else
-				DormHeroAI:MoveNext(arg_17_0.entityID, MoveNode)
+				DormHeroAI:MoveNext(slot0.entityID, MoveNode)
 			end
 		end
 	end
 end
 
-function IdleNode.OnAnime(arg_18_0, arg_18_1, arg_18_2)
-	if Dorm.DormEntityManager.IsIdleAnime(arg_18_0.entityID, arg_18_2) then
-		if arg_18_1 == "start" then
-			arg_18_0.idleAnimePlay = arg_18_0.idleAnimePlay + 1
-			arg_18_0.duringIdleAnimePlaying = true
-		elseif arg_18_1 == "end" or arg_18_1 == "end_played_once" then
-			arg_18_0.duringIdleAnimePlaying = false
+function IdleNode.OnAnime(slot0, slot1, slot2)
+	if Dorm.DormEntityManager.IsIdleAnime(slot0.entityID, slot2) then
+		if slot1 == "start" then
+			slot0.idleAnimePlay = slot0.idleAnimePlay + 1
+			slot0.duringIdleAnimePlaying = true
+		elseif slot1 == "end" or slot1 == "end_played_once" then
+			slot0.duringIdleAnimePlaying = false
 		end
 	end
 end
 
-function IdleNode.ClaimControl(arg_19_0)
-	DormHeroAI:SwitchControl(arg_19_0.entityID, DormEnum.ControlType.AI)
+function IdleNode.ClaimControl(slot0)
+	DormHeroAI:SwitchControl(slot0.entityID, DormEnum.ControlType.AI)
 end
 
-function IdleNode.ReleaseControl(arg_20_0)
-	DormHeroAI:SwitchControl(arg_20_0.entityID, DormEnum.ControlType.Player)
-	DormHeroAI.ConsumeInteractCtx(arg_20_0.entityID)
-	DormHeroAI:MoveNext(arg_20_0.entityID, IdleNode)
+function IdleNode.ReleaseControl(slot0)
+	DormHeroAI:SwitchControl(slot0.entityID, DormEnum.ControlType.Player)
+	DormHeroAI.ConsumeInteractCtx(slot0.entityID)
+	DormHeroAI:MoveNext(slot0.entityID, IdleNode)
 end
 
-function IdleNode.OnGrabStarted(arg_21_0)
-	arg_21_0:ReleaseControl()
+function IdleNode.OnGrabStarted(slot0)
+	slot0:ReleaseControl()
 end
 
-function IdleNode.OnGrabRelease(arg_22_0, arg_22_1, arg_22_2, arg_22_3, arg_22_4)
-	arg_22_0:ClaimControl()
+function IdleNode.OnGrabRelease(slot0, slot1, slot2, slot3, slot4)
+	slot0:ClaimControl()
 
-	if arg_22_1 then
-		if arg_22_2 then
-			Dorm.DormEntityManager.PutEntityAt(arg_22_0.entityID, arg_22_2)
+	if slot1 then
+		if slot2 then
+			Dorm.DormEntityManager.PutEntityAt(slot0.entityID, slot2)
 		end
 
-		DormHeroAI:MoveNext(arg_22_0.entityID, InteractNode, arg_22_1, arg_22_4, {
-			exitPos = arg_22_3
+		DormHeroAI:MoveNext(slot0.entityID, InteractNode, slot1, slot4, {
+			exitPos = slot3
 		})
 	end
 end
@@ -264,8 +233,8 @@ IdleNode.events = {
 	[DORM_RESET_HERO_AI] = IdleNode.ClaimControl
 }
 
-function Dorm.TestAIMove(arg_23_0)
-	return pcall(function()
-		DormHeroAI:MoveNext(arg_23_0, MoveNode)
+function Dorm.TestAIMove(slot0)
+	return pcall(function ()
+		DormHeroAI:MoveNext(uv0, MoveNode)
 	end)
 end

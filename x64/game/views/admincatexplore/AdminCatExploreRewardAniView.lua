@@ -1,133 +1,126 @@
-local var_0_0 = class("AdminCatExploreRewardAniView", ReduxView)
+slot0 = class("AdminCatExploreRewardAniView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ExploreUI/ExploCalculusAnimationUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardList_ = LuaList.New(handler(arg_4_0, arg_4_0.SetItemData), arg_4_0.listGo_, AdminCatExploreRewardItem)
-	arg_4_0.rateController = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "rate")
-	arg_4_0.itemList = {}
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.SetItemData), slot0.listGo_, AdminCatExploreRewardItem)
+	slot0.rateController = ControllerUtil.GetController(slot0.gameObject_.transform, "rate")
+	slot0.itemList = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.getRewardBtn_, nil, function()
-		if arg_5_0.isOver ~= true then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getRewardBtn_, nil, function ()
+		if uv0.isOver ~= true then
 			return
 		end
 
-		arg_5_0.isOver = nil
+		uv0.isOver = nil
+		slot0 = LeanTween.value(uv0.nullGo_, uv0.exploreDay, 0, uv0.exploreDay * 0.2)
 
-		local var_6_0 = LeanTween.value(arg_5_0.nullGo_, arg_5_0.exploreDay, 0, arg_5_0.exploreDay * 0.2)
+		slot0:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.handle_.fillAmount = slot0 / 7
+			uv0.numTxt_.text = math.ceil(uv0.rate[uv0.exploreDay] / 7 * slot0 * 100) .. "<size=24>%</size>"
 
-		var_6_0:setOnUpdate(LuaHelper.FloatAction(function(arg_7_0)
-			arg_5_0.handle_.fillAmount = arg_7_0 / 7
-			arg_5_0.numTxt_.text = math.ceil(arg_5_0.rate[arg_5_0.exploreDay] / 7 * arg_7_0 * 100) .. "<size=24>%</size>"
-
-			local var_7_0 = math.floor(arg_7_0)
-
-			arg_5_0.rateController:SetSelectedState(tostring(var_7_0))
+			uv0.rateController:SetSelectedState(tostring(math.floor(slot0)))
 		end))
-		var_6_0:setOnComplete(System.Action(function()
-			LeanTween.cancel(arg_5_0.nullGo_)
-			var_6_0:setOnUpdate(nil):setOnComplete(nil)
+		slot0:setOnComplete(System.Action(function ()
+			LeanTween.cancel(uv0.nullGo_)
+			uv1:setOnUpdate(nil):setOnComplete(nil)
 			AdminCatExploreAction.GetWeekReward()
 		end))
-		manager.audio:PlayEffect("ui_system_explore", "explore_calculus_0" .. arg_5_0.exploreDay .. "_down", "")
+		manager.audio:PlayEffect("ui_system_explore", "explore_calculus_0" .. uv0.exploreDay .. "_down", "")
 	end)
 end
 
-function var_0_0.SetItemData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2:SetItemData(arg_9_0.reward[arg_9_1], arg_9_1)
-	table.insert(arg_9_0.itemList, arg_9_2)
+function slot0.SetItemData(slot0, slot1, slot2)
+	slot2:SetItemData(slot0.reward[slot1], slot1)
+	table.insert(slot0.itemList, slot2)
 end
 
-function var_0_0.OnGetWeeklyReward(arg_10_0)
-	arg_10_0:Back()
+function slot0.OnGetWeeklyReward(slot0)
+	slot0:Back()
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	local var_11_0 = AdminCatExploreData:GetDataByPara("level")
+function slot0.UpdateView(slot0)
+	slot0.rate = AdminCatExploreData:GetDataByPara("rate")
+	slot0.exploreDay = AdminCatExploreData:GetDataByPara("exploreDay")
+	slot0.reward = {}
 
-	arg_11_0.rate = AdminCatExploreData:GetDataByPara("rate")
-	arg_11_0.exploreDay = AdminCatExploreData:GetDataByPara("exploreDay")
-
-	local var_11_1 = ExploreLevelCfg[var_11_0].accumulate_rewards
-
-	arg_11_0.reward = {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-		table.insert(arg_11_0.reward, {
-			iter_11_1[1],
-			iter_11_1[2] * arg_11_0.rate[arg_11_0.exploreDay]
+	for slot6, slot7 in ipairs(ExploreLevelCfg[AdminCatExploreData:GetDataByPara("level")].accumulate_rewards) do
+		table.insert(slot0.reward, {
+			slot7[1],
+			slot7[2] * slot0.rate[slot0.exploreDay]
 		})
 	end
 
-	for iter_11_2 = 1, 7 do
-		arg_11_0["txt" .. iter_11_2].text = "x" .. arg_11_0.rate[iter_11_2]
+	for slot6 = 1, 7 do
+		slot0["txt" .. slot6].text = "x" .. slot0.rate[slot6]
 	end
 
-	arg_11_0.rewardList_:StartScroll(#arg_11_0.reward)
+	slot0.rewardList_:StartScroll(#slot0.reward)
 
-	if arg_11_0.exploreDay == 0 then
-		arg_11_0.handle_.fillAmount = 0
+	if slot0.exploreDay == 0 then
+		slot0.handle_.fillAmount = 0
+		slot6 = "0"
 
-		arg_11_0.rateController:SetSelectedState("0")
+		slot0.rateController:SetSelectedState(slot6)
 
-		arg_11_0.numTxt_.text = "0<size=24>%</size>"
+		slot0.numTxt_.text = "0<size=24>%</size>"
 
-		for iter_11_3, iter_11_4 in ipairs(arg_11_0.itemList) do
-			iter_11_4:UpdateText(0)
+		for slot6, slot7 in ipairs(slot0.itemList) do
+			slot7:UpdateText(0)
 		end
 
 		return
 	end
 
-	local var_11_2 = LeanTween.value(arg_11_0.nullGo_, 0, arg_11_0.exploreDay, arg_11_0.exploreDay * 0.1)
+	slot3 = LeanTween.value(slot0.nullGo_, 0, slot0.exploreDay, slot0.exploreDay * 0.1)
 
-	var_11_2:setOnUpdate(LuaHelper.FloatAction(function(arg_12_0)
-		arg_11_0.handle_.fillAmount = arg_12_0 / 7
-		arg_11_0.numTxt_.text = math.ceil(arg_11_0.rate[arg_11_0.exploreDay] / arg_11_0.exploreDay * arg_12_0 * 100) .. "<size=24>%</size>"
+	slot3:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.handle_.fillAmount = slot0 / 7
+		slot5 = uv0.exploreDay
+		slot4 = uv0.rate[uv0.exploreDay] / slot5 * slot0 * 100
+		uv0.numTxt_.text = math.ceil(slot4) .. "<size=24>%</size>"
 
-		for iter_12_0, iter_12_1 in ipairs(arg_11_0.itemList) do
-			iter_12_1:UpdateText(math.ceil(arg_11_0.reward[iter_12_0][2] / arg_11_0.exploreDay * arg_12_0))
+		for slot4, slot5 in ipairs(uv0.itemList) do
+			slot5:UpdateText(math.ceil(uv0.reward[slot4][2] / uv0.exploreDay * slot0))
 		end
 
-		local var_12_0 = math.floor(arg_12_0)
-
-		arg_11_0.rateController:SetSelectedState(tostring(var_12_0))
+		uv0.rateController:SetSelectedState(tostring(math.floor(slot0)))
 	end))
-	var_11_2:setOnComplete(System.Action(function()
-		LeanTween.cancel(arg_11_0.nullGo_)
+	slot3:setOnComplete(System.Action(function ()
+		LeanTween.cancel(uv0.nullGo_)
 
-		arg_11_0.isOver = true
+		uv0.isOver = true
 
-		var_11_2:setOnUpdate(nil):setOnComplete(nil)
+		uv1:setOnUpdate(nil):setOnComplete(nil)
 	end))
-	manager.audio:PlayEffect("ui_system_explore", "explore_calculus_0" .. arg_11_0.exploreDay .. "_up", "")
+	manager.audio:PlayEffect("ui_system_explore", "explore_calculus_0" .. slot0.exploreDay .. "_up", "")
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0.isOver = nil
-	arg_15_0.itemList = {}
+function slot0.OnExit(slot0)
+	slot0.isOver = nil
+	slot0.itemList = {}
 end
 
-function var_0_0.OnTop(arg_16_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -136,15 +129,15 @@ function var_0_0.OnTop(arg_16_0)
 	})
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.rewardList_ then
-		arg_17_0.rewardList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.rewardList_ then
+		slot0.rewardList_:Dispose()
 
-		arg_17_0.rewardList_ = nil
+		slot0.rewardList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
-	Object.Destroy(arg_17_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

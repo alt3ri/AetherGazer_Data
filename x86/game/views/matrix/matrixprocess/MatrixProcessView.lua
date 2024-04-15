@@ -1,70 +1,66 @@
-local var_0_0 = class("MatrixProcessView", ReduxView)
+slot0 = class("MatrixProcessView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Process/MatrixProcessUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.eventList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexEventItem), arg_5_0.m_eventList, MatrixProcessEventItem)
-	arg_5_0.rewardList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexRewardItem), arg_5_0.m_rewardList, MatrixProcessRewardItem)
-	arg_5_0.incidentList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexIncidentItem), arg_5_0.m_incidentList, MatrixProcessIncidentItem)
-	arg_5_0.phaseController_ = ControllerUtil.GetController(arg_5_0.m_phaseController, "phase")
-	arg_5_0.hasGiveUpRewadController_ = ControllerUtil.GetController(arg_5_0.m_phaseController, "hasGiveUpRewad")
+	slot0.eventList_ = LuaList.New(handler(slot0, slot0.indexEventItem), slot0.m_eventList, MatrixProcessEventItem)
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.indexRewardItem), slot0.m_rewardList, MatrixProcessRewardItem)
+	slot0.incidentList_ = LuaList.New(handler(slot0, slot0.indexIncidentItem), slot0.m_incidentList, MatrixProcessIncidentItem)
+	slot0.phaseController_ = ControllerUtil.GetController(slot0.m_phaseController, "phase")
+	slot0.hasGiveUpRewadController_ = ControllerUtil.GetController(slot0.m_phaseController, "hasGiveUpRewad")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.m_rewardCommon, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_rewardCommon, nil, function ()
 		MatrixAction.QueryNextProgress({})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_rewardBtn, nil, function()
-		arg_6_0:OnRewardAction()
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
+		uv0:OnRewardAction()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_eventBtn, nil, function()
-		arg_6_0:OnEventAction()
+	slot0:AddBtnListener(slot0.m_eventBtn, nil, function ()
+		uv0:OnEventAction()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_giveUpBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_giveUpBtn, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_MATRIX"),
-			OkCallback = function()
-				MatrixAction.QueryMatrixGiveUp(function(arg_12_0)
-					return
+			OkCallback = function ()
+				MatrixAction.QueryMatrixGiveUp(function (slot0)
 				end)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_incidentBtn, nil, function()
-		if arg_6_0.selectItemIndex == -1 then
+	slot0:AddBtnListener(slot0.m_incidentBtn, nil, function ()
+		if uv0.selectItemIndex == -1 then
 			return
 		end
 
-		local var_14_0 = arg_6_0.incidentData[arg_6_0.selectItemIndex]
-
 		MatrixAction.QueryNextProgress({
-			var_14_0
+			uv0.incidentData[uv0.selectItemIndex]
 		})
 	end)
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -83,350 +79,295 @@ function var_0_0.OnTop(arg_15_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_PT, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.GoToSystem("/matrixBlank/matrixPrepare")
 	end)
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	arg_17_0:Refresh()
+function slot0.OnEnter(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_18_0)
-	arg_18_0.phaseData = arg_18_0:GetMatrixPhaseData()
-	arg_18_0.phasesParams = clone(arg_18_0.phaseData:GetParams())
-	arg_18_0.matrixGiveUpItemId = arg_18_0.phaseData:GetGiveUpItemId()
-	arg_18_0.incidentData = {}
-	arg_18_0.selectItemIndex = -1
-	arg_18_0.m_rewardBtn.interactable = false
-	arg_18_0.m_eventBtn.interactable = false
-	arg_18_0.m_incidentBtn.interactable = false
+function slot0.Refresh(slot0)
+	slot0.phaseData = slot0:GetMatrixPhaseData()
+	slot0.phasesParams = clone(slot0.phaseData:GetParams())
+	slot0.matrixGiveUpItemId = slot0.phaseData:GetGiveUpItemId()
+	slot0.incidentData = {}
+	slot0.selectItemIndex = -1
+	slot0.m_rewardBtn.interactable = false
+	slot0.m_eventBtn.interactable = false
+	slot0.m_incidentBtn.interactable = false
 
-	local var_18_0 = arg_18_0.phaseData:GetPhase()
+	if slot0.phaseData:GetPhase() == 1 then
+		slot0.phaseController_:SetSelectedIndex(1)
+		slot0.eventList_:StartScroll(#slot0.phasesParams)
+	elseif slot1 == 2 then
+		if MatrixConst.EVENT_TYPE.INCIDENT == MatrixEventCfg[slot0.phasesParams[1]].event_type then
+			slot0.incidentData = {}
 
-	if var_18_0 == 1 then
-		arg_18_0.phaseController_:SetSelectedIndex(1)
-		arg_18_0.eventList_:StartScroll(#arg_18_0.phasesParams)
-	elseif var_18_0 == 2 then
-		local var_18_1 = arg_18_0.phasesParams[1]
-		local var_18_2 = MatrixEventCfg[var_18_1]
-
-		if MatrixConst.EVENT_TYPE.INCIDENT == var_18_2.event_type then
-			local var_18_3 = arg_18_0.phaseData:GetData()
-
-			arg_18_0.incidentData = {}
-
-			local var_18_4 = MatrixChanceCfg.get_id_list_by_title_id[var_18_3]
-
-			for iter_18_0, iter_18_1 in ipairs(var_18_4) do
-				local var_18_5 = MatrixChanceCfg[iter_18_1]
-
-				table.insert(arg_18_0.incidentData, var_18_5.option)
+			for slot9, slot10 in ipairs(MatrixChanceCfg.get_id_list_by_title_id[slot0.phaseData:GetData()]) do
+				table.insert(slot0.incidentData, MatrixChanceCfg[slot10].option)
 			end
 
-			arg_18_0.m_incidentTitle.text = MatrixDescCfg[var_18_3] and GetI18NText(MatrixDescCfg[var_18_3].desc) or ""
+			slot0.m_incidentTitle.text = MatrixDescCfg[slot4] and GetI18NText(MatrixDescCfg[slot4].desc) or ""
 
-			arg_18_0.phaseController_:SetSelectedIndex(3)
-			arg_18_0.incidentList_:StartScroll(#arg_18_0.incidentData)
+			slot0.phaseController_:SetSelectedIndex(3)
+			slot0.incidentList_:StartScroll(#slot0.incidentData)
 		else
-			arg_18_0.phaseController_:SetSelectedIndex(1)
-			arg_18_0.eventList_:StartScroll(#arg_18_0.phasesParams)
+			slot0.phaseController_:SetSelectedIndex(1)
+			slot0.eventList_:StartScroll(#slot0.phasesParams)
 		end
-	elseif var_18_0 == 3 then
-		if arg_18_0.matrixGiveUpItemId and arg_18_0.matrixGiveUpItemId ~= 0 then
-			arg_18_0.hasGiveUpRewadController_:SetSelectedIndex(1)
+	elseif slot1 == 3 then
+		if slot0.matrixGiveUpItemId and slot0.matrixGiveUpItemId ~= 0 then
+			slot0.hasGiveUpRewadController_:SetSelectedIndex(1)
 
-			local var_18_6 = MatrixItemCfg[arg_18_0.matrixGiveUpItemId]
-
-			if MatrixConst.ITEM_TYPE.ITEM == var_18_6.matrix_item_type and #var_18_6.params > 0 then
-				local var_18_7 = var_18_6.params[1][1]
-				local var_18_8 = var_18_6.params[1][2]
-
-				if var_18_7 == CurrencyConst.CURRENCY_TYPE_MATRIX_COIN then
-					var_18_8 = var_18_8 * (1 + arg_18_0:GetGiveUpRewardAddition())
+			if MatrixConst.ITEM_TYPE.ITEM == MatrixItemCfg[slot0.matrixGiveUpItemId].matrix_item_type and #slot2.params > 0 then
+				if slot2.params[1][1] == CurrencyConst.CURRENCY_TYPE_MATRIX_COIN then
+					slot4 = slot2.params[1][2] * (1 + slot0:GetGiveUpRewardAddition())
 				end
 
-				arg_18_0.m_rewardCommonText.text = string.format(GetTips("MATRIX_GET"), var_18_8, GetI18NText(var_18_6.name))
+				slot0.m_rewardCommonText.text = string.format(GetTips("MATRIX_GET"), slot4, GetI18NText(slot2.name))
 			else
-				arg_18_0.m_rewardCommonText.text = GetI18NText(var_18_6.desc)
+				slot0.m_rewardCommonText.text = GetI18NText(slot2.desc)
 			end
 		else
-			arg_18_0.hasGiveUpRewadController_:SetSelectedIndex(0)
+			slot0.hasGiveUpRewadController_:SetSelectedIndex(0)
 		end
 
-		arg_18_0.phaseController_:SetSelectedIndex(2)
-		arg_18_0.rewardList_:StartScroll(#arg_18_0.phasesParams)
+		slot0.phaseController_:SetSelectedIndex(2)
+		slot0.rewardList_:StartScroll(#slot0.phasesParams)
 	else
-		arg_18_0.phaseController_:SetSelectedIndex(0)
+		slot0.phaseController_:SetSelectedIndex(0)
 	end
 
-	local var_18_9 = arg_18_0:GetDifficulty()
-
-	if var_18_9 == 1 then
-		arg_18_0.m_difficultyLab.text = GetTips("HARDLEVEL_EASY")
-	elseif var_18_9 == 3 then
-		arg_18_0.m_difficultyLab.text = GetTips("HARDLEVEL_SINGULARITY")
+	if slot0:GetDifficulty() == 1 then
+		slot0.m_difficultyLab.text = GetTips("HARDLEVEL_EASY")
+	elseif slot2 == 3 then
+		slot0.m_difficultyLab.text = GetTips("HARDLEVEL_SINGULARITY")
 	else
-		arg_18_0.m_difficultyLab.text = GetTips("HARDLEVEL_HARD")
+		slot0.m_difficultyLab.text = GetTips("HARDLEVEL_HARD")
 	end
 
-	arg_18_0.m_tierLab.text = arg_18_0:GetTierDes()
+	slot0.m_tierLab.text = slot0:GetTierDes()
 end
 
-function var_0_0.indexEventItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.phasesParams[arg_19_1]
-
-	arg_19_2:RegistCallBack(handler(arg_19_0, arg_19_0.OnEvengtItemClick))
-	arg_19_2:Refresh(var_19_0, arg_19_1)
-	arg_19_2:SetSelected(arg_19_1 == arg_19_0.selectItemIndex)
+function slot0.indexEventItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(handler(slot0, slot0.OnEvengtItemClick))
+	slot2:Refresh(slot0.phasesParams[slot1], slot1)
+	slot2:SetSelected(slot1 == slot0.selectItemIndex)
 end
 
-function var_0_0.indexRewardItem(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_0.phasesParams[arg_20_1]
-
-	arg_20_2:RegistCallBack(handler(arg_20_0, arg_20_0.OnRewardItemClick))
-	arg_20_2:Refresh(var_20_0, arg_20_1)
-	arg_20_2:SetSelected(arg_20_1 == arg_20_0.selectItemIndex)
+function slot0.indexRewardItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(handler(slot0, slot0.OnRewardItemClick))
+	slot2:Refresh(slot0.phasesParams[slot1], slot1)
+	slot2:SetSelected(slot1 == slot0.selectItemIndex)
 end
 
-function var_0_0.indexIncidentItem(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = arg_21_0.incidentData[arg_21_1]
-
-	arg_21_2:RegistCallBack(handler(arg_21_0, arg_21_0.OnIncidentItemClick))
-	arg_21_2:Refresh(var_21_0, arg_21_1)
-	arg_21_2:SetSelected(arg_21_1 == arg_21_0.selectItemIndex)
+function slot0.indexIncidentItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(handler(slot0, slot0.OnIncidentItemClick))
+	slot2:Refresh(slot0.incidentData[slot1], slot1)
+	slot2:SetSelected(slot1 == slot0.selectItemIndex)
 end
 
-function var_0_0.OnEvengtItemClick(arg_22_0, arg_22_1)
-	if arg_22_1 == arg_22_0.selectItemIndex then
+function slot0.OnEvengtItemClick(slot0, slot1)
+	if slot1 == slot0.selectItemIndex then
 		return
 	end
 
-	arg_22_0.selectItemIndex = arg_22_1
+	slot0.selectItemIndex = slot1
 
-	local var_22_0 = arg_22_0.eventList_:GetItemList()
-
-	for iter_22_0, iter_22_1 in pairs(var_22_0) do
-		local var_22_1 = iter_22_1:GetIndex()
-
-		iter_22_1:SetSelected(var_22_1 == arg_22_0.selectItemIndex)
+	for slot6, slot7 in pairs(slot0.eventList_:GetItemList()) do
+		slot7:SetSelected(slot7:GetIndex() == slot0.selectItemIndex)
 	end
 
-	arg_22_0.m_eventBtn.interactable = true
+	slot0.m_eventBtn.interactable = true
 end
 
-function var_0_0.OnRewardItemClick(arg_23_0, arg_23_1, arg_23_2)
-	if arg_23_1 == arg_23_0.selectItemIndex then
+function slot0.OnRewardItemClick(slot0, slot1, slot2)
+	if slot1 == slot0.selectItemIndex then
 		return
 	end
 
-	arg_23_0.selectItemIndex = arg_23_1
+	slot0.selectItemIndex = slot1
 
-	local var_23_0 = arg_23_0.rewardList_:GetItemList()
-
-	for iter_23_0, iter_23_1 in pairs(var_23_0) do
-		local var_23_1 = iter_23_1:GetIndex()
-
-		iter_23_1:SetSelected(var_23_1 == arg_23_0.selectItemIndex)
+	for slot7, slot8 in pairs(slot0.rewardList_:GetItemList()) do
+		slot8:SetSelected(slot8:GetIndex() == slot0.selectItemIndex)
 	end
 
-	arg_23_0.m_rewardBtn.interactable = true
+	slot0.m_rewardBtn.interactable = true
 end
 
-function var_0_0.OnIncidentItemClick(arg_24_0, arg_24_1)
-	if arg_24_1 == arg_24_0.selectItemIndex then
+function slot0.OnIncidentItemClick(slot0, slot1)
+	if slot1 == slot0.selectItemIndex then
 		return
 	end
 
-	arg_24_0.selectItemIndex = arg_24_1
+	slot0.selectItemIndex = slot1
 
-	local var_24_0 = arg_24_0.incidentList_:GetItemList()
-
-	for iter_24_0, iter_24_1 in pairs(var_24_0) do
-		local var_24_1 = iter_24_1:GetIndex()
-
-		iter_24_1:SetSelected(var_24_1 == arg_24_0.selectItemIndex)
+	for slot6, slot7 in pairs(slot0.incidentList_:GetItemList()) do
+		slot7:SetSelected(slot7:GetIndex() == slot0.selectItemIndex)
 	end
 
-	arg_24_0.m_incidentBtn.interactable = true
+	slot0.m_incidentBtn.interactable = true
 end
 
-function var_0_0.OnEventAction(arg_25_0)
-	if arg_25_0.selectItemIndex == -1 then
+function slot0.OnEventAction(slot0)
+	if slot0.selectItemIndex == -1 then
 		return
 	end
 
-	local var_25_0 = arg_25_0.phasesParams[arg_25_0.selectItemIndex]
-	local var_25_1 = MatrixEventCfg[var_25_0]
-
-	if not var_25_1 then
-		print("MatrixEventCfg cant find event by id :" .. var_25_0)
+	if not MatrixEventCfg[slot0.phasesParams[slot0.selectItemIndex]] then
+		print("MatrixEventCfg cant find event by id :" .. slot1)
 
 		return
 	end
 
-	local var_25_2 = arg_25_0:GetMatrixPhaseData():GetPhase()
-
-	if MatrixConst.EVENT_TYPE.SHOP == var_25_1.event_type or MatrixConst.EVENT_TYPE.INCIDENT == var_25_1.event_type then
-		if var_25_2 == 2 then
+	if MatrixConst.EVENT_TYPE.SHOP == slot2.event_type or MatrixConst.EVENT_TYPE.INCIDENT == slot2.event_type then
+		if slot0:GetMatrixPhaseData():GetPhase() == 2 then
 			MatrixAction.DoEvent()
 		else
 			MatrixAction.QueryNextProgress({
-				var_25_0
+				slot1
 			})
 		end
 	else
-		local var_25_3 = var_25_1.params[1]
-
 		JumpTools.OpenPageByJump("/sectionSelectHeroMatrix", {
 			sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX,
-			section = var_25_3,
-			eventId = var_25_0
+			section = slot2.params[1],
+			eventId = slot1
 		})
 	end
 end
 
-function var_0_0.OnRewardAction(arg_26_0)
-	if arg_26_0.selectItemIndex == -1 then
+function slot0.OnRewardAction(slot0)
+	if slot0.selectItemIndex == -1 then
 		return
 	end
 
-	local var_26_0 = arg_26_0.phasesParams[arg_26_0.selectItemIndex]
-	local var_26_1 = var_26_0 and MatrixItemCfg[var_26_0]
-
-	if not var_26_1 then
-		print("MatrixItemCfg cant find item by id :" .. var_26_0)
+	if not (slot0.phasesParams[slot0.selectItemIndex] and MatrixItemCfg[slot1]) then
+		print("MatrixItemCfg cant find item by id :" .. slot1)
 
 		return
 	end
 
-	local var_26_2 = var_26_1.matrix_item_type
+	if MatrixConst.ITEM_TYPE.ASTROLABE == slot2.matrix_item_type then
+		slot5 = slot0:GetHeroData(math.floor(slot2.params[1] / 1000))
+		slot6 = slot5:GetAstrolabeList()
 
-	if MatrixConst.ITEM_TYPE.ASTROLABE == var_26_2 then
-		local var_26_3 = math.floor(var_26_1.params[1] / 1000)
-		local var_26_4 = arg_26_0:GetHeroData(var_26_3)
-		local var_26_5 = var_26_4:GetAstrolabeList()
-
-		if var_26_4:GetAstrolabeNum(var_26_1.params[1]) >= 3 then
+		if slot5:GetAstrolabeNum(slot2.params[1]) >= 3 then
 			ShowTips("MATRIX_NOT_GET_ASTROLABEL")
 
 			return
 		end
 
-		if arg_26_0:GetAstrolabeMaxCount() <= #var_26_5 then
+		if slot0:GetAstrolabeMaxCount() <= #slot6 then
 			JumpTools.OpenPageByJump("matrixProcessAstrolabeReplace", {
-				heroId = var_26_3,
-				astrolabeId = var_26_0,
-				callback = function(arg_27_0)
+				heroId = slot4,
+				astrolabeId = slot1,
+				callback = function (slot0)
 					MatrixAction.QueryNextProgress({
-						var_26_0,
-						arg_27_0,
-						var_26_4:GetStandardId()
+						uv0,
+						slot0,
+						uv1:GetStandardId()
 					})
 				end
 			})
 		else
 			MatrixAction.QueryNextProgress({
-				var_26_0,
+				slot1,
 				0,
-				var_26_4:GetStandardId()
+				slot5:GetStandardId()
 			})
 		end
-	elseif MatrixConst.ITEM_TYPE.EQUIP == var_26_2 then
-		JumpTools.OpenPageByJump("matrixProcessSelectHero", {
-			id = var_26_0
-		})
-	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == var_26_2 then
-		local var_26_6 = MatrixTools.GetWeaponSpecHero(var_26_1.params[1])
 
-		if var_26_6 == 0 then
+		return
+	end
+
+	if MatrixConst.ITEM_TYPE.EQUIP == slot3 then
+		JumpTools.OpenPageByJump("matrixProcessSelectHero", {
+			id = slot1
+		})
+	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == slot3 then
+		if MatrixTools.GetWeaponSpecHero(slot2.params[1]) == 0 then
 			JumpTools.OpenPageByJump("matrixProcessSelectHero", {
-				id = var_26_0
+				id = slot1
+			})
+		elseif slot0:GetHeroData(slot4):GetWeaponServant() ~= 0 then
+			JumpTools.OpenPageByJump("matrixProcessWeaponReplace", {
+				heroId = slot4,
+				weaponId = slot1,
+				callback = function ()
+					MatrixAction.QueryNextProgress({
+						uv0,
+						uv1,
+						uv2:GetStandardId()
+					})
+				end
 			})
 		else
-			local var_26_7 = arg_26_0:GetHeroData(var_26_6)
-			local var_26_8 = var_26_7:GetWeaponServant()
-
-			if var_26_8 ~= 0 then
-				JumpTools.OpenPageByJump("matrixProcessWeaponReplace", {
-					heroId = var_26_6,
-					weaponId = var_26_0,
-					callback = function()
-						MatrixAction.QueryNextProgress({
-							var_26_0,
-							var_26_8,
-							var_26_7:GetStandardId()
-						})
-					end
-				})
-			else
-				MatrixAction.QueryNextProgress({
-					var_26_0,
-					0,
-					var_26_7:GetStandardId()
-				})
-			end
+			MatrixAction.QueryNextProgress({
+				slot1,
+				0,
+				slot5:GetStandardId()
+			})
 		end
 	else
 		MatrixAction.QueryNextProgress({
-			var_26_0
+			slot1
 		})
 	end
 end
 
-function var_0_0.Dispose(arg_29_0)
-	if arg_29_0.eventList_ then
-		arg_29_0.eventList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.eventList_ then
+		slot0.eventList_:Dispose()
 	end
 
-	if arg_29_0.rewardList_ then
-		arg_29_0.rewardList_:Dispose()
+	if slot0.rewardList_ then
+		slot0.rewardList_:Dispose()
 	end
 
-	if arg_29_0.incidentList_ then
-		arg_29_0.incidentList_:Dispose()
+	if slot0.incidentList_ then
+		slot0.incidentList_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnMatrixUserUpdate(arg_30_0)
-	local var_30_0 = arg_30_0:GetGameState()
-
-	if MatrixConst.STATE_TYPE.STARTED == var_30_0 then
-		arg_30_0:Refresh(true)
+function slot0.OnMatrixUserUpdate(slot0)
+	if MatrixConst.STATE_TYPE.STARTED == slot0:GetGameState() then
+		slot0:Refresh(true)
 	end
 end
 
-function var_0_0.GetGameState(arg_31_0)
+function slot0.GetGameState(slot0)
 	return MatrixData:GetGameState()
 end
 
-function var_0_0.GetHeroData(arg_32_0, arg_32_1)
-	return MatrixData:GetHeroData(arg_32_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-function var_0_0.GetAstrolabeMaxCount(arg_33_0)
+function slot0.GetAstrolabeMaxCount(slot0)
 	return MatrixData:GetAstrolabeMaxCount()
 end
 
-function var_0_0.GetMatrixPhaseData(arg_34_0)
+function slot0.GetMatrixPhaseData(slot0)
 	return MatrixData:GetMatrixPhaseData()
 end
 
-function var_0_0.GetDifficulty(arg_35_0)
+function slot0.GetDifficulty(slot0)
 	return MatrixData:GetDifficulty()
 end
 
-function var_0_0.GetGiveUpRewardAddition(arg_36_0)
+function slot0.GetGiveUpRewardAddition(slot0)
 	return MatrixData:GetGiveUpRewardAddition()
 end
 
-function var_0_0.GetTierDes(arg_37_0)
-	local var_37_0 = MatrixData:GetTierID()
-	local var_37_1 = MatrixTierCfg[var_37_0]
+function slot0.GetTierDes(slot0)
+	slot2 = MatrixTierCfg[MatrixData:GetTierID()]
 
-	return string.format("%s-%s", var_37_1.tier, var_37_1.level)
+	return string.format("%s-%s", slot2.tier, slot2.level)
 end
 
-return var_0_0
+return slot0

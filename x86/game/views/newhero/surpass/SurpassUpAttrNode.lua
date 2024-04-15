@@ -1,50 +1,45 @@
-local var_0_0 = class("SurpassUpAttrNode", ReduxView)
+slot0 = class("SurpassUpAttrNode", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.attrList = {}
+	slot0.attrList = {}
 
-	for iter_2_0 = 1, 3 do
-		local var_2_0 = arg_2_0["attr" .. iter_2_0 .. "Go_"]
-
-		arg_2_0.attrList[iter_2_0] = SurpassUpAttrItem.New(var_2_0)
+	for slot4 = 1, 3 do
+		slot0.attrList[slot4] = SurpassUpAttrItem.New(slot0["attr" .. slot4 .. "Go_"])
 	end
 end
 
-function var_0_0.RefreshUi(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.texttittleText_.text = GetTips("BASE_PROPERTY_UP")
+function slot0.RefreshUi(slot0, slot1, slot2)
+	slot0.texttittleText_.text = GetTips("BASE_PROPERTY_UP")
+	slot3 = slot1.params
 
-	local var_3_0 = arg_3_1.params
-
-	for iter_3_0 = 1, 3 do
-		arg_3_0.attrList[iter_3_0]:SetActive(false)
+	for slot7 = 1, 3 do
+		slot0.attrList[slot7]:SetActive(false)
 	end
 
-	for iter_3_1, iter_3_2 in pairs(var_3_0) do
-		local var_3_1 = iter_3_2[1]
-		local var_3_2 = iter_3_2[2]
-		local var_3_3 = arg_3_2[var_3_1]
+	for slot7, slot8 in pairs(slot3) do
+		slot9 = slot8[1]
 
-		arg_3_0.attrList[iter_3_1]:RefreshUi(var_3_1, var_3_2, var_3_3)
+		slot0.attrList[slot7]:RefreshUi(slot9, slot8[2], slot2[slot9])
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.attrList) do
-		iter_4_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.attrList) do
+		slot5:Dispose()
 
-		iter_4_1 = nil
+		slot5 = nil
 	end
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

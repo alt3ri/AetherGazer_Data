@@ -1,67 +1,63 @@
-local var_0_0 = class("HeroDisplaySnapView", ReduxView)
+slot0 = class("HeroDisplaySnapView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.logoParent_ = {
-		[0] = arg_1_0.ltLogo_,
-		arg_1_0.lbLogo_,
-		arg_1_0.rtLogo_,
-		arg_1_0.rbLogo_
+	slot0.logoParent_ = {
+		[0] = slot0.ltLogo_,
+		slot0.lbLogo_,
+		slot0.rtLogo_,
+		slot0.rbLogo_
 	}
-	arg_1_0.cardParent_ = {
-		[0] = arg_1_0.ltCard_,
-		arg_1_0.lbCard_,
-		arg_1_0.rtCard_,
-		arg_1_0.rbCard_
+	slot0.cardParent_ = {
+		[0] = slot0.ltCard_,
+		slot0.lbCard_,
+		slot0.rtCard_,
+		slot0.rbCard_
 	}
 end
 
-function var_0_0.Snap(arg_2_0, arg_2_1, arg_2_2)
-	SetActive(arg_2_0.gameObject_, true)
+function slot0.Snap(slot0, slot1, slot2)
+	SetActive(slot0.gameObject_, true)
 
-	local var_2_0 = arg_2_2 or HeroDisplayData:GetSetting()
+	slot3 = slot2 or HeroDisplayData:GetSetting()
 
-	SetActive(arg_2_0.goCardPanel_, var_2_0.cardShow)
-	arg_2_0.transformLogo_:SetParent(arg_2_0.logoParent_[var_2_0.logoPos], false)
+	SetActive(slot0.goCardPanel_, slot3.cardShow)
+	slot0.transformLogo_:SetParent(slot0.logoParent_[slot3.logoPos], false)
 
-	if var_2_0.cardShow then
-		arg_2_0.transformCard_:SetParent(arg_2_0.cardParent_[var_2_0.cardPos], false)
+	if slot3.cardShow then
+		slot0.transformCard_:SetParent(slot0.cardParent_[slot3.cardPos], false)
 
-		local var_2_1 = PlayerData:GetPlayerInfo()
+		slot0.textNick_.text = GetI18NText(PlayerData:GetPlayerInfo().nick)
 
-		arg_2_0.textNick_.text = GetI18NText(var_2_1.nick)
-
-		if var_2_0.cardShowLv then
-			arg_2_0.textLv_.text = GetTips("LEVEL") .. var_2_1.userLevel
+		if slot3.cardShowLv then
+			slot0.textLv_.text = GetTips("LEVEL") .. slot4.userLevel
 		else
-			arg_2_0.textLv_.text = GetTips("LEVEL") .. "**"
+			slot0.textLv_.text = GetTips("LEVEL") .. "**"
 		end
 
-		if var_2_0.cardShowUID then
-			arg_2_0.textUID_.text = "UID：" .. USER_ID
+		if slot3.cardShowUID then
+			slot0.textUID_.text = "UID：" .. USER_ID
 		else
-			arg_2_0.textUID_.text = "UID：************"
+			slot0.textUID_.text = "UID：************"
 		end
 	end
 
 	manager.ui:ShowScreenTap(false)
-	WaitRenderFrameUtil.inst.StartScreenShot(function()
+	WaitRenderFrameUtil.inst.StartScreenShot(function ()
 		manager.ui:ShowScreenTap(true)
-		SetActive(arg_2_0.gameObject_, false)
-		arg_2_1()
+		SetActive(uv0.gameObject_, false)
+		uv1()
 	end)
 end
 
-function var_0_0.OnExit(arg_4_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

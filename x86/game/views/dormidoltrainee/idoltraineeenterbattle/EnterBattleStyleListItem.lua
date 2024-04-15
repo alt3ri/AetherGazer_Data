@@ -1,19 +1,19 @@
-local var_0_0 = class("EnterBattleStyleListItem", ReduxView)
+slot0 = class("EnterBattleStyleListItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.style_.text = GetTips("IDOL_DANCE_TYPE_TIPS_" .. arg_2_1)
-	arg_2_0.color_.color = IdolTraineeConst.styleColor[arg_2_1]
+function slot0.SetData(slot0, slot1)
+	slot0.style_.text = GetTips("IDOL_DANCE_TYPE_TIPS_" .. slot1)
+	slot0.color_.color = IdolTraineeConst.styleColor[slot1]
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

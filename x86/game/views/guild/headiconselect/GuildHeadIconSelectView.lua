@@ -1,56 +1,58 @@
-local var_0_0 = class("GuildHeadIconSelect", ReduxView)
+slot0 = class("GuildHeadIconSelect", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubSelect"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.controller = ControllerUtil.GetController(arg_3_0.transform_, "club")
+	slot0.controller = ControllerUtil.GetController(slot0.transform_, "club")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.selectID_ = arg_4_0.params_.selectID
+function slot0.OnEnter(slot0)
+	slot0.selectID_ = slot0.params_.selectID
 
-	arg_4_0.controller:SetSelectedState(tostring(arg_4_0.selectID_))
+	slot0.controller:SetSelectedState(tostring(slot0.selectID_))
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buttonClose_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonCancel_, nil, function()
-		arg_7_0:Back()
-	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonOk_, nil, function()
-		manager.notify:Invoke(GUILD_SWITCH_HEAD_ICON, arg_7_0.selectID_)
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.buttonCancel_, nil, function ()
+		uv0:Back()
 	end)
 
-	for iter_7_0 = 1, 5 do
-		arg_7_0:AddBtnListener(arg_7_0["icon0" .. iter_7_0 .. "Btn_"], nil, function()
-			arg_7_0.controller:SetSelectedState(tostring(iter_7_0))
-			arg_7_0:SelectHeadIcon(iter_7_0)
+	slot4 = nil
+
+	slot0:AddBtnListener(slot0.buttonOk_, slot4, function ()
+		manager.notify:Invoke(GUILD_SWITCH_HEAD_ICON, uv0.selectID_)
+		uv0:Back()
+	end)
+
+	for slot4 = 1, 5 do
+		slot0:AddBtnListener(slot0["icon0" .. slot4 .. "Btn_"], nil, function ()
+			uv0.controller:SetSelectedState(tostring(uv1))
+			uv0:SelectHeadIcon(uv1)
 		end)
 	end
 end
 
-function var_0_0.SelectHeadIcon(arg_12_0, arg_12_1)
-	arg_12_0.selectID_ = arg_12_1
+function slot0.SelectHeadIcon(slot0, slot1)
+	slot0.selectID_ = slot1
 end
 
-return var_0_0
+return slot0

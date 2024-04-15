@@ -1,169 +1,160 @@
-local var_0_0 = class("BattleFirstPassView", ReduxView)
+slot0 = class("BattleFirstPassView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityTools.GetUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivityTools.GetUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, BattleFirstPassItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, BattleFirstPassItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.battleList_[arg_5_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.battleList_[slot1]
 
-	arg_5_2:RefreshUI(arg_5_0.activityID_, var_5_0)
-	arg_5_2:SetSelected(arg_5_0:IsSelect(var_5_0))
-	arg_5_2:RegisterClickListener(function(arg_6_0)
-		BattleFirstPassData:SetLastBattleID(arg_5_0.activityID_, arg_6_0)
-		arg_5_0:SetCurBattleID(arg_6_0)
+	slot2:RefreshUI(slot0.activityID_, slot3)
+	slot2:SetSelected(slot0:IsSelect(slot3))
+	slot2:RegisterClickListener(function (slot0)
+		BattleFirstPassData:SetLastBattleID(uv0.activityID_, slot0)
+		uv0:SetCurBattleID(slot0)
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.goBtn_, nil, function()
-		if arg_7_0.stopTime_ <= manager.time:GetServerTime() then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("ERROR_ACTIVITY_NOT_OPEN")
 
 			return
 		end
 
-		local var_8_0 = ActivityFirstClearCfg[arg_7_0.curBattleID_].stage_id
-		local var_8_1 = ActivityTools.GetSectionType(arg_7_0.activityID_)
-
-		arg_7_0:Go("/sectionSelectHero", {
-			section = var_8_0,
-			sectionType = var_8_1,
-			activityID = arg_7_0.curBattleID_
+		uv0:Go("/sectionSelectHero", {
+			section = ActivityFirstClearCfg[uv0.curBattleID_].stage_id,
+			sectionType = ActivityTools.GetSectionType(uv0.activityID_),
+			activityID = uv0.curBattleID_
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("firstPassRewardPop", {
-			activityID = arg_7_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:GetActivityData()
-	arg_10_0:BindRedPointUI()
-	arg_10_0:RefreshUI()
-	arg_10_0:SetCurBattleID(BattleFirstPassData:GetLastBattleID(arg_10_0.activityID_) or arg_10_0.battleList_[1])
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.battleList_)
+function slot0.OnEnter(slot0)
+	slot0:GetActivityData()
+	slot0:BindRedPointUI()
+	slot0:RefreshUI()
+	slot0:SetCurBattleID(BattleFirstPassData:GetLastBattleID(slot0.activityID_) or slot0.battleList_[1])
+	slot0.scrollHelper_:StartScroll(#slot0.battleList_)
 end
 
-function var_0_0.GetActivityData(arg_11_0)
-	arg_11_0.activityID_ = arg_11_0.params_.activityID
-	arg_11_0.activityData_ = ActivityData:GetActivityData(arg_11_0.activityID_)
-	arg_11_0.startTime_ = arg_11_0.activityData_.startTime
-	arg_11_0.stopTime_ = arg_11_0.activityData_.stopTime
+function slot0.GetActivityData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 end
 
-function var_0_0.BindRedPointUI(arg_12_0)
-	manager.redPoint:bindUIandKey(arg_12_0.rewardBtn_.transform, RedPointConst.BATTLE_FIRST_PASS_REWARD .. arg_12_0.activityID_)
+function slot0.BindRedPointUI(slot0)
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, RedPointConst.BATTLE_FIRST_PASS_REWARD .. slot0.activityID_)
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	arg_13_0:RefreshTime()
-	arg_13_0:RefreshList()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTime()
+	slot0:RefreshList()
 end
 
-function var_0_0.RefreshTime(arg_14_0)
-	local var_14_0
-	local var_14_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_14_0:StopActivityTimer()
+	slot0:StopActivityTimer()
 
-	if var_14_1 < arg_14_0.startTime_ then
-		arg_14_0.activityTimeCnt_.text = GetTips("ERROR_NOT_TIME")
-		arg_14_0.activityTimer_ = Timer.New(function()
-			var_14_0 = arg_14_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.activityTimeCnt_.text = GetTips("ERROR_NOT_TIME")
+		slot0.activityTimer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_14_0 <= 0 then
-				arg_14_0:StopActivityTimer()
-				arg_14_0:RefreshTime()
-				arg_14_0.scrollHelper_:StartScrollByPosition(#arg_14_0.battleList_, arg_14_0.scrollHelper_:GetScrolledPosition())
+			if uv0 <= 0 then
+				uv1:StopActivityTimer()
+				uv1:RefreshTime()
+				uv1.scrollHelper_:StartScrollByPosition(#uv1.battleList_, uv1.scrollHelper_:GetScrolledPosition())
 
 				return
 			end
 		end, 1, -1)
 
-		arg_14_0.activityTimer_:Start()
-	elseif var_14_1 < arg_14_0.stopTime_ then
-		arg_14_0.activityTimeCnt_.text = manager.time:GetLostTimeStr(arg_14_0.stopTime_)
-		arg_14_0.activityTimer_ = Timer.New(function()
-			var_14_0 = arg_14_0.stopTime_ - manager.time:GetServerTime()
+		slot0.activityTimer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.activityTimeCnt_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
+		slot0.activityTimer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			if var_14_0 <= 0 then
-				arg_14_0:StopActivityTimer()
-				arg_14_0:RefreshTime()
-				arg_14_0.scrollHelper_:StartScrollByPosition(#arg_14_0.battleList_, arg_14_0.scrollHelper_:GetScrolledPosition())
+			if uv0 <= 0 then
+				uv1:StopActivityTimer()
+				uv1:RefreshTime()
+				uv1.scrollHelper_:StartScrollByPosition(#uv1.battleList_, uv1.scrollHelper_:GetScrolledPosition())
 
 				return
 			end
 
-			arg_14_0.activityTimeCnt_.text = manager.time:GetLostTimeStr(arg_14_0.stopTime_)
+			uv1.activityTimeCnt_.text = manager.time:GetLostTimeStr(uv1.stopTime_)
 		end, 1, -1)
 
-		arg_14_0.activityTimer_:Start()
+		slot0.activityTimer_:Start()
 	else
-		arg_14_0.activityTimeCnt_.text = GetTips("TIME_OVER")
+		slot0.activityTimeCnt_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.RefreshList(arg_17_0)
-	arg_17_0.battleList_ = BattleFirstPassData:GetBattleList(arg_17_0.activityID_)
+function slot0.RefreshList(slot0)
+	slot0.battleList_ = BattleFirstPassData:GetBattleList(slot0.activityID_)
 end
 
-function var_0_0.SetCurBattleID(arg_18_0, arg_18_1)
-	local var_18_0
+function slot0.SetCurBattleID(slot0, slot1)
+	slot2 = nil
+	slot0.curBattleID_ = slot1
+	slot0.title_.text = GetI18NText(ActivityFirstClearCfg[slot1].name)
 
-	arg_18_0.curBattleID_ = arg_18_1
-	arg_18_0.title_.text = GetI18NText(ActivityFirstClearCfg[arg_18_1].name)
-
-	for iter_18_0, iter_18_1 in pairs(arg_18_0.scrollHelper_:GetItemList()) do
-		local var_18_1 = iter_18_1:GetID()
-
-		iter_18_1:SetSelected(arg_18_0:IsSelect(var_18_1))
+	for slot6, slot7 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot7:SetSelected(slot0:IsSelect(slot7:GetID()))
 	end
 end
 
-function var_0_0.IsSelect(arg_19_0, arg_19_1)
-	return arg_19_0.curBattleID_ == arg_19_1
+function slot0.IsSelect(slot0, slot1)
+	return slot0.curBattleID_ == slot1
 end
 
-function var_0_0.StopActivityTimer(arg_20_0)
-	if arg_20_0.activityTimer_ then
-		arg_20_0.activityTimer_:Stop()
+function slot0.StopActivityTimer(slot0)
+	if slot0.activityTimer_ then
+		slot0.activityTimer_:Stop()
 
-		arg_20_0.activityTimer_ = nil
+		slot0.activityTimer_ = nil
 	end
 end
 
-function var_0_0.UnBindRedPointUI(arg_21_0)
-	manager.redPoint:unbindUIandKey(arg_21_0.rewardBtn_.transform, RedPointConst.BATTLE_FIRST_PASS_REWARD .. arg_21_0.activityID_)
+function slot0.UnBindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, RedPointConst.BATTLE_FIRST_PASS_REWARD .. slot0.activityID_)
 end
 
-function var_0_0.OnTop(arg_22_0)
-	local var_22_0 = ActivityTools.GetGameHelpKey(arg_22_0.activityID_)
-
-	if var_22_0 ~= "" then
+function slot0.OnTop(slot0)
+	if ActivityTools.GetGameHelpKey(slot0.activityID_) ~= "" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR
 		})
-		manager.windowBar:SetGameHelpKey(var_22_0)
+		manager.windowBar:SetGameHelpKey(slot1)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -172,21 +163,21 @@ function var_0_0.OnTop(arg_22_0)
 	end
 end
 
-function var_0_0.OnExit(arg_23_0)
-	arg_23_0:StopActivityTimer()
-	arg_23_0:UnBindRedPointUI()
+function slot0.OnExit(slot0)
+	slot0:StopActivityTimer()
+	slot0:UnBindRedPointUI()
 
-	for iter_23_0, iter_23_1 in pairs(arg_23_0.scrollHelper_:GetItemList()) do
-		iter_23_1:OnExit()
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_24_0)
-	arg_24_0:RemoveAllListeners()
-	arg_24_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_24_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

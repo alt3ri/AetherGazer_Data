@@ -1,5 +1,5 @@
-local var_0_0 = class("TeachStageView", ReduxView)
-local var_0_1 = {
+slot0 = class("TeachStageView", ReduxView)
+slot1 = {
 	{
 		battleConst = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING,
 		redConst = RedPointConst.TEACH_BASE
@@ -10,60 +10,62 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Teachinglevel/TeachinglevelUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.switchBtn_ = {}
-	arg_3_0.contentView_ = {}
+function slot0.Init(slot0)
+	slot0.switchBtn_ = {}
+	slot0.contentView_ = {}
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
-	manager.windowBar:SetGameHelpKey("TEACH_STAGE_DESC")
 
-	for iter_4_0 = 1, 2 do
-		arg_4_0:AddBtnListener(arg_4_0[string.format("btnTab%s_", iter_4_0)], nil, function()
-			arg_4_0:SelectTab(iter_4_0)
+	slot4 = "TEACH_STAGE_DESC"
+
+	manager.windowBar:SetGameHelpKey(slot4)
+
+	for slot4 = 1, 2 do
+		slot0:AddBtnListener(slot0[string.format("btnTab%s_", slot4)], nil, function ()
+			uv0:SelectTab(uv1)
 		end)
 	end
 
-	local var_4_0 = arg_4_0.params_.switchType or BattleTeachData:GetSwitchType()
+	slot1 = slot0.params_.switchType or BattleTeachData:GetSwitchType()
 
-	BattleTeachData:SetSwitchType(var_4_0)
+	BattleTeachData:SetSwitchType(slot1)
 
-	arg_4_0.lastSwitchType_ = var_4_0
+	slot0.lastSwitchType_ = slot1
+	slot2 = 1
 
-	local var_4_1 = 1
-
-	for iter_4_1, iter_4_2 in ipairs(var_0_1) do
-		if iter_4_2.battleConst == var_4_0 then
-			var_4_1 = iter_4_1
+	for slot6, slot7 in ipairs(uv0) do
+		if slot7.battleConst == slot1 then
+			slot2 = slot6
 		end
 
-		manager.redPoint:bindUIandKey(arg_4_0[string.format("buttle0%sTrs_", iter_4_1)].transform, iter_4_2.redConst)
+		manager.redPoint:bindUIandKey(slot0[string.format("buttle0%sTrs_", slot6)].transform, slot7.redConst)
 	end
 
-	arg_4_0:SelectTab(var_4_1)
+	slot0:SelectTab(slot2)
 end
 
-function var_0_0.SelectTab(arg_6_0, arg_6_1)
-	arg_6_0:OnGroupSelect(arg_6_1)
-	arg_6_0.tabControl:SetSelectedState(string.format("state%s", arg_6_1))
+function slot0.SelectTab(slot0, slot1)
+	slot0:OnGroupSelect(slot1)
+	slot0.tabControl:SetSelectedState(string.format("state%s", slot1))
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -71,99 +73,102 @@ function var_0_0.OnTop(arg_7_0)
 	})
 end
 
-function var_0_0.OnUpdate(arg_8_0)
-	if arg_8_0.lastSwitchType_ ~= BattleTeachData:GetSwitchType() then
-		arg_8_0.lastSwitchType_ = BattleTeachData:GetSwitchType()
+function slot0.OnUpdate(slot0)
+	if slot0.lastSwitchType_ ~= BattleTeachData:GetSwitchType() then
+		slot0.lastSwitchType_ = BattleTeachData:GetSwitchType()
 
-		arg_8_0:SwitchPage(arg_8_0.lastSwitchType_, false)
+		slot0:SwitchPage(slot0.lastSwitchType_, false)
 	end
 
-	arg_8_0.contentView_[arg_8_0.lastSwitchType_]:OnUpdate()
+	slot0.contentView_[slot0.lastSwitchType_]:OnUpdate()
 end
 
-function var_0_0.OnClickTeachViewBtn(arg_9_0)
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.contentView_) do
-		iter_9_1:OnClickTeachViewBtn()
+function slot0.OnClickTeachViewBtn(slot0)
+	for slot4, slot5 in pairs(slot0.contentView_) do
+		slot5:OnClickTeachViewBtn()
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.contentView_) do
-		iter_10_1:OnExit()
+	for slot4, slot5 in pairs(slot0.contentView_) do
+		slot5:OnExit()
 	end
 
-	for iter_10_2, iter_10_3 in ipairs(var_0_1) do
-		manager.redPoint:unbindUIandKey(arg_10_0[string.format("buttle0%sTrs_", iter_10_2)].transform)
+	for slot4, slot5 in ipairs(uv0) do
+		manager.redPoint:unbindUIandKey(slot0[string.format("buttle0%sTrs_", slot4)].transform)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.contentView_) do
-		iter_11_1:Dispose()
+	for slot4, slot5 in pairs(slot0.contentView_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.contentView_ = nil
-	arg_11_0.basePanel_ = nil
-	arg_11_0.heroPanel_ = nill
+	slot0.contentView_ = nil
+	slot0.basePanel_ = nil
+	slot0.heroPanel_ = nill
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_12_0)
-	arg_12_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_12_0.tabControl = arg_12_0.tabControllerexcollection_:GetController("select")
-	arg_12_0.contentView_[BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING] = TeachStageBaseView.New(arg_12_0.basePanel_, BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING)
-	arg_12_0.contentView_[BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING] = TeachStageHeroView.New(arg_12_0.heroPanel_, BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING)
+	slot0.tabControl = slot0.tabControllerexcollection_:GetController("select")
+	slot0.contentView_[BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING] = TeachStageBaseView.New(slot0.basePanel_, BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BASE_TEACHING)
+	slot0.contentView_[BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING] = TeachStageHeroView.New(slot0.heroPanel_, BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_HERO_TEACHING)
 end
 
-function var_0_0.RemoveListeners(arg_13_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.OnGroupSelect(arg_14_0, arg_14_1)
-	local var_14_0 = var_0_1[arg_14_1].battleConst
-
-	if var_14_0 == arg_14_0.switchType_ and not arg_14_0.params_.heroID then
+function slot0.OnGroupSelect(slot0, slot1)
+	if uv0[slot1].battleConst == slot0.switchType_ and not slot0.params_.heroID then
 		return
 	end
 
-	arg_14_0:SwitchPage(var_14_0, arg_14_0.params_.isBack)
-	BattleTeachData:SetSwitchType(arg_14_0.switchType_)
-	arg_14_0:Go("teachStage", {
-		switchType = arg_14_0.switchType_
-	})
-	manager.notify:CallUpdateFunc(CLICK_TEACH_BTN)
+	slot0:SwitchPage(slot2, slot0.params_.isBack)
+	BattleTeachData:SetSwitchType(slot0.switchType_)
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.contentView_) do
-		iter_14_1:OnEnter()
+	slot7 = {
+		switchType = slot0.switchType_
+	}
+
+	slot0:Go("teachStage", slot7)
+
+	slot6 = CLICK_TEACH_BTN
+
+	manager.notify:CallUpdateFunc(slot6)
+
+	for slot6, slot7 in pairs(slot0.contentView_) do
+		slot7:OnEnter()
 	end
 end
 
-function var_0_0.GetCurView(arg_15_0)
-	if arg_15_0.contentView_[arg_15_0.switchType_] then
-		return arg_15_0.contentView_[arg_15_0.switchType_]
+function slot0.GetCurView(slot0)
+	if slot0.contentView_[slot0.switchType_] then
+		return slot0.contentView_[slot0.switchType_]
 	end
 end
 
-function var_0_0.SwitchPage(arg_16_0, arg_16_1, arg_16_2)
-	arg_16_0.switchType_ = arg_16_1
+function slot0.SwitchPage(slot0, slot1, slot2)
+	slot0.switchType_ = slot1
 
-	if arg_16_1 == 12 then
+	if slot1 == 12 then
 		OperationRecorder.Record("teachStage", "base")
-	elseif arg_16_1 == 13 then
+	elseif slot1 == 13 then
 		OperationRecorder.Record("teachStage", "role")
 	end
 
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.contentView_) do
-		iter_16_1:SwitchPageUI(arg_16_1, arg_16_0.params_.heroID, arg_16_2 ~= true)
+	for slot6, slot7 in pairs(slot0.contentView_) do
+		slot7:SwitchPageUI(slot1, slot0.params_.heroID, slot2 ~= true)
 	end
 
-	arg_16_0.params_.heroID = nil
+	slot0.params_.heroID = nil
 end
 
-return var_0_0
+return slot0

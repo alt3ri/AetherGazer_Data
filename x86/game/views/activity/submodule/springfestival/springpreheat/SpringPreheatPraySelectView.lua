@@ -1,235 +1,223 @@
-local var_0_0 = class("SpringPreheatPraySelectView", ReduxView)
+slot0 = class("SpringPreheatPraySelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeWishSelUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.itemUiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, SpringPreheatPrayRewardItem)
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.transform_, "Notoptional")
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.itemUiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, SpringPreheatPrayRewardItem)
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "Notoptional")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
 
-	arg_3_0.stateController_:SetSelectedState("select")
+	slot0.stateController_:SetSelectedState("select")
 
-	arg_3_0.branch_ = SpringPreheatPrayBubbleView.New(arg_3_0.branchGo_)
+	slot0.branch_ = SpringPreheatPrayBubbleView.New(slot0.branchGo_)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.maskBtn_, nil, function()
-		arg_4_0:OnClickCancelBtn()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:OnClickCancelBtn()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.cancelBtn_, nil, function()
-		arg_4_0:OnClickCancelBtn()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:OnClickCancelBtn()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.confirmBtn_, nil, function()
-		arg_4_0:OnClickConfirmBtn()
+	slot0:AddBtnListener(slot0.confirmBtn_, nil, function ()
+		uv0:OnClickConfirmBtn()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.day_ = SpringPreheatData:GetNextSelectionIndex()
+function slot0.OnEnter(slot0)
+	slot0.day_ = SpringPreheatData:GetNextSelectionIndex()
 
-	arg_8_0.branch_:SetData(arg_8_0.day_)
-	arg_8_0.branch_:SetClickHandler(function(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-		arg_8_0:OnClickBubble(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
+	slot0.branch_:SetData(slot0.day_)
+	slot0.branch_:SetClickHandler(function (slot0, slot1, slot2, slot3)
+		uv0:OnClickBubble(slot0, slot1, slot2, slot3)
 	end)
-	arg_8_0.branch_:OnEnter()
+	slot0.branch_:OnEnter()
 
-	arg_8_0.itemIdList_ = arg_8_0:GetSortedList()
+	slot0.itemIdList_ = slot0:GetSortedList()
 
-	arg_8_0.itemUiList_:StartScroll(#arg_8_0.itemIdList_)
-	arg_8_0:ResetSelectItems()
-	arg_8_0.selectController_:SetSelectedState("no")
-	arg_8_0:RefreshUI()
+	slot0.itemUiList_:StartScroll(#slot0.itemIdList_)
+	slot0:ResetSelectItems()
+	slot0.selectController_:SetSelectedState("no")
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.itemUiList_:GetItemList()) do
-		iter_10_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.itemUiList_:GetItemList()) do
+		slot5:OnExit()
 	end
 
-	arg_10_0.branch_:OnExit()
+	slot0.branch_:OnExit()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.itemUiList_:Dispose()
-	arg_11_0.branch_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.itemUiList_:Dispose()
+	slot0.branch_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.itemIdList_[arg_12_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.itemIdList_[slot1]
 
-	arg_12_2:SetClickHandler(function(arg_13_0)
-		arg_12_0:OnClickRewardItem(arg_12_1, arg_13_0)
+	slot2:SetClickHandler(function (slot0)
+		uv0:OnClickRewardItem(uv1, slot0)
 	end)
-	arg_12_2:SwitchToSelecting()
-	arg_12_2:SetSelectable(not SpringPreheatData:IsSelected(var_12_0))
-	arg_12_2:SetSelected(false)
-	arg_12_2:SetData(var_12_0)
+	slot2:SwitchToSelecting()
+	slot2:SetSelectable(not SpringPreheatData:IsSelected(slot3))
+	slot2:SetSelected(false)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	local var_14_0 = arg_14_0:GetSelectRewardList()
+function slot0.RefreshUI(slot0)
+	slot0.branch_:UpdateItemIdList(slot0:GetSelectRewardList())
+	slot0.branch_:RefreshItemUiList()
 
-	arg_14_0.branch_:UpdateItemIdList(var_14_0)
-	arg_14_0.branch_:RefreshItemUiList()
-
-	arg_14_0.tipsText_.text = GetTips(string.format("SPRING_PREHEAT_EDIT_REWARD_DAY_%d", arg_14_0.day_))
-	arg_14_0.selectNumText_.text = string.format("%d/%d", arg_14_0.selectedCount, arg_14_0.params_.maxSelectCount)
+	slot0.tipsText_.text = GetTips(string.format("SPRING_PREHEAT_EDIT_REWARD_DAY_%d", slot0.day_))
+	slot0.selectNumText_.text = string.format("%d/%d", slot0.selectedCount, slot0.params_.maxSelectCount)
 end
 
-function var_0_0.OnClickRewardItem(arg_15_0, arg_15_1, arg_15_2)
-	if arg_15_0.itemSelected[arg_15_1] then
-		arg_15_2:SetSelected(false)
-		arg_15_0:RemoveSelectItem(arg_15_1)
-	elseif arg_15_0.selectedCount >= arg_15_0.params_.maxSelectCount then
+function slot0.OnClickRewardItem(slot0, slot1, slot2)
+	if slot0.itemSelected[slot1] then
+		slot2:SetSelected(false)
+		slot0:RemoveSelectItem(slot1)
+	elseif slot0.params_.maxSelectCount <= slot0.selectedCount then
 		ShowTips("SPRING_PREHEAT_SELECT_CONDITION")
-	elseif not SpringPreheatData:IsSelected(arg_15_0.itemIdList_[arg_15_1]) then
-		arg_15_2:SetSelected(true)
-		arg_15_0:AddSelectItem(arg_15_1)
+	elseif not SpringPreheatData:IsSelected(slot0.itemIdList_[slot1]) then
+		slot2:SetSelected(true)
+		slot0:AddSelectItem(slot1)
 	end
 
-	arg_15_0.selectController_:SetSelectedState(arg_15_0.selectedCount >= arg_15_0.params_.maxSelectCount and "yes" or "no")
-	arg_15_2:RefreshUI()
-	arg_15_0:RefreshUI()
+	slot0.selectController_:SetSelectedState(slot0.params_.maxSelectCount <= slot0.selectedCount and "yes" or "no")
+	slot2:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnClickCancelBtn(arg_16_0)
-	if arg_16_0.isAniPlaying_ then
+function slot0.OnClickCancelBtn(slot0)
+	if slot0.isAniPlaying_ then
 		return
 	end
 
-	arg_16_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.OnClickConfirmBtn(arg_17_0)
-	if arg_17_0.selectedCount ~= 2 then
+function slot0.OnClickConfirmBtn(slot0)
+	if slot0.selectedCount ~= 2 then
 		ShowTips("SPRING_PREHEAT_SELECT_CONDITION")
 
 		return
 	end
 
-	arg_17_0:TryUploadSelection()
+	slot0:TryUploadSelection()
 end
 
-function var_0_0.TryUploadSelection(arg_18_0)
-	local var_18_0 = arg_18_0:GetSelectRewardList()
-
-	if #var_18_0 ~= 2 then
+function slot0.TryUploadSelection(slot0)
+	if #slot0:GetSelectRewardList() ~= 2 then
 		ShowTips("SPRING_PREHEAT_SELECT_CONDITION")
 
 		return
 	end
 
-	if arg_18_0.isAniPlaying_ then
+	if slot0.isAniPlaying_ then
 		return
 	end
 
-	local var_18_1 = SpringPreheatData:GetNextSelectionIndex()
-
-	SpringPreheatAction:UploadPraySelection(var_18_1, var_18_0, function()
-		arg_18_0:PlayEffect(function()
-			if arg_18_0.params_.onSelectionConfirmed then
-				arg_18_0.params_.onSelectionConfirmed(var_18_0)
+	SpringPreheatAction:UploadPraySelection(SpringPreheatData:GetNextSelectionIndex(), slot1, function ()
+		uv0:PlayEffect(function ()
+			if uv0.params_.onSelectionConfirmed then
+				uv0.params_.onSelectionConfirmed(uv1)
 			end
 
-			arg_18_0:Back()
+			uv0:Back()
 		end)
 	end)
 end
 
-function var_0_0.GetSortedList(arg_21_0)
-	local var_21_0 = SpringPreheatData:GetPoolItemList()
-	local var_21_1 = SpringPreheatData:GetPraySelectionFullList()
+function slot0.GetSortedList(slot0)
+	slot1 = SpringPreheatData:GetPoolItemList()
+	slot2 = SpringPreheatData:GetPraySelectionFullList()
 
-	table.sort(var_21_0, function(arg_22_0, arg_22_1)
-		local var_22_0 = SpringPreheatData:IsSelected(arg_22_0)
-		local var_22_1 = SpringPreheatData:IsSelected(arg_22_1)
-
-		if var_22_0 and var_22_1 then
-			return table.indexof(var_21_1, arg_22_0) < table.indexof(var_21_1, arg_22_1)
-		elseif var_22_0 or var_22_1 then
-			return not var_22_0
+	table.sort(slot1, function (slot0, slot1)
+		if SpringPreheatData:IsSelected(slot0) and SpringPreheatData:IsSelected(slot1) then
+			return table.indexof(uv0, slot0) < table.indexof(uv0, slot1)
+		elseif slot2 or slot3 then
+			return not slot2
 		end
 
-		return arg_22_0 < arg_22_1
+		return slot0 < slot1
 	end)
 
-	return var_21_0
+	return slot1
 end
 
-function var_0_0.AddSelectItem(arg_23_0, arg_23_1)
-	arg_23_0.itemSelected[arg_23_1] = true
-	arg_23_0.selectedCount = arg_23_0.selectedCount + 1
+function slot0.AddSelectItem(slot0, slot1)
+	slot0.itemSelected[slot1] = true
+	slot0.selectedCount = slot0.selectedCount + 1
 
-	table.insert(arg_23_0.selectIndexList_, arg_23_1)
+	table.insert(slot0.selectIndexList_, slot1)
 end
 
-function var_0_0.RemoveSelectItem(arg_24_0, arg_24_1)
-	arg_24_0.itemSelected[arg_24_1] = false
-	arg_24_0.selectedCount = arg_24_0.selectedCount - 1
+function slot0.RemoveSelectItem(slot0, slot1)
+	slot0.itemSelected[slot1] = false
+	slot0.selectedCount = slot0.selectedCount - 1
 
-	table.removebyvalue(arg_24_0.selectIndexList_, arg_24_1)
+	table.removebyvalue(slot0.selectIndexList_, slot1)
 end
 
-function var_0_0.ResetSelectItems(arg_25_0)
-	arg_25_0.itemSelected = {}
-	arg_25_0.selectedCount = 0
+function slot0.ResetSelectItems(slot0)
+	slot0.itemSelected = {}
+	slot0.selectedCount = 0
 
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.itemIdList_) do
-		arg_25_0.itemSelected[iter_25_0] = false
+	for slot4, slot5 in ipairs(slot0.itemIdList_) do
+		slot0.itemSelected[slot4] = false
 	end
 
-	arg_25_0.selectIndexList_ = {}
+	slot0.selectIndexList_ = {}
 end
 
-function var_0_0.GetSelectRewardList(arg_26_0)
-	local var_26_0 = SpringPreheatData:GetPoolItemList()
-	local var_26_1 = {}
+function slot0.GetSelectRewardList(slot0)
+	slot2 = {}
 
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.selectIndexList_) do
-		table.insert(var_26_1, var_26_0[iter_26_1])
+	for slot6, slot7 in ipairs(slot0.selectIndexList_) do
+		table.insert(slot2, SpringPreheatData:GetPoolItemList()[slot7])
 	end
 
-	for iter_26_2 = #var_26_1 + 1, arg_26_0.params_.maxSelectCount do
-		table.insert(var_26_1, 0)
+	for slot6 = #slot2 + 1, slot0.params_.maxSelectCount do
+		table.insert(slot2, 0)
 	end
 
-	return var_26_1
+	return slot2
 end
 
-function var_0_0.OnClickBubble(arg_27_0, arg_27_1, arg_27_2, arg_27_3, arg_27_4)
-	if arg_27_4 then
-		local var_27_0 = arg_27_3:GetItemId()
-
+function slot0.OnClickBubble(slot0, slot1, slot2, slot3, slot4)
+	if slot4 then
 		ShowPopItem(POP_ITEM, {
-			var_27_0
+			slot3:GetItemId()
 		})
 	end
 end
 
-function var_0_0.PlayEffect(arg_28_0, arg_28_1)
-	if arg_28_0.selectAni_ then
-		arg_28_0.isAniPlaying_ = true
+function slot0.PlayEffect(slot0, slot1)
+	if slot0.selectAni_ then
+		slot0.isAniPlaying_ = true
 
-		arg_28_0.selectAni_:Play("IndiaWishingTreeWishSelUI02", -1, 0)
-		arg_28_0.selectAni_:Update(0)
-		AnimatorTools.PlayAnimationWithCallback(arg_28_0.selectAni_, "IndiaWishingTreeWishSelUI02", function()
-			arg_28_0.isAniPlaying_ = false
+		slot0.selectAni_:Play("IndiaWishingTreeWishSelUI02", -1, 0)
+		slot0.selectAni_:Update(0)
+		AnimatorTools.PlayAnimationWithCallback(slot0.selectAni_, "IndiaWishingTreeWishSelUI02", function ()
+			uv0.isAniPlaying_ = false
 
-			arg_28_1()
+			uv1()
 		end)
 	else
-		arg_28_1()
+		slot1()
 	end
 end
 
-return var_0_0
+return slot0

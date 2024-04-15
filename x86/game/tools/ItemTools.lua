@@ -1,416 +1,346 @@
-local var_0_0 = {
-	getItemName = function(arg_1_0)
-		local var_1_0 = ItemCfg[arg_1_0]
-
-		if var_1_0.type == ItemConst.ITEM_TYPE.HERO then
-			return HeroTools.GetHeroFullName(arg_1_0)
-		elseif var_1_0.type == ItemConst.ITEM_TYPE.HERO_SKIN and var_1_0.sub_type ~= ItemConst.ITEM_SUB_TYPE.LIMIT_SKIN then
-			return SkinCfg[arg_1_0].name
+return {
+	getItemName = function (slot0)
+		if ItemCfg[slot0].type == ItemConst.ITEM_TYPE.HERO then
+			return HeroTools.GetHeroFullName(slot0)
+		elseif slot1.type == ItemConst.ITEM_TYPE.HERO_SKIN and slot1.sub_type ~= ItemConst.ITEM_SUB_TYPE.LIMIT_SKIN then
+			return SkinCfg[slot0].name
 		end
 
-		return GetI18NText(var_1_0.name)
+		return GetI18NText(slot1.name)
+	end,
+	getItemDesc = function (slot0)
+		if ItemCfg[slot0].type == ItemConst.ITEM_TYPE.HERO then
+			return string.format(GetTips("HERO_DESC"), GetI18NText(HeroCfg[slot0].hero_desc))
+		elseif slot1.type == ItemConst.ITEM_TYPE.HERO_SKIN then
+			slot2 = slot0
+
+			if slot1.param[1] then
+				slot2 = slot1.param[1]
+			end
+
+			return string.format("%s%s", GetI18NText(slot1.desc), GetI18NText(SkinCfg[slot2].desc))
+		elseif slot1.type == ItemConst.ITEM_TYPE.SKIN_CHANGE then
+			return string.format(GetTips("EXCHANGE"), uv0.getItemDesc(slot1.param[1]))
+		elseif slot1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+			return string.format(GetTips("SERVANT_DESC"), GetI18NText(WeaponServantCfg[slot0].desc))
+		else
+			return GetI18NText(slot1.desc)
+		end
+	end,
+	getItemNum = function (slot0, slot1)
+		if slot0 == nil or slot0 == 0 then
+			return 0
+		end
+
+		slot2 = ItemCfg[slot0]
+		slot4 = slot2.sub_type
+
+		if slot2.type == ItemConst.ITEM_TYPE.CURRENCY then
+			return CurrencyData:GetCurrencyNum(slot0) or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.HERO_PIECE then
+			if HeroData:GetHeroData(slot2.hero_id) then
+				return slot5.piece
+			end
+		elseif slot3 == ItemConst.ITEM_TYPE.PROPS or slot3 == ItemConst.ITEM_TYPE.MATERIAL or slot3 == ItemConst.ITEM_TYPE.ARCHIVE_GIFT or slot3 == ItemConst.ITEM_TYPE.SKIN_CHANGE or slot3 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
+			return MaterialData:GetMaterialNum(slot0, slot1)
+		elseif slot3 == ItemConst.ITEM_TYPE.GIFT then
+			if slot4 == ItemConst.ITEM_SUB_TYPE.FUKUBUKURO then
+				return FukubukuroData:CheckHaveItemId(slot0) and 1 or 0
+			else
+				return MaterialData:GetMaterialNum(slot0, slot1)
+			end
+		elseif slot3 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+			return WeaponServantData:GetServantSByID(slot0) and table.length(slot5) or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.EQUIP then
+			return #EquipTools.GetEquipListByEquipid(slot0)
+		elseif slot3 == ItemConst.ITEM_TYPE.HERO_SKIN then
+			if slot2.param[1] then
+				slot0 = slot2.param[1]
+			end
+
+			return HeroTools.IsSkinUnlock(slot0) and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.PORTRAIT then
+			return PlayerData:GetPortrait(slot0).unlock == 1 and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.FRAME then
+			return PlayerData:GetFrame(slot0).unlock == 1 and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.STICKER then
+			return PlayerData:GetSticker(slot0).unlock == 1 and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.CANTEEN_INGREDIENTS then
+			return CanteenFoodData:GetHadIngredientNum(slot0) or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.CLUB_COMMON then
+			-- Nothing
+		elseif slot3 == ItemConst.ITEM_TYPE.DORM_FURNITURE then
+			return DormData:GetFurNumInfo(slot0).num or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.SCENE then
+			return HomeSceneSettingData:IsHaveScene(slot0) and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.FURNITURE_SUIT then
+			return DormSuitData:CheckUnlockSuit(slot0) and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.STICKER_BG then
+			return PlayerData:GetStickerBg(slot0).unlock == 1 and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.CARD_BG then
+			return PlayerData:GetCardBg(slot0).unlock == 1 and 1 or 0
+		elseif slot3 == ItemConst.ITEM_TYPE.CHAT_BUBBLE then
+			return table.keyof(PlayerData:GetUnlockChatBubbleIDList(), slot0) and 1 or 0
+		else
+			print("未知的Item类型", slot3)
+		end
+
+		return 0
+	end,
+	getItemTexturePath = function (slot0, slot1)
+		if ItemCfg[slot0] == nil then
+			return
+		end
+
+		if slot2.type == ItemConst.ITEM_TYPE.EQUIP then
+			return slot1 and SpritePathCfg.EquipIcon_s.path or SpritePathCfg.EquipIcon_l.path
+		elseif slot2.type == ItemConst.ITEM_TYPE.HERO_SKIN or slot2.type == ItemConst.ITEM_TYPE.HERO then
+			return SpritePathCfg.HeroLittleIcon.path
+		elseif slot2.type == ItemConst.ITEM_TYPE.HERO_PIECE then
+			return SpritePathCfg.HeroPiece.path
+		elseif slot2.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+			return SpritePathCfg.ServantIcon.path
+		elseif slot2.type == ItemConst.ITEM_TYPE.PORTRAIT then
+			if slot2.sub_type == 1 then
+				return SpritePathCfg.HeroLittleIcon.path
+			elseif slot2.sub_type == 2 then
+				return "TextureConfig/Item_l"
+			else
+				print("暂未定义的头像来源")
+			end
+		elseif slot2.type == ItemConst.ITEM_TYPE.STICKER then
+			return "TextureConfig/Sticker/"
+		elseif slot1 then
+			return SpritePathCfg.ItemLittleIcon.path
+		else
+			return SpritePathCfg.ItemIcon.path
+		end
+	end,
+	getItemSprite = function (slot0, slot1, slot2)
+		if ItemCfg[slot0] == nil then
+			return
+		end
+
+		if slot3.type == ItemConst.ITEM_TYPE.STICKER then
+			if getSpriteWithoutAtlas(uv0.getItemTexturePath(slot0, slot2) .. slot3.icon) then
+				return slot5
+			else
+				return getSpriteWithoutAtlas(slot4 .. slot3.icon .. SettingData:GetCurrentLanguageKey())
+			end
+		else
+			return getSpriteWithoutAtlas(slot4 .. slot3.icon)
+		end
+	end,
+	GetItemSpriteAsync = function (slot0, slot1, slot2, slot3)
+		if not (ItemCfg[slot0] or RechargeShopDescriptionCfg[slot0] or {
+			sub_type = 3,
+			icon = "30042"
+		}).icon then
+			slot4.icon = "30042"
+		end
+
+		slot5 = true
+
+		if not slot2 then
+			slot6 = uv0.getItemTexturePath(slot0, slot3)
+
+			if slot4.type == ItemConst.ITEM_TYPE.STICKER then
+				slot5 = false
+			end
+
+			slot2 = slot6 .. slot4.icon
+		end
+
+		if not slot5 then
+			slot1(slot0, uv0.getItemSprite(slot0, nil, slot3))
+		else
+			getSpriteWithoutAtlasAsync(slot2, function (slot0)
+				uv0(uv1, slot0)
+			end)
+		end
+	end,
+	getItemLittleSprite = function (slot0)
+		return uv0.getItemSprite(slot0, nil, true)
+	end,
+	GetItemExpiredTimeByInfo = function (slot0)
+		if slot0.timeValid ~= nil and slot0.timeValid > 0 then
+			return slot0.timeValid
+		end
+
+		return uv0.GetItemExpiredTimeByID(slot0.id)
+	end,
+	GetItemExpiredTimeByID = function (slot0)
+		if ItemCfg[slot0].time ~= nil and slot1.time ~= "" then
+			if slot1.time[1] == 1 or slot2 == 5 then
+				for slot6, slot7 in ipairs(slot1.time[2]) do
+					slot8, slot9 = ActivityData:GetActivityTime(slot7)
+
+					return slot9
+				end
+			elseif slot2 == 2 then
+				return slot1.time[2][1]
+			elseif slot2 == 3 then
+				return _G.gameTimer:GetNextWeekFreshTime() + slot1.time[2][1] * 604800 + (slot1.time[2][2][1] - 1) * 24 * 3600 + (slot1.time[2][2][2] - 5) * 3600 + slot1.time[2][2][3] * 60
+			elseif slot2 == 4 then
+				return _G.gameTimer:GetNextDayFreshTime() + slot1.time[2][1] * 24 * 3600 + (slot1.time[2][2][1] - 5) * 3600 + slot1.time[2][2][2] * 60 + slot1.time[2][2][3]
+			end
+		end
+
+		return 0
+	end,
+	IsItemExpired = function (slot0)
+		if uv0.IsItemExpiredByItemId(slot0.id) then
+			return true
+		end
+
+		if slot0.timeValid ~= nil and slot0.timeValid > 0 and slot0.timeValid < manager.time:GetServerTime() then
+			return true
+		end
+
+		return false
+	end,
+	IsItemExpiredByItemId = function (slot0)
+		if ItemCfg[slot0].type ~= ItemConst.ITEM_TYPE.MATERIAL then
+			return false
+		end
+
+		if ItemCfg[slot0].time ~= nil and slot2.time ~= "" then
+			if slot2.time[1] == 1 then
+				return not ActivityData:GetActivityIsOpen(slot2.time[2][1])
+			elseif slot3 == 2 then
+				return slot2.time[2][1] < manager.time:GetServerTime()
+			end
+		end
+
+		return false
+	end,
+	GetItemCountdownText = function (slot0)
+		if slot0 <= manager.time:GetServerTime() then
+			return GetTips("TIP_EXPIRED")
+		else
+			return manager.time:GetLostTimeStr2(slot0, nil, false)
+		end
+	end,
+	RefreshLimitRed = function ()
+		PlayerData:RefreshTagRed()
+		PlayerData:RefreshCardBgRed()
+	end,
+	StopRefreshLimitRed = function ()
+		PlayerData:StopTagRed()
+		PlayerData:StopCardRed()
+	end,
+	GetItemIsOwned = function (slot0)
+		if ItemCfg[slot0].type == ItemConst.ITEM_TYPE.SKIN_CHANGE then
+			return uv0.getItemNum(slot0) > 0 or HeroTools.GetSkinIsUnlock(slot1.param[1])
+		elseif slot2 == ItemConst.ITEM_TYPE.HERO_SKIN then
+			if slot1.param[1] then
+				return HeroTools.GetSkinIsUnlock(slot1.param[1])
+			else
+				return HeroTools.GetSkinIsUnlock(slot1.id)
+			end
+		elseif slot2 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
+			return uv0.getItemNum(slot0) > 0 or not ChatStickerData:IsLockSticker(slot1.param[1])
+		elseif slot2 == ItemConst.ITEM_TYPE.STICKER_BG then
+			return uv0.getItemNum(slot0) > 0 or PlayerData:GetStickerBg(slot0).unlock == 1
+		elseif slot2 == ItemConst.ITEM_TYPE.TAG then
+			return uv0.getItemNum(slot0) > 0 or PlayerData:GetTagInfo(slot0).unlock == 1
+		elseif slot2 == ItemConst.ITEM_TYPE.CARD_BG then
+			return uv0.getItemNum(slot0) > 0 or PlayerData:GetCardBg(slot0).unlock == 1
+		elseif slot2 == ItemConst.ITEM_TYPE.CHAT_BUBBLE then
+			return uv0.getItemNum(slot0) > 0 or table.keyof(PlayerData:GetUnlockChatBubbleIDList(), slot0)
+		elseif slot2 == ItemConst.ITEM_TYPE.SCENE then
+			return HomeSceneSettingData:GetUsedState(ItemCfg[slot0].param[1]) == SceneConst.HOME_SCENE_TYPE.UNLOCK
+		end
+
+		return false
+	end,
+	isCanUseItem = function (slot0)
+		return (ItemCfg[slot0].use == 1 or slot1.use == 2) and MaterialConst.MATERIAL_TYPE.MYTHIC_REFRESH ~= slot1.sub_type
+	end,
+	GetItemSourceList = function (slot0)
+		slot1 = {}
+		slot2 = ItemCfg[slot0]
+		slot3 = clone(slot2.source)
+
+		if slot2.type == ItemConst.ITEM_TYPE.HERO_PIECE then
+			for slot7, slot8 in ipairs(slot3) do
+				if slot8[1] == ViewConst.SYSTEM_ID.DRAW then
+					table.insert(slot1, slot8)
+				elseif slot8[1] == ViewConst.SYSTEM_ID.LIMIT_DRAW or slot8[1] == ViewConst.SYSTEM_ID.LIMIT_MUST_DRAW then
+					if HeroTools:CanBeDraw(slot8[2]) then
+						table.insert(slot1, slot8)
+					end
+				elseif slot8[1] == ViewConst.SYSTEM_ID.NEWS_SHOP or slot8[1] == ViewConst.SYSTEM_ID.DREAM_SHOP then
+					if HeroTools.GetHeroIsUnlock(slot2.id - 10000) then
+						table.insert(slot1, slot8)
+					end
+				else
+					table.insert(slot1, slot8)
+				end
+			end
+		else
+			for slot7, slot8 in ipairs(slot3) do
+				if not slot8[2] then
+					slot3[slot7][2] = slot0
+				end
+			end
+
+			slot1 = slot3
+		end
+
+		slot4 = {}
+		slot5 = {}
+
+		for slot9 = #slot1, 1, -1 do
+			if JumpTools.NeedHide(slot1[slot9], slot0) then
+				table.remove(slot1, slot9)
+			end
+
+			if slot1[slot9] and slot1[slot9][1] == ViewConst.JUMP_SPECIAL_ID.HEROITEM_SPECIAL_SOURCE then
+				table.remove(slot1, slot9)
+
+				_, slot5 = SourceTool.GetJumpDataByHeroSpecialType(slot0)
+			elseif slot1[slot9] and slot1[slot9][1] == ViewConst.JUMP_SPECIAL_ID.SERVANT_SPECIAL_SOURCE then
+				table.remove(slot1, slot9)
+
+				_, slot4 = SourceTool.GetJumpDataByServantSpecialType(slot0)
+			elseif slot1[slot9] and slot1[slot9][1] == ViewConst.JUMP_SPECIAL_ID.EQUIP_SPECIAL_SOURCE then
+				table.remove(slot1, slot9)
+
+				if SourceTool.GetJumpDataByEquipSpecialType(slot1, slot0) and slot10[1] and not JumpTools.NeedHide(slot10, slot0) then
+					table.insert(slot1, slot10)
+				end
+			end
+		end
+
+		for slot9, slot10 in pairs(slot4) do
+			slot11 = true
+
+			for slot15, slot16 in pairs(slot1) do
+				if slot16[1] == slot10[1] then
+					slot11 = false
+				end
+			end
+
+			if slot11 then
+				table.insert(slot1, slot10)
+			end
+		end
+
+		for slot9, slot10 in pairs(slot5) do
+			slot11 = true
+
+			for slot15, slot16 in pairs(slot1) do
+				if slot16[1] == slot10[1] then
+					slot11 = false
+				end
+			end
+
+			if slot11 then
+				table.insert(slot1, slot10)
+			end
+		end
+
+		return slot1
 	end
 }
-
-function var_0_0.getItemDesc(arg_2_0)
-	local var_2_0 = ItemCfg[arg_2_0]
-
-	if var_2_0.type == ItemConst.ITEM_TYPE.HERO then
-		return string.format(GetTips("HERO_DESC"), GetI18NText(HeroCfg[arg_2_0].hero_desc))
-	elseif var_2_0.type == ItemConst.ITEM_TYPE.HERO_SKIN then
-		local var_2_1 = arg_2_0
-
-		if var_2_0.param[1] then
-			var_2_1 = var_2_0.param[1]
-		end
-
-		return string.format("%s%s", GetI18NText(var_2_0.desc), GetI18NText(SkinCfg[var_2_1].desc))
-	elseif var_2_0.type == ItemConst.ITEM_TYPE.SKIN_CHANGE then
-		local var_2_2 = var_2_0.param[1]
-
-		return string.format(GetTips("EXCHANGE"), var_0_0.getItemDesc(var_2_2))
-	elseif var_2_0.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		return string.format(GetTips("SERVANT_DESC"), GetI18NText(WeaponServantCfg[arg_2_0].desc))
-	else
-		return GetI18NText(var_2_0.desc)
-	end
-end
-
-function var_0_0.getItemNum(arg_3_0, arg_3_1)
-	if arg_3_0 == nil or arg_3_0 == 0 then
-		return 0
-	end
-
-	local var_3_0 = ItemCfg[arg_3_0]
-	local var_3_1 = var_3_0.type
-	local var_3_2 = var_3_0.sub_type
-
-	if var_3_1 == ItemConst.ITEM_TYPE.CURRENCY then
-		return CurrencyData:GetCurrencyNum(arg_3_0) or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.HERO_PIECE then
-		local var_3_3 = HeroData:GetHeroData(var_3_0.hero_id)
-
-		if var_3_3 then
-			return var_3_3.piece
-		end
-	elseif var_3_1 == ItemConst.ITEM_TYPE.PROPS or var_3_1 == ItemConst.ITEM_TYPE.MATERIAL or var_3_1 == ItemConst.ITEM_TYPE.ARCHIVE_GIFT or var_3_1 == ItemConst.ITEM_TYPE.SKIN_CHANGE or var_3_1 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
-		return MaterialData:GetMaterialNum(arg_3_0, arg_3_1)
-	elseif var_3_1 == ItemConst.ITEM_TYPE.GIFT then
-		if var_3_2 == ItemConst.ITEM_SUB_TYPE.FUKUBUKURO then
-			return FukubukuroData:CheckHaveItemId(arg_3_0) and 1 or 0
-		else
-			return MaterialData:GetMaterialNum(arg_3_0, arg_3_1)
-		end
-	elseif var_3_1 == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		local var_3_4 = WeaponServantData:GetServantSByID(arg_3_0)
-
-		return var_3_4 and table.length(var_3_4) or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.EQUIP then
-		return #EquipTools.GetEquipListByEquipid(arg_3_0)
-	elseif var_3_1 == ItemConst.ITEM_TYPE.HERO_SKIN then
-		if var_3_0.param[1] then
-			arg_3_0 = var_3_0.param[1]
-		end
-
-		return HeroTools.IsSkinUnlock(arg_3_0) and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.PORTRAIT then
-		return PlayerData:GetPortrait(arg_3_0).unlock == 1 and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.FRAME then
-		return PlayerData:GetFrame(arg_3_0).unlock == 1 and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.STICKER then
-		return PlayerData:GetSticker(arg_3_0).unlock == 1 and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.CANTEEN_INGREDIENTS then
-		return CanteenFoodData:GetHadIngredientNum(arg_3_0) or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.CLUB_COMMON then
-		-- block empty
-	elseif var_3_1 == ItemConst.ITEM_TYPE.DORM_FURNITURE then
-		return DormData:GetFurNumInfo(arg_3_0).num or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.SCENE then
-		return HomeSceneSettingData:IsHaveScene(arg_3_0) and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.FURNITURE_SUIT then
-		return DormSuitData:CheckUnlockSuit(arg_3_0) and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.STICKER_BG then
-		return PlayerData:GetStickerBg(arg_3_0).unlock == 1 and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.CARD_BG then
-		return PlayerData:GetCardBg(arg_3_0).unlock == 1 and 1 or 0
-	elseif var_3_1 == ItemConst.ITEM_TYPE.CHAT_BUBBLE then
-		return table.keyof(PlayerData:GetUnlockChatBubbleIDList(), arg_3_0) and 1 or 0
-	else
-		print("未知的Item类型", var_3_1)
-	end
-
-	return 0
-end
-
-function var_0_0.getItemTexturePath(arg_4_0, arg_4_1)
-	local var_4_0 = ItemCfg[arg_4_0]
-
-	if var_4_0 == nil then
-		return
-	end
-
-	if var_4_0.type == ItemConst.ITEM_TYPE.EQUIP then
-		return arg_4_1 and SpritePathCfg.EquipIcon_s.path or SpritePathCfg.EquipIcon_l.path
-	elseif var_4_0.type == ItemConst.ITEM_TYPE.HERO_SKIN or var_4_0.type == ItemConst.ITEM_TYPE.HERO then
-		return SpritePathCfg.HeroLittleIcon.path
-	elseif var_4_0.type == ItemConst.ITEM_TYPE.HERO_PIECE then
-		return SpritePathCfg.HeroPiece.path
-	elseif var_4_0.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-		return SpritePathCfg.ServantIcon.path
-	elseif var_4_0.type == ItemConst.ITEM_TYPE.PORTRAIT then
-		if var_4_0.sub_type == 1 then
-			return SpritePathCfg.HeroLittleIcon.path
-		elseif var_4_0.sub_type == 2 then
-			return "TextureConfig/Item_l"
-		else
-			print("暂未定义的头像来源")
-		end
-	elseif var_4_0.type == ItemConst.ITEM_TYPE.STICKER then
-		return "TextureConfig/Sticker/"
-	elseif arg_4_1 then
-		return SpritePathCfg.ItemLittleIcon.path
-	else
-		return SpritePathCfg.ItemIcon.path
-	end
-end
-
-function var_0_0.getItemSprite(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = ItemCfg[arg_5_0]
-
-	if var_5_0 == nil then
-		return
-	end
-
-	local var_5_1 = var_0_0.getItemTexturePath(arg_5_0, arg_5_2)
-
-	if var_5_0.type == ItemConst.ITEM_TYPE.STICKER then
-		local var_5_2 = getSpriteWithoutAtlas(var_5_1 .. var_5_0.icon)
-
-		if var_5_2 then
-			return var_5_2
-		else
-			return getSpriteWithoutAtlas(var_5_1 .. var_5_0.icon .. SettingData:GetCurrentLanguageKey())
-		end
-	else
-		return getSpriteWithoutAtlas(var_5_1 .. var_5_0.icon)
-	end
-end
-
-function var_0_0.GetItemSpriteAsync(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	local var_6_0 = ItemCfg[arg_6_0] or RechargeShopDescriptionCfg[arg_6_0] or {
-		sub_type = 3,
-		icon = "30042"
-	}
-
-	if not var_6_0.icon then
-		var_6_0.icon = "30042"
-	end
-
-	local var_6_1 = true
-
-	if not arg_6_2 then
-		local var_6_2 = var_0_0.getItemTexturePath(arg_6_0, arg_6_3)
-
-		if var_6_0.type == ItemConst.ITEM_TYPE.STICKER then
-			var_6_1 = false
-		end
-
-		arg_6_2 = var_6_2 .. var_6_0.icon
-	end
-
-	if not var_6_1 then
-		local var_6_3 = var_0_0.getItemSprite(arg_6_0, nil, arg_6_3)
-
-		arg_6_1(arg_6_0, var_6_3)
-	else
-		getSpriteWithoutAtlasAsync(arg_6_2, function(arg_7_0)
-			arg_6_1(arg_6_0, arg_7_0)
-		end)
-	end
-end
-
-function var_0_0.getItemLittleSprite(arg_8_0)
-	return var_0_0.getItemSprite(arg_8_0, nil, true)
-end
-
-function var_0_0.GetItemExpiredTimeByInfo(arg_9_0)
-	if arg_9_0.timeValid ~= nil and arg_9_0.timeValid > 0 then
-		return arg_9_0.timeValid
-	end
-
-	return var_0_0.GetItemExpiredTimeByID(arg_9_0.id)
-end
-
-function var_0_0.GetItemExpiredTimeByID(arg_10_0)
-	local var_10_0 = ItemCfg[arg_10_0]
-
-	if var_10_0.time ~= nil and var_10_0.time ~= "" then
-		local var_10_1 = var_10_0.time[1]
-
-		if var_10_1 == 1 or var_10_1 == 5 then
-			for iter_10_0, iter_10_1 in ipairs(var_10_0.time[2]) do
-				local var_10_2, var_10_3 = ActivityData:GetActivityTime(iter_10_1)
-
-				return var_10_3
-			end
-		elseif var_10_1 == 2 then
-			return var_10_0.time[2][1]
-		elseif var_10_1 == 3 then
-			return _G.gameTimer:GetNextWeekFreshTime() + var_10_0.time[2][1] * 604800 + (var_10_0.time[2][2][1] - 1) * 24 * 3600 + (var_10_0.time[2][2][2] - 5) * 3600 + var_10_0.time[2][2][3] * 60
-		elseif var_10_1 == 4 then
-			return _G.gameTimer:GetNextDayFreshTime() + var_10_0.time[2][1] * 24 * 3600 + (var_10_0.time[2][2][1] - 5) * 3600 + var_10_0.time[2][2][2] * 60 + var_10_0.time[2][2][3]
-		end
-	end
-
-	return 0
-end
-
-function var_0_0.IsItemExpired(arg_11_0)
-	local var_11_0 = arg_11_0.id
-
-	if var_0_0.IsItemExpiredByItemId(var_11_0) then
-		return true
-	end
-
-	if arg_11_0.timeValid ~= nil and arg_11_0.timeValid > 0 and manager.time:GetServerTime() > arg_11_0.timeValid then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.IsItemExpiredByItemId(arg_12_0)
-	if ItemCfg[arg_12_0].type ~= ItemConst.ITEM_TYPE.MATERIAL then
-		return false
-	end
-
-	local var_12_0 = ItemCfg[arg_12_0]
-
-	if var_12_0.time ~= nil and var_12_0.time ~= "" then
-		local var_12_1 = var_12_0.time[1]
-
-		if var_12_1 == 1 then
-			return not ActivityData:GetActivityIsOpen(var_12_0.time[2][1])
-		elseif var_12_1 == 2 then
-			return manager.time:GetServerTime() > var_12_0.time[2][1]
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetItemCountdownText(arg_13_0)
-	if arg_13_0 <= manager.time:GetServerTime() then
-		return GetTips("TIP_EXPIRED")
-	else
-		return manager.time:GetLostTimeStr2(arg_13_0, nil, false)
-	end
-end
-
-function var_0_0.RefreshLimitRed()
-	PlayerData:RefreshTagRed()
-	PlayerData:RefreshCardBgRed()
-end
-
-function var_0_0.StopRefreshLimitRed()
-	PlayerData:StopTagRed()
-	PlayerData:StopCardRed()
-end
-
-function var_0_0.GetItemIsOwned(arg_16_0)
-	local var_16_0 = ItemCfg[arg_16_0]
-	local var_16_1 = var_16_0.type
-
-	if var_16_1 == ItemConst.ITEM_TYPE.SKIN_CHANGE then
-		return var_0_0.getItemNum(arg_16_0) > 0 or HeroTools.GetSkinIsUnlock(var_16_0.param[1])
-	elseif var_16_1 == ItemConst.ITEM_TYPE.HERO_SKIN then
-		if var_16_0.param[1] then
-			return HeroTools.GetSkinIsUnlock(var_16_0.param[1])
-		else
-			return HeroTools.GetSkinIsUnlock(var_16_0.id)
-		end
-	elseif var_16_1 == ItemConst.ITEM_TYPE.DYNAMIC_STICKER then
-		local var_16_2 = not ChatStickerData:IsLockSticker(var_16_0.param[1])
-
-		return var_0_0.getItemNum(arg_16_0) > 0 or var_16_2
-	elseif var_16_1 == ItemConst.ITEM_TYPE.STICKER_BG then
-		local var_16_3 = PlayerData:GetStickerBg(arg_16_0).unlock == 1
-
-		return var_0_0.getItemNum(arg_16_0) > 0 or var_16_3
-	elseif var_16_1 == ItemConst.ITEM_TYPE.TAG then
-		local var_16_4 = PlayerData:GetTagInfo(arg_16_0).unlock == 1
-
-		return var_0_0.getItemNum(arg_16_0) > 0 or var_16_4
-	elseif var_16_1 == ItemConst.ITEM_TYPE.CARD_BG then
-		local var_16_5 = PlayerData:GetCardBg(arg_16_0).unlock == 1
-
-		return var_0_0.getItemNum(arg_16_0) > 0 or var_16_5
-	elseif var_16_1 == ItemConst.ITEM_TYPE.CHAT_BUBBLE then
-		local var_16_6 = table.keyof(PlayerData:GetUnlockChatBubbleIDList(), arg_16_0)
-
-		return var_0_0.getItemNum(arg_16_0) > 0 or var_16_6
-	elseif var_16_1 == ItemConst.ITEM_TYPE.SCENE then
-		return HomeSceneSettingData:GetUsedState(ItemCfg[arg_16_0].param[1]) == SceneConst.HOME_SCENE_TYPE.UNLOCK
-	end
-
-	return false
-end
-
-function var_0_0.isCanUseItem(arg_17_0)
-	local var_17_0 = ItemCfg[arg_17_0]
-
-	return (var_17_0.use == 1 or var_17_0.use == 2) and MaterialConst.MATERIAL_TYPE.MYTHIC_REFRESH ~= var_17_0.sub_type
-end
-
-function var_0_0.GetItemSourceList(arg_18_0)
-	local var_18_0 = {}
-	local var_18_1 = ItemCfg[arg_18_0]
-	local var_18_2 = clone(var_18_1.source)
-
-	if var_18_1.type == ItemConst.ITEM_TYPE.HERO_PIECE then
-		for iter_18_0, iter_18_1 in ipairs(var_18_2) do
-			if iter_18_1[1] == ViewConst.SYSTEM_ID.DRAW then
-				table.insert(var_18_0, iter_18_1)
-			elseif iter_18_1[1] == ViewConst.SYSTEM_ID.LIMIT_DRAW or iter_18_1[1] == ViewConst.SYSTEM_ID.LIMIT_MUST_DRAW then
-				if HeroTools:CanBeDraw(iter_18_1[2]) then
-					table.insert(var_18_0, iter_18_1)
-				end
-			elseif iter_18_1[1] == ViewConst.SYSTEM_ID.NEWS_SHOP or iter_18_1[1] == ViewConst.SYSTEM_ID.DREAM_SHOP then
-				local var_18_3 = var_18_1.id - 10000
-
-				if HeroTools.GetHeroIsUnlock(var_18_3) then
-					table.insert(var_18_0, iter_18_1)
-				end
-			else
-				table.insert(var_18_0, iter_18_1)
-			end
-		end
-	else
-		for iter_18_2, iter_18_3 in ipairs(var_18_2) do
-			if not iter_18_3[2] then
-				var_18_2[iter_18_2][2] = arg_18_0
-			end
-		end
-
-		var_18_0 = var_18_2
-	end
-
-	local var_18_4 = {}
-	local var_18_5 = {}
-
-	for iter_18_4 = #var_18_0, 1, -1 do
-		if JumpTools.NeedHide(var_18_0[iter_18_4], arg_18_0) then
-			table.remove(var_18_0, iter_18_4)
-		end
-
-		if var_18_0[iter_18_4] and var_18_0[iter_18_4][1] == ViewConst.JUMP_SPECIAL_ID.HEROITEM_SPECIAL_SOURCE then
-			table.remove(var_18_0, iter_18_4)
-
-			_, var_18_5 = SourceTool.GetJumpDataByHeroSpecialType(arg_18_0)
-		elseif var_18_0[iter_18_4] and var_18_0[iter_18_4][1] == ViewConst.JUMP_SPECIAL_ID.SERVANT_SPECIAL_SOURCE then
-			table.remove(var_18_0, iter_18_4)
-
-			_, var_18_4 = SourceTool.GetJumpDataByServantSpecialType(arg_18_0)
-		elseif var_18_0[iter_18_4] and var_18_0[iter_18_4][1] == ViewConst.JUMP_SPECIAL_ID.EQUIP_SPECIAL_SOURCE then
-			local var_18_6 = SourceTool.GetJumpDataByEquipSpecialType(var_18_0, arg_18_0)
-
-			table.remove(var_18_0, iter_18_4)
-
-			if var_18_6 and var_18_6[1] and not JumpTools.NeedHide(var_18_6, arg_18_0) then
-				table.insert(var_18_0, var_18_6)
-			end
-		end
-	end
-
-	for iter_18_5, iter_18_6 in pairs(var_18_4) do
-		local var_18_7 = true
-
-		for iter_18_7, iter_18_8 in pairs(var_18_0) do
-			if iter_18_8[1] == iter_18_6[1] then
-				var_18_7 = false
-			end
-		end
-
-		if var_18_7 then
-			table.insert(var_18_0, iter_18_6)
-		end
-	end
-
-	for iter_18_9, iter_18_10 in pairs(var_18_5) do
-		local var_18_8 = true
-
-		for iter_18_11, iter_18_12 in pairs(var_18_0) do
-			if iter_18_12[1] == iter_18_10[1] then
-				var_18_8 = false
-			end
-		end
-
-		if var_18_8 then
-			table.insert(var_18_0, iter_18_10)
-		end
-	end
-
-	return var_18_0
-end
-
-return var_0_0

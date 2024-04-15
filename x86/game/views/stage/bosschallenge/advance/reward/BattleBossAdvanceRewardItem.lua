@@ -1,39 +1,36 @@
-local var_0_0 = class("BattleBossAdvanceRewardItem", ReduxView)
+slot0 = class("BattleBossAdvanceRewardItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.rewardPanel_ = {}
-	arg_1_0.rewardList_ = {}
+	slot0.rewardPanel_ = {}
+	slot0.rewardList_ = {}
 
-	for iter_1_0 = 1, 3 do
-		arg_1_0.rewardPanel_[iter_1_0] = arg_1_0[string.format("rewardItem%s_", iter_1_0)]
-		arg_1_0.rewardList_[iter_1_0] = CommonItemView.New(arg_1_0.rewardPanel_[iter_1_0])
+	for slot5 = 1, 3 do
+		slot0.rewardPanel_[slot5] = slot0[string.format("rewardItem%s_", slot5)]
+		slot0.rewardList_[slot5] = CommonItemView.New(slot0.rewardPanel_[slot5])
 	end
 
-	arg_1_0.controller_ = arg_1_0.transform_:GetComponent("ControllerExCollection"):GetController("status")
+	slot0.controller_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("status")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.rewardList_) do
-		iter_2_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardList_) do
+		slot5:Dispose()
 	end
 
-	arg_2_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		local var_4_0 = BattleBossChallengeAdvanceData:GetChooseModeID()
-		local var_4_1 = BossChallengeAdvanceCfg[var_4_0].reward[arg_3_0.index_]
-
-		if table.keyof(BattleBossChallengeAdvanceData:GetReceiveRewardList(), var_4_1[1]) or var_4_1[1] > BattleBossChallengeAdvanceData:GetTotalPoint() then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if table.keyof(BattleBossChallengeAdvanceData:GetReceiveRewardList(), BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].reward[uv0.index_][1]) or BattleBossChallengeAdvanceData:GetTotalPoint() < slot1[1] then
 			return
 		end
 
@@ -41,62 +38,54 @@ function var_0_0.AddListeners(arg_3_0)
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("BOSS_CHALLENGE_REWARD_TIPS"),
-				OkCallback = function()
-					arg_3_0:ClickItem()
+				OkCallback = function ()
+					uv0:ClickItem()
 				end
 			})
 		else
-			arg_3_0:ClickItem()
+			uv0:ClickItem()
 		end
 	end)
 end
 
-function var_0_0.ClickItem(arg_6_0)
-	local var_6_0 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	local var_6_1 = BossChallengeAdvanceCfg[var_6_0].reward[arg_6_0.index_]
-
-	BattleBossChallengeAction.RequireBossPointExchange(var_6_1[1], function(arg_7_0)
-		if isSuccess(arg_7_0.result) then
-			getReward2(arg_7_0.item_list)
-			BattleBossChallengeAdvanceData:ModifyReceiveReward(var_6_1[1])
+function slot0.ClickItem(slot0)
+	BattleBossChallengeAction.RequireBossPointExchange(BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].reward[slot0.index_][1], function (slot0)
+		if isSuccess(slot0.result) then
+			getReward2(slot0.item_list)
+			BattleBossChallengeAdvanceData:ModifyReceiveReward(uv0[1])
 			manager.notify:Invoke(BOSS_CHALLENGE_RECEIVE_STAR_REWARD)
 		else
-			ShowTips(arg_7_0.result)
+			ShowTips(slot0.result)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.index_ = arg_8_1
+function slot0.SetData(slot0, slot1)
+	slot0.index_ = slot1
+	slot3 = BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].reward[slot1]
+	slot0.descText_.text = string.format(GetTips("CHALLENGE_MAX_POINT"), slot3[1])
 
-	local var_8_0 = BattleBossChallengeAdvanceData:GetChooseModeID()
-	local var_8_1 = BossChallengeAdvanceCfg[var_8_0].reward[arg_8_1]
-
-	arg_8_0.descText_.text = string.format(GetTips("CHALLENGE_MAX_POINT"), var_8_1[1])
-
-	if table.keyof(BattleBossChallengeAdvanceData:GetReceiveRewardList(), var_8_1[1]) then
-		arg_8_0.controller_:SetSelectedState("state3")
-	elseif var_8_1[1] <= BattleBossChallengeAdvanceData:GetTotalPoint() then
-		arg_8_0.controller_:SetSelectedState("state1")
+	if table.keyof(BattleBossChallengeAdvanceData:GetReceiveRewardList(), slot3[1]) then
+		slot0.controller_:SetSelectedState("state3")
+	elseif slot3[1] <= BattleBossChallengeAdvanceData:GetTotalPoint() then
+		slot0.controller_:SetSelectedState("state1")
 	else
-		arg_8_0.controller_:SetSelectedState("state2")
+		slot0.controller_:SetSelectedState("state2")
 	end
 
-	local var_8_2 = getRewardFromDropCfg(var_8_1[2], true)
+	for slot8, slot9 in pairs(getRewardFromDropCfg(slot3[2], true)) do
+		slot11 = rewardToItemTemplate(slot9)
 
-	for iter_8_0, iter_8_1 in pairs(var_8_2) do
-		local var_8_3
+		function slot11.clickFun(slot0)
+			ShowPopItem(POP_ITEM, slot0)
+		end
 
-		var_8_3.clickFun, var_8_3 = function(arg_9_0)
-			ShowPopItem(POP_ITEM, arg_9_0)
-		end, rewardToItemTemplate(iter_8_1)
-
-		CommonTools.SetCommonData(arg_8_0.rewardList_[iter_8_0], var_8_3)
+		CommonTools.SetCommonData(slot0.rewardList_[slot8], slot11)
 	end
 
-	for iter_8_2 = #var_8_2 + 1, #arg_8_0.rewardList_ do
-		arg_8_0.rewardList_[iter_8_2]:SetData()
+	for slot8 = #slot4 + 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot8]:SetData()
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,120 +1,107 @@
-local var_0_0 = class("IlluPlotDetail", ReduxView)
+slot0 = class("IlluPlotDetail", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluPlotDetailUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, IlluPlotDetailItem)
+	slot0.scroll_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, IlluPlotDetailItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.UpdateDate(arg_6_0)
-	arg_6_0.itemList_ = arg_6_0.list_
+function slot0.UpdateDate(slot0)
+	slot0.itemList_ = slot0.list_
 
-	table.sort(arg_6_0.itemList_, function(arg_7_0, arg_7_1)
-		local var_7_0 = CollectStoryCfg[arg_7_0]
-		local var_7_1 = CollectStoryCfg[arg_7_1]
-
-		if var_7_0.order ~= var_7_1.order then
-			return var_7_0.order < var_7_1.order
+	table.sort(slot0.itemList_, function (slot0, slot1)
+		if CollectStoryCfg[slot0].order ~= CollectStoryCfg[slot1].order then
+			return slot2.order < slot3.order
 		end
 
-		return arg_7_0 < arg_7_1
+		return slot0 < slot1
 	end)
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshUI(arg_8_0.itemList_[arg_8_1], arg_8_0.selType_)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1], slot0.selType_)
 end
 
-function var_0_0.RefreshUI(arg_9_0, arg_9_1)
-	if arg_9_1 == 1 then
-		local var_9_0 = SpritePathCfg.CollectPlotBig.path .. ChapterClientCfg[arg_9_0.chapterID_].chapter_paint
-
-		getSpriteWithoutAtlasAsync(var_9_0, function(arg_10_0)
-			arg_9_0.bgImg_.sprite = arg_10_0
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 == 1 then
+		getSpriteWithoutAtlasAsync(SpritePathCfg.CollectPlotBig.path .. ChapterClientCfg[slot0.chapterID_].chapter_paint, function (slot0)
+			uv0.bgImg_.sprite = slot0
 		end)
-	elseif arg_9_1 == 2 then
-		local var_9_1 = CollectStoryCfg.get_id_list_by_activity[arg_9_0.chapterID_][1]
-		local var_9_2 = CollectStoryCfg[var_9_1].picture
-		local var_9_3 = SpritePathCfg.CollectPlotBig.path .. var_9_2
-
-		getSpriteWithoutAtlasAsync(var_9_3, function(arg_11_0)
-			arg_9_0.bgImg_.sprite = arg_11_0
+	elseif slot1 == 2 then
+		getSpriteWithoutAtlasAsync(SpritePathCfg.CollectPlotBig.path .. CollectStoryCfg[CollectStoryCfg.get_id_list_by_activity[slot0.chapterID_][1]].picture, function (slot0)
+			uv0.bgImg_.sprite = slot0
 		end)
-	elseif arg_9_1 == 3 then
-		local var_9_4 = CollectStoryCfg[arg_9_0.list_[1]].picture
-		local var_9_5 = SpritePathCfg.CollectPlotBig.path .. var_9_4
-
-		getSpriteWithoutAtlasAsync(var_9_5, function(arg_12_0)
-			arg_9_0.bgImg_.sprite = arg_12_0
+	elseif slot1 == 3 then
+		getSpriteWithoutAtlasAsync(SpritePathCfg.CollectPlotBig.path .. CollectStoryCfg[slot0.list_[1]].picture, function (slot0)
+			uv0.bgImg_.sprite = slot0
 		end)
 	end
 
-	arg_9_0:UpdateDate()
-	arg_9_0.scroll_:StartScroll(#arg_9_0.itemList_)
+	slot0:UpdateDate()
+	slot0.scroll_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.OnEnter(arg_13_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	if not arg_13_0:CheckIsRefresh() then
+	if not slot0:CheckIsRefresh() then
 		return
 	end
 
-	arg_13_0.list_ = arg_13_0.params_.storyList
-	arg_13_0.chapterID_ = arg_13_0.params_.chapterID
-	arg_13_0.selType_ = arg_13_0.params_.selType
+	slot0.list_ = slot0.params_.storyList
+	slot0.chapterID_ = slot0.params_.chapterID
+	slot0.selType_ = slot0.params_.selType
 
-	arg_13_0:RefreshUI(arg_13_0.selType_)
+	slot0:RefreshUI(slot0.selType_)
 end
 
-function var_0_0.CheckIsRefresh(arg_14_0)
-	if not arg_14_0.list_ then
+function slot0.CheckIsRefresh(slot0)
+	if not slot0.list_ then
 		return true
 	end
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.params_.storyList) do
-		if arg_14_0.list_[iter_14_0] ~= iter_14_1 then
+	for slot4, slot5 in pairs(slot0.params_.storyList) do
+		if slot0.list_[slot4] ~= slot5 then
 			return true
 		end
 	end
 
-	if arg_14_0.chapterID_ ~= arg_14_0.params_.chapterID or arg_14_0.selType_ ~= arg_14_0.params_.selType then
+	if slot0.chapterID_ ~= slot0.params_.chapterID or slot0.selType_ ~= slot0.params_.selType then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.scroll_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.scroll_:Dispose()
 
-	arg_16_0.scroll_ = nil
+	slot0.scroll_ = nil
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

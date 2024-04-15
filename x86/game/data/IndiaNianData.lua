@@ -1,134 +1,117 @@
-local var_0_0 = singletonClass("IndiaNianData")
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6
-local var_0_7
-local var_0_8
-local var_0_9
-local var_0_10
+slot0 = singletonClass("IndiaNianData")
+slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10 = nil
 
-function var_0_0.UpdateNianData(arg_1_0, arg_1_1)
-	var_0_1 = arg_1_1.activity_id
+function slot0.UpdateNianData(slot0, slot1)
+	uv0 = slot1.activity_id
 
-	if arg_1_1.round then
-		var_0_2 = arg_1_1.round
+	if slot1.round then
+		uv1 = slot1.round
 	end
 
-	var_0_5 = 0
+	uv2 = 0
 
-	local var_1_0 = IndiaNianCfg.get_id_list_by_group_id[100]
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_0) do
-		local var_1_1 = IndiaNianCfg[iter_1_1]
-
-		if var_1_1.stage_type ~= 1 then
-			var_0_5 = var_0_5 + var_1_1.boss_hp
+	for slot6, slot7 in ipairs(IndiaNianCfg.get_id_list_by_group_id[100]) do
+		if IndiaNianCfg[slot7].stage_type ~= 1 then
+			uv2 = uv2 + slot8.boss_hp
 		end
 	end
 
-	if arg_1_1.clear_id_list then
-		var_0_3 = {}
+	if slot1.clear_id_list then
+		uv3 = {}
 
-		for iter_1_2, iter_1_3 in ipairs(arg_1_1.clear_id_list) do
-			table.insert(var_0_3, iter_1_3)
+		for slot6, slot7 in ipairs(slot1.clear_id_list) do
+			table.insert(uv3, slot7)
 		end
 	end
 
-	if arg_1_1.boss_list then
-		var_0_4 = {}
+	if slot1.boss_list then
+		uv4 = {}
 
-		for iter_1_4, iter_1_5 in ipairs(cleanProtoTable(arg_1_1.boss_list)) do
-			var_0_4[IndiaNianCfg[iter_1_5.id].group_id] = iter_1_5.hp
+		for slot6, slot7 in ipairs(cleanProtoTable(slot1.boss_list)) do
+			uv4[IndiaNianCfg[slot7.id].group_id] = slot7.hp
 		end
 	end
 end
 
-function var_0_0.SetSelectedDestID(arg_2_0, arg_2_1)
-	var_0_9 = arg_2_1
+function slot0.SetSelectedDestID(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetSelectedDestID(arg_3_0)
-	return var_0_9
+function slot0.GetSelectedDestID(slot0)
+	return uv0
 end
 
-function var_0_0.GetClearedBossIDList(arg_4_0)
-	return var_0_3
+function slot0.GetClearedBossIDList(slot0)
+	return uv0
 end
 
-function var_0_0.SetSelectedDescIndex(arg_5_0, arg_5_1)
-	var_0_8 = arg_5_1
+function slot0.SetSelectedDescIndex(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetSelectedDescIndex(arg_6_0)
-	return var_0_8 or 0
+function slot0.GetSelectedDescIndex(slot0)
+	return uv0 or 0
 end
 
-function var_0_0.GetTotalHp(arg_7_0)
-	return var_0_5
+function slot0.GetTotalHp(slot0)
+	return uv0
 end
 
-function var_0_0.SetSelectedStage(arg_8_0, arg_8_1)
-	var_0_6 = arg_8_1
+function slot0.SetSelectedStage(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetSelectedStageID(arg_9_0)
-	return var_0_6
+function slot0.GetSelectedStageID(slot0)
+	return uv0
 end
 
-function var_0_0.SetSelectedStageCost(arg_10_0, arg_10_1)
-	arg_10_1 = arg_10_1 or {
+function slot0.SetSelectedStageCost(slot0, slot1)
+	slot1 = slot1 or {
 		54043,
 		1
 	}
 end
 
-function var_0_0.GetSelectedStageCost(arg_11_0)
-	return var_0_7 or {
+function slot0.GetSelectedStageCost(slot0)
+	return uv0 or {
 		54043,
 		1
 	}
 end
 
-function var_0_0.SetMainSelectedIndex(arg_12_0, arg_12_1)
-	var_0_10 = arg_12_1
+function slot0.SetMainSelectedIndex(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetMainSelectedIndex(arg_13_0)
-	return var_0_10 or 0
+function slot0.GetMainSelectedIndex(slot0)
+	return uv0 or 0
 end
 
-function var_0_0.GetCurrentHpByID(arg_14_0, arg_14_1)
-	local var_14_0 = 0
+function slot0.GetCurrentHpByID(slot0, slot1)
+	slot2 = 0
 
-	if IndiaNianCfg[arg_14_1].group_id == 100 then
-		local var_14_1 = IndiaNianCfg.get_id_list_by_group_id[100]
-
-		for iter_14_0, iter_14_1 in ipairs(var_14_1) do
-			local var_14_2 = IndiaNianCfg[iter_14_1]
-
-			if var_14_2.round > var_0_2 and var_14_2.stage_type ~= 1 then
-				var_14_0 = var_14_0 + var_14_2.boss_hp
+	if IndiaNianCfg[slot1].group_id == 100 then
+		for slot7, slot8 in ipairs(IndiaNianCfg.get_id_list_by_group_id[100]) do
+			if uv0 < IndiaNianCfg[slot8].round and slot9.stage_type ~= 1 then
+				slot2 = slot2 + slot9.boss_hp
 			end
 		end
 	end
 
-	return var_14_0 + (var_0_4[IndiaNianCfg[arg_14_1].group_id] or 0)
+	return slot2 + (uv1[IndiaNianCfg[slot1].group_id] or 0)
 end
 
-function var_0_0.GetActivityID(arg_15_0)
-	return var_0_1
+function slot0.GetActivityID(slot0)
+	return uv0
 end
 
-function var_0_0.GetRound(arg_16_0)
-	return var_0_2
+function slot0.GetRound(slot0)
+	return uv0
 end
 
-function var_0_0.IsBossRound(arg_17_0, arg_17_1)
-	for iter_17_0, iter_17_1 in ipairs(IndiaNianCfg.get_id_list_by_group_id[100]) do
-		if IndiaNianCfg[iter_17_1].round == arg_17_1 then
+function slot0.IsBossRound(slot0, slot1)
+	for slot5, slot6 in ipairs(IndiaNianCfg.get_id_list_by_group_id[100]) do
+		if IndiaNianCfg[slot6].round == slot1 then
 			return true
 		end
 	end
@@ -136,38 +119,33 @@ function var_0_0.IsBossRound(arg_17_0, arg_17_1)
 	return false
 end
 
-function var_0_0.GetStageHasClearedByID(arg_18_0, arg_18_1)
-	local var_18_0 = arg_18_1
+function slot0.GetStageHasClearedByID(slot0, slot1)
+	slot2 = slot1
 
-	if IndiaNianCfg[arg_18_1].stage_type ~= 1 then
-		local var_18_1 = IndiaNianCfg[arg_18_1].group_id
-
-		var_18_0 = IndiaNianCfg.get_id_list_by_group_id[var_18_1][2]
+	if IndiaNianCfg[slot1].stage_type ~= 1 then
+		slot2 = IndiaNianCfg.get_id_list_by_group_id[IndiaNianCfg[slot1].group_id][2]
 	end
 
-	return table.keyof(var_0_3, var_18_0) and true or false
+	return table.keyof(uv0, slot2) and true or false
 end
 
-function var_0_0.GetHasCompeletedTask(arg_19_0)
-	local var_19_0 = {}
-	local var_19_1 = TaskData2:GetActivityTaskSortList(IndiaNianData:GetActivityID())
+function slot0.GetHasCompeletedTask(slot0)
+	slot1 = {}
 
-	if table.isEmpty(var_19_1) then
+	if table.isEmpty(TaskData2:GetActivityTaskSortList(IndiaNianData:GetActivityID())) then
 		return false
 	end
 
-	for iter_19_0, iter_19_1 in pairs(var_19_1) do
-		table.insert(var_19_0, iter_19_1)
+	for slot6, slot7 in pairs(slot2) do
+		table.insert(slot1, slot7)
 	end
 
-	table.sort(var_19_0, function(arg_20_0, arg_20_1)
-		return arg_20_0.id < arg_20_1.id
+	table.sort(slot1, function (slot0, slot1)
+		return slot0.id < slot1.id
 	end)
 
-	for iter_19_2, iter_19_3 in ipairs(var_19_0) do
-		local var_19_2 = iter_19_3.complete_flag >= 1
-
-		if AssignmentCfg[iter_19_3.id].need <= iter_19_3.progress and not var_19_2 then
+	for slot6, slot7 in ipairs(slot1) do
+		if AssignmentCfg[slot7.id].need <= slot7.progress and not (slot7.complete_flag >= 1) then
 			return true
 		end
 	end
@@ -175,24 +153,22 @@ function var_0_0.GetHasCompeletedTask(arg_19_0)
 	return false
 end
 
-function var_0_0.GetClearBuffNum(arg_21_0)
-	local var_21_0 = 0
-
-	for iter_21_0, iter_21_1 in ipairs(var_0_3) do
-		if IndiaNianCfg[iter_21_1].group_id ~= 100 and IndiaNianCfg[iter_21_1].stage_type == 1 then
-			var_21_0 = var_21_0 + 1
+function slot0.GetClearBuffNum(slot0)
+	for slot5, slot6 in ipairs(uv0) do
+		if IndiaNianCfg[slot6].group_id ~= 100 and IndiaNianCfg[slot6].stage_type == 1 then
+			slot1 = 0 + 1
 		end
 	end
 
-	return var_21_0
+	return slot1
 end
 
-function var_0_0.GetHasUnlockBuff(arg_22_0)
-	if (getData("ActivityIndiaNian" .. arg_22_0:GetActivityID() .. PlayerData:GetPlayerInfo().userID, "buffNum") or 0) < arg_22_0:GetClearBuffNum() then
+function slot0.GetHasUnlockBuff(slot0)
+	if (getData("ActivityIndiaNian" .. slot0:GetActivityID() .. PlayerData:GetPlayerInfo().userID, "buffNum") or 0) < slot0:GetClearBuffNum() then
 		return true
 	end
 
 	return false
 end
 
-return var_0_0
+return slot0

@@ -1,149 +1,127 @@
-local var_0_0 = class("PosterDlcInteractionState", PosterCommonAnimatorState)
+slot0 = class("PosterDlcInteractionState", PosterCommonAnimatorState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-	arg_1_0.interactionKey = arg_1_2
+	slot0.interactionKey = slot2
 end
 
-function var_0_0.Enter(arg_2_0)
-	arg_2_0:CheckInsteraction()
+function slot0.Enter(slot0)
+	slot0:CheckInsteraction()
 end
 
-function var_0_0.CheckInsteraction(arg_3_0)
-	arg_3_0.actor:EnableEyeController(false)
+function slot0.CheckInsteraction(slot0)
+	slot0.actor:EnableEyeController(false)
 
-	local var_3_0 = arg_3_0.actor:GetSkinId()
-	local var_3_1 = SkinCfg[var_3_0].hero
-	local var_3_2 = HeroTools:GetUnlockInteractionCfg(var_3_1)
-	local var_3_3 = var_3_2[arg_3_0.interactionKey]
-	local var_3_4 = var_3_2[arg_3_0.interactionKey .. "_talk"]
-	local var_3_5 = var_3_2[arg_3_0.interactionKey .. "_delay"]
-	local var_3_6 = 1
+	slot3 = HeroTools:GetUnlockInteractionCfg(SkinCfg[slot0.actor:GetSkinId()].hero)
+	slot5 = slot3[slot0.interactionKey .. "_talk"]
+	slot6 = slot3[slot0.interactionKey .. "_delay"]
+	slot7 = 1
 
-	if #var_3_3 > 1 then
-		var_3_6 = arg_3_0:RandomIndexOfInteractionType(arg_3_0.interactionKey)
+	if #slot3[slot0.interactionKey] > 1 then
+		slot7 = slot0:RandomIndexOfInteractionType(slot0.interactionKey)
 	end
 
-	local var_3_7 = var_3_3[var_3_6]
-	local var_3_8 = var_3_4[var_3_6]
-	local var_3_9 = var_3_5[var_3_6]
-	local var_3_10 = manager.posterGirl:GetForceRandomIndex()
-	local var_3_11 = HeroInteractionCfg[var_3_1][arg_3_0.interactionKey]
+	slot8 = slot4[slot7]
+	slot9 = slot5[slot7]
+	slot10 = slot6[slot7]
+	slot11 = manager.posterGirl:GetForceRandomIndex()
 
-	if var_3_11 and var_3_10 and var_3_10 <= #var_3_11 then
-		var_3_7 = var_3_11[var_3_10]
-
-		local var_3_12 = HeroInteractionCfg[var_3_1][arg_3_0.interactionKey .. "_talk"]
-		local var_3_13 = HeroInteractionCfg[var_3_1][arg_3_0.interactionKey .. "_delay"]
-
-		var_3_8 = var_3_12 and var_3_12[var_3_10]
-		var_3_9 = var_3_13 and var_3_13[var_3_10]
+	if HeroInteractionCfg[slot2][slot0.interactionKey] and slot11 and slot11 <= #slot12 then
+		slot8 = slot12[slot11]
+		slot14 = HeroInteractionCfg[slot2][slot0.interactionKey .. "_delay"]
+		slot9 = HeroInteractionCfg[slot2][slot0.interactionKey .. "_talk"] and slot13[slot11]
+		slot10 = slot14 and slot14[slot11]
 	end
 
-	if var_3_7 then
-		arg_3_0:PlayAni(var_3_7)
+	if slot8 then
+		slot0:PlayAni(slot8)
 
-		if var_3_8 and var_3_9 then
-			arg_3_0:PlaySpecialTalk(var_3_8, var_3_9)
+		if slot9 and slot10 then
+			slot0:PlaySpecialTalk(slot9, slot10)
 		end
 	end
 
-	if arg_3_0.interactionKey == PosterGirlConst.InteractionKey.mainTouch or arg_3_0.interactionKey == PosterGirlConst.InteractionKey.mainQuickTouch then
+	if slot0.interactionKey == PosterGirlConst.InteractionKey.mainTouch or slot0.interactionKey == PosterGirlConst.InteractionKey.mainQuickTouch then
 		PlayerAction.TouchPosterGirl()
 	end
 end
 
-function var_0_0.RandomIndexOfInteractionType(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1 .. "_talk"
-	local var_4_1 = arg_4_0.actor:GetSkinId()
-	local var_4_2 = SkinCfg[var_4_1].hero
-	local var_4_3 = HeroTools:GetUnlockInteractionCfg(var_4_2)
-	local var_4_4 = arg_4_0.lastIndex or 0
-	local var_4_5 = {}
-	local var_4_6 = {}
+function slot0.RandomIndexOfInteractionType(slot0, slot1)
+	slot2 = slot1 .. "_talk"
+	slot6 = slot0.lastIndex or 0
+	slot7 = {}
+	slot8 = {}
 
-	if not var_4_3 then
+	if not HeroTools:GetUnlockInteractionCfg(SkinCfg[slot0.actor:GetSkinId()].hero) then
 		error("RandomIndexOfInteractionType error")
 
 		return 1
 	end
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_3[var_4_0]) do
-		if iter_4_0 ~= var_4_4 then
-			table.insert(var_4_5, iter_4_1)
-			table.insert(var_4_6, iter_4_0)
+	for slot12, slot13 in ipairs(slot5[slot2]) do
+		if slot12 ~= slot6 then
+			table.insert(slot7, slot13)
+			table.insert(slot8, slot12)
 		end
 	end
 
-	local var_4_7 = 1
-	local var_4_8 = var_4_3[arg_4_1 .. "_weight"]
+	slot9 = 1
 
-	if var_4_8 and #var_4_8 > 0 then
-		local var_4_9 = 0
-
-		for iter_4_2, iter_4_3 in ipairs(var_4_6) do
-			var_4_9 = var_4_9 + var_4_8[iter_4_3]
+	if slot5[slot1 .. "_weight"] and #slot10 > 0 then
+		for slot15, slot16 in ipairs(slot8) do
+			slot11 = 0 + slot10[slot16]
 		end
 
-		local var_4_10 = math.round(math.random(var_4_9))
-
-		for iter_4_4, iter_4_5 in ipairs(var_4_6) do
-			local var_4_11 = var_4_8[iter_4_5]
-
-			if var_4_10 <= var_4_11 then
-				var_4_7 = iter_4_4
+		for slot16, slot17 in ipairs(slot8) do
+			if math.round(math.random(slot11)) <= slot10[slot17] then
+				slot9 = slot16
 
 				break
 			else
-				var_4_10 = var_4_10 - var_4_11
+				slot12 = slot12 - slot18
 			end
 		end
 	else
-		local var_4_12 = #var_4_6
-
-		var_4_7 = math.round(math.random(var_4_12))
+		slot9 = math.round(math.random(#slot8))
 	end
 
-	local var_4_13 = var_4_6[var_4_7]
+	slot11 = slot8[slot9]
+	slot0.lastIndex = slot11
 
-	arg_4_0.lastIndex = var_4_13
-
-	return var_4_13
+	return slot11
 end
 
-function var_0_0.PlaySpecialTalk(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = string.split(arg_5_1, "_")
-
-	if #var_5_0 < 2 then
+function slot0.PlaySpecialTalk(slot0, slot1, slot2)
+	if #string.split(slot1, "_") < 2 then
 		return
 	end
 
-	if arg_5_0.talkDelayTimer_ then
-		arg_5_0.talkDelayTimer_:Stop()
+	if slot0.talkDelayTimer_ then
+		slot0.talkDelayTimer_:Stop()
 
-		arg_5_0.talkDelayTimer_ = nil
+		slot0.talkDelayTimer_ = nil
 	end
 
-	if arg_5_2 > 0 then
-		arg_5_0.talkDelayTimer_ = Timer.New(function()
-			arg_5_0.actor:PlayHeroTalk(var_5_0[1], var_5_0[2], nil)
-		end, arg_5_2 / 1000)
+	if slot2 > 0 then
+		slot0.talkDelayTimer_ = Timer.New(function ()
+			uv0.actor:PlayHeroTalk(uv1[1], uv1[2], nil)
+		end, slot2 / 1000)
 
-		arg_5_0.talkDelayTimer_:Start()
+		slot0.talkDelayTimer_:Start()
 	else
-		arg_5_0.actor:PlayHeroTalk(var_5_0[1], var_5_0[2], nil)
+		slot0.actor:PlayHeroTalk(slot3[1], slot3[2], nil)
 	end
 end
 
-function var_0_0.Exit(arg_7_0)
-	var_0_0.super.Exit(arg_7_0)
+function slot0.Exit(slot0)
+	uv0.super.Exit(slot0)
 
-	if arg_7_0.talkDelayTimer_ then
-		arg_7_0.talkDelayTimer_:Stop()
+	if slot0.talkDelayTimer_ then
+		slot0.talkDelayTimer_:Stop()
 
-		arg_7_0.talkDelayTimer_ = nil
+		slot0.talkDelayTimer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

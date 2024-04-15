@@ -1,93 +1,86 @@
-local var_0_0 = class("CooperationInvitationView", ReduxView)
+slot0 = class("CooperationInvitationView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Cooperation/CooperationInvitationUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.toggles_ = {
-		arg_4_0.m_friendBtn,
-		arg_4_0.m_guildBtn,
-		arg_4_0.m_nearBtn
+	slot0.toggles_ = {
+		slot0.m_friendBtn,
+		slot0.m_guildBtn,
+		slot0.m_nearBtn
 	}
-	arg_4_0.typeList_ = {
+	slot0.typeList_ = {
 		CooperationConst.INVITE_TYPE.FRIEND,
 		CooperationConst.INVITE_TYPE.GUILD,
 		CooperationConst.INVITE_TYPE.RECENT
 	}
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, CooperationInvitationItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, CooperationInvitationItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.toggles_) do
-		arg_5_0:AddToggleListener(iter_5_1, function(arg_6_0)
-			if arg_6_0 then
-				local var_6_0 = table.indexof(arg_5_0.toggles_, iter_5_1)
-
-				arg_5_0:SelectGroup(var_6_0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.toggles_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
+				uv0:SelectGroup(table.indexof(uv0.toggles_, uv1))
 			end
 		end)
 	end
 
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_mask, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(nil, slot0.m_mask, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.SelectGroup(arg_8_0, arg_8_1)
-	arg_8_0.curType_ = arg_8_0.typeList_[arg_8_1]
-	arg_8_0.curPlayerList_ = arg_8_0.inviteData_[arg_8_0.curType_] or {}
+function slot0.SelectGroup(slot0, slot1)
+	slot0.curType_ = slot0.typeList_[slot1]
+	slot0.curPlayerList_ = slot0.inviteData_[slot0.curType_] or {}
 
-	table.sort(arg_8_0.curPlayerList_, function(arg_9_0, arg_9_1)
-		local var_9_0 = arg_8_0:GetPlayerStatus(arg_9_0)
-		local var_9_1 = arg_8_0:GetPlayerStatus(arg_9_1)
-
-		if var_9_0 ~= var_9_1 then
-			return var_9_0 < var_9_1
+	table.sort(slot0.curPlayerList_, function (slot0, slot1)
+		if uv0:GetPlayerStatus(slot0) ~= uv0:GetPlayerStatus(slot1) then
+			return slot2 < slot3
 		end
 
-		return arg_9_0.uid < arg_9_1.uid
+		return slot0.uid < slot1.uid
 	end)
-	arg_8_0.list:StartScroll(#arg_8_0.curPlayerList_)
+	slot0.list:StartScroll(#slot0.curPlayerList_)
 end
 
-function var_0_0.GetPlayerStatus(arg_10_0, arg_10_1)
-	if CooperationData:GetHadInvited(arg_10_1.uid) then
+function slot0.GetPlayerStatus(slot0, slot1)
+	if CooperationData:GetHadInvited(slot1.uid) then
 		return 3
-	elseif not CooperationTools.IsInvitationValid(arg_10_0.activityId_, arg_10_1.uid, arg_10_1.activity_data_list) then
+	elseif not CooperationTools.IsInvitationValid(slot0.activityId_, slot1.uid, slot1.activity_data_list) then
 		return 2
 	end
 
 	return 1
 end
 
-function var_0_0.OnTop(arg_11_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.activityId_ = CooperationData:GetRoomData().activity_id
+function slot0.OnEnter(slot0)
+	slot0.activityId_ = CooperationData:GetRoomData().activity_id
 
 	CooperationData:ClearHadInvited()
 
-	local var_12_0 = GuildData:GetGuildInfo()
-
-	if var_12_0 ~= nil and var_12_0.id ~= nil then
-		SetActive(arg_12_0.m_guildBtn.gameObject, true)
-		CooperationAction.RequestInviteList(arg_12_0.typeList_)
+	if GuildData:GetGuildInfo() ~= nil and slot2.id ~= nil then
+		SetActive(slot0.m_guildBtn.gameObject, true)
+		CooperationAction.RequestInviteList(slot0.typeList_)
 	else
-		SetActive(arg_12_0.m_guildBtn.gameObject, false)
+		SetActive(slot0.m_guildBtn.gameObject, false)
 		CooperationAction.RequestInviteList({
 			CooperationConst.INVITE_TYPE.FRIEND,
 			CooperationConst.INVITE_TYPE.RECENT
@@ -95,38 +88,36 @@ function var_0_0.OnEnter(arg_12_0)
 	end
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnCooperationInviteListUpdate(arg_14_0, arg_14_1)
-	arg_14_0.inviteData_ = arg_14_1
+function slot0.OnCooperationInviteListUpdate(slot0, slot1)
+	slot0.inviteData_ = slot1
 
-	arg_14_0:SelectGroup(1)
+	slot0:SelectGroup(1)
 
-	arg_14_0.toggles_[1].isOn = true
+	slot0.toggles_[1].isOn = true
 end
 
-function var_0_0.IndexItem(arg_15_0, arg_15_1, arg_15_2)
-	arg_15_2:SetData(arg_15_1, arg_15_0.curType_, arg_15_0.curPlayerList_[arg_15_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.curType_, slot0.curPlayerList_[slot1])
 end
 
-function var_0_0.Dispose(arg_16_0)
-	if arg_16_0.list then
-		arg_16_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_16_0.list = nil
+		slot0.list = nil
 	end
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnCooperationInviteSuccess(arg_17_0)
-	local var_17_0 = arg_17_0.list:GetItemList()
-
-	for iter_17_0, iter_17_1 in pairs(var_17_0) do
-		iter_17_1:UpdateState()
+function slot0.OnCooperationInviteSuccess(slot0)
+	for slot5, slot6 in pairs(slot0.list:GetItemList()) do
+		slot6:UpdateState()
 	end
 end
 
-return var_0_0
+return slot0

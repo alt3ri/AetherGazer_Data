@@ -1,182 +1,157 @@
-local var_0_0 = class("ChessGlobalEventManager")
+slot0 = class("ChessGlobalEventManager")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.globalEventList_ = {}
-	arg_1_0.eventGlobalQueue_ = {}
-	arg_1_0.eventGlobalP_ = 1
-	arg_1_0.globalEventModels = {}
-	arg_1_0.globalEventModels[ChessConst.GLOBAL.AREA] = ChessGlobalAreaModel.New(arg_1_0)
-	arg_1_0.globalEventModels[ChessConst.GLOBAL.COUNT_STEP] = ChessGlobalCountDownModel.New(arg_1_0)
-	arg_1_0.globalEventModels[ChessConst.GLOBAL.ORDER_EVENT] = ChessGlobalOrderEventModel.New(arg_1_0)
-	arg_1_0.globalEventModels[ChessConst.GLOBAL.SEAL] = ChessGlobalSealModel.New(arg_1_0)
-	arg_1_0.globalEventModels[ChessConst.GLOBAL.CHECK] = ChessGlobalCheckModel.New(arg_1_0)
-	arg_1_0.handler_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.globalEventList_ = {}
+	slot0.eventGlobalQueue_ = {}
+	slot0.eventGlobalP_ = 1
+	slot0.globalEventModels = {
+		[ChessConst.GLOBAL.AREA] = ChessGlobalAreaModel.New(slot0),
+		[ChessConst.GLOBAL.COUNT_STEP] = ChessGlobalCountDownModel.New(slot0),
+		[ChessConst.GLOBAL.ORDER_EVENT] = ChessGlobalOrderEventModel.New(slot0),
+		[ChessConst.GLOBAL.SEAL] = ChessGlobalSealModel.New(slot0),
+		[ChessConst.GLOBAL.CHECK] = ChessGlobalCheckModel.New(slot0)
+	}
+	slot0.handler_ = slot1
 
-	arg_1_0:CreateGlobalEventList()
+	slot0:CreateGlobalEventList()
 end
 
-function var_0_0.CreateGlobalEventList(arg_2_0)
-	arg_2_0.globalEventList_ = {}
+function slot0.CreateGlobalEventList(slot0)
+	slot0.globalEventList_ = {}
 
-	local var_2_0 = WarChessData:GetGlobalEventList()
-
-	for iter_2_0, iter_2_1 in pairs(var_2_0) do
-		for iter_2_2, iter_2_3 in pairs(iter_2_1) do
-			if arg_2_0.globalEventList_[iter_2_2] then
+	for slot5, slot6 in pairs(WarChessData:GetGlobalEventList()) do
+		for slot10, slot11 in pairs(slot6) do
+			if slot0.globalEventList_[slot10] then
 				return
 			end
 
-			arg_2_0.globalEventList_[iter_2_2] = {}
+			slot0.globalEventList_[slot10] = {}
 
-			table.insert(arg_2_0.globalEventList_[iter_2_2], {
-				params = WarchessGlobalCfg[iter_2_2].params,
-				eventList = ChessTools.ParseEventPollCfg(WarchessGlobalCfg[iter_2_2].event_list)
+			table.insert(slot0.globalEventList_[slot10], {
+				params = WarchessGlobalCfg[slot10].params,
+				eventList = ChessTools.ParseEventPollCfg(WarchessGlobalCfg[slot10].event_list)
 			})
 
-			if arg_2_0.globalEventModels[iter_2_0] then
-				arg_2_0.globalEventModels[iter_2_0]:SetUp(iter_2_2)
+			if slot0.globalEventModels[slot5] then
+				slot0.globalEventModels[slot5]:SetUp(slot10)
 			end
 		end
 	end
 end
 
-function var_0_0.InsertGlobalEventList(arg_3_0, arg_3_1)
-	local var_3_0 = WarchessGlobalCfg[arg_3_1].type
+function slot0.InsertGlobalEventList(slot0, slot1)
+	slot2 = WarchessGlobalCfg[slot1].type
 
-	if arg_3_0.globalEventList_[arg_3_1] then
+	if slot0.globalEventList_[slot1] then
 		return
 	end
 
-	arg_3_0.globalEventList_[arg_3_1] = {}
+	slot0.globalEventList_[slot1] = {}
 
-	table.insert(arg_3_0.globalEventList_[arg_3_1], {
-		params = WarchessGlobalCfg[arg_3_1].params,
-		eventList = ChessTools.ParseEventPollCfg(WarchessGlobalCfg[arg_3_1].event_list)
+	table.insert(slot0.globalEventList_[slot1], {
+		params = WarchessGlobalCfg[slot1].params,
+		eventList = ChessTools.ParseEventPollCfg(WarchessGlobalCfg[slot1].event_list)
 	})
 
-	if arg_3_0.globalEventModels[var_3_0] then
-		arg_3_0.globalEventModels[var_3_0]:SetUp(arg_3_1)
+	if slot0.globalEventModels[slot2] then
+		slot0.globalEventModels[slot2]:SetUp(slot1)
 	end
 end
 
-function var_0_0.ClearGlobalEventByType(arg_4_0, arg_4_1)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.globalEventList_) do
-		if WarchessGlobalCfg[iter_4_0].type == arg_4_1 then
-			arg_4_0.globalEventList_[iter_4_0] = nil
+function slot0.ClearGlobalEventByType(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.globalEventList_) do
+		if WarchessGlobalCfg[slot5].type == slot1 then
+			slot0.globalEventList_[slot5] = nil
 
-			WarChessData:ClearGlobalEvent(arg_4_1, iter_4_0)
+			WarChessData:ClearGlobalEvent(slot1, slot5)
 		end
 	end
 end
 
-function var_0_0.ClearGlobalEventByID(arg_5_0, arg_5_1)
-	arg_5_0.globalEventList_[arg_5_1] = nil
+function slot0.ClearGlobalEventByID(slot0, slot1)
+	slot0.globalEventList_[slot1] = nil
 
-	local var_5_0 = WarchessGlobalCfg[arg_5_1].type
-
-	WarChessData:ClearGlobalEvent(var_5_0, arg_5_1)
+	WarChessData:ClearGlobalEvent(WarchessGlobalCfg[slot1].type, slot1)
 end
 
-function var_0_0.ExecuteGlobalEvent(arg_6_0, arg_6_1)
-	arg_6_0:UpdateEventProgress(arg_6_1)
+function slot0.ExecuteGlobalEvent(slot0, slot1)
+	slot0:UpdateEventProgress(slot1)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.globalEventList_) do
-		for iter_6_2, iter_6_3 in pairs(iter_6_1) do
-			local var_6_0 = WarchessGlobalCfg[iter_6_0].type
+	for slot5, slot6 in pairs(slot0.globalEventList_) do
+		for slot10, slot11 in pairs(slot6) do
+			slot12 = WarchessGlobalCfg[slot5].type
 
-			if arg_6_0:IsConditionCheck(iter_6_0, iter_6_3.params, arg_6_1) then
-				if arg_6_0.globalEventModels[var_6_0] and arg_6_0.globalEventModels[var_6_0].ExternExecutePhase then
-					local var_6_1 = arg_6_0.globalEventModels[var_6_0]:ExternExecutePhase(iter_6_0, arg_6_1)
-
-					if var_6_1 then
-						arg_6_0:CreateGlobalEventQueue(var_6_1, "GLOBAL")
-					end
+			if slot0:IsConditionCheck(slot5, slot11.params, slot1) then
+				if slot0.globalEventModels[slot12] and slot0.globalEventModels[slot12].ExternExecutePhase and slot0.globalEventModels[slot12]:ExternExecutePhase(slot5, slot1) then
+					slot0:CreateGlobalEventQueue(slot13, "GLOBAL")
 				end
 
-				arg_6_0:CreateGlobalEventQueue(iter_6_3.eventList, "GLOBAL")
+				slot0:CreateGlobalEventQueue(slot11.eventList, "GLOBAL")
 
-				if arg_6_0.globalEventModels[var_6_0] then
-					arg_6_0.globalEventModels[var_6_0]:ExecutePhase(iter_6_0)
+				if slot0.globalEventModels[slot12] then
+					slot0.globalEventModels[slot12]:ExecutePhase(slot5)
 				end
 
-				arg_6_0.globalEventList_[iter_6_0] = nil
+				slot0.globalEventList_[slot5] = nil
 
-				WarChessData:ClearGlobalEvent(var_6_0, iter_6_0)
+				WarChessData:ClearGlobalEvent(slot12, slot5)
 
 				return
 			end
 
-			if arg_6_0.globalEventModels[var_6_0] and arg_6_0.globalEventModels[var_6_0].ExternExecutePhase then
-				local var_6_2 = arg_6_0.globalEventModels[var_6_0]:ExternExecutePhase(iter_6_0, arg_6_1)
+			if slot0.globalEventModels[slot12] and slot0.globalEventModels[slot12].ExternExecutePhase and slot0.globalEventModels[slot12]:ExternExecutePhase(slot5, slot1) then
+				slot0:CreateGlobalEventQueue(slot13, "GLOBAL")
 
-				if var_6_2 then
-					arg_6_0:CreateGlobalEventQueue(var_6_2, "GLOBAL")
-
-					return
-				end
+				return
 			end
 		end
 	end
 end
 
-function var_0_0.IsConditionCheck(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	local var_7_0 = WarchessGlobalCfg[arg_7_1].type
-
-	if var_7_0 == ChessConst.GLOBAL.START then
+function slot0.IsConditionCheck(slot0, slot1, slot2, slot3)
+	if WarchessGlobalCfg[slot1].type == ChessConst.GLOBAL.START then
 		return true
-	elseif arg_7_0.globalEventModels[var_7_0] then
-		return arg_7_0.globalEventModels[var_7_0]:IsConditionCheck(arg_7_1, arg_7_3)
+	elseif slot0.globalEventModels[slot4] then
+		return slot0.globalEventModels[slot4]:IsConditionCheck(slot1, slot3)
 	else
-		local var_7_1 = WarChessData:GetGlobalEventList()[var_7_0][arg_7_1]
-		local var_7_2
+		slot5 = WarChessData:GetGlobalEventList()[slot4][slot1]
+		slot6 = nil
 
-		if var_7_0 == ChessConst.GLOBAL.PROGRESS or var_7_0 == ChessConst.GLOBAL.TALLY then
-			var_7_2 = arg_7_2[1]
-		else
-			var_7_2 = arg_7_2[2]
+		if type((slot4 ~= ChessConst.GLOBAL.PROGRESS and slot4 ~= ChessConst.GLOBAL.TALLY or slot2[1]) and slot2[2]) ~= "number" then
+			-- Nothing
 		end
 
-		if type(var_7_2) ~= "number" then
-			-- block empty
-		end
-
-		return var_7_2 <= var_7_1
+		return slot6 <= slot5
 	end
 end
 
-function var_0_0.UpdateEventProgress(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.globalEventList_) do
-		local var_8_0 = WarchessGlobalCfg[iter_8_0].type
-		local var_8_1
-		local var_8_2 = WarchessGlobalCfg[iter_8_0].params
+function slot0.UpdateEventProgress(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.globalEventList_) do
+		slot8 = nil
+		slot9 = WarchessGlobalCfg[slot5].params
 
-		if var_8_0 == ChessConst.GLOBAL.PROGRESS then
-			local var_8_3 = ChessTools.GetProgress(WarChessData:GetCurrentChapter())
-
-			WarChessData:SetGlobalEventProgress(var_8_0, iter_8_0, var_8_3)
-		elseif var_8_0 == ChessConst.GLOBAL.EVENT then
-			local var_8_4 = var_8_2[1]
-			local var_8_5 = WarChessData:GetEventExecuteTime(var_8_4) or 0
-
-			WarChessData:SetGlobalEventProgress(var_8_0, iter_8_0, var_8_5)
-		elseif arg_8_0.globalEventModels[var_8_0] then
-			arg_8_0.globalEventModels[var_8_0]:UpdateProgress(iter_8_0, arg_8_1)
+		if WarchessGlobalCfg[slot5].type == ChessConst.GLOBAL.PROGRESS then
+			WarChessData:SetGlobalEventProgress(slot7, slot5, ChessTools.GetProgress(WarChessData:GetCurrentChapter()))
+		elseif slot7 == ChessConst.GLOBAL.EVENT then
+			WarChessData:SetGlobalEventProgress(slot7, slot5, WarChessData:GetEventExecuteTime(slot9[1]) or 0)
+		elseif slot0.globalEventModels[slot7] then
+			slot0.globalEventModels[slot7]:UpdateProgress(slot5, slot1)
 		end
 	end
 end
 
-function var_0_0.CreateGlobalEventQueue(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.handler_:InsertEventQueue(arg_9_1, arg_9_2)
+function slot0.CreateGlobalEventQueue(slot0, slot1, slot2)
+	slot0.handler_:InsertEventQueue(slot1, slot2)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.globalEventList_ = {}
-	arg_10_0.eventGlobalQueue_ = {}
-	arg_10_0.eventGlobalP_ = 1
+function slot0.Dispose(slot0)
+	slot0.globalEventList_ = {}
+	slot0.eventGlobalQueue_ = {}
+	slot0.eventGlobalP_ = 1
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.globalEventModels) do
-		iter_10_1:Dispose()
+	for slot4, slot5 in pairs(slot0.globalEventModels) do
+		slot5:Dispose()
 	end
 end
 
-return var_0_0
+return slot0

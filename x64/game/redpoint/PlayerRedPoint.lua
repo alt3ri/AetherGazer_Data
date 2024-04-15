@@ -1,40 +1,36 @@
 return {
-	Init = function(arg_1_0)
-		arg_1_0.palyerPrefsPrefix = "playerRedPoint"
+	Init = function (slot0)
+		slot0.palyerPrefsPrefix = "playerRedPoint"
 	end,
-	SetStickerUnlock = function(arg_2_0, arg_2_1)
-		local var_2_0 = getData(arg_2_0.palyerPrefsPrefix, "stickerUnlock") or {}
-		local var_2_1 = {}
-
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			var_2_1[iter_2_1] = iter_2_0
+	SetStickerUnlock = function (slot0, slot1)
+		for slot7, slot8 in ipairs(getData(slot0.palyerPrefsPrefix, "stickerUnlock") or {}) do
+			-- Nothing
 		end
 
-		if not var_2_1[arg_2_1] then
-			table.insert(var_2_0, arg_2_1)
-			saveData(arg_2_0.palyerPrefsPrefix, "stickerUnlock", var_2_0)
-			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. arg_2_1, 1)
-		end
-	end,
-	CancelStickerUnlock = function(arg_3_0, arg_3_1)
-		local var_3_0 = getData(arg_3_0.palyerPrefsPrefix, "stickerUnlock") or {}
-		local var_3_1 = {}
-
-		for iter_3_0, iter_3_1 in ipairs(var_3_0) do
-			var_3_1[iter_3_1] = iter_3_0
-		end
-
-		if var_3_1[arg_3_1] then
-			table.remove(var_3_0, var_3_1[arg_3_1])
-			saveData(arg_3_0.palyerPrefsPrefix, "stickerUnlock", var_3_0)
-			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. arg_3_1, 0)
+		if not ({
+			[slot8] = slot7
+		})[slot1] then
+			table.insert(slot2, slot1)
+			saveData(slot0.palyerPrefsPrefix, "stickerUnlock", slot2)
+			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. slot1, 1)
 		end
 	end,
-	DispatchAllStickerUnlock = function(arg_4_0)
-		local var_4_0 = getData(arg_4_0.palyerPrefsPrefix, "stickerUnlock") or {}
+	CancelStickerUnlock = function (slot0, slot1)
+		for slot7, slot8 in ipairs(getData(slot0.palyerPrefsPrefix, "stickerUnlock") or {}) do
+			-- Nothing
+		end
 
-		for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. iter_4_1, 1)
+		if ({
+			[slot8] = slot7
+		})[slot1] then
+			table.remove(slot2, slot3[slot1])
+			saveData(slot0.palyerPrefsPrefix, "stickerUnlock", slot2)
+			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. slot1, 0)
+		end
+	end,
+	DispatchAllStickerUnlock = function (slot0)
+		for slot5, slot6 in ipairs(getData(slot0.palyerPrefsPrefix, "stickerUnlock") or {}) do
+			manager.redPoint:setTip(RedPointConst.STICKER_UNLOCK .. "_" .. slot6, 1)
 		end
 	end
 }

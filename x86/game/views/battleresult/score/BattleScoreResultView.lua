@@ -1,489 +1,440 @@
-local var_0_0 = class("BattleScoreResultView", ReduxView)
+slot0 = class("BattleScoreResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BattleResult/OsirisMultipletUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.tweens_ = {}
+function slot0.OnCtor(slot0)
+	slot0.tweens_ = {}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 
-	arg_4_0.heroItemView_ = {}
+	slot0.heroItemView_ = {}
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.resultTypeController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "resultType")
-	arg_5_0.scoreTypeController_ = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "scoreType")
+	slot0.resultTypeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "resultType")
+	slot0.scoreTypeController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "scoreType")
 
-	LeanTween.alphaCanvas(arg_5_0.mask_, 0, 0.1)
+	LeanTween.alphaCanvas(slot0.mask_, 0, 0.1)
 
-	local var_5_0 = arg_5_0.params_.noOnceMore
+	slot1 = slot0.params_.noOnceMore
 
-	SetActive(arg_5_0.closePanel_, var_5_0)
-	SetActive(arg_5_0.onceMoreGo_, not var_5_0)
-	SetActive(arg_5_0.closeBtnGo_, not var_5_0)
+	SetActive(slot0.closePanel_, slot1)
+	SetActive(slot0.onceMoreGo_, not slot1)
+	SetActive(slot0.closeBtnGo_, not slot1)
 end
 
-function var_0_0.AddListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.btnBack_, nil, function()
-		arg_6_0:CloseFunc()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		uv0:CloseFunc()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnClose_, nil, function()
-		arg_6_0:CloseFunc()
+	slot0:AddBtnListener(slot0.btnClose_, nil, function ()
+		uv0:CloseFunc()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.buttonMask_, nil, function()
-		arg_6_0:EndAnimator()
+	slot0:AddBtnListener(slot0.buttonMask_, nil, function ()
+		uv0:EndAnimator()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnBattleCount_, nil, function()
-		arg_6_0.toStat_ = true
+	slot0:AddBtnListener(slot0.btnBattleCount_, nil, function ()
+		uv0.toStat_ = true
 
 		JumpTools.OpenPageByJump("battleStatistics", {
-			stageData = arg_6_0.stageData,
-			battleTime = arg_6_0:GetBattleTime()
+			stageData = uv0.stageData,
+			battleTime = uv0:GetBattleTime()
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnOk_, nil, function()
-		if arg_6_0.params_.okHandler then
-			arg_6_0.params_.okHandler()
+	slot0:AddBtnListener(slot0.btnOk_, nil, function ()
+		if uv0.params_.okHandler then
+			uv0.params_.okHandler()
 		end
 
-		arg_6_0:CloseFunc()
+		uv0:CloseFunc()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnGiveUp_, nil, function()
-		if arg_6_0.params_.giveUpHandler then
-			arg_6_0.params_.giveUpHandler()
+	slot0:AddBtnListener(slot0.btnGiveUp_, nil, function ()
+		if uv0.params_.giveUpHandler then
+			uv0.params_.giveUpHandler()
 		end
 
-		arg_6_0:CloseFunc()
+		uv0:CloseFunc()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.btnOnceMore_, nil, function()
-		arg_6_0:OnClickRestart()
+	slot0:AddBtnListener(slot0.btnOnceMore_, nil, function ()
+		uv0:OnClickRestart()
 	end)
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.stageData = arg_14_0.params_.stageData
-	arg_14_0.stageId = arg_14_0.stageData:GetStageId()
-	arg_14_0.stageType = arg_14_0.stageData:GetType()
+function slot0.OnEnter(slot0)
+	slot0.stageData = slot0.params_.stageData
+	slot0.stageId = slot0.stageData:GetStageId()
+	slot0.stageType = slot0.stageData:GetType()
 
 	BattleInstance.hideBattlePanel()
-	arg_14_0:RefreshUI()
+	slot0:RefreshUI()
 
-	if arg_14_0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
+	if slot0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			isTop = true,
 			content = GetTips("ACTIVITY_LOCK_SETTLEMENT_TIP"),
-			OkCallback = function()
-				arg_14_0:CloseFunc()
+			OkCallback = function ()
+				uv0:CloseFunc()
 			end
 		})
 	end
 end
 
-function var_0_0.CloseFunc(arg_16_0)
-	OperationRecorder.Record(arg_16_0.class.__cname, "closeCombat")
-	BattleInstance.QuitBattle(arg_16_0.stageData)
+function slot0.CloseFunc(slot0)
+	OperationRecorder.Record(slot0.class.__cname, "closeCombat")
+	BattleInstance.QuitBattle(slot0.stageData)
 end
 
-function var_0_0.ShowVitalityBox(arg_17_0, arg_17_1)
-	if needShowVitalityFullBox(arg_17_0:GetRewardData()) then
-		showVitalitySendMail(arg_17_1)
+function slot0.ShowVitalityBox(slot0, slot1)
+	if needShowVitalityFullBox(slot0:GetRewardData()) then
+		showVitalitySendMail(slot1)
 	else
-		arg_17_1()
+		slot1()
 	end
 end
 
-function var_0_0.RefreshUI(arg_18_0)
-	if arg_18_0.params_.resultType == "choose" then
-		arg_18_0.resultTypeController_:SetSelectedState("choose")
+function slot0.RefreshUI(slot0)
+	if slot0.params_.resultType == "choose" then
+		slot0.resultTypeController_:SetSelectedState("choose")
 	else
-		arg_18_0.resultTypeController_:SetSelectedState("score")
+		slot0.resultTypeController_:SetSelectedState("score")
 	end
 
-	arg_18_0:SetLevelTitle()
-	arg_18_0:RefreshMyExpS()
-	arg_18_0:RefreshHeroS()
-	arg_18_0:RefreshCommonUI()
+	slot0:SetLevelTitle()
+	slot0:RefreshMyExpS()
+	slot0:RefreshHeroS()
+	slot0:RefreshCommonUI()
 
-	if arg_18_0.params_.scoreType == "hp" then
-		arg_18_0.scoreTypeController_:SetSelectedState("hp")
-		arg_18_0:RefreshHp()
+	if slot0.params_.scoreType == "hp" then
+		slot0.scoreTypeController_:SetSelectedState("hp")
+		slot0:RefreshHp()
 	else
-		arg_18_0.scoreTypeController_:SetSelectedState("score")
-		arg_18_0:RefreshScore()
+		slot0.scoreTypeController_:SetSelectedState("score")
+		slot0:RefreshScore()
 	end
 
-	arg_18_0:RefreshBattleTime()
+	slot0:RefreshBattleTime()
 end
 
-function var_0_0.SetLevelTitle(arg_19_0)
-	local var_19_0, var_19_1 = BattleStageTools.GetChapterSectionIndex(arg_19_0.stageType, arg_19_0.stageId)
+function slot0.SetLevelTitle(slot0)
+	slot1, slot2 = BattleStageTools.GetChapterSectionIndex(slot0.stageType, slot0.stageId)
 
-	if var_19_0 ~= "" then
-		arg_19_0.stareText_.text = string.format("%s-%s", GetI18NText(var_19_0), GetI18NText(var_19_1))
+	if slot1 ~= "" then
+		slot0.stareText_.text = string.format("%s-%s", GetI18NText(slot1), GetI18NText(slot2))
 	else
-		arg_19_0.stareText_.text = ""
+		slot0.stareText_.text = ""
 	end
 
-	arg_19_0.lvText_.text = BattleStageTools.GetStageName(arg_19_0.stageType, arg_19_0.stageId)
+	slot0.lvText_.text = BattleStageTools.GetStageName(slot0.stageType, slot0.stageId)
 
-	if arg_19_0.params_.scoreType == "hp" then
-		if arg_19_0.params_.title ~= nil and arg_19_0.params_.title ~= "" then
-			arg_19_0.hpTitleText_.text = arg_19_0.params_.title
+	if slot0.params_.scoreType == "hp" then
+		if slot0.params_.title ~= nil and slot0.params_.title ~= "" then
+			slot0.hpTitleText_.text = slot0.params_.title
 		end
-	elseif arg_19_0.params_.title ~= nil and arg_19_0.params_.title ~= "" then
-		arg_19_0.titleText_.text = GetI18NText(arg_19_0.params_.title)
+	elseif slot0.params_.title ~= nil and slot0.params_.title ~= "" then
+		slot0.titleText_.text = GetI18NText(slot0.params_.title)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_19_0.titleTransform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.titleTransform_)
 end
 
-function var_0_0.RefreshMyExpS(arg_20_0)
-	local var_20_0 = arg_20_0.params_.battleResult.oldPlayerEXPInfo
-	local var_20_1 = var_20_0.userLevel
-	local var_20_2 = var_20_0.remain_exp
-	local var_20_3 = arg_20_0.stageData:GetAddUserExp() * arg_20_0.stageData:GetMultiple()
-	local var_20_4 = LvTools.GetMaxTotalExp("user_level_exp")
-	local var_20_5 = math.min(var_20_3, var_20_4 - var_20_0.total_exp)
+function slot0.RefreshMyExpS(slot0)
+	slot1 = slot0.params_.battleResult.oldPlayerEXPInfo
+	slot2 = slot1.userLevel
+	slot3 = slot1.remain_exp
 
-	if var_20_5 < 0 then
-		var_20_5 = 0
+	if math.min(slot0.stageData:GetAddUserExp() * slot0.stageData:GetMultiple(), LvTools.GetMaxTotalExp("user_level_exp") - slot1.total_exp) < 0 then
+		slot6 = 0
 	end
 
-	local var_20_6, var_20_7 = LvTools.CheckExp(var_20_1, var_20_2 + var_20_5, "user_level_exp")
+	slot7, slot8 = LvTools.CheckExp(slot2, slot3 + slot6, "user_level_exp")
 
-	if var_20_1 > 30 and var_20_6 - var_20_1 > 1 then
-		error(string.format("经验计算有问题，玩家原来经验%s，添加了%s经验，lv: %s->%s", tostring(var_20_2), tostring(var_20_5), tostring(var_20_1), tostring(var_20_6)))
+	if slot2 > 30 and slot7 - slot2 > 1 then
+		error(string.format("经验计算有问题，玩家原来经验%s，添加了%s经验，lv: %s->%s", tostring(slot3), tostring(slot6), tostring(slot2), tostring(slot7)))
 	end
 
-	arg_20_0.newPlayerExp_ = var_20_5
-	arg_20_0.addExp_.text = string.format("+%d", var_20_5)
+	slot0.newPlayerExp_ = slot6
+	slot0.addExp_.text = string.format("+%d", slot6)
+	slot10 = math.floor(slot8 / GameLevelSetting[slot7].user_level_exp * 1000) / 1000
 
-	local var_20_8 = math.floor(var_20_2 / GameLevelSetting[var_20_1].user_level_exp * 1000) / 1000
-	local var_20_9 = math.floor(var_20_7 / GameLevelSetting[var_20_6].user_level_exp * 1000) / 1000
+	if math.floor(slot3 / GameLevelSetting[slot2].user_level_exp * 1000) / 1000 > 0.99 then
+		slot9 = 0.99
+	end
 
-	var_20_8 = var_20_8 > 0.99 and 0.99 or var_20_8
-	var_20_9 = var_20_9 > 0.99 and 0.99 or var_20_9
+	if slot10 > 0.99 then
+		slot10 = 0.99
+	end
 
-	arg_20_0:RemoveTween()
+	slot0:RemoveTween()
 
-	arg_20_0.userExp_ = var_20_6 + var_20_9
+	slot0.userExp_ = slot7 + slot10
 
-	if var_20_3 > 0 then
+	if slot4 > 0 then
 		manager.audio:PlayEffect("ui_system", "exp_add", "")
 	end
 
-	local var_20_10 = -1
+	slot11 = -1
+	slot0.tween_ = LeanTween.value(slot0.progress_.gameObject, slot2 + slot9, slot7 + slot10, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		slot1 = math.modf(slot0)
 
-	arg_20_0.tween_ = LeanTween.value(arg_20_0.progress_.gameObject, var_20_1 + var_20_8, var_20_6 + var_20_9, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function(arg_21_0)
-		local var_21_0 = math.modf(arg_21_0)
-
-		if var_20_10 == -1 then
-			var_20_10 = var_21_0
+		if uv0 == -1 then
+			uv0 = slot1
 		end
 
-		if var_21_0 ~= var_20_10 then
+		if slot1 ~= uv0 then
 			manager.audio:PlayEffect("ui_system", "exp_levelup", "")
 
-			var_20_10 = var_21_0
+			uv0 = slot1
 		end
 
-		arg_20_0:UpdateUserData(arg_21_0)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		arg_20_0.mask_.blocksRaycasts = false
+		uv1:UpdateUserData(slot0)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		uv0.mask_.blocksRaycasts = false
 
-		arg_20_0:CheckLevelUp()
-		arg_20_0:RemoveTween()
+		uv0:CheckLevelUp()
+		uv0:RemoveTween()
 	end))
 end
 
-function var_0_0.UpdateUserData(arg_23_0, arg_23_1)
-	local var_23_0, var_23_1 = math.modf(arg_23_1)
-	local var_23_2 = GameLevelSetting[var_23_0].user_level_exp
+function slot0.UpdateUserData(slot0, slot1)
+	slot2, slot3 = math.modf(slot1)
+	slot4 = GameLevelSetting[slot2].user_level_exp
+	slot0.playerLv_.text = string.format("%d", slot2)
 
-	arg_23_0.playerLv_.text = string.format("%d", var_23_0)
-
-	if LvTools.GetIsMaxLv(var_23_0, "user") then
-		arg_23_0.progress_.value = 1
+	if LvTools.GetIsMaxLv(slot2, "user") then
+		slot0.progress_.value = 1
 	else
-		arg_23_0.progress_.value = var_23_1
+		slot0.progress_.value = slot3
 	end
 end
 
-function var_0_0.CheckLevelUp(arg_24_0)
-	local var_24_0 = arg_24_0:GetLevelUpInfoList()
-
-	if #var_24_0 > 0 then
+function slot0.CheckLevelUp(slot0)
+	if #slot0:GetLevelUpInfoList() > 0 then
 		PlayerAction.LevelUpFinish()
-		arg_24_0:Go("levelUp", {
-			levelUpInfoList = var_24_0
+		slot0:Go("levelUp", {
+			levelUpInfoList = slot1
 		})
 	end
 end
 
-function var_0_0.GetLevelUpInfoList(arg_25_0)
+function slot0.GetLevelUpInfoList(slot0)
 	return PlayerData:GetlevelUpInfos()
 end
 
-function var_0_0.RefreshHeroS(arg_26_0)
-	local var_26_0, var_26_1 = arg_26_0.stageData:GetHeroTeam()
-	local var_26_2 = arg_26_0.stageData:GetSystemHeroTeam()
+function slot0.RefreshHeroS(slot0)
+	slot1, slot2 = slot0.stageData:GetHeroTeam()
+	slot3 = slot0.stageData:GetSystemHeroTeam()
 
-	for iter_26_0 = 1, 3 do
-		local var_26_3 = arg_26_0[string.format("hero%s_", iter_26_0)]
-
-		if not var_26_0[iter_26_0] or var_26_0[iter_26_0] == 0 then
-			SetActive(var_26_3, false)
+	for slot7 = 1, 3 do
+		if not slot1[slot7] or slot1[slot7] == 0 then
+			SetActive(slot0[string.format("hero%s_", slot7)], false)
 		else
-			SetActive(var_26_3, true)
-
-			local var_26_4 = arg_26_0.stageData:GetHeroDataByPos(iter_26_0)
-			local var_26_5 = var_26_2[iter_26_0] or var_26_1[iter_26_0] ~= 0
-
-			table.insert(arg_26_0.heroItemView_, BattleMultipleResultHeroItem.New(var_26_3, var_26_4, arg_26_0.stageData, var_26_5, arg_26_0.params_.battleResult.heroDataCollect[iter_26_0]))
+			SetActive(slot8, true)
+			table.insert(slot0.heroItemView_, BattleMultipleResultHeroItem.New(slot8, slot0.stageData:GetHeroDataByPos(slot7), slot0.stageData, slot3[slot7] or slot2[slot7] ~= 0, slot0.params_.battleResult.heroDataCollect[slot7]))
 		end
 	end
 end
 
-function var_0_0.RefreshCommonUI(arg_27_0)
-	local var_27_0 = true
+function slot0.RefreshCommonUI(slot0)
+	slot1 = true
 
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == arg_27_0.stageType then
-		local var_27_1 = BattleChapterStageCfg[arg_27_0.stageId].tag
-
-		if BattleConst.BATTLE_TAG.STORY == var_27_1 then
-			var_27_0 = false
-		end
+	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT == slot0.stageType and BattleConst.BATTLE_TAG.STORY == BattleChapterStageCfg[slot0.stageId].tag then
+		slot1 = false
 	end
 
-	SetActive(arg_27_0.btnBattleCount_.gameObject, var_27_0)
+	SetActive(slot0.btnBattleCount_.gameObject, slot1)
 end
 
-function var_0_0.RefreshHp(arg_28_0)
-	local var_28_0 = 100
+function slot0.RefreshHp(slot0)
+	slot1 = 100
 
-	if arg_28_0.params_.hp and arg_28_0.params_.totalHp then
-		var_28_0 = math.ceil(100 * arg_28_0.params_.hp / arg_28_0.params_.totalHp)
+	if slot0.params_.hp and slot0.params_.totalHp then
+		slot1 = math.ceil(100 * slot0.params_.hp / slot0.params_.totalHp)
 	end
 
-	arg_28_0.hpProgressBar_.fillAmount = var_28_0 / 100
-	arg_28_0.hpValueText_.text = var_28_0 .. "%"
+	slot0.hpProgressBar_.fillAmount = slot1 / 100
+	slot0.hpValueText_.text = slot1 .. "%"
 end
 
-function var_0_0.RefreshScore(arg_29_0)
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == arg_29_0.stageType then
-		arg_29_0:RefreshBossAdvanceScore()
+function slot0.RefreshScore(slot0)
+	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE == slot0.stageType then
+		slot0:RefreshBossAdvanceScore()
 
 		return
 	end
 
-	if BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == arg_29_0.stageType then
-		arg_29_0.scoreText_.text = ActivityAttributeArenaData:GetArenaScore(arg_29_0.stageData:GetActivityID(), arg_29_0.stageData:GetDest())
+	if BattleConst.STAGE_TYPE_NEW.ACTIVITY_ATTRIBUTE_ARENA == slot0.stageType then
+		slot0.scoreText_.text = ActivityAttributeArenaData:GetArenaScore(slot0.stageData:GetActivityID(), slot0.stageData:GetDest())
 
 		return
 	end
 
-	if arg_29_0.params_.score then
-		arg_29_0.scoreText_.text = arg_29_0.params_.score
+	if slot0.params_.score then
+		slot0.scoreText_.text = slot0.params_.score
+	elseif ActivityTools.GetActivityTheme(slot0.stageData:GetActivityID()) == ActivityConst.THEME.SUMMER or slot1 == ActivityConst.ACTIVITY_1_7_LIMITED_CALCULATION then
+		slot3 = 0
+		slot5 = GameSetting.limit_calculation_time_score_args.value
+		slot6 = slot5[1]
+		slot7 = slot5[2]
+		slot9 = slot5[4]
+		slot3 = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime) < slot5[3] and slot6 * slot8 + slot7 or slot4 < slot9 and slot6 * slot4 + slot7 or slot6 * slot9 + slot7
+		slot10 = 0
+		slot11 = 0
+		slot12, slot13, slot14 = BattleTools.GetBattleStatisticsData()
+		slot15 = GameSetting.limit_calculation_injured_score_args.value
+
+		if slot15[#slot15][1] <= tonumber(tostring(slot12[1].hurt)) then
+			slot11 = slot15[#slot15][1]
+		end
+
+		for slot19, slot20 in ipairs(slot15) do
+			if slot11 <= slot20[1] then
+				slot10 = slot20[2]
+
+				break
+			end
+		end
+
+		slot0.scoreText_.text = math.ceil(math.floor((slot3 + slot10) * ActivityLimitCalculationCfg[slot0.stageData:GetDest()].reward_point / 100))
+	elseif slot2 == ActivityConst.THEME.FACTORY or ActivityConst.THEME.TYR then
+		slot0.scoreText_.text = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime) .. "s"
+	end
+end
+
+function slot0.RefreshBossAdvanceScore(slot0)
+	slot1 = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
+	slot3 = BattleBossChallengeAdvanceData:GetBossList()[slot0.stageData:GetBossIndex()]
+	slot4 = slot3.multipleIndex
+
+	for slot11, slot12 in pairs(slot3.condition[BossConst.TYPE_STAGE]) do
+		if BattleInstance.CaculateStar(slot0.stageData, StageChallengeConditionPoolCfg[slot12].condition, LuaExchangeHelper.GetBattleStatisticsData().dataForLua).isComplete then
+			slot6 = BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].difficult_point[slot3.multipleIndex] + StageChallengeConditionPoolCfg[slot12].point
+		end
+	end
+
+	for slot11, slot12 in pairs(slot3.condition[BossConst.TYPE_AFFIX]) do
+		slot6 = slot6 + ActivityAffixPoolCfg[slot12].point
+	end
+
+	slot0.scoreText_.text = slot6
+end
+
+function slot0.RefreshBattleTime(slot0)
+	slot0.battleTimeText_.text = slot0:GetBattleTime()
+
+	SetActive(slot0.battleTimeText_.gameObject, ActivityTools.GetActivityTheme(slot0.stageData:GetActivityID()) ~= ActivityConst.THEME.FACTORY)
+end
+
+function slot0.GetBattleTime(slot0)
+	return manager.time:DescCdTime2(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
+end
+
+function slot0.HeroAnimator(slot0, slot1, slot2)
+	slot3, slot4 = math.modf(slot2)
+	slot0.heroLv_[slot1].text = string.format("%d", slot3)
+
+	if LvTools.GetIsMaxLv(slot3, "hero") then
+		slot0.heroProgress_[slot1].value = 1
 	else
-		local var_29_0 = arg_29_0.stageData:GetActivityID()
-		local var_29_1 = ActivityTools.GetActivityTheme(var_29_0)
-
-		if var_29_1 == ActivityConst.THEME.SUMMER or var_29_0 == ActivityConst.ACTIVITY_1_7_LIMITED_CALCULATION then
-			local var_29_2 = 0
-			local var_29_3 = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
-			local var_29_4 = GameSetting.limit_calculation_time_score_args.value
-			local var_29_5 = var_29_4[1]
-			local var_29_6 = var_29_4[2]
-			local var_29_7 = var_29_4[3]
-			local var_29_8 = var_29_4[4]
-
-			if var_29_3 < var_29_7 then
-				var_29_2 = var_29_5 * var_29_7 + var_29_6
-			elseif var_29_3 < var_29_8 then
-				var_29_2 = var_29_5 * var_29_3 + var_29_6
-			else
-				var_29_2 = var_29_5 * var_29_8 + var_29_6
-			end
-
-			local var_29_9 = 0
-			local var_29_10 = 0
-			local var_29_11, var_29_12, var_29_13 = BattleTools.GetBattleStatisticsData()
-			local var_29_14 = tonumber(tostring(var_29_11[1].hurt))
-			local var_29_15 = GameSetting.limit_calculation_injured_score_args.value
-
-			if var_29_14 >= var_29_15[#var_29_15][1] then
-				var_29_14 = var_29_15[#var_29_15][1]
-			end
-
-			for iter_29_0, iter_29_1 in ipairs(var_29_15) do
-				if var_29_14 <= iter_29_1[1] then
-					var_29_9 = iter_29_1[2]
-
-					break
-				end
-			end
-
-			local var_29_16 = arg_29_0.stageData:GetDest()
-			local var_29_17 = ActivityLimitCalculationCfg[var_29_16].reward_point
-			local var_29_18 = math.floor((var_29_2 + var_29_9) * var_29_17 / 100)
-
-			arg_29_0.scoreText_.text = math.ceil(var_29_18)
-		elseif var_29_1 == ActivityConst.THEME.FACTORY or ActivityConst.THEME.TYR then
-			local var_29_19 = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
-
-			arg_29_0.scoreText_.text = var_29_19 .. "s"
-		end
+		slot0.heroProgress_[slot1].value = slot4
 	end
 end
 
-function var_0_0.RefreshBossAdvanceScore(arg_30_0)
-	local var_30_0 = math.floor(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
-	local var_30_1 = arg_30_0.stageData:GetBossIndex()
-	local var_30_2 = BattleBossChallengeAdvanceData:GetBossList()[var_30_1]
-	local var_30_3 = var_30_2.multipleIndex
-	local var_30_4 = BossChallengeAdvanceCfg[BattleBossChallengeAdvanceData:GetChooseModeID()].difficult_point[var_30_2.multipleIndex]
-	local var_30_5 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.tween_.id)
 
-	for iter_30_0, iter_30_1 in pairs(var_30_2.condition[BossConst.TYPE_STAGE]) do
-		if BattleInstance.CaculateStar(arg_30_0.stageData, StageChallengeConditionPoolCfg[iter_30_1].condition, var_30_5).isComplete then
-			var_30_4 = var_30_4 + StageChallengeConditionPoolCfg[iter_30_1].point
-		end
-	end
-
-	for iter_30_2, iter_30_3 in pairs(var_30_2.condition[BossConst.TYPE_AFFIX]) do
-		var_30_4 = var_30_4 + ActivityAffixPoolCfg[iter_30_3].point
-	end
-
-	local var_30_6 = var_30_4
-
-	arg_30_0.scoreText_.text = var_30_6
-end
-
-function var_0_0.RefreshBattleTime(arg_31_0)
-	arg_31_0.battleTimeText_.text = arg_31_0:GetBattleTime()
-
-	local var_31_0 = arg_31_0.stageData:GetActivityID()
-
-	SetActive(arg_31_0.battleTimeText_.gameObject, ActivityTools.GetActivityTheme(var_31_0) ~= ActivityConst.THEME.FACTORY)
-end
-
-function var_0_0.GetBattleTime(arg_32_0)
-	local var_32_0 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-
-	return manager.time:DescCdTime2(var_32_0)
-end
-
-function var_0_0.HeroAnimator(arg_33_0, arg_33_1, arg_33_2)
-	local var_33_0, var_33_1 = math.modf(arg_33_2)
-
-	arg_33_0.heroLv_[arg_33_1].text = string.format("%d", var_33_0)
-
-	if LvTools.GetIsMaxLv(var_33_0, "hero") then
-		arg_33_0.heroProgress_[arg_33_1].value = 1
-	else
-		arg_33_0.heroProgress_[arg_33_1].value = var_33_1
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.RemoveTween(arg_34_0)
-	if arg_34_0.tween_ then
-		arg_34_0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_34_0.tween_.id)
-
-		arg_34_0.tween_ = nil
-	end
-end
-
-function var_0_0.RemoveTweens(arg_35_0)
-	if arg_35_0.tweens_ then
-		for iter_35_0, iter_35_1 in pairs(arg_35_0.tweens_) do
-			arg_35_0:RemoveTweenAt(iter_35_0)
+function slot0.RemoveTweens(slot0)
+	if slot0.tweens_ then
+		for slot4, slot5 in pairs(slot0.tweens_) do
+			slot0:RemoveTweenAt(slot4)
 		end
 
-		arg_35_0.tweens_ = nil
+		slot0.tweens_ = nil
 	end
 end
 
-function var_0_0.RemoveTweenAt(arg_36_0, arg_36_1)
-	local var_36_0 = arg_36_0.tweens_[arg_36_1]
-
-	if var_36_0 then
-		var_36_0:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(var_36_0.id)
+function slot0.RemoveTweenAt(slot0, slot1)
+	if slot0.tweens_[slot1] then
+		slot2:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot2.id)
 	end
 end
 
-function var_0_0.EndAnimator(arg_37_0)
-	arg_37_0:RemoveTween()
-	arg_37_0:RemoveTweens()
+function slot0.EndAnimator(slot0)
+	slot0:RemoveTween()
+	slot0:RemoveTweens()
 	manager.audio:StopEffect()
 
-	if arg_37_0.stageData:GetAddUserExp() > 0 then
+	if slot0.stageData:GetAddUserExp() > 0 then
 		manager.audio:PlayEffect("ui_system", "exp_add_skip", "")
 	end
 
-	arg_37_0:UpdateUserData(arg_37_0.userExp_)
-	arg_37_0:CheckLevelUp()
+	slot0:UpdateUserData(slot0.userExp_)
+	slot0:CheckLevelUp()
 
-	for iter_37_0, iter_37_1 in ipairs(arg_37_0.heroItemView_) do
-		iter_37_1:EndAnimator()
+	for slot4, slot5 in ipairs(slot0.heroItemView_) do
+		slot5:EndAnimator()
 	end
 
-	arg_37_0.mask_.blocksRaycasts = false
+	slot0.mask_.blocksRaycasts = false
 end
 
-function var_0_0.OnClickRestart(arg_38_0)
-	if arg_38_0.params_.condition then
-		local var_38_0, var_38_1 = arg_38_0.params_.condition()
+function slot0.OnClickRestart(slot0)
+	if slot0.params_.condition then
+		slot1, slot2 = slot0.params_.condition()
 
-		if var_38_0 then
-			BattleController.GetInstance():LaunchBattle(arg_38_0.params_.stageData)
+		if slot1 then
+			BattleController.GetInstance():LaunchBattle(slot0.params_.stageData)
 		else
-			ShowTips(var_38_1)
+			ShowTips(slot2)
 		end
 	else
-		BattleController.GetInstance():LaunchBattle(arg_38_0.params_.stageData)
+		BattleController.GetInstance():LaunchBattle(slot0.params_.stageData)
 	end
 end
 
-function var_0_0.OnTop(arg_39_0)
-	SetActive(arg_39_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 
-	arg_39_0.toStat_ = false
+	slot0.toStat_ = false
 end
 
-function var_0_0.OnBehind(arg_40_0)
-	if arg_40_0.toStat_ then
-		SetActive(arg_40_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	if slot0.toStat_ then
+		SetActive(slot0.gameObject_, false)
 	end
 end
 
-function var_0_0.OnExit(arg_41_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_42_0)
-	for iter_42_0, iter_42_1 in ipairs(arg_42_0.heroItemView_) do
-		iter_42_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.heroItemView_) do
+		slot5:Dispose()
 	end
 
-	arg_42_0.heroItemView_ = nil
+	slot0.heroItemView_ = nil
 
-	arg_42_0:RemoveTween()
-	arg_42_0:RemoveTweens()
-	var_0_0.super.Dispose(arg_42_0)
+	slot0:RemoveTween()
+	slot0:RemoveTweens()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

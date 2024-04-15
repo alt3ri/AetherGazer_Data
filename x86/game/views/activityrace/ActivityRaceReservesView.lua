@@ -1,40 +1,37 @@
-local var_0_0 = import("game.views.stage.bossChallenge.normal.info.ReservesView")
-local var_0_1 = class("ActivityRaceReservesView", var_0_0)
+slot1 = class("ActivityRaceReservesView", import("game.views.stage.bossChallenge.normal.info.ReservesView"))
 
-function var_0_1.IndexItem(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = arg_1_0.reservesTempTeams_[arg_1_1].hero_list
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.reservesTempTeams_[slot1].hero_list
 
-	arg_1_2:RefreshUI(arg_1_0.reservesTempTeams_[arg_1_1], arg_1_0:IsCurTeam(arg_1_0.reservesTempTeams_[arg_1_1]), arg_1_0:IsInList(arg_1_1, arg_1_0.reservesTempTeams_[arg_1_1]), arg_1_1 == arg_1_0.setCurTeamIndex_)
-	arg_1_2:RegistChangeBtn(function(arg_2_0)
-		local var_2_0 = BattleTeamData:GetReservesTeam(arg_2_0)
-
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			if iter_2_1 ~= 0 and table.indexof(arg_1_0.lockList_, iter_2_1) then
+	slot2:RefreshUI(slot0.reservesTempTeams_[slot1], slot0:IsCurTeam(slot0.reservesTempTeams_[slot1]), slot0:IsInList(slot1, slot0.reservesTempTeams_[slot1]), slot1 == slot0.setCurTeamIndex_)
+	slot2:RegistChangeBtn(function (slot0)
+		for slot5, slot6 in ipairs(BattleTeamData:GetReservesTeam(slot0)) do
+			if slot6 ~= 0 and table.indexof(uv0.lockList_, slot6) then
 				ShowTips("FORMATION_PLAN_CHANGE_FAILED")
 
 				return
 			end
 
-			if arg_1_0.params_.race and iter_2_1 ~= 0 and HeroCfg[iter_2_1].race ~= arg_1_0.params_.race then
+			if uv0.params_.race and slot6 ~= 0 and HeroCfg[slot6].race ~= uv0.params_.race then
 				ShowTips("FORMATION_PLAN_CHANGE_FAILED")
 
 				return
 			end
 		end
 
-		local var_2_1 = BattleTeamData:GetReservesTeamList()[arg_2_0]
+		slot2 = BattleTeamData:GetReservesTeamList()[slot0]
 
-		ReserveTools.SetTeam(arg_1_0.reserveParams_, var_2_0, {
+		ReserveTools.SetTeam(uv0.reserveParams_, slot1, {
 			0,
 			0,
 			0
-		}, var_2_1.comboSkill, var_2_1.chipInfo.id, var_2_1.chipInfo.list)
-		arg_1_0:Back(1, {
+		}, slot2.comboSkill, slot2.chipInfo.id, slot2.chipInfo.list)
+		uv0:Back(1, {
 			isReserves = true,
-			index = arg_2_0
+			index = slot0
 		})
 		ShowTips("FORMATION_PLAN_CHANGED")
 	end)
 end
 
-return var_0_1
+return slot1

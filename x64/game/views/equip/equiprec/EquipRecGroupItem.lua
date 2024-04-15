@@ -1,155 +1,133 @@
-local var_0_0 = class("EquipRecGroupItem", ReduxView)
+slot0 = class("EquipRecGroupItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.titleStrings_ = {
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.titleStrings_ = {
 		GetTips("EQUIP_RECOMMEND_1"),
 		GetTips("EQUIP_RECOMMEND_2"),
-		(GetTips("EQUIP_RECOMMEND_3"))
+		GetTips("EQUIP_RECOMMEND_3")
 	}
-	arg_1_0.descItems_ = {}
+	slot0.descItems_ = {}
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.indexController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "index")
-	arg_3_0.items_ = {}
-	arg_3_0.itemGos_ = {
-		arg_3_0.item1,
-		arg_3_0.item2,
-		arg_3_0.item3,
-		arg_3_0.item4,
-		arg_3_0.item5,
-		arg_3_0.item6
+	slot4 = "index"
+	slot0.indexController_ = ControllerUtil.GetController(slot0.gameObject_.transform, slot4)
+	slot0.items_ = {}
+	slot0.itemGos_ = {
+		slot0.item1,
+		slot0.item2,
+		slot0.item3,
+		slot0.item4,
+		slot0.item5,
+		slot0.item6
 	}
 
-	for iter_3_0 = 1, 6 do
-		local var_3_0 = EquipRecItem.New(arg_3_0.itemGos_[iter_3_0])
-
-		table.insert(arg_3_0.items_, var_3_0)
+	for slot4 = 1, 6 do
+		table.insert(slot0.items_, EquipRecItem.New(slot0.itemGos_[slot4]))
 	end
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.index_ = arg_4_1
-	arg_4_0.equipList_ = arg_4_2
-	arg_4_0.heroId_ = arg_4_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.equipList_ = slot2
+	slot0.heroId_ = slot3
 
-	arg_4_0.indexController_:SetSelectedState(tostring(arg_4_1))
-	arg_4_0:UpdateView()
+	slot0.indexController_:SetSelectedState(tostring(slot1))
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	arg_5_0.nameText_.text = GetI18NText(arg_5_0.titleStrings_[arg_5_0.index_])
+function slot0.UpdateView(slot0)
+	slot4 = slot0.titleStrings_[slot0.index_]
+	slot0.nameText_.text = GetI18NText(slot4)
 
-	for iter_5_0 = 1, #arg_5_0.items_ do
-		local var_5_0 = arg_5_0.equipList_[iter_5_0]
+	for slot4 = 1, #slot0.items_ do
+		slot5 = slot0.equipList_[slot4]
 
-		arg_5_0.items_[iter_5_0]:SetEquipId(iter_5_0, arg_5_0.heroId_, var_5_0, arg_5_0:HaveEquipWithRace(var_5_0))
+		slot0.items_[slot4]:SetEquipId(slot4, slot0.heroId_, slot5, slot0:HaveEquipWithRace(slot5))
 	end
 
-	local var_5_1 = {}
+	slot1 = {}
 
-	for iter_5_1, iter_5_2 in ipairs(arg_5_0.equipList_) do
-		local var_5_2 = EquipCfg[iter_5_2].suit
-
-		if not table.indexof(var_5_1, var_5_2) then
-			table.insert(var_5_1, var_5_2)
+	for slot5, slot6 in ipairs(slot0.equipList_) do
+		if not table.indexof(slot1, EquipCfg[slot6].suit) then
+			table.insert(slot1, slot8)
 		end
 	end
 
-	for iter_5_3, iter_5_4 in ipairs(var_5_1) do
-		local var_5_3 = EquipSuitCfg[iter_5_4]
-		local var_5_4 = var_5_3.suit_effect[1]
-		local var_5_5 = EquipEffectCfg[var_5_4]
-		local var_5_6 = GetCfgDescription(var_5_5.desc[1], 1)
-		local var_5_7 = var_5_3.name
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = EquipSuitCfg[slot6]
+		slot10 = GetCfgDescription(EquipEffectCfg[slot7.suit_effect[1]].desc[1], 1)
+		slot11 = slot7.name
 
-		if not arg_5_0.descItems_[iter_5_3] then
-			local var_5_8 = Object.Instantiate(arg_5_0.descItemPrefab_, arg_5_0.container_)
-
-			arg_5_0.descItems_[iter_5_3] = EquipRecDescItem.New(var_5_8)
+		if not slot0.descItems_[slot5] then
+			slot0.descItems_[slot5] = EquipRecDescItem.New(Object.Instantiate(slot0.descItemPrefab_, slot0.container_))
 		end
 
-		arg_5_0.descItems_[iter_5_3]:SetData(var_5_7, var_5_6)
+		slot0.descItems_[slot5]:SetData(slot11, slot10)
 	end
 
-	while #arg_5_0.descItems_ > #var_5_1 do
-		arg_5_0.descItems_[#arg_5_0.descItems_]:Dispose()
-		table.remove(arg_5_0.descItems_, #arg_5_0.descItems_)
+	while #slot0.descItems_ > #slot1 do
+		slot0.descItems_[#slot0.descItems_]:Dispose()
+		table.remove(slot0.descItems_, #slot0.descItems_)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.container_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.transform_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.container_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.gotoChangeBtn_, nil, function()
-		local var_7_0 = EquipRecommendCfg[arg_6_0.heroId_] and EquipRecommendCfg[arg_6_0.heroId_].suit_list or {}
-		local var_7_1 = {}
-
-		if var_7_0[1] then
-			local var_7_2 = var_7_0[1]
-
-			table.insert(var_7_1, var_7_2)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.gotoChangeBtn_, nil, function ()
+		if (EquipRecommendCfg[uv0.heroId_] and EquipRecommendCfg[uv0.heroId_].suit_list or {})[1] then
+			table.insert({}, slot0[1])
 		end
 
-		if var_7_0[2] then
-			local var_7_3 = var_7_0[2]
-
-			table.insert(var_7_1, var_7_3)
+		if slot0[2] then
+			table.insert(slot1, slot0[2])
 		end
 
-		arg_6_0:Go("/heroEquipBag", {
+		uv0:Go("/heroEquipBag", {
 			isOpenInfo = false,
 			suitPos = 0,
 			isClearPos = true,
 			suit = "recommend",
-			heroId = arg_6_0.heroId_,
-			ids = var_7_1
+			heroId = uv0.heroId_,
+			ids = slot1
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.HaveEquipWithRace(arg_10_0, arg_10_1)
-	local var_10_0 = {
-		arg_10_1
+function slot0.HaveEquipWithRace(slot0, slot1)
+	slot2 = {
+		slot1
 	}
-	local var_10_1 = EquipCfg[arg_10_1]
 
-	if var_10_1.race == 0 then
-		local var_10_2 = EquipCfg.get_id_list_by_suit[var_10_1.suit]
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_2) do
-			local var_10_3 = EquipCfg[iter_10_1]
-
-			if var_10_3.starlevel == var_10_1.starlevel and var_10_3.pos == var_10_1.pos then
-				table.insert(var_10_0, iter_10_1)
+	if EquipCfg[slot1].race == 0 then
+		for slot8, slot9 in ipairs(EquipCfg.get_id_list_by_suit[slot3.suit]) do
+			if EquipCfg[slot9].starlevel == slot3.starlevel and slot10.pos == slot3.pos then
+				table.insert(slot2, slot9)
 			end
 		end
 	end
 
-	local var_10_4 = EquipData:GetEquipList()
-
-	for iter_10_2, iter_10_3 in pairs(var_10_4) do
-		if table.indexof(var_10_0, iter_10_3.prefab_id) then
+	for slot8, slot9 in pairs(EquipData:GetEquipList()) do
+		if table.indexof(slot2, slot9.prefab_id) then
 			return true
 		end
 	end
@@ -157,26 +135,26 @@ function var_0_0.HaveEquipWithRace(arg_10_0, arg_10_1)
 	return false
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_11_0.items_ then
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.items_) do
-			iter_11_1:Dispose()
+	if slot0.items_ then
+		for slot4, slot5 in ipairs(slot0.items_) do
+			slot5:Dispose()
 		end
 
-		arg_11_0.items_ = nil
+		slot0.items_ = nil
 	end
 
-	if arg_11_0.descItems_ then
-		for iter_11_2, iter_11_3 in ipairs(arg_11_0.descItems_) do
-			iter_11_3:Dispose()
+	if slot0.descItems_ then
+		for slot4, slot5 in ipairs(slot0.descItems_) do
+			slot5:Dispose()
 		end
 
-		arg_11_0.descItems_ = nil
+		slot0.descItems_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

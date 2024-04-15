@@ -1,50 +1,44 @@
-local var_0_0 = class("SectionSelectHeroBuffView", ReduxView)
+slot0 = class("SectionSelectHeroBuffView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.buffUIList_ = LuaList.New(handler(arg_1_0, arg_1_0.RefreshItem), arg_1_0.uiList_, SectionSelectHeroBuffItem)
+	slot0.buffUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uiList_, SectionSelectHeroBuffItem)
 end
 
-function var_0_0.OnEnter(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.activityID_ = arg_2_1
-	arg_2_0.stageID_ = arg_2_2
+function slot0.OnEnter(slot0, slot1, slot2)
+	slot0.activityID_ = slot1
+	slot0.stageID_ = slot2
+	slot0.enabledBuff_ = SequentialBattleTools.GetEnabledBuff(slot0.activityID_, table.keyof(SequentialBattleChapterCfg[slot1].stage_id, slot2))
 
-	local var_2_0 = table.keyof(SequentialBattleChapterCfg[arg_2_1].stage_id, arg_2_2)
-
-	arg_2_0.enabledBuff_ = SequentialBattleTools.GetEnabledBuff(arg_2_0.activityID_, var_2_0)
-
-	arg_2_0.buffUIList_:StartScroll(#arg_2_0.enabledBuff_)
+	slot0.buffUIList_:StartScroll(#slot0.enabledBuff_)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
-	arg_4_0.buffUIList_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.buffUIList_:Dispose()
 
-	arg_4_0.buffUIList_ = nil
+	slot0.buffUIList_ = nil
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
 		JumpTools.OpenPageByJump("sequentialBattleBuffInfo", {
-			activityID = arg_5_0.activityID_,
-			stageID = arg_5_0.stageID_
+			activityID = uv0.activityID_,
+			stageID = uv0.stageID_
 		})
 	end)
 end
 
-function var_0_0.RefreshItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.enabledBuff_[arg_7_1]
-
-	arg_7_2:SetData(var_7_0)
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.enabledBuff_[slot1])
 end
 
-return var_0_0
+return slot0

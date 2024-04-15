@@ -1,74 +1,67 @@
-local var_0_0 = class("FishingEnterView", ReduxView)
+slot0 = class("FishingEnterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Fishing/FishingEnterUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.illustratedBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.illustratedBtn_, nil, function ()
 		JumpTools.OpenPageByJump("fishingIllustrated", {})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.exchangeBtn_, nil, function()
-		local var_8_0 = 702
-
-		if JumpTools.IsSystemOperationStoped(var_8_0) then
+	slot0:AddBtnListener(slot0.exchangeBtn_, nil, function ()
+		if JumpTools.IsSystemOperationStoped(702) then
 			ShowTips("ERROR_FUNCTION_STOP")
 
 			return
 		end
 
-		local var_8_1 = JumpTools.IsSystemLocked(var_8_0)
-		local var_8_2
+		slot2 = JumpTools.IsSystemLocked(slot0) ~= nil and slot1 ~= false
 
-		var_8_2 = var_8_1 ~= nil and var_8_1 ~= false
-
-		if var_8_0 and var_8_1 then
-			ShowTips(JumpTools.GetSystemLockedTip(var_8_0, var_8_1))
+		if slot0 and slot1 then
+			ShowTips(JumpTools.GetSystemLockedTip(slot0, slot1))
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("fishingExchange", {})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("fishingReward", {})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		print("goBtn")
 		JumpTools.OpenPageByJump("/fishingGame", {})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_11_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_12_0)
-	arg_12_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_13_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_14_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -81,65 +74,62 @@ function var_0_0.UpdateBar(arg_14_0)
 	})
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:AddEventListeners()
-	manager.redPoint:bindUIandKey(arg_15_0.groupRedPointContainer_, RedPointConst.FISHING_GROUP_REWARD, {
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
+	manager.redPoint:bindUIandKey(slot0.groupRedPointContainer_, RedPointConst.FISHING_GROUP_REWARD, {
 		x = 0,
 		y = 0
 	})
-	manager.redPoint:bindUIandKey(arg_15_0.receiveRedPointContainer_, RedPointConst.FISHING_RECEIVE_REWARD, {
+	manager.redPoint:bindUIandKey(slot0.receiveRedPointContainer_, RedPointConst.FISHING_RECEIVE_REWARD, {
 		x = 0,
 		y = 0
 	})
-	manager.redPoint:bindUIandKey(arg_15_0.scoreRedPointContainer_, RedPointConst.FISHING_SCORE_REWARD, {
+	manager.redPoint:bindUIandKey(slot0.scoreRedPointContainer_, RedPointConst.FISHING_SCORE_REWARD, {
 		x = 0,
 		y = 0
 	})
 	FishingAction.GetReceiveInfo(ActivityConst.SUMMER_FISHING)
 	FishingAction.ReadUnFinishRedPoint()
 
-	if arg_15_0.timer_ == nil then
-		arg_15_0.timer_ = Timer.New(function()
-			arg_15_0:UpdateTimer()
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_15_0.timer_:Start()
-	arg_15_0:UpdateTimer()
+	slot0.timer_:Start()
+	slot0:UpdateTimer()
 end
 
-function var_0_0.OnExit(arg_17_0)
-	manager.redPoint:unbindUIandKey(arg_17_0.groupRedPointContainer_, RedPointConst.FISHING_GROUP_REWARD)
-	manager.redPoint:unbindUIandKey(arg_17_0.receiveRedPointContainer_, RedPointConst.FISHING_RECEIVE_REWARD)
-	manager.redPoint:unbindUIandKey(arg_17_0.scoreRedPointContainer_, RedPointConst.FISHING_SCORE_REWARD)
-	arg_17_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.groupRedPointContainer_, RedPointConst.FISHING_GROUP_REWARD)
+	manager.redPoint:unbindUIandKey(slot0.receiveRedPointContainer_, RedPointConst.FISHING_RECEIVE_REWARD)
+	manager.redPoint:unbindUIandKey(slot0.scoreRedPointContainer_, RedPointConst.FISHING_SCORE_REWARD)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.UpdateTimer(arg_18_0)
-	local var_18_0 = ActivityData:GetActivityData(ActivityConst.SUMMER_FISHING)
-
-	if manager.time:GetServerTime() >= var_18_0.stopTime then
-		arg_18_0.lastTimeLabel_.text = GetTips("TIME_OVER")
+function slot0.UpdateTimer(slot0)
+	if ActivityData:GetActivityData(ActivityConst.SUMMER_FISHING).stopTime <= manager.time:GetServerTime() then
+		slot0.lastTimeLabel_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	arg_18_0.lastTimeLabel_.text = manager.time:GetLostTimeStr(var_18_0.stopTime)
+	slot0.lastTimeLabel_.text = manager.time:GetLostTimeStr(slot1.stopTime)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_19_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_20_0)
-	var_0_0.super.Dispose(arg_20_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

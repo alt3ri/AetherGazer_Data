@@ -1,352 +1,329 @@
-local var_0_0 = class("ActivityHeroEnhanceHeroView", ReduxView)
+slot0 = class("ActivityHeroEnhanceHeroView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityHeroEnhanceTools.GetHeroUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivityHeroEnhanceTools.GetHeroUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.heroList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexHeroItem), arg_4_0.heroUiListGo_, ActivityHeroEnhanceHeroItem)
-	arg_4_0.middleView_ = ActivityHeroEnhanceTalentView.New(arg_4_0.talentUIGo_)
-	arg_4_0.detailView_ = ActivityHeroEnhanceTalentDetailView.New(arg_4_0.talentDetailGo_)
-	arg_4_0.statusController_ = arg_4_0.controller_:GetController("status")
+	slot0.heroList_ = LuaList.New(handler(slot0, slot0.IndexHeroItem), slot0.heroUiListGo_, ActivityHeroEnhanceHeroItem)
+	slot0.middleView_ = ActivityHeroEnhanceTalentView.New(slot0.talentUIGo_)
+	slot0.detailView_ = ActivityHeroEnhanceTalentDetailView.New(slot0.talentDetailGo_)
+	slot0.statusController_ = slot0.controller_:GetController("status")
 
-	arg_4_0.statusController_:SetSelectedState("main")
-	SetActive(arg_4_0.talentDetailGo_, false)
+	slot0.statusController_:SetSelectedState("main")
+	SetActive(slot0.talentDetailGo_, false)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.goBtn_, function()
-		arg_5_0:OnClickGoBtn()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.goBtn_, function ()
+		uv0:OnClickGoBtn()
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.bgBtn_, function()
-		arg_5_0:OnClickBgBtn()
+	slot0:AddBtnListener(nil, slot0.bgBtn_, function ()
+		uv0:OnClickBgBtn()
 	end)
-	arg_5_0.middleView_:SetClickTalentHandler(function(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-		if arg_8_2 then
-			arg_5_0:SelectGroup(arg_8_1)
+	slot0.middleView_:SetClickTalentHandler(function (slot0, slot1, slot2, slot3, slot4, slot5)
+		if slot2 then
+			uv0:SelectGroup(slot1)
 		else
-			arg_8_0:SelectIdx(arg_8_5)
-			arg_5_0:SelectTalent(arg_8_4)
+			slot0:SelectIdx(slot5)
+			uv0:SelectTalent(slot4)
 
-			arg_5_0.lastTalentIdx_ = arg_8_5
+			uv0.lastTalentIdx_ = slot5
 		end
 	end)
-	arg_5_0.detailView_:SetClickBtnHandler(function(arg_9_0, arg_9_1)
-		if arg_9_0 then
-			arg_5_0:OnClickUseTalent(arg_9_1)
+	slot0.detailView_:SetClickBtnHandler(function (slot0, slot1)
+		if slot0 then
+			uv0:OnClickUseTalent(slot1)
 		else
-			arg_5_0:OnClickDropTalent(arg_9_1)
+			uv0:OnClickDropTalent(slot1)
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_10_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back()
 	end)
 
-	arg_10_0.activityId_ = arg_10_0.params_.activityID
-	arg_10_0.cfgIdList_ = ActivityHeroEnhanceTools.GetCfgIdList(arg_10_0.activityId_)
+	slot0.activityId_ = slot0.params_.activityID
+	slot0.cfgIdList_ = ActivityHeroEnhanceTools.GetCfgIdList(slot0.activityId_)
 
-	if not arg_10_0.cfgId_ then
-		if var_0_0.enterBattleCfgId_ then
-			arg_10_0.cfgId_ = var_0_0.enterBattleCfgId_
-			var_0_0.enterBattleCfgId_ = nil
+	if not slot0.cfgId_ then
+		if uv0.enterBattleCfgId_ then
+			slot0.cfgId_ = uv0.enterBattleCfgId_
+			uv0.enterBattleCfgId_ = nil
 
-			local var_10_0 = table.indexof(arg_10_0.cfgIdList_, arg_10_0.cfgId_)
-
-			arg_10_0:SelectHero(var_10_0)
+			slot0:SelectHero(table.indexof(slot0.cfgIdList_, slot0.cfgId_))
 		else
-			arg_10_0.cfgId_ = arg_10_0.cfgIdList_[1]
+			slot0.cfgId_ = slot0.cfgIdList_[1]
 		end
 	end
 
-	local var_10_1 = arg_10_0.params_.stageToView
-	local var_10_2 = arg_10_0.params_.talentIdToView
+	slot1 = slot0.params_.stageToView
 
-	if var_10_2 or var_10_1 then
-		arg_10_0.cfgId_ = arg_10_0.params_.cfgId
+	if slot0.params_.talentIdToView or slot1 then
+		slot0.cfgId_ = slot0.params_.cfgId
+		slot4 = ActivityHeroEnhanceTools.GetCfgTalentListByStage(ActivityHeroEnhanceCfg[slot0.cfgId_], slot1)
 
-		local var_10_3 = ActivityHeroEnhanceCfg[arg_10_0.cfgId_]
-		local var_10_4 = ActivityHeroEnhanceTools.GetCfgTalentListByStage(var_10_3, var_10_1)
+		slot0:SelectGroup(slot1, table.indexof(slot4, slot2 or slot4[1]))
 
-		var_10_2 = var_10_2 or var_10_4[1]
-
-		local var_10_5 = table.indexof(var_10_4, var_10_2)
-
-		arg_10_0:SelectGroup(var_10_1, var_10_5)
-
-		arg_10_0.params_.talentIdToView = nil
-		arg_10_0.params_.stageToView = nil
-		arg_10_0.params_.cfgId = nil
-		arg_10_0.section_CfgId_ = arg_10_0.cfgId_
-		arg_10_0.cfgIdList_ = {
-			arg_10_0.section_CfgId_
+		slot0.params_.talentIdToView = nil
+		slot0.params_.stageToView = nil
+		slot0.params_.cfgId = nil
+		slot0.section_CfgId_ = slot0.cfgId_
+		slot0.cfgIdList_ = {
+			slot0.section_CfgId_
 		}
 	else
-		arg_10_0:OnClickBgBtn()
+		slot0:OnClickBgBtn()
 	end
 
-	arg_10_0:RefreshUI()
-	arg_10_0.middleView_:OnEnter()
+	slot0:RefreshUI()
+	slot0.middleView_:OnEnter()
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_12_0:UpdateRedPointUI(true)
-	arg_12_0.middleView_:OnExit()
+	slot0:UpdateRedPointUI(true)
+	slot0.middleView_:OnExit()
 
-	arg_12_0.lastGroupIdx_ = nil
-	arg_12_0.lastTalentIdx_ = nil
+	slot0.lastGroupIdx_ = nil
+	slot0.lastTalentIdx_ = nil
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	arg_13_0.heroList_:StartScroll(#arg_13_0.cfgIdList_)
+function slot0.RefreshUI(slot0)
+	slot0.heroList_:StartScroll(#slot0.cfgIdList_)
 end
 
-function var_0_0.IndexHeroItem(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_0.cfgIdList_[arg_14_1]
-
-	arg_14_2:SetData(var_14_0)
-	arg_14_2:SetClickHandler(function(arg_15_0)
-		arg_14_0:OnClickHero(arg_14_1, arg_14_2, arg_15_0)
+function slot0.IndexHeroItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.cfgIdList_[slot1])
+	slot2:SetClickHandler(function (slot0)
+		uv0:OnClickHero(uv1, uv2, slot0)
 	end)
 
-	local var_14_1, var_14_2 = arg_14_0.heroList_:GetHeadAndTail()
-	local var_14_3 = arg_14_1 == var_14_2
+	slot4, slot5 = slot0.heroList_:GetHeadAndTail()
+	slot6 = slot1 == slot5
 
-	if arg_14_0:GetHeroSelectIdx() == nil and arg_14_1 == 1 then
-		var_14_3 = false
+	if slot0:GetHeroSelectIdx() == nil and slot1 == 1 then
+		slot6 = false
 
-		arg_14_0:SelectHero(1)
+		slot0:SelectHero(1)
 	end
 
-	arg_14_2:SetSelected(arg_14_0:GetHeroSelectIdx() == arg_14_1)
-	arg_14_2:RefreshUI()
+	slot2:SetSelected(slot0:GetHeroSelectIdx() == slot1)
+	slot2:RefreshUI()
 
-	if var_14_3 then
-		arg_14_0:UpdateRedPointUI(false)
+	if slot6 then
+		slot0:UpdateRedPointUI(false)
 	end
 end
 
-function var_0_0.OnClickHero(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	local var_16_0 = arg_16_0.cfgIdList_[arg_16_1]
-	local var_16_1 = ActivityHeroEnhanceCfg[var_16_0]
-
-	if ActivityHeroEnhanceTools.IsCfgHeroLock(var_16_1) then
+function slot0.OnClickHero(slot0, slot1, slot2, slot3)
+	if ActivityHeroEnhanceTools.IsCfgHeroLock(ActivityHeroEnhanceCfg[slot0.cfgIdList_[slot1]]) then
 		return
 	end
 
-	arg_16_0:SelectHero(arg_16_1)
+	slot0:SelectHero(slot1)
 
-	if arg_16_0.lastGroupIdx_ and arg_16_0.lastTalentIdx_ then
-		arg_16_0:SelectGroup(arg_16_0.lastGroupIdx_, arg_16_0.lastTalentIdx_)
+	if slot0.lastGroupIdx_ and slot0.lastTalentIdx_ then
+		slot0:SelectGroup(slot0.lastGroupIdx_, slot0.lastTalentIdx_)
 	end
 end
 
-function var_0_0.SelectHero(arg_17_0, arg_17_1)
-	arg_17_0:SetHeroSelectIdx(arg_17_1)
+function slot0.SelectHero(slot0, slot1)
+	slot0:SetHeroSelectIdx(slot1)
 
-	local var_17_0 = arg_17_0.cfgIdList_[arg_17_1]
-	local var_17_1 = ActivityHeroEnhanceCfg[var_17_0]
+	slot2 = slot0.cfgIdList_[slot1]
+	slot0.cfgId_ = slot2
+	slot0.heroId_ = ActivityHeroEnhanceCfg[slot2].hero_id
+	slot7 = slot2
 
-	arg_17_0.cfgId_ = var_17_0
-	arg_17_0.heroId_ = var_17_1.hero_id
+	slot0.middleView_:SetData(slot7)
+	slot0.middleView_:RefreshUI()
 
-	arg_17_0.middleView_:SetData(var_17_0)
-	arg_17_0.middleView_:RefreshUI()
+	slot6 = slot0.heroList_
+	slot8 = slot6
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.heroList_:GetItemList()) do
-		iter_17_1:SetSelected(arg_17_0:GetHeroSelectIdx() == iter_17_0)
-		iter_17_1:RefreshUI()
+	for slot7, slot8 in pairs(slot6.GetItemList(slot8)) do
+		slot8:SetSelected(slot0:GetHeroSelectIdx() == slot7)
+		slot8:RefreshUI()
 	end
 
-	arg_17_0:UpdateRedPointUI(false)
+	slot0:UpdateRedPointUI(false)
 end
 
-function var_0_0.OnClickUseTalent(arg_18_0, arg_18_1)
-	ActivityHeroEnhanceAction.ActivateTalent(arg_18_0.activityId_, arg_18_0.heroId_, arg_18_1, function()
-		arg_18_0.middleView_:RefreshUI()
-		arg_18_0.detailView_:RefreshUI()
+function slot0.OnClickUseTalent(slot0, slot1)
+	ActivityHeroEnhanceAction.ActivateTalent(slot0.activityId_, slot0.heroId_, slot1, function ()
+		uv0.middleView_:RefreshUI()
+		uv0.detailView_:RefreshUI()
 	end)
 end
 
-function var_0_0.OnClickDropTalent(arg_20_0, arg_20_1)
-	ActivityHeroEnhanceAction.DeactivateTalent(arg_20_0.activityId_, arg_20_1, function()
-		arg_20_0.middleView_:RefreshUI()
-		arg_20_0.detailView_:RefreshUI()
+function slot0.OnClickDropTalent(slot0, slot1)
+	ActivityHeroEnhanceAction.DeactivateTalent(slot0.activityId_, slot1, function ()
+		uv0.middleView_:RefreshUI()
+		uv0.detailView_:RefreshUI()
 	end)
 end
 
-function var_0_0.SelectGroup(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = ActivityHeroEnhanceCfg[arg_22_0.cfgId_]
-	local var_22_1 = ActivityHeroEnhanceTools.GetCfgTalentListByStage(var_22_0, arg_22_1)
+function slot0.SelectGroup(slot0, slot1, slot2)
+	slot4 = ActivityHeroEnhanceTools.GetCfgTalentListByStage(ActivityHeroEnhanceCfg[slot0.cfgId_], slot1)
 
-	if arg_22_2 == nil then
-		arg_22_2 = ActivityHeroEnhanceTools.GetTalentListActivatedIdx(arg_22_0.activityId_, var_22_1)
-		arg_22_2 = arg_22_2 > 0 and arg_22_2 or 1
+	if slot2 == nil then
+		slot2 = ActivityHeroEnhanceTools.GetTalentListActivatedIdx(slot0.activityId_, slot4) > 0 and slot2 or 1
 	end
 
-	arg_22_0.middleView_:SelectGroupIdx(arg_22_1, arg_22_2)
-	arg_22_0.middleView_:RefreshUI_SelectState()
-	arg_22_0:SelectTalent(var_22_1[arg_22_2])
+	slot0.middleView_:SelectGroupIdx(slot1, slot2)
+	slot0.middleView_:RefreshUI_SelectState()
+	slot0:SelectTalent(slot4[slot2])
 
-	arg_22_0.lastGroupIdx_ = arg_22_1
-	arg_22_0.lastTalentIdx_ = arg_22_2
+	slot0.lastGroupIdx_ = slot1
+	slot0.lastTalentIdx_ = slot2
 end
 
-function var_0_0.SelectTalent(arg_23_0, arg_23_1)
-	arg_23_0.detailView_:SetData(arg_23_0.activityId_, arg_23_1)
-	arg_23_0.detailView_:RefreshUI()
-	arg_23_0:PlayEnterAni()
+function slot0.SelectTalent(slot0, slot1)
+	slot0.detailView_:SetData(slot0.activityId_, slot1)
+	slot0.detailView_:RefreshUI()
+	slot0:PlayEnterAni()
 end
 
-function var_0_0.OnClickBgBtn(arg_24_0)
-	arg_24_0.middleView_:SelectGroupIdx(0)
-	arg_24_0.middleView_:RefreshUI_SelectState()
-	arg_24_0:PlayExitAni()
+function slot0.OnClickBgBtn(slot0)
+	slot0.middleView_:SelectGroupIdx(0)
+	slot0.middleView_:RefreshUI_SelectState()
+	slot0:PlayExitAni()
 
-	arg_24_0.lastGroupIdx_ = nil
-	arg_24_0.lastTalentIdx_ = nil
+	slot0.lastGroupIdx_ = nil
+	slot0.lastTalentIdx_ = nil
 end
 
-function var_0_0.OnClickGoBtn(arg_25_0)
-	local var_25_0 = arg_25_0.cfgIdList_[arg_25_0:GetHeroSelectIdx()]
+function slot0.OnClickGoBtn(slot0)
+	slot1 = slot0.cfgIdList_[slot0:GetHeroSelectIdx()]
 
-	arg_25_0:JumpToSection(var_25_0)
+	slot0:JumpToSection(slot1)
 
-	local var_25_1 = arg_25_0.activityId_
-	local var_25_2 = ActivityTools.GetRedPointKey(var_25_1) .. var_25_1
-	local var_25_3 = ActivityHeroEnhanceCfg[var_25_0].hero_id
-	local var_25_4 = string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_25_3, var_25_2)
+	slot2 = slot0.activityId_
 
-	ActivityHeroEnhanceAction.BanRedPoint(var_25_1, var_25_4)
+	ActivityHeroEnhanceAction.BanRedPoint(slot2, string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, ActivityHeroEnhanceCfg[slot1].hero_id, ActivityTools.GetRedPointKey(slot2) .. slot2))
 end
 
-function var_0_0.JumpToSection(arg_26_0, arg_26_1)
-	arg_26_0.section_CfgId_ = nil
+function slot0.JumpToSection(slot0, slot1)
+	slot0.section_CfgId_ = nil
 
 	JumpTools.OpenPageByJump("/activityHeroEnhanceSection", {
-		activityID = arg_26_0.params_.activityID,
-		cfgId = arg_26_1
+		activityID = slot0.params_.activityID,
+		cfgId = slot1
 	})
 end
 
-function var_0_0.PlayEnterAni(arg_27_0)
-	arg_27_0.isEntered_ = true
+function slot0.PlayEnterAni(slot0)
+	slot0.isEntered_ = true
 
-	arg_27_0.statusController_:SetSelectedState("detail")
-	SetActive(arg_27_0.talentDetailGo_, true)
+	slot0.statusController_:SetSelectedState("detail")
+	SetActive(slot0.talentDetailGo_, true)
 end
 
-function var_0_0.PlayExitAni(arg_28_0)
-	arg_28_0.isEntered_ = false
+function slot0.PlayExitAni(slot0)
+	slot0.isEntered_ = false
 
-	arg_28_0.statusController_:SetSelectedState("main")
-	SetActive(arg_28_0.talentDetailGo_, false)
+	slot0.statusController_:SetSelectedState("main")
+	SetActive(slot0.talentDetailGo_, false)
 end
 
-function var_0_0.Back(arg_29_0)
-	if arg_29_0.isEntered_ then
-		arg_29_0:OnClickBgBtn()
-	elseif arg_29_0.section_CfgId_ then
-		arg_29_0:JumpToSection(arg_29_0.section_CfgId_)
+function slot0.Back(slot0)
+	if slot0.isEntered_ then
+		slot0:OnClickBgBtn()
+	elseif slot0.section_CfgId_ then
+		slot0:JumpToSection(slot0.section_CfgId_)
 	else
-		var_0_0.super.Back(arg_29_0)
+		uv0.super.Back(slot0)
 	end
 end
 
-function var_0_0.UpdateRedPointUI(arg_30_0, arg_30_1)
-	if arg_30_0.redPointHistory_ then
-		for iter_30_0, iter_30_1 in pairs(arg_30_0.redPointHistory_) do
-			manager.redPoint:unbindUIandKey(iter_30_0, iter_30_1)
+function slot0.UpdateRedPointUI(slot0, slot1)
+	if slot0.redPointHistory_ then
+		for slot5, slot6 in pairs(slot0.redPointHistory_) do
+			manager.redPoint:unbindUIandKey(slot5, slot6)
 		end
 	end
 
-	arg_30_0.redPointHistory_ = {}
+	slot0.redPointHistory_ = {}
 
-	if arg_30_1 then
+	if slot1 then
 		return
 	end
 
-	local var_30_0 = arg_30_0.activityId_
-	local var_30_1 = ActivityHeroEnhanceCfg.get_id_list_by_activity_id[var_30_0]
-	local var_30_2 = ActivityTools.GetRedPointKey(var_30_0) .. var_30_0
+	slot2 = slot0.activityId_
 
-	for iter_30_2, iter_30_3 in ipairs(var_30_1) do
-		local var_30_3 = ActivityHeroEnhanceCfg[iter_30_3].hero_id
-		local var_30_4 = string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, var_30_3, var_30_2)
+	for slot8, slot9 in ipairs(ActivityHeroEnhanceCfg.get_id_list_by_activity_id[slot2]) do
+		slot11 = ActivityHeroEnhanceCfg[slot9].hero_id
 
-		if var_30_3 == arg_30_0.heroId_ then
-			arg_30_0.redPointHistory_[arg_30_0.goBtn_.transform] = var_30_4
+		if slot11 == slot0.heroId_ then
+			slot0.redPointHistory_[slot0.goBtn_.transform] = string.format("%s_%d_%s", RedPointConst.ACTIVITY_HERO_ENHANCE_STAGE_REWARD, slot11, ActivityTools.GetRedPointKey(slot2) .. slot2)
 		end
 
-		local var_30_5 = arg_30_0:GetHeroItemByCfgId(iter_30_3)
-
-		if var_30_5 then
-			local var_30_6 = var_30_5:GetRedPointTransform()
-
-			arg_30_0.redPointHistory_[var_30_6] = var_30_4
+		if slot0:GetHeroItemByCfgId(slot9) then
+			slot0.redPointHistory_[slot13:GetRedPointTransform()] = slot12
 		end
 	end
 
-	for iter_30_4, iter_30_5 in pairs(arg_30_0.redPointHistory_) do
-		manager.redPoint:bindUIandKey(iter_30_4, iter_30_5)
+	for slot8, slot9 in pairs(slot0.redPointHistory_) do
+		manager.redPoint:bindUIandKey(slot8, slot9)
 	end
 end
 
-function var_0_0.GetHeroItemByCfgId(arg_31_0, arg_31_1)
-	for iter_31_0, iter_31_1 in pairs(arg_31_0.heroList_:GetItemList()) do
-		if iter_31_1:GetCfgId() == arg_31_1 then
-			return iter_31_1
+function slot0.GetHeroItemByCfgId(slot0, slot1)
+	slot4 = slot0.heroList_
+	slot6 = slot4
+
+	for slot5, slot6 in pairs(slot4.GetItemList(slot6)) do
+		if slot6:GetCfgId() == slot1 then
+			return slot6
 		end
 	end
 
 	return nil
 end
 
-function var_0_0.GetHeroSelectIdx(arg_32_0)
-	if arg_32_0.section_CfgId_ and arg_32_0.heroSelectIdx_ then
+function slot0.GetHeroSelectIdx(slot0)
+	if slot0.section_CfgId_ and slot0.heroSelectIdx_ then
 		return 1
 	end
 
-	return arg_32_0.heroSelectIdx_
+	return slot0.heroSelectIdx_
 end
 
-function var_0_0.SetHeroSelectIdx(arg_33_0, arg_33_1)
-	if arg_33_0.section_CfgId_ then
-		if not arg_33_0.heroSelectIdx_ then
-			local var_33_0 = ActivityHeroEnhanceTools.GetCfgIdList(arg_33_0.activityId_)
-
-			arg_33_0.heroSelectIdx_ = table.indexof(var_33_0, arg_33_0.section_CfgId_)
+function slot0.SetHeroSelectIdx(slot0, slot1)
+	if slot0.section_CfgId_ then
+		if not slot0.heroSelectIdx_ then
+			slot0.heroSelectIdx_ = table.indexof(ActivityHeroEnhanceTools.GetCfgIdList(slot0.activityId_), slot0.section_CfgId_)
 		end
 
 		return
 	end
 
-	arg_33_0.heroSelectIdx_ = arg_33_1
+	slot0.heroSelectIdx_ = slot1
 end
 
-function var_0_0.Dispose(arg_34_0)
-	arg_34_0.middleView_:Dispose()
-	arg_34_0.detailView_:Dispose()
-	arg_34_0.heroList_:Dispose()
-	var_0_0.super.Dispose(arg_34_0)
+function slot0.Dispose(slot0)
+	slot0.middleView_:Dispose()
+	slot0.detailView_:Dispose()
+	slot0.heroList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

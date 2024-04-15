@@ -1,48 +1,46 @@
-local var_0_0 = class("Dispatcher")
+slot0 = class("Dispatcher")
 
-function var_0_0.Emit(arg_1_0, arg_1_1, ...)
-	local var_1_0 = {
+function slot0.Emit(slot0, slot1, ...)
+	slot2 = {
 		...
 	}
 
-	if arg_1_0.events[arg_1_1] then
-		local var_1_1 = {}
+	if slot0.events[slot1] then
+		slot3 = {}
+		slot7 = slot0.events[slot1]
 
-		table.merge(var_1_1, arg_1_0.events[arg_1_1])
+		table.merge(slot3, slot7)
 
-		for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-			iter_1_1(arg_1_1, unpack(var_1_0))
+		for slot7, slot8 in ipairs(slot3) do
+			slot8(slot1, unpack(slot2))
 		end
 	end
 end
 
-function var_0_0.Bind(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.events = arg_2_0.events or {}
+function slot0.Bind(slot0, slot1, slot2)
+	slot0.events = slot0.events or {}
 
-	local var_2_0 = arg_2_0.events[arg_2_1]
-
-	if not var_2_0 then
-		var_2_0 = {}
-		arg_2_0.events[arg_2_1] = var_2_0
+	if not slot0.events[slot1] then
+		slot0.events[slot1] = {}
 	end
 
-	if not table.indexof(var_2_0, arg_2_2) then
-		table.insert(var_2_0, arg_2_2)
+	if not table.indexof(slot3, slot2) then
+		table.insert(slot3, slot2)
 	end
 end
 
-function var_0_0.Unbind(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_0.events[arg_3_1] then
-		if arg_3_2 ~= nil then
-			table.removebyvalue(arg_3_0.events[arg_3_1], arg_3_2)
+function slot0.Unbind(slot0, slot1, slot2)
+	if slot0.events[slot1] then
+		if slot2 ~= nil then
+			table.removebyvalue(slot0.events[slot1], slot2)
 		else
-			arg_3_0.events[arg_3_1] = {}
+			slot0.events[slot1] = {}
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.events = nil
+function slot0.Dispose(slot0)
+	slot0.events = nil
 end
 
-return var_0_0
+return slot0

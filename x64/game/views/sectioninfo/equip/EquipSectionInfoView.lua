@@ -1,63 +1,55 @@
-local var_0_0 = class("EquipSectionInfoView", import("..SectionInfoMultipleBaseView"))
+slot0 = class("EquipSectionInfoView", import("..SectionInfoMultipleBaseView"))
 
-function var_0_0.OnClickBtn(arg_1_0)
-	local var_1_0 = arg_1_0.stageID_
-
-	arg_1_0:Go("/sectionSelectHero", {
-		section = var_1_0,
-		multiple = arg_1_0.multiple_,
+function slot0.OnClickBtn(slot0)
+	slot0:Go("/sectionSelectHero", {
+		section = slot0.stageID_,
+		multiple = slot0.multiple_,
 		sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP
 	})
 end
 
-function var_0_0.Init(arg_2_0)
-	var_0_0.super.Init(arg_2_0)
-	arg_2_0.hideStageDescController_:SetSelectedState("false")
-	arg_2_0.hideDropPanelController_:SetSelectedState("false")
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.hideStageDescController_:SetSelectedState("false")
+	slot0.hideDropPanelController_:SetSelectedState("false")
 end
 
-function var_0_0.RefreshData(arg_3_0)
-	local var_3_0 = BattleEquipStageCfg[arg_3_0.stageID_]
-	local var_3_1 = GameSetting.equip_stage_unlock.value
-	local var_3_2 = BattleInstance.GetHardLevel(arg_3_0.stageID_)
-
-	arg_3_0.lock_ = JumpTools.IsConditionLocked({
+function slot0.RefreshData(slot0)
+	slot1 = BattleEquipStageCfg[slot0.stageID_]
+	slot0.lock_ = JumpTools.IsConditionLocked({
 		ViewConst.SYSTEM_LOCK_TYPE.LEVEL,
-		var_3_1[var_3_2]
+		GameSetting.equip_stage_unlock.value[BattleInstance.GetHardLevel(slot0.stageID_)]
 	}) and true or false
-	arg_3_0.lockTips_ = JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_EQUIP_SECTION, {
+	slot0.lockTips_ = JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_EQUIP_SECTION, {
 		ViewConst.SYSTEM_LOCK_TYPE.LEVEL,
-		var_3_1[var_3_2]
+		slot2[slot3]
 	})
-	arg_3_0.cost_ = var_3_0.cost
-	arg_3_0.dropLibID_ = var_3_0.drop_lib_id
-	arg_3_0.isFirstClear_ = false
+	slot0.cost_ = slot1.cost
+	slot0.dropLibID_ = slot1.drop_lib_id
+	slot0.isFirstClear_ = false
 
-	var_0_0.super.RefreshData(arg_3_0)
+	uv0.super.RefreshData(slot0)
 end
 
-function var_0_0.RefreshStageInfo(arg_4_0)
-	local var_4_0 = BattleEquipStageCfg[arg_4_0.stageID_]
-	local var_4_1 = BattleInstance.GetHardLevel(arg_4_0.stageID_)
+function slot0.RefreshStageInfo(slot0)
+	slot2 = BattleInstance.GetHardLevel(slot0.stageID_)
 
-	if arg_4_0.oldCfgID_ ~= var_4_0.id then
-		arg_4_0.sectionName_.text = GetI18NText(var_4_0.name)
-		arg_4_0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, var_4_0.background_1))
-		arg_4_0.oldCfgID_ = var_4_0.id
+	if slot0.oldCfgID_ ~= BattleEquipStageCfg[slot0.stageID_].id then
+		slot0.sectionName_.text = GetI18NText(slot1.name)
+		slot0.sectionImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.Stage.path, slot1.background_1))
+		slot0.oldCfgID_ = slot1.id
 	end
 
-	local var_4_2 = BattleEquipData:GetGuaranteeNum()[var_4_1] or 0
-	local var_4_3 = EquipStageInsureCfg[var_4_1].insure_times
+	slot3 = BattleEquipData:GetGuaranteeNum()[slot2] or 0
 
-	if var_4_3 == 0 then
-		arg_4_0.storyText_.text = GetI18NText(var_4_0.tips)
+	if EquipStageInsureCfg[slot2].insure_times == 0 then
+		slot0.storyText_.text = GetI18NText(slot1.tips)
 	else
-		arg_4_0.storyText_.text = GetI18NText(var_4_0.tips) .. string.format(GetTips("EQUIP_STAGE_INSURE"), var_4_3 - var_4_2)
+		slot0.storyText_.text = GetI18NText(slot1.tips) .. string.format(GetTips("EQUIP_STAGE_INSURE"), slot4 - slot3)
 	end
 
-	local var_4_4, var_4_5 = BattleStageTools.GetChapterSectionIndex(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP, arg_4_0.stageID_)
-
-	arg_4_0.sectionText_.text = string.format("%s%s", GetI18NText(var_4_4), GetI18NText(var_4_5))
+	slot5, slot6 = BattleStageTools.GetChapterSectionIndex(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_EQUIP, slot0.stageID_)
+	slot0.sectionText_.text = string.format("%s%s", GetI18NText(slot5), GetI18NText(slot6))
 end
 
-return var_0_0
+return slot0

@@ -1,30 +1,27 @@
-local var_0_0 = class("ChipManagerEquipBreakThroughItem", import("..ChipManagerItem"))
+slot0 = class("ChipManagerEquipBreakThroughItem", import("..ChipManagerItem"))
 
-function var_0_0.AddListeners(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.btn_, nil, function()
-		return
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 	end)
 end
 
-function var_0_0.GetUnlockChipManagerList(arg_3_0)
+function slot0.GetUnlockChipManagerList(slot0)
 	return {}
 end
 
-function var_0_0.GetEnabledChipManagerID(arg_4_0)
+function slot0.GetEnabledChipManagerID(slot0)
 	return EquipBreakThroughMaterialData:GetChipManagerID()
 end
 
-function var_0_0.BindRedPoint(arg_5_0)
-	return
+function slot0.BindRedPoint(slot0)
 end
 
-function var_0_0.UnbindRedPoint(arg_6_0)
-	return
+function slot0.UnbindRedPoint(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	var_0_0.super.RefreshUI(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.lockGo_)
+function slot0.RefreshUI(slot0, slot1)
+	uv0.super.RefreshUI(slot0, slot1)
+	SetActive(slot0.lockGo_)
 end
 
-return var_0_0
+return slot0

@@ -1,211 +1,181 @@
-local var_0_0 = singletonClass("ActivityPtScrollData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
+slot0 = singletonClass("ActivityPtScrollData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_4 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-
-	var_0_1[var_2_0] = {
-		activityID = var_2_0,
-		clearList = arg_2_1.clear_stage_list or {},
-		buff_id = arg_2_1.buff_id,
-		up_select = arg_2_1.up_select,
-		filter_up = arg_2_1.up_select,
-		poolID = arg_2_1.index,
-		clear_times = arg_2_1.clear_times
+function slot0.SetData(slot0, slot1)
+	uv0[slot2] = {
+		activityID = slot1.activity_id,
+		clearList = slot1.clear_stage_list or {},
+		buff_id = slot1.buff_id,
+		up_select = slot1.up_select,
+		filter_up = slot1.up_select,
+		poolID = slot1.index,
+		clear_times = slot1.clear_times
 	}
 
-	if arg_2_1.up_select == 0 then
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. var_2_0, 0)
+	if slot1.up_select == 0 then
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. slot2, 0)
 
-		local var_2_1 = ActivityPtRouletteRandomCfg[arg_2_1.index]
-
-		if not var_2_1 then
+		if not ActivityPtRouletteRandomCfg[slot1.index] then
 			return
 		end
 
-		var_0_1[var_2_0].filter_up = var_2_1.equip_suit_list[1] or 0
+		uv0[slot2].filter_up = slot3.equip_suit_list[1] or 0
 
-		if #var_2_1.equip_suit_list > 1 and manager.time:GetTodayFreshTime() > (getData("activityPtScroll", "last_check_up") or 0) then
-			manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. var_2_0, 1)
+		if #slot3.equip_suit_list > 1 and manager.time:GetTodayFreshTime() > (getData("activityPtScroll", "last_check_up") or 0) then
+			manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_UP_SELECT .. "_" .. slot2, 1)
 		end
 	end
 
-	local var_2_2 = GameSetting.activity_pt_roulette_task_times.value[1]
-
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. var_2_0, var_2_2 <= arg_2_1.clear_times and 1 or 0)
-	arg_2_0:RefreshAffix(var_2_0)
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. slot2, GameSetting.activity_pt_roulette_task_times.value[1] <= slot1.clear_times and 1 or 0)
+	slot0:RefreshAffix(slot2)
 end
 
-function var_0_0.RefreshAffix(arg_3_0, arg_3_1)
-	arg_3_0:RefreshAffixMap(arg_3_1)
-	arg_3_0:RefreshAffixList(arg_3_1)
+function slot0.RefreshAffix(slot0, slot1)
+	slot0:RefreshAffixMap(slot1)
+	slot0:RefreshAffixList(slot1)
 end
 
-function var_0_0.RefreshAffixMap(arg_4_0, arg_4_1)
-	local var_4_0 = {}
-	local var_4_1 = ActivityPtRouletteStageCfg.get_id_list_by_activity_id[arg_4_1]
+function slot0.RefreshAffixMap(slot0, slot1)
+	slot2 = {}
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_1) do
-		if ActivityPtRouletteStageCfg[iter_4_1].mode == 2 then
-			local var_4_2 = ActivityPtRouletteStageCfg[iter_4_1].roulette_id
+	for slot7, slot8 in ipairs(ActivityPtRouletteStageCfg.get_id_list_by_activity_id[slot1]) do
+		if ActivityPtRouletteStageCfg[slot8].mode == 2 then
+			slot2 = ActivityPtRouletteStageCfg[slot8].roulette_id
 
 			break
 		end
 	end
 
-	var_0_3[arg_4_1] = {}
-	var_0_3[arg_4_1].all = {}
+	uv0[slot1] = {
+		all = {}
+	}
 
-	local var_4_3 = ActivityPtRouletteRandomCfg[var_0_1[arg_4_1].poolID]
-
-	for iter_4_2, iter_4_3 in ipairs(var_4_3.affix_list) do
-		local var_4_4 = ActivityPtRouletteAffixCfg[iter_4_3].affix_list
-
-		var_0_3[arg_4_1][var_4_4[1]] = {
+	for slot8, slot9 in ipairs(ActivityPtRouletteRandomCfg[uv1[slot1].poolID].affix_list) do
+		slot11 = ActivityPtRouletteAffixCfg[slot9].affix_list
+		uv0[slot1][slot11[1]] = {
 			type = 0,
 			useless = false,
-			affix = var_4_4[1],
-			level = var_4_4[2],
-			target = var_4_4[3]
+			affix = slot11[1],
+			level = slot11[2],
+			target = slot11[3]
 		}
 
-		table.insert(var_0_3[arg_4_1].all, var_4_4[1])
+		table.insert(uv0[slot1].all, slot11[1])
 	end
 
-	for iter_4_4, iter_4_5 in ipairs(var_4_3.random_affix_list) do
-		local var_4_5 = iter_4_5[1]
-		local var_4_6 = iter_4_5[2]
-
-		for iter_4_6, iter_4_7 in ipairs(var_4_6) do
-			local var_4_7 = ActivityPtRouletteAffixCfg[iter_4_7].affix_list
-
-			var_0_3[arg_4_1][var_4_7[1]] = {
+	for slot8, slot9 in ipairs(slot4.random_affix_list) do
+		for slot15, slot16 in ipairs(slot9[2]) do
+			slot18 = ActivityPtRouletteAffixCfg[slot16].affix_list
+			uv0[slot1][slot18[1]] = {
 				useless = false,
-				type = var_4_5,
-				affix = var_4_7[1],
-				level = var_4_7[2],
-				target = var_4_7[3]
+				type = slot9[1],
+				affix = slot18[1],
+				level = slot18[2],
+				target = slot18[3]
 			}
 
-			table.insert(var_0_3[arg_4_1].all, var_4_7[1])
+			table.insert(uv0[slot1].all, slot18[1])
 		end
 	end
 
-	for iter_4_8, iter_4_9 in ipairs(var_4_3.roulette_desc) do
-		local var_4_8 = ActivityPtRouletteTipsCfg[iter_4_9]
-
-		var_0_3[arg_4_1][iter_4_9] = {
+	for slot8, slot9 in ipairs(slot4.roulette_desc) do
+		uv0[slot1][slot9] = {
 			target = 0,
 			useless = true,
 			level = 1,
-			type = var_4_8.icon,
-			affix = iter_4_9
+			type = ActivityPtRouletteTipsCfg[slot9].icon,
+			affix = slot9
 		}
 
-		table.insert(var_0_3[arg_4_1].all, iter_4_9)
+		table.insert(uv0[slot1].all, slot9)
 	end
 end
 
-function var_0_0.RefreshAffixList(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_0:GetChooseAffixID(arg_5_1)
+function slot0.RefreshAffixList(slot0, slot1)
+	uv0[slot1] = deepClone(uv1[slot1].all)
 
-	var_0_2[arg_5_1] = deepClone(var_0_3[arg_5_1].all)
+	table.remove(uv0[slot1], table.indexof(uv0[slot1], slot0:GetChooseAffixID(slot1)))
 
-	table.remove(var_0_2[arg_5_1], table.indexof(var_0_2[arg_5_1], var_5_0))
-
-	local var_5_1 = #var_0_2[arg_5_1]
-
-	for iter_5_0 = var_5_1, 1, -1 do
-		local var_5_2 = math.random(iter_5_0)
-		local var_5_3 = table.remove(var_0_2[arg_5_1], var_5_2)
-
-		var_0_2[arg_5_1][var_5_1] = var_5_3
+	for slot7 = #uv0[slot1], 1, -1 do
+		uv0[slot1][slot3] = table.remove(uv0[slot1], math.random(slot7))
 	end
 
-	local var_5_4 = var_5_1 / 2
-
-	table.insert(var_0_2[arg_5_1], var_5_4 + 1, var_5_0)
+	table.insert(uv0[slot1], slot3 / 2 + 1, slot2)
 end
 
-function var_0_0.GetChooseAffixID(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_1[arg_6_1].buff_id
-
-	return ActivityPtRouletteAffixCfg[var_6_0].affix_list[1]
+function slot0.GetChooseAffixID(slot0, slot1)
+	return ActivityPtRouletteAffixCfg[uv0[slot1].buff_id].affix_list[1]
 end
 
-function var_0_0.GetAffixList(arg_7_0, arg_7_1)
-	return var_0_2[arg_7_1]
+function slot0.GetAffixList(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetAffixInfo(arg_8_0, arg_8_1, arg_8_2)
-	return var_0_3[arg_8_1][arg_8_2]
+function slot0.GetAffixInfo(slot0, slot1, slot2)
+	return uv0[slot1][slot2]
 end
 
-function var_0_0.SetLastStage(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	var_0_4[arg_9_1] = {
-		type = arg_9_2,
-		index = arg_9_3
+function slot0.SetLastStage(slot0, slot1, slot2, slot3)
+	uv0[slot1] = {
+		type = slot2,
+		index = slot3
 	}
 end
 
-function var_0_0.GetLastStage(arg_10_0, arg_10_1)
-	return var_0_4[arg_10_1]
+function slot0.GetLastStage(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.SetClearList(arg_11_0, arg_11_1, arg_11_2)
-	if not table.indexof(var_0_1[arg_11_1].clearList, arg_11_2) then
-		table.insert(var_0_1[arg_11_1].clearList, arg_11_2)
+function slot0.SetClearList(slot0, slot1, slot2)
+	if not table.indexof(uv0[slot1].clearList, slot2) then
+		table.insert(uv0[slot1].clearList, slot2)
 	end
 end
 
-function var_0_0.GetClearList(arg_12_0, arg_12_1)
-	return var_0_1[arg_12_1].clearList
+function slot0.GetClearList(slot0, slot1)
+	return uv0[slot1].clearList
 end
 
-function var_0_0.SetUpSelect(arg_13_0, arg_13_1, arg_13_2)
-	var_0_1[arg_13_1].up_select = arg_13_2
+function slot0.SetUpSelect(slot0, slot1, slot2)
+	uv0[slot1].up_select = slot2
 
-	if arg_13_2 ~= 0 then
-		var_0_1[arg_13_1].filter_up = arg_13_2
+	if slot2 ~= 0 then
+		uv0[slot1].filter_up = slot2
 	end
 end
 
-function var_0_0.GetUpSelect(arg_14_0, arg_14_1)
-	return var_0_1[arg_14_1].up_select, var_0_1[arg_14_1].filter_up
+function slot0.GetUpSelect(slot0, slot1)
+	return uv0[slot1].up_select, uv0[slot1].filter_up
 end
 
-function var_0_0.GetPoolID(arg_15_0, arg_15_1)
-	return var_0_1[arg_15_1].poolID
+function slot0.GetPoolID(slot0, slot1)
+	return uv0[slot1].poolID
 end
 
-function var_0_0.GetClearTime(arg_16_0, arg_16_1)
-	return var_0_1[arg_16_1].clear_times
+function slot0.GetClearTime(slot0, slot1)
+	return uv0[slot1].clear_times
 end
 
-function var_0_0.AddClearTime(arg_17_0, arg_17_1, arg_17_2)
-	var_0_1[arg_17_1].clear_times = var_0_1[arg_17_1].clear_times + arg_17_2
+function slot0.AddClearTime(slot0, slot1, slot2)
+	uv0[slot1].clear_times = uv0[slot1].clear_times + slot2
 
-	local var_17_0 = GameSetting.activity_pt_roulette_task_times.value[1]
-
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. arg_17_1, var_17_0 <= var_0_1[arg_17_1].clear_times and 1 or 0)
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. slot1, GameSetting.activity_pt_roulette_task_times.value[1] <= uv0[slot1].clear_times and 1 or 0)
 end
 
-function var_0_0.ModifyClearTime(arg_18_0, arg_18_1, arg_18_2)
-	var_0_1[arg_18_1].clear_times = arg_18_2
+function slot0.ModifyClearTime(slot0, slot1, slot2)
+	uv0[slot1].clear_times = slot2
 
-	local var_18_0 = GameSetting.activity_pt_roulette_task_times.value[1]
-
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. arg_18_1, var_18_0 <= var_0_1[arg_18_1].clear_times and 1 or 0)
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_PT_SCROLL_INFINITY_TASK .. "_" .. slot1, GameSetting.activity_pt_roulette_task_times.value[1] <= uv0[slot1].clear_times and 1 or 0)
 end
 
-return var_0_0
+return slot0

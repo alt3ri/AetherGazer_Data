@@ -1,12 +1,11 @@
-local var_0_0 = import("game.views.heroTeamInfo.HeroTeamInfoBaseView")
-local var_0_1 = class("KagutsuchiTeamInfoView", var_0_0)
+slot1 = class("KagutsuchiTeamInfoView", import("game.views.heroTeamInfo.HeroTeamInfoBaseView"))
 
-function var_0_1.GetHeroList(arg_1_0)
-	local var_1_0 = 1158
+function slot1.GetHeroList(slot0)
+	slot1 = 1158
 
-	return (HeroTools.Sort({
-		[var_1_0] = HeroData:GetHeroData(var_1_0)
-	}))
+	return HeroTools.Sort({
+		[slot1] = HeroData:GetHeroData(slot1)
+	})
 end
 
-return var_0_1
+return slot1

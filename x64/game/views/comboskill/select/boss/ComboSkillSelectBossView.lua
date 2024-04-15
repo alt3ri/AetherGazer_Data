@@ -1,19 +1,19 @@
-local var_0_0 = class("ComboSkillSelectBossView", import("..ComboSkillSelectView"))
+slot0 = class("ComboSkillSelectBossView", import("..ComboSkillSelectView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	arg_1_0.bossIndex_ = arg_1_0.params_.bossIndex
+	slot0.bossIndex_ = slot0.params_.bossIndex
 end
 
-function var_0_0.GetComboSkillItemView(arg_2_0)
+function slot0.GetComboSkillItemView(slot0)
 	return ComboSkillSelectBossItem
 end
 
-function var_0_0.RefreshItemSelect(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = arg_3_0.comboSkillIDList_[arg_3_1]
+function slot0.RefreshItemSelect(slot0, slot1, slot2)
+	slot3 = slot0.comboSkillIDList_[slot1]
 
-	arg_3_2:RefreshUI(arg_3_0.bossIndex_, arg_3_0.stageType_, arg_3_0.stageID_, arg_3_0.activityID_, var_3_0, arg_3_0.comboSkillID_ == var_3_0, arg_3_0.heroList_)
+	slot2:RefreshUI(slot0.bossIndex_, slot0.stageType_, slot0.stageID_, slot0.activityID_, slot3, slot0.comboSkillID_ == slot3, slot0.heroList_)
 end
 
-return var_0_0
+return slot0

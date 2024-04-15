@@ -1,47 +1,47 @@
-local var_0_0 = class("GuildActivitySPRankView", ReduxView)
+slot0 = class("GuildActivitySPRankView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivitySPUI/GuildActivitySPRankUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, GuildActivitySPRaceRankItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, GuildActivitySPRaceRankItem)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2:RefreshUI(arg_7_0.rankList_[arg_7_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.rankList_[slot1])
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.rankList_ = GuildActivitySPData:GetRankList()
+function slot0.RefreshUI(slot0)
+	slot0.rankList_ = GuildActivitySPData:GetRankList()
 
-	arg_9_0.scrollHelper_:StartScroll(#arg_9_0.rankList_)
+	slot0.scrollHelper_:StartScroll(#slot0.rankList_)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

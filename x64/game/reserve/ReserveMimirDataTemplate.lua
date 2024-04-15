@@ -1,25 +1,25 @@
-local var_0_0 = class("ReserveMimirDataTemplate")
+slot0 = class("ReserveMimirDataTemplate")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.mimir_id = 0
-	arg_1_0.chip_list = {}
+function slot0.Ctor(slot0)
+	slot0.mimir_id = 0
+	slot0.chip_list = {}
 end
 
-function var_0_0.UpdateServerData(arg_2_0, arg_2_1)
-	arg_2_0.mimir_id = arg_2_1.mimir_id
-	arg_2_0.chip_list = cleanProtoTable(arg_2_1.chip_list)
+function slot0.UpdateServerData(slot0, slot1)
+	slot0.mimir_id = slot1.mimir_id
+	slot0.chip_list = cleanProtoTable(slot1.chip_list)
 end
 
-function var_0_0.ConvertToSendData(arg_3_0)
+function slot0.ConvertToSendData(slot0)
 	return {
-		mimir_id = arg_3_0.mimir_id,
-		chip_list = clone(arg_3_0.chip_list)
+		mimir_id = slot0.mimir_id,
+		chip_list = clone(slot0.chip_list)
 	}
 end
 
-function var_0_0.Reset(arg_4_0)
-	arg_4_0.mimir_id = 0
-	arg_4_0.chip_list = {}
+function slot0.Reset(slot0)
+	slot0.mimir_id = 0
+	slot0.chip_list = {}
 end
 
-return var_0_0
+return slot0

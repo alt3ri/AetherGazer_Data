@@ -1,29 +1,28 @@
-local var_0_0 = class("ReconnectLogic")
-local var_0_1 = import("game.const.LoginConst")
-local var_0_2 = import("game.tools.JumpTools")
+slot0 = class("ReconnectLogic")
+slot1 = import("game.const.LoginConst")
+slot2 = import("game.tools.JumpTools")
+slot0.reconnectRetryCount = 3
+slot0.loginRetryCount = 0
 
-var_0_0.reconnectRetryCount = 3
-var_0_0.loginRetryCount = 0
-
-function var_0_0.ReconnectError(arg_1_0)
+function slot0.ReconnectError(slot0)
 	_G.isLogining = false
 
-	if arg_1_0 == var_0_1.NEED_UPDATE then
-		var_0_0.NeedToUpdate()
+	if slot0 == uv0.NEED_UPDATE then
+		uv1.NeedToUpdate()
 
 		return
 	end
 
-	local var_1_0
+	slot1 = nil
 
-	var_1_0 = Timer.New(function()
+	Timer.New(function ()
 		manager.windowBar:ClearWhereTag()
 
 		if LuaExchangeHelper.GetSceneIsHanding() then
 			return
 		end
 
-		var_1_0:Stop()
+		uv0:Stop()
 		print("whereami", whereami)
 
 		if whereami == "battle" or whereami == "battleResult" then
@@ -67,77 +66,70 @@ function var_0_0.ReconnectError(arg_1_0)
 			LuaExchangeHelper.GoToMain()
 		end
 
-		var_0_0.loginRetryCount = 0
+		uv1.loginRetryCount = 0
 
-		var_0_2.OpenPageUntilLoaded("/login")
-
-		local function var_2_0()
-			ReduxFactory.GetInstance():ClearCacheViews()
-
-			if arg_1_0 then
-				ShowMessageBox({
-					isTop = true,
-					title = GetTips("PROMPT"),
-					content = GetTips(var_0_1.KICK_REASON[arg_1_0] or "DATA_ERROR_TO_LOGIN"),
-					OkCallback = function()
-						return
-					end,
-					CancelCallback = function()
-						Quit()
-					end
-				})
-			end
-
-			manager.ui:SetUIDText("")
-		end
+		uv2.OpenPageUntilLoaded("/login")
 
 		if LuaExchangeHelper.GetSceneIsHanding() then
-			_G.OnLoadedCallBack_ = var_2_0
-		else
-			var_2_0()
-		end
-	end, 0.2, -1)
+			function _G.OnLoadedCallBack_()
+				ReduxFactory.GetInstance():ClearCacheViews()
 
-	var_1_0:Start()
+				if uv0 then
+					ShowMessageBox({
+						isTop = true,
+						title = GetTips("PROMPT"),
+						content = GetTips(uv1.KICK_REASON[uv0] or "DATA_ERROR_TO_LOGIN"),
+						OkCallback = function ()
+						end,
+						CancelCallback = function ()
+							Quit()
+						end
+					})
+				end
+
+				manager.ui:SetUIDText("")
+			end
+		else
+			slot1()
+		end
+	end, 0.2, -1):Start()
 end
 
-function var_0_0.NeedToUpdate()
+function slot0.NeedToUpdate()
 	ShowNeedUpdateWindow()
 end
 
-function var_0_0.CheckChatConnectStatusAndTryReconnect(arg_7_0)
-	local var_7_0 = manager.net:GetChatTCPState()
-
-	if var_7_0 == "disconnected" then
-		var_0_0.TryToReconnectChat(nil, nil, arg_7_0)
-	elseif var_7_0 == "connected" then
-		arg_7_0:resolve()
+function slot0.CheckChatConnectStatusAndTryReconnect(slot0)
+	if manager.net:GetChatTCPState() == "disconnected" then
+		uv0.TryToReconnectChat(nil, , slot0)
+	elseif slot1 == "connected" then
+		slot0:resolve()
 	else
-		arg_7_0:reject("unexpect tcp state:" .. var_7_0)
+		slot0:reject("unexpect tcp state:" .. slot1)
 	end
 end
 
-function var_0_0.TryToReconnectChat(arg_8_0, arg_8_1, arg_8_2)
-	if arg_8_1 then
-		print("TryReconnect error ", arg_8_0, tostring(arg_8_1))
+function slot0.TryToReconnectChat(slot0, slot1, slot2)
+	if slot1 then
+		print("TryReconnect error ", slot0, tostring(slot1))
 
-		if type(arg_8_1) == "table" then
-			print_r(arg_8_1)
+		if type(slot1) == "table" then
+			print_r(slot1)
 		end
 	end
 
-	if arg_8_0 == "error" and arg_8_1 == SocketError.ConnectionReset then
+	if slot0 == "error" and slot1 == SocketError.ConnectionReset then
 		ShowTips("CANNOT_CONNECT_CHAT")
 
 		return
 	end
 
-	ActionCreators.ChatReconnect():next(function(arg_9_0)
-		arg_8_2:resolve()
-	end, function(arg_10_0, arg_10_1)
+	ActionCreators.ChatReconnect():next(function (slot0)
+		uv0:resolve()
+	end, function (slot0, slot1)
 		ShowTips("CANNOT_CONNECT_CHAT")
-		arg_8_2:reject("can not connect to chat server")
+		uv0:reject("can not connect to chat server")
 	end)
 end
 
-return var_0_0
+return slot0

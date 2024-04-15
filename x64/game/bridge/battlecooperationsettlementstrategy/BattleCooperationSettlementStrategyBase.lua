@@ -1,40 +1,34 @@
-local var_0_0 = class("BattleCooperationSettlementStrategyBase")
+slot0 = class("BattleCooperationSettlementStrategyBase")
 
-function var_0_0.GotoSettlement(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5)
-	local var_1_0 = {}
-	local var_1_1 = arg_1_1:GetThreeStar()
+function slot0.GotoSettlement(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6 = {}
 
-	if var_1_1 and type(var_1_1) == "table" then
-		for iter_1_0 = 1, #var_1_1 do
-			local var_1_2 = var_1_1[iter_1_0]
+	if slot1:GetThreeStar() and type(slot7) == "table" then
+		for slot11 = 1, #slot7 do
+			slot12 = slot7[slot11]
 
-			if arg_1_3 and arg_1_3[iter_1_0] then
-				table.insert(var_1_0, {
-					id = var_1_2[1],
-					total = arg_1_3[iter_1_0].need_progress,
-					current = arg_1_3[iter_1_0].now_progress,
-					xData = var_1_2[2],
-					yData = var_1_2[3],
-					isComplete = arg_1_3[iter_1_0].is_achieve == 1 and true or false
+			if slot3 and slot3[slot11] then
+				table.insert(slot6, {
+					id = slot12[1],
+					total = slot3[slot11].need_progress,
+					current = slot3[slot11].now_progress,
+					xData = slot12[2],
+					yData = slot12[3],
+					isComplete = slot3[slot11].is_achieve == 1 and true or false
 				})
 			end
 		end
 	end
 
-	if isSuccess(arg_1_2) then
-		local var_1_3, var_1_4 = arg_1_1:GetHeroTeam()
-		local var_1_5 = arg_1_1:GetSystemHeroTeam()
-		local var_1_6 = arg_1_1:GetMultiple()
-		local var_1_7 = GameSetting.mastery_gain.value[1]
+	if isSuccess(slot2) then
+		slot8, slot9 = slot1:GetHeroTeam()
 
-		for iter_1_1 = 1, #var_1_3 do
-			if var_1_5[iter_1_1] == nil and var_1_3[iter_1_1] ~= 0 and (var_1_4[iter_1_1] == nil or var_1_4[iter_1_1] == 0) then
-				HeroData:HeroClearTimesModify(var_1_3[iter_1_1], var_1_7)
+		for slot16 = 1, #slot8 do
+			if slot1:GetSystemHeroTeam()[slot16] == nil and slot8[slot16] ~= 0 and (slot9[slot16] == nil or slot9[slot16] == 0) then
+				HeroData:HeroClearTimesModify(slot8[slot16], GameSetting.mastery_gain.value[1])
 
-				local var_1_8 = HeroTools.GetHeroOntologyID(var_1_3[iter_1_1])
-
-				if var_1_8 then
-					ArchiveData:AddExp(var_1_8, GameSetting.hero_love_exp_gain.value[1] * var_1_6)
+				if HeroTools.GetHeroOntologyID(slot8[slot16]) then
+					ArchiveData:AddExp(slot17, GameSetting.hero_love_exp_gain.value[1] * slot1:GetMultiple())
 				end
 			end
 		end
@@ -44,69 +38,71 @@ function var_0_0.GotoSettlement(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg
 		HeroAction.UpdateSuperStoryRedPoint()
 	end
 
-	arg_1_0:OnGotoSettlement({
-		num = arg_1_2,
-		starList = arg_1_3,
-		battleResult = arg_1_4,
-		stageData = arg_1_1,
-		starMissionData = var_1_0,
-		isHalfWay_ = arg_1_5
+	slot0:OnGotoSettlement({
+		num = slot2,
+		starList = slot3,
+		battleResult = slot4,
+		stageData = slot1,
+		starMissionData = slot6,
+		isHalfWay_ = slot5
 	})
 end
 
-function var_0_0.OnGotoSettlement(arg_2_0, arg_2_1)
-	return
+function slot0.OnGotoSettlement(slot0, slot1)
 end
 
-function var_0_0.GotoCooperationResult(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4)
-	if isSuccess(arg_3_1) then
-		local var_3_0 = arg_3_0:GetResultReward()
+function slot0.GotoCooperationResult(slot0, slot1, slot2, slot3, slot4)
+	if isSuccess(slot1) then
+		slot5 = slot0:GetResultReward()
 
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/newSettlement", {
-				result = arg_3_1,
-				rewardList = var_3_0,
-				stageData = arg_3_2,
-				starMissionData = arg_3_3,
-				battleResult = arg_3_4
+				result = uv0,
+				rewardList = uv1,
+				stageData = uv2,
+				starMissionData = uv3,
+				battleResult = uv4
 			})
-			EndBattleLogic(arg_3_1)
+			EndBattleLogic(uv0)
 		end
-	else
-		arg_3_0:GotoBattleFaild(arg_3_1, arg_3_2)
+
+		return
 	end
+
+	slot0:GotoBattleFaild(slot1, slot2)
 end
 
-function var_0_0.GotoBattleFaild(arg_5_0, arg_5_1, arg_5_2)
+function slot0.GotoBattleFaild(slot0, slot1, slot2)
 	function BattleCallLuaCallBack()
 		gameContext:Go("/battleCooperationFailed", {
-			stageData = arg_5_2
+			stageData = uv0
 		})
-		EndBattleLogic(arg_5_1)
+		EndBattleLogic(uv1)
 	end
 end
 
-function var_0_0.GetResultReward(arg_7_0)
-	local var_7_0 = {}
-	local var_7_1 = {}
+function slot0.GetResultReward(slot0)
+	slot1 = {}
+	slot5 = BattleFieldData
+	slot7 = slot5
 
-	for iter_7_0, iter_7_1 in ipairs(BattleFieldData:GetBattleResultData().dropList) do
-		var_7_1[iter_7_1.battleTimes] = {}
-
-		for iter_7_2, iter_7_3 in ipairs(iter_7_1.rewardItems) do
-			print(string.format("服务端发下第%s次物品数据id:", iter_7_1.battleTimes), iter_7_3.id, "num:", iter_7_3.num)
-			table.insert(var_7_1[iter_7_1.battleTimes], {
-				iter_7_3.id,
-				iter_7_3.num
+	for slot6, slot7 in ipairs(slot5.GetBattleResultData(slot7).dropList) do
+		for slot11, slot12 in ipairs(slot7.rewardItems) do
+			print(string.format("服务端发下第%s次物品数据id:", slot7.battleTimes), slot12.id, "num:", slot12.num)
+			table.insert(slot2[slot7.battleTimes], {
+				slot12.id,
+				slot12.num
 			})
-			table.insert(var_7_0, {
-				iter_7_3.id,
-				iter_7_3.num
+			table.insert(slot1, {
+				slot12.id,
+				slot12.num
 			})
 		end
 	end
 
-	return var_7_0, var_7_1
+	return slot1, {
+		[slot7.battleTimes] = {}
+	}
 end
 
-return var_0_0
+return slot0

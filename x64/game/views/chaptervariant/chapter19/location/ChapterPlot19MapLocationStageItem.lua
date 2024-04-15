@@ -1,106 +1,95 @@
-local var_0_0 = class("ChapterPlot19MapLocationStageItem", ReduxView)
+slot0 = class("ChapterPlot19MapLocationStageItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stageTypeController_ = arg_1_0.controllerEx_:GetController("type")
-	arg_1_0.clearController_ = arg_1_0.controllerEx_:GetController("clear")
+	slot0.stageTypeController_ = slot0.controllerEx_:GetController("type")
+	slot0.clearController_ = slot0.controllerEx_:GetController("clear")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.chapterID_ = arg_2_1
-	arg_2_0.stageInfo_ = arg_2_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.chapterID_ = slot1
+	slot0.stageInfo_ = slot2
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0)
-	local var_3_0 = arg_3_0.stageInfo_
-	local var_3_1 = var_3_0.stageType
+function slot0.RefreshUI(slot0)
+	if slot0.stageInfo_.stageType == BattleConst.PLOT_19_STAGE_TYPE.EVENT then
+		slot3 = slot1.id
+		slot0.nameText_.text = StageArchiveCfg[slot3].name
 
-	if var_3_1 == BattleConst.PLOT_19_STAGE_TYPE.EVENT then
-		local var_3_2 = var_3_0.id
-		local var_3_3 = StageArchiveCfg[var_3_2]
+		slot0.stageTypeController_:SetSelectedState("event")
+		slot0.clearController_:SetSelectedState(tostring(BattleStageData:HasReadLocationEvent(slot3) ~= nil))
 
-		arg_3_0.nameText_.text = var_3_3.name
-
-		arg_3_0.stageTypeController_:SetSelectedState("event")
-		arg_3_0.clearController_:SetSelectedState(tostring(BattleStageData:HasReadLocationEvent(var_3_2) ~= nil))
-
-		if ChapterTools.IsUnlockEvent(var_3_2) then
-			arg_3_0:Show(true)
+		if ChapterTools.IsUnlockEvent(slot3) then
+			slot0:Show(true)
 		else
-			arg_3_0:Show(false)
+			slot0:Show(false)
 		end
 	else
-		local var_3_4 = var_3_0.id
-		local var_3_5 = BattleStageTools.GetStageCfg(ChapterCfg[arg_3_0.chapterID_].type, var_3_4)
+		slot0.nameText_.text = BattleStageTools.GetStageCfg(ChapterCfg[slot0.chapterID_].type, slot1.id).name
 
-		arg_3_0.nameText_.text = var_3_5.name
-
-		if var_3_1 == BattleConst.PLOT_19_STAGE_TYPE.MAIN_STORY then
-			arg_3_0.stageTypeController_:SetSelectedState("main")
+		if slot2 == BattleConst.PLOT_19_STAGE_TYPE.MAIN_STORY then
+			slot0.stageTypeController_:SetSelectedState("main")
 		else
-			arg_3_0.stageTypeController_:SetSelectedState("side")
+			slot0.stageTypeController_:SetSelectedState("side")
 		end
 
-		local var_3_6 = BattleStageData:GetStageData()[var_3_4]
-		local var_3_7 = false
+		slot6 = false
 
-		if var_3_6 then
-			arg_3_0:Show(true)
+		if BattleStageData:GetStageData()[slot3] then
+			slot0:Show(true)
 
-			if var_3_6.clear_times > 0 then
-				var_3_7 = true
+			if slot5.clear_times > 0 then
+				slot6 = true
 			end
 		else
-			arg_3_0:Show(false)
+			slot0:Show(false)
 		end
 
-		arg_3_0.clearController_:SetSelectedState(tostring(var_3_7))
+		slot0.clearController_:SetSelectedState(tostring(slot6))
 	end
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.button_, nil, function()
-		local var_5_0 = arg_4_0.stageInfo_
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.stageInfo_.stageType == BattleConst.PLOT_19_STAGE_TYPE.EVENT then
+			BattleStageAction.UpdateLocationEvent(slot0.id)
 
-		if var_5_0.stageType == BattleConst.PLOT_19_STAGE_TYPE.EVENT then
-			BattleStageAction.UpdateLocationEvent(var_5_0.id)
-
-			local var_5_1 = StageArchiveCfg[var_5_0.id]
+			slot1 = StageArchiveCfg[slot0.id]
 
 			JumpTools.OpenPageByJump("gameHelpLong", {
-				title = var_5_1.name,
-				content = formatText(var_5_1.desc)
+				title = slot1.name,
+				content = formatText(slot1.desc)
 			})
 		else
-			arg_4_0:Go("chapter19SectionInfo", {
-				section = var_5_0.id,
-				sectionType = ChapterCfg[arg_4_0.chapterID_].type
+			uv0:Go("chapter19SectionInfo", {
+				section = slot0.id,
+				sectionType = ChapterCfg[uv0.chapterID_].type
 			})
 		end
 	end)
 end
 
-function var_0_0.Show(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_6_1 then
-		arg_6_0.transform_:SetAsLastSibling()
+	if slot1 then
+		slot0.transform_:SetAsLastSibling()
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.gameObject_ = nil
-	arg_7_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-return var_0_0
+return slot0

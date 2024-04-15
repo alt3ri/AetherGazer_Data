@@ -1,82 +1,81 @@
-local var_0_0 = class("NewHeroSurpassPhaseUpView", ReduxView)
+slot0 = class("NewHeroSurpassPhaseUpView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_transition/HeroPrintRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.attrItemList = {}
+	slot0.attrItemList = {}
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0.attrItemList[iter_4_0] = HeroSurpassAttrItem.New(arg_4_0["message" .. iter_4_0 .. "Go_"])
+	for slot4 = 1, 3 do
+		slot0.attrItemList[slot4] = HeroSurpassAttrItem.New(slot0["message" .. slot4 .. "Go_"])
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.fullscreenBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.fullscreenBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.starID = arg_7_0.params_.starID
-	arg_7_0.heroID = arg_7_0.params_.heroID
+function slot0.OnEnter(slot0)
+	slot0.starID = slot0.params_.starID
+	slot0.heroID = slot0.params_.heroID
 
-	arg_7_0:Refresh()
+	slot0:Refresh()
 
-	if arg_7_0.starID == 600 then
-		HeroTools.PlayTalk(arg_7_0.heroID, "pro3", 1)
-	elseif arg_7_0.starID == 500 then
-		HeroTools.PlayTalk(arg_7_0.heroID, "pro2", 1)
+	if slot0.starID == 600 then
+		HeroTools.PlayTalk(slot0.heroID, "pro3", 1)
+	elseif slot0.starID == 500 then
+		HeroTools.PlayTalk(slot0.heroID, "pro2", 1)
 	else
-		HeroTools.PlayTalk(arg_7_0.heroID, "pro1", 1)
+		HeroTools.PlayTalk(slot0.heroID, "pro1", 1)
 	end
 end
 
-function var_0_0.Refresh(arg_8_0)
-	local var_8_0 = HeroStarCfg[arg_8_0.starID]
-	local var_8_1 = HeroCfg[arg_8_0.heroID]
+function slot0.Refresh(slot0)
+	slot1 = HeroStarCfg[slot0.starID]
+	slot2 = HeroCfg[slot0.heroID]
 
-	SurpassTools.ChangeIconStarSpirte(arg_8_0.iconImg_, var_8_0.star - 1)
-	SurpassTools.ChangeIconStarSpirte(arg_8_0.icon_changeImg_, var_8_0.star)
+	SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, slot1.star - 1)
+	SurpassTools.ChangeIconStarSpirte(slot0.icon_changeImg_, slot1.star)
 
-	local var_8_2 = var_8_0.star
-	local var_8_3 = math.max(var_8_2 - 1, 0)
+	slot3 = slot1.star
+	slot4 = math.max(slot3 - 1, 0)
 
-	arg_8_0.attrItemList[1]:RefreshUI(var_8_1.atk_ratio[var_8_3], var_8_1.atk_ratio[var_8_2], 1, true)
-	arg_8_0.attrItemList[2]:RefreshUI(var_8_1.arm_ratio[var_8_3], var_8_1.arm_ratio[var_8_2], 2, true)
-	arg_8_0.attrItemList[3]:RefreshUI(var_8_1.sta_ratio[var_8_3], var_8_1.sta_ratio[var_8_2], 3, true)
+	slot0.attrItemList[1]:RefreshUI(slot2.atk_ratio[slot4], slot2.atk_ratio[slot3], 1, true)
+	slot0.attrItemList[2]:RefreshUI(slot2.arm_ratio[slot4], slot2.arm_ratio[slot3], 2, true)
+	slot0.attrItemList[3]:RefreshUI(slot2.sta_ratio[slot4], slot2.sta_ratio[slot3], 3, true)
 
-	local var_8_4, var_8_5 = SurpassTools.GetStarUpAttrShowDesc(var_8_1, arg_8_0.starID)
+	slot5, slot6 = SurpassTools.GetStarUpAttrShowDesc(slot2, slot0.starID)
+	slot0.specialtextText_.text = slot6
 
-	arg_8_0.specialtextText_.text = var_8_5
-
-	if var_8_5 ~= "" then
-		SetActive(arg_8_0.specialnodeGo_, true)
+	if slot6 ~= "" then
+		SetActive(slot0.specialnodeGo_, true)
 	else
-		SetActive(arg_8_0.specialnodeGo_, false)
+		SetActive(slot0.specialnodeGo_, false)
 	end
 end
 
-function var_0_0.Dispose(arg_9_0)
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.attrItemList) do
-		if iter_9_1 then
-			iter_9_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.attrItemList) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

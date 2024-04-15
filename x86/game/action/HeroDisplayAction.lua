@@ -1,5 +1,5 @@
 return {
-	SetDefaultHeroExpression = function(arg_1_0, arg_1_1)
-		HeroDisplayData:InitPreset(arg_1_0, arg_1_1)
+	SetDefaultHeroExpression = function (slot0, slot1)
+		HeroDisplayData:InitPreset(slot0, slot1)
 	end
 }

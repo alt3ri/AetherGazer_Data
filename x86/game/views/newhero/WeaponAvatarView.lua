@@ -1,189 +1,178 @@
-local var_0_0 = class("WeaponAvatarView", ReduxView)
-local var_0_1 = {
+slot0 = class("WeaponAvatarView", ReduxView)
+slot1 = {
 	weapon = 2,
 	hero = 1
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0.playable_ = arg_3_0:FindCom(typeof(PlayableDirector), "")
-	arg_3_0.backGo_ = arg_3_0:FindGo("back")
+function slot0.InitUI(slot0)
+	slot0.playable_ = slot0:FindCom(typeof(PlayableDirector), "")
+	slot0.backGo_ = slot0:FindGo("back")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	if arg_4_0.backGo_ then
-		arg_4_0:AddDragListener(arg_4_0.backGo_, function()
-			if arg_4_0.weaponModel_ and arg_4_0.rotateNode_ then
-				arg_4_0.startRot_ = arg_4_0.rotateNode_.localEulerAngles
+function slot0.AddUIListener(slot0)
+	if slot0.backGo_ then
+		slot0:AddDragListener(slot0.backGo_, function ()
+			if uv0.weaponModel_ and uv0.rotateNode_ then
+				uv0.startRot_ = uv0.rotateNode_.localEulerAngles
 			else
-				arg_4_0.startRot_ = Vector3.zero
+				uv0.startRot_ = Vector3.zero
 			end
 
-			arg_4_0.lastRotateY_ = nil
-			arg_4_0.lastDeltaX_ = 0
-		end, function(arg_6_0, arg_6_1)
-			if arg_4_0.weaponModel_ and arg_4_0.rotateNode_ then
-				local var_6_0 = arg_4_0.lastRotateY_ or arg_4_0.rotateNode_.localEulerAngles.y
-				local var_6_1 = var_6_0 + (arg_6_0 - (arg_4_0.lastDeltaX_ or 0)) * HeroConst.ROTATE_RATIO - var_6_0
-				local var_6_2 = var_6_1
+			uv0.lastRotateY_ = nil
+			uv0.lastDeltaX_ = 0
+		end, function (slot0, slot1)
+			if uv0.weaponModel_ and uv0.rotateNode_ then
+				slot2 = uv0.lastRotateY_ or uv0.rotateNode_.localEulerAngles.y
+				slot4 = slot2 + (slot0 - (uv0.lastDeltaX_ or 0)) * HeroConst.ROTATE_RATIO - slot2
+				slot5 = slot4
 
-				if var_6_1 < -HeroConst.MAX_RORATE_ANGLE then
-					var_6_2 = -HeroConst.MAX_RORATE_ANGLE
-				elseif var_6_1 > HeroConst.MAX_RORATE_ANGLE then
-					var_6_2 = HeroConst.MAX_RORATE_ANGLE
+				if slot4 < -HeroConst.MAX_RORATE_ANGLE then
+					slot5 = -HeroConst.MAX_RORATE_ANGLE
+				elseif HeroConst.MAX_RORATE_ANGLE < slot4 then
+					slot5 = HeroConst.MAX_RORATE_ANGLE
 				end
 
-				arg_4_0.lastRotateY_ = var_6_0 + var_6_2
-				arg_4_0.lastDeltaX_ = arg_6_0
-				arg_4_0.rotateNode_.localRotation = Quaternion.RotateTowards(arg_4_0.rotateNode_.localRotation, Quaternion.Euler(arg_4_0.startRot_.x, var_6_0 + var_6_2, arg_4_0.startRot_.z), HeroConst.MAX_RORATE_ANGLE)
+				uv0.lastRotateY_ = slot2 + slot5
+				uv0.lastDeltaX_ = slot0
+				uv0.rotateNode_.localRotation = Quaternion.RotateTowards(uv0.rotateNode_.localRotation, Quaternion.Euler(uv0.startRot_.x, slot2 + slot5, uv0.startRot_.z), HeroConst.MAX_RORATE_ANGLE)
 			end
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_7_0, arg_7_1)
-	arg_7_0.type_ = arg_7_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.type_ = slot1
 
-	arg_7_0:InitBackScene(arg_7_1)
+	slot0:InitBackScene(slot1)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	if arg_8_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_8_0.backGround_, ASSET_TYPE.SCENE)
+function slot0.OnExit(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 	end
 
-	arg_8_0:Finish()
+	slot0:Finish()
 end
 
-function var_0_0.SetWeaponID(arg_9_0, arg_9_1)
-	local var_9_0 = SkinCfg[arg_9_1].id
-
-	if arg_9_0.weaponID_ == var_9_0 then
+function slot0.SetWeaponID(slot0, slot1)
+	if slot0.weaponID_ == SkinCfg[slot1].id then
 		return
 	end
 
-	arg_9_0:Finish()
-	arg_9_0:LoadModel(var_9_0)
+	slot0:Finish()
+	slot0:LoadModel(slot2)
 
-	arg_9_0.weaponID_ = var_9_0
+	slot0.weaponID_ = slot2
 end
 
-function var_0_0.ShowWeaponModel(arg_10_0, arg_10_1)
-	if arg_10_0.weaponModel_ then
-		SetActive(arg_10_0.weaponModel_, arg_10_1)
+function slot0.ShowWeaponModel(slot0, slot1)
+	if slot0.weaponModel_ then
+		SetActive(slot0.weaponModel_, slot1)
 	end
 
-	SetActive(arg_10_0.backGo_, arg_10_1)
+	SetActive(slot0.backGo_, slot1)
 end
 
-function var_0_0.InitBackScene(arg_11_0, arg_11_1)
-	if arg_11_1 == var_0_1.hero then
+function slot0.InitBackScene(slot0, slot1)
+	if slot1 == uv0.hero then
 		return
 	end
 
-	local var_11_0 = "UI/Common/BackgroundQuad"
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_11_0.backGround_ = manager.resourcePool:Get(var_11_0, ASSET_TYPE.SCENE)
-	arg_11_0.backGroundTrs_ = arg_11_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_11_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
+	slot3, slot4 = nil
 
-	local var_11_1
-	local var_11_2
-
-	if arg_11_1 == var_0_1.weapon then
-		var_11_1 = GameDisplayCfg.weapon_background_pos.value
-		var_11_2 = CameraCfg.weapon.pictureName
-	elseif arg_11_1 == var_0_1.hero then
-		var_11_1 = GameDisplayCfg.hero_modelld_background_pos.value
-		var_11_2 = CameraCfg.hero.pictureName
+	if slot1 == uv0.weapon then
+		slot3 = GameDisplayCfg.weapon_background_pos.value
+		slot4 = CameraCfg.weapon.pictureName
+	elseif slot1 == uv0.hero then
+		slot3 = GameDisplayCfg.hero_modelld_background_pos.value
+		slot4 = CameraCfg.hero.pictureName
 	end
 
-	arg_11_0.backGroundTrs_.localPosition = Vector3(var_11_1[1], var_11_1[2], var_11_1[3])
-	arg_11_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-	arg_11_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. var_11_2)
+	slot0.backGroundTrs_.localPosition = Vector3(slot3[1], slot3[2], slot3[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. slot4)
 end
 
-function var_0_0.Finish(arg_12_0)
-	if arg_12_0.animator_ then
-		if arg_12_0.playable_ then
-			arg_12_0.playable_:Stop()
+function slot0.Finish(slot0)
+	if slot0.animator_ then
+		if slot0.playable_ then
+			slot0.playable_:Stop()
 		end
 
-		local var_12_0 = arg_12_0.animator_.gameObject:GetComponent("LipSync")
-
-		if var_12_0 then
-			var_12_0:ResetEmotion(0)
+		if slot0.animator_.gameObject:GetComponent("LipSync") then
+			slot1:ResetEmotion(0)
 		end
 	end
 
-	arg_12_0.weaponID_ = nil
+	slot0.weaponID_ = nil
 
-	if arg_12_0.weaponModel_ then
-		manager.resourcePool:DestroyOrReturn(arg_12_0.weaponModel_, ASSET_TYPE.WEAPON)
+	if slot0.weaponModel_ then
+		manager.resourcePool:DestroyOrReturn(slot0.weaponModel_, ASSET_TYPE.WEAPON)
 
-		arg_12_0.weaponModel_ = nil
-		arg_12_0.animator_ = nil
-		arg_12_0.actionTimer_ = nil
-		arg_12_0.actioning_ = false
-		arg_12_0.weapomNode_ = nil
-		arg_12_0.weapomNode2_ = nil
-		arg_12_0.weapomNode3_ = nil
+		slot0.weaponModel_ = nil
+		slot0.animator_ = nil
+		slot0.actionTimer_ = nil
+		slot0.actioning_ = false
+		slot0.weapomNode_ = nil
+		slot0.weapomNode2_ = nil
+		slot0.weapomNode3_ = nil
 	end
 end
 
-function var_0_0.InitModel(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_0.weaponModel_ = arg_13_1
+function slot0.InitModel(slot0, slot1, slot2)
+	slot0.weaponModel_ = slot1
+	slot3 = HeroCfg[slot2]
+	slot0.animator_ = slot0:FindCom(typeof(Animator), "", slot0.weaponModel_.transform)
 
-	local var_13_0 = HeroCfg[arg_13_2]
-
-	arg_13_0.animator_ = arg_13_0:FindCom(typeof(Animator), "", arg_13_0.weaponModel_.transform)
-
-	if arg_13_0.animator_ == nil then
-		-- block empty
+	if slot0.animator_ == nil then
+		-- Nothing
 	end
 
-	arg_13_0.rotateNode_ = arg_13_0.weaponModel_.transform
-	arg_13_0.rotateNode_.localEulerAngles = Vector3.zero
+	slot0.rotateNode_ = slot0.weaponModel_.transform
+	slot0.rotateNode_.localEulerAngles = Vector3.zero
 end
 
-function var_0_0.LoadModel(arg_14_0, arg_14_1)
-	local var_14_0 = SkinCfg[arg_14_1]
-	local var_14_1 = manager.resourcePool:Get("Weapon/" .. var_14_0.weapon_modelId, ASSET_TYPE.WEAPON)
-	local var_14_2
-	local var_14_3
+function slot0.LoadModel(slot0, slot1)
+	slot3 = manager.resourcePool:Get("Weapon/" .. SkinCfg[slot1].weapon_modelId, ASSET_TYPE.WEAPON)
+	slot4, slot5 = nil
 
-	if arg_14_0.type_ == 1 then
-		var_14_2 = GameDisplayCfg.weapon_pos1.value
-		var_14_3 = GameDisplayCfg.weapon_rot1.value
-	elseif arg_14_0.type_ == 2 then
-		var_14_2 = GameDisplayCfg.weapon_pos1.value
-		var_14_3 = GameDisplayCfg.weapon_rot1.value
+	if slot0.type_ == 1 then
+		slot4 = GameDisplayCfg.weapon_pos1.value
+		slot5 = GameDisplayCfg.weapon_rot1.value
+	elseif slot0.type_ == 2 then
+		slot4 = GameDisplayCfg.weapon_pos1.value
+		slot5 = GameDisplayCfg.weapon_rot1.value
 	end
 
-	var_14_1.transform.localPosition = Vector3(var_14_2[1], var_14_2[2], var_14_2[3])
-	var_14_1.transform.localEulerAngles = Vector3(var_14_3[1], var_14_3[2], var_14_3[3])
-	var_14_1.transform.localScale = Vector3(1, 1, 1)
+	slot3.transform.localPosition = Vector3(slot4[1], slot4[2], slot4[3])
+	slot3.transform.localEulerAngles = Vector3(slot5[1], slot5[2], slot5[3])
+	slot3.transform.localScale = Vector3(1, 1, 1)
 
-	arg_14_0:InitModel(var_14_1, var_14_0.id)
+	slot0:InitModel(slot3, slot2.id)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
-	arg_15_0:Finish()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:Finish()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

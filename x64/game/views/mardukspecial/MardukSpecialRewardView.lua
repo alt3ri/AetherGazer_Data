@@ -1,88 +1,86 @@
-local var_0_0 = class("MardukSpecialRewardView", ReduxView)
+slot0 = class("MardukSpecialRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/special/MardukSpecialRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uilistGo_, MardukSpecialRewardItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, MardukSpecialRewardItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.activityIds_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.activityIds_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	arg_9_0:RegistEventListener(MARDUK_SPECIAL_REWARD_UPDATE, function(arg_10_0)
-		arg_9_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(MARDUK_SPECIAL_REWARD_UPDATE, function (slot0)
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.OnTop(arg_11_0)
-	arg_11_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_12_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_13_0)
-	arg_13_0:ShowDefaultBar()
+function slot0.UpdateBar(slot0)
+	slot0:ShowDefaultBar()
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_14_0.cfg_ = ActivityCfg[arg_14_0.params_.activityID]
-	arg_14_0.activityIds_ = arg_14_0.cfg_.sub_activity_list
+	slot0.cfg_ = ActivityCfg[slot0.params_.activityID]
+	slot0.activityIds_ = slot0.cfg_.sub_activity_list
 
-	arg_14_0.uiList_:StartScroll(#arg_14_0.activityIds_, MardukSpecialData:GetCanGetRewardIndex(arg_14_0.params_.activityID))
-	arg_14_0:UpdateView()
+	slot0.uiList_:StartScroll(#slot0.activityIds_, MardukSpecialData:GetCanGetRewardIndex(slot0.params_.activityID))
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_15_0)
-	arg_15_0.getLabel1_.text = MardukSpecialData:GetGotRewardNum(arg_15_0.activityIds_)
-	arg_15_0.getLabel2_.text = "/" .. 3 * #arg_15_0.activityIds_
+function slot0.UpdateView(slot0)
+	slot0.getLabel1_.text = MardukSpecialData:GetGotRewardNum(slot0.activityIds_)
+	slot0.getLabel2_.text = "/" .. 3 * #slot0.activityIds_
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_17_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.uiList_ then
-		arg_18_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_18_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

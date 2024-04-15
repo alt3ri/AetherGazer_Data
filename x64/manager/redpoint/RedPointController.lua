@@ -1,227 +1,204 @@
-local var_0_0 = {}
-local var_0_1, var_0_2 = pcall(require, "bit")
+slot0 = {}
+slot1, slot2 = pcall(require, "bit")
 
-if not var_0_1 then
-	local var_0_3
-
-	var_0_3, var_0_2 = pcall(require, "bit32")
+if not slot1 then
+	slot1, slot2 = pcall(require, "bit32")
 end
 
-var_0_0.dirtyFlagIndex = {
-	[RedPointStyle.NORMAL] = var_0_2.lshift(1, 1),
-	[RedPointStyle.SHOW_NEW_TAG] = var_0_2.lshift(1, 2)
+slot0.dirtyFlagIndex = {
+	[RedPointStyle.NORMAL] = slot2.lshift(1, 1),
+	[RedPointStyle.SHOW_NEW_TAG] = slot2.lshift(1, 2)
 }
-var_0_0.StyleCsharpMap = {
+slot0.StyleCsharpMap = {
 	[RedPointStyle.None] = UIRedPointStyle.None,
 	[RedPointStyle.NORMAL] = UIRedPointStyle.Normal,
 	[RedPointStyle.SHOW_NEW_TAG] = UIRedPointStyle.New
 }
-var_0_0.StyleKeyMap = {}
+slot0.StyleKeyMap = {}
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0._groupTipDic = {}
-	arg_1_0._parentTipDic = {}
+function slot0.Init(slot0)
+	slot0._groupTipDic = {}
+	slot0._parentTipDic = {}
 
-	arg_1_0:InitData()
+	slot0:InitData()
 end
 
-function var_0_0.InitData(arg_2_0)
-	arg_2_0._tipDic = {}
-	arg_2_0._UIKeyList = {}
+function slot0.InitData(slot0)
+	slot0._tipDic = {}
+	slot0._UIKeyList = {}
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0._UIKeyList = {}
+function slot0.Dispose(slot0)
+	slot0._UIKeyList = {}
 end
 
-function var_0_0.GetKeyStyle(arg_4_0, arg_4_1)
-	return arg_4_0.StyleKeyMap[arg_4_1] or RedPointStyle.NORMAL
+function slot0.GetKeyStyle(slot0, slot1)
+	return slot0.StyleKeyMap[slot1] or RedPointStyle.NORMAL
 end
 
-function var_0_0.GetKeyStyleFlag(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_0:GetKeyStyle(arg_5_1)
-
-	return arg_5_0.dirtyFlagIndex[var_5_0] or 0
+function slot0.GetKeyStyleFlag(slot0, slot1)
+	return slot0.dirtyFlagIndex[slot0:GetKeyStyle(slot1)] or 0
 end
 
-function var_0_0.ShowRed(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_1.display
+function slot0.ShowRed(slot0, slot1, slot2)
+	slot4 = slot1.tProperty or {}
 
-	if not arg_6_1.tProperty then
-		local var_6_1 = {}
-	end
-
-	if var_6_0 == nil then
+	if slot1.display == nil then
 		print("redpoint cant find parent transform")
 
 		return
 	end
 
-	local var_6_2 = arg_6_0:GetTipFlag(arg_6_2)
-
-	if var_0_2.band(var_6_2, arg_6_0.dirtyFlagIndex[RedPointStyle.SHOW_NEW_TAG]) > 0 then
-		arg_6_0:ChangeRedStyle(arg_6_1, RedPointStyle.SHOW_NEW_TAG, nil, arg_6_2)
-	elseif var_0_2.band(var_6_2, arg_6_0.dirtyFlagIndex[RedPointStyle.NORMAL]) > 0 then
-		arg_6_0:ChangeRedStyle(arg_6_1, RedPointStyle.NORMAL, nil, arg_6_2)
+	if uv0.band(slot0:GetTipFlag(slot2), slot0.dirtyFlagIndex[RedPointStyle.SHOW_NEW_TAG]) > 0 then
+		slot0:ChangeRedStyle(slot1, RedPointStyle.SHOW_NEW_TAG, nil, slot2)
+	elseif uv0.band(slot5, slot0.dirtyFlagIndex[RedPointStyle.NORMAL]) > 0 then
+		slot0:ChangeRedStyle(slot1, RedPointStyle.NORMAL, nil, slot2)
 	else
-		arg_6_0:ChangeRedStyle(arg_6_1, RedPointStyle.None, nil, arg_6_2)
+		slot0:ChangeRedStyle(slot1, RedPointStyle.None, nil, slot2)
 	end
 end
 
-function var_0_0.PreShowRed(arg_7_0, arg_7_1, arg_7_2)
-	if not arg_7_2 then
+function slot0.PreShowRed(slot0, slot1, slot2)
+	if not slot2 then
 		return RedPointStyle.None
 	end
 
-	if arg_7_1.banNew and arg_7_2 == RedPointStyle.SHOW_NEW_TAG then
+	if slot1.banNew and slot2 == RedPointStyle.SHOW_NEW_TAG then
 		return RedPointStyle.NORMAL
 	end
 
-	return arg_7_2
+	return slot2
 end
 
-function var_0_0.ChangeRedStyle(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	local var_8_0 = arg_8_1.display
-	local var_8_1 = arg_8_1.tProperty or {}
+function slot0.ChangeRedStyle(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot7 = slot1.tProperty or {}
 
-	if isNil(var_8_0) then
-		Debug.LogError("直接操作红点时出错<transform为空>,尝试显示Key\n(请检查transform为空,或者未解绑红点): " .. (arg_8_4 or "nil"))
+	if isNil(slot1.display) then
+		Debug.LogError("直接操作红点时出错<transform为空>,尝试显示Key\n(请检查transform为空,或者未解绑红点): " .. (slot4 or "nil"))
 
 		return
 	end
 
-	local var_8_2 = var_8_0:Find("notice_img")
-	local var_8_3
+	slot9 = nil
 
-	if not var_8_2 then
-		local var_8_4 = Asset.Load("Widget/System/Com_dynamic/notice_img")
-
-		if var_8_4 == nil then
+	if not slot6:Find("notice_img") then
+		if Asset.Load("Widget/System/Com_dynamic/notice_img") == nil then
 			print("redpoint cant find current CommonNotice prefab")
 
 			return
 		end
 
-		var_8_2 = Object.Instantiate(var_8_4, var_8_0)
-		var_8_3 = var_8_2:GetComponent(typeof(UIRedPoint))
-		var_8_2.name = "notice_img"
+		slot8 = Object.Instantiate(slot10, slot6)
+		slot9 = slot8:GetComponent(typeof(UIRedPoint))
+		slot8.name = "notice_img"
 	else
-		var_8_3 = var_8_2:GetComponent(typeof(UIRedPoint))
+		slot9 = slot8:GetComponent(typeof(UIRedPoint))
 	end
 
-	if var_8_3 then
-		var_8_3:ShowRed(arg_8_0.StyleCsharpMap[arg_8_0:PreShowRed(var_8_1, arg_8_2)])
-		var_8_3:SetDebugName(arg_8_4 or "NULL_KEY")
+	if slot9 then
+		slot9:ShowRed(slot0.StyleCsharpMap[slot0:PreShowRed(slot7, slot2)])
+		slot9:SetDebugName(slot4 or "NULL_KEY")
 
-		local var_8_5 = var_8_1.x
-		local var_8_6 = var_8_1.y
-		local var_8_7 = var_8_1.scaleX
-		local var_8_8 = var_8_1.scaleY
+		slot11 = slot7.y
+		slot12 = slot7.scaleX
+		slot13 = slot7.scaleY
 
-		if var_8_5 and var_8_6 then
-			var_8_3:SetPosition(var_8_5, var_8_6)
+		if slot7.x and slot11 then
+			slot9:SetPosition(slot10, slot11)
 		else
-			if var_8_5 then
-				var_8_3:SetPositionAxis(var_8_5, 1)
+			if slot10 then
+				slot9:SetPositionAxis(slot10, 1)
 			end
 
-			if var_8_6 then
-				var_8_3:SetPositionAxis(var_8_6, 2)
+			if slot11 then
+				slot9:SetPositionAxis(slot11, 2)
 			end
 		end
 
-		if var_8_7 and var_8_8 then
-			var_8_3:SetScale(var_8_7, var_8_8)
+		if slot12 and slot13 then
+			slot9:SetScale(slot12, slot13)
 		else
-			if var_8_7 then
-				var_8_3:SetScale(var_8_7, 1)
+			if slot12 then
+				slot9:SetScale(slot12, 1)
 			end
 
-			if var_8_8 then
-				var_8_3:SetScale(var_8_8, 2)
+			if slot13 then
+				slot9:SetScale(slot13, 2)
 			end
 		end
 	else
-		Debug.LogError("是红点,但是没有绑定UIRePoint " .. var_8_0.name)
+		Debug.LogError("是红点,但是没有绑定UIRePoint " .. slot6.name)
 
-		if arg_8_5 then
-			var_8_2.gameObject:SetActive(true)
+		if slot5 then
+			slot8.gameObject:SetActive(true)
 		else
-			var_8_2.gameObject:SetActive(false)
+			slot8.gameObject:SetActive(false)
 		end
 	end
 end
 
-function var_0_0.SetKeyStyle(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.StyleKeyMap[arg_9_1] = arg_9_2 or RedPointStyle.NORMAL
+function slot0.SetKeyStyle(slot0, slot1, slot2)
+	slot0.StyleKeyMap[slot1] = slot2 or RedPointStyle.NORMAL
 end
 
-function var_0_0.setTip(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	local var_10_0 = arg_10_1
+function slot0.setTip(slot0, slot1, slot2, slot3)
+	slot4 = slot1
 
-	if arg_10_3 and arg_10_3 ~= RedPointStyle.None and arg_10_3 ~= RedPointStyle.NORMAL then
-		var_10_0 = string.format("%s_REDSTYLE_DECORATOR_%s", arg_10_1, arg_10_3)
-
-		arg_10_0:appendToGroup(arg_10_1, var_10_0, arg_10_3)
+	if slot3 and slot3 ~= RedPointStyle.None and slot3 ~= RedPointStyle.NORMAL then
+		slot0:appendToGroup(slot1, string.format("%s_REDSTYLE_DECORATOR_%s", slot1, slot3), slot3)
 	end
 
-	local var_10_1 = 0
+	slot5 = 0
 
-	if arg_10_2 == (arg_10_0._tipDic[var_10_0] == nil and 0 or arg_10_0._tipDic[var_10_0]) then
+	if slot2 == (slot0._tipDic[slot4] == nil and 0 or slot0._tipDic[slot4]) then
 		return
 	end
 
-	arg_10_0._tipDic[var_10_0] = arg_10_2
+	slot0._tipDic[slot4] = slot2
 
-	arg_10_0:updateKey(var_10_0)
+	slot0:updateKey(slot4)
 end
 
-function var_0_0.getTipValue(arg_11_0, arg_11_1)
-	local var_11_0 = arg_11_0._tipDic[arg_11_1] or 0
-	local var_11_1 = arg_11_0._groupTipDic[arg_11_1]
+function slot0.getTipValue(slot0, slot1)
+	slot2 = slot0._tipDic[slot1] or 0
 
-	if var_11_1 then
-		for iter_11_0, iter_11_1 in pairs(var_11_1) do
-			var_11_0 = var_11_0 + arg_11_0:getTipValue(iter_11_1)
+	if slot0._groupTipDic[slot1] then
+		for slot7, slot8 in pairs(slot3) do
+			slot2 = slot2 + slot0:getTipValue(slot8)
 		end
 	end
 
-	return var_11_0
+	return slot2
 end
 
-function var_0_0.GetTipFlag(arg_12_0, arg_12_1)
-	local var_12_0 = arg_12_0._tipDic[arg_12_1] or 0
-	local var_12_1 = 0
+function slot0.GetTipFlag(slot0, slot1)
+	slot3 = 0
 
-	if var_12_0 > 0 then
-		var_12_1 = arg_12_0:GetKeyStyleFlag(arg_12_1)
+	if (slot0._tipDic[slot1] or 0) > 0 then
+		slot3 = slot0:GetKeyStyleFlag(slot1)
 	end
 
-	local var_12_2 = arg_12_0._groupTipDic[arg_12_1]
-
-	if var_12_2 then
-		for iter_12_0, iter_12_1 in pairs(var_12_2) do
-			var_12_1 = var_0_2.bor(var_12_1, arg_12_0:GetTipFlag(iter_12_1))
+	if slot0._groupTipDic[slot1] then
+		for slot8, slot9 in pairs(slot4) do
+			slot3 = uv0.bor(slot3, slot0:GetTipFlag(slot9))
 		end
 	end
 
-	return var_12_1
+	return slot3
 end
 
-function var_0_0.getchildKeys(arg_13_0, arg_13_1)
-	return arg_13_0._groupTipDic[arg_13_1]
+function slot0.getchildKeys(slot0, slot1)
+	return slot0._groupTipDic[slot1]
 end
 
-function var_0_0.getTipBoolean(arg_14_0, arg_14_1)
-	if arg_14_0._tipDic[arg_14_1] and arg_14_0._tipDic[arg_14_1] > 0 then
+function slot0.getTipBoolean(slot0, slot1)
+	if slot0._tipDic[slot1] and slot0._tipDic[slot1] > 0 then
 		return true
 	end
 
-	local var_14_0 = arg_14_0._groupTipDic[arg_14_1]
-
-	if var_14_0 then
-		for iter_14_0, iter_14_1 in pairs(var_14_0) do
-			if arg_14_0:getTipBoolean(iter_14_1) == true then
+	if slot0._groupTipDic[slot1] then
+		for slot6, slot7 in pairs(slot2) do
+			if slot0:getTipBoolean(slot7) == true then
 				return true
 			end
 		end
@@ -230,188 +207,180 @@ function var_0_0.getTipBoolean(arg_14_0, arg_14_1)
 	return false
 end
 
-function var_0_0.addGroup(arg_15_0, arg_15_1, arg_15_2, arg_15_3)
-	if arg_15_3 == nil then
-		arg_15_3 = false
+function slot0.addGroup(slot0, slot1, slot2, slot3)
+	if slot3 == nil then
+		slot3 = false
 	end
 
-	if arg_15_0._groupTipDic[arg_15_1] == nil then
-		arg_15_0._groupTipDic[arg_15_1] = arg_15_2
+	if slot0._groupTipDic[slot1] == nil then
+		slot0._groupTipDic[slot1] = slot2
 
-		for iter_15_0, iter_15_1 in ipairs(arg_15_2) do
-			arg_15_0._parentTipDic[iter_15_1] = arg_15_0._parentTipDic[iter_15_1] or {}
+		for slot7, slot8 in ipairs(slot2) do
+			slot0._parentTipDic[slot8] = slot0._parentTipDic[slot8] or {}
 
-			table.insert(arg_15_0._parentTipDic[iter_15_1], arg_15_1)
+			table.insert(slot0._parentTipDic[slot8], slot1)
 		end
 	else
-		if arg_15_3 == true then
-			if arg_15_2 then
-				for iter_15_2, iter_15_3 in ipairs(arg_15_2) do
-					arg_15_0._parentTipDic[iter_15_3] = arg_15_0._parentTipDic[iter_15_3] or {}
+		if slot3 == true then
+			if slot2 then
+				for slot7, slot8 in ipairs(slot2) do
+					slot0._parentTipDic[slot8] = slot0._parentTipDic[slot8] or {}
 
-					if arg_15_0:IsInTable(arg_15_0._parentTipDic[iter_15_3], arg_15_1) == true then
-						table.remove(arg_15_0._parentTipDic[iter_15_3], iter_15_2)
+					if slot0:IsInTable(slot0._parentTipDic[slot8], slot1) == true then
+						table.remove(slot0._parentTipDic[slot8], slot7)
 					end
 				end
 			end
 
-			arg_15_0._groupTipDic[arg_15_1] = {}
+			slot0._groupTipDic[slot1] = {}
 		end
 
-		local var_15_0 = arg_15_0._groupTipDic[arg_15_1]
+		slot4 = slot0._groupTipDic[slot1]
 
-		for iter_15_4, iter_15_5 in pairs(arg_15_2) do
-			if arg_15_0:IsInTable(var_15_0, iter_15_5) == false then
-				table.insert(var_15_0, iter_15_5)
+		for slot8, slot9 in pairs(slot2) do
+			if slot0:IsInTable(slot4, slot9) == false then
+				table.insert(slot4, slot9)
 			end
 		end
 
-		for iter_15_6, iter_15_7 in ipairs(arg_15_2) do
-			arg_15_0._parentTipDic[iter_15_7] = arg_15_0._parentTipDic[iter_15_7] or {}
+		for slot8, slot9 in ipairs(slot2) do
+			slot0._parentTipDic[slot9] = slot0._parentTipDic[slot9] or {}
 
-			if arg_15_0:IsInTable(arg_15_0._parentTipDic[iter_15_7], arg_15_1) == false then
-				table.insert(arg_15_0._parentTipDic[iter_15_7], arg_15_1)
+			if slot0:IsInTable(slot0._parentTipDic[slot9], slot1) == false then
+				table.insert(slot0._parentTipDic[slot9], slot1)
 			end
 		end
 	end
 
-	arg_15_0:updateRedPoint(arg_15_1)
+	slot0:updateRedPoint(slot1)
 end
 
-function var_0_0.appendToGroup(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	local var_16_0 = arg_16_0._groupTipDic[arg_16_1] or {}
+function slot0.appendToGroup(slot0, slot1, slot2, slot3)
+	slot4 = slot0._groupTipDic[slot1] or {}
+	slot0._groupTipDic[slot1] = slot4
 
-	arg_16_0._groupTipDic[arg_16_1] = var_16_0
+	if not slot0:IsInTable(slot4, slot2) then
+		table.insert(slot4, slot2)
 
-	if not arg_16_0:IsInTable(var_16_0, arg_16_2) then
-		table.insert(var_16_0, arg_16_2)
+		slot0._parentTipDic[slot2] = slot0._parentTipDic[slot2] or {}
 
-		arg_16_0._parentTipDic[arg_16_2] = arg_16_0._parentTipDic[arg_16_2] or {}
+		table.insert(slot0._parentTipDic[slot2], slot1)
 
-		table.insert(arg_16_0._parentTipDic[arg_16_2], arg_16_1)
-
-		if arg_16_3 then
-			arg_16_0:SetKeyStyle(arg_16_2, arg_16_3)
+		if slot3 then
+			slot0:SetKeyStyle(slot2, slot3)
 		end
 	end
 end
 
-function var_0_0.delGroup(arg_17_0, arg_17_1, arg_17_2)
-	if arg_17_0._groupTipDic[arg_17_1] == nil then
+function slot0.delGroup(slot0, slot1, slot2)
+	if slot0._groupTipDic[slot1] == nil then
 		return
 	end
 
-	local var_17_0 = arg_17_0._groupTipDic[arg_17_1]
+	slot3 = slot0._groupTipDic[slot1]
 
-	for iter_17_0, iter_17_1 in pairs(arg_17_2) do
-		if arg_17_0:IsInTable(var_17_0, iter_17_1) then
-			table.remove(var_17_0, iter_17_0)
+	for slot7, slot8 in pairs(slot2) do
+		if slot0:IsInTable(slot3, slot8) then
+			table.remove(slot3, slot7)
 		end
 	end
 
-	for iter_17_2, iter_17_3 in ipairs(arg_17_2) do
-		arg_17_0._parentTipDic[iter_17_3] = arg_17_0._parentTipDic[iter_17_3] or {}
+	for slot7, slot8 in ipairs(slot2) do
+		slot0._parentTipDic[slot8] = slot0._parentTipDic[slot8] or {}
 
-		if arg_17_0:IsInTable(arg_17_0._parentTipDic[iter_17_3], arg_17_1) then
-			table.remove(arg_17_0._parentTipDic[iter_17_3], iter_17_2)
+		if slot0:IsInTable(slot0._parentTipDic[slot8], slot1) then
+			table.remove(slot0._parentTipDic[slot8], slot7)
 		end
 	end
 
-	arg_17_0:updateRedPoint(arg_17_1)
+	slot0:updateRedPoint(slot1)
 end
 
-function var_0_0.updateKey(arg_18_0, arg_18_1)
-	arg_18_0:updateRedPoint(arg_18_1)
+function slot0.updateKey(slot0, slot1)
+	slot0:updateRedPoint(slot1)
 
-	local var_18_0 = arg_18_0._parentTipDic[arg_18_1] or {}
-
-	for iter_18_0, iter_18_1 in ipairs(var_18_0) do
-		arg_18_0:updateKey(iter_18_1)
+	for slot6, slot7 in ipairs(slot0._parentTipDic[slot1] or {}) do
+		slot0:updateKey(slot7)
 	end
 
-	manager.notify:Invoke(RED_POINT_UPDATE, arg_18_1)
+	manager.notify:Invoke(RED_POINT_UPDATE, slot1)
 end
 
-function var_0_0.updateRedPoint(arg_19_0, arg_19_1)
-	if arg_19_0._UIKeyList[arg_19_1] ~= nil then
-		local var_19_0 = arg_19_0._UIKeyList[arg_19_1]
-
-		for iter_19_0, iter_19_1 in pairs(var_19_0) do
-			arg_19_0:ShowRed(iter_19_1, arg_19_1)
+function slot0.updateRedPoint(slot0, slot1)
+	if slot0._UIKeyList[slot1] ~= nil then
+		for slot6, slot7 in pairs(slot0._UIKeyList[slot1]) do
+			slot0:ShowRed(slot7, slot1)
 		end
 	end
 end
 
-function var_0_0.bindUIandKey(arg_20_0, arg_20_1, arg_20_2, arg_20_3)
-	if arg_20_1 == nil then
-		Debug.LogError("红点绑定Key时出错<transform为空>: " .. arg_20_2)
+function slot0.bindUIandKey(slot0, slot1, slot2, slot3)
+	if slot1 == nil then
+		Debug.LogError("红点绑定Key时出错<transform为空>: " .. slot2)
 
 		return
 	end
 
-	arg_20_0:unbindUIandKey(arg_20_1)
+	slot0:unbindUIandKey(slot1)
 
-	local var_20_0 = {}
+	slot4 = {}
 
-	if arg_20_0._UIKeyList[arg_20_2] == nil then
-		table.insert(var_20_0, {
-			display = arg_20_1,
-			tProperty = arg_20_3
+	if slot0._UIKeyList[slot2] == nil then
+		table.insert(slot4, {
+			display = slot1,
+			tProperty = slot3
 		})
 
-		arg_20_0._UIKeyList[arg_20_2] = var_20_0
+		slot0._UIKeyList[slot2] = slot4
 	else
-		local var_20_1 = arg_20_0._UIKeyList[arg_20_2]
-
-		table.insert(var_20_1, {
-			display = arg_20_1,
-			tProperty = arg_20_3
+		table.insert(slot0._UIKeyList[slot2], {
+			display = slot1,
+			tProperty = slot3
 		})
 	end
 
-	arg_20_0:updateRedPoint(arg_20_2)
+	slot0:updateRedPoint(slot2)
 end
 
-function var_0_0.unbindUIandKey(arg_21_0, arg_21_1, arg_21_2)
-	if arg_21_1 == nil then
+function slot0.unbindUIandKey(slot0, slot1, slot2)
+	if slot1 == nil then
 		return
 	end
 
-	if arg_21_2 then
-		local var_21_0 = -1
-		local var_21_1 = arg_21_0._UIKeyList[arg_21_2]
+	if slot2 then
+		slot3 = -1
 
-		if var_21_1 then
-			for iter_21_0, iter_21_1 in pairs(var_21_1) do
-				if iter_21_1.display == arg_21_1 then
-					var_21_0 = iter_21_0
+		if slot0._UIKeyList[slot2] then
+			for slot8, slot9 in pairs(slot4) do
+				if slot9.display == slot1 then
+					slot3 = slot8
 
 					break
 				end
 			end
 
-			if var_21_0 ~= -1 then
-				arg_21_0:ShowRed(var_21_1[var_21_0], arg_21_2)
-				table.remove(var_21_1, var_21_0)
+			if slot3 ~= -1 then
+				slot0:ShowRed(slot4[slot3], slot2)
+				table.remove(slot4, slot3)
 			end
 		else
-			print("unbindUIandKey key is not exist! key = " .. arg_21_2)
+			print("unbindUIandKey key is not exist! key = " .. slot2)
 		end
 	else
-		for iter_21_2, iter_21_3 in pairs(arg_21_0._UIKeyList) do
-			local var_21_2 = -1
+		for slot6, slot7 in pairs(slot0._UIKeyList) do
+			slot8 = -1
 
-			for iter_21_4, iter_21_5 in pairs(iter_21_3) do
-				if iter_21_5.display == arg_21_1 then
-					var_21_2 = iter_21_4
+			for slot12, slot13 in pairs(slot7) do
+				if slot13.display == slot1 then
+					slot8 = slot12
 
 					break
 				end
 			end
 
-			if var_21_2 ~= -1 then
-				arg_21_0:ShowRed(iter_21_3[var_21_2], arg_21_2)
-				table.remove(iter_21_3, var_21_2)
+			if slot8 ~= -1 then
+				slot0:ShowRed(slot7[slot8], slot2)
+				table.remove(slot7, slot8)
 
 				break
 			end
@@ -419,103 +388,90 @@ function var_0_0.unbindUIandKey(arg_21_0, arg_21_1, arg_21_2)
 	end
 end
 
-function var_0_0.IsInTable(arg_22_0, arg_22_1, arg_22_2)
-	for iter_22_0, iter_22_1 in ipairs(arg_22_1) do
-		if iter_22_1 == arg_22_2 then
-			return true, iter_22_0
+function slot0.IsInTable(slot0, slot1, slot2)
+	for slot6, slot7 in ipairs(slot1) do
+		if slot7 == slot2 then
+			return true, slot6
 		end
 	end
 
 	return false
 end
 
-function var_0_0.GetRedGraphWithKey(arg_23_0, arg_23_1)
-	if not arg_23_1 then
+function slot0.GetRedGraphWithKey(slot0, slot1)
+	if not slot1 then
 		return
 	end
 
-	local var_23_0 = {}
+	slot2 = {}
 
-	arg_23_0:FindRedRoot(arg_23_1, var_23_0)
-
-	local var_23_1 = var_23_0[1] or arg_23_1
-	local var_23_2 = {}
-	local var_23_3 = {}
-	local var_23_4 = {}
-
-	arg_23_0:GetKeyGraph(var_23_1, {
-		keysList = var_23_2,
-		keysVis = var_23_4
+	slot0:FindRedRoot(slot1, slot2)
+	slot0:GetKeyGraph(slot2[1] or slot1, {
+		keysList = {},
+		keysVis = {}
 	})
 
-	local var_23_5 = #var_23_2
-
-	for iter_23_0 = 1, var_23_5 do
-		table.insert(var_23_3, {})
+	for slot11 = 1, #slot4 do
+		table.insert({}, {})
 	end
 
-	for iter_23_1, iter_23_2 in ipairs(var_23_2) do
-		local var_23_6 = arg_23_0._groupTipDic[iter_23_2.key]
-
-		if var_23_6 then
-			for iter_23_3, iter_23_4 in pairs(var_23_6) do
-				table.insert(var_23_3[var_23_4[iter_23_2.key]], var_23_4[iter_23_4] - 1)
+	for slot11, slot12 in ipairs(slot4) do
+		if slot0._groupTipDic[slot12.key] then
+			for slot17, slot18 in pairs(slot13) do
+				table.insert(slot5[slot6[slot12.key]], slot6[slot18] - 1)
 			end
 		end
 	end
 
-	Debug.LogError("keysGraph如下: " .. table.toString(var_23_3))
-	Debug.LogError("所有的Keys: " .. table.toString(var_23_2))
+	Debug.LogError("keysGraph如下: " .. table.toString(slot5))
+	Debug.LogError("所有的Keys: " .. table.toString(slot4))
 
 	return {
 		rootIdx = 0,
 		status = true,
-		edges = var_23_3,
-		nodes = var_23_2,
-		selectNode = var_23_4[arg_23_1] - 1
+		edges = slot5,
+		nodes = slot4,
+		selectNode = slot6[slot1] - 1
 	}
 end
 
-function var_0_0.FindRedRoot(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = arg_24_1
-	local var_24_1 = arg_24_0._parentTipDic[arg_24_1]
+function slot0.FindRedRoot(slot0, slot1, slot2)
+	slot3 = slot1
 
-	if not var_24_1 or #var_24_1 == 0 then
-		arg_24_2[arg_24_1] = true
+	if not slot0._parentTipDic[slot1] or #slot4 == 0 then
+		slot2[slot1] = true
 	else
-		for iter_24_0, iter_24_1 in ipairs(arg_24_0._parentTipDic[arg_24_1]) do
-			arg_24_0:FindRedRoot(iter_24_1, arg_24_2)
+		for slot8, slot9 in ipairs(slot0._parentTipDic[slot1]) do
+			slot0:FindRedRoot(slot9, slot2)
 		end
 	end
 end
 
-function var_0_0.GetKeyGraph(arg_25_0, arg_25_1, arg_25_2)
-	if not arg_25_2.keysVis[arg_25_1] then
-		table.insert(arg_25_2.keysList, {
-			key = tostring(arg_25_1),
-			value = arg_25_0:getTipValue(arg_25_1)
+function slot0.GetKeyGraph(slot0, slot1, slot2)
+	if not slot2.keysVis[slot1] then
+		table.insert(slot2.keysList, {
+			key = tostring(slot1),
+			value = slot0:getTipValue(slot1)
 		})
 
-		arg_25_2.keysVis[arg_25_1] = #arg_25_2.keysList
+		slot2.keysVis[slot1] = #slot2.keysList
 
-		local var_25_0 = arg_25_0._groupTipDic[arg_25_1]
-
-		if var_25_0 then
-			for iter_25_0, iter_25_1 in pairs(var_25_0) do
-				arg_25_0:GetKeyGraph(iter_25_1, arg_25_2)
+		if slot0._groupTipDic[slot1] then
+			for slot7, slot8 in pairs(slot3) do
+				slot0:GetKeyGraph(slot8, slot2)
 			end
 		end
 	end
 end
 
-function var_0_0.GetAllKey(arg_26_0)
-	local var_26_0 = {}
+function slot0.GetAllKey(slot0)
+	slot1 = {}
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0._groupTipDic) do
-		table.insert(var_26_0, iter_26_0)
+	for slot5, slot6 in pairs(slot0._groupTipDic) do
+		table.insert(slot1, slot5)
 	end
 
-	return var_26_0
+	return slot1
 end
 
-return var_0_0
+return slot0

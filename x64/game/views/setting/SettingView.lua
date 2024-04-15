@@ -1,21 +1,20 @@
-local var_0_0 = class("SettingView2", ReduxView)
+slot0 = class("SettingView2", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Setting/SettingUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.typeNameS_ = {
+	slot0.typeNameS_ = {
 		polyhedronAddition = 9,
 		intelligence = 2,
 		remind = 9,
@@ -29,204 +28,167 @@ function var_0_0.InitUI(arg_4_0)
 		operation = 8,
 		polyhedronTeamInfo = 10
 	}
-	arg_4_0.toggle_ = {}
-	arg_4_0.toggleSelect_ = {}
-	arg_4_0.toggleUnSelect_ = {}
+	slot0.toggle_ = {}
+	slot0.toggleSelect_ = {}
+	slot0.toggleUnSelect_ = {}
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.typeNameS_) do
-		arg_4_0.toggle_[iter_4_0] = arg_4_0[iter_4_0 .. "Tgl_"]
-		arg_4_0.toggleUnSelect_[iter_4_0] = arg_4_0[iter_4_0 .. "UnselectGo_"]
-		arg_4_0.toggleSelect_[iter_4_0] = arg_4_0[iter_4_0 .. "SelectGo_"]
+	for slot4, slot5 in pairs(slot0.typeNameS_) do
+		slot0.toggle_[slot4] = slot0[slot4 .. "Tgl_"]
+		slot0.toggleUnSelect_[slot4] = slot0[slot4 .. "UnselectGo_"]
+		slot0.toggleSelect_[slot4] = slot0[slot4 .. "SelectGo_"]
 	end
 
-	arg_4_0.viewList_ = {}
-	arg_4_0.viewListGo_ = {}
+	slot0.viewList_ = {}
+	slot0.viewListGo_ = {}
 end
 
-function var_0_0.ChangeShowView(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_2 then
-		arg_5_0:RecordStay(arg_5_0.params_.selectType)
+function slot0.ChangeShowView(slot0, slot1, slot2)
+	if slot2 then
+		slot0:RecordStay(slot0.params_.selectType)
 
-		arg_5_0.params_.selectType = arg_5_1
+		slot0.params_.selectType = slot1
 	end
 
-	if arg_5_0.viewListGo_[arg_5_1] then
-		SetActive(arg_5_0.viewListGo_[arg_5_1], arg_5_2)
-	elseif arg_5_2 then
-		if arg_5_1 == "screen" then
-			local var_5_0 = Asset.Load("UI/Setting/GraphicSettingUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_0, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = GraphicSettingView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1])
-		elseif arg_5_1 == "intelligence" then
-			local var_5_1 = arg_5_0.params_.stageData
-
-			if var_5_1 and var_5_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
-				local var_5_2 = Asset.Load("UI/Setting/VariableSettingUI")
-
-				arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_2, arg_5_0.panelTrs_)
-				arg_5_0.viewList_[arg_5_1] = MatrixStageSettingView.New(arg_5_0.viewListGo_[arg_5_1], BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX)
-			elseif var_5_1 and (var_5_1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or var_5_1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
-				local var_5_3 = Asset.Load("UI/Setting/VariableSettingUI")
-
-				arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_3, arg_5_0.panelTrs_)
-				arg_5_0.viewList_[arg_5_1] = MatrixStageSettingView.New(arg_5_0.viewListGo_[arg_5_1], var_5_1:GetType(), var_5_1:GetActivityID())
+	if slot0.viewListGo_[slot1] then
+		SetActive(slot0.viewListGo_[slot1], slot2)
+	elseif slot2 then
+		if slot1 == "screen" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/GraphicSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = GraphicSettingView.New(slot0, slot0.viewListGo_[slot1])
+		elseif slot1 == "intelligence" then
+			if slot0.params_.stageData and slot3:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
+				slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/VariableSettingUI"), slot0.panelTrs_)
+				slot0.viewList_[slot1] = MatrixStageSettingView.New(slot0.viewListGo_[slot1], BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX)
+			elseif slot3 and (slot3:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or slot3:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
+				slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/VariableSettingUI"), slot0.panelTrs_)
+				slot0.viewList_[slot1] = MatrixStageSettingView.New(slot0.viewListGo_[slot1], slot3:GetType(), slot3:GetActivityID())
 			else
-				local var_5_4 = Asset.Load("UI/Setting/IntelligenceUI")
-
-				arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_4, arg_5_0.panelTrs_)
-				arg_5_0.viewList_[arg_5_1] = IntelligenceView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.params_)
+				slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/IntelligenceUI"), slot0.panelTrs_)
+				slot0.viewList_[slot1] = IntelligenceView.New(slot0, slot0.viewListGo_[slot1], slot0.params_)
 			end
-		elseif arg_5_1 == "sound" then
-			local var_5_5 = Asset.Load("UI/Setting/SoundSettingUI")
+		elseif slot1 == "sound" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/SoundSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = SoundSettingView.New(slot0, slot0.viewListGo_[slot1])
+		elseif slot1 == "game" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/GameSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = GameSettingView.New(slot0, slot0.viewListGo_[slot1], slot0.params_)
+		elseif slot1 == "operation" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/GameOperationSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = GameOperationSettingView.New(slot0, slot0.viewListGo_[slot1], slot0.params_)
+		elseif slot1 == "affix" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/AffixDescriptionUI"), slot0.panelTrs_)
 
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_5, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = SoundSettingView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1])
-		elseif arg_5_1 == "game" then
-			local var_5_6 = Asset.Load("UI/Setting/GameSettingUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_6, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = GameSettingView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.params_)
-		elseif arg_5_1 == "operation" then
-			local var_5_7 = Asset.Load("UI/Setting/GameOperationSettingUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_7, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = GameOperationSettingView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.params_)
-		elseif arg_5_1 == "affix" then
-			local var_5_8 = Asset.Load("UI/Setting/AffixDescriptionUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_8, arg_5_0.panelTrs_)
-
-			local var_5_9 = arg_5_0.params_.stageData
-
-			if var_5_9:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE then
-				arg_5_0.viewList_[arg_5_1] = SoloChallengeAffixDescriptionView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.dataAffix)
-			elseif var_5_9:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
-				arg_5_0.viewList_[arg_5_1] = RaceTrialAffixDescriptionView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.dataAffix)
+			if slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE then
+				slot0.viewList_[slot1] = SoloChallengeAffixDescriptionView.New(slot0, slot0.viewListGo_[slot1], slot0.dataAffix)
+			elseif slot4:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+				slot0.viewList_[slot1] = RaceTrialAffixDescriptionView.New(slot0, slot0.viewListGo_[slot1], slot0.dataAffix)
 			else
-				arg_5_0.viewList_[arg_5_1] = AffixDescriptionView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.dataAffix)
+				slot0.viewList_[slot1] = AffixDescriptionView.New(slot0, slot0.viewListGo_[slot1], slot0.dataAffix)
 			end
-		elseif arg_5_1 == "skill" then
-			local var_5_10 = Asset.Load("UI/Setting/SkillSettingUI")
+		elseif slot1 == "skill" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/SkillSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = SkillDescriptionView.New(slot0, slot0.viewListGo_[slot1], slot0.params_.stageData)
+		elseif slot1 == "artifact" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/InformationSettingUI"), slot0.panelTrs_)
 
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_10, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = SkillDescriptionView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1], arg_5_0.params_.stageData)
-		elseif arg_5_1 == "artifact" then
-			local var_5_11 = Asset.Load("UI/Setting/InformationSettingUI")
+			if slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
+				slot0.viewList_[slot1] = MatrixArtifactSettingView.New(slot0.viewListGo_[slot1], MatrixData:GetArtifactList())
+			elseif slot4:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
+				slot0.viewList_[slot1] = MatrixArtifactSettingView.New(slot0.viewListGo_[slot1], ActivityMatrixData:GetArtifactList(slot4:GetActivityID()))
+			elseif slot4:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
+				slot0.viewList_[slot1] = MatrixArtifactSettingView.New(slot0.viewListGo_[slot1], StrategyMatrixData:GetArtifactList(slot4:GetActivityID()))
+			elseif slot4:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
+				slot6 = {}
 
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_11, arg_5_0.panelTrs_)
-
-			local var_5_12 = arg_5_0.params_.stageData
-
-			if var_5_12:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
-				arg_5_0.viewList_[arg_5_1] = MatrixArtifactSettingView.New(arg_5_0.viewListGo_[arg_5_1], MatrixData:GetArtifactList())
-			elseif var_5_12:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
-				arg_5_0.viewList_[arg_5_1] = MatrixArtifactSettingView.New(arg_5_0.viewListGo_[arg_5_1], ActivityMatrixData:GetArtifactList(var_5_12:GetActivityID()))
-			elseif var_5_12:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
-				arg_5_0.viewList_[arg_5_1] = MatrixArtifactSettingView.New(arg_5_0.viewListGo_[arg_5_1], StrategyMatrixData:GetArtifactList(var_5_12:GetActivityID()))
-			elseif var_5_12:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS then
-				local var_5_13 = WarChessData:GetArtifactData()
-				local var_5_14 = {}
-
-				for iter_5_0, iter_5_1 in pairs(var_5_13) do
-					table.insert(var_5_14, {
-						id = iter_5_0
+				for slot10, slot11 in pairs(WarChessData:GetArtifactData()) do
+					table.insert(slot6, {
+						id = slot10
 					})
 				end
 
-				arg_5_0.viewList_[arg_5_1] = WarChessArtifactSettingView.New(arg_5_0.viewListGo_[arg_5_1], var_5_14)
+				slot0.viewList_[slot1] = WarChessArtifactSettingView.New(slot0.viewListGo_[slot1], slot6)
 			end
-		elseif arg_5_1 == "remind" then
-			local var_5_15 = Asset.Load("UI/Setting/RemindSettingUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_15, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = RemindSettingView.New(arg_5_0, arg_5_0.viewListGo_[arg_5_1])
-		elseif arg_5_1 == "polyhedronAddition" then
-			local var_5_16 = Asset.Load("Widget/System/PolyhedronBattle/PolyhedronSettingUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_16, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = PolyhedronAdditionSettingView.New(arg_5_0.viewListGo_[arg_5_1])
-		elseif arg_5_1 == "polyhedronTeamInfo" then
-			local var_5_17 = Asset.Load("Widget/System/PolyhedronBattle/PolyhedronRanksUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_17, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = PolyhedronTeamInfoSettingView.New(arg_5_0.viewListGo_[arg_5_1])
-		elseif arg_5_1 == "polyhedronHeroInfo" then
-			local var_5_18 = Asset.Load("Widget/System/PolyhedronBattle/PolyhedronContingentUI")
-
-			arg_5_0.viewListGo_[arg_5_1] = Object.Instantiate(var_5_18, arg_5_0.panelTrs_)
-			arg_5_0.viewList_[arg_5_1] = PolyhedronHeroInfoSettingView.New(arg_5_0.viewListGo_[arg_5_1])
+		elseif slot1 == "remind" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("UI/Setting/RemindSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = RemindSettingView.New(slot0, slot0.viewListGo_[slot1])
+		elseif slot1 == "polyhedronAddition" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("Widget/System/PolyhedronBattle/PolyhedronSettingUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = PolyhedronAdditionSettingView.New(slot0.viewListGo_[slot1])
+		elseif slot1 == "polyhedronTeamInfo" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("Widget/System/PolyhedronBattle/PolyhedronRanksUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = PolyhedronTeamInfoSettingView.New(slot0.viewListGo_[slot1])
+		elseif slot1 == "polyhedronHeroInfo" then
+			slot0.viewListGo_[slot1] = Object.Instantiate(Asset.Load("Widget/System/PolyhedronBattle/PolyhedronContingentUI"), slot0.panelTrs_)
+			slot0.viewList_[slot1] = PolyhedronHeroInfoSettingView.New(slot0.viewListGo_[slot1])
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.typeNameS_) do
-		arg_6_0:AddToggleListener(arg_6_0.toggle_[iter_6_0], function(arg_7_0)
-			if arg_7_0 then
-				OperationRecorder.Record(arg_6_0.class.__cname, "switch_page_" .. iter_6_0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in pairs(slot0.typeNameS_) do
+		slot0:AddToggleListener(slot0.toggle_[slot4], function (slot0)
+			if slot0 then
+				OperationRecorder.Record(uv0.class.__cname, "switch_page_" .. uv1)
 
-				if iter_6_0 == "remind" then
+				if uv1 == "remind" then
 					saveData("setting", "newFunction", 0)
 					manager.redPoint:setTip(RedPointConst.SETTING_NEW_FUNCTION, 0)
 				end
 			end
 
-			SetActive(arg_6_0.toggleUnSelect_[iter_6_0], not arg_7_0)
-			SetActive(arg_6_0.toggleSelect_[iter_6_0], arg_7_0)
-			arg_6_0:ChangeShowView(iter_6_0, arg_7_0)
+			SetActive(uv0.toggleUnSelect_[uv1], not slot0)
+			SetActive(uv0.toggleSelect_[uv1], slot0)
+			uv0:ChangeShowView(uv1, slot0)
 		end)
 	end
 
-	arg_6_0:AddBtnListenerScale(arg_6_0.saveBtn_, nil, function()
-		for iter_8_0, iter_8_1 in pairs(arg_6_0.viewList_) do
-			iter_8_1:SaveData()
+	slot0:AddBtnListenerScale(slot0.saveBtn_, nil, function ()
+		for slot3, slot4 in pairs(uv0.viewList_) do
+			slot4:SaveData()
 		end
 
 		ShowTips("SAVE_SYSTEM_SETTING")
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.resetBtn_, nil, function()
-		arg_6_0.viewList_[arg_6_0.params_.selectType]:RecoverTmpData()
+	slot0:AddBtnListenerScale(slot0.resetBtn_, nil, function ()
+		uv0.viewList_[uv0.params_.selectType]:RecoverTmpData()
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.quitBattleBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.quitBattleBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_BATTLE"),
-			OkCallback = function()
+			OkCallback = function ()
 				gameContext:DestroyCurRoutes()
 
-				if arg_6_0.params_.stageData:GetIsCooperation() then
-					local var_11_0 = BattleFieldData:GetServerBattleID()
-
-					CooperationAction.LeaveCooperationBattle(function(arg_12_0)
-						BattleInstance.QuitBattle(arg_6_0.params_.stageData, true, true)
-					end, var_11_0)
+				if uv0.params_.stageData:GetIsCooperation() then
+					CooperationAction.LeaveCooperationBattle(function (slot0)
+						BattleInstance.QuitBattle(uv0.params_.stageData, true, true)
+					end, BattleFieldData:GetServerBattleID())
 				else
 					LuaExchangeHelper.GameOver(3)
 				end
 			end
 		})
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.continueBtn_, nil, function()
-		if arg_6_0:GetIsContinuousFight() then
-			arg_6_0:Back()
+	slot0:AddBtnListenerScale(slot0.continueBtn_, nil, function ()
+		if uv0:GetIsContinuousFight() then
+			uv0:Back()
 		else
 			gameContext:DestroyCurRoutes()
 		end
 
 		LuaExchangeHelper.ContinueGame()
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.restartBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.restartBtn_, nil, function ()
 		manager.audio:DestoryCriAtom()
-		BattleController.GetInstance():LaunchBattle(arg_6_0.params_.stageData)
+		BattleController.GetInstance():LaunchBattle(uv0.params_.stageData)
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.polyhedronSettlementBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.polyhedronSettlementBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("POLYHEDRON_BATTLE_GIVE_UP_AND_SETTLE"),
-			OkCallback = function()
-				PolyhedronAction.QueryPolyhedronGiveUp(function(arg_17_0)
-					if isSuccess(arg_17_0.result) then
+			OkCallback = function ()
+				PolyhedronAction.QueryPolyhedronGiveUp(function (slot0)
+					if isSuccess(slot0.result) then
 						manager.audio:PlayBGM("ui_battle", "ui_battle_lose", "ui_battle.awb")
 						manager.audio:PlayEffect("ui_battle", "ui_battle_ultimate_out", "")
 						manager.audio:PlayEffect("ui_skip", "ui_reset", "")
@@ -234,17 +196,17 @@ function var_0_0.AddUIListener(arg_6_0)
 						LuaExchangeHelper.GoToMain()
 						OpenPageUntilLoaded("/polyhedronBlank/polyhedronOver", {})
 					else
-						ShowTips(arg_17_0.result)
+						ShowTips(slot0.result)
 					end
 				end)
 			end
 		})
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.polyhedronQuitBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.polyhedronQuitBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_BATTLE"),
-			OkCallback = function()
+			OkCallback = function ()
 				manager.audio:PlayBGM("ui_battle", "ui_battle_lose", "ui_battle.awb")
 				manager.audio:PlayEffect("ui_battle", "ui_battle_ultimate_out", "")
 				manager.audio:PlayEffect("ui_skip", "ui_reset", "")
@@ -256,374 +218,343 @@ function var_0_0.AddUIListener(arg_6_0)
 	end)
 end
 
-function var_0_0.GetIsContinuousFight(arg_20_0)
-	if arg_20_0.isSystem_ or arg_20_0.params_.stageData == nil then
+function slot0.GetIsContinuousFight(slot0)
+	if slot0.isSystem_ or slot0.params_.stageData == nil then
 		return false
 	end
 
-	return arg_20_0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON
+	return slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON
 end
 
-function var_0_0.RefreshSettingType(arg_21_0)
-	local var_21_0 = arg_21_0.params_.setType or SettingConst.SETTING_TYPE.SYSTEM
-	local var_21_1 = arg_21_0.params_.stageData
+function slot0.RefreshSettingType(slot0)
+	slot2 = slot0.params_.stageData
+	slot0.isSystem_ = (slot0.params_.setType or SettingConst.SETTING_TYPE.SYSTEM) == SettingConst.SETTING_TYPE.SYSTEM
 
-	arg_21_0.isSystem_ = var_21_0 == SettingConst.SETTING_TYPE.SYSTEM
+	SetActive(slot0.screenGo_, slot0.isSystem_)
+	SetActive(slot0.saveGo_, slot0.isSystem_)
+	SetActive(slot0.resetGo_, slot0.isSystem_)
+	SetActive(slot0.remindGo_, slot0.isSystem_)
+	SetActive(slot0.quitBattleGo_, not slot0.isSystem_ and not slot0.params_.newbie and slot2:GetType() ~= BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
+	SetActive(slot0.continueGo_, not slot0.isSystem_)
+	SetActive(slot0.polyhedronSettlementGo_, not slot0.isSystem_ and slot2 and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
+	SetActive(slot0.polyhedronQuitGo_, not slot0.isSystem_ and slot2 and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
 
-	SetActive(arg_21_0.screenGo_, arg_21_0.isSystem_)
-	SetActive(arg_21_0.saveGo_, arg_21_0.isSystem_)
-	SetActive(arg_21_0.resetGo_, arg_21_0.isSystem_)
-	SetActive(arg_21_0.remindGo_, arg_21_0.isSystem_)
-	SetActive(arg_21_0.quitBattleGo_, not arg_21_0.isSystem_ and not arg_21_0.params_.newbie and var_21_1:GetType() ~= BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
-	SetActive(arg_21_0.continueGo_, not arg_21_0.isSystem_)
-	SetActive(arg_21_0.polyhedronSettlementGo_, not arg_21_0.isSystem_ and var_21_1 and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
-	SetActive(arg_21_0.polyhedronQuitGo_, not arg_21_0.isSystem_ and var_21_1 and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON)
-
-	if not arg_21_0.isSystem_ and var_21_1 and (var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON) then
-		SetActive(arg_21_0.restartGo_, true)
+	if not slot0.isSystem_ and slot2 and (slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE_ADVANCE or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_HEART_DEMON or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON) then
+		SetActive(slot0.restartGo_, true)
 	else
-		SetActive(arg_21_0.restartGo_, false)
+		SetActive(slot0.restartGo_, false)
 	end
 
-	local var_21_2 = var_21_1 and not arg_21_0.isSystem_ and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL
-	local var_21_3 = var_21_1 and not arg_21_0.isSystem_ and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON
-	local var_21_4 = var_21_1 and not arg_21_0.isSystem_ and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STRONGHOLD
+	if not slot0.isSystem_ and not (slot2 and not slot0.isSystem_ and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.EQUIP_BREAK_THROUGH_MATERIAL) and not (slot2 and not slot0.isSystem_ and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON) and not (slot2 and not slot0.isSystem_ and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STRONGHOLD) then
+		slot0.dataAffix = {}
 
-	if not arg_21_0.isSystem_ and not var_21_2 and not var_21_3 and not var_21_4 then
-		arg_21_0.dataAffix = {}
+		if slot2:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+			slot8 = nil
 
-		if var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
-			local var_21_5 = var_21_1:GetActivityID()
-			local var_21_6 = RaceTrialData:GetCustomList(var_21_5)
-			local var_21_7
+			for slot12, slot13 in ipairs(RaceTrialData:GetCustomList(slot2:GetActivityID())) do
+				slot8 = ActivityAffixPoolCfg[slot13].affix
 
-			for iter_21_0, iter_21_1 in ipairs(var_21_6) do
-				local var_21_8 = ActivityAffixPoolCfg[iter_21_1].affix
-
-				table.insert(arg_21_0.dataAffix, {
-					var_21_8[1],
-					var_21_8[2]
+				table.insert(slot0.dataAffix, {
+					slot8[1],
+					slot8[2]
 				})
 			end
 		else
-			arg_21_0.dataAffix = var_21_1:GetSettingShowAffix()
+			slot0.dataAffix = slot2:GetSettingShowAffix()
 		end
 
-		SetActive(arg_21_0.affixGo_, #arg_21_0.dataAffix > 0)
+		SetActive(slot0.affixGo_, #slot0.dataAffix > 0)
 	else
-		SetActive(arg_21_0.affixGo_, false)
+		SetActive(slot0.affixGo_, false)
 	end
 
-	if var_21_1 and not arg_21_0.isSystem_ and (var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
-		SetActive(arg_21_0.intelligenceGo_, true)
+	if slot2 and not slot0.isSystem_ and (slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_PLOT or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
+		SetActive(slot0.intelligenceGo_, true)
 	else
-		SetActive(arg_21_0.intelligenceGo_, false)
+		SetActive(slot0.intelligenceGo_, false)
 	end
 
-	if arg_21_0.isSystem_ or not var_21_1 or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.LEVIATHAN_GAME or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.SKADI_GAME or table.keyof(GameSetting.setting_need_not_skill_info.value, var_21_1:GetStageId()) then
-		SetActive(arg_21_0.skillGo_, false)
-	else
-		local var_21_9 = GetSceneDataForExcehange().roleDataInLua[0]
-
-		if var_21_9 then
-			local var_21_10 = SkinCfg[var_21_9.ID] and SkinCfg[var_21_9.ID].hero
-
-			if HeroCfg[var_21_10] and HeroCfg[var_21_10].hide_info ~= 0 then
-				SetActive(arg_21_0.skillGo_, false)
-			else
-				SetActive(arg_21_0.skillGo_, true)
-			end
+	if slot0.isSystem_ or not slot2 or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.LEVIATHAN_GAME or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.SKADI_GAME or table.keyof(GameSetting.setting_need_not_skill_info.value, slot2:GetStageId()) then
+		SetActive(slot0.skillGo_, false)
+	elseif GetSceneDataForExcehange().roleDataInLua[0] then
+		if HeroCfg[SkinCfg[slot7.ID] and SkinCfg[slot7.ID].hero] and HeroCfg[slot8].hide_info ~= 0 then
+			SetActive(slot0.skillGo_, false)
 		else
-			SetActive(arg_21_0.skillGo_, false)
+			SetActive(slot0.skillGo_, true)
 		end
+	else
+		SetActive(slot0.skillGo_, false)
 	end
 
-	if var_21_1 and not arg_21_0.isSystem_ and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.ARTIFACT then
-		SetActive(arg_21_0.affixGo_, false)
+	if slot2 and not slot0.isSystem_ and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.ARTIFACT then
+		SetActive(slot0.affixGo_, false)
 	end
 
-	if var_21_1 and not arg_21_0.isSystem_ and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL then
-		SetActive(arg_21_0.affixGo_, false)
+	if slot2 and not slot0.isSystem_ and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.MARDUK_SPECIAL then
+		SetActive(slot0.affixGo_, false)
 	end
 
-	if not arg_21_0.isSystem_ then
-		if var_21_1 and (var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS) then
-			SetActive(arg_21_0.artifactGo_, true)
-			SetActive(arg_21_0.affixGo_, false)
+	if not slot0.isSystem_ then
+		if slot2 and (slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS) then
+			SetActive(slot0.artifactGo_, true)
+			SetActive(slot0.affixGo_, false)
 		else
-			SetActive(arg_21_0.artifactGo_, false)
+			SetActive(slot0.artifactGo_, false)
 		end
 	else
-		SetActive(arg_21_0.artifactGo_, false)
+		SetActive(slot0.artifactGo_, false)
 	end
 
-	if var_21_1 and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON then
-		SetActive(arg_21_0.polyhedronAdditionGo_, true)
-		SetActive(arg_21_0.polyhedronTeamInfoGo_, true)
-		SetActive(arg_21_0.polyhedronHeroInfoGo_, true)
+	if slot2 and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON then
+		SetActive(slot0.polyhedronAdditionGo_, true)
+		SetActive(slot0.polyhedronTeamInfoGo_, true)
+		SetActive(slot0.polyhedronHeroInfoGo_, true)
 	else
-		SetActive(arg_21_0.polyhedronAdditionGo_, false)
-		SetActive(arg_21_0.polyhedronTeamInfoGo_, false)
-		SetActive(arg_21_0.polyhedronHeroInfoGo_, false)
+		SetActive(slot0.polyhedronAdditionGo_, false)
+		SetActive(slot0.polyhedronTeamInfoGo_, false)
+		SetActive(slot0.polyhedronHeroInfoGo_, false)
 	end
 
-	if var_21_0 == SettingConst.SETTING_TYPE.SYSTEM then
-		arg_21_0.toggle_.screen.isOn = true
+	if slot1 == SettingConst.SETTING_TYPE.SYSTEM then
+		slot0.toggle_.screen.isOn = true
 
-		arg_21_0:ChangeShowView("screen", true)
+		slot0:ChangeShowView("screen", true)
 
-		arg_21_0.params_.selectType = "screen"
-	elseif var_21_0 == SettingConst.SETTING_TYPE.BATTLE_MAIN or var_21_1 and (var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
-		arg_21_0.toggle_.intelligence.isOn = true
-		arg_21_0.params_.selectType = "intelligence"
-	elseif var_21_1 and var_21_1:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON then
-		arg_21_0.toggle_.polyhedronAddition.isOn = true
+		slot0.params_.selectType = "screen"
+	elseif slot1 == SettingConst.SETTING_TYPE.BATTLE_MAIN or slot2 and (slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_BOSS_CHALLENGE or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX or slot2:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX) then
+		slot0.toggle_.intelligence.isOn = true
+		slot0.params_.selectType = "intelligence"
+	elseif slot2 and slot2:GetType() == BattleConst.STAGE_TYPE_NEW.POLYHEDRON then
+		slot0.toggle_.polyhedronAddition.isOn = true
 
-		arg_21_0:ChangeShowView("polyhedronAddition", true)
+		slot0:ChangeShowView("polyhedronAddition", true)
 
-		arg_21_0.params_.selectType = "polyhedronAddition"
+		slot0.params_.selectType = "polyhedronAddition"
 	else
-		arg_21_0.toggle_.sound.isOn = true
-		arg_21_0.params_.selectType = "sound"
+		slot0.toggle_.sound.isOn = true
+		slot0.params_.selectType = "sound"
 	end
 
-	arg_21_0:RefreshQuitType()
+	slot0:RefreshQuitType()
 end
 
-function var_0_0.RefreshQuitType(arg_22_0)
-	if arg_22_0.isSystem_ then
+function slot0.RefreshQuitType(slot0)
+	if slot0.isSystem_ then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			NAVI_BAR
 		})
-		manager.windowBar:RegistBackCallBack(function()
-			arg_22_0:BackFunc(function()
-				arg_22_0:Back()
+		manager.windowBar:RegistBackCallBack(function ()
+			uv0:BackFunc(function ()
+				uv0:Back()
 			end)
 		end)
-		manager.windowBar:RegistHomeCallBack(function()
-			arg_22_0:BackFunc(function()
-				arg_22_0:Go("/home")
+		manager.windowBar:RegistHomeCallBack(function ()
+			uv0:BackFunc(function ()
+				uv0:Go("/home")
 			end)
 		end)
 	end
 end
 
-function var_0_0.BackFunc(arg_27_0, arg_27_1)
-	local var_27_0 = false
+function slot0.BackFunc(slot0, slot1)
+	slot2 = false
 
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.viewList_) do
-		if iter_27_1:CheckDataChange() then
-			var_27_0 = true
+	for slot6, slot7 in pairs(slot0.viewList_) do
+		if slot7:CheckDataChange() then
+			slot2 = true
 		end
 	end
 
-	if var_27_0 then
+	if slot2 then
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("TIP_SETTING_CHANGE"),
-			OkCallback = function()
-				for iter_28_0, iter_28_1 in pairs(arg_27_0.viewList_) do
-					iter_28_1:SaveData()
+			OkCallback = function ()
+				for slot3, slot4 in pairs(uv0.viewList_) do
+					slot4:SaveData()
 				end
 
-				OperationRecorder.Record(arg_27_0.class.__cname, "panel/btn_save")
-				arg_27_1()
+				OperationRecorder.Record(uv0.class.__cname, "panel/btn_save")
+				uv1()
 			end,
-			CancelCallback = function()
-				for iter_29_0, iter_29_1 in pairs(arg_27_0.viewList_) do
-					iter_29_1:RecoverTmpData()
+			CancelCallback = function ()
+				for slot3, slot4 in pairs(uv0.viewList_) do
+					slot4:RecoverTmpData()
 				end
 
-				OperationRecorder.Record(arg_27_0.class.__cname, "cancel")
-				arg_27_1()
+				OperationRecorder.Record(uv0.class.__cname, "cancel")
+				uv1()
 			end
 		})
 	else
-		arg_27_1()
+		slot1()
 	end
 end
 
-function var_0_0.Init(arg_30_0)
-	arg_30_0:InitUI()
-	arg_30_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnPicSettingChange(arg_31_0, arg_31_1, arg_31_2)
-	if arg_31_0.viewList_.screen then
-		arg_31_0.viewList_.screen:OnPicSettingChange(arg_31_1, arg_31_2)
+function slot0.OnPicSettingChange(slot0, slot1, slot2)
+	if slot0.viewList_.screen then
+		slot0.viewList_.screen:OnPicSettingChange(slot1, slot2)
 	end
 end
 
-function var_0_0.OnSoundSettingChange(arg_32_0, arg_32_1, arg_32_2)
-	if arg_32_0.viewList_.sound then
-		arg_32_0.viewList_.sound:OnSoundSettingChange(arg_32_1, arg_32_2)
+function slot0.OnSoundSettingChange(slot0, slot1, slot2)
+	if slot0.viewList_.sound then
+		slot0.viewList_.sound:OnSoundSettingChange(slot1, slot2)
 	end
 
-	if arg_32_0.viewList_.game then
-		arg_32_0.viewList_.game:OnSoundSettingChange(arg_32_1, arg_32_2)
-	end
-end
-
-function var_0_0.OnPushSettingChange(arg_33_0, arg_33_1, arg_33_2)
-	return
-end
-
-function var_0_0.OnGameSettingChange(arg_34_0, arg_34_1, arg_34_2)
-	if arg_34_0.viewList_.game then
-		arg_34_0.viewList_.game:OnGameSettingChange(arg_34_1, arg_34_2)
+	if slot0.viewList_.game then
+		slot0.viewList_.game:OnSoundSettingChange(slot1, slot2)
 	end
 end
 
-function var_0_0.OnDownloaded(arg_35_0, arg_35_1)
-	if arg_35_0.viewList_.sound then
-		arg_35_0.viewList_.sound:OnDownloaded(arg_35_1)
+function slot0.OnPushSettingChange(slot0, slot1, slot2)
+end
+
+function slot0.OnGameSettingChange(slot0, slot1, slot2)
+	if slot0.viewList_.game then
+		slot0.viewList_.game:OnGameSettingChange(slot1, slot2)
 	end
 end
 
-function var_0_0.OnCancalDownload(arg_36_0)
-	if arg_36_0.viewList_.sound then
-		arg_36_0.viewList_.sound:OnCancalDownload()
+function slot0.OnDownloaded(slot0, slot1)
+	if slot0.viewList_.sound then
+		slot0.viewList_.sound:OnDownloaded(slot1)
 	end
 end
 
-function var_0_0.OnLanguagePackageDeleted(arg_37_0)
-	if arg_37_0.viewList_.sound then
-		arg_37_0.viewList_.sound:OnLanguagePackageDeleted()
+function slot0.OnCancalDownload(slot0)
+	if slot0.viewList_.sound then
+		slot0.viewList_.sound:OnCancalDownload()
 	end
 end
 
-function var_0_0.OnRemindChange(arg_38_0, arg_38_1, arg_38_2)
-	if arg_38_0.viewList_.remind then
-		arg_38_0.viewList_.remind:OnRemindChange(arg_38_1, arg_38_2)
+function slot0.OnLanguagePackageDeleted(slot0)
+	if slot0.viewList_.sound then
+		slot0.viewList_.sound:OnLanguagePackageDeleted()
 	end
 end
 
-function var_0_0.OnCooperationRestrictUpdate(arg_39_0, arg_39_1, arg_39_2)
-	if arg_39_0.viewList_.remind then
-		arg_39_0.viewList_.remind:OnCooperationRestrictUpdate()
+function slot0.OnRemindChange(slot0, slot1, slot2)
+	if slot0.viewList_.remind then
+		slot0.viewList_.remind:OnRemindChange(slot1, slot2)
 	end
 end
 
-function var_0_0.OnPolyhedronSwitchHero(arg_40_0)
-	if arg_40_0.viewList_.polyhedronTeamInfo then
-		arg_40_0.viewList_.polyhedronTeamInfo:OnPolyhedronSwitchHero()
+function slot0.OnCooperationRestrictUpdate(slot0, slot1, slot2)
+	if slot0.viewList_.remind then
+		slot0.viewList_.remind:OnCooperationRestrictUpdate()
 	end
 end
 
-function var_0_0.OnEnter(arg_41_0)
-	for iter_41_0, iter_41_1 in pairs(arg_41_0.viewList_) do
-		if iter_41_0 == "intelligence" then
-			local var_41_0 = arg_41_0.params_.stageData
+function slot0.OnPolyhedronSwitchHero(slot0)
+	if slot0.viewList_.polyhedronTeamInfo then
+		slot0.viewList_.polyhedronTeamInfo:OnPolyhedronSwitchHero()
+	end
+end
 
-			if var_41_0 and var_41_0:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
-				-- block empty
-			elseif var_41_0 and var_41_0:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
-				-- block empty
-			elseif var_41_0 and var_41_0:GetType() == BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
-				-- block empty
-			else
-				iter_41_1:RefreshData(nil, arg_41_0.params_)
+function slot0.OnEnter(slot0)
+	for slot4, slot5 in pairs(slot0.viewList_) do
+		if slot4 == "intelligence" then
+			if slot0.params_.stageData and slot6:GetType() == BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX then
+				-- Nothing
+			elseif slot6 and slot6:GetType() == BattleConst.STAGE_TYPE_NEW.ACTIVITY_MATRIX then
+				-- Nothing
+			elseif not slot6 or slot6:GetType() ~= BattleConst.STAGE_TYPE_NEW.STRATEGY_MATRIX then
+				slot5:RefreshData(nil, slot0.params_)
 			end
 		else
-			iter_41_1:OnEnter()
+			slot5:OnEnter()
 		end
 	end
 
-	arg_41_0:RefreshSettingType()
-	arg_41_0:BindRedPointUI()
+	slot0:RefreshSettingType()
+	slot0:BindRedPointUI()
 end
 
-function var_0_0.BindRedPointUI(arg_42_0)
-	manager.redPoint:bindUIandKey(arg_42_0.toggle_.remind.transform, RedPointConst.SETTING_REMIND)
-	manager.redPoint:bindUIandKey(arg_42_0.toggle_.screen.transform, RedPointConst.SETTING_SCREEN)
+function slot0.BindRedPointUI(slot0)
+	manager.redPoint:bindUIandKey(slot0.toggle_.remind.transform, RedPointConst.SETTING_REMIND)
+	manager.redPoint:bindUIandKey(slot0.toggle_.screen.transform, RedPointConst.SETTING_SCREEN)
 end
 
-function var_0_0.UnBindRedPointUI(arg_43_0)
-	manager.redPoint:unbindUIandKey(arg_43_0.toggle_.remind.transform, RedPointConst.SETTING_REMIND)
-	manager.redPoint:unbindUIandKey(arg_43_0.toggle_.screen.transform, RedPointConst.SETTING_SCREEN)
+function slot0.UnBindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.toggle_.remind.transform, RedPointConst.SETTING_REMIND)
+	manager.redPoint:unbindUIandKey(slot0.toggle_.screen.transform, RedPointConst.SETTING_SCREEN)
 end
 
-function var_0_0.OnExit(arg_44_0)
-	arg_44_0:UnBindRedPointUI()
+function slot0.OnExit(slot0)
+	slot0:UnBindRedPointUI()
 
-	for iter_44_0, iter_44_1 in pairs(arg_44_0.viewList_) do
-		iter_44_1:OnExit()
+	for slot4, slot5 in pairs(slot0.viewList_) do
+		slot5:OnExit()
 	end
 
-	if arg_44_0.isSystem_ then
+	if slot0.isSystem_ then
 		manager.windowBar:HideBar()
 	else
 		LuaExchangeHelper.ApplyBattleSetting()
 	end
 
-	arg_44_0.isSystem_ = nil
+	slot0.isSystem_ = nil
 
-	arg_44_0:RecordStay(arg_44_0.params_.selectType)
+	slot0:RecordStay(slot0.params_.selectType)
 end
 
-function var_0_0.Dispose(arg_45_0)
-	for iter_45_0, iter_45_1 in pairs(arg_45_0.viewList_) do
-		iter_45_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.viewList_) do
+		slot5:Dispose()
 	end
 
-	arg_45_0.params_ = nil
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_45_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RecordStay(arg_46_0, arg_46_1)
-	local var_46_0 = arg_46_0:GetStayTime()
-
-	if var_46_0 == 0 then
+function slot0.RecordStay(slot0, slot1)
+	if slot0:GetStayTime() == 0 then
 		return
 	end
 
-	local var_46_1 = 0
+	slot3 = 0
 
-	if arg_46_1 == "screen" then
-		local var_46_2 = 10201
-
-		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", var_46_0, var_46_2)
-	elseif arg_46_1 == "sound" then
-		local var_46_3 = 10202
-
-		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", var_46_0, var_46_3)
-	elseif arg_46_1 == "game" then
-		local var_46_4 = 10203
-
-		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", var_46_0, var_46_4)
-	elseif arg_46_1 == "skill" then
-		local var_46_5 = arg_46_0.viewList_.skill and arg_46_0.viewList_.skill.nType or 1
-
-		arg_46_0:RecordStaySkill(var_46_5)
+	if slot1 == "screen" then
+		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", slot2, 10201)
+	elseif slot1 == "sound" then
+		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", slot2, 10202)
+	elseif slot1 == "game" then
+		OperationRecorder.RecordStayView("STAY_VIEW_SETTING", slot2, 10203)
+	elseif slot1 == "skill" then
+		slot0:RecordStaySkill(slot0.viewList_.skill and slot0.viewList_.skill.nType or 1)
 	end
 
-	arg_46_0:UpdateLastOpenTime()
+	slot0:UpdateLastOpenTime()
 end
 
-function var_0_0.RecordStaySkill(arg_47_0, arg_47_1)
-	local var_47_0 = arg_47_0:GetStayTime()
-
-	if var_47_0 == 0 then
+function slot0.RecordStaySkill(slot0, slot1)
+	if slot0:GetStayTime() == 0 then
 		return
 	end
 
-	local var_47_1 = 0
+	slot3 = 0
 
-	if arg_47_1 == 1 then
-		var_47_1 = 50201
-	elseif arg_47_1 == 2 then
-		var_47_1 = 50202
+	if slot1 == 1 then
+		slot3 = 50201
+	elseif slot1 == 2 then
+		slot3 = 50202
 	end
 
-	OperationRecorder.RecordStayView("STAY_VIEW_SETTING_SKILL", var_47_0, var_47_1)
-	arg_47_0:UpdateLastOpenTime()
+	OperationRecorder.RecordStayView("STAY_VIEW_SETTING_SKILL", slot2, slot3)
+	slot0:UpdateLastOpenTime()
 end
 
-function var_0_0.OnExitInput(arg_48_0)
-	if not arg_48_0.isSystem_ then
+function slot0.OnExitInput(slot0)
+	if not slot0.isSystem_ then
 		gameContext:DestroyCurRoutes()
 		LuaExchangeHelper.ContinueGame()
 
@@ -631,4 +562,4 @@ function var_0_0.OnExitInput(arg_48_0)
 	end
 end
 
-return var_0_0
+return slot0

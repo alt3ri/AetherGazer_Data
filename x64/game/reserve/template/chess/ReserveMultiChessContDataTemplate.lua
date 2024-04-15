@@ -1,30 +1,27 @@
-local var_0_0 = import("game.reserve.ReserveContDataTemplate")
-local var_0_1 = class("ReserveMultiChessContDataTemplate", var_0_0)
+slot1 = class("ReserveMultiChessContDataTemplate", import("game.reserve.ReserveContDataTemplate"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot1.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-	arg_1_0.posDataList_ = {}
+	slot0.posDataList_ = {}
 end
 
-function var_0_1.UpdatePosData(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		if not arg_2_0.posDataList_[iter_2_0] then
-			arg_2_0.posDataList_[iter_2_0] = ReserveMultiChessPosData.New()
+function slot1.UpdatePosData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if not slot0.posDataList_[slot5] then
+			slot0.posDataList_[slot5] = ReserveMultiChessPosData.New()
 		end
 
-		arg_2_0.posDataList_[iter_2_0]:UpdateServerData(iter_2_1)
+		slot0.posDataList_[slot5]:UpdateServerData(slot6)
 	end
 end
 
-function var_0_1.UpdateAiChip(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		local var_3_0 = iter_3_1.team_index
-
-		if arg_3_0.team_dic[var_3_0] then
-			arg_3_0.team_dic[var_3_0]:UpdateAiChip(iter_3_1)
+function slot1.UpdateAiChip(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.team_dic[slot6.team_index] then
+			slot0.team_dic[slot7]:UpdateAiChip(slot6)
 		end
 	end
 end
 
-return var_0_1
+return slot1

@@ -1,74 +1,69 @@
-local var_0_0 = class("SkinDescInfoItem", ReduxView)
-local var_0_1 = "Atlas/HeroAtlas"
+slot0 = class("SkinDescInfoItem", ReduxView)
+slot1 = "Atlas/HeroAtlas"
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.tagList_ = arg_1_2
-	arg_1_0.type_ = arg_1_3
-	arg_1_0.descItemList_ = nil
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.tagList_ = slot2
+	slot0.type_ = slot3
+	slot0.descItemList_ = nil
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.infoTransform_)
+function slot0.OnEnter(slot0)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.infoTransform_)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = arg_5_0.tagList_[1]
-	local var_5_1 = SkinTagDescCfg[var_5_0]
+function slot0.RefreshUI(slot0)
+	slot2 = SkinTagDescCfg[slot0.tagList_[1]]
+	slot0.text_.text = slot2.type_desc
+	slot0.image_.sprite = getSprite(uv0, slot2.type_icon)
 
-	arg_5_0.text_.text = var_5_1.type_desc
-	arg_5_0.image_.sprite = getSprite(var_0_1, var_5_1.type_icon)
-
-	arg_5_0:LoadDescItem()
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.infoTransform_)
+	slot0:LoadDescItem()
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.infoTransform_)
 end
 
-function var_0_0.LoadDescItem(arg_6_0)
-	arg_6_0.descItemList_ = {}
+function slot0.LoadDescItem(slot0)
+	slot0.descItemList_ = {}
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.tagList_) do
-		if not arg_6_0.descItemList_[iter_6_0] then
-			local var_6_0 = Object.Instantiate(arg_6_0.descTemplate_, arg_6_0.infoTransform_)
-
-			arg_6_0.descItemList_[iter_6_0] = SkinDescItem.New(var_6_0)
+	for slot4, slot5 in ipairs(slot0.tagList_) do
+		if not slot0.descItemList_[slot4] then
+			slot0.descItemList_[slot4] = SkinDescItem.New(Object.Instantiate(slot0.descTemplate_, slot0.infoTransform_))
 		end
 
-		arg_6_0.descItemList_[iter_6_0]:RefreshUI(iter_6_1)
-		arg_6_0.descItemList_[iter_6_0]:Show(true)
+		slot0.descItemList_[slot4]:RefreshUI(slot5)
+		slot0.descItemList_[slot4]:Show(true)
 	end
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.infoTransform_)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.infoTransform_)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.descItemList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.descItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.descItemList_ = {}
+	slot0.descItemList_ = {}
 
-	Object.Destroy(arg_9_0.gameObject_)
-	var_0_0.super.Dispose(arg_9_0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

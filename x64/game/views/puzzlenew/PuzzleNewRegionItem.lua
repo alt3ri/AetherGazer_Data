@@ -1,102 +1,97 @@
-local var_0_0 = class("PuzzleNewRegionItem", ReduxView)
+slot0 = class("PuzzleNewRegionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.regionCfg_ = arg_1_2
-	arg_1_0.regionID_ = arg_1_2[1]
-	arg_1_0.puzzleDic_ = {}
+function slot0.OnCtor(slot0, slot1, slot2, slot3, slot4)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.regionCfg_ = slot2
+	slot0.regionID_ = slot2[1]
+	slot0.puzzleDic_ = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_2[2]) do
-		arg_1_0.puzzleDic_[iter_1_1] = arg_1_3[iter_1_1]
+	for slot8, slot9 in ipairs(slot2[2]) do
+		slot0.puzzleDic_[slot9] = slot3[slot9]
 	end
 
-	arg_1_0.rewardCfg_ = arg_1_4
-	arg_1_0.statusConst_ = {
+	slot0.rewardCfg_ = slot4
+	slot0.statusConst_ = {
 		UNFINISH = 0,
 		RECEIVED = 1
 	}
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	arg_5_0.receiveCallback_ = nil
-	arg_5_0.gameObject_ = nil
-	arg_5_0.transform_ = nil
+function slot0.Dispose(slot0)
+	slot0.receiveCallback_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	arg_5_0.commonItem_:Dispose()
+	slot0.commonItem_:Dispose()
 
-	arg_5_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.activityID_ = arg_6_1
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshReward()
-	arg_7_0:RefreshStatus()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReward()
+	slot0:RefreshStatus()
 end
 
-function var_0_0.RefreshReward(arg_8_0)
-	if arg_8_0.commonItem_ == nil then
-		arg_8_0.commonItem_ = CommonItem.New(arg_8_0.rewardItemGo_)
+function slot0.RefreshReward(slot0)
+	if slot0.commonItem_ == nil then
+		slot0.commonItem_ = CommonItem.New(slot0.rewardItemGo_)
 	end
 
-	arg_8_0.commonItem_:RefreshData(formatReward(arg_8_0.rewardCfg_[1]))
-	arg_8_0.commonItem_:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, arg_8_0.rewardCfg_[1])
+	slot0.commonItem_:RefreshData(formatReward(slot0.rewardCfg_[1]))
+	slot0.commonItem_:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0.rewardCfg_[1])
 	end)
-	arg_8_0.commonItem_:Show(true)
+	slot0.commonItem_:Show(true)
 end
 
-function var_0_0.RefreshStatus(arg_10_0)
-	if PuzzleNewData:GetRegionReceivedList(arg_10_0.activityID_)[arg_10_0.regionID_] == true then
-		arg_10_0.status_ = arg_10_0.statusConst_.RECEIVED
+function slot0.RefreshStatus(slot0)
+	if PuzzleNewData:GetRegionReceivedList(slot0.activityID_)[slot0.regionID_] == true then
+		slot0.status_ = slot0.statusConst_.RECEIVED
 	else
-		arg_10_0.status_ = arg_10_0.statusConst_.UNFINISH
+		slot0.status_ = slot0.statusConst_.UNFINISH
+		slot2 = PuzzleNewData:GetCurPuzzleList(slot0.activityID_)
 
-		local var_10_0 = PuzzleNewData:GetCurPuzzleList(arg_10_0.activityID_)
-		local var_10_1 = 0
-
-		for iter_10_0, iter_10_1 in pairs(arg_10_0.puzzleDic_) do
-			if var_10_0[iter_10_1] and var_10_0[iter_10_1] == iter_10_0 then
-				var_10_1 = var_10_1 + 1
+		for slot7, slot8 in pairs(slot0.puzzleDic_) do
+			if slot2[slot8] and slot2[slot8] == slot7 then
+				slot3 = 0 + 1
 			end
 		end
 
-		local var_10_2 = #arg_10_0.regionCfg_[2]
-
-		arg_10_0.curText_.text = var_10_1
-		arg_10_0.needText_.text = string.format("/%d", var_10_2)
+		slot0.curText_.text = slot3
+		slot0.needText_.text = string.format("/%d", #slot0.regionCfg_[2])
 	end
 
-	arg_10_0.statusController_:SetSelectedIndex(arg_10_0.status_)
+	slot0.statusController_:SetSelectedIndex(slot0.status_)
 end
 
-function var_0_0.RegisterReceiveCallback(arg_11_0, arg_11_1)
-	arg_11_0.receiveCallback_ = arg_11_1
+function slot0.RegisterReceiveCallback(slot0, slot1)
+	slot0.receiveCallback_ = slot1
 end
 
-return var_0_0
+return slot0

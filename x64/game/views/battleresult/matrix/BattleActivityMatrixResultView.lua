@@ -1,90 +1,64 @@
 BattleMatrixResultView = import("game.views.battleResult.matrix.BattleMatrixResultView")
+slot0 = class("BattleMatrixResultView", BattleMatrixResultView)
 
-local var_0_0 = class("BattleMatrixResultView", BattleMatrixResultView)
+function slot0.SetLevelTitle(slot0)
+	if ActivityTools.GetActivityType(slot0.stageData:GetActivityID()) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+		slot4 = ActivityMatrixTierTemplateCfg[ActivityMatrixData:GetTierID(slot1)]
+		slot0.stareText_.text = string.format("%s-%s", slot4.tier, slot4.level)
+		slot0.lvText_.text = GetI18NText(BattleActivityMatrixCfg[slot0.stageData:GetStageId()].name)
+		slot0.difficultText_.text = ""
+		slot0.affixData = ActivityMatrixData:GetAffixList(slot1)
 
-function var_0_0.SetLevelTitle(arg_1_0)
-	local var_1_0 = arg_1_0.stageData:GetActivityID()
-	local var_1_1 = ActivityTools.GetActivityType(var_1_0)
+		slot0.affixList:StartScroll(math.max(#slot0.affixData, 3))
+	elseif slot2 == ActivityTemplateConst.STRATEGY_MATRIX then
+		slot4 = StrategyMatrixTierTemplateCfg[StrategyMatrixData:GetTierID(slot1)]
+		slot0.stareText_.text = string.format("%s-%s", slot4.tier, slot4.level)
+		slot0.lvText_.text = GetI18NText(BattleStrategyMatrixCfg[slot0.stageData:GetStageId()].name)
+		slot0.difficultText_.text = ""
+		slot0.affixData = StrategyMatrixData:GetAffixList(slot1)
 
-	if var_1_1 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-		local var_1_2 = ActivityMatrixData:GetTierID(var_1_0)
-		local var_1_3 = ActivityMatrixTierTemplateCfg[var_1_2]
-
-		arg_1_0.stareText_.text = string.format("%s-%s", var_1_3.tier, var_1_3.level)
-
-		local var_1_4 = arg_1_0.stageData:GetStageId()
-		local var_1_5 = BattleActivityMatrixCfg[var_1_4]
-
-		arg_1_0.lvText_.text = GetI18NText(var_1_5.name)
-		arg_1_0.difficultText_.text = ""
-		arg_1_0.affixData = ActivityMatrixData:GetAffixList(var_1_0)
-
-		arg_1_0.affixList:StartScroll(math.max(#arg_1_0.affixData, 3))
-	elseif var_1_1 == ActivityTemplateConst.STRATEGY_MATRIX then
-		local var_1_6 = StrategyMatrixData:GetTierID(var_1_0)
-		local var_1_7 = StrategyMatrixTierTemplateCfg[var_1_6]
-
-		arg_1_0.stareText_.text = string.format("%s-%s", var_1_7.tier, var_1_7.level)
-
-		local var_1_8 = arg_1_0.stageData:GetStageId()
-		local var_1_9 = BattleStrategyMatrixCfg[var_1_8]
-
-		arg_1_0.lvText_.text = GetI18NText(var_1_9.name)
-		arg_1_0.difficultText_.text = ""
-		arg_1_0.affixData = StrategyMatrixData:GetAffixList(var_1_0)
-
-		arg_1_0.affixList:StartScroll(math.max(#arg_1_0.affixData, 3))
+		slot0.affixList:StartScroll(math.max(#slot0.affixData, 3))
 	end
 
-	arg_1_0.timeText_.text = manager.time:DescCTime(BattleFieldData:GetBattleResultData().useSecond, "%M:%S")
+	slot0.timeText_.text = manager.time:DescCTime(BattleFieldData:GetBattleResultData().useSecond, "%M:%S")
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_1_0.titleTransform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.titleTransform_)
 end
 
-function var_0_0.RefreshHeroS(arg_2_0)
-	local var_2_0 = arg_2_0.stageData:GetHeroTeam()
-	local var_2_1 = arg_2_0.stageData:GetActivityID()
-	local var_2_2 = ActivityTools.GetActivityType(var_2_1)
+function slot0.RefreshHeroS(slot0)
+	slot1 = slot0.stageData:GetHeroTeam()
 
-	if var_2_2 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-		for iter_2_0 = 1, 3 do
-			if not var_2_0[iter_2_0] or var_2_0[iter_2_0] == 0 then
-				SetActive(arg_2_0.heroGo_[iter_2_0], false)
+	if ActivityTools.GetActivityType(slot0.stageData:GetActivityID()) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+		for slot7 = 1, 3 do
+			if not slot1[slot7] or slot1[slot7] == 0 then
+				SetActive(slot0.heroGo_[slot7], false)
 			else
-				SetActive(arg_2_0.heroGo_[iter_2_0], true)
+				SetActive(slot0.heroGo_[slot7], true)
 
-				local var_2_3 = SkinCfg[ActivityMatrixData:GetHeroSkin(var_2_1, var_2_0[iter_2_0])]
-
-				arg_2_0.heroImg_[iter_2_0].sprite = getSpriteViaConfig("HeroIcon", var_2_3.picture_id)
-
-				local var_2_4 = ActivityMatrixData:GetHeroData(var_2_1, var_2_0[iter_2_0])
-				local var_2_5 = var_2_4:GetHeroHP()
-				local var_2_6 = var_2_4:GetHeroMaxHP()
-
-				arg_2_0.hpText_[iter_2_0].text = string.format("<color=#FF9500>%s</color>/%s", var_2_5, var_2_6)
-				arg_2_0[string.format("hpSlider%s_", iter_2_0)].value = var_2_5 / var_2_6
+				slot0.heroImg_[slot7].sprite = getSpriteViaConfig("HeroIcon", SkinCfg[ActivityMatrixData:GetHeroSkin(slot2, slot1[slot7])].picture_id)
+				slot9 = ActivityMatrixData:GetHeroData(slot2, slot1[slot7])
+				slot10 = slot9:GetHeroHP()
+				slot11 = slot9:GetHeroMaxHP()
+				slot0.hpText_[slot7].text = string.format("<color=#FF9500>%s</color>/%s", slot10, slot11)
+				slot0[string.format("hpSlider%s_", slot7)].value = slot10 / slot11
 			end
 		end
-	elseif var_2_2 == ActivityTemplateConst.STRATEGY_MATRIX then
-		for iter_2_1 = 1, 3 do
-			if not var_2_0[iter_2_1] or var_2_0[iter_2_1] == 0 then
-				SetActive(arg_2_0.heroGo_[iter_2_1], false)
+	elseif slot3 == ActivityTemplateConst.STRATEGY_MATRIX then
+		for slot7 = 1, 3 do
+			if not slot1[slot7] or slot1[slot7] == 0 then
+				SetActive(slot0.heroGo_[slot7], false)
 			else
-				SetActive(arg_2_0.heroGo_[iter_2_1], true)
+				SetActive(slot0.heroGo_[slot7], true)
 
-				local var_2_7 = SkinCfg[StrategyMatrixData:GetHeroSkin(var_2_1, var_2_0[iter_2_1])]
-
-				arg_2_0.heroImg_[iter_2_1].sprite = getSpriteViaConfig("HeroIcon", var_2_7.picture_id)
-
-				local var_2_8 = StrategyMatrixData:GetHeroData(var_2_1, var_2_0[iter_2_1])
-				local var_2_9 = var_2_8:GetHeroHP()
-				local var_2_10 = var_2_8:GetHeroMaxHP()
-
-				arg_2_0.hpText_[iter_2_1].text = string.format("<color=#FF9500>%s</color>/%s", var_2_9, var_2_10)
-				arg_2_0[string.format("hpSlider%s_", iter_2_1)].value = var_2_9 / var_2_10
+				slot0.heroImg_[slot7].sprite = getSpriteViaConfig("HeroIcon", SkinCfg[StrategyMatrixData:GetHeroSkin(slot2, slot1[slot7])].picture_id)
+				slot9 = StrategyMatrixData:GetHeroData(slot2, slot1[slot7])
+				slot10 = slot9:GetHeroHP()
+				slot11 = slot9:GetHeroMaxHP()
+				slot0.hpText_[slot7].text = string.format("<color=#FF9500>%s</color>/%s", slot10, slot11)
+				slot0[string.format("hpSlider%s_", slot7)].value = slot10 / slot11
 			end
 		end
 	end
 end
 
-return var_0_0
+return slot0

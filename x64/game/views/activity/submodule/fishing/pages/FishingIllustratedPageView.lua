@@ -1,100 +1,96 @@
-local var_0_0 = class("FishingGroupPageView", ReduxView)
+slot0 = class("FishingGroupPageView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uiListGo_, FishingIllustratedItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, FishingIllustratedItemView)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_1, arg_4_0.fishIdList_[arg_4_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.fishIdList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	arg_6_0:RegistEventListener(CURRENCY_UPDATE, function(arg_7_0)
-		if arg_7_0 == 0 or arg_7_0 == CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN then
-			arg_6_0.coinValueLabel_.text = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN)
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		if slot0 == 0 or slot0 == CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN then
+			uv0.coinValueLabel_.text = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN)
 		end
 	end)
-	arg_6_0:RegistEventListener(FISHING_GROUP_REWARD_CHANGE, function()
-		arg_6_0.uiList_:Refresh()
-	end)
-end
-
-function var_0_0.OnTop(arg_9_0)
-	arg_9_0:UpdateBar()
-end
-
-function var_0_0.UpdateBar(arg_10_0)
-	return
-end
-
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:AddEventListeners()
-	arg_11_0:SortData()
-	arg_11_0:UpdateView()
-end
-
-function var_0_0.SortData(arg_12_0)
-	arg_12_0.fishIdList_ = RareFishCfg.all
-
-	table.sort(arg_12_0.fishIdList_, function(arg_13_0, arg_13_1)
-		local var_13_0 = FishingData:GetFish(arg_13_0)
-		local var_13_1 = FishingData:GetFish(arg_13_1)
-		local var_13_2 = RareFishCfg[arg_13_0]
-		local var_13_3 = RareFishCfg[arg_13_1]
-
-		if var_13_0 == nil and var_13_1 ~= nil or var_13_0 ~= nil and var_13_1 == nil then
-			return var_13_0 ~= nil
-		end
-
-		if var_13_2.rare ~= var_13_3.rare then
-			return var_13_2.rare > var_13_3.rare
-		end
-
-		return var_13_2.id < var_13_3.id
+	slot0:RegistEventListener(FISHING_GROUP_REWARD_CHANGE, function ()
+		uv0.uiList_:Refresh()
 	end)
 end
 
-function var_0_0.UpdateView(arg_14_0)
-	arg_14_0:SortData()
-	arg_14_0.uiList_:StartScroll(#arg_14_0.fishIdList_)
-
-	arg_14_0.coinValueLabel_.text = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN)
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_16_0)
-	return
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
+	slot0:SortData()
+	slot0:UpdateView()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.uiList_ then
-		arg_17_0.uiList_:Dispose()
+function slot0.SortData(slot0)
+	slot0.fishIdList_ = RareFishCfg.all
 
-		arg_17_0.uiList_ = nil
+	table.sort(slot0.fishIdList_, function (slot0, slot1)
+		slot3 = FishingData:GetFish(slot1)
+		slot4 = RareFishCfg[slot0]
+		slot5 = RareFishCfg[slot1]
+
+		if FishingData:GetFish(slot0) == nil and slot3 ~= nil or slot2 ~= nil and slot3 == nil then
+			return slot2 ~= nil
+		end
+
+		if slot4.rare ~= slot5.rare then
+			return slot5.rare < slot4.rare
+		end
+
+		return slot4.id < slot5.id
+	end)
+end
+
+function slot0.UpdateView(slot0)
+	slot0:SortData()
+	slot0.uiList_:StartScroll(#slot0.fishIdList_)
+
+	slot0.coinValueLabel_.text = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_SUMMER_FISHING_COIN)
+end
+
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+end
+
+function slot0.OnMainHomeViewTop(slot0)
+end
+
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
+
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

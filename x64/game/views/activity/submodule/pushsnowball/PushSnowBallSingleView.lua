@@ -1,359 +1,333 @@
-local var_0_0 = class("PushTheSnowBallSingleView", ReduxView)
-local var_0_1 = {
+slot0 = class("PushTheSnowBallSingleView", ReduxView)
+slot1 = {
 	BOSS = 3,
 	SCORE = 1,
 	BOWLING = 2
 }
-local var_0_2 = {
+slot2 = {
 	NORMAL = 1,
 	HARD = 2
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballSingleModeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
-	arg_3_0:BindController()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:BindController()
 
-	arg_3_0.taskItemList_ = {}
+	slot0.taskItemList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		local var_3_0 = PushSnowBallWeeklyTaskItem.New(arg_3_0["weeklyTaskItem" .. iter_3_0])
-
-		table.insert(arg_3_0.taskItemList_, var_3_0)
+	for slot4 = 1, 3 do
+		table.insert(slot0.taskItemList_, PushSnowBallWeeklyTaskItem.New(slot0["weeklyTaskItem" .. slot4]))
 	end
 
-	arg_3_0.commonItem_ = CommonItem.New(arg_3_0.commonItemGo_)
+	slot0.commonItem_ = CommonItem.New(slot0.commonItemGo_)
 end
 
-function var_0_0.BindController(arg_4_0)
-	arg_4_0.deviceController_ = ControllerUtil.GetController(arg_4_0.deviceBtn_.transform, "equipped")
-	arg_4_0.rewardController_ = ControllerUtil.GetController(arg_4_0.weeklyTaskTrs_, "state")
-	arg_4_0.modelSelectControllerList_ = {}
-	arg_4_0.modelLockControllerList_ = {}
-	arg_4_0.scoreSelectController_ = ControllerUtil.GetController(arg_4_0.scoreModelBtn_.transform, "select")
-	arg_4_0.bowlingSelectController_ = ControllerUtil.GetController(arg_4_0.bowlingModelBtn_.transform, "select")
-	arg_4_0.bossSelectController_ = ControllerUtil.GetController(arg_4_0.bossModelBtn_.transform, "select")
-	arg_4_0.bowlingLockController_ = ControllerUtil.GetController(arg_4_0.bowlingModelBtn_.transform, "lock")
-	arg_4_0.bossLockController_ = ControllerUtil.GetController(arg_4_0.bossModelBtn_.transform, "lock")
+function slot0.BindController(slot0)
+	slot0.deviceController_ = ControllerUtil.GetController(slot0.deviceBtn_.transform, "equipped")
+	slot0.rewardController_ = ControllerUtil.GetController(slot0.weeklyTaskTrs_, "state")
+	slot0.modelSelectControllerList_ = {}
+	slot0.modelLockControllerList_ = {}
+	slot0.scoreSelectController_ = ControllerUtil.GetController(slot0.scoreModelBtn_.transform, "select")
+	slot0.bowlingSelectController_ = ControllerUtil.GetController(slot0.bowlingModelBtn_.transform, "select")
+	slot0.bossSelectController_ = ControllerUtil.GetController(slot0.bossModelBtn_.transform, "select")
+	slot0.bowlingLockController_ = ControllerUtil.GetController(slot0.bowlingModelBtn_.transform, "lock")
+	slot0.bossLockController_ = ControllerUtil.GetController(slot0.bossModelBtn_.transform, "lock")
 
-	table.insert(arg_4_0.modelSelectControllerList_, arg_4_0.scoreSelectController_)
-	table.insert(arg_4_0.modelSelectControllerList_, arg_4_0.bowlingSelectController_)
-	table.insert(arg_4_0.modelSelectControllerList_, arg_4_0.bossSelectController_)
-	table.insert(arg_4_0.modelLockControllerList_, arg_4_0.bowlingLockController_)
-	table.insert(arg_4_0.modelLockControllerList_, arg_4_0.bossLockController_)
+	table.insert(slot0.modelSelectControllerList_, slot0.scoreSelectController_)
+	table.insert(slot0.modelSelectControllerList_, slot0.bowlingSelectController_)
+	table.insert(slot0.modelSelectControllerList_, slot0.bossSelectController_)
+	table.insert(slot0.modelLockControllerList_, slot0.bowlingLockController_)
+	table.insert(slot0.modelLockControllerList_, slot0.bossLockController_)
 
-	arg_4_0.levelSelectControllerList_ = {}
-	arg_4_0.normalSelectController_ = ControllerUtil.GetController(arg_4_0.normalLevelBtn_.transform, "select")
-	arg_4_0.hardSelectController_ = ControllerUtil.GetController(arg_4_0.hardLevelBtn_.transform, "select")
-	arg_4_0.hardLockController_ = ControllerUtil.GetController(arg_4_0.hardLevelBtn_.transform, "lockByTime")
-	arg_4_0.normalLevelImgController_ = ControllerUtil.GetController(arg_4_0.normalLevelBtn_.transform, "type")
-	arg_4_0.hardlLevelImgController_ = ControllerUtil.GetController(arg_4_0.hardLevelBtn_.transform, "type")
+	slot0.levelSelectControllerList_ = {}
+	slot0.normalSelectController_ = ControllerUtil.GetController(slot0.normalLevelBtn_.transform, "select")
+	slot0.hardSelectController_ = ControllerUtil.GetController(slot0.hardLevelBtn_.transform, "select")
+	slot0.hardLockController_ = ControllerUtil.GetController(slot0.hardLevelBtn_.transform, "lockByTime")
+	slot0.normalLevelImgController_ = ControllerUtil.GetController(slot0.normalLevelBtn_.transform, "type")
+	slot0.hardlLevelImgController_ = ControllerUtil.GetController(slot0.hardLevelBtn_.transform, "type")
 
-	table.insert(arg_4_0.levelSelectControllerList_, arg_4_0.normalSelectController_)
-	table.insert(arg_4_0.levelSelectControllerList_, arg_4_0.hardSelectController_)
+	table.insert(slot0.levelSelectControllerList_, slot0.normalSelectController_)
+	table.insert(slot0.levelSelectControllerList_, slot0.hardSelectController_)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.heroBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.heroBtn_, nil, function ()
 		JumpTools.OpenPageByJump("pushSnowBallHeroChangePop", {
 			type = 1
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.deviceBtn_, nil, function()
+	slot0:AddBtnListener(slot0.deviceBtn_, nil, function ()
 		JumpTools.OpenPageByJump("pushSnowBallDevicePop")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.weeklyTaskRewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.weeklyTaskRewardBtn_, nil, function ()
 		TaskAction:SubmitTaskList({
-			arg_6_0.weeklyTaskID
+			uv0.weeklyTaskID
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.touchHeroBtn_, nil, function()
-		arg_6_0:OnTouchHero()
+	slot0:AddBtnListener(slot0.touchHeroBtn_, nil, function ()
+		uv0:OnTouchHero()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.scoreModelBtn_, nil, function()
-		arg_6_0:SelectModel(var_0_1.SCORE)
+	slot0:AddBtnListener(slot0.scoreModelBtn_, nil, function ()
+		uv0:SelectModel(uv1.SCORE)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bowlingModelBtn_, nil, function()
-		arg_6_0:SelectModel(var_0_1.BOWLING)
+	slot0:AddBtnListener(slot0.bowlingModelBtn_, nil, function ()
+		uv0:SelectModel(uv1.BOWLING)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bossModelBtn_, nil, function()
-		arg_6_0:SelectModel(var_0_1.BOSS)
+	slot0:AddBtnListener(slot0.bossModelBtn_, nil, function ()
+		uv0:SelectModel(uv1.BOSS)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.modelDescBtn_, nil, function()
-		local var_14_0 = GetTips(PushSnowBallData:GetSingleDescTipsByModelAndSubModel(arg_6_0.modelType_ or 1))
+	slot0:AddBtnListener(slot0.modelDescBtn_, nil, function ()
+		slot0 = GetTips(PushSnowBallData:GetSingleDescTipsByModelAndSubModel(uv0.modelType_ or 1))
 
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_14_0,
-			key = var_14_0
+			content = slot0,
+			key = slot0
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.normalLevelBtn_, nil, function()
-		arg_6_0:SelectLevel(var_0_2.NORMAL)
+	slot0:AddBtnListener(slot0.normalLevelBtn_, nil, function ()
+		uv0:SelectLevel(uv1.NORMAL)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.hardLevelBtn_, nil, function()
-		arg_6_0:SelectLevel(var_0_2.HARD)
+	slot0:AddBtnListener(slot0.hardLevelBtn_, nil, function ()
+		uv0:SelectLevel(uv1.HARD)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		JumpTools.OpenPageByJump("pushSnowBallReward")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.startBtn_, nil, function()
-		local var_18_0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(arg_6_0.modelType_, arg_6_0.levelType_)
-		local var_18_1 = PushSnowBallCfg.get_id_list_by_activityId[var_18_0][1]
-		local var_18_2 = PushSnowBallCfg[var_18_1].stageId
-		local var_18_3 = BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE, var_18_2, {
-			activityID = var_18_0
-		})
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		slot0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(uv0.modelType_, uv0.levelType_)
 
-		BattleController.GetInstance():LaunchBattle(var_18_3)
+		BattleController.GetInstance():LaunchBattle(BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE, PushSnowBallCfg[PushSnowBallCfg.get_id_list_by_activityId[slot0][1]].stageId, {
+			activityID = slot0
+		}))
 	end)
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0.activityID_ = PushSnowBallData:GetSingleActivityID()
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = PushSnowBallData:GetSingleActivityID()
 
-	arg_19_0:SelectModel(_G["pushSnowBallModel" .. arg_19_0.activityID_] or arg_19_0.modelType_ or var_0_1.SCORE)
-	arg_19_0:SetWindowBar()
-	arg_19_0:RefreshUI()
-	arg_19_0:AddTimer()
-	manager.redPoint:bindUIandKey(arg_19_0.rewardBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE)
-	manager.redPoint:bindUIandKey(arg_19_0.deviceBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK)
-	manager.redPoint:bindUIandKey(arg_19_0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 1)
-	manager.redPoint:bindUIandKey(arg_19_0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 2)
-	manager.redPoint:bindUIandKey(arg_19_0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 3)
-	manager.redPoint:bindUIandKey(arg_19_0.commonItemGo_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD)
+	slot0:SelectModel(_G["pushSnowBallModel" .. slot0.activityID_] or slot0.modelType_ or uv0.SCORE)
+	slot0:SetWindowBar()
+	slot0:RefreshUI()
+	slot0:AddTimer()
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE)
+	manager.redPoint:bindUIandKey(slot0.deviceBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK)
+	manager.redPoint:bindUIandKey(slot0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 1)
+	manager.redPoint:bindUIandKey(slot0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 2)
+	manager.redPoint:bindUIandKey(slot0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 3)
+	manager.redPoint:bindUIandKey(slot0.commonItemGo_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD)
 end
 
-function var_0_0.SetWindowBar(arg_20_0)
+function slot0.SetWindowBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		DestroyLua()
 		LuaExchangeHelper.GoToMain()
 		OpenPageUntilLoaded("/pushSnowBallMain")
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
+	manager.windowBar:RegistHomeCallBack(function ()
 		DestroyLua()
 		LuaExchangeHelper.GoToMain()
 		OpenPageUntilLoaded("/home")
 	end)
 end
 
-function var_0_0.OnTouchHero(arg_23_0)
-	local var_23_0 = PushSnowBallGameMgr.GetInstance()
-	local var_23_1 = PushSnowBallData:GetSelectedHeroID()
-	local var_23_2 = var_23_0:GetPlayerEID()
-	local var_23_3 = GameDisplayCfg.dorm_interaction_stroke.value
-	local var_23_4 = DormHeroTemplate.PickInteractAction(var_23_3)
-	local var_23_5 = DormInteractSequence[var_23_4].name
+function slot0.OnTouchHero(slot0)
+	slot3 = PushSnowBallGameMgr.GetInstance():GetPlayerEID()
+	slot5 = DormHeroTemplate.PickInteractAction(GameDisplayCfg.dorm_interaction_stroke.value)
+	slot6 = DormInteractSequence[slot5].name
 
-	Dorm.DormEntityManager.SendInteractToEntityCMD(var_23_2, var_23_2, var_23_4, false)
+	Dorm.DormEntityManager.SendInteractToEntityCMD(slot3, slot3, slot5, false)
 	SDKTools.SendMessageToSDK("backhome_dorm_stroke", {
-		hero_id = var_23_1,
+		hero_id = PushSnowBallData:GetSelectedHeroID(),
 		activity_id = PushSnowBallData:GetActivityID()
 	})
 end
 
-function var_0_0.GetWeeklyTaskList(arg_24_0)
+function slot0.GetWeeklyTaskList(slot0)
 	return PushSnowBallData:GetWeeklyTaskList() or {}
 end
 
-function var_0_0.RefreshUI(arg_25_0)
-	arg_25_0:RefreshTaskList()
-	arg_25_0:RefreshHeroIcon()
-	arg_25_0:RefreshDeviceIcon()
-	arg_25_0:RefreshLockState()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTaskList()
+	slot0:RefreshHeroIcon()
+	slot0:RefreshDeviceIcon()
+	slot0:RefreshLockState()
 end
 
-function var_0_0.RefreshTaskList(arg_26_0)
-	local var_26_0 = arg_26_0:GetWeeklyTaskList() or {}
-	local var_26_1 = {}
+function slot0.RefreshTaskList(slot0)
+	slot1 = slot0:GetWeeklyTaskList() or {}
+	slot2 = {}
 
-	for iter_26_0, iter_26_1 in pairs(var_26_0) do
-		table.insert(var_26_1, iter_26_1)
+	for slot6, slot7 in pairs(slot1) do
+		table.insert(slot2, slot7)
 	end
 
-	table.sort(var_26_1, function(arg_27_0, arg_27_1)
-		return arg_27_0.id < arg_27_1.id
+	table.sort(slot2, function (slot0, slot1)
+		return slot0.id < slot1.id
 	end)
 
-	if table.isEmpty(var_26_0) then
-		for iter_26_2 = 1, 3 do
-			SetActive(arg_26_0.taskItemList_[iter_26_2].gameObject, false)
+	if table.isEmpty(slot1) then
+		for slot6 = 1, 3 do
+			SetActive(slot0.taskItemList_[slot6].gameObject, false)
 		end
 	else
-		arg_26_0:RefreshWeeklyTask()
+		slot0:RefreshWeeklyTask()
 
-		for iter_26_3 = 1, 3 do
-			arg_26_0.taskItemList_[iter_26_3]:SetData(iter_26_3, var_26_1[iter_26_3 + 1])
+		for slot6 = 1, 3 do
+			slot0.taskItemList_[slot6]:SetData(slot6, slot2[slot6 + 1])
 		end
 	end
 end
 
-function var_0_0.RefreshWeeklyTask(arg_28_0)
-	local var_28_0 = arg_28_0:GetWeeklyTaskList()
-	local var_28_1 = {}
+function slot0.RefreshWeeklyTask(slot0)
+	slot2 = {}
 
-	for iter_28_0, iter_28_1 in pairs(var_28_0) do
-		table.insert(var_28_1, iter_28_1)
+	for slot6, slot7 in pairs(slot0:GetWeeklyTaskList()) do
+		table.insert(slot2, slot7)
 	end
 
-	table.sort(var_28_1, function(arg_29_0, arg_29_1)
-		return arg_29_0.id < arg_29_1.id
+	table.sort(slot2, function (slot0, slot1)
+		return slot0.id < slot1.id
 	end)
 
-	arg_28_0.weeklyTaskID = var_28_1[1].id
+	slot0.weeklyTaskID = slot2[1].id
+	slot3 = AssignmentCfg[slot0.weeklyTaskID]
+	slot4 = AssignmentCfg[slot0.weeklyTaskID].reward
 
-	local var_28_2 = AssignmentCfg[arg_28_0.weeklyTaskID]
-	local var_28_3 = AssignmentCfg[arg_28_0.weeklyTaskID].reward
-
-	arg_28_0.commonItem_:RefreshData({
-		id = var_28_3[1][1],
-		number = var_28_3[1][2]
+	slot0.commonItem_:RefreshData({
+		id = slot4[1][1],
+		number = slot4[1][2]
 	})
-	arg_28_0.commonItem_:RegistCallBack(function()
+	slot0.commonItem_:RegistCallBack(function ()
 		ShowPopItem(POP_ITEM, {
-			var_28_3[1][1]
+			uv0[1][1]
 		})
 	end)
 
-	arg_28_0.taskNumText_.text = var_28_1[1].progress .. "/" .. AssignmentCfg[arg_28_0.weeklyTaskID].need
+	slot0.taskNumText_.text = slot2[1].progress .. "/" .. AssignmentCfg[slot0.weeklyTaskID].need
+	slot5 = TaskData2:GetTaskComplete(slot0.weeklyTaskID)
 
-	local var_28_4 = TaskData2:GetTaskComplete(arg_28_0.weeklyTaskID)
-
-	if not (AssignmentCfg[arg_28_0.weeklyTaskID].need <= var_28_1[1].progress) then
-		arg_28_0.rewardController_:SetSelectedState("unfinished")
-	elseif not var_28_4 then
-		arg_28_0.rewardController_:SetSelectedState("complete")
+	if not (AssignmentCfg[slot0.weeklyTaskID].need <= slot2[1].progress) then
+		slot0.rewardController_:SetSelectedState("unfinished")
+	elseif not slot5 then
+		slot0.rewardController_:SetSelectedState("complete")
 	else
-		arg_28_0.rewardController_:SetSelectedState("rewarded")
+		slot0.rewardController_:SetSelectedState("rewarded")
 	end
 end
 
-function var_0_0.RefreshHeroIcon(arg_31_0)
-	arg_31_0.heroIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/BackHouseUI/RoleHead/" .. PushSnowBallData:GetSelectedHeroID())
+function slot0.RefreshHeroIcon(slot0)
+	slot0.heroIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/BackHouseUI/RoleHead/" .. PushSnowBallData:GetSelectedHeroID())
 end
 
-function var_0_0.RefreshDeviceIcon(arg_32_0)
-	local var_32_0 = PushSnowBallData:GetSelectedDeviceID()
+function slot0.RefreshDeviceIcon(slot0)
+	slot0.deviceController_:SetSelectedState(tostring(PushSnowBallData:GetSelectedDeviceID() ~= 0))
 
-	arg_32_0.deviceController_:SetSelectedState(tostring(var_32_0 ~= 0))
-
-	if var_32_0 ~= 0 then
-		arg_32_0.deviceIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l" .. PushSnowBallDeviceCfg[PushSnowBallData:GetSelectedDeviceID()].icon)
+	if slot1 ~= 0 then
+		slot0.deviceIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l" .. PushSnowBallDeviceCfg[PushSnowBallData:GetSelectedDeviceID()].icon)
 	end
 end
 
-function var_0_0.RefreshLockState(arg_33_0)
-	for iter_33_0 = 2, 3 do
-		local var_33_0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(iter_33_0, 1)
-		local var_33_1 = ActivityData:GetActivityData(var_33_0)
-
-		if not arg_33_0:IsActiveTimeWithoutTips(var_33_1) then
-			arg_33_0.modelLockControllerList_[iter_33_0 - 1]:SetSelectedState("true")
+function slot0.RefreshLockState(slot0)
+	for slot4 = 2, 3 do
+		if not slot0:IsActiveTimeWithoutTips(ActivityData:GetActivityData(PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(slot4, 1))) then
+			slot0.modelLockControllerList_[slot4 - 1]:SetSelectedState("true")
 		else
-			arg_33_0.modelLockControllerList_[iter_33_0 - 1]:SetSelectedState("false")
+			slot0.modelLockControllerList_[slot4 - 1]:SetSelectedState("false")
 		end
 	end
 
-	local var_33_2 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(arg_33_0.modelType_ or 1, 2)
-	local var_33_3 = ActivityData:GetActivityData(var_33_2)
+	if not slot0:IsActiveTimeWithoutTips(ActivityData:GetActivityData(PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(slot0.modelType_ or 1, 2))) then
+		slot0.hardLockController_:SetSelectedState("true")
 
-	if not arg_33_0:IsActiveTimeWithoutTips(var_33_3) then
-		arg_33_0.hardLockController_:SetSelectedState("true")
-
-		local var_33_4 = GetTips("OPEN_TIME")
-
-		arg_33_0.lockText_.text = string.format(var_33_4, manager.time:GetLostTimeStr2(var_33_3.startTime, nil, true))
+		slot0.lockText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(slot2.startTime, nil, true))
 	else
-		arg_33_0.hardLockController_:SetSelectedState("false")
+		slot0.hardLockController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.SelectModel(arg_34_0, arg_34_1)
-	local var_34_0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(arg_34_1, 1)
-	local var_34_1 = ActivityData:GetActivityData(var_34_0)
-
-	if not arg_34_0:IsActiveTime(var_34_1) then
+function slot0.SelectModel(slot0, slot1)
+	if not slot0:IsActiveTime(ActivityData:GetActivityData(PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(slot1, 1))) then
 		return
 	end
 
-	if arg_34_0.modelType_ then
-		manager.redPoint:unbindUIandKey(arg_34_0.hardLevelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. arg_34_0.modelType_)
+	if slot0.modelType_ then
+		manager.redPoint:unbindUIandKey(slot0.hardLevelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot0.modelType_)
 	end
 
-	manager.redPoint:bindUIandKey(arg_34_0.hardLevelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. arg_34_1)
+	slot7 = slot0.hardLevelBtn_.transform
+	slot8 = RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot1
 
-	arg_34_0.modelType_ = arg_34_1
+	manager.redPoint:bindUIandKey(slot7, slot8)
 
-	for iter_34_0, iter_34_1 in ipairs(arg_34_0.modelSelectControllerList_) do
-		iter_34_1:SetSelectedState(tostring(iter_34_0 == arg_34_1))
+	slot0.modelType_ = slot1
+
+	for slot7, slot8 in ipairs(slot0.modelSelectControllerList_) do
+		slot8:SetSelectedState(tostring(slot7 == slot1))
 	end
 
-	arg_34_0.normalLevelImgController_:SetSelectedState(arg_34_1)
-	arg_34_0.hardlLevelImgController_:SetSelectedState(arg_34_1)
+	slot0.normalLevelImgController_:SetSelectedState(slot1)
+	slot0.hardlLevelImgController_:SetSelectedState(slot1)
 
-	arg_34_0.modelNameText_.text = GetTips("ACTIVITY_SNOWBALL_PUSH_SINGLE_MOD_" .. arg_34_0.modelType_)
-	_G["pushSnowBallModel" .. arg_34_0.activityID_] = arg_34_0.modelType_
-	arg_34_0.levelType_ = _G["pushSnowBallLevel" .. arg_34_0.modelType_ .. arg_34_0.activityID_] or 1
+	slot0.modelNameText_.text = GetTips("ACTIVITY_SNOWBALL_PUSH_SINGLE_MOD_" .. slot0.modelType_)
+	_G["pushSnowBallModel" .. slot0.activityID_] = slot0.modelType_
+	slot0.levelType_ = _G["pushSnowBallLevel" .. slot0.modelType_ .. slot0.activityID_] or 1
 
-	arg_34_0:SelectLevel(arg_34_0.levelType_)
-	arg_34_0.levelAni_:Play("Fx_panelItem_cx 1", 0, 0)
-	arg_34_0.levelAni_:Update(0)
+	slot0:SelectLevel(slot0.levelType_)
+	slot0.levelAni_:Play("Fx_panelItem_cx 1", 0, 0)
+	slot0.levelAni_:Update(0)
 end
 
-function var_0_0.SelectLevel(arg_35_0, arg_35_1)
-	local var_35_0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(arg_35_0.modelType_, arg_35_1)
-	local var_35_1 = ActivityData:GetActivityData(var_35_0)
-
-	if not arg_35_0:IsActiveTime(var_35_1) then
+function slot0.SelectLevel(slot0, slot1)
+	if not slot0:IsActiveTime(ActivityData:GetActivityData(PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(slot0.modelType_, slot1))) then
 		return
 	end
 
-	arg_35_0.levelType_ = arg_35_1
-	_G["pushSnowBallLevel" .. arg_35_0.modelType_ .. arg_35_0.activityID_] = arg_35_1
+	slot0.levelType_ = slot1
+	slot7 = slot0.activityID_
+	_G["pushSnowBallLevel" .. slot0.modelType_ .. slot7] = slot1
 
-	for iter_35_0, iter_35_1 in ipairs(arg_35_0.levelSelectControllerList_) do
-		iter_35_1:SetSelectedState(tostring(iter_35_0 == arg_35_1))
+	for slot7, slot8 in ipairs(slot0.levelSelectControllerList_) do
+		slot8:SetSelectedState(tostring(slot7 == slot1))
 	end
 
-	arg_35_0:RefreshLockState()
-	saveData("PushSnowBall", "Level" .. arg_35_0.modelType_ .. PlayerData:GetPlayerInfo().userID, true)
+	slot0:RefreshLockState()
+	saveData("PushSnowBall", "Level" .. slot0.modelType_ .. PlayerData:GetPlayerInfo().userID, true)
 
-	if arg_35_1 == 2 then
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. arg_35_0.modelType_, 0)
+	if slot1 == 2 then
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot0.modelType_, 0)
 	end
 end
 
-function var_0_0.IsActiveTime(arg_36_0, arg_36_1)
-	local var_36_0 = arg_36_1.startTime
-	local var_36_1 = arg_36_1.stopTime
+function slot0.IsActiveTime(slot0, slot1)
+	slot3 = slot1.stopTime
 
-	if var_36_0 > manager.time:GetServerTime() then
-		local var_36_2 = GetTips("OPEN_TIME")
-
-		ShowTips(string.format(var_36_2, manager.time:GetLostTimeStr2(var_36_0, nil, true)))
+	if manager.time:GetServerTime() < slot1.startTime then
+		ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(slot2, nil, true)))
 
 		return false
 	end
 
-	if var_36_1 <= manager.time:GetServerTime() then
+	if slot3 <= manager.time:GetServerTime() then
 		ShowTips("TIME_OVER")
 
 		return false
@@ -362,103 +336,97 @@ function var_0_0.IsActiveTime(arg_36_0, arg_36_1)
 	return true
 end
 
-function var_0_0.IsActiveTimeWithoutTips(arg_37_0, arg_37_1)
-	local var_37_0 = arg_37_1.startTime
-	local var_37_1 = arg_37_1.stopTime
+function slot0.IsActiveTimeWithoutTips(slot0, slot1)
+	slot3 = slot1.stopTime
 
-	if var_37_0 > manager.time:GetServerTime() then
+	if manager.time:GetServerTime() < slot1.startTime then
 		return false
 	end
 
-	if var_37_1 <= manager.time:GetServerTime() then
+	if slot3 <= manager.time:GetServerTime() then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.OnExit(arg_38_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_38_0.timer_ then
-		arg_38_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_38_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_38_0.rewardBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE)
-	manager.redPoint:unbindUIandKey(arg_38_0.deviceBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK)
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE)
+	manager.redPoint:unbindUIandKey(slot0.deviceBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK)
 
-	if arg_38_0.modelType_ then
-		manager.redPoint:unbindUIandKey(arg_38_0.hardLevelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. arg_38_0.modelType_)
+	if slot0.modelType_ then
+		manager.redPoint:unbindUIandKey(slot0.hardLevelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. slot0.modelType_)
 	end
 
-	manager.redPoint:unbindUIandKey(arg_38_0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 1)
-	manager.redPoint:unbindUIandKey(arg_38_0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 2)
-	manager.redPoint:unbindUIandKey(arg_38_0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 3)
-	manager.redPoint:unbindUIandKey(arg_38_0.commonItemGo_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD)
+	manager.redPoint:unbindUIandKey(slot0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 1)
+	manager.redPoint:unbindUIandKey(slot0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 2)
+	manager.redPoint:unbindUIandKey(slot0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_LEVEL_UNLOCK .. 3)
+	manager.redPoint:unbindUIandKey(slot0.commonItemGo_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_REWARD)
 end
 
-function var_0_0.OnTop(arg_39_0)
-	arg_39_0:SetWindowBar()
-	arg_39_0:RefreshUI()
+function slot0.OnTop(slot0)
+	slot0:SetWindowBar()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnBehind(arg_40_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.AddTimer(arg_41_0)
-	local var_41_0 = ActivityData:GetActivityData(arg_41_0.activityID_).stopTime
-	local var_41_1
-	local var_41_2
+function slot0.AddTimer(slot0)
+	slot3, slot4 = nil
+	slot0.leftTimeText_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(slot0.activityID_).stopTime, nil, true)
 
-	arg_41_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_41_0, nil, true)
-
-	if arg_41_0.taskLeftTimeText_ then
-		var_41_2 = ActivityData:GetActivityData(AssignmentCfg[arg_41_0.weeklyTaskID].activity_id).stopTime
-		arg_41_0.taskLeftTimeText_.text = manager.time:GetLostTimeStr2(var_41_2, nil, true)
+	if slot0.taskLeftTimeText_ then
+		slot0.taskLeftTimeText_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(AssignmentCfg[slot0.weeklyTaskID].activity_id).stopTime, nil, true)
 	end
 
-	local var_41_3 = PushSnowBallData:GetRefreshTimeStamp()
-
-	arg_41_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > var_41_0 then
+	slot5 = PushSnowBallData:GetRefreshTimeStamp()
+	slot0.timer_ = Timer.New(function ()
+		if uv0 < manager.time:GetServerTime() then
 			return
 		end
 
-		arg_41_0:RefreshLockState()
+		uv1:RefreshLockState()
 
-		for iter_42_0, iter_42_1 in ipairs(var_41_3) do
-			if manager.time:GetServerTime() == iter_42_1 then
-				arg_41_0:RefreshTaskList()
+		for slot3, slot4 in ipairs(uv2) do
+			if manager.time:GetServerTime() == slot4 then
+				uv1:RefreshTaskList()
 			end
 		end
 
-		arg_41_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_41_0, nil, true)
+		uv1.leftTimeText_.text = manager.time:GetLostTimeStr2(uv0, nil, true)
 
-		if arg_41_0.taskLeftTimeText_ then
-			arg_41_0.taskLeftTimeText_.text = manager.time:GetLostTimeStr2(var_41_2, nil, true)
+		if uv1.taskLeftTimeText_ then
+			uv1.taskLeftTimeText_.text = manager.time:GetLostTimeStr2(uv3, nil, true)
 		end
 	end, 1, -1)
 
-	arg_41_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.Dispose(arg_43_0)
-	for iter_43_0, iter_43_1 in ipairs(arg_43_0.taskItemList_) do
-		iter_43_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.taskItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_43_0.taskItemList_ = nil
+	slot0.taskItemList_ = nil
 
-	if arg_43_0.commonItem_ then
-		arg_43_0.commonItem_:Dispose()
+	if slot0.commonItem_ then
+		slot0.commonItem_:Dispose()
 
-		arg_43_0.commonItem_ = nil
+		slot0.commonItem_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_43_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

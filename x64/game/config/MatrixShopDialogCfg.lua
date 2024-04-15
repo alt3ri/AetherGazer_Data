@@ -49,6 +49,9 @@ return {
 		content = "那么，再见喵。"
 	},
 	get_id_list_by_type = {
+		{
+			1
+		},
 		[5] = {
 			6,
 			7
@@ -62,9 +65,6 @@ return {
 		[2] = {
 			2,
 			3
-		},
-		{
-			1
 		}
 	},
 	all = {

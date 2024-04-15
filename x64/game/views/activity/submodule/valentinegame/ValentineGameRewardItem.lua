@@ -1,93 +1,88 @@
-local var_0_0 = class("ValentineGameRewardItem", ReduxView)
+slot0 = class("ValentineGameRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.stateCon_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
+	slot0.rewardItems_ = {}
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if ActivityData:GetActivityData(arg_4_0.activityID_):IsActivitying() then
-			ValentineGameAction:GetReward(arg_4_0.activityID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if ActivityData:GetActivityData(uv0.activityID_):IsActivitying() then
+			ValentineGameAction:GetReward(uv0.activityID_)
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.activityID_ = arg_7_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.activityID_ = slot1
 
-	arg_7_0:RefreshReward()
-	arg_7_0:RefreshState()
+	slot0:RefreshReward()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshReward(arg_8_0)
-	arg_8_0.cfg_ = ActivityValentineCfg[arg_8_0.activityID_]
+function slot0.RefreshReward(slot0)
+	slot0.cfg_ = ActivityValentineCfg[slot0.activityID_]
 
-	local var_8_0 = arg_8_0.cfg_.reward_item_list
+	for slot5, slot6 in ipairs(slot0.cfg_.reward_item_list) do
+		if not slot0.rewardItems_[slot5] then
+			slot0.rewardItems_[slot5] = RewardItem.New(slot0.rewardItem_, slot0.rewardParent_)
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not arg_8_0.rewardItems_[iter_8_0] then
-			arg_8_0.rewardItems_[iter_8_0] = RewardItem.New(arg_8_0.rewardItem_, arg_8_0.rewardParent_)
-
-			arg_8_0.rewardItems_[iter_8_0]:UpdateCommonItemAni()
+			slot0.rewardItems_[slot5]:UpdateCommonItemAni()
 		end
 
-		arg_8_0.rewardItems_[iter_8_0]:SetData(iter_8_1)
+		slot0.rewardItems_[slot5]:SetData(slot6)
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.rewardItems_ do
-		arg_8_0.rewardItems_[iter_8_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot5]:Show(false)
 	end
 
-	arg_8_0.text_.text = string.format(GetTips("ACTIVITY_VALENTINE_REWARD_NEED_DESC"), arg_8_0.cfg_.name)
+	slot0.text_.text = string.format(GetTips("ACTIVITY_VALENTINE_REWARD_NEED_DESC"), slot0.cfg_.name)
 end
 
-function var_0_0.RefreshState(arg_9_0)
-	local var_9_0 = ValentineGameData:GetData(arg_9_0.activityID_)
-
-	if var_9_0 and var_9_0.isReward then
-		arg_9_0.stateCon_:SetSelectedState("received")
-	elseif var_9_0 and var_9_0.isClear then
-		arg_9_0.stateCon_:SetSelectedState("complete")
+function slot0.RefreshState(slot0)
+	if ValentineGameData:GetData(slot0.activityID_) and slot1.isReward then
+		slot0.stateCon_:SetSelectedState("received")
+	elseif slot1 and slot1.isClear then
+		slot0.stateCon_:SetSelectedState("complete")
 	else
-		arg_9_0.stateCon_:SetSelectedState("uncomplete")
+		slot0.stateCon_:SetSelectedState("uncomplete")
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	for iter_10_0 = 1, #arg_10_0.rewardItems_ do
-		arg_10_0.rewardItems_[iter_10_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_11_0 = 1, #arg_11_0.rewardItems_ do
-		arg_11_0.rewardItems_[iter_11_0]:Dispose()
+	for slot4 = 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Dispose()
 	end
 
-	arg_11_0.super.Dispose(arg_11_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

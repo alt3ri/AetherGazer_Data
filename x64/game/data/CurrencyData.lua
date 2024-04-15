@@ -1,49 +1,50 @@
-local var_0_0 = singletonClass("CurrencyData")
-local var_0_1 = 0
-local var_0_2 = 0
-local var_0_3 = 0
-local var_0_4 = false
-local var_0_5 = 0
-local var_0_6 = {}
-local var_0_7 = {}
-local var_0_8 = {}
+slot0 = singletonClass("CurrencyData")
+slot1 = 0
+slot2 = 0
+slot3 = 0
+slot4 = false
+slot5 = 0
+slot6 = {}
+slot7 = {}
+slot8 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = 0
-	var_0_2 = 0
-	var_0_3 = 0
-	var_0_4 = false
-	var_0_5 = 0
-	var_0_6 = {}
-	var_0_7 = {}
-	var_0_8 = {}
+function slot0.Init(slot0)
+	uv0 = 0
+	uv1 = 0
+	uv2 = 0
+	uv3 = false
+	uv4 = 0
+	uv5 = {}
+	uv6 = {}
+	uv7 = {}
+	slot4 = ItemConst.ITEM_TYPE.CURRENCY
 
-	for iter_1_0, iter_1_1 in ipairs(ItemCfg.get_id_list_by_type[ItemConst.ITEM_TYPE.CURRENCY]) do
-		var_0_6[iter_1_1] = {
+	for slot4, slot5 in ipairs(ItemCfg.get_id_list_by_type[slot4]) do
+		uv5[slot5] = {
 			num = 0,
-			id = iter_1_1
+			id = slot5
 		}
 	end
 
 	manager.notify:Invoke(CURRENCY_UPDATE, 0)
 end
 
-function var_0_0.CurrencyBuyTimes(arg_2_0, arg_2_1, arg_2_2)
-	var_0_1 = arg_2_1
-	var_0_2 = arg_2_2
+function slot0.CurrencyBuyTimes(slot0, slot1, slot2)
+	uv0 = slot1
+	uv1 = slot2
 
 	manager.notify:Invoke(CURRENCY_BUY_TIME_UPDATE, 0)
 end
 
-function var_0_0.InitExpiredCurrencyList(arg_3_0, arg_3_1)
-	var_0_8 = {}
+function slot0.InitExpiredCurrencyList(slot0, slot1)
+	uv0 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		if iter_3_1.num > 0 then
-			table.insert(var_0_8, {
-				id = iter_3_1.id,
-				num = iter_3_1.num,
-				timeValid = iter_3_1.time_valid
+	for slot5, slot6 in ipairs(slot1) do
+		if slot6.num > 0 then
+			table.insert(uv0, {
+				id = slot6.id,
+				num = slot6.num,
+				timeValid = slot6.time_valid
 			})
 		end
 	end
@@ -51,166 +52,160 @@ function var_0_0.InitExpiredCurrencyList(arg_3_0, arg_3_1)
 	manager.notify:Invoke(MATERIAL_EXPIRED)
 end
 
-function var_0_0.CurrencyInit(arg_4_0, arg_4_1, arg_4_2)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1) do
-		if iter_4_1.time_valid and iter_4_1.time_valid ~= 0 then
-			var_0_7[iter_4_1.id] = var_0_7[iter_4_1.id] or {}
-			var_0_7[iter_4_1.id][iter_4_1.time_valid] = iter_4_1.num
+function slot0.CurrencyInit(slot0, slot1, slot2)
+	for slot6, slot7 in ipairs(slot1) do
+		if slot7.time_valid and slot7.time_valid ~= 0 then
+			uv0[slot7.id] = uv0[slot7.id] or {}
+			uv0[slot7.id][slot7.time_valid] = slot7.num
 		else
-			var_0_6[iter_4_1.id] = {}
-			var_0_6[iter_4_1.id].id = iter_4_1.id
-			var_0_6[iter_4_1.id].num = iter_4_1.num
+			uv1[slot7.id] = {
+				id = slot7.id,
+				num = slot7.num
+			}
 
-			manager.notify:Invoke(CURRENCY_UPDATE, iter_4_1.id)
+			manager.notify:Invoke(CURRENCY_UPDATE, slot7.id)
 
-			if iter_4_1.id == CurrencyConst.CURRENCY_TYPE_VITALITY then
-				local var_4_0 = PlayerData:GetPlayerInfo().userLevel
-				local var_4_1 = GameLevelSetting[var_4_0].fatigue_max
-
-				if iter_4_1.num <= var_4_1 - GameSetting.push_notification_fatigue_threshold.value[1] then
-					arg_4_0:SetFatigueCallFlag(1)
-				end
+			if slot7.id == CurrencyConst.CURRENCY_TYPE_VITALITY and slot7.num <= GameLevelSetting[PlayerData:GetPlayerInfo().userLevel].fatigue_max - GameSetting.push_notification_fatigue_threshold.value[1] then
+				slot0:SetFatigueCallFlag(1)
 			end
 		end
 	end
 
-	if arg_4_2 ~= nil then
-		var_0_3 = arg_4_2
+	if slot2 ~= nil then
+		uv2 = slot2
 	end
 
 	SDKTools.SetDefaultPublicAttribute()
 end
 
-function var_0_0.SetLastFatigueRecoverTime(arg_5_0, arg_5_1)
-	var_0_3 = arg_5_1
+function slot0.SetLastFatigueRecoverTime(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.SetCurrencyValue(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	if arg_6_3 > 0 then
-		var_0_7[arg_6_1] = var_0_7[arg_6_1] or {}
-		var_0_7[arg_6_1][arg_6_3] = arg_6_2
+function slot0.SetCurrencyValue(slot0, slot1, slot2, slot3)
+	if slot3 > 0 then
+		uv0[slot1] = uv0[slot1] or {}
+		uv0[slot1][slot3] = slot2
 	else
-		var_0_6[arg_6_1].num = arg_6_2
+		uv1[slot1].num = slot2
 	end
 
-	if arg_6_1 == CurrencyConst.CURRENCY_TYPE_VITALITY and var_0_6[arg_6_1].num > ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max then
-		var_0_6[arg_6_1].num = ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max
+	if slot1 == CurrencyConst.CURRENCY_TYPE_VITALITY and ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max < uv1[slot1].num then
+		uv1[slot1].num = ItemCfg[CurrencyConst.CURRENCY_TYPE_VITALITY].max
 	end
 
-	if arg_6_1 == CurrencyConst.GetOtherPlatformDiamondId() and AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].currency_merge == 1 then
-		arg_6_1 = CurrencyConst.GetPlatformDiamondId()
+	if slot1 == CurrencyConst.GetOtherPlatformDiamondId() and AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].currency_merge == 1 then
+		slot1 = CurrencyConst.GetPlatformDiamondId()
 	end
 
-	if arg_6_1 == CurrencyConst.CURRENCY_TYPE_SHIFTING_EXP then
+	if slot1 == CurrencyConst.CURRENCY_TYPE_SHIFTING_EXP then
 		PolyhedronAction.RefreshPolicyRedPoint()
 	end
 
-	manager.notify:Invoke(CURRENCY_UPDATE, arg_6_1, arg_6_3, arg_6_2)
+	manager.notify:Invoke(CURRENCY_UPDATE, slot1, slot3, slot2)
 
-	if arg_6_1 == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE or arg_6_1 == CurrencyConst.GetPlatformDiamondId() then
+	if slot1 == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE or slot1 == CurrencyConst.GetPlatformDiamondId() then
 		SDKTools.SetCurrencyPublicAttribute(CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE)
-	elseif arg_6_1 == CurrencyConst.CURRENCY_TYPE_VITALITY then
-		SDKTools.SetCurrencyPublicAttribute(arg_6_1)
-	elseif arg_6_1 == CurrencyConst.CURRENCY_TYPE_GOLD then
-		SDKTools.SetCurrencyPublicAttribute(arg_6_1)
-	elseif arg_6_1 == CurrencyConst.CURRENCY_TYPE_DIAMOND then
-		SDKTools.SetCurrencyPublicAttribute(arg_6_1)
+	elseif slot1 == CurrencyConst.CURRENCY_TYPE_VITALITY then
+		SDKTools.SetCurrencyPublicAttribute(slot1)
+	elseif slot1 == CurrencyConst.CURRENCY_TYPE_GOLD then
+		SDKTools.SetCurrencyPublicAttribute(slot1)
+	elseif slot1 == CurrencyConst.CURRENCY_TYPE_DIAMOND then
+		SDKTools.SetCurrencyPublicAttribute(slot1)
 	end
 end
 
-function var_0_0.GetTimeVaildCurrencyListBySubTypes(arg_7_0, arg_7_1)
-	local var_7_0 = {}
+function slot0.GetTimeVaildCurrencyListBySubTypes(slot0, slot1)
+	slot2 = {}
 
-	for iter_7_0, iter_7_1 in pairs(var_0_7[arg_7_1] or {}) do
-		table.insert(var_7_0, {
-			id = arg_7_1,
-			num = iter_7_1,
-			timeValid = iter_7_0
+	for slot6, slot7 in pairs(uv0[slot1] or {}) do
+		table.insert(slot2, {
+			id = slot1,
+			num = slot7,
+			timeValid = slot6
 		})
 	end
 
-	return var_7_0
+	return slot2
 end
 
-function var_0_0.GetGoldBuyTimes(arg_8_0)
-	return var_0_1
+function slot0.GetGoldBuyTimes(slot0)
+	return uv0
 end
 
-function var_0_0.GetFatigueBuyTimes(arg_9_0)
-	return var_0_2
+function slot0.GetFatigueBuyTimes(slot0)
+	return uv0
 end
 
-function var_0_0.GetLastFatigueRecoverTime(arg_10_0)
-	return var_0_3
+function slot0.GetLastFatigueRecoverTime(slot0)
+	return uv0
 end
 
-function var_0_0.GetVitalityFull(arg_11_0)
-	return var_0_4
+function slot0.GetVitalityFull(slot0)
+	return uv0
 end
 
-function var_0_0.VitalityFull(arg_12_0, arg_12_1)
-	var_0_4 = arg_12_1
+function slot0.VitalityFull(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetRechargeDiamond(arg_13_0)
-	if var_0_6 == nil then
+function slot0.GetRechargeDiamond(slot0)
+	if uv0 == nil then
 		return 0
 	end
 
-	local var_13_0 = var_0_6[CurrencyConst.GetPlatformDiamondId()].num
-	local var_13_1 = var_0_6[CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE].num
-	local var_13_2 = 0
+	slot1 = uv0[CurrencyConst.GetPlatformDiamondId()].num
+	slot2 = uv0[CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE].num
+	slot3 = 0
 
 	if AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].currency_merge == 1 or SDKTools.GetIsOverSea() == false then
-		var_13_2 = var_0_6[CurrencyConst.GetOtherPlatformDiamondId()].num
+		slot3 = uv0[CurrencyConst.GetOtherPlatformDiamondId()].num
 	end
 
-	return var_13_0 + var_13_1 + var_13_2
+	return slot1 + slot2 + slot3
 end
 
-function var_0_0.GetCurrencyNum(arg_14_0, arg_14_1)
-	if arg_14_1 == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE then
-		return arg_14_0:GetRechargeDiamond()
+function slot0.GetCurrencyNum(slot0, slot1)
+	if slot1 == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE then
+		return slot0:GetRechargeDiamond()
 	end
 
-	if var_0_7[arg_14_1] then
-		local var_14_0 = 0
-
-		for iter_14_0, iter_14_1 in pairs(var_0_7[arg_14_1]) do
-			var_14_0 = iter_14_1 + var_14_0
+	if uv0[slot1] then
+		for slot6, slot7 in pairs(uv0[slot1]) do
+			slot2 = slot7 + 0
 		end
 
-		return var_14_0
-	elseif var_0_6[arg_14_1] == nil then
-		var_0_6[arg_14_1] = {
+		return slot2
+	elseif uv1[slot1] == nil then
+		uv1[slot1] = {
 			num = 0,
-			id = arg_14_1
+			id = slot1
 		}
 
 		return 0
 	end
 
-	return var_0_6[arg_14_1].num
+	return uv1[slot1].num
 end
 
-function var_0_0.SetFatigueCallFlag(arg_15_0, arg_15_1)
-	var_0_5 = arg_15_1
+function slot0.SetFatigueCallFlag(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetFatigueCallFlag(arg_16_0)
-	return var_0_5
+function slot0.GetFatigueCallFlag(slot0)
+	return uv0
 end
 
-function var_0_0.IsRechargeDiamond(arg_17_0, arg_17_1)
-	return arg_17_1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id or arg_17_1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_IOS.item_id or arg_17_1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
+function slot0.IsRechargeDiamond(slot0, slot1)
+	return slot1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE.item_id or slot1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_IOS.item_id or slot1 == CurrencyIdMapCfg.CURRENCY_TYPE_RECHARGE_DIAMOND_NOT_IOS.item_id
 end
 
-function var_0_0.CheckExpiredCurrencyList(arg_18_0)
-	return var_0_8
+function slot0.CheckExpiredCurrencyList(slot0)
+	return uv0
 end
 
-function var_0_0.ClearExpiredCurrencyList(arg_19_0)
-	var_0_8 = {}
+function slot0.ClearExpiredCurrencyList(slot0)
+	uv0 = {}
 end
 
-return var_0_0
+return slot0

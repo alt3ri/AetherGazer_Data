@@ -1,236 +1,223 @@
-local var_0_0 = class("DromPrivateRoomItem", ReduxView)
+slot0 = class("DromPrivateRoomItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.publicHeroScroll = LuaList.New(handler(arg_2_0, arg_2_0.indexHeroItem), arg_2_0.uilistGo_, BackHomeNewHeroItem)
-	arg_2_0.publicStateController = ControllerUtil.GetController(arg_2_0.transform_, "roomType")
-	arg_2_0.emptyController = ControllerUtil.GetController(arg_2_0.uilistGo_.transform, "empty")
-	arg_2_0.publicVisitController = ControllerUtil.GetController(arg_2_0.publicGo_.transform, "visit")
-	arg_2_0.floorAniamtion = arg_2_0.dimianGo_:GetComponent("Animation")
-	arg_2_0.edit = false
-	arg_2_0.time = 2 / GameDisplayCfg.dorm_area_swap_speed.value[1]
+	slot0.publicHeroScroll = LuaList.New(handler(slot0, slot0.indexHeroItem), slot0.uilistGo_, BackHomeNewHeroItem)
+	slot0.publicStateController = ControllerUtil.GetController(slot0.transform_, "roomType")
+	slot0.emptyController = ControllerUtil.GetController(slot0.uilistGo_.transform, "empty")
+	slot0.publicVisitController = ControllerUtil.GetController(slot0.publicGo_.transform, "visit")
+	slot0.floorAniamtion = slot0.dimianGo_:GetComponent("Animation")
+	slot0.edit = false
+	slot0.time = 2 / GameDisplayCfg.dorm_area_swap_speed.value[1]
 
-	arg_2_0:InitPrivateRoomItemInfo()
-	arg_2_0:RegisterEvents()
-	arg_2_0:AddUIListener()
+	slot0:InitPrivateRoomItemInfo()
+	slot0:RegisterEvents()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitPrivateRoomItemInfo(arg_3_0)
-	arg_3_0.itemPosition = {}
-	arg_3_0.item = {}
+function slot0.InitPrivateRoomItemInfo(slot0)
+	slot0.itemPosition = {}
+	slot0.item = {}
 
-	for iter_3_0 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
-		arg_3_0.item[iter_3_0] = DormRoomItem.New(arg_3_0["item" .. iter_3_0 .. "Go_"])
+	for slot4 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
+		slot0.item[slot4] = DormRoomItem.New(slot0["item" .. slot4 .. "Go_"])
 
-		arg_3_0.item[iter_3_0]:SetPosAndRoomID(iter_3_0)
-		arg_3_0:AddBtnCallBack(arg_3_0.item[iter_3_0])
+		slot0.item[slot4]:SetPosAndRoomID(slot4)
+		slot0:AddBtnCallBack(slot0.item[slot4])
 
-		arg_3_0.itemPosition[iter_3_0] = {}
-		arg_3_0.itemPosition[iter_3_0].has = true
-		arg_3_0.itemPosition[iter_3_0].pos = Vector3.New(arg_3_0.item[iter_3_0].transform_.localPosition.x, arg_3_0.item[iter_3_0].transform_.localPosition.y, arg_3_0.item[iter_3_0].transform_.localPosition.z)
+		slot0.itemPosition[slot4] = {
+			has = true,
+			pos = Vector3.New(slot0.item[slot4].transform_.localPosition.x, slot0.item[slot4].transform_.localPosition.y, slot0.item[slot4].transform_.localPosition.z)
+		}
 	end
 
-	arg_3_0.itemPosition[1].slibing = 6
-	arg_3_0.itemPosition[2].slibing = 2
-	arg_3_0.itemPosition[3].slibing = 5
-	arg_3_0.itemPosition[4].slibing = 7
-	arg_3_0.itemPosition[5].slibing = 3
-	arg_3_0.itemPosition[6].slibing = 1
-	arg_3_0.itemPosition[7].slibing = 4
-	arg_3_0.itemPosition[8].slibing = 8
-	arg_3_0.itemPosition[9].slibing = 8
-	arg_3_0.itemPosition[10].slibing = 8
-	arg_3_0.itemPosition[11].slibing = 8
+	slot0.itemPosition[1].slibing = 6
+	slot0.itemPosition[2].slibing = 2
+	slot0.itemPosition[3].slibing = 5
+	slot0.itemPosition[4].slibing = 7
+	slot0.itemPosition[5].slibing = 3
+	slot0.itemPosition[6].slibing = 1
+	slot0.itemPosition[7].slibing = 4
+	slot0.itemPosition[8].slibing = 8
+	slot0.itemPosition[9].slibing = 8
+	slot0.itemPosition[10].slibing = 8
+	slot0.itemPosition[11].slibing = 8
 
-	for iter_3_1 = 1, DormConst.DORM_FIRST_FLOOR_ROOM_NUM do
-		arg_3_0.item[iter_3_1].transform_:SetSiblingIndex(arg_3_0.itemPosition[iter_3_1].slibing)
+	for slot4 = 1, DormConst.DORM_FIRST_FLOOR_ROOM_NUM do
+		slot0.item[slot4].transform_:SetSiblingIndex(slot0.itemPosition[slot4].slibing)
 	end
 end
 
-function var_0_0.OnBehind(arg_4_0)
-	arg_4_0:SetItemCanvasSortOrder(false)
+function slot0.OnBehind(slot0)
+	slot0:SetItemCanvasSortOrder(false)
 end
 
-function var_0_0.SetItemCanvasSortOrder(arg_5_0, arg_5_1)
-	if arg_5_0.item then
-		for iter_5_0, iter_5_1 in ipairs(arg_5_0.item) do
-			if iter_5_1.curPos ~= 5 then
-				iter_5_1.textCanvas.overrideSorting = arg_5_1
+function slot0.SetItemCanvasSortOrder(slot0, slot1)
+	if slot0.item then
+		for slot5, slot6 in ipairs(slot0.item) do
+			if slot6.curPos ~= 5 then
+				slot6.textCanvas.overrideSorting = slot1
 
-				if arg_5_1 then
-					iter_5_1.textCanvas.sortingOrder = 1
+				if slot1 then
+					slot6.textCanvas.sortingOrder = 1
 				end
 			end
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
+function slot0.OnEnter(slot0)
 	if manager.guide:IsPlaying() then
-		arg_6_0:SetItemCanvasSortOrder(false)
+		slot0:SetItemCanvasSortOrder(false)
 	else
-		arg_6_0:SetItemCanvasSortOrder(true)
+		slot0:SetItemCanvasSortOrder(true)
 	end
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	if manager.guide:IsPlaying() then
-		arg_7_0:SetItemCanvasSortOrder(false)
+		slot0:SetItemCanvasSortOrder(false)
 	else
-		arg_7_0:SetItemCanvasSortOrder(true)
+		slot0:SetItemCanvasSortOrder(true)
 	end
 end
 
-function var_0_0.OnUpdate(arg_8_0)
-	return
+function slot0.OnUpdate(slot0)
 end
 
-function var_0_0.StartGuide(arg_9_0)
+function slot0.StartGuide(slot0)
 	if manager.guide:IsPlaying() then
-		arg_9_0:SetItemCanvasSortOrder(false)
+		slot0:SetItemCanvasSortOrder(false)
 	else
-		arg_9_0:SetItemCanvasSortOrder(true)
+		slot0:SetItemCanvasSortOrder(true)
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0:SetItemCanvasSortOrder(false)
+function slot0.OnExit(slot0)
+	slot0:SetItemCanvasSortOrder(false)
 end
 
-function var_0_0.RefreshUI(arg_11_0, arg_11_1)
-	arg_11_0.floor = arg_11_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.floor = slot1
 
-	if arg_11_1 == GameDisplayCfg.dorm_lobby_layer.value[1] then
-		arg_11_0.publicStateController:SetSelectedState("public")
-		arg_11_0:RefreshPublicRoomHeroList()
+	if slot1 == GameDisplayCfg.dorm_lobby_layer.value[1] then
+		slot0.publicStateController:SetSelectedState("public")
+		slot0:RefreshPublicRoomHeroList()
 	else
-		arg_11_0.publicStateController:SetSelectedState("private")
+		slot0.publicStateController:SetSelectedState("private")
 	end
 
-	arg_11_0:InitRoomPos()
+	slot0:InitRoomPos()
 
-	for iter_11_0 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
-		arg_11_0.item[iter_11_0]:RefreshItemState()
-	end
-end
-
-function var_0_0.InitRoomPos(arg_12_0)
-	for iter_12_0 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
-		local var_12_0 = arg_12_0.item[iter_12_0].curPos
-		local var_12_1 = DormitoryData:GetRoomIDByPosID(arg_12_0:ChangItemPosToServerPosID(var_12_0))
-
-		arg_12_0.item[iter_12_0]:SetPosAndRoomID(var_12_0, var_12_1)
+	for slot5 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
+		slot0.item[slot5]:RefreshItemState()
 	end
 end
 
-function var_0_0.AddBtnCallBack(arg_13_0, arg_13_1)
-	arg_13_1:ClickItemCallBack(handler(arg_13_0, arg_13_0.ClickRoom))
-	arg_13_1:StartDrag(handler(arg_13_0, arg_13_0.StartDrag))
-	arg_13_1:OnDrag(handler(arg_13_0, arg_13_0.OnDrag))
-	arg_13_1:EndDrag(handler(arg_13_0, arg_13_0.EndDrag))
-	arg_13_1:ChangePosition(handler(arg_13_0, arg_13_0.RayPoint))
+function slot0.InitRoomPos(slot0)
+	for slot4 = 1, DormConst.DORM_FLOOR_ROOM_NUM do
+		slot5 = slot0.item[slot4].curPos
+
+		slot0.item[slot4]:SetPosAndRoomID(slot5, DormitoryData:GetRoomIDByPosID(slot0:ChangItemPosToServerPosID(slot5)))
+	end
 end
 
-function var_0_0.ClickRoom(arg_14_0, arg_14_1, arg_14_2)
-	if not arg_14_0.edit then
-		arg_14_0.selPos = arg_14_2
+function slot0.AddBtnCallBack(slot0, slot1)
+	slot1:ClickItemCallBack(handler(slot0, slot0.ClickRoom))
+	slot1:StartDrag(handler(slot0, slot0.StartDrag))
+	slot1:OnDrag(handler(slot0, slot0.OnDrag))
+	slot1:EndDrag(handler(slot0, slot0.EndDrag))
+	slot1:ChangePosition(handler(slot0, slot0.RayPoint))
+end
 
-		if arg_14_1 then
-			if DormData:GetCurrectSceneID() == arg_14_1 then
+function slot0.ClickRoom(slot0, slot1, slot2)
+	if not slot0.edit then
+		slot0.selPos = slot2
+
+		if slot1 then
+			if DormData:GetCurrectSceneID() == slot1 then
 				JumpTools.OpenPageByJump("/dorm")
 
 				return
 			end
 
-			if BackHomeCfg[arg_14_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-				BackHomeTools:GotoBackHomeRoom(arg_14_1)
-			elseif BackHomeCfg[arg_14_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-				local var_14_0 = DormRoomTools:GetPrivateDormRoomState(arg_14_1)
-
-				if var_14_0 == DormEnum.DormRoomUseState.Unlock then
+			if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+				BackHomeTools:GotoBackHomeRoom(slot1)
+			elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+				if DormRoomTools:GetPrivateDormRoomState(slot1) == DormEnum.DormRoomUseState.Unlock then
 					JumpTools.OpenPageByJump("dormUnLockRoomConfirmView", {
-						roomID = arg_14_1
+						roomID = slot1
 					})
-				elseif var_14_0 == DormEnum.DormRoomUseState.HadPlace then
-					BackHomeTools:GotoBackHomeRoom(arg_14_1)
+				elseif slot4 == DormEnum.DormRoomUseState.HadPlace then
+					BackHomeTools:GotoBackHomeRoom(slot1)
 				end
 			end
 		else
-			if arg_14_0.unLockRoomID then
+			if slot0.unLockRoomID then
 				return
 			end
 
-			arg_14_0.unLockRoomID = DormRoomTools:GetUnlockRoomNum() + DormConst.PUBLIC_DORM_ID + 1
+			slot0.unLockRoomID = DormRoomTools:GetUnlockRoomNum() + DormConst.PUBLIC_DORM_ID + 1
+			slot3 = slot0:ChangItemPosToServerPosID(slot2)
+			slot4 = BackHomeCfg[slot0.unLockRoomID].unlock_cost[1]
 
-			local var_14_1 = arg_14_0:ChangItemPosToServerPosID(arg_14_2)
-			local var_14_2 = BackHomeCfg[arg_14_0.unLockRoomID].unlock_cost[1]
-
-			if arg_14_0.unLockRoomID then
-				if var_14_2 then
+			if slot0.unLockRoomID then
+				if slot4 then
 					ShowMessageBox({
 						title = GetTips("PROMPT"),
-						content = string.format(GetTips("TIP_ITEM_COST"), ItemTools.getItemName(var_14_2[1]), var_14_2[2], GetTips("DORM_UNLOCK_COST_TIPS2")),
-						OkCallback = function()
-							arg_14_0:PopCostCallBack()
+						content = string.format(GetTips("TIP_ITEM_COST"), ItemTools.getItemName(slot4[1]), slot4[2], GetTips("DORM_UNLOCK_COST_TIPS2")),
+						OkCallback = function ()
+							uv0:PopCostCallBack()
 						end,
-						CancelCallback = function()
-							arg_14_0.unLockRoomID = nil
+						CancelCallback = function ()
+							uv0.unLockRoomID = nil
 						end
 					})
 				else
-					DormAction:UnLockDormArchitecture(arg_14_0.unLockRoomID, var_14_1)
+					DormAction:UnLockDormArchitecture(slot0.unLockRoomID, slot3)
 
-					arg_14_0.unLockRoomID = nil
+					slot0.unLockRoomID = nil
 				end
 			end
 		end
 	end
 end
 
-function var_0_0.OnDrag(arg_17_0, arg_17_1)
-	if arg_17_1.heroID and arg_17_0.edit then
-		local var_17_0 = Vector2.New(Input.mousePosition.x, Input.mousePosition.y)
-		local var_17_1 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-		local var_17_2 = {}
-		local var_17_3, var_17_4 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(arg_17_0.fatherTrs, var_17_0, var_17_1, var_17_2)
-
-		arg_17_1.transform_.localPosition = var_17_4
+function slot0.OnDrag(slot0, slot1)
+	if slot1.heroID and slot0.edit then
+		slot5, slot1.transform_.localPosition = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(slot0.fatherTrs, Vector2.New(Input.mousePosition.x, Input.mousePosition.y), manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera, {})
 	end
 end
 
-function var_0_0.RayPoint(arg_18_0, arg_18_1)
-	if arg_18_0.edit and arg_18_0.dragPos ~= arg_18_1.oriPos and not arg_18_1.move then
-		for iter_18_0, iter_18_1 in pairs(arg_18_0.itemPosition) do
-			if not iter_18_1.has then
-				local var_18_0 = arg_18_1.curPos
+function slot0.RayPoint(slot0, slot1)
+	if slot0.edit and slot0.dragPos ~= slot1.oriPos and not slot1.move then
+		for slot5, slot6 in pairs(slot0.itemPosition) do
+			if not slot6.has then
+				slot1.move = true
+				slot0.itemPosition[slot1.curPos].has = false
+				slot6.has = true
+				slot0.tweenValue_ = LeanTween.value(0, 1, slot0.time):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+					uv0.transform_.localPosition = Vector3(Mathf.Lerp(uv0.transform_.localPosition.x, uv1.itemPosition[uv2].pos.x, slot0), Mathf.Lerp(uv0.transform_.localPosition.y, uv1.itemPosition[uv2].pos.y, slot0), Mathf.Lerp(uv0.transform_.localPosition.z, uv1.itemPosition[uv2].pos.z, slot0))
+				end)):setOnComplete(LuaHelper.VoidAction(function ()
+					uv0.curPos = uv1
 
-				arg_18_1.move = true
-				arg_18_0.itemPosition[var_18_0].has = false
-				iter_18_1.has = true
-				arg_18_0.tweenValue_ = LeanTween.value(0, 1, arg_18_0.time):setOnUpdate(LuaHelper.FloatAction(function(arg_19_0)
-					local var_19_0 = Vector3(Mathf.Lerp(arg_18_1.transform_.localPosition.x, arg_18_0.itemPosition[iter_18_0].pos.x, arg_19_0), Mathf.Lerp(arg_18_1.transform_.localPosition.y, arg_18_0.itemPosition[iter_18_0].pos.y, arg_19_0), Mathf.Lerp(arg_18_1.transform_.localPosition.z, arg_18_0.itemPosition[iter_18_0].pos.z, arg_19_0))
-
-					arg_18_1.transform_.localPosition = var_19_0
-				end)):setOnComplete(LuaHelper.VoidAction(function()
-					arg_18_1.curPos = iter_18_0
-
-					if iter_18_0 > DormConst.DORM_FIRST_FLOOR_ROOM_NUM then
-						arg_18_1.transform_:SetParent(arg_18_0.centerTrs, false)
+					if DormConst.DORM_FIRST_FLOOR_ROOM_NUM < uv1 then
+						uv0.transform_:SetParent(uv2.centerTrs, false)
 					else
-						arg_18_1.transform_:SetParent(arg_18_0.fatherTrs, false)
+						uv0.transform_:SetParent(uv2.fatherTrs, false)
 					end
 
-					arg_18_1.move = false
+					uv0.move = false
 
-					arg_18_1.transform_:SetSiblingIndex(arg_18_0.itemPosition[iter_18_0].slibing)
+					uv0.transform_:SetSiblingIndex(uv2.itemPosition[uv1].slibing)
 				end)):setEase(LeanTweenType.easeOutQuad)
 
 				return
@@ -239,49 +226,49 @@ function var_0_0.RayPoint(arg_18_0, arg_18_1)
 	end
 end
 
-function var_0_0.StartDrag(arg_21_0, arg_21_1)
-	if not arg_21_0.edit and arg_21_1.heroID and DormRoomTools:GetPrivateDormRoomState(arg_21_1.roomID) == DormEnum.DormRoomUseState.HadPlace then
-		arg_21_0.edit = true
-		arg_21_0.dragPos = arg_21_1.curPos
+function slot0.StartDrag(slot0, slot1)
+	if not slot0.edit and slot1.heroID and DormRoomTools:GetPrivateDormRoomState(slot1.roomID) == DormEnum.DormRoomUseState.HadPlace then
+		slot0.edit = true
+		slot0.dragPos = slot1.curPos
 
-		arg_21_1.roomStateController:SetSelectedState("select")
-		arg_21_1.transform_:SetParent(arg_21_0.fatherTrs, false)
-		arg_21_1.transform_:SetAsFirstSibling()
+		slot1.roomStateController:SetSelectedState("select")
+		slot1.transform_:SetParent(slot0.fatherTrs, false)
+		slot1.transform_:SetAsFirstSibling()
 
-		arg_21_0.itemPosition[arg_21_1.oriPos].has = false
+		slot0.itemPosition[slot1.oriPos].has = false
 
-		arg_21_0:SetItemCanvasSortOrder(false)
+		slot0:SetItemCanvasSortOrder(false)
 	end
 end
 
-function var_0_0.EndDrag(arg_22_0, arg_22_1)
-	if arg_22_0.edit and arg_22_1.heroID then
-		arg_22_1.roomStateController:SetSelectedState("normal")
+function slot0.EndDrag(slot0, slot1)
+	if slot0.edit and slot1.heroID then
+		slot5 = "normal"
 
-		for iter_22_0, iter_22_1 in pairs(arg_22_0.itemPosition) do
-			if not iter_22_1.has then
-				iter_22_1.has = true
-				arg_22_0.tweenValue_ = LeanTween.value(0, 1, arg_22_0.time):setOnUpdate(LuaHelper.FloatAction(function(arg_23_0)
-					local var_23_0 = Vector3(Mathf.Lerp(arg_22_1.transform_.localPosition.x, arg_22_0.itemPosition[iter_22_0].pos.x, arg_23_0), Mathf.Lerp(arg_22_1.transform_.localPosition.y, arg_22_0.itemPosition[iter_22_0].pos.y, arg_23_0), Mathf.Lerp(arg_22_1.transform_.localPosition.z, arg_22_0.itemPosition[iter_22_0].pos.z, arg_23_0))
+		slot1.roomStateController:SetSelectedState(slot5)
 
-					arg_22_1.transform_.localPosition = var_23_0
-				end)):setOnComplete(LuaHelper.VoidAction(function()
-					arg_22_1.curPos = iter_22_0
+		for slot5, slot6 in pairs(slot0.itemPosition) do
+			if not slot6.has then
+				slot6.has = true
+				slot0.tweenValue_ = LeanTween.value(0, 1, slot0.time):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+					uv0.transform_.localPosition = Vector3(Mathf.Lerp(uv0.transform_.localPosition.x, uv1.itemPosition[uv2].pos.x, slot0), Mathf.Lerp(uv0.transform_.localPosition.y, uv1.itemPosition[uv2].pos.y, slot0), Mathf.Lerp(uv0.transform_.localPosition.z, uv1.itemPosition[uv2].pos.z, slot0))
+				end)):setOnComplete(LuaHelper.VoidAction(function ()
+					uv0.curPos = uv1
 
-					if iter_22_0 > DormConst.DORM_FIRST_FLOOR_ROOM_NUM then
-						arg_22_1.transform_:SetParent(arg_22_0.centerTrs, false)
+					if DormConst.DORM_FIRST_FLOOR_ROOM_NUM < uv1 then
+						uv0.transform_:SetParent(uv2.centerTrs, false)
 					else
-						arg_22_1.transform_:SetParent(arg_22_0.fatherTrs, false)
+						uv0.transform_:SetParent(uv2.fatherTrs, false)
 					end
 
-					arg_22_1.transform_:SetSiblingIndex(arg_22_0.itemPosition[iter_22_0].slibing)
-					arg_22_0.centerTrs:SetAsLastSibling()
+					uv0.transform_:SetSiblingIndex(uv2.itemPosition[uv1].slibing)
+					uv2.centerTrs:SetAsLastSibling()
 
-					arg_22_0.edit = false
-					arg_22_0.dragPos = nil
+					uv2.edit = false
+					uv2.dragPos = nil
 
-					arg_22_0:RevisePrivateDormPos()
-					arg_22_0:SetItemCanvasSortOrder(true)
+					uv2:RevisePrivateDormPos()
+					uv2:SetItemCanvasSortOrder(true)
 				end)):setEase(LeanTweenType.easeOutQuad)
 
 				return
@@ -290,50 +277,43 @@ function var_0_0.EndDrag(arg_22_0, arg_22_1)
 	end
 end
 
-function var_0_0.RegisterEvents(arg_25_0)
-	arg_25_0:RegistEventListener(DORM_PRIVATE_DORM_CHANGE, function(arg_26_0)
-		local var_26_0 = DormitoryData:GetDormSceneData(arg_26_0).pos_id
-		local var_26_1 = var_26_0 - DormConst.DORM_POS_ID_OFFSET
-		local var_26_2 = arg_25_0:ChangServerPosIDToItemPos(var_26_0)
-		local var_26_3
-		local var_26_4
-		local var_26_5
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_PRIVATE_DORM_CHANGE, function (slot0)
+		slot1 = DormitoryData:GetDormSceneData(slot0).pos_id
+		slot2 = slot1 - DormConst.DORM_POS_ID_OFFSET
+		slot3 = uv0:ChangServerPosIDToItemPos(slot1)
+		slot4, slot5 = nil
 
-		if arg_25_0.floor == 1 then
-			var_26_3 = DormConst.DORM_FIRST_FLOOR_ROOM_NUM
-			var_26_5 = 1
+		if uv0.floor == 1 then
+			slot4 = DormConst.DORM_FIRST_FLOOR_ROOM_NUM
+			slot5 = 1
 		else
-			var_26_3 = DormConst.DORM_FIRST_FLOOR_ROOM_NUM + (arg_25_0.floor - 1) * DormConst.DORM_FLOOR_ROOM_NUM
-			var_26_5 = var_26_3 - DormConst.DORM_FLOOR_ROOM_NUM + 1
+			slot5 = DormConst.DORM_FIRST_FLOOR_ROOM_NUM + (uv0.floor - 1) * DormConst.DORM_FLOOR_ROOM_NUM - DormConst.DORM_FLOOR_ROOM_NUM + 1
 		end
 
-		if var_26_5 <= var_26_1 and var_26_1 <= var_26_3 then
-			local var_26_6 = arg_25_0:GetItemByCurPos(var_26_2)
+		if slot2 >= slot5 and slot2 <= slot4 and uv0:GetItemByCurPos(slot3) then
+			slot6.roomID = slot0
 
-			if var_26_6 then
-				var_26_6.roomID = arg_26_0
-
-				if BackHomeCfg[arg_26_0].type == DormConst.BACKHOME_TYPE.PublicDorm and arg_25_0.floor == 1 then
-					arg_25_0:RefreshPublicRoomHeroList()
-				elseif BackHomeCfg[arg_26_0].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-					arg_25_0:GetItemByCurPos(var_26_2):RefreshItemState(true)
-				end
+			if BackHomeCfg[slot0].type == DormConst.BACKHOME_TYPE.PublicDorm and uv0.floor == 1 then
+				uv0:RefreshPublicRoomHeroList()
+			elseif BackHomeCfg[slot0].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+				uv0:GetItemByCurPos(slot3):RefreshItemState(true)
 			end
 		end
 	end)
 end
 
-function var_0_0.AddUIListener(arg_27_0)
-	arg_27_0:AddBtnListener(arg_27_0.publicBtn_, nil, function()
-		arg_27_0:ClickRoom(DormConst.PUBLIC_DORM_ID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.publicBtn_, nil, function ()
+		uv0:ClickRoom(DormConst.PUBLIC_DORM_ID)
 	end)
 end
 
-function var_0_0.GetItemByCurPos(arg_29_0, arg_29_1)
-	if arg_29_0.item then
-		for iter_29_0, iter_29_1 in pairs(arg_29_0.item) do
-			if iter_29_1.oriPos == arg_29_1 then
-				return iter_29_1
+function slot0.GetItemByCurPos(slot0, slot1)
+	if slot0.item then
+		for slot5, slot6 in pairs(slot0.item) do
+			if slot6.oriPos == slot1 then
+				return slot6
 			end
 		end
 
@@ -341,143 +321,119 @@ function var_0_0.GetItemByCurPos(arg_29_0, arg_29_1)
 	end
 end
 
-function var_0_0.RevisePrivateDormPos(arg_30_0)
-	local var_30_0 = {}
+function slot0.RevisePrivateDormPos(slot0)
+	slot1 = {}
 
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.item) do
-		if iter_30_1.oriPos ~= iter_30_1.curPos then
-			iter_30_1.oriPos = iter_30_1.curPos
+	for slot5, slot6 in pairs(slot0.item) do
+		if slot6.oriPos ~= slot6.curPos then
+			slot6.oriPos = slot6.curPos
+			slot7 = slot0:ChangItemPosToServerPosID(slot6.curPos)
 
-			local var_30_1 = arg_30_0:ChangItemPosToServerPosID(iter_30_1.curPos)
-
-			if iter_30_1.roomID then
-				local var_30_2 = {
-					roomID = iter_30_1.roomID,
-					posID = var_30_1
-				}
-				local var_30_3 = DormitoryData:GetDormSceneData(iter_30_1.roomID)
-
-				if DormRoomTools:CheckRoomPosSameLevel(var_30_3.pos_id, var_30_1) then
-					table.insert(var_30_0, var_30_2)
+			if slot6.roomID then
+				if DormRoomTools:CheckRoomPosSameLevel(DormitoryData:GetDormSceneData(slot6.roomID).pos_id, slot7) then
+					table.insert(slot1, {
+						roomID = slot6.roomID,
+						posID = slot7
+					})
 				end
 			end
 		end
 	end
 
-	if #var_30_0 > 0 then
-		DormAction:RevisePrivateDormPos(var_30_0)
+	if #slot1 > 0 then
+		DormAction:RevisePrivateDormPos(slot1)
 	end
 end
 
-function var_0_0.PopCostCallBack(arg_31_0)
-	if arg_31_0.unLockRoomID then
-		local var_31_0 = BackHomeCfg[arg_31_0.unLockRoomID].unlock_cost[1]
-		local var_31_1 = ItemTools.getItemNum(var_31_0[1])
+function slot0.PopCostCallBack(slot0)
+	if slot0.unLockRoomID then
+		slot1 = BackHomeCfg[slot0.unLockRoomID].unlock_cost[1]
+		slot0.unLockRoomID = nil
 
-		arg_31_0.unLockRoomID = nil
-
-		if var_31_1 < var_31_0[2] then
+		if ItemTools.getItemNum(slot1[1]) < slot1[2] then
 			ShowTips(GetTips("DORM_UNLOCK_ITEM_NOT_ENOUGH"))
 
 			return
 		end
 
-		local var_31_2 = DormRoomTools:GetUnlockRoomNum() + DormConst.PUBLIC_DORM_ID + 1
-		local var_31_3 = arg_31_0:ChangItemPosToServerPosID(arg_31_0.selPos)
+		slot4 = slot0:ChangItemPosToServerPosID(slot0.selPos)
 
-		if var_31_2 and var_31_3 then
-			DormAction:UnLockDormArchitecture(var_31_2, var_31_3)
+		if DormRoomTools:GetUnlockRoomNum() + DormConst.PUBLIC_DORM_ID + 1 and slot4 then
+			DormAction:UnLockDormArchitecture(slot3, slot4)
 		end
 	end
 end
 
-function var_0_0.ChangItemPosToServerPosID(arg_32_0, arg_32_1)
-	if arg_32_1 then
-		local var_32_0 = DormConst.DORM_POS_ID_OFFSET
+function slot0.ChangItemPosToServerPosID(slot0, slot1)
+	if slot1 then
+		slot2 = DormConst.DORM_POS_ID_OFFSET
 
-		if arg_32_0.floor <= 1 then
-			var_32_0 = var_32_0 + arg_32_1
-		else
-			var_32_0 = var_32_0 + DormConst.DORM_FIRST_FLOOR_ROOM_NUM + (arg_32_0.floor - 2) * DormConst.DORM_FLOOR_ROOM_NUM + arg_32_1
-		end
-
-		return var_32_0
+		return slot0.floor <= 1 and slot2 + slot1 or slot2 + DormConst.DORM_FIRST_FLOOR_ROOM_NUM + (slot0.floor - 2) * DormConst.DORM_FLOOR_ROOM_NUM + slot1
 	end
 end
 
-function var_0_0.ChangServerPosIDToItemPos(arg_33_0, arg_33_1)
-	if arg_33_1 then
-		local var_33_0 = DormConst.DORM_POS_ID_OFFSET
+function slot0.ChangServerPosIDToItemPos(slot0, slot1)
+	if slot1 then
+		slot2 = DormConst.DORM_POS_ID_OFFSET
 
-		if arg_33_0.floor <= 1 then
-			var_33_0 = arg_33_1 - var_33_0
-		else
-			var_33_0 = arg_33_1 - DormConst.DORM_FIRST_FLOOR_ROOM_NUM - (arg_33_0.floor - 2) * DormConst.DORM_FLOOR_ROOM_NUM - var_33_0
-		end
-
-		return var_33_0
+		return slot0.floor <= 1 and slot1 - slot2 or slot1 - DormConst.DORM_FIRST_FLOOR_ROOM_NUM - (slot0.floor - 2) * DormConst.DORM_FLOOR_ROOM_NUM - slot2
 	end
 end
 
-function var_0_0.indexHeroItem(arg_34_0, arg_34_1, arg_34_2)
-	arg_34_2:SetItemFunction({
+function slot0.indexHeroItem(slot0, slot1, slot2)
+	slot2:SetItemFunction({
 		showFatigue = true,
 		showJobState = true
 	})
-	arg_34_2:RefreshUI(arg_34_0.heroList[arg_34_1])
+	slot2:RefreshUI(slot0.heroList[slot1])
 end
 
-function var_0_0.RefreshPublicRoomHeroList(arg_35_0)
-	local var_35_0 = DormConst.PUBLIC_DORM_ID
-	local var_35_1 = DormitoryData:GetDormSceneData(var_35_0).archiveIDList
+function slot0.RefreshPublicRoomHeroList(slot0)
+	slot0.heroList = {}
 
-	arg_35_0.heroList = {}
-
-	for iter_35_0, iter_35_1 in ipairs(var_35_1) do
-		local var_35_2 = DormData:GetHeroInfo(iter_35_1):GetHeroId()
-
-		table.insert(arg_35_0.heroList, var_35_2)
+	for slot6, slot7 in ipairs(DormitoryData:GetDormSceneData(DormConst.PUBLIC_DORM_ID).archiveIDList) do
+		table.insert(slot0.heroList, DormData:GetHeroInfo(slot7):GetHeroId())
 	end
 
-	arg_35_0.publicHeroScroll:StartScroll(#arg_35_0.heroList)
+	slot0.publicHeroScroll:StartScroll(#slot0.heroList)
 
-	if #arg_35_0.heroList == 0 then
-		arg_35_0.emptyController:SetSelectedState("false")
+	if #slot0.heroList == 0 then
+		slot0.emptyController:SetSelectedState("false")
 	end
 
-	arg_35_0.publicNum.text = string.format("%s/%s", #arg_35_0.heroList, GameSetting.dorm_lobby_hero_max.value[1])
+	slot0.publicNum.text = string.format("%s/%s", #slot0.heroList, GameSetting.dorm_lobby_hero_max.value[1])
 
-	if DormVisitTools:GetCurTemplateExhibit() == var_35_0 then
-		arg_35_0.publicVisitController:SetSelectedState("true")
+	if DormVisitTools:GetCurTemplateExhibit() == slot1 then
+		slot0.publicVisitController:SetSelectedState("true")
 	else
-		arg_35_0.publicVisitController:SetSelectedState("false")
+		slot0.publicVisitController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.PlayFloorAnimation(arg_36_0)
-	for iter_36_0, iter_36_1 in ipairs(arg_36_0.item) do
-		if iter_36_1.curPos <= DormConst.DORM_FIRST_FLOOR_ROOM_NUM then
-			iter_36_1.animation:Play("DormEntranceUI_item_cx", 0)
-		elseif arg_36_0.floor ~= GameDisplayCfg.dorm_lobby_layer.value[1] then
-			iter_36_1.animation:Play("DormEntranceUI_item_cx", 0)
+function slot0.PlayFloorAnimation(slot0)
+	for slot4, slot5 in ipairs(slot0.item) do
+		if slot5.curPos <= DormConst.DORM_FIRST_FLOOR_ROOM_NUM then
+			slot5.animation:Play("DormEntranceUI_item_cx", 0)
+		elseif slot0.floor ~= GameDisplayCfg.dorm_lobby_layer.value[1] then
+			slot5.animation:Play("DormEntranceUI_item_cx", 0)
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_37_0)
-	arg_37_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	if arg_37_0.publicHeroScroll then
-		arg_37_0.publicHeroScroll:Dispose()
+	if slot0.publicHeroScroll then
+		slot0.publicHeroScroll:Dispose()
 	end
 
-	if arg_37_0.item then
-		for iter_37_0, iter_37_1 in pairs(arg_37_0.item) do
-			iter_37_1:Dispose()
+	if slot0.item then
+		for slot4, slot5 in pairs(slot0.item) do
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_37_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

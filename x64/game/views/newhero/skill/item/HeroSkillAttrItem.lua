@@ -1,5 +1,5 @@
-local var_0_0 = class("HeroSkillAttrItem", ReduxView)
-local var_0_1 = {
+slot0 = class("HeroSkillAttrItem", ReduxView)
+slot1 = {
 	showState = {
 		max = "max",
 		name = "showState",
@@ -7,37 +7,30 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.stateController_ = arg_2_0.controllerexcollection_:GetController(var_0_1.showState.name)
+	slot0.stateController_ = slot0.controllerexcollection_:GetController(uv0.showState.name)
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.descText_.text = PublicAttrCfg[arg_3_1.attrType] and PublicAttrCfg[arg_3_1.attrType].name or ""
-	arg_3_0.valuenowText_.text = arg_3_1.nowValue / 10 .. "%"
-	arg_3_0.valuelaterText_.text = arg_3_1.nextValue / 10 .. "%"
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.descText_.text = PublicAttrCfg[slot1.attrType] and PublicAttrCfg[slot1.attrType].name or ""
+	slot0.valuenowText_.text = slot1.nowValue / 10 .. "%"
+	slot0.valuelaterText_.text = slot1.nextValue / 10 .. "%"
+	slot3 = uv0.showState.normal
 
-	local var_3_0 = var_0_1.showState.normal
-
-	if arg_3_2 == false then
-		var_3_0 = var_0_1.showState.max
-	else
-		var_3_0 = arg_3_1.nextValue ~= 0 and var_0_1.showState.normal or var_0_1.showState.max
-	end
-
-	arg_3_0.stateController_:SetSelectedState(var_3_0)
+	slot0.stateController_:SetSelectedState((slot2 ~= false or uv0.showState.max) and (slot1.nextValue ~= 0 and uv0.showState.normal or uv0.showState.max))
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

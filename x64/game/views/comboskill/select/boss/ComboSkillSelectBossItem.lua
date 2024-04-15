@@ -1,16 +1,14 @@
-local var_0_0 = class("ComboSkillSelectBossItem", import("..ComboSkillSelectItem"))
+slot0 = class("ComboSkillSelectBossItem", import("..ComboSkillSelectItem"))
 
-function var_0_0.ClickBtn(arg_1_0)
-	local var_1_0 = BossTools.GetContID(arg_1_0.stageType_, arg_1_0.bossIndex_)
-
-	BattleFieldAction.SetComboInfo(arg_1_0.stageType_, nil, arg_1_0.comboSkillID_, var_1_0)
-	manager.notify:Invoke(COMBO_SKILL_SELECT, arg_1_0.comboSkillID_)
+function slot0.ClickBtn(slot0)
+	BattleFieldAction.SetComboInfo(slot0.stageType_, nil, slot0.comboSkillID_, BossTools.GetContID(slot0.stageType_, slot0.bossIndex_))
+	manager.notify:Invoke(COMBO_SKILL_SELECT, slot0.comboSkillID_)
 end
 
-function var_0_0.RefreshUI(arg_2_0, arg_2_1, ...)
-	var_0_0.super.RefreshUI(arg_2_0, ...)
+function slot0.RefreshUI(slot0, slot1, ...)
+	uv0.super.RefreshUI(slot0, ...)
 
-	arg_2_0.bossIndex_ = arg_2_1
+	slot0.bossIndex_ = slot1
 end
 
-return var_0_0
+return slot0

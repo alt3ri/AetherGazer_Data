@@ -1,10 +1,9 @@
-local var_0_0 = import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode")
-local var_0_1 = class("TangramSwitchToFinalNode", var_0_0)
+slot1 = class("TangramSwitchToFinalNode", import("game.views.tangramPuzzle.TangramAnimNode.TangramBaseNode"))
 
-function var_0_1.RunFunc(arg_1_0)
+function slot1.RunFunc(slot0)
 	ShowTips("ACTIVITY_PUZZLE_FINISH")
-	arg_1_0.manager_:SwitchToFinal()
-	arg_1_0.root_:SetNodeRunComplete()
+	slot0.manager_:SwitchToFinal()
+	slot0.root_:SetNodeRunComplete()
 end
 
-return var_0_1
+return slot1

@@ -1,52 +1,49 @@
-local var_0_0 = class("SequentialBattleFactoryTeamHero", ReduxView)
+slot0 = class("SequentialBattleFactoryTeamHero", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.heroIndex_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.heroIndex_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.activityID_ = arg_2_1
-	arg_2_0.stageIndex_ = arg_2_2
-	arg_2_0.heroID_ = arg_2_3
-	arg_2_0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, arg_2_0.activityID_, arg_2_0.stageIndex_, {
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.activityID_ = slot1
+	slot0.stageIndex_ = slot2
+	slot0.heroID_ = slot3
+	slot0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE, slot0.activityID_, slot0.stageIndex_, {
 		stageType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
-		stageID = SequentialBattleChapterCfg[arg_2_0.activityID_].stage_id[arg_2_0.stageIndex_],
-		activityID = arg_2_0.activityID_
+		stageID = SequentialBattleChapterCfg[slot0.activityID_].stage_id[slot0.stageIndex_],
+		activityID = slot0.activityID_
 	})
 
-	arg_2_0:RefreshHero()
+	slot0:RefreshHero()
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.teamButton_, nil, function()
-		SequentialBattleData:CacheChapterData(arg_3_0.activityID_)
-
-		local var_4_0 = SequentialBattleChapterCfg[arg_3_0.activityID_].stage_id[arg_3_0.stageIndex_]
-
-		arg_3_0:Go("/sectionSelectHeroSequentialBattle", {
-			section = var_4_0,
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.teamButton_, nil, function ()
+		SequentialBattleData:CacheChapterData(uv0.activityID_)
+		uv0:Go("/sectionSelectHeroSequentialBattle", {
+			section = SequentialBattleChapterCfg[uv0.activityID_].stage_id[uv0.stageIndex_],
 			sectionType = BattleConst.STAGE_TYPE_NEW.SEQUENTIAL_BATTLE,
-			activityID = arg_3_0.activityID_,
-			reserveParams = arg_3_0.reserveParams_
+			activityID = uv0.activityID_,
+			reserveParams = uv0.reserveParams_
 		})
 	end)
 end
 
-function var_0_0.RefreshHero(arg_5_0, arg_5_1)
-	if arg_5_0.heroID_ ~= 0 then
-		arg_5_0.icon_.sprite = HeroTools.GetHeadSprite(arg_5_0.heroID_)
+function slot0.RefreshHero(slot0, slot1)
+	if slot0.heroID_ ~= 0 then
+		slot0.icon_.sprite = HeroTools.GetHeadSprite(slot0.heroID_)
 
-		arg_5_0.controller_:SetSelectedState("true")
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_5_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-return var_0_0
+return slot0

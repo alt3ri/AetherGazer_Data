@@ -1,44 +1,43 @@
-local var_0_0 = import("game.views.sailGame.sailGameEvent.SailGameEventBaseView")
-local var_0_1 = class("SailShopEventView", var_0_0)
+slot1 = class("SailShopEventView", import("game.views.sailGame.sailGameEvent.SailGameEventBaseView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/VersionUI/XuHeng3rdUI/XH3rdVoyagesUI/XH3rdVoyagesTransactionEventPopUI"
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.itemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiList_, SailShopItem)
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiList_, SailShopItem)
 end
 
-function var_0_1.Dispose(arg_3_0)
-	arg_3_0.itemList_:Dispose()
+function slot1.Dispose(slot0)
+	slot0.itemList_:Dispose()
 
-	arg_3_0.itemList_ = nil
+	slot0.itemList_ = nil
 
-	var_0_1.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.RefreshUI(arg_4_0)
-	arg_4_0.shopDataList_ = SailGameData:GetCurGameData(arg_4_0.activityID_).eventList[arg_4_0.curStageIndex_].shopInfo
+function slot1.RefreshUI(slot0)
+	slot0.shopDataList_ = SailGameData:GetCurGameData(slot0.activityID_).eventList[slot0.curStageIndex_].shopInfo
 
-	arg_4_0.itemList_:StartScroll(#arg_4_0.shopDataList_)
-	arg_4_0:RefreshTitle()
+	slot0.itemList_:StartScroll(#slot0.shopDataList_)
+	slot0:RefreshTitle()
 end
 
-function var_0_1.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.activityID_, arg_5_0.shopDataList_[arg_5_1], arg_5_1)
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityID_, slot0.shopDataList_[slot1], slot1)
 end
 
-function var_0_1.OnEventOperateSuccess(arg_6_0, arg_6_1)
-	if arg_6_1 ~= SailGameConst.EVENT_COMMON_OPERATE.OVER then
-		arg_6_0.shopDataList_ = SailGameData:GetCurGameData(arg_6_0.activityID_).eventList[arg_6_0.curStageIndex_].shopInfo
+function slot1.OnEventOperateSuccess(slot0, slot1)
+	if slot1 ~= SailGameConst.EVENT_COMMON_OPERATE.OVER then
+		slot0.shopDataList_ = SailGameData:GetCurGameData(slot0.activityID_).eventList[slot0.curStageIndex_].shopInfo
 
-		arg_6_0.itemList_:StartScroll(#arg_6_0.shopDataList_)
+		slot0.itemList_:StartScroll(#slot0.shopDataList_)
 	else
-		SailGameAction.SetEventEndMark(arg_6_0.activityID_, SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS)
-		SailGameTools.GoToGameView(arg_6_0.activityID_)
+		SailGameAction.SetEventEndMark(slot0.activityID_, SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS)
+		SailGameTools.GoToGameView(slot0.activityID_)
 	end
 end
 
-return var_0_1
+return slot1

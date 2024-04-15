@@ -1,103 +1,98 @@
-local var_0_0 = class("HeroTrammelsComboItem", ReduxView)
+slot0 = class("HeroTrammelsComboItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.combRoleNumController = ControllerUtil.GetController(arg_3_0.transform_, "combRoleNum")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.combRoleNumController = ControllerUtil.GetController(slot0.transform_, "combRoleNum")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_btn, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.comboId)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_btn, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.comboId)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.comboId = arg_6_1
+function slot0.SetData(slot0, slot1)
+	slot0.comboId = slot1
 
-	arg_6_0:Refresh()
-	arg_6_0:RefreshRedPoint()
+	slot0:Refresh()
+	slot0:RefreshRedPoint()
 end
 
-function var_0_0.Refresh(arg_7_0)
-	local var_7_0 = ComboSkillData:GetCurComboSkillLevel(arg_7_0.comboId)
-	local var_7_1 = ComboSkillCfg[arg_7_0.comboId]
-	local var_7_2 = HeroSkillCfg[var_7_1.skill_id]
+function slot0.Refresh(slot0)
+	slot2 = ComboSkillCfg[slot0.comboId]
+	slot0.m_skillLevel.text = GetTips("LEVEL") .. ComboSkillData:GetCurComboSkillLevel(slot0.comboId)
+	slot0.m_comboName.text = HeroSkillCfg[slot2.skill_id].name
+	slot7 = "ComboSkill"
+	slot8 = slot2.skill_id
+	slot0.m_icon.sprite = getSpriteViaConfig(slot7, slot8)
 
-	arg_7_0.m_skillLevel.text = GetTips("LEVEL") .. var_7_0
-	arg_7_0.m_comboName.text = var_7_2.name
-	arg_7_0.m_icon.sprite = getSpriteViaConfig("ComboSkill", var_7_1.skill_id)
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_1.cooperate_role_ids) do
-		arg_7_0["m_comboHead" .. iter_7_0].sprite = getSpriteViaConfig("HeroLittleIcon", iter_7_1)
+	for slot7, slot8 in ipairs(slot2.cooperate_role_ids) do
+		slot0["m_comboHead" .. slot7].sprite = getSpriteViaConfig("HeroLittleIcon", slot8)
 	end
 
-	arg_7_0.combRoleNumController:SetSelectedIndex(#var_7_1.cooperate_role_ids)
+	slot0.combRoleNumController:SetSelectedIndex(#slot2.cooperate_role_ids)
 end
 
-function var_0_0.RefreshRedPoint(arg_8_0)
-	local var_8_0 = ComboSkillTools.GetMaxComboSkillLevel(arg_8_0.comboId)
-	local var_8_1 = ComboSkillData:GetCurComboSkillLevel(arg_8_0.comboId)
+function slot0.RefreshRedPoint(slot0)
+	if ComboSkillData:GetCurComboSkillLevel(slot0.comboId) < ComboSkillTools.GetMaxComboSkillLevel(slot0.comboId) then
+		slot4 = true
 
-	if var_8_1 < var_8_0 then
-		local var_8_2 = ComboSkillLevelCfg.get_id_list_by_level[var_8_1]
-		local var_8_3 = true
-
-		for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-			if not ComboSkillTools.CheckComboSkillUpContion(iter_8_1, arg_8_0.comboId) then
-				var_8_3 = false
+		for slot8, slot9 in ipairs(ComboSkillLevelCfg.get_id_list_by_level[slot2]) do
+			if not ComboSkillTools.CheckComboSkillUpContion(slot9, slot0.comboId) then
+				slot4 = false
 
 				break
 			end
 		end
 
-		if var_8_3 then
-			manager.redPoint:SetRedPointIndependent(arg_8_0.transform_, true)
+		if slot4 then
+			manager.redPoint:SetRedPointIndependent(slot0.transform_, true)
 		else
-			manager.redPoint:SetRedPointIndependent(arg_8_0.transform_, false)
+			manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 		end
 	else
-		manager.redPoint:SetRedPointIndependent(arg_8_0.transform_, false)
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 	end
 end
 
-function var_0_0.RefreshState(arg_9_0, arg_9_1)
-	arg_9_0.stateController:SetSelectedIndex(arg_9_1 == arg_9_0.comboId and 1 or 0)
+function slot0.RefreshState(slot0, slot1)
+	slot0.stateController:SetSelectedIndex(slot1 == slot0.comboId and 1 or 0)
 end
 
-function var_0_0.SetActive(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if not arg_10_1 then
-		arg_10_0.comboId = 0
+	if not slot1 then
+		slot0.comboId = 0
 	end
 end
 
-function var_0_0.RegistCallBack(arg_11_0, arg_11_1)
-	arg_11_0.callback_ = arg_11_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.GetComboId(arg_12_0)
-	return arg_12_0.comboId
+function slot0.GetComboId(slot0)
+	return slot0.comboId
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

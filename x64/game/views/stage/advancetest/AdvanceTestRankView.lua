@@ -1,89 +1,86 @@
-local var_0_0 = class("AdvanceTestRankView", ReduxView)
+slot0 = class("AdvanceTestRankView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/AdvancetestingUI/AtestingRankUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.rankTypeConst_ = AdvanceTestData:GetRankTypeConst()
+function slot0.Init(slot0)
+	slot0.rankTypeConst_ = AdvanceTestData:GetRankTypeConst()
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 
-	arg_3_0.subTypeToggleController_ = arg_3_0.conExCollection_:GetController("subType")
-	arg_3_0.tabController_ = arg_3_0.toggleConEx:GetController("tab")
-	arg_3_0.tabNumController_ = arg_3_0.toggleConEx:GetController("num")
-	arg_3_0.itemGo_ = {
-		arg_3_0.m_easyBtn.gameObject,
-		arg_3_0.m_nomalBtn.gameObject,
-		arg_3_0.m_hardBtn.gameObject
+	slot0.subTypeToggleController_ = slot0.conExCollection_:GetController("subType")
+	slot0.tabController_ = slot0.toggleConEx:GetController("tab")
+	slot0.tabNumController_ = slot0.toggleConEx:GetController("num")
+	slot0.itemGo_ = {
+		slot0.m_easyBtn.gameObject,
+		slot0.m_nomalBtn.gameObject,
+		slot0.m_hardBtn.gameObject
 	}
-	arg_3_0.clickIndex_ = {}
+	slot0.clickIndex_ = {}
 
-	arg_3_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.RefreshUIHandler_ = handler(arg_4_0, arg_4_0.Refresh)
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, AdvanceTestRankItem)
+	slot0.RefreshUIHandler_ = handler(slot0, slot0.Refresh)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, AdvanceTestRankItem)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_allBtn, nil, function()
-		if AdvanceTestData:GetCurRankType() ~= arg_5_0.rankTypeConst_.ALL then
-			RankAction.QueryActivityRank(arg_5_0.activityID, arg_5_0.stageType)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_allBtn, nil, function ()
+		if AdvanceTestData:GetCurRankType() ~= uv0.rankTypeConst_.ALL then
+			RankAction.QueryActivityRank(uv0.activityID, uv0.stageType)
 		end
 
-		AdvanceTestData:SetCurRankType(arg_5_0.rankTypeConst_.ALL)
-		arg_5_0:Refresh()
+		AdvanceTestData:SetCurRankType(uv0.rankTypeConst_.ALL)
+		uv0:Refresh()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_guildBtn, nil, function()
-		if AdvanceTestData:GetCurRankType() ~= arg_5_0.rankTypeConst_.GUILD then
-			RankAction.QueryGuildActivityRank(arg_5_0.activityID, arg_5_0.stageType)
+	slot0:AddBtnListener(slot0.m_guildBtn, nil, function ()
+		if AdvanceTestData:GetCurRankType() ~= uv0.rankTypeConst_.GUILD then
+			RankAction.QueryGuildActivityRank(uv0.activityID, uv0.stageType)
 		end
 
-		AdvanceTestData:SetCurRankType(arg_5_0.rankTypeConst_.GUILD)
+		AdvanceTestData:SetCurRankType(uv0.rankTypeConst_.GUILD)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_rewardBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("advanceTestReward", {
-			activityID = arg_5_0.activityID
+			activityID = uv0.activityID
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_easyBtn, nil, function()
-		arg_5_0:OnClickSubType(1)
+	slot0:AddBtnListener(slot0.m_easyBtn, nil, function ()
+		uv0:OnClickSubType(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_nomalBtn, nil, function()
-		arg_5_0:OnClickSubType(2)
+	slot0:AddBtnListener(slot0.m_nomalBtn, nil, function ()
+		uv0:OnClickSubType(2)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_hardBtn, nil, function()
-		arg_5_0:OnClickSubType(3)
+	slot0:AddBtnListener(slot0.m_hardBtn, nil, function ()
+		uv0:OnClickSubType(3)
 	end)
 end
 
-function var_0_0.OnClickSubType(arg_12_0, arg_12_1)
-	local var_12_0 = AdvanceTestData:GetCurRankType()
-	local var_12_1 = arg_12_0.clickIndex_[arg_12_1]
-
-	if arg_12_0.index ~= var_12_1 then
-		if var_12_0 == arg_12_0.rankTypeConst_.ALL then
-			RankAction.QueryActivityRank(arg_12_0.activityID, arg_12_1)
-		elseif var_12_0 == arg_12_0.rankTypeConst_.GUILD then
-			RankAction.QueryGuildActivityRank(arg_12_0.activityID, arg_12_1)
+function slot0.OnClickSubType(slot0, slot1)
+	if slot0.index ~= slot0.clickIndex_[slot1] then
+		if AdvanceTestData:GetCurRankType() == slot0.rankTypeConst_.ALL then
+			RankAction.QueryActivityRank(slot0.activityID, slot1)
+		elseif slot2 == slot0.rankTypeConst_.GUILD then
+			RankAction.QueryGuildActivityRank(slot0.activityID, slot1)
 		end
 	end
 
-	arg_12_0.index = var_12_1
-	arg_12_0.stageType = arg_12_1
+	slot0.index = slot3
+	slot0.stageType = slot1
 
-	arg_12_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.OnTop(arg_13_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -91,148 +88,131 @@ function var_0_0.OnTop(arg_13_0)
 	})
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.activityID = arg_14_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID = slot0.params_.activityID
+	slot1 = ActivityData:GetActivityData(slot0.activityID)
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
+	slot2 = AdvanceTestCfg.get_id_list_by_activity_id[AdvanceTestData:GetMainActivityID()]
 
-	local var_14_0 = ActivityData:GetActivityData(arg_14_0.activityID)
-
-	arg_14_0.startTime_ = var_14_0.startTime
-	arg_14_0.stopTime_ = var_14_0.stopTime
-
-	local var_14_1 = AdvanceTestCfg.get_id_list_by_activity_id[AdvanceTestData:GetMainActivityID()]
-
-	for iter_14_0 = 1, 3 do
-		SetActive(arg_14_0.itemGo_[iter_14_0], false)
+	for slot6 = 1, 3 do
+		SetActive(slot0.itemGo_[slot6], false)
 	end
 
-	for iter_14_1 = 1, 3 do
-		if var_14_1[iter_14_1] then
-			local var_14_2 = AdvanceTestCfg[var_14_1[iter_14_1]]
+	for slot6 = 1, 3 do
+		if slot2[slot6] then
+			slot7 = AdvanceTestCfg[slot2[slot6]]
 
-			SetActive(arg_14_0.itemGo_[var_14_2.stage_type], true)
+			SetActive(slot0.itemGo_[slot7.stage_type], true)
 
-			arg_14_0.clickIndex_[var_14_2.stage_type] = iter_14_1
+			slot0.clickIndex_[slot7.stage_type] = slot6
 		end
 	end
 
-	arg_14_0.stageType = arg_14_0.params_.stageType
-	arg_14_0.index = arg_14_0.clickIndex_[arg_14_0.params_.stageType]
+	slot0.stageType = slot0.params_.stageType
+	slot0.index = slot0.clickIndex_[slot0.params_.stageType]
 
-	manager.notify:RegistListener(ADVANCE_TEST_RANK_UPGRADE, arg_14_0.RefreshUIHandler_)
-	RankAction.QueryActivityRank(arg_14_0.activityID, arg_14_0.stageType)
-	arg_14_0:RefreshGuildRankGo()
-	arg_14_0:AddTimer()
+	manager.notify:RegistListener(ADVANCE_TEST_RANK_UPGRADE, slot0.RefreshUIHandler_)
+	RankAction.QueryActivityRank(slot0.activityID, slot0.stageType)
+	slot0:RefreshGuildRankGo()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0.pos_ = arg_15_0.list_:GetScrolledPosition()
+function slot0.OnExit(slot0)
+	slot0.pos_ = slot0.list_:GetScrolledPosition()
 
-	arg_15_0:StopTimer()
+	slot0:StopTimer()
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(ADVANCE_TEST_RANK_UPGRADE, arg_15_0.RefreshUIHandler_)
-	AdvanceTestData:SetCurRankType(arg_15_0.rankTypeConst_.ALL)
+	manager.notify:RemoveListener(ADVANCE_TEST_RANK_UPGRADE, slot0.RefreshUIHandler_)
+	AdvanceTestData:SetCurRankType(slot0.rankTypeConst_.ALL)
 end
 
-function var_0_0.Refresh(arg_16_0)
-	if AdvanceTestData:GetCurRankType() == arg_16_0.rankTypeConst_.ALL then
-		local var_16_0 = RankData:GetActivityRank(arg_16_0.activityID, arg_16_0.stageType)
+function slot0.Refresh(slot0)
+	if AdvanceTestData:GetCurRankType() == slot0.rankTypeConst_.ALL then
+		slot0.rankList = RankData:GetActivityRank(slot0.activityID, slot0.stageType) and slot2.rankList or {}
 
-		arg_16_0.rankList = var_16_0 and var_16_0.rankList or {}
-
-		if var_16_0 then
-			local var_16_1, var_16_2 = var_16_0:GetCurRankDes()
-
-			arg_16_0.m_rank.text = var_16_1
-			arg_16_0.m_score.text = var_16_2
+		if slot2 then
+			slot0.m_rank.text, slot0.m_score.text = slot2:GetCurRankDes()
 		else
-			arg_16_0.m_rank.text = ""
-			arg_16_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 
-		SetActive(arg_16_0.m_rewardBtn, true)
-		arg_16_0.tabController_:SetSelectedState("all")
+		SetActive(slot0.m_rewardBtn, true)
+		slot0.tabController_:SetSelectedState("all")
 	else
-		local var_16_3 = RankData:GetGuildActivityRank(arg_16_0.activityID, arg_16_0.stageType)
+		slot0.rankList = RankData:GetGuildActivityRank(slot0.activityID, slot0.stageType) and slot2.rankList or {}
 
-		arg_16_0.rankList = var_16_3 and var_16_3.rankList or {}
-
-		if var_16_3 then
-			local var_16_4, var_16_5 = var_16_3:GetCurRankDes()
-
-			arg_16_0.m_rank.text = var_16_4
-			arg_16_0.m_score.text = var_16_5
+		if slot2 then
+			slot0.m_rank.text, slot0.m_score.text = slot2:GetCurRankDes()
 		else
-			arg_16_0.m_rank.text = ""
-			arg_16_0.m_score.text = ""
+			slot0.m_rank.text = ""
+			slot0.m_score.text = ""
 		end
 
-		SetActive(arg_16_0.m_rewardBtn, false)
-		arg_16_0.tabController_:SetSelectedState("club")
+		SetActive(slot0.m_rewardBtn, false)
+		slot0.tabController_:SetSelectedState("club")
 	end
 
-	arg_16_0.list_:StartScroll(#arg_16_0.rankList)
+	slot0.list_:StartScroll(#slot0.rankList)
 
-	if arg_16_0.pos_ then
-		arg_16_0.list_:SetScrolledPosition(arg_16_0.pos_)
+	if slot0.pos_ then
+		slot0.list_:SetScrolledPosition(slot0.pos_)
 	end
 
-	local var_16_6 = PlayerData:GetPlayerInfo()
+	slot0.m_icon.sprite = ItemTools.getItemSprite(PlayerData:GetPlayerInfo() and slot2.portrait)
+	slot0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 
-	arg_16_0.m_icon.sprite = ItemTools.getItemSprite(var_16_6 and var_16_6.portrait)
-	arg_16_0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_16_6.icon_frame)
-
-	arg_16_0.subTypeToggleController_:SetSelectedState(arg_16_0.stageType)
+	slot0.subTypeToggleController_:SetSelectedState(slot0.stageType)
 end
 
-function var_0_0.IndexItem(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = arg_17_0.rankList[arg_17_1]
-
-	arg_17_2:Refresh(var_17_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.rankList[slot1])
 end
 
-function var_0_0.Dispose(arg_18_0)
-	if arg_18_0.list_ then
-		arg_18_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_18_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddTimer(arg_19_0)
-	arg_19_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_19_0.m_leftTimeText.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(arg_19_0.stopTime_, nil, true)
-	arg_19_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > arg_19_0.stopTime_ then
+	slot0.m_leftTimeText.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(slot0.stopTime_, nil, true)
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ < manager.time:GetServerTime() then
 			return
 		end
 
-		arg_19_0.m_leftTimeText.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(arg_19_0.stopTime_, nil, true)
+		uv0.m_leftTimeText.text = GetTips("REMAINING_TIME") .. manager.time:GetLostTimeStr2(uv0.stopTime_, nil, true)
 	end, 1, -1)
 
-	arg_19_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_21_0)
-	if arg_21_0.timer_ then
-		arg_21_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_21_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshGuildRankGo(arg_22_0)
+function slot0.RefreshGuildRankGo(slot0)
 	if GuildData:GetGuildInfo().id == nil then
-		arg_22_0.tabNumController_:SetSelectedState("01")
+		slot0.tabNumController_:SetSelectedState("01")
 	else
-		arg_22_0.tabNumController_:SetSelectedState("02")
+		slot0.tabNumController_:SetSelectedState("02")
 	end
 end
 
-function var_0_0.OnRankUpdate(arg_23_0)
-	arg_23_0:Refresh()
+function slot0.OnRankUpdate(slot0)
+	slot0:Refresh()
 end
 
-return var_0_0
+return slot0

@@ -1,197 +1,159 @@
-local var_0_0 = {}
-
-manager.net:Bind(65301, function(arg_1_0)
-	local var_1_0 = arg_1_0.activity_id
-
-	if ActivityTools.GetActivityType(var_1_0) ~= ActivityTemplateConst.TANGRAM_PUZZLE then
+manager.net:Bind(65301, function (slot0)
+	if ActivityTools.GetActivityType(slot0.activity_id) ~= ActivityTemplateConst.TANGRAM_PUZZLE then
 		return
 	end
 
-	if not TangramPuzzleData:IsInited(var_1_0) then
-		var_0_0.InitRedPoint(var_1_0)
-		TangramPuzzleTools.InitConfig(var_1_0)
+	if not TangramPuzzleData:IsInited(slot1) then
+		uv0.InitRedPoint(slot1)
+		TangramPuzzleTools.InitConfig(slot1)
 	end
 
-	TangramPuzzleData:InitData(arg_1_0)
-	var_0_0.RefreshClueRedPoint(var_1_0)
+	TangramPuzzleData:InitData(slot0)
+	uv0.RefreshClueRedPoint(slot1)
 end)
 
-function var_0_0.MovePuzzle(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	local var_2_0 = TangramPuzzleData:GetCurPuzzleDic(arg_2_0)[arg_2_1]
-	local var_2_1 = {
-		activity_id = arg_2_0,
-		puzzle_id = var_2_0,
-		target_position = arg_2_2
-	}
+return {
+	MovePuzzle = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(65302, {
+			activity_id = slot0,
+			puzzle_id = TangramPuzzleData:GetCurPuzzleDic(slot0)[slot1],
+			target_position = slot2
+		}, 65303, function (slot0)
+			if isSuccess(slot0.result) then
+				TangramPuzzleData:ExchangePuzzle(uv0, uv1, uv2)
+				manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_MOVE, uv1, uv2)
 
-	manager.net:SendWithLoadingNew(65302, var_2_1, 65303, function(arg_3_0)
-		if isSuccess(arg_3_0.result) then
-			TangramPuzzleData:ExchangePuzzle(arg_2_0, arg_2_1, arg_2_2)
-			manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_MOVE, arg_2_1, arg_2_2)
-
-			if arg_2_3 ~= nil then
-				arg_2_3(arg_2_1, arg_2_2)
+				if uv3 ~= nil then
+					uv3(uv1, uv2)
+				end
+			else
+				ShowTips(slot0.result)
 			end
-		else
-			ShowTips(arg_3_0.result)
-		end
-	end)
-end
+		end)
+	end,
+	RotateRegion = function (slot0, slot1, slot2)
+		slot3 = TangramPuzzleTools.GetPuzzleGlobalIndexListByRegionID(slot0)[slot1]
+		slot6 = nil
 
-function var_0_0.RotateRegion(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = TangramPuzzleTools.GetPuzzleGlobalIndexListByRegionID(arg_4_0)[arg_4_1]
-	local var_4_1 = arg_4_2 > 0
-	local var_4_2 = var_4_0[1]
-	local var_4_3
-
-	if var_4_1 == true then
-		var_4_3 = var_4_0[2]
-	else
-		var_4_3 = var_4_0[#var_4_0]
-	end
-
-	local var_4_4 = TangramPuzzleData:GetCurPuzzleDic(arg_4_0)[var_4_2]
-	local var_4_5 = {
-		activity_id = arg_4_0,
-		puzzle_id = var_4_4,
-		target_position = var_4_3
-	}
-
-	manager.net:SendWithLoadingNew(65302, var_4_5, 65303, function(arg_5_0)
-		if isSuccess(arg_5_0.result) then
-			TangramPuzzleData:RetateRegion(arg_4_0, arg_4_1, arg_4_2)
-			manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_REGION_ROTATE, arg_4_1, arg_4_2)
-		else
-			ShowTips(arg_5_0.result)
-		end
-	end)
-end
-
-function var_0_0.ReceiveRegionReward(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = {
-		activity_id = arg_6_0,
-		award_id = arg_6_1
-	}
-
-	manager.net:SendWithLoadingNew(65304, var_6_0, 65305, function(arg_7_0)
-		if isSuccess(arg_7_0.result) then
-			TangramPuzzleData:SetRegionReceivedDic(arg_6_0, arg_6_1)
-			var_0_0.RefreshClueRedPoint(arg_6_0)
-			manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_REGION_RECEIVED, arg_6_1, arg_7_0.reward_list)
-		else
-			ShowTips(arg_7_0.result)
-		end
-	end)
-end
-
-function var_0_0.ReceiveFinalReward(arg_8_0)
-	local var_8_0 = {
-		activity_id = arg_8_0,
-		award_id = {
-			0
-		}
-	}
-
-	manager.net:SendWithLoadingNew(65304, var_8_0, 65305, function(arg_9_0)
-		if isSuccess(arg_9_0.result) then
-			local var_9_0 = arg_9_0.reward_list
-
-			getReward2(var_9_0)
-			TangramPuzzleData:SetRegionReceivedDic(arg_8_0, {
+		manager.net:SendWithLoadingNew(65302, {
+			activity_id = slot0,
+			puzzle_id = TangramPuzzleData:GetCurPuzzleDic(slot0)[slot3[1]],
+			target_position = (slot2 > 0 ~= true or slot3[2]) and slot3[#slot3]
+		}, 65303, function (slot0)
+			if isSuccess(slot0.result) then
+				TangramPuzzleData:RetateRegion(uv0, uv1, uv2)
+				manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_REGION_ROTATE, uv1, uv2)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	ReceiveRegionReward = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(65304, {
+			activity_id = slot0,
+			award_id = slot1
+		}, 65305, function (slot0)
+			if isSuccess(slot0.result) then
+				TangramPuzzleData:SetRegionReceivedDic(uv0, uv1)
+				uv2.RefreshClueRedPoint(uv0)
+				manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_REGION_RECEIVED, uv1, slot0.reward_list)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	ReceiveFinalReward = function (slot0)
+		manager.net:SendWithLoadingNew(65304, {
+			activity_id = slot0,
+			award_id = {
 				0
-			})
-			manager.notify:CallUpdateFunc(TANGRAM_PUUZLE_FINAL_REWARD_RECEIVED)
-		else
-			ShowTips(arg_9_0.result)
-		end
-	end)
-end
-
-var_0_0.OPERATION_TYPE = {
-	FULL_AUTO_PUT = 8,
-	CLUE = 3
-}
-
-function var_0_0.Operation(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	local var_10_0 = {
-		activity_id = arg_10_0,
-		type = arg_10_1
-	}
-
-	if arg_10_1 == var_0_0.OPERATION_TYPE.CLUE then
-		var_10_0.extra = arg_10_2.clueID
-	elseif arg_10_1 == var_0_0.OPERATION_TYPE.ROTATE then
-		var_10_0.extra = arg_10_2.regionID
-	end
-
-	manager.net:SendWithLoadingNew(65306, var_10_0, 65307, function(arg_11_0)
-		if isSuccess(arg_11_0.result) then
-			if arg_10_1 == var_0_0.OPERATION_TYPE.FULL_AUTO_PUT then
-				manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_AUTO_PUT)
-			elseif arg_10_1 == var_0_0.OPERATION_TYPE.CLUE then
-				local var_11_0 = var_10_0.extra
-
-				TangramPuzzleData:SetCurClueDic(arg_10_0, var_11_0)
-				var_0_0.RefreshClueRedPoint(arg_10_0)
-				manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_CLUE_UPDATE)
+			}
+		}, 65305, function (slot0)
+			if isSuccess(slot0.result) then
+				getReward2(slot0.reward_list)
+				TangramPuzzleData:SetRegionReceivedDic(uv0, {
+					0
+				})
+				manager.notify:CallUpdateFunc(TANGRAM_PUUZLE_FINAL_REWARD_RECEIVED)
+			else
+				ShowTips(slot0.result)
 			end
+		end)
+	end,
+	OPERATION_TYPE = {
+		FULL_AUTO_PUT = 8,
+		CLUE = 3
+	},
+	Operation = function (slot0, slot1, slot2, slot3)
+		if slot1 == uv0.OPERATION_TYPE.CLUE then
+			-- Nothing
+		elseif slot1 == uv0.OPERATION_TYPE.ROTATE then
+			slot4.extra = slot2.regionID
+		end
 
-			if arg_10_3 ~= nil then
-				arg_10_3()
+		manager.net:SendWithLoadingNew(65306, {
+			activity_id = slot0,
+			type = slot1,
+			extra = slot2.clueID
+		}, 65307, function (slot0)
+			if isSuccess(slot0.result) then
+				if uv0 == uv1.OPERATION_TYPE.FULL_AUTO_PUT then
+					manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_AUTO_PUT)
+				elseif uv0 == uv1.OPERATION_TYPE.CLUE then
+					TangramPuzzleData:SetCurClueDic(uv3, uv2.extra)
+					uv1.RefreshClueRedPoint(uv3)
+					manager.notify:CallUpdateFunc(TANGRAM_PUZZLE_CLUE_UPDATE)
+				end
+
+				if uv4 ~= nil then
+					uv4()
+				end
+			else
+				ShowTips(slot0.result)
 			end
-		else
-			ShowTips(arg_11_0.result)
+		end)
+	end,
+	InitRedPoint = function (slot0)
+		slot1 = string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE, slot0)
+		slot2 = string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE_CLUE, slot0)
+		slot3 = nil
+
+		for slot8, slot9 in ipairs(ActivityCfg[slot0].sub_activity_list) do
+			if ActivityCfg[slot9].activity_template == ActivityTemplateConst.TASK then
+				slot3 = slot9
+
+				break
+			end
 		end
-	end)
-end
 
-function var_0_0.InitRedPoint(arg_12_0)
-	local var_12_0 = string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE, arg_12_0)
-	local var_12_1 = string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE_CLUE, arg_12_0)
-	local var_12_2
-	local var_12_3 = ActivityCfg[arg_12_0].sub_activity_list
+		manager.redPoint:addGroup(slot1, {
+			string.format("%s_%d", RedPointConst.ACTIVITY_TASK, slot3),
+			slot2
+		})
+	end,
+	RefreshClueRedPoint = function (slot0)
+		slot1 = 0
+		slot2 = TangramPuzzleData:GetCurClueDic(slot0)
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_3) do
-		if ActivityCfg[iter_12_1].activity_template == ActivityTemplateConst.TASK then
-			var_12_2 = iter_12_1
+		for slot7, slot8 in pairs(TangramPuzzleTools.GetClueListByRegionType(slot0)) do
+			slot9 = false
 
-			break
-		end
-	end
+			if TangramPuzzleTools.IsAllRegionReceived(slot0, slot7) then
+				for slot13, slot14 in ipairs(slot8) do
+					if not slot2[slot14] then
+						slot9 = true
+						slot1 = 1
 
-	local var_12_4 = string.format("%s_%d", RedPointConst.ACTIVITY_TASK, var_12_2)
-
-	manager.redPoint:addGroup(var_12_0, {
-		var_12_4,
-		var_12_1
-	})
-end
-
-function var_0_0.RefreshClueRedPoint(arg_13_0)
-	local var_13_0 = 0
-	local var_13_1 = TangramPuzzleData:GetCurClueDic(arg_13_0)
-	local var_13_2 = TangramPuzzleTools.GetClueListByRegionType(arg_13_0)
-
-	for iter_13_0, iter_13_1 in pairs(var_13_2) do
-		local var_13_3 = false
-
-		if TangramPuzzleTools.IsAllRegionReceived(arg_13_0, iter_13_0) then
-			for iter_13_2, iter_13_3 in ipairs(iter_13_1) do
-				if not var_13_1[iter_13_3] then
-					var_13_3 = true
-					var_13_0 = 1
-
-					break
+						break
+					end
 				end
 			end
+
+			if slot9 then
+				break
+			end
 		end
 
-		if var_13_3 then
-			break
-		end
+		manager.redPoint:setTip(string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE_CLUE, slot0), slot1)
 	end
-
-	manager.redPoint:setTip(string.format("%s_%d", RedPointConst.TANGRAM_PUZZLE_CLUE, arg_13_0), var_13_0)
-end
-
-return var_0_0
+}

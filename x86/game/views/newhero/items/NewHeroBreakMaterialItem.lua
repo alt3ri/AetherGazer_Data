@@ -1,74 +1,70 @@
-local var_0_0 = class("NewHeroBreakMaterialItem", ReduxView)
+slot0 = class("NewHeroBreakMaterialItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.enoughController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "enough")
-	arg_3_0.commonItem_ = CommonItemView.New(arg_3_0.gameObject_)
+	slot0.enoughController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "enough")
+	slot0.commonItem_ = CommonItemView.New(slot0.gameObject_)
 end
 
-function var_0_0.SetInfo(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.materialId_ = arg_4_1
-	arg_4_0.count_ = arg_4_2
+function slot0.SetInfo(slot0, slot1, slot2)
+	slot0.materialId_ = slot1
+	slot0.count_ = slot2
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	local var_5_0 = arg_5_0.commonItem_:GetData()
+function slot0.UpdateView(slot0)
+	slot1 = slot0.commonItem_:GetData()
+	slot0.data = clone(ItemTemplateData)
 
-	arg_5_0.data = clone(ItemTemplateData)
-
-	function arg_5_0.data.clickFun()
+	function slot0.data.clickFun()
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_5_0.materialId_,
-			arg_5_0.count_
+			uv0.materialId_,
+			uv0.count_
 		})
 	end
 
-	arg_5_0.data.id = arg_5_0.materialId_
-	arg_5_0.data.number = arg_5_0.count_
+	slot0.data.id = slot0.materialId_
+	slot0.data.number = slot0.count_
 
-	arg_5_0.commonItem_:SetData(arg_5_0.data)
-
-	local var_5_1 = ItemTools.getItemNum(arg_5_0.materialId_)
-
-	arg_5_0.commonItem_:RefreshBottomText({
-		var_5_1,
-		arg_5_0.count_
+	slot0.commonItem_:SetData(slot0.data)
+	slot0.commonItem_:RefreshBottomText({
+		ItemTools.getItemNum(slot0.materialId_),
+		slot0.count_
 	})
 end
 
-function var_0_0.IsEnough(arg_7_0)
-	return ItemTools.getItemNum(arg_7_0.materialId_) >= arg_7_0.count_
+function slot0.IsEnough(slot0)
+	return slot0.count_ <= ItemTools.getItemNum(slot0.materialId_)
 end
 
-function var_0_0.GetMaterialId(arg_8_0)
-	return arg_8_0.materialId_
+function slot0.GetMaterialId(slot0)
+	return slot0.materialId_
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_9_0.commonItem_ then
-		arg_9_0.commonItem_:Dispose()
+	if slot0.commonItem_ then
+		slot0.commonItem_:Dispose()
 
-		arg_9_0.commonItem_ = nil
+		slot0.commonItem_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

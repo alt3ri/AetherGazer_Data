@@ -1,174 +1,162 @@
-local var_0_0 = import("game.views.chat.chatItem.ChatBaseItemView")
-local var_0_1 = class("ChatFriendItem", var_0_0)
+slot1 = class("ChatFriendItem", import("game.views.chat.chatItem.ChatBaseItemView"))
 
-function var_0_1.Init(arg_1_0)
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
-	arg_1_0.onlineController_ = ControllerUtil.GetController(arg_1_0.rectOnlineState_, "conName")
-	arg_1_0.textExtension_ = arg_1_0.goContent_:GetComponent(typeof(TextExtension))
-	arg_1_0.canRemoveFlag_ = true
-	arg_1_0.refreshRedPointHandler_ = handler(arg_1_0, arg_1_0.RefreshRedPoint)
-	arg_1_0.refreshAllHandler_ = handler(arg_1_0, arg_1_0.RefreshAll)
+function slot1.Init(slot0)
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.onlineController_ = ControllerUtil.GetController(slot0.rectOnlineState_, "conName")
+	slot0.textExtension_ = slot0.goContent_:GetComponent(typeof(TextExtension))
+	slot0.canRemoveFlag_ = true
+	slot0.refreshRedPointHandler_ = handler(slot0, slot0.RefreshRedPoint)
+	slot0.refreshAllHandler_ = handler(slot0, slot0.RefreshAll)
 end
 
-function var_0_1.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.buttonGo_, nil, function()
-		arg_2_0:Go("/chatFriend", {
-			friendID = arg_2_0.friendID_
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonGo_, nil, function ()
+		uv0:Go("/chatFriend", {
+			friendID = uv0.friendID_
 		})
 	end)
-	arg_2_0.scrollView_.onValueChanged:AddListener(function(arg_4_0)
-		if arg_4_0.x == 0 or arg_4_0.x == 1 then
-			arg_2_0.canRemoveFlag_ = true
+	slot0.scrollView_.onValueChanged:AddListener(function (slot0)
+		if slot0.x == 0 or slot0.x == 1 then
+			uv0.canRemoveFlag_ = true
 		end
 
-		if arg_2_0.canRemoveFlag_ == false then
-			arg_2_0.scrollView_.horizontalNormalizedPosition = 0
+		if uv0.canRemoveFlag_ == false then
+			uv0.scrollView_.horizontalNormalizedPosition = 0
 
-			LayoutRebuilder.ForceRebuildLayoutImmediate(arg_2_0.rectScrollView_)
+			LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.rectScrollView_)
 		end
 
-		if math.abs(arg_4_0.x) > 350 and arg_2_0.canRemoveFlag_ then
-			arg_2_0.canRemoveFlag_ = false
+		if math.abs(slot0.x) > 350 and uv0.canRemoveFlag_ then
+			uv0.canRemoveFlag_ = false
 
-			arg_2_0:Show(false)
-			manager.notify:Invoke(CHAT_FRIEND_CLOSE_ITEM, arg_2_0.friendID_)
-			ChatFriendData:SaveRecordCnt(arg_2_0.friendID_)
-			FriendsAction:RefreshUnread(arg_2_0.friendID_, 0)
+			uv0:Show(false)
+			manager.notify:Invoke(CHAT_FRIEND_CLOSE_ITEM, uv0.friendID_)
+			ChatFriendData:SaveRecordCnt(uv0.friendID_)
+			FriendsAction:RefreshUnread(uv0.friendID_, 0)
 		end
 	end)
 end
 
-function var_0_1.RefreshText(arg_5_0, arg_5_1)
-	local var_5_0 = ChatFriendData:GetFriendList(arg_5_1)
-	local var_5_1 = ""
-	local var_5_2 = var_5_0.timestamp
-	local var_5_3 = ChatFriendData:GetLastMsgData(arg_5_1)
+function slot1.RefreshText(slot0, slot1)
+	slot3 = ""
+	slot4 = ChatFriendData:GetFriendList(slot1).timestamp
 
-	if var_5_3 then
-		if var_5_3.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			var_5_1 = string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(var_5_3.content)].name))
+	if ChatFriendData:GetLastMsgData(slot1) then
+		slot3 = (slot5.contentType ~= ChatConst.CHAT_CONTENT_TYPE.STICKER or string.format("[%s]", GetI18NText(ChatStickerCfg[tonumber(slot5.content)].name))) and slot5.content
+
+		if slot5.timestamp then
+			slot4 = slot5.timestamp
+		end
+	end
+
+	slot0.textExtension_:SetText(slot3)
+
+	slot0.textTime_.text = manager.time:FormatChatTime(slot4)
+end
+
+function slot1.RefreshRedPoint(slot0, slot1)
+	if slot0.friendID_ == slot1 then
+		if ChatFriendData:GetUnreadMsgCnt(slot1) <= 0 then
+			SetActive(slot0.goNotice_, false)
 		else
-			var_5_1 = var_5_3.content
-		end
+			SetActive(slot0.goNotice_, true)
 
-		if var_5_3.timestamp then
-			var_5_2 = var_5_3.timestamp
-		end
-	end
-
-	arg_5_0.textExtension_:SetText(var_5_1)
-
-	arg_5_0.textTime_.text = manager.time:FormatChatTime(var_5_2)
-end
-
-function var_0_1.RefreshRedPoint(arg_6_0, arg_6_1)
-	if arg_6_0.friendID_ == arg_6_1 then
-		local var_6_0 = ChatFriendData:GetUnreadMsgCnt(arg_6_1)
-
-		if var_6_0 <= 0 then
-			SetActive(arg_6_0.goNotice_, false)
-		else
-			SetActive(arg_6_0.goNotice_, true)
-
-			arg_6_0.textNoticeCnt_.text = var_6_0
+			slot0.textNoticeCnt_.text = slot2
 		end
 	end
 end
 
-function var_0_1.Show(arg_7_0, arg_7_1)
-	var_0_1.super.Show(arg_7_0, arg_7_1)
+function slot1.Show(slot0, slot1)
+	uv0.super.Show(slot0, slot1)
 
-	if arg_7_1 then
-		if not arg_7_0.isRegister_ then
-			manager.notify:RegistListener(CHAT_FRIEND_READ_MESSAGE, arg_7_0.refreshRedPointHandler_)
-			manager.notify:RegistListener(CHAT_FRIEND_CHAT_RESET, arg_7_0.refreshAllHandler_)
+	if slot1 then
+		if not slot0.isRegister_ then
+			manager.notify:RegistListener(CHAT_FRIEND_READ_MESSAGE, slot0.refreshRedPointHandler_)
+			manager.notify:RegistListener(CHAT_FRIEND_CHAT_RESET, slot0.refreshAllHandler_)
 
-			arg_7_0.isRegister_ = true
+			slot0.isRegister_ = true
 		end
-	elseif arg_7_0.isRegister_ then
-		manager.notify:RemoveListener(CHAT_FRIEND_READ_MESSAGE, arg_7_0.refreshRedPointHandler_)
-		manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, arg_7_0.refreshAllHandler_)
+	elseif slot0.isRegister_ then
+		manager.notify:RemoveListener(CHAT_FRIEND_READ_MESSAGE, slot0.refreshRedPointHandler_)
+		manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, slot0.refreshAllHandler_)
 
-		arg_7_0.isRegister_ = false
+		slot0.isRegister_ = false
 	end
 end
 
-function var_0_1.SetData(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.friendID_ = arg_8_1
-	arg_8_0.index_ = arg_8_2
+function slot1.SetData(slot0, slot1, slot2, slot3)
+	slot0.friendID_ = slot1
+	slot0.index_ = slot2
 
-	arg_8_0:RefreshHead(arg_8_1)
-	arg_8_0:RefreshAll(arg_8_1)
-	arg_8_0:SetSelectID(arg_8_3)
-	arg_8_0:Show(true)
+	slot0:RefreshHead(slot1)
+	slot0:RefreshAll(slot1)
+	slot0:SetSelectID(slot3)
+	slot0:Show(true)
 
-	arg_8_0.scrollView_.horizontalNormalizedPosition = 0
+	slot0.scrollView_.horizontalNormalizedPosition = 0
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_8_0.rectScrollView_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.rectScrollView_)
 end
 
-function var_0_1.RefreshAll(arg_9_0, arg_9_1)
-	if arg_9_0.friendID_ ~= arg_9_1 then
+function slot1.RefreshAll(slot0, slot1)
+	if slot0.friendID_ ~= slot1 then
 		return
 	end
 
-	arg_9_0:RefreshText(arg_9_1)
-	arg_9_0:RefreshRedPoint(arg_9_1)
+	slot0:RefreshText(slot1)
+	slot0:RefreshRedPoint(slot1)
 end
 
-function var_0_1.RefreshHead(arg_10_0, arg_10_1)
-	if arg_10_1 == USER_ID then
-		local var_10_0 = PlayerData:GetPlayerInfo()
-
-		arg_10_0.textNick_.text = GetI18NText(var_10_0.nick)
-		arg_10_0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[var_10_0.portrait].icon)
-		arg_10_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_10_0.icon_frame)
+function slot1.RefreshHead(slot0, slot1)
+	if slot1 == USER_ID then
+		slot2 = PlayerData:GetPlayerInfo()
+		slot0.textNick_.text = GetI18NText(slot2.nick)
+		slot0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[slot2.portrait].icon)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 	else
-		local var_10_1 = FriendsData:GetInfoByID(arg_10_1)
-
-		if var_10_1 == false then
-			print("unfind friend data", arg_10_1)
-			arg_10_0:Show(false)
+		if FriendsData:GetInfoByID(slot1) == false then
+			print("unfind friend data", slot1)
+			slot0:Show(false)
 
 			return
 		end
 
-		arg_10_0.textNick_.text = GetI18NText(var_10_1.nick)
-		arg_10_0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[var_10_1.icon].icon)
-		arg_10_0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_10_1.icon_frame)
+		slot0.textNick_.text = GetI18NText(slot2.nick)
+		slot0.imageHead_.sprite = getSpriteViaConfig("HeroLittleIcon", ItemCfg[slot2.icon].icon)
+		slot0.imageFrame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
 
-		if var_10_1.online_state == 0 then
-			arg_10_0.onlineController_:SetSelectedState("on")
+		if slot2.online_state == 0 then
+			slot0.onlineController_:SetSelectedState("on")
 		else
-			arg_10_0.onlineController_:SetSelectedState("off")
+			slot0.onlineController_:SetSelectedState("off")
 		end
 	end
 end
 
-function var_0_1.GetFriendID(arg_11_0)
-	return arg_11_0.friendID_
+function slot1.GetFriendID(slot0)
+	return slot0.friendID_
 end
 
-function var_0_1.SetSelectID(arg_12_0, arg_12_1)
-	if arg_12_1 == arg_12_0.friendID_ then
-		arg_12_0.selectController_:SetSelectedState("selected")
+function slot1.SetSelectID(slot0, slot1)
+	if slot1 == slot0.friendID_ then
+		slot0.selectController_:SetSelectedState("selected")
 	else
-		arg_12_0.selectController_:SetSelectedState("nor")
+		slot0.selectController_:SetSelectedState("nor")
 	end
 end
 
-function var_0_1.Dispose(arg_13_0)
-	if arg_13_0.isRegister_ then
-		manager.notify:RemoveListener(CHAT_FRIEND_READ_MESSAGE, arg_13_0.refreshRedPointHandler_)
-		manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, arg_13_0.refreshAllHandler_)
+function slot1.Dispose(slot0)
+	if slot0.isRegister_ then
+		manager.notify:RemoveListener(CHAT_FRIEND_READ_MESSAGE, slot0.refreshRedPointHandler_)
+		manager.notify:RemoveListener(CHAT_FRIEND_CHAT_RESET, slot0.refreshAllHandler_)
 
-		arg_13_0.isRegister_ = false
+		slot0.isRegister_ = false
 	end
 
-	arg_13_0.refreshRedPointHandler_ = nil
-	arg_13_0.refreshAllHandler_ = nil
+	slot0.refreshRedPointHandler_ = nil
+	slot0.refreshAllHandler_ = nil
 
-	var_0_1.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

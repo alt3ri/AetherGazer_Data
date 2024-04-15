@@ -1,10 +1,10 @@
-return function(arg_1_0)
-	return function(arg_2_0)
-		return function(arg_3_0)
-			if type(arg_3_0) == "function" then
-				return arg_3_0(arg_1_0.dispatch, arg_1_0.getState)
+return function (slot0)
+	return function (slot0)
+		return function (slot0)
+			if type(slot0) == "function" then
+				return slot0(uv0.dispatch, uv0.getState)
 			else
-				return arg_2_0(arg_3_0)
+				return uv1(slot0)
 			end
 		end
 	end

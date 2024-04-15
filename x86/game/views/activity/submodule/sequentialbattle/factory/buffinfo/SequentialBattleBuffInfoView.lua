@@ -1,144 +1,128 @@
-local var_0_0 = class("SequentialBattleBuffInfoView", ReduxView)
+slot0 = class("SequentialBattleBuffInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/continuousBattle/MardukBuffDetailsPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.selectBuffHandler_ = handler(arg_3_0, arg_3_0.RefreshSelectBuff)
-	arg_3_0.buffUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.uiList_, SequentialBattleBuffInfoItem)
-	arg_3_0.conditionList_ = {}
+	slot0.selectBuffHandler_ = handler(slot0, slot0.RefreshSelectBuff)
+	slot0.buffUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot0.uiList_, SequentialBattleBuffInfoItem)
+	slot0.conditionList_ = {}
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.activityID_ = arg_4_0.params_.activityID
-	arg_4_0.stageID_ = arg_4_0.params_.stageID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.stageID_ = slot0.params_.stageID
+	slot0.buffList_ = clone(SequentialBattleBuffCfg.get_id_list_by_activity_id[SequentialBattleChapterCfg[slot0.activityID_].main_id])
 
-	local var_4_0 = SequentialBattleChapterCfg[arg_4_0.activityID_].main_id
+	if slot0.stageID_ ~= nil then
+		slot3 = SequentialBattleTools.GetEnabledBuff(slot0.activityID_, table.keyof(SequentialBattleChapterCfg[slot0.activityID_].stage_id, slot0.stageID_))
 
-	arg_4_0.buffList_ = clone(SequentialBattleBuffCfg.get_id_list_by_activity_id[var_4_0])
-
-	if arg_4_0.stageID_ ~= nil then
-		local var_4_1 = table.keyof(SequentialBattleChapterCfg[arg_4_0.activityID_].stage_id, arg_4_0.stageID_)
-		local var_4_2 = SequentialBattleTools.GetEnabledBuff(arg_4_0.activityID_, var_4_1)
-
-		for iter_4_0 = #arg_4_0.buffList_, 1, -1 do
-			if table.keyof(var_4_2, arg_4_0.buffList_[iter_4_0]) then
-				table.remove(arg_4_0.buffList_, iter_4_0)
+		for slot7 = #slot0.buffList_, 1, -1 do
+			if table.keyof(slot3, slot0.buffList_[slot7]) then
+				table.remove(slot0.buffList_, slot7)
 			end
 		end
 
-		table.insertto(var_4_2, arg_4_0.buffList_)
+		table.insertto(slot3, slot0.buffList_)
 
-		arg_4_0.buffList_ = var_4_2
+		slot0.buffList_ = slot3
 	end
 
-	arg_4_0.selectID_ = arg_4_0.buffList_[1]
+	slot0.selectID_ = slot0.buffList_[1]
 
-	arg_4_0.buffUIList_:StartScroll(#arg_4_0.buffList_)
-	manager.notify:RegistListener(SEQUENTIAL_BATTLE_BUFF, arg_4_0.selectBuffHandler_)
-	arg_4_0:RefreshSelectBuff(arg_4_0.selectID_)
-	arg_4_0:RefreshTitle()
+	slot0.buffUIList_:StartScroll(#slot0.buffList_)
+	manager.notify:RegistListener(SEQUENTIAL_BATTLE_BUFF, slot0.selectBuffHandler_)
+	slot0:RefreshSelectBuff(slot0.selectID_)
+	slot0:RefreshTitle()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	manager.notify:RemoveListener(SEQUENTIAL_BATTLE_BUFF, arg_5_0.selectBuffHandler_)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(SEQUENTIAL_BATTLE_BUFF, slot0.selectBuffHandler_)
 
-	arg_5_0.params_.stageID = nil
+	slot0.params_.stageID = nil
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_6_0.selectBuffHandler_ = nil
+	slot0.selectBuffHandler_ = nil
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.conditionList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.conditionList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.conditionList_ = nil
+	slot0.conditionList_ = nil
 
-	arg_6_0.buffUIList_:Dispose()
+	slot0.buffUIList_:Dispose()
 
-	arg_6_0.buffUIList_ = nil
+	slot0.buffUIList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.RefreshItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.buffList_[arg_9_1]
-	local var_9_1 = false
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot3 = slot0.buffList_[slot1]
+	slot4 = false
 
-	if arg_9_0.stageID_ ~= nil then
-		local var_9_2 = table.keyof(SequentialBattleChapterCfg[arg_9_0.activityID_].stage_id, arg_9_0.stageID_)
-		local var_9_3 = SequentialBattleTools.GetEnabledBuff(arg_9_0.activityID_, var_9_2)
-
-		if table.keyof(var_9_3, var_9_0) then
-			var_9_1 = true
-		end
+	if slot0.stageID_ ~= nil and table.keyof(SequentialBattleTools.GetEnabledBuff(slot0.activityID_, table.keyof(SequentialBattleChapterCfg[slot0.activityID_].stage_id, slot0.stageID_)), slot3) then
+		slot4 = true
 	end
 
-	arg_9_2:SetData(var_9_0, var_9_1)
-	arg_9_2:RefreshSelect(arg_9_0.selectID_)
+	slot2:SetData(slot3, slot4)
+	slot2:RefreshSelect(slot0.selectID_)
 end
 
-function var_0_0.RefreshTitle(arg_10_0)
-	if arg_10_0.stageID_ then
-		local var_10_0 = table.keyof(SequentialBattleChapterCfg[arg_10_0.activityID_].stage_id, arg_10_0.stageID_)
-
-		arg_10_0.teamText_.text = GetTips(string.format("TEAM_%s", var_10_0))
+function slot0.RefreshTitle(slot0)
+	if slot0.stageID_ then
+		slot0.teamText_.text = GetTips(string.format("TEAM_%s", table.keyof(SequentialBattleChapterCfg[slot0.activityID_].stage_id, slot0.stageID_)))
 	else
-		arg_10_0.teamText_.text = GetTips("BUFF_PREVIEW")
+		slot0.teamText_.text = GetTips("BUFF_PREVIEW")
 	end
 end
 
-function var_0_0.RefreshSelectBuff(arg_11_0, arg_11_1)
-	arg_11_0.selectID_ = arg_11_1
+function slot0.RefreshSelectBuff(slot0, slot1)
+	slot0.selectID_ = slot1
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.buffUIList_:GetItemList()) do
-		iter_11_1:RefreshSelect(arg_11_1)
+	for slot5, slot6 in pairs(slot0.buffUIList_:GetItemList()) do
+		slot6:RefreshSelect(slot1)
 	end
 
-	arg_11_0:RefreshRightPanel()
-	arg_11_0:RefreshCondition()
+	slot0:RefreshRightPanel()
+	slot0:RefreshCondition()
 end
 
-function var_0_0.RefreshRightPanel(arg_12_0)
-	local var_12_0 = SequentialBattleBuffCfg[arg_12_0.selectID_]
-	local var_12_1 = var_12_0.affix_id
-	local var_12_2 = AffixTypeCfg[var_12_1]
-	local var_12_3 = PublicBuffCfg[var_12_2.affix_buff_id].icon
-
-	arg_12_0.selectIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. var_12_3)
-	arg_12_0.nameText_.text = GetI18NText(getAffixName({
-		var_12_1
+function slot0.RefreshRightPanel(slot0)
+	slot1 = SequentialBattleBuffCfg[slot0.selectID_]
+	slot2 = slot1.affix_id
+	slot0.selectIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/BuffIcon/" .. PublicBuffCfg[AffixTypeCfg[slot2].affix_buff_id].icon)
+	slot0.nameText_.text = GetI18NText(getAffixName({
+		slot2
 	}))
-	arg_12_0.descText_.text = GetI18NText(var_12_0.desc)
+	slot0.descText_.text = GetI18NText(slot1.desc)
 end
 
-function var_0_0.RefreshCondition(arg_13_0)
-	local var_13_0 = SequentialBattleBuffCfg[arg_13_0.selectID_]
-
-	for iter_13_0 = #arg_13_0.conditionList_, #var_13_0.type + 1, -1 do
-		arg_13_0.conditionList_[iter_13_0]:Show(false)
+function slot0.RefreshCondition(slot0)
+	for slot5 = #slot0.conditionList_, #SequentialBattleBuffCfg[slot0.selectID_].type + 1, -1 do
+		slot0.conditionList_[slot5]:Show(false)
 	end
 
-	for iter_13_1 = 1, #var_13_0.type do
-		arg_13_0.conditionList_[iter_13_1] = arg_13_0.conditionList_[iter_13_1] or SequentialBattleBuffInfoCondition.New(arg_13_0.conditionItem_, arg_13_0.conditionParent_)
+	for slot5 = 1, #slot1.type do
+		slot0.conditionList_[slot5] = slot0.conditionList_[slot5] or SequentialBattleBuffInfoCondition.New(slot0.conditionItem_, slot0.conditionParent_)
 
-		arg_13_0.conditionList_[iter_13_1]:SetData(arg_13_0.activityID_, arg_13_0.stageID_, arg_13_0.selectID_, iter_13_1)
+		slot0.conditionList_[slot5]:SetData(slot0.activityID_, slot0.stageID_, slot0.selectID_, slot5)
 	end
 end
 
-return var_0_0
+return slot0

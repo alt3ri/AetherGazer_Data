@@ -1,43 +1,44 @@
-local var_0_0 = class("ActivityNewbieRechargeView", ReduxView)
+slot0 = class("ActivityNewbieRechargeView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("Widget/System/Activitynewbie/NewbieRechargeUI")
+function slot0.Ctor(slot0, slot1)
+	slot6 = slot1.transform
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/Activitynewbie/NewbieRechargeUI"), slot6)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+	slot0:BindCfgUI()
 
-	arg_1_0:BindCfgUI()
+	slot0.rechargeItemList_ = {}
+	slot5 = ActivityNewbieData
+	slot7 = slot5
 
-	arg_1_0.rechargeItemList_ = {}
-
-	for iter_1_0, iter_1_1 in pairs(ActivityNewbieData:GetRechargeTemplate()) do
-		arg_1_0.rechargeItemList_[iter_1_0] = ActivityNewbieRechargeItem.New(arg_1_0[string.format("button%s_", iter_1_0)], iter_1_0)
+	for slot6, slot7 in pairs(slot5.GetRechargeTemplate(slot7)) do
+		slot0.rechargeItemList_[slot6] = ActivityNewbieRechargeItem.New(slot0[string.format("button%s_", slot6)], slot6)
 	end
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.rechargeItemList_) do
-		iter_2_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rechargeItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_2_0.rechargeItemList_ = nil
+	slot0.rechargeItemList_ = nil
 
-	Object.Destroy(arg_2_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.transform_ = nil
-	arg_2_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_3_1 then
-		for iter_3_0, iter_3_1 in pairs(arg_3_0.rechargeItemList_) do
-			iter_3_1:RefreshUI()
+	if slot1 then
+		for slot5, slot6 in pairs(slot0.rechargeItemList_) do
+			slot6:RefreshUI()
 		end
 	end
 end
 
-return var_0_0
+return slot0

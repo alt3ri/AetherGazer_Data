@@ -1,97 +1,94 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("SoloHeartDemonEnterView", var_0_0)
+slot1 = class("SoloHeartDemonEnterView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "Widget/System/Challenge_SoloHeartDemonUI/JapanRegionSoloMain"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.Controller = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "lock")
+	slot0.Controller = ControllerUtil.GetController(slot0.gameObject_.transform, "lock")
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	manager.redPoint:bindUIandKey(arg_4_0.goBtn_.transform, RedPointConst.SOLO_HEART_DEMON)
-	arg_4_0:UpdateView()
-	arg_4_0:HideRedPoint()
+function slot1.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.goBtn_.transform, RedPointConst.SOLO_HEART_DEMON)
+	slot0:UpdateView()
+	slot0:HideRedPoint()
 end
 
-function var_0_1.UpdateView(arg_5_0)
-	if arg_5_0.updateTimer_ then
-		arg_5_0.updateTimer_:Stop()
+function slot1.UpdateView(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_5_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	arg_5_0.remainTime = 0
+	slot0.remainTime = 0
 
-	for iter_5_0, iter_5_1 in pairs(ActivityCfg.get_id_list_by_activity_template[270]) do
-		if ActivityData:GetActivityIsOpen(iter_5_1) then
-			arg_5_0.activityId = iter_5_1
+	for slot4, slot5 in pairs(ActivityCfg.get_id_list_by_activity_template[270]) do
+		if ActivityData:GetActivityIsOpen(slot5) then
+			slot0.activityId = slot5
 
 			break
 		end
 	end
 
-	arg_5_0.remainTime = ActivityData:GetActivityData(arg_5_0.activityID_).stopTime
-	arg_5_0.remainTxt_.text = manager.time:GetLostTimeStrWith2Unit(arg_5_0.remainTime)
-	arg_5_0.updateTimer_ = Timer.New(function()
-		arg_5_0.remainTxt_.text = manager.time:GetLostTimeStrWith2Unit(arg_5_0.remainTime)
-	end, 1, arg_5_0.remainTime - manager.time:GetServerTime() + 1, 1)
+	slot0.remainTime = ActivityData:GetActivityData(slot0.activityID_).stopTime
+	slot0.remainTxt_.text = manager.time:GetLostTimeStrWith2Unit(slot0.remainTime)
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0.remainTxt_.text = manager.time:GetLostTimeStrWith2Unit(uv0.remainTime)
+	end, 1, slot0.remainTime - manager.time:GetServerTime() + 1, 1)
 
-	arg_5_0.updateTimer_:Start()
+	slot0.updateTimer_:Start()
 
-	arg_5_0.describeTxt_.text = GetTips("SOLO_HEART_DEMON_ENTER_DESCRIBE")
+	slot0.describeTxt_.text = GetTips("SOLO_HEART_DEMON_ENTER_DESCRIBE")
 
-	arg_5_0.Controller:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SOLO_HEART_DEMON) and "lock" or "unlock")
+	slot0.Controller:SetSelectedState(JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SOLO_HEART_DEMON) and "lock" or "unlock")
 end
 
-function var_0_1.HideRedPoint(arg_7_0)
-	SoloHeartDemonAction.UpdateEnterRedPoint(arg_7_0.activityId)
+function slot1.HideRedPoint(slot0)
+	SoloHeartDemonAction.UpdateEnterRedPoint(slot0.activityId)
 end
 
-function var_0_1.OnExit(arg_8_0)
-	var_0_1.super.OnExit(arg_8_0)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 
-	if arg_8_0.updateTimer_ then
-		arg_8_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_8_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_8_0.goBtn_.transform, RedPointConst.SOLO_HEART_DEMON)
+	manager.redPoint:unbindUIandKey(slot0.goBtn_.transform, RedPointConst.SOLO_HEART_DEMON)
 end
 
-function var_0_1.AddUIListener(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.goBtn_, nil, function()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
 		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SOLO_HEART_DEMON) then
 			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SOLO_HEART_DEMON)[2]))
 		elseif ActivityData:GetActivityIsOpen(ActivityConst.SOLO_HEART_DEMON) == false then
 			ShowTips("SOLO_HEART_DEMON_CLOSED")
 		else
 			JumpTools.GoToSystem("/soloHeartDemonMain", {
-				activityId = arg_9_0.activityId
+				activityId = uv0.activityId
 			})
 			SoloHeartDemonAction.UpdateViewRedPoint()
 		end
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.descBtn_, nil, function()
-		local var_11_0 = GetTips("SOLO_HEART_DEMON_EXPLAIN")
-
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "SOLO_HEART_DEMON_DESCRIBE",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_11_0
+			content = GetTips("SOLO_HEART_DEMON_EXPLAIN")
 		})
 	end)
 end
 
-return var_0_1
+return slot1

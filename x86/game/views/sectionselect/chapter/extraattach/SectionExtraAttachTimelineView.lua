@@ -1,78 +1,74 @@
 SectionExtraAttachBaseView = import("game.views.sectionSelect.chapter.extraAttach.SectionExtraAttachBaseView")
+slot0 = class("SectionExtraAttachTimelineView", SectionExtraAttachBaseView)
 
-local var_0_0 = class("SectionExtraAttachTimelineView", SectionExtraAttachBaseView)
-
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.parent_ = arg_1_1
-	arg_1_0.gameObject_ = Object.Instantiate(Asset.Load(arg_1_2), arg_1_3.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.playableDirector_ = arg_1_0.gameObject_:GetComponent(typeof(PlayableDirector))
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.parent_ = slot1
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot2), slot3.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.playableDirector_ = slot0.gameObject_:GetComponent(typeof(PlayableDirector))
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:AddMoveFollowTimer()
-	SetActive(arg_2_0.gameObject_, true)
+function slot0.OnEnter(slot0)
+	slot0:AddMoveFollowTimer()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:StopMoveFollowTimer()
-	SetActive(arg_3_0.gameObject_, false)
+function slot0.OnExit(slot0)
+	slot0:StopMoveFollowTimer()
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.AddMoveFollowTimer(arg_4_0)
-	local var_4_0 = arg_4_0.parent_.chapterID_
-	local var_4_1 = ChapterCfg[var_4_0].section_id_list[#ChapterCfg[var_4_0].section_id_list]
-	local var_4_2 = BattleChapterStageCfg[var_4_1].position[1] - arg_4_0.parent_.viewportRect_.rect.width + arg_4_0.parent_.viewportRect_.rect.width / 4
+function slot0.AddMoveFollowTimer(slot0)
+	slot1 = slot0.parent_.chapterID_
 
-	arg_4_0:Play(var_4_2)
+	slot0:Play(BattleChapterStageCfg[ChapterCfg[slot1].section_id_list[#ChapterCfg[slot1].section_id_list]].position[1] - slot0.parent_.viewportRect_.rect.width + slot0.parent_.viewportRect_.rect.width / 4)
 
-	arg_4_0.moveFollowTimer_ = FrameTimer.New(function()
-		arg_4_0:Play(var_4_2)
+	slot0.moveFollowTimer_ = FrameTimer.New(function ()
+		uv0:Play(uv1)
 	end, 1, -1)
 
-	arg_4_0.moveFollowTimer_:Start()
+	slot0.moveFollowTimer_:Start()
 end
 
-function var_0_0.Play(arg_6_0, arg_6_1)
-	local var_6_0 = -1 * arg_6_0.parent_.contentRect_.localPosition.x / arg_6_1
-	local var_6_1 = arg_6_0.parent_.chapterID_
-	local var_6_2 = ChapterCfg[var_6_1]
-	local var_6_3 = ChapterTools.GetUnclearStageCnt(var_6_1)
+function slot0.Play(slot0, slot1)
+	slot3 = slot0.parent_.chapterID_
+	slot4 = ChapterCfg[slot3]
+	slot5 = ChapterTools.GetUnclearStageCnt(slot3)
 
-	if var_6_0 < 0 then
-		var_6_0 = 0
-	elseif var_6_0 > 1 then
-		var_6_0 = 1
+	if -1 * slot0.parent_.contentRect_.localPosition.x / slot1 < 0 then
+		slot2 = 0
+	elseif slot2 > 1 then
+		slot2 = 1
 	end
 
-	local var_6_4 = 1
-	local var_6_5 = #var_6_2.section_id_list - var_6_3
+	slot6 = 1
+	slot7 = #slot4.section_id_list - slot5
 
-	if type(var_6_2.unlock_scroll_rate) == "table" then
-		for iter_6_0, iter_6_1 in ipairs(var_6_2.unlock_scroll_rate) do
-			if var_6_5 < iter_6_1[1] then
-				var_6_4 = iter_6_1[2]
+	if type(slot4.unlock_scroll_rate) == "table" then
+		for slot11, slot12 in ipairs(slot4.unlock_scroll_rate) do
+			if slot7 < slot12[1] then
+				slot6 = slot12[2]
 
 				break
 			end
 		end
 	end
 
-	if var_6_4 < var_6_0 then
-		var_6_0 = var_6_4
+	if slot6 < slot2 then
+		slot2 = slot6
 	end
 
-	arg_6_0.playableDirector_.time = arg_6_0.playableDirector_.duration * var_6_0
+	slot0.playableDirector_.time = slot0.playableDirector_.duration * slot2
 
-	arg_6_0.playableDirector_:Evaluate()
+	slot0.playableDirector_:Evaluate()
 end
 
-function var_0_0.StopMoveFollowTimer(arg_7_0)
-	if arg_7_0.moveFollowTimer_ then
-		arg_7_0.moveFollowTimer_:Stop()
+function slot0.StopMoveFollowTimer(slot0)
+	if slot0.moveFollowTimer_ then
+		slot0.moveFollowTimer_:Stop()
 
-		arg_7_0.moveFollowTimer_ = nil
+		slot0.moveFollowTimer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

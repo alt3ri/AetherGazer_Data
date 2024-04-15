@@ -1,68 +1,65 @@
-local var_0_0 = import("game.views.recall.pages.RecallPageBase")
-local var_0_1 = class("RecallSystemShopView", var_0_0)
+slot1 = class("RecallSystemShopView", import("game.views.recall.pages.RecallPageBase"))
 
-function var_0_1.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot1.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_1.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.list_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.listGo_, RecallSystemShopItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, RecallSystemShopItem)
 
-	arg_2_0:RegistEventListener(SHOP_ITEM_UPDATE, function(arg_3_0, arg_3_1)
-		arg_2_0:UpdateView(arg_3_0, arg_3_1)
+	slot0:RegistEventListener(SHOP_ITEM_UPDATE, function (slot0, slot1)
+		uv0:UpdateView(slot0, slot1)
 	end)
-	arg_2_0:RegistEventListener(MATERIAL_MODIFY, function(arg_4_0)
-		arg_2_0:UpdateView()
+	slot0:RegistEventListener(MATERIAL_MODIFY, function (slot0)
+		uv0:UpdateView()
 	end)
 
-	arg_2_0.shopID = ActivityRecallData:GetDataByPara("shopID")
+	slot0.shopID = ActivityRecallData:GetDataByPara("shopID")
 end
 
-function var_0_1.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.shopData[arg_5_1])
+function slot1.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.shopData[slot1])
 end
 
-function var_0_1.OnTop(arg_6_0)
-	return
+function slot1.OnTop(slot0)
 end
 
-function var_0_1.UpdateView(arg_7_0)
+function slot1.UpdateView(slot0)
 	ActivityRecallData:UpdateShopData()
 
-	arg_7_0.shopID = ActivityRecallData:GetDataByPara("shopID")
-	arg_7_0.shopData = ActivityRecallData:GetDataByPara("shopData")
+	slot0.shopID = ActivityRecallData:GetDataByPara("shopID")
+	slot0.shopData = ActivityRecallData:GetDataByPara("shopData")
 
-	arg_7_0.list_:StartScroll(#arg_7_0.shopData)
+	slot0.list_:StartScroll(#slot0.shopData)
 
-	arg_7_0.activityTimeTxt_.text = ActivityRecallData:GetDataByPara("shopTime")
+	slot0.activityTimeTxt_.text = ActivityRecallData:GetDataByPara("shopTime")
 end
 
-function var_0_1.OnEnter(arg_8_0)
-	arg_8_0:UpdateView()
-	arg_8_0:OnTop()
+function slot1.OnEnter(slot0)
+	slot0:UpdateView()
+	slot0:OnTop()
 end
 
-function var_0_1.OnExit(arg_9_0)
-	return
+function slot1.OnExit(slot0)
 end
 
-function var_0_1.Hide(arg_10_0)
-	var_0_1.super.Hide(arg_10_0)
+function slot1.Hide(slot0)
+	uv0.super.Hide(slot0)
 end
 
-function var_0_1.Dispose(arg_11_0)
-	if arg_11_0.list_ then
-		arg_11_0.list_:Dispose()
+function slot1.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_11_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_1.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_1
+return slot1

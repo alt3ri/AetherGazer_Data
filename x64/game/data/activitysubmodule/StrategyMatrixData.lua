@@ -1,316 +1,286 @@
 require("game.data.ActivitySubmodule.StrategyMatrixDataTemplata")
 
-local var_0_0 = singletonClass("StrategyMatrixData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4
+slot0 = singletonClass("StrategyMatrixData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = nil
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_4 = nil
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = nil
 end
 
-function var_0_0.InitMatrixUser(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-
-	if var_0_1[var_2_0] then
-		var_0_1[var_2_0]:SetData(arg_2_1)
+function slot0.InitMatrixUser(slot0, slot1)
+	if uv0[slot1.activity_id] then
+		uv0[slot2]:SetData(slot1)
 	else
-		var_0_1[var_2_0] = StrategyMartixUserTemplata.New(arg_2_1)
+		uv0[slot2] = StrategyMartixUserTemplata.New(slot1)
 	end
 
 	manager.notify:Invoke(ACTIVITY_MATRIX_PROCESS_CHANGE)
 end
 
-function var_0_0.UpdateMatrixProcess(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if not var_0_1[arg_3_1] then
+function slot0.UpdateMatrixProcess(slot0, slot1, slot2, slot3)
+	if not uv0[slot1] then
 		return
 	end
 
-	var_0_1[arg_3_1].game_state = arg_3_2
+	uv0[slot1].game_state = slot2
 
-	var_0_1[arg_3_1]:UpdateProcess(arg_3_3)
+	uv0[slot1]:UpdateProcess(slot3)
 	manager.notify:Invoke(ACTIVITY_MATRIX_PROCESS_CHANGE)
 end
 
-function var_0_0.InitMatrixOver(arg_4_0, arg_4_1)
-	local var_4_0 = arg_4_1.activity_id
-
-	if var_0_2[var_4_0] then
-		var_0_2[var_4_0]:SetData(arg_4_1)
+function slot0.InitMatrixOver(slot0, slot1)
+	if uv0[slot1.activity_id] then
+		uv0[slot2]:SetData(slot1)
 
 		return
 	end
 
-	var_0_2[var_4_0] = ActivityMartixOverTemplata.New(arg_4_1)
+	uv0[slot2] = ActivityMartixOverTemplata.New(slot1)
 end
 
-function var_0_0.GetMatrixData(arg_5_0, arg_5_1)
-	return var_0_1[arg_5_1]
+function slot0.GetMatrixData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetGameState(arg_6_0, arg_6_1)
-	return var_0_1[arg_6_1].game_state
+function slot0.GetGameState(slot0, slot1)
+	return uv0[slot1].game_state
 end
 
-function var_0_0.GetMatrixPhaseData(arg_7_0, arg_7_1)
-	return var_0_1[arg_7_1].phase
+function slot0.GetMatrixPhaseData(slot0, slot1)
+	return uv0[slot1].phase
 end
 
-function var_0_0.GetIsClearance(arg_8_0, arg_8_1)
-	if not var_0_1[arg_8_1] then
+function slot0.GetIsClearance(slot0, slot1)
+	if not uv0[slot1] then
 		return false
 	end
 
-	return var_0_1[arg_8_1]:GetIsClearance()
+	return uv0[slot1]:GetIsClearance()
 end
 
-function var_0_0.GetMatrixHeroTeam(arg_9_0, arg_9_1)
-	return var_0_1[arg_9_1].matrix_hero_id_net_rec
+function slot0.GetMatrixHeroTeam(slot0, slot1)
+	return uv0[slot1].matrix_hero_id_net_rec
 end
 
-function var_0_0.GetMatrixBattleHeroTeam(arg_10_0, arg_10_1)
-	return var_0_1[arg_10_1].battle_hero_id_list_cache or var_0_1[arg_10_1].matrix_hero_id_net_rec
+function slot0.GetMatrixBattleHeroTeam(slot0, slot1)
+	return uv0[slot1].battle_hero_id_list_cache or uv0[slot1].matrix_hero_id_net_rec
 end
 
-function var_0_0.SetMatrixBattleHeroTeam(arg_11_0, arg_11_1, arg_11_2)
-	var_0_1[arg_11_1].battle_hero_id_list_cache = arg_11_2
+function slot0.SetMatrixBattleHeroTeam(slot0, slot1, slot2)
+	uv0[slot1].battle_hero_id_list_cache = slot2
 end
 
-function var_0_0.GetHeroData(arg_12_0, arg_12_1, arg_12_2)
-	return var_0_1[arg_12_1].matrix_hero_net_rec[arg_12_2]
+function slot0.GetHeroData(slot0, slot1, slot2)
+	return uv0[slot1].matrix_hero_net_rec[slot2]
 end
 
-function var_0_0.GetTierID(arg_13_0, arg_13_1)
-	return var_0_1[arg_13_1].tier_id
+function slot0.GetTierID(slot0, slot1)
+	return uv0[slot1].tier_id
 end
 
-function var_0_0.GetArtifactList(arg_14_0, arg_14_1)
-	return var_0_1[arg_14_1].artifact_list
+function slot0.GetArtifactList(slot0, slot1)
+	return uv0[slot1].artifact_list
 end
 
-function var_0_0.GetCustomAffix(arg_15_0, arg_15_1)
-	return var_0_1[arg_15_1].custom_affix_id_list
+function slot0.GetCustomAffix(slot0, slot1)
+	return uv0[slot1].custom_affix_id_list
 end
 
-function var_0_0.GetHeroSkin(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = HeroData:GetHeroData(arg_16_2)
-	local var_16_1 = var_16_0 and var_16_0.using_skin or 0
-
-	if var_16_1 == 0 then
-		var_16_1 = arg_16_2
+function slot0.GetHeroSkin(slot0, slot1, slot2)
+	if (HeroData:GetHeroData(slot2) and slot3.using_skin or 0) == 0 then
+		slot4 = slot2
 	end
 
-	return var_16_1
+	return slot4
 end
 
-function var_0_0.GetCurrentClearTime(arg_17_0, arg_17_1)
-	return var_0_2[arg_17_1].currentClearTime_
+function slot0.GetCurrentClearTime(slot0, slot1)
+	return uv0[slot1].currentClearTime_
 end
 
-function var_0_0.GetMinClearTime(arg_18_0, arg_18_1)
-	return var_0_2[arg_18_1].minClearTime_
+function slot0.GetMinClearTime(slot0, slot1)
+	return uv0[slot1].minClearTime_
 end
 
-function var_0_0.GetMatrixCurrencyList(arg_19_0, arg_19_1)
-	return var_0_2[arg_19_1].currencyList_
+function slot0.GetMatrixCurrencyList(slot0, slot1)
+	return uv0[slot1].currencyList_
 end
 
-function var_0_0.GetMatrixOverPoint(arg_20_0, arg_20_1)
-	return var_0_2[arg_20_1].point
+function slot0.GetMatrixOverPoint(slot0, slot1)
+	return uv0[slot1].point
 end
 
-function var_0_0.GetMatrixIsFirstClear(arg_21_0, arg_21_1)
-	return not var_0_2[arg_21_1].success_times == 0
+function slot0.GetMatrixIsFirstClear(slot0, slot1)
+	return not uv0[slot1].success_times == 0
 end
 
-function var_0_0.GetWeaponServantLevel(arg_22_0, arg_22_1)
-	return var_0_1[arg_22_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.WEAPON_LEVEL] or 0
+function slot0.GetWeaponServantLevel(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.WEAPON_LEVEL] or 0
 end
 
-function var_0_0.GetHeroEquipMaxCount(arg_23_0, arg_23_1)
-	return var_0_1[arg_23_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.MAX_EQUIP_COUNT] or 0
+function slot0.GetHeroEquipMaxCount(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.MAX_EQUIP_COUNT] or 0
 end
 
-function var_0_0.GetAstrolabeMaxCount(arg_24_0, arg_24_1)
-	return var_0_1[arg_24_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.MAX_ASTROLABE_COUNT] or 0
+function slot0.GetAstrolabeMaxCount(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.MAX_ASTROLABE_COUNT] or 0
 end
 
-function var_0_0.GetShoRefreshTimes(arg_25_0, arg_25_1)
-	return var_0_1[arg_25_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_REFRESH_TIMES] or 0
+function slot0.GetShoRefreshTimes(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_REFRESH_TIMES] or 0
 end
 
-function var_0_0.GetShopFressRefreshTimes(arg_26_0, arg_26_1)
-	return var_0_1[arg_26_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_FRESS_REFRESH_TIMES] or 0
+function slot0.GetShopFressRefreshTimes(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_FRESS_REFRESH_TIMES] or 0
 end
 
-function var_0_0.GetFirstGoodsDiscount(arg_27_0, arg_27_1)
-	return var_0_1[arg_27_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_FIRST_GOODS_DISCOUNT] or 1
+function slot0.GetFirstGoodsDiscount(slot0, slot1)
+	return uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SHOP_FIRST_GOODS_DISCOUNT] or 1
 end
 
-function var_0_0.GetCanChangeCaptain(arg_28_0, arg_28_1)
-	if var_0_1[arg_28_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.CHANGE_TEAM_LEADER] == 1 then
+function slot0.GetCanChangeCaptain(slot0, slot1)
+	if uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.CHANGE_TEAM_LEADER] == 1 then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetScoreAddition(arg_29_0, arg_29_1)
-	local var_29_0 = var_0_1[arg_29_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SCORE_ADDITION]
-
-	if not var_29_0 then
+function slot0.GetScoreAddition(slot0, slot1)
+	if not uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.SCORE_ADDITION] then
 		return 0
 	end
 
-	return var_29_0 / 1000
+	return slot3 / 1000
 end
 
-function var_0_0.GetGiveUpRewardAddition(arg_30_0, arg_30_1)
-	local var_30_0 = var_0_1[arg_30_1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.GIVE_UP_REWARD_ADDITION]
-
-	if not var_30_0 then
+function slot0.GetGiveUpRewardAddition(slot0, slot1)
+	if not uv0[slot1].attribute_list[MatrixConst.MATRIX_ATTRIBUTE_TYPE.GIVE_UP_REWARD_ADDITION] then
 		return 0
 	end
 
-	return var_30_0 / 1000
+	return slot3 / 1000
 end
 
-function var_0_0.GetRaceEffect(arg_31_0, arg_31_1)
+function slot0.GetRaceEffect(slot0, slot1)
 	return false
 end
 
-function var_0_0.GetAffixList(arg_32_0, arg_32_1)
-	if var_0_1[arg_32_1] then
-		local var_32_0 = {}
-		local var_32_1 = var_0_1[arg_32_1].custom_affix_id_list
+function slot0.GetAffixList(slot0, slot1)
+	if uv0[slot1] then
+		slot2 = {}
 
-		for iter_32_0, iter_32_1 in ipairs(var_32_1) do
-			local var_32_2 = ActivityAffixPoolCfg[iter_32_1]
-
-			if var_32_2 then
-				table.insert(var_32_0, var_32_2.affix)
+		for slot7, slot8 in ipairs(uv0[slot1].custom_affix_id_list) do
+			if ActivityAffixPoolCfg[slot8] then
+				table.insert(slot2, slot9.affix)
 			end
 		end
 
-		return var_32_0
+		return slot2
 	end
 
 	return {}
 end
 
-function var_0_0.GetArtifactAffixList(arg_33_0, arg_33_1)
-	if var_0_1[arg_33_1] then
-		local var_33_0 = {}
-		local var_33_1 = var_0_1[arg_33_1].artifact_list
+function slot0.GetArtifactAffixList(slot0, slot1)
+	if uv0[slot1] then
+		slot2 = {}
 
-		for iter_33_0, iter_33_1 in ipairs(var_33_1) do
-			local var_33_2 = iter_33_1.id
-			local var_33_3 = iter_33_1.wins
-			local var_33_4 = MatrixItemCfg[var_33_2]
-
-			if var_33_4 then
-				local var_33_5 = var_33_4.params[1]
-				local var_33_6 = MatrixTools.GetAffixByEffectId(var_33_5, var_33_3)
-
-				if var_33_6 then
-					table.insert(var_33_0, var_33_6)
-				end
+		for slot7, slot8 in ipairs(uv0[slot1].artifact_list) do
+			if MatrixItemCfg[slot8.id] and MatrixTools.GetAffixByEffectId(slot11.params[1], slot8.wins) then
+				table.insert(slot2, slot13)
 			end
 		end
 
-		return var_33_0
+		return slot2
 	end
 
 	return {}
 end
 
-function var_0_0.GetInitAffixList(arg_34_0, arg_34_1)
-	local var_34_0 = {}
+function slot0.GetInitAffixList(slot0, slot1)
+	slot2 = {}
 
-	if var_0_1[arg_34_1] then
-		local var_34_1 = var_0_1[arg_34_1]:GetEffectList()
-
-		for iter_34_0, iter_34_1 in ipairs(var_34_1) do
-			local var_34_2 = MatrixTools.GetAffixByEffectId(iter_34_1.id, iter_34_1.level)
-
-			if var_34_2 then
-				table.insert(var_34_0, var_34_2)
+	if uv0[slot1] then
+		for slot7, slot8 in ipairs(uv0[slot1]:GetEffectList()) do
+			if MatrixTools.GetAffixByEffectId(slot8.id, slot8.level) then
+				table.insert(slot2, slot9)
 			end
 		end
 	end
 
-	return var_34_0
+	return slot2
 end
 
-function var_0_0.GetTotalAffix(arg_35_0, arg_35_1)
-	local var_35_0 = {}
+function slot0.GetTotalAffix(slot0, slot1)
+	slot2 = {}
 
-	table.insertto(var_35_0, arg_35_0:GetAffixList(arg_35_1))
-	table.insertto(var_35_0, arg_35_0:GetInitAffixList(arg_35_1))
+	table.insertto(slot2, slot0:GetAffixList(slot1))
+	table.insertto(slot2, slot0:GetInitAffixList(slot1))
 
-	return var_35_0
+	return slot2
 end
 
-function var_0_0.CalMatrixAttribute(arg_36_0, arg_36_1)
-	local var_36_0 = {}
+function slot0.CalMatrixAttribute(slot0, slot1)
+	slot2 = {}
 
-	if var_0_1[arg_36_1] then
-		local var_36_1 = var_0_1[arg_36_1]:GetEffectList()
-
-		for iter_36_0, iter_36_1 in ipairs(var_36_1) do
-			MatrixTools.GetAttrByEffectId(var_36_0, iter_36_1.id)
+	if uv0[slot1] then
+		for slot7, slot8 in ipairs(uv0[slot1]:GetEffectList()) do
+			MatrixTools.GetAttrByEffectId(slot2, slot8.id)
 		end
 	end
 
-	return var_36_0
+	return slot2
 end
 
-function var_0_0.GetMatrixCoint(arg_37_0, arg_37_1)
-	return var_0_1[arg_37_1] and var_0_1[arg_37_1]:GetMatrixCoint() or 0
+function slot0.GetMatrixCoint(slot0, slot1)
+	return uv0[slot1] and uv0[slot1]:GetMatrixCoint() or 0
 end
 
-function var_0_0.GetMatrixScore(arg_38_0, arg_38_1)
-	return var_0_1[arg_38_1] and var_0_1[arg_38_1]:GetMapId() or 0
+function slot0.GetMatrixScore(slot0, slot1)
+	return uv0[slot1] and uv0[slot1]:GetMapId() or 0
 end
 
-function var_0_0.GetRoguelikeScore(arg_39_0, arg_39_1)
-	return var_0_1[arg_39_1] and var_0_1[arg_39_1]:RoguelikeScore() or 0
+function slot0.GetRoguelikeScore(slot0, slot1)
+	return uv0[slot1] and uv0[slot1]:RoguelikeScore() or 0
 end
 
-function var_0_0.GetMapId(arg_40_0, arg_40_1)
-	return var_0_1[arg_40_1]:GetMapId()
+function slot0.GetMapId(slot0, slot1)
+	return uv0[slot1]:GetMapId()
 end
 
-function var_0_0.GetNodeList(arg_41_0, arg_41_1)
-	return var_0_1[arg_41_1]:GetNodeList()
+function slot0.GetNodeList(slot0, slot1)
+	return uv0[slot1]:GetNodeList()
 end
 
-function var_0_0.GetRead(arg_42_0, arg_42_1)
-	return getData("STRATEGY_MATRIX_OPEN_RECORD", tostring(arg_42_1)) == 1
+function slot0.GetRead(slot0, slot1)
+	return getData("STRATEGY_MATRIX_OPEN_RECORD", tostring(slot1)) == 1
 end
 
-function var_0_0.SetRead(arg_43_0, arg_43_1)
-	saveData("STRATEGY_MATRIX_OPEN_RECORD", tostring(arg_43_1), 1)
+function slot0.SetRead(slot0, slot1)
+	saveData("STRATEGY_MATRIX_OPEN_RECORD", tostring(slot1), 1)
 end
 
-function var_0_0.SetDifficultySelect(arg_44_0, arg_44_1)
-	var_0_4 = arg_44_1
+function slot0.SetDifficultySelect(slot0, slot1)
+	uv0 = slot1
 
-	saveData("StrategyMatrix", "difficulty", var_0_4)
+	saveData("StrategyMatrix", "difficulty", uv0)
 end
 
-function var_0_0.GetDifficultySelect(arg_45_0)
-	if var_0_4 then
-		return var_0_4
+function slot0.GetDifficultySelect(slot0)
+	if uv0 then
+		return uv0
 	else
-		var_0_4 = getData("StrategyMatrix", "difficulty") or 1
+		uv0 = getData("StrategyMatrix", "difficulty") or 1
 
-		return var_0_4
+		return uv0
 	end
 end
 
-return var_0_0
+return slot0

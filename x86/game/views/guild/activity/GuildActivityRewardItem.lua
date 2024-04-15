@@ -1,109 +1,106 @@
-local var_0_0 = class("GuildActivityRewardItem", ReduxView)
+slot0 = class("GuildActivityRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.rewardItemList_ = {}
-	arg_2_0.rewardController_ = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.levelController_ = ControllerUtil.GetController(arg_2_0.transform_, "level")
-	arg_2_0.receiveHandler_ = handler(arg_2_0, arg_2_0.OnReceiveReward)
+	slot0.rewardItemList_ = {}
+	slot0.rewardController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.levelController_ = ControllerUtil.GetController(slot0.transform_, "level")
+	slot0.receiveHandler_ = handler(slot0, slot0.OnReceiveReward)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		if manager.time:GetServerTime() >= arg_4_0.stopTime_ then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		GuildActivityAction.RequireReceive(arg_4_0.rateID_, arg_4_0.receiveHandler_)
+		GuildActivityAction.RequireReceive(uv0.rateID_, uv0.receiveHandler_)
 	end)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.rewardItemList_) do
-		iter_6_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.rewardItemList_ = nil
-	arg_6_0.receiveHandler_ = nil
+	slot0.rewardItemList_ = nil
+	slot0.receiveHandler_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.rateID_ = arg_7_1
-	arg_7_0.activityID_ = arg_7_2
-	arg_7_0.stopTime_ = ActivityData:GetActivityData(arg_7_0.activityID_).stopTime
-	arg_7_0.rewardList_ = ActivityClubLevelSettingCfg[arg_7_1].reward_item_list
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.rateID_ = slot1
+	slot0.activityID_ = slot2
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
+	slot0.rewardList_ = ActivityClubLevelSettingCfg[slot1].reward_item_list
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.setReceiveCallBack(arg_8_0, arg_8_1)
-	arg_8_0.receiveCallBack_ = arg_8_1
+function slot0.setReceiveCallBack(slot0, slot1)
+	slot0.receiveCallBack_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = ActivityClubLevelSettingCfg[arg_9_0.rateID_]
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityClubLevelSettingCfg[slot0.rateID_]
+	slot0.descText_.text = string.format(GetTips("ACTIVITY_CLUB_REWARD"), slot1.user_level)
 
-	arg_9_0.descText_.text = string.format(GetTips("ACTIVITY_CLUB_REWARD"), var_9_0.user_level)
-
-	arg_9_0.levelController_:SetSelectedState(tostring(var_9_0.user_level))
-	arg_9_0:RefreshRewardItem()
-	arg_9_0:RefreshRewardState()
+	slot0.levelController_:SetSelectedState(tostring(slot1.user_level))
+	slot0:RefreshRewardItem()
+	slot0:RefreshRewardState()
 end
 
-function var_0_0.RefreshRewardItem(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.rewardList_) do
-		if arg_10_0.rewardItemList_[iter_10_0] then
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(iter_10_1, false)
+function slot0.RefreshRewardItem(slot0)
+	for slot4, slot5 in ipairs(slot0.rewardList_) do
+		if slot0.rewardItemList_[slot4] then
+			slot0.rewardItemList_[slot4]:SetData(slot5, false)
 		else
-			arg_10_0.rewardItemList_[iter_10_0] = RewardPoolItem.New(arg_10_0.rewardParent_, iter_10_1, true)
+			slot0.rewardItemList_[slot4] = RewardPoolItem.New(slot0.rewardParent_, slot5, true)
 		end
 	end
 
-	for iter_10_2 = #arg_10_0.rewardList_ + 1, #arg_10_0.rewardItemList_ do
-		arg_10_0.rewardItemList_[iter_10_2]:Show(false)
+	for slot4 = #slot0.rewardList_ + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.OnReceiveReward(arg_11_0)
-	GuildActivityData:SetReceivedList(arg_11_0.activityID_, arg_11_0.rateID_)
-	getReward(formatRewardCfgList(arg_11_0.rewardList_))
-	arg_11_0:RefreshRewardState()
+function slot0.OnReceiveReward(slot0)
+	GuildActivityData:SetReceivedList(slot0.activityID_, slot0.rateID_)
+	getReward(formatRewardCfgList(slot0.rewardList_))
+	slot0:RefreshRewardState()
 
-	if arg_11_0.receiveCallBack_ then
-		arg_11_0.receiveCallBack_()
+	if slot0.receiveCallBack_ then
+		slot0.receiveCallBack_()
 	end
 end
 
-function var_0_0.RefreshRewardState(arg_12_0)
-	local var_12_0 = GuildActivityData:GetReceivedList()
-	local var_12_1 = table.keyof(var_12_0, ActivityClubLevelSettingCfg[arg_12_0.rateID_].user_level) ~= nil
-	local var_12_2 = ActivityClubLevelSettingCfg[GuildActivityData:GetCurRateID(arg_12_0.activityID_)].user_level
+function slot0.RefreshRewardState(slot0)
+	slot3 = ActivityClubLevelSettingCfg[GuildActivityData:GetCurRateID(slot0.activityID_)].user_level
 
-	if var_12_1 then
-		arg_12_0.rewardController_:SetSelectedState("received")
-	elseif var_12_2 >= ActivityClubLevelSettingCfg[arg_12_0.rateID_].user_level then
-		arg_12_0.rewardController_:SetSelectedState("finish")
+	if table.keyof(GuildActivityData:GetReceivedList(), ActivityClubLevelSettingCfg[slot0.rateID_].user_level) ~= nil then
+		slot0.rewardController_:SetSelectedState("received")
+	elseif ActivityClubLevelSettingCfg[slot0.rateID_].user_level <= slot3 then
+		slot0.rewardController_:SetSelectedState("finish")
 	else
-		arg_12_0.rewardController_:SetSelectedState("unfinished")
+		slot0.rewardController_:SetSelectedState("unfinished")
 	end
 end
 
-return var_0_0
+return slot0

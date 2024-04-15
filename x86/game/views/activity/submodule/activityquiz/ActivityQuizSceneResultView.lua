@@ -1,182 +1,168 @@
-local var_0_0 = class("ActivityQuizSceneResultView", ReduxView)
-local var_0_1 = import("game.quiz.QuizFunction")
+slot0 = class("ActivityQuizSceneResultView", ReduxView)
+slot1 = import("game.quiz.QuizFunction")
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityQuizTools.GetResultUIName(arg_1_0.params_.activityId)
+function slot0.UIName(slot0)
+	return ActivityQuizTools.GetResultUIName(slot0.params_.activityId)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.snapView_ = HeroDisplaySnapView.New(arg_4_0.goSnapPanel_)
-	arg_4_0.shareView_ = QuizSceneShareView.New(arg_4_0.goSharePanel_)
+	slot0.snapView_ = HeroDisplaySnapView.New(slot0.goSnapPanel_)
+	slot0.shareView_ = QuizSceneShareView.New(slot0.goSharePanel_)
 
-	arg_4_0.shareView_:ExitViewCallBack(function()
-		arg_4_0:SetShareItem(true)
+	slot0.shareView_:ExitViewCallBack(function ()
+		uv0:SetShareItem(true)
 	end)
 
-	arg_4_0.rankScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.RankIndexItem), arg_4_0.rankListGo_, ActivityQuizRankItem)
+	slot0.rankScrollHelper_ = LuaList.New(handler(slot0, slot0.RankIndexItem), slot0.rankListGo_, ActivityQuizRankItem)
 end
 
-function var_0_0.RankIndexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:RefreshData(arg_6_0.rankList_[arg_6_1], arg_6_0.rankIndexList_[arg_6_1])
-	arg_6_2:SetMine(arg_6_0.rankList_[arg_6_1] == arg_6_0.userID_)
+function slot0.RankIndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot0.rankList_[slot1], slot0.rankIndexList_[slot1])
+	slot2:SetMine(slot0.rankList_[slot1] == slot0.userID_)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.shareBtn_, nil, function()
-		arg_7_0:SetShareItem(false)
-		arg_7_0.snapView_:Snap(function()
-			arg_7_0.shareView_:OnSnape(true)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.shareBtn_, nil, function ()
+		uv0:SetShareItem(false)
+		uv0.snapView_:Snap(function ()
+			uv0.shareView_:OnSnape(true)
 		end)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.quitBtn_, nil, function()
+	slot0:AddBtnListener(slot0.quitBtn_, nil, function ()
 		QuitQuizScene()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.oneMoreBtn_, nil, function()
+	slot0:AddBtnListener(slot0.oneMoreBtn_, nil, function ()
 		ActivityQuizAction.StartMarch()
 	end)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.activityID_ = arg_12_0.params_.activityId
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityId
 
-	arg_12_0.shareView_:OnEnter()
+	slot0.shareView_:OnEnter()
 
-	local var_12_0 = PlayerData:GetPlayerInfo()
+	slot0.userID_ = tostring(PlayerData:GetPlayerInfo().userID)
 
-	arg_12_0.userID_ = tostring(var_12_0.userID)
-
-	arg_12_0:RefreshRank()
-	arg_12_0:RefreshHero()
+	slot0:RefreshRank()
+	slot0:RefreshHero()
 end
 
-function var_0_0.RefreshRank(arg_13_0)
-	arg_13_0.rankList_ = var_0_1:GetPlayerList()
+function slot0.RefreshRank(slot0)
+	slot0.rankList_ = uv0:GetPlayerList()
 
-	arg_13_0:SortRank()
+	slot0:SortRank()
 
-	local var_13_0 = table.indexof(arg_13_0.rankList_, arg_13_0.userID_)
-	local var_13_1 = var_0_1:GetRankData(arg_13_0.userID_)
-
-	arg_13_0.numIndex_.text = string.format(GetTips("SOLO_HEART_DEMON_REWARD_TIPS2"), arg_13_0.rankIndexList_[var_13_0])
-	arg_13_0.rankScore_.text = var_13_1.score
+	slot0.numIndex_.text = string.format(GetTips("SOLO_HEART_DEMON_REWARD_TIPS2"), slot0.rankIndexList_[table.indexof(slot0.rankList_, slot0.userID_)])
+	slot0.rankScore_.text = uv0:GetRankData(slot0.userID_).score
 end
 
-function var_0_0.SortRank(arg_14_0)
-	table.sort(arg_14_0.rankList_, function(arg_15_0, arg_15_1)
-		local var_15_0 = var_0_1:GetRankData(arg_15_0)
-		local var_15_1 = var_0_1:GetRankData(arg_15_1)
-
-		return var_15_0.score > var_15_1.score
+function slot0.SortRank(slot0)
+	table.sort(slot0.rankList_, function (slot0, slot1)
+		return uv0:GetRankData(slot1).score < uv0:GetRankData(slot0).score
 	end)
 
-	local var_14_0 = 1
+	slot1 = 1
+	slot0.rankIndexList_ = {}
 
-	arg_14_0.rankIndexList_ = {}
-
-	local var_14_1 = var_0_1:GetRankData(arg_14_0.rankList_[1]).score
-
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.rankList_) do
-		local var_14_2 = var_0_1:GetRankData(iter_14_1)
-
-		if var_14_1 > var_14_2.score then
-			var_14_1 = var_14_2.score
-			var_14_0 = iter_14_0
+	for slot6, slot7 in ipairs(slot0.rankList_) do
+		if uv0:GetRankData(slot7).score < uv0:GetRankData(slot0.rankList_[1]).score then
+			slot2 = slot8.score
+			slot1 = slot6
 		end
 
-		table.insert(arg_14_0.rankIndexList_, var_14_0)
+		table.insert(slot0.rankIndexList_, slot1)
 	end
 
-	arg_14_0.rankScrollHelper_:StartScroll(#arg_14_0.rankList_)
+	slot0.rankScrollHelper_:StartScroll(#slot0.rankList_)
 end
 
-function var_0_0.RefreshHero(arg_16_0)
-	local var_16_0 = {}
-	local var_16_1 = {}
+function slot0.RefreshHero(slot0)
+	slot1 = {}
+	slot2 = {}
 
-	for iter_16_0 = 1, 3 do
-		if arg_16_0.rankList_[iter_16_0] then
-			table.insert(var_16_0, arg_16_0.rankList_[iter_16_0])
-			table.insert(var_16_1, arg_16_0.rankIndexList_[iter_16_0])
+	for slot6 = 1, 3 do
+		if slot0.rankList_[slot6] then
+			table.insert(slot1, slot0.rankList_[slot6])
+			table.insert(slot2, slot0.rankIndexList_[slot6])
 		end
 	end
 
-	var_0_1:ShowModels(var_16_0, var_16_1)
+	uv0:ShowModels(slot1, slot2)
 end
 
-function var_0_0.SetShareItem(arg_17_0, arg_17_1)
-	if arg_17_1 then
-		arg_17_0:SetDefaultBar()
-		SetActive(arg_17_0.shareBtn_.gameObject, true)
-		SetActive(arg_17_0.quitBtn_.gameObject, true)
-		SetActive(arg_17_0.oneMoreBtn_.gameObject, true)
+function slot0.SetShareItem(slot0, slot1)
+	if slot1 then
+		slot0:SetDefaultBar()
+		SetActive(slot0.shareBtn_.gameObject, true)
+		SetActive(slot0.quitBtn_.gameObject, true)
+		SetActive(slot0.oneMoreBtn_.gameObject, true)
 	else
 		manager.windowBar:HideBar()
-		SetActive(arg_17_0.shareBtn_.gameObject, false)
-		SetActive(arg_17_0.quitBtn_.gameObject, false)
-		SetActive(arg_17_0.oneMoreBtn_.gameObject, false)
+		SetActive(slot0.shareBtn_.gameObject, false)
+		SetActive(slot0.quitBtn_.gameObject, false)
+		SetActive(slot0.oneMoreBtn_.gameObject, false)
 	end
 end
 
-function var_0_0.SetDefaultBar(arg_18_0)
+function slot0.SetDefaultBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		INFO_BAR
 	})
-	manager.windowBar:SetGameHelpKey(ActivityQuizTools.GetHelpKey(arg_18_0.activityID_))
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:SetGameHelpKey(ActivityQuizTools.GetHelpKey(slot0.activityID_))
+	manager.windowBar:RegistBackCallBack(function ()
 		ShowMessageBox({
 			isTop = true,
 			content = GetTips("ACTIVITY_QUIZ_QUIT"),
-			OkCallback = function()
+			OkCallback = function ()
 				ActivityQuizAction.ExitRoom()
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.OnActivityQuizStartMarch(arg_22_0)
-	ActivityQuizTools.SetCurActivityID(arg_22_0.activityID_)
+function slot0.OnActivityQuizStartMarch(slot0)
+	ActivityQuizTools.SetCurActivityID(slot0.activityID_)
 	JumpTools.OpenPageByJump("activityQuizMatchPop", {
-		activityId = arg_22_0.activityID_
+		activityId = slot0.activityID_
 	})
 end
 
-function var_0_0.OnTop(arg_23_0)
-	arg_23_0:SetShareItem(true)
+function slot0.OnTop(slot0)
+	slot0:SetShareItem(true)
 end
 
-function var_0_0.OnExit(arg_24_0)
-	arg_24_0.snapView_:OnExit()
-	arg_24_0.shareView_:OnExit()
-	arg_24_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0.snapView_:OnExit()
+	slot0.shareView_:OnExit()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_25_0)
-	arg_25_0:RemoveAllListeners()
-	arg_25_0.snapView_:Dispose()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.snapView_:Dispose()
 
-	arg_25_0.snapView_ = nil
+	slot0.snapView_ = nil
 
-	arg_25_0.shareView_:Dispose()
+	slot0.shareView_:Dispose()
 
-	arg_25_0.shareView_ = nil
+	slot0.shareView_ = nil
 
-	arg_25_0.rankScrollHelper_:Dispose()
-	arg_25_0.super.Dispose(arg_25_0)
+	slot0.rankScrollHelper_:Dispose()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

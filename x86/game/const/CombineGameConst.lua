@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	Type = {
 		WAR = 5,
 		FOOD = 1,
@@ -54,27 +54,26 @@ local var_0_0 = {
 		"minigame_activity_2_8"
 	}
 }
+slot0.TypeText = {
+	[slot0.Type.FOOD] = "ACTIVITY_COMBINE_GAME_CELL_1",
+	[slot0.Type.ROCK] = "ACTIVITY_COMBINE_GAME_CELL_2",
+	[slot0.Type.TECH] = "ACTIVITY_COMBINE_GAME_CELL_3",
+	[slot0.Type.BEAST] = "ACTIVITY_COMBINE_GAME_CELL_4",
+	[slot0.Type.WAR] = "ACTIVITY_COMBINE_GAME_CELL_5",
+	[slot0.Type.BUILD] = "ACTIVITY_COMBINE_GAME_CELL_6"
+}
+slot0.BaseInfoConst = {
+	[slot0.Type.FOOD] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_1",
+	[slot0.Type.ROCK] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_2",
+	[slot0.Type.TECH] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_3"
+}
+slot0.RefreshType = {
+	[slot0.FactorType.UNLOCK_SKILL] = 1,
+	[slot0.FactorType.COST_CHANGE] = 1,
+	[slot0.FactorType.SKILL_CD_CHANGE] = 1,
+	[slot0.FactorType.MAX_LEVEL_EXCHANGE] = 2,
+	[slot0.FactorType.MIN_LEVEL_EXCHANGE] = 2,
+	[slot0.FactorType.SPEED_CHANGE] = 2
+}
 
-var_0_0.TypeText = {
-	[var_0_0.Type.FOOD] = "ACTIVITY_COMBINE_GAME_CELL_1",
-	[var_0_0.Type.ROCK] = "ACTIVITY_COMBINE_GAME_CELL_2",
-	[var_0_0.Type.TECH] = "ACTIVITY_COMBINE_GAME_CELL_3",
-	[var_0_0.Type.BEAST] = "ACTIVITY_COMBINE_GAME_CELL_4",
-	[var_0_0.Type.WAR] = "ACTIVITY_COMBINE_GAME_CELL_5",
-	[var_0_0.Type.BUILD] = "ACTIVITY_COMBINE_GAME_CELL_6"
-}
-var_0_0.BaseInfoConst = {
-	[var_0_0.Type.FOOD] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_1",
-	[var_0_0.Type.ROCK] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_2",
-	[var_0_0.Type.TECH] = "ACTIVITY_COMBINE_GAME_RESOURCE_DESC_3"
-}
-var_0_0.RefreshType = {
-	[var_0_0.FactorType.UNLOCK_SKILL] = 1,
-	[var_0_0.FactorType.COST_CHANGE] = 1,
-	[var_0_0.FactorType.SKILL_CD_CHANGE] = 1,
-	[var_0_0.FactorType.MAX_LEVEL_EXCHANGE] = 2,
-	[var_0_0.FactorType.MIN_LEVEL_EXCHANGE] = 2,
-	[var_0_0.FactorType.SPEED_CHANGE] = 2
-}
-
-return var_0_0
+return slot0

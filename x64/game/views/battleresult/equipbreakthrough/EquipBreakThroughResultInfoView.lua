@@ -1,58 +1,46 @@
-local var_0_0 = class("EquipBreakThroughResultInfoView", ReduxView)
+slot0 = class("EquipBreakThroughResultInfoView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.stageData_ = arg_2_1
+function slot0.SetData(slot0, slot1)
+	slot0.stageData_ = slot1
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
+function slot0.RefreshUI(slot0)
+	slot0.timeText_.text = manager.time:DescCdTime2(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
+	slot0.titleText_.text = BattleEquipBreakThroughMaterialStageCfg[slot0.stageData_:GetStageId()].name
+	slot3 = EquipBreakThroughMaterialMapCfg[slot0.stageData_:GetServerExtant()]
+	slot0.pointText_.text = EquipBreakThroughMaterialPointCfg[slot3.stage_type].stage_point[slot3.col]
 
-	arg_5_0.timeText_.text = manager.time:DescCdTime2(var_5_0)
-	arg_5_0.titleText_.text = BattleEquipBreakThroughMaterialStageCfg[arg_5_0.stageData_:GetStageId()].name
-
-	local var_5_1 = arg_5_0.stageData_:GetServerExtant()
-	local var_5_2 = EquipBreakThroughMaterialMapCfg[var_5_1]
-
-	arg_5_0.pointText_.text = EquipBreakThroughMaterialPointCfg[var_5_2.stage_type].stage_point[var_5_2.col]
-
-	local var_5_3 = BattleFieldData:GetBattleResultData().buffID
-
-	if var_5_3 == 0 then
-		arg_5_0.buffText_.text = ""
+	if BattleFieldData:GetBattleResultData().buffID == 0 then
+		slot0.buffText_.text = ""
 	else
-		local var_5_4 = EquipBreakThroughMaterialData:GetAttributeList()[var_5_3] or 1
-		local var_5_5
-		local var_5_6
+		slot6, slot7 = nil
 
-		if var_5_4 == 1 then
-			var_5_5 = 0
-			var_5_6 = getAttributeAffixValue(var_5_3, 1)
+		if (EquipBreakThroughMaterialData:GetAttributeList()[slot4] or 1) == 1 then
+			slot6 = 0
+			slot7 = getAttributeAffixValue(slot4, 1)
 		else
-			var_5_5 = getAttributeAffixValue(var_5_3, var_5_4 - 1)
-			var_5_6 = getAttributeAffixValue(var_5_3, var_5_4)
+			slot6 = getAttributeAffixValue(slot4, slot5 - 1)
+			slot7 = getAttributeAffixValue(slot4, slot5)
 		end
 
-		local var_5_7 = EquipBreakThroughMaterialItemCfg[var_5_3]
-
-		arg_5_0.buffText_.text = string.format(GetI18NText(var_5_7.desc), (var_5_6 - var_5_5) / 10)
+		slot0.buffText_.text = string.format(GetI18NText(EquipBreakThroughMaterialItemCfg[slot4].desc), (slot7 - slot6) / 10)
 	end
 end
 
-return var_0_0
+return slot0

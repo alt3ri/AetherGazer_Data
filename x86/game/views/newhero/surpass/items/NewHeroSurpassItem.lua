@@ -1,5 +1,5 @@
-local var_0_0 = class("NewHeroSurpassItem", ReduxView)
-local var_0_1 = {
+slot0 = class("NewHeroSurpassItem", ReduxView)
+slot1 = {
 	lockState = {
 		selectLock = "1",
 		name = "lock",
@@ -28,235 +28,221 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.parent_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.parent_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.lockController = arg_2_0.controllerexcollection_:GetController(var_0_1.lockState.name)
-	arg_2_0.selectController = arg_2_0.controllerexcollection_:GetController(var_0_1.selectState.name)
-	arg_2_0.useLockController = arg_2_0.controllerexcollection_:GetController(var_0_1.useLockState.name)
-	arg_2_0.titleController = arg_2_0.controllerexcollection_:GetController(var_0_1.titleState.name)
-	arg_2_0.upController = arg_2_0.controllerexcollection_:GetController(var_0_1.upState.name)
+	slot0.lockController = slot0.controllerexcollection_:GetController(uv0.lockState.name)
+	slot0.selectController = slot0.controllerexcollection_:GetController(uv0.selectState.name)
+	slot0.useLockController = slot0.controllerexcollection_:GetController(uv0.useLockState.name)
+	slot0.titleController = slot0.controllerexcollection_:GetController(uv0.titleState.name)
+	slot0.upController = slot0.controllerexcollection_:GetController(uv0.upState.name)
 
-	arg_2_0:AddBtnListener(arg_2_0.btnbigitemBtn_, nil, function()
-		if arg_2_0.clickCallBack then
-			arg_2_0.clickCallBack()
+	slot0:AddBtnListener(slot0.btnbigitemBtn_, nil, function ()
+		if uv0.clickCallBack then
+			uv0.clickCallBack()
 		end
 	end)
 
-	arg_2_0.beginAlpha = arg_2_0:GetAlpha()
-	arg_2_0.beginScale = arg_2_0:GetScale()
+	slot0.beginAlpha = slot0:GetAlpha()
+	slot0.beginScale = slot0:GetScale()
 
-	arg_2_0:PlayLessenAni()
+	slot0:PlayLessenAni()
 end
 
-function var_0_0.ChangeLockState(arg_4_0, arg_4_1)
-	local var_4_0 = true
+function slot0.ChangeLockState(slot0, slot1)
+	slot2 = true
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.starIdList or {}) do
-		if iter_4_1 <= arg_4_1 + 1 then
-			var_4_0 = false
+	for slot6, slot7 in pairs(slot0.starIdList or {}) do
+		if slot7 <= slot1 + 1 then
+			slot2 = false
 		end
 	end
 
-	local var_4_1 = arg_4_0.isGrow and var_0_1.lockState.selectLock or var_0_1.lockState.normalLock
+	slot0.lockController:SetSelectedState(slot0.isGrow and uv0.lockState.selectLock or uv0.lockState.normalLock)
 
-	arg_4_0.lockController:SetSelectedState(var_4_1)
-
-	if var_4_0 ~= arg_4_0.isLock then
-		local var_4_2 = var_4_0 and var_0_1.useLockState.lock or var_0_1.useLockState.unlock
-
-		arg_4_0.useLockController:SetSelectedState(var_4_2)
+	if slot2 ~= slot0.isLock then
+		slot0.useLockController:SetSelectedState(slot2 and uv0.useLockState.lock or uv0.useLockState.unlock)
 	end
 
-	arg_4_0.isLock = var_4_0
+	slot0.isLock = slot2
 
-	arg_4_0:UpdateTitleState()
+	slot0:UpdateTitleState()
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1)
-	if not arg_5_0.starStage then
+function slot0.RefreshUI(slot0, slot1)
+	if not slot0.starStage then
 		return
 	end
 
-	local var_5_0 = arg_5_1.star
+	slot2 = slot1.star
 
-	arg_5_0:ChangeLockState(var_5_0)
-	arg_5_0.selectController:SetSelectedState(var_0_1.selectState.unUse)
-	SurpassTools.UpdateSliImageFill(arg_5_0.slistateblackImg_, arg_5_0.starStage, var_5_0)
+	slot0:ChangeLockState(slot2)
+	slot0.selectController:SetSelectedState(uv0.selectState.unUse)
+	SurpassTools.UpdateSliImageFill(slot0.slistateblackImg_, slot0.starStage, slot2)
 
-	local var_5_1 = SurpassTools.GetNextSurpassStarID(var_5_0)
-	local var_5_2 = HeroStarCfg[var_5_0]
-	local var_5_3 = var_0_1.upState.noUp
-	local var_5_4 = var_5_2.gold_cost
+	slot5 = uv0.upState.noUp
 
-	if checkGold(var_5_4, false) and arg_5_1.piece >= var_5_2.star_up and var_5_1 == arg_5_0.starIdList[1] then
-		var_5_3 = var_0_1.upState.canUp
+	if checkGold(HeroStarCfg[slot2].gold_cost, false) and slot4.star_up <= slot1.piece and SurpassTools.GetNextSurpassStarID(slot2) == slot0.starIdList[1] then
+		slot5 = uv0.upState.canUp
 	end
 
-	arg_5_0.upController:SetSelectedState(var_5_3)
+	slot0.upController:SetSelectedState(slot5)
 
-	local var_5_5 = HeroCfg[arg_5_1.id]
-
-	if HeroStarCfg[var_5_5.unlock_star].star == arg_5_0.starStage then
-		arg_5_0.isBeginStarStage = true
+	if HeroStarCfg[HeroCfg[slot1.id].unlock_star].star == slot0.starStage then
+		slot0.isBeginStarStage = true
 	end
 end
 
-function var_0_0.SetStarStage(arg_6_0, arg_6_1)
-	arg_6_0.starStage = arg_6_1
-	arg_6_0.starIdList = HeroStarCfg.get_id_list_by_star[arg_6_1]
+function slot0.SetStarStage(slot0, slot1)
+	slot0.starStage = slot1
+	slot0.starIdList = HeroStarCfg.get_id_list_by_star[slot1]
 
-	SurpassTools.ChangeIconStarSpirte(arg_6_0.iconImg_, arg_6_1)
+	SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, slot1)
 end
 
-function var_0_0.SetClickCallBack(arg_7_0, arg_7_1)
-	arg_7_0.clickCallBack = arg_7_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.clickCallBack = slot1
 end
 
-function var_0_0.GetStarIdList(arg_8_0)
-	return arg_8_0.starIdList
+function slot0.GetStarIdList(slot0)
+	return slot0.starIdList
 end
 
-function var_0_0.GetTransform(arg_9_0)
-	return arg_9_0.transform_
+function slot0.GetTransform(slot0)
+	return slot0.transform_
 end
 
-function var_0_0.GetPosition(arg_10_0)
-	return arg_10_0.transform_.anchoredPosition
+function slot0.GetPosition(slot0)
+	return slot0.transform_.anchoredPosition
 end
 
-function var_0_0.SetPosition(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.transform_.anchoredPosition = Vector2(arg_11_1, arg_11_2)
+function slot0.SetPosition(slot0, slot1, slot2)
+	slot0.transform_.anchoredPosition = Vector2(slot1, slot2)
 end
 
-function var_0_0.SetActive(arg_12_0, arg_12_1)
-	arg_12_0.gameObject_:SetActive(arg_12_1)
+function slot0.SetActive(slot0, slot1)
+	slot0.gameObject_:SetActive(slot1)
 end
 
-function var_0_0.GetStarStage(arg_13_0)
-	return arg_13_0.starStage
+function slot0.GetStarStage(slot0)
+	return slot0.starStage
 end
 
-function var_0_0.ChangeAlpha(arg_14_0, arg_14_1)
-	arg_14_0.canvasgroup_.alpha = arg_14_1
+function slot0.ChangeAlpha(slot0, slot1)
+	slot0.canvasgroup_.alpha = slot1
 end
 
-function var_0_0.GetAlpha(arg_15_0)
-	return arg_15_0.canvasgroup_.alpha
+function slot0.GetAlpha(slot0)
+	return slot0.canvasgroup_.alpha
 end
 
-function var_0_0.GetBeginAlpha(arg_16_0)
-	return arg_16_0.beginAlpha
+function slot0.GetBeginAlpha(slot0)
+	return slot0.beginAlpha
 end
 
-function var_0_0.GetScale(arg_17_0)
-	return arg_17_0.transform_.localScale
+function slot0.GetScale(slot0)
+	return slot0.transform_.localScale
 end
 
-function var_0_0.SetScale(arg_18_0, arg_18_1)
-	if arg_18_1 and arg_18_1.x and arg_18_1.x < 1 then
-		arg_18_0.animator_.enabled = false
+function slot0.SetScale(slot0, slot1)
+	if slot1 and slot1.x and slot1.x < 1 then
+		slot0.animator_.enabled = false
 	end
 
-	arg_18_0.transform_.localScale = arg_18_1
+	slot0.transform_.localScale = slot1
 end
 
-function var_0_0.GetBeginScale(arg_19_0)
-	return arg_19_0.beginScale
+function slot0.GetBeginScale(slot0)
+	return slot0.beginScale
 end
 
-function var_0_0.PlayLessenAni(arg_20_0)
-	arg_20_0.animator_:SetFloat("speed", -1)
-	arg_20_0.animator_:Play("Fx_btnbigItem_cx", 0, 0.4)
+function slot0.PlayLessenAni(slot0)
+	slot0.animator_:SetFloat("speed", -1)
+	slot0.animator_:Play("Fx_btnbigItem_cx", 0, 0.4)
 end
 
-function var_0_0.PlayScaleAni(arg_21_0, arg_21_1)
-	arg_21_0.isGrow = arg_21_1
+function slot0.PlayScaleAni(slot0, slot1)
+	slot0.isGrow = slot1
 
-	if arg_21_0:GetScale().x <= 1.1 and not arg_21_1 then
-		arg_21_0.animator_.enabled = false
+	if slot0:GetScale().x <= 1.1 and not slot1 then
+		slot0.animator_.enabled = false
 	else
-		arg_21_0.animator_.enabled = true
+		slot0.animator_.enabled = true
 	end
 
-	local var_21_0 = arg_21_1 and 1 or -1
-
-	if var_21_0 == arg_21_0.animator_:GetFloat("speed") then
+	if (slot1 and 1 or -1) == slot0.animator_:GetFloat("speed") then
 		return
 	end
 
-	arg_21_0.animator_:SetFloat("speed", var_21_0)
+	slot0.animator_:SetFloat("speed", slot2)
 
-	local var_21_1, var_21_2 = arg_21_0:GetClipTimes()
+	slot4, slot5 = slot0:GetClipTimes()
 
-	if arg_21_1 then
-		arg_21_0.animator_:Play("Fx_btnbigItem_cx", 0, var_21_2 - var_21_1)
+	if slot1 then
+		slot0.animator_:Play("Fx_btnbigItem_cx", 0, slot5 - slot4)
 	else
-		arg_21_0.animator_:Play("Fx_btnbigItem_cx", 0, var_21_1)
+		slot0.animator_:Play("Fx_btnbigItem_cx", 0, slot4)
 	end
 
-	if not arg_21_1 then
-		arg_21_0:PlaySelectAni(false)
+	if not slot1 then
+		slot0:PlaySelectAni(false)
 	end
 
-	local var_21_3 = arg_21_1 and var_0_1.lockState.selectLock or var_0_1.lockState.normalLock
-
-	arg_21_0.lockController:SetSelectedState(var_21_3)
-	arg_21_0:UpdateTitleState()
+	slot0.lockController:SetSelectedState(slot1 and uv0.lockState.selectLock or uv0.lockState.normalLock)
+	slot0:UpdateTitleState()
 end
 
-function var_0_0.UpdateTitleState(arg_22_0)
-	local var_22_0 = var_0_1.titleState.noTitle
+function slot0.UpdateTitleState(slot0)
+	slot1 = uv0.titleState.noTitle
 
-	if arg_22_0.isGrow then
-		var_22_0 = arg_22_0.isLock and var_0_1.titleState.lock or var_0_1.titleState.unlock
+	if slot0.isGrow then
+		slot1 = slot0.isLock and uv0.titleState.lock or uv0.titleState.unlock
 	end
 
-	arg_22_0.titleController:SetSelectedState(var_22_0)
+	slot0.titleController:SetSelectedState(slot1)
 end
 
-function var_0_0.PlaySelectAni(arg_23_0, arg_23_1)
-	if arg_23_0.isBeginStarStage then
-		arg_23_0.selectController:SetSelectedState(var_0_1.selectState.unUse)
+function slot0.PlaySelectAni(slot0, slot1)
+	if slot0.isBeginStarStage then
+		slot0.selectController:SetSelectedState(uv0.selectState.unUse)
 
 		return
 	end
 
-	if arg_23_1 then
-		arg_23_0.selectController:SetSelectedState(var_0_1.selectState.use)
+	if slot1 then
+		slot0.selectController:SetSelectedState(uv0.selectState.use)
 	else
-		arg_23_0.selectController:SetSelectedState(var_0_1.selectState.unUse)
+		slot0.selectController:SetSelectedState(uv0.selectState.unUse)
 	end
 end
 
-function var_0_0.GetClipTimes(arg_24_0)
-	local var_24_0 = arg_24_0.animator_:GetCurrentAnimatorStateInfo(0).normalizedTime
-	local var_24_1 = arg_24_0.animator_:GetCurrentAnimatorClipInfo(0)
+function slot0.GetClipTimes(slot0)
+	slot1 = slot0.animator_:GetCurrentAnimatorStateInfo(0).normalizedTime
+	slot2 = slot0.animator_:GetCurrentAnimatorClipInfo(0)
 
-	if arg_24_0.animator_:GetCurrentAnimatorClipInfoCount(0) <= 0 then
+	if slot0.animator_:GetCurrentAnimatorClipInfoCount(0) <= 0 then
 		return 0, 0
 	end
 
-	local var_24_2 = var_24_1[0].clip.length
-	local var_24_3 = var_24_2
+	slot4 = slot2[0].clip.length
 
-	if var_24_0 < 1 and var_24_0 > 0 then
-		var_24_3 = var_24_2 * var_24_0
+	if slot1 < 1 and slot1 > 0 then
+		slot4 = slot3 * slot1
 	end
 
-	return var_24_3, var_24_2
+	return slot4, slot3
 end
 
-function var_0_0.Dispose(arg_25_0)
-	var_0_0.super.Dispose(arg_25_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

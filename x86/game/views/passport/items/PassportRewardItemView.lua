@@ -1,147 +1,144 @@
-local var_0_0 = class("PassportRewardItemView", ReduxView)
+slot0 = class("PassportRewardItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.commonItem1_ = CommonItemView.New(arg_3_0.commonItemGo1_)
-	arg_3_0.commonItem2_ = CommonItemView.New(arg_3_0.commonItemGo2_)
-	arg_3_0.CommonData1 = clone(ItemTemplateData)
-	arg_3_0.CommonData2 = clone(ItemTemplateData)
+	slot0.commonItem1_ = CommonItemView.New(slot0.commonItemGo1_)
+	slot0.commonItem2_ = CommonItemView.New(slot0.commonItemGo2_)
+	slot0.CommonData1 = clone(ItemTemplateData)
+	slot0.CommonData2 = clone(ItemTemplateData)
 end
 
-function var_0_0.AddEventListeners(arg_4_0)
-	arg_4_0:RegistEventListener(GET_BONUS_SUCCESS, handler(arg_4_0, arg_4_0.OnGetBonus))
-	arg_4_0:RegistEventListener(PASSPORT_BUYED, handler(arg_4_0, arg_4_0.OnPassportBuyed))
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GET_BONUS_SUCCESS, handler(slot0, slot0.OnGetBonus))
+	slot0:RegistEventListener(PASSPORT_BUYED, handler(slot0, slot0.OnPassportBuyed))
 end
 
-function var_0_0.OnPassportBuyed(arg_5_0)
-	arg_5_0:UpdateView()
+function slot0.OnPassportBuyed(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnGetBonus(arg_6_0, arg_6_1)
-	if arg_6_1 == arg_6_0.cfg_.id or arg_6_1 == 0 then
-		arg_6_0:UpdateView()
+function slot0.OnGetBonus(slot0, slot1)
+	if slot1 == slot0.cfg_.id or slot1 == 0 then
+		slot0:UpdateView()
 	end
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.index_ = arg_7_1
-	arg_7_0.cfg_ = BattlePassCfg[arg_7_2]
-	arg_7_0.levelCfg_ = GameLevelSetting[arg_7_0.index_]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.cfg_ = BattlePassCfg[slot2]
+	slot0.levelCfg_ = GameLevelSetting[slot0.index_]
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	arg_8_0.levelLabel_.text = string.format("%d", arg_8_0.index_)
-	arg_8_0.bottomLabel_.text = string.format("%d", arg_8_0.index_)
-
-	local var_8_0 = PassportData:GetRewardStatus(arg_8_0.index_, arg_8_0.cfg_.id)
-	local var_8_1 = {
-		id = arg_8_0.cfg_.reward_free[1][1],
-		number = arg_8_0.cfg_.reward_free[1][2],
-		clickFun = function(arg_9_0)
-			arg_8_0:OnItemClick(arg_9_0.id, arg_9_0.number, 1)
-		end
+function slot0.UpdateView(slot0)
+	slot0.levelLabel_.text = string.format("%d", slot0.index_)
+	slot0.bottomLabel_.text = string.format("%d", slot0.index_)
+	slot1 = PassportData:GetRewardStatus(slot0.index_, slot0.cfg_.id)
+	slot2 = {
+		id = slot0.cfg_.reward_free[1][1],
+		number = slot0.cfg_.reward_free[1][2],
+		clickFun = function (slot0)
+			uv0:OnItemClick(slot0.id, slot0.number, 1)
+		end,
+		highLight = false,
+		completedFlag = false
 	}
-	local var_8_2 = {
-		id = arg_8_0.cfg_.reward_pay[1][1],
-		number = arg_8_0.cfg_.reward_pay[1][2],
-		clickFun = function(arg_10_0)
-			arg_8_0:OnItemClick(arg_10_0.id, arg_10_0.number, 2)
-		end
-	}
-
-	var_8_1.highLight = false
-	var_8_1.completedFlag = false
-	var_8_2.highLight = false
-	var_8_2.completedFlag = false
-	var_8_2.locked = false
 
 	if PassportData:GetPayLevel() <= 0 then
-		var_8_2.locked = true
+		-- Nothing
 	end
 
-	if var_8_0 == "payHaveGet" then
-		var_8_2.completedFlag = true
-		var_8_1.completedFlag = true
-	elseif var_8_0 == "payCanGet" then
-		var_8_2.highLight = true
-		var_8_1.highLight = true
-	elseif var_8_0 == "freeHaveGet" then
-		var_8_1.completedFlag = true
-	elseif var_8_0 == "freeCanGet" then
-		var_8_1.highLight = true
+	if slot1 == "payHaveGet" then
+		slot3.completedFlag = true
+		slot2.completedFlag = true
+	elseif slot1 == "payCanGet" then
+		slot3.highLight = true
+		slot2.highLight = true
+	elseif slot1 == "freeHaveGet" then
+		slot2.completedFlag = true
+	elseif slot1 == "freeCanGet" then
+		slot2.highLight = true
 
-		SetActive(arg_8_0.redGo1_, true)
+		SetActive(slot0.redGo1_, true)
 	end
 
-	CommonTools.SetCommonData(arg_8_0.commonItem1_, var_8_1, arg_8_0.CommonData1)
-	CommonTools.SetCommonData(arg_8_0.commonItem2_, var_8_2, arg_8_0.CommonData2)
+	CommonTools.SetCommonData(slot0.commonItem1_, slot2, slot0.CommonData1)
+	CommonTools.SetCommonData(slot0.commonItem2_, {
+		id = slot0.cfg_.reward_pay[1][1],
+		number = slot0.cfg_.reward_pay[1][2],
+		clickFun = function (slot0)
+			uv0:OnItemClick(slot0.id, slot0.number, 2)
+		end,
+		highLight = false,
+		completedFlag = false,
+		locked = false,
+		locked = true
+	}, slot0.CommonData2)
 end
 
-function var_0_0.AddUIListener(arg_11_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.OnItemClick(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if arg_12_3 == 1 and PassportData:GetRewardStatus(arg_12_0.index_, arg_12_0.cfg_.id) ~= "freeCanGet" and PassportData:GetRewardStatus(arg_12_0.index_, arg_12_0.cfg_.id) ~= "payCanGet" then
-		if arg_12_1 ~= 0 and arg_12_2 ~= 0 then
+function slot0.OnItemClick(slot0, slot1, slot2, slot3)
+	if slot3 == 1 and PassportData:GetRewardStatus(slot0.index_, slot0.cfg_.id) ~= "freeCanGet" and PassportData:GetRewardStatus(slot0.index_, slot0.cfg_.id) ~= "payCanGet" then
+		if slot1 ~= 0 and slot2 ~= 0 then
 			ShowPopItem(POP_ITEM, {
-				arg_12_1,
-				arg_12_2
+				slot1,
+				slot2
 			})
 		end
 
 		return
 	end
 
-	if arg_12_3 == 2 and PassportData:GetRewardStatus(arg_12_0.index_, arg_12_0.cfg_.id) ~= "payCanGet" and PassportData:GetRewardStatus(arg_12_0.index_, arg_12_0.cfg_.id) ~= "payHalfCanGet" then
-		if arg_12_1 ~= 0 and arg_12_2 ~= 0 then
+	if slot3 == 2 and PassportData:GetRewardStatus(slot0.index_, slot0.cfg_.id) ~= "payCanGet" and PassportData:GetRewardStatus(slot0.index_, slot0.cfg_.id) ~= "payHalfCanGet" then
+		if slot1 ~= 0 and slot2 ~= 0 then
 			ShowPopItem(POP_ITEM, {
-				arg_12_1,
-				arg_12_2
+				slot1,
+				slot2
 			})
 		end
 
 		return
 	end
 
-	PassportAction.RequestGetBonus(arg_12_0.cfg_.id, PassportData:GetPayLevel() > 0 and 1 or 0)
+	PassportAction.RequestGetBonus(slot0.cfg_.id, PassportData:GetPayLevel() > 0 and 1 or 0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	if arg_13_0.commonItem1_ then
-		arg_13_0.commonItem1_:Dispose()
+	if slot0.commonItem1_ then
+		slot0.commonItem1_:Dispose()
 
-		arg_13_0.commonItem1_ = nil
+		slot0.commonItem1_ = nil
 	end
 
-	if arg_13_0.commonItem2_ then
-		arg_13_0.commonItem2_:Dispose()
+	if slot0.commonItem2_ then
+		slot0.commonItem2_:Dispose()
 
-		arg_13_0.commonItem2_ = nil
+		slot0.commonItem2_ = nil
 	end
 
-	arg_13_0.CommonData1 = nil
-	arg_13_0.CommonData2 = nil
+	slot0.CommonData1 = nil
+	slot0.CommonData2 = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

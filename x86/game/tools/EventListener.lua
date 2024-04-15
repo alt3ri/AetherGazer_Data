@@ -1,29 +1,29 @@
-local var_0_0 = class("EventListener")
+slot0 = class("EventListener")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.listeners = {}
+function slot0.Ctor(slot0)
+	slot0.listeners = {}
 end
 
-function var_0_0.Register(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0:Remove(arg_2_1)
+function slot0.Register(slot0, slot1, slot2)
+	slot0:Remove(slot1)
 
-	arg_2_0.listeners[arg_2_1] = arg_2_2
+	slot0.listeners[slot1] = slot2
 
-	manager.notify:RegistListener(arg_2_1, arg_2_2)
+	manager.notify:RegistListener(slot1, slot2)
 end
 
-function var_0_0.Remove(arg_3_0, arg_3_1)
-	if arg_3_0.listeners[arg_3_1] then
-		manager.notify:RemoveListener(arg_3_1, arg_3_0.listeners[arg_3_1])
+function slot0.Remove(slot0, slot1)
+	if slot0.listeners[slot1] then
+		manager.notify:RemoveListener(slot1, slot0.listeners[slot1])
 	end
 end
 
-function var_0_0.RemoveAll(arg_4_0)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.listeners) do
-		manager.notify:RemoveListener(iter_4_0, iter_4_1)
+function slot0.RemoveAll(slot0)
+	for slot4, slot5 in pairs(slot0.listeners) do
+		manager.notify:RemoveListener(slot4, slot5)
 
-		arg_4_0.listeners[iter_4_0] = nil
+		slot0.listeners[slot4] = nil
 	end
 end
 
-return var_0_0
+return slot0

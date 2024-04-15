@@ -1,19 +1,19 @@
-local var_0_0 = class("HardLevelSectionView", import("..HardLevelBaseView"))
+slot0 = class("HardLevelSectionView", import("..HardLevelBaseView"))
 
-function var_0_0.GetHardLevelItem(arg_1_0)
+function slot0.GetHardLevelItem(slot0)
 	return HardLevelSectionItem
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	var_0_0.super.SetData(arg_2_0, arg_2_1)
+function slot0.SetData(slot0, slot1, slot2)
+	uv0.super.SetData(slot0, slot1)
 
-	arg_2_0.collectPercentage_ = arg_2_2
+	slot0.collectPercentage_ = slot2
 
-	arg_2_0:RefreshCollectPercentage()
+	slot0:RefreshCollectPercentage()
 end
 
-function var_0_0.RefreshCollectPercentage(arg_3_0)
-	arg_3_0.percentageText_.text = string.format("%s%%", math.floor(arg_3_0.collectPercentage_ * 100))
+function slot0.RefreshCollectPercentage(slot0)
+	slot0.percentageText_.text = string.format("%s%%", math.floor(slot0.collectPercentage_ * 100))
 end
 
-return var_0_0
+return slot0

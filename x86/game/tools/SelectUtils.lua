@@ -1,62 +1,54 @@
 return {
-	SingleSelect = function(arg_1_0, arg_1_1)
-		local var_1_0 = arg_1_1
+	SingleSelect = function (slot0, slot1)
+		slot2 = slot1
 
-		local function var_1_1()
-			return var_1_0
-		end
+		return function (slot0)
+			slot1 = nil
 
-		return function(arg_3_0)
-			local var_3_0
-
-			if arg_3_0 ~= var_1_0 then
-				var_3_0, var_1_0 = var_1_0, arg_3_0
+			if slot0 ~= uv0 then
+				uv0 = slot0
+				slot1 = uv0
 			else
-				var_3_0, var_1_0 = var_1_0
+				uv0 = nil
+				slot1 = uv0
 			end
 
-			if arg_1_0 and arg_1_0.afterValueChange then
-				arg_1_0.afterValueChange(var_3_0, var_1_0)
+			if uv1 and uv1.afterValueChange then
+				uv1.afterValueChange(slot1, uv0)
 			end
-		end, var_1_1
+		end, function ()
+			return uv0
+		end
 	end,
-	MultiSelect = function(arg_4_0, arg_4_1, arg_4_2)
-		local var_4_0 = arg_4_2 or {}
+	MultiSelect = function (slot0, slot1, slot2)
+		slot3 = slot2 or {}
 
-		local function var_4_1()
-			table.clean(var_4_0)
+		return function (slot0)
+			if table.indexof(uv0, slot0) then
+				table.remove(uv0, slot1)
 
-			if arg_4_1 and arg_4_1.afterClear then
-				arg_4_1.afterClear()
-			end
-		end
-
-		local function var_4_2(arg_6_0)
-			local var_6_0 = table.indexof(var_4_0, arg_6_0)
-
-			if var_6_0 then
-				table.remove(var_4_0, var_6_0)
-
-				if arg_4_1 and arg_4_1.afterRemove then
-					arg_4_1.afterRemove(arg_6_0)
+				if uv1 and uv1.afterRemove then
+					uv1.afterRemove(slot0)
 				end
-			elseif #var_4_0 < arg_4_0 then
-				table.insert(var_4_0, arg_6_0)
+			elseif #uv0 < uv2 then
+				table.insert(uv0, slot0)
 
-				if arg_4_1 and arg_4_1.afterInsert then
-					arg_4_1.afterInsert(arg_6_0)
+				if uv1 and uv1.afterInsert then
+					uv1.afterInsert(slot0)
 				end
 
-				var_6_0 = #var_4_0 + 1
+				slot1 = #uv0 + 1
 			end
 
-			return var_6_0
-		end
+			return slot1
+		end, function ()
+			return uv0
+		end, function ()
+			table.clean(uv0)
 
-		local function var_4_3()
-			return var_4_0
+			if uv1 and uv1.afterClear then
+				uv1.afterClear()
+			end
 		end
-
-		return var_4_2, var_4_3, var_4_1
 	end
 }

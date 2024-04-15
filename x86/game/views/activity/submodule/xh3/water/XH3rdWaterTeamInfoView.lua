@@ -1,35 +1,31 @@
-local var_0_0 = import("game.views.heroTeamInfo.HeroTeamInfoBaseView")
-local var_0_1 = class("XH3rdWaterTeamInfoView", var_0_0)
+slot1 = class("XH3rdWaterTeamInfoView", import("game.views.heroTeamInfo.HeroTeamInfoBaseView"))
 
-function var_0_1.Init(arg_1_0)
-	var_0_1.super.Init(arg_1_0)
-	arg_1_0.filterView_:SetExtraSorter(handler(arg_1_0, arg_1_0.WaterSorter))
+function slot1.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.filterView_:SetExtraSorter(handler(slot0, slot0.WaterSorter))
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	var_0_1.super.OnEnter(arg_2_0)
-	SetActive(arg_2_0.filterGo_, false)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	SetActive(slot0.filterGo_, false)
 end
 
-function var_0_1.RefreshInfoBtn(arg_3_0)
-	var_0_1.super.RefreshInfoBtn(arg_3_0)
-	SetActive(arg_3_0.infoBtn_.gameObject, false)
+function slot1.RefreshInfoBtn(slot0)
+	uv0.super.RefreshInfoBtn(slot0)
+	SetActive(slot0.infoBtn_.gameObject, false)
 end
 
-function var_0_1.WaterSorter(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	return true, arg_4_1.id < arg_4_2.id
+function slot1.WaterSorter(slot0, slot1, slot2, slot3, slot4)
+	return true, slot1.id < slot2.id
 end
 
-function var_0_1.ChangeTeam(arg_5_0, arg_5_1, arg_5_2)
-	SetHeroTeam(arg_5_0.params_.stageType, arg_5_0.params_.stageID, arg_5_0.params_.activityID, arg_5_1, arg_5_2)
-
-	local var_5_0 = ActivityWaterData:GetCurrentSchedule(arg_5_0.params_.mainActivityID).selected_contestant_id
-
-	ActivityWaterData:SetHeroTeam(var_5_0, arg_5_2)
+function slot1.ChangeTeam(slot0, slot1, slot2)
+	SetHeroTeam(slot0.params_.stageType, slot0.params_.stageID, slot0.params_.activityID, slot1, slot2)
+	ActivityWaterData:SetHeroTeam(ActivityWaterData:GetCurrentSchedule(slot0.params_.mainActivityID).selected_contestant_id, slot2)
 end
 
-function var_0_1.GetHeroList(arg_6_0)
+function slot1.GetHeroList(slot0)
 	return {}
 end
 
-return var_0_1
+return slot1

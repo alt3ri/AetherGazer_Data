@@ -1,59 +1,59 @@
-local var_0_0 = class("NewComboSkillItem", ReduxView)
+slot0 = class("NewComboSkillItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUi()
+	slot0:InitUi()
 end
 
-function var_0_0.InitUi(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUi(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.jumpController = arg_2_0.controllerexcollection_:GetController("jump")
+	slot0.jumpController = slot0.controllerexcollection_:GetController("jump")
 
-	arg_2_0:AddBtnListener(nil, arg_2_0.m_jumpBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_jumpBtn, function ()
 		JumpTools.OpenPageByJump("/heroTrammels", {
 			page = 1,
-			heroId = arg_2_0.heroId,
-			comboId = arg_2_0.comboId
+			heroId = uv0.heroId,
+			comboId = uv0.comboId
 		})
 	end)
-	TerminologyTools.AddTerminologyHandler(arg_2_0, arg_2_0.textDesc_, nil, nil)
+	TerminologyTools.AddTerminologyHandler(slot0, slot0.textDesc_, nil, )
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.heroId = arg_4_2
-	arg_4_0.comboId = arg_4_1
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.heroId = slot2
+	slot0.comboId = slot1
+	slot3 = ComboSkillCfg[slot1]
+	slot4 = HeroSkillCfg[slot3.skill_id]
+	slot5 = ComboSkillData:GetCurComboSkillLevel(slot1)
+	slot0.textLv_.text = GetTips("LEVEL") .. string.format("%s", slot5)
+	slot0.textTitle_.text = GetI18NText(slot4.name)
+	slot0.textDesc_.text = GetI18NText(GetCfgDescription(slot4.desc[1], slot5, 2, slot3.maxLevel))
+	slot9 = "ComboSkill"
+	slot10 = slot3.skill_id
+	slot0.imageIcon_.sprite = getSpriteViaConfig(slot9, slot10)
 
-	local var_4_0 = ComboSkillCfg[arg_4_1]
-	local var_4_1 = HeroSkillCfg[var_4_0.skill_id]
-	local var_4_2 = ComboSkillData:GetCurComboSkillLevel(arg_4_1)
+	for slot9, slot10 in ipairs(slot3.cooperate_role_ids) do
+		SetActive(slot0[string.format("roleitem%sGo_", slot9)], true)
 
-	arg_4_0.textLv_.text = GetTips("LEVEL") .. string.format("%s", var_4_2)
-	arg_4_0.textTitle_.text = GetI18NText(var_4_1.name)
-	arg_4_0.textDesc_.text = GetI18NText(GetCfgDescription(var_4_1.desc[1], var_4_2, 2, var_4_0.maxLevel))
-	arg_4_0.imageIcon_.sprite = getSpriteViaConfig("ComboSkill", var_4_0.skill_id)
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_0.cooperate_role_ids) do
-		SetActive(arg_4_0[string.format("roleitem%sGo_", iter_4_0)], true)
-
-		arg_4_0[string.format("iconImg%s_", iter_4_0)].sprite = getSpriteViaConfig("HeroLittleIcon", iter_4_1)
+		slot0[string.format("iconImg%s_", slot9)].sprite = getSpriteViaConfig("HeroLittleIcon", slot10)
 	end
 
-	for iter_4_2 = #var_4_0.cooperate_role_ids + 1, 3 do
-		SetActive(arg_4_0[string.format("roleitem%sGo_", iter_4_2)], false)
+	for slot9 = #slot3.cooperate_role_ids + 1, 3 do
+		SetActive(slot0[string.format("roleitem%sGo_", slot9)], false)
 	end
 
-	if ArchiveData:GetTrustLevel(arg_4_0.heroId) == 0 then
-		arg_4_0.jumpController:SetSelectedIndex(0)
+	if ArchiveData:GetTrustLevel(slot0.heroId) == 0 then
+		slot0.jumpController:SetSelectedIndex(0)
 	else
-		arg_4_0.jumpController:SetSelectedIndex(1)
+		slot0.jumpController:SetSelectedIndex(1)
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

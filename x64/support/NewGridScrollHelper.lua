@@ -1,283 +1,254 @@
-local var_0_0 = class("NewGridScrollHelper")
+slot0 = class("NewGridScrollHelper")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5, arg_1_6, arg_1_7)
-	arg_1_7 = arg_1_7 or 10
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.itemPath_ = arg_1_2
-	arg_1_0.pool_ = ObjectPoolItem.New()
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	slot0.handler_ = slot1
+	slot0.itemPath_ = slot2
+	slot0.pool_ = ObjectPoolItem.New()
 
-	arg_1_0.pool_:InitFromObjectPool(arg_1_6, arg_1_2, arg_1_7)
+	slot0.pool_:InitFromObjectPool(slot6, slot2, slot7 or 10)
 
-	arg_1_0.itemClass_ = arg_1_3
-	arg_1_0.delegateFunc_ = arg_1_4
-	arg_1_0.scrollObj_ = arg_1_5
-	arg_1_0.scrollRect_ = arg_1_0.scrollObj_:GetComponent("ScrollRectEx")
-	arg_1_0.layOut_ = arg_1_6
-	arg_1_0.layOutGroup_ = arg_1_6.gameObject:GetComponent("GridLayoutGroup")
+	slot0.itemClass_ = slot3
+	slot0.delegateFunc_ = slot4
+	slot0.scrollObj_ = slot5
+	slot0.scrollRect_ = slot0.scrollObj_:GetComponent("ScrollRectEx")
+	slot0.layOut_ = slot6
+	slot0.layOutGroup_ = slot6.gameObject:GetComponent("GridLayoutGroup")
 
-	arg_1_0:OnCtor()
+	slot0:OnCtor()
 
-	if not arg_1_0.ctored_ then
-		ReduxFactory.GetInstance():OnManagedObjCtor(arg_1_0)
+	if not slot0.ctored_ then
+		ReduxFactory.GetInstance():OnManagedObjCtor(slot0)
 	end
 
-	arg_1_0.ctored_ = true
+	slot0.ctored_ = true
 end
 
-function var_0_0.OnCtor(arg_2_0)
-	arg_2_0.items_ = {}
-	arg_2_0.itemGos_ = {}
-	arg_2_0.headIndex_ = 0
-	arg_2_0.tailIndex_ = 0
-	arg_2_0.perLineNum_ = arg_2_0.layOutGroup_.constraintCount
-	arg_2_0.viewSize_ = arg_2_0.scrollObj_:GetComponent("RectTransform").rect.size
-	arg_2_0.perPageNum_ = 0
+function slot0.OnCtor(slot0)
+	slot0.items_ = {}
+	slot0.itemGos_ = {}
+	slot0.headIndex_ = 0
+	slot0.tailIndex_ = 0
+	slot0.perLineNum_ = slot0.layOutGroup_.constraintCount
+	slot0.viewSize_ = slot0.scrollObj_:GetComponent("RectTransform").rect.size
+	slot0.perPageNum_ = 0
 
-	if arg_2_0.scrollRect_.vertical then
-		local var_2_0 = arg_2_0.layOutGroup_.spacing.y
-		local var_2_1 = arg_2_0.layOutGroup_.cellSize.y
-		local var_2_2 = arg_2_0.layOutGroup_.padding.top
-		local var_2_3 = math.ceil((arg_2_0.viewSize_.y - var_2_2 + var_2_0) / (var_2_1 + var_2_0))
-
-		arg_2_0.perPageNum_ = arg_2_0.perLineNum_ * (var_2_3 + 2)
+	if slot0.scrollRect_.vertical then
+		slot1 = slot0.layOutGroup_.spacing.y
+		slot0.perPageNum_ = slot0.perLineNum_ * (math.ceil((slot0.viewSize_.y - slot0.layOutGroup_.padding.top + slot1) / (slot0.layOutGroup_.cellSize.y + slot1)) + 2)
 	else
-		local var_2_4 = arg_2_0.layOutGroup_.spacing.x
-		local var_2_5 = arg_2_0.layOutGroup_.cellSize.x
-		local var_2_6 = arg_2_0.layOutGroup_.padding.left
-		local var_2_7 = math.ceil((arg_2_0.viewSize_.x - var_2_6 + var_2_4) / (var_2_5 + var_2_4))
-
-		arg_2_0.perPageNum_ = arg_2_0.perLineNum_ * (var_2_7 + 2)
+		slot1 = slot0.layOutGroup_.spacing.x
+		slot0.perPageNum_ = slot0.perLineNum_ * (math.ceil((slot0.viewSize_.x - slot0.layOutGroup_.padding.left + slot1) / (slot0.layOutGroup_.cellSize.x + slot1)) + 2)
 	end
 
-	arg_2_0.scrollRect_.onValueChanged:AddListener(function(arg_3_0)
-		arg_2_0:OnScroll(arg_3_0)
+	slot0.scrollRect_.onValueChanged:AddListener(function (slot0)
+		uv0:OnScroll(slot0)
 	end)
 end
 
-function var_0_0.StartScroll(arg_4_0, arg_4_1)
-	arg_4_0.maxNum_ = arg_4_1
+function slot0.StartScroll(slot0, slot1)
+	slot0.maxNum_ = slot1
 
-	arg_4_0:RecycleAllItem()
+	slot0:RecycleAllItem()
 
-	arg_4_0.headIndex_ = 0
-	arg_4_0.tailIndex_ = 0
+	slot0.headIndex_ = 0
+	slot0.tailIndex_ = 0
 
-	for iter_4_0 = 1, arg_4_0.perPageNum_ do
-		if not arg_4_0:GenerateNewItem(true) then
+	for slot5 = 1, slot0.perPageNum_ do
+		if not slot0:GenerateNewItem(true) then
 			break
 		end
 	end
 
-	if arg_4_0.tailIndex_ > 0 then
-		arg_4_0.headIndex_ = 1
+	if slot0.tailIndex_ > 0 then
+		slot0.headIndex_ = 1
 	end
 end
 
-function var_0_0.RecycleAllItem(arg_5_0)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.items_) do
-		arg_5_0:RecycleItem(iter_5_0, false)
+function slot0.RecycleAllItem(slot0)
+	for slot4, slot5 in pairs(slot0.items_) do
+		slot0:RecycleItem(slot4, false)
 	end
 end
 
-function var_0_0.RecycleItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2 = arg_6_2 or false
+function slot0.RecycleItem(slot0, slot1, slot2)
+	if slot0.items_[slot1] then
+		SetActive(slot3.gameObject_, slot2 or false)
+		slot0.pool_:Return(slot3.gameObject_)
 
-	local var_6_0 = arg_6_0.items_[arg_6_1]
-
-	if var_6_0 then
-		SetActive(var_6_0.gameObject_, arg_6_2)
-		arg_6_0.pool_:Return(var_6_0.gameObject_)
-
-		if var_6_0.Dispose then
-			var_6_0:Dispose()
+		if slot3.Dispose then
+			slot3:Dispose()
 		end
 
-		arg_6_0.items_[arg_6_1] = nil
-		arg_6_0.itemGos_[arg_6_1] = nil
+		slot0.items_[slot1] = nil
+		slot0.itemGos_[slot1] = nil
 
-		manager.classPool:ReturnClass(var_6_0)
+		manager.classPool:ReturnClass(slot3)
 	end
 end
 
-function var_0_0.GetItemS(arg_7_0)
-	local var_7_0 = {}
+function slot0.GetItemS(slot0)
+	slot1 = {}
 
-	for iter_7_0 = arg_7_0.headIndex_, arg_7_0.tailIndex_ do
-		table.insert(var_7_0, arg_7_0.items_[iter_7_0])
+	for slot5 = slot0.headIndex_, slot0.tailIndex_ do
+		table.insert(slot1, slot0.items_[slot5])
 	end
 
-	return var_7_0
+	return slot1
 end
 
-function var_0_0.Dispose(arg_8_0)
-	if arg_8_0.pool_ then
-		arg_8_0.pool_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.pool_ then
+		slot0.pool_:Dispose()
 
-		arg_8_0.pool_ = nil
+		slot0.pool_ = nil
 	end
 
-	for iter_8_0 = arg_8_0.headIndex_, arg_8_0.tailIndex_ do
-		if arg_8_0.items_[iter_8_0] and arg_8_0.items_[iter_8_0].Dispose then
-			arg_8_0.items_[iter_8_0]:Dispose()
+	for slot4 = slot0.headIndex_, slot0.tailIndex_ do
+		if slot0.items_[slot4] and slot0.items_[slot4].Dispose then
+			slot0.items_[slot4]:Dispose()
 		end
 	end
 
-	arg_8_0.scrollRect_.onValueChanged:RemoveAllListeners()
+	slot0.scrollRect_.onValueChanged:RemoveAllListeners()
 
-	arg_8_0.items_ = nil
-	arg_8_0.itemGos = nil
-	arg_8_0.headIndex_ = nil
-	arg_8_0.tailIndex_ = nil
-	arg_8_0.callBackFunc_ = nil
+	slot0.items_ = nil
+	slot0.itemGos = nil
+	slot0.headIndex_ = nil
+	slot0.tailIndex_ = nil
+	slot0.callBackFunc_ = nil
 
-	ReduxFactory.GetInstance():OnManagedObjDisposed(arg_8_0)
+	ReduxFactory.GetInstance():OnManagedObjDisposed(slot0)
 end
 
-function var_0_0.RegistScrollCallBack(arg_9_0, arg_9_1)
-	arg_9_0.callBackFunc_ = arg_9_1
+function slot0.RegistScrollCallBack(slot0, slot1)
+	slot0.callBackFunc_ = slot1
 end
 
-function var_0_0.OnScroll(arg_10_0, arg_10_1)
-	local var_10_0 = arg_10_0.scrollRect_.vertical
-	local var_10_1 = var_10_0 and arg_10_1.y or arg_10_1.x
-
-	if var_10_1 < 0 then
-		if var_10_0 then
-			if arg_10_0.tailIndex_ < arg_10_0.maxNum_ then
-				arg_10_0:RecycleOnelineItem(true)
-				arg_10_0:GenerateOneLineItem(true)
-				arg_10_0.scrollRect_:AddContentPosition(arg_10_0:CaculateOffset(true))
+function slot0.OnScroll(slot0, slot1)
+	if (slot0.scrollRect_.vertical and slot1.y or slot1.x) < 0 then
+		if slot2 then
+			if slot0.tailIndex_ < slot0.maxNum_ then
+				slot0:RecycleOnelineItem(true)
+				slot0:GenerateOneLineItem(true)
+				slot0.scrollRect_:AddContentPosition(slot0:CaculateOffset(true))
 			end
-		elseif arg_10_0.headIndex_ > 1 then
-			arg_10_0:RecycleOnelineItem(false)
-			arg_10_0:GenerateOneLineItem(false)
-			arg_10_0.scrollRect_:AddContentPosition(arg_10_0:CaculateOffset(false))
+		elseif slot0.headIndex_ > 1 then
+			slot0:RecycleOnelineItem(false)
+			slot0:GenerateOneLineItem(false)
+			slot0.scrollRect_:AddContentPosition(slot0:CaculateOffset(false))
 		end
-	elseif var_10_1 > 1 then
-		if var_10_0 then
-			if arg_10_0.headIndex_ > 1 then
-				arg_10_0:RecycleOnelineItem(false)
-				arg_10_0:GenerateOneLineItem(false)
-				arg_10_0.scrollRect_:AddContentPosition(arg_10_0:CaculateOffset(false))
+	elseif slot3 > 1 then
+		if slot2 then
+			if slot0.headIndex_ > 1 then
+				slot0:RecycleOnelineItem(false)
+				slot0:GenerateOneLineItem(false)
+				slot0.scrollRect_:AddContentPosition(slot0:CaculateOffset(false))
 			end
-		elseif arg_10_0.tailIndex_ < arg_10_0.maxNum_ then
-			arg_10_0:RecycleOnelineItem(true)
-			arg_10_0:GenerateOneLineItem(true)
-			arg_10_0.scrollRect_:AddContentPosition(arg_10_0:CaculateOffset(true))
+		elseif slot0.tailIndex_ < slot0.maxNum_ then
+			slot0:RecycleOnelineItem(true)
+			slot0:GenerateOneLineItem(true)
+			slot0.scrollRect_:AddContentPosition(slot0:CaculateOffset(true))
 		end
 	end
 
-	if arg_10_0.callBackFunc_ then
-		arg_10_0.callBackFunc_()
+	if slot0.callBackFunc_ then
+		slot0.callBackFunc_()
 	end
 end
 
-function var_0_0.CaculateOffset(arg_11_0, arg_11_1)
-	if arg_11_0.scrollRect_.vertical then
-		local var_11_0 = arg_11_0.layOutGroup_.cellSize.y + arg_11_0.layOutGroup_.spacing.y
-		local var_11_1 = 0
+function slot0.CaculateOffset(slot0, slot1)
+	if slot0.scrollRect_.vertical then
+		slot2 = slot0.layOutGroup_.cellSize.y + slot0.layOutGroup_.spacing.y
 
-		return Vector2(var_11_1, arg_11_1 and -var_11_0 or var_11_0)
+		return Vector2(0, slot1 and -slot2 or slot2)
 	else
-		local var_11_2 = 0
-		local var_11_3 = arg_11_0.layOutGroup_.cellSize.x + arg_11_0.layOutGroup_.spacing.x
+		slot3 = slot0.layOutGroup_.cellSize.x + slot0.layOutGroup_.spacing.x
 
-		return Vector2(arg_11_1 and var_11_3 or -var_11_3, var_11_2)
+		return Vector2(slot1 and slot3 or -slot3, 0)
 	end
 end
 
-function var_0_0.RefreshItemSiblingIndex(arg_12_0)
-	for iter_12_0 = arg_12_0.headIndex_, arg_12_0.tailIndex_ do
-		local var_12_0 = arg_12_0.items_[iter_12_0].gameObject_
-
-		if var_12_0 then
-			var_12_0.transform:SetSiblingIndex(iter_12_0 - arg_12_0.headIndex_)
+function slot0.RefreshItemSiblingIndex(slot0)
+	for slot4 = slot0.headIndex_, slot0.tailIndex_ do
+		if slot0.items_[slot4].gameObject_ then
+			slot5.transform:SetSiblingIndex(slot4 - slot0.headIndex_)
 		end
 	end
 end
 
-function var_0_0.RecycleOnelineItem(arg_13_0, arg_13_1)
-	local var_13_0 = 0
-	local var_13_1 = 0
+function slot0.RecycleOnelineItem(slot0, slot1)
+	slot2 = 0
+	slot3 = 0
 
-	if arg_13_1 then
-		var_13_0 = arg_13_0.headIndex_
-		var_13_1 = var_13_0 + arg_13_0.perLineNum_ - 1
+	if slot1 then
+		slot3 = slot0.headIndex_ + slot0.perLineNum_ - 1
 	else
-		var_13_0 = math.floor((arg_13_0.tailIndex_ - arg_13_0.headIndex_) / arg_13_0.perLineNum_) * arg_13_0.perLineNum_ + arg_13_0.headIndex_
-		var_13_1 = arg_13_0.tailIndex_
+		slot2 = math.floor((slot0.tailIndex_ - slot0.headIndex_) / slot0.perLineNum_) * slot0.perLineNum_ + slot0.headIndex_
+		slot3 = slot0.tailIndex_
 	end
 
-	for iter_13_0 = var_13_0, var_13_1 do
-		if arg_13_0.items_[iter_13_0] then
-			arg_13_0:RecycleItem(iter_13_0)
+	for slot7 = slot2, slot3 do
+		if slot0.items_[slot7] then
+			slot0:RecycleItem(slot7)
 		end
 	end
 
-	if arg_13_1 then
-		arg_13_0.headIndex_ = arg_13_0.headIndex_ + arg_13_0.perLineNum_
+	if slot1 then
+		slot0.headIndex_ = slot0.headIndex_ + slot0.perLineNum_
 	else
-		arg_13_0.tailIndex_ = arg_13_0.tailIndex_ - (var_13_1 - var_13_0 + 1)
+		slot0.tailIndex_ = slot0.tailIndex_ - (slot3 - slot2 + 1)
 	end
 
-	arg_13_0:RefreshItemSiblingIndex()
+	slot0:RefreshItemSiblingIndex()
 end
 
-function var_0_0.GenerateOneLineItem(arg_14_0, arg_14_1)
-	local var_14_0 = 0
-
-	for iter_14_0 = 1, arg_14_0.perLineNum_ do
-		if arg_14_0:GenerateNewItem(arg_14_1) then
-			var_14_0 = var_14_0 + 1
+function slot0.GenerateOneLineItem(slot0, slot1)
+	for slot6 = 1, slot0.perLineNum_ do
+		if slot0:GenerateNewItem(slot1) then
+			slot2 = 0 + 1
 		end
 	end
 
-	return var_14_0 > 0
+	return slot2 > 0
 end
 
-function var_0_0.GenerateNewItem(arg_15_0, arg_15_1)
-	local var_15_0 = (arg_15_1 and arg_15_0.tailIndex_ or arg_15_0.headIndex_) + (arg_15_1 and 1 or -1)
-
-	if var_15_0 < 1 then
+function slot0.GenerateNewItem(slot0, slot1)
+	if (slot1 and slot0.tailIndex_ or slot0.headIndex_) + (slot1 and 1 or -1) < 1 then
 		return false
 	end
 
-	if var_15_0 <= arg_15_0.maxNum_ then
-		local var_15_1 = arg_15_0.pool_:Get()
+	if slot4 <= slot0.maxNum_ then
+		slot5 = slot0.pool_:Get()
 
-		SetActive(var_15_1, true)
+		SetActive(slot5, true)
 
-		local var_15_2 = manager.classPool:GetOrCreateClass(arg_15_0.itemClass_, arg_15_0.handler_, var_15_1)
+		slot5.name = "item" .. slot4
 
-		var_15_1.name = "item" .. var_15_0
+		if slot0.delegateFunc_(slot4, slot5, manager.classPool:GetOrCreateClass(slot0.itemClass_, slot0.handler_, slot5)) then
+			slot8 = slot5
 
-		local var_15_3 = arg_15_0.delegateFunc_(var_15_0, var_15_1, var_15_2)
-
-		if var_15_3 then
-			local var_15_4 = var_15_1
-
-			if arg_15_1 then
-				arg_15_0.tailIndex_ = var_15_0
+			if slot1 then
+				slot0.tailIndex_ = slot4
 			else
-				arg_15_0.headIndex_ = var_15_0
+				slot0.headIndex_ = slot4
 			end
 
-			arg_15_0.items_[var_15_0] = var_15_3
-			arg_15_0.itemGos_[var_15_0] = var_15_1
+			slot0.items_[slot4] = slot7
+			slot0.itemGos_[slot4] = slot5
 
-			var_15_4.transform:SetSiblingIndex(var_15_0 - arg_15_0.headIndex_)
+			slot8.transform:SetSiblingIndex(slot4 - slot0.headIndex_)
 
-			return var_15_0
+			return slot4
 		end
 	end
 
 	return false
 end
 
-function var_0_0.RefreshList(arg_16_0)
-	for iter_16_0 = arg_16_0.headIndex_, arg_16_0.tailIndex_ do
-		arg_16_0.delegateFunc_(iter_16_0, arg_16_0.items_[iter_16_0].gameObject_, arg_16_0.items_[iter_16_0])
+function slot0.RefreshList(slot0)
+	for slot4 = slot0.headIndex_, slot0.tailIndex_ do
+		slot0.delegateFunc_(slot4, slot0.items_[slot4].gameObject_, slot0.items_[slot4])
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,136 +1,128 @@
-local var_0_0 = class("DormHomeView", ReduxView)
-local var_0_1
+slot0 = class("DormHomeView", ReduxView)
+slot1 = nil
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormitoryUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.likeBtnStateController = arg_4_0.controller:GetController("praise")
-	arg_4_0.praiseAnimator = arg_4_0.praiseGo_:GetComponent("Animator")
+	slot0.likeBtnStateController = slot0.controller:GetController("praise")
+	slot0.praiseAnimator = slot0.praiseGo_:GetComponent("Animator")
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0:RegisterEvents()
-	arg_5_0:UpdataViewType()
-	arg_5_0:RefreshRoomNameInfo()
-	arg_5_0:RefreshDevInfo()
-	arg_5_0.quickView:OnEnter()
-	arg_5_0.tempquickGo_.transform:SetAsLastSibling()
-	arg_5_0.quickView:ShowView(false)
-	arg_5_0:UpdataDormitoryInternalRedPoint()
-	arg_5_0:RefreshRedPonit()
-	arg_5_0:AutoOpenSuitHelpPage()
+function slot0.OnEnter(slot0)
+	slot0:RegisterEvents()
+	slot0:UpdataViewType()
+	slot0:RefreshRoomNameInfo()
+	slot0:RefreshDevInfo()
+	slot0.quickView:OnEnter()
+	slot0.tempquickGo_.transform:SetAsLastSibling()
+	slot0.quickView:ShowView(false)
+	slot0:UpdataDormitoryInternalRedPoint()
+	slot0:RefreshRedPonit()
+	slot0:AutoOpenSuitHelpPage()
 	DormLuaBridge.SetIsCanEditTag(false)
-	arg_5_0:RefreshLikeNum()
-	arg_5_0:RefreshLikeBtnState()
+	slot0:RefreshLikeNum()
+	slot0:RefreshLikeBtnState()
 end
 
-function var_0_0.OnTop(arg_6_0)
-	arg_6_0:HideUiInfo(true)
+function slot0.OnTop(slot0)
+	slot0:HideUiInfo(true)
 end
 
-function var_0_0.UpdataViewType(arg_7_0)
-	arg_7_0.sceneID_ = DormData:GetCurrectSceneID()
+function slot0.UpdataViewType(slot0)
+	slot0.sceneID_ = DormData:GetCurrectSceneID()
 
-	if arg_7_0.sceneID_ > DormConst.DORM_VISIT_ROOM_MIN then
-		arg_7_0.stateController:SetSelectedState("visit")
+	if DormConst.DORM_VISIT_ROOM_MIN < slot0.sceneID_ then
+		slot0.stateController:SetSelectedState("visit")
 
-		local var_7_0 = DormVisitTools:GetCurVisitPlayerType()
-
-		if var_7_0 == 1 then
-			arg_7_0.friendController:SetSelectedState("true")
-		elseif var_7_0 == 2 then
-			arg_7_0.friendController:SetSelectedState("false")
+		if DormVisitTools:GetCurVisitPlayerType() == 1 then
+			slot0.friendController:SetSelectedState("true")
+		elseif slot1 == 2 then
+			slot0.friendController:SetSelectedState("false")
 		end
 
-		SetActive(arg_7_0.collectBtn_.gameObject, not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM))
+		SetActive(slot0.collectBtn_.gameObject, not JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.DORM))
 	else
-		arg_7_0.stateController:SetSelectedState("room")
+		slot0.stateController:SetSelectedState("room")
 
-		if arg_7_0.sceneID_ == DormVisitTools:GetCurTemplateExhibit() then
-			arg_7_0.exhibitController:SetSelectedState("true")
+		if slot0.sceneID_ == DormVisitTools:GetCurTemplateExhibit() then
+			slot0.exhibitController:SetSelectedState("true")
 		else
-			arg_7_0.exhibitController:SetSelectedState("false")
+			slot0.exhibitController:SetSelectedState("false")
 		end
 	end
 end
 
-function var_0_0.RefreshRoomNameInfo(arg_8_0)
-	if BackHomeCfg[arg_8_0.sceneID_].type == DormConst.BACKHOME_TYPE.PublicDorm or BackHomeCfg[arg_8_0.sceneID_].type == DormConst.BACKHOME_TYPE.VISITPUBLICDORM then
-		arg_8_0.roomName.text = GetTips("DORM_LOBBY_NAME")
+function slot0.RefreshRoomNameInfo(slot0)
+	if BackHomeCfg[slot0.sceneID_].type == DormConst.BACKHOME_TYPE.PublicDorm or BackHomeCfg[slot0.sceneID_].type == DormConst.BACKHOME_TYPE.VISITPUBLICDORM then
+		slot0.roomName.text = GetTips("DORM_LOBBY_NAME")
 
-		arg_8_0.publicTextController:SetSelectedState("false")
-	elseif BackHomeCfg[arg_8_0.sceneID_].type == DormConst.BACKHOME_TYPE.PrivateDorm or BackHomeCfg[arg_8_0.sceneID_].type == DormConst.BACKHOME_TYPE.VISITPRIVATEDORM then
-		local var_8_0 = DormitoryData:GetDormSceneData(arg_8_0.sceneID_).archiveIDList[1]
+		slot0.publicTextController:SetSelectedState("false")
+	elseif BackHomeCfg[slot0.sceneID_].type == DormConst.BACKHOME_TYPE.PrivateDorm or BackHomeCfg[slot0.sceneID_].type == DormConst.BACKHOME_TYPE.VISITPRIVATEDORM then
+		slot1 = DormitoryData:GetDormSceneData(slot0.sceneID_).archiveIDList[1]
 
-		if BackHomeCfg[arg_8_0.sceneID_].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-			arg_8_0.publicTextController:SetSelectedState("true")
+		if BackHomeCfg[slot0.sceneID_].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+			slot0.publicTextController:SetSelectedState("true")
 		else
-			arg_8_0.publicTextController:SetSelectedState("false")
+			slot0.publicTextController:SetSelectedState("false")
 		end
 
-		if var_8_0 then
-			local var_8_1 = HeroRecordCfg.get_id_list_by_hero_id[var_8_0][1]
-
-			if var_8_1 then
-				local var_8_2 = HeroRecordCfg[var_8_1].name
-
-				if var_8_2 then
-					arg_8_0.roomName.text = string.format(GetTips("DORM_HERO_ROOM_NAME"), GetI18NText(var_8_2))
-				end
-
-				arg_8_0:RefreshRoomLevel()
+		if slot1 and HeroRecordCfg.get_id_list_by_hero_id[slot1][1] then
+			if HeroRecordCfg[slot2].name then
+				slot0.roomName.text = string.format(GetTips("DORM_HERO_ROOM_NAME"), GetI18NText(slot3))
 			end
+
+			slot0:RefreshRoomLevel()
 		end
 	end
 end
 
-function var_0_0.RefreshRedPonit(arg_9_0)
-	manager.redPoint:bindUIandKey(arg_9_0.positionBtn_.transform, RedPointConst.DORM_PLACEMENT)
-	manager.redPoint:bindUIandKey(arg_9_0.fureidbtnBtn_.transform, RedPointConst.DORM_FURNITURE)
-	manager.redPoint:bindUIandKey(arg_9_0.btn_storeBtn_.transform, RedPointConst.DORM_SUIT_SHOP)
+function slot0.RefreshRedPonit(slot0)
+	manager.redPoint:bindUIandKey(slot0.positionBtn_.transform, RedPointConst.DORM_PLACEMENT)
+	manager.redPoint:bindUIandKey(slot0.fureidbtnBtn_.transform, RedPointConst.DORM_FURNITURE)
 
-	for iter_9_0 = DormConst.DORM_FUR_TYPE_START, DormConst.DORM_FUR_TYPE_END do
-		DormRedPointTools:UpdataDormFurRedPoint(arg_9_0.sceneID_, iter_9_0)
+	slot4 = RedPointConst.DORM_SUIT_SHOP
+
+	manager.redPoint:bindUIandKey(slot0.btn_storeBtn_.transform, slot4)
+
+	for slot4 = DormConst.DORM_FUR_TYPE_START, DormConst.DORM_FUR_TYPE_END do
+		DormRedPointTools:UpdataDormFurRedPoint(slot0.sceneID_, slot4)
 	end
 
-	if DormTools:ShouldShowBirthdayBtn(arg_9_0.sceneID_) then
-		SetActive(arg_9_0.birthdayBtn_.gameObject, true)
+	if DormTools:ShouldShowBirthdayBtn(slot0.sceneID_) then
+		SetActive(slot0.birthdayBtn_.gameObject, true)
 	else
-		SetActive(arg_9_0.birthdayBtn_.gameObject, false)
+		SetActive(slot0.birthdayBtn_.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshBar(arg_10_0)
-	if arg_10_0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
+function slot0.RefreshBar(slot0)
+	if slot0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR
 		})
 
-		local var_10_0 = GameSetting.dorm_info_describe.value
-
-		if #var_10_0 > 0 then
+		if #GameSetting.dorm_info_describe.value > 0 then
 			manager.windowBar:SetGameHelpKey({
 				view = "/gameHelpPro",
 				type = "jump",
 				params = {
 					hideHomeBtn = 1,
 					isPrefab = true,
-					pages = var_10_0
+					pages = slot1
 				}
 			})
 		end
@@ -140,12 +132,10 @@ function var_0_0.RefreshBar(arg_10_0)
 		})
 	end
 
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		if DormVisitTools:GetIsOtherSystem() then
-			local var_11_0 = DormVisitTools:GetBackFunc()
-
-			if var_11_0 then
-				var_11_0()
+			if DormVisitTools:GetBackFunc() then
+				slot1()
 			else
 				BackHomeTools:OtherSystemVisitExit()
 				OpenPageUntilLoaded("/home")
@@ -154,7 +144,7 @@ function var_0_0.RefreshBar(arg_10_0)
 			return
 		end
 
-		if arg_10_0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
+		if uv0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
 			JumpTools.OpenPageByJump("/dormChooseRoomView")
 		else
 			DormVisitTools:ClearVisitRoomData()
@@ -168,194 +158,166 @@ function var_0_0.RefreshBar(arg_10_0)
 			end
 		end
 	end)
-	manager.windowBar:RegistHomeCallBack(function()
+	manager.windowBar:RegistHomeCallBack(function ()
 		BackHomeTools:BackHomeGotoMain()
 	end)
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_13_0.positionBtn_.transform, RedPointConst.DORM_PLACEMENT)
-	manager.redPoint:unbindUIandKey(arg_13_0.fureidbtnBtn_.transform, RedPointConst.DORM_FURNITURE)
-	manager.redPoint:unbindUIandKey(arg_13_0.btn_storeBtn_.transform, RedPointConst.DORM_SUIT_SHOP)
-	arg_13_0.menuController:SetSelectedState("off")
+	manager.redPoint:unbindUIandKey(slot0.positionBtn_.transform, RedPointConst.DORM_PLACEMENT)
+	manager.redPoint:unbindUIandKey(slot0.fureidbtnBtn_.transform, RedPointConst.DORM_FURNITURE)
+	manager.redPoint:unbindUIandKey(slot0.btn_storeBtn_.transform, RedPointConst.DORM_SUIT_SHOP)
+	slot0.menuController:SetSelectedState("off")
 
-	arg_13_0.menuState = false
+	slot0.menuState = false
 
-	arg_13_0:RemoveAllEventListener()
-	arg_13_0.quickView:OnExit()
+	slot0:RemoveAllEventListener()
+	slot0.quickView:OnExit()
 end
 
-function var_0_0.InitUI(arg_14_0)
-	arg_14_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_14_0.cacheRoles = {}
-	arg_14_0.menuState = false
-	arg_14_0.menuController = ControllerUtil.GetController(arg_14_0.btn_menuGo_.transform, "menu")
-	arg_14_0.stateController = ControllerUtil.GetController(arg_14_0.transform_, "state")
-	arg_14_0.exhibitController = ControllerUtil.GetController(arg_14_0.exhib.transform, "state")
-	arg_14_0.publicTextController = ControllerUtil.GetController(arg_14_0.transform_, "public")
-	arg_14_0.showUiController = ControllerUtil.GetController(arg_14_0.btn_hideGo_.transform, "btn")
-	arg_14_0.friendController = ControllerUtil.GetController(arg_14_0.transform_, "addFriend")
-	arg_14_0.menuAnimator = arg_14_0:FindCom(typeof(Animator), "", arg_14_0.menu_listTrs_)
-	arg_14_0.quickView = BackHomeQuickJumpView.New(arg_14_0.tempquickGo_)
+	slot0.cacheRoles = {}
+	slot0.menuState = false
+	slot0.menuController = ControllerUtil.GetController(slot0.btn_menuGo_.transform, "menu")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.exhibitController = ControllerUtil.GetController(slot0.exhib.transform, "state")
+	slot0.publicTextController = ControllerUtil.GetController(slot0.transform_, "public")
+	slot0.showUiController = ControllerUtil.GetController(slot0.btn_hideGo_.transform, "btn")
+	slot0.friendController = ControllerUtil.GetController(slot0.transform_, "addFriend")
+	slot0.menuAnimator = slot0:FindCom(typeof(Animator), "", slot0.menu_listTrs_)
+	slot0.quickView = BackHomeQuickJumpView.New(slot0.tempquickGo_)
 end
 
-function var_0_0.AddUIListener(arg_15_0)
-	arg_15_0:AddBtnListenerScale(arg_15_0.positionBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.positionBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/dormChooseRoomView")
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.characterplacebtnBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.characterplacebtnBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/dormHeroDeployView")
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.templateBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.templateBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/dormTemplateView", {
 			pos = 1
 		})
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.fureidbtnBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.fureidbtnBtn_, nil, function ()
 		DormHeroTools.HideAllCharacter()
 		JumpTools.OpenPageByJump("/roomEdit")
 		DormFurEditStateData:EnterEditState()
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.dormlevelBtn_, nil, function()
-		if BackHomeCfg[arg_15_0.sceneID_].type ~= DormConst.BACKHOME_TYPE.PrivateDorm then
+	slot0:AddBtnListenerScale(slot0.dormlevelBtn_, nil, function ()
+		if BackHomeCfg[uv0.sceneID_].type ~= DormConst.BACKHOME_TYPE.PrivateDorm then
 			return
 		end
 
-		local var_20_0 = DormitoryData:GetArchiveIDViaRoomID(arg_15_0.sceneID_)[1]
-
-		if var_20_0 then
+		if DormitoryData:GetArchiveIDViaRoomID(uv0.sceneID_)[1] then
 			JumpTools.OpenPageByJump("/dormLevelInfoView", {
-				archiveID = var_20_0
+				archiveID = slot0
 			})
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.btn_storeBtn_, nil, function()
-		local var_21_0 = DormTools:GetAllDormShopIDList()
-
+	slot0:AddBtnListenerScale(slot0.btn_storeBtn_, nil, function ()
 		JumpTools.GoToSystem("/dormShop", {
 			hideHomeBtn = true,
 			shop = ShopConst.SHOP_ID.DORM_SHOP,
-			shopList = var_21_0
+			shopList = DormTools:GetAllDormShopIDList()
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.btn_menuBtn_, nil, function()
-		if arg_15_0.menuState then
-			arg_15_0.menuController:SetSelectedState("off")
+	slot0:AddBtnListenerScale(slot0.btn_menuBtn_, nil, function ()
+		if uv0.menuState then
+			uv0.menuController:SetSelectedState("off")
 
-			arg_15_0.menuState = false
+			uv0.menuState = false
 		else
-			arg_15_0.menuController:SetSelectedState("on")
+			uv0.menuController:SetSelectedState("on")
 
-			arg_15_0.menuState = true
+			uv0.menuState = true
 
-			arg_15_0.menuAnimator:Play("DormitoryUI_menu_list")
+			uv0.menuAnimator:Play("DormitoryUI_menu_list")
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.exhibBtn_, nil, function()
-		local var_23_0 = DormVisitTools:GetCurTemplateExhibit()
-
-		if not var_23_0 or arg_15_0.sceneID_ ~= var_23_0 then
-			DormAction:SetFurTemplateExhibit(arg_15_0.sceneID_)
+	slot0:AddBtnListenerScale(slot0.exhibBtn_, nil, function ()
+		if not DormVisitTools:GetCurTemplateExhibit() or uv0.sceneID_ ~= slot0 then
+			DormAction:SetFurTemplateExhibit(uv0.sceneID_)
 		else
 			ShowTips(GetTips("DORM_DISPLAY_ALREADY"))
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.collectBtn_, nil, function()
-		local var_24_0, var_24_1 = DormVisitTools:CheckCanSaveTemplate()
+	slot0:AddBtnListenerScale(slot0.collectBtn_, nil, function ()
+		slot0, slot1 = DormVisitTools:CheckCanSaveTemplate()
 
-		if var_24_0 then
+		if slot0 then
 			JumpTools.OpenPageByJump("/dormVisitTemplateView")
 		else
-			ShowTips(var_24_1)
+			ShowTips(slot1)
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.addFriendBtn_, nil, function()
-		local var_25_0 = DormVisitTools:GetVisitUserID()
-
-		if var_25_0 then
-			FriendsAction:TryToRequestToFriend(var_25_0, FriendConst.ADD_FRIEND_SOURCE.DORM)
+	slot0:AddBtnListenerScale(slot0.addFriendBtn_, nil, function ()
+		if DormVisitTools:GetVisitUserID() then
+			FriendsAction:TryToRequestToFriend(slot0, FriendConst.ADD_FRIEND_SOURCE.DORM)
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.btn_hideBtn_, nil, function()
-		if arg_15_0.uiShow then
-			arg_15_0:HideUiInfo(false)
+	slot0:AddBtnListenerScale(slot0.btn_hideBtn_, nil, function ()
+		if uv0.uiShow then
+			uv0:HideUiInfo(false)
 		else
-			arg_15_0:HideUiInfo(true)
+			uv0:HideUiInfo(true)
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.giftBtn_, nil, function()
-		local var_27_0 = DormData:GetCurrectSceneID()
+	slot0:AddBtnListenerScale(slot0.giftBtn_, nil, function ()
+		if BackHomeCfg[DormData:GetCurrectSceneID()].type == DormConst.BACKHOME_TYPE.PrivateDorm and DormData:GetHeroInfo(DormitoryData:GetArchiveIDViaRoomID(slot0)[1]) then
+			if slot2:GetHeroState() == DormEnum.DormHeroState.InPrivateDorm then
+				slot5 = nil
+				slot9 = pairs
 
-		if BackHomeCfg[var_27_0].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-			local var_27_1 = DormitoryData:GetArchiveIDViaRoomID(var_27_0)[1]
-			local var_27_2 = DormData:GetHeroInfo(var_27_1)
-
-			if var_27_2 then
-				if var_27_2:GetHeroState() == DormEnum.DormHeroState.InPrivateDorm then
-					local var_27_3 = DormUtils.EIdNamespace(DormEnum.CharacterType.DormNormalHero)
-					local var_27_4
-
-					for iter_27_0, iter_27_1 in Dorm.storage:ForeachData(var_27_3, pairs) do
-						var_27_4 = iter_27_1
-					end
-
-					if var_27_4 then
-						DormLuaBridge.ActAsClickToEntity(var_27_4)
-					else
-						print("未找到人物eid")
-					end
-				else
-					JumpTools.OpenPageByJump("/dormHeroGiftView", {
-						archiveID = var_27_1
-					})
+				for slot9, slot10 in Dorm.storage:ForeachData(DormUtils.EIdNamespace(DormEnum.CharacterType.DormNormalHero), slot9) do
+					slot5 = slot10
 				end
+
+				if slot5 then
+					DormLuaBridge.ActAsClickToEntity(slot5)
+				else
+					print("未找到人物eid")
+				end
+			else
+				JumpTools.OpenPageByJump("/dormHeroGiftView", {
+					archiveID = slot1
+				})
 			end
 		end
 	end)
-	arg_15_0.quickView:AddClickCallBack(function()
+	slot0.quickView:AddClickCallBack(function ()
 		manager.windowBar:HideBar()
 	end)
-	arg_15_0.quickView:CloseCallBack(function()
-		arg_15_0:RefreshBar()
+	slot0.quickView:CloseCallBack(function ()
+		uv0:RefreshBar()
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.reportBtn_, nil, function()
-		local var_30_0 = DormVisitTools:GetVisitUserID()
-
-		if var_30_0 then
-			local var_30_1 = DormVisitTools:GetExhibitListByUserID(var_30_0)
-			local var_30_2 = DormVisitTools:GetLayoutID()
-
-			if var_30_1 then
-				local var_30_3 = var_30_1.nick or ""
-
+	slot0:AddBtnListenerScale(slot0.reportBtn_, nil, function ()
+		if DormVisitTools:GetVisitUserID() then
+			if DormVisitTools:GetExhibitListByUserID(slot0) then
 				JumpTools.OpenPageByJump("/chatReport", {
 					reportType = ChatConst.CHAT_REPORT_TYPE.DORM,
 					reportData = {
-						nick = var_30_3,
-						userID = var_30_0,
-						layout_uid = var_30_2,
-						architecture_id = var_30_1.architecture_id
+						nick = slot1.nick or "",
+						userID = slot0,
+						layout_uid = DormVisitTools:GetLayoutID(),
+						architecture_id = slot1.architecture_id
 					}
 				}, ViewConst.SYSTEM_ID.CHAT_REPORT)
 			end
 		end
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.devbtnBtn_, nil, function()
-		local var_31_0 = DormData:GetDevModelFlag()
-
-		DormData:ChangeDevModelFlag(not var_31_0)
-		arg_15_0:RefreshDevInfo()
+	slot0:AddBtnListenerScale(slot0.devbtnBtn_, nil, function ()
+		DormData:ChangeDevModelFlag(not DormData:GetDevModelFlag())
+		uv0:RefreshDevInfo()
 	end)
-	arg_15_0:AddBtnListenerScale(arg_15_0.likeBtn, nil, function()
-		if arg_15_0.stateController:GetSelectedState() == "visit" then
-			local var_32_0 = DormVisitTools:GetVisitUserID()
-			local var_32_1 = DormVisitTools:GetCurVisitRoomData()
-
-			if var_32_1.todayLikeNum < GameSetting.dorm_room_like_limted.value[1] and var_32_1 then
-				DormAction.LikeDormRoom(var_32_0, var_32_1.architecture_id, function()
-					return
+	slot0:AddBtnListenerScale(slot0.likeBtn, nil, function ()
+		if uv0.stateController:GetSelectedState() == "visit" then
+			if DormVisitTools:GetCurVisitRoomData().todayLikeNum < GameSetting.dorm_room_like_limted.value[1] and slot1 then
+				DormAction.LikeDormRoom(DormVisitTools:GetVisitUserID(), slot1.architecture_id, function ()
 				end)
 			else
 				ShowTips("DORM_SINGLE_ROOM_PRAISE_NUM")
@@ -364,123 +326,115 @@ function var_0_0.AddUIListener(arg_15_0)
 	end)
 end
 
-function var_0_0.RegisterEvents(arg_34_0)
-	arg_34_0:RegistEventListener(ON_PLAYER_CLICK_INTERACT, function(arg_35_0, arg_35_1)
-		arg_34_0.showUiController:SetSelectedState("off")
-		SetActive(arg_34_0.btn_hideBtn_.gameObject, false)
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(ON_PLAYER_CLICK_INTERACT, function (slot0, slot1)
+		uv0.showUiController:SetSelectedState("off")
+		SetActive(uv0.btn_hideBtn_.gameObject, false)
 		manager.windowBar:HideBar()
 
-		if arg_34_0.sceneID_ > DormConst.DORM_VISIT_ROOM_MIN then
+		if DormConst.DORM_VISIT_ROOM_MIN < uv0.sceneID_ then
 			return
 		end
 
 		Dorm.DormEntityManager.EnablePlayerInput = false
 
-		DormUtils.ClearCharaHasSpecialVfx(arg_35_0)
-		DormUtils.HideCharaSpecialVfx(arg_35_0)
-		Timer.New(function()
-			arg_34_0.showUiController:SetSelectedState("on")
-			SetActive(arg_34_0.btn_hideBtn_.gameObject, true)
+		DormUtils.ClearCharaHasSpecialVfx(slot0)
+		DormUtils.HideCharaSpecialVfx(slot0)
+		Timer.New(function ()
+			uv0.showUiController:SetSelectedState("on")
+			SetActive(uv0.btn_hideBtn_.gameObject, true)
 			JumpTools.OpenPageByJump("/heroInteractView", {
-				heroEID = arg_35_0
+				heroEID = uv1
 			})
 		end, DormConst.CHARACTER_INTERACT_CAMERA_MOVE_TIME, 1):Start()
 		DormTools:PlayDormAudioEffect(DormConst.DORM_AUDIO_EFFECT.InteractCam)
 
-		local var_35_0 = DormUtils.EIdNamespace(DormEnum.CharacterType.DormNormalHero)
+		slot6 = pairs
 
-		for iter_35_0, iter_35_1 in Dorm.storage:ForeachData(var_35_0, pairs) do
-			if iter_35_1 ~= arg_35_0 then
-				Dorm.DormEntityManager.FadeOutNearPoint(iter_35_1, UnityEngine.Camera.main.transform, DormLuaBridge.GetCamFadeOtherCharaParam(nil, nil))
+		for slot6, slot7 in Dorm.storage:ForeachData(DormUtils.EIdNamespace(DormEnum.CharacterType.DormNormalHero), slot6) do
+			if slot7 ~= slot0 then
+				Dorm.DormEntityManager.FadeOutNearPoint(slot7, UnityEngine.Camera.main.transform, DormLuaBridge.GetCamFadeOtherCharaParam(nil, ))
 			end
 		end
 	end)
-	arg_34_0:RegistEventListener(DORM_REFRESH_EXIBIT, function()
-		if arg_34_0.sceneID_ == DormVisitTools:GetCurTemplateExhibit() then
+	slot0:RegistEventListener(DORM_REFRESH_EXIBIT, function ()
+		if uv0.sceneID_ == DormVisitTools:GetCurTemplateExhibit() then
 			ShowTips(GetTips("DORM_DISPLAY_SET_SUCCESS"))
-			arg_34_0.exhibitController:SetSelectedState("true")
+			uv0.exhibitController:SetSelectedState("true")
 		else
-			arg_34_0.exhibitController:SetSelectedState("false")
+			uv0.exhibitController:SetSelectedState("false")
 		end
 	end)
-	arg_34_0:RegistEventListener(DORM_PRIVATE_LEVEL_UP, function()
+	slot0:RegistEventListener(DORM_PRIVATE_LEVEL_UP, function ()
 		ShowTips(GetTips("DORM_LEVEL_UP_TIPS"))
-		arg_34_0:RefreshRoomLevel()
+		uv0:RefreshRoomLevel()
 	end)
-	arg_34_0:RegistEventListener(ON_DORM_CHARACTER_GRAB_STARTED, function()
+	slot0:RegistEventListener(ON_DORM_CHARACTER_GRAB_STARTED, function ()
 		DormTools:PlayDormAudioEffect(DormConst.DORM_AUDIO_EFFECT.UpCharacter)
 	end)
-	arg_34_0:RegistEventListener(ON_DORM_CHARACTER_GRAB_RELEASED, function()
+	slot0:RegistEventListener(ON_DORM_CHARACTER_GRAB_RELEASED, function ()
 		DormTools:PlayDormAudioEffect(DormConst.DORM_AUDIO_EFFECT.DownCharacter)
 	end)
-	arg_34_0:RegistEventListener(ON_BEGIN_STORY, function(arg_41_0)
-		SetActive(arg_34_0.birthdayBtn_.gameObject, false)
+	slot0:RegistEventListener(ON_BEGIN_STORY, function (slot0)
+		SetActive(uv0.birthdayBtn_.gameObject, false)
 		manager.windowBar:HideBar()
-		DormCharacterManager.GetInstance():OnBeginStory(arg_41_0)
-		DormFurnitureManager.GetInstance():OnBeginStory(arg_41_0)
+		DormCharacterManager.GetInstance():OnBeginStory(slot0)
+		DormFurnitureManager.GetInstance():OnBeginStory(slot0)
 	end)
-	arg_34_0:RegistEventListener(ON_FINISH_STORY, function(arg_42_0)
-		GameObject.Destroy(var_0_1)
+	slot0:RegistEventListener(ON_FINISH_STORY, function (slot0)
+		GameObject.Destroy(uv0)
 
-		var_0_1 = nil
+		uv0 = nil
 
-		SetActive(arg_34_0.gameObject_, true)
-		arg_34_0:RefreshBar()
-		DormFurnitureManager.GetInstance():OnFinishStory(arg_42_0)
-		DormCharacterManager.GetInstance():OnFinishStory(arg_42_0)
+		SetActive(uv1.gameObject_, true)
+		uv1:RefreshBar()
+		DormFurnitureManager.GetInstance():OnFinishStory(slot0)
+		DormCharacterManager.GetInstance():OnFinishStory(slot0)
 	end)
-	arg_34_0:RegistEventListener(DORM_LIKE_NUM_REFRESH, function()
-		arg_34_0:RefreshLikeNum()
-		arg_34_0:RefreshLikeBtnState()
+	slot0:RegistEventListener(DORM_LIKE_NUM_REFRESH, function ()
+		uv0:RefreshLikeNum()
+		uv0:RefreshLikeBtnState()
 	end)
 end
 
-function var_0_0.RefreshRoomLevel(arg_44_0)
-	local var_44_0 = DormitoryData:GetDormLevel(arg_44_0.sceneID_)
-
-	if var_44_0 then
-		arg_44_0.roomLevel.text = string.format(GetTips("DORM_CANTEEN_LEVEL"), var_44_0)
+function slot0.RefreshRoomLevel(slot0)
+	if DormitoryData:GetDormLevel(slot0.sceneID_) then
+		slot0.roomLevel.text = string.format(GetTips("DORM_CANTEEN_LEVEL"), slot1)
 	end
 end
 
-function var_0_0.UpdateView(arg_45_0)
-	local var_45_0 = DormData:GetCurrectSceneID()
-
-	arg_45_0.attractiveLabel_.text = DormData:GetSceneAttractiveValue(var_45_0)
+function slot0.UpdateView(slot0)
+	slot0.attractiveLabel_.text = DormData:GetSceneAttractiveValue(DormData:GetCurrectSceneID())
 end
 
-function var_0_0.HideUiInfo(arg_46_0, arg_46_1)
-	arg_46_0.uiShow = arg_46_1
+function slot0.HideUiInfo(slot0, slot1)
+	slot0.uiShow = slot1
 
-	if arg_46_0.uiShow then
-		arg_46_0.showUiController:SetSelectedState("on")
-		arg_46_0:RefreshBar()
+	if slot0.uiShow then
+		slot0.showUiController:SetSelectedState("on")
+		slot0:RefreshBar()
 	else
-		arg_46_0.showUiController:SetSelectedState("off")
+		slot0.showUiController:SetSelectedState("off")
 		manager.windowBar:HideBar()
 	end
 end
 
-function var_0_0.RefreshDevInfo(arg_47_0)
-	local var_47_0 = DormData:GetDevModelFlag()
-
-	if var_47_0 then
-		SetActive(arg_47_0.devbtnBtn_.transform.gameObject, var_47_0)
+function slot0.RefreshDevInfo(slot0)
+	if DormData:GetDevModelFlag() then
+		SetActive(slot0.devbtnBtn_.transform.gameObject, slot1)
 	end
 
-	SetActive(arg_47_0.devText, var_47_0)
+	SetActive(slot0.devText, slot1)
 end
 
-function var_0_0.AutoOpenSuitHelpPage(arg_48_0)
+function slot0.AutoOpenSuitHelpPage(slot0)
 	if not DormSuitData:GetSuitHelpFlag() then
-		FrameTimer.New(function()
-			if not manager.guide:IsPlaying() and arg_48_0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
-				local var_49_0 = GameSetting.dorm_info_describe.value
-
+		FrameTimer.New(function ()
+			if not manager.guide:IsPlaying() and uv0.sceneID_ < DormConst.DORM_VISIT_ROOM_MIN then
 				JumpTools.OpenPageByJump("gameHelpPro", {
 					hideHomeBtn = 1,
 					isPrefab = true,
-					pages = var_49_0,
+					pages = GameSetting.dorm_info_describe.value,
 					startIndex = GameSetting.dorm_how_to_play_forced_eject.value[1]
 				})
 				DormSuitData:SetSuitHelpFlag(true)
@@ -489,61 +443,54 @@ function var_0_0.AutoOpenSuitHelpPage(arg_48_0)
 	end
 end
 
-function var_0_0.UpdataDormitoryInternalRedPoint(arg_50_0)
-	local var_50_0 = {}
-	local var_50_1 = DormData:GetCurrectSceneID()
-	local var_50_2 = BackHomeCfg[var_50_1].type
+function slot0.UpdataDormitoryInternalRedPoint(slot0)
+	slot1 = {}
 
-	if var_50_2 == DormConst.BACKHOME_TYPE.PublicDorm then
-		var_50_0 = {
+	if BackHomeCfg[DormData:GetCurrectSceneID()].type == DormConst.BACKHOME_TYPE.PublicDorm then
+		slot1 = {
 			RedPointConst.DORM_FULL_PUBLIC_SUIT,
 			RedPointConst.DORM_PART_SUIT
 		}
-	elseif var_50_2 == DormConst.BACKHOME_TYPE.PrivateDorm then
-		var_50_0 = {
+	elseif slot3 == DormConst.BACKHOME_TYPE.PrivateDorm then
+		slot1 = {
 			RedPointConst.DORM_FULL_PRIVATE_SUIT,
 			RedPointConst.DORM_PART_SUIT
 		}
 	end
 
-	manager.redPoint:addGroup(RedPointConst.DORM_SUIT, var_50_0, true)
+	manager.redPoint:addGroup(RedPointConst.DORM_SUIT, slot1, true)
 	DormRedPointTools:UpdataSuitRedPoint()
 end
 
-function var_0_0.RefreshLikeNum(arg_51_0)
-	if arg_51_0.stateController:GetSelectedState() == "room" then
-		local var_51_0 = DormData:GetCurrectSceneID()
-		local var_51_1 = DormitoryData:GetDormSceneData(var_51_0)
-
-		if var_51_1 then
-			arg_51_0.likeNum.text = NumberTools.RetractNumberForWindBar(var_51_1.likeNum)
+function slot0.RefreshLikeNum(slot0)
+	if slot0.stateController:GetSelectedState() == "room" then
+		if DormitoryData:GetDormSceneData(DormData:GetCurrectSceneID()) then
+			slot0.likeNum.text = NumberTools.RetractNumberForWindBar(slot2.likeNum)
 		end
 
-		if DormitoryData:GetLastLikeNum() < var_51_1.likeNum then
-			arg_51_0.praiseAnimator:Play("btn_praise", 0, 0)
+		if DormitoryData:GetLastLikeNum() < slot2.likeNum then
+			slot0.praiseAnimator:Play("btn_praise", 0, 0)
 		end
 
-		DormitoryData:SetLastLikeNum(var_51_1.likeNum)
+		DormitoryData:SetLastLikeNum(slot2.likeNum)
 	end
 end
 
-function var_0_0.RefreshLikeBtnState(arg_52_0)
-	if arg_52_0.stateController:GetSelectedState() == "visit" then
-		local var_52_0 = DormVisitTools:GetCurVisitRoomData()
-
-		if var_52_0.todayLikeNum and var_52_0.todayLikeNum > 0 then
-			arg_52_0.likeBtnStateController:SetSelectedState("true")
+function slot0.RefreshLikeBtnState(slot0)
+	if slot0.stateController:GetSelectedState() == "visit" then
+		if DormVisitTools:GetCurVisitRoomData().todayLikeNum and slot1.todayLikeNum > 0 then
+			slot0.likeBtnStateController:SetSelectedState("true")
 		else
-			arg_52_0.likeBtnStateController:SetSelectedState("false")
+			slot0.likeBtnStateController:SetSelectedState("false")
 		end
 
-		arg_52_0.curLikeNum.text = NumberTools.RetractNumberForWindBar(var_52_0.likeNum)
+		slot0.curLikeNum.text = NumberTools.RetractNumberForWindBar(slot1.likeNum)
 	end
 end
 
-function var_0_0.Dispose(arg_53_0)
-	arg_53_0.quickView:Dispose()
-	var_0_0.super.Dispose(arg_53_0)
+function slot0.Dispose(slot0)
+	slot0.quickView:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

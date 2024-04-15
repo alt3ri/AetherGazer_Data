@@ -1,67 +1,65 @@
-local var_0_0 = class("GCManager")
+slot0 = class("GCManager")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.gctick = 0
-	arg_1_0.gccost = 0
-	arg_1_0.running = false
+function slot0.Ctor(slot0)
+	slot0.gctick = 0
+	slot0.gccost = 0
+	slot0.running = false
 end
 
-function var_0_0.Collect(arg_2_0, arg_2_1)
-	arg_2_0:InAdvance()
+function slot0.Collect(slot0, slot1)
+	slot0:InAdvance()
 
-	if not arg_2_1 then
+	if not slot1 then
 		collectgarbage("collect")
-	elseif not arg_2_0.running then
-		arg_2_0.running = true
+	elseif not slot0.running then
+		slot0.running = true
 
-		arg_2_0:CalcStep()
+		slot0:CalcStep()
 
-		arg_2_0.gctick = 0
-		arg_2_0.gccost = 0
+		slot0.gctick = 0
+		slot0.gccost = 0
 
-		if not arg_2_0.handle then
-			arg_2_0.handle = UpdateBeat:CreateListener(arg_2_0.Update, arg_2_0)
+		if not slot0.handle then
+			slot0.handle = UpdateBeat:CreateListener(slot0.Update, slot0)
 		end
 
-		UpdateBeat:AddListener(arg_2_0.handle)
+		UpdateBeat:AddListener(slot0.handle)
 	end
 end
 
-function var_0_0.InAdvance(arg_3_0)
-	return
+function slot0.InAdvance(slot0)
 end
 
-function var_0_0.Afterward(arg_4_0)
+function slot0.Afterward(slot0)
 	LuaHelper.UnityGC()
 end
 
-function var_0_0.CollectStep(arg_5_0)
-	local var_5_0 = os.clock()
+function slot0.CollectStep(slot0)
+	slot1 = os.clock()
 
-	if collectgarbage("step", arg_5_0.step) then
-		arg_5_0.running = false
+	if collectgarbage("step", slot0.step) then
+		slot0.running = false
 
-		if arg_5_0.handle then
-			UpdateBeat:RemoveListener(arg_5_0.handle)
+		if slot0.handle then
+			UpdateBeat:RemoveListener(slot0.handle)
 
-			arg_5_0.handle = nil
+			slot0.handle = nil
 		end
 
-		arg_5_0:Afterward()
+		slot0:Afterward()
 	else
-		local var_5_1 = os.clock() * 1000 - var_5_0 * 1000
+		slot2 = os.clock() * 1000 - slot1 * 1000
+		slot0.gccost = slot0.gccost > 0 and (slot0.gccost + slot2) * 0.5 or slot2
+		slot0.gctick = slot0.gctick + 1
 
-		arg_5_0.gccost = arg_5_0.gccost > 0 and (arg_5_0.gccost + var_5_1) * 0.5 or var_5_1
-		arg_5_0.gctick = arg_5_0.gctick + 1
-
-		if arg_5_0.gctick > 300 and arg_5_0.gctick % 30 == 0 then
-			arg_5_0:CalcStep()
+		if slot0.gctick > 300 and slot0.gctick % 30 == 0 then
+			slot0:CalcStep()
 		end
 	end
 end
 
-function var_0_0.CalcStep(arg_6_0)
-	arg_6_0.step = math.max(arg_6_0.gctick - 60, 30) / 30 * 150 * math.max(1 - math.max(arg_6_0.gccost - 3, 0) * 0.1, 0.1)
+function slot0.CalcStep(slot0)
+	slot0.step = math.max(slot0.gctick - 60, 30) / 30 * 150 * math.max(1 - math.max(slot0.gccost - 3, 0) * 0.1, 0.1)
 end
 
-return var_0_0
+return slot0

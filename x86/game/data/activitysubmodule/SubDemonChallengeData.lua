@@ -1,48 +1,44 @@
-local var_0_0 = singletonClass("SubDemonChallengeData")
-local var_0_1 = {}
-local var_0_2 = {}
+slot0 = singletonClass("SubDemonChallengeData")
+slot1 = {}
+slot2 = {}
 
-function var_0_0.InitData(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
+function slot0.InitData(slot0)
+	uv0 = {}
+	uv1 = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-
-	var_0_1[var_2_0] = {
-		activityId = var_2_0
+function slot0.SetData(slot0, slot1)
+	slot2 = slot1.activity_id
+	uv0[slot2] = {
+		activityId = slot2
+	}
+	slot3 = {
+		[slot8.difficulty] = {}
 	}
 
-	local var_2_1 = {}
-
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.info) do
-		var_2_1[iter_2_1.difficulty] = {}
-		var_2_1[iter_2_1.difficulty].challenge_state = iter_2_1.challenge_state
-		var_2_1[iter_2_1.difficulty].reward_state = iter_2_1.reward_state
-		var_2_1[iter_2_1.difficulty].hurt_state = iter_2_1.hurt_state
+	for slot7, slot8 in ipairs(slot1.info) do
+		slot3[slot8.difficulty].challenge_state = slot8.challenge_state
+		slot3[slot8.difficulty].reward_state = slot8.reward_state
+		slot3[slot8.difficulty].hurt_state = slot8.hurt_state
 	end
 
-	var_0_1[var_2_0].challengeInfo = var_2_1
+	uv0[slot2].challengeInfo = slot3
 end
 
-function var_0_0.SetRewardState(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	local var_3_0 = var_0_1[arg_3_1].challengeInfo
-	local var_3_1 = DemonChallengeCfg.get_id_list_by_activity_id[arg_3_1]
-
-	var_3_0[table.indexof(var_3_1, arg_3_2)].reward_state = arg_3_3
+function slot0.SetRewardState(slot0, slot1, slot2, slot3)
+	uv0[slot1].challengeInfo[table.indexof(DemonChallengeCfg.get_id_list_by_activity_id[slot1], slot2)].reward_state = slot3
 end
 
-function var_0_0.GetChallengeInfo(arg_4_0, arg_4_1)
-	return var_0_1[arg_4_1]
+function slot0.GetChallengeInfo(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.AddSelectedActivityId(arg_5_0, arg_5_1)
-	var_0_2[arg_5_1] = true
+function slot0.AddSelectedActivityId(slot0, slot1)
+	uv0[slot1] = true
 end
 
-function var_0_0.GetIsSelected(arg_6_0, arg_6_1)
-	return var_0_2[arg_6_1]
+function slot0.GetIsSelected(slot0, slot1)
+	return uv0[slot1]
 end
 
-return var_0_0
+return slot0

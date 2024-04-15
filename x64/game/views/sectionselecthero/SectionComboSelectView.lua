@@ -1,94 +1,92 @@
-local var_0_0 = class("SectionComboSelectView", ReduxView)
+slot0 = class("SectionComboSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Formation/FormationSkillPopUPUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.skillItemList_ = {}
-	arg_4_0.chooseSkillHandler_ = handler(arg_4_0, arg_4_0.OnChooseSkill)
+	slot0.skillItemList_ = {}
+	slot0.chooseSkillHandler_ = handler(slot0, slot0.OnChooseSkill)
 end
 
-function var_0_0.GetComboSkillItemView(arg_5_0)
+function slot0.GetComboSkillItemView(slot0)
 	return SectionComboSelectItem
 end
 
-function var_0_0.AddListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.backBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.heroList_ = arg_8_0.params_.heroList
-	arg_8_0.trialHeroList_ = arg_8_0.params_.trailList
-	arg_8_0.stageType_ = arg_8_0.params_.stageType
-	arg_8_0.stageID_ = arg_8_0.params_.stageID
-	arg_8_0.sectionProxy_ = arg_8_0.params_.sectionProxy
-	arg_8_0.comboSkillID_ = arg_8_0.params_.comboSkillID
+function slot0.OnEnter(slot0)
+	slot0.heroList_ = slot0.params_.heroList
+	slot0.trialHeroList_ = slot0.params_.trailList
+	slot0.stageType_ = slot0.params_.stageType
+	slot0.stageID_ = slot0.params_.stageID
+	slot0.sectionProxy_ = slot0.params_.sectionProxy
+	slot0.comboSkillID_ = slot0.params_.comboSkillID
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.comboSkillIDList_ = arg_9_0:GetComboSkillList()
+function slot0.RefreshUI(slot0)
+	slot0.comboSkillIDList_ = slot0:GetComboSkillList()
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.comboSkillIDList_) do
-		if not arg_9_0.skillItemList_[iter_9_0] then
-			local var_9_0 = Object.Instantiate(arg_9_0.skillItemGo_, arg_9_0.contentTrans_)
+	for slot4, slot5 in ipairs(slot0.comboSkillIDList_) do
+		if not slot0.skillItemList_[slot4] then
+			slot0.skillItemList_[slot4] = slot0:GetComboSkillItemView().New(Object.Instantiate(slot0.skillItemGo_, slot0.contentTrans_))
 
-			arg_9_0.skillItemList_[iter_9_0] = arg_9_0:GetComboSkillItemView().New(var_9_0)
-
-			arg_9_0.skillItemList_[iter_9_0]:RegistChooseCallback(arg_9_0.chooseSkillHandler_)
+			slot0.skillItemList_[slot4]:RegistChooseCallback(slot0.chooseSkillHandler_)
 		end
 
-		arg_9_0.skillItemList_[iter_9_0]:SetData(arg_9_0.stageType_, arg_9_0.stageID_, iter_9_1, arg_9_0.comboSkillID_ == iter_9_1, arg_9_0.heroList_)
+		slot0.skillItemList_[slot4]:SetData(slot0.stageType_, slot0.stageID_, slot5, slot0.comboSkillID_ == slot5, slot0.heroList_)
 	end
 
-	for iter_9_2 = #arg_9_0.comboSkillIDList_ + 1, #arg_9_0.skillItemList_ do
-		arg_9_0.skillItemList_[iter_9_2]:Show(false)
+	for slot4 = #slot0.comboSkillIDList_ + 1, #slot0.skillItemList_ do
+		slot0.skillItemList_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.GetComboSkillList(arg_10_0)
-	return ComboSkillTools.GetComboSkillList(arg_10_0.heroList_, true)
+function slot0.GetComboSkillList(slot0)
+	return ComboSkillTools.GetComboSkillList(slot0.heroList_, true)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.skillItemList_) do
-		iter_11_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.skillItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.skillItemList_ = nil
+	slot0.skillItemList_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnShowComboSkillDesc(arg_12_0)
-	FrameTimer.New(function()
-		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_12_0.contentTrans_)
+function slot0.OnShowComboSkillDesc(slot0)
+	FrameTimer.New(function ()
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(uv0.contentTrans_)
 	end, 1, 1):Start()
 end
 
-function var_0_0.OnChooseSkill(arg_14_0, arg_14_1)
-	arg_14_0:SetComboSkillID(arg_14_1)
-	manager.notify:CallUpdateFunc(COMBO_SKILL_SELECT, arg_14_1)
-	manager.notify:Invoke(COMBO_SKILL_SELECT, arg_14_1)
+function slot0.OnChooseSkill(slot0, slot1)
+	slot0:SetComboSkillID(slot1)
+	manager.notify:CallUpdateFunc(COMBO_SKILL_SELECT, slot1)
+	manager.notify:Invoke(COMBO_SKILL_SELECT, slot1)
 end
 
-function var_0_0.SetComboSkillID(arg_15_0, arg_15_1)
-	arg_15_0.sectionProxy_:SetComboSkillID(arg_15_1)
+function slot0.SetComboSkillID(slot0, slot1)
+	slot0.sectionProxy_:SetComboSkillID(slot1)
 end
 
-return var_0_0
+return slot0

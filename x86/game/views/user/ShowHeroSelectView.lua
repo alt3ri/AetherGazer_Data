@@ -1,193 +1,182 @@
-local var_0_0 = class("ShowHeroSelectView", ReduxView)
-local var_0_1 = import("game.tools.PlayerTools")
+slot0 = class("ShowHeroSelectView", ReduxView)
+slot1 = import("game.tools.PlayerTools")
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/ShowHeroSelectUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.selector_ = createStructuredSelector({
-		sortList = function(arg_4_0, arg_4_1)
-			return (var_0_1.SortShowHero(arg_4_0.herolist, arg_4_0.player.heros, arg_4_1))
+function slot0.OnCtor(slot0)
+	slot0.selector_ = createStructuredSelector({
+		sortList = function (slot0, slot1)
+			return uv0.SortShowHero(slot0.herolist, slot0.player.heros, slot1)
 		end,
-		showHeroList = function(arg_5_0)
-			return arg_5_0.player.heros
+		showHeroList = function (slot0)
+			return slot0.player.heros
 		end
 	})
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0.show_ = arg_6_0:FindGo("btn_show")
-	arg_6_0.hide_ = arg_6_0:FindGo("btn_hide")
-	arg_6_0.list_ = arg_6_0:FindTrs("list/Grid")
-	arg_6_0.listGo_ = arg_6_0:FindGo("list")
-
-	local var_6_0 = 1
-
-	arg_6_0.itemPrefeb = Asset.Load("UI/Common/HeroItemUI")
-	arg_6_0.itemPool_ = Pool.New(arg_6_0.itemPrefeb, arg_6_0.list_, 0)
-	arg_6_0.scrollHelper = GridScrollHelper.New(handler(arg_6_0, arg_6_0.indexItem), arg_6_0.listGo_, arg_6_0.list_)
+function slot0.InitUI(slot0)
+	slot0.show_ = slot0:FindGo("btn_show")
+	slot0.hide_ = slot0:FindGo("btn_hide")
+	slot0.list_ = slot0:FindTrs("list/Grid")
+	slot0.listGo_ = slot0:FindGo("list")
+	slot1 = 1
+	slot0.itemPrefeb = Asset.Load("UI/Common/HeroItemUI")
+	slot0.itemPool_ = Pool.New(slot0.itemPrefeb, slot0.list_, 0)
+	slot0.scrollHelper = GridScrollHelper.New(handler(slot0, slot0.indexItem), slot0.listGo_, slot0.list_)
 end
 
-function var_0_0.indexItem(arg_7_0, arg_7_1)
-	if arg_7_1 < 0 or arg_7_1 > #arg_7_0.model_.sortList then
+function slot0.indexItem(slot0, slot1)
+	if slot1 < 0 or slot1 > #slot0.model_.sortList then
 		return nil
 	end
 
-	local var_7_0, var_7_1 = arg_7_0.itemPool_:GetCanUsingObj()
+	slot2, slot4.recycleIndex = slot0.itemPool_:GetCanUsingObj()
 
-	SetActive(var_7_0, true)
+	SetActive(slot2, true)
 
-	local var_7_2 = CommonHeroItem.New(arg_7_0, var_7_0, arg_7_0.model_.sortList[arg_7_1])
+	slot4 = CommonHeroItem.New(slot0, slot2, slot0.model_.sortList[slot1])
 
-	var_7_2:RegistCallBack(handler(arg_7_0, arg_7_0.OnListBtnClick))
+	slot4:RegistCallBack(handler(slot0, slot0.OnListBtnClick))
 
-	var_7_2.recycleIndex = var_7_1
-	var_7_2.pools = arg_7_0.itemPool_
+	slot4.pools = slot0.itemPool_
 
-	return var_7_2
+	return slot4
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListenerScale("btn_return", nil, function()
-		arg_8_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale("btn_return", nil, function ()
+		uv0:Back()
 	end)
-	arg_8_0:AddBtnListenerScale("btn_last", nil, function()
-		arg_8_0:Go("/home")
+	slot0:AddBtnListenerScale("btn_last", nil, function ()
+		uv0:Go("/home")
 	end)
-	arg_8_0:AddBtnListener("up", nil, "MoveList", -440)
-	arg_8_0:AddBtnListener("down", nil, "MoveList", 440)
-	arg_8_0:AddBtnListenerScale("btn_show", nil, function()
-		arg_8_0:OnPageBtnClick(false)
+	slot0:AddBtnListener("up", nil, "MoveList", -440)
+	slot0:AddBtnListener("down", nil, "MoveList", 440)
+	slot0:AddBtnListenerScale("btn_show", nil, function ()
+		uv0:OnPageBtnClick(false)
 	end)
-	arg_8_0:AddBtnListenerScale("btn_hide", nil, function()
-		arg_8_0:OnPageBtnClick(true)
+	slot0:AddBtnListenerScale("btn_hide", nil, function ()
+		uv0:OnPageBtnClick(true)
 	end)
 end
 
-function var_0_0.OnPageBtnClick(arg_13_0, arg_13_1)
-	local var_13_0 = {}
-	local var_13_1 = tonumber(arg_13_0.params_.selectIndex)
-	local var_13_2 = table.keyof(arg_13_0.model_.showHeroList, arg_13_0.clickedId_)
+function slot0.OnPageBtnClick(slot0, slot1)
+	slot2 = {
+		[slot8] = slot0.model_.showHeroList[slot8] or 0
+	}
+	slot3 = tonumber(slot0.params_.selectIndex)
+	slot4 = table.keyof(slot0.model_.showHeroList, slot0.clickedId_)
 
-	for iter_13_0 = 1, 3 do
-		var_13_0[iter_13_0] = arg_13_0.model_.showHeroList[iter_13_0] or 0
+	for slot8 = 1, 3 do
 	end
 
-	if arg_13_1 then
-		var_13_0[var_13_1] = 0
-	elseif var_13_2 ~= nil then
-		var_13_0[var_13_2], var_13_0[var_13_1] = var_13_0[var_13_1], arg_13_0.clickedId_
+	if slot1 then
+		slot2[slot3] = 0
+	elseif slot4 ~= nil then
+		slot2[slot3] = slot0.clickedId_
+		slot2[slot4] = slot2[slot3]
 	else
-		var_13_0[var_13_1] = arg_13_0.clickedId_
+		slot2[slot3] = slot0.clickedId_
 	end
 
-	ActionCreators.ChangeShowHero(var_13_0):next(function(arg_14_0)
-		if isSuccess(arg_14_0.result) then
-			ActionCreators.PlayerShowHeroChange(var_13_0)
-			arg_13_0:Back()
+	ActionCreators.ChangeShowHero(slot2):next(function (slot0)
+		if isSuccess(slot0.result) then
+			ActionCreators.PlayerShowHeroChange(uv0)
+			uv1:Back()
 		end
 	end)
 end
 
-function var_0_0.OnListBtnClick(arg_15_0, arg_15_1)
-	if arg_15_0.clickedId_ == arg_15_1 then
+function slot0.OnListBtnClick(slot0, slot1)
+	if slot0.clickedId_ == slot1 then
 		return
 	end
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.scrollHelper:GetItemS()) do
-		if arg_15_0.clickedId_ == iter_15_1:GetItemId() then
-			iter_15_1:ShowIsSelect(false)
+	for slot5, slot6 in ipairs(slot0.scrollHelper:GetItemS()) do
+		if slot0.clickedId_ == slot6:GetItemId() then
+			slot6:ShowIsSelect(false)
 		end
 
-		if arg_15_1 == iter_15_1:GetItemId() then
-			iter_15_1:ShowIsSelect(true)
+		if slot1 == slot6:GetItemId() then
+			slot6:ShowIsSelect(true)
 		end
 	end
 
-	arg_15_0.clickedId_ = tonumber(arg_15_1)
+	slot0.clickedId_ = tonumber(slot1)
 
-	local var_15_0 = table.keyof(arg_15_0.model_.showHeroList, arg_15_1)
-	local var_15_1 = var_15_0 ~= nil and var_15_0 == tonumber(arg_15_0.params_.selectIndex)
-
-	if var_15_1 ~= arg_15_0.isHideBtn_ then
-		SetActive(arg_15_0.show_, not var_15_1)
-		SetActive(arg_15_0.hide_, var_15_1)
+	if (table.keyof(slot0.model_.showHeroList, slot1) ~= nil and slot2 == tonumber(slot0.params_.selectIndex)) ~= slot0.isHideBtn_ then
+		SetActive(slot0.show_, not slot3)
+		SetActive(slot0.hide_, slot3)
 	end
 
-	arg_15_0.isHideBtn_ = var_15_1
+	slot0.isHideBtn_ = slot3
 end
 
-function var_0_0.Render(arg_16_0)
-	local var_16_0 = arg_16_0.selector_.compute(gameStore.getState(), tonumber(arg_16_0.params_.selectIndex))
+function slot0.Render(slot0)
+	if slot0.model_.sortList ~= slot0.selector_.compute(gameStore.getState(), tonumber(slot0.params_.selectIndex)).sortList then
+		slot0:RefreshUI(slot1.sortList, slot1.showHeroList)
 
-	if arg_16_0.model_.sortList ~= var_16_0.sortList then
-		arg_16_0:RefreshUI(var_16_0.sortList, var_16_0.showHeroList)
-
-		arg_16_0.model_.sortList = var_16_0.sortList
+		slot0.model_.sortList = slot1.sortList
 	end
 end
 
-function var_0_0.RefreshUI(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0.scrollHelper:StartScroll(#arg_17_0.model_.sortList)
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.scrollHelper:StartScroll(#slot0.model_.sortList)
 
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.scrollHelper:GetItemS()) do
-		local var_17_0 = table.keyof(arg_17_2, iter_17_1:GetItemId())
-
-		if var_17_0 then
-			if var_17_0 == tonumber(arg_17_0.params_.selectIndex) then
-				iter_17_1:ShowMiddleText(GetTips("CURRENT_SHOW"))
+	for slot6, slot7 in ipairs(slot0.scrollHelper:GetItemS()) do
+		if table.keyof(slot2, slot7:GetItemId()) then
+			if slot8 == tonumber(slot0.params_.selectIndex) then
+				slot7:ShowMiddleText(GetTips("CURRENT_SHOW"))
 			else
-				iter_17_1:ShowMiddleText(GetTips("IS_IN_SHOW"))
+				slot7:ShowMiddleText(GetTips("IS_IN_SHOW"))
 			end
 		else
-			iter_17_1:ShowMiddleText("")
+			slot7:ShowMiddleText("")
 		end
 	end
 end
 
-function var_0_0.MoveList(arg_18_0, arg_18_1)
-	local var_18_0 = arg_18_0.list_.transform.localPosition
-	local var_18_1 = var_18_0.y + arg_18_1
-	local var_18_2 = math.floor(var_18_1 / 440) * 440 + 10
-
-	arg_18_0.list_.transform.localPosition = Vector3(var_18_0.x, var_18_2, var_18_0.z)
+function slot0.MoveList(slot0, slot1)
+	slot2 = slot0.list_.transform.localPosition
+	slot0.list_.transform.localPosition = Vector3(slot2.x, math.floor((slot2.y + slot1) / 440) * 440 + 10, slot2.z)
 end
 
-function var_0_0.Init(arg_19_0)
-	arg_19_0:InitUI()
-	arg_19_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_20_0)
-	arg_20_0.model_ = arg_20_0.selector_.compute(gameStore.getState(), tonumber(arg_20_0.params_.selectIndex))
+function slot0.OnEnter(slot0)
+	slot0.model_ = slot0.selector_.compute(gameStore.getState(), tonumber(slot0.params_.selectIndex))
 
-	arg_20_0:RefreshUI(arg_20_0.model_.sortList, arg_20_0.model_.showHeroList)
-	arg_20_0:OnListBtnClick(arg_20_0.model_.sortList[1])
+	slot0:RefreshUI(slot0.model_.sortList, slot0.model_.showHeroList)
+	slot0:OnListBtnClick(slot0.model_.sortList[1])
 
-	arg_20_0.unsubscribeFun = gameStore.subscribe(function(arg_21_0)
-		arg_20_0:Render()
+	slot0.unsubscribeFun = gameStore.subscribe(function (slot0)
+		uv0:Render()
 	end)
 end
 
-function var_0_0.OnExit(arg_22_0)
-	arg_22_0.unsubscribeFun()
+function slot0.OnExit(slot0)
+	slot0.unsubscribeFun()
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_23_0.clickedId_ = nil
-	arg_23_0.isHideBtn_ = nil
-	arg_23_0.itemPrefeb = nil
+	slot0.clickedId_ = nil
+	slot0.isHideBtn_ = nil
+	slot0.itemPrefeb = nil
 
-	arg_23_0.scrollHelper:Dispose()
-	arg_23_0.itemPool_:Dispose()
-	var_0_0.super.Dispose(arg_23_0)
+	slot0.scrollHelper:Dispose()
+	slot0.itemPool_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

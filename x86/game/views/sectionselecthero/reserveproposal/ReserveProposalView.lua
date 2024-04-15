@@ -1,485 +1,461 @@
-local var_0_0 = class("ReserveProposalView", ReduxView)
+slot0 = class("ReserveProposalView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Formation/FormationReserveView"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.selectHeroView_ = nil
-	arg_4_0.btnStateController_ = arg_4_0.controllerExCollection_:GetController("btnState")
-	arg_4_0.schemeSwitchList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.switchListGo_, ReserveProposalSwitchItem)
-	arg_4_0.clickSchemeHandler_ = handler(arg_4_0, arg_4_0.OnClickScheme)
-	arg_4_0.renameSchemeHandler_ = handler(arg_4_0, arg_4_0.OnRenameScheme)
-	arg_4_0.inputHandler_ = handler(arg_4_0, arg_4_0.OnInput)
-	arg_4_0.deleteProposalHandler_ = handler(arg_4_0, arg_4_0.OnDeleteProposal)
-	arg_4_0.changeHeroTeamHandler_ = handler(arg_4_0, arg_4_0.OnChangeHeroTeam)
-	arg_4_0.changeComboSkillHander_ = handler(arg_4_0, arg_4_0.OnChangeComboSkill)
+	slot0.selectHeroView_ = nil
+	slot0.btnStateController_ = slot0.controllerExCollection_:GetController("btnState")
+	slot0.schemeSwitchList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.switchListGo_, ReserveProposalSwitchItem)
+	slot0.clickSchemeHandler_ = handler(slot0, slot0.OnClickScheme)
+	slot0.renameSchemeHandler_ = handler(slot0, slot0.OnRenameScheme)
+	slot0.inputHandler_ = handler(slot0, slot0.OnInput)
+	slot0.deleteProposalHandler_ = handler(slot0, slot0.OnDeleteProposal)
+	slot0.changeHeroTeamHandler_ = handler(slot0, slot0.OnChangeHeroTeam)
+	slot0.changeComboSkillHander_ = handler(slot0, slot0.OnChangeComboSkill)
 end
 
-function var_0_0.AddListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.saveBtn_, nil, function()
-		if arg_5_0.curSelectContID_ == arg_5_0.tempContID_ and GameSetting.default_formation_num_max.value[1] == #arg_5_0.curProposalContIDList_ then
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.saveBtn_, nil, function ()
+		if uv0.curSelectContID_ == uv0.tempContID_ and GameSetting.default_formation_num_max.value[1] == #uv0.curProposalContIDList_ then
 			ShowTips("RESERVE_PROPOSAL_SAVE_LIMIT")
 
 			return
 		end
 
-		if arg_5_0.sectionProxy_:GetHeroIDList()[1] == 0 then
+		if uv0.sectionProxy_:GetHeroIDList()[1] == 0 then
 			ShowTips("TEAM_SET_NEEDED")
 
 			return
 		end
 
-		local var_6_0 = arg_5_0.sectionProxy_:GetHeroIDList()
-		local var_6_1 = arg_5_0.sectionProxy_:GetComboSkillID()
-		local var_6_2 = arg_5_0.sectionProxy_:GetMimirID()
-		local var_6_3 = arg_5_0.sectionProxy_:GetMimirChipList()
-
-		for iter_6_0, iter_6_1 in ipairs(arg_5_0.curProposalContIDList_) do
-			if iter_6_1 ~= arg_5_0.curSelectContID_ and arg_5_0:IsReserveProposalEqual(iter_6_1, var_6_0, var_6_1, var_6_2, var_6_3) then
+		for slot8, slot9 in ipairs(uv0.curProposalContIDList_) do
+			if slot9 ~= uv0.curSelectContID_ and uv0:IsReserveProposalEqual(slot9, uv0.sectionProxy_:GetHeroIDList(), uv0.sectionProxy_:GetComboSkillID(), uv0.sectionProxy_:GetMimirID(), uv0.sectionProxy_:GetMimirChipList()) then
 				ShowTips("RESERVE_PROPOSAL_SAME")
 
 				return
 			end
 		end
 
-		arg_5_0.saveContID_ = arg_5_0.curSelectContID_
+		uv0.saveContID_ = uv0.curSelectContID_
 
-		if ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(arg_5_0.curSelectContID_):GetName() == "" then
+		if ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(uv0.curSelectContID_):GetName() == "" then
 			JumpTools.OpenPageByJump("ProposalPopup")
 		else
-			arg_5_0:SaveProposal()
+			uv0:SaveProposal()
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.selectBtn_, nil, function()
-		local var_7_0 = arg_5_0.sectionProxy_:GetHeroIDList()
-
-		for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-			if iter_7_1 ~= 0 and table.indexof(arg_5_0.curLockHeroList_, iter_7_1) then
+	slot0:AddBtnListener(slot0.selectBtn_, nil, function ()
+		for slot4, slot5 in ipairs(uv0.sectionProxy_:GetHeroIDList()) do
+			if slot5 ~= 0 and table.indexof(uv0.curLockHeroList_, slot5) then
 				ShowTips("FORMATION_PLAN_CHANGE_FAILED")
 
 				return
 			end
 		end
 
-		arg_5_0:ApplyProposal()
+		uv0:ApplyProposal()
 		ShowTips("RESERVE_PROPOSAL_SELECT_SUCCESS")
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.deleteBtn_, nil, function()
-		local var_8_0 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(arg_5_0.curSelectContID_):GetName()
-
+	slot0:AddBtnListener(slot0.deleteBtn_, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
-			content = string.format(GetTips("FORMATION_PLAN_DELETE_CONFIRM"), var_8_0),
-			OkCallback = function()
-				arg_5_0.sectionProxy_:ResetTeam()
+			content = string.format(GetTips("FORMATION_PLAN_DELETE_CONFIRM"), ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(uv0.curSelectContID_):GetName()),
+			OkCallback = function ()
+				uv0.sectionProxy_:ResetTeam()
 			end
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:RegistEventListener(INPUT_POP_CLICK_OK, arg_10_0.inputHandler_)
-	arg_10_0:RegistEventListener(RESERVE_RESET_CONT_DATA, arg_10_0.deleteProposalHandler_)
-	arg_10_0:RegistEventListener(SECTION_CHANGE_HERO_TEAM, arg_10_0.changeHeroTeamHandler_)
-	arg_10_0:RegistEventListener(COMBO_SKILL_SELECT, arg_10_0.changeComboSkillHander_)
-	arg_10_0:UpdateDefaultParams()
-	arg_10_0:TryReload()
-	arg_10_0:UpdateSubViewParams()
-	arg_10_0:UpdateBar()
-	arg_10_0:UpdateCamera()
-	arg_10_0:ResetTempData()
-	arg_10_0:SubViewOnEnter()
-	arg_10_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RegistEventListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	slot0:RegistEventListener(RESERVE_RESET_CONT_DATA, slot0.deleteProposalHandler_)
+	slot0:RegistEventListener(SECTION_CHANGE_HERO_TEAM, slot0.changeHeroTeamHandler_)
+	slot0:RegistEventListener(COMBO_SKILL_SELECT, slot0.changeComboSkillHander_)
+	slot0:UpdateDefaultParams()
+	slot0:TryReload()
+	slot0:UpdateSubViewParams()
+	slot0:UpdateBar()
+	slot0:UpdateCamera()
+	slot0:ResetTempData()
+	slot0:SubViewOnEnter()
+	slot0:RefreshUI()
 end
 
-function var_0_0.UpdateSubViewParams(arg_11_0)
-	arg_11_0.selectHeroView_:SetProxy(arg_11_0.sectionProxy_)
+function slot0.UpdateSubViewParams(slot0)
+	slot0.selectHeroView_:SetProxy(slot0.sectionProxy_)
 end
 
-function var_0_0.SubViewOnEnter(arg_12_0)
-	arg_12_0.selectHeroView_:OnEnter()
+function slot0.SubViewOnEnter(slot0)
+	slot0.selectHeroView_:OnEnter()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0.params_.lastTempContID = arg_13_0.tempContID_
+function slot0.OnExit(slot0)
+	slot0.params_.lastTempContID = slot0.tempContID_
 
-	arg_13_0:RemoveAllEventListener()
-	arg_13_0:SubViewOnExit()
+	slot0:RemoveAllEventListener()
+	slot0:SubViewOnExit()
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
 end
 
-function var_0_0.SubViewOnExit(arg_14_0)
-	arg_14_0.selectHeroView_:OnExit()
+function slot0.SubViewOnExit(slot0)
+	slot0.selectHeroView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.schemeSwitchList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.schemeSwitchList_:Dispose()
 
-	arg_15_0.schemeSwitchList_ = nil
+	slot0.schemeSwitchList_ = nil
 
-	arg_15_0.selectHeroView_:Dispose()
+	slot0.selectHeroView_:Dispose()
 
-	arg_15_0.selectHeroView_ = nil
+	slot0.selectHeroView_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.UpdateCamera(arg_16_0)
+function slot0.UpdateCamera(slot0)
 	manager.ui:SetMainCamera("battleHeroSelect")
 	manager.ui:AdaptUIByFOV()
 end
 
-function var_0_0.UpdateBar(arg_17_0)
-	arg_17_0.sectionProxy_:UpdateBar()
+function slot0.UpdateBar(slot0)
+	slot0.sectionProxy_:UpdateBar()
 end
 
-function var_0_0.UpdateDefaultParams(arg_18_0)
-	arg_18_0.stageID_ = arg_18_0.params_.stage_id
-	arg_18_0.stageType_ = arg_18_0.params_.stage_type or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
-	arg_18_0.targetSectionProxy_ = arg_18_0.params_.sectionProxy
+function slot0.UpdateDefaultParams(slot0)
+	slot0.stageID_ = slot0.params_.stage_id
+	slot0.stageType_ = slot0.params_.stage_type or BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_UNDEFINED
+	slot0.targetSectionProxy_ = slot0.params_.sectionProxy
 
-	if not arg_18_0.reserveParams_ then
-		arg_18_0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, 1)
+	if not slot0.reserveParams_ then
+		slot0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, 1)
 	end
 
-	if not arg_18_0.sectionProxy_ then
-		arg_18_0.sectionProxy_ = ReserveProposalSelectHeroProxy.New({}, arg_18_0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
+	if not slot0.sectionProxy_ then
+		slot0.sectionProxy_ = ReserveProposalSelectHeroProxy.New({}, slot0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
 	end
 
-	arg_18_0.curHeroList_ = arg_18_0.params_.heroList
-	arg_18_0.curTrialList_ = arg_18_0.params_.trialList
-	arg_18_0.curComboSkillID_ = arg_18_0.params_.comboSkillID
-	arg_18_0.curMimirID_ = arg_18_0.params_.mimirID
-	arg_18_0.curChipList_ = arg_18_0.params_.chipList
-	arg_18_0.curLockHeroList_ = arg_18_0.params_.lockHeroList
+	slot0.curHeroList_ = slot0.params_.heroList
+	slot0.curTrialList_ = slot0.params_.trialList
+	slot0.curComboSkillID_ = slot0.params_.comboSkillID
+	slot0.curMimirID_ = slot0.params_.mimirID
+	slot0.curChipList_ = slot0.params_.chipList
+	slot0.curLockHeroList_ = slot0.params_.lockHeroList
 
-	arg_18_0:CheckHeroList()
+	slot0:CheckHeroList()
 
-	if not arg_18_0.params_.isBack then
+	if not slot0.params_.isBack then
 		ReserveTools.CleanCacheData(ReserveConst.RESERVE_TYPE.PROPOSAL)
 	end
 
-	arg_18_0:GetContIDList()
-	arg_18_0:UpdateTempContData()
+	slot0:GetContIDList()
+	slot0:UpdateTempContData()
 end
 
-function var_0_0.ResetTempData(arg_19_0)
-	arg_19_0.selectHeroView_:ResetTempData()
+function slot0.ResetTempData(slot0)
+	slot0.selectHeroView_:ResetTempData()
 end
 
-function var_0_0.UpdateTempContData(arg_20_0)
-	if arg_20_0.tempContID_ then
-		local var_20_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, arg_20_0.tempContID_)
-
-		if not arg_20_0.params_.isBack then
-			arg_20_0.tempHeroList_ = clone(arg_20_0.curHeroList_)
-			arg_20_0.tempTrialList_ = {
+function slot0.UpdateTempContData(slot0)
+	if slot0.tempContID_ then
+		if not slot0.params_.isBack then
+			slot0.tempHeroList_ = clone(slot0.curHeroList_)
+			slot0.tempTrialList_ = {
 				0,
 				0,
 				0
 			}
-			arg_20_0.tempComboSkillID_ = arg_20_0.curComboSkillID_
-			arg_20_0.tempMimirID_ = arg_20_0.curMimirID_
-			arg_20_0.tempChipList_ = clone(arg_20_0.curChipList_)
+			slot0.tempComboSkillID_ = slot0.curComboSkillID_
+			slot0.tempMimirID_ = slot0.curMimirID_
+			slot0.tempChipList_ = clone(slot0.curChipList_)
 
-			ReserveTools.SetTeam(var_20_0, arg_20_0.tempHeroList_, arg_20_0.tempTrialList_, arg_20_0.tempComboSkillID_, arg_20_0.tempMimirID_, arg_20_0.tempChipList_)
-		elseif arg_20_0.params_.lastTempContID ~= arg_20_0.tempContID_ then
-			local var_20_1 = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, arg_20_0.params_.lastTempContID)
-
-			arg_20_0.tempHeroList_ = ReserveTools.GetHeroList(var_20_1)
-			arg_20_0.tempTrialList_ = {
+			ReserveTools.SetTeam(ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, slot0.tempContID_), slot0.tempHeroList_, slot0.tempTrialList_, slot0.tempComboSkillID_, slot0.tempMimirID_, slot0.tempChipList_)
+		elseif slot0.params_.lastTempContID ~= slot0.tempContID_ then
+			slot2 = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, slot0.params_.lastTempContID)
+			slot0.tempHeroList_ = ReserveTools.GetHeroList(slot2)
+			slot0.tempTrialList_ = {
 				0,
 				0,
 				0
 			}
-			arg_20_0.tempComboSkillID_ = ReserveTools.GetComboSkillID(var_20_1)
-			arg_20_0.tempMimirID_, arg_20_0.tempChipList_ = ReserveTools.GetMimirData(var_20_1)
+			slot0.tempComboSkillID_ = ReserveTools.GetComboSkillID(slot2)
+			slot0.tempMimirID_, slot0.tempChipList_ = ReserveTools.GetMimirData(slot2)
 
-			ReserveTools.SetTeam(var_20_0, arg_20_0.tempHeroList_, arg_20_0.tempTrialList_, arg_20_0.tempComboSkillID_, arg_20_0.tempMimirID_, arg_20_0.tempChipList_)
+			ReserveTools.SetTeam(slot1, slot0.tempHeroList_, slot0.tempTrialList_, slot0.tempComboSkillID_, slot0.tempMimirID_, slot0.tempChipList_)
 		else
-			arg_20_0.tempHeroList_ = ReserveTools.GetHeroList(var_20_0)
-			arg_20_0.tempComboSkillID_ = ReserveTools.GetComboSkillID(var_20_0)
-			arg_20_0.tempMimirID_, arg_20_0.tempChipList_ = ReserveTools.GetMimirData(var_20_0)
+			slot0.tempHeroList_ = ReserveTools.GetHeroList(slot1)
+			slot0.tempComboSkillID_ = ReserveTools.GetComboSkillID(slot1)
+			slot0.tempMimirID_, slot0.tempChipList_ = ReserveTools.GetMimirData(slot1)
 		end
 	end
 end
 
-function var_0_0.RefreshUI(arg_21_0)
-	arg_21_0:RefreshReserveUI()
-	arg_21_0:RefreshSwitchList()
-	arg_21_0:RefreshBtnPanel()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshReserveUI()
+	slot0:RefreshSwitchList()
+	slot0:RefreshBtnPanel()
 end
 
-function var_0_0.RefreshBtnPanel(arg_22_0)
-	if ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(arg_22_0.curSelectContID_):GetIsDirty() == true then
-		arg_22_0.btnStateController_:SetSelectedState("save")
-	elseif arg_22_0:IsReserveProposalEqual(arg_22_0.curSelectContID_, arg_22_0.curHeroList_, arg_22_0.curComboSkillID_, arg_22_0.curMimirID_, arg_22_0.curChipList_) then
-		arg_22_0.btnStateController_:SetSelectedState("cur")
+function slot0.RefreshBtnPanel(slot0)
+	if ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetContDataTemplateById(slot0.curSelectContID_):GetIsDirty() == true then
+		slot0.btnStateController_:SetSelectedState("save")
+	elseif slot0:IsReserveProposalEqual(slot0.curSelectContID_, slot0.curHeroList_, slot0.curComboSkillID_, slot0.curMimirID_, slot0.curChipList_) then
+		slot0.btnStateController_:SetSelectedState("cur")
 	else
-		arg_22_0.btnStateController_:SetSelectedState("normal")
+		slot0.btnStateController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.RefreshSwitchList(arg_23_0)
-	local var_23_0 = table.indexof(arg_23_0.contIDList_, arg_23_0.curSelectContID_) or 1
+function slot0.RefreshSwitchList(slot0)
+	slot0.schemeSwitchList_:StartScroll(#slot0.contIDList_, table.indexof(slot0.contIDList_, slot0.curSelectContID_) or 1)
 
-	arg_23_0.schemeSwitchList_:StartScroll(#arg_23_0.contIDList_, var_23_0)
-
-	arg_23_0.progressText_.text = string.format(GetTips("RESERVE_PROPOSAL_NUM"), arg_23_0.curSchemeNum_, GameSetting.default_formation_num_max.value[1])
+	slot0.progressText_.text = string.format(GetTips("RESERVE_PROPOSAL_NUM"), slot0.curSchemeNum_, GameSetting.default_formation_num_max.value[1])
 end
 
-function var_0_0.RefreshReserveUI(arg_24_0)
-	if arg_24_0.params_.isEnter then
-		arg_24_0.params_.isEnter = false
-		arg_24_0.curSelectContID_ = arg_24_0.contIDList_[1]
-		arg_24_0.params_.lastSelectContID = arg_24_0.contIDList_[1]
+function slot0.RefreshReserveUI(slot0)
+	if slot0.params_.isEnter then
+		slot0.params_.isEnter = false
+		slot0.curSelectContID_ = slot0.contIDList_[1]
+		slot0.params_.lastSelectContID = slot0.contIDList_[1]
 	else
-		arg_24_0.curSelectContID_ = arg_24_0.params_.lastSelectContID or arg_24_0.contIDList_[1]
+		slot0.curSelectContID_ = slot0.params_.lastSelectContID or slot0.contIDList_[1]
 	end
 
-	arg_24_0.params_.lastSelectContID = arg_24_0.curSelectContID_
+	slot0.params_.lastSelectContID = slot0.curSelectContID_
 
-	arg_24_0.selectHeroView_:SetContID(arg_24_0.curSelectContID_)
+	slot0.selectHeroView_:SetContID(slot0.curSelectContID_)
 end
 
-function var_0_0.IndexItem(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = arg_25_0.contIDList_[arg_25_1]
-	local var_25_1 = var_25_0 == arg_25_0.tempContID_
-
-	arg_25_2:SetData(var_25_0, var_25_1)
-	arg_25_2:RegisterClickCallback(arg_25_0.clickSchemeHandler_)
-	arg_25_2:RegistRenameCallback(arg_25_0.renameSchemeHandler_)
-	arg_25_2:SetSelect(arg_25_0.curSelectContID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot3, slot0.contIDList_[slot1] == slot0.tempContID_)
+	slot2:RegisterClickCallback(slot0.clickSchemeHandler_)
+	slot2:RegistRenameCallback(slot0.renameSchemeHandler_)
+	slot2:SetSelect(slot0.curSelectContID_)
 end
 
-function var_0_0.OnClickScheme(arg_26_0, arg_26_1)
-	if arg_26_1 == arg_26_0.curSelectContID_ then
+function slot0.OnClickScheme(slot0, slot1)
+	if slot1 == slot0.curSelectContID_ then
 		return
 	end
 
-	arg_26_0.curSelectContID_ = arg_26_1
-	arg_26_0.params_.lastSelectContID = arg_26_0.curSelectContID_
+	slot0.curSelectContID_ = slot1
+	slot0.params_.lastSelectContID = slot0.curSelectContID_
 
-	for iter_26_0, iter_26_1 in pairs(arg_26_0.schemeSwitchList_:GetItemList()) do
-		iter_26_1:SetSelect(arg_26_0.curSelectContID_)
+	for slot5, slot6 in pairs(slot0.schemeSwitchList_:GetItemList()) do
+		slot6:SetSelect(slot0.curSelectContID_)
 	end
 
-	arg_26_0:RefreshReserveUI()
-	arg_26_0:RefreshBtnPanel()
+	slot0:RefreshReserveUI()
+	slot0:RefreshBtnPanel()
 end
 
-function var_0_0.GetContIDList(arg_27_0)
-	local var_27_0 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL)
-	local var_27_1 = var_27_0:GetProposalContIDList()
-	local var_27_2 = {}
+function slot0.GetContIDList(slot0)
+	slot3 = {}
+	slot0.params_.lastTempContID = slot0.tempContID_ or slot0.params_.lastTempContID
+	slot0.tempContID_ = nil
+	slot0.curUseProposalContID_ = nil
 
-	arg_27_0.params_.lastTempContID = arg_27_0.tempContID_ or arg_27_0.params_.lastTempContID
-	arg_27_0.tempContID_ = nil
-	arg_27_0.curUseProposalContID_ = nil
-
-	for iter_27_0, iter_27_1 in ipairs(var_27_1) do
-		if arg_27_0:IsReserveProposalEqual(iter_27_1, arg_27_0.curHeroList_, arg_27_0.curComboSkillID_, arg_27_0.curMimirID_, arg_27_0.curChipList_) then
-			arg_27_0.curUseProposalContID_ = iter_27_1
+	for slot7, slot8 in ipairs(ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):GetProposalContIDList()) do
+		if slot0:IsReserveProposalEqual(slot8, slot0.curHeroList_, slot0.curComboSkillID_, slot0.curMimirID_, slot0.curChipList_) then
+			slot0.curUseProposalContID_ = slot8
 
 			break
 		end
 	end
 
-	if arg_27_0.curUseProposalContID_ then
-		var_27_2[1] = arg_27_0.curUseProposalContID_
+	if slot0.curUseProposalContID_ then
+		slot3[1] = slot0.curUseProposalContID_
 	else
-		arg_27_0.tempContID_ = var_27_0:GetTempContID()
-		var_27_2[1] = arg_27_0.tempContID_
+		slot0.tempContID_ = slot1:GetTempContID()
+		slot3[1] = slot0.tempContID_
 	end
 
-	for iter_27_2, iter_27_3 in ipairs(var_27_1) do
-		if iter_27_3 ~= var_27_2[1] then
-			var_27_2[#var_27_2 + 1] = iter_27_3
+	for slot7, slot8 in ipairs(slot2) do
+		if slot8 ~= slot3[1] then
+			slot3[#slot3 + 1] = slot8
 		end
 	end
 
-	arg_27_0.contIDList_ = var_27_2
-	arg_27_0.curProposalContIDList_ = var_27_1
-	arg_27_0.curSchemeNum_ = #var_27_1
+	slot0.contIDList_ = slot3
+	slot0.curProposalContIDList_ = slot2
+	slot0.curSchemeNum_ = #slot2
 end
 
-function var_0_0.SaveProposal(arg_28_0)
-	ReserveAction.SaveReserveProposal(arg_28_0.saveContID_, handler(arg_28_0, arg_28_0.OnSaveProposal))
+function slot0.SaveProposal(slot0)
+	ReserveAction.SaveReserveProposal(slot0.saveContID_, handler(slot0, slot0.OnSaveProposal))
 end
 
-function var_0_0.SaveName(arg_29_0, arg_29_1)
-	ReserveAction.RenameReserveProposal(arg_29_0.saveContID_, arg_29_1, handler(arg_29_0, arg_29_0.OnSaveProposal))
+function slot0.SaveName(slot0, slot1)
+	ReserveAction.RenameReserveProposal(slot0.saveContID_, slot1, handler(slot0, slot0.OnSaveProposal))
 end
 
-function var_0_0.OnSaveProposal(arg_30_0)
-	arg_30_0:TryAutoApplyProposal(arg_30_0.saveContID_)
+function slot0.OnSaveProposal(slot0)
+	slot0:TryAutoApplyProposal(slot0.saveContID_)
 
-	if arg_30_0.saveContID_ == arg_30_0.tempContID_ then
-		arg_30_0.tempContID_ = nil
+	if slot0.saveContID_ == slot0.tempContID_ then
+		slot0.tempContID_ = nil
 	end
 
-	arg_30_0.saveContID_ = nil
+	slot0.saveContID_ = nil
 
 	ShowTips("FORMATION_PLAN_SAVED")
 	manager.notify:Invoke(INPUT_POP_BACK)
-	arg_30_0:GetContIDList()
-	arg_30_0:UpdateTempContData()
-	arg_30_0:RefreshSwitchList()
-	arg_30_0:RefreshBtnPanel()
+	slot0:GetContIDList()
+	slot0:UpdateTempContData()
+	slot0:RefreshSwitchList()
+	slot0:RefreshBtnPanel()
 end
 
-function var_0_0.ApplyProposal(arg_31_0)
-	arg_31_0.curUseProposalContID_ = arg_31_0.curSelectContID_
-	arg_31_0.curHeroList_ = arg_31_0.sectionProxy_:GetHeroIDList()
-	arg_31_0.curTrialList_ = {
+function slot0.ApplyProposal(slot0)
+	slot0.curUseProposalContID_ = slot0.curSelectContID_
+	slot0.curHeroList_ = slot0.sectionProxy_:GetHeroIDList()
+	slot0.curTrialList_ = {
 		0,
 		0,
 		0
 	}
-	arg_31_0.curComboSkillID_ = arg_31_0.sectionProxy_:GetComboSkillID()
-	arg_31_0.curMimirID_ = arg_31_0.sectionProxy_:GetMimirID()
-	arg_31_0.curChipList_ = arg_31_0.sectionProxy_:GetMimirChipList()
+	slot0.curComboSkillID_ = slot0.sectionProxy_:GetComboSkillID()
+	slot0.curMimirID_ = slot0.sectionProxy_:GetMimirID()
+	slot0.curChipList_ = slot0.sectionProxy_:GetMimirChipList()
 
-	arg_31_0.targetSectionProxy_:ApplyReserveProposal(arg_31_0.curHeroList_, arg_31_0.curTrialList_, arg_31_0.curComboSkillID_, arg_31_0.curMimirID_, arg_31_0.curChipList_)
+	slot0.targetSectionProxy_:ApplyReserveProposal(slot0.curHeroList_, slot0.curTrialList_, slot0.curComboSkillID_, slot0.curMimirID_, slot0.curChipList_)
 end
 
-function var_0_0.TryAutoApplyProposal(arg_32_0, arg_32_1)
-	if arg_32_0.saveContID_ == arg_32_0.curUseProposalContID_ or arg_32_0.saveContID_ == arg_32_0.tempContID_ then
-		arg_32_0:ApplyProposal()
+function slot0.TryAutoApplyProposal(slot0, slot1)
+	if slot0.saveContID_ == slot0.curUseProposalContID_ or slot0.saveContID_ == slot0.tempContID_ then
+		slot0:ApplyProposal()
 	end
 end
 
-function var_0_0.OnSectionClickHero(arg_33_0, arg_33_1)
-	arg_33_0.sectionProxy_:GotoHeroInfoUI(arg_33_1)
+function slot0.OnSectionClickHero(slot0, slot1)
+	slot0.sectionProxy_:GotoHeroInfoUI(slot1)
 end
 
-function var_0_0.OnChangeHeroTeam(arg_34_0, arg_34_1, arg_34_2)
-	if arg_34_0.curSelectContID_ == arg_34_0.tempContID_ then
-		arg_34_0.tempHeroList_ = clone(arg_34_1)
-		arg_34_0.tempTrialList_ = clone(arg_34_2)
+function slot0.OnChangeHeroTeam(slot0, slot1, slot2)
+	if slot0.curSelectContID_ == slot0.tempContID_ then
+		slot0.tempHeroList_ = clone(slot1)
+		slot0.tempTrialList_ = clone(slot2)
 	end
 
-	arg_34_0:RefreshSwitchList()
-	arg_34_0:RefreshBtnPanel()
+	slot0:RefreshSwitchList()
+	slot0:RefreshBtnPanel()
 end
 
-function var_0_0.OnChangeComboSkill(arg_35_0, arg_35_1)
-	if arg_35_0.curSelectContID_ == arg_35_0.tempContID_ then
-		arg_35_0.tempComboSkillID_ = arg_35_1
+function slot0.OnChangeComboSkill(slot0, slot1)
+	if slot0.curSelectContID_ == slot0.tempContID_ then
+		slot0.tempComboSkillID_ = slot1
 	end
 
-	arg_35_0:RefreshBtnPanel()
+	slot0:RefreshBtnPanel()
 end
 
-function var_0_0.OnRenameScheme(arg_36_0, arg_36_1)
-	arg_36_0.saveContID_ = arg_36_1
+function slot0.OnRenameScheme(slot0, slot1)
+	slot0.saveContID_ = slot1
 
 	JumpTools.OpenPageByJump("ProposalPopup")
 end
 
-function var_0_0.OnInput(arg_37_0, arg_37_1, arg_37_2)
-	if arg_37_1 == "" then
+function slot0.OnInput(slot0, slot1, slot2)
+	if slot1 == "" then
 		ShowTips("INPUT_EQUIP_PROPOSAL_NAME")
 
 		return
 	end
 
-	if IsAllSpace(arg_37_1) then
+	if IsAllSpace(slot1) then
 		ShowTips("INPUT_CHAT_CONTENT")
 
-		arg_37_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	local var_37_0, var_37_1 = textLimit(arg_37_1, GameSetting.user_name_max.value[1])
+	slot3, slot4 = textLimit(slot1, GameSetting.user_name_max.value[1])
+	slot2.text = slot3
 
-	arg_37_2.text = var_37_0
-	arg_37_1 = var_37_0
-
-	if not nameRule(arg_37_1) then
+	if not nameRule(slot3) then
 		ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
-		arg_37_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	WordVerifyBySDK(arg_37_1, function(arg_38_0)
-		if not arg_38_0 then
+	WordVerifyBySDK(slot1, function (slot0)
+		if not slot0 then
 			ShowTips("SENSITIVE_WORD")
 
-			arg_37_2.text = ""
+			uv0.text = ""
 
 			return
 		else
-			if not var_37_1 then
+			if not uv1 then
 				return
 			end
 
-			arg_37_0:SaveName(arg_37_1)
+			uv2:SaveName(uv3)
 		end
 	end, JUDGE_MESSAGE_TYPE.OTHER)
 end
 
-function var_0_0.OnDeleteProposal(arg_39_0, arg_39_1, arg_39_2)
+function slot0.OnDeleteProposal(slot0, slot1, slot2)
 	ShowTips("FORMATION_PLAN_DELETED")
-	ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):DeleteProposal(arg_39_2)
+	ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL):DeleteProposal(slot2)
 
-	arg_39_0.params_.lastSelectContID = nil
+	slot0.params_.lastSelectContID = nil
 
-	arg_39_0:GetContIDList()
-	arg_39_0:UpdateTempContData()
-	arg_39_0:RefreshUI()
+	slot0:GetContIDList()
+	slot0:UpdateTempContData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.IsReserveProposalEqual(arg_40_0, arg_40_1, arg_40_2, arg_40_3, arg_40_4, arg_40_5)
-	local var_40_0 = ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, arg_40_1)
-	local var_40_1 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL, true)
-	local var_40_2 = var_40_1:GetHeroList(var_40_0)
-
-	for iter_40_0, iter_40_1 in ipairs(arg_40_2) do
-		if iter_40_1 ~= var_40_2[iter_40_0] then
+function slot0.IsReserveProposalEqual(slot0, slot1, slot2, slot3, slot4, slot5)
+	for slot12, slot13 in ipairs(slot2) do
+		if slot13 ~= ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.PROPOSAL, true):GetHeroList(ReserveParams.New(ReserveConst.RESERVE_TYPE.PROPOSAL, slot1))[slot12] then
 			return false
 		end
 	end
 
-	if arg_40_3 ~= var_40_1:GetComboSkillID(var_40_0) then
+	if slot3 ~= slot7:GetComboSkillID(slot6) then
 		return false
 	end
 
-	local var_40_3, var_40_4 = var_40_1:GetMimirData(var_40_0)
+	slot10, slot11 = slot7:GetMimirData(slot6)
 
-	if arg_40_4 ~= var_40_3 then
+	if slot4 ~= slot10 then
 		return false
 	end
 
-	if #arg_40_5 ~= #var_40_4 then
+	if #slot5 ~= #slot11 then
 		return false
 	end
 
-	local var_40_5 = {}
+	slot12 = {
+		[slot17] = true
+	}
 
-	for iter_40_2, iter_40_3 in ipairs(var_40_4) do
-		var_40_5[iter_40_3] = true
+	for slot16, slot17 in ipairs(slot11) do
+		-- Nothing
 	end
 
-	for iter_40_4, iter_40_5 in ipairs(arg_40_5) do
-		if not var_40_5[iter_40_5] then
+	for slot16, slot17 in ipairs(slot5) do
+		if not slot12[slot17] then
 			return false
 		end
 	end
@@ -487,50 +463,48 @@ function var_0_0.IsReserveProposalEqual(arg_40_0, arg_40_1, arg_40_2, arg_40_3, 
 	return true
 end
 
-function var_0_0.CheckHeroList(arg_41_0)
-	local var_41_0 = false
+function slot0.CheckHeroList(slot0)
+	slot1 = false
 
-	for iter_41_0, iter_41_1 in ipairs(arg_41_0.curTrialList_) do
-		if iter_41_1 ~= 0 then
-			var_41_0 = true
-			arg_41_0.curHeroList_[iter_41_0] = 0
-			arg_41_0.curTrialList_[iter_41_0] = 0
+	for slot5, slot6 in ipairs(slot0.curTrialList_) do
+		if slot6 ~= 0 then
+			slot1 = true
+			slot0.curHeroList_[slot5] = 0
+			slot0.curTrialList_[slot5] = 0
 		end
 	end
 
-	if var_41_0 then
-		for iter_41_2 = 1, 2 do
-			for iter_41_3 = iter_41_2 + 1, 3 do
-				if arg_41_0.curHeroList_[iter_41_2] == 0 then
-					arg_41_0.curHeroList_[iter_41_2] = arg_41_0.curHeroList_[iter_41_3]
-					arg_41_0.curHeroList_[iter_41_3] = 0
-					arg_41_0.curTrialList_[iter_41_2] = arg_41_0.curTrialList_[iter_41_3]
-					arg_41_0.curTrialList_[iter_41_3] = 0
+	if slot1 then
+		for slot5 = 1, 2 do
+			for slot9 = slot5 + 1, 3 do
+				if slot0.curHeroList_[slot5] == 0 then
+					slot0.curHeroList_[slot5] = slot0.curHeroList_[slot9]
+					slot0.curHeroList_[slot9] = 0
+					slot0.curTrialList_[slot5] = slot0.curTrialList_[slot9]
+					slot0.curTrialList_[slot9] = 0
 
 					break
 				end
 			end
 		end
 
-		local var_41_1 = arg_41_0.curComboSkillID_
-
-		if var_41_1 == 0 or not ComboSkillTools.IsAllMatch(var_41_1, arg_41_0.curHeroList_) then
-			arg_41_0.curComboSkillID_ = ComboSkillTools.GetRecommendSkillID(arg_41_0.curHeroList_, true)
+		if slot0.curComboSkillID_ == 0 or not ComboSkillTools.IsAllMatch(slot2, slot0.curHeroList_) then
+			slot0.curComboSkillID_ = ComboSkillTools.GetRecommendSkillID(slot0.curHeroList_, true)
 		end
 	end
 end
 
-function var_0_0.GetSelectHeroViewClass(arg_42_0)
-	return arg_42_0.sectionProxy_:GetSelectHeroViewClass()
+function slot0.GetSelectHeroViewClass(slot0)
+	return slot0.sectionProxy_:GetSelectHeroViewClass()
 end
 
-function var_0_0.TryReload(arg_43_0)
-	if not arg_43_0.createdSubview_ then
-		arg_43_0.createdSubview_ = true
-		arg_43_0.selectHeroView_ = arg_43_0:GetSelectHeroViewClass().New(arg_43_0.selectHeroGo_)
+function slot0.TryReload(slot0)
+	if not slot0.createdSubview_ then
+		slot0.createdSubview_ = true
+		slot0.selectHeroView_ = slot0:GetSelectHeroViewClass().New(slot0.selectHeroGo_)
 	end
 
-	arg_43_0.selectHeroView_ = SectionSelectHeroTools.ReloadView(arg_43_0.selectHeroView_, arg_43_0.sectionProxy_:GetSelectHeroViewClass())
+	slot0.selectHeroView_ = SectionSelectHeroTools.ReloadView(slot0.selectHeroView_, slot0.sectionProxy_:GetSelectHeroViewClass())
 end
 
-return var_0_0
+return slot0

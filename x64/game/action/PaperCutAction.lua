@@ -1,68 +1,58 @@
-local var_0_0 = {}
-
-manager.net:Bind(61091, function(arg_1_0)
-	PaperCutData:SetData(arg_1_0)
+manager.net:Bind(61091, function (slot0)
+	PaperCutData:SetData(slot0)
 end)
 
-function var_0_0.RequireReceive(arg_2_0, arg_2_1)
-	manager.net:SendWithLoadingNew(61088, {
-		id = arg_2_0
-	}, 61089, function(arg_3_0)
-		arg_2_1(arg_3_0)
-	end)
-end
+return {
+	RequireReceive = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(61088, {
+			id = slot0
+		}, 61089, function (slot0)
+			uv0(slot0)
+		end)
+	end,
+	RequireComplete = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(61086, {
+			activity_id = slot0,
+			score = slot1
+		}, 61087, function (slot0)
+			if isSuccess(slot0.result) then
+				PaperCutData:SetScore(uv0, uv1)
 
-function var_0_0.RequireComplete(arg_4_0, arg_4_1, arg_4_2)
-	manager.net:SendWithLoadingNew(61086, {
-		activity_id = arg_4_0,
-		score = arg_4_1
-	}, 61087, function(arg_5_0)
-		if isSuccess(arg_5_0.result) then
-			PaperCutData:SetScore(arg_4_0, arg_4_1)
-
-			if arg_4_2 ~= nil then
-				arg_4_2()
-			end
-		else
-			ShowTips(arg_5_0.result)
-		end
-	end)
-end
-
-function var_0_0.Init(arg_6_0)
-	local var_6_0 = ActivityData:GetActivityData(arg_6_0).subActivityIdList
-
-	if #var_6_0 > 0 then
-		local var_6_1 = {}
-		local var_6_2 = {}
-
-		for iter_6_0, iter_6_1 in ipairs(var_6_0) do
-			PaperCutCfg[iter_6_1].main_activity_id = arg_6_0
-
-			local var_6_3 = ActivityPointRewardCfg.get_id_list_by_activity_id[iter_6_1]
-
-			if var_6_3 ~= nil then
-				for iter_6_2, iter_6_3 in ipairs(var_6_3) do
-					local var_6_4 = ActivityPointRewardCfg[iter_6_3]
-
-					PaperCutCfg[var_6_4.activity_id].task_id = iter_6_3
+				if uv2 ~= nil then
+					uv2()
 				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	Init = function (slot0)
+		if #ActivityData:GetActivityData(slot0).subActivityIdList > 0 then
+			slot2 = {}
+			slot3 = {}
+
+			for slot7, slot8 in ipairs(slot1) do
+				PaperCutCfg[slot8].main_activity_id = slot0
+
+				if ActivityPointRewardCfg.get_id_list_by_activity_id[slot8] ~= nil then
+					for slot13, slot14 in ipairs(slot9) do
+						PaperCutCfg[ActivityPointRewardCfg[slot14].activity_id].task_id = slot14
+					end
+				end
+
+				slot2[#slot2 + 1] = string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, slot0, slot8)
+				slot3[#slot3 + 1] = string.format("%s_%s_%s_Reward", RedPointConst.PAPER_CUT, slot0, slot8)
 			end
 
-			var_6_1[#var_6_1 + 1] = string.format("%s_%s_%s_Select", RedPointConst.PAPER_CUT, arg_6_0, iter_6_1)
-			var_6_2[#var_6_2 + 1] = string.format("%s_%s_%s_Reward", RedPointConst.PAPER_CUT, arg_6_0, iter_6_1)
+			slot4 = string.format("%s_%s_Select", RedPointConst.PAPER_CUT, slot0)
+			slot5 = string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, slot0)
+
+			manager.redPoint:addGroup(slot4, slot2)
+			manager.redPoint:addGroup(slot5, slot3)
+			manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.PAPER_CUT, slot0), {
+				slot4,
+				slot5
+			})
 		end
-
-		local var_6_5 = string.format("%s_%s_Select", RedPointConst.PAPER_CUT, arg_6_0)
-		local var_6_6 = string.format("%s_%s_Reward", RedPointConst.PAPER_CUT, arg_6_0)
-
-		manager.redPoint:addGroup(var_6_5, var_6_1)
-		manager.redPoint:addGroup(var_6_6, var_6_2)
-		manager.redPoint:addGroup(string.format("%s_%s", RedPointConst.PAPER_CUT, arg_6_0), {
-			var_6_5,
-			var_6_6
-		})
 	end
-end
-
-return var_0_0
+}

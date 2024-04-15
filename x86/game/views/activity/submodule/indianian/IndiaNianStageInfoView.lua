@@ -1,112 +1,102 @@
-local var_0_0 = class("IndiaNianStageInfoView", ReduxView)
+slot0 = class("IndiaNianStageInfoView", ReduxView)
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaNianUI/IndiaNianStageInforUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:AddListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_4_0.itemList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.dropList_, CommonItem)
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.dropList_, CommonItem)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
-		arg_5_0.params_.callback()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
+		uv0.params_.callback()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		if arg_5_0.cost_ > ItemTools.getItemNum(IndiaNianData:GetSelectedStageCost()[1]) then
-			arg_5_0:PopCurrencyWindow()
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if ItemTools.getItemNum(IndiaNianData:GetSelectedStageCost()[1]) < uv0.cost_ then
+			uv0:PopCurrencyWindow()
 		else
-			arg_5_0:OnClickBtn()
+			uv0:OnClickBtn()
 		end
 	end)
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.rewardList_[arg_8_1]
-	local var_8_1 = rewardToItemTemplate(var_8_0)
-
-	arg_8_2:RefreshData(var_8_1)
-	arg_8_2:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_8_1)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(rewardToItemTemplate(slot0.rewardList_[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0)
 	end)
 end
 
-function var_0_0.OnClickBtn(arg_10_0)
-	local var_10_0 = arg_10_0.stageID_
-	local var_10_1 = BattleIndiaNianCfg[arg_10_0.stageID_]
-	local var_10_2 = IndiaNianData:GetActivityID()
-	local var_10_3 = IndiaNianData:GetSelectedDestID()
+function slot0.OnClickBtn(slot0)
+	slot2 = BattleIndiaNianCfg[slot0.stageID_]
 
-	arg_10_0:Go("/sectionSelectHeroIndiaNianView", {
-		section = var_10_0,
-		sectionType = arg_10_0.stageType_,
-		activityID = var_10_2,
-		destID = var_10_3
+	slot0:Go("/sectionSelectHeroIndiaNianView", {
+		section = slot0.stageID_,
+		sectionType = slot0.stageType_,
+		activityID = IndiaNianData:GetActivityID(),
+		destID = IndiaNianData:GetSelectedDestID()
 	})
 end
 
-function var_0_0.PopCurrencyWindow(arg_11_0)
+function slot0.PopCurrencyWindow(slot0)
 	ShowTips(string.format(GetTips("CURRENCY_NO_ENOUGH"), ItemCfg[IndiaNianData:GetSelectedStageCost()[1]].name))
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.stageID_ = arg_12_0.params_.section
-	arg_12_0.stageType_ = arg_12_0.params_.sectionType
+function slot0.OnEnter(slot0)
+	slot0.stageID_ = slot0.params_.section
+	slot0.stageType_ = slot0.params_.sectionType
 
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_12_0.params_.callback then
-			arg_12_0:Back()
-			arg_12_0.params_.callback()
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.params_.callback then
+			uv0:Back()
+			uv0.params_.callback()
 		end
 	end)
-	arg_12_0:RefreshData()
+	slot0:RefreshData()
 end
 
-function var_0_0.RefreshData(arg_14_0)
-	arg_14_0.drop_lib_id_ = BattleIndiaNianCfg[arg_14_0.stageID_].drop_lib_id
-	arg_14_0.isFirstClear_ = true
-	arg_14_0.cost_ = IndiaNianData:GetSelectedStageCost()[2] or 0
-	arg_14_0.rewardList_ = getRewardFromDropCfg(arg_14_0.drop_lib_id_, arg_14_0.isFirstClear_)
+function slot0.RefreshData(slot0)
+	slot0.drop_lib_id_ = BattleIndiaNianCfg[slot0.stageID_].drop_lib_id
+	slot0.isFirstClear_ = true
+	slot0.cost_ = IndiaNianData:GetSelectedStageCost()[2] or 0
+	slot0.rewardList_ = getRewardFromDropCfg(slot0.drop_lib_id_, slot0.isFirstClear_)
 
-	arg_14_0:RefreshStageInfo()
+	slot0:RefreshStageInfo()
 end
 
-function var_0_0.RefreshStageInfo(arg_15_0)
-	local var_15_0 = BattleIndiaNianCfg[arg_15_0.stageID_]
-
-	if arg_15_0.oldCfgID_ ~= var_15_0.id then
-		local var_15_1 = IndiaNianData:GetSelectedStageCost()[1]
-
-		arg_15_0.sectionName_.text = var_15_0.name
-		arg_15_0.textStory_.text = var_15_0.tips
-		arg_15_0.oldCfgID_ = var_15_0.id
-		arg_15_0.costImg_.sprite = ItemTools.getItemLittleSprite(var_15_1)
-		arg_15_0.costText_.text = "x" .. arg_15_0.cost_
+function slot0.RefreshStageInfo(slot0)
+	if slot0.oldCfgID_ ~= BattleIndiaNianCfg[slot0.stageID_].id then
+		slot0.sectionName_.text = slot1.name
+		slot0.textStory_.text = slot1.tips
+		slot0.oldCfgID_ = slot1.id
+		slot0.costImg_.sprite = ItemTools.getItemLittleSprite(IndiaNianData:GetSelectedStageCost()[1])
+		slot0.costText_.text = "x" .. slot0.cost_
 	end
 
-	arg_15_0.itemList_:StartScroll(#arg_15_0.rewardList_)
+	slot0.itemList_:StartScroll(#slot0.rewardList_)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_16_0.itemList_ then
-		arg_16_0.itemList_:Dispose()
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_16_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 end
 
-return var_0_0
+return slot0

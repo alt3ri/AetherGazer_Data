@@ -1,26 +1,26 @@
-local var_0_0 = class("PuzzleNewRegionAnimItem", ReduxView)
+slot0 = class("PuzzleNewRegionAnimItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	SetActive(arg_1_0.gameObject_, false)
+	slot0:BindCfgUI()
+	SetActive(slot0.gameObject_, false)
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.PlayAnim(arg_2_0, arg_2_1)
-	arg_2_0.statusController_:SetSelectedIndex(2)
-	SetActive(arg_2_0.gameObject_, true)
-	AnimatorTools.PlayAnimationWithCallback(arg_2_0.animator_, "XH2ndHeroPublicize_regionItem", function()
-		SetActive(arg_2_0.gameObject_, false)
+function slot0.PlayAnim(slot0, slot1)
+	slot0.statusController_:SetSelectedIndex(2)
+	SetActive(slot0.gameObject_, true)
+	AnimatorTools.PlayAnimationWithCallback(slot0.animator_, "XH2ndHeroPublicize_regionItem", function ()
+		SetActive(uv0.gameObject_, false)
 
-		if arg_2_1 then
-			arg_2_1()
+		if uv1 then
+			uv1()
 		end
 	end)
 	manager.audio:PlayEffect("minigame_activity_2_1", "minigame_activity_2_1_puzzle_reward", "")
 end
 
-return var_0_0
+return slot0

@@ -1,49 +1,48 @@
-local var_0_0 = class("BattleCooperationFailedView", BattleFailedView)
+slot0 = class("BattleCooperationFailedView", BattleFailedView)
 
-function var_0_0.OnEnter(arg_1_0)
+function slot0.OnEnter(slot0)
 	BattleInstance.hideBattlePanel()
-	arg_1_0:RecordThreeStar()
+	slot0:RecordThreeStar()
 
-	arg_1_0.startTime = Time.realtimeSinceStartup
-	arg_1_0.isEnd = false
+	slot0.startTime = Time.realtimeSinceStartup
+	slot0.isEnd = false
 
-	if arg_1_0.params_.data_math_error then
+	if slot0.params_.data_math_error then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			isTop = true,
 			content = GetTips("COOPERATION_DATA_ERROR"),
-			OkCallback = function()
-				arg_1_0:Quit()
+			OkCallback = function ()
+				uv0:Quit()
 			end
 		})
 	else
-		arg_1_0:RemoveTimer()
+		slot0:RemoveTimer()
 
-		arg_1_0.timer_ = Timer.New(function()
-			arg_1_0:Quit()
-		end, arg_1_0.stayTime, 1)
+		slot0.timer_ = Timer.New(function ()
+			uv0:Quit()
+		end, slot0.stayTime, 1)
 
-		arg_1_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 
-	arg_1_0.battleTimeText_.text = arg_1_0:GetBattleTime()
+	slot0.battleTimeText_.text = slot0:GetBattleTime()
 
-	arg_1_0.animator_:Play("battleFailed")
+	slot0.animator_:Play("battleFailed")
 end
 
-function var_0_0.QuitUI(arg_4_0)
+function slot0.QuitUI(slot0)
 	DestroyLua()
 	LuaExchangeHelper.GoToMain()
 
 	if CooperationData:GetRoomData() then
 		CooperationTools.GotoCooperation()
 	else
-		CooperationTools.GotoCooperationEntry(arg_4_0.params_.stageData:GetType(), arg_4_0.params_.stageData:GetDest(), arg_4_0.params_.stageData:GetActivityID())
+		CooperationTools.GotoCooperationEntry(slot0.params_.stageData:GetType(), slot0.params_.stageData:GetDest(), slot0.params_.stageData:GetActivityID())
 	end
 end
 
-function var_0_0.RecordThreeStar(arg_5_0)
-	return
+function slot0.RecordThreeStar(slot0)
 end
 
-return var_0_0
+return slot0

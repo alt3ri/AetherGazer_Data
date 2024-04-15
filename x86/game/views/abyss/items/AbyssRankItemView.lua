@@ -1,97 +1,95 @@
-local var_0_0 = class("AbyssRankItemView", ReduxView)
+slot0 = class("AbyssRankItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rankController_ = arg_3_0.conExCollection_:GetController("rank")
+	slot0.rankController_ = slot0.conExCollection_:GetController("rank")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.viewBtn_, nil, function()
-		local var_5_0 = {
-			userId = arg_4_0.data_.user_id,
-			layer = arg_4_0.data_.difficulty,
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.viewBtn_, nil, function ()
+		slot0 = {
+			userId = uv0.data_.user_id,
+			layer = uv0.data_.difficulty,
 			stageInfos = {}
 		}
 
-		for iter_5_0, iter_5_1 in pairs(arg_4_0.data_.stage_team_list) do
-			local var_5_1 = {
-				stage_id = iter_5_0,
+		for slot4, slot5 in pairs(uv0.data_.stage_team_list) do
+			slot6 = {
+				stage_id = slot4,
 				heroList = {}
 			}
 
-			for iter_5_2, iter_5_3 in pairs(iter_5_1) do
-				table.insertto(var_5_1.heroList, iter_5_3)
+			for slot10, slot11 in pairs(slot5) do
+				table.insertto(slot6.heroList, slot11)
 			end
 
-			table.insert(var_5_0.stageInfos, var_5_1)
+			table.insert(slot0.stageInfos, slot6)
 		end
 
-		table.sort(var_5_0.stageInfos, function(arg_6_0, arg_6_1)
-			return arg_6_0.stage_id < arg_6_1.stage_id
+		table.sort(slot0.stageInfos, function (slot0, slot1)
+			return slot0.stage_id < slot1.stage_id
 		end)
 		JumpTools.OpenPageByJump("abyssTeamCheck", {
-			layerInfo = var_5_0
+			layerInfo = slot0
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.index_ = arg_8_1
-	arg_8_0.data_ = arg_8_2
-	arg_8_0.isGuild_ = arg_8_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
+	slot0.isGuild_ = slot3
 
-	arg_8_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	arg_9_0.headImg_.sprite = ItemTools.getItemSprite(arg_9_0.data_.portrait)
-	arg_9_0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_9_0.data_.frame)
+function slot0.UpdateView(slot0)
+	slot0.headImg_.sprite = ItemTools.getItemSprite(slot0.data_.portrait)
+	slot0.frameImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data_.frame)
 
-	if arg_9_0.data_.rank < 4 then
-		arg_9_0.rankController_:SetSelectedIndex(arg_9_0.data_.rank)
+	if slot0.data_.rank < 4 then
+		slot0.rankController_:SetSelectedIndex(slot0.data_.rank)
 	else
-		arg_9_0.rankController_:SetSelectedIndex(0)
+		slot0.rankController_:SetSelectedIndex(0)
 	end
 
-	arg_9_0.rankText_.text = GetI18NText(arg_9_0.data_.rank)
-	arg_9_0.nickText_.text = GetI18NText(arg_9_0.data_.nick)
-	arg_9_0.scoreText_.text = GetI18NText(arg_9_0.data_.score)
-	arg_9_0.layerText_.text = GetI18NText(arg_9_0.data_.difficulty)
+	slot0.rankText_.text = GetI18NText(slot0.data_.rank)
+	slot0.nickText_.text = GetI18NText(slot0.data_.nick)
+	slot0.scoreText_.text = GetI18NText(slot0.data_.score)
+	slot0.layerText_.text = GetI18NText(slot0.data_.difficulty)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_12_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,61 +1,57 @@
-local var_0_0 = class("SoundSettingView", ReduxView)
+slot0 = class("SoundSettingView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.hander_ = arg_2_1
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.info_ = arg_2_3
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.hander_ = slot1
+	slot0.transform_ = slot2.transform
+	slot0.gameObject_ = slot2
+	slot0.info_ = slot3
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.soundSlider_ = {}
-	arg_3_0.soundText_ = {}
-	arg_3_0.soundCutBtn_ = {}
-	arg_3_0.soundAddBtn_ = {}
-	arg_3_0.fillImg_ = {}
+	slot0.soundSlider_ = {}
+	slot0.soundText_ = {}
+	slot0.soundCutBtn_ = {}
+	slot0.soundAddBtn_ = {}
+	slot0.fillImg_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.soundSlider_[iter_3_0] = arg_3_0["slider" .. iter_3_0 .. "Slr_"]
-		arg_3_0.soundText_[iter_3_0] = arg_3_0["num" .. iter_3_0 .. "Text_"]
-		arg_3_0.soundCutBtn_[iter_3_0] = arg_3_0["cut" .. iter_3_0 .. "Btn_"]
-		arg_3_0.soundAddBtn_[iter_3_0] = arg_3_0["add" .. iter_3_0 .. "Btn_"]
-		arg_3_0.fillImg_[iter_3_0] = arg_3_0["fill" .. iter_3_0 .. "Img_"]
+	for slot4 = 1, 3 do
+		slot0.soundSlider_[slot4] = slot0["slider" .. slot4 .. "Slr_"]
+		slot0.soundText_[slot4] = slot0["num" .. slot4 .. "Text_"]
+		slot0.soundCutBtn_[slot4] = slot0["cut" .. slot4 .. "Btn_"]
+		slot0.soundAddBtn_[slot4] = slot0["add" .. slot4 .. "Btn_"]
+		slot0.fillImg_[slot4] = slot0["fill" .. slot4 .. "Img_"]
 	end
 
-	arg_3_0:InitTextLanguageOption()
+	slot0:InitTextLanguageOption()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	for iter_4_0 = 1, 3 do
-		arg_4_0.soundSlider_[iter_4_0].onValueChanged:AddListener(function(arg_5_0)
-			arg_4_0:SetSoundValue(iter_4_0, arg_4_0.soundSlider_[iter_4_0].value)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 3 do
+		slot0.soundSlider_[slot4].onValueChanged:AddListener(function (slot0)
+			uv0:SetSoundValue(uv1, uv0.soundSlider_[uv1].value)
 		end)
-		arg_4_0:AddPressingByTimeListener(arg_4_0.soundCutBtn_[iter_4_0].gameObject, 3, 0.5, 0.5, function()
-			if arg_4_0.soundCutBtn_[iter_4_0].interactable and arg_4_0.soundSlider_[iter_4_0].value > 0 then
-				local var_6_0 = arg_4_0.soundSlider_[iter_4_0].value - 1
-
-				arg_4_0:SetSoundValue(iter_4_0, var_6_0)
+		slot0:AddPressingByTimeListener(slot0.soundCutBtn_[slot4].gameObject, 3, 0.5, 0.5, function ()
+			if uv0.soundCutBtn_[uv1].interactable and uv0.soundSlider_[uv1].value > 0 then
+				uv0:SetSoundValue(uv1, uv0.soundSlider_[uv1].value - 1)
 
 				return true
 			end
 
 			return false
 		end)
-		arg_4_0:AddPressingByTimeListener(arg_4_0.soundAddBtn_[iter_4_0].gameObject, 3, 0.5, 0.5, function()
-			if arg_4_0.soundAddBtn_[iter_4_0].interactable and arg_4_0.soundSlider_[iter_4_0].value < 100 then
-				local var_7_0 = arg_4_0.soundSlider_[iter_4_0].value + 1
-
-				arg_4_0:SetSoundValue(iter_4_0, var_7_0)
+		slot0:AddPressingByTimeListener(slot0.soundAddBtn_[slot4].gameObject, 3, 0.5, 0.5, function ()
+			if uv0.soundAddBtn_[uv1].interactable and uv0.soundSlider_[uv1].value < 100 then
+				uv0:SetSoundValue(uv1, uv0.soundSlider_[uv1].value + 1)
 
 				return true
 			end
@@ -63,225 +59,203 @@ function var_0_0.AddUIListener(arg_4_0)
 			return false
 		end)
 
-		local var_4_0 = arg_4_0:GetOrAddComponent(arg_4_0.soundSlider_[iter_4_0].gameObject, typeof(EventTriggerListener))
+		slot5 = slot0:GetOrAddComponent(slot0.soundSlider_[slot4].gameObject, typeof(EventTriggerListener))
 
-		var_4_0:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function()
+		slot5:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function ()
 			OperationRecorder.Record("setting", "setting_audio_slide")
 		end))
-		arg_4_0:SetListener(var_4_0)
+		slot0:SetListener(slot5)
 	end
 
-	arg_4_0:AddToggleListener(arg_4_0.switchTeammateTgl_, function(arg_9_0)
-		local var_9_0 = 0
+	slot0:AddToggleListener(slot0.switchTeammateTgl_, function (slot0)
+		slot1 = 0
 
-		if arg_9_0 then
-			var_9_0 = 1
+		if slot0 then
+			slot1 = 1
 		end
 
-		if arg_4_0.settingData_.teammate_sound_open ~= var_9_0 then
-			SettingAction.ChangeSoundSetting("teammate_sound_open", var_9_0)
+		if uv0.settingData_.teammate_sound_open ~= slot1 then
+			SettingAction.ChangeSoundSetting("teammate_sound_open", slot1)
 		end
 	end)
-	arg_4_0:AddToggleListener(arg_4_0.switchTgl_, function(arg_10_0)
-		local var_10_0 = 0
+	slot0:AddToggleListener(slot0.switchTgl_, function (slot0)
+		slot1 = 0
 
-		if arg_10_0 then
-			var_10_0 = 1
+		if slot0 then
+			slot1 = 1
 		end
 
-		if arg_4_0.settingData_.sound_open ~= var_10_0 then
-			SettingAction.ChangeSoundSetting("sound_open", var_10_0)
+		if uv0.settingData_.sound_open ~= slot1 then
+			SettingAction.ChangeSoundSetting("sound_open", slot1)
 		end
 
-		arg_4_0:ChangeVoiceEnable(arg_10_0)
+		uv0:ChangeVoiceEnable(slot0)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.packageBtn_, nil, function()
+	slot0:AddBtnListener(slot0.packageBtn_, nil, function ()
 		JumpTools.OpenPageByJump("languagePackage")
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.voiceBtn_, nil, function()
+	slot0:AddBtnListener(slot0.voiceBtn_, nil, function ()
 		JumpTools.OpenPageByJump("voiceSwitch")
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.languageBtn_, nil, function()
+	slot0:AddBtnListener(slot0.languageBtn_, nil, function ()
 		JumpTools.OpenPageByJump("languageSwitch")
 	end)
 end
 
-function var_0_0.ChangeVoiceEnable(arg_14_0, arg_14_1)
-	for iter_14_0 = 1, 3 do
-		arg_14_0.soundSlider_[iter_14_0].interactable = arg_14_1
-		arg_14_0.soundCutBtn_[iter_14_0].interactable = arg_14_1
-		arg_14_0.soundAddBtn_[iter_14_0].interactable = arg_14_1
+function slot0.ChangeVoiceEnable(slot0, slot1)
+	for slot5 = 1, 3 do
+		slot0.soundSlider_[slot5].interactable = slot1
+		slot0.soundCutBtn_[slot5].interactable = slot1
+		slot0.soundAddBtn_[slot5].interactable = slot1
 
-		manager.effect:SetGrey(arg_14_0.fillImg_[iter_14_0], not arg_14_1)
+		manager.effect:SetGrey(slot0.fillImg_[slot5], not slot1)
 	end
 end
 
-function var_0_0.OnDownloaded(arg_15_0, arg_15_1)
-	local var_15_0 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
-	local var_15_1 = #var_15_0.voice_list
-
-	for iter_15_0 = 1, var_15_1 do
-		local var_15_2 = var_15_0.voice_list[iter_15_0]
-
-		if VoiceLanguageCfg[var_15_2].affix == arg_15_1 then
-			SettingAction.ChangeSoundSetting("voice_language", iter_15_0)
+function slot0.OnDownloaded(slot0, slot1)
+	for slot7 = 1, #AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].voice_list do
+		if VoiceLanguageCfg[slot2.voice_list[slot7]].affix == slot1 then
+			SettingAction.ChangeSoundSetting("voice_language", slot7)
 		end
 	end
 end
 
-function var_0_0.OnCancalDownload(arg_16_0)
-	arg_16_0:RefreshVoiceLanguage()
+function slot0.OnCancalDownload(slot0)
+	slot0:RefreshVoiceLanguage()
 end
 
-function var_0_0.RefreshUI(arg_17_0)
-	arg_17_0.soundSlider_[1].value = arg_17_0.settingData_.music
-	arg_17_0.soundText_[1].text = arg_17_0.settingData_.music .. "%"
-	arg_17_0.soundSlider_[2].value = arg_17_0.settingData_.effect
-	arg_17_0.soundText_[2].text = arg_17_0.settingData_.effect .. "%"
-	arg_17_0.soundSlider_[3].value = arg_17_0.settingData_.voice
-	arg_17_0.soundText_[3].text = arg_17_0.settingData_.voice .. "%"
+function slot0.RefreshUI(slot0)
+	slot0.soundSlider_[1].value = slot0.settingData_.music
+	slot0.soundText_[1].text = slot0.settingData_.music .. "%"
+	slot0.soundSlider_[2].value = slot0.settingData_.effect
+	slot0.soundText_[2].text = slot0.settingData_.effect .. "%"
+	slot0.soundSlider_[3].value = slot0.settingData_.voice
+	slot0.soundText_[3].text = slot0.settingData_.voice .. "%"
 
-	arg_17_0:RefreshSoundSwitch()
-	arg_17_0:RefreshVoiceLanguage()
-	arg_17_0:RefreshTextLanguage()
-	arg_17_0:RefreshTeammateSoundSwitch()
+	slot0:RefreshSoundSwitch()
+	slot0:RefreshVoiceLanguage()
+	slot0:RefreshTextLanguage()
+	slot0:RefreshTeammateSoundSwitch()
 end
 
-function var_0_0.RefreshTeammateSoundSwitch(arg_18_0)
-	local var_18_0 = arg_18_0.settingData_.teammate_sound_open
-	local var_18_1 = arg_18_0.switchTeammateTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0")
+function slot0.RefreshTeammateSoundSwitch(slot0)
+	slot0.switchTeammateTgl_.isOn = slot0.settingData_.teammate_sound_open == 1
 
-	arg_18_0.switchTeammateTgl_.isOn = var_18_0 == 1
-
-	var_18_1:SetSelectedIndex(var_18_0)
+	slot0.switchTeammateTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(slot1)
 end
 
-function var_0_0.RefreshSoundSwitch(arg_19_0)
-	local var_19_0 = arg_19_0.settingData_.sound_open
-	local var_19_1 = arg_19_0.switchTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0")
+function slot0.RefreshSoundSwitch(slot0)
+	slot0.switchTgl_.isOn = slot0.settingData_.sound_open == 1
 
-	arg_19_0.switchTgl_.isOn = var_19_0 == 1
-
-	var_19_1:SetSelectedIndex(var_19_0)
+	slot0.switchTgl_.transform:GetComponent("ControllerExCollection"):GetController("default0"):SetSelectedIndex(slot1)
 end
 
-function var_0_0.InitTextLanguageOption(arg_20_0)
+function slot0.InitTextLanguageOption(slot0)
 	if #AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].language_in_list < 2 then
-		arg_20_0.languageBtn_.enabled = false
+		slot0.languageBtn_.enabled = false
 
-		SetActive(arg_20_0.languageIconGo_, false)
+		SetActive(slot0.languageIconGo_, false)
 	else
-		arg_20_0.languageBtn_.enabled = true
+		slot0.languageBtn_.enabled = true
 
-		SetActive(arg_20_0.languageIconGo_, true)
+		SetActive(slot0.languageIconGo_, true)
 	end
 end
 
-function var_0_0.RefreshTextLanguage(arg_21_0)
-	local var_21_0 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
-
-	arg_21_0.languageText_.text = var_21_0.language_in_list[table.indexof(var_21_0.language_list, arg_21_0.settingData_.text_language)]
+function slot0.RefreshTextLanguage(slot0)
+	slot1 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
+	slot0.languageText_.text = slot1.language_in_list[table.indexof(slot1.language_list, slot0.settingData_.text_language)]
 end
 
-function var_0_0.RefreshVoiceLanguage(arg_22_0)
-	local var_22_0 = AreaDifferenceCfg[GameToSDK.CURRENT_SERVER]
-
-	arg_22_0.voiceText_.text = VoiceLanguageCfg[table.indexof(var_22_0.voice_list, arg_22_0.settingData_.voice_language)].name
+function slot0.RefreshVoiceLanguage(slot0)
+	slot0.voiceText_.text = VoiceLanguageCfg[table.indexof(AreaDifferenceCfg[GameToSDK.CURRENT_SERVER].voice_list, slot0.settingData_.voice_language)].name
 end
 
-function var_0_0.SetSoundValue(arg_23_0, arg_23_1, arg_23_2)
-	if arg_23_1 == 1 then
-		SettingAction.ChangeSoundSetting("music", arg_23_2)
-	elseif arg_23_1 == 2 then
-		SettingAction.ChangeSoundSetting("effect", arg_23_2)
-	elseif arg_23_1 == 3 then
-		SettingAction.ChangeSoundSetting("voice", arg_23_2)
+function slot0.SetSoundValue(slot0, slot1, slot2)
+	if slot1 == 1 then
+		SettingAction.ChangeSoundSetting("music", slot2)
+	elseif slot1 == 2 then
+		SettingAction.ChangeSoundSetting("effect", slot2)
+	elseif slot1 == 3 then
+		SettingAction.ChangeSoundSetting("voice", slot2)
 	end
 end
 
-function var_0_0.CheckDataChange(arg_24_0, arg_24_1)
-	if arg_24_0.tmpSettingData_ and not table.equal(arg_24_0.tmpSettingData_, arg_24_0.settingData_, "all") then
+function slot0.CheckDataChange(slot0, slot1)
+	if slot0.tmpSettingData_ and not table.equal(slot0.tmpSettingData_, slot0.settingData_, "all") then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.SaveData(arg_25_0)
-	if arg_25_0:CheckDataChange() then
-		arg_25_0.json_ = require("cjson")
-
-		local var_25_0 = deepClone(arg_25_0.settingData_)
-
-		var_25_0.type = 2
+function slot0.SaveData(slot0)
+	if slot0:CheckDataChange() then
+		slot0.json_ = require("cjson")
+		slot1 = deepClone(slot0.settingData_)
+		slot1.type = 2
 
 		SDKTools.SendMessageToSDK("audio_setting", {
-			bg_audio_setting = arg_25_0.settingData_.music,
-			effect_setting = arg_25_0.settingData_.effect,
-			sound_setting = arg_25_0.settingData_.voice,
-			language = arg_25_0.settingData_.voice_language
+			bg_audio_setting = slot0.settingData_.music,
+			effect_setting = slot0.settingData_.effect,
+			sound_setting = slot0.settingData_.voice,
+			language = slot0.settingData_.voice_language
 		})
 
-		local var_25_1 = arg_25_0.json_.encode(var_25_0)
+		slot2 = slot0.json_.encode(slot1)
 
 		manager.net:SendWithLoadingNew(12100, {
-			language = arg_25_0.settingData_.text_language
-		}, 12101, function(arg_26_0)
-			if isSuccess(arg_26_0.result) then
-				-- block empty
-			else
-				ShowTips(arg_26_0.result)
+			language = slot0.settingData_.text_language
+		}, 12101, function (slot0)
+			if not isSuccess(slot0.result) then
+				ShowTips(slot0.result)
 			end
 		end)
 	end
 
-	arg_25_0.tmpSettingData_ = deepClone(arg_25_0.settingData_)
+	slot0.tmpSettingData_ = deepClone(slot0.settingData_)
 end
 
-function var_0_0.RecoverTmpData(arg_27_0)
-	if arg_27_0:CheckDataChange() then
-		local var_27_0 = VoiceLanguageCfg[arg_27_0.tmpSettingData_.voice_language]
-
-		if not VoicePackageManager.Instance:IsHavePackage(var_27_0.affix) then
-			arg_27_0.tmpSettingData_.voice_language = arg_27_0.settingData_.voice_language
+function slot0.RecoverTmpData(slot0)
+	if slot0:CheckDataChange() then
+		if not VoicePackageManager.Instance:IsHavePackage(VoiceLanguageCfg[slot0.tmpSettingData_.voice_language].affix) then
+			slot0.tmpSettingData_.voice_language = slot0.settingData_.voice_language
 		end
 
-		SettingAction.ChangeSoundSetting("allData", arg_27_0.tmpSettingData_)
+		SettingAction.ChangeSoundSetting("allData", slot0.tmpSettingData_)
 	end
 end
 
-function var_0_0.OnSoundSettingChange(arg_28_0, arg_28_1, arg_28_2)
-	arg_28_0:RefreshUI()
+function slot0.OnSoundSettingChange(slot0, slot1, slot2)
+	slot0:RefreshUI()
 end
 
-function var_0_0.Init(arg_29_0)
-	arg_29_0:InitUI()
-	arg_29_0:AddUIListener()
-	arg_29_0:OnEnter()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:OnEnter()
 end
 
-function var_0_0.OnEnter(arg_30_0)
-	arg_30_0.settingData_ = SettingData:GetSoundSettingData()
+function slot0.OnEnter(slot0)
+	slot0.settingData_ = SettingData:GetSoundSettingData()
 
-	arg_30_0:RefreshUI()
+	slot0:RefreshUI()
 
-	arg_30_0.tmpSettingData_ = deepClone(arg_30_0.settingData_)
+	slot0.tmpSettingData_ = deepClone(slot0.settingData_)
+	slot1 = slot0.hander_.params_.setType or SettingConst.SETTING_TYPE.SYSTEM
 
-	local var_30_0 = arg_30_0.hander_.params_.setType or SettingConst.SETTING_TYPE.SYSTEM
-
-	SetActive(arg_30_0.languageGo_, var_30_0 == SettingConst.SETTING_TYPE.SYSTEM)
-	SetActive(arg_30_0.voiceGo_, var_30_0 == SettingConst.SETTING_TYPE.SYSTEM)
-	SetActive(arg_30_0.packageGo_, var_30_0 == SettingConst.SETTING_TYPE.SYSTEM)
+	SetActive(slot0.languageGo_, slot1 == SettingConst.SETTING_TYPE.SYSTEM)
+	SetActive(slot0.voiceGo_, slot1 == SettingConst.SETTING_TYPE.SYSTEM)
+	SetActive(slot0.packageGo_, slot1 == SettingConst.SETTING_TYPE.SYSTEM)
 end
 
-function var_0_0.OnExit(arg_31_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_32_0)
-	arg_32_0.hander_ = nil
+function slot0.Dispose(slot0)
+	slot0.hander_ = nil
 
-	var_0_0.super.Dispose(arg_32_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

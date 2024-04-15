@@ -1,57 +1,49 @@
 BattleScoreResultView = import("game.views.battleResult.score.BattleScoreResultView")
+slot0 = class("CoreVerificationBattleResultView", BattleScoreResultView)
 
-local var_0_0 = class("CoreVerificationBattleResultView", BattleScoreResultView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/BattleResult/BattleCoreVerification/CoreVerificationBattleResult"
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0.hasSnapshot_ = GetBattleResultSnapShot()
+function slot0.InitUI(slot0)
+	slot0.hasSnapshot_ = GetBattleResultSnapShot()
 
-	arg_2_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btnBack_, nil, function()
-		arg_3_0:CloseFunc()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		uv0:CloseFunc()
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.statisticsBtn_, nil, function()
-		arg_3_0:GoToBattleStatistics()
+	slot0:AddBtnListener(slot0.statisticsBtn_, nil, function ()
+		uv0:GoToBattleStatistics()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = arg_6_0.stageData:GetDest()
-
-	arg_6_0.battleTime2Text_.text = arg_6_0:GetBattleTime()
-
-	local var_6_1 = CoreVerificationInfoCfg[var_6_0].difficult
-
-	arg_6_0.titleText_.text = string.format("难度%s", GetTips("NUM_" .. var_6_1))
+function slot0.RefreshUI(slot0)
+	slot0.battleTime2Text_.text = slot0:GetBattleTime()
+	slot0.titleText_.text = string.format("难度%s", GetTips("NUM_" .. CoreVerificationInfoCfg[slot0.stageData:GetDest()].difficult))
 end
 
-function var_0_0.GoToBattleStatistics(arg_7_0)
+function slot0.GoToBattleStatistics(slot0)
 	JumpTools.OpenPageByJump("battleStatistics", {
-		stageData = arg_7_0.params_.stageData,
-		battleTime = arg_7_0:GetBattleTime(),
-		hasSnapshot_ = arg_7_0.hasSnapshot_
+		stageData = slot0.params_.stageData,
+		battleTime = slot0:GetBattleTime(),
+		hasSnapshot_ = slot0.hasSnapshot_
 	})
 end
 
-function var_0_0.OnExit(arg_8_0)
-	local var_8_0 = arg_8_0.stageData:GetDest()
-	local var_8_1 = {}
+function slot0.OnExit(slot0)
+	slot1 = slot0.stageData:GetDest()
+	slot2 = {}
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.stageData:GetHeroTeam()) do
-		if iter_8_1 ~= 0 then
-			table.insert(var_8_1, iter_8_1)
+	for slot6, slot7 in ipairs(slot0.stageData:GetHeroTeam()) do
+		if slot7 ~= 0 then
+			table.insert(slot2, slot7)
 		end
 	end
 
-	local var_8_2 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-
-	CoreVerificationData:BattleStageData(var_8_0, var_8_1, var_8_2)
+	CoreVerificationData:BattleStageData(slot1, slot2, LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
 end
 
-return var_0_0
+return slot0

@@ -1,176 +1,135 @@
-local var_0_0 = {}
-local var_0_1 = math.sqrt
-local var_0_2 = math.atan2
-local var_0_3 = math.cos
-local var_0_4 = math.sin
-local var_0_5 = math.pi
-local var_0_6 = var_0_5 / 180
-local var_0_7 = 180 / var_0_5
+slot1 = math.sqrt
+slot2 = math.atan2
+slot3 = math.cos
+slot4 = math.sin
+slot5 = math.pi
+slot6 = slot5 / 180
+slot7 = 180 / slot5
 
-function var_0_0.dist(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = arg_1_2 - arg_1_0
-	local var_1_1 = arg_1_3 - arg_1_1
+return {
+	dist = function (slot0, slot1, slot2, slot3)
+		slot4 = slot2 - slot0
+		slot5 = slot3 - slot1
 
-	return var_0_1(var_1_0 * var_1_0 + var_1_1 * var_1_1)
-end
+		return uv0(slot4 * slot4 + slot5 * slot5)
+	end,
+	radians4point = function (slot0, slot1, slot2, slot3)
+		return uv0(slot1 - slot3, slot2 - slot0)
+	end,
+	pointAtCircle = function (slot0, slot1, slot2, slot3)
+		return slot0 + uv0(slot2) * slot3, slot1 - uv1(slot2) * slot3
+	end,
+	pointAtLineToPoint = function (slot0, slot1, slot2, slot3, slot4, slot5)
+		slot6 = slot4 - slot2
+		slot7 = slot5 - slot3
 
-function var_0_0.radians4point(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	return var_0_2(arg_2_1 - arg_2_3, arg_2_2 - arg_2_0)
-end
+		if ((slot0 - slot2) * slot6 + (slot1 - slot3) * slot7) / (slot6 * slot6 + slot7 * slot7) > 1 then
+			slot9 = 1
+		elseif slot9 < 0 then
+			slot9 = 0
+		end
 
-function var_0_0.pointAtCircle(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	return arg_3_0 + var_0_3(arg_3_2) * arg_3_3, arg_3_1 - var_0_4(arg_3_2) * arg_3_3
-end
+		return slot2 + slot9 * slot6, slot3 + slot9 * slot7
+	end,
+	degrees2radians = function (slot0)
+		return slot0 * uv0
+	end,
+	radians2degrees = function (slot0)
+		return slot0 * uv0
+	end,
+	rotateCoord = function (slot0, slot1, slot2)
+		slot3 = math.cos(slot2)
+		slot4 = math.sin(slot2)
 
-function var_0_0.pointAtLineToPoint(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4, arg_4_5)
-	local var_4_0 = arg_4_4 - arg_4_2
-	local var_4_1 = arg_4_5 - arg_4_3
-	local var_4_2 = var_4_0 * var_4_0 + var_4_1 * var_4_1
-	local var_4_3 = ((arg_4_0 - arg_4_2) * var_4_0 + (arg_4_1 - arg_4_3) * var_4_1) / var_4_2
+		return slot3 * slot0 + slot4 * slot1, -1 * slot4 * slot0 + slot3 * slot1
+	end,
+	rotateZCoord = function (slot0, slot1, slot2)
+		slot3 = math.cos(slot2)
+		slot4 = math.sin(slot2)
 
-	if var_4_3 > 1 then
-		var_4_3 = 1
-	elseif var_4_3 < 0 then
-		var_4_3 = 0
-	end
+		return slot3 * slot0 - slot4 * slot1, slot4 * slot0 + slot3 * slot1
+	end,
+	rotatePoint = function (slot0, slot1, slot2, slot3, slot4)
+		slot5 = math.cos(slot4)
+		slot6 = math.sin(slot4)
 
-	return arg_4_2 + var_4_3 * var_4_0, arg_4_3 + var_4_3 * var_4_1
-end
+		return slot5 * (slot0 - slot2) + slot6 * (slot1 - slot3) + slot2, slot6 + (slot0 - slot2) * -1 + slot5 * (slot1 - slot3) + slot3
+	end,
+	twoCircleIntersect = function (slot0, slot1, slot2, slot3, slot4, slot5)
+		slot6, slot7, slot8 = nil
+		slot9 = 0
+		slot10 = 0
+		slot11 = 0
+		slot12 = 0
+		slot13 = -1
 
-function var_0_0.degrees2radians(arg_5_0)
-	return arg_5_0 * var_0_6
-end
+		if not lk.FloatEqual(slot1, slot4) then
+			slot14 = (slot0 * slot0 - slot3 * slot3 + slot1 * slot1 - slot4 * slot4 + slot5 * slot5 - slot2 * slot2) / (2 * (slot1 - slot4))
+			slot15 = (slot0 - slot3) / (slot1 - slot4)
+			slot7 = -2 * (slot0 + (slot14 - slot1) * slot15)
 
-function var_0_0.radians2degrees(arg_6_0)
-	return arg_6_0 * var_0_7
-end
+			if slot7 * slot7 - 4 * (1 + slot15 * slot15) * (slot0 * slot0 + (slot14 - slot1) * (slot14 - slot1) - slot2 * slot2) > 0 then
+				slot11 = slot14 - slot15 * (-slot7 + uv0(slot7 * slot7 - 4 * slot6 * slot8)) / (2 * slot6)
+				slot12 = slot14 - slot15 * (-slot7 - uv0(slot7 * slot7 - 4 * slot6 * slot8)) / (2 * slot6)
+			elseif slot13 == 0 then
+				slot9 = -slot7 / (2 * slot6)
+				slot10 = slot9
+				slot12 = slot14 - slot15 * slot9
+			else
+				return {}
+			end
+		elseif not lk.FloatEqual(slot0, slot3) then
+			slot9 = (slot0 * slot0 - slot3 * slot3 + slot5 * slot5 - slot2 * slot2) / (2 * (slot0 - slot3))
+			slot10 = slot9
+			slot7 = -2 * slot1
 
-function var_0_0.rotateCoord(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = math.cos(arg_7_2)
-	local var_7_1 = math.sin(arg_7_2)
-	local var_7_2 = var_7_0 * arg_7_0 + var_7_1 * arg_7_1
-	local var_7_3 = -1 * var_7_1 * arg_7_0 + var_7_0 * arg_7_1
-
-	return var_7_2, var_7_3
-end
-
-function var_0_0.rotateZCoord(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = math.cos(arg_8_2)
-	local var_8_1 = math.sin(arg_8_2)
-	local var_8_2 = var_8_0 * arg_8_0 - var_8_1 * arg_8_1
-	local var_8_3 = var_8_1 * arg_8_0 + var_8_0 * arg_8_1
-
-	return var_8_2, var_8_3
-end
-
-function var_0_0.rotatePoint(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
-	local var_9_0 = math.cos(arg_9_4)
-	local var_9_1 = math.sin(arg_9_4)
-	local var_9_2 = var_9_0 * (arg_9_0 - arg_9_2) + var_9_1 * (arg_9_1 - arg_9_3) + arg_9_2
-	local var_9_3 = var_9_1 + (arg_9_0 - arg_9_2) * -1 + var_9_0 * (arg_9_1 - arg_9_3) + arg_9_3
-
-	return var_9_2, var_9_3
-end
-
-function var_0_0.twoCircleIntersect(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4, arg_10_5)
-	local var_10_0
-	local var_10_1
-	local var_10_2
-	local var_10_3 = 0
-	local var_10_4 = 0
-	local var_10_5 = 0
-	local var_10_6 = 0
-	local var_10_7 = -1
-
-	if not lk.FloatEqual(arg_10_1, arg_10_4) then
-		local var_10_8 = (arg_10_0 * arg_10_0 - arg_10_3 * arg_10_3 + arg_10_1 * arg_10_1 - arg_10_4 * arg_10_4 + arg_10_5 * arg_10_5 - arg_10_2 * arg_10_2) / (2 * (arg_10_1 - arg_10_4))
-		local var_10_9 = (arg_10_0 - arg_10_3) / (arg_10_1 - arg_10_4)
-		local var_10_10 = 1 + var_10_9 * var_10_9
-		local var_10_11 = -2 * (arg_10_0 + (var_10_8 - arg_10_1) * var_10_9)
-		local var_10_12 = arg_10_0 * arg_10_0 + (var_10_8 - arg_10_1) * (var_10_8 - arg_10_1) - arg_10_2 * arg_10_2
-		local var_10_13 = var_10_11 * var_10_11 - 4 * var_10_10 * var_10_12
-
-		if var_10_13 > 0 then
-			var_10_3 = (-var_10_11 + var_0_1(var_10_11 * var_10_11 - 4 * var_10_10 * var_10_12)) / (2 * var_10_10)
-			var_10_4 = (-var_10_11 - var_0_1(var_10_11 * var_10_11 - 4 * var_10_10 * var_10_12)) / (2 * var_10_10)
-			var_10_5 = var_10_8 - var_10_9 * var_10_3
-			var_10_6 = var_10_8 - var_10_9 * var_10_4
-		elseif var_10_13 == 0 then
-			var_10_3 = -var_10_11 / (2 * var_10_10)
-			var_10_5 = var_10_8 - var_10_9 * var_10_3
-			var_10_4 = var_10_3
-			var_10_6 = var_10_5
+			if slot7 * slot7 - 4 * 1 * (slot1 * slot1 - slot2 * slot2 + (slot9 - slot0) * (slot9 - slot0)) > 0 then
+				slot11 = (-slot7 + uv0(slot7 * slot7 - 4 * slot6 * slot8)) / (2 * slot6)
+				slot12 = (-slot7 - uv0(slot7 * slot7 - 4 * slot6 * slot8)) / (2 * slot6)
+			elseif slot13 == 0 then
+				slot12 = -slot7 / (2 * slot6)
+			else
+				return {}
+			end
 		else
 			return {}
 		end
-	elseif not lk.FloatEqual(arg_10_0, arg_10_3) then
-		var_10_3 = (arg_10_0 * arg_10_0 - arg_10_3 * arg_10_3 + arg_10_5 * arg_10_5 - arg_10_2 * arg_10_2) / (2 * (arg_10_0 - arg_10_3))
-		var_10_4 = var_10_3
 
-		local var_10_14 = 1
-		local var_10_15 = -2 * arg_10_1
-		local var_10_16 = arg_10_1 * arg_10_1 - arg_10_2 * arg_10_2 + (var_10_3 - arg_10_0) * (var_10_3 - arg_10_0)
-		local var_10_17 = var_10_15 * var_10_15 - 4 * var_10_14 * var_10_16
+		return {
+			{
+				slot9,
+				slot11
+			},
+			{
+				slot10,
+				slot12
+			}
+		}
+	end,
+	LineAndCircleIntersect = function (slot0, slot1, slot2, slot3, slot4)
+		slot5, slot6, slot7, slot8 = nil
+		slot11 = 2 * slot2 - 2 * slot0 * (slot1 - slot3)
 
-		if var_10_17 > 0 then
-			var_10_5 = (-var_10_15 + var_0_1(var_10_15 * var_10_15 - 4 * var_10_14 * var_10_16)) / (2 * var_10_14)
-			var_10_6 = (-var_10_15 - var_0_1(var_10_15 * var_10_15 - 4 * var_10_14 * var_10_16)) / (2 * var_10_14)
-		elseif var_10_17 == 0 then
-			var_10_5 = -var_10_15 / (2 * var_10_14)
-			var_10_6 = var_10_5
-		else
+		if slot11 * slot11 - 4 * (1 + slot0 * slot0) * (slot2 * slot2 + (slot1 - slot3) * (slot1 - slot3) - slot4 * slot4) < 0 then
 			return {}
 		end
-	else
-		return {}
-	end
 
-	return {
-		{
-			var_10_3,
-			var_10_5
-		},
-		{
-			var_10_4,
-			var_10_6
+		slot13 = math.sqrt(slot12)
+		slot5 = (slot11 + slot13) / (2 * slot10)
+		slot7 = (slot11 - slot13) / (2 * slot10)
+
+		return {
+			{
+				slot5,
+				slot0 * slot5 + slot1
+			},
+			{
+				slot7,
+				slot0 * slot7 + slot1
+			}
 		}
-	}
-end
-
-function var_0_0.LineAndCircleIntersect(arg_11_0, arg_11_1, arg_11_2, arg_11_3, arg_11_4)
-	local var_11_0
-	local var_11_1
-	local var_11_2
-	local var_11_3
-	local var_11_4 = arg_11_2 * arg_11_2 + (arg_11_1 - arg_11_3) * (arg_11_1 - arg_11_3) - arg_11_4 * arg_11_4
-	local var_11_5 = 1 + arg_11_0 * arg_11_0
-	local var_11_6 = 2 * arg_11_2 - 2 * arg_11_0 * (arg_11_1 - arg_11_3)
-	local var_11_7 = var_11_6 * var_11_6 - 4 * var_11_5 * var_11_4
-
-	if var_11_7 < 0 then
-		return {}
+	end,
+	point2lineDist = function (slot0, slot1, slot2, slot3)
+		return math.abs((slot2 * slot0 - slot1 + slot3) / math.sqrt(slot2 * 2 + 1))
 	end
-
-	local var_11_8 = math.sqrt(var_11_7)
-	local var_11_9 = (var_11_6 + var_11_8) / (2 * var_11_5)
-	local var_11_10 = arg_11_0 * var_11_9 + arg_11_1
-	local var_11_11 = (var_11_6 - var_11_8) / (2 * var_11_5)
-	local var_11_12 = arg_11_0 * var_11_11 + arg_11_1
-
-	return {
-		{
-			var_11_9,
-			var_11_10
-		},
-		{
-			var_11_11,
-			var_11_12
-		}
-	}
-end
-
-function var_0_0.point2lineDist(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	return math.abs((arg_12_2 * arg_12_0 - arg_12_1 + arg_12_3) / math.sqrt(arg_12_2 * 2 + 1))
-end
-
-return var_0_0
+}

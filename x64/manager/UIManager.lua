@@ -1,233 +1,213 @@
-local var_0_0 = class("UIManager")
-local var_0_1 = "adv"
+slot0 = class("UIManager")
+slot1 = "adv"
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.uiMain = GameObject.Find("UICamera/Canvas/UIMain")
-	arg_1_0.uiStory = GameObject.Find("UICamera/Canvas/UIStory/Canvas")
-	arg_1_0.uiPop = GameObject.Find("UICamera/Canvas/UIPop/Canvas")
-	arg_1_0.uiMessage = GameObject.Find("UICamera/Canvas/UIMessage/Canvas")
-	arg_1_0.uiTips = GameObject.Find("UICamera/Canvas/UITips/Canvas")
-	arg_1_0.uiLoad = GameObject.Find("UICamera/Canvas/UILoad/Canvas")
-	arg_1_0.uiHPPanel = GameObject.Find("UICamera/Canvas/UIMain/HPPanel")
-	arg_1_0.mainCamera = GameObject.Find("MainCamera")
-	arg_1_0.canvas = GameObject.Find("UICamera/Canvas")
-	arg_1_0.dontDestroyCanvas = GameObject.Find("UICamera_DontDestroy/Canvas")
-	arg_1_0.uiCanvasGroup = arg_1_0.canvas:GetComponent("CanvasGroup")
-	arg_1_0.canvasSize_ = arg_1_0.canvas:GetComponent("RectTransform").sizeDelta
-
-	local var_1_0 = arg_1_0.mainCamera.transform
-
-	var_1_0.localPosition = Vector3(0, 0, 2)
-	var_1_0.localEulerAngles = Vector3(0, 180, 0)
-	arg_1_0.mainCameraPos_ = Vector3(0, 0, 2)
-	arg_1_0.mainCameraRot_ = Vector3(0, 180, 0)
-	arg_1_0.mainCameraCom_ = arg_1_0.mainCamera:GetComponent("Camera")
-	arg_1_0.cameraExtension = arg_1_0.mainCamera:GetComponent(typeof(UnityEngine.Pipelines.SimPipeline.CameraExtension))
-	arg_1_0.sceneObject_ = {}
-	arg_1_0.canvasRate = arg_1_0.canvas:GetComponent("RectTransform").sizeDelta.x / Screen.width
-	arg_1_0.UIDGo_ = GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/UIDText")
-	arg_1_0.UIDText_ = arg_1_0.UIDGo_:GetComponent(typeof(Text))
-	arg_1_0.tipImageRect_ = GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/TipImage"):GetComponent(typeof(RectTransform))
+function slot0.Ctor(slot0)
+	slot0.uiMain = GameObject.Find("UICamera/Canvas/UIMain")
+	slot0.uiStory = GameObject.Find("UICamera/Canvas/UIStory/Canvas")
+	slot0.uiPop = GameObject.Find("UICamera/Canvas/UIPop/Canvas")
+	slot0.uiMessage = GameObject.Find("UICamera/Canvas/UIMessage/Canvas")
+	slot0.uiTips = GameObject.Find("UICamera/Canvas/UITips/Canvas")
+	slot0.uiLoad = GameObject.Find("UICamera/Canvas/UILoad/Canvas")
+	slot0.uiHPPanel = GameObject.Find("UICamera/Canvas/UIMain/HPPanel")
+	slot0.mainCamera = GameObject.Find("MainCamera")
+	slot0.canvas = GameObject.Find("UICamera/Canvas")
+	slot0.dontDestroyCanvas = GameObject.Find("UICamera_DontDestroy/Canvas")
+	slot0.uiCanvasGroup = slot0.canvas:GetComponent("CanvasGroup")
+	slot0.canvasSize_ = slot0.canvas:GetComponent("RectTransform").sizeDelta
+	slot1 = slot0.mainCamera.transform
+	slot1.localPosition = Vector3(0, 0, 2)
+	slot1.localEulerAngles = Vector3(0, 180, 0)
+	slot0.mainCameraPos_ = Vector3(0, 0, 2)
+	slot0.mainCameraRot_ = Vector3(0, 180, 0)
+	slot0.mainCameraCom_ = slot0.mainCamera:GetComponent("Camera")
+	slot0.cameraExtension = slot0.mainCamera:GetComponent(typeof(UnityEngine.Pipelines.SimPipeline.CameraExtension))
+	slot0.sceneObject_ = {}
+	slot0.canvasRate = slot0.canvas:GetComponent("RectTransform").sizeDelta.x / Screen.width
+	slot0.UIDGo_ = GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/UIDText")
+	slot0.UIDText_ = slot0.UIDGo_:GetComponent(typeof(Text))
+	slot0.tipImageRect_ = GameObject.Find("UICamera_DontDestroy/Canvas/UIMessage/TipImage"):GetComponent(typeof(RectTransform))
 end
 
-local var_0_2 = 175
+slot2 = 175
 
-function var_0_0.SetUIDText(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_0.UIDText_ then
-		arg_2_0.UIDText_.text = arg_2_1
+function slot0.SetUIDText(slot0, slot1, slot2)
+	if slot0.UIDText_ then
+		slot0.UIDText_.text = slot1
 	end
 
-	if arg_2_0.UIDMarkText_ and GameToSDK.clientInfo.env == var_0_1 then
-		if arg_2_1 == "" then
-			arg_2_0.UIDMarkText_.text = ""
+	if slot0.UIDMarkText_ and GameToSDK.clientInfo.env == uv0 then
+		if slot1 == "" then
+			slot0.UIDMarkText_.text = ""
 		else
-			local var_2_0 = arg_2_1
-			local var_2_1 = "                        " .. arg_2_1
-
-			for iter_2_0 = 1, var_0_2 do
-				var_2_0 = var_2_0 .. var_2_1
+			for slot8 = 1, uv1 do
+				slot3 = slot1 .. ("                        " .. slot1)
 			end
 
-			arg_2_0.UIDMarkText_.text = var_2_0
+			slot0.UIDMarkText_.text = slot3
 		end
 	end
 
-	if arg_2_0.UIDEncodeText_ and GameToSDK.clientInfo.env == var_0_1 then
-		if arg_2_0.encodePosTimer_ then
-			arg_2_0.encodePosTimer_:Stop()
+	if slot0.UIDEncodeText_ and GameToSDK.clientInfo.env == uv0 then
+		if slot0.encodePosTimer_ then
+			slot0.encodePosTimer_:Stop()
 		end
 
-		if arg_2_1 == "" then
-			arg_2_0.UIDEncodeText_.text = ""
+		if slot1 == "" then
+			slot0.UIDEncodeText_.text = ""
 		else
-			print("userId", arg_2_2)
+			print("userId", slot2)
 
-			arg_2_0.UIDEncodeText_.text = encodeUID(arg_2_2)
-			arg_2_0.encodePosTimer_ = Timer.New(function()
-				if arg_2_0.UIDEncodeTrs_ then
+			slot0.UIDEncodeText_.text = encodeUID(slot2)
+			slot0.encodePosTimer_ = Timer.New(function ()
+				if uv0.UIDEncodeTrs_ then
 					math.randomseed(os.time())
 
-					arg_2_0.UIDEncodeTrs_.anchoredPosition = Vector3(math.random(250, _G.SCREEN_WIDTH - 250), math.random(40, _G.SCREEN_HEIGHT - 40), 0)
+					uv0.UIDEncodeTrs_.anchoredPosition = Vector3(math.random(250, _G.SCREEN_WIDTH - 250), math.random(40, _G.SCREEN_HEIGHT - 40), 0)
 				end
 			end, 1, -1)
 
-			arg_2_0.encodePosTimer_:Start()
+			slot0.encodePosTimer_:Start()
 		end
 	end
 
-	CustomLog.SetUserID(arg_2_1)
+	CustomLog.SetUserID(slot1)
 end
 
-function var_0_0.ShowUID(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.UIDGo_, arg_4_1)
+function slot0.ShowUID(slot0, slot1)
+	SetActive(slot0.UIDGo_, slot1)
 
-	if arg_4_1 then
-		arg_4_0.tipImageRect_.localPosition = arg_4_0.tipImageRect_.localPosition - Vector3(0, 20, 0)
+	if slot1 then
+		slot0.tipImageRect_.localPosition = slot0.tipImageRect_.localPosition - Vector3(0, 20, 0)
 	else
-		arg_4_0.tipImageRect_.localPosition = arg_4_0.tipImageRect_.localPosition + Vector3(0, 20, 0)
+		slot0.tipImageRect_.localPosition = slot0.tipImageRect_.localPosition + Vector3(0, 20, 0)
 	end
 end
 
-function var_0_0.SetMainActive(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.uiMain, arg_5_1)
+function slot0.SetMainActive(slot0, slot1)
+	SetActive(slot0.uiMain, slot1)
 end
 
-function var_0_0.SetMainCameraPos(arg_6_0, arg_6_1)
-	arg_6_0.mainCamera.transform.localPosition = arg_6_1 or arg_6_0.mainCameraPos_
+function slot0.SetMainCameraPos(slot0, slot1)
+	slot0.mainCamera.transform.localPosition = slot1 or slot0.mainCameraPos_
 end
 
-function var_0_0.SetMainCameraRot(arg_7_0, arg_7_1)
-	arg_7_0.mainCamera.transform.localEulerAngles = arg_7_1 or arg_7_0.mainCameraRot_
+function slot0.SetMainCameraRot(slot0, slot1)
+	slot0.mainCamera.transform.localEulerAngles = slot1 or slot0.mainCameraRot_
 end
 
-function var_0_0.SetMainCameraFieldOfView(arg_8_0, arg_8_1)
-	arg_8_0.mainCameraCom_.fieldOfView = arg_8_1
+function slot0.SetMainCameraFieldOfView(slot0, slot1)
+	slot0.mainCameraCom_.fieldOfView = slot1
 end
 
-function var_0_0.SetMainCamera(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	local var_9_0 = CameraCfg[arg_9_1]
-
-	if not arg_9_2 and var_9_0 == nil then
-		print("没有配置对应的相机位置:", arg_9_1)
+function slot0.SetMainCamera(slot0, slot1, slot2, slot3)
+	if not slot2 and CameraCfg[slot1] == nil then
+		print("没有配置对应的相机位置:", slot1)
 
 		return
 	end
 
-	if not arg_9_2 then
-		arg_9_0.mainCamera.transform.localPosition = Vector3(var_9_0.position[1], var_9_0.position[2], var_9_0.position[3])
-		arg_9_0.mainCamera:GetComponent("Camera").orthographic = false
-		arg_9_0.mainCamera.transform.localEulerAngles = Vector3(var_9_0.rotate[1], var_9_0.rotate[2], var_9_0.rotate[3])
-		arg_9_0.mainCameraCom_.fieldOfView = var_9_0.fieldOfView
+	if not slot2 then
+		slot0.mainCamera.transform.localPosition = Vector3(slot4.position[1], slot4.position[2], slot4.position[3])
+		slot0.mainCamera:GetComponent("Camera").orthographic = false
+		slot0.mainCamera.transform.localEulerAngles = Vector3(slot4.rotate[1], slot4.rotate[2], slot4.rotate[3])
+		slot0.mainCameraCom_.fieldOfView = slot4.fieldOfView
 	end
 
-	if arg_9_0.sceneGo_ then
-		LuaForUtil.SetSceneSetting(arg_9_0.sceneGo_, false)
-		SetActive(arg_9_0.sceneGo_, false)
+	if slot0.sceneGo_ then
+		LuaForUtil.SetSceneSetting(slot0.sceneGo_, false)
+		SetActive(slot0.sceneGo_, false)
 
-		arg_9_0.sceneGo_ = nil
+		slot0.sceneGo_ = nil
 	end
 
-	local var_9_1 = arg_9_1
+	slot5 = slot1
 
-	if not arg_9_2 then
-		if var_9_0.multiscene == 1 then
-			if var_9_0.type == "home" or var_9_0.type == "chat" or var_9_0.type == "playerInfo" or var_9_0.type == "clubBoss" then
-				var_9_1 = manager.loadScene:GetHomeShouldLoadSceneName()
-			elseif var_9_0.type == "homePreview" then
-				var_9_1 = manager.loadScene:GetPreviewHomeShouldLoadSceneName()
+	if not slot2 then
+		if slot4.multiscene == 1 then
+			if slot4.type == "home" or slot4.type == "chat" or slot4.type == "playerInfo" or slot4.type == "clubBoss" then
+				slot5 = manager.loadScene:GetHomeShouldLoadSceneName()
+			elseif slot4.type == "homePreview" then
+				slot5 = manager.loadScene:GetPreviewHomeShouldLoadSceneName()
 			end
 		else
-			var_9_1 = var_9_0.sceneName
+			slot5 = slot4.sceneName
 		end
 	end
 
-	if var_9_1 and var_9_1 ~= "" then
-		arg_9_0.sceneGo_ = arg_9_0:GetSceneByName(var_9_1)
+	if slot5 and slot5 ~= "" then
+		slot0.sceneGo_ = slot0:GetSceneByName(slot5)
 
-		if arg_9_0.sceneGo_ then
-			LuaForUtil.SetSceneSetting(arg_9_0.sceneGo_, true)
-			SetActive(arg_9_0.sceneGo_, not arg_9_3)
+		if slot0.sceneGo_ then
+			LuaForUtil.SetSceneSetting(slot0.sceneGo_, true)
+			SetActive(slot0.sceneGo_, not slot3)
 		end
 	end
 end
 
-function var_0_0.GetSceneSetting(arg_10_0)
-	local var_10_0 = SceneManager.GetActiveScene()
-	local var_10_1 = var_10_0:GetRootGameObjects()
-	local var_10_2
-	local var_10_3
+function slot0.GetSceneSetting(slot0)
+	slot3, slot4 = nil
 
-	if var_10_1 ~= nil then
-		for iter_10_0 = 0, var_10_1.Length - 1 do
-			if var_10_1[iter_10_0].name == var_10_0.name then
-				var_10_2 = var_10_1[iter_10_0]
+	if SceneManager.GetActiveScene():GetRootGameObjects() ~= nil then
+		for slot8 = 0, slot2.Length - 1 do
+			if slot2[slot8].name == slot1.name then
+				slot3 = slot2[slot8]
 
 				break
 			end
 		end
 	end
 
-	if var_10_2 then
-		local var_10_4 = var_10_2:GetComponent("SceneSetting")
-
-		if var_10_4.enabled == true then
-			return var_10_4
-		end
+	if slot3 and slot3:GetComponent("SceneSetting").enabled == true then
+		return slot4
 	end
 end
 
-function var_0_0.GetSceneSettingBySceneName(arg_11_0, arg_11_1)
-	local var_11_0 = SceneManager.GetSceneByName(arg_11_1)
-	local var_11_1 = var_11_0:GetRootGameObjects()
-	local var_11_2
-	local var_11_3
+function slot0.GetSceneSettingBySceneName(slot0, slot1)
+	slot4, slot5 = nil
 
-	if var_11_1 ~= nil then
-		for iter_11_0 = 0, var_11_1.Length - 1 do
-			if var_11_1[iter_11_0].name == var_11_0.name then
-				var_11_2 = var_11_1[iter_11_0]
+	if SceneManager.GetSceneByName(slot1):GetRootGameObjects() ~= nil then
+		for slot9 = 0, slot3.Length - 1 do
+			if slot3[slot9].name == slot2.name then
+				slot4 = slot3[slot9]
 
 				break
 			end
 		end
 	end
 
-	if var_11_2 then
-		return (var_11_2:GetComponent("SceneSetting"))
+	if slot4 then
+		return slot4:GetComponent("SceneSetting")
 	end
 end
 
-function var_0_0.SetSceneLightEffect(arg_12_0, arg_12_1)
-	if isNil(arg_12_0.sceneGo_) then
+function slot0.SetSceneLightEffect(slot0, slot1)
+	if isNil(slot0.sceneGo_) then
 		return
 	end
 
-	if arg_12_0.lastPath_ == arg_12_1 and not isNil(arg_12_0.sceneLightEffectGo_) then
+	if slot0.lastPath_ == slot1 and not isNil(slot0.sceneLightEffectGo_) then
 		return
 	end
 
-	if not isNil(arg_12_0.sceneLightEffectGo_) then
-		Object.Destroy(arg_12_0.sceneLightEffectGo_)
+	if not isNil(slot0.sceneLightEffectGo_) then
+		Object.Destroy(slot0.sceneLightEffectGo_)
 	end
 
-	arg_12_0.lastPath_ = arg_12_1
-
-	local var_12_0 = Asset.Load(arg_12_1)
-
-	arg_12_0.sceneLightEffectGo_ = Object.Instantiate(var_12_0, arg_12_0.sceneGo_.transform)
+	slot0.lastPath_ = slot1
+	slot0.sceneLightEffectGo_ = Object.Instantiate(Asset.Load(slot1), slot0.sceneGo_.transform)
 end
 
-function var_0_0.GetSceneByName(arg_13_0, arg_13_1)
-	local var_13_0
+function slot0.GetSceneByName(slot0, slot1)
+	slot2 = nil
 
-	if SceneManager.GetSceneByName(arg_13_1).rootCount > 0 then
-		var_13_0 = SceneManager.GetSceneByName(arg_13_1):GetRootGameObjects()
+	if SceneManager.GetSceneByName(slot1).rootCount > 0 then
+		slot2 = SceneManager.GetSceneByName(slot1):GetRootGameObjects()
 	end
 
-	if var_13_0 ~= nil then
-		for iter_13_0 = 0, var_13_0.Length - 1 do
-			if var_13_0[iter_13_0].name == arg_13_1 then
-				return var_13_0[iter_13_0]
+	if slot2 ~= nil then
+		for slot6 = 0, slot2.Length - 1 do
+			if slot2[slot6].name == slot1 then
+				return slot2[slot6]
 			end
 		end
 	end
@@ -235,163 +215,157 @@ function var_0_0.GetSceneByName(arg_13_0, arg_13_1)
 	return nil
 end
 
-function var_0_0.ResetMainCamera(arg_14_0)
-	arg_14_0:SetMainCamera("null")
+function slot0.ResetMainCamera(slot0)
+	slot0:SetMainCamera("null")
 
-	if arg_14_0.sceneGo_ then
-		LuaForUtil.SetSceneSetting(arg_14_0.sceneGo_, false)
-		SetActive(arg_14_0.sceneGo_, false)
+	if slot0.sceneGo_ then
+		LuaForUtil.SetSceneSetting(slot0.sceneGo_, false)
+		SetActive(slot0.sceneGo_, false)
 
-		arg_14_0.sceneGo_ = nil
+		slot0.sceneGo_ = nil
 	end
 end
 
-function var_0_0.SetMainCameraCom(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.mainCamera:GetComponent(arg_15_1)
-
-	if var_15_0 then
-		var_15_0.enabled = arg_15_2
+function slot0.SetMainCameraCom(slot0, slot1, slot2)
+	if slot0.mainCamera:GetComponent(slot1) then
+		slot3.enabled = slot2
 	end
 end
 
-function var_0_0.AddMainCameraCom(arg_16_0, arg_16_1)
-	return GameObjectTools.GetOrAddComponent(arg_16_0.mainCamera, arg_16_1)
+function slot0.AddMainCameraCom(slot0, slot1)
+	return GameObjectTools.GetOrAddComponent(slot0.mainCamera, slot1)
 end
 
-function var_0_0.SetUISeparateRender(arg_17_0, arg_17_1)
-	if arg_17_0.cameraExtension then
-		arg_17_0.cameraExtension.uiSeparateRender = arg_17_1
+function slot0.SetUISeparateRender(slot0, slot1)
+	if slot0.cameraExtension then
+		slot0.cameraExtension.uiSeparateRender = slot1
 	end
 end
 
-function var_0_0.GetUISeparateRender(arg_18_0)
-	if arg_18_0.cameraExtension then
-		return arg_18_0.cameraExtension.uiSeparateRender
+function slot0.GetUISeparateRender(slot0)
+	if slot0.cameraExtension then
+		return slot0.cameraExtension.uiSeparateRender
 	end
 
 	return false
 end
 
-function var_0_0.GetCanvasSize(arg_19_0)
-	return arg_19_0.canvasSize_
+function slot0.GetCanvasSize(slot0)
+	return slot0.canvasSize_
 end
 
-function var_0_0.SetSceneObject(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.sceneObject_[arg_20_1] = arg_20_2
+function slot0.SetSceneObject(slot0, slot1, slot2)
+	slot0.sceneObject_[slot1] = slot2
 end
 
-function var_0_0.GetSceneObject(arg_21_0, arg_21_1)
-	if arg_21_0.sceneObject_[arg_21_1] == nil then
-		arg_21_0.sceneObject_[arg_21_1] = GameObject.Find(arg_21_1)
+function slot0.GetSceneObject(slot0, slot1)
+	if slot0.sceneObject_[slot1] == nil then
+		slot0.sceneObject_[slot1] = GameObject.Find(slot1)
 	end
 
-	return arg_21_0.sceneObject_[arg_21_1]
+	return slot0.sceneObject_[slot1]
 end
 
-function var_0_0.UIEventEnabled(arg_22_0, arg_22_1)
-	if arg_22_0.isForce_ then
+function slot0.UIEventEnabled(slot0, slot1)
+	if slot0.isForce_ then
 		return
 	end
 
-	arg_22_0:EventEnabled(arg_22_1)
+	slot0:EventEnabled(slot1)
 end
 
-function var_0_0.UIEventEnabledByUI(arg_23_0, arg_23_1, arg_23_2)
-	arg_23_0.isForce_ = arg_23_2
+function slot0.UIEventEnabledByUI(slot0, slot1, slot2)
+	slot0.isForce_ = slot2
 
-	arg_23_0:EventEnabled(arg_23_1)
+	slot0:EventEnabled(slot1)
 end
 
-function var_0_0.EventEnabled(arg_24_0, arg_24_1)
-	if arg_24_0.uiCanvasGroup then
-		arg_24_0.uiCanvasGroup.blocksRaycasts = arg_24_1
+function slot0.EventEnabled(slot0, slot1)
+	if slot0.uiCanvasGroup then
+		slot0.uiCanvasGroup.blocksRaycasts = slot1
 	end
 end
 
-function var_0_0.GetIsUIEventEnabled(arg_25_0)
-	if arg_25_0.uiCanvasGroup then
-		return arg_25_0.uiCanvasGroup.blocksRaycasts
+function slot0.GetIsUIEventEnabled(slot0)
+	if slot0.uiCanvasGroup then
+		return slot0.uiCanvasGroup.blocksRaycasts
 	end
 end
 
-function var_0_0.GetGuideUI(arg_26_0)
-	if arg_26_0.guideUI_ == nil then
-		arg_26_0.guideUI_ = GameObject.Instantiate(Asset.Load("UI/Guide/GuideUI"), arg_26_0.uiTips.transform)
+function slot0.GetGuideUI(slot0)
+	if slot0.guideUI_ == nil then
+		slot0.guideUI_ = GameObject.Instantiate(Asset.Load("UI/Guide/GuideUI"), slot0.uiTips.transform)
 	end
 
-	return arg_26_0.guideUI_
+	return slot0.guideUI_
 end
 
-function var_0_0.Dispose(arg_27_0)
-	if arg_27_0.guideUI_ then
-		Object.Destroy(arg_27_0.guideUI_)
+function slot0.Dispose(slot0)
+	if slot0.guideUI_ then
+		Object.Destroy(slot0.guideUI_)
 
-		arg_27_0.guideUI_ = nil
+		slot0.guideUI_ = nil
 	end
 
-	if arg_27_0.encodePosTimer_ then
-		arg_27_0.encodePosTimer_:Stop()
+	if slot0.encodePosTimer_ then
+		slot0.encodePosTimer_:Stop()
 	end
 
-	if arg_27_0.sceneGo_ then
-		LuaForUtil.SetSceneSetting(arg_27_0.sceneGo_, false)
-		SetActive(arg_27_0.sceneGo_, false)
+	if slot0.sceneGo_ then
+		LuaForUtil.SetSceneSetting(slot0.sceneGo_, false)
+		SetActive(slot0.sceneGo_, false)
 
-		arg_27_0.sceneGo_ = nil
+		slot0.sceneGo_ = nil
 	end
 
-	arg_27_0.uiCanvasGroup = nil
-	arg_27_0.uiMain = nil
-	arg_27_0.uiPop = nil
-	arg_27_0.uiMessage = nil
-	arg_27_0.uiTips = nil
-	arg_27_0.uiLoad = nil
-	arg_27_0.uiHPPanel = nil
-	arg_27_0.uiCamera = nil
-	arg_27_0.sceneObject_ = {}
-	arg_27_0.lastPath_ = nil
-	arg_27_0.sceneLightEffectGo_ = nil
+	slot0.uiCanvasGroup = nil
+	slot0.uiMain = nil
+	slot0.uiPop = nil
+	slot0.uiMessage = nil
+	slot0.uiTips = nil
+	slot0.uiLoad = nil
+	slot0.uiHPPanel = nil
+	slot0.uiCamera = nil
+	slot0.sceneObject_ = {}
+	slot0.lastPath_ = nil
+	slot0.sceneLightEffectGo_ = nil
 end
 
-function var_0_0.AdaptUIByFOV(arg_28_0)
-	local var_28_0 = 1000000
-	local var_28_1 = 2 * var_28_0 * math.tan(math.rad(arg_28_0.mainCameraCom_.fieldOfView * 0.5)) * arg_28_0.mainCameraCom_.aspect
-	local var_28_2 = math.deg(2 * math.atan(var_28_1 * 0.5 / var_28_0))
+function slot0.AdaptUIByFOV(slot0)
+	slot1 = 1000000
+	slot4 = math.deg(2 * math.atan(2 * slot1 * math.tan(math.rad(slot0.mainCameraCom_.fieldOfView * 0.5)) * slot0.mainCameraCom_.aspect * 0.5 / slot1))
 
-	print("该界面的水平FOV为：", var_28_2)
+	print("该界面的水平FOV为：", slot4)
 
-	if var_28_2 < 46 then
-		local var_28_3 = 46
-		local var_28_4 = 2 * var_28_0 * math.tan(math.rad(var_28_3 * 0.5)) / arg_28_0.mainCameraCom_.aspect
-
-		arg_28_0.mainCameraCom_.fieldOfView = math.deg(2 * math.atan(var_28_4 * 0.5 / var_28_0))
+	if slot4 < 46 then
+		slot0.mainCameraCom_.fieldOfView = math.deg(2 * math.atan(2 * slot1 * math.tan(math.rad(46 * 0.5)) / slot0.mainCameraCom_.aspect * 0.5 / slot1))
 	end
 end
 
-function var_0_0.ScreenToWorldPoint(arg_29_0, arg_29_1, arg_29_2, arg_29_3)
-	local var_29_0 = arg_29_0.mainCameraCom_:ScreenToWorldPoint(Vector3(arg_29_1, arg_29_2, arg_29_3))
+function slot0.ScreenToWorldPoint(slot0, slot1, slot2, slot3)
+	slot4 = slot0.mainCameraCom_:ScreenToWorldPoint(Vector3(slot1, slot2, slot3))
 
-	return var_29_0.x, var_29_0.z
+	return slot4.x, slot4.z
 end
 
-function var_0_0.ShowScreenTap(arg_30_0, arg_30_1)
-	if arg_30_0.screenTapCanvas == nil then
-		arg_30_0.screenTap = GameObject.Find("UICamera/Canvas/UIScreenTap/ScreenTapUI")
+function slot0.ShowScreenTap(slot0, slot1)
+	if slot0.screenTapCanvas == nil then
+		slot0.screenTap = GameObject.Find("UICamera/Canvas/UIScreenTap/ScreenTapUI")
 
-		if arg_30_0.screenTap then
-			arg_30_0.screenTapCanvas = arg_30_0.screenTap:GetComponent("CanvasGroup")
+		if slot0.screenTap then
+			slot0.screenTapCanvas = slot0.screenTap:GetComponent("CanvasGroup")
 		end
 	end
 
-	if arg_30_0.screenTapCanvas then
-		if arg_30_1 then
-			arg_30_0.screenTapCanvas.alpha = 1
+	if slot0.screenTapCanvas then
+		if slot1 then
+			slot0.screenTapCanvas.alpha = 1
 		else
-			arg_30_0.screenTapCanvas.alpha = 0
+			slot0.screenTapCanvas.alpha = 0
 		end
 	end
 
-	arg_30_0:ShowUID(arg_30_1)
+	slot0:ShowUID(slot1)
 end
 
-return var_0_0
+return slot0

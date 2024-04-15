@@ -1,47 +1,39 @@
-local var_0_0 = class("GotoSequentialBattleStage", BattleSettlementStrategyBase)
+slot0 = class("GotoSequentialBattleStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoSequentialBattleStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoSequentialBattleStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoSequentialBattleStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
+function slot0.GotoSequentialBattleStage(slot0, slot1, slot2, slot3, slot4, slot5)
 	function BattleCallLuaCallBack()
-		if isSuccess(arg_2_1) then
-			local var_3_0 = arg_2_2:GetActivityID()
-			local var_3_1 = arg_2_2:GetStageId()
-			local var_3_2 = SequentialBattleChapterCfg[var_3_0].stage_id
-			local var_3_3 = table.indexof(var_3_2, var_3_1)
-			local var_3_4 = SequentialBattleData:GetChapterData(var_3_0).team[var_3_3].enabledBuff or {}
-			local var_3_5 = "["
+		if isSuccess(uv0) then
+			slot0 = uv1:GetActivityID()
+			slot4 = SequentialBattleData:GetChapterData(slot0).team[table.indexof(SequentialBattleChapterCfg[slot0].stage_id, uv1:GetStageId())].enabledBuff or {}
 
-			for iter_3_0, iter_3_1 in ipairs(var_3_4) do
-				var_3_5 = var_3_5 .. iter_3_1
-
-				if iter_3_0 ~= #var_3_4 then
-					var_3_5 = var_3_5 .. ","
+			for slot9, slot10 in ipairs(slot4) do
+				if slot9 ~= #slot4 then
+					slot5 = "[" .. slot10 .. ","
 				end
 			end
 
-			local var_3_6 = var_3_5 .. "]"
-
 			SDKTools.SendMessageToSDK("combat_over", {
-				activity_cb_buff_list = var_3_6
+				activity_cb_buff_list = slot5 .. "]"
 			})
-			SequentialBattleData:ClearStage(arg_2_2:GetActivityID())
+			SequentialBattleData:ClearStage(uv1:GetActivityID())
 			gameContext:Go("/sequentialBattleResult", {
-				stageData = arg_2_2,
+				stageData = uv1,
 				rewardList = {},
-				battleResult = arg_2_4
+				battleResult = uv2
 			})
 		else
 			gameContext:Go("/sequentialBattleFailed", {
-				stageData = arg_2_2,
-				battleResult = arg_2_4
+				stageData = uv1,
+				battleResult = uv2
 			})
 		end
 
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv0)
 	end
 end
 
-return var_0_0
+return slot0

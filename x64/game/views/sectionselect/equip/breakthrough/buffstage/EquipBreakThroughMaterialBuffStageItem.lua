@@ -1,55 +1,53 @@
-local var_0_0 = class("EquipBreakThroughMaterialBuffStageItem", ReduxView)
+slot0 = class("EquipBreakThroughMaterialBuffStageItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.selectHandler_ = handler(arg_1_0, arg_1_0.SelectItem)
+	slot0.selectHandler_ = handler(slot0, slot0.SelectItem)
 
-	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_SELECT_BUFF, arg_1_0.selectHandler_)
+	manager.notify:RegistListener(EQUIP_BREAK_THROUGH_SELECT_BUFF, slot0.selectHandler_)
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.button_, nil, function()
-		manager.notify:Invoke(EQUIP_BREAK_THROUGH_SELECT_BUFF, arg_2_0.index_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		manager.notify:Invoke(EQUIP_BREAK_THROUGH_SELECT_BUFF, uv0.index_)
 	end)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
-	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_SELECT_BUFF, arg_4_0.selectHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(EQUIP_BREAK_THROUGH_SELECT_BUFF, slot0.selectHandler_)
 
-	arg_4_0.selectHandler_ = nil
+	slot0.selectHandler_ = nil
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.index_ = arg_5_1
-	arg_5_0.mapStageID_ = arg_5_2
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.mapStageID_ = slot2
 
-	arg_5_0:RefreshUI()
-	arg_5_0:SelectItem(arg_5_3)
+	slot0:RefreshUI()
+	slot0:SelectItem(slot3)
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = EquipBreakThroughMaterialData:GetStageData()[arg_6_0.mapStageID_].buffList[arg_6_0.index_]
-	local var_6_1 = EquipBreakThroughMaterialItemCfg[var_6_0]
-
-	arg_6_0.nameText_.text = GetI18NText(var_6_1.name)
-	arg_6_0.descText_.text = getAffixDesc(var_6_1.params)
-	arg_6_0.icon_.sprite = getSprite("Atlas/EquipBreakThroughMaterialIcon", var_6_1.icon)
+function slot0.RefreshUI(slot0)
+	slot3 = EquipBreakThroughMaterialItemCfg[EquipBreakThroughMaterialData:GetStageData()[slot0.mapStageID_].buffList[slot0.index_]]
+	slot0.nameText_.text = GetI18NText(slot3.name)
+	slot0.descText_.text = getAffixDesc(slot3.params)
+	slot0.icon_.sprite = getSprite("Atlas/EquipBreakThroughMaterialIcon", slot3.icon)
 end
 
-function var_0_0.SelectItem(arg_7_0, arg_7_1)
-	if arg_7_0.index_ == arg_7_1 then
-		arg_7_0.controller_:SetSelectedState("1")
+function slot0.SelectItem(slot0, slot1)
+	if slot0.index_ == slot1 then
+		slot0.controller_:SetSelectedState("1")
 	else
-		arg_7_0.controller_:SetSelectedState("0")
+		slot0.controller_:SetSelectedState("0")
 	end
 end
 
-return var_0_0
+return slot0

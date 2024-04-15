@@ -1,172 +1,171 @@
-local var_0_0 = class("CowboyGameView", ReduxView)
-local var_0_1 = require("cjson")
+slot0 = class("CowboyGameView", ReduxView)
+slot1 = require("cjson")
 
-function var_0_0.UIName(arg_1_0)
-	return CowboyTools.GetGameUIName(arg_1_0.params_.mainActivityID)
+function slot0.UIName(slot0)
+	return CowboyTools.GetGameUIName(slot0.params_.mainActivityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.onSenceLoadedHandler_ = handler(arg_4_0, arg_4_0.OnCowboySenceLoaded)
-	arg_4_0.onTimeChangeHandler_ = handler(arg_4_0, arg_4_0.OnTimeChange)
-	arg_4_0.onScoreChangeHandler_ = handler(arg_4_0, arg_4_0.OnScoreChange)
-	arg_4_0.onAttackHandler_ = handler(arg_4_0, arg_4_0.OnAttack)
-	arg_4_0.OnGameFocusChange_ = handler(arg_4_0, arg_4_0.OnGameFocusChange1)
+	slot0.onSenceLoadedHandler_ = handler(slot0, slot0.OnCowboySenceLoaded)
+	slot0.onTimeChangeHandler_ = handler(slot0, slot0.OnTimeChange)
+	slot0.onScoreChangeHandler_ = handler(slot0, slot0.OnScoreChange)
+	slot0.onAttackHandler_ = handler(slot0, slot0.OnAttack)
+	slot0.OnGameFocusChange_ = handler(slot0, slot0.OnGameFocusChange1)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.catchBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.catchBtn_, nil, function ()
 		CowboyTools:Attack()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		if arg_5_0.isPause_ then
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		if uv0.isPause_ then
 			return
 		end
 
 		manager.audio:Pause("music", true)
 		manager.audio:Pause("effect", true)
-		arg_5_0:OnCowboyPause()
+		uv0:OnCowboyPause()
 		JumpTools.OpenPageByJump("cowboyGameBack", {
-			mainActivityID = arg_5_0.mainActivityID_
+			mainActivityID = uv0.mainActivityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.stopBtn_, nil, function()
-		if arg_5_0.isPause_ then
+	slot0:AddBtnListener(slot0.stopBtn_, nil, function ()
+		if uv0.isPause_ then
 			return
 		end
 
 		manager.audio:Pause("music", true)
 		manager.audio:Pause("effect", true)
-		arg_5_0:OnCowboyPause()
+		uv0:OnCowboyPause()
 		JumpTools.OpenPageByJump("cowboyGamePause", {
-			mainActivityID = arg_5_0.mainActivityID_
+			mainActivityID = uv0.mainActivityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.hideBtn_, nil, function()
+	slot0:AddBtnListener(slot0.hideBtn_, nil, function ()
 		CowboyTools:Hide()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.mainActivityID_ = arg_10_0.params_.mainActivityID
-	arg_10_0.activityID_ = arg_10_0.params_.activityID
-	arg_10_0.isPause_ = false
+function slot0.OnEnter(slot0)
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.isPause_ = false
 
-	SetActive(arg_10_0.cdImg_, false)
+	SetActive(slot0.cdImg_, false)
 
-	arg_10_0.attackMask_.fillAmount = 0
+	slot0.attackMask_.fillAmount = 0
 
-	arg_10_0:RegisterEvents()
-	arg_10_0:InitializeCowboy()
+	slot0:RegisterEvents()
+	slot0:InitializeCowboy()
 end
 
-function var_0_0.InitializeCowboy(arg_11_0)
+function slot0.InitializeCowboy(slot0)
 	manager.ui:SetMainCamera("cowboy")
 
 	manager.ui.mainCameraCom_.orthographic = true
 
-	CowboyTools:LoadCowboyLevel(arg_11_0.onSenceLoadedHandler_, arg_11_0.onTimeChangeHandler_, arg_11_0.onScoreChangeHandler_, arg_11_0.onAttackHandler_)
+	CowboyTools:LoadCowboyLevel(slot0.onSenceLoadedHandler_, slot0.onTimeChangeHandler_, slot0.onScoreChangeHandler_, slot0.onAttackHandler_)
 end
 
-function var_0_0.OnCowboySenceLoaded(arg_12_0)
-	CowboyTools:InitCowboySence(arg_12_0.mainActivityID_, arg_12_0.activityID_)
+function slot0.OnCowboySenceLoaded(slot0)
+	CowboyTools:InitCowboySence(slot0.mainActivityID_, slot0.activityID_)
 end
 
-function var_0_0.OnTimeChange(arg_13_0, arg_13_1)
-	arg_13_0.time_.text = arg_13_1
+function slot0.OnTimeChange(slot0, slot1)
+	slot0.time_.text = slot1
 end
 
-function var_0_0.OnScoreChange(arg_14_0, arg_14_1)
-	arg_14_0.scoreText_.text = arg_14_1
+function slot0.OnScoreChange(slot0, slot1)
+	slot0.scoreText_.text = slot1
 end
 
-function var_0_0.OnAttack(arg_15_0, arg_15_1)
-	arg_15_0:StopTimer()
-	SetActive(arg_15_0.cdImg_, true)
+function slot0.OnAttack(slot0, slot1)
+	slot0:StopTimer()
+	SetActive(slot0.cdImg_, true)
 
-	local var_15_0 = 0
-
-	arg_15_0.timer_ = Timer.New(function()
-		if var_15_0 > arg_15_1 then
-			arg_15_0:StopTimer()
-			SetActive(arg_15_0.cdImg_, false)
+	slot2 = 0
+	slot0.timer_ = Timer.New(function ()
+		if uv1 < uv0 then
+			uv2:StopTimer()
+			SetActive(uv2.cdImg_, false)
 		end
 
-		arg_15_0.attackMask_.fillAmount = 1 - var_15_0 / arg_15_1
+		uv2.attackMask_.fillAmount = 1 - uv0 / uv1
 
-		if not arg_15_0.isPause_ then
-			var_15_0 = var_15_0 + 0.01
+		if not uv2.isPause_ then
+			uv0 = uv0 + 0.01
 		end
 	end, 0.01, -1)
 
-	arg_15_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.OnGameFocusChange1(arg_17_0, arg_17_1, arg_17_2)
-	if arg_17_2 or not arg_17_1 then
+function slot0.OnGameFocusChange1(slot0, slot1, slot2)
+	if slot2 or not slot1 then
 		manager.audio:Pause("music", true)
 		manager.audio:Pause("effect", true)
 		CowboyTools:Pause()
-	elseif arg_17_0.isPause_ == false then
+	elseif slot0.isPause_ == false then
 		manager.audio:Pause("music", false)
 		manager.audio:Pause("effect", false)
 		CowboyTools:Continue()
 	end
 end
 
-function var_0_0.OnCowboyPause(arg_18_0)
-	arg_18_0.isPause_ = true
+function slot0.OnCowboyPause(slot0)
+	slot0.isPause_ = true
 
 	CowboyTools:Pause()
 end
 
-function var_0_0.OnCowboyContinue(arg_19_0)
-	arg_19_0.isPause_ = false
+function slot0.OnCowboyContinue(slot0)
+	slot0.isPause_ = false
 
-	SetActive(arg_19_0.cdImg_, false)
+	SetActive(slot0.cdImg_, false)
 	CowboyTools:Continue()
 end
 
-function var_0_0.OnCowboyRestart(arg_20_0)
-	arg_20_0:StopTimer()
+function slot0.OnCowboyRestart(slot0)
+	slot0:StopTimer()
 
-	arg_20_0.isPause_ = false
+	slot0.isPause_ = false
 
-	SetActive(arg_20_0.cdImg_, false)
+	SetActive(slot0.cdImg_, false)
 	CowboyTools:Restart()
 end
 
-function var_0_0.StopTimer(arg_21_0)
-	if arg_21_0.timer_ then
-		arg_21_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_21_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_21_0.attackMask_.fillAmount = 0
+	slot0.attackMask_.fillAmount = 0
 end
 
-function var_0_0.RegisterEvents(arg_22_0)
-	manager.notify:RegistListener(GAME_FOCUS_CHANGE, arg_22_0.OnGameFocusChange_)
+function slot0.RegisterEvents(slot0)
+	manager.notify:RegistListener(GAME_FOCUS_CHANGE, slot0.OnGameFocusChange_)
 end
 
-function var_0_0.RemoveEvents(arg_23_0)
-	manager.notify:RemoveListener(GAME_FOCUS_CHANGE, arg_23_0.OnGameFocusChange_)
+function slot0.RemoveEvents(slot0)
+	manager.notify:RemoveListener(GAME_FOCUS_CHANGE, slot0.OnGameFocusChange_)
 end
 
-function var_0_0.OnExit(arg_24_0)
-	arg_24_0:RemoveEvents()
-	arg_24_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:RemoveEvents()
+	slot0:StopTimer()
 	CowboyTools:GameOver()
 	manager.ui:ResetMainCamera()
 
@@ -175,9 +174,9 @@ function var_0_0.OnExit(arg_24_0)
 	CowboyTools:UnLoadCowboyLevel()
 end
 
-function var_0_0.Dispose(arg_25_0)
-	arg_25_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_25_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

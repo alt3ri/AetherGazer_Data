@@ -1,34 +1,31 @@
-local var_0_0 = class("GuildActivityRatePremissItem", ReduxView)
+slot0 = class("GuildActivityRatePremissItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.ID_ = arg_4_1
-	arg_4_0.activityID_ = arg_4_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.ID_ = slot1
+	slot0.activityID_ = slot2
+	slot3, slot0.curNum_, slot5 = GuildActivityTools.IsConditionAchieved(slot0.ID_)
+	slot0.needNum_ = slot5
+	slot0.currentText_.text = slot0.curNum_
+	slot0.targetText_.text = string.format("/%d", slot5)
 
-	local var_4_0, var_4_1, var_4_2 = GuildActivityTools.IsConditionAchieved(arg_4_0.ID_)
+	SetActive(slot0.completeFlagGo_, slot3)
 
-	arg_4_0.curNum_ = var_4_1
-	arg_4_0.needNum_ = var_4_2
-	arg_4_0.currentText_.text = arg_4_0.curNum_
-	arg_4_0.targetText_.text = string.format("/%d", var_4_2)
-
-	SetActive(arg_4_0.completeFlagGo_, var_4_0)
-
-	arg_4_0.descText_.text = GetI18NText(ConditionCfg[arg_4_0.ID_].desc)
+	slot0.descText_.text = GetI18NText(ConditionCfg[slot0.ID_].desc)
 end
 
-return var_0_0
+return slot0

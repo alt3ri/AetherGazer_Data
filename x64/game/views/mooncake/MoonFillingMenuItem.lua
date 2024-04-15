@@ -1,105 +1,97 @@
-local var_0_0 = class("MoonFillingMenuItem", ReduxView)
+slot0 = class("MoonFillingMenuItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selecteController_ = ControllerUtil.GetController(arg_2_0.transform_, "select")
-	arg_2_0.materialList_ = {}
-	arg_2_0.fillingItem_ = MoonCakeItem.New(arg_2_0.fillingItemGo_)
+	slot0.selecteController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.materialList_ = {}
+	slot0.fillingItem_ = MoonCakeItem.New(slot0.fillingItemGo_)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_3_0.maxTimes_ <= 0 then
+		if uv0.maxTimes_ <= 0 then
 			ShowTips("MID_AUTUMN_FESTIVAL_FILLING_MAKING_INSUFFICIENT_RAW_MATERIALS")
 
 			return
 		end
 
-		if arg_3_0.chooseHandler_ then
-			arg_3_0.chooseHandler_(arg_3_0.fillingID_)
+		if uv0.chooseHandler_ then
+			uv0.chooseHandler_(uv0.fillingID_)
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.materialList_) do
-		iter_5_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.materialList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.materialList_ = nil
+	slot0.materialList_ = nil
 
-	arg_5_0.fillingItem_:Dispose()
+	slot0.fillingItem_:Dispose()
 
-	arg_5_0.fillingItem_ = nil
+	slot0.fillingItem_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.activityID_ = arg_6_2
-	arg_6_0.fillingID_ = arg_6_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.fillingID_ = slot1
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = MoonCakeFillingCfg[arg_7_0.fillingID_].patties
+function slot0.RefreshUI(slot0)
+	slot0.fillingItem_:SetData(MoonCakeFillingCfg[slot0.fillingID_].patties)
+	slot0.fillingItem_:SetType(MoonCakeConst.ITEM_STYLE.MAKE)
 
-	arg_7_0.fillingItem_:SetData(var_7_0)
-	arg_7_0.fillingItem_:SetType(MoonCakeConst.ITEM_STYLE.MAKE)
+	slot0.maxTimes_ = MoonCakeTools.GetFillingMultiTimes(slot0.fillingID_)
 
-	arg_7_0.maxTimes_ = MoonCakeTools.GetFillingMultiTimes(arg_7_0.fillingID_)
-
-	if arg_7_0.maxTimes_ > 0 then
-		arg_7_0.fillingItem_:SetMakeTimes(arg_7_0.maxTimes_)
+	if slot0.maxTimes_ > 0 then
+		slot0.fillingItem_:SetMakeTimes(slot0.maxTimes_)
 	end
 
-	arg_7_0.fillingItem_:SetEnough(arg_7_0.maxTimes_ > 0)
-	arg_7_0:RefreshMaterial()
+	slot0.fillingItem_:SetEnough(slot0.maxTimes_ > 0)
+	slot0:RefreshMaterial()
 end
 
-function var_0_0.RefreshMaterial(arg_8_0)
-	local var_8_0 = MoonCakeFillingCfg[arg_8_0.fillingID_].recipe
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not arg_8_0.materialList_[iter_8_0] then
-			local var_8_1 = Object.Instantiate(arg_8_0.materialGo_, arg_8_0.materialContentTrans_)
-
-			arg_8_0.materialList_[iter_8_0] = MoonCakeItem.New(var_8_1)
+function slot0.RefreshMaterial(slot0)
+	for slot5, slot6 in ipairs(MoonCakeFillingCfg[slot0.fillingID_].recipe) do
+		if not slot0.materialList_[slot5] then
+			slot0.materialList_[slot5] = MoonCakeItem.New(Object.Instantiate(slot0.materialGo_, slot0.materialContentTrans_))
 		end
 
-		local var_8_2 = ItemTools.getItemNum(iter_8_1[1])
-
-		arg_8_0.materialList_[iter_8_0]:SetData(iter_8_1[1])
-		arg_8_0.materialList_[iter_8_0]:SetEnough(var_8_2 >= iter_8_1[2])
+		slot0.materialList_[slot5]:SetData(slot6[1])
+		slot0.materialList_[slot5]:SetEnough(slot6[2] <= ItemTools.getItemNum(slot6[1]))
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.materialList_ do
-		arg_8_0.materialList_[iter_8_2]:SetActive(false)
+	for slot6 = #slot1 + 1, #slot0.materialList_ do
+		slot0.materialList_[slot6]:SetActive(false)
 	end
 end
 
-function var_0_0.SetSelect(arg_9_0, arg_9_1)
-	arg_9_0.selecteController_:SetSelectedState(arg_9_0.ID_ == arg_9_1 and "true" or "false")
+function slot0.SetSelect(slot0, slot1)
+	slot0.selecteController_:SetSelectedState(slot0.ID_ == slot1 and "true" or "false")
 end
 
-function var_0_0.SetChooseHandler(arg_10_0, arg_10_1)
-	arg_10_0.chooseHandler_ = arg_10_1
+function slot0.SetChooseHandler(slot0, slot1)
+	slot0.chooseHandler_ = slot1
 end
 
-return var_0_0
+return slot0

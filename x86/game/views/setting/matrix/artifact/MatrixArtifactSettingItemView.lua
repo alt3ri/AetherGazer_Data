@@ -1,29 +1,27 @@
-local var_0_0 = class("MatrixArtifactSettingItem", ReduxView)
+slot0 = class("MatrixArtifactSettingItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	local var_2_0 = MatrixItemCfg[arg_2_1]
-
-	arg_2_0.name_.text = GetI18NText(var_2_0.name)
-	arg_2_0.desc_.text = MatrixTools.GetMatrixItemDes(arg_2_1)
-	arg_2_0.icon_.sprite = MatrixTools.GetMatrixItemSprite(arg_2_1)
+function slot0.SetData(slot0, slot1)
+	slot0.name_.text = GetI18NText(MatrixItemCfg[slot1].name)
+	slot0.desc_.text = MatrixTools.GetMatrixItemDes(slot1)
+	slot0.icon_.sprite = MatrixTools.GetMatrixItemSprite(slot1)
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_3_0.icon_.sprite = nil
+	slot0.icon_.sprite = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

@@ -1,208 +1,192 @@
-local var_0_0 = class("MoonFillingMakeView", ReduxView)
+slot0 = class("MoonFillingMakeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionMidautumnUI/MoonFillingMakeUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.statusController_ = ControllerUtil.GetController(arg_4_0.transform_, "status")
-	arg_4_0.menuList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.scrollView_, MoonFillingMenuItem)
-	arg_4_0.chooseMenuHandler_ = handler(arg_4_0, arg_4_0.OnChooseMenu)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.menuList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.scrollView_, MoonFillingMenuItem)
+	slot0.chooseMenuHandler_ = handler(slot0, slot0.OnChooseMenu)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.makeBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.makeBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if not arg_5_0.curChoosedID_ then
+		if not uv0.curChoosedID_ then
 			ShowTips("MID_AUTUMN_FESTIVAL_FILLING_MAKING_MATERIALS_SELECT")
 
 			return
 		end
 
-		MoonCakeAction.MakeFilling(arg_5_0.activityID_, arg_5_0.curChoosedID_, arg_5_0.curTimes_)
+		MoonCakeAction.MakeFilling(uv0.activityID_, uv0.curChoosedID_, uv0.curTimes_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.addBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.addBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		arg_5_0.curTimes_ = arg_5_0.curTimes_ + 1
+		uv0.curTimes_ = uv0.curTimes_ + 1
 
-		arg_5_0:RefreshMakePanel()
+		uv0:RefreshMakePanel()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.subBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.subBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		arg_5_0.curTimes_ = arg_5_0.curTimes_ - 1
+		uv0.curTimes_ = uv0.curTimes_ - 1
 
-		arg_5_0:RefreshMakePanel()
+		uv0:RefreshMakePanel()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.maxBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
+	slot0:AddBtnListener(slot0.maxBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		arg_5_0.curTimes_ = arg_5_0.maxTimes_
+		uv0.curTimes_ = uv0.maxTimes_
 
-		arg_5_0:RefreshMakePanel()
+		uv0:RefreshMakePanel()
 	end)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.menuList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.menuList_:Dispose()
 
-	arg_11_0.menuList_ = nil
-	arg_11_0.chooseMenuHandler_ = nil
+	slot0.menuList_ = nil
+	slot0.chooseMenuHandler_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.activityID_ = arg_12_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_12_0:RefreshUI()
+	slot0:RefreshUI()
 
-	arg_12_0.materialAnim_.enabled = false
+	slot0.materialAnim_.enabled = false
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0.curChoosedID_ = nil
+function slot0.OnExit(slot0)
+	slot0.curChoosedID_ = nil
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	arg_14_0.statusController_:SetSelectedState("none")
-	arg_14_0:RefreshMenu()
+function slot0.RefreshUI(slot0)
+	slot0.statusController_:SetSelectedState("none")
+	slot0:RefreshMenu()
 end
 
-function var_0_0.RefreshMenu(arg_15_0)
-	arg_15_0.fillingIdList_ = MoonCakeTools.GetSortedFilling(arg_15_0.activityID_)
+function slot0.RefreshMenu(slot0)
+	slot0.fillingIdList_ = MoonCakeTools.GetSortedFilling(slot0.activityID_)
 
-	arg_15_0.menuList_:StartScroll(#arg_15_0.fillingIdList_)
+	slot0.menuList_:StartScroll(#slot0.fillingIdList_)
 end
 
-function var_0_0.RefreshMakePanel(arg_16_0)
-	arg_16_0:RefreshMultiBtn()
-	arg_16_0:RefreshMaterial()
+function slot0.RefreshMakePanel(slot0)
+	slot0:RefreshMultiBtn()
+	slot0:RefreshMaterial()
 
-	arg_16_0.curTimesText_.text = arg_16_0.curTimes_
-	arg_16_0.makeBtn_.interactable = arg_16_0.curTimes_ > 0
-
-	local var_16_0 = MoonCakeFillingCfg[arg_16_0.curChoosedID_].patties
-
-	arg_16_0.chooseFillingIcon_.sprite = ItemTools.getItemSprite(var_16_0)
-	arg_16_0.chooseFillingNameText_.text = ItemTools.getItemName(var_16_0)
-	arg_16_0.chooseFillingNum_.text = string.format(GetTips("ALREADY_HAVE_COUNT"), ItemTools.getItemNum(var_16_0))
+	slot0.curTimesText_.text = slot0.curTimes_
+	slot0.makeBtn_.interactable = slot0.curTimes_ > 0
+	slot1 = MoonCakeFillingCfg[slot0.curChoosedID_].patties
+	slot0.chooseFillingIcon_.sprite = ItemTools.getItemSprite(slot1)
+	slot0.chooseFillingNameText_.text = ItemTools.getItemName(slot1)
+	slot0.chooseFillingNum_.text = string.format(GetTips("ALREADY_HAVE_COUNT"), ItemTools.getItemNum(slot1))
 end
 
-function var_0_0.RefreshMultiBtn(arg_17_0)
-	arg_17_0.subBtn_.interactable = arg_17_0.curTimes_ > arg_17_0.minTimes_
-	arg_17_0.addBtn_.interactable = arg_17_0.curTimes_ < arg_17_0.maxTimes_
-	arg_17_0.maxBtn_.interactable = arg_17_0.curTimes_ < arg_17_0.maxTimes_
+function slot0.RefreshMultiBtn(slot0)
+	slot0.subBtn_.interactable = slot0.minTimes_ < slot0.curTimes_
+	slot0.addBtn_.interactable = slot0.curTimes_ < slot0.maxTimes_
+	slot0.maxBtn_.interactable = slot0.curTimes_ < slot0.maxTimes_
 end
 
-function var_0_0.RefreshMaterial(arg_18_0)
-	local var_18_0 = MoonCakeFillingCfg[arg_18_0.curChoosedID_].recipe
-
-	for iter_18_0, iter_18_1 in ipairs(var_18_0) do
-		arg_18_0[string.format("materialIcon%d_", iter_18_0)].sprite = ItemTools.getItemSprite(iter_18_1[1])
-		arg_18_0[string.format("materialNum%d_", iter_18_0)].text = "X" .. iter_18_1[2] * arg_18_0.curTimes_
+function slot0.RefreshMaterial(slot0)
+	for slot5, slot6 in ipairs(MoonCakeFillingCfg[slot0.curChoosedID_].recipe) do
+		slot0[string.format("materialIcon%d_", slot5)].sprite = ItemTools.getItemSprite(slot6[1])
+		slot0[string.format("materialNum%d_", slot5)].text = "X" .. slot6[2] * slot0.curTimes_
 	end
 end
 
-function var_0_0.IndexItem(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = arg_19_0.fillingIdList_[arg_19_1]
-
-	arg_19_2:SetData(var_19_0, arg_19_0.activityID_)
-	arg_19_2:SetChooseHandler(arg_19_0.chooseMenuHandler_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.fillingIdList_[slot1], slot0.activityID_)
+	slot2:SetChooseHandler(slot0.chooseMenuHandler_)
 end
 
-function var_0_0.OnChooseMenu(arg_20_0, arg_20_1)
-	if arg_20_0.curChoosedID_ == arg_20_1 then
+function slot0.OnChooseMenu(slot0, slot1)
+	if slot0.curChoosedID_ == slot1 then
 		return
 	end
 
-	arg_20_0.statusController_:SetSelectedState("select")
+	slot0.statusController_:SetSelectedState("select")
 
-	local var_20_0 = arg_20_0.curChoosedID_ == arg_20_1
+	slot2 = slot0.curChoosedID_ == slot1
+	slot0.curChoosedID_ = slot1
 
-	arg_20_0.curChoosedID_ = arg_20_1
-
-	local var_20_1 = arg_20_0.menuList_:GetItemList()
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_1) do
-		iter_20_1:SetSelect(arg_20_1)
+	for slot7, slot8 in ipairs(slot0.menuList_:GetItemList()) do
+		slot8:SetSelect(slot1)
 	end
 
-	arg_20_0.maxTimes_, arg_20_0.minTimes_ = MoonCakeTools.GetFillingMultiTimes(arg_20_0.curChoosedID_)
-	arg_20_0.curTimes_ = arg_20_0.minTimes_
+	slot0.maxTimes_, slot0.minTimes_ = MoonCakeTools.GetFillingMultiTimes(slot0.curChoosedID_)
+	slot0.curTimes_ = slot0.minTimes_
 
-	arg_20_0:RefreshMakePanel()
+	slot0:RefreshMakePanel()
 
-	if not var_20_0 then
-		arg_20_0.materialAnim_.enabled = true
+	if not slot2 then
+		slot0.materialAnim_.enabled = true
 
-		arg_20_0.materialAnim_:Play("Fx_icon_cx", -1, 0)
-		arg_20_0.materialAnim_:Update(0)
+		slot0.materialAnim_:Play("Fx_icon_cx", -1, 0)
+		slot0.materialAnim_:Update(0)
 	end
 end
 
-function var_0_0.OnMoonCakeFillingMade(arg_21_0)
-	arg_21_0.maxTimes_, arg_21_0.minTimes_ = MoonCakeTools.GetFillingMultiTimes(arg_21_0.curChoosedID_)
+function slot0.OnMoonCakeFillingMade(slot0)
+	slot0.maxTimes_, slot0.minTimes_ = MoonCakeTools.GetFillingMultiTimes(slot0.curChoosedID_)
 
-	if arg_21_0.minTimes_ > 0 then
-		arg_21_0.curTimes_ = arg_21_0.minTimes_
+	if slot0.minTimes_ > 0 then
+		slot0.curTimes_ = slot0.minTimes_
 
-		arg_21_0:RefreshMakePanel()
-
-		local var_21_0 = table.indexof(arg_21_0.fillingIdList_)
-
-		arg_21_0.menuList_:StartScroll(#arg_21_0.fillingIdList_, var_21_0)
+		slot0:RefreshMakePanel()
+		slot0.menuList_:StartScroll(#slot0.fillingIdList_, table.indexof(slot0.fillingIdList_))
 	else
-		arg_21_0:RefreshUI()
+		slot0:RefreshUI()
 
-		arg_21_0.curChoosedID_ = nil
+		slot0.curChoosedID_ = nil
 
-		local var_21_1 = arg_21_0.menuList_:GetItemList()
-
-		for iter_21_0, iter_21_1 in ipairs(var_21_1) do
-			iter_21_1:SetSelect(nil)
+		for slot5, slot6 in ipairs(slot0.menuList_:GetItemList()) do
+			slot6:SetSelect(nil)
 		end
 	end
 end
 
-function var_0_0.BindRedPoint(arg_22_0)
-	return
+function slot0.BindRedPoint(slot0)
 end
 
-function var_0_0.UnBindRedPoint(arg_23_0)
-	return
+function slot0.UnBindRedPoint(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,166 +1,155 @@
-local var_0_0 = class("ActivityReforgeTeamItem", ReduxView)
+slot0 = class("ActivityReforgeTeamItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.levelUpController_ = arg_3_0.controllerEx_:GetController("levelUp")
-	arg_3_0.usingcontroller_ = arg_3_0.controllerEx_:GetController("using")
-	arg_3_0.recommendcontroller_ = arg_3_0.controllerEx_:GetController("recommend")
-	arg_3_0.curSelectcontroller_ = arg_3_0.controllerEx_:GetController("curSelect")
-	arg_3_0.heroHeadItemList_ = {}
+	slot0.levelUpController_ = slot0.controllerEx_:GetController("levelUp")
+	slot0.usingcontroller_ = slot0.controllerEx_:GetController("using")
+	slot0.recommendcontroller_ = slot0.controllerEx_:GetController("recommend")
+	slot0.curSelectcontroller_ = slot0.controllerEx_:GetController("curSelect")
+	slot0.heroHeadItemList_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.heroHeadItemList_[iter_3_0] = ActivityReforgeHeroHeadItem.New(arg_3_0["heroHeadGo" .. iter_3_0 .. "_"])
+	for slot4 = 1, 3 do
+		slot0.heroHeadItemList_[slot4] = ActivityReforgeHeroHeadItem.New(slot0["heroHeadGo" .. slot4 .. "_"])
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.resetTeamLevelBtn_, nil, function()
-		if arg_4_0.teamInfo_ and arg_4_0.teamInfo_.level > 1 then
-			ActivityReforgeAction.ResetTeamLevel(arg_4_0.chapterActivityID_, arg_4_0.levelID_, arg_4_0.teamInfo_.teamID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.resetTeamLevelBtn_, nil, function ()
+		if uv0.teamInfo_ and uv0.teamInfo_.level > 1 then
+			ActivityReforgeAction.ResetTeamLevel(uv0.chapterActivityID_, uv0.levelID_, uv0.teamInfo_.teamID)
 		else
 			ShowTips("ACTIVITY_REFORGE_TEAM_NO_LEVELUP")
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.teamLevelUpBtn_, nil, function()
-		local var_6_0 = #arg_4_0.teamCfg_.team_info
-
-		if arg_4_0.teamInfo_ and var_6_0 > arg_4_0.teamInfo_.level then
-			ActivityReforgeAction.TeamLevelUp(arg_4_0.chapterActivityID_, arg_4_0.levelID_, arg_4_0.teamInfo_.teamID, function()
-				arg_4_0.teamInfoAni_:Play("LevelUp")
+	slot0:AddBtnListener(slot0.teamLevelUpBtn_, nil, function ()
+		if uv0.teamInfo_ and uv0.teamInfo_.level < #uv0.teamCfg_.team_info then
+			ActivityReforgeAction.TeamLevelUp(uv0.chapterActivityID_, uv0.levelID_, uv0.teamInfo_.teamID, function ()
+				uv0.teamInfoAni_:Play("LevelUp")
 			end)
 		else
 			ShowTips("ACTIVITY_REFORGE_TEAM_LEVEL_MAX")
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.selectBtn_, nil, function()
-		if arg_4_0.curWaveID_ == arg_4_0.curUsingWaveID_ then
+	slot0:AddBtnListener(slot0.selectBtn_, nil, function ()
+		if uv0.curWaveID_ == uv0.curUsingWaveID_ then
 			return
 		end
 
-		if arg_4_0.curUsingWaveID_ ~= 0 then
+		if uv0.curUsingWaveID_ ~= 0 then
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("ACTIVITY_REFORGE_TEAM_USED"),
-				OkCallback = function()
-					ActivityReforgeAction.SetWaveTeam(arg_4_0.chapterActivityID_, arg_4_0.levelID_, arg_4_0.curWaveID_, arg_4_0.teamInfo_.teamID, function()
+				OkCallback = function ()
+					ActivityReforgeAction.SetWaveTeam(uv0.chapterActivityID_, uv0.levelID_, uv0.curWaveID_, uv0.teamInfo_.teamID, function ()
 						JumpTools.Back()
 					end)
 				end
 			})
 		else
-			ActivityReforgeAction.SetWaveTeam(arg_4_0.chapterActivityID_, arg_4_0.levelID_, arg_4_0.curWaveID_, arg_4_0.teamInfo_.teamID, function()
+			ActivityReforgeAction.SetWaveTeam(uv0.chapterActivityID_, uv0.levelID_, uv0.curWaveID_, uv0.teamInfo_.teamID, function ()
 				JumpTools.Back()
 			end)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_12_0, arg_12_1, arg_12_2, arg_12_3, arg_12_4)
-	arg_12_0.chapterActivityID_ = arg_12_1
-	arg_12_0.levelID_ = arg_12_2
-	arg_12_0.curWaveID_ = arg_12_3
-	arg_12_0.teamID_ = arg_12_4
-	arg_12_0.teamInfo_ = ActivityReforgeData:GetTeamInfo(arg_12_0.teamID_)
-	arg_12_0.teamCfg_ = ActivityReforgeTeamCfg[arg_12_0.teamID_]
-	arg_12_0.curUsingWaveID_ = ActivityReforgeData:GetTeamCurUsingWaveID(arg_12_0.teamID_)
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.chapterActivityID_ = slot1
+	slot0.levelID_ = slot2
+	slot0.curWaveID_ = slot3
+	slot0.teamID_ = slot4
+	slot0.teamInfo_ = ActivityReforgeData:GetTeamInfo(slot0.teamID_)
+	slot0.teamCfg_ = ActivityReforgeTeamCfg[slot0.teamID_]
+	slot0.curUsingWaveID_ = ActivityReforgeData:GetTeamCurUsingWaveID(slot0.teamID_)
 
-	arg_12_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_13_0)
-	local var_13_0 = ActivityReforgeTeamCfg[arg_13_0.teamInfo_.teamID].team_info[arg_13_0.teamInfo_.level]
-	local var_13_1 = {}
-
-	for iter_13_0, iter_13_1 in pairs(var_13_0) do
-		table.insert(var_13_1, iter_13_1)
+function slot0.UpdateView(slot0)
+	for slot7, slot8 in pairs(ActivityReforgeTeamCfg[slot0.teamInfo_.teamID].team_info[slot0.teamInfo_.level]) do
+		table.insert({}, slot8)
 	end
 
-	for iter_13_2 = 1, 3 do
-		arg_13_0.heroHeadItemList_[iter_13_2]:SetData(var_13_0[iter_13_2])
-		arg_13_0.heroHeadItemList_[iter_13_2]:SetClickCallBack(function(arg_14_0)
+	for slot7 = 1, 3 do
+		slot0.heroHeadItemList_[slot7]:SetData(slot2[slot7])
+		slot0.heroHeadItemList_[slot7]:SetClickCallBack(function (slot0)
 			JumpTools.OpenPageByJump("/newHero", {
 				isEnter = true,
-				hid = arg_14_0,
+				hid = slot0,
 				type = HeroConst.HERO_DATA_TYPE.TRIAL,
-				tempHeroList = var_13_1
+				tempHeroList = uv0
 			})
 		end)
 	end
 
-	arg_13_0.levelText_.text = arg_13_0.teamInfo_.level
-	arg_13_0.levelDesText.text = arg_13_0.teamCfg_.description
+	slot0.levelText_.text = slot0.teamInfo_.level
+	slot0.levelDesText.text = slot0.teamCfg_.description
 
-	if arg_13_0.teamCfg_.combo_skill_id > 0 then
-		SetActive(arg_13_0.comboSkillGo_, true)
+	if slot0.teamCfg_.combo_skill_id > 0 then
+		SetActive(slot0.comboSkillGo_, true)
 
-		local var_13_2 = arg_13_0.teamCfg_.combo_skill_id
-		local var_13_3 = ComboSkillCfg[var_13_2]
-		local var_13_4 = HeroSkillCfg[var_13_3.skill_id]
-
-		arg_13_0.comboName_.text = GetI18NText(var_13_4.name)
-		arg_13_0.comboLevelText_.text = var_13_3.maxLevel
-		arg_13_0.comboIcon_.sprite = getSpriteViaConfig("ComboSkill", var_13_3.skill_id)
+		slot5 = ComboSkillCfg[slot0.teamCfg_.combo_skill_id]
+		slot0.comboName_.text = GetI18NText(HeroSkillCfg[slot5.skill_id].name)
+		slot0.comboLevelText_.text = slot5.maxLevel
+		slot0.comboIcon_.sprite = getSpriteViaConfig("ComboSkill", slot5.skill_id)
 	else
-		SetActive(arg_13_0.comboSkillGo_, false)
+		SetActive(slot0.comboSkillGo_, false)
 	end
 
-	arg_13_0.teamLevelUpCost_.text = arg_13_0.teamCfg_.cost[arg_13_0.teamInfo_.level]
+	slot0.teamLevelUpCost_.text = slot0.teamCfg_.cost[slot0.teamInfo_.level]
+	slot4 = #slot0.teamCfg_.team_info
 
-	local var_13_5 = #arg_13_0.teamCfg_.team_info
-
-	if arg_13_0.teamInfo_.level == 1 then
-		arg_13_0.levelUpController_:SetSelectedState("noDown")
-	elseif var_13_5 <= arg_13_0.teamInfo_.level then
-		arg_13_0.levelUpController_:SetSelectedState("noUp")
+	if slot0.teamInfo_.level == 1 then
+		slot0.levelUpController_:SetSelectedState("noDown")
+	elseif slot4 <= slot0.teamInfo_.level then
+		slot0.levelUpController_:SetSelectedState("noUp")
 	else
-		arg_13_0.levelUpController_:SetSelectedState("mid")
+		slot0.levelUpController_:SetSelectedState("mid")
 	end
 
-	if table.indexof(ActivityReforgeWaveCfg[arg_13_0.curWaveID_].recommend_team, arg_13_0.teamID_) then
-		arg_13_0.recommendcontroller_:SetSelectedState("true")
+	if table.indexof(ActivityReforgeWaveCfg[slot0.curWaveID_].recommend_team, slot0.teamID_) then
+		slot0.recommendcontroller_:SetSelectedState("true")
 	else
-		arg_13_0.recommendcontroller_:SetSelectedState("false")
+		slot0.recommendcontroller_:SetSelectedState("false")
 	end
 
-	if arg_13_0.curUsingWaveID_ == 0 then
-		arg_13_0.usingcontroller_:SetSelectedState("false")
-		arg_13_0.curSelectcontroller_:SetSelectedState("false")
-	elseif arg_13_0.curWaveID_ == arg_13_0.curUsingWaveID_ then
-		arg_13_0.usingcontroller_:SetSelectedState("false")
-		arg_13_0.curSelectcontroller_:SetSelectedState("true")
+	if slot0.curUsingWaveID_ == 0 then
+		slot0.usingcontroller_:SetSelectedState("false")
+		slot0.curSelectcontroller_:SetSelectedState("false")
+	elseif slot0.curWaveID_ == slot0.curUsingWaveID_ then
+		slot0.usingcontroller_:SetSelectedState("false")
+		slot0.curSelectcontroller_:SetSelectedState("true")
 	else
-		arg_13_0.usingcontroller_:SetSelectedState("true")
-		arg_13_0.curSelectcontroller_:SetSelectedState("false")
+		slot0.usingcontroller_:SetSelectedState("true")
+		slot0.curSelectcontroller_:SetSelectedState("false")
 
-		local var_13_6 = table.indexof(ActivityReforgeLevelCfg[arg_13_0.levelID_].wave_list, arg_13_0.curUsingWaveID_)
-
-		arg_13_0.usingWaveText_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE_USED"), var_13_6)
+		slot0.usingWaveText_.text = string.format(GetTips("ACTIVITY_REFORGE_WAVE_USED"), table.indexof(ActivityReforgeLevelCfg[slot0.levelID_].wave_list, slot0.curUsingWaveID_))
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	for iter_15_0 = 1, 3 do
-		arg_15_0.heroHeadItemList_[iter_15_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, 3 do
+		slot0.heroHeadItemList_[slot4]:Dispose()
 
-		arg_15_0.heroHeadItemList_[iter_15_0] = nil
+		slot0.heroHeadItemList_[slot4] = nil
 	end
 
-	arg_15_0.heroHeadItemList_ = nil
+	slot0.heroHeadItemList_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,137 +1,128 @@
-local var_0_0 = class("HeroTransitionSimpleInfoView", ReduxView)
+slot0 = class("HeroTransitionSimpleInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.emptyController_ = arg_3_0.controller_:GetController("empty")
-	arg_3_0.transitionItemList_ = {}
+	slot0.emptyController_ = slot0.controller_:GetController("empty")
+	slot0.transitionItemList_ = {}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetHeroInfo(arg_5_0, arg_5_1)
-	arg_5_0.heroInfo_ = arg_5_1
-	arg_5_0.heroID_ = arg_5_1.id
+function slot0.SetHeroInfo(slot0, slot1)
+	slot0.heroInfo_ = slot1
+	slot0.heroID_ = slot1.id
 end
 
-function var_0_0.UpdateView(arg_6_0)
-	arg_6_0.transitionList_ = arg_6_0:RebuildTransitionSkills()
+function slot0.UpdateView(slot0)
+	slot0.transitionList_ = slot0:RebuildTransitionSkills()
 
-	arg_6_0.emptyController_:SetSelectedState(#arg_6_0.transitionList_ == 0 and "true" or "false")
+	slot0.emptyController_:SetSelectedState(#slot0.transitionList_ == 0 and "true" or "false")
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.transitionItemList_) do
-		SetActive(iter_6_1.gameObject_, false)
+	for slot4, slot5 in ipairs(slot0.transitionItemList_) do
+		SetActive(slot5.gameObject_, false)
 	end
 
-	local var_6_0 = 1
+	slot1 = 1
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_0.transitionList_) do
-		if not arg_6_0.transitionItemList_[var_6_0] then
-			local var_6_1 = Object.Instantiate(arg_6_0.jumpItemGo_, arg_6_0.jumpItemListTrs_, false)
-			local var_6_2 = HeroTransitionItem.New(var_6_1)
+	for slot5, slot6 in ipairs(slot0.transitionList_) do
+		if not slot0.transitionItemList_[slot1] then
+			slot8 = HeroTransitionItem.New(Object.Instantiate(slot0.jumpItemGo_, slot0.jumpItemListTrs_, false))
 
-			var_6_2:SetData(iter_6_3)
-			table.insert(arg_6_0.transitionItemList_, var_6_2)
+			slot8:SetData(slot6)
+			table.insert(slot0.transitionItemList_, slot8)
 		else
-			arg_6_0.transitionItemList_[var_6_0]:SetData(iter_6_3)
+			slot0.transitionItemList_[slot1]:SetData(slot6)
 		end
 
-		SetActive(arg_6_0.transitionItemList_[var_6_0].gameObject_, true)
+		SetActive(slot0.transitionItemList_[slot1].gameObject_, true)
 
-		var_6_0 = var_6_0 + 1
+		slot1 = slot1 + 1
 	end
 end
 
-function var_0_0.OnEnter(arg_7_0, arg_7_1)
-	arg_7_0.heroViewProxy_ = arg_7_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 
-	arg_7_0:RegistEventListener(HERO_TRANSITION_CHANGE, handler(arg_7_0, arg_7_0.OnHeroModify))
+	slot0:RegistEventListener(HERO_TRANSITION_CHANGE, handler(slot0, slot0.OnHeroModify))
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnHeroModify(arg_9_0, arg_9_1)
-	if arg_9_1 == arg_9_0.heroID_ then
-		arg_9_0.heroInfo_ = arg_9_0.heroViewProxy_:GetHeroData(arg_9_0.heroID_)
+function slot0.OnHeroModify(slot0, slot1)
+	if slot1 == slot0.heroID_ then
+		slot0.heroInfo_ = slot0.heroViewProxy_:GetHeroData(slot0.heroID_)
 
-		arg_9_0:UpdateView()
+		slot0:UpdateView()
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.transitionItemList_) do
-		if iter_10_1 then
-			iter_10_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.transitionItemList_) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RebuildTransitionSkills(arg_11_0)
-	local var_11_0 = arg_11_0.heroViewProxy_:GetHeroTransitionInfoList(arg_11_0.heroID_)
-	local var_11_1 = arg_11_0.heroViewProxy_:GetHeroData(arg_11_0.heroID_)
-	local var_11_2 = HeroTools.GetHeroEquipSkillAddLevel(var_11_1)
-	local var_11_3 = {}
+function slot0.RebuildTransitionSkills(slot0)
+	slot3 = HeroTools.GetHeroEquipSkillAddLevel(slot0.heroViewProxy_:GetHeroData(slot0.heroID_))
+	slot4 = {}
 
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if not arg_11_0:GetSlotLockStatus(iter_11_1.slot_id) then
-			for iter_11_2, iter_11_3 in ipairs(iter_11_1.skill_list) do
-				local var_11_4 = iter_11_3.skill_id
-				local var_11_5 = iter_11_3.skill_level
-
-				var_11_3[var_11_4] = (var_11_3[var_11_4] or 0) + var_11_5
+	for slot8, slot9 in ipairs(slot0.heroViewProxy_:GetHeroTransitionInfoList(slot0.heroID_)) do
+		if not slot0:GetSlotLockStatus(slot9.slot_id) then
+			for slot13, slot14 in ipairs(slot9.skill_list) do
+				slot4[slot15] = (slot4[slot14.skill_id] or 0) + slot14.skill_level
 			end
 		end
 	end
 
-	local var_11_6 = {}
+	slot5 = {}
 
-	for iter_11_4, iter_11_5 in pairs(var_11_3) do
-		table.insert(var_11_6, {
-			skillId = iter_11_4,
-			level = iter_11_5 + var_11_2
+	for slot9, slot10 in pairs(slot4) do
+		table.insert(slot5, {
+			skillId = slot9,
+			level = slot10 + slot3
 		})
 	end
 
-	table.sort(var_11_6, function(arg_12_0, arg_12_1)
-		if arg_12_0.skillId == arg_12_1.skillId then
+	table.sort(slot5, function (slot0, slot1)
+		if slot0.skillId == slot1.skillId then
 			return false
 		end
 
-		return arg_12_0.skillId < arg_12_1.skillId
+		return slot0.skillId < slot1.skillId
 	end)
 
-	return var_11_6
+	return slot5
 end
 
-function var_0_0.GetSlotLockStatus(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_0.heroViewProxy_:GetEquipDataList(arg_13_0.heroID_)
-	local var_13_1 = 0
+function slot0.GetSlotLockStatus(slot0, slot1)
+	slot3 = 0
 
-	if var_13_0[arg_13_1] and var_13_0[arg_13_1].prefab_id and var_13_0[arg_13_1].prefab_id ~= 0 then
-		var_13_1 = var_13_0[arg_13_1]:GetLevel()
+	if slot0.heroViewProxy_:GetEquipDataList(slot0.heroID_)[slot1] and slot2[slot1].prefab_id and slot2[slot1].prefab_id ~= 0 then
+		slot3 = slot2[slot1]:GetLevel()
 	end
 
-	return var_13_1 < GameSetting.exclusive_open_need.value[1]
+	return slot3 < GameSetting.exclusive_open_need.value[1]
 end
 
-return var_0_0
+return slot0

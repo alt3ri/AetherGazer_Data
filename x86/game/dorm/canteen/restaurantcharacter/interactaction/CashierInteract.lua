@@ -1,21 +1,20 @@
-local var_0_0 = import(".InteractUtil")
-local var_0_1 = var_0_0.NewTask
-local var_0_2 = var_0_0.IsCustomer
+slot0 = import(".InteractUtil")
+slot1 = slot0.NewTask
+slot2 = slot0.IsCustomer
 
-return function(arg_1_0)
-	local var_1_0 = arg_1_0.targetType
-	local var_1_1 = arg_1_0.entityID
-	local var_1_2 = arg_1_0.entityData
-	local var_1_3 = arg_1_0.finish
+return function (slot0)
+	slot2 = slot0.entityID
+	slot3 = slot0.entityData
+	slot4 = slot0.finish
 
-	if var_0_2(var_1_0) then
-		var_0_1(function()
-			Dorm.DormEntityManager.PlayAnimeDuringInteract(var_1_1, "cashier")
-		end):WaitForSec(5):Then(function()
-			var_1_2.cashierObject = nil
+	if uv0(slot0.targetType) then
+		uv1(function ()
+			Dorm.DormEntityManager.PlayAnimeDuringInteract(uv0, "cashier")
+		end):WaitForSec(5):Then(function ()
+			uv0.cashierObject = nil
 
 			print("收银成功")
-			var_1_3:Notify()
+			uv1:Notify()
 		end):Start()
 	end
 end

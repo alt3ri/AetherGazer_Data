@@ -1,12 +1,11 @@
 BattleScoreResultView = import("game.views.battleResult.score.BattleScoreResultView")
+slot0 = class("AbyssBattleResultView", BattleScoreResultView)
 
-local var_0_0 = class("AbyssBattleResultView", BattleScoreResultView)
-
-function var_0_0.InitUI(arg_1_0)
-	var_0_0.super.InitUI(arg_1_0)
-	SetActive(arg_1_0.closePanel_, true)
-	SetActive(arg_1_0.onceMoreGo_, false)
-	SetActive(arg_1_0.closeBtnGo_, false)
+function slot0.InitUI(slot0)
+	uv0.super.InitUI(slot0)
+	SetActive(slot0.closePanel_, true)
+	SetActive(slot0.onceMoreGo_, false)
+	SetActive(slot0.closeBtnGo_, false)
 end
 
-return var_0_0
+return slot0

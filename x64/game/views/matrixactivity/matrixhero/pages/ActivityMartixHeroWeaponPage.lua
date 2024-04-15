@@ -1,13 +1,13 @@
-local var_0_0 = class("ActivityMartixHeroWeaponPage", MartixHeroWeaponPage)
+slot0 = class("ActivityMartixHeroWeaponPage", MartixHeroWeaponPage)
 
-function var_0_0.SetMatirxHeroInfo(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.matrix_activity_id = arg_1_1
+function slot0.SetMatirxHeroInfo(slot0, slot1, slot2)
+	slot0.matrix_activity_id = slot1
 
-	var_0_0.super.SetMatirxHeroInfo(arg_1_0, arg_1_2)
+	uv0.super.SetMatirxHeroInfo(slot0, slot2)
 end
 
-function var_0_0.GetHeroData(arg_2_0, arg_2_1)
-	return ActivityMatrixData:GetHeroData(arg_2_0.matrix_activity_id, arg_2_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

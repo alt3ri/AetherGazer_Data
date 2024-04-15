@@ -1,106 +1,104 @@
-local var_0_0 = class("TaskPlotPhaseView", ReduxView)
+slot0 = class("TaskPlotPhaseView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.rewardItems_ = {}
-	arg_1_0.goRewardParent_ = {
-		CommonItemView.New(arg_1_0.goItem1_),
-		CommonItemView.New(arg_1_0.goItem2_),
-		CommonItemView.New(arg_1_0.goItem3_)
+	slot0.rewardItems_ = {}
+	slot0.goRewardParent_ = {
+		CommonItemView.New(slot0.goItem1_),
+		CommonItemView.New(slot0.goItem2_),
+		CommonItemView.New(slot0.goItem3_)
 	}
-	arg_1_0.goItemTemplate_ = {
+	slot0.goItemTemplate_ = {
 		clone(ItemTemplateData),
 		clone(ItemTemplateData),
 		clone(ItemTemplateData)
 	}
-	arg_1_0.btnController = arg_1_0.phaseController_:GetController("default0")
+	slot0.btnController = slot0.phaseController_:GetController("default0")
 
-	arg_1_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.awardBtn_, nil, function()
-		TaskAction:SubmitTask(arg_2_0.taskID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.awardBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	arg_4_0.taskID_ = TaskTools:GetPlotPhaseID()
+function slot0.RefreshUI(slot0)
+	slot0.taskID_ = TaskTools:GetPlotPhaseID()
 
-	if arg_4_0.taskID_ == nil then
+	if slot0.taskID_ == nil then
 		return
 	end
 
-	local var_4_0 = TaskData2:GetTask(arg_4_0.taskID_)
-	local var_4_1 = AssignmentCfg[arg_4_0.taskID_]
-	local var_4_2 = var_4_0.progress
+	slot1 = TaskData2:GetTask(slot0.taskID_)
+	slot3 = slot1.progress
 
-	if var_4_0.complete_flag >= 1 then
-		SetActive(arg_4_0.awardBtn_.gameObject, false)
-		SetActive(arg_4_0.activeAnimator_, false)
+	if slot1.complete_flag >= 1 then
+		SetActive(slot0.awardBtn_.gameObject, false)
+		SetActive(slot0.activeAnimator_, false)
 
-		var_4_2 = var_4_1.need
+		slot3 = AssignmentCfg[slot0.taskID_].need
 
-		arg_4_0.btnController:SetSelectedState("1")
-	elseif var_4_2 < var_4_1.need then
-		SetActive(arg_4_0.awardBtn_.gameObject, false)
-		SetActive(arg_4_0.activeAnimator_, false)
-		arg_4_0.btnController:SetSelectedState("1")
+		slot0.btnController:SetSelectedState("1")
+	elseif slot3 < slot2.need then
+		SetActive(slot0.awardBtn_.gameObject, false)
+		SetActive(slot0.activeAnimator_, false)
+		slot0.btnController:SetSelectedState("1")
 	else
-		SetActive(arg_4_0.awardBtn_.gameObject, true)
-		SetActive(arg_4_0.activeAnimator_, true)
+		SetActive(slot0.awardBtn_.gameObject, true)
+		SetActive(slot0.activeAnimator_, true)
 
-		var_4_2 = var_4_1.need
+		slot3 = slot2.need
 
-		arg_4_0.btnController:SetSelectedState("2")
+		slot0.btnController:SetSelectedState("2")
 	end
 
-	arg_4_0.imageProgress_.value = var_4_2 / var_4_1.need
-	arg_4_0.textNum_.text = string.format("<color=#FFA456><size=56>%s</size></color>/%s", var_4_2, var_4_1.need)
-	arg_4_0.textTitle_.text = GetI18NText(var_4_1.name)
-	arg_4_0.textContent_.text = GetI18NText(var_4_1.desc)
+	slot0.imageProgress_.value = slot3 / slot2.need
+	slot0.textNum_.text = string.format("<color=#FFA456><size=56>%s</size></color>/%s", slot3, slot2.need)
+	slot0.textTitle_.text = GetI18NText(slot2.name)
+	slot0.textContent_.text = GetI18NText(slot2.desc)
 
-	arg_4_0:RefreshReward(var_4_1.reward)
+	slot0:RefreshReward(slot2.reward)
 end
 
-function var_0_0.RefreshReward(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in pairs(arg_5_1) do
-		local var_5_0 = formatReward(iter_5_1)
-		local var_5_1 = arg_5_0.goItemTemplate_[iter_5_0]
+function slot0.RefreshReward(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		slot7 = formatReward(slot6)
+		slot8 = slot0.goItemTemplate_[slot5]
+		slot8.id = slot7.id
+		slot8.number = slot7.number
+		slot8.timeValid = slot6.timeValid or 0
+		slot8.completedFlag = TaskData2:GetTaskComplete(slot0.taskID_)
+		slot8.clickFun = handler(slot0, slot0.OnClickCommonItem)
 
-		var_5_1.id = var_5_0.id
-		var_5_1.number = var_5_0.number
-		var_5_1.timeValid = iter_5_1.timeValid or 0
-		var_5_1.completedFlag = TaskData2:GetTaskComplete(arg_5_0.taskID_)
-		var_5_1.clickFun = handler(arg_5_0, arg_5_0.OnClickCommonItem)
-
-		arg_5_0.goRewardParent_[iter_5_0]:SetData(var_5_1)
+		slot0.goRewardParent_[slot5]:SetData(slot8)
 	end
 
-	for iter_5_2 = #arg_5_1 + 1, 3 do
-		arg_5_0.goRewardParent_[iter_5_2]:SetData(nil)
+	for slot5 = #slot1 + 1, 3 do
+		slot0.goRewardParent_[slot5]:SetData(nil)
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.goRewardParent_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.goRewardParent_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.goRewardParent_ = nil
+	slot0.goRewardParent_ = nil
 end
 
-function var_0_0.OnClickCommonItem(arg_7_0, arg_7_1)
+function slot0.OnClickCommonItem(slot0, slot1)
 	ShowPopItem(POP_ITEM, {
-		arg_7_1.id,
-		arg_7_1.number
+		slot1.id,
+		slot1.number
 	})
 end
 
-return var_0_0
+return slot0

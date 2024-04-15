@@ -1,24 +1,18 @@
-local var_0_0 = class("ActivityMatrixTreeItem", MatrixTreeItem)
+slot0 = class("ActivityMatrixTreeItem", MatrixTreeItem)
 
-function var_0_0.SetData(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.id = arg_1_2
-	arg_1_0.tag = arg_1_1
-	arg_1_0.matrix_activity_id = arg_1_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.id = slot2
+	slot0.tag = slot1
+	slot0.matrix_activity_id = slot3
 
-	arg_1_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_2_0)
-	local var_2_0 = ActivityMatrixData:GetHeroData(arg_2_0.matrix_activity_id, arg_2_0.id)
-	local var_2_1 = HeroCfg[arg_2_0.id]
-
-	arg_2_0.m_name.text = GetI18NText(var_2_1.name)
-	arg_2_0.m_icon.sprite = HeroTools.GetHeadSprite(ActivityMatrixData:GetHeroSkin(arg_2_0.matrix_activity_id, arg_2_0.id))
-
-	local var_2_2 = var_2_0:GetHeroHP()
-	local var_2_3 = var_2_0:GetHeroMaxHP()
-
-	arg_2_0.m_filled.fillAmount = var_2_3 == 0 and 0 or var_2_2 / var_2_3
+function slot0.UpdateView(slot0)
+	slot1 = ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot0.id)
+	slot0.m_name.text = GetI18NText(HeroCfg[slot0.id].name)
+	slot0.m_icon.sprite = HeroTools.GetHeadSprite(ActivityMatrixData:GetHeroSkin(slot0.matrix_activity_id, slot0.id))
+	slot0.m_filled.fillAmount = slot1:GetHeroMaxHP() == 0 and 0 or slot1:GetHeroHP() / slot4
 end
 
-return var_0_0
+return slot0

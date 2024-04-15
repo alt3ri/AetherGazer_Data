@@ -1,218 +1,200 @@
-local var_0_0 = class("EffectMgr")
+slot0 = class("EffectMgr")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0:OnCtor()
+function slot0.Ctor(slot0)
+	slot0:OnCtor()
 end
 
-function var_0_0.OnCtor(arg_2_0)
+function slot0.OnCtor(slot0)
 	print("Initialize Effect Mgr")
 
-	arg_2_0._callback = {}
-	arg_2_0._effectMap = {}
-	arg_2_0._material = nil
+	slot0._callback = {}
+	slot0._effectMap = {}
+	slot0._material = nil
 end
 
-function var_0_0.LoadEffect(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	local var_3_0 = "effect/" .. arg_3_1
-
-	if arg_3_0._effectMap[var_3_0] then
-		if arg_3_3 then
-			arg_3_3()
+function slot0.LoadEffect(slot0, slot1, slot2, slot3)
+	if slot0._effectMap["effect/" .. slot1] then
+		if slot3 then
+			slot3()
 		end
 
 		return
 	end
 
-	if arg_3_0._callback[var_3_0] then
-		table.insert(arg_3_0._callback[var_3_0], {
-			callback = arg_3_3
+	if slot0._callback[slot4] then
+		table.insert(slot0._callback[slot4], {
+			callback = slot3
 		})
-	elseif arg_3_2 == true then
-		arg_3_0._callback[var_3_0] = {
+	elseif slot2 == true then
+		slot0._callback[slot4] = {
 			{
-				callback = arg_3_3
+				callback = slot3
 			}
 		}
-		arg_3_0._effectMap[var_3_0] = Object.Instantiate(Asset.Load("Effect/" .. arg_3_1))
+		slot9 = slot1
+		slot8 = "Effect/" .. slot9
+		slot0._effectMap[slot4] = Object.Instantiate(Asset.Load(slot8))
 
-		SetActive(arg_3_0._effectMap[var_3_0], false)
+		SetActive(slot0._effectMap[slot4], false)
 
-		for iter_3_0, iter_3_1 in pairs(arg_3_0._callback[var_3_0]) do
-			if iter_3_1.callback then
-				iter_3_1.callback()
+		for slot8, slot9 in pairs(slot0._callback[slot4]) do
+			if slot9.callback then
+				slot9.callback()
 			end
 		end
 
-		arg_3_0._callback[var_3_0] = nil
+		slot0._callback[slot4] = nil
 	else
-		arg_3_0.effectMap[var_3_0] = Object.Instantiate(Asset.Load("Effect/" .. arg_3_1))
+		slot0.effectMap[slot4] = Object.Instantiate(Asset.Load("Effect/" .. slot1))
 
-		SetActive(arg_3_0._effectMap[var_3_0], false)
+		SetActive(slot0._effectMap[slot4], false)
 
-		if arg_3_3 then
-			arg_3_3()
+		if slot3 then
+			slot3()
 		end
 	end
 end
 
-function var_0_0.PlayUIEffect(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0 = "effect/" .. arg_4_1
-
-	if not arg_4_0._effectMap[var_4_0] then
-		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", var_4_0))
-		arg_4_0:LoadEffect(arg_4_1, false, function()
-			return
+function slot0.PlayUIEffect(slot0, slot1, slot2, slot3, slot4)
+	if not slot0._effectMap["effect/" .. slot1] then
+		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", slot5))
+		slot0:LoadEffect(slot1, false, function ()
 		end)
 	end
 
-	local var_4_1 = Object.Instantiate(arg_4_0._effectMap[var_4_0], arg_4_2.transform)
+	slot6 = Object.Instantiate(slot0._effectMap[slot5], slot2.transform)
+	slot6.transform.localPosition = Vector3(0, 0, 0)
 
-	var_4_1.transform.localPosition = Vector3(0, 0, 0)
+	SetActive(slot6, true)
 
-	SetActive(var_4_1, true)
-
-	local var_4_2 = var_4_1:GetComponent("DftAniEvent")
-
-	if var_4_2 == nil then
-		var_4_2 = var_4_1:AddComponent(typeof(DftAniEvent))
+	if slot6:GetComponent("DftAniEvent") == nil then
+		slot7 = slot6:AddComponent(typeof(DftAniEvent))
 	end
 
-	if arg_4_3 then
-		var_4_2:AddEndEvent(function(arg_6_0)
-			if arg_4_4 then
-				arg_4_4()
+	if slot3 then
+		slot7:AddEndEvent(function (slot0)
+			if uv0 then
+				uv0()
 			end
 
-			UnityEngine.Object.Destroy(var_4_1)
+			UnityEngine.Object.Destroy(uv1)
 		end)
 	else
-		var_4_2:AddEndEvent(function(arg_7_0)
-			if arg_4_4 then
-				arg_4_4()
+		slot7:AddEndEvent(function (slot0)
+			if uv0 then
+				uv0()
 			end
 		end)
 	end
 
-	return var_4_1
+	return slot6
 end
 
-function var_0_0.PlayEffect(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	local var_8_0 = "effect/" .. arg_8_1
-
-	if not arg_8_0._effectMap[var_8_0] then
-		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", var_8_0))
-		arg_8_0:LoadEffect(arg_8_1, false, function()
-			return
+function slot0.PlayEffect(slot0, slot1, slot2, slot3, slot4, slot5)
+	if not slot0._effectMap["effect/" .. slot1] then
+		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", slot6))
+		slot0:LoadEffect(slot1, false, function ()
 		end)
 	end
 
-	local var_8_1 = Object.Instantiate(arg_8_0._effectMap[var_8_0])
+	Object.Instantiate(slot0._effectMap[slot6]).transform.localPosition = slot2 or Vector3(0, 0, 0)
+	slot7.transform.localEulerAngles = slot3 or Vector3(0, 0, 0)
 
-	var_8_1.transform.localPosition = arg_8_2 or Vector3(0, 0, 0)
-	var_8_1.transform.localEulerAngles = arg_8_3 or Vector3(0, 0, 0)
+	SetActive(slot7, true)
 
-	SetActive(var_8_1, true)
-
-	local var_8_2 = var_8_1:GetComponent("ParticleSystemEvent")
-
-	if var_8_2 == nil then
-		var_8_2 = var_8_1:AddComponent(typeof(ParticleSystemEvent))
+	if slot7:GetComponent("ParticleSystemEvent") == nil then
+		slot8 = slot7:AddComponent(typeof(ParticleSystemEvent))
 	end
 
-	if arg_8_4 then
-		var_8_2:SetEndEvent(function(arg_10_0)
-			if arg_8_5 then
-				arg_8_5()
+	if slot4 then
+		slot8:SetEndEvent(function (slot0)
+			if uv0 then
+				uv0()
 			end
 
-			UnityEngine.Object.Destroy(var_8_1)
+			UnityEngine.Object.Destroy(uv1)
 		end)
 	else
-		var_8_2:SetEndEvent(function(arg_11_0)
-			if arg_8_5 then
-				arg_8_5()
+		slot8:SetEndEvent(function (slot0)
+			if uv0 then
+				uv0()
 			end
 
-			SetActive(arg_11_0, false)
+			SetActive(slot0, false)
 		end)
 	end
 
-	return var_8_1
+	return slot7
 end
 
-function var_0_0.SpriteEffect(arg_12_0, arg_12_1)
-	local var_12_0 = "effect/" .. arg_12_1
-
-	if not arg_12_0._effectMap[var_12_0] then
-		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", var_12_0))
-		arg_12_0:LoadEffect(arg_12_1, false, function()
-			return
+function slot0.SpriteEffect(slot0, slot1)
+	if not slot0._effectMap["effect/" .. slot1] then
+		print(string.format("警告：<color=#ff0000>%s</color>特效未预加载", slot2))
+		slot0:LoadEffect(slot1, false, function ()
 		end)
 	end
 
-	local var_12_1 = Object.Instantiate(arg_12_0._effectMap[var_12_0])
+	slot3 = Object.Instantiate(slot0._effectMap[slot2])
 
-	SetActive(var_12_1, true)
+	SetActive(slot3, true)
 
-	return var_12_1
+	return slot3
 end
 
-function var_0_0.UnloadEffect(arg_14_0, arg_14_1)
-	local var_14_0 = "effect/" .. arg_14_1
-
-	if arg_14_0._effectMap[var_14_0] then
-		Object.Destroy(arg_14_0._effectMap[var_14_0])
+function slot0.UnloadEffect(slot0, slot1)
+	if slot0._effectMap["effect/" .. slot1] then
+		Object.Destroy(slot0._effectMap[slot2])
 	end
 
-	arg_14_0._effectMap[var_14_0] = nil
+	slot0._effectMap[slot2] = nil
 end
 
-function var_0_0.UnloadAllEffect(arg_15_0)
-	for iter_15_0, iter_15_1 in pairs(arg_15_0._effectMap) do
-		Object.Destroy(arg_15_0._effectMap[iter_15_0])
+function slot0.UnloadAllEffect(slot0)
+	for slot4, slot5 in pairs(slot0._effectMap) do
+		Object.Destroy(slot0._effectMap[slot4])
 
-		arg_15_0._effectMap[iter_15_0] = nil
+		slot0._effectMap[slot4] = nil
 	end
 
-	arg_15_0._effectMap = {}
+	slot0._effectMap = {}
 
-	if arg_15_0._material then
-		Object.Destroy(arg_15_0._material)
+	if slot0._material then
+		Object.Destroy(slot0._material)
 
-		arg_15_0._material = nil
+		slot0._material = nil
 	end
 end
 
-function var_0_0.SetGrey(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_2 then
-		if arg_16_0._material == nil then
-			arg_16_0._material = Object.Instantiate(Asset.Load("UI/Materials"))
+function slot0.SetGrey(slot0, slot1, slot2)
+	if slot2 then
+		if slot0._material == nil then
+			slot0._material = Object.Instantiate(Asset.Load("UI/Materials"))
 		end
 
-		arg_16_1.material = arg_16_0._material.transform:Find("grey"):GetComponent("SpriteRenderer").material
+		slot1.material = slot0._material.transform:Find("grey"):GetComponent("SpriteRenderer").material
 	else
-		arg_16_1.material = nil
+		slot1.material = nil
 	end
 end
 
-function var_0_0.SetNoise(arg_17_0, arg_17_1, arg_17_2)
-	if arg_17_2 then
-		if arg_17_0._material == nil then
-			arg_17_0._material = Object.Instantiate(Asset.Load("UI/Materials"))
+function slot0.SetNoise(slot0, slot1, slot2)
+	if slot2 then
+		if slot0._material == nil then
+			slot0._material = Object.Instantiate(Asset.Load("UI/Materials"))
 		end
 
-		arg_17_1.material = arg_17_0._material.transform:Find("noise"):GetComponent("SpriteRenderer").material
+		slot1.material = slot0._material.transform:Find("noise"):GetComponent("SpriteRenderer").material
 	else
-		arg_17_1.material = nil
+		slot1.material = nil
 	end
 end
 
-function var_0_0.GetMat(arg_18_0, arg_18_1)
-	if arg_18_0._material == nil then
-		arg_18_0._material = Object.Instantiate(Asset.Load("UI/Materials"))
+function slot0.GetMat(slot0, slot1)
+	if slot0._material == nil then
+		slot0._material = Object.Instantiate(Asset.Load("UI/Materials"))
 	end
 
-	return arg_18_0._material.transform:Find(arg_18_1):GetComponent("SpriteRenderer").material
+	return slot0._material.transform:Find(slot1):GetComponent("SpriteRenderer").material
 end
 
-return var_0_0
+return slot0

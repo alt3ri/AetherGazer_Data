@@ -1,66 +1,62 @@
-local var_0_0 = class("MartixTerminalTalentView", ReduxView)
+slot0 = class("MartixTerminalTalentView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Terminal/MatrixTerminalTalentMiniUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.giftDataList = {}
+	slot0.giftDataList = {}
 
-	for iter_5_0, iter_5_1 in ipairs(MatrixTerminalGiftCfg.get_id_list_by_group) do
-		arg_5_0.giftDataList[iter_5_0] = MatrixTools.GetGiftListByGroup(iter_5_0)
+	for slot4, slot5 in ipairs(MatrixTerminalGiftCfg.get_id_list_by_group) do
+		slot0.giftDataList[slot4] = MatrixTools.GetGiftListByGroup(slot4)
 	end
 
-	arg_5_0.terminalList_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.m_termianlList, MatrixTerminalGroupItem)
-	arg_5_0.toggles_ = {}
+	slot0.terminalList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_termianlList, MatrixTerminalGroupItem)
+	slot0.toggles_ = {}
 
-	local var_5_0 = arg_5_0.m_switchContainer.childCount
-
-	for iter_5_2 = 1, var_5_0 do
-		local var_5_1 = arg_5_0.m_switchContainer:GetChild(iter_5_2 - 1)
-
-		table.insert(arg_5_0.toggles_, var_5_1:GetComponent(typeof(Toggle)))
+	for slot5 = 1, slot0.m_switchContainer.childCount do
+		table.insert(slot0.toggles_, slot0.m_switchContainer:GetChild(slot5 - 1):GetComponent(typeof(Toggle)))
 	end
 
-	arg_5_0.showRightInfoCnotroller_ = ControllerUtil.GetController(arg_5_0.transform_, "showRightInfo")
+	slot0.showRightInfoCnotroller_ = ControllerUtil.GetController(slot0.transform_, "showRightInfo")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.toggles_) do
-		arg_6_0:AddToggleListener(iter_6_1, function(arg_7_0)
-			if arg_7_0 then
-				arg_6_0:SelectGroup(iter_6_0)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.toggles_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
+				uv0:SelectGroup(uv1)
 			end
 		end)
 	end
 
-	arg_6_0:AddBtnListener(arg_6_0.m_levelBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_levelBtn, nil, function ()
 		JumpTools.OpenPageByJump("matrixTerminalLevel")
 	end)
-	arg_6_0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function(arg_9_0, arg_9_1)
-		arg_6_0:OnItemClick(0)
+	slot0.m_scrollEvent:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerDown, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		uv0:OnItemClick(0)
 	end))
-	arg_6_0:AddBtnListener(arg_6_0.m_infoMask, nil, function()
-		arg_6_0:OnItemClick(0)
+	slot0:AddBtnListener(slot0.m_infoMask, nil, function ()
+		uv0:OnItemClick(0)
 	end)
 end
 
-function var_0_0.OnTop(arg_11_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -79,167 +75,141 @@ function var_0_0.OnTop(arg_11_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_PT, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.GoToSystem("/matrixBlank/matrixPrepare")
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0.data = clone(MatrixData:GetCurrentTerminalGifi())
-	arg_13_0.allPoint = 0
+function slot0.OnEnter(slot0)
+	slot0.data = clone(MatrixData:GetCurrentTerminalGifi())
+	slot0.allPoint = 0
+	slot0.allPoint = MatrixTerminalLevelCfg[MatrixData:GetTerminalLevel()].point
+	slot0.hasPoint = slot0.allPoint - slot0:GetUsePoint()
+	slot0.m_giftLab.text = slot0.hasPoint
+	slot0.toggles_[1].isOn = true
 
-	local var_13_0 = MatrixData:GetTerminalLevel()
+	slot0:SelectGroup(1)
 
-	arg_13_0.allPoint = MatrixTerminalLevelCfg[var_13_0].point
-	arg_13_0.hasPoint = arg_13_0.allPoint - arg_13_0:GetUsePoint()
-	arg_13_0.m_giftLab.text = arg_13_0.hasPoint
-	arg_13_0.toggles_[1].isOn = true
+	slot2 = MatrixData:GetTerminalLevel()
+	slot3 = MatrixData:GetTerminalExp()
+	slot0.m_levelLab.text = "" .. slot2
 
-	arg_13_0:SelectGroup(1)
-
-	local var_13_1 = MatrixData:GetTerminalLevel()
-	local var_13_2 = MatrixData:GetTerminalExp()
-
-	arg_13_0.m_levelLab.text = "" .. var_13_1
-
-	if var_13_1 == #MatrixTerminalLevelCfg.all then
-		local var_13_3 = MatrixTerminalLevelCfg[var_13_1].exp - MatrixTerminalLevelCfg[var_13_1 - 1].exp
-
-		arg_13_0.m_expSlider.value = 1
-		arg_13_0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", var_13_3, var_13_3)
+	if slot2 == #MatrixTerminalLevelCfg.all then
+		slot4 = MatrixTerminalLevelCfg[slot2].exp - MatrixTerminalLevelCfg[slot2 - 1].exp
+		slot0.m_expSlider.value = 1
+		slot0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", slot4, slot4)
 	else
-		local var_13_4 = MatrixTerminalLevelCfg[var_13_1 + 1].exp - MatrixTerminalLevelCfg[var_13_1].exp
-
-		arg_13_0.m_expSlider.value = var_13_2 / var_13_4
-		arg_13_0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", var_13_2, var_13_4)
+		slot4 = MatrixTerminalLevelCfg[slot2 + 1].exp - MatrixTerminalLevelCfg[slot2].exp
+		slot0.m_expSlider.value = slot3 / slot4
+		slot0.m_expLab.text = string.format("<color=#FF9500>%d</color>/%d", slot3, slot4)
 	end
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0.curPage = nil
+function slot0.OnExit(slot0)
+	slot0.curPage = nil
 
-	arg_14_0:OnItemClick(0)
+	slot0:OnItemClick(0)
 end
 
-function var_0_0.RefreshInfo(arg_15_0)
-	if not arg_15_0.data[arg_15_0.curId] then
-		local var_15_0 = 0
-	end
-
-	local var_15_1 = MatrixTerminalGiftCfg[arg_15_0.curId]
-	local var_15_2 = arg_15_0.data[arg_15_0.curId] or 0
-
-	arg_15_0.m_infoNameLab.text = GetI18NText(var_15_1.name)
-
-	local var_15_3 = var_15_2 == 0 and 1 or var_15_2
-	local var_15_4 = var_15_2 + 1
-
-	arg_15_0.m_infoLvLab.text = var_15_3
-
-	local var_15_5 = var_15_1.desc_list[var_15_3]
-
-	arg_15_0.m_infoDesLab.text = MatrixDescCfg[var_15_5] and GetI18NText(MatrixDescCfg[var_15_5].desc) or ""
-
-	local var_15_6 = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixTerminal/" .. var_15_1.icon)
-
-	arg_15_0.m_infoIconImg.sprite = var_15_6
+function slot0.RefreshInfo(slot0)
+	slot1 = slot0.data[slot0.curId] or 0
+	slot2 = MatrixTerminalGiftCfg[slot0.curId]
+	slot3 = slot0.data[slot0.curId] or 0
+	slot0.m_infoNameLab.text = GetI18NText(slot2.name)
+	slot4 = slot3 == 0 and 1 or slot3
+	slot5 = slot3 + 1
+	slot0.m_infoLvLab.text = slot4
+	slot0.m_infoDesLab.text = MatrixDescCfg[slot2.desc_list[slot4]] and GetI18NText(MatrixDescCfg[slot6].desc) or ""
+	slot0.m_infoIconImg.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixTerminal/" .. slot2.icon)
 end
 
-function var_0_0.OnItemClick(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_1 == 0 and arg_16_0.selectId == arg_16_1 then
+function slot0.OnItemClick(slot0, slot1, slot2)
+	if slot1 == 0 and slot0.selectId == slot1 then
 		return
 	end
 
-	arg_16_0.selectId = arg_16_1
+	slot0.selectId = slot1
+	slot3 = false
 
-	local var_16_0 = false
+	if slot1 ~= 0 then
+		slot0.showRightInfoCnotroller_:SetSelectedIndex(1)
 
-	if arg_16_1 ~= 0 then
-		arg_16_0.showRightInfoCnotroller_:SetSelectedIndex(1)
+		slot0.curId = slot1
 
-		arg_16_0.curId = arg_16_1
+		slot0:RefreshInfo(slot1)
 
-		arg_16_0:RefreshInfo(arg_16_1)
-
-		var_16_0 = true
+		slot3 = true
 	else
-		arg_16_0.showRightInfoCnotroller_:SetSelectedIndex(0)
+		slot0.showRightInfoCnotroller_:SetSelectedIndex(0)
 
-		arg_16_0.curId = nil
-		var_16_0 = false
+		slot0.curId = nil
+		slot3 = false
 	end
 
-	local var_16_1 = arg_16_0.terminalList_:GetItemList()
-
-	for iter_16_0, iter_16_1 in pairs(var_16_1) do
-		iter_16_1:SetChoice(arg_16_0.selectId)
-		iter_16_1:SetItemScrollMask(var_16_0)
+	for slot8, slot9 in pairs(slot0.terminalList_:GetItemList()) do
+		slot9:SetChoice(slot0.selectId)
+		slot9:SetItemScrollMask(slot3)
 	end
 
-	arg_16_0:SetSelect(arg_16_2)
+	slot0:SetSelect(slot2)
 end
 
-function var_0_0.SelectGroup(arg_17_0, arg_17_1)
-	arg_17_0:OnItemClick(0)
+function slot0.SelectGroup(slot0, slot1)
+	slot0:OnItemClick(0)
 
-	if arg_17_1 == arg_17_0.curPage then
+	if slot1 == slot0.curPage then
 		return
 	end
 
-	arg_17_0.curPage = arg_17_1
-	arg_17_0.list = arg_17_0.giftDataList[arg_17_1] or {}
+	slot0.curPage = slot1
+	slot0.list = slot0.giftDataList[slot1] or {}
 
-	arg_17_0.terminalList_:StartScrollByPosition(#arg_17_0.list, Vector2.New(0, 0))
+	slot0.terminalList_:StartScrollByPosition(#slot0.list, Vector2.New(0, 0))
 end
 
-function var_0_0.SetSelect(arg_18_0, arg_18_1)
-	if arg_18_1 then
-		local var_18_0 = arg_18_1.transform_.parent:TransformPoint(Vector3(0, 0, 0))
-		local var_18_1 = -arg_18_0.m_scrollContent.transform:InverseTransformPoint(var_18_0).x + 100
+function slot0.SetSelect(slot0, slot1)
+	if slot1 then
+		slot0.m_scrollCom.movementType = ScrollRect.MovementType.Unrestricted
 
-		arg_18_0.m_scrollCom.movementType = ScrollRect.MovementType.Unrestricted
+		slot0:RemoveTween()
 
-		arg_18_0:RemoveTween()
-
-		arg_18_0.tween_ = LeanTween.value(arg_18_0.m_scrollContent, arg_18_0.m_scrollContent.transform.localPosition.x, var_18_1, 0.2):setOnUpdate(LuaHelper.FloatAction(function(arg_19_0)
-			arg_18_0.m_scrollContent.transform.localPosition = Vector3(arg_19_0, 0, 0)
+		slot0.tween_ = LeanTween.value(slot0.m_scrollContent, slot0.m_scrollContent.transform.localPosition.x, -slot0.m_scrollContent.transform:InverseTransformPoint(slot1.transform_.parent:TransformPoint(Vector3(0, 0, 0))).x + 100, 0.2):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.m_scrollContent.transform.localPosition = Vector3(slot0, 0, 0)
 		end))
 	else
-		arg_18_0.m_scrollCom.movementType = ScrollRect.MovementType.Elastic
+		slot0.m_scrollCom.movementType = ScrollRect.MovementType.Elastic
 	end
 end
 
-function var_0_0.RemoveTween(arg_20_0)
-	if arg_20_0.tween_ then
-		arg_20_0.tween_:setOnUpdate(nil)
-		LeanTween.cancel(arg_20_0.m_scrollContent)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil)
+		LeanTween.cancel(slot0.m_scrollContent)
 
-		arg_20_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-function var_0_0.IndexItem(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_2:Refresh(arg_21_1, arg_21_0.list[arg_21_1], arg_21_0.data, arg_21_0.selectId, arg_21_0.hasPoint)
-	arg_21_2:RegistCallBack(handler(arg_21_0, arg_21_0.OnItemClick))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot1, slot0.list[slot1], slot0.data, slot0.selectId, slot0.hasPoint)
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
 end
 
-function var_0_0.GetUsePoint(arg_22_0)
-	local var_22_0 = 0
+function slot0.GetUsePoint(slot0)
+	slot1 = 0
 
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.data) do
-		local var_22_1 = MatrixTerminalGiftCfg[iter_22_0]
-
-		for iter_22_2 = 1, iter_22_1 do
-			var_22_0 = var_22_0 + var_22_1.cost[iter_22_2]
+	for slot5, slot6 in pairs(slot0.data) do
+		for slot11 = 1, slot6 do
+			slot1 = slot1 + MatrixTerminalGiftCfg[slot5].cost[slot11]
 		end
 	end
 
-	return var_22_0
+	return slot1
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0.terminalList_:Dispose()
-	var_0_0.super.Dispose(arg_23_0)
+function slot0.Dispose(slot0)
+	slot0.terminalList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

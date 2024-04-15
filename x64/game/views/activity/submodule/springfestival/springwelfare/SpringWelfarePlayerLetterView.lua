@@ -1,237 +1,215 @@
-local var_0_0 = class("SpringPreheatEditLetterView", ReduxView)
+slot0 = class("SpringPreheatEditLetterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreePopUI1"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0.stickerNum_ = 2
-	arg_3_0.stickerBtn_ = {}
-	arg_3_0.stickerImg_ = {}
-	arg_3_0.stickerFrameImg_ = {}
-	arg_3_0.stickerInfo_ = {}
-	arg_3_0.stickerController_ = {}
+function slot0.OnCtor(slot0)
+	slot0.stickerNum_ = 2
+	slot0.stickerBtn_ = {}
+	slot0.stickerImg_ = {}
+	slot0.stickerFrameImg_ = {}
+	slot0.stickerInfo_ = {}
+	slot0.stickerController_ = {}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	for iter_4_0 = 1, arg_4_0.stickerNum_ do
-		arg_4_0.stickerInfo_[iter_4_0] = arg_4_0:CreateEmptyStickerInfo()
-
-		local var_4_0 = arg_4_0[string.format("stickerBtn_%d", iter_4_0)]
-
-		arg_4_0.stickerBtn_[iter_4_0] = var_4_0
-		arg_4_0.stickerController_[iter_4_0] = ControllerUtil.GetController(var_4_0.transform, "state")
-		arg_4_0.stickerImg_[iter_4_0] = arg_4_0[string.format("stickerImg_%d", iter_4_0)]
-		arg_4_0.stickerFrameImg_[iter_4_0] = arg_4_0[string.format("stickerFrameImg_%d", iter_4_0)]
+	for slot4 = 1, slot0.stickerNum_ do
+		slot0.stickerInfo_[slot4] = slot0:CreateEmptyStickerInfo()
+		slot5 = slot0[string.format("stickerBtn_%d", slot4)]
+		slot0.stickerBtn_[slot4] = slot5
+		slot0.stickerController_[slot4] = ControllerUtil.GetController(slot5.transform, "state")
+		slot0.stickerImg_[slot4] = slot0[string.format("stickerImg_%d", slot4)]
+		slot0.stickerFrameImg_[slot4] = slot0[string.format("stickerFrameImg_%d", slot4)]
 	end
 
-	arg_4_0:AddListeners()
+	slot0:AddListeners()
 
-	arg_4_0.letterList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexTextItem), arg_4_0.letterUiListGo_, SpringWelfarePlayerLetterTextItem)
-	arg_4_0.playerInfo_ = arg_4_0:GetLocalPlayerInfo()
-	arg_4_0.shareController_ = ControllerUtil.GetController(arg_4_0.transform_, "share")
-	arg_4_0.friendController_ = ControllerUtil.GetController(arg_4_0.playerTitleRect_, "newFriend")
-	arg_4_0.stateController_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.arrowController_ = ControllerUtil.GetController(arg_4_0.transform_, "arrow")
+	slot0.letterList_ = LuaList.New(handler(slot0, slot0.IndexTextItem), slot0.letterUiListGo_, SpringWelfarePlayerLetterTextItem)
+	slot0.playerInfo_ = slot0:GetLocalPlayerInfo()
+	slot0.shareController_ = ControllerUtil.GetController(slot0.transform_, "share")
+	slot0.friendController_ = ControllerUtil.GetController(slot0.playerTitleRect_, "newFriend")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.arrowController_ = ControllerUtil.GetController(slot0.transform_, "arrow")
 end
 
-function var_0_0.CreateEmptyStickerInfo(arg_5_0)
+function slot0.CreateEmptyStickerInfo(slot0)
 	return {
 		stickerID = 0,
 		size = 1
 	}
 end
 
-function var_0_0.GetLocalPlayerInfo(arg_6_0)
-	local var_6_0 = PlayerData:GetPlayerInfo()
+function slot0.GetLocalPlayerInfo(slot0)
+	slot1 = PlayerData:GetPlayerInfo()
 
 	return {
-		user_id = var_6_0.userID,
-		nick = var_6_0.nick,
-		icon = var_6_0.portrait,
-		icon_frame = var_6_0.icon_frame
+		user_id = slot1.userID,
+		nick = slot1.nick,
+		icon = slot1.portrait,
+		icon_frame = slot1.icon_frame
 	}
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.letterServerId_ = arg_7_0.params_.letterServerId
+function slot0.OnEnter(slot0)
+	slot0.letterServerId_ = slot0.params_.letterServerId
+	slot1 = SpringWelfareData:GetLetterData(slot0.letterServerId_)
+	slot5 = slot1.playerId
+	slot0.playerInfo_ = SpringWelfareData:GetPlayerInfo(slot5)
 
-	local var_7_0 = SpringWelfareData:GetLetterData(arg_7_0.letterServerId_)
-
-	arg_7_0.playerInfo_ = SpringWelfareData:GetPlayerInfo(var_7_0.playerId)
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_0.stickerList) do
-		arg_7_0.stickerInfo_[iter_7_0].stickerID = iter_7_1.id
+	for slot5, slot6 in ipairs(slot1.stickerList) do
+		slot0.stickerInfo_[slot5].stickerID = slot6.id
 	end
 
-	arg_7_0.firstView_ = arg_7_0.params_.firstView
+	slot0.firstView_ = slot0.params_.firstView
 
-	arg_7_0:RefreshUI()
-	arg_7_0:RefreshArrowUI()
+	slot0:RefreshUI()
+	slot0:RefreshArrowUI()
 end
 
-function var_0_0.OnTop(arg_8_0)
-	arg_8_0:OnEnter()
+function slot0.OnTop(slot0)
+	slot0:OnEnter()
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	AnimatorTools.Stop()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.letterList_:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0.letterList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_11_0)
-	arg_11_0:AddBtnListener(arg_11_0.headBtn_, nil, function()
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_11_0.playerInfo_.uid)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.headBtn_, nil, function ()
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.playerInfo_.uid)
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.addFriendBtn_, nil, function()
-		arg_11_0:OnClickAddFriendBtn()
+	slot0:AddBtnListener(slot0.addFriendBtn_, nil, function ()
+		uv0:OnClickAddFriendBtn()
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.maskBtn_, nil, function()
-		arg_11_0:OnClickClose()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:OnClickClose()
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.leftArrowBtn_, nil, function()
-		arg_11_0:JumpNextLetter(-1)
+	slot0:AddBtnListener(slot0.leftArrowBtn_, nil, function ()
+		uv0:JumpNextLetter(-1)
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.rightArrowBtn_, nil, function()
-		arg_11_0:JumpNextLetter(1)
+	slot0:AddBtnListener(slot0.rightArrowBtn_, nil, function ()
+		uv0:JumpNextLetter(1)
 	end)
-	arg_11_0:AddBtnListener(arg_11_0.shareBtn_, nil, function()
-		manager.share:Share(function()
-			arg_11_0.shareController_:SetSelectedState("true")
-		end, function()
-			arg_11_0.shareController_:SetSelectedState("false")
-		end, function()
-			return
+	slot0:AddBtnListener(slot0.shareBtn_, nil, function ()
+		manager.share:Share(function ()
+			uv0.shareController_:SetSelectedState("true")
+		end, function ()
+			uv0.shareController_:SetSelectedState("false")
+		end, function ()
 		end)
 	end)
 end
 
-function var_0_0.IndexTextItem(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = SpringWelfareData:GetLetterParagText(arg_21_0.letterServerId_, arg_21_1)
-
-	arg_21_2:SetText(var_21_0)
+function slot0.IndexTextItem(slot0, slot1, slot2)
+	slot2:SetText(SpringWelfareData:GetLetterParagText(slot0.letterServerId_, slot1))
 end
 
-function var_0_0.RefreshUI(arg_22_0)
-	arg_22_0.stateController_:SetSelectedState("receiver")
-	arg_22_0:RefreshPlayerUI()
+function slot0.RefreshUI(slot0)
+	slot4 = "receiver"
 
-	for iter_22_0 = 1, arg_22_0.stickerNum_ do
-		arg_22_0:RefreshStickerUI(iter_22_0)
+	slot0.stateController_:SetSelectedState(slot4)
+	slot0:RefreshPlayerUI()
+
+	for slot4 = 1, slot0.stickerNum_ do
+		slot0:RefreshStickerUI(slot4)
 	end
 
-	local var_22_0 = #SpringPreheatData:GetPlayerLetter().option_button_list
-
-	arg_22_0.letterList_:StartScroll(var_22_0)
-	arg_22_0.shareController_:SetSelectedState(arg_22_0.firstView_ and "true" or "false")
+	slot0.letterList_:StartScroll(#SpringPreheatData:GetPlayerLetter().option_button_list)
+	slot0.shareController_:SetSelectedState(slot0.firstView_ and "true" or "false")
 end
 
-function var_0_0.RefreshPlayerUI(arg_23_0)
-	local var_23_0 = arg_23_0.playerInfo_
+function slot0.RefreshPlayerUI(slot0)
+	slot1 = slot0.playerInfo_
+	slot0.playerNameText_.text = slot1.nick
+	slot0.playerIcon_.sprite = ItemTools.getItemSprite(slot1.icon)
 
-	arg_23_0.playerNameText_.text = var_23_0.nick
-	arg_23_0.playerIcon_.sprite = ItemTools.getItemSprite(var_23_0.icon)
+	slot0.playerIcon_:SetNativeSize()
 
-	arg_23_0.playerIcon_:SetNativeSize()
+	slot0.letterDateText_.text = manager.time:STimeDescS(SpringWelfareData:GetLetterData(slot0.letterServerId_).timestamp, "!%Y/%m/%d")
 
-	local var_23_1 = SpringWelfareData:GetLetterData(arg_23_0.letterServerId_)
-
-	arg_23_0.letterDateText_.text = manager.time:STimeDescS(var_23_1.timestamp, "!%Y/%m/%d")
-
-	local var_23_2 = SpringWelfareData:IsFriendOrInRequest(arg_23_0.playerInfo_.uid)
-
-	arg_23_0.friendController_:SetSelectedState(var_23_2 and "send" or "add")
+	slot0.friendController_:SetSelectedState(SpringWelfareData:IsFriendOrInRequest(slot0.playerInfo_.uid) and "send" or "add")
 end
 
-function var_0_0.RefreshStickerUI(arg_24_0, arg_24_1)
-	local var_24_0 = arg_24_0.stickerInfo_[arg_24_1]
+function slot0.RefreshStickerUI(slot0, slot1)
+	slot0.stickerController_[slot1]:SetSelectedState(slot0.stickerInfo_[slot1].stickerID > 0 and "active" or "add")
 
-	arg_24_0.stickerController_[arg_24_1]:SetSelectedState(var_24_0.stickerID > 0 and "active" or "add")
+	slot3 = slot0.stickerImg_[slot1]
 
-	local var_24_1 = arg_24_0.stickerImg_[arg_24_1]
-
-	if var_24_0.stickerID > 0 and var_24_1 then
-		var_24_1.sprite = ItemTools.getItemSprite(var_24_0.stickerID, {
-			size = var_24_0.size
+	if slot2.stickerID > 0 and slot3 then
+		slot3.sprite = ItemTools.getItemSprite(slot2.stickerID, {
+			size = slot2.size
 		})
 	end
 
-	arg_24_0.stickerFrameImg_[1].enabled = false
-	arg_24_0.stickerFrameImg_[2].enabled = false
+	slot0.stickerFrameImg_[1].enabled = false
+	slot0.stickerFrameImg_[2].enabled = false
 
-	SetActive(arg_24_0.stickerAddGo_1, false)
-	SetActive(arg_24_0.stickerAddGo_2, false)
+	SetActive(slot0.stickerAddGo_1, false)
+	SetActive(slot0.stickerAddGo_2, false)
 end
 
-function var_0_0.RefreshArrowUI(arg_25_0)
-	if arg_25_0.firstView_ then
-		arg_25_0.arrowController_:SetSelectedState("none")
+function slot0.RefreshArrowUI(slot0)
+	if slot0.firstView_ then
+		slot0.arrowController_:SetSelectedState("none")
 
 		return
 	end
 
-	local var_25_0 = arg_25_0:GetLetterIdList()
-	local var_25_1 = table.indexof(var_25_0, arg_25_0.letterServerId_)
-	local var_25_2 = #var_25_0
-	local var_25_3 = var_25_1 > 1
-	local var_25_4 = var_25_1 < var_25_2
+	slot1 = slot0:GetLetterIdList()
 
-	if var_25_3 and var_25_4 then
-		arg_25_0.arrowController_:SetSelectedState("both")
-	elseif var_25_3 then
-		arg_25_0.arrowController_:SetSelectedState("left")
-	elseif var_25_4 then
-		arg_25_0.arrowController_:SetSelectedState("right")
+	if table.indexof(slot1, slot0.letterServerId_) > 1 and slot2 < #slot1 then
+		slot0.arrowController_:SetSelectedState("both")
+	elseif slot4 then
+		slot0.arrowController_:SetSelectedState("left")
+	elseif slot5 then
+		slot0.arrowController_:SetSelectedState("right")
 	else
-		arg_25_0.arrowController_:SetSelectedState("none")
+		slot0.arrowController_:SetSelectedState("none")
 	end
 end
 
-function var_0_0.JumpNextLetter(arg_26_0, arg_26_1)
-	local var_26_0 = arg_26_0:GetLetterIdList()
-	local var_26_1 = table.indexof(var_26_0, arg_26_0.letterServerId_)
-	local var_26_2 = #var_26_0
-	local var_26_3 = var_26_1 + arg_26_1
+function slot0.JumpNextLetter(slot0, slot1)
+	slot2 = slot0:GetLetterIdList()
 
-	if var_26_3 < 1 or var_26_2 < var_26_3 then
+	if table.indexof(slot2, slot0.letterServerId_) + slot1 < 1 or #slot2 < slot5 then
 		return
 	end
 
 	JumpTools.OpenPageByJump("springWelfarePlayerLetter", {
-		letterServerId = var_26_0[var_26_3]
+		letterServerId = slot2[slot5]
 	})
 end
 
-function var_0_0.GetLetterIdList(arg_27_0)
+function slot0.GetLetterIdList(slot0)
 	return SpringWelfareData:GetPlayerLetterIdList()
 end
 
-function var_0_0.OnClickClose(arg_28_0)
-	arg_28_0:Back()
+function slot0.OnClickClose(slot0)
+	slot0:Back()
 end
 
-function var_0_0.OnClickAddFriendBtn(arg_29_0)
-	FriendsAction:TryToRequestToFriend(arg_29_0.playerInfo_.uid, FriendConst.ADD_FRIEND_SOURCE.ACTIVITY_COMMON, SpringWelfareData:GetActivityId())
+function slot0.OnClickAddFriendBtn(slot0)
+	FriendsAction:TryToRequestToFriend(slot0.playerInfo_.uid, FriendConst.ADD_FRIEND_SOURCE.ACTIVITY_COMMON, SpringWelfareData:GetActivityId())
 end
 
-function var_0_0.OnFriendsListChange(arg_30_0)
-	local var_30_0 = SpringWelfareData:IsFriendOrInRequest(arg_30_0.playerInfo_.uid)
-
-	arg_30_0.friendController_:SetSelectedState(var_30_0 and "send" or "add")
+function slot0.OnFriendsListChange(slot0)
+	slot0.friendController_:SetSelectedState(SpringWelfareData:IsFriendOrInRequest(slot0.playerInfo_.uid) and "send" or "add")
 end
 
-function var_0_0.GetActivityID(arg_31_0)
-	return arg_31_0.params_.activityId
+function slot0.GetActivityID(slot0)
+	return slot0.params_.activityId
 end
 
-return var_0_0
+return slot0

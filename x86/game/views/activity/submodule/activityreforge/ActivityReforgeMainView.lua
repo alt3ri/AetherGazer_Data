@@ -1,108 +1,105 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("ActivityReforgeMainView", ActivityMainBasePanel)
+slot1 = "ACTIVITY_REFORGE_GAMEHELPKEY"
 
-local var_0_0 = class("ActivityReforgeMainView", ActivityMainBasePanel)
-local var_0_1 = "ACTIVITY_REFORGE_GAMEHELPKEY"
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_ActivityReforge/NorseUI_3_0_ActivityReforgeMainUI"
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.startBtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/activityReforgeChapterView", {
-			ActivityID = arg_4_0.activityID_
+			ActivityID = uv0.activityID_
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.descBtn_, nil, function()
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = GetTips(var_0_1),
-			key = var_0_1
+			content = GetTips(uv0),
+			key = uv0
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
-	arg_7_0:BindRedPoint()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.BindRedPoint(arg_8_0)
-	return
+function slot0.BindRedPoint(slot0)
 end
 
-function var_0_0.UnBindRedPoint(arg_9_0)
-	return
+function slot0.UnBindRedPoint(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0:RefreshTime()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTime()
 end
 
-function var_0_0.StopTimer(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTime(arg_12_0)
-	arg_12_0.stopTime_ = ActivityData:GetActivityData(arg_12_0.activityID_).stopTime
+function slot0.RefreshTime(slot0)
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	if manager.time:GetServerTime() < arg_12_0.stopTime_ then
-		arg_12_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_12_0.stopTime_)
+	if manager.time:GetServerTime() < slot0.stopTime_ then
+		slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
 	else
-		arg_12_0:StopTimer()
+		slot0:StopTimer()
 
-		arg_12_0.timeText_.text = GetTips("TIME_OVER")
+		slot0.timeText_.text = GetTips("TIME_OVER")
 	end
 
-	arg_12_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() < arg_12_0.stopTime_ then
-			arg_12_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_12_0.stopTime_)
+	slot0.timer_ = Timer.New(function ()
+		if manager.time:GetServerTime() < uv0.stopTime_ then
+			uv0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(uv0.stopTime_)
 		else
-			arg_12_0:StopTimer()
+			uv0:StopTimer()
 
-			arg_12_0.timeText_.text = GetTips("TIME_OVER")
+			uv0.timeText_.text = GetTips("TIME_OVER")
 		end
 	end, 1, -1)
 
-	arg_12_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.Show(arg_14_0, arg_14_1)
-	var_0_0.super.Show(arg_14_0, arg_14_1)
+function slot0.Show(slot0, slot1)
+	uv0.super.Show(slot0, slot1)
 end
 
-function var_0_0.UpdateBar(arg_15_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_16_0:StopTimer()
-	arg_16_0:UnBindRedPoint()
+	slot0:StopTimer()
+	slot0:UnBindRedPoint()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0:StopTimer()
-	arg_17_0:RemoveAllListeners()
-	arg_17_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

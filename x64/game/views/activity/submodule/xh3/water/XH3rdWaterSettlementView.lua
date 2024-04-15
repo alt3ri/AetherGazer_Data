@@ -1,13 +1,12 @@
-local var_0_0 = import("game.views.battleResult.BattleResultBaseView")
-local var_0_1 = class("XH3rdWaterSettlementView", var_0_0)
+slot1 = class("XH3rdWaterSettlementView", import("game.views.battleResult.BattleResultBaseView"))
 
-function var_0_1.GoToBattleStatistics(arg_1_0)
-	arg_1_0.toStat_ = true
+function slot1.GoToBattleStatistics(slot0)
+	slot0.toStat_ = true
 
 	JumpTools.OpenPageByJump("xH3rdWaterBattleStatistics", {
-		stageData = arg_1_0.stageData,
-		battleTime = arg_1_0:GetBattleTime()
+		stageData = slot0.stageData,
+		battleTime = slot0:GetBattleTime()
 	})
 end
 
-return var_0_1
+return slot1

@@ -1,233 +1,219 @@
-local var_0_0 = class("ActivityPushBoxSectionView", ReduxView)
+slot0 = class("ActivityPushBoxSectionView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroAffixItem_ = {}
-	arg_3_0.enemyAffixItem_ = {}
-	arg_3_0.statusCon_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
-	arg_3_0.levelCon_ = ControllerUtil.GetController(arg_3_0.transform_, "level")
-	arg_3_0.typeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "type")
-	arg_3_0.costCon_ = ControllerUtil.GetController(arg_3_0.transform_, "cost")
-	arg_3_0.boxStateCon_ = ControllerUtil.GetController(arg_3_0.transform_, "boxOrder")
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, CommonItem)
-	arg_3_0.boxScrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.BoxIndexItem), arg_3_0.boxListGo_, PushBoxReplayItem)
+	slot0.heroAffixItem_ = {}
+	slot0.enemyAffixItem_ = {}
+	slot0.statusCon_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.levelCon_ = ControllerUtil.GetController(slot0.transform_, "level")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.costCon_ = ControllerUtil.GetController(slot0.transform_, "cost")
+	slot0.boxStateCon_ = ControllerUtil.GetController(slot0.transform_, "boxOrder")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, CommonItem)
+	slot0.boxScrollHelper_ = LuaList.New(handler(slot0, slot0.BoxIndexItem), slot0.boxListGo_, PushBoxReplayItem)
 end
 
-function var_0_0.IndexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:RefreshData(formatReward(arg_4_0.list_[arg_4_1]))
-	arg_4_2:RegistCallBack(function(arg_5_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.list_[slot1]))
+	slot2:RegistCallBack(function (slot0)
 		ShowPopItem(POP_MERGE_ITEM, {
-			arg_5_0.id
+			slot0.id
 		})
 	end)
 end
 
-function var_0_0.BoxIndexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:RefreshData(arg_6_0.boxList_[arg_6_1])
+function slot0.BoxIndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot0.boxList_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.battleBtn_, nil, function()
-		if not arg_7_0:CheckTime() then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		if not uv0:CheckTime() then
 			return
 		end
 
-		if arg_7_0.cfg_.cost > ActivityPushBoxData:GetFatigue(arg_7_0.mainActivityID_) then
+		if ActivityPushBoxData:GetFatigue(uv0.mainActivityID_) < uv0.cfg_.cost then
 			ShowTips("ORDER_FATIGUE_NOT_ENOUGH")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("/sectionSelectHero", {
-			section = arg_7_0.cfg_.param,
+			section = uv0.cfg_.param,
 			sectionType = BattleConst.STAGE_TYPE_NEW.PUSH_BOX_BATTLE,
-			activityID = arg_7_0.mainActivityID_,
-			dest_id = arg_7_0.id_
+			activityID = uv0.mainActivityID_,
+			dest_id = uv0.id_
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.boxBtn_, nil, function()
-		if not arg_7_0:CheckTime() then
+	slot0:AddBtnListener(slot0.boxBtn_, nil, function ()
+		if not uv0:CheckTime() then
 			return
 		end
 
 		JumpTools.OpenPageByJump("/pushBox", {
-			map_id = arg_7_0.cfg_.param,
-			activityID = arg_7_0.mainActivityID_,
-			id = arg_7_0.id_
+			map_id = uv0.cfg_.param,
+			activityID = uv0.mainActivityID_,
+			id = uv0.id_
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.boxTypeBtn_, nil, function()
-		arg_7_0.boxType_ = 1 - arg_7_0.boxType_
+	slot0:AddBtnListener(slot0.boxTypeBtn_, nil, function ()
+		uv0.boxType_ = 1 - uv0.boxType_
 
-		arg_7_0:RefreshBoxType()
+		uv0:RefreshBoxType()
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.SetData(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0.id_ = arg_12_1
-	arg_12_0.isClose_ = arg_12_2
-	arg_12_0.cfg_ = ActivityCelebrationOrderCfg[arg_12_0.id_]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.id_ = slot1
+	slot0.isClose_ = slot2
+	slot0.cfg_ = ActivityCelebrationOrderCfg[slot0.id_]
 
-	arg_12_0:RefreshData()
-	arg_12_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshData(arg_13_0)
-	arg_13_0.activityID_ = arg_13_0.cfg_.activity_id
-	arg_13_0.mainActivityID_ = arg_13_0.cfg_.main_activity
-	arg_13_0.activityData_ = ActivityData:GetActivityData(arg_13_0.activityID_)
-	arg_13_0.startTime_ = arg_13_0.activityData_.startTime
-	arg_13_0.stopTime_ = arg_13_0.activityData_.stopTime
+function slot0.RefreshData(slot0)
+	slot0.activityID_ = slot0.cfg_.activity_id
+	slot0.mainActivityID_ = slot0.cfg_.main_activity
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	if arg_14_0.cfg_.type == PushBoxConst.EVENT_TYPE.BATTLE then
-		arg_14_0:RefreshBattle()
-	elseif arg_14_0.cfg_.type == PushBoxConst.EVENT_TYPE.PUSH_BOX then
-		arg_14_0:RefreshBox()
+function slot0.RefreshUI(slot0)
+	if slot0.cfg_.type == PushBoxConst.EVENT_TYPE.BATTLE then
+		slot0:RefreshBattle()
+	elseif slot0.cfg_.type == PushBoxConst.EVENT_TYPE.PUSH_BOX then
+		slot0:RefreshBox()
 	end
 
-	arg_14_0:RefreshReward()
+	slot0:RefreshReward()
 end
 
-function var_0_0.RefreshBattle(arg_15_0)
-	arg_15_0.battleDesc_.text = arg_15_0.cfg_.order_desc
-	arg_15_0.battleTitle_.text = arg_15_0.cfg_.order_title
+function slot0.RefreshBattle(slot0)
+	slot0.battleDesc_.text = slot0.cfg_.order_desc
+	slot0.battleTitle_.text = slot0.cfg_.order_title
+	slot1 = slot0.cfg_.cost
+	slot0.battleCost_.text = slot1
+	slot0.battleIcon_.sprite = ItemTools.getItemLittleSprite(PushBoxTool:GetFatigueID(slot0.activityID_))
 
-	local var_15_0 = arg_15_0.cfg_.cost
+	slot0.costCon_:SetSelectedState(slot1 <= ActivityPushBoxData:GetFatigue(slot0.mainActivityID_) and "true" or "false")
 
-	arg_15_0.battleCost_.text = var_15_0
+	slot5 = getMosterAffix(slot0.cfg_.affix_list)
 
-	local var_15_1 = PushBoxTool:GetFatigueID(arg_15_0.activityID_)
-
-	arg_15_0.battleIcon_.sprite = ItemTools.getItemLittleSprite(var_15_1)
-
-	local var_15_2 = ActivityPushBoxData:GetFatigue(arg_15_0.mainActivityID_)
-
-	arg_15_0.costCon_:SetSelectedState(var_15_0 <= var_15_2 and "true" or "false")
-
-	local var_15_3 = getHeroAffixs(arg_15_0.cfg_.affix_list)
-	local var_15_4 = getMosterAffix(arg_15_0.cfg_.affix_list)
-
-	for iter_15_0, iter_15_1 in ipairs(var_15_3) do
-		if not arg_15_0.heroAffixItem_[iter_15_0] then
-			arg_15_0.heroAffixItem_[iter_15_0] = PushBoxAffixItem.New(arg_15_0.affixGo_, arg_15_0.heroAffixContent_)
+	for slot9, slot10 in ipairs(getHeroAffixs(slot0.cfg_.affix_list)) do
+		if not slot0.heroAffixItem_[slot9] then
+			slot0.heroAffixItem_[slot9] = PushBoxAffixItem.New(slot0.affixGo_, slot0.heroAffixContent_)
 		end
 
-		arg_15_0.heroAffixItem_[iter_15_0]:SetData(iter_15_1)
+		slot0.heroAffixItem_[slot9]:SetData(slot10)
 	end
 
-	for iter_15_2 = #var_15_3 + 1, #arg_15_0.heroAffixItem_ do
-		arg_15_0.heroAffixItem_[iter_15_2]:SetActive(false)
+	for slot9 = #slot4 + 1, #slot0.heroAffixItem_ do
+		slot0.heroAffixItem_[slot9]:SetActive(false)
 	end
 
-	for iter_15_3, iter_15_4 in ipairs(var_15_4) do
-		if not arg_15_0.enemyAffixItem_[iter_15_3] then
-			arg_15_0.enemyAffixItem_[iter_15_3] = PushBoxAffixItem.New(arg_15_0.affixGo_, arg_15_0.enemyAffixContent_)
+	for slot9, slot10 in ipairs(slot5) do
+		if not slot0.enemyAffixItem_[slot9] then
+			slot0.enemyAffixItem_[slot9] = PushBoxAffixItem.New(slot0.affixGo_, slot0.enemyAffixContent_)
 		end
 
-		arg_15_0.enemyAffixItem_[iter_15_3]:SetData(iter_15_4)
+		slot0.enemyAffixItem_[slot9]:SetData(slot10)
 	end
 
-	for iter_15_5 = #var_15_4 + 1, #arg_15_0.enemyAffixItem_ do
-		arg_15_0.enemyAffixItem_[iter_15_5]:SetActive(false)
+	for slot9 = #slot5 + 1, #slot0.enemyAffixItem_ do
+		slot0.enemyAffixItem_[slot9]:SetActive(false)
 	end
 
-	arg_15_0.statusCon_:SetSelectedState("normal")
-	arg_15_0.typeCon_:SetSelectedState("challenge")
-	arg_15_0.levelCon_:SetSelectedState(arg_15_0.cfg_.hard)
-	arg_15_0.boxStateCon_:SetSelectedState("normal")
+	slot0.statusCon_:SetSelectedState("normal")
+	slot0.typeCon_:SetSelectedState("challenge")
+	slot0.levelCon_:SetSelectedState(slot0.cfg_.hard)
+	slot0.boxStateCon_:SetSelectedState("normal")
 end
 
-function var_0_0.RefreshBox(arg_16_0)
-	arg_16_0.boxType_ = 1
-	arg_16_0.boxDesc_.text = arg_16_0.cfg_.order_desc
-	arg_16_0.boxTitle_.text = arg_16_0.cfg_.order_title
+function slot0.RefreshBox(slot0)
+	slot0.boxType_ = 1
+	slot0.boxDesc_.text = slot0.cfg_.order_desc
+	slot0.boxTitle_.text = slot0.cfg_.order_title
 
-	arg_16_0:RefreshTime()
-	arg_16_0:RefreshHistory()
-	arg_16_0:RefreshBoxType()
-	arg_16_0.typeCon_:SetSelectedState("box")
-	arg_16_0.statusCon_:SetSelectedState(arg_16_0.isClose_ and "complete" or "normal")
+	slot0:RefreshTime()
+	slot0:RefreshHistory()
+	slot0:RefreshBoxType()
+	slot0.typeCon_:SetSelectedState("box")
+	slot0.statusCon_:SetSelectedState(slot0.isClose_ and "complete" or "normal")
 end
 
-function var_0_0.RefreshTime(arg_17_0)
-	arg_17_0:StopTimer()
+function slot0.RefreshTime(slot0)
+	slot0:StopTimer()
 
-	if ActivityPushBoxData:GetNextID(arg_17_0.mainActivityID_, arg_17_0.id_) == 0 then
-		SetActive(arg_17_0.timeGo_, false)
+	if ActivityPushBoxData:GetNextID(slot0.mainActivityID_, slot0.id_) == 0 then
+		SetActive(slot0.timeGo_, false)
 
 		return
 	end
 
-	SetActive(arg_17_0.timeGo_, true)
+	SetActive(slot0.timeGo_, true)
 
-	local var_17_0 = manager.time:GetServerTime()
-	local var_17_1 = manager.time:GetNextFreshTime()
-
-	arg_17_0.countDownTxt_.text = manager.time:DescCDTime(var_17_1 - var_17_0)
-	arg_17_0.timer_ = Timer.New(function()
-		var_17_0 = manager.time:GetServerTime()
-		arg_17_0.countDownTxt_.text = manager.time:DescCDTime(var_17_1 - var_17_0)
+	slot0.countDownTxt_.text = manager.time:DescCDTime(manager.time:GetNextFreshTime() - manager.time:GetServerTime())
+	slot0.timer_ = Timer.New(function ()
+		uv0 = manager.time:GetServerTime()
+		uv1.countDownTxt_.text = manager.time:DescCDTime(uv2 - uv0)
 	end, 1, -1)
 
-	arg_17_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshHistory(arg_20_0)
-	arg_20_0.boxList_ = ActivityPushBoxData:GetFinishList(arg_20_0.mainActivityID_)
+function slot0.RefreshHistory(slot0)
+	slot0.boxList_ = ActivityPushBoxData:GetFinishList(slot0.mainActivityID_)
 
-	table.sort(arg_20_0.boxList_, function(arg_21_0, arg_21_1)
-		return arg_21_0 < arg_21_1
+	table.sort(slot0.boxList_, function (slot0, slot1)
+		return slot0 < slot1
 	end)
-	arg_20_0.boxScrollHelper_:StartScroll(#arg_20_0.boxList_)
+	slot0.boxScrollHelper_:StartScroll(#slot0.boxList_)
 end
 
-function var_0_0.RefreshBoxType(arg_22_0)
-	arg_22_0.boxStateCon_:SetSelectedState(arg_22_0.boxType_ == 1 and "normal" or "pastRecords")
+function slot0.RefreshBoxType(slot0)
+	slot0.boxStateCon_:SetSelectedState(slot0.boxType_ == 1 and "normal" or "pastRecords")
 end
 
-function var_0_0.RefreshReward(arg_23_0)
-	arg_23_0.list_ = arg_23_0.cfg_.award_list
+function slot0.RefreshReward(slot0)
+	slot0.list_ = slot0.cfg_.award_list
 
-	arg_23_0.scrollHelper_:StartScroll(#arg_23_0.list_)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 end
 
-function var_0_0.CheckTime(arg_24_0)
-	local var_24_0 = manager.time:GetServerTime()
-
-	if var_24_0 < arg_24_0.startTime_ then
+function slot0.CheckTime(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ then
 		ShowTips("SOLO_NOT_OPEN")
 
 		return false
 	end
 
-	if var_24_0 >= arg_24_0.stopTime_ then
+	if slot0.stopTime_ <= slot1 then
 		ShowTips("TIME_OVER")
 
 		return false
@@ -236,54 +222,54 @@ function var_0_0.CheckTime(arg_24_0)
 	return true
 end
 
-function var_0_0.Show(arg_25_0, arg_25_1)
-	SetActive(arg_25_0.gameObject_, arg_25_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.OnExit(arg_26_0)
-	arg_26_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.scrollHelper_:GetItemList()) do
-		iter_26_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 
-	for iter_26_2, iter_26_3 in ipairs(arg_26_0.boxScrollHelper_:GetItemList()) do
-		iter_26_3:OnExit()
+	for slot4, slot5 in ipairs(slot0.boxScrollHelper_:GetItemList()) do
+		slot5:OnExit()
 	end
 
-	for iter_26_4, iter_26_5 in ipairs(arg_26_0.heroAffixItem_) do
-		iter_26_5:OnExit()
+	for slot4, slot5 in ipairs(slot0.heroAffixItem_) do
+		slot5:OnExit()
 	end
 
-	for iter_26_6, iter_26_7 in ipairs(arg_26_0.enemyAffixItem_) do
-		iter_26_7:OnExit()
+	for slot4, slot5 in ipairs(slot0.enemyAffixItem_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_27_0)
-	arg_27_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_27_0, iter_27_1 in ipairs(arg_27_0.scrollHelper_:GetItemList()) do
-		iter_27_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:Dispose()
 	end
 
-	arg_27_0.scrollHelper_:Dispose()
+	slot0.scrollHelper_:Dispose()
 
-	for iter_27_2, iter_27_3 in ipairs(arg_27_0.boxScrollHelper_:GetItemList()) do
-		iter_27_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.boxScrollHelper_:GetItemList()) do
+		slot5:Dispose()
 	end
 
-	arg_27_0.boxScrollHelper_:Dispose()
+	slot0.boxScrollHelper_:Dispose()
 
-	for iter_27_4, iter_27_5 in ipairs(arg_27_0.heroAffixItem_) do
-		iter_27_5:Dispose()
+	for slot4, slot5 in ipairs(slot0.heroAffixItem_) do
+		slot5:Dispose()
 	end
 
-	for iter_27_6, iter_27_7 in ipairs(arg_27_0.enemyAffixItem_) do
-		iter_27_7:Dispose()
+	for slot4, slot5 in ipairs(slot0.enemyAffixItem_) do
+		slot5:Dispose()
 	end
 
-	arg_27_0.super.Dispose(arg_27_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

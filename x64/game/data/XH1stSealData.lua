@@ -1,6 +1,6 @@
-local var_0_0 = singletonClass("XH1stSealData")
-local var_0_1
-local var_0_2 = {
+slot0 = singletonClass("XH1stSealData")
+slot1 = nil
+slot2 = {
 	[0] = {
 		11,
 		22,
@@ -43,135 +43,125 @@ local var_0_2 = {
 	}
 }
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.OnServerData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.ticket_list
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		var_0_1[iter_2_1.ticket_id] = {
+function slot0.OnServerData(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1.ticket_list) do
+		slot11 = {}
+		uv0[slot7.ticket_id] = {
 			stamp_list = {},
 			stamp_number_dic = {},
 			reward_list = {},
-			reward_number_dic = {}
+			reward_number_dic = slot11
 		}
 
-		for iter_2_2, iter_2_3 in ipairs(iter_2_1.stamp_list) do
-			table.insert(var_0_1[iter_2_1.ticket_id].stamp_list, arg_2_0:ParseCoordinateInfo(iter_2_3))
+		for slot11, slot12 in ipairs(slot7.stamp_list) do
+			table.insert(uv0[slot7.ticket_id].stamp_list, slot0:ParseCoordinateInfo(slot12))
 
-			var_0_1[iter_2_1.ticket_id].stamp_number_dic[arg_2_0:GetCoordinateNumber(iter_2_3.row, iter_2_3.column)] = 1
+			uv0[slot7.ticket_id].stamp_number_dic[slot0:GetCoordinateNumber(slot12.row, slot12.column)] = 1
 		end
 
-		for iter_2_4, iter_2_5 in ipairs(iter_2_1.reward_list) do
-			table.insert(var_0_1[iter_2_1.ticket_id].reward_list, arg_2_0:ParseCoordinateInfo(iter_2_5))
+		for slot11, slot12 in ipairs(slot7.reward_list) do
+			table.insert(uv0[slot7.ticket_id].reward_list, slot0:ParseCoordinateInfo(slot12))
 
-			var_0_1[iter_2_1.ticket_id].reward_number_dic[arg_2_0:GetCoordinateNumber(iter_2_5.row, iter_2_5.column)] = 1
+			uv0[slot7.ticket_id].reward_number_dic[slot0:GetCoordinateNumber(slot12.row, slot12.column)] = 1
 		end
 	end
 
 	manager.notify:Invoke(XH1ST_SEAL_UPDATE, {})
 end
 
-function var_0_0.GetCurrentTicket(arg_3_0)
-	local var_3_0 = ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list
-
-	for iter_3_0 = #var_3_0, 1, -1 do
-		local var_3_1 = var_3_0[iter_3_0]
-
-		if var_0_1[var_3_1] then
-			return var_3_1
+function slot0.GetCurrentTicket(slot0)
+	for slot5 = #ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list, 1, -1 do
+		if uv0[slot1[slot5]] then
+			return slot6
 		end
 	end
 
 	return ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list[1]
 end
 
-function var_0_0.IsTicketFinish(arg_4_0, arg_4_1)
-	if not var_0_1[arg_4_1] then
+function slot0.IsTicketFinish(slot0, slot1)
+	if not uv0[slot1] then
 		return false
 	end
 
-	return #var_0_1[arg_4_1].stamp_list + #var_0_1[arg_4_1].reward_list >= #ActivitySealTicketCfg.get_id_list_by_ticket_id[arg_4_1]
+	return #uv0[slot1].stamp_list + #uv0[slot1].reward_list >= #ActivitySealTicketCfg.get_id_list_by_ticket_id[slot1]
 end
 
-function var_0_0.GetCanGetRewardList(arg_5_0, arg_5_1)
-	if not var_0_1[arg_5_1] then
+function slot0.GetCanGetRewardList(slot0, slot1)
+	if not uv0[slot1] then
 		return {}
 	end
 
-	local var_5_0 = var_0_1[arg_5_1]
-	local var_5_1 = {}
-	local var_5_2 = {}
+	slot3 = {}
+	slot4 = {}
 
-	for iter_5_0, iter_5_1 in pairs(var_0_2) do
-		if not var_5_0.reward_number_dic[iter_5_0] then
-			local var_5_3 = true
+	for slot8, slot9 in pairs(uv1) do
+		if not uv0[slot1].reward_number_dic[slot8] then
+			slot10 = true
 
-			for iter_5_2, iter_5_3 in ipairs(iter_5_1) do
-				if not var_5_0.stamp_number_dic[iter_5_3] then
-					var_5_3 = false
+			for slot14, slot15 in ipairs(slot9) do
+				if not slot2.stamp_number_dic[slot15] then
+					slot10 = false
 
 					break
 				end
 			end
 
-			if var_5_3 then
-				local var_5_4 = {}
+			if slot10 then
+				slot11 = {}
 
-				table.insertto(var_5_4, iter_5_1)
-				table.insert(var_5_1, iter_5_0)
-				table.insert(var_5_2, var_5_4)
+				table.insertto(slot11, slot9)
+				table.insert(slot3, slot8)
+				table.insert(slot4, slot11)
 			end
 		end
 	end
 
-	return var_5_1, var_5_2
+	return slot3, slot4
 end
 
-function var_0_0.ParseCoordinateInfo(arg_6_0, arg_6_1)
+function slot0.ParseCoordinateInfo(slot0, slot1)
 	return {
-		row = arg_6_1.row,
-		column = arg_6_1.column
+		row = slot1.row,
+		column = slot1.column
 	}
 end
 
-function var_0_0.GetCoordinateNumber(arg_7_0, arg_7_1, arg_7_2)
-	return 10 * arg_7_1 + arg_7_2
+function slot0.GetCoordinateNumber(slot0, slot1, slot2)
+	return 10 * slot1 + slot2
 end
 
-function var_0_0.HaveGotSeal(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	if not var_0_1[arg_8_1] then
+function slot0.HaveGotSeal(slot0, slot1, slot2, slot3)
+	if not uv0[slot1] then
 		return false
 	end
 
-	return var_0_1[arg_8_1].stamp_number_dic[arg_8_0:GetCoordinateNumber(arg_8_2, arg_8_3)] == 1
+	return uv0[slot1].stamp_number_dic[slot0:GetCoordinateNumber(slot2, slot3)] == 1
 end
 
-function var_0_0.HaveGotReward(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	if not var_0_1[arg_9_1] then
+function slot0.HaveGotReward(slot0, slot1, slot2, slot3)
+	if not uv0[slot1] then
 		return false
 	end
 
-	return var_0_1[arg_9_1].reward_number_dic[arg_9_0:GetCoordinateNumber(arg_9_2, arg_9_3)] == 1
+	return uv0[slot1].reward_number_dic[slot0:GetCoordinateNumber(slot2, slot3)] == 1
 end
 
-function var_0_0.IsUnLock(arg_10_0, arg_10_1)
-	if arg_10_1 == 1 then
+function slot0.IsUnLock(slot0, slot1)
+	if slot1 == 1 then
 		return true
 	end
 
-	local var_10_0 = ActivitySealTicketCfg.get_id_list_by_ticket_id[arg_10_1 - 1]
-
-	if not var_10_0 then
+	if not ActivitySealTicketCfg.get_id_list_by_ticket_id[slot1 - 1] then
 		return false
 	end
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		local var_10_1 = ActivitySealTicketCfg[iter_10_1]
-
-		if var_10_1.is_main_reward == 1 and arg_10_0:HaveGotReward(arg_10_1 - 1, var_10_1.row, var_10_1.column) then
+	for slot6, slot7 in ipairs(slot2) do
+		if ActivitySealTicketCfg[slot7].is_main_reward == 1 and slot0:HaveGotReward(slot1 - 1, slot8.row, slot8.column) then
 			return true
 		end
 	end
@@ -179,53 +169,46 @@ function var_0_0.IsUnLock(arg_10_0, arg_10_1)
 	return false
 end
 
-function var_0_0.DecodeCoordinateNumber(arg_11_0, arg_11_1)
-	local var_11_0 = math.floor(arg_11_1 / 10)
-	local var_11_1 = arg_11_1 % 10
-
+function slot0.DecodeCoordinateNumber(slot0, slot1)
 	return {
-		var_11_0,
-		var_11_1
+		math.floor(slot1 / 10),
+		slot1 % 10
 	}
 end
 
-function var_0_0.OnSealSuccess(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if not var_0_1[arg_12_1] then
-		arg_12_0:InitTicket(arg_12_1)
+function slot0.OnSealSuccess(slot0, slot1, slot2, slot3)
+	if not uv0[slot1] then
+		slot0:InitTicket(slot1)
 	end
 
-	local var_12_0 = false
+	slot4 = false
+	uv0[slot1].stamp_number_dic[slot0:GetCoordinateNumber(slot2, slot3)] = 1
 
-	var_0_1[arg_12_1].stamp_number_dic[arg_12_0:GetCoordinateNumber(arg_12_2, arg_12_3)] = 1
-
-	table.insert(var_0_1[arg_12_1].stamp_list, {
-		row = arg_12_2,
-		column = arg_12_3
+	table.insert(uv0[slot1].stamp_list, {
+		row = slot2,
+		column = slot3
 	})
 
-	local var_12_1, var_12_2 = arg_12_0:GetCanGetRewardList(arg_12_1)
-	local var_12_3 = {}
-	local var_12_4 = {}
+	slot5, slot6 = slot0:GetCanGetRewardList(slot1)
+	slot7 = {}
+	slot8 = {}
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_1) do
-		local var_12_5 = arg_12_0:DecodeCoordinateNumber(iter_12_1)
-		local var_12_6 = ActivitySealTicketCfg.get_id_list_by_ticket_id[arg_12_1]
+	for slot12, slot13 in ipairs(slot5) do
+		slot14 = slot0:DecodeCoordinateNumber(slot13)
 
-		for iter_12_2, iter_12_3 in ipairs(var_12_6) do
-			local var_12_7 = ActivitySealTicketCfg[iter_12_3]
+		for slot19, slot20 in ipairs(ActivitySealTicketCfg.get_id_list_by_ticket_id[slot1]) do
+			if ActivitySealTicketCfg[slot20].row == slot14[1] and slot21.column == slot14[2] then
+				slot4 = slot21.is_main_reward == 1
 
-			if var_12_7.row == var_12_5[1] and var_12_7.column == var_12_5[2] then
-				var_12_0 = var_12_7.is_main_reward == 1
-
-				if var_12_7.is_main_reward == 1 and arg_12_1 < #ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list then
-					ShowTips(string.format(GetTips("XH1ST_SEAL_UNLOCK_NEXT_TICKET_TIP"), arg_12_1 + 1))
+				if slot21.is_main_reward == 1 and slot1 < #ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list then
+					ShowTips(string.format(GetTips("XH1ST_SEAL_UNLOCK_NEXT_TICKET_TIP"), slot1 + 1))
 				end
 
-				var_0_1[arg_12_1].reward_number_dic[arg_12_0:GetCoordinateNumber(var_12_5[1], var_12_5[2])] = 1
+				uv0[slot1].reward_number_dic[slot0:GetCoordinateNumber(slot14[1], slot14[2])] = 1
 
-				table.insert(var_0_1[arg_12_1].reward_list, {
-					row = arg_12_2,
-					column = arg_12_3
+				table.insert(uv0[slot1].reward_list, {
+					row = slot2,
+					column = slot3
 				})
 			end
 		end
@@ -233,18 +216,18 @@ function var_0_0.OnSealSuccess(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
 
 	manager.notify:Invoke(XH1ST_SEAL_UPDATE, {})
 
-	return var_12_3, var_12_0, var_12_2
+	return slot7, slot4, slot6
 end
 
-function var_0_0.ResetTicket(arg_13_0)
-	local var_13_0 = ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list
+function slot0.ResetTicket(slot0)
+	slot1 = ActivitySealCfg[ActivityConst.ACTIVITY_2_0_SEAL].ticket_list
 
-	arg_13_0:InitTicket(var_13_0[#var_13_0])
+	slot0:InitTicket(slot1[#slot1])
 	manager.notify:Invoke(XH1ST_SEAL_UPDATE, {})
 end
 
-function var_0_0.InitTicket(arg_14_0, arg_14_1)
-	var_0_1[arg_14_1] = {
+function slot0.InitTicket(slot0, slot1)
+	uv0[slot1] = {
 		stamp_list = {},
 		stamp_number_dic = {},
 		reward_list = {},
@@ -252,4 +235,4 @@ function var_0_0.InitTicket(arg_14_0, arg_14_1)
 	}
 end
 
-return var_0_0
+return slot0

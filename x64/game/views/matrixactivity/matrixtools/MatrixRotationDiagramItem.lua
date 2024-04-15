@@ -1,80 +1,75 @@
-local var_0_0 = class("MatrixRotationDiagramItem", ReduxView)
+slot0 = class("MatrixRotationDiagramItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = Object.Instantiate(arg_1_1, arg_1_2)
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot3 = Object.Instantiate(slot1, slot2)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
+	slot0.rectTransform_ = slot3:GetComponent(typeof(RectTransform))
 
-	arg_1_0.gameObject_ = var_1_0
-	arg_1_0.transform_ = var_1_0.transform
-	arg_1_0.rectTransform_ = var_1_0:GetComponent(typeof(RectTransform))
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.campController = ControllerUtil.GetController(arg_2_0.transform_, "camp")
+	slot0.campController = ControllerUtil.GetController(slot0.transform_, "camp")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	arg_5_0.index = arg_5_1
+function slot0.SetData(slot0, slot1)
+	slot0.index = slot1
 
-	arg_5_0.campController:SetSelectedIndex(arg_5_1 - 1)
+	slot0.campController:SetSelectedIndex(slot1 - 1)
 
-	arg_5_0.img = arg_5_0["m_img" .. arg_5_1]
+	slot0.img = slot0["m_img" .. slot1]
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	arg_6_0.callback_ = arg_6_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.SetPosId(arg_7_0, arg_7_1)
-	arg_7_0.posId = arg_7_1
+function slot0.SetPosId(slot0, slot1)
+	slot0.posId = slot1
 end
 
-function var_0_0.GetPosId(arg_8_0)
-	return arg_8_0.posId
+function slot0.GetPosId(slot0)
+	return slot0.posId
 end
 
-function var_0_0.GetIndex(arg_9_0)
-	return arg_9_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.InitPosData(arg_10_0, arg_10_1)
-	arg_10_0.rectTransform_.anchoredPosition = arg_10_1.pos
-	arg_10_0.m_container.transform.localScale = Vector2.one * arg_10_1.scale
-	arg_10_0.img.color = arg_10_1.color
+function slot0.InitPosData(slot0, slot1)
+	slot0.rectTransform_.anchoredPosition = slot1.pos
+	slot0.m_container.transform.localScale = Vector2.one * slot1.scale
+	slot0.img.color = slot1.color
 
-	arg_10_0.transform_:SetSiblingIndex(arg_10_1.order)
+	slot0.transform_:SetSiblingIndex(slot1.order)
 end
 
-function var_0_0.SetPosData(arg_11_0, arg_11_1)
-	local var_11_0 = Vector3.one * arg_11_1.scale
-	local var_11_1 = arg_11_1.pos
+function slot0.SetPosData(slot0, slot1)
+	LeanTween.scale(slot0.m_container, Vector3.one * slot1.scale, 0.5):setEase(LeanTweenType.easeOutQuad)
+	LeanTween.moveLocal(slot0.gameObject_, slot1.pos, 0.5):setEase(LeanTweenType.easeOutQuad)
 
-	LeanTween.scale(arg_11_0.m_container, var_11_0, 0.5):setEase(LeanTweenType.easeOutQuad)
-	LeanTween.moveLocal(arg_11_0.gameObject_, var_11_1, 0.5):setEase(LeanTweenType.easeOutQuad)
+	slot4 = slot0.img.color
+	slot5 = slot1.color
 
-	local var_11_2 = arg_11_0.img.color
-	local var_11_3 = arg_11_1.color
-
-	LeanTween.value(arg_11_0.gameObject_, 0, 1, 0.5):setEase(LeanTweenType.easeOutQuad):setOnUpdate(LuaHelper.FloatAction(function(arg_12_0)
-		arg_11_0.img.color = Color.Lerp(var_11_2, var_11_3, arg_12_0)
+	LeanTween.value(slot0.gameObject_, 0, 1, 0.5):setEase(LeanTweenType.easeOutQuad):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.img.color = Color.Lerp(uv1, uv2, slot0)
 	end))
-	arg_11_0.transform_:SetSiblingIndex(arg_11_1.order)
+	slot0.transform_:SetSiblingIndex(slot1.order)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

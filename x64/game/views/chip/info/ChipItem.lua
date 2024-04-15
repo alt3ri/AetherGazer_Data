@@ -1,82 +1,79 @@
-local var_0_0 = class("ChipItem", ReduxView)
+slot0 = class("ChipItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.lockControl = arg_1_0.mimirchipControllerexcollection_:GetController("lock")
-	arg_1_0.selectControl = arg_1_0.mimirchipControllerexcollection_:GetController("select")
-	arg_1_0.equipControl = arg_1_0.mimirchipControllerexcollection_:GetController("equip")
+	slot0.lockControl = slot0.mimirchipControllerexcollection_:GetController("lock")
+	slot0.selectControl = slot0.mimirchipControllerexcollection_:GetController("select")
+	slot0.equipControl = slot0.mimirchipControllerexcollection_:GetController("equip")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		manager.notify:Invoke(ON_CLICK_CHIP_ITEM, arg_2_0.chipID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		manager.notify:Invoke(ON_CLICK_CHIP_ITEM, uv0.chipID_)
 	end)
 end
 
-function var_0_0.SetChipID(arg_4_0, arg_4_1)
-	arg_4_0.chipID_ = arg_4_1
+function slot0.SetChipID(slot0, slot1)
+	slot0.chipID_ = slot1
 end
 
-function var_0_0.SetTemplateData(arg_5_0, arg_5_1)
-	arg_5_0.chipManagerDataTemplate_ = arg_5_1
+function slot0.SetTemplateData(slot0, slot1)
+	slot0.chipManagerDataTemplate_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.gameObject_.name = arg_6_0.chipID_
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.gameObject_.name = slot0.chipID_
+	slot3 = ChipCfg[slot0.chipID_]
+	slot0.icon_.sprite = getSpriteViaConfig("ChipSkillIcon", slot3.picture_id)
+	slot0.name_.text = GetI18NText(slot3.suit_name)
+	slot4 = slot0:GetUnlockChipIDList()
 
-	local var_6_0 = ChipCfg[arg_6_0.chipID_]
-
-	arg_6_0.icon_.sprite = getSpriteViaConfig("ChipSkillIcon", var_6_0.picture_id)
-	arg_6_0.name_.text = GetI18NText(var_6_0.suit_name)
-
-	local var_6_1 = arg_6_0:GetUnlockChipIDList()
-
-	if arg_6_0.chipID_ == arg_6_1 then
-		arg_6_0.selectControl:SetSelectedState("yes")
+	if slot0.chipID_ == slot1 then
+		slot0.selectControl:SetSelectedState("yes")
 	else
-		arg_6_0.selectControl:SetSelectedState("no")
+		slot0.selectControl:SetSelectedState("no")
 	end
 
-	if arg_6_0.chipManagerDataTemplate_:GetIsUnlockChip(arg_6_0.chipID_) then
-		arg_6_0.lockControl:SetSelectedState("no")
+	if slot0.chipManagerDataTemplate_:GetIsUnlockChip(slot0.chipID_) then
+		slot0.lockControl:SetSelectedState("no")
 	else
-		arg_6_0.lockControl:SetSelectedState("yes")
+		slot0.lockControl:SetSelectedState("yes")
 	end
 
-	if arg_6_0.chipManagerDataTemplate_:GetIsUesChipID(arg_6_0.chipID_) then
-		arg_6_0.equipControl:SetSelectedState("yes")
+	if slot0.chipManagerDataTemplate_:GetIsUesChipID(slot0.chipID_) then
+		slot0.equipControl:SetSelectedState("yes")
 	else
-		arg_6_0.equipControl:SetSelectedState("no")
+		slot0.equipControl:SetSelectedState("no")
 	end
 
-	if arg_6_0.chipManagerDataTemplate_ and not arg_6_0.chipManagerDataTemplate_.isNoRed then
-		arg_6_0:BindRedPoint()
+	if slot0.chipManagerDataTemplate_ and not slot0.chipManagerDataTemplate_.isNoRed then
+		slot0:BindRedPoint()
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:UnbindRedPoint()
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	slot0:UnbindRedPoint()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetUnlockChipIDList(arg_8_0)
+function slot0.GetUnlockChipIDList(slot0)
 	return ChipData:GetUnlockChipIDList()
 end
 
-function var_0_0.BindRedPoint(arg_9_0)
-	manager.redPoint:bindUIandKey(arg_9_0.notice_, string.format("%s_%s", RedPointConst.CHIP_CHIP, arg_9_0.chipID_), {
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.notice_, string.format("%s_%s", RedPointConst.CHIP_CHIP, slot0.chipID_), {
 		x = 0,
 		y = 0
 	})
 end
 
-function var_0_0.UnbindRedPoint(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.notice_)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.notice_)
 end
 
-return var_0_0
+return slot0

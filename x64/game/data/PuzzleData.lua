@@ -1,150 +1,139 @@
-local var_0_0 = singletonClass("PuzzleData")
-local var_0_1 = {
+slot0 = singletonClass("PuzzleData")
+slot1 = {
 	UNCOMPLETE = 1,
 	UNRECEIVE = 2,
 	RECEIVED = 3
 }
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.stepCountList_ = {}
-	arg_1_0.puzzleStateList_ = {}
-	arg_1_0.minStepCountList_ = {}
-	arg_1_0.selectedList_ = {}
-	arg_1_0.watchedPlotList_ = {}
-	arg_1_0.activityStateList_ = {}
+function slot0.Init(slot0)
+	slot0.stepCountList_ = {}
+	slot0.puzzleStateList_ = {}
+	slot0.minStepCountList_ = {}
+	slot0.selectedList_ = {}
+	slot0.watchedPlotList_ = {}
+	slot0.activityStateList_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_1.activity_id
-
-	if arg_2_1.is_clear == 2 then
-		if arg_2_1.is_reward_admitted == 2 then
-			arg_2_0.activityStateList_[var_2_0] = var_0_1.RECEIVED
+function slot0.InitData(slot0, slot1)
+	if slot1.is_clear == 2 then
+		if slot1.is_reward_admitted == 2 then
+			slot0.activityStateList_[slot1.activity_id] = uv0.RECEIVED
 		else
-			arg_2_0.activityStateList_[var_2_0] = var_0_1.UNRECEIVE
+			slot0.activityStateList_[slot2] = uv0.UNRECEIVE
 		end
 	else
-		arg_2_0.activityStateList_[var_2_0] = var_0_1.UNCOMPLETE
+		slot0.activityStateList_[slot2] = uv0.UNCOMPLETE
 	end
 
-	arg_2_0.stepCountList_[var_2_0] = arg_2_1.change_times or 0
-	arg_2_0.minStepCountList_[var_2_0] = arg_2_1.least_change_times or 0
-	arg_2_0.puzzleStateList_[var_2_0] = arg_2_1.puzzle.puzzle_data
-	arg_2_0.puzzleStateList_[var_2_0][arg_2_1.puzzle.vacant_position] = ActivityPuzzleCfg[var_2_0].block
+	slot0.stepCountList_[slot2] = slot1.change_times or 0
+	slot0.minStepCountList_[slot2] = slot1.least_change_times or 0
+	slot0.puzzleStateList_[slot2] = slot1.puzzle.puzzle_data
+	slot0.puzzleStateList_[slot2][slot1.puzzle.vacant_position] = ActivityPuzzleCfg[slot2].block
 
-	arg_2_0:RefreshRedPoint(var_2_0)
+	slot0:RefreshRedPoint(slot2)
 end
 
-function var_0_0.GetStateList(arg_3_0, arg_3_1)
-	return arg_3_0.puzzleStateList_[arg_3_1]
+function slot0.GetStateList(slot0, slot1)
+	return slot0.puzzleStateList_[slot1]
 end
 
-function var_0_0.IsCompleted(arg_4_0, arg_4_1)
-	if arg_4_0.activityStateList_[arg_4_1] ~= nil then
-		return arg_4_0.activityStateList_[arg_4_1] >= var_0_1.UNRECEIVE
-	end
-
-	return false
-end
-
-function var_0_0.IsReceived(arg_5_0, arg_5_1)
-	if arg_5_0.activityStateList_[arg_5_1] then
-		return arg_5_0.activityStateList_[arg_5_1] == var_0_1.RECEIVED
+function slot0.IsCompleted(slot0, slot1)
+	if slot0.activityStateList_[slot1] ~= nil then
+		return uv0.UNRECEIVE <= slot0.activityStateList_[slot1]
 	end
 
 	return false
 end
 
-function var_0_0.GetStepCount(arg_6_0, arg_6_1)
-	return arg_6_0.stepCountList_[arg_6_1] or 0
-end
-
-function var_0_0.GetMinStepCount(arg_7_0, arg_7_1)
-	return arg_7_0.minStepCountList_[arg_7_1]
-end
-
-function var_0_0.SetMinStepCount(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_0.minStepCountList_[arg_8_1]
-	local var_8_1 = false
-
-	if arg_8_0.minStepCountList_[arg_8_1] == 0 or arg_8_0.stepCountList_[arg_8_1] < arg_8_0.minStepCountList_[arg_8_1] then
-		var_8_1 = true
-		arg_8_0.minStepCountList_[arg_8_1] = arg_8_0.stepCountList_[arg_8_1]
+function slot0.IsReceived(slot0, slot1)
+	if slot0.activityStateList_[slot1] then
+		return slot0.activityStateList_[slot1] == uv0.RECEIVED
 	end
 
-	return var_8_1, var_8_0
+	return false
 end
 
-function var_0_0.SetCompletedActivityList(arg_9_0, arg_9_1)
-	if arg_9_0.activityStateList_[arg_9_1] ~= var_0_1.RECEIVED then
-		arg_9_0.activityStateList_[arg_9_1] = var_0_1.UNRECEIVE
+function slot0.GetStepCount(slot0, slot1)
+	return slot0.stepCountList_[slot1] or 0
+end
+
+function slot0.GetMinStepCount(slot0, slot1)
+	return slot0.minStepCountList_[slot1]
+end
+
+function slot0.SetMinStepCount(slot0, slot1)
+	slot2 = slot0.minStepCountList_[slot1]
+	slot3 = false
+
+	if slot0.minStepCountList_[slot1] == 0 or slot0.stepCountList_[slot1] < slot0.minStepCountList_[slot1] then
+		slot3 = true
+		slot0.minStepCountList_[slot1] = slot0.stepCountList_[slot1]
 	end
 
-	arg_9_0:RefreshRedPoint(arg_9_1)
+	return slot3, slot2
 end
 
-function var_0_0.SetReceivedActivityList(arg_10_0, arg_10_1)
-	arg_10_0.activityStateList_[arg_10_1] = var_0_1.RECEIVED
+function slot0.SetCompletedActivityList(slot0, slot1)
+	if slot0.activityStateList_[slot1] ~= uv0.RECEIVED then
+		slot0.activityStateList_[slot1] = uv0.UNRECEIVE
+	end
 
-	arg_10_0:RefreshRedPoint(arg_10_1)
+	slot0:RefreshRedPoint(slot1)
 end
 
-function var_0_0.SetPuzzleState(arg_11_0, arg_11_1, arg_11_2, arg_11_3, arg_11_4, arg_11_5)
-	arg_11_0.puzzleStateList_[arg_11_1] = arg_11_0.puzzleStateList_[arg_11_1] or {}
-	arg_11_0.puzzleStateList_[arg_11_1][arg_11_2] = arg_11_3
-	arg_11_0.puzzleStateList_[arg_11_1][arg_11_4] = arg_11_5
-	arg_11_0.stepCountList_[arg_11_1] = arg_11_0.stepCountList_[arg_11_1] + 1
+function slot0.SetReceivedActivityList(slot0, slot1)
+	slot0.activityStateList_[slot1] = uv0.RECEIVED
+
+	slot0:RefreshRedPoint(slot1)
 end
 
-function var_0_0.ResetData(arg_12_0, arg_12_1)
-	arg_12_0.puzzleStateList_[arg_12_1] = clone(ActivityPuzzleCfg[arg_12_1].default_array)
-	arg_12_0.stepCountList_[arg_12_1] = 0
+function slot0.SetPuzzleState(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.puzzleStateList_[slot1] = slot0.puzzleStateList_[slot1] or {}
+	slot0.puzzleStateList_[slot1][slot2] = slot3
+	slot0.puzzleStateList_[slot1][slot4] = slot5
+	slot0.stepCountList_[slot1] = slot0.stepCountList_[slot1] + 1
 end
 
-function var_0_0.SetSelectActivity(arg_13_0, arg_13_1)
-	local var_13_0 = ActivityPuzzleCfg[arg_13_1].main_activity_id
+function slot0.ResetData(slot0, slot1)
+	slot0.puzzleStateList_[slot1] = clone(ActivityPuzzleCfg[slot1].default_array)
+	slot0.stepCountList_[slot1] = 0
+end
 
-	if arg_13_0.activityStateList_[arg_13_1] ~= var_0_1.UNRECEIVE then
-		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, var_13_0, arg_13_1), 0)
+function slot0.SetSelectActivity(slot0, slot1)
+	if slot0.activityStateList_[slot1] ~= uv0.UNRECEIVE then
+		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, ActivityPuzzleCfg[slot1].main_activity_id, slot1), 0)
 	end
 end
 
-function var_0_0.SetWatchedVideo(arg_14_0, arg_14_1)
-	saveData(string.format("Puzzle_%d", arg_14_1), "watchVideo", true)
-
-	local var_14_0 = ActivityPuzzleCfg[arg_14_1].main_activity_id
-
-	arg_14_0:RefreshVideoRedPoint(arg_14_1, var_14_0)
+function slot0.SetWatchedVideo(slot0, slot1)
+	saveData(string.format("Puzzle_%d", slot1), "watchVideo", true)
+	slot0:RefreshVideoRedPoint(slot1, ActivityPuzzleCfg[slot1].main_activity_id)
 end
 
-function var_0_0.RefreshRedPoint(arg_15_0, arg_15_1)
-	local var_15_0 = ActivityPuzzleCfg[arg_15_1].main_activity_id
-
-	if ActivityData:GetActivityIsOpen(arg_15_1) and arg_15_0.activityStateList_[arg_15_1] <= var_0_1.UNRECEIVE then
-		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, var_15_0, arg_15_1), 1)
+function slot0.RefreshRedPoint(slot0, slot1)
+	if ActivityData:GetActivityIsOpen(slot1) and slot0.activityStateList_[slot1] <= uv0.UNRECEIVE then
+		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, ActivityPuzzleCfg[slot1].main_activity_id, slot1), 1)
 	else
-		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, var_15_0, arg_15_1), 0)
+		manager.redPoint:setTip(string.format("%s_%s_%s_normal", RedPointConst.ACTIVITY_PUZZLE, slot2, slot1), 0)
 	end
 
-	arg_15_0:RefreshVideoRedPoint(arg_15_1, var_15_0)
+	slot0:RefreshVideoRedPoint(slot1, slot2)
 end
 
-function var_0_0.RefreshVideoRedPoint(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = ActivityPuzzleCfg[arg_16_1].story_id == 0 or getData(string.format("Puzzle_%d", arg_16_1), "watchVideo") == true
-
-	if arg_16_0.activityStateList_[arg_16_1] >= var_0_1.UNRECEIVE and not var_16_0 then
-		manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, arg_16_2, arg_16_1), 1)
+function slot0.RefreshVideoRedPoint(slot0, slot1, slot2)
+	if uv0.UNRECEIVE <= slot0.activityStateList_[slot1] and not (ActivityPuzzleCfg[slot1].story_id == 0 or getData(string.format("Puzzle_%d", slot1), "watchVideo") == true) then
+		manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, slot2, slot1), 1)
 	else
-		manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, arg_16_2, arg_16_1), 0)
+		manager.redPoint:setTip(string.format("%s_%s_%s_video", RedPointConst.ACTIVITY_PUZZLE, slot2, slot1), 0)
 	end
 end
 
-function var_0_0.GetLastContentPosX(arg_17_0, arg_17_1)
-	return getData(string.format("Puzzle_%d", arg_17_1), "contentPosX")
+function slot0.GetLastContentPosX(slot0, slot1)
+	return getData(string.format("Puzzle_%d", slot1), "contentPosX")
 end
 
-function var_0_0.SetLastContentPosX(arg_18_0, arg_18_1, arg_18_2)
-	saveData(string.format("Puzzle_%d", arg_18_1), "contentPosX", arg_18_2)
+function slot0.SetLastContentPosX(slot0, slot1, slot2)
+	saveData(string.format("Puzzle_%d", slot1), "contentPosX", slot2)
 end
 
-return var_0_0
+return slot0

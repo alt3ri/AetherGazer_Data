@@ -1,95 +1,85 @@
-local var_0_0 = class("TowerGameItem", ReduxView)
+slot0 = class("TowerGameItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.numcontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "num")
-	arg_3_0.statucontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "statu")
-	arg_3_0.isshowpointcontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "showpoint")
-	arg_3_0.selectcontroller_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
+	slot0.numcontroller_ = ControllerUtil.GetController(slot0.transform_, "num")
+	slot0.statucontroller_ = ControllerUtil.GetController(slot0.transform_, "statu")
+	slot0.isshowpointcontroller_ = ControllerUtil.GetController(slot0.transform_, "showpoint")
+	slot0.selectcontroller_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if ActivityData:GetActivityIsOpen(arg_4_0.levelid_) then
-			if arg_4_0.selectCallBack_ ~= nil then
-				arg_4_0.selectCallBack_(arg_4_0.levelid_, arg_4_0.index_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if ActivityData:GetActivityIsOpen(uv0.levelid_) then
+			if uv0.selectCallBack_ ~= nil then
+				uv0.selectCallBack_(uv0.levelid_, uv0.index_)
 			end
 
-			TowerGameData:SetLevel(arg_4_0.levelid_)
-			arg_4_0:Go("towerGameSectionInfoView", {
-				levelid = arg_4_0.levelid_
+			TowerGameData:SetLevel(uv0.levelid_)
+			uv0:Go("towerGameSectionInfoView", {
+				levelid = uv0.levelid_
 			})
-		elseif ActivityData:GetActivityData(arg_4_0.levelid_).stopTime < manager.time:GetServerTime() then
+		elseif ActivityData:GetActivityData(uv0.levelid_).stopTime < manager.time:GetServerTime() then
 			ShowTips(GetTips("TIME_OVER"))
 		else
-			local var_5_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_4_0.levelid_).startTime)
-
-			ShowTips(string.format(GetTips("OPEN_TIME"), var_5_0))
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.levelid_).startTime)))
 		end
 	end)
 end
 
-function var_0_0.SetSelectCallBack(arg_6_0, arg_6_1)
-	arg_6_0.selectCallBack_ = arg_6_1
+function slot0.SetSelectCallBack(slot0, slot1)
+	slot0.selectCallBack_ = slot1
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0.index_ = arg_7_1
-	arg_7_0.levelid_ = TowerGameCfg.all[arg_7_1]
+function slot0.SetData(slot0, slot1)
+	slot0.index_ = slot1
+	slot0.levelid_ = TowerGameCfg.all[slot1]
+	slot0.nametext_.text = GetI18NText(BattleTowerGameCfg[TowerGameCfg[slot0.levelid_].stage_id].name)
 
-	local var_7_0 = TowerGameCfg[arg_7_0.levelid_]
+	slot0.numcontroller_:SetSelectedState(string.format(slot1))
+	slot0.statucontroller_:SetSelectedState(TowerGameData:GetLevelStatuByLevelId(slot0.levelid_))
 
-	arg_7_0.nametext_.text = GetI18NText(BattleTowerGameCfg[var_7_0.stage_id].name)
+	slot3, slot0.pointtext_.text = TowerGameData:GetLevelIsShowPointByLevelID(slot0.levelid_)
 
-	arg_7_0.numcontroller_:SetSelectedState(string.format(arg_7_1))
-	arg_7_0.statucontroller_:SetSelectedState(TowerGameData:GetLevelStatuByLevelId(arg_7_0.levelid_))
-
-	local var_7_1, var_7_2 = TowerGameData:GetLevelIsShowPointByLevelID(arg_7_0.levelid_)
-
-	arg_7_0.isshowpointcontroller_:SetSelectedState(var_7_1)
-
-	arg_7_0.pointtext_.text = var_7_2
-
-	arg_7_0:UpdateTime()
-	manager.redPoint:bindUIandKey(arg_7_0.transform_, string.format("%s_%s", RedPointConst.MARDUK_TOWERGAME_NOT_FIGHT, arg_7_0.levelid_))
+	slot0.isshowpointcontroller_:SetSelectedState(slot3)
+	slot0:UpdateTime()
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.MARDUK_TOWERGAME_NOT_FIGHT, slot0.levelid_))
 end
 
-function var_0_0.RefreshSelect(arg_8_0, arg_8_1)
-	if arg_8_0.levelid_ == arg_8_1 then
-		arg_8_0.selectcontroller_:SetSelectedState("true")
+function slot0.RefreshSelect(slot0, slot1)
+	if slot0.levelid_ == slot1 then
+		slot0.selectcontroller_:SetSelectedState("true")
 	else
-		arg_8_0.selectcontroller_:SetSelectedState("false")
+		slot0.selectcontroller_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.UpdateTime(arg_9_0)
-	if ActivityData:GetActivityData(arg_9_0.levelid_).stopTime < manager.time:GetServerTime() then
-		arg_9_0.timetext_.text = GetTips("TIME_OVER")
+function slot0.UpdateTime(slot0)
+	if ActivityData:GetActivityData(slot0.levelid_).stopTime < manager.time:GetServerTime() then
+		slot0.timetext_.text = GetTips("TIME_OVER")
 	else
-		local var_9_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_9_0.levelid_).startTime)
-
-		arg_9_0.timetext_.text = string.format(GetTips("OPEN_TIME"), var_9_0)
+		slot0.timetext_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.levelid_).startTime))
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
-	manager.redPoint:unbindUIandKey(arg_10_0.transform_, string.format("%s_%s", RedPointConst.MARDUK_TOWERGAME_NOT_FIGHT, arg_10_0.levelid_))
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.MARDUK_TOWERGAME_NOT_FIGHT, slot0.levelid_))
 
-	arg_10_0.selectCallBack_ = nil
+	slot0.selectCallBack_ = nil
 end
 
-return var_0_0
+return slot0

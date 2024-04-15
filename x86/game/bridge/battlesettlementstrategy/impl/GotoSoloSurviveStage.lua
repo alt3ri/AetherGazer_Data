@@ -1,22 +1,21 @@
-local var_0_0 = class("GotoSoloSurviveStage", BattleSettlementStrategyBase)
+slot0 = class("GotoSoloSurviveStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoSoloSurviveStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult, arg_1_1.isHalfWay_)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoSoloSurviveStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult, slot1.isHalfWay_)
 end
 
-function var_0_0.GotoSoloSurviveStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4, arg_2_5)
+function slot0.GotoSoloSurviveStage(slot0, slot1, slot2, slot3, slot4, slot5)
 	function BattleCallLuaCallBack()
-		local var_3_0 = arg_2_2:GetStageId()
-		local var_3_1 = arg_2_2:GetActivityID()
-		local var_3_2 = ActivityTools.GetActivityTheme(var_3_1)
+		slot0 = uv0:GetStageId()
+		slot2 = ActivityTools.GetActivityTheme(uv0:GetActivityID())
 
 		gameContext:Go("/battleScorResult", {
-			stageData = arg_2_2,
-			battleResult = arg_2_4,
+			stageData = uv0,
+			battleResult = uv1,
 			title = GetTips("ACTIVITY_SOLO_SLAYER_FINISH")
 		})
-		EndBattleLogic(arg_2_1)
+		EndBattleLogic(uv2)
 	end
 end
 
-return var_0_0
+return slot0

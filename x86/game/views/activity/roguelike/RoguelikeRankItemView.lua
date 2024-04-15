@@ -1,77 +1,70 @@
-local var_0_0 = class("RoguelikeRankItemView", ReduxView)
+slot0 = class("RoguelikeRankItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.gameObject_:InjectUI(arg_2_0)
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0.gameObject_:InjectUI(slot0)
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	return
+function slot0.InitUI(slot0)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_5_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.index = arg_6_1
-	arg_6_0.data = arg_6_2
-	arg_6_0.isGuild = arg_6_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index = slot1
+	slot0.data = slot2
+	slot0.isGuild = slot3
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	local var_7_0 = arg_7_0.data:GetSingleSelectHeroList()
-	local var_7_1 = var_7_0[1].skin_id
-
-	if var_7_1 == 0 then
-		var_7_1 = var_7_0[1].hero_id
+function slot0.UpdateView(slot0)
+	if slot0.data:GetSingleSelectHeroList()[1].skin_id == 0 then
+		slot2 = slot1[1].hero_id
 	end
 
-	arg_7_0.ImgHead.sprite = ItemTools.getItemSprite(arg_7_0.data.portrait)
-	arg_7_0.ImgFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_7_0.data.frame)
-	arg_7_0.ImgRole.sprite = ItemTools.getItemSprite(var_7_1)
+	slot0.ImgHead.sprite = ItemTools.getItemSprite(slot0.data.portrait)
+	slot0.ImgFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data.frame)
+	slot0.ImgRole.sprite = ItemTools.getItemSprite(slot2)
 
-	if arg_7_0.data.rank < 4 then
-		arg_7_0.CtrlRank:SetSelectedIndex(arg_7_0.data.rank)
+	if slot0.data.rank < 4 then
+		slot0.CtrlRank:SetSelectedIndex(slot0.data.rank)
 	else
-		arg_7_0.CtrlRank:SetSelectedIndex(0)
+		slot0.CtrlRank:SetSelectedIndex(0)
 	end
 
-	arg_7_0.TxtRank.text = arg_7_0.data.rank
-	arg_7_0.TxtNick.text = arg_7_0.data.nick
-	arg_7_0.TxtScore.text = arg_7_0.data.score
-	arg_7_0.TxtDifficulty.text = arg_7_0.data.difficulty
+	slot0.TxtRank.text = slot0.data.rank
+	slot0.TxtNick.text = slot0.data.nick
+	slot0.TxtScore.text = slot0.data.score
+	slot0.TxtDifficulty.text = slot0.data.difficulty
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_10_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.data = nil
+function slot0.Dispose(slot0)
+	slot0.data = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

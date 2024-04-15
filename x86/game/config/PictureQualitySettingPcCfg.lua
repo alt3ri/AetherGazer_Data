@@ -10,17 +10,6 @@ return {
 		id = 1,
 		teammate_effect = 1
 	},
-	[6] = {
-		shadow = 1,
-		name = "省电",
-		post_process = 1,
-		vertical_sync = 1,
-		frame = 0,
-		anti_aliasing = 0,
-		user_effect = 1,
-		id = 6,
-		teammate_effect = 1
-	},
 	{
 		shadow = 1,
 		name = "流畅",
@@ -64,6 +53,17 @@ return {
 		user_effect = 4,
 		id = 5,
 		teammate_effect = 4
+	},
+	[6] = {
+		shadow = 1,
+		name = "省电",
+		post_process = 1,
+		vertical_sync = 1,
+		frame = 0,
+		anti_aliasing = 0,
+		user_effect = 1,
+		id = 6,
+		teammate_effect = 1
 	},
 	all = {
 		1,

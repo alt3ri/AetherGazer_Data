@@ -1,94 +1,87 @@
-local var_0_0 = class("RecallSystemMissionItem", ReduxView)
+slot0 = class("RecallSystemMissionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.completeBtn_, nil, function()
-		TaskAction:SubmitTask(arg_3_0.taskCfg.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.completeBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskCfg.id)
 	end)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.controller = ControllerUtil.GetController(arg_5_0.gameObject_.transform, "state")
-	arg_5_0.list_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.listGo_, CommonItemView)
+	slot0.controller = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, CommonItemView)
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	CommonTools.SetCommonData(arg_6_2, {
-		id = arg_6_0.rewardList[arg_6_1][1],
-		number = arg_6_0.rewardList[arg_6_1][2],
-		clickFun = function(arg_7_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	CommonTools.SetCommonData(slot2, {
+		id = slot0.rewardList[slot1][1],
+		number = slot0.rewardList[slot1][2],
+		clickFun = function (slot0)
 			ShowPopItem(POP_OTHER_ITEM, {
-				arg_7_0.id,
-				arg_7_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 	})
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_1.id
+function slot0.SetData(slot0, slot1)
+	slot0.taskCfg = AssignmentCfg[slot1.id]
+	slot0.taskInfo = slot1
+	slot0.rewardList = slot0.taskCfg.reward or {}
 
-	arg_8_0.taskCfg = AssignmentCfg[var_8_0]
-	arg_8_0.taskInfo = arg_8_1
-	arg_8_0.rewardList = arg_8_0.taskCfg.reward or {}
-
-	arg_8_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	arg_9_0.list_:StartScrollWithoutAnimator(#arg_9_0.rewardList)
+function slot0.UpdateView(slot0)
+	slot0.list_:StartScrollWithoutAnimator(#slot0.rewardList)
 
-	arg_9_0.taskDescTxt_.text = arg_9_0.taskCfg.desc
+	slot0.taskDescTxt_.text = slot0.taskCfg.desc
 
-	local var_9_0 = arg_9_0.taskInfo.progress
-	local var_9_1 = arg_9_0.taskCfg.need
-
-	if var_9_1 < var_9_0 then
-		var_9_0 = var_9_1
+	if slot0.taskCfg.need < slot0.taskInfo.progress then
+		slot1 = slot2
 	end
 
-	arg_9_0.taskProgressTxt_.text = string.format("%d/%d", var_9_0, var_9_1)
+	slot0.taskProgressTxt_.text = string.format("%d/%d", slot1, slot2)
 
-	if arg_9_0.taskInfo.complete_flag == 1 then
-		arg_9_0.controller:SetSelectedState("accepted")
-	elseif var_9_1 <= var_9_0 then
-		arg_9_0.controller:SetSelectedState("complete")
+	if slot0.taskInfo.complete_flag == 1 then
+		slot0.controller:SetSelectedState("accepted")
+	elseif slot2 <= slot1 then
+		slot0.controller:SetSelectedState("complete")
 	else
-		arg_9_0.controller:SetSelectedState("uncomplete")
+		slot0.controller:SetSelectedState("uncomplete")
 	end
 
-	arg_9_0.taskTypeTxt_.text = arg_9_0.taskCfg.name
+	slot0.taskTypeTxt_.text = slot0.taskCfg.name
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.list_ then
-		arg_12_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_12_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

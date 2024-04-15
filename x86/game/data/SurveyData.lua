@@ -1,89 +1,87 @@
-local var_0_0 = singletonClass("SurveyData")
-local var_0_1 = {}
-local var_0_2 = false
-local var_0_3 = 0
-local var_0_4 = false
-local var_0_5
+slot0 = singletonClass("SurveyData")
+slot1 = {}
+slot2 = false
+slot3 = 0
+slot4 = false
+slot5 = nil
 
-function var_0_0.InitData(arg_1_0, arg_1_1)
-	var_0_1 = {}
+function slot0.InitData(slot0, slot1)
+	uv0 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1.survey_list) do
-		local var_1_0 = {
-			id = iter_1_1.id,
-			question_num = iter_1_1.question_num,
-			url = iter_1_1.url,
-			name = iter_1_1.name,
-			type = iter_1_1.type,
-			start_time = iter_1_1.start_time,
-			stop_time = iter_1_1.stop_time,
+	for slot5, slot6 in ipairs(slot1.survey_list) do
+		slot7 = {
+			id = slot6.id,
+			question_num = slot6.question_num,
+			url = slot6.url,
+			name = slot6.name,
+			type = slot6.type,
+			start_time = slot6.start_time,
+			stop_time = slot6.stop_time,
 			attachment_list = {},
-			status = iter_1_1.status
+			status = slot6.status
 		}
 
-		for iter_1_2, iter_1_3 in ipairs(iter_1_1.attachment_list) do
-			table.insert(var_1_0.attachment_list, {
-				id = iter_1_3.id,
-				num = iter_1_3.num
+		for slot11, slot12 in ipairs(slot6.attachment_list) do
+			table.insert(slot7.attachment_list, {
+				id = slot12.id,
+				num = slot12.num
 			})
 		end
 
-		var_0_1[iter_1_1.id] = var_1_0
+		uv0[slot6.id] = slot7
 	end
 
-	print(var_0_1)
+	print(uv0)
 
-	var_0_2 = false
+	uv1 = false
 end
 
-function var_0_0.FinishSurvey(arg_2_0, arg_2_1)
-	if var_0_1[arg_2_1] then
-		var_0_1[arg_2_1].status = 1
+function slot0.FinishSurvey(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].status = 1
 	end
 end
 
-function var_0_0.GotReward(arg_3_0, arg_3_1)
-	var_0_1[arg_3_1].status = 2
+function slot0.GotReward(slot0, slot1)
+	uv0[slot1].status = 2
 end
 
-function var_0_0.GetSurveyList(arg_4_0)
-	return var_0_1
+function slot0.GetSurveyList(slot0)
+	return uv0
 end
 
-function var_0_0.ReservationGame(arg_5_0, arg_5_1)
-	var_0_4 = arg_5_1
+function slot0.ReservationGame(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.IsReservation(arg_6_0)
-	return var_0_4
+function slot0.IsReservation(slot0)
+	return uv0
 end
 
-function var_0_0.GetPraise(arg_7_0)
-	return var_0_2
+function slot0.GetPraise(slot0)
+	return uv0
 end
 
-function var_0_0.GetSourceId(arg_8_0)
-	return var_0_3
+function slot0.GetSourceId(slot0)
+	return uv0
 end
 
-function var_0_0.SetSourceId(arg_9_0, arg_9_1)
-	var_0_3 = arg_9_1
+function slot0.SetSourceId(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.SetPraise(arg_10_0, arg_10_1)
-	var_0_2 = arg_10_1
+function slot0.SetPraise(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.CacheFollowTip(arg_11_0, arg_11_1)
-	var_0_5 = arg_11_1
+function slot0.CacheFollowTip(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCacheFollowTip(arg_12_0)
-	local var_12_0 = var_0_5
+function slot0.GetCacheFollowTip(slot0)
+	uv0 = nil
 
-	var_0_5 = nil
-
-	return var_12_0
+	return uv0
 end
 
-return var_0_0
+return slot0

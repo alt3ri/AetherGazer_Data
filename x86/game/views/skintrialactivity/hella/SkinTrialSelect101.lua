@@ -1,1 +1,1 @@
-return (class("SkinTrialSelect101", SkinTrialActivitySelectView))
+return class("SkinTrialSelect101", SkinTrialActivitySelectView)

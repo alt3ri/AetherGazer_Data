@@ -1,102 +1,95 @@
-local var_0_0 = class("SPHeroChallengeScheduleDailyItem", ReduxView)
+slot0 = class("SPHeroChallengeScheduleDailyItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = GameObject.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.scheduleID = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = GameObject.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.scheduleID = slot3
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = arg_3_0.controller:GetController("state")
-	arg_3_0.sliderController = arg_3_0.controller:GetController("infinite")
-	arg_3_0.selectController = arg_3_0.controller:GetController("Selected")
+	slot0.stateController = slot0.controller:GetController("state")
+	slot0.sliderController = slot0.controller:GetController("infinite")
+	slot0.selectController = slot0.controller:GetController("Selected")
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	arg_4_0.selectController:SetSelectedState("Unselected")
+function slot0.RefreshUI(slot0)
+	slot0.selectController:SetSelectedState("Unselected")
 
-	local var_4_0 = arg_4_0.scheduleID
+	slot1 = slot0.scheduleID
 
-	arg_4_0:RefreshBaseInfo(var_4_0)
+	slot0:RefreshBaseInfo(slot1)
 
-	local var_4_1, var_4_2, var_4_3 = SPHeroChallengeTools:CheckScheduleCanAddInlist(arg_4_0.scheduleID)
+	slot2, slot3, slot0.state = SPHeroChallengeTools:CheckScheduleCanAddInlist(slot0.scheduleID)
+	slot5, slot6 = SPHeroChallengeTools:GetScheduleProgress(slot1)
 
-	arg_4_0.state = var_4_3
+	slot0.sliderController:SetSelectedState("normal")
 
-	local var_4_4, var_4_5 = SPHeroChallengeTools:GetScheduleProgress(var_4_0)
+	if slot5 < 0 then
+		slot0.sliderController:SetSelectedState("infinite")
 
-	arg_4_0.sliderController:SetSelectedState("normal")
-
-	if var_4_4 < 0 then
-		arg_4_0.sliderController:SetSelectedState("infinite")
-
-		arg_4_0.progressText_.text = GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_INFINITE")
+		slot0.progressText_.text = GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_INFINITE")
 	else
-		arg_4_0.sliderSlr_.value = math.min(var_4_4 / var_4_5, 1)
-		arg_4_0.progressText_.text = string.format(GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_PROGRESS"), var_4_4, var_4_5)
+		slot0.sliderSlr_.value = math.min(slot5 / slot6, 1)
+		slot0.progressText_.text = string.format(GetTips("ACTIVITY_HERO_CHALLENGE_SCHEDULE_PROGRESS"), slot5, slot6)
 	end
 
-	if arg_4_0.state == "finish" then
-		arg_4_0.stateController:SetSelectedState("finish")
+	if slot0.state == "finish" then
+		slot0.stateController:SetSelectedState("finish")
 
 		return true
-	elseif arg_4_0.state == "unlock" then
-		arg_4_0.stateController:SetSelectedState("unlock")
-	elseif arg_4_0.state == "lock" then
-		arg_4_0.lockdescText_.text = var_4_2
+	elseif slot0.state == "unlock" then
+		slot0.stateController:SetSelectedState("unlock")
+	elseif slot0.state == "lock" then
+		slot0.lockdescText_.text = slot3
 
-		arg_4_0.stateController:SetSelectedState("lock")
+		slot0.stateController:SetSelectedState("lock")
 	end
 end
 
-function var_0_0.RefreshBaseInfo(arg_5_0, arg_5_1)
-	arg_5_0.scheduleID = arg_5_1
-	arg_5_0.iconImg_.sprite = SPHeroChallengeTools:GetScheduleIcon(arg_5_1)
-	arg_5_0.name.text = ActivityHeroChallengeScheduleCfg[arg_5_1].name
-	arg_5_0.desc.text = ActivityHeroChallengeScheduleCfg[arg_5_1].linkgame_des
+function slot0.RefreshBaseInfo(slot0, slot1)
+	slot0.scheduleID = slot1
+	slot0.iconImg_.sprite = SPHeroChallengeTools:GetScheduleIcon(slot1)
+	slot0.name.text = ActivityHeroChallengeScheduleCfg[slot1].name
+	slot0.desc.text = ActivityHeroChallengeScheduleCfg[slot1].linkgame_des
 
-	local var_5_0 = SPHeroChallengeTools:GetSameScheduleNum(arg_5_1)
+	if SPHeroChallengeTools:GetSameScheduleNum(slot1) > 0 then
+		slot0.selectController:SetSelectedState("Selected")
 
-	if var_5_0 > 0 then
-		arg_5_0.selectController:SetSelectedState("Selected")
-
-		arg_5_0.numText_.text = "x" .. var_5_0
+		slot0.numText_.text = "x" .. slot2
 	else
-		arg_5_0.numText_.text = ""
+		slot0.numText_.text = ""
 	end
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.itemBtn, nil, function()
-		local var_7_0, var_7_1 = SPHeroChallengeTools:CheckScheduleCanAddInlist(arg_6_0.scheduleID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.itemBtn, nil, function ()
+		slot0, slot1 = SPHeroChallengeTools:CheckScheduleCanAddInlist(uv0.scheduleID)
 
-		if var_7_0 then
-			local var_7_2 = SPHeroChallengeData:GetCurActivityInfo(arg_6_0.scheduleID)
-
-			if var_7_2 then
-				var_7_2:AddScheduleInDailyList(arg_6_0.scheduleID)
+		if slot0 then
+			if SPHeroChallengeData:GetCurActivityInfo(uv0.scheduleID) then
+				slot2:AddScheduleInDailyList(uv0.scheduleID)
 			end
-		elseif var_7_1 then
-			ShowTips(var_7_1)
+		elseif slot1 then
+			ShowTips(slot1)
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.gameObject_ = nil
-	arg_8_0.transform_ = nil
-	arg_8_0.scheduleID = nil
+function slot0.Dispose(slot0)
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.scheduleID = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

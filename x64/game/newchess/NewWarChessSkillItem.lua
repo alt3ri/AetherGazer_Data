@@ -1,69 +1,69 @@
-local var_0_0 = class("NewWarChessSkillItem", ReduxView)
+slot0 = class("NewWarChessSkillItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.clickHandler_ then
-			manager.redPoint:setTip(RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. arg_4_0.data_.skillID, 0)
-			arg_4_0.clickHandler_(arg_4_0.data_.skillID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickHandler_ then
+			manager.redPoint:setTip(RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. uv0.data_.skillID, 0)
+			uv0.clickHandler_(uv0.data_.skillID)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.data_ = arg_6_1
-	arg_6_0.cfg_ = NewWarChessDiceSkillCfg[arg_6_0.data_.skillID]
-	arg_6_0.leftUseLimit_ = arg_6_0.data_.useLimit
-	arg_6_0.totalUseLimit_ = arg_6_0.cfg_.use_limit
-	arg_6_0.name_ = arg_6_0.cfg_.name
+function slot0.SetData(slot0, slot1)
+	slot0.data_ = slot1
+	slot0.cfg_ = NewWarChessDiceSkillCfg[slot0.data_.skillID]
+	slot0.leftUseLimit_ = slot0.data_.useLimit
+	slot0.totalUseLimit_ = slot0.cfg_.use_limit
+	slot0.name_ = slot0.cfg_.name
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 
-	arg_6_0.btn_.interactable = false
+	slot0.btn_.interactable = false
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.title_.text = arg_7_0.name_
-	arg_7_0.iconImage_.sprite = getSprite("Atlas/NewWarChess", arg_7_0.cfg_.icon)
-	arg_7_0.useText_.text = arg_7_0.leftUseLimit_ .. "/" .. arg_7_0.totalUseLimit_
+function slot0.RefreshUI(slot0)
+	slot0.title_.text = slot0.name_
+	slot0.iconImage_.sprite = getSprite("Atlas/NewWarChess", slot0.cfg_.icon)
+	slot0.useText_.text = slot0.leftUseLimit_ .. "/" .. slot0.totalUseLimit_
 end
 
-function var_0_0.SetClickCallBack(arg_8_0, arg_8_1)
-	arg_8_0.clickHandler_ = arg_8_1
-	arg_8_0.btn_.interactable = true
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.clickHandler_ = slot1
+	slot0.btn_.interactable = true
 end
 
-function var_0_0.BindSkillRedPoint(arg_9_0)
-	arg_9_0.enableRed_ = true
+function slot0.BindSkillRedPoint(slot0)
+	slot0.enableRed_ = true
 
-	if arg_9_0.data_ then
-		manager.redPoint:bindUIandKey(arg_9_0.transform_, RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. arg_9_0.data_.skillID)
+	if slot0.data_ then
+		manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. slot0.data_.skillID)
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.clickHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.clickHandler_ = nil
 
-	if arg_10_0.enableRed_ and arg_10_0.data_ then
-		manager.redPoint:unbindUIandKey(arg_10_0.transform_, RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. arg_10_0.data_.skillID)
+	if slot0.enableRed_ and slot0.data_ then
+		manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.NEW_WARCHESS_NEW_DICESKILL .. slot0.data_.skillID)
 	end
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

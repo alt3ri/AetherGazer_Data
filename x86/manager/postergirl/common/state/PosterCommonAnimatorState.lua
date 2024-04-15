@@ -1,60 +1,50 @@
-local var_0_0 = class("PosterGirlAnimatorState", PosterGirlBaseState)
-local var_0_1 = 0.4
+slot0 = class("PosterGirlAnimatorState", PosterGirlBaseState)
+slot1 = 0.4
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.clipName = arg_1_2
-	arg_1_0.animator = arg_1_0.actor:GetAnimator()
+	slot0.clipName = slot2
+	slot0.animator = slot0.actor:GetAnimator()
 end
 
-function var_0_0.PlayAni(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_0.animator
-	local var_2_1 = false
-	local var_2_2 = not var_2_0:GetCurrentAnimatorStateInfo(0):IsName("ui_stand") and arg_2_0.clipName ~= "ui_stand"
+function slot0.PlayAni(slot0, slot1)
+	slot3 = false
+	slot2.speed = 1
 
-	var_2_0.speed = 1
-
-	if var_2_2 then
-		local var_2_3 = var_2_0:GetCurrentAnimatorStateInfo(0).length
-		local var_2_4 = var_0_1 / var_2_3
-
-		var_2_0:CrossFade(arg_2_1, var_2_4, 0)
+	if not slot0.animator:GetCurrentAnimatorStateInfo(0):IsName("ui_stand") and slot0.clipName ~= "ui_stand" then
+		slot2:CrossFade(slot1, uv0 / slot2:GetCurrentAnimatorStateInfo(0).length, 0)
 	else
-		var_2_0:Play(arg_2_1)
+		slot2:Play(slot1)
 	end
 
-	arg_2_0.timer = Timer.New(function()
-		local var_3_0 = var_2_0:GetCurrentAnimatorStateInfo(0)
-		local var_3_1 = var_3_0.length
-		local var_3_2 = (var_2_2 and var_0_1 or 0) / var_3_1
+	slot0.timer = Timer.New(function ()
+		if slot0:IsName(uv3) and slot0.normalizedTime >= 1 - (uv1 and uv2 or 0) / uv0:GetCurrentAnimatorStateInfo(0).length then
+			if uv4.timer ~= nil then
+				uv4.timer:Stop()
 
-		if var_3_0:IsName(arg_2_1) and var_3_0.normalizedTime >= 1 - var_3_2 then
-			if arg_2_0.timer ~= nil then
-				arg_2_0.timer:Stop()
-
-				arg_2_0.timer = nil
+				uv4.timer = nil
 			end
 
-			arg_2_0:AnimationEndCall()
+			uv4:AnimationEndCall()
 		end
 	end, 0.033, -1)
 
-	arg_2_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.AnimationEndCall(arg_4_0)
-	arg_4_0.actor:ChangeState(PosterGirlConst.StateKay.init)
+function slot0.AnimationEndCall(slot0)
+	slot0.actor:ChangeState(PosterGirlConst.StateKay.init)
 end
 
-function var_0_0.Exit(arg_5_0)
-	if arg_5_0.timer ~= nil then
-		arg_5_0.timer:Stop()
+function slot0.Exit(slot0)
+	if slot0.timer ~= nil then
+		slot0.timer:Stop()
 
-		arg_5_0.timer = nil
+		slot0.timer = nil
 	end
 
-	arg_5_0.actor:ResetBlendShapes()
+	slot0.actor:ResetBlendShapes()
 end
 
-return var_0_0
+return slot0

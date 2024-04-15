@@ -1,27 +1,24 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("SkinEncoreView", ActivityMainBasePanel)
 
-local var_0_0 = class("SkinEncoreView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
-	return SkinEncoreTools.GetUIName(arg_1_0.activityID_)
+function slot0.GetUIName(slot0)
+	return SkinEncoreTools.GetUIName(slot0.activityID_)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		local var_5_0 = manager.time:GetServerTime()
-
-		if var_5_0 < arg_4_0.startTime_ then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
 			ShowTips("SOLO_NOT_OPEN")
-		elseif var_5_0 <= arg_4_0.stopTime_ then
+		elseif slot0 <= uv0.stopTime_ then
 			JumpTools.GoToSystem("/rechargeMain", {
 				page = 2
 			}, ViewConst.SYSTEM_ID.SHOP)
@@ -31,78 +28,77 @@ function var_0_0.AddUIListeners(arg_4_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshActivityData()
-	arg_7_0:RefreshTime()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshActivityData()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshActivityData(arg_8_0)
-	arg_8_0.activityData_ = ActivityData:GetActivityData(arg_8_0.activityID_)
-	arg_8_0.startTime_ = arg_8_0.activityData_.startTime
-	arg_8_0.stopTime_ = arg_8_0.activityData_.stopTime
+function slot0.RefreshActivityData(slot0)
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 end
 
-function var_0_0.RefreshTime(arg_9_0)
-	local var_9_0
-	local var_9_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_9_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_9_1 < arg_9_0.startTime_ then
-		arg_9_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_9_0.timer_ = Timer.New(function()
-			var_9_0 = arg_9_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_9_0 <= 0 then
-				arg_9_0:StopTimer()
-				arg_9_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_9_0.timer_:Start()
-	elseif var_9_1 < arg_9_0.stopTime_ then
-		arg_9_0.timeTxt_.text = manager.time:GetLostTimeStrWith2Unit(arg_9_0.stopTime_)
-		arg_9_0.timer_ = Timer.New(function()
-			arg_9_0.timeTxt_.text = manager.time:GetLostTimeStrWith2Unit(arg_9_0.stopTime_)
-			var_9_0 = arg_9_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timeTxt_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
+		slot0.timer_ = Timer.New(function ()
+			uv0.timeTxt_.text = manager.time:GetLostTimeStrWith2Unit(uv0.stopTime_)
+			uv1 = uv0.stopTime_ - manager.time:GetServerTime()
 
-			if var_9_0 <= 0 then
-				arg_9_0:StopTimer()
-				arg_9_0:RefreshTime()
+			if uv1 <= 0 then
+				uv0:StopTimer()
+				uv0:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_9_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_9_0.timeTxt_.text = GetTips("TIME_OVER")
+		slot0.timeTxt_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.StopTimer(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_13_0:RemoveAllEventListener()
-	arg_13_0:StopTimer()
+	slot0:RemoveAllEventListener()
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveAllListeners()
-	arg_14_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

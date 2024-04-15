@@ -1,23 +1,22 @@
 NewBattleSettlementView = import("game.views.battleResult.newBattleSettlement.NewBattleSettlementView")
+slot0 = class("BattleBossResultView", NewBattleSettlementView)
 
-local var_0_0 = class("BattleBossResultView", NewBattleSettlementView)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
-
-	if manager.time:GetServerTime() >= BattleBossChallengeData:GetNextRefreshTime() then
+	if BattleBossChallengeData:GetNextRefreshTime() <= manager.time:GetServerTime() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("BOSS_REFRESH_DATA"),
-			OkCallback = function()
-				arg_1_0:CloseFunc()
+			OkCallback = function ()
+				uv0:CloseFunc()
 			end,
-			MaskCallback = function()
-				arg_1_0:CloseFunc()
+			MaskCallback = function ()
+				uv0:CloseFunc()
 			end
 		})
 	end
 end
 
-return var_0_0
+return slot0

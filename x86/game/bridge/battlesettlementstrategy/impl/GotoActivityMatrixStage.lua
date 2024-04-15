@@ -1,68 +1,61 @@
-local var_0_0 = class("GotoActivityMatrixStage", BattleSettlementStrategyBase)
+slot0 = class("GotoActivityMatrixStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoActivityMatrix(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoActivityMatrix(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoActivityMatrix(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
-	local var_2_2 = arg_2_2:GetActivityID()
-	local var_2_3 = ActivityTools.GetActivityType(var_2_2)
+function slot0.GotoActivityMatrix(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		if iter_2_1[1] == 26 then
-			if var_2_3 == ActivityTemplateConst.SUB_SINGLE_MATRIX then
-				iter_2_1[1] = ActivityMatrixTools.GetCoinItem(var_2_2)
-			elseif var_2_3 == ActivityTemplateConst.STRATEGY_MATRIX then
-				iter_2_1[1] = StrategyMatrixTools.GetCoinItem(var_2_2)
+	for slot12, slot13 in ipairs(slot5) do
+		if slot13[1] == 26 then
+			if ActivityTools.GetActivityType(slot2:GetActivityID()) == ActivityTemplateConst.SUB_SINGLE_MATRIX then
+				slot13[1] = ActivityMatrixTools.GetCoinItem(slot7)
+			elseif slot8 == ActivityTemplateConst.STRATEGY_MATRIX then
+				slot13[1] = StrategyMatrixTools.GetCoinItem(slot7)
 			end
 		end
 
-		if iter_2_1[2] == 0 then
-			var_2_0[iter_2_0] = nil
+		if slot13[2] == 0 then
+			slot5[slot12] = nil
 		end
 	end
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
-			if var_2_3 == ActivityTemplateConst.STRATEGY_MATRIX then
-				local var_3_0 = arg_2_2.tier or 0
-				local var_3_1 = StrategyMatrixCfg[var_2_2]
-				local var_3_2 = StrategyMatrixTierTemplateCfg[var_3_0]
-				local var_3_3 = var_3_2.level == 10 and var_3_1.tier_story_list[var_3_2.tier] or nil
-
-				if var_3_3 and not manager.story:IsStoryPlayed(var_3_3) then
-					PlayerAction.ChangeStoryList(var_3_3)
-					manager.story:StartStoryById(var_3_3, function(arg_4_0)
+			if uv0 == ActivityTemplateConst.STRATEGY_MATRIX then
+				if (StrategyMatrixTierTemplateCfg[uv1.tier or 0].level == 10 and StrategyMatrixCfg[uv2].tier_story_list[slot2.tier] or nil) and not manager.story:IsStoryPlayed(slot3) then
+					PlayerAction.ChangeStoryList(slot3)
+					manager.story:StartStoryById(slot3, function (slot0)
 						gameContext:Go("/battleActivityMatrixResult", {
 							multiple = 1,
-							stageData = arg_2_2,
-							rewardList = var_2_0,
-							battleResult = arg_2_4
+							stageData = uv0,
+							rewardList = uv1,
+							battleResult = uv2
 						})
 					end)
 				else
 					gameContext:Go("/battleActivityMatrixResult", {
 						multiple = 1,
-						stageData = arg_2_2,
-						rewardList = var_2_0,
-						battleResult = arg_2_4
+						stageData = uv1,
+						rewardList = uv3,
+						battleResult = uv4
 					})
 				end
 			else
 				gameContext:Go("/battleActivityMatrixResult", {
 					multiple = 1,
-					stageData = arg_2_2,
-					rewardList = var_2_0,
-					battleResult = arg_2_4
+					stageData = uv1,
+					rewardList = uv3,
+					battleResult = uv4
 				})
 			end
 
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv5)
 		end
 	else
-		arg_2_0:GotoBattleFaild(arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+		slot0:GotoBattleFaild(slot1, slot2, slot3, slot4)
 	end
 end
 
-return var_0_0
+return slot0

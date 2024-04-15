@@ -1,47 +1,45 @@
-local var_0_0 = class("ValentineGameV2HeroAnswerView", ReduxView)
+slot0 = class("ValentineGameV2HeroAnswerView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaValentineUI/IndiaValentineGame1UI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0["controller" .. iter_4_0 .. "_"] = ControllerUtil.GetController(arg_4_0["chooseBtn" .. iter_4_0 .. "_"].transform, "get")
+	for slot4 = 1, 3 do
+		slot0["controller" .. slot4 .. "_"] = ControllerUtil.GetController(slot0["chooseBtn" .. slot4 .. "_"].transform, "get")
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	for iter_5_0 = 1, 3 do
-		arg_5_0:AddBtnListener(arg_5_0["chooseBtn" .. iter_5_0 .. "_"], nil, function()
-			if ActivityData:GetActivityIsOpen(arg_5_0.activityID_) then
-				local var_6_0 = arg_5_0.cfg_.hero_qa_id[iter_5_0]
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["chooseBtn" .. slot4 .. "_"], nil, function ()
+			if ActivityData:GetActivityIsOpen(uv0.activityID_) then
+				slot0 = uv0.cfg_.hero_qa_id[uv1]
 
 				SDKTools.SendMessageToSDK("activity_valentine_opt", {
 					answer_id = 0,
-					question_id = var_6_0,
-					activity_id = arg_5_0.activityID_
+					question_id = slot0,
+					activity_id = uv0.activityID_
 				})
-				ValentineGameData:CacheChooseQID(var_6_0)
-				manager.story:StartStoryById(ActivityValentineWordCfg[var_6_0].stroy_id_list[1], function(arg_7_0)
+				ValentineGameData:CacheChooseQID(slot0)
+				manager.story:StartStoryById(ActivityValentineWordCfg[slot0].stroy_id_list[1], function (slot0)
 					JumpTools.OpenPageByJump("/valentineGameV2PlayerAnswerView", {
-						activityID = arg_5_0.activityID_
+						activityID = uv0.activityID_
 					})
 				end, true)
-			elseif manager.time:GetServerTime() < ActivityData:GetActivityData(arg_5_0.activityID_).startTime then
-				local var_6_1 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_5_0.activityID_).startTime)
-
-				ShowTips(string.format(GetTips("OPEN_TIME"), var_6_1))
+			elseif manager.time:GetServerTime() < ActivityData:GetActivityData(uv0.activityID_).startTime then
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.activityID_).startTime)))
 			else
 				ShowTips(GetTips("TIME_OVER"))
 			end
@@ -49,51 +47,49 @@ function var_0_0.AddUIListener(arg_5_0)
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.cfg_ = ActivityValentineCfg[arg_8_0.activityID_]
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.cfg_ = ActivityValentineCfg[slot0.activityID_]
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. arg_9_0.cfg_.hero_id .. "_split_1")
+function slot0.RefreshUI(slot0)
+	slot4 = slot0.cfg_.hero_id
+	slot0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. slot4 .. "_split_1")
 
-	arg_9_0.heroImage_:SetNativeSize()
+	slot0.heroImage_:SetNativeSize()
 
-	for iter_9_0 = 1, 3 do
-		local var_9_0 = arg_9_0.cfg_.hero_qa_id[iter_9_0]
+	for slot4 = 1, 3 do
+		slot5 = slot0.cfg_.hero_qa_id[slot4]
+		slot0["chooseText" .. slot4 .. "_"].text = ActivityValentineWordCfg[slot5].question_desc
 
-		arg_9_0["chooseText" .. iter_9_0 .. "_"].text = ActivityValentineWordCfg[var_9_0].question_desc
-
-		local var_9_1 = ValentineGameData:GetData(arg_9_0.activityID_)
-
-		if table.indexof(var_9_1.selectQuestionID, var_9_0) then
-			arg_9_0["controller" .. iter_9_0 .. "_"]:SetSelectedState("true")
+		if table.indexof(ValentineGameData:GetData(slot0.activityID_).selectQuestionID, slot5) then
+			slot0["controller" .. slot4 .. "_"]:SetSelectedState("true")
 		else
-			arg_9_0["controller" .. iter_9_0 .. "_"]:SetSelectedState("false")
+			slot0["controller" .. slot4 .. "_"]:SetSelectedState("false")
 		end
 	end
 end
 
-function var_0_0.OnTop(arg_10_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.OpenPageByJump("/valentineGameV2HeroInfoView", {
-			activityID = arg_10_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

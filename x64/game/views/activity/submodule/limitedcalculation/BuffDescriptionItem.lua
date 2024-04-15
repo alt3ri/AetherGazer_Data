@@ -1,47 +1,44 @@
-local var_0_0 = class("BuffDescriptionItem", ReduxView)
+slot0 = class("BuffDescriptionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.levelCon_ = ControllerUtil.GetController(arg_3_0.transform_, "level")
+	slot0.levelCon_ = ControllerUtil.GetController(slot0.transform_, "level")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1)
-	arg_6_0.affix_ = arg_6_1
-	arg_6_0.title_.text = GetI18NText(AffixTypeCfg[arg_6_0.affix_[1]].name)
+function slot0.RefreshUI(slot0, slot1)
+	slot0.affix_ = slot1
+	slot0.title_.text = GetI18NText(AffixTypeCfg[slot0.affix_[1]].name)
 
-	arg_6_0.levelCon_:SetSelectedState(arg_6_0.affix_[2])
+	slot0.levelCon_:SetSelectedState(slot0.affix_[2])
 
-	arg_6_0.desc_.text = GetI18NText(getAffixDesc(arg_6_0.affix_))
+	slot0.desc_.text = GetI18NText(getAffixDesc(slot0.affix_))
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

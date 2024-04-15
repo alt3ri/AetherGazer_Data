@@ -1,99 +1,97 @@
-function defaultValue(arg_1_0, arg_1_1)
-	return arg_1_0 == nil and arg_1_1 or arg_1_0
+function defaultValue(slot0, slot1)
+	return slot0 == nil and slot1 or slot0
 end
 
-function isNil(arg_2_0)
-	return arg_2_0 == nil or arg_2_0:Equals(nil)
+function isNil(slot0)
+	return slot0 == nil or slot0:Equals(nil)
 end
 
-function extend(arg_3_0, arg_3_1)
-	if arg_3_0 then
-		for iter_3_0, iter_3_1 in pairs(arg_3_1) do
-			if arg_3_0[iter_3_0] == nil then
-				arg_3_0[iter_3_0] = iter_3_1
+function extend(slot0, slot1)
+	if slot0 then
+		for slot5, slot6 in pairs(slot1) do
+			if slot0[slot5] == nil then
+				slot0[slot5] = slot6
 			end
 		end
 	end
 
-	return arg_3_0
+	return slot0
 end
 
-function string.isNullOrEmpty(arg_4_0)
-	return arg_4_0 == nil or string.len(arg_4_0) == 0
+function string.isNullOrEmpty(slot0)
+	return slot0 == nil or string.len(slot0) == 0
 end
 
-function delS(arg_5_0)
-	if string.match(arg_5_0, "%s*(.-)%s*$") == "" then
+function delS(slot0)
+	if string.match(slot0, "%s*(.-)%s*$") == "" then
 		return false
 	else
 		return true
 	end
 end
 
-function seq(arg_6_0)
-	local var_6_0 = {}
-
-	for iter_6_0 = 1, arg_6_0 do
-		var_6_0[iter_6_0] = iter_6_0
+function seq(slot0)
+	for slot5 = 1, slot0 do
 	end
 
-	return var_6_0
+	return {
+		[slot5] = slot5
+	}
 end
 
-function swap(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0[arg_7_2], arg_7_0[arg_7_1] = arg_7_0[arg_7_1], arg_7_0[arg_7_2]
+function swap(slot0, slot1, slot2)
+	slot0[slot1] = slot0[slot2]
+	slot0[slot2] = slot0[slot1]
 end
 
-function randomMN(arg_8_0, arg_8_1)
-	local var_8_0 = {}
-	local var_8_1
+function randomMN(slot0, slot1)
+	slot2 = {}
+	slot3 = nil
 
-	if type(arg_8_0) == "table" then
-		var_8_1 = arg_8_0
-	elseif type(arg_8_0) == "number" then
-		var_8_1 = seq(arg_8_0)
+	if type(slot0) == "table" then
+		slot3 = slot0
+	elseif type(slot0) == "number" then
+		slot3 = seq(slot0)
 	end
 
-	local var_8_2 = #var_8_1
+	slot4 = #slot3
 
-	for iter_8_0 = 1, arg_8_1 do
-		local var_8_3 = math.random(var_8_2)
+	for slot8 = 1, slot1 do
+		slot9 = math.random(slot4)
+		slot2[slot8] = slot3[slot9]
 
-		var_8_0[iter_8_0] = var_8_1[var_8_3]
+		swap(slot3, slot9, slot4)
 
-		swap(var_8_1, var_8_3, var_8_2)
-
-		var_8_2 = var_8_2 - 1
+		slot4 = slot4 - 1
 	end
 
-	return var_8_0
+	return slot2
 end
 
-function parsedData(arg_9_0)
-	local var_9_0 = string.split(arg_9_0, ";")
-	local var_9_1 = {}
+function parsedData(slot0)
+	slot2 = {}
 
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		table.insert(var_9_1, string.split(iter_9_1, ","))
+	for slot6, slot7 in pairs(string.split(slot0, ";")) do
+		table.insert(slot2, string.split(slot7, ","))
 	end
 
-	return var_9_1
+	return slot2
 end
 
-function keyPairsSort(arg_10_0)
-	local var_10_0 = {}
+function keyPairsSort(slot0)
+	slot1 = {}
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0) do
-		if type(iter_10_0) == "number" then
-			table.insert(var_10_0, iter_10_0)
+	for slot5, slot6 in pairs(slot0) do
+		if type(slot5) == "number" then
+			table.insert(slot1, slot5)
 		end
 	end
 
-	table.sort(var_10_0)
+	table.sort(slot1)
 
-	return var_10_0
+	return slot1
 end
 
-function buildVector3(arg_11_0)
-	return Vector3(arg_11_0[1], arg_11_0[2], arg_11_0[3])
+function buildVector3(slot0)
+	return Vector3(slot0[1], slot0[2], slot0[3])
 end

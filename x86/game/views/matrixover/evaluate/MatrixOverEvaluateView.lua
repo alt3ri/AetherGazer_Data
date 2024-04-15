@@ -1,57 +1,54 @@
-local var_0_0 = class("MatrixOverEvaluateView", ReduxView)
+slot0 = class("MatrixOverEvaluateView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/PopUp/MatrixAssessPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.evaluateItemList_ = {}
+	slot0.evaluateItemList_ = {}
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.closeBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.sureBtn_, nil, function()
-		arg_4_0:Back()
+	slot0:AddBtnListener(slot0.sureBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	local var_7_0 = MatrixData:GetEvaluateList()
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-		if not arg_7_0.evaluateItemList_[iter_7_0] then
-			arg_7_0.evaluateItemList_[iter_7_0] = MatrixOverEvaluateItem.New(arg_7_0.evaluateItem_, arg_7_0.evaluateParent_)
+function slot0.OnEnter(slot0)
+	for slot5, slot6 in ipairs(MatrixData:GetEvaluateList()) do
+		if not slot0.evaluateItemList_[slot5] then
+			slot0.evaluateItemList_[slot5] = MatrixOverEvaluateItem.New(slot0.evaluateItem_, slot0.evaluateParent_)
 		end
 
-		arg_7_0.evaluateItemList_[iter_7_0]:SetEvaluateID(iter_7_1)
+		slot0.evaluateItemList_[slot5]:SetEvaluateID(slot6)
 	end
 
-	for iter_7_2 = #var_7_0 + 1, #arg_7_0.evaluateItemList_ do
-		arg_7_0.evaluateItemList_[iter_7_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.evaluateItemList_ do
+		slot0.evaluateItemList_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.evaluateItemList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.evaluateItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.evaluateItemList_ = nil
+	slot0.evaluateItemList_ = nil
 end
 
-return var_0_0
+return slot0

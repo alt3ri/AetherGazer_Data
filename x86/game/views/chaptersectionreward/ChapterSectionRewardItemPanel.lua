@@ -1,194 +1,165 @@
-local var_0_0 = class("ChapterSectionRewardItemPanel", ReduxView)
-local var_0_1 = 0
-local var_0_2 = 1
-local var_0_3 = 2
+slot0 = class("ChapterSectionRewardItemPanel", ReduxView)
+slot1 = 0
+slot2 = 1
+slot3 = 2
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.rewardIndex_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.rewardIndex_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.btnController_ = arg_2_0.controllerEx_:GetController("default0")
-	arg_2_0.rewardItemList_ = {}
+	slot0.btnController_ = slot0.controllerEx_:GetController("default0")
+	slot0.rewardItemList_ = {}
 
-	for iter_2_0 = 1, 3 do
-		arg_2_0.rewardItemList_[iter_2_0] = CommonItemView.New(arg_2_0[string.format("rewardItem%s_", iter_2_0)])
+	for slot4 = 1, 3 do
+		slot0.rewardItemList_[slot4] = CommonItemView.New(slot0[string.format("rewardItem%s_", slot4)])
 	end
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	arg_3_0.chapterID_ = arg_3_1
+function slot0.SetData(slot0, slot1)
+	slot0.chapterID_ = slot1
 
-	arg_3_0:RefreshData()
-	arg_3_0:RefreshUI()
-	arg_3_0:RefreshState()
-	arg_3_0:RefreshItem()
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0:RefreshState()
+	slot0:RefreshItem()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.rewardItemList_) do
-		iter_4_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.rewardItemList_ = nil
-	arg_4_0.rewardPanel_ = nil
+	slot0.rewardItemList_ = nil
+	slot0.rewardPanel_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.rewardPanel_ = {}
+	slot0.rewardPanel_ = {}
 
-	for iter_5_0 = 1, 3 do
-		arg_5_0.rewardPanel_[iter_5_0] = arg_5_0[string.format("rewardItem%s_", iter_5_0)]
+	for slot4 = 1, 3 do
+		slot0.rewardPanel_[slot4] = slot0[string.format("rewardItem%s_", slot4)]
 	end
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.receiveBtn_, nil, function()
-		if arg_6_0.rewardState_ == var_0_2 then
-			OperationRecorder.Record(arg_6_0.class.__cname, "collect_get_reward")
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.rewardState_ == uv1 then
+			OperationRecorder.Record(uv0.class.__cname, "collect_get_reward")
 
-			local var_7_0 = arg_6_0.chapterID_
-			local var_7_1 = arg_6_0.rewardIndex_
-			local var_7_2 = arg_6_0.rewardState_
+			slot2 = uv0.rewardState_
 
-			BattleStageAction.GetChapterStarReward(var_7_0, var_7_1, function(arg_8_0)
-				if isSuccess(arg_8_0.result) then
-					getReward(arg_8_0.reward_list)
-					BattleStageData:SetChapterStarReward(var_7_0, var_7_1)
-					arg_6_0:GetRewardState()
+			BattleStageAction.GetChapterStarReward(uv0.chapterID_, uv0.rewardIndex_, function (slot0)
+				if isSuccess(slot0.result) then
+					getReward(slot0.reward_list)
+					BattleStageData:SetChapterStarReward(uv0, uv1)
+					uv2:GetRewardState()
 
-					if var_7_2 == var_0_2 and arg_6_0.rewardState_ == var_0_3 then
-						arg_6_0:RefreshState()
-						arg_6_0:RefreshItem()
+					if uv3 == uv4 and uv2.rewardState_ == uv5 then
+						uv2:RefreshState()
+						uv2:RefreshItem()
 					end
 				else
-					ShowTips(arg_8_0.result)
+					ShowTips(slot0.result)
 				end
 			end)
 		end
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_9_0)
-	return
+function slot0.RemoveListeners(slot0)
 end
 
-function var_0_0.RefreshData(arg_10_0)
-	local var_10_0 = arg_10_0.rewardIndex_
-	local var_10_1 = arg_10_0.chapterID_
-
-	if var_10_0 == 1 then
-		arg_10_0.rewradCfg_ = ChapterCfg[var_10_1].first_reward
-	elseif var_10_0 == 2 then
-		arg_10_0.rewradCfg_ = ChapterCfg[var_10_1].second_reward
+function slot0.RefreshData(slot0)
+	if slot0.rewardIndex_ == 1 then
+		slot0.rewradCfg_ = ChapterCfg[slot0.chapterID_].first_reward
+	elseif slot1 == 2 then
+		slot0.rewradCfg_ = ChapterCfg[slot2].second_reward
 	else
-		arg_10_0.rewradCfg_ = ChapterCfg[var_10_1].third_reward
+		slot0.rewradCfg_ = ChapterCfg[slot2].third_reward
 	end
 
-	local var_10_2 = 0
-	local var_10_3 = ChapterCfg[var_10_1].section_id_list
-	local var_10_4 = BattleStageData:GetStageData()
+	slot3 = 0
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_3) do
-		local var_10_5 = var_10_4[iter_10_1]
-
-		if var_10_5 then
-			for iter_10_2, iter_10_3 in ipairs(var_10_5.stars) do
-				if iter_10_3 == 1 then
-					var_10_2 = var_10_2 + 1
+	for slot9, slot10 in ipairs(ChapterCfg[slot2].section_id_list) do
+		if BattleStageData:GetStageData()[slot10] then
+			for slot15, slot16 in ipairs(slot11.stars) do
+				if slot16 == 1 then
+					slot3 = slot3 + 1
 				end
 			end
 		end
 	end
 
-	arg_10_0.curStarCnt_ = var_10_2
-	arg_10_0.totalStarCnt_ = ChapterCfg[var_10_1].star_need[var_10_0]
+	slot0.curStarCnt_ = slot3
+	slot0.totalStarCnt_ = ChapterCfg[slot2].star_need[slot1]
 
-	arg_10_0:GetRewardState()
+	slot0:GetRewardState()
 end
 
-function var_0_0.GetRewardState(arg_11_0)
-	local var_11_0 = arg_11_0.rewardIndex_
-	local var_11_1 = arg_11_0.chapterID_
-	local var_11_2
+function slot0.GetRewardState(slot0)
+	slot1 = slot0.rewardIndex_
+	slot2 = slot0.chapterID_
+	slot3 = nil
+	slot0.rewardState_ = slot0.curStarCnt_ < slot0.totalStarCnt_ and uv0 or BattleStageData:GetChapterStarRewardState()[slot2] and slot4[slot2][slot1] and slot4[slot2][slot1] >= 1 and uv1 or uv2
+end
 
-	if arg_11_0.curStarCnt_ < arg_11_0.totalStarCnt_ then
-		var_11_2 = var_0_1
+function slot0.RefreshUI(slot0)
+	slot1 = slot0.rewardIndex_
+	slot0.progressCntText_.text = string.format(GetTips("COMPLETE_TARGET"), slot0.totalStarCnt_)
+	slot2 = slot0.totalStarCnt_ < slot0.curStarCnt_ and slot0.totalStarCnt_ or slot0.curStarCnt_
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot0.totalStarCnt_)
+	slot0.progressBar_.value = slot2 / slot0.totalStarCnt_
+end
+
+function slot0.RefreshState(slot0)
+	if slot0.rewardState_ == uv0 then
+		slot0.btnController_:SetSelectedState("clear")
+	elseif slot0.rewardState_ == uv1 then
+		slot0.btnController_:SetSelectedState("notclear")
 	else
-		local var_11_3 = BattleStageData:GetChapterStarRewardState()
-
-		if var_11_3[var_11_1] and var_11_3[var_11_1][var_11_0] and var_11_3[var_11_1][var_11_0] >= 1 then
-			var_11_2 = var_0_3
-		else
-			var_11_2 = var_0_2
-		end
-	end
-
-	arg_11_0.rewardState_ = var_11_2
-end
-
-function var_0_0.RefreshUI(arg_12_0)
-	local var_12_0 = arg_12_0.rewardIndex_
-
-	arg_12_0.progressCntText_.text = string.format(GetTips("COMPLETE_TARGET"), arg_12_0.totalStarCnt_)
-
-	local var_12_1 = arg_12_0.curStarCnt_ > arg_12_0.totalStarCnt_ and arg_12_0.totalStarCnt_ or arg_12_0.curStarCnt_
-
-	arg_12_0.progressText_.text = string.format("%s/%s", var_12_1, arg_12_0.totalStarCnt_)
-	arg_12_0.progressBar_.value = var_12_1 / arg_12_0.totalStarCnt_
-end
-
-function var_0_0.RefreshState(arg_13_0)
-	if arg_13_0.rewardState_ == var_0_2 then
-		arg_13_0.btnController_:SetSelectedState("clear")
-	elseif arg_13_0.rewardState_ == var_0_1 then
-		arg_13_0.btnController_:SetSelectedState("notclear")
-	else
-		arg_13_0.btnController_:SetSelectedState("received")
+		slot0.btnController_:SetSelectedState("received")
 	end
 end
 
-function var_0_0.RefreshItem(arg_14_0)
-	local var_14_0 = arg_14_0.rewradCfg_
+function slot0.RefreshItem(slot0)
+	for slot5, slot6 in pairs(slot0.rewradCfg_) do
+		slot7 = clone(ItemTemplateData)
+		slot7.id = slot6[1]
+		slot7.number = slot6[2]
 
-	for iter_14_0, iter_14_1 in pairs(var_14_0) do
-		local var_14_1 = clone(ItemTemplateData)
-
-		var_14_1.id = iter_14_1[1]
-		var_14_1.number = iter_14_1[2]
-
-		if arg_14_0.rewardState_ == var_0_3 then
-			var_14_1.grayFlag = true
+		if slot0.rewardState_ == uv0 then
+			slot7.grayFlag = true
 		else
-			var_14_1.grayFlag = false
+			slot7.grayFlag = false
 		end
 
-		function var_14_1.clickFun(arg_15_0)
+		function slot7.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_15_0.id,
-				arg_15_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 
-		arg_14_0.rewardItemList_[iter_14_0]:SetData(var_14_1)
+		slot0.rewardItemList_[slot5]:SetData(slot7)
 	end
 
-	for iter_14_2 = #var_14_0 + 1, #arg_14_0.rewardItemList_ do
-		arg_14_0.rewardItemList_[iter_14_2]:SetData(nil)
+	for slot5 = #slot1 + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot5]:SetData(nil)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,49 +1,48 @@
-local var_0_0 = class("IlluEnemyFileDetailItem", ReduxView)
+slot0 = class("IlluEnemyFileDetailItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "conName")
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	SetActive(arg_4_0.gameObject_, true)
+function slot0.RefreshUI(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_4_0.titleText_.text = GetI18NText(arg_4_1.name)
+	slot0.titleText_.text = GetI18NText(slot1.name)
 
-	if arg_4_1.isLock then
-		arg_4_0.controller_:SetSelectedState("lock")
+	if slot1.isLock then
+		slot0.controller_:SetSelectedState("lock")
 
-		arg_4_0.requireText_.text = GetI18NText(arg_4_1.info)
+		slot0.requireText_.text = GetI18NText(slot1.info)
 	else
-		arg_4_0.controller_:SetSelectedState("unlock")
+		slot0.controller_:SetSelectedState("unlock")
 
-		arg_4_0.descText_.text = GetI18NText(arg_4_1.info)
+		slot0.descText_.text = GetI18NText(slot1.info)
 	end
 end
 
-function var_0_0.Hide(arg_5_0)
-	SetActive(arg_5_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

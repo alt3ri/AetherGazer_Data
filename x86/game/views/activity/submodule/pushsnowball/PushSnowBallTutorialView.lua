@@ -1,62 +1,57 @@
-local var_0_0 = class("PushSnowBallTutorialView", ReduxView)
+slot0 = class("PushSnowBallTutorialView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballTeachingEntrancePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		if arg_5_0.timer_ then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		if uv0.timer_ then
 			return
 		end
 
-		arg_5_0.bgAni_:SetFloat("speed", -1)
-		arg_5_0.bgAni_:Play("EventPopUI1", 0, 1)
-		arg_5_0.bgAni_:Update(0)
+		uv0.bgAni_:SetFloat("speed", -1)
+		uv0.bgAni_:Play("EventPopUI1", 0, 1)
+		uv0.bgAni_:Update(0)
 
-		arg_5_0.timer_ = Timer.New(function()
-			arg_5_0:Back()
+		uv0.timer_ = Timer.New(function ()
+			uv0:Back()
 
-			arg_5_0.timer_ = nil
+			uv0.timer_ = nil
 		end, 0.18, 1)
 
-		arg_5_0.timer_:Start()
+		uv0.timer_:Start()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.playBtn_, nil, function()
-		local var_8_0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(1, 1)
-		local var_8_1 = PushSnowBallCfg.get_id_list_by_activityId[var_8_0][1]
-		local var_8_2 = GameSetting.push_snow_ball_tutorial_stage.value[1]
-		local var_8_3 = BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE, var_8_2, {
-			activityID = var_8_0
-		})
+	slot0:AddBtnListener(slot0.playBtn_, nil, function ()
+		slot0 = PushSnowBallData:GetSingleModelActivityIDByModelAndLevel(1, 1)
+		slot1 = PushSnowBallCfg.get_id_list_by_activityId[slot0][1]
 
-		BattleController.GetInstance():LaunchBattle(var_8_3)
+		BattleController.GetInstance():LaunchBattle(BattleStageFactory.Produce(BattleConst.STAGE_TYPE_NEW.PUSH_SNOWBALL_SINGLE, GameSetting.push_snow_ball_tutorial_stage.value[1], {
+			activityID = slot0
+		}))
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.AddTimer(arg_10_0)
-	return
+function slot0.AddTimer(slot0)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

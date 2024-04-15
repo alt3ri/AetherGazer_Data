@@ -1,85 +1,79 @@
-local var_0_0 = class("BossCombatSelectView", ReduxView)
+slot0 = class("BossCombatSelectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/DamageTest/BossCombatSelectUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.affixList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshAffixItem), arg_3_0.affixUIList_, DamageTestConditionItem)
+	slot0.affixList_ = LuaList.New(handler(slot0, slot0.RefreshAffixItem), slot0.affixUIList_, DamageTestConditionItem)
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_4_0.damageTestId_ = arg_4_0.params_.damageTestId
+	slot0.damageTestId_ = slot0.params_.damageTestId
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 
-	local var_4_0 = DamageTestCfg[arg_4_0.damageTestId_]
+	slot1 = DamageTestCfg[slot0.damageTestId_]
 
-	arg_4_0.affixList_:StartScroll(#var_4_0.time_pool + #var_4_0.affix_pool, 1)
+	slot0.affixList_:StartScroll(#slot1.time_pool + #slot1.affix_pool, 1)
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_6_0.chooseConditionHandler_ = nil
+	slot0.chooseConditionHandler_ = nil
 
-	if arg_6_0.affixList_ then
-		arg_6_0.affixList_:Dispose()
+	if slot0.affixList_ then
+		slot0.affixList_:Dispose()
 
-		arg_6_0.affixList_ = nil
+		slot0.affixList_ = nil
 	end
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.battleBtn_, nil, function()
-		local var_8_0 = DamageTestCfg[arg_7_0.damageTestId_]
-
-		arg_7_0:Go("/sectionSelectHero", {
-			section = var_8_0.stage_id,
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		uv0:Go("/sectionSelectHero", {
+			section = DamageTestCfg[uv0.damageTestId_].stage_id,
 			sectionType = BattleConst.STAGE_TYPE_NEW.DAMAGE_TEST,
-			activityID = arg_7_0.damageTestId_
+			activityID = uv0.damageTestId_
 		})
 	end)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = DamageTestCfg[arg_9_0.damageTestId_]
-	local var_9_1 = BossChallengeUICfg[var_9_0.boss_id]
-
-	arg_9_0.bossHealthText_.text = var_9_0.boss_base_hp
-	arg_9_0.bossImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, var_9_1.icon))
+function slot0.RefreshUI(slot0)
+	slot1 = DamageTestCfg[slot0.damageTestId_]
+	slot0.bossHealthText_.text = slot1.boss_base_hp
+	slot0.bossImage_.sprite = getSpriteWithoutAtlas(string.format("%s%s", SpritePathCfg.BossLittlePaint.path, BossChallengeUICfg[slot1.boss_id].icon))
 end
 
-function var_0_0.RefreshAffixItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = DamageTestCfg[arg_10_0.damageTestId_]
-	local var_10_1
-	local var_10_2
+function slot0.RefreshAffixItem(slot0, slot1, slot2)
+	slot4, slot5 = nil
 
-	if arg_10_1 <= #var_10_0.time_pool then
-		var_10_1 = BossConst.TYPE_STAGE
-		var_10_2 = var_10_0.time_pool[arg_10_1]
+	if slot1 <= #DamageTestCfg[slot0.damageTestId_].time_pool then
+		slot4 = BossConst.TYPE_STAGE
+		slot5 = slot3.time_pool[slot1]
 	else
-		var_10_1 = BossConst.TYPE_AFFIX
-		var_10_2 = var_10_0.affix_pool[arg_10_1 - #var_10_0.time_pool]
+		slot4 = BossConst.TYPE_AFFIX
+		slot5 = slot3.affix_pool[slot1 - #slot3.time_pool]
 	end
 
-	arg_10_2:SetData(arg_10_0.damageTestId_, var_10_1, var_10_2)
+	slot2:SetData(slot0.damageTestId_, slot4, slot5)
 end
 
-return var_0_0
+return slot0

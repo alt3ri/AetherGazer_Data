@@ -1,29 +1,29 @@
-local var_0_0 = class("BattleBossChallengeLockHeroItem", ReduxView)
+slot0 = class("BattleBossChallengeLockHeroItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshHeroItem(arg_2_0, arg_2_1)
-	arg_2_0.imageIcon_.sprite = HeroTools.GetSmallHeadSprite(arg_2_1)
+function slot0.RefreshHeroItem(slot0, slot1)
+	slot0.imageIcon_.sprite = HeroTools.GetSmallHeadSprite(slot1)
 end
 
-function var_0_0.SetActive(arg_3_0, arg_3_1, arg_3_2)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.SetActive(slot0, slot1, slot2)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_3_1 then
-		arg_3_0:RefreshHeroItem(arg_3_2)
+	if slot1 then
+		slot0:RefreshHeroItem(slot2)
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_4_0.transform_ = nil
-	arg_4_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

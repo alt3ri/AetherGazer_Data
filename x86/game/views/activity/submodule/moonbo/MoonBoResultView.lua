@@ -1,133 +1,121 @@
-local var_0_0 = class("MoonBoResultView", ReduxView)
+slot0 = class("MoonBoResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VolumeIIIUI/VolumeBocakeResultUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.longController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "IsShowLong")
-	arg_4_0.shortController_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "IsShowShort")
-	arg_4_0.discControllers_ = {}
-	arg_4_0.discControllers_[1] = ControllerUtil.GetController(arg_4_0.diceTrans1_, "num")
-	arg_4_0.discControllers_[2] = ControllerUtil.GetController(arg_4_0.diceTrans2_, "num")
-	arg_4_0.discControllers_[3] = ControllerUtil.GetController(arg_4_0.diceTrans3_, "num")
-	arg_4_0.discControllers_[4] = ControllerUtil.GetController(arg_4_0.diceTrans4_, "num")
-	arg_4_0.discControllers_[5] = ControllerUtil.GetController(arg_4_0.diceTrans5_, "num")
-	arg_4_0.discControllers_[6] = ControllerUtil.GetController(arg_4_0.diceTrans6_, "num")
-	arg_4_0.isPlaying = false
-	arg_4_0.curFrame_ = 0
+	slot0.longController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "IsShowLong")
+	slot0.shortController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "IsShowShort")
+	slot0.discControllers_ = {
+		ControllerUtil.GetController(slot0.diceTrans1_, "num"),
+		ControllerUtil.GetController(slot0.diceTrans2_, "num"),
+		ControllerUtil.GetController(slot0.diceTrans3_, "num"),
+		ControllerUtil.GetController(slot0.diceTrans4_, "num"),
+		ControllerUtil.GetController(slot0.diceTrans5_, "num"),
+		ControllerUtil.GetController(slot0.diceTrans6_, "num")
+	}
+	slot0.isPlaying = false
+	slot0.curFrame_ = 0
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 
-	arg_5_0.settingData_ = SettingData:GetPicSettingData()
+	slot0.settingData_ = SettingData:GetPicSettingData()
+	slot2 = 0
+	slot0.timer_ = FrameTimer.New(function ()
+		uv0.curFrame_ = uv0.curFrame_ + 1
 
-	local var_5_0 = arg_5_0.settingData_.frame + 1
-	local var_5_1 = 0
-	local var_5_2 = var_5_0 == 1 and 30 or 60
-
-	arg_5_0.timer_ = FrameTimer.New(function()
-		arg_5_0.curFrame_ = arg_5_0.curFrame_ + 1
-
-		if arg_5_0.curFrame_ > var_5_2 * 2 then
-			arg_5_0.isPlaying = false
+		if uv0.curFrame_ > uv1 * 2 then
+			uv0.isPlaying = false
 		end
-	end, 1, var_5_2 * 2 + 10)
+	end, 1, (slot0.settingData_.frame + 1 == 1 and 30 or 60) * 2 + 10)
 
-	arg_5_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	SetActive(arg_7_0.liziGo1_, false)
-	SetActive(arg_7_0.liziGo2_, false)
-	SetActive(arg_7_0.liziGo3_, false)
-	SetActive(arg_7_0.liziGo4_, false)
-	SetActive(arg_7_0.liziGo5_, false)
-	SetActive(arg_7_0.liziGo6_, false)
+function slot0.RefreshUI(slot0)
+	SetActive(slot0.liziGo1_, false)
+	SetActive(slot0.liziGo2_, false)
+	SetActive(slot0.liziGo3_, false)
+	SetActive(slot0.liziGo4_, false)
+	SetActive(slot0.liziGo5_, false)
+	SetActive(slot0.liziGo6_, false)
 
-	local var_7_0 = MoonBoData:GetCurDices()
-
-	for iter_7_0 = 1, 6 do
-		arg_7_0.discControllers_[iter_7_0]:SetSelectedState(string.format("%s", var_7_0[iter_7_0]))
-		SetActive(arg_7_0.discControllers_[iter_7_0].gameObject, false)
+	for slot5 = 1, 6 do
+		slot0.discControllers_[slot5]:SetSelectedState(string.format("%s", MoonBoData:GetCurDices()[slot5]))
+		SetActive(slot0.discControllers_[slot5].gameObject, false)
 	end
 
 	if MoonBoData:GetCurLevel() == 0 then
-		arg_7_0.shortController_:SetSelectedState("false")
-		arg_7_0.longController_:SetSelectedState("false")
-		arg_7_0.noflashDir_:Play()
+		slot0.shortController_:SetSelectedState("false")
+		slot0.longController_:SetSelectedState("false")
+		slot0.noflashDir_:Play()
 		manager.audio:PlayEffect("minigame_activity_1_3", "minigame_diceresult", "")
 
-		arg_7_0.curDir_ = arg_7_0.noflashDir_
-		arg_7_0.isPlaying = true
-		arg_7_0.curFrame_ = 0
+		slot0.curDir_ = slot0.noflashDir_
+		slot0.isPlaying = true
+		slot0.curFrame_ = 0
 	else
-		arg_7_0.shortController_:SetSelectedState("true")
+		slot0.shortController_:SetSelectedState("true")
 
-		local var_7_1 = Color.New(arg_7_0.levelText_.color.r, arg_7_0.levelText_.color.g, arg_7_0.levelText_.color.b, 0)
-
-		arg_7_0.levelText_.color = var_7_1
-
-		local var_7_2 = MoonBoData:LevelNumToLanguage(MoonBoData:GetCurLevel())
-
-		arg_7_0.levelText_.text = var_7_2
+		slot0.levelText_.color = Color.New(slot0.levelText_.color.r, slot0.levelText_.color.g, slot0.levelText_.color.b, 0)
+		slot0.levelText_.text = MoonBoData:LevelNumToLanguage(MoonBoData:GetCurLevel())
 
 		if MoonBoData:GetIsShowText() then
-			arg_7_0.longController_:SetSelectedState("true")
+			slot0.longController_:SetSelectedState("true")
 
-			local var_7_3 = Color.New(arg_7_0.resultText_.color.r, arg_7_0.resultText_.color.g, arg_7_0.resultText_.color.b, 0)
-
-			arg_7_0.resultText_.color = var_7_3
-			arg_7_0.resultText_.text = string.format(GetTips("ACTIVITY_MOONCAKE_GAMBLING_REWARD_NONE"), var_7_2, var_7_2)
+			slot0.resultText_.color = Color.New(slot0.resultText_.color.r, slot0.resultText_.color.g, slot0.resultText_.color.b, 0)
+			slot0.resultText_.text = string.format(GetTips("ACTIVITY_MOONCAKE_GAMBLING_REWARD_NONE"), slot3, slot3)
 		else
-			arg_7_0.longController_:SetSelectedState("false")
+			slot0.longController_:SetSelectedState("false")
 		end
 
-		arg_7_0.flashDir_:Play()
+		slot0.flashDir_:Play()
 		manager.audio:PlayEffect("minigame_activity_1_3", "minigame_diceresult", "")
 
-		arg_7_0.curDir_ = arg_7_0.flashDir_
-		arg_7_0.isPlaying = true
-		arg_7_0.curFrame_ = 0
+		slot0.curDir_ = slot0.flashDir_
+		slot0.isPlaying = true
+		slot0.curFrame_ = 0
 	end
 end
 
-function var_0_0.AddUIListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.bgBtn_, nil, function()
-		if arg_8_0.isPlaying then
-			arg_8_0.isPlaying = false
-			arg_8_0.curDir_.time = 2
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0.isPlaying then
+			uv0.isPlaying = false
+			uv0.curDir_.time = 2
 
 			manager.audio:StopEffect()
 		else
 			MoonBoData:SetIsShowReward(true)
-			arg_8_0:Back()
+			uv0:Back()
 		end
 	end)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	if arg_10_0.timer_ then
-		arg_10_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_10_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

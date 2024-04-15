@@ -1,26 +1,26 @@
-local var_0_0 = class("StrategyMatrixProcessEquipReplaceView", MatrixProcessEquipReplaceView)
+slot0 = class("StrategyMatrixProcessEquipReplaceView", MatrixProcessEquipReplaceView)
 
-function var_0_0.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.item_ = StrategyMatrixProcessRewardItem.New(arg_1_0.m_item)
-	arg_1_0.list_ = LuaList.New(handler(arg_1_0, arg_1_0.indexItem), arg_1_0.m_list, StrategyMatrixProcessRewardItem)
+	slot0.item_ = StrategyMatrixProcessRewardItem.New(slot0.m_item)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, StrategyMatrixProcessRewardItem)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.matrix_activity_id = arg_2_0.params_.matrix_activity_id
+function slot0.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 
-	arg_2_0.item_:SetMatrixActivityId(arg_2_0.matrix_activity_id)
-	var_0_0.super.OnEnter(arg_2_0)
+	slot0.item_:SetMatrixActivityId(slot0.matrix_activity_id)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.indexItem(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_2:SetMatrixActivityId(arg_3_0.matrix_activity_id)
-	var_0_0.super.indexItem(arg_3_0, arg_3_1, arg_3_2)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetMatrixActivityId(slot0.matrix_activity_id)
+	uv0.super.indexItem(slot0, slot1, slot2)
 end
 
-function var_0_0.GetHeroData(arg_4_0, arg_4_1)
-	return StrategyMatrixData:GetHeroData(arg_4_0.matrix_activity_id, arg_4_1)
+function slot0.GetHeroData(slot0, slot1)
+	return StrategyMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

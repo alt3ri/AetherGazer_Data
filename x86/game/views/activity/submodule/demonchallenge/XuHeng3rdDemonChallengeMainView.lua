@@ -1,56 +1,53 @@
-local var_0_0 = import("game.views.activity.Submodule.DemonChallenge.Dream.DreamDemonChallengeMainView")
-local var_0_1 = class("XuHeng3rdDemonChallengeMainView", var_0_0)
+slot1 = class("XuHeng3rdDemonChallengeMainView", import("game.views.activity.Submodule.DemonChallenge.Dream.DreamDemonChallengeMainView"))
 
-function var_0_1.InitUI(arg_1_0)
-	var_0_1.super.InitUI(arg_1_0)
+function slot1.InitUI(slot0)
+	uv0.super.InitUI(slot0)
 
-	arg_1_0.glowController = ControllerUtil.GetController(arg_1_0.glow_, "name")
+	slot0.glowController = ControllerUtil.GetController(slot0.glow_, "name")
 end
 
-function var_0_1.OnLevelSelect(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	if arg_2_0.curLevelIndex_ ~= arg_2_1 then
+function slot1.OnLevelSelect(slot0, slot1, slot2, slot3, slot4)
+	if slot0.curLevelIndex_ ~= slot1 then
 		manager.audio:PlayEffect("minigame_activity_2_2", "minigame_activity_2_2_xinmo_turn", "")
-		arg_2_0:ResetAnimator(arg_2_0.roleAni_, "XuHeng3rdDemonLevelUI_shuimo")
+		slot0:ResetAnimator(slot0.roleAni_, "XuHeng3rdDemonLevelUI_shuimo")
 
-		arg_2_0.roleAni_.enabled = true
+		slot0.roleAni_.enabled = true
 
-		arg_2_0.glowController:SetSelectedIndex(arg_2_1 - 1)
+		slot0.glowController:SetSelectedIndex(slot1 - 1)
 	end
 
-	saveData("DemonChallenge" .. "_" .. USER_ID, tostring(arg_2_2), manager.time:GetServerTime())
-	var_0_1.super.OnLevelSelect(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
+	saveData("DemonChallenge" .. "_" .. USER_ID, tostring(slot2), manager.time:GetServerTime())
+	uv0.super.OnLevelSelect(slot0, slot1, slot2, slot3, slot4)
 end
 
-function var_0_1.LevelRenderer(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_0.levelControllerS_[arg_3_1] == nil then
-		arg_3_0.levelControllerS_[arg_3_1] = ControllerUtil.GetController(arg_3_2.transform, "lock")
+function slot1.LevelRenderer(slot0, slot1, slot2)
+	if slot0.levelControllerS_[slot1] == nil then
+		slot0.levelControllerS_[slot1] = ControllerUtil.GetController(slot2.transform, "lock")
 	end
 
-	arg_3_0.levelControllerS_[arg_3_1]:SetSelectedState("false")
+	slot0.levelControllerS_[slot1]:SetSelectedState("false")
 
-	arg_3_0.lockTextS_[arg_3_1] = arg_3_0:FindCom(typeof(Text), "title/lock/text", arg_3_2.transform)
+	slot0.lockTextS_[slot1] = slot0:FindCom(typeof(Text), "title/lock/text", slot2.transform)
 
-	arg_3_0:AddBtnListener(arg_3_0:FindCom(typeof(Button), "title/lock", arg_3_2.transform), nil, function()
-		local var_4_0 = ActivityData:GetActivityData(arg_3_1)
-
-		if var_4_0.stopTime <= manager.time:GetServerTime() then
+	slot0:AddBtnListener(slot0:FindCom(typeof(Button), "title/lock", slot2.transform), nil, function ()
+		if ActivityData:GetActivityData(uv0).stopTime <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 		else
-			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(var_4_0.startTime)))
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot0.startTime)))
 		end
 	end)
 end
 
-function var_0_1.OnEnter(arg_5_0)
-	var_0_1.super.OnEnter(arg_5_0)
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_DEMON_CHALLENGE_DESCRIPE_2_2")
 end
 
-function var_0_1.ResetAnimator(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_1:Play(arg_6_2, 0, 0)
-	arg_6_1:Update(0)
+function slot1.ResetAnimator(slot0, slot1, slot2)
+	slot1:Play(slot2, 0, 0)
+	slot1:Update(0)
 
-	arg_6_1.enabled = false
+	slot1.enabled = false
 end
 
-return var_0_1
+return slot1

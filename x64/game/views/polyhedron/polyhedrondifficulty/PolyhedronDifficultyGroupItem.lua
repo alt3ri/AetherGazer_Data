@@ -1,69 +1,67 @@
-local var_0_0 = class("polyhedronDifficultyGroupItem", ReduxView)
+slot0 = class("polyhedronDifficultyGroupItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.id = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.id = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemList = {}
+	slot0.itemList = {}
 
-	local var_3_0 = PolyhedronDifficultyCfg[arg_3_0.id]
+	for slot5, slot6 in ipairs(PolyhedronDifficultyCfg[slot0.id].params) do
+		slot7 = Object.Instantiate(slot0.m_item, slot0.m_content)
 
-	for iter_3_0, iter_3_1 in ipairs(var_3_0.params) do
-		local var_3_1 = Object.Instantiate(arg_3_0.m_item, arg_3_0.m_content)
-
-		SetActive(var_3_1, true)
-		table.insert(arg_3_0.itemList, PolyhedronDifficultyItem.New(var_3_1, iter_3_1))
+		SetActive(slot7, true)
+		table.insert(slot0.itemList, PolyhedronDifficultyItem.New(slot7, slot6))
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_3_0.m_content)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_content)
 
-	arg_3_0.transform_.sizeDelta = Vector2.New(arg_3_0.transform_.rect.width, arg_3_0.m_content.rect.height + 50)
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.m_lvLab.text = arg_3_0.id
+	slot0.transform_.sizeDelta = Vector2.New(slot0.transform_.rect.width, slot0.m_content.rect.height + 50)
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.m_lvLab.text = slot0.id
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.clickFunc then
-			arg_4_0.clickFunc(arg_4_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	if arg_6_1 < PolyhedronDifficultyCfg[arg_6_0.id].unlock_difficulty then
-		arg_6_0.stateController:SetSelectedIndex(1)
-	elseif arg_6_2 >= arg_6_0.id then
-		arg_6_0.stateController:SetSelectedIndex(2)
+function slot0.SetData(slot0, slot1, slot2)
+	if slot1 < PolyhedronDifficultyCfg[slot0.id].unlock_difficulty then
+		slot0.stateController:SetSelectedIndex(1)
+	elseif slot0.id <= slot2 then
+		slot0.stateController:SetSelectedIndex(2)
 	else
-		arg_6_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	arg_7_0.clickFunc = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.itemList) do
-		iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.itemList = {}
+	slot0.itemList = {}
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

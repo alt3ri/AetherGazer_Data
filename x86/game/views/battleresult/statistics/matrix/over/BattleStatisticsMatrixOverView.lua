@@ -1,12 +1,9 @@
-local var_0_0 = import("..BattleStatisticsMatrixView")
-local var_0_1 = class("BattleStatisticsMatrixOverView", var_0_0)
+slot1 = class("BattleStatisticsMatrixOverView", import("..BattleStatisticsMatrixView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	local var_1_0 = arg_1_0:GetMatrixHeroTeam()
-
-	arg_1_0.statisticsHeroItem_ = {}
-
-	local var_1_1 = {
+function slot1.OnEnter(slot0)
+	slot1 = slot0:GetMatrixHeroTeam()
+	slot0.statisticsHeroItem_ = {}
+	slot2 = {
 		{
 			hurt = 0,
 			damage = 0,
@@ -23,93 +20,100 @@ function var_0_1.OnEnter(arg_1_0)
 			cure = 0
 		}
 	}
-	local var_1_2 = {
+	slot3 = {
 		hurt = 0,
 		damage = 0,
 		cure = 0
 	}
-	local var_1_3 = {
+	slot4 = {
 		hurt = 0,
 		damage = 0,
 		cure = 0
 	}
-	local var_1_4 = {}
+	slot5 = {
+		[slot9] = {
+			level = 1,
+			id = slot1[slot9],
+			skin_id = slot0:GetHeroSkin(slot1[slot9])
+		}
+	}
 
-	for iter_1_0 = 1, 3 do
-		if var_1_0[iter_1_0] and var_1_0[iter_1_0] ~= 0 then
-			local var_1_5 = arg_1_0:GetHeroData(var_1_0[iter_1_0])
-
-			var_1_4[iter_1_0] = {
-				level = 1,
-				id = var_1_0[iter_1_0],
-				skin_id = arg_1_0:GetHeroSkin(var_1_0[iter_1_0])
-			}
-			var_1_1[iter_1_0].damage = var_1_5.totalDamage_
-			var_1_1[iter_1_0].hurt = var_1_5.totalHurt_
-			var_1_1[iter_1_0].cure = var_1_5.totalHeal_
-			var_1_3.damage = var_1_3.damage >= var_1_1[iter_1_0].damage and var_1_3.damage or var_1_1[iter_1_0].damage
-			var_1_3.hurt = var_1_3.hurt >= var_1_1[iter_1_0].hurt and var_1_3.hurt or var_1_1[iter_1_0].hurt
-			var_1_3.cure = var_1_3.cure >= var_1_1[iter_1_0].cure and var_1_3.cure or var_1_1[iter_1_0].cure
-			var_1_2.damage = var_1_2.damage + var_1_1[iter_1_0].damage
-			var_1_2.hurt = var_1_2.hurt + var_1_1[iter_1_0].hurt
-			var_1_2.cure = var_1_2.cure + var_1_1[iter_1_0].cure
+	for slot9 = 1, 3 do
+		if slot1[slot9] and slot1[slot9] ~= 0 then
+			slot10 = slot0:GetHeroData(slot1[slot9])
+			slot2[slot9].damage = slot10.totalDamage_
+			slot2[slot9].hurt = slot10.totalHurt_
+			slot2[slot9].cure = slot10.totalHeal_
+			slot4.damage = slot2[slot9].damage <= slot4.damage and slot4.damage or slot2[slot9].damage
+			slot4.hurt = slot2[slot9].hurt <= slot4.hurt and slot4.hurt or slot2[slot9].hurt
+			slot4.cure = slot2[slot9].cure <= slot4.cure and slot4.cure or slot2[slot9].cure
+			slot3.damage = slot3.damage + slot2[slot9].damage
+			slot3.hurt = slot3.hurt + slot2[slot9].hurt
+			slot3.cure = slot3.cure + slot2[slot9].cure
 		end
 	end
 
-	for iter_1_1 = 1, 3 do
-		arg_1_0.statisticsHeroItem_[iter_1_1] = arg_1_0:GetStatisticsItem().New(arg_1_0.heroItem_[iter_1_1], var_1_4[iter_1_1], var_1_2, var_1_3, var_1_1[iter_1_1])
+	for slot9 = 1, 3 do
+		slot0.statisticsHeroItem_[slot9] = slot0:GetStatisticsItem().New(slot0.heroItem_[slot9], slot5[slot9], slot3, slot4, slot2[slot9])
 	end
 
-	arg_1_0:SetLevelTitle()
+	slot0:SetLevelTitle()
 
-	if arg_1_0:GetGameState() == MatrixConst.STATE_TYPE.SUCCESS then
-		arg_1_0.battleTimeText_.text = arg_1_0:ParseTime(arg_1_0:GetCurrentClearTime())
+	if slot0:GetGameState() == MatrixConst.STATE_TYPE.SUCCESS then
+		slot0.battleTimeText_.text = slot0:ParseTime(slot0:GetCurrentClearTime())
 
-		SetActive(arg_1_0.battleTimeGo_, true)
+		SetActive(slot0.battleTimeGo_, true)
 	else
-		SetActive(arg_1_0.battleTimeGo_, false)
+		SetActive(slot0.battleTimeGo_, false)
 	end
 end
 
-function var_0_1.GetStatisticsItem(arg_2_0)
+function slot1.GetStatisticsItem(slot0)
 	return BattleStatisticsMatrixOverItem
 end
 
-function var_0_1.ParseTime(arg_3_0, arg_3_1)
-	local var_3_0 = math.floor(arg_3_1 / 3600)
-	local var_3_1 = math.floor(arg_3_1 % 3600 / 60)
-	local var_3_2 = arg_3_1 % 60
+function slot1.ParseTime(slot0, slot1)
+	slot3 = math.floor(slot1 % 3600 / 60)
+	slot4 = slot1 % 60
 
-	var_3_0 = var_3_0 < 10 and "0" .. var_3_0 or var_3_0
-	var_3_1 = var_3_1 < 10 and "0" .. var_3_1 or var_3_1
-	var_3_2 = var_3_2 < 10 and "0" .. var_3_2 or var_3_2
+	if math.floor(slot1 / 3600) < 10 then
+		slot2 = "0" .. slot2 or slot2
+	end
 
-	return var_3_0 .. ":" .. var_3_1 .. ":" .. var_3_2
+	if slot3 < 10 then
+		slot3 = "0" .. slot3 or slot3
+	end
+
+	if slot4 < 10 then
+		slot4 = "0" .. slot4 or slot4
+	end
+
+	return slot2 .. ":" .. slot3 .. ":" .. slot4
 end
 
-function var_0_1.SetLevelTitle(arg_4_0)
-	arg_4_0.lvText_.text = ""
-	arg_4_0.stareText_.text = ""
+function slot1.SetLevelTitle(slot0)
+	slot0.lvText_.text = ""
+	slot0.stareText_.text = ""
 end
 
-function var_0_1.GetGameState(arg_5_0)
+function slot1.GetGameState(slot0)
 	return MatrixData:GetGameState()
 end
 
-function var_0_1.GetCurrentClearTime(arg_6_0)
+function slot1.GetCurrentClearTime(slot0)
 	return MatrixData:GetCurrentClearTime()
 end
 
-function var_0_1.GetMatrixHeroTeam(arg_7_0)
+function slot1.GetMatrixHeroTeam(slot0)
 	return MatrixData:GetMatrixHeroTeam()
 end
 
-function var_0_1.GetHeroData(arg_8_0, arg_8_1)
-	return MatrixData:GetHeroData(arg_8_1)
+function slot1.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-function var_0_1.GetHeroSkin(arg_9_0, arg_9_1)
-	return MatrixData:GetHeroSkin(arg_9_1)
+function slot1.GetHeroSkin(slot0, slot1)
+	return MatrixData:GetHeroSkin(slot1)
 end
 
-return var_0_1
+return slot1

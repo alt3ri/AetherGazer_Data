@@ -2,11 +2,11 @@ QuizGameManager = import("game.quiz.QuizGameManager")
 
 print("===> QuizToLuaBridge Init")
 
-local var_0_0 = {}
-local var_0_1 = {}
+slot0 = {}
+slot1 = {}
 
-function QuizSetGameStartArgs(arg_1_0)
-	var_0_0 = arg_1_0
+function QuizSetGameStartArgs(slot0)
+	uv0 = slot0
 end
 
 function LoadQuizScene()
@@ -14,12 +14,10 @@ function LoadQuizScene()
 
 	DestroyLua()
 
-	local var_2_0 = P08.Quiz.QuizDataForExchange()
-	local var_2_1 = ActivityQuizTools.GetCurActivityID()
+	slot0 = P08.Quiz.QuizDataForExchange()
+	slot0.sceneName = ActivityQuizTools.GetActivitySceneName(ActivityQuizTools.GetCurActivityID())
 
-	var_2_0.sceneName = ActivityQuizTools.GetActivitySceneName(var_2_1)
-
-	P08.Quiz.QuizLuaBridge.Launcher(var_2_0)
+	P08.Quiz.QuizLuaBridge.Launcher(slot0)
 	QuizGameManager:Init()
 end
 
@@ -31,18 +29,16 @@ end
 function OnEnterQuizScene()
 	QuizSceneLoaded = 2
 
-	QuizGameManager:StartGame(var_0_0, var_0_1)
+	QuizGameManager:StartGame(uv0, uv1)
 
-	var_0_1 = {}
+	uv1 = {}
 
 	manager.uiInit()
 
 	whereami = "battle"
 
-	local var_4_0 = ActivityQuizTools.GetCurActivityID()
-
 	gameContext:Go("/activityQuizSceneMain", {
-		activityId = var_4_0
+		activityId = ActivityQuizTools.GetCurActivityID()
 	})
 end
 
@@ -53,9 +49,9 @@ function OnExitQuizScene()
 	DestroyLua()
 end
 
-function QuizPendingAddPlayers(arg_6_0)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0) do
-		table.insert(var_0_1, iter_6_1)
+function QuizPendingAddPlayers(slot0)
+	for slot4, slot5 in ipairs(slot0) do
+		table.insert(uv0, slot5)
 	end
 end
 

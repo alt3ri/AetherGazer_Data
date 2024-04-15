@@ -1,42 +1,39 @@
-local var_0_0 = class("WeaponModuleLevelUpPopView", ReduxView)
+slot0 = class("WeaponModuleLevelUpPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_module/HeroModuleUpgradePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		gameContext:Go("/weaponModuleView", {
-			heroID = arg_5_0.heroID_
+			heroID = uv0.heroID_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.heroID_ = arg_7_0.params_.heroID
-
-	local var_7_0 = WeaponModuleCfg[arg_7_0.heroID_]
-
-	arg_7_0.nameText_.text = GetI18NText(var_7_0.name)
-	arg_7_0.levelText_.text = HeroData:GetCurModuleLevel(arg_7_0.heroID_)
-	arg_7_0.moduleImage_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponModule/" .. arg_7_0.heroID_)
+function slot0.OnEnter(slot0)
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.nameText_.text = GetI18NText(WeaponModuleCfg[slot0.heroID_].name)
+	slot0.levelText_.text = HeroData:GetCurModuleLevel(slot0.heroID_)
+	slot0.moduleImage_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponModule/" .. slot0.heroID_)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

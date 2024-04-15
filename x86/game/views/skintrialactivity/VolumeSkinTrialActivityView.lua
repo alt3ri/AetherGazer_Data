@@ -1,8 +1,8 @@
-local var_0_0 = class("VolumeSkinTrialActivityView", SkinTrialActivityView)
+slot0 = class("VolumeSkinTrialActivityView", SkinTrialActivityView)
 
-function var_0_0.UIName(arg_1_0)
-	if ActivityTools.GetActivityTheme(arg_1_0.params_.activityID) == ActivityConst.THEME.VOLUME_DOWN then
-		if arg_1_0.params_.activityID == ActivityConst.TYR_SKIN_TRIAL then
+function slot0.UIName(slot0)
+	if ActivityTools.GetActivityTheme(slot0.params_.activityID) == ActivityConst.THEME.VOLUME_DOWN then
+		if slot0.params_.activityID == ActivityConst.TYR_SKIN_TRIAL then
 			return "UI/VolumeIIIDownUI/SkinTrial/VolumeIIIDownSkinTrialMainUI_1"
 		else
 			return "UI/VolumeIIIDownUI/SkinTrial/VolumeIIIDownSkinTrialMainUI_2"
@@ -12,28 +12,26 @@ function var_0_0.UIName(arg_1_0)
 	end
 end
 
-function var_0_0.RefreshSkinItem(arg_2_0)
-	local var_2_0
+function slot0.RefreshSkinItem(slot0)
+	slot1 = nil
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.skinTrialIDList_) do
-		if arg_2_0.skinItemList_[iter_2_0] then
-			arg_2_0.skinItemList_[iter_2_0]:SetSkinTrialID(iter_2_1)
+	for slot5, slot6 in ipairs(slot0.skinTrialIDList_) do
+		if slot0.skinItemList_[slot5] then
+			slot0.skinItemList_[slot5]:SetSkinTrialID(slot6)
 		else
-			local var_2_1 = arg_2_0.skinItemPanel_:GetChild(iter_2_0 - 1).gameObject
-
-			arg_2_0.skinItemList_[iter_2_0] = arg_2_0:GetItemClass().New(var_2_1, iter_2_1)
+			slot0.skinItemList_[slot5] = slot0:GetItemClass().New(slot0.skinItemPanel_:GetChild(slot5 - 1).gameObject, slot6)
 		end
 	end
 
-	for iter_2_2 = #arg_2_0.skinItemList_, #arg_2_0.skinTrialIDList_ + 1, -1 do
-		arg_2_0.skinItemList_[iter_2_2]:Dispose()
+	for slot5 = #slot0.skinItemList_, #slot0.skinTrialIDList_ + 1, -1 do
+		slot0.skinItemList_[slot5]:Dispose()
 
-		arg_2_0.skinItemList_[iter_2_2] = nil
+		slot0.skinItemList_[slot5] = nil
 	end
 end
 
-function var_0_0.GetItemClass(arg_3_0)
+function slot0.GetItemClass(slot0)
 	return VolumeSkinTrialActivityItem
 end
 
-return var_0_0
+return slot0

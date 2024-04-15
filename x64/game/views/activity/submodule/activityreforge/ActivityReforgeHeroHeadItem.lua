@@ -1,46 +1,44 @@
-local var_0_0 = class("ActivityReforgeHeroHeadItem", ReduxView)
+slot0 = class("ActivityReforgeHeroHeadItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.callBack_ then
-			arg_4_0.callBack_(arg_4_0.standardHeroID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.callBack_ then
+			uv0.callBack_(uv0.standardHeroID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.standardHeroID_ = arg_6_1
-
-	local var_6_0 = HeroStandardSystemCfg[arg_6_0.standardHeroID_]
-
-	arg_6_0.heroImage_.sprite = HeroTools.GetHeadSprite(var_6_0.skin_id)
-	arg_6_0.promoteImage_.sprite = getSprite("Atlas/Common", "star_" .. math.floor(var_6_0.star_lv / 100))
+function slot0.SetData(slot0, slot1)
+	slot0.standardHeroID_ = slot1
+	slot2 = HeroStandardSystemCfg[slot0.standardHeroID_]
+	slot0.heroImage_.sprite = HeroTools.GetHeadSprite(slot2.skin_id)
+	slot0.promoteImage_.sprite = getSprite("Atlas/Common", "star_" .. math.floor(slot2.star_lv / 100))
 end
 
-function var_0_0.SetClickCallBack(arg_7_0, arg_7_1)
-	arg_7_0.callBack_ = arg_7_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.callBack_ = slot1
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.callBack_ = nil
+function slot0.Dispose(slot0)
+	slot0.callBack_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

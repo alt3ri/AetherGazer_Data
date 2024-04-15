@@ -1,98 +1,93 @@
-local var_0_0 = class("ActivityPtScrollPopItem", ReduxView)
+slot0 = class("ActivityPtScrollPopItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshData(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.data_ = arg_6_1
-	arg_6_0.handler_ = arg_6_2
-	arg_6_0.viewHeight_ = arg_6_3
-	arg_6_0.height_ = arg_6_0.transform_.rect.height
-	arg_6_0.centerY_ = centerY
+function slot0.RefreshData(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot1
+	slot0.handler_ = slot2
+	slot0.viewHeight_ = slot3
+	slot0.height_ = slot0.transform_.rect.height
+	slot0.centerY_ = centerY
 
-	arg_6_0:RefreshUI()
-	arg_6_0:RefreshScroll()
+	slot0:RefreshUI()
+	slot0:RefreshScroll()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	if arg_7_0.data_.useless then
-		local var_7_0 = ActivityPtRouletteTipsCfg[arg_7_0.data_.affix]
-
-		arg_7_0.title_.text = var_7_0.name
-		arg_7_0.desc_.text = var_7_0.desc
-		arg_7_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. var_7_0.icon)
+function slot0.RefreshUI(slot0)
+	if slot0.data_.useless then
+		slot1 = ActivityPtRouletteTipsCfg[slot0.data_.affix]
+		slot0.title_.text = slot1.name
+		slot0.desc_.text = slot1.desc
+		slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.AffixIcon.path .. slot1.icon)
 	else
-		arg_7_0.title_.text = getAffixName({
-			arg_7_0.data_.affix
+		slot0.title_.text = getAffixName({
+			slot0.data_.affix
 		})
-		arg_7_0.desc_.text = getAffixDesc({
-			arg_7_0.data_.affix,
-			arg_7_0.data_.level
+		slot0.desc_.text = getAffixDesc({
+			slot0.data_.affix,
+			slot0.data_.level
 		})
-		arg_7_0.icon_.sprite = getAffixSprite({
-			arg_7_0.data_.affix
+		slot0.icon_.sprite = getAffixSprite({
+			slot0.data_.affix
 		})
 	end
 
-	arg_7_0.icon_:SetNativeSize()
+	slot0.icon_:SetNativeSize()
 end
 
-function var_0_0.RefreshScroll(arg_8_0)
-	arg_8_0:StopTimer()
-	arg_8_0:RefreshSelf()
+function slot0.RefreshScroll(slot0)
+	slot0:StopTimer()
+	slot0:RefreshSelf()
 
-	arg_8_0.timer_ = FrameTimer.New(function()
-		arg_8_0:RefreshSelf()
+	slot0.timer_ = FrameTimer.New(function ()
+		uv0:RefreshSelf()
 	end, 1, -1)
 
-	arg_8_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.RefreshSelf(arg_10_0)
-	local var_10_0 = arg_10_0.handler_.localPosition.y + arg_10_0.transform_.localPosition.y - 0.5 * arg_10_0.height_
-	local var_10_1 = (arg_10_0.viewHeight_ - math.abs(var_10_0)) / arg_10_0.viewHeight_
-
-	arg_10_0.content_.localScale = Vector3(var_10_1, var_10_1, var_10_1)
-	arg_10_0.canvas_.alpha = var_10_1
+function slot0.RefreshSelf(slot0)
+	slot2 = (slot0.viewHeight_ - math.abs(slot0.handler_.localPosition.y + slot0.transform_.localPosition.y - 0.5 * slot0.height_)) / slot0.viewHeight_
+	slot0.content_.localScale = Vector3(slot2, slot2, slot2)
+	slot0.canvas_.alpha = slot2
 end
 
-function var_0_0.StopTimer(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	arg_13_0:StopTimer()
-	arg_13_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:StopTimer()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

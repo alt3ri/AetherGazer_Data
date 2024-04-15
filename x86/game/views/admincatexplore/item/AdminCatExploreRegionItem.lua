@@ -1,5 +1,5 @@
-local var_0_0 = class("AdminCatExploreRegionItem", ReduxView)
-local var_0_1 = {
+slot0 = class("AdminCatExploreRegionItem", ReduxView)
+slot1 = {
 	"I",
 	"II",
 	"III",
@@ -7,161 +7,153 @@ local var_0_1 = {
 	"V"
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.exploreBtn_, nil, function()
-		local var_5_0 = arg_4_0.stateController:GetSelectedState()
-
-		if var_5_0 == "normal" then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.exploreBtn_, nil, function ()
+		if uv0.stateController:GetSelectedState() == "normal" then
 			JumpTools.OpenPageByJump("adminCatExplorePop", {
-				regionId = arg_4_0.regionId
+				regionId = uv0.regionId
 			})
-		elseif var_5_0 == "finish" then
-			AdminCatExploreAction.AdminCatExploreFinish(arg_4_0.regionId)
-		elseif var_5_0 == "exploring" then
+		elseif slot0 == "finish" then
+			AdminCatExploreAction.AdminCatExploreFinish(uv0.regionId)
+		elseif slot0 == "exploring" then
 			JumpTools.OpenPageByJump("adminCatExploringPop", {
-				regionId = arg_4_0.regionId
+				regionId = uv0.regionId
 			})
-		elseif var_5_0 == "lock" then
+		elseif slot0 == "lock" then
 			ShowTips("ERROR_EXPLORE_LV_LIMIT")
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.data = arg_6_1
-	arg_6_0.index = arg_6_2
-	arg_6_0.regionId = AdminCatExploreData:GetRegionIdByIndex(arg_6_0.index)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data = slot1
+	slot0.index = slot2
+	slot0.regionId = AdminCatExploreData:GetRegionIdByIndex(slot0.index)
 end
 
-function var_0_0.UpdateBar(arg_7_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	if arg_8_0.updateTimer_ then
-		arg_8_0.updateTimer_:Stop()
+function slot0.UpdateView(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_8_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	arg_8_0.level = AdminCatExploreData:GetDataByPara("level")
+	slot0.level = AdminCatExploreData:GetDataByPara("level")
+	slot1 = ExploreAreaCfg[slot0.regionId]
+	slot0.regionData = AdminCatExploreData:GetDataByPara("regionData")[slot0.regionId]
+	slot0.regionUnlockLevel = AdminCatExploreData:GetDataByPara("regionUnlockLevel")
 
-	local var_8_0 = ExploreAreaCfg[arg_8_0.regionId]
+	if slot0.regionUnlockLevel[slot0.regionId] and slot0.level < slot0.regionUnlockLevel[slot0.regionId] then
+		slot0.stateController:SetSelectedState("lock")
 
-	arg_8_0.regionData = AdminCatExploreData:GetDataByPara("regionData")[arg_8_0.regionId]
-	arg_8_0.regionUnlockLevel = AdminCatExploreData:GetDataByPara("regionUnlockLevel")
+		slot0.lockTxt_.text = string.format(GetTips("EXPLORE_DEBLOCKING_LEVEL"), uv0[slot0.regionUnlockLevel[slot0.regionId]])
+	elseif slot0.regionData then
+		if manager.time:GetServerTime() < slot0.regionData.stopTime then
+			slot2 = slot0.regionData.stopTime - manager.time:GetServerTime()
+			slot0.remainTxt_.text = manager.time:DescCDTime(slot2)
+			slot0.fillImg_.fillAmount = 1 - slot2 / (slot0.regionData.stopTime - slot0.regionData.startTime)
+			slot0.updateTimer_ = Timer.New(function ()
+				uv0 = uv1.regionData.stopTime - manager.time:GetServerTime()
+				uv1.remainTxt_.text = manager.time:DescCDTime(uv0)
+				uv1.fillImg_.fillAmount = 1 - uv0 / (uv1.regionData.stopTime - uv1.regionData.startTime)
 
-	if arg_8_0.regionUnlockLevel[arg_8_0.regionId] and arg_8_0.level < arg_8_0.regionUnlockLevel[arg_8_0.regionId] then
-		arg_8_0.stateController:SetSelectedState("lock")
-
-		arg_8_0.lockTxt_.text = string.format(GetTips("EXPLORE_DEBLOCKING_LEVEL"), var_0_1[arg_8_0.regionUnlockLevel[arg_8_0.regionId]])
-	elseif arg_8_0.regionData then
-		if arg_8_0.regionData.stopTime > manager.time:GetServerTime() then
-			local var_8_1 = arg_8_0.regionData.stopTime - manager.time:GetServerTime()
-
-			arg_8_0.remainTxt_.text = manager.time:DescCDTime(var_8_1)
-			arg_8_0.fillImg_.fillAmount = 1 - var_8_1 / (arg_8_0.regionData.stopTime - arg_8_0.regionData.startTime)
-			arg_8_0.updateTimer_ = Timer.New(function()
-				var_8_1 = arg_8_0.regionData.stopTime - manager.time:GetServerTime()
-				arg_8_0.remainTxt_.text = manager.time:DescCDTime(var_8_1)
-				arg_8_0.fillImg_.fillAmount = 1 - var_8_1 / (arg_8_0.regionData.stopTime - arg_8_0.regionData.startTime)
-
-				if var_8_1 <= 0 then
+				if uv0 <= 0 then
 					AdminCatExploreData:UpdateRegionRedPoint()
-					arg_8_0.stateController:SetSelectedState("finish")
+					uv1.stateController:SetSelectedState("finish")
 
-					arg_8_0.stateText_.text = GetTips("EXPLORE_REGION_FINISH")
+					uv1.stateText_.text = GetTips("EXPLORE_REGION_FINISH")
 
-					arg_8_0.updateTimer_:Stop()
+					uv1.updateTimer_:Stop()
 
-					arg_8_0.updateTimer_ = nil
+					uv1.updateTimer_ = nil
 				end
-			end, 1, var_8_1, 1)
+			end, 1, slot2, 1)
 
-			arg_8_0.updateTimer_:Start()
-			arg_8_0.stateController:SetSelectedState("exploring")
+			slot0.updateTimer_:Start()
+			slot0.stateController:SetSelectedState("exploring")
 
-			arg_8_0.stateText_.text = GetTips("EXPLORE_REGION_EXPLORING")
+			slot0.stateText_.text = GetTips("EXPLORE_REGION_EXPLORING")
 		else
-			arg_8_0.getFill_.fillAmount = 1
-			arg_8_0.remainTxt_.text = manager.time:DescCDTime(0)
+			slot0.getFill_.fillAmount = 1
+			slot0.remainTxt_.text = manager.time:DescCDTime(0)
 
-			arg_8_0.stateController:SetSelectedState("finish")
+			slot0.stateController:SetSelectedState("finish")
 
-			arg_8_0.stateText_.text = GetTips("EXPLORE_REGION_FINISH")
+			slot0.stateText_.text = GetTips("EXPLORE_REGION_FINISH")
 		end
 	else
-		arg_8_0.fillImg_.fillAmount = 0
+		slot0.fillImg_.fillAmount = 0
 
-		arg_8_0.stateController:SetSelectedState("normal")
+		slot0.stateController:SetSelectedState("normal")
 
-		arg_8_0.stateText_.text = GetTips("EXPLORE_REGION_NORMAL")
+		slot0.stateText_.text = GetTips("EXPLORE_REGION_NORMAL")
 	end
 
-	arg_8_0.regionNameTxt_.text = GetI18NText(var_8_0.area_name)
+	slot0.regionNameTxt_.text = GetI18NText(slot1.area_name)
 
-	if arg_8_0.regionData then
-		local var_8_2 = ExploreMeowCfg[arg_8_0.regionData.adminCatID]
-
-		arg_8_0.adminCatImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_s/" .. var_8_2.meow_icon)
+	if slot0.regionData then
+		slot0.adminCatImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_s/" .. ExploreMeowCfg[slot0.regionData.adminCatID].meow_icon)
 	end
 end
 
-function var_0_0.BindRedPoint(arg_10_0)
-	manager.redPoint:bindUIandKey(arg_10_0.exploreBtn_.transform, RedPointConst.EXPLORE_FINISH .. arg_10_0.regionId, {
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.exploreBtn_.transform, RedPointConst.EXPLORE_FINISH .. slot0.regionId, {
 		x = 50,
 		y = 50
 	})
 end
 
-function var_0_0.UnbindRedPoint(arg_11_0)
-	manager.redPoint:unbindUIandKey(arg_11_0.exploreBtn_.transform, RedPointConst.EXPLORE_FINISH .. arg_11_0.regionId)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.exploreBtn_.transform, RedPointConst.EXPLORE_FINISH .. slot0.regionId)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:UpdateView()
-	arg_12_0:BindRedPoint()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	if arg_13_0.updateTimer_ then
-		arg_13_0.updateTimer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_13_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	arg_13_0:UnbindRedPoint()
+	slot0:UnbindRedPoint()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Hide(arg_14_0)
-	SetActive(arg_14_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Show(arg_15_0)
-	SetActive(arg_15_0.gameObject_, true)
+function slot0.Show(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	var_0_0.super.Dispose(arg_16_0)
-	Object.Destroy(arg_16_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

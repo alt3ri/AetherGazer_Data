@@ -1,38 +1,35 @@
-local var_0_0 = class("PolyhedronTerminalLine", ReduxView)
+slot0 = class("PolyhedronTerminalLine", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.id_list = {}
 
-	local var_1_0 = string.split(arg_1_2, "_")
-
-	arg_1_0.id_list = {}
-
-	for iter_1_0, iter_1_1 in pairs(var_1_0) do
-		table.insert(arg_1_0.id_list, tonumber(iter_1_1))
+	for slot7, slot8 in pairs(string.split(slot2, "_")) do
+		table.insert(slot0.id_list, tonumber(slot8))
 	end
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.stateController = ControllerUtil.GetController(arg_2_0.transform_, "state")
+function slot0.Init(slot0)
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.id_list) do
-		if iter_3_1 ~= 0 and not table.indexof(arg_3_1, iter_3_1) then
-			arg_3_0.stateController:SetSelectedIndex(0)
+function slot0.SetData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.id_list) do
+		if slot6 ~= 0 and not table.indexof(slot1, slot6) then
+			slot0.stateController:SetSelectedIndex(0)
 
 			return
 		end
 	end
 
-	arg_3_0.stateController:SetSelectedIndex(1)
+	slot0.stateController:SetSelectedIndex(1)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

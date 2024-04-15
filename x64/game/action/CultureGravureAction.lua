@@ -1,127 +1,96 @@
-local var_0_0 = {}
-
-manager.net:Bind(12097, function(arg_1_0)
-	CultureGravureData:InitFromServer(arg_1_0)
+manager.net:Bind(12097, function (slot0)
+	CultureGravureData:InitFromServer(slot0)
 end)
 
-function var_0_0.GetSortedEquipIDByEquipList(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+return {
+	GetSortedEquipIDByEquipList = function (slot0, slot1)
+		slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		local var_2_1 = deepClone(EquipData:GetEquipPrefabMap(iter_2_1))
+		for slot6, slot7 in ipairs(slot1) do
+			slot10 = EquipData
+			slot12 = slot10
+			slot13 = slot7
 
-		for iter_2_2, iter_2_3 in ipairs(var_2_1) do
-			table.insert(var_2_0, iter_2_3)
+			for slot12, slot13 in ipairs(deepClone(slot10.GetEquipPrefabMap(slot12, slot13))) do
+				table.insert(slot2, slot13)
+			end
 		end
-	end
 
-	if #var_2_0 > 1 then
-		table.sort(var_2_0, function(arg_3_0, arg_3_1)
-			local var_3_0 = EquipData:GetEquipData(arg_3_0)
-			local var_3_1 = EquipData:GetEquipData(arg_3_1)
+		if #slot2 > 1 then
+			table.sort(slot2, function (slot0, slot1)
+				if EquipData:GetEquipData(slot0).race ~= EquipData:GetEquipData(slot1).race and (slot2.race == uv0 or slot3.race == uv0) then
+					return slot2.race == uv0 and slot3.race ~= uv0
+				elseif slot2:GetLevel() ~= slot3:GetLevel() then
+					return slot3:GetLevel() < slot2:GetLevel()
+				elseif slot2.race ~= slot3.race then
+					return slot2.race == HeroCfg[uv0].race and slot3.race ~= HeroCfg[uv0].race
+				else
+					return #slot2.enchant[1] + #slot2.enchant[2] ~= 0 and #slot3.enchant[1] + #slot3.enchant[2] == 0
+				end
+			end)
+		end
 
-			if var_3_0.race ~= var_3_1.race and (var_3_0.race == arg_2_0 or var_3_1.race == arg_2_0) then
-				return var_3_0.race == arg_2_0 and var_3_1.race ~= arg_2_0
-			elseif var_3_0:GetLevel() ~= var_3_1:GetLevel() then
-				return var_3_0:GetLevel() > var_3_1:GetLevel()
-			elseif var_3_0.race ~= var_3_1.race then
-				return var_3_0.race == HeroCfg[arg_2_0].race and var_3_1.race ~= HeroCfg[arg_2_0].race
+		return slot2
+	end,
+	EquipByEquiptID = function (slot0, slot1)
+		if uv0.GetRecommendEquip(slot0, slot1) then
+			HeroAction.EquipSwap(slot0, slot2.id, slot2.pos)
+
+			return true
+		end
+
+		return false
+	end,
+	GetRecommendEquip = function (slot0, slot1)
+		for slot9, slot10 in ipairs(uv0.GetSortedEquipIDByEquipList(slot0, CultureGravureData:GetEquiptPrefabListByEquiptID(slot1))) do
+			if not HeroData:GetEquipMap()[slot10] then
+				return {
+					pos = EquipCfg[EquipData:GetEquipData(slot10).prefab_id].pos,
+					id = slot10
+				}
+			end
+		end
+
+		return nil
+	end,
+	EquipByList = function (slot0, slot1)
+		EquipAction.EquipQuickDressOn(slot0, uv0.GetRecommendEquipList(slot0, slot1))
+	end,
+	GetRecommendEquipList = function (slot0, slot1)
+		slot2 = {}
+		slot3 = HeroData:GetEquipMap()
+
+		for slot7, slot8 in ipairs(slot1) do
+			for slot14, slot15 in ipairs(uv0.GetSortedEquipIDByEquipList(slot0, CultureGravureData:GetEquiptPrefabListByEquiptID(slot8))) do
+				if not slot3[slot15] or slot3[slot15] == slot0 then
+					table.insert(slot2, {
+						pos = EquipCfg[EquipData:GetEquipData(slot15).prefab_id].pos,
+						equip_id = slot15
+					})
+
+					break
+				end
+			end
+		end
+
+		return slot2
+	end,
+	EquipByServantID = function (slot0, slot1)
+		slot4 = {}
+
+		for slot8, slot9 in ipairs(WeaponServantData:GetWeaponServantById(slot1)) do
+			if not ServantTools.GetServantMap()[slot9.uid] then
+				table.insert(slot4, slot9)
+			end
+		end
+
+		table.sort(slot4, function (slot0, slot1)
+			if slot0.stage ~= slot1.stage then
+				return slot1.stage < slot0.stage
 			else
-				local var_3_2 = #var_3_0.enchant[1] + #var_3_0.enchant[2]
-				local var_3_3 = #var_3_1.enchant[1] + #var_3_1.enchant[2]
-
-				return var_3_2 ~= 0 and var_3_3 == 0
+				return slot0.uid < slot1.uid
 			end
 		end)
+		ServantAction.ServantReplace(slot0, slot4[1].uid)
 	end
-
-	return var_2_0
-end
-
-function var_0_0.EquipByEquiptID(arg_4_0, arg_4_1)
-	local var_4_0 = var_0_0.GetRecommendEquip(arg_4_0, arg_4_1)
-
-	if var_4_0 then
-		HeroAction.EquipSwap(arg_4_0, var_4_0.id, var_4_0.pos)
-
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.GetRecommendEquip(arg_5_0, arg_5_1)
-	local var_5_0 = CultureGravureData:GetEquiptPrefabListByEquiptID(arg_5_1)
-	local var_5_1 = HeroData:GetEquipMap()
-	local var_5_2 = var_0_0.GetSortedEquipIDByEquipList(arg_5_0, var_5_0)
-	local var_5_3 = {}
-
-	for iter_5_0, iter_5_1 in ipairs(var_5_2) do
-		local var_5_4 = EquipData:GetEquipData(iter_5_1)
-
-		if not var_5_1[iter_5_1] then
-			var_5_3.pos = EquipCfg[var_5_4.prefab_id].pos
-			var_5_3.id = iter_5_1
-
-			return var_5_3
-		end
-	end
-
-	return nil
-end
-
-function var_0_0.EquipByList(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_0.GetRecommendEquipList(arg_6_0, arg_6_1)
-
-	EquipAction.EquipQuickDressOn(arg_6_0, var_6_0)
-end
-
-function var_0_0.GetRecommendEquipList(arg_7_0, arg_7_1)
-	local var_7_0 = {}
-	local var_7_1 = HeroData:GetEquipMap()
-
-	for iter_7_0, iter_7_1 in ipairs(arg_7_1) do
-		local var_7_2 = CultureGravureData:GetEquiptPrefabListByEquiptID(iter_7_1)
-		local var_7_3 = var_0_0.GetSortedEquipIDByEquipList(arg_7_0, var_7_2)
-
-		for iter_7_2, iter_7_3 in ipairs(var_7_3) do
-			local var_7_4 = EquipData:GetEquipData(iter_7_3)
-
-			if not var_7_1[iter_7_3] or var_7_1[iter_7_3] == arg_7_0 then
-				local var_7_5 = EquipCfg[var_7_4.prefab_id].pos
-
-				table.insert(var_7_0, {
-					pos = var_7_5,
-					equip_id = iter_7_3
-				})
-
-				break
-			end
-		end
-	end
-
-	return var_7_0
-end
-
-function var_0_0.EquipByServantID(arg_8_0, arg_8_1)
-	local var_8_0 = WeaponServantData:GetWeaponServantById(arg_8_1)
-	local var_8_1 = ServantTools.GetServantMap()
-	local var_8_2 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not var_8_1[iter_8_1.uid] then
-			table.insert(var_8_2, iter_8_1)
-		end
-	end
-
-	table.sort(var_8_2, function(arg_9_0, arg_9_1)
-		if arg_9_0.stage ~= arg_9_1.stage then
-			return arg_9_0.stage > arg_9_1.stage
-		else
-			return arg_9_0.uid < arg_9_1.uid
-		end
-	end)
-	ServantAction.ServantReplace(arg_8_0, var_8_2[1].uid)
-end
-
-return var_0_0
+}

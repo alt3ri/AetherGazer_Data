@@ -1,22 +1,21 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("ActivityHeroEnhanceSelectHeroProxy", var_0_0)
+slot1 = class("ActivityHeroEnhanceSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0, arg_1_1)
-	arg_1_0.needMimirPanel = false
-	arg_1_0.canChangeMimir = false
-	arg_1_0.needPresetReservePanel = false
-	arg_1_0.canChangePresetReserve = false
-	arg_1_0.heroEnhance_CfgID = arg_1_1.heroEnhance_CfgID
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.needMimirPanel = false
+	slot0.canChangeMimir = false
+	slot0.needPresetReservePanel = false
+	slot0.canChangePresetReserve = false
+	slot0.heroEnhance_CfgID = slot1.heroEnhance_CfgID
 end
 
-function var_0_1.GetCustomeTeamInfoParams(arg_2_0, arg_2_1)
+function slot1.GetCustomeTeamInfoParams(slot0, slot1)
 	return {
-		heroEnhance_CfgID = arg_2_0.heroEnhance_CfgID
+		heroEnhance_CfgID = slot0.heroEnhance_CfgID
 	}
 end
 
-function var_0_1.GetStageData(arg_3_0)
-	return BattleActivityHeroEnhanceTemplate.New(arg_3_0.stageID, arg_3_0.activityID, arg_3_0.heroEnhance_CfgID)
+function slot1.GetStageData(slot0)
+	return BattleActivityHeroEnhanceTemplate.New(slot0.stageID, slot0.activityID, slot0.heroEnhance_CfgID)
 end
 
-return var_0_1
+return slot1

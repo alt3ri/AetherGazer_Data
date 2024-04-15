@@ -1,101 +1,98 @@
-local var_0_0 = class("BuffDescriptionMainView", ReduxView)
+slot0 = class("BuffDescriptionMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/SummerUI/SummerPlayerAffixesPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, BuffDescriptionView)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, BuffDescriptionView)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshUI(arg_5_0.list_[arg_5_1], arg_5_0.params_.type)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.list_[slot1], slot0.params_.type)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0.scrollHelper_:SetPageChangeHandler(handler(arg_6_0, arg_6_0.OnPageChange))
-	arg_6_0:AddBtnListener(arg_6_0.leftBtn_, nil, function()
-		if arg_6_0.pageIndex_ > 1 then
-			arg_6_0.pageIndex_ = arg_6_0.pageIndex_ - 1
+function slot0.AddUIListeners(slot0)
+	slot0.scrollHelper_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
+	slot0:AddBtnListener(slot0.leftBtn_, nil, function ()
+		if uv0.pageIndex_ > 1 then
+			uv0.pageIndex_ = uv0.pageIndex_ - 1
 
-			arg_6_0.scrollHelper_:SwitchToPage(arg_6_0.pageIndex_)
+			uv0.scrollHelper_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.rightBtn_, nil, function()
-		if arg_6_0.pageIndex_ < arg_6_0.maxLv_ then
-			arg_6_0.pageIndex_ = arg_6_0.pageIndex_ + 1
+	slot0:AddBtnListener(slot0.rightBtn_, nil, function ()
+		if uv0.pageIndex_ < uv0.maxLv_ then
+			uv0.pageIndex_ = uv0.pageIndex_ + 1
 
-			arg_6_0.scrollHelper_:SwitchToPage(arg_6_0.pageIndex_)
+			uv0.scrollHelper_:SwitchToPage(uv0.pageIndex_)
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnPageChange(arg_10_0, arg_10_1)
-	arg_10_0.pageIndex_ = arg_10_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
 
-	arg_10_0:RefreshBtn()
+	slot0:RefreshBtn()
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.activityID_ = arg_11_0.params_.activityID
-	arg_11_0.curdifficulty_ = LimitedCalculationData:GetCurDifficulty(arg_11_0.activityID_)
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.curdifficulty_ = LimitedCalculationData:GetCurDifficulty(slot0.activityID_)
 
-	if arg_11_0.params_.type == "buff" then
-		arg_11_0.list_ = LimitedCalculationTools.GetBuffList(arg_11_0.activityID_)
-	elseif arg_11_0.params_.type == "debuff" then
-		arg_11_0.list_ = LimitedCalculationTools.GetDebuffList(arg_11_0.activityID_)
+	if slot0.params_.type == "buff" then
+		slot0.list_ = LimitedCalculationTools.GetBuffList(slot0.activityID_)
+	elseif slot0.params_.type == "debuff" then
+		slot0.list_ = LimitedCalculationTools.GetDebuffList(slot0.activityID_)
 	end
 
-	local var_11_0 = table.indexof(arg_11_0.list_, arg_11_0.curdifficulty_)
-
-	if var_11_0 then
-		arg_11_0.pageIndex_ = var_11_0
+	if table.indexof(slot0.list_, slot0.curdifficulty_) then
+		slot0.pageIndex_ = slot1
 	else
-		arg_11_0.pageIndex_ = 1
+		slot0.pageIndex_ = 1
 	end
 
-	arg_11_0.maxLv_ = #arg_11_0.list_
+	slot0.maxLv_ = #slot0.list_
 
-	arg_11_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	arg_12_0.scrollHelper_:StartScroll(#arg_12_0.list_, arg_12_0.pageIndex_, true, false)
-	arg_12_0.scrollHelper_:SwitchToPage(arg_12_0.pageIndex_)
-	arg_12_0:RefreshBtn()
+function slot0.RefreshUI(slot0)
+	slot0.scrollHelper_:StartScroll(#slot0.list_, slot0.pageIndex_, true, false)
+	slot0.scrollHelper_:SwitchToPage(slot0.pageIndex_)
+	slot0:RefreshBtn()
 end
 
-function var_0_0.RefreshBtn(arg_13_0)
-	SetActive(arg_13_0.leftBtn_.gameObject, arg_13_0.pageIndex_ > 1)
-	SetActive(arg_13_0.rightBtn_.gameObject, arg_13_0.pageIndex_ < arg_13_0.maxLv_)
+function slot0.RefreshBtn(slot0)
+	SetActive(slot0.leftBtn_.gameObject, slot0.pageIndex_ > 1)
+	SetActive(slot0.rightBtn_.gameObject, slot0.pageIndex_ < slot0.maxLv_)
 end
 
-function var_0_0.OnTop(arg_14_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:RemoveAllListeners()
-	arg_16_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

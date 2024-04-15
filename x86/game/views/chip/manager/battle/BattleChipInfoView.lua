@@ -1,44 +1,41 @@
-local var_0_0 = import("game.views.chip.info.ChipInfoView")
-local var_0_1 = class("BattleChipInfoView", var_0_0)
+slot1 = class("BattleChipInfoView", import("game.views.chip.info.ChipInfoView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	arg_1_0.chipManagerDataTemplate_ = arg_1_0.params_.chipDataTemplate
-	arg_1_0.sectionProxy_ = arg_1_0.chipManagerDataTemplate_.sectionProxy_
+function slot1.OnEnter(slot0)
+	slot0.chipManagerDataTemplate_ = slot0.params_.chipDataTemplate
+	slot0.sectionProxy_ = slot0.chipManagerDataTemplate_.sectionProxy_
 
-	arg_1_0.super.OnEnter(arg_1_0)
+	slot0.super.OnEnter(slot0)
 end
 
-function var_0_1.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.useBtn_, nil, function()
-		arg_2_0.chipManagerDataTemplate_:SetUseChipId(arg_2_0.defaultSelectID_)
-		manager.notify:Invoke(ENABLED_CHIP, arg_2_0.defaultSelectID)
-		arg_2_0.sectionProxy_:InsertMimirChip(arg_2_0.defaultSelectID_)
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.useBtn_, nil, function ()
+		uv0.chipManagerDataTemplate_:SetUseChipId(uv0.defaultSelectID_)
+		manager.notify:Invoke(ENABLED_CHIP, uv0.defaultSelectID)
+		uv0.sectionProxy_:InsertMimirChip(uv0.defaultSelectID_)
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.unlockBtn_, nil, function()
-		ChipAction.UnlockChip(arg_2_0.defaultSelectID_)
+	slot0:AddBtnListener(slot0.unlockBtn_, nil, function ()
+		ChipAction.UnlockChip(uv0.defaultSelectID_)
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.unloadBtn_, nil, function()
-		arg_2_0.chipManagerDataTemplate_:SetNoUseChipId(arg_2_0.defaultSelectID_, arg_2_0.params_.selectChipIndex)
-		manager.notify:CallUpdateFunc(UNUSE_BATTLECHIP, arg_2_0.defaultSelectID_)
-		arg_2_0.sectionProxy_:RemoveMimirChip(arg_2_0.defaultSelectID_)
+	slot0:AddBtnListener(slot0.unloadBtn_, nil, function ()
+		uv0.chipManagerDataTemplate_:SetNoUseChipId(uv0.defaultSelectID_, uv0.params_.selectChipIndex)
+		manager.notify:CallUpdateFunc(UNUSE_BATTLECHIP, uv0.defaultSelectID_)
+		uv0.sectionProxy_:RemoveMimirChip(uv0.defaultSelectID_)
 	end)
 end
 
-function var_0_1.OnEnabledChip(arg_6_0)
-	arg_6_0.currentChipList_ = arg_6_0:GetChipData()
+function slot1.OnEnabledChip(slot0)
+	slot0.currentChipList_ = slot0:GetChipData()
 
-	arg_6_0:RefreshUI()
-	arg_6_0.chipUIList_:Refresh()
+	slot0:RefreshUI()
+	slot0.chipUIList_:Refresh()
 end
 
-function var_0_1.GetChipData(arg_7_0)
-	return (arg_7_0.sectionProxy_:GetMimirChipList())
+function slot1.GetChipData(slot0)
+	return slot0.sectionProxy_:GetMimirChipList()
 end
 
-function var_0_1.SortChip(arg_8_0)
-	local var_8_0 = arg_8_0:GetChipTypeCntList() or {}
-
-	return ChipTools.SortChip(var_8_0[-1], arg_8_0.params_.chipManagerID)
+function slot1.SortChip(slot0)
+	return ChipTools.SortChip((slot0:GetChipTypeCntList() or {})[-1], slot0.params_.chipManagerID)
 end
 
-return var_0_1
+return slot1

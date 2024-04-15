@@ -1,1 +1,1 @@
-return (class("TaskPlotItemView", TaskDailyItemView))
+return class("TaskPlotItemView", TaskDailyItemView)

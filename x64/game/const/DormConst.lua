@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	WALL_ORI_ID = 951013,
 	gridLen = 250,
 	CANTEEN_ID = 4,
@@ -133,15 +133,14 @@ local var_0_0 = {
 		VISIT = 1
 	}
 }
-
-var_0_0.PROTOCOL_TILE_TYPE = {
-	var_0_0.TILE_TYPE.WALL_LEFT,
-	var_0_0.TILE_TYPE.WALL_RIGHT,
-	var_0_0.TILE_TYPE.WALL_FRONT,
-	var_0_0.TILE_TYPE.WALL_BEHIND,
-	var_0_0.TILE_TYPE.FLOOR
+slot0.PROTOCOL_TILE_TYPE = {
+	slot0.TILE_TYPE.WALL_LEFT,
+	slot0.TILE_TYPE.WALL_RIGHT,
+	slot0.TILE_TYPE.WALL_FRONT,
+	slot0.TILE_TYPE.WALL_BEHIND,
+	slot0.TILE_TYPE.FLOOR
 }
-var_0_0.PROTOCOL_TILE_TYPE_INDEX = {
+slot0.PROTOCOL_TILE_TYPE_INDEX = {
 	RIGHT = 2,
 	BEHIND = 4,
 	FLOOR = 5,
@@ -149,4 +148,4 @@ var_0_0.PROTOCOL_TILE_TYPE_INDEX = {
 	LEFT = 1
 }
 
-return var_0_0
+return slot0

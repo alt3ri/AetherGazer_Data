@@ -1,116 +1,97 @@
-local var_0_0 = singletonClass("DormStorage")
+slot0 = singletonClass("DormStorage")
 
-function var_0_0.Ctor(arg_1_0)
-	return
+function slot0.Ctor(slot0)
 end
 
-function var_0_0.Reset(arg_2_0)
-	if arg_2_0.storage == nil or next(arg_2_0.storage) ~= nil then
-		arg_2_0.storage = {}
+function slot0.Reset(slot0)
+	if slot0.storage == nil or next(slot0.storage) ~= nil then
+		slot0.storage = {}
 	end
 end
 
-function var_0_0.ClearData(arg_3_0, arg_3_1)
-	arg_3_0.storage[arg_3_1] = nil
+function slot0.ClearData(slot0, slot1)
+	slot0.storage[slot1] = nil
 end
 
-function var_0_0.RecordData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = arg_4_0.storage[arg_4_1] or {}
-
-	var_4_0[arg_4_2] = arg_4_3
-	arg_4_0.storage[arg_4_1] = var_4_0
+function slot0.RecordData(slot0, slot1, slot2, slot3)
+	slot4 = slot0.storage[slot1] or {}
+	slot4[slot2] = slot3
+	slot0.storage[slot1] = slot4
 end
 
-function var_0_0.PickData(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_0.storage[arg_5_1]
+function slot0.PickData(slot0, slot1)
+	if slot0.storage[slot1] then
+		slot3, slot4 = next(slot2)
 
-	if var_5_0 then
-		local var_5_1, var_5_2 = next(var_5_0)
-
-		return var_5_2
+		return slot4
 	end
 end
 
-local function var_0_1(arg_6_0)
-	local var_6_0 = #arg_6_0
-
-	return arg_6_0[math.random(1, var_6_0)]
+function slot1(slot0)
+	return slot0[math.random(1, #slot0)]
 end
 
-function var_0_0.RndPickData(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.storage[arg_7_1]
+function slot0.RndPickData(slot0, slot1, slot2)
+	if slot0.storage[slot1] then
+		slot4 = nil
 
-	if var_7_0 then
-		local var_7_1
-
-		if arg_7_2 then
-			local var_7_2 = var_7_0
-
-			return var_0_1(var_7_2)
+		if slot2 then
+			return uv0(slot3)
 		else
-			local var_7_3 = {}
+			slot4 = {}
 
-			for iter_7_0, iter_7_1 in pairs(var_7_0) do
-				table.insert(var_7_3, iter_7_0)
+			for slot8, slot9 in pairs(slot3) do
+				table.insert(slot4, slot8)
 			end
 
-			return var_7_0[var_0_1(var_7_3)]
+			return slot3[uv0(slot4)]
 		end
 	end
 end
 
-function var_0_0.PushBackData(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.storage[arg_8_1] or {}
+function slot0.PushBackData(slot0, slot1, slot2)
+	slot3 = slot0.storage[slot1] or {}
 
-	table.insert(var_8_0, arg_8_2)
+	table.insert(slot3, slot2)
 
-	arg_8_0.storage[arg_8_1] = var_8_0
+	slot0.storage[slot1] = slot3
 end
 
-function var_0_0.PopFrontData(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_0.storage[arg_9_1]
+function slot0.PopFrontData(slot0, slot1)
+	if slot0.storage[slot1] then
+		table.remove(slot2, 1)
 
-	if var_9_0 then
-		local var_9_1 = var_9_0[1]
+		slot0.storage[slot1] = slot2
 
-		table.remove(var_9_0, 1)
-
-		arg_9_0.storage[arg_9_1] = var_9_0
-
-		return var_9_1
+		return slot2[1]
 	end
 end
 
-function var_0_0.ForeachData(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.storage[arg_10_1]
-
-	if var_10_0 then
-		return arg_10_2(var_10_0)
+function slot0.ForeachData(slot0, slot1, slot2)
+	if slot0.storage[slot1] then
+		return slot2(slot3)
 	else
-		return function()
-			return
-		end, nil, nil
+		return function ()
+		end, nil, 
 	end
 end
 
-function var_0_0.MapToData(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0.storage[arg_12_1], arg_12_2 = arg_12_2, arg_12_0.storage[arg_12_1]
+function slot0.MapToData(slot0, slot1, slot2)
+	slot0.storage[slot1] = slot2
 
-	return arg_12_2
+	return slot0.storage[slot1]
 end
 
-function var_0_0.GetData(arg_13_0, arg_13_1, arg_13_2)
-	if arg_13_2 == "#" then
-		local var_13_0 = arg_13_0.storage[arg_13_1]
-
-		if var_13_0 then
-			return #var_13_0, next(var_13_0)
+function slot0.GetData(slot0, slot1, slot2)
+	if slot2 == "#" then
+		if slot0.storage[slot1] then
+			return #slot3, next(slot3)
 		else
-			return nil, nil
+			return nil, 
 		end
 	end
 
-	return nullable(arg_13_0.storage, arg_13_1, arg_13_2)
+	return nullable(slot0.storage, slot1, slot2)
 end
 
-return var_0_0
+return slot0

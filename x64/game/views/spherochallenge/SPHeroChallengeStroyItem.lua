@@ -1,67 +1,59 @@
-local var_0_0 = class("SPHeroChallengeStroyItem", import("game.views.sectionSelect.SectionBaseItem"))
+slot0 = class("SPHeroChallengeStroyItem", import("game.views.sectionSelect.SectionBaseItem"))
 
-function var_0_0.IsOpenSectionInfo(arg_1_0)
-	return arg_1_0:IsOpenRoute("spHeroChallengeSectionView")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("spHeroChallengeSectionView")
 end
 
-function var_0_0.InitCustom(arg_2_0)
-	SetActive(arg_2_0.collectGo_, false)
-	SetActive(arg_2_0.storyIconGo_, false)
+function slot0.InitCustom(slot0)
+	SetActive(slot0.collectGo_, false)
+	SetActive(slot0.storyIconGo_, false)
 end
 
-function var_0_0.OnClick(arg_3_0)
-	if not arg_3_0.isLock_ then
-		arg_3_0:Go("spHeroChallengeSectionView", {
+function slot0.OnClick(slot0)
+	if not slot0.isLock_ then
+		slot0:Go("spHeroChallengeSectionView", {
 			challengeType = SpHeroChallengeConst.ChapterType.story,
 			sectionType = BattleConst.STAGE_TYPE_NEW.SP_HERO_CHALLENGE_BATTLE_3_1,
-			section = arg_3_0.stageID_
+			section = slot0.stageID_
 		})
 	end
 end
 
-function var_0_0.RefreshData(arg_4_0)
-	return
+function slot0.RefreshData(slot0)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = arg_5_0:GetPosition()
+function slot0.RefreshUI(slot0)
+	slot1 = slot0:GetPosition()
+	slot0.transform_.localPosition = Vector3(slot1[1], slot1[2], 0)
+	slot0.isLock_ = not table.indexof(SPHeroChallengeTools:GetStoryOpenStageList(SPHeroChallengeData.activityCfg[SPHeroChallengeData:GetActivityID()].storyChapter, BattleVerthandiExclusiveCfg), slot0.stageID_)
 
-	arg_5_0.transform_.localPosition = Vector3(var_5_0[1], var_5_0[2], 0)
-
-	local var_5_1 = SPHeroChallengeData:GetActivityID()
-	local var_5_2 = SPHeroChallengeTools:GetStoryOpenStageList(SPHeroChallengeData.activityCfg[var_5_1].storyChapter, BattleVerthandiExclusiveCfg)
-
-	arg_5_0.isLock_ = not table.indexof(var_5_2, arg_5_0.stageID_)
-
-	arg_5_0.isBossController_:SetSelectedState("false")
-	SetActive(arg_5_0.gameObject_, not arg_5_0.isLock_)
-	arg_5_0:RefreshText()
-	arg_5_0:RefreshStar()
+	slot0.isBossController_:SetSelectedState("false")
+	SetActive(slot0.gameObject_, not slot0.isLock_)
+	slot0:RefreshText()
+	slot0:RefreshStar()
 end
 
-function var_0_0.GetPosition(arg_6_0)
-	local var_6_0 = BattleVerthandiExclusiveCfg[arg_6_0.stageID_]
-
-	return var_6_0 and var_6_0.position or {
+function slot0.GetPosition(slot0)
+	return BattleVerthandiExclusiveCfg[slot0.stageID_] and slot1.position or {
 		0,
 		0
 	}
 end
 
-function var_0_0.RefreshText(arg_7_0)
-	arg_7_0.text_.text = BattleVerthandiExclusiveCfg[arg_7_0.stageID_].name
+function slot0.RefreshText(slot0)
+	slot0.text_.text = BattleVerthandiExclusiveCfg[slot0.stageID_].name
 end
 
-function var_0_0.RefreshStar(arg_8_0)
-	if SPHeroChallengeData:GetCurActivityInfo():CheckStoryFinState(arg_8_0.stageID_) then
-		for iter_8_0 = 1, 3 do
-			arg_8_0.threeStarBarList_[iter_8_0]:SetData(true)
+function slot0.RefreshStar(slot0)
+	if SPHeroChallengeData:GetCurActivityInfo():CheckStoryFinState(slot0.stageID_) then
+		for slot6 = 1, 3 do
+			slot0.threeStarBarList_[slot6]:SetData(true)
 		end
 	else
-		for iter_8_1 = 1, 3 do
-			arg_8_0.threeStarBarList_[iter_8_1]:SetData(false)
+		for slot6 = 1, 3 do
+			slot0.threeStarBarList_[slot6]:SetData(false)
 		end
 	end
 end
 
-return var_0_0
+return slot0

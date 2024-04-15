@@ -1,118 +1,110 @@
-local var_0_0 = import("game.views.battleResult.statistics.BattleStatisticsHeroItem")
-local var_0_1 = class("XH3rdWaterBattleStatisticsItemView", var_0_0)
+slot1 = class("XH3rdWaterBattleStatisticsItemView", import("game.views.battleResult.statistics.BattleStatisticsHeroItem"))
 
-function var_0_1.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.haveHeroController_ = ControllerUtil.GetController(arg_1_0.gameObject_.transform, "haveHero")
-	arg_1_0.cooperationController_ = ControllerUtil.GetController(arg_1_0.gameObject_.transform, "cooperation")
-	arg_1_0.reportController_ = ControllerUtil.GetController(arg_1_0.gameObject_.transform, "report")
+	slot0.haveHeroController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "haveHero")
+	slot0.cooperationController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "cooperation")
+	slot0.reportController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "report")
 
-	arg_1_0.reportController_:SetSelectedIndex(0)
+	slot0.reportController_:SetSelectedIndex(0)
 
-	arg_1_0.controllers_ = {
-		ControllerUtil.GetController(arg_1_0.highGo1_.transform, "zero"),
-		ControllerUtil.GetController(arg_1_0.highGo2_.transform, "zero"),
-		ControllerUtil.GetController(arg_1_0.highGo3_.transform, "zero"),
-		ControllerUtil.GetController(arg_1_0.highGo4_.transform, "zero"),
-		ControllerUtil.GetController(arg_1_0.highGo5_.transform, "zero")
+	slot0.controllers_ = {
+		ControllerUtil.GetController(slot0.highGo1_.transform, "zero"),
+		ControllerUtil.GetController(slot0.highGo2_.transform, "zero"),
+		ControllerUtil.GetController(slot0.highGo3_.transform, "zero"),
+		ControllerUtil.GetController(slot0.highGo4_.transform, "zero"),
+		ControllerUtil.GetController(slot0.highGo5_.transform, "zero")
 	}
 
-	arg_1_0:AddBtnListener(arg_1_0.reportBtn_, nil, function()
-		local var_2_0 = BattleFieldData:GetServerBattleID()
-
-		CooperationAction.CooperationReport(arg_1_0.player_.playerID, var_2_0)
-		arg_1_0.reportController_:SetSelectedIndex(1)
+	slot0:AddBtnListener(slot0.reportBtn_, nil, function ()
+		CooperationAction.CooperationReport(uv0.player_.playerID, BattleFieldData:GetServerBattleID())
+		uv0.reportController_:SetSelectedIndex(1)
 	end)
 end
 
-function var_0_1.SetPlayer(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4, arg_3_5, arg_3_6, arg_3_7, arg_3_8)
-	arg_3_0.index_ = arg_3_1
-	arg_3_0.scheduleActivityId_ = arg_3_2
-	arg_3_0.maxFangfan_ = arg_3_4
-	arg_3_0.maxZjj_ = arg_3_5
-	arg_3_0.player_ = arg_3_3
-	arg_3_0.isCooperation_ = arg_3_6
-	arg_3_0.extraData_ = arg_3_7
+function slot1.SetPlayer(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8)
+	slot0.index_ = slot1
+	slot0.scheduleActivityId_ = slot2
+	slot0.maxFangfan_ = slot4
+	slot0.maxZjj_ = slot5
+	slot0.player_ = slot3
+	slot0.isCooperation_ = slot6
+	slot0.extraData_ = slot7
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 
-	if arg_3_8 then
-		SetActive(arg_3_0.captainGo_, true)
+	if slot8 then
+		SetActive(slot0.captainGo_, true)
 	else
-		SetActive(arg_3_0.captainGo_, false)
+		SetActive(slot0.captainGo_, false)
 	end
 end
 
-function var_0_1.RefreshUI(arg_4_0)
-	var_0_1.super.RefreshUI(arg_4_0)
+function slot1.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
 
-	if arg_4_0.isCooperation_ then
-		arg_4_0.cooperationController_:SetSelectedState("true")
+	if slot0.isCooperation_ then
+		slot0.cooperationController_:SetSelectedState("true")
 	else
-		arg_4_0.cooperationController_:SetSelectedState("false")
+		slot0.cooperationController_:SetSelectedState("false")
 	end
 
-	if not arg_4_0.player_ or not arg_4_0.heroData_ then
-		arg_4_0.nickText_.text = ""
+	if not slot0.player_ or not slot0.heroData_ then
+		slot0.nickText_.text = ""
 
-		arg_4_0.reportController_:SetSelectedState("2")
+		slot0.reportController_:SetSelectedState("2")
 
 		return
 	end
 
-	if arg_4_0.isCooperation_ then
-		arg_4_0.reportController_:SetSelectedState("1")
+	if slot0.isCooperation_ then
+		slot0.reportController_:SetSelectedState("1")
 
-		arg_4_0.nickText_.text = arg_4_0.player_.nick
+		slot0.nickText_.text = slot0.player_.nick
 	else
-		arg_4_0.reportController_:SetSelectedState("2")
+		slot0.reportController_:SetSelectedState("2")
 
-		local var_4_0 = HeroCfg[arg_4_0.heroData_.id]
-
-		arg_4_0.nickText_.text = string.format("%s·%s", var_4_0.name, var_4_0.suffix)
+		slot1 = HeroCfg[slot0.heroData_.id]
+		slot0.nickText_.text = string.format("%s·%s", slot1.name, slot1.suffix)
 	end
 
-	local var_4_1 = arg_4_0.extraData_
+	if slot0.extraData_ then
+		slot3 = 59
+		slot1[slot2] = slot1[45] or 0
+		slot1[slot3] = slot1[slot3] or 0
 
-	if var_4_1 then
-		local var_4_2 = 45
-		local var_4_3 = 59
+		if slot1[slot2] == 0 then
+			slot0.battleCountFangfanNum_.text = "0"
 
-		var_4_1[var_4_2] = var_4_1[var_4_2] or 0
-		var_4_1[var_4_3] = var_4_1[var_4_3] or 0
-
-		if var_4_1[var_4_2] == 0 then
-			arg_4_0.battleCountFangfanNum_.text = "0"
-
-			arg_4_0.controllers_[4]:SetSelectedState("true")
+			slot0.controllers_[4]:SetSelectedState("true")
 		else
-			arg_4_0.battleCountFangfanNum_.text = var_4_1[var_4_2] or 0
+			slot0.battleCountFangfanNum_.text = slot1[slot2] or 0
 
-			arg_4_0.controllers_[4]:SetSelectedState("false")
+			slot0.controllers_[4]:SetSelectedState("false")
 		end
 
-		if var_4_1[var_4_3] == 0 then
-			arg_4_0.battleCountZjjNum_.text = "0"
+		if slot1[slot3] == 0 then
+			slot0.battleCountZjjNum_.text = "0"
 
-			arg_4_0.controllers_[5]:SetSelectedState("true")
+			slot0.controllers_[5]:SetSelectedState("true")
 		else
-			arg_4_0.battleCountZjjNum_.text = var_4_1[var_4_3] or 0
+			slot0.battleCountZjjNum_.text = slot1[slot3] or 0
 
-			arg_4_0.controllers_[5]:SetSelectedState("false")
+			slot0.controllers_[5]:SetSelectedState("false")
 		end
 
-		arg_4_0.battleCountFangfanImg_.enabled = var_4_1[var_4_2] > arg_4_0.maxFangfan_
-		arg_4_0.battleCountZjjImg_.enabled = var_4_1[var_4_3] > arg_4_0.maxZjj_
+		slot0.battleCountFangfanImg_.enabled = slot0.maxFangfan_ < slot1[slot2]
+		slot0.battleCountZjjImg_.enabled = slot0.maxZjj_ < slot1[slot3]
 	else
-		arg_4_0.battleCountFangfanNum_.text = "0"
-		arg_4_0.battleCountZjjNum_.text = "0"
-		arg_4_0.battleCountFangfanImg_.enabled = false
-		arg_4_0.battleCountZjjImg_.enabled = false
+		slot0.battleCountFangfanNum_.text = "0"
+		slot0.battleCountZjjNum_.text = "0"
+		slot0.battleCountFangfanImg_.enabled = false
+		slot0.battleCountZjjImg_.enabled = false
 
-		arg_4_0.controllers_[4]:SetSelectedState("false")
-		arg_4_0.controllers_[5]:SetSelectedState("false")
+		slot0.controllers_[4]:SetSelectedState("false")
+		slot0.controllers_[5]:SetSelectedState("false")
 	end
 end
 
-return var_0_1
+return slot1

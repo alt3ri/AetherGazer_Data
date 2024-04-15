@@ -1,161 +1,153 @@
 require("game.data.BattleTeamDataTemplate")
 
-local var_0_0 = singletonClass("BattleTeamData")
+slot0 = singletonClass("BattleTeamData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.battleTeam_ = {}
-	arg_1_0.stageTeam_ = {}
-	arg_1_0.stageTeamTrial_ = {}
-	arg_1_0.trialActivityData_ = {}
-	arg_1_0.teamRawData_ = {}
-	arg_1_0.reservesTeamList_ = {}
-	arg_1_0.reservesTempTeamList_ = {}
+function slot0.Init(slot0)
+	slot0.battleTeam_ = {}
+	slot0.stageTeam_ = {}
+	slot0.stageTeamTrial_ = {}
+	slot0.trialActivityData_ = {}
+	slot0.teamRawData_ = {}
+	slot0.reservesTeamList_ = {}
+	slot0.reservesTempTeamList_ = {}
 end
 
-var_0_0.NO_OWNER = "0"
-var_0_0.EMPTY_ENTRY = {
+slot0.NO_OWNER = "0"
+slot0.EMPTY_ENTRY = {
 	hero_id = 0,
-	owner_id = var_0_0.NO_OWNER
+	owner_id = slot0.NO_OWNER
 }
 
-function var_0_0.IsValidOwner(arg_2_0)
-	if arg_2_0 == nil then
+function slot0.IsValidOwner(slot0)
+	if slot0 == nil then
 		return false
 	end
 
-	return tostring(arg_2_0) ~= var_0_0.NO_OWNER
+	return tostring(slot0) ~= uv0.NO_OWNER
 end
 
-function var_0_0.InitTeam(arg_3_0, arg_3_1)
-	arg_3_0.teamRawData_ = arg_3_0:CreateTeamRawData(arg_3_1)
+function slot0.InitTeam(slot0, slot1)
+	slot0.teamRawData_ = slot0:CreateTeamRawData(slot1)
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		local var_3_0 = iter_3_1.stage_type
-		local var_3_1 = iter_3_1.activity_id or 0
-		local var_3_2 = GetHeroTeamActivityID(var_3_0, var_3_1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = slot6.stage_type
+		slot0.battleTeam_[slot7] = slot0.battleTeam_[slot7] or {}
+		slot0.battleTeam_[slot7][GetHeroTeamActivityID(slot7, slot6.activity_id or 0)] = {}
+		slot10 = {}
 
-		arg_3_0.battleTeam_[var_3_0] = arg_3_0.battleTeam_[var_3_0] or {}
-		arg_3_0.battleTeam_[var_3_0][var_3_2] = {}
-
-		local var_3_3 = {}
-
-		for iter_3_2, iter_3_3 in ipairs(iter_3_1.cont_teams or {}) do
-			local var_3_4 = {
+		for slot14, slot15 in ipairs(slot6.cont_teams or {}) do
+			slot16 = {
 				teams = {},
-				cont_id = iter_3_3.cont_id
+				cont_id = slot15.cont_id
 			}
-			local var_3_5 = cleanProtoTable(iter_3_3.teams)
+			slot17 = cleanProtoTable(slot15.teams)
 
-			for iter_3_4, iter_3_5 in ipairs(iter_3_3.teams or {}) do
-				local var_3_6 = {
-					id = iter_3_5.id,
-					result = iter_3_5.result
+			for slot21, slot22 in ipairs(slot15.teams or {}) do
+				slot23 = {
+					id = slot22.id,
+					result = slot22.result
 				}
-				local var_3_7 = {}
-				local var_3_8 = {}
-				local var_3_9 = {}
+				slot24 = {
+					[slot30] = slot31.hero_id
+				}
+				slot25 = {
+					[slot30] = 0
+				}
+				slot26 = {
+					[slot30] = clone(uv0.EMPTY_ENTRY)
+				}
 
-				for iter_3_6, iter_3_7 in ipairs(iter_3_5.hero_list or {}) do
-					if iter_3_7.hero_type == 1 or iter_3_7.hero_id == 0 then
-						var_3_7[iter_3_6] = iter_3_7.hero_id
-						var_3_8[iter_3_6] = 0
-						var_3_9[iter_3_6] = clone(var_0_0.EMPTY_ENTRY)
-					elseif iter_3_7.hero_type == 2 then
-						var_3_7[iter_3_6] = HeroStandardSystemCfg[iter_3_7.hero_id].hero_id
-						var_3_8[iter_3_6] = iter_3_7.hero_id
-						var_3_9[iter_3_6] = clone(var_0_0.EMPTY_ENTRY)
+				for slot30, slot31 in ipairs(slot22.hero_list or {}) do
+					if slot31.hero_type == 1 or slot31.hero_id == 0 then
+						-- Nothing
+					elseif slot31.hero_type == 2 then
+						slot24[slot30] = HeroStandardSystemCfg[slot31.hero_id].hero_id
+						slot25[slot30] = slot31.hero_id
+						slot26[slot30] = clone(uv0.EMPTY_ENTRY)
 					else
-						var_3_7[iter_3_6] = 0
-						var_3_8[iter_3_6] = 0
-						var_3_9[iter_3_6] = {
-							hero_id = iter_3_7.hero_id,
-							owner_id = iter_3_7.owner_id
+						slot24[slot30] = 0
+						slot25[slot30] = 0
+						slot26[slot30] = {
+							hero_id = slot31.hero_id,
+							owner_id = slot31.owner_id
 						}
 					end
 				end
 
-				for iter_3_8 = 1, 3 do
-					var_3_7[iter_3_8] = var_3_7[iter_3_8] or 0
-					var_3_8[iter_3_8] = var_3_8[iter_3_8] or 0
-					var_3_9[iter_3_8] = var_3_9[iter_3_8] or clone(var_0_0.EMPTY_ENTRY)
+				for slot30 = 1, 3 do
+					slot24[slot30] = slot24[slot30] or 0
+					slot25[slot30] = slot25[slot30] or 0
+					slot26[slot30] = slot26[slot30] or clone(uv0.EMPTY_ENTRY)
 				end
 
-				var_3_6.singleTeam = var_3_7
-				var_3_6.heroTrialList = var_3_8
-				var_3_6.heroAssistList = var_3_9
-				var_3_6.combo = iter_3_5.cooperate_unique_skill_id
-				var_3_6.mimir = {
-					id = iter_3_5.mimir_info.mimir_id,
-					chip = cleanProtoTable(iter_3_5.mimir_info.chip_list or {})
+				slot23.singleTeam = slot24
+				slot23.heroTrialList = slot25
+				slot23.heroAssistList = slot26
+				slot23.combo = slot22.cooperate_unique_skill_id
+				slot23.mimir = {
+					id = slot22.mimir_info.mimir_id,
+					chip = cleanProtoTable(slot22.mimir_info.chip_list or {})
 				}
 
-				table.insert(var_3_4.teams, var_3_6)
+				table.insert(slot16.teams, slot23)
 			end
 
-			table.insert(var_3_3, var_3_4)
+			table.insert(slot10, slot16)
 		end
 
-		local var_3_10 = {
-			chess_data_info_1 = {},
-			chess_data_info_2 = {}
-		}
-
-		for iter_3_9, iter_3_10 in ipairs(iter_3_1.data.chess_data_info_1) do
-			local var_3_11 = {
-				cont_id = iter_3_10.cont_id,
-				chess_pos = cleanProtoTable(iter_3_10.chess_pos)
-			}
-
-			table.insert(var_3_10.chess_data_info_1, var_3_11)
+		for slot15, slot16 in ipairs(slot6.data.chess_data_info_1) do
+			table.insert(({
+				chess_data_info_1 = {},
+				chess_data_info_2 = {}
+			}).chess_data_info_1, {
+				cont_id = slot16.cont_id,
+				chess_pos = cleanProtoTable(slot16.chess_pos)
+			})
 		end
 
-		for iter_3_11, iter_3_12 in ipairs(iter_3_1.data.chess_data_info_2) do
-			local var_3_12 = {
-				cont_id = iter_3_12.cont_id,
-				team_id = iter_3_12.team_id,
-				chess_ai_chip_list = cleanProtoTable(iter_3_12.chess_ai_chip_list)
-			}
-
-			table.insert(var_3_10.chess_data_info_2, var_3_12)
+		for slot15, slot16 in ipairs(slot6.data.chess_data_info_2) do
+			table.insert(slot11.chess_data_info_2, {
+				cont_id = slot16.cont_id,
+				team_id = slot16.team_id,
+				chess_ai_chip_list = cleanProtoTable(slot16.chess_ai_chip_list)
+			})
 		end
 
-		arg_3_0.battleTeam_[var_3_0][var_3_2].cont_teams = var_3_3
-		arg_3_0.battleTeam_[var_3_0][var_3_2].data = var_3_10
+		slot0.battleTeam_[slot7][slot9].cont_teams = slot10
+		slot0.battleTeam_[slot7][slot9].data = slot11
 	end
 end
 
-function var_0_0.CreateTeamRawData(arg_4_0, arg_4_1)
-	local var_4_0 = {}
+function slot0.CreateTeamRawData(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1) do
+		slot8 = {}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1) do
-		var_4_0[iter_4_1.stage_type] = {}
-
-		local var_4_1 = {}
-
-		if iter_4_1.cont_teams[1] and iter_4_1.cont_teams[1].teams[1] then
-			var_4_1 = iter_4_1.cont_teams[1].teams[1].hero_list or {}
+		if slot7.cont_teams[1] and slot7.cont_teams[1].teams[1] then
+			slot8 = slot7.cont_teams[1].teams[1].hero_list or {}
 		end
 
-		for iter_4_2, iter_4_3 in ipairs(var_4_1) do
-			table.insert(var_4_0[iter_4_1.stage_type], {
-				hero_id = iter_4_3.hero_id,
-				owner_id = iter_4_3.owner_id,
-				hero_type = iter_4_3.hero_type
+		for slot12, slot13 in ipairs(slot8) do
+			table.insert(slot2[slot7.stage_type], {
+				hero_id = slot13.hero_id,
+				owner_id = slot13.owner_id,
+				hero_type = slot13.hero_type
 			})
 		end
 	end
 
-	return var_4_0
+	return {
+		[slot7.stage_type] = {}
+	}
 end
 
-function var_0_0.InitReservesTeam(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_1.formation_list or {}
+function slot0.InitReservesTeam(slot0, slot1)
+	slot2 = slot1.formation_list or {}
 
-	for iter_5_0 = 1, 10 do
-		arg_5_0.reservesTeamList_[iter_5_0] = {
+	for slot6 = 1, 10 do
+		slot0.reservesTeamList_[slot6] = {
 			comboSkill = 0,
 			name = "",
-			index = iter_5_0,
+			index = slot6,
 			hero_list = {
 				0,
 				0,
@@ -168,87 +160,89 @@ function var_0_0.InitReservesTeam(arg_5_0, arg_5_1)
 		}
 	end
 
-	for iter_5_1, iter_5_2 in ipairs(var_5_0 or {}) do
-		local var_5_1 = iter_5_2.id
-		local var_5_2 = {
+	for slot6, slot7 in ipairs(slot2 or {}) do
+		slot8 = slot7.id
+		slot9 = {
 			0,
 			0,
-			0
+			0,
+			[slot13] = slot14
 		}
 
-		for iter_5_3, iter_5_4 in ipairs(iter_5_2.hero_list or {}) do
-			var_5_2[iter_5_3] = iter_5_4
+		for slot13, slot14 in ipairs(slot7.hero_list or {}) do
+			-- Nothing
 		end
 
-		local var_5_3 = {}
-		local var_5_4 = iter_5_2.mimir_info[1] or {}
+		slot10 = {}
 
-		for iter_5_5, iter_5_6 in ipairs(var_5_4.chip_list or {}) do
-			table.insert(var_5_3, iter_5_6)
+		for slot15, slot16 in ipairs((slot7.mimir_info[1] or {}).chip_list or {}) do
+			table.insert(slot10, slot16)
 		end
 
-		arg_5_0.reservesTeamList_[var_5_1] = {
-			index = var_5_1,
-			name = iter_5_2.name,
-			hero_list = var_5_2,
-			comboSkill = iter_5_2.cooperate_unique_skill_id or 0,
+		slot0.reservesTeamList_[slot8] = {
+			index = slot8,
+			name = slot7.name,
+			hero_list = slot9,
+			comboSkill = slot7.cooperate_unique_skill_id or 0,
 			chipInfo = {
-				id = var_5_4.mimir_id or 0,
-				list = var_5_3 or {}
+				id = slot11.mimir_id or 0,
+				list = slot10 or {}
 			}
 		}
 	end
 end
 
-function var_0_0.SetStageTeam(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	arg_6_0.stageTeam_[arg_6_1] = arg_6_2
-	arg_6_0.stageTeamTrial_[arg_6_1] = arg_6_3
+function slot0.SetStageTeam(slot0, slot1, slot2, slot3)
+	slot0.stageTeam_[slot1] = slot2
+	slot0.stageTeamTrial_[slot1] = slot3
 end
 
-function var_0_0.GetStageTeam(arg_7_0, arg_7_1)
-	return clone(arg_7_0.stageTeam_[arg_7_1]), clone(arg_7_0.stageTeamTrial_[arg_7_1])
+function slot0.GetStageTeam(slot0, slot1)
+	return clone(slot0.stageTeam_[slot1]), clone(slot0.stageTeamTrial_[slot1])
 end
 
-function var_0_0.SetSingleTeam(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5, arg_8_6, arg_8_7, arg_8_8)
-	local var_8_0 = GetHeroTeamActivityID(arg_8_1, arg_8_2)
-	local var_8_1 = arg_8_5 or BattleTeamData:GetComboInfo(arg_8_1, arg_8_2, arg_8_7, arg_8_8)
-	local var_8_2 = {}
+function slot0.SetSingleTeam(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8)
+	slot9 = GetHeroTeamActivityID(slot1, slot2)
+	slot10 = slot5 or BattleTeamData:GetComboInfo(slot1, slot2, slot7, slot8)
+	slot11 = {
+		id = BattleTeamData:GetMimirInfo(slot1, slot2, slot7, slot8)
+	}
 
-	if not arg_8_6 then
-		var_8_2.id, var_8_2.chip = BattleTeamData:GetMimirInfo(arg_8_1, arg_8_2, arg_8_7, arg_8_8)
+	if not slot6 then
+		-- Nothing
 	else
-		var_8_2.id = arg_8_6.id or 0
-		var_8_2.chip = arg_8_6.chip or {}
+		slot11.id = slot6.id or 0
+		slot11.chip = slot6.chip or {}
 	end
 
-	arg_8_0:CreatBaseTeamInfo(arg_8_1, var_8_0, arg_8_7, arg_8_8)
+	slot0:CreatBaseTeamInfo(slot1, slot9, slot7, slot8)
 
-	local var_8_3 = {}
+	slot12 = {}
 
-	if not arg_8_7 or arg_8_7 == 0 then
-		if not arg_8_8 or arg_8_8 == 0 then
-			var_8_3 = arg_8_0.battleTeam_[arg_8_1][var_8_0].cont_teams[1].teams[1]
+	if not slot7 or slot7 == 0 then
+		if not slot8 or slot8 == 0 then
+			slot12 = slot0.battleTeam_[slot1][slot9].cont_teams[1].teams[1]
 		else
-			for iter_8_0, iter_8_1 in ipairs(arg_8_0.battleTeam_[arg_8_1][var_8_0].cont_teams[1].teams) do
-				if iter_8_1.id == arg_8_8 then
-					var_8_3 = iter_8_1
+			for slot16, slot17 in ipairs(slot0.battleTeam_[slot1][slot9].cont_teams[1].teams) do
+				if slot17.id == slot8 then
+					slot12 = slot17
 
 					break
 				end
 			end
 		end
 	else
-		for iter_8_2, iter_8_3 in ipairs(arg_8_0.battleTeam_[arg_8_1][var_8_0].cont_teams) do
-			if iter_8_3.cont_id == arg_8_7 then
-				if not arg_8_8 or arg_8_8 == 0 then
-					var_8_3 = iter_8_3.teams[1]
+		for slot16, slot17 in ipairs(slot0.battleTeam_[slot1][slot9].cont_teams) do
+			if slot17.cont_id == slot7 then
+				if not slot8 or slot8 == 0 then
+					slot12 = slot17.teams[1]
 
 					break
 				end
 
-				for iter_8_4, iter_8_5 in ipairs(iter_8_3.teams) do
-					if iter_8_5.id == arg_8_8 then
-						var_8_3 = iter_8_5
+				for slot21, slot22 in ipairs(slot17.teams) do
+					if slot22.id == slot8 then
+						slot12 = slot22
 
 						break
 					end
@@ -259,55 +253,53 @@ function var_0_0.SetSingleTeam(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_
 		end
 	end
 
-	var_8_3.singleTeam = deepClone(arg_8_3)
-	var_8_3.heroTrialList = deepClone(arg_8_4)
-	var_8_3.combo = var_8_1
-	var_8_3.mimir = var_8_2
+	slot12.singleTeam = deepClone(slot3)
+	slot12.heroTrialList = deepClone(slot4)
+	slot12.combo = slot10
+	slot12.mimir = slot11
 end
 
-function var_0_0.CreatBaseTeamInfo(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
-	local var_9_0 = GetHeroTeamActivityID(arg_9_1, arg_9_2)
+function slot0.CreatBaseTeamInfo(slot0, slot1, slot2, slot3, slot4)
+	slot5 = GetHeroTeamActivityID(slot1, slot2)
+	slot0.battleTeam_[slot1] = slot0.battleTeam_[slot1] or {}
+	slot0.battleTeam_[slot1][slot5] = slot0.battleTeam_[slot1][slot5] or {}
+	slot0.battleTeam_[slot1][slot5].cont_teams = slot0.battleTeam_[slot1][slot5].cont_teams or {}
 
-	arg_9_0.battleTeam_[arg_9_1] = arg_9_0.battleTeam_[arg_9_1] or {}
-	arg_9_0.battleTeam_[arg_9_1][var_9_0] = arg_9_0.battleTeam_[arg_9_1][var_9_0] or {}
-	arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams = arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams or {}
-
-	if arg_9_0.battleTeam_[arg_9_1][var_9_0] and not arg_9_3 and not arg_9_4 and #arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams > 0 then
+	if slot0.battleTeam_[slot1][slot5] and not slot3 and not slot4 and #slot0.battleTeam_[slot1][slot5].cont_teams > 0 then
 		return
 	end
 
-	local var_9_1
+	slot6 = nil
 
-	if arg_9_3 then
-		for iter_9_0, iter_9_1 in ipairs(arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams) do
-			if iter_9_1.cont_id == arg_9_3 then
-				var_9_1 = iter_9_1
+	if slot3 then
+		for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot11.cont_id == slot3 then
+				slot6 = slot11
 			end
 		end
 	else
-		var_9_1 = arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams[1]
+		slot6 = slot0.battleTeam_[slot1][slot5].cont_teams[1]
 	end
 
-	var_9_1 = var_9_1 or {
+	slot6 = slot6 or {
 		teams = {},
-		cont_id = arg_9_3
+		cont_id = slot3
 	}
+	slot7 = nil
 
-	local var_9_2
-
-	if arg_9_4 then
-		for iter_9_2, iter_9_3 in ipairs(var_9_1.teams) do
-			if iter_9_3.id == arg_9_4 then
+	if slot4 then
+		for slot11, slot12 in ipairs(slot6.teams) do
+			if slot12.id == slot4 then
 				return
 			end
 		end
 	else
-		var_9_2 = var_9_1.teams[1]
+		slot7 = slot6.teams[1]
 	end
 
-	var_9_2 = var_9_2 or {
+	table.insert(slot6.teams, slot7 or {
 		combo = 0,
-		id = arg_9_4,
+		id = slot4,
 		singleTeam = {
 			0,
 			0,
@@ -319,51 +311,45 @@ function var_0_0.CreatBaseTeamInfo(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
 			0
 		},
 		heroAssistList = {
-			clone(var_0_0.EMPTY_ENTRY),
-			clone(var_0_0.EMPTY_ENTRY),
-			clone(var_0_0.EMPTY_ENTRY)
+			clone(uv0.EMPTY_ENTRY),
+			clone(uv0.EMPTY_ENTRY),
+			clone(uv0.EMPTY_ENTRY)
 		},
 		mimir = {
 			id = 0,
 			chip = {}
 		}
-	}
+	})
+	table.insert(slot0.battleTeam_[slot1][slot5].cont_teams, slot6)
 
-	table.insert(var_9_1.teams, var_9_2)
-	table.insert(arg_9_0.battleTeam_[arg_9_1][var_9_0].cont_teams, var_9_1)
-
-	local var_9_3 = {
+	slot0.battleTeam_[slot1][slot5].data = slot0.battleTeam_[slot1][slot5].data or {
 		chess_data_info_1 = {},
 		chess_data_info_2 = {}
 	}
-
-	arg_9_0.battleTeam_[arg_9_1][var_9_0].data = arg_9_0.battleTeam_[arg_9_1][var_9_0].data or var_9_3
 end
 
-function var_0_0.GetSingleTeam(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
-	local var_10_0 = GetHeroTeamActivityID(arg_10_1, arg_10_2)
+function slot0.GetSingleTeam(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_10_0:CreatBaseTeamInfo(arg_10_1, var_10_0, arg_10_3, arg_10_4)
-
-	if not arg_10_3 or arg_10_3 == 0 then
-		if not arg_10_4 or arg_10_4 == 0 then
-			return clone(arg_10_0.battleTeam_[arg_10_1][var_10_0].cont_teams[1].teams[1].singleTeam or {
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].singleTeam or {
 				0,
 				0,
 				0
-			}), clone(arg_10_0.battleTeam_[arg_10_1][var_10_0].cont_teams[1].teams[1].heroTrialList or {
+			}), clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].heroTrialList or {
 				0,
 				0,
 				0
 			})
 		else
-			for iter_10_0, iter_10_1 in ipairs(arg_10_0.battleTeam_[arg_10_1][var_10_0].cont_teams[1].teams) do
-				if iter_10_1.id == arg_10_4 then
-					return clone(iter_10_1.singleTeam or {
+			for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot10.id == slot4 then
+					return clone(slot10.singleTeam or {
 						0,
 						0,
 						0
-					}), clone(iter_10_1.heroTrialList or {
+					}), clone(slot10.heroTrialList or {
 						0,
 						0,
 						0
@@ -372,26 +358,26 @@ function var_0_0.GetSingleTeam(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
 			end
 		end
 	else
-		for iter_10_2, iter_10_3 in ipairs(arg_10_0.battleTeam_[arg_10_1][var_10_0].cont_teams) do
-			if iter_10_3.cont_id == arg_10_3 then
-				if not arg_10_4 or arg_10_4 == 0 then
-					return clone(iter_10_3.teams[1].singleTeam or {
+		for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot10.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot10.teams[1].singleTeam or {
 						0,
 						0,
 						0
-					}), clone(iter_10_3.teams[1].heroTrialList or {
+					}), clone(slot10.teams[1].heroTrialList or {
 						0,
 						0,
 						0
 					})
 				else
-					for iter_10_4, iter_10_5 in ipairs(iter_10_3.teams) do
-						if iter_10_5.id == arg_10_4 then
-							return clone(iter_10_5.singleTeam or {
+					for slot14, slot15 in ipairs(slot10.teams) do
+						if slot15.id == slot4 then
+							return clone(slot15.singleTeam or {
 								0,
 								0,
 								0
-							}), clone(iter_10_5.heroTrialList or {
+							}), clone(slot15.heroTrialList or {
 								0,
 								0,
 								0
@@ -414,38 +400,36 @@ function var_0_0.GetSingleTeam(arg_10_0, arg_10_1, arg_10_2, arg_10_3, arg_10_4)
 	}
 end
 
-function var_0_0.GetMultiTeam(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = GetHeroTeamActivityID(arg_11_1, arg_11_2)
+function slot0.GetMultiTeam(slot0, slot1, slot2)
+	slot3 = GetHeroTeamActivityID(slot1, slot2)
 
-	arg_11_0:CreatBaseTeamInfo(arg_11_1, var_11_0)
+	slot0:CreatBaseTeamInfo(slot1, slot3)
 
-	return arg_11_0.battleTeam_[arg_11_1][var_11_0]
+	return slot0.battleTeam_[slot1][slot3]
 end
 
-function var_0_0.GetMimirInfo(arg_12_0, arg_12_1, arg_12_2, arg_12_3, arg_12_4)
-	local var_12_0 = GetHeroTeamActivityID(arg_12_1, arg_12_2)
+function slot0.GetMimirInfo(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_12_0:CreatBaseTeamInfo(arg_12_1, var_12_0, arg_12_3, arg_12_4)
-
-	if not arg_12_3 or arg_12_3 == 0 then
-		if not arg_12_4 or arg_12_4 == 0 then
-			return clone(arg_12_0.battleTeam_[arg_12_1][var_12_0].cont_teams[1].teams[1].mimir.id or 0), clone(arg_12_0.battleTeam_[arg_12_1][var_12_0].cont_teams[1].teams[1].mimir.chip or {})
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].mimir.id or 0), clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].mimir.chip or {})
 		else
-			for iter_12_0, iter_12_1 in ipairs(arg_12_0.battleTeam_[arg_12_1][var_12_0].cont_teams[1].teams) do
-				if iter_12_1.id == arg_12_4 then
-					return clone(iter_12_1.mimir.id or 0), clone(iter_12_1.mimir.chip or {})
+			for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot10.id == slot4 then
+					return clone(slot10.mimir.id or 0), clone(slot10.mimir.chip or {})
 				end
 			end
 		end
 	else
-		for iter_12_2, iter_12_3 in ipairs(arg_12_0.battleTeam_[arg_12_1][var_12_0].cont_teams) do
-			if iter_12_3.cont_id == arg_12_3 then
-				if not arg_12_4 or arg_12_4 == 0 then
-					return clone(iter_12_3.teams[1].mimir.id or 0), clone(iter_12_3.teams[1].mimir.chip or {})
+		for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot10.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot10.teams[1].mimir.id or 0), clone(slot10.teams[1].mimir.chip or {})
 				else
-					for iter_12_4, iter_12_5 in ipairs(iter_12_3.teams) do
-						if iter_12_5.id == arg_12_4 then
-							return clone(iter_12_5.mimir.id or 0), clone(iter_12_5.mimir.chip or {})
+					for slot14, slot15 in ipairs(slot10.teams) do
+						if slot15.id == slot4 then
+							return clone(slot15.mimir.id or 0), clone(slot15.mimir.chip or {})
 						end
 					end
 				end
@@ -456,30 +440,28 @@ function var_0_0.GetMimirInfo(arg_12_0, arg_12_1, arg_12_2, arg_12_3, arg_12_4)
 	return 0, {}
 end
 
-function var_0_0.GetMimirIDInfo(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4)
-	local var_13_0 = GetHeroTeamActivityID(arg_13_1, arg_13_2)
+function slot0.GetMimirIDInfo(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_13_0:CreatBaseTeamInfo(arg_13_1, var_13_0, arg_13_3, arg_13_4)
-
-	if not arg_13_3 or arg_13_3 == 0 then
-		if not arg_13_4 or arg_13_4 == 0 then
-			return clone(arg_13_0.battleTeam_[arg_13_1][var_13_0].cont_teams[1].teams[1].mimir.id or 0)
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].mimir.id or 0)
 		else
-			for iter_13_0, iter_13_1 in ipairs(arg_13_0.battleTeam_[arg_13_1][var_13_0].cont_teams[1].teams) do
-				if iter_13_1.id == arg_13_4 then
-					return clone(iter_13_1.mimir.id or 0)
+			for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot10.id == slot4 then
+					return clone(slot10.mimir.id or 0)
 				end
 			end
 		end
 	else
-		for iter_13_2, iter_13_3 in ipairs(arg_13_0.battleTeam_[arg_13_1][var_13_0].cont_teams) do
-			if iter_13_3.cont_id == arg_13_3 then
-				if not arg_13_4 or arg_13_4 == 0 then
-					return clone(iter_13_3.teams[1].mimir.id or 0)
+		for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot10.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot10.teams[1].mimir.id or 0)
 				else
-					for iter_13_4, iter_13_5 in ipairs(iter_13_3.teams) do
-						if iter_13_5.id == arg_13_4 then
-							return clone(iter_13_5.mimir.id or 0)
+					for slot14, slot15 in ipairs(slot10.teams) do
+						if slot15.id == slot4 then
+							return clone(slot15.mimir.id or 0)
 						end
 					end
 				end
@@ -490,30 +472,28 @@ function var_0_0.GetMimirIDInfo(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4
 	return 0
 end
 
-function var_0_0.GetMimirChipInfo(arg_14_0, arg_14_1, arg_14_2, arg_14_3, arg_14_4)
-	local var_14_0 = GetHeroTeamActivityID(arg_14_1, arg_14_2)
+function slot0.GetMimirChipInfo(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_14_0:CreatBaseTeamInfo(arg_14_1, var_14_0, arg_14_3, arg_14_4)
-
-	if not arg_14_3 or arg_14_3 == 0 then
-		if not arg_14_4 or arg_14_4 == 0 then
-			return clone(arg_14_0.battleTeam_[arg_14_1][var_14_0].cont_teams[1].teams[1].mimir.chip or {})
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].mimir.chip or {})
 		else
-			for iter_14_0, iter_14_1 in ipairs(arg_14_0.battleTeam_[arg_14_1][var_14_0].cont_teams[1].teams) do
-				if iter_14_1.id == arg_14_4 then
-					return clone(iter_14_1.mimir.chip or {})
+			for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot10.id == slot4 then
+					return clone(slot10.mimir.chip or {})
 				end
 			end
 		end
 	else
-		for iter_14_2, iter_14_3 in ipairs(arg_14_0.battleTeam_[arg_14_1][var_14_0].cont_teams) do
-			if iter_14_3.cont_id == arg_14_3 then
-				if not arg_14_4 or arg_14_4 == 0 then
-					return clone(iter_14_3.teams[1].mimir.chip or {})
+		for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot10.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot10.teams[1].mimir.chip or {})
 				else
-					for iter_14_4, iter_14_5 in ipairs(iter_14_3.teams) do
-						if iter_14_5.id == arg_14_4 then
-							return clone(iter_14_5.mimir.chip or {})
+					for slot14, slot15 in ipairs(slot10.teams) do
+						if slot15.id == slot4 then
+							return clone(slot15.mimir.chip or {})
 						end
 					end
 				end
@@ -524,37 +504,35 @@ function var_0_0.GetMimirChipInfo(arg_14_0, arg_14_1, arg_14_2, arg_14_3, arg_14
 	return {}
 end
 
-function var_0_0.SetMimirIDInfo(arg_15_0, arg_15_1, arg_15_2, arg_15_3, arg_15_4, arg_15_5)
-	local var_15_0 = GetHeroTeamActivityID(arg_15_1, arg_15_2)
+function slot0.SetMimirIDInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot4, slot5)
 
-	arg_15_0:CreatBaseTeamInfo(arg_15_1, var_15_0, arg_15_4, arg_15_5)
+	slot7 = nil
 
-	local var_15_1
-
-	if not arg_15_4 or arg_15_4 == 0 then
-		if not arg_15_5 or arg_15_5 == 0 then
-			var_15_1 = arg_15_0.battleTeam_[arg_15_1][var_15_0].cont_teams[1].teams[1].mimir
+	if not slot4 or slot4 == 0 then
+		if not slot5 or slot5 == 0 then
+			slot7 = slot0.battleTeam_[slot1][slot6].cont_teams[1].teams[1].mimir
 		else
-			for iter_15_0, iter_15_1 in ipairs(arg_15_0.battleTeam_[arg_15_1][var_15_0].cont_teams[1].teams) do
-				if iter_15_1.id == arg_15_5 then
-					var_15_1 = iter_15_1.mimir
+			for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams[1].teams) do
+				if slot12.id == slot5 then
+					slot7 = slot12.mimir
 
 					break
 				end
 			end
 		end
 	else
-		for iter_15_2, iter_15_3 in ipairs(arg_15_0.battleTeam_[arg_15_1][var_15_0].cont_teams) do
-			if iter_15_3.cont_id == arg_15_4 then
-				if not arg_15_5 or arg_15_5 == 0 then
-					var_15_1 = iter_15_3.teams[1].mimir
+		for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams) do
+			if slot12.cont_id == slot4 then
+				if not slot5 or slot5 == 0 then
+					slot7 = slot12.teams[1].mimir
 
 					break
 				end
 
-				for iter_15_4, iter_15_5 in ipairs(iter_15_3.teams) do
-					if iter_15_5.id == arg_15_5 then
-						var_15_1 = iter_15_5.mimir
+				for slot16, slot17 in ipairs(slot12.teams) do
+					if slot17.id == slot5 then
+						slot7 = slot17.mimir
 
 						break
 					end
@@ -565,44 +543,42 @@ function var_0_0.SetMimirIDInfo(arg_15_0, arg_15_1, arg_15_2, arg_15_3, arg_15_4
 		end
 	end
 
-	if var_15_1 then
-		var_15_1.id = arg_15_3 or 0
+	if slot7 then
+		slot7.id = slot3 or 0
 
-		if not var_15_1 or arg_15_3 == 0 then
-			var_15_1.chip = arg_15_0:GetMimirChipInfo(arg_15_1, arg_15_2, arg_15_4, arg_15_5)
+		if not slot7 or slot3 == 0 then
+			slot7.chip = slot0:GetMimirChipInfo(slot1, slot2, slot4, slot5)
 		end
 	end
 end
 
-function var_0_0.SetMimirChipInfo(arg_16_0, arg_16_1, arg_16_2, arg_16_3, arg_16_4, arg_16_5)
-	local var_16_0 = GetHeroTeamActivityID(arg_16_1, arg_16_2)
+function slot0.SetMimirChipInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot4, slot5)
 
-	arg_16_0:CreatBaseTeamInfo(arg_16_1, var_16_0, arg_16_4, arg_16_5)
-
-	if not arg_16_4 or arg_16_4 == 0 then
-		if not arg_16_5 or arg_16_5 == 0 then
-			arg_16_0.battleTeam_[arg_16_1][var_16_0].cont_teams[1].teams[1].mimir.chip = clone(arg_16_3 or {})
+	if not slot4 or slot4 == 0 then
+		if not slot5 or slot5 == 0 then
+			slot0.battleTeam_[slot1][slot6].cont_teams[1].teams[1].mimir.chip = clone(slot3 or {})
 		else
-			for iter_16_0, iter_16_1 in ipairs(arg_16_0.battleTeam_[arg_16_1][var_16_0].cont_teams[1].teams) do
-				if iter_16_1.id == arg_16_5 then
-					iter_16_1.mimir.chip = clone(arg_16_3 or {})
+			for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams[1].teams) do
+				if slot11.id == slot5 then
+					slot11.mimir.chip = clone(slot3 or {})
 
 					break
 				end
 			end
 		end
 	else
-		for iter_16_2, iter_16_3 in ipairs(arg_16_0.battleTeam_[arg_16_1][var_16_0].cont_teams) do
-			if iter_16_3.cont_id == arg_16_4 then
-				if not arg_16_5 or arg_16_5 == 0 then
-					iter_16_3.teams[1].mimir.chip = clone(arg_16_3 or {})
+		for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams) do
+			if slot11.cont_id == slot4 then
+				if not slot5 or slot5 == 0 then
+					slot11.teams[1].mimir.chip = clone(slot3 or {})
 
 					break
 				end
 
-				for iter_16_4, iter_16_5 in ipairs(iter_16_3.teams) do
-					if iter_16_5.id == arg_16_5 then
-						iter_16_5.mimir.chip = clone(arg_16_3 or {})
+				for slot15, slot16 in ipairs(slot11.teams) do
+					if slot16.id == slot5 then
+						slot16.mimir.chip = clone(slot3 or {})
 
 						break
 					end
@@ -614,36 +590,35 @@ function var_0_0.SetMimirChipInfo(arg_16_0, arg_16_1, arg_16_2, arg_16_3, arg_16
 	end
 end
 
-function var_0_0.InsertMimirChipInfo(arg_17_0, arg_17_1, arg_17_2, arg_17_3, arg_17_4, arg_17_5)
-	local var_17_0 = GetHeroTeamActivityID(arg_17_1, arg_17_2)
-	local var_17_1 = {}
+function slot0.InsertMimirChipInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot7 = {}
 
-	arg_17_0:CreatBaseTeamInfo(arg_17_1, var_17_0, arg_17_4, arg_17_5)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot4, slot5)
 
-	if not arg_17_4 or arg_17_4 == 0 then
-		if not arg_17_5 or arg_17_5 == 0 then
-			var_17_1 = arg_17_0.battleTeam_[arg_17_1][var_17_0].cont_teams[1].teams[1].mimir.chip
+	if not slot4 or slot4 == 0 then
+		if not slot5 or slot5 == 0 then
+			slot7 = slot0.battleTeam_[slot1][slot6].cont_teams[1].teams[1].mimir.chip
 		else
-			for iter_17_0, iter_17_1 in ipairs(arg_17_0.battleTeam_[arg_17_1][var_17_0].cont_teams[1].teams) do
-				if iter_17_1.id == arg_17_5 then
-					var_17_1 = iter_17_1.mimir.chip
+			for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams[1].teams) do
+				if slot12.id == slot5 then
+					slot7 = slot12.mimir.chip
 
 					break
 				end
 			end
 		end
 	else
-		for iter_17_2, iter_17_3 in ipairs(arg_17_0.battleTeam_[arg_17_1][var_17_0].cont_teams) do
-			if iter_17_3.cont_id == arg_17_4 then
-				if not arg_17_5 or arg_17_5 == 0 then
-					var_17_1 = iter_17_3.teams[1].mimir.chip
+		for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams) do
+			if slot12.cont_id == slot4 then
+				if not slot5 or slot5 == 0 then
+					slot7 = slot12.teams[1].mimir.chip
 
 					break
 				end
 
-				for iter_17_4, iter_17_5 in ipairs(iter_17_3.teams) do
-					if iter_17_5.id == arg_17_5 then
-						var_17_1 = iter_17_5.mimir.chip
+				for slot16, slot17 in ipairs(slot12.teams) do
+					if slot17.id == slot5 then
+						slot7 = slot17.mimir.chip
 
 						break
 					end
@@ -654,39 +629,38 @@ function var_0_0.InsertMimirChipInfo(arg_17_0, arg_17_1, arg_17_2, arg_17_3, arg
 		end
 	end
 
-	ChipTools.InsertChip(var_17_1, arg_17_3)
+	ChipTools.InsertChip(slot7, slot3)
 end
 
-function var_0_0.RemoveMimirChipInfo(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg_18_4, arg_18_5)
-	local var_18_0 = GetHeroTeamActivityID(arg_18_1, arg_18_2)
-	local var_18_1 = {}
+function slot0.RemoveMimirChipInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot7 = {}
 
-	arg_18_0:CreatBaseTeamInfo(arg_18_1, var_18_0, arg_18_4, arg_18_5)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot4, slot5)
 
-	if not arg_18_4 or arg_18_4 == 0 then
-		if not arg_18_5 or arg_18_5 == 0 then
-			var_18_1 = arg_18_0.battleTeam_[arg_18_1][var_18_0].cont_teams[1].teams[1].mimir.chip
+	if not slot4 or slot4 == 0 then
+		if not slot5 or slot5 == 0 then
+			slot7 = slot0.battleTeam_[slot1][slot6].cont_teams[1].teams[1].mimir.chip
 		else
-			for iter_18_0, iter_18_1 in ipairs(arg_18_0.battleTeam_[arg_18_1][var_18_0].cont_teams[1].teams) do
-				if iter_18_1.id == arg_18_5 then
-					var_18_1 = iter_18_1.mimir.chip
+			for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams[1].teams) do
+				if slot12.id == slot5 then
+					slot7 = slot12.mimir.chip
 
 					break
 				end
 			end
 		end
 	else
-		for iter_18_2, iter_18_3 in ipairs(arg_18_0.battleTeam_[arg_18_1][var_18_0].cont_teams) do
-			if iter_18_3.cont_id == arg_18_4 then
-				if not arg_18_5 or arg_18_5 == 0 then
-					var_18_1 = iter_18_3.teams[1].mimir.chip
+		for slot11, slot12 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams) do
+			if slot12.cont_id == slot4 then
+				if not slot5 or slot5 == 0 then
+					slot7 = slot12.teams[1].mimir.chip
 
 					break
 				end
 
-				for iter_18_4, iter_18_5 in ipairs(iter_18_3.teams) do
-					if iter_18_5.id == arg_18_5 then
-						var_18_1 = iter_18_5.mimir.chip
+				for slot16, slot17 in ipairs(slot12.teams) do
+					if slot17.id == slot5 then
+						slot7 = slot17.mimir.chip
 
 						break
 					end
@@ -697,33 +671,31 @@ function var_0_0.RemoveMimirChipInfo(arg_18_0, arg_18_1, arg_18_2, arg_18_3, arg
 		end
 	end
 
-	ChipTools.RemoveChip(var_18_1, arg_18_3)
+	ChipTools.RemoveChip(slot7, slot3)
 end
 
-function var_0_0.GetComboInfo(arg_19_0, arg_19_1, arg_19_2, arg_19_3, arg_19_4)
-	local var_19_0 = GetHeroTeamActivityID(arg_19_1, arg_19_2)
+function slot0.GetComboInfo(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_19_0:CreatBaseTeamInfo(arg_19_1, var_19_0, arg_19_3, arg_19_4)
-
-	if not arg_19_3 or arg_19_3 == 0 then
-		if not arg_19_4 or arg_19_4 == 0 then
-			return clone(arg_19_0.battleTeam_[arg_19_1][var_19_0].cont_teams[1].teams[1].combo or 0)
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].combo or 0)
 		else
-			for iter_19_0, iter_19_1 in ipairs(arg_19_0.battleTeam_[arg_19_1][var_19_0].cont_teams[1].teams) do
-				if iter_19_1.id == arg_19_4 then
-					return clone(iter_19_1.combo or 0)
+			for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot10.id == slot4 then
+					return clone(slot10.combo or 0)
 				end
 			end
 		end
 	else
-		for iter_19_2, iter_19_3 in ipairs(arg_19_0.battleTeam_[arg_19_1][var_19_0].cont_teams) do
-			if iter_19_3.cont_id == arg_19_3 then
-				if not arg_19_4 or arg_19_4 == 0 then
-					return clone(iter_19_3.teams[1].combo or 0)
+		for slot9, slot10 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot10.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot10.teams[1].combo or 0)
 				else
-					for iter_19_4, iter_19_5 in ipairs(iter_19_3.teams) do
-						if iter_19_5.id == arg_19_4 then
-							return clone(iter_19_5.combo or 0)
+					for slot14, slot15 in ipairs(slot10.teams) do
+						if slot15.id == slot4 then
+							return clone(slot15.combo or 0)
 						end
 					end
 				end
@@ -734,35 +706,33 @@ function var_0_0.GetComboInfo(arg_19_0, arg_19_1, arg_19_2, arg_19_3, arg_19_4)
 	return 0
 end
 
-function var_0_0.SetComboInfo(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4, arg_20_5)
-	local var_20_0 = GetHeroTeamActivityID(arg_20_1, arg_20_2)
+function slot0.SetComboInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot4, slot5)
 
-	arg_20_0:CreatBaseTeamInfo(arg_20_1, var_20_0, arg_20_4, arg_20_5)
-
-	if not arg_20_4 or arg_20_4 == 0 then
-		if not arg_20_5 or arg_20_5 == 0 then
-			arg_20_0.battleTeam_[arg_20_1][var_20_0].cont_teams[1].teams[1].combo = arg_20_3
+	if not slot4 or slot4 == 0 then
+		if not slot5 or slot5 == 0 then
+			slot0.battleTeam_[slot1][slot6].cont_teams[1].teams[1].combo = slot3
 		else
-			for iter_20_0, iter_20_1 in ipairs(arg_20_0.battleTeam_[arg_20_1][var_20_0].cont_teams[1].teams) do
-				if iter_20_1.id == arg_20_5 then
-					iter_20_1.combo = arg_20_3
+			for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams[1].teams) do
+				if slot11.id == slot5 then
+					slot11.combo = slot3
 
 					break
 				end
 			end
 		end
 	else
-		for iter_20_2, iter_20_3 in ipairs(arg_20_0.battleTeam_[arg_20_1][var_20_0].cont_teams) do
-			if iter_20_3.cont_id == arg_20_4 then
-				if not arg_20_5 or arg_20_5 == 0 then
-					iter_20_3.teams[1].combo = arg_20_3
+		for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot6].cont_teams) do
+			if slot11.cont_id == slot4 then
+				if not slot5 or slot5 == 0 then
+					slot11.teams[1].combo = slot3
 
 					break
 				end
 
-				for iter_20_4, iter_20_5 in ipairs(iter_20_3.teams) do
-					if iter_20_5.id == arg_20_5 then
-						iter_20_5.combo = arg_20_3
+				for slot15, slot16 in ipairs(slot11.teams) do
+					if slot16.id == slot5 then
+						slot16.combo = slot3
 
 						break
 					end
@@ -774,42 +744,39 @@ function var_0_0.SetComboInfo(arg_20_0, arg_20_1, arg_20_2, arg_20_3, arg_20_4, 
 	end
 end
 
-function var_0_0.ReSetMythicTeamData(arg_21_0)
-	local var_21_0 = BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL
-	local var_21_1 = GetHeroTeamActivityID(var_21_0)
-
-	arg_21_0.battleTeam_[var_21_0][var_21_1].cont_teams[1].teams = {}
+function slot0.ReSetMythicTeamData(slot0)
+	slot1 = BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL
+	slot0.battleTeam_[slot1][GetHeroTeamActivityID(slot1)].cont_teams[1].teams = {}
 end
 
-function var_0_0.ResetTeamData(arg_22_0, arg_22_1, arg_22_2)
-	if arg_22_0.battleTeam_[arg_22_2] and arg_22_0.battleTeam_[arg_22_2][arg_22_1] then
-		arg_22_0.battleTeam_[arg_22_2][arg_22_1].cont_teams = {}
+function slot0.ResetTeamData(slot0, slot1, slot2)
+	if slot0.battleTeam_[slot2] and slot0.battleTeam_[slot2][slot1] then
+		slot0.battleTeam_[slot2][slot1].cont_teams = {}
 	end
 end
 
-function var_0_0.SetMultiTeamData(arg_23_0, arg_23_1, arg_23_2, arg_23_3, arg_23_4, arg_23_5, arg_23_6, arg_23_7, arg_23_8)
-	local var_23_0 = GetHeroTeamActivityID(arg_23_1, arg_23_2)
+function slot0.SetMultiTeamData(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8)
+	slot13 = GetHeroTeamActivityID(slot1, slot2)
 
-	arg_23_0:SetSingleTeam(arg_23_1, var_23_0, arg_23_3, arg_23_4, arg_23_5, arg_23_6, arg_23_7, arg_23_8)
+	slot0:SetSingleTeam(slot1, slot13, slot3, slot4, slot5, slot6, slot7, slot8)
 
-	for iter_23_0 = 1, 3 do
-		if iter_23_0 ~= arg_23_8 then
-			local var_23_1 = {}
-			local var_23_2 = {}
-			local var_23_3, var_23_4 = arg_23_0:GetSingleTeam(arg_23_1, var_23_0, arg_23_7, iter_23_0)
+	for slot13 = 1, 3 do
+		if slot13 ~= slot8 then
+			slot14 = {}
+			slot15 = {}
+			slot21 = slot13
+			slot16, slot17 = slot0:GetSingleTeam(slot1, slot9, slot7, slot21)
 
-			for iter_23_1, iter_23_2 in ipairs(var_23_3) do
-				local var_23_5 = false
+			for slot21, slot22 in ipairs(slot16) do
+				slot23 = false
 
-				if iter_23_2 ~= 0 and table.indexof(arg_23_3, iter_23_2) then
-					var_23_5 = true
+				if slot22 ~= 0 and table.indexof(slot3, slot22) then
+					slot23 = true
 
-					local var_23_6 = arg_23_0:GetComboInfo(arg_23_1, var_23_0, arg_23_7, iter_23_0)
-
-					if ComboSkillCfg[var_23_6] then
-						for iter_23_3, iter_23_4 in pairs(ComboSkillCfg[var_23_6].cooperate_role_ids) do
-							if iter_23_2 == iter_23_4 then
-								arg_23_0:SetComboInfo(arg_23_1, var_23_0, 0, arg_23_7, iter_23_0)
+					if ComboSkillCfg[slot0:GetComboInfo(slot1, slot9, slot7, slot13)] then
+						for slot28, slot29 in pairs(ComboSkillCfg[slot24].cooperate_role_ids) do
+							if slot22 == slot29 then
+								slot0:SetComboInfo(slot1, slot9, 0, slot7, slot13)
 
 								break
 							end
@@ -817,86 +784,87 @@ function var_0_0.SetMultiTeamData(arg_23_0, arg_23_1, arg_23_2, arg_23_3, arg_23
 					end
 				end
 
-				if not var_23_5 then
-					table.insert(var_23_1, iter_23_2)
-					table.insert(var_23_2, var_23_4[iter_23_1] or 0)
+				if not slot23 then
+					table.insert(slot14, slot22)
+					table.insert(slot15, slot17[slot21] or 0)
 				end
 			end
 
-			for iter_23_5 = #var_23_1 + 1, 3 do
-				var_23_1[iter_23_5] = 0
+			for slot21 = #slot14 + 1, 3 do
+				slot14[slot21] = 0
 			end
 
-			arg_23_0:SetSingleTeam(arg_23_1, var_23_0, var_23_1, var_23_2, nil, nil, arg_23_7, iter_23_0)
+			slot0:SetSingleTeam(slot1, slot9, slot14, slot15, nil, , slot7, slot13)
 		end
 	end
 end
 
-function var_0_0.SwapTeam(arg_24_0, arg_24_1, arg_24_2, arg_24_3, arg_24_4, arg_24_5)
-	local var_24_0 = arg_24_0:GetMultiTeam(arg_24_1, arg_24_2)
-	local var_24_1 = {}
+function slot0.SwapTeam(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot7 = {}
 
-	if not arg_24_3 or arg_24_3 == 0 then
-		var_24_1 = var_24_0.cont_teams[1]
+	if not slot3 or slot3 == 0 then
+		slot7 = slot0:GetMultiTeam(slot1, slot2).cont_teams[1]
 	else
-		for iter_24_0, iter_24_1 in ipairs(var_24_0.cont_teams) do
-			if iter_24_1.cont_id == arg_24_3 then
-				var_24_1 = iter_24_1
+		for slot11, slot12 in ipairs(slot6.cont_teams) do
+			if slot12.cont_id == slot3 then
+				slot7 = slot12
 
 				break
 			end
 		end
 	end
 
-	for iter_24_2, iter_24_3 in ipairs(var_24_1.teams) do
-		if iter_24_3.id == arg_24_4 then
-			iter_24_3.id = arg_24_5
-		elseif iter_24_3.id == arg_24_5 then
-			iter_24_3.id = arg_24_4
+	for slot11, slot12 in ipairs(slot7.teams) do
+		if slot12.id == slot4 then
+			slot12.id = slot5
+		elseif slot12.id == slot5 then
+			slot12.id = slot4
 		end
 	end
 end
 
-function var_0_0.SetGuildSingleTeam(arg_25_0, arg_25_1, arg_25_2, arg_25_3, arg_25_4, arg_25_5, arg_25_6, arg_25_7)
-	local var_25_0 = GetHeroTeamActivityID(arg_25_1, arg_25_2)
-	local var_25_1 = arg_25_4 or BattleTeamData:GetComboInfo(arg_25_1, arg_25_2, arg_25_6, arg_25_7)
-	local var_25_2 = {}
+function slot0.SetGuildSingleTeam(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	slot8 = GetHeroTeamActivityID(slot1, slot2)
+	slot9 = slot4 or BattleTeamData:GetComboInfo(slot1, slot2, slot6, slot7)
+	slot10 = {
+		id = BattleTeamData:GetMimirInfo(slot1, slot2, slot6, slot7)
+	}
 
-	if not arg_25_5 then
-		var_25_2.id, var_25_2.chip = BattleTeamData:GetMimirInfo(arg_25_1, arg_25_2, arg_25_6, arg_25_7)
+	if not slot5 then
+		-- Nothing
 	else
-		var_25_2.id = arg_25_5.id or 0
-		var_25_2.chip = arg_25_5.chip or {}
+		slot10.id = slot5.id or 0
+		slot10.chip = slot5.chip or {}
 	end
 
-	arg_25_0:CreatBaseTeamInfo(arg_25_1, var_25_0, arg_25_6, arg_25_7)
+	slot0:CreatBaseTeamInfo(slot1, slot8, slot6, slot7)
 
-	local var_25_3 = {}
+	slot11 = {}
 
-	if not arg_25_6 or arg_25_6 == 0 then
-		if not arg_25_7 or arg_25_7 == 0 then
-			var_25_3 = arg_25_0.battleTeam_[arg_25_1][var_25_0].cont_teams[1].teams[1]
+	if not slot6 or slot6 == 0 then
+		if not slot7 or slot7 == 0 then
+			slot11 = slot0.battleTeam_[slot1][slot8].cont_teams[1].teams[1]
 		else
-			for iter_25_0, iter_25_1 in ipairs(arg_25_0.battleTeam_[arg_25_1][var_25_0].cont_teams[1].teams) do
-				if iter_25_1.id == arg_25_7 then
-					var_25_3 = iter_25_1
+			for slot15, slot16 in ipairs(slot0.battleTeam_[slot1][slot8].cont_teams[1].teams) do
+				if slot16.id == slot7 then
+					slot11 = slot16
 
 					break
 				end
 			end
 		end
 	else
-		for iter_25_2, iter_25_3 in ipairs(arg_25_0.battleTeam_[arg_25_1][var_25_0].cont_teams) do
-			if iter_25_3.cont_id == arg_25_6 then
-				if not arg_25_7 or arg_25_7 == 0 then
-					var_25_3 = iter_25_3.teams[1]
+		for slot15, slot16 in ipairs(slot0.battleTeam_[slot1][slot8].cont_teams) do
+			if slot16.cont_id == slot6 then
+				if not slot7 or slot7 == 0 then
+					slot11 = slot16.teams[1]
 
 					break
 				end
 
-				for iter_25_4, iter_25_5 in ipairs(iter_25_3.teams) do
-					if iter_25_5.id == arg_25_7 then
-						var_25_3 = iter_25_5
+				for slot20, slot21 in ipairs(slot16.teams) do
+					if slot21.id == slot7 then
+						slot11 = slot21
 
 						break
 					end
@@ -907,104 +875,104 @@ function var_0_0.SetGuildSingleTeam(arg_25_0, arg_25_1, arg_25_2, arg_25_3, arg_
 		end
 	end
 
-	local var_25_4 = {}
-	local var_25_5 = {}
-	local var_25_6 = {}
+	slot12 = {
+		[slot18] = slot19.hero_id
+	}
+	slot13 = {
+		[slot18] = 0
+	}
+	slot14 = {
+		[slot18] = clone(uv0.EMPTY_ENTRY)
+	}
 
-	for iter_25_6, iter_25_7 in ipairs(arg_25_3 or {}) do
-		if iter_25_7.hero_type == 1 or iter_25_7.hero_id == 0 then
-			var_25_4[iter_25_6] = iter_25_7.hero_id
-			var_25_5[iter_25_6] = 0
-			var_25_6[iter_25_6] = clone(var_0_0.EMPTY_ENTRY)
-		elseif iter_25_7.hero_type == 2 then
-			var_25_4[iter_25_6] = HeroStandardSystemCfg[iter_25_7.hero_id].hero_id
-			var_25_5[iter_25_6] = iter_25_7.hero_id
-			var_25_6[iter_25_6] = clone(var_0_0.EMPTY_ENTRY)
+	for slot18, slot19 in ipairs(slot3 or {}) do
+		if slot19.hero_type == 1 or slot19.hero_id == 0 then
+			-- Nothing
+		elseif slot19.hero_type == 2 then
+			slot12[slot18] = HeroStandardSystemCfg[slot19.hero_id].hero_id
+			slot13[slot18] = slot19.hero_id
+			slot14[slot18] = clone(uv0.EMPTY_ENTRY)
 		else
-			var_25_4[iter_25_6] = 0
-			var_25_5[iter_25_6] = 0
-			var_25_6[iter_25_6] = {
-				hero_id = iter_25_7.hero_id,
-				owner_id = iter_25_7.owner_id
+			slot12[slot18] = 0
+			slot13[slot18] = 0
+			slot14[slot18] = {
+				hero_id = slot19.hero_id,
+				owner_id = slot19.owner_id
 			}
 		end
 	end
 
-	for iter_25_8 = 1, 3 do
-		var_25_4[iter_25_8] = var_25_4[iter_25_8] or 0
-		var_25_5[iter_25_8] = var_25_5[iter_25_8] or 0
-		var_25_6[iter_25_8] = var_25_6[iter_25_8] or clone(var_0_0.EMPTY_ENTRY)
+	for slot18 = 1, 3 do
+		slot12[slot18] = slot12[slot18] or 0
+		slot13[slot18] = slot13[slot18] or 0
+		slot14[slot18] = slot14[slot18] or clone(uv0.EMPTY_ENTRY)
 	end
 
-	var_25_3.singleTeam = deepClone(var_25_4)
-	var_25_3.heroTrialList = deepClone(var_25_5)
-	var_25_3.heroAssistList = deepClone(var_25_6)
-	var_25_3.combo = var_25_1
-	var_25_3.mimir = var_25_2
+	slot11.singleTeam = deepClone(slot12)
+	slot11.heroTrialList = deepClone(slot13)
+	slot11.heroAssistList = deepClone(slot14)
+	slot11.combo = slot9
+	slot11.mimir = slot10
 end
 
-function var_0_0.GetGuildSingleTeam(arg_26_0, arg_26_1, arg_26_2, arg_26_3, arg_26_4)
-	local var_26_0 = GetHeroTeamActivityID(arg_26_1, arg_26_2)
+function slot0.GetGuildSingleTeam(slot0, slot1, slot2, slot3, slot4)
+	slot0:CreatBaseTeamInfo(slot1, GetHeroTeamActivityID(slot1, slot2), slot3, slot4)
 
-	arg_26_0:CreatBaseTeamInfo(arg_26_1, var_26_0, arg_26_3, arg_26_4)
-
-	local var_26_1 = {
-		clone(var_0_0.EMPTY_ENTRY),
-		clone(var_0_0.EMPTY_ENTRY),
-		clone(var_0_0.EMPTY_ENTRY)
-	}
-
-	if not arg_26_3 or arg_26_3 == 0 then
-		if not arg_26_4 or arg_26_4 == 0 then
-			return clone(arg_26_0.battleTeam_[arg_26_1][var_26_0].cont_teams[1].teams[1].singleTeam or {
+	if not slot3 or slot3 == 0 then
+		if not slot4 or slot4 == 0 then
+			return clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].singleTeam or {
 				0,
 				0,
 				0
-			}), clone(arg_26_0.battleTeam_[arg_26_1][var_26_0].cont_teams[1].teams[1].heroTrialList or {
+			}), clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].heroTrialList or {
 				0,
 				0,
 				0
-			}), clone(arg_26_0.battleTeam_[arg_26_1][var_26_0].cont_teams[1].teams[1].heroAssistList or var_26_1)
+			}), clone(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams[1].heroAssistList or {
+				clone(uv0.EMPTY_ENTRY),
+				clone(uv0.EMPTY_ENTRY),
+				clone(uv0.EMPTY_ENTRY)
+			})
 		else
-			for iter_26_0, iter_26_1 in ipairs(arg_26_0.battleTeam_[arg_26_1][var_26_0].cont_teams[1].teams) do
-				if iter_26_1.id == arg_26_4 then
-					return clone(iter_26_1.singleTeam or {
+			for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams[1].teams) do
+				if slot11.id == slot4 then
+					return clone(slot11.singleTeam or {
 						0,
 						0,
 						0
-					}), clone(iter_26_1.heroTrialList or {
+					}), clone(slot11.heroTrialList or {
 						0,
 						0,
 						0
-					}), clone(iter_26_1.heroAssistList or var_26_1)
+					}), clone(slot11.heroAssistList or slot6)
 				end
 			end
 		end
 	else
-		for iter_26_2, iter_26_3 in ipairs(arg_26_0.battleTeam_[arg_26_1][var_26_0].cont_teams) do
-			if iter_26_3.cont_id == arg_26_3 then
-				if not arg_26_4 or arg_26_4 == 0 then
-					return clone(iter_26_3.teams[1].singleTeam or {
+		for slot10, slot11 in ipairs(slot0.battleTeam_[slot1][slot5].cont_teams) do
+			if slot11.cont_id == slot3 then
+				if not slot4 or slot4 == 0 then
+					return clone(slot11.teams[1].singleTeam or {
 						0,
 						0,
 						0
-					}), clone(iter_26_3.teams[1].heroTrialList or {
+					}), clone(slot11.teams[1].heroTrialList or {
 						0,
 						0,
 						0
-					}), clone(iter_26_3.teams[1].heroAssistList or var_26_1)
+					}), clone(slot11.teams[1].heroAssistList or slot6)
 				else
-					for iter_26_4, iter_26_5 in ipairs(iter_26_3.teams) do
-						if iter_26_5.id == arg_26_4 then
-							return clone(iter_26_5.singleTeam or {
+					for slot15, slot16 in ipairs(slot11.teams) do
+						if slot16.id == slot4 then
+							return clone(slot16.singleTeam or {
 								0,
 								0,
 								0
-							}), clone(iter_26_5.heroTrialList or {
+							}), clone(slot16.heroTrialList or {
 								0,
 								0,
 								0
-							}), clone(iter_26_5.heroAssistList or var_26_1)
+							}), clone(slot16.heroAssistList or slot6)
 						end
 					end
 				end
@@ -1020,54 +988,54 @@ function var_0_0.GetGuildSingleTeam(arg_26_0, arg_26_1, arg_26_2, arg_26_3, arg_
 		0,
 		0,
 		0
-	}, var_26_1
+	}, slot6
 end
 
-function var_0_0.UpdateHeroTrial(arg_27_0, arg_27_1)
-	for iter_27_0, iter_27_1 in ipairs(arg_27_1.hero_trial_list) do
-		arg_27_0.trialActivityData_[iter_27_1.activity_id] = {}
+function slot0.UpdateHeroTrial(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.hero_trial_list) do
+		slot0.trialActivityData_[slot6.activity_id] = {}
 
-		for iter_27_2, iter_27_3 in ipairs(iter_27_1.template_hero_list) do
-			table.insert(arg_27_0.trialActivityData_[iter_27_1.activity_id], iter_27_3)
+		for slot10, slot11 in ipairs(slot6.template_hero_list) do
+			table.insert(slot0.trialActivityData_[slot6.activity_id], slot11)
 		end
 	end
 end
 
-function var_0_0.GetHeroTrial(arg_28_0, arg_28_1)
-	if ActivityTools.GetActivityType(arg_28_1) == ActivityTemplateConst.SURVIVE_SOLO_LEVEL then
-		return ActivitySoloSlayerCfg[arg_28_1].hero_standard_system_id_list
+function slot0.GetHeroTrial(slot0, slot1)
+	if ActivityTools.GetActivityType(slot1) == ActivityTemplateConst.SURVIVE_SOLO_LEVEL then
+		return ActivitySoloSlayerCfg[slot1].hero_standard_system_id_list
 	end
 
-	return arg_28_0.trialActivityData_[arg_28_1]
+	return slot0.trialActivityData_[slot1]
 end
 
-function var_0_0.SetHeroTrial(arg_29_0, arg_29_1, arg_29_2)
-	arg_29_0.trialActivityData_[arg_29_1] = arg_29_2
+function slot0.SetHeroTrial(slot0, slot1, slot2)
+	slot0.trialActivityData_[slot1] = slot2
 end
 
-function var_0_0.SetTeamRawData(arg_30_0, arg_30_1, arg_30_2)
-	arg_30_0.teamRawData_[arg_30_1] = arg_30_2
+function slot0.SetTeamRawData(slot0, slot1, slot2)
+	slot0.teamRawData_[slot1] = slot2
 end
 
-function var_0_0.GetTeamRawDataByType(arg_31_0, arg_31_1)
-	if not arg_31_0.teamRawData_ then
+function slot0.GetTeamRawDataByType(slot0, slot1)
+	if not slot0.teamRawData_ then
 		return nil
 	end
 
-	return arg_31_0.teamRawData_[arg_31_1]
+	return slot0.teamRawData_[slot1]
 end
 
-function var_0_0.GetTeamRawData(arg_32_0)
-	return arg_32_0.teamRawData_
+function slot0.GetTeamRawData(slot0)
+	return slot0.teamRawData_
 end
 
-function var_0_0.GetReservesTeamList(arg_33_0)
-	return arg_33_0.reservesTeamList_
+function slot0.GetReservesTeamList(slot0)
+	return slot0.reservesTeamList_
 end
 
-function var_0_0.GetReservesTeam(arg_34_0, arg_34_1)
-	if arg_34_0.reservesTeamList_[arg_34_1] then
-		return deepClone(arg_34_0.reservesTeamList_[arg_34_1].hero_list)
+function slot0.GetReservesTeam(slot0, slot1)
+	if slot0.reservesTeamList_[slot1] then
+		return deepClone(slot0.reservesTeamList_[slot1].hero_list)
 	end
 
 	return {
@@ -1077,91 +1045,83 @@ function var_0_0.GetReservesTeam(arg_34_0, arg_34_1)
 	}
 end
 
-function var_0_0.SetReservesTeam(arg_35_0, arg_35_1)
-	for iter_35_0, iter_35_1 in ipairs(arg_35_1) do
-		local var_35_0 = iter_35_1.id
-
-		arg_35_0.reservesTeamList_[var_35_0].name = iter_35_1.name
-		arg_35_0.reservesTeamList_[var_35_0].hero_list = deepClone(iter_35_1.hero_list)
-		arg_35_0.reservesTeamList_[var_35_0].comboSkill = iter_35_1.cooperate_unique_skill_id
-		arg_35_0.reservesTeamList_[var_35_0].chipInfo = {
-			id = iter_35_1.mimir_info[1].mimir_id,
-			list = deepClone(iter_35_1.mimir_info[1].chip_list)
+function slot0.SetReservesTeam(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = slot6.id
+		slot0.reservesTeamList_[slot7].name = slot6.name
+		slot0.reservesTeamList_[slot7].hero_list = deepClone(slot6.hero_list)
+		slot0.reservesTeamList_[slot7].comboSkill = slot6.cooperate_unique_skill_id
+		slot0.reservesTeamList_[slot7].chipInfo = {
+			id = slot6.mimir_info[1].mimir_id,
+			list = deepClone(slot6.mimir_info[1].chip_list)
 		}
-		arg_35_0.reservesTempTeamList_[var_35_0].name = iter_35_1.name
-		arg_35_0.reservesTempTeamList_[var_35_0].hero_list = deepClone(iter_35_1.hero_list)
-		arg_35_0.reservesTempTeamList_[var_35_0].comboSkill = iter_35_1.cooperate_unique_skill_id
-		arg_35_0.reservesTempTeamList_[var_35_0].chipInfo = {
-			id = iter_35_1.mimir_info[1].mimir_id,
-			list = deepClone(iter_35_1.mimir_info[1].chip_list)
+		slot0.reservesTempTeamList_[slot7].name = slot6.name
+		slot0.reservesTempTeamList_[slot7].hero_list = deepClone(slot6.hero_list)
+		slot0.reservesTempTeamList_[slot7].comboSkill = slot6.cooperate_unique_skill_id
+		slot0.reservesTempTeamList_[slot7].chipInfo = {
+			id = slot6.mimir_info[1].mimir_id,
+			list = deepClone(slot6.mimir_info[1].chip_list)
 		}
 	end
 end
 
-function var_0_0.InitTempList(arg_36_0)
-	arg_36_0.reservesTempTeamList_ = {}
-	arg_36_0.reservesTempTeamList_ = deepClone(arg_36_0.reservesTeamList_)
+function slot0.InitTempList(slot0)
+	slot0.reservesTempTeamList_ = {}
+	slot0.reservesTempTeamList_ = deepClone(slot0.reservesTeamList_)
 
-	return arg_36_0.reservesTempTeamList_
+	return slot0.reservesTempTeamList_
 end
 
-function var_0_0.SetCurTeam(arg_37_0, arg_37_1, arg_37_2, arg_37_3)
-	local var_37_0 = 0
+function slot0.SetCurTeam(slot0, slot1, slot2, slot3)
+	slot4 = 0
 
-	for iter_37_0, iter_37_1 in ipairs(arg_37_0.reservesTempTeamList_) do
-		if iter_37_1.hero_list[1] == 0 then
-			iter_37_1.name = ""
-			iter_37_1.hero_list = deepClone(arg_37_1)
-			iter_37_1.comboSkill = arg_37_2
-			iter_37_1.chipInfo = {
-				id = arg_37_3.enabledID,
-				list = deepClone(arg_37_3.chipList)
+	for slot8, slot9 in ipairs(slot0.reservesTempTeamList_) do
+		if slot9.hero_list[1] == 0 then
+			slot9.name = ""
+			slot9.hero_list = deepClone(slot1)
+			slot9.comboSkill = slot2
+			slot9.chipInfo = {
+				id = slot3.enabledID,
+				list = deepClone(slot3.chipList)
 			}
-			var_37_0 = iter_37_0
 
-			return var_37_0
+			return slot8
 		end
 	end
 
-	return var_37_0
+	return slot4
 end
 
-function var_0_0.GetReservesTempTeamList(arg_38_0)
-	return arg_38_0.reservesTempTeamList_
+function slot0.GetReservesTempTeamList(slot0)
+	return slot0.reservesTempTeamList_
 end
 
-function var_0_0.SetReservesTempTeamList(arg_39_0, arg_39_1, arg_39_2, arg_39_3)
-	local var_39_0 = arg_39_0.reservesTempTeamList_[arg_39_1].hero_list
-
-	if arg_39_3 == 0 then
-		if arg_39_2 ~= 2 then
-			var_39_0[arg_39_2] = 0
+function slot0.SetReservesTempTeamList(slot0, slot1, slot2, slot3)
+	if slot3 == 0 then
+		if slot2 ~= 2 then
+			slot0.reservesTempTeamList_[slot1].hero_list[slot2] = 0
 		else
-			var_39_0[2] = var_39_0[3]
-			var_39_0[3] = 0
+			slot4[2] = slot4[3]
+			slot4[3] = 0
 		end
 	else
-		if table.indexof(var_39_0, arg_39_3) then
-			var_39_0[table.indexof(var_39_0, arg_39_3)] = var_39_0[arg_39_2]
-			var_39_0[arg_39_2] = arg_39_3
+		if table.indexof(slot4, slot3) then
+			slot4[table.indexof(slot4, slot3)] = slot4[slot2]
+			slot4[slot2] = slot3
 		else
-			var_39_0[arg_39_2] = arg_39_3
+			slot4[slot2] = slot3
 		end
 
-		if var_39_0[2] == 0 then
-			var_39_0[2] = var_39_0[3]
-			var_39_0[3] = 0
+		if slot4[2] == 0 then
+			slot4[2] = slot4[3]
+			slot4[3] = 0
 		end
 	end
 
-	local var_39_1 = arg_39_0.reservesTempTeamList_[arg_39_1].comboSkill
-
-	if var_39_1 ~= 0 then
-		local var_39_2 = ComboSkillCfg[var_39_1]
-
-		for iter_39_0, iter_39_1 in ipairs(var_39_2.cooperate_role_ids) do
-			if not table.indexof(var_39_0, iter_39_1) then
-				arg_39_0.reservesTempTeamList_[arg_39_1].comboSkill = 0
+	if slot0.reservesTempTeamList_[slot1].comboSkill ~= 0 then
+		for slot10, slot11 in ipairs(ComboSkillCfg[slot5].cooperate_role_ids) do
+			if not table.indexof(slot4, slot11) then
+				slot0.reservesTempTeamList_[slot1].comboSkill = 0
 
 				break
 			end
@@ -1169,81 +1129,71 @@ function var_0_0.SetReservesTempTeamList(arg_39_0, arg_39_1, arg_39_2, arg_39_3)
 	end
 end
 
-function var_0_0.SetReservesTempTeamChip(arg_40_0, arg_40_1, arg_40_2)
-	arg_40_0.reservesTempTeamList_[arg_40_1].chipInfo.id = arg_40_2
+function slot0.SetReservesTempTeamChip(slot0, slot1, slot2)
+	slot0.reservesTempTeamList_[slot1].chipInfo.id = slot2
 end
 
-function var_0_0.SetReservesTempTeamChipList(arg_41_0, arg_41_1, arg_41_2)
-	local var_41_0 = arg_41_0.reservesTempTeamList_[arg_41_1].chipInfo.list
-	local var_41_1 = false
-	local var_41_2 = 0
-	local var_41_3 = ChipCfg[arg_41_2].spec_char
-	local var_41_4 = ChipCfg.get_id_list_by_spec_char[var_41_3]
+function slot0.SetReservesTempTeamChipList(slot0, slot1, slot2)
+	slot4 = false
+	slot5 = 0
 
-	for iter_41_0, iter_41_1 in ipairs(var_41_0) do
-		if ChipCfg[iter_41_1].spec_char ~= 0 and table.keyof(var_41_4, iter_41_1) and iter_41_1 ~= arg_41_2 then
-			var_41_1 = true
-			var_41_2 = iter_41_1
+	for slot11, slot12 in ipairs(slot0.reservesTempTeamList_[slot1].chipInfo.list) do
+		if ChipCfg[slot12].spec_char ~= 0 and table.keyof(ChipCfg.get_id_list_by_spec_char[ChipCfg[slot2].spec_char], slot12) and slot12 ~= slot2 then
+			slot4 = true
+			slot5 = slot12
 
 			break
 		end
 	end
 
-	if not table.indexof(var_41_0, arg_41_2) and not var_41_1 and #var_41_0 >= GameSetting.ai_secondary_chip_equip_num.value[1] then
+	if not table.indexof(slot3, slot2) and not slot4 and GameSetting.ai_secondary_chip_equip_num.value[1] <= #slot3 then
 		ShowTips("CHIP_CNT_MORE_THEN_MAX")
 
 		return
 	end
 
-	if var_41_1 then
-		local var_41_5 = table.indexof(var_41_0, var_41_2)
-
-		if var_41_5 then
-			table.remove(var_41_0, var_41_5)
-		end
+	if slot4 and table.indexof(slot3, slot5) then
+		table.remove(slot3, slot8)
 	end
 
-	table.insert(var_41_0, arg_41_2)
+	table.insert(slot3, slot2)
 	ShowTips("CHIP_USE_SUCCESS")
 	manager.notify:Invoke(ENABLED_CHIP)
 end
 
-function var_0_0.ResetReservesTempTeamChipList(arg_42_0, arg_42_1)
-	arg_42_0.reservesTempTeamList_[arg_42_1].chipInfo.list = {}
+function slot0.ResetReservesTempTeamChipList(slot0, slot1)
+	slot0.reservesTempTeamList_[slot1].chipInfo.list = {}
 
 	ShowTips("CHIP_UNLOAD_SUCCESS")
 	manager.notify:Invoke(ENABLED_CHIP)
 end
 
-function var_0_0.UnloadReservesTempTeamChipList(arg_43_0, arg_43_1, arg_43_2)
-	local var_43_0 = arg_43_0.reservesTempTeamList_[arg_43_1].chipInfo.list
-	local var_43_1 = table.indexof(var_43_0, arg_43_2)
-
-	if var_43_1 then
-		table.remove(var_43_0, var_43_1)
+function slot0.UnloadReservesTempTeamChipList(slot0, slot1, slot2)
+	if table.indexof(slot0.reservesTempTeamList_[slot1].chipInfo.list, slot2) then
+		table.remove(slot3, slot4)
 	end
 
 	ShowTips("CHIP_UNLOAD_SUCCESS")
 	manager.notify:Invoke(ENABLED_CHIP)
 end
 
-function var_0_0.ReservesTempTeamEnabledSchemeID(arg_44_0, arg_44_1, arg_44_2)
-	arg_44_0.reservesTempTeamList_[arg_44_1].chipInfo.list = deepClone(arg_44_2 or {})
+function slot0.ReservesTempTeamEnabledSchemeID(slot0, slot1, slot2)
+	slot0.reservesTempTeamList_[slot1].chipInfo.list = deepClone(slot2 or {})
 
 	manager.notify:Invoke(ENABLED_SCHEME)
 end
 
-function var_0_0.ChangeComboSkillID(arg_45_0, arg_45_1, arg_45_2)
-	arg_45_0.reservesTempTeamList_[arg_45_1].comboSkill = arg_45_2
+function slot0.ChangeComboSkillID(slot0, slot1, slot2)
+	slot0.reservesTempTeamList_[slot1].comboSkill = slot2
 
-	manager.notify:Invoke(COMBO_SKILL_SELECT, arg_45_2)
+	manager.notify:Invoke(COMBO_SKILL_SELECT, slot2)
 end
 
-function var_0_0.DelectReservesTeam(arg_46_0, arg_46_1)
-	arg_46_0.reservesTeamList_[arg_46_1] = {
+function slot0.DelectReservesTeam(slot0, slot1)
+	slot0.reservesTeamList_[slot1] = {
 		comboSkill = 0,
 		name = "",
-		index = arg_46_1,
+		index = slot1,
 		hero_list = {
 			0,
 			0,
@@ -1254,10 +1204,10 @@ function var_0_0.DelectReservesTeam(arg_46_0, arg_46_1)
 			list = {}
 		}
 	}
-	arg_46_0.reservesTempTeamList_[arg_46_1] = {
+	slot0.reservesTempTeamList_[slot1] = {
 		comboSkill = 0,
 		name = "",
-		index = arg_46_1,
+		index = slot1,
 		hero_list = {
 			0,
 			0,
@@ -1270,16 +1220,15 @@ function var_0_0.DelectReservesTeam(arg_46_0, arg_46_1)
 	}
 end
 
-function var_0_0.IsInList(arg_47_0, arg_47_1, arg_47_2)
-	local var_47_0 = arg_47_2.hero_list
+function slot0.IsInList(slot0, slot1, slot2)
+	slot3 = slot2.hero_list
 
-	for iter_47_0 = 1, 10 do
-		local var_47_1 = arg_47_0.reservesTeamList_[iter_47_0]
-		local var_47_2 = arg_47_0.reservesTeamList_[iter_47_0].hero_list
+	for slot7 = 1, 10 do
+		slot8 = slot0.reservesTeamList_[slot7]
 
-		if var_47_0[1] == var_47_2[1] and var_47_0[2] == var_47_2[2] and var_47_0[3] == var_47_2[3] and arg_47_2.comboSkill == var_47_1.comboSkill and arg_47_2.chipInfo.id == var_47_1.chipInfo.id and #arg_47_2.chipInfo.list == #var_47_1.chipInfo.list then
-			for iter_47_1, iter_47_2 in ipairs(arg_47_2.chipInfo.list) do
-				if not table.indexof(var_47_1.chipInfo.list, iter_47_2) then
+		if slot3[1] == slot0.reservesTeamList_[slot7].hero_list[1] and slot3[2] == slot9[2] and slot3[3] == slot9[3] and slot2.comboSkill == slot8.comboSkill and slot2.chipInfo.id == slot8.chipInfo.id and #slot2.chipInfo.list == #slot8.chipInfo.list then
+			for slot13, slot14 in ipairs(slot2.chipInfo.list) do
+				if not table.indexof(slot8.chipInfo.list, slot14) then
 					return false
 				end
 			end
@@ -1291,4 +1240,4 @@ function var_0_0.IsInList(arg_47_0, arg_47_1, arg_47_2)
 	return false
 end
 
-return var_0_0
+return slot0

@@ -1,51 +1,51 @@
-local var_0_0 = class("CanteenLackFoodIngredientsView", ReduxView)
+slot0 = class("CanteenLackFoodIngredientsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamLackMaterialPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.foodID = arg_4_0.params_.foodID
-	arg_4_0.ingredientsList = BackHomeCanteenFoodCfg[arg_4_0.foodID].ingredient_list
+function slot0.OnEnter(slot0)
+	slot0.foodID = slot0.params_.foodID
+	slot0.ingredientsList = BackHomeCanteenFoodCfg[slot0.foodID].ingredient_list
 
-	arg_4_0.ingredientsListScroll_:StartScroll(#arg_4_0.ingredientsList)
+	slot0.ingredientsListScroll_:StartScroll(#slot0.ingredientsList)
 
-	arg_4_0.titletextText_.text = BackHomeCanteenFoodCfg[arg_4_0.foodID].name .. GetTips("ERROR_ITEM_NO_ENOUGH_MATERIAL")
+	slot0.titletextText_.text = BackHomeCanteenFoodCfg[slot0.foodID].name .. GetTips("ERROR_ITEM_NO_ENOUGH_MATERIAL")
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.ingredientsListScroll_ = LuaList.New(handler(arg_5_0, arg_5_0.indexIngredientsItem), arg_5_0.ingredientslistUilist_, FoodMaterialItem)
+	slot0.ingredientsListScroll_ = LuaList.New(handler(slot0, slot0.indexIngredientsItem), slot0.ingredientslistUilist_, FoodMaterialItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgmaskBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.indexIngredientsItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshItem(arg_8_0.ingredientsList[arg_8_1])
+function slot0.indexIngredientsItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.ingredientsList[slot1])
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.ingredientsListScroll_ then
-		arg_9_0.ingredientsListScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.ingredientsListScroll_ then
+		slot0.ingredientsListScroll_:Dispose()
 
-		arg_9_0.ingredientsListScroll_ = nil
+		slot0.ingredientsListScroll_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

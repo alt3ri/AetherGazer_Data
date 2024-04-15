@@ -1,89 +1,83 @@
-local var_0_0 = class("MardukSpecialRankItemView", ReduxView)
+slot0 = class("MardukSpecialRankItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroCountController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "heroCount")
-	arg_3_0.rankController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "rank")
+	slot0.heroCountController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "heroCount")
+	slot0.rankController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "rank")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_5_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.index_ = arg_6_1
-	arg_6_0.data_ = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.data_ = slot2
 
-	arg_6_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.icon_.sprite = ItemTools.getItemSprite(arg_7_0.data_.portrait)
-	arg_7_0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_7_0.data_.frame)
-	arg_7_0.name_.text = GetI18NText(arg_7_0.data_.nick)
-	arg_7_0.score_.text = arg_7_0.data_.score
-	arg_7_0.rank_.text = arg_7_0.data_.rank
+function slot0.UpdateView(slot0)
+	slot0.icon_.sprite = ItemTools.getItemSprite(slot0.data_.portrait)
+	slot0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.data_.frame)
+	slot0.name_.text = GetI18NText(slot0.data_.nick)
+	slot0.score_.text = slot0.data_.score
+	slot0.rank_.text = slot0.data_.rank
 
-	if arg_7_0.data_.rank <= 3 then
-		arg_7_0.rankController_:SetSelectedState(tostring(arg_7_0.data_.rank))
+	if slot0.data_.rank <= 3 then
+		slot0.rankController_:SetSelectedState(tostring(slot0.data_.rank))
 	else
-		arg_7_0.rankController_:SetSelectedState("0")
+		slot0.rankController_:SetSelectedState("0")
 	end
 
-	local var_7_0 = arg_7_0.data_:GetSingleSelectHeroList()
+	slot5 = tostring
 
-	arg_7_0.heroCountController_:SetSelectedState(tostring(#var_7_0))
+	slot0.heroCountController_:SetSelectedState(slot5(#slot0.data_:GetSingleSelectHeroList()))
 
-	for iter_7_0 = 1, 3 do
-		local var_7_1 = arg_7_0["m_heroIcon_" .. iter_7_0].gameObject
-		local var_7_2 = arg_7_0["m_heroIcon_" .. iter_7_0]
+	for slot5 = 1, 3 do
+		slot6 = slot0["m_heroIcon_" .. slot5].gameObject
+		slot7 = slot0["m_heroIcon_" .. slot5]
 
-		if var_7_0[iter_7_0] then
-			local var_7_3 = var_7_0[iter_7_0]
-			local var_7_4 = var_7_3.skin_id
-
-			if var_7_4 == 0 then
-				var_7_4 = var_7_3.hero_id
+		if slot1[slot5] then
+			if slot1[slot5].skin_id == 0 then
+				slot9 = slot8.hero_id
 			end
 
-			var_7_2.sprite = ItemTools.getItemSprite(var_7_4)
+			slot7.sprite = ItemTools.getItemSprite(slot9)
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_10_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

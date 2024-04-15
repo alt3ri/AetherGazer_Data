@@ -1,7 +1,5 @@
 manager = {}
-
-local var_0_0 = import("game.tools.ViewTools")
-
+slot0 = import("game.tools.ViewTools")
 LoginAction = require("game.action.LoginAction")
 manager.managerInit = false
 
@@ -49,7 +47,7 @@ function manager.uiInit()
 	manager.windowBar = WindowBarMgr.New()
 	manager.transition = ShowTransitionMgr.New()
 
-	manager.transition:RegistCanEndFunc(var_0_0.GetIsLoadied)
+	manager.transition:RegistCanEndFunc(uv0.GetIsLoadied)
 
 	manager.objectPool = ObjectPool.New()
 	manager.commonItemPool = LuaItemPool.New(CommonItem, "UI/Common/CommonItem")

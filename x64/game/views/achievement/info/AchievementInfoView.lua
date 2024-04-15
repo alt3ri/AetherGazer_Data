@@ -1,50 +1,52 @@
-local var_0_0 = class("AchievementInfoView", ReduxView)
+slot0 = class("AchievementInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/AchievementsUI/AchievementInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.noticeRectList_ = {
-		arg_3_0.rectCultivate_,
-		arg_3_0.rectCollect_,
-		arg_3_0.rectMission_,
-		arg_3_0.rectPlayer_,
-		arg_3_0.rectBattle_,
-		arg_3_0.rectOther_
+	slot0.noticeRectList_ = {
+		slot0.rectCultivate_,
+		slot0.rectCollect_,
+		slot0.rectMission_,
+		slot0.rectPlayer_,
+		slot0.rectBattle_,
+		slot0.rectOther_
 	}
-	arg_3_0.goButtonList_ = {
-		arg_3_0.goCultivate_,
-		arg_3_0.goCollect_,
-		arg_3_0.goMission_,
-		arg_3_0.goPlayer_,
-		arg_3_0.goBattle_,
-		arg_3_0.goOther_
+	slot0.goButtonList_ = {
+		slot0.goCultivate_,
+		slot0.goCollect_,
+		slot0.goMission_,
+		slot0.goPlayer_,
+		slot0.goBattle_,
+		slot0.goOther_
 	}
-	arg_3_0.scrollPositionList_ = {}
-	arg_3_0.achievementUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshItem), arg_3_0.uiList_, AchievementInfoItem)
-	arg_3_0.achievementButtonList_ = {}
+	slot0.scrollPositionList_ = {}
+	slot4 = slot0.uiList_
+	slot5 = AchievementInfoItem
+	slot0.achievementUIList_ = LuaList.New(handler(slot0, slot0.RefreshItem), slot4, slot5)
+	slot0.achievementButtonList_ = {}
 
-	for iter_3_0, iter_3_1 in pairs(AchievementConst.AchievementType) do
-		arg_3_0.achievementButtonList_[iter_3_1] = AchievementInfoButton.New(arg_3_0.goButtonList_[iter_3_1], iter_3_1)
+	for slot4, slot5 in pairs(AchievementConst.AchievementType) do
+		slot0.achievementButtonList_[slot5] = AchievementInfoButton.New(slot0.goButtonList_[slot5], slot5)
 	end
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.receiveAllBtn_, nil, function()
-		arg_4_0:ReceiveAll()
+function slot0.InitUI(slot0)
+	slot0:AddBtnListener(slot0.receiveAllBtn_, nil, function ()
+		uv0:ReceiveAll()
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -54,105 +56,101 @@ function var_0_0.OnEnter(arg_6_0)
 	})
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_VITALITY, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
-	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 
-	arg_6_0.selectType_ = arg_6_0.params_.achievementType
+	slot4 = CurrencyConst.CURRENCY_TYPE_DIAMOND
+	slot5 = true
 
-	arg_6_0:RefreshScroll()
-	arg_6_0:RefreshButton()
+	manager.windowBar:SetBarCanAdd(slot4, slot5)
 
-	for iter_6_0, iter_6_1 in ipairs(AchievementCfg.get_id_list_by_type_id) do
-		manager.redPoint:bindUIandKey(arg_6_0.noticeRectList_[iter_6_0], string.format("%s_%s", RedPointConst.ACHIEVEMENT, iter_6_0))
+	slot0.selectType_ = slot0.params_.achievementType
+
+	slot0:RefreshScroll()
+	slot0:RefreshButton()
+
+	for slot4, slot5 in ipairs(AchievementCfg.get_id_list_by_type_id) do
+		manager.redPoint:bindUIandKey(slot0.noticeRectList_[slot4], string.format("%s_%s", RedPointConst.ACHIEVEMENT, slot4))
 	end
 
-	arg_6_0:RefreshText()
-	arg_6_0:RefreshRecivedAll()
+	slot0:RefreshText()
+	slot0:RefreshRecivedAll()
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	for iter_7_0, iter_7_1 in ipairs(AchievementCfg.get_id_list_by_type_id) do
-		manager.redPoint:unbindUIandKey(arg_7_0.noticeRectList_[iter_7_0])
+	for slot4, slot5 in ipairs(AchievementCfg.get_id_list_by_type_id) do
+		manager.redPoint:unbindUIandKey(slot0.noticeRectList_[slot4])
 	end
 
-	arg_7_0.scrollPositionList_ = {}
-	arg_7_0.scrollPositionList_[arg_7_0.selectType_] = arg_7_0.achievementUIList_:GetScrolledPosition()
+	slot0.scrollPositionList_ = {
+		[slot0.selectType_] = slot0.achievementUIList_:GetScrolledPosition()
+	}
 end
 
-function var_0_0.OnUpdate(arg_8_0)
-	if arg_8_0.selectType_ == arg_8_0.params_.achievementType then
-		arg_8_0.scrollPositionList_[arg_8_0.selectType_] = arg_8_0.achievementUIList_:GetScrolledPosition()
+function slot0.OnUpdate(slot0)
+	if slot0.selectType_ == slot0.params_.achievementType then
+		slot0.scrollPositionList_[slot0.selectType_] = slot0.achievementUIList_:GetScrolledPosition()
 
 		AchievementData:SetScrollRecord(true)
 	end
 
-	arg_8_0.selectType_ = arg_8_0.params_.achievementType
+	slot0.selectType_ = slot0.params_.achievementType
 
-	arg_8_0:RefreshScroll()
-	arg_8_0:RefreshButton()
-	arg_8_0:RefreshText()
-	arg_8_0:RefreshRecivedAll()
+	slot0:RefreshScroll()
+	slot0:RefreshButton()
+	slot0:RefreshText()
+	slot0:RefreshRecivedAll()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.achievementButtonList_) do
-		iter_9_1:Dispose()
+	for slot4, slot5 in pairs(slot0.achievementButtonList_) do
+		slot5:Dispose()
 	end
 
-	arg_9_0.achievementButtonList_ = nil
+	slot0.achievementButtonList_ = nil
 
-	if arg_9_0.achievementUIList_ then
-		arg_9_0.achievementUIList_:Dispose()
+	if slot0.achievementUIList_ then
+		slot0.achievementUIList_:Dispose()
 
-		arg_9_0.achievementUIList_ = nil
-	end
-end
-
-function var_0_0.RefreshButton(arg_10_0)
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.achievementButtonList_) do
-		iter_10_1:RefreshSelectType(arg_10_0.selectType_)
+		slot0.achievementUIList_ = nil
 	end
 end
 
-function var_0_0.RefreshScroll(arg_11_0)
-	arg_11_0.achievementIDList_ = AchievementData:GetAchievementIDList(arg_11_0.selectType_)
+function slot0.RefreshButton(slot0)
+	for slot4, slot5 in pairs(slot0.achievementButtonList_) do
+		slot5:RefreshSelectType(slot0.selectType_)
+	end
+end
 
-	local var_11_0
+function slot0.RefreshScroll(slot0)
+	slot0.achievementIDList_ = AchievementData:GetAchievementIDList(slot0.selectType_)
+	slot1 = nil
 
-	if AchievementData:GetScrollRecord() == true then
-		var_11_0 = arg_11_0.scrollPositionList_[arg_11_0.selectType_] or Vector3.one
+	slot0.achievementUIList_:StartScrollByPosition(#slot0.achievementIDList_, AchievementData:GetScrollRecord() == true and (slot0.scrollPositionList_[slot0.selectType_] or Vector3.one) or Vector3.one)
+end
+
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.achievementIDList_[slot1])
+end
+
+function slot0.RefreshText(slot0)
+	slot0.textAchievement_.text = AchievementData:GetFinishAchievementCnt()
+	slot0.textCnt_.text = string.format("/%s", AchievementData:GetAchievementTotalCnt())
+	slot0.textPoint_.text = AchievementData:GetAchievementPoint()
+end
+
+function slot0.RefreshRecivedAll(slot0)
+	if #AchievementData:GetReadyAchievementList(slot0.selectType_) >= 1 then
+		SetActive(slot0.onekeyGo_, true)
 	else
-		var_11_0 = Vector3.one
-	end
-
-	arg_11_0.achievementUIList_:StartScrollByPosition(#arg_11_0.achievementIDList_, var_11_0)
-end
-
-function var_0_0.RefreshItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.achievementIDList_[arg_12_1]
-
-	arg_12_2:SetData(var_12_0)
-end
-
-function var_0_0.RefreshText(arg_13_0)
-	arg_13_0.textAchievement_.text = AchievementData:GetFinishAchievementCnt()
-	arg_13_0.textCnt_.text = string.format("/%s", AchievementData:GetAchievementTotalCnt())
-	arg_13_0.textPoint_.text = AchievementData:GetAchievementPoint()
-end
-
-function var_0_0.RefreshRecivedAll(arg_14_0)
-	if #AchievementData:GetReadyAchievementList(arg_14_0.selectType_) >= 1 then
-		SetActive(arg_14_0.onekeyGo_, true)
-	else
-		SetActive(arg_14_0.onekeyGo_, false)
+		SetActive(slot0.onekeyGo_, false)
 	end
 end
 
-function var_0_0.ReceiveAll(arg_15_0)
-	AchievementAction.TryToSubmitAchievementList(arg_15_0.selectType_)
+function slot0.ReceiveAll(slot0)
+	AchievementAction.TryToSubmitAchievementList(slot0.selectType_)
 end
 
-return var_0_0
+return slot0

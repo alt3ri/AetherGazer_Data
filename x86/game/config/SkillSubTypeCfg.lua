@@ -35,6 +35,12 @@ return {
 		annotation = "前置准备"
 	},
 	get_id_list_by_value = {
+		[0] = {
+			"Normal"
+		},
+		{
+			"Charge"
+		},
 		[6] = {
 			"Prepare"
 		},
@@ -49,12 +55,6 @@ return {
 		},
 		[2] = {
 			"Transfiguration"
-		},
-		{
-			"Charge"
-		},
-		[0] = {
-			"Normal"
 		}
 	}
 }

@@ -1,24 +1,21 @@
-local var_0_0 = class("DrawServantNormalPool", DrawBasePool)
+slot0 = class("DrawServantNormalPool", DrawBasePool)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = Asset.Load("Widget/System/Pool/TreasurePool")
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/Pool/TreasurePool"), slot1)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.poolId = slot2
+	slot0.showId = slot3
+	slot0.detailBtnList_ = {}
+	slot0.btnNameList_ = {}
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.poolId = arg_1_2
-	arg_1_0.showId = arg_1_3
-	arg_1_0.detailBtnList_ = {}
-	arg_1_0.btnNameList_ = {}
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetActive(arg_3_0, arg_3_1)
-	var_0_0.super.SetActive(arg_3_0, arg_3_1)
+function slot0.SetActive(slot0, slot1)
+	uv0.super.SetActive(slot0, slot1)
 end
 
-return var_0_0
+return slot0

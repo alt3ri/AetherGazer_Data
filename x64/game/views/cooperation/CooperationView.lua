@@ -1,5 +1,5 @@
-local var_0_0 = class("CooperationView", ReduxView)
-local var_0_1 = {
+slot0 = class("CooperationView", ReduxView)
+slot1 = {
 	{
 		position = Vector3(500, 0, 0),
 		rotation = Vector3(0, 0, 0),
@@ -17,63 +17,55 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Cooperation/CooperationUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.friendController = ControllerUtil.GetController(arg_4_0.m_friendEffectController, "friendEffect")
-	arg_4_0.raceController = ControllerUtil.GetController(arg_4_0.m_raceEffectController, "raceEffect")
-	arg_4_0.roomAvailableController = ControllerUtil.GetController(arg_4_0.m_roomAvailabelController, "swich")
-	arg_4_0.btnController = ControllerUtil.GetController(arg_4_0.m_btnController, "btn")
-	arg_4_0.talkController = ControllerUtil.GetController(arg_4_0.m_talkController, "talk")
-	arg_4_0.playerComList = {}
+	slot0.friendController = ControllerUtil.GetController(slot0.m_friendEffectController, "friendEffect")
+	slot0.raceController = ControllerUtil.GetController(slot0.m_raceEffectController, "raceEffect")
+	slot0.roomAvailableController = ControllerUtil.GetController(slot0.m_roomAvailabelController, "swich")
+	slot0.btnController = ControllerUtil.GetController(slot0.m_btnController, "btn")
+	slot4 = "talk"
+	slot0.talkController = ControllerUtil.GetController(slot0.m_talkController, slot4)
+	slot0.playerComList = {}
 
-	for iter_4_0 = 1, 3 do
-		local var_4_0 = arg_4_0["m_hero" .. iter_4_0]
-
-		table.insert(arg_4_0.playerComList, arg_4_0:GetCooperationPlayerClass().New(var_4_0, iter_4_0))
+	for slot4 = 1, 3 do
+		table.insert(slot0.playerComList, slot0:GetCooperationPlayerClass().New(slot0["m_hero" .. slot4], slot4))
 	end
 
-	arg_4_0.heroModel = {}
+	slot0.heroModel = {}
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
-	ComponentBinder.GetInstance():BindCfgUI(arg_5_0, arg_5_0.m_cooperationGo)
-	SetActive(arg_5_0.m_comboIncreaseGo, arg_5_0:ShowComboIncreaseGo())
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.m_cooperationGo)
+	SetActive(slot0.m_comboIncreaseGo, slot0:ShowComboIncreaseGo())
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_startBtn, function()
-		local var_7_0 = PlayerData:GetPlayerInfo().userID
-		local var_7_1 = arg_6_0.roomData:GetSelfHero()
-		local var_7_2 = arg_6_0.roomData:GetRoomPlayerIdList()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_startBtn, function ()
+		for slot6, slot7 in ipairs(uv0.roomData:GetRoomPlayerIdList()) do
+			slot8 = uv0.roomData:GetRoomPlayerData(slot7)
 
-		for iter_7_0, iter_7_1 in ipairs(var_7_2) do
-			local var_7_3 = arg_6_0.roomData:GetRoomPlayerData(iter_7_1)
-
-			if iter_7_1 ~= var_7_0 and var_7_3.heroList[1].id == var_7_1 then
+			if slot7 ~= PlayerData:GetPlayerInfo().userID and slot8.heroList[1].id == uv0.roomData:GetSelfHero() then
 				ShowTips("COOPERATION_NO_ALLOW_READY_REPEAT")
 
 				return
 			end
 
-			local var_7_4 = var_7_3.is_master == 1
-			local var_7_5 = var_7_3.is_ready == 1
-
-			if var_7_3 and not var_7_4 and not var_7_5 then
+			if slot8 and not (slot8.is_master == 1) and not (slot8.is_ready == 1) then
 				ShowTips("COOPERATION_SOMEONE_UNREADY")
 
 				return
@@ -82,13 +74,9 @@ function var_0_0.AddUIListener(arg_6_0)
 
 		BattleController.GetInstance():LaunchCooperationBattle()
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_prepareBtn, function()
-		local var_8_0 = PlayerData:GetPlayerInfo().userID
-		local var_8_1 = arg_6_0.roomData:GetSelfHero()
-		local var_8_2 = arg_6_0.roomData:GetRoomPlayerIdList()
-
-		for iter_8_0, iter_8_1 in ipairs(var_8_2) do
-			if iter_8_1 ~= var_8_0 and arg_6_0.roomData:GetRoomPlayerData(iter_8_1).heroList[1].id == var_8_1 then
+	slot0:AddBtnListener(nil, slot0.m_prepareBtn, function ()
+		for slot6, slot7 in ipairs(uv0.roomData:GetRoomPlayerIdList()) do
+			if slot7 ~= PlayerData:GetPlayerInfo().userID and uv0.roomData:GetRoomPlayerData(slot7).heroList[1].id == uv0.roomData:GetSelfHero() then
 				ShowTips("COOPERATION_NO_ALLOW_READY_REPEAT")
 
 				return
@@ -97,12 +85,12 @@ function var_0_0.AddUIListener(arg_6_0)
 
 		CooperationAction.GetReady()
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_cancelBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_cancelBtn, function ()
 		CooperationAction.CancelReay()
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_roomAvailableBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_roomAvailableBtn, function ()
 		if CooperationData:GetIsMaster() then
-			if arg_6_0.roomData:IsAvailable() == 1 then
+			if uv0.roomData:IsAvailable() == 1 then
 				CooperationAction.ChangeRoomAvailable(2)
 			else
 				CooperationAction.ChangeRoomAvailable(1)
@@ -111,434 +99,382 @@ function var_0_0.AddUIListener(arg_6_0)
 			ShowTips("ERROR_COORDINATOR_NOT_OWNER")
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_talkLongBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_talkLongBtn, nil, function ()
 		JumpTools.OpenPageByJump("chat", {
 			ignoreBG = true,
 			chatToggleID = ChatConst.CHAT_CHANNEL_COOPERATION
 		}, ViewConst.SYSTEM_ID.CHAT)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_talkShortBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_talkShortBtn, nil, function ()
 		JumpTools.OpenPageByJump("chat", {
 			ignoreBG = true,
 			chatToggleID = ChatConst.CHAT_CHANNEL_COOPERATION
 		}, ViewConst.SYSTEM_ID.CHAT)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_comboIncreaseBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_comboIncreaseBtn, nil, function ()
 		JumpTools.OpenPageByJump("cooperationCombo")
 	end)
-	arg_6_0:AddBtnListener(nil, arg_6_0.m_roomIdCopyBtn, function()
-		UnityEngine.GUIUtility.systemCopyBuffer = arg_6_0.roomData.room_id
+	slot0:AddBtnListener(nil, slot0.m_roomIdCopyBtn, function ()
+		UnityEngine.GUIUtility.systemCopyBuffer = uv0.roomData.room_id
 
 		ShowTips("COPY_SUCCESS")
 	end)
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.ui:SetMainCamera("battleHeroSelect")
 	manager.ui:AdaptUIByFOV()
 	manager.windowBar:SwitchBar({
 		BACK_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		ShowMessageBox({
 			content = GetTips("COOPERATION_LEAVE_ROOM_CONFIRM"),
-			OkCallback = function()
+			OkCallback = function ()
 				CooperationAction.LeaveRoom()
 			end
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_18_0)
+function slot0.OnEnter(slot0)
 	manager.ui:SetMainCamera("battleHeroSelect")
 	manager.ui:AdaptUIByFOV()
 
-	arg_18_0.roomData = CooperationData:GetRoomData()
+	slot0.roomData = CooperationData:GetRoomData()
 
-	if arg_18_0.roomData == nil then
-		arg_18_0:Go("/home")
+	if slot0.roomData == nil then
+		slot0:Go("/home")
 
 		return
 	end
 
-	arg_18_0:Refresh()
-	arg_18_0:NewMessage()
-	arg_18_0:RegistEventListener(CHAT_COOPERATION_NEW_MESSAGE, handler(arg_18_0, arg_18_0.NewMessage))
-	arg_18_0:RegistEventListener(START_COOPERATION_BATTLE, handler(arg_18_0, arg_18_0.BattleStart))
-	FriendsAction:TryToRefreshFriendsView(1)
+	slot0:Refresh()
+	slot0:NewMessage()
+	slot0:RegistEventListener(CHAT_COOPERATION_NEW_MESSAGE, handler(slot0, slot0.NewMessage))
+	slot0:RegistEventListener(START_COOPERATION_BATTLE, handler(slot0, slot0.BattleStart))
 
-	for iter_18_0 = 1, 3 do
-		local var_18_0 = arg_18_0["m_hero" .. iter_18_0]
-		local var_18_1 = var_0_1[iter_18_0].position
-		local var_18_2 = manager.ui.mainCameraCom_:WorldToScreenPoint(var_18_1)
-		local var_18_3 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-		local var_18_4, var_18_5 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(arg_18_0.transform_, var_18_2, var_18_3, nil)
+	slot4 = 1
 
-		print(var_18_5.x)
+	FriendsAction:TryToRefreshFriendsView(slot4)
 
-		var_18_0.transform.localPosition = Vector3.New(var_18_5.x, 10, 0)
+	for slot4 = 1, 3 do
+		slot9, slot10 = UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(slot0.transform_, manager.ui.mainCameraCom_:WorldToScreenPoint(uv0[slot4].position), manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera, nil)
+
+		print(slot10.x)
+
+		slot0["m_hero" .. slot4].transform.localPosition = Vector3.New(slot10.x, 10, 0)
 	end
 
-	arg_18_0.masterPlayerId = arg_18_0.roomData:GetMasetPlayerId()
+	slot0.masterPlayerId = slot0.roomData:GetMasetPlayerId()
 end
 
-function var_0_0.OnExit(arg_19_0)
-	arg_19_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
-	arg_19_0:DestroyHeroModels()
+	slot0:DestroyHeroModels()
 
-	arg_19_0.playerList = nil
+	slot0.playerList = nil
 
-	for iter_19_0 = 1, 3 do
-		arg_19_0.playerComList[iter_19_0]:Reset()
+	for slot4 = 1, 3 do
+		slot0.playerComList[slot4]:Reset()
 	end
 end
 
-function var_0_0.Refresh(arg_20_0)
-	if not arg_20_0.roomData then
+function slot0.Refresh(slot0)
+	if not slot0.roomData then
 		return
 	end
 
-	arg_20_0:RefreshRoom()
-	arg_20_0:RefreshPlayer()
-	arg_20_0:RefreshEffct()
-	arg_20_0:RefreshUI()
+	slot0:RefreshRoom()
+	slot0:RefreshPlayer()
+	slot0:RefreshEffct()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshRoom(arg_21_0)
-	arg_21_0.m_stageLab.text = arg_21_0:GetRoomName()
-	arg_21_0.m_roomIdLab.text = string.format(GetTips("COOPERATION_ROOM_ID"), arg_21_0.roomData.room_id)
+function slot0.RefreshRoom(slot0)
+	slot0.m_stageLab.text = slot0:GetRoomName()
+	slot0.m_roomIdLab.text = string.format(GetTips("COOPERATION_ROOM_ID"), slot0.roomData.room_id)
 
-	local var_21_0 = arg_21_0.roomData:IsAvailable()
+	slot0.roomAvailableController:SetSelectedIndex(slot0.roomData:IsAvailable() == 1 and 0 or 1)
 
-	arg_21_0.roomAvailableController:SetSelectedIndex(var_21_0 == 1 and 0 or 1)
+	slot5 = slot3.is_ready == 1
 
-	local var_21_1 = PlayerData:GetPlayerInfo().userID
-	local var_21_2 = arg_21_0.roomData:GetRoomPlayerData(var_21_1)
-	local var_21_3 = var_21_2.is_master == 1
-	local var_21_4 = var_21_2.is_ready == 1
-
-	if var_21_3 then
-		arg_21_0.btnController:SetSelectedIndex(0)
-	elseif var_21_4 then
-		arg_21_0.btnController:SetSelectedIndex(2)
+	if slot0.roomData:GetRoomPlayerData(PlayerData:GetPlayerInfo().userID).is_master == 1 then
+		slot0.btnController:SetSelectedIndex(0)
+	elseif slot5 then
+		slot0.btnController:SetSelectedIndex(2)
 	else
-		arg_21_0.btnController:SetSelectedIndex(1)
+		slot0.btnController:SetSelectedIndex(1)
 	end
 end
 
-function var_0_0.RefreshPlayer(arg_22_0)
-	arg_22_0.playerIdList = arg_22_0.playerIdList or {}
+function slot0.RefreshPlayer(slot0)
+	slot0.playerIdList = slot0.playerIdList or {}
+	slot1 = {
+		slot7
+	}
+	slot2 = slot0.roomData:GetRoomPlayerIdList()
 
-	local var_22_0 = {}
-	local var_22_1 = arg_22_0.roomData:GetRoomPlayerIdList()
+	for slot6 = 1, 3 do
+		if slot6 == 1 then
+			table.remove(slot2, table.indexof(slot2, PlayerData:GetPlayerInfo().userID))
+		elseif slot0.playerIdList[slot6] and table.indexof(slot2, slot7) then
+			slot1[slot6] = slot2[slot8]
 
-	for iter_22_0 = 1, 3 do
-		if iter_22_0 == 1 then
-			local var_22_2 = PlayerData:GetPlayerInfo().userID
-			local var_22_3 = table.indexof(var_22_1, var_22_2)
-
-			table.remove(var_22_1, var_22_3)
-
-			var_22_0[1] = var_22_2
-		else
-			local var_22_4 = arg_22_0.playerIdList[iter_22_0]
-
-			if var_22_4 then
-				local var_22_5 = table.indexof(var_22_1, var_22_4)
-
-				if var_22_5 then
-					var_22_0[iter_22_0] = var_22_1[var_22_5]
-
-					table.remove(var_22_1, var_22_5)
-				end
-			end
+			table.remove(slot2, slot8)
 		end
 	end
 
-	for iter_22_1 = 1, 3 do
-		if not var_22_0[iter_22_1] then
-			local var_22_6 = false
+	for slot6 = 1, 3 do
+		if not slot1[slot6] then
+			slot7 = false
 
-			for iter_22_2, iter_22_3 in ipairs(var_22_1) do
-				if arg_22_0.roomData:GetRoomPlayerData(iter_22_3).is_master == 1 then
-					table.remove(var_22_1, iter_22_2)
+			for slot11, slot12 in ipairs(slot2) do
+				if slot0.roomData:GetRoomPlayerData(slot12).is_master == 1 then
+					table.remove(slot2, slot11)
 
-					var_22_0[iter_22_1] = iter_22_3
-					var_22_6 = true
+					slot1[slot6] = slot12
+					slot7 = true
 
 					break
 				end
 			end
 
-			if not var_22_6 then
-				var_22_0[iter_22_1] = table.remove(var_22_1, 1)
+			if not slot7 then
+				slot1[slot6] = table.remove(slot2, 1)
 			end
 		end
 	end
 
-	arg_22_0.playerIdList = var_22_0
-	arg_22_0.cacheHeroTeam_ = {}
+	slot0.playerIdList = slot1
+	slot0.cacheHeroTeam_ = {}
 
-	for iter_22_4, iter_22_5 in pairs(arg_22_0.playerIdList) do
-		local var_22_7 = arg_22_0.roomData:GetRoomPlayerData(iter_22_5).heroList[1]
-
-		arg_22_0.cacheHeroTeam_[iter_22_4] = {
-			id = var_22_7.id,
-			skin = var_22_7.skin == 0 and var_22_7.id or var_22_7.skin
+	for slot6, slot7 in pairs(slot0.playerIdList) do
+		slot9 = slot0.roomData:GetRoomPlayerData(slot7).heroList[1]
+		slot0.cacheHeroTeam_[slot6] = {
+			id = slot9.id,
+			skin = slot9.skin == 0 and slot9.id or slot9.skin
 		}
 	end
 
-	arg_22_0:LoadHeroModelsInOrder(1)
-	arg_22_0:RefreshPlayerState()
+	slot0:LoadHeroModelsInOrder(1)
+	slot0:RefreshPlayerState()
 end
 
-function var_0_0.RefreshPlayerState(arg_23_0)
-	for iter_23_0 = 1, 3 do
-		local var_23_0 = arg_23_0.playerComList[iter_23_0]
-		local var_23_1 = arg_23_0.playerIdList[iter_23_0]
-
-		var_23_0:SetData(arg_23_0.roomData, var_23_1)
+function slot0.RefreshPlayerState(slot0)
+	for slot4 = 1, 3 do
+		slot0.playerComList[slot4]:SetData(slot0.roomData, slot0.playerIdList[slot4])
 	end
 end
 
-function var_0_0.RefreshEffct(arg_24_0)
-	local var_24_0, var_24_1 = arg_24_0:GetRaceEffect()
+function slot0.RefreshEffct(slot0)
+	slot1, slot2 = slot0:GetRaceEffect()
+	slot0.m_raceEffect2Des.text = GetTips("NO_CORRECTOR_BUFF")
+	slot0.m_raceEffect3Des.text = GetTips("NO_BATTLE_BUFF")
 
-	arg_24_0.m_raceEffect2Des.text = GetTips("NO_CORRECTOR_BUFF")
-	arg_24_0.m_raceEffect3Des.text = GetTips("NO_BATTLE_BUFF")
+	if slot2 == 2 then
+		slot3 = RaceEffectCfg[slot1]
+		slot0.m_raceEffectName.text = GetI18NText(slot3.name)
+		slot0.m_raceEffectIcon.sprite = getSprite("Atlas/CampItemAtlas", slot3.icon)
+		slot0.m_raceEffect2Des.text = GetI18NText(slot3.desc)
 
-	if var_24_1 == 2 then
-		local var_24_2 = RaceEffectCfg[var_24_0]
+		slot0.raceController:SetSelectedIndex(1)
+	elseif slot2 == 3 then
+		slot3 = RaceEffectCfg[slot1]
+		slot0.m_raceEffectName.text = GetI18NText(slot3.name)
+		slot0.m_raceEffectIcon.sprite = getSprite("Atlas/CampItemAtlas", slot3.icon)
+		slot0.m_raceEffect2Des.text = GetI18NText(slot3.desc)
+		slot0.m_raceEffect3Des.text = GetI18NText(slot3.battle_desc)
 
-		arg_24_0.m_raceEffectName.text = GetI18NText(var_24_2.name)
-		arg_24_0.m_raceEffectIcon.sprite = getSprite("Atlas/CampItemAtlas", var_24_2.icon)
-		arg_24_0.m_raceEffect2Des.text = GetI18NText(var_24_2.desc)
-
-		arg_24_0.raceController:SetSelectedIndex(1)
-	elseif var_24_1 == 3 then
-		local var_24_3 = RaceEffectCfg[var_24_0]
-
-		arg_24_0.m_raceEffectName.text = GetI18NText(var_24_3.name)
-		arg_24_0.m_raceEffectIcon.sprite = getSprite("Atlas/CampItemAtlas", var_24_3.icon)
-		arg_24_0.m_raceEffect2Des.text = GetI18NText(var_24_3.desc)
-		arg_24_0.m_raceEffect3Des.text = GetI18NText(var_24_3.battle_desc)
-
-		arg_24_0.raceController:SetSelectedIndex(2)
+		slot0.raceController:SetSelectedIndex(2)
 	else
-		arg_24_0.raceController:SetSelectedIndex(0)
+		slot0.raceController:SetSelectedIndex(0)
 	end
 
-	local var_24_4 = 0
-	local var_24_5 = arg_24_0.roomData:GetRoomPlayerIdList()
-
-	for iter_24_0, iter_24_1 in ipairs(var_24_5) do
+	for slot8, slot9 in ipairs(slot0.roomData:GetRoomPlayerIdList()) do
 		if false then
-			var_24_4 = var_24_4 + 1
+			slot3 = 0 + 1
 		end
 	end
 
-	if var_24_4 > 0 then
-		arg_24_0.friendController:SetSelectedIndex(0)
+	if slot3 > 0 then
+		slot0.friendController:SetSelectedIndex(0)
 
-		arg_24_0.m_friendEffectDes.text = ""
+		slot0.m_friendEffectDes.text = ""
 	else
-		arg_24_0.friendController:SetSelectedIndex(1)
+		slot0.friendController:SetSelectedIndex(1)
 
-		arg_24_0.m_friendEffectDes.text = ""
+		slot0.m_friendEffectDes.text = ""
 	end
 end
 
-function var_0_0.GetRaceEffect(arg_25_0)
-	local var_25_0 = {}
-	local var_25_1 = 0
-	local var_25_2 = arg_25_0.cacheHeroTeam_
+function slot0.GetRaceEffect(slot0)
+	slot1 = {}
+	slot2 = 0
 
-	for iter_25_0, iter_25_1 in pairs(var_25_2) do
-		local var_25_3 = iter_25_1.id
+	for slot7, slot8 in pairs(slot0.cacheHeroTeam_) do
+		if slot8.id ~= 0 then
+			slot1[slot10] = (slot1[HeroCfg[slot9].race] or 0) + 1
 
-		if var_25_3 ~= 0 then
-			local var_25_4 = HeroCfg[var_25_3].race
-
-			var_25_0[var_25_4] = (var_25_0[var_25_4] or 0) + 1
-
-			if var_25_0[var_25_4] == 2 then
-				var_25_1 = var_25_4
+			if slot1[slot10] == 2 then
+				slot2 = slot10
 			end
 		end
 	end
 
-	return var_25_1, var_25_0[var_25_1] or 1
+	return slot2, slot1[slot2] or 1
 end
 
-function var_0_0.LoadHeroModelsInOrder(arg_26_0, arg_26_1)
-	if arg_26_1 > 3 then
-		for iter_26_0, iter_26_1 in pairs(arg_26_0.heroModel) do
-			SetActive(iter_26_1.model, true)
+function slot0.LoadHeroModelsInOrder(slot0, slot1)
+	if slot1 > 3 then
+		for slot5, slot6 in pairs(slot0.heroModel) do
+			SetActive(slot6.model, true)
 		end
 
 		return
 	end
 
-	local var_26_0 = arg_26_0.cacheHeroTeam_[arg_26_1] and arg_26_0.cacheHeroTeam_[arg_26_1].skin
+	slot2 = slot0.cacheHeroTeam_[slot1] and slot0.cacheHeroTeam_[slot1].skin
 
-	if arg_26_0.loadAsyncIndex then
-		manager.resourcePool:StopAsyncQuest(arg_26_0.loadAsyncIndex)
+	if slot0.loadAsyncIndex then
+		manager.resourcePool:StopAsyncQuest(slot0.loadAsyncIndex)
 	end
 
-	if arg_26_0.heroModel[arg_26_1] then
-		if var_26_0 == arg_26_0.heroModel[arg_26_1].id then
-			local var_26_1 = arg_26_0.heroModel[arg_26_1].model
-			local var_26_2 = arg_26_1
+	if slot0.heroModel[slot1] then
+		if slot2 == slot0.heroModel[slot1].id then
+			slot3 = slot0.heroModel[slot1].model
+			slot4 = slot1
+			slot3.transform.localEulerAngles = uv0[slot4].rotation
+			slot3.transform.localPosition = uv0[slot4].position
+			slot3.transform.localScale = uv0[slot4].scale
 
-			var_26_1.transform.localEulerAngles = var_0_1[var_26_2].rotation
-			var_26_1.transform.localPosition = var_0_1[var_26_2].position
-			var_26_1.transform.localScale = var_0_1[var_26_2].scale
-
-			arg_26_0:LoadHeroModelsInOrder(arg_26_1 + 1)
+			slot0:LoadHeroModelsInOrder(slot1 + 1)
 
 			return
 		else
-			manager.resourcePool:DestroyOrReturn(arg_26_0.heroModel[arg_26_1].model, ASSET_TYPE.TPOSE)
+			manager.resourcePool:DestroyOrReturn(slot0.heroModel[slot1].model, ASSET_TYPE.TPOSE)
 
-			arg_26_0.heroModel[arg_26_1] = nil
+			slot0.heroModel[slot1] = nil
 		end
 	end
 
-	if var_26_0 then
-		local var_26_3 = SkinCfg[var_26_0]
-
-		arg_26_0.loadAsyncIndex = manager.resourcePool:AsyncLoad("Char/" .. var_26_3.ui_modelId, ASSET_TYPE.TPOSE, function(arg_27_0)
-			arg_26_0.heroModel[arg_26_1] = {
-				model = arg_27_0,
-				id = var_26_0
+	if slot2 then
+		slot0.loadAsyncIndex = manager.resourcePool:AsyncLoad("Char/" .. SkinCfg[slot2].ui_modelId, ASSET_TYPE.TPOSE, function (slot0)
+			uv0.heroModel[uv1] = {
+				model = slot0,
+				id = uv2
 			}
+			slot1 = uv1
+			slot0.transform.localEulerAngles = uv3[slot1].rotation
+			slot0.transform.localPosition = uv3[slot1].position
+			slot0.transform.localScale = uv3[slot1].scale
 
-			local var_27_0 = arg_26_1
-
-			arg_27_0.transform.localEulerAngles = var_0_1[var_27_0].rotation
-			arg_27_0.transform.localPosition = var_0_1[var_27_0].position
-			arg_27_0.transform.localScale = var_0_1[var_27_0].scale
-
-			SetActive(arg_27_0, false)
-			TimeTools.StartAfterSeconds(0.0333, function()
-				arg_26_0:LoadHeroModelsInOrder(arg_26_1 + 1)
+			SetActive(slot0, false)
+			TimeTools.StartAfterSeconds(0.0333, function ()
+				uv0:LoadHeroModelsInOrder(uv1 + 1)
 			end, {})
 		end)
 	else
-		arg_26_0:LoadHeroModelsInOrder(arg_26_1 + 1)
+		slot0:LoadHeroModelsInOrder(slot1 + 1)
 	end
 end
 
-function var_0_0.DestroyHeroModels(arg_29_0)
-	if arg_29_0.heroModel then
-		for iter_29_0, iter_29_1 in pairs(arg_29_0.heroModel) do
-			manager.resourcePool:DestroyOrReturn(iter_29_1.model, ASSET_TYPE.TPOSE)
+function slot0.DestroyHeroModels(slot0)
+	if slot0.heroModel then
+		for slot4, slot5 in pairs(slot0.heroModel) do
+			manager.resourcePool:DestroyOrReturn(slot5.model, ASSET_TYPE.TPOSE)
 		end
 	end
 
-	if arg_29_0.loadAsyncIndex then
-		manager.resourcePool:StopAsyncQuest(arg_29_0.loadAsyncIndex)
+	if slot0.loadAsyncIndex then
+		manager.resourcePool:StopAsyncQuest(slot0.loadAsyncIndex)
 	end
 
-	arg_29_0.loadAsyncIndex = nil
-	arg_29_0.heroModel = {}
+	slot0.loadAsyncIndex = nil
+	slot0.heroModel = {}
 end
 
-function var_0_0.Dispose(arg_30_0)
-	for iter_30_0, iter_30_1 in ipairs(arg_30_0.playerComList) do
-		iter_30_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.playerComList) do
+		slot5:Dispose()
 	end
 
-	arg_30_0.playerComList = {}
+	slot0.playerComList = {}
 
-	var_0_0.super.Dispose(arg_30_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.NewMessage(arg_31_0)
-	local var_31_0 = ChatCooperationData:GetCacheContent()
+function slot0.NewMessage(slot0)
+	if #ChatCooperationData:GetCacheContent() > 0 then
+		slot3 = slot1[#slot1].content or ""
 
-	if #var_31_0 > 0 then
-		local var_31_1 = var_31_0[#var_31_0]
-		local var_31_2 = var_31_1.content or ""
-
-		if var_31_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
-			var_31_2 = string.format("[%s]", ChatStickerCfg[tonumber(var_31_1.content)].name)
+		if slot2.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER then
+			slot3 = string.format("[%s]", ChatStickerCfg[tonumber(slot2.content)].name)
 		end
 
-		local var_31_3 = string.format("%s:%s", var_31_1.nick, var_31_2)
-		local var_31_4 = arg_31_0.m_chatLab.transform.rect.size
-		local var_31_5 = arg_31_0.m_chatLab
-		local var_31_6 = var_31_5:GetGenerationSettings(var_31_4)
-		local var_31_7 = 1 / var_31_5.pixelsPerUnit
+		slot6 = slot0.m_chatLab
 
-		if var_31_5.cachedTextGenerator:GetPreferredWidth(var_31_3, var_31_6) * var_31_7 > arg_31_0.m_chatLab.transform.rect.width then
-			SetActive(arg_31_0.m_chatLabEx, true)
+		if slot0.m_chatLab.transform.rect.width < slot6.cachedTextGenerator:GetPreferredWidth(string.format("%s:%s", slot2.nick, slot3), slot6:GetGenerationSettings(slot0.m_chatLab.transform.rect.size)) * 1 / slot6.pixelsPerUnit then
+			SetActive(slot0.m_chatLabEx, true)
 		else
-			SetActive(arg_31_0.m_chatLabEx, false)
+			SetActive(slot0.m_chatLabEx, false)
 		end
 
-		var_31_5.text = GetI18NText(var_31_3)
+		slot6.text = GetI18NText(slot4)
 
-		arg_31_0.talkController:SetSelectedIndex(1)
+		slot0.talkController:SetSelectedIndex(1)
 	else
-		arg_31_0.m_chatLab.text = ""
+		slot0.m_chatLab.text = ""
 
-		arg_31_0.talkController:SetSelectedIndex(0)
+		slot0.talkController:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.BattleStart(arg_32_0)
-	for iter_32_0, iter_32_1 in ipairs(arg_32_0.playerComList) do
-		iter_32_1:BattleStart()
+function slot0.BattleStart(slot0)
+	for slot4, slot5 in ipairs(slot0.playerComList) do
+		slot5:BattleStart()
 	end
 
-	local var_32_0 = PlayerData:GetPlayerInfo().userID
-
-	if arg_32_0.roomData:GetRoomPlayerData(var_32_0).is_master == 1 then
-		arg_32_0.btnController:SetSelectedIndex(0)
+	if slot0.roomData:GetRoomPlayerData(PlayerData:GetPlayerInfo().userID).is_master == 1 then
+		slot0.btnController:SetSelectedIndex(0)
 	else
-		arg_32_0.btnController:SetSelectedIndex(2)
+		slot0.btnController:SetSelectedIndex(2)
 	end
 end
 
-function var_0_0.ShowComboIncreaseGo(arg_33_0)
+function slot0.ShowComboIncreaseGo(slot0)
 	return false
 end
 
-function var_0_0.GetRoomName(arg_34_0)
-	return CooperationTools.GetCooperationRoomName(arg_34_0.roomData.type, arg_34_0.roomData.dest, arg_34_0.roomData.activity_id)
+function slot0.GetRoomName(slot0)
+	return CooperationTools.GetCooperationRoomName(slot0.roomData.type, slot0.roomData.dest, slot0.roomData.activity_id)
 end
 
-function var_0_0.RefreshUI(arg_35_0)
-	return
+function slot0.RefreshUI(slot0)
 end
 
-function var_0_0.GetCooperationPlayerClass(arg_36_0)
+function slot0.GetCooperationPlayerClass(slot0)
 	return CooperationPlayer
 end
 
-function var_0_0.OnCooperationRoomInit(arg_37_0)
-	arg_37_0:Refresh()
+function slot0.OnCooperationRoomInit(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.OnCooperationRoomUpdate(arg_38_0)
-	local var_38_0 = arg_38_0.roomData:GetMasetPlayerId()
+function slot0.OnCooperationRoomUpdate(slot0)
+	if slot0.masterPlayerId ~= slot0.roomData:GetMasetPlayerId() then
+		ShowTips(string.format(GetTips("ACTIVITY_STRONGHOLD_HOMEOWNER_CHANGE"), slot0.roomData:GetRoomPlayerData(slot1).nick))
 
-	if arg_38_0.masterPlayerId ~= var_38_0 then
-		local var_38_1 = arg_38_0.roomData:GetRoomPlayerData(var_38_0)
-
-		ShowTips(string.format(GetTips("ACTIVITY_STRONGHOLD_HOMEOWNER_CHANGE"), var_38_1.nick))
-
-		arg_38_0.masterPlayerId = var_38_0
+		slot0.masterPlayerId = slot1
 	end
 
-	arg_38_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.OnFriendsListChange(arg_39_0, arg_39_1)
-	arg_39_0:RefreshPlayerState()
+function slot0.OnFriendsListChange(slot0, slot1)
+	slot0:RefreshPlayerState()
 end
 
-return var_0_0
+return slot0

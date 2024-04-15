@@ -1,29 +1,29 @@
-local var_0_0 = class("SkuldTravelPlotView", ReduxView)
-local var_0_1 = "TextureConfig/EmptyDream/travel/item/"
+slot0 = class("SkuldTravelPlotView", ReduxView)
+slot1 = "TextureConfig/EmptyDream/travel/item/"
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/EDream_travelled/EDream_travelDetails"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.skuldSpine_ = arg_4_0.skuldGo_:GetComponent("Spine.Unity.SkeletonGraphic")
-	arg_4_0.skuldidle_ = true
+	slot0.skuldSpine_ = slot0.skuldGo_:GetComponent("Spine.Unity.SkeletonGraphic")
+	slot0.skuldidle_ = true
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgbtn_, nil, function()
-		if arg_5_0.params_.poltid then
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgbtn_, nil, function ()
+		if uv0.params_.poltid then
 			JumpTools.Back()
 		else
 			gameContext:Go("/skuldTravelView")
@@ -31,72 +31,66 @@ function var_0_0.AddUIListeners(arg_5_0)
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 
-	if not arg_7_0.params_.poltid then
+	if not slot0.params_.poltid then
 		SkuldTravelAction:ReadTravelResult()
 	end
 
-	arg_7_0.skuldSpine_.AnimationState:SetAnimation(0, "idle", true)
+	slot0.skuldSpine_.AnimationState:SetAnimation(0, "idle", true)
 
-	arg_7_0.skuldidle_ = true
+	slot0.skuldidle_ = true
 
-	arg_7_0:CreatTiemrAndStart()
+	slot0:CreatTiemrAndStart()
 end
 
-function var_0_0.CreatTiemrAndStart(arg_8_0)
-	if arg_8_0.timer_ == nil then
-		arg_8_0.timer_ = Timer.New(function()
-			if arg_8_0.skuldidle_ then
-				arg_8_0.skuldSpine_.AnimationState:SetAnimation(0, "camera", true)
+function slot0.CreatTiemrAndStart(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			if uv0.skuldidle_ then
+				uv0.skuldSpine_.AnimationState:SetAnimation(0, "camera", true)
 				manager.audio:PlayEffect("minigame_activity_1_6", "minigame_activity_1_6_camera", "")
 
-				arg_8_0.skuldidle_ = false
+				uv0.skuldidle_ = false
 			else
-				arg_8_0.skuldSpine_.AnimationState:SetAnimation(0, "idle", true)
+				uv0.skuldSpine_.AnimationState:SetAnimation(0, "idle", true)
 
-				arg_8_0.skuldidle_ = true
+				uv0.skuldidle_ = true
 			end
 		end, 4, -1)
 
-		arg_8_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0
-
-	if arg_10_0.params_.poltid then
-		var_10_0 = TravelSkuldStoryCfg[arg_10_0.params_.poltid]
-	else
-		var_10_0 = TravelSkuldStoryCfg[SkuldTravelData:GetCurPlotId()]
-	end
-
-	arg_10_0.nametext_.text = GetI18NText(var_10_0.story_name)
-	arg_10_0.stroytext_.text = GetI18NText(var_10_0.story_word)
-	arg_10_0.itemnametext_.text = GetI18NText(TravelSkuldItemCfg[var_10_0.item_id].name)
-	arg_10_0.itemimage_.sprite = getSpriteWithoutAtlas(var_0_1 .. TravelSkuldItemCfg[var_10_0.item_id].icon)
+function slot0.RefreshUI(slot0)
+	slot1 = nil
+	slot1 = (not slot0.params_.poltid or TravelSkuldStoryCfg[slot0.params_.poltid]) and TravelSkuldStoryCfg[SkuldTravelData:GetCurPlotId()]
+	slot0.nametext_.text = GetI18NText(slot1.story_name)
+	slot0.stroytext_.text = GetI18NText(slot1.story_word)
+	slot0.itemnametext_.text = GetI18NText(TravelSkuldItemCfg[slot1.item_id].name)
+	slot0.itemimage_.sprite = getSpriteWithoutAtlas(uv0 .. TravelSkuldItemCfg[slot1.item_id].icon)
 end
 
-function var_0_0.OnExit(arg_11_0)
+function slot0.OnExit(slot0)
 	manager.audio:StopEffect()
 
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_12_0.super.Dispose(arg_12_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

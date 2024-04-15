@@ -1,13 +1,12 @@
 SubPlotBaseView = import("game.views.sectionSelect.subPlot.base.SubPlotBaseView")
+slot0 = class("SubPlotHeraView", SubPlotBaseView)
 
-local var_0_0 = class("SubPlotHeraView", SubPlotBaseView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/MardukUI/hera/HeraStoryUI"
 end
 
-function var_0_0.GetItemClass(arg_2_0)
+function slot0.GetItemClass(slot0)
 	return SubPlotHeraItem
 end
 
-return var_0_0
+return slot0

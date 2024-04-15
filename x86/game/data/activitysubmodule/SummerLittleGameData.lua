@@ -1,64 +1,62 @@
-local var_0_0 = singletonClass("SummerLittleGameData")
-local var_0_1 = {}
-local var_0_2 = {}
+slot0 = singletonClass("SummerLittleGameData")
+slot1 = {}
+slot2 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
 end
 
-function var_0_0.InitLeviathanGameData(arg_2_0, arg_2_1)
-	var_0_1[arg_2_1.activity_id] = arg_2_1.challenge_state
+function slot0.InitLeviathanGameData(slot0, slot1)
+	uv0[slot1.activity_id] = slot1.challenge_state
 end
 
-function var_0_0.GetLeviathanState(arg_3_0, arg_3_1)
-	return var_0_1[arg_3_1]
+function slot0.GetLeviathanState(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.SetLeviathanGameReward(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1[arg_4_1] = arg_4_2
+function slot0.SetLeviathanGameReward(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.InitSkadiGameData(arg_5_0, arg_5_1)
-	var_0_2[arg_5_1.activity_id] = {
-		star = cleanProtoTable(arg_5_1.achieve_star),
-		reward = cleanProtoTable(arg_5_1.achieve_star_reward)
+function slot0.InitSkadiGameData(slot0, slot1)
+	uv0[slot1.activity_id] = {
+		star = cleanProtoTable(slot1.achieve_star),
+		reward = cleanProtoTable(slot1.achieve_star_reward)
 	}
 end
 
-function var_0_0.GetSkadiStars(arg_6_0, arg_6_1)
-	if not var_0_2[arg_6_1] then
+function slot0.GetSkadiStars(slot0, slot1)
+	if not uv0[slot1] then
 		return {}
 	end
 
-	return var_0_2[arg_6_1].star
+	return uv0[slot1].star
 end
 
-function var_0_0.GetSkadiReward(arg_7_0, arg_7_1)
-	if not var_0_2[arg_7_1] then
+function slot0.GetSkadiReward(slot0, slot1)
+	if not uv0[slot1] then
 		return {}
 	end
 
-	return var_0_2[arg_7_1].reward
+	return uv0[slot1].reward
 end
 
-function var_0_0.SetSkadiGameReward(arg_8_0, arg_8_1, arg_8_2)
-	table.insert(var_0_2[arg_8_1].reward, arg_8_2)
+function slot0.SetSkadiGameReward(slot0, slot1, slot2)
+	table.insert(uv0[slot1].reward, slot2)
 end
 
-function var_0_0.GetSkadiRewardNum(arg_9_0)
-	local var_9_0 = 0
-
-	for iter_9_0, iter_9_1 in pairs(var_0_2) do
-		var_9_0 = var_9_0 + #iter_9_1.reward
+function slot0.GetSkadiRewardNum(slot0)
+	for slot5, slot6 in pairs(uv0) do
+		slot1 = 0 + #slot6.reward
 	end
 
-	return var_9_0
+	return slot1
 end
 
-function var_0_0.IsSkadiRewardPointShow(arg_10_0)
-	for iter_10_0, iter_10_1 in pairs(var_0_2) do
-		if #iter_10_1.reward < #iter_10_1.star then
+function slot0.IsSkadiRewardPointShow(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if #slot5.reward < #slot5.star then
 			return true
 		end
 	end
@@ -66,13 +64,9 @@ function var_0_0.IsSkadiRewardPointShow(arg_10_0)
 	return false
 end
 
-function var_0_0.IsSkadiLevelPointShow(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(var_0_2) do
-		local var_11_0 = ActivityData:GetActivityData(iter_11_0).startTime
-		local var_11_1 = ActivityData:GetActivityData(iter_11_0).stopTime
-		local var_11_2 = manager.time:GetServerTime()
-
-		if var_11_0 <= var_11_2 and var_11_2 <= var_11_1 and #iter_11_1.star < 1 then
+function slot0.IsSkadiLevelPointShow(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if ActivityData:GetActivityData(slot4).startTime <= manager.time:GetServerTime() and slot8 <= ActivityData:GetActivityData(slot4).stopTime and #slot5.star < 1 then
 			return true
 		end
 	end
@@ -80,9 +74,9 @@ function var_0_0.IsSkadiLevelPointShow(arg_11_0)
 	return false
 end
 
-function var_0_0.IsLeviathanRewardPointShow(arg_12_0)
-	for iter_12_0, iter_12_1 in pairs(var_0_1) do
-		if iter_12_1 == 1 then
+function slot0.IsLeviathanRewardPointShow(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if slot5 == 1 then
 			return true
 		end
 	end
@@ -90,13 +84,9 @@ function var_0_0.IsLeviathanRewardPointShow(arg_12_0)
 	return false
 end
 
-function var_0_0.IsLeviathanLevelPointShow(arg_13_0)
-	for iter_13_0, iter_13_1 in pairs(var_0_1) do
-		local var_13_0 = ActivityData:GetActivityData(iter_13_0).startTime
-		local var_13_1 = ActivityData:GetActivityData(iter_13_0).stopTime
-		local var_13_2 = manager.time:GetServerTime()
-
-		if var_13_0 <= var_13_2 and var_13_2 <= var_13_1 and iter_13_1 == 0 then
+function slot0.IsLeviathanLevelPointShow(slot0)
+	for slot4, slot5 in pairs(uv0) do
+		if ActivityData:GetActivityData(slot4).startTime <= manager.time:GetServerTime() and slot8 <= ActivityData:GetActivityData(slot4).stopTime and slot5 == 0 then
 			return true
 		end
 	end
@@ -104,4 +94,4 @@ function var_0_0.IsLeviathanLevelPointShow(arg_13_0)
 	return false
 end
 
-return var_0_0
+return slot0

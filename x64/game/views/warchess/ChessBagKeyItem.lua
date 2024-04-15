@@ -1,39 +1,39 @@
-local var_0_0 = class("ChessBagKeyItem", ReduxView)
+slot0 = class("ChessBagKeyItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.emptyController_ = arg_2_0.controllerExCollection_:GetController("empty")
-	arg_2_0.typeController_ = arg_2_0.controllerExCollection_:GetController("type")
-	arg_2_0.bottomAmountController_ = arg_2_0.controllerExCollection_:GetController("textcom")
+	slot0.emptyController_ = slot0.controllerExCollection_:GetController("empty")
+	slot0.typeController_ = slot0.controllerExCollection_:GetController("type")
+	slot0.bottomAmountController_ = slot0.controllerExCollection_:GetController("textcom")
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	arg_4_0.info_ = arg_4_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.info_ = slot1
 
-	arg_4_0.emptyController_:SetSelectedState("off")
-	arg_4_0.typeController_:SetSelectedState("material")
-	arg_4_0.bottomAmountController_:SetSelectedState("on")
+	slot0.emptyController_:SetSelectedState("off")
+	slot0.typeController_:SetSelectedState("material")
+	slot0.bottomAmountController_:SetSelectedState("on")
 
-	arg_4_0.iconImage_.sprite = getSpriteWithoutAtlas(arg_4_0.info_.iconPath)
-	arg_4_0.bottomAmountText_.text = arg_4_0.info_.number
+	slot0.iconImage_.sprite = getSpriteWithoutAtlas(slot0.info_.iconPath)
+	slot0.bottomAmountText_.text = slot0.info_.number
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.bottomAmountText_.transform)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.bottomAmountText_.transform)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

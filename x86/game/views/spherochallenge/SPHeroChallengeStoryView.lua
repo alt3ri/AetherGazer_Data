@@ -1,106 +1,100 @@
-local var_0_0 = class("SPHeroChallengeStoryView", import("game.views.sectionSelect.SectionBaseView"))
-local var_0_1 = 300
+slot0 = class("SPHeroChallengeStoryView", import("game.views.sectionSelect.SectionBaseView"))
+slot1 = 300
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.activityID_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:UIName()), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load(arg_1_0:UIName())
+	uv0.super.Init(slot0)
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	var_0_0.super.Init(arg_1_0)
-
-	arg_1_0.scrollMoveView_.viewportRect_.sizeDelta = Vector2(arg_1_0.scrollViewTrs.sizeDelta.x - var_0_1, arg_1_0.scrollMoveView_.viewportRect_.sizeDelta.y)
-	arg_1_0.scrollMoveView_.viewportRect_.anchoredPosition = Vector2(var_0_1 + arg_1_0.scrollViewTrs.sizeDelta.x / 2, arg_1_0.scrollMoveView_.viewportRect_.anchoredPosition.y)
+	slot0.scrollMoveView_.viewportRect_.sizeDelta = Vector2(slot0.scrollViewTrs.sizeDelta.x - uv1, slot0.scrollMoveView_.viewportRect_.sizeDelta.y)
+	slot0.scrollMoveView_.viewportRect_.anchoredPosition = Vector2(uv1 + slot0.scrollViewTrs.sizeDelta.x / 2, slot0.scrollMoveView_.viewportRect_.anchoredPosition.y)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	local var_2_0 = SPHeroChallengeData:GetCurActivityInfo()
-	local var_2_1 = #var_2_0.storyFinStageList + 1
+function slot0.OnEnter(slot0)
+	slot1 = SPHeroChallengeData:GetCurActivityInfo()
 
-	if var_2_1 > #var_2_0.storyFinStageList then
-		var_2_1 = #var_2_0.storyFinStageList
+	if #slot1.storyFinStageList + 1 > #slot1.storyFinStageList then
+		slot2 = #slot1.storyFinStageList
 	end
 
-	local var_2_2 = arg_2_0:GetCfgName().get_id_list_by_sub_type[SpHeroChallengeConst.BattleSubType.story][var_2_1]
+	slot3 = slot0:GetCfgName().get_id_list_by_sub_type[SpHeroChallengeConst.BattleSubType.story][slot2]
 
-	var_0_0.super.OnEnter(arg_2_0)
+	uv0.super.OnEnter(slot0)
 
-	if arg_2_0.params_.isDetailJump then
-		local var_2_3 = SPHeroChallengeTools:GetNextCanBattleStageID(SpHeroChallengeConst.ScheduleSubType.story)
-
-		for iter_2_0, iter_2_1 in pairs(arg_2_0.missionItem_) do
-			if iter_2_1.stageID_ == var_2_3 then
-				iter_2_1:OnClick()
+	if slot0.params_.isDetailJump then
+		for slot8, slot9 in pairs(slot0.missionItem_) do
+			if slot9.stageID_ == SPHeroChallengeTools:GetNextCanBattleStageID(SpHeroChallengeConst.ScheduleSubType.story) then
+				slot9:OnClick()
 			end
 		end
 
-		arg_2_0.params_.isDetailJump = nil
+		slot0.params_.isDetailJump = nil
 	end
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.OnUpdate(arg_4_0)
-	if arg_4_0:IsOpenSectionInfo() then
-		arg_4_0.state = 1
+function slot0.OnUpdate(slot0)
+	if slot0:IsOpenSectionInfo() then
+		slot0.state = 1
 	else
-		arg_4_0.state = 2
+		slot0.state = 2
 	end
 
-	var_0_0.super.OnUpdate(arg_4_0)
+	uv0.super.OnUpdate(slot0)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	var_0_0.super.RefreshUI(arg_5_0)
-	arg_5_0:SwitchBG()
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
+	slot0:SwitchBG()
 end
 
-function var_0_0.OnExit(arg_6_0)
-	if arg_6_0.state == 1 then
-		arg_6_0.state = 2
+function slot0.OnExit(slot0)
+	if slot0.state == 1 then
+		slot0.state = 2
 	end
 
-	var_0_0.super.OnExit(arg_6_0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	if arg_7_0.gameObject_ then
-		GameObject.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	if slot0.gameObject_ then
+		GameObject.Destroy(slot0.gameObject_)
 
-		arg_7_0.gameObject_ = nil
+		slot0.gameObject_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_7_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetCfgName(arg_8_0)
+function slot0.GetCfgName(slot0)
 	return BattleVerthandiExclusiveCfg
 end
 
-function var_0_0.GetSectionItemClass(arg_9_0)
+function slot0.GetSectionItemClass(slot0)
 	return SPHeroChallengeStroyItem
 end
 
-function var_0_0.IsOpenSectionInfo(arg_10_0)
-	return arg_10_0:IsOpenRoute("spHeroChallengeSectionView")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("spHeroChallengeSectionView")
 end
 
-function var_0_0.RefreshData(arg_11_0)
-	arg_11_0.chapterID_ = SPHeroChallengeData.activityCfg[arg_11_0.activityID_].storyChapter
-	arg_11_0.stageData_ = {}
-	arg_11_0.stageList_ = ChapterCfg[arg_11_0.chapterID_].section_id_list
+function slot0.RefreshData(slot0)
+	slot0.chapterID_ = SPHeroChallengeData.activityCfg[slot0.activityID_].storyChapter
+	slot0.stageData_ = {}
+	slot0.stageList_ = ChapterCfg[slot0.chapterID_].section_id_list
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.stageList_) do
-		arg_11_0.stageData_[iter_11_1] = {
-			id = arg_11_0.stageList_[iter_11_0]
+	for slot4, slot5 in ipairs(slot0.stageList_) do
+		slot0.stageData_[slot5] = {
+			id = slot0.stageList_[slot4]
 		}
 	end
 
-	arg_11_0.oepnStageList_ = SPHeroChallengeTools:GetStoryOpenStageList(arg_11_0.chapterID_, arg_11_0:GetCfgName())
+	slot0.oepnStageList_ = SPHeroChallengeTools:GetStoryOpenStageList(slot0.chapterID_, slot0:GetCfgName())
 end
 
-return var_0_0
+return slot0

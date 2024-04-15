@@ -1,67 +1,58 @@
-local var_0_0 = class("SequentialBattleBossInfoItem", ReduxView)
+slot0 = class("SequentialBattleBossInfoItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.skillList_ = {}
-	arg_1_0.scrollRectCast_ = arg_1_0:FindCom("ScrollRectCast", "", arg_1_0.scrollView_.transform)
+	slot0.skillList_ = {}
+	slot0.scrollRectCast_ = slot0:FindCom("ScrollRectCast", "", slot0.scrollView_.transform)
 
-	arg_1_0.scrollRectCast_:SetParent(arg_1_0.parentGo_)
+	slot0.scrollRectCast_:SetParent(slot0.parentGo_)
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.skillList_) do
-		iter_2_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.skillList_) do
+		slot5:Dispose()
 	end
 
-	arg_2_0.skillList_ = nil
+	slot0.skillList_ = nil
 end
 
-function var_0_0.SetBossID(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.bossIDList_ = arg_3_1
+function slot0.SetBossID(slot0, slot1, slot2)
+	slot0.bossIDList_ = slot1
 
-	local var_3_0
-
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.bossIDList_) do
-		if var_3_0 == nil then
-			var_3_0 = tostring(iter_3_1)
-		else
-			var_3_0 = var_3_0 .. tostring(iter_3_1)
-		end
+	for slot7, slot8 in pairs(slot0.bossIDList_) do
+		slot3 = (nil ~= nil or tostring(slot8)) and tostring(slot8) .. tostring(slot8)
 	end
 
-	arg_3_0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/solo582x648/%s", var_3_0))
+	slot10 = slot3
+	slot0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/solo582x648/%s", slot10))
+	slot0.nameText_.text = GetMonsterName(slot0.bossIDList_)
+	slot0.tagText_.text = GetTips("RACE_TYPE_" .. MonsterCfg[slot0.bossIDList_[1]].race)
+	slot5 = GetMonsterSkillDesList(slot0.bossIDList_)
+	slot6 = 1
 
-	local var_3_1 = MonsterCfg[arg_3_0.bossIDList_[1]]
-
-	arg_3_0.nameText_.text = GetMonsterName(arg_3_0.bossIDList_)
-	arg_3_0.tagText_.text = GetTips("RACE_TYPE_" .. var_3_1.race)
-
-	local var_3_2 = GetMonsterSkillDesList(arg_3_0.bossIDList_)
-	local var_3_3 = 1
-
-	for iter_3_2 = 1, 6 do
-		if var_3_2[iter_3_2] then
-			if not arg_3_0.skillList_[var_3_3] then
-				arg_3_0.skillList_[var_3_3] = BattleBossChallengeSkillItem.New(arg_3_0.skillItem_, arg_3_0.skillParent_)
+	for slot10 = 1, 6 do
+		if slot5[slot10] then
+			if not slot0.skillList_[slot6] then
+				slot0.skillList_[slot6] = BattleBossChallengeSkillItem.New(slot0.skillItem_, slot0.skillParent_)
 			end
 
-			arg_3_0.skillList_[var_3_3]:RefreshUI(var_3_2[iter_3_2])
+			slot0.skillList_[slot6]:RefreshUI(slot5[slot10])
 
-			var_3_3 = var_3_3 + 1
+			slot6 = slot6 + 1
 		end
 	end
 
-	for iter_3_3 = var_3_3, #arg_3_0.skillList_ do
-		arg_3_0.skillList_[iter_3_3]:Hide()
+	for slot10 = slot6, #slot0.skillList_ do
+		slot0.skillList_[slot10]:Hide()
 	end
 
-	arg_3_0.lvText_.text = NumberTools.IntToRomam(arg_3_2)
+	slot0.lvText_.text = NumberTools.IntToRomam(slot2)
 end
 
-return var_0_0
+return slot0

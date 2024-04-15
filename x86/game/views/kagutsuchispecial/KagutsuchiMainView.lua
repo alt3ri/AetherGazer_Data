@@ -1,113 +1,103 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("KagutsuchiHomeView", var_0_0)
+slot1 = class("KagutsuchiHomeView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionKagutsuchiUI"
 end
 
-function var_0_1.Ctor(arg_2_0, arg_2_1, arg_2_2)
-	var_0_1.super.Ctor(arg_2_0, arg_2_1, arg_2_0:GetActivityID())
+function slot1.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot0:GetActivityID())
 end
 
-function var_0_1.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_1.AddUIListener(arg_5_0)
-	local var_5_0 = arg_5_0:GetActivityID()
-	local var_5_1 = ActivityTools.GetRedPointKey(var_5_0) .. var_5_0
-	local var_5_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, var_5_1)
-	local var_5_3 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, var_5_1)
-	local var_5_4 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_HANAFUDA, var_5_1)
+function slot1.AddUIListener(slot0)
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
+	slot3 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, slot2)
+	slot4 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, slot2)
+	slot5 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_HANAFUDA, slot2)
 
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
 		OperationRecorder.RecordButtonTouch("activity_kagutsuchi_draw1")
 
-		if not ActivityTools.ActivityOpenCheck(var_5_0) then
+		if not ActivityTools.ActivityOpenCheck(uv0) then
 			return
 		end
 
 		JumpTools.OpenPageByJump("/kagutsuchiGacha", {})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.workBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(var_5_0) then
+	slot0:AddBtnListener(slot0.workBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0) then
 			return
 		end
 
-		KagutsuchiWorkAction:BanRedPoint(var_5_2)
+		KagutsuchiWorkAction:BanRedPoint(uv1)
 		JumpTools.OpenPageByJump("/kagutsuchiWork", {
-			activityID = arg_5_0:GetActivityID()
+			activityID = uv2:GetActivityID()
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.fishBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(var_5_0) then
+	slot0:AddBtnListener(slot0.fishBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0) then
 			return
 		end
 
-		KagutsuchiWorkAction:BanRedPoint(var_5_3)
+		KagutsuchiWorkAction:BanRedPoint(uv1)
 		DormMinigame.Launch("HZ07_diaoyu1")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.hanafudaBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(var_5_0) then
+	slot0:AddBtnListener(slot0.hanafudaBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0) then
 			return
 		end
 
-		KagutsuchiWorkAction:BanRedPoint(var_5_4)
+		KagutsuchiWorkAction:BanRedPoint(uv1)
 		JumpTools.OpenPageByJump("/hanafudaGameView", {})
 	end)
 end
 
-function var_0_1.OnEnter(arg_10_0)
-	var_0_1.super.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:RefreshUI()
 
-	local var_10_0 = arg_10_0:GetActivityID()
-	local var_10_1 = ActivityTools.GetRedPointKey(var_10_0) .. var_10_0
-	local var_10_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, var_10_1)
-	local var_10_3 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, var_10_1)
-	local var_10_4 = string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA, var_10_1)
-	local var_10_5 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_GACHA, var_10_1)
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
 
-	manager.redPoint:bindUIandKey(arg_10_0.workBtn_.transform, var_10_2)
-	manager.redPoint:bindUIandKey(arg_10_0.hanafudaBtn_.transform, var_10_4)
-	manager.redPoint:bindUIandKey(arg_10_0.fishBtn_.transform, var_10_3)
-	manager.redPoint:bindUIandKey(arg_10_0.rewardBtn_.transform, var_10_5)
+	manager.redPoint:bindUIandKey(slot0.workBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, slot2))
+	manager.redPoint:bindUIandKey(slot0.hanafudaBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA, slot2))
+	manager.redPoint:bindUIandKey(slot0.fishBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, slot2))
+	manager.redPoint:bindUIandKey(slot0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_GACHA, slot2))
 end
 
-function var_0_1.OnExit(arg_11_0)
-	var_0_1.super.OnExit(arg_11_0)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 
-	local var_11_0 = arg_11_0:GetActivityID()
-	local var_11_1 = ActivityTools.GetRedPointKey(var_11_0) .. var_11_0
-	local var_11_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, var_11_1)
-	local var_11_3 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, var_11_1)
-	local var_11_4 = string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA, var_11_1)
-	local var_11_5 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_GACHA, var_11_1)
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityTools.GetRedPointKey(slot1) .. slot1
 
-	manager.redPoint:unbindUIandKey(arg_11_0.workBtn_.transform, var_11_2)
-	manager.redPoint:unbindUIandKey(arg_11_0.hanafudaBtn_.transform, var_11_4)
-	manager.redPoint:unbindUIandKey(arg_11_0.fishBtn_.transform, var_11_3)
-	manager.redPoint:unbindUIandKey(arg_11_0.rewardBtn_.transform, var_11_5)
+	manager.redPoint:unbindUIandKey(slot0.workBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_REWARD, slot2))
+	manager.redPoint:unbindUIandKey(slot0.hanafudaBtn_.transform, string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA, slot2))
+	manager.redPoint:unbindUIandKey(slot0.fishBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_FISH, slot2))
+	manager.redPoint:unbindUIandKey(slot0.rewardBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_GACHA, slot2))
 end
 
-function var_0_1.GetActivityID(arg_12_0)
+function slot1.GetActivityID(slot0)
 	return ActivityConst.KAGUTSUCHI_ACTIVITY
 end
 
-function var_0_1.RefreshUI(arg_13_0)
-	local var_13_0 = arg_13_0:GetActivityID()
-	local var_13_1 = ActivityData:GetActivityData(var_13_0)
-	local var_13_2 = var_13_1.startTime
-	local var_13_3 = var_13_1.stopTime
+function slot1.RefreshUI(slot0)
+	slot1 = slot0:GetActivityID()
+	slot2 = ActivityData:GetActivityData(slot1)
+	slot3 = slot2.startTime
+	slot4 = slot2.stopTime
+	slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_)
 
-	arg_13_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(arg_13_0.stopTime_)
-
-	KagutsuchiWorkAction:UpdateRedPoint(var_13_0)
+	KagutsuchiWorkAction:UpdateRedPoint(slot1)
 end
 
-return var_0_1
+return slot1

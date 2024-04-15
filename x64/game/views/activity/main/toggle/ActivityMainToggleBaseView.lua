@@ -1,287 +1,271 @@
-local var_0_0 = class("ActivityMainToggleBaseView", ReduxView)
+slot0 = class("ActivityMainToggleBaseView", ReduxView)
+slot0.IsCommonMainActivityPage = true
 
-var_0_0.IsCommonMainActivityPage = true
-
-function var_0_0.UIName(arg_1_0)
-	local var_1_0 = arg_1_0:GetActivityID()
-
-	return ActivityEntraceCfg[var_1_0].prefab_path
+function slot0.UIName(slot0)
+	return ActivityEntraceCfg[slot0:GetActivityID()].prefab_path
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.toggleClickHandler_ = handler(arg_3_0, arg_3_0.ToggleOnClick)
-	arg_3_0.toggleOverHandler_ = handler(arg_3_0, arg_3_0.ToggleOver)
-	arg_3_0.toggleItemList_ = {}
-	arg_3_0.panelItemList_ = {}
-	arg_3_0.activeItemList_ = {}
-	arg_3_0.activePanelList_ = {}
+	slot0.toggleClickHandler_ = handler(slot0, slot0.ToggleOnClick)
+	slot0.toggleOverHandler_ = handler(slot0, slot0.ToggleOver)
+	slot0.toggleItemList_ = {}
+	slot0.panelItemList_ = {}
+	slot0.activeItemList_ = {}
+	slot0.activePanelList_ = {}
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INVITE_BAR
 	})
-	manager.notify:RegistListener(ACTIVITY_MAIN_TOGGLE_CLICK, arg_4_0.toggleClickHandler_)
-	manager.notify:RegistListener(ACTIVITY_MAIN_TOGGLE_OVER, arg_4_0.toggleOverHandler_)
+	manager.notify:RegistListener(ACTIVITY_MAIN_TOGGLE_CLICK, slot0.toggleClickHandler_)
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.toggleItemList_) do
-		iter_4_1:Show(false)
+	slot4 = ACTIVITY_MAIN_TOGGLE_OVER
+	slot5 = slot0.toggleOverHandler_
+
+	manager.notify:RegistListener(slot4, slot5)
+
+	for slot4, slot5 in pairs(slot0.toggleItemList_) do
+		slot5:Show(false)
 	end
 
-	arg_4_0.activeItemList_ = {}
+	slot0.activeItemList_ = {}
+	slot4 = slot0:GetActivityTheme()
 
-	for iter_4_2, iter_4_3 in ipairs(ActivityToggleCfg.get_id_list_by_activity_theme[arg_4_0:GetActivityTheme()]) do
-		local var_4_0 = ActivityToggleCfg[iter_4_3]
+	for slot4, slot5 in ipairs(ActivityToggleCfg.get_id_list_by_activity_theme[slot4]) do
+		slot6 = ActivityToggleCfg[slot5]
+		slot0.toggleItemList_[slot6.activity_id] = slot0.toggleItemList_[slot6.activity_id] or ActivityMainToggleItem.New(slot0.itemGo_, slot0.itemParentGo_, slot5, slot6.activity_id)
 
-		arg_4_0.toggleItemList_[var_4_0.activity_id] = arg_4_0.toggleItemList_[var_4_0.activity_id] or ActivityMainToggleItem.New(arg_4_0.itemGo_, arg_4_0.itemParentGo_, iter_4_3, var_4_0.activity_id)
+		slot0.toggleItemList_[slot6.activity_id]:Show(true)
 
-		arg_4_0.toggleItemList_[var_4_0.activity_id]:Show(true)
-
-		arg_4_0.activeItemList_[var_4_0.activity_id] = true
+		slot0.activeItemList_[slot6.activity_id] = true
 	end
 
-	for iter_4_4, iter_4_5 in pairs(arg_4_0.activeItemList_) do
-		arg_4_0.toggleItemList_[iter_4_4]:OnEnter()
+	for slot4, slot5 in pairs(slot0.activeItemList_) do
+		slot0.toggleItemList_[slot4]:OnEnter()
 	end
 
-	arg_4_0.activePanelList_ = {}
+	slot0.activePanelList_ = {}
+	slot1 = nil
 
-	local var_4_1
-
-	if arg_4_0.params_.isBack then
-		var_4_1 = ActivityVersionData:GetSelectActivityID(arg_4_0:GetActivityID())
-	elseif arg_4_0.params_.subActivityID then
-		var_4_1 = arg_4_0.params_.subActivityID
-	else
-		var_4_1 = arg_4_0:GetOpenActivityID()
-	end
-
-	if var_4_1 == nil then
-		arg_4_0:Go("/home")
+	if ((not slot0.params_.isBack or ActivityVersionData:GetSelectActivityID(slot0:GetActivityID())) and (not slot0.params_.subActivityID or slot0.params_.subActivityID) and slot0:GetOpenActivityID()) == nil then
+		slot0:Go("/home")
 
 		return
 	end
 
-	arg_4_0:ScrollToggle(var_4_1)
-	arg_4_0:ToggleOnClick(var_4_1, true)
-	arg_4_0:UpdateUIArrow()
+	slot0:ScrollToggle(slot1)
+	slot0:ToggleOnClick(slot1, true)
+	slot0:UpdateUIArrow()
 end
 
-function var_0_0.OnTop(arg_5_0)
-	local var_5_0 = ActivityVersionData:GetSelectActivityID(arg_5_0:GetActivityID())
-
-	if var_5_0 == nil then
+function slot0.OnTop(slot0)
+	if ActivityVersionData:GetSelectActivityID(slot0:GetActivityID()) == nil then
 		return
 	end
 
-	if arg_5_0.panelItemList_[var_5_0] then
-		arg_5_0.panelItemList_[var_5_0]:OnTop()
+	if slot0.panelItemList_[slot1] then
+		slot0.panelItemList_[slot1]:OnTop()
 
-		if arg_5_0.panelItemList_[var_5_0].UpdateBar then
-			arg_5_0.panelItemList_[var_5_0]:UpdateBar()
+		if slot0.panelItemList_[slot1].UpdateBar then
+			slot0.panelItemList_[slot1]:UpdateBar()
 		end
 	end
 end
 
-function var_0_0.OnUpdate(arg_6_0)
-	local var_6_0 = arg_6_0.params_.subActivityID
-	local var_6_1 = ActivityVersionData:GetSelectActivityID(arg_6_0:GetActivityID())
-
-	if not var_6_0 or var_6_1 == var_6_0 then
+function slot0.OnUpdate(slot0)
+	if not slot0.params_.subActivityID or ActivityVersionData:GetSelectActivityID(slot0:GetActivityID()) == slot1 then
 		return
 	end
 
-	arg_6_0:ScrollToggle(var_6_0)
-	arg_6_0:ToggleOnClick(var_6_0, true)
+	slot0:ScrollToggle(slot1)
+	slot0:ToggleOnClick(slot1, true)
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(ACTIVITY_MAIN_TOGGLE_CLICK, arg_7_0.toggleClickHandler_)
-	manager.notify:RemoveListener(ACTIVITY_MAIN_TOGGLE_OVER, arg_7_0.toggleOverHandler_)
+	manager.notify:RemoveListener(ACTIVITY_MAIN_TOGGLE_CLICK, slot0.toggleClickHandler_)
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.activeItemList_) do
-		arg_7_0.toggleItemList_[iter_7_0]:OnExit()
+	slot4 = ACTIVITY_MAIN_TOGGLE_OVER
+	slot5 = slot0.toggleOverHandler_
+
+	manager.notify:RemoveListener(slot4, slot5)
+
+	for slot4, slot5 in pairs(slot0.activeItemList_) do
+		slot0.toggleItemList_[slot4]:OnExit()
 	end
 
-	for iter_7_2, iter_7_3 in pairs(arg_7_0.activePanelList_) do
-		local var_7_0 = arg_7_0.panelItemList_[iter_7_2]
+	for slot4, slot5 in pairs(slot0.activePanelList_) do
+		slot6 = slot0.panelItemList_[slot4]
 
-		var_7_0:Show(false)
-		var_7_0:OnExit()
+		slot6:Show(false)
+		slot6:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_8_0.toggleClickHandler_ = nil
-	arg_8_0.toggleOverHandler_ = nil
+	slot0.toggleClickHandler_ = nil
+	slot0.toggleOverHandler_ = nil
 
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.panelItemList_) do
-		iter_8_1:Dispose()
+	for slot4, slot5 in pairs(slot0.panelItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.panelItemList_ = nil
+	slot0.panelItemList_ = nil
 
-	for iter_8_2, iter_8_3 in pairs(arg_8_0.toggleItemList_) do
-		iter_8_3:Dispose()
+	for slot4, slot5 in pairs(slot0.toggleItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.toggleItemList_ = nil
+	slot0.toggleItemList_ = nil
 end
 
-function var_0_0.AddListeners(arg_9_0)
-	arg_9_0:AddToggleListener(arg_9_0.scrollView_, function(arg_10_0)
-		arg_9_0:UpdateUIArrow()
+function slot0.AddListeners(slot0)
+	slot0:AddToggleListener(slot0.scrollView_, function (slot0)
+		uv0:UpdateUIArrow()
 	end)
 end
 
-function var_0_0.GetToggleCfg(arg_11_0)
+function slot0.GetToggleCfg(slot0)
 	return {}
 end
 
-function var_0_0.GetActivityID(arg_12_0)
-	return arg_12_0.params_.activityID
+function slot0.GetActivityID(slot0)
+	return slot0.params_.activityID
 end
 
-function var_0_0.GetActivityTheme(arg_13_0)
-	return ActivityTools.GetActivityTheme(arg_13_0:GetActivityID())
+function slot0.GetActivityTheme(slot0)
+	return ActivityTools.GetActivityTheme(slot0:GetActivityID())
 end
 
-function var_0_0.ToggleOnClick(arg_14_0, arg_14_1, arg_14_2)
-	if ActivityVersionData:GetSelectActivityID(arg_14_0:GetActivityID()) == arg_14_1 and arg_14_2 ~= true then
+function slot0.ToggleOnClick(slot0, slot1, slot2)
+	if ActivityVersionData:GetSelectActivityID(slot0:GetActivityID()) == slot1 and slot2 ~= true then
 		return
 	end
 
-	arg_14_0.params_.subActivityID = arg_14_1
+	slot0.params_.subActivityID = slot1
+	slot7 = slot0:GetActivityID()
+	slot8 = slot1
 
-	ActivityVersionData:SetSelectActivityID(arg_14_0:GetActivityID(), arg_14_1)
+	ActivityVersionData:SetSelectActivityID(slot7, slot8)
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.panelItemList_) do
-		if iter_14_0 ~= arg_14_1 then
-			iter_14_1:Show(false)
+	for slot7, slot8 in pairs(slot0.panelItemList_) do
+		if slot7 ~= slot1 then
+			slot8:Show(false)
 		end
 	end
 
-	if not arg_14_0.panelItemList_[arg_14_1] then
-		arg_14_0.panelItemList_[arg_14_1] = ActivityTools.GetTogglePanelView(arg_14_1).New(arg_14_0.panelParentGo_, arg_14_1)
+	if not slot0.panelItemList_[slot1] then
+		slot0.panelItemList_[slot1] = ActivityTools.GetTogglePanelView(slot1).New(slot0.panelParentGo_, slot1)
 	end
 
-	if not arg_14_0.activePanelList_[arg_14_1] then
-		arg_14_0.panelItemList_[arg_14_1]:OnEnter()
+	if not slot0.activePanelList_[slot1] then
+		slot0.panelItemList_[slot1]:OnEnter()
 
-		arg_14_0.activePanelList_[arg_14_1] = true
+		slot0.activePanelList_[slot1] = true
 	end
 
-	arg_14_0.panelItemList_[arg_14_1]:UpdateBar()
-	arg_14_0.panelItemList_[arg_14_1]:Show(true)
+	slot0.panelItemList_[slot1]:UpdateBar()
 
-	for iter_14_2, iter_14_3 in pairs(arg_14_0.toggleItemList_) do
-		iter_14_3:OnSelect(iter_14_2 == arg_14_1)
+	slot7 = true
+
+	slot0.panelItemList_[slot1]:Show(slot7)
+
+	for slot7, slot8 in pairs(slot0.toggleItemList_) do
+		slot8:OnSelect(slot7 == slot1)
 	end
 end
 
-function var_0_0.ScrollToggle(arg_15_0, arg_15_1)
-	arg_15_0.scrollTimer_ = FrameTimer.New(function()
-		if arg_15_0.scrollView_ then
-			local var_16_0, var_16_1 = arg_15_0:GetActivityIndex(arg_15_1)
+function slot0.ScrollToggle(slot0, slot1)
+	slot0.scrollTimer_ = FrameTimer.New(function ()
+		if uv0.scrollView_ then
+			slot0, slot1 = uv0:GetActivityIndex(uv1)
 
-			if var_16_0 == nil then
-				arg_15_0.scrollView_.verticalNormalizedPosition = 1
+			if slot0 == nil then
+				uv0.scrollView_.verticalNormalizedPosition = 1
 			else
-				local var_16_2 = (var_16_0 - 1) / ((arg_15_0.contentTf_.rect.height - arg_15_0.viewTf_.rect.height) / (arg_15_0.itemTf_.rect.height + arg_15_0.contentLayout_.spacing))
-
-				if var_16_2 > 1 then
-					var_16_2 = 1
-				elseif var_16_2 < 0 then
-					var_16_2 = 0
+				if (slot0 - 1) / ((uv0.contentTf_.rect.height - uv0.viewTf_.rect.height) / (uv0.itemTf_.rect.height + uv0.contentLayout_.spacing)) > 1 then
+					slot2 = 1
+				elseif slot2 < 0 then
+					slot2 = 0
 				end
 
-				arg_15_0.scrollView_.verticalNormalizedPosition = 1 - var_16_2
+				uv0.scrollView_.verticalNormalizedPosition = 1 - slot2
 			end
 		end
 	end, 1, 1)
 
-	arg_15_0.scrollTimer_:Start()
+	slot0.scrollTimer_:Start()
 end
 
-function var_0_0.UpdateUIArrow(arg_17_0)
-	if arg_17_0.contentTf_.rect.height > arg_17_0.viewTf_.rect.height and arg_17_0.scrollView_.verticalNormalizedPosition > 0 then
-		SetActive(arg_17_0.arrowGo_, true)
+function slot0.UpdateUIArrow(slot0)
+	if slot0.viewTf_.rect.height < slot0.contentTf_.rect.height and slot0.scrollView_.verticalNormalizedPosition > 0 then
+		SetActive(slot0.arrowGo_, true)
 	else
-		SetActive(arg_17_0.arrowGo_, false)
+		SetActive(slot0.arrowGo_, false)
 	end
 end
 
-function var_0_0.ToggleOver(arg_18_0, arg_18_1)
-	if ActivityVersionData:GetSelectActivityID(arg_18_0:GetActivityID()) == arg_18_1 then
-		local var_18_0 = arg_18_0:GetOpenActivityID()
-
-		if var_18_0 == nil then
-			arg_18_0:Go("/home")
+function slot0.ToggleOver(slot0, slot1)
+	if ActivityVersionData:GetSelectActivityID(slot0:GetActivityID()) == slot1 then
+		if slot0:GetOpenActivityID() == nil then
+			slot0:Go("/home")
 
 			return
 		end
 
-		arg_18_0:ToggleOnClick(var_18_0, true)
+		slot0:ToggleOnClick(slot3, true)
 	end
 end
 
-function var_0_0.GetOpenActivityID(arg_19_0)
-	local var_19_0 = manager.time:GetServerTime()
-	local var_19_1 = ActivityToggleCfg.get_id_list_by_activity_theme[arg_19_0:GetActivityTheme()]
+function slot0.GetOpenActivityID(slot0)
+	slot1 = manager.time:GetServerTime()
 
-	for iter_19_0, iter_19_1 in ipairs(var_19_1) do
-		local var_19_2 = ActivityToggleCfg[iter_19_1].activity_id
-		local var_19_3 = ActivityData:GetActivityData(var_19_2)
-		local var_19_4 = var_19_3.startTime
-		local var_19_5 = var_19_3.stopTime
+	for slot6, slot7 in ipairs(ActivityToggleCfg.get_id_list_by_activity_theme[slot0:GetActivityTheme()]) do
+		slot8 = ActivityToggleCfg[slot7].activity_id
+		slot9 = ActivityData:GetActivityData(slot8)
+		slot10 = slot9.startTime
+		slot11 = slot9.stopTime
 
-		if ActivityShopCfg[var_19_2] then
-			local var_19_6 = ActivityShopCfg[var_19_2].shop_id
-			local var_19_7 = ShopListCfg[var_19_6].activity_id
-
-			var_19_5 = ActivityData:GetActivityData(var_19_7).stopTime
+		if ActivityShopCfg[slot8] then
+			slot11 = ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot8].shop_id].activity_id).stopTime
 		end
 
-		if var_19_4 <= var_19_0 and var_19_0 < var_19_5 then
-			return var_19_2
+		if slot10 <= slot1 and slot1 < slot11 then
+			return slot8
 		end
 	end
 end
 
-function var_0_0.GetActivityIndex(arg_20_0, arg_20_1)
-	local var_20_0 = manager.time:GetServerTime()
-	local var_20_1 = ActivityToggleCfg.get_id_list_by_activity_theme[arg_20_0:GetActivityTheme()]
-	local var_20_2 = {}
+function slot0.GetActivityIndex(slot0, slot1)
+	slot2 = manager.time:GetServerTime()
+	slot4 = {}
 
-	for iter_20_0, iter_20_1 in ipairs(var_20_1) do
-		local var_20_3 = ActivityToggleCfg[iter_20_1].activity_id
-		local var_20_4 = ActivityData:GetActivityData(var_20_3)
+	for slot8, slot9 in ipairs(ActivityToggleCfg.get_id_list_by_activity_theme[slot0:GetActivityTheme()]) do
+		slot10 = ActivityToggleCfg[slot9].activity_id
+		slot11 = ActivityData:GetActivityData(slot10)
 
-		if ActivityShopCfg[var_20_3] then
-			local var_20_5 = ActivityShopCfg[var_20_3].shop_id
-			local var_20_6 = ShopListCfg[var_20_5].activity_id
-
-			if ActivityData:GetActivityData(var_20_6):IsActivitying() then
-				table.insert(var_20_2, var_20_3)
+		if ActivityShopCfg[slot10] then
+			if ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot10].shop_id].activity_id):IsActivitying() then
+				table.insert(slot4, slot10)
 			end
-		elseif var_20_0 >= var_20_4.startTime and var_20_0 < var_20_4.stopTime then
-			table.insert(var_20_2, var_20_3)
+		elseif slot11.startTime <= slot2 and slot2 < slot11.stopTime then
+			table.insert(slot4, slot10)
 		end
 	end
 
-	return table.keyof(var_20_2, arg_20_1), #var_20_2
+	return table.keyof(slot4, slot1), #slot4
 end
 
-return var_0_0
+return slot0

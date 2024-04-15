@@ -1,79 +1,68 @@
-local var_0_0 = class("ActivityAttributeArenaRoundView", ReduxView)
+slot0 = class("ActivityAttributeArenaRoundView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return AttributeArenaTools.GetRoundUI(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return AttributeArenaTools.GetRoundUI(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, ActivityAttributeArenaRoundItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, ActivityAttributeArenaRoundItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_mask, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_mask, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activity_id = arg_8_0.params_.activityID
-	arg_8_0.listData = ActivityAttributeArenaRoundCfg.get_id_list_by_activity_id[arg_8_0.activity_id] or {}
+function slot0.OnEnter(slot0)
+	slot0.activity_id = slot0.params_.activityID
+	slot0.listData = ActivityAttributeArenaRoundCfg.get_id_list_by_activity_id[slot0.activity_id] or {}
+	slot1 = ActivityAttributeArenaData:GetRound(slot0.activity_id)
 
-	local var_8_0 = ActivityAttributeArenaData:GetRound(arg_8_0.activity_id)
+	table.sort(slot0.listData, function (slot0, slot1)
+		slot4 = ActivityAttributeArenaRoundCfg[slot0].round == uv0
+		slot5 = ActivityAttributeArenaRoundCfg[slot1].round == uv0
 
-	table.sort(arg_8_0.listData, function(arg_9_0, arg_9_1)
-		local var_9_0 = ActivityAttributeArenaRoundCfg[arg_9_0].round
-		local var_9_1 = ActivityAttributeArenaRoundCfg[arg_9_1].round
-		local var_9_2
-
-		var_9_2 = var_9_0 == var_8_0
-
-		local var_9_3
-
-		var_9_3 = var_9_1 == var_8_0
-
-		if var_9_0 == var_8_0 then
+		if slot2 == uv0 then
 			return true
-		elseif var_9_1 == var_8_0 then
+		elseif slot3 == uv0 then
 			return false
-		elseif var_9_0 > var_8_0 and var_9_1 > var_8_0 then
-			return var_9_0 < var_9_1
-		elseif var_9_0 < var_8_0 and var_9_1 < var_8_0 then
-			return var_9_0 < var_9_1
+		elseif uv0 < slot2 and uv0 < slot3 then
+			return slot2 < slot3
+		elseif slot2 < uv0 and slot3 < uv0 then
+			return slot2 < slot3
 		else
-			return var_9_0 > var_8_0
+			return uv0 < slot2
 		end
 	end)
-	arg_8_0.list:StartScroll(#arg_8_0.listData)
+	slot0.list:StartScroll(#slot0.listData)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.listData[arg_11_1]
-
-	arg_11_2:SetData(var_11_0, arg_11_0.activity_id)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.listData[slot1], slot0.activity_id)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.list:Dispose()
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

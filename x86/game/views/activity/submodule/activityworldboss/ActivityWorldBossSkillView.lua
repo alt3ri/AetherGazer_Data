@@ -1,81 +1,76 @@
-local var_0_0 = class("ActivityWorldBossSkillView", ReduxView)
+slot0 = class("ActivityWorldBossSkillView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/WorldBoss/EDream_WorldBossPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.skillList_ = {}
+	slot0.skillList_ = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnTop(arg_7_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	local var_8_0 = arg_8_0.params_.bossID
-
-	arg_8_0.bossID_ = var_8_0
-	arg_8_0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/solo582x648/%s", var_8_0))
-
-	local var_8_1 = MonsterCfg[var_8_0]
-
-	arg_8_0.nameText_.text = GetMonsterName({
-		arg_8_0.bossID_
+function slot0.OnEnter(slot0)
+	slot1 = slot0.params_.bossID
+	slot0.bossID_ = slot1
+	slot0.portraitImage_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/MardukUI/boss/solo582x648/%s", slot1))
+	slot0.nameText_.text = GetMonsterName({
+		slot0.bossID_
 	})
-	arg_8_0.tagText_.text = GetTips("RACE_TYPE_" .. var_8_1.race)
-
-	local var_8_2 = GetMonsterSkillDesList({
-		arg_8_0.bossID_
+	slot0.tagText_.text = GetTips("RACE_TYPE_" .. MonsterCfg[slot1].race)
+	slot3 = GetMonsterSkillDesList({
+		slot0.bossID_
 	})
-	local var_8_3 = 1
+	slot4 = 1
 
-	for iter_8_0 = 1, 6 do
-		if var_8_2[iter_8_0] then
-			if not arg_8_0.skillList_[var_8_3] then
-				arg_8_0.skillList_[var_8_3] = BattleBossChallengeSkillItem.New(arg_8_0.skillItem_, arg_8_0.skillParent_)
+	for slot8 = 1, 6 do
+		if slot3[slot8] then
+			if not slot0.skillList_[slot4] then
+				slot0.skillList_[slot4] = BattleBossChallengeSkillItem.New(slot0.skillItem_, slot0.skillParent_)
 			end
 
-			arg_8_0.skillList_[var_8_3]:RefreshUI(var_8_2[iter_8_0])
+			slot0.skillList_[slot4]:RefreshUI(slot3[slot8])
 
-			var_8_3 = var_8_3 + 1
+			slot4 = slot4 + 1
 		end
 	end
 
-	for iter_8_1 = var_8_3, #arg_8_0.skillList_ do
-		arg_8_0.skillList_[iter_8_1]:Hide()
+	for slot8 = slot4, #slot0.skillList_ do
+		slot0.skillList_[slot8]:Hide()
 	end
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.skillList_) do
-		iter_10_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.skillList_) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.skillList_ = nil
+	slot0.skillList_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

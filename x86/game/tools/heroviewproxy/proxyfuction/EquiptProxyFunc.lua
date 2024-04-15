@@ -1,40 +1,37 @@
 return {
-	CalHeroEquipAttribute = function(arg_1_0, arg_1_1, arg_1_2)
-		local var_1_0 = {
+	CalHeroEquipAttribute = function (slot0, slot1, slot2)
+		slot3 = {
 			0,
 			0,
 			0,
 			0,
 			0
 		}
-		local var_1_1 = arg_1_0:GetEquipDataList(arg_1_1)
-		local var_1_2 = {}
+		slot4 = slot0:GetEquipDataList(slot1)
+		slot5 = {}
 
-		if arg_1_2 then
-			var_1_1 = arg_1_2
-			var_1_2 = EquipData:GetEquipList()
+		if slot2 then
+			slot4 = slot2
+			slot5 = EquipData:GetEquipList()
 		end
 
-		for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-			local var_1_3 = {}
+		for slot9, slot10 in ipairs(slot4) do
+			slot11 = {}
 
-			if arg_1_2 then
-				var_1_3 = var_1_2[iter_1_1.equip_id]
-			else
-				var_1_3 = iter_1_1
-			end
+			if (not slot2 or slot5[slot10.equip_id]) and slot10 and slot11.prefab_id ~= 0 then
+				slot15 = nil
+				slot16 = slot1
 
-			if var_1_3 and var_1_3.prefab_id ~= 0 then
-				for iter_1_2, iter_1_3 in pairs(EquipTools.CountEquipAttribute(var_1_3, nil, arg_1_1)) do
-					if var_1_0[iter_1_2] == nil then
-						var_1_0[iter_1_2] = 0
+				for slot15, slot16 in pairs(EquipTools.CountEquipAttribute(slot11, slot15, slot16)) do
+					if slot3[slot15] == nil then
+						slot3[slot15] = 0
 					end
 
-					var_1_0[iter_1_2] = var_1_0[iter_1_2] + iter_1_3
+					slot3[slot15] = slot3[slot15] + slot16
 				end
 			end
 		end
 
-		return var_1_0
+		return slot3
 	end
 }

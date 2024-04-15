@@ -1,47 +1,45 @@
-local var_0_0 = class("AffixSettingToggle", BaseSettingToggle)
+slot0 = class("AffixSettingToggle", BaseSettingToggle)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.params_ = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.params_ = slot1
 end
 
-function var_0_0.GetName(arg_2_0)
+function slot0.GetName(slot0)
 	return "Affix"
 end
 
-function var_0_0.UIClass(arg_3_0)
-	local var_3_0 = arg_3_0.params_.stageData
-
-	if var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE then
+function slot0.UIClass(slot0)
+	if slot0.params_.stageData:GetType() == BattleConst.STAGE_TYPE_NEW.SOLO_CHALLENGE then
 		return SoloChallengeAffixDescriptionView
-	elseif var_3_0:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
+	elseif slot1:GetType() == BattleConst.STAGE_TYPE_NEW.RACE_TRIAL then
 		return RaceTrialAffixDescriptionView
 	else
 		return AffixDescriptionView
 	end
 end
 
-function var_0_0.GetPath(arg_4_0)
+function slot0.GetPath(slot0)
 	return "Widget/System/Setting/AffixDescriptionUI"
 end
 
-function var_0_0.Order(arg_5_0)
+function slot0.Order(slot0)
 	return 16
 end
 
-function var_0_0.RedPointKey(arg_6_0)
+function slot0.RedPointKey(slot0)
 	return nil
 end
 
-function var_0_0.Image(arg_7_0)
+function slot0.Image(slot0)
 	return getSprite("Atlas/SettingAtlas", "icon_setting08")
 end
 
-function var_0_0.GetParams(arg_8_0)
-	return arg_8_0.params_.affixData
+function slot0.GetParams(slot0)
+	return slot0.params_.affixData
 end
 
-function var_0_0.IsSetting(arg_9_0)
+function slot0.IsSetting(slot0)
 	return false
 end
 
-return var_0_0
+return slot0

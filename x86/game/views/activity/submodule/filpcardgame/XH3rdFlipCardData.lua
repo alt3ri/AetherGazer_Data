@@ -1,49 +1,49 @@
-local var_0_0 = singletonClass("XH3rdFlipCardData")
+slot0 = singletonClass("XH3rdFlipCardData")
 
-function var_0_0.OnReceiveFlipCardData(arg_1_0, arg_1_1)
-	local var_1_0 = arg_1_1.activity_id
-	local var_1_1 = {}
+function slot0.OnReceiveFlipCardData(slot0, slot1)
+	slot2 = slot1.activity_id
+	slot3 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1.clue_list) do
-		table.insert(var_1_1, {
-			clue_id = iter_1_1.clue_id,
-			is_viewed = iter_1_1.is_viewed
+	for slot7, slot8 in ipairs(slot1.clue_list) do
+		table.insert(slot3, {
+			clue_id = slot8.clue_id,
+			is_viewed = slot8.is_viewed
 		})
 	end
 
-	var_0_0.data = {
-		activity_id = var_1_0,
-		clue_list = var_1_1
+	uv0.data = {
+		activity_id = slot2,
+		clue_list = slot3
 	}
 
 	XH3rdFlipCardAction.UpdateClueRedPoint()
 end
 
-function var_0_0.UpdateClueData(arg_2_0, arg_2_1)
-	local var_2_0 = true
+function slot0.UpdateClueData(slot0, slot1)
+	slot2 = true
 
-	for iter_2_0, iter_2_1 in ipairs(var_0_0.data.clue_list) do
-		if iter_2_1.clue_id == arg_2_1 then
-			iter_2_1.is_viewed = true
-			var_2_0 = false
+	for slot6, slot7 in ipairs(uv0.data.clue_list) do
+		if slot7.clue_id == slot1 then
+			slot7.is_viewed = true
+			slot2 = false
 
 			break
 		end
 	end
 
-	if var_2_0 then
-		table.insert(var_0_0.data.clue_list, {
+	if slot2 then
+		table.insert(uv0.data.clue_list, {
 			is_viewed = false,
-			clue_id = arg_2_1
+			clue_id = slot1
 		})
 	end
 
 	XH3rdFlipCardAction.UpdateClueRedPoint()
 end
 
-function var_0_0.CheckClueIsGetted(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(var_0_0.data.clue_list) do
-		if iter_3_1.clue_id == arg_3_1 then
+function slot0.CheckClueIsGetted(slot0, slot1)
+	for slot5, slot6 in ipairs(uv0.data.clue_list) do
+		if slot6.clue_id == slot1 then
 			return true
 		end
 	end
@@ -51,26 +51,26 @@ function var_0_0.CheckClueIsGetted(arg_3_0, arg_3_1)
 	return false
 end
 
-function var_0_0.GetActivityID(arg_4_0)
-	return arg_4_0.data.activity_id
+function slot0.GetActivityID(slot0)
+	return slot0.data.activity_id
 end
 
-function var_0_0.CheckClueIsViewed(arg_5_0, arg_5_1)
-	for iter_5_0, iter_5_1 in ipairs(var_0_0.data.clue_list) do
-		if iter_5_1.clue_id == arg_5_1 then
-			return iter_5_1.is_viewed
+function slot0.CheckClueIsViewed(slot0, slot1)
+	for slot5, slot6 in ipairs(uv0.data.clue_list) do
+		if slot6.clue_id == slot1 then
+			return slot6.is_viewed
 		end
 	end
 
 	return false
 end
 
-function var_0_0.GetClueList(arg_6_0, arg_6_1)
-	if var_0_0.data and var_0_0.data.activity_id == arg_6_1 then
-		return var_0_0.data.clue_list
+function slot0.GetClueList(slot0, slot1)
+	if uv0.data and uv0.data.activity_id == slot1 then
+		return uv0.data.clue_list
 	end
 
 	return {}
 end
 
-return var_0_0
+return slot0

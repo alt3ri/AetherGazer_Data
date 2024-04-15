@@ -1,62 +1,59 @@
-local var_0_0 = class("GetSkinView", ReduxView)
+slot0 = class("GetSkinView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Obtain/Skin/SkinAUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:AddListeners()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, function()
-		if arg_5_0.playableDirector_.time >= arg_5_0:GetTimeLineEndTime() then
-			arg_5_0:Back()
-			arg_5_0.callback_()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0:GetTimeLineEndTime() <= uv0.playableDirector_.time then
+			uv0:Back()
+			uv0.callback_()
 		else
-			arg_5_0.playableDirector_.time = arg_5_0:GetTimeLineEndTime()
+			uv0.playableDirector_.time = uv0:GetTimeLineEndTime()
 		end
 	end)
 end
 
-function var_0_0.GetTimeLineEndTime(arg_7_0)
+function slot0.GetTimeLineEndTime(slot0)
 	return 6.27
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.skinID_ = arg_8_0.params_.skinID
+function slot0.OnEnter(slot0)
+	slot0.skinID_ = slot0.params_.skinID
+	slot0.portrait_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. SkinCfg[slot0.skinID_].picture_id)
+	slot0.name_.text = ItemTools.getItemName(slot0.skinID_)
 
-	local var_8_0 = SkinCfg[arg_8_0.skinID_]
+	slot0.playableDirector_:Evaluate()
+	slot0.playableDirector_:Play()
 
-	arg_8_0.portrait_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. var_8_0.picture_id)
-	arg_8_0.name_.text = ItemTools.getItemName(arg_8_0.skinID_)
+	slot0.callback_ = slot0.params_.callback
 
-	arg_8_0.playableDirector_:Evaluate()
-	arg_8_0.playableDirector_:Play()
-
-	arg_8_0.callback_ = arg_8_0.params_.callback
-
-	SetActive(arg_8_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	if not (arg_9_0.playableDirector_.time >= arg_9_0:GetTimeLineEndTime()) then
-		arg_9_0.playableDirector_.time = arg_9_0.playableDirector_.duration
+function slot0.OnExit(slot0)
+	if slot0:GetTimeLineEndTime() > slot0.playableDirector_.time then
+		slot0.playableDirector_.time = slot0.playableDirector_.duration
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

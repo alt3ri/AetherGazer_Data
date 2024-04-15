@@ -1,63 +1,63 @@
-local var_0_0 = class("HeroFileVoiceItem", ReduxView)
+slot0 = class("HeroFileVoiceItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockController_ = arg_3_0.voiceControllerEx_:GetController("lock")
-	arg_3_0.playController_ = arg_3_0.voiceControllerEx_:GetController("playing")
+	slot0.lockController_ = slot0.voiceControllerEx_:GetController("lock")
+	slot0.playController_ = slot0.voiceControllerEx_:GetController("playing")
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.unlock_ = arg_4_2.unlock
-	arg_4_0.onClick_ = arg_4_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.unlock_ = slot2.unlock
+	slot0.onClick_ = slot3
 
-	if arg_4_2.unlock then
-		arg_4_0.lockController_:SetSelectedState("unlock")
+	if slot2.unlock then
+		slot0.lockController_:SetSelectedState("unlock")
 
-		arg_4_0.voiceNameText_.text = HeroVoiceCfg[arg_4_2.id].title
+		slot0.voiceNameText_.text = HeroVoiceCfg[slot2.id].title
 	else
-		arg_4_0.lockController_:SetSelectedState("lock")
+		slot0.lockController_:SetSelectedState("lock")
 
-		arg_4_0.voiceNameText_.text = HeroVoiceCfg[arg_4_2.id].title
+		slot0.voiceNameText_.text = HeroVoiceCfg[slot2.id].title
 
-		if DormHeroTools:IsVoiceNeedUnlock(arg_4_2.id, arg_4_1) then
-			arg_4_0.voiceLockText_.text = string.format(GetTips("DORM_VOICE_UNLOCK_TIP"), DormHeroTools:GetVoiceUnlockLevel(arg_4_1, arg_4_2.id))
+		if DormHeroTools:IsVoiceNeedUnlock(slot2.id, slot1) then
+			slot0.voiceLockText_.text = string.format(GetTips("DORM_VOICE_UNLOCK_TIP"), DormHeroTools:GetVoiceUnlockLevel(slot1, slot2.id))
 		else
-			arg_4_0.voiceLockText_.text = ConditionCfg[HeroVoiceCfg[arg_4_2.id].unlock_condition].desc
+			slot0.voiceLockText_.text = ConditionCfg[HeroVoiceCfg[slot2.id].unlock_condition].desc
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.voiceBtn_, nil, function()
-		if arg_5_0.onClick_ and arg_5_0.unlock_ then
-			arg_5_0.onClick_()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.voiceBtn_, nil, function ()
+		if uv0.onClick_ and uv0.unlock_ then
+			uv0.onClick_()
 		end
 	end)
 end
 
-function var_0_0.StopPlay(arg_7_0)
-	arg_7_0.playController_:SetSelectedState("stop")
+function slot0.StopPlay(slot0)
+	slot0.playController_:SetSelectedState("stop")
 end
 
-function var_0_0.StartPlay(arg_8_0)
-	arg_8_0.playController_:SetSelectedState("play")
+function slot0.StartPlay(slot0)
+	slot0.playController_:SetSelectedState("play")
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

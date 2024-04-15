@@ -1,468 +1,434 @@
-local var_0_0 = import("game.tools.KagutsuchiMapGenerator")
-local var_0_1 = import("manager.windowBar.WindowCurrencyItem")
-local var_0_2 = class("KagutsuchiWorkView", ReduxView)
+slot0 = import("game.tools.KagutsuchiMapGenerator")
+slot1 = import("manager.windowBar.WindowCurrencyItem")
+slot2 = class("KagutsuchiWorkView", ReduxView)
 
-function var_0_2.UIName(arg_1_0)
+function slot2.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionWorkUI/JapanRegionWorkUI"
 end
 
-function var_0_2.UIParent(arg_2_0)
+function slot2.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_2.OnCtor(arg_3_0)
-	arg_3_0.mapGrids = {}
-	arg_3_0.mapGridGos = {}
-	arg_3_0.seed_ = 1
+function slot2.OnCtor(slot0)
+	slot0.mapGrids = {}
+	slot0.mapGridGos = {}
+	slot0.seed_ = 1
 end
 
-function var_0_2.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:AddListeners()
-	arg_4_0:RegistEventListener(NEW_DAY, handler(arg_4_0, arg_4_0.OnNewDay))
+function slot2.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
+	slot0:RegistEventListener(NEW_DAY, handler(slot0, slot0.OnNewDay))
 
-	arg_4_0.transformList_ = arg_4_0:GetTransformList()
-	arg_4_0.rewardList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.rewardUiList_, CommonItem)
-	arg_4_0.scrollMoveView_ = ScrollMoveView.New(arg_4_0, arg_4_0.scrollViewGo_)
+	slot0.transformList_ = slot0:GetTransformList()
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.rewardUiList_, CommonItem)
+	slot0.scrollMoveView_ = ScrollMoveView.New(slot0, slot0.scrollViewGo_)
 
-	arg_4_0.scrollMoveView_:RemoveListeners()
+	slot0.scrollMoveView_:RemoveListeners()
 
-	local var_4_0 = arg_4_0.workContentGo_.transform.localPosition
+	slot1 = slot0.workContentGo_.transform.localPosition
+	slot0.leftX_ = slot1.x
+	slot0.rightX_ = slot1.x + 1000
+	slot2 = uv0.New(slot0.token1Go_, CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
 
-	arg_4_0.leftX_ = var_4_0.x
-	arg_4_0.rightX_ = var_4_0.x + 1000
+	slot2:SetActive(true)
+	slot2:SetCanAdd(false)
+	slot2:SetCanClick(true)
 
-	local var_4_1 = var_0_1.New(arg_4_0.token1Go_, CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
+	slot0.token1_ = slot2
+	slot3 = uv0.New(slot0.token2Go_, CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id)
 
-	var_4_1:SetActive(true)
-	var_4_1:SetCanAdd(false)
-	var_4_1:SetCanClick(true)
+	slot3:SetActive(true)
+	slot3:SetCanAdd(false)
+	slot3:SetCanClick(true)
 
-	arg_4_0.token1_ = var_4_1
-
-	local var_4_2 = var_0_1.New(arg_4_0.token2Go_, CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id)
-
-	var_4_2:SetActive(true)
-	var_4_2:SetCanAdd(false)
-	var_4_2:SetCanClick(true)
-
-	arg_4_0.token2_ = var_4_2
-	arg_4_0.clearController = ControllerUtil.GetController(arg_4_0.dispatchInfoTrs_, "clear")
-	arg_4_0.battleController = ControllerUtil.GetController(arg_4_0.battleBtnTrs_, "name")
-	arg_4_0.dispatchController = ControllerUtil.GetController(arg_4_0.dispatchBtnTrs_, "name")
+	slot0.token2_ = slot3
+	slot0.clearController = ControllerUtil.GetController(slot0.dispatchInfoTrs_, "clear")
+	slot0.battleController = ControllerUtil.GetController(slot0.battleBtnTrs_, "name")
+	slot0.dispatchController = ControllerUtil.GetController(slot0.dispatchBtnTrs_, "name")
 end
 
-function var_0_2.OnEnter(arg_5_0)
-	arg_5_0:InitBar()
-	arg_5_0:RefreshUI()
+function slot2.OnEnter(slot0)
+	slot0:InitBar()
+	slot0:RefreshUI()
 
-	local var_5_0 = arg_5_0:GetActivityID()
-	local var_5_1 = ActivityTools.GetRedPointKey(var_5_0) .. var_5_0
-	local var_5_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, var_5_1)
+	slot1 = slot0:GetActivityID()
 
-	manager.redPoint:bindUIandKey(arg_5_0.talentBtn_.transform, var_5_2)
+	manager.redPoint:bindUIandKey(slot0.talentBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, ActivityTools.GetRedPointKey(slot1) .. slot1))
 
-	arg_5_0.lastClickGrid_ = nil
+	slot0.lastClickGrid_ = nil
 
-	arg_5_0:AddTimer()
-	arg_5_0:RefreshScrollRect(false, true)
+	slot0:AddTimer()
+	slot0:RefreshScrollRect(false, true)
 end
 
-function var_0_2.InitBar(arg_6_0)
-	return
+function slot2.InitBar(slot0)
 end
 
-function var_0_2.OnExit(arg_7_0)
-	local var_7_0 = arg_7_0:GetActivityID()
-	local var_7_1 = ActivityTools.GetRedPointKey(var_7_0) .. var_7_0
-	local var_7_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, var_7_1)
+function slot2.OnExit(slot0)
+	slot1 = slot0:GetActivityID()
 
-	manager.redPoint:unbindUIandKey(arg_7_0.talentBtn_.transform, var_7_2)
+	manager.redPoint:unbindUIandKey(slot0.talentBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, ActivityTools.GetRedPointKey(slot1) .. slot1))
 
-	if arg_7_0.lastClickGrid_ then
-		arg_7_0.lastClickGrid_:SetSelected(false)
+	if slot0.lastClickGrid_ then
+		slot0.lastClickGrid_:SetSelected(false)
 	end
 
-	arg_7_0:StopTimer()
+	slot0:StopTimer()
 end
 
-function var_0_2.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.mapGrids) do
-		iter_8_1:Dispose()
+function slot2.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.mapGrids) do
+		slot5:Dispose()
 	end
 
-	var_0_0:Clear()
-	arg_8_0.scrollMoveView_:Dispose()
+	uv0:Clear()
+	slot0.scrollMoveView_:Dispose()
 
-	arg_8_0.scrollMoveView_ = nil
+	slot0.scrollMoveView_ = nil
 
-	arg_8_0.rewardList_:Dispose()
-	arg_8_0.token1_:Dispose()
-	arg_8_0.token2_:Dispose()
-	var_0_2.super.Dispose(arg_8_0)
+	slot0.rewardList_:Dispose()
+	slot0.token1_:Dispose()
+	slot0.token2_:Dispose()
+	uv1.super.Dispose(slot0)
 end
 
-function var_0_2.AddListeners(arg_9_0)
-	arg_9_0:AddBtnListener(arg_9_0.gachaBtn_, nil, function()
+function slot2.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.gachaBtn_, nil, function ()
 		OperationRecorder.RecordButtonTouch("activity_kagutsuchi_draw2")
 		JumpTools.OpenPageByJump("/kagutsuchiGacha", {})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.talentBtn_, nil, function()
-		local var_11_0 = arg_9_0:GetActivityID()
-		local var_11_1 = ActivityTools.GetRedPointKey(var_11_0) .. var_11_0
-		local var_11_2 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, var_11_1)
+	slot0:AddBtnListener(slot0.talentBtn_, nil, function ()
+		slot0 = uv0:GetActivityID()
 
-		if manager.redPoint:getTipBoolean(var_11_2) then
-			KagutsuchiTalentAction:BanRedPoint(var_11_2)
+		if manager.redPoint:getTipBoolean(string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, ActivityTools.GetRedPointKey(slot0) .. slot0)) then
+			KagutsuchiTalentAction:BanRedPoint(slot2)
 		end
 
 		JumpTools.OpenPageByJump("/kagutsuchiTalent", {})
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.workMaskBtn_, nil, function()
-		arg_9_0:OnClickBackground()
+	slot0:AddBtnListener(slot0.workMaskBtn_, nil, function ()
+		uv0:OnClickBackground()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.battleBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(arg_9_0:GetActivityID()) then
+	slot0:AddBtnListener(slot0.battleBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0:GetActivityID()) then
 			return
 		end
 
-		if arg_9_0.lastClickGrid_ then
-			if not arg_9_0.lastClickGrid_:GetPlayGridData():IsBattle() then
+		if uv0.lastClickGrid_ then
+			if not uv0.lastClickGrid_:GetPlayGridData():IsBattle() then
 				return
 			end
 
-			if arg_9_0.playGridParams_.battleCost > KagutsuchiWorkData:GetStamina() then
+			if KagutsuchiWorkData:GetStamina() < uv0.playGridParams_.battleCost then
 				ShowTips("ACTIVITY_KAGUTSUCHI_BATTLE_COST_NOT_ENOUGH")
 
 				return
 			end
 
 			gameContext:Go("/kagutsuchiSectionSelectHero", {
-				section = arg_9_0.playGridParams_.stageId,
+				section = uv0.playGridParams_.stageId,
 				sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_JJT_MAP_GAME,
-				activityID = arg_9_0.playGridParams_.activityId
+				activityID = uv0.playGridParams_.activityId
 			})
 		end
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.entrustBtn_, nil, function()
-		if not ActivityTools.ActivityOpenCheck(arg_9_0:GetActivityID()) then
+	slot0:AddBtnListener(slot0.entrustBtn_, nil, function ()
+		if not ActivityTools.ActivityOpenCheck(uv0:GetActivityID()) then
 			return
 		end
 
-		function arg_9_0.playGridParams_.entrustFinishHandler_()
-			if arg_9_0.lastClickGrid_ then
-				arg_9_0.lastClickGrid_:RefreshUI()
+		function uv0.playGridParams_.entrustFinishHandler_()
+			if uv0.lastClickGrid_ then
+				uv0.lastClickGrid_:RefreshUI()
 			end
 
-			arg_9_0:OnClickBackground()
-			arg_9_0:RefreshUI()
+			uv0:OnClickBackground()
+			uv0:RefreshUI()
 		end
 
-		if arg_9_0.lastClickGrid_ then
-			if arg_9_0.lastClickGrid_:GetPlayGridData():IsCleared() then
+		if uv0.lastClickGrid_ then
+			if uv0.lastClickGrid_:GetPlayGridData():IsCleared() then
 				return
 			end
 
-			JumpTools.OpenPageByJump("kagutsuchiWorkPop", arg_9_0.playGridParams_)
+			JumpTools.OpenPageByJump("kagutsuchiWorkPop", uv0.playGridParams_)
 		end
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.backBtn_, nil, function()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.homeBtn_, nil, function()
-		gameContext:Go("/home", nil, nil, true)
+	slot0:AddBtnListener(slot0.homeBtn_, nil, function ()
+		gameContext:Go("/home", nil, , true)
 	end)
-	arg_9_0:AddBtnListener(arg_9_0.infoBtn_, nil, function()
-		local var_18_0 = "ACTIVITY_KAGUTSUCHI_BATTLE_DESCRIBE"
-		local var_18_1 = GetTips(var_18_0)
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+		slot0 = "ACTIVITY_KAGUTSUCHI_BATTLE_DESCRIBE"
 
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_18_1,
-			key = var_18_0
+			content = GetTips(slot0),
+			key = slot0
 		})
 	end)
 end
 
-function var_0_2.OnClickBackground(arg_19_0)
-	if arg_19_0.lastClickGrid_ then
-		arg_19_0.lastClickGrid_:SetSelected(false)
+function slot2.OnClickBackground(slot0)
+	if slot0.lastClickGrid_ then
+		slot0.lastClickGrid_:SetSelected(false)
 
-		arg_19_0.lastClickGrid_ = nil
+		slot0.lastClickGrid_ = nil
 	end
 
-	arg_19_0:RefreshScrollRect(false)
+	slot0:RefreshScrollRect(false)
 end
 
-function var_0_2.GetTransformList(arg_20_0)
-	local var_20_0 = {}
+function slot2.GetTransformList(slot0)
+	slot1 = {}
 
-	arg_20_0.mapGridsGo_:InjectUI(var_20_0)
+	slot0.mapGridsGo_:InjectUI(slot1)
 
-	local var_20_1 = {}
+	slot2 = {}
 
-	for iter_20_0, iter_20_1 in pairs(var_20_0) do
-		table.insert(var_20_1, iter_20_1)
+	for slot6, slot7 in pairs(slot1) do
+		table.insert(slot2, slot7)
 	end
 
-	return var_20_1
+	return slot2
 end
 
-function var_0_2.UpdateMap(arg_21_0)
-	var_0_0:SetMapSize(20, 20)
-	var_0_0:SetMapSeed(KagutsuchiWorkData:GetMapSeed() + arg_21_0.seed_)
-	var_0_0:SetMapGrids(arg_21_0.transformList_, handler(arg_21_0, arg_21_0.CreateMapItem), handler(arg_21_0, arg_21_0.Transform2Xy))
-	var_0_0:GeneratePlaceableGrids(KagutsuchiWorkData:GetPlayGridNum(), handler(arg_21_0, arg_21_0.ModifyMapItem))
+function slot2.UpdateMap(slot0)
+	uv0:SetMapSize(20, 20)
+	uv0:SetMapSeed(KagutsuchiWorkData:GetMapSeed() + slot0.seed_)
+	uv0:SetMapGrids(slot0.transformList_, handler(slot0, slot0.CreateMapItem), handler(slot0, slot0.Transform2Xy))
+	uv0:GeneratePlaceableGrids(KagutsuchiWorkData:GetPlayGridNum(), handler(slot0, slot0.ModifyMapItem))
 end
 
-function var_0_2.ResetMap(arg_22_0)
-	arg_22_0:OnClickBackground()
+function slot2.ResetMap(slot0)
+	slot0:OnClickBackground()
 
-	for iter_22_0, iter_22_1 in pairs(arg_22_0.mapGrids) do
-		iter_22_1:Dispose()
+	for slot4, slot5 in pairs(slot0.mapGrids) do
+		slot5:Dispose()
 	end
 
-	for iter_22_2, iter_22_3 in pairs(arg_22_0.mapGridGos) do
-		Object.Destroy(iter_22_3)
+	for slot4, slot5 in pairs(slot0.mapGridGos) do
+		Object.Destroy(slot5)
 	end
 
-	arg_22_0.mapGrids = {}
-	arg_22_0.mapGridGos = {}
+	slot0.mapGrids = {}
+	slot0.mapGridGos = {}
 
-	var_0_0:Clear()
+	uv0:Clear()
 end
 
-function var_0_2.CreateMapItem(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_1.transform.gameObject
+function slot2.CreateMapItem(slot0, slot1)
+	slot2 = slot1.transform.gameObject
 
-	var_23_0:SetActive(true)
+	slot2:SetActive(true)
 
-	local var_23_1 = KagutsuchiWorkMapGrid.New(var_23_0, handler(arg_23_0, arg_23_0.CreatePlayGridGo))
+	slot3 = KagutsuchiWorkMapGrid.New(slot2, handler(slot0, slot0.CreatePlayGridGo))
 
-	var_23_1:SetClickHandler(handler(arg_23_0, arg_23_0.OnClickPlayGrid))
-	table.insert(arg_23_0.mapGrids, var_23_1)
+	slot3:SetClickHandler(handler(slot0, slot0.OnClickPlayGrid))
+	table.insert(slot0.mapGrids, slot3)
 
-	return var_23_1
+	return slot3
 end
 
-function var_0_2.CreatePlayGridGo(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = Object.Instantiate(arg_24_0.playGridGo_, arg_24_1)
+function slot2.CreatePlayGridGo(slot0, slot1, slot2)
+	slot3 = Object.Instantiate(slot0.playGridGo_, slot1)
 
-	var_24_0:SetActive(true)
-	table.insert(arg_24_0.mapGridGos, var_24_0)
+	slot3:SetActive(true)
+	table.insert(slot0.mapGridGos, slot3)
 
-	return var_24_0
+	return slot3
 end
 
-function var_0_2.ModifyMapItem(arg_25_0, arg_25_1)
-	arg_25_1.grid:BindPlayGrid(arg_25_1.index)
+function slot2.ModifyMapItem(slot0, slot1)
+	slot1.grid:BindPlayGrid(slot1.index)
 end
 
-function var_0_2.OnClickPlayGrid(arg_26_0, arg_26_1, arg_26_2)
-	if arg_26_0.lastClickGrid_ == arg_26_1 then
+function slot2.OnClickPlayGrid(slot0, slot1, slot2)
+	if slot0.lastClickGrid_ == slot1 then
 		return
 	end
 
-	if arg_26_0.lastClickGrid_ then
-		arg_26_0.lastClickGrid_:SetSelected(false)
+	if slot0.lastClickGrid_ then
+		slot0.lastClickGrid_:SetSelected(false)
 	end
 
-	arg_26_0.playGridParams_ = arg_26_2
-	arg_26_0.lastClickGrid_ = arg_26_1
+	slot0.playGridParams_ = slot2
+	slot0.lastClickGrid_ = slot1
 
-	arg_26_0:RefreshGridInfo()
+	slot0:RefreshGridInfo()
 end
 
-function var_0_2.IndexItem(arg_27_0, arg_27_1, arg_27_2)
-	arg_27_2:RegistCallBack(function(arg_28_0)
+function slot2.IndexItem(slot0, slot1, slot2)
+	slot2:RegistCallBack(function (slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_28_0.id,
-			arg_28_0.number,
+			slot0.id,
+			slot0.number,
 			0
 		})
 	end)
 
-	local var_27_0 = ItemCfg[CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id]
+	slot3 = ItemCfg[CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id]
 
-	arg_27_2:RefreshData({
-		id = var_27_0.id,
-		type = var_27_0.type,
-		number = arg_27_0.rewardNumber_
+	slot2:RefreshData({
+		id = slot3.id,
+		type = slot3.type,
+		number = slot0.rewardNumber_
 	})
 end
 
-function var_0_2.RefreshUI(arg_29_0)
-	KagutsuchiTalentAction:UpdateRedPoint(arg_29_0:GetActivityID())
+function slot2.RefreshUI(slot0)
+	KagutsuchiTalentAction:UpdateRedPoint(slot0:GetActivityID())
 
-	arg_29_0.coinText_.text = KagutsuchiWorkData:GetCoins()
-	arg_29_0.staminaText_.text = KagutsuchiWorkData:GetStamina()
-	arg_29_0.coinImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id)
-	arg_29_0.staminaImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
-	arg_29_0.upgradeConditionText_.text = KagutsuchiWorkData:GetUpgradeConditionText()
+	slot0.coinText_.text = KagutsuchiWorkData:GetCoins()
+	slot0.staminaText_.text = KagutsuchiWorkData:GetStamina()
+	slot0.coinImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_COIN.item_id)
+	slot0.staminaImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
+	slot0.upgradeConditionText_.text = KagutsuchiWorkData:GetUpgradeConditionText()
 
-	SetActive(arg_29_0.unclearTextGo_, not KagutsuchiWorkData:IsUpgraded())
-	SetActive(arg_29_0.clearTextGo_, KagutsuchiWorkData:IsUpgraded())
-	SetActive(arg_29_0.upgradeBoxGo_, not KagutsuchiWorkData:IsMaxLevel())
-	arg_29_0:UpdateMap()
+	SetActive(slot0.unclearTextGo_, not KagutsuchiWorkData:IsUpgraded())
+	SetActive(slot0.clearTextGo_, KagutsuchiWorkData:IsUpgraded())
+	SetActive(slot0.upgradeBoxGo_, not KagutsuchiWorkData:IsMaxLevel())
+	slot0:UpdateMap()
 end
 
-function var_0_2.RefreshGridInfo(arg_30_0)
-	SetActive(arg_30_0.workContentGo_, true)
+function slot2.RefreshGridInfo(slot0)
+	SetActive(slot0.workContentGo_, true)
 
-	local var_30_0 = arg_30_0.lastClickGrid_:GetPlayGridData()
-	local var_30_1 = var_30_0:IsCleared()
+	if slot0.playGridParams_.isBattle then
+		slot0.titleText_.text = slot0.playGridParams_.battleName
+		slot0.levelText_.text = "Lv." .. slot0.playGridParams_.battleLevel
+		slot0.summaryText_.text = slot0.playGridParams_.battleSummary
+		slot0.costImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
+		slot0.costText_.text = "x" .. slot0.playGridParams_.battleCost
+		slot3 = slot1:GetBattleMinTime()
+		slot0.minTimeText_.text = string.format("%02d:%02d", math.floor(slot3 / 60), math.fmod(slot3, 60))
 
-	if arg_30_0.playGridParams_.isBattle then
-		arg_30_0.titleText_.text = arg_30_0.playGridParams_.battleName
-		arg_30_0.levelText_.text = "Lv." .. arg_30_0.playGridParams_.battleLevel
-		arg_30_0.summaryText_.text = arg_30_0.playGridParams_.battleSummary
-		arg_30_0.costImage_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
-		arg_30_0.costText_.text = "x" .. arg_30_0.playGridParams_.battleCost
+		slot0.clearController:SetSelectedState(slot0.lastClickGrid_:GetPlayGridData():IsCleared() and "true" or "false")
+		slot0.battleController:SetSelectedState("false")
 
-		local var_30_2 = var_30_0:GetBattleMinTime()
-		local var_30_3 = math.floor(var_30_2 / 60)
-		local var_30_4 = math.fmod(var_30_2, 60)
+		slot0.rewardNumber_ = slot0.playGridParams_.battleReward
 
-		arg_30_0.minTimeText_.text = string.format("%02d:%02d", var_30_3, var_30_4)
-
-		arg_30_0.clearController:SetSelectedState(var_30_1 and "true" or "false")
-		arg_30_0.battleController:SetSelectedState("false")
-
-		arg_30_0.rewardNumber_ = arg_30_0.playGridParams_.battleReward
-
-		SetActive(arg_30_0.battleGo_, true)
-		SetActive(arg_30_0.costGo_, true)
-		SetActive(arg_30_0.levelGo_, true)
-		SetActive(arg_30_0.entrustGo_, false)
+		SetActive(slot0.battleGo_, true)
+		SetActive(slot0.costGo_, true)
+		SetActive(slot0.levelGo_, true)
+		SetActive(slot0.entrustGo_, false)
 	else
-		arg_30_0.titleText_.text = arg_30_0.playGridParams_.entrustName
-		arg_30_0.levelText_.text = ""
-		arg_30_0.summaryText_.text = arg_30_0.playGridParams_.entrustSummary
-		arg_30_0.rewardNumber_ = arg_30_0.playGridParams_.entrustReward
+		slot0.titleText_.text = slot0.playGridParams_.entrustName
+		slot0.levelText_.text = ""
+		slot0.summaryText_.text = slot0.playGridParams_.entrustSummary
+		slot0.rewardNumber_ = slot0.playGridParams_.entrustReward
 
-		arg_30_0.clearController:SetSelectedState("false")
-		arg_30_0.battleController:SetSelectedState(var_30_1 and "true" or "false")
-		SetActive(arg_30_0.battleGo_, false)
-		SetActive(arg_30_0.costGo_, false)
-		SetActive(arg_30_0.levelGo_, false)
-		SetActive(arg_30_0.entrustGo_, not var_30_1)
+		slot0.clearController:SetSelectedState("false")
+		slot0.battleController:SetSelectedState(slot2 and "true" or "false")
+		SetActive(slot0.battleGo_, false)
+		SetActive(slot0.costGo_, false)
+		SetActive(slot0.levelGo_, false)
+		SetActive(slot0.entrustGo_, not slot2)
 	end
 
-	arg_30_0.rewardList_:StartScroll(arg_30_0.rewardNumber_ > 0 and 1 or 0)
-	arg_30_0:RefreshScrollRect(true)
+	slot0.rewardList_:StartScroll(slot0.rewardNumber_ > 0 and 1 or 0)
+	slot0:RefreshScrollRect(true)
 end
 
-function var_0_2.RefreshScrollRect(arg_31_0, arg_31_1, arg_31_2)
-	local function var_31_0()
-		arg_31_0:StopMapTimer()
+function slot2.RefreshScrollRect(slot0, slot1, slot2)
+	if slot1 then
+		if not slot0.mapTimer_ then
+			slot0.mapTimer_ = Timer.New(function ()
+				uv0:StopMapTimer()
+				uv0.scrollMoveView_:RefreshUI(uv1 and uv0:GetScrollPos() or uv0:GetScrollWidth() / 2, uv0:GetScrollWidth(), uv2)
+			end, 0.2, 1)
 
-		local var_32_0 = arg_31_1 and arg_31_0:GetScrollPos() or arg_31_0:GetScrollWidth() / 2
-		local var_32_1 = arg_31_0:GetScrollWidth()
-
-		arg_31_0.scrollMoveView_:RefreshUI(var_32_0, var_32_1, arg_31_2)
-	end
-
-	if arg_31_1 then
-		if not arg_31_0.mapTimer_ then
-			arg_31_0.mapTimer_ = Timer.New(var_31_0, 0.2, 1)
-
-			arg_31_0.mapTimer_:Start()
+			slot0.mapTimer_:Start()
 		end
 	else
-		var_31_0()
+		slot3()
 	end
 
-	if arg_31_0.workContentAni_ and arg_31_0.workContentAni_.runtimeAnimatorController then
-		local var_31_1 = arg_31_1
-		local var_31_2 = arg_31_0.workContentAni_:GetCurrentAnimatorStateInfo(0)
-		local var_31_3 = math.min(math.max(var_31_2.normalizedTime, 0), 1)
-
-		arg_31_0.workContentAni_:SetFloat("Direction", var_31_1 and 1 or -1)
-		arg_31_0.workContentAni_:Play("Fx_right_cx", -1, var_31_3)
+	if slot0.workContentAni_ and slot0.workContentAni_.runtimeAnimatorController then
+		slot0.workContentAni_:SetFloat("Direction", slot1 and 1 or -1)
+		slot0.workContentAni_:Play("Fx_right_cx", -1, math.min(math.max(slot0.workContentAni_:GetCurrentAnimatorStateInfo(0).normalizedTime, 0), 1))
 	else
-		LeanTween.moveLocalX(arg_31_0.workContentGo_, arg_31_1 and arg_31_0.leftX_ or arg_31_0.rightX_, 0.2)
+		LeanTween.moveLocalX(slot0.workContentGo_, slot1 and slot0.leftX_ or slot0.rightX_, 0.2)
 	end
 end
 
-function var_0_2.RefreshTimeUI(arg_33_0)
-	local var_33_0 = ActivityData:GetActivityData(arg_33_0:GetActivityID()).stopTime
-	local var_33_1 = manager.time:GetNextFreshTime()
-	local var_33_2 = KagutsuchiWorkData:GetNextBossTime()
+function slot2.RefreshTimeUI(slot0)
+	slot0.timeText_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(slot0:GetActivityID()).stopTime)
+	slot0.mapUpdateText_.text = manager.time:GetLostTimeStr2(manager.time:GetNextFreshTime())
+	slot0.bossTimeText_.text = manager.time:GetLostTimeStr2(KagutsuchiWorkData:GetNextBossTime())
 
-	arg_33_0.timeText_.text = manager.time:GetLostTimeStr2(var_33_0)
-	arg_33_0.mapUpdateText_.text = manager.time:GetLostTimeStr2(var_33_1)
-	arg_33_0.bossTimeText_.text = manager.time:GetLostTimeStr2(var_33_2)
-
-	SetActive(arg_33_0.bossTimeGo_, not KagutsuchiWorkData:IsBossDay())
+	SetActive(slot0.bossTimeGo_, not KagutsuchiWorkData:IsBossDay())
 end
 
-function var_0_2.IsOpenSectionInfo(arg_34_0)
+function slot2.IsOpenSectionInfo(slot0)
 	return false
 end
 
-function var_0_2.GetScrollWidth(arg_35_0)
-	return arg_35_0.mapGridsGo_.transform.rect.width
+function slot2.GetScrollWidth(slot0)
+	return slot0.mapGridsGo_.transform.rect.width
 end
 
-function var_0_2.GetScrollPos(arg_36_0)
-	return arg_36_0.lastClickGrid_:GetPosition().x
+function slot2.GetScrollPos(slot0)
+	return slot0.lastClickGrid_:GetPosition().x
 end
 
-function var_0_2.OnNewDay(arg_37_0)
-	arg_37_0:ResetMap()
-	arg_37_0:RefreshUI()
+function slot2.OnNewDay(slot0)
+	slot0:ResetMap()
+	slot0:RefreshUI()
 end
 
-function var_0_2.OnKagutsuchiWorkDataInit(arg_38_0)
-	arg_38_0:OnNewDay()
+function slot2.OnKagutsuchiWorkDataInit(slot0)
+	slot0:OnNewDay()
 end
 
-function var_0_2.AddTimer(arg_39_0)
-	arg_39_0:StopTimer()
-	arg_39_0:RefreshTimeUI()
+function slot2.AddTimer(slot0)
+	slot0:StopTimer()
+	slot0:RefreshTimeUI()
 
-	arg_39_0.timer_ = Timer.New(function()
-		arg_39_0:RefreshTimeUI()
+	slot0.timer_ = Timer.New(function ()
+		uv0:RefreshTimeUI()
 	end, 1, -1)
 
-	arg_39_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_2.StopTimer(arg_41_0)
-	arg_41_0:StopMapTimer()
+function slot2.StopTimer(slot0)
+	slot0:StopMapTimer()
 
-	if arg_41_0.timer_ then
-		arg_41_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_41_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_2.StopMapTimer(arg_42_0)
-	if arg_42_0.mapTimer_ ~= nil then
-		arg_42_0.mapTimer_:Stop()
+function slot2.StopMapTimer(slot0)
+	if slot0.mapTimer_ ~= nil then
+		slot0.mapTimer_:Stop()
 
-		arg_42_0.mapTimer_ = nil
+		slot0.mapTimer_ = nil
 	end
 end
 
-function var_0_2.GetActivityID(arg_43_0)
+function slot2.GetActivityID(slot0)
 	return ActivityConst.KAGUTSUCHI_ACTIVITY
 end
 
-function var_0_2.Transform2Xy(arg_44_0, arg_44_1)
-	local var_44_0 = arg_44_1.anchoredPosition
-	local var_44_1 = arg_44_1.rect
-	local var_44_2 = {
-		arg_44_1.rect.width / 2,
-		arg_44_1.rect.height / 2
+function slot2.Transform2Xy(slot0, slot1)
+	slot2 = slot1.anchoredPosition
+	slot3 = slot1.rect
+	slot4 = {
+		slot1.rect.width / 2,
+		slot1.rect.height / 2
 	}
-	local var_44_3 = math.floor(var_44_0.x / (var_44_1.width + var_44_2[1])) + 1
-	local var_44_4 = math.floor(var_44_0.y / (var_44_1.height + var_44_2[2])) + 1
 
-	return var_44_3, var_44_4
+	return math.floor(slot2.x / (slot3.width + slot4[1])) + 1, math.floor(slot2.y / (slot3.height + slot4[2])) + 1
 end
 
-return var_0_2
+return slot2

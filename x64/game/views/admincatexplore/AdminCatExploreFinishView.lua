@@ -1,144 +1,133 @@
-local var_0_0 = class("AdminCatExploreFinishView", ReduxView)
+slot0 = class("AdminCatExploreFinishView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ExploreUI/ExploreGetUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.controller = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "state")
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, CommonItemView)
-	arg_4_0.list2 = LuaList.New(handler(arg_4_0, arg_4_0.SetEventData), arg_4_0.list2Go_, AdminCatExploreEventView)
+	slot0.controller = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, CommonItemView)
+	slot0.list2 = LuaList.New(handler(slot0, slot0.SetEventData), slot0.list2Go_, AdminCatExploreEventView)
 end
 
-function var_0_0.SetEventData(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.regionData.eventData[arg_5_1]
-
-	arg_5_2:SetData(var_5_0, arg_5_0.adminCatID, arg_5_0.regionData.startTime)
+function slot0.SetEventData(slot0, slot1, slot2)
+	slot2:SetData(slot0.regionData.eventData[slot1], slot0.adminCatID, slot0.regionData.startTime)
 end
 
-function var_0_0.IndexItem(arg_6_0, arg_6_1, arg_6_2)
-	CommonTools.SetCommonData(arg_6_2, {
-		id = arg_6_0.reward[arg_6_1].id,
-		number = arg_6_0.reward[arg_6_1].num,
-		clickFun = function(arg_7_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	CommonTools.SetCommonData(slot2, {
+		id = slot0.reward[slot1].id,
+		number = slot0.reward[slot1].num,
+		clickFun = function (slot0)
 			ShowPopItem(POP_OTHER_ITEM, {
-				arg_7_0.id
+				slot0.id
 			})
 		end
 	})
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.maskBtn_, nil, function()
-		if arg_8_0.eventId ~= 0 and arg_8_0.isClick == nil then
-			arg_8_0.controller:SetSelectedState("get")
-			arg_8_0.animator_:Play("Fx_getPanel_cx", -1, 0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		if uv0.eventId ~= 0 and uv0.isClick == nil then
+			uv0.controller:SetSelectedState("get")
+			uv0.animator_:Play("Fx_getPanel_cx", -1, 0)
 
-			arg_8_0.isClick = true
+			uv0.isClick = true
 
 			manager.audio:PlayEffect("ui_system_explore", "explore_finish", "")
 
 			return
 		end
 
-		arg_8_0:Back()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateBar(arg_10_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	if arg_11_0.eventId ~= 0 then
-		arg_11_0.controller:SetSelectedState("event")
+function slot0.UpdateView(slot0)
+	if slot0.eventId ~= 0 then
+		slot0.controller:SetSelectedState("event")
 
-		local var_11_0 = ExploreEventCfg[arg_11_0.eventId]
-
-		arg_11_0.eventNameTxt_.text = GetI18NText(var_11_0.event_name)
-		arg_11_0.eventDescTxt_.text = GetI18NText(var_11_0.description)
-		arg_11_0.eventTxt_.text = string.format(GetTips("EXPLORE_EVENT_GAIN"), GetI18NText(var_11_0.effect_description))
+		slot1 = ExploreEventCfg[slot0.eventId]
+		slot0.eventNameTxt_.text = GetI18NText(slot1.event_name)
+		slot0.eventDescTxt_.text = GetI18NText(slot1.description)
+		slot0.eventTxt_.text = string.format(GetTips("EXPLORE_EVENT_GAIN"), GetI18NText(slot1.effect_description))
 
 		manager.audio:PlayEffect("ui_system_explore", "explore_working", "")
 	else
-		arg_11_0.controller:SetSelectedState("get")
+		slot0.controller:SetSelectedState("get")
 		manager.audio:PlayEffect("ui_system_explore", "explore_finish", "")
 	end
 
-	arg_11_0.skillData = AdminCatExploreData:GetDataByPara("skillData")
-	arg_11_0.regionData = AdminCatExploreData:GetDataByPara("regionData")[arg_11_0.regionId]
+	slot0.skillData = AdminCatExploreData:GetDataByPara("skillData")
+	slot0.regionData = AdminCatExploreData:GetDataByPara("regionData")[slot0.regionId]
+	slot1 = ExploreMeowCfg[slot0.adminCatID]
+	slot2 = slot1.skill
+	slot9 = ExploreAreaCfg[slot0.regionId]
 
-	local var_11_1 = ExploreMeowCfg[arg_11_0.adminCatID]
-	local var_11_2 = var_11_1.skill
-	local var_11_3 = ExploreMeowSkillCfg[var_11_2]
-	local var_11_4 = arg_11_0.skillData[var_11_2]
-	local var_11_5 = var_11_3.skill_effect[var_11_4]
-	local var_11_6 = ExploreMeowInbornCfg[var_11_1.inborn]
-	local var_11_7 = AdminCatExploreData:GetDataByPara("skillEffect")
-	local var_11_8 = AdminCatExploreData:GetDataByPara("inbornEffect")
-	local var_11_9 = ExploreAreaCfg[arg_11_0.regionId]
+	SetActive(slot0.eventTxt_.gameObject, slot0.eventId ~= 0)
+	SetActive(slot0.skillTxt_.gameObject, AdminCatExploreData:GetDataByPara("skillEffect"))
+	SetActive(slot0.inbornTxt_.gameObject, AdminCatExploreData:GetDataByPara("inbornEffect"))
 
-	SetActive(arg_11_0.eventTxt_.gameObject, arg_11_0.eventId ~= 0)
-	SetActive(arg_11_0.skillTxt_.gameObject, var_11_7)
-	SetActive(arg_11_0.inbornTxt_.gameObject, var_11_8)
+	slot0.skillTxt_.text = string.format(GetTips("EXPLORE_SKILL_GAIN"), string.format(GetI18NText(slot3.skill_description), ExploreMeowSkillCfg[slot2].skill_effect[slot0.skillData[slot2]]))
+	slot0.inbornTxt_.text = string.format(GetTips("EXPLORE_INBORN_GAIN"), GetI18NText(ExploreMeowInbornCfg[slot1.inborn].inborn_description))
 
-	arg_11_0.skillTxt_.text = string.format(GetTips("EXPLORE_SKILL_GAIN"), string.format(GetI18NText(var_11_3.skill_description), var_11_5))
-	arg_11_0.inbornTxt_.text = string.format(GetTips("EXPLORE_INBORN_GAIN"), GetI18NText(var_11_6.inborn_description))
+	slot0.list:StartScroll(#slot0.reward)
 
-	arg_11_0.list:StartScroll(#arg_11_0.reward)
+	slot0.nameTxt_.text = GetI18NText(slot9.area_name)
+	slot0.regionImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. slot9.icon)
+	slot0.adminCatImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_s/" .. slot1.meow_icon)
 
-	arg_11_0.nameTxt_.text = GetI18NText(var_11_9.area_name)
-	arg_11_0.regionImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. var_11_9.icon)
-	arg_11_0.adminCatImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_s/" .. var_11_1.meow_icon)
-
-	arg_11_0.list2:StartScroll(#arg_11_0.regionData.eventData)
+	slot0.list2:StartScroll(#slot0.regionData.eventData)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.regionId = arg_12_0.params_.regionId
-	arg_12_0.reward = arg_12_0.params_.reward
-	arg_12_0.eventId = arg_12_0.params_.eventId
-	arg_12_0.adminCatID = arg_12_0.params_.adminCatID
+function slot0.OnEnter(slot0)
+	slot0.regionId = slot0.params_.regionId
+	slot0.reward = slot0.params_.reward
+	slot0.eventId = slot0.params_.eventId
+	slot0.adminCatID = slot0.params_.adminCatID
 
-	arg_12_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_13_0)
-	arg_13_0.isClick = nil
+function slot0.OnExit(slot0)
+	slot0.isClick = nil
 
-	if arg_13_0.updateTimer_ then
-		arg_13_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_13_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.list then
-		arg_14_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_14_0.list = nil
+		slot0.list = nil
 	end
 
-	if arg_14_0.list2 then
-		arg_14_0.list2:Dispose()
+	if slot0.list2 then
+		slot0.list2:Dispose()
 
-		arg_14_0.list2 = nil
+		slot0.list2 = nil
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
-	Object.Destroy(arg_14_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

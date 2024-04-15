@@ -1,78 +1,74 @@
-local var_0_0 = class("DormTaskRunner.Task")
+slot0 = class("DormTaskRunner.Task")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.progress = 0
-	arg_1_0.taskList = {}
-	arg_1_0.taskDataCtx = arg_1_1 or {}
-	arg_1_0.taskDataCtx.task = arg_1_0
+function slot0.Ctor(slot0, slot1)
+	slot0.progress = 0
+	slot0.taskList = {}
+	slot0.taskDataCtx = slot1 or {}
+	slot0.taskDataCtx.task = slot0
 end
 
-function var_0_0.Then(arg_2_0, arg_2_1, arg_2_2)
-	local function var_2_0(arg_3_0)
-		if arg_2_1 then
-			arg_2_1(arg_3_0)
-		end
+function slot0.Then(slot0, slot1, slot2)
+	slot2 = slot2 or {}
+	slot2.taskDataCtx = slot0.taskDataCtx
 
-		return true, arg_3_0
-	end
+	table.insert(slot0.taskList, {
+		function (slot0)
+			if uv0 then
+				uv0(slot0)
+			end
 
-	arg_2_2 = arg_2_2 or {}
-	arg_2_2.taskDataCtx = arg_2_0.taskDataCtx
-
-	table.insert(arg_2_0.taskList, {
-		var_2_0,
+			return true, slot0
+		end,
 		true,
-		arg_2_2
+		slot2
 	})
 
-	return arg_2_0
+	return slot0
 end
 
-function var_0_0.WaitUntil(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_3 = arg_4_3 or {}
-	arg_4_3.taskDataCtx = arg_4_0.taskDataCtx
+function slot0.WaitUntil(slot0, slot1, slot2, slot3)
+	slot3 = slot3 or {}
+	slot3.taskDataCtx = slot0.taskDataCtx
 
-	table.insert(arg_4_0.taskList, {
-		arg_4_1,
-		arg_4_2,
-		arg_4_3
+	table.insert(slot0.taskList, {
+		slot1,
+		slot2,
+		slot3
 	})
 
-	return arg_4_0
+	return slot0
 end
 
-local function var_0_1(arg_5_0)
-	local var_5_0 = arg_5_0.timer
-
-	if not var_5_0.running then
-		var_5_0:Start()
+function slot1(slot0)
+	if not slot0.timer.running then
+		slot1:Start()
 	end
 
-	return var_5_0.timeout
+	return slot1.timeout
 end
 
-local function var_0_2()
+function slot2()
 	return true
 end
 
-function var_0_0.WaitForSec(arg_7_0, arg_7_1, arg_7_2)
-	if arg_7_1 == 0 then
-		return arg_7_0:WaitUntil(var_0_2, arg_7_2)
+function slot0.WaitForSec(slot0, slot1, slot2)
+	if slot1 == 0 then
+		return slot0:WaitUntil(uv0, slot2)
 	end
 
-	return arg_7_0:WaitUntil(var_0_1, arg_7_2, {
-		timer = arg_7_0.taskRunner:NewTimer(nil, arg_7_1, false, false)
+	return slot0:WaitUntil(uv1, slot2, {
+		timer = slot0.taskRunner:NewTimer(nil, slot1, false, false)
 	})
 end
 
-function var_0_0.WaitTask(arg_8_0, ...)
-	local var_8_0 = {
+function slot0.WaitTask(slot0, ...)
+	slot1 = {
 		...
 	}
 
-	return arg_8_0:WaitUntil(function()
-		for iter_9_0, iter_9_1 in ipairs(var_8_0) do
-			if not iter_9_1:IsFinished() then
+	return slot0:WaitUntil(function ()
+		for slot3, slot4 in ipairs(uv0) do
+			if not slot4:IsFinished() then
 				return false
 			end
 		end
@@ -81,91 +77,91 @@ function var_0_0.WaitTask(arg_8_0, ...)
 	end)
 end
 
-function var_0_0.HandleAnimeLoop(arg_10_0, arg_10_1)
-	local var_10_0 = {
+function slot0.HandleAnimeLoop(slot0, slot1)
+	slot2 = {
 		continue = false,
 		started = false
 	}
 
-	DormCharacterActionManager:RegisterAnimeEvent(function(arg_11_0, arg_11_1, ...)
-		if var_10_0.started and arg_10_1(arg_11_0, arg_11_1, ...) then
-			var_10_0.continue = true
+	DormCharacterActionManager:RegisterAnimeEvent(function (slot0, slot1, ...)
+		if uv0.started and uv1(slot0, slot1, ...) then
+			uv0.continue = true
 
 			return true
 		end
 	end)
 
-	if #arg_10_0.taskList >= 1 then
-		arg_10_0.taskList[#arg_10_0.taskList][2] = false
+	if #slot0.taskList >= 1 then
+		slot0.taskList[#slot0.taskList][2] = false
 	end
 
-	return arg_10_0:WaitUntil(function(arg_12_0)
-		if not arg_12_0.started then
-			arg_12_0.started = true
+	return slot0:WaitUntil(function (slot0)
+		if not slot0.started then
+			slot0.started = true
 		end
 
-		return arg_12_0.continue
-	end, false, var_10_0)
+		return slot0.continue
+	end, false, slot2)
 end
 
-function var_0_0.Start(arg_13_0, arg_13_1)
-	arg_13_0.progress = 1
+function slot0.Start(slot0, slot1)
+	slot0.progress = 1
 
-	if not arg_13_1 then
-		arg_13_0.taskRunner:DoTask(arg_13_0)
+	if not slot1 then
+		slot0.taskRunner:DoTask(slot0)
 	end
 
-	arg_13_0.taskRunner:RegisterTask(arg_13_0)
+	slot0.taskRunner:RegisterTask(slot0)
 end
 
-function var_0_0.SetRunner(arg_14_0, arg_14_1)
-	arg_14_0.taskRunner = arg_14_1
+function slot0.SetRunner(slot0, slot1)
+	slot0.taskRunner = slot1
 end
 
-function var_0_0.Abort(arg_15_0)
-	if arg_15_0.progress ~= -1 and not arg_15_0:IsFinished() then
-		arg_15_0.progress = -1
+function slot0.Abort(slot0)
+	if slot0.progress ~= -1 and not slot0:IsFinished() then
+		slot0.progress = -1
 
-		if arg_15_0.onAbort then
-			arg_15_0:onAbort()
+		if slot0.onAbort then
+			slot0:onAbort()
 		end
 	end
 end
 
-function var_0_0.IsCancelled(arg_16_0)
-	if arg_16_0.cancellationSrc then
-		return arg_16_0.cancellationSrc()
+function slot0.IsCancelled(slot0)
+	if slot0.cancellationSrc then
+		return slot0.cancellationSrc()
 	end
 end
 
-function var_0_0.IsStarted(arg_17_0)
-	return arg_17_0.progress ~= 0
+function slot0.IsStarted(slot0)
+	return slot0.progress ~= 0
 end
 
-function var_0_0.IsFinished(arg_18_0)
-	return arg_18_0.progress > #arg_18_0.taskList
+function slot0.IsFinished(slot0)
+	return slot0.progress > #slot0.taskList
 end
 
-function var_0_0.IsAborted(arg_19_0)
-	return arg_19_0.progress == -1
+function slot0.IsAborted(slot0)
+	return slot0.progress == -1
 end
 
-function var_0_0.SetCancellationSrc(arg_20_0, arg_20_1)
-	arg_20_0.cancellationSrc = arg_20_1
+function slot0.SetCancellationSrc(slot0, slot1)
+	slot0.cancellationSrc = slot1
 
-	return arg_20_0
+	return slot0
 end
 
-function var_0_0.SetOnAbort(arg_21_0, arg_21_1)
-	arg_21_0.onAbort = arg_21_1
+function slot0.SetOnAbort(slot0, slot1)
+	slot0.onAbort = slot1
 
-	return arg_21_0
+	return slot0
 end
 
-function var_0_0.SetOnComplete(arg_22_0, arg_22_1)
-	arg_22_0.onComplete = arg_22_1
+function slot0.SetOnComplete(slot0, slot1)
+	slot0.onComplete = slot1
 
-	return arg_22_0
+	return slot0
 end
 
-return var_0_0
+return slot0

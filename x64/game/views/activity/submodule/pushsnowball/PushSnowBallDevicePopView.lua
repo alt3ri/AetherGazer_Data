@@ -1,61 +1,61 @@
-local var_0_0 = class("PushSnowBallDevicePopView", ReduxView)
+slot0 = class("PushSnowBallDevicePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballDevicePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.refreshHandler_ = handler(arg_3_0, function()
-		arg_3_0:RefreshUI()
+	slot0.refreshHandler_ = handler(slot0, function ()
+		uv0:RefreshUI()
 	end)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.deviceList_, PushSnowBallDeviceItem)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.deviceList_, PushSnowBallDeviceItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.maskBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
-	manager.notify:RegistListener(PUSH_SNOWBALL_EQUIP_DEVICE, arg_8_0.refreshHandler_)
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	manager.notify:RegistListener(PUSH_SNOWBALL_EQUIP_DEVICE, slot0.refreshHandler_)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.deviceDataList_ = PushSnowBallDeviceCfg.all
+function slot0.RefreshUI(slot0)
+	slot0.deviceDataList_ = PushSnowBallDeviceCfg.all
 
-	arg_9_0.uiList_:StartScroll(#arg_9_0.deviceDataList_)
+	slot0.uiList_:StartScroll(#slot0.deviceDataList_)
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:SetData(arg_10_1, arg_10_0.deviceDataList_[arg_10_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.deviceDataList_[slot1])
 end
 
-function var_0_0.OnExit(arg_11_0)
-	manager.notify:RemoveListener(PUSH_SNOWBALL_EQUIP_DEVICE, arg_11_0.refreshHandler_)
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(PUSH_SNOWBALL_EQUIP_DEVICE, slot0.refreshHandler_)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_12_0.uiList_ then
-		arg_12_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_12_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 end
 
-return var_0_0
+return slot0

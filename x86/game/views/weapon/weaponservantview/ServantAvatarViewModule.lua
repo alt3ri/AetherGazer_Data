@@ -1,184 +1,173 @@
-local var_0_0 = class("ServantAvatarViewModule", ReduxView)
+slot0 = class("ServantAvatarViewModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:BuildContext()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	local var_3_0 = arg_3_0:FindCom("UIScaleImage", nil, arg_3_0.scaleImageObj_)
-
-	arg_3_0.staticVar = {
+function slot0.BuildContext(slot0)
+	slot1 = slot0:FindCom("UIScaleImage", nil, slot0.scaleImageObj_)
+	slot0.staticVar = {
 		sliderIsHiden = true,
-		scaleImage = var_3_0,
-		minValue = var_3_0.minScale,
-		maxValue = var_3_0.maxScale,
-		ScaleLen = var_3_0.maxScale - var_3_0.minScale,
-		hidenTimer = Timer.New(function()
-			arg_3_0:OnHidenTimerReached()
+		scaleImage = slot1,
+		minValue = slot1.minScale,
+		maxValue = slot1.maxScale,
+		ScaleLen = slot1.maxScale - slot1.minScale,
+		hidenTimer = Timer.New(function ()
+			uv0:OnHidenTimerReached()
 		end, 2, -1)
 	}
-	arg_3_0.controller = {
-		comps = arg_3_0.controller_,
+	slot0.controller = {
+		comps = slot0.controller_,
 		state = {
 			checkView = {
 				False = "false",
 				name = "checkView",
 				True = "true",
-				comps = arg_3_0.controller_:GetController("checkView")
+				comps = slot0.controller_:GetController("checkView")
 			}
 		}
 	}
-	arg_3_0.servantId = nil
+	slot0.servantId = nil
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.closeBtn_, nil, function()
-		arg_5_0:OnCloseBtnClick()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:OnCloseBtnClick()
 	end)
-	arg_5_0.avatarSlider_.onValueChanged:AddListener(function(arg_7_0)
-		arg_5_0:OnAvatarSliderChanged(arg_7_0)
+	slot0.avatarSlider_.onValueChanged:AddListener(function (slot0)
+		uv0:OnAvatarSliderChanged(slot0)
 	end)
-	arg_5_0.staticVar.scaleImage.onScaleEvent:AddListener(function(arg_8_0)
-		arg_5_0:OnAvatarScale(arg_8_0)
+	slot0.staticVar.scaleImage.onScaleEvent:AddListener(function (slot0)
+		uv0:OnAvatarScale(slot0)
 	end)
-	arg_5_0.staticVar.scaleImage.onValueChanged:AddListener(function()
-		arg_5_0:RestartAvatarBar()
+	slot0.staticVar.scaleImage.onValueChanged:AddListener(function ()
+		uv0:RestartAvatarBar()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.subBtn_, nil, function()
-		arg_5_0:OnSliderBtnChange(-0.05)
+	slot0:AddBtnListener(slot0.subBtn_, nil, function ()
+		uv0:OnSliderBtnChange(-0.05)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.addBtn_, nil, function()
-		arg_5_0:OnSliderBtnChange(0.05)
+	slot0:AddBtnListener(slot0.addBtn_, nil, function ()
+		uv0:OnSliderBtnChange(0.05)
 	end)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0:RemoveAllListeners()
-	arg_12_0.staticVar.scaleImage.onScaleEvent:RemoveAllListeners()
-	arg_12_0.staticVar.scaleImage.onValueChanged:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.staticVar.scaleImage.onScaleEvent:RemoveAllListeners()
+	slot0.staticVar.scaleImage.onValueChanged:RemoveAllListeners()
 
-	arg_12_0.staticVar.scaleImage = nil
+	slot0.staticVar.scaleImage = nil
 
-	arg_12_0.avatarSlider_.onValueChanged:RemoveAllListeners()
-	arg_12_0.staticVar.hidenTimer:Stop()
+	slot0.avatarSlider_.onValueChanged:RemoveAllListeners()
+	slot0.staticVar.hidenTimer:Stop()
 
-	arg_12_0.staticVar.hidenTimer = nil
+	slot0.staticVar.hidenTimer = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegisterCloseCallback(arg_13_0, arg_13_1)
-	arg_13_0.staticVar.closeCallback = arg_13_1
+function slot0.RegisterCloseCallback(slot0, slot1)
+	slot0.staticVar.closeCallback = slot1
 end
 
-function var_0_0.EnterAvatarView(arg_14_0, arg_14_1)
-	if arg_14_1 then
-		arg_14_0:SwitchControllerState(arg_14_0.controller.state.checkView.name, arg_14_0.controller.state.checkView.True)
+function slot0.EnterAvatarView(slot0, slot1)
+	if slot1 then
+		slot0:SwitchControllerState(slot0.controller.state.checkView.name, slot0.controller.state.checkView.True)
 
-		arg_14_0.staticVar.scaleImage.enabled = true
-		arg_14_0.staticVar.sliderIsHiden = true
+		slot0.staticVar.scaleImage.enabled = true
+		slot0.staticVar.sliderIsHiden = true
 
-		arg_14_0:OnAvatarScale(1)
-		arg_14_0:RestartTimer()
-		SetActive(arg_14_0.gameObject_, true)
+		slot0:OnAvatarScale(1)
+		slot0:RestartTimer()
+		SetActive(slot0.gameObject_, true)
 	else
-		arg_14_0:SwitchControllerState(arg_14_0.controller.state.checkView.name, arg_14_0.controller.state.checkView.False)
+		slot0:SwitchControllerState(slot0.controller.state.checkView.name, slot0.controller.state.checkView.False)
 
-		arg_14_0.staticVar.scaleImage.enabled = false
+		slot0.staticVar.scaleImage.enabled = false
 
-		arg_14_0:ResetAvatar()
-		arg_14_0.staticVar.hidenTimer:Stop()
-		SetActive(arg_14_0.gameObject_, false)
+		slot0:ResetAvatar()
+		slot0.staticVar.hidenTimer:Stop()
+		SetActive(slot0.gameObject_, false)
 	end
 end
 
-function var_0_0.OnCloseBtnClick(arg_15_0)
-	local var_15_0 = arg_15_0.staticVar.closeCallback
-
-	if var_15_0 then
-		var_15_0()
+function slot0.OnCloseBtnClick(slot0)
+	if slot0.staticVar.closeCallback then
+		slot1()
 	end
 end
 
-function var_0_0.OnSliderBtnChange(arg_16_0, arg_16_1)
-	local var_16_0 = arg_16_0.avatarSlider_.value + arg_16_1
-
-	if var_16_0 > 1 then
-		var_16_0 = 1
+function slot0.OnSliderBtnChange(slot0, slot1)
+	if slot0.avatarSlider_.value + slot1 > 1 then
+		slot3 = 1
 	end
 
-	if var_16_0 < 0 then
-		var_16_0 = 0
+	if slot3 < 0 then
+		slot3 = 0
 	end
 
-	arg_16_0.avatarSlider_.value = var_16_0
+	slot0.avatarSlider_.value = slot3
 end
 
-function var_0_0.SetAvatarSprite(arg_17_0, arg_17_1)
-	arg_17_0.avatarIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Portrait/" .. arg_17_1)
-	arg_17_0.servantId = arg_17_1
+function slot0.SetAvatarSprite(slot0, slot1)
+	slot0.avatarIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Portrait/" .. slot1)
+	slot0.servantId = slot1
 end
 
-function var_0_0.ResetAvatar(arg_18_0)
-	arg_18_0.staticVar.scaleImage:ResetContent()
+function slot0.ResetAvatar(slot0)
+	slot0.staticVar.scaleImage:ResetContent()
 end
 
-function var_0_0.OnAvatarSliderChanged(arg_19_0, arg_19_1)
-	local var_19_0 = arg_19_0.staticVar.ScaleLen * arg_19_1 + arg_19_0.staticVar.minValue
-
-	arg_19_0.staticVar.scaleImage:SetScale(var_19_0)
-	arg_19_0:RestartTimer()
+function slot0.OnAvatarSliderChanged(slot0, slot1)
+	slot0.staticVar.scaleImage:SetScale(slot0.staticVar.ScaleLen * slot1 + slot0.staticVar.minValue)
+	slot0:RestartTimer()
 end
 
-function var_0_0.OnAvatarScale(arg_20_0, arg_20_1)
-	arg_20_0:RestartAvatarBar()
+function slot0.OnAvatarScale(slot0, slot1)
+	slot0:RestartAvatarBar()
 
-	local var_20_0 = (arg_20_1 - arg_20_0.staticVar.minValue) / arg_20_0.staticVar.ScaleLen
-
-	arg_20_0.avatarSlider_.value = var_20_0
+	slot0.avatarSlider_.value = (slot1 - slot0.staticVar.minValue) / slot0.staticVar.ScaleLen
 end
 
-function var_0_0.RestartAvatarBar(arg_21_0)
-	SetActive(arg_21_0.sliderObj_, true)
+function slot0.RestartAvatarBar(slot0)
+	SetActive(slot0.sliderObj_, true)
 
-	arg_21_0.staticVar.sliderIsHiden = false
+	slot0.staticVar.sliderIsHiden = false
 
-	arg_21_0:RestartTimer()
+	slot0:RestartTimer()
 end
 
-function var_0_0.SwitchControllerState(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = arg_22_0.controller.state[arg_22_1]
-
-	if var_22_0 and var_22_0.comps then
-		var_22_0.comps:SetSelectedState(arg_22_2)
+function slot0.SwitchControllerState(slot0, slot1, slot2)
+	if slot0.controller.state[slot1] and slot3.comps then
+		slot3.comps:SetSelectedState(slot2)
 	end
 end
 
-function var_0_0.OnHidenTimerReached(arg_23_0)
-	SetActive(arg_23_0.sliderObj_, false)
+function slot0.OnHidenTimerReached(slot0)
+	SetActive(slot0.sliderObj_, false)
 
-	arg_23_0.staticVar.sliderIsHiden = true
+	slot0.staticVar.sliderIsHiden = true
 
-	arg_23_0.staticVar.hidenTimer:Stop()
+	slot0.staticVar.hidenTimer:Stop()
 end
 
-function var_0_0.RestartTimer(arg_24_0)
-	arg_24_0.staticVar.hidenTimer:Stop()
+function slot0.RestartTimer(slot0)
+	slot0.staticVar.hidenTimer:Stop()
 
-	arg_24_0.staticVar.hidenTimer = Timer.New(function()
-		arg_24_0:OnHidenTimerReached()
+	slot0.staticVar.hidenTimer = Timer.New(function ()
+		uv0:OnHidenTimerReached()
 	end, 2, -1)
 
-	arg_24_0.staticVar.hidenTimer:Start()
+	slot0.staticVar.hidenTimer:Start()
 end
 
-return var_0_0
+return slot0

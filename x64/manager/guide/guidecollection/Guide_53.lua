@@ -1,45 +1,41 @@
-local var_0_0 = class("Guide_53", BaseGuide)
+slot0 = class("Guide_53", BaseGuide)
 
-function var_0_0.CheckGuide(arg_1_0)
-	if not GuideTool.SatisfyCondition(arg_1_0.open_condition) then
+function slot0.CheckGuide(slot0)
+	if not GuideTool.SatisfyCondition(slot0.open_condition) then
 		return false
 	end
 
-	if (#CanteenFoodData:GetChooseFoodList() or 0) >= DormSkillData:GetCanSignFoodNum() then
+	if DormSkillData:GetCanSignFoodNum() <= (#CanteenFoodData:GetChooseFoodList() or 0) then
 		return false
 	end
 
-	local var_1_0 = {}
+	slot4 = {}
 
-	for iter_1_0, iter_1_1 in pairs(BackHomeCanteenFoodCfg.all) do
-		if DormEnum.FurnitureTypeNum.Pan == BackHomeCanteenFoodCfg[iter_1_1].cook_type then
-			if BackHomeCanteenFoodCfg[iter_1_1].unlock > 0 then
-				if CanteenTools:CheckFoodUnLock(iter_1_1) then
-					table.insert(var_1_0, iter_1_1)
+	for slot8, slot9 in pairs(BackHomeCanteenFoodCfg.all) do
+		if DormEnum.FurnitureTypeNum.Pan == BackHomeCanteenFoodCfg[slot9].cook_type then
+			if BackHomeCanteenFoodCfg[slot9].unlock > 0 then
+				if CanteenTools:CheckFoodUnLock(slot9) then
+					table.insert(slot4, slot9)
 				end
 			else
-				table.insert(var_1_0, iter_1_1)
+				table.insert(slot4, slot9)
 			end
 		end
 	end
 
-	CommonTools.UniversalSortEx(var_1_0, {
-		map = function(arg_2_0)
-			return arg_2_0
+	CommonTools.UniversalSortEx(slot4, {
+		map = function (slot0)
+			return slot0
 		end
 	})
 
-	if #var_1_0 > 0 then
-		local var_1_1 = var_1_0[1]
-
-		if CanteenFoodData:CheckIsSignFood(var_1_1) then
+	if #slot4 > 0 then
+		if CanteenFoodData:CheckIsSignFood(slot4[1]) then
 			return false
 		end
 
-		local var_1_2 = BackHomeCanteenFoodCfg[var_1_1].ingredient_list
-
-		for iter_1_2, iter_1_3 in ipairs(var_1_2) do
-			if iter_1_3[2] > CanteenFoodData:GetCateenIngredientNum(iter_1_3[1]) then
+		for slot10, slot11 in ipairs(BackHomeCanteenFoodCfg[slot5].ingredient_list) do
+			if CanteenFoodData:GetCateenIngredientNum(slot11[1]) < slot11[2] then
 				return false
 			end
 		end
@@ -50,4 +46,4 @@ function var_0_0.CheckGuide(arg_1_0)
 	return true
 end
 
-return var_0_0
+return slot0

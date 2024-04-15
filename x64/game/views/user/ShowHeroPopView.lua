@@ -1,117 +1,114 @@
-local var_0_0 = class("ShowHeroPopView", ReduxView)
+slot0 = class("ShowHeroPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/HeroshowUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, ShowHeroPopItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, ShowHeroPopItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshData(arg_5_0.list_[arg_5_1], arg_5_0.isForeign_)
-	arg_5_2:RegistClickFunction(function()
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshData(slot0.list_[slot1], slot0.isForeign_)
+	slot2:RegistClickFunction(function ()
 		if manager.windowBar:GetWhereTag() ~= nil then
-			if not arg_5_0.isForeign_ then
+			if not uv0.isForeign_ then
 				ShowTips("PROFILE_ROLES_SET_PROMPT")
 			end
 
 			return
 		end
 
-		if not arg_5_0.isForeign_ then
-			local var_6_0 = arg_5_0.list_[arg_5_1].hero_id ~= 0 and arg_5_0.list_[arg_5_1].hero_id or nil
-
+		if not uv0.isForeign_ then
 			JumpTools.OpenPageByJump("/HeroShowChange", {
-				heroID = var_6_0
+				heroID = uv0.list_[uv1].hero_id ~= 0 and uv0.list_[uv1].hero_id or nil
 			})
-		else
-			local var_6_1 = arg_5_0.list_[arg_5_1].hero_id
-
-			if var_6_1 ~= 0 then
-				ForeignInfoAction:TryToCheckForeignHeroInfo(arg_5_0.userID_, var_6_1, 1, function()
-					JumpTools.OpenPageByJump("/newHero", {
-						pageIndex = 1,
-						isEnter = true,
-						notShowBar = true,
-						hid = var_6_1,
-						type = HeroConst.HERO_DATA_TYPE.FOREIGN
-					}, ViewConst.SYSTEM_ID.PLAYER_INFO)
-				end)
-			end
+		elseif uv0.list_[uv1].hero_id ~= 0 then
+			ForeignInfoAction:TryToCheckForeignHeroInfo(uv0.userID_, slot0, 1, function ()
+				JumpTools.OpenPageByJump("/newHero", {
+					pageIndex = 1,
+					isEnter = true,
+					notShowBar = true,
+					hid = uv0,
+					type = HeroConst.HERO_DATA_TYPE.FOREIGN
+				}, ViewConst.SYSTEM_ID.PLAYER_INFO)
+			end)
 		end
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.bgBtn_, nil, function()
-		arg_8_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.list_ = {}
-	arg_10_0.userID_ = arg_10_0.params_.userID
-	arg_10_0.isForeign_ = arg_10_0.params_.isForeign
+function slot0.OnEnter(slot0)
+	slot0.list_ = {}
+	slot0.userID_ = slot0.params_.userID
+	slot0.isForeign_ = slot0.params_.isForeign
 
-	if not arg_10_0.isForeign_ then
-		local var_10_0 = PlayerData:GetHeroShowList()
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-			local var_10_1 = HeroData:GetHeroData(iter_10_1)
-
-			arg_10_0.list_[iter_10_0] = {}
-			arg_10_0.list_[iter_10_0].hero_id = iter_10_1
-			arg_10_0.list_[iter_10_0].star = var_10_1.star
-			arg_10_0.list_[iter_10_0].level = var_10_1.level
-			arg_10_0.list_[iter_10_0].using_skin = var_10_1.using_skin
+	if not slot0.isForeign_ then
+		for slot5, slot6 in ipairs(PlayerData:GetHeroShowList()) do
+			slot7 = HeroData:GetHeroData(slot6)
+			slot0.list_[slot5] = {
+				hero_id = slot6,
+				star = slot7.star,
+				level = slot7.level,
+				using_skin = slot7.using_skin
+			}
 		end
 	else
-		local var_10_2 = arg_10_0.params_.heroList
-
-		for iter_10_2, iter_10_3 in ipairs(var_10_2) do
-			arg_10_0.list_[iter_10_2] = iter_10_3
+		for slot5, slot6 in ipairs(slot0.params_.heroList) do
+			slot0.list_[slot5] = slot6
 		end
 	end
 
-	for iter_10_4 = #arg_10_0.list_ + 1, 3 do
-		arg_10_0.list_[iter_10_4] = {}
-		arg_10_0.list_[iter_10_4].hero_id = 0
-		arg_10_0.list_[iter_10_4].star = 0
-		arg_10_0.list_[iter_10_4].level = 0
-		arg_10_0.list_[iter_10_4].using_skin = 0
+	for slot4 = #slot0.list_ + 1, 3 do
+		slot0.list_[slot4] = {
+			hero_id = 0,
+			star = 0,
+			level = 0,
+			using_skin = 0
+		}
 	end
 
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.list_)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 	CommonFilterData:ClearFilter(Filter_Root_Define.Hero_Filter_List.filter_id)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.scrollHelper_:GetItemList()) do
-		iter_11_1:OnExit()
+function slot0.OnExit(slot0)
+	slot3 = slot0.scrollHelper_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.scrollHelper_:GetItemList()) do
-		iter_12_1:Dispose()
+	slot3 = slot0.scrollHelper_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:Dispose()
 	end
 
-	arg_12_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_12_0)
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

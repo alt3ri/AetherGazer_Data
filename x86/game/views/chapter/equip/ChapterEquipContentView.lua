@@ -1,29 +1,16 @@
-local var_0_0 = class("ChapterEquipContentView", import("..ChapterBaseContentView"))
+slot0 = class("ChapterEquipContentView", import("..ChapterBaseContentView"))
 
-function var_0_0.RefreshMapItems(arg_1_0)
-	local var_1_0 = arg_1_0.chapterToggle_
-	local var_1_1 = ChapterClientCfg.get_id_list_by_toggle[var_1_0]
+function slot0.RefreshMapItems(slot0)
+	for slot6 = #slot0.itemList_ + 1, #ChapterClientCfg.get_id_list_by_toggle[slot0.chapterToggle_] do
+		slot7 = nil
 
-	for iter_1_0 = #arg_1_0.itemList_ + 1, #var_1_1 do
-		local var_1_2
-
-		if var_1_1[iter_1_0] == 203 then
-			var_1_2 = ChapterEquipEnchantmentItemView.New(arg_1_0.mapItem_, arg_1_0.itemParent_, var_1_1[iter_1_0], var_1_0)
-		elseif var_1_1[iter_1_0] == 204 then
-			var_1_2 = ChapterEquipExperienceItemView.New(arg_1_0.mapItem_, arg_1_0.itemParent_, var_1_1[iter_1_0], var_1_0)
-		elseif var_1_1[iter_1_0] == 205 then
-			var_1_2 = ChapterEquipSeizureItemView.New(arg_1_0.mapItem_, arg_1_0.itemParent_, var_1_1[iter_1_0], var_1_0)
-		else
-			var_1_2 = ChapterEquipItemView.New(arg_1_0.mapItem_, arg_1_0.itemParent_, var_1_1[iter_1_0], var_1_0)
-		end
-
-		if var_1_2 then
-			table.insert(arg_1_0.itemList_, {
-				virtualItem = ChapterBaseVirtualItemView.New(arg_1_0.mapVirtualItem_, arg_1_0.itemParent_),
-				renderItem = var_1_2
+		if (slot2[slot6] ~= 203 or ChapterEquipEnchantmentItemView.New(slot0.mapItem_, slot0.itemParent_, slot2[slot6], slot1)) and (slot2[slot6] ~= 204 or ChapterEquipExperienceItemView.New(slot0.mapItem_, slot0.itemParent_, slot2[slot6], slot1)) and (slot2[slot6] ~= 205 or ChapterEquipSeizureItemView.New(slot0.mapItem_, slot0.itemParent_, slot2[slot6], slot1)) and ChapterEquipItemView.New(slot0.mapItem_, slot0.itemParent_, slot2[slot6], slot1) then
+			table.insert(slot0.itemList_, {
+				virtualItem = ChapterBaseVirtualItemView.New(slot0.mapVirtualItem_, slot0.itemParent_),
+				renderItem = slot7
 			})
 		end
 	end
 end
 
-return var_0_0
+return slot0

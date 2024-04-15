@@ -1,81 +1,72 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("NewHeroTeamInfoChessView", var_0_0)
+slot1 = class("NewHeroTeamInfoChessView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.UpdateBar(arg_1_0)
+function slot1.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR
 	})
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	arg_2_0.teamLength_ = arg_2_0.params_.teamLength
+function slot1.OnEnter(slot0)
+	slot0.teamLength_ = slot0.params_.teamLength
 
-	var_0_1.super.OnEnter(arg_2_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_1.GetHeroHeadClass(arg_3_0)
+function slot1.GetHeroHeadClass(slot0)
 	return NewChessHeroTeamHeadItem
 end
 
-function var_0_1.ExtraSorter(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	local var_4_0 = arg_4_0.heroTeam_
-	local var_4_1 = arg_4_0.heroTrialList_
-	local var_4_2 = {}
-
-	for iter_4_0, iter_4_1 in pairs(var_4_0) do
-		var_4_2[iter_4_0] = {
-			id = iter_4_1,
-			trialID = var_4_1[iter_4_0]
+function slot1.ExtraSorter(slot0, slot1, slot2, slot3, slot4)
+	slot7 = {
+		[slot11] = {
+			id = slot12,
+			trialID = slot0.heroTrialList_[slot11]
 		}
+	}
+
+	for slot11, slot12 in pairs(slot0.heroTeam_) do
+		-- Nothing
 	end
 
-	local var_4_3 = arg_4_0:indexof(var_4_2, arg_4_1)
-	local var_4_4 = arg_4_0:indexof(var_4_2, arg_4_2)
-
-	if var_4_3 ~= var_4_4 then
-		return true, var_4_3 < var_4_4
+	if slot0:indexof(slot7, slot1) ~= slot0:indexof(slot7, slot2) then
+		return true, slot8 < slot9
 	end
 
-	if arg_4_1.trialID ~= 0 or arg_4_2.trialID ~= 0 then
-		if arg_4_1.trialID ~= 0 and arg_4_2.trialID ~= 0 then
-			if arg_4_3 == 0 and arg_4_1.star ~= arg_4_2.star then
-				if arg_4_0.curOrder_ == "desc" then
-					return true, arg_4_1.star > arg_4_2.star
+	if slot1.trialID ~= 0 or slot2.trialID ~= 0 then
+		if slot1.trialID ~= 0 and slot2.trialID ~= 0 then
+			if slot3 == 0 and slot1.star ~= slot2.star then
+				if slot0.curOrder_ == "desc" then
+					return true, slot2.star < slot1.star
 				else
-					return true, arg_4_1.star < arg_4_2.star
+					return true, slot1.star < slot2.star
 				end
 			end
 
-			local var_4_5 = getHeroPower(arg_4_1.trialID, true)
-			local var_4_6 = getHeroPower(arg_4_2.trialID, true)
-
-			if var_4_5 ~= var_4_6 then
-				if arg_4_4 == "desc" then
-					return true, var_4_6 < var_4_5
+			if getHeroPower(slot1.trialID, true) ~= getHeroPower(slot2.trialID, true) then
+				if slot4 == "desc" then
+					return true, slot11 < slot10
 				else
-					return true, var_4_5 < var_4_6
+					return true, slot10 < slot11
 				end
 			else
-				return true, arg_4_1.trialID > arg_4_2.trialID
+				return true, slot2.trialID < slot1.trialID
 			end
 		else
-			return true, arg_4_1.trialID > arg_4_2.trialID
+			return true, slot2.trialID < slot1.trialID
 		end
 	end
 
 	return false, false
 end
 
-function var_0_1.HeadRenderer(arg_5_0, arg_5_1, arg_5_2)
-	var_0_1.super.HeadRenderer(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshTeamTag(arg_5_0.params_.reserveParams.contID, arg_5_0.params_.reserveParams.teamIndex, arg_5_0.teamLength_)
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
+	slot2:RefreshTeamTag(slot0.params_.reserveParams.contID, slot0.params_.reserveParams.teamIndex, slot0.teamLength_)
 end
 
-function var_0_1.IsInTeam(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_0.heroTeam_
-
-	for iter_6_0 = 1, #var_6_0 do
-		if var_6_0[iter_6_0] == arg_6_1 then
+function slot1.IsInTeam(slot0, slot1)
+	for slot6 = 1, #slot0.heroTeam_ do
+		if slot2[slot6] == slot1 then
 			return true
 		end
 	end
@@ -83,121 +74,114 @@ function var_0_1.IsInTeam(arg_6_0, arg_6_1)
 	return false
 end
 
-function var_0_1.OnJoinClick(arg_7_0)
-	local var_7_0 = clone(arg_7_0.heroTeam_)
-	local var_7_1 = clone(arg_7_0.heroTrialList_)
-	local var_7_2 = arg_7_0:IsSameHeroInTeam(arg_7_0.selectHeroData_.id)
+function slot1.OnJoinClick(slot0)
+	slot2 = clone(slot0.heroTrialList_)
 
-	if arg_7_0.selectHeroData_.id == var_7_0[arg_7_0.params_.selectHeroPos] and arg_7_0.selectHeroData_.trialID == var_7_1[arg_7_0.params_.selectHeroPos] and var_7_2 then
-		var_7_0[arg_7_0.params_.selectHeroPos] = 0
-		var_7_1[arg_7_0.params_.selectHeroPos] = 0
-	elseif var_7_2 then
-		local var_7_3 = 1
+	if slot0.selectHeroData_.id == clone(slot0.heroTeam_)[slot0.params_.selectHeroPos] and slot0.selectHeroData_.trialID == slot2[slot0.params_.selectHeroPos] and slot0:IsSameHeroInTeam(slot0.selectHeroData_.id) then
+		slot1[slot0.params_.selectHeroPos] = 0
+		slot2[slot0.params_.selectHeroPos] = 0
+	elseif slot3 then
+		slot4 = 1
 
-		for iter_7_0, iter_7_1 in pairs(var_7_0) do
-			if iter_7_1 == arg_7_0.selectHeroData_.id then
-				var_7_3 = iter_7_0
+		for slot8, slot9 in pairs(slot1) do
+			if slot9 == slot0.selectHeroData_.id then
+				slot4 = slot8
 
 				break
 			end
 		end
 
-		if var_7_0[var_7_3] == arg_7_0.selectHeroData_.id and var_7_1[var_7_3] ~= arg_7_0.selectHeroData_.trialID then
-			var_7_0[var_7_3] = arg_7_0.selectHeroData_.id
-			var_7_1[var_7_3] = arg_7_0.selectHeroData_.trialID
+		if slot1[slot4] == slot0.selectHeroData_.id and slot2[slot4] ~= slot0.selectHeroData_.trialID then
+			slot1[slot4] = slot0.selectHeroData_.id
+			slot2[slot4] = slot0.selectHeroData_.trialID
 		end
 
-		local var_7_4 = var_7_0[var_7_3]
+		slot1[slot4] = slot1[slot0.params_.selectHeroPos]
+		slot1[slot0.params_.selectHeroPos] = slot1[slot4]
+		slot2[slot4] = slot2[slot0.params_.selectHeroPos]
+		slot2[slot0.params_.selectHeroPos] = slot2[slot4]
 
-		var_7_0[var_7_3] = var_7_0[arg_7_0.params_.selectHeroPos]
-		var_7_0[arg_7_0.params_.selectHeroPos] = var_7_4
-
-		local var_7_5 = var_7_1[var_7_3]
-
-		var_7_1[var_7_3] = var_7_1[arg_7_0.params_.selectHeroPos]
-		var_7_1[arg_7_0.params_.selectHeroPos] = var_7_5
-
-		HeroTools.PlayTalk(arg_7_0.selectHeroData_.id, "team")
+		HeroTools.PlayTalk(slot0.selectHeroData_.id, "team")
 	else
-		var_7_0[arg_7_0.params_.selectHeroPos] = arg_7_0.selectHeroData_.id
-		var_7_1[arg_7_0.params_.selectHeroPos] = arg_7_0.selectHeroData_.trialID
+		slot1[slot0.params_.selectHeroPos] = slot0.selectHeroData_.id
+		slot2[slot0.params_.selectHeroPos] = slot0.selectHeroData_.trialID
 
-		HeroTools.PlayTalk(arg_7_0.selectHeroData_.id, "team")
+		HeroTools.PlayTalk(slot0.selectHeroData_.id, "team")
 	end
 
-	if arg_7_0.params_.reorder == nil or arg_7_0.params_.reorder == true then
-		if arg_7_0:IsCustomTeamStage() then
-			local var_7_6 = BattleStageTools.GetRestrictHeroList(arg_7_0.params_.stageType, arg_7_0.params_.stageID)
-			local var_7_7 = 1
-			local var_7_8 = {}
-			local var_7_9 = {}
+	if slot0.params_.reorder == nil or slot0.params_.reorder == true then
+		if slot0:IsCustomTeamStage() then
+			slot5 = 1
+			slot6 = {
+				[slot11] = slot12[1]
+			}
+			slot7 = {
+				[slot11] = slot12[2]
+			}
 
-			for iter_7_2, iter_7_3 in pairs(var_7_6) do
-				if iter_7_3[1] then
-					var_7_8[iter_7_2] = iter_7_3[1]
-					var_7_9[iter_7_2] = iter_7_3[2]
+			for slot11, slot12 in pairs(BattleStageTools.GetRestrictHeroList(slot0.params_.stageType, slot0.params_.stageID)) do
+				if slot12[1] then
+					-- Nothing
 				else
-					var_7_8[iter_7_2] = var_7_0[iter_7_2]
-					var_7_9[iter_7_2] = var_7_1[iter_7_2]
+					slot6[slot11] = slot1[slot11]
+					slot7[slot11] = slot2[slot11]
 				end
 			end
 
-			for iter_7_4 = 1, 3 do
-				if not var_7_8[iter_7_4] then
-					for iter_7_5, iter_7_6 in pairs(var_7_0) do
-						local var_7_10 = table.keyof(var_7_8, iter_7_6)
+			for slot11 = 1, 3 do
+				if not slot6[slot11] then
+					for slot15, slot16 in pairs(slot1) do
+						slot17 = table.keyof(slot6, slot16)
 
-						if iter_7_6 ~= 0 and not var_7_10 then
-							var_7_8[iter_7_4] = iter_7_6
-							var_7_9[iter_7_4] = var_7_9[var_7_10]
+						if slot16 ~= 0 and not slot17 then
+							slot6[slot11] = slot16
+							slot7[slot11] = slot7[slot17]
 
 							break
 						end
 					end
 
-					var_7_8[iter_7_4] = var_7_8[iter_7_4] or 0
-					var_7_9[iter_7_4] = var_7_9[iter_7_4] or 0
+					slot6[slot11] = slot6[slot11] or 0
+					slot7[slot11] = slot7[slot11] or 0
 				end
 			end
 
-			var_7_0 = var_7_8
-			var_7_1 = var_7_9
+			slot1 = slot6
+			slot2 = slot7
 		else
-			for iter_7_7 = 3, 1, -1 do
-				if var_7_0[iter_7_7] == 0 then
-					table.remove(var_7_0, iter_7_7)
-					table.remove(var_7_1, iter_7_7)
+			for slot7 = 3, 1, -1 do
+				if slot1[slot7] == 0 then
+					table.remove(slot1, slot7)
+					table.remove(slot2, slot7)
 				end
 			end
 
-			for iter_7_8 = 1, 3 do
-				if not var_7_0[iter_7_8] then
-					var_7_0[iter_7_8] = 0
-					var_7_1[iter_7_8] = 0
+			for slot7 = 1, 3 do
+				if not slot1[slot7] then
+					slot1[slot7] = 0
+					slot2[slot7] = 0
 				end
 			end
 		end
 	end
 
-	local var_7_11
-	local var_7_12
-	local var_7_13
+	slot4, slot5, slot6 = nil
 
-	for iter_7_9 = 1, 3 do
-		if arg_7_0.params_.reserveParams.teamIndex ~= iter_7_9 then
-			local var_7_14 = ReserveParams.New(arg_7_0.params_.reserveParams.reserveType, arg_7_0.params_.reserveParams.contID, iter_7_9, {
-				stageType = arg_7_0.params_.stageType,
-				stageID = arg_7_0.params_.stageID
-			})
-			local var_7_15 = ReserveTools.GetHeroList(var_7_14)
+	for slot10 = 1, 3 do
+		if slot0.params_.reserveParams.teamIndex ~= slot10 then
+			slot16 = {
+				stageType = slot0.params_.stageType,
+				stageID = slot17
+			}
+			slot17 = slot0.params_.stageID
 
-			for iter_7_10, iter_7_11 in ipairs(var_7_15) do
-				if iter_7_11 ~= 0 then
-					for iter_7_12 = 1, 3 do
-						if iter_7_11 == var_7_0[iter_7_12] then
-							var_7_11 = iter_7_9
-							var_7_12 = var_7_15
-							var_7_13 = iter_7_10
+			for slot16, slot17 in ipairs(ReserveTools.GetHeroList(ReserveParams.New(slot0.params_.reserveParams.reserveType, slot0.params_.reserveParams.contID, slot10, slot16))) do
+				if slot17 ~= 0 then
+					for slot21 = 1, 3 do
+						if slot17 == slot1[slot21] then
+							slot4 = slot10
+							slot5 = slot12
+							slot6 = slot16
 						end
 					end
 				end
@@ -205,68 +189,63 @@ function var_0_1.OnJoinClick(arg_7_0)
 		end
 	end
 
-	if var_7_11 then
-		local var_7_16 = GetTips("NUM_" .. var_7_11)
-
+	if slot4 then
 		ShowMessageBox({
-			content = string.format(GetTips("CURHERO_USED"), var_7_16),
-			OkCallback = function()
-				var_7_12[var_7_13] = 0
+			content = string.format(GetTips("CURHERO_USED"), GetTips("NUM_" .. slot4)),
+			OkCallback = function ()
+				uv0[uv1] = 0
 
-				for iter_8_0 = 1, 2 do
-					for iter_8_1 = iter_8_0 + 1, 3 do
-						if var_7_12[iter_8_0] == 0 then
-							var_7_12[iter_8_0] = var_7_12[iter_8_1]
-							var_7_12[iter_8_1] = 0
+				for slot3 = 1, 2 do
+					for slot7 = slot3 + 1, 3 do
+						if uv0[slot3] == 0 then
+							uv0[slot3] = uv0[slot7]
+							uv0[slot7] = 0
 						end
 					end
 				end
 
-				local var_8_0 = ReserveParams.New(arg_7_0.params_.reserveParams.reserveType, arg_7_0.params_.reserveParams.contID, var_7_11, {
-					stageType = arg_7_0.params_.stageType,
-					stageID = arg_7_0.params_.stageID
-				})
-
-				ReserveTools.SetHeroList(var_8_0, var_7_12, {
+				ReserveTools.SetHeroList(ReserveParams.New(uv2.params_.reserveParams.reserveType, uv2.params_.reserveParams.contID, uv3, {
+					stageType = uv2.params_.stageType,
+					stageID = uv2.params_.stageID
+				}), uv0, {
 					0,
 					0,
 					0
 				})
-				arg_7_0:ExitFunc(var_7_0, var_7_1)
+				uv2:ExitFunc(uv4, uv5)
 			end
 		})
 	else
-		arg_7_0:ExitFunc(var_7_0, var_7_1)
+		slot0:ExitFunc(slot1, slot2)
 	end
 end
 
-function var_0_1.ExitFunc(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0:ChangeTeam(arg_9_1, arg_9_2)
+function slot1.ExitFunc(slot0, slot1, slot2)
+	slot0:ChangeTeam(slot1, slot2)
 
-	if arg_9_0.heroAvatarView_ then
-		arg_9_0.heroAvatarView_:RemoveTween()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:RemoveTween()
 	end
 
-	arg_9_0:Back()
+	slot0:Back()
 end
 
-function var_0_1.ChangeTeam(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = {}
+function slot1.ChangeTeam(slot0, slot1, slot2)
+	slot3 = {}
 
-	for iter_10_0 = 1, 3 do
-		if arg_10_1[iter_10_0] ~= 0 then
-			var_10_0[#var_10_0 + 1] = arg_10_1[iter_10_0]
+	for slot7 = 1, 3 do
+		if slot1[slot7] ~= 0 then
+			slot3[#slot3 + 1] = slot1[slot7]
 		end
 	end
 
-	for iter_10_1 = #var_10_0 + 1, 3 do
-		var_10_0[iter_10_1] = 0
+	for slot7 = #slot3 + 1, 3 do
+		slot3[slot7] = 0
 	end
 
-	local var_10_1 = ComboSkillTools.GetRecommendSkillID(var_10_0, true)
-	local var_10_2, var_10_3 = ReserveTools.GetMimirData(arg_10_0.params_.reserveParams)
+	slot5, slot6 = ReserveTools.GetMimirData(slot0.params_.reserveParams)
 
-	ReserveTools.SetTeam(arg_10_0.params_.reserveParams, var_10_0, arg_10_2 or {}, var_10_1, var_10_2, var_10_3)
+	ReserveTools.SetTeam(slot0.params_.reserveParams, slot3, slot2 or {}, ComboSkillTools.GetRecommendSkillID(slot3, true), slot5, slot6)
 end
 
-return var_0_1
+return slot1

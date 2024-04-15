@@ -1,582 +1,534 @@
-local var_0_0 = class("PuzzleNewPlayView", ReduxView)
+slot0 = class("PuzzleNewPlayView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return PuzzleNewTools.GetPlayViewUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return PuzzleNewTools.GetPlayViewUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.puzzleItemList_ = {}
-	arg_3_0.puzzleItemDicByID_ = {}
-	arg_3_0.regionItemList_ = {}
-	arg_3_0.statusConst_ = {
+function slot0.Init(slot0)
+	slot0.puzzleItemList_ = {}
+	slot0.puzzleItemDicByID_ = {}
+	slot0.regionItemList_ = {}
+	slot0.statusConst_ = {
 		PLAY = 0,
 		CHECK = 1
 	}
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
-	arg_3_0.putBtnController_ = ControllerUtil.GetController(arg_3_0.putBtn_.transform, "status")
-	arg_3_0.checkBtnController_ = ControllerUtil.GetController(arg_3_0.checkTipsBtn_.transform, "status")
-	arg_3_0.checkPointList_ = {}
-	arg_3_0.endDragHandler_ = handler(arg_3_0, arg_3_0.OnDragPuzzleEnd)
-	arg_3_0.onClickHandler_ = handler(arg_3_0, arg_3_0.OnClick)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.putBtnController_ = ControllerUtil.GetController(slot0.putBtn_.transform, "status")
+	slot0.checkBtnController_ = ControllerUtil.GetController(slot0.checkTipsBtn_.transform, "status")
+	slot0.checkPointList_ = {}
+	slot0.endDragHandler_ = handler(slot0, slot0.OnDragPuzzleEnd)
+	slot0.onClickHandler_ = handler(slot0, slot0.OnClick)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.autoBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.autoBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
-		if not PuzzleNewTools.CheckWrongSide(false, arg_5_0.activityID_) then
+		if not PuzzleNewTools.CheckWrongSide(false, uv0.activityID_) then
 			ShowTips("ACTIVITY_PUZZLE_GUIDE_ENOUGH")
 
 			return
 		end
 
-		local var_6_0 = arg_5_0.puzzleCfg_.coin_id[1]
-		local var_6_1 = var_6_0[1]
+		slot0 = uv0.puzzleCfg_.coin_id[1]
 
-		if ItemTools.getItemNum(var_6_1) < var_6_0[2] then
+		if ItemTools.getItemNum(slot0[1]) < slot0[2] then
 			ShowTips("ACTIVITY_PUZZLE_COIN_NOT_ENOUGH")
 
 			return
 		end
 
-		SetActive(arg_5_0.maskGo_, true)
-		PuzzleNewAction.Operation(arg_5_0.activityID_, PuzzleNewAction.OPERATION_TYPE.AUTO_PUT)
+		SetActive(uv0.maskGo_, true)
+		PuzzleNewAction.Operation(uv0.activityID_, PuzzleNewAction.OPERATION_TYPE.AUTO_PUT)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.putBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.putBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
-		if not PuzzleNewTools.CheckWrongSide(true, arg_5_0.activityID_) then
+		if not PuzzleNewTools.CheckWrongSide(true, uv0.activityID_) then
 			ShowTips("ACTIVITY_PUZZLE_ENOUGH")
 
 			return
 		end
 
-		local var_7_0 = arg_5_0.puzzleCfg_.fragment_id[1]
-		local var_7_1 = var_7_0[1]
+		slot0 = uv0.puzzleCfg_.fragment_id[1]
 
-		if ItemTools.getItemNum(var_7_1) < var_7_0[2] then
+		if ItemTools.getItemNum(slot0[1]) < slot0[2] then
 			ShowTips("ACTIVITY_PUZZLE_FRAGMENT_NOT_ENOUGH")
 
 			return
 		end
 
-		PuzzleNewData:SetPutBtnSelected(arg_5_0.activityID_)
-		SetActive(arg_5_0.maskGo_, true)
-		PuzzleNewAction.Operation(arg_5_0.activityID_, PuzzleNewAction.OPERATION_TYPE.PUT)
+		PuzzleNewData:SetPutBtnSelected(uv0.activityID_)
+		SetActive(uv0.maskGo_, true)
+		PuzzleNewAction.Operation(uv0.activityID_, PuzzleNewAction.OPERATION_TYPE.PUT)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
 		manager.windowBar:HideBar()
 		JumpTools.OpenPageByJump("puzzleNewReward", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.previewBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.previewBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
 		manager.windowBar:HideBar()
 		JumpTools.OpenPageByJump("puzzleNewPreview", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.checkTipsBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.checkTipsBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
-		local var_10_0 = PuzzleNewData:GetCurCheckList(arg_5_0.activityID_)
-		local var_10_1 = PuzzleNewData:GetCheckTipsList(arg_5_0.activityID_)
-		local var_10_2 = arg_5_0.puzzleCfg_.clue_id
-		local var_10_3 = false
-		local var_10_4 = 0
+		slot3 = false
+		slot4 = 0
 
-		for iter_10_0, iter_10_1 in ipairs(var_10_2) do
-			if var_10_0[iter_10_1] == nil and var_10_1[iter_10_1] == nil then
-				var_10_3 = true
-				var_10_4 = iter_10_1
+		for slot8, slot9 in ipairs(uv0.puzzleCfg_.clue_id) do
+			if PuzzleNewData:GetCurCheckList(uv0.activityID_)[slot9] == nil and PuzzleNewData:GetCheckTipsList(uv0.activityID_)[slot9] == nil then
+				slot3 = true
+				slot4 = slot9
 
 				break
 			end
 		end
 
-		if not var_10_3 then
+		if not slot3 then
 			ShowTips("ACTIVITY_PUZZLE_CULE")
 
 			return
 		end
 
-		local var_10_5 = arg_5_0.puzzleCfg_.clue_tips_id[1]
-		local var_10_6 = var_10_5[1]
+		slot5 = uv0.puzzleCfg_.clue_tips_id[1]
 
-		if ItemTools.getItemNum(var_10_6) < var_10_5[2] then
+		if ItemTools.getItemNum(slot5[1]) < slot5[2] then
 			ShowTips("ACTIVITY_PUZZLE_FRAGMENT_NOT_ENOUGH")
 
 			return
 		end
 
-		SetActive(arg_5_0.maskGo_, true)
-		PuzzleNewAction.Operation(arg_5_0.activityID_, PuzzleNewAction.OPERATION_TYPE.CHECK_TIPS, nil, var_10_4)
+		SetActive(uv0.maskGo_, true)
+		PuzzleNewAction.Operation(uv0.activityID_, PuzzleNewAction.OPERATION_TYPE.CHECK_TIPS, nil, slot4)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.checkPreviewBtn_, nil, function()
-		if not arg_5_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.checkPreviewBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			return
 		end
 
 		manager.windowBar:HideBar()
 		JumpTools.OpenPageByJump("puzzleNewCheckPreview", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.shareBtn_, nil, function()
-		manager.share:Share(function()
-			arg_5_0:HideAllUI()
-		end, function()
-			arg_5_0:RecoverAllUI()
-		end, function()
-			return
+	slot0:AddBtnListener(slot0.shareBtn_, nil, function ()
+		manager.share:Share(function ()
+			uv0:HideAllUI()
+		end, function ()
+			uv0:RecoverAllUI()
+		end, function ()
 		end)
 	end)
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	local var_16_0 = ActivityData:GetActivityData(arg_16_0.params_.activityID)
+function slot0.OnEnter(slot0)
+	slot1 = ActivityData:GetActivityData(slot0.params_.activityID)
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
 
-	arg_16_0.startTime_ = var_16_0.startTime
-	arg_16_0.stopTime_ = var_16_0.stopTime
+	if slot0.activityID_ ~= slot0.params_.activityID then
+		slot0.activityID_ = slot0.params_.activityID
+		slot0.puzzleCfg_ = PuzzleNewCfg[slot0.params_.activityID]
 
-	if arg_16_0.activityID_ ~= arg_16_0.params_.activityID then
-		arg_16_0.activityID_ = arg_16_0.params_.activityID
-		arg_16_0.puzzleCfg_ = PuzzleNewCfg[arg_16_0.params_.activityID]
-
-		arg_16_0:Spawn()
+		slot0:Spawn()
 	end
 
-	arg_16_0.params_.isEnter = true
+	slot0.params_.isEnter = true
 
-	arg_16_0:SwitchStatus()
-	arg_16_0:AddTimer()
-	SetActive(arg_16_0.maskGo_, false)
-	manager.redPoint:bindUIandKey(arg_16_0.putBtn_.transform, string.format("%s_%s", RedPointConst.PUZZLE_NEW_PIECE, arg_16_0.activityID_))
+	slot0:SwitchStatus()
+	slot0:AddTimer()
+	SetActive(slot0.maskGo_, false)
+	manager.redPoint:bindUIandKey(slot0.putBtn_.transform, string.format("%s_%s", RedPointConst.PUZZLE_NEW_PIECE, slot0.activityID_))
 end
 
-function var_0_0.OnExit(arg_17_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_17_0.checkAnimtimer_ ~= nil then
-		arg_17_0.checkAnimtimer_:Stop()
+	if slot0.checkAnimtimer_ ~= nil then
+		slot0.checkAnimtimer_:Stop()
 
-		arg_17_0.checkAnimtimer_ = nil
+		slot0.checkAnimtimer_ = nil
 	end
 
-	arg_17_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_17_0.params_.isEnter = false
+	slot0.params_.isEnter = false
 
-	SetActive(arg_17_0.maskGo_, false)
-	manager.redPoint:unbindUIandKey(arg_17_0.putBtn_.transform, string.format("%s_%s", RedPointConst.PUZZLE_NEW_PIECE, arg_17_0.activityID_))
+	SetActive(slot0.maskGo_, false)
+	manager.redPoint:unbindUIandKey(slot0.putBtn_.transform, string.format("%s_%s", RedPointConst.PUZZLE_NEW_PIECE, slot0.activityID_))
 end
 
-function var_0_0.OnTop(arg_18_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		arg_18_0.puzzleCfg_.coin_id[1][1],
-		arg_18_0.puzzleCfg_.fragment_id[1][1]
+		slot0.puzzleCfg_.coin_id[1][1],
+		slot0.puzzleCfg_.fragment_id[1][1]
 	})
-	manager.windowBar:SetBarCanClick(arg_18_0.puzzleCfg_.coin_id[1][1], true)
-	manager.windowBar:SetBarCanClick(arg_18_0.puzzleCfg_.fragment_id[1][1], true)
+	manager.windowBar:SetBarCanClick(slot0.puzzleCfg_.coin_id[1][1], true)
+	manager.windowBar:SetBarCanClick(slot0.puzzleCfg_.fragment_id[1][1], true)
 end
 
-function var_0_0.Dispose(arg_19_0)
-	arg_19_0:StopTimer()
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
 
-	arg_19_0.endDragHandler_ = nil
-	arg_19_0.onClickHandler_ = nil
+	slot0.endDragHandler_ = nil
+	slot0.onClickHandler_ = nil
 
-	arg_19_0:DespawnPuzzle()
-	arg_19_0:DespawnRegion()
-	arg_19_0:DespawnCheckPoint()
-	var_0_0.super.Dispose(arg_19_0)
+	slot0:DespawnPuzzle()
+	slot0:DespawnRegion()
+	slot0:DespawnCheckPoint()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.Spawn(arg_20_0)
-	if not PuzzleNewData:IsCompleted(arg_20_0.activityID_) then
-		arg_20_0:DespawnPuzzle()
-		arg_20_0:SpawnPuzzle()
-		arg_20_0:DespawnRegion()
-		arg_20_0:SpawnRegion()
+function slot0.Spawn(slot0)
+	if not PuzzleNewData:IsCompleted(slot0.activityID_) then
+		slot0:DespawnPuzzle()
+		slot0:SpawnPuzzle()
+		slot0:DespawnRegion()
+		slot0:SpawnRegion()
 
 		return
 	end
 
-	arg_20_0:DespawnCheckPoint()
-	arg_20_0:SpawnCheckPoint()
+	slot0:DespawnCheckPoint()
+	slot0:SpawnCheckPoint()
 end
 
-function var_0_0.SwitchStatus(arg_21_0)
-	if not PuzzleNewData:IsCompleted(arg_21_0.activityID_) then
-		arg_21_0:SwitchToPlay()
+function slot0.SwitchStatus(slot0)
+	if not PuzzleNewData:IsCompleted(slot0.activityID_) then
+		slot0:SwitchToPlay()
 
 		return
 	end
 
-	arg_21_0:SwitchToCheck()
+	slot0:SwitchToCheck()
 end
 
-function var_0_0.SwitchToPlay(arg_22_0)
-	arg_22_0.statusController_:SetSelectedIndex(arg_22_0.statusConst_.PLAY)
-	arg_22_0:RefreshPuzzle()
-	arg_22_0:CheckRegionResult()
+function slot0.SwitchToPlay(slot0)
+	slot0.statusController_:SetSelectedIndex(slot0.statusConst_.PLAY)
+	slot0:RefreshPuzzle()
+	slot0:CheckRegionResult()
 end
 
-function var_0_0.SwitchToCheck(arg_23_0)
-	arg_23_0.statusController_:SetSelectedIndex(arg_23_0.statusConst_.CHECK)
-	arg_23_0:RefreshCheckPoint()
-	arg_23_0.checkAnim_:Play("puzzlePieceTemplate_ImagePanel", -1, 999)
+function slot0.SwitchToCheck(slot0)
+	slot0.statusController_:SetSelectedIndex(slot0.statusConst_.CHECK)
+	slot0:RefreshCheckPoint()
+	slot0.checkAnim_:Play("puzzlePieceTemplate_ImagePanel", -1, 999)
 end
 
-function var_0_0.OnPuzzleNewUpdate(arg_24_0)
-	SetActive(arg_24_0.maskGo_, false)
-	arg_24_0:RefreshPuzzle()
-	arg_24_0:CheckRegionResult()
+function slot0.OnPuzzleNewUpdate(slot0)
+	SetActive(slot0.maskGo_, false)
+	slot0:RefreshPuzzle()
+	slot0:CheckRegionResult()
 end
 
-function var_0_0.RefreshPuzzle(arg_25_0)
-	local var_25_0 = arg_25_0.params_.isEnter
+function slot0.RefreshPuzzle(slot0)
+	slot0.params_.isEnter = false
+	slot2 = PuzzleNewData:GetCurPuzzleList(slot0.activityID_)
 
-	arg_25_0.params_.isEnter = false
-
-	local var_25_1 = PuzzleNewData:GetCurPuzzleList(arg_25_0.activityID_)
-
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.puzzleItemList_) do
-		if var_25_1[iter_25_0] then
-			arg_25_0.puzzleItemList_[iter_25_0]:SetData(var_25_1[iter_25_0], arg_25_0.activityID_, not var_25_0)
+	for slot6, slot7 in ipairs(slot0.puzzleItemList_) do
+		if slot2[slot6] then
+			slot0.puzzleItemList_[slot6]:SetData(slot2[slot6], slot0.activityID_, not slot0.params_.isEnter)
 		else
-			arg_25_0.puzzleItemList_[iter_25_0]:SetData(0, arg_25_0.activityID_, false)
+			slot0.puzzleItemList_[slot6]:SetData(0, slot0.activityID_, false)
 		end
 	end
 
-	arg_25_0:RefreshPuzzleCost()
+	slot0:RefreshPuzzleCost()
 end
 
-function var_0_0.MovePuzzle(arg_26_0, arg_26_1, arg_26_2)
-	SetActive(arg_26_0.maskGo_, true)
+function slot0.MovePuzzle(slot0, slot1, slot2)
+	SetActive(slot0.maskGo_, true)
+	PuzzleNewAction.MovePuzzle(slot0.activityID_, slot0.puzzleItemList_[slot1]:GetCurID(), slot2, function ()
+		SetActive(uv0.maskGo_, false)
 
-	local var_26_0 = arg_26_0.puzzleItemList_[arg_26_1]:GetCurID()
+		slot0 = uv0.puzzleItemList_[uv1]
+		slot1 = uv0.puzzleItemList_[uv2]
 
-	PuzzleNewAction.MovePuzzle(arg_26_0.activityID_, var_26_0, arg_26_2, function()
-		SetActive(arg_26_0.maskGo_, false)
-
-		local var_27_0 = arg_26_0.puzzleItemList_[arg_26_1]
-		local var_27_1 = arg_26_0.puzzleItemList_[arg_26_2]
-		local var_27_2 = var_27_0:GetCurID()
-
-		var_27_0:SetData(var_27_1:GetCurID(), arg_26_0.activityID_, true)
-		var_27_1:SetData(var_27_2, arg_26_0.activityID_, true)
-		PuzzleNewData:SetPuzzle(arg_26_0.activityID_, var_27_0:GetCurID(), arg_26_1)
-		PuzzleNewData:SetPuzzle(arg_26_0.activityID_, var_27_1:GetCurID(), arg_26_2)
-		arg_26_0:CheckRegionResult()
+		slot0:SetData(slot1:GetCurID(), uv0.activityID_, true)
+		slot1:SetData(slot0:GetCurID(), uv0.activityID_, true)
+		PuzzleNewData:SetPuzzle(uv0.activityID_, slot0:GetCurID(), uv1)
+		PuzzleNewData:SetPuzzle(uv0.activityID_, slot1:GetCurID(), uv2)
+		uv0:CheckRegionResult()
 	end)
 end
 
-function var_0_0.OnDragPuzzleEnd(arg_28_0, arg_28_1, arg_28_2)
-	local var_28_0, var_28_1 = PuzzleNewTools.FindPuzzleByScreenPos(arg_28_0.puzzleContentTrans_, arg_28_0.col_, arg_28_0.row_, arg_28_2)
+function slot0.OnDragPuzzleEnd(slot0, slot1, slot2)
+	slot3, slot4 = PuzzleNewTools.FindPuzzleByScreenPos(slot0.puzzleContentTrans_, slot0.col_, slot0.row_, slot2)
 
-	if var_28_0 == true then
-		local var_28_2 = arg_28_0.puzzleItemList_[var_28_1]
-
-		if arg_28_1 ~= var_28_1 and not var_28_2:IsRightSide() then
-			arg_28_0:MovePuzzle(arg_28_1, var_28_1)
+	if slot3 == true then
+		if slot1 ~= slot4 and not slot0.puzzleItemList_[slot4]:IsRightSide() then
+			slot0:MovePuzzle(slot1, slot4)
 		else
-			arg_28_0.puzzleItemList_[arg_28_1]:Recover()
+			slot0.puzzleItemList_[slot1]:Recover()
 		end
 	else
-		arg_28_0.puzzleItemList_[arg_28_1]:Recover()
+		slot0.puzzleItemList_[slot1]:Recover()
 	end
 end
 
-function var_0_0.SpawnPuzzle(arg_29_0)
-	arg_29_0.row_ = arg_29_0.puzzleCfg_.size[1]
-	arg_29_0.col_ = arg_29_0.puzzleCfg_.size[2]
+function slot0.SpawnPuzzle(slot0)
+	slot0.row_ = slot0.puzzleCfg_.size[1]
+	slot0.col_ = slot0.puzzleCfg_.size[2]
+	slot0.puzzleItemList_ = slot0.puzzleItemList_ or {}
 
-	local var_29_0 = arg_29_0.puzzleCfg_.correct_array
-	local var_29_1 = arg_29_0.puzzleContentTrans_.childCount
+	for slot6 = 1, slot0.puzzleContentTrans_.childCount do
+		if not slot0.puzzleItemList_[slot6] then
+			slot8 = slot0.puzzleCfg_.correct_array[slot6]
+			slot0.puzzleItemList_[slot6] = PuzzleNewPiece.New(slot0.puzzleContentTrans_, slot0.puzzleContentTrans_:GetChild(slot6 - 1), slot6, slot8)
 
-	arg_29_0.puzzleItemList_ = arg_29_0.puzzleItemList_ or {}
+			slot0.puzzleItemList_[slot6]:RegistEndDragCallback(slot0.endDragHandler_)
 
-	for iter_29_0 = 1, var_29_1 do
-		local var_29_2 = arg_29_0.puzzleContentTrans_:GetChild(iter_29_0 - 1)
-
-		if not arg_29_0.puzzleItemList_[iter_29_0] then
-			local var_29_3 = var_29_0[iter_29_0]
-
-			arg_29_0.puzzleItemList_[iter_29_0] = PuzzleNewPiece.New(arg_29_0.puzzleContentTrans_, var_29_2, iter_29_0, var_29_3)
-
-			arg_29_0.puzzleItemList_[iter_29_0]:RegistEndDragCallback(arg_29_0.endDragHandler_)
-
-			arg_29_0.puzzleItemDicByID_[var_29_3] = arg_29_0.puzzleItemList_[iter_29_0]
+			slot0.puzzleItemDicByID_[slot8] = slot0.puzzleItemList_[slot6]
 		end
 	end
 end
 
-function var_0_0.DespawnPuzzle(arg_30_0)
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.puzzleItemList_) do
-		iter_30_1:Dispose()
+function slot0.DespawnPuzzle(slot0)
+	for slot4, slot5 in pairs(slot0.puzzleItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_30_0.puzzleItemList_ = nil
+	slot0.puzzleItemList_ = nil
 end
 
-function var_0_0.RefreshPuzzleCost(arg_31_0)
-	local var_31_0 = arg_31_0.puzzleCfg_.fragment_id[1]
-	local var_31_1 = var_31_0[2]
+function slot0.RefreshPuzzleCost(slot0)
+	slot1 = slot0.puzzleCfg_.fragment_id[1]
+	slot2 = slot1[2]
+	slot0.putCostText_.text = "x" .. slot2
+	slot0.putCostImg_.sprite = ItemTools.getItemSprite(slot1[1])
 
-	arg_31_0.putCostText_.text = "x" .. var_31_1
-	arg_31_0.putCostImg_.sprite = ItemTools.getItemSprite(var_31_0[1])
-
-	local var_31_2 = ItemTools.getItemNum(var_31_0[1])
-
-	arg_31_0.putBtnController_:SetSelectedIndex(var_31_2 < var_31_1 and 1 or 0)
+	slot0.putBtnController_:SetSelectedIndex(ItemTools.getItemNum(slot1[1]) < slot2 and 1 or 0)
 end
 
-function var_0_0.SpawnRegion(arg_32_0)
-	local var_32_0 = arg_32_0.puzzleCfg_.area_fragment_list
-	local var_32_1 = arg_32_0.puzzleCfg_.reward_area_list
-	local var_32_2 = PuzzleNewTools.GetRegionPosDic(arg_32_0.activityID_)
+function slot0.SpawnRegion(slot0)
+	slot2 = slot0.puzzleCfg_.reward_area_list
+	slot0.regionItemList_ = slot0.regionItemList_ or {}
 
-	arg_32_0.regionItemList_ = arg_32_0.regionItemList_ or {}
+	for slot8 = 1, slot0.regionPanelTrans_.childCount do
+		slot10 = tonumber(slot0.regionPanelTrans_:GetChild(slot8 - 1).name)
+		slot13 = slot0.puzzleCfg_.area_fragment_list[PuzzleNewTools.GetRegionPosDic(slot0.activityID_)[slot10]][2]
 
-	local var_32_3 = arg_32_0.regionPanelTrans_.childCount
-
-	for iter_32_0 = 1, var_32_3 do
-		local var_32_4 = arg_32_0.regionPanelTrans_:GetChild(iter_32_0 - 1)
-		local var_32_5 = tonumber(var_32_4.name)
-		local var_32_6 = var_32_0[var_32_2[var_32_5]][2]
-
-		if not arg_32_0.regionItemList_[var_32_5] then
-			arg_32_0.regionItemList_[var_32_5] = PuzzleNewRegionAnimItem.New(var_32_4)
+		if not slot0.regionItemList_[slot10] then
+			slot0.regionItemList_[slot10] = PuzzleNewRegionAnimItem.New(slot9)
 		end
 
-		for iter_32_1, iter_32_2 in ipairs(var_32_6) do
-			arg_32_0.puzzleItemDicByID_[iter_32_2]:SetRegionID(var_32_5)
+		for slot17, slot18 in ipairs(slot13) do
+			slot0.puzzleItemDicByID_[slot18]:SetRegionID(slot10)
 		end
 	end
 end
 
-function var_0_0.DespawnRegion(arg_33_0)
-	for iter_33_0, iter_33_1 in pairs(arg_33_0.regionItemList_) do
-		iter_33_1:Dispose()
+function slot0.DespawnRegion(slot0)
+	for slot4, slot5 in pairs(slot0.regionItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_33_0.regionItemList_ = nil
+	slot0.regionItemList_ = nil
 end
 
-function var_0_0.OnRegionReceived(arg_34_0, arg_34_1, arg_34_2)
-	for iter_34_0 = 1, #arg_34_1 do
-		if iter_34_0 == #arg_34_1 then
-			arg_34_0.regionItemList_[arg_34_1[iter_34_0]]:PlayAnim(function()
-				SetActive(arg_34_0.maskGo_, false)
-				arg_34_0:OnRegionAnimEnd(arg_34_2)
+function slot0.OnRegionReceived(slot0, slot1, slot2)
+	for slot6 = 1, #slot1 do
+		if slot6 == #slot1 then
+			slot0.regionItemList_[slot1[slot6]]:PlayAnim(function ()
+				SetActive(uv0.maskGo_, false)
+				uv0:OnRegionAnimEnd(uv1)
 			end)
 		else
-			arg_34_0.regionItemList_[iter_34_0]:PlayAnim()
+			slot0.regionItemList_[slot6]:PlayAnim()
 		end
 	end
 end
 
-function var_0_0.OnRegionAnimEnd(arg_36_0, arg_36_1)
-	getReward2(arg_36_1, nil, function()
-		if PuzzleNewData:IsCompleted(arg_36_0.activityID_) then
-			arg_36_0:Spawn()
-			arg_36_0:SwitchStatus()
-			SetActive(arg_36_0.maskGo_, true)
+function slot0.OnRegionAnimEnd(slot0, slot1)
+	getReward2(slot1, nil, function ()
+		if PuzzleNewData:IsCompleted(uv0.activityID_) then
+			uv0:Spawn()
+			uv0:SwitchStatus()
+			SetActive(uv0.maskGo_, true)
+			uv0.checkAnim_:Play("puzzlePieceTemplate_ImagePanel", -1, 0)
+			uv0.checkAnim_:Update(0)
 
-			local var_37_0 = "puzzlePieceTemplate_ImagePanel"
+			uv0.checkAnimtimer_ = Timer.New(function ()
+				if uv0.checkAnim_:GetCurrentAnimatorStateInfo(0):IsName(uv1) and slot0.normalizedTime >= 1 then
+					if uv0.checkAnimtimer_ ~= nil then
+						uv0.checkAnimtimer_:Stop()
 
-			arg_36_0.checkAnim_:Play(var_37_0, -1, 0)
-			arg_36_0.checkAnim_:Update(0)
-
-			arg_36_0.checkAnimtimer_ = Timer.New(function()
-				local var_38_0 = arg_36_0.checkAnim_:GetCurrentAnimatorStateInfo(0)
-
-				if var_38_0:IsName(var_37_0) and var_38_0.normalizedTime >= 1 then
-					if arg_36_0.checkAnimtimer_ ~= nil then
-						arg_36_0.checkAnimtimer_:Stop()
-
-						arg_36_0.checkAnimtimer_ = nil
+						uv0.checkAnimtimer_ = nil
 					end
 
-					SetActive(arg_36_0.maskGo_, false)
+					SetActive(uv0.maskGo_, false)
 				end
 			end, 0.033, -1)
 
-			arg_36_0.checkAnimtimer_:Start()
+			uv0.checkAnimtimer_:Start()
 			manager.audio:PlayEffect("minigame_activity_2_1", "minigame_activity_2_1_puzzle_complete", "")
 		end
 	end)
 end
 
-function var_0_0.CheckRegionResult(arg_39_0)
-	local var_39_0, var_39_1 = PuzzleNewTools.CheckRegionResult(arg_39_0.activityID_)
+function slot0.CheckRegionResult(slot0)
+	slot1, slot7 = PuzzleNewTools.CheckRegionResult(slot0.activityID_)
 
-	if #var_39_0 > 0 then
-		SetActive(arg_39_0.maskGo_, true)
-		PuzzleNewAction.ReceiveRegionReward(arg_39_0.activityID_, var_39_0, var_39_1)
+	if #slot1 > 0 then
+		SetActive(slot0.maskGo_, true)
 
-		for iter_39_0, iter_39_1 in pairs(arg_39_0.puzzleItemList_) do
-			iter_39_1:StopAnim()
+		slot6 = slot1
+
+		PuzzleNewAction.ReceiveRegionReward(slot0.activityID_, slot6, slot7)
+
+		for slot6, slot7 in pairs(slot0.puzzleItemList_) do
+			slot7:StopAnim()
 		end
 	end
 end
 
-function var_0_0.OnPuzzleNewCheckUpdate(arg_40_0)
-	SetActive(arg_40_0.maskGo_, false)
-	arg_40_0:RefreshCheckPoint()
+function slot0.OnPuzzleNewCheckUpdate(slot0)
+	SetActive(slot0.maskGo_, false)
+	slot0:RefreshCheckPoint()
 end
 
-function var_0_0.RefreshCheckPoint(arg_41_0)
-	for iter_41_0, iter_41_1 in pairs(arg_41_0.checkPointList_) do
-		iter_41_1:SetData(arg_41_0.activityID_, iter_41_0)
+function slot0.RefreshCheckPoint(slot0)
+	for slot4, slot5 in pairs(slot0.checkPointList_) do
+		slot5:SetData(slot0.activityID_, slot4)
 	end
 
-	arg_41_0:RefreshCheckProgress()
-	arg_41_0:RefreshCheckCost()
+	slot0:RefreshCheckProgress()
+	slot0:RefreshCheckCost()
 end
 
-function var_0_0.RefreshCheckProgress(arg_42_0)
-	local var_42_0 = #arg_42_0.puzzleCfg_.clue_id
-	local var_42_1 = PuzzleNewData:GetCurCheckList(arg_42_0.activityID_)
-	local var_42_2 = 0
+function slot0.RefreshCheckProgress(slot0)
+	slot1 = #slot0.puzzleCfg_.clue_id
 
-	for iter_42_0, iter_42_1 in pairs(var_42_1) do
-		var_42_2 = var_42_2 + 1
+	for slot7, slot8 in pairs(PuzzleNewData:GetCurCheckList(slot0.activityID_)) do
+		slot3 = 0 + 1
 	end
 
-	arg_42_0.progressText_.text = string.format("%d/%d", var_42_2, var_42_0)
+	slot0.progressText_.text = string.format("%d/%d", slot3, slot1)
 end
 
-function var_0_0.OnClick(arg_43_0, arg_43_1)
-	arg_43_0:RefreshCheckProgress()
+function slot0.OnClick(slot0, slot1)
+	slot0:RefreshCheckProgress()
 end
 
-function var_0_0.SpawnCheckPoint(arg_44_0)
-	local var_44_0 = arg_44_0.puzzleCfg_.clue_id
-	local var_44_1 = arg_44_0.checkPointContent_.childCount
+function slot0.SpawnCheckPoint(slot0)
+	slot0.checkPointList_ = slot0.checkPointList_ or {}
 
-	arg_44_0.checkPointList_ = arg_44_0.checkPointList_ or {}
-
-	for iter_44_0 = 1, var_44_1 do
-		local var_44_2 = arg_44_0.checkPointContent_:GetChild(iter_44_0 - 1)
-		local var_44_3 = var_44_0[iter_44_0]
-
-		if not arg_44_0.checkPointList_[var_44_3] then
-			arg_44_0.checkPointList_[var_44_3] = PuzzleNewCheckPoint.New(var_44_2)
+	for slot6 = 1, slot0.checkPointContent_.childCount do
+		if not slot0.checkPointList_[slot0.puzzleCfg_.clue_id[slot6]] then
+			slot0.checkPointList_[slot8] = PuzzleNewCheckPoint.New(slot0.checkPointContent_:GetChild(slot6 - 1))
 		end
 	end
 
-	arg_44_0.originImage_.sprite = getSpriteWithoutAtlas(arg_44_0.puzzleCfg_.preview_album_id)
-	arg_44_0.checkPanelImage_.sprite = getSpriteWithoutAtlas(arg_44_0.puzzleCfg_.album_id)
+	slot0.originImage_.sprite = getSpriteWithoutAtlas(slot0.puzzleCfg_.preview_album_id)
+	slot0.checkPanelImage_.sprite = getSpriteWithoutAtlas(slot0.puzzleCfg_.album_id)
 end
 
-function var_0_0.DespawnCheckPoint(arg_45_0)
-	for iter_45_0, iter_45_1 in pairs(arg_45_0.checkPointList_) do
-		iter_45_1:Dispose()
+function slot0.DespawnCheckPoint(slot0)
+	for slot4, slot5 in pairs(slot0.checkPointList_) do
+		slot5:Dispose()
 	end
 
-	arg_45_0.checkPointList_ = nil
+	slot0.checkPointList_ = nil
 end
 
-function var_0_0.RefreshCheckCost(arg_46_0)
-	local var_46_0 = arg_46_0.puzzleCfg_.clue_tips_id[1]
-	local var_46_1 = var_46_0[2]
+function slot0.RefreshCheckCost(slot0)
+	slot1 = slot0.puzzleCfg_.clue_tips_id[1]
+	slot2 = slot1[2]
+	slot0.checkCostText_.text = "x" .. slot2
+	slot0.checkCostImg_.sprite = ItemTools.getItemSprite(slot1[1])
 
-	arg_46_0.checkCostText_.text = "x" .. var_46_1
-	arg_46_0.checkCostImg_.sprite = ItemTools.getItemSprite(var_46_0[1])
-
-	local var_46_2 = ItemTools.getItemNum(var_46_0[1])
-
-	arg_46_0.checkBtnController_:SetSelectedIndex(var_46_2 < var_46_1 and 1 or 0)
+	slot0.checkBtnController_:SetSelectedIndex(ItemTools.getItemNum(slot1[1]) < slot2 and 1 or 0)
 end
 
-function var_0_0.HideAllUI(arg_47_0)
+function slot0.HideAllUI(slot0)
 	manager.windowBar:HideBar()
-	SetActive(arg_47_0.btnPanelGo_, false)
-	SetActive(arg_47_0.titlePanelGo_, false)
+	SetActive(slot0.btnPanelGo_, false)
+	SetActive(slot0.titlePanelGo_, false)
 end
 
-function var_0_0.RecoverAllUI(arg_48_0)
+function slot0.RecoverAllUI(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		arg_48_0.puzzleCfg_.coin_id[1][1],
-		arg_48_0.puzzleCfg_.fragment_id[1][1]
+		slot0.puzzleCfg_.coin_id[1][1],
+		slot0.puzzleCfg_.fragment_id[1][1]
 	})
-	SetActive(arg_48_0.btnPanelGo_, true)
-	SetActive(arg_48_0.titlePanelGo_, true)
+	SetActive(slot0.btnPanelGo_, true)
+	SetActive(slot0.titlePanelGo_, true)
 end
 
-function var_0_0.AddTimer(arg_49_0)
-	arg_49_0:StopTimer()
-	arg_49_0:RefreshTimeText()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
+	slot0:RefreshTimeText()
 
-	arg_49_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > arg_49_0.stopTime_ then
-			arg_49_0.timeText_.text = GetTips("TIME_OVER")
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ < manager.time:GetServerTime() then
+			uv0.timeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		arg_49_0:RefreshTimeText()
+		uv0:RefreshTimeText()
 	end, 1, -1)
 
-	arg_49_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_51_0)
-	if arg_51_0.timer_ then
-		arg_51_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_51_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTimeText(arg_52_0)
-	if arg_52_0.timeText_ then
-		arg_52_0.timeText_.text = manager.time:GetLostTimeStr2(arg_52_0.stopTime_, nil, true)
+function slot0.RefreshTimeText(slot0)
+	if slot0.timeText_ then
+		slot0.timeText_.text = manager.time:GetLostTimeStr2(slot0.stopTime_, nil, true)
 	end
 end
 
-function var_0_0.IsActivityTime(arg_53_0)
-	if manager.time:GetServerTime() < arg_53_0.startTime_ then
-		local var_53_0 = GetTips("OPEN_TIME")
-
-		ShowTips(string.format(var_53_0, manager.time:GetLostTimeStr2(arg_53_0.startTime_, nil, true)))
+function slot0.IsActivityTime(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(slot0.startTime_, nil, true)))
 
 		return false
 	end
 
-	if manager.time:GetServerTime() >= arg_53_0.stopTime_ then
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
 		ShowTips("TIME_OVER")
 
 		return false
@@ -585,4 +537,4 @@ function var_0_0.IsActivityTime(arg_53_0)
 	return true
 end
 
-return var_0_0
+return slot0

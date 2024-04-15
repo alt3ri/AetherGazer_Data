@@ -1,192 +1,171 @@
-local var_0_0 = class("NewHeroArchiveHeroItemView", ReduxView)
+slot0 = class("NewHeroArchiveHeroItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.superController_ = ControllerUtil.GetController(arg_3_0.transform_, "super")
-	arg_3_0.profileController_ = ControllerUtil.GetController(arg_3_0.transform_, "profile")
-	arg_3_0.maskController_ = ControllerUtil.GetController(arg_3_0.transform_, "mask")
+	slot0.superController_ = ControllerUtil.GetController(slot0.transform_, "super")
+	slot0.profileController_ = ControllerUtil.GetController(slot0.transform_, "profile")
+	slot0.maskController_ = ControllerUtil.GetController(slot0.transform_, "mask")
 end
 
-function var_0_0.OnTop(arg_4_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		JumpTools.GoToSystem("/newHeroDetailArchive", {
-			id = arg_5_0.data_.archive_id
+			id = uv0.data_.archive_id
 		})
 		SDKTools.SendMessageToSDK("chain_story_enter", {
 			chain_story_enter_source = 2,
-			record_id = arg_5_0.data_.archive_id
+			record_id = uv0.data_.archive_id
 		})
 
-		if arg_5_0.callback then
-			arg_5_0.callback()
+		if uv0.callback then
+			uv0.callback()
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		ShowTips(string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_HERO"), HeroCfg[arg_5_0.recordData_.hero_id[1]].suffix))
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		ShowTips(string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_HERO"), HeroCfg[uv0.recordData_.hero_id[1]].suffix))
 	end)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.data_ = arg_8_1
-	arg_8_0.recordData_ = HeroRecordCfg[arg_8_0.data_.archive_id]
-	arg_8_0.heroIdList_ = arg_8_0.recordData_.hero_id
-	arg_8_0.type_ = arg_8_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.recordData_ = HeroRecordCfg[slot0.data_.archive_id]
+	slot0.heroIdList_ = slot0.recordData_.hero_id
+	slot0.type_ = slot2
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetClickCallBack(arg_9_0, arg_9_1)
-	arg_9_0.callback = arg_9_1
+function slot0.SetClickCallBack(slot0, slot1)
+	slot0.callback = slot1
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	if not arg_10_0.favorItemList_ then
-		arg_10_0.favorItemList_ = {}
+function slot0.RefreshUI(slot0)
+	if not slot0.favorItemList_ then
+		slot0.favorItemList_ = {}
 	end
 
-	local var_10_0 = 0
+	slot1 = 0
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.favorItemList_) do
-		SetActive(iter_10_1.gameObject_, false)
-		iter_10_1:ResetData()
+	for slot5, slot6 in ipairs(slot0.favorItemList_) do
+		SetActive(slot6.gameObject_, false)
+		slot6:ResetData()
 	end
 
-	local var_10_1 = false
+	slot2 = false
 
-	for iter_10_2, iter_10_3 in ipairs(arg_10_0.heroIdList_) do
-		if ArchiveData:GetTrustLevel(iter_10_3) > 0 then
-			var_10_1 = true
+	for slot6, slot7 in ipairs(slot0.heroIdList_) do
+		if ArchiveData:GetTrustLevel(slot7) > 0 then
+			slot2 = true
 		end
 	end
 
-	for iter_10_4, iter_10_5 in ipairs(arg_10_0.heroIdList_) do
-		local var_10_2 = HeroData:GetHeroData(arg_10_0.heroIdList_[iter_10_4])
+	for slot6, slot7 in ipairs(slot0.heroIdList_) do
+		if HeroData:GetHeroData(slot0.heroIdList_[slot6]).unlock == 1 then
+			if not slot0.favorItemList_[slot1 + 1] then
+				slot10 = NewHeroArchiveHerofavorItemView.New(Object.Instantiate(slot0.favorabilityItem_), slot1)
 
-		if var_10_2.unlock == 1 then
-			var_10_0 = var_10_0 + 1
-
-			if not arg_10_0.favorItemList_[var_10_0] then
-				local var_10_3 = Object.Instantiate(arg_10_0.favorabilityItem_)
-				local var_10_4 = NewHeroArchiveHerofavorItemView.New(var_10_3, var_10_0)
-
-				var_10_4.transform_:SetParent(arg_10_0.favorabilityList_, false)
-				table.insert(arg_10_0.favorItemList_, var_10_4)
+				slot10.transform_:SetParent(slot0.favorabilityList_, false)
+				table.insert(slot0.favorItemList_, slot10)
 			end
 
-			arg_10_0.data_ = ArchiveData:GetArchive(arg_10_0.data_.archive_id)
+			slot0.data_ = ArchiveData:GetArchive(slot0.data_.archive_id)
 
-			arg_10_0.favorItemList_[var_10_0]:SetData(arg_10_0.data_, var_10_2.id, var_10_0)
-			SetActive(arg_10_0.favorItemList_[var_10_0].gameObject_, true)
+			slot0.favorItemList_[slot1]:SetData(slot0.data_, slot8.id, slot1)
+			SetActive(slot0.favorItemList_[slot1].gameObject_, true)
 		end
 	end
 
-	arg_10_0:SetRoleImg()
+	slot0:SetRoleImg()
 
-	for iter_10_6, iter_10_7 in ipairs(arg_10_0.favorItemList_) do
-		iter_10_7:RefreshUI(var_10_1)
+	for slot6, slot7 in ipairs(slot0.favorItemList_) do
+		slot7:RefreshUI(slot2)
 	end
 
-	if var_10_0 == 0 then
-		arg_10_0.maskController_:SetSelectedState("true")
+	if slot1 == 0 then
+		slot0.maskController_:SetSelectedState("true")
 	else
-		arg_10_0.maskController_:SetSelectedState("false")
+		slot0.maskController_:SetSelectedState("false")
 	end
 
-	if table.isEmpty(arg_10_0.recordData_.super_plot_id) then
-		arg_10_0.superController_:SetSelectedState("no")
+	if table.isEmpty(slot0.recordData_.super_plot_id) then
+		slot0.superController_:SetSelectedState("no")
 	else
-		arg_10_0.superController_:SetSelectedState("yes")
+		slot0.superController_:SetSelectedState("yes")
 	end
 
-	local var_10_5 = 0
-
-	for iter_10_8, iter_10_9 in pairs(arg_10_0.data_.video_list) do
-		var_10_5 = var_10_5 + 1
+	for slot7, slot8 in pairs(slot0.data_.video_list) do
+		slot3 = 0 + 1
 	end
 
-	local var_10_6 = var_10_5 + #ArchiveData:GetHasViewedSuperHeartList(arg_10_0.data_.archive_id)
+	slot0.heartText_.text = slot3 + #ArchiveData:GetHasViewedSuperHeartList(slot0.data_.archive_id) .. "/" .. #slot0.recordData_.plot_id + #slot0.recordData_.super_plot_id
 
-	arg_10_0.heartText_.text = var_10_6 .. "/" .. #arg_10_0.recordData_.plot_id + #arg_10_0.recordData_.super_plot_id
+	if not table.isEmpty(ArchiveData:GetAnedoteList(slot0.heroIdList_)) then
+		slot0.profileController_:SetSelectedState("yes")
 
-	local var_10_7 = ArchiveData:GetAnedoteList(arg_10_0.heroIdList_)
-
-	if not table.isEmpty(var_10_7) then
-		arg_10_0.profileController_:SetSelectedState("yes")
-
-		local var_10_8 = ArchiveData:GetIsViewedArhiveStoryList(arg_10_0.data_.archive_id)
-
-		arg_10_0.profileText_.text = #var_10_8 .. "/" .. #var_10_7
+		slot0.profileText_.text = #ArchiveData:GetIsViewedArhiveStoryList(slot0.data_.archive_id) .. "/" .. #slot5
 	else
-		arg_10_0.profileController_:SetSelectedState("no")
+		slot0.profileController_:SetSelectedState("no")
 	end
 
-	arg_10_0.nameText_.text = arg_10_0.recordData_.name
+	slot0.nameText_.text = slot0.recordData_.name
 
-	manager.redPoint:unbindUIandKey(arg_10_0.redPoint_)
-	manager.redPoint:bindUIandKey(arg_10_0.redPoint_, RedPointConst.HERO_HEART_STORY_ROOT_ID .. arg_10_0.data_.archive_id)
+	manager.redPoint:unbindUIandKey(slot0.redPoint_)
+	manager.redPoint:bindUIandKey(slot0.redPoint_, RedPointConst.HERO_HEART_STORY_ROOT_ID .. slot0.data_.archive_id)
 end
 
-function var_0_0.SetRoleImg(arg_11_0)
-	local var_11_0 = ArchiveData:GetSelectPicture(arg_11_0.data_.archive_id)
-
-	if table.isEmpty(var_11_0) or var_11_0.type == 0 then
-		local var_11_1 = false
-
-		for iter_11_0, iter_11_1 in ipairs(arg_11_0.heroIdList_) do
-			if HeroData:GetHeroData(iter_11_1).unlock == 1 and not var_11_1 then
-				arg_11_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. iter_11_1)
-				var_11_1 = true
+function slot0.SetRoleImg(slot0)
+	if table.isEmpty(ArchiveData:GetSelectPicture(slot0.data_.archive_id)) or slot1.type == 0 then
+		for slot6, slot7 in ipairs(slot0.heroIdList_) do
+			if HeroData:GetHeroData(slot7).unlock == 1 and not false then
+				slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot7)
+				slot2 = true
 			end
 		end
 
-		if not var_11_1 then
-			arg_11_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_11_0.heroIdList_[1])
+		if not slot2 then
+			slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.heroIdList_[1])
 		end
 
 		return
 	end
 
-	if var_11_0.type == 1 or var_11_0.type == 2 then
-		arg_11_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. var_11_0.id)
-	elseif var_11_0.type == 3 then
-		local var_11_2 = CollectPictureCfg[var_11_0.id].picture
-
-		arg_11_0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/Portrait/" .. var_11_2)
+	if slot1.type == 1 or slot1.type == 2 then
+		slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot1.id)
+	elseif slot1.type == 3 then
+		slot0.roleImg_.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/Portrait/" .. CollectPictureCfg[slot1.id].picture)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	manager.redPoint:unbindUIandKey(arg_13_0.redPoint_)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.redPoint_)
 
-	if arg_13_0.favorItemList_ then
-		for iter_13_0, iter_13_1 in ipairs(arg_13_0.favorItemList_) do
-			iter_13_1:Dispose()
+	if slot0.favorItemList_ then
+		for slot4, slot5 in ipairs(slot0.favorItemList_) do
+			slot5:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,62 +1,60 @@
-local var_0_0 = class("NewBieHeroPoolItem", ReduxView)
+slot0 = class("NewBieHeroPoolItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.detailBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.detailBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewMain", {
 			isEnter = true,
-			hid = arg_4_0.id_
+			hid = uv0.id_
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.index_ = arg_7_1
-	arg_7_0.id_ = arg_7_2
-	arg_7_0.cfg_ = HeroCfg[arg_7_0.id_]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.id_ = slot2
+	slot0.cfg_ = HeroCfg[slot0.id_]
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	local var_8_0 = HeroCfg[arg_8_0.id_]
-
-	arg_8_0.nameText_.text = GetI18NText(var_8_0.name)
-	arg_8_0.suffixText_.text = GetI18NText(var_8_0.suffix)
-	arg_8_0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(arg_8_0.id_)
+function slot0.UpdateView(slot0)
+	slot1 = HeroCfg[slot0.id_]
+	slot0.nameText_.text = GetI18NText(slot1.name)
+	slot0.suffixText_.text = GetI18NText(slot1.suffix)
+	slot0.campIcon_.sprite = HeroTools.GetHeroRaceIcon(slot0.id_)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_10_0)
-	arg_10_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

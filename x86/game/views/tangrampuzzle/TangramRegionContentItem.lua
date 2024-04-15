@@ -1,62 +1,53 @@
-local var_0_0 = class("TangramRegionContentItem", ReduxView)
+slot0 = class("TangramRegionContentItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
-	arg_1_0.regionType_ = arg_1_2
-	arg_1_0.regionIdList_ = arg_1_3
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.regionType_ = slot2
+	slot0.regionIdList_ = slot3
 end
 
-function var_0_0.OnExit(arg_2_0)
-	arg_2_0:StopAnimTimer()
+function slot0.OnExit(slot0)
+	slot0:StopAnimTimer()
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	arg_3_0.activityID_ = arg_3_1
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	arg_4_0:RefreshStatus()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshStatus()
 end
 
-function var_0_0.RefreshStatus(arg_5_0)
-	local var_5_0 = TangramPuzzleData:GetUnlockRegionDic(arg_5_0.activityID_)
+function slot0.RefreshStatus(slot0)
+	slot0.unlock_ = true
 
-	arg_5_0.unlock_ = true
-
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.regionIdList_) do
-		if not var_5_0[iter_5_1] then
-			arg_5_0.unlock_ = false
+	for slot5, slot6 in ipairs(slot0.regionIdList_) do
+		if not TangramPuzzleData:GetUnlockRegionDic(slot0.activityID_)[slot6] then
+			slot0.unlock_ = false
 
 			break
 		end
 	end
 
-	if not arg_5_0.unlock_ then
-		arg_5_0.statusController_:SetSelectedState("lock")
+	if not slot0.unlock_ then
+		slot0.statusController_:SetSelectedState("lock")
+	elseif slot0:IsAllReceived() and TangramPuzzleTools.CheckRegionAllRightByType(slot0.activityID_, slot0.regionType_) then
+		slot0:SetActive(false)
 	else
-		local var_5_1 = arg_5_0:IsAllReceived()
-		local var_5_2 = TangramPuzzleTools.CheckRegionAllRightByType(arg_5_0.activityID_, arg_5_0.regionType_)
-
-		if var_5_1 and var_5_2 then
-			arg_5_0:SetActive(false)
-		else
-			arg_5_0.statusController_:SetSelectedState("normal")
-		end
+		slot0.statusController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.IsAllReceived(arg_6_0)
-	local var_6_0 = TangramPuzzleData:GetRegionReceivedDic(arg_6_0.activityID_)
-
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.regionIdList_) do
-		if not var_6_0[iter_6_1] then
+function slot0.IsAllReceived(slot0)
+	for slot5, slot6 in ipairs(slot0.regionIdList_) do
+		if not TangramPuzzleData:GetRegionReceivedDic(slot0.activityID_)[slot6] then
 			return false
 		end
 	end
@@ -64,57 +55,55 @@ function var_0_0.IsAllReceived(arg_6_0)
 	return true
 end
 
-function var_0_0.GetRegionContentTrans(arg_7_0)
-	return arg_7_0.regionContentTrans_
+function slot0.GetRegionContentTrans(slot0)
+	return slot0.regionContentTrans_
 end
 
-function var_0_0.PlayCompletedAnim(arg_8_0, arg_8_1)
-	arg_8_0:PlayAnim(arg_8_0.animator_, "regionContentTemplate", arg_8_1)
+function slot0.PlayCompletedAnim(slot0, slot1)
+	slot0:PlayAnim(slot0.animator_, "regionContentTemplate", slot1)
 end
 
-function var_0_0.SetActive(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.StopAnimTimer(arg_10_0)
-	if arg_10_0.animtimer_ then
-		arg_10_0.animtimer_:Stop()
+function slot0.StopAnimTimer(slot0)
+	if slot0.animtimer_ then
+		slot0.animtimer_:Stop()
 
-		arg_10_0.animtimer_ = nil
+		slot0.animtimer_ = nil
 	end
 end
 
-function var_0_0.PlayAnim(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	if not arg_11_1 then
-		if arg_11_3 then
-			arg_11_3()
+function slot0.PlayAnim(slot0, slot1, slot2, slot3)
+	if not slot1 then
+		if slot3 then
+			slot3()
 		end
 
 		return
 	end
 
-	arg_11_0:StopAnimTimer()
+	slot0:StopAnimTimer()
 
-	arg_11_1.enabled = true
+	slot1.enabled = true
 
-	arg_11_1:Play(arg_11_2, -1, 0)
-	arg_11_1:Update(0)
+	slot1:Play(slot2, -1, 0)
+	slot1:Update(0)
 
-	arg_11_0.animtimer_ = Timer.New(function()
-		local var_12_0 = arg_11_1:GetCurrentAnimatorStateInfo(0)
+	slot0.animtimer_ = Timer.New(function ()
+		if uv0:GetCurrentAnimatorStateInfo(0):IsName(uv1) and slot0.normalizedTime >= 1 then
+			uv2:StopAnimTimer()
 
-		if var_12_0:IsName(arg_11_2) and var_12_0.normalizedTime >= 1 then
-			arg_11_0:StopAnimTimer()
+			uv0.enabled = false
 
-			arg_11_1.enabled = false
-
-			if arg_11_3 then
-				arg_11_3()
+			if uv3 then
+				uv3()
 			end
 		end
 	end, 0.033, -1)
 
-	arg_11_0.animtimer_:Start()
+	slot0.animtimer_:Start()
 end
 
-return var_0_0
+return slot0

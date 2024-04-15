@@ -1,55 +1,55 @@
-local var_0_0 = class("ActivitySevenSignToggle", ActivityBaseToggle)
+slot0 = class("ActivitySevenSignToggle", ActivityBaseToggle)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.activityId = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.activityId = slot1
 end
 
-function var_0_0.GetName(arg_2_0)
-	return "ActivitySevenSignToggle" .. arg_2_0.activityId
+function slot0.GetName(slot0)
+	return "ActivitySevenSignToggle" .. slot0.activityId
 end
 
-function var_0_0.IsActivity(arg_3_0)
-	return ActivityData:GetActivityIsOpen(arg_3_0.activityId) and SignData:GetSevenDaySignInfo(arg_3_0.activityId) ~= nil
+function slot0.IsActivity(slot0)
+	return ActivityData:GetActivityIsOpen(slot0.activityId) and SignData:GetSevenDaySignInfo(slot0.activityId) ~= nil
 end
 
-function var_0_0.UIClass(arg_4_0)
+function slot0.UIClass(slot0)
 	return SevenDaySignPage
 end
 
-function var_0_0.RedPointKey(arg_5_0)
-	return string.format("%s_%s", RedPointConst.SIGN_SEVEN_DAY, arg_5_0.activityId)
+function slot0.RedPointKey(slot0)
+	return string.format("%s_%s", RedPointConst.SIGN_SEVEN_DAY, slot0.activityId)
 end
 
-function var_0_0.Check(arg_6_0)
-	return SignTools.GetSevenDaySignIndex(arg_6_0.activityId) ~= 0
+function slot0.Check(slot0)
+	return SignTools.GetSevenDaySignIndex(slot0.activityId) ~= 0
 end
 
-function var_0_0.Title(arg_7_0)
-	if ActivityCumulativeSignCfg[arg_7_0.activityId] then
-		return ActivityCumulativeSignCfg[arg_7_0.activityId].title
+function slot0.Title(slot0)
+	if ActivityCumulativeSignCfg[slot0.activityId] then
+		return ActivityCumulativeSignCfg[slot0.activityId].title
 	end
 
 	return ""
 end
 
-function var_0_0.Image(arg_8_0)
+function slot0.Image(slot0)
 	return "sevendays"
 end
 
-function var_0_0.Order(arg_9_0)
+function slot0.Order(slot0)
 	return 11
 end
 
-function var_0_0.GetParams(arg_10_0)
-	return arg_10_0.activityId
+function slot0.GetParams(slot0)
+	return slot0.activityId
 end
 
-function var_0_0.GetLimitLevel(arg_11_0)
-	if ActivityCumulativeSignCfg[arg_11_0.activityId] then
-		return ActivityCumulativeSignCfg[arg_11_0.activityId].limit_level
+function slot0.GetLimitLevel(slot0)
+	if ActivityCumulativeSignCfg[slot0.activityId] then
+		return ActivityCumulativeSignCfg[slot0.activityId].limit_level
 	end
 
 	return 0
 end
 
-return var_0_0
+return slot0

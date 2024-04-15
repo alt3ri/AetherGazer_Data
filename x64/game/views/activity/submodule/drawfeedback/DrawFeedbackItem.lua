@@ -1,69 +1,62 @@
-local var_0_0 = class("DrawFeedbackItem", ReduxView)
+slot0 = class("DrawFeedbackItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.taskID_ = arg_2_1
+function slot0.SetData(slot0, slot1)
+	slot0.taskID_ = slot1
+	slot2 = AssignmentCfg[slot1]
+	slot0.descText_.text = GetI18NText(slot2.desc)
+	slot0.cntText_.text = string.format("%s/%s", slot2.need < TaskData2:GetTask(slot1).progress and slot2.need or slot3.progress, slot2.need)
+	slot0.sliderImage_.value = slot3.progress / slot2.need
 
-	local var_2_0 = AssignmentCfg[arg_2_1]
-
-	arg_2_0.descText_.text = GetI18NText(var_2_0.desc)
-
-	local var_2_1 = TaskData2:GetTask(arg_2_1)
-
-	arg_2_0.cntText_.text = string.format("%s/%s", var_2_1.progress > var_2_0.need and var_2_0.need or var_2_1.progress, var_2_0.need)
-	arg_2_0.sliderImage_.value = var_2_1.progress / var_2_0.need
-
-	if not arg_2_0.rewardItem_ then
-		arg_2_0.rewardItem_ = CommonItem.New(arg_2_0.rewardGo_)
+	if not slot0.rewardItem_ then
+		slot0.rewardItem_ = CommonItem.New(slot0.rewardGo_)
 	end
 
-	arg_2_0.rewardItem_:RefreshData(formatReward(var_2_0.reward[1]))
-	arg_2_0.rewardItem_:RegistCallBack(function()
-		ShowPopItem(POP_ITEM, var_2_0.reward[1])
+	slot0.rewardItem_:RefreshData(formatReward(slot2.reward[1]))
+	slot0.rewardItem_:RegistCallBack(function ()
+		ShowPopItem(POP_ITEM, uv0.reward[1])
 	end)
-	arg_2_0.rewardItem_:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
-	arg_2_0:RefreshBtnState()
+	slot0.rewardItem_:ShowFloor(ItemConst.ITEM_FLOOR.SHORT)
+	slot0:RefreshBtnState()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_4_0.rewardItem_ then
-		arg_4_0.rewardItem_:Dispose()
+	if slot0.rewardItem_ then
+		slot0.rewardItem_:Dispose()
 
-		arg_4_0.rewardItem_ = nil
+		slot0.rewardItem_ = nil
 	end
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
-		TaskAction:SubmitTask(arg_5_0.taskID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RefreshBtnState(arg_7_0)
-	local var_7_0 = arg_7_0.taskID_
-	local var_7_1 = AssignmentCfg[var_7_0]
-	local var_7_2 = TaskData2:GetTask(var_7_0)
+function slot0.RefreshBtnState(slot0)
+	slot1 = slot0.taskID_
 
-	if var_7_2.complete_flag == 0 then
-		if var_7_2.progress >= var_7_1.need then
-			arg_7_0.controller_:SetSelectedState("complete")
+	if TaskData2:GetTask(slot1).complete_flag == 0 then
+		if AssignmentCfg[slot1].need <= slot3.progress then
+			slot0.controller_:SetSelectedState("complete")
 		else
-			arg_7_0.controller_:SetSelectedState("uncomplate")
+			slot0.controller_:SetSelectedState("uncomplate")
 		end
-	elseif var_7_2.complete_flag >= 1 then
-		arg_7_0.controller_:SetSelectedState("finish")
+	elseif slot3.complete_flag >= 1 then
+		slot0.controller_:SetSelectedState("finish")
 	end
 end
 
-return var_0_0
+return slot0

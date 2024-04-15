@@ -1,239 +1,224 @@
-local var_0_0 = class("ChapterPlot19MapView", ReduxView)
+slot0 = class("ChapterPlot19MapView", ReduxView)
+slot0.SCALE_VALUE = 1.2
 
-var_0_0.SCALE_VALUE = 1.2
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
-
-	arg_1_0.mapItemList_ = {}
-	arg_1_0.locationViewList_ = {}
-	arg_1_0.clueViewList_ = {}
-	arg_1_0.chapterMapScrollView_ = ChapterMapScrollView.New(arg_1_0, arg_1_1)
-	arg_1_0.chapterSelectLocationHandler_ = handler(arg_1_0, arg_1_0.ChapterSelectLocation)
+	slot0.mapItemList_ = {}
+	slot0.locationViewList_ = {}
+	slot0.clueViewList_ = {}
+	slot0.chapterMapScrollView_ = ChapterMapScrollView.New(slot0, slot1)
+	slot0.chapterSelectLocationHandler_ = handler(slot0, slot0.ChapterSelectLocation)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	manager.notify:RegistListener(CHAPTER_SELECT_LOCATION, arg_2_0.chapterSelectLocationHandler_)
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(CHAPTER_SELECT_LOCATION, slot0.chapterSelectLocationHandler_)
 
-	if arg_2_0:GetBackCnt() > 0 then
-		arg_2_0.scrollViewTf_.localScale = Vector3(var_0_0.SCALE_VALUE, var_0_0.SCALE_VALUE, 1)
+	if slot0:GetBackCnt() > 0 then
+		slot0.scrollViewTf_.localScale = Vector3(uv0.SCALE_VALUE, uv0.SCALE_VALUE, 1)
 
-		arg_2_0:ChapterSelectLocation()
+		slot0:ChapterSelectLocation()
 	else
-		arg_2_0.scrollViewTf_.localScale = Vector3(1, 1, 1)
+		slot0.scrollViewTf_.localScale = Vector3(1, 1, 1)
 
-		arg_2_0:RefreshItemSelectState(false)
+		slot0:RefreshItemSelectState(false)
 	end
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.notify:RemoveListener(CHAPTER_SELECT_LOCATION, arg_3_0.chapterSelectLocationHandler_)
-	arg_3_0.chapterMapScrollView_:OnExit()
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(CHAPTER_SELECT_LOCATION, slot0.chapterSelectLocationHandler_)
+	slot0.chapterMapScrollView_:OnExit()
 end
 
-function var_0_0.OnUpdate(arg_4_0)
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.locationViewList_) do
-		if not iter_4_1:IsDisabled() then
-			iter_4_1:OnUpdate()
+function slot0.OnUpdate(slot0)
+	for slot4, slot5 in pairs(slot0.locationViewList_) do
+		if not slot5:IsDisabled() then
+			slot5:OnUpdate()
 		end
 	end
 
-	for iter_4_2, iter_4_3 in pairs(arg_4_0.clueViewList_) do
-		if not iter_4_3:IsDisabled() then
-			iter_4_3:OnUpdate()
+	for slot4, slot5 in pairs(slot0.clueViewList_) do
+		if not slot5:IsDisabled() then
+			slot5:OnUpdate()
 		end
 	end
 
-	arg_4_0:ScaleMap()
+	slot0:ScaleMap()
 end
 
-function var_0_0.Dispose(arg_5_0)
-	arg_5_0.chapterSelectLocationHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.chapterSelectLocationHandler_ = nil
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.mapItemList_) do
-		iter_5_1:Dispose()
+	for slot4, slot5 in pairs(slot0.mapItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.mapItemList_ = nil
+	slot0.mapItemList_ = nil
 
-	for iter_5_2, iter_5_3 in pairs(arg_5_0.locationViewList_) do
-		iter_5_3:Dispose()
+	for slot4, slot5 in pairs(slot0.locationViewList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.locationViewList_ = nil
+	slot0.locationViewList_ = nil
 
-	for iter_5_4, iter_5_5 in pairs(arg_5_0.clueViewList_) do
-		iter_5_5:Dispose()
+	for slot4, slot5 in pairs(slot0.clueViewList_) do
+		slot5:Dispose()
 	end
 
-	arg_5_0.clueViewList_ = nil
+	slot0.clueViewList_ = nil
 
-	arg_5_0.chapterMapScrollView_:Dispose()
+	slot0.chapterMapScrollView_:Dispose()
 
-	arg_5_0.chapterMapScrollView_ = nil
+	slot0.chapterMapScrollView_ = nil
 
-	var_0_0.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.SetMapID(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.chapterID_ = arg_7_1
-	arg_7_0.mapID_ = arg_7_2
+function slot0.SetMapID(slot0, slot1, slot2, slot3)
+	slot0.chapterID_ = slot1
+	slot0.mapID_ = slot2
 
-	local var_7_0 = ChapterMapCfg[arg_7_0.mapID_].map_prefab
-
-	if not arg_7_0.mapItemList_[var_7_0] then
-		arg_7_0.mapItemList_[var_7_0] = ChapterPlot19MapItem.New(var_7_0, arg_7_0.mapParentTf_)
+	if not slot0.mapItemList_[ChapterMapCfg[slot0.mapID_].map_prefab] then
+		slot0.mapItemList_[slot5] = ChapterPlot19MapItem.New(slot5, slot0.mapParentTf_)
 	end
 
-	for iter_7_0, iter_7_1 in pairs(arg_7_0.mapItemList_) do
-		iter_7_1:Show(iter_7_0 == var_7_0)
+	for slot9, slot10 in pairs(slot0.mapItemList_) do
+		slot10:Show(slot9 == slot5)
 	end
 
-	arg_7_0.mapItemList_[var_7_0]:SetSelectState(ChapterTools.GetChapter19MapState(arg_7_2))
-	arg_7_0.mapItemList_[var_7_0]:PlayAnimator(arg_7_3)
+	slot0.mapItemList_[slot5]:SetSelectState(ChapterTools.GetChapter19MapState(slot2))
+	slot0.mapItemList_[slot5]:PlayAnimator(slot3)
 
 	if ChapterTools.IsNeedShowFog() then
-		arg_7_0:ShowFog(true)
+		slot0:ShowFog(true)
 	else
-		arg_7_0:ShowFog(false)
+		slot0:ShowFog(false)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.mapParentTf_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.mapParentTf_)
 
-	local var_7_1 = {}
-	local var_7_2 = {}
+	slot6 = {}
+	slot7 = {}
 
-	for iter_7_2, iter_7_3 in ipairs(ChapterMapCfg[arg_7_0.mapID_].location_list) do
-		if ChapterLocationCfg[iter_7_3].type == BattleConst.LOCATION_TYPE.BUILDING then
-			table.insert(var_7_1, iter_7_3)
+	for slot11, slot12 in ipairs(ChapterMapCfg[slot0.mapID_].location_list) do
+		if ChapterLocationCfg[slot12].type == BattleConst.LOCATION_TYPE.BUILDING then
+			table.insert(slot6, slot12)
 		else
-			table.insert(var_7_2, iter_7_3)
+			table.insert(slot7, slot12)
 		end
 	end
 
-	for iter_7_4, iter_7_5 in ipairs(var_7_1) do
-		if arg_7_0.locationViewList_[iter_7_4] == nil then
-			arg_7_0.locationViewList_[iter_7_4] = ChapterPlot19MapNormalLocation.New(arg_7_0.stageItem_, arg_7_0.itemParent_)
+	for slot11, slot12 in ipairs(slot6) do
+		if slot0.locationViewList_[slot11] == nil then
+			slot0.locationViewList_[slot11] = ChapterPlot19MapNormalLocation.New(slot0.stageItem_, slot0.itemParent_)
 		end
 
-		arg_7_0.locationViewList_[iter_7_4]:SetLocationID(arg_7_0.chapterID_, arg_7_2, iter_7_5)
+		slot0.locationViewList_[slot11]:SetLocationID(slot0.chapterID_, slot2, slot12)
 	end
 
-	for iter_7_6 = #var_7_1 + 1, #arg_7_0.locationViewList_ do
-		arg_7_0.locationViewList_[iter_7_6]:Disabled()
+	for slot11 = #slot6 + 1, #slot0.locationViewList_ do
+		slot0.locationViewList_[slot11]:Disabled()
 	end
 
-	for iter_7_7, iter_7_8 in ipairs(var_7_2) do
-		if arg_7_0.clueViewList_[iter_7_7] == nil then
-			arg_7_0.clueViewList_[iter_7_7] = ChapterPlot19MapClueLocation.New(arg_7_0.clueItem_, arg_7_0.itemParent_)
+	for slot11, slot12 in ipairs(slot7) do
+		if slot0.clueViewList_[slot11] == nil then
+			slot0.clueViewList_[slot11] = ChapterPlot19MapClueLocation.New(slot0.clueItem_, slot0.itemParent_)
 		end
 
-		arg_7_0.clueViewList_[iter_7_7]:SetLocationID(arg_7_0.chapterID_, arg_7_2, iter_7_8)
+		slot0.clueViewList_[slot11]:SetLocationID(slot0.chapterID_, slot2, slot12)
 	end
 
-	for iter_7_9 = #var_7_2 + 1, #arg_7_0.clueViewList_ do
-		arg_7_0.clueViewList_[iter_7_9]:Disabled()
+	for slot11 = #slot7 + 1, #slot0.clueViewList_ do
+		slot0.clueViewList_[slot11]:Disabled()
 	end
 end
 
-function var_0_0.ChapterSelectLocation(arg_8_0)
-	local var_8_0 = BattleFieldData:GetChapterLocationID(arg_8_0.chapterID_)
-
-	if var_8_0 == nil then
+function slot0.ChapterSelectLocation(slot0)
+	if BattleFieldData:GetChapterLocationID(slot0.chapterID_) == nil then
 		return
 	end
 
-	local var_8_1 = ChapterLocationCfg[var_8_0].position
-	local var_8_2 = arg_8_0.viewPortRect_.rect.height / 2
-	local var_8_3 = arg_8_0.viewPortRect_.rect.width / 2
-	local var_8_4 = arg_8_0.contentRect_.rect.height / 2
-	local var_8_5 = arg_8_0.contentRect_.rect.width / 2
-	local var_8_6 = var_8_1[2]
+	slot4 = slot0.viewPortRect_.rect.width / 2
+	slot6 = slot0.contentRect_.rect.width / 2
 
-	if var_8_2 > (var_8_4 - math.abs(var_8_6)) * var_0_0.SCALE_VALUE and var_8_2 <= var_8_4 and var_8_6 ~= 0 then
-		var_8_6 = (var_8_4 * var_0_0.SCALE_VALUE - var_8_2) / var_0_0.SCALE_VALUE * math.abs(var_8_6) / var_8_6
+	if slot0.viewPortRect_.rect.height / 2 > (slot0.contentRect_.rect.height / 2 - math.abs(ChapterLocationCfg[slot1].position[2])) * uv0.SCALE_VALUE and slot3 <= slot5 and slot7 ~= 0 then
+		slot7 = (slot5 * uv0.SCALE_VALUE - slot3) / uv0.SCALE_VALUE * math.abs(slot7) / slot7
 	end
 
-	local var_8_7 = var_8_1[1] + 200
-
-	if var_8_3 > (var_8_5 - math.abs(var_8_7)) * var_0_0.SCALE_VALUE and var_8_3 <= var_8_5 and var_8_7 ~= 0 and math.abs(var_8_7) / var_8_7 < 0 then
-		var_8_7 = (var_8_5 * var_0_0.SCALE_VALUE - var_8_3) / var_0_0.SCALE_VALUE * math.abs(var_8_7) / var_8_7
+	if slot4 > (slot6 - math.abs(slot2[1] + 200)) * uv0.SCALE_VALUE and slot4 <= slot6 and slot8 ~= 0 and math.abs(slot8) / slot8 < 0 then
+		slot8 = (slot6 * uv0.SCALE_VALUE - slot4) / uv0.SCALE_VALUE * math.abs(slot8) / slot8
 	end
 
-	arg_8_0.chapterMapScrollView_:ScrollToPosition(Vector3(var_8_7, var_8_6, 0))
-	arg_8_0:RefreshItemSelectState(true)
+	slot0.chapterMapScrollView_:ScrollToPosition(Vector3(slot8, slot7, 0))
+	slot0:RefreshItemSelectState(true)
 end
 
-function var_0_0.ResetMapPosition(arg_9_0)
-	arg_9_0.scrollView_.normalizedPosition = Vector2(0.5, 0.5)
+function slot0.ResetMapPosition(slot0)
+	slot0.scrollView_.normalizedPosition = Vector2(0.5, 0.5)
 end
 
-function var_0_0.RefreshItemSelectState(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.locationViewList_) do
-		iter_10_1:RefreshSelectState(arg_10_1)
+function slot0.RefreshItemSelectState(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.locationViewList_) do
+		slot6:RefreshSelectState(slot1)
 	end
 
-	for iter_10_2, iter_10_3 in ipairs(arg_10_0.clueViewList_) do
-		iter_10_3:RefreshSelectState(arg_10_1)
+	for slot5, slot6 in ipairs(slot0.clueViewList_) do
+		slot6:RefreshSelectState(slot1)
 	end
 end
 
-function var_0_0.ScaleMap(arg_11_0)
-	if arg_11_0:GetBackCnt() > 0 then
-		arg_11_0:CancelTween()
-		LeanTween.scale(arg_11_0.scrollViewTf_, Vector3(var_0_0.SCALE_VALUE, var_0_0.SCALE_VALUE, 1), 0.5):setEase(LeanTweenType.easeOutCubic)
-		arg_11_0:ChapterSelectLocation()
+function slot0.ScaleMap(slot0)
+	if slot0:GetBackCnt() > 0 then
+		slot0:CancelTween()
+		LeanTween.scale(slot0.scrollViewTf_, Vector3(uv0.SCALE_VALUE, uv0.SCALE_VALUE, 1), 0.5):setEase(LeanTweenType.easeOutCubic)
+		slot0:ChapterSelectLocation()
 	else
-		arg_11_0.chapterMapScrollView_:EnabledScroll(true)
-		arg_11_0:CancelTween()
-		LeanTween.scale(arg_11_0.scrollViewTf_, Vector3(1, 1, 1), 0.5):setEase(LeanTweenType.easeOutCubic)
-		arg_11_0:RefreshItemSelectState(false)
+		slot0.chapterMapScrollView_:EnabledScroll(true)
+		slot0:CancelTween()
+		LeanTween.scale(slot0.scrollViewTf_, Vector3(1, 1, 1), 0.5):setEase(LeanTweenType.easeOutCubic)
+		slot0:RefreshItemSelectState(false)
 	end
 end
 
-function var_0_0.CancelTween(arg_12_0)
-	if arg_12_0.leanTween_ then
-		LeanTween.cancel(arg_12_0.scrollViewTf_)
+function slot0.CancelTween(slot0)
+	if slot0.leanTween_ then
+		LeanTween.cancel(slot0.scrollViewTf_)
 
-		arg_12_0.leanTween_ = nil
+		slot0.leanTween_ = nil
 	end
 end
 
-function var_0_0.ShowFog(arg_13_0, arg_13_1)
-	local var_13_0 = ChapterMapCfg[arg_13_0.mapID_].map_prefab
-	local var_13_1 = arg_13_0.mapItemList_[var_13_0]
+function slot0.ShowFog(slot0, slot1)
+	slot4 = slot0.mapItemList_[ChapterMapCfg[slot0.mapID_].map_prefab]
 
-	if arg_13_1 == false and ChapterTools.NeedPlayFogAnimator() then
-		var_13_1:SetFogState(true)
-		var_13_1:SetLineState(true)
+	if slot1 == false and ChapterTools.NeedPlayFogAnimator() then
+		slot4:SetFogState(true)
+		slot4:SetLineState(true)
 		BattleStageData:SaveFogAnimatorFlag(true)
-		var_13_1:PlayFogAnimator()
+		slot4:PlayFogAnimator()
 	else
-		var_13_1:SetFogState(arg_13_1)
-		var_13_1:SetLineState(arg_13_1)
+		slot4:SetFogState(slot1)
+		slot4:SetLineState(slot1)
 	end
 end
 
-function var_0_0.GetBackCnt(arg_14_0)
-	local var_14_0 = 0
-
-	if arg_14_0:IsOpenRoute("chapterPlot19MapLocationInfo") then
-		var_14_0 = var_14_0 + 1
+function slot0.GetBackCnt(slot0)
+	if slot0:IsOpenRoute("chapterPlot19MapLocationInfo") then
+		slot1 = 0 + 1
 	end
 
-	if arg_14_0:IsOpenRoute("chapter19SectionInfo") then
-		var_14_0 = var_14_0 + 1
+	if slot0:IsOpenRoute("chapter19SectionInfo") then
+		slot1 = slot1 + 1
 	end
 
-	return var_14_0
+	return slot1
 end
 
-return var_0_0
+return slot0

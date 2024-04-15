@@ -1,154 +1,145 @@
-local var_0_0 = class("TaskDailyItemView", ReduxView)
-local var_0_1 = import("game.tools.JumpTools")
+slot0 = class("TaskDailyItemView", ReduxView)
+slot1 = import("game.tools.JumpTools")
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.rewardItems_ = {}
-	arg_1_0.rewardItemGos_ = {}
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.isShow_ = true
+function slot0.OnCtor(slot0, slot1)
+	slot0.rewardItems_ = {}
+	slot0.rewardItemGos_ = {}
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.isShow_ = true
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.ReEnter(arg_2_0, arg_2_1)
-	arg_2_0.taskID_ = arg_2_1
-	arg_2_0.taskProgress = TaskData2:GetTaskProgress(arg_2_1)
-	arg_2_0.taskComplete_ = TaskData2:GetTaskComplete(arg_2_1)
+function slot0.ReEnter(slot0, slot1)
+	slot0.taskID_ = slot1
+	slot0.taskProgress = TaskData2:GetTaskProgress(slot1)
+	slot0.taskComplete_ = TaskData2:GetTaskComplete(slot1)
 
-	arg_2_0:RefreshProgress()
-	arg_2_0:RefreshUI()
+	slot0:RefreshProgress()
+	slot0:RefreshUI()
 
-	arg_2_0.isShow_ = true
+	slot0.isShow_ = true
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.isShow_ = false
+function slot0.OnExit(slot0)
+	slot0.isShow_ = false
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0:RemoveListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.rewardItems_) do
-		if iter_4_1 then
-			iter_4_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		if slot5 then
+			slot5:Dispose()
 		end
 	end
 
-	arg_4_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.itemData = {
+	slot0.itemData = {
 		clone(ItemTemplateData),
 		clone(ItemTemplateData),
 		clone(ItemTemplateData)
 	}
-	arg_5_0.controller_ = arg_5_0.allBtnController_:GetController("all")
-	arg_5_0.greyController = arg_5_0.greyController_:GetController("grey")
+	slot0.controller_ = slot0.allBtnController_:GetController("all")
+	slot0.greyController = slot0.greyController_:GetController("grey")
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
-		OperationRecorder.Record(arg_6_0.class.__cname, "goBtn")
-
-		local var_7_0 = AssignmentCfg[arg_6_0.taskID_]
-
-		var_0_1.JumpToPage2(var_7_0.source)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		OperationRecorder.Record(uv0.class.__cname, "goBtn")
+		uv1.JumpToPage2(AssignmentCfg[uv0.taskID_].source)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.receiveBtn_, nil, function()
-		OperationRecorder.Record(arg_6_0.class.__cname, "receiveBtnBtn")
-		TaskAction:SubmitTask(arg_6_0.taskID_)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		OperationRecorder.Record(uv0.class.__cname, "receiveBtnBtn")
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_9_0)
-	arg_9_0.goBtn_.onClick:RemoveAllListeners()
-	arg_9_0.receiveBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.goBtn_.onClick:RemoveAllListeners()
+	slot0.receiveBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = AssignmentCfg[arg_10_0.taskID_]
+function slot0.RefreshUI(slot0)
+	slot1 = AssignmentCfg[slot0.taskID_]
+	slot0.titleText_.text = GetI18NText(slot1.desc)
 
-	arg_10_0.titleText_.text = GetI18NText(var_10_0.desc)
+	for slot6, slot7 in ipairs(slot1.reward or {}) do
+		slot8 = formatReward(slot7)
+		slot9 = slot0.itemData[slot6]
+		slot10 = false
 
-	local var_10_1 = var_10_0.reward or {}
+		if slot0.rewardItems_[slot6] == nil then
+			slot0.rewardItems_[slot6] = CommonItemView.New(slot0[string.format("awardItem%dObj_", slot6)])
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_1) do
-		local var_10_2 = formatReward(iter_10_1)
-		local var_10_3 = arg_10_0.itemData[iter_10_0]
-		local var_10_4 = false
-
-		if arg_10_0.rewardItems_[iter_10_0] == nil then
-			arg_10_0.rewardItems_[iter_10_0] = CommonItemView.New(arg_10_0[string.format("awardItem%dObj_", iter_10_0)])
-			arg_10_0.rewardItems_[iter_10_0].ResetTransform = function()
-				return
+			slot0.rewardItems_[slot6].ResetTransform = function ()
 			end
 
-			local var_10_5 = true
+			slot10 = true
 		end
 
-		var_10_3.id = var_10_2.id
-		var_10_3.number = var_10_2.num
-		var_10_3.timeValid = iter_10_1.timeValid or 0
-		var_10_3.grayFlag = arg_10_0.taskComplete_
-		var_10_3.clickFun = handler(arg_10_0, arg_10_0.OnClickCommonItem)
+		slot9.id = slot8.id
+		slot9.number = slot8.num
+		slot9.timeValid = slot7.timeValid or 0
+		slot9.grayFlag = slot0.taskComplete_
+		slot9.clickFun = handler(slot0, slot0.OnClickCommonItem)
 
-		arg_10_0.rewardItems_[iter_10_0]:SetData(var_10_3)
+		slot0.rewardItems_[slot6]:SetData(slot9)
 	end
 
-	for iter_10_2 = #var_10_0.reward + 1, #arg_10_0.rewardItems_ do
-		arg_10_0.rewardItems_[iter_10_2]:SetData(nil)
+	for slot6 = #slot1.reward + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot6]:SetData(nil)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_12_0)
-	local var_12_0 = AssignmentCfg[arg_12_0.taskID_]
-	local var_12_1 = arg_12_0.taskProgress
+function slot0.RefreshProgress(slot0)
+	slot2 = slot0.taskProgress
 
-	if arg_12_0.taskProgress > var_12_0.need then
-		var_12_1 = var_12_0.need
+	if AssignmentCfg[slot0.taskID_].need < slot0.taskProgress then
+		slot2 = slot1.need
 	end
 
-	arg_12_0.progressBar_.value = var_12_1 / var_12_0.need
-	arg_12_0.progressText_.text = string.format("%s/%s", var_12_1, var_12_0.need)
+	slot0.progressBar_.value = slot2 / slot1.need
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot1.need)
+	slot3 = slot1.need <= slot0.taskProgress
 
-	local var_12_2 = arg_12_0.taskProgress >= var_12_0.need
-
-	if arg_12_0.taskComplete_ then
-		arg_12_0.controller_:SetSelectedState("complete")
-	elseif var_12_2 then
-		arg_12_0.controller_:SetSelectedState("receive")
+	if slot0.taskComplete_ then
+		slot0.controller_:SetSelectedState("complete")
+	elseif slot3 then
+		slot0.controller_:SetSelectedState("receive")
 	else
-		arg_12_0.controller_:SetSelectedState("go")
+		slot0.controller_:SetSelectedState("go")
 	end
 
-	if arg_12_0.taskComplete_ then
-		arg_12_0.greyController:SetSelectedState("true")
+	if slot0.taskComplete_ then
+		slot0.greyController:SetSelectedState("true")
 	else
-		arg_12_0.greyController:SetSelectedState("false")
+		slot0.greyController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshComplete(arg_13_0)
-	return
+function slot0.RefreshComplete(slot0)
 end
 
-function var_0_0.SetSibling(arg_14_0, arg_14_1)
-	local var_14_0 = AssignmentCfg[arg_14_0.taskID_]
+function slot0.SetSibling(slot0, slot1)
+	slot2 = AssignmentCfg[slot0.taskID_]
 end
 
-function var_0_0.OnClickCommonItem(arg_15_0, arg_15_1)
+function slot0.OnClickCommonItem(slot0, slot1)
 	ShowPopItem(POP_ITEM, {
-		arg_15_1.id,
-		arg_15_1.number
+		slot1.id,
+		slot1.number
 	})
 	OperationRecorder.Record("task", "task_item")
 end
 
-return var_0_0
+return slot0

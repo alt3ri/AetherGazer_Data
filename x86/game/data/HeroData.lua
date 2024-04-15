@@ -1,52 +1,51 @@
-local var_0_0 = singletonClass("HeroData", BaseHeroViewData)
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = false
-local var_0_5 = true
-local var_0_6 = 0
-local var_0_7 = {}
-local var_0_8 = {}
-local var_0_9 = {}
-local var_0_10 = {}
-local var_0_11 = {}
+slot0 = singletonClass("HeroData", BaseHeroViewData)
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = false
+slot5 = true
+slot6 = 0
+slot7 = {}
+slot8 = {}
+slot9 = {}
+slot10 = {}
+slot11 = {}
 
-function var_0_0.InitHero(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
+function slot0.InitHero(slot0, slot1, slot2)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
 
-	arg_1_0:ResetSortValue()
+	slot0:ResetSortValue()
 
-	var_0_10 = {}
-	var_0_11 = {}
+	uv3 = {}
+	uv4 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_2) do
-		var_0_11[iter_1_1.id] = iter_1_1.num
+	for slot6, slot7 in ipairs(slot2) do
+		uv4[slot7.id] = slot7.num
 	end
 
-	for iter_1_2, iter_1_3 in ipairs(arg_1_1) do
-		local var_1_0 = iter_1_3.hero_base_info
-		local var_1_1 = DefalutHeroDataTemplate.New(var_1_0.id)
+	for slot6, slot7 in ipairs(slot1) do
+		slot8 = slot7.hero_base_info
 
-		var_1_1:Init(iter_1_3)
+		DefalutHeroDataTemplate.New(slot8.id):Init(slot7)
 
-		var_1_1.piece = var_0_11[var_1_0.id or 0]
-		var_0_10[var_1_0.id] = var_1_1
+		slot9.piece = uv4[slot8.id or 0]
+		uv3[slot8.id] = slot9
 	end
 
-	for iter_1_4, iter_1_5 in ipairs(HeroCfg.get_id_list_by_private[0]) do
-		if var_0_10[iter_1_5] then
-			var_0_1[iter_1_5] = var_0_10[iter_1_5]
+	for slot6, slot7 in ipairs(HeroCfg.get_id_list_by_private[0]) do
+		if uv3[slot7] then
+			uv0[slot7] = uv3[slot7]
 		else
-			var_0_1[iter_1_5] = DefalutHeroDataTemplate.New(iter_1_5)
+			uv0[slot7] = DefalutHeroDataTemplate.New(slot7)
 		end
 
-		var_0_1[iter_1_5].piece = var_0_11[iter_1_5] or 0
+		uv0[slot7].piece = uv4[slot7] or 0
 
-		for iter_1_6, iter_1_7 in ipairs(var_0_1[iter_1_5]:GetEquipInfoList()) do
-			if iter_1_7.equip_id ~= 0 then
-				var_0_2[iter_1_7.equip_id] = iter_1_5
+		for slot11, slot12 in ipairs(uv0[slot7]:GetEquipInfoList()) do
+			if slot12.equip_id ~= 0 then
+				uv1[slot12.equip_id] = slot7
 			end
 		end
 	end
@@ -57,392 +56,350 @@ function var_0_0.InitHero(arg_1_0, arg_1_1, arg_1_2)
 	HeroTools.DispatchAllHeroNewRed("unlockSkin", RedPointConst.HERO_SKIN_ID)
 end
 
-function var_0_0.ModifyHero(arg_2_0, arg_2_1)
-	var_0_1[arg_2_1.hero_base_info.id]:ModifyHero(arg_2_1)
+function slot0.ModifyHero(slot0, slot1)
+	uv0[slot1.hero_base_info.id]:ModifyHero(slot1)
 
-	var_0_1[arg_2_1.hero_base_info.id].piece = var_0_11[arg_2_1.hero_base_info.id] or 0
+	uv0[slot1.hero_base_info.id].piece = uv1[slot1.hero_base_info.id] or 0
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_2_1.hero_base_info.id)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1.hero_base_info.id)
 end
 
-function var_0_0.ModifyHeroPieceByList(arg_3_0, arg_3_1)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		var_0_1[iter_3_1.id].piece = iter_3_1.num
-		var_0_11[iter_3_1.id] = iter_3_1.num
+function slot0.ModifyHeroPieceByList(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		uv0[slot6.id].piece = slot6.num
+		uv1[slot6.id] = slot6.num
 	end
 
 	manager.notify:Invoke(HERO_DATA_INIT)
 end
 
-function var_0_0.HeroPieceModify(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1[arg_4_1].piece = arg_4_2
+function slot0.HeroPieceModify(slot0, slot1, slot2)
+	uv0[slot1].piece = slot2
 
-	manager.notify:Invoke(HERO_PIECE_MODIFY, arg_4_1)
+	manager.notify:Invoke(HERO_PIECE_MODIFY, slot1)
 end
 
-function var_0_0.AddHeroExpSuccess(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	local var_5_0 = arg_5_0:GetHeroData(arg_5_1)
+function slot0.AddHeroExpSuccess(slot0, slot1, slot2, slot3)
+	slot4 = slot0:GetHeroData(slot1)
+	slot4.level = slot2
+	slot4.exp = slot3
 
-	var_5_0.level = arg_5_2
-	var_5_0.exp = arg_5_3
-
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_5_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.BreakSuccess(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0:GetHeroData(arg_6_1).break_level = arg_6_2
+function slot0.BreakSuccess(slot0, slot1, slot2)
+	slot0:GetHeroData(slot1).break_level = slot2
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_6_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.UnlockHeroSuccess(arg_7_0, arg_7_1)
-	arg_7_0:GetHeroData(arg_7_1).unlock = 1
+function slot0.UnlockHeroSuccess(slot0, slot1)
+	slot0:GetHeroData(slot1).unlock = 1
 
-	HeroTools.SetHeroNewTagRed(arg_7_1, "unlockHero", RedPointConst.HERO_ID .. arg_7_1, true)
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_7_1)
-	manager.notify:Invoke(HERO_UNLOCK_SUCCESS, arg_7_1)
+	HeroTools.SetHeroNewTagRed(slot1, "unlockHero", RedPointConst.HERO_ID .. slot1, true)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
+	manager.notify:Invoke(HERO_UNLOCK_SUCCESS, slot1)
 end
 
-function var_0_0.HeroClearTimesModify(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0:GetHeroData(arg_8_1)
-
-	if var_8_0 == nil then
+function slot0.HeroClearTimesModify(slot0, slot1, slot2)
+	if slot0:GetHeroData(slot1) == nil then
 		return
 	end
 
-	var_8_0.clear_times = (var_8_0.clear_times or 0) + arg_8_2
+	slot3.clear_times = (slot3.clear_times or 0) + slot2
 end
 
-function var_0_0.EquipSwap(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	if arg_9_1 ~= 0 then
-		local var_9_0 = var_0_2[arg_9_2]
-		local var_9_1 = var_0_1[arg_9_1]:GetEquipInfoList()[arg_9_3].equip_id
+function slot0.EquipSwap(slot0, slot1, slot2, slot3)
+	if slot1 ~= 0 then
+		slot5 = uv1[slot1]:GetEquipInfoList()[slot3].equip_id
 
-		if var_9_0 and var_9_0 ~= 0 then
-			var_0_1[var_9_0]:GetEquipInfoList()[arg_9_3].equip_id = var_9_1
+		if uv0[slot2] and slot4 ~= 0 then
+			uv1[slot4]:GetEquipInfoList()[slot3].equip_id = slot5
 
-			if var_9_1 and var_9_1 ~= 0 then
-				var_0_2[var_9_1] = var_9_0
+			if slot5 and slot5 ~= 0 then
+				uv0[slot5] = slot4
 			end
 		else
-			var_0_2[var_9_1] = nil
+			uv0[slot5] = nil
 		end
 
-		var_0_1[arg_9_1]:GetEquipInfoList()[arg_9_3].equip_id = arg_9_2
+		uv1[slot1]:GetEquipInfoList()[slot3].equip_id = slot2
 
-		if arg_9_2 ~= 0 then
-			var_0_2[arg_9_2] = arg_9_1
+		if slot2 ~= 0 then
+			uv0[slot2] = slot1
 		end
 
-		manager.notify:Invoke(HERO_DATA_MODIFY, arg_9_1)
+		manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 	end
 end
 
-function var_0_0.EquipUnloadAll(arg_10_0, arg_10_1)
-	local var_10_0 = var_0_1[arg_10_1]
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_0:GetEquipInfoList()) do
-		if iter_10_1.equip_id ~= 0 then
-			var_0_2[iter_10_1.equip_id] = nil
-			iter_10_1.equip_id = 0
+function slot0.EquipUnloadAll(slot0, slot1)
+	for slot6, slot7 in ipairs(uv0[slot1]:GetEquipInfoList()) do
+		if slot7.equip_id ~= 0 then
+			uv1[slot7.equip_id] = nil
+			slot7.equip_id = 0
 		end
 	end
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_10_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.AstrolabeUnlock(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = var_0_1[arg_11_1].unlocked_astrolabe
-
-	if not table.keyof(var_11_0, arg_11_2) then
-		table.insert(var_11_0, arg_11_2)
+function slot0.AstrolabeUnlock(slot0, slot1, slot2)
+	if not table.keyof(uv0[slot1].unlocked_astrolabe, slot2) then
+		table.insert(slot3, slot2)
 	end
 end
 
-function var_0_0.AstrolabeEquip(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = var_0_1[arg_12_1].using_astrolabe
-
-	if not table.keyof(var_12_0, arg_12_2) then
-		table.insert(var_12_0, arg_12_2)
+function slot0.AstrolabeEquip(slot0, slot1, slot2)
+	if not table.keyof(uv0[slot1].using_astrolabe, slot2) then
+		table.insert(slot3, slot2)
 	end
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_12_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.AstrolabeEquipAll(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = deepClone(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[arg_13_2])
+function slot0.AstrolabeEquipAll(slot0, slot1, slot2)
+	uv0[slot1].using_astrolabe = deepClone(HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot2])
 
-	var_0_1[arg_13_1].using_astrolabe = var_13_0
-
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_13_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.AstrolabeEquipByList(arg_14_0, arg_14_1, arg_14_2)
-	var_0_1[arg_14_1].using_astrolabe = arg_14_2
+function slot0.AstrolabeEquipByList(slot0, slot1, slot2)
+	uv0[slot1].using_astrolabe = slot2
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_14_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.AstrolabeUnload(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = var_0_1[arg_15_1].using_astrolabe
-	local var_15_1 = table.keyof(var_15_0, arg_15_2)
-
-	if var_15_1 then
-		table.remove(var_15_0, var_15_1)
-		var_0_0:AstrolabeUnload(arg_15_1, arg_15_2 + 1)
-		manager.notify:Invoke(HERO_DATA_MODIFY, arg_15_1)
+function slot0.AstrolabeUnload(slot0, slot1, slot2)
+	if table.keyof(uv0[slot1].using_astrolabe, slot2) then
+		table.remove(slot3, slot4)
+		uv1:AstrolabeUnload(slot1, slot2 + 1)
+		manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 	end
 end
 
-function var_0_0.AstrolabeUnloadAll(arg_16_0, arg_16_1)
-	var_0_1[arg_16_1].using_astrolabe = {}
+function slot0.AstrolabeUnloadAll(slot0, slot1)
+	uv0[slot1].using_astrolabe = {}
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_16_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.WeaponStr(arg_17_0, arg_17_1, arg_17_2, arg_17_3)
-	var_0_1[arg_17_1]:GetWeaponInfo().level = arg_17_2
-	var_0_1[arg_17_1]:GetWeaponInfo().exp = arg_17_3
+function slot0.WeaponStr(slot0, slot1, slot2, slot3)
+	uv0[slot1]:GetWeaponInfo().level = slot2
+	uv0[slot1]:GetWeaponInfo().exp = slot3
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_17_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.WeaponBreak(arg_18_0, arg_18_1, arg_18_2)
-	var_0_1[arg_18_1]:GetWeaponInfo().breakthrough = arg_18_2
+function slot0.WeaponBreak(slot0, slot1, slot2)
+	uv0[slot1]:GetWeaponInfo().breakthrough = slot2
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_18_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.ServantReplace(arg_19_0, arg_19_1, arg_19_2)
-	var_0_1[arg_19_1].servant_uid = arg_19_2
+function slot0.ServantReplace(slot0, slot1, slot2)
+	uv0[slot1].servant_uid = slot2
 
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_19_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.HeroSkillUpgrade(arg_20_0, arg_20_1, arg_20_2, arg_20_3)
-	local var_20_0 = arg_20_0:GetHeroData(arg_20_1)
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_0:GetSkillInfoList()) do
-		if iter_20_1.skill_id == arg_20_2 then
-			iter_20_1.skill_level = iter_20_1.skill_level + (arg_20_3 or 1)
+function slot0.HeroSkillUpgrade(slot0, slot1, slot2, slot3)
+	for slot8, slot9 in ipairs(slot0:GetHeroData(slot1):GetSkillInfoList()) do
+		if slot9.skill_id == slot2 then
+			slot9.skill_level = slot9.skill_level + (slot3 or 1)
 
 			break
 		end
 	end
 end
 
-function var_0_0.HeroSkillAttrUpgrade(arg_21_0, arg_21_1, arg_21_2, arg_21_3)
-	local var_21_0 = arg_21_0:GetHeroData(arg_21_1)
+function slot0.HeroSkillAttrUpgrade(slot0, slot1, slot2, slot3)
+	for slot8, slot9 in ipairs(slot0:GetHeroData(slot1):GetSkillAttrList()) do
+		if slot9.index == slot2 then
+			slot9.level = slot9.level + (slot3 or 1)
 
-	for iter_21_0, iter_21_1 in ipairs(var_21_0:GetSkillAttrList()) do
-		if iter_21_1.index == arg_21_2 then
-			iter_21_1.level = iter_21_1.level + (arg_21_3 or 1)
-
-			manager.notify:Invoke(HERO_DATA_MODIFY, arg_21_1)
+			manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 
 			return
 		end
 	end
 
-	table.insert(var_21_0:GetSkillAttrList(), {
-		index = arg_21_2,
-		level = arg_21_3
+	table.insert(slot4:GetSkillAttrList(), {
+		index = slot2,
+		level = slot3
 	})
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_21_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.HeroStarUp(arg_22_0, arg_22_1)
-	local var_22_0 = arg_22_0:GetHeroData(arg_22_1)
-	local var_22_1 = HeroStarCfg[var_22_0.star]
-	local var_22_2 = var_22_1.star
-	local var_22_3 = var_22_1.phase
-	local var_22_4, var_22_5 = HeroTools.GetNextStarAndPhase(var_22_2, var_22_3)
+function slot0.HeroStarUp(slot0, slot1)
+	slot2 = slot0:GetHeroData(slot1)
+	slot3 = HeroStarCfg[slot2.star]
+	slot6, slot7 = HeroTools.GetNextStarAndPhase(slot3.star, slot3.phase)
+	slot2.star = HeroTools.GetStarCfgId(slot6, slot7)
 
-	var_22_0.star = HeroTools.GetStarCfgId(var_22_4, var_22_5)
-
-	manager.notify:Invoke(HERO_DATA_MODIFY, arg_22_1)
+	manager.notify:Invoke(HERO_DATA_MODIFY, slot1)
 end
 
-function var_0_0.SelectSkin(arg_23_0, arg_23_1, arg_23_2)
-	arg_23_0:GetHeroData(arg_23_1).using_skin = arg_23_2
+function slot0.SelectSkin(slot0, slot1, slot2)
+	slot0:GetHeroData(slot1).using_skin = slot2
 end
 
-function var_0_0.GetHeroListExcept(arg_24_0, arg_24_1)
-	local var_24_0 = {}
-
-	for iter_24_0, iter_24_1 in pairs(var_0_1) do
-		if table.indexof(arg_24_1, iter_24_0) then
-			-- block empty
-		else
-			var_24_0[iter_24_0] = iter_24_1
+function slot0.GetHeroListExcept(slot0, slot1)
+	for slot6, slot7 in pairs(uv0) do
+		if not table.indexof(slot1, slot6) then
+			-- Nothing
 		end
 	end
 
-	return var_24_0
+	return {
+		[slot6] = slot7
+	}
 end
 
-function var_0_0.GetHeroList(arg_25_0)
-	return var_0_1
+function slot0.GetHeroList(slot0)
+	return uv0
 end
 
-function var_0_0.GetEquipMap(arg_26_0)
-	return var_0_2
+function slot0.GetEquipMap(slot0)
+	return uv0
 end
 
-function var_0_0.GetHeroOmegaNeedPiece(arg_27_0, arg_27_1)
-	local var_27_0 = HeroData:GetHeroData(arg_27_1)
-	local var_27_1 = HeroCfg[arg_27_1]
-	local var_27_2 = 0
+function slot0.GetHeroOmegaNeedPiece(slot0, slot1)
+	slot3 = HeroCfg[slot1]
+	slot4 = 0
 
-	if var_27_0.unlock == 1 then
-		local var_27_3 = HeroStarCfg[var_27_0.star].star
-		local var_27_4 = HeroStarCfg[var_27_0.star].phase
-		local var_27_5 = HeroTools.GetStarCfgId(var_27_3, var_27_4)
-
-		for iter_27_0 = table.keyof(HeroStarCfg.all, var_27_5), #HeroStarCfg.all do
-			var_27_2 = var_27_2 + HeroStarCfg[HeroStarCfg.all[iter_27_0]].star_up
+	if HeroData:GetHeroData(slot1).unlock == 1 then
+		for slot12 = table.keyof(HeroStarCfg.all, HeroTools.GetStarCfgId(HeroStarCfg[slot2.star].star, HeroStarCfg[slot2.star].phase)), #HeroStarCfg.all do
+			slot4 = slot4 + HeroStarCfg[HeroStarCfg.all[slot12]].star_up
 		end
 
-		return math.max(0, var_27_2 - var_27_0.piece)
+		return math.max(0, slot4 - slot2.piece)
 	else
-		local var_27_6 = var_27_1.rare
-		local var_27_7 = GameSetting.unlock_hero_need.value[var_27_6]
+		slot6 = GameSetting.unlock_hero_need.value[slot3.rare]
 
-		for iter_27_1 = 1, #HeroStarCfg.all do
-			var_27_2 = var_27_2 + HeroStarCfg[HeroStarCfg.all[iter_27_1]].star_up
+		for slot10 = 1, #HeroStarCfg.all do
+			slot4 = slot4 + HeroStarCfg[HeroStarCfg.all[slot10]].star_up
 		end
 
-		return var_27_7 + var_27_2
+		return slot6 + slot4
 	end
 end
 
-function var_0_0.GetHeroNum(arg_28_0)
-	local var_28_0 = 0
-
-	for iter_28_0, iter_28_1 in pairs(var_0_1) do
-		if iter_28_1.unlock == 1 then
-			var_28_0 = var_28_0 + 1
+function slot0.GetHeroNum(slot0)
+	for slot5, slot6 in pairs(uv0) do
+		if slot6.unlock == 1 then
+			slot1 = 0 + 1
 		end
 	end
 
-	return var_28_0
+	return slot1
 end
 
-function var_0_0.GetUnlockHeros(arg_29_0)
-	local var_29_0 = {}
+function slot0.GetUnlockHeros(slot0)
+	slot1 = {}
 
-	for iter_29_0, iter_29_1 in pairs(var_0_1) do
-		if iter_29_1.unlock == 1 then
-			table.insert(var_29_0, iter_29_1.id)
+	for slot5, slot6 in pairs(uv0) do
+		if slot6.unlock == 1 then
+			table.insert(slot1, slot6.id)
 		end
 	end
 
-	return var_29_0
+	return slot1
 end
 
-function var_0_0.InitFavorite(arg_30_0, arg_30_1)
-	var_0_3 = arg_30_1 or {}
+function slot0.InitFavorite(slot0, slot1)
+	uv0 = slot1 or {}
 end
 
-function var_0_0.IsFavorite(arg_31_0, arg_31_1)
-	return table.indexof(var_0_3, arg_31_1)
+function slot0.IsFavorite(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.SetFavoriteHeroOn(arg_32_0, arg_32_1)
-	if not table.indexof(var_0_3, arg_32_1) then
-		table.insert(var_0_3, arg_32_1)
+function slot0.SetFavoriteHeroOn(slot0, slot1)
+	if not table.indexof(uv0, slot1) then
+		table.insert(uv0, slot1)
 	end
 end
 
-function var_0_0.SetFavoriteHeroOff(arg_33_0, arg_33_1)
-	local var_33_0 = table.indexof(var_0_3, arg_33_1)
-
-	if var_33_0 then
-		table.remove(var_0_3, var_33_0)
+function slot0.SetFavoriteHeroOff(slot0, slot1)
+	if table.indexof(uv0, slot1) then
+		table.remove(uv0, slot2)
 	end
 end
 
-function var_0_0.SaveSortValue(arg_34_0, arg_34_1, arg_34_2, arg_34_3, arg_34_4, arg_34_5)
-	var_0_5 = arg_34_1 == nil and true or arg_34_1
-	var_0_6 = arg_34_2 or 0
-	var_0_7 = arg_34_3 or {}
-	var_0_8 = arg_34_4 or {}
-	var_0_9 = arg_34_5 or {}
+function slot0.SaveSortValue(slot0, slot1, slot2, slot3, slot4, slot5)
+	uv0 = slot1 == nil and true or slot1
+	uv1 = slot2 or 0
+	uv2 = slot3 or {}
+	uv3 = slot4 or {}
+	uv4 = slot5 or {}
 end
 
-function var_0_0.SaveSortType(arg_35_0, arg_35_1)
-	var_0_6 = arg_35_1 or 0
+function slot0.SaveSortType(slot0, slot1)
+	uv0 = slot1 or 0
 end
 
-function var_0_0.GetSortValue(arg_36_0)
-	return var_0_5, var_0_6, var_0_7, var_0_8, var_0_9
+function slot0.GetSortValue(slot0)
+	return uv0, uv1, uv2, uv3, uv4
 end
 
-function var_0_0.ResetSortValue(arg_37_0)
-	var_0_5 = true
-	var_0_6 = 0
-	var_0_7 = {}
-	var_0_8 = {}
-	var_0_9 = {}
+function slot0.ResetSortValue(slot0)
+	uv0 = true
+	uv1 = 0
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
 end
 
-function var_0_0.ImproveTransitionGiftPt(arg_38_0, arg_38_1)
-	local var_38_0 = arg_38_0:GetHeroTransitionSkillBySlotID(arg_38_1.hero_id, arg_38_1.slot_id)
-
-	if var_38_0 then
-		var_38_0.talent_points = var_38_0.talent_points + arg_38_1.lv_up_num
+function slot0.ImproveTransitionGiftPt(slot0, slot1)
+	if slot0:GetHeroTransitionSkillBySlotID(slot1.hero_id, slot1.slot_id) then
+		slot2.talent_points = slot2.talent_points + slot1.lv_up_num
 	else
-		local var_38_1 = var_0_1[arg_38_1.hero_id]
-
-		table.insert(var_38_1:GetTransitionInfoList(), {
-			slot_id = arg_38_1.slot_id,
+		table.insert(uv0[slot1.hero_id]:GetTransitionInfoList(), {
+			slot_id = slot1.slot_id,
 			skill_list = {},
-			talent_points = arg_38_1.lv_up_num
+			talent_points = slot1.lv_up_num
 		})
 	end
 end
 
-function var_0_0.ModifyTransitionSkill(arg_39_0, arg_39_1)
-	local var_39_0 = arg_39_0:GetHeroTransitionSkillBySlotID(arg_39_1.hero_id, arg_39_1.slot_id)
-
-	if var_39_0 then
-		var_39_0.skill_list = cleanProtoTable(arg_39_1.skill_list)
+function slot0.ModifyTransitionSkill(slot0, slot1)
+	if slot0:GetHeroTransitionSkillBySlotID(slot1.hero_id, slot1.slot_id) then
+		slot2.skill_list = cleanProtoTable(slot1.skill_list)
 
 		manager.notify:Invoke(HERO_TRANSITION_CHANGE, {
-			heroId = arg_39_1.hero_id
+			heroId = slot1.hero_id
 		})
 	end
 end
 
-function var_0_0.GetHeroTransitionSkillBySlotID(arg_40_0, arg_40_1, arg_40_2)
-	local var_40_0 = var_0_1[arg_40_1]
-
-	for iter_40_0, iter_40_1 in ipairs(var_40_0:GetTransitionInfoList()) do
-		if iter_40_1.slot_id == arg_40_2 then
-			return iter_40_1
+function slot0.GetHeroTransitionSkillBySlotID(slot0, slot1, slot2)
+	for slot7, slot8 in ipairs(uv0[slot1]:GetTransitionInfoList()) do
+		if slot8.slot_id == slot2 then
+			return slot8
 		end
 	end
 
 	return false
 end
 
-function var_0_0.GetCurModuleLevel(arg_41_0, arg_41_1)
-	return var_0_1[arg_41_1] and var_0_1[arg_41_1].moduleLevel or 0
+function slot0.GetCurModuleLevel(slot0, slot1)
+	return uv0[slot1] and uv0[slot1].moduleLevel or 0
 end
 
-function var_0_0.GetModuleMaxLevel(arg_42_0, arg_42_1)
-	return #WeaponModuleCfg[arg_42_1].cost
+function slot0.GetModuleMaxLevel(slot0, slot1)
+	return #WeaponModuleCfg[slot1].cost
 end
 
-function var_0_0.ModuleLevelUp(arg_43_0, arg_43_1)
-	if var_0_1[arg_43_1] then
-		var_0_1[arg_43_1].moduleLevel = var_0_1[arg_43_1].moduleLevel + 1
+function slot0.ModuleLevelUp(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].moduleLevel = uv0[slot1].moduleLevel + 1
 	end
 end
 
-function var_0_0.GetModuleAssignmentIsFinish(arg_44_0, arg_44_1)
-	if var_0_1[arg_44_1] then
-		if var_0_1[arg_44_1].moduleAssignment > 0 then
+function slot0.GetModuleAssignmentIsFinish(slot0, slot1)
+	if uv0[slot1] then
+		if uv0[slot1].moduleAssignment > 0 then
 			return true
 		else
 			return false
@@ -452,129 +409,116 @@ function var_0_0.GetModuleAssignmentIsFinish(arg_44_0, arg_44_1)
 	return false
 end
 
-function var_0_0.GetModulePowersByHeroID(arg_45_0, arg_45_1)
-	local var_45_0 = {}
-	local var_45_1 = arg_45_0:GetCurModuleLevel(arg_45_1)
-	local var_45_2 = WeaponModuleCfg[arg_45_1]
+function slot0.GetModulePowersByHeroID(slot0, slot1)
+	slot2 = {}
+	slot3 = slot0:GetCurModuleLevel(slot1)
 
-	if var_45_2 then
-		for iter_45_0 = 1, var_45_1 do
-			local var_45_3 = var_45_2.skill[iter_45_0]
-
-			for iter_45_1, iter_45_2 in pairs(var_45_3) do
-				table.insert(var_45_0, iter_45_2)
+	if WeaponModuleCfg[slot1] then
+		for slot8 = 1, slot3 do
+			for slot13, slot14 in pairs(slot4.skill[slot8]) do
+				table.insert(slot2, slot14)
 			end
 		end
 	end
 
-	return var_45_0
+	return slot2
 end
 
-function var_0_0.GetAllModulePowersByHeroID(arg_46_0, arg_46_1)
-	local var_46_0 = {}
-	local var_46_1 = arg_46_0:GetModuleMaxLevel(arg_46_1)
-	local var_46_2 = WeaponModuleCfg[arg_46_1]
+function slot0.GetAllModulePowersByHeroID(slot0, slot1)
+	slot2 = {}
+	slot3 = slot0:GetModuleMaxLevel(slot1)
 
-	if var_46_2 then
-		for iter_46_0 = 1, var_46_1 do
-			local var_46_3 = var_46_2.skill[iter_46_0]
-
-			for iter_46_1, iter_46_2 in pairs(var_46_3) do
-				table.insert(var_46_0, iter_46_2)
+	if WeaponModuleCfg[slot1] then
+		for slot8 = 1, slot3 do
+			for slot13, slot14 in pairs(slot4.skill[slot8]) do
+				table.insert(slot2, slot14)
 			end
 		end
 	end
 
-	return var_46_0
+	return slot2
 end
 
-function var_0_0.GetCurModuleEffectListByType(arg_47_0, arg_47_1, arg_47_2, arg_47_3)
-	local var_47_0 = HeroTools:GetModulePowersByHeroIDAndLevel(arg_47_1, arg_47_3)
-	local var_47_1 = {}
+function slot0.GetCurModuleEffectListByType(slot0, slot1, slot2, slot3)
+	slot5 = {}
 
-	for iter_47_0, iter_47_1 in pairs(var_47_0) do
-		if WeaponModuleEffectCfg[iter_47_1].type == arg_47_2 then
-			table.insert(var_47_1, iter_47_1)
+	for slot9, slot10 in pairs(HeroTools:GetModulePowersByHeroIDAndLevel(slot1, slot3)) do
+		if WeaponModuleEffectCfg[slot10].type == slot2 then
+			table.insert(slot5, slot10)
 		end
 	end
 
-	if var_47_1[1] then
-		return var_47_1
+	if slot5[1] then
+		return slot5
 	else
 		return nil
 	end
 end
 
-function var_0_0.GetLockModuleEffectListByType(arg_48_0, arg_48_1, arg_48_2)
-	local var_48_0 = WeaponModuleCfg[arg_48_1].skill[1]
-	local var_48_1 = {}
+function slot0.GetLockModuleEffectListByType(slot0, slot1, slot2)
+	slot4 = {}
 
-	for iter_48_0, iter_48_1 in pairs(var_48_0) do
-		if WeaponModuleEffectCfg[iter_48_1].type == arg_48_2 then
-			table.insert(var_48_1, iter_48_1)
+	for slot8, slot9 in pairs(WeaponModuleCfg[slot1].skill[1]) do
+		if WeaponModuleEffectCfg[slot9].type == slot2 then
+			table.insert(slot4, slot9)
 		end
 	end
 
-	if var_48_1[1] then
-		return var_48_1
+	if slot4[1] then
+		return slot4
 	else
 		return nil
 	end
 end
 
-function var_0_0.UnlockTrust(arg_49_0, arg_49_1, arg_49_2)
-	if var_0_1[arg_49_1] then
-		var_0_1[arg_49_1].trust.level = 1
-		var_0_1[arg_49_1].trust.exp = 0
-		var_0_1[arg_49_1].trust.mood = arg_49_2
+function slot0.UnlockTrust(slot0, slot1, slot2)
+	if uv0[slot1] then
+		uv0[slot1].trust.level = 1
+		uv0[slot1].trust.exp = 0
+		uv0[slot1].trust.mood = slot2
 	end
 
 	HeroAction.UpdateSuperStoryRedPoint()
-	HeroTools.SetHeroNewTagRed(arg_49_1, "unlockRelation", table.concat({
+	HeroTools.SetHeroNewTagRed(slot1, "unlockRelation", table.concat({
 		RedPointConst.HERO_REALTION,
 		"_",
-		arg_49_1
+		slot1
 	}), true)
 end
 
-function var_0_0.UpgradeTrustLevel(arg_50_0, arg_50_1)
-	if var_0_1[arg_50_1] then
-		local var_50_0 = var_0_1[arg_50_1].trust.level
-
-		var_0_1[arg_50_1].trust.level = var_50_0 + 1
-		var_0_1[arg_50_1].trust.exp = 0
+function slot0.UpgradeTrustLevel(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1].trust.level = uv0[slot1].trust.level + 1
+		uv0[slot1].trust.exp = 0
 	end
 
 	HeroAction.UpdateSuperStoryRedPoint()
 end
 
-function var_0_0.UnlockRelationNet(arg_51_0, arg_51_1, arg_51_2, arg_51_3)
-	if var_0_1[arg_51_1] then
-		var_0_1[arg_51_1].relation:UnlockRelationNet(arg_51_2, arg_51_3)
+function slot0.UnlockRelationNet(slot0, slot1, slot2, slot3)
+	if uv0[slot1] then
+		uv0[slot1].relation:UnlockRelationNet(slot2, slot3)
 	end
 end
 
-function var_0_0.SetupHeroMainOpenStatus(arg_52_0, arg_52_1)
-	var_0_4 = arg_52_1
+function slot0.SetupHeroMainOpenStatus(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetHeroMainOpenStatus(arg_53_0)
-	return var_0_4
+function slot0.GetHeroMainOpenStatus(slot0)
+	return uv0
 end
 
-function var_0_0.SetHeroStrategyRedPoint(arg_54_0, arg_54_1)
-	saveData("strategy", "strategy_" .. arg_54_1, "1")
+function slot0.SetHeroStrategyRedPoint(slot0, slot1)
+	saveData("strategy", "strategy_" .. slot1, "1")
 end
 
-function var_0_0.GetHeroStrategyRedPoint(arg_55_0, arg_55_1)
-	local var_55_0 = HeroCfg[arg_55_1].study_stage[1]
-	local var_55_1 = BattleTeachData:GetHeroTeachInfo(arg_55_1, var_55_0) > 0
-
-	return getData("strategy", "strategy_" .. arg_55_1) ~= "1" and not var_55_1
+function slot0.GetHeroStrategyRedPoint(slot0, slot1)
+	return getData("strategy", "strategy_" .. slot1) ~= "1" and not (BattleTeachData:GetHeroTeachInfo(slot1, HeroCfg[slot1].study_stage[1]) > 0)
 end
 
-function var_0_0.Init(arg_56_0)
+function slot0.Init(slot0)
 	_G.heroViewPageIndex_ = 1
 end
 
-return var_0_0
+return slot0

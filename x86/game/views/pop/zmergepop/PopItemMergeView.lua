@@ -1,47 +1,43 @@
-local var_0_0 = class("PopItemMergeView", PopItemSourceView)
+slot0 = class("PopItemMergeView", PopItemSourceView)
 
-function var_0_0.AddListeners(arg_1_0)
-	var_0_0.super.AddListeners(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.mergeBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	uv0.super.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.mergeBtn_, nil, function ()
 		JumpTools.OpenPageByJump("synthesise", {
-			id = ItemCfg[arg_1_0:GetItemID()].compose_id
+			id = ItemCfg[uv0:GetItemID()].compose_id
 		})
 	end)
-	arg_1_0:AddBtnListener(arg_1_0.decomposeBtn_, nil, function()
+	slot0:AddBtnListener(slot0.decomposeBtn_, nil, function ()
 		JumpTools.OpenPageByJump("synthesise", {
-			id = ItemCfg[arg_1_0:GetItemID()].decompose_id
+			id = ItemCfg[uv0:GetItemID()].decompose_id
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	var_0_0.super.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-	arg_4_0.equipInfo_ = arg_4_0.params_.equip_info or {}
+	slot0.equipInfo_ = slot0.params_.equip_info or {}
 end
 
-function var_0_0.CustomInitUI(arg_5_0)
-	var_0_0.super.CustomInitUI(arg_5_0)
+function slot0.CustomInitUI(slot0)
+	uv0.super.CustomInitUI(slot0)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.super.OnEnter(arg_6_0)
-	arg_6_0:RefreshBtn()
+function slot0.OnEnter(slot0)
+	slot0.super.OnEnter(slot0)
+	slot0:RefreshBtn()
 end
 
-function var_0_0.RefreshBtn(arg_7_0)
-	local var_7_0 = ItemCfg[arg_7_0:GetItemID()]
-
-	SetActive(arg_7_0.decomposeBtn_.gameObject, var_7_0.decompose_id ~= 0 and ItemExchangeCfg[var_7_0.decompose_id] ~= nil)
-	SetActive(arg_7_0.mergeBtn_.gameObject, var_7_0.compose_id ~= 0 and ItemExchangeCfg[var_7_0.compose_id] ~= nil)
+function slot0.RefreshBtn(slot0)
+	SetActive(slot0.decomposeBtn_.gameObject, ItemCfg[slot0:GetItemID()].decompose_id ~= 0 and ItemExchangeCfg[slot1.decompose_id] ~= nil)
+	SetActive(slot0.mergeBtn_.gameObject, slot1.compose_id ~= 0 and ItemExchangeCfg[slot1.compose_id] ~= nil)
 end
 
-function var_0_0.RefreshItem(arg_8_0)
-	var_0_0.super.RefreshItem(arg_8_0)
+function slot0.RefreshItem(slot0)
+	uv0.super.RefreshItem(slot0)
 
-	local var_8_0 = ItemTools.getItemNum(arg_8_0:GetItemID())
-
-	arg_8_0.cntText_.text = string.format("x%d", NumberTools.RetractNumberForWindBar(var_8_0))
+	slot0.cntText_.text = string.format("x%d", NumberTools.RetractNumberForWindBar(ItemTools.getItemNum(slot0:GetItemID())))
 end
 
-return var_0_0
+return slot0

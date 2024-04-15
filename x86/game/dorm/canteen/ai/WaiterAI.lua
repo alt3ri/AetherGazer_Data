@@ -1,10 +1,10 @@
-local var_0_0 = singletonClass("WaiterAI")
+slot0 = singletonClass("WaiterAI")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0:RegisterEvent()
+function slot0.Init(slot0)
+	slot0:RegisterEvent()
 
-	arg_1_0.WaiterStateList = {}
-	arg_1_0.WaiterState = {
+	slot0.WaiterStateList = {}
+	slot0.WaiterState = {
 		WaiterInteractPassTable = "WaiterInteractPassTable",
 		WaiterPassFood = "WaiterPassFood",
 		WaiterPlaceFood = "WaiterPlaceFood",
@@ -14,256 +14,230 @@ function var_0_0.Init(arg_1_0)
 	}
 end
 
-local function var_0_1()
-	local var_2_0 = CanteenAIFunction:GetNameSpace(DormEnum.ItemType.PassTable)
-
-	return Dorm.storage:PickData(var_2_0)
+function slot1()
+	return Dorm.storage:PickData(CanteenAIFunction:GetNameSpace(DormEnum.ItemType.PassTable))
 end
 
-function var_0_0.AIInit(arg_3_0, arg_3_1)
-	if arg_3_1 == nil or arg_3_0.WaiterStateList[arg_3_1] then
+function slot0.AIInit(slot0, slot1)
+	if slot1 == nil or slot0.WaiterStateList[slot1] then
 		error("传入参数为空或实体对象id重复")
 
 		return
 	end
 
-	arg_3_0.WaiterStateList[arg_3_1] = {
-		state = arg_3_0.WaiterState.WaiterEnterScene,
+	slot0.WaiterStateList[slot1] = {
+		state = slot0.WaiterState.WaiterEnterScene,
 		lastState = {}
 	}
 
-	arg_3_0:AIChoice(arg_3_1)
+	slot0:AIChoice(slot1)
 end
 
-function var_0_0.RegisterEvent(arg_4_0)
-	arg_4_0.listener = arg_4_0.listener or EventListener.New()
+function slot0.RegisterEvent(slot0)
+	slot0.listener = slot0.listener or EventListener.New()
 
-	arg_4_0.listener:RemoveAll()
+	slot0.listener:RemoveAll()
 
-	local var_4_0 = {
-		[DORM_RESTAURANT_NEW_WAITER] = handler(arg_4_0, arg_4_0.AIInit),
-		[ON_DORM_CHARACTER_MOVE_FINISH] = handler(arg_4_0, arg_4_0.ListenMoveEvent),
-		[ON_DORM_CHARACTER_INTERACT_FINISH] = handler(arg_4_0, arg_4_0.ListenInteractEvent),
-		[DORM_LOGIC_TICK] = handler(arg_4_0, arg_4_0.Update),
-		[DORM_CHARACTER_DISPOSE] = handler(arg_4_0, arg_4_0.DisposeEntity)
-	}
+	slot5 = slot0.DisposeEntity
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0) do
-		arg_4_0.listener:Register(iter_4_0, iter_4_1)
+	for slot5, slot6 in pairs({
+		[DORM_RESTAURANT_NEW_WAITER] = handler(slot0, slot0.AIInit),
+		[ON_DORM_CHARACTER_MOVE_FINISH] = handler(slot0, slot0.ListenMoveEvent),
+		[ON_DORM_CHARACTER_INTERACT_FINISH] = handler(slot0, slot0.ListenInteractEvent),
+		[DORM_LOGIC_TICK] = handler(slot0, slot0.Update),
+		[DORM_CHARACTER_DISPOSE] = handler(slot0, slot5)
+	}) do
+		slot0.listener:Register(slot5, slot6)
 	end
 end
 
-local var_0_2 = 0
-local var_0_3 = 1
-local var_0_4 = 2
+slot2 = 0
+slot3 = 1
+slot4 = 2
 
-function var_0_0.ListenMoveEvent(arg_5_0, arg_5_1, arg_5_2)
-	if not arg_5_0.WaiterStateList[arg_5_1] then
+function slot0.ListenMoveEvent(slot0, slot1, slot2)
+	if not slot0.WaiterStateList[slot1] then
 		return
 	end
 
-	if arg_5_2 then
-		arg_5_0:AIChoice(arg_5_1, var_0_3)
+	if slot2 then
+		slot0:AIChoice(slot1, uv0)
 	end
 end
 
-function var_0_0.ListenInteractEvent(arg_6_0, arg_6_1, arg_6_2)
-	if not arg_6_0.WaiterStateList[arg_6_1] then
+function slot0.ListenInteractEvent(slot0, slot1, slot2)
+	if not slot0.WaiterStateList[slot1] then
 		return
 	end
 
-	if arg_6_2 then
-		arg_6_0:AIChoice(arg_6_1, var_0_4, arg_6_2)
+	if slot2 then
+		slot0:AIChoice(slot1, uv0, slot2)
 	end
 end
 
-function var_0_0.RemoveListener(arg_7_0)
-	arg_7_0.listener:RemoveAll()
+function slot0.RemoveListener(slot0)
+	slot0.listener:RemoveAll()
 end
 
-function var_0_0.SwitchState(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.WaiterStateList[arg_8_1].lastState = arg_8_3 or arg_8_0.WaiterStateList[arg_8_1].state
-	arg_8_0.WaiterStateList[arg_8_1].state = arg_8_2
+function slot0.SwitchState(slot0, slot1, slot2, slot3)
+	slot0.WaiterStateList[slot1].lastState = slot3 or slot0.WaiterStateList[slot1].state
+	slot0.WaiterStateList[slot1].state = slot2
 end
 
-function var_0_0.MoveToTarget(arg_9_0, arg_9_1)
-	local var_9_0, var_9_1 = arg_9_0:ChoiceEndPosition(arg_9_1)
-	local var_9_2 = arg_9_0.WaiterStateList[arg_9_1].state
+function slot0.MoveToTarget(slot0, slot1)
+	slot2, slot3 = slot0:ChoiceEndPosition(slot1)
 
-	if var_9_1 then
-		DormEventInvoke(DORM_CHARACTER_MOVE_LOOK_AT, var_9_2, arg_9_1, var_9_0, var_9_1, false)
+	if slot3 then
+		DormEventInvoke(DORM_CHARACTER_MOVE_LOOK_AT, slot0.WaiterStateList[slot1].state, slot1, slot2, slot3, false)
 	else
-		DormEventInvoke(DORM_CHARACTER_MOVE, var_9_2, arg_9_1, var_9_0, false)
+		DormEventInvoke(DORM_CHARACTER_MOVE, slot4, slot1, slot2, false)
 	end
 end
 
-function var_0_0.ShouldReturnFoodToPassTable(arg_10_0)
-	if arg_10_0.pick and arg_10_0.selectedOrder then
-		if arg_10_0.selectedOrder.status == DormEnum.FoodState.Canceled then
+function slot0.ShouldReturnFoodToPassTable(slot0)
+	if slot0.pick and slot0.selectedOrder then
+		if slot0.selectedOrder.status == DormEnum.FoodState.Canceled then
 			return true
 		end
 
-		if NormalCustomerAI.CheckFoodServeComplete(arg_10_0.selectedOrder.orderCharacterID) then
+		if NormalCustomerAI.CheckFoodServeComplete(slot0.selectedOrder.orderCharacterID) then
 			return true
 		end
 	end
 end
 
-function var_0_0.AIChoice(arg_11_0, arg_11_1, arg_11_2, ...)
-	local var_11_0 = arg_11_0.WaiterStateList[arg_11_1].state
-
-	if var_11_0 == nil then
+function slot0.AIChoice(slot0, slot1, slot2, ...)
+	if slot0.WaiterStateList[slot1].state == nil then
 		print("服务员列表不存在该实例对象id")
 
 		return
 	end
 
-	local var_11_1 = CanteenAIFunction:GetEntityData(arg_11_1)
-	local var_11_2 = {
+	slot4 = CanteenAIFunction:GetEntityData(slot1)
+	slot5 = {
 		...
 	}
 
-	if var_11_0 == arg_11_0.WaiterState.WaiterEnterScene then
-		arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterMove)
-		arg_11_0:MoveToTarget(arg_11_1)
-	elseif var_11_0 == arg_11_0.WaiterState.WaiterMove then
-		if arg_11_0.ShouldReturnFoodToPassTable(var_11_1) then
-			var_11_1.selectedOrder = nil
+	if slot3 == slot0.WaiterState.WaiterEnterScene then
+		slot0:SwitchState(slot1, slot0.WaiterState.WaiterMove)
+		slot0:MoveToTarget(slot1)
+	elseif slot3 == slot0.WaiterState.WaiterMove then
+		if slot0.ShouldReturnFoodToPassTable(slot4) then
+			slot4.selectedOrder = nil
 
-			Dorm.DormEntityManager.StopAllCmd(arg_11_1)
-			arg_11_0:MoveToTarget(arg_11_1)
-		elseif arg_11_2 == var_0_3 then
-			if CanteenAIFunction:GetCharacterPickItem(arg_11_1) then
-				if var_11_1.selectedOrder then
-					arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterPlaceFood)
-
-					local var_11_3 = var_11_1.selectedOrder.orderTableID
-
-					DormEventInvoke(DORM_CHARACTER_INTERACT, var_11_0, arg_11_1, var_11_3)
+			Dorm.DormEntityManager.StopAllCmd(slot1)
+			slot0:MoveToTarget(slot1)
+		elseif slot2 == uv0 then
+			if CanteenAIFunction:GetCharacterPickItem(slot1) then
+				if slot4.selectedOrder then
+					slot0:SwitchState(slot1, slot0.WaiterState.WaiterPlaceFood)
+					DormEventInvoke(DORM_CHARACTER_INTERACT, slot3, slot1, slot4.selectedOrder.orderTableID)
 				else
-					arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterInteractPassTable)
-					DormEventInvoke(DORM_CHARACTER_INTERACT, var_11_0, arg_11_1, var_0_1())
+					slot0:SwitchState(slot1, slot0.WaiterState.WaiterInteractPassTable)
+					DormEventInvoke(DORM_CHARACTER_INTERACT, slot3, slot1, uv1())
 				end
 			else
-				arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterIdle)
-				CanteenAIFunction:SetCharacterBusy(arg_11_1, false)
+				slot0:SwitchState(slot1, slot0.WaiterState.WaiterIdle)
+				CanteenAIFunction:SetCharacterBusy(slot1, false)
 			end
 		end
-	elseif var_11_0 == arg_11_0.WaiterState.WaiterIdle then
-		if arg_11_2 == var_0_2 then
-			local var_11_4 = var_11_2[1]
+	elseif slot3 == slot0.WaiterState.WaiterIdle then
+		if slot2 == uv2 then
+			for slot10, slot11 in ipairs(slot5[1]) do
+				if slot0:ArrangeFood(slot11) then
+					CanteenAIFunction:SetCharacterBusy(slot1, true)
+					CanteenAIFunction:SetCharacterTarget(slot1, slot12)
 
-			for iter_11_0, iter_11_1 in ipairs(var_11_4) do
-				local var_11_5 = arg_11_0:ArrangeFood(iter_11_1)
+					slot4.selectedOrder = slot11
+					slot11.status = DormEnum.FoodState.HasServer
 
-				if var_11_5 then
-					CanteenAIFunction:SetCharacterBusy(arg_11_1, true)
-					CanteenAIFunction:SetCharacterTarget(arg_11_1, var_11_5)
-
-					var_11_1.selectedOrder = iter_11_1
-					iter_11_1.status = DormEnum.FoodState.HasServer
-
-					arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterInteractPassTable)
-					DormEventInvoke(DORM_CHARACTER_INTERACT, var_11_0, arg_11_1, var_0_1())
-					manager.notify:Invoke(DORM_RESTAURANT_CHARACTER_BUBBLE_REFRESH, iter_11_1.orderTableID)
+					slot0:SwitchState(slot1, slot0.WaiterState.WaiterInteractPassTable)
+					DormEventInvoke(DORM_CHARACTER_INTERACT, slot3, slot1, uv1())
+					manager.notify:Invoke(DORM_RESTAURANT_CHARACTER_BUBBLE_REFRESH, slot11.orderTableID)
 
 					break
 				end
 			end
 		end
-	elseif var_11_0 == arg_11_0.WaiterState.WaiterInteractPassTable then
-		if arg_11_2 == var_0_4 then
-			arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterMove)
-			arg_11_0:MoveToTarget(arg_11_1)
+	elseif slot3 == slot0.WaiterState.WaiterInteractPassTable then
+		if slot2 == uv3 then
+			slot0:SwitchState(slot1, slot0.WaiterState.WaiterMove)
+			slot0:MoveToTarget(slot1)
 		end
-	elseif var_11_0 == arg_11_0.WaiterState.WaiterPlaceFood then
-		if arg_11_2 == var_0_4 then
-			arg_11_0:SwitchState(arg_11_1, arg_11_0.WaiterState.WaiterMove)
-			arg_11_0:MoveToTarget(arg_11_1)
+	elseif slot3 == slot0.WaiterState.WaiterPlaceFood then
+		if slot2 == uv3 then
+			slot0:SwitchState(slot1, slot0.WaiterState.WaiterMove)
+			slot0:MoveToTarget(slot1)
 		end
 	else
 		error("未找到对应状态")
 	end
 end
 
-function var_0_0.ChoiceEndPosition(arg_12_0, arg_12_1)
-	local var_12_0 = CanteenAIFunction:GetEntityData(arg_12_1)
+function slot0.ChoiceEndPosition(slot0, slot1)
+	if CanteenAIFunction:GetEntityData(slot1).pick and slot2.selectedOrder ~= nil and not slot0.ShouldReturnFoodToPassTable(slot2) then
+		slot3 = slot2.selectedOrder.orderTableID
 
-	if var_12_0.pick and var_12_0.selectedOrder ~= nil and not arg_12_0.ShouldReturnFoodToPassTable(var_12_0) then
-		local var_12_1 = var_12_0.selectedOrder.orderTableID
-		local var_12_2 = CanteenItemManager.GetItemInteractPositions(var_12_1)
-
-		return CanteenAIFunction:GetNearestPoint(arg_12_1, var_12_2), Dorm.DormEntityManager.QueryPosition(var_12_1)
+		return CanteenAIFunction:GetNearestPoint(slot1, CanteenItemManager.GetItemInteractPositions(slot3)), Dorm.DormEntityManager.QueryPosition(slot3)
 	else
-		local var_12_3 = CanteenItemManager.GetItemInteractPositions(var_0_1())
-
-		return CanteenAIFunction:GetNearestPoint(arg_12_1, var_12_3)
+		return CanteenAIFunction:GetNearestPoint(slot1, CanteenItemManager.GetItemInteractPositions(uv0()))
 	end
 end
 
-local function var_0_5()
+function slot5()
 	return Dorm.storage:GetData(DormEnum.Namespace.RestaurantBusiness, CanteenManager.orderFoodListField)
 end
 
-function var_0_0.Update(arg_14_0)
-	local var_14_0 = var_0_5()
-
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.WaiterStateList) do
-		arg_14_0:AIChoice(iter_14_0, var_0_2, var_14_0)
+function slot0.Update(slot0)
+	for slot5, slot6 in pairs(slot0.WaiterStateList) do
+		slot0:AIChoice(slot5, uv1, uv0())
 	end
 end
 
-function var_0_0.FindFood(arg_15_0, arg_15_1)
-	local var_15_0 = CanteenAIFunction:GetEntityData(var_0_1())
-	local var_15_1 = nullable(var_15_0, "foodList")
-
-	if var_15_1 then
-		for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-			if arg_15_1 == CanteenAIFunction:GetEntityData(iter_15_1).cfgID then
-				return iter_15_1
+function slot0.FindFood(slot0, slot1)
+	if nullable(CanteenAIFunction:GetEntityData(uv0()), "foodList") then
+		for slot7, slot8 in ipairs(slot3) do
+			if slot1 == CanteenAIFunction:GetEntityData(slot8).cfgID then
+				return slot8
 			end
 		end
 	end
 end
 
-function var_0_0.ArrangeFood(arg_16_0, arg_16_1)
+function slot0.ArrangeFood(slot0, slot1)
 	if CanteenAIFunction:GetCurCanteenMode() == DormEnum.RestaurantMode.RestaurantManual then
-		if arg_16_1.status == DormEnum.FoodState.Wait then
-			local var_16_0 = arg_16_0:FindFood(arg_16_1.cfgID)
+		if slot1.status == DormEnum.FoodState.Wait and slot0:FindFood(slot1.cfgID) then
+			slot1.status = DormEnum.FoodState.HasCook
+			slot1.foodEID = slot2
 
-			if var_16_0 then
-				arg_16_1.status = DormEnum.FoodState.HasCook
-				arg_16_1.foodEID = var_16_0
-
-				return arg_16_1.foodEID
-			end
+			return slot1.foodEID
 		end
-	elseif arg_16_1.status == DormEnum.FoodState.HasCook then
-		return arg_16_1.foodEID
+	elseif slot1.status == DormEnum.FoodState.HasCook then
+		return slot1.foodEID
 	end
 end
 
-function var_0_0.AnyFreeWaiter(arg_17_0)
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.WaiterStateList) do
-		if not CanteenAIFunction:GetCharacterBusy(iter_17_0) then
-			return iter_17_0
+function slot0.AnyFreeWaiter(slot0)
+	for slot4, slot5 in pairs(slot0.WaiterStateList) do
+		if not CanteenAIFunction:GetCharacterBusy(slot4) then
+			return slot4
 		end
 	end
 end
 
-function var_0_0.DisposeEntity(arg_18_0, arg_18_1)
-	if arg_18_0.WaiterStateList[arg_18_1] then
-		arg_18_0.WaiterStateList[arg_18_1] = nil
+function slot0.DisposeEntity(slot0, slot1)
+	if slot0.WaiterStateList[slot1] then
+		slot0.WaiterStateList[slot1] = nil
 	end
 end
 
-function var_0_0.DisposeAllEntity(arg_19_0)
-	arg_19_0.WaiterStateList = {}
+function slot0.DisposeAllEntity(slot0)
+	slot0.WaiterStateList = {}
 end
 
-function var_0_0.Dispose(arg_20_0)
-	arg_20_0:DisposeAllEntity()
-	arg_20_0:RemoveListener()
+function slot0.Dispose(slot0)
+	slot0:DisposeAllEntity()
+	slot0:RemoveListener()
 end
 
-return var_0_0
+return slot0

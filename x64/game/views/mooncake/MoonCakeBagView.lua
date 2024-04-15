@@ -1,145 +1,141 @@
-local var_0_0 = class("M", ReduxView)
+slot0 = class("M", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionMidautumnUI/MoonCakeBagUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.needAdaptRight_ = true
+function slot0.Init(slot0)
+	slot0.needAdaptRight_ = true
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.tree_ = LuaTree.New(arg_4_0.treeGo_)
+	slot0.tree_ = LuaTree.New(slot0.treeGo_)
 
-	arg_4_0.tree_:SetSelectedHandler(handler(arg_4_0, arg_4_0.OnGroupSelect))
+	slot0.tree_:SetSelectedHandler(handler(slot0, slot0.OnGroupSelect))
 
-	arg_4_0.normalList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexNormalItem), arg_4_0.normalListGo_, MoonCakeBagNormalItem)
-	arg_4_0.moonCakeList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexExtraItem), arg_4_0.groupListGo_, MoonCakeBagGroupItem)
-	arg_4_0.typeController_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
-	arg_4_0.clickNormalItemHandler_ = handler(arg_4_0, arg_4_0.OnClickNormalItem)
+	slot0.normalList_ = LuaList.New(handler(slot0, slot0.IndexNormalItem), slot0.normalListGo_, MoonCakeBagNormalItem)
+	slot0.moonCakeList_ = LuaList.New(handler(slot0, slot0.IndexExtraItem), slot0.groupListGo_, MoonCakeBagGroupItem)
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.clickNormalItemHandler_ = handler(slot0, slot0.OnClickNormalItem)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.mainActivityID_ = arg_5_0.params_.mainActivityID
-	arg_5_0.activityID_ = arg_5_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_5_0.tree_:SelectGroup(1)
-	arg_5_0:BindRedPoint()
+	slot0.tree_:SelectGroup(1)
+	slot0:BindRedPoint()
 end
 
-function var_0_0.OnTop(arg_6_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	if arg_6_0.curSelectNormalItemIndex_ then
-		arg_6_0.normalList_:GetItemList()[arg_6_0.curSelectNormalItemIndex_]:SetData(arg_6_0.normalIdList_[arg_6_0.curSelectNormalItemIndex_], arg_6_0.curSelectNormalItemIndex_)
+	if slot0.curSelectNormalItemIndex_ then
+		slot0.normalList_:GetItemList()[slot0.curSelectNormalItemIndex_]:SetData(slot0.normalIdList_[slot0.curSelectNormalItemIndex_], slot0.curSelectNormalItemIndex_)
 
-		arg_6_0.curSelectNormalItemIndex_ = nil
+		slot0.curSelectNormalItemIndex_ = nil
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	arg_7_0.curGroupIndex = nil
-	arg_7_0.curSelectNormalItemIndex_ = nil
+	slot0.curGroupIndex = nil
+	slot0.curSelectNormalItemIndex_ = nil
 
-	arg_7_0:UnBindRedPoint()
+	slot0:UnBindRedPoint()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.tree_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.tree_:Dispose()
 
-	arg_8_0.tree_ = nil
+	slot0.tree_ = nil
 
-	arg_8_0.normalList_:Dispose()
+	slot0.normalList_:Dispose()
 
-	arg_8_0.normalList_ = nil
+	slot0.normalList_ = nil
 
-	arg_8_0.moonCakeList_:Dispose()
+	slot0.moonCakeList_:Dispose()
 
-	arg_8_0.moonCakeList_ = nil
+	slot0.moonCakeList_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnGroupSelect(arg_9_0, arg_9_1, arg_9_2, arg_9_3, arg_9_4)
-	if arg_9_0.curGroupIndex == arg_9_2 then
+function slot0.OnGroupSelect(slot0, slot1, slot2, slot3, slot4)
+	if slot0.curGroupIndex == slot2 then
 		return
 	end
 
-	arg_9_0.curGroupIndex = arg_9_2
+	slot0.curGroupIndex = slot2
 
-	if arg_9_2 == MoonCakeConst.BAG_TYPE.MOON_CAKE then
-		arg_9_0.moonCakeGroupList_ = MoonCakeTools.GetSortedCakeGroupList(arg_9_0.activityID_)
+	if slot2 == MoonCakeConst.BAG_TYPE.MOON_CAKE then
+		slot0.moonCakeGroupList_ = MoonCakeTools.GetSortedCakeGroupList(slot0.activityID_)
 
-		arg_9_0.moonCakeList_:StartScroll(#arg_9_0.moonCakeGroupList_)
-		arg_9_0.typeController_:SetSelectedState("extra")
+		slot0.moonCakeList_:StartScroll(#slot0.moonCakeGroupList_)
+		slot0.typeController_:SetSelectedState("extra")
 	else
-		if arg_9_2 == MoonCakeConst.BAG_TYPE.FILLING then
-			arg_9_0.normalIdList_ = MoonCakeTools.GetFillingItemIdList(arg_9_0.mainActivityID_)
-		elseif arg_9_2 == MoonCakeConst.BAG_TYPE.MATERIAL then
-			arg_9_0.normalIdList_ = MoonCakeTools.GetMaterialItemIdList(arg_9_0.mainActivityID_)
-		elseif arg_9_2 == MoonCakeConst.BAG_TYPE.GIFT then
-			arg_9_0.normalIdList_ = MoonCakeTools.GetGiftItemIdList(arg_9_0.activityID_)
+		if slot2 == MoonCakeConst.BAG_TYPE.FILLING then
+			slot0.normalIdList_ = MoonCakeTools.GetFillingItemIdList(slot0.mainActivityID_)
+		elseif slot2 == MoonCakeConst.BAG_TYPE.MATERIAL then
+			slot0.normalIdList_ = MoonCakeTools.GetMaterialItemIdList(slot0.mainActivityID_)
+		elseif slot2 == MoonCakeConst.BAG_TYPE.GIFT then
+			slot0.normalIdList_ = MoonCakeTools.GetGiftItemIdList(slot0.activityID_)
 		end
 
-		arg_9_0.normalList_:StartScroll(#arg_9_0.normalIdList_)
-		arg_9_0.typeController_:SetSelectedState("normal")
+		slot0.normalList_:StartScroll(#slot0.normalIdList_)
+		slot0.typeController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.IndexNormalItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:SetData(arg_10_0.normalIdList_[arg_10_1], arg_10_1)
-	arg_10_2:SetClickHandler(arg_10_0.clickNormalItemHandler_)
+function slot0.IndexNormalItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.normalIdList_[slot1], slot1)
+	slot2:SetClickHandler(slot0.clickNormalItemHandler_)
 end
 
-function var_0_0.IndexExtraItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:SetData(arg_11_0.moonCakeGroupList_[arg_11_1], arg_11_0.activityID_)
+function slot0.IndexExtraItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.moonCakeGroupList_[slot1], slot0.activityID_)
 end
 
-function var_0_0.OnReCeiveCakeCollectReward(arg_12_0)
-	arg_12_0.moonCakeGroupList_ = MoonCakeTools.GetSortedCakeGroupList(arg_12_0.activityID_)
+function slot0.OnReCeiveCakeCollectReward(slot0)
+	slot0.moonCakeGroupList_ = MoonCakeTools.GetSortedCakeGroupList(slot0.activityID_)
 
-	arg_12_0.moonCakeList_:StartScroll(#arg_12_0.moonCakeGroupList_)
+	slot0.moonCakeList_:StartScroll(#slot0.moonCakeGroupList_)
 end
 
-function var_0_0.OnClickNormalItem(arg_13_0, arg_13_1, arg_13_2)
-	if arg_13_1.number > 0 then
+function slot0.OnClickNormalItem(slot0, slot1, slot2)
+	if slot1.number > 0 then
 		ShowPopItem(POP_OPERATE_ITEM, {
-			arg_13_1.id,
-			arg_13_1.number
+			slot1.id,
+			slot1.number
 		})
 	else
 		ShowPopItem(POP_ITEM, {
-			arg_13_1.id,
-			arg_13_1.number
+			slot1.id,
+			slot1.number
 		})
 	end
 
-	arg_13_0.curSelectNormalItemIndex_ = arg_13_2
+	slot0.curSelectNormalItemIndex_ = slot2
 end
 
-function var_0_0.BindRedPoint(arg_14_0)
-	local var_14_0 = string.format("%s_%s", RedPointConst.MOON_CAKE_COLLECT_TASK, arg_14_0.activityID_)
-
-	manager.redPoint:bindUIandKey(arg_14_0.tree_:GetGroupRedPointContainerById(1), var_14_0)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.tree_:GetGroupRedPointContainerById(1), string.format("%s_%s", RedPointConst.MOON_CAKE_COLLECT_TASK, slot0.activityID_))
 end
 
-function var_0_0.UnBindRedPoint(arg_15_0)
-	local var_15_0 = string.format("%s_%s", RedPointConst.MOON_CAKE_COLLECT_TASK, arg_15_0.activityID_)
-
-	manager.redPoint:unbindUIandKey(arg_15_0.tree_:GetGroupRedPointContainerById(1), var_15_0)
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.tree_:GetGroupRedPointContainerById(1), string.format("%s_%s", RedPointConst.MOON_CAKE_COLLECT_TASK, slot0.activityID_))
 end
 
-return var_0_0
+return slot0

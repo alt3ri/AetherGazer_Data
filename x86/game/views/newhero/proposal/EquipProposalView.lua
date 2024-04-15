@@ -1,358 +1,334 @@
-local var_0_0 = class("EquipProposalView", ReduxView)
-local var_0_1 = {
+slot0 = class("EquipProposalView", ReduxView)
+slot1 = {
 	"存为新方案",
 	"装备",
 	"已装备"
 }
-local var_0_2 = {
+slot2 = {
 	"detail",
 	"rough"
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/HeroEquipOptionUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.selectItem_ = nil
-	arg_3_0.heroEquipProposal_ = 0
-	arg_3_0.proposalState_ = 1
-	arg_3_0.panelState_ = 1
+function slot0.Init(slot0)
+	slot0.selectItem_ = nil
+	slot0.heroEquipProposal_ = 0
+	slot0.proposalState_ = 1
+	slot0.panelState_ = 1
 
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.inputHandler_ = handler(arg_3_0, arg_3_0.OnInput)
-	arg_3_0.inputCancelHandler_ = handler(arg_3_0, arg_3_0.OnInputCancel)
+	slot0.inputHandler_ = handler(slot0, slot0.OnInput)
+	slot0.inputCancelHandler_ = handler(slot0, slot0.OnInputCancel)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.gridScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.proposalList_, ProposalItem)
-	arg_4_0.equipDisc_ = EquipDisc.New(arg_4_0.discGo_)
-	arg_4_0.equipOverrall_ = EquipOverall.New(arg_4_0.equipoverrallGo_)
+	slot0.gridScroll_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.proposalList_, ProposalItem)
+	slot0.equipDisc_ = EquipDisc.New(slot0.discGo_)
+	slot0.equipOverrall_ = EquipOverall.New(slot0.equipoverrallGo_)
 
-	arg_4_0.equipOverrall_:RegistSkillClick(handler(arg_4_0, arg_4_0.SkillClick))
-	arg_4_0.equipOverrall_:RegistOptionButton(handler(arg_4_0, arg_4_0.SaveOptionFunc), handler(arg_4_0, arg_4_0.EquipOptionFunc), handler(arg_4_0, arg_4_0.DeleteOptionFunc))
+	slot0.equipOverrall_:RegistSkillClick(handler(slot0, slot0.SkillClick))
+	slot0.equipOverrall_:RegistOptionButton(handler(slot0, slot0.SaveOptionFunc), handler(slot0, slot0.EquipOptionFunc), handler(slot0, slot0.DeleteOptionFunc))
 
-	arg_4_0.equipSkillPop_ = EquipNewSkillInfoView.New(arg_4_0.equipSkillGo_)
-	arg_4_0.skillPopController_ = arg_4_0.transCon_:GetController("skill")
+	slot0.equipSkillPop_ = EquipNewSkillInfoView.New(slot0.equipSkillGo_)
+	slot0.skillPopController_ = slot0.transCon_:GetController("skill")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnPopMask_, nil, function()
-		arg_5_0:HideMaskMessage()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnPopMask_, nil, function ()
+		uv0:HideMaskMessage()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_7_0.heroID_ = arg_7_0.params_.heroID
-	arg_7_0.proposalList_ = ProposalData:GetProposalData()
-	arg_7_0.heroInfo_ = HeroData:GetHeroData(arg_7_0.heroID_)
+	slot0.heroID_ = slot0.params_.heroID
+	slot0.proposalList_ = ProposalData:GetProposalData()
+	slot0.heroInfo_ = HeroData:GetHeroData(slot0.heroID_)
 
-	arg_7_0.equipOverrall_:OnEnter(arg_7_0.params_.proxy)
-	arg_7_0.equipDisc_:OnEnter({
+	slot0.equipOverrall_:OnEnter(slot0.params_.proxy)
+	slot0.equipDisc_:OnEnter({
 		isShowDetail = true
 	})
-	arg_7_0:HideMaskMessage()
-	manager.notify:RegistListener(INPUT_POP_CLICK_OK, arg_7_0.inputHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, arg_7_0.inputCancelHandler_)
-	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, arg_7_0.inputCancelHandler_)
-	arg_7_0:RefreshUI()
+	slot0:HideMaskMessage()
+	manager.notify:RegistListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CLOSE, slot0.inputCancelHandler_)
+	manager.notify:RegistListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:UpdateData()
+function slot0.RefreshUI(slot0)
+	slot0:UpdateData()
 
-	arg_8_0.selectItem_ = 1
+	slot0.selectItem_ = 1
 
-	arg_8_0.gridScroll_:StartScroll(#arg_8_0.sortedList_)
-	arg_8_0:RefreshRight(1)
+	slot0.gridScroll_:StartScroll(#slot0.sortedList_)
+	slot0:RefreshRight(1)
 
-	local var_8_0 = #arg_8_0.sortedList_ - (arg_8_0.heroEquipProposal_ == 0 and 1 or 0)
-
-	arg_8_0.curproposalText_.text = GetTips("EQUIP_PROPOSAL") .. string.format("：%s/%s", var_8_0, GameSetting.equip_proposal_num_max.value[1])
+	slot0.curproposalText_.text = GetTips("EQUIP_PROPOSAL") .. string.format("：%s/%s", #slot0.sortedList_ - (slot0.heroEquipProposal_ == 0 and 1 or 0), GameSetting.equip_proposal_num_max.value[1])
 end
 
-function var_0_0.UpdateData(arg_9_0)
-	arg_9_0.sortedList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.sortedList_ = {}
+	slot2 = nil
 
-	local var_9_0 = HeroTools.GetHeroEquipS(arg_9_0.heroID_)
-	local var_9_1
-
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.proposalList_) do
-		if table.equal(iter_9_1.equip_list, var_9_0, "all") then
-			var_9_1 = iter_9_1
-			arg_9_0.sortedList_[1] = iter_9_1
+	for slot6, slot7 in pairs(slot0.proposalList_) do
+		if table.equal(slot7.equip_list, HeroTools.GetHeroEquipS(slot0.heroID_), "all") then
+			slot2 = slot7
+			slot0.sortedList_[1] = slot7
 		end
 	end
 
-	if var_9_1 then
-		arg_9_0.sortedList_[1] = var_9_1
+	if slot2 then
+		slot0.sortedList_[1] = slot2
 	else
-		arg_9_0.sortedList_[1] = {
+		slot0.sortedList_[1] = {
 			proposal_id = 0,
 			proposal_name = GetTips("CURRENT_SCHEME"),
-			equip_list = var_9_0
+			equip_list = slot1
 		}
 	end
 
-	local var_9_2 = 2
+	slot3 = 2
 
-	for iter_9_2, iter_9_3 in pairs(arg_9_0.proposalList_) do
-		if var_9_1 then
-			if iter_9_3.proposal_id ~= var_9_1.proposal_id then
-				arg_9_0.sortedList_[var_9_2] = iter_9_3
-				var_9_2 = var_9_2 + 1
+	for slot7, slot8 in pairs(slot0.proposalList_) do
+		if slot2 then
+			if slot8.proposal_id ~= slot2.proposal_id then
+				slot0.sortedList_[slot3] = slot8
+				slot3 = slot3 + 1
 			end
 		else
-			arg_9_0.sortedList_[var_9_2] = iter_9_3
-			var_9_2 = var_9_2 + 1
+			slot0.sortedList_[slot3] = slot8
+			slot3 = slot3 + 1
 		end
 	end
 
-	arg_9_0.heroEquipProposal_ = var_9_1 and var_9_1.proposal_id or 0
+	slot0.heroEquipProposal_ = slot2 and slot2.proposal_id or 0
 end
 
-function var_0_0.indexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:ShowSelect(arg_10_0.selectItem_ == arg_10_1)
-	arg_10_2:RefreshUI(arg_10_0.sortedList_[arg_10_1])
-
-	local function var_10_0()
-		arg_10_0:SelectItem(arg_10_1)
-	end
-
-	local function var_10_1()
-		arg_10_0.renameFlag_ = true
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:ShowSelect(slot0.selectItem_ == slot1)
+	slot2:RefreshUI(slot0.sortedList_[slot1])
+	slot2:RegistCallBack(function ()
+		uv0:SelectItem(uv1)
+	end, function ()
+		uv0.renameFlag_ = true
 
 		JumpTools.OpenPageByJump("ProposalPopup")
-	end
-
-	arg_10_2:RegistCallBack(var_10_0, var_10_1)
+	end)
 end
 
-function var_0_0.RefreshRight(arg_13_0, arg_13_1)
-	arg_13_0:RefreshButtonState(arg_13_0.sortedList_[arg_13_1].proposal_id)
-	arg_13_0.equipOverrall_:RefreshHeroInfo(arg_13_0.heroInfo_, arg_13_0.sortedList_[arg_13_1].equip_list, arg_13_0.proposalState_)
+function slot0.RefreshRight(slot0, slot1)
+	slot0:RefreshButtonState(slot0.sortedList_[slot1].proposal_id)
+	slot0.equipOverrall_:RefreshHeroInfo(slot0.heroInfo_, slot0.sortedList_[slot1].equip_list, slot0.proposalState_)
 
-	arg_13_0.equipDataList_ = EquipTools.GetEquipDataList(arg_13_0.sortedList_[arg_13_1].equip_list)
+	slot0.equipDataList_ = EquipTools.GetEquipDataList(slot0.sortedList_[slot1].equip_list)
 
-	arg_13_0.equipDisc_:RefreshItem(arg_13_0.equipDataList_)
+	slot0.equipDisc_:RefreshItem(slot0.equipDataList_)
 end
 
-function var_0_0.SelectItem(arg_14_0, arg_14_1)
-	local var_14_0, var_14_1 = arg_14_0.gridScroll_:GetHeadAndTail()
+function slot0.SelectItem(slot0, slot1)
+	slot2, slot3 = slot0.gridScroll_:GetHeadAndTail()
 
-	if arg_14_0.selectItem_ and var_14_0 <= arg_14_0.selectItem_ and var_14_1 >= arg_14_0.selectItem_ then
-		arg_14_0.gridScroll_:GetItemByIndex(arg_14_0.selectItem_):ShowSelect(false)
+	if slot0.selectItem_ and slot2 <= slot0.selectItem_ and slot0.selectItem_ <= slot3 then
+		slot0.gridScroll_:GetItemByIndex(slot0.selectItem_):ShowSelect(false)
 	end
 
-	arg_14_0.selectItem_ = arg_14_1
+	slot0.selectItem_ = slot1
 
-	arg_14_0.gridScroll_:GetItemByIndex(arg_14_0.selectItem_):ShowSelect(true)
-	arg_14_0:RefreshRight(arg_14_1)
+	slot0.gridScroll_:GetItemByIndex(slot0.selectItem_):ShowSelect(true)
+	slot0:RefreshRight(slot1)
 end
 
-function var_0_0.OnEquipQuickDressOn(arg_15_0, arg_15_1, arg_15_2)
-	for iter_15_0 = 1, 6 do
-		HeroAction.HeroChangeEquip(arg_15_2.hero_id, arg_15_2.use_equip_list[iter_15_0].equip_id, arg_15_2.use_equip_list[iter_15_0].pos)
+function slot0.OnEquipQuickDressOn(slot0, slot1, slot2)
+	for slot6 = 1, 6 do
+		HeroAction.HeroChangeEquip(slot2.hero_id, slot2.use_equip_list[slot6].equip_id, slot2.use_equip_list[slot6].pos)
 	end
 
-	arg_15_0:RefreshUI()
+	slot0:RefreshUI()
 	ShowTips("SUCCESS_EQUIP_PROPOSAL")
 end
 
-function var_0_0.OnAddProposal(arg_16_0)
-	arg_16_0:RefreshUI()
+function slot0.OnAddProposal(slot0)
+	slot0:RefreshUI()
 	ShowTips("SUCCESS_SAVE_EQUIP_PROPOSAL")
 end
 
-function var_0_0.OnModifyProposal(arg_17_0)
-	local var_17_0, var_17_1 = arg_17_0.gridScroll_:GetHeadAndTail()
+function slot0.OnModifyProposal(slot0)
+	slot1, slot2 = slot0.gridScroll_:GetHeadAndTail()
 
-	if arg_17_0.selectItem_ and var_17_0 <= arg_17_0.selectItem_ and var_17_1 >= arg_17_0.selectItem_ then
-		arg_17_0.gridScroll_:GetItemByIndex(arg_17_0.selectItem_):RefreshUI(arg_17_0.sortedList_[arg_17_0.selectItem_])
+	if slot0.selectItem_ and slot1 <= slot0.selectItem_ and slot0.selectItem_ <= slot2 then
+		slot0.gridScroll_:GetItemByIndex(slot0.selectItem_):RefreshUI(slot0.sortedList_[slot0.selectItem_])
 	end
 
 	ShowTips("SUCCESS_SAVE_EQUIP_PROPOSAL")
 end
 
-function var_0_0.OnDeleteProposal(arg_18_0)
-	arg_18_0:RefreshUI()
+function slot0.OnDeleteProposal(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.EquipOptionFunc(arg_19_0)
-	if arg_19_0.proposalState_ == "notEquip" then
-		local var_19_0 = arg_19_0.sortedList_[arg_19_0.selectItem_].equip_list
-		local var_19_1 = {}
-		local var_19_2 = HeroData:GetEquipMap()
-		local var_19_3 = 0
-
-		for iter_19_0, iter_19_1 in ipairs(var_19_0) do
-			local var_19_4 = var_19_2[iter_19_1.equip_id]
-
-			var_19_1[iter_19_0] = {
-				equip_id = iter_19_1.equip_id,
-				pos = iter_19_1.pos
-			}
-
-			if var_19_4 and var_19_4 ~= arg_19_0.heroID_ then
-				var_19_3 = var_19_3 + 1
-				var_19_1[iter_19_0].equiping = var_19_4
+function slot0.EquipOptionFunc(slot0)
+	if slot0.proposalState_ == "notEquip" then
+		for slot8, slot9 in ipairs(slot0.sortedList_[slot0.selectItem_].equip_list) do
+			if HeroData:GetEquipMap()[slot9.equip_id] and slot10 ~= slot0.heroID_ then
+				slot4 = 0 + 1
+				({
+					[slot8] = {
+						equip_id = slot9.equip_id,
+						pos = slot9.pos
+					}
+				})[slot8].equiping = slot10
 			end
 		end
 
-		if var_19_3 ~= 0 then
-			arg_19_0:Go("ProposalCheck", {
-				equipS = var_19_1
+		if slot4 ~= 0 then
+			slot0:Go("ProposalCheck", {
+				equipS = slot2
 			})
 		else
-			local var_19_5 = {}
-
-			for iter_19_2 = 1, #var_19_1 do
-				var_19_5[iter_19_2] = {
-					pos = var_19_1[iter_19_2].pos,
-					equip_id = var_19_1[iter_19_2].equip_id
-				}
+			for slot9 = 1, #slot2 do
 			end
 
-			EquipAction.EquipQuickDressOn(arg_19_0.heroID_, var_19_5)
+			EquipAction.EquipQuickDressOn(slot0.heroID_, {
+				[slot9] = {
+					pos = slot2[slot9].pos,
+					equip_id = slot2[slot9].equip_id
+				}
+			})
 		end
 	end
 end
 
-function var_0_0.SaveOptionFunc(arg_20_0)
-	if arg_20_0.proposalState_ == "notSave" then
-		if #arg_20_0.sortedList_ > GameSetting.equip_proposal_num_max.value[1] then
+function slot0.SaveOptionFunc(slot0)
+	if slot0.proposalState_ == "notSave" then
+		if GameSetting.equip_proposal_num_max.value[1] < #slot0.sortedList_ then
 			ShowTips("ERROR_EQUIP_PROPOSAL_NUM_LIMIT")
 
 			return
 		end
 
-		arg_20_0.saveFlag_ = true
+		slot0.saveFlag_ = true
 
 		JumpTools.OpenPageByJump("ProposalPopup")
 	end
 end
 
-function var_0_0.DeleteOptionFunc(arg_21_0)
-	local var_21_0 = arg_21_0.sortedList_[arg_21_0.selectItem_].proposal_id
-
-	ProposalAction.DeleteProposal(var_21_0)
+function slot0.DeleteOptionFunc(slot0)
+	ProposalAction.DeleteProposal(slot0.sortedList_[slot0.selectItem_].proposal_id)
 end
 
-function var_0_0.SkillClick(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_0.equipSkillPop_:RefreshData(arg_22_0, arg_22_2)
-	arg_22_0.skillPopController_:SetSelectedState("show")
+function slot0.SkillClick(slot0, slot1, slot2)
+	slot0.equipSkillPop_:RefreshData(slot0, slot2)
+	slot0.skillPopController_:SetSelectedState("show")
 end
 
-function var_0_0.HideMaskMessage(arg_23_0)
-	arg_23_0.skillPopController_:SetSelectedState("hide")
-	arg_23_0.equipOverrall_:DeSelect()
+function slot0.HideMaskMessage(slot0)
+	slot0.skillPopController_:SetSelectedState("hide")
+	slot0.equipOverrall_:DeSelect()
 end
 
-function var_0_0.RefreshButtonState(arg_24_0, arg_24_1)
-	local var_24_0
-
-	arg_24_0.proposalState_ = arg_24_1 == 0 and "notSave" or arg_24_1 ~= arg_24_0.heroEquipProposal_ and "notEquip" or "equipping"
+function slot0.RefreshButtonState(slot0, slot1)
+	slot2 = nil
+	slot0.proposalState_ = slot1 == 0 and "notSave" or slot1 ~= slot0.heroEquipProposal_ and "notEquip" or "equipping"
 end
 
-function var_0_0.OnInput(arg_25_0, arg_25_1, arg_25_2)
-	if not arg_25_0.renameFlag_ and not arg_25_0.saveFlag_ then
+function slot0.OnInput(slot0, slot1, slot2)
+	if not slot0.renameFlag_ and not slot0.saveFlag_ then
 		return
 	end
 
-	if arg_25_1 == "" then
+	if slot1 == "" then
 		ShowTips("INPUT_EQUIP_PROPOSAL_NAME")
 
 		return
 	end
 
-	if IsAllSpace(arg_25_1) then
+	if IsAllSpace(slot1) then
 		ShowTips("INPUT_CHAT_CONTENT")
 
-		arg_25_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	local var_25_0, var_25_1 = textLimit(arg_25_1, GameSetting.user_name_max.value[1])
+	slot3, slot4 = textLimit(slot1, GameSetting.user_name_max.value[1])
+	slot2.text = slot3
 
-	arg_25_2.text = var_25_0
-	arg_25_1 = var_25_0
-
-	if not nameRule(arg_25_1) then
+	if not nameRule(slot3) then
 		ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
-		arg_25_2.text = ""
+		slot2.text = ""
 
 		return
 	end
 
-	WordVerifyBySDK(arg_25_1, function(arg_26_0)
-		if not arg_26_0 then
+	WordVerifyBySDK(slot1, function (slot0)
+		if not slot0 then
 			ShowTips("SENSITIVE_WORD")
 
-			arg_25_2.text = ""
+			uv0.text = ""
 
 			return
 		else
-			if not var_25_1 then
+			if not uv1 then
 				return
 			end
 
-			if arg_25_0.renameFlag_ then
-				local var_26_0 = arg_25_0.sortedList_[arg_25_0.selectItem_].proposal_id
-
-				ProposalAction.ModifyProposal(arg_25_0.heroID_, arg_25_1, var_26_0)
+			if uv2.renameFlag_ then
+				ProposalAction.ModifyProposal(uv2.heroID_, uv3, uv2.sortedList_[uv2.selectItem_].proposal_id)
 			else
-				ProposalAction.AddProposal(arg_25_0.heroID_, arg_25_1, 0)
+				ProposalAction.AddProposal(uv2.heroID_, uv3, 0)
 			end
 
-			arg_25_0.renameFlag_ = false
-			arg_25_0.saveFlag_ = false
+			uv2.renameFlag_ = false
+			uv2.saveFlag_ = false
 
 			manager.notify:Invoke(INPUT_POP_BACK)
 		end
 	end, JUDGE_MESSAGE_TYPE.OTHER)
 end
 
-function var_0_0.OnInputCancel(arg_27_0)
-	arg_27_0.renameFlag_ = false
-	arg_27_0.saveFlag_ = false
+function slot0.OnInputCancel(slot0)
+	slot0.renameFlag_ = false
+	slot0.saveFlag_ = false
 end
 
-function var_0_0.OnExit(arg_28_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_28_0.equipOverrall_:OnExit()
-	arg_28_0.equipDisc_:OnExit()
-	arg_28_0:OnInputCancel()
-	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, arg_28_0.inputHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, arg_28_0.inputHandler_)
-	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, arg_28_0.inputCancelHandler_)
+	slot0.equipOverrall_:OnExit()
+	slot0.equipDisc_:OnExit()
+	slot0:OnInputCancel()
+	manager.notify:RemoveListener(INPUT_POP_CLICK_OK, slot0.inputHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CLOSE, slot0.inputHandler_)
+	manager.notify:RemoveListener(INPUT_POP_CLICK_CANCEL, slot0.inputCancelHandler_)
 end
 
-function var_0_0.Dispose(arg_29_0)
-	arg_29_0:RemoveAllListeners()
-	arg_29_0.equipSkillPop_:Dispose()
-	arg_29_0.equipOverrall_:Dispose()
-	arg_29_0.equipDisc_:Dispose()
-	arg_29_0.gridScroll_:Dispose()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.equipSkillPop_:Dispose()
+	slot0.equipOverrall_:Dispose()
+	slot0.equipDisc_:Dispose()
+	slot0.gridScroll_:Dispose()
 
-	arg_29_0.inputHandler_ = nil
-	arg_29_0.inputCancelHandler_ = nil
+	slot0.inputHandler_ = nil
+	slot0.inputCancelHandler_ = nil
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

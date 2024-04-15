@@ -1,119 +1,97 @@
-local var_0_0 = {
-	GetRewardPanelList = function(arg_1_0)
-		local var_1_0 = {}
+return {
+	GetRewardPanelList = function (slot0)
+		slot1 = {}
 
-		for iter_1_0, iter_1_1 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[arg_1_0]) do
-			local var_1_1 = DestroyBoxGameRewardCfg[iter_1_1]
-			local var_1_2 = var_1_1.activity_id
-
-			if not var_1_0[var_1_2] and var_1_1.need_show == 1 then
-				var_1_0[var_1_2] = clone(DestroyBoxGameRewardCfg.get_id_list_by_activity_id[var_1_2])
+		for slot5, slot6 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[slot0]) do
+			if not slot1[DestroyBoxGameRewardCfg[slot6].activity_id] and slot7.need_show == 1 then
+				slot1[slot8] = clone(DestroyBoxGameRewardCfg.get_id_list_by_activity_id[slot8])
 			end
 		end
 
-		return var_1_0
+		return slot1
+	end,
+	GetSortRewardPanel = function (slot0, slot1)
+		slot2 = {}
+		slot3 = {}
+
+		for slot7, slot8 in pairs(slot1) do
+			slot9, slot10 = uv0.GetSortRewardList(slot0, slot8)
+
+			if slot10 > 0 then
+				table.insert(slot3, slot7)
+			else
+				table.insert(slot2, slot7)
+			end
+		end
+
+		slot4 = {}
+
+		table.sort(slot3, function (slot0, slot1)
+			return slot0 < slot1
+		end)
+		table.sort(slot2, function (slot0, slot1)
+			return slot0 < slot1
+		end)
+		table.insertto(slot4, slot3)
+		table.insertto(slot4, slot2)
+
+		return slot4, #slot3
+	end,
+	GetSortRewardList = function (slot0, slot1)
+		slot2 = {}
+		slot3 = {}
+		slot4 = {}
+
+		for slot8, slot9 in ipairs(slot1) do
+			if table.keyof(DestroyBoxGameData:GetReceiveRewardList(slot0), slot9) then
+				table.insert(slot4, slot9)
+			elseif uv0.IsUnlockReward(slot9) then
+				table.insert(slot3, slot9)
+			else
+				table.insert(slot2, slot9)
+			end
+		end
+
+		slot5 = {}
+
+		table.insertto(slot5, slot3)
+		table.insertto(slot5, slot2)
+		table.insertto(slot5, slot4)
+
+		return slot5, #slot3
+	end,
+	IsUnlockReward = function (slot0)
+		slot1 = DestroyBoxGameRewardCfg[slot0]
+		slot2 = slot1.activity_id
+
+		for slot6, slot7 in ipairs(slot1.difficulty_id) do
+			slot8 = nil
+
+			if DestroyBoxGameData:GetStageData((slot1.need_show == 1 or DestroyBoxGameCfg.get_id_list_by_activity_id[slot2][1]) and DestroyBoxGameCfg.get_id_list_by_activity_id[slot2][slot7]) and slot1.complete_num <= slot9.maxScore then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetCanReceiveRewardList = function (slot0)
+		slot1 = {}
+
+		for slot6, slot7 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[slot0]) do
+			if DestroyBoxGameRewardCfg[slot7].need_show == 1 and not table.keyof(DestroyBoxGameData:GetReceiveRewardList(slot0), slot7) and DestroyBoxGameTools.IsUnlockReward(slot7) then
+				table.insert(slot1, slot7)
+			end
+		end
+
+		return slot1
+	end,
+	GetFinishRewardCnt = function (slot0)
+		for slot6, slot7 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[slot0]) do
+			if table.keyof(DestroyBoxGameData:GetReceiveRewardList(slot0), slot7) and DestroyBoxGameRewardCfg[slot7].need_show == 1 then
+				slot1 = 0 + 1
+			end
+		end
+
+		return slot1
 	end
 }
-
-function var_0_0.GetSortRewardPanel(arg_2_0, arg_2_1)
-	local var_2_0 = {}
-	local var_2_1 = {}
-
-	for iter_2_0, iter_2_1 in pairs(arg_2_1) do
-		local var_2_2, var_2_3 = var_0_0.GetSortRewardList(arg_2_0, iter_2_1)
-
-		if var_2_3 > 0 then
-			table.insert(var_2_1, iter_2_0)
-		else
-			table.insert(var_2_0, iter_2_0)
-		end
-	end
-
-	local var_2_4 = {}
-
-	table.sort(var_2_1, function(arg_3_0, arg_3_1)
-		return arg_3_0 < arg_3_1
-	end)
-	table.sort(var_2_0, function(arg_4_0, arg_4_1)
-		return arg_4_0 < arg_4_1
-	end)
-	table.insertto(var_2_4, var_2_1)
-	table.insertto(var_2_4, var_2_0)
-
-	return var_2_4, #var_2_1
-end
-
-function var_0_0.GetSortRewardList(arg_5_0, arg_5_1)
-	local var_5_0 = {}
-	local var_5_1 = {}
-	local var_5_2 = {}
-
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1) do
-		if table.keyof(DestroyBoxGameData:GetReceiveRewardList(arg_5_0), iter_5_1) then
-			table.insert(var_5_2, iter_5_1)
-		elseif var_0_0.IsUnlockReward(iter_5_1) then
-			table.insert(var_5_1, iter_5_1)
-		else
-			table.insert(var_5_0, iter_5_1)
-		end
-	end
-
-	local var_5_3 = {}
-
-	table.insertto(var_5_3, var_5_1)
-	table.insertto(var_5_3, var_5_0)
-	table.insertto(var_5_3, var_5_2)
-
-	return var_5_3, #var_5_1
-end
-
-function var_0_0.IsUnlockReward(arg_6_0)
-	local var_6_0 = DestroyBoxGameRewardCfg[arg_6_0]
-	local var_6_1 = var_6_0.activity_id
-
-	for iter_6_0, iter_6_1 in ipairs(var_6_0.difficulty_id) do
-		local var_6_2
-
-		if var_6_0.need_show ~= 1 then
-			var_6_2 = DestroyBoxGameCfg.get_id_list_by_activity_id[var_6_1][1]
-		else
-			var_6_2 = DestroyBoxGameCfg.get_id_list_by_activity_id[var_6_1][iter_6_1]
-		end
-
-		local var_6_3 = DestroyBoxGameData:GetStageData(var_6_2)
-
-		if var_6_3 and var_6_3.maxScore >= var_6_0.complete_num then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.GetCanReceiveRewardList(arg_7_0)
-	local var_7_0 = {}
-	local var_7_1 = DestroyBoxGameData:GetReceiveRewardList(arg_7_0)
-
-	for iter_7_0, iter_7_1 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[arg_7_0]) do
-		if DestroyBoxGameRewardCfg[iter_7_1].need_show == 1 and not table.keyof(var_7_1, iter_7_1) and DestroyBoxGameTools.IsUnlockReward(iter_7_1) then
-			table.insert(var_7_0, iter_7_1)
-		end
-	end
-
-	return var_7_0
-end
-
-function var_0_0.GetFinishRewardCnt(arg_8_0)
-	local var_8_0 = 0
-	local var_8_1 = DestroyBoxGameData:GetReceiveRewardList(arg_8_0)
-
-	for iter_8_0, iter_8_1 in ipairs(DestroyBoxGameRewardCfg.get_id_list_by_main_activity_id[arg_8_0]) do
-		if table.keyof(var_8_1, iter_8_1) and DestroyBoxGameRewardCfg[iter_8_1].need_show == 1 then
-			var_8_0 = var_8_0 + 1
-		end
-	end
-
-	return var_8_0
-end
-
-return var_0_0

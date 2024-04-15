@@ -1,64 +1,58 @@
-local var_0_0 = class("AstrolabeInfoView", ReduxView)
+slot0 = class("AstrolabeInfoView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "name")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "name")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	TerminologyTools.AddTerminologyHandler(arg_4_0, arg_4_0.text3Text_, nil, nil)
+function slot0.AddUIListener(slot0)
+	TerminologyTools.AddTerminologyHandler(slot0, slot0.text3Text_, nil, )
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1)
-	if arg_5_1 then
-		local var_5_0 = HeroAstrolabeCfg[arg_5_1.id]
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 then
+		slot2 = HeroAstrolabeCfg[slot1.id]
+		slot0.text2Text_.text = string.format("%s·%s", GetI18NText(slot2.suit_name), GetI18NText(slot2.name))
+		slot0.text3Text_.text = GetI18NText(slot0.heroViewProxy_:GetAstrolabeDesc(slot1.id, slot1.heroId))
 
-		arg_5_0.text2Text_.text = string.format("%s·%s", GetI18NText(var_5_0.suit_name), GetI18NText(var_5_0.name))
-		arg_5_0.text3Text_.text = GetI18NText(arg_5_0.heroViewProxy_:GetAstrolabeDesc(arg_5_1.id, arg_5_1.heroId))
+		slot0.stateController_:SetSelectedState(AstrolabeConst.NodeColorCfg[AstrolabeTools.GetAstrolabeItemPos(slot1.id, slot1.heroId)] or slot4[1])
 
-		local var_5_1 = AstrolabeTools.GetAstrolabeItemPos(arg_5_1.id, arg_5_1.heroId)
-		local var_5_2 = AstrolabeConst.NodeColorCfg
-
-		arg_5_0.stateController_:SetSelectedState(var_5_2[var_5_1] or var_5_2[1])
-
-		if HeroTools.IsSpHero(arg_5_1.heroId) then
-			SetActive(arg_5_0.spDes_, false)
+		if HeroTools.IsSpHero(slot1.heroId) then
+			SetActive(slot0.spDes_, false)
 		else
-			arg_5_0.nodeDes_.text = GetI18NText(GetTips("ASTROLABE_NODE_DESC_" .. var_5_0.pos))
+			slot0.nodeDes_.text = GetI18NText(GetTips("ASTROLABE_NODE_DESC_" .. slot2.pos))
 
-			SetActive(arg_5_0.spDes_, true)
+			SetActive(slot0.spDes_, true)
 		end
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.SetProxy(arg_8_0, arg_8_1)
-	arg_8_0.heroViewProxy_ = arg_8_1
+function slot0.SetProxy(slot0, slot1)
+	slot0.heroViewProxy_ = slot1
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

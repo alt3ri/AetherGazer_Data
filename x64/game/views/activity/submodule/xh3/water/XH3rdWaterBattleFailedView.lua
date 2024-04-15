@@ -1,35 +1,34 @@
 BattleFailedView = import("game.views.battleFailed.BattleFailedView")
+slot0 = class("XH3rdWaterBattleFailedView", BattleFailedView)
 
-local var_0_0 = class("XH3rdWaterBattleFailedView", BattleFailedView)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
+	slot1, slot2 = slot0.stageData_:GetIsCooperation()
 
-	local var_1_0, var_1_1 = arg_1_0.stageData_:GetIsCooperation()
-
-	if var_1_0 then
-		SetActive(arg_1_0.btnBattleCount_.gameObject, false)
+	if slot1 then
+		SetActive(slot0.btnBattleCount_.gameObject, false)
 	else
-		SetActive(arg_1_0.btnBattleCount_.gameObject, true)
+		SetActive(slot0.btnBattleCount_.gameObject, true)
 	end
 end
 
-function var_0_0.OnExit(arg_2_0)
-	var_0_0.super.OnExit(arg_2_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.GoToBattleStatistics(arg_3_0)
-	if arg_3_0.isEnd then
+function slot0.GoToBattleStatistics(slot0)
+	if slot0.isEnd then
 		return
 	end
 
-	arg_3_0.toStat_ = true
+	slot0.toStat_ = true
 
-	arg_3_0:RemoveTimer()
+	slot0:RemoveTimer()
 	JumpTools.OpenPageByJump("xH3rdWaterBattleStatistics", {
-		stageData = arg_3_0.stageData,
-		battleTime = arg_3_0:GetBattleTime()
+		stageData = slot0.stageData,
+		battleTime = slot0:GetBattleTime()
 	})
 end
 
-return var_0_0
+return slot0

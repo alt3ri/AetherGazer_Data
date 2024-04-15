@@ -1,81 +1,69 @@
-local var_0_0 = class("RegressionSignPage", ReduxView)
+slot0 = class("RegressionSignPage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("UI/ReturnUI/RegressionSignUI")
-	local var_1_1 = Object.Instantiate(var_1_0, arg_1_1)
+function slot0.OnCtor(slot0, slot1)
+	slot3 = Object.Instantiate(Asset.Load("UI/ReturnUI/RegressionSignUI"), slot1)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
 
-	arg_1_0.gameObject_ = var_1_1
-	arg_1_0.transform_ = var_1_1.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.m_list, RegressionSignItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, RegressionSignItem)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetActive(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.gameObject_, arg_5_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.index = RegressionData:GetSignIndex()
+function slot0.SetData(slot0, slot1)
+	slot0.index = RegressionData:GetSignIndex()
+	slot0.rewards = RegressionCfg[RegressionData:GetRegressionVersion()] and RegressionCfg[slot2].sign_reward or {}
 
-	local var_6_0 = RegressionData:GetRegressionVersion()
-
-	arg_6_0.rewards = RegressionCfg[var_6_0] and RegressionCfg[var_6_0].sign_reward or {}
-
-	arg_6_0.list:StartScroll(#arg_6_0.rewards)
+	slot0.list:StartScroll(#slot0.rewards)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.rewards[arg_7_1]
-
-	arg_7_2:SetData(arg_7_1, var_7_0)
-	arg_7_2:RegistCallBack(handler(arg_7_0, arg_7_0.OnItemClick))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.rewards[slot1])
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
 end
 
-function var_0_0.OnItemClick(arg_8_0, arg_8_1)
-	RegressionAction.QuerySign(arg_8_1)
+function slot0.OnItemClick(slot0, slot1)
+	RegressionAction.QuerySign(slot1)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.list then
-		arg_9_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_9_0.list = nil
+		slot0.list = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshTime(arg_10_0)
-	if arg_10_0.indx ~= RegressionData:GetSignIndex() then
-		local var_10_0 = arg_10_0.list:GetItemList()
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-			iter_10_1:Refresh()
+function slot0.RefreshTime(slot0)
+	if slot0.indx ~= RegressionData:GetSignIndex() then
+		for slot5, slot6 in ipairs(slot0.list:GetItemList()) do
+			slot6:Refresh()
 		end
 	end
 end
 
-function var_0_0.OnRegressionSign(arg_11_0)
-	local var_11_0 = arg_11_0.list:GetItemList()
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		iter_11_1:Refresh()
+function slot0.OnRegressionSign(slot0)
+	for slot5, slot6 in ipairs(slot0.list:GetItemList()) do
+		slot6:Refresh()
 	end
 end
 
-return var_0_0
+return slot0

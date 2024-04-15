@@ -1,34 +1,34 @@
-local var_0_0 = class("MatrixSelectAffixItem", ReduxView)
+slot0 = class("MatrixSelectAffixItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selectController_ = ControllerUtil.GetController(arg_2_0.transform_, "select")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_clickBtn, nil, function()
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc(arg_3_0.id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_clickBtn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.id = arg_5_1
+function slot0.Refresh(slot0, slot1, slot2)
+	slot0.id = slot1
 
-	arg_5_0.selectController_:SetSelectedIndex(arg_5_2)
+	slot0.selectController_:SetSelectedIndex(slot2)
 
-	local var_5_0 = ActivityAffixPoolCfg[arg_5_0.id].affix
-	local var_5_1 = ({
+	slot3 = ActivityAffixPoolCfg[slot0.id].affix
+	slot0.m_name.text = ({
 		"Ⅰ",
 		"Ⅱ",
 		"Ⅲ",
@@ -38,14 +38,12 @@ function var_0_0.Refresh(arg_5_0, arg_5_1, arg_5_2)
 		"Ⅶ",
 		"Ⅷ",
 		"Ⅸ"
-	})[var_5_0[2]]
-
-	arg_5_0.m_name.text = var_5_1
-	arg_5_0.m_icon.sprite = getAffixSprite(var_5_0)
+	})[slot3[2]]
+	slot0.m_icon.sprite = getAffixSprite(slot3)
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	arg_6_0.clickFunc = arg_6_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-return var_0_0
+return slot0

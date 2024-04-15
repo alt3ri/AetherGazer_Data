@@ -1,61 +1,59 @@
-local var_0_0 = class("SPHeroChallengeScheduleTypeItem", ReduxView)
+slot0 = class("SPHeroChallengeScheduleTypeItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.type = arg_1_3
-	arg_1_0.gameObject_ = GameObject.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.type = slot3
+	slot0.gameObject_ = GameObject.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:InitItem()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:InitItem()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.InitItem(arg_4_0)
-	arg_4_0.typeName.text = SPHeroChallengeTools:GetScheduleTypeName(arg_4_0.type)
+function slot0.InitItem(slot0)
+	slot0.typeName.text = SPHeroChallengeTools:GetScheduleTypeName(slot0.type)
 
-	local var_4_0 = ActivityHeroChallengeScheduleCfg.get_id_list_by_type[arg_4_0.type]
+	if ActivityHeroChallengeScheduleCfg.get_id_list_by_type[slot0.type] and not slot0.scheduleList then
+		slot0.scheduleList = {}
 
-	if var_4_0 and not arg_4_0.scheduleList then
-		arg_4_0.scheduleList = {}
-
-		for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-			arg_4_0.scheduleList[iter_4_1] = SPHeroChallengeScheduleDailyItem.New(arg_4_0.scheduleItem, arg_4_0.contentTrs_, iter_4_1)
+		for slot5, slot6 in ipairs(slot1) do
+			slot0.scheduleList[slot6] = SPHeroChallengeScheduleDailyItem.New(slot0.scheduleItem, slot0.contentTrs_, slot6)
 		end
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	if arg_5_0.scheduleList then
-		for iter_5_0, iter_5_1 in pairs(arg_5_0.scheduleList) do
-			if iter_5_1:RefreshUI() then
-				iter_5_1.transform_:SetAsLastSibling()
+function slot0.RefreshUI(slot0)
+	if slot0.scheduleList then
+		for slot4, slot5 in pairs(slot0.scheduleList) do
+			if slot5:RefreshUI() then
+				slot5.transform_:SetAsLastSibling()
 			end
 		end
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.contentTrs_)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	if arg_6_0.scheduleList then
-		for iter_6_0, iter_6_1 in pairs(arg_6_0.scheduleList) do
-			iter_6_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.scheduleList then
+		for slot4, slot5 in pairs(slot0.scheduleList) do
+			slot5:Dispose()
 		end
 	end
 
-	arg_6_0.gameObject_ = nil
-	arg_6_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

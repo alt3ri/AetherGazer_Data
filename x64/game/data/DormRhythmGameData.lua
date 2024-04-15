@@ -1,70 +1,57 @@
 require("game.data.RhythmItemTemplate")
 
-local var_0_0 = singletonClass("DormRhythmGameData")
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6
-local var_0_7
-local var_0_8
+slot0 = singletonClass("DormRhythmGameData")
+slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8 = nil
 
-local function var_0_9()
-	var_0_2.judgeWidth = var_0_6.judgeWidth
-	var_0_7.deterGo.transform.rect.width = var_0_2.judgeWidth
+function slot9()
+	uv0.judgeWidth = uv1.judgeWidth
+	uv2.deterGo.transform.rect.width = uv0.judgeWidth
 end
 
-local function var_0_10()
-	local var_2_0 = var_0_8[var_0_1.levelID]
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0.check_speed) do
-		if iter_2_1[1] > var_0_2.deterGenNum then
-			var_0_2.gameSpeed = var_2_0.check_speed[iter_2_0 - 1][2]
+function slot10()
+	for slot4, slot5 in ipairs(uv0[uv1.levelID].check_speed) do
+		if uv2.deterGenNum < slot5[1] then
+			uv2.gameSpeed = slot0.check_speed[slot4 - 1][2]
 
 			return
 		end
 	end
 
-	var_0_2.gameSpeed = var_2_0.check_speed[#var_2_0.check_speed][2]
+	uv2.gameSpeed = slot0.check_speed[#slot0.check_speed][2]
 end
 
-local function var_0_11()
-	local var_3_0 = var_0_8[var_0_1.levelID]
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_0.check_hit_length) do
-		if iter_3_1[1] > var_0_2.deterGenNum then
-			var_0_2.deterLength = var_3_0.check_hit_length[iter_3_0 - 1][2]
+function slot11()
+	for slot4, slot5 in ipairs(uv0[uv1.levelID].check_hit_length) do
+		if uv2.deterGenNum < slot5[1] then
+			uv2.deterLength = slot0.check_hit_length[slot4 - 1][2]
 
 			return
 		end
 	end
 
-	var_0_2.deterLength = var_3_0.check_hit_length[#var_3_0.check_hit_length][2]
+	uv2.deterLength = slot0.check_hit_length[#slot0.check_hit_length][2]
 end
 
-local function var_0_12()
-	local var_4_0 = var_0_8[var_0_1.levelID]
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_0.time_interval) do
-		if iter_4_1[1] > var_0_2.deterGenNum then
-			var_0_2.interval = var_4_0.time_interval[iter_4_0 - 1][2]
+function slot12()
+	for slot4, slot5 in ipairs(uv0[uv1.levelID].time_interval) do
+		if uv2.deterGenNum < slot5[1] then
+			uv2.interval = slot0.time_interval[slot4 - 1][2]
 
 			return
 		end
 	end
 
-	var_0_2.interval = var_4_0.time_interval[#var_4_0.time_interval][2]
+	uv2.interval = slot0.time_interval[#slot0.time_interval][2]
 end
 
-local function var_0_13()
-	var_0_10()
-	var_0_12()
-	var_0_11()
+function slot13()
+	uv0()
+	uv1()
+	uv2()
 end
 
-local function var_0_14()
-	var_0_2 = {
+function slot14()
+	uv0 = {
 		interval = 0,
 		gameSpeed = 0,
 		batterNum = 0,
@@ -77,248 +64,229 @@ local function var_0_14()
 		successfulNum = 0,
 		deterLength = 0
 	}
-	var_0_4 = {}
-	var_0_5 = 1
+	uv1 = {}
+	uv2 = 1
 
-	var_0_13()
-	var_0_9()
+	uv3()
+	uv4()
 end
 
-local function var_0_15()
-	if var_0_2.deterGenNum >= var_0_8[var_0_1.levelID].total_check then
+function slot15()
+	if uv1[uv2.levelID].total_check <= uv0.deterGenNum then
 		return
 	end
 
-	if var_0_4[var_0_5] and var_0_2.gameRunFlag then
-		local var_7_0 = var_0_4[var_0_5].trs
-		local var_7_1 = var_0_7.parentTrs
-		local var_7_2 = math.random(var_0_2.interval[1], var_0_2.interval[2]) * 10
+	if uv3[uv4] and uv0.gameRunFlag then
+		slot0 = uv3[uv4].trs
 
-		if not isNil(var_7_1) and var_7_1.rect.width / 2 - var_7_0.localPosition.x > var_7_0.rect.width + var_7_2 then
-			var_0_5 = var_0_5 + 1
+		if not isNil(uv5.parentTrs) and slot1.rect.width / 2 - slot0.localPosition.x > slot0.rect.width + math.random(uv0.interval[1], uv0.interval[2]) * 10 then
+			uv4 = uv4 + 1
+			uv0.deterGenNum = uv0.deterGenNum + 1
+			uv3[uv4] = DormRhythmItemTemplate.New(uv5, {
+				index = uv4,
+				type = math.random(1, 2),
+				totalNum = uv0.deterGenNum
+			}, uv1)
 
-			local var_7_3 = math.random(1, 2)
-
-			var_0_2.deterGenNum = var_0_2.deterGenNum + 1
-
-			local var_7_4 = {
-				index = var_0_5,
-				type = var_7_3,
-				totalNum = var_0_2.deterGenNum
-			}
-
-			var_0_4[var_0_5] = DormRhythmItemTemplate.New(var_0_7, var_7_4, var_0_8)
-
-			var_0_13()
+			uv6()
 		end
 	end
 
-	if var_0_5 == 1 and not var_0_4[var_0_5] and var_0_2.gameRunFlag then
-		local var_7_5 = math.random(1, 2)
+	if uv4 == 1 and not uv3[uv4] and uv0.gameRunFlag then
+		uv0.deterGenNum = uv0.deterGenNum + 1
+		uv3[uv4] = DormRhythmItemTemplate.New(uv5, {
+			index = uv4,
+			type = math.random(1, 2),
+			totalNum = uv0.deterGenNum
+		}, uv1)
 
-		var_0_2.deterGenNum = var_0_2.deterGenNum + 1
-
-		local var_7_6 = {
-			index = var_0_5,
-			type = var_7_5,
-			totalNum = var_0_2.deterGenNum
-		}
-
-		var_0_4[var_0_5] = DormRhythmItemTemplate.New(var_0_7, var_7_6, var_0_8)
-
-		var_0_13()
+		uv6()
 	end
 end
 
-local function var_0_16()
-	if var_0_4 then
-		for iter_8_0, iter_8_1 in pairs(var_0_4) do
-			iter_8_1:Tick()
+function slot16()
+	if uv0 then
+		for slot3, slot4 in pairs(uv0) do
+			slot4:Tick()
 		end
 	end
 end
 
-local function var_0_17()
-	var_0_15()
-	var_0_16()
+function slot17()
+	uv0()
+	uv1()
 end
 
-local function var_0_18()
-	if var_0_3 then
-		for iter_10_0, iter_10_1 in pairs(var_0_3) do
-			FuncTimerManager.inst:RemoveFuncTimer(iter_10_1)
+function slot18()
+	if uv0 then
+		for slot3, slot4 in pairs(uv0) do
+			FuncTimerManager.inst:RemoveFuncTimer(slot4)
 
-			iter_10_1 = nil
+			slot4 = nil
 		end
 	end
 end
 
-local function var_0_19()
-	var_0_18()
+function slot19()
+	uv0()
 
-	var_0_3 = {}
-	var_0_3.tickTimer = FuncTimerManager.inst:CreateFuncFrameTimer(function()
-		if not var_0_2.pauseFlag then
-			var_0_17()
+	uv1 = {}
+	uv1.tickTimer = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
+		if not uv0.pauseFlag then
+			uv1()
 		end
 	end, -1, true)
 end
 
-local function var_0_20(arg_13_0)
-	var_0_1 = {}
-	var_0_1.ratio = Screen.width / 1920
-	var_0_1.diff = arg_13_0.diff
-	var_0_1.heroID = arg_13_0.heroID
-	var_0_7 = arg_13_0.goInfo
+function slot20(slot0)
+	uv0 = {
+		ratio = Screen.width / 1920,
+		diff = slot0.diff,
+		heroID = slot0.heroID
+	}
+	uv1 = slot0.goInfo
+	slot1 = slot0.activityID or 1
+	uv2 = DormRhythmGameTools:GetGameConfigData(slot1)
+	uv3 = DormRhythmGameTools.gameConfigData[slot1].stageCfg
 
-	local var_13_0 = arg_13_0.activityID or 1
-
-	var_0_6 = DormRhythmGameTools:GetGameConfigData(var_13_0)
-	var_0_8 = DormRhythmGameTools.gameConfigData[var_13_0].stageCfg
-
-	if var_13_0 == 1 then
-		var_0_1.levelID = arg_13_0.diff
+	if slot1 == 1 then
+		uv0.levelID = slot0.diff
 	else
-		var_0_1.levelID = var_0_8.get_id_list_by_difficult[arg_13_0.diff][1]
+		uv0.levelID = uv3.get_id_list_by_difficult[slot0.diff][1]
 	end
 end
 
-local function var_0_21()
-	if var_0_4 then
-		for iter_14_0, iter_14_1 in pairs(var_0_4) do
-			iter_14_1:Dispose()
+function slot21()
+	if uv0 then
+		for slot3, slot4 in pairs(uv0) do
+			slot4:Dispose()
 
-			var_0_4[iter_14_0] = nil
+			uv0[slot3] = nil
 		end
 	end
 
-	var_0_4 = nil
+	uv0 = nil
 end
 
-function var_0_0.GetLevelData(arg_15_0)
-	return var_0_1
+function slot0.GetLevelData(slot0)
+	return uv0
 end
 
-function var_0_0.GetRunTimeData(arg_16_0)
-	return var_0_2
+function slot0.GetRunTimeData(slot0)
+	return uv0
 end
 
-function var_0_0.GetResultInfo(arg_17_0)
+function slot0.GetResultInfo(slot0)
 	return {
-		maxBatterNum = var_0_2.maxBatterNum,
-		mistakeNum = var_0_2.mistakeNum,
-		successfulNum = var_0_2.successfulNum
+		maxBatterNum = uv0.maxBatterNum,
+		mistakeNum = uv0.mistakeNum,
+		successfulNum = uv0.successfulNum
 	}
 end
 
-function var_0_0.GetJudgeWidth(arg_18_0)
-	return var_0_2.judgeWidth
+function slot0.GetJudgeWidth(slot0)
+	return uv0.judgeWidth
 end
 
-function var_0_0.GetDeterLength(arg_19_0)
-	return var_0_2.deterLength, var_0_1.ratio
+function slot0.GetDeterLength(slot0)
+	return uv0.deterLength, uv1.ratio
 end
 
-function var_0_0.GetMistakeNum(arg_20_0)
-	return var_0_2.mistakeNum or 0
+function slot0.GetMistakeNum(slot0)
+	return uv0.mistakeNum or 0
 end
 
-function var_0_0.GetLevelIDByDiff(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = arg_21_2 or 1
-
-	if var_21_0 == 1 then
-		return arg_21_1
+function slot0.GetLevelIDByDiff(slot0, slot1, slot2)
+	if (slot2 or 1) == 1 then
+		return slot1
 	end
 
-	local var_21_1 = DormRhythmGameTools.gameConfigData[var_21_0]
-
-	if var_21_1 then
-		return var_21_1.stageCfg.get_id_list_by_difficult[arg_21_1][1]
+	if DormRhythmGameTools.gameConfigData[slot3] then
+		return slot4.stageCfg.get_id_list_by_difficult[slot1][1]
 	end
 end
 
-function var_0_0.DisPoseItem(arg_22_0, arg_22_1)
-	if var_0_4[arg_22_1] then
-		var_0_4[arg_22_1]:Dispose()
+function slot0.DisPoseItem(slot0, slot1)
+	if uv0[slot1] then
+		uv0[slot1]:Dispose()
 
-		var_0_4[arg_22_1] = nil
+		uv0[slot1] = nil
 	end
 end
 
-function var_0_0.GetGameInterval(arg_23_0)
-	return var_0_2.interval
+function slot0.GetGameInterval(slot0)
+	return uv0.interval
 end
 
-function var_0_0.GetGameSpeed(arg_24_0)
-	return 1920 / (var_0_2.gameSpeed / 10) * Time.deltaTime
+function slot0.GetGameSpeed(slot0)
+	return 1920 / (uv0.gameSpeed / 10) * Time.deltaTime
 end
 
-function var_0_0.GetGameRunFlag(arg_25_0)
-	if var_0_2 then
-		return var_0_2.gameRunFlag
+function slot0.GetGameRunFlag(slot0)
+	if uv0 then
+		return uv0.gameRunFlag
 	end
 end
 
-function var_0_0.Dispose(arg_26_0)
-	var_0_18()
-	var_0_21()
+function slot0.Dispose(slot0)
+	uv0()
+	uv1()
 
-	var_0_1 = nil
-	var_0_2 = nil
-	var_0_3 = nil
-	var_0_4 = nil
-	var_0_7 = nil
+	uv2 = nil
+	uv3 = nil
+	uv4 = nil
+	uv5 = nil
+	uv6 = nil
 end
 
-function var_0_0.StartGame(arg_27_0, arg_27_1)
-	if not var_0_2 or not var_0_2.gameRunFlag then
-		var_0_20(arg_27_1)
-		var_0_14()
+function slot0.StartGame(slot0, slot1)
+	if not uv0 or not uv0.gameRunFlag then
+		uv1(slot1)
+		uv2()
 
-		var_0_2.gameRunFlag = true
+		uv0.gameRunFlag = true
 
-		var_0_19()
+		uv3()
 	else
 		Debug.LogError("已开始游戏")
 	end
 end
 
-function var_0_0.SetPauseFlag(arg_28_0, arg_28_1)
-	var_0_2.pauseFlag = arg_28_1
+function slot0.SetPauseFlag(slot0, slot1)
+	uv0.pauseFlag = slot1
 end
 
-function var_0_0.StopGame(arg_29_0)
-	if var_0_2 and var_0_2.gameRunFlag then
+function slot0.StopGame(slot0)
+	if uv0 and uv0.gameRunFlag then
 		manager.audio:StopEffect()
 
-		var_0_2.gameRunFlag = false
+		uv0.gameRunFlag = false
 
-		var_0_18()
-		var_0_21()
+		uv1()
+		uv2()
 		manager.gc:Collect()
 	end
 end
 
-function var_0_0.ClickDetermination(arg_30_0, arg_30_1)
-	if var_0_2.gameRunFlag then
-		local var_30_0 = {
-			buttonType = arg_30_1,
-			judgeWidth = var_0_2.judgeWidth
+function slot0.ClickDetermination(slot0, slot1)
+	if uv0.gameRunFlag then
+		slot2 = {
+			buttonType = slot1,
+			judgeWidth = uv0.judgeWidth
 		}
-		local var_30_1 = false
+		slot3 = false
 
-		if var_0_4 then
-			local var_30_2 = false
+		if uv1 then
+			slot4 = false
 
-			for iter_30_0, iter_30_1 in pairs(var_0_4) do
-				if iter_30_1.go and not arg_30_0.hasCheck then
-					local var_30_3, var_30_4 = iter_30_1:CheckHit(var_30_0)
+			for slot8, slot9 in pairs(uv1) do
+				if slot9.go and not slot0.hasCheck then
+					slot4, slot11 = slot9:CheckHit(slot2)
 
-					if var_30_4 then
-						if not iter_30_1.hasHit then
-							iter_30_1.hasHit = true
-							var_30_2 = var_30_3
-							var_30_1 = iter_30_1:IsLast()
+					if slot11 then
+						if not slot9.hasHit then
+							slot9.hasHit = true
+							slot3 = slot9:IsLast()
 
 							break
 						else
@@ -328,31 +296,31 @@ function var_0_0.ClickDetermination(arg_30_0, arg_30_1)
 				end
 			end
 
-			var_0_0:UpdateBatterNum(var_30_2, arg_30_1, var_30_1)
+			uv2:UpdateBatterNum(slot4, slot1, slot3)
 
-			return var_30_2 and 1 or 0
+			return slot4 and 1 or 0
 		end
 	end
 end
 
-function var_0_0.UpdateBatterNum(arg_31_0, arg_31_1, arg_31_2, arg_31_3)
-	if arg_31_1 == nil then
+function slot0.UpdateBatterNum(slot0, slot1, slot2, slot3)
+	if slot1 == nil then
 		return
 	end
 
-	if arg_31_1 == true then
-		var_0_2.successfulNum = var_0_2.successfulNum + 1
-		var_0_2.batterNum = var_0_2.batterNum + 1
-		var_0_2.maxBatterNum = math.max(var_0_2.maxBatterNum, var_0_2.batterNum)
-	elseif arg_31_1 == false then
-		var_0_2.maxBatterNum = math.max(var_0_2.maxBatterNum, var_0_2.batterNum)
-		var_0_2.batterNum = 0
-		var_0_2.mistakeNum = var_0_2.mistakeNum + 1
+	if slot1 == true then
+		uv0.successfulNum = uv0.successfulNum + 1
+		uv0.batterNum = uv0.batterNum + 1
+		uv0.maxBatterNum = math.max(uv0.maxBatterNum, uv0.batterNum)
+	elseif slot1 == false then
+		uv0.maxBatterNum = math.max(uv0.maxBatterNum, uv0.batterNum)
+		uv0.batterNum = 0
+		uv0.mistakeNum = uv0.mistakeNum + 1
 	end
 
-	if var_0_2.gameRunFlag then
-		manager.notify:Invoke(DORM_REFRESH_BATTER_NUM, arg_31_2, arg_31_3)
+	if uv0.gameRunFlag then
+		manager.notify:Invoke(DORM_REFRESH_BATTER_NUM, slot2, slot3)
 	end
 end
 
-return var_0_0
+return slot0

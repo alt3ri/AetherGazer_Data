@@ -1,77 +1,67 @@
 HeroTrustRelationNet = class("HeroTrustRelationNet")
 
-function HeroTrustRelationNet.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.heroId = arg_1_1
-	arg_1_0.tier_Dir = {}
+function HeroTrustRelationNet.Ctor(slot0, slot1)
+	slot0.heroId = slot1
+	slot0.tier_Dir = {}
 end
 
-function HeroTrustRelationNet.InitData(arg_2_0, arg_2_1)
-	arg_2_0.tier_Dir = {}
+function HeroTrustRelationNet.InitData(slot0, slot1)
+	slot0.tier_Dir = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.tier_list) do
-		local var_2_0 = iter_2_1.tier
-		local var_2_1 = {}
+	for slot5, slot6 in ipairs(slot1.tier_list) do
+		slot7 = slot6.tier
+		slot8 = {}
 
-		for iter_2_2, iter_2_3 in ipairs(iter_2_1.upgrade_complete_list) do
-			table.insert(var_2_1, iter_2_3)
+		for slot12, slot13 in ipairs(slot6.upgrade_complete_list) do
+			table.insert(slot8, slot13)
 		end
 
-		arg_2_0.tier_Dir[var_2_0] = var_2_1
+		slot0.tier_Dir[slot7] = slot8
 	end
 end
 
-function HeroTrustRelationNet.GetRelationNetAttr(arg_3_0)
-	local var_3_0 = {}
-	local var_3_1 = HeroRelationNetCfg.get_id_list_by_hero_id[arg_3_0.heroId] or {}
+function HeroTrustRelationNet.GetRelationNetAttr(slot0)
+	slot1 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(var_3_1) do
-		local var_3_2 = HeroRelationNetCfg[iter_3_1]
-		local var_3_3 = var_3_2.index
-		local var_3_4 = arg_3_0.tier_Dir[var_3_3] or {}
-
-		for iter_3_2, iter_3_3 in ipairs(var_3_4) do
-			local var_3_5 = var_3_2.relation_upgrade_group[iter_3_3]
-			local var_3_6 = HeroRelationUpgradeCfg[var_3_5]
-
-			for iter_3_4, iter_3_5 in pairs(var_3_6.attr) do
-				local var_3_7 = iter_3_5[1]
-				local var_3_8 = iter_3_5[2]
-
-				var_3_0[var_3_7] = HeroTools.AttributeAdd(var_3_7, var_3_0[var_3_7], var_3_8)
+	for slot6, slot7 in ipairs(HeroRelationNetCfg.get_id_list_by_hero_id[slot0.heroId] or {}) do
+		for slot14, slot15 in ipairs(slot0.tier_Dir[HeroRelationNetCfg[slot7].index] or {}) do
+			for slot21, slot22 in pairs(HeroRelationUpgradeCfg[slot8.relation_upgrade_group[slot15]].attr) do
+				slot23 = slot22[1]
+				slot1[slot23] = HeroTools.AttributeAdd(slot23, slot1[slot23], slot22[2])
 			end
 		end
 	end
 
-	local var_3_9 = {}
+	slot3 = {}
 
-	for iter_3_6, iter_3_7 in pairs(var_3_0) do
-		table.insert(var_3_9, {
-			iter_3_6,
-			iter_3_7
+	for slot7, slot8 in pairs(slot1) do
+		table.insert(slot3, {
+			slot7,
+			slot8
 		})
 	end
 
-	return var_3_0, var_3_9
+	return slot1, slot3
 end
 
-function HeroTrustRelationNet.GetIsUnlock(arg_4_0, arg_4_1, arg_4_2)
-	if not arg_4_0.tier_Dir[arg_4_1] then
+function HeroTrustRelationNet.GetIsUnlock(slot0, slot1, slot2)
+	if not slot0.tier_Dir[slot1] then
 		return false
 	end
 
-	return table.indexof(arg_4_0.tier_Dir[arg_4_1], arg_4_2)
+	return table.indexof(slot0.tier_Dir[slot1], slot2)
 end
 
-function HeroTrustRelationNet.UnlockRelationNet(arg_5_0, arg_5_1, arg_5_2)
-	if not arg_5_0.tier_Dir[arg_5_1] then
-		arg_5_0.tier_Dir[arg_5_1] = {
-			arg_5_2
+function HeroTrustRelationNet.UnlockRelationNet(slot0, slot1, slot2)
+	if not slot0.tier_Dir[slot1] then
+		slot0.tier_Dir[slot1] = {
+			slot2
 		}
 
 		return
 	end
 
-	if not table.indexof(arg_5_0.tier_Dir[arg_5_1], arg_5_2) then
-		table.insert(arg_5_0.tier_Dir[arg_5_1], arg_5_2)
+	if not table.indexof(slot0.tier_Dir[slot1], slot2) then
+		table.insert(slot0.tier_Dir[slot1], slot2)
 	end
 end

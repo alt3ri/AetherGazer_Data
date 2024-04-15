@@ -1,81 +1,68 @@
-local var_0_0 = {}
+manager.net:Bind(11029, function (slot0)
+	StoryStageActivityData:InitData(slot0)
 
-manager.net:Bind(11029, function(arg_1_0)
-	StoryStageActivityData:InitData(arg_1_0)
+	slot1 = {}
 
-	local var_1_0 = {}
-
-	for iter_1_0, iter_1_1 in ipairs(arg_1_0.info) do
-		local var_1_1 = iter_1_1.chapter_id
-		local var_1_2 = ActivityStoryChapterCfg[var_1_1].activity_id
-
-		if not table.keyof(var_1_0, var_1_2) then
-			table.insert(var_1_0, var_1_2)
+	for slot5, slot6 in ipairs(slot0.info) do
+		if not table.keyof(slot1, ActivityStoryChapterCfg[slot6.chapter_id].activity_id) then
+			table.insert(slot1, slot8)
 		end
 	end
 
-	for iter_1_2, iter_1_3 in ipairs(var_1_0) do
-		local var_1_3 = var_0_0.GetStoryChapterID(iter_1_3)
-
-		for iter_1_4, iter_1_5 in pairs(ActivityCfg[var_1_3].sub_activity_list) do
-			if not table.keyof(var_1_0, iter_1_5) then
-				var_0_0.UpdateRedPoint(iter_1_5, 1)
+	for slot5, slot6 in ipairs(slot1) do
+		for slot11, slot12 in pairs(ActivityCfg[uv0.GetStoryChapterID(slot6)].sub_activity_list) do
+			if not table.keyof(slot1, slot12) then
+				uv0.UpdateRedPoint(slot12, 1)
 			end
 		end
 
-		var_0_0.UpdateRedPoint(iter_1_3, 1)
+		uv0.UpdateRedPoint(slot6, 1)
 	end
 end)
 
-function var_0_0.GetStoryChapterID(arg_2_0)
-	for iter_2_0, iter_2_1 in pairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.STORY]) do
-		if table.keyof(ActivityCfg[iter_2_1].sub_activity_list, arg_2_0) then
-			return iter_2_1
+return {
+	GetStoryChapterID = function (slot0)
+		slot4 = ActivityTemplateConst.STORY
+
+		for slot4, slot5 in pairs(ActivityCfg.get_id_list_by_activity_template[slot4]) do
+			if table.keyof(ActivityCfg[slot5].sub_activity_list, slot0) then
+				return slot5
+			end
 		end
-	end
 
-	return arg_2_0
-end
-
-function var_0_0.UpdateRedPoint(arg_3_0, arg_3_1)
-	if StoryStageActivityData:GetRedPoint(arg_3_0) then
-		return
-	end
-
-	local var_3_0 = ActivityReprintExCfg[arg_3_0] and ActivityReprintExCfg[arg_3_0].originActivityID or arg_3_0
-
-	if var_3_0 == ActivityConst.HELLA_STORY_STAGE_HERMES then
-		local var_3_1 = ActivityStoryChapterCfg.get_id_list_by_activity_id[arg_3_0][1]
-
-		if table.length(StoryStageActivityData:GetStageData(var_3_1)) <= 0 then
-			manager.redPoint:setTip(ActivityTools.GetRedPointKey(arg_3_0) .. arg_3_0, 0)
-
+		return slot0
+	end,
+	UpdateRedPoint = function (slot0, slot1)
+		if StoryStageActivityData:GetRedPoint(slot0) then
 			return
 		end
 
-		manager.redPoint:setTip(ActivityTools.GetRedPointKey(arg_3_0) .. arg_3_0, arg_3_1)
+		if (ActivityReprintExCfg[slot0] and ActivityReprintExCfg[slot0].originActivityID or slot0) == ActivityConst.HELLA_STORY_STAGE_HERMES then
+			if table.length(StoryStageActivityData:GetStageData(ActivityStoryChapterCfg.get_id_list_by_activity_id[slot0][1])) <= 0 then
+				manager.redPoint:setTip(ActivityTools.GetRedPointKey(slot0) .. slot0, 0)
 
-		if arg_3_1 == 0 then
-			StoryStageActivityData:SetRedPoint(arg_3_0)
-		end
-	elseif var_3_0 == ActivityConst.SUMMER_STORY_SEABED or var_3_0 == ActivityConst.THIRD_VOLUME_PART_2_SUB_PLOT then
-		if ActivityTools.IsUnlockActivity(arg_3_0) == false then
-			return
-		end
+				return
+			end
 
-		local var_3_2 = ActivityStoryChapterCfg.get_id_list_by_activity_id[arg_3_0][1]
-		local var_3_3 = StoryStageActivityData:GetStageData(var_3_2)
+			manager.redPoint:setTip(ActivityTools.GetRedPointKey(slot0) .. slot0, slot1)
 
-		if table.length(var_3_3) <= 0 then
-			return
-		end
+			if slot1 == 0 then
+				StoryStageActivityData:SetRedPoint(slot0)
+			end
+		elseif slot2 == ActivityConst.SUMMER_STORY_SEABED or slot2 == ActivityConst.THIRD_VOLUME_PART_2_SUB_PLOT then
+			if ActivityTools.IsUnlockActivity(slot0) == false then
+				return
+			end
 
-		manager.redPoint:setTip(ActivityTools.GetRedPointKey(arg_3_0) .. arg_3_0, arg_3_1)
+			if table.length(StoryStageActivityData:GetStageData(ActivityStoryChapterCfg.get_id_list_by_activity_id[slot0][1])) <= 0 then
+				return
+			end
 
-		if arg_3_1 == 0 then
-			StoryStageActivityData:SetRedPoint(arg_3_0)
+			manager.redPoint:setTip(ActivityTools.GetRedPointKey(slot0) .. slot0, slot1)
+
+			if slot1 == 0 then
+				StoryStageActivityData:SetRedPoint(slot0)
+			end
 		end
 	end
-end
-
-return var_0_0
+}

@@ -1,90 +1,90 @@
-local var_0_0 = class("MoonCakePartyView", ReduxView)
+slot0 = class("MoonCakePartyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_4/JapanRegionMidautumnUI/MoonCakePartyUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.statusController_ = ControllerUtil.GetController(arg_4_0.transform_, "status")
-	arg_4_0.partyTypeController_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
-	arg_4_0.rewardController_ = ControllerUtil.GetController(arg_4_0.transform_, "reward")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.partyTypeController_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.rewardController_ = ControllerUtil.GetController(slot0.transform_, "reward")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.openPartyBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.openPartyBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("moonPartyOpen", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.shareBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.shareBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("moonPartyShare", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.visitBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.visitBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		MoonCakeAction.TryQueryRecommendParty(arg_5_0.activityID_)
+		MoonCakeAction.TryQueryRecommendParty(uv0.activityID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.visitNextBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.visitNextBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		MoonCakeAction.VisitNextParty(arg_5_0.activityID_)
+		MoonCakeAction.VisitNextParty(uv0.activityID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.visitRewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.visitRewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		if arg_5_0.ownerData_.isVisited then
+		if uv0.ownerData_.isVisited then
 			ShowTips("MID_AUTUMN_FESTIVAL_PARTY_VISIT_OBTAINED_REWARD")
 
 			return
 		end
 
-		if GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(arg_5_0.activityID_) then
+		if GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(uv0.activityID_) then
 			ShowTips("MID_AUTUMN_FESTIVAL_PARTY_VISIT_REWARD_LIMIT")
 
 			return
 		end
 
-		MoonCakeAction.ReceiveVisitReward(arg_5_0.activityID_, arg_5_0.ownerData_.uid)
+		MoonCakeAction.ReceiveVisitReward(uv0.activityID_, uv0.ownerData_.uid)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.taskBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
@@ -92,248 +92,213 @@ function var_0_0.AddUIListener(arg_5_0)
 
 		JumpTools.OpenPageByJump("moonCakeTask", {
 			stage = 2,
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.moonBoBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.mainActivityID_) then
+	slot0:AddBtnListener(slot0.moonBoBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.mainActivityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_12_0 = MoonCakeTools.GetMoonBoStageActivityID(arg_5_0.mainActivityID_)
-
-		ActivityTools.JumpToSubmodulePage(var_12_0)
+		ActivityTools.JumpToSubmodulePage(MoonCakeTools.GetMoonBoStageActivityID(uv0.mainActivityID_))
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:OnUpdate()
-	arg_13_0:BindRedPoint()
-	arg_13_0:AddTimer()
+function slot0.OnEnter(slot0)
+	slot0:OnUpdate()
+	slot0:BindRedPoint()
+	slot0:AddTimer()
 end
 
-function var_0_0.OnUpdate(arg_14_0)
-	arg_14_0.mainActivityID_ = arg_14_0.params_.mainActivityID
-	arg_14_0.activityID_ = arg_14_0.params_.activityID
-	arg_14_0.partyOwnerUID_ = arg_14_0.params_.partyOwnerUID
-	arg_14_0.visitWay_ = arg_14_0.params_.visitWay
+function slot0.OnUpdate(slot0)
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.partyOwnerUID_ = slot0.params_.partyOwnerUID
+	slot0.visitWay_ = slot0.params_.visitWay
 
-	if arg_14_0.partyOwnerUID_ == USER_ID then
-		arg_14_0.isMyParty_ = true
-		arg_14_0.partyData_ = MoonCakeData:GetOwnPartyData(arg_14_0.activityID_)
+	if slot0.partyOwnerUID_ == USER_ID then
+		slot0.isMyParty_ = true
+		slot0.partyData_ = MoonCakeData:GetOwnPartyData(slot0.activityID_)
 	else
-		arg_14_0.isMyParty_ = false
-		arg_14_0.partyData_ = MoonCakeData:GetVisitPartyData(arg_14_0.activityID_)
-		arg_14_0.ownerData_ = MoonCakeData:GetVisitPartyOwnerData(arg_14_0.activityID_, arg_14_0.partyOwnerUID_)
+		slot0.isMyParty_ = false
+		slot0.partyData_ = MoonCakeData:GetVisitPartyData(slot0.activityID_)
+		slot0.ownerData_ = MoonCakeData:GetVisitPartyOwnerData(slot0.activityID_, slot0.partyOwnerUID_)
 	end
 
-	arg_14_0:RefreshUI()
+	slot0:RefreshUI()
 
-	arg_14_0.stopTime_ = ActivityData:GetActivityData(arg_14_0.activityID_).stopTime
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_15_0.isMyParty_ == true or arg_15_0.visitWay_ == MoonCakeConst.VISIT_WAY.SHARE then
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.isMyParty_ == true or uv0.visitWay_ == MoonCakeConst.VISIT_WAY.SHARE then
 			JumpTools.Back()
 		else
 			JumpTools.OpenPageByJump("/moonCakeParty", {
-				activityID = arg_15_0.activityID_,
-				mainActivityID = arg_15_0.mainActivityID_,
+				activityID = uv0.activityID_,
+				mainActivityID = uv0.mainActivityID_,
 				partyOwnerUID = USER_ID
 			})
 			JumpTools.OpenPageByJump("moonPartyVisit", {
 				isReturnFromOther = true,
-				activityID = arg_15_0.activityID_
+				activityID = uv0.activityID_
 			})
 		end
 	end)
 end
 
-function var_0_0.OnExit(arg_17_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_17_0:UnBindRedPoint()
-	arg_17_0:StopTimer()
+	slot0:UnBindRedPoint()
+	slot0:StopTimer()
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_19_0)
-	arg_19_0:RefreshPartyUI()
-	arg_19_0:RefreshStatus()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshPartyUI()
+	slot0:RefreshStatus()
 end
 
-function var_0_0.RefreshStatus(arg_20_0)
-	if arg_20_0.isMyParty_ == true then
-		if arg_20_0.partyData_.isOpened then
-			arg_20_0.statusController_:SetSelectedState("selfParty")
+function slot0.RefreshStatus(slot0)
+	if slot0.isMyParty_ == true then
+		if slot0.partyData_.isOpened then
+			slot0.statusController_:SetSelectedState("selfParty")
 		else
-			arg_20_0.statusController_:SetSelectedState("unopen")
+			slot0.statusController_:SetSelectedState("unopen")
 		end
 	else
-		arg_20_0.statusController_:SetSelectedState("otherParty")
+		slot0.statusController_:SetSelectedState("otherParty")
 	end
 end
 
-function var_0_0.RefreshPartyUI(arg_21_0)
-	local var_21_0 = 0
-	local var_21_1 = 0
+function slot0.RefreshPartyUI(slot0)
+	slot1 = 0
+	slot2 = 0
 
-	if arg_21_0.partyData_.isOpened then
-		var_21_0 = arg_21_0.partyData_.visitNum
-		var_21_1 = arg_21_0.partyData_.partyType
+	if slot0.partyData_.isOpened then
+		slot1 = slot0.partyData_.visitNum
+		slot2 = slot0.partyData_.partyType
 	end
 
-	arg_21_0.accumulativeVisitorText_.text = string.format(GetTips("MID_AUTUMN_FESTIVAL_PARTY_PARTICIPANTS_NUM"), var_21_0)
+	slot0.accumulativeVisitorText_.text = string.format(GetTips("MID_AUTUMN_FESTIVAL_PARTY_PARTICIPANTS_NUM"), slot1)
 
-	arg_21_0.partyTypeController_:SetSelectedIndex(var_21_1)
+	slot0.partyTypeController_:SetSelectedIndex(slot2)
 
-	if arg_21_0.isMyParty_ == false then
-		arg_21_0.userName_.text = arg_21_0.ownerData_.nick
-		arg_21_0.userIcon.sprite = ItemTools.getItemSprite(arg_21_0.ownerData_.portrait)
-		arg_21_0.userFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_21_0.ownerData_.frame)
+	if slot0.isMyParty_ == false then
+		slot0.userName_.text = slot0.ownerData_.nick
+		slot0.userIcon.sprite = ItemTools.getItemSprite(slot0.ownerData_.portrait)
+		slot0.userFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.ownerData_.frame)
+		slot3 = false
 
-		local var_21_2 = false
-
-		if MoonCakeTools.CanVisitNext(arg_21_0.activityID_) then
-			var_21_2 = true
+		if MoonCakeTools.CanVisitNext(slot0.activityID_) then
+			slot3 = true
 		end
 
-		SetActive(arg_21_0.nextGo_, var_21_2)
+		SetActive(slot0.nextGo_, slot3)
 
-		arg_21_0.visitorNameText_.text = PlayerData:GetPlayerInfo().nick
+		slot0.visitorNameText_.text = PlayerData:GetPlayerInfo().nick
 
-		arg_21_0:RefreshRewardBtn()
+		slot0:RefreshRewardBtn()
 	end
 end
 
-function var_0_0.RefreshRewardBtn(arg_22_0)
-	if GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(arg_22_0.activityID_) then
-		SetActive(arg_22_0.rewardPanelGo_, false)
+function slot0.RefreshRewardBtn(slot0)
+	if GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(slot0.activityID_) then
+		SetActive(slot0.rewardPanelGo_, false)
 	else
-		SetActive(arg_22_0.rewardPanelGo_, true)
+		SetActive(slot0.rewardPanelGo_, true)
 
-		local var_22_0 = true
+		slot3 = true
 
-		if arg_22_0.ownerData_.isVisited then
-			var_22_0 = false
-		elseif GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(arg_22_0.activityID_) then
-			var_22_0 = false
+		if slot0.ownerData_.isVisited then
+			slot3 = false
+		elseif GameSetting.activity_mid_autumn_present_limit.value[1] <= MoonCakeData:GetTodayVisitRewardTimes(slot0.activityID_) then
+			slot3 = false
 		end
 
-		arg_22_0.rewardController_:SetSelectedIndex(var_22_0 and 1 or 0)
+		slot0.rewardController_:SetSelectedIndex(slot3 and 1 or 0)
 	end
 end
 
-function var_0_0.OnPartyOpen(arg_23_0)
-	arg_23_0:RefreshUI()
+function slot0.OnPartyOpen(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnPartyReset(arg_24_0)
+function slot0.OnPartyReset(slot0)
 	ShowTips("MID_AUTUMN_FESTIVAL_PARTY_END")
 
-	local var_24_0 = ActivityTools.GetActivityTheme(arg_24_0.activityID_)
-	local var_24_1 = ActivityEntraceCfg.get_id_list_by_theme[var_24_0][1]
-	local var_24_2 = ActivityEntraceCfg[var_24_1].jump_system
-	local var_24_3 = SystemLinkCfg[var_24_2[1]].link
-	local var_24_4 = var_24_2[2]
+	slot3 = ActivityEntraceCfg[ActivityEntraceCfg.get_id_list_by_theme[ActivityTools.GetActivityTheme(slot0.activityID_)][1]].jump_system
+	slot5 = slot3[2]
+	subActivityID = ActivityVersionData:GetSelectActivityID(slot5)
 
-	subActivityID = ActivityVersionData:GetSelectActivityID(var_24_4)
-
-	JumpTools.OpenPageByJump(var_24_3, {
-		activityID = var_24_4,
+	JumpTools.OpenPageByJump(SystemLinkCfg[slot3[1]].link, {
+		activityID = slot5,
 		subActivityID = subActivityID
 	})
 end
 
-function var_0_0.OnReceivedVisitReward(arg_25_0)
-	arg_25_0:RefreshRewardBtn()
+function slot0.OnReceivedVisitReward(slot0)
+	slot0:RefreshRewardBtn()
 end
 
-function var_0_0.AddTimer(arg_26_0)
-	if manager.time:GetServerTime() >= arg_26_0.stopTime_ then
-		arg_26_0.remainTimeText_.text = GetTips("TIME_OVER")
+function slot0.AddTimer(slot0)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
+		slot0.remainTimeText_.text = GetTips("TIME_OVER")
 
 		return
 	end
 
-	arg_26_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_26_0.stopTime_)
+	slot0.remainTimeText_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
 
-	arg_26_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_26_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_26_0.stopTime_ then
-			arg_26_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
-			arg_26_0.remainTimeText_.text = GetTips("TIME_OVER")
+			uv0.remainTimeText_.text = GetTips("TIME_OVER")
 
 			return
 		end
 
-		arg_26_0.remainTimeText_.text = manager.time:GetLostTimeStr(arg_26_0.stopTime_)
+		uv0.remainTimeText_.text = manager.time:GetLostTimeStr(uv0.stopTime_)
 	end, 1, -1)
 
-	arg_26_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_28_0)
-	if arg_28_0.timer_ then
-		arg_28_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_28_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.BindRedPoint(arg_29_0)
-	local var_29_0 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, arg_29_0.activityID_)
-
-	manager.redPoint:bindUIandKey(arg_29_0.taskBtn_.transform, var_29_0)
-
-	local var_29_1 = string.format("%s_%s", RedPointConst.MOON_PARTY_OPEN, arg_29_0.activityID_)
-
-	manager.redPoint:bindUIandKey(arg_29_0.openPartyBtn_.transform, var_29_1)
-
-	local var_29_2 = string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, arg_29_0.activityID_)
-
-	manager.redPoint:bindUIandKey(arg_29_0.visitBtn_.transform, var_29_2)
-
-	local var_29_3 = string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, arg_29_0.activityID_)
-
-	manager.redPoint:bindUIandKey(arg_29_0.visitNextBtn_.transform, var_29_3)
-
-	local var_29_4 = string.format("%s_%s", RedPointConst.MOONBO, ActivityConst.ACTIVITY_2_4_MOONBO)
-
-	manager.redPoint:bindUIandKey(arg_29_0.moonBoBtn_.transform, var_29_4)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot0.activityID_))
+	manager.redPoint:bindUIandKey(slot0.openPartyBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_OPEN, slot0.activityID_))
+	manager.redPoint:bindUIandKey(slot0.visitBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, slot0.activityID_))
+	manager.redPoint:bindUIandKey(slot0.visitNextBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, slot0.activityID_))
+	manager.redPoint:bindUIandKey(slot0.moonBoBtn_.transform, string.format("%s_%s", RedPointConst.MOONBO, ActivityConst.ACTIVITY_2_4_MOONBO))
 end
 
-function var_0_0.UnBindRedPoint(arg_30_0)
-	local var_30_0 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, arg_30_0.activityID_)
-
-	manager.redPoint:unbindUIandKey(arg_30_0.taskBtn_.transform, var_30_0)
-
-	local var_30_1 = string.format("%s_%s", RedPointConst.MOON_PARTY_OPEN, arg_30_0.activityID_)
-
-	manager.redPoint:unbindUIandKey(arg_30_0.openPartyBtn_.transform, var_30_1)
-
-	local var_30_2 = string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, arg_30_0.activityID_)
-
-	manager.redPoint:unbindUIandKey(arg_30_0.visitBtn_.transform, var_30_2)
-
-	local var_30_3 = string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, arg_30_0.activityID_)
-
-	manager.redPoint:unbindUIandKey(arg_30_0.visitNextBtn_.transform, var_30_3)
-
-	local var_30_4 = string.format("%s_%s", RedPointConst.MOONBO, ActivityConst.ACTIVITY_2_4_MOONBO)
-
-	manager.redPoint:unbindUIandKey(arg_30_0.moonBoBtn_.transform, var_30_4)
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot0.activityID_))
+	manager.redPoint:unbindUIandKey(slot0.openPartyBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_OPEN, slot0.activityID_))
+	manager.redPoint:unbindUIandKey(slot0.visitBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, slot0.activityID_))
+	manager.redPoint:unbindUIandKey(slot0.visitNextBtn_.transform, string.format("%s_%s", RedPointConst.MOON_PARTY_REWARD, slot0.activityID_))
+	manager.redPoint:unbindUIandKey(slot0.moonBoBtn_.transform, string.format("%s_%s", RedPointConst.MOONBO, ActivityConst.ACTIVITY_2_4_MOONBO))
 end
 
-return var_0_0
+return slot0

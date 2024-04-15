@@ -1,9 +1,8 @@
 StageArchiveView = import("game.views.stageArchive.StageArchiveView")
+slot0 = class("ChapterStageArchiveInfoView", StageArchiveView)
 
-local var_0_0 = class("ChapterStageArchiveInfoView", StageArchiveView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationDiaryUI"
 end
 
-return var_0_0
+return slot0

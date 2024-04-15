@@ -1,120 +1,112 @@
-local var_0_0 = class("FishingGroupPageView", ReduxView)
+slot0 = class("FishingGroupPageView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.idList_ = ActivitySummerFishGroupCfg.all
+function slot0.Init(slot0)
+	slot0.idList_ = ActivitySummerFishGroupCfg.all
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.SortData(arg_3_0)
-	local var_3_0 = FishingData:GetActivityData().received_constitute_list
+function slot0.SortData(slot0)
+	slot1 = FishingData:GetActivityData().received_constitute_list
 
-	table.sort(arg_3_0.idList_, function(arg_4_0, arg_4_1)
-		local var_4_0 = ActivitySummerFishGroupCfg[arg_4_0]
-		local var_4_1 = ActivitySummerFishGroupCfg[arg_4_1]
-		local var_4_2 = table.indexof(var_3_0, var_4_0.id) or 0
-		local var_4_3 = table.indexof(var_3_0, var_4_1.id) or 0
+	table.sort(slot0.idList_, function (slot0, slot1)
+		slot5 = table.indexof(uv0, ActivitySummerFishGroupCfg[slot1].id) or 0
 
-		if (var_4_2 == 0 or var_4_3 == 0) and var_4_2 ~= var_4_3 then
-			return var_4_2 < var_4_3
+		if ((table.indexof(uv0, ActivitySummerFishGroupCfg[slot0].id) or 0) == 0 or slot5 == 0) and slot4 ~= slot5 then
+			return slot4 < slot5
 		end
 
-		local var_4_4 = 1
+		slot6 = 1
 
-		for iter_4_0, iter_4_1 in ipairs(var_4_0.group[1]) do
-			local var_4_5
-			local var_4_6 = FishingData:GetActivityData().fish_infos[iter_4_1]
+		for slot10, slot11 in ipairs(slot2.group[1]) do
+			slot12 = nil
 
-			if not (var_4_6 and var_4_6.num > 0 and true or false) then
-				var_4_4 = 0
+			if not (FishingData:GetActivityData().fish_infos[slot11] and slot13.num > 0 and true or false) then
+				slot6 = 0
 
 				break
 			end
 		end
 
-		local var_4_7 = 1
+		slot7 = 1
 
-		for iter_4_2, iter_4_3 in ipairs(var_4_1.group[1]) do
-			local var_4_8
-			local var_4_9 = FishingData:GetActivityData().fish_infos[iter_4_3]
+		for slot11, slot12 in ipairs(slot3.group[1]) do
+			slot13 = nil
 
-			if not (var_4_9 and var_4_9.num > 0 and true or false) then
-				var_4_7 = 0
+			if not (FishingData:GetActivityData().fish_infos[slot12] and slot14.num > 0 and true or false) then
+				slot7 = 0
 
 				break
 			end
 		end
 
-		if var_4_7 ~= var_4_4 then
-			return var_4_7 < var_4_4
+		if slot7 ~= slot6 then
+			return slot7 < slot6
 		end
 
-		return arg_4_0 < arg_4_1
+		return slot0 < slot1
 	end)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.listGo_, FishingGroupItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, FishingGroupItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetId(arg_6_0.idList_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetId(slot0.idList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	arg_8_0:RegistEventListener(FISHING_GROUP_REWARD_CHANGE, function()
-		arg_8_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(FISHING_GROUP_REWARD_CHANGE, function ()
+		uv0:UpdateView()
 	end)
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.UpdateBar(arg_11_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:AddEventListeners()
-	arg_12_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_13_0)
-	arg_13_0:SortData()
-	arg_13_0.uiList_:StartScroll(#arg_13_0.idList_)
+function slot0.UpdateView(slot0)
+	slot0:SortData()
+	slot0.uiList_:StartScroll(#slot0.idList_)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_15_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	if arg_16_0.uiList_ then
-		arg_16_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_16_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,19 +1,17 @@
-local var_0_0 = class("ChipEquipBreakThroughItem", import("..ChipItem"))
+slot0 = class("ChipEquipBreakThroughItem", import("..ChipItem"))
 
-function var_0_0.GetUnlockChipIDList(arg_1_0)
+function slot0.GetUnlockChipIDList(slot0)
 	return EquipBreakThroughMaterialData:GetChipList()
 end
 
-function var_0_0.GetManagerData(arg_2_0, arg_2_1)
+function slot0.GetManagerData(slot0, slot1)
 	return EquipBreakThroughMaterialData:GetChipList()
 end
 
-function var_0_0.BindRedPoint(arg_3_0)
-	return
+function slot0.BindRedPoint(slot0)
 end
 
-function var_0_0.UnbindRedPoint(arg_4_0)
-	return
+function slot0.UnbindRedPoint(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,5 +1,5 @@
-local var_0_0 = class("MatrixSelectView", ReduxView)
-local var_0_1 = {
+slot0 = class("MatrixSelectView", ReduxView)
+slot1 = {
 	AI = "AI",
 	CAPTAIN = "CAPTAIN",
 	AFFIX = "AFFIX",
@@ -7,288 +7,266 @@ local var_0_1 = {
 	DIFFICULTY = "DIFFICULTY"
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Prepare/MatrixSelectUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.MAXSELECT = 2
-	arg_3_0.viewState = var_0_1.DIFFICULTY
-	arg_3_0.openDifficultyLv = -1
+	slot0.MAXSELECT = 2
+	slot0.viewState = uv0.DIFFICULTY
+	slot0.openDifficultyLv = -1
 
-	for iter_3_0, iter_3_1 in ipairs(MatrixTerminalLevelCfg.all) do
-		local var_3_0 = MatrixTerminalLevelCfg[iter_3_1]
-
-		if table.indexof(var_3_0.difficulty_open_list, 2) then
-			arg_3_0.openDifficultyLv = iter_3_1
+	for slot4, slot5 in ipairs(MatrixTerminalLevelCfg.all) do
+		if table.indexof(MatrixTerminalLevelCfg[slot5].difficulty_open_list, 2) then
+			slot0.openDifficultyLv = slot5
 
 			break
 		end
 	end
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.viewStateController_ = ControllerUtil.GetController(arg_4_0.m_viewStateController, "state")
-	arg_4_0.tHero = {}
+	slot0.viewStateController_ = ControllerUtil.GetController(slot0.m_viewStateController, "state")
+	slot0.tHero = {}
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_4_0.tHero, arg_4_0.m_hero)
+	ComponentBinder.GetInstance():BindCfgUI(slot0.tHero, slot0.m_hero)
 
-	arg_4_0.tDifficulty = {}
+	slot0.tDifficulty = {}
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_4_0.tDifficulty, arg_4_0.m_difficulty)
+	ComponentBinder.GetInstance():BindCfgUI(slot0.tDifficulty, slot0.m_difficulty)
 
-	arg_4_0.tBeacon = {}
+	slot0.tBeacon = {}
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_4_0.tBeacon, arg_4_0.m_beacon)
+	ComponentBinder.GetInstance():BindCfgUI(slot0.tBeacon, slot0.m_beacon)
 
-	arg_4_0.heroList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.tHero.m_heroList, MatrixSelectHeroItem)
-	arg_4_0.difficultyList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexDifficultyItem), arg_4_0.tDifficulty.m_difficultyList, MatrixSelectDifficultyItem)
-	arg_4_0.selectAfiifxView = MatrixSelectAffixView.New(arg_4_0.m_affix)
-	arg_4_0.beaconList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexBeaconItem), arg_4_0.tBeacon.m_list, MatrixSelectBeaconItem)
+	slot0.heroList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.tHero.m_heroList, MatrixSelectHeroItem)
+	slot0.difficultyList_ = LuaList.New(handler(slot0, slot0.IndexDifficultyItem), slot0.tDifficulty.m_difficultyList, MatrixSelectDifficultyItem)
+	slot0.selectAfiifxView = MatrixSelectAffixView.New(slot0.m_affix)
+	slot0.beaconList_ = LuaList.New(handler(slot0, slot0.IndexBeaconItem), slot0.tBeacon.m_list, MatrixSelectBeaconItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.tHero.m_confirmBtn, nil, function()
-		if var_0_1.CAPTAIN == arg_5_0.viewState then
-			if arg_5_0.captainId == 0 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.tHero.m_confirmBtn, nil, function ()
+		if uv0.CAPTAIN == uv1.viewState then
+			if uv1.captainId == 0 then
 				return
 			end
 
-			if arg_5_0:HaveLoneWolf() then
-				if arg_5_0.selectDifficulty == 1 then
-					arg_5_0:StartMatrix()
+			if uv1:HaveLoneWolf() then
+				if uv1.selectDifficulty == 1 then
+					uv1:StartMatrix()
 				else
-					arg_5_0.viewState = var_0_1.AFFIX
+					uv1.viewState = uv0.AFFIX
 
-					arg_5_0:Refresh()
+					uv1:Refresh()
 				end
 			else
-				arg_5_0.viewState = var_0_1.AI
+				uv1.viewState = uv0.AI
 
-				arg_5_0:Refresh()
+				uv1:Refresh()
 			end
 		else
-			if arg_5_0.captainId == 0 or #arg_5_0.selectHeroList ~= 2 then
+			if uv1.captainId == 0 or #uv1.selectHeroList ~= 2 then
 				return
 			end
 
-			if arg_5_0.selectDifficulty == 1 then
-				arg_5_0:StartMatrix()
+			if uv1.selectDifficulty == 1 then
+				uv1:StartMatrix()
 			else
-				arg_5_0.viewState = var_0_1.AFFIX
+				uv1.viewState = uv0.AFFIX
 
-				arg_5_0:Refresh()
+				uv1:Refresh()
 			end
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tDifficulty.m_okBtn, nil, function()
-		arg_5_0.viewState = var_0_1.BEACON
+	slot0:AddBtnListener(slot0.tDifficulty.m_okBtn, nil, function ()
+		uv0.viewState = uv1.BEACON
 
-		arg_5_0:Refresh()
+		uv0:Refresh()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.selectAfiifxView.m_okBtn, nil, function()
-		arg_5_0:StartMatrix()
+	slot0:AddBtnListener(slot0.selectAfiifxView.m_okBtn, nil, function ()
+		uv0:StartMatrix()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tBeacon.m_okBtn, nil, function()
-		if #arg_5_0.selectBeaconList == 0 then
+	slot0:AddBtnListener(slot0.tBeacon.m_okBtn, nil, function ()
+		if #uv0.selectBeaconList == 0 then
 			ShowTips(GetTips("MATRIX_SELECT_BEACON"))
 
 			return
 		end
 
-		arg_5_0.viewState = var_0_1.CAPTAIN
+		uv0.viewState = uv1.CAPTAIN
 
-		arg_5_0:Refresh()
+		uv0:Refresh()
 	end)
 end
 
-function var_0_0.HaveLoneWolf(arg_10_0)
-	return table.indexof(arg_10_0.selectBeaconList, 10)
+function slot0.HaveLoneWolf(slot0)
+	return table.indexof(slot0.selectBeaconList, 10)
 end
 
-function var_0_0.StartMatrix(arg_11_0)
-	local var_11_0 = clone(arg_11_0.selectHeroList)
-
-	table.insert(var_11_0, 1, arg_11_0.captainId)
-
-	local var_11_1 = arg_11_0.selectDifficulty == 1 and {} or arg_11_0.selectAfiifxView.customData
-
-	MatrixAction.QueryStartMatrix(var_11_0, arg_11_0.selectDifficulty, var_11_1, arg_11_0.selectBeaconList)
+function slot0.StartMatrix(slot0)
+	table.insert(clone(slot0.selectHeroList), 1, slot0.captainId)
+	MatrixAction.QueryStartMatrix(slot1, slot0.selectDifficulty, slot0.selectDifficulty == 1 and {} or slot0.selectAfiifxView.customData, slot0.selectBeaconList)
 end
 
-function var_0_0.UpdateBar(arg_12_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		if var_0_1.AI == arg_12_0.viewState then
-			arg_12_0.viewState = var_0_1.CAPTAIN
-			arg_12_0.selectHeroList = {}
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0.AI == uv1.viewState then
+			uv1.viewState = uv0.CAPTAIN
+			uv1.selectHeroList = {}
 
-			arg_12_0:Refresh()
-		elseif var_0_1.CAPTAIN == arg_12_0.viewState then
-			arg_12_0.viewState = var_0_1.BEACON
+			uv1:Refresh()
+		elseif uv0.CAPTAIN == uv1.viewState then
+			uv1.viewState = uv0.BEACON
 
-			arg_12_0:Refresh()
-		elseif var_0_1.AFFIX == arg_12_0.viewState then
-			if arg_12_0:HaveLoneWolf() then
-				arg_12_0.viewState = var_0_1.CAPTAIN
+			uv1:Refresh()
+		elseif uv0.AFFIX == uv1.viewState then
+			if uv1:HaveLoneWolf() then
+				uv1.viewState = uv0.CAPTAIN
 			else
-				arg_12_0.viewState = var_0_1.AI
+				uv1.viewState = uv0.AI
 			end
 
-			arg_12_0:Refresh()
-		elseif var_0_1.BEACON == arg_12_0.viewState then
-			arg_12_0.viewState = var_0_1.DIFFICULTY
+			uv1:Refresh()
+		elseif uv0.BEACON == uv1.viewState then
+			uv1.viewState = uv0.DIFFICULTY
 
-			arg_12_0:Refresh()
+			uv1:Refresh()
 		else
-			arg_12_0:Back(1)
+			uv1:Back(1)
 		end
 	end)
 end
 
-function var_0_0.OnTop(arg_14_0)
-	arg_14_0:UpdateBar()
-	arg_14_0:Refresh()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
+	slot0:Refresh()
 end
 
-function var_0_0.OnEnter(arg_15_0)
+function slot0.OnEnter(slot0)
 	MatrixData:SetCacheCustomAffix({})
 
-	arg_15_0.heroData = MatrixData:GetReadyHeroList()
-	arg_15_0.viewState = var_0_1.DIFFICULTY
-	arg_15_0.selectDifficulty = -1
-	arg_15_0.captainId = 0
-	arg_15_0.selectHeroList = {}
-	arg_15_0.selectBeaconList = {}
+	slot0.heroData = MatrixData:GetReadyHeroList()
+	slot0.viewState = uv0.DIFFICULTY
+	slot0.selectDifficulty = -1
+	slot0.captainId = 0
+	slot0.selectHeroList = {}
+	slot0.selectBeaconList = {}
 
-	arg_15_0.selectAfiifxView:Reset()
-	arg_15_0:Refresh()
+	slot0.selectAfiifxView:Reset()
+	slot0:Refresh()
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Refresh(arg_17_0)
-	if var_0_1.CAPTAIN == arg_17_0.viewState then
-		arg_17_0.viewStateController_:SetSelectedIndex(0)
+function slot0.Refresh(slot0)
+	if uv0.CAPTAIN == slot0.viewState then
+		slot0.viewStateController_:SetSelectedIndex(0)
 
-		arg_17_0.tHero.m_tip.text = GetTips("MATRIX_SELECT_TEAM_LEADER")
-		arg_17_0.tHero.m_confirmBtn.interactable = arg_17_0.captainId ~= 0
+		slot0.tHero.m_tip.text = GetTips("MATRIX_SELECT_TEAM_LEADER")
+		slot0.tHero.m_confirmBtn.interactable = slot0.captainId ~= 0
 
-		arg_17_0.heroList_:StartScroll(#arg_17_0.heroData)
-	elseif var_0_1.AI == arg_17_0.viewState then
-		arg_17_0.viewStateController_:SetSelectedIndex(0)
+		slot0.heroList_:StartScroll(#slot0.heroData)
+	elseif uv0.AI == slot0.viewState then
+		slot0.viewStateController_:SetSelectedIndex(0)
 
-		arg_17_0.tHero.m_tip.text = GetTips("MATRIX_SELECT_TEAM")
-		arg_17_0.tHero.m_confirmBtn.interactable = #arg_17_0.selectHeroList == 2
+		slot0.tHero.m_tip.text = GetTips("MATRIX_SELECT_TEAM")
+		slot0.tHero.m_confirmBtn.interactable = #slot0.selectHeroList == 2
 
-		arg_17_0.heroList_:StartScroll(#arg_17_0.heroData)
-	elseif var_0_1.DIFFICULTY == arg_17_0.viewState then
-		arg_17_0.viewStateController_:SetSelectedIndex(1)
-		arg_17_0.difficultyList_:StartScroll(2)
+		slot0.heroList_:StartScroll(#slot0.heroData)
+	elseif uv0.DIFFICULTY == slot0.viewState then
+		slot0.viewStateController_:SetSelectedIndex(1)
+		slot0.difficultyList_:StartScroll(2)
 
-		arg_17_0.affixCustomData = {}
+		slot0.affixCustomData = {}
 
-		if arg_17_0.selectDifficulty == -1 then
-			arg_17_0.tDifficulty.m_okBtn.interactable = false
+		if slot0.selectDifficulty == -1 then
+			slot0.tDifficulty.m_okBtn.interactable = false
 		else
-			arg_17_0.tDifficulty.m_okBtn.interactable = true
+			slot0.tDifficulty.m_okBtn.interactable = true
 		end
-	elseif var_0_1.AFFIX == arg_17_0.viewState then
-		arg_17_0.viewStateController_:SetSelectedIndex(2)
-		arg_17_0.selectAfiifxView:SetData(arg_17_0.selectDifficulty)
-	elseif var_0_1.BEACON == arg_17_0.viewState then
-		arg_17_0.viewStateController_:SetSelectedIndex(3)
+	elseif uv0.AFFIX == slot0.viewState then
+		slot0.viewStateController_:SetSelectedIndex(2)
+		slot0.selectAfiifxView:SetData(slot0.selectDifficulty)
+	elseif uv0.BEACON == slot0.viewState then
+		slot0.viewStateController_:SetSelectedIndex(3)
 
-		local var_17_0 = MatrixData:GetTerminalLevel()
+		slot0.maxBeaconSelect = MatrixTerminalLevelCfg[MatrixData:GetTerminalLevel()].beacon_number
+		slot0.beaconData = MatrixData:GetUnlockBeaconList()
 
-		arg_17_0.maxBeaconSelect = MatrixTerminalLevelCfg[var_17_0].beacon_number
-		arg_17_0.beaconData = MatrixData:GetUnlockBeaconList()
+		slot0.beaconList_:StartScroll(#slot0.beaconData)
 
-		local var_17_1 = #arg_17_0.beaconData
+		slot0.tBeacon.m_numLab.text = #slot0.selectBeaconList .. "/" .. slot0.maxBeaconSelect
 
-		arg_17_0.beaconList_:StartScroll(var_17_1)
-
-		arg_17_0.tBeacon.m_numLab.text = #arg_17_0.selectBeaconList .. "/" .. arg_17_0.maxBeaconSelect
-
-		if #arg_17_0.selectBeaconList > 0 then
-			arg_17_0.tBeacon.m_okBtn.interactable = true
+		if #slot0.selectBeaconList > 0 then
+			slot0.tBeacon.m_okBtn.interactable = true
 		else
-			arg_17_0.tBeacon.m_okBtn.interactable = false
+			slot0.tBeacon.m_okBtn.interactable = false
 		end
 	end
 end
 
-function var_0_0.IndexItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = arg_18_0.heroData[arg_18_1]
-	local var_18_1 = 0
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot4 = 0
 
-	if var_0_1.CAPTAIN == arg_18_0.viewState then
-		if var_18_0 == arg_18_0.captainId then
-			var_18_1 = 1
+	if uv0.CAPTAIN == slot0.viewState then
+		if slot0.heroData[slot1] == slot0.captainId then
+			slot4 = 1
 		end
 	else
-		var_18_1 = var_18_0 == arg_18_0.captainId and 3 or table.indexof(arg_18_0.selectHeroList, var_18_0) and 1 or arg_18_0.MAXSELECT > #arg_18_0.selectHeroList and 0 or 2
+		slot4 = slot3 == slot0.captainId and 3 or table.indexof(slot0.selectHeroList, slot3) and 1 or slot0.MAXSELECT > #slot0.selectHeroList and 0 or 2
 	end
 
-	local var_18_2 = var_18_0 == arg_18_0.captainId
-	local var_18_3 = arg_18_0.selectDifficulty
-
-	arg_18_2:Refresh(var_18_0, var_18_1, var_18_2, var_18_3)
-	arg_18_2:RegistCallBack(function()
-		arg_18_0:OnHeroItemClick(var_18_0)
+	slot2:Refresh(slot3, slot4, slot3 == slot0.captainId, slot0.selectDifficulty)
+	slot2:RegistCallBack(function ()
+		uv0:OnHeroItemClick(uv1)
 	end)
 end
 
-function var_0_0.OnHeroItemClick(arg_20_0, arg_20_1)
-	if var_0_1.CAPTAIN == arg_20_0.viewState then
-		if arg_20_1 == arg_20_0.captainId then
-			arg_20_0.captainId = 0
+function slot0.OnHeroItemClick(slot0, slot1)
+	if uv0.CAPTAIN == slot0.viewState then
+		if slot1 == slot0.captainId then
+			slot0.captainId = 0
 		else
-			arg_20_0.captainId = arg_20_1
+			slot0.captainId = slot1
 		end
-	elseif arg_20_1 ~= arg_20_0.captainId then
-		local var_20_0 = table.indexof(arg_20_0.selectHeroList, arg_20_1)
-
-		if var_20_0 then
-			table.remove(arg_20_0.selectHeroList, var_20_0)
-		elseif arg_20_0.MAXSELECT > #arg_20_0.selectHeroList then
-			table.insert(arg_20_0.selectHeroList, arg_20_1)
+	elseif slot1 ~= slot0.captainId then
+		if table.indexof(slot0.selectHeroList, slot1) then
+			table.remove(slot0.selectHeroList, slot2)
+		elseif slot0.MAXSELECT > #slot0.selectHeroList then
+			table.insert(slot0.selectHeroList, slot1)
 		end
 	end
 
-	arg_20_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.IndexDifficultyItem(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = arg_21_1 == arg_21_0.selectDifficulty
-
-	arg_21_2:Refresh(arg_21_1, var_21_0)
-	arg_21_2:RegistCallBack(function()
-		arg_21_0:OnDifficultyItemClick(arg_21_1)
+function slot0.IndexDifficultyItem(slot0, slot1, slot2)
+	slot2:Refresh(slot1, slot1 == slot0.selectDifficulty)
+	slot2:RegistCallBack(function ()
+		uv0:OnDifficultyItemClick(uv1)
 	end)
 end
 
-function var_0_0.OnDifficultyItemClick(arg_23_0, arg_23_1)
-	if arg_23_1 == 2 then
-		local var_23_0 = MatrixData:GetTerminalLevel()
-		local var_23_1 = MatrixTerminalLevelCfg[var_23_0]
-
-		if not table.indexof(var_23_1.difficulty_open_list, 2) then
-			ShowTips(string.format(GetTips("MATRIX_TERMINAL_LEVEL_UNLOCK"), arg_23_0.openDifficultyLv))
+function slot0.OnDifficultyItemClick(slot0, slot1)
+	if slot1 == 2 then
+		if not table.indexof(MatrixTerminalLevelCfg[MatrixData:GetTerminalLevel()].difficulty_open_list, 2) then
+			ShowTips(string.format(GetTips("MATRIX_TERMINAL_LEVEL_UNLOCK"), slot0.openDifficultyLv))
 
 			return
 		end
@@ -300,119 +278,106 @@ function var_0_0.OnDifficultyItemClick(arg_23_0, arg_23_1)
 		end
 	end
 
-	if arg_23_1 == arg_23_0.selectDifficulty then
+	if slot1 == slot0.selectDifficulty then
 		return
 	else
-		arg_23_0.selectDifficulty = arg_23_1
+		slot0.selectDifficulty = slot1
 	end
 
-	arg_23_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.IndexBeaconItem(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = arg_24_0.beaconData[arg_24_1]
-	local var_24_1 = not not table.indexof(arg_24_0.selectBeaconList, var_24_0)
+function slot0.IndexBeaconItem(slot0, slot1, slot2)
+	slot3 = slot0.beaconData[slot1]
+	slot4 = not not table.indexof(slot0.selectBeaconList, slot3)
 
-	arg_24_2:Refresh(var_24_0)
-	arg_24_2:SetChoice(var_24_1)
-
-	local var_24_2 = not var_24_1 and #arg_24_0.selectBeaconList >= arg_24_0.maxBeaconSelect
-
-	arg_24_2:SetMask(var_24_2)
-	arg_24_2:RegistCallBack(handler(arg_24_0, arg_24_0.OnBeaconItemClick))
+	slot2:Refresh(slot3)
+	slot2:SetChoice(slot4)
+	slot2:SetMask(not slot4 and slot0.maxBeaconSelect <= #slot0.selectBeaconList)
+	slot2:RegistCallBack(handler(slot0, slot0.OnBeaconItemClick))
 end
 
-function var_0_0.OnBeaconItemClick(arg_25_0, arg_25_1, arg_25_2)
-	if table.indexof(arg_25_0.selectBeaconList, arg_25_1) then
-		arg_25_0:UnSelectBeacon(arg_25_1)
+function slot0.OnBeaconItemClick(slot0, slot1, slot2)
+	if table.indexof(slot0.selectBeaconList, slot1) then
+		slot0:UnSelectBeacon(slot1)
 	else
-		if #arg_25_0.selectBeaconList >= arg_25_0.maxBeaconSelect then
+		if slot0.maxBeaconSelect <= #slot0.selectBeaconList then
 			ShowTips("MATRIX_SELECT_BEACON_MAX")
 
 			return
 		end
 
-		local var_25_0 = MatrixBeaconCfg[arg_25_1]
-		local var_25_1 = {}
-		local var_25_2 = MatrixData:GetTerminalGift() or {}
+		slot5 = {}
+		slot6 = MatrixData:GetTerminalGift() or {}
 
-		for iter_25_0, iter_25_1 in ipairs(var_25_0.require_terminal_list or {}) do
-			if not var_25_2[iter_25_1] or var_25_2[iter_25_1] == 0 then
-				table.insert(var_25_1, iter_25_1)
+		for slot10, slot11 in ipairs(MatrixBeaconCfg[slot1].require_terminal_list or {}) do
+			if not slot6[slot11] or slot6[slot11] == 0 then
+				table.insert(slot5, slot11)
 			end
 		end
 
-		if #var_25_1 > 0 then
-			local var_25_3 = ""
+		if #slot5 > 0 then
+			slot7 = ""
 
-			for iter_25_2, iter_25_3 in ipairs(var_25_1) do
-				local var_25_4 = MatrixTerminalGiftCfg[iter_25_3]
-
-				if iter_25_2 == 1 then
-					var_25_3 = var_25_4.name
-				else
-					var_25_3 = var_25_3 .. "," .. var_25_4.name
-				end
+			for slot11, slot12 in ipairs(slot5) do
+				slot13 = MatrixTerminalGiftCfg[slot12]
+				slot7 = (slot11 ~= 1 or slot13.name) and slot13.name .. "," .. slot13.name
 			end
 
 			ShowMessageBox({
-				content = string.format(GetTips("ERROR_MATRIX_NOT_EFFECTIVE"), GetI18NText(var_25_0.name), GetI18NText(var_25_3)),
-				OkCallback = function()
-					arg_25_0:SelectBeacon(arg_25_1)
+				content = string.format(GetTips("ERROR_MATRIX_NOT_EFFECTIVE"), GetI18NText(slot4.name), GetI18NText(slot7)),
+				OkCallback = function ()
+					uv0:SelectBeacon(uv1)
 				end
 			})
 
 			return
 		end
 
-		arg_25_0:SelectBeacon(arg_25_1)
+		slot0:SelectBeacon(slot1)
 	end
 end
 
-function var_0_0.SelectBeacon(arg_27_0, arg_27_1)
-	table.insert(arg_27_0.selectBeaconList, arg_27_1)
+function slot0.SelectBeacon(slot0, slot1)
+	table.insert(slot0.selectBeaconList, slot1)
 
-	local var_27_0 = #arg_27_0.selectBeaconList
+	slot2 = #slot0.selectBeaconList
+	slot0.tBeacon.m_numLab.text = slot2 .. "/" .. slot0.maxBeaconSelect
 
-	arg_27_0.tBeacon.m_numLab.text = var_27_0 .. "/" .. arg_27_0.maxBeaconSelect
+	slot0.beaconList_:Refresh()
 
-	arg_27_0.beaconList_:Refresh()
-
-	if var_27_0 > 0 then
-		arg_27_0.tBeacon.m_okBtn.interactable = true
+	if slot2 > 0 then
+		slot0.tBeacon.m_okBtn.interactable = true
 	else
-		arg_27_0.tBeacon.m_okBtn.interactable = false
+		slot0.tBeacon.m_okBtn.interactable = false
 	end
 end
 
-function var_0_0.UnSelectBeacon(arg_28_0, arg_28_1)
-	local var_28_0 = table.indexof(arg_28_0.selectBeaconList, arg_28_1)
+function slot0.UnSelectBeacon(slot0, slot1)
+	table.remove(slot0.selectBeaconList, table.indexof(slot0.selectBeaconList, slot1))
 
-	table.remove(arg_28_0.selectBeaconList, var_28_0)
+	slot3 = #slot0.selectBeaconList
+	slot0.tBeacon.m_numLab.text = slot3 .. "/" .. slot0.maxBeaconSelect
 
-	local var_28_1 = #arg_28_0.selectBeaconList
+	slot0.beaconList_:Refresh()
 
-	arg_28_0.tBeacon.m_numLab.text = var_28_1 .. "/" .. arg_28_0.maxBeaconSelect
-
-	arg_28_0.beaconList_:Refresh()
-
-	if var_28_1 > 0 then
-		arg_28_0.tBeacon.m_okBtn.interactable = true
+	if slot3 > 0 then
+		slot0.tBeacon.m_okBtn.interactable = true
 	else
-		arg_28_0.tBeacon.m_okBtn.interactable = false
+		slot0.tBeacon.m_okBtn.interactable = false
 	end
 end
 
-function var_0_0.Dispose(arg_29_0)
-	var_0_0.super.Dispose(arg_29_0)
-	arg_29_0.heroList_:Dispose()
-	arg_29_0.difficultyList_:Dispose()
-	arg_29_0.beaconList_:Dispose()
-	arg_29_0.selectAfiifxView:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.heroList_:Dispose()
+	slot0.difficultyList_:Dispose()
+	slot0.beaconList_:Dispose()
+	slot0.selectAfiifxView:Dispose()
 end
 
-function var_0_0.OnMatrixSystemOverdue(arg_30_0)
-	arg_30_0:Back()
+function slot0.OnMatrixSystemOverdue(slot0)
+	slot0:Back()
 end
 
-return var_0_0
+return slot0

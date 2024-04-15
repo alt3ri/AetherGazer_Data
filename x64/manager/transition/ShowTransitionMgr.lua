@@ -1,221 +1,200 @@
-local var_0_0 = class("ShowTransitionMgr", import("game.extend.BaseView"))
+slot0 = class("ShowTransitionMgr", import("game.extend.BaseView"))
 
-function var_0_0.Ctor(arg_1_0)
-	if not arg_1_0.gameObject_ then
-		arg_1_0.gameObject_ = Object.Instantiate(Asset.Load("UI/Common/switch"), manager.ui.uiMessage.transform)
+function slot0.Ctor(slot0)
+	if not slot0.gameObject_ then
+		slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/Common/switch"), manager.ui.uiMessage.transform)
 
-		SetActive(arg_1_0.gameObject_, false)
+		SetActive(slot0.gameObject_, false)
 
-		arg_1_0.image_ = arg_1_0.gameObject_.transform:GetComponentInChildren(typeof(Image))
-		arg_1_0.color_ = arg_1_0.image_.color
-		arg_1_0.color_.a = 0
-		arg_1_0.image_.color = arg_1_0.color_
-		arg_1_0.animator_ = arg_1_0.gameObject_:GetComponent("Animator")
+		slot0.image_ = slot0.gameObject_.transform:GetComponentInChildren(typeof(Image))
+		slot0.color_ = slot0.image_.color
+		slot0.color_.a = 0
+		slot0.image_.color = slot0.color_
+		slot0.animator_ = slot0.gameObject_:GetComponent("Animator")
 	end
 
-	gameContext:SetActions(handler(arg_1_0, arg_1_0.Show), handler(arg_1_0, arg_1_0.Hide))
+	gameContext:SetActions(handler(slot0, slot0.Show), handler(slot0, slot0.Hide))
 end
 
-function var_0_0.RegistCanEndFunc(arg_2_0, arg_2_1)
-	arg_2_0.canEndFunc_ = arg_2_1
+function slot0.RegistCanEndFunc(slot0, slot1)
+	slot0.canEndFunc_ = slot1
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	local var_3_0
-	local var_3_1
-	local var_3_2
+function slot0.Show(slot0, slot1, slot2, slot3)
+	slot4, slot5, slot6 = nil
 
-	if arg_3_3 then
-		local var_3_3 = gameContext:GetAllOpenRoute()
-		local var_3_4
+	if slot3 then
+		slot5, slot9 = manager.loadScene:GetNeedLoadSceneName(gameContext:GetAllOpenRoute())
 
-		var_3_1, var_3_4 = manager.loadScene:GetNeedLoadSceneName(var_3_3)
-
-		if not var_3_4 then
+		if not slot9 then
 			manager.loadScene:StopSceneSoundEffect()
 		else
-			manager.loadScene:TryStopSceneSoundEffect(var_3_4)
+			manager.loadScene:TryStopSceneSoundEffect(slot6)
 		end
 	end
 
-	arg_3_0:DoCallBack()
-	arg_3_0:ClearTimer()
+	slot0:DoCallBack()
+	slot0:ClearTimer()
 
-	arg_3_0.callBackFun_ = arg_3_1
+	slot0.callBackFun_ = slot1
 
-	if gameContext ~= nil then
-		var_3_0 = gameContext:GetLastOpenPage()
-
-		if ViewConst.PLAY_TRANSITION_URL_LIST[var_3_0] and arg_3_2 or arg_3_3 and var_3_1 or arg_3_3 and gameContext:IsOpenRoute("home") then
-			-- block empty
-		else
-			arg_3_0:ClearTimer()
-			arg_3_0:DoCallBack()
+	if gameContext ~= nil and (not ViewConst.PLAY_TRANSITION_URL_LIST[gameContext:GetLastOpenPage()] or not slot2) and (not slot3 or not slot5) then
+		if not slot3 or not gameContext:IsOpenRoute("home") then
+			slot0:ClearTimer()
+			slot0:DoCallBack()
 
 			return
 		end
 	end
 
-	SetActive(arg_3_0.gameObject_, true)
-	arg_3_0:PlayAnimator("enter")
+	SetActive(slot0.gameObject_, true)
+	slot0:PlayAnimator("enter")
 
-	if arg_3_3 and var_3_1 then
-		var_3_0 = var_3_1
+	if slot3 and slot5 then
+		slot4 = slot5
 	end
 
-	if var_3_0 then
-		manager.loadScene:SetShouldLoadSceneName(var_3_0)
+	if slot4 then
+		manager.loadScene:SetShouldLoadSceneName(slot4)
 	end
 
-	arg_3_0.waitNextFrameToCallback = false
-	arg_3_0.timer_ = FrameTimer.New(function()
-		local var_4_0 = true
+	slot0.waitNextFrameToCallback = false
+	slot0.timer_ = FrameTimer.New(function ()
+		slot0 = true
 
-		if arg_3_0.canEndFunc_ then
-			var_4_0 = arg_3_0.canEndFunc_() and manager.loadScene:CanEnd()
+		if uv0.canEndFunc_ then
+			slot0 = uv0.canEndFunc_() and manager.loadScene:CanEnd()
 		end
 
-		local var_4_1 = arg_3_0.animator_:GetCurrentAnimatorStateInfo(0)
-
-		if not var_4_1:IsName("enter") then
-			arg_3_0:PlayAnimator("enter")
+		if not uv0.animator_:GetCurrentAnimatorStateInfo(0):IsName("enter") then
+			uv0:PlayAnimator("enter")
 		end
 
-		if var_4_1.normalizedTime > 1 and var_4_1:IsName("enter") and var_4_0 then
-			if not arg_3_0.waitNextFrameToCallback then
-				arg_3_0.waitNextFrameToCallback = true
+		if slot1.normalizedTime > 1 and slot1:IsName("enter") and slot0 then
+			if not uv0.waitNextFrameToCallback then
+				uv0.waitNextFrameToCallback = true
 			else
 				LoadingUIManager.inst:CloseLoadUI()
-				arg_3_0:ClearTimer()
-				arg_3_0:DoCallBack()
+				uv0:ClearTimer()
+				uv0:DoCallBack()
 
-				arg_3_0.waitNextFrameToCallback = false
+				uv0.waitNextFrameToCallback = false
 			end
 		end
 	end, 1, -1)
 
-	arg_3_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.Hide(arg_5_0, arg_5_1, arg_5_2)
-	if gameContext ~= nil then
-		local var_5_0 = gameContext:GetLastOpenPage()
+function slot0.Hide(slot0, slot1, slot2)
+	if gameContext ~= nil and (not ViewConst.PLAY_TRANSITION_URL_LIST[gameContext:GetLastOpenPage()] or not slot2) and not gameContext:IsOpenRoute("home") then
+		slot0:DoCallBack()
+		slot0:ClearTimer()
+		SetActive(slot0.gameObject_, false)
 
-		if (not ViewConst.PLAY_TRANSITION_URL_LIST[var_5_0] or not arg_5_2) and not gameContext:IsOpenRoute("home") then
-			arg_5_0:DoCallBack()
-			arg_5_0:ClearTimer()
-			SetActive(arg_5_0.gameObject_, false)
-
-			if arg_5_1 then
-				arg_5_1()
-			end
-
-			return
-		end
-	end
-
-	arg_5_0:PlayAnimator("out")
-	arg_5_0:DoCallBack()
-	arg_5_0:ClearTimer()
-
-	arg_5_0.callBackFun_ = arg_5_1
-	arg_5_0.timer_ = FrameTimer.New(function()
-		local var_6_0 = arg_5_0.animator_:GetCurrentAnimatorStateInfo(0)
-
-		if not var_6_0:IsName("out") then
-			arg_5_0:PlayAnimator("out")
+		if slot1 then
+			slot1()
 		end
 
-		if var_6_0.normalizedTime > 1 and var_6_0:IsName("out") then
-			arg_5_0:ClearTimer()
-			arg_5_0:DoCallBack()
-		end
-	end, 1, -1)
-
-	arg_5_0.timer_:Start()
-end
-
-function var_0_0.OnlyShowEffect(arg_7_0, arg_7_1, arg_7_2)
-	if isNil(arg_7_0.animator_) then
 		return
 	end
 
-	arg_7_0:DoCallBack()
-	arg_7_0:ClearTimer()
+	slot0:PlayAnimator("out")
+	slot0:DoCallBack()
+	slot0:ClearTimer()
 
-	arg_7_0.callBackFun_ = arg_7_2
-
-	if arg_7_1 then
-		arg_7_0.color_.a = 0
-		arg_7_0.image_.color = arg_7_0.color_
-	else
-		arg_7_0.color_.a = 1
-		arg_7_0.image_.color = arg_7_0.color_
-	end
-
-	SetActive(arg_7_0.gameObject_, true)
-
-	local var_7_0 = arg_7_1 and "enter" or "out"
-
-	if not arg_7_0.animator_:GetCurrentAnimatorStateInfo(0):IsName(var_7_0) then
-		arg_7_0:PlayAnimator(var_7_0)
-	end
-
-	arg_7_0.timer_ = FrameTimer.New(function()
-		local var_8_0 = arg_7_0.animator_:GetCurrentAnimatorStateInfo(0)
-
-		if not var_8_0:IsName(var_7_0) then
-			arg_7_0:PlayAnimator(var_7_0)
+	slot0.callBackFun_ = slot1
+	slot0.timer_ = FrameTimer.New(function ()
+		if not uv0.animator_:GetCurrentAnimatorStateInfo(0):IsName("out") then
+			uv0:PlayAnimator("out")
 		end
 
-		if var_8_0.normalizedTime > 1 and var_8_0:IsName(var_7_0) then
-			arg_7_0:ClearTimer()
-			arg_7_0:DoCallBack()
+		if slot0.normalizedTime > 1 and slot0:IsName("out") then
+			uv0:ClearTimer()
+			uv0:DoCallBack()
 		end
 	end, 1, -1)
 
-	arg_7_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	gameContext:SetActions(nil, nil)
-
-	if arg_9_0.gameObject_ ~= nil then
-		Object.Destroy(arg_9_0.gameObject_)
-
-		arg_9_0.gameObject_ = nil
+function slot0.OnlyShowEffect(slot0, slot1, slot2)
+	if isNil(slot0.animator_) then
+		return
 	end
 
-	arg_9_0:ClearTimer()
+	slot0:DoCallBack()
+	slot0:ClearTimer()
 
-	arg_9_0.image_ = nil
-	arg_9_0.canEndFunc_ = nil
-	arg_9_0.animator_ = nil
+	slot0.callBackFun_ = slot2
 
-	var_0_0.super.Dispose(arg_9_0)
+	if slot1 then
+		slot0.color_.a = 0
+		slot0.image_.color = slot0.color_
+	else
+		slot0.color_.a = 1
+		slot0.image_.color = slot0.color_
+	end
+
+	SetActive(slot0.gameObject_, true)
+
+	if not slot0.animator_:GetCurrentAnimatorStateInfo(0):IsName(slot1 and "enter" or "out") then
+		slot0:PlayAnimator(slot3)
+	end
+
+	slot0.timer_ = FrameTimer.New(function ()
+		if not uv0.animator_:GetCurrentAnimatorStateInfo(0):IsName(uv1) then
+			uv0:PlayAnimator(uv1)
+		end
+
+		if slot0.normalizedTime > 1 and slot0:IsName(uv1) then
+			uv0:ClearTimer()
+			uv0:DoCallBack()
+		end
+	end, 1, -1)
+
+	slot0.timer_:Start()
 end
 
-function var_0_0.ClearTimer(arg_10_0)
-	if arg_10_0.timer_ then
-		arg_10_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	gameContext:SetActions(nil, )
 
-		arg_10_0.timer_ = nil
+	if slot0.gameObject_ ~= nil then
+		Object.Destroy(slot0.gameObject_)
+
+		slot0.gameObject_ = nil
+	end
+
+	slot0:ClearTimer()
+
+	slot0.image_ = nil
+	slot0.canEndFunc_ = nil
+	slot0.animator_ = nil
+
+	uv0.super.Dispose(slot0)
+end
+
+function slot0.ClearTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
+
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.DoCallBack(arg_11_0)
-	if arg_11_0.callBackFun_ then
-		arg_11_0.callBackFun_()
+function slot0.DoCallBack(slot0)
+	if slot0.callBackFun_ then
+		slot0.callBackFun_()
 
-		arg_11_0.callBackFun_ = nil
+		slot0.callBackFun_ = nil
 	end
 end
 
-function var_0_0.PlayAnimator(arg_12_0, arg_12_1)
-	if arg_12_0.gameObject_.activeSelf then
-		arg_12_0.animator_:Play(arg_12_1, -1, 0)
-		arg_12_0.animator_:Update(0)
+function slot0.PlayAnimator(slot0, slot1)
+	if slot0.gameObject_.activeSelf then
+		slot0.animator_:Play(slot1, -1, 0)
+		slot0.animator_:Update(0)
 	end
 end
 
-return var_0_0
+return slot0

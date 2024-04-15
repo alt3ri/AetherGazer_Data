@@ -1,145 +1,139 @@
-local var_0_0 = class("KagutsuchiWorkMapGrid", ReduxView)
+slot0 = class("KagutsuchiWorkMapGrid", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_1_0.playGrid = nil
-	arg_1_0.playGridDataIndex = -1
-	arg_1_0.createPlayGridGoHandler = arg_1_2
+	slot0.playGrid = nil
+	slot0.playGridDataIndex = -1
+	slot0.createPlayGridGoHandler = slot2
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.typeController = nil
-	arg_2_0.clearController = nil
+	slot0.typeController = nil
+	slot0.clearController = nil
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.BindPlayGrid(arg_4_0, arg_4_1)
-	local var_4_0 = KagutsuchiWorkData:GetPlayGridData(arg_4_1)
-	local var_4_1 = arg_4_0.createPlayGridGoHandler(arg_4_0.transform_, var_4_0)
-	local var_4_2 = {
-		gameObject_ = var_4_1,
-		transform_ = var_4_1.transform
+function slot0.BindPlayGrid(slot0, slot1)
+	slot3 = slot0.createPlayGridGoHandler(slot0.transform_, KagutsuchiWorkData:GetPlayGridData(slot1))
+	slot4 = {
+		gameObject_ = slot3,
+		transform_ = slot3.transform
 	}
 
-	ComponentBinder.GetInstance():BindCfgUI(var_4_2, var_4_2.gameObject_)
+	ComponentBinder.GetInstance():BindCfgUI(slot4, slot4.gameObject_)
 
-	arg_4_0.playGridDataIndex = arg_4_1
-	arg_4_0.playGrid = var_4_2
-	arg_4_0.typeController = ControllerUtil.GetController(var_4_2.transform_, "type")
-	arg_4_0.clearController = ControllerUtil.GetController(var_4_2.transform_, "clear")
-	arg_4_0.selectController = ControllerUtil.GetController(var_4_2.transform_, "select")
+	slot0.playGridDataIndex = slot1
+	slot0.playGrid = slot4
+	slot0.typeController = ControllerUtil.GetController(slot4.transform_, "type")
+	slot0.clearController = ControllerUtil.GetController(slot4.transform_, "clear")
+	slot0.selectController = ControllerUtil.GetController(slot4.transform_, "select")
 
-	arg_4_0:AddBtnListener(var_4_2.button_, nil, function()
-		arg_4_0:OnClickPlayGrid()
+	slot0:AddBtnListener(slot4.button_, nil, function ()
+		uv0:OnClickPlayGrid()
 	end)
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetClickHandler(arg_6_0, arg_6_1)
-	arg_6_0.clickHandler_ = arg_6_1
+function slot0.SetClickHandler(slot0, slot1)
+	slot0.clickHandler_ = slot1
 end
 
-function var_0_0.OnClickPlayGrid(arg_7_0)
-	if not arg_7_0.playGrid then
+function slot0.OnClickPlayGrid(slot0)
+	if not slot0.playGrid then
 		return
 	end
 
-	local var_7_0 = arg_7_0.playGrid
-	local var_7_1 = arg_7_0:GetPlayGridData()
+	slot1 = slot0.playGrid
 
-	if var_7_1:IsCleared() and var_7_1:IsEntrust() then
-		-- block empty
+	if slot0:GetPlayGridData():IsCleared() and slot2:IsEntrust() then
+		-- Nothing
 	end
 
-	local var_7_2 = var_7_1:GetReward()
-	local var_7_3 = {
+	slot4 = {
 		activityId = ActivityConst.KAGUTSUCHI_ACTIVITY,
-		reward = var_7_2,
-		gridId = var_7_1:GetId()
+		reward = slot2:GetReward(),
+		gridId = slot2:GetId(),
+		isBattle = true,
+		isEntrust = false,
+		stageId = slot2:GetBattleStageId(),
+		activityId = ActivityConst.KAGUTSUCHI_ACTIVITY,
+		battleName = slot2:GetName(),
+		battleSummary = slot2:GetSummary(),
+		battleLevel = slot2:GetLevel(),
+		battleCost = slot2:GetCost(),
+		battleReward = slot3
 	}
 
-	if var_7_1:IsBattle() then
-		var_7_3.isBattle = true
-		var_7_3.isEntrust = false
-		var_7_3.stageId = var_7_1:GetBattleStageId()
-		var_7_3.activityId = ActivityConst.KAGUTSUCHI_ACTIVITY
-		var_7_3.battleName = var_7_1:GetName()
-		var_7_3.battleSummary = var_7_1:GetSummary()
-		var_7_3.battleLevel = var_7_1:GetLevel()
-		var_7_3.battleCost = var_7_1:GetCost()
-		var_7_3.battleReward = var_7_2
+	if slot2:IsBattle() then
+		-- Nothing
 	end
 
-	if var_7_1:IsEntrust() then
-		var_7_3.isBattle = false
-		var_7_3.isEntrust = true
-		var_7_3.entrustName = var_7_1:GetName()
-		var_7_3.entrustSummary = var_7_1:GetSummary()
-		var_7_3.entrustCompleteText = var_7_1:GetCompleteText()
-		var_7_3.entrustReward = var_7_2
+	if slot2:IsEntrust() then
+		slot4.isBattle = false
+		slot4.isEntrust = true
+		slot4.entrustName = slot2:GetName()
+		slot4.entrustSummary = slot2:GetSummary()
+		slot4.entrustCompleteText = slot2:GetCompleteText()
+		slot4.entrustReward = slot3
 	end
 
-	if arg_7_0.clickHandler_ then
-		arg_7_0.clickHandler_(arg_7_0, var_7_3)
+	if slot0.clickHandler_ then
+		slot0:clickHandler_(slot4)
 	end
 
-	arg_7_0:SetSelected(true)
+	slot0:SetSelected(true)
 end
 
-function var_0_0.GetPlayGridData(arg_8_0)
-	return KagutsuchiWorkData:GetPlayGridData(arg_8_0.playGridDataIndex)
+function slot0.GetPlayGridData(slot0)
+	return KagutsuchiWorkData:GetPlayGridData(slot0.playGridDataIndex)
 end
 
-function var_0_0.GetPosition(arg_9_0)
-	return arg_9_0.transform_.anchoredPosition
+function slot0.GetPosition(slot0)
+	return slot0.transform_.anchoredPosition
 end
 
-function var_0_0.SetSelected(arg_10_0, arg_10_1)
-	if arg_10_1 then
-		local var_10_0 = arg_10_0:GetPlayGridData()
-
-		arg_10_0.selectController:SetSelectedState(var_10_0:IsEntrust() and "entrustslelct" or "battleselect")
+function slot0.SetSelected(slot0, slot1)
+	if slot1 then
+		slot0.selectController:SetSelectedState(slot0:GetPlayGridData():IsEntrust() and "entrustslelct" or "battleselect")
 	else
-		arg_10_0.selectController:SetSelectedState("false")
+		slot0.selectController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	if arg_11_0.playGrid then
-		local var_11_0 = arg_11_0.playGrid
-		local var_11_1 = arg_11_0:GetPlayGridData()
+function slot0.RefreshUI(slot0)
+	if slot0.playGrid then
+		slot1 = slot0.playGrid
 
-		if var_11_1:IsBoss() then
-			arg_11_0.typeController:SetSelectedState("boss")
-		elseif var_11_1:IsEntrust() then
-			arg_11_0.typeController:SetSelectedState("entrust")
-		elseif var_11_1:IsBattle() then
-			arg_11_0.typeController:SetSelectedState("normal")
+		if slot0:GetPlayGridData():IsBoss() then
+			slot0.typeController:SetSelectedState("boss")
+		elseif slot2:IsEntrust() then
+			slot0.typeController:SetSelectedState("entrust")
+		elseif slot2:IsBattle() then
+			slot0.typeController:SetSelectedState("normal")
 		end
 
-		var_11_0.normalLevelText_.text = "Lv." .. var_11_1:GetLevel()
-		var_11_0.bossLevelText_.text = "Lv." .. var_11_1:GetLevel()
+		slot1.normalLevelText_.text = "Lv." .. slot2:GetLevel()
+		slot1.bossLevelText_.text = "Lv." .. slot2:GetLevel()
 
-		if var_11_1:IsCleared() then
-			arg_11_0.clearController:SetSelectedState("cleared")
+		if slot2:IsCleared() then
+			slot0.clearController:SetSelectedState("cleared")
 		else
-			arg_11_0.clearController:SetSelectedState("unclear")
+			slot0.clearController:SetSelectedState("unclear")
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

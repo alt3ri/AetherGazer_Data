@@ -1,314 +1,247 @@
-local var_0_0 = {
-	SortChipManager = function(arg_1_0)
-		local var_1_0 = ChipData:GetChipManagerList()
-		local var_1_1 = {}
-		local var_1_2 = {}
-		local var_1_3 = {}
-		local var_1_4 = ChipData:GetUnlockChipManagerIDList()
+return {
+	SortChipManager = function (slot0)
+		slot2 = {}
+		slot3 = {}
+		slot4 = {}
 
-		for iter_1_0, iter_1_1 in pairs(var_1_0) do
-			if iter_1_0 ~= arg_1_0 then
-				if table.keyof(var_1_4, iter_1_0) then
-					table.insert(var_1_1, iter_1_0)
-				elseif IsConditionAchieved(ChipCfg[iter_1_0].new_condition) then
-					table.insert(var_1_2, iter_1_0)
+		for slot9, slot10 in pairs(ChipData:GetChipManagerList()) do
+			if slot9 ~= slot0 then
+				if table.keyof(ChipData:GetUnlockChipManagerIDList(), slot9) then
+					table.insert(slot2, slot9)
+				elseif IsConditionAchieved(ChipCfg[slot9].new_condition) then
+					table.insert(slot3, slot9)
 				else
-					table.insert(var_1_3, iter_1_0)
+					table.insert(slot4, slot9)
 				end
 			end
 		end
 
-		table.sort(var_1_1, function(arg_2_0, arg_2_1)
-			return arg_2_0 < arg_2_1
+		table.sort(slot2, function (slot0, slot1)
+			return slot0 < slot1
 		end)
-		table.sort(var_1_2, function(arg_3_0, arg_3_1)
-			return arg_3_0 < arg_3_1
+		table.sort(slot3, function (slot0, slot1)
+			return slot0 < slot1
 		end)
-		table.sort(var_1_3, function(arg_4_0, arg_4_1)
-			return arg_4_0 < arg_4_1
+		table.sort(slot4, function (slot0, slot1)
+			return slot0 < slot1
 		end)
-		table.insertto(var_1_1, var_1_2)
-		table.insertto(var_1_1, var_1_3)
+		table.insertto(slot2, slot3)
+		table.insertto(slot2, slot4)
 
-		if arg_1_0 ~= 0 then
-			table.insert(var_1_1, 1, arg_1_0)
+		if slot0 ~= 0 then
+			table.insert(slot2, 1, slot0)
 		end
 
-		if manager.guide:IsPlaying() then
-			local var_1_5 = table.indexof(var_1_1, 6)
-
-			if var_1_5 then
-				table.remove(var_1_1, var_1_5)
-				table.insert(var_1_1, 1, 6)
-			end
+		if manager.guide:IsPlaying() and table.indexof(slot2, 6) then
+			table.remove(slot2, slot6)
+			table.insert(slot2, 1, 6)
 		end
 
-		return var_1_1
-	end
-}
+		return slot2
+	end,
+	SortChip = function (slot0, slot1)
+		return uv0.SortChipList(ChipData:GetChipManagerList()[slot1], slot0, slot1)
+	end,
+	SortChipList = function (slot0, slot1, slot2, slot3)
+		slot4 = {}
+		slot5 = {}
+		slot6 = {}
+		slot7 = {}
+		slot8 = nil
 
-function var_0_0.SortChip(arg_5_0, arg_5_1)
-	local var_5_0 = ChipData:GetChipManagerList()[arg_5_1]
+		for slot12, slot13 in pairs(slot1) do
+			if not table.keyof(slot0, slot13) then
+				if table.keyof((not slot3 or ChipData:GetUnlockHeroChipIDList()) and ChipData:GetUnlockChipIDList(), slot13) then
+					table.insert(slot5, slot13)
+				else
+					slot14 = nil
 
-	return var_0_0.SortChipList(var_5_0, arg_5_0, arg_5_1)
-end
-
-function var_0_0.SortChipList(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	local var_6_0 = {}
-	local var_6_1 = {}
-	local var_6_2 = {}
-	local var_6_3 = {}
-	local var_6_4
-
-	if arg_6_3 then
-		var_6_4 = ChipData:GetUnlockHeroChipIDList()
-	else
-		var_6_4 = ChipData:GetUnlockChipIDList()
-	end
-
-	for iter_6_0, iter_6_1 in pairs(arg_6_1) do
-		if not table.keyof(arg_6_0, iter_6_1) then
-			if table.keyof(var_6_4, iter_6_1) then
-				table.insert(var_6_1, iter_6_1)
-			else
-				local var_6_5
-
-				if ChipCfg[iter_6_1].new_condition > 0 then
-					if ChipCfg[iter_6_1].spec_char > 0 then
-						var_6_5 = IsConditionAchieved(ChipCfg[iter_6_1].new_condition, {
-							heroId = ChipCfg[iter_6_1].spec_char
-						})
+					if (ChipCfg[slot13].new_condition <= 0 or (ChipCfg[slot13].spec_char <= 0 or IsConditionAchieved(ChipCfg[slot13].new_condition, {
+						heroId = ChipCfg[slot13].spec_char
+					})) and IsConditionAchieved(ChipCfg[slot13].new_condition)) and (ChipCfg[slot13].cost_condition[1][1] <= ItemTools.getItemNum(ChipCfg[slot13].cost_condition[1][1]) and true or false) then
+						table.insert(slot6, slot13)
 					else
-						var_6_5 = IsConditionAchieved(ChipCfg[iter_6_1].new_condition)
+						table.insert(slot7, slot13)
 					end
-				else
-					var_6_5 = ItemTools.getItemNum(ChipCfg[iter_6_1].cost_condition[1][1]) >= ChipCfg[iter_6_1].cost_condition[1][1] and true or false
 				end
-
-				if var_6_5 then
-					table.insert(var_6_2, iter_6_1)
-				else
-					table.insert(var_6_3, iter_6_1)
-				end
+			else
+				table.insert(slot4, slot13)
 			end
-		else
-			table.insert(var_6_0, iter_6_1)
 		end
-	end
 
-	var_0_0.SortRegular(var_6_1)
-	var_0_0.SortRegular(var_6_2)
-	var_0_0.SortRegular(var_6_3)
-	table.insertto(var_6_0, var_6_1)
-	table.insertto(var_6_0, var_6_2)
-	table.insertto(var_6_0, var_6_3)
+		uv0.SortRegular(slot5)
+		uv0.SortRegular(slot6)
+		uv0.SortRegular(slot7)
+		table.insertto(slot4, slot5)
+		table.insertto(slot4, slot6)
+		table.insertto(slot4, slot7)
 
-	return var_6_0
-end
-
-function var_0_0.GetChipCanLocked(arg_7_0)
-	if not ChipCfg[arg_7_0] then
-		return false
-	end
-
-	local var_7_0 = ChipCfg[arg_7_0].new_condition
-
-	return (IsConditionAchieved(var_7_0))
-end
-
-function var_0_0.SortRegular(arg_8_0)
-	table.sort(arg_8_0, function(arg_9_0, arg_9_1)
-		local var_9_0 = ChipCfg[arg_9_0].spec_char
-		local var_9_1 = ChipCfg[arg_9_1].spec_char
-
-		if var_9_0 ~= 0 and var_9_1 == 0 then
+		return slot4
+	end,
+	GetChipCanLocked = function (slot0)
+		if not ChipCfg[slot0] then
 			return false
 		end
 
-		return arg_9_0 < arg_9_1
-	end)
-end
+		return IsConditionAchieved(ChipCfg[slot0].new_condition)
+	end,
+	SortRegular = function (slot0)
+		table.sort(slot0, function (slot0, slot1)
+			if ChipCfg[slot0].spec_char ~= 0 and ChipCfg[slot1].spec_char == 0 then
+				return false
+			end
 
-function var_0_0.FormatChipByRoleType(arg_10_0)
-	local var_10_0 = {}
-
-	if type(arg_10_0) ~= "table" then
-		return var_10_0
-	end
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0) do
-		var_10_0[ChipCfg[iter_10_1].role_type_id] = iter_10_1
-	end
-
-	return var_10_0
-end
-
-function var_0_0.GetChipTypeList(arg_11_0)
-	local var_11_0 = {
-		-1,
-		0
-	}
-	local var_11_1 = {}
-
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0) do
-		local var_11_2 = ChipCfg[iter_11_1].spec_char
-
-		if not table.keyof(var_11_1, var_11_2) and var_11_2 ~= 0 then
-			table.insert(var_11_1, var_11_2)
+			return slot0 < slot1
+		end)
+	end,
+	FormatChipByRoleType = function (slot0)
+		if type(slot0) ~= "table" then
+			return {}
 		end
-	end
 
-	local var_11_3 = HeroTools.SortHero(var_11_1)
+		for slot5, slot6 in ipairs(slot0) do
+			slot1[ChipCfg[slot6].role_type_id] = slot6
+		end
 
-	table.insertto(var_11_0, var_11_3)
-
-	return var_11_0
-end
-
-function var_0_0.GetChipTypeCntList(arg_12_0)
-	local var_12_0 = {
-		[-1] = {}
-	}
-
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0) do
-		local var_12_1 = ChipCfg[iter_12_1].spec_char
-
-		var_12_0[var_12_1] = var_12_0[var_12_1] or {}
-
-		table.insert(var_12_0[var_12_1], iter_12_1)
-		table.insert(var_12_0[-1], iter_12_1)
-	end
-
-	return var_12_0
-end
-
-function var_0_0.SortScheme(arg_13_0)
-	local var_13_0 = ChipData:GetChipManagerList()[arg_13_0]
-	local var_13_1 = ChipData:GetSchemeList()
-	local var_13_2 = {
-		{
-			id = 0,
-			name = GetTips("CURRENT_SCHEME"),
-			chipList = var_13_0
+		return slot1
+	end,
+	GetChipTypeList = function (slot0)
+		slot1 = {
+			-1,
+			0
 		}
-	}
+		slot2 = {}
 
-	for iter_13_0, iter_13_1 in pairs(var_13_1) do
-		local var_13_3 = #var_13_0 == #iter_13_1.chipList
+		for slot6, slot7 in ipairs(slot0) do
+			if not table.keyof(slot2, ChipCfg[slot7].spec_char) and slot8 ~= 0 then
+				table.insert(slot2, slot8)
+			end
+		end
 
-		for iter_13_2, iter_13_3 in ipairs(iter_13_1.chipList) do
-			if not table.keyof(var_13_0, iter_13_3) then
-				var_13_3 = false
+		table.insertto(slot1, HeroTools.SortHero(slot2))
+
+		return slot1
+	end,
+	GetChipTypeCntList = function (slot0)
+		slot1 = {
+			[-1] = {}
+		}
+
+		for slot5, slot6 in ipairs(slot0) do
+			slot1[slot7] = slot1[ChipCfg[slot6].spec_char] or {}
+
+			table.insert(slot1[slot7], slot6)
+			table.insert(slot1[-1], slot6)
+		end
+
+		return slot1
+	end,
+	SortScheme = function (slot0)
+		slot3 = {
+			{
+				id = 0,
+				name = GetTips(slot7),
+				chipList = ChipData:GetChipManagerList()[slot0]
+			}
+		}
+
+		for 
+		-- Decompilation error in this vicinity:
+		"CURRENT_SCHEME", slot8 in pairs(ChipData:GetSchemeList()) do
+			slot9 = #slot1 == #slot8.chipList
+
+			for slot13, slot14 in ipairs(slot8.chipList) do
+				if not table.keyof(slot1, slot14) then
+					slot9 = false
+
+					break
+				end
+			end
+
+			if slot9 then
+				slot3[1] = clone(slot8)
+			else
+				table.insert(slot3, clone(slot8))
+			end
+		end
+
+		for slot8 = #slot3 + 1, GameSetting.ai_chip_proposal_num_max.value[1] + (slot3[1].id == 0 and 1 or 0) do
+			table.insert(slot3, {
+				id = -1
+			})
+		end
+
+		return slot3
+	end,
+	InsertChip = function (slot0, slot1, slot2)
+		slot3, slot4 = uv0.InternalInsertChip(slot0, slot1)
+
+		if slot3 == true then
+			if slot2 then
+				slot2(slot0)
+			end
+
+			ShowTips("CHIP_USE_SUCCESS")
+			manager.notify:Invoke(ENABLED_CHIP)
+		elseif slot4 then
+			ShowTips(slot4)
+		end
+	end,
+	RemoveChip = function (slot0, slot1, slot2)
+		slot3, slot4 = uv0.InternalRemoveChip(slot0, slot1)
+
+		if slot3 == true then
+			if slot2 then
+				slot2(slot0)
+			end
+
+			ShowTips("CHIP_UNLOAD_SUCCESS")
+			manager.notify:Invoke(ENABLED_CHIP)
+		elseif slot4 then
+			ShowTips(slot4)
+		end
+	end,
+	InternalInsertChip = function (slot0, slot1)
+		slot2 = true
+		slot3 = nil
+		slot4 = false
+		slot5 = 0
+
+		for slot11, slot12 in ipairs(slot0) do
+			if ChipCfg[slot12].spec_char ~= 0 and table.keyof(ChipCfg.get_id_list_by_spec_char[ChipCfg[slot1].spec_char], slot12) and slot12 ~= slot1 then
+				slot4 = true
+				slot5 = slot12
 
 				break
 			end
 		end
 
-		if var_13_3 then
-			var_13_2[1] = clone(iter_13_1)
-		else
-			table.insert(var_13_2, clone(iter_13_1))
-		end
-	end
-
-	local var_13_4 = GameSetting.ai_chip_proposal_num_max.value[1] + (var_13_2[1].id == 0 and 1 or 0)
-
-	for iter_13_4 = #var_13_2 + 1, var_13_4 do
-		table.insert(var_13_2, {
-			id = -1
-		})
-	end
-
-	return var_13_2
-end
-
-function var_0_0.InsertChip(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0, var_14_1 = var_0_0.InternalInsertChip(arg_14_0, arg_14_1)
-
-	if var_14_0 == true then
-		if arg_14_2 then
-			arg_14_2(arg_14_0)
+		if not table.indexof(slot0, slot1) and not slot4 and GameSetting.ai_secondary_chip_equip_num.value[1] <= #slot0 then
+			return false, "CHIP_CNT_MORE_THEN_MAX"
 		end
 
-		ShowTips("CHIP_USE_SUCCESS")
-		manager.notify:Invoke(ENABLED_CHIP)
-	elseif var_14_1 then
-		ShowTips(var_14_1)
-	end
-end
-
-function var_0_0.RemoveChip(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0, var_15_1 = var_0_0.InternalRemoveChip(arg_15_0, arg_15_1)
-
-	if var_15_0 == true then
-		if arg_15_2 then
-			arg_15_2(arg_15_0)
+		if slot4 and table.indexof(slot0, slot5) then
+			table.remove(slot0, slot8)
 		end
 
-		ShowTips("CHIP_UNLOAD_SUCCESS")
-		manager.notify:Invoke(ENABLED_CHIP)
-	elseif var_15_1 then
-		ShowTips(var_15_1)
-	end
-end
+		table.insert(slot0, slot1)
 
-function var_0_0.InternalInsertChip(arg_16_0, arg_16_1)
-	local var_16_0 = true
-	local var_16_1
-	local var_16_2 = false
-	local var_16_3 = 0
-	local var_16_4 = ChipCfg[arg_16_1].spec_char
-	local var_16_5 = ChipCfg.get_id_list_by_spec_char[var_16_4]
-
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0) do
-		if ChipCfg[iter_16_1].spec_char ~= 0 and table.keyof(var_16_5, iter_16_1) and iter_16_1 ~= arg_16_1 then
-			var_16_2 = true
-			var_16_3 = iter_16_1
-
-			break
+		return slot2, slot3
+	end,
+	InternalRemoveChip = function (slot0, slot1)
+		if table.indexof(slot0, slot1) then
+			table.remove(slot0, slot2)
 		end
-	end
 
-	if not table.indexof(arg_16_0, arg_16_1) and not var_16_2 and #arg_16_0 >= GameSetting.ai_secondary_chip_equip_num.value[1] then
-		var_16_0 = false
-		var_16_1 = "CHIP_CNT_MORE_THEN_MAX"
+		return true
+	end,
+	GetChipManagerIcon = function (slot0)
+		if not ChipCfg[slot0] then
+			Debug.Log(string.format("<color=ff0000>ChipCfg has no ID(%d)</color>", slot0))
 
-		return var_16_0, var_16_1
-	end
-
-	if var_16_2 then
-		local var_16_6 = table.indexof(arg_16_0, var_16_3)
-
-		if var_16_6 then
-			table.remove(arg_16_0, var_16_6)
+			return
 		end
+
+		return getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. slot1.picture_id)
 	end
-
-	table.insert(arg_16_0, arg_16_1)
-
-	return var_16_0, var_16_1
-end
-
-function var_0_0.InternalRemoveChip(arg_17_0, arg_17_1)
-	local var_17_0 = table.indexof(arg_17_0, arg_17_1)
-
-	if var_17_0 then
-		table.remove(arg_17_0, var_17_0)
-	end
-
-	return true
-end
-
-function var_0_0.GetChipManagerIcon(arg_18_0)
-	local var_18_0 = ChipCfg[arg_18_0]
-
-	if not var_18_0 then
-		Debug.Log(string.format("<color=ff0000>ChipCfg has no ID(%d)</color>", arg_18_0))
-
-		return
-	end
-
-	return getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. var_18_0.picture_id)
-end
-
-return var_0_0
+}

@@ -1,95 +1,88 @@
-local var_0_0 = class("HellaSlayerItem", ReduxView)
+slot0 = class("HellaSlayerItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lineController = ControllerUtil.GetController(arg_3_0.transform_, "line")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.m_regionTrans, "state")
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.m_regionTrans, "select")
+	slot0.lineController = ControllerUtil.GetController(slot0.transform_, "line")
+	slot0.stateController = ControllerUtil.GetController(slot0.m_regionTrans, "state")
+	slot0.selectController = ControllerUtil.GetController(slot0.m_regionTrans, "select")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_regionBtn, nil, function()
-		if arg_4_0.callback_ then
-			arg_4_0.callback_(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_regionBtn, nil, function ()
+		if uv0.callback_ then
+			uv0.callback_(uv0.index)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.slayer_activity_id = arg_6_2
-	arg_6_0.region_activity_id = arg_6_3
-	arg_6_0.index = arg_6_1
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.slayer_activity_id = slot2
+	slot0.region_activity_id = slot3
+	slot0.index = slot1
 
-	if arg_6_1 == 1 then
-		arg_6_0.lineController:SetSelectedIndex(1)
+	if slot1 == 1 then
+		slot0.lineController:SetSelectedIndex(1)
 
-		arg_6_0.m_region.anchoredPosition = Vector3.New(0, -80, 0)
-	elseif arg_6_1 % 2 == 0 then
-		arg_6_0.lineController:SetSelectedIndex(2)
+		slot0.m_region.anchoredPosition = Vector3.New(0, -80, 0)
+	elseif slot1 % 2 == 0 then
+		slot0.lineController:SetSelectedIndex(2)
 
-		arg_6_0.m_region.anchoredPosition = Vector3.New(0, 140, 0)
-	elseif arg_6_1 % 2 == 1 then
-		arg_6_0.lineController:SetSelectedIndex(3)
+		slot0.m_region.anchoredPosition = Vector3.New(0, 140, 0)
+	elseif slot1 % 2 == 1 then
+		slot0.lineController:SetSelectedIndex(3)
 
-		arg_6_0.m_region.anchoredPosition = Vector3.New(0, -240, 0)
+		slot0.m_region.anchoredPosition = Vector3.New(0, -240, 0)
 	else
-		arg_6_0.lineController:SetSelectedIndex(0)
+		slot0.lineController:SetSelectedIndex(0)
 	end
 
-	if arg_6_4 then
-		arg_6_0.lineController:SetSelectedIndex(0)
+	if slot4 then
+		slot0.lineController:SetSelectedIndex(0)
 	end
 
-	local var_6_0 = ActivitySlayerCfg[arg_6_3]
+	slot0.m_name.text = GetI18NText(ActivitySlayerCfg[slot3].name)
+	slot0.m_maxPointLab.text = SlayerData:GetPoint(slot0.slayer_activity_id, slot0.region_activity_id)
 
-	arg_6_0.m_name.text = GetI18NText(var_6_0.name)
-
-	local var_6_1 = SlayerData:GetPoint(arg_6_0.slayer_activity_id, arg_6_0.region_activity_id)
-
-	arg_6_0.m_maxPointLab.text = var_6_1
-
-	arg_6_0:RefreshTime()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshTime(arg_7_0)
-	local var_7_0 = ActivityData:GetActivityData(arg_7_0.region_activity_id)
-
-	if var_7_0 and var_7_0:IsActivitying() then
-		arg_7_0.stateController:SetSelectedIndex(1)
+function slot0.RefreshTime(slot0)
+	if ActivityData:GetActivityData(slot0.region_activity_id) and slot1:IsActivitying() then
+		slot0.stateController:SetSelectedIndex(1)
 	else
-		arg_7_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 
-		if manager.time:GetServerTime() >= var_7_0.stopTime then
-			arg_7_0.m_countDownLab.text = GetTips("TIME_OVER")
+		if slot1.stopTime <= manager.time:GetServerTime() then
+			slot0.m_countDownLab.text = GetTips("TIME_OVER")
 		else
-			arg_7_0.m_countDownLab.text = string.format(GetTips("SLAYER_TIME_TO_START"), manager.time:GetLostTimeStr(var_7_0.startTime))
+			slot0.m_countDownLab.text = string.format(GetTips("SLAYER_TIME_TO_START"), manager.time:GetLostTimeStr(slot1.startTime))
 		end
 	end
 end
 
-function var_0_0.SetSelectedIndex(arg_8_0, arg_8_1)
-	arg_8_0.selectController:SetSelectedIndex(arg_8_1 == arg_8_0.index and 1 or 0)
+function slot0.SetSelectedIndex(slot0, slot1)
+	slot0.selectController:SetSelectedIndex(slot1 == slot0.index and 1 or 0)
 end
 
-function var_0_0.RegistCallBack(arg_9_0, arg_9_1)
-	arg_9_0.callback_ = arg_9_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

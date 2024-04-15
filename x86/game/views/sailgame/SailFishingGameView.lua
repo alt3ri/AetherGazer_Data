@@ -1,96 +1,86 @@
-local var_0_0 = import("game.views.activity.Submodule.Fishing.Game.FishingGameView")
-local var_0_1 = class("SailFishingGameView", var_0_0)
+slot1 = class("SailFishingGameView", import("game.views.activity.Submodule.Fishing.Game.FishingGameView"))
 
-function var_0_1.AddUIListener(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.hookBtn_, nil, function()
-		if arg_1_0.hook_ then
-			arg_1_0.hook_:StartHooking()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.hookBtn_, nil, function ()
+		if uv0.hook_ then
+			uv0.hook_:StartHooking()
 		end
 	end)
-	FishGameManager.GetInstance():SetPauseHandler(handler(arg_1_0, arg_1_0.OnPause))
-	FishGameManager.GetInstance():SetContinueHandler(handler(arg_1_0, arg_1_0.OnContinue))
-	FishGameManager.GetInstance():SetScoreChangeHandler(handler(arg_1_0, arg_1_0.OnScoreChange))
-	FishGameManager.GetInstance():SetScoreAddHandler(handler(arg_1_0, arg_1_0.OnScoreAdd))
-	FishGameManager.GetInstance():AddBuffHandler(handler(arg_1_0, arg_1_0.OnBuffChange))
-	arg_1_0:AddBtnListener(arg_1_0.pauseBtn_, nil, function()
+	FishGameManager.GetInstance():SetPauseHandler(handler(slot0, slot0.OnPause))
+	FishGameManager.GetInstance():SetContinueHandler(handler(slot0, slot0.OnContinue))
+	FishGameManager.GetInstance():SetScoreChangeHandler(handler(slot0, slot0.OnScoreChange))
+	FishGameManager.GetInstance():SetScoreAddHandler(handler(slot0, slot0.OnScoreAdd))
+	FishGameManager.GetInstance():AddBuffHandler(handler(slot0, slot0.OnBuffChange))
+	slot0:AddBtnListener(slot0.pauseBtn_, nil, function ()
 		FishGameManager.GetInstance():Pause()
 	end)
-	arg_1_0:AddBtnListener(arg_1_0.continueBtn_, nil, function()
+	slot0:AddBtnListener(slot0.continueBtn_, nil, function ()
 		FishGameManager.GetInstance():Continue()
 	end)
-	arg_1_0:AddBtnListener(arg_1_0.exitBtn_, nil, function()
-		local var_5_0 = SailGameData:GetCurGameData(arg_1_0.params_.activityID).curStageIndex
+	slot0:AddBtnListener(slot0.exitBtn_, nil, function ()
+		uv0.tempScore_ = FishGameManager.GetInstance():GetScore()
 
-		arg_1_0.tempScore_ = FishGameManager.GetInstance():GetScore()
-
-		SailGameAction.EventOperate(arg_1_0.params_.activityID, var_5_0, nil, arg_1_0.tempScore_)
+		SailGameAction.EventOperate(uv0.params_.activityID, SailGameData:GetCurGameData(uv0.params_.activityID).curStageIndex, nil, uv0.tempScore_)
 	end)
 
-	arg_1_0.onAnimationCompleteHandler_ = handler(arg_1_0, arg_1_0.OnAnimationComplete)
-	arg_1_0.roleSpine_.AnimationState.Complete = arg_1_0.roleSpine_.AnimationState.Complete + arg_1_0.onAnimationCompleteHandler_
+	slot0.onAnimationCompleteHandler_ = handler(slot0, slot0.OnAnimationComplete)
+	slot0.roleSpine_.AnimationState.Complete = slot0.roleSpine_.AnimationState.Complete + slot0.onAnimationCompleteHandler_
 end
 
-function var_0_1.Update(arg_6_0)
-	if arg_6_0.end_ then
-		arg_6_0.roleSpine_.AnimationState.TimeScale = 0
-		arg_6_0.waterSpine_.AnimationState.TimeScale = 0
+function slot1.Update(slot0)
+	if slot0.end_ then
+		slot0.roleSpine_.AnimationState.TimeScale = 0
+		slot0.waterSpine_.AnimationState.TimeScale = 0
 
 		return
 	end
 
-	local var_6_0 = FishGameManager.GetInstance():GetStatus()
-
-	if var_6_0 == "cast" then
+	if FishGameManager.GetInstance():GetStatus() == "cast" then
 		if animationStatus == "notPlayed" then
-			arg_6_0:PlayRoleAnimation("PushButton", false)
+			slot0:PlayRoleAnimation("PushButton", false)
 
 			animationStatus = "playing"
 		end
-	elseif var_6_0 == "catch" then
+	elseif slot1 == "catch" then
 		animationStatus = "notPlayed"
 
-		arg_6_0:PlayRoleAnimation("Happy", true)
-	elseif var_6_0 == "fail" then
+		slot0:PlayRoleAnimation("Happy", true)
+	elseif slot1 == "fail" then
 		animationStatus = "notPlayed"
 
-		arg_6_0:PlayRoleAnimation("Sad", true)
-	elseif var_6_0 == "idle" then
+		slot0:PlayRoleAnimation("Sad", true)
+	elseif slot1 == "idle" then
 		animationStatus = "notPlayed"
 
-		arg_6_0:PlayRoleAnimation("idle", true)
+		slot0:PlayRoleAnimation("idle", true)
 	end
 
-	local var_6_1 = FishGameManager.GetInstance():GetSeconds()
-
-	if var_6_1 < 0 then
-		var_6_1 = 0
+	if FishGameManager.GetInstance():GetSeconds() < 0 then
+		slot2 = 0
 	end
 
-	arg_6_0.countdownLabel_.text = tostring(math.floor(var_6_1))
+	slot0.countdownLabel_.text = tostring(math.floor(slot2))
 
 	if FishGameManager.GetInstance():GetIsEnd() then
-		arg_6_0.end_ = true
+		slot0.end_ = true
+		slot0.tempScore_ = FishGameManager.GetInstance():GetScore()
 
-		local var_6_2 = SailGameData:GetCurGameData(arg_6_0.params_.activityID).curStageIndex
-
-		arg_6_0.tempScore_ = FishGameManager.GetInstance():GetScore()
-
-		SailGameAction.EventOperate(arg_6_0.params_.activityID, var_6_2, nil, arg_6_0.tempScore_)
+		SailGameAction.EventOperate(slot0.params_.activityID, SailGameData:GetCurGameData(slot0.params_.activityID).curStageIndex, nil, slot0.tempScore_)
 		manager.audio:StopEffect()
 	end
 
-	arg_6_0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
+	slot0.bubbleNumController_:SetSelectedIndex(FishGameManager.GetInstance():GetTreasureLimitNum())
 end
 
-function var_0_1.OnEventOperateSuccess(arg_7_0)
+function slot1.OnEventOperateSuccess(slot0)
 	SDKTools.SendMessageToSDK("activity_skadi_sea_be_out_finish", {
-		fish_event_level_id = arg_7_0.levelId_
+		fish_event_level_id = slot0.levelId_
 	})
-	SailGameAction.SetEventEndMark(arg_7_0.params_.activityID, SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS)
+	SailGameAction.SetEventEndMark(slot0.params_.activityID, SailGameConst.GAME_COMMON_TIPS_INDEX.SUCCESS)
 	JumpTools.OpenPageByJump("sailFishingGameResult", {
-		activityID = arg_7_0.params_.activityID,
-		score = arg_7_0.tempScore_
+		activityID = slot0.params_.activityID,
+		score = slot0.tempScore_
 	})
 end
 
-return var_0_1
+return slot1

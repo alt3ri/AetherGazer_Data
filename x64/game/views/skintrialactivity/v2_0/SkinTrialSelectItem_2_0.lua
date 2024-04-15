@@ -1,88 +1,83 @@
-local var_0_0 = class("SkinTrialSelectItem_2_0", ReduxView)
+slot0 = class("SkinTrialSelectItem_2_0", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	local var_2_0 = ActivitySkinTrialCfg[arg_2_0.skinTrialID_]
-	local var_2_1 = string.format("%s_%s", RedPointConst.SKIN_TRIAL, arg_2_0.skinTrialID_)
+	slot1 = ActivitySkinTrialCfg[slot0.skinTrialID_]
 
-	manager.redPoint:unbindUIandKey(arg_2_0.transform_, var_2_1)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.SKIN_TRIAL, slot0.skinTrialID_))
 
-	arg_2_0.outOfDataHandler_ = nil
+	slot0.outOfDataHandler_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		if manager.time:GetServerTime() < arg_3_0.startTime_ then
-			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(arg_3_0.startTime_)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if manager.time:GetServerTime() < uv0.startTime_ then
+			ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(uv0.startTime_)))
 
 			return
 		end
 
-		if manager.time:GetServerTime() >= arg_3_0.stopTime_ then
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		SkinTrialData:SetSelectSkinTrialID(arg_3_0.skinTrialID_)
-		SkinTrialTools.GoToSelectView(arg_3_0.activityID_, arg_3_0.skinTrialID_)
+		SkinTrialData:SetSelectSkinTrialID(uv0.skinTrialID_)
+		SkinTrialTools.GoToSelectView(uv0.activityID_, uv0.skinTrialID_)
 	end)
 end
 
-function var_0_0.SetSkinTrialID(arg_5_0, arg_5_1)
-	local var_5_0 = ActivitySkinTrialCfg[arg_5_1]
-	local var_5_1 = string.format("%s_%s", RedPointConst.SKIN_TRIAL, arg_5_1)
+function slot0.SetSkinTrialID(slot0, slot1)
+	slot2 = ActivitySkinTrialCfg[slot1]
 
-	manager.redPoint:bindUIandKey(arg_5_0.transform_, var_5_1)
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s", RedPointConst.SKIN_TRIAL, slot1))
 
-	arg_5_0.skinTrialID_ = arg_5_1
-	arg_5_0.activityID_ = ActivitySkinTrialCfg[arg_5_0.skinTrialID_].activity_id
-	arg_5_0.startTime_ = ActivityData:GetActivityData(arg_5_0.activityID_).startTime
-	arg_5_0.stopTime_ = ActivityData:GetActivityData(arg_5_0.activityID_).stopTime
+	slot0.skinTrialID_ = slot1
+	slot0.activityID_ = ActivitySkinTrialCfg[slot0.skinTrialID_].activity_id
+	slot0.startTime_ = ActivityData:GetActivityData(slot0.activityID_).startTime
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
-	arg_5_0:RefreshUI()
-	arg_5_0:RefreshTime()
+	slot0:RefreshUI()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = SkinTrialTools.GetHeroStandardID(arg_6_0.skinTrialID_)
-	local var_6_1 = HeroStandardSystemCfg[var_6_0].skin_id
-	local var_6_2 = HeroStandardSystemCfg[var_6_0].hero_id
+function slot0.RefreshUI(slot0)
+	slot1 = SkinTrialTools.GetHeroStandardID(slot0.skinTrialID_)
+	slot2 = HeroStandardSystemCfg[slot1].skin_id
+	slot3 = HeroStandardSystemCfg[slot1].hero_id
+	slot0.heroNameText_.text = string.format("%s·%s", HeroCfg[slot3].name, HeroCfg[slot3].suffix)
+	slot0.nameText_.text = string.format("- %s -", SkinCfg[slot2].name)
 
-	arg_6_0.heroNameText_.text = string.format("%s·%s", HeroCfg[var_6_2].name, HeroCfg[var_6_2].suffix)
-	arg_6_0.nameText_.text = string.format("- %s -", SkinCfg[var_6_1].name)
-
-	local var_6_3 = getSpriteViaConfig("HeroIcon", SkinCfg[var_6_1].picture_id)
-
-	if var_6_3 ~= nil then
-		arg_6_0.skinImage_.sprite = var_6_3
+	if getSpriteViaConfig("HeroIcon", SkinCfg[slot2].picture_id) ~= nil then
+		slot0.skinImage_.sprite = slot4
 	end
 end
 
-function var_0_0.RefreshTime(arg_7_0)
-	if manager.time:GetServerTime() < arg_7_0.startTime_ or manager.time:GetServerTime() >= arg_7_0.stopTime_ then
-		SetActive(arg_7_0.gameObject_, false)
-		arg_7_0.outOfDataHandler_()
+function slot0.RefreshTime(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ or slot0.stopTime_ <= manager.time:GetServerTime() then
+		SetActive(slot0.gameObject_, false)
+		slot0.outOfDataHandler_()
 
 		return
 	end
 
-	SetActive(arg_7_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 
-	arg_7_0.textTime_.text = manager.time:GetLostTimeStr(arg_7_0.stopTime_)
+	slot0.textTime_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
 end
 
-function var_0_0.SetOutOfDataHandler(arg_8_0, arg_8_1)
-	arg_8_0.outOfDataHandler_ = arg_8_1
+function slot0.SetOutOfDataHandler(slot0, slot1)
+	slot0.outOfDataHandler_ = slot1
 end
 
-return var_0_0
+return slot0

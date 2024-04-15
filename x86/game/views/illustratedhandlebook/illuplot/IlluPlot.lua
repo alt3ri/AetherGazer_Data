@@ -1,169 +1,156 @@
-local var_0_0 = class("IlluPlot", ReduxView)
-local var_0_1 = {
+slot0 = class("IlluPlot", ReduxView)
+slot1 = {
 	MAIN_STORY = 1,
 	BRITHDAY_STORY = 3,
 	ACTIVITY_STORY = 2
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluplotUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, IlluPlotItem)
-	arg_4_0.btn1Controller = ControllerUtil.GetController(arg_4_0.btn1trs_, "name")
-	arg_4_0.btn2Controller = ControllerUtil.GetController(arg_4_0.btn2trs_, "name")
-	arg_4_0.btn3Controller = ControllerUtil.GetController(arg_4_0.btn3trs_, "name")
+	slot0.scroll_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, IlluPlotItem)
+	slot0.btn1Controller = ControllerUtil.GetController(slot0.btn1trs_, "name")
+	slot0.btn2Controller = ControllerUtil.GetController(slot0.btn2trs_, "name")
+	slot0.btn3Controller = ControllerUtil.GetController(slot0.btn3trs_, "name")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_1, nil, function()
-		arg_5_0.params_.index = 1
-		arg_5_0.selType_ = 1
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_1, nil, function ()
+		uv0.params_.index = 1
+		uv0.selType_ = 1
 
-		arg_5_0:RefreshUI(1)
+		uv0:RefreshUI(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btn_2, nil, function()
-		arg_5_0.params_.index = 2
-		arg_5_0.selType_ = 2
+	slot0:AddBtnListener(slot0.btn_2, nil, function ()
+		uv0.params_.index = 2
+		uv0.selType_ = 2
 
-		arg_5_0:RefreshUI(2)
+		uv0:RefreshUI(2)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.btn_3, nil, function()
-		arg_5_0.params_.index = 3
-		arg_5_0.selType_ = 3
+	slot0:AddBtnListener(slot0.btn_3, nil, function ()
+		uv0.params_.index = 3
+		uv0.selType_ = 3
 
-		arg_5_0:RefreshUI(3)
+		uv0:RefreshUI(3)
 	end)
 end
 
-function var_0_0.UpdateDate(arg_9_0, arg_9_1)
-	arg_9_0.itemList_ = {}
+function slot0.UpdateDate(slot0, slot1)
+	slot0.itemList_ = {}
+	slot2 = {}
+	slot3 = {}
 
-	local var_9_0 = {}
-	local var_9_1 = {}
-
-	if not CollectStoryCfg.get_id_list_by_type[arg_9_1] then
+	if not CollectStoryCfg.get_id_list_by_type[slot1] then
 		return
 	end
 
-	if arg_9_1 == var_0_1.MAIN_STORY then
-		local var_9_2 = {}
+	if slot1 == uv0.MAIN_STORY then
+		slot4 = {}
 
-		for iter_9_0, iter_9_1 in ipairs(CollectStoryCfg.get_id_list_by_type[arg_9_1]) do
-			local var_9_3 = StoryCfg[iter_9_1]
-
-			if var_9_3 and var_9_3.trigger[2] then
-				local var_9_4 = var_9_3.trigger[2]
-				local var_9_5 = getChapterIDByStageID(var_9_4)
-
-				if var_9_5 then
-					if not var_9_2[var_9_5] then
-						var_9_2[var_9_5] = {
-							chapterID = var_9_5,
-							storyList = {}
-						}
-					end
-
-					table.insert(var_9_2[var_9_5].storyList, var_9_3.id)
+		for slot8, slot9 in ipairs(CollectStoryCfg.get_id_list_by_type[slot1]) do
+			if StoryCfg[slot9] and slot10.trigger[2] and getChapterIDByStageID(slot10.trigger[2]) then
+				if not slot4[slot12] then
+					slot4[slot12] = {
+						chapterID = slot12,
+						storyList = {}
+					}
 				end
+
+				table.insert(slot4[slot12].storyList, slot10.id)
 			end
 		end
 
-		for iter_9_2, iter_9_3 in pairs(var_9_2) do
-			local var_9_6 = ChapterClientCfg[iter_9_2]
-
-			if var_9_6 then
-				local var_9_7 = {
-					chapterID = iter_9_2,
+		for slot8, slot9 in pairs(slot4) do
+			if ChapterClientCfg[slot8] then
+				slot11 = {
+					chapterID = slot8,
 					storyList = {}
 				}
 
-				for iter_9_4, iter_9_5 in ipairs(var_9_6.chapter_list) do
-					if var_9_2[iter_9_5] then
-						table.insertto(var_9_7.storyList, var_9_2[iter_9_5].storyList)
+				for slot15, slot16 in ipairs(slot10.chapter_list) do
+					if slot4[slot16] then
+						table.insertto(slot11.storyList, slot4[slot16].storyList)
 					end
 				end
 
-				table.insert(arg_9_0.itemList_, var_9_7)
+				table.insert(slot0.itemList_, slot11)
 
-				var_9_0[iter_9_2] = #var_9_7.storyList
+				slot2[slot8] = #slot11.storyList
 			end
 		end
-	elseif arg_9_1 == var_0_1.ACTIVITY_STORY then
-		for iter_9_6, iter_9_7 in ipairs(CollectStoryCfg.get_id_list_by_type[arg_9_1]) do
-			local var_9_8 = CollectStoryCfg[iter_9_7].activity
-
-			if not var_9_1[var_9_8] then
-				var_9_1[var_9_8] = {}
+	elseif slot1 == uv0.ACTIVITY_STORY then
+		for slot7, slot8 in ipairs(CollectStoryCfg.get_id_list_by_type[slot1]) do
+			if not slot3[CollectStoryCfg[slot8].activity] then
+				slot3[slot9] = {}
 			end
 
-			table.insert(var_9_1[var_9_8], iter_9_7)
+			table.insert(slot3[slot9], slot8)
 		end
 
-		for iter_9_8, iter_9_9 in pairs(var_9_1) do
-			for iter_9_10, iter_9_11 in ipairs(iter_9_9) do
-				if IllustratedData:GetPlotInfo()[iter_9_11] then
-					table.insert(arg_9_0.itemList_, {
-						chapterID = iter_9_8,
-						storyList = iter_9_9
+		for slot7, slot8 in pairs(slot3) do
+			for slot12, slot13 in ipairs(slot8) do
+				if IllustratedData:GetPlotInfo()[slot13] then
+					table.insert(slot0.itemList_, {
+						chapterID = slot7,
+						storyList = slot8
 					})
 
-					var_9_0[iter_9_8] = #iter_9_9
+					slot2[slot7] = #slot8
 
 					break
 				end
 			end
 		end
-	elseif arg_9_1 == var_0_1.BRITHDAY_STORY then
-		for iter_9_12, iter_9_13 in ipairs(CollectStoryCfg.get_id_list_by_type[arg_9_1]) do
-			local var_9_9 = CollectStoryCfg[iter_9_13].order
+	elseif slot1 == uv0.BRITHDAY_STORY then
+		for slot7, slot8 in ipairs(CollectStoryCfg.get_id_list_by_type[slot1]) do
+			slot9 = CollectStoryCfg[slot8].order
 
-			table.insert(arg_9_0.itemList_, {
-				chapterID = var_9_9,
+			table.insert(slot0.itemList_, {
+				chapterID = slot9,
 				storyList = {
-					iter_9_13
+					slot8
 				}
 			})
 
-			var_9_0[var_9_9] = 1
+			slot2[slot9] = 1
 		end
 	end
 
-	for iter_9_14, iter_9_15 in ipairs(arg_9_0.itemList_) do
-		iter_9_15.all = var_9_0[iter_9_15.chapterID]
+	for slot7, slot8 in ipairs(slot0.itemList_) do
+		slot8.all = slot2[slot8.chapterID]
 	end
 
-	table.sort(arg_9_0.itemList_, function(arg_10_0, arg_10_1)
-		local var_10_0 = table.indexof(ChapterCfg.all, arg_10_0.chapterID)
-		local var_10_1 = table.indexof(ChapterCfg.all, arg_10_1.chapterID)
+	table.sort(slot0.itemList_, function (slot0, slot1)
+		slot3 = table.indexof(ChapterCfg.all, slot1.chapterID)
 
-		if var_10_0 and var_10_1 then
-			return var_10_0 < var_10_1
+		if table.indexof(ChapterCfg.all, slot0.chapterID) and slot3 then
+			return slot2 < slot3
 		else
-			return arg_10_0.chapterID < arg_10_1.chapterID
+			return slot0.chapterID < slot1.chapterID
 		end
 	end)
 end
 
-function var_0_0.indexItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:RefreshUI(arg_11_0.itemList_[arg_11_1], arg_11_0.selType_)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1], slot0.selType_)
 end
 
-function var_0_0.IsShowToggleByType(arg_12_0, arg_12_1)
-	for iter_12_0, iter_12_1 in ipairs(CollectStoryCfg.get_id_list_by_type[arg_12_1] or {}) do
-		if IllustratedData:GetPlotInfo()[iter_12_1] then
+function slot0.IsShowToggleByType(slot0, slot1)
+	for slot5, slot6 in ipairs(CollectStoryCfg.get_id_list_by_type[slot1] or {}) do
+		if IllustratedData:GetPlotInfo()[slot6] then
 			return true
 		end
 	end
@@ -171,37 +158,37 @@ function var_0_0.IsShowToggleByType(arg_12_0, arg_12_1)
 	return false
 end
 
-function var_0_0.RefreshUI(arg_13_0, arg_13_1)
-	SetActive(arg_13_0.btn2trs_, arg_13_0:IsShowToggleByType(var_0_1.ACTIVITY_STORY))
-	SetActive(arg_13_0.btn3trs_, arg_13_0:IsShowToggleByType(var_0_1.BRITHDAY_STORY))
-	arg_13_0:UpdateDate(arg_13_1)
-	arg_13_0.scroll_:StartScroll(#arg_13_0.itemList_)
-	arg_13_0.btn1Controller:SetSelectedIndex(arg_13_1 == 1 and 0 or 1)
-	arg_13_0.btn2Controller:SetSelectedIndex(arg_13_1 == 2 and 0 or 1)
-	arg_13_0.btn3Controller:SetSelectedIndex(arg_13_1 == 3 and 0 or 1)
+function slot0.RefreshUI(slot0, slot1)
+	SetActive(slot0.btn2trs_, slot0:IsShowToggleByType(uv0.ACTIVITY_STORY))
+	SetActive(slot0.btn3trs_, slot0:IsShowToggleByType(uv0.BRITHDAY_STORY))
+	slot0:UpdateDate(slot1)
+	slot0.scroll_:StartScroll(#slot0.itemList_)
+	slot0.btn1Controller:SetSelectedIndex(slot1 == 1 and 0 or 1)
+	slot0.btn2Controller:SetSelectedIndex(slot1 == 2 and 0 or 1)
+	slot0.btn3Controller:SetSelectedIndex(slot1 == 3 and 0 or 1)
 end
 
-function var_0_0.OnEnter(arg_14_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_14_0.selType_ = arg_14_0.params_.index or 1
+	slot0.selType_ = slot0.params_.index or 1
 
-	arg_14_0:RefreshUI(arg_14_0.selType_)
+	slot0:RefreshUI(slot0.selType_)
 end
 
-function var_0_0.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.scroll_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.scroll_:Dispose()
 
-	arg_16_0.scroll_ = nil
+	slot0.scroll_ = nil
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

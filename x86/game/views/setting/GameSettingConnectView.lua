@@ -1,88 +1,86 @@
-local var_0_0 = class("GameSettingConnectView", ReduxView)
+slot0 = class("GameSettingConnectView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Setting/GameSettingConnectUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddToggleListener(arg_5_0.connect1Tgl_, function(arg_6_0)
-		if arg_6_0 then
-			arg_5_0.connectType = 0
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.connect1Tgl_, function (slot0)
+		if slot0 then
+			uv0.connectType = 0
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.connect2Tgl_, function(arg_7_0)
-		if arg_7_0 then
-			arg_5_0.connectType = 2
+	slot0:AddToggleListener(slot0.connect2Tgl_, function (slot0)
+		if slot0 then
+			uv0.connectType = 2
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.connect3Tgl_, function(arg_8_0)
-		if arg_8_0 then
-			arg_5_0.connectType = 3
+	slot0:AddToggleListener(slot0.connect3Tgl_, function (slot0)
+		if slot0 then
+			uv0.connectType = 3
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.connect4Tgl_, function(arg_9_0)
-		if arg_9_0 then
-			arg_5_0.connectType = 4
+	slot0:AddToggleListener(slot0.connect4Tgl_, function (slot0)
+		if slot0 then
+			uv0.connectType = 4
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.connect5Tgl_, function(arg_10_0)
-		if arg_10_0 then
-			arg_5_0.connectType = 1
+	slot0:AddToggleListener(slot0.connect5Tgl_, function (slot0)
+		if slot0 then
+			uv0.connectType = 1
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.yesBtn_, nil, function()
-		if arg_5_0.connectType and arg_5_0.connectType ~= arg_5_0.params_.type then
-			SettingAction.ChangeGameSetting("cus_full_play_controlled_type", arg_5_0.connectType)
+	slot0:AddBtnListener(slot0.yesBtn_, nil, function ()
+		if uv0.connectType and uv0.connectType ~= uv0.params_.type then
+			SettingAction.ChangeGameSetting("cus_full_play_controlled_type", uv0.connectType)
 		end
 
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.noBtn_, nil, function()
+	slot0:AddBtnListener(slot0.noBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.Init(arg_13_0)
-	arg_13_0:InitUI()
-	arg_13_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0.connectType = arg_14_0.params_.type
+function slot0.OnEnter(slot0)
+	slot0.connectType = slot0.params_.type
 
-	if arg_14_0.connectType == 0 then
-		arg_14_0.connect1Tgl_.isOn = true
-	elseif arg_14_0.connectType == 2 then
-		arg_14_0.connect2Tgl_.isOn = true
-	elseif arg_14_0.connectType == 3 then
-		arg_14_0.connect3Tgl_.isOn = true
-	elseif arg_14_0.connectType == 4 then
-		arg_14_0.connect4Tgl_.isOn = true
-	elseif arg_14_0.connectType == 1 then
-		arg_14_0.connect5Tgl_.isOn = true
+	if slot0.connectType == 0 then
+		slot0.connect1Tgl_.isOn = true
+	elseif slot0.connectType == 2 then
+		slot0.connect2Tgl_.isOn = true
+	elseif slot0.connectType == 3 then
+		slot0.connect3Tgl_.isOn = true
+	elseif slot0.connectType == 4 then
+		slot0.connect4Tgl_.isOn = true
+	elseif slot0.connectType == 1 then
+		slot0.connect5Tgl_.isOn = true
 	end
 end
 
-function var_0_0.OnExit(arg_15_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.params_ = nil
+function slot0.Dispose(slot0)
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

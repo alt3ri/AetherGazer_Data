@@ -1,105 +1,94 @@
-local var_0_0 = class("MardukSpecialRankContentView", ReduxView)
+slot0 = class("MardukSpecialRankContentView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.listGo_, MardukSpecialRankItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, MardukSpecialRankItemView)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_1, arg_4_0.data_.rankList[arg_4_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.data_.rankList[slot1])
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activityId_ = activityId
-	arg_7_0.battleId_ = arg_7_1
-	arg_7_0.battleCfg_ = BattleQuickTrainingCfg[arg_7_1]
-	arg_7_0.data_ = RankData:GetActivityRank(arg_7_2)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activityId_ = activityId
+	slot0.battleId_ = slot1
+	slot0.battleCfg_ = BattleQuickTrainingCfg[slot1]
+	slot0.data_ = RankData:GetActivityRank(slot2)
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.SetMySelfData(arg_8_0, arg_8_1)
-	local var_8_0 = PlayerData:GetPlayerInfo()
-
-	arg_8_0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. var_8_0.icon_frame)
-	arg_8_0.name_.text = GetI18NText(var_8_0.nick)
-	arg_8_0.icon_.sprite = ItemTools.getItemSprite(var_8_0 and var_8_0.portrait)
-	arg_8_0.battleId_ = arg_8_1
-	arg_8_0.battleCfg_ = BattleQuickTrainingCfg[arg_8_1]
-	arg_8_0.rankNameLabel_.text = arg_8_0.battleCfg_.name
+function slot0.SetMySelfData(slot0, slot1)
+	slot2 = PlayerData:GetPlayerInfo()
+	slot0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot2.icon_frame)
+	slot0.name_.text = GetI18NText(slot2.nick)
+	slot0.icon_.sprite = ItemTools.getItemSprite(slot2 and slot2.portrait)
+	slot0.battleId_ = slot1
+	slot0.battleCfg_ = BattleQuickTrainingCfg[slot1]
+	slot0.rankNameLabel_.text = slot0.battleCfg_.name
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	if not arg_9_0.data_ then
+function slot0.UpdateView(slot0)
+	if not slot0.data_ then
 		return
 	end
 
-	arg_9_0.uiList_:StartScroll(#arg_9_0.data_.rankList)
+	slot0.uiList_:StartScroll(#slot0.data_.rankList)
 
-	local var_9_0 = arg_9_0.data_.myRank
-
-	if var_9_0 and var_9_0.score > 0 then
-		local var_9_1 = var_9_0.score
-		local var_9_2 = var_9_0.rank
-
-		if var_9_2 >= 1 and var_9_2 <= 100 then
-			arg_9_0.rank_.text = var_9_2
-			arg_9_0.score_.text = var_9_1
+	if slot0.data_.myRank and slot1.score > 0 then
+		if slot1.rank >= 1 and slot3 <= 100 then
+			slot0.rank_.text = slot3
+			slot0.score_.text = slot1.score
 		else
-			local var_9_3 = var_9_2 / (arg_9_0.data_.total or 1) * 100
-
-			arg_9_0.rank_.text = string.format("%.2f", var_9_3) .. "%"
-			arg_9_0.score_.text = var_9_1
+			slot0.rank_.text = string.format("%.2f", slot3 / (slot0.data_.total or 1) * 100) .. "%"
+			slot0.score_.text = slot2
 		end
 	else
-		arg_9_0.rank_.text = GetTips("MATRIX_RANK_NO_RANK")
-		arg_9_0.score_.text = GetTips("MATRIX_RANK_NO_INFO")
+		slot0.rank_.text = GetTips("MATRIX_RANK_NO_RANK")
+		slot0.score_.text = GetTips("MATRIX_RANK_NO_INFO")
 	end
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_12_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	if arg_13_0.uiList_ then
-		arg_13_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_13_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

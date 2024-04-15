@@ -1,105 +1,96 @@
-local var_0_0 = class("RegressionNewGiftView", ReduxView)
+slot0 = class("RegressionNewGiftView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ReturnTwo/RT2stGift2UI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.receivedController = ControllerUtil.GetController(arg_4_0.transform_, "received")
-	arg_4_0.rewardItems_ = {}
+	slot0.receivedController = ControllerUtil.GetController(slot0.transform_, "received")
+	slot0.rewardItems_ = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_btn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
 		RegressionAction.QueryRegressionGift()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_maskBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
 		if RegressionData:GetRegressionGiftReceive() then
-			arg_5_0:Back()
+			uv0:Back()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	local var_8_0 = RegressionData:GetRegressionVersion()
+function slot0.OnEnter(slot0)
+	slot0.gifts = RegressionCfg[RegressionData:GetRegressionVersion()] and RegressionCfg[slot1].gift or {}
 
-	arg_8_0.gifts = RegressionCfg[var_8_0] and RegressionCfg[var_8_0].gift or {}
-
-	arg_8_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.Refresh(arg_9_0)
-	local var_9_0 = RegressionData:GetRegressionGiftReceive()
-
-	arg_9_0.receivedController:SetSelectedIndex(var_9_0 and 1 or 0)
-	arg_9_0:RefreshReward()
-	arg_9_0:RefreshTime()
+function slot0.Refresh(slot0)
+	slot0.receivedController:SetSelectedIndex(RegressionData:GetRegressionGiftReceive() and 1 or 0)
+	slot0:RefreshReward()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshReward(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.gifts) do
-		local var_10_0 = clone(ItemTemplateData)
+function slot0.RefreshReward(slot0)
+	for slot4, slot5 in ipairs(slot0.gifts) do
+		slot6 = clone(ItemTemplateData)
+		slot6.id = slot5[1]
+		slot6.number = slot5[2]
 
-		var_10_0.id = iter_10_1[1]
-		var_10_0.number = iter_10_1[2]
-
-		function var_10_0.clickFun(arg_11_0)
+		function slot6.clickFun(slot0)
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_11_0.id,
-				arg_11_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 
-		if arg_10_0.rewardItems_[iter_10_0] == nil then
-			arg_10_0.rewardItems_[iter_10_0] = CommonItemPool.New(arg_10_0.rewardParent_, var_10_0, true)
+		if slot0.rewardItems_[slot4] == nil then
+			slot0.rewardItems_[slot4] = CommonItemPool.New(slot0.rewardParent_, slot6, true)
 		else
-			arg_10_0.rewardItems_[iter_10_0]:SetData(var_10_0)
+			slot0.rewardItems_[slot4]:SetData(slot6)
 		end
 
-		arg_10_0.rewardItems_[iter_10_0]:Show(true)
+		slot0.rewardItems_[slot4]:Show(true)
 	end
 
-	for iter_10_2 = #arg_10_0.gifts + 1, #arg_10_0.rewardItems_ do
-		arg_10_0.rewardItems_[iter_10_2]:Show(false)
+	for slot4 = #slot0.gifts + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot4]:Show(false)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.rewardItems_) do
-		iter_13_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_13_0.rewardItems_ = nil
+	slot0.rewardItems_ = nil
 
-	var_0_0.super.Dispose(arg_13_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnRegressionGiftReward(arg_14_0)
-	arg_14_0:Refresh()
+function slot0.OnRegressionGiftReward(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.RefreshTime(arg_15_0)
-	local var_15_0 = RegressionData:GetLastOfflineTime()
-	local var_15_1 = manager.time:STimeDescS(var_15_0, "!%Y/%m/%d")
-	local var_15_2 = RegressionData:GetRegressionLoginTime()
-	local var_15_3 = manager.time:DiffDay2(var_15_0, var_15_2)
-
-	arg_15_0.descText_.text = string.format(GetTips("REGRESSION_GIFT_DESCRIPE"), var_15_1, var_15_3)
+function slot0.RefreshTime(slot0)
+	slot1 = RegressionData:GetLastOfflineTime()
+	slot0.descText_.text = string.format(GetTips("REGRESSION_GIFT_DESCRIPE"), manager.time:STimeDescS(slot1, "!%Y/%m/%d"), manager.time:DiffDay2(slot1, RegressionData:GetRegressionLoginTime()))
 end
 
-return var_0_0
+return slot0

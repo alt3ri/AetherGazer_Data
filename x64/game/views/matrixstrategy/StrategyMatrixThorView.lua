@@ -1,257 +1,236 @@
-local var_0_0 = class("StrategyMatrixThorView", ReduxView)
+slot0 = class("StrategyMatrixThorView", ReduxView)
 
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/ThorRoguelike/ThorRoguelikeMapUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.showDropDownConrtoller = ControllerUtil.GetController(arg_4_0.m_dropDownBtn.transform, "showDropDown")
-	arg_4_0.difficultyController = ControllerUtil.GetController(arg_4_0.m_dropDownBtn.transform, "difficulty")
-	arg_4_0.hardLockController = ControllerUtil.GetController(arg_4_0.m_levelBtn2.transform, "lock")
+	slot0.showDropDownConrtoller = ControllerUtil.GetController(slot0.m_dropDownBtn.transform, "showDropDown")
+	slot0.difficultyController = ControllerUtil.GetController(slot0.m_dropDownBtn.transform, "difficulty")
+	slot0.hardLockController = ControllerUtil.GetController(slot0.m_levelBtn2.transform, "lock")
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.map = nil
+	slot0.map = nil
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.m_giveUpBtn, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_giveUpBtn, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("GIVE_UP_MATRIX"),
-			OkCallback = function()
-				StrategyMatrixAction.QueryMatrixGiveUp(arg_6_0.matrix_activity_id)
+			OkCallback = function ()
+				StrategyMatrixAction.QueryMatrixGiveUp(uv0.matrix_activity_id)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_infoBtn, nil, function()
-		local var_10_0 = StrategyMatrixData:GetMatrixHeroTeam(arg_6_0.matrix_activity_id)
-
+	slot0:AddBtnListener(slot0.m_infoBtn, nil, function ()
 		JumpTools.OpenPageByJump("/strategyMatrixHero", {
-			matrix_activity_id = arg_6_0.matrix_activity_id,
-			heroId = var_10_0[1]
+			matrix_activity_id = uv0.matrix_activity_id,
+			heroId = StrategyMatrixData:GetMatrixHeroTeam(uv0.matrix_activity_id)[1]
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_rewardBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("strategyMatrixRward", {
-			matrix_activity_id = arg_6_0.matrix_activity_id
+			matrix_activity_id = uv0.matrix_activity_id
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_dropDownBtn, nil, function()
-		if arg_6_0.showDropDownConrtoller:GetSelectedState() == "hide" then
-			arg_6_0.showDropDownConrtoller:SetSelectedState("show")
+	slot0:AddBtnListener(slot0.m_dropDownBtn, nil, function ()
+		if uv0.showDropDownConrtoller:GetSelectedState() == "hide" then
+			uv0.showDropDownConrtoller:SetSelectedState("show")
 		else
-			arg_6_0.showDropDownConrtoller:SetSelectedState("hide")
+			uv0.showDropDownConrtoller:SetSelectedState("hide")
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_levelBtn1, nil, function()
-		arg_6_0.showDropDownConrtoller:SetSelectedState("hide")
-		arg_6_0:OnDropDownClick(1)
+	slot0:AddBtnListener(slot0.m_levelBtn1, nil, function ()
+		uv0.showDropDownConrtoller:SetSelectedState("hide")
+		uv0:OnDropDownClick(1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_levelBtn2, nil, function()
-		arg_6_0.showDropDownConrtoller:SetSelectedState("hide")
+	slot0:AddBtnListener(slot0.m_levelBtn2, nil, function ()
+		uv0.showDropDownConrtoller:SetSelectedState("hide")
 
 		if ActivityTools.GetActivityIsOpenWithTip(ActivityConst.STRATEGY_MATRIX_THOR_HARD) then
 			if StrategyMatrixData:GetIsClearance(ActivityConst.STRATEGY_MATRIX_THOR) then
-				arg_6_0:OnDropDownClick(2)
+				uv0:OnDropDownClick(2)
 			else
 				ShowTips("THOR_STRATEGY_UNLOCK")
 			end
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_mask, nil, function()
-		arg_6_0.showDropDownConrtoller:SetSelectedState("hide")
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		uv0.showDropDownConrtoller:SetSelectedState("hide")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_storyBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_storyBtn, nil, function ()
 		JumpTools.OpenPageByJump("/strategyMatrixThorStoryReview")
 	end)
 end
 
-function var_0_0.InitBar(arg_17_0)
+function slot0.InitBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
 		ACTIVITY_MATRIX_COIN
 	})
-	manager.windowBar:SetGameHelpKey(StrategyMatrixTools.GetGameTipKey(arg_17_0.matrix_activity_id))
-	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, arg_17_0.matrix_activity_id)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_17_0:Back()
+	manager.windowBar:SetGameHelpKey(StrategyMatrixTools.GetGameTipKey(slot0.matrix_activity_id))
+	manager.windowBar:SetActivityId(ACTIVITY_MATRIX_COIN, slot0.matrix_activity_id)
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0:Refresh()
+function slot0.OnEnter(slot0)
+	slot0:Refresh()
 
-	local var_19_0 = arg_19_0.params_.matrix_activity_id
-
-	arg_19_0.timer = Timer.New(function()
-		arg_19_0:RefrenTime()
+	slot1 = slot0.params_.matrix_activity_id
+	slot0.timer = Timer.New(function ()
+		uv0:RefrenTime()
 	end, 1, -1)
 
-	arg_19_0.timer:Start()
+	slot0.timer:Start()
 end
 
-function var_0_0.OnUpdate(arg_21_0)
-	arg_21_0:Refresh()
-	arg_21_0:InitBar()
+function slot0.OnUpdate(slot0)
+	slot0:Refresh()
+	slot0:InitBar()
 end
 
-function var_0_0.OnTop(arg_22_0)
-	arg_22_0:InitBar()
+function slot0.OnTop(slot0)
+	slot0:InitBar()
 
-	if arg_22_0.map then
-		arg_22_0.map:OnTop()
+	if slot0.map then
+		slot0.map:OnTop()
 	end
 end
 
-function var_0_0.Refresh(arg_23_0)
-	if arg_23_0.matrix_activity_id == arg_23_0.params_.matrix_activity_id then
+function slot0.Refresh(slot0)
+	if slot0.matrix_activity_id == slot0.params_.matrix_activity_id then
 		return
 	end
 
-	arg_23_0.showDropDownConrtoller:SetSelectedState("hide")
+	slot0.showDropDownConrtoller:SetSelectedState("hide")
 
-	arg_23_0.matrix_activity_id = arg_23_0.params_.matrix_activity_id
-	arg_23_0.mapId = StrategyMatrixData:GetMapId(arg_23_0.matrix_activity_id)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
+	slot0.mapId = StrategyMatrixData:GetMapId(slot0.matrix_activity_id)
 
-	if arg_23_0.map and arg_23_0.mapId ~= arg_23_0.map:GetMapId() then
-		arg_23_0.map:Dispose()
+	if slot0.map and slot0.mapId ~= slot0.map:GetMapId() then
+		slot0.map:Dispose()
 
-		arg_23_0.map = nil
+		slot0.map = nil
 	end
 
-	arg_23_0.map = arg_23_0.map or StrategyMatrixMap.New(arg_23_0.mapId, arg_23_0.m_content)
+	slot0.map = slot0.map or StrategyMatrixMap.New(slot0.mapId, slot0.m_content)
 
-	arg_23_0.map:SetData(arg_23_0.matrix_activity_id)
+	slot0.map:SetData(slot0.matrix_activity_id)
 
-	if arg_23_0.params_.playerAnim then
-		arg_23_0.m_animator:Play("StrategyMatrixMapUI", 0, 0)
+	if slot0.params_.playerAnim then
+		slot0.m_animator:Play("StrategyMatrixMapUI", 0, 0)
 
-		arg_23_0.params_.playerAnim = nil
+		slot0.params_.playerAnim = nil
 
-		arg_23_0.map:PlayerAnim(true)
+		slot0.map:PlayerAnim(true)
 	else
-		arg_23_0.m_animator:Play("StrategyMatrixMapUI", 0, 9999999)
-		arg_23_0.map:PlayerAnim(false)
+		slot0.m_animator:Play("StrategyMatrixMapUI", 0, 9999999)
+		slot0.map:PlayerAnim(false)
 	end
 
-	arg_23_0:RefrenTime()
+	slot0:RefrenTime()
 	StrategyMatrixAction.SetStrategyRead(ActivityConst.STRATEGY_MATRIX_THOR)
 	StrategyMatrixAction.SetStrategyRead(ActivityConst.STRATEGY_MATRIX_THOR_HARD)
-	manager.redPoint:bindUIandKey(arg_23_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, arg_23_0.matrix_activity_id))
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, slot0.matrix_activity_id))
 
-	local var_23_0 = ActivityConst.STRATEGY_MATRIX_THOR_HARD == arg_23_0.matrix_activity_id
-	local var_23_1 = StrategyMatrixData:GetTierID(arg_23_0.matrix_activity_id)
-
-	if var_23_1 and StrategyMatrixTierTemplateCfg[var_23_1] then
-		local var_23_2 = StrategyMatrixTierTemplateCfg[var_23_1]
-
-		arg_23_0.m_title.text = GetTips("THOR_STRATEGY_TITLE_" .. var_23_2.tier)
-
-		local var_23_3 = {
+	if StrategyMatrixData:GetTierID(slot0.matrix_activity_id) and StrategyMatrixTierTemplateCfg[slot2] then
+		slot0.m_title.text = GetTips("THOR_STRATEGY_TITLE_" .. StrategyMatrixTierTemplateCfg[slot2].tier)
+		slot4 = {
 			"EDream_bg_0137",
 			"EDream_bg_0138",
 			"EDream_bg_0139",
 			"EDream_bg_0140"
 		}
-		local var_23_4 = {
-			"EDream_bg_0147",
-			"EDream_bg_0148",
-			"EDream_bg_0149",
-			"EDream_bg_0150"
-		}
 
-		if var_23_0 then
-			arg_23_0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/" .. var_23_4[var_23_2.tier])
+		if ActivityConst.STRATEGY_MATRIX_THOR_HARD == slot0.matrix_activity_id then
+			slot0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/" .. ({
+				"EDream_bg_0147",
+				"EDream_bg_0148",
+				"EDream_bg_0149",
+				"EDream_bg_0150"
+			})[slot3.tier])
 		else
-			arg_23_0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/" .. var_23_3[var_23_2.tier])
+			slot0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/EmptyDream/" .. slot4[slot3.tier])
 		end
 	else
-		arg_23_0.m_title.text = ""
+		slot0.m_title.text = ""
 	end
 
-	local var_23_5 = var_23_0 and GetTips("HARDLEVEL_HARD") or GetTips("HARDLEVEL_EASY")
+	slot0.m_difficultyLab.text = slot1 and GetTips("HARDLEVEL_HARD") or GetTips("HARDLEVEL_EASY")
 
-	arg_23_0.m_difficultyLab.text = var_23_5
-
-	arg_23_0.difficultyController:SetSelectedIndex(var_23_0 and 1 or 0)
+	slot0.difficultyController:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.OnExit(arg_24_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_24_0.map then
-		arg_24_0.map:Exit()
+	if slot0.map then
+		slot0.map:Exit()
 	end
 
-	if arg_24_0.timer then
-		arg_24_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_24_0.timer = nil
+		slot0.timer = nil
 	end
 
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_24_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, arg_24_0.matrix_activity_id))
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX, slot0.matrix_activity_id))
 
-	arg_24_0.matrix_activity_id = nil
+	slot0.matrix_activity_id = nil
 end
 
-function var_0_0.RefrenTime(arg_25_0)
-	local var_25_0 = ActivityData:GetActivityData(arg_25_0.matrix_activity_id)
-
-	if var_25_0 and var_25_0:IsActivitying() then
-		arg_25_0.m_timeLab.text = manager.time:GetLostTimeStr(var_25_0.stopTime)
+function slot0.RefrenTime(slot0)
+	if ActivityData:GetActivityData(slot0.matrix_activity_id) and slot1:IsActivitying() then
+		slot0.m_timeLab.text = manager.time:GetLostTimeStr(slot1.stopTime)
 	else
-		arg_25_0.m_timeLab.text = GetTips("TIME_OVER")
+		slot0.m_timeLab.text = GetTips("TIME_OVER")
 	end
 
 	if ActivityData:GetActivityIsOpen(ActivityConst.STRATEGY_MATRIX_THOR_HARD) and StrategyMatrixData:GetIsClearance(ActivityConst.STRATEGY_MATRIX_THOR) then
-		arg_25_0.hardLockController:SetSelectedIndex(0)
+		slot0.hardLockController:SetSelectedIndex(0)
 	else
-		arg_25_0.hardLockController:SetSelectedIndex(1)
+		slot0.hardLockController:SetSelectedIndex(1)
 	end
 end
 
-function var_0_0.OnDropDownClick(arg_26_0, arg_26_1)
-	StrategyMatrixData:SetDifficultySelect(arg_26_1)
+function slot0.OnDropDownClick(slot0, slot1)
+	StrategyMatrixData:SetDifficultySelect(slot1)
 
-	local var_26_0
+	slot2 = nil
 
-	if arg_26_1 == 2 and ActivityData:GetActivityIsOpen(ActivityConst.STRATEGY_MATRIX_THOR_HARD) then
-		var_26_0 = ActivityConst.STRATEGY_MATRIX_THOR_HARD
-	else
-		var_26_0 = ActivityConst.STRATEGY_MATRIX_THOR
-	end
-
-	StrategyMatrixAction.GotoStrategyMatrix(var_26_0, true)
+	StrategyMatrixAction.GotoStrategyMatrix((slot1 ~= 2 or not ActivityData:GetActivityIsOpen(ActivityConst.STRATEGY_MATRIX_THOR_HARD) or ActivityConst.STRATEGY_MATRIX_THOR_HARD) and ActivityConst.STRATEGY_MATRIX_THOR, true)
 end
 
-function var_0_0.Dispose(arg_27_0)
-	if arg_27_0.map then
-		arg_27_0.map:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.map then
+		slot0.map:Dispose()
 	end
 
-	arg_27_0.map = nil
+	slot0.map = nil
 
-	var_0_0.super.Dispose(arg_27_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,92 +1,87 @@
-local var_0_0 = class("SailShopItem", ReduxView)
+slot0 = class("SailShopItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.buyBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.buyBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_5_0 = SailGameData:GetCurGameData(arg_4_0.activityID_).curStageIndex
-
-		SailGameAction.EventOperate(arg_4_0.activityID_, var_5_0, arg_4_0.index_)
+		SailGameAction.EventOperate(uv0.activityID_, SailGameData:GetCurGameData(uv0.activityID_).curStageIndex, uv0.index_)
 	end)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.commonItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.commonItem_:Dispose()
 
-	arg_6_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.activityID_ = arg_7_1
-	arg_7_0.goodData_ = arg_7_2
-	arg_7_0.index_ = arg_7_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.activityID_ = slot1
+	slot0.goodData_ = slot2
+	slot0.index_ = slot3
 
-	arg_7_0:RefreshUI()
-	arg_7_0:UpdateStatus()
+	slot0:RefreshUI()
+	slot0:UpdateStatus()
 end
 
-function var_0_0.UpdateStatus(arg_8_0)
-	if arg_8_0.goodData_.soldOut == SailGameConst.EVENT_SHOP_STATUS.SOLD_OUT then
-		arg_8_0.statusController_:SetSelectedState("soldOut")
-	elseif ItemTools.getItemNum(arg_8_0.goodData_.costID) < arg_8_0.goodData_.costNum then
-		arg_8_0.statusController_:SetSelectedState("off")
+function slot0.UpdateStatus(slot0)
+	if slot0.goodData_.soldOut == SailGameConst.EVENT_SHOP_STATUS.SOLD_OUT then
+		slot0.statusController_:SetSelectedState("soldOut")
+	elseif ItemTools.getItemNum(slot0.goodData_.costID) < slot0.goodData_.costNum then
+		slot0.statusController_:SetSelectedState("off")
 	else
-		arg_8_0.statusController_:SetSelectedState("normal")
+		slot0.statusController_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	if not arg_9_0.commonItem_ then
-		arg_9_0.commonItem_ = CommonItem.New(arg_9_0.commonItemGo_)
+function slot0.RefreshUI(slot0)
+	if not slot0.commonItem_ then
+		slot0.commonItem_ = CommonItem.New(slot0.commonItemGo_)
 
-		arg_9_0.commonItem_:RegistCallBack(function()
-			if arg_9_0.clickCallback_ then
-				if arg_9_0.clickCallback_() then
-					ShowPopItem(POP_ITEM, arg_9_0.costCfg_)
+		slot0.commonItem_:RegistCallBack(function ()
+			if uv0.clickCallback_ then
+				if uv0.clickCallback_() then
+					ShowPopItem(POP_ITEM, uv0.costCfg_)
 				end
 			else
-				ShowPopItem(POP_ITEM, arg_9_0.costCfg_)
+				ShowPopItem(POP_ITEM, uv0.costCfg_)
 			end
 		end)
 	end
 
-	arg_9_0.costCfg_ = {
-		arg_9_0.goodData_.costID,
-		arg_9_0.goodData_.costNum
+	slot0.costCfg_ = {
+		slot0.goodData_.costID,
+		slot0.goodData_.costNum
 	}
 
-	arg_9_0.commonItem_:RefreshData(formatReward(arg_9_0.costCfg_))
+	slot0.commonItem_:RefreshData(formatReward(slot0.costCfg_))
+	slot0.commonItem_:SetBottomText(string.format("%s/%s", ItemTools.getItemNum(slot0.costCfg_[1]), slot0.costCfg_[2]))
 
-	local var_9_0 = ItemTools.getItemNum(arg_9_0.costCfg_[1])
-
-	arg_9_0.commonItem_:SetBottomText(string.format("%s/%s", var_9_0, arg_9_0.costCfg_[2]))
-
-	arg_9_0.goodIcon_.sprite = ItemTools.getItemSprite(arg_9_0.goodData_.goodID)
-	arg_9_0.goodNumText_.text = arg_9_0.goodData_.goodNum
+	slot0.goodIcon_.sprite = ItemTools.getItemSprite(slot0.goodData_.goodID)
+	slot0.goodNumText_.text = slot0.goodData_.goodNum
 end
 
-return var_0_0
+return slot0

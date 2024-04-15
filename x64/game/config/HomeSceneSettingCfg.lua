@@ -25,7 +25,11 @@ return {
 		obtain_word = "\t",
 		unlock_description = "参与「夜宴之邀」活动获取",
 		title = "暮色珍珠",
-		desc = "塔列朗集团重金购入的高级商务游艇，后来划归深空之眼所有，常被用于商务洽谈。\n\n<color=#939393>提示：场景推荐音乐为Lullaby, for a stranded heart。\n管理员可以通过下方按钮选择是否切换为该曲目。</color>",
+		desc = [[
+塔列朗集团重金购入的高级商务游艇，后来划归深空之眼所有，常被用于商务洽谈。
+
+<color=#939393>提示：场景推荐音乐为Lullaby, for a stranded heart。
+管理员可以通过下方按钮选择是否切换为该曲目。</color>]],
 		scene_trial = 1,
 		prefix = "X201",
 		default_music = 53,

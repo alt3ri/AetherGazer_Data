@@ -1,72 +1,57 @@
-local var_0_0 = {}
-
-manager.net:Bind(76001, function(arg_1_0)
-	HanafudaData:InitFromServer(arg_1_0)
-	var_0_0.RefreshRedPonit()
+manager.net:Bind(76001, function (slot0)
+	HanafudaData:InitFromServer(slot0)
+	uv0.RefreshRedPonit()
 end)
 
-function var_0_0.SendHanafudaGameOver(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_1 = arg_2_1 and 0 or 1
+return {
+	SendHanafudaGameOver = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(76010, {
+			activity_id = slot0,
+			is_success = slot1 and 0 or 1,
+			combine_id_list = slot2
+		}, 76011, function (slot0, slot1)
+			uv0.handleHanafudaGameOverResult(slot0, slot1, uv1)
+		end)
+	end,
+	handleHanafudaGameOverResult = function (slot0, slot1, slot2)
+		if isSuccess(slot0.result) then
+			slot4 = math.max(0, math.min(GameSetting.activity_kagutsuchi_fatigue_hanafuda_card_recover.value[1], GameSetting.activity_kagutsuchi_battle_fatigue_max.value[1] - KagutsuchiWorkData:GetStamina()))
 
-	manager.net:SendWithLoadingNew(76010, {
-		activity_id = arg_2_0,
-		is_success = arg_2_1,
-		combine_id_list = arg_2_2
-	}, 76011, function(arg_3_0, arg_3_1)
-		var_0_0.handleHanafudaGameOverResult(arg_3_0, arg_3_1, arg_2_3)
-	end)
-end
+			HanafudaData:UpdateStreakInfo(slot1.is_success)
+			HanafudaData:AddToCompleteCardCombineList(slot1.combine_id_list)
 
-function var_0_0.handleHanafudaGameOverResult(arg_4_0, arg_4_1, arg_4_2)
-	if isSuccess(arg_4_0.result) then
-		local var_4_0 = KagutsuchiWorkData:GetStamina()
-		local var_4_1 = math.min(GameSetting.activity_kagutsuchi_fatigue_hanafuda_card_recover.value[1], GameSetting.activity_kagutsuchi_battle_fatigue_max.value[1] - var_4_0)
-		local var_4_2 = math.max(0, var_4_1)
+			if slot2 then
+				slot2()
+			end
 
-		HanafudaData:UpdateStreakInfo(arg_4_1.is_success)
-		HanafudaData:AddToCompleteCardCombineList(arg_4_1.combine_id_list)
-
-		if arg_4_2 then
-			arg_4_2()
+			uv0.RefreshRedPonit()
+		else
+			ShowTips(slot0.result)
 		end
+	end,
+	SendGetCombineReward = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(76012, {
+			activity_id = slot0,
+			combine_id = slot1
+		}, 76013, function (slot0, slot1)
+			uv0.handleGetCombineRewardResult(slot0, slot1, uv1)
+		end)
+	end,
+	handleGetCombineRewardResult = function (slot0, slot1, slot2)
+		if isSuccess(slot0.result) then
+			getReward(formatRewardCfgList(HanafudaCardCombineCfg[slot1.combine_id].reward_item_list))
+			HanafudaData:RewardedCardCombineListByID(slot1.combine_id)
 
-		var_0_0.RefreshRedPonit()
-	else
-		ShowTips(arg_4_0.result)
-	end
-end
+			if slot2 then
+				slot2()
+			end
 
-function var_0_0.SendGetCombineReward(arg_5_0, arg_5_1, arg_5_2)
-	manager.net:SendWithLoadingNew(76012, {
-		activity_id = arg_5_0,
-		combine_id = arg_5_1
-	}, 76013, function(arg_6_0, arg_6_1)
-		var_0_0.handleGetCombineRewardResult(arg_6_0, arg_6_1, arg_5_2)
-	end)
-end
-
-function var_0_0.handleGetCombineRewardResult(arg_7_0, arg_7_1, arg_7_2)
-	if isSuccess(arg_7_0.result) then
-		local var_7_0 = HanafudaCardCombineCfg[arg_7_1.combine_id]
-
-		getReward(formatRewardCfgList(var_7_0.reward_item_list))
-		HanafudaData:RewardedCardCombineListByID(arg_7_1.combine_id)
-
-		if arg_7_2 then
-			arg_7_2()
+			uv0.RefreshRedPonit()
+		else
+			ShowTips(slot0.result)
 		end
-
-		var_0_0.RefreshRedPonit()
-	else
-		ShowTips(arg_7_0.result)
+	end,
+	RefreshRedPonit = function ()
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, HanafudaData:GetActivityID()), HanafudaData:GetIsTasksUnRewarded() and 1 or 0)
 	end
-end
-
-function var_0_0.RefreshRedPonit()
-	local var_8_0 = HanafudaData:GetIsTasksUnRewarded()
-	local var_8_1 = HanafudaData:GetActivityID()
-
-	manager.redPoint:setTip(string.format("%s_%s", RedPointConst.KAGUTUSUCHI_HANAFUDA_REWARDED, var_8_1), var_8_0 and 1 or 0)
-end
-
-return var_0_0
+}

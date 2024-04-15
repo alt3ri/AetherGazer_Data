@@ -1,103 +1,99 @@
-local var_0_0 = class("DormChangeTemplateNameView", ReduxView)
+slot0 = class("DormChangeTemplateNameView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormPopupChangeNameUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:GetOrAddComponent(arg_3_0.nameinput_.gameObject, typeof(InputFieldHelper))
-	dealEnter(arg_3_0.nameinput_.gameObject)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:GetOrAddComponent(slot0.nameinput_.gameObject, typeof(InputFieldHelper))
+	dealEnter(slot0.nameinput_.gameObject)
 end
 
-function var_0_0._onValidateInput(arg_4_0, arg_4_1, arg_4_2)
-	if #arg_4_0 >= 24 then
+function slot0._onValidateInput(slot0, slot1, slot2)
+	if #slot0 >= 24 then
 		return 0
 	end
 
-	return arg_4_2
+	return slot2
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cancelbtnBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelbtnBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.okbtnBtn_, nil, function()
-		local var_8_0 = arg_5_0.params_.oldName or ""
-		local var_8_1 = arg_5_0.nameinput_.text
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
+		slot0 = uv0.params_.oldName or ""
 
-		if var_8_1 == "" then
+		if uv0.nameinput_.text == "" then
 			ShowTips(GetTips("DORM_MOULD_NAME_NULL"))
 
 			return
 		end
 
-		if var_8_0 == var_8_1 then
+		if slot0 == slot1 then
 			ShowTips(GetTips("DORM_MOULD_NAME_SAME"))
 
 			return
 		end
 
-		local var_8_2, var_8_3 = textLimit(var_8_1, GameDisplayCfg.dorm_mould_name_max.value[1])
+		slot2, slot3 = textLimit(slot1, GameDisplayCfg.dorm_mould_name_max.value[1])
+		uv0.nameinput_.text = GetI18NText(slot2)
 
-		arg_5_0.nameinput_.text = GetI18NText(var_8_2)
-
-		local var_8_4 = var_8_2
-
-		if not nameRule(var_8_4) then
+		if not nameRule(slot2) then
 			ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
 			return
 		end
 
-		if not var_8_3 then
+		if not slot3 then
 			return
 		end
 
-		WordVerifyBySDK(var_8_4, function(arg_9_0)
-			if not arg_9_0 then
+		WordVerifyBySDK(slot1, function (slot0)
+			if not slot0 then
 				ShowTips("ERROR_USER_NAME_VER_WORD")
-			elseif arg_5_0.params_.callBack then
-				arg_5_0.params_.callBack(var_8_4)
+			elseif uv0.params_.callBack then
+				uv0.params_.callBack(uv1)
 			end
 		end, JUDGE_MESSAGE_TYPE.DORM_TEMPLATE)
 	end)
 end
 
-function var_0_0.Init(arg_10_0)
-	arg_10_0:InitUI()
-	arg_10_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.RegisterEvent(arg_11_0)
-	arg_11_0:RegistEventListener(DOMR_RENAME_TEMPLATE_SUCCESS, function()
+function slot0.RegisterEvent(slot0)
+	slot0:RegistEventListener(DOMR_RENAME_TEMPLATE_SUCCESS, function ()
 		ShowTips(GetTips("DORM_MOULD_NAME_CHANGE"))
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0.nameinput_.text = ""
-	arg_13_0.placeholderText_.text = arg_13_0.params_.showText or ""
+function slot0.OnEnter(slot0)
+	slot0.nameinput_.text = ""
+	slot0.placeholderText_.text = slot0.params_.showText or ""
 
-	arg_13_0:RegisterEvent()
+	slot0:RegisterEvent()
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllListeners()
-	arg_15_0.nameinput_.onValueChanged:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_15_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.nameinput_.onValueChanged:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

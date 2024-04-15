@@ -1,33 +1,33 @@
-local var_0_0 = class("ActivityMatrixHeroSkillPage", MatrixHeroSkillPage)
+slot0 = class("ActivityMatrixHeroSkillPage", MatrixHeroSkillPage)
 
-function var_0_0.SetMatirxHeroInfo(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.matrix_activity_id = arg_1_1
+function slot0.SetMatirxHeroInfo(slot0, slot1, slot2)
+	slot0.matrix_activity_id = slot1
 
-	var_0_0.super.SetMatirxHeroInfo(arg_1_0, arg_1_2)
+	uv0.super.SetMatirxHeroInfo(slot0, slot2)
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	for iter_2_0 = 1, 6 do
-		arg_2_0.skillItem_[iter_2_0]:RegistCallBack(function(arg_3_0)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 6 do
+		slot0.skillItem_[slot4]:RegistCallBack(function (slot0)
 			JumpTools.OpenPageByJump("matrixSkillUpgrade", {
-				skillId = arg_3_0.id,
-				heroId = arg_3_0.heroId,
-				standardId = arg_2_0.standardID,
-				servantId = arg_3_0.servantId,
-				lv = arg_3_0.lv
+				skillId = slot0.id,
+				heroId = slot0.heroId,
+				standardId = uv0.standardID,
+				servantId = slot0.servantId,
+				lv = slot0.lv
 			})
 		end)
 	end
 
-	arg_2_0:AddBtnListener(arg_2_0.buttonComboSkill_, nil, function()
-		arg_2_0:Go("activityMatrixOrigin/activityMatrixComboSkillInfo", {
-			heroId = arg_2_0.heroInfo_.id
+	slot0:AddBtnListener(slot0.buttonComboSkill_, nil, function ()
+		uv0:Go("activityMatrixOrigin/activityMatrixComboSkillInfo", {
+			heroId = uv0.heroInfo_.id
 		})
 	end)
 end
 
-function var_0_0.GetHeroData(arg_5_0, arg_5_1)
-	return ActivityMatrixData:GetHeroData(arg_5_0.matrix_activity_id, arg_5_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

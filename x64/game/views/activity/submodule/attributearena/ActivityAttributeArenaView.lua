@@ -1,153 +1,137 @@
-local var_0_0 = class("ActivityAttributeArenaView", ReduxView)
+slot0 = class("ActivityAttributeArenaView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return AttributeArenaTools.GetMainUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return AttributeArenaTools.GetMainUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.m_list, ActivityAttributeArenaItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, ActivityAttributeArenaItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_rewardBtn, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_rewardBtn, function ()
 		JumpTools.OpenPageByJump("activityAttributeArenaReward", {
-			task_activity_id = arg_5_0.task_activity_id
+			task_activity_id = uv0.task_activity_id
 		})
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_desBtn, function()
-		local var_7_0 = "ACTIVITY_ATTRIBUTE_GAME_TIP"
+	slot0:AddBtnListener(nil, slot0.m_desBtn, function ()
+		slot0 = "ACTIVITY_ATTRIBUTE_GAME_TIP"
 
 		JumpTools.OpenPageByJump("gameHelp", {
-			content = GetTips(var_7_0),
-			key = var_7_0
+			content = GetTips(slot0),
+			key = slot0
 		})
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_roundBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_roundBtn, function ()
 		JumpTools.OpenPageByJump("activityAttributeArenaRound", {
-			activityID = arg_5_0.activity_id
+			activityID = uv0.activity_id
 		})
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.activity_id = arg_10_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activity_id = slot0.params_.activityID
 
-	ActivityAttributeArenaAction.SetRead(arg_10_0.activity_id)
+	ActivityAttributeArenaAction.SetRead(slot0.activity_id)
 
-	arg_10_0.task_activity_id = 0
-	arg_10_0.rank_activity_id = 0
+	slot0.task_activity_id = 0
+	slot0.rank_activity_id = 0
 
-	local var_10_0 = ActivityCfg[arg_10_0.activity_id]
-
-	for iter_10_0, iter_10_1 in ipairs(var_10_0.sub_activity_list) do
-		local var_10_1 = ActivityCfg[iter_10_1]
-
-		if var_10_1.activity_template == ActivityTemplateConst.TASK then
-			arg_10_0.task_activity_id = iter_10_1
-		elseif var_10_1.activity_template == ActivityTemplateConst.ACTIVITY_ATTRIBUTE_ARENA_RANK then
-			arg_10_0.rank_activity_id = iter_10_1
+	for slot5, slot6 in ipairs(ActivityCfg[slot0.activity_id].sub_activity_list) do
+		if ActivityCfg[slot6].activity_template == ActivityTemplateConst.TASK then
+			slot0.task_activity_id = slot6
+		elseif slot7.activity_template == ActivityTemplateConst.ACTIVITY_ATTRIBUTE_ARENA_RANK then
+			slot0.rank_activity_id = slot6
 		end
 	end
 
-	arg_10_0:RefreshUI()
-	arg_10_0:RefreshTime()
+	slot0:RefreshUI()
+	slot0:RefreshTime()
 
-	arg_10_0.timer = Timer.New(function()
-		arg_10_0:RefreshTime()
+	slot0.timer = Timer.New(function ()
+		uv0:RefreshTime()
 	end, 1, -1)
 
-	arg_10_0.timer:Start()
-	arg_10_0:QueryRankData(1)
-
-	local var_10_2 = string.format("%s_%s", RedPointConst.ACTIVITY_ATTRIBUTE_ARENA_TASK, arg_10_0.activity_id)
-
-	manager.redPoint:bindUIandKey(arg_10_0.m_rewardBtn.transform, var_10_2)
+	slot0.timer:Start()
+	slot0:QueryRankData(1)
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.ACTIVITY_ATTRIBUTE_ARENA_TASK, slot0.activity_id))
 end
 
-function var_0_0.QueryRankData(arg_12_0, arg_12_1)
-	if arg_12_0.rank_activity_id == 0 then
+function slot0.QueryRankData(slot0, slot1)
+	if slot0.rank_activity_id == 0 then
 		return
 	end
 
-	if arg_12_1 > 3 then
+	if slot1 > 3 then
 		return
 	end
 
-	RankAction.QueryActivityRank(arg_12_0.rank_activity_id, arg_12_1, function()
-		arg_12_0:QueryRankData(arg_12_1 + 1)
+	RankAction.QueryActivityRank(slot0.rank_activity_id, slot1, function ()
+		uv0:QueryRankData(uv1 + 1)
 	end, 1)
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	arg_14_0.arena_list_data = ActivityAttributeArenaData:GetArenaList(arg_14_0.activity_id)
+function slot0.RefreshUI(slot0)
+	slot0.arena_list_data = ActivityAttributeArenaData:GetArenaList(slot0.activity_id)
 
-	arg_14_0.list:StartScroll(#arg_14_0.arena_list_data)
+	slot0.list:StartScroll(#slot0.arena_list_data)
 end
 
-function var_0_0.RefreshTime(arg_15_0)
-	local var_15_0 = ActivityData:GetActivityData(arg_15_0.activity_id)
-
-	arg_15_0.m_timeLab.text = manager.time:GetLostTimeStr2(var_15_0.stopTime, nil, true)
-
-	local var_15_1 = ActivityData:GetActivityRefreshTime(arg_15_0.activity_id)
-
-	arg_15_0.m_refreshTimeLab.text = manager.time:GetLostTimeStr2(var_15_1, nil, true)
+function slot0.RefreshTime(slot0)
+	slot0.m_timeLab.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(slot0.activity_id).stopTime, nil, true)
+	slot0.m_refreshTimeLab.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityRefreshTime(slot0.activity_id), nil, true)
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	if arg_16_0.timer then
-		arg_16_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 	end
 
-	arg_16_0.timer = nil
+	slot0.timer = nil
 
-	local var_16_0 = string.format("%s_%s", RedPointConst.ACTIVITY_ATTRIBUTE_ARENA_TASK, arg_16_0.activity_id)
-
-	manager.redPoint:unbindUIandKey(arg_16_0.m_rewardBtn.transform, var_16_0)
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.ACTIVITY_ATTRIBUTE_ARENA_TASK, slot0.activity_id))
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.list:Dispose()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = arg_18_0.arena_list_data[arg_18_1]
-
-	arg_18_2:SetData(var_18_0, arg_18_0.activity_id, arg_18_0.rank_activity_id)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.arena_list_data[slot1], slot0.activity_id, slot0.rank_activity_id)
 end
 
-function var_0_0.OnActivityAttributeArenaUpdate(arg_19_0)
-	arg_19_0:RefreshUI()
-	arg_19_0:QueryRankData(1)
+function slot0.OnActivityAttributeArenaUpdate(slot0)
+	slot0:RefreshUI()
+	slot0:QueryRankData(1)
 end
 
-function var_0_0.OnActivityAttributeArenaReset(arg_20_0)
-	arg_20_0:RefreshUI()
+function slot0.OnActivityAttributeArenaReset(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnRankUpdate(arg_21_0)
-	arg_21_0.list:Refresh()
+function slot0.OnRankUpdate(slot0)
+	slot0.list:Refresh()
 end
 
-return var_0_0
+return slot0

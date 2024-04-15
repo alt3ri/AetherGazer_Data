@@ -169,8 +169,8 @@ return {
 		icon = "IdolTrainee_icon_skill2_004005",
 		counter_action = "",
 		skill_effect = {
-			9039010201,
-			9039010202
+			9039010201.0,
+			9039010202.0
 		}
 	},
 	[90840101] = {
@@ -181,8 +181,8 @@ return {
 		icon = "IdolTrainee_icon_skill2_001101",
 		counter_action = "",
 		skill_effect = {
-			9084010101,
-			9084010102
+			9084010101.0,
+			9084010102.0
 		}
 	},
 	[91480101] = {
@@ -193,9 +193,9 @@ return {
 		icon = "IdolTrainee_icon_skill_015",
 		counter_action = "",
 		skill_effect = {
-			9148010101,
-			9148010102,
-			9148010103
+			9148010101.0,
+			9148010102.0,
+			9148010103.0
 		}
 	},
 	[91480102] = {
@@ -206,7 +206,7 @@ return {
 		icon = "IdolTrainee_icon_skill_014",
 		counter_action = "",
 		skill_effect = {
-			9148010201
+			9148010201.0
 		}
 	},
 	all = {

@@ -1,11 +1,11 @@
-local var_0_0 = class("PopularEventItem", CommonItem)
+slot0 = class("PopularEventItem", CommonItem)
 
-function var_0_0.ShowPresent(arg_1_0, arg_1_1)
-	SetActive(arg_1_0.presentGo_, arg_1_1)
+function slot0.ShowPresent(slot0, slot1)
+	SetActive(slot0.presentGo_, slot1)
 end
 
-function var_0_0.ShowSelect(arg_2_0, arg_2_1)
-	SetActive(arg_2_0.selectGo_, arg_2_1)
+function slot0.ShowSelect(slot0, slot1)
+	SetActive(slot0.selectGo_, slot1)
 end
 
-return var_0_0
+return slot0

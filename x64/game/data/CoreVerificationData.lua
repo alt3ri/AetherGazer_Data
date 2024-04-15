@@ -1,227 +1,206 @@
-local var_0_0 = singletonClass("CoreVerificationData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = 0
-local var_0_4 = 0
-local var_0_5 = 0
-local var_0_6 = {}
-local var_0_7 = {}
-local var_0_8 = {}
-local var_0_9 = {}
+slot0 = singletonClass("CoreVerificationData")
+slot1 = {}
+slot2 = {}
+slot3 = 0
+slot4 = 0
+slot5 = 0
+slot6 = {}
+slot7 = {}
+slot8 = {}
+slot9 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_9 = {}
-	var_0_2 = {}
-	var_0_6 = {}
-	var_0_7 = {}
-	var_0_8 = {}
-	var_0_3 = 1
-	var_0_4 = 2
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
+	uv5 = {}
+	uv6 = 1
+	uv7 = 2
 
-	for iter_1_0, iter_1_1 in pairs(CoreVerificationInfoCfg.get_id_list_by_cycle) do
-		var_0_1[iter_1_0] = {}
-		var_0_1[iter_1_0][1] = {}
-		var_0_1[iter_1_0][2] = {}
+	for slot4, slot5 in pairs(CoreVerificationInfoCfg.get_id_list_by_cycle) do
+		uv0[slot4] = {
+			{},
+			{}
+		}
 
-		for iter_1_2, iter_1_3 in ipairs(iter_1_1) do
-			local var_1_0 = CoreVerificationInfoCfg[iter_1_3]
-
-			var_0_1[iter_1_0][var_1_0.boss_type][var_1_0.difficult] = iter_1_3
+		for slot9, slot10 in ipairs(slot5) do
+			slot11 = CoreVerificationInfoCfg[slot10]
+			uv0[slot4][slot11.boss_type][slot11.difficult] = slot10
 		end
 	end
 
-	var_0_2[1] = {}
-	var_0_2[2] = {}
-	var_0_2[3] = {}
-	var_0_2[4] = {}
+	uv2[1] = {}
+	uv2[2] = {}
+	uv2[3] = {}
+	uv2[4] = {}
 
-	for iter_1_4, iter_1_5 in pairs(CoreVerificationRewardCfg.all) do
-		local var_1_1 = CoreVerificationRewardCfg[iter_1_5]
-
-		if var_1_1.reward_type == 1 or var_1_1.reward_type == 2 then
-			if not var_0_2[var_1_1.reward_type][var_1_1.cycle] then
-				var_0_2[var_1_1.reward_type][var_1_1.cycle] = {}
+	for slot4, slot5 in pairs(CoreVerificationRewardCfg.all) do
+		if CoreVerificationRewardCfg[slot5].reward_type == 1 or slot6.reward_type == 2 then
+			if not uv2[slot6.reward_type][slot6.cycle] then
+				uv2[slot6.reward_type][slot6.cycle] = {}
 			end
 
-			table.insert(var_0_2[var_1_1.reward_type][var_1_1.cycle], iter_1_5)
+			table.insert(uv2[slot6.reward_type][slot6.cycle], slot5)
 		else
-			table.insert(var_0_2[var_1_1.reward_type], iter_1_5)
+			table.insert(uv2[slot6.reward_type], slot5)
 		end
 	end
 
-	arg_1_0:SetUpdateCycleCallBack()
+	slot0:SetUpdateCycleCallBack()
 end
 
-function var_0_0.UpdateCycleInfo(arg_2_0, arg_2_1)
-	var_0_3 = arg_2_1.now_cycle
-	var_0_4 = arg_2_1.next_cycle
-	var_0_5 = arg_2_1.refresh_timestamp
+function slot0.UpdateCycleInfo(slot0, slot1)
+	uv0 = slot1.now_cycle
+	uv1 = slot1.next_cycle
+	uv2 = slot1.refresh_timestamp
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.stage_info) do
-		var_0_6[iter_2_1.id] = {}
-		var_0_6[iter_2_1.id].passState = iter_2_1.sign == 1
-		var_0_6[iter_2_1.id].passTime = iter_2_1.sign == 1 and iter_2_1.min_time / 1000 or 3600
+	for slot5, slot6 in ipairs(slot1.stage_info) do
+		uv3[slot6.id] = {
+			passState = slot6.sign == 1,
+			passTime = slot6.sign == 1 and slot6.min_time / 1000 or 3600
+		}
 	end
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.reward_list) do
-		var_0_8[iter_2_3] = true
+	for slot5, slot6 in ipairs(slot1.reward_list) do
+		uv4[slot6] = true
 	end
 
-	var_0_7[1] = {}
-	var_0_7[2] = {}
+	uv5[1] = {}
+	uv5[2] = {}
 
-	for iter_2_4, iter_2_5 in ipairs(arg_2_1.lock_list) do
-		for iter_2_6, iter_2_7 in ipairs(iter_2_5.hero_list) do
-			table.insert(var_0_7[iter_2_5.boss_type], iter_2_7)
+	for slot5, slot6 in ipairs(slot1.lock_list) do
+		for slot10, slot11 in ipairs(slot6.hero_list) do
+			table.insert(uv5[slot6.boss_type], slot11)
 		end
 	end
 
-	var_0_9 = {
+	uv6 = {
 		0,
 		0
 	}
+	slot3 = uv7[uv0][2]
 
-	local var_2_0 = var_0_1[var_0_3][1]
-	local var_2_1 = var_0_1[var_0_3][2]
-
-	for iter_2_8, iter_2_9 in ipairs(var_2_0) do
-		if var_0_6[iter_2_9] and var_0_6[iter_2_9].passState then
-			var_0_9[1] = iter_2_8
+	for slot7, slot8 in ipairs(uv7[uv0][1]) do
+		if uv3[slot8] and uv3[slot8].passState then
+			uv6[1] = slot7
 		end
 	end
 
-	for iter_2_10, iter_2_11 in ipairs(var_2_1) do
-		if var_0_6[iter_2_11] and var_0_6[iter_2_11].passState then
-			var_0_9[2] = iter_2_10
+	for slot7, slot8 in ipairs(slot3) do
+		if uv3[slot8] and uv3[slot8].passState then
+			uv6[2] = slot7
 		end
 	end
 end
 
-function var_0_0.BattleStageData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	local var_3_0 = CoreVerificationInfoCfg[arg_3_1]
-	local var_3_1 = var_3_0.boss_type
-	local var_3_2 = var_3_0.difficult
+function slot0.BattleStageData(slot0, slot1, slot2, slot3)
+	slot4 = CoreVerificationInfoCfg[slot1]
 
-	if var_3_2 > var_0_9[var_3_1] then
-		var_0_9[var_3_1] = var_3_2
+	if uv0[slot4.boss_type] < slot4.difficult then
+		uv0[slot5] = slot6
 	end
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_2) do
-		if not table.keyof(var_0_7[var_3_1], iter_3_1) then
-			table.insert(var_0_7[var_3_1], iter_3_1)
+	for slot10, slot11 in ipairs(slot2) do
+		if not table.keyof(uv1[slot5], slot11) then
+			table.insert(uv1[slot5], slot11)
 		end
 	end
 
-	if var_0_6[var_3_0.id] then
-		var_0_6[var_3_0.id].passState = true
+	if uv2[slot4.id] then
+		uv2[slot4.id].passState = true
 
-		if arg_3_3 < var_0_6[var_3_0.id].passTime then
-			var_0_6[var_3_0.id].passTime = arg_3_3
+		if slot3 < uv2[slot4.id].passTime then
+			uv2[slot4.id].passTime = slot3
 		end
 	else
-		var_0_6[var_3_0.id] = {}
-		var_0_6[var_3_0.id].passState = true
-		var_0_6[var_3_0.id].passTime = arg_3_3
+		uv2[slot4.id] = {
+			passState = true,
+			passTime = slot3
+		}
 	end
 
 	CoreVerificationAction.UpdateRewardRedPoints()
 end
 
-function var_0_0.UpdateRewardData(arg_4_0, arg_4_1)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.reward_list) do
-		var_0_8[iter_4_1] = true
+function slot0.UpdateRewardData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.reward_list) do
+		uv0[slot6] = true
 	end
 end
 
-function var_0_0.GetBossUICfgByBossType(arg_5_0, arg_5_1)
-	local var_5_0 = var_0_1[var_0_3][arg_5_1][1]
-	local var_5_1 = CoreVerificationInfoCfg[var_5_0].stage_id
-
-	return BossChallengeUICfg[var_5_1] or BossChallengeUICfg[3090009]
+function slot0.GetBossUICfgByBossType(slot0, slot1)
+	return BossChallengeUICfg[CoreVerificationInfoCfg[uv0[uv1][slot1][1]].stage_id] or BossChallengeUICfg[3090009]
 end
 
-function var_0_0.GetRecommendByBossType(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_1[var_0_3][arg_6_1][1]
-
-	return CoreVerificationInfoCfg[var_6_0].recommend
+function slot0.GetRecommendByBossType(slot0, slot1)
+	return CoreVerificationInfoCfg[uv0[uv1][slot1][1]].recommend
 end
 
-function var_0_0.GetLockHeroByBossType(arg_7_0, arg_7_1)
-	return var_0_7[arg_7_1]
+function slot0.GetLockHeroByBossType(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetDiffListByBossType(arg_8_0, arg_8_1)
-	return var_0_1[var_0_3][arg_8_1]
+function slot0.GetDiffListByBossType(slot0, slot1)
+	return uv0[uv1][slot1]
 end
 
-function var_0_0.GetLockHeroByInfoID(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = CoreVerificationInfoCfg[arg_9_1].boss_type
-
-	if arg_9_2 then
-		return var_0_7[var_9_0]
-	elseif var_9_0 == 1 then
-		return var_0_7[2]
-	elseif var_9_0 == 2 then
-		return var_0_7[1]
+function slot0.GetLockHeroByInfoID(slot0, slot1, slot2)
+	if slot2 then
+		return uv0[CoreVerificationInfoCfg[slot1].boss_type]
+	elseif slot3 == 1 then
+		return uv0[2]
+	elseif slot3 == 2 then
+		return uv0[1]
 	end
 
-	return var_0_7[1]
+	return uv0[1]
 end
 
-function var_0_0.GetMaxPassByBossType(arg_10_0, arg_10_1)
-	local var_10_0 = var_0_9[arg_10_1] > 0
-	local var_10_1 = var_0_9[arg_10_1] > 0 and var_0_9[arg_10_1] or 1
-	local var_10_2 = var_0_1[var_0_3][arg_10_1][var_10_1]
-	local var_10_3 = var_10_0 and var_0_6[var_10_2].passTime or 0
+function slot0.GetMaxPassByBossType(slot0, slot1)
+	slot2 = uv0[slot1] > 0
+	slot3 = uv0[slot1] > 0 and uv0[slot1] or 1
 
-	return var_10_0, var_10_1, var_10_3
+	return slot2, slot3, slot2 and uv3[uv1[uv2][slot1][slot3]].passTime or 0
 end
 
-function var_0_0.GetMaxUnlockByBossType(arg_11_0, arg_11_1)
-	local var_11_0 = 1
-	local var_11_1 = PlayerData:GetPlayerInfo().userLevel
+function slot0.GetMaxUnlockByBossType(slot0, slot1)
+	slot2 = 1
+	slot7 = uv1
 
-	for iter_11_0, iter_11_1 in ipairs(var_0_1[var_0_3][arg_11_1]) do
-		if var_0_6[iter_11_1 - 1] and var_11_1 >= CoreVerificationInfoCfg[iter_11_1].unlock_level then
-			var_11_0 = iter_11_0
+	for slot7, slot8 in ipairs(uv0[slot7][slot1]) do
+		if uv2[slot8 - 1] and CoreVerificationInfoCfg[slot8].unlock_level <= PlayerData:GetPlayerInfo().userLevel then
+			slot2 = slot7
 		end
 	end
 
-	return var_11_0
+	return slot2
 end
 
-function var_0_0.GetStageInfoByTypeAndDiff(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = var_0_1[var_0_3][arg_12_1][arg_12_2]
-
-	return var_0_6[var_12_0]
+function slot0.GetStageInfoByTypeAndDiff(slot0, slot1, slot2)
+	return uv2[uv0[uv1][slot1][slot2]]
 end
 
-function var_0_0.GetInfoCfgByTypeAndDiff(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = var_0_1[var_0_3][arg_13_1][arg_13_2]
-
-	return CoreVerificationInfoCfg[var_13_0]
+function slot0.GetInfoCfgByTypeAndDiff(slot0, slot1, slot2)
+	return CoreVerificationInfoCfg[uv0[uv1][slot1][slot2]]
 end
 
-function var_0_0.GetAffixByTypeAndDiff(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = var_0_1[var_0_3][arg_14_1][arg_14_2]
-
-	return CoreVerificationInfoCfg[var_14_0].affix_type
+function slot0.GetAffixByTypeAndDiff(slot0, slot1, slot2)
+	return CoreVerificationInfoCfg[uv0[uv1][slot1][slot2]].affix_type
 end
 
-function var_0_0.GetRewardListByType(arg_15_0, arg_15_1)
-	if arg_15_1 == 1 or arg_15_1 == 2 then
-		return var_0_2[arg_15_1][var_0_3]
+function slot0.GetRewardListByType(slot0, slot1)
+	if slot1 == 1 or slot1 == 2 then
+		return uv0[slot1][uv1]
 	else
-		return var_0_2[arg_15_1]
+		return uv0[slot1]
 	end
 end
 
-function var_0_0.CheckFirstReward(arg_16_0)
-	local var_16_0 = var_0_2[4]
-
-	for iter_16_0, iter_16_1 in ipairs(var_16_0) do
-		if not var_0_8[iter_16_1] then
+function slot0.CheckFirstReward(slot0)
+	for slot5, slot6 in ipairs(uv0[4]) do
+		if not uv1[slot6] then
 			return "true"
 		end
 	end
@@ -229,67 +208,54 @@ function var_0_0.CheckFirstReward(arg_16_0)
 	return "false"
 end
 
-function var_0_0.GetCurCycleInfo(arg_17_0)
-	return var_0_1[var_0_3]
+function slot0.GetCurCycleInfo(slot0)
+	return uv0[uv1]
 end
 
-function var_0_0.GetPreviewInfo(arg_18_0)
-	return var_0_1[var_0_4]
+function slot0.GetPreviewInfo(slot0)
+	return uv0[uv1]
 end
 
-function var_0_0.GetRefreshTime(arg_19_0)
-	return var_0_5
+function slot0.GetRefreshTime(slot0)
+	return uv0
 end
 
-function var_0_0.GetTaskProcess(arg_20_0, arg_20_1)
-	local var_20_0 = CoreVerificationRewardCfg[arg_20_1].condition
-	local var_20_1 = ConditionCfg[var_20_0]
-	local var_20_2 = 0
+function slot0.GetTaskProcess(slot0, slot1)
+	slot4 = 0
 
-	if var_20_1.type == 11300 then
-		local var_20_3 = var_20_1.params[1]
-
-		var_20_2 = var_20_1.params[2] <= var_0_9[var_20_3] and 1 or 0
-	elseif var_20_1.type == 11302 then
-		local var_20_4 = var_20_1.params[1]
-
-		var_20_2 = var_20_4 <= var_0_9[1] and var_20_4 <= var_0_9[2] and 1 or 0
-	elseif var_20_1.type == 11301 then
-		local var_20_5 = var_20_1.params[1]
-		local var_20_6 = var_0_1[var_0_3][1][var_20_5]
-		local var_20_7 = var_0_1[var_0_3][2][var_20_5]
-
-		var_20_2 = var_0_6[var_20_6] and var_0_6[var_20_7] and 1 or 0
-	elseif var_20_1.type == 11303 then
-		local var_20_8 = var_20_1.params[1]
-		local var_20_9 = var_20_1.params[2]
-		local var_20_10 = var_0_1[var_0_3][var_20_8][var_20_9]
-
-		var_20_2 = var_0_6[var_20_10] and 1 or 0
+	if ConditionCfg[CoreVerificationRewardCfg[slot1].condition].type == 11300 then
+		slot4 = slot3.params[2] <= uv0[slot3.params[1]] and 1 or 0
+	elseif slot3.type == 11302 then
+		slot4 = slot3.params[1] <= uv0[1] and slot5 <= uv0[2] and 1 or 0
+	elseif slot3.type == 11301 then
+		slot5 = slot3.params[1]
+		slot4 = uv3[uv1[uv2][1][slot5]] and uv3[uv1[uv2][2][slot5]] and 1 or 0
+	elseif slot3.type == 11303 then
+		slot4 = uv3[uv1[uv2][slot3.params[1]][slot3.params[2]]] and 1 or 0
 	end
 
-	return var_20_2, var_20_1.progress_show, var_20_2 == 1, var_0_8[arg_20_1] or false
+	return slot4, slot3.progress_show, slot4 == 1, uv4[slot1] or false
 end
 
-function var_0_0.IsStageProcess(arg_21_0)
-	return var_0_9[1] > 0 or var_0_9[2] > 0
+function slot0.IsStageProcess(slot0)
+	return uv0[1] > 0 or uv0[2] > 0
 end
 
-local var_0_10
+slot10 = nil
 
-function var_0_0.SetUpdateCycleCallBack(arg_22_0)
-	function var_0_10()
+function slot0.SetUpdateCycleCallBack(slot0)
+	function uv0()
 		ShowTips("STAGE_REFRESH_DATA")
 		JumpTools.GoToSystem("/coreVerificationMain", nil, ViewConst.SYSTEM_ID.CORE_VERIFICATION)
 	end
 end
 
-function var_0_0.InvokeUpdateCycleCallBack(arg_24_0)
-	if var_0_10 then
-		var_0_10()
+function slot0.InvokeUpdateCycleCallBack(slot0)
+	if uv0 then
+		uv0()
 
-		var_0_10 = nil
+		uv0 = nil
 	end
 end
 
-return var_0_0
+return slot0

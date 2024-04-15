@@ -1,105 +1,96 @@
-local var_0_0 = class("DrawBasePool", ReduxView)
+slot0 = class("DrawBasePool", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = Asset.Load("Widget/System/Pool/pool_" .. arg_1_3)
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("Widget/System/Pool/pool_" .. slot3), slot1)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.poolId = slot2
+	slot0.showId = slot3
+	slot0.detailBtnList_ = {}
+	slot0.btnNameList_ = {}
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.poolId = arg_1_2
-	arg_1_0.showId = arg_1_3
-	arg_1_0.detailBtnList_ = {}
-	arg_1_0.btnNameList_ = {}
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:AdaptScreen()
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:AdaptScreen()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	if arg_3_0.detailBtnPanelTrans_ ~= nil then
-		local var_3_0 = arg_3_0.detailBtnPanelTrans_.childCount
-
-		for iter_3_0 = 0, var_3_0 - 1 do
-			local var_3_1 = arg_3_0.detailBtnPanelTrans_:GetChild(iter_3_0)
-
-			arg_3_0.detailBtnList_[#arg_3_0.detailBtnList_ + 1] = var_3_1:GetComponentInChildren(typeof(UnityEngine.UI.Button))
-			arg_3_0.btnNameList_[#arg_3_0.btnNameList_ + 1] = tonumber(var_3_1.name)
+	if slot0.detailBtnPanelTrans_ ~= nil then
+		for slot5 = 0, slot0.detailBtnPanelTrans_.childCount - 1 do
+			slot6 = slot0.detailBtnPanelTrans_:GetChild(slot5)
+			slot0.detailBtnList_[#slot0.detailBtnList_ + 1] = slot6:GetComponentInChildren(typeof(UnityEngine.UI.Button))
+			slot0.btnNameList_[#slot0.btnNameList_ + 1] = tonumber(slot6.name)
 		end
 	end
 
-	if arg_3_0.detailBtnPanelTrans_S_ ~= nil then
-		local var_3_2 = arg_3_0.detailBtnPanelTrans_S_.childCount
-
-		for iter_3_1 = 0, var_3_2 - 1 do
-			local var_3_3 = arg_3_0.detailBtnPanelTrans_S_:GetChild(iter_3_1)
-
-			arg_3_0.detailBtnList_[#arg_3_0.detailBtnList_ + 1] = var_3_3:GetComponentInChildren(typeof(UnityEngine.UI.Button))
-			arg_3_0.btnNameList_[#arg_3_0.btnNameList_ + 1] = tonumber(var_3_3.name)
+	if slot0.detailBtnPanelTrans_S_ ~= nil then
+		for slot5 = 0, slot0.detailBtnPanelTrans_S_.childCount - 1 do
+			slot6 = slot0.detailBtnPanelTrans_S_:GetChild(slot5)
+			slot0.detailBtnList_[#slot0.detailBtnList_ + 1] = slot6:GetComponentInChildren(typeof(UnityEngine.UI.Button))
+			slot0.btnNameList_[#slot0.btnNameList_ + 1] = tonumber(slot6.name)
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.detailBtnList_) do
-		arg_4_0:AddBtnListener(iter_4_1, nil, function()
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.detailBtnList_) do
+		slot0:AddBtnListener(slot5, nil, function ()
 			JumpTools.OpenPageByJump("/heroPreviewMain", {
 				isEnter = true,
-				hid = arg_4_0.btnNameList_[iter_4_0]
+				hid = uv0.btnNameList_[uv1]
 			})
 		end)
 	end
 end
 
-function var_0_0.Refresh(arg_6_0, arg_6_1)
-	return
+function slot0.Refresh(slot0, slot1)
 end
 
-function var_0_0.SetActive(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if DrawPoolCfg[arg_7_0.poolId].pool_type == 1 and arg_7_0.countGo_ then
-		SetActive(arg_7_0.countGo_, DrawData:GetIsFirstSSR())
+	if DrawPoolCfg[slot0.poolId].pool_type == 1 and slot0.countGo_ then
+		SetActive(slot0.countGo_, DrawData:GetIsFirstSSR())
 	end
 end
 
-function var_0_0.ShowCountDownText(arg_8_0, arg_8_1)
-	if arg_8_0.countdownText_ then
-		SetActive(arg_8_0.countdownText_.gameObject, arg_8_1)
+function slot0.ShowCountDownText(slot0, slot1)
+	if slot0.countdownText_ then
+		SetActive(slot0.countdownText_.gameObject, slot1)
 	end
 end
 
-function var_0_0.SetCountDownText(arg_9_0, arg_9_1)
-	if arg_9_0.countdownText_ then
-		if arg_9_0.poolId == 10003 then
-			arg_9_0.countdownText_.text = string.format("<color=#663BAD>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(arg_9_1))
-		elseif arg_9_0.poolId == 10013 then
-			arg_9_0.countdownText_.text = string.format("<color=#67C7BC>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(arg_9_1))
-		elseif arg_9_0.poolId == 10023 then
-			arg_9_0.countdownText_.text = string.format("<color=#cf81e6>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(arg_9_1))
-		elseif arg_9_0.poolId == 10033 then
-			arg_9_0.countdownText_.text = string.format("<color=#E9C18A>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(arg_9_1))
+function slot0.SetCountDownText(slot0, slot1)
+	if slot0.countdownText_ then
+		if slot0.poolId == 10003 then
+			slot0.countdownText_.text = string.format("<color=#663BAD>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(slot1))
+		elseif slot0.poolId == 10013 then
+			slot0.countdownText_.text = string.format("<color=#67C7BC>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(slot1))
+		elseif slot0.poolId == 10023 then
+			slot0.countdownText_.text = string.format("<color=#cf81e6>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(slot1))
+		elseif slot0.poolId == 10033 then
+			slot0.countdownText_.text = string.format("<color=#E9C18A>%s</color>%s", GetTips("REMAINING_TIME"), manager.time:GetLostTimeLongStr(slot1))
 		else
-			arg_9_0.countdownText_.text = string.format(GetTips("TIME_DISPLAY_14"), manager.time:GetLostTimeLongStr(arg_9_1))
+			slot0.countdownText_.text = string.format(GetTips("TIME_DISPLAY_14"), manager.time:GetLostTimeLongStr(slot1))
 		end
 	end
 end
 
-function var_0_0.GetPoolId(arg_10_0)
-	return arg_10_0.poolId
+function slot0.GetPoolId(slot0)
+	return slot0.poolId
 end
 
-function var_0_0.GetShowId(arg_11_0)
-	return arg_11_0.showId
+function slot0.GetShowId(slot0)
+	return slot0.showId
 end
 
-function var_0_0.ShowRightPanel(arg_12_0)
+function slot0.ShowRightPanel(slot0)
 	return true
 end
 
-return var_0_0
+return slot0

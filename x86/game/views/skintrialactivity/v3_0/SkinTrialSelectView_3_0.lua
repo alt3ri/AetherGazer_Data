@@ -1,84 +1,79 @@
-local var_0_0 = class("SkinTrialSelectView_3_0", SkinTrialSelectView_2_0)
+slot0 = class("SkinTrialSelectView_3_0", SkinTrialSelectView_2_0)
 
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	var_0_0.super.AddListeners(arg_2_0)
+function slot0.AddListeners(slot0)
+	uv0.super.AddListeners(slot0)
 
-	if arg_2_0.getBtn_ then
-		arg_2_0:AddBtnListener(arg_2_0.getBtn_, nil, function()
-			SkinTrialAction.RequestSkinTrialReward(arg_2_0.skinTrialID_)
+	if slot0.getBtn_ then
+		slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+			SkinTrialAction.RequestSkinTrialReward(uv0.skinTrialID_)
 		end)
 	end
 
-	arg_2_0:RegistEventListener(SKIN_TRIAL_UPDATE, handler(arg_2_0, arg_2_0.OnSkinTrialUpdate))
+	slot0:RegistEventListener(SKIN_TRIAL_UPDATE, handler(slot0, slot0.OnSkinTrialUpdate))
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	var_0_0.super.RefreshUI(arg_4_0)
-	arg_4_0:RefreshReceive()
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
+	slot0:RefreshReceive()
 end
 
-function var_0_0.RefreshReceive(arg_5_0)
-	if not arg_5_0.receiveController_ then
+function slot0.RefreshReceive(slot0)
+	if not slot0.receiveController_ then
 		return
 	end
 
-	if not arg_5_0.receiveController then
-		arg_5_0.receiveController = arg_5_0.receiveController_:GetController("default0")
+	if not slot0.receiveController then
+		slot0.receiveController = slot0.receiveController_:GetController("default0")
 	end
 
-	local var_5_0 = SkinTrialData:GetSkinTrialStatus(arg_5_0.skinTrialID_)
-
-	if var_5_0 == 0 then
-		arg_5_0.receiveController:SetSelectedState("state0")
-	elseif var_5_0 == 1 then
-		arg_5_0.receiveController:SetSelectedState("state2")
-	elseif var_5_0 == 2 then
-		arg_5_0.receiveController:SetSelectedState("state1")
+	if SkinTrialData:GetSkinTrialStatus(slot0.skinTrialID_) == 0 then
+		slot0.receiveController:SetSelectedState("state0")
+	elseif slot1 == 1 then
+		slot0.receiveController:SetSelectedState("state2")
+	elseif slot1 == 2 then
+		slot0.receiveController:SetSelectedState("state1")
 	end
 end
 
-function var_0_0.GetRewardItem(arg_6_0)
+function slot0.GetRewardItem(slot0)
 	return CommonItemView
 end
 
-function var_0_0.OnSkinTrialUpdate(arg_7_0, arg_7_1)
-	arg_7_0:RefreshReceive()
+function slot0.OnSkinTrialUpdate(slot0, slot1)
+	slot0:RefreshReceive()
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.rewardCfg_[arg_8_1]
-	local var_8_1 = clone(ItemTemplateData)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.rewardCfg_[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.index = slot1
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
+	slot4.completedFlag = false
 
-	var_8_1.index = arg_8_1
-	var_8_1.id = var_8_0[1]
-	var_8_1.number = var_8_0[2]
-	var_8_1.completedFlag = false
-
-	function var_8_1.clickFun(arg_9_0)
-		if arg_8_0.clickCallback_ then
-			if arg_8_0.clickCallback_() then
-				ShowPopItem(arg_8_0.popType_, arg_9_0)
+	function slot4.clickFun(slot0)
+		if uv0.clickCallback_ then
+			if uv0.clickCallback_() then
+				ShowPopItem(uv0.popType_, slot0)
 			end
 		else
-			ShowPopItem(arg_8_0.popType_, arg_9_0)
+			ShowPopItem(uv0.popType_, slot0)
 		end
 	end
 
-	arg_8_2:SetData(var_8_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.SaveRoute(arg_10_0)
-	local var_10_0 = {
+function slot0.SaveRoute(slot0)
+	SkinTrialData:SaveRoute({
 		name = "skinTrialSelectView_3_0",
-		activityID = arg_10_0.activityID_,
-		skinTrialID = arg_10_0.skinTrialID_
-	}
-
-	SkinTrialData:SaveRoute(var_10_0)
+		activityID = slot0.activityID_,
+		skinTrialID = slot0.skinTrialID_
+	})
 end
 
-return var_0_0
+return slot0

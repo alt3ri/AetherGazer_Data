@@ -1,87 +1,79 @@
-local var_0_0 = class("NewServerSignPage", ReduxView)
+slot0 = class("NewServerSignPage", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	local var_1_0 = Asset.Load("Widget/System/NewServer/NewServerSigninUI")
-	local var_1_1 = Object.Instantiate(var_1_0, arg_1_1)
+function slot0.OnCtor(slot0, slot1)
+	slot3 = Object.Instantiate(Asset.Load("Widget/System/NewServer/NewServerSigninUI"), slot1)
+	slot0.gameObject_ = slot3
+	slot0.transform_ = slot3.transform
 
-	arg_1_0.gameObject_ = var_1_1
-	arg_1_0.transform_ = var_1_1.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.uiListGo_, NewServerSignItem)
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, NewServerSignItem)
 end
 
-function var_0_0.UpdateBar(arg_4_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.SetActive(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.gameObject_, arg_5_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1)
-	arg_6_0.activityID_ = arg_6_1
-	arg_6_0.index_ = NewServerData:GetSignIndex()
-	arg_6_0.rewards_ = NewServerCfg[arg_6_0.activityID_] and NewServerCfg[arg_6_0.activityID_].sign_reward or {}
+function slot0.SetData(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot0.index_ = NewServerData:GetSignIndex()
+	slot0.rewards_ = NewServerCfg[slot0.activityID_] and NewServerCfg[slot0.activityID_].sign_reward or {}
 
-	arg_6_0.itemList_:StartScroll(#arg_6_0.rewards_)
+	slot0.itemList_:StartScroll(#slot0.rewards_)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.rewards_[arg_7_1]
-
-	arg_7_2:SetData(arg_7_1, var_7_0)
-	arg_7_2:RegistCallBack(handler(arg_7_0, arg_7_0.OnItemClick))
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.rewards_[slot1])
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
 end
 
-function var_0_0.OnItemClick(arg_8_0, arg_8_1)
-	if not ActivityTools.ActivityOpenCheck(arg_8_0.activityID_) then
+function slot0.OnItemClick(slot0, slot1)
+	if not ActivityTools.ActivityOpenCheck(slot0.activityID_) then
 		return
 	end
 
-	NewServerAction.QuerySign(arg_8_1)
+	NewServerAction.QuerySign(slot1)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.itemList_ then
-		arg_9_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_9_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshTime(arg_10_0)
-	if arg_10_0.index_ ~= NewServerData:GetSignIndex() then
-		local var_10_0 = arg_10_0.itemList_:GetItemList()
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-			iter_10_1:Refresh()
+function slot0.RefreshTime(slot0)
+	if slot0.index_ ~= NewServerData:GetSignIndex() then
+		for slot5, slot6 in ipairs(slot0.itemList_:GetItemList()) do
+			slot6:Refresh()
 		end
 	end
 end
 
-function var_0_0.OnNewServerSign(arg_11_0, arg_11_1)
-	local var_11_0 = arg_11_0.itemList_:GetItemList()
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if iter_11_1.index_ == arg_11_1 then
-			iter_11_1:OnSign()
+function slot0.OnNewServerSign(slot0, slot1)
+	for slot6, slot7 in ipairs(slot0.itemList_:GetItemList()) do
+		if slot7.index_ == slot1 then
+			slot7:OnSign()
 		end
 	end
 end
 
-return var_0_0
+return slot0

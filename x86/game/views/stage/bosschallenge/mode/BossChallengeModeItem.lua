@@ -1,83 +1,72 @@
-local var_0_0 = class("BossChallengeModeItem", ReduxView)
+slot0 = class("BossChallengeModeItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "chooseItem")
-	arg_1_0.lockController_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
-	arg_1_0.chooseHandler_ = handler(arg_1_0, arg_1_0.ChooseMode)
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "chooseItem")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.chooseHandler_ = handler(slot0, slot0.ChooseMode)
 
-	manager.notify:RegistListener(CHALLENGE_CHOOSE_MODE, arg_1_0.chooseHandler_)
+	manager.notify:RegistListener(CHALLENGE_CHOOSE_MODE, slot0.chooseHandler_)
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
-	manager.notify:RemoveListener(CHALLENGE_CHOOSE_MODE, arg_2_0.chooseHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	manager.notify:RemoveListener(CHALLENGE_CHOOSE_MODE, slot0.chooseHandler_)
 
-	arg_2_0.chooseHandler_ = nil
+	slot0.chooseHandler_ = nil
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		local var_4_0 = BattleBossChallengeData:GetOpenModeList()
-		local var_4_1 = BossChallengeAdvanceCfg.all[arg_3_0.index_]
-
-		if table.keyof(var_4_0, var_4_1) == nil then
-			local var_4_2 = BossChallengeAdvanceCfg[BossChallengeAdvanceCfg.all[arg_3_0.index_ - 1]]
-
-			if var_4_2.type == 1 then
-				ShowTips(string.format(GetTips("BOSS_CHALLENGE_UNLOCK_TIPS"), GetI18NText(var_4_2.name2), BossChallengeAdvanceCfg[var_4_1].open_condition))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if table.keyof(BattleBossChallengeData:GetOpenModeList(), BossChallengeAdvanceCfg.all[uv0.index_]) == nil then
+			if BossChallengeAdvanceCfg[BossChallengeAdvanceCfg.all[uv0.index_ - 1]].type == 1 then
+				ShowTips(string.format(GetTips("BOSS_CHALLENGE_UNLOCK_TIPS"), GetI18NText(slot2.name2), BossChallengeAdvanceCfg[slot1].open_condition))
 			else
-				ShowTips(string.format(GetTips("BOSS_CHALLENGE_ADVANCE_UNLOCK_TIPS"), GetI18NText(var_4_2.name2), BossChallengeAdvanceCfg[var_4_1].open_condition))
+				ShowTips(string.format(GetTips("BOSS_CHALLENGE_ADVANCE_UNLOCK_TIPS"), GetI18NText(slot2.name2), BossChallengeAdvanceCfg[slot1].open_condition))
 			end
 
 			return
 		end
 
-		manager.notify:Invoke(CHALLENGE_CHOOSE_MODE, arg_3_0.index_)
+		manager.notify:Invoke(CHALLENGE_CHOOSE_MODE, uv0.index_)
 	end)
 end
 
-function var_0_0.ChooseMode(arg_5_0, arg_5_1)
-	if arg_5_0.index_ == arg_5_1 then
-		arg_5_0.selectController_:SetSelectedState("on")
+function slot0.ChooseMode(slot0, slot1)
+	if slot0.index_ == slot1 then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_5_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.index_ = arg_6_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot4 = BossChallengeAdvanceCfg[BossChallengeAdvanceCfg.all[slot1]]
+	slot0.modeText_.text = GetI18NText(slot4.name)
 
-	local var_6_0 = BossChallengeAdvanceCfg.all[arg_6_1]
-	local var_6_1 = BossChallengeAdvanceCfg[var_6_0]
-
-	arg_6_0.modeText_.text = GetI18NText(var_6_1.name)
-
-	if var_6_1.type == 2 then
-		arg_6_0.difficultText_.text = ""
-
-		local var_6_2 = table.keyof(BossChallengeAdvanceCfg.get_id_list_by_type[2], var_6_0)
-
-		arg_6_0.romaImage_.sprite = getSprite("Atlas/Tower", string.format("bg_n%s", var_6_2))
+	if slot4.type == 2 then
+		slot0.difficultText_.text = ""
+		slot0.romaImage_.sprite = getSprite("Atlas/Tower", string.format("bg_n%s", table.keyof(BossChallengeAdvanceCfg.get_id_list_by_type[2], slot3)))
 	else
-		arg_6_0.difficultText_.text = GetI18NText(var_6_1.name2)
+		slot0.difficultText_.text = GetI18NText(slot4.name2)
 	end
 
-	SetActive(arg_6_0.romaGo_, var_6_1.type == 2)
-	SetSpriteWithoutAtlasAsync(arg_6_0.bgImage_, SpritePathCfg.ChapterPaint.path .. var_6_1.bg)
+	SetActive(slot0.romaGo_, slot4.type == 2)
+	SetSpriteWithoutAtlasAsync(slot0.bgImage_, SpritePathCfg.ChapterPaint.path .. slot4.bg)
 
-	if table.keyof(BattleBossChallengeData:GetOpenModeList(), var_6_0) then
-		arg_6_0.lockController_:SetSelectedState("false")
+	if table.keyof(BattleBossChallengeData:GetOpenModeList(), slot3) then
+		slot0.lockController_:SetSelectedState("false")
 	else
-		arg_6_0.lockController_:SetSelectedState("true")
+		slot0.lockController_:SetSelectedState("true")
 	end
 
-	arg_6_0:ChooseMode(arg_6_2)
+	slot0:ChooseMode(slot2)
 end
 
-return var_0_0
+return slot0

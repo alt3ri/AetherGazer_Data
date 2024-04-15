@@ -1,70 +1,65 @@
-local var_0_0 = import("game.views.heroTeamInfo.HeroTeamInfoBaseView")
-local var_0_1 = class("ActivityRaceHeroTeamInfoView", var_0_0)
+slot1 = class("ActivityRaceHeroTeamInfoView", import("game.views.heroTeamInfo.HeroTeamInfoBaseView"))
 
-function var_0_1.OnEnter(arg_1_0)
+function slot1.OnEnter(slot0)
 	manager.ui:SetMainCamera("hero")
 
-	if arg_1_0.params_.isEnter then
-		if arg_1_0.filterView_ then
-			arg_1_0.filterView_:Reset()
+	if slot0.params_.isEnter then
+		if slot0.filterView_ then
+			slot0.filterView_:Reset()
 		end
 
-		arg_1_0.params_.isEnter = false
+		slot0.params_.isEnter = false
 	end
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	SetActive(arg_1_0.infoBtn_.gameObject, true)
+	SetActive(slot0.infoBtn_.gameObject, true)
 
-	if arg_1_0.heroAvatarView_ then
-		arg_1_0.heroAvatarView_:OnEnter()
+	if slot0.heroAvatarView_ then
+		slot0.heroAvatarView_:OnEnter()
 	end
 
-	arg_1_0:GetHeroTeam()
+	slot0:GetHeroTeam()
 
-	arg_1_0.trialHeroList_ = GetTrialHeroList(arg_1_0.params_.stageType, arg_1_0.params_.stageID, arg_1_0.params_.activityID)
+	slot0.trialHeroList_ = GetTrialHeroList(slot0.params_.stageType, slot0.params_.stageID, slot0.params_.activityID)
 
-	local var_1_0 = {}
-	local var_1_1 = ActivityRaceCfg[arg_1_0.params_.activityID].race_id
-
-	for iter_1_0, iter_1_1 in pairs(arg_1_0:GetHeroList()) do
-		if HeroCfg[iter_1_1].race == var_1_1 then
-			table.insert(var_1_0, {
+	for slot6, slot7 in pairs(slot0:GetHeroList()) do
+		if HeroCfg[slot7].race == ActivityRaceCfg[slot0.params_.activityID].race_id then
+			table.insert({}, {
 				trialID = 0,
-				id = iter_1_1,
+				id = slot7,
 				type = HeroConst.HERO_DATA_TYPE.DEFAULT
 			})
 		end
 	end
 
-	local var_1_2 = {}
-	local var_1_3 = BattleStageTools.GetRestrictHeroList(arg_1_0.params_.stageType, arg_1_0.params_.stageID)
+	slot3 = {}
 
-	if type(var_1_3) == "table" then
-		if var_1_3[arg_1_0.params_.selectHeroPos][1] then
-			var_1_0 = {}
+	if type(BattleStageTools.GetRestrictHeroList(slot0.params_.stageType, slot0.params_.stageID)) == "table" then
+		if slot4[slot0.params_.selectHeroPos][1] then
+			slot1 = {}
 		end
 
-		for iter_1_2, iter_1_3 in pairs(var_1_3) do
-			if iter_1_3[1] ~= 0 and HeroCfg[iter_1_3[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], iter_1_3[1]) then
-				table.insert(var_1_0, {
-					id = iter_1_3[1],
-					trialID = iter_1_3[2],
+		for slot8, slot9 in pairs(slot4) do
+			if slot9[1] ~= 0 and HeroCfg[slot9[1]] and table.keyof(HeroCfg.get_id_list_by_private[0], slot9[1]) then
+				table.insert(slot1, {
+					id = slot9[1],
+					trialID = slot9[2],
 					type = HeroConst.HERO_DATA_TYPE.CUSTOM
 				})
-				table.insert(var_1_2, iter_1_3[2])
+				table.insert(slot3, slot9[2])
 			end
 		end
 	end
 
-	arg_1_0.filterView_:SetHeroDataList(var_1_0)
+	slot0.filterView_:SetHeroDataList(slot1)
 
-	arg_1_0.selectID_, arg_1_0.selectTrialID_ = arg_1_0:GetDefaultHeroData()
+	slot0.selectID_, slot0.selectTrialID_ = slot0:GetDefaultHeroData()
 
-	arg_1_0:SelectHero(arg_1_0.selectID_, arg_1_0.selectTrialID_)
-	arg_1_0.heroHeadList_:StartScroll(#arg_1_0.heroDataList_, table.keyof(arg_1_0.heroDataList_, arg_1_0.selectID_))
+	slot0:SelectHero(slot0.selectID_, slot0.selectTrialID_)
+	slot0.heroHeadList_:StartScroll(#slot0.heroDataList_, table.keyof(slot0.heroDataList_, slot0.selectID_))
 end
 
-return var_0_1
+return slot1

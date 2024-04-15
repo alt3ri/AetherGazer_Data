@@ -1,273 +1,264 @@
-local var_0_0 = class("ObtainHeroMovieView", require("game.views.obtain.ObtainHeroView"))
+slot0 = class("ObtainHeroMovieView", require("game.views.obtain.ObtainHeroView"))
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4, arg_1_5)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4, slot5)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-	arg_1_0.showSkipHandler = arg_1_3
-	arg_1_0.refreshShareHandler_ = arg_1_4
-	arg_1_0.skipStart = arg_1_5
+	slot0.showSkipHandler = slot3
+	slot0.refreshShareHandler_ = slot4
+	slot0.skipStart = slot5
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.starController_ = ControllerUtil.GetController(arg_2_0.transform_, "star")
-	arg_2_0.criMovie_ = arg_2_0.movie_:GetComponent("CriManaMovieControllerForUI")
-	arg_2_0.criplayer_ = arg_2_0.criMovie_.player
-	arg_2_0.cirMovieLoop_ = arg_2_0.movieLoop_:GetComponent("CriManaMovieControllerForUI")
-	arg_2_0.criplayerLoop_ = arg_2_0.cirMovieLoop_.player
-	arg_2_0.SimplePlayer_ = arg_2_0:FindCom("VoiceOfObtainHeroSimplePlayer", "CriwareAudio")
-	arg_2_0.commonItem_ = CommonItem.New(arg_2_0.itemGo_)
-	arg_2_0.startDirectorStopCallBack = handler(arg_2_0, arg_2_0.StartDirectorStopCallBack)
-	arg_2_0.playableDirectorStart_.stopped = arg_2_0.playableDirectorStart_.stopped + arg_2_0.startDirectorStopCallBack
+	slot0.starController_ = ControllerUtil.GetController(slot0.transform_, "star")
+	slot0.criMovie_ = slot0.movie_:GetComponent("CriManaMovieControllerForUI")
+	slot0.criplayer_ = slot0.criMovie_.player
+	slot0.cirMovieLoop_ = slot0.movieLoop_:GetComponent("CriManaMovieControllerForUI")
+	slot0.criplayerLoop_ = slot0.cirMovieLoop_.player
+	slot0.SimplePlayer_ = slot0:FindCom("VoiceOfObtainHeroSimplePlayer", "CriwareAudio")
+	slot0.commonItem_ = CommonItem.New(slot0.itemGo_)
+	slot0.startDirectorStopCallBack = handler(slot0, slot0.StartDirectorStopCallBack)
+	slot0.playableDirectorStart_.stopped = slot0.playableDirectorStart_.stopped + slot0.startDirectorStopCallBack
 
-	arg_2_0.criplayer_:SetMaxPictureDataSize(300000)
+	slot0.criplayer_:SetMaxPictureDataSize(300000)
 
-	arg_2_0._timer = FrameTimer.New(handler(arg_2_0, arg_2_0.MovieProcess), 1, -1)
+	slot0._timer = FrameTimer.New(handler(slot0, slot0.MovieProcess), 1, -1)
 end
 
-function var_0_0.OnClick(arg_3_0)
-	local var_3_0 = arg_3_0:GetPlayable()
+function slot0.OnClick(slot0)
+	slot1 = slot0:GetPlayable()
 
-	if arg_3_0.isPlayMovieEnd and (var_3_0.time == 0 or var_3_0.time >= arg_3_0:GetTimeLineEndTime()) then
+	if slot0.isPlayMovieEnd and (slot1.time == 0 or slot0:GetTimeLineEndTime() <= slot1.time) then
 		return true
 	end
 
-	if not (getData(DrawConst.WATCH_TAG, tostring(arg_3_0:GetHeroID())) or false) then
+	if not (getData(DrawConst.WATCH_TAG, tostring(slot0:GetHeroID())) or false) then
 		return false
 	end
 
-	if not arg_3_0.isPlayMovieEnd then
-		arg_3_0:PlayMovie(true)
+	if not slot0.isPlayMovieEnd then
+		slot0:PlayMovie(true)
 	end
 
-	arg_3_0.isPlayMovieEnd = true
+	slot0.isPlayMovieEnd = true
 
-	arg_3_0._timer:Stop()
-	SetActive(arg_3_0.m_endGo, true)
+	slot0._timer:Stop()
+	SetActive(slot0.m_endGo, true)
 
-	arg_3_0.playableDirectorStart_.time = arg_3_0.playableDirectorStart_.duration
-	var_3_0.time = arg_3_0:GetTimeLineEndTime()
+	slot0.playableDirectorStart_.time = slot0.playableDirectorStart_.duration
+	slot1.time = slot0:GetTimeLineEndTime()
 
-	var_3_0:Play()
+	slot1:Play()
 
-	if arg_3_0.showSkipHandler then
-		arg_3_0.showSkipHandler()
+	if slot0.showSkipHandler then
+		slot0.showSkipHandler()
 	end
 
 	return false
 end
 
-function var_0_0.SetupCriPlayer(arg_4_0, arg_4_1)
-	arg_4_0.start_path = arg_4_1.start_path
-	arg_4_0.loop_path = arg_4_1.loop_path
-	arg_4_0.start_movie_frames = arg_4_1.start_movie_frames
-	arg_4_0.start_voice_frames = arg_4_1.start_voice_frames
-	arg_4_0.isPlayMovie = false
-	arg_4_0.isPlayMovieEnd = false
+function slot0.SetupCriPlayer(slot0, slot1)
+	slot0.start_path = slot1.start_path
+	slot0.loop_path = slot1.loop_path
+	slot0.start_movie_frames = slot1.start_movie_frames
+	slot0.start_voice_frames = slot1.start_voice_frames
+	slot0.isPlayMovie = false
+	slot0.isPlayMovieEnd = false
 
-	arg_4_0.criMovie_:Stop()
+	slot0.criMovie_:Stop()
 
-	arg_4_0.movieTrs_.localPosition = Vector2(9999, 9999)
+	slot0.movieTrs_.localPosition = Vector2(9999, 9999)
 
-	arg_4_0.cirMovieLoop_:Stop()
+	slot0.cirMovieLoop_:Stop()
 
-	arg_4_0.movieLoopTrs_.localPosition = Vector2(9999, 9999)
+	slot0.movieLoopTrs_.localPosition = Vector2(9999, 9999)
 
-	arg_4_0.criplayer_:SetFile(nil, arg_4_0.start_path, CriMana.Player.SetMode.New)
-	arg_4_0.criplayer_:SetFile(nil, arg_4_0.loop_path, CriMana.Player.SetMode.AppendRepeatedly)
-	arg_4_0.criplayerLoop_:SetFile(nil, arg_4_0.loop_path)
+	slot0.criplayer_:SetFile(nil, slot0.start_path, CriMana.Player.SetMode.New)
+	slot0.criplayer_:SetFile(nil, slot0.loop_path, CriMana.Player.SetMode.AppendRepeatedly)
+	slot0.criplayerLoop_:SetFile(nil, slot0.loop_path)
 
-	local var_4_0 = manager.audio:GetMusicVolume()
+	slot2 = manager.audio:GetMusicVolume()
 
-	arg_4_0.criplayer_:SetVolume(var_4_0)
-	arg_4_0.criplayerLoop_:SetVolume(var_4_0)
-	arg_4_0:SetVideoTrack(arg_4_0.criplayer_, arg_4_0.start_path)
-	arg_4_0:SetVideoTrack(arg_4_0.criplayerLoop_, arg_4_0.loop_path)
+	slot0.criplayer_:SetVolume(slot2)
+	slot0.criplayerLoop_:SetVolume(slot2)
+	slot0:SetVideoTrack(slot0.criplayer_, slot0.start_path)
+	slot0:SetVideoTrack(slot0.criplayerLoop_, slot0.loop_path)
 end
 
-function var_0_0.Show(arg_5_0, arg_5_1)
-	arg_5_0.item = arg_5_1
-	arg_5_0.convert = ItemWillConvert(arg_5_1)
+function slot0.Show(slot0, slot1)
+	slot0.item = slot1
+	slot0.convert = ItemWillConvert(slot1)
 
-	if arg_5_0.gameObject_ then
-		SetActive(arg_5_0.gameObject_, true)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, true)
 	end
 
-	local var_5_0 = ObtainHeroMovieCfg[arg_5_0:GetHeroID()]
+	slot0:SetupCriPlayer(ObtainHeroMovieCfg[slot0:GetHeroID()])
+	slot0:SetInfo(slot1)
+	slot0.playableDirectorStart_:Evaluate()
+	slot0.playableDirectorStart_:Play()
+	SetActive(slot0.m_endGo, false)
 
-	arg_5_0:SetupCriPlayer(var_5_0)
-	arg_5_0:SetInfo(arg_5_1)
-	arg_5_0.playableDirectorStart_:Evaluate()
-	arg_5_0.playableDirectorStart_:Play()
-	SetActive(arg_5_0.m_endGo, false)
-
-	if arg_5_0.skipStart then
-		arg_5_0.playableDirectorStart_.time = arg_5_0.playableDirectorStart_.duration
+	if slot0.skipStart then
+		slot0.playableDirectorStart_.time = slot0.playableDirectorStart_.duration
 	end
 end
 
-function var_0_0.SetVideoTrack(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = manager.audio:GetLocalizationFlag()
-	local var_6_1 = 0
-	local var_6_2
+function slot0.SetVideoTrack(slot0, slot1, slot2)
+	slot3 = manager.audio:GetLocalizationFlag()
+	slot4 = 0
+	slot5 = nil
 
-	for iter_6_0 in string.gmatch(arg_6_2, "[^/]+$") do
-		var_6_2 = iter_6_0
+	for slot9 in string.gmatch(slot2, "[^/]+$") do
+		slot5 = slot9
 	end
 
-	local var_6_3 = VideoTrackCfg[var_6_2]
-
-	if var_6_3 and var_6_3.has_tracks == 1 then
-		if var_6_0 == "zh" then
-			var_6_1 = 0
-		elseif var_6_0 == "ja" then
-			var_6_1 = 1
-		elseif var_6_0 == "en" then
-			var_6_1 = 2
-		elseif var_6_0 == "kr" then
-			var_6_1 = 3
+	if VideoTrackCfg[slot5] and slot6.has_tracks == 1 then
+		if slot3 == "zh" then
+			slot4 = 0
+		elseif slot3 == "ja" then
+			slot4 = 1
+		elseif slot3 == "en" then
+			slot4 = 2
+		elseif slot3 == "kr" then
+			slot4 = 3
 		end
 	end
 
-	arg_6_1:SetAudioTrack(var_6_1)
-	arg_6_1:SetSubtitleChannel(var_6_1)
+	slot1:SetAudioTrack(slot4)
+	slot1:SetSubtitleChannel(slot4)
 end
 
-function var_0_0.PlayMovie(arg_7_0, arg_7_1)
-	if arg_7_0.isPlayMovie then
-		if arg_7_1 then
-			arg_7_0.isPlayMovieEnd = true
+function slot0.PlayMovie(slot0, slot1)
+	if slot0.isPlayMovie then
+		if slot1 then
+			slot0.isPlayMovieEnd = true
 
-			arg_7_0.criMovie_:Stop()
+			slot0.criMovie_:Stop()
 
-			arg_7_0.movieTrs_.localPosition = Vector2(9999, 9999)
+			slot0.movieTrs_.localPosition = Vector2(9999, 9999)
 
-			arg_7_0.cirMovieLoop_:Play()
+			slot0.cirMovieLoop_:Play()
 
-			arg_7_0.movieLoopTrs_.localPosition = Vector2(0, 0)
+			slot0.movieLoopTrs_.localPosition = Vector2(0, 0)
 		end
 
 		return
 	end
 
-	if arg_7_0.start_voice_frames == 0 then
-		arg_7_0:PlayGetHeroVoice()
+	if slot0.start_voice_frames == 0 then
+		slot0:PlayGetHeroVoice()
 	end
 
-	arg_7_0.isPlayMovie = true
+	slot0.isPlayMovie = true
 
-	if arg_7_1 then
-		arg_7_0.cirMovieLoop_:Play()
+	if slot1 then
+		slot0.cirMovieLoop_:Play()
 
-		arg_7_0.movieLoopTrs_.localPosition = Vector2(0, 0)
+		slot0.movieLoopTrs_.localPosition = Vector2(0, 0)
 	else
-		arg_7_0.criMovie_:Play()
+		slot0.criMovie_:Play()
 
-		arg_7_0.movieTrs_.localPosition = Vector2(0, 0)
+		slot0.movieTrs_.localPosition = Vector2(0, 0)
 	end
 
-	arg_7_0._timer:Start()
+	slot0._timer:Start()
 end
 
-function var_0_0.MovieProcess(arg_8_0)
-	local var_8_0 = arg_8_0.criplayer_.status
-	local var_8_1 = arg_8_0.criplayer_:GetDisplayedFrameNo()
+function slot0.MovieProcess(slot0)
+	slot1 = slot0.criplayer_.status
+	slot2 = slot0.criplayer_:GetDisplayedFrameNo()
 
-	if arg_8_0.start_voice_frames ~= 0 and tostring(var_8_0) == "Playing" and var_8_1 >= arg_8_0.start_voice_frames then
-		arg_8_0.start_voice_frames = 0
+	if slot0.start_voice_frames ~= 0 and tostring(slot1) == "Playing" and slot0.start_voice_frames <= slot2 then
+		slot0.start_voice_frames = 0
 
-		arg_8_0:PlayGetHeroVoice()
+		slot0:PlayGetHeroVoice()
 	end
 
-	if tostring(var_8_0) == "Playing" and var_8_1 > arg_8_0.start_movie_frames then
-		SetActive(arg_8_0.m_endGo, true)
+	if tostring(slot1) == "Playing" and slot0.start_movie_frames < slot2 then
+		SetActive(slot0.m_endGo, true)
 
-		local var_8_2 = arg_8_0:GetPlayable()
+		slot3 = slot0:GetPlayable()
 
-		var_8_2:Evaluate()
-		var_8_2:Play()
-		arg_8_0._timer:Stop()
+		slot3:Evaluate()
+		slot3:Play()
+		slot0._timer:Stop()
 
-		arg_8_0.isPlayMovieEnd = true
+		slot0.isPlayMovieEnd = true
 
-		saveData(DrawConst.WATCH_TAG, tostring(arg_8_0:GetHeroID()), true)
+		saveData(DrawConst.WATCH_TAG, tostring(slot0:GetHeroID()), true)
 
-		if arg_8_0.showSkipHandler then
-			arg_8_0.showSkipHandler()
+		if slot0.showSkipHandler then
+			slot0.showSkipHandler()
 		end
 
-		if arg_8_0.refreshShareHandler_ then
-			arg_8_0.refreshShareHandler_()
+		if slot0.refreshShareHandler_ then
+			slot0.refreshShareHandler_()
 		end
 	end
 end
 
-function var_0_0.RefreshContent(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.name_.text = HeroTools.GetHeroFullName(arg_9_1)
+function slot0.RefreshContent(slot0, slot1, slot2)
+	slot0.name_.text = HeroTools.GetHeroFullName(slot1)
+	slot0.camp_.sprite = getSprite("Atlas/CampItemAtlas", RaceEffectCfg[slot2.race].icon)
+	slot5 = math.min(ItemCfg[slot1].display_rare, 5)
 
-	local var_9_0 = RaceEffectCfg[arg_9_2.race]
+	slot0.starController_:SetSelectedIndex(slot5)
 
-	arg_9_0.camp_.sprite = getSprite("Atlas/CampItemAtlas", var_9_0.icon)
-
-	local var_9_1 = ItemCfg[arg_9_1]
-	local var_9_2 = math.min(var_9_1.display_rare, 5)
-
-	arg_9_0.starController_:SetSelectedIndex(var_9_2)
-
-	if var_9_2 == 5 then
+	if slot5 == 5 then
 		manager.audio:SetObtainGoldSelectorLabel()
-	elseif var_9_2 == 4 then
+	elseif slot5 == 4 then
 		manager.audio:SetObtainPurpleSelectorLabel()
 	else
 		manager.audio:SetObtainBlueSelectorLabel()
 	end
 end
 
-function var_0_0.GetTimeLineEndTime(arg_10_0)
+function slot0.GetTimeLineEndTime(slot0)
 	return 1.5
 end
 
-function var_0_0.Skip2End(arg_11_0)
-	local var_11_0 = arg_11_0:GetPlayable()
+function slot0.Skip2End(slot0)
+	slot1 = slot0:GetPlayable()
 
-	if not arg_11_0.isPlayMovieEnd then
-		arg_11_0:PlayMovie(true)
+	if not slot0.isPlayMovieEnd then
+		slot0:PlayMovie(true)
 	end
 
-	arg_11_0.isPlayMovieEnd = true
+	slot0.isPlayMovieEnd = true
 
-	arg_11_0._timer:Stop()
-	SetActive(arg_11_0.m_endGo, true)
+	slot0._timer:Stop()
+	SetActive(slot0.m_endGo, true)
 
-	arg_11_0.playableDirectorStart_.time = arg_11_0.playableDirectorStart_.duration
-	var_11_0.time = 1.5
+	slot0.playableDirectorStart_.time = slot0.playableDirectorStart_.duration
+	slot1.time = 1.5
 
-	var_11_0:Play()
+	slot1:Play()
 
-	if arg_11_0.showSkipHandler then
-		arg_11_0.showSkipHandler()
+	if slot0.showSkipHandler then
+		slot0.showSkipHandler()
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.playableDirectorStart_.stopped = arg_12_0.playableDirectorStart_.stopped - arg_12_0.startDirectorStopCallBack
+function slot0.Dispose(slot0)
+	slot0.playableDirectorStart_.stopped = slot0.playableDirectorStart_.stopped - slot0.startDirectorStopCallBack
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.Hide(arg_13_0)
-	arg_13_0._timer:Stop()
+function slot0.Hide(slot0)
+	slot0._timer:Stop()
 	manager.audio:StopVoice()
-	ObtainBaseView.Hide(arg_13_0)
+	ObtainBaseView.Hide(slot0)
 end
 
-function var_0_0.OnObtainHeroMovieAnimtionEvent(arg_14_0)
-	arg_14_0:PlayMovie()
+function slot0.OnObtainHeroMovieAnimtionEvent(slot0)
+	slot0:PlayMovie()
 end
 
-function var_0_0.StartDirectorStopCallBack(arg_15_0)
-	arg_15_0:PlayMovie()
+function slot0.StartDirectorStopCallBack(slot0)
+	slot0:PlayMovie()
 end
 
-return var_0_0
+return slot0

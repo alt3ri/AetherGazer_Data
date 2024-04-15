@@ -1,40 +1,40 @@
-local var_0_0 = class("FishStaminaRecoverOverflowNotify", ReduxView)
+slot0 = class("FishStaminaRecoverOverflowNotify", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionFishingUI/JapanRegionFishingPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddBtnListener(arg_3_0.okBtn_, nil, handler(arg_3_0, arg_3_0.OnOk))
-	arg_3_0:AddBtnListener(arg_3_0.cancelBtn_, nil, handler(arg_3_0, arg_3_0.OnCancel))
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(slot0.okBtn_, nil, handler(slot0, slot0.OnOk))
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, handler(slot0, slot0.OnCancel))
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.okCallback = arg_4_0.params_.OkCallback
-	arg_4_0.cancelCallback = arg_4_0.params_.CancelCallback
+function slot0.OnEnter(slot0)
+	slot0.okCallback = slot0.params_.OkCallback
+	slot0.cancelCallback = slot0.params_.CancelCallback
 end
 
-function var_0_0.OnOk(arg_5_0)
+function slot0.OnOk(slot0)
 	OperationRecorder.RecordButtonTouch("activity_kagutsuchi_energyspilling_ture")
 	JumpTools.Back()
 
-	if arg_5_0.okCallback then
-		arg_5_0.okCallback()
+	if slot0.okCallback then
+		slot0.okCallback()
 	end
 end
 
-function var_0_0.OnCancel(arg_6_0)
+function slot0.OnCancel(slot0)
 	OperationRecorder.RecordButtonTouch("activity_kagutsuchi_energyspilling_false")
 	JumpTools.Back()
 
-	if arg_6_0.cancelCallback then
-		arg_6_0.cancelCallback()
+	if slot0.cancelCallback then
+		slot0.cancelCallback()
 	end
 end
 
-return var_0_0
+return slot0

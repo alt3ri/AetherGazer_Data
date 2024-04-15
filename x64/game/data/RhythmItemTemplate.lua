@@ -1,106 +1,96 @@
 DormRhythmItemTemplate = class("DormRhythmItemTemplate")
 
-function DormRhythmItemTemplate.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	if arg_1_1 then
-		arg_1_0.go = Object.Instantiate(arg_1_1.itemGo, arg_1_1.parentTrs)
-		arg_1_0.trs = arg_1_0.go.transform
+function DormRhythmItemTemplate.Ctor(slot0, slot1, slot2, slot3)
+	if slot1 then
+		slot0.go = Object.Instantiate(slot1.itemGo, slot1.parentTrs)
+		slot0.trs = slot0.go.transform
 
-		arg_1_0.trs:SetAsFirstSibling()
+		slot0.trs:SetAsFirstSibling()
 
-		arg_1_0.parentTrs = arg_1_1.parentTrs
-		arg_1_0.index = arg_1_2.index
-		arg_1_0.controller = ControllerUtil.GetController(arg_1_0.trs, "state")
-		arg_1_0.type = arg_1_2.type
+		slot0.parentTrs = slot1.parentTrs
+		slot0.index = slot2.index
+		slot0.controller = ControllerUtil.GetController(slot0.trs, "state")
+		slot0.type = slot2.type
 
-		if arg_1_0.type == 1 then
-			arg_1_0.controller:SetSelectedState("left")
-		elseif arg_1_0.type == 2 then
-			arg_1_0.controller:SetSelectedState("right")
+		if slot0.type == 1 then
+			slot0.controller:SetSelectedState("left")
+		elseif slot0.type == 2 then
+			slot0.controller:SetSelectedState("right")
 		end
 
-		arg_1_0.totalNum = arg_1_2.totalNum
+		slot0.totalNum = slot2.totalNum
 
-		arg_1_0:SetInitialPosition()
+		slot0:SetInitialPosition()
 
-		arg_1_0.effectTrs = arg_1_0.trs:Find("effect_glow").gameObject:GetComponent("RectTransform")
-
-		local var_1_0, var_1_1 = DormRhythmGameData:GetDeterLength()
-		local var_1_2 = math.random(var_1_0[1], var_1_0[2]) * 10
-
-		arg_1_0.rectTransform = arg_1_0.go:GetComponent("RectTransform")
-		arg_1_0.rectTransform.sizeDelta = Vector2(var_1_2, arg_1_0.trs.rect.height)
-		arg_1_0.effectTrs.localScale = Vector3((var_1_2 + 40) / 140, 1, 1)
-		arg_1_0.effectController = ControllerUtil.GetController(arg_1_0.trs, "effect")
-		arg_1_0.stageCfg = arg_1_3
+		slot0.effectTrs = slot0.trs:Find("effect_glow").gameObject:GetComponent("RectTransform")
+		slot4, slot5 = DormRhythmGameData:GetDeterLength()
+		slot6 = math.random(slot4[1], slot4[2]) * 10
+		slot0.rectTransform = slot0.go:GetComponent("RectTransform")
+		slot0.rectTransform.sizeDelta = Vector2(slot6, slot0.trs.rect.height)
+		slot0.effectTrs.localScale = Vector3((slot6 + 40) / 140, 1, 1)
+		slot0.effectController = ControllerUtil.GetController(slot0.trs, "effect")
+		slot0.stageCfg = slot3
 	else
 		print("传入对象数据错误")
 	end
 end
 
-function DormRhythmItemTemplate.Tick(arg_2_0)
-	if arg_2_0.go then
-		arg_2_0:UpdatePos()
+function DormRhythmItemTemplate.Tick(slot0)
+	if slot0.go then
+		slot0:UpdatePos()
 	end
 end
 
-function DormRhythmItemTemplate.SetInitialPosition(arg_3_0)
-	if arg_3_0.trs then
-		arg_3_0.trs.localPosition = Vector3(arg_3_0.parentTrs.rect.width / 2, 0, 0)
+function DormRhythmItemTemplate.SetInitialPosition(slot0)
+	if slot0.trs then
+		slot0.trs.localPosition = Vector3(slot0.parentTrs.rect.width / 2, 0, 0)
 	end
 end
 
-function DormRhythmItemTemplate.UpdatePos(arg_4_0)
-	local var_4_0 = DormRhythmGameData:GetGameSpeed()
+function DormRhythmItemTemplate.UpdatePos(slot0)
+	if slot0.trs then
+		slot0.trs.localPosition = Vector3.New(slot0.trs.localPosition.x - DormRhythmGameData:GetGameSpeed(), slot0.trs.localPosition.y, 0)
 
-	if arg_4_0.trs then
-		arg_4_0.trs.localPosition = Vector3.New(arg_4_0.trs.localPosition.x - var_4_0, arg_4_0.trs.localPosition.y, 0)
-
-		if arg_4_0.trs.localPosition.x <= -arg_4_0.parentTrs.rect.width / 2 then
-			DormRhythmGameData:DisPoseItem(arg_4_0.index)
+		if slot0.trs.localPosition.x <= -slot0.parentTrs.rect.width / 2 then
+			DormRhythmGameData:DisPoseItem(slot0.index)
 
 			return
 		end
 
-		local var_4_1 = DormRhythmGameData:GetJudgeWidth()
+		if slot0.trs.localPosition.x < 0 - DormRhythmGameData:GetJudgeWidth() / 2 and not slot0.hasCheck then
+			slot0.hasCheck = true
+			slot3 = slot0:IsLast()
 
-		if arg_4_0.trs.localPosition.x < 0 - var_4_1 / 2 and not arg_4_0.hasCheck then
-			arg_4_0.hasCheck = true
-
-			local var_4_2 = arg_4_0:IsLast()
-
-			if not arg_4_0.hasHit then
-				DormRhythmGameData:UpdateBatterNum(false, var_4_2)
+			if not slot0.hasHit then
+				DormRhythmGameData:UpdateBatterNum(false, slot3)
 			end
 
-			if var_4_2 then
+			if slot3 then
 				manager.notify:Invoke(BREAK_GAME_LAST_SUCCESS)
 			end
 		end
 	end
 end
 
-function DormRhythmItemTemplate.IsLast(arg_5_0)
-	local var_5_0 = DormRhythmGameData:GetLevelData()
-
-	return arg_5_0.totalNum == arg_5_0.stageCfg[var_5_0.levelID].total_check
+function DormRhythmItemTemplate.IsLast(slot0)
+	return slot0.totalNum == slot0.stageCfg[DormRhythmGameData:GetLevelData().levelID].total_check
 end
 
-function DormRhythmItemTemplate.CheckHit(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_1.buttonType
-	local var_6_1 = arg_6_1.judgeWidth
+function DormRhythmItemTemplate.CheckHit(slot0, slot1)
+	slot3 = slot1.judgeWidth
 
-	if arg_6_0.trs then
-		if arg_6_0.trs.localPosition.x >= var_6_1 / 2 and arg_6_0.trs.localPosition.x - arg_6_0.trs.rect.width <= -var_6_1 / 2 then
-			if var_6_0 ~= arg_6_0.type then
+	if slot0.trs then
+		if slot0.trs.localPosition.x >= slot3 / 2 and slot0.trs.localPosition.x - slot0.trs.rect.width <= -slot3 / 2 then
+			if slot1.buttonType ~= slot0.type then
 				return false, true
 			else
-				if not arg_6_0.hasHit then
-					arg_6_0.effectController:SetSelectedState("none")
+				if not slot0.hasHit then
+					slot0.effectController:SetSelectedState("none")
 
-					if arg_6_0.type == DormConst.DORM_RHYTHM_BUTTON_TYPE.left then
-						arg_6_0.effectController:SetSelectedState("blue")
+					if slot0.type == DormConst.DORM_RHYTHM_BUTTON_TYPE.left then
+						slot0.effectController:SetSelectedState("blue")
 					else
-						arg_6_0.effectController:SetSelectedState("red")
+						slot0.effectController:SetSelectedState("red")
 					end
 				end
 
@@ -112,9 +102,9 @@ function DormRhythmItemTemplate.CheckHit(arg_6_0, arg_6_1)
 	end
 end
 
-function DormRhythmItemTemplate.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.go)
+function DormRhythmItemTemplate.Dispose(slot0)
+	Object.Destroy(slot0.go)
 
-	arg_7_0.go = nil
-	arg_7_0.trs = nil
+	slot0.go = nil
+	slot0.trs = nil
 end

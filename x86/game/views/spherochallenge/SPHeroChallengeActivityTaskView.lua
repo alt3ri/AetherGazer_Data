@@ -1,67 +1,65 @@
-local var_0_0 = class("SPHeroChallengeActivityTaskView", ReduxView)
+slot0 = class("SPHeroChallengeActivityTaskView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/SPHeroChallengeActivityTaskPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.taskList_ = {}
-	arg_4_0.taskListModule = CommonTaskListModule.New(arg_4_0.comTaskList_)
+	slot0.taskList_ = {}
+	slot0.taskListModule = CommonTaskListModule.New(slot0.comTaskList_)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.allBtn, nil, function()
-		TaskTools:GetAllCanReciveTaskByActivityID(arg_5_0.params_.activityID)
+	slot0:AddBtnListener(slot0.allBtn, nil, function ()
+		TaskTools:GetAllCanReciveTaskByActivityID(uv0.params_.activityID)
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.taskListModule:OnEnter()
+function slot0.OnEnter(slot0)
+	slot0.taskListModule:OnEnter()
 
-	local var_9_0 = arg_9_0.params_.activityID
-
-	if var_9_0 then
-		arg_9_0.taskListModule:RenderActivityTaskList(var_9_0)
+	if slot0.params_.activityID then
+		slot0.taskListModule:RenderActivityTaskList(slot1)
 	end
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:RefreshReciveBtn()
+function slot0.OnTop(slot0)
+	slot0:RefreshReciveBtn()
 end
 
-function var_0_0.RefreshReciveBtn(arg_11_0)
-	if #TaskTools:GetCanGetActivityTaskList(arg_11_0.params_.activityID) > 0 then
-		SetActive(arg_11_0.allBtn.gameObject, true)
+function slot0.RefreshReciveBtn(slot0)
+	if #TaskTools:GetCanGetActivityTaskList(slot0.params_.activityID) > 0 then
+		SetActive(slot0.allBtn.gameObject, true)
 	else
-		SetActive(arg_11_0.allBtn.gameObject, false)
+		SetActive(slot0.allBtn.gameObject, false)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	arg_12_0.taskListModule:OnExit()
+function slot0.OnExit(slot0)
+	slot0.taskListModule:OnExit()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0.taskListModule:Dispose()
-	arg_13_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0.taskListModule:Dispose()
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

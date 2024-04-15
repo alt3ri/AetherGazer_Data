@@ -1,65 +1,64 @@
-local var_0_0 = class("BossChallengeRewardPreviewView", ReduxView)
+slot0 = class("BossChallengeRewardPreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Boss/BossIntegralGoPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.uiListGo_, CommonItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, CommonItemView)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.rewardList_ = arg_4_0.params_.rewardList
-	arg_4_0.subTitleNameText_.text = arg_4_0.params_.titleText or ""
-	arg_4_0.targetText_.text = arg_4_0.params_.targetText or ""
+function slot0.OnEnter(slot0)
+	slot0.rewardList_ = slot0.params_.rewardList
+	slot0.subTitleNameText_.text = slot0.params_.titleText or ""
+	slot0.targetText_.text = slot0.params_.targetText or ""
 
-	arg_4_0.uiList_:StartScroll(#arg_4_0.rewardList_)
+	slot0.uiList_:StartScroll(#slot0.rewardList_)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.uiList_:Dispose()
 
-	arg_6_0.uiList_ = nil
+	slot0.uiList_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.closeBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.rewardList_[arg_9_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.rewardList_[slot1]
 
-	CommonTools.SetCommonData(arg_9_2, {
-		id = var_9_0.id,
-		number = var_9_0.num,
-		clickFun = function(arg_10_0)
+	CommonTools.SetCommonData(slot2, {
+		id = slot3.id,
+		number = slot3.num,
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_10_0.id,
-				arg_10_0.number,
+				slot0.id,
+				slot0.number,
 				0,
-				arg_10_0.time_valid
+				slot0.time_valid
 			})
 		end
 	})
 end
 
-function var_0_0.Cacheable(arg_11_0)
+function slot0.Cacheable(slot0)
 	return false
 end
 
-return var_0_0
+return slot0

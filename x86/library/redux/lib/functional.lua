@@ -1,43 +1,42 @@
-function head(arg_1_0)
-	return arg_1_0[1]
+function head(slot0)
+	return slot0[1]
 end
 
-function tail(arg_2_0)
-	if table.getn(arg_2_0) < 1 then
+function tail(slot0)
+	if table.getn(slot0) < 1 then
 		return nil
 	else
-		local var_2_0 = {}
-		local var_2_1 = table.getn(arg_2_0)
-		local var_2_2 = 2
+		slot1 = {}
+		slot3 = 2
 
-		while var_2_2 <= var_2_1 do
-			table.insert(var_2_0, var_2_2 - 1, arg_2_0[var_2_2])
+		while table.getn(slot0) >= slot3 do
+			table.insert(slot1, slot3 - 1, slot0[slot3])
 
-			var_2_2 = var_2_2 + 1
+			slot3 = slot3 + 1
 		end
 
-		return var_2_0
+		return slot1
 	end
 end
 
-function foldr(arg_3_0, arg_3_1, arg_3_2)
-	for iter_3_0, iter_3_1 in pairs(arg_3_2) do
-		arg_3_1 = arg_3_0(arg_3_1, iter_3_1)
+function foldr(slot0, slot1, slot2)
+	for slot6, slot7 in pairs(slot2) do
+		slot1 = slot0(slot1, slot7)
 	end
 
-	return arg_3_1
+	return slot1
 end
 
-function reduce(arg_4_0, arg_4_1)
-	return foldr(arg_4_0, head(arg_4_1), tail(arg_4_1))
+function reduce(slot0, slot1)
+	return foldr(slot0, head(slot1), tail(slot1))
 end
 
-function map(arg_5_0, arg_5_1)
-	local var_5_0 = {}
+function map(slot0, slot1)
+	slot2 = {}
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_1) do
-		table.insert(var_5_0, arg_5_0(iter_5_1))
+	for slot6, slot7 in ipairs(slot1) do
+		table.insert(slot2, slot0(slot7))
 	end
 
-	return var_5_0
+	return slot2
 end

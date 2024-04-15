@@ -1,45 +1,45 @@
-local var_0_0 = class("WeaponModuleUnlockView", ReduxView)
-local var_0_1 = "F6302F"
+slot0 = class("WeaponModuleUnlockView", ReduxView)
+slot1 = "F6302F"
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_module/HeroModuleUnlockUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.attributeItems_ = {}
-	arg_4_0.conditionItems_ = {}
-	arg_4_0.costItems_ = {}
+	slot0.attributeItems_ = {}
+	slot0.conditionItems_ = {}
+	slot0.costItems_ = {}
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0.costItems_[iter_4_0] = CommonItemView.New(arg_4_0["itemGo" .. iter_4_0 .. "_"])
+	for slot4 = 1, 3 do
+		slot0.costItems_[slot4] = CommonItemView.New(slot0["itemGo" .. slot4 .. "_"])
 	end
 
-	arg_4_0.taskController_ = ControllerUtil.GetController(arg_4_0.taskTrans_, "mission")
+	slot0.taskController_ = ControllerUtil.GetController(slot0.taskTrans_, "mission")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.unlockBtn_, nil, function()
-		if not HeroData:GetModuleAssignmentIsFinish(arg_5_0.heroID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.unlockBtn_, nil, function ()
+		if not HeroData:GetModuleAssignmentIsFinish(uv0.heroID_) then
 			ShowTips("WEAPON_MODULE_UNLOCK_TASK_NOT_COMPLETED")
 
 			return
 		end
 
-		if arg_5_0.conditionList_ and arg_5_0.conditionList_[1] then
-			for iter_6_0, iter_6_1 in pairs(arg_5_0.conditionList_) do
-				if not IsConditionAchieved(iter_6_1, {
-					heroId = arg_5_0.heroID_
+		if uv0.conditionList_ and uv0.conditionList_[1] then
+			for slot3, slot4 in pairs(uv0.conditionList_) do
+				if not IsConditionAchieved(slot4, {
+					heroId = uv0.heroID_
 				}) then
 					ShowTips("WEAPON_MODULE_UNLOCK_CONDITION_NOT_FINISH")
 
@@ -48,53 +48,46 @@ function var_0_0.AddUIListener(arg_5_0)
 			end
 		end
 
-		local var_6_0 = WeaponModuleCfg[arg_5_0.heroID_].cost[1]
-		local var_6_1 = {}
+		slot1 = {}
 
-		for iter_6_2, iter_6_3 in pairs(var_6_0) do
-			if iter_6_3[1] ~= 2 then
-				table.insert(var_6_1, iter_6_3)
+		for slot5, slot6 in pairs(WeaponModuleCfg[uv0.heroID_].cost[1]) do
+			if slot6[1] ~= 2 then
+				table.insert(slot1, slot6)
 			end
 		end
 
-		for iter_6_4, iter_6_5 in pairs(var_6_1) do
-			if iter_6_5[2] > ItemTools.getItemNum(iter_6_5[1]) then
+		for slot5, slot6 in pairs(slot1) do
+			if ItemTools.getItemNum(slot6[1]) < slot6[2] then
 				ShowTips("WEAPON_MODULE_UNLOCK_NOT_ENOUGH")
 
 				return
 			end
 		end
 
-		if not checkGold(arg_5_0.cost_, true) then
+		if not checkGold(uv0.cost_, true) then
 			return
 		end
 
-		HeroAction.TryToLevelUpModule(arg_5_0.heroID_)
+		HeroAction.TryToLevelUpModule(uv0.heroID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.astrolabeinfoBtn_, nil, function()
-		local var_7_0 = HeroData:GetLockModuleEffectListByType(arg_5_0.heroID_, 3)
-
+	slot0:AddBtnListener(slot0.astrolabeinfoBtn_, nil, function ()
 		JumpTools.OpenPageByJump("weaponModuleGodInfoView", {
-			effectList = var_7_0,
-			heroID = arg_5_0.heroID_
+			effectList = HeroData:GetLockModuleEffectListByType(uv0.heroID_, 3),
+			heroID = uv0.heroID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.servantinfoBtn_, nil, function()
-		local var_8_0 = HeroData:GetLockModuleEffectListByType(arg_5_0.heroID_, 4)
-
+	slot0:AddBtnListener(slot0.servantinfoBtn_, nil, function ()
 		JumpTools.OpenPageByJump("weaponModuleServantInfoView", {
-			effectList = var_8_0,
-			heroID = arg_5_0.heroID_
+			effectList = HeroData:GetLockModuleEffectListByType(uv0.heroID_, 4),
+			heroID = uv0.heroID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.taskGotoBtn_, nil, function()
-		local var_9_0 = WeaponModuleCfg[arg_5_0.heroID_].source
-
-		JumpTools.JumpToPage(var_9_0)
+	slot0:AddBtnListener(slot0.taskGotoBtn_, nil, function ()
+		JumpTools.JumpToPage(WeaponModuleCfg[uv0.heroID_].source)
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -104,268 +97,239 @@ function var_0_0.OnEnter(arg_10_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 	manager.windowBar:SetGameHelpKey("WEAPON_MODULE_DESCRIPE")
 
-	arg_10_0.lockController_ = arg_10_0.controllerEx_:GetController("lock")
-	arg_10_0.heroID_ = arg_10_0.params_.heroID
+	slot0.lockController_ = slot0.controllerEx_:GetController("lock")
+	slot0.heroID_ = slot0.params_.heroID
 
-	arg_10_0:RegistEventListener(CURRENCY_UPDATE, function(arg_11_0)
-		if arg_11_0 == CurrencyConst.CURRENCY_TYPE_GOLD then
-			HeroAction.UpdateModuleRedPointByHeroID(arg_10_0.heroID_)
+	slot0:RegistEventListener(CURRENCY_UPDATE, function (slot0)
+		if slot0 == CurrencyConst.CURRENCY_TYPE_GOLD then
+			HeroAction.UpdateModuleRedPointByHeroID(uv0.heroID_)
 		end
 	end)
-	arg_10_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_12_0)
-	local var_12_0
+function slot0.OnTop(slot0)
+	slot1 = nil
+	slot0.goldNum_.text = checkGold(slot0.cost_, false) and "<color=#D2D9E1>" .. slot0.cost_ .. "</color>" or "<color=#F6302F>" .. slot0.cost_ .. "</color>"
 
-	if checkGold(arg_12_0.cost_, false) then
-		var_12_0 = "<color=#D2D9E1>" .. arg_12_0.cost_ .. "</color>"
+	slot0:RefreshBtn()
+end
+
+function slot0.RefreshUI(slot0)
+	slot1 = WeaponModuleCfg[slot0.params_.heroID]
+	slot0.nameText_.text = GetI18NText(slot1.name)
+
+	slot0:RefreshDes()
+
+	slot0.taskText_.text = GetI18NText(slot1.task_desc)
+
+	if HeroData:GetModuleAssignmentIsFinish(slot0.heroID_) then
+		slot0.taskController_:SetSelectedState("clear")
 	else
-		var_12_0 = "<color=#F6302F>" .. arg_12_0.cost_ .. "</color>"
+		slot0.taskController_:SetSelectedState("notClear")
 	end
 
-	arg_12_0.goldNum_.text = var_12_0
+	slot0.conditionList_ = slot1.condition[1]
+	slot0.conditionSourceList_ = slot1.condition_source[1]
 
-	arg_12_0:RefreshBtn()
+	slot0:RefreshCondition()
+	slot0:RefreshCost()
+	slot0:RefreshBtn()
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.taskTrans_)
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	local var_13_0 = WeaponModuleCfg[arg_13_0.params_.heroID]
+function slot0.RefreshBtn(slot0)
+	slot0.lockController_:SetSelectedIndex(1)
 
-	arg_13_0.nameText_.text = GetI18NText(var_13_0.name)
-
-	arg_13_0:RefreshDes()
-
-	arg_13_0.taskText_.text = GetI18NText(var_13_0.task_desc)
-
-	if HeroData:GetModuleAssignmentIsFinish(arg_13_0.heroID_) then
-		arg_13_0.taskController_:SetSelectedState("clear")
-	else
-		arg_13_0.taskController_:SetSelectedState("notClear")
-	end
-
-	arg_13_0.conditionList_ = var_13_0.condition[1]
-	arg_13_0.conditionSourceList_ = var_13_0.condition_source[1]
-
-	arg_13_0:RefreshCondition()
-	arg_13_0:RefreshCost()
-	arg_13_0:RefreshBtn()
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_13_0.taskTrans_)
-end
-
-function var_0_0.RefreshBtn(arg_14_0)
-	arg_14_0.lockController_:SetSelectedIndex(1)
-
-	if not HeroData:GetModuleAssignmentIsFinish(arg_14_0.heroID_) then
+	if not HeroData:GetModuleAssignmentIsFinish(slot0.heroID_) then
 		return
 	end
 
-	if arg_14_0.conditionList_ and arg_14_0.conditionList_[1] then
-		for iter_14_0, iter_14_1 in pairs(arg_14_0.conditionList_) do
-			if not IsConditionAchieved(iter_14_1, {
-				heroId = arg_14_0.heroID_
+	if slot0.conditionList_ and slot0.conditionList_[1] then
+		for slot4, slot5 in pairs(slot0.conditionList_) do
+			if not IsConditionAchieved(slot5, {
+				heroId = slot0.heroID_
 			}) then
 				return
 			end
 		end
 	end
 
-	local var_14_0 = WeaponModuleCfg[arg_14_0.heroID_].cost[1]
-	local var_14_1 = {}
+	slot2 = {}
 
-	for iter_14_2, iter_14_3 in pairs(var_14_0) do
-		if iter_14_3[1] ~= 2 then
-			table.insert(var_14_1, iter_14_3)
+	for slot6, slot7 in pairs(WeaponModuleCfg[slot0.heroID_].cost[1]) do
+		if slot7[1] ~= 2 then
+			table.insert(slot2, slot7)
 		end
 	end
 
-	for iter_14_4, iter_14_5 in pairs(var_14_1) do
-		if iter_14_5[2] > ItemTools.getItemNum(iter_14_5[1]) then
+	for slot6, slot7 in pairs(slot2) do
+		if ItemTools.getItemNum(slot7[1]) < slot7[2] then
 			return
 		end
 	end
 
-	arg_14_0.lockController_:SetSelectedIndex(0)
+	slot0.lockController_:SetSelectedIndex(0)
 end
 
-function var_0_0.RefreshDes(arg_15_0)
-	arg_15_0.effects_ = WeaponModuleCfg[arg_15_0.params_.heroID].skill[1]
+function slot0.RefreshDes(slot0)
+	slot0.effects_ = WeaponModuleCfg[slot0.params_.heroID].skill[1]
+	slot1, slot2, slot3, slot4 = HeroTools.GetModuleAllDes(slot0.effects_, slot0.heroID_)
 
-	local var_15_0, var_15_1, var_15_2, var_15_3 = HeroTools.GetModuleAllDes(arg_15_0.effects_, arg_15_0.heroID_)
-
-	if var_15_0 == nil then
-		SetActive(arg_15_0.attrGo_, false)
+	if slot1 == nil then
+		SetActive(slot0.attrGo_, false)
 	else
-		SetActive(arg_15_0.attrGo_, true)
-		arg_15_0:RefreshAttriItems(var_15_0)
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_15_0.attrGo_.transform)
+		SetActive(slot0.attrGo_, true)
+		slot0:RefreshAttriItems(slot1)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.attrGo_.transform)
 	end
 
-	if var_15_1 == nil then
-		SetActive(arg_15_0.skillGo_, false)
+	if slot2 == nil then
+		SetActive(slot0.skillGo_, false)
 	else
-		SetActive(arg_15_0.skillGo_, true)
+		SetActive(slot0.skillGo_, true)
 
-		arg_15_0.skillText_.text = var_15_1
+		slot0.skillText_.text = slot2
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_15_0.skillGo_.transform)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.skillGo_.transform)
 	end
 
-	if var_15_2 == nil then
-		SetActive(arg_15_0.astrolabeGo_, false)
+	if slot3 == nil then
+		SetActive(slot0.astrolabeGo_, false)
 	else
-		SetActive(arg_15_0.astrolabeGo_, true)
+		SetActive(slot0.astrolabeGo_, true)
 
-		arg_15_0.astrolabeText_.text = var_15_2
+		slot0.astrolabeText_.text = slot3
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_15_0.astrolabeGo_.transform)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.astrolabeGo_.transform)
 	end
 
-	if var_15_3 == nil then
-		SetActive(arg_15_0.servantGo_, false)
+	if slot4 == nil then
+		SetActive(slot0.servantGo_, false)
 	else
-		SetActive(arg_15_0.servantGo_, true)
+		SetActive(slot0.servantGo_, true)
 
-		arg_15_0.servantText_.text = var_15_3
+		slot0.servantText_.text = slot4
 
-		LayoutRebuilder.ForceRebuildLayoutImmediate(arg_15_0.servantGo_.transform)
+		LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.servantGo_.transform)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_15_0.contentTrans_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 
-	arg_15_0.contentTrans_.localPosition = Vector3.New(0, 0, 0)
+	slot0.contentTrans_.localPosition = Vector3.New(0, 0, 0)
 end
 
-function var_0_0.RefreshAttriItems(arg_16_0, arg_16_1)
-	local var_16_0 = HeroTools.MergeModuleAttribute(arg_16_1)
-	local var_16_1 = 1
+function slot0.RefreshAttriItems(slot0, slot1)
+	slot3 = 1
 
-	for iter_16_0, iter_16_1 in pairs(var_16_0) do
-		if arg_16_0.attributeItems_[var_16_1] == nil then
-			local var_16_2 = GameObject.Instantiate(arg_16_0.attriItemGo_, arg_16_0.attriItemTrans_)
-
-			arg_16_0.attributeItems_[var_16_1] = WeaponModuleAttributeItem.New(var_16_2)
+	for slot7, slot8 in pairs(HeroTools.MergeModuleAttribute(slot1)) do
+		if slot0.attributeItems_[slot3] == nil then
+			slot0.attributeItems_[slot3] = WeaponModuleAttributeItem.New(GameObject.Instantiate(slot0.attriItemGo_, slot0.attriItemTrans_))
 		end
 
-		arg_16_0.attributeItems_[var_16_1]:SetData(iter_16_0, iter_16_1)
+		slot0.attributeItems_[slot3]:SetData(slot7, slot8)
 
-		var_16_1 = var_16_1 + 1
+		slot3 = slot3 + 1
 	end
 
-	for iter_16_2, iter_16_3 in pairs(arg_16_0.attributeItems_) do
-		if iter_16_2 < var_16_1 then
-			arg_16_0.attributeItems_[iter_16_2]:SetIsShow(true)
+	for slot7, slot8 in pairs(slot0.attributeItems_) do
+		if slot7 < slot3 then
+			slot0.attributeItems_[slot7]:SetIsShow(true)
 		else
-			arg_16_0.attributeItems_[iter_16_2]:SetIsShow(false)
+			slot0.attributeItems_[slot7]:SetIsShow(false)
 		end
 	end
 end
 
-function var_0_0.RefreshCondition(arg_17_0)
-	if arg_17_0.conditionList_ and arg_17_0.conditionList_[1] then
-		SetActive(arg_17_0.conditonParent_.gameObject, true)
+function slot0.RefreshCondition(slot0)
+	if slot0.conditionList_ and slot0.conditionList_[1] then
+		SetActive(slot0.conditonParent_.gameObject, true)
 
-		for iter_17_0, iter_17_1 in pairs(arg_17_0.conditionList_) do
-			if arg_17_0.conditionItems_[iter_17_0] then
-				arg_17_0.conditionItems_[iter_17_0]:SetData(iter_17_1, arg_17_0.heroID_, arg_17_0.conditionSourceList_[iter_17_0])
+		for slot4, slot5 in pairs(slot0.conditionList_) do
+			if slot0.conditionItems_[slot4] then
+				slot0.conditionItems_[slot4]:SetData(slot5, slot0.heroID_, slot0.conditionSourceList_[slot4])
 			else
-				local var_17_0 = GameObject.Instantiate(arg_17_0.conditonGo_, arg_17_0.conditonParent_)
+				slot0.conditionItems_[slot4] = WeaponModuleConditionItem.New(GameObject.Instantiate(slot0.conditonGo_, slot0.conditonParent_))
 
-				arg_17_0.conditionItems_[iter_17_0] = WeaponModuleConditionItem.New(var_17_0)
-
-				arg_17_0.conditionItems_[iter_17_0]:SetData(iter_17_1, arg_17_0.heroID_, arg_17_0.conditionSourceList_[iter_17_0])
+				slot0.conditionItems_[slot4]:SetData(slot5, slot0.heroID_, slot0.conditionSourceList_[slot4])
 			end
 		end
 
-		local var_17_1 = #arg_17_0.conditionList_
-
-		for iter_17_2, iter_17_3 in pairs(arg_17_0.conditionItems_) do
-			if var_17_1 < iter_17_2 then
-				iter_17_3:SetIsShow(false)
+		for slot5, slot6 in pairs(slot0.conditionItems_) do
+			if #slot0.conditionList_ < slot5 then
+				slot6:SetIsShow(false)
 			else
-				iter_17_3:SetIsShow(true)
+				slot6:SetIsShow(true)
 			end
 		end
 	else
-		SetActive(arg_17_0.conditonParent_.gameObject, false)
+		SetActive(slot0.conditonParent_.gameObject, false)
 	end
 end
 
-function var_0_0.RefreshCost(arg_18_0)
-	local var_18_0 = WeaponModuleCfg[arg_18_0.heroID_].cost[1]
-	local var_18_1 = {}
+function slot0.RefreshCost(slot0)
+	slot2 = {}
+	slot0.cost_ = 0
 
-	arg_18_0.cost_ = 0
-
-	for iter_18_0, iter_18_1 in pairs(var_18_0) do
-		if iter_18_1[1] == 2 then
-			arg_18_0.cost_ = iter_18_1[2]
-
-			local var_18_2
-
-			if checkGold(arg_18_0.cost_, false) then
-				var_18_2 = "<color=#D2D9E1>" .. iter_18_1[2] .. "</color>"
-			else
-				var_18_2 = "<color=#F6302F>" .. iter_18_1[2] .. "</color>"
-			end
-
-			arg_18_0.goldNum_.text = var_18_2
+	for slot6, slot7 in pairs(WeaponModuleCfg[slot0.heroID_].cost[1]) do
+		if slot7[1] == 2 then
+			slot0.cost_ = slot7[2]
+			slot8 = nil
+			slot0.goldNum_.text = checkGold(slot0.cost_, false) and "<color=#D2D9E1>" .. slot7[2] .. "</color>" or "<color=#F6302F>" .. slot7[2] .. "</color>"
 		else
-			table.insert(var_18_1, iter_18_1)
+			table.insert(slot2, slot7)
 		end
 	end
 
-	for iter_18_2, iter_18_3 in pairs(var_18_1) do
-		local var_18_3 = iter_18_3[2]
-		local var_18_4 = ItemTools.getItemNum(iter_18_3[1])
-		local var_18_5 = clone(ItemTemplateData)
-
-		var_18_5.id = iter_18_3[1]
-		var_18_5.bottomText = {
-			var_18_4,
-			var_18_3,
-			var_18_4 < var_18_3 and var_0_1 or nil
+	for slot6, slot7 in pairs(slot2) do
+		slot8 = slot7[2]
+		slot9 = ItemTools.getItemNum(slot7[1])
+		clone(ItemTemplateData).id = slot7[1]
+		slot10.bottomText = {
+			slot9,
+			slot8,
+			slot9 < slot8 and uv0 or nil
 		}
-		var_18_5.hideBottomRightTextFlag = true
+		slot10.hideBottomRightTextFlag = true
 
-		function var_18_5.clickFun()
+		function slot10.clickFun()
 			ShowPopItem(POP_SOURCE_ITEM, {
-				iter_18_3[1],
-				iter_18_3[2]
+				uv0[1],
+				uv0[2]
 			})
 		end
 
-		arg_18_0.costItems_[iter_18_2]:SetData(var_18_5)
+		slot0.costItems_[slot6]:SetData(slot10)
 	end
 
-	for iter_18_4 = 1, 3 do
-		if iter_18_4 > #var_18_1 then
-			arg_18_0.costItems_[iter_18_4]:Show(false)
+	for slot6 = 1, 3 do
+		if slot6 > #slot2 then
+			slot0.costItems_[slot6]:Show(false)
 		else
-			arg_18_0.costItems_[iter_18_4]:Show(true)
+			slot0.costItems_[slot6]:Show(true)
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_20_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_20_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_21_0)
-	for iter_21_0, iter_21_1 in pairs(arg_21_0.attributeItems_) do
-		iter_21_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.attributeItems_) do
+		slot5:Dispose()
 	end
 
-	for iter_21_2, iter_21_3 in pairs(arg_21_0.conditionItems_) do
-		iter_21_3:Dispose()
+	for slot4, slot5 in pairs(slot0.conditionItems_) do
+		slot5:Dispose()
 	end
 
-	for iter_21_4, iter_21_5 in pairs(arg_21_0.costItems_) do
-		iter_21_5:Dispose()
+	for slot4, slot5 in pairs(slot0.costItems_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_21_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,100 +1,87 @@
-local var_0_0 = class("NewHeroChipItem", ReduxView)
+slot0 = class("NewHeroChipItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.selectController_ = arg_1_0.transform_:GetComponent("ControllerExCollection"):GetController("select")
-	arg_1_0.lockController_ = arg_1_0.transform_:GetComponent("ControllerExCollection"):GetController("lock")
-	arg_1_0.equipController_ = arg_1_0.transform_:GetComponent("ControllerExCollection"):GetController("equip")
+	slot0.selectController_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("select")
+	slot0.lockController_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("lock")
+	slot0.equipController_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("equip")
 
-	arg_1_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		if arg_2_0.clickFunc_ then
-			arg_2_0.clickFunc_(arg_2_0.chipID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.clickFunc_ then
+			uv0.clickFunc_(uv0.chipID_)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.chipID_ = arg_4_1
-	arg_4_0.curChipID_ = arg_4_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.chipID_ = slot1
+	slot0.curChipID_ = slot2
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetCallBack(arg_5_0, arg_5_1)
-	arg_5_0.clickFunc_ = arg_5_1
+function slot0.SetCallBack(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = ChipCfg[arg_6_0.chipID_]
+function slot0.RefreshUI(slot0)
+	slot1 = ChipCfg[slot0.chipID_]
+	slot0.icon_.sprite = getSpriteViaConfig("ChipSkillIcon", slot1.picture_id)
+	slot0.name_.text = slot1.suit_name
 
-	arg_6_0.icon_.sprite = getSpriteViaConfig("ChipSkillIcon", var_6_0.picture_id)
-	arg_6_0.name_.text = var_6_0.suit_name
-
-	arg_6_0:RefreshStatus()
-	arg_6_0:BindRedPoint()
+	slot0:RefreshStatus()
+	slot0:BindRedPoint()
 end
 
-function var_0_0.RefreshStatus(arg_7_0)
-	if ChipData:GetIsUnlockHeroChip(arg_7_0.chipID_) then
-		arg_7_0.lockController_:SetSelectedState("no")
+function slot0.RefreshStatus(slot0)
+	if ChipData:GetIsUnlockHeroChip(slot0.chipID_) then
+		slot0.lockController_:SetSelectedState("no")
 	else
-		arg_7_0.lockController_:SetSelectedState("yes")
+		slot0.lockController_:SetSelectedState("yes")
 	end
 
-	local var_7_0, var_7_1 = ChipData:GetHeroChipIsEnableByChipId(arg_7_0.chipID_)
+	slot1, slot2 = ChipData:GetHeroChipIsEnableByChipId(slot0.chipID_)
 
-	if var_7_0 then
-		arg_7_0.equipController_:SetSelectedState("yes")
+	if slot1 then
+		slot0.equipController_:SetSelectedState("yes")
 	else
-		arg_7_0.equipController_:SetSelectedState("no")
+		slot0.equipController_:SetSelectedState("no")
 	end
 
-	if arg_7_0.chipID_ == arg_7_0.curChipID_ then
-		arg_7_0.selectController_:SetSelectedState("yes")
+	if slot0.chipID_ == slot0.curChipID_ then
+		slot0.selectController_:SetSelectedState("yes")
 	else
-		arg_7_0.selectController_:SetSelectedState("no")
+		slot0.selectController_:SetSelectedState("no")
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:UnbindRedPoint()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:UnbindRedPoint()
+	uv0.super.Dispose(slot0)
 
-	arg_8_0.clickFunc_ = nil
+	slot0.clickFunc_ = nil
 end
 
-function var_0_0.BindRedPoint(arg_9_0)
-	local var_9_0 = ChipCfg[arg_9_0.chipID_]
-	local var_9_1
+function slot0.BindRedPoint(slot0)
+	slot1 = ChipCfg[slot0.chipID_]
+	slot2 = nil
 
-	if ChipCfg[arg_9_0.chipID_].cost_condition ~= "" then
-		var_9_1 = RedPointConst.CHIP_HERO_CURRENCY_CHIP .. "_" .. var_9_0.spec_char .. "_" .. var_9_0.role_type_id .. "_" .. arg_9_0.chipID_
-	else
-		var_9_1 = RedPointConst.CHIP_HERO_CHIP .. "_" .. var_9_0.spec_char .. "_" .. var_9_0.role_type_id .. "_" .. arg_9_0.chipID_
-	end
-
-	manager.redPoint:bindUIandKey(arg_9_0.redPoint_, var_9_1)
+	manager.redPoint:bindUIandKey(slot0.redPoint_, ChipCfg[slot0.chipID_].cost_condition ~= "" and RedPointConst.CHIP_HERO_CURRENCY_CHIP .. "_" .. slot1.spec_char .. "_" .. slot1.role_type_id .. "_" .. slot0.chipID_ or RedPointConst.CHIP_HERO_CHIP .. "_" .. slot1.spec_char .. "_" .. slot1.role_type_id .. "_" .. slot0.chipID_)
 end
 
-function var_0_0.UnbindRedPoint(arg_10_0)
-	local var_10_0 = ChipCfg[arg_10_0.chipID_]
-	local var_10_1
+function slot0.UnbindRedPoint(slot0)
+	slot1 = ChipCfg[slot0.chipID_]
+	slot2 = nil
 
-	if ChipCfg[arg_10_0.chipID_].cost_condition ~= "" then
-		var_10_1 = RedPointConst.CHIP_HERO_CURRENCY_CHIP .. "_" .. var_10_0.spec_char .. "_" .. var_10_0.role_type_id .. "_" .. arg_10_0.chipID_
-	else
-		var_10_1 = RedPointConst.CHIP_HERO_CHIP .. "_" .. var_10_0.spec_char .. "_" .. var_10_0.role_type_id .. "_" .. arg_10_0.chipID_
-	end
-
-	manager.redPoint:unbindUIandKey(arg_10_0.redPoint_, var_10_1)
+	manager.redPoint:unbindUIandKey(slot0.redPoint_, ChipCfg[slot0.chipID_].cost_condition ~= "" and RedPointConst.CHIP_HERO_CURRENCY_CHIP .. "_" .. slot1.spec_char .. "_" .. slot1.role_type_id .. "_" .. slot0.chipID_ or RedPointConst.CHIP_HERO_CHIP .. "_" .. slot1.spec_char .. "_" .. slot1.role_type_id .. "_" .. slot0.chipID_)
 end
 
-return var_0_0
+return slot0

@@ -1,436 +1,402 @@
-local var_0_0 = class("FurnitureItem", ReduxView)
+slot0 = class("FurnitureItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.startController = ControllerUtil.GetController(arg_1_0.transform_, "itembglevel")
-	arg_1_0.selectController = ControllerUtil.GetController(arg_1_0.transform_, "select")
-	arg_1_0.interactController = ControllerUtil.GetController(arg_1_0.transform_, "interact")
-	arg_1_0.stateController = ControllerUtil.GetController(arg_1_0.transform_, "state")
-	arg_1_0.limitController = ControllerUtil.GetController(arg_1_0.transform_, "upperlimit")
-	arg_1_0.furNumController = ControllerUtil.GetController(arg_1_0.transform_, "furNum")
-	arg_1_0.screenController = ControllerUtil.GetController(arg_1_0.transform_, "screening")
-	arg_1_0.infoController = ControllerUtil.GetController(arg_1_0.transform_, "info")
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.startController = ControllerUtil.GetController(slot0.transform_, "itembglevel")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.interactController = ControllerUtil.GetController(slot0.transform_, "interact")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.limitController = ControllerUtil.GetController(slot0.transform_, "upperlimit")
+	slot0.furNumController = ControllerUtil.GetController(slot0.transform_, "furNum")
+	slot0.screenController = ControllerUtil.GetController(slot0.transform_, "screening")
+	slot0.infoController = ControllerUtil.GetController(slot0.transform_, "info")
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.onClickCom_ = arg_2_0:FindCom("OnClickDownListener")
+	slot0.onClickCom_ = slot0:FindCom("OnClickDownListener")
 
-	arg_2_0.onClickCom_.onValueChanged:AddListener(function()
-		if arg_2_0.downFunc and not arg_2_0.canClick then
-			arg_2_0.downFunc(arg_2_0.id, arg_2_0.index, arg_2_0.furType, arg_2_0.suitState)
+	slot0.onClickCom_.onValueChanged:AddListener(function ()
+		if uv0.downFunc and not uv0.canClick then
+			uv0.downFunc(uv0.id, uv0.index, uv0.furType, uv0.suitState)
 		end
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.clickBtn, nil, function()
-		if arg_2_0.click and not arg_2_0.canClick then
-			arg_2_0.click(arg_2_0.id, arg_2_0.index, arg_2_0.furType, arg_2_0.suitState, arg_2_0.giftNum)
+	slot0:AddBtnListener(slot0.clickBtn, nil, function ()
+		if uv0.click and not uv0.canClick then
+			uv0.click(uv0.id, uv0.index, uv0.furType, uv0.suitState, uv0.giftNum)
 		end
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.grayBtn, nil, function()
-		if arg_2_0.grayBtnFunc then
-			arg_2_0.grayBtnFunc(arg_2_0.id, arg_2_0.index, arg_2_0.furType, arg_2_0.suitState, arg_2_0.giftNum)
+	slot0:AddBtnListener(slot0.grayBtn, nil, function ()
+		if uv0.grayBtnFunc then
+			uv0.grayBtnFunc(uv0.id, uv0.index, uv0.furType, uv0.suitState, uv0.giftNum)
 		end
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.infoBtn, nil, function()
-		if arg_2_0.itemInfoFunc then
-			arg_2_0.itemInfoFunc(arg_2_0.id)
+	slot0:AddBtnListener(slot0.infoBtn, nil, function ()
+		if uv0.itemInfoFunc then
+			uv0.itemInfoFunc(uv0.id)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2, arg_7_3, arg_7_4, arg_7_5, arg_7_6)
-	manager.redPoint:SetRedPointIndependent(arg_7_0.transform_, false)
+function slot0.RefreshUI(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 
-	if arg_7_3 == DormEnum.FurItemType.Edit then
-		arg_7_0.id = arg_7_1.furID
-		arg_7_0.furType = arg_7_1.type
+	if slot3 == DormEnum.FurItemType.Edit then
+		slot0.id = slot1.furID
+		slot0.furType = slot1.type
 
-		arg_7_0:RefreshFurInfo(arg_7_1, arg_7_2)
-	elseif arg_7_3 == DormEnum.FurItemType.Gift then
-		arg_7_0.id = arg_7_1
+		slot0:RefreshFurInfo(slot1, slot2)
+	elseif slot3 == DormEnum.FurItemType.Gift then
+		slot0.id = slot1
 
-		arg_7_0:RefreshGiftInfo(arg_7_1, arg_7_2, arg_7_3, arg_7_4, arg_7_5)
-	elseif arg_7_3 == DormEnum.FurItemType.SuitEdit then
-		arg_7_0.id = arg_7_1.furID
+		slot0:RefreshGiftInfo(slot1, slot2, slot3, slot4, slot5)
+	elseif slot3 == DormEnum.FurItemType.SuitEdit then
+		slot0.id = slot1.furID
 
-		arg_7_0:RefreshSuitInfo(arg_7_1, arg_7_2, arg_7_6)
-	elseif arg_7_3 == DormEnum.FurItemType.SuitFurShow then
-		arg_7_0.id = arg_7_1.furID
+		slot0:RefreshSuitInfo(slot1, slot2, slot6)
+	elseif slot3 == DormEnum.FurItemType.SuitFurShow then
+		slot0.id = slot1.furID
 
-		arg_7_0:RefreshSuitFurInfoList(arg_7_1, arg_7_2)
-	elseif arg_7_3 == DormEnum.FurItemType.StorageFurShow then
-		arg_7_0.id = arg_7_1.furID
+		slot0:RefreshSuitFurInfoList(slot1, slot2)
+	elseif slot3 == DormEnum.FurItemType.StorageFurShow then
+		slot0.id = slot1.furID
 
-		arg_7_0:RefreshStorageFurShow(arg_7_1, arg_7_2)
-	elseif arg_7_3 == DormEnum.FurItemType.TemplateShow then
-		arg_7_0.id = arg_7_1.furID
+		slot0:RefreshStorageFurShow(slot1, slot2)
+	elseif slot3 == DormEnum.FurItemType.TemplateShow then
+		slot0.id = slot1.furID
 
-		arg_7_0:RefreshTemplateShow(arg_7_1, arg_7_2)
+		slot0:RefreshTemplateShow(slot1, slot2)
 	end
 
-	arg_7_0.cfg = ItemCfg[arg_7_0.id]
+	slot0.cfg = ItemCfg[slot0.id]
 
-	if arg_7_0.cfg then
-		arg_7_0.furName.text = ItemTools.getItemName(arg_7_0.id)
-		arg_7_0.level = ItemCfg[arg_7_0.id].rare
-		arg_7_0.iconImg_.sprite = ItemTools.getItemSprite(arg_7_0.id)
+	if slot0.cfg then
+		slot0.furName.text = ItemTools.getItemName(slot0.id)
+		slot0.level = ItemCfg[slot0.id].rare
+		slot0.iconImg_.sprite = ItemTools.getItemSprite(slot0.id)
 
-		arg_7_0.startController:SetSelectedState(arg_7_0.level)
+		slot0.startController:SetSelectedState(slot0.level)
 
-		arg_7_0.index = arg_7_5
+		slot0.index = slot5
 	else
-		print("家具" .. arg_7_0.id .. "在item表内未找到")
+		print("家具" .. slot0.id .. "在item表内未找到")
 
 		return
 	end
 end
 
-function var_0_0.RefreshGiftInfo(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	if BackHomeFurniture[arg_8_0.id].interact_max and BackHomeFurniture[arg_8_0.id].interact_max > 0 then
-		arg_8_0.interactController:SetSelectedState("true")
+function slot0.RefreshGiftInfo(slot0, slot1, slot2, slot3, slot4, slot5)
+	if BackHomeFurniture[slot0.id].interact_max and BackHomeFurniture[slot0.id].interact_max > 0 then
+		slot0.interactController:SetSelectedState("true")
 	else
-		arg_8_0.interactController:SetSelectedState("false")
+		slot0.interactController:SetSelectedState("false")
 	end
 
-	arg_8_0.selectController:SetSelectedState("normal")
-	arg_8_0.stateController:SetSelectedState("gift")
-	arg_8_0.infoController:SetSelectedState("false")
-	arg_8_0.furNumController:SetSelectedState("one")
+	slot0.selectController:SetSelectedState("normal")
+	slot0.stateController:SetSelectedState("gift")
+	slot0.infoController:SetSelectedState("false")
+	slot0.furNumController:SetSelectedState("one")
 
-	arg_8_0.comfortNum.text = BackHomeFurniture[arg_8_0.id].dorm_exp or 0
+	slot0.comfortNum.text = BackHomeFurniture[slot0.id].dorm_exp or 0
+	slot8 = DormData:GetHeroInfo(slot4)
 
-	local var_8_0 = DormRoomTools:GetDormIDViaArchive(arg_8_4)
-	local var_8_1 = DormData:GetDormSceneData(var_8_0)
-	local var_8_2 = DormData:GetHeroInfo(arg_8_4)
-
-	if not var_8_1.give_furnitures[arg_8_0.id] then
-		var_8_1.give_furnitures[arg_8_0.id] = 0
+	if not DormData:GetDormSceneData(DormRoomTools:GetDormIDViaArchive(slot4)).give_furnitures[slot0.id] then
+		slot7.give_furnitures[slot0.id] = 0
 	end
 
-	local var_8_3 = DormData:GetFurNumInfo(arg_8_0.id)
+	slot9 = DormData:GetFurNumInfo(slot0.id)
+	slot0.totalNum.text = slot9.num - slot9.give_num
 
-	arg_8_0.totalNum.text = var_8_3.num - var_8_3.give_num
-
-	if var_8_2:GetCanGiftNum(arg_8_0.id) <= 0 then
-		arg_8_0.limitController:SetSelectedState("gray")
+	if slot8:GetCanGiftNum(slot0.id) <= 0 then
+		slot0.limitController:SetSelectedState("gray")
 
 		return
 	else
-		arg_8_0.limitController:SetSelectedState("normal")
+		slot0.limitController:SetSelectedState("normal")
 	end
 
-	if arg_8_2 then
-		arg_8_0.selID = arg_8_2
+	if slot2 then
+		slot0.selID = slot2
 
-		if arg_8_0.id == arg_8_0.selID then
-			arg_8_0.selectController:SetSelectedState("select")
-			arg_8_0.furNumController:SetSelectedState("two")
+		if slot0.id == slot0.selID then
+			slot0.selectController:SetSelectedState("select")
+			slot0.furNumController:SetSelectedState("two")
 
-			arg_8_0.placeNum.text = var_8_1.give_furnitures[arg_8_0.id]
-			arg_8_0.total2Num.text = var_8_3.num - var_8_3.give_num
+			slot0.placeNum.text = slot7.give_furnitures[slot0.id]
+			slot0.total2Num.text = slot9.num - slot9.give_num
 		else
-			arg_8_0.selectController:SetSelectedState("normal")
+			slot0.selectController:SetSelectedState("normal")
 		end
 	end
 end
 
-function var_0_0.RefreshFurInfo(arg_9_0, arg_9_1, arg_9_2)
-	if BackHomeFurniture[arg_9_0.id].interact_max and BackHomeFurniture[arg_9_0.id].interact_max > 0 then
-		arg_9_0.interactController:SetSelectedState("true")
+function slot0.RefreshFurInfo(slot0, slot1, slot2)
+	if BackHomeFurniture[slot0.id].interact_max and BackHomeFurniture[slot0.id].interact_max > 0 then
+		slot0.interactController:SetSelectedState("true")
 	else
-		arg_9_0.interactController:SetSelectedState("false")
+		slot0.interactController:SetSelectedState("false")
 	end
 
-	arg_9_0.selectController:SetSelectedState("normal")
-	arg_9_0.infoController:SetSelectedState("false")
+	slot0.selectController:SetSelectedState("normal")
+	slot0.infoController:SetSelectedState("false")
+	slot0.stateController:SetSelectedState("edit")
 
-	local var_9_0 = arg_9_1.type
+	slot4 = DormData:GetCurrectSceneID()
 
-	arg_9_0.stateController:SetSelectedState("edit")
+	if DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot0.id) then
+		slot0.furNumController:SetSelectedState("false")
 
-	local var_9_1 = DormData:GetCurrectSceneID()
-
-	if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_9_0.id) then
-		arg_9_0.furNumController:SetSelectedState("false")
-
-		if var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.CanPlace then
-			arg_9_0.screenController:SetSelectedState("CanPlace")
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.HadPlace then
-			arg_9_0.screenController:SetSelectedState("HadPlace")
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.OtherHadPlace then
-			arg_9_0.screenController:SetSelectedState("OtherHadPlace")
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.NotPresented then
-			arg_9_0.screenController:SetSelectedState("NotPresented")
+		if slot1.type == DormConst.DORM_FUR_EDITVIEW_TYPE.CanPlace then
+			slot0.screenController:SetSelectedState("CanPlace")
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.HadPlace then
+			slot0.screenController:SetSelectedState("HadPlace")
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.OtherHadPlace then
+			slot0.screenController:SetSelectedState("OtherHadPlace")
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.NotPresented then
+			slot0.screenController:SetSelectedState("NotPresented")
 		end
 	else
-		arg_9_0.furNumController:SetSelectedState("one")
+		slot0.furNumController:SetSelectedState("one")
 
-		if var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.CanPlace then
-			local var_9_2 = DormFurEditStateData:GetCanUseFurNumInRoom(var_9_1, arg_9_0.id)
+		if slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.CanPlace then
+			slot0.totalNum.text = DormFurEditStateData:GetCanUseFurNumInRoom(slot4, slot0.id)
 
-			arg_9_0.totalNum.text = var_9_2
+			slot0.limitController:SetSelectedState("normal")
+			slot0.screenController:SetSelectedState("CanPlace")
+			slot0:ShowSelect(slot2)
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.OtherHadPlace then
+			slot0.totalNum.text = DormFurnitureTools:GetRoomCanPlaceFurMaxNum(slot4, slot0.id) - DormFurEditStateData:GetCanUseFurNumInRoom(slot4, slot0.id) - DormRoomTools:GetHasPlaceFurInfoByRoom(slot4, slot0.id) - DormFurEditStateData:GetCacheFurNum(slot0.id)
 
-			arg_9_0.limitController:SetSelectedState("normal")
-			arg_9_0.screenController:SetSelectedState("CanPlace")
-			arg_9_0:ShowSelect(arg_9_2)
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.OtherHadPlace then
-			local var_9_3 = DormFurnitureTools:GetRoomCanPlaceFurMaxNum(var_9_1, arg_9_0.id)
-			local var_9_4 = DormFurEditStateData:GetCanUseFurNumInRoom(var_9_1, arg_9_0.id)
-			local var_9_5 = DormRoomTools:GetHasPlaceFurInfoByRoom(var_9_1, arg_9_0.id)
-			local var_9_6 = DormFurEditStateData:GetCacheFurNum(arg_9_0.id)
+			slot0.screenController:SetSelectedState("OtherHadPlace")
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.HadPlace then
+			slot0.totalNum.text = DormRoomTools:GetHasPlaceFurInfoByRoom(slot4, slot0.id) + DormFurEditStateData:GetCacheFurNum(slot0.id)
 
-			arg_9_0.totalNum.text = var_9_3 - var_9_4 - var_9_5 - var_9_6
+			slot0.screenController:SetSelectedState("HadPlace")
+		elseif slot3 == DormConst.DORM_FUR_EDITVIEW_TYPE.NotPresented then
+			slot5 = DormData:GetFurNumInfo(slot0.id)
 
-			arg_9_0.screenController:SetSelectedState("OtherHadPlace")
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.HadPlace then
-			local var_9_7 = DormRoomTools:GetHasPlaceFurInfoByRoom(var_9_1, arg_9_0.id)
-			local var_9_8 = DormFurEditStateData:GetCacheFurNum(arg_9_0.id)
-
-			arg_9_0.totalNum.text = var_9_7 + var_9_8
-
-			arg_9_0.screenController:SetSelectedState("HadPlace")
-		elseif var_9_0 == DormConst.DORM_FUR_EDITVIEW_TYPE.NotPresented then
-			local var_9_9 = DormData:GetFurNumInfo(arg_9_0.id)
-
-			if BackHomeCfg[var_9_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-				arg_9_0.totalNum.text = var_9_9.num - var_9_9.give_num
-			elseif BackHomeCfg[var_9_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-				local var_9_10 = DormitoryData:GetArchiveIDViaRoomID(var_9_1)[1]
-				local var_9_11 = DormData:GetHeroInfo(var_9_10)
-
-				arg_9_0.totalNum.text = var_9_11:GetCanGiftNum(arg_9_0.id)
+			if BackHomeCfg[slot4].type == DormConst.BACKHOME_TYPE.PublicDorm then
+				slot0.totalNum.text = slot5.num - slot5.give_num
+			elseif BackHomeCfg[slot4].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+				slot0.totalNum.text = DormData:GetHeroInfo(DormitoryData:GetArchiveIDViaRoomID(slot4)[1]):GetCanGiftNum(slot0.id)
 			end
 
-			arg_9_0.screenController:SetSelectedState("NotPresented")
+			slot0.screenController:SetSelectedState("NotPresented")
 		end
 	end
 end
 
-function var_0_0.RefreshSuitFurInfoList(arg_10_0, arg_10_1, arg_10_2)
-	if BackHomeFurniture[arg_10_0.id].interact_max and BackHomeFurniture[arg_10_0.id].interact_max > 0 then
-		arg_10_0.interactController:SetSelectedState("true")
+function slot0.RefreshSuitFurInfoList(slot0, slot1, slot2)
+	if BackHomeFurniture[slot0.id].interact_max and BackHomeFurniture[slot0.id].interact_max > 0 then
+		slot0.interactController:SetSelectedState("true")
 	else
-		arg_10_0.interactController:SetSelectedState("false")
+		slot0.interactController:SetSelectedState("false")
 	end
 
-	arg_10_0.limitController:SetSelectedState("normal")
-	arg_10_0.stateController:SetSelectedState("edit")
-	arg_10_0.furNumController:SetSelectedState("two")
-	arg_10_0.infoController:SetSelectedState("false")
+	slot0.limitController:SetSelectedState("normal")
+	slot0.stateController:SetSelectedState("edit")
+	slot0.furNumController:SetSelectedState("two")
+	slot0.infoController:SetSelectedState("false")
 
-	local var_10_0 = DormData:GetCurrectSceneID()
-	local var_10_1 = arg_10_1.suitID
-	local var_10_2 = DormSuitData:GetFurNeedNumBySuitID(var_10_1, arg_10_0.id)
-	local var_10_3 = math.min(DormFurEditStateData:GetCanUseFurNumInRoom(var_10_0, arg_10_0.id), var_10_2)
+	slot6 = math.min(DormFurEditStateData:GetCanUseFurNumInRoom(DormData:GetCurrectSceneID(), slot0.id), DormSuitData:GetFurNeedNumBySuitID(slot1.suitID, slot0.id))
 
-	arg_10_0:ShowSelect(arg_10_2)
-	arg_10_0.screenController:SetSelectedState("CanPlace")
+	slot0:ShowSelect(slot2)
+	slot0.screenController:SetSelectedState("CanPlace")
 
-	arg_10_0.suitState = "enough"
+	slot0.suitState = "enough"
 
-	if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(arg_10_0.id) then
-		if var_10_3 < var_10_2 then
-			arg_10_0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(var_10_3))
+	if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(slot0.id) then
+		if slot6 < slot5 then
+			slot0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(slot6))
 		else
-			arg_10_0.placeNum.text = var_10_3
+			slot0.placeNum.text = slot6
 		end
 
-		arg_10_0.total2Num.text = tostring(var_10_2)
+		slot0.total2Num.text = tostring(slot5)
 
-		if var_10_3 < var_10_2 then
-			if BackHomeFurniture[arg_10_0.id].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-				local var_10_4 = DormRoomTools:GetCanGiftNumByRoomIDAndFurID(var_10_0, arg_10_0.id)
-				local var_10_5 = DormRoomTools:GetCanGiftFurMaxNum(var_10_0, arg_10_0.id)
+		if slot6 < slot5 then
+			if BackHomeFurniture[slot0.id].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+				slot8 = DormRoomTools:GetCanGiftFurMaxNum(slot3, slot0.id)
 
-				if var_10_4 > 0 then
-					arg_10_0.screenController:SetSelectedState("NotPresented")
+				if DormRoomTools:GetCanGiftNumByRoomIDAndFurID(slot3, slot0.id) > 0 then
+					slot0.screenController:SetSelectedState("NotPresented")
 
-					arg_10_0.suitState = "canGift"
-					arg_10_0.giftNum = math.min(var_10_2 - var_10_3, var_10_4)
+					slot0.suitState = "canGift"
+					slot0.giftNum = math.min(slot5 - slot6, slot7)
 				else
-					arg_10_0.limitController:SetSelectedState("gray")
+					slot0.limitController:SetSelectedState("gray")
 
-					arg_10_0.suitState = "noEnough"
-					arg_10_0.giftNum = math.min(var_10_2 - var_10_3, var_10_5)
+					slot0.suitState = "noEnough"
+					slot0.giftNum = math.min(slot5 - slot6, slot8)
 				end
 			else
-				arg_10_0.limitController:SetSelectedState("gray")
+				slot0.limitController:SetSelectedState("gray")
 
-				arg_10_0.suitState = "noEnough"
-				arg_10_0.giftNum = var_10_2 - var_10_3
+				slot0.suitState = "noEnough"
+				slot0.giftNum = slot5 - slot6
 			end
 		end
 	else
-		arg_10_0.placeNum.text = tostring(var_10_2)
-		arg_10_0.total2Num.text = tostring(var_10_2)
+		slot0.placeNum.text = tostring(slot5)
+		slot0.total2Num.text = tostring(slot5)
 	end
 end
 
-function var_0_0.RefreshSuitInfo(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	arg_11_0.screenController:SetSelectedState("CanPlace")
-	arg_11_0.limitController:SetSelectedState("normal")
-	arg_11_0.stateController:SetSelectedState("edit")
-	arg_11_0.interactController:SetSelectedState("false")
-	arg_11_0.furNumController:SetSelectedState("two")
+function slot0.RefreshSuitInfo(slot0, slot1, slot2, slot3)
+	slot0.screenController:SetSelectedState("CanPlace")
+	slot0.limitController:SetSelectedState("normal")
+	slot0.stateController:SetSelectedState("edit")
+	slot0.interactController:SetSelectedState("false")
+	slot0.furNumController:SetSelectedState("two")
 
-	local var_11_0, var_11_1 = DormSuitData:CheckIsSuit(arg_11_0.id)
+	slot4, slot5 = DormSuitData:CheckIsSuit(slot0.id)
 
-	if var_11_1 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
-		arg_11_0.infoController:SetSelectedState("false")
+	if slot5 == DormSuitTools.DORM_SUIT_TYPE.FULL_SET then
+		slot0.infoController:SetSelectedState("false")
 	else
-		arg_11_0.infoController:SetSelectedState("true")
+		slot0.infoController:SetSelectedState("true")
 	end
 
-	local var_11_2 = DormData:GetCurrectSceneID()
-	local var_11_3 = DormSuitData:GetSuitNeedTotalFurNumList(arg_11_0.id)
-	local var_11_4 = DormSuitData:GetTotalCanUseFurNumBySuitInRoom(arg_11_0.id, var_11_2)
-
-	if var_11_4 < var_11_3 then
-		arg_11_0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(var_11_4))
+	if DormSuitData:GetTotalCanUseFurNumBySuitInRoom(slot0.id, DormData:GetCurrectSceneID()) < DormSuitData:GetSuitNeedTotalFurNumList(slot0.id) then
+		slot0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(slot8))
 	else
-		arg_11_0.placeNum.text = var_11_4
+		slot0.placeNum.text = slot8
 	end
 
-	arg_11_0.total2Num.text = tostring(var_11_3)
+	slot0.total2Num.text = tostring(slot7)
 
-	if var_11_4 < var_11_3 then
-		arg_11_0.screenController:SetSelectedState("suitNoFull")
+	if slot8 < slot7 then
+		slot0.screenController:SetSelectedState("suitNoFull")
 	end
 
-	arg_11_0:ShowSelect(arg_11_2)
+	slot0:ShowSelect(slot2)
 
-	local var_11_5
-	local var_11_6 = DormData:GetCurrectSceneID()
+	slot9 = nil
 
-	if arg_11_3 == 1 then
-		local var_11_7 = BackHomeCfg[var_11_6].type
-
-		if var_11_7 == DormConst.BACKHOME_TYPE.PublicDorm then
-			var_11_5 = string.format("%s_%s", RedPointConst.DORM_FULL_PUBLIC_SUIT, tostring(arg_11_0.id))
-		elseif var_11_7 == DormConst.BACKHOME_TYPE.PrivateDorm then
-			var_11_5 = string.format("%s_%s", RedPointConst.DORM_FULL_PRIVATE_SUIT, tostring(arg_11_0.id))
+	if slot3 == 1 then
+		if BackHomeCfg[DormData:GetCurrectSceneID()].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			slot9 = string.format("%s_%s", RedPointConst.DORM_FULL_PUBLIC_SUIT, tostring(slot0.id))
+		elseif slot11 == DormConst.BACKHOME_TYPE.PrivateDorm then
+			slot9 = string.format("%s_%s", RedPointConst.DORM_FULL_PRIVATE_SUIT, tostring(slot0.id))
 		end
 	else
-		var_11_5 = string.format("%s_%s", RedPointConst.DORM_PART_SUIT, tostring(arg_11_0.id))
+		slot9 = string.format("%s_%s", RedPointConst.DORM_PART_SUIT, tostring(slot0.id))
 	end
 
-	if manager.redPoint:getTipBoolean(var_11_5) then
-		manager.redPoint:SetRedPointIndependent(arg_11_0.transform_, true)
+	if manager.redPoint:getTipBoolean(slot9) then
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, true)
 	else
-		manager.redPoint:SetRedPointIndependent(arg_11_0.transform_, false)
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 	end
 end
 
-function var_0_0.RefreshStorageFurShow(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0.screenController:SetSelectedState("CanPlace")
-	arg_12_0.limitController:SetSelectedState("normal")
-	arg_12_0.stateController:SetSelectedState("edit")
-	arg_12_0.interactController:SetSelectedState("false")
-	arg_12_0.furNumController:SetSelectedState("one")
-	arg_12_0.infoController:SetSelectedState("false")
+function slot0.RefreshStorageFurShow(slot0, slot1, slot2)
+	slot0.screenController:SetSelectedState("CanPlace")
+	slot0.limitController:SetSelectedState("normal")
+	slot0.stateController:SetSelectedState("edit")
+	slot0.interactController:SetSelectedState("false")
+	slot0.furNumController:SetSelectedState("one")
+	slot0.infoController:SetSelectedState("false")
 
-	arg_12_0.totalNum.text = arg_12_1.canStorageNum
+	slot0.totalNum.text = slot1.canStorageNum
 end
 
-function var_0_0.RefreshTemplateShow(arg_13_0, arg_13_1, arg_13_2)
-	if BackHomeFurniture[arg_13_0.id].interact_max and BackHomeFurniture[arg_13_0.id].interact_max > 0 then
-		arg_13_0.interactController:SetSelectedState("true")
+function slot0.RefreshTemplateShow(slot0, slot1, slot2)
+	if BackHomeFurniture[slot0.id].interact_max and BackHomeFurniture[slot0.id].interact_max > 0 then
+		slot0.interactController:SetSelectedState("true")
 	else
-		arg_13_0.interactController:SetSelectedState("false")
+		slot0.interactController:SetSelectedState("false")
 	end
 
-	arg_13_0.limitController:SetSelectedState("normal")
-	arg_13_0.stateController:SetSelectedState("edit")
-	arg_13_0.furNumController:SetSelectedState("two")
-	arg_13_0.infoController:SetSelectedState("false")
+	slot0.limitController:SetSelectedState("normal")
+	slot0.stateController:SetSelectedState("edit")
+	slot0.furNumController:SetSelectedState("two")
+	slot0.infoController:SetSelectedState("false")
 
-	local var_13_0 = arg_13_1.needNum
-	local var_13_1 = DormData:GetCurrectSceneID()
-	local var_13_2 = math.min(DormFurEditStateData:GetCanUseFurNumInRoom(var_13_1, arg_13_0.id), var_13_0)
+	slot5 = math.min(DormFurEditStateData:GetCanUseFurNumInRoom(DormData:GetCurrectSceneID(), slot0.id), slot1.needNum)
 
-	arg_13_0:ShowSelect(arg_13_2)
-	arg_13_0.screenController:SetSelectedState("CanPlace")
+	slot0:ShowSelect(slot2)
+	slot0.screenController:SetSelectedState("CanPlace")
 
-	arg_13_0.suitState = "enough"
+	slot0.suitState = "enough"
+	slot6 = DormData:GetCurrectSceneID()
 
-	local var_13_3 = DormData:GetCurrectSceneID()
-
-	if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(arg_13_0.id) then
-		if var_13_2 < var_13_0 then
-			arg_13_0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(var_13_2))
+	if not DormSpecialFurnitureTools:JudgeIsOriSpecialFur(slot0.id) then
+		if slot5 < slot3 then
+			slot0.placeNum.text = string.format("<color=#FA7577>%s</color>", tostring(slot5))
 		else
-			arg_13_0.placeNum.text = var_13_2
+			slot0.placeNum.text = slot5
 		end
 
-		arg_13_0.total2Num.text = tostring(var_13_0)
+		slot0.total2Num.text = tostring(slot3)
 
-		if var_13_2 < var_13_0 then
-			if BackHomeFurniture[arg_13_0.id].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-				if var_13_0 <= DormRoomTools:GetCanGiftNumByRoomIDAndFurID(var_13_3, arg_13_0.id) + var_13_2 then
-					arg_13_0.screenController:SetSelectedState("NotPresented")
+		if slot5 < slot3 then
+			if BackHomeFurniture[slot0.id].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+				if slot3 <= DormRoomTools:GetCanGiftNumByRoomIDAndFurID(slot6, slot0.id) + slot5 then
+					slot0.screenController:SetSelectedState("NotPresented")
 
-					arg_13_0.suitState = "canGift"
-					arg_13_0.giftNum = var_13_0 - var_13_2
+					slot0.suitState = "canGift"
+					slot0.giftNum = slot3 - slot5
 				else
-					arg_13_0.limitController:SetSelectedState("gray")
+					slot0.limitController:SetSelectedState("gray")
 
-					arg_13_0.suitState = "noEnough"
-					arg_13_0.giftNum = var_13_0 - var_13_2
+					slot0.suitState = "noEnough"
+					slot0.giftNum = slot3 - slot5
 				end
 			else
-				arg_13_0.limitController:SetSelectedState("gray")
+				slot0.limitController:SetSelectedState("gray")
 
-				arg_13_0.suitState = "noEnough"
-				arg_13_0.giftNum = var_13_0 - var_13_2
+				slot0.suitState = "noEnough"
+				slot0.giftNum = slot3 - slot5
 			end
 		end
 	else
-		arg_13_0.placeNum.text = tostring(var_13_0)
-		arg_13_0.total2Num.text = tostring(var_13_0)
+		slot0.placeNum.text = tostring(slot3)
+		slot0.total2Num.text = tostring(slot3)
 	end
 end
 
-function var_0_0.ShowSelect(arg_14_0, arg_14_1)
-	if arg_14_1 and not arg_14_0.showSel then
-		if arg_14_0.id == arg_14_1 then
-			arg_14_0.selectController:SetSelectedState("select")
+function slot0.ShowSelect(slot0, slot1)
+	if slot1 and not slot0.showSel then
+		if slot0.id == slot1 then
+			slot0.selectController:SetSelectedState("select")
 		else
-			arg_14_0.selectController:SetSelectedState("normal")
+			slot0.selectController:SetSelectedState("normal")
 		end
 	else
-		arg_14_0.selectController:SetSelectedState("normal")
+		slot0.selectController:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.SetItemShow(arg_15_0, arg_15_1)
-	arg_15_0.canClick = arg_15_1.canClick
-	arg_15_0.showSel = arg_15_1.showSel
+function slot0.SetItemShow(slot0, slot1)
+	slot0.canClick = slot1.canClick
+	slot0.showSel = slot1.showSel
 end
 
-function var_0_0.OnPointerDown(arg_16_0, arg_16_1)
-	arg_16_0.downFunc = arg_16_1
+function slot0.OnPointerDown(slot0, slot1)
+	slot0.downFunc = slot1
 end
 
-function var_0_0.OnClickBtn(arg_17_0, arg_17_1)
-	arg_17_0.click = arg_17_1
+function slot0.OnClickBtn(slot0, slot1)
+	slot0.click = slot1
 end
 
-function var_0_0.GrayCallBack(arg_18_0, arg_18_1)
-	arg_18_0.grayBtnFunc = arg_18_1
+function slot0.GrayCallBack(slot0, slot1)
+	slot0.grayBtnFunc = slot1
 end
 
-function var_0_0.ItemInfoCallBack(arg_19_0, arg_19_1)
-	arg_19_0.itemInfoFunc = arg_19_1
+function slot0.ItemInfoCallBack(slot0, slot1)
+	slot0.itemInfoFunc = slot1
 end
 
-function var_0_0.Dispose(arg_20_0)
-	arg_20_0:RemoveAllListeners()
-	arg_20_0.onClickCom_.onValueChanged:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_20_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.onClickCom_.onValueChanged:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

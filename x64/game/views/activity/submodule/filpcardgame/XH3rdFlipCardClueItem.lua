@@ -1,60 +1,60 @@
-local var_0_0 = class("XH3rdFlipCardClueItem", ReduxView)
+slot0 = class("XH3rdFlipCardClueItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.clueId = arg_3_1.detail_id
-	arg_3_0.name = arg_3_1.name
-	arg_3_0.icon_path = arg_3_1.icon_path
-	arg_3_0.picture = arg_3_1.picture
-	arg_3_0.activityId = arg_3_2
-	arg_3_0.isGetted = XH3rdFlipCardData:CheckClueIsGetted(arg_3_0.clueId)
-	arg_3_0.isViewed = XH3rdFlipCardData:CheckClueIsViewed(arg_3_0.clueId)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.clueId = slot1.detail_id
+	slot0.name = slot1.name
+	slot0.icon_path = slot1.icon_path
+	slot0.picture = slot1.picture
+	slot0.activityId = slot2
+	slot0.isGetted = XH3rdFlipCardData:CheckClueIsGetted(slot0.clueId)
+	slot0.isViewed = XH3rdFlipCardData:CheckClueIsViewed(slot0.clueId)
 
-	manager.redPoint:bindUIandKey(arg_3_0.checkBtnTrans_, string.format("%s_%s_%s_clue", RedPointConst.ACTIVITY_2_2_FLIP_CARD, arg_3_0.activityId, arg_3_0.clueId))
-	arg_3_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.checkBtnTrans_, string.format("%s_%s_%s_clue", RedPointConst.ACTIVITY_2_2_FLIP_CARD, slot0.activityId, slot0.clueId))
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.lockController = ControllerUtil.GetController(arg_4_0.transform_, "clue")
+	slot0.lockController = ControllerUtil.GetController(slot0.transform_, "clue")
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.checkBtn_, nil, function()
-		XH3rdFlipCardAction:sendViewClueRequest(arg_5_0.activityId, arg_5_0.clueId)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
+		XH3rdFlipCardAction:sendViewClueRequest(uv0.activityId, uv0.clueId)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0.titleText_.text = arg_7_0.name
+function slot0.RefreshUI(slot0)
+	slot0.titleText_.text = slot0.name
 
-	if arg_7_0.isGetted then
-		arg_7_0.lockController:SetSelectedState("unlock")
+	if slot0.isGetted then
+		slot0.lockController:SetSelectedState("unlock")
 	else
-		arg_7_0.lockController:SetSelectedState("lock")
+		slot0.lockController:SetSelectedState("lock")
 	end
 end
 
-function var_0_0.Dispose(arg_8_0)
-	manager.redPoint:unbindUIandKey(arg_8_0.checkBtnTrans_, string.format("%s_%s_%s_clue", RedPointConst.ACTIVITY_2_2_FLIP_CARD, arg_8_0.activityId, arg_8_0.clueId))
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	manager.redPoint:unbindUIandKey(slot0.checkBtnTrans_, string.format("%s_%s_%s_clue", RedPointConst.ACTIVITY_2_2_FLIP_CARD, slot0.activityId, slot0.clueId))
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetReveivedHandler(arg_9_0, arg_9_1)
-	arg_9_0.onReceived_ = arg_9_1
+function slot0.SetReveivedHandler(slot0, slot1)
+	slot0.onReceived_ = slot1
 end
 
-return var_0_0
+return slot0

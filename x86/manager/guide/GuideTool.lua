@@ -1,323 +1,7 @@
-local var_0_0 = {
-	SatisfyCondition = function(arg_1_0)
-		if type(arg_1_0) ~= "table" then
-			return true
-		end
-
-		for iter_1_0, iter_1_1 in pairs(arg_1_0) do
-			if iter_1_1[1] == "stage" then
-				local var_1_0 = iter_1_1[2]
-				local var_1_1 = BattleStageData:GetStageData()
-
-				if var_1_1[var_1_0] and var_1_1[var_1_0].clear_times >= 1 then
-					-- block empty
-				else
-					return false
-				end
-			elseif iter_1_1[1] == "task" then
-				if not TaskData2:GetTask(iter_1_1[2]) or TaskData2:GetTask(iter_1_1[2]).complete_flag == iter_1_1[3] then
-					-- block empty
-				else
-					return false
-				end
-			elseif iter_1_1[1] == "playerLevel" then
-				if PlayerData:GetPlayerInfo().userLevel < iter_1_1[2] then
-					return false
-				end
-			elseif iter_1_1[1] == "playerLevelLessThan" then
-				if PlayerData:GetPlayerInfo().userLevel >= iter_1_1[2] then
-					return false
-				end
-			elseif iter_1_1[1] == "whereTag" then
-				if manager.windowBar:GetWhereTag() ~= iter_1_1[2] then
-					return false
-				end
-			elseif iter_1_1[1] == "uiName" then
-				if not gameContext:GetOpenPageHandler(iter_1_1[2]) then
-					return false
-				end
-			elseif iter_1_1[1] == "uiNameList" then
-				local var_1_2 = iter_1_1[2]
-				local var_1_3 = false
-
-				for iter_1_2, iter_1_3 in ipairs(var_1_2) do
-					if gameContext:GetOpenPageHandler(iter_1_3) then
-						var_1_3 = true
-					end
-				end
-
-				if not var_1_3 then
-					return false
-				end
-			elseif iter_1_1[1] == "activityId" then
-				local var_1_4 = iter_1_1[2]
-
-				if not ActivityData:GetActivityIsOpen(var_1_4) then
-					return false
-				end
-			elseif iter_1_1[1] == "guide" then
-				local var_1_5 = iter_1_1[2]
-
-				if not GuideData:IsFinish(var_1_5) then
-					return false
-				end
-			elseif iter_1_1[1] == "storyId" then
-				local var_1_6 = iter_1_1[2]
-
-				if not manager.story:IsStoryPlayed(var_1_6) then
-					return false
-				end
-			elseif iter_1_1[1] == "drawNewHero" then
-				if DrawData:GetNewHeroFlag() == false then
-					return false
-				end
-			elseif iter_1_1[1] == "anyEquipLevel" then
-				local var_1_7 = iter_1_1[2]
-				local var_1_8 = false
-
-				for iter_1_4, iter_1_5 in pairs(EquipData:GetEquipList()) do
-					if var_1_7 <= iter_1_5:GetLevel() then
-						var_1_8 = true
-
-						break
-					end
-				end
-
-				if var_1_8 == false then
-					return false
-				end
-			elseif iter_1_1[1] == "equip" then
-				local var_1_9 = gameContext:GetOpenPageHandler("equipCultureView")
-				local var_1_10 = EquipData:GetEquipData(var_1_9:GetEquipId())
-
-				if not var_1_10 then
-					return false
-				end
-
-				if iter_1_1[2] == "equipLevel" then
-					if iter_1_1[3] > var_1_10:GetLevel() then
-						return false
-					end
-				elseif iter_1_1[2] == "cultureEquipStar" then
-					if iter_1_1[3] > var_1_10.star then
-						return false
-					end
-				elseif iter_1_1[2] == "cultureEquipReset" then
-					if var_1_10.star < 5 or var_1_10.race ~= 0 and table.keyof(RaceEffectCfg.all, var_1_10.race) == nil then
-						return false
-					end
-				elseif iter_1_1[2] == "page" then
-					local var_1_11 = iter_1_1[3]
-
-					if var_1_9:GetCulturePage() ~= var_1_11 then
-						return false
-					end
-				end
-			elseif iter_1_1[1] == "heroFavorability" then
-				local var_1_12 = iter_1_1[2][1]
-
-				if var_1_12 == 0 then
-					local var_1_13 = iter_1_1[2][2]
-					local var_1_14 = HeroData:GetHeroList()
-					local var_1_15 = false
-
-					for iter_1_6, iter_1_7 in pairs(var_1_14) do
-						if HeroTools.GetHeroIsUnlock(iter_1_6) then
-							local var_1_16 = HeroRecordCfg.get_id_list_by_hero_id[iter_1_6][1]
-
-							if var_1_13 <= ArchiveData:GetArchive(var_1_16).lv then
-								var_1_15 = true
-
-								break
-							end
-						end
-					end
-
-					if not var_1_15 then
-						return false
-					end
-				elseif var_1_12 and ArchiveData:GetArchive(var_1_12) then
-					local var_1_17 = ArchiveData:GetArchive(var_1_12).lv
-
-					if var_1_17 and var_1_17 < iter_1_1[2][2] then
-						return false
-					end
-				else
-					print("档案id获取错误")
-				end
-			elseif iter_1_1[1] == "canJump" then
-				if whereami ~= "home" or LuaExchangeHelper.GetSceneIsHanding() or WarChessData:GetIsGoingChess() then
-					return false
-				end
-			else
-				print("未实现的条件类型:", iter_1_1[1])
-			end
-		end
-
-		return true
-	end,
-	FindComponent = function(arg_2_0)
-		local var_2_0 = GuideTool.stringToTable(arg_2_0)
-		local var_2_1 = ComponentStep.New(nil, 101):AnalyzeComponentCfg(var_2_0)
-
-		if var_2_1 then
-			local var_2_2 = var_2_1.gameObject
-
-			LeanTween.scale(var_2_2, Vector3.New(1.2, 1.2, 1.2), 0.2)
-			LeanTween.scale(var_2_2, Vector3.one, 0.2):setDelay(0.2)
-			print("<color=#00ff00>找到了</color>")
-		else
-			print("<color=#ff0000>找不到</color>")
-		end
-	end,
-	stringToTable = function(arg_3_0)
-		return (loadstring("return " .. arg_3_0)())
-	end,
-	Log = function(arg_4_0)
-		print("<color=#00ff00>" .. arg_4_0 .. "</color>")
-	end,
-	GetGameContentUrl = function()
-		return gameContext:GetUrl()
-	end
-}
-local var_0_1 = {}
-local var_0_2
-local var_0_3 = ""
-
-function var_0_0.GetGameContextParams()
-	local var_6_0 = gameContext:GetLastOpenPage()
-	local var_6_1 = gameContext:GetOpenPageHandler(var_6_0)
-
-	if not var_6_1 then
-		return {}
-	end
-
-	var_0_1 = {}
-	var_0_2 = var_6_1
-	var_0_3 = var_6_0
-
-	var_0_0.GetGuideComponent(var_6_1, "", 0)
-
-	var_0_2 = nil
-
-	return var_0_1
-end
-
-function var_0_0.GetListComponets(arg_7_0, arg_7_1, arg_7_2)
-	print("hjd" .. "GetListComponets")
-
-	local var_7_0 = gameContext:GetOpenPageHandler(arg_7_0)
-
-	if not var_7_0 then
-		return {}
-	end
-
-	local var_7_1 = var_7_0[arg_7_1]
-
-	if not var_7_1 then
-		return {}
-	end
-
-	local var_7_2 = var_7_1:GetItemList()
-
-	if not var_7_2 or not var_7_2[arg_7_2] then
-		return {}
-	end
-
-	local var_7_3 = var_7_2[arg_7_2]
-
-	var_0_1 = {}
-	var_0_2 = var_7_3
-	var_0_3 = "LuaList_Item"
-
-	var_0_0.GetGuideComponent(var_7_3, "", 0)
-
-	return var_0_1
-end
-
-function var_0_0.GetGuideComponent(arg_8_0, arg_8_1, arg_8_2)
-	if arg_8_2 > 2 then
-		return
-	end
-
-	for iter_8_0, iter_8_1 in pairs(arg_8_0) do
-		local var_8_0 = arg_8_1 .. iter_8_0
-
-		if type(iter_8_1) == "userdata" and not isNil(iter_8_1) then
-			table.insert(var_0_1, {
-				var_0_3,
-				var_8_0,
-				iter_8_1
-			})
-		elseif type(iter_8_1) == "table" then
-			if iter_8_1.__cname == "LuaList" and iter_8_1.uiList_ ~= nil then
-				table.insert(var_0_1, {
-					var_0_3,
-					var_8_0,
-					iter_8_1.uiList_
-				})
-			elseif iter_8_1 ~= var_0_2 then
-				var_0_0.GetGuideComponent(iter_8_1, var_8_0 .. "/", arg_8_2 + 1)
-			end
-		end
-	end
-end
-
-function var_0_0.CheckWeakGuide(arg_9_0)
-	local var_9_0 = GuideWeakCfg.get_id_list_by_name[arg_9_0]
-
-	if var_9_0 == nil then
-		return false
-	end
-
-	local var_9_1 = {
-		priority = -9999
-	}
-
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		local var_9_2 = GuideWeakCfg[iter_9_1]
-		local var_9_3 = GuideData:IsWeakGuideFinish(iter_9_1)
-		local var_9_4 = var_9_2.skipcondition[1] ~= nil and GuideTool.SatisfyCondition(var_9_2.skipcondition)
-
-		if not var_9_3 and not var_9_4 and var_9_2.priority > var_9_1.priority and GuideTool.SatisfyCondition(var_9_2.opencondition) then
-			var_9_1 = var_9_2
-		end
-	end
-
-	if var_9_1.priority == -9999 then
-		return false
-	end
-
-	return true, var_9_1
-end
-
-function var_0_0.GetGuideComponentByRoute(arg_10_0, arg_10_1)
-	local var_10_0 = #arg_10_1
-	local var_10_1 = 1
-	local var_10_2
-
-	while var_10_1 <= var_10_0 do
-		local var_10_3 = arg_10_1[var_10_1]
-		local var_10_4
-
-		if var_10_1 == 1 then
-			var_10_4 = arg_10_0[var_10_3]
-		else
-			var_10_4 = var_10_2[var_10_3]
-		end
-
-		if var_10_4 then
-			var_10_2 = var_10_4
-			var_10_1 = var_10_1 + 1
-		else
-			return nil
-		end
-	end
-
-	return var_10_2
-end
-
-local var_0_4 = {
+slot1 = {}
+slot2 = nil
+slot3 = ""
+slot4 = {
 	5,
 	6,
 	2,
@@ -328,61 +12,299 @@ local var_0_4 = {
 	4
 }
 
-function var_0_0.GetPoolIndex(arg_11_0)
-	local var_11_0 = var_0_0.GetPools()
-	local var_11_1 = {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		local var_11_2 = DrawPoolCfg[iter_11_1]
-		local var_11_3 = var_0_4[var_11_2.pool_show_type]
-
-		if var_11_1[var_11_3] == nil then
-			var_11_1[var_11_3] = 1
+return {
+	SatisfyCondition = function (slot0)
+		if type(slot0) ~= "table" then
+			return true
 		end
 
-		var_11_1[var_11_3] = var_11_1[var_11_3] + 1
-	end
+		for slot4, slot5 in pairs(slot0) do
+			if slot5[1] == "stage" then
+				if not BattleStageData:GetStageData()[slot5[2]] or slot7[slot6].clear_times < 1 then
+					return false
+				end
+			elseif slot5[1] == "task" then
+				if TaskData2:GetTask(slot5[2]) then
+					if TaskData2:GetTask(slot5[2]).complete_flag ~= slot5[3] then
+						return false
+					end
+				end
+			elseif slot5[1] == "playerLevel" then
+				if PlayerData:GetPlayerInfo().userLevel < slot5[2] then
+					return false
+				end
+			elseif slot5[1] == "playerLevelLessThan" then
+				if slot5[2] <= PlayerData:GetPlayerInfo().userLevel then
+					return false
+				end
+			elseif slot5[1] == "whereTag" then
+				if manager.windowBar:GetWhereTag() ~= slot5[2] then
+					return false
+				end
+			elseif slot5[1] == "uiName" then
+				if not gameContext:GetOpenPageHandler(slot5[2]) then
+					return false
+				end
+			elseif slot5[1] == "uiNameList" then
+				slot7 = false
 
-	local var_11_4 = {}
-	local var_11_5 = 1
+				for slot11, slot12 in ipairs(slot5[2]) do
+					if gameContext:GetOpenPageHandler(slot12) then
+						slot7 = true
+					end
+				end
 
-	for iter_11_2 = 1, 8 do
-		if var_11_1[iter_11_2] then
-			var_11_4[iter_11_2] = var_11_5
-			var_11_5 = var_11_5 + 1
+				if not slot7 then
+					return false
+				end
+			elseif slot5[1] == "activityId" then
+				if not ActivityData:GetActivityIsOpen(slot5[2]) then
+					return false
+				end
+			elseif slot5[1] == "guide" then
+				if not GuideData:IsFinish(slot5[2]) then
+					return false
+				end
+			elseif slot5[1] == "storyId" then
+				if not manager.story:IsStoryPlayed(slot5[2]) then
+					return false
+				end
+			elseif slot5[1] == "drawNewHero" then
+				if DrawData:GetNewHeroFlag() == false then
+					return false
+				end
+			elseif slot5[1] == "anyEquipLevel" then
+				slot7 = false
+
+				for slot11, slot12 in pairs(EquipData:GetEquipList()) do
+					if slot5[2] <= slot12:GetLevel() then
+						slot7 = true
+
+						break
+					end
+				end
+
+				if slot7 == false then
+					return false
+				end
+			elseif slot5[1] == "equip" then
+				if not EquipData:GetEquipData(gameContext:GetOpenPageHandler("equipCultureView"):GetEquipId()) then
+					return false
+				end
+
+				if slot5[2] == "equipLevel" then
+					if slot7:GetLevel() < slot5[3] then
+						return false
+					end
+				elseif slot5[2] == "cultureEquipStar" then
+					if slot7.star < slot5[3] then
+						return false
+					end
+				elseif slot5[2] == "cultureEquipReset" then
+					if slot7.star < 5 or slot7.race ~= 0 and table.keyof(RaceEffectCfg.all, slot7.race) == nil then
+						return false
+					end
+				elseif slot5[2] == "page" and slot6:GetCulturePage() ~= slot5[3] then
+					return false
+				end
+			elseif slot5[1] == "heroFavorability" then
+				if slot5[2][1] == 0 then
+					slot9 = false
+
+					for slot13, slot14 in pairs(HeroData:GetHeroList()) do
+						if HeroTools.GetHeroIsUnlock(slot13) and slot5[2][2] <= ArchiveData:GetArchive(HeroRecordCfg.get_id_list_by_hero_id[slot13][1]).lv then
+							slot9 = true
+
+							break
+						end
+					end
+
+					if not slot9 then
+						return false
+					end
+				elseif slot6 and ArchiveData:GetArchive(slot6) then
+					if ArchiveData:GetArchive(slot6).lv and slot7 < slot5[2][2] then
+						return false
+					end
+				else
+					print("档案id获取错误")
+				end
+			elseif slot5[1] == "canJump" then
+				if whereami ~= "home" or LuaExchangeHelper.GetSceneIsHanding() or WarChessData:GetIsGoingChess() then
+					return false
+				end
+			else
+				print("未实现的条件类型:", slot5[1])
+			end
 		end
-	end
 
-	return var_11_4[var_0_4[DrawPoolCfg[arg_11_0].pool_show_type]]
-end
+		return true
+	end,
+	FindComponent = function (slot0)
+		if ComponentStep.New(nil, 101):AnalyzeComponentCfg(GuideTool.stringToTable(slot0)) then
+			slot4 = slot3.gameObject
 
-function var_0_0.GetPools()
-	local var_12_0 = {}
-	local var_12_1 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.DRAW] or {}
+			LeanTween.scale(slot4, Vector3.New(1.2, 1.2, 1.2), 0.2)
+			LeanTween.scale(slot4, Vector3.one, 0.2):setDelay(0.2)
+			print("<color=#00ff00>找到了</color>")
+		else
+			print("<color=#ff0000>找不到</color>")
+		end
+	end,
+	stringToTable = function (slot0)
+		return loadstring("return " .. slot0)()
+	end,
+	Log = function (slot0)
+		print("<color=#00ff00>" .. slot0 .. "</color>")
+	end,
+	GetGameContentUrl = function ()
+		return gameContext:GetUrl()
+	end,
+	GetGameContextParams = function ()
+		if not gameContext:GetOpenPageHandler(gameContext:GetLastOpenPage()) then
+			return {}
+		end
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_1) do
-		if ActivityData:GetActivityIsOpen(iter_12_1) then
-			local var_12_2 = ActivityDrawPoolCfg[iter_12_1]
+		uv0 = {}
+		uv1 = slot1
+		uv2 = slot0
 
-			if var_12_2 then
-				for iter_12_2, iter_12_3 in ipairs(var_12_2.config_list) do
-					if DrawPoolCfg[iter_12_3].pool_show_type == 8 then
+		uv3.GetGuideComponent(slot1, "", 0)
+
+		uv1 = nil
+
+		return uv0
+	end,
+	GetListComponets = function (slot0, slot1, slot2)
+		print("hjd" .. "GetListComponets")
+
+		if not gameContext:GetOpenPageHandler(slot0) then
+			return {}
+		end
+
+		if not slot3[slot1] then
+			return {}
+		end
+
+		if not slot4:GetItemList() or not slot5[slot2] then
+			return {}
+		end
+
+		slot6 = slot5[slot2]
+		uv0 = {}
+		uv1 = slot6
+		uv2 = "LuaList_Item"
+
+		uv3.GetGuideComponent(slot6, "", 0)
+
+		return uv0
+	end,
+	GetGuideComponent = function (slot0, slot1, slot2)
+		if slot2 > 2 then
+			return
+		end
+
+		for slot6, slot7 in pairs(slot0) do
+			if type(slot7) == "userdata" and not isNil(slot7) then
+				table.insert(uv0, {
+					uv1,
+					slot1 .. slot6,
+					slot7
+				})
+			elseif type(slot7) == "table" then
+				if slot7.__cname == "LuaList" and slot7.uiList_ ~= nil then
+					table.insert(uv0, {
+						uv1,
+						slot8,
+						slot7.uiList_
+					})
+				elseif slot7 ~= uv2 then
+					uv3.GetGuideComponent(slot7, slot8 .. "/", slot2 + 1)
+				end
+			end
+		end
+	end,
+	CheckWeakGuide = function (slot0)
+		if GuideWeakCfg.get_id_list_by_name[slot0] == nil then
+			return false
+		end
+
+		for slot6, slot7 in pairs(slot1) do
+			if not GuideData:IsWeakGuideFinish(slot7) and not (GuideWeakCfg[slot7].skipcondition[1] ~= nil and GuideTool.SatisfyCondition(slot8.skipcondition)) and ({
+				priority = -9999
+			}).priority < slot8.priority and GuideTool.SatisfyCondition(slot8.opencondition) then
+				slot2 = slot8
+			end
+		end
+
+		if slot2.priority == -9999 then
+			return false
+		end
+
+		return true, slot2
+	end,
+	GetGuideComponentByRoute = function (slot0, slot1)
+		slot3 = 1
+		slot4 = nil
+
+		while slot3 <= #slot1 do
+			slot5 = slot1[slot3]
+			slot6 = nil
+
+			if (slot3 ~= 1 or slot0[slot5]) and slot4[slot5] then
+				slot4 = slot6
+				slot3 = slot3 + 1
+			else
+				return nil
+			end
+		end
+
+		return slot4
+	end,
+	GetPoolIndex = function (slot0)
+		slot2 = {}
+
+		for slot6, slot7 in ipairs(uv0.GetPools()) do
+			if slot2[uv1[DrawPoolCfg[slot7].pool_show_type]] == nil then
+				slot2[slot9] = 1
+			end
+
+			slot2[slot9] = slot2[slot9] + 1
+		end
+
+		slot4 = 1
+
+		for slot8 = 1, 8 do
+			if slot2[slot8] then
+				slot4 = slot4 + 1
+			end
+		end
+
+		return ({
+			[slot8] = slot4
+		})[uv1[DrawPoolCfg[slot0].pool_show_type]]
+	end,
+	GetPools = function ()
+		slot0 = {}
+
+		for slot5, slot6 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.DRAW] or {}) do
+			if ActivityData:GetActivityIsOpen(slot6) and ActivityDrawPoolCfg[slot6] then
+				for slot11, slot12 in ipairs(slot7.config_list) do
+					if DrawPoolCfg[slot12].pool_show_type == 8 then
 						if not DrawData:GetNewbieChooseDrawFlag() then
-							table.insert(var_12_0, iter_12_3)
+							table.insert(slot0, slot12)
 						end
 					else
-						table.insert(var_12_0, iter_12_3)
+						table.insert(slot0, slot12)
 					end
 				end
 			end
 		end
+
+		table.sort(slot0, function (slot0, slot1)
+			return DrawPoolCfg[slot0].order < DrawPoolCfg[slot1].order
+		end)
+
+		return slot0
 	end
-
-	table.sort(var_12_0, function(arg_13_0, arg_13_1)
-		return DrawPoolCfg[arg_13_0].order < DrawPoolCfg[arg_13_1].order
-	end)
-
-	return var_12_0
-end
-
-return var_0_0
+}

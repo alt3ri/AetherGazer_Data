@@ -1,141 +1,118 @@
 SectionExtraAttachBaseView = import("game.views.sectionSelect.chapter.extraAttach.SectionExtraAttachBaseView")
+slot0 = class("SectionSkuldExtraAttachView", SectionExtraAttachBaseView)
 
-local var_0_0 = class("SectionSkuldExtraAttachView", SectionExtraAttachBaseView)
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.parent_ = slot1
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot2), slot3.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.parent_ = arg_1_1
-	arg_1_0.gameObject_ = Object.Instantiate(Asset.Load(arg_1_2), arg_1_3.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:AddMoveFollowTimer()
-	SetActive(arg_2_0.gameObject_, true)
+function slot0.OnEnter(slot0)
+	slot0:AddMoveFollowTimer()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:StopMoveFollowTimer()
+function slot0.OnExit(slot0)
+	slot0:StopMoveFollowTimer()
 
-	arg_3_0.imageFlag_ = nil
+	slot0.imageFlag_ = nil
 
-	arg_3_0:RemoveTween()
-	SetActive(arg_3_0.gameObject_, false)
+	slot0:RemoveTween()
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	return
+function slot0.RefreshUI(slot0)
 end
 
-function var_0_0.CheckSkuldBtn(arg_6_0)
-	return
+function slot0.CheckSkuldBtn(slot0)
 end
 
-function var_0_0.AddMoveFollowTimer(arg_7_0)
-	local var_7_0 = arg_7_0.parent_.chapterID_
-	local var_7_1 = ChapterCfg[var_7_0].section_id_list[#ChapterCfg[var_7_0].section_id_list]
-	local var_7_2 = BattleChapterStageCfg[var_7_1].position[1] - arg_7_0.parent_.viewportRect_.rect.width / 2
-	local var_7_3 = ChapterCfg[var_7_0].max_width
+function slot0.AddMoveFollowTimer(slot0)
+	slot1 = slot0.parent_.chapterID_
+	slot0.imagePanelTf_.localPosition = Vector3(slot0.parent_.contentRect_.localPosition.x * (ChapterCfg[slot1].max_width == 0 and (slot0.parent_.bgTf_.rect.width - slot0.parent_.viewportRect_.rect.width) / 2 or slot4 - ChapterCfg[slot1].max_width / 2) / (BattleChapterStageCfg[ChapterCfg[slot1].section_id_list[#ChapterCfg[slot1].section_id_list]].position[1] - slot0.parent_.viewportRect_.rect.width / 2), 0, 0)
 
-	if var_7_3 == 0 then
-		var_7_3 = (arg_7_0.parent_.bgTf_.rect.width - arg_7_0.parent_.viewportRect_.rect.width) / 2
-	else
-		var_7_3 = var_7_3 - ChapterCfg[var_7_0].max_width / 2
-	end
+	slot0:StopMoveFollowTimer()
 
-	local var_7_4 = arg_7_0.parent_.contentRect_.localPosition.x * var_7_3 / var_7_2
+	slot0.moveFollowTimer_ = FrameTimer.New(function ()
+		uv0.imagePanelTf_.localPosition = Vector3(uv0.parent_.contentRect_.localPosition.x * uv1 / uv2, 0, 0)
 
-	arg_7_0.imagePanelTf_.localPosition = Vector3(var_7_4, 0, 0)
-
-	arg_7_0:StopMoveFollowTimer()
-
-	arg_7_0.moveFollowTimer_ = FrameTimer.New(function()
-		local var_8_0 = arg_7_0.parent_.contentRect_.localPosition.x * var_7_3 / var_7_2
-
-		arg_7_0.imagePanelTf_.localPosition = Vector3(var_8_0, 0, 0)
-
-		arg_7_0:CheckImage()
+		uv0:CheckImage()
 	end, 1, -1)
 
-	arg_7_0.moveFollowTimer_:Start()
+	slot0.moveFollowTimer_:Start()
 end
 
-function var_0_0.StopMoveFollowTimer(arg_9_0)
-	if arg_9_0.moveFollowTimer_ then
-		arg_9_0.moveFollowTimer_:Stop()
+function slot0.StopMoveFollowTimer(slot0)
+	if slot0.moveFollowTimer_ then
+		slot0.moveFollowTimer_:Stop()
 
-		arg_9_0.moveFollowTimer_ = nil
+		slot0.moveFollowTimer_ = nil
 	end
 end
 
-function var_0_0.CheckImage(arg_10_0)
-	local var_10_0 = arg_10_0.parent_.chapterID_
-	local var_10_1 = ChapterCfg[var_10_0].switch_bg_index
-
-	if var_10_1 == 0 then
+function slot0.CheckImage(slot0)
+	if ChapterCfg[slot0.parent_.chapterID_].switch_bg_index == 0 then
 		return
 	end
 
-	local var_10_2 = ChapterCfg[var_10_0].section_id_list[var_10_1]
-	local var_10_3 = ChapterCfg[var_10_0].section_id_list[var_10_1 - 1]
-	local var_10_4 = ChapterCfg[var_10_0].section_id_list[var_10_1 + 1]
-	local var_10_5 = arg_10_0.parent_.viewportRect_.rect.width / 2
+	slot3 = ChapterCfg[slot1].section_id_list[slot2]
+	slot5 = ChapterCfg[slot1].section_id_list[slot2 + 1]
 
-	if arg_10_0.parent_.contentRect_.localPosition.x * -1 < BattleChapterStageCfg[var_10_3].position[1] - var_10_5 and arg_10_0.imageFlag_ ~= 1 then
-		arg_10_0.imageFlag_ = 1
+	if slot0.parent_.contentRect_.localPosition.x * -1 < BattleChapterStageCfg[ChapterCfg[slot1].section_id_list[slot2 - 1]].position[1] - slot0.parent_.viewportRect_.rect.width / 2 and slot0.imageFlag_ ~= 1 then
+		slot0.imageFlag_ = 1
 
-		arg_10_0:SwitchMiddleGB(1)
-	elseif arg_10_0.parent_.contentRect_.localPosition.x * -1 > BattleChapterStageCfg[var_10_4].position[1] - var_10_5 and arg_10_0.imageFlag_ ~= 2 then
-		arg_10_0.imageFlag_ = 2
+		slot0:SwitchMiddleGB(1)
+	elseif slot0.parent_.contentRect_.localPosition.x * -1 > BattleChapterStageCfg[slot5].position[1] - slot6 and slot0.imageFlag_ ~= 2 then
+		slot0.imageFlag_ = 2
 
-		arg_10_0:SwitchMiddleGB(2)
+		slot0:SwitchMiddleGB(2)
 	end
 end
 
-function var_0_0.SwitchMiddleGB(arg_11_0, arg_11_1)
-	if arg_11_0.imageFlag_ == nil then
-		arg_11_0.bgCanvas1_.alpha = arg_11_1 ~= 1 and 1 or 0
-		arg_11_0.bgCanvas2_.alpha = arg_11_1 == 1 and 1 or 0
+function slot0.SwitchMiddleGB(slot0, slot1)
+	if slot0.imageFlag_ == nil then
+		slot0.bgCanvas1_.alpha = slot1 ~= 1 and 1 or 0
+		slot0.bgCanvas2_.alpha = slot1 == 1 and 1 or 0
 
 		return
 	end
 
-	arg_11_0:RemoveTween()
+	slot0:RemoveTween()
 
-	if arg_11_1 == 1 then
-		arg_11_0.tween_ = LeanTween.value(arg_11_0.gameObject_, 1, 0, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_12_0)
-			arg_11_0.bgCanvas2_.alpha = arg_12_0
-			arg_11_0.bgCanvas1_.alpha = 1 - arg_12_0
-		end)):setOnComplete(System.Action(function()
-			arg_11_0.bgCanvas2_.alpha = 0
+	if slot1 == 1 then
+		slot0.tween_ = LeanTween.value(slot0.gameObject_, 1, 0, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.bgCanvas2_.alpha = slot0
+			uv0.bgCanvas1_.alpha = 1 - slot0
+		end)):setOnComplete(System.Action(function ()
+			uv0.bgCanvas2_.alpha = 0
 
-			arg_11_0:RemoveTween()
+			uv0:RemoveTween()
 		end)):setEase(LeanTweenType.easeOutSine)
 	else
-		arg_11_0.tween_ = LeanTween.value(arg_11_0.gameObject_, 1, 0, 0.5):setOnUpdate(LuaHelper.FloatAction(function(arg_14_0)
-			arg_11_0.bgCanvas1_.alpha = arg_14_0
-			arg_11_0.bgCanvas2_.alpha = 1 - arg_14_0
-		end)):setOnComplete(System.Action(function()
-			arg_11_0.bgCanvas1_.alpha = 0
+		slot0.tween_ = LeanTween.value(slot0.gameObject_, 1, 0, 0.5):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.bgCanvas1_.alpha = slot0
+			uv0.bgCanvas2_.alpha = 1 - slot0
+		end)):setOnComplete(System.Action(function ()
+			uv0.bgCanvas1_.alpha = 0
 
-			arg_11_0:RemoveTween()
+			uv0:RemoveTween()
 		end)):setEase(LeanTweenType.easeOutSine)
 	end
 end
 
-function var_0_0.RemoveTween(arg_16_0)
-	if arg_16_0.tween_ then
-		arg_16_0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_16_0.tween_.id)
+function slot0.RemoveTween(slot0)
+	if slot0.tween_ then
+		slot0.tween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.tween_.id)
 
-		arg_16_0.tween_ = nil
+		slot0.tween_ = nil
 	end
 end
 
-return var_0_0
+return slot0

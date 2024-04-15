@@ -1,459 +1,440 @@
-local var_0_0 = class("NewBattleSettlementView", ReduxView)
+slot0 = class("NewBattleSettlementView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/BattleResult/Common/BattleResultWinUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.hasSnapshot_ = GetBattleResultSnapShot()
+function slot0.Init(slot0)
+	slot0.hasSnapshot_ = GetBattleResultSnapShot()
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 
-	arg_3_0.btnController = arg_3_0.btnController_:GetController("btn")
-	arg_3_0.adaptComp = arg_3_0:FindCom("AdaptImage", nil, arg_3_0.commonMaskBg_.transform)
+	slot0.btnController = slot0.btnController_:GetController("btn")
+	slot0.adaptComp = slot0:FindCom("AdaptImage", nil, slot0.commonMaskBg_.transform)
 
-	arg_3_0:AddListener()
+	slot0:AddListener()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.stageData = arg_4_0.params_.stageData
-	arg_4_0.stageId = arg_4_0.stageData:GetStageId()
-	arg_4_0.stageType = arg_4_0.stageData:GetType()
-	arg_4_0.isMultiple = arg_4_0.params_.multiple ~= nil
+function slot0.OnEnter(slot0)
+	slot0.stageData = slot0.params_.stageData
+	slot0.stageId = slot0.stageData:GetStageId()
+	slot0.stageType = slot0.stageData:GetType()
+	slot0.isMultiple = slot0.params_.multiple ~= nil
 
 	BattleInstance.hideBattlePanel()
-	arg_4_0:RenderMaskBg()
-	arg_4_0:CaculateReward()
-	arg_4_0:RenderView()
-	arg_4_0:PostRenderView()
+	slot0:RenderMaskBg()
+	slot0:CaculateReward()
+	slot0:RenderView()
+	slot0:PostRenderView()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0:RemoveExpTween()
+function slot0.Dispose(slot0)
+	slot0:RemoveExpTween()
 
-	for iter_6_0 = 1, 3 do
-		arg_6_0.heroModule[iter_6_0]:Dispose()
+	for slot4 = 1, 3 do
+		slot0.heroModule[slot4]:Dispose()
 	end
 
-	if arg_6_0.missionView then
-		arg_6_0.missionView:Dispose()
+	if slot0.missionView then
+		slot0.missionView:Dispose()
 	end
 
-	arg_6_0.spriteRef = nil
+	slot0.spriteRef = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_7_0)
-	arg_7_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_7_0.heroModule = {
-		BattleSettlementHeroHeadModule.New(arg_7_0.heroHead1Obj_),
-		BattleSettlementHeroHeadModule.New(arg_7_0.heroHead2Obj_),
-		(BattleSettlementHeroHeadModule.New(arg_7_0.heroHead3Obj_))
+	slot0.heroModule = {
+		BattleSettlementHeroHeadModule.New(slot0.heroHead1Obj_),
+		BattleSettlementHeroHeadModule.New(slot0.heroHead2Obj_),
+		BattleSettlementHeroHeadModule.New(slot0.heroHead3Obj_)
 	}
 end
 
-function var_0_0.AddListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.confirmBtn_, nil, function()
-		arg_8_0:CloseFunc()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.confirmBtn_, nil, function ()
+		uv0:CloseFunc()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.statisticsBtn_, nil, function()
-		arg_8_0:GoToBattleStatistics()
+	slot0:AddBtnListener(slot0.statisticsBtn_, nil, function ()
+		uv0:GoToBattleStatistics()
 	end)
-	arg_8_0:OnAddListner()
+	slot0:OnAddListner()
 end
 
-function var_0_0.OnAddListner(arg_11_0)
-	arg_11_0:AddBtnListener(arg_11_0.nextStageBtn_, nil, function()
-		arg_11_0:OnceMoreFunc()
+function slot0.OnAddListner(slot0)
+	slot0:AddBtnListener(slot0.nextStageBtn_, nil, function ()
+		uv0:OnceMoreFunc()
 	end)
 end
 
-function var_0_0.RenderView(arg_13_0)
-	arg_13_0:RenderTitleView()
-	arg_13_0:RefreshMyExpS()
-	arg_13_0:RefreshHeroS()
-	arg_13_0:RenderCommonUI()
-	arg_13_0:RefreshBattleTime()
-	arg_13_0:RefreshBottomBtn()
-	arg_13_0:ShowContent()
+function slot0.RenderView(slot0)
+	slot0:RenderTitleView()
+	slot0:RefreshMyExpS()
+	slot0:RefreshHeroS()
+	slot0:RenderCommonUI()
+	slot0:RefreshBattleTime()
+	slot0:RefreshBottomBtn()
+	slot0:ShowContent()
 end
 
-function var_0_0.RenderTitleView(arg_14_0)
-	local var_14_0, var_14_1 = BattleStageTools.GetChapterSectionIndex(arg_14_0.stageType, arg_14_0.stageId)
-	local var_14_2 = GetI18NText(BattleStageTools.GetStageName(arg_14_0.stageType, arg_14_0.stageId)) or ""
-	local var_14_3 = ""
+function slot0.RenderTitleView(slot0)
+	slot1, slot2 = BattleStageTools.GetChapterSectionIndex(slot0.stageType, slot0.stageId)
+	slot3 = GetI18NText(BattleStageTools.GetStageName(slot0.stageType, slot0.stageId)) or ""
+	slot4 = ""
 
-	if var_14_0 ~= "" then
-		var_14_3 = string.format("%s-%s ", GetI18NText(var_14_0), GetI18NText(var_14_1)) .. var_14_2
+	if (slot1 ~= "" and string.format("%s-%s ", GetI18NText(slot1), GetI18NText(slot2)) .. slot3 or "" .. slot3) and slot4 ~= "" then
+		SetActive(slot0.titleObj_, true)
+
+		slot0.titleTxt_.text = slot4
 	else
-		var_14_3 = "" .. var_14_2
-	end
-
-	if var_14_3 and var_14_3 ~= "" then
-		SetActive(arg_14_0.titleObj_, true)
-
-		arg_14_0.titleTxt_.text = var_14_3
-	else
-		SetActive(arg_14_0.titleObj_, false)
+		SetActive(slot0.titleObj_, false)
 	end
 end
 
-function var_0_0.RenderCommonUI(arg_15_0)
-	local var_15_0 = true
-	local var_15_1 = BattleStageTools.GetStageCfg(arg_15_0.stageType, arg_15_0.stageId).tag ~= BattleConst.BATTLE_TAG.STORY
+function slot0.RenderCommonUI(slot0)
+	slot1 = true
 
-	SetActive(arg_15_0.statisticsBtn_.gameObject, var_15_1)
+	SetActive(slot0.statisticsBtn_.gameObject, BattleStageTools.GetStageCfg(slot0.stageType, slot0.stageId).tag ~= BattleConst.BATTLE_TAG.STORY)
 end
 
-function var_0_0.RefreshBattleTime(arg_16_0)
-	local var_16_0 = BattleStageTools.GetStageCfg(arg_16_0.stageType, arg_16_0.stageId)
+function slot0.RefreshBattleTime(slot0)
+	SetActive(slot0.battleTimeText_.gameObject, BattleStageTools.GetStageCfg(slot0.stageType, slot0.stageId).tag ~= BattleConst.BATTLE_TAG.STORY)
 
-	SetActive(arg_16_0.battleTimeText_.gameObject, var_16_0.tag ~= BattleConst.BATTLE_TAG.STORY)
-
-	if var_16_0.tag == BattleConst.BATTLE_TAG.STORY then
+	if slot1.tag == BattleConst.BATTLE_TAG.STORY then
 		return
 	end
 
-	arg_16_0.battleTimeText_.text = table.concat({
+	slot0.battleTimeText_.text = table.concat({
 		GetTips("BATTLE_TOTAL_TIME"),
 		": ",
-		arg_16_0:GetBattleTime() or "00"
+		slot0:GetBattleTime() or "00"
 	})
 end
 
-function var_0_0.RefreshHeroS(arg_17_0)
-	local var_17_0, var_17_1 = arg_17_0.stageData:GetHeroTeam()
-	local var_17_2 = arg_17_0.stageData:GetSystemHeroTeam()
+function slot0.RefreshHeroS(slot0)
+	slot1, slot2 = slot0.stageData:GetHeroTeam()
+	slot3 = slot0.stageData:GetSystemHeroTeam()
 
-	if var_17_0[2] == 0 then
-		table.remove(var_17_0, 2)
-		table.remove(var_17_1, 2)
-		table.insert(var_17_0, 0)
-		table.insert(var_17_1, 0)
+	if slot1[2] == 0 then
+		table.remove(slot1, 2)
+		table.remove(slot2, 2)
+		table.insert(slot1, 0)
+		table.insert(slot2, 0)
 	end
 
-	local var_17_3 = arg_17_0.params_.battleResult.heroDataCollect
+	slot4 = slot0.params_.battleResult.heroDataCollect
 
-	for iter_17_0 = 1, 3 do
-		if not var_17_0[iter_17_0] or var_17_0[iter_17_0] == 0 then
-			arg_17_0.heroModule[iter_17_0]:SetHeroData(nil)
-			arg_17_0.heroModule[iter_17_0]:ShowCaptain(false)
+	for slot8 = 1, 3 do
+		if not slot1[slot8] or slot1[slot8] == 0 then
+			slot0.heroModule[slot8]:SetHeroData(nil)
+			slot0.heroModule[slot8]:ShowCaptain(false)
 		else
-			arg_17_0.heroModule[iter_17_0]:ShowCaptain(iter_17_0 == 1)
+			slot0.heroModule[slot8]:ShowCaptain(slot8 == 1)
 
-			local var_17_4 = arg_17_0.stageData:GetHeroDataByPos(iter_17_0)
+			slot9 = slot0.stageData:GetHeroDataByPos(slot8)
 
-			arg_17_0.heroModule[iter_17_0]:SetHeroData({
-				id = var_17_4.id,
-				using_skin = var_17_4.using_skin,
-				star = var_17_4.star or 0
+			slot0.heroModule[slot8]:SetHeroData({
+				id = slot9.id,
+				using_skin = slot9.using_skin,
+				star = slot9.star or 0
 			})
 
-			if var_17_3[iter_17_0] and arg_17_0:NeedAddExp() then
-				arg_17_0.heroModule[iter_17_0]:PlayLevelUpTween(var_17_3[iter_17_0].oldLv, var_17_3[iter_17_0].newLv, var_17_3[iter_17_0].oldPersent, var_17_3[iter_17_0].newPersent, 2)
+			if slot4[slot8] and slot0:NeedAddExp() then
+				slot0.heroModule[slot8]:PlayLevelUpTween(slot4[slot8].oldLv, slot4[slot8].newLv, slot4[slot8].oldPersent, slot4[slot8].newPersent, 2)
 			else
-				arg_17_0.heroModule[iter_17_0]:ShowLevel(var_17_4.level, 1)
+				slot0.heroModule[slot8]:ShowLevel(slot9.level, 1)
 			end
 		end
 	end
 end
 
-function var_0_0.RefreshMyExpS(arg_18_0)
-	local var_18_0 = arg_18_0.stageData:GetAddUserExp() * arg_18_0.stageData:GetMultiple()
-	local var_18_1 = arg_18_0.stageData:GetActivityID()
-	local var_18_2 = arg_18_0.params_.battleResult.oldPlayerEXPInfo
-	local var_18_3 = var_18_2.userLevel
-	local var_18_4 = var_18_2.remain_exp
-	local var_18_5 = ActivityData:GetActivityData(var_18_1)
+function slot0.RefreshMyExpS(slot0)
+	slot1 = slot0.stageData:GetAddUserExp() * slot0.stageData:GetMultiple()
+	slot2 = slot0.stageData:GetActivityID()
+	slot3 = slot0.params_.battleResult.oldPlayerEXPInfo
+	slot4 = slot3.userLevel
+	slot5 = slot3.remain_exp
+	slot6 = ActivityData:GetActivityData(slot2)
 
-	if var_18_1 ~= 0 and (not var_18_5 or not var_18_5:IsActivitying()) or not arg_18_0:NeedAddExp() then
-		var_18_0 = 0
+	if slot2 ~= 0 and (not slot6 or not slot6:IsActivitying()) or not slot0:NeedAddExp() then
+		slot1 = 0
 	end
 
-	local var_18_6 = LvTools.GetMaxTotalExp("user_level_exp")
-	local var_18_7 = math.min(var_18_0, var_18_6 - var_18_2.total_exp)
-
-	if var_18_7 < 0 then
-		var_18_7 = 0
+	if math.min(slot1, LvTools.GetMaxTotalExp("user_level_exp") - slot3.total_exp) < 0 then
+		slot8 = 0
 	end
 
-	local var_18_8, var_18_9 = LvTools.CheckExp(var_18_3, var_18_4 + var_18_7, "user_level_exp")
+	slot9, slot10 = LvTools.CheckExp(slot4, slot5 + slot8, "user_level_exp")
 
-	if var_18_3 > 30 and var_18_8 - var_18_3 > 1 then
-		error(string.format("经验计算有问题，玩家原来经验%s，添加了%s经验，lv: %s->%s", tostring(var_18_4), tostring(var_18_7), tostring(var_18_3), tostring(var_18_8)))
+	if slot4 > 30 and slot9 - slot4 > 1 then
+		error(string.format("经验计算有问题，玩家原来经验%s，添加了%s经验，lv: %s->%s", tostring(slot5), tostring(slot8), tostring(slot4), tostring(slot9)))
 	end
 
-	arg_18_0.expTxt_.text = string.format("EXP+%d", var_18_7)
+	slot0.expTxt_.text = string.format("EXP+%d", slot8)
 
-	if LvTools.GetIsMaxLv(var_18_8, "user") then
-		arg_18_0.lvNumTxt_.text = "--/--"
+	if LvTools.GetIsMaxLv(slot9, "user") then
+		slot0.lvNumTxt_.text = "--/--"
 	else
-		arg_18_0.lvNumTxt_.text = table.concat({
-			var_18_9,
+		slot0.lvNumTxt_.text = table.concat({
+			slot10,
 			"/",
-			GameLevelSetting[var_18_8].user_level_exp
+			GameLevelSetting[slot9].user_level_exp
 		})
 	end
 
-	local var_18_10 = math.floor(var_18_4 / GameLevelSetting[var_18_3].user_level_exp * 1000) / 1000
-	local var_18_11 = math.floor(var_18_9 / GameLevelSetting[var_18_8].user_level_exp * 1000) / 1000
+	slot12 = math.floor(slot10 / GameLevelSetting[slot9].user_level_exp * 1000) / 1000
 
-	var_18_10 = var_18_10 > 0.99 and 0.99 or var_18_10
-	var_18_11 = var_18_11 > 0.99 and 0.99 or var_18_11
+	if math.floor(slot5 / GameLevelSetting[slot4].user_level_exp * 1000) / 1000 > 0.99 then
+		slot11 = 0.99
+	end
 
-	if var_18_0 > 0 then
+	if slot12 > 0.99 then
+		slot12 = 0.99
+	end
+
+	if slot1 > 0 then
 		manager.audio:PlayEffect("ui_system", "exp_add", "")
 	end
 
-	if var_18_3 == var_18_8 and math.abs(var_18_10 - var_18_11) < 0.0001 then
-		SetActive(arg_18_0.maskBtn_.gameObject, false)
-		arg_18_0:SetExpWithoutTween(var_18_8, var_18_11)
+	if slot4 == slot9 and math.abs(slot11 - slot12) < 0.0001 then
+		SetActive(slot0.maskBtn_.gameObject, false)
+		slot0:SetExpWithoutTween(slot9, slot12)
 	else
-		arg_18_0:StartExpTween(var_18_3, var_18_8, var_18_10, var_18_11)
+		slot0:StartExpTween(slot4, slot9, slot11, slot12)
 	end
 end
 
-function var_0_0.RenderUserData(arg_19_0, arg_19_1)
-	local var_19_0, var_19_1 = math.modf(arg_19_1)
-	local var_19_2 = GameLevelSetting[var_19_0].user_level_exp
+function slot0.RenderUserData(slot0, slot1)
+	slot2, slot3 = math.modf(slot1)
+	slot4 = GameLevelSetting[slot2].user_level_exp
+	slot0.levelTxt_.text = string.format("%d", slot2)
 
-	arg_19_0.levelTxt_.text = string.format("%d", var_19_0)
-
-	if LvTools.GetIsMaxLv(var_19_0, "user") then
-		arg_19_0.expSlider_.value = 1
+	if LvTools.GetIsMaxLv(slot2, "user") then
+		slot0.expSlider_.value = 1
 	else
-		arg_19_0.expSlider_.value = var_19_1
+		slot0.expSlider_.value = slot3
 	end
 end
 
-function var_0_0.RefreshBottomBtn(arg_20_0)
-	local var_20_0, var_20_1 = arg_20_0:NeedOnceMore()
+function slot0.RefreshBottomBtn(slot0)
+	slot1, slot2 = slot0:NeedOnceMore()
 
-	if var_20_1 then
-		arg_20_0.confirmBtnTxt_.text = GetI18NText(var_20_1)
+	if slot2 then
+		slot0.confirmBtnTxt_.text = GetI18NText(slot2)
 	else
-		arg_20_0.confirmBtnTxt_.text = GetTips("CHALLENGE_ONCE_MORE")
+		slot0.confirmBtnTxt_.text = GetTips("CHALLENGE_ONCE_MORE")
 	end
 
-	SetActive(arg_20_0.nextStageBtn_.gameObject, var_20_0)
+	SetActive(slot0.nextStageBtn_.gameObject, slot1)
 
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == arg_20_0.params_.stageData:GetType() then
-		SetActive(arg_20_0.costImage_.gameObject, false)
+	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == slot0.params_.stageData:GetType() then
+		SetActive(slot0.costImage_.gameObject, false)
 	end
 end
 
-function var_0_0.RenderMaskBg(arg_21_0)
-	if not arg_21_0.hasSnapshot_ then
-		arg_21_0.commonMaskBg_.sprite = getSpriteWithoutAtlas("TextureBg/BattleResult/battleResult_bg_common")
+function slot0.RenderMaskBg(slot0)
+	if not slot0.hasSnapshot_ then
+		slot0.commonMaskBg_.sprite = getSpriteWithoutAtlas("TextureBg/BattleResult/battleResult_bg_common")
 
-		arg_21_0.adaptComp:AdaptImg()
-		SetActive(arg_21_0.commonMaskBg_.gameObject, true)
-		SetActive(arg_21_0.maskBg_.gameObject, false)
+		slot0.adaptComp:AdaptImg()
+		SetActive(slot0.commonMaskBg_.gameObject, true)
+		SetActive(slot0.maskBg_.gameObject, false)
 	else
-		SetActive(arg_21_0.commonMaskBg_.gameObject, false)
-		SetActive(arg_21_0.maskBg_.gameObject, true)
+		SetActive(slot0.commonMaskBg_.gameObject, false)
+		SetActive(slot0.maskBg_.gameObject, true)
 	end
 end
 
-function var_0_0.RemoveExpTween(arg_22_0)
-	if arg_22_0.expTween_ then
-		arg_22_0.expTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_22_0.gameObject_)
+function slot0.RemoveExpTween(slot0)
+	if slot0.expTween_ then
+		slot0.expTween_:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.gameObject_)
 
-		arg_22_0.expTween_ = nil
+		slot0.expTween_ = nil
 	end
 end
 
-function var_0_0.StartExpTween(arg_23_0, arg_23_1, arg_23_2, arg_23_3, arg_23_4)
-	arg_23_0:RemoveExpTween()
-	SetActive(arg_23_0.maskBtn_.gameObject, true)
+function slot0.StartExpTween(slot0, slot1, slot2, slot3, slot4)
+	slot0:RemoveExpTween()
+	SetActive(slot0.maskBtn_.gameObject, true)
 
-	local var_23_0 = -1
+	slot5 = -1
+	slot0.tween_ = LeanTween.value(slot0.expSlider_.gameObject, slot1 + slot3, slot2 + slot4, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		slot1 = math.modf(slot0)
 
-	arg_23_0.tween_ = LeanTween.value(arg_23_0.expSlider_.gameObject, arg_23_1 + arg_23_3, arg_23_2 + arg_23_4, 2):setEase(LeanTweenType.easeOutCubic):setOnUpdate(LuaHelper.FloatAction(function(arg_24_0)
-		local var_24_0 = math.modf(arg_24_0)
-
-		if var_23_0 == -1 then
-			var_23_0 = var_24_0
+		if uv0 == -1 then
+			uv0 = slot1
 		end
 
-		if var_24_0 ~= var_23_0 then
+		if slot1 ~= uv0 then
 			manager.audio:PlayEffect("ui_system", "exp_levelup", "")
 
-			var_23_0 = var_24_0
+			uv0 = slot1
 		end
 
-		arg_23_0:RenderUserData(arg_24_0)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		arg_23_0:CheckLevelUp()
-		SetActive(arg_23_0.maskBtn_.gameObject, false)
-		arg_23_0:RemoveExpTween()
+		uv1:RenderUserData(slot0)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		uv0:CheckLevelUp()
+		SetActive(uv0.maskBtn_.gameObject, false)
+		uv0:RemoveExpTween()
 	end))
 end
 
-function var_0_0.SetExpWithoutTween(arg_26_0, arg_26_1, arg_26_2)
-	arg_26_0:RenderUserData(arg_26_1 + arg_26_2)
+function slot0.SetExpWithoutTween(slot0, slot1, slot2)
+	slot0:RenderUserData(slot1 + slot2)
 end
 
-function var_0_0.ShowContent(arg_27_0)
-	arg_27_0:onRenderMissionContent()
+function slot0.ShowContent(slot0)
+	slot0:onRenderMissionContent()
 end
 
-function var_0_0.onRenderMissionContent(arg_28_0)
-	if not arg_28_0.missionView then
-		arg_28_0.missionView = BattleSettlementMissionModule.New(arg_28_0.contentContainer_)
+function slot0.onRenderMissionContent(slot0)
+	if not slot0.missionView then
+		slot0.missionView = BattleSettlementMissionModule.New(slot0.contentContainer_)
 	end
 
-	local var_28_0 = arg_28_0.params_.starMissionData
-	local var_28_1 = {}
+	slot2 = {}
 
-	arg_28_0.missionView:RenderView(arg_28_0.stageType, arg_28_0.stageId, var_28_0)
-	arg_28_0.missionView:RenderRewards(arg_28_0.params_.rewardList)
+	slot0.missionView:RenderView(slot0.stageType, slot0.stageId, slot0.params_.starMissionData)
+	slot0.missionView:RenderRewards(slot0.params_.rewardList)
 end
 
-function var_0_0.GetPlayerInfo(arg_29_0)
+function slot0.GetPlayerInfo(slot0)
 	return PlayerData:GetPlayerInfo()
 end
 
-function var_0_0.GetBattleTime(arg_30_0)
-	local var_30_0 = LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime
-
-	return manager.time:DescCdTime2(var_30_0)
+function slot0.GetBattleTime(slot0)
+	return manager.time:DescCdTime2(LuaExchangeHelper.GetBattleStatisticsData().dataForLua.battleTime)
 end
 
-function var_0_0.CheckLevelUp(arg_31_0)
-	local var_31_0 = arg_31_0:GetLevelUpInfoList()
-
-	if #var_31_0 > 0 then
+function slot0.CheckLevelUp(slot0)
+	if #slot0:GetLevelUpInfoList() > 0 then
 		PlayerAction.LevelUpFinish()
-		arg_31_0:Go("levelUp", {
-			levelUpInfoList = var_31_0
+		slot0:Go("levelUp", {
+			levelUpInfoList = slot1
 		})
 	end
 end
 
-function var_0_0.GetLevelUpInfoList(arg_32_0)
+function slot0.GetLevelUpInfoList(slot0)
 	return PlayerData:GetlevelUpInfos()
 end
 
-function var_0_0.NeedAddExp(arg_33_0)
+function slot0.NeedAddExp(slot0)
 	return true
 end
 
-function var_0_0.GetRewardData(arg_34_0)
-	local var_34_0 = {}
+function slot0.GetRewardData(slot0)
+	slot1 = {}
 
-	for iter_34_0, iter_34_1 in ipairs(arg_34_0.params_.rewardList) do
-		table.insert(var_34_0, iter_34_1)
+	for slot5, slot6 in ipairs(slot0.params_.rewardList) do
+		table.insert(slot1, slot6)
 	end
 
-	return var_34_0
+	return slot1
 end
 
-function var_0_0.CheckIsMultipleReward(arg_35_0)
-	if not arg_35_0.params_.rewardList then
+function slot0.CheckIsMultipleReward(slot0)
+	if not slot0.params_.rewardList then
 		return false
 	end
 
-	if #arg_35_0.params_.rewardList == 0 then
+	if #slot0.params_.rewardList == 0 then
 		return false
 	end
 
-	if arg_35_0.params_.rewardList[1] and arg_35_0.params_.rewardList[1].id then
+	if slot0.params_.rewardList[1] and slot0.params_.rewardList[1].id then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.CaculateReward(arg_36_0)
-	if arg_36_0.isMultiple or arg_36_0:CheckIsMultipleReward() then
+function slot0.CaculateReward(slot0)
+	if slot0.isMultiple or slot0:CheckIsMultipleReward() then
 		return
 	end
 
-	arg_36_0.rewardHeroExp_ = 0
+	slot0.rewardHeroExp_ = 0
+	slot1 = 0
 
-	local var_36_0 = 0
-
-	if arg_36_0.params_.rewardList then
-		for iter_36_0, iter_36_1 in ipairs(arg_36_0.params_.rewardList) do
-			if ItemCfg[iter_36_1[1]].type == ItemConst.ITEM_TYPE.CURRENCY and iter_36_1[1] == CurrencyConst.CURRENCY_TYPE_HERO_EXP then
-				var_36_0 = iter_36_0
+	if slot0.params_.rewardList then
+		for slot5, slot6 in ipairs(slot0.params_.rewardList) do
+			if ItemCfg[slot6[1]].type == ItemConst.ITEM_TYPE.CURRENCY and slot6[1] == CurrencyConst.CURRENCY_TYPE_HERO_EXP then
+				slot1 = slot5
 			end
 		end
 	end
 
-	if var_36_0 ~= 0 then
-		arg_36_0.rewardHeroExp_ = arg_36_0.params_.rewardList[var_36_0][2]
+	if slot1 ~= 0 then
+		slot0.rewardHeroExp_ = slot0.params_.rewardList[slot1][2]
 
-		table.remove(arg_36_0.params_.rewardList, var_36_0)
+		table.remove(slot0.params_.rewardList, slot1)
 	end
 end
 
-function var_0_0.OnTop(arg_37_0)
-	SetActive(arg_37_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 
-	arg_37_0.toStat_ = false
+	slot0.toStat_ = false
 end
 
-function var_0_0.OnBehind(arg_38_0)
-	if arg_38_0.toStat_ then
-		SetActive(arg_38_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	if slot0.toStat_ then
+		SetActive(slot0.gameObject_, false)
 	end
 end
 
-function var_0_0.GoToBattleStatistics(arg_39_0)
-	arg_39_0.toStat_ = true
+function slot0.GoToBattleStatistics(slot0)
+	slot0.toStat_ = true
 
 	JumpTools.OpenPageByJump("battleStatistics", {
-		stageData = arg_39_0.params_.stageData,
-		battleTime = arg_39_0:GetBattleTime(),
-		hasSnapshot_ = arg_39_0.hasSnapshot_
+		stageData = slot0.params_.stageData,
+		battleTime = slot0:GetBattleTime(),
+		hasSnapshot_ = slot0.hasSnapshot_
 	})
 end
 
-function var_0_0.ShowVitalityBox(arg_40_0, arg_40_1)
+function slot0.ShowVitalityBox(slot0, slot1)
 	if needShowVitalityFullBox() then
-		showVitalitySendMail(arg_40_1)
+		showVitalitySendMail(slot1)
 	else
-		arg_40_1()
+		slot1()
 	end
 end
 
-function var_0_0.ShowEquipBox(arg_41_0, arg_41_1)
+function slot0.ShowEquipBox(slot0, slot1)
 	if needShowBagFullBox() then
-		showEquipSendMail(arg_41_1)
+		showEquipSendMail(slot1)
 	else
-		arg_41_1()
+		slot1()
 	end
 end
 
-function var_0_0.CloseFunc(arg_42_0)
-	OperationRecorder.Record(arg_42_0.class.__cname, "closeCombat")
-	arg_42_0:ShowVitalityBox(function()
-		arg_42_0:ShowEquipBox(function()
-			BattleInstance.QuitBattle(arg_42_0.params_.stageData)
+function slot0.CloseFunc(slot0)
+	OperationRecorder.Record(slot0.class.__cname, "closeCombat")
+	slot0:ShowVitalityBox(function ()
+		uv0:ShowEquipBox(function ()
+			BattleInstance.QuitBattle(uv0.params_.stageData)
 		end)
 	end)
 end
 
-function var_0_0.NeedOnceMore(arg_45_0)
-	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == arg_45_0.params_.stageData:GetType() then
-		local var_45_0 = arg_45_0.params_.stageData:GetStageId()
-		local var_45_1 = getChapterIDByStageID(var_45_0)
-		local var_45_2 = ChapterCfg[var_45_1].section_id_list
+function slot0.NeedOnceMore(slot0)
+	if BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_TOWER == slot0.params_.stageData:GetType() then
+		slot1 = slot0.params_.stageData:GetStageId()
 
-		if var_45_2[(table.indexof(var_45_2, var_45_0) or 0) + 1] ~= nil then
+		if slot3[(table.indexof(ChapterCfg[getChapterIDByStageID(slot1)].section_id_list, slot1) or 0) + 1] ~= nil then
 			return true, GetTips("CHALLENGE_NEXT_LEVEL")
 		end
 	end
@@ -461,54 +442,48 @@ function var_0_0.NeedOnceMore(arg_45_0)
 	return false
 end
 
-function var_0_0.PostRenderView(arg_46_0)
-	if arg_46_0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
+function slot0.PostRenderView(slot0)
+	if slot0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			isTop = true,
 			content = GetTips("ACTIVITY_LOCK_SETTLEMENT_TIP"),
-			OkCallback = function()
-				arg_46_0:CloseFunc()
+			OkCallback = function ()
+				uv0:CloseFunc()
 			end
 		})
 	end
 end
 
-function var_0_0.OnceMoreFunc(arg_48_0)
-	local var_48_0 = arg_48_0.params_.destID
-	local var_48_1 = arg_48_0.params_.stageID
-	local var_48_2 = arg_48_0.stageData:GetCost()
-	local var_48_3 = arg_48_0.stageData:GetMultiple()
-	local var_48_4 = CurrencyData:GetCurrencyNum(CurrencyConst.CURRENCY_TYPE_VITALITY)
-	local var_48_5 = CurrencyConst.CURRENCY_TYPE_VITALITY
+function slot0.OnceMoreFunc(slot0)
+	slot1 = slot0.params_.destID
+	slot2 = slot0.params_.stageID
+	slot3 = slot0.stageData:GetCost()
+	slot4 = slot0.stageData:GetMultiple()
+	slot5 = CurrencyData:GetCurrencyNum(CurrencyConst.CURRENCY_TYPE_VITALITY)
+	slot6 = CurrencyConst.CURRENCY_TYPE_VITALITY
 
-	if arg_48_0.stageType == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE then
-		local var_48_6 = arg_48_0.stageData:GetDest()
-		local var_48_7 = ActivityPt2Cfg[var_48_6]
-
-		var_48_2 = var_48_7.cost[1][2]
-		var_48_5 = var_48_7.cost[1][1]
-		var_48_4 = ItemTools.getItemNum(var_48_5)
-	elseif arg_48_0.stageType == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL then
-		local var_48_8 = arg_48_0.stageData:GetDest()
-		local var_48_9 = ActivityPtRouletteStageCfg[var_48_8]
-
-		var_48_2 = var_48_9.cost[2]
-		var_48_5 = var_48_9.cost[1]
-		var_48_4 = ItemTools.getItemNum(var_48_5)
+	if slot0.stageType == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT2_GAME_CHALLENGE then
+		slot8 = ActivityPt2Cfg[slot0.stageData:GetDest()]
+		slot3 = slot8.cost[1][2]
+		slot5 = ItemTools.getItemNum(slot8.cost[1][1])
+	elseif slot0.stageType == BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_SCROLL then
+		slot8 = ActivityPtRouletteStageCfg[slot0.stageData:GetDest()]
+		slot3 = slot8.cost[2]
+		slot5 = ItemTools.getItemNum(slot8.cost[1])
 	end
 
-	if var_48_4 < var_48_2 * var_48_3 then
-		if var_48_5 ~= CurrencyConst.CURRENCY_TYPE_VITALITY then
-			ShowTips(string.format(GetTips("CURRENCY_NO_ENOUGH"), ItemTools.getItemName(var_48_5)))
+	if slot5 < slot3 * slot4 then
+		if slot6 ~= CurrencyConst.CURRENCY_TYPE_VITALITY then
+			ShowTips(string.format(GetTips("CURRENCY_NO_ENOUGH"), ItemTools.getItemName(slot6)))
 		elseif CurrencyData:GetFatigueBuyTimes() < GameSetting.fatigue_max_buy_time.value[1] or hasVitalityProp() then
 			JumpTools.OpenPopUp("currencyBuyFatigue", {}, ViewConst.SYSTEM_ID.BUY_FATIGUE)
 		else
 			ShowTips("ERROR_ITEM_NOT_ENOUGH_FATIGUE")
 		end
 	else
-		BattleInstance.OnceMoreBattle(arg_48_0.stageData)
+		BattleInstance.OnceMoreBattle(slot0.stageData)
 	end
 end
 
-return var_0_0
+return slot0

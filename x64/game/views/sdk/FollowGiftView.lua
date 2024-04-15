@@ -1,102 +1,92 @@
-local var_0_0 = class("FollowGiftView", ReduxView)
-local var_0_1 = ""
-local var_0_2 = ""
-local var_0_3 = ""
-local var_0_4 = ""
+slot0 = class("FollowGiftView", ReduxView)
+slot1 = ""
+slot2 = ""
+slot3 = ""
+slot4 = ""
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Medium/WelfareUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.weChatList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshWeChatReward), arg_4_0.wechatlistTrs_, CommonItemView)
-	arg_4_0.weiboList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshWeiboReward), arg_4_0.weibolistTrs_, CommonItemView)
-	arg_4_0.bilibiliList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshBilibiliReward), arg_4_0.bilibiliTrs_, CommonItemView)
-	arg_4_0.twitterList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshTwitterReward), arg_4_0.twitterTrs_, CommonItemView)
-	arg_4_0.facebookList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshFacebookReward), arg_4_0.facebookTrs_, CommonItemView)
-	arg_4_0.discordList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshDiscordReward), arg_4_0.discordTrs_, CommonItemView)
-	arg_4_0.youtubeList_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshYoutubeReward), arg_4_0.youtubeTrs_, CommonItemView)
+	slot0.weChatList_ = LuaList.New(handler(slot0, slot0.RefreshWeChatReward), slot0.wechatlistTrs_, CommonItemView)
+	slot0.weiboList_ = LuaList.New(handler(slot0, slot0.RefreshWeiboReward), slot0.weibolistTrs_, CommonItemView)
+	slot0.bilibiliList_ = LuaList.New(handler(slot0, slot0.RefreshBilibiliReward), slot0.bilibiliTrs_, CommonItemView)
+	slot0.twitterList_ = LuaList.New(handler(slot0, slot0.RefreshTwitterReward), slot0.twitterTrs_, CommonItemView)
+	slot0.facebookList_ = LuaList.New(handler(slot0, slot0.RefreshFacebookReward), slot0.facebookTrs_, CommonItemView)
+	slot0.discordList_ = LuaList.New(handler(slot0, slot0.RefreshDiscordReward), slot0.discordTrs_, CommonItemView)
+	slot0.youtubeList_ = LuaList.New(handler(slot0, slot0.RefreshYoutubeReward), slot0.youtubeTrs_, CommonItemView)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.wechatBtn_, nil, function()
-		arg_5_0:Go("followPop")
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.wechatBtn_, nil, function ()
+		uv0:Go("followPop")
 		SDKTools.SendMessageToSDK("direction", {
 			direction_type = 51,
 			direction_channel = 4
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.weiboBtn_, nil, function()
-		local var_7_0 = SDKTools.ToJsonFormat({
+	slot0:AddBtnListener(slot0.weiboBtn_, nil, function ()
+		GameToSDK.SendMessage(SDKTools.ToJsonFormat({
 			messageType = "GetPlatformData",
 			platform = OperationConst.PLATFORM.WEIBO
-		})
-
-		GameToSDK.SendMessage(var_7_0)
+		}))
 		SDKTools.SendMessageToSDK("direction", {
 			direction_type = 52,
 			direction_channel = 4
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bilibiliBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bilibiliBtn_, nil, function ()
 		if OperationAction.GetOperationUrl("FOLLOW_BILIBILI") then
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.BILIBILI)
 		else
 			ShowTips("ERROR_NO_TEMPLATE")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.twitterBtn_, nil, function()
-		local var_9_0 = OperationAction.GetOperationUrl("FOLLOW_TWITTER")
-
-		if var_9_0 then
-			Application.OpenURL(var_9_0)
+	slot0:AddBtnListener(slot0.twitterBtn_, nil, function ()
+		if OperationAction.GetOperationUrl("FOLLOW_TWITTER") then
+			Application.OpenURL(slot0)
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.TWITTER)
 		else
 			ShowTips("ERROR_NO_TEMPLATE")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.facebookBtn_, nil, function()
-		local var_10_0 = OperationAction.GetOperationUrl("FOLLOW_FACEBOOK")
+	slot0:AddBtnListener(slot0.facebookBtn_, nil, function ()
+		uv0 = OperationAction.GetOperationUrl("Facebook_PageId") or ""
 
-		var_0_1 = OperationAction.GetOperationUrl("Facebook_PageId") or ""
-
-		if var_10_0 then
-			arg_5_0:SendMessageToFollow(1, var_0_2, var_10_0, var_0_1, var_0_3, var_0_4)
+		if OperationAction.GetOperationUrl("FOLLOW_FACEBOOK") then
+			uv1:SendMessageToFollow(1, uv2, slot0, uv0, uv3, uv4)
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.FACEBOOK)
 		else
 			ShowTips("ERROR_NO_TEMPLATE")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.discordBtn_, nil, function()
-		local var_11_0 = OperationAction.GetOperationUrl("FOLLOW_DISCORD")
+	slot0:AddBtnListener(slot0.discordBtn_, nil, function ()
+		uv0 = OperationAction.GetOperationUrl("Discord_AuthUrl") or ""
+		uv1 = OperationAction.GetOperationUrl("DISCORDCLIENTID") or ""
+		uv2 = OperationAction.GetOperationUrl("DISCORDCLIENTSECRET") or ""
 
-		var_0_2 = OperationAction.GetOperationUrl("Discord_AuthUrl") or ""
-		var_0_3 = OperationAction.GetOperationUrl("DISCORDCLIENTID") or ""
-		var_0_4 = OperationAction.GetOperationUrl("DISCORDCLIENTSECRET") or ""
-
-		if var_11_0 then
-			arg_5_0:SendMessageToFollow(0, var_0_2, var_11_0, var_0_1, var_0_3, var_0_4)
+		if OperationAction.GetOperationUrl("FOLLOW_DISCORD") then
+			uv3:SendMessageToFollow(0, uv0, slot0, uv4, uv1, uv2)
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.DISCORD)
 		else
 			ShowTips("ERROR_NO_TEMPLATE")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.youtubeBtn_, nil, function()
-		local var_12_0 = OperationAction.GetOperationUrl("FOLLOW_YOUTUBE")
-
-		if var_12_0 then
-			arg_5_0:SendMessageToFollow(2, var_0_2, var_12_0, var_0_1, var_0_3, var_0_4)
+	slot0:AddBtnListener(slot0.youtubeBtn_, nil, function ()
+		if OperationAction.GetOperationUrl("FOLLOW_YOUTUBE") then
+			uv0:SendMessageToFollow(2, uv1, slot0, uv2, uv3, uv4)
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.YOUTUBE)
 		else
 			ShowTips("ERROR_NO_TEMPLATE")
@@ -104,168 +94,159 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.SendMessageToFollow(arg_13_0, arg_13_1, arg_13_2, arg_13_3, arg_13_4, arg_13_5, arg_13_6)
-	SendMessageToSDK(string.format("{\"messageType\" : \"SocialMediaFollow\",\"type\" : \"%d\",\"authUrl\" : \"%s\",\"invitationUrl\" : \"%s\",\"pageId\" : \"%s\",\"discordClientId\" : \"%s\",\"discordClientSecret\" : \"%s\"}", arg_13_1, arg_13_2, arg_13_3, arg_13_4, arg_13_5, arg_13_6))
+function slot0.SendMessageToFollow(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	SendMessageToSDK(string.format("{\"messageType\" : \"SocialMediaFollow\",\"type\" : \"%d\",\"authUrl\" : \"%s\",\"invitationUrl\" : \"%s\",\"pageId\" : \"%s\",\"discordClientId\" : \"%s\",\"discordClientSecret\" : \"%s\"}", slot1, slot2, slot3, slot4, slot5, slot6))
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0:ShowDefaultBar()
-	arg_14_0.weChatList_:StartScroll(#GameSetting.wechat_follow_reward.value)
-	arg_14_0.weiboList_:StartScroll(#GameSetting.weibo_follow_reward.value)
-	arg_14_0.bilibiliList_:StartScroll(#GameSetting.bilibili_follow_reward.value)
-	arg_14_0.twitterList_:StartScroll(#GameSetting.twitter_follow_reward.value)
-	arg_14_0.facebookList_:StartScroll(#GameSetting.facebook_follow_reward.value)
-	arg_14_0.discordList_:StartScroll(#GameSetting.discord_follow_reward.value)
-	arg_14_0.youtubeList_:StartScroll(#GameSetting.youtube_follow_reward.value)
-	arg_14_0:RegistEventListener(GET_PLATFORM_DATA_CALLBACK, function(arg_15_0)
-		if arg_15_0.code == 0 then
+function slot0.OnEnter(slot0)
+	slot0:ShowDefaultBar()
+	slot0.weChatList_:StartScroll(#GameSetting.wechat_follow_reward.value)
+	slot0.weiboList_:StartScroll(#GameSetting.weibo_follow_reward.value)
+	slot0.bilibiliList_:StartScroll(#GameSetting.bilibili_follow_reward.value)
+	slot0.twitterList_:StartScroll(#GameSetting.twitter_follow_reward.value)
+	slot0.facebookList_:StartScroll(#GameSetting.facebook_follow_reward.value)
+	slot0.discordList_:StartScroll(#GameSetting.discord_follow_reward.value)
+	slot0.youtubeList_:StartScroll(#GameSetting.youtube_follow_reward.value)
+	slot0:RegistEventListener(GET_PLATFORM_DATA_CALLBACK, function (slot0)
+		if slot0.code == 0 then
 			SurveyAction.FollowPlatform(OperationConst.PLATFORM.WEIBO)
-		elseif arg_15_0.code == 2 then
-			-- block empty
-		else
-			ShowTips(arg_15_0.message or "")
+		elseif slot0.code ~= 2 then
+			ShowTips(slot0.message or "")
 		end
 	end)
-	arg_14_0:RegistEventListener(SOCAIL_DISCORD_CANCEL, function(arg_16_0)
-		if arg_16_0.code == 0 then
+	slot0:RegistEventListener(SOCAIL_DISCORD_CANCEL, function (slot0)
+		if slot0.code == 0 then
 			ShowTips("ERROR_DISCORD_SUBSCRIB_FAILED")
 		end
 	end)
 end
 
-function var_0_0.RefreshWeChatReward(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = GameSetting.wechat_follow_reward.value[arg_17_1]
-	local var_17_1 = clone(ItemTemplateData)
+function slot0.RefreshWeChatReward(slot0, slot1, slot2)
+	slot3 = GameSetting.wechat_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_17_1.id = var_17_0[1]
-	var_17_1.number = var_17_0[2]
-
-	function var_17_1.clickFun(arg_18_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_18_0.id,
-			arg_18_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_17_2:SetData(var_17_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshWeiboReward(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = GameSetting.weibo_follow_reward.value[arg_19_1]
-	local var_19_1 = clone(ItemTemplateData)
+function slot0.RefreshWeiboReward(slot0, slot1, slot2)
+	slot3 = GameSetting.weibo_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_19_1.id = var_19_0[1]
-	var_19_1.number = var_19_0[2]
-
-	function var_19_1.clickFun(arg_20_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_20_0.id,
-			arg_20_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_19_2:SetData(var_19_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshBilibiliReward(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = GameSetting.bilibili_follow_reward.value[arg_21_1]
-	local var_21_1 = clone(ItemTemplateData)
+function slot0.RefreshBilibiliReward(slot0, slot1, slot2)
+	slot3 = GameSetting.bilibili_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_21_1.id = var_21_0[1]
-	var_21_1.number = var_21_0[2]
-
-	function var_21_1.clickFun(arg_22_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_22_0.id,
-			arg_22_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_21_2:SetData(var_21_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshTwitterReward(arg_23_0, arg_23_1, arg_23_2)
-	local var_23_0 = GameSetting.twitter_follow_reward.value[arg_23_1]
-	local var_23_1 = clone(ItemTemplateData)
+function slot0.RefreshTwitterReward(slot0, slot1, slot2)
+	slot3 = GameSetting.twitter_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_23_1.id = var_23_0[1]
-	var_23_1.number = var_23_0[2]
-
-	function var_23_1.clickFun(arg_24_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_24_0.id,
-			arg_24_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_23_2:SetData(var_23_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshFacebookReward(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = GameSetting.facebook_follow_reward.value[arg_25_1]
-	local var_25_1 = clone(ItemTemplateData)
+function slot0.RefreshFacebookReward(slot0, slot1, slot2)
+	slot3 = GameSetting.facebook_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_25_1.id = var_25_0[1]
-	var_25_1.number = var_25_0[2]
-
-	function var_25_1.clickFun(arg_26_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_26_0.id,
-			arg_26_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_25_2:SetData(var_25_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshDiscordReward(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = GameSetting.discord_follow_reward.value[arg_27_1]
-	local var_27_1 = clone(ItemTemplateData)
+function slot0.RefreshDiscordReward(slot0, slot1, slot2)
+	slot3 = GameSetting.discord_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_27_1.id = var_27_0[1]
-	var_27_1.number = var_27_0[2]
-
-	function var_27_1.clickFun(arg_28_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_28_0.id,
-			arg_28_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_27_2:SetData(var_27_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.RefreshYoutubeReward(arg_29_0, arg_29_1, arg_29_2)
-	local var_29_0 = GameSetting.youtube_follow_reward.value[arg_29_1]
-	local var_29_1 = clone(ItemTemplateData)
+function slot0.RefreshYoutubeReward(slot0, slot1, slot2)
+	slot3 = GameSetting.youtube_follow_reward.value[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_29_1.id = var_29_0[1]
-	var_29_1.number = var_29_0[2]
-
-	function var_29_1.clickFun(arg_30_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_30_0.id,
-			arg_30_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_29_2:SetData(var_29_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.OnExit(arg_31_0)
-	arg_31_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_32_0)
-	arg_32_0.weChatList_:Dispose()
-	arg_32_0.weiboList_:Dispose()
-	arg_32_0.bilibiliList_:Dispose()
-	arg_32_0.twitterList_:Dispose()
-	arg_32_0.facebookList_:Dispose()
-	arg_32_0.discordList_:Dispose()
-	arg_32_0.youtubeList_:Dispose()
-	var_0_0.super.Dispose(arg_32_0)
+function slot0.Dispose(slot0)
+	slot0.weChatList_:Dispose()
+	slot0.weiboList_:Dispose()
+	slot0.bilibiliList_:Dispose()
+	slot0.twitterList_:Dispose()
+	slot0.facebookList_:Dispose()
+	slot0.discordList_:Dispose()
+	slot0.youtubeList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,10 +1,8 @@
-local var_0_0 = singletonClass("AbyssData")
-local var_0_1
-local var_0_2
-local var_0_3
+slot0 = singletonClass("AbyssData")
+slot1, slot2, slot3 = nil
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {
+function slot0.Init(slot0)
+	uv0 = {
 		refresh_timestamp = 0,
 		layer_reset_time = 0,
 		history_max_layer = 1,
@@ -15,546 +13,482 @@ function var_0_0.Init(arg_1_0)
 		got_layer_reward_list = {},
 		layer_info_dic = {}
 	}
-	var_0_2 = {}
-	var_0_3 = 1
+	uv1 = {}
+	uv2 = 1
 end
 
-function var_0_0.InitFromServer(arg_2_0, arg_2_1)
-	var_0_1 = {
-		is_back = arg_2_1.is_back,
-		history_max_layer = arg_2_1.history_max_layer,
-		layer_reset_time = arg_2_1.layer_reset_time,
-		stage_reset_time = arg_2_1.stage_reset_time,
-		refresh_timestamp = arg_2_1.refresh_timestamp,
-		last_version_max_unlock_layer = arg_2_1.last_version_max_unlock_layer,
+function slot0.InitFromServer(slot0, slot1)
+	uv0 = {
+		is_back = slot1.is_back,
+		history_max_layer = slot1.history_max_layer,
+		layer_reset_time = slot1.layer_reset_time,
+		stage_reset_time = slot1.stage_reset_time,
+		refresh_timestamp = slot1.refresh_timestamp,
+		last_version_max_unlock_layer = slot1.last_version_max_unlock_layer,
 		got_layer_reward_list = {},
 		layer_info_dic = {},
-		activity_id = arg_2_1.activity_id
+		activity_id = slot1.activity_id
 	}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.got_layer_reward_list) do
-		table.insert(var_0_1.got_layer_reward_list, iter_2_1)
+	for slot5, slot6 in ipairs(slot1.got_layer_reward_list) do
+		table.insert(uv0.got_layer_reward_list, slot6)
 	end
 
-	for iter_2_2, iter_2_3 in ipairs(arg_2_1.layer_info_list) do
-		local var_2_0 = arg_2_0:DecodeServerLayerInfo(iter_2_3)
-
-		var_0_1.layer_info_dic[iter_2_3.layer_id] = var_2_0
+	for slot5, slot6 in ipairs(slot1.layer_info_list) do
+		uv0.layer_info_dic[slot6.layer_id] = slot0:DecodeServerLayerInfo(slot6)
 	end
 end
 
-function var_0_0.GetRefreshTimestamp(arg_3_0)
-	return var_0_1.refresh_timestamp
+function slot0.GetRefreshTimestamp(slot0)
+	return uv0.refresh_timestamp
 end
 
-function var_0_0.DecodeServerLayerInfo(arg_4_0, arg_4_1)
-	local var_4_0 = {
-		layer_id = arg_4_1.layer_id,
+function slot0.DecodeServerLayerInfo(slot0, slot1)
+	slot2 = {
+		layer_id = slot1.layer_id,
 		stage_info_list = {},
 		stage_info_dic = {},
 		boss_stage_info_list = {},
 		boss_stage_info_dic = {}
 	}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_1.stage_info_list) do
-		local var_4_1 = {
-			stage_id = iter_4_1.stage_id,
-			is_completed = iter_4_1.is_completed
+	for slot6, slot7 in ipairs(slot1.stage_info_list) do
+		slot8 = {
+			stage_id = slot7.stage_id,
+			is_completed = slot7.is_completed
 		}
 
-		table.insert(var_4_0.stage_info_list, var_4_1)
+		table.insert(slot2.stage_info_list, slot8)
 
-		var_4_0.stage_info_dic[iter_4_1.stage_id] = var_4_1
+		slot2.stage_info_dic[slot7.stage_id] = slot8
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(arg_4_1.boss_stage_info_list) do
-		local var_4_2 = {
-			stage_id = iter_4_3.stage_id,
-			is_completed = iter_4_3.is_completed,
-			score = iter_4_3.score,
-			phase = iter_4_3.phase,
-			boss_hp_rate = iter_4_3.boss_hp_rate
+	for slot6, slot7 in ipairs(slot1.boss_stage_info_list) do
+		slot8 = {
+			stage_id = slot7.stage_id,
+			is_completed = slot7.is_completed,
+			score = slot7.score,
+			phase = slot7.phase,
+			boss_hp_rate = slot7.boss_hp_rate
 		}
 
-		table.insert(var_4_0.boss_stage_info_list, var_4_2)
+		table.insert(slot2.boss_stage_info_list, slot8)
 
-		var_4_0.boss_stage_info_dic[iter_4_3.stage_id] = var_4_2
+		slot2.boss_stage_info_dic[slot7.stage_id] = slot8
 	end
 
-	return var_4_0
+	return slot2
 end
 
-function var_0_0.UpdateResetTime(arg_5_0, arg_5_1)
-	var_0_1.layer_reset_time = arg_5_1.layer_reset_time
-	var_0_1.stage_reset_time = arg_5_1.stage_reset_time
+function slot0.UpdateResetTime(slot0, slot1)
+	uv0.layer_reset_time = slot1.layer_reset_time
+	uv0.stage_reset_time = slot1.stage_reset_time
 end
 
-function var_0_0.UpdateBossInfo(arg_6_0, arg_6_1)
-	local var_6_0 = arg_6_1.boss_stage_info
-	local var_6_1 = var_0_1.layer_info_dic[arg_6_1.layer].boss_stage_info_dic[var_6_0.stage_id]
-
-	var_6_1.score = var_6_0.score
-	var_6_1.phase = var_6_0.phase
-	var_6_1.boss_hp_rate = var_6_0.boss_hp_rate
-	var_6_1.is_completed = var_6_0.is_completed
+function slot0.UpdateBossInfo(slot0, slot1)
+	slot2 = slot1.boss_stage_info
+	slot4 = uv0.layer_info_dic[slot1.layer].boss_stage_info_dic[slot2.stage_id]
+	slot4.score = slot2.score
+	slot4.phase = slot2.phase
+	slot4.boss_hp_rate = slot2.boss_hp_rate
+	slot4.is_completed = slot2.is_completed
 end
 
-function var_0_0.CompleteNormalStage(arg_7_0, arg_7_1, arg_7_2)
-	var_0_1.layer_info_dic[arg_7_1].stage_info_dic[arg_7_2].is_completed = true
+function slot0.CompleteNormalStage(slot0, slot1, slot2)
+	uv0.layer_info_dic[slot1].stage_info_dic[slot2].is_completed = true
 end
 
-function var_0_0.UpdateLayerUnlock(arg_8_0, arg_8_1)
-	var_0_1.history_max_layer = arg_8_1.history_max_layer
-
-	local var_8_0 = arg_8_0:DecodeServerLayerInfo(arg_8_1.layer_info)
-
-	var_0_1.layer_info_dic[var_8_0.layer_id] = var_8_0
+function slot0.UpdateLayerUnlock(slot0, slot1)
+	uv0.history_max_layer = slot1.history_max_layer
+	slot2 = slot0:DecodeServerLayerInfo(slot1.layer_info)
+	uv0.layer_info_dic[slot2.layer_id] = slot2
 end
 
-function var_0_0.GetStageData(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = var_0_1.layer_info_dic[arg_9_1]
-
-	if not var_9_0 then
+function slot0.GetStageData(slot0, slot1, slot2)
+	if not uv0.layer_info_dic[slot1] then
 		return nil
 	end
 
-	local var_9_1 = AbyssData:GetAbyssCfg(arg_9_1).stage_list[arg_9_2]
-
-	if var_9_1[1] == 3 then
-		if var_9_0.boss_stage_info_dic[var_9_1[2]] ~= nil then
-			return var_9_0.boss_stage_info_dic[var_9_1[2]]
+	if AbyssData:GetAbyssCfg(slot1).stage_list[slot2][1] == 3 then
+		if slot3.boss_stage_info_dic[slot5[2]] ~= nil then
+			return slot3.boss_stage_info_dic[slot5[2]]
 		end
-	elseif var_9_0.stage_info_dic[var_9_1[2]] ~= nil then
-		return var_9_0.stage_info_dic[var_9_1[2]]
+	elseif slot3.stage_info_dic[slot5[2]] ~= nil then
+		return slot3.stage_info_dic[slot5[2]]
 	end
 
 	return nil
 end
 
-function var_0_0.IsLayerBonusGet(arg_10_0, arg_10_1)
-	if table.indexof(var_0_1.got_layer_reward_list, arg_10_1) then
+function slot0.IsLayerBonusGet(slot0, slot1)
+	if table.indexof(uv0.got_layer_reward_list, slot1) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsLayerComplete(arg_11_0, arg_11_1)
-	local var_11_0 = var_0_1.layer_info_dic[arg_11_1]
-
-	if not var_11_0 then
+function slot0.IsLayerComplete(slot0, slot1)
+	if not uv0.layer_info_dic[slot1] then
 		return false
 	end
 
-	local var_11_1 = AbyssData:GetAbyssCfg(arg_11_1).stage_list
-	local var_11_2 = 0
-	local var_11_3 = var_11_0.stage_info_list or {}
+	slot3 = AbyssData:GetAbyssCfg(slot1).stage_list
 
-	for iter_11_0, iter_11_1 in pairs(var_11_3) do
-		if iter_11_1.is_completed then
-			var_11_2 = var_11_2 + 1
+	for slot9, slot10 in pairs(slot2.stage_info_list or {}) do
+		if slot10.is_completed then
+			slot4 = 0 + 1
 		end
 	end
 
-	local var_11_4 = var_11_0.boss_stage_info_list or {}
-
-	for iter_11_2, iter_11_3 in pairs(var_11_4) do
-		if iter_11_3.is_completed then
-			var_11_2 = var_11_2 + 1
+	for slot10, slot11 in pairs(slot2.boss_stage_info_list or {}) do
+		if slot11.is_completed then
+			slot4 = slot4 + 1
 		end
 	end
 
-	return var_11_2 >= #var_11_1
+	return slot4 >= #slot3
 end
 
-function var_0_0.GetFirstLockLayer(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(AbyssData:GetCurrentIdList()) do
-		local var_12_0 = AbyssCfg[iter_12_1].level
+function slot0.GetFirstLockLayer(slot0)
+	slot3 = AbyssData
+	slot5 = slot3
 
-		if not arg_12_0:IsLayerUnlock(var_12_0) then
-			return var_12_0
+	for slot4, slot5 in ipairs(slot3.GetCurrentIdList(slot5)) do
+		if not slot0:IsLayerUnlock(AbyssCfg[slot5].level) then
+			return slot6
 		end
 	end
 
 	return 1
 end
 
-function var_0_0.IsLayerChallenging(arg_13_0, arg_13_1)
-	local var_13_0 = var_0_1.layer_info_dic[arg_13_1]
-
-	if not var_13_0 then
+function slot0.IsLayerChallenging(slot0, slot1)
+	if not uv0.layer_info_dic[slot1] then
 		return false
 	end
 
-	local var_13_1 = var_13_0.stage_info_list or {}
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_1) do
-		if iter_13_1.is_completed then
+	for slot7, slot8 in ipairs(slot2.stage_info_list or {}) do
+		if slot8.is_completed then
 			return true
 		end
 	end
 
-	local var_13_2 = var_13_0.boss_stage_info_list or {}
-
-	for iter_13_2, iter_13_3 in ipairs(var_13_2) do
-		if iter_13_3.is_completed then
+	for slot8, slot9 in ipairs(slot2.boss_stage_info_list or {}) do
+		if slot9.is_completed then
 			return true
 		else
-			return #AbyssTools.GetStageBanHeroList(arg_13_1, arg_13_0:GetStageIndex(arg_13_1, iter_13_3.stage_id)) > 0
+			return #AbyssTools.GetStageBanHeroList(slot1, slot0:GetStageIndex(slot1, slot9.stage_id)) > 0
 		end
 	end
 
 	return false
 end
 
-function var_0_0.IsLayerUnlock(arg_14_0, arg_14_1)
-	if arg_14_1 == 1 then
+function slot0.IsLayerUnlock(slot0, slot1)
+	if slot1 == 1 then
 		return true
 	end
 
-	if var_0_1.last_version_max_unlock_layer > 1 and arg_14_1 <= var_0_1.last_version_max_unlock_layer then
+	if uv0.last_version_max_unlock_layer > 1 and slot1 <= uv0.last_version_max_unlock_layer then
 		return true
 	end
 
-	if var_0_1.layer_info_dic[arg_14_1] ~= nil then
+	if uv0.layer_info_dic[slot1] ~= nil then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetLayerStatus(arg_15_0, arg_15_1)
-	if arg_15_0:IsLayerComplete(arg_15_1) then
+function slot0.GetLayerStatus(slot0, slot1)
+	if slot0:IsLayerComplete(slot1) then
 		return 3
 	end
 
-	if arg_15_0:IsLayerChallenging(arg_15_1) then
+	if slot0:IsLayerChallenging(slot1) then
 		return 2
 	end
 
-	if arg_15_0:IsLayerUnlock(arg_15_1) then
+	if slot0:IsLayerUnlock(slot1) then
 		return 1
 	end
 
 	return 0
 end
 
-function var_0_0.GetStageScore(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = var_0_1.layer_info_dic[arg_16_1]
-
-	if not var_16_0 then
+function slot0.GetStageScore(slot0, slot1, slot2)
+	if not uv0.layer_info_dic[slot1] then
 		return 0
 	end
 
-	local var_16_1 = AbyssData:GetAbyssCfg(arg_16_1).stage_list[arg_16_2]
-	local var_16_2 = var_16_1[2]
+	slot5 = AbyssData:GetAbyssCfg(slot1).stage_list[slot2]
 
-	if var_16_1[1] == 3 then
-		local var_16_3 = var_16_0.boss_stage_info_dic[var_16_2]
-
-		if not var_16_3 then
+	if slot5[1] == 3 then
+		if not slot3.boss_stage_info_dic[slot5[2]] then
 			return 0
 		end
 
-		return var_16_3.score or 0
+		return slot7.score or 0
 	else
-		local var_16_4 = var_16_0.stage_info_dic[var_16_2]
-
-		if not var_16_4 then
+		if not slot3.stage_info_dic[slot6] then
 			return 0
 		end
 
-		local var_16_5
+		slot8 = nil
 
-		if var_16_4.is_completed then
-			var_16_5 = var_16_1[3]
-		else
-			var_16_5 = 0
-		end
-
-		return var_16_5
+		return (not slot7.is_completed or slot5[3]) and 0
 	end
 end
 
-function var_0_0.GetLayerScore(arg_17_0, arg_17_1)
-	local var_17_0 = AbyssData:GetAbyssCfg(arg_17_1)
-	local var_17_1 = 0
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_0.stage_list) do
-		var_17_1 = var_17_1 + arg_17_0:GetStageScore(arg_17_1, iter_17_0)
+function slot0.GetLayerScore(slot0, slot1)
+	for slot7, slot8 in ipairs(AbyssData:GetAbyssCfg(slot1).stage_list) do
+		slot3 = 0 + slot0:GetStageScore(slot1, slot7)
 	end
 
-	return var_17_1
+	return slot3
 end
 
-function var_0_0.GetCurrentLayer(arg_18_0)
-	for iter_18_0 = #AbyssData:GetCurrentIdList(), 1, -1 do
-		local var_18_0 = AbyssData:GetCurrentIdList()[iter_18_0]
-		local var_18_1 = AbyssCfg[var_18_0].level
-
-		if arg_18_0:IsLayerUnlock(var_18_1) then
-			return var_18_1
+function slot0.GetCurrentLayer(slot0)
+	for slot4 = #AbyssData:GetCurrentIdList(), 1, -1 do
+		if slot0:IsLayerUnlock(AbyssCfg[AbyssData:GetCurrentIdList()[slot4]].level) then
+			return slot6
 		end
 	end
 
 	return 1
 end
 
-function var_0_0.GetLayerResetTime(arg_19_0)
-	return var_0_1.layer_reset_time
+function slot0.GetLayerResetTime(slot0)
+	return uv0.layer_reset_time
 end
 
-function var_0_0.GetLayerResetLimit(arg_20_0)
+function slot0.GetLayerResetLimit(slot0)
 	return GameSetting.abyss_layer_reset_time.value[1]
 end
 
-function var_0_0.GetStageResetTime(arg_21_0)
-	return var_0_1.stage_reset_time
+function slot0.GetStageResetTime(slot0)
+	return uv0.stage_reset_time
 end
 
-function var_0_0.GetStageResetLimit(arg_22_0)
+function slot0.GetStageResetLimit(slot0)
 	return GameSetting.abyss_stage_reset_time.value[1]
 end
 
-function var_0_0.GetAbyssUnlockLevel(arg_23_0)
+function slot0.GetAbyssUnlockLevel(slot0)
 	return GameSetting.abyss_unlock_level.value[1]
 end
 
-function var_0_0.IsHeroInAbandonList(arg_24_0, arg_24_1, arg_24_2)
-	local var_24_0 = table.indexof(arg_24_2, arg_24_1)
-
-	if var_24_0 then
-		return arg_24_2[var_24_0]
+function slot0.IsHeroInAbandonList(slot0, slot1, slot2)
+	if table.indexof(slot2, slot1) then
+		return slot2[slot3]
 	end
 
 	return 0
 end
 
-function var_0_0.IsHeroInLockList(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = table.indexof(arg_25_2, arg_25_1)
-
-	if var_25_0 then
-		return arg_25_2[var_25_0]
+function slot0.IsHeroInLockList(slot0, slot1, slot2)
+	if table.indexof(slot2, slot1) then
+		return slot2[slot3]
 	end
 
 	return 0
 end
 
-function var_0_0.GetCanFightHeroList(arg_26_0, arg_26_1)
-	local var_26_0 = {}
-	local var_26_1 = HeroData:GetHeroList()
+function slot0.GetCanFightHeroList(slot0, slot1)
+	slot2 = {}
 
-	for iter_26_0, iter_26_1 in ipairs(var_26_1) do
-		if iter_26_1.unlock == 1 then
-			table.insert(var_26_0, iter_26_1.id)
+	for slot7, slot8 in ipairs(HeroData:GetHeroList()) do
+		if slot8.unlock == 1 then
+			table.insert(slot2, slot8.id)
 		end
 	end
 
-	return var_26_0
+	return slot2
 end
 
-function var_0_0.SetHeroTeam(arg_27_0, arg_27_1, arg_27_2)
-	var_0_2[arg_27_1] = arg_27_2
+function slot0.SetHeroTeam(slot0, slot1, slot2)
+	uv0[slot1] = slot2
 end
 
-function var_0_0.GetCachedHero(arg_28_0, arg_28_1)
-	local var_28_0 = var_0_2[arg_28_1] or {}
+function slot0.GetCachedHero(slot0, slot1)
+	slot2 = uv0[slot1] or {}
 
 	return {
-		var_28_0[1] or 0,
-		var_28_0[2] or 0,
-		var_28_0[3] or 0
+		slot2[1] or 0,
+		slot2[2] or 0,
+		slot2[3] or 0
 	}
 end
 
-function var_0_0.GetMaxLayer(arg_29_0)
-	return var_0_1.history_max_layer
+function slot0.GetMaxLayer(slot0)
+	return uv0.history_max_layer
 end
 
-function var_0_0.GetCanGetLayers(arg_30_0)
-	local var_30_0 = {}
+function slot0.GetCanGetLayers(slot0)
+	slot1 = {}
+	slot4 = AbyssData
+	slot6 = slot4
 
-	for iter_30_0, iter_30_1 in ipairs(AbyssData:GetCurrentIdList()) do
-		local var_30_1 = AbyssCfg[iter_30_1].level
-
-		if arg_30_0:GetBonusStatus(var_30_1) == 1 then
-			table.insert(var_30_0, var_30_1)
+	for slot5, slot6 in ipairs(slot4.GetCurrentIdList(slot6)) do
+		if slot0:GetBonusStatus(AbyssCfg[slot6].level) == 1 then
+			table.insert(slot1, slot7)
 		end
 	end
 
-	return var_30_0
+	return slot1
 end
 
-function var_0_0.GetBonusStatus(arg_31_0, arg_31_1)
-	if arg_31_0:IsLayerBonusGet(arg_31_1) then
+function slot0.GetBonusStatus(slot0, slot1)
+	if slot0:IsLayerBonusGet(slot1) then
 		return 3
-	elseif arg_31_1 <= arg_31_0:GetMaxLayer() then
+	elseif slot1 <= slot0:GetMaxLayer() then
 		return 1
 	else
 		return 2
 	end
 end
 
-function var_0_0.OnLayerBonusGet(arg_32_0, arg_32_1)
-	table.insertto(var_0_1.got_layer_reward_list, arg_32_1)
-	manager.notify:Invoke(ABYSS_LAYER_BONUS_GET, arg_32_1)
+function slot0.OnLayerBonusGet(slot0, slot1)
+	table.insertto(uv0.got_layer_reward_list, slot1)
+	manager.notify:Invoke(ABYSS_LAYER_BONUS_GET, slot1)
 end
 
-function var_0_0.HaveGetBonusNum(arg_33_0)
-	return #var_0_1.got_layer_reward_list
+function slot0.HaveGetBonusNum(slot0)
+	return #uv0.got_layer_reward_list
 end
 
-function var_0_0.OnResetStage(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	var_0_1.stage_reset_time = var_0_1.stage_reset_time - 1
+function slot0.OnResetStage(slot0, slot1, slot2, slot3)
+	uv0.stage_reset_time = uv0.stage_reset_time - 1
 
-	arg_34_0:ResetStageInfo(arg_34_1, arg_34_2)
-	arg_34_0:RemoveLayerAbove(arg_34_1)
-	manager.notify:Invoke(ABYSS_STAGE_RESET_TIME_UPDATE, arg_34_1, arg_34_3)
+	slot0:ResetStageInfo(slot1, slot2)
+	slot0:RemoveLayerAbove(slot1)
+	manager.notify:Invoke(ABYSS_STAGE_RESET_TIME_UPDATE, slot1, slot3)
 end
 
-function var_0_0.OnResetLayer(arg_35_0, arg_35_1)
-	var_0_1.layer_reset_time = var_0_1.layer_reset_time - 1
+function slot0.OnResetLayer(slot0, slot1)
+	uv0.layer_reset_time = uv0.layer_reset_time - 1
 
-	local var_35_0 = AbyssData:GetAbyssCfg(arg_35_1)
-
-	for iter_35_0, iter_35_1 in ipairs(var_35_0.stage_list) do
-		arg_35_0:ResetStageInfo(arg_35_1, iter_35_0)
-		arg_35_0:ClearTeamCache(iter_35_1[2])
+	for slot6, slot7 in ipairs(AbyssData:GetAbyssCfg(slot1).stage_list) do
+		slot0:ResetStageInfo(slot1, slot6)
+		slot0:ClearTeamCache(slot7[2])
 	end
 
-	arg_35_0:RemoveLayerAbove(arg_35_1)
-	manager.notify:Invoke(ABYSS_LAYER_RESET_TIME_UPDATE, arg_35_1)
+	slot0:RemoveLayerAbove(slot1)
+	manager.notify:Invoke(ABYSS_LAYER_RESET_TIME_UPDATE, slot1)
 end
 
-function var_0_0.RemoveLayerAbove(arg_36_0, arg_36_1)
-	local var_36_0 = AbyssData:GetCurrentIdList()
-
-	for iter_36_0 = #var_36_0, 1, -1 do
-		local var_36_1 = var_36_0[iter_36_0]
-		local var_36_2 = AbyssCfg[var_36_1].level
-
-		if arg_36_1 < var_36_2 and var_36_2 > var_0_1.last_version_max_unlock_layer then
-			var_0_1.layer_info_dic[var_36_2] = nil
+function slot0.RemoveLayerAbove(slot0, slot1)
+	for slot6 = #AbyssData:GetCurrentIdList(), 1, -1 do
+		if slot1 < AbyssCfg[slot2[slot6]].level and uv0.last_version_max_unlock_layer < slot8 then
+			uv0.layer_info_dic[slot8] = nil
 		end
 	end
 end
 
-function var_0_0.ResetStageInfo(arg_37_0, arg_37_1, arg_37_2)
-	local var_37_0 = var_0_1.layer_info_dic[arg_37_1]
-	local var_37_1 = AbyssData:GetAbyssCfg(arg_37_1).stage_list[arg_37_2]
-	local var_37_2 = var_37_1[2]
+function slot0.ResetStageInfo(slot0, slot1, slot2)
+	slot5 = AbyssData:GetAbyssCfg(slot1).stage_list[slot2]
 
-	if var_37_1[1] == 3 then
-		local var_37_3 = var_37_0.boss_stage_info_dic[var_37_2]
-
-		var_37_3.score = 0
-		var_37_3.is_completed = false
-		var_37_3.phase = 1
-		var_37_3.boss_hp_rate = 1000
+	if slot5[1] == 3 then
+		slot7 = uv0.layer_info_dic[slot1].boss_stage_info_dic[slot5[2]]
+		slot7.score = 0
+		slot7.is_completed = false
+		slot7.phase = 1
+		slot7.boss_hp_rate = 1000
 	else
-		var_37_0.stage_info_dic[var_37_2].is_completed = false
+		slot3.stage_info_dic[slot6].is_completed = false
 	end
 end
 
-function var_0_0.ClearTeamCache(arg_38_0, arg_38_1)
-	var_0_2[arg_38_1] = nil
+function slot0.ClearTeamCache(slot0, slot1)
+	uv0[slot1] = nil
 end
 
-function var_0_0.SetCurrentBossPhase(arg_39_0, arg_39_1)
-	var_0_3 = arg_39_1
+function slot0.SetCurrentBossPhase(slot0, slot1)
+	uv0 = slot1
 end
 
-function var_0_0.GetCurrentBossPhase(arg_40_0)
-	return var_0_3 or 1
+function slot0.GetCurrentBossPhase(slot0)
+	return uv0 or 1
 end
 
-function var_0_0.GetBossTotalHp(arg_41_0, arg_41_1)
-	local var_41_0 = AbyssBossHpCfg[arg_41_1]
-
-	if not var_41_0 then
+function slot0.GetBossTotalHp(slot0, slot1)
+	if not AbyssBossHpCfg[slot1] then
 		return 1
 	end
 
-	local var_41_1 = 0
-
-	for iter_41_0, iter_41_1 in ipairs(var_41_0.boss_hp) do
-		var_41_1 = var_41_1 + iter_41_1
+	for slot7, slot8 in ipairs(slot2.boss_hp) do
+		slot3 = 0 + slot8
 	end
 
-	return var_41_1
+	return slot3
 end
 
-function var_0_0.GetPhaseBossHp(arg_42_0, arg_42_1, arg_42_2)
-	local var_42_0 = AbyssBossHpCfg[arg_42_1]
-
-	if not var_42_0 then
+function slot0.GetPhaseBossHp(slot0, slot1, slot2)
+	if not AbyssBossHpCfg[slot1] then
 		return 1
 	end
 
-	return var_42_0.boss_hp[arg_42_2] or 1
+	return slot3.boss_hp[slot2] or 1
 end
 
-function var_0_0.ConvertPhaseBossHpToTotal(arg_43_0, arg_43_1, arg_43_2, arg_43_3)
-	local var_43_0 = arg_43_0:GetPhaseBossHp(arg_43_1, arg_43_2) * arg_43_3 / 1000
+function slot0.ConvertPhaseBossHpToTotal(slot0, slot1, slot2, slot3)
+	slot4 = slot0:GetPhaseBossHp(slot1, slot2) * slot3 / 1000
 
-	if arg_43_2 ~= #AbyssBossHpCfg[arg_43_1].boss_hp then
-		for iter_43_0 = arg_43_2 + 1, #AbyssBossHpCfg[arg_43_1].boss_hp do
-			var_43_0 = var_43_0 + AbyssBossHpCfg[arg_43_1].boss_hp[iter_43_0]
+	if slot2 ~= #AbyssBossHpCfg[slot1].boss_hp then
+		for slot8 = slot2 + 1, #AbyssBossHpCfg[slot1].boss_hp do
+			slot4 = slot4 + AbyssBossHpCfg[slot1].boss_hp[slot8]
 		end
 	end
 
-	return var_43_0
+	return slot4
 end
 
-function var_0_0.OnReadBackFlag(arg_44_0)
-	var_0_1.is_back = false
+function slot0.OnReadBackFlag(slot0)
+	uv0.is_back = false
 end
 
-function var_0_0.NeedTipBack(arg_45_0)
-	return var_0_1.is_back
+function slot0.NeedTipBack(slot0)
+	return uv0.is_back
 end
 
-function var_0_0.GetActivityId(arg_46_0)
-	if not var_0_1.activity_id then
-		var_0_1.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
+function slot0.GetActivityId(slot0)
+	if not uv0.activity_id then
+		uv0.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
 	end
 
-	return var_0_1.activity_id
+	return uv0.activity_id
 end
 
-function var_0_0.GetAbyssCfg(arg_47_0, arg_47_1)
-	if not var_0_1.activity_id then
-		var_0_1.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
+function slot0.GetAbyssCfg(slot0, slot1)
+	if not uv0.activity_id then
+		uv0.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
 	end
 
-	local var_47_0 = AbyssCfg.get_id_list_by_activity_id[var_0_1.activity_id][arg_47_1]
-
-	return AbyssCfg[var_47_0]
+	return AbyssCfg[AbyssCfg.get_id_list_by_activity_id[uv0.activity_id][slot1]]
 end
 
-function var_0_0.GetStageIndex(arg_48_0, arg_48_1, arg_48_2)
-	local var_48_0 = arg_48_0:GetAbyssCfg(arg_48_1).stage_list
-
-	for iter_48_0, iter_48_1 in ipairs(var_48_0) do
-		if iter_48_1[2] == arg_48_2 then
-			return iter_48_0
+function slot0.GetStageIndex(slot0, slot1, slot2)
+	for slot8, slot9 in ipairs(slot0:GetAbyssCfg(slot1).stage_list) do
+		if slot9[2] == slot2 then
+			return slot8
 		end
 	end
 
 	return 1
 end
 
-function var_0_0.GetCurrentIdList(arg_49_0)
-	if not var_0_1.activity_id then
-		var_0_1.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
+function slot0.GetCurrentIdList(slot0)
+	if not uv0.activity_id then
+		uv0.activity_id = AbyssCfg[AbyssCfg.all[1]].activity_id
 	end
 
-	return AbyssCfg.get_id_list_by_activity_id[var_0_1.activity_id]
+	return AbyssCfg.get_id_list_by_activity_id[uv0.activity_id]
 end
 
-function var_0_0.HaveUpperLevelChallenging(arg_50_0, arg_50_1)
-	for iter_50_0, iter_50_1 in pairs(var_0_1.layer_info_dic) do
-		if arg_50_1 < iter_50_0 and AbyssData:GetLayerStatus(iter_50_0) >= 2 then
+function slot0.HaveUpperLevelChallenging(slot0, slot1)
+	for slot5, slot6 in pairs(uv0.layer_info_dic) do
+		if slot1 < slot5 and AbyssData:GetLayerStatus(slot5) >= 2 then
 			return true
 		end
 	end
@@ -562,4 +496,4 @@ function var_0_0.HaveUpperLevelChallenging(arg_50_0, arg_50_1)
 	return false
 end
 
-return var_0_0
+return slot0

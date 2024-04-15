@@ -1,81 +1,80 @@
-local var_0_0 = class("BattleActivityPtGameTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleActivityPtGameTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id_ = arg_1_1
-	arg_1_0.activityID_ = arg_1_2
-	arg_1_0.stageID_ = arg_1_1
-	arg_1_0.cfg = BattleStageTools.GetStageCfg(arg_1_0:GetType(), arg_1_1)
+	slot0.id_ = slot1
+	slot0.activityID_ = slot2
+	slot0.stageID_ = slot1
+	slot0.cfg = BattleStageTools.GetStageCfg(slot0:GetType(), slot1)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	return ActivityPtRepeatCfg.GetCfgFromActivityIdAndStageId[arg_3_0.activityID_][arg_3_0.stageID_].id
+function slot0.GetDest(slot0)
+	return ActivityPtRepeatCfg.GetCfgFromActivityIdAndStageId[slot0.activityID_][slot0.stageID_].id
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.stageID_
+function slot0.GetStageId(slot0)
+	return slot0.stageID_
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.ACTIVITY_PT_GAME
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetHeroTeam(arg_7_0)
-	return arg_7_0.heroList_, arg_7_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.GetActivityID(arg_8_0)
-	return arg_8_0.activityID_
+function slot0.GetActivityID(slot0)
+	return slot0.activityID_
 end
 
-function var_0_0.GetThreeStar(arg_9_0)
+function slot0.GetThreeStar(slot0)
 	return {}
 end
 
-function var_0_0.GetCost(arg_10_0)
-	return arg_10_0.cfg.cost
+function slot0.GetCost(slot0)
+	return slot0.cfg.cost
 end
 
-function var_0_0.GetStageAffix(arg_11_0)
-	local var_11_0 = {}
-	local var_11_1 = {}
-	local var_11_2 = {}
-	local var_11_3 = type(arg_11_0.cfg.affix_type) == "table" and arg_11_0.cfg.affix_type or {}
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
 
-	for iter_11_0, iter_11_1 in pairs(var_11_3 or {}) do
-		table.insert(var_11_0, iter_11_1[1])
-		table.insert(var_11_1, iter_11_1[2])
-		table.insert(var_11_2, iter_11_1[3])
+	for slot8, slot9 in pairs(type(slot0.cfg.affix_type) == "table" and slot0.cfg.affix_type or {} or {}) do
+		table.insert(slot1, slot9[1])
+		table.insert(slot2, slot9[2])
+		table.insert(slot3, slot9[3])
 	end
 
-	return var_11_0, var_11_1, var_11_2
+	return slot1, slot2, slot3
 end
 
-function var_0_0.GetAddUserExp(arg_12_0)
-	return arg_12_0.cfg.user_exp or 0
+function slot0.GetAddUserExp(slot0)
+	return slot0.cfg.user_exp or 0
 end
 
-function var_0_0.GetAddHeroExp(arg_13_0)
-	return arg_13_0.cfg.hero_exp or 0
+function slot0.GetAddHeroExp(slot0)
+	return slot0.cfg.hero_exp or 0
 end
 
-function var_0_0.GetAILevel(arg_14_0)
-	return arg_14_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_15_0)
-	return arg_15_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-return var_0_0
+return slot0

@@ -1,69 +1,63 @@
-local var_0_0 = class("NiewWorldBossRewardItem", ReduxView)
+slot0 = class("NiewWorldBossRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.width = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.width = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.state == 1 then
-			ActivityWorldBossAction.QueryHealthRward(arg_4_0.activity_id, {
-				arg_4_0.index
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.state == 1 then
+			ActivityWorldBossAction.QueryHealthRward(uv0.activity_id, {
+				uv0.index
 			})
-		elseif arg_4_0.state == 2 then
+		elseif uv0.state == 2 then
 			JumpTools.OpenPageByJump("rewardPreview", {
 				is_receive = true,
-				rewardList = arg_4_0.rewardList
+				rewardList = uv0.rewardList
 			}, ViewConst.SYSTEM_ID.REWARD_PREVIEW)
 		else
 			JumpTools.OpenPageByJump("rewardPreview", {
 				is_receive = false,
-				rewardList = arg_4_0.rewardList
+				rewardList = uv0.rewardList
 			}, ViewConst.SYSTEM_ID.REWARD_PREVIEW)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.activity_id = arg_6_1
-	arg_6_0.index = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activity_id = slot1
+	slot0.index = slot2
+	slot4 = ActivityWorldBossCfg[slot1].health_reward_list[slot2]
+	slot5 = slot4[1] / 10
+	slot0.rewardList = getRewardFromDropCfg(slot4[2], true)
+	slot0.m_lab.text = slot5 .. "%"
+	slot0.transform_.localPosition = Vector3.New(slot0.width - slot0.width * slot5 / 100, 0, 0)
+	slot0.state = ActivityWorldBossData:GetHealthRewardState(slot1, slot2)
 
-	local var_6_0 = ActivityWorldBossCfg[arg_6_1].health_reward_list[arg_6_2]
-	local var_6_1 = var_6_0[1] / 10
-	local var_6_2 = var_6_0[2]
-
-	arg_6_0.rewardList = getRewardFromDropCfg(var_6_2, true)
-	arg_6_0.m_lab.text = var_6_1 .. "%"
-
-	local var_6_3 = arg_6_0.width - arg_6_0.width * var_6_1 / 100
-
-	arg_6_0.transform_.localPosition = Vector3.New(var_6_3, 0, 0)
-	arg_6_0.state = ActivityWorldBossData:GetHealthRewardState(arg_6_1, arg_6_2)
-
-	arg_6_0.stateController:SetSelectedIndex(arg_6_0.state)
+	slot0.stateController:SetSelectedIndex(slot0.state)
 end
 
-function var_0_0.SetActive(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

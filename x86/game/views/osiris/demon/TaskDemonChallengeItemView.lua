@@ -1,133 +1,106 @@
-local var_0_0 = class("TaskDemonChallengeItemView", ReduxView)
-local var_0_1 = import("game.tools.JumpTools")
-local var_0_2 = 0
-local var_0_3 = 1
-local var_0_4 = 2
+slot0 = class("TaskDemonChallengeItemView", ReduxView)
+slot1 = import("game.tools.JumpTools")
+slot2 = 0
+slot3 = 1
+slot4 = 2
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.popType_ = POP_ITEM
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.popType_ = POP_ITEM
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.itemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.itemListGo_, CommonItem)
-	arg_2_0.controller_ = ControllerUtil.GetController(arg_2_0.transform_, "conName")
-	arg_2_0.receiveHandler = handler(arg_2_0, arg_2_0.OnReceiveReward)
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.itemListGo_, CommonItem)
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "conName")
+	slot0.receiveHandler = handler(slot0, slot0.OnReceiveReward)
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.rewardCfg_ = getRewardFromDropCfg(arg_3_1, true)
-	arg_3_0.rewardIndex_ = arg_3_2
-	arg_3_0.levelIndex_ = arg_3_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.rewardCfg_ = getRewardFromDropCfg(slot1, true)
+	slot0.rewardIndex_ = slot2
+	slot0.levelIndex_ = slot3
 
-	arg_3_0:GetRewardState()
-	arg_3_0:RefreshUI()
-	arg_3_0:RefreshState()
-	arg_3_0:RefreshItem()
+	slot0:GetRewardState()
+	slot0:RefreshUI()
+	slot0:RefreshState()
+	slot0:RefreshItem()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		if arg_5_0.rewardState_ == var_0_2 then
-			local var_6_0 = DemonChallengeData:GetStageId(arg_5_0.levelIndex_, arg_5_0.rewardIndex_)
-
-			DemonChallengeAction.RequireReceive(var_6_0, arg_5_0.receiveHandler)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		if uv0.rewardState_ == uv1 then
+			DemonChallengeAction.RequireReceive(DemonChallengeData:GetStageId(uv0.levelIndex_, uv0.rewardIndex_), uv0.receiveHandler)
 		end
 	end)
 end
 
-function var_0_0.OnReceiveReward(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_0.rewardState_
+function slot0.OnReceiveReward(slot0, slot1)
+	if isSuccess(slot1.result) then
+		DemonChallengeData:SetReceiveList(slot0.rewardIndex_, slot0.levelIndex_)
+		slot0:GetRewardState()
+		getReward(slot0.rewardCfg_)
 
-	if isSuccess(arg_7_1.result) then
-		DemonChallengeData:SetReceiveList(arg_7_0.rewardIndex_, arg_7_0.levelIndex_)
-		arg_7_0:GetRewardState()
-		getReward(arg_7_0.rewardCfg_)
-
-		if var_7_0 == var_0_2 and arg_7_0.rewardState_ == var_0_4 then
-			arg_7_0:RefreshState()
+		if slot0.rewardState_ == uv0 and slot0.rewardState_ == uv1 then
+			slot0:RefreshState()
 			manager.notify:Invoke(DEMON_CHALLENGE_RECEIVE_REWARD)
 		end
 	else
-		ShowTips(arg_7_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.GetRewardState(arg_8_0)
-	local var_8_0 = DemonChallengeData:GetReceiveList(arg_8_0.levelIndex_)
-
-	arg_8_0.completed_ = DemonChallengeData:IsCompleted(arg_8_0.levelIndex_, arg_8_0.rewardIndex_)
-
-	local var_8_1
-
-	if not arg_8_0.completed_ then
-		var_8_1 = var_0_3
-	elseif table.keyof(var_8_0, arg_8_0.rewardIndex_) then
-		var_8_1 = var_0_4
-	else
-		var_8_1 = var_0_2
-	end
-
-	arg_8_0.rewardState_ = var_8_1
+function slot0.GetRewardState(slot0)
+	slot0.completed_ = DemonChallengeData:IsCompleted(slot0.levelIndex_, slot0.rewardIndex_)
+	slot2 = nil
+	slot0.rewardState_ = not slot0.completed_ and uv0 or table.keyof(DemonChallengeData:GetReceiveList(slot0.levelIndex_), slot0.rewardIndex_) and uv1 or uv2
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = arg_9_0.rewardIndex_
-	local var_9_1 = ""
-
-	if var_9_0 == 1 then
-		var_9_1 = GetTips("CLEAR_NORMAL_DIFFICULTY")
-	elseif var_9_0 == 2 then
-		var_9_1 = GetTips("CLEAR_DIFFICULTY")
-	else
-		var_9_1 = GetTips("CLEAR_EXTREME_DIFFICULTY")
-	end
-
-	arg_9_0.Desctext_.text = var_9_1
+function slot0.RefreshUI(slot0)
+	slot2 = ""
+	slot0.Desctext_.text = (slot0.rewardIndex_ ~= 1 or GetTips("CLEAR_NORMAL_DIFFICULTY")) and (slot1 ~= 2 or GetTips("CLEAR_DIFFICULTY")) and GetTips("CLEAR_EXTREME_DIFFICULTY")
 end
 
-function var_0_0.RefreshState(arg_10_0)
-	arg_10_0.controller_:SetSelectedState(tostring(arg_10_0.rewardState_))
+function slot0.RefreshState(slot0)
+	slot0.controller_:SetSelectedState(tostring(slot0.rewardState_))
 end
 
-function var_0_0.RefreshItem(arg_11_0)
-	arg_11_0.itemList_:StartScroll(#arg_11_0.rewardCfg_)
+function slot0.RefreshItem(slot0)
+	slot0.itemList_:StartScroll(#slot0.rewardCfg_)
 end
 
-function var_0_0.IndexItem(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.rewardCfg_[arg_12_1]
-	local var_12_1 = rewardToItemTemplate(var_12_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot4 = rewardToItemTemplate(slot0.rewardCfg_[slot1])
 
-	var_12_1:RefreshData(var_12_1)
-	var_12_1:RegistCallBack(function(arg_13_0)
-		if arg_12_0.clickCallback_ then
-			if arg_12_0.clickCallback_() then
-				ShowPopItem(arg_12_0.popType_, arg_13_0)
+	slot4:RefreshData(slot4)
+	slot4:RegistCallBack(function (slot0)
+		if uv0.clickCallback_ then
+			if uv0.clickCallback_() then
+				ShowPopItem(uv0.popType_, slot0)
 			end
 		else
-			ShowPopItem(arg_12_0.popType_, arg_13_0)
+			ShowPopItem(uv0.popType_, slot0)
 		end
 	end)
-	var_12_1:Show(true)
+	slot4:Show(true)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	if arg_14_0.itemList_ then
-		arg_14_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

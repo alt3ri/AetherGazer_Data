@@ -1,19 +1,19 @@
-local var_0_0 = class("SpringWelfarePlayerLetterTextItem", ReduxView)
+slot0 = class("SpringWelfarePlayerLetterTextItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.richText_ = arg_1_0:FindCom("RichText", "", arg_1_1.transform)
-	arg_1_0.buttonUpAudio_ = arg_1_0:FindCom("ButtonUpAudio", "", arg_1_1.transform)
-	arg_1_0.buttonUpAudio_.enabled = false
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.richText_ = slot0:FindCom("RichText", "", slot1.transform)
+	slot0.buttonUpAudio_ = slot0:FindCom("ButtonUpAudio", "", slot1.transform)
+	slot0.buttonUpAudio_.enabled = false
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetText(arg_3_0, arg_3_1)
-	arg_3_0.richText_.text = arg_3_1
+function slot0.SetText(slot0, slot1)
+	slot0.richText_.text = slot1
 end
 
-return var_0_0
+return slot0

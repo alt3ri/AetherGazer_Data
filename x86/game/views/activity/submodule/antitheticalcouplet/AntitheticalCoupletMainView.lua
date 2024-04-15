@@ -1,294 +1,270 @@
-local var_0_0 = class("AntitheticalCoupletMainView", ReduxView)
+slot0 = class("AntitheticalCoupletMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return AntitheticalCoupletTools.GetMainUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return AntitheticalCoupletTools.GetMainUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.levelData_ = {}
-	arg_4_0.rewardList_ = {}
-	arg_4_0.levelList_ = ActivityCfg[arg_4_0.params_.activityID].sub_activity_list or {}
-	arg_4_0.toggles_ = {}
-	arg_4_0.tglLock_ = {}
-	arg_4_0.toggleCon_ = {}
-	arg_4_0.cToggleCon_ = {}
-	arg_4_0.toggleTime_ = {}
+	slot0.levelData_ = {}
+	slot0.rewardList_ = {}
+	slot0.levelList_ = ActivityCfg[slot0.params_.activityID].sub_activity_list or {}
+	slot0.toggles_ = {}
+	slot0.tglLock_ = {}
+	slot0.toggleCon_ = {}
+	slot0.cToggleCon_ = {}
+	slot0.toggleTime_ = {}
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.levelList_) do
-		arg_4_0.toggles_[iter_4_0] = arg_4_0["tgl_" .. iter_4_0]
-		arg_4_0.tglLock_[iter_4_0] = arg_4_0["lock_" .. iter_4_0]
-		arg_4_0.toggleCon_[iter_4_0] = ControllerUtil.GetController(arg_4_0.toggles_[iter_4_0].transform, "state")
-		arg_4_0.cToggleCon_[iter_4_0] = ControllerUtil.GetController(arg_4_0.toggles_[iter_4_0].transform, "toggle")
-		arg_4_0.toggleTime_[iter_4_0] = arg_4_0["tglTime_" .. iter_4_0]
+	for slot4, slot5 in ipairs(slot0.levelList_) do
+		slot0.toggles_[slot4] = slot0["tgl_" .. slot4]
+		slot0.tglLock_[slot4] = slot0["lock_" .. slot4]
+		slot0.toggleCon_[slot4] = ControllerUtil.GetController(slot0.toggles_[slot4].transform, "state")
+		slot0.cToggleCon_[slot4] = ControllerUtil.GetController(slot0.toggles_[slot4].transform, "toggle")
+		slot0.toggleTime_[slot4] = slot0["tglTime_" .. slot4]
 	end
 
-	arg_4_0.rewardCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "reward")
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "state")
-	arg_4_0.titleCon_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "title")
+	slot0.rewardCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "reward")
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "state")
+	slot0.titleCon_ = ControllerUtil.GetController(slot0.gameObject_.transform, "title")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
-		if ActivityData:GetActivityData(arg_5_0.curId_):IsActivitying() then
-			AntitheticalCoupletAction:GetReward(arg_5_0.curId_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if ActivityData:GetActivityData(uv0.curId_):IsActivitying() then
+			AntitheticalCoupletAction:GetReward(uv0.curId_)
 		else
 			ShowTips("TIME_OVER")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.goBtn_, nil, function()
-		local var_7_0 = table.indexof(arg_5_0.levelList_, arg_5_0.curId_)
-		local var_7_1 = manager.time:GetServerTime()
-		local var_7_2 = arg_5_0.levelData_[var_7_0]
-
-		if var_7_1 >= var_7_2.startTime and var_7_1 < var_7_2.stopTime then
-			local var_7_3 = ActivitySpringFestivalCoupletsCfg[arg_5_0.curId_].story_id
-
-			manager.story:StartStoryById(var_7_3, function(arg_8_0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if uv0.levelData_[table.indexof(uv0.levelList_, uv0.curId_)].startTime <= manager.time:GetServerTime() and slot1 < slot2.stopTime then
+			manager.story:StartStoryById(ActivitySpringFestivalCoupletsCfg[uv0.curId_].story_id, function (slot0)
 				JumpTools.OpenPageByJump("/antitheticalCoupletResult", {
-					activityID = arg_5_0.activityID_,
-					id = arg_5_0.curId_
+					activityID = uv0.activityID_,
+					id = uv0.curId_
 				})
 			end, true)
-		elseif var_7_1 >= var_7_2.stopTime then
+		elseif slot2.stopTime <= slot1 then
 			ShowTips("TIME_OVER")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.reviewBtn_, nil, function()
-		local var_9_0 = table.indexof(arg_5_0.levelList_, arg_5_0.curId_)
-		local var_9_1 = manager.time:GetServerTime()
-		local var_9_2 = arg_5_0.levelData_[var_9_0]
 
-		if var_9_1 >= var_9_2.startTime and var_9_1 < var_9_2.stopTime then
+	slot4 = nil
+
+	function slot5()
+		if uv0.levelData_[table.indexof(uv0.levelList_, uv0.curId_)].startTime <= manager.time:GetServerTime() and slot1 < slot2.stopTime then
 			JumpTools.OpenPageByJump("/antitheticalCoupletResult", {
 				isComplet = true,
-				activityID = arg_5_0.activityID_,
-				id = arg_5_0.curId_
+				activityID = uv0.activityID_,
+				id = uv0.curId_
 			})
-		elseif var_9_1 >= var_9_2.stopTime then
+		elseif slot2.stopTime <= slot1 then
 			ShowTips("TIME_OVER")
 		end
-	end)
+	end
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.toggles_) do
-		arg_5_0:AddToggleListener(iter_5_1, function(arg_10_0)
-			if arg_10_0 then
-				arg_5_0.curId_ = arg_5_0.levelList_[iter_5_0]
+	slot0:AddBtnListener(slot0.reviewBtn_, slot4, slot5)
 
-				arg_5_0:RefreshReward()
-				AntitheticalCoupletData:SetOpen(arg_5_0.levelList_[iter_5_0])
+	for slot4, slot5 in ipairs(slot0.toggles_) do
+		slot0:AddToggleListener(slot5, function (slot0)
+			if slot0 then
+				uv0.curId_ = uv0.levelList_[uv1]
+
+				uv0:RefreshReward()
+				AntitheticalCoupletData:SetOpen(uv0.levelList_[uv1])
 			end
 		end)
-		arg_5_0:AddBtnListener(arg_5_0.tglLock_[iter_5_0], nil, function()
-			local var_11_0 = manager.time:GetServerTime()
-			local var_11_1 = arg_5_0.levelData_[iter_5_0].startTime
-
-			if var_11_0 < var_11_1 then
-				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(var_11_1)))
+		slot0:AddBtnListener(slot0.tglLock_[slot4], nil, function ()
+			if manager.time:GetServerTime() < uv0.levelData_[uv1].startTime then
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot1)))
 			end
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0:BindUIRedPoint()
-	arg_12_0:RefreshData()
-	arg_12_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:BindUIRedPoint()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshData(arg_13_0)
-	arg_13_0.activityID_ = arg_13_0.params_.activityID
-	arg_13_0.activityData_ = ActivityData:GetActivityData(arg_13_0.activityID_)
-	arg_13_0.startTime_ = arg_13_0.activityData_.startTime
-	arg_13_0.stopTime_ = arg_13_0.activityData_.stopTime
+function slot0.RefreshData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.levelList_) do
-		arg_13_0.levelData_[iter_13_0] = ActivityData:GetActivityData(iter_13_1)
+	for slot4, slot5 in ipairs(slot0.levelList_) do
+		slot0.levelData_[slot4] = ActivityData:GetActivityData(slot5)
 	end
 end
 
-function var_0_0.RefreshUI(arg_14_0)
-	arg_14_0:RefreshTime()
-	arg_14_0:RefreshList()
-	arg_14_0:RefreshReward()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTime()
+	slot0:RefreshList()
+	slot0:RefreshReward()
 end
 
-function var_0_0.RefreshTime(arg_15_0)
-	local var_15_0
-	local var_15_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_15_0:StopTimer()
-	arg_15_0:RefreshLevelTime()
+	slot0:StopTimer()
+	slot0:RefreshLevelTime()
 
-	if var_15_1 < arg_15_0.startTime_ then
-		arg_15_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_15_0.timer_ = Timer.New(function()
-			var_15_0 = arg_15_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			arg_15_0:RefreshLevelTime()
+			uv1:RefreshLevelTime()
 
-			if var_15_0 <= 0 then
-				arg_15_0:StopTimer()
-				arg_15_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_15_0.timer_:Start()
-	elseif var_15_1 < arg_15_0.stopTime_ then
-		arg_15_0.timeTxt_.text = manager.time:GetLostTimeStr(arg_15_0.stopTime_)
-		arg_15_0.timer_ = Timer.New(function()
-			var_15_0 = arg_15_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timeTxt_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			arg_15_0:RefreshLevelTime()
+			uv1:RefreshLevelTime()
 
-			if var_15_0 <= 0 then
-				arg_15_0:StopTimer()
-				arg_15_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 
-			arg_15_0.timeTxt_.text = manager.time:GetLostTimeStr(arg_15_0.stopTime_)
+			uv1.timeTxt_.text = manager.time:GetLostTimeStr(uv1.stopTime_)
 		end, 1, -1)
 
-		arg_15_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_15_0.timeTxt_.text = GetTips("TIME_OVER")
+		slot0.timeTxt_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.RefreshLevelTime(arg_18_0)
-	local var_18_0 = manager.time:GetServerTime()
+function slot0.RefreshLevelTime(slot0)
+	for slot5, slot6 in ipairs(slot0.levelList_) do
+		if manager.time:GetServerTime() < slot0.levelData_[slot5].startTime then
+			slot0.toggles_[slot5].interactable = false
 
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0.levelList_) do
-		local var_18_1 = arg_18_0.levelData_[iter_18_0].startTime
+			slot0.toggleCon_[slot5]:SetSelectedState("lock")
 
-		if var_18_0 < var_18_1 then
-			arg_18_0.toggles_[iter_18_0].interactable = false
-
-			arg_18_0.toggleCon_[iter_18_0]:SetSelectedState("lock")
-
-			arg_18_0.toggleTime_[iter_18_0].text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_18_1))
+			slot0.toggleTime_[slot5].text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(slot7))
 		else
-			arg_18_0.toggles_[iter_18_0].interactable = true
+			slot0.toggles_[slot5].interactable = true
 
-			local var_18_2 = AntitheticalCoupletData:GetData(arg_18_0.levelList_[iter_18_0])
-
-			if var_18_2 and var_18_2.chooseID ~= 0 then
-				arg_18_0.toggleCon_[iter_18_0]:SetSelectedState("complete")
+			if AntitheticalCoupletData:GetData(slot0.levelList_[slot5]) and slot8.chooseID ~= 0 then
+				slot0.toggleCon_[slot5]:SetSelectedState("complete")
 			else
-				arg_18_0.toggleCon_[iter_18_0]:SetSelectedState("nor")
+				slot0.toggleCon_[slot5]:SetSelectedState("nor")
 			end
 		end
 	end
 end
 
-function var_0_0.RefreshList(arg_19_0)
-	arg_19_0.curId_ = AntitheticalCoupletData:GetLastLevel(arg_19_0.activityID_) or arg_19_0.levelList_[1]
+function slot0.RefreshList(slot0)
+	slot0.curId_ = AntitheticalCoupletData:GetLastLevel(slot0.activityID_) or slot0.levelList_[1]
+	slot1 = table.indexof(slot0.levelList_, slot0.curId_)
+	slot0.toggles_[slot1].isOn = true
 
-	local var_19_0 = table.indexof(arg_19_0.levelList_, arg_19_0.curId_)
-
-	arg_19_0.toggles_[var_19_0].isOn = true
-
-	AntitheticalCoupletData:SetOpen(arg_19_0.levelList_[var_19_0])
+	AntitheticalCoupletData:SetOpen(slot0.levelList_[slot1])
 end
 
-function var_0_0.RefreshReward(arg_20_0)
-	local var_20_0 = ActivitySpringFestivalCoupletsCfg[arg_20_0.curId_]
+function slot0.RefreshReward(slot0)
+	slot1 = ActivitySpringFestivalCoupletsCfg[slot0.curId_]
+	slot0.desc_.text = GetI18NText(slot1.desc)
 
-	arg_20_0.desc_.text = GetI18NText(var_20_0.desc)
+	slot0.titleCon_:SetSelectedState(table.indexof(slot0.levelList_, slot0.curId_))
 
-	local var_20_1 = table.indexof(arg_20_0.levelList_, arg_20_0.curId_)
-
-	arg_20_0.titleCon_:SetSelectedState(var_20_1)
-
-	local var_20_2 = var_20_0.reward_item_list
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_2) do
-		if arg_20_0.rewardList_[iter_20_0] then
-			arg_20_0.rewardList_[iter_20_0]:SetData(iter_20_1)
+	for slot7, slot8 in ipairs(slot1.reward_item_list) do
+		if slot0.rewardList_[slot7] then
+			slot0.rewardList_[slot7]:SetData(slot8)
 		else
-			arg_20_0.rewardList_[iter_20_0] = RewardPoolItem.New(arg_20_0.rewardPanel_, iter_20_1, true, POP_SOURCE_ITEM)
+			slot0.rewardList_[slot7] = RewardPoolItem.New(slot0.rewardPanel_, slot8, true, POP_SOURCE_ITEM)
 		end
 	end
 
-	for iter_20_2 = #var_20_2 + 1, #arg_20_0.rewardList_ do
-		arg_20_0.rewardList_[iter_20_2]:Show(false)
+	for slot7 = #slot3 + 1, #slot0.rewardList_ do
+		slot0.rewardList_[slot7]:Show(false)
 	end
 
-	arg_20_0.curData_ = AntitheticalCoupletData:GetData(arg_20_0.curId_)
+	slot0.curData_ = AntitheticalCoupletData:GetData(slot0.curId_)
 
-	arg_20_0:RefreshRewardType()
-	arg_20_0:RefreshStateType()
+	slot0:RefreshRewardType()
+	slot0:RefreshStateType()
 end
 
-function var_0_0.RefreshRewardType(arg_21_0)
-	if arg_21_0.curData_ and arg_21_0.curData_.isReward then
-		arg_21_0.rewardCon_:SetSelectedState("finish")
-	elseif arg_21_0.curData_ and arg_21_0.curData_.chooseID ~= 0 then
-		arg_21_0.rewardCon_:SetSelectedState("complete")
+function slot0.RefreshRewardType(slot0)
+	if slot0.curData_ and slot0.curData_.isReward then
+		slot0.rewardCon_:SetSelectedState("finish")
+	elseif slot0.curData_ and slot0.curData_.chooseID ~= 0 then
+		slot0.rewardCon_:SetSelectedState("complete")
 	else
-		arg_21_0.rewardCon_:SetSelectedState("false")
+		slot0.rewardCon_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.RefreshStateType(arg_22_0)
-	if arg_22_0.curData_ and arg_22_0.curData_.chooseID ~= 0 then
-		arg_22_0.stateCon_:SetSelectedState("true")
+function slot0.RefreshStateType(slot0)
+	if slot0.curData_ and slot0.curData_.chooseID ~= 0 then
+		slot0.stateCon_:SetSelectedState("true")
 	else
-		arg_22_0.stateCon_:SetSelectedState("false")
+		slot0.stateCon_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.StopTimer(arg_23_0)
-	if arg_23_0.timer_ then
-		arg_23_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_23_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.BindUIRedPoint(arg_24_0)
-	for iter_24_0, iter_24_1 in ipairs(arg_24_0.levelList_) do
-		manager.redPoint:bindUIandKey(arg_24_0["tglPos_" .. iter_24_0], RedPointConst.ANTITHETICAL_COUPLET .. "_" .. iter_24_1, {
+function slot0.BindUIRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.levelList_) do
+		manager.redPoint:bindUIandKey(slot0["tglPos_" .. slot4], RedPointConst.ANTITHETICAL_COUPLET .. "_" .. slot5, {
 			x = 0,
 			y = 0
 		})
 	end
 end
 
-function var_0_0.UnBindUIRedPoint(arg_25_0)
-	for iter_25_0, iter_25_1 in ipairs(arg_25_0.levelList_) do
-		manager.redPoint:unbindUIandKey(arg_25_0["tglPos_" .. iter_25_0], RedPointConst.ANTITHETICAL_COUPLET .. "_" .. iter_25_1)
+function slot0.UnBindUIRedPoint(slot0)
+	for slot4, slot5 in ipairs(slot0.levelList_) do
+		manager.redPoint:unbindUIandKey(slot0["tglPos_" .. slot4], RedPointConst.ANTITHETICAL_COUPLET .. "_" .. slot5)
 	end
 end
 
-function var_0_0.OnAntitheticalCoupletReward(arg_26_0)
-	arg_26_0:RefreshRewardType()
+function slot0.OnAntitheticalCoupletReward(slot0)
+	slot0:RefreshRewardType()
 end
 
-function var_0_0.OnTop(arg_27_0)
-	local var_27_0 = AntitheticalCoupletTools.GetGameHelpKey(arg_27_0.activityID_)
-
-	if var_27_0 ~= "" then
+function slot0.OnTop(slot0)
+	if AntitheticalCoupletTools.GetGameHelpKey(slot0.activityID_) ~= "" then
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
 			INFO_BAR
 		})
-		manager.windowBar:SetGameHelpKey(var_27_0)
+		manager.windowBar:SetGameHelpKey(slot1)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -297,16 +273,16 @@ function var_0_0.OnTop(arg_27_0)
 	end
 end
 
-function var_0_0.OnExit(arg_28_0)
-	arg_28_0:StopTimer()
-	arg_28_0:UnBindUIRedPoint()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:UnBindUIRedPoint()
 	manager.windowBar:HideBar()
-	AntitheticalCoupletData:SaveLastSelect(arg_28_0.activityID_, arg_28_0.curId_)
+	AntitheticalCoupletData:SaveLastSelect(slot0.activityID_, slot0.curId_)
 end
 
-function var_0_0.Dispose(arg_29_0)
-	arg_29_0:RemoveAllListeners()
-	arg_29_0.super.Dispose(arg_29_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

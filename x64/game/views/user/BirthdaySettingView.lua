@@ -1,5 +1,5 @@
-local var_0_0 = class("BirthdaySettingView", ReduxView)
-local var_0_1 = {
+slot0 = class("BirthdaySettingView", ReduxView)
+slot1 = {
 	1,
 	2,
 	3,
@@ -13,7 +13,7 @@ local var_0_1 = {
 	11,
 	12
 }
-local var_0_2 = {
+slot2 = {
 	31,
 	29,
 	31,
@@ -28,53 +28,53 @@ local var_0_2 = {
 	31
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/ChooseBrithdayUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.monthScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshMonthItem), arg_4_0.monthList_, BirtndaySettingItem)
-	arg_4_0.dayScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.RefreshDayItem), arg_4_0.dayList_, BirtndaySettingItem)
+	slot0.monthScrollHelper_ = LuaList.New(handler(slot0, slot0.RefreshMonthItem), slot0.monthList_, BirtndaySettingItem)
+	slot0.dayScrollHelper_ = LuaList.New(handler(slot0, slot0.RefreshDayItem), slot0.dayList_, BirtndaySettingItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.okBtn_, nil, function()
-		SetActive(arg_5_0.Go, false)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		SetActive(uv0.Go, false)
 		ShowMessageBox({
-			content = string.format(GetTips("TIPS_SET_BIRTHDAY"), arg_5_0.monthPageIndex_, arg_5_0.dayPageIndex_),
-			OkCallback = function()
-				PlayerAction.ChangePlayerBirthday(arg_5_0.monthPageIndex_, arg_5_0.dayPageIndex_)
+			content = string.format(GetTips("TIPS_SET_BIRTHDAY"), uv0.monthPageIndex_, uv0.dayPageIndex_),
+			OkCallback = function ()
+				PlayerAction.ChangePlayerBirthday(uv0.monthPageIndex_, uv0.dayPageIndex_)
 			end,
-			MaskCallback = function()
-				SetActive(arg_5_0.Go, true)
-				arg_5_0.monthScrollHelper_:StartScroll(#var_0_1, arg_5_0.monthPageIndex_, true, false)
-				arg_5_0.dayScrollHelper_:StartScroll(var_0_2[arg_5_0.monthPageIndex_], arg_5_0.dayPageIndex_, true, false)
+			MaskCallback = function ()
+				SetActive(uv0.Go, true)
+				uv0.monthScrollHelper_:StartScroll(#uv1, uv0.monthPageIndex_, true, false)
+				uv0.dayScrollHelper_:StartScroll(uv2[uv0.monthPageIndex_], uv0.dayPageIndex_, true, false)
 			end,
-			CancelCallback = function()
-				SetActive(arg_5_0.Go, true)
-				arg_5_0.monthScrollHelper_:StartScroll(#var_0_1, arg_5_0.monthPageIndex_, true, false)
-				arg_5_0.dayScrollHelper_:StartScroll(var_0_2[arg_5_0.monthPageIndex_], arg_5_0.dayPageIndex_, true, false)
+			CancelCallback = function ()
+				SetActive(uv0.Go, true)
+				uv0.monthScrollHelper_:StartScroll(#uv1, uv0.monthPageIndex_, true, false)
+				uv0.dayScrollHelper_:StartScroll(uv2[uv0.monthPageIndex_], uv0.dayPageIndex_, true, false)
 			end
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, JumpTools.Back)
-	arg_5_0:AddBtnListener(arg_5_0.bgBtn_, nil, JumpTools.Back)
-	arg_5_0.monthScrollHelper_:SetPageChangeHandler(handler(arg_5_0, arg_5_0.OnMonthPageChange))
-	arg_5_0.dayScrollHelper_:SetPageChangeHandler(handler(arg_5_0, arg_5_0.OnDayPageChange))
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, JumpTools.Back)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, JumpTools.Back)
+	slot0.monthScrollHelper_:SetPageChangeHandler(handler(slot0, slot0.OnMonthPageChange))
+	slot0.dayScrollHelper_:SetPageChangeHandler(handler(slot0, slot0.OnDayPageChange))
 end
 
-function var_0_0.OnChangeBirthday(arg_10_0)
+function slot0.OnChangeBirthday(slot0)
 	ShowMessageBox({
 		ButtonType = "SingleBtn",
 		content = GetTips("TIPS_SET_BIRTHDAY_SURE"),
@@ -82,54 +82,55 @@ function var_0_0.OnChangeBirthday(arg_10_0)
 	})
 end
 
-function var_0_0.OnMonthPageChange(arg_11_0, arg_11_1)
-	if arg_11_1 == 0 then
-		arg_11_1 = 1
+function slot0.OnMonthPageChange(slot0, slot1)
+	if slot1 == 0 then
+		slot1 = 1
 	end
 
-	arg_11_0.monthPageIndex_ = arg_11_1 > #var_0_1 and #var_0_1 or arg_11_1
+	slot0.monthPageIndex_ = slot1 > #uv0 and #uv0 or slot1
 
-	if arg_11_0.dayPageIndex_ > var_0_2[arg_11_0.monthPageIndex_] then
-		arg_11_0.dayPageIndex_ = 1
+	if uv1[slot0.monthPageIndex_] < slot0.dayPageIndex_ then
+		slot0.dayPageIndex_ = 1
 	end
 
-	arg_11_0.dayScrollHelper_:StartScroll(var_0_2[arg_11_0.monthPageIndex_], arg_11_0.dayPageIndex_, true, false)
+	slot0.dayScrollHelper_:StartScroll(uv1[slot0.monthPageIndex_], slot0.dayPageIndex_, true, false)
 end
 
-function var_0_0.OnDayPageChange(arg_12_0, arg_12_1)
-	if arg_12_1 == 0 then
-		arg_12_1 = 1
+function slot0.OnDayPageChange(slot0, slot1)
+	if slot1 == 0 then
+		slot1 = 1
 	end
 
-	arg_12_0.dayPageIndex_ = arg_12_1 > var_0_2[arg_12_0.monthPageIndex_] and var_0_2[arg_12_0.monthPageIndex_] or arg_12_1
+	slot0.dayPageIndex_ = uv0[slot0.monthPageIndex_] < slot1 and uv0[slot0.monthPageIndex_] or slot1
 end
 
-function var_0_0.RefreshMonthItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_2:RefreshUI(arg_13_1, arg_13_0.monthPageIndex_)
+function slot0.RefreshMonthItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot1, slot0.monthPageIndex_)
 end
 
-function var_0_0.RefreshDayItem(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_2:RefreshUI(arg_14_1, arg_14_0.dayPageIndex_)
+function slot0.RefreshDayItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot1, slot0.dayPageIndex_)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.monthPageIndex_, arg_15_0.dayPageIndex_ = 1, 1
+function slot0.OnEnter(slot0)
+	slot0.dayPageIndex_ = 1
+	slot0.monthPageIndex_ = 1
 
-	arg_15_0.monthScrollHelper_:StartScroll(#var_0_1, arg_15_0.monthPageIndex_, true, false)
-	arg_15_0.dayScrollHelper_:StartScroll(var_0_2[arg_15_0.monthPageIndex_], arg_15_0.dayPageIndex_, true, false)
+	slot0.monthScrollHelper_:StartScroll(#uv0, slot0.monthPageIndex_, true, false)
+	slot0.dayScrollHelper_:StartScroll(uv1[slot0.monthPageIndex_], slot0.dayPageIndex_, true, false)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.monthScrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.monthScrollHelper_:Dispose()
 
-	arg_16_0.monthScrollHelper_ = nil
+	slot0.monthScrollHelper_ = nil
 
-	arg_16_0.dayScrollHelper_:Dispose()
+	slot0.dayScrollHelper_:Dispose()
 
-	arg_16_0.dayScrollHelper_ = nil
+	slot0.dayScrollHelper_ = nil
 
-	Object.Destroy(arg_16_0.gameObject_)
-	var_0_0.super.Dispose(arg_16_0)
+	Object.Destroy(slot0.gameObject_)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

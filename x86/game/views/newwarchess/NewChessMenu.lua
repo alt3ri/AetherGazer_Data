@@ -1,63 +1,59 @@
-local var_0_0 = class("NewChessMenu", ReduxView)
+slot0 = class("NewChessMenu", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/WarChess/WarChessMenu"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BindCfgUI(arg_4_0.summercontextTrs_)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:BindCfgUI(slot0.summercontextTrs_)
 
-	arg_4_0.themeCon_ = ControllerUtil.GetController(arg_4_0.transform_, "name")
+	slot0.themeCon_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cancelbtnBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelbtnBtn_, nil, function ()
 		ShowMessageBox({
 			content = GetTips("CONFIRM_TO_QUIT_CHESS"),
-			OkCallback = function()
+			OkCallback = function ()
 				NewChessTools.ExitNewChessScene(true)
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.okbtnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
 		NewChessTools.ExitNewChessScene(false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 
-		if arg_5_0.callback_ then
-			arg_5_0.callback_()
+		if uv0.callback_ then
+			uv0.callback_()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_12_0)
-	return
+function slot0.RefreshUI(slot0)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

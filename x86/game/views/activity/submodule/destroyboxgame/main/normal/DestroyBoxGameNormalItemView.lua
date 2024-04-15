@@ -1,181 +1,156 @@
-local var_0_0 = class("DestroyBoxGameNormalItemView", ReduxView)
+slot0 = class("DestroyBoxGameNormalItemView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.boxStateController_ = ControllerUtil.GetController(arg_1_0.transform_, "boxState")
-	arg_1_0.boxSelectController_ = ControllerUtil.GetController(arg_1_0.transform_, "select")
+	slot0.boxStateController_ = ControllerUtil.GetController(slot0.transform_, "boxState")
+	slot0.boxSelectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 
-	arg_1_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.OnEnter(arg_2_0, arg_2_1)
-	arg_2_0.id_ = arg_2_1
+function slot0.OnEnter(slot0, slot1)
+	slot0.id_ = slot1
+	slot2 = DestroyBoxGameCfg[slot0.id_]
+	slot0.activityID_ = slot2.activity_id
+	slot4 = table.keyof(DestroyBoxGameData:GetDifficultList(slot2.main_activity_id)[slot2.difficult], slot0.id_)
+	slot0.numText_.text = string.format("%02d", slot4)
+	slot0.index_ = slot4
+	slot0.isClearStage_ = DestroyBoxGameData:IsClearStage(slot1)
+	slot0.isFinishPreStage_ = DestroyBoxGameData:IsFinishPreStage(slot1)
 
-	local var_2_0 = DestroyBoxGameCfg[arg_2_0.id_]
-
-	arg_2_0.activityID_ = var_2_0.activity_id
-
-	local var_2_1 = DestroyBoxGameData:GetDifficultList(var_2_0.main_activity_id)[var_2_0.difficult]
-	local var_2_2 = table.keyof(var_2_1, arg_2_0.id_)
-
-	arg_2_0.numText_.text = string.format("%02d", var_2_2)
-	arg_2_0.index_ = var_2_2
-	arg_2_0.isClearStage_ = DestroyBoxGameData:IsClearStage(arg_2_1)
-	arg_2_0.isFinishPreStage_ = DestroyBoxGameData:IsFinishPreStage(arg_2_1)
-
-	arg_2_0:AddTimer()
-	arg_2_0:AddRedPoint()
+	slot0:AddTimer()
+	slot0:AddRedPoint()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:StopTimer()
-	arg_3_0:RemoveRedPoint()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:RemoveRedPoint()
 end
 
-function var_0_0.AddRedPoint(arg_4_0)
-	local var_4_0 = DestroyBoxGameCfg[arg_4_0.id_]
-
-	manager.redPoint:bindUIandKey(arg_4_0.transform_, string.format("%s_%s_%s", RedPointConst.DESTROY_BOX_GAME_STAGE_OPEN, var_4_0.difficult, arg_4_0.activityID_))
+function slot0.AddRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.transform_, string.format("%s_%s_%s", RedPointConst.DESTROY_BOX_GAME_STAGE_OPEN, DestroyBoxGameCfg[slot0.id_].difficult, slot0.activityID_))
 end
 
-function var_0_0.RemoveRedPoint(arg_5_0)
-	local var_5_0 = DestroyBoxGameCfg[arg_5_0.id_]
-
-	manager.redPoint:unbindUIandKey(arg_5_0.transform_, string.format("%s_%s_%s", RedPointConst.DESTROY_BOX_GAME_STAGE_OPEN, var_5_0.difficult, arg_5_0.activityID_))
+function slot0.RemoveRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, string.format("%s_%s_%s", RedPointConst.DESTROY_BOX_GAME_STAGE_OPEN, DestroyBoxGameCfg[slot0.id_].difficult, slot0.activityID_))
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	Object.Destroy(arg_6_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_6_0.transform_ = nil
-	arg_6_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.button_, nil, function()
-		local var_8_0 = DestroyBoxGameCfg[arg_7_0.id_]
-		local var_8_1 = var_8_0.activity_id
-		local var_8_2 = var_8_0.main_activity_id
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		slot0 = DestroyBoxGameCfg[uv0.id_]
+		slot2 = slot0.main_activity_id
 
-		if arg_7_0.isTimeLock_ then
-			local var_8_3 = ActivityData:GetActivityData(var_8_1)
-			local var_8_4 = manager.time:GetServerTime()
-
-			if var_8_4 < var_8_3.startTime then
-				local var_8_5 = GetTips("OPEN_TIME")
-
-				ShowTips(string.format(var_8_5, manager.time:GetLostTimeStr2(var_8_3.startTime, nil, true)))
-			elseif var_8_4 >= var_8_3.stopTime then
+		if uv0.isTimeLock_ then
+			if manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.activity_id).startTime then
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr2(slot3.startTime, nil, true)))
+			elseif slot3.stopTime <= slot4 then
 				ShowTips("TIME_OVER")
 			end
 
 			return
-		elseif not arg_7_0.isFinishPreStage_ then
-			local var_8_6 = DestroyBoxGameCfg[arg_7_0.id_].unlock_condition
-			local var_8_7 = DestroyBoxGameCfg[var_8_6[1]]
-			local var_8_8 = var_8_7.difficult
-
-			if var_8_8 == 1 then
-				var_8_8 = GetTips("HARDLEVEL_EASY")
-			elseif var_8_8 == 2 then
-				var_8_8 = GetTips("HARDLEVEL_HARD")
+		elseif not uv0.isFinishPreStage_ then
+			if DestroyBoxGameCfg[DestroyBoxGameCfg[uv0.id_].unlock_condition[1]].difficult == 1 then
+				slot6 = GetTips("HARDLEVEL_EASY")
+			elseif slot6 == 2 then
+				slot6 = GetTips("HARDLEVEL_HARD")
 			end
 
-			if var_8_6[2] > 1 then
-				ShowTips(string.format(GetTips("DESTROY_BOX_GAME_UNLOCK_STAGE_1"), ActivityCfg[var_8_7.activity_id].remark, var_8_8, var_8_6[2]))
+			if slot4[2] > 1 then
+				ShowTips(string.format(GetTips("DESTROY_BOX_GAME_UNLOCK_STAGE_1"), ActivityCfg[slot5.activity_id].remark, slot6, slot4[2]))
 			else
-				ShowTips(string.format(GetTips("DESTROY_BOX_GAME_UNLOCK_STAGE"), ActivityCfg[var_8_7.activity_id].remark, var_8_8))
+				ShowTips(string.format(GetTips("DESTROY_BOX_GAME_UNLOCK_STAGE"), ActivityCfg[slot5.activity_id].remark, slot6))
 			end
 
 			return
 		end
 
-		DestroyBoxGameAction.ClickBoxStageItem(arg_7_0.activityID_, arg_7_0.id_)
+		DestroyBoxGameAction.ClickBoxStageItem(uv0.activityID_, uv0.id_)
 
-		if DestroyBoxGameData:GetSelectID(var_8_2) ~= arg_7_0.id_ then
-			DestroyBoxGameData:SetSelectIDAndDifficult(var_8_2, arg_7_0.id_)
-			manager.notify:Invoke(DESTROY_BOX_GAME_SELECT_STAGE, arg_7_0.id_)
+		if DestroyBoxGameData:GetSelectID(slot2) ~= uv0.id_ then
+			DestroyBoxGameData:SetSelectIDAndDifficult(slot2, uv0.id_)
+			manager.notify:Invoke(DESTROY_BOX_GAME_SELECT_STAGE, uv0.id_)
 		end
 	end)
 end
 
-function var_0_0.Show(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SwitchDifficult(arg_10_0)
-	local var_10_0 = DestroyBoxGameCfg[arg_10_0.id_]
-	local var_10_1 = var_10_0.main_activity_id
-	local var_10_2 = DestroyBoxGameData:GetSelectDifficult(var_10_1)
+function slot0.SwitchDifficult(slot0)
+	slot1 = DestroyBoxGameCfg[slot0.id_]
 
-	arg_10_0:RemoveRedPoint()
+	slot0:RemoveRedPoint()
 
-	arg_10_0.id_ = DestroyBoxGameCfg.get_id_list_by_activity_id[var_10_0.activity_id][var_10_2]
+	slot0.id_ = DestroyBoxGameCfg.get_id_list_by_activity_id[slot1.activity_id][DestroyBoxGameData:GetSelectDifficult(slot1.main_activity_id)]
 
-	arg_10_0:AddRedPoint()
+	slot0:AddRedPoint()
 
-	arg_10_0.isClearStage_ = DestroyBoxGameData:IsClearStage(arg_10_0.id_)
-	arg_10_0.isFinishPreStage_ = DestroyBoxGameData:IsFinishPreStage(arg_10_0.id_)
+	slot0.isClearStage_ = DestroyBoxGameData:IsClearStage(slot0.id_)
+	slot0.isFinishPreStage_ = DestroyBoxGameData:IsFinishPreStage(slot0.id_)
 
-	arg_10_0:AddTimer()
+	slot0:AddTimer()
 end
 
-function var_0_0.RefreshBoxState(arg_11_0)
-	local var_11_0 = DestroyBoxGameCfg[arg_11_0.id_]
+function slot0.RefreshBoxState(slot0)
+	slot1 = DestroyBoxGameCfg[slot0.id_]
 
-	if arg_11_0.isClearStage_ then
-		arg_11_0.boxStateController_:SetSelectedState("clear")
-	elseif not arg_11_0.isFinishPreStage_ or arg_11_0.isTimeLock_ then
-		arg_11_0.boxStateController_:SetSelectedState("lock")
+	if slot0.isClearStage_ then
+		slot0.boxStateController_:SetSelectedState("clear")
+	elseif not slot0.isFinishPreStage_ or slot0.isTimeLock_ then
+		slot0.boxStateController_:SetSelectedState("lock")
 	else
-		arg_11_0.boxStateController_:SetSelectedState("unlock")
+		slot0.boxStateController_:SetSelectedState("unlock")
 	end
 end
 
-function var_0_0.SwitchSelectItem(arg_12_0, arg_12_1)
-	if arg_12_0.id_ == arg_12_1 then
-		arg_12_0.boxSelectController_:SetSelectedState("true")
+function slot0.SwitchSelectItem(slot0, slot1)
+	if slot0.id_ == slot1 then
+		slot0.boxSelectController_:SetSelectedState("true")
 	else
-		arg_12_0.boxSelectController_:SetSelectedState("false")
+		slot0.boxSelectController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddTimer(arg_13_0)
-	arg_13_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	local var_13_0 = DestroyBoxGameCfg[arg_13_0.id_]
+	slot0.isTimeLock_ = ActivityTools.GetActivityStatus(DestroyBoxGameCfg[slot0.id_].activity_id) ~= 1
 
-	arg_13_0.isTimeLock_ = ActivityTools.GetActivityStatus(var_13_0.activity_id) ~= 1
+	slot0:RefreshBoxState()
 
-	arg_13_0:RefreshBoxState()
+	if slot0.isFinishPreStage_ then
+		slot0.timer_ = Timer.New(function ()
+			if ActivityTools.GetActivityStatus(uv0.activity_id) ~= 1 ~= uv1.isTimeLock_ then
+				uv1.isTimeLock_ = slot0
 
-	if arg_13_0.isFinishPreStage_ then
-		arg_13_0.timer_ = Timer.New(function()
-			local var_14_0 = ActivityTools.GetActivityStatus(var_13_0.activity_id) ~= 1
-
-			if var_14_0 ~= arg_13_0.isTimeLock_ then
-				arg_13_0.isTimeLock_ = var_14_0
-
-				arg_13_0:RefreshBoxState()
+				uv1:RefreshBoxState()
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_15_0)
-	if arg_15_0.timer_ then
-		arg_15_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_15_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

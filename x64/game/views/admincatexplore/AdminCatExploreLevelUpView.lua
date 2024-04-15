@@ -1,78 +1,70 @@
-local var_0_0 = class("AdminCatExploreLevelUpView", ReduxView)
+slot0 = class("AdminCatExploreLevelUpView", ReduxView)
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ExploreUI/ExploreLevelUpPopUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBg_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBg_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.curLevel = AdminCatExploreData:GetDataByPara("level")
-	arg_7_0.lockRegion = AdminCatExploreData:GetDataByPara("nextLockRegion")[arg_7_0.curLevel]
-	arg_7_0.lockAdminCat = AdminCatExploreData:GetDataByPara("nextLockAdminCat")[arg_7_0.curLevel]
+function slot0.UpdateView(slot0)
+	slot0.curLevel = AdminCatExploreData:GetDataByPara("level")
+	slot0.lockRegion = AdminCatExploreData:GetDataByPara("nextLockRegion")[slot0.curLevel]
+	slot0.lockAdminCat = AdminCatExploreData:GetDataByPara("nextLockAdminCat")[slot0.curLevel]
 
-	SetActive(arg_7_0.regionGo_, arg_7_0.lockRegion ~= nil)
-	SetActive(arg_7_0.adminCatGo_, arg_7_0.lockAdminCat ~= nil)
+	SetActive(slot0.regionGo_, slot0.lockRegion ~= nil)
+	SetActive(slot0.adminCatGo_, slot0.lockAdminCat ~= nil)
 
-	arg_7_0.titleImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/icon_" .. arg_7_0.curLevel)
+	slot0.titleImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/icon_" .. slot0.curLevel)
+	slot1 = ExploreLevelCfg[slot0.curLevel - 1]
+	slot2 = ExploreLevelCfg[slot0.curLevel]
 
-	local var_7_0 = ExploreLevelCfg[arg_7_0.curLevel - 1]
-	local var_7_1 = ExploreLevelCfg[arg_7_0.curLevel]
-
-	if arg_7_0.lockRegion then
-		local var_7_2 = ExploreAreaCfg[arg_7_0.lockRegion]
-
-		arg_7_0.regionNameTxt_.text = GetI18NText(var_7_2.area_name)
-		arg_7_0.regionImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. var_7_2.icon)
+	if slot0.lockRegion then
+		slot3 = ExploreAreaCfg[slot0.lockRegion]
+		slot0.regionNameTxt_.text = GetI18NText(slot3.area_name)
+		slot0.regionImage_.sprite = getSpriteWithoutAtlas("TextureBg/ExploreUI/" .. slot3.icon)
 	end
 
-	if arg_7_0.lockAdminCat then
-		local var_7_3 = ExploreMeowCfg[arg_7_0.lockAdminCat]
-
-		arg_7_0.adminCatNameTxt_.text = GetI18NText(var_7_3.meow_name)
-
-		local var_7_4 = ExploreMeowSkillCfg[var_7_3.skill]
-		local var_7_5 = ExploreMeowInbornCfg[var_7_3.inborn]
-
-		arg_7_0.skillImg1_.sprite = getSpriteWithoutAtlas("TextureConfig/Chip/" .. var_7_5.inborn_icon)
-		arg_7_0.skillImg2_.sprite = getSpriteWithoutAtlas("TextureConfig/Chip/" .. var_7_4.skill_icon)
-		arg_7_0.adminCatImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. var_7_3.meow_icon)
+	if slot0.lockAdminCat then
+		slot3 = ExploreMeowCfg[slot0.lockAdminCat]
+		slot0.adminCatNameTxt_.text = GetI18NText(slot3.meow_name)
+		slot0.skillImg1_.sprite = getSpriteWithoutAtlas("TextureConfig/Chip/" .. ExploreMeowInbornCfg[slot3.inborn].inborn_icon)
+		slot0.skillImg2_.sprite = getSpriteWithoutAtlas("TextureConfig/Chip/" .. ExploreMeowSkillCfg[slot3.skill].skill_icon)
+		slot0.adminCatImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_l/" .. slot3.meow_icon)
 	end
 
-	arg_7_0.oldQueueTxt_.text = string.format(GetTips("EXPLORE_QUEUE_AMOUNT"), var_7_0.amount)
-	arg_7_0.newQueueTxt.text = string.format(GetTips("EXPLORE_LEVEL_UP"), var_7_1.amount)
-	arg_7_0.oldExploreTime_.text = string.format(GetTips("EXPLORE_MAX_TIME"), var_7_0.time)
-	arg_7_0.newExploreTime_.text = var_7_1.time .. GetTips("HOUR")
+	slot0.oldQueueTxt_.text = string.format(GetTips("EXPLORE_QUEUE_AMOUNT"), slot1.amount)
+	slot0.newQueueTxt.text = string.format(GetTips("EXPLORE_LEVEL_UP"), slot2.amount)
+	slot0.oldExploreTime_.text = string.format(GetTips("EXPLORE_MAX_TIME"), slot1.time)
+	slot0.newExploreTime_.text = slot2.time .. GetTips("HOUR")
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
-	Object.Destroy(arg_10_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

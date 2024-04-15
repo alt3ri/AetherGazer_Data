@@ -1,256 +1,220 @@
-local var_0_0 = class("KagutsuchiAffixMainView", ReduxView)
+slot0 = class("KagutsuchiAffixMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionWorkUI/JapanRegionWorkTalentUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.talentIdList_ = KagutsuchiTalentData:GetTalentIdList()
+function slot0.Init(slot0)
+	slot0.talentIdList_ = KagutsuchiTalentData:GetTalentIdList()
 
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.upBtnController_ = ControllerUtil.GetController(arg_3_0.upgradeTrs_, "button")
-	arg_3_0.upTxtController_ = ControllerUtil.GetController(arg_3_0.upgradeTrs_, "text")
+	slot0.upBtnController_ = ControllerUtil.GetController(slot0.upgradeTrs_, "button")
+	slot4 = "text"
+	slot0.upTxtController_ = ControllerUtil.GetController(slot0.upgradeTrs_, slot4)
 
-	for iter_3_0 = 1, #arg_3_0.talentIdList_ do
-		local var_3_0 = arg_3_0[string.format("talent%dBtn_", iter_3_0)]
-
-		if var_3_0 then
-			arg_3_0[string.format("lock%dController_", iter_3_0)] = ControllerUtil.GetController(var_3_0.transform, "lock")
+	for slot4 = 1, #slot0.talentIdList_ do
+		if slot0[string.format("talent%dBtn_", slot4)] then
+			slot0[string.format("lock%dController_", slot4)] = ControllerUtil.GetController(slot5.transform, "lock")
 		end
 	end
 
-	arg_3_0.rightLockController_ = ControllerUtil.GetController(arg_3_0.rightIconTrs_, "lock")
+	slot0.rightLockController_ = ControllerUtil.GetController(slot0.rightIconTrs_, "lock")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	for iter_4_0 = 1, #arg_4_0.talentIdList_ do
-		local var_4_0 = arg_4_0[string.format("talent%dBtn_", iter_4_0)]
-
-		if var_4_0 then
-			arg_4_0:AddBtnListener(var_4_0, nil, function()
-				arg_4_0:SelectItem(iter_4_0)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, #slot0.talentIdList_ do
+		if slot0[string.format("talent%dBtn_", slot4)] then
+			slot0:AddBtnListener(slot5, nil, function ()
+				uv0:SelectItem(uv1)
 			end)
 		end
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.upBtn_, nil, function()
-		arg_4_0:UpgradeTalent()
+	slot0:AddBtnListener(slot0.upBtn_, nil, function ()
+		uv0:UpgradeTalent()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.backBtn_, nil, function()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.currentIndex_ = -1
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.currentIndex_ = -1
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	AnimatorTools.Stop()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.talentIdList_) do
-		arg_10_0:RefreshItem(iter_10_0, iter_10_1)
+function slot0.RefreshUI(slot0)
+	for slot4, slot5 in ipairs(slot0.talentIdList_) do
+		slot0:RefreshItem(slot4, slot5)
 
-		local var_10_0 = arg_10_0[string.format("select%dGo_", iter_10_0)]
-
-		if var_10_0 then
-			SetActive(var_10_0, false)
+		if slot0[string.format("select%dGo_", slot4)] then
+			SetActive(slot6, false)
 		end
 	end
 
-	arg_10_0:SelectItem(1)
-	SetActive(arg_10_0.upEffectGo_, false)
+	slot0:SelectItem(1)
+	SetActive(slot0.upEffectGo_, false)
 end
 
-function var_0_0.RefreshItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = TalentTreeCfg[arg_11_2]
-	local var_11_1 = KagutsuchiTalentData:GetTalentLevel(arg_11_2)
-	local var_11_2 = var_11_1 == KagutsuchiTalentData:GetTalentMaxLevel(arg_11_2)
-	local var_11_3 = KagutsuchiTalentData:IsTalentLocked(arg_11_2)
-	local var_11_4 = arg_11_0[string.format("lock%dGo_", arg_11_1)]
+function slot0.RefreshItem(slot0, slot1, slot2)
+	slot3 = TalentTreeCfg[slot2]
+	slot5 = KagutsuchiTalentData:GetTalentLevel(slot2) == KagutsuchiTalentData:GetTalentMaxLevel(slot2)
 
-	if var_11_4 then
-		SetActive(var_11_4, var_11_3)
+	if slot0[string.format("lock%dGo_", slot1)] then
+		SetActive(slot7, KagutsuchiTalentData:IsTalentLocked(slot2))
 	end
 
-	local var_11_5 = arg_11_0[string.format("select%dGo_", arg_11_1)]
-
-	if var_11_5 then
-		SetActive(var_11_5, true)
+	if slot0[string.format("select%dGo_", slot1)] then
+		SetActive(slot8, true)
 	end
 
-	local var_11_6 = arg_11_0[string.format("max%dGo_", arg_11_1)]
-
-	if var_11_6 then
-		SetActive(var_11_6, var_11_2)
+	if slot0[string.format("max%dGo_", slot1)] then
+		SetActive(slot9, slot5)
 	end
 
-	local var_11_7 = arg_11_0[string.format("level%dText_", arg_11_1)]
-
-	if var_11_7 then
-		if var_11_2 or var_11_3 then
-			var_11_7.text = ""
+	if slot0[string.format("level%dText_", slot1)] then
+		if slot5 or slot6 then
+			slot10.text = ""
 		else
-			var_11_7.text = string.format("LV.%d", var_11_1)
+			slot10.text = string.format("LV.%d", slot4)
 		end
 	end
 
-	local var_11_8 = arg_11_0[string.format("name%dText_", arg_11_1)]
-
-	if var_11_8 then
-		var_11_8.text = getAffixName({
-			var_11_0.affix_id,
+	if slot0[string.format("name%dText_", slot1)] then
+		slot11.text = getAffixName({
+			slot3.affix_id,
 			1
 		})
 	end
 
-	arg_11_0[string.format("lock%dController_", arg_11_1)]:SetSelectedState(var_11_3 and "yes" or "no")
+	slot0[string.format("lock%dController_", slot1)]:SetSelectedState(slot6 and "yes" or "no")
 
-	if arg_11_0[string.format("talent%dIcon_", arg_11_1)] then
-		-- block empty
+	if slot0[string.format("talent%dIcon_", slot1)] then
+		-- Nothing
 	end
 
-	arg_11_0:RefreshRightPanel(arg_11_2, arg_11_1)
+	slot0:RefreshRightPanel(slot2, slot1)
 end
 
-function var_0_0.RefreshRightPanel(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = TalentTreeCfg[arg_12_1]
-
-	arg_12_0.rightNameText_.text = getAffixName({
-		var_12_0.affix_id,
+function slot0.RefreshRightPanel(slot0, slot1, slot2)
+	slot0.rightNameText_.text = getAffixName({
+		TalentTreeCfg[slot1].affix_id,
 		1
 	})
+	slot4 = KagutsuchiTalentData:IsTalentMaxLevel(slot1)
+	slot5 = KagutsuchiTalentData:CanUpgrade(slot1)
+	slot7 = KagutsuchiTalentData:GetTalentLevel(slot1)
 
-	local var_12_1 = KagutsuchiTalentData:IsTalentMaxLevel(arg_12_1)
-	local var_12_2 = KagutsuchiTalentData:CanUpgrade(arg_12_1)
-	local var_12_3 = KagutsuchiTalentData:IsTalentLocked(arg_12_1)
-	local var_12_4 = KagutsuchiTalentData:GetTalentLevel(arg_12_1)
-
-	if var_12_3 then
-		var_12_4 = 1
+	if KagutsuchiTalentData:IsTalentLocked(slot1) then
+		slot7 = 1
 	end
 
-	arg_12_0.rightLockController_:SetSelectedState(var_12_3 and "yes" or "no")
+	slot0.rightLockController_:SetSelectedState(slot6 and "yes" or "no")
 
-	local var_12_5 = arg_12_0[string.format("talent%dIcon_", arg_12_2)]
-
-	if var_12_5 then
-		arg_12_0.rightIcon_.sprite = var_12_5.sprite
+	if slot0[string.format("talent%dIcon_", slot2)] then
+		slot0.rightIcon_.sprite = slot8.sprite
 	end
 
-	SetActive(arg_12_0.rightLockGo_, var_12_3)
-	SetActive(arg_12_0.rightLevelGo_, not var_12_3)
-	SetActive(arg_12_0.rightMaxGo_, var_12_1)
+	SetActive(slot0.rightLockGo_, slot6)
+	SetActive(slot0.rightLevelGo_, not slot6)
+	SetActive(slot0.rightMaxGo_, slot4)
 
-	if var_12_1 then
-		SetActive(arg_12_0.rightLevelGo_, false)
+	if slot4 then
+		SetActive(slot0.rightLevelGo_, false)
 	else
-		arg_12_0.rightLevelText_.text = string.format("LV.%d", var_12_4)
+		slot0.rightLevelText_.text = string.format("LV.%d", slot7)
 	end
 
-	arg_12_0.rightDescText_.text = getAffixDesc({
-		var_12_0.affix_id,
-		var_12_4
+	slot0.rightDescText_.text = getAffixDesc({
+		slot3.affix_id,
+		slot7
 	})
 
-	if var_12_1 or var_12_3 then
-		SetActive(arg_12_0.rightNextGo_, false)
+	if slot4 or slot6 then
+		SetActive(slot0.rightNextGo_, false)
 	else
-		arg_12_0.rightNextDescText_.text = getAffixDesc({
-			var_12_0.affix_id,
-			var_12_4 + 1
+		slot0.rightNextDescText_.text = getAffixDesc({
+			slot3.affix_id,
+			slot7 + 1
 		})
 
-		SetActive(arg_12_0.rightNextGo_, true)
+		SetActive(slot0.rightNextGo_, true)
 	end
 
-	arg_12_0:RefreshCondition(arg_12_1, var_12_3 and var_12_4 or var_12_4 + 1)
+	slot0:RefreshCondition(slot1, slot6 and slot7 or slot7 + 1)
 
-	if var_12_2 then
-		arg_12_0.upBtnController_:SetSelectedState("yellow")
-		arg_12_0.upTxtController_:SetSelectedState(var_12_3 and "unlock" or "upgrade")
-	elseif var_12_3 then
-		arg_12_0.upBtnController_:SetSelectedState("gray")
-		arg_12_0.upTxtController_:SetSelectedState("unlock")
-	elseif var_12_1 then
-		arg_12_0.upBtnController_:SetSelectedState("black")
-		arg_12_0.upTxtController_:SetSelectedState("max")
+	if slot5 then
+		slot0.upBtnController_:SetSelectedState("yellow")
+		slot0.upTxtController_:SetSelectedState(slot6 and "unlock" or "upgrade")
+	elseif slot6 then
+		slot0.upBtnController_:SetSelectedState("gray")
+		slot0.upTxtController_:SetSelectedState("unlock")
+	elseif slot4 then
+		slot0.upBtnController_:SetSelectedState("black")
+		slot0.upTxtController_:SetSelectedState("max")
 	else
-		arg_12_0.upBtnController_:SetSelectedState("gray")
-		arg_12_0.upTxtController_:SetSelectedState(var_12_3 and "unlock" or "upgrade")
+		slot0.upBtnController_:SetSelectedState("gray")
+		slot0.upTxtController_:SetSelectedState(slot6 and "unlock" or "upgrade")
 	end
 end
 
-function var_0_0.RefreshCondition(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = KagutsuchiTalentData:IsTalentMaxLevel(arg_13_1)
-	local var_13_1 = KagutsuchiTalentData:CanUpgrade(arg_13_1)
+function slot0.RefreshCondition(slot0, slot1, slot2)
+	slot4 = KagutsuchiTalentData:CanUpgrade(slot1)
 
-	if var_13_0 then
-		SetActive(arg_13_0.unlockGo_, false)
+	if KagutsuchiTalentData:IsTalentMaxLevel(slot1) then
+		SetActive(slot0.unlockGo_, false)
 
 		return
 	end
 
-	SetActive(arg_13_0.unlockGo_, true)
+	SetActive(slot0.unlockGo_, true)
 
-	local var_13_2 = KagutsuchiTalentData:GetTalentConditionId(arg_13_1, arg_13_2)
-	local var_13_3 = ConditionCfg[var_13_2]
-	local var_13_4 = var_13_3.type
-	local var_13_5 = var_13_3.params
+	slot6 = ConditionCfg[KagutsuchiTalentData:GetTalentConditionId(slot1, slot2)]
+	slot8 = slot6.params
 
-	if var_13_4 == 1020 then
-		local var_13_6 = HeroConst.Hero_Star
-		local var_13_7 = HeroData:GetHeroData(var_13_5[1])
-		local var_13_8 = var_13_7.unlock == 0 and "-" or var_13_6[math.floor(var_13_7.star / 100)]
-
-		arg_13_0.rightConditionText_.text = var_13_3.desc
-		arg_13_0.rightProgressText_.text = string.format("(%s/%s)", var_13_8, var_13_6[var_13_5[2]])
-	elseif var_13_4 == 2510 then
-		local var_13_9 = KagutsuchiWorkData:GetTotalCoins()
-
-		arg_13_0.rightConditionText_.text = string.format(var_13_3.desc, var_13_5[1])
-		arg_13_0.rightProgressText_.text = string.format("(%d/%d)", var_13_9, var_13_5[1])
+	if slot6.type == 1020 then
+		slot9 = HeroConst.Hero_Star
+		slot0.rightConditionText_.text = slot6.desc
+		slot0.rightProgressText_.text = string.format("(%s/%s)", HeroData:GetHeroData(slot8[1]).unlock == 0 and "-" or slot9[math.floor(slot10.star / 100)], slot9[slot8[2]])
+	elseif slot7 == 2510 then
+		slot0.rightConditionText_.text = string.format(slot6.desc, slot8[1])
+		slot0.rightProgressText_.text = string.format("(%d/%d)", KagutsuchiWorkData:GetTotalCoins(), slot8[1])
 	end
 
-	SetActive(arg_13_0.rightCanUpGo_, var_13_1)
+	SetActive(slot0.rightCanUpGo_, slot4)
 end
 
-function var_0_0.SelectItem(arg_14_0, arg_14_1)
-	if arg_14_0.currentIndex_ == arg_14_1 then
+function slot0.SelectItem(slot0, slot1)
+	if slot0.currentIndex_ == slot1 then
 		return
 	end
 
-	local var_14_0 = arg_14_0.talentIdList_[arg_14_1]
+	slot2 = slot0.talentIdList_[slot1]
 
-	if arg_14_0.currentIndex_ then
-		local var_14_1 = arg_14_0[string.format("select%dGo_", arg_14_0.currentIndex_)]
-
-		if var_14_1 then
-			SetActive(var_14_1, false)
-		end
+	if slot0.currentIndex_ and slot0[string.format("select%dGo_", slot0.currentIndex_)] then
+		SetActive(slot3, false)
 	end
 
-	arg_14_0.currentIndex_ = arg_14_1
+	slot0.currentIndex_ = slot1
 
-	arg_14_0:RefreshItem(arg_14_1, var_14_0)
+	slot0:RefreshItem(slot1, slot2)
 end
 
-function var_0_0.UpgradeTalent(arg_15_0)
-	local var_15_0 = arg_15_0.talentIdList_[arg_15_0.currentIndex_]
-
-	if not KagutsuchiTalentData:CanUpgrade(var_15_0) then
-		if KagutsuchiTalentData:IsTalentLocked(var_15_0) then
+function slot0.UpgradeTalent(slot0)
+	if not KagutsuchiTalentData:CanUpgrade(slot0.talentIdList_[slot0.currentIndex_]) then
+		if KagutsuchiTalentData:IsTalentLocked(slot1) then
 			ShowTips(string.format(GetTips("NO_REACH_UNLOCK")))
 		else
 			ShowTips(string.format(GetTips("DORM_CANTEEN_CANT_LEVEL_UP")))
@@ -259,15 +223,15 @@ function var_0_0.UpgradeTalent(arg_15_0)
 		return
 	end
 
-	KagutsuchiTalentAction:UpgradeTalent(var_15_0, handler(arg_15_0, arg_15_0.OnUpgradeTalent))
+	KagutsuchiTalentAction:UpgradeTalent(slot1, handler(slot0, slot0.OnUpgradeTalent))
 end
 
-function var_0_0.OnUpgradeTalent(arg_16_0, arg_16_1, arg_16_2)
-	arg_16_0:RefreshItem(arg_16_0.currentIndex_, arg_16_2.talent_id)
-	SetActive(arg_16_0.upEffectGo_, true)
-	AnimatorTools.PlayAnimationWithCallback(arg_16_0.upgradeAni_, "JapanRegionWorkTalentUI_saoguang", function()
-		SetActive(arg_16_0.upEffectGo_, false)
+function slot0.OnUpgradeTalent(slot0, slot1, slot2)
+	slot0:RefreshItem(slot0.currentIndex_, slot2.talent_id)
+	SetActive(slot0.upEffectGo_, true)
+	AnimatorTools.PlayAnimationWithCallback(slot0.upgradeAni_, "JapanRegionWorkTalentUI_saoguang", function ()
+		SetActive(uv0.upEffectGo_, false)
 	end)
 end
 
-return var_0_0
+return slot0

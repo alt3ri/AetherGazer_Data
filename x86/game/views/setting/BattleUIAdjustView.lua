@@ -1,13 +1,13 @@
-local var_0_0 = require("cjson")
-local var_0_1 = class("BattleUIAdjustView", ReduxView)
+slot0 = require("cjson")
+slot1 = class("BattleUIAdjustView", ReduxView)
 
-function var_0_1.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot1.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_1.UIName(arg_2_0)
+function slot1.UIName(slot0)
 	if GameToSDK.PLATFORM_ID == 0 or GameToSDK.PLATFORM_ID == 1 then
 		return "Widget/System/Setting/BattlePanelSetting"
 	else
@@ -15,331 +15,317 @@ function var_0_1.UIName(arg_2_0)
 	end
 end
 
-function var_0_1.UIParent(arg_3_0)
+function slot1.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_1.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.adapter_ = arg_5_0:FindCom("BattleUIAdapter", "")
-	arg_5_0.targets_ = {}
-	arg_5_0.trans_ = {}
-	arg_5_0.defaultScale_ = {}
-	arg_5_0.panelController_ = ControllerUtil.GetController(arg_5_0.panelGo_.transform, "conName")
+	slot4 = ""
+	slot0.adapter_ = slot0:FindCom("BattleUIAdapter", slot4)
+	slot0.targets_ = {}
+	slot0.trans_ = {}
+	slot0.defaultScale_ = {}
+	slot0.panelController_ = ControllerUtil.GetController(slot0.panelGo_.transform, "conName")
 
-	for iter_5_0 = 0, arg_5_0.adapter_.listToChange.Count - 1 do
-		local var_5_0 = arg_5_0:FindCom(typeof(Image), arg_5_0.adapter_.listToChange[iter_5_0])
+	for slot4 = 0, slot0.adapter_.listToChange.Count - 1 do
+		slot5 = slot0:FindCom(typeof(Image), slot0.adapter_.listToChange[slot4])
 
-		table.insert(arg_5_0.targets_, var_5_0)
+		table.insert(slot0.targets_, slot5)
 
-		arg_5_0.defaultScale_[var_5_0] = var_5_0.transform.localScale.x
+		slot0.defaultScale_[slot5] = slot5.transform.localScale.x
 
-		table.insert(arg_5_0.trans_, arg_5_0:FindCom(typeof(RectTransform), arg_5_0.adapter_.listToChange[iter_5_0]))
+		table.insert(slot0.trans_, slot0:FindCom(typeof(RectTransform), slot0.adapter_.listToChange[slot4]))
 	end
 
-	arg_5_0.canvasGroupList_ = {}
+	slot0.canvasGroupList_ = {}
 
-	for iter_5_1 = 0, arg_5_0.adapter_.m_alphaList.Count - 1 do
-		table.insert(arg_5_0.canvasGroupList_, arg_5_0:FindCom(typeof(CanvasGroup), arg_5_0.adapter_.m_alphaList[iter_5_1]))
+	for slot4 = 0, slot0.adapter_.m_alphaList.Count - 1 do
+		table.insert(slot0.canvasGroupList_, slot0:FindCom(typeof(CanvasGroup), slot0.adapter_.m_alphaList[slot4]))
 	end
 
-	arg_5_0.typeTgls_ = {
-		arg_5_0.type0Btn_,
-		arg_5_0.type1Btn_,
-		arg_5_0.type2Btn_,
-		arg_5_0.type3Btn_
+	slot0.typeTgls_ = {
+		slot0.type0Btn_,
+		slot0.type1Btn_,
+		slot0.type2Btn_,
+		slot0.type3Btn_
 	}
-	arg_5_0.stateCtrl = arg_5_0.tabControllerexcollection_:GetController("default0")
+	slot0.stateCtrl = slot0.tabControllerexcollection_:GetController("default0")
 end
 
-function var_0_1.OnEnter(arg_6_0)
-	arg_6_0:AdaptScreen()
+function slot1.OnEnter(slot0)
+	slot0:AdaptScreen()
 
-	arg_6_0.settingData_ = SettingData:GetBattleUISettingData()
-	arg_6_0.tmpSettingData_ = deepClone(arg_6_0.settingData_)
-	arg_6_0.currentIndex_ = 0
+	slot0.settingData_ = SettingData:GetBattleUISettingData()
+	slot0.tmpSettingData_ = deepClone(slot0.settingData_)
+	slot0.currentIndex_ = 0
 
-	if arg_6_0.tmpSettingData_.battle_ui_cur_type == arg_6_0.tmpSettingData_.battle_ui_type_0 then
-		arg_6_0.currentIndex_ = 0
-	elseif arg_6_0.tmpSettingData_.battle_ui_cur_type == arg_6_0.tmpSettingData_.battle_ui_type_1 then
-		arg_6_0.currentIndex_ = 1
-	elseif arg_6_0.tmpSettingData_.battle_ui_cur_type == arg_6_0.tmpSettingData_.battle_ui_type_2 then
-		arg_6_0.currentIndex_ = 2
-	elseif arg_6_0.tmpSettingData_.battle_ui_cur_type == arg_6_0.tmpSettingData_.battle_ui_type_3 then
-		arg_6_0.currentIndex_ = 3
+	if slot0.tmpSettingData_.battle_ui_cur_type == slot0.tmpSettingData_.battle_ui_type_0 then
+		slot0.currentIndex_ = 0
+	elseif slot0.tmpSettingData_.battle_ui_cur_type == slot0.tmpSettingData_.battle_ui_type_1 then
+		slot0.currentIndex_ = 1
+	elseif slot0.tmpSettingData_.battle_ui_cur_type == slot0.tmpSettingData_.battle_ui_type_2 then
+		slot0.currentIndex_ = 2
+	elseif slot0.tmpSettingData_.battle_ui_cur_type == slot0.tmpSettingData_.battle_ui_type_3 then
+		slot0.currentIndex_ = 3
 	end
 
-	arg_6_0:UpdateSelectTrans(arg_6_0.targets_[1])
-	arg_6_0:UpdateIndex(arg_6_0.currentIndex_)
+	slot0:UpdateSelectTrans(slot0.targets_[1])
+	slot0:UpdateIndex(slot0.currentIndex_)
 
-	arg_6_0.isDirty_ = false
+	slot0.isDirty_ = false
 
 	if manager.windowBar:GetIsShow() then
-		arg_6_0.barList_ = manager.windowBar:GetLastBarList()
+		slot0.barList_ = manager.windowBar:GetLastBarList()
 
 		manager.windowBar:HideBar()
 	end
 
-	arg_6_0.stateCtrl:SetSelectedIndex(arg_6_0.currentIndex_)
+	slot0.stateCtrl:SetSelectedIndex(slot0.currentIndex_)
 end
 
-function var_0_1.OnExit(arg_7_0)
-	if arg_7_0.barList_ then
-		manager.windowBar:SwitchBar(arg_7_0.barList_)
+function slot1.OnExit(slot0)
+	if slot0.barList_ then
+		manager.windowBar:SwitchBar(slot0.barList_)
 	end
 end
 
-function var_0_1.Dispose(arg_8_0)
-	var_0_1.super.Dispose(arg_8_0)
-	arg_8_0.sizeSlr_.onValueChanged:RemoveAllListeners()
-	arg_8_0.alphaSlider_.onValueChanged:RemoveAllListeners()
-	arg_8_0.rotateSpeedSlider_.onValueChanged:RemoveAllListeners()
+function slot1.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.sizeSlr_.onValueChanged:RemoveAllListeners()
+	slot0.alphaSlider_.onValueChanged:RemoveAllListeners()
+	slot0.rotateSpeedSlider_.onValueChanged:RemoveAllListeners()
 end
 
-function var_0_1.UpdateSelectTrans(arg_9_0, arg_9_1)
-	if arg_9_0.selectTarget_ then
-		arg_9_0.selectTarget_.color = Color.white
+function slot1.UpdateSelectTrans(slot0, slot1)
+	if slot0.selectTarget_ then
+		slot0.selectTarget_.color = Color.white
 	end
 
-	arg_9_0.selectTarget_ = arg_9_1
-	arg_9_0.selectTarget_.color = Color.green
+	slot0.selectTarget_ = slot1
+	slot0.selectTarget_.color = Color.green
 
-	local var_9_0 = arg_9_0.defaultScale_[arg_9_0.selectTarget_]
-
-	if var_9_0 and var_9_0 > 0 then
-		arg_9_0.sizeSlr_.value = arg_9_0.selectTarget_.transform.localScale.x / var_9_0 - 0.5
+	if slot0.defaultScale_[slot0.selectTarget_] and slot2 > 0 then
+		slot0.sizeSlr_.value = slot0.selectTarget_.transform.localScale.x / slot2 - 0.5
 	else
-		arg_9_0.sizeSlr_.value = arg_9_0.selectTarget_.transform.localScale.x - 0.5
+		slot0.sizeSlr_.value = slot0.selectTarget_.transform.localScale.x - 0.5
 	end
 end
 
-function var_0_1.UpdateIndex(arg_10_0, arg_10_1)
-	arg_10_0.currentIndex_ = arg_10_1
+function slot1.UpdateIndex(slot0, slot1)
+	slot0.currentIndex_ = slot1
 
-	arg_10_0.stateCtrl:SetSelectedIndex(arg_10_0.currentIndex_)
+	slot0.stateCtrl:SetSelectedIndex(slot0.currentIndex_)
 
-	arg_10_0.tmpSettingData_.battle_ui_cur_type = arg_10_0.tmpSettingData_["battle_ui_type_" .. arg_10_1]
-	arg_10_0.tmpSettingData_.battle_ui_cur_alpha_value = arg_10_0.tmpSettingData_["battle_ui_type_" .. arg_10_1]
+	slot0.tmpSettingData_.battle_ui_cur_type = slot0.tmpSettingData_["battle_ui_type_" .. slot1]
+	slot0.tmpSettingData_.battle_ui_cur_alpha_value = slot0.tmpSettingData_["battle_ui_type_" .. slot1]
 
-	local var_10_0 = tonumber(arg_10_0.tmpSettingData_["battle_ui_alpha_" .. arg_10_1])
+	slot0.adapter_:ResetToDefault()
+	slot0.adapter_:Set(slot0.tmpSettingData_.battle_ui_cur_type, tonumber(slot0.tmpSettingData_["battle_ui_alpha_" .. slot1]))
 
-	arg_10_0.adapter_:ResetToDefault()
-	arg_10_0.adapter_:Set(arg_10_0.tmpSettingData_.battle_ui_cur_type, var_10_0)
-
-	local var_10_1 = arg_10_0.defaultScale_[arg_10_0.selectTarget_]
-
-	if var_10_1 and var_10_1 > 0 then
-		arg_10_0.sizeSlr_.value = arg_10_0.selectTarget_.transform.localScale.x / var_10_1 - 0.5
+	if slot0.defaultScale_[slot0.selectTarget_] and slot3 > 0 then
+		slot0.sizeSlr_.value = slot0.selectTarget_.transform.localScale.x / slot3 - 0.5
 	else
-		arg_10_0.sizeSlr_.value = arg_10_0.selectTarget_.transform.localScale.x - 0.5
+		slot0.sizeSlr_.value = slot0.selectTarget_.transform.localScale.x - 0.5
 	end
 
-	arg_10_0.alphaSlider_.value = 1 - var_10_0
-	arg_10_0.tmpSettingData_.battle_ui_cur_rotate_speed = arg_10_0.tmpSettingData_["battle_ui_rotate_speed_" .. arg_10_1]
-	arg_10_0.rotateSpeedSlider_.value = tonumber(arg_10_0.tmpSettingData_["battle_ui_rotate_speed_" .. arg_10_1])
+	slot0.alphaSlider_.value = 1 - slot2
+	slot0.tmpSettingData_.battle_ui_cur_rotate_speed = slot0.tmpSettingData_["battle_ui_rotate_speed_" .. slot1]
+	slot0.rotateSpeedSlider_.value = tonumber(slot0.tmpSettingData_["battle_ui_rotate_speed_" .. slot1])
 end
 
-function var_0_1.ApplyData(arg_11_0)
-	arg_11_0.tmpSettingData_.battle_ui_cur_type = arg_11_0.adapter_:Save()
-	arg_11_0.tmpSettingData_.battle_ui_cur_alpha_value = 1 - arg_11_0.alphaSlider_.value
-	arg_11_0.tmpSettingData_.battle_ui_cur_rotate_speed = arg_11_0.rotateSpeedSlider_.value
+function slot1.ApplyData(slot0)
+	slot0.tmpSettingData_.battle_ui_cur_type = slot0.adapter_:Save()
+	slot0.tmpSettingData_.battle_ui_cur_alpha_value = 1 - slot0.alphaSlider_.value
+	slot0.tmpSettingData_.battle_ui_cur_rotate_speed = slot0.rotateSpeedSlider_.value
 
-	if arg_11_0.currentIndex_ < 0 or arg_11_0.currentIndex_ > 3 then
+	if slot0.currentIndex_ < 0 or slot0.currentIndex_ > 3 then
 		return
 	end
 
-	local var_11_0 = {}
-	local var_11_1
-	local var_11_2 = arg_11_0.adapter_:DecodeData(arg_11_0.tmpSettingData_.battle_ui_cur_type)
+	slot1 = {}
+	slot2 = nil
 
-	for iter_11_0 = 0, var_11_2.datas.Count - 1 do
-		local var_11_3 = var_11_2.datas[iter_11_0]
-		local var_11_4 = {
-			var_11_3.path,
-			var_11_3.offest.x,
-			var_11_3.offest.y,
-			var_11_3.scale
-		}
+	for slot7 = 0, slot0.adapter_:DecodeData(slot0.tmpSettingData_.battle_ui_cur_type).datas.Count - 1 do
+		slot8 = slot3.datas[slot7]
 
-		table.insert(var_11_0, var_11_4)
+		table.insert(slot1, {
+			slot8.path,
+			slot8.offest.x,
+			slot8.offest.y,
+			slot8.scale
+		})
 	end
 
-	local var_11_5 = var_0_0.encode(var_11_0)
-	local var_11_6 = {
-		diy_battle = var_11_5
-	}
+	SDKTools.SendMessageToSDK("diy_battle_setting", {
+		diy_battle = uv0.encode(slot1)
+	})
 
-	SDKTools.SendMessageToSDK("diy_battle_setting", var_11_6)
-
-	arg_11_0.tmpSettingData_["battle_ui_type_" .. arg_11_0.currentIndex_] = arg_11_0.tmpSettingData_.battle_ui_cur_type
-	arg_11_0.tmpSettingData_["battle_ui_alpha_" .. arg_11_0.currentIndex_] = arg_11_0.tmpSettingData_.battle_ui_cur_alpha_value
-	arg_11_0.tmpSettingData_["battle_ui_rotate_speed_" .. arg_11_0.currentIndex_] = arg_11_0.tmpSettingData_.battle_ui_cur_rotate_speed
+	slot0.tmpSettingData_["battle_ui_type_" .. slot0.currentIndex_] = slot0.tmpSettingData_.battle_ui_cur_type
+	slot0.tmpSettingData_["battle_ui_alpha_" .. slot0.currentIndex_] = slot0.tmpSettingData_.battle_ui_cur_alpha_value
+	slot0.tmpSettingData_["battle_ui_rotate_speed_" .. slot0.currentIndex_] = slot0.tmpSettingData_.battle_ui_cur_rotate_speed
 end
 
-function var_0_1.SaveFunc(arg_12_0)
-	arg_12_0:ApplyData()
+function slot1.SaveFunc(slot0)
+	slot0:ApplyData()
 
-	arg_12_0.settingData_ = deepClone(arg_12_0.tmpSettingData_)
+	slot0.settingData_ = deepClone(slot0.tmpSettingData_)
 
-	SettingData:ModifyBattleUISetting("allData", arg_12_0.settingData_)
+	SettingData:ModifyBattleUISetting("allData", slot0.settingData_)
 
-	arg_12_0.isDirty_ = false
+	slot0.isDirty_ = false
 
 	ShowTips("SAVE_SYSTEM_SETTING")
 	manager.notify:Invoke(BATTLE_UI_ADJUSTED)
 end
 
-function var_0_1.BackFunc(arg_13_0)
-	local var_13_0 = false
+function slot1.BackFunc(slot0)
+	slot1 = false
 
-	if arg_13_0.tmpSettingData_ and not table.equal(arg_13_0.tmpSettingData_, arg_13_0.settingData_, "all") then
-		var_13_0 = true
+	if slot0.tmpSettingData_ and not table.equal(slot0.tmpSettingData_, slot0.settingData_, "all") then
+		slot1 = true
 	end
 
-	if var_13_0 or arg_13_0.isDirty_ then
+	if slot1 or slot0.isDirty_ then
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("TIP_SETTING_CHANGE"),
-			OkCallback = function()
-				arg_13_0:SaveFunc()
-				OperationRecorder.Record(arg_13_0.class.__cname, "panel/btn_save")
-				arg_13_0:Back()
+			OkCallback = function ()
+				uv0:SaveFunc()
+				OperationRecorder.Record(uv0.class.__cname, "panel/btn_save")
+				uv0:Back()
 			end,
-			CancelCallback = function()
-				OperationRecorder.Record(arg_13_0.class.__cname, "cancel")
-				arg_13_0:Back()
+			CancelCallback = function ()
+				OperationRecorder.Record(uv0.class.__cname, "cancel")
+				uv0:Back()
 			end
 		})
 	else
-		arg_13_0:Back()
+		slot0:Back()
 	end
 end
 
-function var_0_1.AddUIListener(arg_16_0)
-	arg_16_0:AddBtnListener(arg_16_0.returnBtn_, nil, function()
-		arg_16_0:BackFunc()
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.returnBtn_, nil, function ()
+		uv0:BackFunc()
 	end)
-	arg_16_0:AddBtnListener(arg_16_0.resetBtn_, nil, function()
-		arg_16_0.adapter_:ResetToDefault()
+	slot0:AddBtnListener(slot0.resetBtn_, nil, function ()
+		uv0.adapter_:ResetToDefault()
 
-		arg_16_0.sizeSlr_.value = 0.5
-		arg_16_0.alphaSlider_.value = 0
-		arg_16_0.rotateSpeedSlider_.value = 0.5
-		arg_16_0.isDirty_ = true
+		uv0.sizeSlr_.value = 0.5
+		uv0.alphaSlider_.value = 0
+		uv0.rotateSpeedSlider_.value = 0.5
+		uv0.isDirty_ = true
 
-		arg_16_0:ValidCheck()
-	end)
-	arg_16_0:AddBtnListener(arg_16_0.saveBtn_, nil, function()
-		arg_16_0:SaveFunc()
+		uv0:ValidCheck()
 	end)
 
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0.typeTgls_) do
-		arg_16_0:AddBtnListener(iter_16_1, nil, function()
-			if arg_16_0.currentIndex_ == iter_16_0 - 1 then
+	slot4 = nil
+
+	function slot5()
+		uv0:SaveFunc()
+	end
+
+	slot0:AddBtnListener(slot0.saveBtn_, slot4, slot5)
+
+	for slot4, slot5 in ipairs(slot0.typeTgls_) do
+		slot0:AddBtnListener(slot5, nil, function ()
+			if uv0.currentIndex_ == uv1 - 1 then
 				return
 			end
 
-			arg_16_0:ApplyData()
-			arg_16_0:UpdateIndex(iter_16_0 - 1)
-			arg_16_0:ValidCheck()
+			uv0:ApplyData()
+			uv0:UpdateIndex(uv1 - 1)
+			uv0:ValidCheck()
 		end)
 	end
 
-	arg_16_0.sizeSlr_.onValueChanged:AddListener(function()
-		if arg_16_0.selectTarget_ then
-			local var_21_0 = (arg_16_0.sizeSlr_.value + 0.5) * arg_16_0.defaultScale_[arg_16_0.selectTarget_]
-
-			arg_16_0.selectTarget_.transform.localScale = Vector3.New(var_21_0, var_21_0, var_21_0)
+	slot0.sizeSlr_.onValueChanged:AddListener(function ()
+		if uv0.selectTarget_ then
+			slot0 = (uv0.sizeSlr_.value + 0.5) * uv0.defaultScale_[uv0.selectTarget_]
+			uv0.selectTarget_.transform.localScale = Vector3.New(slot0, slot0, slot0)
 		end
 
-		arg_16_0.isDirty_ = true
+		uv0.isDirty_ = true
 
-		arg_16_0:ValidCheck()
+		uv0:ValidCheck()
 	end)
-	arg_16_0.alphaSlider_.onValueChanged:AddListener(function()
-		local var_22_0 = arg_16_0.alphaSlider_.value
-
-		for iter_22_0, iter_22_1 in pairs(arg_16_0.canvasGroupList_) do
-			iter_22_1.alpha = 1 - var_22_0
+	slot0.alphaSlider_.onValueChanged:AddListener(function ()
+		for slot4, slot5 in pairs(uv0.canvasGroupList_) do
+			slot5.alpha = 1 - uv0.alphaSlider_.value
 		end
 
-		arg_16_0.isDirty_ = true
+		uv0.isDirty_ = true
 
-		arg_16_0:ValidCheck()
+		uv0:ValidCheck()
 	end)
-	arg_16_0.rotateSpeedSlider_.onValueChanged:AddListener(function()
-		arg_16_0.isDirty_ = true
+	slot0.rotateSpeedSlider_.onValueChanged:AddListener(function ()
+		uv0.isDirty_ = true
 	end)
 
-	for iter_16_2, iter_16_3 in pairs(arg_16_0.targets_) do
-		arg_16_0:GetOrAddComponent(iter_16_3.gameObject, typeof(EventTriggerListener)):AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function()
-			arg_16_0.isDirty_ = true
+	for slot4, slot5 in pairs(slot0.targets_) do
+		slot0:GetOrAddComponent(slot5.gameObject, typeof(EventTriggerListener)):AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(function ()
+			uv0.isDirty_ = true
 
-			arg_16_0:UpdateSelectTrans(iter_16_3)
-			arg_16_0:ValidCheck()
+			uv0:UpdateSelectTrans(uv1)
+			uv0:ValidCheck()
 		end))
 	end
 
-	arg_16_0:AddBtnListener(arg_16_0.zoombtnBtn_, nil, function()
-		local var_25_0 = arg_16_0.panelController_:GetSelectedState() == "1"
-
-		arg_16_0.panelController_:SetSelectedState(var_25_0 and "0" or "1")
+	slot0:AddBtnListener(slot0.zoombtnBtn_, nil, function ()
+		uv0.panelController_:SetSelectedState(uv0.panelController_:GetSelectedState() == "1" and "0" or "1")
 	end)
 end
 
-function var_0_1.GetScreenRect(arg_26_0, arg_26_1)
-	local var_26_0 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
+function slot1.GetScreenRect(slot0, slot1)
+	slot2 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
 
-	if arg_26_0.corners == nil then
-		arg_26_0.corners = System.Array.CreateInstance(typeof(UnityEngine.Vector3), 4)
+	if slot0.corners == nil then
+		slot0.corners = System.Array.CreateInstance(typeof(UnityEngine.Vector3), 4)
 	end
 
-	arg_26_1:GetWorldCorners(arg_26_0.corners)
+	slot1:GetWorldCorners(slot0.corners)
 
-	local var_26_1 = UnityEngine.RectTransformUtility.WorldToScreenPoint(var_26_0, arg_26_0.corners[0])
-	local var_26_2 = UnityEngine.RectTransformUtility.WorldToScreenPoint(var_26_0, arg_26_0.corners[2])
+	slot3 = UnityEngine.RectTransformUtility.WorldToScreenPoint(slot2, slot0.corners[0])
 
-	return (UnityEngine.Rect.New(var_26_1, var_26_2 - var_26_1))
+	return UnityEngine.Rect.New(slot3, UnityEngine.RectTransformUtility.WorldToScreenPoint(slot2, slot0.corners[2]) - slot3)
 end
 
-function var_0_1.Overlap(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = arg_27_0:GetScreenRect(arg_27_1)
-	local var_27_1 = arg_27_0:GetScreenRect(arg_27_2)
-
-	return var_27_0:Overlaps(var_27_1)
+function slot1.Overlap(slot0, slot1, slot2)
+	return slot0:GetScreenRect(slot1):Overlaps(slot0:GetScreenRect(slot2))
 end
 
-function var_0_1.ValidCheck(arg_28_0)
-	if arg_28_0.invalidList_ then
-		for iter_28_0, iter_28_1 in ipairs(arg_28_0.invalidList_) do
-			if arg_28_0.selectTarget_ == arg_28_0.targets_[iter_28_1] then
-				arg_28_0.targets_[iter_28_1].color = Color.green
+function slot1.ValidCheck(slot0)
+	if slot0.invalidList_ then
+		for slot4, slot5 in ipairs(slot0.invalidList_) do
+			if slot0.selectTarget_ == slot0.targets_[slot5] then
+				slot0.targets_[slot5].color = Color.green
 			else
-				arg_28_0.targets_[iter_28_1].color = Color.white
+				slot0.targets_[slot5].color = Color.white
 			end
 		end
 	end
 
-	arg_28_0.invalidList_ = {}
+	slot0.invalidList_ = {}
 
-	for iter_28_2, iter_28_3 in ipairs(arg_28_0.trans_) do
-		for iter_28_4, iter_28_5 in ipairs(arg_28_0.trans_) do
-			if iter_28_3 ~= iter_28_5 and arg_28_0:Overlap(iter_28_3, iter_28_5) then
-				table.insert(arg_28_0.invalidList_, iter_28_2)
-				table.insert(arg_28_0.invalidList_, iter_28_4)
+	for slot4, slot5 in ipairs(slot0.trans_) do
+		for slot9, slot10 in ipairs(slot0.trans_) do
+			if slot5 ~= slot10 and slot0:Overlap(slot5, slot10) then
+				table.insert(slot0.invalidList_, slot4)
+				table.insert(slot0.invalidList_, slot9)
 			end
 		end
 	end
 
-	for iter_28_6, iter_28_7 in ipairs(arg_28_0.invalidList_) do
-		arg_28_0.targets_[iter_28_7].color = Color.red
+	for slot4, slot5 in ipairs(slot0.invalidList_) do
+		slot0.targets_[slot5].color = Color.red
 	end
 end
 
-return var_0_1
+return slot1

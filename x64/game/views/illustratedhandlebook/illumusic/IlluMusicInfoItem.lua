@@ -1,121 +1,116 @@
-local var_0_0 = class("IlluMusicInfoItem", ReduxView)
+slot0 = class("IlluMusicInfoItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.songItems = {}
+	slot0.songItems = {}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_mask, nil, function()
-		if arg_4_0.maskClickFunc then
-			arg_4_0.maskClickFunc(arg_4_0.index)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_mask, nil, function ()
+		if uv0.maskClickFunc then
+			uv0.maskClickFunc(uv0.index)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.m_cdBtn, nil, function()
-		if arg_4_0.cdClickFunc then
-			arg_4_0.cdClickFunc()
+	slot0:AddBtnListener(slot0.m_cdBtn, nil, function ()
+		if uv0.cdClickFunc then
+			uv0.cdClickFunc()
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.album = arg_7_1
-	arg_7_0.index = arg_7_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.album = slot1
+	slot0.index = slot3
+	slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/musicCD/" .. MusicAlbumRecordCfg[slot1].cover)
+	slot0.songs = MusicRecordCfg.get_id_list_by_album[slot0.album] or {}
 
-	local var_7_0 = MusicAlbumRecordCfg[arg_7_1]
+	slot0:RefreshSongs()
+	slot0:RefreshSongsState(slot2)
 
-	arg_7_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/musicCD/" .. var_7_0.cover)
-	arg_7_0.songs = MusicRecordCfg.get_id_list_by_album[arg_7_0.album] or {}
-
-	arg_7_0:RefreshSongs()
-	arg_7_0:RefreshSongsState(arg_7_2)
-
-	arg_7_0.m_verName.text = GetI18NText(var_7_0.verName)
-	arg_7_0.m_albumName.text = GetI18NText(var_7_0.albumName)
+	slot0.m_verName.text = GetI18NText(slot4.verName)
+	slot0.m_albumName.text = GetI18NText(slot4.albumName)
 end
 
-function var_0_0.UpdateAnima(arg_8_0, arg_8_1)
-	if arg_8_1 == arg_8_0.index then
-		arg_8_0.m_animator:Play("detail_item_on", -1, 0)
+function slot0.UpdateAnima(slot0, slot1)
+	if slot1 == slot0.index then
+		slot0.m_animator:Play("detail_item_on", -1, 0)
 	else
-		arg_8_0.m_animator:Play("detail_item_on", -1, 1)
+		slot0.m_animator:Play("detail_item_on", -1, 1)
 	end
 end
 
-function var_0_0.UpdateState(arg_9_0, arg_9_1)
-	if arg_9_0.index == arg_9_1 then
-		SetActive(arg_9_0.m_mask.gameObject, false)
+function slot0.UpdateState(slot0, slot1)
+	if slot0.index == slot1 then
+		SetActive(slot0.m_mask.gameObject, false)
 	else
-		SetActive(arg_9_0.m_mask.gameObject, true)
+		SetActive(slot0.m_mask.gameObject, true)
 	end
 end
 
-function var_0_0.RefreshSongs(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.songs) do
-		if not arg_10_0.songItems[iter_10_0] then
-			local var_10_0 = Object.Instantiate(arg_10_0.m_songItem, arg_10_0.m_songContent)
-
-			arg_10_0.songItems[iter_10_0] = IlluMusicSongItem.New(var_10_0, arg_10_0)
+function slot0.RefreshSongs(slot0)
+	for slot4, slot5 in ipairs(slot0.songs) do
+		if not slot0.songItems[slot4] then
+			slot0.songItems[slot4] = IlluMusicSongItem.New(Object.Instantiate(slot0.m_songItem, slot0.m_songContent), slot0)
 		end
 
-		arg_10_0.songItems[iter_10_0]:SetActive(true)
-		arg_10_0.songItems[iter_10_0]:RefreshUI(iter_10_1)
+		slot0.songItems[slot4]:SetActive(true)
+		slot0.songItems[slot4]:RefreshUI(slot5)
 	end
 
-	for iter_10_2 = #arg_10_0.songs + 1, #arg_10_0.songItems do
-		arg_10_0.songItems[iter_10_2]:SetActive(false)
-	end
-end
-
-function var_0_0.RefreshSongsState(arg_11_0, arg_11_1)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.songItems) do
-		iter_11_1:RefreshSongsState(arg_11_1)
+	for slot5 = #slot0.songs + 1, #slot0.songItems do
+		slot0.songItems[slot5]:SetActive(false)
 	end
 end
 
-function var_0_0.RegistCallBack(arg_12_0, arg_12_1)
-	arg_12_0.clickFunc = arg_12_1
-end
-
-function var_0_0.PlayMusic(arg_13_0, arg_13_1)
-	if arg_13_0.clickFunc then
-		arg_13_0.clickFunc(arg_13_1)
+function slot0.RefreshSongsState(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.songItems) do
+		slot6:RefreshSongsState(slot1)
 	end
 end
 
-function var_0_0.RegistMaskCallBack(arg_14_0, arg_14_1)
-	arg_14_0.maskClickFunc = arg_14_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.RegistCdCallBack(arg_15_0, arg_15_1)
-	arg_15_0.cdClickFunc = arg_15_1
+function slot0.PlayMusic(slot0, slot1)
+	if slot0.clickFunc then
+		slot0.clickFunc(slot1)
+	end
 end
 
-function var_0_0.ForceRebuild(arg_16_0)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_16_0.m_songContent)
+function slot0.RegistMaskCallBack(slot0, slot1)
+	slot0.maskClickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_17_0)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_0.songItems) do
-		iter_17_1:Dispose()
+function slot0.RegistCdCallBack(slot0, slot1)
+	slot0.cdClickFunc = slot1
+end
+
+function slot0.ForceRebuild(slot0)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_songContent)
+end
+
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.songItems) do
+		slot5:Dispose()
 	end
 
-	arg_17_0.songItems = {}
+	slot0.songItems = {}
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

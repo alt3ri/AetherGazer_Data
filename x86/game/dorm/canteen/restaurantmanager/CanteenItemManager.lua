@@ -1,313 +1,282 @@
-local function var_0_0(arg_1_0)
-	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, arg_1_0)
+function slot0(slot0)
+	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, slot0)
 end
 
-local function var_0_1(arg_2_0)
-	return arg_2_0.tag.transform
+function slot1(slot0)
+	return slot0.tag.transform
 end
 
-local function var_0_2(arg_3_0, arg_3_1)
-	local var_3_0
-	local var_3_1 = CanteenItemCfg.get_id_list_by_combination[arg_3_0]
+function slot2(slot0, slot1)
+	slot2 = nil
 
-	if var_3_1 then
-		for iter_3_0, iter_3_1 in ipairs(var_3_1) do
-			if arg_3_1 >= CanteenItemCfg[iter_3_1].level then
-				var_3_0 = iter_3_1
+	if CanteenItemCfg.get_id_list_by_combination[slot0] then
+		for slot7, slot8 in ipairs(slot3) do
+			if CanteenItemCfg[slot8].level <= slot1 then
+				slot2 = slot8
 			else
 				break
 			end
 		end
 	end
 
-	return var_3_0
+	return slot2
 end
 
-local var_0_3 = "HZ04_placeholder"
+slot3 = "HZ04_placeholder"
 
-local function var_0_4(arg_4_0)
-	local var_4_0 = arg_4_0.type
-	local var_4_1 = arg_4_0.level or 0
-	local var_4_2 = var_0_2(var_4_0, var_4_1)
-	local var_4_3 = nullable(CanteenItemCfg, var_4_2, "model") or var_0_3
-
-	if var_4_3 == "" then
-		var_4_3 = var_0_3
+function slot4(slot0)
+	if (nullable(CanteenItemCfg, uv0(slot0.type, slot0.level or 0), "model") or uv1) == "" then
+		slot4 = uv1
 	end
 
-	return "Dorm/Restaurant/" .. var_4_3
+	return "Dorm/Restaurant/" .. slot4
 end
 
-local var_0_5 = CanteenManager.PosNamespace(DormEnum.Points.RestaurantFoodSpawn)
+slot5 = CanteenManager.PosNamespace(DormEnum.Points.RestaurantFoodSpawn)
 
-local function var_0_6()
-	return Dorm.storage:RndPickData(var_0_5).transform
+function slot6()
+	return Dorm.storage:RndPickData(uv0).transform
 end
 
-local function var_0_7(arg_6_0)
-	return "Dorm/Food/" .. arg_6_0.prefab
+function slot7(slot0)
+	return "Dorm/Food/" .. slot0.prefab
 end
 
-local function var_0_8(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2 = arg_7_2 or {}
-	arg_7_2.available = true
-	arg_7_2.type = DormEnum.EntityType.FoodItem
+function slot8(slot0, slot1, slot2)
+	slot2 = slot2 or {}
+	slot2.available = true
+	slot2.type = DormEnum.EntityType.FoodItem
 
-	return arg_7_2
+	return slot2
 end
 
-local var_0_9 = singletonClass("DormItemManager")
+slot9 = singletonClass("DormItemManager")
 
-function var_0_9.Ctor(arg_8_0)
-	arg_8_0.listener = EventListener.New()
+function slot9.Ctor(slot0)
+	slot0.listener = EventListener.New()
+	slot0.staticItemEntityManager = EntityManager.New(EntityManager.AttachToModel.New(uv0))
+	slot0.itemEntityManager = EntityManager.New(EntityManager.CreateModel.New(uv1, uv0))
+	slot0.foodEntityManager = EntityManager.New(EntityManager.CreateModel.New(uv2, uv3, 1), uv4)
 
-	local var_8_0 = EntityManager.AttachToModel.New(var_0_1)
+	function slot4(slot0, slot1, slot2)
+		slot3 = Dorm.storage:GetData(uv0.TypeNamespace, slot0)
 
-	arg_8_0.staticItemEntityManager = EntityManager.New(var_8_0)
-
-	local var_8_1 = EntityManager.CreateModel.New(var_0_4, var_0_1)
-
-	arg_8_0.itemEntityManager = EntityManager.New(var_8_1)
-
-	local var_8_2 = EntityManager.CreateModel.New(var_0_7, var_0_6, 1)
-
-	arg_8_0.foodEntityManager = EntityManager.New(var_8_2, var_0_8)
-
-	local function var_8_3(arg_9_0, arg_9_1, arg_9_2)
-		local var_9_0 = Dorm.storage:GetData(var_0_9.TypeNamespace, arg_9_0)
-
-		arg_8_0.RecordItemInfo(arg_9_0, arg_9_1, var_9_0)
-		arg_8_0.RecordInteractPoints(arg_9_0, arg_9_1, var_9_0)
+		uv1.RecordItemInfo(slot0, slot1, slot3)
+		uv1.RecordInteractPoints(slot0, slot1, slot3)
 	end
 
-	arg_8_0.staticItemEntityManager.OnCreate = var_8_3
-	arg_8_0.itemEntityManager.OnCreate = var_8_3
+	slot0.staticItemEntityManager.OnCreate = slot4
+	slot0.itemEntityManager.OnCreate = slot4
 
-	function arg_8_0.foodEntityManager.OnCreate(arg_10_0, arg_10_1, arg_10_2)
-		Dorm.DormEntityManager.SetFadeCMD(arg_10_1, 1)
-		arg_8_0.RecordItemInfo(arg_10_0, arg_10_1, DormEnum.ItemType.Food)
+	function slot0.foodEntityManager.OnCreate(slot0, slot1, slot2)
+		Dorm.DormEntityManager.SetFadeCMD(slot1, 1)
+		uv0.RecordItemInfo(slot0, slot1, DormEnum.ItemType.Food)
 	end
 
-	arg_8_0.staticItemEntityManager.OnRemove = arg_8_0.RemoveItemInfo
-	arg_8_0.itemEntityManager.OnRemove = arg_8_0.RemoveItemInfo
+	slot0.staticItemEntityManager.OnRemove = slot0.RemoveItemInfo
+	slot0.itemEntityManager.OnRemove = slot0.RemoveItemInfo
 
-	function arg_8_0.foodEntityManager.OnRemove(arg_11_0, arg_11_1, arg_11_2)
-		Dorm.DormEntityManager.StartFadeOutCMD(arg_11_1, 1)
-		arg_8_0.RemoveItemInfo(arg_11_0, arg_11_1, arg_11_2)
+	function slot0.foodEntityManager.OnRemove(slot0, slot1, slot2)
+		Dorm.DormEntityManager.StartFadeOutCMD(slot1, 1)
+		uv0.RemoveItemInfo(slot0, slot1, slot2)
 	end
 end
 
-function var_0_9.Init(arg_12_0)
-	arg_12_0:RegisterEvents()
-	arg_12_0:GenerateAllSceneItem()
-	arg_12_0.foodEntityManager:MapToDormStorageData(var_0_9.ItemEIdNamespace(DormEnum.ItemType.Food), var_0_9.ItemIdxNamespace(DormEnum.ItemType.Food))
+function slot9.Init(slot0)
+	slot0:RegisterEvents()
+	slot0:GenerateAllSceneItem()
+	slot0.foodEntityManager:MapToDormStorageData(uv0.ItemEIdNamespace(DormEnum.ItemType.Food), uv0.ItemIdxNamespace(DormEnum.ItemType.Food))
 end
 
-function var_0_9.Reset(arg_13_0)
-	arg_13_0.staticItemEntityManager:Clear()
-	arg_13_0.itemEntityManager:Clear()
+function slot9.Reset(slot0)
+	slot0.staticItemEntityManager:Clear()
+	slot0.itemEntityManager:Clear()
 
-	arg_13_0.foodID = nil
+	slot0.foodID = nil
 
-	arg_13_0.foodEntityManager:Clear(true)
-	arg_13_0:RemoveEvents()
+	slot0.foodEntityManager:Clear(true)
+	slot0:RemoveEvents()
 end
 
-function var_0_9.RegisterEvents(arg_14_0)
-	arg_14_0.listener:Register(DORM_RESTAURANT_UPDATE_SCENE_ITEM, function()
-		arg_14_0:ClearAllSenenItem()
-		arg_14_0:GenerateAllSceneItem()
+function slot9.RegisterEvents(slot0)
+	slot0.listener:Register(DORM_RESTAURANT_UPDATE_SCENE_ITEM, function ()
+		uv0:ClearAllSenenItem()
+		uv0:GenerateAllSceneItem()
 	end)
 end
 
-function var_0_9.RemoveEvents(arg_16_0)
-	arg_16_0.listener:RemoveAll()
+function slot9.RemoveEvents(slot0)
+	slot0.listener:RemoveAll()
 end
 
-var_0_9.ItemEIdNamespace = DormUtils.EIdNamespace
-var_0_9.ItemIdxNamespace = DormUtils.IdxNamespace
-var_0_9.ItemCountNamespace = "restaurant.item.count"
+slot9.ItemEIdNamespace = DormUtils.EIdNamespace
+slot9.ItemIdxNamespace = DormUtils.IdxNamespace
+slot9.ItemCountNamespace = "restaurant.item.count"
 
-function var_0_9.GetItemCount(arg_17_0)
-	return Dorm.storage:GetData(var_0_9.ItemCountNamespace, arg_17_0) or 0
+function slot9.GetItemCount(slot0)
+	return Dorm.storage:GetData(uv0.ItemCountNamespace, slot0) or 0
 end
 
-local function var_0_10(arg_18_0)
-	local var_18_0 = {}
+function slot10(slot0)
+	slot1 = {}
 
-	for iter_18_0 = 0, arg_18_0.Length - 1 do
-		table.insert(var_18_0, arg_18_0[iter_18_0])
+	for slot5 = 0, slot0.Length - 1 do
+		table.insert(slot1, slot0[slot5])
 	end
 
-	return var_18_0
+	return slot1
 end
 
-function var_0_9.RecordItemInfo(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0 = Dorm.storage
+function slot9.RecordItemInfo(slot0, slot1, slot2)
+	slot3 = Dorm.storage
 
-	var_19_0:RecordData(DormEnum.Namespace.EntityType, arg_19_1, arg_19_2)
-	var_19_0:RecordData(var_0_9.ItemEIdNamespace(arg_19_2), arg_19_0, arg_19_1)
-	var_19_0:RecordData(var_0_9.ItemIdxNamespace(arg_19_2), arg_19_1, arg_19_0)
-
-	local var_19_1 = var_0_9.GetItemCount(arg_19_2)
-
-	var_19_0:RecordData(var_0_9.ItemCountNamespace, arg_19_2, var_19_1 + 1)
+	slot3:RecordData(DormEnum.Namespace.EntityType, slot1, slot2)
+	slot3:RecordData(uv0.ItemEIdNamespace(slot2), slot0, slot1)
+	slot3:RecordData(uv0.ItemIdxNamespace(slot2), slot1, slot0)
+	slot3:RecordData(uv0.ItemCountNamespace, slot2, uv0.GetItemCount(slot2) + 1)
 end
 
-function var_0_9.RecordInteractPoints(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_2 == DormEnum.ItemType.Food then
+function slot9.RecordInteractPoints(slot0, slot1, slot2)
+	if slot2 == DormEnum.ItemType.Food then
 		return
 	end
 
-	local var_20_0 = Dorm.storage
-	local var_20_1 = var_20_0:GetData(var_0_9.ItemInteractPointsNamespace, arg_20_0)
-	local var_20_2 = var_20_0:GetData(DormEnum.Namespace.EntityData, arg_20_1)
+	slot3 = Dorm.storage
 
-	if var_20_1 then
-		local var_20_3 = var_0_10(var_20_1)
+	if slot3:GetData(uv0.ItemInteractPointsNamespace, slot0) then
+		slot4 = uv1(slot4)
+		slot3:GetData(DormEnum.Namespace.EntityData, slot1).interactPoints = slot4
 
-		var_20_2.interactPoints = var_20_3
-
-		for iter_20_0, iter_20_1 in ipairs(var_20_3) do
-			CanteenManager.RecordInteractPointInfo(iter_20_1, arg_20_1, nil)
+		for slot9, slot10 in ipairs(slot4) do
+			CanteenManager.RecordInteractPointInfo(slot10, slot1, nil)
 		end
 	end
 end
 
-function var_0_9.RemoveItemInfo(arg_21_0, arg_21_1)
-	local var_21_0 = Dorm.storage
-	local var_21_1 = var_21_0:GetData(DormEnum.Namespace.EntityType, arg_21_1)
-
-	if var_21_1 == nil then
+function slot9.RemoveItemInfo(slot0, slot1)
+	if Dorm.storage:GetData(DormEnum.Namespace.EntityType, slot1) == nil then
 		return
 	end
 
-	var_21_0:RecordData(DormEnum.Namespace.EntityType, arg_21_1, nil)
-	var_21_0:RecordData(var_0_9.ItemEIdNamespace(var_21_1), arg_21_0, nil)
-	var_21_0:RecordData(var_0_9.ItemIdxNamespace(var_21_1), arg_21_1, nil)
+	slot2:RecordData(DormEnum.Namespace.EntityType, slot1, nil)
+	slot2:RecordData(uv0.ItemEIdNamespace(slot3), slot0, nil)
+	slot2:RecordData(uv0.ItemIdxNamespace(slot3), slot1, nil)
+	slot2:RecordData(uv0.ItemCountNamespace, slot3, uv0.GetItemCount(slot3) - 1)
 
-	local var_21_2 = var_0_9.GetItemCount(var_21_1)
-
-	var_21_0:RecordData(var_0_9.ItemCountNamespace, var_21_1, var_21_2 - 1)
-
-	if var_21_0:GetData(var_0_9.ItemInteractPointsNamespace, arg_21_0) then
-		CanteenManager.RemoveInteractPointInfo(arg_21_1)
+	if slot2:GetData(uv0.ItemInteractPointsNamespace, slot0) then
+		CanteenManager.RemoveInteractPointInfo(slot1)
 	end
 end
 
-var_0_9.PosNamespace = DormTagConst.DORM_RESTAURANT_ITEM_NAMESPACE
-var_0_9.StaticItemPosNamespace = DormTagConst.DORM_RESTAURANT_STATIC_ITEM_NAMESPACE
-var_0_9.GroupNamespace = DormTagConst.DORM_RESTAURANT_ITEM_GROUP_NAMESPACE
-var_0_9.TypeNamespace = DormTagConst.DORM_RESTAURANT_ITEM_TYPE_NAMESPACE
-var_0_9.ItemInteractPointsNamespace = DormTagConst.DORM_RESTAURANT_ITEM_INTERACT_POINTS_NAMESPACE
+slot9.PosNamespace = DormTagConst.DORM_RESTAURANT_ITEM_NAMESPACE
+slot9.StaticItemPosNamespace = DormTagConst.DORM_RESTAURANT_STATIC_ITEM_NAMESPACE
+slot9.GroupNamespace = DormTagConst.DORM_RESTAURANT_ITEM_GROUP_NAMESPACE
+slot9.TypeNamespace = DormTagConst.DORM_RESTAURANT_ITEM_TYPE_NAMESPACE
+slot9.ItemInteractPointsNamespace = DormTagConst.DORM_RESTAURANT_ITEM_INTERACT_POINTS_NAMESPACE
 
-function var_0_9.GetGroupID(arg_22_0)
-	return nullable(BackHomeCanteenFurnitureIDCfg.get_id_list_by_item_tag, arg_22_0, 1)
+function slot9.GetGroupID(slot0)
+	return nullable(BackHomeCanteenFurnitureIDCfg.get_id_list_by_item_tag, slot0, 1)
 end
 
-function var_0_9.GetGroupFromStaticInfo(arg_23_0)
-	return Dorm.sceneItemInfo[var_0_9.GroupNamespace][arg_23_0]
+function slot9.GetGroupFromStaticInfo(slot0)
+	return Dorm.sceneItemInfo[uv0.GroupNamespace][slot0]
 end
 
-function var_0_9.GenerateSceneItem(arg_24_0, arg_24_1, arg_24_2, arg_24_3)
-	local var_24_0 = Dorm.storage:GetData(var_0_9.TypeNamespace, arg_24_1)
-	local var_24_1 = Dorm.storage:GetData(var_0_9.GroupNamespace, arg_24_1)
-	local var_24_2 = var_0_9.GetGroupID(var_24_1) or -1
+function slot9.GenerateSceneItem(slot0, slot1, slot2, slot3)
+	slot6 = uv0.GetGroupID(Dorm.storage:GetData(uv0.GroupNamespace, slot1)) or -1
 
-	if var_24_0 then
-		local var_24_3 = CanteenData:GetFurnitureLevel(var_24_2)
-		local var_24_4 = nullable(CanteenItemCfg, var_0_2(var_24_0, var_24_3), "complex")
-		local var_24_5 = {
+	if Dorm.storage:GetData(uv0.TypeNamespace, slot1) then
+		slot7 = CanteenData:GetFurnitureLevel(slot6)
+		slot9 = {
 			available = true,
 			category = DormEnum.EntityType.Furniture,
-			type = var_24_0,
-			tag = arg_24_2,
-			group = var_24_1,
-			groupID = var_24_2,
-			level = var_24_3,
-			complex = var_24_4
+			type = slot4,
+			tag = slot2,
+			group = slot5,
+			groupID = slot6,
+			level = slot7,
+			complex = nullable(CanteenItemCfg, uv1(slot4, slot7), "complex")
 		}
-		local var_24_6 = (arg_24_3 and arg_24_0.staticItemEntityManager or arg_24_0.itemEntityManager):Create(arg_24_1, var_24_5, var_24_5)
 
-		manager.notify:Invoke(DORM_RESTAURANT_NEW_ITEM, var_24_0, var_24_6)
+		manager.notify:Invoke(DORM_RESTAURANT_NEW_ITEM, slot4, (slot3 and slot0.staticItemEntityManager or slot0.itemEntityManager):Create(slot1, slot9, slot9))
 	end
 end
 
-function var_0_9.ClearAllSenenItem(arg_25_0)
-	arg_25_0.staticItemEntityManager:Clear()
-	arg_25_0.itemEntityManager:Clear()
+function slot9.ClearAllSenenItem(slot0)
+	slot0.staticItemEntityManager:Clear()
+	slot0.itemEntityManager:Clear()
 end
 
-function var_0_9.GenerateAllSceneItem(arg_26_0)
-	for iter_26_0, iter_26_1 in Dorm.storage:ForeachData(var_0_9.PosNamespace, pairs) do
-		arg_26_0:GenerateSceneItem(iter_26_0, iter_26_1, false)
+function slot9.GenerateAllSceneItem(slot0)
+	slot4 = pairs
+
+	for slot4, slot5 in Dorm.storage:ForeachData(uv0.PosNamespace, slot4) do
+		slot0:GenerateSceneItem(slot4, slot5, false)
 	end
 
-	for iter_26_2, iter_26_3 in Dorm.storage:ForeachData(var_0_9.StaticItemPosNamespace, pairs) do
-		arg_26_0:GenerateSceneItem(iter_26_2, iter_26_3, true)
+	slot4 = pairs
+
+	for slot4, slot5 in Dorm.storage:ForeachData(uv0.StaticItemPosNamespace, slot4) do
+		slot0:GenerateSceneItem(slot4, slot5, true)
 	end
 
 	manager.notify:Invoke(DORM_ITEM_RECORD_FIN)
 end
 
-function var_0_9.GetNextFoodID(arg_27_0)
-	arg_27_0.foodID = (arg_27_0.foodID or 0) + 1
+function slot9.GetNextFoodID(slot0)
+	slot0.foodID = (slot0.foodID or 0) + 1
 
-	return arg_27_0.foodID
+	return slot0.foodID
 end
 
-function var_0_9.GenerateFood(arg_28_0, arg_28_1, arg_28_2)
-	local var_28_0 = nullable(BackHomeCanteenFoodCfg, arg_28_1)
-	local var_28_1 = arg_28_0:GetNextFoodID()
-	local var_28_2 = arg_28_0.foodEntityManager:Create(var_28_1, {
+function slot9.GenerateFood(slot0, slot1, slot2)
+	slot5 = slot0.foodEntityManager:Create(slot0:GetNextFoodID(), {
 		pooled = true,
-		prefab = var_28_0.prefab
-	}, arg_28_2)
+		prefab = nullable(BackHomeCanteenFoodCfg, slot1).prefab
+	}, slot2)
 
-	manager.notify:Invoke(DORM_RESTAURANT_NEW_ITEM, DormEnum.ItemType.Food, var_28_2)
+	manager.notify:Invoke(DORM_RESTAURANT_NEW_ITEM, DormEnum.ItemType.Food, slot5)
 
-	return var_28_2
+	return slot5
 end
 
-function var_0_9.FindAndRemoveEntity(arg_29_0)
-	local var_29_0 = var_0_9.GetInstance()
+function slot9.FindAndRemoveEntity(slot0)
+	slot1 = uv0.GetInstance()
 
 	EntityManager.FindAndRemoveEntity({
-		var_29_0.foodEntityManager,
-		var_29_0.staticItemEntityManager,
-		var_29_0.itemEntityManager
-	}, arg_29_0)
+		slot1.foodEntityManager,
+		slot1.staticItemEntityManager,
+		slot1.itemEntityManager
+	}, slot0)
 end
 
-function var_0_9.GetItemInteractPositions(arg_30_0)
-	local var_30_0 = var_0_0(arg_30_0).interactPoints
+function slot9.GetItemInteractPositions(slot0)
+	if uv0(slot0).interactPoints then
+		slot3 = {}
 
-	if var_30_0 then
-		local var_30_1 = {}
-
-		for iter_30_0, iter_30_1 in pairs(var_30_0) do
-			table.insert(var_30_1, iter_30_1)
+		for slot7, slot8 in pairs(slot2) do
+			table.insert(slot3, slot8)
 		end
 
-		return var_30_1
+		return slot3
 	end
 
 	return {
-		Dorm.DormEntityManager.QueryPosition(arg_30_0)
+		Dorm.DormEntityManager.QueryPosition(slot0)
 	}
 end
 
-function var_0_9.GetItemsInItemGroup(arg_31_0, arg_31_1)
-	local var_31_0 = var_0_9.ItemEIdNamespace(arg_31_0)
-	local var_31_1 = {}
+function slot9.GetItemsInItemGroup(slot0, slot1)
+	slot3 = {}
+	slot7 = pairs
 
-	for iter_31_0, iter_31_1 in Dorm.storage:ForeachData(var_31_0, pairs) do
-		if var_0_0(iter_31_1).group == arg_31_1 then
-			table.insert(var_31_1, iter_31_1)
+	for slot7, slot8 in Dorm.storage:ForeachData(uv0.ItemEIdNamespace(slot0), slot7) do
+		if uv1(slot8).group == slot1 then
+			table.insert(slot3, slot8)
 		end
 	end
 
-	return var_31_1
+	return slot3
 end
 
-return var_0_9
+return slot9

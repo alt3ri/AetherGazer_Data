@@ -1,57 +1,53 @@
-local var_0_0 = class("GameMobileOperationView", ReduxView)
+slot0 = class("GameMobileOperationView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.battleSetBtn_, nil, function()
-		arg_4_0:Go("battleUIAdjust", {})
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.battleSetBtn_, nil, function ()
+		uv0:Go("battleUIAdjust", {})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.SaveData(arg_8_0)
-	return
+function slot0.SaveData(slot0)
 end
 
-function var_0_0.CheckDataChange(arg_9_0)
+function slot0.CheckDataChange(slot0)
 	return false
 end
 
-function var_0_0.RecoverTmpData(arg_10_0)
-	return
+function slot0.RecoverTmpData(slot0)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_12_0)
-	var_0_0.super.Dispose(arg_12_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.UpdatePageData(arg_13_0)
-	return
+function slot0.UpdatePageData(slot0)
 end
 
-return var_0_0
+return slot0

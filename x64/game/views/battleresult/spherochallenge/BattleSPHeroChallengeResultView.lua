@@ -1,9 +1,8 @@
 NewBattleSettlementView = import("game.views.battleResult.newBattleSettlement.NewBattleSettlementView")
+slot0 = class("BattleSPHeroChallengeResultView", NewBattleSettlementView)
 
-local var_0_0 = class("BattleSPHeroChallengeResultView", NewBattleSettlementView)
-
-function var_0_0.OnEnter(arg_1_0)
-	var_0_0.super.OnEnter(arg_1_0)
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
 end
 
-return var_0_0
+return slot0

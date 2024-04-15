@@ -1,56 +1,55 @@
-local var_0_0 = class("GuildDifficultChoseView", ReduxView)
+slot0 = class("GuildDifficultChoseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club_boss/ClubBossDifficltChose"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uilistGo_, GuildBossDifficultyItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, GuildBossDifficultyItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.difficultyListData_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.difficultyListData_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	arg_9_0:RegistEventListener(GUILD_BOSS_DIFFICULTY_CHANGE, function()
-		arg_9_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_BOSS_DIFFICULTY_CHANGE, function ()
+		uv0:UpdateView()
 	end)
-	arg_9_0:RegistEventListener(GUILD_EXIT, function()
-		arg_9_0:Go("/home")
+	slot0:RegistEventListener(GUILD_EXIT, function ()
+		uv0:Go("/home")
 	end)
 end
 
-function var_0_0.OnTop(arg_12_0)
-	arg_12_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_13_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_14_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -59,36 +58,35 @@ function var_0_0.UpdateBar(arg_14_0)
 	manager.windowBar:SetGameHelpKey(GetTips("CLUB_BOSS_DESCRIPE"))
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_15_0.difficultyListData_ = ClubBossCfg.all
+	slot0.difficultyListData_ = ClubBossCfg.all
 
-	arg_15_0.uiList_:StartScroll(#arg_15_0.difficultyListData_)
-	arg_15_0:UpdateView()
+	slot0.uiList_:StartScroll(#slot0.difficultyListData_)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateView(arg_17_0)
-	arg_17_0.uiList_:Refresh()
+function slot0.UpdateView(slot0)
+	slot0.uiList_:Refresh()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_18_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_19_0)
-	if arg_19_0.uiList_ then
-		arg_19_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_19_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_19_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

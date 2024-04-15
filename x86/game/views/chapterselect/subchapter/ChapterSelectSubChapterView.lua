@@ -1,404 +1,367 @@
-local var_0_0 = class("ChapterSelectSubChapterView", ReduxView)
+slot0 = class("ChapterSelectSubChapterView", ReduxView)
+slot0.MAX_DRAG_LENGTH = 1500
+slot0.MIN_DRAG_LENGTH = 200
+slot0.SWITCH_STAGE_TIME = 0.8
 
-var_0_0.MAX_DRAG_LENGTH = 1500
-var_0_0.MIN_DRAG_LENGTH = 200
-var_0_0.SWITCH_STAGE_TIME = 0.8
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationSideUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.chapterSelectTitleView_ = ChapterSelectTitleView.New(arg_3_0.titleGo_)
-	arg_3_0.changeSelectChapterHandler_ = handler(arg_3_0, arg_3_0.ChangeSelectChapterID)
-	arg_3_0.lockController_ = arg_3_0.controllerEx_:GetController("lock")
-	arg_3_0.chapterToggleItemList_ = {}
-	arg_3_0.groupDataList_ = ChapterTools.GetChapterGroupList(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT))
+	slot0.chapterSelectTitleView_ = ChapterSelectTitleView.New(slot0.titleGo_)
+	slot0.changeSelectChapterHandler_ = handler(slot0, slot0.ChangeSelectChapterID)
+	slot0.lockController_ = slot0.controllerEx_:GetController("lock")
+	slot0.chapterToggleItemList_ = {}
+	slot0.groupDataList_ = ChapterTools.GetChapterGroupList(BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT))
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INVITE_BAR
 	})
-	arg_4_0:RefreshData()
-	arg_4_0:InitImage()
-	arg_4_0:RefreshUI()
-	arg_4_0.chapterSelectTitleView_:OnEnter(arg_4_0.selectChapterClientID_)
-	manager.notify:RegistListener(CHANGE_PLOT_SELECT_CHAPTER, arg_4_0.changeSelectChapterHandler_)
+	slot0:RefreshData()
+	slot0:InitImage()
+	slot0:RefreshUI()
+	slot0.chapterSelectTitleView_:OnEnter(slot0.selectChapterClientID_)
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.chapterToggleItemList_) do
-		iter_4_1:OnEnter()
+	slot4 = slot0.changeSelectChapterHandler_
+
+	manager.notify:RegistListener(CHANGE_PLOT_SELECT_CHAPTER, slot4)
+
+	for slot4, slot5 in ipairs(slot0.chapterToggleItemList_) do
+		slot5:OnEnter()
 	end
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	arg_5_0.chapterSelectTitleView_:OnExit()
-	manager.notify:RemoveListener(CHANGE_PLOT_SELECT_CHAPTER, arg_5_0.changeSelectChapterHandler_)
-	arg_5_0:StopAllTimer()
-	arg_5_0:StopLeanTween()
+	slot0.chapterSelectTitleView_:OnExit()
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.chapterToggleItemList_) do
-		iter_5_1:OnExit()
+	slot4 = slot0.changeSelectChapterHandler_
+
+	manager.notify:RemoveListener(CHANGE_PLOT_SELECT_CHAPTER, slot4)
+	slot0:StopAllTimer()
+	slot0:StopLeanTween()
+
+	for slot4, slot5 in ipairs(slot0.chapterToggleItemList_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.changeSelectChapterHandler_ = nil
-	arg_6_0.chapterBehindImage_ = nil
+function slot0.Dispose(slot0)
+	slot0.changeSelectChapterHandler_ = nil
+	slot0.chapterBehindImage_ = nil
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.chapterToggleItemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.chapterToggleItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.chapterToggleItemList_ = nil
+	slot0.chapterToggleItemList_ = nil
 
-	arg_6_0.chapterSelectTitleView_:Dispose()
+	slot0.chapterSelectTitleView_:Dispose()
 
-	arg_6_0.chapterSelectTitleView_ = nil
+	slot0.chapterSelectTitleView_ = nil
 
-	arg_6_0:RemoveListeners()
-	var_0_0.super.Dispose(arg_6_0)
+	slot0:RemoveListeners()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_7_0, arg_7_0.BeginDragFun)))
-	arg_7_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(arg_7_0, arg_7_0.DragFun)))
-	arg_7_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_7_0, arg_7_0.EndDragFun)))
-	arg_7_0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(handler(arg_7_0, arg_7_0.PointerUpFun)))
-	arg_7_0.toggleEventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_7_0, arg_7_0.BeginToggleDragFun)))
+function slot0.AddListeners(slot0)
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.DragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
+	slot0.eventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(handler(slot0, slot0.PointerUpFun)))
+	slot0.toggleEventTriggerListener_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginToggleDragFun)))
 end
 
-function var_0_0.BeginDragFun(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0:StopLeanTween()
+function slot0.BeginDragFun(slot0, slot1, slot2)
+	slot0:StopLeanTween()
 end
 
-function var_0_0.DragFun(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_2.position.x - arg_9_2.pressPosition.x
-	local var_9_1 = ChapterTools.GetNeighborClientID(arg_9_0.selectChapterClientID_, var_9_0 < 0)
-
-	if var_9_1 == arg_9_0.selectChapterClientID_ then
+function slot0.DragFun(slot0, slot1, slot2)
+	if ChapterTools.GetNeighborClientID(slot0.selectChapterClientID_, slot2.position.x - slot2.pressPosition.x < 0) == slot0.selectChapterClientID_ then
 		return
 	end
 
-	if arg_9_0.nextChapterClientID_ ~= var_9_1 then
-		local var_9_2 = ChapterClientCfg[var_9_1]
-		local var_9_3 = SpritePathCfg.ChapterPaint.path .. var_9_2.chapter_paint
-
-		getSpriteWithoutAtlasAsync(var_9_3, function(arg_10_0)
-			if arg_9_0.chapterBehindImage_ then
-				arg_9_0.chapterBehindImage_.sprite = arg_10_0
+	if slot0.nextChapterClientID_ ~= slot4 then
+		getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. ChapterClientCfg[slot4].chapter_paint, function (slot0)
+			if uv0.chapterBehindImage_ then
+				uv0.chapterBehindImage_.sprite = slot0
 			end
 		end)
 
-		arg_9_0.nextChapterClientID_ = var_9_1
+		slot0.nextChapterClientID_ = slot4
 	end
 
-	local var_9_4 = math.min(math.max(0, math.abs(var_9_0)), var_0_0.MAX_DRAG_LENGTH) / var_0_0.MAX_DRAG_LENGTH
-
-	arg_9_0.chapterFrontCanvasGroup_.alpha = 1 - var_9_4
-	arg_9_0.chapterBehindCanvasGroup_.alpha = var_9_4
+	slot5 = math.min(math.max(0, math.abs(slot3)), uv0.MAX_DRAG_LENGTH) / uv0.MAX_DRAG_LENGTH
+	slot0.chapterFrontCanvasGroup_.alpha = 1 - slot5
+	slot0.chapterBehindCanvasGroup_.alpha = slot5
 end
 
-function var_0_0.EndDragFun(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_2.position.x - arg_11_2.pressPosition.x
-
-	if ChapterTools.GetNeighborClientID(arg_11_0.selectChapterClientID_, var_11_0 < 0) == arg_11_0.selectChapterClientID_ then
+function slot0.EndDragFun(slot0, slot1, slot2)
+	if ChapterTools.GetNeighborClientID(slot0.selectChapterClientID_, slot2.position.x - slot2.pressPosition.x < 0) == slot0.selectChapterClientID_ then
 		return
 	end
 
-	if math.abs(var_11_0) > var_0_0.MIN_DRAG_LENGTH then
-		arg_11_0.selectChapterClientID_ = arg_11_0.nextChapterClientID_
-		arg_11_0.nextChapterClientID_ = nil
+	if uv0.MIN_DRAG_LENGTH < math.abs(slot3) then
+		slot0.selectChapterClientID_ = slot0.nextChapterClientID_
+		slot0.nextChapterClientID_ = nil
 
-		BattleFieldData:SetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT, arg_11_0.selectChapterClientID_)
-		arg_11_0:RefreshData()
+		BattleFieldData:SetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT, slot0.selectChapterClientID_)
+		slot0:RefreshData()
 
-		if math.abs(var_11_0) > var_0_0.MAX_DRAG_LENGTH then
-			arg_11_0:RefreshChapterUI()
-			arg_11_0:SwitchImageOver()
+		if uv0.MAX_DRAG_LENGTH < math.abs(slot3) then
+			slot0:RefreshChapterUI()
+			slot0:SwitchImageOver()
 		else
-			local var_11_1 = (var_0_0.MAX_DRAG_LENGTH - math.abs(var_11_0)) / var_0_0.MAX_DRAG_LENGTH * var_0_0.SWITCH_STAGE_TIME
+			slot0.leanTweenHandler_ = LeanTween.value(slot0.chapterFrontImage_.gameObject, slot0.chapterFrontCanvasGroup_.alpha, 0, (uv0.MAX_DRAG_LENGTH - math.abs(slot3)) / uv0.MAX_DRAG_LENGTH * uv0.SWITCH_STAGE_TIME)
 
-			arg_11_0.leanTweenHandler_ = LeanTween.value(arg_11_0.chapterFrontImage_.gameObject, arg_11_0.chapterFrontCanvasGroup_.alpha, 0, var_11_1)
-
-			arg_11_0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function(arg_12_0)
-				arg_11_0.chapterFrontCanvasGroup_.alpha = arg_12_0
-				arg_11_0.chapterBehindCanvasGroup_.alpha = 1 - arg_12_0
+			slot0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+				uv0.chapterFrontCanvasGroup_.alpha = slot0
+				uv0.chapterBehindCanvasGroup_.alpha = 1 - slot0
 			end))
-			arg_11_0.leanTweenHandler_:setOnComplete(System.Action(function()
-				arg_11_0:RefreshChapterUI()
-				arg_11_0:SwitchImageOver()
-				LeanTween.cancel(arg_11_0.chapterFrontImage_.gameObject)
-				arg_11_0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
+			slot0.leanTweenHandler_:setOnComplete(System.Action(function ()
+				uv0:RefreshChapterUI()
+				uv0:SwitchImageOver()
+				LeanTween.cancel(uv0.chapterFrontImage_.gameObject)
+				uv0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
 
-				arg_11_0.leanTweenHandler_ = nil
+				uv0.leanTweenHandler_ = nil
 			end))
 		end
 	else
-		local var_11_2 = (1 - (var_0_0.MIN_DRAG_LENGTH - math.abs(var_11_0)) / var_0_0.MIN_DRAG_LENGTH) * 0.8
+		slot0.leanTweenHandler_ = LeanTween.value(slot0.chapterFrontImage_.gameObject, slot0.chapterFrontCanvasGroup_.alpha, 1, (1 - (uv0.MIN_DRAG_LENGTH - math.abs(slot3)) / uv0.MIN_DRAG_LENGTH) * 0.8)
 
-		arg_11_0.leanTweenHandler_ = LeanTween.value(arg_11_0.chapterFrontImage_.gameObject, arg_11_0.chapterFrontCanvasGroup_.alpha, 1, var_11_2)
-
-		arg_11_0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function(arg_14_0)
-			arg_11_0.chapterFrontCanvasGroup_.alpha = arg_14_0
-			arg_11_0.chapterBehindCanvasGroup_.alpha = 1 - arg_14_0
+		slot0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.chapterFrontCanvasGroup_.alpha = slot0
+			uv0.chapterBehindCanvasGroup_.alpha = 1 - slot0
 		end))
-		arg_11_0.leanTweenHandler_:setOnComplete(System.Action(function()
-			LeanTween.cancel(arg_11_0.chapterFrontImage_.gameObject)
-			arg_11_0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
+		slot0.leanTweenHandler_:setOnComplete(System.Action(function ()
+			LeanTween.cancel(uv0.chapterFrontImage_.gameObject)
+			uv0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
 
-			arg_11_0.leanTweenHandler_ = nil
+			uv0.leanTweenHandler_ = nil
 		end))
 	end
 end
 
-function var_0_0.PointerUpFun(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_2.dragging then
+function slot0.PointerUpFun(slot0, slot1, slot2)
+	if slot2.dragging then
 		return
 	end
 
-	if arg_16_0.isLock_ then
-		local var_16_0 = arg_16_0:GetActivityID()
-		local var_16_1 = ActivityData:GetActivityRefreshTime(var_16_0)
+	if slot0.isLock_ and manager.time:GetServerTime() < ActivityData:GetActivityRefreshTime(slot0:GetActivityID()) then
+		ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(slot4)))
 
-		if var_16_1 > manager.time:GetServerTime() then
-			local var_16_2 = GetTips("OPEN_TIME")
-
-			ShowTips(string.format(var_16_2, manager.time:GetLostTimeStr(var_16_1)))
-
-			return
-		end
+		return
 	end
 
-	JumpTools.Jump2SubPlot(arg_16_0.selectChapterClientID_, false, true)
+	JumpTools.Jump2SubPlot(slot0.selectChapterClientID_, false, true)
 end
 
-function var_0_0.BeginToggleDragFun(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0:StopMoveTimer()
-	arg_17_0.scrollView_:OnBeginDrag(arg_17_2)
+function slot0.BeginToggleDragFun(slot0, slot1, slot2)
+	slot0:StopMoveTimer()
+	slot0.scrollView_:OnBeginDrag(slot2)
 end
 
-function var_0_0.RemoveListeners(arg_18_0)
-	arg_18_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	arg_18_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
-	arg_18_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
-	arg_18_0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
-	arg_18_0.toggleEventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+function slot0.RemoveListeners(slot0)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
+	slot0.eventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
+	slot0.toggleEventTriggerListener_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
 end
 
-function var_0_0.SwitchImageOver(arg_19_0)
-	arg_19_0.chapterBehindImage_, arg_19_0.chapterFrontImage_ = arg_19_0.chapterFrontImage_, arg_19_0.chapterBehindImage_
-	arg_19_0.chapterBehindCanvasGroup_, arg_19_0.chapterFrontCanvasGroup_ = arg_19_0.chapterFrontCanvasGroup_, arg_19_0.chapterBehindCanvasGroup_
+function slot0.SwitchImageOver(slot0)
+	slot0.chapterFrontImage_ = slot0.chapterBehindImage_
+	slot0.chapterBehindImage_ = slot0.chapterFrontImage_
+	slot0.chapterFrontCanvasGroup_ = slot0.chapterBehindCanvasGroup_
+	slot0.chapterBehindCanvasGroup_ = slot0.chapterFrontCanvasGroup_
 end
 
-function var_0_0.AutoSwitchImage(arg_20_0)
-	local var_20_0 = arg_20_0.selectChapterClientID_
-	local var_20_1 = ChapterClientCfg[var_20_0]
-	local var_20_2 = SpritePathCfg.ChapterPaint.path .. var_20_1.chapter_paint
-
-	getSpriteWithoutAtlasAsync(var_20_2, function(arg_21_0)
-		if arg_20_0.chapterBehindImage_ then
-			arg_20_0.chapterBehindImage_.sprite = arg_21_0
+function slot0.AutoSwitchImage(slot0)
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. ChapterClientCfg[slot0.selectChapterClientID_].chapter_paint, function (slot0)
+		if uv0.chapterBehindImage_ then
+			uv0.chapterBehindImage_.sprite = slot0
 		end
 	end)
 
-	local var_20_3 = var_0_0.SWITCH_STAGE_TIME
+	slot0.leanTweenHandler_ = LeanTween.value(slot0.chapterFrontImage_.gameObject, slot0.chapterFrontCanvasGroup_.alpha, 0, uv0.SWITCH_STAGE_TIME)
 
-	arg_20_0.leanTweenHandler_ = LeanTween.value(arg_20_0.chapterFrontImage_.gameObject, arg_20_0.chapterFrontCanvasGroup_.alpha, 0, var_20_3)
-
-	arg_20_0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function(arg_22_0)
-		arg_20_0.chapterFrontCanvasGroup_.alpha = arg_22_0
-		arg_20_0.chapterBehindCanvasGroup_.alpha = 1 - arg_22_0
+	slot0.leanTweenHandler_:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.chapterFrontCanvasGroup_.alpha = slot0
+		uv0.chapterBehindCanvasGroup_.alpha = 1 - slot0
 	end))
-	arg_20_0.leanTweenHandler_:setOnComplete(System.Action(function()
-		arg_20_0:SwitchImageOver()
-		LeanTween.cancel(arg_20_0.chapterFrontImage_.gameObject)
-		arg_20_0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
+	slot0.leanTweenHandler_:setOnComplete(System.Action(function ()
+		uv0:SwitchImageOver()
+		LeanTween.cancel(uv0.chapterFrontImage_.gameObject)
+		uv0.leanTweenHandler_:setOnUpdate(nil):setOnComplete(nil)
 
-		arg_20_0.leanTweenHandler_ = nil
+		uv0.leanTweenHandler_ = nil
 	end))
 end
 
-function var_0_0.RefreshData(arg_24_0)
-	arg_24_0.selectChapterClientID_ = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT)
-
-	local var_24_0 = ChapterClientCfg[arg_24_0.selectChapterClientID_].chapter_list[1]
-
-	arg_24_0.isLock_ = not ChapterTools.IsUnlockSubPlotClient(var_24_0)
+function slot0.RefreshData(slot0)
+	slot0.selectChapterClientID_ = BattleFieldData:GetCacheChapterClient(BattleConst.TOGGLE.SUB_PLOT)
+	slot0.isLock_ = not ChapterTools.IsUnlockSubPlotClient(ChapterClientCfg[slot0.selectChapterClientID_].chapter_list[1])
 end
 
-function var_0_0.InitImage(arg_25_0)
-	local var_25_0 = ChapterClientCfg[arg_25_0.selectChapterClientID_]
-	local var_25_1 = SpritePathCfg.ChapterPaint.path .. var_25_0.chapter_paint
-
-	getSpriteWithoutAtlasAsync(var_25_1, function(arg_26_0)
-		if arg_25_0.chapterBehindImage_ then
-			arg_25_0.chapterBehindImage_.sprite = arg_26_0
+function slot0.InitImage(slot0)
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. ChapterClientCfg[slot0.selectChapterClientID_].chapter_paint, function (slot0)
+		if uv0.chapterBehindImage_ then
+			uv0.chapterBehindImage_.sprite = slot0
 		end
 
-		if arg_25_0.chapterFrontImage_ then
-			arg_25_0.chapterFrontImage_.sprite = arg_26_0
+		if uv0.chapterFrontImage_ then
+			uv0.chapterFrontImage_.sprite = slot0
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_27_0)
-	arg_27_0:RefreshChapterUI()
-	arg_27_0:AutoSwitchImage()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshChapterUI()
+	slot0:AutoSwitchImage()
 end
 
-function var_0_0.RefreshChapterUI(arg_28_0)
-	arg_28_0.chapterSelectTitleView_:OnEnter(arg_28_0.selectChapterClientID_)
-	arg_28_0:RefreshGroupToggle()
-	arg_28_0:AddActivityTimer()
-	arg_28_0:RefreshActivity()
-	arg_28_0:RefreshLock()
+function slot0.RefreshChapterUI(slot0)
+	slot0.chapterSelectTitleView_:OnEnter(slot0.selectChapterClientID_)
+	slot0:RefreshGroupToggle()
+	slot0:AddActivityTimer()
+	slot0:RefreshActivity()
+	slot0:RefreshLock()
 end
 
-function var_0_0.RefreshGroupToggle(arg_29_0)
-	local var_29_0
+function slot0.RefreshGroupToggle(slot0)
+	slot1 = nil
 
-	for iter_29_0, iter_29_1 in ipairs(arg_29_0.groupDataList_) do
-		if arg_29_0.chapterToggleItemList_[iter_29_0] == nil then
-			arg_29_0.chapterToggleItemList_[iter_29_0] = ChapterSelectSubChapterToggleItem.New(arg_29_0.chapterToggleItem_, arg_29_0.chapterParentTf_, iter_29_1[2])
+	for slot5, slot6 in ipairs(slot0.groupDataList_) do
+		if slot0.chapterToggleItemList_[slot5] == nil then
+			slot0.chapterToggleItemList_[slot5] = ChapterSelectSubChapterToggleItem.New(slot0.chapterToggleItem_, slot0.chapterParentTf_, slot6[2])
 		end
 
-		local var_29_1 = arg_29_0.selectChapterClientID_ == iter_29_1[2]
+		slot7 = slot0.selectChapterClientID_ == slot6[2]
 
-		arg_29_0.chapterToggleItemList_[iter_29_0]:SetSelect(var_29_1)
+		slot0.chapterToggleItemList_[slot5]:SetSelect(slot7)
 
-		if var_29_1 then
-			var_29_0 = arg_29_0.chapterToggleItemList_[iter_29_0]
+		if slot7 then
+			slot1 = slot0.chapterToggleItemList_[slot5]
 		end
 	end
 
-	if var_29_0 then
-		arg_29_0:AddMoveTimer(var_29_0)
+	if slot1 then
+		slot0:AddMoveTimer(slot1)
 	end
 end
 
-function var_0_0.RefreshActivity(arg_30_0)
-	return
+function slot0.RefreshActivity(slot0)
 end
 
-function var_0_0.RefreshLock(arg_31_0)
-	arg_31_0.lockController_:SetSelectedState(tostring(arg_31_0.isLock_))
+function slot0.RefreshLock(slot0)
+	slot4 = slot0.isLock_
 
-	for iter_31_0, iter_31_1 in ipairs(arg_31_0.chapterToggleItemList_) do
-		iter_31_1:RefreshLock()
+	slot0.lockController_:SetSelectedState(tostring(slot4))
+
+	for slot4, slot5 in ipairs(slot0.chapterToggleItemList_) do
+		slot5:RefreshLock()
 	end
 end
 
-function var_0_0.RefreshSelectDifficult(arg_32_0)
-	arg_32_0.hardLevelView_:SetData(arg_32_0.hardLevel_)
+function slot0.RefreshSelectDifficult(slot0)
+	slot0.hardLevelView_:SetData(slot0.hardLevel_)
 end
 
-function var_0_0.ChangeSelectChapterID(arg_33_0)
-	arg_33_0:StopLeanTween()
-	arg_33_0:RefreshData()
-	arg_33_0:RefreshUI()
+function slot0.ChangeSelectChapterID(slot0)
+	slot0:StopLeanTween()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.GetActivityID(arg_34_0)
-	local var_34_0 = arg_34_0.selectChapterClientID_
-	local var_34_1 = ChapterClientCfg[var_34_0].chapter_list[1]
-
-	return ChapterCfg[var_34_1].activity_id or 0
+function slot0.GetActivityID(slot0)
+	return ChapterCfg[ChapterClientCfg[slot0.selectChapterClientID_].chapter_list[1]].activity_id or 0
 end
 
-function var_0_0.AddActivityTimer(arg_35_0)
-	arg_35_0:RemoveActivityTimer()
+function slot0.AddActivityTimer(slot0)
+	slot0:RemoveActivityTimer()
 
-	local var_35_0 = arg_35_0.selectChapterClientID_
-	local var_35_1 = ChapterClientCfg[var_35_0].chapter_list[1]
-	local var_35_2 = arg_35_0:GetActivityID()
+	slot2 = ChapterClientCfg[slot0.selectChapterClientID_].chapter_list[1]
 
-	if var_35_2 == 0 then
+	if slot0:GetActivityID() == 0 then
 		return
 	end
 
-	local var_35_3 = ActivityData:GetActivityData(var_35_2):IsActivitying()
+	slot5 = ActivityData:GetActivityData(slot3):IsActivitying()
+	slot0.activityTimer_ = Timer.New(function ()
+		if ActivityData:GetActivityData(uv0):IsActivitying() ~= uv1 then
+			uv1 = slot1
+			uv2.isLock_ = not ChapterTools.IsUnlockSubPlotClient(uv3)
 
-	arg_35_0.activityTimer_ = Timer.New(function()
-		local var_36_0 = ActivityData:GetActivityData(var_35_2):IsActivitying()
-
-		if var_36_0 ~= var_35_3 then
-			var_35_3 = var_36_0
-			arg_35_0.isLock_ = not ChapterTools.IsUnlockSubPlotClient(var_35_1)
-
-			arg_35_0:RefreshLock()
-			arg_35_0:RefreshActivity()
+			uv2:RefreshLock()
+			uv2:RefreshActivity()
 		end
 	end, 1, -1)
 
-	arg_35_0.activityTimer_:Start()
+	slot0.activityTimer_:Start()
 end
 
-function var_0_0.RemoveActivityTimer(arg_37_0)
-	if arg_37_0.activityTimer_ then
-		arg_37_0.activityTimer_:Stop()
+function slot0.RemoveActivityTimer(slot0)
+	if slot0.activityTimer_ then
+		slot0.activityTimer_:Stop()
 
-		arg_37_0.activityTimer_ = nil
+		slot0.activityTimer_ = nil
 	end
 end
 
-function var_0_0.AddMoveTimer(arg_38_0, arg_38_1)
-	arg_38_0:StopMoveTimer()
+function slot0.AddMoveTimer(slot0, slot1)
+	slot0:StopMoveTimer()
 
-	arg_38_0.moveTimer_ = FrameTimer.New(function()
-		local var_39_0 = arg_38_0.chapterParentTf_.rect.width / 2
-		local var_39_1 = arg_38_0.scrollTf_.rect.width / 2
-		local var_39_2 = arg_38_0.chapterParentTf_.anchoredPosition
-		local var_39_3 = arg_38_1:GetLocalPosition().x * -1
+	slot0.moveTimer_ = FrameTimer.New(function ()
+		slot2 = uv0.chapterParentTf_.anchoredPosition
 
-		if var_39_1 >= var_39_0 + var_39_3 then
-			var_39_3 = var_39_1 - var_39_0
-		elseif var_39_1 >= var_39_0 - var_39_3 then
-			var_39_3 = var_39_0 - var_39_1
+		if uv0.scrollTf_.rect.width / 2 >= uv0.chapterParentTf_.rect.width / 2 + uv1:GetLocalPosition().x * -1 then
+			slot3 = slot1 - slot0
+		elseif slot1 >= slot0 - slot3 then
+			slot3 = slot0 - slot1
 		end
 
-		local var_39_4 = 3 * math.pow(arg_38_0.scrollView_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime
+		uv0.chapterParentTf_.anchoredPosition = Vector2.Lerp(slot2, Vector2.New(slot3, slot2.y), 3 * math.pow(uv0.scrollView_.decelerationRate, UnityEngine.Time.unscaledDeltaTime) * UnityEngine.Time.unscaledDeltaTime)
 
-		arg_38_0.chapterParentTf_.anchoredPosition = Vector2.Lerp(var_39_2, Vector2.New(var_39_3, var_39_2.y), var_39_4)
+		if math.abs(slot2.x - slot3) <= 1 then
+			uv0.chapterParentTf_.anchoredPosition = Vector2(slot3, slot2.y)
 
-		if math.abs(var_39_2.x - var_39_3) <= 1 then
-			arg_38_0.chapterParentTf_.anchoredPosition = Vector2(var_39_3, var_39_2.y)
-
-			arg_38_0:StopMoveTimer()
+			uv0:StopMoveTimer()
 		end
 	end, 1, -1)
 
-	arg_38_0.moveTimer_:Start()
+	slot0.moveTimer_:Start()
 end
 
-function var_0_0.StopMoveTimer(arg_40_0)
-	if arg_40_0.moveTimer_ then
-		arg_40_0.moveTimer_:Stop()
+function slot0.StopMoveTimer(slot0)
+	if slot0.moveTimer_ then
+		slot0.moveTimer_:Stop()
 
-		arg_40_0.moveTimer_ = nil
+		slot0.moveTimer_ = nil
 	end
 end
 
-function var_0_0.StopLeanTween(arg_41_0)
-	if arg_41_0.leanTweenHandler_ then
-		LeanTween.cancel(arg_41_0.chapterFrontImage_.gameObject)
-		arg_41_0.leanTweenHandler_:callOnCompletes()
+function slot0.StopLeanTween(slot0)
+	if slot0.leanTweenHandler_ then
+		LeanTween.cancel(slot0.chapterFrontImage_.gameObject)
+		slot0.leanTweenHandler_:callOnCompletes()
 	end
 end
 
-function var_0_0.StopAllTimer(arg_42_0)
-	arg_42_0:StopMoveTimer()
-	arg_42_0:RemoveActivityTimer()
+function slot0.StopAllTimer(slot0)
+	slot0:StopMoveTimer()
+	slot0:RemoveActivityTimer()
 end
 
-return var_0_0
+return slot0

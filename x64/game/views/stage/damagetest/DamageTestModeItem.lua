@@ -1,43 +1,43 @@
-local var_0_0 = class("DamageTestModeItem", ReduxView)
+slot0 = class("DamageTestModeItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.index_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.index_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.selectController_ = ControllerUtil.GetController(arg_1_0.transform_, "chooseItem")
-	arg_1_0.lockController_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "chooseItem")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		if arg_3_0.clickFunc_ then
-			arg_3_0.clickFunc_(arg_3_0.index_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.clickFunc_ then
+			uv0.clickFunc_(uv0.index_)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_5_0, arg_5_1)
-	arg_5_0:SetSelectMode(arg_5_0.index_ == arg_5_1)
+function slot0.RefreshUI(slot0, slot1)
+	slot0:SetSelectMode(slot0.index_ == slot1)
 end
 
-function var_0_0.SetSelectMode(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0.selectController_:SetSelectedState("on")
+function slot0.SetSelectMode(slot0, slot1)
+	if slot1 then
+		slot0.selectController_:SetSelectedState("on")
 	else
-		arg_6_0.selectController_:SetSelectedState("off")
+		slot0.selectController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.RegistClickFunc(arg_7_0, arg_7_1)
-	arg_7_0.clickFunc_ = arg_7_1
+function slot0.RegistClickFunc(slot0, slot1)
+	slot0.clickFunc_ = slot1
 end
 
-return var_0_0
+return slot0

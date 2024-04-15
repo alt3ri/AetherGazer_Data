@@ -1,58 +1,52 @@
-local var_0_0 = class("SequentialBattleBuffInfoCondition", ReduxView)
+slot0 = class("SequentialBattleBuffInfoCondition", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	var_0_0.super.Dispose(arg_2_0)
-	Object.Destroy(arg_2_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.transform_ = nil
-	arg_2_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4)
-	local var_3_0 = SequentialBattleBuffCfg[arg_3_3]
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.descText_.text = GetI18NText(SequentialBattleBuffCfg[slot3].type_desc[slot4])
 
-	arg_3_0.descText_.text = GetI18NText(var_3_0.type_desc[arg_3_4])
+	if slot2 then
+		slot8 = SequentialBattleBuffCfg[slot3].type
 
-	if arg_3_2 then
-		local var_3_1 = table.keyof(SequentialBattleChapterCfg[arg_3_1].stage_id, arg_3_2)
-		local var_3_2 = arg_3_0:GetHeroList(arg_3_1, var_3_1)
-		local var_3_3 = SequentialBattleBuffCfg[arg_3_3].type
-		local var_3_4 = SequentialBattleTools.GetConditionStatus(var_3_2, var_3_3)
-
-		if var_3_4[arg_3_4] >= var_3_3[arg_3_4][3] then
-			arg_3_0.cntText_.text = string.format("<color=#6AA788>%s/%s</color>", var_3_4[arg_3_4], var_3_3[arg_3_4][3])
+		if slot8[slot4][3] <= SequentialBattleTools.GetConditionStatus(slot0:GetHeroList(slot1, table.keyof(SequentialBattleChapterCfg[slot1].stage_id, slot2)), slot8)[slot4] then
+			slot0.cntText_.text = string.format("<color=#6AA788>%s/%s</color>", slot9[slot4], slot8[slot4][3])
 		else
-			arg_3_0.cntText_.text = string.format("<color=#F96763>%s/%s</color>", var_3_4[arg_3_4], var_3_3[arg_3_4][3])
+			slot0.cntText_.text = string.format("<color=#F96763>%s/%s</color>", slot9[slot4], slot8[slot4][3])
 		end
 	else
-		arg_3_0.cntText_.text = ""
+		slot0.cntText_.text = ""
 	end
 
-	arg_3_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.GetHeroList(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = SequentialBattleData:GetChapterData(arg_4_1).team[arg_4_2]
-	local var_4_1 = {}
+function slot0.GetHeroList(slot0, slot1, slot2)
+	slot4 = {}
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0.heroList) do
-		if iter_4_1.heroID and iter_4_1.heroID ~= 0 then
-			table.insert(var_4_1, iter_4_1.heroID)
+	for slot8, slot9 in pairs(SequentialBattleData:GetChapterData(slot1).team[slot2].heroList) do
+		if slot9.heroID and slot9.heroID ~= 0 then
+			table.insert(slot4, slot9.heroID)
 		end
 	end
 
-	return var_4_1
+	return slot4
 end
 
-function var_0_0.Show(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.gameObject_, arg_5_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

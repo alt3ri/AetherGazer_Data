@@ -1,50 +1,48 @@
-local var_0_0 = class("HeroDisplayExpressionItemView", ReduxView)
+slot0 = class("HeroDisplayExpressionItemView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddToggleListener(arg_2_0.slider_, function(arg_3_0)
-		arg_2_0.skinMesh_:SetBlendShapeWeight(arg_2_0.index_, arg_3_0)
-		HeroDisplayData:SetCacheExpressionParams(arg_2_0.index_ + 1, arg_3_0)
+function slot0.AddListeners(slot0)
+	slot0:AddToggleListener(slot0.slider_, function (slot0)
+		uv0.skinMesh_:SetBlendShapeWeight(uv0.index_, slot0)
+		HeroDisplayData:SetCacheExpressionParams(uv0.index_ + 1, slot0)
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.skinMesh_ = arg_4_1
-	arg_4_0.index_ = arg_4_2 - 1
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.skinMesh_ = slot1
+	slot0.index_ = slot2 - 1
+	slot4 = HeroSkinMeshCfg[slot3]
+	slot0.textName_.text = GetI18NText(slot4.name)
+	slot0.textLeft_.text = GetI18NText(slot4.leftName)
+	slot0.textRight_.text = GetI18NText(slot4.rightName)
 
-	local var_4_0 = HeroSkinMeshCfg[arg_4_3]
-
-	arg_4_0.textName_.text = GetI18NText(var_4_0.name)
-	arg_4_0.textLeft_.text = GetI18NText(var_4_0.leftName)
-	arg_4_0.textRight_.text = GetI18NText(var_4_0.rightName)
-
-	arg_4_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.SetValue(arg_5_0, arg_5_1)
-	arg_5_0.slider_.value = arg_5_1
+function slot0.SetValue(slot0, slot1)
+	slot0.slider_.value = slot1
 
-	arg_5_0.skinMesh_:SetBlendShapeWeight(arg_5_0.index_, arg_5_1)
-	HeroDisplayData:SetCacheExpressionParams(arg_5_0.index_ + 1, arg_5_1)
+	slot0.skinMesh_:SetBlendShapeWeight(slot0.index_, slot1)
+	HeroDisplayData:SetCacheExpressionParams(slot0.index_ + 1, slot1)
 end
 
-function var_0_0.Show(arg_6_0, arg_6_1)
-	SetActive(arg_6_0.gameObject_, arg_6_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_7_0.transform_ = nil
-	arg_7_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

@@ -1,585 +1,556 @@
-local var_0_0 = class("SelectHeroBaseView", ReduxView)
+slot0 = class("SelectHeroBaseView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.drag_ = {}
-	arg_3_0.dragPosition_ = {}
+	slot0.drag_ = {}
+	slot0.dragPosition_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.drag_[iter_3_0] = arg_3_0[string.format("drag_%s", iter_3_0)]
+	for slot4 = 1, 3 do
+		slot0.drag_[slot4] = slot0[string.format("drag_%s", slot4)]
 
-		arg_3_0:CreateDragListeners(iter_3_0)
+		slot0:CreateDragListeners(slot4)
 
-		arg_3_0.dragPosition_[iter_3_0] = arg_3_0.drag_[iter_3_0].transform.localPosition
+		slot0.dragPosition_[slot4] = slot0.drag_[slot4].transform.localPosition
 	end
 
-	arg_3_0.heroInfoItemList_ = {}
-	arg_3_0.comboSkillView_ = nil
-	arg_3_0.mimirInfoView_ = nil
-	arg_3_0.raceEffectController_ = arg_3_0.controllerExCollection_:GetController("raceEffect")
-	arg_3_0.raceActiveController_ = arg_3_0.controllerExCollection_:GetController("raceActive")
-	arg_3_0.comboActiveController_ = arg_3_0.controllerExCollection_:GetController("comboActive")
-	arg_3_0.mimirActiveController_ = arg_3_0.controllerExCollection_:GetController("mimirActive")
-	arg_3_0.selectComboSkillHandler_ = handler(arg_3_0, arg_3_0.OnComboSkillSelect)
+	slot0.heroInfoItemList_ = {}
+	slot0.comboSkillView_ = nil
+	slot0.mimirInfoView_ = nil
+	slot0.raceEffectController_ = slot0.controllerExCollection_:GetController("raceEffect")
+	slot0.raceActiveController_ = slot0.controllerExCollection_:GetController("raceActive")
+	slot0.comboActiveController_ = slot0.controllerExCollection_:GetController("comboActive")
+	slot0.mimirActiveController_ = slot0.controllerExCollection_:GetController("mimirActive")
+	slot0.selectComboSkillHandler_ = handler(slot0, slot0.OnComboSkillSelect)
 end
 
-function var_0_0.SetProxy(arg_4_0, arg_4_1)
-	arg_4_0.sectionProxy_ = arg_4_1
-	arg_4_0.canSwitchResctrictHeroList_ = {
+function slot0.SetProxy(slot0, slot1)
+	slot0.sectionProxy_ = slot1
+	slot0.canSwitchResctrictHeroList_ = {
 		0,
 		0,
 		0
 	}
 
-	if arg_4_0.sectionProxy_.stageType and arg_4_0.sectionProxy_.stageID and arg_4_0.sectionProxy_.stageID ~= 0 then
-		local var_4_0, var_4_1 = BattleStageTools.GetRestrictHeroList(arg_4_0.sectionProxy_.stageType, arg_4_0.sectionProxy_.stageID)
+	if slot0.sectionProxy_.stageType and slot0.sectionProxy_.stageID and slot0.sectionProxy_.stageID ~= 0 then
+		slot2, slot3 = BattleStageTools.GetRestrictHeroList(slot0.sectionProxy_.stageType, slot0.sectionProxy_.stageID)
 
-		if type(var_4_1) == "table" then
-			arg_4_0.canSwitchResctrictHeroList_ = var_4_1
+		if type(slot3) == "table" then
+			slot0.canSwitchResctrictHeroList_ = slot3
 		end
 	end
 
-	arg_4_0.reserveParams_ = arg_4_1:GetReserveParams()
+	slot0.reserveParams_ = slot1:GetReserveParams()
 
-	arg_4_0:TryReload()
-	arg_4_0:UpdateSubViewParams()
+	slot0:TryReload()
+	slot0:UpdateSubViewParams()
 end
 
-function var_0_0.UpdateSubViewParams(arg_5_0)
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.heroInfoItemList_) do
-		iter_5_1:SetProxy(arg_5_0.sectionProxy_)
+function slot0.UpdateSubViewParams(slot0)
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5:SetProxy(slot0.sectionProxy_)
 	end
 
-	arg_5_0.comboSkillView_:SetProxy(arg_5_0.sectionProxy_)
-	arg_5_0.mimirInfoView_:SetProxy(arg_5_0.sectionProxy_)
+	slot0.comboSkillView_:SetProxy(slot0.sectionProxy_)
+	slot0.mimirInfoView_:SetProxy(slot0.sectionProxy_)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:RegistEventListener(COMBO_SKILL_SELECT, arg_6_0.selectComboSkillHandler_)
-	arg_6_0:SubViewOnEnter()
-	arg_6_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RegistEventListener(COMBO_SKILL_SELECT, slot0.selectComboSkillHandler_)
+	slot0:SubViewOnEnter()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SubViewOnEnter(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.heroInfoItemList_) do
-		iter_7_1:OnEnter(iter_7_0)
+function slot0.SubViewOnEnter(slot0)
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5:OnEnter(slot4)
 	end
 
-	arg_7_0.comboSkillView_:OnEnter()
-	arg_7_0.mimirInfoView_:OnEnter()
+	slot0.comboSkillView_:OnEnter()
+	slot0.mimirInfoView_:OnEnter()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:RemoveAllEventListener()
-	arg_8_0:SubViewOnExit()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	slot0:SubViewOnExit()
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.heroInfoItemList_) do
-		iter_8_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5:OnExit()
 	end
 
-	if arg_8_0.talkTimer_ then
-		arg_8_0.talkTimer_:Stop()
+	if slot0.talkTimer_ then
+		slot0.talkTimer_:Stop()
 
-		arg_8_0.talkTimer_ = nil
+		slot0.talkTimer_ = nil
 	end
 
-	if arg_8_0.talkCDTimer_ then
-		arg_8_0.talkCDTimer_:Stop()
+	if slot0.talkCDTimer_ then
+		slot0.talkCDTimer_:Stop()
 
-		arg_8_0.talkCDTimer_ = nil
+		slot0.talkCDTimer_ = nil
 	end
 
 	HeroTools.StopTalk()
-	arg_8_0:DestroyHeroModels()
+	slot0:DestroyHeroModels()
 end
 
-function var_0_0.SubViewOnExit(arg_9_0)
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.heroInfoItemList_) do
-		iter_9_1:OnExit()
+function slot0.SubViewOnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5:OnExit()
 	end
 
-	arg_9_0.comboSkillView_:OnExit()
-	arg_9_0.mimirInfoView_:OnExit()
+	slot0.comboSkillView_:OnExit()
+	slot0.mimirInfoView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveTriggerListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveTriggerListeners()
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.heroInfoItemList_) do
-		iter_10_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_10_0.heroInfoItemList_ = nil
+	slot0.heroInfoItemList_ = nil
 
-	arg_10_0.comboSkillView_:Dispose()
+	slot0.comboSkillView_:Dispose()
 
-	arg_10_0.comboSkillView_ = nil
+	slot0.comboSkillView_ = nil
 
-	arg_10_0.mimirInfoView_:Dispose()
+	slot0.mimirInfoView_:Dispose()
 
-	arg_10_0.mimirInfoView_ = nil
+	slot0.mimirInfoView_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListener(arg_11_0)
-	arg_11_0:AddBtnListener(arg_11_0.raceBtn_, nil, function()
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.raceBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sectionSelectRaceDescription", {
-			raceID = arg_11_0.maxRaceID_,
-			sameCamp = arg_11_0.sameCamp_
+			raceID = uv0.maxRaceID_,
+			sameCamp = uv0.sameCamp_
 		})
 	end)
 end
 
-function var_0_0.CreateDragListeners(arg_13_0, arg_13_1)
-	arg_13_0.drag_[arg_13_1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function(arg_14_0, arg_14_1)
-		if arg_13_0.selectIndex_ then
+function slot0.CreateDragListeners(slot0, slot1)
+	slot0.drag_[slot1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		if uv0.selectIndex_ then
 			return
 		end
 
-		if #arg_13_0.loadingList_ > 0 then
+		if #uv0.loadingList_ > 0 then
 			return
 		end
 
-		if arg_13_0.lockStateList_[arg_13_1] or arg_13_0.sectionProxy_.canChangeTeam ~= nil and arg_13_0.sectionProxy_.canChangeTeam == false then
+		if uv0.lockStateList_[uv1] or uv0.sectionProxy_.canChangeTeam ~= nil and uv0.sectionProxy_.canChangeTeam == false then
 			ShowTips("CAN_NOT_CHANGE_HERO")
 
 			return
 		end
 
-		if arg_13_0.canSwitchResctrictHeroList_[arg_13_1] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+		if uv0.canSwitchResctrictHeroList_[uv1] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
 			ShowTips("TEAM_ERROR_CHANGE")
 
 			return
 		end
 
-		arg_13_0.selectIndex_ = arg_13_1
-		arg_13_0.cacheSelectIndex_ = arg_13_1
-		arg_13_0.cacheHeroNumber_ = {
+		uv0.selectIndex_ = uv1
+		uv0.cacheSelectIndex_ = uv1
+		uv0.cacheHeroNumber_ = {
 			1,
 			2,
 			3
 		}
 	end))
-	arg_13_0.drag_[arg_13_1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(function(arg_15_0, arg_15_1)
-		if arg_13_0.selectIndex_ ~= arg_13_1 then
+	slot0.drag_[slot1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		if uv0.selectIndex_ ~= uv1 then
 			return
 		end
 
-		if #arg_13_0.loadingList_ > 0 then
+		if #uv0.loadingList_ > 0 then
 			return
 		end
 
-		local var_15_0 = arg_15_1.delta * manager.ui.canvasRate
-		local var_15_1 = Vector3(var_15_0.x, 0, 0)
-		local var_15_2 = arg_15_0.transform.localPosition + var_15_1
-
-		if var_15_2.x > 530 then
-			var_15_2.x = 530
-		elseif var_15_2.x < -273 then
-			var_15_2.x = -273
+		if (slot0.transform.localPosition + Vector3((slot1.delta * manager.ui.canvasRate).x, 0, 0)).x > 530 then
+			slot3.x = 530
+		elseif slot3.x < -273 then
+			slot3.x = -273
 		end
 
-		arg_15_0.transform.localPosition = var_15_2
+		slot0.transform.localPosition = slot3
 
-		local var_15_3 = SectionSelectHeroTools.GetModelOffesetPosition(arg_13_0.dragPosition_[1], arg_15_0.transform.localPosition)
+		if uv0.heroModel_[uv1] then
+			uv0.heroModel_[uv1].transform.localPosition = SectionSelectHeroTools.HeroTransform[1].position + SectionSelectHeroTools.GetModelOffesetPosition(uv0.dragPosition_[1], slot0.transform.localPosition)
 
-		if arg_13_0.heroModel_[arg_13_1] then
-			arg_13_0.heroModel_[arg_13_1].transform.localPosition = SectionSelectHeroTools.HeroTransform[1].position + var_15_3
-
-			if not arg_13_0.lockStateList_[arg_13_1] or arg_13_0.sectionProxy_.canChangeTeam ~= nil and arg_13_0.sectionProxy_.canChangeTeam == true or arg_13_0.canSwitchResctrictHeroList_[arg_13_1] == ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
-				arg_13_0:TryModifyHeroPos()
+			if not uv0.lockStateList_[uv1] or uv0.sectionProxy_.canChangeTeam ~= nil and uv0.sectionProxy_.canChangeTeam == true or uv0.canSwitchResctrictHeroList_[uv1] == ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+				uv0:TryModifyHeroPos()
 			end
 		end
 	end))
-	arg_13_0.drag_[arg_13_1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(function(arg_16_0, arg_16_1)
-		if arg_13_0.selectIndex_ ~= arg_13_1 then
+	slot0.drag_[slot1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(function (slot0, slot1)
+		if uv0.selectIndex_ ~= uv1 then
 			return
 		end
 
-		if #arg_13_0.loadingList_ > 0 then
+		if #uv0.loadingList_ > 0 then
 			return
 		end
 
-		arg_16_0.transform.localPosition = arg_13_0.dragPosition_[arg_13_1]
+		slot0.transform.localPosition = uv0.dragPosition_[uv1]
 
-		if not arg_13_0.lockStateList_[arg_13_1] or arg_13_0.sectionProxy_.canChangeTeam ~= nil and arg_13_0.sectionProxy_.canChangeTeam == true or arg_13_0.canSwitchResctrictHeroList_[arg_13_1] == ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
-			arg_13_0:EndDrag(arg_13_1)
+		if not uv0.lockStateList_[uv1] or uv0.sectionProxy_.canChangeTeam ~= nil and uv0.sectionProxy_.canChangeTeam == true or uv0.canSwitchResctrictHeroList_[uv1] == ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+			uv0:EndDrag(uv1)
 		end
 
-		arg_13_0.selectIndex_ = nil
+		uv0.selectIndex_ = nil
 	end))
-	arg_13_0.drag_[arg_13_1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(handlerArg1(arg_13_0, arg_13_0.ClickHero, arg_13_1)))
+	slot0.drag_[slot1]:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.PointerUp, LuaHelper.EventTriggerAction1(handlerArg1(slot0, slot0.ClickHero, slot1)))
 end
 
-function var_0_0.RemoveTriggerListeners(arg_17_0)
-	for iter_17_0 = 1, 3 do
-		arg_17_0.drag_[iter_17_0]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-		arg_17_0.drag_[iter_17_0]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
-		arg_17_0.drag_[iter_17_0]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
-		arg_17_0.drag_[iter_17_0]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
+function slot0.RemoveTriggerListeners(slot0)
+	for slot4 = 1, 3 do
+		slot0.drag_[slot4]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+		slot0.drag_[slot4]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
+		slot0.drag_[slot4]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
+		slot0.drag_[slot4]:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.PointerUp)
 	end
 end
 
-function var_0_0.ClickHero(arg_18_0, arg_18_1, arg_18_2, arg_18_3)
-	if not arg_18_3.dragging then
-		if arg_18_0.selectIndex_ then
+function slot0.ClickHero(slot0, slot1, slot2, slot3)
+	if not slot3.dragging then
+		if slot0.selectIndex_ then
 			return
 		end
 
-		if #arg_18_0.loadingList_ > 0 then
+		if #slot0.loadingList_ > 0 then
 			return
 		end
 
-		BattleFieldData:SetCurrentSelectHeroData(arg_18_0.cacheHeroTeam_[arg_18_1], arg_18_0.heroTrialList_[arg_18_1])
-		OperationRecorder.Record(arg_18_0.class.__cname, "click_add")
-		manager.notify:CallUpdateFunc(SECTION_CLICK_HERO, arg_18_1)
+		BattleFieldData:SetCurrentSelectHeroData(slot0.cacheHeroTeam_[slot1], slot0.heroTrialList_[slot1])
+		OperationRecorder.Record(slot0.class.__cname, "click_add")
+		manager.notify:CallUpdateFunc(SECTION_CLICK_HERO, slot1)
 	end
 end
 
-function var_0_0.ResetTempData(arg_19_0)
-	arg_19_0.heroModel_ = {}
-	arg_19_0.loadAsyncIndex_ = {}
-	arg_19_0.loadingList_ = {}
-	arg_19_0.cacheHeroNumber_ = {
+function slot0.ResetTempData(slot0)
+	slot0.heroModel_ = {}
+	slot0.loadAsyncIndex_ = {}
+	slot0.loadingList_ = {}
+	slot0.cacheHeroNumber_ = {
 		1,
 		2,
 		3
 	}
-	arg_19_0.cacheHeroTeam_ = {}
-	arg_19_0.heroTrialList_ = {}
+	slot0.cacheHeroTeam_ = {}
+	slot0.heroTrialList_ = {}
 end
 
-function var_0_0.RefreshUI(arg_20_0)
-	arg_20_0:RefreshHeroTeam()
-	arg_20_0:LoadHeroModels()
-	arg_20_0:RefreshMimir()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshHeroTeam()
+	slot0:LoadHeroModels()
+	slot0:RefreshMimir()
 end
 
-function var_0_0.RefreshHeroTeam(arg_21_0)
-	arg_21_0:GetHeroTeam()
-	arg_21_0:RefreshHeroInfoItem()
-	arg_21_0:RefreshRace()
-	arg_21_0:RefreshCombo()
+function slot0.RefreshHeroTeam(slot0)
+	slot0:GetHeroTeam()
+	slot0:RefreshHeroInfoItem()
+	slot0:RefreshRace()
+	slot0:RefreshCombo()
 end
 
-function var_0_0.RefreshHeroInfoItem(arg_22_0)
-	for iter_22_0 = 1, 3 do
-		arg_22_0.heroInfoItemList_[iter_22_0]:SetData(iter_22_0)
+function slot0.RefreshHeroInfoItem(slot0)
+	for slot4 = 1, 3 do
+		slot0.heroInfoItemList_[slot4]:SetData(slot4)
 	end
 end
 
-function var_0_0.ChangeHeroTeam(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_1
-	local var_23_1 = {}
+function slot0.ChangeHeroTeam(slot0, slot1)
+	slot2 = slot1
+	slot3 = {
+		[slot7] = slot0.heroTrialList_[table.keyof(slot0.cacheHeroTeam_, slot8)]
+	}
 
-	for iter_23_0, iter_23_1 in ipairs(arg_23_1) do
-		local var_23_2 = table.keyof(arg_23_0.cacheHeroTeam_, iter_23_1)
-
-		var_23_1[iter_23_0] = arg_23_0.heroTrialList_[var_23_2]
+	for slot7, slot8 in ipairs(slot1) do
+		-- Nothing
 	end
 
-	if var_23_0[1] ~= arg_23_0.cacheHeroTeam_[1] then
-		arg_23_0:PlayHeroTalk(var_23_0[1])
+	if slot2[1] ~= slot0.cacheHeroTeam_[1] then
+		slot0:PlayHeroTalk(slot2[1])
 	end
 
-	arg_23_0.sectionProxy_:ChangeHeroTeam(var_23_0, var_23_1)
-	manager.notify:Invoke(SECTION_CHANGE_HERO_TEAM, var_23_0, var_23_1)
+	slot0.sectionProxy_:ChangeHeroTeam(slot2, slot3)
+	manager.notify:Invoke(SECTION_CHANGE_HERO_TEAM, slot2, slot3)
 end
 
-function var_0_0.TryModifyHeroPos(arg_24_0)
-	local var_24_0 = arg_24_0.heroModel_[arg_24_0.selectIndex_].transform.localPosition
-
-	for iter_24_0 = 1, 3 do
-		if math.abs(SectionSelectHeroTools.HeroTransform[iter_24_0].position.x - var_24_0.x) <= 0.6 and iter_24_0 ~= arg_24_0.cacheSelectIndex_ then
-			if arg_24_0.cacheHeroTeam_[arg_24_0.cacheHeroNumber_[iter_24_0]] == 0 or arg_24_0.canSwitchResctrictHeroList_[arg_24_0.cacheHeroNumber_[iter_24_0]] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
+function slot0.TryModifyHeroPos(slot0)
+	for slot6 = 1, 3 do
+		if math.abs(SectionSelectHeroTools.HeroTransform[slot6].position.x - slot0.heroModel_[slot0.selectIndex_].transform.localPosition.x) <= 0.6 and slot6 ~= slot0.cacheSelectIndex_ then
+			if slot0.cacheHeroTeam_[slot0.cacheHeroNumber_[slot6]] == 0 or slot0.canSwitchResctrictHeroList_[slot0.cacheHeroNumber_[slot6]] ~= ReserveConst.RESTRICT_HERO_SWITCH_MODE.FORBID then
 				break
 			end
 
-			if arg_24_0.lockStateList_[arg_24_0.selectIndex_] or arg_24_0.lockStateList_[iter_24_0] then
+			if slot0.lockStateList_[slot0.selectIndex_] or slot0.lockStateList_[slot6] then
 				return
 			end
 
-			if arg_24_0.heroModel_[arg_24_0.cacheHeroNumber_[iter_24_0]] then
-				arg_24_0.heroModel_[arg_24_0.cacheHeroNumber_[iter_24_0]].transform.localPosition = SectionSelectHeroTools.HeroTransform[arg_24_0.cacheSelectIndex_].position
-				arg_24_0.heroModel_[arg_24_0.cacheHeroNumber_[iter_24_0]].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[arg_24_0.cacheSelectIndex_].rotation
+			if slot0.heroModel_[slot0.cacheHeroNumber_[slot6]] then
+				slot0.heroModel_[slot0.cacheHeroNumber_[slot6]].transform.localPosition = SectionSelectHeroTools.HeroTransform[slot0.cacheSelectIndex_].position
+				slot0.heroModel_[slot0.cacheHeroNumber_[slot6]].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[slot0.cacheSelectIndex_].rotation
 			end
 
-			local var_24_1 = arg_24_0.cacheHeroNumber_[iter_24_0]
-
-			arg_24_0.cacheHeroNumber_[iter_24_0] = arg_24_0.cacheHeroNumber_[arg_24_0.cacheSelectIndex_]
-			arg_24_0.cacheHeroNumber_[arg_24_0.cacheSelectIndex_] = var_24_1
-			arg_24_0.cacheSelectIndex_ = iter_24_0
+			slot0.cacheHeroNumber_[slot6] = slot0.cacheHeroNumber_[slot0.cacheSelectIndex_]
+			slot0.cacheHeroNumber_[slot0.cacheSelectIndex_] = slot0.cacheHeroNumber_[slot6]
+			slot0.cacheSelectIndex_ = slot6
 
 			break
 		end
 	end
 end
 
-function var_0_0.EndDrag(arg_25_0, arg_25_1)
-	local var_25_0 = {}
-
-	for iter_25_0 = 1, 3 do
-		var_25_0[iter_25_0] = arg_25_0.cacheHeroTeam_[arg_25_0.cacheHeroNumber_[iter_25_0]]
+function slot0.EndDrag(slot0, slot1)
+	for slot6 = 1, 3 do
 	end
 
-	local var_25_1 = {}
+	slot3 = {}
 
-	for iter_25_1, iter_25_2 in pairs(var_25_0) do
-		local var_25_2 = 1
+	for slot7, slot8 in pairs({
+		[slot6] = slot0.cacheHeroTeam_[slot0.cacheHeroNumber_[slot6]]
+	}) do
+		slot9 = 1
 
-		for iter_25_3 = 1, 3 do
-			if arg_25_0.cacheHeroTeam_[iter_25_3] == iter_25_2 then
-				var_25_2 = iter_25_3
+		for slot13 = 1, 3 do
+			if slot0.cacheHeroTeam_[slot13] == slot8 then
+				slot9 = slot13
 
 				break
 			end
 		end
 
-		var_25_1[iter_25_1] = arg_25_0.heroModel_[var_25_2]
+		slot3[slot7] = slot0.heroModel_[slot9]
 
-		if var_25_1[iter_25_1] then
-			var_25_1[iter_25_1].transform.localPosition = SectionSelectHeroTools.HeroTransform[iter_25_1].position
-			var_25_1[iter_25_1].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[iter_25_1].rotation
+		if slot3[slot7] then
+			slot3[slot7].transform.localPosition = SectionSelectHeroTools.HeroTransform[slot7].position
+			slot3[slot7].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[slot7].rotation
 		end
 	end
 
-	arg_25_0.heroModel_ = var_25_1
+	slot0.heroModel_ = slot3
 
-	arg_25_0:ChangeHeroTeam(var_25_0)
-	arg_25_0:RefreshHeroTeam()
-	OperationRecorder.Record(arg_25_0.class.__cname, "endDrag")
+	slot0:ChangeHeroTeam(slot2)
+	slot0:RefreshHeroTeam()
+	OperationRecorder.Record(slot0.class.__cname, "endDrag")
 end
 
-function var_0_0.LoadHeroModels(arg_26_0)
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0.cacheHeroTeam_) do
-		if iter_26_1 ~= 0 and iter_26_1 then
-			local var_26_0 = arg_26_0:GetSkinCfg(iter_26_0)
+function slot0.LoadHeroModels(slot0)
+	for slot4, slot5 in ipairs(slot0.cacheHeroTeam_) do
+		if slot5 ~= 0 and slot5 then
+			table.insert(slot0.loadingList_, slot5)
 
-			table.insert(arg_26_0.loadingList_, iter_26_1)
+			slot0.loadAsyncIndex_[slot4] = manager.resourcePool:AsyncLoad("Char/" .. slot0:GetSkinCfg(slot4).ui_modelId, ASSET_TYPE.TPOSE, function (slot0)
+				uv0.heroModel_[uv1] = slot0
+				uv0.heroModel_[uv1].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[uv1].rotation
+				uv0.heroModel_[uv1].transform.localPosition = SectionSelectHeroTools.HeroTransform[uv1].position
+				uv0.heroModel_[uv1].transform.localScale = SectionSelectHeroTools.HeroTransform[uv1].scale
 
-			arg_26_0.loadAsyncIndex_[iter_26_0] = manager.resourcePool:AsyncLoad("Char/" .. var_26_0.ui_modelId, ASSET_TYPE.TPOSE, function(arg_27_0)
-				arg_26_0.heroModel_[iter_26_0] = arg_27_0
-				arg_26_0.heroModel_[iter_26_0].transform.localEulerAngles = SectionSelectHeroTools.HeroTransform[iter_26_0].rotation
-				arg_26_0.heroModel_[iter_26_0].transform.localPosition = SectionSelectHeroTools.HeroTransform[iter_26_0].position
-				arg_26_0.heroModel_[iter_26_0].transform.localScale = SectionSelectHeroTools.HeroTransform[iter_26_0].scale
-
-				local var_27_0 = table.keyof(arg_26_0.loadingList_, iter_26_1)
-
-				if var_27_0 then
-					table.remove(arg_26_0.loadingList_, var_27_0)
+				if table.keyof(uv0.loadingList_, uv2) then
+					table.remove(uv0.loadingList_, slot1)
 				end
 			end)
 		end
 	end
 end
 
-function var_0_0.DestroyHeroModels(arg_28_0)
-	for iter_28_0, iter_28_1 in pairs(arg_28_0.heroModel_) do
-		manager.resourcePool:DestroyOrReturn(iter_28_1, ASSET_TYPE.TPOSE)
+function slot0.DestroyHeroModels(slot0)
+	for slot4, slot5 in pairs(slot0.heroModel_) do
+		manager.resourcePool:DestroyOrReturn(slot5, ASSET_TYPE.TPOSE)
 	end
 
-	for iter_28_2, iter_28_3 in pairs(arg_28_0.loadAsyncIndex_) do
-		manager.resourcePool:StopAsyncQuest(arg_28_0.loadAsyncIndex_[iter_28_2])
+	for slot4, slot5 in pairs(slot0.loadAsyncIndex_) do
+		manager.resourcePool:StopAsyncQuest(slot0.loadAsyncIndex_[slot4])
 	end
 
-	arg_28_0.loadAsyncIndex_ = nil
-	arg_28_0.heroModel_ = nil
+	slot0.loadAsyncIndex_ = nil
+	slot0.heroModel_ = nil
 end
 
-function var_0_0.GetSkinCfg(arg_29_0, arg_29_1)
-	return arg_29_0.sectionProxy_:CustomGetSkinCfg(arg_29_1, arg_29_0.cacheHeroTeam_[arg_29_1], arg_29_0.heroTrialList_[arg_29_1])
+function slot0.GetSkinCfg(slot0, slot1)
+	return slot0.sectionProxy_:CustomGetSkinCfg(slot1, slot0.cacheHeroTeam_[slot1], slot0.heroTrialList_[slot1])
 end
 
-function var_0_0.PlayHeroTalk(arg_30_0, arg_30_1)
-	if arg_30_0.talkTimer_ then
-		arg_30_0.talkTimer_:Stop()
+function slot0.PlayHeroTalk(slot0, slot1)
+	if slot0.talkTimer_ then
+		slot0.talkTimer_:Stop()
 
-		arg_30_0.talkTimer_ = nil
+		slot0.talkTimer_ = nil
 	end
 
 	HeroTools.StopTalk()
 
-	if arg_30_0.talkCDTimer_ then
+	if slot0.talkCDTimer_ then
 		return
 	end
 
-	arg_30_0.talkTimer_ = Timer.New(function()
-		HeroTools.PlayTalk(arg_30_1, "leader")
+	slot0.talkTimer_ = Timer.New(function ()
+		HeroTools.PlayTalk(uv0, "leader")
 
-		arg_30_0.talkTimer_ = nil
-		arg_30_0.talkCDTimer_ = Timer.New(function()
-			arg_30_0.talkCDTimer_:Stop()
+		uv1.talkTimer_ = nil
+		uv1.talkCDTimer_ = Timer.New(function ()
+			uv0.talkCDTimer_:Stop()
 
-			arg_30_0.talkCDTimer_ = nil
+			uv0.talkCDTimer_ = nil
 		end, HeroConst.SET_LEADER_VOICE_CD, 1)
 
-		arg_30_0.talkCDTimer_:Start()
+		uv1.talkCDTimer_:Start()
 	end, HeroConst.TALK_DELAY_TIME, 1)
 
-	arg_30_0.talkTimer_:Start()
+	slot0.talkTimer_:Start()
 end
 
-function var_0_0.RefreshRace(arg_33_0)
-	arg_33_0.raceActiveController_:SetSelectedState(tostring(arg_33_0.sectionProxy_.needRacePanel))
+function slot0.RefreshRace(slot0)
+	slot0.raceActiveController_:SetSelectedState(tostring(slot0.sectionProxy_.needRacePanel))
 
-	if arg_33_0.sectionProxy_.needRacePanel then
-		arg_33_0:RefreshRaceUI()
+	if slot0.sectionProxy_.needRacePanel then
+		slot0:RefreshRaceUI()
 	end
 end
 
-function var_0_0.RefreshRaceUI(arg_34_0)
-	local var_34_0
-	local var_34_1
-	local var_34_2
+function slot0.RefreshRaceUI(slot0)
+	slot1, slot2, slot3 = nil
 
-	if arg_34_0.sectionProxy_.forceRace == -1 then
-		var_34_0, var_34_1, var_34_2 = arg_34_0:GetRaceEffect()
-		arg_34_0.maxRaceID_ = var_34_0
-		arg_34_0.sameCamp_ = var_34_2
+	if slot0.sectionProxy_.forceRace == -1 then
+		slot0.maxRaceID_, slot2, slot0.sameCamp_ = slot0:GetRaceEffect()
 	else
-		var_34_0 = arg_34_0.sectionProxy_.forceRace
-		var_34_1 = 0
+		slot1 = slot0.sectionProxy_.forceRace
 
-		for iter_34_0, iter_34_1 in ipairs(arg_34_0.cacheHeroTeam_) do
-			if iter_34_1 ~= 0 then
-				var_34_1 = var_34_1 + 1
+		for slot7, slot8 in ipairs(slot0.cacheHeroTeam_) do
+			if slot8 ~= 0 then
+				slot2 = 0 + 1
 			end
 		end
 	end
 
-	arg_34_0.maxRaceID_ = var_34_0
-	arg_34_0.sameCamp_ = var_34_2
+	slot0.maxRaceID_ = slot1
+	slot0.sameCamp_ = slot3
 
-	if var_34_0 == 0 then
-		arg_34_0.raceEffectController_:SetSelectedState("none")
+	if slot1 == 0 then
+		slot0.raceEffectController_:SetSelectedState("none")
 	else
-		arg_34_0.raceIcon_.sprite = HeroTools.GetRaceIcon(var_34_0)
+		slot0.raceIcon_.sprite = HeroTools.GetRaceIcon(slot1)
 
-		if var_34_1 > 1 then
-			var_34_1 = var_34_1 <= 3 and var_34_1 or 3
-
-			arg_34_0.raceEffectController_:SetSelectedState(tostring(var_34_1))
+		if slot2 > 1 then
+			slot0.raceEffectController_:SetSelectedState(tostring(slot2 <= 3 and slot2 or 3))
 		end
 	end
 end
 
-function var_0_0.RefreshCombo(arg_35_0)
-	arg_35_0.comboActiveController_:SetSelectedState(tostring(arg_35_0.sectionProxy_.needComboSkillPanel))
+function slot0.RefreshCombo(slot0)
+	slot0.comboActiveController_:SetSelectedState(tostring(slot0.sectionProxy_.needComboSkillPanel))
 
-	if arg_35_0.sectionProxy_.needComboSkillPanel then
-		arg_35_0:RefreshComboSkillUI()
+	if slot0.sectionProxy_.needComboSkillPanel then
+		slot0:RefreshComboSkillUI()
 	end
 end
 
-function var_0_0.RefreshComboSkillUI(arg_36_0)
-	arg_36_0.comboSkillView_:SetData()
+function slot0.RefreshComboSkillUI(slot0)
+	slot0.comboSkillView_:SetData()
 end
 
-function var_0_0.OnComboSkillSelect(arg_37_0)
-	arg_37_0.comboSkillView_:OnComboSkillSelect()
+function slot0.OnComboSkillSelect(slot0)
+	slot0.comboSkillView_:OnComboSkillSelect()
 end
 
-function var_0_0.RefreshMimir(arg_38_0)
+function slot0.RefreshMimir(slot0)
 	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.CHIP_MANAGER) then
-		arg_38_0.mimirActiveController_:SetSelectedState("false")
+		slot0.mimirActiveController_:SetSelectedState("false")
 
 		return
 	end
 
-	arg_38_0.mimirActiveController_:SetSelectedState(tostring(arg_38_0.sectionProxy_.needMimirPanel))
+	slot0.mimirActiveController_:SetSelectedState(tostring(slot0.sectionProxy_.needMimirPanel))
 
-	if arg_38_0.sectionProxy_.needMimirPanel then
-		arg_38_0:RefreshMimirUI()
+	if slot0.sectionProxy_.needMimirPanel then
+		slot0:RefreshMimirUI()
 	end
 end
 
-function var_0_0.RefreshMimirUI(arg_39_0)
-	arg_39_0.mimirInfoView_:SetData()
+function slot0.RefreshMimirUI(slot0)
+	slot0.mimirInfoView_:SetData()
 end
 
-function var_0_0.GetHeroTeam(arg_40_0)
-	arg_40_0.cacheHeroTeam_, arg_40_0.lockStateList_, arg_40_0.lockList_, arg_40_0.heroTrialList_ = arg_40_0.sectionProxy_:GetHeroTeam()
+function slot0.GetHeroTeam(slot0)
+	slot0.cacheHeroTeam_, slot0.lockStateList_, slot0.lockList_, slot0.heroTrialList_ = slot0.sectionProxy_:GetHeroTeam()
 end
 
-function var_0_0.GetRaceEffect(arg_41_0)
-	return arg_41_0.sectionProxy_:GetRaceEffect()
+function slot0.GetRaceEffect(slot0)
+	return slot0.sectionProxy_:GetRaceEffect()
 end
 
-function var_0_0.CheckCanStartBattle(arg_42_0)
-	local var_42_0 = true
-	local var_42_1
+function slot0.CheckCanStartBattle(slot0)
+	slot1 = true
+	slot2 = nil
 
-	if #arg_42_0.loadingList_ > 0 then
-		var_42_0 = false
+	if #slot0.loadingList_ > 0 then
+		slot1 = false
 	end
 
-	return var_42_0, var_42_1
+	return slot1, slot2
 end
 
-function var_0_0.GetHeroInfoItemClass(arg_43_0)
-	return arg_43_0.sectionProxy_:GetHeroInfoItemClass()
+function slot0.GetHeroInfoItemClass(slot0)
+	return slot0.sectionProxy_:GetHeroInfoItemClass()
 end
 
-function var_0_0.GetMimirInfoViewClass(arg_44_0)
-	return arg_44_0.sectionProxy_:GetMimirInfoViewClass()
+function slot0.GetMimirInfoViewClass(slot0)
+	return slot0.sectionProxy_:GetMimirInfoViewClass()
 end
 
-function var_0_0.GetComboSkillViewClass(arg_45_0)
-	return arg_45_0.sectionProxy_:GetComboSkillViewClass()
+function slot0.GetComboSkillViewClass(slot0)
+	return slot0.sectionProxy_:GetComboSkillViewClass()
 end
 
-function var_0_0.TryReload(arg_46_0)
-	if not arg_46_0.createdSubview_ then
-		arg_46_0.createdSubview_ = true
-		arg_46_0.heroInfoItemList_ = {}
+function slot0.TryReload(slot0)
+	if not slot0.createdSubview_ then
+		slot0.createdSubview_ = true
+		slot0.heroInfoItemList_ = {}
 
-		local var_46_0 = arg_46_0.heroInfoItemContentTrans_.childCount
-
-		for iter_46_0 = 1, var_46_0 do
-			local var_46_1 = arg_46_0.heroInfoItemContentTrans_:GetChild(iter_46_0 - 1).gameObject
-
-			arg_46_0.heroInfoItemList_[iter_46_0] = arg_46_0:GetHeroInfoItemClass().New(var_46_1, iter_46_0)
+		for slot5 = 1, slot0.heroInfoItemContentTrans_.childCount do
+			slot0.heroInfoItemList_[slot5] = slot0:GetHeroInfoItemClass().New(slot0.heroInfoItemContentTrans_:GetChild(slot5 - 1).gameObject, slot5)
 		end
 
-		arg_46_0.comboSkillView_ = arg_46_0:GetComboSkillViewClass().New(arg_46_0.comboSkillGo_)
-		arg_46_0.mimirInfoView_ = arg_46_0:GetMimirInfoViewClass().New(arg_46_0.mimirInfoGo_)
+		slot0.comboSkillView_ = slot0:GetComboSkillViewClass().New(slot0.comboSkillGo_)
+		slot0.mimirInfoView_ = slot0:GetMimirInfoViewClass().New(slot0.mimirInfoGo_)
 	end
 
-	for iter_46_1, iter_46_2 in ipairs(arg_46_0.heroInfoItemList_) do
-		iter_46_2 = arg_46_0:ReloadView(iter_46_2, arg_46_0.sectionProxy_:GetHeroInfoItemClass())
+	for slot4, slot5 in ipairs(slot0.heroInfoItemList_) do
+		slot5 = slot0:ReloadView(slot5, slot0.sectionProxy_:GetHeroInfoItemClass())
 	end
 
-	arg_46_0.comboSkillView_ = SectionSelectHeroTools.ReloadView(arg_46_0.comboSkillView_, arg_46_0.sectionProxy_:GetComboSkillViewClass())
-	arg_46_0.mimirInfoView_ = SectionSelectHeroTools.ReloadView(arg_46_0.mimirInfoView_, arg_46_0.sectionProxy_:GetMimirInfoViewClass())
+	slot0.comboSkillView_ = SectionSelectHeroTools.ReloadView(slot0.comboSkillView_, slot0.sectionProxy_:GetComboSkillViewClass())
+	slot0.mimirInfoView_ = SectionSelectHeroTools.ReloadView(slot0.mimirInfoView_, slot0.sectionProxy_:GetMimirInfoViewClass())
 end
 
-function var_0_0.ReloadView(arg_47_0, arg_47_1, arg_47_2)
-	if arg_47_1.__cname ~= arg_47_2.__cname then
-		local var_47_0 = arg_47_1.gameObject
-		local var_47_1 = arg_47_1.transform.parent
-		local var_47_2 = Object.Instantiate(var_47_0, var_47_1)
-		local var_47_3 = arg_47_2.New(var_47_2, var_47_1)
+function slot0.ReloadView(slot0, slot1, slot2)
+	if slot1.__cname ~= slot2.__cname then
+		slot5 = slot1.transform.parent
 
-		arg_47_1:Dispose()
+		slot1:Dispose()
 
-		return var_47_3
+		return slot2.New(Object.Instantiate(slot1.gameObject, slot5), slot5)
 	else
-		return arg_47_1
+		return slot1
 	end
 end
 
-return var_0_0
+return slot0

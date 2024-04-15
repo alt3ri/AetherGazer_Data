@@ -1,93 +1,66 @@
-local var_0_0 = {}
-
-function var_0_0.GetJumpDataByEquipSpecialType(arg_1_0, arg_1_1)
-	local var_1_0 = SystemLinkActivityCfg.all or {}
-
-	if #var_1_0 == 0 then
-		return {}
-	end
-
-	print(arg_1_1, "  GetJumpDataByEquipSpecialType")
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_0) do
-		local var_1_1, var_1_2 = var_0_0.CheckRouletteHasEquip(arg_1_1, iter_1_1)
-
-		if var_1_1 then
-			return var_1_2
+return {
+	GetJumpDataByEquipSpecialType = function (slot0, slot1)
+		if #(SystemLinkActivityCfg.all or {}) == 0 then
+			return {}
 		end
-	end
-end
 
-function var_0_0.CheckRouletteHasEquip(arg_2_0, arg_2_1)
-	if ActivityData:GetActivityIsOpen(arg_2_1) then
-		local var_2_0 = ActivityPtRouletteStageCfg.get_id_list_by_activity_id[arg_2_1] or {}
+		slot6 = "  GetJumpDataByEquipSpecialType"
 
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			if ActivityPtRouletteStageCfg[iter_2_1] then
-				local var_2_1 = ActivityPtRouletteStageCfg[iter_2_1].roulette_id
+		print(slot1, slot6)
 
-				for iter_2_2, iter_2_3 in ipairs(var_2_1) do
-					local var_2_2 = ActivityPtRouletteRandomCfg[iter_2_3] and ActivityPtRouletteRandomCfg[iter_2_3].equip_suit_list or {}
+		for slot6, slot7 in ipairs(slot2) do
+			slot8, slot9 = uv0.CheckRouletteHasEquip(slot1, slot7)
 
-					if EquipCfg[arg_2_0] then
-						local var_2_3 = EquipCfg[arg_2_0].suit
-
-						if table.indexof(var_2_2, var_2_3) then
-							local var_2_4 = SystemLinkActivityCfg[arg_2_1].system_link_data
-
-							return true, var_2_4
+			if slot8 then
+				return slot9
+			end
+		end
+	end,
+	CheckRouletteHasEquip = function (slot0, slot1)
+		if ActivityData:GetActivityIsOpen(slot1) then
+			for slot6, slot7 in ipairs(ActivityPtRouletteStageCfg.get_id_list_by_activity_id[slot1] or {}) do
+				if ActivityPtRouletteStageCfg[slot7] then
+					for slot12, slot13 in ipairs(ActivityPtRouletteStageCfg[slot7].roulette_id) do
+						if EquipCfg[slot0] and table.indexof(ActivityPtRouletteRandomCfg[slot13] and ActivityPtRouletteRandomCfg[slot13].equip_suit_list or {}, EquipCfg[slot0].suit) then
+							return true, SystemLinkActivityCfg[slot1].system_link_data
 						end
 					end
 				end
 			end
 		end
-	end
 
-	return false, {}
-end
+		return false, {}
+	end,
+	GetJumpDataByHeroSpecialType = function (slot0)
+		slot2 = {
+			ViewConst.JUMP_SPECIAL_ID.HERO_NORMAL_SOURCE,
+			[3] = ViewConst.JUMP_SPECIAL_ID.HERO_LIMIT_SOURCE,
+			[5] = ViewConst.JUMP_SPECIAL_ID.NEW_PLAYER_DRAW,
+			[6] = ViewConst.JUMP_SPECIAL_ID.LIMIT_MUST_DRAW,
+			[7] = ViewConst.JUMP_SPECIAL_ID.HERO_AGAIN,
+			[8] = ViewConst.JUMP_SPECIAL_ID.NEW_PLAYER_DRAW
+		}
+		slot3 = {}
 
-function var_0_0.GetJumpDataByHeroSpecialType(arg_3_0)
-	local var_3_0 = DrawTools.GetNowAllRolePool()
-	local var_3_1 = {
-		ViewConst.JUMP_SPECIAL_ID.HERO_NORMAL_SOURCE,
-		[3] = ViewConst.JUMP_SPECIAL_ID.HERO_LIMIT_SOURCE,
-		[5] = ViewConst.JUMP_SPECIAL_ID.NEW_PLAYER_DRAW,
-		[6] = ViewConst.JUMP_SPECIAL_ID.LIMIT_MUST_DRAW,
-		[7] = ViewConst.JUMP_SPECIAL_ID.HERO_AGAIN,
-		[8] = ViewConst.JUMP_SPECIAL_ID.NEW_PLAYER_DRAW
-	}
-	local var_3_2 = {}
+		for slot7, slot8 in pairs(DrawTools.GetNowAllRolePool()) do
+			if DrawPoolCfg[slot8] then
+				slot11 = slot9.pool_show_type
 
-	for iter_3_0, iter_3_1 in pairs(var_3_0) do
-		local var_3_3 = DrawPoolCfg[iter_3_1]
-
-		if var_3_3 then
-			local var_3_4 = var_3_3.pool_type
-			local var_3_5 = var_3_3.pool_show_type
-			local var_3_6 = DrawSettingCfg[var_3_4]
-
-			if var_3_6 then
-				local var_3_7 = var_3_6.pool_id
-
-				if var_3_7 ~= "" then
-					for iter_3_2, iter_3_3 in pairs(var_3_7) do
-						local var_3_8 = DrawItemCfg.get_id_list_by_pool_id[iter_3_3] or {}
-
-						for iter_3_4, iter_3_5 in ipairs(var_3_8) do
-							local var_3_9 = DrawItemCfg[iter_3_5] and DrawItemCfg[iter_3_5].item_id or 0
-
-							if (ItemCfg[arg_3_0] and ItemCfg[arg_3_0].hero_id or 0) == var_3_9 and not var_3_2[var_3_5] and SystemLinkCfg[var_3_1[var_3_5]] then
-								if var_3_4 == 8 then
+				if DrawSettingCfg[slot9.pool_type] and slot12.pool_id ~= "" then
+					for slot17, slot18 in pairs(slot13) do
+						for slot23, slot24 in ipairs(DrawItemCfg.get_id_list_by_pool_id[slot18] or {}) do
+							if (ItemCfg[slot0] and ItemCfg[slot0].hero_id or 0) == (DrawItemCfg[slot24] and DrawItemCfg[slot24].item_id or 0) and not slot3[slot11] and SystemLinkCfg[slot2[slot11]] then
+								if slot10 == 8 then
 									if not DrawData:GetNewbieChooseDrawFlag() then
-										var_3_2[var_3_5] = {
-											var_3_1[var_3_5],
-											iter_3_1
+										slot3[slot11] = {
+											slot2[slot11],
+											slot8
 										}
 									end
 								else
-									var_3_2[var_3_5] = {
-										var_3_1[var_3_5],
-										iter_3_1
+									slot3[slot11] = {
+										slot2[slot11],
+										slot8
 									}
 								end
 							end
@@ -96,44 +69,32 @@ function var_0_0.GetJumpDataByHeroSpecialType(arg_3_0)
 				end
 			end
 		end
-	end
 
-	local var_3_10 = {}
+		slot4 = {}
 
-	for iter_3_6, iter_3_7 in pairs(var_3_2) do
-		table.insert(var_3_10, iter_3_7)
-	end
+		for slot8, slot9 in pairs(slot3) do
+			table.insert(slot4, slot9)
+		end
 
-	return #var_3_10 > 0, var_3_10
-end
+		return #slot4 > 0, slot4
+	end,
+	GetJumpDataByServantSpecialType = function (slot0)
+		slot2 = {
+			[2] = ViewConst.JUMP_SPECIAL_ID.SERVANT_NORMAL_SOURCE
+		}
+		slot3 = {}
 
-function var_0_0.GetJumpDataByServantSpecialType(arg_4_0)
-	local var_4_0 = DrawTools.GetNowAllServantPool()
-	local var_4_1 = {
-		[2] = ViewConst.JUMP_SPECIAL_ID.SERVANT_NORMAL_SOURCE
-	}
-	local var_4_2 = {}
+		for slot7, slot8 in pairs(DrawTools.GetNowAllServantPool()) do
+			if DrawPoolCfg[slot8] then
+				slot11 = slot9.pool_show_type
 
-	for iter_4_0, iter_4_1 in pairs(var_4_0) do
-		local var_4_3 = DrawPoolCfg[iter_4_1]
-
-		if var_4_3 then
-			local var_4_4 = var_4_3.pool_type
-			local var_4_5 = var_4_3.pool_show_type
-			local var_4_6 = DrawSettingCfg[var_4_4]
-
-			if var_4_6 then
-				local var_4_7 = var_4_6.pool_id
-
-				if var_4_7 ~= "" then
-					for iter_4_2, iter_4_3 in pairs(var_4_7) do
-						local var_4_8 = DrawItemCfg.get_id_list_by_pool_id[iter_4_3] or {}
-
-						for iter_4_4, iter_4_5 in ipairs(var_4_8) do
-							if DrawItemCfg[iter_4_5] and DrawItemCfg[iter_4_5].item_id == arg_4_0 and not var_4_2[var_4_5] and SystemLinkCfg[var_4_1[var_4_5]] then
-								var_4_2[var_4_5] = {
-									var_4_1[var_4_5],
-									iter_4_1
+				if DrawSettingCfg[slot9.pool_type] and slot12.pool_id ~= "" then
+					for slot17, slot18 in pairs(slot13) do
+						for slot23, slot24 in ipairs(DrawItemCfg.get_id_list_by_pool_id[slot18] or {}) do
+							if DrawItemCfg[slot24] and DrawItemCfg[slot24].item_id == slot0 and not slot3[slot11] and SystemLinkCfg[slot2[slot11]] then
+								slot3[slot11] = {
+									slot2[slot11],
+									slot8
 								}
 							end
 						end
@@ -141,15 +102,13 @@ function var_0_0.GetJumpDataByServantSpecialType(arg_4_0)
 				end
 			end
 		end
+
+		slot4 = {}
+
+		for slot8, slot9 in pairs(slot3) do
+			table.insert(slot4, slot9)
+		end
+
+		return #slot4 > 0, slot4
 	end
-
-	local var_4_9 = {}
-
-	for iter_4_6, iter_4_7 in pairs(var_4_2) do
-		table.insert(var_4_9, iter_4_7)
-	end
-
-	return #var_4_9 > 0, var_4_9
-end
-
-return var_0_0
+}

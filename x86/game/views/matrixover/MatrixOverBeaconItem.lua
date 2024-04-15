@@ -1,27 +1,24 @@
-local var_0_0 = class("MatrixOverBeaconItem", ReduxView)
+slot0 = class("MatrixOverBeaconItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		local var_3_0 = arg_2_0.transform_.position
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		slot0 = uv0.transform_.position
 
-		manager.matrixPop:ShowMatrixBeaconPopItem(arg_2_0.id, Vector3(-0.8, var_3_0.y + 0.1, var_3_0.z))
+		manager.matrixPop:ShowMatrixBeaconPopItem(uv0.id, Vector3(-0.8, slot0.y + 0.1, slot0.z))
 	end)
 end
 
-function var_0_0.Refresh(arg_4_0, arg_4_1)
-	arg_4_0.id = arg_4_1
-
-	local var_4_0 = MatrixBeaconCfg[arg_4_1]
-
-	arg_4_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. var_4_0.icon)
+function slot0.Refresh(slot0, slot1)
+	slot0.id = slot1
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. MatrixBeaconCfg[slot1].icon)
 end
 
-return var_0_0
+return slot0

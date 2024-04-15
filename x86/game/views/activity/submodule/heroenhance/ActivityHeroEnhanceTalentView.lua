@@ -1,100 +1,89 @@
-local var_0_0 = class("ActivityHeroEnhanceTalentView", ReduxView)
+slot0 = class("ActivityHeroEnhanceTalentView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.talentGroups_ = {}
+	slot0.talentGroups_ = {}
 
-	local var_2_0 = 4
-
-	for iter_2_0 = 1, var_2_0 do
-		local var_2_1 = ActivityHeroEnhanceTalentGroupView.New(arg_2_0["talentGroupGo_" .. iter_2_0])
-
-		table.insert(arg_2_0.talentGroups_, var_2_1)
+	for slot5 = 1, 4 do
+		table.insert(slot0.talentGroups_, ActivityHeroEnhanceTalentGroupView.New(slot0["talentGroupGo_" .. slot5]))
 	end
 
-	arg_2_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.talentGroups_) do
-		iter_3_1:SetClickHandler(function(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-			if arg_3_0.onClickTalenCallback_ then
-				arg_3_0.onClickTalenCallback_(iter_3_1, iter_3_0, arg_4_0, arg_4_1, arg_4_2, arg_4_3)
+function slot0.AddUIListener(slot0)
+	for slot4, slot5 in ipairs(slot0.talentGroups_) do
+		slot5:SetClickHandler(function (slot0, slot1, slot2, slot3)
+			if uv0.onClickTalenCallback_ then
+				uv0.onClickTalenCallback_(uv1, uv2, slot0, slot1, slot2, slot3)
 			end
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0.cfgId_ = arg_7_1
+function slot0.SetData(slot0, slot1)
+	slot0.cfgId_ = slot1
 end
 
-function var_0_0.SelectGroupIdx(arg_8_0, arg_8_1, arg_8_2)
-	if arg_8_0.selectGroupIdx_ == arg_8_1 then
+function slot0.SelectGroupIdx(slot0, slot1, slot2)
+	if slot0.selectGroupIdx_ == slot1 then
 		return
 	end
 
-	arg_8_0.selectGroupIdx_ = arg_8_1
+	slot0.selectGroupIdx_ = slot1
 
-	if arg_8_1 > 0 then
-		arg_8_0.talentGroups_[arg_8_1]:SelectIdx(arg_8_2)
+	if slot1 > 0 then
+		slot0.talentGroups_[slot1]:SelectIdx(slot2)
 	end
 end
 
-function var_0_0.SetClickTalentHandler(arg_9_0, arg_9_1)
-	arg_9_0.onClickTalenCallback_ = arg_9_1
+function slot0.SetClickTalentHandler(slot0, slot1)
+	slot0.onClickTalenCallback_ = slot1
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0 = ActivityHeroEnhanceCfg[arg_10_0.cfgId_]
-	local var_10_1 = var_10_0.activity_id
-	local var_10_2 = var_10_0.hero_id
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityHeroEnhanceCfg[slot0.cfgId_]
+	slot2 = slot1.activity_id
+	slot0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. slot1.hero_id)
 
-	arg_10_0.heroImage_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Portrait/" .. var_10_2)
+	slot0.heroImage_:SetNativeSize()
 
-	arg_10_0.heroImage_:SetNativeSize()
+	for slot8, slot9 in ipairs(slot0.talentGroups_) do
+		slot10 = slot8
 
-	local var_10_3 = ActivityHeroEnhanceTools.GetCfgTalentDict(var_10_0)
-
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.talentGroups_) do
-		local var_10_4 = iter_10_0
-		local var_10_5 = var_10_3[var_10_4]
-
-		iter_10_1:SetData(arg_10_0.cfgId_, var_10_4, var_10_5)
-		iter_10_1:SetSelected(arg_10_0.selectGroupIdx_ == iter_10_0)
-		iter_10_1:RefreshUI()
+		slot9:SetData(slot0.cfgId_, slot10, ActivityHeroEnhanceTools.GetCfgTalentDict(slot1)[slot10])
+		slot9:SetSelected(slot0.selectGroupIdx_ == slot8)
+		slot9:RefreshUI()
 	end
 end
 
-function var_0_0.RefreshUI_SelectState(arg_11_0)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.talentGroups_) do
-		iter_11_1:SetSelected(arg_11_0.selectGroupIdx_ == iter_11_0)
-		iter_11_1:RefreshUI_SelectState()
+function slot0.RefreshUI_SelectState(slot0)
+	for slot4, slot5 in ipairs(slot0.talentGroups_) do
+		slot5:SetSelected(slot0.selectGroupIdx_ == slot4)
+		slot5:RefreshUI_SelectState()
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.talentGroups_) do
-		iter_12_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.talentGroups_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

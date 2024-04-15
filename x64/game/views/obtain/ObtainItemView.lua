@@ -1,63 +1,52 @@
-local var_0_0 = class("ObtainItemView", ObtainBaseView)
+slot0 = class("ObtainItemView", ObtainBaseView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	var_0_0.super.Init(arg_2_0)
+function slot0.Init(slot0)
+	slot0:InitUI()
+	uv0.super.Init(slot0)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.starController_ = ControllerUtil.GetController(arg_3_0.starControllerTrs_, "star")
-	arg_3_0.effect_ = arg_3_0:FindCom("Effect_distortion_add", "", arg_3_0.rareEffect_)
+	slot0.starController_ = ControllerUtil.GetController(slot0.starControllerTrs_, "star")
+	slot0.effect_ = slot0:FindCom("Effect_distortion_add", "", slot0.rareEffect_)
 end
 
-function var_0_0.SetInfo(arg_4_0, arg_4_1)
-	local var_4_0 = ItemCfg[arg_4_1]
-
-	if not var_4_0 then
+function slot0.SetInfo(slot0, slot1)
+	if not ItemCfg[slot1] then
 		return
 	end
 
-	arg_4_0.iconImage_.sprite = ItemTools.getItemSprite(arg_4_1)
-	arg_4_0.itemName_.text = ItemTools.getItemName(arg_4_1)
+	slot0.iconImage_.sprite = ItemTools.getItemSprite(slot1)
+	slot0.itemName_.text = ItemTools.getItemName(slot1)
+	slot3 = math.min(slot2.display_rare, 5)
 
-	local var_4_1 = math.min(var_4_0.display_rare, 5)
+	slot0.starController_:SetSelectedIndex(slot3)
 
-	arg_4_0.starController_:SetSelectedIndex(var_4_1)
-
-	if var_4_1 == 5 then
+	if slot3 == 5 then
 		manager.audio:SetObtainGoldSelectorLabel()
-	elseif var_4_1 == 4 then
+	elseif slot3 == 4 then
 		manager.audio:SetObtainPurpleSelectorLabel()
 	else
 		manager.audio:SetObtainBlueSelectorLabel()
 	end
 
-	local var_4_2 = var_4_0.display_rare or 0
-	local var_4_3
-
-	if var_4_2 <= 3 then
-		var_4_3 = Color.New(0.2588235, 0.6078432, 1)
-	elseif var_4_2 == 4 then
-		var_4_3 = Color.New(0.9333333, 0, 1)
-	else
-		var_4_3 = Color.New(1, 0.7411765, 0.1764706)
-	end
-
-	arg_4_0.nameBg_.color = var_4_3
-	arg_4_0.effect_._MainColor = var_4_3
+	slot4 = slot2.display_rare or 0
+	slot5 = nil
+	slot5 = (slot4 > 3 or Color.New(0.2588235, 0.6078432, 1)) and (slot4 ~= 4 or Color.New(0.9333333, 0, 1)) and Color.New(1, 0.7411765, 0.1764706)
+	slot0.nameBg_.color = slot5
+	slot0.effect_._MainColor = slot5
 end
 
-function var_0_0.GetTimeLineEndTime(arg_5_0)
+function slot0.GetTimeLineEndTime(slot0)
 	return 0.8
 end
 
-return var_0_0
+return slot0

@@ -1,48 +1,48 @@
-local var_0_0 = class("ActivityReforgeLevelFinishItem", ReduxView)
+slot0 = class("ActivityReforgeLevelFinishItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.barGoList_ = {}
+	slot0.barGoList_ = {}
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4, arg_4_5, arg_4_6)
-	arg_4_0.type_ = arg_4_1
-	arg_4_0.barMinNum_ = arg_4_2
-	arg_4_0.levelID_ = arg_4_3
-	arg_4_0.curData_ = arg_4_4
-	arg_4_0.allPlayerData_ = deepClone(arg_4_5)
-	arg_4_0.rangeLength_ = arg_4_6
-	arg_4_0.barNum_ = arg_4_0.barMinNum_
-	arg_4_0.maxPalyerNum_ = 0
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	slot0.type_ = slot1
+	slot0.barMinNum_ = slot2
+	slot0.levelID_ = slot3
+	slot0.curData_ = slot4
+	slot0.allPlayerData_ = deepClone(slot5)
+	slot0.rangeLength_ = slot6
+	slot0.barNum_ = slot0.barMinNum_
+	slot0.maxPalyerNum_ = 0
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.allPlayerData_) do
-		if iter_4_1 > arg_4_0.maxPalyerNum_ then
-			arg_4_0.maxPalyerNum_ = iter_4_1
+	for slot10, slot11 in ipairs(slot0.allPlayerData_) do
+		if slot0.maxPalyerNum_ < slot11 then
+			slot0.maxPalyerNum_ = slot11
 		end
 	end
 
-	for iter_4_2, iter_4_3 in ipairs(arg_4_0.allPlayerData_) do
-		if 100 * (iter_4_3 / arg_4_0.maxPalyerNum_) <= 1 then
-			arg_4_0.allPlayerData_[iter_4_2] = 0
+	for slot10, slot11 in ipairs(slot0.allPlayerData_) do
+		if 100 * slot11 / slot0.maxPalyerNum_ <= 1 then
+			slot0.allPlayerData_[slot10] = 0
 		end
 	end
 
-	for iter_4_4 = #arg_4_0.allPlayerData_, 1, -1 do
-		if iter_4_4 > arg_4_0.barMinNum_ then
-			if arg_4_0.allPlayerData_[iter_4_4] > 0 then
-				arg_4_0.barNum_ = iter_4_4
+	for slot10 = #slot0.allPlayerData_, 1, -1 do
+		if slot0.barMinNum_ < slot10 then
+			if slot0.allPlayerData_[slot10] > 0 then
+				slot0.barNum_ = slot10
 
 				break
 			end
@@ -51,85 +51,67 @@ function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4, arg_4_5, a
 		end
 	end
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	if arg_5_0.type_ == 1 then
-		local var_5_0 = manager.time:DescCTime(arg_5_0.curData_, "%M%S")
-		local var_5_1 = var_5_0 % 100
-		local var_5_2 = math.floor(var_5_0 / 100) % 100
+function slot0.RefreshUI(slot0)
+	if slot0.type_ == 1 then
+		slot1 = manager.time:DescCTime(slot0.curData_, "%M%S")
+		slot3 = math.floor(slot1 / 100) % 100
 
-		if var_5_1 < 10 then
-			var_5_1 = "0" .. var_5_1
+		if slot1 % 100 < 10 then
+			slot2 = "0" .. slot2
 		end
 
-		if var_5_2 < 10 then
-			var_5_2 = "0" .. var_5_2
+		if slot3 < 10 then
+			slot3 = "0" .. slot3
 		end
 
-		arg_5_0.numText_.text = var_5_2 .. ":" .. var_5_1
+		slot0.numText_.text = slot3 .. ":" .. slot2
 	else
-		arg_5_0.numText_.text = arg_5_0.curData_
+		slot0.numText_.text = slot0.curData_
 	end
 
-	local var_5_3 = arg_5_0.barPanelTrans_.rect.width / arg_5_0.barNum_
+	slot1 = slot0.barPanelTrans_.rect.width / slot0.barNum_
 
-	for iter_5_0 = 1, arg_5_0.barNum_ do
-		if arg_5_0.barGoList_[iter_5_0] == nil then
-			arg_5_0.barGoList_[iter_5_0] = Object.Instantiate(arg_5_0.barGo_, arg_5_0.barPanelTrans_)
+	for slot5 = 1, slot0.barNum_ do
+		if slot0.barGoList_[slot5] == nil then
+			slot0.barGoList_[slot5] = Object.Instantiate(slot0.barGo_, slot0.barPanelTrans_)
 		end
 
-		local var_5_4
+		slot6 = nil
+		slot0.barGoList_[slot5].transform.sizeDelta = Vector2.New(slot1, slot0.maxPalyerNum_ > 0 and slot0.allPlayerData_[slot5] / slot0.maxPalyerNum_ * slot0.barPanelTrans_.rect.height or 0)
+		slot0.barGoList_[slot5].transform.anchoredPosition = Vector3.New((slot5 - 1) * slot0.barGoList_[slot5].transform.rect.width, 0, 0)
+	end
 
-		if arg_5_0.maxPalyerNum_ > 0 then
-			var_5_4 = arg_5_0.allPlayerData_[iter_5_0] / arg_5_0.maxPalyerNum_ * arg_5_0.barPanelTrans_.rect.height
+	for slot5, slot6 in pairs(slot0.barGoList_) do
+		if slot5 <= slot0.barNum_ then
+			SetActive(slot0.barGoList_[slot5], true)
+
+			slot0.barGoList_[slot5].transform.localScale = Vector3.New(1, 1, 1)
 		else
-			var_5_4 = 0
-		end
-
-		arg_5_0.barGoList_[iter_5_0].transform.sizeDelta = Vector2.New(var_5_3, var_5_4)
-
-		local var_5_5 = (iter_5_0 - 1) * arg_5_0.barGoList_[iter_5_0].transform.rect.width
-
-		arg_5_0.barGoList_[iter_5_0].transform.anchoredPosition = Vector3.New(var_5_5, 0, 0)
-	end
-
-	for iter_5_1, iter_5_2 in pairs(arg_5_0.barGoList_) do
-		if iter_5_1 <= arg_5_0.barNum_ then
-			SetActive(arg_5_0.barGoList_[iter_5_1], true)
-
-			arg_5_0.barGoList_[iter_5_1].transform.localScale = Vector3.New(1, 1, 1)
-		else
-			SetActive(arg_5_0.barGoList_[iter_5_1], false)
+			SetActive(slot0.barGoList_[slot5], false)
 		end
 	end
 
-	local var_5_6 = arg_5_0.curData_ / (arg_5_0.barNum_ * arg_5_0.rangeLength_)
-
-	if var_5_6 > 1 then
-		var_5_6 = 1
+	if slot0.curData_ / (slot0.barNum_ * slot0.rangeLength_) > 1 then
+		slot2 = 1
 	end
 
-	local var_5_7 = var_5_6 * arg_5_0.barPanelTrans_.rect.width
-
-	arg_5_0.bestLineTrans_.transform.anchoredPosition = Vector3.New(var_5_7, 0, 0)
-
-	local var_5_8 = math.ceil(var_5_6 * 100) .. "%"
-
-	arg_5_0.curPosText_.text = string.format(GetTips("ACTIVITY_REFORGE_CUR_RANK"), var_5_8)
+	slot0.bestLineTrans_.transform.anchoredPosition = Vector3.New(slot2 * slot0.barPanelTrans_.rect.width, 0, 0)
+	slot0.curPosText_.text = string.format(GetTips("ACTIVITY_REFORGE_CUR_RANK"), math.ceil(slot2 * 100) .. "%")
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.barGoList_) do
-		Object.Destroy(iter_6_1)
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.barGoList_) do
+		Object.Destroy(slot5)
 
-		arg_6_0.barGoList_[iter_6_0] = nil
+		slot0.barGoList_[slot4] = nil
 	end
 
-	arg_6_0.barGoList_ = nil
+	slot0.barGoList_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

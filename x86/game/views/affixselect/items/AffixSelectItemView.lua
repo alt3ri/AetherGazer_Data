@@ -1,35 +1,32 @@
-local var_0_0 = class("AffixSelectItemView", ReduxView)
+slot0 = class("AffixSelectItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:StartTimer()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:StartTimer()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.btn_ = arg_3_0.gameObject_:GetComponent(typeof(Button))
-	arg_3_0.item_stateController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "item_state")
+	slot0.btn_ = slot0.gameObject_:GetComponent(typeof(Button))
+	slot0.item_stateController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "item_state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		OperationRecorder.RecordButtonTouch("activity_affixbattle_stage_" .. arg_4_0.activityId_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		OperationRecorder.RecordButtonTouch("activity_affixbattle_stage_" .. uv0.activityId_)
 
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityId_) then
-			local var_5_0 = ActivityData:GetActivityData(arg_4_0.activityId_)
-			local var_5_1 = manager.time:GetServerTime()
-
-			if var_5_0 and var_5_1 < var_5_0.startTime then
-				ShowTips(string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_5_0.startTime)))
+		if not ActivityData:GetActivityIsOpen(uv0.activityId_) then
+			if ActivityData:GetActivityData(uv0.activityId_) and manager.time:GetServerTime() < slot1.startTime then
+				ShowTips(string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(slot1.startTime)))
 			else
 				ShowTips("SOLO_TIME_OVER")
 			end
@@ -37,100 +34,94 @@ function var_0_0.AddUIListener(arg_4_0)
 			return
 		end
 
-		ActivityAffixSelectData:ReadInnerRedPoint(arg_4_0.activityId_)
+		ActivityAffixSelectData:ReadInnerRedPoint(uv0.activityId_)
 
-		if ActivityCfg[arg_4_0.activityId_].activity_theme == ActivityConst.THEME.ACTIVITY_2_4 then
+		if ActivityCfg[uv0.activityId_].activity_theme == ActivityConst.THEME.ACTIVITY_2_4 then
 			JumpTools.OpenPageByJump("/affixSelectDetailJapanRegion", {
-				activityId = arg_4_0.activityId_,
-				index = arg_4_0.index_
+				activityId = uv0.activityId_,
+				index = uv0.index_
 			})
 		else
 			JumpTools.OpenPageByJump("/affixSelectDetail", {
-				activityId = arg_4_0.activityId_,
-				index = arg_4_0.index_
+				activityId = uv0.activityId_,
+				index = uv0.index_
 			})
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.index_ = arg_7_1
-	arg_7_0.activityId_ = arg_7_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.activityId_ = slot2
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.GetActivityData(arg_8_0)
-	return ActivityAffixSelectData:GetSubActivityData(arg_8_0.activityId_)
+function slot0.GetActivityData(slot0)
+	return ActivityAffixSelectData:GetSubActivityData(slot0.activityId_)
 end
 
-function var_0_0.StartTimer(arg_9_0)
-	if arg_9_0.timer_ == nil then
-		arg_9_0.timer_ = Timer.New(function()
-			arg_9_0:UpdateView()
+function slot0.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateView()
 		end, 1, -1)
 	end
 
-	arg_9_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_11_0)
-	if arg_11_0.timer_ then
-		arg_11_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_11_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.UpdateView(arg_12_0)
-	local var_12_0 = ActivityData:GetActivityIsOpen(arg_12_0.activityId_)
+function slot0.UpdateView(slot0)
+	if not ActivityData:GetActivityIsOpen(slot0.activityId_) or slot0:GetActivityData() == nil then
+		slot0.item_stateController_:SetSelectedState("lock")
 
-	if not var_12_0 or arg_12_0:GetActivityData() == nil then
-		arg_12_0.item_stateController_:SetSelectedState("lock")
-
-		local var_12_1 = ActivityData:GetActivityData(arg_12_0.activityId_)
-
-		if manager.time:GetServerTime() >= var_12_1.startTime then
-			arg_12_0.lockLabel_.text = GetTips("SOLO_TIME_OVER")
+		if ActivityData:GetActivityData(slot0.activityId_).startTime <= manager.time:GetServerTime() then
+			slot0.lockLabel_.text = GetTips("SOLO_TIME_OVER")
 		else
-			arg_12_0.lockLabel_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(var_12_1.startTime))
+			slot0.lockLabel_.text = string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(slot2.startTime))
 		end
 	else
-		if arg_12_0:GetActivityData().clearState == 1 then
-			arg_12_0.item_stateController_:SetSelectedState("unlock")
+		if slot0:GetActivityData().clearState == 1 then
+			slot0.item_stateController_:SetSelectedState("unlock")
 		else
-			arg_12_0.item_stateController_:SetSelectedState("passed")
+			slot0.item_stateController_:SetSelectedState("passed")
 		end
 
-		arg_12_0.highestScoreLabel_.text = arg_12_0:GetActivityData().point
+		slot0.highestScoreLabel_.text = slot0:GetActivityData().point
 	end
 
-	if var_12_0 and not ActivityAffixSelectData:HaveReadInnerPoint(arg_12_0.activityId_) and arg_12_0:GetActivityData().clearState == 1 then
-		SetActive(arg_12_0.noticeGo_, true)
+	if slot1 and not ActivityAffixSelectData:HaveReadInnerPoint(slot0.activityId_) and slot0:GetActivityData().clearState == 1 then
+		SetActive(slot0.noticeGo_, true)
 	else
-		SetActive(arg_12_0.noticeGo_, false)
+		SetActive(slot0.noticeGo_, false)
 	end
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_15_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:StopTimer()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

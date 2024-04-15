@@ -1,177 +1,179 @@
-local var_0_0 = class("SkinExchangeView", ReduxView)
+slot0 = class("SkinExchangeView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return SkinExchangeTool.GetMainUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return SkinExchangeTool.GetMainUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.costList_ = {}
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, SkinExchangeCostItem)
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
+	slot0.costList_ = {}
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, SkinExchangeCostItem)
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshUI(arg_5_0.costList_[arg_5_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.costList_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.btn_, nil, function()
-		if arg_6_0.activityData_:IsActivitying() then
-			local var_7_0, var_7_1 = SkinExchangeTool.IsCanExchange(arg_6_0.activityID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.activityData_:IsActivitying() then
+			slot0, slot1 = SkinExchangeTool.IsCanExchange(uv0.activityID_)
 
-			if var_7_0 then
-				SkinExchangeAction:ExchangeSkin(arg_6_0.activityID_)
+			if slot0 then
+				SkinExchangeAction:ExchangeSkin(uv0.activityID_)
 			else
-				ShowTips(var_7_1)
+				ShowTips(slot1)
 			end
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:GetActivityData()
-	arg_8_0:RefreshData()
-	arg_8_0:BindRedPointUI()
+function slot0.OnEnter(slot0)
+	slot0:GetActivityData()
+	slot0:RefreshData()
+	slot0:BindRedPointUI()
 end
 
-function var_0_0.GetActivityData(arg_9_0)
-	arg_9_0.activityID_ = arg_9_0.params_.activityID
-	arg_9_0.activityData_ = ActivityData:GetActivityData(arg_9_0.activityID_)
-	arg_9_0.startTime_ = arg_9_0.activityData_.startTime
-	arg_9_0.stopTime_ = arg_9_0.activityData_.stopTime
+function slot0.GetActivityData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
 end
 
-function var_0_0.RefreshData(arg_10_0)
-	arg_10_0:RefreshCost()
-	arg_10_0:RefreshState()
-	arg_10_0:RefreshTime()
+function slot0.RefreshData(slot0)
+	slot0:RefreshCost()
+	slot0:RefreshState()
+	slot0:RefreshTime()
 end
 
-function var_0_0.RefreshCost(arg_11_0)
-	arg_11_0.cfg_ = ActivitySkinExchangeCfg[arg_11_0.activityID_]
-	arg_11_0.costList_ = arg_11_0.cfg_.cost
+function slot0.RefreshCost(slot0)
+	slot0.cfg_ = ActivitySkinExchangeCfg[slot0.activityID_]
+	slot0.costList_ = slot0.cfg_.cost
 
-	arg_11_0.scrollHelper_:StartScroll(#arg_11_0.costList_)
+	slot0.scrollHelper_:StartScroll(#slot0.costList_)
 end
 
-function var_0_0.RefreshState(arg_12_0)
-	if SkinExchangeData:GetState(arg_12_0.activityID_) == 1 then
-		arg_12_0.stateCon_:SetSelectedState("finish")
+function slot0.RefreshState(slot0)
+	if SkinExchangeData:GetState(slot0.activityID_) == 1 then
+		slot0.stateCon_:SetSelectedState("finish")
 	else
-		arg_12_0.stateCon_:SetSelectedState("unfinish")
+		slot0.stateCon_:SetSelectedState("unfinish")
 	end
 end
 
-function var_0_0.RefreshTime(arg_13_0)
-	local var_13_0
-	local var_13_1 = manager.time:GetServerTime()
+function slot0.RefreshTime(slot0)
+	slot1 = nil
 
-	arg_13_0:StopTimer()
+	slot0:StopTimer()
 
-	if var_13_1 < arg_13_0.startTime_ and arg_13_0.activityData_.state == 0 then
-		arg_13_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_13_0.timer_ = Timer.New(function()
-			var_13_0 = arg_13_0.startTime_ - manager.time:GetServerTime()
+	if manager.time:GetServerTime() < slot0.startTime_ and slot0.activityData_.state == 0 then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.startTime_ - manager.time:GetServerTime()
 
-			if var_13_0 <= 0 then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
-	elseif var_13_1 >= arg_13_0.startTime_ and arg_13_0.activityData_.state == 0 then
-		arg_13_0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
-		arg_13_0.timer_ = Timer.New(function()
-			arg_13_0:StopTimer()
-			arg_13_0:RefreshTime()
+		slot0.timer_:Start()
+	elseif slot0.startTime_ <= slot2 and slot0.activityData_.state == 0 then
+		slot0.timeTxt_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			uv0:StopTimer()
+			uv0:RefreshTime()
 		end, 10, 1)
 
-		arg_13_0.timer_:Start()
-	elseif var_13_1 < arg_13_0.stopTime_ then
-		arg_13_0.timeTxt_.text = manager.time:GetLostTimeStr(arg_13_0.stopTime_, true)
-		arg_13_0.timer_ = Timer.New(function()
-			var_13_0 = arg_13_0.stopTime_ - manager.time:GetServerTime()
+		slot0.timer_:Start()
+	elseif slot2 < slot0.stopTime_ then
+		slot0.timeTxt_.text = manager.time:GetLostTimeStr(slot0.stopTime_, true)
+		slot0.timer_ = Timer.New(function ()
+			uv0 = uv1.stopTime_ - manager.time:GetServerTime()
 
-			if var_13_0 <= 0 then
-				arg_13_0:StopTimer()
-				arg_13_0:RefreshTime()
+			if uv0 <= 0 then
+				uv1:StopTimer()
+				uv1:RefreshTime()
 
 				return
 			end
 
-			arg_13_0.timeTxt_.text = manager.time:GetLostTimeStr(arg_13_0.stopTime_, true)
+			uv1.timeTxt_.text = manager.time:GetLostTimeStr(uv1.stopTime_, true)
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_13_0.timeTxt_.text = GetTips("TIME_OVER")
+		slot0.timeTxt_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.OnActivitySkinExchange(arg_17_0)
-	arg_17_0:RefreshData()
+function slot0.OnActivitySkinExchange(slot0)
+	slot0:RefreshData()
 end
 
-function var_0_0.StopTimer(arg_18_0)
-	if arg_18_0.timer_ then
-		arg_18_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_18_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.BindRedPointUI(arg_19_0)
-	manager.redPoint:bindUIandKey(arg_19_0.btn_.transform, RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. arg_19_0.activityID_)
+function slot0.BindRedPointUI(slot0)
+	manager.redPoint:bindUIandKey(slot0.btn_.transform, RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. slot0.activityID_)
 end
 
-function var_0_0.UnBindRedPointUI(arg_20_0)
-	manager.redPoint:unbindUIandKey(arg_20_0.btn_.transform, RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. arg_20_0.activityID_)
+function slot0.UnBindRedPointUI(slot0)
+	manager.redPoint:unbindUIandKey(slot0.btn_.transform, RedPointConst.ACTIVITY_SKIN_EXCHANGE .. "_" .. slot0.activityID_)
 end
 
-function var_0_0.OnTop(arg_21_0)
-	local var_21_0 = {}
+function slot0.OnTop(slot0)
+	slot1 = {}
 
-	for iter_21_0, iter_21_1 in ipairs(arg_21_0.cfg_.cost) do
-		table.insert(var_21_0, iter_21_1[1])
+	for slot5, slot6 in ipairs(slot0.cfg_.cost) do
+		table.insert(slot1, slot6[1])
 	end
 
-	local var_21_1 = {
+	slot2 = {
 		BACK_BAR,
 		HOME_BAR
 	}
 
-	table.insertto(var_21_1, var_21_0)
-	manager.windowBar:SwitchBar(var_21_1)
+	table.insertto(slot2, slot1)
 
-	for iter_21_2, iter_21_3 in ipairs(var_21_0) do
-		manager.windowBar:SetBarCanAdd(iter_21_3, true)
+	slot6 = slot2
+
+	manager.windowBar:SwitchBar(slot6)
+
+	for slot6, slot7 in ipairs(slot1) do
+		manager.windowBar:SetBarCanAdd(slot7, true)
 	end
 end
 
-function var_0_0.OnExit(arg_22_0)
-	arg_22_0:StopTimer()
-	arg_22_0:UnBindRedPointUI()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:UnBindRedPointUI()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0:RemoveAllListeners()
-	arg_23_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_23_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

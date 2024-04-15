@@ -1,5 +1,5 @@
-local var_0_0 = class("SkuldTravelView", ReduxView)
-local var_0_1 = {
+slot0 = class("SkuldTravelView", ReduxView)
+slot1 = {
 	{
 		x = 368,
 		y = -420
@@ -9,33 +9,33 @@ local var_0_1 = {
 		y = -352
 	}
 }
-local var_0_2 = {
+slot2 = {
 	55,
 	33
 }
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/EmptyDream/EDream_travelled/EDream_travelmain"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.cacheOpenPlotView_ = false
-	arg_4_0.skuldcontroller_ = ControllerUtil.GetController(arg_4_0.mytrans_, "Skuld")
-	arg_4_0.btncontroller_ = ControllerUtil.GetController(arg_4_0.btntrans_, "btnstatu")
-	arg_4_0.skuldSpine_ = arg_4_0.skuldGo_:GetComponent("Spine.Unity.SkeletonGraphic")
-	arg_4_0.curState_ = "idle"
-	arg_4_0.statusAndNextStatus_ = {
+	slot0.cacheOpenPlotView_ = false
+	slot0.skuldcontroller_ = ControllerUtil.GetController(slot0.mytrans_, "Skuld")
+	slot0.btncontroller_ = ControllerUtil.GetController(slot0.btntrans_, "btnstatu")
+	slot0.skuldSpine_ = slot0.skuldGo_:GetComponent("Spine.Unity.SkeletonGraphic")
+	slot0.curState_ = "idle"
+	slot0.statusAndNextStatus_ = {
 		camera = {
 			"idle",
 			"sit"
@@ -54,13 +54,13 @@ function var_0_0.InitUI(arg_4_0)
 			"sit"
 		}
 	}
-	arg_4_0.statusWaitCount_ = {
+	slot0.statusWaitCount_ = {
 		sleep = 5,
 		sit = 3,
 		idle = 3,
 		camera = 1
 	}
-	arg_4_0.statusAndNextStatusAudio_ = {
+	slot0.statusAndNextStatusAudio_ = {
 		camera = {
 			sit = "minigame_activity_1_6_up"
 		},
@@ -77,100 +77,95 @@ function var_0_0.InitUI(arg_4_0)
 			sit = "minigame_activity_1_6_down"
 		}
 	}
-	arg_4_0.aniwait_ = arg_4_0.statusWaitCount_[arg_4_0.curState_]
+	slot0.aniwait_ = slot0.statusWaitCount_[slot0.curState_]
 end
 
-function var_0_0.CreatTiemrAndStart(arg_5_0)
-	if arg_5_0.skuldtimer_ == nil then
-		arg_5_0.skuldtimer_ = Timer.New(function()
-			if arg_5_0.aniwait_ > 1 then
-				arg_5_0.aniwait_ = arg_5_0.aniwait_ - 1
+function slot0.CreatTiemrAndStart(slot0)
+	if slot0.skuldtimer_ == nil then
+		slot0.skuldtimer_ = Timer.New(function ()
+			if uv0.aniwait_ > 1 then
+				uv0.aniwait_ = uv0.aniwait_ - 1
 			else
-				local var_6_0 = arg_5_0.statusAndNextStatus_[arg_5_0.curState_]
-				local var_6_1 = math.random(#var_6_0)
+				slot0 = uv0.statusAndNextStatus_[uv0.curState_]
+				slot1 = math.random(#slot0)
 
-				arg_5_0:CheckSkuldPosition(arg_5_0.curState_, var_6_0[var_6_1])
-				arg_5_0:PlaySkuldAudio(arg_5_0.curState_, var_6_0[var_6_1])
+				uv0:CheckSkuldPosition(uv0.curState_, slot0[slot1])
+				uv0:PlaySkuldAudio(uv0.curState_, slot0[slot1])
 
-				arg_5_0.curState_ = var_6_0[var_6_1]
+				uv0.curState_ = slot0[slot1]
 
-				arg_5_0.skuldSpine_.AnimationState:SetAnimation(0, arg_5_0.curState_, true)
+				uv0.skuldSpine_.AnimationState:SetAnimation(0, uv0.curState_, true)
 
-				arg_5_0.aniwait_ = arg_5_0.statusWaitCount_[arg_5_0.curState_]
+				uv0.aniwait_ = uv0.statusWaitCount_[uv0.curState_]
 			end
 		end, 4, -1)
 	end
 
-	arg_5_0.skuldtimer_:Start()
-	arg_5_0.skuldSpine_.AnimationState:SetAnimation(0, arg_5_0.curState_, true)
-	arg_5_0:FixSkuldPosition()
+	slot0.skuldtimer_:Start()
+	slot0.skuldSpine_.AnimationState:SetAnimation(0, slot0.curState_, true)
+	slot0:FixSkuldPosition()
 
-	if arg_5_0.curState_ == "camera" then
+	if slot0.curState_ == "camera" then
 		manager.audio:PlayEffect("minigame_activity_1_6", "minigame_activity_1_6_camera", "")
 	end
 end
 
-function var_0_0.CheckSkuldPosition(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.skuldGo_.transform.localPosition
-	local var_7_1 = 0
+function slot0.CheckSkuldPosition(slot0, slot1, slot2)
+	slot3 = slot0.skuldGo_.transform.localPosition
+	slot4 = 0
 
-	if (arg_7_1 == "idle" or arg_7_1 == "camera") and arg_7_2 == "sit" then
-		var_7_1 = var_0_2[arg_7_0.curSkuldStatu_]
+	if (slot1 == "idle" or slot1 == "camera") and slot2 == "sit" then
+		slot4 = uv0[slot0.curSkuldStatu_]
 	end
 
-	if arg_7_1 == "sit" and (arg_7_2 == "idle" or arg_7_2 == "camera") then
-		var_7_1 = -var_0_2[arg_7_0.curSkuldStatu_]
+	if slot1 == "sit" and (slot2 == "idle" or slot2 == "camera") then
+		slot4 = -uv0[slot0.curSkuldStatu_]
 	end
 
-	arg_7_0.skuldGo_.transform.localPosition = Vector3.New(var_7_0.x, var_7_0.y + var_7_1, var_7_0.z)
+	slot0.skuldGo_.transform.localPosition = Vector3.New(slot3.x, slot3.y + slot4, slot3.z)
 end
 
-function var_0_0.FixSkuldPosition(arg_8_0)
-	if arg_8_0.curState_ == "sit" or arg_8_0.curState_ == "sleep" then
-		local var_8_0 = arg_8_0.skuldGo_.transform.localPosition
-		local var_8_1 = 0
-		local var_8_2 = var_0_2[arg_8_0.curSkuldStatu_]
-
-		arg_8_0.skuldGo_.transform.localPosition = Vector3.New(var_8_0.x, var_8_0.y + var_8_2, var_8_0.z)
+function slot0.FixSkuldPosition(slot0)
+	if slot0.curState_ == "sit" or slot0.curState_ == "sleep" then
+		slot1 = slot0.skuldGo_.transform.localPosition
+		slot2 = 0
+		slot0.skuldGo_.transform.localPosition = Vector3.New(slot1.x, slot1.y + uv0[slot0.curSkuldStatu_], slot1.z)
 	end
 end
 
-function var_0_0.PlaySkuldAudio(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_0.statusAndNextStatusAudio_[arg_9_1][arg_9_2]
-
-	manager.audio:PlayEffect("minigame_activity_1_6", var_9_0, "")
+function slot0.PlaySkuldAudio(slot0, slot1, slot2)
+	manager.audio:PlayEffect("minigame_activity_1_6", slot0.statusAndNextStatusAudio_[slot1][slot2], "")
 end
 
-function var_0_0.AddUIListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.gototravelbtn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.gototravelbtn_, nil, function ()
 		if SkuldTravelData:GetSkuldIsCanTravel() then
-			arg_10_0:Go("/skuldTravelMapView")
+			uv0:Go("/skuldTravelMapView")
 		end
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.plotbtn_, nil, function()
-		arg_10_0:Go("/skuldTravelShowPlotView")
+	slot0:AddBtnListener(slot0.plotbtn_, nil, function ()
+		uv0:Go("/skuldTravelShowPlotView")
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.finalresultbtn_, nil, function()
-		arg_10_0:Go("/skuldTravelFinalResultView")
+	slot0:AddBtnListener(slot0.finalresultbtn_, nil, function ()
+		uv0:Go("/skuldTravelFinalResultView")
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.rewardbtn_, nil, function()
+	slot0:AddBtnListener(slot0.rewardbtn_, nil, function ()
 		JumpTools.OpenPageByJump("skuldTravelRewardView")
 	end)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:BindUIAndRedPoint()
+function slot0.OnEnter(slot0)
+	slot0:BindUIAndRedPoint()
 end
 
-function var_0_0.RandomSkuldPosition(arg_16_0)
-	local var_16_0 = math.random(2)
-
-	arg_16_0.curSkuldStatu_ = var_16_0
-	arg_16_0.position_ = var_0_1[var_16_0]
-	arg_16_0.skuldGo_.transform.localPosition = Vector3.New(arg_16_0.position_.x, arg_16_0.position_.y, 0)
+function slot0.RandomSkuldPosition(slot0)
+	slot1 = math.random(2)
+	slot0.curSkuldStatu_ = slot1
+	slot0.position_ = uv0[slot1]
+	slot0.skuldGo_.transform.localPosition = Vector3.New(slot0.position_.x, slot0.position_.y, 0)
 end
 
-function var_0_0.OnTop(arg_17_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -178,111 +173,101 @@ function var_0_0.OnTop(arg_17_0)
 	})
 	manager.windowBar:SetGameHelpKey("TRAVEL_SKULD_DESCRIPE")
 
-	if arg_17_0.cacheOpenPlotView_ then
-		arg_17_0.cacheOpenPlotView_ = false
+	if slot0.cacheOpenPlotView_ then
+		slot0.cacheOpenPlotView_ = false
 
 		JumpTools.OpenPageByJump("skuldTravelResultView")
 	end
 
-	arg_17_0:RandomSkuldPosition()
-	arg_17_0:RefreshUI()
+	slot0:RandomSkuldPosition()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_18_0)
-	local var_18_0 = SkuldTravelData:GetAttrib()
-
-	for iter_18_0 = 1, 4 do
-		arg_18_0["attribtext_" .. iter_18_0].text = GetI18NText(var_18_0[iter_18_0])
+function slot0.RefreshUI(slot0)
+	for slot5 = 1, 4 do
+		slot0["attribtext_" .. slot5].text = GetI18NText(SkuldTravelData:GetAttrib()[slot5])
 	end
 
-	arg_18_0:RefreshStatu()
+	slot0:RefreshStatu()
 end
 
-function var_0_0.RefreshStatu(arg_19_0)
+function slot0.RefreshStatu(slot0)
 	if SkuldTravelData:GetSkuldBtnIsBreach() then
-		arg_19_0.skuldcontroller_:SetSelectedState("breach")
-		SetActive(arg_19_0.gototravelbtn_.gameObject, false)
-		arg_19_0:RemoveTiemr()
+		slot0.skuldcontroller_:SetSelectedState("breach")
+		SetActive(slot0.gototravelbtn_.gameObject, false)
+		slot0:RemoveTiemr()
 
 		return
 	else
-		SetActive(arg_19_0.gototravelbtn_.gameObject, true)
+		SetActive(slot0.gototravelbtn_.gameObject, true)
 	end
 
 	if SkuldTravelData:GetSkuldStatu() == 0 then
-		arg_19_0.skuldcontroller_:SetSelectedState("home")
-		arg_19_0.btncontroller_:SetSelectedState("home")
-		arg_19_0:CreatTiemrAndStart()
+		slot0.skuldcontroller_:SetSelectedState("home")
+		slot0.btncontroller_:SetSelectedState("home")
+		slot0:CreatTiemrAndStart()
 	elseif SkuldTravelData:GetSkuldStatu() == 1 then
-		arg_19_0.skuldcontroller_:SetSelectedState("travel")
-		arg_19_0.btncontroller_:SetSelectedState("travel")
-		arg_19_0:RemoveTiemr()
+		slot0.skuldcontroller_:SetSelectedState("travel")
+		slot0.btncontroller_:SetSelectedState("travel")
+		slot0:RemoveTiemr()
 	elseif SkuldTravelData:GetSkuldStatu() == 2 then
-		arg_19_0.skuldcontroller_:SetSelectedState("travel")
-		arg_19_0.btncontroller_:SetSelectedState("travel")
-		arg_19_0:RemoveTiemr()
+		slot0.skuldcontroller_:SetSelectedState("travel")
+		slot0.btncontroller_:SetSelectedState("travel")
+		slot0:RemoveTiemr()
 
-		if arg_19_0:IsOpenSkuldTravelingView() then
-			arg_19_0.cacheOpenPlotView_ = true
+		if slot0:IsOpenSkuldTravelingView() then
+			slot0.cacheOpenPlotView_ = true
 		else
 			JumpTools.OpenPageByJump("skuldTravelResultView")
 		end
 	end
 end
 
-function var_0_0.OnSkuldStateChange(arg_20_0)
-	arg_20_0:RandomSkuldPosition()
-	arg_20_0:RefreshUI()
+function slot0.OnSkuldStateChange(slot0)
+	slot0:RandomSkuldPosition()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_21_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 	manager.audio:StopEffect()
-	arg_21_0:RemoveTiemr()
-	arg_21_0:UnBindUIAndRedPoint()
+	slot0:RemoveTiemr()
+	slot0:UnBindUIAndRedPoint()
 end
 
-function var_0_0.OnBehind(arg_22_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 	manager.audio:StopEffect()
-	arg_22_0:RemoveTiemr()
+	slot0:RemoveTiemr()
 end
 
-function var_0_0.RemoveTiemr(arg_23_0)
-	if arg_23_0.skuldtimer_ then
-		arg_23_0.skuldtimer_:Stop()
+function slot0.RemoveTiemr(slot0)
+	if slot0.skuldtimer_ then
+		slot0.skuldtimer_:Stop()
 
-		arg_23_0.skuldtimer_ = nil
+		slot0.skuldtimer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_24_0)
-	arg_24_0:RemoveTiemr()
-	arg_24_0.super.Dispose(arg_24_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveTiemr()
+	slot0.super.Dispose(slot0)
 end
 
-function var_0_0.BindUIAndRedPoint(arg_25_0)
-	local var_25_0 = RedPointConst.TRAVEL_SKULD_GOTOTRAVEL .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-	local var_25_1 = RedPointConst.TRAVEL_SKULD_ENDING .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-	local var_25_2 = RedPointConst.TRAVEL_SKULD_REWARD .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-
-	manager.redPoint:bindUIandKey(arg_25_0.gototravelbtn_.transform, var_25_0)
-	manager.redPoint:bindUIandKey(arg_25_0.finalresultbtn_.transform, var_25_1)
-	manager.redPoint:bindUIandKey(arg_25_0.rewardbtn_.transform, var_25_2)
+function slot0.BindUIAndRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.gototravelbtn_.transform, RedPointConst.TRAVEL_SKULD_GOTOTRAVEL .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
+	manager.redPoint:bindUIandKey(slot0.finalresultbtn_.transform, RedPointConst.TRAVEL_SKULD_ENDING .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
+	manager.redPoint:bindUIandKey(slot0.rewardbtn_.transform, RedPointConst.TRAVEL_SKULD_REWARD .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
 end
 
-function var_0_0.UnBindUIAndRedPoint(arg_26_0)
-	local var_26_0 = RedPointConst.TRAVEL_SKULD_GOTOTRAVEL .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-	local var_26_1 = RedPointConst.TRAVEL_SKULD_ENDING .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-	local var_26_2 = RedPointConst.TRAVEL_SKULD_REWARD .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL
-
-	manager.redPoint:unbindUIandKey(arg_26_0.gototravelbtn_.transform, var_26_0)
-	manager.redPoint:unbindUIandKey(arg_26_0.finalresultbtn_.transform, var_26_1)
-	manager.redPoint:unbindUIandKey(arg_26_0.rewardbtn_.transform, var_26_2)
+function slot0.UnBindUIAndRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.gototravelbtn_.transform, RedPointConst.TRAVEL_SKULD_GOTOTRAVEL .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
+	manager.redPoint:unbindUIandKey(slot0.finalresultbtn_.transform, RedPointConst.TRAVEL_SKULD_ENDING .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
+	manager.redPoint:unbindUIandKey(slot0.rewardbtn_.transform, RedPointConst.TRAVEL_SKULD_REWARD .. ActivityConst.ACTIVITY_1_6_SKULD_TRAVEL)
 end
 
-function var_0_0.IsOpenSkuldTravelingView(arg_27_0)
-	return arg_27_0:IsOpenRoute("skuldTravelTipsView")
+function slot0.IsOpenSkuldTravelingView(slot0)
+	return slot0:IsOpenRoute("skuldTravelTipsView")
 end
 
-return var_0_0
+return slot0

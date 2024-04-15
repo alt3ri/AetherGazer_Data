@@ -1,269 +1,248 @@
-local var_0_0 = class("NewHeroArchivePlotItemView", ReduxView)
+slot0 = class("NewHeroArchivePlotItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.picController_ = ControllerUtil.GetController(arg_3_0.transform_, "plot")
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.transform_, "item")
-	arg_3_0.plotPiccontroller_ = ControllerUtil.GetController(arg_3_0.plotBtn_.transform, "get")
-	arg_3_0.redPointController_ = ControllerUtil.GetController(arg_3_0.transform_, "name")
+	slot0.picController_ = ControllerUtil.GetController(slot0.transform_, "plot")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "item")
+	slot0.plotPiccontroller_ = ControllerUtil.GetController(slot0.plotBtn_.transform, "get")
+	slot0.redPointController_ = ControllerUtil.GetController(slot0.transform_, "name")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.goBtn_, nil, function()
-		if not arg_4_0.isUnlock then
-			if arg_4_0.type_ == 1 then
-				ShowTips(string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_LOVE"), arg_4_0.all))
-			elseif arg_4_0.type_ == 2 then
-				local var_5_0 = GetTips("HERO_TRUST_LEVEL_DES_" .. arg_4_0.all)
-
-				ShowTips(string.format(GetTips("HERO_HEART_CHAIN_UNLOCK_TRUST_1"), arg_4_0.trustTips, var_5_0))
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		if not uv0.isUnlock then
+			if uv0.type_ == 1 then
+				ShowTips(string.format(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_LOVE"), uv0.all))
+			elseif uv0.type_ == 2 then
+				ShowTips(string.format(GetTips("HERO_HEART_CHAIN_UNLOCK_TRUST_1"), uv0.trustTips, GetTips("HERO_TRUST_LEVEL_DES_" .. uv0.all)))
 			end
 
 			return
 		end
 
-		if arg_4_0.needViewedFrontPlot or arg_4_0.needViewedFrontSuperPlot then
+		if uv0.needViewedFrontPlot or uv0.needViewedFrontSuperPlot then
 			ShowTips(GetTips("ERROR_HERO_ARCHIVES_PREVIOUS_PLOT_NOT_VIEWED"))
 
 			return
 		end
 
-		if arg_4_0.needViewedNormalPlot then
+		if uv0.needViewedNormalPlot then
 			ShowTips(GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_COMMON_PLOT_NOT_VIEWED_TIP"))
 
 			return
 		end
 
-		manager.story:StartStoryById(arg_4_0.plotID_, function(arg_6_0)
-			HeroAction.ReadStory(arg_4_0.archiveID_, arg_4_0.plotID_, arg_4_0.type_, arg_4_0.index_)
+		manager.story:StartStoryById(uv0.plotID_, function (slot0)
+			HeroAction.ReadStory(uv0.archiveID_, uv0.plotID_, uv0.type_, uv0.index_)
 
-			if arg_4_0.stroyCallBack then
-				arg_4_0.stroyCallBack()
+			if uv0.stroyCallBack then
+				uv0.stroyCallBack()
 			end
 		end)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.plotBtn_, nil, function()
-		if arg_4_0.isLock then
+	slot0:AddBtnListener(slot0.plotBtn_, nil, function ()
+		if uv0.isLock then
 			ShowTips(GetTips("ERROR_NO_UNLOCK_INBETWEENING"))
 
 			return
 		end
 
-		if arg_4_0.plotIsViewed == 0 then
-			for iter_7_0, iter_7_1 in ipairs(arg_4_0.collectPicList_) do
-				IllustratedAction.ViewIllustration(iter_7_1, CollectConst.ILLUSTRATION)
+		if uv0.plotIsViewed == 0 then
+			for slot3, slot4 in ipairs(uv0.collectPicList_) do
+				IllustratedAction.ViewIllustration(slot4, CollectConst.ILLUSTRATION)
 			end
 
-			IllustratedAction.ReceiveIllustrationReward(arg_4_0.collectPicList_)
-			arg_4_0:RefreshUI()
+			IllustratedAction.ReceiveIllustrationReward(uv0.collectPicList_)
+			uv0:RefreshUI()
 		else
-			arg_4_0:Go("/illuIllustrationDetail", {
-				ID = arg_4_0.collectPicList_[1]
+			uv0:Go("/illuIllustrationDetail", {
+				ID = uv0.collectPicList_[1]
 			})
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	arg_8_0.data_ = arg_8_1
-	arg_8_0.plotID_ = arg_8_2
-	arg_8_0.archiveID_ = arg_8_3
-	arg_8_0.index_ = arg_8_4
-	arg_8_0.type_ = arg_8_5
-	arg_8_0.needViewedNormalPlot = false
-	arg_8_0.needViewedFrontPlot = false
-	arg_8_0.needViewedFrontSuperPlot = false
-	arg_8_0.recordData_ = HeroRecordCfg[arg_8_0.archiveID_]
-	arg_8_0.archiveData_ = ArchiveData:GetArchive(arg_8_3)
-	arg_8_0.collectPicList_ = CollectPictureCfg.get_id_list_by_additional_parameter[arg_8_0.plotID_]
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.data_ = slot1
+	slot0.plotID_ = slot2
+	slot0.archiveID_ = slot3
+	slot0.index_ = slot4
+	slot0.type_ = slot5
+	slot0.needViewedNormalPlot = false
+	slot0.needViewedFrontPlot = false
+	slot0.needViewedFrontSuperPlot = false
+	slot0.recordData_ = HeroRecordCfg[slot0.archiveID_]
+	slot0.archiveData_ = ArchiveData:GetArchive(slot3)
+	slot0.collectPicList_ = CollectPictureCfg.get_id_list_by_additional_parameter[slot0.plotID_]
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetStoryCallBack(arg_9_0, arg_9_1)
-	arg_9_0.stroyCallBack = arg_9_1
+function slot0.SetStoryCallBack(slot0, slot1)
+	slot0.stroyCallBack = slot1
 end
 
-function var_0_0.SetPlotCallBack(arg_10_0, arg_10_1)
-	arg_10_0.callPlotback = arg_10_1
+function slot0.SetPlotCallBack(slot0, slot1)
+	slot0.callPlotback = slot1
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0.title_.text = StoryCfg[arg_11_0.plotID_].name
+function slot0.RefreshUI(slot0)
+	slot0.title_.text = StoryCfg[slot0.plotID_].name
 
-	arg_11_0:RefreshPlotPicUI()
-	arg_11_0:RefreshPlotUI()
+	slot0:RefreshPlotPicUI()
+	slot0:RefreshPlotUI()
 end
 
-function var_0_0.RefreshPlotUI(arg_12_0)
-	arg_12_0:CheckIsUnlock()
+function slot0.RefreshPlotUI(slot0)
+	slot0:CheckIsUnlock()
 
-	if arg_12_0.isUnlock and not arg_12_0.needViewedFrontPlot and not arg_12_0.needViewedNormalPlot and not arg_12_0.needViewedFrontSuperPlot then
-		arg_12_0:RefreshUnLockUI()
+	if slot0.isUnlock and not slot0.needViewedFrontPlot and not slot0.needViewedNormalPlot and not slot0.needViewedFrontSuperPlot then
+		slot0:RefreshUnLockUI()
 	else
-		arg_12_0:RefreshLockText()
+		slot0:RefreshLockText()
 	end
 end
 
-function var_0_0.CheckIsUnlock(arg_13_0)
-	local var_13_0
-	local var_13_1
-	local var_13_2 = 0
+function slot0.CheckIsUnlock(slot0)
+	slot1, slot2 = nil
 
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.archiveData_.video_list) do
-		var_13_2 = var_13_2 + 1
+	for slot7, slot8 in pairs(slot0.archiveData_.video_list) do
+		slot3 = 0 + 1
 	end
 
-	if arg_13_0.type_ == 1 then
-		arg_13_0.gameSettingCfgID = GameSetting.hero_plot_unlock_condition.value[arg_13_0.index_]
-
-		local var_13_3
-
-		arg_13_0.isUnlock, var_13_3, var_13_1 = IsConditionAchieved(arg_13_0.gameSettingCfgID, {
-			heroId = arg_13_0.archiveID_
+	if slot0.type_ == 1 then
+		slot0.gameSettingCfgID = GameSetting.hero_plot_unlock_condition.value[slot0.index_]
+		slot0.isUnlock, slot1, slot2 = IsConditionAchieved(slot0.gameSettingCfgID, {
+			heroId = slot0.archiveID_
 		})
-		arg_13_0.needViewedFrontPlot = var_13_2 < arg_13_0.index_ - 1
-	elseif arg_13_0.type_ == 2 then
-		arg_13_0.gameSettingCfgID = GameSetting.hero_super_plot_unlock_condition.value[arg_13_0.index_]
-		arg_13_0.isUnlock = false
-		arg_13_0.trustTips = HeroCfg[arg_13_0.recordData_.hero_id[1]].name
+		slot0.needViewedFrontPlot = slot3 < slot0.index_ - 1
+	elseif slot0.type_ == 2 then
+		slot0.gameSettingCfgID = GameSetting.hero_super_plot_unlock_condition.value[slot0.index_]
+		slot0.isUnlock = false
+		slot0.trustTips = HeroCfg[slot0.recordData_.hero_id[1]].name
 
-		for iter_13_2, iter_13_3 in pairs(arg_13_0.recordData_.hero_id) do
-			local var_13_4
-			local var_13_5, var_13_6, var_13_7 = IsConditionAchieved(arg_13_0.gameSettingCfgID, {
-				heroId = iter_13_3
+		for slot7, slot8 in pairs(slot0.recordData_.hero_id) do
+			slot9 = nil
+			slot10, slot1, slot2 = IsConditionAchieved(slot0.gameSettingCfgID, {
+				heroId = slot8
 			})
 
-			var_13_1 = var_13_7
-
-			local var_13_8 = var_13_6
-
-			if var_13_5 then
-				arg_13_0.isUnlock = true
+			if slot10 then
+				slot0.isUnlock = true
 			end
 
-			local var_13_9 = HeroCfg[iter_13_3].name
-
-			if iter_13_2 > 1 then
-				arg_13_0.trustTips = string.format(GetTips("HERO_HEART_CHAIN_UNLOCK_TRUST_2"), arg_13_0.trustTips, var_13_9)
+			if slot7 > 1 then
+				slot0.trustTips = string.format(GetTips("HERO_HEART_CHAIN_UNLOCK_TRUST_2"), slot0.trustTips, HeroCfg[slot8].name)
 			end
 		end
 
-		arg_13_0.needViewedFrontSuperPlot = #ArchiveData:GetHasViewedSuperHeartList(arg_13_0.archiveID_) < arg_13_0.index_ - 1
-		arg_13_0.needViewedNormalPlot = var_13_2 < #arg_13_0.recordData_.plot_id
+		slot0.needViewedFrontSuperPlot = #ArchiveData:GetHasViewedSuperHeartList(slot0.archiveID_) < slot0.index_ - 1
+		slot0.needViewedNormalPlot = slot3 < #slot0.recordData_.plot_id
 	end
 
-	arg_13_0.all = var_13_1
+	slot0.all = slot2
 
-	arg_13_0.redPointController_:SetSelectedState("no")
+	slot0.redPointController_:SetSelectedState("no")
 end
 
-function var_0_0.RefreshUnLockUI(arg_14_0)
-	local var_14_0
+function slot0.RefreshUnLockUI(slot0)
+	slot1 = nil
 
-	if arg_14_0.type_ == 1 then
-		arg_14_0.controller_:SetSelectedState("1")
+	if slot0.type_ == 1 then
+		slot0.controller_:SetSelectedState("1")
 
-		var_14_0 = ArchiveData:IsStoryRead(arg_14_0.archiveID_, arg_14_0.plotID_)
-	elseif arg_14_0.type_ == 2 then
-		arg_14_0.controller_:SetSelectedState("3")
+		slot1 = ArchiveData:IsStoryRead(slot0.archiveID_, slot0.plotID_)
+	elseif slot0.type_ == 2 then
+		slot0.controller_:SetSelectedState("3")
 
-		var_14_0 = ArchiveData:IsSuperHeartRead(arg_14_0.archiveID_, arg_14_0.index_)
+		slot1 = ArchiveData:IsSuperHeartRead(slot0.archiveID_, slot0.index_)
 	end
 
-	if var_14_0 then
-		arg_14_0.redPointController_:SetSelectedState("no")
+	if slot1 then
+		slot0.redPointController_:SetSelectedState("no")
 	else
-		arg_14_0.redPointController_:SetSelectedState("yes")
+		slot0.redPointController_:SetSelectedState("yes")
 	end
 end
 
-function var_0_0.RefreshLockText(arg_15_0)
-	local var_15_0 = ConditionCfg[arg_15_0.gameSettingCfgID]
+function slot0.RefreshLockText(slot0)
+	slot0.lockText_.text = ConditionCfg[slot0.gameSettingCfgID].desc
 
-	arg_15_0.lockText_.text = var_15_0.desc
+	if slot0.type_ == 1 then
+		slot0.controller_:SetSelectedState("2")
 
-	if arg_15_0.type_ == 1 then
-		arg_15_0.controller_:SetSelectedState("2")
-
-		if arg_15_0.needViewedFrontPlot and arg_15_0.isUnlock then
-			arg_15_0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_PREVIOUS_PLOT_NOT_VIEWED")
+		if slot0.needViewedFrontPlot and slot0.isUnlock then
+			slot0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_PREVIOUS_PLOT_NOT_VIEWED")
 		end
-	elseif arg_15_0.type_ == 2 then
-		arg_15_0.controller_:SetSelectedState("4")
+	elseif slot0.type_ == 2 then
+		slot0.controller_:SetSelectedState("4")
 
-		if arg_15_0.needViewedNormalPlot and arg_15_0.isUnlock then
-			arg_15_0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_COMMON_PLOT_NOT_VIEWED_TIP")
-		elseif arg_15_0.needViewedFrontSuperPlot then
-			arg_15_0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_PREVIOUS_PLOT_NOT_VIEWED")
+		if slot0.needViewedNormalPlot and slot0.isUnlock then
+			slot0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_COMMON_PLOT_NOT_VIEWED_TIP")
+		elseif slot0.needViewedFrontSuperPlot then
+			slot0.lockText_.text = GetTips("HERO_HEART_CHAIN_PLOT_UNLOCK_PREVIOUS_PLOT_NOT_VIEWED")
 		end
 	end
 end
 
-function var_0_0.RefreshPlotPicUI(arg_16_0)
-	if arg_16_0.collectPicList_ then
-		arg_16_0.picController_:SetSelectedState("yes")
+function slot0.RefreshPlotPicUI(slot0)
+	if slot0.collectPicList_ then
+		slot0.picController_:SetSelectedState("yes")
 	else
-		arg_16_0.picController_:SetSelectedState("no")
+		slot0.picController_:SetSelectedState("no")
 
 		return
 	end
 
-	local var_16_0 = arg_16_0.collectPicList_[1]
+	slot0.plotIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/Collect_s/" .. CollectPictureCfg[slot0.collectPicList_[1]].picture)
 
-	arg_16_0.plotIcon_.sprite = getSpriteWithoutAtlas("TextureConfig/IllustratedHandbook/Collect_s/" .. CollectPictureCfg[var_16_0].picture)
+	slot0.overLappingGo_:SetActive(#slot0.collectPicList_ > 1)
 
-	local var_16_1 = 0
+	for slot6, slot7 in pairs(slot0.collectPicList_) do
+		slot2 = 0 + CollectPictureCfg[slot7].reward[1][2]
 
-	arg_16_0.overLappingGo_:SetActive(#arg_16_0.collectPicList_ > 1)
-
-	for iter_16_0, iter_16_1 in pairs(arg_16_0.collectPicList_) do
-		var_16_1 = var_16_1 + CollectPictureCfg[iter_16_1].reward[1][2]
-
-		local var_16_2 = IllustratedData:GetIllustrationInfo()[iter_16_1]
-
-		if var_16_2 then
-			arg_16_0.plotIsViewed = var_16_2.is_receive or 0
+		if IllustratedData:GetIllustrationInfo()[slot7] then
+			slot0.plotIsViewed = slot9.is_receive or 0
 		else
-			arg_16_0.plotIsViewed = 0
+			slot0.plotIsViewed = 0
 		end
 	end
 
-	arg_16_0.rewardCount_.text = "x" .. var_16_1
-	arg_16_0.isLock = false
+	slot0.rewardCount_.text = "x" .. slot2
+	slot0.isLock = false
 
-	for iter_16_2, iter_16_3 in pairs(arg_16_0.collectPicList_) do
-		if IllustratedData:GetIllustrationInfo()[iter_16_3] == nil then
-			arg_16_0.plotPiccontroller_:SetSelectedState("lock")
+	for slot6, slot7 in pairs(slot0.collectPicList_) do
+		if IllustratedData:GetIllustrationInfo()[slot7] == nil then
+			slot0.plotPiccontroller_:SetSelectedState("lock")
 
-			arg_16_0.isLock = true
+			slot0.isLock = true
 
 			return
 		end
 	end
 
-	if arg_16_0.plotIsViewed == 1 then
-		arg_16_0.plotPiccontroller_:SetSelectedState("yes")
+	if slot0.plotIsViewed == 1 then
+		slot0.plotPiccontroller_:SetSelectedState("yes")
 	else
-		arg_16_0.plotPiccontroller_:SetSelectedState("no")
+		slot0.plotPiccontroller_:SetSelectedState("no")
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

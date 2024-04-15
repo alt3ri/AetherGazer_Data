@@ -1,85 +1,76 @@
-function hotfix(arg_1_0)
-	local var_1_0
+function hotfix(slot0)
+	slot1 = nil
 
-	if package.loaded[arg_1_0] then
-		var_1_0 = package.loaded[arg_1_0]
-		package.loaded[arg_1_0] = nil
+	if package.loaded[slot0] then
+		slot1 = package.loaded[slot0]
+		package.loaded[slot0] = nil
 	else
 		return
 	end
 
-	local var_1_1, var_1_2 = pcall(require, arg_1_0)
+	slot2, slot3 = pcall(require, slot0)
 
-	if not var_1_1 then
-		package.loaded[arg_1_0] = var_1_0
+	if not slot2 then
+		package.loaded[slot0] = slot1
 
 		return
 	end
 
-	local var_1_3 = package.loaded[arg_1_0]
-	local var_1_4 = {}
+	update_table(package.loaded[slot0], slot1, {})
 
-	update_table(var_1_3, var_1_0, var_1_4)
-
-	if type(var_1_0) == "table" and var_1_0.OnReload ~= nil then
-		var_1_0:OnReload()
+	if type(slot1) == "table" and slot1.OnReload ~= nil then
+		slot1:OnReload()
 	end
 
-	package.loaded[arg_1_0] = var_1_0
+	package.loaded[slot0] = slot1
 end
 
-function update_func(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function update_func(slot0, slot1)
+	slot2 = {}
 
-	for iter_2_0 = 1, math.huge do
-		local var_2_1, var_2_2 = debug.getupvalue(arg_2_1, iter_2_0)
+	for slot6 = 1, math.huge do
+		slot7, slot8 = debug.getupvalue(slot1, slot6)
 
-		if not var_2_1 then
+		if not slot7 then
 			break
 		end
 
-		var_2_0[var_2_1] = var_2_2
+		slot2[slot7] = slot8
 	end
 
-	for iter_2_1 = 1, math.huge do
-		local var_2_3, var_2_4 = debug.getupvalue(arg_2_0, iter_2_1)
+	for slot6 = 1, math.huge do
+		slot7, slot8 = debug.getupvalue(slot0, slot6)
 
-		if not var_2_3 then
+		if not slot7 then
 			break
 		end
 
-		local var_2_5 = var_2_0[var_2_3]
-
-		if var_2_5 then
-			debug.setupvalue(arg_2_0, iter_2_1, var_2_5)
+		if slot2[slot7] then
+			debug.setupvalue(slot0, slot6, slot9)
 		end
 	end
 end
 
-function update_table(arg_3_0, arg_3_1, arg_3_2)
-	if type(arg_3_0) ~= "table" or type(arg_3_1) ~= "table" then
+function update_table(slot0, slot1, slot2)
+	if type(slot0) ~= "table" or type(slot1) ~= "table" then
 		return
 	end
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0) do
-		local var_3_0 = arg_3_1[iter_3_0]
-		local var_3_1 = type(iter_3_1)
+	for slot6, slot7 in pairs(slot0) do
+		if type(slot7) == "function" then
+			update_func(slot7, slot1[slot6])
 
-		if var_3_1 == "function" then
-			update_func(iter_3_1, var_3_0)
+			slot1[slot6] = slot7
+		elseif slot9 == "table" and slot2[slot7] == nil then
+			slot2[slot7] = true
 
-			arg_3_1[iter_3_0] = iter_3_1
-		elseif var_3_1 == "table" and arg_3_2[iter_3_1] == nil then
-			arg_3_2[iter_3_1] = true
-
-			update_table(iter_3_1, var_3_0, arg_3_2)
+			update_table(slot7, slot8, slot2)
 		end
 	end
 
-	local var_3_2 = debug.getmetatable(arg_3_1)
-	local var_3_3 = debug.getmetatable(arg_3_0)
+	slot4 = debug.getmetatable(slot0)
 
-	if type(var_3_2) == "table" and type(var_3_3) == "table" then
-		update_table(var_3_3, var_3_2, arg_3_2)
+	if type(debug.getmetatable(slot1)) == "table" and type(slot4) == "table" then
+		update_table(slot4, slot3, slot2)
 	end
 end

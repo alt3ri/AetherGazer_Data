@@ -1,119 +1,117 @@
-local var_0_0 = class("BackHomeNewHeroItem", ReduxView)
+slot0 = class("BackHomeNewHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.fatigueController = ControllerUtil.GetController(arg_2_0.transform_, "fatigue")
-	arg_2_0.jobController = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.curPositionController = ControllerUtil.GetController(arg_2_0.transform_, "currentPosition")
+	slot0.fatigueController = ControllerUtil.GetController(slot0.transform_, "fatigue")
+	slot0.jobController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.curPositionController = ControllerUtil.GetController(slot0.transform_, "currentPosition")
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	if arg_3_1 and arg_3_1 > 0 then
-		arg_3_0.jobController:SetSelectedState("hero")
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 and slot1 > 0 then
+		slot0.jobController:SetSelectedState("hero")
 
-		if DormNpcTools:CheckIDIsNpc(arg_3_1) then
-			arg_3_0:RefreshNpcInfo(arg_3_1)
+		if DormNpcTools:CheckIDIsNpc(slot1) then
+			slot0:RefreshNpcInfo(slot1)
 		else
-			arg_3_0:RefreshHeroInfo(arg_3_1)
+			slot0:RefreshHeroInfo(slot1)
 		end
-	elseif arg_3_0.showJobState then
-		arg_3_0.jobController:SetSelectedState("vacancy")
+	elseif slot0.showJobState then
+		slot0.jobController:SetSelectedState("vacancy")
 	end
 end
 
-function var_0_0.RefreshNpcInfo(arg_4_0, arg_4_1)
-	arg_4_0.heroID = arg_4_1
-	arg_4_0.iconImg_.sprite = DormNpcTools:GetNpcHeadSprite(arg_4_1)
+function slot0.RefreshNpcInfo(slot0, slot1)
+	slot0.heroID = slot1
+	slot0.iconImg_.sprite = DormNpcTools:GetNpcHeadSprite(slot1)
 
-	if arg_4_0.showFatigue then
-		arg_4_0.fatigueController:SetSelectedState("suff")
+	if slot0.showFatigue then
+		slot0.fatigueController:SetSelectedState("suff")
 	else
-		arg_4_0.fatigueController:SetSelectedState("none")
+		slot0.fatigueController:SetSelectedState("none")
 	end
 
-	if arg_4_0.showState then
-		arg_4_0.state = BackHomeNpcData:GetNpcInfoById(arg_4_1):GetHeroState()
+	if slot0.showState then
+		slot0.state = BackHomeNpcData:GetNpcInfoById(slot1):GetHeroState()
 
-		if arg_4_0.state == DormEnum.DormHeroState.InCanteenEntrust then
-			arg_4_0.jobController:SetSelectedState("busy")
-		elseif arg_4_0.state == DormEnum.DormHeroState.InCanteenJob then
-			arg_4_0.curPositionController:SetSelectedState("canteen")
-		elseif arg_4_0.state == DormEnum.DormHeroState.InPublicDorm then
-			arg_4_0.curPositionController:SetSelectedState("lobby")
-		elseif arg_4_0.state == DormEnum.DormHeroState.InPrivateDorm then
-			arg_4_0.curPositionController:SetSelectedState("dorm")
-		elseif arg_4_0.state == DormEnum.DormHeroState.OutDorm then
-			arg_4_0.curPositionController:SetSelectedState("dorm")
-		elseif arg_4_0.state == DormEnum.DormHeroState.InIdolTraineeCamp then
-			arg_4_0.curPositionController:SetSelectedState("idolCamp")
+		if slot0.state == DormEnum.DormHeroState.InCanteenEntrust then
+			slot0.jobController:SetSelectedState("busy")
+		elseif slot0.state == DormEnum.DormHeroState.InCanteenJob then
+			slot0.curPositionController:SetSelectedState("canteen")
+		elseif slot0.state == DormEnum.DormHeroState.InPublicDorm then
+			slot0.curPositionController:SetSelectedState("lobby")
+		elseif slot0.state == DormEnum.DormHeroState.InPrivateDorm then
+			slot0.curPositionController:SetSelectedState("dorm")
+		elseif slot0.state == DormEnum.DormHeroState.OutDorm then
+			slot0.curPositionController:SetSelectedState("dorm")
+		elseif slot0.state == DormEnum.DormHeroState.InIdolTraineeCamp then
+			slot0.curPositionController:SetSelectedState("idolCamp")
 		end
 	else
-		arg_4_0.curPositionController:SetSelectedState("no")
+		slot0.curPositionController:SetSelectedState("no")
 	end
 end
 
-function var_0_0.RefreshHeroInfo(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.heroID = arg_5_1
-	arg_5_0.archiveID = DormData:GetHeroArchiveID(arg_5_1)
-	arg_5_0.iconImg_.sprite = DormHeroTools.GetBackHomeHeadSprite(arg_5_1)
+function slot0.RefreshHeroInfo(slot0, slot1, slot2)
+	slot0.heroID = slot1
+	slot0.archiveID = DormData:GetHeroArchiveID(slot1)
+	slot0.iconImg_.sprite = DormHeroTools.GetBackHomeHeadSprite(slot1)
+	slot3 = DormData:GetHeroTemplateInfo(slot0.heroID)
 
-	local var_5_0 = DormData:GetHeroTemplateInfo(arg_5_0.heroID)
+	if slot0.showFatigue then
+		slot4 = slot3:GetFatigue()
 
-	if arg_5_0.showFatigue then
-		local var_5_1 = var_5_0:GetFatigue()
-		local var_5_2 = GameDisplayCfg.dorm_hero_fatigue_level.value
-
-		if var_5_0:GetFatigue() <= var_5_2[1] then
-			arg_5_0.fatigueController:SetSelectedState("low")
-		elseif var_5_0:GetFatigue() > var_5_2[1] and var_5_0:GetFatigue() <= var_5_2[2] then
-			arg_5_0.fatigueController:SetSelectedState("middle")
+		if slot3:GetFatigue() <= GameDisplayCfg.dorm_hero_fatigue_level.value[1] then
+			slot0.fatigueController:SetSelectedState("low")
+		elseif slot5[1] < slot3:GetFatigue() and slot3:GetFatigue() <= slot5[2] then
+			slot0.fatigueController:SetSelectedState("middle")
 		else
-			arg_5_0.fatigueController:SetSelectedState("suff")
+			slot0.fatigueController:SetSelectedState("suff")
 		end
 	else
-		arg_5_0.fatigueController:SetSelectedState("none")
+		slot0.fatigueController:SetSelectedState("none")
 	end
 
-	if arg_5_0.showState then
-		arg_5_0.state = var_5_0:GetHeroState()
+	if slot0.showState then
+		slot0.state = slot3:GetHeroState()
 
-		if arg_5_0.state == DormEnum.DormHeroState.InCanteenEntrust then
-			arg_5_0.jobController:SetSelectedState("busy")
-		elseif arg_5_0.state == DormEnum.DormHeroState.InCanteenJob then
-			arg_5_0.curPositionController:SetSelectedState("canteen")
-		elseif arg_5_0.state == DormEnum.DormHeroState.InPublicDorm then
-			arg_5_0.curPositionController:SetSelectedState("lobby")
-		elseif arg_5_0.state == DormEnum.DormHeroState.InPrivateDorm then
-			arg_5_0.curPositionController:SetSelectedState("dorm")
-		elseif arg_5_0.state == DormEnum.DormHeroState.OutDorm then
-			arg_5_0.curPositionController:SetSelectedState("dorm")
-		elseif arg_5_0.state == DormEnum.DormHeroState.InIdolTraineeCamp then
-			arg_5_0.curPositionController:SetSelectedState("idolCamp")
+		if slot0.state == DormEnum.DormHeroState.InCanteenEntrust then
+			slot0.jobController:SetSelectedState("busy")
+		elseif slot0.state == DormEnum.DormHeroState.InCanteenJob then
+			slot0.curPositionController:SetSelectedState("canteen")
+		elseif slot0.state == DormEnum.DormHeroState.InPublicDorm then
+			slot0.curPositionController:SetSelectedState("lobby")
+		elseif slot0.state == DormEnum.DormHeroState.InPrivateDorm then
+			slot0.curPositionController:SetSelectedState("dorm")
+		elseif slot0.state == DormEnum.DormHeroState.OutDorm then
+			slot0.curPositionController:SetSelectedState("dorm")
+		elseif slot0.state == DormEnum.DormHeroState.InIdolTraineeCamp then
+			slot0.curPositionController:SetSelectedState("idolCamp")
 		end
 	else
-		arg_5_0.curPositionController:SetSelectedState("no")
+		slot0.curPositionController:SetSelectedState("no")
 	end
 end
 
-function var_0_0.SetItemFunction(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0.showState = arg_6_1.showState
-		arg_6_0.showFatigue = arg_6_1.showFatigue
-		arg_6_0.showJobState = arg_6_1.showJobState
+function slot0.SetItemFunction(slot0, slot1)
+	if slot1 then
+		slot0.showState = slot1.showState
+		slot0.showFatigue = slot1.showFatigue
+		slot0.showJobState = slot1.showJobState
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	arg_7_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

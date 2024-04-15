@@ -1,62 +1,59 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("RoguelikeMainView_2_6", ActivityMainBasePanel)
 
-local var_0_0 = class("RoguelikeMainView_2_6", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRoguelikeUI/JapanRoguelikeMainUI"
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.gameObject_:InjectUI(arg_2_0)
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0.gameObject_:InjectUI(slot0)
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.BtnReward, nil, handler(arg_3_0, arg_3_0.OnBtnRewardClick))
-	arg_3_0:AddBtnListener(arg_3_0.BtnDifficult, nil, handler(arg_3_0, arg_3_0.OnBtnDifficultClick))
-	arg_3_0:AddBtnListener(arg_3_0.BtnNormal, nil, handler(arg_3_0, arg_3_0.OnBtnNormalClick))
-	arg_3_0:AddBtnListener(arg_3_0.BtnInfo, nil, handler(arg_3_0, arg_3_0.OnBtnInfoClick))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.BtnReward, nil, handler(slot0, slot0.OnBtnRewardClick))
+	slot0:AddBtnListener(slot0.BtnDifficult, nil, handler(slot0, slot0.OnBtnDifficultClick))
+	slot0:AddBtnListener(slot0.BtnNormal, nil, handler(slot0, slot0.OnBtnNormalClick))
+	slot0:AddBtnListener(slot0.BtnInfo, nil, handler(slot0, slot0.OnBtnInfoClick))
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	var_0_0.super.OnEnter(arg_4_0)
-	manager.redPoint:bindUIandKey(arg_4_0.BtnReward.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_REWARD, ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
-	manager.redPoint:bindUIandKey(arg_4_0.BtnDifficult.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_OPEN, ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6))
+function slot0.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.BtnReward.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_REWARD, ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
+	manager.redPoint:bindUIandKey(slot0.BtnDifficult.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_OPEN, ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6))
 	StrategyMatrixAction.SetStrategyRead(ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6)
-	arg_4_0.LockTag:SetActive(not StrategyMatrixData:GetIsClearance(ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
+	slot0.LockTag:SetActive(not StrategyMatrixData:GetIsClearance(ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
 end
 
-function var_0_0.OnExit(arg_5_0)
-	var_0_0.super.OnExit(arg_5_0)
-	manager.redPoint:unbindUIandKey(arg_5_0.BtnReward.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_REWARD, ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
-	manager.redPoint:unbindUIandKey(arg_5_0.BtnDifficult.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_OPEN, ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6))
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.BtnReward.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_REWARD, ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6))
+	manager.redPoint:unbindUIandKey(slot0.BtnDifficult.transform, string.format("%s_%s", RedPointConst.STRATEGY_MATRIX_OPEN, ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6))
 end
 
-function var_0_0.OnBtnRewardClick(arg_6_0)
+function slot0.OnBtnRewardClick(slot0)
 	OperationRecorder.RecordButtonTouch("activity_polyhedron_izanami_reward1")
 	JumpTools.OpenPageByJump("strategyMatrixRward", {
 		task_activity_id = ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6
 	})
 end
 
-function var_0_0.OnBtnNormalClick(arg_7_0)
+function slot0.OnBtnNormalClick(slot0)
 	OperationRecorder.RecordButtonTouch("activity_polyhedron_izanami_easy")
 	ActivityTools.JumpToSubmodulePage(ActivityConst.ACTIVITY_ROGUELIKE_NORMAL_2_6)
 end
 
-function var_0_0.OnBtnInfoClick(arg_8_0)
+function slot0.OnBtnInfoClick(slot0)
 	JumpTools.OpenPageByJump("gameHelp", {
 		key = "ACTIVITY_ROGUELIKE_DESCRIBE",
 		content = GetTips(StrategyMatrixTools.GetGameTipKey(ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6))
 	})
 end
 
-function var_0_0.OnBtnDifficultClick(arg_9_0)
+function slot0.OnBtnDifficultClick(slot0)
 	OperationRecorder.RecordButtonTouch("activity_polyhedron_izanami_hard")
 
-	local var_9_0 = ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6
-
-	if not ActivityTools.GetActivityIsOpenWithTip(var_9_0, true) then
+	if not ActivityTools.GetActivityIsOpenWithTip(ActivityConst.ACTIVITY_ROGUELIKE_DIFFICULT_2_6, true) then
 		return
 	end
 
@@ -66,19 +63,19 @@ function var_0_0.OnBtnDifficultClick(arg_9_0)
 		return
 	end
 
-	local var_9_1 = StrategyMatrixData:GetGameState(var_9_0)
+	slot2 = StrategyMatrixData:GetGameState(slot1)
 
-	if not StrategyMatrixData:GetRead(var_9_0) then
-		StrategyMatrixAction.SetStrategyRead(var_9_0)
+	if not StrategyMatrixData:GetRead(slot1) then
+		StrategyMatrixAction.SetStrategyRead(slot1)
 	end
 
-	if var_9_1 == MatrixConst.STATE_TYPE.NOTSTARTED or var_9_1 == MatrixConst.STATE_TYPE.FAIL then
+	if slot2 == MatrixConst.STATE_TYPE.NOTSTARTED or slot2 == MatrixConst.STATE_TYPE.FAIL then
 		JumpTools.OpenPageByJump("/matrixBlank/roguelikeAffix", {
-			activity_id = var_9_0
+			activity_id = slot1
 		})
 	else
-		ActivityTools.JumpToSubmodulePage(var_9_0)
+		ActivityTools.JumpToSubmodulePage(slot1)
 	end
 end
 
-return var_0_0
+return slot0

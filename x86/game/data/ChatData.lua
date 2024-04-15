@@ -1,204 +1,199 @@
-local var_0_0 = singletonClass("ChatData")
+slot0 = singletonClass("ChatData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.worldChannelNum_ = 0
-	arg_1_0.worldChannelData_ = {}
-	arg_1_0.worldChannelTempData_ = {}
-	arg_1_0.channelTimestamp_ = 0
-	arg_1_0.sendTextTimestamp_ = {
+function slot0.Init(slot0)
+	slot0.worldChannelNum_ = 0
+	slot0.worldChannelData_ = {}
+	slot0.worldChannelTempData_ = {}
+	slot0.channelTimestamp_ = 0
+	slot0.sendTextTimestamp_ = {
 		0
 	}
-	arg_1_0.stickerTimestamp_ = 0
-	arg_1_0.levelTextTimeStamp_ = {}
-	arg_1_0.mutedData_ = {
+	slot0.stickerTimestamp_ = 0
+	slot0.levelTextTimeStamp_ = {}
+	slot0.mutedData_ = {
 		mutedContent = "",
 		mutedTimestamp = 0
 	}
-	arg_1_0.isShowMutedTips_ = false
-	arg_1_0.reportCnt_ = 0
+	slot0.isShowMutedTips_ = false
+	slot0.reportCnt_ = 0
 end
 
-function var_0_0.UpdateMutedLevel(arg_2_0, arg_2_1)
-	if arg_2_0.mutedData_.mutedTimestamp > arg_2_1.ban_timestamp then
-		arg_2_0.isShowMutedTips_ = false
+function slot0.UpdateMutedLevel(slot0, slot1)
+	if slot1.ban_timestamp < slot0.mutedData_.mutedTimestamp then
+		slot0.isShowMutedTips_ = false
 	end
 
-	arg_2_0.mutedData_.mutedContent = arg_2_1.mute_reason
-	arg_2_0.mutedData_.mutedTimestamp = arg_2_1.ban_timestamp
-	arg_2_0.mutedData_.i18nInfo = {}
+	slot0.mutedData_.mutedContent = slot1.mute_reason
+	slot0.mutedData_.mutedTimestamp = slot1.ban_timestamp
+	slot0.mutedData_.i18nInfo = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.i18n_info) do
-		arg_2_0.mutedData_.i18nInfo[iter_2_1.language] = iter_2_1.string
+	for slot5, slot6 in ipairs(slot1.i18n_info) do
+		slot0.mutedData_.i18nInfo[slot6.language] = slot6.string
 	end
 end
 
-function var_0_0.GetMutedData(arg_3_0)
-	return arg_3_0.mutedData_
+function slot0.GetMutedData(slot0)
+	return slot0.mutedData_
 end
 
-function var_0_0.IsMuted(arg_4_0)
-	return manager.time:GetServerTime() < arg_4_0.mutedData_.mutedTimestamp
+function slot0.IsMuted(slot0)
+	return manager.time:GetServerTime() < slot0.mutedData_.mutedTimestamp
 end
 
-function var_0_0.SetShowMutedTips(arg_5_0, arg_5_1)
-	arg_5_0.isShowMutedTips_ = arg_5_1
+function slot0.SetShowMutedTips(slot0, slot1)
+	slot0.isShowMutedTips_ = slot1
 end
 
-function var_0_0.GetShowMutedTips(arg_6_0)
-	return arg_6_0.isShowMutedTips_
+function slot0.GetShowMutedTips(slot0)
+	return slot0.isShowMutedTips_
 end
 
-function var_0_0.SetWorldChannelNum(arg_7_0, arg_7_1)
-	arg_7_0.worldChannelNum_ = arg_7_1
-
-	local var_7_0 = {
+function slot0.SetWorldChannelNum(slot0, slot1)
+	slot0.worldChannelNum_ = slot1
+	slot2 = {
 		timestamp = manager.time:GetServerTime(),
 		contentType = ChatConst.CHAT_CONTENT_TYPE.CHANNEL,
-		content = arg_7_1
+		content = slot1
 	}
 
-	table.insert(arg_7_0.worldChannelData_, var_7_0)
-	table.insert(arg_7_0.worldChannelTempData_, var_7_0)
+	table.insert(slot0.worldChannelData_, slot2)
+	table.insert(slot0.worldChannelTempData_, slot2)
 end
 
-function var_0_0.GetWorldChannelNum(arg_8_0)
-	return arg_8_0.worldChannelNum_
+function slot0.GetWorldChannelNum(slot0)
+	return slot0.worldChannelNum_
 end
 
-function var_0_0.GetWorldChatData(arg_9_0)
-	return arg_9_0.worldChannelTempData_ or {}
+function slot0.GetWorldChatData(slot0)
+	return slot0.worldChannelTempData_ or {}
 end
 
-function var_0_0.ResetWorldTempData(arg_10_0, arg_10_1)
-	arg_10_0.worldChannelTempData_ = arg_10_1
+function slot0.ResetWorldTempData(slot0, slot1)
+	slot0.worldChannelTempData_ = slot1
 end
 
-function var_0_0.GetWorldOriginChatData(arg_11_0)
-	return arg_11_0.worldChannelData_
+function slot0.GetWorldOriginChatData(slot0)
+	return slot0.worldChannelData_
 end
 
-function var_0_0.AddWorldChat(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0.worldChannelData_ = arg_12_0.worldChannelData_ or {}
+function slot0.AddWorldChat(slot0, slot1, slot2)
+	slot0.worldChannelData_ = slot0.worldChannelData_ or {}
 
-	local var_12_0 = #arg_12_0.worldChannelData_
-
-	if var_12_0 <= 0 or var_12_0 > 0 and manager.time:GetServerTime() - arg_12_0.worldChannelData_[var_12_0].timestamp > ChatConst.MESSAGE_SPACE or arg_12_0.worldChannelData_[var_12_0].contentType == ChatConst.CHAT_CONTENT_TYPE.CHANNEL then
-		local var_12_1 = {
-			timestamp = arg_12_1.msg.timestamp,
+	if #slot0.worldChannelData_ <= 0 or slot3 > 0 and ChatConst.MESSAGE_SPACE < manager.time:GetServerTime() - slot0.worldChannelData_[slot3].timestamp or slot0.worldChannelData_[slot3].contentType == ChatConst.CHAT_CONTENT_TYPE.CHANNEL then
+		slot4 = {
+			timestamp = slot1.msg.timestamp,
 			contentType = ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP
 		}
 
-		table.insert(arg_12_0.worldChannelData_, var_12_1)
-		table.insert(arg_12_0.worldChannelTempData_, var_12_1)
+		table.insert(slot0.worldChannelData_, slot4)
+		table.insert(slot0.worldChannelTempData_, slot4)
 	end
 
-	local var_12_2 = arg_12_0:ParseMsg(arg_12_1)
+	table.insert(slot0.worldChannelData_, slot0:ParseMsg(slot1))
 
-	table.insert(arg_12_0.worldChannelData_, var_12_2)
-
-	if not arg_12_2 then
-		table.insert(arg_12_0.worldChannelTempData_, var_12_2)
+	if not slot2 then
+		table.insert(slot0.worldChannelTempData_, slot4)
 	end
 end
 
-function var_0_0.RemoveWorldChat(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.worldChannelData_) do
-		if (iter_13_1.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or iter_13_1.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) and iter_13_1.msgID == arg_13_1 then
-			if arg_13_0.worldChannelData_[iter_13_0 + 1] == nil and arg_13_0.worldChannelData_[iter_13_0 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
-				table.remove(arg_13_0.worldChannelData_, iter_13_0)
-				table.remove(arg_13_0.worldChannelData_, iter_13_0 - 1)
+function slot0.RemoveWorldChat(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.worldChannelData_) do
+		if (slot6.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or slot6.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) and slot6.msgID == slot1 then
+			if slot0.worldChannelData_[slot5 + 1] == nil and slot0.worldChannelData_[slot5 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
+				table.remove(slot0.worldChannelData_, slot5)
+				table.remove(slot0.worldChannelData_, slot5 - 1)
 
 				break
 			end
 
-			table.remove(arg_13_0.worldChannelData_, iter_13_0)
+			table.remove(slot0.worldChannelData_, slot5)
 
 			break
 		end
 	end
 
-	for iter_13_2, iter_13_3 in ipairs(arg_13_0.worldChannelTempData_) do
-		if (iter_13_3.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or iter_13_3.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) and iter_13_3.msgID == arg_13_1 then
-			if arg_13_0.worldChannelTempData_[iter_13_2 + 1] == nil and arg_13_0.worldChannelTempData_[iter_13_2 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
-				table.remove(arg_13_0.worldChannelTempData_, iter_13_2)
-				table.remove(arg_13_0.worldChannelTempData_, iter_13_2 - 1)
+	for slot5, slot6 in ipairs(slot0.worldChannelTempData_) do
+		if (slot6.contentType == ChatConst.CHAT_CONTENT_TYPE.TEXT or slot6.contentType == ChatConst.CHAT_CONTENT_TYPE.STICKER) and slot6.msgID == slot1 then
+			if slot0.worldChannelTempData_[slot5 + 1] == nil and slot0.worldChannelTempData_[slot5 - 1].contentType == ChatConst.CHAT_CONTENT_TYPE.TIMESTAMP then
+				table.remove(slot0.worldChannelTempData_, slot5)
+				table.remove(slot0.worldChannelTempData_, slot5 - 1)
 
 				break
 			end
 
-			table.remove(arg_13_0.worldChannelTempData_, iter_13_2)
+			table.remove(slot0.worldChannelTempData_, slot5)
 
 			break
 		end
 	end
 end
 
-function var_0_0.ParseMsg(arg_14_0, arg_14_1)
+function slot0.ParseMsg(slot0, slot1)
 	return {
-		id = arg_14_1.msg.id,
-		msgID = arg_14_1.msg.msg_id,
-		nick = arg_14_1.msg.user_profile_base.nick,
-		icon = arg_14_1.msg.user_profile_base.icon,
-		iconFrame = arg_14_1.msg.user_profile_base.icon_frame,
-		timestamp = arg_14_1.msg.timestamp,
-		contentType = arg_14_1.msg.type,
-		content = arg_14_1.msg.content,
-		roomID = arg_14_1.room_id,
-		ip = (arg_14_1.msg.ip_location == nil or arg_14_1.msg.ip_location == "") and GetTips("IP_UNKNOWN") or arg_14_1.msg.ip_location,
-		bubbleID = arg_14_1.msg.chat_bubble or GameSetting.profile_chat_bubble_default.value[1]
+		id = slot1.msg.id,
+		msgID = slot1.msg.msg_id,
+		nick = slot1.msg.user_profile_base.nick,
+		icon = slot1.msg.user_profile_base.icon,
+		iconFrame = slot1.msg.user_profile_base.icon_frame,
+		timestamp = slot1.msg.timestamp,
+		contentType = slot1.msg.type,
+		content = slot1.msg.content,
+		roomID = slot1.room_id,
+		ip = (slot1.msg.ip_location == nil or slot1.msg.ip_location == "") and GetTips("IP_UNKNOWN") or slot1.msg.ip_location,
+		bubbleID = slot1.msg.chat_bubble or GameSetting.profile_chat_bubble_default.value[1]
 	}
 end
 
-function var_0_0.SetSendTextTimestamp(arg_15_0)
-	if #arg_15_0.sendTextTimestamp_ >= 3 then
-		table.remove(arg_15_0.sendTextTimestamp_, 1)
+function slot0.SetSendTextTimestamp(slot0)
+	if #slot0.sendTextTimestamp_ >= 3 then
+		table.remove(slot0.sendTextTimestamp_, 1)
 	end
 
-	table.insert(arg_15_0.sendTextTimestamp_, manager.time:GetServerTime())
+	table.insert(slot0.sendTextTimestamp_, manager.time:GetServerTime())
 end
 
-function var_0_0.GetSendTextTimestamp(arg_16_0)
-	return arg_16_0.sendTextTimestamp_[1]
+function slot0.GetSendTextTimestamp(slot0)
+	return slot0.sendTextTimestamp_[1]
 end
 
-function var_0_0.SetLevelTextTimeStamp(arg_17_0, arg_17_1)
-	arg_17_0.levelTextTimeStamp_[arg_17_1] = manager.time:GetServerTime()
+function slot0.SetLevelTextTimeStamp(slot0, slot1)
+	slot0.levelTextTimeStamp_[slot1] = manager.time:GetServerTime()
 end
 
-function var_0_0.GetLevelTextTimeStamp(arg_18_0, arg_18_1)
-	if PlayerData:GetPlayerInfo().userLevel > GameSetting.chat_speech_interval.value[2] then
+function slot0.GetLevelTextTimeStamp(slot0, slot1)
+	if GameSetting.chat_speech_interval.value[2] < PlayerData:GetPlayerInfo().userLevel then
 		return 0
 	end
 
-	return arg_18_0.levelTextTimeStamp_[arg_18_1] or 0
+	return slot0.levelTextTimeStamp_[slot1] or 0
 end
 
-function var_0_0.SetSendStickerTimestamp(arg_19_0)
-	arg_19_0.stickerTimestamp_ = manager.time:GetServerTime()
+function slot0.SetSendStickerTimestamp(slot0)
+	slot0.stickerTimestamp_ = manager.time:GetServerTime()
 end
 
-function var_0_0.GetSendStickerTimestamp(arg_20_0)
-	return arg_20_0.stickerTimestamp_
+function slot0.GetSendStickerTimestamp(slot0)
+	return slot0.stickerTimestamp_
 end
 
-function var_0_0.SetChannelTimestamp(arg_21_0)
-	arg_21_0.channelTimestamp_ = manager.time:GetServerTime()
+function slot0.SetChannelTimestamp(slot0)
+	slot0.channelTimestamp_ = manager.time:GetServerTime()
 end
 
-function var_0_0.GetChannelTimestamp(arg_22_0)
-	return arg_22_0.channelTimestamp_
+function slot0.GetChannelTimestamp(slot0)
+	return slot0.channelTimestamp_
 end
 
-function var_0_0.InitReportCnt(arg_23_0, arg_23_1)
-	arg_23_0.reportCnt_ = arg_23_1
+function slot0.InitReportCnt(slot0, slot1)
+	slot0.reportCnt_ = slot1
 end
 
-function var_0_0.AddReportCnt(arg_24_0)
-	arg_24_0.reportCnt_ = arg_24_0.reportCnt_ + 1
+function slot0.AddReportCnt(slot0)
+	slot0.reportCnt_ = slot0.reportCnt_ + 1
 end
 
-function var_0_0.GetReportCnt(arg_25_0)
-	return arg_25_0.reportCnt_
+function slot0.GetReportCnt(slot0)
+	return slot0.reportCnt_
 end
 
-return var_0_0
+return slot0

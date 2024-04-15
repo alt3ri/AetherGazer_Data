@@ -1,31 +1,23 @@
-local var_0_0 = import("game.views.matrixActivity.matrixActivity.ActivityMatrixStoryReviewView")
-local var_0_1 = class("StrategyMatrixThorStoryReviewView", var_0_0)
+slot1 = class("StrategyMatrixThorStoryReviewView", import("game.views.matrixActivity.matrixActivity.ActivityMatrixStoryReviewView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/EmptyDream/ThorRoguelike/ThorStoryReviewUI"
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	local var_2_0 = ActivityConst.STRATEGY_MATRIX_THOR
-	local var_2_1 = StrategyMatrixCfg[var_2_0]
+function slot1.OnEnter(slot0)
+	slot0.storyList = {}
 
-	arg_2_0.storyList = {}
-
-	local var_2_2 = var_2_1.enter_story_id
-
-	if var_2_2 and var_2_2 ~= 0 and manager.story:IsStoryPlayed(var_2_2) then
-		table.insert(arg_2_0.storyList, var_2_2)
+	if StrategyMatrixCfg[ActivityConst.STRATEGY_MATRIX_THOR].enter_story_id and slot3 ~= 0 and manager.story:IsStoryPlayed(slot3) then
+		table.insert(slot0.storyList, slot3)
 	end
 
-	local var_2_3 = StrategyMatrixData:GetIsClearance(ActivityConst.STRATEGY_MATRIX_THOR)
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_1.tier_story_list) do
-		if var_2_3 or manager.story:IsStoryPlayed(iter_2_1) then
-			table.insert(arg_2_0.storyList, iter_2_1)
+	for slot8, slot9 in ipairs(slot2.tier_story_list) do
+		if StrategyMatrixData:GetIsClearance(ActivityConst.STRATEGY_MATRIX_THOR) or manager.story:IsStoryPlayed(slot9) then
+			table.insert(slot0.storyList, slot9)
 		end
 	end
 
-	arg_2_0:Refresh()
+	slot0:Refresh()
 end
 
-return var_0_1
+return slot1

@@ -1,43 +1,42 @@
-local var_0_0 = import("game.views.recharge.pages.RechargePageBase")
-local var_0_1 = class("RechargeFirstRechargeWelfarePageView", var_0_0)
+slot1 = class("RechargeFirstRechargeWelfarePageView", import("game.views.recharge.pages.RechargePageBase"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index_ = arg_1_2[1]
+function slot1.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index_ = slot2[1]
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.contentViewList_ = {}
-	arg_1_0.contentClasss_ = {
+	slot0.contentViewList_ = {}
+	slot0.contentClasss_ = {
 		ActivityNoobFirstRechargeView_1,
 		ActivityNoobFirstRechargeView_2
 	}
 end
 
-function var_0_1.Dispose(arg_2_0)
-	for iter_2_0, iter_2_1 in pairs(arg_2_0.contentViewList_) do
-		iter_2_1:Dispose()
+function slot1.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.contentViewList_) do
+		slot5:Dispose()
 	end
 
-	var_0_1.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.SwitchPage(arg_3_0, arg_3_1)
-	local var_3_0 = ShopConst.SIX_EIGHT[arg_3_1]
+function slot1.SwitchPage(slot0, slot1)
+	slot2 = ShopConst.SIX_EIGHT[slot1]
 
-	if arg_3_0.curView_ then
-		arg_3_0.curView_:SetActive(false)
+	if slot0.curView_ then
+		slot0.curView_:SetActive(false)
 	end
 
-	if not arg_3_0.contentViewList_[var_3_0] then
-		arg_3_0.contentViewList_[var_3_0] = arg_3_0.contentClasss_[var_3_0].New(arg_3_0.contentTrans_, arg_3_0.index_)
+	if not slot0.contentViewList_[slot2] then
+		slot0.contentViewList_[slot2] = slot0.contentClasss_[slot2].New(slot0.contentTrans_, slot0.index_)
 	end
 
-	arg_3_0.curView_ = arg_3_0.contentViewList_[var_3_0]
+	slot0.curView_ = slot0.contentViewList_[slot2]
 
-	arg_3_0.curView_:SetData(var_3_0)
-	arg_3_0.curView_:SetActive(true)
+	slot0.curView_:SetData(slot2)
+	slot0.curView_:SetActive(true)
 end
 
-return var_0_1
+return slot1

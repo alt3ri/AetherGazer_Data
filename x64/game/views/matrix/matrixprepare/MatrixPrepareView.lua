@@ -1,31 +1,29 @@
-local var_0_0 = class("MatrixPrepareView", ReduxView)
+slot0 = class("MatrixPrepareView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Prepare/MatrixPrepareUI"
 end
 
-function var_0_0.UIBackCount(arg_2_0)
+function slot0.UIBackCount(slot0)
 	return 2
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.m_startButton, nil, function()
-		local var_7_0 = MatrixData:GetGameState()
-
-		if MatrixConst.STATE_TYPE.STARTED == var_7_0 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_startButton, nil, function ()
+		if MatrixConst.STATE_TYPE.STARTED == MatrixData:GetGameState() then
 			JumpTools.GoToSystem("/matrixBlank/matrixOrigin")
 		elseif MatrixAction.CheckTerminalGiftRedPoint(MatrixData:GetTerminalGift()) then
 			ShowMessageBox({
@@ -36,10 +34,10 @@ function var_0_0.AddUIListener(arg_6_0)
 					GetTips("MATRIX_PREPARE_START_CHALLENGE"),
 					GetTips("MATRIX_PREPARE_GO_ADJUST")
 				},
-				OkCallback = function()
+				OkCallback = function ()
 					JumpTools.GoToSystem("/matrixTerminalTalent")
 				end,
-				CancelCallback = function()
+				CancelCallback = function ()
 					JumpTools.OpenPageByJump("matrixSelect")
 				end
 			})
@@ -47,34 +45,34 @@ function var_0_0.AddUIListener(arg_6_0)
 			JumpTools.OpenPageByJump("matrixSelect")
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_beaconButton, nil, function()
+	slot0:AddBtnListener(slot0.m_beaconButton, nil, function ()
 		JumpTools.GoToSystem("/matrixTreasureAtlas")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_shopButton, nil, function()
+	slot0:AddBtnListener(slot0.m_shopButton, nil, function ()
 		JumpTools.GoToSystem("/shop", {
 			shopId = ShopConst.SHOP_ID.OLD_DUO_WEI
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_scoreButton, nil, function()
+	slot0:AddBtnListener(slot0.m_scoreButton, nil, function ()
 		JumpTools.OpenPageByJump("matrixScoreExchange", nil, ViewConst.SYSTEM_ID.BAG)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_roleButton, nil, function()
+	slot0:AddBtnListener(slot0.m_roleButton, nil, function ()
 		JumpTools.OpenPageByJump("/matrixHero", nil, ViewConst.SYSTEM_ID.BAG)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_terminalBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_terminalBtn, nil, function ()
 		JumpTools.GoToSystem("/matrixTerminalTalent")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_artifactlBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_artifactlBtn, nil, function ()
 		JumpTools.GoToSystem("/matrixBeaconOperate")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_rankBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_rankBtn, nil, function ()
 		JumpTools.OpenPageByJump("/matrixRank", {
 			type = MatrixConst.MatirxRankType.ALL
 		}, ViewConst.SYSTEM_ID.MATRIX_RANK)
 	end)
 end
 
-function var_0_0.UpdateBar(arg_17_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -93,38 +91,38 @@ function var_0_0.UpdateBar(arg_17_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
 end
 
-function var_0_0.OnTop(arg_18_0)
-	arg_18_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnEnter(arg_19_0)
-	arg_19_0:Refresh()
-	manager.redPoint:bindUIandKey(arg_19_0.m_scoreButton.gameObject.transform, RedPointConst.MATRIX_EXCHANGE_BONUS, {
+function slot0.OnEnter(slot0)
+	slot0:Refresh()
+	manager.redPoint:bindUIandKey(slot0.m_scoreButton.gameObject.transform, RedPointConst.MATRIX_EXCHANGE_BONUS, {
 		x = 125.9,
 		y = 31.3
 	})
-	manager.redPoint:bindUIandKey(arg_19_0.m_artifactlBtn.gameObject.transform, RedPointConst.MATRIX_BEACON_UNLOCK, {
+	manager.redPoint:bindUIandKey(slot0.m_artifactlBtn.gameObject.transform, RedPointConst.MATRIX_BEACON_UNLOCK, {
 		x = 166,
 		y = 41.3
 	})
-	manager.redPoint:bindUIandKey(arg_19_0.m_terminalBtn.gameObject.transform, RedPointConst.MATRIX_TERMINAL_GIFT, {
+	manager.redPoint:bindUIandKey(slot0.m_terminalBtn.gameObject.transform, RedPointConst.MATRIX_TERMINAL_GIFT, {
 		x = 166,
 		y = 41.3
 	})
 
-	if arg_19_0.params_.isTimeOut == true then
+	if slot0.params_.isTimeOut == true then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MATRIX_TIME_LIMIT_EXCEEDED"),
-			OkCallback = function()
-				arg_19_0:CheckMail()
+			OkCallback = function ()
+				uv0:CheckMail()
 			end
 		})
 
-		arg_19_0.params_.isTimeOut = false
+		slot0.params_.isTimeOut = false
 	else
-		arg_19_0:CheckMail()
+		slot0:CheckMail()
 	end
 
 	if not MatrixData:GetCurRank(MatrixConst.MatirxRankSubType.COMMON) then
@@ -132,54 +130,54 @@ function var_0_0.OnEnter(arg_19_0)
 	end
 end
 
-function var_0_0.CheckMail(arg_21_0)
+function slot0.CheckMail(slot0)
 	if PlayerData:GetUnclaimed(1) ~= nil then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("UNCLAIMED_BONUS_MAIL_TIP"),
-			OkCallback = function()
+			OkCallback = function ()
 				PlayerAction.ReadUnclaimedMessage(1)
 			end
 		})
 	end
 end
 
-function var_0_0.OnExit(arg_23_0)
-	manager.redPoint:unbindUIandKey(arg_23_0.m_scoreButton.gameObject.transform, RedPointConst.MATRIX_EXCHANGE_BONUS)
-	manager.redPoint:unbindUIandKey(arg_23_0.m_artifactlBtn.gameObject.transform, RedPointConst.MATRIX_BEACON_UNLOCK)
-	manager.redPoint:unbindUIandKey(arg_23_0.m_terminalBtn.gameObject.transform, RedPointConst.MATRIX_TERMINAL_GIFT)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.m_scoreButton.gameObject.transform, RedPointConst.MATRIX_EXCHANGE_BONUS)
+	manager.redPoint:unbindUIandKey(slot0.m_artifactlBtn.gameObject.transform, RedPointConst.MATRIX_BEACON_UNLOCK)
+	manager.redPoint:unbindUIandKey(slot0.m_terminalBtn.gameObject.transform, RedPointConst.MATRIX_TERMINAL_GIFT)
 	manager.windowBar:HideBar()
 
-	if arg_23_0.countdownTimer_ then
-		arg_23_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_23_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 end
 
-function var_0_0.Refresh(arg_24_0)
-	arg_24_0:RefreshTimer()
+function slot0.Refresh(slot0)
+	slot0:RefreshTimer()
 
-	if arg_24_0.countdownTimer_ then
-		arg_24_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_24_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
-	arg_24_0.countdownTimer_ = Timer.New(function()
-		arg_24_0:RefreshTimer()
+	slot0.countdownTimer_ = Timer.New(function ()
+		uv0:RefreshTimer()
 	end, 1, -1)
 
-	arg_24_0.countdownTimer_:Start()
-	arg_24_0:RefreshRank()
+	slot0.countdownTimer_:Start()
+	slot0:RefreshRank()
 end
 
-function var_0_0.OnMatrixSystemUpdate(arg_26_0)
-	arg_26_0:Refresh()
+function slot0.OnMatrixSystemUpdate(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.OnMatrixSystemOverdue(arg_27_0)
+function slot0.OnMatrixSystemOverdue(slot0)
 	ShowMessageBox({
 		ButtonType = "SingleBtn",
 		title = GetTips("PROMPT"),
@@ -187,28 +185,24 @@ function var_0_0.OnMatrixSystemOverdue(arg_27_0)
 	})
 end
 
-function var_0_0.RefreshTimer(arg_28_0)
-	local var_28_0 = MatrixData:GetNextRefreshTime()
-
-	arg_28_0.m_timer.text = string.format(GetTips("TIME_DISPLAY_5"), manager.time:GetLostTimeStr(var_28_0))
+function slot0.RefreshTimer(slot0)
+	slot0.m_timer.text = string.format(GetTips("TIME_DISPLAY_5"), manager.time:GetLostTimeStr(MatrixData:GetNextRefreshTime()))
 end
 
-function var_0_0.RefreshRank(arg_29_0)
-	local var_29_0 = MatrixData:GetCurRank(MatrixConst.MatirxRankSubType.COMMON)
-
-	if var_29_0 and var_29_0.rank ~= 0 then
-		arg_29_0.m_score.text = var_29_0.score
+function slot0.RefreshRank(slot0)
+	if MatrixData:GetCurRank(MatrixConst.MatirxRankSubType.COMMON) and slot1.rank ~= 0 then
+		slot0.m_score.text = slot1.score
 	else
-		arg_29_0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
+		slot0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
 	end
 end
 
-function var_0_0.OnMatrixCurRankUpdate(arg_30_0)
-	arg_30_0:RefreshRank()
+function slot0.OnMatrixCurRankUpdate(slot0)
+	slot0:RefreshRank()
 end
 
-function var_0_0.Dispose(arg_31_0)
-	var_0_0.super.Dispose(arg_31_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

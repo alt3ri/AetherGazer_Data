@@ -1,133 +1,126 @@
-local var_0_0 = class("NewServerTaskItem", ReduxView)
+slot0 = class("NewServerTaskItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.rewardItemList_ = {}
-	arg_1_0.itemDataList_ = {}
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.isShow_ = true
+function slot0.Ctor(slot0, slot1)
+	slot0.rewardItemList_ = {}
+	slot0.itemDataList_ = {}
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.isShow_ = true
 
-	arg_1_0:InitUI()
-	arg_1_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.taskID_ = arg_2_1
-	arg_2_0.maxRewardNum_ = arg_2_2
-	arg_2_0.taskProgress_ = TaskData2:GetTaskProgress(arg_2_1)
-	arg_2_0.taskComplete_ = TaskData2:GetTaskComplete(arg_2_1)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.taskID_ = slot1
+	slot0.maxRewardNum_ = slot2
+	slot0.taskProgress_ = TaskData2:GetTaskProgress(slot1)
+	slot0.taskComplete_ = TaskData2:GetTaskComplete(slot1)
 
-	arg_2_0:RefreshUI()
-	arg_2_0:RefreshProgress()
+	slot0:RefreshUI()
+	slot0:RefreshProgress()
 
-	arg_2_0.isShow_ = true
+	slot0.isShow_ = true
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.isShow_ = false
+function slot0.OnExit(slot0)
+	slot0.isShow_ = false
 
-	SetActive(arg_3_0.gameObject_, false)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.itemDataList_ = nil
+function slot0.Dispose(slot0)
+	slot0.itemDataList_ = nil
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.rewardItemList_) do
-		iter_4_1:Dispose()
+	for slot4, slot5 in pairs(slot0.rewardItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_4_0.rewardItemList_ = nil
+	slot0.rewardItemList_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.stateController_ = arg_5_0.allBtnController_:GetController("all")
+	slot0.stateController_ = slot0.allBtnController_:GetController("all")
 
-	for iter_5_0 = 1, 3 do
-		arg_5_0.rewardItemList_[iter_5_0] = CommonItemView.New(arg_5_0[string.format("awardItem%dObj_", iter_5_0)])
+	for slot4 = 1, 3 do
+		slot0.rewardItemList_[slot4] = CommonItemView.New(slot0[string.format("awardItem%dObj_", slot4)])
 	end
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
-		local var_7_0 = AssignmentCfg[arg_6_0.taskID_]
-
-		JumpTools.JumpToPage2(var_7_0.source)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		JumpTools.JumpToPage2(AssignmentCfg[uv0.taskID_].source)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_6_0.taskID_)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = AssignmentCfg[arg_9_0.taskID_]
+function slot0.RefreshUI(slot0)
+	slot0.titleText_.text = GetI18NText(AssignmentCfg[slot0.taskID_].desc)
 
-	arg_9_0.titleText_.text = GetI18NText(var_9_0.desc)
-
-	arg_9_0:RefreshReward()
+	slot0:RefreshReward()
 end
 
-function var_0_0.RefreshReward(arg_10_0)
-	local var_10_0 = AssignmentCfg[arg_10_0.taskID_].reward or {}
+function slot0.RefreshReward(slot0)
+	for slot6 = 1, 3 do
+		slot7 = (AssignmentCfg[slot0.taskID_].reward or {})[slot6]
 
-	for iter_10_0 = 1, 3 do
-		local var_10_1 = var_10_0[iter_10_0]
+		if not slot0.itemDataList_[slot6] then
+			slot0.itemDataList_[slot6] = clone(ItemTemplateData)
 
-		if not arg_10_0.itemDataList_[iter_10_0] then
-			arg_10_0.itemDataList_[iter_10_0] = clone(ItemTemplateData)
-			arg_10_0.itemDataList_[iter_10_0].clickFun = function(arg_11_0)
+			slot0.itemDataList_[slot6].clickFun = function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_11_0.id,
-					arg_11_0.number
+					slot0.id,
+					slot0.number
 				})
 			end
 		end
 
-		local var_10_2 = true
+		slot8 = true
 
-		if var_10_1 then
-			arg_10_0.itemDataList_[iter_10_0].id = var_10_1[1]
-			arg_10_0.itemDataList_[iter_10_0].number = var_10_1[2]
-			var_10_2 = false
+		if slot7 then
+			slot0.itemDataList_[slot6].id = slot7[1]
+			slot0.itemDataList_[slot6].number = slot7[2]
+			slot8 = false
 		end
 
-		arg_10_0.rewardItemList_[iter_10_0]:Show(true)
+		slot0.rewardItemList_[slot6]:Show(true)
 
-		if not var_10_2 then
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(arg_10_0.itemDataList_[iter_10_0])
+		if not slot8 then
+			slot0.rewardItemList_[slot6]:SetData(slot0.itemDataList_[slot6])
 		else
-			arg_10_0.rewardItemList_[iter_10_0]:SetData(nil)
+			slot0.rewardItemList_[slot6]:SetData(nil)
 		end
 	end
 
-	for iter_10_1 = arg_10_0.maxRewardNum_ + 1, #arg_10_0.rewardItemList_ do
-		arg_10_0.rewardItemList_[iter_10_1]:Show(false)
+	for slot6 = slot0.maxRewardNum_ + 1, #slot0.rewardItemList_ do
+		slot0.rewardItemList_[slot6]:Show(false)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_12_0)
-	local var_12_0 = AssignmentCfg[arg_12_0.taskID_]
-	local var_12_1 = arg_12_0.taskProgress_
+function slot0.RefreshProgress(slot0)
+	slot2 = slot0.taskProgress_
 
-	if arg_12_0.taskProgress_ > var_12_0.need then
-		var_12_1 = var_12_0.need
+	if AssignmentCfg[slot0.taskID_].need < slot0.taskProgress_ then
+		slot2 = slot1.need
 	end
 
-	arg_12_0.progressBar_.value = var_12_1 / var_12_0.need
-	arg_12_0.progressText_.text = string.format("%s/%s", var_12_1, var_12_0.need)
+	slot0.progressBar_.value = slot2 / slot1.need
+	slot0.progressText_.text = string.format("%s/%s", slot2, slot1.need)
+	slot3 = slot1.need <= slot0.taskProgress_
 
-	local var_12_2 = arg_12_0.taskProgress_ >= var_12_0.need
-
-	if arg_12_0.taskComplete_ then
-		arg_12_0.stateController_:SetSelectedState("complete")
-	elseif var_12_2 then
-		arg_12_0.stateController_:SetSelectedState("receive")
+	if slot0.taskComplete_ then
+		slot0.stateController_:SetSelectedState("complete")
+	elseif slot3 then
+		slot0.stateController_:SetSelectedState("receive")
 	else
-		arg_12_0.stateController_:SetSelectedState("go")
+		slot0.stateController_:SetSelectedState("go")
 	end
 end
 
-return var_0_0
+return slot0

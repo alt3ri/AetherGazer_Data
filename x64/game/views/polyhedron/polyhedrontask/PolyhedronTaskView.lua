@@ -1,177 +1,160 @@
-local var_0_0 = class("PolyhedronTaskView", ReduxView)
+slot0 = class("PolyhedronTaskView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/PolyhedronTaskUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.typeController_ = ControllerUtil.GetController(arg_4_0.transform_, "type")
-	arg_4_0.taskList_ = {}
-	arg_4_0.tipsList_ = {}
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.taskList_ = {}
+	slot0.tipsList_ = {}
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.seasonBtn_, nil, function()
-		arg_5_0:RefreshUI(1)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.seasonBtn_, nil, function ()
+		uv0:RefreshUI(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.achievmentBtn_, nil, function()
-		arg_5_0:RefreshUI(2)
+	slot0:AddBtnListener(slot0.achievmentBtn_, nil, function ()
+		uv0:RefreshUI(2)
 	end)
 end
 
-function var_0_0.OnTop(arg_8_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activityID_ = PolyhedronData:GetActivityID()
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = PolyhedronData:GetActivityID()
 
-	arg_9_0:RegistEventListener(ACTIVITY_UPDATE, function(arg_10_0)
-		local var_10_0 = ActivityTools.GetActivityType(arg_10_0)
+	slot0:RegistEventListener(ACTIVITY_UPDATE, function (slot0)
+		if ActivityTemplateConst.POLYHEDRON_ACTIVITY == ActivityTools.GetActivityType(slot0) then
+			uv0.activityID_ = slot0
 
-		if ActivityTemplateConst.POLYHEDRON_ACTIVITY == var_10_0 then
-			arg_9_0.activityID_ = arg_10_0
-
-			arg_9_0:OnTaskListChange()
+			uv0:OnTaskListChange()
 		end
 	end)
-	arg_9_0:RefreshTaskActivityIDList()
-	arg_9_0:BindRedPoint()
+	slot0:RefreshTaskActivityIDList()
+	slot0:BindRedPoint()
 
-	arg_9_0.curType_ = nil
+	slot0.curType_ = nil
 
-	arg_9_0:RefreshUI(1)
+	slot0:RefreshUI(1)
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0.curType_ = nil
+function slot0.OnExit(slot0)
+	slot0.curType_ = nil
 
-	arg_11_0:UnbindRedPoint()
-	arg_11_0:RemoveAllEventListener()
+	slot0:UnbindRedPoint()
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.taskList_) do
-		iter_12_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.taskList_) do
+		slot5:Dispose()
 	end
 
-	arg_12_0.taskList_ = nil
+	slot0.taskList_ = nil
 
-	for iter_12_2, iter_12_3 in ipairs(arg_12_0.tipsList_) do
-		iter_12_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.tipsList_) do
+		slot5:Dispose()
 	end
 
-	arg_12_0.tipsList_ = nil
+	slot0.tipsList_ = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_13_0, arg_13_1)
-	if arg_13_1 == arg_13_0.curType_ then
+function slot0.RefreshUI(slot0, slot1)
+	if slot1 == slot0.curType_ then
 		return
 	end
 
-	arg_13_0.curType_ = arg_13_1
+	slot0.curType_ = slot1
 
-	arg_13_0.typeController_:SetSelectedIndex(arg_13_0.curType_ - 1)
-	arg_13_0:RefreshTaskList(arg_13_1)
-	arg_13_0:RefreshTipsList(arg_13_1)
+	slot0.typeController_:SetSelectedIndex(slot0.curType_ - 1)
+	slot0:RefreshTaskList(slot1)
+	slot0:RefreshTipsList(slot1)
 end
 
-function var_0_0.RefreshTaskList(arg_14_0, arg_14_1)
-	local var_14_0 = arg_14_0:GetSortedTask(arg_14_1)
-	local var_14_1 = 0
+function slot0.RefreshTaskList(slot0, slot1)
+	slot3 = 0
 
-	for iter_14_0, iter_14_1 in ipairs(var_14_0) do
-		local var_14_2 = #AssignmentCfg[iter_14_1].reward
-
-		var_14_1 = var_14_1 < var_14_2 and var_14_2 or var_14_1
-	end
-
-	for iter_14_2, iter_14_3 in ipairs(var_14_0) do
-		if not arg_14_0.taskList_[iter_14_2] then
-			arg_14_0.taskList_[iter_14_2] = PolyhedronTaskItem.New(arg_14_0.taskPanelTrans_, arg_14_0.taskItemGo_)
-		end
-
-		arg_14_0.taskList_[iter_14_2]:SetData(iter_14_3, var_14_1)
-	end
-
-	for iter_14_4 = #var_14_0 + 1, #arg_14_0.taskList_ do
-		arg_14_0.taskList_[iter_14_4]:Show(false)
-	end
-end
-
-function var_0_0.RefreshTipsList(arg_15_0, arg_15_1)
-	local var_15_0 = {}
-	local var_15_1 = {}
-
-	if arg_15_1 == 1 then
-		var_15_1 = arg_15_0.curSeasonActivityList_
-	else
-		var_15_1 = arg_15_0.curAchievementActivityList_
-	end
-
-	for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-		if not ActivityData:GetActivityIsOpen(iter_15_1) then
-			var_15_0[#var_15_0 + 1] = iter_15_1
+	for slot7, slot8 in ipairs(slot0:GetSortedTask(slot1)) do
+		if slot3 < #AssignmentCfg[slot8].reward then
+			slot3 = slot9 or slot3
 		end
 	end
 
-	for iter_15_2, iter_15_3 in ipairs(var_15_0) do
-		if not arg_15_0.tipsList_[iter_15_2] then
-			arg_15_0.tipsList_[iter_15_2] = PolyhedronTaskTipsItem.New(arg_15_0.tipsPanelTrans_, arg_15_0.tipsItemGo_)
+	for slot7, slot8 in ipairs(slot2) do
+		if not slot0.taskList_[slot7] then
+			slot0.taskList_[slot7] = PolyhedronTaskItem.New(slot0.taskPanelTrans_, slot0.taskItemGo_)
 		end
 
-		arg_15_0.tipsList_[iter_15_2]:SetData(iter_15_3)
+		slot0.taskList_[slot7]:SetData(slot8, slot3)
 	end
 
-	for iter_15_4 = #var_15_0 + 1, #arg_15_0.tipsList_ do
-		arg_15_0.tipsList_[iter_15_4]:Show(false)
+	for slot7 = #slot2 + 1, #slot0.taskList_ do
+		slot0.taskList_[slot7]:Show(false)
 	end
-
-	arg_15_0:RefreshTipsPosition(arg_15_1)
 end
 
-function var_0_0.RefreshTipsPosition(arg_16_0, arg_16_1)
-	if arg_16_0:IsAllReceived(arg_16_1) == true then
-		arg_16_0.tipsPanelTrans_:SetAsFirstSibling()
-	else
-		arg_16_0.tipsPanelTrans_:SetAsLastSibling()
+function slot0.RefreshTipsList(slot0, slot1)
+	slot2 = {}
+	slot3 = {}
+
+	for slot7, slot8 in ipairs((slot1 ~= 1 or slot0.curSeasonActivityList_) and slot0.curAchievementActivityList_) do
+		if not ActivityData:GetActivityIsOpen(slot8) then
+			slot2[#slot2 + 1] = slot8
+		end
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_16_0.taskPanelTrans_)
+	for slot7, slot8 in ipairs(slot2) do
+		if not slot0.tipsList_[slot7] then
+			slot0.tipsList_[slot7] = PolyhedronTaskTipsItem.New(slot0.tipsPanelTrans_, slot0.tipsItemGo_)
+		end
+
+		slot0.tipsList_[slot7]:SetData(slot8)
+	end
+
+	for slot7 = #slot2 + 1, #slot0.tipsList_ do
+		slot0.tipsList_[slot7]:Show(false)
+	end
+
+	slot0:RefreshTipsPosition(slot1)
 end
 
-function var_0_0.IsAllReceived(arg_17_0, arg_17_1)
-	local var_17_0 = {}
-
-	if arg_17_1 == 1 then
-		var_17_0 = arg_17_0.curSeasonActivityList_
+function slot0.RefreshTipsPosition(slot0, slot1)
+	if slot0:IsAllReceived(slot1) == true then
+		slot0.tipsPanelTrans_:SetAsFirstSibling()
 	else
-		var_17_0 = arg_17_0.curAchievementActivityList_
+		slot0.tipsPanelTrans_:SetAsLastSibling()
 	end
 
-	for iter_17_0, iter_17_1 in ipairs(var_17_0) do
-		if ActivityData:GetActivityIsOpen(iter_17_1) == true then
-			local var_17_1 = AssignmentCfg.get_id_list_by_activity_id[iter_17_1]
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.taskPanelTrans_)
+end
 
-			for iter_17_2, iter_17_3 in ipairs(var_17_1) do
-				if TaskData2:GetTask(iter_17_3) and not TaskData2:GetTaskComplete(iter_17_3) then
+function slot0.IsAllReceived(slot0, slot1)
+	slot2 = {}
+
+	for slot6, slot7 in ipairs((slot1 ~= 1 or slot0.curSeasonActivityList_) and slot0.curAchievementActivityList_) do
+		if ActivityData:GetActivityIsOpen(slot7) == true then
+			for slot12, slot13 in ipairs(AssignmentCfg.get_id_list_by_activity_id[slot7]) do
+				if TaskData2:GetTask(slot13) and not TaskData2:GetTaskComplete(slot13) then
 					return false
 				end
 			end
@@ -181,87 +164,76 @@ function var_0_0.IsAllReceived(arg_17_0, arg_17_1)
 	return true
 end
 
-function var_0_0.OnTaskListChange(arg_18_0)
-	local var_18_0 = arg_18_0.curType_
+function slot0.OnTaskListChange(slot0)
+	slot0.curType_ = nil
 
-	arg_18_0.curType_ = nil
-
-	arg_18_0:RefreshTaskActivityIDList()
-	arg_18_0:RefreshUI(var_18_0)
+	slot0:RefreshTaskActivityIDList()
+	slot0:RefreshUI(slot0.curType_)
 end
 
-function var_0_0.RefreshTaskActivityIDList(arg_19_0)
-	arg_19_0.curSeasonActivityList_ = ActivityCfg[arg_19_0.activityID_].season_task_activity_list
-	arg_19_0.curAchievementActivityList_ = ActivityCfg[arg_19_0.activityID_].achievement_task_activity_list
+function slot0.RefreshTaskActivityIDList(slot0)
+	slot0.curSeasonActivityList_ = ActivityCfg[slot0.activityID_].season_task_activity_list
+	slot0.curAchievementActivityList_ = ActivityCfg[slot0.activityID_].achievement_task_activity_list
 end
 
-function var_0_0.GetSortedTask(arg_20_0, arg_20_1)
-	local var_20_0 = {}
+function slot0.GetSortedTask(slot0, slot1)
+	slot2 = {}
+	slot3 = {}
 
-	if arg_20_1 == 1 then
-		var_20_0 = arg_20_0.curSeasonActivityList_
-	else
-		var_20_0 = arg_20_0.curAchievementActivityList_
-	end
-
-	local var_20_1 = {}
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_0) do
-		if ActivityData:GetActivityIsOpen(iter_20_1) == true then
-			table.insertto(var_20_1, AssignmentCfg.get_id_list_by_activity_id[iter_20_1])
+	for slot7, slot8 in ipairs((slot1 ~= 1 or slot0.curSeasonActivityList_) and slot0.curAchievementActivityList_) do
+		if ActivityData:GetActivityIsOpen(slot8) == true then
+			table.insertto(slot3, AssignmentCfg.get_id_list_by_activity_id[slot8])
 		end
 	end
 
-	local var_20_2 = {}
-	local var_20_3 = {}
-	local var_20_4 = {}
-	local var_20_5 = {}
-	local var_20_6 = {}
-	local var_20_7
-	local var_20_8 = {}
+	slot4 = {}
+	slot5 = {}
+	slot6 = {}
+	slot7 = {}
+	slot8 = {}
+	slot9 = nil
+	slot10 = {}
 
-	for iter_20_2, iter_20_3 in pairs(var_20_1) do
-		local var_20_9 = AssignmentCfg[iter_20_3]
-		local var_20_10 = var_20_9.activity_id
-		local var_20_11 = TaskData2:GetTask(iter_20_3)
+	for slot14, slot15 in pairs(slot3) do
+		slot9 = AssignmentCfg[slot15].activity_id
 
-		if var_20_11 then
-			if var_20_11.complete_flag == 0 then
-				if var_20_11.progress < var_20_9.need then
-					table.insert(var_20_4, iter_20_3)
+		if TaskData2:GetTask(slot15) then
+			if slot8.complete_flag == 0 then
+				if slot8.progress < slot10.need then
+					table.insert(slot6, slot15)
 				else
-					table.insert(var_20_3, iter_20_3)
+					table.insert(slot5, slot15)
 				end
-			elseif var_20_11.complete_flag >= 1 then
-				table.insert(var_20_5, iter_20_3)
+			elseif slot8.complete_flag >= 1 then
+				table.insert(slot7, slot15)
 			end
 		end
 	end
 
-	table.sort(var_20_3, function(arg_21_0, arg_21_1)
-		return AssignmentCfg[arg_21_0].id < AssignmentCfg[arg_21_1].id
+	table.sort(slot5, function (slot0, slot1)
+		return AssignmentCfg[slot0].id < AssignmentCfg[slot1].id
 	end)
-	table.sort(var_20_4, function(arg_22_0, arg_22_1)
-		return AssignmentCfg[arg_22_0].id < AssignmentCfg[arg_22_1].id
+	table.sort(slot6, function (slot0, slot1)
+		return AssignmentCfg[slot0].id < AssignmentCfg[slot1].id
 	end)
-	table.sort(var_20_5, function(arg_23_0, arg_23_1)
-		return AssignmentCfg[arg_23_0].id < AssignmentCfg[arg_23_1].id
+	table.sort(slot7, function (slot0, slot1)
+		return AssignmentCfg[slot0].id < AssignmentCfg[slot1].id
 	end)
-	table.insertto(var_20_2, var_20_3)
-	table.insertto(var_20_2, var_20_4)
-	table.insertto(var_20_2, var_20_5)
+	table.insertto(slot4, slot5)
+	table.insertto(slot4, slot6)
+	table.insertto(slot4, slot7)
 
-	return var_20_2
+	return slot4
 end
 
-function var_0_0.BindRedPoint(arg_24_0)
-	manager.redPoint:bindUIandKey(arg_24_0.seasonBtn_.transform, RedPointConst.POLYHEDRON_TASK_SEASON)
-	manager.redPoint:bindUIandKey(arg_24_0.achievmentBtn_.transform, RedPointConst.POLYHEDRON_TASK_ACHIEVEMENT)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.seasonBtn_.transform, RedPointConst.POLYHEDRON_TASK_SEASON)
+	manager.redPoint:bindUIandKey(slot0.achievmentBtn_.transform, RedPointConst.POLYHEDRON_TASK_ACHIEVEMENT)
 end
 
-function var_0_0.UnbindRedPoint(arg_25_0)
-	manager.redPoint:unbindUIandKey(arg_25_0.seasonBtn_.transform, RedPointConst.POLYHEDRON_TASK_SEASON)
-	manager.redPoint:unbindUIandKey(arg_25_0.achievmentBtn_.transform, RedPointConst.POLYHEDRON_TASK_ACHIEVEMENT)
+function slot0.UnbindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.seasonBtn_.transform, RedPointConst.POLYHEDRON_TASK_SEASON)
+	manager.redPoint:unbindUIandKey(slot0.achievmentBtn_.transform, RedPointConst.POLYHEDRON_TASK_ACHIEVEMENT)
 end
 
-return var_0_0
+return slot0

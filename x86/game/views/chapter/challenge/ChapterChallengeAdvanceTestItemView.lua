@@ -1,12 +1,11 @@
-local var_0_0 = import(".ChapterChallengeItemView")
-local var_0_1 = class("ChapterChallengeAdvanceTestItemView", var_0_0)
+slot1 = class("ChapterChallengeAdvanceTestItemView", import(".ChapterChallengeItemView"))
 
-function var_0_1.ClickItem(arg_1_0, arg_1_1)
-	arg_1_0:Go("/advanceTestMain")
+function slot1.ClickItem(slot0, slot1)
+	slot0:Go("/advanceTestMain")
 end
 
-function var_0_1.IsLock(arg_2_0)
-	arg_2_0.isLock_ = false
+function slot1.IsLock(slot0)
+	slot0.isLock_ = false
 end
 
-return var_0_1
+return slot1

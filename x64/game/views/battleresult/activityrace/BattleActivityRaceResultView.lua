@@ -1,87 +1,85 @@
-local var_0_0 = import("game.views.battleResult.multiple.BattleMultipleResultView")
-local var_0_1 = class("BattleActivityRaceResultView", var_0_0)
+slot1 = class("BattleActivityRaceResultView", import("game.views.battleResult.multiple.BattleMultipleResultView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/BattleResult/ActivityRaceMultipletUI"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListener()
 
-	arg_2_0.heroItemView_ = {}
-	arg_2_0.rewardList_ = LuaList.New(handler(arg_2_0, arg_2_0.RewardRenderer), arg_2_0.rewardUIList_, CommonItem)
-	arg_2_0.affixList_ = LuaList.New(handler(arg_2_0, arg_2_0.AffixRenderer), arg_2_0.affixUIList_, ActivityRaceAffixResultItem)
+	slot0.heroItemView_ = {}
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.RewardRenderer), slot0.rewardUIList_, CommonItem)
+	slot0.affixList_ = LuaList.New(handler(slot0, slot0.AffixRenderer), slot0.affixUIList_, ActivityRaceAffixResultItem)
 end
 
-function var_0_1.OnEnter(arg_3_0)
-	arg_3_0.stageData = arg_3_0.params_.stageData
-	arg_3_0.stageId = arg_3_0.stageData:GetStageId()
-	arg_3_0.stageType = arg_3_0.stageData:GetType()
+function slot1.OnEnter(slot0)
+	slot0.stageData = slot0.params_.stageData
+	slot0.stageId = slot0.stageData:GetStageId()
+	slot0.stageType = slot0.stageData:GetType()
 
 	BattleInstance.hideBattlePanel()
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 
-	local var_3_0 = {}
+	slot1 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.params_.rewardList) do
-		for iter_3_2, iter_3_3 in ipairs(iter_3_1) do
-			var_3_0[iter_3_3[1]] = var_3_0[iter_3_3[1]] or {}
-			var_3_0[iter_3_3[1]][1] = iter_3_3[1]
+	for slot5, slot6 in ipairs(slot0.params_.rewardList) do
+		for slot10, slot11 in ipairs(slot6) do
+			slot1[slot11[1]] = slot1[slot11[1]] or {}
+			slot1[slot11[1]][1] = slot11[1]
 
-			if var_3_0[iter_3_3[1]][2] == nil then
-				var_3_0[iter_3_3[1]][2] = 0
+			if slot1[slot11[1]][2] == nil then
+				slot1[slot11[1]][2] = 0
 			end
 
-			var_3_0[iter_3_3[1]][2] = var_3_0[iter_3_3[1]][2] + iter_3_3[2]
+			slot1[slot11[1]][2] = slot1[slot11[1]][2] + slot11[2]
 		end
 	end
 
-	arg_3_0.rewardDataList_ = {}
+	slot0.rewardDataList_ = {}
+	slot2 = 1
 
-	local var_3_1 = 1
-
-	for iter_3_4, iter_3_5 in pairs(var_3_0) do
-		arg_3_0.rewardDataList_[var_3_1] = iter_3_5
-		var_3_1 = var_3_1 + 1
+	for slot6, slot7 in pairs(slot1) do
+		slot0.rewardDataList_[slot2] = slot7
+		slot2 = slot2 + 1
 	end
 
-	arg_3_0.rewardList_:StartScroll(#arg_3_0.rewardDataList_, 1)
-	arg_3_0.affixList_:StartScroll(#arg_3_0.params_.affixList, 1)
+	slot0.rewardList_:StartScroll(#slot0.rewardDataList_, 1)
+	slot0.affixList_:StartScroll(#slot0.params_.affixList, 1)
 
-	if arg_3_0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
+	if slot0.params_.battleResult.errorCode == BattleConst.ERROR_CODE_TIME_OVER then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			isTop = true,
 			content = GetTips("ACTIVITY_LOCK_SETTLEMENT_TIP"),
-			OkCallback = function()
-				arg_3_0:CloseFunc()
+			OkCallback = function ()
+				uv0:CloseFunc()
 			end
 		})
 	end
 end
 
-function var_0_1.Dispose(arg_5_0)
-	arg_5_0.affixList_:Dispose()
+function slot1.Dispose(slot0)
+	slot0.affixList_:Dispose()
 
-	arg_5_0.affixList_ = nil
+	slot0.affixList_ = nil
 
-	arg_5_0.rewardList_:Dispose()
+	slot0.rewardList_:Dispose()
 
-	arg_5_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 
-	var_0_1.super.Dispose(arg_5_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_1.RewardRenderer(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:RefreshData(formatReward(arg_6_0.rewardDataList_[arg_6_1]))
-	arg_6_2:RegistCallBack(function()
-		ShowPopItem(POP_OTHER_ITEM, arg_6_0.rewardDataList_[arg_6_1])
+function slot1.RewardRenderer(slot0, slot1, slot2)
+	slot2:RefreshData(formatReward(slot0.rewardDataList_[slot1]))
+	slot2:RegistCallBack(function ()
+		ShowPopItem(POP_OTHER_ITEM, uv0.rewardDataList_[uv1])
 	end)
 end
 
-function var_0_1.AffixRenderer(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:SetData(arg_8_0.params_.affixList[arg_8_1])
+function slot1.AffixRenderer(slot0, slot1, slot2)
+	slot2:SetData(slot0.params_.affixList[slot1])
 end
 
-return var_0_1
+return slot1

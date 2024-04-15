@@ -1,23 +1,19 @@
-function deepClone(arg_1_0)
-	local var_1_0 = {}
+function deepClone(slot0)
+	slot1 = {}
 
-	local function var_1_1(arg_2_0)
-		if type(arg_2_0) ~= "table" then
-			return arg_2_0
-		elseif var_1_0[arg_2_0] then
-			return var_1_0[arg_2_0]
+	return function (slot0)
+		if type(slot0) ~= "table" then
+			return slot0
+		elseif uv0[slot0] then
+			return uv0[slot0]
 		end
 
-		local var_2_0 = {}
+		uv0[slot0] = {}
 
-		var_1_0[arg_2_0] = var_2_0
-
-		for iter_2_0, iter_2_1 in pairs(arg_2_0) do
-			var_2_0[var_1_1(iter_2_0)] = var_1_1(iter_2_1)
+		for slot5, slot6 in pairs(slot0) do
+			slot1[uv1(slot5)] = uv1(slot6)
 		end
 
-		return setmetatable(var_2_0, getmetatable(arg_2_0))
-	end
-
-	return var_1_1(arg_1_0)
+		return setmetatable(slot1, getmetatable(slot0))
+	end(slot0)
 end

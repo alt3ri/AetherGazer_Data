@@ -1,78 +1,73 @@
-local var_0_0 = class("IlluEquipManual", ReduxView)
+slot0 = class("IlluEquipManual", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluEquipUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.itemScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, IlluEquipManualItem)
+	slot0.itemScroll_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, IlluEquipManualItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.UpdateDate(arg_6_0)
-	arg_6_0.itemList_ = {}
+function slot0.UpdateDate(slot0)
+	slot0.itemList_ = {}
+	slot2 = 1
 
-	local var_6_0 = HideInfoData:GetEquipSuitHideList()
-	local var_6_1 = 1
-
-	for iter_6_0, iter_6_1 in ipairs(EquipSuitCfg.all) do
-		if not var_6_0[iter_6_1] then
-			arg_6_0.itemList_[var_6_1] = {
-				id = iter_6_1
+	for slot6, slot7 in ipairs(EquipSuitCfg.all) do
+		if not HideInfoData:GetEquipSuitHideList()[slot7] then
+			slot0.itemList_[slot2] = {
+				id = slot7
 			}
-			var_6_1 = var_6_1 + 1
+			slot2 = slot2 + 1
 		end
 	end
 end
 
-function var_0_0.indexItem(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2:RefreshUI(arg_7_0.itemList_[arg_7_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1])
 end
 
-function var_0_0.OnEnter(arg_8_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	arg_8_0:UpdateDate()
+	slot0:UpdateDate()
 
-	if arg_8_0.params_.scrollPos_ then
-		arg_8_0.itemScroll_:StartScrollByPosition(#arg_8_0.itemList_, arg_8_0.params_.scrollPos_)
+	if slot0.params_.scrollPos_ then
+		slot0.itemScroll_:StartScrollByPosition(#slot0.itemList_, slot0.params_.scrollPos_)
 	else
-		arg_8_0.itemScroll_:StartScroll(#arg_8_0.itemList_)
+		slot0.itemScroll_:StartScroll(#slot0.itemList_)
 	end
 
-	local var_8_0 = IlluTools.GetEquipAll()
-
-	arg_8_0.numText_.text = var_8_0 .. "/" .. EquipTools.GetSuitTotalNum() * 6
+	slot0.numText_.text = IlluTools.GetEquipAll() .. "/" .. EquipTools.GetSuitTotalNum() * 6
 end
 
-function var_0_0.OnExit(arg_9_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 
-	arg_9_0.params_.scrollPos_ = arg_9_0.itemScroll_:GetScrolledPosition()
+	slot0.params_.scrollPos_ = slot0.itemScroll_:GetScrolledPosition()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.itemScroll_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.itemScroll_:Dispose()
 
-	arg_10_0.itemScroll_ = nil
+	slot0.itemScroll_ = nil
 
-	var_0_0.super.Dispose(arg_10_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

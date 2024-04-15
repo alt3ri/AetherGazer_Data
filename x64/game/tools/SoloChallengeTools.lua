@@ -1,61 +1,46 @@
-local var_0_0 = {}
+return {
+	InitConst = function (slot0)
+		uv0.stageInfoDic = uv0.stageInfoDic or {}
+		uv0.difficultyIDToIndex = uv0.difficultyIDToIndex or {}
 
-function var_0_0.InitConst(arg_1_0)
-	local var_1_0 = ActivitySoloChallengeCfg[arg_1_0]
+		for slot6, slot7 in ipairs(ActivitySoloChallengeCfg[slot0].stage_id) do
+			slot8 = slot7[1]
 
-	var_0_0.stageInfoDic = var_0_0.stageInfoDic or {}
-	var_0_0.difficultyIDToIndex = var_0_0.difficultyIDToIndex or {}
+			for slot13, slot14 in ipairs(slot7[2]) do
+				uv0.stageInfoDic[slot14] = {
+					stageID = slot14,
+					stageIndex = slot13,
+					difficultIndex = slot6,
+					difficultID = slot8
+				}
+			end
 
-	local var_1_1 = var_1_0.stage_id
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-		local var_1_2 = iter_1_1[1]
-		local var_1_3 = iter_1_1[2]
-
-		for iter_1_2, iter_1_3 in ipairs(var_1_3) do
-			local var_1_4 = {
-				stageID = iter_1_3,
-				stageIndex = iter_1_2,
-				difficultIndex = iter_1_0,
-				difficultID = var_1_2
-			}
-
-			var_0_0.stageInfoDic[iter_1_3] = var_1_4
+			uv0.difficultyIDToIndex[slot8] = slot6
 		end
+	end,
+	GetStageInfo = function (slot0)
+		return uv0.stageInfoDic[slot0] or {}
+	end,
+	GetDifficultyIndex = function (slot0)
+		return uv0.difficultyIDToIndex[slot0]
+	end,
+	EquipAffix = function (slot0, slot1, slot2, slot3)
+		slot4 = SoloChallengeTools.GetStageInfo(slot1)
 
-		var_0_0.difficultyIDToIndex[var_1_2] = iter_1_0
+		ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(slot4.difficultID):SetAffix(slot4.stageIndex, slot2, slot3)
+		ReserveAction.SaveSoloChallengeContData(slot0, slot4.difficultIndex, function ()
+			SoloChallengeData:EquipAffix(uv0, uv1, uv2, uv3)
+			manager.notify:CallUpdateFunc(SOLO_CHALLENGE_AFFIX_REFRESH, uv3)
+		end)
+	end,
+	DischargeAffix = function (slot0, slot1)
+		slot2 = SoloChallengeData:GetAffixState(slot0, slot1)
+		slot5 = SoloChallengeTools.GetStageInfo(slot2.stageID)
+
+		ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(slot5.difficultID):SetAffix(slot5.stageIndex, slot2.pos, 0)
+		ReserveAction.SaveSoloChallengeContData(slot0, slot5.difficultIndex, function ()
+			SoloChallengeData:DischargeAffix(uv0, uv1)
+			manager.notify:CallUpdateFunc(SOLO_CHALLENGE_AFFIX_REFRESH, uv1)
+		end)
 	end
-end
-
-function var_0_0.GetStageInfo(arg_2_0)
-	return var_0_0.stageInfoDic[arg_2_0] or {}
-end
-
-function var_0_0.GetDifficultyIndex(arg_3_0)
-	return var_0_0.difficultyIDToIndex[arg_3_0]
-end
-
-function var_0_0.EquipAffix(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = SoloChallengeTools.GetStageInfo(arg_4_1)
-
-	ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(var_4_0.difficultID):SetAffix(var_4_0.stageIndex, arg_4_2, arg_4_3)
-	ReserveAction.SaveSoloChallengeContData(arg_4_0, var_4_0.difficultIndex, function()
-		SoloChallengeData:EquipAffix(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-		manager.notify:CallUpdateFunc(SOLO_CHALLENGE_AFFIX_REFRESH, arg_4_3)
-	end)
-end
-
-function var_0_0.DischargeAffix(arg_6_0, arg_6_1)
-	local var_6_0 = SoloChallengeData:GetAffixState(arg_6_0, arg_6_1)
-	local var_6_1 = var_6_0.pos
-	local var_6_2 = var_6_0.stageID
-	local var_6_3 = SoloChallengeTools.GetStageInfo(var_6_2)
-
-	ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SOLO_CHALLENGE):GetContDataTemplateById(var_6_3.difficultID):SetAffix(var_6_3.stageIndex, var_6_1, 0)
-	ReserveAction.SaveSoloChallengeContData(arg_6_0, var_6_3.difficultIndex, function()
-		SoloChallengeData:DischargeAffix(arg_6_0, arg_6_1)
-		manager.notify:CallUpdateFunc(SOLO_CHALLENGE_AFFIX_REFRESH, arg_6_1)
-	end)
-end
-
-return var_0_0
+}

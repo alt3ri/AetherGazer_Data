@@ -1,158 +1,153 @@
-local var_0_0 = class("PushSnowBallRewardView", ReduxView)
+slot0 = class("PushSnowBallRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaPushTheSnowballUI/PushTheSnowballRewardsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.rankTypeConst_ = AdvanceTestData:GetRankTypeConst()
+function slot0.Init(slot0)
+	slot0.rankTypeConst_ = AdvanceTestData:GetRankTypeConst()
 
-	arg_3_0:InitUI()
+	slot0:InitUI()
 
-	arg_3_0.controllerList_ = {}
-	arg_3_0.scoreController_ = ControllerUtil.GetController(arg_3_0.scoreModelBtn_.transform, "toggle")
-	arg_3_0.bowlingController_ = ControllerUtil.GetController(arg_3_0.bowlingModelBtn_.transform, "toggle")
-	arg_3_0.bossController_ = ControllerUtil.GetController(arg_3_0.bossModelBtn_.transform, "toggle")
+	slot0.controllerList_ = {}
+	slot0.scoreController_ = ControllerUtil.GetController(slot0.scoreModelBtn_.transform, "toggle")
+	slot0.bowlingController_ = ControllerUtil.GetController(slot0.bowlingModelBtn_.transform, "toggle")
+	slot0.bossController_ = ControllerUtil.GetController(slot0.bossModelBtn_.transform, "toggle")
 
-	table.insert(arg_3_0.controllerList_, arg_3_0.scoreController_)
-	table.insert(arg_3_0.controllerList_, arg_3_0.bowlingController_)
-	table.insert(arg_3_0.controllerList_, arg_3_0.bossController_)
+	table.insert(slot0.controllerList_, slot0.scoreController_)
+	table.insert(slot0.controllerList_, slot0.bowlingController_)
+	table.insert(slot0.controllerList_, slot0.bossController_)
 
-	arg_3_0.normalTaskItemList_ = {}
-	arg_3_0.hardTaskItemList_ = {}
+	slot0.normalTaskItemList_ = {}
+	slot0.hardTaskItemList_ = {}
 
-	arg_3_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.RefreshUIHandler_ = handler(arg_4_0, arg_4_0.Refresh)
+	slot0.RefreshUIHandler_ = handler(slot0, slot0.Refresh)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.scoreModelBtn_, nil, function()
-		arg_5_0:OnClickSubType(1)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.scoreModelBtn_, nil, function ()
+		uv0:OnClickSubType(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bowlingModelBtn_, nil, function()
-		arg_5_0:OnClickSubType(2)
+	slot0:AddBtnListener(slot0.bowlingModelBtn_, nil, function ()
+		uv0:OnClickSubType(2)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bossModelBtn_, nil, function()
-		arg_5_0:OnClickSubType(3)
+	slot0:AddBtnListener(slot0.bossModelBtn_, nil, function ()
+		uv0:OnClickSubType(3)
 	end)
 end
 
-function var_0_0.OnClickSubType(arg_9_0, arg_9_1)
-	if arg_9_0.index ~= arg_9_1 then
-		arg_9_0.scroll_.enabled = false
-		arg_9_0.normalTaskDataList_ = PushSnowBallData:GetNormalTaskListByType(arg_9_1)
-		arg_9_0.hardTaskDataList_ = PushSnowBallData:GetHardTaskListByType(arg_9_1)
+function slot0.OnClickSubType(slot0, slot1)
+	if slot0.index ~= slot1 then
+		slot0.scroll_.enabled = false
+		slot0.normalTaskDataList_ = PushSnowBallData:GetNormalTaskListByType(slot1)
+		slot5 = slot1
+		slot0.hardTaskDataList_ = PushSnowBallData:GetHardTaskListByType(slot5)
 
-		for iter_9_0, iter_9_1 in ipairs(arg_9_0.normalTaskDataList_) do
-			if not arg_9_0.normalTaskItemList_[iter_9_0] then
-				local var_9_0 = Object.Instantiate(arg_9_0.taskItem_, arg_9_0.normalTaskTrs_, false)
-				local var_9_1 = PushSnowBallRewardItem.New(var_9_0)
-
-				table.insert(arg_9_0.normalTaskItemList_, var_9_1)
+		for slot5, slot6 in ipairs(slot0.normalTaskDataList_) do
+			if not slot0.normalTaskItemList_[slot5] then
+				table.insert(slot0.normalTaskItemList_, PushSnowBallRewardItem.New(Object.Instantiate(slot0.taskItem_, slot0.normalTaskTrs_, false)))
 			end
 
-			arg_9_0.normalTaskItemList_[iter_9_0]:SetData(iter_9_0, iter_9_1)
+			slot0.normalTaskItemList_[slot5]:SetData(slot5, slot6)
 		end
 
-		for iter_9_2, iter_9_3 in ipairs(arg_9_0.hardTaskDataList_) do
-			if not arg_9_0.hardTaskItemList_[iter_9_2] then
-				local var_9_2 = Object.Instantiate(arg_9_0.taskItem_, arg_9_0.hardTaskTrs_, false)
-				local var_9_3 = PushSnowBallRewardItem.New(var_9_2)
-
-				table.insert(arg_9_0.hardTaskItemList_, var_9_3)
+		for slot5, slot6 in ipairs(slot0.hardTaskDataList_) do
+			if not slot0.hardTaskItemList_[slot5] then
+				table.insert(slot0.hardTaskItemList_, PushSnowBallRewardItem.New(Object.Instantiate(slot0.taskItem_, slot0.hardTaskTrs_, false)))
 			end
 
-			arg_9_0.hardTaskItemList_[iter_9_2]:SetData(iter_9_2, iter_9_3)
+			slot0.hardTaskItemList_[slot5]:SetData(slot5, slot6)
 		end
 
-		arg_9_0:RefreshToggle(arg_9_1)
+		slot0:RefreshToggle(slot1)
 
-		arg_9_0.scroll_.enabled = true
+		slot0.scroll_.enabled = true
 	end
 
-	arg_9_0.index = arg_9_1
+	slot0.index = slot1
 end
 
-function var_0_0.RefreshToggle(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.controllerList_) do
-		if iter_10_0 == arg_10_1 then
-			iter_10_1:SetSelectedState("on")
+function slot0.RefreshToggle(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.controllerList_) do
+		if slot5 == slot1 then
+			slot6:SetSelectedState("on")
 		else
-			iter_10_1:SetSelectedState("off")
+			slot6:SetSelectedState("off")
 		end
 	end
 end
 
-function var_0_0.OnRewardedTask(arg_11_0)
-	arg_11_0:Refresh()
+function slot0.OnRewardedTask(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.OnTop(arg_12_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_13_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_13_0.activityID_ = arg_13_0.params_.activityID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_13_0:OnClickSubType(arg_13_0.index or 1)
-	arg_13_0:Refresh()
-	manager.redPoint:bindUIandKey(arg_13_0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 1)
-	manager.redPoint:bindUIandKey(arg_13_0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 2)
-	manager.redPoint:bindUIandKey(arg_13_0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 3)
+	slot0:OnClickSubType(slot0.index or 1)
+	slot0:Refresh()
+	manager.redPoint:bindUIandKey(slot0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 1)
+	manager.redPoint:bindUIandKey(slot0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 2)
+	manager.redPoint:bindUIandKey(slot0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 3)
 end
 
-function var_0_0.OnExit(arg_14_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_14_0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 1)
-	manager.redPoint:unbindUIandKey(arg_14_0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 2)
-	manager.redPoint:unbindUIandKey(arg_14_0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 3)
+	manager.redPoint:unbindUIandKey(slot0.scoreModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 1)
+	manager.redPoint:unbindUIandKey(slot0.bowlingModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 2)
+	manager.redPoint:unbindUIandKey(slot0.bossModelBtn_.transform, RedPointConst.ACTIVITY_PUSH_SNOWBALL_SINGLE_SCORE .. 3)
 end
 
-function var_0_0.Refresh(arg_15_0)
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.normalTaskItemList_) do
-		iter_15_1:RefreshUI()
+function slot0.Refresh(slot0)
+	for slot4, slot5 in ipairs(slot0.normalTaskItemList_) do
+		slot5:RefreshUI()
 	end
 
-	for iter_15_2, iter_15_3 in ipairs(arg_15_0.hardTaskItemList_) do
-		iter_15_3:RefreshUI()
+	for slot4, slot5 in ipairs(slot0.hardTaskItemList_) do
+		slot5:RefreshUI()
 	end
 end
 
-function var_0_0.Dispose(arg_16_0)
-	if arg_16_0.hardTaskItemList_ then
-		for iter_16_0, iter_16_1 in ipairs(arg_16_0.hardTaskItemList_) do
-			iter_16_1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.hardTaskItemList_ then
+		for slot4, slot5 in ipairs(slot0.hardTaskItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_16_0.hardTaskItemList_ = nil
+		slot0.hardTaskItemList_ = nil
 	end
 
-	if arg_16_0.normalTaskItemList_ then
-		for iter_16_2, iter_16_3 in ipairs(arg_16_0.normalTaskItemList_) do
-			iter_16_3:Dispose()
+	if slot0.normalTaskItemList_ then
+		for slot4, slot5 in ipairs(slot0.normalTaskItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_16_0.normalTaskItemList_ = nil
+		slot0.normalTaskItemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

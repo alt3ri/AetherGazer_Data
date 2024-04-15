@@ -1,42 +1,37 @@
-local var_0_0 = import("game.views.sectionSelectHero.SectionSelectHeroBaseView")
-local var_0_1 = class("SectionSelectHeroAttributeArenaView", var_0_0)
+slot1 = class("SectionSelectHeroAttributeArenaView", import("game.views.sectionSelectHero.SectionSelectHeroBaseView"))
 
-function var_0_1.UIName(arg_1_0)
+function slot1.UIName(slot0)
 	return "UI/ArenaUI/IndiaBattleSelectHeroUI"
 end
 
-function var_0_1.OnEnter(arg_2_0)
-	arg_2_0.attribute_arena_id = arg_2_0.params_.attribute_arena_id
+function slot1.OnEnter(slot0)
+	slot0.attribute_arena_id = slot0.params_.attribute_arena_id
 
-	var_0_1.super.OnEnter(arg_2_0)
+	uv0.super.OnEnter(slot0)
 
-	local var_2_0 = ActivityAttributeArenaCfg[arg_2_0.attribute_arena_id]
-
-	for iter_2_0, iter_2_1 in ipairs(GameDisplayCfg.hero_atack_type_tag.value) do
-		if iter_2_1[1] == var_2_0.attribute then
-			local var_2_1 = iter_2_1[2]
+	for slot5, slot6 in ipairs(GameDisplayCfg.hero_atack_type_tag.value) do
+		if slot6[1] == ActivityAttributeArenaCfg[slot0.attribute_arena_id].attribute then
+			slot7 = slot6[2]
 
 			break
 		end
 	end
 end
 
-function var_0_1.GoHeroInfoUI(arg_3_0, arg_3_1)
-	arg_3_0:Go("/heroTeamInfoAttributeArena", {
+function slot1.GoHeroInfoUI(slot0, slot1)
+	slot0:Go("/heroTeamInfoAttributeArena", {
 		isEnter = true,
-		selectHeroPos = arg_3_1,
-		stageID = arg_3_0.stageID_,
-		activityID = arg_3_0.params_.activityID,
-		stageType = arg_3_0.stageType_,
-		attribute_arena_id = arg_3_0.attribute_arena_id,
-		reserveParams = arg_3_0.reserveParams_
+		selectHeroPos = slot1,
+		stageID = slot0.stageID_,
+		activityID = slot0.params_.activityID,
+		stageType = slot0.stageType_,
+		attribute_arena_id = slot0.attribute_arena_id,
+		reserveParams = slot0.reserveParams_
 	})
 end
 
-function var_0_1.StartBattle(arg_4_0)
-	local var_4_0 = BattleActivityAttributeArenaTemplate.New(arg_4_0.stageID_, arg_4_0.params_.activityID, arg_4_0.attribute_arena_id, arg_4_0.reserveParams_)
-
-	BattleController.GetInstance():LaunchBattle(var_4_0)
+function slot1.StartBattle(slot0)
+	BattleController.GetInstance():LaunchBattle(BattleActivityAttributeArenaTemplate.New(slot0.stageID_, slot0.params_.activityID, slot0.attribute_arena_id, slot0.reserveParams_))
 end
 
-return var_0_1
+return slot1

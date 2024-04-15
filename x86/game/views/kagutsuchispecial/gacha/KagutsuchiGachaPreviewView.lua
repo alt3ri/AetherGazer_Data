@@ -1,71 +1,67 @@
-local var_0_0 = class("KagutsuchiGachaPreviewView", ReduxView)
+slot0 = class("KagutsuchiGachaPreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionJackpotRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.poolRewardItem_ = {}
+	slot0.poolRewardItem_ = {}
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgmask_, nil, function()
-		arg_4_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgmask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.activityId_ = arg_6_0.params_.activityId
-	arg_6_0.poolId_ = arg_6_0.params_.poolId
+function slot0.OnEnter(slot0)
+	slot0.activityId_ = slot0.params_.activityId
+	slot0.poolId_ = slot0.params_.poolId
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.poolRewardItem_) do
-		arg_7_0.poolRewardItem_[iter_7_0]:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.poolRewardItem_) do
+		slot0.poolRewardItem_[slot4]:OnExit()
 	end
 end
 
-function var_0_0.OnTop(arg_8_0)
-	SetActive(arg_8_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_9_0)
-	SetActive(arg_9_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0:RefreshPoolRewardItems(arg_10_0.poolId_)
+function slot0.RefreshUI(slot0)
+	slot0:RefreshPoolRewardItems(slot0.poolId_)
 end
 
-function var_0_0.RefreshPoolRewardItems(arg_11_0, arg_11_1)
-	local var_11_0 = KagutsuchiGachaData:GetAllDrawItemIds(arg_11_1)
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if not arg_11_0.poolRewardItem_[iter_11_0] then
-			local var_11_1 = Object.Instantiate(arg_11_0.templateItem_, arg_11_0.contentParent_)
-
-			arg_11_0.poolRewardItem_[iter_11_0] = KagutsuchiGachaRewardItem.New(var_11_1)
+function slot0.RefreshPoolRewardItems(slot0, slot1)
+	for slot6, slot7 in ipairs(KagutsuchiGachaData:GetAllDrawItemIds(slot1)) do
+		if not slot0.poolRewardItem_[slot6] then
+			slot0.poolRewardItem_[slot6] = KagutsuchiGachaRewardItem.New(Object.Instantiate(slot0.templateItem_, slot0.contentParent_))
 		end
 
-		arg_11_0.poolRewardItem_[iter_11_0]:SetData(arg_11_0.activityId_, arg_11_1, iter_11_1)
+		slot0.poolRewardItem_[slot6]:SetData(slot0.activityId_, slot1, slot7)
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.poolRewardItem_) do
-		arg_12_0.poolRewardItem_[iter_12_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.poolRewardItem_) do
+		slot0.poolRewardItem_[slot4]:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

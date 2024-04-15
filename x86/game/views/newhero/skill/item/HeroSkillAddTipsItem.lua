@@ -1,25 +1,25 @@
-local var_0_0 = class("HeroSkillAddTipsItem", ReduxView)
+slot0 = class("HeroSkillAddTipsItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, true)
+function slot0.RefreshUI(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_3_0.nametextText_.text = arg_3_1.titleName
-	arg_3_0.messagetextText_.text = arg_3_1.showDesc
+	slot0.nametextText_.text = slot1.titleName
+	slot0.messagetextText_.text = slot1.showDesc
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

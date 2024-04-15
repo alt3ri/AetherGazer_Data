@@ -1,102 +1,97 @@
-local var_0_0 = class("DormLinkGameActivityView", ReduxView)
+slot0 = class("DormLinkGameActivityView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng2ndUI/XH2ndLinkGameUI/XH2ndLGStagePopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.activityScroll = LuaList.New(handler(arg_5_0, arg_5_0.indexActivityItemList), arg_5_0.uilistGo_, DormLinkGameActivityItem)
+	slot0.activityScroll = LuaList.New(handler(slot0, slot0.indexActivityItemList), slot0.uilistGo_, DormLinkGameActivityItem)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListenerScale(arg_6_0.bgBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.bgBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RegisterEvents()
-	arg_8_0:RefreshView()
+function slot0.OnEnter(slot0)
+	slot0:RegisterEvents()
+	slot0:RefreshView()
 
-	arg_8_0.canGetAward = true
+	slot0.canGetAward = true
 end
 
-function var_0_0.RegisterEvents(arg_9_0)
-	arg_9_0:RegistEventListener(DORM_LINK_REFRESH_LEVEL_AWARD, function(arg_10_0)
-		arg_9_0.canGetAward = true
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_LINK_REFRESH_LEVEL_AWARD, function (slot0)
+		uv0.canGetAward = true
 
-		arg_9_0:RefreshView()
+		uv0:RefreshView()
 		DormLinkGameData:CheckUnReciveLevelReward()
 	end)
 end
 
-function var_0_0.indexActivityItemList(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:RefreshUI(arg_11_0.activityList[arg_11_1])
-	arg_11_2:GetLevelAward(function(arg_12_0)
-		if arg_11_0.canGetAward then
-			arg_11_0.canGetAward = false
+function slot0.indexActivityItemList(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.activityList[slot1])
+	slot2:GetLevelAward(function (slot0)
+		if uv0.canGetAward then
+			uv0.canGetAward = false
 
-			DormLinkGameAction:GetLevelAward(arg_12_0)
+			DormLinkGameAction:GetLevelAward(slot0)
 		end
 	end)
 end
 
-function var_0_0.RefreshView(arg_13_0)
-	local var_13_0 = ActivityLinkGameRewardCfg.all
+function slot0.RefreshView(slot0)
+	slot0.activityList = {}
 
-	arg_13_0.activityList = {}
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_0) do
-		table.insert(arg_13_0.activityList, iter_13_1)
+	for slot5, slot6 in ipairs(ActivityLinkGameRewardCfg.all) do
+		table.insert(slot0.activityList, slot6)
 	end
 
-	CommonTools.UniversalSortEx(arg_13_0.activityList, {
+	CommonTools.UniversalSortEx(slot0.activityList, {
 		ascend = true,
-		map = function(arg_14_0)
-			local var_14_0 = DormLinkGameData:CheckLevelRewardState(arg_14_0)
-
-			if var_14_0 == DormLinkGameConst.RewardItemState.unComplete then
+		map = function (slot0)
+			if DormLinkGameData:CheckLevelRewardState(slot0) == DormLinkGameConst.RewardItemState.unComplete then
 				return 2
-			elseif var_14_0 == DormLinkGameConst.RewardItemState.complete then
+			elseif slot1 == DormLinkGameConst.RewardItemState.complete then
 				return 1
-			elseif var_14_0 == DormLinkGameConst.RewardItemState.received then
+			elseif slot1 == DormLinkGameConst.RewardItemState.received then
 				return 3
 			end
 		end
 	}, {
 		ascend = true,
-		map = function(arg_15_0)
-			return arg_15_0
+		map = function (slot0)
+			return slot0
 		end
 	})
-	arg_13_0.activityScroll:StartScroll(#arg_13_0.activityList)
+	slot0.activityScroll:StartScroll(#slot0.activityList)
 end
 
-function var_0_0.OnExit(arg_16_0)
-	arg_16_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.activityScroll then
-		arg_17_0.activityScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.activityScroll then
+		slot0.activityScroll:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

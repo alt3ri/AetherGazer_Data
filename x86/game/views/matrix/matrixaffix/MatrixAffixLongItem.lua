@@ -1,20 +1,19 @@
-local var_0_0 = class("MatrixAffixLongItem", ReduxView)
+slot0 = class("MatrixAffixLongItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
+	slot0:initUI()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.Refresh(arg_3_0, arg_3_1)
-	arg_3_0.m_icon.sprite = getAffixSprite(arg_3_1)
-
-	local var_3_0 = {
+function slot0.Refresh(slot0, slot1)
+	slot0.m_icon.sprite = getAffixSprite(slot1)
+	slot0.m_name.text = GetI18NText(getAffixName(slot1)) .. (({
 		"Ⅰ",
 		"Ⅱ",
 		"Ⅲ",
@@ -24,13 +23,8 @@ function var_0_0.Refresh(arg_3_0, arg_3_1)
 		"Ⅶ",
 		"Ⅷ",
 		"Ⅸ"
-	}
-	local var_3_1 = getAffixName(arg_3_1)
-	local var_3_2 = getAffixDesc(arg_3_1)
-	local var_3_3 = var_3_0[arg_3_1[2]] or ""
-
-	arg_3_0.m_name.text = GetI18NText(var_3_1) .. var_3_3
-	arg_3_0.m_des.text = GetI18NText(var_3_2)
+	})[slot1[2]] or "")
+	slot0.m_des.text = GetI18NText(getAffixDesc(slot1))
 end
 
-return var_0_0
+return slot0

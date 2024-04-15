@@ -1,154 +1,143 @@
-local var_0_0 = class("CombineGameSelectFactorView", ReduxView)
+slot0 = class("CombineGameSelectFactorView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaKf/IndiaKfGlossaryyUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list1 = LuaList.New(handler(arg_4_0, arg_4_0.SetItem1), arg_4_0.list1Go_, CombineGameFactorItem)
-	arg_4_0.list2 = LuaList.New(handler(arg_4_0, arg_4_0.SetItem2), arg_4_0.list2Go_, CombineGameFactorItem)
+	slot0.list1 = LuaList.New(handler(slot0, slot0.SetItem1), slot0.list1Go_, CombineGameFactorItem)
+	slot0.list2 = LuaList.New(handler(slot0, slot0.SetItem2), slot0.list2Go_, CombineGameFactorItem)
 end
 
-function var_0_0.SetItem1(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.upList[arg_5_1]
-
-	arg_5_0:SetItem(arg_5_1, arg_5_2, var_5_0)
+function slot0.SetItem1(slot0, slot1, slot2)
+	slot0:SetItem(slot1, slot2, slot0.upList[slot1])
 end
 
-function var_0_0.SetItem2(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = arg_6_0.downList[arg_6_1]
-
-	arg_6_0:SetItem(arg_6_1, arg_6_2, var_6_0)
+function slot0.SetItem2(slot0, slot1, slot2)
+	slot0:SetItem(slot1, slot2, slot0.downList[slot1])
 end
 
-function var_0_0.SetItem(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_2:SetData(arg_7_1, arg_7_3, handler(arg_7_0, arg_7_0.ClickCallBack), arg_7_0.selectFactorList[arg_7_3] or false)
+function slot0.SetItem(slot0, slot1, slot2, slot3)
+	slot2:SetData(slot1, slot3, handler(slot0, slot0.ClickCallBack), slot0.selectFactorList[slot3] or false)
 end
 
-function var_0_0.AddUIListener(arg_8_0)
-	arg_8_0:AddBtnListener(arg_8_0.maskBtn_, nil, function()
-		arg_8_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_8_0:AddBtnListener(arg_8_0.okBtn_, nil, function()
-		manager.notify:CallUpdateFunc(COMBINE_GAME_SELECT_FACTOR_SURE, arg_8_0.selectFactorList)
-		arg_8_0:Back()
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		manager.notify:CallUpdateFunc(COMBINE_GAME_SELECT_FACTOR_SURE, uv0.selectFactorList)
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.activityId = CombineGameData:GetDataByPara("activityId")
+function slot0.OnEnter(slot0)
+	slot0.activityId = CombineGameData:GetDataByPara("activityId")
 
-	if not ActivityData:GetActivityIsOpen(arg_11_0.activityId) then
-		gameContext:Go("/home", nil, nil, true)
+	if not ActivityData:GetActivityIsOpen(slot0.activityId) then
+		gameContext:Go("/home", nil, , true)
 		ShowTips("TIME_OVER")
 
 		return
 	end
 
-	arg_11_0.id = arg_11_0.params_.id
-	arg_11_0.selectFactorList = clone(arg_11_0.params_.selectFactorList or {})
+	slot0.id = slot0.params_.id
+	slot0.selectFactorList = clone(slot0.params_.selectFactorList or {})
 
-	arg_11_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.ClickCallBack(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-	if arg_12_0.selectFactorList[arg_12_2] then
-		arg_12_0.selectFactorList[arg_12_2] = nil
+function slot0.ClickCallBack(slot0, slot1, slot2, slot3)
+	if slot0.selectFactorList[slot2] then
+		slot0.selectFactorList[slot2] = nil
 	else
-		arg_12_0.selectFactorList[arg_12_2] = true
+		slot0.selectFactorList[slot2] = true
 	end
 
-	arg_12_3:SetSelectedState(arg_12_0.selectFactorList[arg_12_2] and "true" or "false")
-	arg_12_0:UpdateScore()
+	slot3:SetSelectedState(slot0.selectFactorList[slot2] and "true" or "false")
+	slot0:UpdateScore()
 end
 
-function var_0_0.UpdateView(arg_13_0)
-	local var_13_0 = ActivityCombineLevelCfg[arg_13_0.id]
+function slot0.UpdateView(slot0)
+	slot0.upList = {}
+	slot0.downList = {}
 
-	arg_13_0.upList = {}
-	arg_13_0.downList = {}
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_0.select_entry) do
-		local var_13_1 = ActivityCombineFactorCfg[iter_13_1]
-
-		if var_13_1.score < 0 then
-			table.insert(arg_13_0.upList, iter_13_1)
-		elseif var_13_1.score > 0 then
-			table.insert(arg_13_0.downList, iter_13_1)
+	for slot5, slot6 in ipairs(ActivityCombineLevelCfg[slot0.id].select_entry) do
+		if ActivityCombineFactorCfg[slot6].score < 0 then
+			table.insert(slot0.upList, slot6)
+		elseif slot7.score > 0 then
+			table.insert(slot0.downList, slot6)
 		end
 	end
 
-	arg_13_0.titleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR")
-	arg_13_0.upTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR_FRONT")
-	arg_13_0.downTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR_NEGATIVE")
-	arg_13_0.hardScoreTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_DIFFICULTY_RATING_NOW")
+	slot0.titleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR")
+	slot0.upTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR_FRONT")
+	slot0.downTitleTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_FACTOR_NEGATIVE")
+	slot0.hardScoreTxt_.text = GetTips("ACTIVITY_COMBINE_GAME_DIFFICULTY_RATING_NOW")
 
-	arg_13_0.list1:StartScroll(#arg_13_0.upList)
-	arg_13_0.list2:StartScroll(#arg_13_0.downList)
-	arg_13_0:UpdateScore()
+	slot0.list1:StartScroll(#slot0.upList)
+	slot0.list2:StartScroll(#slot0.downList)
+	slot0:UpdateScore()
 end
 
-function var_0_0.UpdateScore(arg_14_0)
-	local var_14_0 = 0
-	local var_14_1 = 0
-	local var_14_2 = 0
+function slot0.UpdateScore(slot0)
+	slot1 = 0
+	slot3 = 0
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.selectFactorList) do
-		local var_14_3 = ActivityCombineFactorCfg[iter_14_0]
-
-		if var_14_3.score < 0 then
-			var_14_1 = var_14_1 + 1
-		elseif var_14_3.score > 0 then
-			var_14_2 = var_14_2 + 1
+	for slot7, slot8 in pairs(slot0.selectFactorList) do
+		if ActivityCombineFactorCfg[slot7].score < 0 then
+			slot2 = 0 + 1
+		elseif slot9.score > 0 then
+			slot3 = slot3 + 1
 		end
 
-		var_14_0 = var_14_0 + var_14_3.score
+		slot1 = slot1 + slot9.score
 	end
 
-	arg_14_0.upTxt_.text = var_14_1 .. "/" .. #arg_14_0.upList
-	arg_14_0.downTxt_.text = var_14_2 .. "/" .. #arg_14_0.downList
-	arg_14_0.scoreTxt_.text = var_14_0
+	slot0.upTxt_.text = slot2 .. "/" .. #slot0.upList
+	slot0.downTxt_.text = slot3 .. "/" .. #slot0.downList
+	slot0.scoreTxt_.text = slot1
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0.selectFactorList = {}
+function slot0.OnExit(slot0)
+	slot0.selectFactorList = {}
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnTop(arg_16_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.list1 then
-		arg_17_0.list1:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list1 then
+		slot0.list1:Dispose()
 
-		arg_17_0.list1 = nil
+		slot0.list1 = nil
 	end
 
-	if arg_17_0.list2 then
-		arg_17_0.list2:Dispose()
+	if slot0.list2 then
+		slot0.list2:Dispose()
 
-		arg_17_0.list2 = nil
+		slot0.list2 = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
-	Object.Destroy(arg_17_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

@@ -1,123 +1,118 @@
-local var_0_0 = class("SectionSelectHeroChip", ReduxView)
+slot0 = class("SectionSelectHeroChip", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListener()
+	slot0:BindCfgUI()
+	slot0:AddListener()
 end
 
-function var_0_0.AddListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		if arg_2_0.isCustom_ then
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.isCustom_ then
 			ShowTips("CANNOT_CHANGE_CHIP")
 		else
 			ChipAction:UpdateChipRed()
-			arg_2_0:Go("/battleChipManager", {
-				stageType = arg_2_0.stageType_,
-				stageID = arg_2_0.stageID_,
-				activityID = arg_2_0.activityID_,
-				reserveParams = arg_2_0.reserveParams_
+			uv0:Go("/battleChipManager", {
+				stageType = uv0.stageType_,
+				stageID = uv0.stageID_,
+				activityID = uv0.activityID_,
+				reserveParams = uv0.reserveParams_
 			})
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4)
-	arg_4_0.stageType_ = arg_4_1
-	arg_4_0.stageID_ = arg_4_2
-	arg_4_0.activityID_ = arg_4_3
-	arg_4_0.reserveParams_ = arg_4_4
-	arg_4_0.isCustom_ = false
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.stageType_ = slot1
+	slot0.stageID_ = slot2
+	slot0.activityID_ = slot3
+	slot0.reserveParams_ = slot4
+	slot0.isCustom_ = false
 
-	local var_4_0 = BattleStageTools.GetStageCfg(arg_4_1, arg_4_2)
+	if BattleStageTools.GetStageCfg(slot1, slot2) and type(slot5.chip_list) == "table" then
+		slot0.enabledID_ = slot5.chip_list[1]
+		slot0.chipList_ = {}
 
-	if var_4_0 and type(var_4_0.chip_list) == "table" then
-		arg_4_0.enabledID_ = var_4_0.chip_list[1]
-		arg_4_0.chipList_ = {}
-
-		for iter_4_0 = 2, 3 do
-			arg_4_0.chipList_[iter_4_0 - 1] = var_4_0.chip_list[iter_4_0]
+		for slot9 = 2, 3 do
+			slot0.chipList_[slot9 - 1] = slot5.chip_list[slot9]
 		end
 
-		arg_4_0:RefreshUI()
+		slot0:RefreshUI()
 
-		arg_4_0.isCustom_ = true
+		slot0.isCustom_ = true
 
 		return
 	end
 
-	arg_4_0.enabledID_ = arg_4_0:GetChipManagerID()
-	arg_4_0.chipList_ = arg_4_0:GetChipList()
+	slot0.enabledID_ = slot0:GetChipManagerID()
+	slot0.chipList_ = slot0:GetChipList()
 
-	arg_4_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_5_0)
-	local var_5_0 = arg_5_0.enabledID_ or 0
-	local var_5_1 = var_5_0 == 0
+function slot0.RefreshUI(slot0)
+	slot2 = (slot0.enabledID_ or 0) == 0
 
-	SetActive(arg_5_0.chipManagerGo_, not var_5_1)
+	SetActive(slot0.chipManagerGo_, not slot2)
 
-	if var_5_1 then
-		for iter_5_0 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
-			SetActive(arg_5_0[string.format("chipIconGo%s_", iter_5_0)], false)
+	if slot2 then
+		for slot6 = 1, GameSetting.ai_secondary_chip_equip_num.value[1] do
+			SetActive(slot0[string.format("chipIconGo%s_", slot6)], false)
 		end
 	else
-		if ChipCfg[var_5_0] == nil then
-			print(string.format("ChipCfg[%s] is nil", var_5_0))
+		if ChipCfg[slot1] == nil then
+			print(string.format("ChipCfg[%s] is nil", slot1))
 		end
 
-		arg_5_0.chipManagerImg_.sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[var_5_0].picture_id)
+		slot0.chipManagerImg_.sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot1].picture_id)
+		slot3 = slot0.chipList_
 
-		local var_5_2 = arg_5_0.chipList_
-		local var_5_3 = GameSetting.ai_secondary_chip_equip_num.value[1]
-
-		if var_5_3 < #arg_5_0.chipList_ then
-			for iter_5_1 = #arg_5_0.chipList_, var_5_3 + 1, -1 do
-				arg_5_0.chipList_[iter_5_1] = nil
+		if GameSetting.ai_secondary_chip_equip_num.value[1] < #slot0.chipList_ then
+			for slot8 = #slot0.chipList_, slot4 + 1, -1 do
+				slot0.chipList_[slot8] = nil
 			end
 		end
 
-		for iter_5_2, iter_5_3 in ipairs(var_5_2) do
-			if iter_5_3 == nil or iter_5_3 == 0 then
+		for slot8, slot9 in ipairs(slot3) do
+			if slot9 == nil or slot9 == 0 then
 				break
 			end
 
-			SetActive(arg_5_0[string.format("chipIconGo%s_", iter_5_2)], true)
+			SetActive(slot0[string.format("chipIconGo%s_", slot8)], true)
 
-			if ChipCfg[iter_5_3] == nil then
-				print(string.format("ChipCfg[%s] is nil", iter_5_3))
+			if ChipCfg[slot9] == nil then
+				print(string.format("ChipCfg[%s] is nil", slot9))
 			end
 
-			arg_5_0[string.format("chipIcon%s_", iter_5_2)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[iter_5_3].picture_id)
+			slot0[string.format("chipIcon%s_", slot8)].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot9].picture_id)
 		end
 
-		for iter_5_4 = #var_5_2 + 1, var_5_3 do
-			SetActive(arg_5_0[string.format("chipIconGo%s_", iter_5_4)], false)
+		for slot8 = #slot3 + 1, slot4 do
+			SetActive(slot0[string.format("chipIconGo%s_", slot8)], false)
 		end
 	end
 end
 
-function var_0_0.GetChipManagerID(arg_6_0)
-	return ReserveTools.GetMimirID(arg_6_0.reserveParams_)
+function slot0.GetChipManagerID(slot0)
+	return ReserveTools.GetMimirID(slot0.reserveParams_)
 end
 
-function var_0_0.GetChipList(arg_7_0)
-	return ReserveTools.GetMimirChipList(arg_7_0.reserveParams_)
+function slot0.GetChipList(slot0)
+	return ReserveTools.GetMimirChipList(slot0.reserveParams_)
 end
 
-function var_0_0.GetCurMimirID(arg_8_0)
-	return arg_8_0.enabledID_ or 0
+function slot0.GetCurMimirID(slot0)
+	return slot0.enabledID_ or 0
 end
 
-function var_0_0.GetCurChipList(arg_9_0)
-	return arg_9_0.chipList_ or {}
+function slot0.GetCurChipList(slot0)
+	return slot0.chipList_ or {}
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

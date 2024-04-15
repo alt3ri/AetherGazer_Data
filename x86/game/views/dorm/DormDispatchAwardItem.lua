@@ -1,48 +1,48 @@
-local var_0_0 = class("DormDispatchAwardItem", ReduxView)
+slot0 = class("DormDispatchAwardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 
-	arg_2_0.item = CommonItemView.New(arg_2_0.commonitemGo_1)
+	slot0.item = CommonItemView.New(slot0.commonitemGo_1)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	if arg_4_1.extraNum then
-		arg_4_0.extraText_.text = string.format("+%d", arg_4_1.extraNum)
+function slot0.RefreshUI(slot0, slot1)
+	if slot1.extraNum then
+		slot0.extraText_.text = string.format("+%d", slot1.extraNum)
 	else
-		arg_4_0.extraText_.text = ""
+		slot0.extraText_.text = ""
 	end
 
-	arg_4_0.item:SetData({
-		id = arg_4_1.id,
-		number = arg_4_1.num,
-		clickFun = function(arg_5_0)
+	slot0.item:SetData({
+		id = slot1.id,
+		number = slot1.num,
+		clickFun = function (slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_5_0.id
+				slot0.id
 			})
 		end
 	})
 end
 
-function var_0_0.Dispose(arg_6_0)
-	if arg_6_0.item then
-		arg_6_0.item:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.item then
+		slot0.item:Dispose()
 
-		arg_6_0.item = nil
+		slot0.item = nil
 	end
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

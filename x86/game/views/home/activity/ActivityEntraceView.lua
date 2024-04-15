@@ -1,110 +1,111 @@
-local var_0_0 = class("ActivityEntraceView", ReduxView)
+slot0 = class("ActivityEntraceView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.itemUiList_ = LuaList.New(handler(arg_1_0, arg_1_0.IndexItem), arg_1_0.uiListGo_, ActivityEntraceItem)
-	arg_1_0.activityOpenHandler_ = handler(arg_1_0, arg_1_0.ActivityOpen)
+	slot0.itemUiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, ActivityEntraceItem)
+	slot0.activityOpenHandler_ = handler(slot0, slot0.ActivityOpen)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	manager.notify:RegistListener(ACTIVITY_UPDATE, arg_2_0.activityOpenHandler_)
-	manager.notify:RegistListener(ACTIVITY_ENTRACE_OPEN, arg_2_0.activityOpenHandler_)
-	arg_2_0:InitItemList()
-	arg_2_0:AddTimer()
-	arg_2_0:RefreshScrollView()
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(ACTIVITY_UPDATE, slot0.activityOpenHandler_)
+	manager.notify:RegistListener(ACTIVITY_ENTRACE_OPEN, slot0.activityOpenHandler_)
+	slot0:InitItemList()
+	slot0:AddTimer()
+	slot0:RefreshScrollView()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.notify:RemoveListener(ACTIVITY_UPDATE, arg_3_0.activityOpenHandler_)
-	manager.notify:RemoveListener(ACTIVITY_ENTRACE_OPEN, arg_3_0.activityOpenHandler_)
-	arg_3_0:StopTimer()
+function slot0.OnExit(slot0)
+	manager.notify:RemoveListener(ACTIVITY_UPDATE, slot0.activityOpenHandler_)
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.itemUiList_:GetItemList()) do
-		iter_3_1:OnExit()
+	slot4 = slot0.activityOpenHandler_
+
+	manager.notify:RemoveListener(ACTIVITY_ENTRACE_OPEN, slot4)
+	slot0:StopTimer()
+
+	for slot4, slot5 in pairs(slot0.itemUiList_:GetItemList()) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.AddTimer(arg_4_0)
-	arg_4_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	arg_4_0.activiteTime_ = Timer.New(function()
-		for iter_5_0, iter_5_1 in ipairs(arg_4_0.idList_) do
-			if ActivityData:GetActivityIsOpen(iter_5_1) == false then
-				manager.notify:Invoke(ACTIVITY_ENTRACE_OPEN, iter_5_1)
+	slot0.activiteTime_ = Timer.New(function ()
+		for slot3, slot4 in ipairs(uv0.idList_) do
+			if ActivityData:GetActivityIsOpen(slot4) == false then
+				manager.notify:Invoke(ACTIVITY_ENTRACE_OPEN, slot4)
 			end
 		end
 	end, 1, -1)
 
-	arg_4_0.activiteTime_:Start()
+	slot0.activiteTime_:Start()
 end
 
-function var_0_0.StopTimer(arg_6_0)
-	if arg_6_0.activiteTime_ then
-		arg_6_0.activiteTime_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.activiteTime_ then
+		slot0.activiteTime_:Stop()
 
-		arg_6_0.activiteTime_ = nil
+		slot0.activiteTime_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_7_0.activityOpenHandler_ = nil
+	slot0.activityOpenHandler_ = nil
 
-	arg_7_0.itemUiList_:Dispose()
+	slot0.itemUiList_:Dispose()
 
-	arg_7_0.itemUiList_ = nil
+	slot0.itemUiList_ = nil
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.idList_[arg_8_1]
-
-	arg_8_2:SetData(var_8_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.idList_[slot1])
 end
 
-function var_0_0.InitItemList(arg_9_0)
-	arg_9_0.idList_ = {}
+function slot0.InitItemList(slot0)
+	slot0.idList_ = {}
 
-	for iter_9_0, iter_9_1 in ipairs(ActivityEntraceCfg.all) do
-		if ActivityData:GetActivityIsOpen(iter_9_1) then
-			table.insert(arg_9_0.idList_, iter_9_1)
+	for slot4, slot5 in ipairs(ActivityEntraceCfg.all) do
+		if ActivityData:GetActivityIsOpen(slot5) then
+			table.insert(slot0.idList_, slot5)
 		end
 	end
 
-	arg_9_0.itemUiList_:StartScroll(#arg_9_0.idList_)
+	slot0.itemUiList_:StartScroll(#slot0.idList_)
 end
 
-function var_0_0.ActivityOpen(arg_10_0, arg_10_1)
-	if ActivityTemplateConst.MAIN_ACTIVITY ~= ActivityTools.GetActivityType(arg_10_1) then
+function slot0.ActivityOpen(slot0, slot1)
+	if ActivityTemplateConst.MAIN_ACTIVITY ~= ActivityTools.GetActivityType(slot1) then
 		return
 	end
 
-	if not table.indexof(arg_10_0.idList_, arg_10_1) then
-		if ActivityEntraceCfg[arg_10_1] == nil then
+	if not table.indexof(slot0.idList_, slot1) then
+		if ActivityEntraceCfg[slot1] == nil then
 			return
 		end
 
-		table.insert(arg_10_0.idList_, arg_10_1)
-		table.sort(arg_10_0.idList_)
-	elseif not ActivityData:GetActivityIsOpen(arg_10_1) then
-		table.removebyvalue(arg_10_0.idList_, arg_10_1)
+		table.insert(slot0.idList_, slot1)
+		table.sort(slot0.idList_)
+	elseif not ActivityData:GetActivityIsOpen(slot1) then
+		table.removebyvalue(slot0.idList_, slot1)
 	end
 
-	arg_10_0.itemUiList_:StartScroll(#arg_10_0.idList_)
-	arg_10_0:RefreshScrollView()
+	slot0.itemUiList_:StartScroll(#slot0.idList_)
+	slot0:RefreshScrollView()
 end
 
-function var_0_0.RefreshScrollView(arg_11_0)
-	if #arg_11_0.idList_ > 1 then
-		arg_11_0.scrollView_.enabled = true
+function slot0.RefreshScrollView(slot0)
+	if #slot0.idList_ > 1 then
+		slot0.scrollView_.enabled = true
 	else
-		arg_11_0.scrollView_.verticalNormalizedPosition = 0
-		arg_11_0.scrollView_.enabled = false
+		slot0.scrollView_.verticalNormalizedPosition = 0
+		slot0.scrollView_.enabled = false
 	end
 end
 
-return var_0_0
+return slot0

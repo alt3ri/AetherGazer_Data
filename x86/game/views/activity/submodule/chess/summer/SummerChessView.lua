@@ -1,17 +1,15 @@
 ActivityChessView = import("game.views.activity.Submodule.Chess.ActivityChessView")
+slot0 = class("SummerChessView", ActivityChessView)
 
-local var_0_0 = class("SummerChessView", ActivityChessView)
-
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/SummerUI/SummerWarChessUI"
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.GetChessItemView(arg_3_0)
+function slot0.GetChessItemView(slot0)
 	return SummerChessItemView
 end
 
-return var_0_0
+return slot0

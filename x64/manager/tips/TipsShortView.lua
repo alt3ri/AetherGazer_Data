@@ -1,77 +1,75 @@
-local var_0_0 = import("manager.tips.TipsShortItemView")
-local var_0_1 = 1
-local var_0_2 = class("TipsShortView")
+slot0 = import("manager.tips.TipsShortItemView")
+slot1 = 1
+slot2 = class("TipsShortView")
 
-function var_0_2.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot2.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 
-	arg_1_0.itemList_ = {}
-	arg_1_0.queue_ = {}
+	slot0.itemList_ = {}
+	slot0.queue_ = {}
 end
 
-function var_0_2.InitUI(arg_2_0)
-	arg_2_0.tips_ = arg_2_0.transform_:Find("shortTip").gameObject
-	arg_2_0.grid_ = arg_2_0.transform_:Find("shortGrid").gameObject
+function slot2.InitUI(slot0)
+	slot0.tips_ = slot0.transform_:Find("shortTip").gameObject
+	slot0.grid_ = slot0.transform_:Find("shortGrid").gameObject
 end
 
-function var_0_2.ShowTips(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if arg_3_0.itemList_ == nil then
+function slot2.ShowTips(slot0, slot1, slot2, slot3)
+	if slot0.itemList_ == nil then
 		return
 	end
 
-	arg_3_0:GetFreeItem():RefreshUI(arg_3_1, arg_3_2, arg_3_3)
+	slot0:GetFreeItem():RefreshUI(slot1, slot2, slot3)
 end
 
-function var_0_2.GetFreeItem(arg_4_0)
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.itemList_) do
-		if iter_4_1:IsFree() then
-			table.insert(arg_4_0.queue_, iter_4_0)
+function slot2.GetFreeItem(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		if slot5:IsFree() then
+			table.insert(slot0.queue_, slot4)
 
-			return iter_4_1
+			return slot5
 		end
 	end
 
-	if #arg_4_0.itemList_ < var_0_1 then
-		local var_4_0 = var_0_0.New(arg_4_0, arg_4_0.tips_, arg_4_0.grid_)
+	if #slot0.itemList_ < uv0 then
+		slot1 = uv1.New(slot0, slot0.tips_, slot0.grid_)
 
-		table.insert(arg_4_0.itemList_, var_4_0)
-		table.insert(arg_4_0.queue_, #arg_4_0.itemList_)
+		table.insert(slot0.itemList_, slot1)
+		table.insert(slot0.queue_, #slot0.itemList_)
 
-		return var_4_0
+		return slot1
 	end
 
-	local var_4_1 = arg_4_0.queue_[1]
+	slot1 = slot0.queue_[1]
 
-	table.remove(arg_4_0.queue_, 1)
-	table.insert(arg_4_0.queue_, var_4_1)
-	arg_4_0.itemList_[var_4_1]:FastFinish()
+	table.remove(slot0.queue_, 1)
+	table.insert(slot0.queue_, slot1)
+	slot0.itemList_[slot1]:FastFinish()
 
-	return arg_4_0.itemList_[var_4_1]
+	return slot0.itemList_[slot1]
 end
 
-function var_0_2.Finish(arg_5_0)
-	local var_5_0 = arg_5_0.queue_[1]
-
-	table.remove(arg_5_0.queue_, 1)
-	arg_5_0.itemList_[var_5_0]:SetFree(true)
+function slot2.Finish(slot0)
+	table.remove(slot0.queue_, 1)
+	slot0.itemList_[slot0.queue_[1]]:SetFree(true)
 end
 
-function var_0_2.Dispose(arg_6_0)
-	if arg_6_0.itemList_ then
-		for iter_6_0, iter_6_1 in ipairs(arg_6_0.itemList_) do
-			iter_6_1:Dispose()
+function slot2.Dispose(slot0)
+	if slot0.itemList_ then
+		for slot4, slot5 in ipairs(slot0.itemList_) do
+			slot5:Dispose()
 		end
 
-		arg_6_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	arg_6_0.tips_ = nil
-	arg_6_0.transform_ = nil
-	arg_6_0.gameObject_ = nil
-	arg_6_0.grid_ = nil
+	slot0.tips_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.grid_ = nil
 end
 
-return var_0_2
+return slot2

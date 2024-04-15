@@ -1,67 +1,66 @@
-local var_0_0 = class("SevenDaySkinPopView_2_8", ReduxView)
+slot0 = class("SevenDaySkinPopView_2_8", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/SevenSignSkin/XH3rdSevenPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 
-	arg_3_0.items = {}
+	slot0.items = {}
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0.gameObject_:InjectUI(arg_4_0)
+function slot0.InitUI(slot0)
+	slot0.gameObject_:InjectUI(slot0)
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.BtnMask, nil, handler(arg_5_0, arg_5_0.OpenRewardUI))
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.BtnMask, nil, handler(slot0, slot0.OpenRewardUI))
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.msg = arg_6_0.params_.msg
-	arg_6_0.reward = arg_6_0.params_.reward
+function slot0.OnEnter(slot0)
+	slot0.msg = slot0.params_.msg
+	slot0.reward = slot0.params_.reward
 
-	arg_6_0:RefreshView()
+	slot0:RefreshView()
 end
 
-function var_0_0.RefreshView(arg_7_0)
-	arg_7_0.TxtContent.text = GetTips(arg_7_0.msg.body)
-	arg_7_0.TxtName.text = GetTips(arg_7_0.msg.author)
+function slot0.RefreshView(slot0)
+	slot0.TxtContent.text = GetTips(slot0.msg.body)
+	slot0.TxtName.text = GetTips(slot0.msg.author)
 
-	arg_7_0.Ctrl:SetSelectedState(arg_7_0.msg.name)
+	slot0.Ctrl:SetSelectedState(slot0.msg.name)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OpenRewardUI(arg_10_0)
-	arg_10_0.Back()
+function slot0.OpenRewardUI(slot0)
+	slot0.Back()
 
-	if arg_10_0.reward[1][1] == 106001 then
-		getReward(arg_10_0.reward, {
+	if slot0.reward[1][1] == 106001 then
+		getReward(slot0.reward, {
 			ItemConst.ITEM_TYPE.HERO_SKIN
 		})
 	else
-		getReward(arg_10_0.reward)
+		getReward(slot0.reward)
 	end
 end
 
-function var_0_0.UseSkin(arg_11_0)
+function slot0.UseSkin(slot0)
 	ShowMessageBox({
 		title = GetTips("PROMPT"),
 		content = string.format(GetTips("USE_SKIN_CHANGE"), ItemTools.getItemName(107602)),
-		OkCallback = function()
+		OkCallback = function ()
 			CommonAction.TryToUseItem({
 				{
 					num = 1,
@@ -70,13 +69,13 @@ function var_0_0.UseSkin(arg_11_0)
 				}
 			})
 		end,
-		MaskCallback = function()
-			getReward(arg_11_0.reward)
+		MaskCallback = function ()
+			getReward(uv0.reward)
 		end,
-		CancelCallback = function()
-			getReward(arg_11_0.reward)
+		CancelCallback = function ()
+			getReward(uv0.reward)
 		end
 	})
 end
 
-return var_0_0
+return slot0

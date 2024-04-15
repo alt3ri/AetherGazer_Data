@@ -1,43 +1,43 @@
-local var_0_0 = class("RankItemBase", ReduxView)
+slot0 = class("RankItemBase", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
+	slot0:initUI()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_2_0.rankController_ = ControllerUtil.GetController(arg_2_0.transform_, "rank")
+	slot0.rankController_ = ControllerUtil.GetController(slot0.transform_, "rank")
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_squadsBtn, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_squadsBtn, nil, function ()
 		JumpTools.OpenPageByJump("polyhedronRankSquads", {
-			list = arg_3_0.heroList_
+			list = uv0.heroList_
 		})
 	end)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1)
-	arg_5_0.user_id = arg_5_1.user_id
-	arg_5_0.m_rankText.text = arg_5_1.rank
-	arg_5_0.m_scoreText.text = arg_5_1.score
-	arg_5_0.m_difficultyText.text = arg_5_1.difficulty
-	arg_5_0.heroList_ = arg_5_1:GetSingleSelectHeroList()
+function slot0.Refresh(slot0, slot1)
+	slot0.user_id = slot1.user_id
+	slot0.m_rankText.text = slot1.rank
+	slot0.m_scoreText.text = slot1.score
+	slot0.m_difficultyText.text = slot1.difficulty
+	slot0.heroList_ = slot1:GetSingleSelectHeroList()
 
-	if arg_5_1.rank <= 3 then
-		arg_5_0.rankController_:SetSelectedIndex(arg_5_1.rank)
+	if slot1.rank <= 3 then
+		slot0.rankController_:SetSelectedIndex(slot1.rank)
 	else
-		arg_5_0.rankController_:SetSelectedIndex(0)
+		slot0.rankController_:SetSelectedIndex(0)
 	end
 
-	arg_5_0.m_name.text = arg_5_1.nick
-	arg_5_0.m_icon.sprite = ItemTools.getItemSprite(arg_5_1.portrait)
-	arg_5_0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_5_1.frame)
+	slot0.m_name.text = slot1.nick
+	slot0.m_icon.sprite = ItemTools.getItemSprite(slot1.portrait)
+	slot0.m_frame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.frame)
 end
 
-return var_0_0
+return slot0

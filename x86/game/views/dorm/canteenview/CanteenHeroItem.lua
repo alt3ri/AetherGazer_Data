@@ -1,183 +1,167 @@
-local var_0_0 = class("CanteenHeroItem", ReduxView)
+slot0 = class("CanteenHeroItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.clickFlag = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.clickFlag = slot2
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.fatigueController = ControllerUtil.GetController(arg_2_0.transform_, "fatigue")
-	arg_2_0.selController = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.jobController = ControllerUtil.GetController(arg_2_0.transform_, "work")
-	arg_2_0.skillController = ControllerUtil.GetController(arg_2_0.transform_, "skill")
-	arg_2_0.sameNameController = ControllerUtil.GetController(arg_2_0.transform_, "sameName")
+	slot0.fatigueController = ControllerUtil.GetController(slot0.transform_, "fatigue")
+	slot0.selController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.jobController = ControllerUtil.GetController(slot0.transform_, "work")
+	slot0.skillController = ControllerUtil.GetController(slot0.transform_, "skill")
+	slot0.sameNameController = ControllerUtil.GetController(slot0.transform_, "sameName")
 end
 
-function var_0_0.SetFunction(arg_3_0, arg_3_1)
-	arg_3_0.showWork = arg_3_1
+function slot0.SetFunction(slot0, slot1)
+	slot0.showWork = slot1
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.heroitemBtn_, nil, function()
-		if arg_4_0.selFunc then
-			arg_4_0.selFunc(arg_4_0.heroID)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.heroitemBtn_, nil, function ()
+		if uv0.selFunc then
+			uv0.selFunc(uv0.heroID)
 		end
 	end)
 end
 
-function var_0_0.ResetCharacterCallBack(arg_6_0, arg_6_1)
-	if arg_6_1 then
-		arg_6_0.selFunc = arg_6_1
+function slot0.ResetCharacterCallBack(slot0, slot1)
+	if slot1 then
+		slot0.selFunc = slot1
 	end
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	arg_7_0.heroID = arg_7_1
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.heroID = slot1
 
-	if DormNpcTools:CheckIDIsNpc(arg_7_1) then
-		arg_7_0:RefreshNpcInfo(arg_7_1, arg_7_2, arg_7_3)
+	if DormNpcTools:CheckIDIsNpc(slot1) then
+		slot0:RefreshNpcInfo(slot1, slot2, slot3)
 	else
-		arg_7_0:RefreshHeroInfo(arg_7_1, arg_7_2, arg_7_3)
+		slot0:RefreshHeroInfo(slot1, slot2, slot3)
 	end
 end
 
-function var_0_0.RefreshHeroInfo(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	arg_8_0.heroIcon_.sprite = DormHeroTools.GetBackHomeHeadSprite(arg_8_1)
-	arg_8_0.heroitemBtn_.interactable = true
+function slot0.RefreshHeroInfo(slot0, slot1, slot2, slot3)
+	slot0.heroIcon_.sprite = DormHeroTools.GetBackHomeHeadSprite(slot1)
+	slot0.heroitemBtn_.interactable = true
+	slot4 = DormData:GetHeroFatigue(slot1)
+	slot0.curText_.text = slot4
+	slot0.maxText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
+	slot0.progressImg_.fillAmount = 1 - math.min(slot4 / GameSetting.canteen_hero_fatigue_max.value[1], 1)
 
-	local var_8_0 = DormData:GetHeroFatigue(arg_8_1)
-
-	arg_8_0.curText_.text = var_8_0
-	arg_8_0.maxText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
-	arg_8_0.progressImg_.fillAmount = 1 - math.min(var_8_0 / GameSetting.canteen_hero_fatigue_max.value[1], 1)
-
-	local var_8_1 = GameDisplayCfg.dorm_hero_fatigue_level.value
-
-	if var_8_0 <= var_8_1[1] then
-		arg_8_0.fatigueController:SetSelectedState("lack")
-	elseif var_8_0 > var_8_1[1] and var_8_0 <= var_8_1[2] then
-		arg_8_0.fatigueController:SetSelectedState("middle")
+	if slot4 <= GameDisplayCfg.dorm_hero_fatigue_level.value[1] then
+		slot0.fatigueController:SetSelectedState("lack")
+	elseif slot5[1] < slot4 and slot4 <= slot5[2] then
+		slot0.fatigueController:SetSelectedState("middle")
 	else
-		arg_8_0.fatigueController:SetSelectedState("full")
+		slot0.fatigueController:SetSelectedState("full")
 	end
 
-	local var_8_2 = DormData:GetHeroTemplateInfo(arg_8_1)
+	slot6 = DormData:GetHeroTemplateInfo(slot1)
 
-	arg_8_0.jobController:SetSelectedState("false")
+	slot0.jobController:SetSelectedState("false")
 
-	if not arg_8_0.showWork then
-		local var_8_3 = var_8_2.jobType
+	if not slot0.showWork then
+		if slot6.jobType then
+			slot0.jobController:SetSelectedState("true")
 
-		if var_8_3 then
-			arg_8_0.jobController:SetSelectedState("true")
+			slot0.jobText_.text = GetI18NText(CanteenTools:GetJobName(slot7))
 
-			arg_8_0.jobText_.text = GetI18NText(CanteenTools:GetJobName(var_8_3))
-
-			if var_8_2.hero_id ~= arg_8_1 then
-				arg_8_0.selController:SetSelectedState("no")
+			if slot6.hero_id ~= slot1 then
+				slot0.selController:SetSelectedState("no")
 			end
-		elseif CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_8_1) then
-			arg_8_0.jobController:SetSelectedState("true")
+		elseif CanteenEntrustData:CheckHasChooseEntrustCharacter(slot1) then
+			slot0.jobController:SetSelectedState("true")
 
-			arg_8_0.jobText_.text = GetTips("DORM_HERO_AT_TASK")
+			slot0.jobText_.text = GetTips("DORM_HERO_AT_TASK")
 		end
 	end
 
-	local var_8_4 = DormSkillData:CheckSkillCanOpen(arg_8_3, arg_8_1)
+	if #DormSkillData:CheckSkillCanOpen(slot3, slot1) > 0 then
+		slot0.iconImg_.sprite = CanteenTools.GetCanteenSkillSprite(slot7[1])
 
-	if #var_8_4 > 0 then
-		local var_8_5 = var_8_4[1]
-
-		arg_8_0.iconImg_.sprite = CanteenTools.GetCanteenSkillSprite(var_8_5)
-
-		arg_8_0.skillController:SetSelectedState("true")
+		slot0.skillController:SetSelectedState("true")
 	else
-		arg_8_0.skillController:SetSelectedState("false")
+		slot0.skillController:SetSelectedState("false")
 	end
 
-	if CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_8_1) then
-		arg_8_0.selController:SetSelectedState("no")
+	if CanteenEntrustData:CheckHasChooseEntrustCharacter(slot1) then
+		slot0.selController:SetSelectedState("no")
 
-		arg_8_0.heroitemBtn_.interactable = false
+		slot0.heroitemBtn_.interactable = false
 
 		return
 	end
 
-	local var_8_6
+	slot8 = nil
 
-	if arg_8_2 and not DormNpcTools:CheckIDIsNpc(arg_8_2) then
-		var_8_6 = HeroRecordCfg.get_id_list_by_hero_id[arg_8_2][1]
+	if slot2 and not DormNpcTools:CheckIDIsNpc(slot2) then
+		slot8 = HeroRecordCfg.get_id_list_by_hero_id[slot2][1]
 	end
 
-	arg_8_0.archiveID = HeroRecordCfg.get_id_list_by_hero_id[arg_8_1][1]
+	slot0.archiveID = HeroRecordCfg.get_id_list_by_hero_id[slot1][1]
 
-	arg_8_0.sameNameController:SetSelectedState("false")
+	slot0.sameNameController:SetSelectedState("false")
 
-	if arg_8_2 == arg_8_1 then
-		arg_8_0.selController:SetSelectedState("sel")
-	elseif arg_8_0.archiveID == var_8_6 then
-		if not var_8_2.jobType then
-			arg_8_0.sameNameController:SetSelectedState("true")
+	if slot2 == slot1 then
+		slot0.selController:SetSelectedState("sel")
+	elseif slot0.archiveID == slot8 then
+		if not slot6.jobType then
+			slot0.sameNameController:SetSelectedState("true")
 		end
 	else
-		arg_8_0.selController:SetSelectedState("normal")
+		slot0.selController:SetSelectedState("normal")
 	end
 
-	if var_8_2.jobType and var_8_2.hero_id ~= arg_8_1 then
-		arg_8_0.selController:SetSelectedState("no")
+	if slot6.jobType and slot6.hero_id ~= slot1 then
+		slot0.selController:SetSelectedState("no")
 
-		arg_8_0.heroitemBtn_.interactable = false
+		slot0.heroitemBtn_.interactable = false
 	end
 end
 
-function var_0_0.RefreshNpcInfo(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	arg_9_0.heroIcon_.sprite = DormNpcTools:GetNpcHeadSprite(arg_9_1)
+function slot0.RefreshNpcInfo(slot0, slot1, slot2, slot3)
+	slot0.heroIcon_.sprite = DormNpcTools:GetNpcHeadSprite(slot1)
 
-	if DormNpcTools:GetNpcFatigue(arg_9_1) < 0 then
-		arg_9_0.fatigueController:SetSelectedState("infinite")
+	if DormNpcTools:GetNpcFatigue(slot1) < 0 then
+		slot0.fatigueController:SetSelectedState("infinite")
 	end
 
-	local var_9_0 = DormSkillData:CheckSkillCanOpen(arg_9_3, arg_9_1)
+	if #DormSkillData:CheckSkillCanOpen(slot3, slot1) > 0 then
+		slot0.iconImg_.sprite = CanteenTools.GetCanteenSkillSprite(slot5[1])
 
-	if #var_9_0 > 0 then
-		local var_9_1 = var_9_0[1]
-
-		arg_9_0.iconImg_.sprite = CanteenTools.GetCanteenSkillSprite(var_9_1)
-
-		arg_9_0.skillController:SetSelectedState("true")
+		slot0.skillController:SetSelectedState("true")
 	else
-		arg_9_0.skillController:SetSelectedState("false")
+		slot0.skillController:SetSelectedState("false")
 	end
 
-	if arg_9_2 == arg_9_1 then
-		arg_9_0.selController:SetSelectedState("sel")
+	if slot2 == slot1 then
+		slot0.selController:SetSelectedState("sel")
 	else
-		arg_9_0.selController:SetSelectedState("normal")
+		slot0.selController:SetSelectedState("normal")
 	end
 
-	if not arg_9_0.showWork then
-		local var_9_2 = BackHomeNpcData:GetNpcInfoById(arg_9_1).jobType
+	if not slot0.showWork then
+		if BackHomeNpcData:GetNpcInfoById(slot1).jobType then
+			slot0.jobController:SetSelectedState("true")
 
-		if var_9_2 then
-			arg_9_0.jobController:SetSelectedState("true")
-
-			arg_9_0.jobText_.text = CanteenTools:GetJobName(var_9_2)
+			slot0.jobText_.text = CanteenTools:GetJobName(slot7)
 		else
-			arg_9_0.jobController:SetSelectedState("false")
+			slot0.jobController:SetSelectedState("false")
 		end
 	else
-		arg_9_0.jobController:SetSelectedState("false")
+		slot0.jobController:SetSelectedState("false")
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

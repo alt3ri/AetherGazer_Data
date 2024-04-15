@@ -1,14 +1,13 @@
-local var_0_0 = import("game.views.mardukSpecial.items.MardukSpecialRewardItemView")
-local var_0_1 = class("ActivityToggleSpecialRewardItemView", var_0_0)
+slot1 = class("ActivityToggleSpecialRewardItemView", import("game.views.mardukSpecial.items.MardukSpecialRewardItemView"))
 
-function var_0_1.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.items_ = {
-		ActivityToggleSpecialRewardConditionItemView.New(arg_1_0.itemGo1_),
-		ActivityToggleSpecialRewardConditionItemView.New(arg_1_0.itemGo2_),
-		ActivityToggleSpecialRewardConditionItemView.New(arg_1_0.itemGo3_)
+	slot0.items_ = {
+		ActivityToggleSpecialRewardConditionItemView.New(slot0.itemGo1_),
+		ActivityToggleSpecialRewardConditionItemView.New(slot0.itemGo2_),
+		ActivityToggleSpecialRewardConditionItemView.New(slot0.itemGo3_)
 	}
 end
 
-return var_0_1
+return slot1

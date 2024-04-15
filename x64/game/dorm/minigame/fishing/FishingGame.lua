@@ -1,57 +1,53 @@
-local var_0_0 = class("FishingGame")
-local var_0_1, var_0_2, var_0_3 = unpack(nullable(GameDisplayCfg.activity_kagutsuchi_fish_qte_anime, "value") or {
+slot0 = class("FishingGame")
+slot1, slot2, slot3 = unpack(nullable(GameDisplayCfg.activity_kagutsuchi_fish_qte_anime, "value") or {
 	"fishing_start",
 	"fishing_bite",
 	"fishing_finish"
 })
-local var_0_4 = "fishingMinigame"
-local var_0_5 = "fishing"
-local var_0_6 = 1
-local var_0_7 = 2
-local var_0_8 = 3
-local var_0_9 = 4
-local var_0_10 = Dorm.DormEntityManager
+slot4 = "fishingMinigame"
+slot5 = "fishing"
+slot6 = 1
+slot7 = 2
+slot8 = 3
+slot9 = 4
+slot10 = Dorm.DormEntityManager
 
-local function var_0_11(arg_1_0)
-	return arg_1_0.model
+function slot11(slot0)
+	return slot0.model
 end
 
-local function var_0_12(arg_2_0)
-	local var_2_0 = "fishing.pos." .. arg_2_0.spawnAt
-
-	return Dorm.storage:GetData(var_2_0, 1).transform
+function slot12(slot0)
+	return Dorm.storage:GetData("fishing.pos." .. slot0.spawnAt, 1).transform
 end
 
-function var_0_0.Ctor(arg_3_0)
-	local var_3_0 = EntityManager.CreateModel.New(var_0_11, var_0_12)
-
-	arg_3_0.entityManager = EntityManager.New(var_3_0)
-	arg_3_0.listener = EventListener.New()
+function slot0.Ctor(slot0)
+	slot0.entityManager = EntityManager.New(EntityManager.CreateModel.New(uv0, uv1))
+	slot0.listener = EventListener.New()
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.character = arg_4_0.entityManager:Create(var_0_6, {
+function slot0.Init(slot0)
+	slot0.character = slot0.entityManager:Create(uv0, {
 		model = "CharDorm/activity/fishing/9158_tpose",
 		complex = true,
 		spawnAt = "player"
 	})
 
-	var_0_0.ResetAnime(arg_4_0.character)
-	arg_4_0.listener:Register(KAGUTSUCHI_FISHING_EVENT_GAME_START, handler(arg_4_0, arg_4_0.PlayStartAnimeAndWaitQte))
-	arg_4_0.listener:Register(KAGUTSUCHI_FISHING_EVENT_QTE_FINISH, handler(arg_4_0, arg_4_0.PlayEndAnimeAndWait))
+	uv1.ResetAnime(slot0.character)
+	slot0.listener:Register(KAGUTSUCHI_FISHING_EVENT_GAME_START, handler(slot0, slot0.PlayStartAnimeAndWaitQte))
+	slot0.listener:Register(KAGUTSUCHI_FISHING_EVENT_QTE_FINISH, handler(slot0, slot0.PlayEndAnimeAndWait))
 end
 
-function var_0_0.ResetAnime(arg_5_0)
-	var_0_10.StopAllCmd(arg_5_0)
+function slot0.ResetAnime(slot0)
+	uv0.StopAllCmd(slot0)
 end
 
-function var_0_0.PlayStartAnimeAndWaitQte(arg_6_0)
-	arg_6_0.listener:Remove(ON_DORM_CHARACTER_WAIT_CMD)
-	arg_6_0.listener:Remove(KAGUTSUCHI_FISHING_EVENT_QTE_START)
-	var_0_0.ResetAnime(arg_6_0.character)
+function slot0.PlayStartAnimeAndWaitQte(slot0)
+	slot0.listener:Remove(ON_DORM_CHARACTER_WAIT_CMD)
+	slot0.listener:Remove(KAGUTSUCHI_FISHING_EVENT_QTE_START)
+	uv0.ResetAnime(slot0.character)
 
-	if arg_6_0.pole == nil then
-		arg_6_0.pole = arg_6_0.entityManager:Create(var_0_7, {
+	if slot0.pole == nil then
+		slot0.pole = slot0.entityManager:Create(uv1, {
 			spawnAt = "player",
 			pooled = true,
 			model = "CharDorm/prop/diaoyugan",
@@ -59,11 +55,11 @@ function var_0_0.PlayStartAnimeAndWaitQte(arg_6_0)
 		})
 	end
 
-	var_0_0.ResetAnime(arg_6_0.pole)
-	var_0_10.AttachToEntityCMD(arg_6_0.pole, arg_6_0.character, "gua_L_hand_bone")
+	uv0.ResetAnime(slot0.pole)
+	uv2.AttachToEntityCMD(slot0.pole, slot0.character, "gua_L_hand_bone")
 
-	if arg_6_0.float == nil then
-		arg_6_0.float = arg_6_0.entityManager:Create(var_0_8, {
+	if slot0.float == nil then
+		slot0.float = slot0.entityManager:Create(uv3, {
 			spawnAt = "player",
 			pooled = true,
 			model = "CharDorm/prop/fupiao",
@@ -71,10 +67,10 @@ function var_0_0.PlayStartAnimeAndWaitQte(arg_6_0)
 		})
 	end
 
-	var_0_0.ResetAnime(arg_6_0.float)
+	uv0.ResetAnime(slot0.float)
 
-	if arg_6_0.fish == nil then
-		arg_6_0.fish = arg_6_0.entityManager:Create(var_0_9, {
+	if slot0.fish == nil then
+		slot0.fish = slot0.entityManager:Create(uv4, {
 			spawnAt = "fish",
 			pooled = false,
 			model = "CharDorm/prop/fish",
@@ -82,84 +78,81 @@ function var_0_0.PlayStartAnimeAndWaitQte(arg_6_0)
 		})
 	end
 
-	var_0_0.ResetAnime(arg_6_0.fish)
-	var_0_10.SendDoActionCMD(arg_6_0.fish, "fishing_born", true)
-	var_0_10.SendDoActionCMD(arg_6_0.character, var_0_1, true)
-	var_0_10.SendDoActionCMD(arg_6_0.pole, var_0_1, true)
-	var_0_10.SendDoActionCMD(arg_6_0.float, var_0_1, true)
-	var_0_10.ChangeEntityAnimeScheme(arg_6_0.character, var_0_5)
-	arg_6_0.listener:Register(KAGUTSUCHI_FISHING_EVENT_QTE_START, function()
-		arg_6_0.listener:Remove(KAGUTSUCHI_FISHING_EVENT_QTE_START)
-		arg_6_0:PlayQteAnimeAndWaitFinish()
+	uv0.ResetAnime(slot0.fish)
+	uv2.SendDoActionCMD(slot0.fish, "fishing_born", true)
+	uv2.SendDoActionCMD(slot0.character, uv5, true)
+	uv2.SendDoActionCMD(slot0.pole, uv5, true)
+	uv2.SendDoActionCMD(slot0.float, uv5, true)
+	uv2.ChangeEntityAnimeScheme(slot0.character, uv6)
+	slot0.listener:Register(KAGUTSUCHI_FISHING_EVENT_QTE_START, function ()
+		uv0.listener:Remove(KAGUTSUCHI_FISHING_EVENT_QTE_START)
+		uv0:PlayQteAnimeAndWaitFinish()
 	end)
 end
 
-function var_0_0.PlayQteAnimeAndWaitFinish(arg_8_0)
-	arg_8_0.fishBite = true
+function slot0.PlayQteAnimeAndWaitFinish(slot0)
+	slot0.fishBite = true
 
 	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_loop", "")
-	var_0_0.ResetAnime(arg_8_0.character)
-	var_0_0.ResetAnime(arg_8_0.pole)
-	var_0_0.ResetAnime(arg_8_0.float)
-	var_0_0.ResetAnime(arg_8_0.fish)
-	var_0_10.SendDoActionCMD(arg_8_0.character, var_0_2, nil, true, false)
-	var_0_10.SendDoActionCMD(arg_8_0.pole, var_0_2, nil, true, false)
-	var_0_10.SendDoActionCMD(arg_8_0.float, var_0_2, nil, true, false)
-	var_0_10.SendDoActionCMD(arg_8_0.fish, var_0_2, nil, true, false)
+	uv0.ResetAnime(slot0.character)
+	uv0.ResetAnime(slot0.pole)
+	uv0.ResetAnime(slot0.float)
+	uv0.ResetAnime(slot0.fish)
+	uv1.SendDoActionCMD(slot0.character, uv2, nil, true, false)
+	uv1.SendDoActionCMD(slot0.pole, uv2, nil, true, false)
+	uv1.SendDoActionCMD(slot0.float, uv2, nil, true, false)
+	uv1.SendDoActionCMD(slot0.fish, uv2, nil, true, false)
 end
 
-function var_0_0.PlayEndAnimeAndWait(arg_9_0, arg_9_1, arg_9_2)
-	var_0_0.ResetAnime(arg_9_0.character)
-	var_0_0.ResetAnime(arg_9_0.pole)
-	var_0_0.ResetAnime(arg_9_0.float)
-	var_0_0.ResetAnime(arg_9_0.fish)
+function slot0.PlayEndAnimeAndWait(slot0, slot1, slot2)
+	uv0.ResetAnime(slot0.character)
+	uv0.ResetAnime(slot0.pole)
+	uv0.ResetAnime(slot0.float)
+	uv0.ResetAnime(slot0.fish)
+	manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_end" .. (slot2 and "01" or "02"), "")
+	uv1.RestoreEntityAnimeScheme(slot0.character)
+	uv1.SendDoActionCMD(slot0.character, uv2, false)
+	uv1.SendDoActionCMD(slot0.pole, uv2, false)
+	uv1.SendDoActionCMD(slot0.float, uv2, false)
 
-	local var_9_0 = "minigame_activity_2_6_1158_fish_end" .. (arg_9_2 and "01" or "02")
-
-	manager.audio:PlayEffect("minigame_activity_2_6_1158", var_9_0, "")
-	var_0_10.RestoreEntityAnimeScheme(arg_9_0.character)
-	var_0_10.SendDoActionCMD(arg_9_0.character, var_0_3, false)
-	var_0_10.SendDoActionCMD(arg_9_0.pole, var_0_3, false)
-	var_0_10.SendDoActionCMD(arg_9_0.float, var_0_3, false)
-
-	if arg_9_0.fishBite then
-		var_0_10.SendDoActionCMD(arg_9_0.fish, var_0_3, false)
+	if slot0.fishBite then
+		uv1.SendDoActionCMD(slot0.fish, uv2, false)
 	else
-		arg_9_0.entityManager:Remove(var_0_9)
+		slot0.entityManager:Remove(uv3)
 
-		arg_9_0.fish = nil
+		slot0.fish = nil
 	end
 
-	arg_9_0.fishBite = false
+	slot0.fishBite = false
 
-	arg_9_0.listener:Register(ON_DORM_CHARACTER_WAIT_CMD, function(arg_10_0)
-		if arg_10_0 ~= arg_9_0.character then
+	slot0.listener:Register(ON_DORM_CHARACTER_WAIT_CMD, function (slot0)
+		if slot0 ~= uv0.character then
 			return
 		end
 
-		arg_9_0.listener:Remove(ON_DORM_CHARACTER_WAIT_CMD)
-		arg_9_0.entityManager:Remove(var_0_7)
-		arg_9_0.entityManager:Remove(var_0_8)
+		uv0.listener:Remove(ON_DORM_CHARACTER_WAIT_CMD)
+		uv0.entityManager:Remove(uv1)
+		uv0.entityManager:Remove(uv2)
 
-		arg_9_0.pole = nil
-		arg_9_0.float = nil
+		uv0.pole = nil
+		uv0.float = nil
 
-		if arg_9_0.fish then
-			arg_9_0.entityManager:Remove(var_0_9)
+		if uv0.fish then
+			uv0.entityManager:Remove(uv3)
 
-			arg_9_0.fish = nil
+			uv0.fish = nil
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.character = nil
-	arg_11_0.pole = nil
-	arg_11_0.float = nil
-	arg_11_0.fish = nil
+function slot0.Dispose(slot0)
+	slot0.character = nil
+	slot0.pole = nil
+	slot0.float = nil
+	slot0.fish = nil
 
-	arg_11_0.entityManager:Clear()
-	arg_11_0.listener:RemoveAll()
+	slot0.entityManager:Clear()
+	slot0.listener:RemoveAll()
 end
 
-return var_0_0
+return slot0

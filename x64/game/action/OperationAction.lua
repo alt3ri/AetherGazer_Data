@@ -1,194 +1,157 @@
-local var_0_0 = {}
-
-manager.net:Bind(40021, function(arg_1_0)
-	OperationData:InitOperationOpenList(arg_1_0)
+manager.net:Bind(40021, function (slot0)
+	OperationData:InitOperationOpenList(slot0)
 end)
-manager.net:Bind(40031, function(arg_2_0)
-	OperationData:SetFunctionStopIdList(arg_2_0.id_list)
+manager.net:Bind(40031, function (slot0)
+	OperationData:SetFunctionStopIdList(slot0.id_list)
 end)
-manager.net:Bind(40033, function(arg_3_0)
-	OperationData:InitFollowOpenList(arg_3_0)
+manager.net:Bind(40033, function (slot0)
+	OperationData:InitFollowOpenList(slot0)
 end)
 
-function var_0_0.GetOperationUrl(arg_4_0)
-	local var_4_0 = GameToSDK.clientInfo.configS
+slot1 = nil
+slot2 = false
 
-	if not var_4_0 then
-		print("error GameToSDK.clientInfo empty configS")
+return {
+	GetOperationUrl = function (slot0)
+		if not GameToSDK.clientInfo.configS then
+			print("error GameToSDK.clientInfo empty configS")
 
-		return nil
-	end
-
-	if not var_4_0:ContainsKey(arg_4_0) then
-		print("error GameToSDK.clientInfo empty configS by key : " .. arg_4_0)
-
-		return nil
-	end
-
-	return var_4_0:get_Item(arg_4_0)
-end
-
-function var_0_0.OpenOperationUrl(arg_5_0, arg_5_1)
-	local var_5_0 = GameToSDK.clientInfo.configS
-
-	if not var_5_0 then
-		print("error GameToSDK.clientInfo empty configS")
-
-		return
-	end
-
-	if not var_5_0:ContainsKey(arg_5_0) then
-		print("error GameToSDK.clientInfo empty configS by key : " .. arg_5_0)
-
-		return
-	end
-
-	local var_5_1 = var_5_0:get_Item(arg_5_0)
-	local var_5_2 = ""
-
-	if arg_5_0 == "INQUERY_URL" then
-		var_5_2 = string.format(var_5_1, arg_5_1.userId, arg_5_1.signUserId)
-	elseif arg_5_0 == "FORUM_URL" or arg_5_0 == "OFFICIAL_SUGGEST_URL" then
-		var_5_2 = string.format(var_5_1, arg_5_1.userId, arg_5_1.signUserId, arg_5_1.gameAppId, arg_5_1.token)
-	elseif arg_5_0 == "FORUM_URL_HERO" then
-		var_5_2 = string.format(var_5_1, arg_5_1.userId, arg_5_1.signUserId, arg_5_1.gameAppId, arg_5_1.token, arg_5_1.heroName)
-	elseif arg_5_0 == "OFFICIAL_DISCUSS_URL" then
-		var_5_2 = string.format(var_5_1, arg_5_1.gameAppId, arg_5_1.token)
-	elseif arg_5_0 == "ACTIVITY_URL" then
-		var_5_2 = string.format(var_5_1, arg_5_1.userId, arg_5_1.signUserId)
-	elseif arg_5_0 == "GUIDE_URL" or arg_5_0 == "INFORMATION_URL" then
-		var_5_2 = string.format(var_5_1, arg_5_1.userId, arg_5_1.signUserId)
-	else
-		var_5_2 = var_5_1
-	end
-
-	local var_5_3 = EncodeURL(var_5_2)
-
-	print("url : ", var_5_3)
-
-	if GameToSDK.PLATFORM_ID == 1 and (arg_5_0 == "FORUM_URL" or arg_5_0 == "FORUM_URL_HOME" or arg_5_0 == "FORUM_URL_HERO" or arg_5_0 == "OFFICIAL_SUGGEST_URL") then
-		Application.OpenURL(var_5_3)
-	else
-		FrameTimer.New(function()
-			LuaForUtil.OpenWebView(var_5_3, true, function()
-				print("--->> open webView to portrait")
-			end, function()
-				print("====>>> close webView recover")
-			end)
-		end, 6, 1):Start()
-	end
-end
-
-function var_0_0.OnApplicationBack()
-	local var_9_0 = SurveyData:GetCacheFollowTip()
-
-	if var_9_0 then
-		ShowTips(var_9_0)
-	end
-end
-
-function var_0_0.GetUnreadMsgResult()
-	local var_10_0 = var_0_0.GetOperationUrl("BBS_BASE_URL")
-
-	if var_10_0 then
-		local var_10_1 = PlayerData:GetPlayerInfo()
-		local var_10_2 = var_10_1.userID .. "_" .. var_10_1.signUserId
-
-		LuaForUtil.GetUnreadMsg(var_10_0, var_10_2, 1, function(arg_11_0)
-			if arg_11_0 > 0 then
-				manager.redPoint:setTip(RedPointConst.FORUM_UNREAD, 1)
-			end
-		end)
-	end
-end
-
-local var_0_1
-local var_0_2 = false
-
-function var_0_0.ChangeScreenSettingToPortrait()
-	var_0_1 = Screen.orientation
-
-	local var_12_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-	local var_12_1, var_12_2 = SettingTools.GetSettingScreenSize(var_12_0)
-
-	SetActive(manager.ui.mainCamera, false)
-	FrameTimer.New(function()
-		if not var_0_2 then
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
-
-			Screen.autorotateToPortrait = true
-			Screen.autorotateToPortraitUpsideDown = false
-			Screen.autorotateToLandscapeLeft = false
-			Screen.autorotateToLandscapeRight = false
-		else
-			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
+			return nil
 		end
 
-		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-		setScreenOrientation(false)
-		U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-		FrameTimer.New(function()
-			Screen.SetResolution(var_12_2, var_12_1, true)
+		if not slot1:ContainsKey(slot0) then
+			print("error GameToSDK.clientInfo empty configS by key : " .. slot0)
 
-			if not var_0_2 then
-				FrameTimer.New(function()
-					ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+			return nil
+		end
 
-					Screen.autorotateToPortrait = false
-					Screen.autorotateToPortraitUpsideDown = false
-					Screen.autorotateToLandscapeLeft = true
-					Screen.autorotateToLandscapeRight = true
+		return slot1:get_Item(slot0)
+	end,
+	OpenOperationUrl = function (slot0, slot1)
+		if not GameToSDK.clientInfo.configS then
+			print("error GameToSDK.clientInfo empty configS")
 
-					FrameTimer.New(function()
-						ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
-						FrameTimer.New(function()
-							UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-							U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-							Screen.SetResolution(var_12_2, var_12_1, true)
+			return
+		end
 
-							var_0_2 = true
+		if not slot2:ContainsKey(slot0) then
+			print("error GameToSDK.clientInfo empty configS by key : " .. slot0)
+
+			return
+		end
+
+		slot3 = slot2:get_Item(slot0)
+		slot4 = ""
+
+		print("url : ", EncodeURL((slot0 ~= "INQUERY_URL" or string.format(slot3, slot1.userId, slot1.signUserId)) and (slot0 ~= "FORUM_URL" and slot0 ~= "OFFICIAL_SUGGEST_URL" or string.format(slot3, slot1.userId, slot1.signUserId, slot1.gameAppId, slot1.token)) and (slot0 ~= "FORUM_URL_HERO" or string.format(slot3, slot1.userId, slot1.signUserId, slot1.gameAppId, slot1.token, slot1.heroName)) and (slot0 ~= "OFFICIAL_DISCUSS_URL" or string.format(slot3, slot1.gameAppId, slot1.token)) and (slot0 ~= "ACTIVITY_URL" or string.format(slot3, slot1.userId, slot1.signUserId)) and (slot0 ~= "GUIDE_URL" and slot0 ~= "INFORMATION_URL" or string.format(slot3, slot1.userId, slot1.signUserId)) and slot3))
+
+		if GameToSDK.PLATFORM_ID == 1 and (slot0 == "FORUM_URL" or slot0 == "FORUM_URL_HOME" or slot0 == "FORUM_URL_HERO" or slot0 == "OFFICIAL_SUGGEST_URL") then
+			Application.OpenURL(slot4)
+		else
+			FrameTimer.New(function ()
+				LuaForUtil.OpenWebView(uv0, true, function ()
+					print("--->> open webView to portrait")
+				end, function ()
+					print("====>>> close webView recover")
+				end)
+			end, 6, 1):Start()
+		end
+	end,
+	OnApplicationBack = function ()
+		if SurveyData:GetCacheFollowTip() then
+			ShowTips(slot0)
+		end
+	end,
+	GetUnreadMsgResult = function ()
+		if uv0.GetOperationUrl("BBS_BASE_URL") then
+			slot1 = PlayerData:GetPlayerInfo()
+
+			LuaForUtil.GetUnreadMsg(slot0, slot1.userID .. "_" .. slot1.signUserId, 1, function (slot0)
+				if slot0 > 0 then
+					manager.redPoint:setTip(RedPointConst.FORUM_UNREAD, 1)
+				end
+			end)
+		end
+	end,
+	ChangeScreenSettingToPortrait = function ()
+		uv0 = Screen.orientation
+		slot1, slot2 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
+
+		SetActive(manager.ui.mainCamera, false)
+		FrameTimer.New(function ()
+			if not uv0 then
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+
+				Screen.autorotateToPortrait = true
+				Screen.autorotateToPortraitUpsideDown = false
+				Screen.autorotateToLandscapeLeft = false
+				Screen.autorotateToLandscapeRight = false
+			else
+				ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
+			end
+
+			UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+			setScreenOrientation(false)
+			U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+			FrameTimer.New(function ()
+				Screen.SetResolution(uv0, uv1, true)
+
+				if not uv2 then
+					FrameTimer.New(function ()
+						ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+
+						Screen.autorotateToPortrait = false
+						Screen.autorotateToPortraitUpsideDown = false
+						Screen.autorotateToLandscapeLeft = true
+						Screen.autorotateToLandscapeRight = true
+
+						FrameTimer.New(function ()
+							ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.Portrait)
+							FrameTimer.New(function ()
+								UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+								U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+								Screen.SetResolution(uv0, uv1, true)
+
+								uv2 = true
+							end, 1, 1):Start()
 						end, 1, 1):Start()
 					end, 1, 1):Start()
-				end, 1, 1):Start()
-			else
-				FrameTimer.New(function()
-					UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
-					U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
-					Screen.SetResolution(var_12_2, var_12_1, true)
-				end, 1, 1):Start()
-			end
+				else
+					FrameTimer.New(function ()
+						UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(true)
+						U3DHud.mInstance:SetWidthAndHeight(1080, 1920)
+						Screen.SetResolution(uv0, uv1, true)
+					end, 1, 1):Start()
+				end
+			end, 1, 1):Start()
 		end, 1, 1):Start()
-	end, 1, 1):Start()
-	FrameTimer.New(function()
-		SetActive(manager.ui.mainCamera, true)
-	end, 6, 1):Start()
-end
+		FrameTimer.New(function ()
+			SetActive(manager.ui.mainCamera, true)
+		end, 6, 1):Start()
+	end,
+	RecoverScreenSetting = function ()
+		SetActive(manager.ui.mainCamera, false)
+		FrameTimer.New(function ()
+			ScreenRotateUtil.ChangeScreenOrientation(uv0)
+			ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
 
-function var_0_0.RecoverScreenSetting()
-	SetActive(manager.ui.mainCamera, false)
-	FrameTimer.New(function()
-		ScreenRotateUtil.ChangeScreenOrientation(var_0_1)
-		ScreenRotateUtil.ChangeScreenOrientation(UnityEngine.ScreenOrientation.AutoRotation)
+			Screen.autorotateToPortrait = false
+			Screen.autorotateToPortraitUpsideDown = false
+			Screen.autorotateToLandscapeLeft = true
+			Screen.autorotateToLandscapeRight = true
 
-		Screen.autorotateToPortrait = false
-		Screen.autorotateToPortraitUpsideDown = false
-		Screen.autorotateToLandscapeLeft = true
-		Screen.autorotateToLandscapeRight = true
+			setScreenOrientation(true)
 
-		setScreenOrientation(true)
+			slot1, slot2 = SettingTools.GetSettingScreenSize(tonumber(SettingData:GetSettingData().pic.resolution))
 
-		local var_21_0 = tonumber(SettingData:GetSettingData().pic.resolution)
-		local var_21_1, var_21_2 = SettingTools.GetSettingScreenSize(var_21_0)
-
-		UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
-		U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
-		FrameTimer.New(function()
-			Screen.SetResolution(var_21_1, var_21_2, true)
-		end, 2, 1):Start()
-	end, 1, 1):Start()
-	FrameTimer.New(function()
-		SetActive(manager.ui.mainCamera, true)
-	end, 4, 1):Start()
-end
-
-return var_0_0
+			UnityEngine.Pipelines.SimPipeline.CanvasManager.Instance:RotateScreen(false)
+			U3DHud.mInstance:SetWidthAndHeight(1920, 1080)
+			FrameTimer.New(function ()
+				Screen.SetResolution(uv0, uv1, true)
+			end, 2, 1):Start()
+		end, 1, 1):Start()
+		FrameTimer.New(function ()
+			SetActive(manager.ui.mainCamera, true)
+		end, 4, 1):Start()
+	end
+}

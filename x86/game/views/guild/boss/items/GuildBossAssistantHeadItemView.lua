@@ -1,126 +1,119 @@
-local var_0_0 = class("GuildBossAssistantHeadItemView", ReduxView)
+slot0 = class("GuildBossAssistantHeadItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.lockedController_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "locked")
-	arg_3_0.campController_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "camp")
-	arg_3_0.gradeController_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "grade")
-	arg_3_0.sizeController_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "size")
-	arg_3_0.hpController_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "hp")
-	arg_3_0.selectedController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "selected")
-	arg_3_0.positionController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "position")
-	arg_3_0.loveCon_ = ControllerUtil.GetController(arg_3_0.headGo_.transform, "love")
+	slot0.lockedController_ = ControllerUtil.GetController(slot0.headGo_.transform, "locked")
+	slot0.campController_ = ControllerUtil.GetController(slot0.headGo_.transform, "camp")
+	slot0.gradeController_ = ControllerUtil.GetController(slot0.headGo_.transform, "grade")
+	slot0.sizeController_ = ControllerUtil.GetController(slot0.headGo_.transform, "size")
+	slot0.hpController_ = ControllerUtil.GetController(slot0.headGo_.transform, "hp")
+	slot0.selectedController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "selected")
+	slot0.positionController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "position")
+	slot0.loveCon_ = ControllerUtil.GetController(slot0.headGo_.transform, "love")
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_3_0, arg_3_0.headGo_)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.headGo_)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.selfBtn_, nil, function()
-		if arg_4_0.clickListener_ ~= nil then
-			arg_4_0.clickListener_()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.selfBtn_, nil, function ()
+		if uv0.clickListener_ ~= nil then
+			uv0.clickListener_()
 		end
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_6_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0.data_ = arg_7_1
-	arg_7_0.heroCfg_ = HeroCfg[arg_7_0.data_.assist_hero_id]
+function slot0.SetData(slot0, slot1)
+	slot0.data_ = slot1
+	slot0.heroCfg_ = HeroCfg[slot0.data_.assist_hero_id]
 
-	arg_7_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.SetTeamMark(arg_8_0, arg_8_1, arg_8_2)
-	SetActive(arg_8_0.teamMark_, arg_8_1)
+function slot0.SetTeamMark(slot0, slot1, slot2)
+	SetActive(slot0.teamMark_, slot1)
 
-	if arg_8_1 then
-		arg_8_0.teamMarkText_.text = GetI18NText(arg_8_2)
+	if slot1 then
+		slot0.teamMarkText_.text = GetI18NText(slot2)
 	end
 end
 
-function var_0_0.GetHeroId(arg_9_0)
-	return arg_9_0.data_.assist_hero_id
+function slot0.GetHeroId(slot0)
+	return slot0.data_.assist_hero_id
 end
 
-function var_0_0.GetOwnerId(arg_10_0)
-	return arg_10_0.data_.member_id
+function slot0.GetOwnerId(slot0)
+	return slot0.data_.member_id
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	local var_11_0 = arg_11_0.data_.assist_hero_skin
-
-	if var_11_0 == 0 then
-		var_11_0 = arg_11_0.data_.assist_hero_id
+function slot0.UpdateView(slot0)
+	if slot0.data_.assist_hero_skin == 0 then
+		slot1 = slot0.data_.assist_hero_id
 	end
 
-	arg_11_0.nickLabel_.text = GetI18NText(arg_11_0.data_.nick)
-	arg_11_0.headIcon_.sprite = HeroTools.GetHeadSprite(var_11_0)
+	slot0.nickLabel_.text = GetI18NText(slot0.data_.nick)
+	slot0.headIcon_.sprite = HeroTools.GetHeadSprite(slot1)
 
-	arg_11_0.headIcon_:SetNativeSize()
-	arg_11_0.campController_:SetSelectedState(arg_11_0.heroCfg_.race)
+	slot0.headIcon_:SetNativeSize()
+	slot0.campController_:SetSelectedState(slot0.heroCfg_.race)
+	slot0.gradeController_:SetSelectedState(HeroStarCfg[slot0.data_.hero_rare].star)
 
-	local var_11_1 = HeroStarCfg[arg_11_0.data_.hero_rare].star
+	slot0.levelText_.text = slot0.data_.hero_level
+	slot0.fightPowerLabel_.text = slot0.data_.fight_capacity
 
-	arg_11_0.gradeController_:SetSelectedState(var_11_1)
+	slot0.positionController_:SetSelectedState(tostring(slot0.data_.member_post))
+	slot0.loveCon_:SetSelectedState("off")
 
-	arg_11_0.levelText_.text = arg_11_0.data_.hero_level
-	arg_11_0.fightPowerLabel_.text = arg_11_0.data_.fight_capacity
-
-	arg_11_0.positionController_:SetSelectedState(tostring(arg_11_0.data_.member_post))
-	arg_11_0.loveCon_:SetSelectedState("off")
-
-	if tostring(arg_11_0.data_.member_post) == "1" then
-		arg_11_0.clubMemberLabel_.text = GetTips("CLUB_CHAIR_MAN")
-	elseif tostring(arg_11_0.data_.member_post) == "2" then
-		arg_11_0.clubMemberLabel_.text = GetTips("CLUB_VICE_CHAIR_MAN")
-	elseif tostring(arg_11_0.data_.member_post) == "3" then
-		arg_11_0.clubMemberLabel_.text = GetTips("CLUB_MEMBER")
-	elseif tostring(arg_11_0.data_.member_post) == "4" then
-		arg_11_0.clubMemberLabel_.text = GetTips("CLUB_NOVICIATE")
+	if tostring(slot0.data_.member_post) == "1" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_CHAIR_MAN")
+	elseif tostring(slot0.data_.member_post) == "2" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_VICE_CHAIR_MAN")
+	elseif tostring(slot0.data_.member_post) == "3" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_MEMBER")
+	elseif tostring(slot0.data_.member_post) == "4" then
+		slot0.clubMemberLabel_.text = GetTips("CLUB_NOVICIATE")
 	end
 end
 
-function var_0_0.RegisterClickListener(arg_12_0, arg_12_1)
-	arg_12_0.clickListener_ = arg_12_1
+function slot0.RegisterClickListener(slot0, slot1)
+	slot0.clickListener_ = slot1
 end
 
-function var_0_0.SetSelected(arg_13_0, arg_13_1)
-	arg_13_0.selectedController_:SetSelectedState(arg_13_1 and "true" or "false")
+function slot0.SetSelected(slot0, slot1)
+	slot0.selectedController_:SetSelectedState(slot1 and "true" or "false")
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	arg_14_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_16_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0.data_ = nil
-	arg_17_0.clickListener_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
+	slot0.clickListener_ = nil
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

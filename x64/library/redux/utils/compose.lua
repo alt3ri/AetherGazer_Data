@@ -1,25 +1,23 @@
 require("library/redux/lib/functional")
 
-return function(...)
-	local var_1_0 = {
+return function (...)
+	if #{
 		...
-	}
-
-	if #var_1_0 == 0 then
-		return function(arg_2_0)
-			return arg_2_0
+	} == 0 then
+		return function (slot0)
+			return slot0
 		end
 	end
 
-	if #var_1_0 == 1 then
-		return var_1_0[1]
+	if #slot0 == 1 then
+		return slot0[1]
 	end
 
-	return reduce(function(arg_3_0, arg_3_1)
-		return function(...)
-			return arg_3_0(arg_3_1(unpack({
+	return reduce(function (slot0, slot1)
+		return function (...)
+			return uv0(uv1(unpack({
 				...
 			})))
 		end
-	end, var_1_0)
+	end, slot0)
 end

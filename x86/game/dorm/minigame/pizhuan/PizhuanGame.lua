@@ -1,152 +1,135 @@
-local var_0_0 = class("PizhuanGame")
-local var_0_1 = "pizhuan_game"
+slot0 = class("PizhuanGame")
+slot1 = "pizhuan_game"
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameFinish = arg_1_1
+function slot0.Ctor(slot0, slot1)
+	slot0.gameFinish = slot1
 end
 
-local function var_0_2(arg_2_0)
-	if arg_2_0 then
-		Dorm.DormEntityManager.Instance:RemoveEntity(arg_2_0)
+function slot2(slot0)
+	if slot0 then
+		Dorm.DormEntityManager.Instance:RemoveEntity(slot0)
 
-		arg_2_0 = nil
+		slot0 = nil
 	end
 end
 
-local var_0_3 = "pizhuan_success"
-local var_0_4 = "pizhuan_fail"
+slot3 = "pizhuan_success"
+slot4 = "pizhuan_fail"
 
-local function var_0_5(arg_3_0)
-	local var_3_0 = DormCharacterActionManager.taskRunner:NewTask()
+function slot5(slot0)
+	slot1 = DormCharacterActionManager.taskRunner:NewTask()
 
-	var_3_0:Then(function()
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(arg_3_0.player, "power_storage")
-	end):WaitUntil(function(arg_5_0)
-		local var_5_0, var_5_1 = arg_3_0.gameFinish()
+	slot1:Then(function ()
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(uv0.player, "power_storage")
+	end):WaitUntil(function (slot0)
+		slot1, slot0.taskDataCtx.result = uv0.gameFinish()
 
-		if var_5_0 then
-			arg_5_0.taskDataCtx.result = var_5_1
+		if slot1 then
+			-- Nothing
 		end
 
-		return var_5_0
-	end):Then(function(arg_6_0)
-		local var_6_0 = arg_6_0.taskDataCtx.result
-		local var_6_1 = DormCharacterInteractBehaviour.MakeCtx(arg_3_0.player, arg_3_0.brickItem, {
-			waitOneTick = true
-		})
-		local var_6_2 = DormUtils.GetEntityData(arg_3_0.player).cfgID
-		local var_6_3 = var_6_0 and var_0_3 or var_0_4
-		local var_6_4 = DormCharacterInteractBehaviour.GetSequence(var_6_2, nil, var_6_3)
+		return slot1
+	end):Then(function (slot0)
+		if DormCharacterInteractBehaviour.GetSequence(DormUtils.GetEntityData(uv0.player).cfgID, nil, slot0.taskDataCtx.result and uv1 or uv2) then
+			slot0.taskDataCtx.performanceTask = DormCharacterInteractBehaviour.MakeInteractTask(slot5, DormCharacterInteractBehaviour.MakeCtx(uv0.player, uv0.brickItem, {
+				waitOneTick = true
+			}))
 
-		if var_6_4 then
-			arg_6_0.taskDataCtx.performanceTask = DormCharacterInteractBehaviour.MakeInteractTask(var_6_4, var_6_1)
-
-			arg_6_0.taskDataCtx.performanceTask:Start(true)
+			slot0.taskDataCtx.performanceTask:Start(true)
 		end
-	end):WaitUntil(function(arg_7_0)
-		if arg_7_0.taskDataCtx.performanceTask == nil or arg_7_0.taskDataCtx.performanceTask:IsFinished() then
-			arg_7_0.taskDataCtx.performanceTask = nil
-			arg_3_0.gameTask = nil
-			arg_3_0.vfxLevel = 0
+	end):WaitUntil(function (slot0)
+		if slot0.taskDataCtx.performanceTask == nil or slot0.taskDataCtx.performanceTask:IsFinished() then
+			slot0.taskDataCtx.performanceTask = nil
+			uv0.gameTask = nil
+			uv0.vfxLevel = 0
 
 			return true
 		end
 	end)
 
-	return var_3_0
+	return slot1
 end
 
-function var_0_0.Start(arg_8_0, arg_8_1)
-	if arg_8_0.gameTask then
-		arg_8_0.gameTask:Abort()
+function slot0.Start(slot0, slot1)
+	if slot0.gameTask then
+		slot0.gameTask:Abort()
 	end
 
-	arg_8_0.vfxLevel = 0
-	arg_8_0.player = arg_8_1
+	slot0.vfxLevel = 0
+	slot0.player = slot1
+	slot2 = Dorm.DormEntityManager.Instance:SpawnEntity("Dorm/Dormitory/HZ05_huodong_piwa", nil, false, true)
+	slot0.brickItem = slot2
+	slot4 = Dorm.DormEntityManager.QueryForwardDir(slot1)
 
-	local var_8_0 = Dorm.DormEntityManager.Instance:SpawnEntity("Dorm/Dormitory/HZ05_huodong_piwa", nil, false, true)
+	Dorm.DormEntityManager.PutEntityLookToDir(slot2, Dorm.DormEntityManager.QueryPosition(slot1) + slot4 * 0.2, -slot4)
+	Dorm.DormEntityManager.SendInteractToEntityCMD(slot1, slot2, false)
 
-	arg_8_0.brickItem = var_8_0
+	slot5 = uv0(slot0)
 
-	local var_8_1 = Dorm.DormEntityManager.QueryPosition(arg_8_1)
-	local var_8_2 = Dorm.DormEntityManager.QueryForwardDir(arg_8_1)
-
-	Dorm.DormEntityManager.PutEntityLookToDir(var_8_0, var_8_1 + var_8_2 * 0.2, -var_8_2)
-	Dorm.DormEntityManager.SendInteractToEntityCMD(arg_8_1, var_8_0, false)
-
-	local var_8_3 = var_0_5(arg_8_0)
-
-	var_8_3:SetOnComplete(function()
-		Dorm.DormEntityManager.ClearAllEffect(arg_8_1, var_0_1)
-		var_0_2(var_8_0)
+	slot5:SetOnComplete(function ()
+		Dorm.DormEntityManager.ClearAllEffect(uv0, uv1)
+		uv2(uv3)
 	end)
-	var_8_3:SetOnAbort(function()
-		Dorm.DormEntityManager.ClearAllEffect(arg_8_1, var_0_1)
+	slot5:SetOnAbort(function ()
+		Dorm.DormEntityManager.ClearAllEffect(uv0, uv1)
 
-		if Dorm.DormEntityManager.IsValidEntityID(arg_8_1) and not var_8_3:IsCancelled() then
-			Dorm.DormEntityManager.StopAllCmd(arg_8_1)
+		if Dorm.DormEntityManager.IsValidEntityID(uv0) and not uv2:IsCancelled() then
+			Dorm.DormEntityManager.StopAllCmd(uv0)
 		end
 
-		var_0_2(var_8_0)
+		uv3(uv4)
 
-		local var_10_0 = var_8_3.taskDataCtx
+		if uv2.taskDataCtx.performanceTask then
+			slot0.performanceTask:Abort()
 
-		if var_10_0.performanceTask then
-			var_10_0.performanceTask:Abort()
-
-			var_10_0.performanceTask = nil
+			slot0.performanceTask = nil
 		end
 	end)
 
-	local var_8_4 = DormCharacterInteractBehaviour.MakeCtx(arg_8_1, var_8_0, {
-		curActionTask = var_8_3
-	})
+	slot0.gameTask = slot5
 
-	arg_8_0.gameTask = var_8_3
-
-	DormUtils.SetEntityInteractContext(arg_8_1, var_8_4)
+	DormUtils.SetEntityInteractContext(slot1, DormCharacterInteractBehaviour.MakeCtx(slot1, slot2, {
+		curActionTask = slot5
+	}))
 end
 
-local var_0_6 = {
+slot6 = {
 	"Dorm/Effect/houzhai/fx_pizhuan_xuli01",
 	"Dorm/Effect/houzhai/fx_pizhuan_xuli02",
 	"Dorm/Effect/houzhai/fx_pizhuan_xuli03",
 	"Dorm/Effect/houzhai/fx_pizhuan_xuli04",
 	"Dorm/Effect/houzhai/fx_pizhuan_xuli05"
 }
+slot0.QTE_LEVEL_RESET = 0
 
-var_0_0.QTE_LEVEL_RESET = 0
-
-function var_0_0.OnQte(arg_11_0, arg_11_1)
-	if arg_11_1 == nil then
+function slot0.OnQte(slot0, slot1)
+	if slot1 == nil then
 		return
 	end
 
-	if arg_11_1 == var_0_0.QTE_LEVEL_RESET then
-		arg_11_0.level = 0
+	if slot1 == uv0.QTE_LEVEL_RESET then
+		slot0.level = 0
 
-		Dorm.DormEntityManager.ClearAllEffect(arg_11_0.player, var_0_1)
-	elseif arg_11_1 > arg_11_0.vfxLevel then
-		arg_11_0.level = arg_11_1
+		Dorm.DormEntityManager.ClearAllEffect(slot0.player, uv1)
+	elseif slot0.vfxLevel < slot1 then
+		slot0.level = slot1
 
-		Dorm.DormEntityManager.ClearAllEffect(arg_11_0.player, var_0_1)
+		Dorm.DormEntityManager.ClearAllEffect(slot0.player, uv1)
 
-		local var_11_0 = var_0_6[arg_11_1]
-
-		if var_11_0 then
-			Dorm.DormEntityManager.PlayEffect(arg_11_0.player, "root", var_0_1, var_11_0, -1)
+		if uv2[slot1] then
+			Dorm.DormEntityManager.PlayEffect(slot0.player, "root", uv1, slot2, -1)
 		end
 	end
 end
 
-function var_0_0.Abort(arg_12_0)
-	if arg_12_0.gameTask then
-		arg_12_0.vfxLevel = 0
+function slot0.Abort(slot0)
+	if slot0.gameTask then
+		slot0.vfxLevel = 0
 
-		arg_12_0.gameTask:Abort()
+		slot0.gameTask:Abort()
 
-		arg_12_0.gameTask = nil
+		slot0.gameTask = nil
 	end
 end
 
-return var_0_0
+return slot0

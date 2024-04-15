@@ -1,55 +1,52 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("SlayerMainView_2_4", var_0_0)
+slot1 = class("SlayerMainView_2_4", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
-	return SlayerTools.GetMainUIName(arg_1_0.activityID_ or 0)
+function slot1.GetUIName(slot0)
+	return SlayerTools.GetMainUIName(slot0.activityID_ or 0)
 end
 
-function var_0_1.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.m_rewardBtn, nil, function()
+function slot1.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("slayerRewardView_1_7", {
-			slayer_activity_id = arg_2_0.activityID_
+			slayer_activity_id = uv0.activityID_
 		})
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.m_entrustBtn, nil, function()
-		if not ActivityTools.GetActivityIsOpenWithTip(arg_2_0.activityID_, true) then
+	slot0:AddBtnListener(slot0.m_entrustBtn, nil, function ()
+		if not ActivityTools.GetActivityIsOpenWithTip(uv0.activityID_, true) then
 			return
 		end
 
 		JumpTools.OpenPageByJump("/slayerStageView_2_4", {
 			init_tag = true,
-			slayer_activity_id = arg_2_0.activityID_
+			slayer_activity_id = uv0.activityID_
 		})
 	end)
-	arg_2_0:AddBtnListener(arg_2_0.m_descBtn, nil, function()
-		local var_5_0 = GetTips("ACTIVITY_SLAYER_DESCRIBE")
-
+	slot0:AddBtnListener(slot0.m_descBtn, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_SLAYER_DESCRIBE",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_5_0
+			content = GetTips("ACTIVITY_SLAYER_DESCRIBE")
 		})
 	end)
 end
 
-function var_0_1.OnEnter(arg_6_0)
-	var_0_1.super.OnEnter(arg_6_0)
-	manager.redPoint:bindUIandKey(arg_6_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REWARD, arg_6_0.activityID_))
-	manager.redPoint:bindUIandKey(arg_6_0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REGIONS, arg_6_0.activityID_))
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REWARD, slot0.activityID_))
+	manager.redPoint:bindUIandKey(slot0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REGIONS, slot0.activityID_))
 end
 
-function var_0_1.OnExit(arg_7_0)
-	var_0_1.super.OnExit(arg_7_0)
-	manager.redPoint:unbindUIandKey(arg_7_0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REWARD, arg_7_0.activityID_))
-	manager.redPoint:unbindUIandKey(arg_7_0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REGIONS, arg_7_0.activityID_))
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REWARD, slot0.activityID_))
+	manager.redPoint:unbindUIandKey(slot0.m_entrustBtn.transform, string.format("%s_%s", RedPointConst.SLYAER_REGIONS, slot0.activityID_))
 end
 
-function var_0_1.RefreshTimeText(arg_8_0)
-	if arg_8_0.m_timeLab then
-		arg_8_0.m_timeLab.text = manager.time:GetLostTimeStrWith2Unit(arg_8_0.stopTime_, true)
+function slot1.RefreshTimeText(slot0)
+	if slot0.m_timeLab then
+		slot0.m_timeLab.text = manager.time:GetLostTimeStrWith2Unit(slot0.stopTime_, true)
 	end
 end
 
-return var_0_1
+return slot1

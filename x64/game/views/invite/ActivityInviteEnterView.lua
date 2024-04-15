@@ -1,56 +1,54 @@
-local var_0_0 = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
-local var_0_1 = class("ActivityInviteEnterView", var_0_0)
+slot1 = class("ActivityInviteEnterView", import("game.views.activity.Main.toggle.ActivityMainBasePanel"))
 
-function var_0_1.GetUIName(arg_1_0)
+function slot1.GetUIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionConserverUI/JapanRegionConMainUI"
 end
 
-function var_0_1.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot1.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_1.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot1.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	local var_4_0 = ActivityData:GetActivityData(InviteData:GetDataByPara("activityId"))
+function slot1.OnEnter(slot0)
+	slot1 = ActivityData:GetActivityData(InviteData:GetDataByPara("activityId"))
+	slot0.startTime_ = slot1.startTime
+	slot0.stopTime_ = slot1.stopTime
 
-	arg_4_0.startTime_ = var_4_0.startTime
-	arg_4_0.stopTime_ = var_4_0.stopTime
-
-	arg_4_0:AddTimer()
-	manager.redPoint:bindUIandKey(arg_4_0.goBtn_.transform, RedPointConst.INVITE_MAIN, {
+	slot0:AddTimer()
+	manager.redPoint:bindUIandKey(slot0.goBtn_.transform, RedPointConst.INVITE_MAIN, {
 		x = 150,
 		y = 35
 	})
 
-	arg_4_0.descTxt_.text = GetTips("ACTIVITY_INVITE_DECORATE")
+	slot0.descTxt_.text = GetTips("ACTIVITY_INVITE_DECORATE")
 end
 
-function var_0_1.OnExit(arg_5_0)
-	var_0_1.super.OnExit(arg_5_0)
-	manager.redPoint:unbindUIandKey(arg_5_0.goBtn_.transform, RedPointConst.INVITE_MAIN)
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.goBtn_.transform, RedPointConst.INVITE_MAIN)
 end
 
-function var_0_1.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.goBtn_, nil, function()
-		local var_7_0 = InviteData:GetDataByPara("selectHeroIndex")
+function slot1.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.goBtn_, nil, function ()
+		slot0 = InviteData:GetDataByPara("selectHeroIndex")
 
 		if InviteData:GetDataByPara("allComplete") then
 			JumpTools.GoToSystem("/ActivityInviteRegionView", {
 				selectIndex = 1
 			})
-		elseif var_7_0 then
+		elseif slot0 then
 			JumpTools.GoToSystem("/ActivityInviteRegionView", {
-				selectIndex = var_7_0
+				selectIndex = slot0
 			})
 		else
 			JumpTools.GoToSystem("/ActivityInviteMain", {})
 		end
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.descBtn_, nil, function()
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "",
@@ -61,4 +59,4 @@ function var_0_1.AddUIListener(arg_6_0)
 	end)
 end
 
-return var_0_1
+return slot1

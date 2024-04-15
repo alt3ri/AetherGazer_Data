@@ -1,38 +1,36 @@
-local var_0_0 = class("GotoActivityWaterStage", BattleSettlementStrategyBase)
+slot0 = class("GotoActivityWaterStage", BattleSettlementStrategyBase)
 
-function var_0_0.OnGotoSettlement(arg_1_0, arg_1_1)
-	arg_1_0:GotoActivityWaterStage(arg_1_1.num, arg_1_1.stageData, arg_1_1.starMissionData, arg_1_1.battleResult)
+function slot0.OnGotoSettlement(slot0, slot1)
+	slot0:GotoActivityWaterStage(slot1.num, slot1.stageData, slot1.starMissionData, slot1.battleResult)
 end
 
-function var_0_0.GotoActivityWaterStage(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	local var_2_0, var_2_1 = GetResultReward()
+function slot0.GotoActivityWaterStage(slot0, slot1, slot2, slot3, slot4)
+	slot5, slot6 = GetResultReward()
 
-	if isSuccess(arg_2_1) then
+	if isSuccess(slot1) then
 		function BattleCallLuaCallBack()
 			JumpTools.OpenPageByJump("/xH3rdWaterSettlementView", {
-				result = arg_2_1,
-				rewardList = var_2_0,
-				stageData = arg_2_2,
-				starMissionData = arg_2_3,
-				battleResult = arg_2_4
+				result = uv0,
+				rewardList = uv1,
+				stageData = uv2,
+				starMissionData = uv3,
+				battleResult = uv4
 			})
-			EndBattleLogic(arg_2_1)
+			EndBattleLogic(uv0)
 		end
 	else
 		function BattleCallLuaCallBack()
-			local var_4_0 = arg_2_2:GetStageId()
-
-			manager.story:CheckBattleStory(var_4_0, manager.story.LOSE, function()
+			manager.story:CheckBattleStory(uv0:GetStageId(), manager.story.LOSE, function ()
 				gameContext:Go("/xH3rdWaterBattleFailed", {
-					stageData = arg_2_2,
-					starMissionData = arg_2_3,
-					battleResult = arg_2_4
+					stageData = uv0,
+					starMissionData = uv1,
+					battleResult = uv2
 				})
 				manager.story:RemovePlayer()
-				EndBattleLogic(arg_2_1)
+				EndBattleLogic(uv3)
 			end)
 		end
 	end
 end
 
-return var_0_0
+return slot0

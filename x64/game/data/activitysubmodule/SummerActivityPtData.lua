@@ -1,29 +1,29 @@
-local var_0_0 = singletonClass("SummerActivityPtData")
-local var_0_1 = {}
+slot0 = singletonClass("SummerActivityPtData")
+slot1 = {}
 
-function var_0_0.Reset(arg_1_0)
-	var_0_1 = {}
+function slot0.Reset(slot0)
+	uv0 = {}
 end
 
-function var_0_0.InitWithServer(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1) do
-		if not var_0_1[iter_2_0] then
-			var_0_1[iter_2_1.id] = {}
+function slot0.InitWithServer(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if not uv0[slot5] then
+			uv0[slot6.id] = {}
 		end
 
-		var_0_1[iter_2_1.id].id = iter_2_1.id
-		var_0_1[iter_2_1.id].clear_time = iter_2_1.clear_time
+		uv0[slot6.id].id = slot6.id
+		uv0[slot6.id].clear_time = slot6.clear_time
 	end
 
 	manager.notify:Invoke(SUMMER_ACTIVITY_PT_UPDATE, {})
 end
 
-function var_0_0.GetLevelChallengeCount(arg_3_0, arg_3_1)
-	if not var_0_1 or not var_0_1[arg_3_1] then
+function slot0.GetLevelChallengeCount(slot0, slot1)
+	if not uv0 or not uv0[slot1] then
 		return 0
 	end
 
-	return var_0_1[arg_3_1].clear_time
+	return uv0[slot1].clear_time
 end
 
-return var_0_0
+return slot0

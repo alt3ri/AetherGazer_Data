@@ -1,78 +1,73 @@
-local var_0_0 = class("GuildActivityRecordView", ReduxView)
+slot0 = class("GuildActivityRecordView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/GuildActivityUI/GuildActivityRecordUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.recordList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uiListGo_, GuildActivityRecordItemView)
+	slot0.recordList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, GuildActivityRecordItemView)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_1, arg_6_0.dataList_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.dataList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_9_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.OnTop(arg_10_0)
-	arg_10_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_11_0)
-	return
+function slot0.OnBehind(slot0)
 end
 
-function var_0_0.UpdateBar(arg_12_0)
-	return
+function slot0.UpdateBar(slot0)
 end
 
-function var_0_0.OnEnter(arg_13_0)
-	arg_13_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 
-	arg_13_0.dataList_ = arg_13_0.params_.dataList
+	slot0.dataList_ = slot0.params_.dataList
 
-	arg_13_0.recordList_:StartScroll(#arg_13_0.dataList_)
+	slot0.recordList_:StartScroll(#slot0.dataList_)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_15_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	if arg_16_0.recordList_ then
-		arg_16_0.recordList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.recordList_ then
+		slot0.recordList_:Dispose()
 
-		arg_16_0.recordList_ = nil
+		slot0.recordList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

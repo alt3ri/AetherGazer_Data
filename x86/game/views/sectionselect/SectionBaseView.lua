@@ -1,435 +1,395 @@
-local var_0_0 = class("SectionBaseView", ReduxView)
-local var_0_1 = import("game.const.BattleConst")
-local var_0_2 = import("game.tools.JumpTools")
+slot0 = class("SectionBaseView", ReduxView)
+slot1 = import("game.const.BattleConst")
+slot2 = import("game.tools.JumpTools")
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Operation/OperationStageUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.lineList_ = {}
-	arg_4_0.lineArchiveList_ = {}
-	arg_4_0.customLineList_ = {}
-	arg_4_0.missionItem_ = {}
-	arg_4_0.lineType_ = nil
-	arg_4_0.archiveItemList_ = {}
+function slot0.Init(slot0)
+	slot0.lineList_ = {}
+	slot0.lineArchiveList_ = {}
+	slot0.customLineList_ = {}
+	slot0.missionItem_ = {}
+	slot0.lineType_ = nil
+	slot0.archiveItemList_ = {}
 
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		NAVI_BAR,
 		INVITE_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		if arg_5_0:IsOpenSectionInfo() then
-			arg_5_0.isOpenInfoView_ = false
+	manager.windowBar:RegistBackCallBack(function ()
+		if uv0:IsOpenSectionInfo() then
+			uv0.isOpenInfoView_ = false
 		end
 
-		var_0_2.Back()
+		uv1.Back()
 	end)
 	manager.ui:SetMainCamera("null")
-	arg_5_0:RefreshData()
-	arg_5_0:RefreshBGM()
-	arg_5_0:ShowPanel()
-	arg_5_0:RefreshText()
-	arg_5_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshBGM()
+	slot0:ShowPanel()
+	slot0:RefreshText()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0.stopMove_ = false
+function slot0.OnTop(slot0)
+	slot0.stopMove_ = false
 end
 
-function var_0_0.OnUpdate(arg_8_0)
-	if arg_8_0:IsOpenSectionInfo() then
-		arg_8_0.stopMove_ = false
+function slot0.OnUpdate(slot0)
+	if slot0:IsOpenSectionInfo() then
+		slot0.stopMove_ = false
 	end
 
-	arg_8_0:RefreshData()
-	arg_8_0:RefreshUI()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshMissionList()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshMissionList()
 
-	arg_9_0.selectSection_ = arg_9_0.params_.section or BattleFieldData:GetCacheStage(arg_9_0.chapterID_) or arg_9_0.stageList_[1]
+	slot0.selectSection_ = slot0.params_.section or BattleFieldData:GetCacheStage(slot0.chapterID_) or slot0.stageList_[1]
 
-	local var_9_0 = arg_9_0:GetScrollPos()
-	local var_9_1 = arg_9_0:GetScrollWidth()
-
-	if arg_9_0.stopMove_ then
-		-- block empty
-	else
-		arg_9_0.scrollMoveView_:RefreshUI(var_9_0, var_9_1)
+	if not slot0.stopMove_ then
+		slot0.scrollMoveView_:RefreshUI(slot0:GetScrollPos(), slot0:GetScrollWidth())
 	end
 
-	arg_9_0:RefreshSelectItem()
+	slot0:RefreshSelectItem()
 end
 
-function var_0_0.RefreshBGM(arg_10_0)
-	local var_10_0 = ChapterCfg[arg_10_0.chapterID_]
-
-	if var_10_0.cue_sheet ~= "" then
-		manager.audio:PlayBGM(var_10_0.cue_sheet, var_10_0.cue_name, var_10_0.awb)
+function slot0.RefreshBGM(slot0)
+	if ChapterCfg[slot0.chapterID_].cue_sheet ~= "" then
+		manager.audio:PlayBGM(slot1.cue_sheet, slot1.cue_name, slot1.awb)
 	end
 end
 
-function var_0_0.GetScrollWidth(arg_11_0)
-	local var_11_0 = 0
-	local var_11_1 = arg_11_0.oepnStageList_
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-		local var_11_2 = arg_11_0:GetCfgName()[iter_11_1]
-
-		if var_11_0 < var_11_2.position[1] then
-			var_11_0 = var_11_2.position[1]
+function slot0.GetScrollWidth(slot0)
+	for slot6, slot7 in ipairs(slot0.oepnStageList_) do
+		if 0 < slot0:GetCfgName()[slot7].position[1] then
+			slot1 = slot8.position[1]
 		end
 	end
 
-	return var_11_0
+	return slot1
 end
 
-function var_0_0.GetScrollPos(arg_12_0)
-	local var_12_0 = arg_12_0:GetCfgName()[arg_12_0.selectSection_]
-
-	return var_12_0 and var_12_0.position[1] or 0
+function slot0.GetScrollPos(slot0)
+	return slot0:GetCfgName()[slot0.selectSection_] and slot1.position[1] or 0
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.archiveItemList_) do
-		iter_13_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.archiveItemList_) do
+		slot5:OnExit()
 	end
 
-	arg_13_0.scrollMoveView_:OnExit()
+	slot0.scrollMoveView_:OnExit()
 
-	arg_13_0.lastChapterID_ = nil
-	arg_13_0.stopMove_ = false
+	slot0.lastChapterID_ = nil
+	slot0.stopMove_ = false
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:RemoveListeners()
-	arg_14_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	slot0:RemoveAllListeners()
 
-	arg_14_0.lineType_ = nil
+	slot0.lineType_ = nil
 
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.missionItem_) do
-		iter_14_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.missionItem_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.missionItem_ = nil
+	slot0.missionItem_ = nil
 
-	for iter_14_2, iter_14_3 in ipairs(arg_14_0.archiveItemList_) do
-		iter_14_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.archiveItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.archiveItemList_ = nil
+	slot0.archiveItemList_ = nil
 
-	arg_14_0:DestroyLine()
+	slot0:DestroyLine()
 
-	arg_14_0.lineList_ = nil
+	slot0.lineList_ = nil
 
-	arg_14_0:DestroyArchiveLine()
+	slot0:DestroyArchiveLine()
 
-	arg_14_0.lineArchiveList_ = nil
+	slot0.lineArchiveList_ = nil
 
-	for iter_14_4, iter_14_5 in pairs(arg_14_0.customLineList_) do
-		iter_14_5:Dispose()
+	for slot4, slot5 in pairs(slot0.customLineList_) do
+		slot5:Dispose()
 	end
 
-	arg_14_0.customLineList_ = nil
+	slot0.customLineList_ = nil
 
-	if arg_14_0.scene_ then
-		Object.Destroy(arg_14_0.scene_)
+	if slot0.scene_ then
+		Object.Destroy(slot0.scene_)
 
-		arg_14_0.scene_ = nil
+		slot0.scene_ = nil
 	end
 
-	arg_14_0.selector_ = nil
+	slot0.selector_ = nil
 
-	arg_14_0.scrollMoveView_:Dispose()
+	slot0.scrollMoveView_:Dispose()
 
-	arg_14_0.scrollMoveView_ = nil
-	arg_14_0.bgBtn_ = nil
-	arg_14_0.scrollView_ = nil
-	arg_14_0.scrollViewGo_ = nil
-	arg_14_0.content_ = nil
-	arg_14_0.contentRect_ = nil
-	arg_14_0.viewportRect_ = nil
-	arg_14_0.scrollViewEvent_ = nil
-	arg_14_0.selectDifficultGo_ = nil
-	arg_14_0.collectBtnGo_ = nil
-	arg_14_0.collectBtn_ = nil
-	arg_14_0.collectCurText_ = nil
-	arg_14_0.collectTotalText_ = nil
-	arg_14_0.collectProgress_ = nil
-	arg_14_0.sectionItem_ = nil
-	arg_14_0.lineGo_ = nil
+	slot0.scrollMoveView_ = nil
+	slot0.bgBtn_ = nil
+	slot0.scrollView_ = nil
+	slot0.scrollViewGo_ = nil
+	slot0.content_ = nil
+	slot0.contentRect_ = nil
+	slot0.viewportRect_ = nil
+	slot0.scrollViewEvent_ = nil
+	slot0.selectDifficultGo_ = nil
+	slot0.collectBtnGo_ = nil
+	slot0.collectBtn_ = nil
+	slot0.collectCurText_ = nil
+	slot0.collectTotalText_ = nil
+	slot0.collectProgress_ = nil
+	slot0.sectionItem_ = nil
+	slot0.lineGo_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_15_0)
-	arg_15_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_15_0.scrollMoveView_ = ScrollMoveView.New(arg_15_0, arg_15_0.scrollViewGo_)
+	slot0.scrollMoveView_ = ScrollMoveView.New(slot0, slot0.scrollViewGo_)
 
-	arg_15_0:InitCustom()
+	slot0:InitCustom()
 end
 
-function var_0_0.InitCustom(arg_16_0)
-	return
+function slot0.InitCustom(slot0)
 end
 
-function var_0_0.AddListeners(arg_17_0)
-	arg_17_0:AddBtnListener(arg_17_0.bgBtn_, nil, function()
-		if arg_17_0:IsOpenSectionInfo() then
-			arg_17_0.isOpenInfoView_ = false
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		if uv0:IsOpenSectionInfo() then
+			uv0.isOpenInfoView_ = false
 
-			var_0_2.Back()
+			uv1.Back()
 		end
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_19_0)
-	arg_19_0.bgBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.bgBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.RefreshData(arg_20_0)
-	if arg_20_0.params_.chapterID == nil then
-		local var_20_0 = arg_20_0.params_.chapterClientID
-
-		arg_20_0.chapterID_ = BattleFieldData:GetCacheChapter(var_20_0)
+function slot0.RefreshData(slot0)
+	if slot0.params_.chapterID == nil then
+		slot0.chapterID_ = BattleFieldData:GetCacheChapter(slot0.params_.chapterClientID)
 	else
-		arg_20_0.chapterID_ = arg_20_0.params_.chapterID
+		slot0.chapterID_ = slot0.params_.chapterID
 	end
 
-	arg_20_0.stageData_ = BattleStageData:GetStageData()
-	arg_20_0.stageList_ = ChapterCfg[arg_20_0.chapterID_].section_id_list
+	slot0.stageData_ = BattleStageData:GetStageData()
+	slot0.stageList_ = ChapterCfg[slot0.chapterID_].section_id_list
 
-	local var_20_1 = arg_20_0.params_.section or BattleFieldData:GetCacheStage(arg_20_0.chapterID_) or ChapterCfg[arg_20_0.chapterID_].section_id_list[1]
-	local var_20_2 = getChapterClientCfgByChapterID(arg_20_0.chapterID_)
+	BattleFieldData:SetStageByClientID(getChapterClientCfgByChapterID(slot0.chapterID_).id, slot0.params_.section or BattleFieldData:GetCacheStage(slot0.chapterID_) or ChapterCfg[slot0.chapterID_].section_id_list[1])
+	BattleFieldAction.ChangeSelectChapterID(slot0.chapterID_)
+	slot0:RefreshCustomData()
 
-	BattleFieldData:SetStageByClientID(var_20_2.id, var_20_1)
-	BattleFieldAction.ChangeSelectChapterID(arg_20_0.chapterID_)
-	arg_20_0:RefreshCustomData()
-
-	arg_20_0.oepnStageList_ = ChapterTools.GetOpenStageList(arg_20_0.chapterID_, arg_20_0:GetCfgName())
+	slot0.oepnStageList_ = ChapterTools.GetOpenStageList(slot0.chapterID_, slot0:GetCfgName())
 end
 
-function var_0_0.RefreshCustomData(arg_21_0)
-	return
+function slot0.RefreshCustomData(slot0)
 end
 
-function var_0_0.IsOpenSectionInfo(arg_22_0)
-	return arg_22_0:IsOpenRoute("challengeSectionInfo")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("challengeSectionInfo")
 end
 
-function var_0_0.GetCfgName(arg_23_0)
-	return
+function slot0.GetCfgName(slot0)
 end
 
-function var_0_0.ShowPanel(arg_24_0)
-	SetActive(arg_24_0.collectBtnGo_, false)
-	SetActive(arg_24_0.selectDifficultGo_, false)
+function slot0.ShowPanel(slot0)
+	SetActive(slot0.collectBtnGo_, false)
+	SetActive(slot0.selectDifficultGo_, false)
 end
 
-function var_0_0.RefreshText(arg_25_0)
-	return
+function slot0.RefreshText(slot0)
 end
 
-function var_0_0.SwitchBG(arg_26_0)
-	local var_26_0 = ChapterCfg[arg_26_0.chapterID_]
-
-	if var_26_0.bg ~= "" then
-		arg_26_0.bgImage_.sprite = getSpriteWithoutAtlas(var_26_0.bg)
+function slot0.SwitchBG(slot0)
+	if ChapterCfg[slot0.chapterID_].bg ~= "" then
+		slot0.bgImage_.sprite = getSpriteWithoutAtlas(slot1.bg)
 	end
 
-	SetActive(arg_26_0.bgImage_.gameObject, var_26_0.bg ~= "")
+	SetActive(slot0.bgImage_.gameObject, slot1.bg ~= "")
 end
 
-function var_0_0.RefreshSelectItem(arg_27_0)
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.missionItem_) do
-		iter_27_1:SelectorItem(arg_27_0.selectSection_)
+function slot0.RefreshSelectItem(slot0)
+	for slot4, slot5 in pairs(slot0.missionItem_) do
+		slot5:SelectorItem(slot0.selectSection_)
 	end
 end
 
-function var_0_0.RefreshMissionList(arg_28_0)
-	if arg_28_0.lastChapterID_ == arg_28_0.chapterID_ then
+function slot0.RefreshMissionList(slot0)
+	if slot0.lastChapterID_ == slot0.chapterID_ then
 		return
 	end
 
-	arg_28_0.lastChapterID_ = arg_28_0.chapterID_
+	slot0.lastChapterID_ = slot0.chapterID_
 
-	for iter_28_0 = 1, #arg_28_0.missionItem_ do
-		arg_28_0.missionItem_[iter_28_0]:Show(false)
+	for slot4 = 1, #slot0.missionItem_ do
+		slot0.missionItem_[slot4]:Show(false)
 	end
 
-	for iter_28_1 = 1, #arg_28_0.stageList_ do
-		if arg_28_0.missionItem_[iter_28_1] then
-			arg_28_0.missionItem_[iter_28_1]:SetData(arg_28_0.chapterID_, arg_28_0.stageList_[iter_28_1])
+	for slot4 = 1, #slot0.stageList_ do
+		if slot0.missionItem_[slot4] then
+			slot0.missionItem_[slot4]:SetData(slot0.chapterID_, slot0.stageList_[slot4])
 		else
-			arg_28_0.missionItem_[iter_28_1] = arg_28_0:GetSectionItemClass().New(arg_28_0.sectionItem_, arg_28_0.content_, arg_28_0.stageList_[iter_28_1], arg_28_0.chapterID_)
+			slot0.missionItem_[slot4] = slot0:GetSectionItemClass().New(slot0.sectionItem_, slot0.content_, slot0.stageList_[slot4], slot0.chapterID_)
 		end
 	end
 
-	arg_28_0:CreateLineItemList()
+	slot0:CreateLineItemList()
 end
 
-function var_0_0.CreateLineItemList(arg_29_0)
-	if arg_29_0.lineType_ ~= ChapterCfg[arg_29_0.chapterID_].line_type then
-		arg_29_0:DestroyLine()
+function slot0.CreateLineItemList(slot0)
+	if slot0.lineType_ ~= ChapterCfg[slot0.chapterID_].line_type then
+		slot0:DestroyLine()
 
-		arg_29_0.lineType_ = ChapterCfg[arg_29_0.chapterID_].line_type
+		slot0.lineType_ = ChapterCfg[slot0.chapterID_].line_type
 	end
 
-	local var_29_0 = 1
+	slot1 = 1
 
-	for iter_29_0 = 1, #arg_29_0.archiveItemList_ do
-		arg_29_0.archiveItemList_[iter_29_0]:Show(false)
+	for slot5 = 1, #slot0.archiveItemList_ do
+		slot0.archiveItemList_[slot5]:Show(false)
 	end
 
-	for iter_29_1, iter_29_2 in pairs(arg_29_0.lineList_) do
-		iter_29_2:Show(false)
+	for slot5, slot6 in pairs(slot0.lineList_) do
+		slot6:Show(false)
 	end
 
-	for iter_29_3, iter_29_4 in pairs(arg_29_0.lineArchiveList_) do
-		iter_29_4:Show(false)
+	for slot5, slot6 in pairs(slot0.lineArchiveList_) do
+		slot6:Show(false)
 	end
 
-	for iter_29_5, iter_29_6 in pairs(arg_29_0.customLineList_) do
-		iter_29_6:Show(false)
+	for slot5, slot6 in pairs(slot0.customLineList_) do
+		slot6:Show(false)
 	end
 
-	local var_29_1 = 1
-	local var_29_2 = 1
-	local var_29_3 = 1
-	local var_29_4 = arg_29_0.oepnStageList_
+	slot2 = 1
+	slot3 = 1
+	slot4 = 1
 
-	for iter_29_7, iter_29_8 in ipairs(var_29_4) do
-		local var_29_5 = table.keyof(arg_29_0.stageList_, iter_29_8)
-		local var_29_6 = arg_29_0.missionItem_[var_29_5]:GetLocalPosition() + Vector3(0, 0, 0)
-		local var_29_7 = arg_29_0:GetCfgName()[iter_29_8].pre_show_id_list or {}
-		local var_29_8 = #var_29_7 > 1
+	for slot9, slot10 in ipairs(slot0.oepnStageList_) do
+		slot12 = slot0.missionItem_[table.keyof(slot0.stageList_, slot10)]:GetLocalPosition() + Vector3(0, 0, 0)
+		slot14 = #(slot0:GetCfgName()[slot10].pre_show_id_list or {}) > 1
 
-		for iter_29_9, iter_29_10 in ipairs(var_29_7) do
-			if arg_29_0.stageData_[iter_29_10] and arg_29_0.stageData_[iter_29_10].clear_times > 0 then
-				-- block empty
-			else
-				var_29_8 = false
+		for slot18, slot19 in ipairs(slot13) do
+			if not slot0.stageData_[slot19] or slot0.stageData_[slot19].clear_times <= 0 then
+				slot14 = false
 
 				break
 			end
 		end
 
-		for iter_29_11, iter_29_12 in ipairs(var_29_7) do
-			local var_29_9 = arg_29_0:GetCfgName()[iter_29_8]
+		for slot18, slot19 in ipairs(slot13) do
+			if type(slot0:GetCfgName()[slot10].custom_line) == "table" and #slot20.custom_line[slot18] > 0 and (slot0.stageData_[slot10] and slot0.stageData_[slot10].clear_times > 0 or slot14) then
+				slot0:DrawLine(slot2, slot20.custom_line[slot18])
 
-			if type(var_29_9.custom_line) == "table" and #var_29_9.custom_line[iter_29_11] > 0 and (arg_29_0.stageData_[iter_29_8] and arg_29_0.stageData_[iter_29_8].clear_times > 0 or var_29_8) then
-				arg_29_0:DrawLine(var_29_1, var_29_9.custom_line[iter_29_11])
+				slot2 = slot2 + 1
+			elseif type(slot20.custom_lock_line) == "table" and #slot20.custom_lock_line[slot18] > 0 then
+				slot0:DrawLine(slot2, slot20.custom_lock_line[slot18])
 
-				var_29_1 = var_29_1 + 1
-			elseif type(var_29_9.custom_lock_line) == "table" and #var_29_9.custom_lock_line[iter_29_11] > 0 then
-				arg_29_0:DrawLine(var_29_1, var_29_9.custom_lock_line[iter_29_11])
+				slot2 = slot2 + 1
+			elseif table.keyof(slot5, slot19) then
+				slot0.lineList_[slot2] = slot0.lineList_[slot2] or slot0:GetLineClass(slot0.lineType_).New(slot0:GetLineGo(slot0.lineType_), slot0.content_, slot0:GetPointGo(slot0.lineType_))
 
-				var_29_1 = var_29_1 + 1
-			elseif table.keyof(var_29_4, iter_29_12) then
-				local var_29_10 = table.keyof(arg_29_0.stageList_, iter_29_12)
-				local var_29_11 = arg_29_0.missionItem_[var_29_10]:GetLocalPosition() + Vector3(0, 0, 0)
+				slot0.lineList_[slot2]:Show(true)
+				slot0.lineList_[slot2]:RefreshUI(slot0.missionItem_[table.keyof(slot0.stageList_, slot19)]:GetLocalPosition() + Vector3(0, 0, 0), slot12)
 
-				arg_29_0.lineList_[var_29_1] = arg_29_0.lineList_[var_29_1] or arg_29_0:GetLineClass(arg_29_0.lineType_).New(arg_29_0:GetLineGo(arg_29_0.lineType_), arg_29_0.content_, arg_29_0:GetPointGo(arg_29_0.lineType_))
-
-				arg_29_0.lineList_[var_29_1]:Show(true)
-				arg_29_0.lineList_[var_29_1]:RefreshUI(var_29_11, var_29_6)
-
-				var_29_1 = var_29_1 + 1
+				slot2 = slot2 + 1
 			end
 		end
 
-		local var_29_12 = BattleStageTools.GetStageCfg(ChapterCfg[arg_29_0.chapterID_].type, iter_29_8)
-		local var_29_13 = StageTools.GetStageArchiveID(iter_29_8)
+		slot15 = BattleStageTools.GetStageCfg(ChapterCfg[slot0.chapterID_].type, slot10)
 
-		if var_29_13 and var_29_13 ~= 0 then
-			arg_29_0.archiveItemList_[var_29_0] = arg_29_0.archiveItemList_[var_29_0] or ChapterStageArchiveItem.New(arg_29_0.stageExtraInfoGo_, arg_29_0.content_)
+		if StageTools.GetStageArchiveID(slot10) and slot16 ~= 0 then
+			slot0.archiveItemList_[slot1] = slot0.archiveItemList_[slot1] or ChapterStageArchiveItem.New(slot0.stageExtraInfoGo_, slot0.content_)
 
-			arg_29_0.archiveItemList_[var_29_0]:SetData(arg_29_0.chapterID_, iter_29_8, var_29_13)
+			slot0.archiveItemList_[slot1]:SetData(slot0.chapterID_, slot10, slot16)
 
-			local var_29_14 = Vector3(var_29_12.position[1], var_29_12.position[2], 0) + Vector3(0, 0, 0)
-			local var_29_15 = StageArchiveCfg[var_29_13].position
-			local var_29_16 = Vector3(var_29_15[1], var_29_15[2], 0)
+			slot18 = StageArchiveCfg[slot16].position
+			slot0.lineArchiveList_[slot4] = slot0.lineArchiveList_[slot4] or SectionLineItem.New(slot0:GetLineGo(2), slot0.content_, slot0:GetPointGo(0))
 
-			arg_29_0.lineArchiveList_[var_29_3] = arg_29_0.lineArchiveList_[var_29_3] or SectionLineItem.New(arg_29_0:GetLineGo(2), arg_29_0.content_, arg_29_0:GetPointGo(0))
+			slot0.lineArchiveList_[slot4]:Show(true)
+			slot0.lineArchiveList_[slot4]:RefreshUI(Vector3(slot15.position[1], slot15.position[2], 0) + Vector3(0, 0, 0), Vector3(slot18[1], slot18[2], 0))
 
-			arg_29_0.lineArchiveList_[var_29_3]:Show(true)
-			arg_29_0.lineArchiveList_[var_29_3]:RefreshUI(var_29_14, var_29_16)
-
-			var_29_3 = var_29_3 + 1
-			var_29_0 = var_29_0 + 1
+			slot4 = slot4 + 1
+			slot1 = slot1 + 1
 		end
 	end
 end
 
-function var_0_0.DrawLine(arg_30_0, arg_30_1, arg_30_2)
-	arg_30_0.customLineList_[arg_30_1] = arg_30_0.customLineList_[arg_30_1] or SectionCustomLineItem.New(arg_30_0:GetLineGo(2), arg_30_0.content_, arg_30_0:GetPointGo(arg_30_0.lineType_))
+function slot0.DrawLine(slot0, slot1, slot2)
+	slot0.customLineList_[slot1] = slot0.customLineList_[slot1] or SectionCustomLineItem.New(slot0:GetLineGo(2), slot0.content_, slot0:GetPointGo(slot0.lineType_))
 
-	arg_30_0.customLineList_[arg_30_1]:Show(true)
-	arg_30_0.customLineList_[arg_30_1]:RefreshUI(arg_30_2)
+	slot0.customLineList_[slot1]:Show(true)
+	slot0.customLineList_[slot1]:RefreshUI(slot2)
 end
 
-function var_0_0.GetLineClass(arg_31_0, arg_31_1)
-	if arg_31_1 == 0 then
+function slot0.GetLineClass(slot0, slot1)
+	if slot1 == 0 then
 		return SectionLineItem
 	else
 		return SectionBranchLineItem
 	end
 end
 
-function var_0_0.GetLineGo(arg_32_0, arg_32_1)
-	if arg_32_1 == 2 then
-		return arg_32_0.lineGo_
-	elseif arg_32_1 == 3 then
-		return arg_32_0.lineGo2_
+function slot0.GetLineGo(slot0, slot1)
+	if slot1 == 2 then
+		return slot0.lineGo_
+	elseif slot1 == 3 then
+		return slot0.lineGo2_
 	else
-		return arg_32_0.lineGo_
+		return slot0.lineGo_
 	end
 end
 
-function var_0_0.GetPointGo(arg_33_0, arg_33_1)
-	if arg_33_1 == 2 then
-		return arg_33_0.pointGo_
+function slot0.GetPointGo(slot0, slot1)
+	if slot1 == 2 then
+		return slot0.pointGo_
 	else
-		return arg_33_0.pointGo_
+		return slot0.pointGo_
 	end
 end
 
-function var_0_0.DestroyLine(arg_34_0)
-	for iter_34_0, iter_34_1 in pairs(arg_34_0.lineList_) do
-		iter_34_1:Dispose()
+function slot0.DestroyLine(slot0)
+	for slot4, slot5 in pairs(slot0.lineList_) do
+		slot5:Dispose()
 	end
 
-	arg_34_0.lineList_ = {}
+	slot0.lineList_ = {}
 end
 
-function var_0_0.DestroyArchiveLine(arg_35_0)
-	for iter_35_0, iter_35_1 in pairs(arg_35_0.lineArchiveList_) do
-		iter_35_1:Dispose()
+function slot0.DestroyArchiveLine(slot0)
+	for slot4, slot5 in pairs(slot0.lineArchiveList_) do
+		slot5:Dispose()
 	end
 
-	arg_35_0.lineArchiveList_ = {}
+	slot0.lineArchiveList_ = {}
 end
 
-return var_0_0
+return slot0

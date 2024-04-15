@@ -1,149 +1,141 @@
-local var_0_0 = class("EnchantmentStageView", ReduxView)
+slot0 = class("EnchantmentStageView", ReduxView)
 
-local function var_0_1(arg_1_0, arg_1_1)
-	local var_1_0 = GameSetting.fm_stage_unlock.value[arg_1_0]
-
-	if var_1_0 <= PlayerData:GetPlayerInfo().userLevel then
+function slot1(slot0, slot1)
+	if GameSetting.fm_stage_unlock.value[slot0] <= PlayerData:GetPlayerInfo().userLevel then
 		return false
 	end
 
-	if arg_1_1 then
-		ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), var_1_0))
+	if slot1 then
+		ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), slot2))
 	end
 
 	return true
 end
 
-local var_0_2 = GameSetting.fm_free_refresh_limit_count.value[1]
-local var_0_3 = GameSetting.fm_item_refresh_limit_count.value[1]
-local var_0_4 = GameSetting.fm_item_refresh_cost.value
-local var_0_5 = GameSetting.fm_stage_unlock.value[1]
-local var_0_6 = GameSetting.fm_get_refresh_count.value[1]
+slot2 = GameSetting.fm_free_refresh_limit_count.value[1]
+slot3 = GameSetting.fm_item_refresh_limit_count.value[1]
+slot4 = GameSetting.fm_item_refresh_cost.value
+slot5 = GameSetting.fm_stage_unlock.value[1]
+slot6 = GameSetting.fm_get_refresh_count.value[1]
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "Widget/System/EnchantmentStage/EnchantmentStageUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.stageLuaItem_ = {}
-	arg_5_0.diffButtonList_ = {}
-	arg_5_0.curStageIDList_ = {}
-	arg_5_0.selectingDifficult = false
-	arg_5_0.selectStageController_ = arg_5_0.mainControllerEx_:GetController("selectStageState")
-	arg_5_0.refreshController_ = arg_5_0.mainControllerEx_:GetController("refreshState")
-	arg_5_0.diffSelectController_ = arg_5_0.mainControllerEx_:GetController("diffSelectState")
-	arg_5_0.diffLockController_ = arg_5_0.mainControllerEx_:GetController("diffLockState")
-	arg_5_0.panelController_ = ControllerUtil.GetController(arg_5_0.panelTrs_, "name")
+	slot0.stageLuaItem_ = {}
+	slot0.diffButtonList_ = {}
+	slot0.curStageIDList_ = {}
+	slot0.selectingDifficult = false
+	slot0.selectStageController_ = slot0.mainControllerEx_:GetController("selectStageState")
+	slot0.refreshController_ = slot0.mainControllerEx_:GetController("refreshState")
+	slot0.diffSelectController_ = slot0.mainControllerEx_:GetController("diffSelectState")
+	slot0.diffLockController_ = slot0.mainControllerEx_:GetController("diffLockState")
+	slot4 = "name"
+	slot0.panelController_ = ControllerUtil.GetController(slot0.panelTrs_, slot4)
 
-	for iter_5_0 = 1, 3 do
-		arg_5_0.stageLuaItem_[iter_5_0] = EnchantmentStageItem.New(arg_5_0["stageItem" .. iter_5_0 .. "Go_"], function()
-			if arg_5_0.selectingDifficult then
-				SetActive(arg_5_0.diffPanelGo_, false)
+	for slot4 = 1, 3 do
+		slot0.stageLuaItem_[slot4] = EnchantmentStageItem.New(slot0["stageItem" .. slot4 .. "Go_"], function ()
+			if uv0.selectingDifficult then
+				SetActive(uv0.diffPanelGo_, false)
 
-				arg_5_0.selectingDifficult = false
+				uv0.selectingDifficult = false
 
 				return
 			end
 
-			arg_5_0:Go("enchantmentSectionInfo", {
+			uv0:Go("enchantmentSectionInfo", {
 				sectionType = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_DAILY,
-				section = arg_5_0.curStageIDList_[iter_5_0]
+				section = uv0.curStageIDList_[uv1]
 			})
-			SetActive(arg_5_0.closeSectionBtn_.gameObject, true)
-			arg_5_0.selectStageController_:SetSelectedState(iter_5_0)
-			arg_5_0.panelController_:SetSelectedState(iter_5_0)
+			SetActive(uv0.closeSectionBtn_.gameObject, true)
+			uv0.selectStageController_:SetSelectedState(uv1)
+			uv0.panelController_:SetSelectedState(uv1)
 		end)
-		arg_5_0.diffButtonList_[iter_5_0] = arg_5_0["diff" .. iter_5_0 .. "Btn_"]
+		slot0.diffButtonList_[slot4] = slot0["diff" .. slot4 .. "Btn_"]
 	end
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buyBtn_, nil, function()
-		if arg_7_0.selectingDifficult then
-			SetActive(arg_7_0.diffPanelGo_, false)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.buyBtn_, nil, function ()
+		if uv0.selectingDifficult then
+			SetActive(uv0.diffPanelGo_, false)
 
-			arg_7_0.selectingDifficult = false
+			uv0.selectingDifficult = false
 
 			return
 		end
 
-		local var_8_0 = BattleEnchantmentData:GetData()
-		local var_8_1 = GameSetting.fm_item_refresh_cost.value[var_8_0.allRefreshedTimes + 1][2]
-		local var_8_2 = var_8_1 - CurrencyData:GetCurrencyNum(CurrencyConst.CURRENCY_TYPE_DIAMOND)
-
-		if var_8_2 > 0 then
-			ShopTools.DefaultOpenPopUp(var_8_2)
+		if GameSetting.fm_item_refresh_cost.value[BattleEnchantmentData:GetData().allRefreshedTimes + 1][2] - CurrencyData:GetCurrencyNum(CurrencyConst.CURRENCY_TYPE_DIAMOND) > 0 then
+			ShopTools.DefaultOpenPopUp(slot2)
 
 			return
 		end
 
 		if _G.SkipTip.SkipEnchantmentRefreshTip then
-			BattleEnchantAction.EnchantmentRefresh(2, GameSetting.fm_item_refresh_cost.value[var_8_0.allRefreshedTimes + 1])
+			BattleEnchantAction.EnchantmentRefresh(2, GameSetting.fm_item_refresh_cost.value[slot0.allRefreshedTimes + 1])
 
 			return
 		end
 
-		local var_8_3 = false
+		slot3 = false
 
 		JumpTools.OpenPageByJump("popCostItem", {
 			costId = CurrencyConst.CURRENCY_TYPE_DIAMOND,
-			costCount = var_8_1,
-			content = GetTipsF("ENCHANTMENT_STAGE_REFRESH_CHECK", ItemCfg[CurrencyConst.CURRENCY_TYPE_DIAMOND].name, var_8_1),
-			popCostCallBack = function()
-				BattleEnchantAction.EnchantmentRefresh(2, GameSetting.fm_item_refresh_cost.value[var_8_0.allRefreshedTimes + 1])
+			costCount = slot1,
+			content = GetTipsF("ENCHANTMENT_STAGE_REFRESH_CHECK", ItemCfg[CurrencyConst.CURRENCY_TYPE_DIAMOND].name, slot1),
+			popCostCallBack = function ()
+				BattleEnchantAction.EnchantmentRefresh(2, GameSetting.fm_item_refresh_cost.value[uv0.allRefreshedTimes + 1])
 
-				_G.SkipTip.SkipEnchantmentRefreshTip = var_8_3
+				_G.SkipTip.SkipEnchantmentRefreshTip = uv1
 			end,
-			ToggleCallback = function(arg_10_0)
-				var_8_3 = arg_10_0
+			ToggleCallback = function (slot0)
+				uv0 = slot0
 			end
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.freeBtn_, nil, function()
-		if arg_7_0.selectingDifficult then
-			SetActive(arg_7_0.diffPanelGo_, false)
+	slot0:AddBtnListener(slot0.freeBtn_, nil, function ()
+		if uv0.selectingDifficult then
+			SetActive(uv0.diffPanelGo_, false)
 
-			arg_7_0.selectingDifficult = false
+			uv0.selectingDifficult = false
 
 			return
 		end
 
-		local var_11_0 = SettingData:GetRemindSettingData()
+		if not _G.SkipTip.SkipRefreshEnchantmentTimesTip and SettingData:GetRemindSettingData().refresh_enchantment_times_reminder == 1 then
+			slot1 = false
 
-		if not _G.SkipTip.SkipRefreshEnchantmentTimesTip and var_11_0.refresh_enchantment_times_reminder == 1 then
-			local var_11_1 = false
-			local var_11_2 = BattleEnchantmentData:GetData().enchantmentBattleList
-
-			for iter_11_0, iter_11_1 in ipairs(var_11_2) do
-				if StageGroupCfg[iter_11_1].level >= 3 then
-					var_11_1 = true
+			for slot6, slot7 in ipairs(BattleEnchantmentData:GetData().enchantmentBattleList) do
+				if StageGroupCfg[slot7].level >= 3 then
+					slot1 = true
 
 					break
 				end
 			end
 
-			if var_11_1 then
+			if slot1 then
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
 					content = GetTips("EQUIP_STAGE_REFRESH"),
-					OkCallback = function()
-						_G.SkipTip.SkipRefreshEnchantmentTimesTip = arg_7_0.SkipRefreshEnchantmentTimesTip_
+					OkCallback = function ()
+						_G.SkipTip.SkipRefreshEnchantmentTimesTip = uv0.SkipRefreshEnchantmentTimesTip_
 
 						BattleEnchantAction.EnchantmentRefresh(1)
 					end,
-					ToggleCallback = function(arg_13_0)
-						arg_7_0.SkipRefreshEnchantmentTimesTip_ = arg_13_0
+					ToggleCallback = function (slot0)
+						uv0.SkipRefreshEnchantmentTimesTip_ = slot0
 					end
 				})
 
@@ -153,45 +145,48 @@ function var_0_0.AddUIListener(arg_7_0)
 
 		BattleEnchantAction.EnchantmentRefresh(1)
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.noneBtn_, nil, function()
+	slot0:AddBtnListener(slot0.noneBtn_, nil, function ()
 		ShowTips("JM_REFRESH_NONE")
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.closeSectionBtn_, nil, function()
-		SetActive(arg_7_0.closeSectionBtn_.gameObject, false)
 
-		if arg_7_0:IsOpenRoute("enchantmentSectionInfo") then
+	slot4 = slot0.closeSectionBtn_
+
+	slot0:AddBtnListener(slot4, nil, function ()
+		SetActive(uv0.closeSectionBtn_.gameObject, false)
+
+		if uv0:IsOpenRoute("enchantmentSectionInfo") then
 			JumpTools.Back()
 		end
 	end)
 
-	for iter_7_0 = 1, 3 do
-		arg_7_0:AddBtnListener(arg_7_0.diffButtonList_[iter_7_0], nil, function()
-			if var_0_1(iter_7_0, true) then
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0.diffButtonList_[slot4], nil, function ()
+			if uv0(uv1, true) then
 				return
 			end
 
-			arg_7_0.diffSelectController_:SetSelectedState(iter_7_0)
-			BattleEnchantAction.SetSelectLevel(iter_7_0)
+			uv2.diffSelectController_:SetSelectedState(uv1)
+			BattleEnchantAction.SetSelectLevel(uv1)
 
-			arg_7_0.selectedDifficulty_ = iter_7_0
+			uv2.selectedDifficulty_ = uv1
 
-			arg_7_0:RefreshContent()
+			uv2:RefreshContent()
 		end)
 	end
 
-	arg_7_0:AddBtnListener(arg_7_0.diffSelectBtn_, nil, function()
-		SetActive(arg_7_0.diffPanelGo_, true)
+	slot0:AddBtnListener(slot0.diffSelectBtn_, nil, function ()
+		SetActive(uv0.diffPanelGo_, true)
 
-		arg_7_0.selectingDifficult = true
+		uv0.selectingDifficult = true
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.diffCloseBtn_, nil, function()
-		SetActive(arg_7_0.diffPanelGo_, false)
+	slot0:AddBtnListener(slot0.diffCloseBtn_, nil, function ()
+		SetActive(uv0.diffPanelGo_, false)
 
-		arg_7_0.selectingDifficult = false
+		uv0.selectingDifficult = false
 	end)
 end
 
-function var_0_0.OnTop(arg_19_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -205,152 +200,145 @@ function var_0_0.OnTop(arg_19_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_GOLD, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_DIAMOND, true)
 	manager.windowBar:SetGameHelpKey("ENCHANTMENT_DESCRIPE")
-	arg_19_0.selectStageController_:SetSelectedState("none")
-	arg_19_0.panelController_:SetSelectedState("0")
+	slot0.selectStageController_:SetSelectedState("none")
+	slot0.panelController_:SetSelectedState("0")
 end
 
-function var_0_0.OnEnter(arg_20_0)
-	arg_20_0.timeText_.text = TimeMgr:DescCDTime(arg_20_0:during())
+function slot0.OnEnter(slot0)
+	slot0.timeText_.text = TimeMgr:DescCDTime(slot0:during())
+	slot1 = 3
 
-	local var_20_0 = 3
-
-	while var_20_0 > 1 do
-		if var_0_1(var_20_0) then
-			var_20_0 = var_20_0 - 1
+	while slot1 > 1 do
+		if uv0(slot1) then
+			slot1 = slot1 - 1
 		else
 			break
 		end
 	end
 
-	arg_20_0.diffLockController_:SetSelectedState(var_20_0)
+	slot0.diffLockController_:SetSelectedState(slot1)
 
-	arg_20_0.selectedDifficulty_ = BattleEnchantAction.GetSelectLevel()
+	slot0.selectedDifficulty_ = BattleEnchantAction.GetSelectLevel()
 
-	if arg_20_0.selectedDifficulty_ == 0 then
-		arg_20_0.selectedDifficulty_ = var_20_0
+	if slot0.selectedDifficulty_ == 0 then
+		slot0.selectedDifficulty_ = slot1
 
-		BattleEnchantAction.SetSelectLevel(arg_20_0.selectedDifficulty_)
+		BattleEnchantAction.SetSelectLevel(slot0.selectedDifficulty_)
 	end
 
-	arg_20_0.diffSelectController_:SetSelectedState(arg_20_0.selectedDifficulty_)
-	arg_20_0:RefreshUI()
+	slot0.diffSelectController_:SetSelectedState(slot0.selectedDifficulty_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_21_0)
-	arg_21_0:RefreshTimePanel()
-	arg_21_0:RefreshContent()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshTimePanel()
+	slot0:RefreshContent()
 end
 
-function var_0_0.during(arg_22_0)
+function slot0.during(slot0)
 	return _G.gameTimer:GetNextDayFreshTime() - manager.time:GetServerTime()
 end
 
-function var_0_0.RefreshTimePanel(arg_23_0)
-	if arg_23_0.timer_ then
-		arg_23_0.timer_:Stop()
+function slot0.RefreshTimePanel(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_23_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	local var_23_0
+	slot1 = nil
+	slot0.timer_ = Timer.New(function ()
+		uv0 = uv1:during()
+		uv1.timeText_.text = TimeMgr:DescCDTime(uv0)
 
-	arg_23_0.timer_ = Timer.New(function()
-		var_23_0 = arg_23_0:during()
-		arg_23_0.timeText_.text = TimeMgr:DescCDTime(var_23_0)
+		if uv0 <= 0 then
+			uv1.timer_:Stop()
 
-		if var_23_0 <= 0 then
-			arg_23_0.timer_:Stop()
-
-			arg_23_0.timer_ = nil
+			uv1.timer_ = nil
 		end
 	end, 1, -1)
 
-	arg_23_0.timer_:Start()
+	slot0.timer_:Start()
 
-	local var_23_1 = BattleEnchantmentData:GetData()
+	if BattleEnchantmentData:GetData().freeRefreshTimes > 0 then
+		slot0.refreshController_:SetSelectedState("free")
 
-	if var_23_1.freeRefreshTimes > 0 then
-		arg_23_0.refreshController_:SetSelectedState("free")
+		slot0.freeText_.text = string.format("%d/%d", slot2.freeRefreshTimes, uv0)
+	elseif slot2.allRefreshedTimes < uv1 then
+		slot0.refreshController_:SetSelectedState("buy")
 
-		local var_23_2 = string.format("%d/%d", var_23_1.freeRefreshTimes, var_0_2)
-
-		arg_23_0.freeText_.text = var_23_2
-	elseif var_23_1.allRefreshedTimes < var_0_3 then
-		arg_23_0.refreshController_:SetSelectedState("buy")
-
-		arg_23_0.butImg_.sprite = ItemTools.getItemSprite(var_0_4[var_23_1.allRefreshedTimes + 1][1])
-		arg_23_0.buyText_.text = string.format("(%d/%d)", var_0_3 - var_23_1.allRefreshedTimes, var_0_3)
-		arg_23_0.butCostText_.text = var_0_4[var_23_1.allRefreshedTimes + 1][2]
+		slot0.butImg_.sprite = ItemTools.getItemSprite(uv2[slot2.allRefreshedTimes + 1][1])
+		slot0.buyText_.text = string.format("(%d/%d)", uv1 - slot2.allRefreshedTimes, uv1)
+		slot0.butCostText_.text = uv2[slot2.allRefreshedTimes + 1][2]
 	else
-		arg_23_0.refreshController_:SetSelectedState("none")
+		slot0.refreshController_:SetSelectedState("none")
 
-		arg_23_0.noneText_.text = string.format("/%d", var_0_3)
+		slot0.noneText_.text = string.format("/%d", uv1)
 	end
 end
 
-function var_0_0.RefreshContent(arg_25_0)
-	arg_25_0.itempanelAni1_:Play("BossSwitchUI1", 0, 0)
-	arg_25_0.itempanelAni2_:Play("BossSwitchUI1", 0, 0)
-	arg_25_0.itempanelAni3_:Play("BossSwitchUI1", 0, 0)
-	SetActive(arg_25_0.diffPanelGo_, false)
+function slot0.RefreshContent(slot0)
+	slot0.itempanelAni1_:Play("BossSwitchUI1", 0, 0)
+	slot0.itempanelAni2_:Play("BossSwitchUI1", 0, 0)
 
-	arg_25_0.selectingDifficult = false
+	slot5 = 0
 
-	local var_25_0 = BattleEnchantmentData:GetData()
+	slot0.itempanelAni3_:Play("BossSwitchUI1", slot5, 0)
+	SetActive(slot0.diffPanelGo_, false)
 
-	for iter_25_0 = 1, 3 do
-		local var_25_1 = var_25_0.enchantmentBattleList[iter_25_0]
-		local var_25_2 = StageGroupCfg[var_25_1].stage_list[arg_25_0.selectedDifficulty_]
-		local var_25_3 = StageGroupCfg[var_25_1].level
+	slot0.selectingDifficult = false
 
-		arg_25_0.curStageIDList_[iter_25_0] = var_25_2
+	for slot5 = 1, 3 do
+		slot6 = BattleEnchantmentData:GetData().enchantmentBattleList[slot5]
+		slot7 = StageGroupCfg[slot6].stage_list[slot0.selectedDifficulty_]
+		slot0.curStageIDList_[slot5] = slot7
 
-		arg_25_0.stageLuaItem_[iter_25_0]:SetData(var_25_2, var_25_3)
+		slot0.stageLuaItem_[slot5]:SetData(slot7, StageGroupCfg[slot6].level)
 	end
 end
 
-function var_0_0.OnExit(arg_26_0)
-	if arg_26_0.timer_ then
-		arg_26_0.timer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_26_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	if arg_26_0.countdownTimer_ then
-		arg_26_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_26_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_27_0)
-	if arg_27_0.timer_ then
-		arg_27_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_27_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	if arg_27_0.countdownTimer_ then
-		arg_27_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_27_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
-	for iter_27_0 = 1, 3 do
-		arg_27_0.stageLuaItem_[iter_27_0]:Dispose()
+	for slot4 = 1, 3 do
+		slot0.stageLuaItem_[slot4]:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_27_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnEnchantmentRefresh(arg_28_0)
-	arg_28_0:RefreshUI()
+function slot0.OnEnchantmentRefresh(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnEnchantmentInit(arg_29_0)
-	arg_29_0:RefreshUI()
+function slot0.OnEnchantmentInit(slot0)
+	slot0:RefreshUI()
 end
 
-return var_0_0
+return slot0

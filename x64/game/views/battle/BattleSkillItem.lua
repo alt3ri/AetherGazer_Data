@@ -1,46 +1,44 @@
-local var_0_0 = class("BattleSkillItem", ReduxView)
-local var_0_1 = import("game.const.HeroConst")
+slot0 = class("BattleSkillItem", ReduxView)
+slot1 = import("game.const.HeroConst")
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
-	arg_1_0.info_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.info_ = slot3
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:InitUI()
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:InitUI()
+	slot0:Init()
 end
 
-function var_0_0.RefreshData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.data_ = arg_2_1
-	arg_2_0.info_ = arg_2_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	arg_2_0:Render()
+	slot0:Render()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0.typeIcon_ = arg_3_0:FindCom(typeof(Image), "type")
-	arg_3_0.lvText_ = arg_3_0:FindCom(typeof(Text), "level")
-	arg_3_0.nameText_ = arg_3_0:FindCom(typeof(Text), "name")
-	arg_3_0.desText_ = arg_3_0:FindCom(typeof(Text), "des")
+function slot0.InitUI(slot0)
+	slot0.typeIcon_ = slot0:FindCom(typeof(Image), "type")
+	slot0.lvText_ = slot0:FindCom(typeof(Text), "level")
+	slot0.nameText_ = slot0:FindCom(typeof(Text), "name")
+	slot0.desText_ = slot0:FindCom(typeof(Text), "des")
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:RefreshUI(arg_4_0.info_)
+function slot0.Init(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.Render(arg_6_0)
-	arg_6_0:RefreshUI(arg_6_0.info_)
+function slot0.Render(slot0)
+	slot0:RefreshUI(slot0.info_)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_1.lv or 1
-
-	arg_7_0.lvText_.text = "LEVEL " .. var_7_0
+function slot0.RefreshUI(slot0, slot1)
+	slot0.lvText_.text = "LEVEL " .. (slot1.lv or 1)
 end
 
-return var_0_0
+return slot0

@@ -1,25 +1,24 @@
 FactorySkinTrialActivityItem = import("game.views.skinTrialActivity.Factory.FactorySkinTrialActivityItem")
+slot0 = class("DreamSkinTrialActivityItem", FactorySkinTrialActivityItem)
 
-local var_0_0 = class("DreamSkinTrialActivityItem", FactorySkinTrialActivityItem)
-
-function var_0_0.RefreshTime(arg_1_0)
-	if manager.time:GetServerTime() < arg_1_0.startTime_ then
-		SetActive(arg_1_0.gameObject_, false)
-
-		return
-	end
-
-	if manager.time:GetServerTime() >= arg_1_0.stopTime_ then
-		arg_1_0.textTime_.text = GetTips("TIME_OVER")
-
-		SetActive(arg_1_0.gameObject_, false)
+function slot0.RefreshTime(slot0)
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		SetActive(slot0.gameObject_, false)
 
 		return
 	end
 
-	SetActive(arg_1_0.gameObject_, true)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
+		slot0.textTime_.text = GetTips("TIME_OVER")
 
-	arg_1_0.textTime_.text = manager.time:GetLostTimeStr(arg_1_0.stopTime_)
+		SetActive(slot0.gameObject_, false)
+
+		return
+	end
+
+	SetActive(slot0.gameObject_, true)
+
+	slot0.textTime_.text = manager.time:GetLostTimeStr(slot0.stopTime_)
 end
 
-return var_0_0
+return slot0

@@ -1,66 +1,64 @@
-local var_0_0 = class("PopSetFoodView", ReduxView)
+slot0 = class("PopSetFoodView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamShelvesToDeterminePop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.cookMaterialItemScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.indexFoodMaterialItem), arg_4_0.uilistUilist_, FoodMaterialItem)
+	slot0.cookMaterialItemScroll_ = LuaList.New(handler(slot0, slot0.indexFoodMaterialItem), slot0.uilistUilist_, FoodMaterialItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.confirmbtnBtn_, nil, function()
-		DormData:ReviseSignFood(arg_5_0.foodID, true)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.confirmbtnBtn_, nil, function ()
+		DormData:ReviseSignFood(uv0.foodID, true)
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.canclebtnBtn_, nil, function()
+	slot0:AddBtnListener(slot0.canclebtnBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.foodID = arg_9_0.params_.foodID
+function slot0.OnEnter(slot0)
+	slot0.foodID = slot0.params_.foodID
+	slot1 = slot0.foodID
+	slot0.titletextText_.text = string.format(GetTips("CANTEEN_FOOD_ADD"), BackHomeCanteenFoodCfg[slot1].name)
 
-	local var_9_0 = arg_9_0.foodID
-
-	arg_9_0.titletextText_.text = string.format(GetTips("CANTEEN_FOOD_ADD"), BackHomeCanteenFoodCfg[var_9_0].name)
-
-	arg_9_0:UpdateFoodMaterialData(var_9_0)
-	arg_9_0.cookMaterialItemScroll_:StartScroll(#arg_9_0.itemList_)
+	slot0:UpdateFoodMaterialData(slot1)
+	slot0.cookMaterialItemScroll_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.indexFoodMaterialItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:RefreshItem(arg_10_0.itemList_[arg_10_1])
+function slot0.indexFoodMaterialItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.itemList_[slot1])
 end
 
-function var_0_0.UpdateFoodMaterialData(arg_11_0, arg_11_1)
-	arg_11_0.itemList_ = {}
+function slot0.UpdateFoodMaterialData(slot0, slot1)
+	slot0.itemList_ = {}
 
-	for iter_11_0, iter_11_1 in pairs(BackHomeCanteenFoodCfg[arg_11_1].ingredient_list) do
-		table.insert(arg_11_0.itemList_, iter_11_1)
+	for slot5, slot6 in pairs(BackHomeCanteenFoodCfg[slot1].ingredient_list) do
+		table.insert(slot0.itemList_, slot6)
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.cookMaterialItemScroll_ then
-		arg_12_0.cookMaterialItemScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.cookMaterialItemScroll_ then
+		slot0.cookMaterialItemScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,142 +1,121 @@
-local var_0_0 = {}
-local var_0_1 = false
-local var_0_2 = {}
+slot1 = false
+slot2 = {}
 
-manager.net:Bind(65301, function(arg_1_0)
-	local var_1_0 = arg_1_0.activity_id
-
-	if ActivityTools.GetActivityType(var_1_0) ~= ActivityTemplateConst.PUZZLE_NEW then
+manager.net:Bind(65301, function (slot0)
+	if ActivityTools.GetActivityType(slot0.activity_id) ~= ActivityTemplateConst.PUZZLE_NEW then
 		return
 	end
 
-	if not var_0_1 then
-		var_0_0.InitRedPoint()
+	if not uv0 then
+		uv1.InitRedPoint()
 
-		var_0_1 = true
+		uv0 = true
 	end
 
-	if not var_0_2[var_1_0] then
-		var_0_2[var_1_0] = true
+	if not uv2[slot1] then
+		uv2[slot1] = true
 
-		PuzzleNewTools.InitConfig(var_1_0)
+		PuzzleNewTools.InitConfig(slot1)
 	end
 
-	PuzzleNewData:InitData(arg_1_0)
+	PuzzleNewData:InitData(slot0)
 end)
 
-function var_0_0.MovePuzzle(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	local var_2_0 = {
-		activity_id = arg_2_0,
-		puzzle_id = arg_2_1,
-		target_position = arg_2_2
-	}
+return {
+	MovePuzzle = function (slot0, slot1, slot2, slot3)
+		manager.net:SendWithLoadingNew(65302, {
+			activity_id = slot0,
+			puzzle_id = slot1,
+			target_position = slot2
+		}, 65303, function (slot0)
+			if isSuccess(slot0.result) then
+				PuzzleNewData:RefreshPlayRedPoint(uv0)
 
-	manager.net:SendWithLoadingNew(65302, var_2_0, 65303, function(arg_3_0)
-		if isSuccess(arg_3_0.result) then
-			PuzzleNewData:RefreshPlayRedPoint(arg_2_0)
-
-			if arg_2_3 ~= nil then
-				arg_2_3()
+				if uv1 ~= nil then
+					uv1()
+				end
+			else
+				ShowTips(slot0.result)
 			end
-		else
-			ShowTips(arg_3_0.result)
+		end)
+	end,
+	ReceiveRegionReward = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(65304, {
+			activity_id = slot0,
+			award_id = slot1
+		}, 65305, function (slot0)
+			if isSuccess(slot0.result) then
+				PuzzleNewData:SetRegionReceivedList(uv0, uv1)
+				manager.notify:CallUpdateFunc(PUZZLE_NEW_REGION_RECEIVED, uv1, slot0.reward_list)
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	OPERATION_TYPE = {
+		CHECK = 3,
+		PUT = 2,
+		CHECK_TIPS = 5,
+		AUTO_PUT = 6
+	},
+	Operation = function (slot0, slot1, slot2, slot3)
+		if slot1 == uv0.OPERATION_TYPE.CHECK or slot1 == uv0.OPERATION_TYPE.CHECK_TIPS then
+			-- Nothing
 		end
-	end)
-end
 
-function var_0_0.ReceiveRegionReward(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = {
-		activity_id = arg_4_0,
-		award_id = arg_4_1
-	}
+		manager.net:SendWithLoadingNew(65306, {
+			activity_id = slot0,
+			type = slot1,
+			extra = slot3
+		}, 65307, function (slot0)
+			if isSuccess(slot0.result) then
+				if uv0 == uv1.OPERATION_TYPE.PUT then
+					PuzzleNewData:RefreshPieceRedPoint(uv2)
+					PuzzleNewData:RefreshPlayRedPoint(uv2)
+					manager.notify:CallUpdateFunc(PUZZLE_NEW_UPDATE)
+				elseif uv0 == uv1.OPERATION_TYPE.AUTO_PUT then
+					PuzzleNewData:RefreshPlayRedPoint(uv2)
+					manager.notify:CallUpdateFunc(PUZZLE_NEW_UPDATE)
+				elseif uv0 == uv1.OPERATION_TYPE.CHECK then
+					PuzzleNewData:SetCurCheckList(uv2, uv3)
+					manager.notify:CallUpdateFunc(PUZZLE_NEW_CHECK_UPDATE)
+				elseif uv0 == uv1.OPERATION_TYPE.CHECK_TIPS then
+					PuzzleNewData:SetCheckTipsList(uv2, uv3)
+					manager.notify:CallUpdateFunc(PUZZLE_NEW_CHECK_UPDATE)
+				end
 
-	manager.net:SendWithLoadingNew(65304, var_4_0, 65305, function(arg_5_0)
-		if isSuccess(arg_5_0.result) then
-			PuzzleNewData:SetRegionReceivedList(arg_4_0, arg_4_1)
-			manager.notify:CallUpdateFunc(PUZZLE_NEW_REGION_RECEIVED, arg_4_1, arg_5_0.reward_list)
-		else
-			ShowTips(arg_5_0.result)
+				if uv4 ~= nil then
+					uv4()
+				end
+			else
+				ShowTips(slot0.result)
+			end
+		end)
+	end,
+	InitRedPoint = function ()
+		slot1, slot2, slot3, slot4 = nil
+
+		for slot8, slot9 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.PUZZLE_NEW]) do
+			slot1 = string.format("%s_%d", RedPointConst.PUZZLE_NEW, slot9)
+
+			manager.redPoint:addGroup(string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, slot9), {
+				string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, slot9)
+			})
+
+			slot10 = nil
+
+			for slot15, slot16 in ipairs(ActivityCfg[slot9].sub_activity_list) do
+				if ActivityCfg[slot16].activity_template == ActivityTemplateConst.TASK then
+					slot10 = slot16
+
+					break
+				end
+			end
+
+			manager.redPoint:addGroup(slot1, {
+				string.format("%s_%d", RedPointConst.ACTIVITY_TASK, slot10),
+				slot3
+			})
 		end
-	end)
-end
-
-var_0_0.OPERATION_TYPE = {
-	CHECK = 3,
-	PUT = 2,
-	CHECK_TIPS = 5,
-	AUTO_PUT = 6
+	end
 }
-
-function var_0_0.Operation(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-	local var_6_0 = {
-		activity_id = arg_6_0,
-		type = arg_6_1
-	}
-
-	if arg_6_1 == var_0_0.OPERATION_TYPE.CHECK or arg_6_1 == var_0_0.OPERATION_TYPE.CHECK_TIPS then
-		var_6_0.extra = arg_6_3
-	end
-
-	manager.net:SendWithLoadingNew(65306, var_6_0, 65307, function(arg_7_0)
-		if isSuccess(arg_7_0.result) then
-			if arg_6_1 == var_0_0.OPERATION_TYPE.PUT then
-				PuzzleNewData:RefreshPieceRedPoint(arg_6_0)
-				PuzzleNewData:RefreshPlayRedPoint(arg_6_0)
-				manager.notify:CallUpdateFunc(PUZZLE_NEW_UPDATE)
-			elseif arg_6_1 == var_0_0.OPERATION_TYPE.AUTO_PUT then
-				PuzzleNewData:RefreshPlayRedPoint(arg_6_0)
-				manager.notify:CallUpdateFunc(PUZZLE_NEW_UPDATE)
-			elseif arg_6_1 == var_0_0.OPERATION_TYPE.CHECK then
-				PuzzleNewData:SetCurCheckList(arg_6_0, arg_6_3)
-				manager.notify:CallUpdateFunc(PUZZLE_NEW_CHECK_UPDATE)
-			elseif arg_6_1 == var_0_0.OPERATION_TYPE.CHECK_TIPS then
-				PuzzleNewData:SetCheckTipsList(arg_6_0, arg_6_3)
-				manager.notify:CallUpdateFunc(PUZZLE_NEW_CHECK_UPDATE)
-			end
-
-			if arg_6_2 ~= nil then
-				arg_6_2()
-			end
-		else
-			ShowTips(arg_7_0.result)
-		end
-	end)
-end
-
-function var_0_0.InitRedPoint()
-	local var_8_0 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.PUZZLE_NEW]
-	local var_8_1
-	local var_8_2
-	local var_8_3
-	local var_8_4
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		local var_8_5 = string.format("%s_%d", RedPointConst.PUZZLE_NEW, iter_8_1)
-		local var_8_6 = string.format("%s_%d", RedPointConst.PUZZLE_NEW_PLAY, iter_8_1)
-		local var_8_7 = string.format("%s_%d", RedPointConst.PUZZLE_NEW_PIECE, iter_8_1)
-
-		manager.redPoint:addGroup(var_8_6, {
-			var_8_7
-		})
-
-		local var_8_8
-		local var_8_9 = ActivityCfg[iter_8_1].sub_activity_list
-
-		for iter_8_2, iter_8_3 in ipairs(var_8_9) do
-			if ActivityCfg[iter_8_3].activity_template == ActivityTemplateConst.TASK then
-				var_8_8 = iter_8_3
-
-				break
-			end
-		end
-
-		local var_8_10 = string.format("%s_%d", RedPointConst.ACTIVITY_TASK, var_8_8)
-
-		manager.redPoint:addGroup(var_8_5, {
-			var_8_10,
-			var_8_6
-		})
-	end
-end
-
-return var_0_0

@@ -1,50 +1,48 @@
-local var_0_0 = class("MatrixArtifactSettingView", ReduxView)
+slot0 = class("MatrixArtifactSettingView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.OnCtor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.settingView_ = arg_2_1
-	arg_2_0.artifactList_ = arg_2_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
+	slot0.settingView_ = slot1
+	slot0.artifactList_ = slot3
 
-	arg_2_0:Init()
-	arg_2_0:OnEnter()
+	slot0:Init()
+	slot0:OnEnter()
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.uiList_ = LuaList.New(handler(arg_4_0, arg_4_0.ItemRenderers), arg_4_0.uiListGo_, MatrixArtifactSettingItemView)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.ItemRenderers), slot0.uiListGo_, MatrixArtifactSettingItemView)
 
-	arg_4_0.uiList_:StartScroll(#arg_4_0.artifactList_)
+	slot0.uiList_:StartScroll(#slot0.artifactList_)
 end
 
-function var_0_0.ItemRenderers(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.artifactList_[arg_5_1]
-
-	arg_5_2:SetData(var_5_0.id)
+function slot0.ItemRenderers(slot0, slot1, slot2)
+	slot2:SetData(slot0.artifactList_[slot1].id)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	if arg_6_0.uiList_ then
-		arg_6_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_6_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 
-	arg_6_0.transform_ = nil
-	arg_6_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

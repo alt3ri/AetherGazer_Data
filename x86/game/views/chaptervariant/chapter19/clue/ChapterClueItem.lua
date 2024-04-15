@@ -1,41 +1,39 @@
-local var_0_0 = class("ChapterClueItem", ReduxView)
+slot0 = class("ChapterClueItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.positionController_ = arg_1_0.controllerEx_:GetController("position")
-	arg_1_0.geryController_ = arg_1_0.controllerEx_:GetController("get")
+	slot0.positionController_ = slot0.controllerEx_:GetController("position")
+	slot0.geryController_ = slot0.controllerEx_:GetController("get")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.clueID_ = arg_2_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.clueID_ = slot1
 
-	if arg_2_1 == 0 then
-		arg_2_0.nameText_.text = ""
+	if slot1 == 0 then
+		slot0.nameText_.text = ""
 
-		arg_2_0.geryController_:SetSelectedState("false")
+		slot0.geryController_:SetSelectedState("false")
 	else
-		local var_2_0 = StageArchiveCfg[arg_2_1]
+		slot0.nameText_.text = StageArchiveCfg[slot1].name
 
-		arg_2_0.nameText_.text = var_2_0.name
-
-		arg_2_0.geryController_:SetSelectedState("true")
+		slot0.geryController_:SetSelectedState("true")
 	end
 
-	if arg_2_2 % 2 == 1 then
-		arg_2_0.positionController_:SetSelectedState("state0")
+	if slot2 % 2 == 1 then
+		slot0.positionController_:SetSelectedState("state0")
 	else
-		arg_2_0.positionController_:SetSelectedState("state1")
+		slot0.positionController_:SetSelectedState("state1")
 	end
 end
 
-function var_0_0.AddListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.button_, nil, function()
-		if arg_3_0.clueID_ == 0 then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.clueID_ == 0 then
 			ShowTips("COLLECTION_CULE_AND_READ")
 
 			return
@@ -43,13 +41,13 @@ function var_0_0.AddListeners(arg_3_0)
 
 		JumpTools.OpenPageByJump("stageArchive", {
 			isClue = true,
-			archiveID = arg_3_0.clueID_
+			archiveID = uv0.clueID_
 		})
 	end)
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

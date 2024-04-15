@@ -1,62 +1,57 @@
-local var_0_0 = require("game/chess/ChessEventQueue")
-local var_0_1 = class("NewChessEventQueue", var_0_0)
+slot1 = class("NewChessEventQueue", require("game/chess/ChessEventQueue"))
 
-function var_0_1.InsertNewEventQueue(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	local var_1_0 = arg_1_0:GetCurTiming()
-	local var_1_1 = {
+function slot1.InsertNewEventQueue(slot0, slot1, slot2, slot3)
+	slot4 = slot0:GetCurTiming()
+	slot5 = {
 		eventP = 1,
-		gridData = arg_1_3,
-		timing = arg_1_2,
+		gridData = slot3,
+		timing = slot2,
 		list = {}
 	}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1) do
-		if not NewChessEventConfig[iter_1_1.eventID] then
-			-- block empty
+	for slot9, slot10 in ipairs(slot1) do
+		if not NewChessEventConfig[slot10.eventID] then
+			-- Nothing
 		end
 
-		var_1_1.list[#var_1_1.list + 1] = {
-			eventID = iter_1_1.eventID,
-			func = NewChessEventConfig[iter_1_1.eventID][arg_1_2] or NewChessEventConfig[iter_1_1.eventID][NewChessConst.TIMING_ALL],
-			params = iter_1_1.params
+		slot5.list[#slot5.list + 1] = {
+			eventID = slot10.eventID,
+			func = NewChessEventConfig[slot10.eventID][slot2] or NewChessEventConfig[slot10.eventID][NewChessConst.TIMING_ALL],
+			params = slot10.params
 		}
 	end
 
-	table.insert(arg_1_0.eventQueue_, var_1_1)
+	table.insert(slot0.eventQueue_, slot5)
 
-	return #arg_1_1
+	return #slot1
 end
 
-function var_0_1.InsertCurEventQueue(arg_2_0, arg_2_1)
-	local var_2_0 = arg_2_0.eventQueue_[arg_2_0.eventQueueP_]
-	local var_2_1 = var_2_0.list
-	local var_2_2 = var_2_0.eventP
+function slot1.InsertCurEventQueue(slot0, slot1)
+	slot2 = slot0.eventQueue_[slot0.eventQueueP_]
 
-	for iter_2_0 = #var_2_1, var_2_2, -1 do
-		var_2_1[iter_2_0 + #arg_2_1] = var_2_1[iter_2_0]
+	for slot8 = #slot2.list, slot2.eventP, -1 do
+		slot3[slot8 + #slot1] = slot3[slot8]
 	end
 
-	local var_2_3 = var_2_0.timing
-	local var_2_4 = 1
+	slot6 = 1
 
-	for iter_2_1 = var_2_2, var_2_2 + #arg_2_1 - 1 do
-		local var_2_5 = arg_2_1[var_2_4]
-
-		var_2_1[iter_2_1] = {
-			eventID = var_2_5.eventID,
-			func = NewChessEventConfig[var_2_5.eventID][var_2_3] or NewChessEventConfig[var_2_5.eventID][NewChessConst.TIMING_ALL],
-			params = var_2_5.params
+	for slot10 = slot4, slot4 + #slot1 - 1 do
+		slot11 = slot1[slot6]
+		slot3[slot10] = {
+			eventID = slot11.eventID,
+			func = NewChessEventConfig[slot11.eventID][slot2.timing] or NewChessEventConfig[slot11.eventID][NewChessConst.TIMING_ALL],
+			params = slot11.params
 		}
-		var_2_4 = var_2_4 + 1
+		slot6 = slot6 + 1
 	end
 end
 
-function var_0_1.IsEmpty(arg_3_0)
-	if next(arg_3_0.eventQueue_) == nil and arg_3_0.eventQueueP_ == 0 then
+function slot1.IsEmpty(slot0)
+	if next(slot0.eventQueue_) == nil and slot0.eventQueueP_ == 0 then
 		return true
 	else
 		return false
 	end
 end
 
-return var_0_1
+return slot1

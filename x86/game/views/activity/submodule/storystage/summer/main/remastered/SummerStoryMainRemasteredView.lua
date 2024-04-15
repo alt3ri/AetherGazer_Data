@@ -1,144 +1,141 @@
-local var_0_0 = class("SummerStoryMainRemasteredView", ReduxView)
+slot0 = class("SummerStoryMainRemasteredView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/BranchlineUI/SummerUI/SummerIslandMapUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.itemList_ = {}
+	slot0.itemList_ = {}
 
-	for iter_3_0, iter_3_1 in ipairs(WarchessLevelCfg.get_id_list_by_tag[ChessConst.SUBPLOT_TAG.ISLAND]) do
-		arg_3_0.itemList_[iter_3_0] = SummerStoryMainWarchessRemasteredItem.New(arg_3_0[string.format("sideStoryGo%s_", iter_3_0)], iter_3_1)
+	for slot4, slot5 in ipairs(WarchessLevelCfg.get_id_list_by_tag[ChessConst.SUBPLOT_TAG.ISLAND]) do
+		slot0.itemList_[slot4] = SummerStoryMainWarchessRemasteredItem.New(slot0[string.format("sideStoryGo%s_", slot4)], slot5)
 	end
 
-	local var_3_0 = ChapterClientCfg[6010003].chapter_list
-	local var_3_1 = var_3_0[1]
-
-	arg_3_0.mainItem_ = SummerStoryMainRemasteredItem.New(arg_3_0.mainStoryGo_, var_3_1)
-
-	local var_3_2 = var_3_0[2]
-
-	arg_3_0.seabedItem_ = SummerStorySeabedRemasteredItem.New(arg_3_0.seabedGo_, var_3_2, ActivityConst.SUMMER_STORY_SEABED)
-	arg_3_0.plotController_ = ControllerUtil.GetController(arg_3_0.sideStoryBtn_.transform, "name")
-	arg_3_0.chessController_ = ControllerUtil.GetController(arg_3_0.shipLogBtn_.transform, "name")
+	slot1 = ChapterClientCfg[6010003].chapter_list
+	slot0.mainItem_ = SummerStoryMainRemasteredItem.New(slot0.mainStoryGo_, slot1[1])
+	slot0.seabedItem_ = SummerStorySeabedRemasteredItem.New(slot0.seabedGo_, slot1[2], ActivityConst.SUMMER_STORY_SEABED)
+	slot0.plotController_ = ControllerUtil.GetController(slot0.sideStoryBtn_.transform, "name")
+	slot0.chessController_ = ControllerUtil.GetController(slot0.shipLogBtn_.transform, "name")
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
+	slot4 = HOME_BAR
+
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
-		HOME_BAR
+		slot4
 	})
-	arg_4_0.mainItem_:OnEnter()
-	arg_4_0.seabedItem_:OnEnter()
+	slot0.mainItem_:OnEnter()
+	slot0.seabedItem_:OnEnter()
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.itemList_) do
-		iter_4_1:OnEnter()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnEnter()
 	end
 
-	arg_4_0.unLockSideStoryState_ = ActivityTools.IsUnlockActivity(ActivityConst.SUMMER_CHESS_SHIP_LOG)
-	arg_4_0.unLockChipLogState_ = ActivityTools.IsUnlockActivity(ActivityConst.SUMMER_CHESS_SHIP_LOG)
+	slot0.unLockSideStoryState_ = ActivityTools.IsUnlockActivity(ActivityConst.SUMMER_CHESS_SHIP_LOG)
+	slot0.unLockChipLogState_ = ActivityTools.IsUnlockActivity(ActivityConst.SUMMER_CHESS_SHIP_LOG)
 
-	arg_4_0:RefreshUI()
-	manager.redPoint:bindUIandKey(arg_4_0.sideStoryBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER))
-	manager.redPoint:bindUIandKey(arg_4_0.shipLogBtn_.transform, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.SUMMER_CHESS_SHIP_LOG))
+	slot0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.sideStoryBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER))
+	manager.redPoint:bindUIandKey(slot0.shipLogBtn_.transform, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.SUMMER_CHESS_SHIP_LOG))
 
 	if not getData("ActivityFirstEnter", ActivityConst.THEME.SUMMER, false) then
-		local var_4_0 = ChapterClientCfg[6010003].chapter_list[1]
-		local var_4_1 = ChapterCfg[var_4_0].section_id_list[1]
-
-		if ChapterTools.IsClearStage(var_4_1) then
+		if ChapterTools.IsClearStage(ChapterCfg[ChapterClientCfg[6010003].chapter_list[1]].section_id_list[1]) then
 			return
 		end
 
 		saveData("ActivityFirstEnter", ActivityConst.THEME.SUMMER, true)
-		BattleStageAction.ClickSubPlot(var_4_0)
-		arg_4_0:Go("/summerStoryRemastered", {
-			chapterID = var_4_0
+		BattleStageAction.ClickSubPlot(slot1)
+		slot0:Go("/summerStoryRemastered", {
+			chapterID = slot1
 		})
 	end
 end
 
-function var_0_0.OnExit(arg_5_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_5_0.sideStoryBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER))
-	manager.redPoint:unbindUIandKey(arg_5_0.shipLogBtn_.transform, string.format("%s_%s", RedPointConst.WAR_CHESS, ActivityConst.SUMMER_CHESS_SHIP_LOG))
-	arg_5_0.mainItem_:OnExit()
-	arg_5_0.seabedItem_:OnExit()
+	manager.redPoint:unbindUIandKey(slot0.sideStoryBtn_.transform, string.format("%s_%s", RedPointConst.ACTIVITY_SIDE_STORY, ActivityConst.THEME.SUMMER))
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.itemList_) do
-		iter_5_1:OnExit()
+	slot4 = string.format
+	slot5 = "%s_%s"
+
+	manager.redPoint:unbindUIandKey(slot0.shipLogBtn_.transform, slot4(slot5, RedPointConst.WAR_CHESS, ActivityConst.SUMMER_CHESS_SHIP_LOG))
+	slot0.mainItem_:OnExit()
+	slot0.seabedItem_:OnExit()
+
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
-	arg_6_0.mainItem_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.mainItem_:Dispose()
 
-	arg_6_0.mainItem_ = nil
+	slot0.mainItem_ = nil
 
-	arg_6_0.seabedItem_:Dispose()
+	slot0.seabedItem_:Dispose()
 
-	arg_6_0.seabedItem_ = nil
+	slot0.seabedItem_ = nil
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.itemList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.timeList_ = nil
+	slot0.timeList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.sideStoryBtn_, nil, function()
-		if not arg_7_0.unLockSideStoryState_ then
-			local var_8_0 = ActivityCfg[ActivityConst.SUMMER_CHESS_SHIP_LOG].unlock_condition
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.sideStoryBtn_, nil, function ()
+		if not uv0.unLockSideStoryState_ then
+			slot0 = ActivityCfg[ActivityConst.SUMMER_CHESS_SHIP_LOG].unlock_condition
 
-			ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ChapterCfg[var_8_0[2][1]].subhead, BattleActivityStoryStageCfg[var_8_0[2][2]].name))
+			ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ChapterCfg[slot0[2][1]].subhead, BattleActivityStoryStageCfg[slot0[2][2]].name))
 
 			return
 		end
 
-		arg_7_0:Go("/summerPlotRemastered", {
+		uv0:Go("/summerPlotRemastered", {
 			theme = ActivityConst.THEME.SUMMER
 		})
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.shipLogBtn_, nil, function()
-		if not arg_7_0.unLockChipLogState_ then
-			local var_9_0 = ActivityCfg[ActivityConst.SUMMER_CHESS_SHIP_LOG].unlock_condition
+	slot0:AddBtnListener(slot0.shipLogBtn_, nil, function ()
+		if not uv0.unLockChipLogState_ then
+			slot0 = ActivityCfg[ActivityConst.SUMMER_CHESS_SHIP_LOG].unlock_condition
 
-			ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ChapterCfg[var_9_0[2][1]].subhead, BattleActivityStoryStageCfg[var_9_0[2][2]].name))
+			ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ChapterCfg[slot0[2][1]].subhead, BattleActivityStoryStageCfg[slot0[2][2]].name))
 
 			return
 		end
 
-		arg_7_0:Go("/summerChessRemastered", {
+		uv0:Go("/summerChessRemastered", {
 			tag = ChessConst.SUBPLOT_TAG.SEA
 		})
 	end)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	local var_10_0, var_10_1 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
+function slot0.RefreshUI(slot0)
+	slot1, slot2 = ActivityTools.GetActivityChessProgress(ChessConst.SUBPLOT_TAG.ISLAND)
+	slot0.exploreText_.text = string.format("%d%%", math.floor(slot1 / slot2))
 
-	arg_10_0.exploreText_.text = string.format("%d%%", math.floor(var_10_0 / var_10_1))
-
-	if arg_10_0.unLockSideStoryState_ then
-		arg_10_0.plotController_:SetSelectedState("on")
+	if slot0.unLockSideStoryState_ then
+		slot0.plotController_:SetSelectedState("on")
 	else
-		arg_10_0.plotController_:SetSelectedState("off")
+		slot0.plotController_:SetSelectedState("off")
 	end
 
-	if arg_10_0.unLockChipLogState_ then
-		arg_10_0.chessController_:SetSelectedState("on")
+	if slot0.unLockChipLogState_ then
+		slot0.chessController_:SetSelectedState("on")
 	else
-		arg_10_0.chessController_:SetSelectedState("off")
+		slot0.chessController_:SetSelectedState("off")
 	end
 end
 
-return var_0_0
+return slot0

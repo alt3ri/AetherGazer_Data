@@ -1,45 +1,43 @@
-local var_0_0 = class("StoryStageItemView", ReduxView)
+slot0 = class("StoryStageItemView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "name")
-	arg_1_0.clearController_ = ControllerUtil.GetController(arg_1_0.transform_, "clear")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "name")
+	slot0.clearController_ = ControllerUtil.GetController(slot0.transform_, "clear")
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.selectChapterID_ = arg_2_2
-	arg_2_0.stageID_ = arg_2_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.selectChapterID_ = slot2
+	slot0.stageID_ = slot1
 
-	arg_2_0:RefreshLockData(arg_2_1, arg_2_2)
-	arg_2_0:RefreshClearData(arg_2_1)
-	arg_2_0:RefreshUI()
+	slot0:RefreshLockData(slot1, slot2)
+	slot0:RefreshClearData(slot1)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshClearData(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = StoryStageActivityData:GetStageData(arg_3_2)[arg_3_1]
-
-	if var_3_0 and var_3_0.clear_times > 0 then
-		arg_3_0.isClear_ = true
+function slot0.RefreshClearData(slot0, slot1, slot2)
+	if StoryStageActivityData:GetStageData(slot2)[slot1] and slot3.clear_times > 0 then
+		slot0.isClear_ = true
 	else
-		arg_3_0.isClear_ = false
+		slot0.isClear_ = false
 	end
 end
 
-function var_0_0.RefreshLockData(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_0.isLock_ = false
+function slot0.RefreshLockData(slot0, slot1, slot2)
+	slot0.isLock_ = false
 
-	for iter_4_0, iter_4_1 in pairs(GameSetting.activity_plot_unlock.value) do
-		if iter_4_1[1][1] == arg_4_2 and iter_4_1[1][2] == arg_4_1 then
-			for iter_4_2, iter_4_3 in ipairs(iter_4_1[2]) do
-				arg_4_0.isLock_ = ChessTools.GetChapterProgress(iter_4_3) < 100
+	for slot6, slot7 in pairs(GameSetting.activity_plot_unlock.value) do
+		if slot7[1][1] == slot2 and slot7[1][2] == slot1 then
+			for slot11, slot12 in ipairs(slot7[2]) do
+				slot0.isLock_ = ChessTools.GetChapterProgress(slot12) < 100
 
-				if arg_4_0.isLock_ then
-					arg_4_0.preStageID_ = iter_4_3
+				if slot0.isLock_ then
+					slot0.preStageID_ = slot12
 
 					return
 				end
@@ -50,70 +48,68 @@ function var_0_0.RefreshLockData(arg_4_0, arg_4_1, arg_4_2)
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	Object.Destroy(arg_5_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-function var_0_0.AddListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.button_, nil, function()
-		arg_6_0:OnClick()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		uv0:OnClick()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = BattleActivityStoryStageCfg[arg_8_0.stageID_]
-	local var_8_1 = var_8_0.position
+function slot0.RefreshUI(slot0)
+	slot1 = BattleActivityStoryStageCfg[slot0.stageID_]
+	slot2 = slot1.position
+	slot0.transform_.localPosition = Vector3(slot2[1], slot2[2], 0)
+	slot0.textName_.text = GetI18NText(slot1.name)
 
-	arg_8_0.transform_.localPosition = Vector3(var_8_1[1], var_8_1[2], 0)
-	arg_8_0.textName_.text = GetI18NText(var_8_0.name)
-
-	arg_8_0:RefreshClear()
-	arg_8_0:Show(true)
+	slot0:RefreshClear()
+	slot0:Show(true)
 end
 
-function var_0_0.Show(arg_9_0, arg_9_1)
-	SetActive(arg_9_0.gameObject_, arg_9_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.GetLocalPosition(arg_10_0)
-	return arg_10_0.transform_.localPosition
+function slot0.GetLocalPosition(slot0)
+	return slot0.transform_.localPosition
 end
 
-function var_0_0.OnClick(arg_11_0)
-	if arg_11_0.isLock_ then
-		local var_11_0 = WarchessLevelCfg[arg_11_0.preStageID_]
-		local var_11_1 = var_11_0.type
+function slot0.OnClick(slot0)
+	if slot0.isLock_ then
+		slot1 = WarchessLevelCfg[slot0.preStageID_]
 
-		ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ActivityCfg[var_11_1].remark, var_11_0.name_level))
+		ShowTips(string.format(GetTips("UNLOCK_CONDITION_ACTIVITY_TIPS"), ActivityCfg[slot1.type].remark, slot1.name_level))
 	else
-		StoryStageActivityData:SaveHistoryStage(arg_11_0.selectChapterID_, arg_11_0.stageID_)
-		arg_11_0:Go("storyStageInfoActivity", {
-			chapterID = arg_11_0.selectChapterID_,
-			section = arg_11_0.stageID_,
+		StoryStageActivityData:SaveHistoryStage(slot0.selectChapterID_, slot0.stageID_)
+		slot0:Go("storyStageInfoActivity", {
+			chapterID = slot0.selectChapterID_,
+			section = slot0.stageID_,
 			sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_STORY
 		})
 	end
 end
 
-function var_0_0.SelectorItem(arg_12_0, arg_12_1)
-	if arg_12_0.stageID_ == arg_12_1 and arg_12_0:IsOpenSectionInfo() then
-		arg_12_0.controller_:SetSelectedState("Select")
+function slot0.SelectorItem(slot0, slot1)
+	if slot0.stageID_ == slot1 and slot0:IsOpenSectionInfo() then
+		slot0.controller_:SetSelectedState("Select")
 	else
-		arg_12_0.controller_:SetSelectedState("normal")
+		slot0.controller_:SetSelectedState("normal")
 	end
 end
 
-function var_0_0.RefreshClear(arg_13_0)
-	if arg_13_0.isClear_ then
-		arg_13_0.clearController_:SetSelectedState("on")
+function slot0.RefreshClear(slot0)
+	if slot0.isClear_ then
+		slot0.clearController_:SetSelectedState("on")
 	else
-		arg_13_0.clearController_:SetSelectedState("off")
+		slot0.clearController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.IsOpenSectionInfo(arg_14_0)
-	return arg_14_0:IsOpenRoute("storyStageInfoActivity")
+function slot0.IsOpenSectionInfo(slot0)
+	return slot0:IsOpenRoute("storyStageInfoActivity")
 end
 
-return var_0_0
+return slot0

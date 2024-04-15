@@ -1,73 +1,61 @@
-local var_0_0 = class("SurviveSoloRewardPopView", ReduxView)
+slot0 = class("SurviveSoloRewardPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return SurviveSoloTools.GetRewardPopView(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return SurviveSoloTools.GetRewardPopView(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, SurviveSoloRewardItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, SurviveSoloRewardItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:Refresh(arg_5_0.list_[arg_5_1], arg_5_0.activityID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.list_[slot1], slot0.activityID_)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.activityID_ = arg_8_0.params_.activityID
-	arg_8_0.list_ = ActivitySoloSlayerCfg.get_id_list_by_main_activity_id[arg_8_0.activityID_]
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.list_ = ActivitySoloSlayerCfg.get_id_list_by_main_activity_id[slot0.activityID_]
 
-	arg_8_0:RefreshReward()
-	arg_8_0:RefreshList()
+	slot0:RefreshReward()
+	slot0:RefreshList()
 end
 
-function var_0_0.RefreshReward(arg_9_0)
-	local var_9_0 = 0
-
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.list_) do
-		local var_9_1 = SurviveSoloData:GetData(iter_9_1)
-
-		if var_9_1 then
-			var_9_0 = var_9_0 + #var_9_1.rewards
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(slot0.list_) do
+		if SurviveSoloData:GetData(slot6) then
+			slot1 = 0 + #slot7.rewards
 		end
 	end
 
-	arg_9_0.rewardTxt_.text = var_9_0
-	arg_9_0.allTxt_.text = "/" .. #arg_9_0.list_ * 3
+	slot0.rewardTxt_.text = slot1
+	slot0.allTxt_.text = "/" .. #slot0.list_ * 3
 end
 
-function var_0_0.RefreshList(arg_10_0)
-	local var_10_0 = 1
+function slot0.RefreshList(slot0)
+	slot1 = 1
 
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.list_) do
-		local var_10_1 = SurviveSoloData:GetData(iter_10_1)
-
-		if var_10_1 then
-			local var_10_2 = var_10_1.time
-			local var_10_3 = var_10_1.rewards
-			local var_10_4 = ActivitySoloSlayerCfg[iter_10_1]
-
-			for iter_10_2, iter_10_3 in ipairs(var_10_4.reward_item_list) do
-				if var_10_2 >= iter_10_3[1] and not table.indexof(var_10_3, iter_10_3[1]) then
-					local var_10_5 = iter_10_0
-
-					arg_10_0.scrollHelper_:StartScroll(#arg_10_0.list_, var_10_5)
+	for slot5, slot6 in ipairs(slot0.list_) do
+		if SurviveSoloData:GetData(slot6) then
+			for slot14, slot15 in ipairs(ActivitySoloSlayerCfg[slot6].reward_item_list) do
+				if slot15[1] <= slot7.time and not table.indexof(slot7.rewards, slot15[1]) then
+					slot0.scrollHelper_:StartScroll(#slot0.list_, slot5)
 
 					return
 				end
@@ -75,28 +63,27 @@ function var_0_0.RefreshList(arg_10_0)
 		end
 	end
 
-	arg_10_0.scrollHelper_:StartScroll(#arg_10_0.list_)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 end
 
-function var_0_0.OnSurviveSoloReward(arg_11_0)
-	arg_11_0:RefreshReward()
-	arg_11_0.scrollHelper_:Refresh()
+function slot0.OnSurviveSoloReward(slot0)
+	slot0:RefreshReward()
+	slot0.scrollHelper_:Refresh()
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_13_0.scrollHelper_ then
-		arg_13_0.scrollHelper_:Dispose()
+	if slot0.scrollHelper_ then
+		slot0.scrollHelper_:Dispose()
 
-		arg_13_0.scrollHelper_ = nil
+		slot0.scrollHelper_ = nil
 	end
 
-	arg_13_0.super.Dispose(arg_13_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

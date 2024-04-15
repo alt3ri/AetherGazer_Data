@@ -1,416 +1,357 @@
-local var_0_0 = {
-	GenerateFurnitureWhenEnterScene = function(arg_1_0)
-		local var_1_0 = DormData:GetCurrectSceneID()
-		local var_1_1 = DormitoryData:GetDormSceneData(var_1_0)
+slot1 = nil
+slot2 = nil
 
-		DormSpecialFurnitureTools:ChangeDormFloorOrWallData(var_1_1.specialFur)
+return {
+	GenerateFurnitureWhenEnterScene = function (slot0)
+		slot1 = DormData:GetCurrectSceneID()
+		slot2 = DormitoryData:GetDormSceneData(slot1)
 
-		local var_1_2 = var_1_1.suitInfo
-		local var_1_3 = DormitoryData:GetDormFurListByRoomID(var_1_0)
-
-		DormFurnitureManager.GetInstance():ClearAndGenByFurList(var_1_3, false, var_1_2)
+		DormSpecialFurnitureTools:ChangeDormFloorOrWallData(slot2.specialFur)
+		DormFurnitureManager.GetInstance():ClearAndGenByFurList(DormitoryData:GetDormFurListByRoomID(slot1), false, slot2.suitInfo)
 	end,
-	DestoryRandomPruralFurByID = function(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-		local var_2_0 = DormFurnitureManager.GetInstance():GetAllFurniture()
+	DestoryRandomPruralFurByID = function (slot0, slot1, slot2, slot3)
+		for slot8, slot9 in ipairs(DormFurnitureManager.GetInstance():GetAllFurniture()) do
+			if DormUtils.GetEntityData(slot9).cfgID == slot1 then
+				if slot3 then
+					if DormLuaBridge.CheckFurnitureBelongSuit(slot1) then
+						DormFurnitureManager.GetInstance().FindAndRemove(slot9)
+						DormFurEditStateData:ReviseFurNumInEditRoom(slot0.itemID, -1)
 
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			if DormUtils.GetEntityData(iter_2_1).cfgID == arg_2_1 then
-				if arg_2_3 then
-					if DormLuaBridge.CheckFurnitureBelongSuit(arg_2_1) then
-						DormFurnitureManager.GetInstance().FindAndRemove(iter_2_1)
-						DormFurEditStateData:ReviseFurNumInEditRoom(arg_2_0.itemID, -1)
-
-						arg_2_2 = arg_2_2 - 1
+						slot2 = slot2 - 1
 					end
 				else
-					DormFurnitureManager.GetInstance().FindAndRemove(iter_2_1)
-					DormFurEditStateData:ReviseFurNumInEditRoom(arg_2_0.itemID, -1)
+					DormFurnitureManager.GetInstance().FindAndRemove(slot9)
+					DormFurEditStateData:ReviseFurNumInEditRoom(slot0.itemID, -1)
 
-					arg_2_2 = arg_2_2 - 1
+					slot2 = slot2 - 1
 				end
 
-				if arg_2_2 <= 0 then
+				if slot2 <= 0 then
 					break
 				end
 			end
 		end
 
-		if arg_2_2 <= 0 then
+		if slot2 <= 0 then
 			return true
 		end
 	end,
-	GenFurListInCurRoom = function(arg_3_0, arg_3_1, arg_3_2)
-		if arg_3_1 then
-			DormFurnitureManager.GetInstance():ClearAndGenByFurList(arg_3_1, false, arg_3_2)
+	GenFurListInCurRoom = function (slot0, slot1, slot2)
+		if slot1 then
+			DormFurnitureManager.GetInstance():ClearAndGenByFurList(slot1, false, slot2)
 		else
 			print("家具信息不存在")
 		end
 	end,
-	AddFurnitureInfo = function(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-		if arg_4_2 then
-			for iter_4_0, iter_4_1 in ipairs(arg_4_2) do
-				repeat
-					if DormSuitData:CheckIsSuit(iter_4_1.furniture_id) then
+	AddFurnitureInfo = function (slot0, slot1, slot2, slot3)
+		if slot2 then
+			for slot7, slot8 in ipairs(slot2) do
+				while true do
+					if DormSuitData:CheckIsSuit(slot8.furniture_id) then
 						break
 					end
 
-					if not BackHomeFurniture[iter_4_1.furniture_id] then
-						print("未在家具表中配置，家具id为" .. iter_4_1.furniture_id)
+					if not BackHomeFurniture[slot8.furniture_id] then
+						print("未在家具表中配置，家具id为" .. slot8.furniture_id)
 
 						return
 					end
 
-					if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(iter_4_1.furniture_id) then
-						local var_4_0 = FurnitureInfo.New()
+					if not DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot8.furniture_id) then
+						slot9 = FurnitureInfo.New()
+						slot9.id = slot8.furniture_id
+						slot9.tileType = slot3
+						slot9.pos = Vector2.New(slot8.x / DormConst.POS_PRECISION, slot8.y / DormConst.POS_PRECISION)
+						slot9.rotation = slot8.rotation / DormConst.POS_PRECISION
 
-						var_4_0.id = iter_4_1.furniture_id
-						var_4_0.tileType = arg_4_3
-						var_4_0.pos = Vector2.New(iter_4_1.x / DormConst.POS_PRECISION, iter_4_1.y / DormConst.POS_PRECISION)
-						var_4_0.rotation = iter_4_1.rotation / DormConst.POS_PRECISION
-
-						table.insert(arg_4_1, var_4_0)
+						table.insert(slot1, slot9)
 					end
-				until true
+
+					break
+				end
 			end
 		end
 	end,
-	ResolverFurnitureInfo = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = DormRoomTools:GetRoomSceneType(arg_5_2)
-		local var_5_1 = {}
-		local var_5_2 = {}
+	ResolverFurnitureInfo = function (slot0, slot1, slot2)
+		slot3 = DormRoomTools:GetRoomSceneType(slot2)
+		slot5 = {}
 
-		for iter_5_0, iter_5_1 in ipairs(arg_5_1) do
-			if iter_5_1.type < 100 then
-				arg_5_0:AddFurnitureInfo(var_5_1, iter_5_1.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[iter_5_1.type])
+		for slot9, slot10 in ipairs(slot1) do
+			if slot10.type < 100 then
+				slot0:AddFurnitureInfo({}, slot10.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[slot10.type])
 			end
 
-			if iter_5_1.type == DormConst.PROTOCOL_TILE_TYPE_INDEX.FLOOR then
-				var_5_2 = iter_5_1.furniture_pos
+			if slot10.type == DormConst.PROTOCOL_TILE_TYPE_INDEX.FLOOR then
+				slot5 = slot10.furniture_pos
 			end
 		end
 
-		local var_5_3 = {}
+		slot11 = slot3
+		slot12 = slot5
 
-		DormSpecialFurnitureTools:AddSpecialFurInfo(var_5_3, var_5_0, var_5_2, false)
+		DormSpecialFurnitureTools:AddSpecialFurInfo({}, slot11, slot12, false)
 
-		local var_5_4 = {}
+		slot7 = {}
 
-		for iter_5_2, iter_5_3 in ipairs(arg_5_1) do
-			if iter_5_3.type < 100 then
-				for iter_5_4, iter_5_5 in ipairs(iter_5_3.furniture_pos) do
-					if DormSuitData:CheckIsSuit(iter_5_5.furniture_id) then
-						var_5_4[iter_5_5.furniture_id] = {
+		for slot11, slot12 in ipairs(slot1) do
+			if slot12.type < 100 then
+				for slot16, slot17 in ipairs(slot12.furniture_pos) do
+					if DormSuitData:CheckIsSuit(slot17.furniture_id) then
+						slot7[slot17.furniture_id] = {
 							pos = {
-								x = iter_5_5.x / DormConst.POS_PRECISION,
-								y = iter_5_5.y / DormConst.POS_PRECISION,
-								rotation = iter_5_5.rotation / DormConst.POS_PRECISION
+								x = slot17.x / DormConst.POS_PRECISION,
+								y = slot17.y / DormConst.POS_PRECISION,
+								rotation = slot17.rotation / DormConst.POS_PRECISION
 							}
 						}
 					end
 				end
 			else
-				var_5_4[iter_5_3.type] = {}
+				slot7[slot12.type] = {}
+				slot13 = {}
 
-				local var_5_5 = {}
+				DormFurnitureTools:AddFurnitureInfo(slot13, slot12.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[5])
 
-				DormFurnitureTools:AddFurnitureInfo(var_5_5, iter_5_3.furniture_pos, DormConst.PROTOCOL_TILE_TYPE[5])
-
-				local var_5_6 = RoomInfo.New()
-
-				var_5_6.furnitureInfoS = var_5_5
-				var_5_4[iter_5_3.type].furList = var_5_6.furnitureInfoS
-				var_5_4[iter_5_3.type].tileType = DormConst.PROTOCOL_TILE_TYPE_INDEX.FLOOR
+				slot14 = RoomInfo.New()
+				slot14.furnitureInfoS = slot13
+				slot7[slot12.type].furList = slot14.furnitureInfoS
+				slot7[slot12.type].tileType = DormConst.PROTOCOL_TILE_TYPE_INDEX.FLOOR
 			end
 		end
 
-		return var_5_1, var_5_3.specialFur, var_5_4
+		return slot4, slot6.specialFur, slot7
 	end,
-	CheckFurShowExtendLable = function(arg_6_0, arg_6_1)
-		if BackHomeFurniture[arg_6_1] and BackHomeFurniture[arg_6_1].extend_info == 1 then
+	CheckFurShowExtendLable = function (slot0, slot1)
+		if BackHomeFurniture[slot1] and BackHomeFurniture[slot1].extend_info == 1 then
 			return true
 		end
 
 		return false
 	end,
-	CheckFurCanUseRoom = function(arg_7_0, arg_7_1, arg_7_2)
-		local var_7_0 = BackHomeFurniture[arg_7_2]
-		local var_7_1 = false
+	CheckFurCanUseRoom = function (slot0, slot1, slot2)
+		slot4 = false
 
-		for iter_7_0, iter_7_1 in ipairs(var_7_0.scene_id) do
-			if iter_7_1 == BackHomeCfg[arg_7_1].type then
-				var_7_1 = true
+		for slot8, slot9 in ipairs(BackHomeFurniture[slot2].scene_id) do
+			if slot9 == BackHomeCfg[slot1].type then
+				slot4 = true
 
 				break
 			end
 		end
 
-		return var_7_1
+		return slot4
 	end,
-	JudgeFurIsOri = function(arg_8_0, arg_8_1, arg_8_2)
-		local var_8_0 = BackHomeCfg[arg_8_1].default_item
-
-		for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-			if arg_8_2 == iter_8_1[1] then
+	JudgeFurIsOri = function (slot0, slot1, slot2)
+		for slot7, slot8 in ipairs(BackHomeCfg[slot1].default_item) do
+			if slot2 == slot8[1] then
 				return true
 			end
 		end
 
 		return false
 	end,
-	GetCanUseFurListByRoomID = function(arg_9_0, arg_9_1)
-		local var_9_0 = {}
-		local var_9_1 = BackHomeCfg[arg_9_1].type
-		local var_9_2 = DormData:GetFurnitureInfoList()
+	GetCanUseFurListByRoomID = function (slot0, slot1)
+		slot2 = {}
+		slot3 = BackHomeCfg[slot1].type
 
-		for iter_9_0, iter_9_1 in pairs(var_9_2) do
-			local var_9_3 = BackHomeFurniture[iter_9_0].scene_id
-
-			for iter_9_2, iter_9_3 in ipairs(var_9_3) do
-				if iter_9_3 == var_9_1 then
-					if iter_9_3 == DormConst.BACKHOME_TYPE.PrivateDorm and BackHomeFurniture[iter_9_0].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.SPECIFY then
-						if DormitoryData:GetArchiveIDViaRoomID(arg_9_1)[1] == BackHomeFurniture[iter_9_0].hero_id then
-							table.insert(var_9_0, iter_9_0)
+		for slot8, slot9 in pairs(DormData:GetFurnitureInfoList()) do
+			for slot14, slot15 in ipairs(BackHomeFurniture[slot8].scene_id) do
+				if slot15 == slot3 then
+					if slot15 == DormConst.BACKHOME_TYPE.PrivateDorm and BackHomeFurniture[slot8].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.SPECIFY then
+						if DormitoryData:GetArchiveIDViaRoomID(slot1)[1] == BackHomeFurniture[slot8].hero_id then
+							table.insert(slot2, slot8)
 						end
 
 						break
 					end
 
-					table.insert(var_9_0, iter_9_0)
+					table.insert(slot2, slot8)
 
 					break
 				end
 			end
 		end
 
-		return var_9_0
-	end
-}
+		return slot2
+	end,
+	GetRoomCanPlaceFurList = function (slot0, slot1)
+		slot2 = {}
 
-function var_0_0.GetRoomCanPlaceFurList(arg_10_0, arg_10_1)
-	local var_10_0 = {}
-	local var_10_1 = var_0_0:GetCanUseFurListByRoomID(arg_10_1)
-
-	if var_10_1 then
-		for iter_10_0, iter_10_1 in ipairs(var_10_1) do
-			if DormFurEditStateData:GetCanUseFurNumInRoom(arg_10_1, iter_10_1) > 0 then
-				table.insert(var_10_0, iter_10_1)
-			end
-		end
-	end
-
-	return var_10_0
-end
-
-function var_0_0.GetRoomCanPlaceFurMaxNum(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = 0
-
-	if not var_0_0:CheckFurCanUseRoom(arg_11_1, arg_11_2) then
-		return var_11_0
-	end
-
-	local var_11_1 = DormData:GetFurnitureInfoList()
-
-	if BackHomeCfg[arg_11_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_11_2) then
-			if BackHomeFurniture[arg_11_2].is_give == 0 or BackHomeFurniture[arg_11_2].is_give == 3 then
-				if var_11_1[arg_11_2].num > 0 then
-					var_11_0 = 1
+		if uv0:GetCanUseFurListByRoomID(slot1) then
+			for slot7, slot8 in ipairs(slot3) do
+				if DormFurEditStateData:GetCanUseFurNumInRoom(slot1, slot8) > 0 then
+					table.insert(slot2, slot8)
 				end
-			elseif BackHomeFurniture[arg_11_2].is_give == 1 and var_11_1[arg_11_2].give_num > 0 then
-				var_11_0 = 1
-			end
-		elseif BackHomeFurniture[arg_11_2].is_give == 0 or BackHomeFurniture[arg_11_2].is_give == 3 then
-			var_11_0 = var_11_1[arg_11_2].num
-		elseif BackHomeFurniture[arg_11_2].is_give == 1 then
-			var_11_0 = var_11_1[arg_11_2].give_num
-		end
-	elseif BackHomeCfg[arg_11_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-		local var_11_2 = DormitoryData:GetArchiveIDViaRoomID(arg_11_1)[1]
-		local var_11_3 = DormData:GetHeroInfo(var_11_2)
-
-		if DormSpecialFurnitureTools:JudgeFurIsSpecialType(arg_11_2) then
-			if BackHomeFurniture[arg_11_2].is_give == 0 or BackHomeFurniture[arg_11_2].is_give == 3 then
-				if var_11_1[arg_11_2].num > 0 then
-					var_11_0 = 1
-				end
-			elseif BackHomeFurniture[arg_11_2].is_give == 1 and var_11_3:GetGiftNum(arg_11_2) > 0 then
-				var_11_0 = 1
-			end
-		elseif BackHomeFurniture[arg_11_2].is_give == 0 or BackHomeFurniture[arg_11_2].is_give == 3 then
-			var_11_0 = var_11_1[arg_11_2].num
-		elseif BackHomeFurniture[arg_11_2].is_give == 1 then
-			var_11_0 = var_11_3:GetGiftNum(arg_11_2)
-		end
-	end
-
-	return var_11_0
-end
-
-function var_0_0.GetHasPlaceFurNumInfoInMap(arg_12_0, arg_12_1)
-	local var_12_0 = 0
-	local var_12_1 = {}
-	local var_12_2 = DormData:GetDormSceneData(arg_12_1)
-
-	if var_12_2.roomInfo then
-		local var_12_3 = var_12_2.roomInfo.furnitureInfoS
-
-		for iter_12_0 = 0, var_12_3.Length - 1 do
-			var_12_0 = var_12_0 + 1
-
-			if not var_12_1[var_12_3[iter_12_0].id] then
-				var_12_1[var_12_3[iter_12_0].id] = 0
-			end
-
-			var_12_1[var_12_3[iter_12_0].id] = var_12_1[var_12_3[iter_12_0].id] + 1
-		end
-	end
-
-	if var_12_2.suitInfo then
-		for iter_12_1, iter_12_2 in pairs(var_12_2.suitInfo) do
-			if iter_12_1 < DormConst.DORM_VISIT_ROOM_MIN then
-				var_12_0 = var_12_0 + iter_12_2.furList.Length
-			else
-				var_12_0 = var_12_0 + DormSuitData:GetSuitNeedTotalFurNumList(iter_12_1)
 			end
 		end
-	end
 
-	return var_12_0, var_12_1
-end
-
-function var_0_0.CheckFurCanGiftInRoom(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = DormitoryData:GetArchiveIDViaRoomID(arg_13_1)
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_0) do
-		if DormData:GetHeroInfo(iter_13_1):GetCanGiftNum(arg_13_2) > 0 then
-			return true
+		return slot2
+	end,
+	GetRoomCanPlaceFurMaxNum = function (slot0, slot1, slot2)
+		if not uv0:CheckFurCanUseRoom(slot1, slot2) then
+			return 0
 		end
-	end
 
-	return false
-end
-
-function var_0_0.GetHadPlaceFlagFurInRoom(arg_14_0, arg_14_1)
-	local var_14_0 = {}
-	local var_14_1 = DormFurnitureTools:GetCanUseFurListByRoomID(arg_14_1)
-
-	if var_14_1 then
-		for iter_14_0, iter_14_1 in ipairs(var_14_1) do
-			local var_14_2 = DormFurnitureTools:GetRoomCanPlaceFurMaxNum(arg_14_1, iter_14_1)
-			local var_14_3 = DormFurEditStateData:GetCanUseFurNumInRoom(arg_14_1, iter_14_1)
-			local var_14_4 = DormRoomTools:GetHasPlaceFurInfoByRoom(arg_14_1, iter_14_1)
-			local var_14_5 = DormFurEditStateData:GetCacheFurNum(iter_14_1)
-
-			if var_14_2 - var_14_3 - var_14_4 - var_14_5 > 0 then
-				table.insert(var_14_0, iter_14_1)
-			elseif var_14_2 - var_14_3 - var_14_4 - var_14_5 < 0 then
-				print("被占用数量计算错误")
-			end
-		end
-	end
-
-	return var_14_0
-end
-
-function var_0_0.GetNotPresentedFurInRoom(arg_15_0, arg_15_1)
-	local var_15_0 = {}
-	local var_15_1 = DormFurnitureTools:GetCanUseFurListByRoomID(arg_15_1)
-
-	if var_15_1 then
-		for iter_15_0, iter_15_1 in ipairs(var_15_1) do
-			if BackHomeFurniture[iter_15_1].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-				local var_15_2 = DormData:GetFurNumInfo(iter_15_1)
-
-				if BackHomeCfg[arg_15_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-					if var_15_2.num > var_15_2.give_num then
-						table.insert(var_15_0, iter_15_1)
+		if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			if DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot2) then
+				if BackHomeFurniture[slot2].is_give == 0 or BackHomeFurniture[slot2].is_give == 3 then
+					if DormData:GetFurnitureInfoList()[slot2].num > 0 then
+						slot3 = 1
 					end
-				elseif BackHomeCfg[arg_15_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-					local var_15_3 = DormitoryData:GetArchiveIDViaRoomID(arg_15_1)[1]
-					local var_15_4 = DormData:GetHeroInfo(var_15_3)
+				elseif BackHomeFurniture[slot2].is_give == 1 and slot4[slot2].give_num > 0 then
+					slot3 = 1
+				end
+			elseif BackHomeFurniture[slot2].is_give == 0 or BackHomeFurniture[slot2].is_give == 3 then
+				slot3 = slot4[slot2].num
+			elseif BackHomeFurniture[slot2].is_give == 1 then
+				slot3 = slot4[slot2].give_num
+			end
+		elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+			slot6 = DormData:GetHeroInfo(DormitoryData:GetArchiveIDViaRoomID(slot1)[1])
 
-					if var_15_2.num - var_15_2.give_num > 0 and var_15_4:GetGiftNum(iter_15_1) < BackHomeFurniture[iter_15_1].give_max then
-						table.insert(var_15_0, iter_15_1)
+			if DormSpecialFurnitureTools:JudgeFurIsSpecialType(slot2) then
+				if BackHomeFurniture[slot2].is_give == 0 or BackHomeFurniture[slot2].is_give == 3 then
+					if slot4[slot2].num > 0 then
+						slot3 = 1
+					end
+				elseif BackHomeFurniture[slot2].is_give == 1 and slot6:GetGiftNum(slot2) > 0 then
+					slot3 = 1
+				end
+			elseif BackHomeFurniture[slot2].is_give == 0 or BackHomeFurniture[slot2].is_give == 3 then
+				slot3 = slot4[slot2].num
+			elseif BackHomeFurniture[slot2].is_give == 1 then
+				slot3 = slot6:GetGiftNum(slot2)
+			end
+		end
+
+		return slot3
+	end,
+	GetHasPlaceFurNumInfoInMap = function (slot0, slot1)
+		slot2 = 0
+		slot3 = {}
+
+		if DormData:GetDormSceneData(slot1).roomInfo then
+			for slot9 = 0, slot4.roomInfo.furnitureInfoS.Length - 1 do
+				slot2 = slot2 + 1
+
+				if not slot3[slot5[slot9].id] then
+					slot3[slot5[slot9].id] = 0
+				end
+
+				slot3[slot5[slot9].id] = slot3[slot5[slot9].id] + 1
+			end
+		end
+
+		if slot4.suitInfo then
+			for slot8, slot9 in pairs(slot4.suitInfo) do
+				slot2 = slot8 < DormConst.DORM_VISIT_ROOM_MIN and slot2 + slot9.furList.Length or slot2 + DormSuitData:GetSuitNeedTotalFurNumList(slot8)
+			end
+		end
+
+		return slot2, slot3
+	end,
+	CheckFurCanGiftInRoom = function (slot0, slot1, slot2)
+		for slot7, slot8 in ipairs(DormitoryData:GetArchiveIDViaRoomID(slot1)) do
+			if DormData:GetHeroInfo(slot8):GetCanGiftNum(slot2) > 0 then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetHadPlaceFlagFurInRoom = function (slot0, slot1)
+		slot2 = {}
+
+		if DormFurnitureTools:GetCanUseFurListByRoomID(slot1) then
+			for slot7, slot8 in ipairs(slot3) do
+				if DormFurnitureTools:GetRoomCanPlaceFurMaxNum(slot1, slot8) - DormFurEditStateData:GetCanUseFurNumInRoom(slot1, slot8) - DormRoomTools:GetHasPlaceFurInfoByRoom(slot1, slot8) - DormFurEditStateData:GetCacheFurNum(slot8) > 0 then
+					table.insert(slot2, slot8)
+				elseif slot9 - slot10 - slot11 - slot12 < 0 then
+					print("被占用数量计算错误")
+				end
+			end
+		end
+
+		return slot2
+	end,
+	GetNotPresentedFurInRoom = function (slot0, slot1)
+		slot2 = {}
+
+		if DormFurnitureTools:GetCanUseFurListByRoomID(slot1) then
+			for slot7, slot8 in ipairs(slot3) do
+				if BackHomeFurniture[slot8].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+					slot9 = DormData:GetFurNumInfo(slot8)
+
+					if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+						if slot9.give_num < slot9.num then
+							table.insert(slot2, slot8)
+						end
+					elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+						if slot9.num - slot9.give_num > 0 and DormData:GetHeroInfo(DormitoryData:GetArchiveIDViaRoomID(slot1)[1]):GetGiftNum(slot8) < BackHomeFurniture[slot8].give_max then
+							table.insert(slot2, slot8)
+						end
 					end
 				end
 			end
 		end
-	end
 
-	return var_15_0
-end
+		return slot2
+	end,
+	GetIsOverLoad = function (slot0, slot1)
+		slot2 = DormitoryData:GetDormLevel(slot1)
+		slot3 = nil
 
-function var_0_0.GetIsOverLoad(arg_16_0, arg_16_1)
-	local var_16_0 = DormitoryData:GetDormLevel(arg_16_1)
-	local var_16_1
-
-	if BackHomeCfg[arg_16_1].type == DormConst.BACKHOME_TYPE.PublicDorm then
-		var_16_1 = GameSetting.dorm_lobby_furniture_limited.value[1]
-	elseif BackHomeCfg[arg_16_1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-		var_16_1 = BackHomeDormLevel[var_16_0].furniture_max
-	end
-
-	local var_16_2 = DormRoomTools:GetFurHasPlaceTotalNum(arg_16_1)
-	local var_16_3 = DormFurEditStateData:GetCacheFurTotalNum()
-
-	if var_16_1 - var_16_2 - var_16_3 - DormConst.DORM_SPECIAL_FURNITURE_NUM > 0 then
-		return true
-	end
-
-	return false
-end
-
-local var_0_1
-
-function var_0_0.InitFurEditFlag(arg_17_0)
-	var_0_1 = getData("Dorm", "furEditFlag")
-
-	if not var_0_1 or tostring(var_0_1) == "userdata: NULL" then
-		var_0_1 = {
-			otherHadPlaceFlag = true,
-			hadPlaceFlag = true,
-			canPlaceFlag = true,
-			notPresentedFlag = true
-		}
-	end
-end
-
-function var_0_0.SaveFurEditFlag(arg_18_0)
-	if var_0_1 then
-		saveData("Dorm", "furEditFlag", var_0_1)
-	end
-end
-
-function var_0_0.GetFurEditFlag(arg_19_0)
-	return var_0_1
-end
-
-local var_0_2
-
-function var_0_0.SetEditFurFlag(arg_20_0, arg_20_1)
-	var_0_2 = arg_20_1
-end
-
-function var_0_0.GetEditFurFlag(arg_21_0)
-	return var_0_2
-end
-
-function var_0_0.CheckFurTileType(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = BackHomeFurniture[arg_22_1]
-
-	if var_22_0 then
-		if var_22_0.display_type == 0 and arg_22_2 == DormConst.TILE_TYPE.FLOOR then
-			return true
+		if BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			slot3 = GameSetting.dorm_lobby_furniture_limited.value[1]
+		elseif BackHomeCfg[slot1].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+			slot3 = BackHomeDormLevel[slot2].furniture_max
 		end
 
-		if var_22_0.display_type == 2 and (arg_22_2 == DormConst.TILE_TYPE.WALL_LEFT or arg_22_2 == DormConst.TILE_TYPE.WALL_RIGHT or arg_22_2 == DormConst.TILE_TYPE.WALL_BEHIND or arg_22_2 == DormConst.TILE_TYPE.WALL_FRONT) then
+		if slot3 - DormRoomTools:GetFurHasPlaceTotalNum(slot1) - DormFurEditStateData:GetCacheFurTotalNum() - DormConst.DORM_SPECIAL_FURNITURE_NUM > 0 then
 			return true
 		end
 
 		return false
+	end,
+	InitFurEditFlag = function (slot0)
+		uv0 = getData("Dorm", "furEditFlag")
+
+		if not uv0 or tostring(uv0) == "userdata: NULL" then
+			uv0 = {
+				otherHadPlaceFlag = true,
+				hadPlaceFlag = true,
+				canPlaceFlag = true,
+				notPresentedFlag = true
+			}
+		end
+	end,
+	SaveFurEditFlag = function (slot0)
+		if uv0 then
+			saveData("Dorm", "furEditFlag", uv0)
+		end
+	end,
+	GetFurEditFlag = function (slot0)
+		return uv0
+	end,
+	SetEditFurFlag = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetEditFurFlag = function (slot0)
+		return uv0
+	end,
+	CheckFurTileType = function (slot0, slot1, slot2)
+		if BackHomeFurniture[slot1] then
+			if slot3.display_type == 0 and slot2 == DormConst.TILE_TYPE.FLOOR then
+				return true
+			end
+
+			if slot3.display_type == 2 and (slot2 == DormConst.TILE_TYPE.WALL_LEFT or slot2 == DormConst.TILE_TYPE.WALL_RIGHT or slot2 == DormConst.TILE_TYPE.WALL_BEHIND or slot2 == DormConst.TILE_TYPE.WALL_FRONT) then
+				return true
+			end
+
+			return false
+		end
+
+		print("不存在编号为" .. slot1 .. "的家具")
 	end
-
-	print("不存在编号为" .. arg_22_1 .. "的家具")
-end
-
-return var_0_0
+}

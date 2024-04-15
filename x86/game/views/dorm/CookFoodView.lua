@@ -1,439 +1,394 @@
-local var_0_0 = class("CookFoodView", ReduxView)
+slot0 = class("CookFoodView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/canteen/EmptyDreamDoTheDishesPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.canCookFoodItemScroll = LuaList.New(handler(arg_4_0, arg_4_0.IndexCookFoodItem), arg_4_0.fooduilistUilist_, CookFoodItem)
-	arg_4_0.cookMaterialItemScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexFoodMaterialItem), arg_4_0.ingredientuilistUilist_, FoodMaterialItem)
-	arg_4_0.finishIngredientItemScroll_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexFoodMaterialItem), arg_4_0.finishingredientuilistUilist_, FoodMaterialItem)
-	arg_4_0.chooseTasteItemScroll = LuaList.New(handler(arg_4_0, arg_4_0.IndexTasteItem), arg_4_0.tasteuilistUilist_, CookFoodItem)
-	arg_4_0.cookStateController_ = ControllerUtil.GetController(arg_4_0.transform_, "cookState")
-	arg_4_0.cookFinishController_ = ControllerUtil.GetController(arg_4_0.transform_, "finish")
-	arg_4_0.cookCompletedBgController_ = ControllerUtil.GetController(arg_4_0.transform_, "completedBg")
-	arg_4_0.cookcompletedLvController_ = ControllerUtil.GetController(arg_4_0.transform_, "completedLv")
-	arg_4_0.qteStartController_ = ControllerUtil.GetController(arg_4_0.transform_, "qteStart")
-	arg_4_0.finishFoodController_ = ControllerUtil.GetController(arg_4_0.finishfoodnameGo_, "name")
-	arg_4_0.tasteFoodController_ = ControllerUtil.GetController(arg_4_0.tastenameGo_, "name")
-	arg_4_0.particleController = ControllerUtil.GetController(arg_4_0.switchwokTrs_, "switchWok")
-	arg_4_0.foodId = nil
-	arg_4_0.taste = nil
+	slot0.canCookFoodItemScroll = LuaList.New(handler(slot0, slot0.IndexCookFoodItem), slot0.fooduilistUilist_, CookFoodItem)
+	slot0.cookMaterialItemScroll_ = LuaList.New(handler(slot0, slot0.IndexFoodMaterialItem), slot0.ingredientuilistUilist_, FoodMaterialItem)
+	slot0.finishIngredientItemScroll_ = LuaList.New(handler(slot0, slot0.IndexFoodMaterialItem), slot0.finishingredientuilistUilist_, FoodMaterialItem)
+	slot0.chooseTasteItemScroll = LuaList.New(handler(slot0, slot0.IndexTasteItem), slot0.tasteuilistUilist_, CookFoodItem)
+	slot0.cookStateController_ = ControllerUtil.GetController(slot0.transform_, "cookState")
+	slot0.cookFinishController_ = ControllerUtil.GetController(slot0.transform_, "finish")
+	slot0.cookCompletedBgController_ = ControllerUtil.GetController(slot0.transform_, "completedBg")
+	slot0.cookcompletedLvController_ = ControllerUtil.GetController(slot0.transform_, "completedLv")
+	slot0.qteStartController_ = ControllerUtil.GetController(slot0.transform_, "qteStart")
+	slot0.finishFoodController_ = ControllerUtil.GetController(slot0.finishfoodnameGo_, "name")
+	slot0.tasteFoodController_ = ControllerUtil.GetController(slot0.tastenameGo_, "name")
+	slot0.particleController = ControllerUtil.GetController(slot0.switchwokTrs_, "switchWok")
+	slot0.foodId = nil
+	slot0.taste = nil
 end
 
-local function var_0_1(arg_5_0)
+function slot1(slot0)
 	ShowMessageBox({
 		ButtonType = "SingleBtn",
 		title = GetTips("PROMPT"),
-		content = arg_5_0
+		content = slot0
 	})
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListenerScale(arg_6_0.startbtnBtn_, nil, function()
-		if arg_6_0.foodId == nil then
-			var_0_1(GetTips("CANTEEN_FOOD_UNCHOOSE"))
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListenerScale(slot0.startbtnBtn_, nil, function ()
+		if uv0.foodId == nil then
+			uv1(GetTips("CANTEEN_FOOD_UNCHOOSE"))
 
 			return
 		end
 
-		if arg_6_0.taste == nil then
-			var_0_1(GetTips("CANTEEN_INGREDIENTS_UNCHOOSE"))
+		if uv0.taste == nil then
+			uv1(GetTips("CANTEEN_INGREDIENTS_UNCHOOSE"))
 
 			return
 		end
 
-		arg_6_0:StartCookFoodQTE()
+		uv0:StartCookFoodQTE()
 	end)
-	arg_6_0:AddBtnListenerScale(arg_6_0.confirmbtnBtn_, nil, function()
+	slot0:AddBtnListenerScale(slot0.confirmbtnBtn_, nil, function ()
 		JumpTools:Back()
 	end)
 end
 
-function var_0_0.ExitOnCanteenModeChange(arg_9_0)
-	arg_9_0.cookFoodFlag = nil
+function slot0.ExitOnCanteenModeChange(slot0)
+	slot0.cookFoodFlag = nil
 
-	arg_9_0:Back()
+	slot0:Back()
 end
 
-function var_0_0.OnEnter(arg_10_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR
 	})
 
-	arg_10_0.kitchenwareEid = arg_10_0.params_.cookEid
-	arg_10_0.playerEid = arg_10_0.params_.playerEid
-	arg_10_0.cookType = CanteenAIFunction:GetEntityType(arg_10_0.kitchenwareEid)
+	slot0.kitchenwareEid = slot0.params_.cookEid
+	slot0.playerEid = slot0.params_.playerEid
+	slot0.cookType = CanteenAIFunction:GetEntityType(slot0.kitchenwareEid)
 
-	arg_10_0:UpdataFoodData()
-	arg_10_0.canCookFoodItemScroll:StartScroll(#arg_10_0.canCookFoodList_)
+	slot0:UpdataFoodData()
+	slot0.canCookFoodItemScroll:StartScroll(#slot0.canCookFoodList_)
 
-	arg_10_0.cookFoodFlag = false
-	arg_10_0.startFlag = false
+	slot0.cookFoodFlag = false
+	slot0.startFlag = false
+	slot1 = handler(slot0, slot0.ExitOnCanteenModeChange)
 
-	local var_10_0 = handler(arg_10_0, arg_10_0.ExitOnCanteenModeChange)
-
-	arg_10_0:RegistEventListener(DORM_RESTAURANT_START_AUTO, var_10_0)
-	arg_10_0:RegistEventListener(DORM_RESTAURANT_START_MANUAL, var_10_0)
-	arg_10_0.particleController:SetSelectedState("off")
+	slot0:RegistEventListener(DORM_RESTAURANT_START_AUTO, slot1)
+	slot0:RegistEventListener(DORM_RESTAURANT_START_MANUAL, slot1)
+	slot0.particleController:SetSelectedState("off")
 end
 
-function var_0_0.OnTop(arg_11_0)
-	return
+function slot0.OnTop(slot0)
 end
 
-function var_0_0.UpdataFoodData(arg_12_0)
-	arg_12_0.canCookFoodList_ = {}
+function slot0.UpdataFoodData(slot0)
+	slot0.canCookFoodList_ = {}
 
-	local var_12_0 = CanteenFoodData:GetChooseFoodList()
-
-	for iter_12_0, iter_12_1 in ipairs(var_12_0) do
-		local var_12_1 = BackHomeCanteenFoodCfg[iter_12_1].cook_type
-
-		if DormEnum.RestaurantKitchenWare[var_12_1] == arg_12_0.cookType then
-			local var_12_2 = {
+	for slot5, slot6 in ipairs(CanteenFoodData:GetChooseFoodList()) do
+		if DormEnum.RestaurantKitchenWare[BackHomeCanteenFoodCfg[slot6].cook_type] == slot0.cookType then
+			table.insert(slot0.canCookFoodList_, {
 				type = DormEnum.UniversalUIType.FoodName,
-				id = iter_12_1
-			}
-
-			table.insert(arg_12_0.canCookFoodList_, var_12_2)
+				id = slot6
+			})
 		end
 	end
 
-	if #arg_12_0.canCookFoodList_ == 0 then
-		arg_12_0.cookFinishController_:SetSelectedState("none")
+	if #slot0.canCookFoodList_ == 0 then
+		slot0.cookFinishController_:SetSelectedState("none")
 	else
-		arg_12_0.cookFinishController_:SetSelectedState("making")
+		slot0.cookFinishController_:SetSelectedState("making")
 	end
 end
 
-function var_0_0.IndexTasteItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_2:RefreshUI(arg_13_0.chooseFoodTasteList[arg_13_1], arg_13_0.taste)
-	arg_13_2:RegistCallBack(function(arg_14_0)
-		if arg_13_0.startFlag then
+function slot0.IndexTasteItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.chooseFoodTasteList[slot1], slot0.taste)
+	slot2:RegistCallBack(function (slot0)
+		if uv0.startFlag then
 			return
 		end
 
-		if arg_13_0.taste == arg_14_0 then
+		if uv0.taste == slot0 then
 			return
 		end
 
-		arg_13_0.taste = arg_14_0
+		uv0.taste = slot0
 
-		arg_13_0.chooseTasteItemScroll:Refresh()
-		arg_13_0:CheckCookFoodPrecondition()
+		uv0.chooseTasteItemScroll:Refresh()
+		uv0:CheckCookFoodPrecondition()
 	end)
 end
 
-function var_0_0.UpdataChooseFoodTaste(arg_15_0, arg_15_1)
-	arg_15_0.chooseFoodTasteList = {}
+function slot0.UpdataChooseFoodTaste(slot0, slot1)
+	slot0.chooseFoodTasteList = {}
 
-	for iter_15_0, iter_15_1 in ipairs(BackHomeCanteenFoodCfg[arg_15_1].tag) do
-		local var_15_0 = {
+	for slot5, slot6 in ipairs(BackHomeCanteenFoodCfg[slot1].tag) do
+		table.insert(slot0.chooseFoodTasteList, {
 			type = DormEnum.UniversalUIType.TasteName,
-			id = iter_15_1
-		}
-
-		table.insert(arg_15_0.chooseFoodTasteList, var_15_0)
+			id = slot6
+		})
 	end
 end
 
-function var_0_0.UpdataChooseFoodMaterial(arg_16_0, arg_16_1)
-	arg_16_0.chooseFoodMaterialList = BackHomeCanteenFoodCfg[arg_16_1].ingredient_list
+function slot0.UpdataChooseFoodMaterial(slot0, slot1)
+	slot0.chooseFoodMaterialList = BackHomeCanteenFoodCfg[slot1].ingredient_list
 end
 
-function var_0_0.IndexFoodMaterialItem(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_2:RefreshItem(arg_17_0.chooseFoodMaterialList[arg_17_1], nil, nil, DormEnum.FoodSellType.SignFood)
+function slot0.IndexFoodMaterialItem(slot0, slot1, slot2)
+	slot2:RefreshItem(slot0.chooseFoodMaterialList[slot1], nil, , DormEnum.FoodSellType.SignFood)
 end
 
-function var_0_0.IndexCookFoodItem(arg_18_0, arg_18_1, arg_18_2)
-	arg_18_2:RefreshUI(arg_18_0.canCookFoodList_[arg_18_1], arg_18_0.foodId)
-	arg_18_2:RegistCallBack(handler(arg_18_0, arg_18_0.RefreshFoodTasteAndMaterial))
+function slot0.IndexCookFoodItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.canCookFoodList_[slot1], slot0.foodId)
+	slot2:RegistCallBack(handler(slot0, slot0.RefreshFoodTasteAndMaterial))
 end
 
-function var_0_0.RefreshFoodTasteAndMaterial(arg_19_0, arg_19_1)
-	if arg_19_0.startFlag then
+function slot0.RefreshFoodTasteAndMaterial(slot0, slot1)
+	if slot0.startFlag then
 		return
 	end
 
-	if arg_19_1 == arg_19_0.foodId then
+	if slot1 == slot0.foodId then
 		return
 	end
 
-	arg_19_0.foodId = arg_19_1
-	arg_19_0.taste = nil
+	slot0.foodId = slot1
+	slot0.taste = nil
 
-	arg_19_0.canCookFoodItemScroll:Refresh()
-	arg_19_0:UpdataChooseFoodMaterial(arg_19_1)
-	arg_19_0.cookMaterialItemScroll_:StartScroll(#arg_19_0.chooseFoodMaterialList)
-	arg_19_0:UpdataChooseFoodTaste(arg_19_1)
-	arg_19_0.chooseTasteItemScroll:StartScroll(#arg_19_0.chooseFoodTasteList)
-	arg_19_0:InitProgressBar(arg_19_1)
+	slot0.canCookFoodItemScroll:Refresh()
+	slot0:UpdataChooseFoodMaterial(slot1)
+	slot0.cookMaterialItemScroll_:StartScroll(#slot0.chooseFoodMaterialList)
+	slot0:UpdataChooseFoodTaste(slot1)
+	slot0.chooseTasteItemScroll:StartScroll(#slot0.chooseFoodTasteList)
+	slot0:InitProgressBar(slot1)
 end
 
-function var_0_0.CheckCookFoodPrecondition(arg_20_0)
-	if arg_20_0.foodId ~= nil then
-		local var_20_0 = arg_20_0.foodId
-
-		if CanteenFoodData:GetSignFoodCanCookNum(var_20_0) <= 0 then
-			arg_20_0.cookStateController_:SetSelectedState("lack")
-		end
+function slot0.CheckCookFoodPrecondition(slot0)
+	if slot0.foodId ~= nil and CanteenFoodData:GetSignFoodCanCookNum(slot0.foodId) <= 0 then
+		slot0.cookStateController_:SetSelectedState("lack")
 	end
 end
 
-function var_0_0.StartCookFoodQTE(arg_21_0)
-	arg_21_0.qteStartController_:SetSelectedState("true")
+function slot0.StartCookFoodQTE(slot0)
+	slot0.qteStartController_:SetSelectedState("true")
 
-	if arg_21_0.timer == nil then
-		arg_21_0.timer = FrameTimer.New(function()
-			arg_21_0:UpdataCursor()
+	if slot0.timer == nil then
+		slot0.timer = FrameTimer.New(function ()
+			uv0:UpdataCursor()
 		end, 0.016666666666666666, -1)
 
-		arg_21_0.timer:Start()
+		slot0.timer:Start()
 
-		arg_21_0.startFlag = true
+		slot0.startFlag = true
 
-		arg_21_0.particleController:SetSelectedState("on")
+		slot0.particleController:SetSelectedState("on")
 		manager.windowBar:HideBar()
 	else
-		arg_21_0.timer:Stop()
+		slot0.timer:Stop()
 
-		arg_21_0.timer = nil
+		slot0.timer = nil
 
-		local var_21_0 = arg_21_0:QTEResult()
-
-		if var_21_0 == DormEnum.FoodQuality.low then
+		if slot0:QTEResult() == DormEnum.FoodQuality.low then
 			manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_bad", "")
-		elseif var_21_0 == DormEnum.FoodQuality.normal then
+		elseif slot1 == DormEnum.FoodQuality.normal then
 			manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_commonly", "")
-		elseif var_21_0 == DormEnum.FoodQuality.high then
+		elseif slot1 == DormEnum.FoodQuality.high then
 			manager.audio:PlayEffect("minigame_activity_spring_festival", "minigame_activity_spring_festival_perfect", "")
 		end
 
-		arg_21_0.startFlag = false
+		slot0.startFlag = false
 
-		arg_21_0.particleController:SetSelectedState("off")
-		arg_21_0:CookFinish(var_21_0)
+		slot0.particleController:SetSelectedState("off")
+		slot0:CookFinish(slot1)
 		manager.windowBar:SwitchBar({
 			BACK_BAR
 		})
 	end
 end
 
-function var_0_0.InitProgressBar(arg_23_0, arg_23_1)
-	local var_23_0 = CanteenFoodData:GetFoodProficiency(arg_23_1)
+function slot0.InitProgressBar(slot0, slot1)
+	slot0.progress1Angel = 0
+	slot0.progress2Angel = 0
 
-	arg_23_0.progress1Angel = 0
-	arg_23_0.progress2Angel = 0
-
-	for iter_23_0 = 1, #BackHomeCanteenFoodCfg[arg_23_1].cook_range do
-		if var_23_0 < BackHomeCanteenFoodCfg[arg_23_1].cook_range[iter_23_0][1] then
-			arg_23_0.progress1Angel = BackHomeCanteenFoodCfg[arg_23_1].cook_range[iter_23_0 - 1][2]
-			arg_23_0.progress2Angel = BackHomeCanteenFoodCfg[arg_23_1].cook_range[iter_23_0 - 1][3]
+	for slot6 = 1, #BackHomeCanteenFoodCfg[slot1].cook_range do
+		if CanteenFoodData:GetFoodProficiency(slot1) < BackHomeCanteenFoodCfg[slot1].cook_range[slot6][1] then
+			slot0.progress1Angel = BackHomeCanteenFoodCfg[slot1].cook_range[slot6 - 1][2]
+			slot0.progress2Angel = BackHomeCanteenFoodCfg[slot1].cook_range[slot6 - 1][3]
 
 			break
 		end
 
-		arg_23_0.progress1Angel = BackHomeCanteenFoodCfg[arg_23_1].cook_range[iter_23_0][2]
-		arg_23_0.progress2Angel = BackHomeCanteenFoodCfg[arg_23_1].cook_range[iter_23_0][3]
+		slot0.progress1Angel = BackHomeCanteenFoodCfg[slot1].cook_range[slot6][2]
+		slot0.progress2Angel = BackHomeCanteenFoodCfg[slot1].cook_range[slot6][3]
 	end
 
-	local var_23_1 = GameDisplayCfg.canteen_cook_range_speed.value[1]
+	slot0.MaxEuler = GameDisplayCfg.canteen_cook_range.value[2]
+	slot0.MinEuler = GameDisplayCfg.canteen_cook_range.value[1]
 
-	arg_23_0.MaxEuler = GameDisplayCfg.canteen_cook_range.value[2]
-	arg_23_0.MinEuler = GameDisplayCfg.canteen_cook_range.value[1]
+	slot0:RandomProgressBar()
 
-	arg_23_0:RandomProgressBar()
-
-	arg_23_0.CursorTickEuler = var_23_1 / DormConst.COOK_CURSOR_FRAME
-	arg_23_0.turnNum = 1
-	arg_23_0.cursorTrs_.localEulerAngles = Vector3.New(0, 0, arg_23_0.MaxEuler)
+	slot0.CursorTickEuler = GameDisplayCfg.canteen_cook_range_speed.value[1] / DormConst.COOK_CURSOR_FRAME
+	slot0.turnNum = 1
+	slot0.cursorTrs_.localEulerAngles = Vector3.New(0, 0, slot0.MaxEuler)
 end
 
-function var_0_0.RandomProgressBar(arg_24_0)
-	local var_24_0 = arg_24_0.MaxEuler + 90 - arg_24_0.progress1Angel
-
-	arg_24_0.progressbar1Img_.fillAmount = arg_24_0.progress1Angel / 180 - arg_24_0.progress1Angel / 180 % 0.01
-	arg_24_0.progressbar2Img_.fillAmount = arg_24_0.progress2Angel / 180 - arg_24_0.progress2Angel / 180 % 0.01
-
-	local var_24_1 = math.random(arg_24_0.MinEuler + 90, var_24_0)
-	local var_24_2 = math.floor(var_24_1)
-	local var_24_3 = math.random(var_24_2, var_24_2 + arg_24_0.progress1Angel - arg_24_0.progress2Angel)
-	local var_24_4 = math.floor(var_24_3)
-
-	arg_24_0.progressbar1Trs_.localEulerAngles = Vector3.New(0, 0, var_24_2)
-	arg_24_0.progressbar2Trs_.localEulerAngles = Vector3.New(0, 0, var_24_4)
+function slot0.RandomProgressBar(slot0)
+	slot0.progressbar1Img_.fillAmount = slot0.progress1Angel / 180 - slot0.progress1Angel / 180 % 0.01
+	slot0.progressbar2Img_.fillAmount = slot0.progress2Angel / 180 - slot0.progress2Angel / 180 % 0.01
+	slot2 = math.floor(math.random(slot0.MinEuler + 90, slot0.MaxEuler + 90 - slot0.progress1Angel))
+	slot0.progressbar1Trs_.localEulerAngles = Vector3.New(0, 0, slot2)
+	slot0.progressbar2Trs_.localEulerAngles = Vector3.New(0, 0, math.floor(math.random(slot2, slot2 + slot0.progress1Angel - slot0.progress2Angel)))
 end
 
-function var_0_0.UpdataCursor(arg_25_0)
-	local var_25_0 = 0
+function slot0.UpdataCursor(slot0)
+	slot1 = 0
 
-	if arg_25_0.turnNum % 2 == 1 then
-		arg_25_0.cursorTrs_.localEulerAngles = arg_25_0.cursorTrs_.localEulerAngles - Vector3.New(0, 0, arg_25_0.CursorTickEuler)
+	if slot0.turnNum % 2 == 1 then
+		slot0.cursorTrs_.localEulerAngles = slot0.cursorTrs_.localEulerAngles - Vector3.New(0, 0, slot0.CursorTickEuler)
+		slot2 = 0
 
-		local var_25_1 = 0
-
-		if arg_25_0.cursorTrs_.localEulerAngles.z > 180 then
-			var_25_1 = arg_25_0.cursorTrs_.localEulerAngles.z - 360
-		else
-			var_25_1 = arg_25_0.cursorTrs_.localEulerAngles.z
+		if (slot0.cursorTrs_.localEulerAngles.z > 180 and slot0.cursorTrs_.localEulerAngles.z - 360 or slot0.cursorTrs_.localEulerAngles.z) <= slot0.MinEuler then
+			slot0.turnNum = slot0.turnNum + 1
 		end
+	elseif slot0.turnNum % 2 == 0 then
+		slot0.cursorTrs_.localEulerAngles = slot0.cursorTrs_.localEulerAngles + Vector3.New(0, 0, slot0.CursorTickEuler)
+		slot2 = 0
 
-		if var_25_1 <= arg_25_0.MinEuler then
-			arg_25_0.turnNum = arg_25_0.turnNum + 1
-		end
-	elseif arg_25_0.turnNum % 2 == 0 then
-		arg_25_0.cursorTrs_.localEulerAngles = arg_25_0.cursorTrs_.localEulerAngles + Vector3.New(0, 0, arg_25_0.CursorTickEuler)
-
-		local var_25_2 = 0
-
-		if arg_25_0.cursorTrs_.localEulerAngles.z > 180 then
-			var_25_2 = arg_25_0.cursorTrs_.localEulerAngles.z - 360
-		else
-			var_25_2 = arg_25_0.cursorTrs_.localEulerAngles.z
-		end
-
-		if var_25_2 >= arg_25_0.MaxEuler then
-			arg_25_0.turnNum = arg_25_0.turnNum + 1
+		if slot0.MaxEuler <= (slot0.cursorTrs_.localEulerAngles.z > 180 and slot0.cursorTrs_.localEulerAngles.z - 360 or slot0.cursorTrs_.localEulerAngles.z) then
+			slot0.turnNum = slot0.turnNum + 1
 		end
 	end
 
-	arg_25_0.cursorTrs_.localEulerAngles.z = var_25_0
+	slot0.cursorTrs_.localEulerAngles.z = slot1
 end
 
-function var_0_0.QTEResult(arg_26_0)
-	local var_26_0 = 0
+function slot0.QTEResult(slot0)
+	slot1 = 0
 
-	if arg_26_0:CheckCursorInProgress1() == false then
-		var_26_0 = DormEnum.FoodQuality.low
-	elseif arg_26_0:CheckCursorInProgress1() == true and arg_26_0:CheckCursorInProgress2() == false then
-		var_26_0 = DormEnum.FoodQuality.normal
-	elseif arg_26_0:CheckCursorInProgress1() == true and arg_26_0:CheckCursorInProgress2() == true then
-		var_26_0 = DormEnum.FoodQuality.high
+	if slot0:CheckCursorInProgress1() == false then
+		slot1 = DormEnum.FoodQuality.low
+	elseif slot0:CheckCursorInProgress1() == true and slot0:CheckCursorInProgress2() == false then
+		slot1 = DormEnum.FoodQuality.normal
+	elseif slot0:CheckCursorInProgress1() == true and slot0:CheckCursorInProgress2() == true then
+		slot1 = DormEnum.FoodQuality.high
 	end
 
-	return var_26_0
+	return slot1
 end
 
-function var_0_0.CheckCursorInProgress1(arg_27_0)
-	local var_27_0 = arg_27_0.cursorTrs_.localEulerAngles.z + 90
-
-	if var_27_0 > 360 then
-		var_27_0 = var_27_0 - 360
+function slot0.CheckCursorInProgress1(slot0)
+	if slot0.cursorTrs_.localEulerAngles.z + 90 > 360 then
+		slot1 = slot1 - 360
 	end
 
-	if var_27_0 >= arg_27_0.progress1Angel + arg_27_0.progressbar1Trs_.localEulerAngles.z or var_27_0 <= arg_27_0.progressbar1Trs_.localEulerAngles.z then
+	if slot1 >= slot0.progress1Angel + slot0.progressbar1Trs_.localEulerAngles.z or slot1 <= slot0.progressbar1Trs_.localEulerAngles.z then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.CheckCursorInProgress2(arg_28_0)
-	local var_28_0 = arg_28_0.cursorTrs_.localEulerAngles.z + 90
-
-	if var_28_0 > 360 then
-		var_28_0 = var_28_0 - 360
+function slot0.CheckCursorInProgress2(slot0)
+	if slot0.cursorTrs_.localEulerAngles.z + 90 > 360 then
+		slot1 = slot1 - 360
 	end
 
-	if var_28_0 >= arg_28_0.progress2Angel + arg_28_0.progressbar2Trs_.localEulerAngles.z or var_28_0 <= arg_28_0.progressbar2Trs_.localEulerAngles.z then
+	if slot1 >= slot0.progress2Angel + slot0.progressbar2Trs_.localEulerAngles.z or slot1 <= slot0.progressbar2Trs_.localEulerAngles.z then
 		return false
 	end
 
 	return true
 end
 
-function var_0_0.CookFinish(arg_29_0, arg_29_1)
-	arg_29_0.cookFinishController_:SetSelectedState("completed")
-	arg_29_0.cookCompletedBgController_:SetSelectedState("on")
-	arg_29_0.finishFoodController_:SetSelectedState("off")
-	arg_29_0.tasteFoodController_:SetSelectedState("off")
+function slot0.CookFinish(slot0, slot1)
+	slot0.cookFinishController_:SetSelectedState("completed")
+	slot0.cookCompletedBgController_:SetSelectedState("on")
+	slot0.finishFoodController_:SetSelectedState("off")
+	slot0.tasteFoodController_:SetSelectedState("off")
 
-	arg_29_0.finishfoodtextText_.text = GetI18NText(BackHomeCanteenFoodCfg[arg_29_0.foodId].name)
-	arg_29_0.finishfoodtastetextText_.text = GetTips(CanteenConst.FoodTaste[arg_29_0.taste][1])
+	slot0.finishfoodtextText_.text = GetI18NText(BackHomeCanteenFoodCfg[slot0.foodId].name)
+	slot0.finishfoodtastetextText_.text = GetTips(CanteenConst.FoodTaste[slot0.taste][1])
 
-	arg_29_0.finishIngredientItemScroll_:StartScroll(#arg_29_0.chooseFoodMaterialList)
-	arg_29_0.cookcompletedLvController_:SetSelectedState(arg_29_1)
+	slot0.finishIngredientItemScroll_:StartScroll(#slot0.chooseFoodMaterialList)
+	slot0.cookcompletedLvController_:SetSelectedState(slot1)
 
-	arg_29_0.cookFoodFlag = true
+	slot0.cookFoodFlag = true
 
-	CanteenData:CookFoodComplete(arg_29_0.playerEid, arg_29_1, arg_29_0.kitchenwareEid, arg_29_0.foodId, arg_29_0.taste)
+	CanteenData:CookFoodComplete(slot0.playerEid, slot1, slot0.kitchenwareEid, slot0.foodId, slot0.taste)
 end
 
-function var_0_0.ResetView(arg_30_0)
-	arg_30_0.cookStateController_:SetSelectedIndex(0)
-	arg_30_0.cookFinishController_:SetSelectedIndex(0)
-	arg_30_0.cookCompletedBgController_:SetSelectedIndex(0)
-	arg_30_0.cookcompletedLvController_:SetSelectedIndex(0)
-	arg_30_0.finishFoodController_:SetSelectedState("none")
-	arg_30_0.tasteFoodController_:SetSelectedState("none")
+function slot0.ResetView(slot0)
+	slot0.cookStateController_:SetSelectedIndex(0)
+	slot0.cookFinishController_:SetSelectedIndex(0)
+	slot0.cookCompletedBgController_:SetSelectedIndex(0)
+	slot0.cookcompletedLvController_:SetSelectedIndex(0)
+	slot0.finishFoodController_:SetSelectedState("none")
+	slot0.tasteFoodController_:SetSelectedState("none")
 
-	arg_30_0.cursorTrs_.localEulerAngles = Vector3.New(0, 0, arg_30_0.MaxEuler)
-	arg_30_0.foodId = nil
-	arg_30_0.taste = nil
-	arg_30_0.chooseFoodMaterialList = {}
-	arg_30_0.chooseFoodTasteList = {}
-	arg_30_0.turnNum = 1
+	slot0.cursorTrs_.localEulerAngles = Vector3.New(0, 0, slot0.MaxEuler)
+	slot0.foodId = nil
+	slot0.taste = nil
+	slot0.chooseFoodMaterialList = {}
+	slot0.chooseFoodTasteList = {}
+	slot0.turnNum = 1
 
-	arg_30_0.chooseTasteItemScroll:StartScroll(#arg_30_0.chooseFoodTasteList)
-	arg_30_0.cookMaterialItemScroll_:StartScroll(#arg_30_0.chooseFoodMaterialList)
-	arg_30_0.qteStartController_:SetSelectedState("false")
+	slot0.chooseTasteItemScroll:StartScroll(#slot0.chooseFoodTasteList)
+	slot0.cookMaterialItemScroll_:StartScroll(#slot0.chooseFoodMaterialList)
+	slot0.qteStartController_:SetSelectedState("false")
 end
 
-function var_0_0.OnExit(arg_31_0)
-	arg_31_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if arg_31_0.cookFoodFlag == false then
-		CanteenData:CookFoodCanceled(arg_31_0.playerEid, arg_31_0.kitchenwareEid)
+	if slot0.cookFoodFlag == false then
+		CanteenData:CookFoodCanceled(slot0.playerEid, slot0.kitchenwareEid)
 	end
 
-	if arg_31_0.timer then
-		arg_31_0.timer:Stop()
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_31_0.timer = nil
+		slot0.timer = nil
 	end
 
-	arg_31_0:ResetView()
+	slot0:ResetView()
 end
 
-function var_0_0.Dispose(arg_32_0)
-	if arg_32_0.cookMaterialItemScroll_ then
-		arg_32_0.cookMaterialItemScroll_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.cookMaterialItemScroll_ then
+		slot0.cookMaterialItemScroll_:Dispose()
 
-		arg_32_0.cookMaterialItemScroll_ = nil
+		slot0.cookMaterialItemScroll_ = nil
 	end
 
-	if arg_32_0.finishIngredientItemScroll_ then
-		arg_32_0.finishIngredientItemScroll_:Dispose()
+	if slot0.finishIngredientItemScroll_ then
+		slot0.finishIngredientItemScroll_:Dispose()
 
-		arg_32_0.finishIngredientItemScroll_ = nil
+		slot0.finishIngredientItemScroll_ = nil
 	end
 
-	if arg_32_0.canCookFoodItemScroll then
-		arg_32_0.canCookFoodItemScroll:Dispose()
+	if slot0.canCookFoodItemScroll then
+		slot0.canCookFoodItemScroll:Dispose()
 
-		arg_32_0.canCookFoodItemScroll = nil
+		slot0.canCookFoodItemScroll = nil
 	end
 
-	if arg_32_0.chooseTasteItemScroll then
-		arg_32_0.chooseTasteItemScroll:Dispose()
+	if slot0.chooseTasteItemScroll then
+		slot0.chooseTasteItemScroll:Dispose()
 
-		arg_32_0.chooseTasteItemScroll = nil
+		slot0.chooseTasteItemScroll = nil
 	end
 
-	var_0_0.super.Dispose(arg_32_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

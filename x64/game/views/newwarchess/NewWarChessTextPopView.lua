@@ -1,51 +1,48 @@
-local var_0_0 = class("NewWarChessTextPopView", ReduxView)
+slot0 = class("NewWarChessTextPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/NewWarChess/NewWarChessTextPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.maskBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
 		JumpTools.Back()
 
-		if arg_4_0.params_.callBack then
-			arg_4_0.params_.callBack()
+		if uv0.params_.callBack then
+			uv0.params_.callBack()
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.ID_ = arg_6_0.params_.ID
+function slot0.OnEnter(slot0)
+	slot0.ID_ = slot0.params_.ID
 
-	local var_6_0 = NewWarChessContentCfg[arg_6_0.ID_]
+	if NewWarChessContentCfg[slot0.ID_].icon and slot1.icon ~= 0 then
+		SetActive(slot0.itemGo_, true)
 
-	if var_6_0.icon and var_6_0.icon ~= 0 then
-		SetActive(arg_6_0.itemGo_, true)
-
-		arg_6_0.itemiconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/NewWarChess/Item/" .. var_6_0.icon)
+		slot0.itemiconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/NewWarChess/Item/" .. slot1.icon)
 	else
-		SetActive(arg_6_0.itemGo_, false)
+		SetActive(slot0.itemGo_, false)
 	end
 
-	arg_6_0.textnameText_.text = var_6_0.name
-	arg_6_0.textinfoText_.text = var_6_0.content
+	slot0.textnameText_.text = slot1.name
+	slot0.textinfoText_.text = slot1.content
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

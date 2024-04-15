@@ -1,36 +1,35 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("CoreVerificationSelectHeroProxy", var_0_0)
+slot1 = class("CoreVerificationSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.GetHeroTeamInfoRoute(arg_1_0)
+function slot1.GetHeroTeamInfoRoute(slot0)
 	return "/heroTeamInfoCoreVerification"
 end
 
-function var_0_1.InitCustomParams(arg_2_0, arg_2_1)
-	arg_2_0.updateHandler = handler(arg_2_0, arg_2_0.UpdateCoreVerification)
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.updateHandler = handler(slot0, slot0.UpdateCoreVerification)
 end
 
-function var_0_1.OnSectionSelectEnter(arg_3_0)
-	manager.notify:RegistListener(CORE_VERIFICATION_CYCLE_UPDATE, arg_3_0.updateHandler)
+function slot1.OnSectionSelectEnter(slot0)
+	manager.notify:RegistListener(CORE_VERIFICATION_CYCLE_UPDATE, slot0.updateHandler)
 end
 
-function var_0_1.OnSectionSelectExit(arg_4_0)
-	manager.notify:RemoveListener(CORE_VERIFICATION_CYCLE_UPDATE, arg_4_0.updateHandler)
+function slot1.OnSectionSelectExit(slot0)
+	manager.notify:RemoveListener(CORE_VERIFICATION_CYCLE_UPDATE, slot0.updateHandler)
 end
 
-function var_0_1.UpdateCoreVerification(arg_5_0)
+function slot1.UpdateCoreVerification(slot0)
 	CoreVerificationData:InvokeUpdateCycleCallBack()
 end
 
-function var_0_1.CustomCheckBeforeBattle(arg_6_0)
+function slot1.CustomCheckBeforeBattle(slot0)
 	if manager.time:GetServerTime() >= CoreVerificationData:GetRefreshTime() - 600 then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("NEARLY_OVER"),
-			OkCallback = function()
+			OkCallback = function ()
 				return false
 			end,
-			MaskCallback = function()
+			MaskCallback = function ()
 				return false
 			end
 		})
@@ -41,4 +40,4 @@ function var_0_1.CustomCheckBeforeBattle(arg_6_0)
 	return true
 end
 
-return var_0_1
+return slot1

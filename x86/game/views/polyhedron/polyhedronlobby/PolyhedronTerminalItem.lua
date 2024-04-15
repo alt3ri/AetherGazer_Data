@@ -1,63 +1,60 @@
-local var_0_0 = class("PolyhedronTerminalItem", ReduxView)
+slot0 = class("PolyhedronTerminalItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.id = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.id = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.frameController = ControllerUtil.GetController(arg_3_0.transform_, "frame")
-	arg_3_0.selectController = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.frameController = ControllerUtil.GetController(slot0.transform_, "frame")
+	slot0.selectController = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 
-	local var_3_0 = PolyhedronTerminalCfg[arg_3_0.id]
-	local var_3_1 = (var_3_0.classify or 1) - 1
-
-	if var_3_0.hinge == 0 then
-		arg_3_0.frameController:SetSelectedIndex(var_3_1)
+	if slot1.hinge == 0 then
+		slot0.frameController:SetSelectedIndex((PolyhedronTerminalCfg[slot0.id].classify or 1) - 1)
 	else
-		arg_3_0.frameController:SetSelectedIndex(var_3_1 + 3)
+		slot0.frameController:SetSelectedIndex(slot3 + 3)
 	end
 
-	arg_3_0.m_icon.sprite = getSpriteWithoutAtlas(PolyhedronConst.TERMINAL_ICON_PATH .. var_3_0.icon)
+	slot0.m_icon.sprite = getSpriteWithoutAtlas(PolyhedronConst.TERMINAL_ICON_PATH .. slot1.icon)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_btn, nil, function()
-		if arg_4_0.clickFunc then
-			arg_4_0.clickFunc(arg_4_0.id, arg_4_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id, uv0)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.stateController:SetSelectedIndex(arg_6_2)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.stateController:SetSelectedIndex(slot2)
 end
 
-function var_0_0.SetChoice(arg_7_0, arg_7_1)
-	arg_7_0.selectController:SetSelectedIndex(arg_7_1 and 1 or 0)
+function slot0.SetChoice(slot0, slot1)
+	slot0.selectController:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.GetId(arg_8_0)
-	return arg_8_0.id
+function slot0.GetId(slot0)
+	return slot0.id
 end
 
-function var_0_0.RegistCallBack(arg_9_0, arg_9_1)
-	arg_9_0.clickFunc = arg_9_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

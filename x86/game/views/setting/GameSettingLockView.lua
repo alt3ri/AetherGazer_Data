@@ -1,76 +1,74 @@
-local var_0_0 = class("GameSettingLockView", ReduxView)
+slot0 = class("GameSettingLockView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Setting/GameSettingLockUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddToggleListener(arg_5_0.lock1Tgl_, function(arg_6_0)
-		if arg_6_0 then
-			arg_5_0.lockType = 0
+function slot0.AddUIListener(slot0)
+	slot0:AddToggleListener(slot0.lock1Tgl_, function (slot0)
+		if slot0 then
+			uv0.lockType = 0
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.lock2Tgl_, function(arg_7_0)
-		if arg_7_0 then
-			arg_5_0.lockType = 1
+	slot0:AddToggleListener(slot0.lock2Tgl_, function (slot0)
+		if slot0 then
+			uv0.lockType = 1
 		end
 	end)
-	arg_5_0:AddToggleListener(arg_5_0.lock3Tgl_, function(arg_8_0)
-		if arg_8_0 then
-			arg_5_0.lockType = 2
+	slot0:AddToggleListener(slot0.lock3Tgl_, function (slot0)
+		if slot0 then
+			uv0.lockType = 2
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.yesBtn_, nil, function()
+	slot0:AddBtnListener(slot0.yesBtn_, nil, function ()
 		JumpTools.Back()
 
-		if arg_5_0.lockType and arg_5_0.lockType ~= arg_5_0.params_.type then
-			SettingAction.ChangeGameSetting("battle_lock_type", arg_5_0.lockType)
+		if uv0.lockType and uv0.lockType ~= uv0.params_.type then
+			SettingAction.ChangeGameSetting("battle_lock_type", uv0.lockType)
 		end
 
 		OperationRecorder.Record("setting", "setting_lock")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.noBtn_, nil, function()
+	slot0:AddBtnListener(slot0.noBtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.Init(arg_11_0)
-	arg_11_0:InitUI()
-	arg_11_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.lockType = arg_12_0.params_.type
+function slot0.OnEnter(slot0)
+	slot0.lockType = slot0.params_.type
 
-	if arg_12_0.lockType == 0 then
-		arg_12_0.lock1Tgl_.isOn = true
-	elseif arg_12_0.lockType == 1 then
-		arg_12_0.lock2Tgl_.isOn = true
-	elseif arg_12_0.lockType == 2 then
-		arg_12_0.lock3Tgl_.isOn = true
+	if slot0.lockType == 0 then
+		slot0.lock1Tgl_.isOn = true
+	elseif slot0.lockType == 1 then
+		slot0.lock2Tgl_.isOn = true
+	elseif slot0.lockType == 2 then
+		slot0.lock3Tgl_.isOn = true
 	end
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0.params_ = nil
+function slot0.Dispose(slot0)
+	slot0.params_ = nil
 
-	var_0_0.super.Dispose(arg_14_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

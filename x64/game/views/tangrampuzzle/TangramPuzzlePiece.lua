@@ -1,38 +1,38 @@
-local var_0_0 = class("PuzzleNewPiece", ReduxView)
+slot0 = class("PuzzleNewPiece", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.globalIndex_ = arg_1_2
-	arg_1_0.correctID_ = arg_1_3
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.globalIndex_ = slot2
+	slot0.correctID_ = slot3
 
-	arg_1_0:Init()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:Init()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_2_0.icon_.alphaHitTestMinimumThreshold = 1
+	slot0.icon_.alphaHitTestMinimumThreshold = 1
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.transform_, "status")
-	arg_3_0.highLightController_ = ControllerUtil.GetController(arg_3_0.transform_, "highLight")
-	arg_3_0.selectController_ = ControllerUtil.GetController(arg_3_0.transform_, "select")
-	arg_3_0.enterAnimController_ = ControllerUtil.GetController(arg_3_0.transform_, "enterAnim")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.highLightController_ = ControllerUtil.GetController(slot0.transform_, "highLight")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.enterAnimController_ = ControllerUtil.GetController(slot0.transform_, "enterAnim")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.draging_ == true then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.draging_ == true then
 			return
 		end
 
-		if not ActivityData:GetActivityIsOpen(arg_4_0.activityID_) then
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
@@ -40,228 +40,222 @@ function var_0_0.AddUIListener(arg_4_0)
 
 		manager.audio:PlayEffect("ui_system", "button", "")
 
-		if arg_4_0.clickCallback_ then
-			arg_4_0.clickCallback_(arg_4_0.globalIndex_)
+		if uv0.clickCallback_ then
+			uv0.clickCallback_(uv0.globalIndex_)
 		end
 	end)
-	arg_4_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(arg_4_0, arg_4_0.BeginDragFun)))
-	arg_4_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(arg_4_0, arg_4_0.DragFun)))
-	arg_4_0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(arg_4_0, arg_4_0.EndDragFun)))
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.BeginDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.BeginDragFun)))
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.Drag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.DragFun)))
+	slot0.eventTriggerListeners_:AddListenerType1(UnityEngine.EventSystems.EventTriggerType.EndDrag, LuaHelper.EventTriggerAction1(handler(slot0, slot0.EndDragFun)))
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0.clickCallback_ = nil
-	arg_6_0.endDragCallback_ = nil
-	arg_6_0.beginDragCallback_ = nil
+function slot0.Dispose(slot0)
+	slot0.clickCallback_ = nil
+	slot0.endDragCallback_ = nil
+	slot0.beginDragCallback_ = nil
 
-	arg_6_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
-	arg_6_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
-	arg_6_0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
-	arg_6_0:StopLeanTween()
-	var_0_0.super.Dispose(arg_6_0)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.BeginDrag)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.Drag)
+	slot0.eventTriggerListeners_:RemoveListenerType(UnityEngine.EventSystems.EventTriggerType.EndDrag)
+	slot0:StopLeanTween()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0:StopAnimTimer()
-	arg_7_0:StopLeanTween()
-	arg_7_0:RecoverTrans()
+function slot0.OnExit(slot0)
+	slot0:StopAnimTimer()
+	slot0:StopLeanTween()
+	slot0:RecoverTrans()
 end
 
-function var_0_0.SetActive(arg_8_0, arg_8_1)
-	SetActive(arg_8_0.gameObject_, arg_8_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.SetData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_0.lastID_ = arg_9_0.curID_
-	arg_9_0.curID_ = arg_9_1
-	arg_9_0.activityID_ = arg_9_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.lastID_ = slot0.curID_
+	slot0.curID_ = slot1
+	slot0.activityID_ = slot2
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	if arg_10_0.curID_ ~= 0 then
-		local var_10_0 = TangramPuzzleCfg[arg_10_0.activityID_]
-		local var_10_1 = TangramPuzzleTools.GetPuzzlePictureDic(arg_10_0.activityID_)[arg_10_0.curID_]
+function slot0.RefreshUI(slot0)
+	if slot0.curID_ ~= 0 then
+		slot0.icon_.sprite = getSpriteWithoutAtlas(TangramPuzzleCfg[slot0.activityID_].path .. TangramPuzzleTools.GetPuzzlePictureDic(slot0.activityID_)[slot0.curID_])
 
-		arg_10_0.icon_.sprite = getSpriteWithoutAtlas(var_10_0.path .. var_10_1)
-
-		arg_10_0.icon_:SetNativeSize()
+		slot0.icon_:SetNativeSize()
 	end
 
-	SetActive(arg_10_0.gameObject_, arg_10_0.curID_ ~= 0)
-	arg_10_0:StopAnimTimer()
-	arg_10_0.enterAnimController_:SetSelectedState("false")
+	SetActive(slot0.gameObject_, slot0.curID_ ~= 0)
+	slot0:StopAnimTimer()
+	slot0.enterAnimController_:SetSelectedState("false")
 end
 
-function var_0_0.SetRegionID(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.regionID_ = arg_11_1
-	arg_11_0.localIndex_ = arg_11_2
+function slot0.SetRegionID(slot0, slot1, slot2)
+	slot0.regionID_ = slot1
+	slot0.localIndex_ = slot2
 end
 
-function var_0_0.GetCurRegion(arg_12_0)
-	return arg_12_0.regionID_, arg_12_0.localIndex_
+function slot0.GetCurRegion(slot0)
+	return slot0.regionID_, slot0.localIndex_
 end
 
-function var_0_0.GetGlobalIndex(arg_13_0)
-	return arg_13_0.globalIndex_
+function slot0.GetGlobalIndex(slot0)
+	return slot0.globalIndex_
 end
 
-function var_0_0.SetSelectCallBack(arg_14_0, arg_14_1)
-	arg_14_0.selectCallBack_ = arg_14_1
+function slot0.SetSelectCallBack(slot0, slot1)
+	slot0.selectCallBack_ = slot1
 end
 
-function var_0_0.RefreshStatus(arg_15_0)
-	return
+function slot0.RefreshStatus(slot0)
 end
 
-function var_0_0.SetHighLight(arg_16_0, arg_16_1)
-	arg_16_0.highLightController_:SetSelectedState(arg_16_1 and "on" or "off")
+function slot0.SetHighLight(slot0, slot1)
+	slot0.highLightController_:SetSelectedState(slot1 and "on" or "off")
 end
 
-function var_0_0.SetSelect(arg_17_0, arg_17_1)
-	arg_17_0.selectController_:SetSelectedState(arg_17_1 and "on" or "off")
+function slot0.SetSelect(slot0, slot1)
+	slot0.selectController_:SetSelectedState(slot1 and "on" or "off")
 end
 
-function var_0_0.IsRightSide(arg_18_0)
-	return arg_18_0.correctID_ == arg_18_0.curID_
+function slot0.IsRightSide(slot0)
+	return slot0.correctID_ == slot0.curID_
 end
 
-function var_0_0.IsEmpty(arg_19_0)
-	return arg_19_0.curID_ == 0
+function slot0.IsEmpty(slot0)
+	return slot0.curID_ == 0
 end
 
-function var_0_0.GetCurID(arg_20_0)
-	return arg_20_0.curID_
+function slot0.GetCurID(slot0)
+	return slot0.curID_
 end
 
-function var_0_0.SetTransParent(arg_21_0, arg_21_1)
-	arg_21_0.originParent_ = arg_21_0.transform_.parent
+function slot0.SetTransParent(slot0, slot1)
+	slot0.originParent_ = slot0.transform_.parent
 
-	arg_21_0.transform_:SetParent(arg_21_1)
+	slot0.transform_:SetParent(slot1)
 end
 
-function var_0_0.RecoverTrans(arg_22_0)
-	if arg_22_0.originPos_ then
-		arg_22_0.transform_.position = arg_22_0.originPos_
-		arg_22_0.originPos_ = nil
+function slot0.RecoverTrans(slot0)
+	if slot0.originPos_ then
+		slot0.transform_.position = slot0.originPos_
+		slot0.originPos_ = nil
 	end
 
-	if arg_22_0.originParent_ then
-		arg_22_0.transform_:SetParent(arg_22_0.originParent_)
+	if slot0.originParent_ then
+		slot0.transform_:SetParent(slot0.originParent_)
 
-		arg_22_0.originParent_ = nil
+		slot0.originParent_ = nil
 	end
 end
 
-function var_0_0.RegistClickCallback(arg_23_0, arg_23_1)
-	arg_23_0.clickCallback_ = arg_23_1
+function slot0.RegistClickCallback(slot0, slot1)
+	slot0.clickCallback_ = slot1
 end
 
-function var_0_0.RegistBeginDragCallback(arg_24_0, arg_24_1)
-	arg_24_0.beginDragCallback_ = arg_24_1
+function slot0.RegistBeginDragCallback(slot0, slot1)
+	slot0.beginDragCallback_ = slot1
 end
 
-function var_0_0.RegistEndDragCallback(arg_25_0, arg_25_1)
-	arg_25_0.endDragCallback_ = arg_25_1
+function slot0.RegistEndDragCallback(slot0, slot1)
+	slot0.endDragCallback_ = slot1
 end
 
-function var_0_0.BeginDragFun(arg_26_0, arg_26_1, arg_26_2)
-	if arg_26_0.beginDragCallback_ and not arg_26_0.beginDragCallback_(arg_26_0.globalIndex_) then
+function slot0.BeginDragFun(slot0, slot1, slot2)
+	if slot0.beginDragCallback_ and not slot0.beginDragCallback_(slot0.globalIndex_) then
 		return
 	end
 
-	arg_26_0.draging_ = true
-	arg_26_0.originPos_ = arg_26_0.transform_.position
-	arg_26_0.canvasRate_ = manager.ui.canvasSize_.x / Screen.width
+	slot0.draging_ = true
+	slot0.originPos_ = slot0.transform_.position
+	slot0.canvasRate_ = manager.ui.canvasSize_.x / Screen.width
 end
 
-function var_0_0.DragFun(arg_27_0, arg_27_1, arg_27_2)
-	if not arg_27_0.draging_ then
+function slot0.DragFun(slot0, slot1, slot2)
+	if not slot0.draging_ then
 		return
 	end
 
-	local var_27_0 = arg_27_2.delta * arg_27_0.canvasRate_
+	slot3 = slot2.delta * slot0.canvasRate_
 
-	arg_27_0.transform_:SetLocalPositionDelta(var_27_0.x, var_27_0.y, 0)
+	slot0.transform_:SetLocalPositionDelta(slot3.x, slot3.y, 0)
 end
 
-function var_0_0.EndDragFun(arg_28_0, arg_28_1, arg_28_2)
-	arg_28_0.draging_ = false
+function slot0.EndDragFun(slot0, slot1, slot2)
+	slot0.draging_ = false
 
-	if arg_28_0.endDragCallback_ then
-		arg_28_0.endDragCallback_(arg_28_0.globalIndex_, arg_28_2)
+	if slot0.endDragCallback_ then
+		slot0.endDragCallback_(slot0.globalIndex_, slot2)
 	end
 end
 
-function var_0_0.UpdatePosition(arg_29_0, arg_29_1, arg_29_2)
-	arg_29_0.originPos_ = arg_29_0.transform_.position
+function slot0.UpdatePosition(slot0, slot1, slot2)
+	slot0.originPos_ = slot0.transform_.position
 
-	arg_29_0:StopLeanTween()
+	slot0:StopLeanTween()
 
-	arg_29_0.posLeanTween_ = LeanTween.move(arg_29_0.gameObject_, arg_29_1, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_29_2 then
-			arg_29_2()
+	slot0.posLeanTween_ = LeanTween.move(slot0.gameObject_, slot1, 0.5):setEase(LeanTweenType.easeOutCubic):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0 then
+			uv0()
 		end
 
-		arg_29_0:StopLeanTween()
+		uv1:StopLeanTween()
 	end))
 end
 
-function var_0_0.PlayEnterAnim(arg_31_0, arg_31_1)
-	SetActive(arg_31_0.gameObject_, true)
-	arg_31_0.enterAnimController_:SetSelectedState("true")
-	arg_31_0:PlayAnim(arg_31_0.anim_, "puzzleTemplate_enter", arg_31_1)
+function slot0.PlayEnterAnim(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
+	slot0.enterAnimController_:SetSelectedState("true")
+	slot0:PlayAnim(slot0.anim_, "puzzleTemplate_enter", slot1)
 end
 
-function var_0_0.StopAnimTimer(arg_32_0)
-	if arg_32_0.animtimer_ then
-		arg_32_0.animtimer_:Stop()
+function slot0.StopAnimTimer(slot0)
+	if slot0.animtimer_ then
+		slot0.animtimer_:Stop()
 
-		arg_32_0.animtimer_ = nil
+		slot0.animtimer_ = nil
 	end
 end
 
-function var_0_0.StopLeanTween(arg_33_0)
-	if arg_33_0.posLeanTween_ then
-		arg_33_0.posLeanTween_:setOnComplete(nil):setEase(nil)
-		LeanTween.cancel(arg_33_0.posLeanTween_.id)
+function slot0.StopLeanTween(slot0)
+	if slot0.posLeanTween_ then
+		slot0.posLeanTween_:setOnComplete(nil):setEase(nil)
+		LeanTween.cancel(slot0.posLeanTween_.id)
 
-		arg_33_0.posLeanTween_ = nil
+		slot0.posLeanTween_ = nil
 	end
 end
 
-function var_0_0.PlayAnim(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	if not arg_34_1 then
-		if arg_34_3 then
-			arg_34_3()
+function slot0.PlayAnim(slot0, slot1, slot2, slot3)
+	if not slot1 then
+		if slot3 then
+			slot3()
 		end
 
 		return
 	end
 
-	arg_34_0:StopAnimTimer()
+	slot0:StopAnimTimer()
 
-	arg_34_1.enabled = true
+	slot1.enabled = true
 
-	arg_34_1:Play(arg_34_2, -1, 0)
-	arg_34_1:Update(0)
+	slot1:Play(slot2, -1, 0)
+	slot1:Update(0)
 
-	arg_34_0.animtimer_ = Timer.New(function()
-		local var_35_0 = arg_34_1:GetCurrentAnimatorStateInfo(0)
+	slot0.animtimer_ = Timer.New(function ()
+		if uv0:GetCurrentAnimatorStateInfo(0):IsName(uv1) and slot0.normalizedTime >= 1 then
+			uv2:StopAnimTimer()
 
-		if var_35_0:IsName(arg_34_2) and var_35_0.normalizedTime >= 1 then
-			arg_34_0:StopAnimTimer()
+			uv0.enabled = false
 
-			arg_34_1.enabled = false
-
-			if arg_34_3 then
-				arg_34_3()
+			if uv3 then
+				uv3()
 			end
 		end
 	end, 0.033, -1)
 
-	arg_34_0.animtimer_:Start()
+	slot0.animtimer_:Start()
 end
 
-return var_0_0
+return slot0

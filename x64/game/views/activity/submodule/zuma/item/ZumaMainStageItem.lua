@@ -1,5 +1,5 @@
-local var_0_0 = class("ZumaMainStageItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ZumaMainStageItem", ReduxView)
+slot1 = {
 	progressState = {
 		star1 = "state2",
 		name = "Progress",
@@ -30,150 +30,138 @@ local var_0_1 = {
 		lockColor = Color(0.7137254901960784, 0.7764705882352941, 0.8, 0.4)
 	}
 }
-local var_0_2 = {
+slot2 = {
 	UnComplete = 3,
 	UnLock = 1,
 	Complete = 2
 }
 
-function var_0_0.SetRedState(arg_1_0, arg_1_1)
-	if arg_1_1 then
-		manager.redPoint:bindUIandKey(arg_1_0.stageitemBtn_.transform, string.format("%s_%s", RedPointConst.ZUMA_OPEN, arg_1_0.levelCfg.activity_id))
+function slot0.SetRedState(slot0, slot1)
+	if slot1 then
+		manager.redPoint:bindUIandKey(slot0.stageitemBtn_.transform, string.format("%s_%s", RedPointConst.ZUMA_OPEN, slot0.levelCfg.activity_id))
 	else
-		manager.redPoint:unbindUIandKey(arg_1_0.stageitemBtn_.transform, string.format("%s_%s", RedPointConst.ZUMA_OPEN, arg_1_0.levelCfg.activity_id))
+		manager.redPoint:unbindUIandKey(slot0.stageitemBtn_.transform, string.format("%s_%s", RedPointConst.ZUMA_OPEN, slot0.levelCfg.activity_id))
 	end
 end
 
-function var_0_0.OnCtor(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	arg_2_0.index = arg_2_4
-	arg_2_0.gameObject_ = arg_2_1
-	arg_2_0.levelCfg = arg_2_3
-	arg_2_0.levelID = arg_2_3.id
-	arg_2_0.difficultType = arg_2_3.difficult
+function slot0.OnCtor(slot0, slot1, slot2, slot3, slot4)
+	slot0.index = slot4
+	slot0.gameObject_ = slot1
+	slot0.levelCfg = slot3
+	slot0.levelID = slot3.id
+	slot0.difficultType = slot3.difficult
 
-	arg_2_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.progressController = arg_3_0.controllerexcollection_:GetController(var_0_1.progressState.name)
-	arg_3_0.selectController = arg_3_0.controllerexcollection_:GetController(var_0_1.selectState.name)
-	arg_3_0.stateController = arg_3_0.controllerexcollection_:GetController(var_0_1.stateState.name)
-	arg_3_0.rankController = arg_3_0.controllerexcollection_:GetController(var_0_1.rankState.name)
+	slot0.progressController = slot0.controllerexcollection_:GetController(uv0.progressState.name)
+	slot0.selectController = slot0.controllerexcollection_:GetController(uv0.selectState.name)
+	slot0.stateController = slot0.controllerexcollection_:GetController(uv0.stateState.name)
+	slot0.rankController = slot0.controllerexcollection_:GetController(uv0.rankState.name)
 
-	arg_3_0:AddBtnListener(arg_3_0.stageitemBtn_, nil, function()
-		manager.notify:CallUpdateFunc(ZUMA_SELECT_CHAPTER, arg_3_0.index)
+	slot0:AddBtnListener(slot0.stageitemBtn_, nil, function ()
+		manager.notify:CallUpdateFunc(ZUMA_SELECT_CHAPTER, uv0.index)
 	end)
 
-	arg_3_0.nameText_.text = arg_3_0.levelCfg.name
+	slot0.nameText_.text = slot0.levelCfg.name
 end
 
-function var_0_0.RefreshUi(arg_5_0)
-	local var_5_0 = arg_5_0.levelCfg
-	local var_5_1 = ZumaData:GetZumaStageScore(arg_5_0.levelID)
+function slot0.RefreshUi(slot0)
+	slot1 = slot0.levelCfg
+	slot0.rankNumTxt_.text = ZumaData:GetZumaStageScore(slot0.levelID) or 0
 
-	arg_5_0.rankNumTxt_.text = var_5_1 or 0
-
-	arg_5_0:UpdateStageState()
+	slot0:UpdateStageState()
 end
 
-function var_0_0.GetLevelCfg(arg_6_0)
-	return arg_6_0.levelCfg
+function slot0.GetLevelCfg(slot0)
+	return slot0.levelCfg
 end
 
-function var_0_0.UpdateSelectState(arg_7_0, arg_7_1)
-	arg_7_0.selectController:SetSelectedState(arg_7_1 and var_0_1.selectState.onSelect or var_0_1.selectState.unSelect)
+function slot0.UpdateSelectState(slot0, slot1)
+	slot0.selectController:SetSelectedState(slot1 and uv0.selectState.onSelect or uv0.selectState.unSelect)
 end
 
-function var_0_0.UpdateStageState(arg_8_0)
-	local var_8_0 = ActivityZumaLevelCfg[arg_8_0.levelID]
-	local var_8_1 = ActivityData:GetActivityData(var_8_0.activity_id)
-	local var_8_2 = ZumaData:GetZumaStageScore(arg_8_0.levelID)
-
-	if var_8_1 and var_8_1:IsActivitying() then
-		if var_8_2 then
-			arg_8_0:CheckStageState(var_0_2.Complete)
-		elseif ZumaData:GetZumaBeforeIsFinish(arg_8_0.levelID) then
-			arg_8_0:CheckStageState(var_0_2.UnComplete)
+function slot0.UpdateStageState(slot0)
+	if ActivityData:GetActivityData(ActivityZumaLevelCfg[slot0.levelID].activity_id) and slot2:IsActivitying() then
+		if ZumaData:GetZumaStageScore(slot0.levelID) then
+			slot0:CheckStageState(uv0.Complete)
+		elseif ZumaData:GetZumaBeforeIsFinish(slot0.levelID) then
+			slot0:CheckStageState(uv0.UnComplete)
 		else
-			arg_8_0:CheckStageState(var_0_2.UnLock)
+			slot0:CheckStageState(uv0.UnLock)
 		end
 	else
-		arg_8_0:CheckStageState(var_0_2.UnLock)
+		slot0:CheckStageState(uv0.UnLock)
 	end
 end
 
-function var_0_0.CheckStageState(arg_9_0, arg_9_1)
-	arg_9_0.stageState = arg_9_1
+function slot0.CheckStageState(slot0, slot1)
+	slot0.stageState = slot1
 
-	arg_9_0:ChangeLockState()
-	arg_9_0:ChangeProgressState()
-	arg_9_0:ChangeRankState()
+	slot0:ChangeLockState()
+	slot0:ChangeProgressState()
+	slot0:ChangeRankState()
 end
 
-function var_0_0.ChangeLockState(arg_10_0)
-	if arg_10_0.stageState == var_0_2.UnLock then
-		arg_10_0.stateController:SetSelectedState(var_0_1.stateState.lock)
-	elseif arg_10_0.stageState == var_0_2.Complete then
-		arg_10_0.stateController:SetSelectedState(var_0_1.stateState.normal)
-	elseif arg_10_0.stageState == var_0_2.UnComplete then
-		arg_10_0.stateController:SetSelectedState(var_0_1.stateState.unComplete)
+function slot0.ChangeLockState(slot0)
+	if slot0.stageState == uv0.UnLock then
+		slot0.stateController:SetSelectedState(uv1.stateState.lock)
+	elseif slot0.stageState == uv0.Complete then
+		slot0.stateController:SetSelectedState(uv1.stateState.normal)
+	elseif slot0.stageState == uv0.UnComplete then
+		slot0.stateController:SetSelectedState(uv1.stateState.unComplete)
 	end
 end
 
-function var_0_0.ChangeProgressState(arg_11_0)
-	if arg_11_0.stageState == var_0_2.UnLock or arg_11_0.difficultType == ZumaConst.ZUMA_DIFFICULT.NIGHT then
-		arg_11_0.progressController:SetSelectedState(var_0_1.progressState.noShow)
-	elseif arg_11_0.stageState == var_0_2.Complete then
-		local var_11_0 = arg_11_0:GetFinishConditionNums()
-
-		if var_11_0 == 1 then
-			arg_11_0.progressController:SetSelectedState(var_0_1.progressState.star1)
-		elseif var_11_0 == 2 then
-			arg_11_0.progressController:SetSelectedState(var_0_1.progressState.star2)
-		elseif var_11_0 == 3 then
-			arg_11_0.progressController:SetSelectedState(var_0_1.progressState.star3)
-		elseif var_11_0 == 0 then
-			arg_11_0.progressController:SetSelectedState(var_0_1.progressState.star0)
+function slot0.ChangeProgressState(slot0)
+	if slot0.stageState == uv0.UnLock or slot0.difficultType == ZumaConst.ZUMA_DIFFICULT.NIGHT then
+		slot0.progressController:SetSelectedState(uv1.progressState.noShow)
+	elseif slot0.stageState == uv0.Complete then
+		if slot0:GetFinishConditionNums() == 1 then
+			slot0.progressController:SetSelectedState(uv1.progressState.star1)
+		elseif slot1 == 2 then
+			slot0.progressController:SetSelectedState(uv1.progressState.star2)
+		elseif slot1 == 3 then
+			slot0.progressController:SetSelectedState(uv1.progressState.star3)
+		elseif slot1 == 0 then
+			slot0.progressController:SetSelectedState(uv1.progressState.star0)
 		end
-	elseif arg_11_0.stageState == var_0_2.UnComplete then
-		arg_11_0.progressController:SetSelectedState(var_0_1.progressState.star0)
+	elseif slot0.stageState == uv0.UnComplete then
+		slot0.progressController:SetSelectedState(uv1.progressState.star0)
 	end
 end
 
-function var_0_0.ChangeRankState(arg_12_0)
-	if arg_12_0.difficultType ~= ZumaConst.ZUMA_DIFFICULT.NIGHT then
-		arg_12_0.rankController:SetSelectedState(var_0_1.rankState.noShow)
+function slot0.ChangeRankState(slot0)
+	if slot0.difficultType ~= ZumaConst.ZUMA_DIFFICULT.NIGHT then
+		slot0.rankController:SetSelectedState(uv0.rankState.noShow)
 
 		return
 	end
 
-	if arg_12_0.stageState == var_0_2.UnLock then
-		arg_12_0.rankController:SetSelectedState(var_0_1.rankState.noShow)
-	elseif arg_12_0.stageState == var_0_2.Complete then
-		arg_12_0.rankController:SetSelectedState(var_0_1.rankState.state2)
-	elseif arg_12_0.stageState == var_0_2.UnComplete then
-		arg_12_0.rankController:SetSelectedState(var_0_1.rankState.state1)
+	if slot0.stageState == uv1.UnLock then
+		slot0.rankController:SetSelectedState(uv0.rankState.noShow)
+	elseif slot0.stageState == uv1.Complete then
+		slot0.rankController:SetSelectedState(uv0.rankState.state2)
+	elseif slot0.stageState == uv1.UnComplete then
+		slot0.rankController:SetSelectedState(uv0.rankState.state1)
 	end
 end
 
-function var_0_0.GetFinishConditionNums(arg_13_0)
-	local var_13_0 = ZumaData:GetZumaStageScore(arg_13_0.levelID)
-	local var_13_1 = arg_13_0.levelCfg.activity_point_reward
-	local var_13_2 = 0
-
-	for iter_13_0, iter_13_1 in pairs(var_13_1 or {}) do
-		if var_13_0 >= ActivityPointRewardCfg[iter_13_1].need then
-			var_13_2 = var_13_2 + 1
+function slot0.GetFinishConditionNums(slot0)
+	for slot7, slot8 in pairs(slot0.levelCfg.activity_point_reward or {}) do
+		if ActivityPointRewardCfg[slot8].need <= ZumaData:GetZumaStageScore(slot0.levelID) then
+			slot3 = 0 + 1
 		end
 	end
 
-	return var_13_2
+	return slot3
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

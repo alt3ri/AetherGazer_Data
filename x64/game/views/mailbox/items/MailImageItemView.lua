@@ -1,120 +1,112 @@
-local var_0_0 = class("MailImageItemView", ReduxView)
+slot0 = class("MailImageItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.onResize_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.onResize_ = slot2
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.Dispose(arg_2_0)
-	arg_2_0:RemoveListeners()
-	Object.Destroy(arg_2_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	Object.Destroy(slot0.gameObject_)
 
-	arg_2_0.gameObject_ = nil
-	arg_2_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 
-	var_0_0.super.Dispose(arg_2_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0.bg_ = arg_3_0:FindCom(typeof(Image), "")
-	arg_3_0.richText_ = arg_3_0:FindCom("RichText", "RichText")
-	arg_3_0.btn_ = arg_3_0:FindCom(typeof(Button), "")
+function slot0.InitUI(slot0)
+	slot0.bg_ = slot0:FindCom(typeof(Image), "")
+	slot0.richText_ = slot0:FindCom("RichText", "RichText")
+	slot0.btn_ = slot0:FindCom(typeof(Button), "")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		if arg_4_0.data_.event_type > 0 then
-			local var_5_0 = arg_4_0.data_.event_type
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.data_.event_type > 0 then
+			if uv0.data_.event_type == 1 and uv0.data_.event_arg ~= "" then
+				Application.OpenURL(uv0.data_.event_arg)
+			elseif slot0 == 2 and uv0.data_.event_arg ~= "" then
+				slot2 = {}
 
-			if var_5_0 == 1 and arg_4_0.data_.event_arg ~= "" then
-				Application.OpenURL(arg_4_0.data_.event_arg)
-			elseif var_5_0 == 2 and arg_4_0.data_.event_arg ~= "" then
-				local var_5_1 = string.split(arg_4_0.data_.event_arg, ",")
-				local var_5_2 = {}
-
-				for iter_5_0, iter_5_1 in ipairs(var_5_1) do
-					table.insert(var_5_2, tonumber(iter_5_1) or iter_5_1)
+				for slot6, slot7 in ipairs(string.split(uv0.data_.event_arg, ",")) do
+					table.insert(slot2, tonumber(slot7) or slot7)
 				end
 
-				JumpTools.JumpToPage2(var_5_2)
+				JumpTools.JumpToPage2(slot2)
 			end
 		end
 	end)
-	arg_4_0.richText_:AddListener(function(arg_6_0, arg_6_1)
-		if arg_6_0 == 1 then
-			Application.OpenURL(arg_6_1)
-		elseif arg_6_0 == 2 then
-			local var_6_0 = string.split(arg_6_1, ",")
-			local var_6_1 = {}
+	slot0.richText_:AddListener(function (slot0, slot1)
+		if slot0 == 1 then
+			Application.OpenURL(slot1)
+		elseif slot0 == 2 then
+			slot3 = {}
 
-			for iter_6_0, iter_6_1 in ipairs(var_6_0) do
-				table.insert(var_6_1, tonumber(iter_6_1) or iter_6_1)
+			for slot7, slot8 in ipairs(string.split(slot1, ",")) do
+				table.insert(slot3, tonumber(slot8) or slot8)
 			end
 
-			JumpTools.JumpToPage2(var_6_1)
+			JumpTools.JumpToPage2(slot3)
 		end
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_7_0)
-	arg_7_0.btn_.onClick:RemoveAllListeners()
-	arg_7_0.richText_:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.btn_.onClick:RemoveAllListeners()
+	slot0.richText_:RemoveAllListeners()
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1)
-	arg_8_0.data_ = arg_8_1
+function slot0.SetData(slot0, slot1)
+	slot0.data_ = slot1
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = arg_9_0.data_.text
-
-	if var_9_0 then
-		arg_9_0.richText_.text = var_9_0
+function slot0.RefreshUI(slot0)
+	if slot0.data_.text then
+		slot0.richText_.text = slot1
 	end
 
-	arg_9_0:GetImageByUrl(arg_9_0.data_.image, function(arg_10_0, arg_10_1)
-		if arg_10_0 ~= arg_9_0.data_.image then
+	slot0:GetImageByUrl(slot0.data_.image, function (slot0, slot1)
+		if slot0 ~= uv0.data_.image then
 			return
 		end
 
-		if arg_9_0.gameObject_ == nil then
+		if uv0.gameObject_ == nil then
 			return
 		end
 
-		arg_9_0.bg_.sprite = arg_10_1
+		uv0.bg_.sprite = slot1
 
-		arg_9_0.bg_:SetNativeSize()
+		uv0.bg_:SetNativeSize()
 
-		if arg_9_0.onResize_ ~= nil then
-			arg_9_0.onResize_()
+		if uv0.onResize_ ~= nil then
+			uv0.onResize_()
 		end
 
-		arg_9_0:AddListeners()
+		uv0:AddListeners()
 	end)
-	SetActive(arg_9_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.GetImageByUrl(arg_11_0, arg_11_1, arg_11_2)
-	if string.find(arg_11_1, "game://") then
-		local var_11_0 = string.gsub(arg_11_1, "game://", "")
-
-		getSpriteWithoutAtlasAsync(var_11_0, function(arg_12_0)
-			arg_11_2(arg_11_1, arg_12_0)
+function slot0.GetImageByUrl(slot0, slot1, slot2)
+	if string.find(slot1, "game://") then
+		getSpriteWithoutAtlasAsync(string.gsub(slot1, "game://", ""), function (slot0)
+			uv0(uv1, slot0)
 		end)
 	else
-		BulletinBoardMgr.inst:GetSprite("mail", arg_11_0.data_.image, function(arg_13_0)
-			arg_11_2(arg_11_1, arg_13_0)
+		BulletinBoardMgr.inst:GetSprite("mail", slot0.data_.image, function (slot0)
+			uv0(uv1, slot0)
 		end)
 	end
 end
 
-function var_0_0.GetHeight(arg_14_0)
-	return arg_14_0.bg_.transform.rect.height
+function slot0.GetHeight(slot0)
+	return slot0.bg_.transform.rect.height
 end
 
-return var_0_0
+return slot0

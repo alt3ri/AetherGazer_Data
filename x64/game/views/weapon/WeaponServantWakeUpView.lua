@@ -1,99 +1,96 @@
-local var_0_0 = class("WeaponServantWakeUpView", ReduxView)
+slot0 = class("WeaponServantWakeUpView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_servant/HeroServantCallNameUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.checkBtn_, nil, function()
-		ServantAction.ServantMerge(arg_5_0.servantID_, {
-			arg_5_0.uid_
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.checkBtn_, nil, function ()
+		ServantAction.ServantMerge(uv0.servantID_, {
+			uv0.uid_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.cancelBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.cancelBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnServantMergeResult(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0:Go("/weaponServantMergeResultView", {
-		servantID = arg_8_0.servantID_,
-		uid = tonumber(arg_8_1.servant_uid),
-		backThrice = arg_8_0.backThrice_,
-		HeroId = arg_8_0.params_.HeroId,
-		race = arg_8_0.params_.race
+function slot0.OnServantMergeResult(slot0, slot1, slot2)
+	slot0:Go("/weaponServantMergeResultView", {
+		servantID = slot0.servantID_,
+		uid = tonumber(slot1.servant_uid),
+		backThrice = slot0.backThrice_,
+		HeroId = slot0.params_.HeroId,
+		race = slot0.params_.race
 	})
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.servantID_ = arg_9_0.params_.servantID
-	arg_9_0.uid_ = arg_9_0.params_.uid
-	arg_9_0.backThrice_ = arg_9_0.params_.backThrice
+function slot0.OnEnter(slot0)
+	slot0.servantID_ = slot0.params_.servantID
+	slot0.uid_ = slot0.params_.uid
+	slot0.backThrice_ = slot0.params_.backThrice
 
-	manager.windowBar:RegistBackCallBack(function()
-		arg_9_0:Back()
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back()
 	end)
 
-	local var_9_0 = ServantTools.GetServantSpecHero(arg_9_0.servantID_)
+	slot1 = ServantTools.GetServantSpecHero(slot0.servantID_)
+	slot0.characterImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. slot1)
+	slot0.heronameText_.text = GetI18NText(HeroCfg[slot1].name)
+	slot0.servantnameText_.text = ItemTools.getItemName(slot0.servantID_)
 
-	arg_9_0.characterImg_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. var_9_0)
-	arg_9_0.heronameText_.text = GetI18NText(HeroCfg[var_9_0].name)
-	arg_9_0.servantnameText_.text = ItemTools.getItemName(arg_9_0.servantID_)
-
-	arg_9_0:UpdateImg()
-	arg_9_0:UpdateTips()
+	slot0:UpdateImg()
+	slot0:UpdateTips()
 end
 
-function var_0_0.UpdateImg(arg_11_0)
-	arg_11_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Portrait/" .. arg_11_0.servantID_)
+function slot0.UpdateImg(slot0)
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Portrait/" .. slot0.servantID_)
 end
 
-function var_0_0.UpdateTips(arg_12_0)
-	local var_12_0 = WeaponServantData:GetServantSByID(arg_12_0.servantID_)
-	local var_12_1 = WeaponServantCfg[arg_12_0.servantID_].starlevel
-	local var_12_2 = GameSetting.weapon_promote_max.value[var_12_1] + 1
-	local var_12_3 = 0
-	local var_12_4 = 0
+function slot0.UpdateTips(slot0)
+	slot3 = GameSetting.weapon_promote_max.value[WeaponServantCfg[slot0.servantID_].starlevel] + 1
+	slot4 = 0
+	slot5 = 0
 
-	if var_12_0 then
-		for iter_12_0, iter_12_1 in pairs(var_12_0) do
-			local var_12_5 = WeaponServantData:GetServantDataByUID(iter_12_0)
-
-			if var_12_3 < var_12_5.stage then
-				var_12_3 = var_12_5.stage
+	if WeaponServantData:GetServantSByID(slot0.servantID_) then
+		for slot9, slot10 in pairs(slot1) do
+			if slot4 < WeaponServantData:GetServantDataByUID(slot9).stage then
+				slot4 = slot11.stage
 			end
 
-			var_12_4 = var_12_4 + 1
+			slot5 = slot5 + 1
 		end
 	end
 
-	local var_12_6 = var_12_3 + var_12_4 - 1
+	slot4 = slot4 + slot5 - 1
 
-	if var_12_4 > 0 then
-		SetActive(arg_12_0.tipsGo_, true)
+	if slot5 > 0 then
+		SetActive(slot0.tipsGo_, true)
 
-		var_12_6 = var_12_2 < var_12_6 and var_12_2 or var_12_6
-		arg_12_0.tipsText_.text = string.format(GetTips("SERVANT_TRANSCEND_PROMPT"), tostring(var_12_6))
+		if slot3 < slot4 then
+			slot4 = slot3 or slot4
+		end
+
+		slot0.tipsText_.text = string.format(GetTips("SERVANT_TRANSCEND_PROMPT"), tostring(slot4))
 	else
-		SetActive(arg_12_0.tipsGo_, false)
+		SetActive(slot0.tipsGo_, false)
 	end
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-return var_0_0
+return slot0

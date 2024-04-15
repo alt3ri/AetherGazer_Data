@@ -1,83 +1,77 @@
-local var_0_0 = class("PushSnowBallDeviceItem", ReduxView)
+slot0 = class("PushSnowBallDeviceItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.lockController_ = ControllerUtil.GetController(arg_2_0.transform_, "lock")
-	arg_2_0.equipController_ = ControllerUtil.GetController(arg_2_0.equipBtn_.transform, "isEquipped")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.equipController_ = ControllerUtil.GetController(slot0.equipBtn_.transform, "isEquipped")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.index_ = arg_3_1
-	arg_3_0.id_ = arg_3_2
-	arg_3_0.cfg_ = PushSnowBallDeviceCfg[arg_3_2]
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.id_ = slot2
+	slot0.cfg_ = PushSnowBallDeviceCfg[slot2]
 
-	manager.redPoint:bindUIandKey(arg_3_0.bgTrs_, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. arg_3_0.index_)
-	arg_3_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.bgTrs_, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. slot0.index_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.equipBtn_, nil, function()
-		local var_6_0 = arg_5_0.index_ == PushSnowBallData:GetSelectedDeviceID()
-
-		PushSnowBallAction:SendEquipDevice(PushSnowBallData:GetSingleActivityID(), var_6_0 and 0 or arg_5_0.id_)
-		saveData("PushSnowBall", "Device" .. arg_5_0.id_ .. PushSnowBallData:GetActivityID() .. PlayerData:GetPlayerInfo().userID, true)
-		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. arg_5_0.id_, 0)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.equipBtn_, nil, function ()
+		PushSnowBallAction:SendEquipDevice(PushSnowBallData:GetSingleActivityID(), uv0.index_ == PushSnowBallData:GetSelectedDeviceID() and 0 or uv0.id_)
+		saveData("PushSnowBall", "Device" .. uv0.id_ .. PushSnowBallData:GetActivityID() .. PlayerData:GetPlayerInfo().userID, true)
+		manager.redPoint:setTip(RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. uv0.id_, 0)
 	end)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	manager.redPoint:unbindUIandKey(arg_7_0.bgTrs_, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. arg_7_0.index_)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.bgTrs_, RedPointConst.ACTIVITY_PUSH_SNOWBALL_DEVICE_UNLOCK .. slot0.index_)
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0:RefreshItem()
-	arg_8_0:RefreshState()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshItem()
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshItem(arg_9_0)
-	arg_9_0.titleText_.text = arg_9_0.cfg_.name
-	arg_9_0.descText_.text = arg_9_0.cfg_.desc
-	arg_9_0.lockText_.text = ConditionCfg[arg_9_0.cfg_.condition_id].desc
-	arg_9_0.powerSliderImg_.fillAmount = arg_9_0.cfg_.power_star / 5
-	arg_9_0.agilitySliderImg_.fillAmount = arg_9_0.cfg_.agile_star / 5
-	arg_9_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l/" .. arg_9_0.cfg_.icon)
+function slot0.RefreshItem(slot0)
+	slot0.titleText_.text = slot0.cfg_.name
+	slot0.descText_.text = slot0.cfg_.desc
+	slot0.lockText_.text = ConditionCfg[slot0.cfg_.condition_id].desc
+	slot0.powerSliderImg_.fillAmount = slot0.cfg_.power_star / 5
+	slot0.agilitySliderImg_.fillAmount = slot0.cfg_.agile_star / 5
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Item_l/" .. slot0.cfg_.icon)
 end
 
-function var_0_0.RefreshState(arg_10_0)
-	local var_10_0 = PushSnowBallData:GetIsDeviceUnlockByID(arg_10_0.cfg_.id)
-
-	if var_10_0 then
-		arg_10_0.lockController_:SetSelectedState("unlock")
+function slot0.RefreshState(slot0)
+	if PushSnowBallData:GetIsDeviceUnlockByID(slot0.cfg_.id) then
+		slot0.lockController_:SetSelectedState("unlock")
 	else
-		arg_10_0.lockController_:SetSelectedState("lock")
+		slot0.lockController_:SetSelectedState("lock")
 	end
 
-	local var_10_1 = arg_10_0.index_ == PushSnowBallData:GetSelectedDeviceID()
-
-	arg_10_0.equipController_:SetSelectedState(tostring(var_10_1 and var_10_0))
+	slot0.equipController_:SetSelectedState(tostring(slot0.index_ == PushSnowBallData:GetSelectedDeviceID() and slot1))
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.itemList_ then
-		arg_11_0.itemList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_11_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

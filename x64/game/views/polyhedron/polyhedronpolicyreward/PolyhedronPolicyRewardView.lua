@@ -1,145 +1,122 @@
-local var_0_0 = class("PolyhedronPolicyRewardView", ReduxView)
+slot0 = class("PolyhedronPolicyRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Polyhedron/PolyhedronDeviationUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.rewardList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.uiListGo_, PolyhedronPolicyRewardItem)
-	arg_4_0.stageRewardItem_ = PolyhedronPolicyRewardItem.New(arg_4_0.stageRewardGo_)
+	slot0.rewardList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, PolyhedronPolicyRewardItem)
+	slot0.stageRewardItem_ = PolyhedronPolicyRewardItem.New(slot0.stageRewardGo_)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.allReceiveBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
 		PolyhedronAction.QueryPolicyReward(1)
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_7_0.mainActivityID_ = PolyhedronData:GetActivityID()
-	arg_7_0.activityID_ = ActivityCfg[arg_7_0.mainActivityID_].policy_activity_id
+	slot0.mainActivityID_ = PolyhedronData:GetActivityID()
+	slot0.activityID_ = ActivityCfg[slot0.mainActivityID_].policy_activity_id
 
-	arg_7_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_8_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.rewardList_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.rewardList_:Dispose()
 
-	arg_9_0.rewardList_ = nil
+	slot0.rewardList_ = nil
 
-	arg_9_0.stageRewardItem_:Dispose()
+	slot0.stageRewardItem_:Dispose()
 
-	arg_9_0.stageRewardItem_ = nil
+	slot0.stageRewardItem_ = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.rewardCfg_ = PolyhedronPolicyCfg.get_id_list_by_activity_id[arg_10_0.activityID_]
-	arg_10_0.curLevel_, arg_10_0.curExp_ = PolyhedronTools.PolyhedronPolicyExpToLevel()
+function slot0.RefreshUI(slot0)
+	slot0.rewardCfg_ = PolyhedronPolicyCfg.get_id_list_by_activity_id[slot0.activityID_]
+	slot0.curLevel_, slot0.curExp_ = PolyhedronTools.PolyhedronPolicyExpToLevel()
 
-	arg_10_0:RefreshLevel()
-
-	local var_10_0 = arg_10_0:RefreshReceiveBtn()
-
-	var_10_0 = var_10_0 <= #arg_10_0.rewardCfg_ and var_10_0 or #arg_10_0.rewardCfg_
-
-	arg_10_0.rewardList_:StartScroll(#arg_10_0.rewardCfg_, var_10_0)
+	slot0:RefreshLevel()
+	slot0.rewardList_:StartScroll(#slot0.rewardCfg_, slot0:RefreshReceiveBtn() <= #slot0.rewardCfg_ and slot1 or #slot0.rewardCfg_)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_2:SetData(arg_11_0.rewardCfg_[arg_11_1], arg_11_0.curLevel_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.rewardCfg_[slot1], slot0.curLevel_)
 
-	local var_11_0 = arg_11_0.rewardList_:GetItemList()
-	local var_11_1 = 1
+	slot4 = 1
 
-	for iter_11_0, iter_11_1 in pairs(var_11_0) do
-		var_11_1 = var_11_1 < iter_11_1.level_ and iter_11_1.level_ or var_11_1
-	end
-
-	if var_11_1 > arg_11_0.curStageLevel_ or var_11_1 <= arg_11_0.curStageLevel_ - 10 then
-		arg_11_0:RefreshStageReward(var_11_1)
-	end
-end
-
-function var_0_0.RefreshLevel(arg_12_0)
-	arg_12_0.levelText_.text = arg_12_0.curLevel_
-
-	local var_12_0 = ActivityCfg[arg_12_0.mainActivityID_].policy_activity_id
-	local var_12_1 = PolyhedronPolicyCfg.get_id_list_by_activity_id[var_12_0]
-
-	arg_12_0.levelList_ = var_12_1
-
-	local var_12_2 = #var_12_1
-	local var_12_3 = arg_12_0.curLevel_ + 1
-
-	var_12_3 = var_12_3 <= var_12_2 and var_12_3 or var_12_2
-
-	local var_12_4 = 0
-
-	if arg_12_0.curLevel_ == 0 then
-		var_12_4 = PolyhedronPolicyCfg[var_12_1[1]].exp
-	elseif arg_12_0.curLevel_ == var_12_2 then
-		var_12_4 = PolyhedronPolicyCfg[var_12_1[arg_12_0.curLevel_]].exp - PolyhedronPolicyCfg[var_12_1[arg_12_0.curLevel_ - 1]].exp
-	else
-		var_12_4 = PolyhedronPolicyCfg[var_12_1[var_12_3]].exp - PolyhedronPolicyCfg[var_12_1[arg_12_0.curLevel_]].exp
-	end
-
-	arg_12_0.expText_.text = string.format("%d/%d", math.min(arg_12_0.curExp_, var_12_4), var_12_4)
-	arg_12_0.progressSlider_.value = arg_12_0.curExp_ / var_12_4
-
-	arg_12_0:RefreshStageReward(var_12_3)
-end
-
-function var_0_0.RefreshStageReward(arg_13_0, arg_13_1)
-	local var_13_0 = math.ceil(arg_13_1 / 10) * 10
-	local var_13_1 = #arg_13_0.levelList_
-
-	var_13_0 = var_13_1 < var_13_0 and var_13_1 or var_13_0
-
-	arg_13_0.stageRewardItem_:SetData(arg_13_0.rewardCfg_[var_13_0], arg_13_0.curLevel_)
-
-	arg_13_0.curStageLevel_ = var_13_0
-end
-
-function var_0_0.RefreshReceiveBtn(arg_14_0)
-	local var_14_0 = PolyhedronData:GetPolicyApplyList()
-
-	for iter_14_0 = 1, arg_14_0.curLevel_ do
-		if var_14_0[iter_14_0] == nil then
-			SetActive(arg_14_0.allReceiveBtn_.gameObject, true)
-
-			return iter_14_0
+	for slot8, slot9 in pairs(slot0.rewardList_:GetItemList()) do
+		if slot4 < slot9.level_ then
+			slot4 = slot9.level_ or slot4
 		end
 	end
 
-	SetActive(arg_14_0.allReceiveBtn_.gameObject, false)
-
-	return arg_14_0.curLevel_ + 1
+	if slot0.curStageLevel_ < slot4 or slot4 <= slot0.curStageLevel_ - 10 then
+		slot0:RefreshStageReward(slot4)
+	end
 end
 
-function var_0_0.OnReceivedPolicyReward(arg_15_0)
-	arg_15_0:RefreshUI()
+function slot0.RefreshLevel(slot0)
+	slot0.levelText_.text = slot0.curLevel_
+	slot2 = PolyhedronPolicyCfg.get_id_list_by_activity_id[ActivityCfg[slot0.mainActivityID_].policy_activity_id]
+	slot0.levelList_ = slot2
+	slot4 = #slot2 >= slot0.curLevel_ + 1 and slot4 or slot3
+	slot5 = 0
+	slot5 = (slot0.curLevel_ ~= 0 or PolyhedronPolicyCfg[slot2[1]].exp) and (slot0.curLevel_ == slot3 and PolyhedronPolicyCfg[slot2[slot0.curLevel_]].exp - PolyhedronPolicyCfg[slot2[slot0.curLevel_ - 1]].exp or PolyhedronPolicyCfg[slot2[slot4]].exp - PolyhedronPolicyCfg[slot2[slot0.curLevel_]].exp)
+	slot0.expText_.text = string.format("%d/%d", math.min(slot0.curExp_, slot5), slot5)
+	slot0.progressSlider_.value = slot0.curExp_ / slot5
+
+	slot0:RefreshStageReward(slot4)
 end
 
-return var_0_0
+function slot0.RefreshStageReward(slot0, slot1)
+	if math.ceil(slot1 / 10) * 10 > #slot0.levelList_ then
+		slot2 = slot3 or slot2
+	end
+
+	slot0.stageRewardItem_:SetData(slot0.rewardCfg_[slot2], slot0.curLevel_)
+
+	slot0.curStageLevel_ = slot2
+end
+
+function slot0.RefreshReceiveBtn(slot0)
+	for slot5 = 1, slot0.curLevel_ do
+		if PolyhedronData:GetPolicyApplyList()[slot5] == nil then
+			SetActive(slot0.allReceiveBtn_.gameObject, true)
+
+			return slot5
+		end
+	end
+
+	SetActive(slot0.allReceiveBtn_.gameObject, false)
+
+	return slot0.curLevel_ + 1
+end
+
+function slot0.OnReceivedPolicyReward(slot0)
+	slot0:RefreshUI()
+end
+
+return slot0

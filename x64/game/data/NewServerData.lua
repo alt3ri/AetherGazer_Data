@@ -1,141 +1,131 @@
-local var_0_0 = singletonClass("NewServerData")
-local var_0_1 = 0
-local var_0_2 = 0
-local var_0_3 = 4
-local var_0_4 = {}
-local var_0_5 = {}
-local var_0_6 = {}
-local var_0_7 = 0
-local var_0_8 = 0
+slot0 = singletonClass("NewServerData")
+slot1 = 0
+slot2 = 0
+slot3 = 4
+slot4 = {}
+slot5 = {}
+slot6 = {}
+slot7 = 0
+slot8 = 0
 
-function var_0_0.Init(arg_1_0)
-	var_0_2 = 0
-	var_0_3 = 0
-	var_0_4 = {}
-	var_0_5 = {}
-	var_0_6 = {}
-	var_0_7 = 0
+function slot0.Init(slot0)
+	uv0 = 0
+	uv1 = 0
+	uv2 = {}
+	uv3 = {}
+	uv4 = {}
+	uv5 = 0
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	var_0_1 = arg_2_1.activity_id
-	var_0_2 = arg_2_1.receive_sign_index
-	var_0_3 = arg_2_1.last_update_receive_time
+function slot0.InitData(slot0, slot1)
+	uv0 = slot1.activity_id
+	uv1 = slot1.receive_sign_index
+	uv2 = slot1.last_update_receive_time
+	uv3 = {}
 
-	local var_2_0 = arg_2_1.received_sign_list
-
-	var_0_4 = {}
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		table.insert(var_0_4, iter_2_1)
+	for slot6, slot7 in ipairs(slot1.received_sign_list) do
+		table.insert(uv3, slot7)
 	end
 
-	local var_2_1 = arg_2_1.bp
+	if slot1.bp ~= nil then
+		uv4 = slot3.is_recharge
 
-	if var_2_1 ~= nil then
-		var_0_7 = var_2_1.is_recharge
-
-		for iter_2_2, iter_2_3 in ipairs(var_2_1.bp_assignment) do
-			var_0_6[iter_2_3.id] = {
-				id = iter_2_3.id,
-				is_receive_reward = iter_2_3.is_receive_reward,
-				is_receive_recharge_reward = iter_2_3.is_receive_recharge_reward
+		for slot7, slot8 in ipairs(slot3.bp_assignment) do
+			uv5[slot8.id] = {
+				id = slot8.id,
+				is_receive_reward = slot8.is_receive_reward,
+				is_receive_recharge_reward = slot8.is_receive_recharge_reward
 			}
 		end
 	end
 
-	local var_2_2 = arg_2_1.gashapon_reward_list
-
-	if var_2_2 ~= nil then
-		for iter_2_4, iter_2_5 in ipairs(var_2_2) do
-			var_0_5[iter_2_5.id] = {
-				id = iter_2_5.id,
-				remain_num = iter_2_5.residual_num
+	if slot1.gashapon_reward_list ~= nil then
+		for slot8, slot9 in ipairs(slot4) do
+			uv6[slot9.id] = {
+				id = slot9.id,
+				remain_num = slot9.residual_num
 			}
 		end
 	end
 
-	var_0_8 = arg_2_1.acc_num or 0
+	uv7 = slot1.acc_num or 0
 end
 
-function var_0_0.GetActivityID(arg_3_0)
-	return var_0_1
+function slot0.GetActivityID(slot0)
+	return uv0
 end
 
-function var_0_0.IsSignReward(arg_4_0, arg_4_1)
-	return not not table.indexof(var_0_4, arg_4_1)
+function slot0.IsSignReward(slot0, slot1)
+	return not not table.indexof(uv0, slot1)
 end
 
-function var_0_0.UpdateSign(arg_5_0, arg_5_1)
-	table.insert(var_0_4, arg_5_1)
+function slot0.UpdateSign(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetSignIndex(arg_6_0)
-	local var_6_0 = manager.time:GetTodayFreshTime()
-	local var_6_1 = NewServerCfg[var_0_1] and NewServerCfg[var_0_1].sign_reward or {}
+function slot0.GetSignIndex(slot0)
+	slot1 = manager.time:GetTodayFreshTime()
 
-	if var_0_2 >= #var_6_1 then
-		return #var_6_1
+	if uv1 >= #(NewServerCfg[uv0] and NewServerCfg[uv0].sign_reward or {}) then
+		return #slot2
 	end
 
-	if var_6_0 > var_0_3 then
-		return var_0_2 + 1
+	if uv2 < slot1 then
+		return uv1 + 1
 	end
 
-	return var_0_2
+	return uv1
 end
 
-function var_0_0.GetBPTaskStatus(arg_7_0)
-	return var_0_6
+function slot0.GetBPTaskStatus(slot0)
+	return uv0
 end
 
-function var_0_0.GetBPTaskIsRecharge(arg_8_0)
-	return var_0_7
+function slot0.GetBPTaskIsRecharge(slot0)
+	return uv0
 end
 
-function var_0_0.SetBPTaskIsRecharge(arg_9_0)
-	var_0_7 = 1
+function slot0.SetBPTaskIsRecharge(slot0)
+	uv0 = 1
 end
 
-function var_0_0.SetBPTaskStatus(arg_10_0, arg_10_1)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_1) do
-		if var_0_6[iter_10_1.id] == nil then
-			var_0_6[iter_10_1.id] = {
+function slot0.SetBPTaskStatus(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if uv0[slot6.id] == nil then
+			uv0[slot6.id] = {
 				is_receive_recharge_reward = 0,
 				is_receive_reward = 0,
-				id = iter_10_1.id
+				id = slot6.id
 			}
 		end
 
-		if iter_10_1.receive_type == 1 then
-			var_0_6[iter_10_1.id].is_receive_reward = 1
+		if slot6.receive_type == 1 then
+			uv0[slot6.id].is_receive_reward = 1
 		else
-			var_0_6[iter_10_1.id].is_receive_recharge_reward = 1
+			uv0[slot6.id].is_receive_recharge_reward = 1
 		end
 	end
 end
 
-function var_0_0.GetCapsuleToysStatus(arg_11_0)
-	return var_0_5
+function slot0.GetCapsuleToysStatus(slot0)
+	return uv0
 end
 
-function var_0_0.SetCapsuleToysStatus(arg_12_0, arg_12_1)
-	for iter_12_0, iter_12_1 in ipairs(arg_12_1) do
-		local var_12_0 = iter_12_1[1]
-
-		if var_0_5[var_12_0] then
-			var_0_5[var_12_0].remain_num = var_0_5[var_12_0].remain_num - 1
-			var_0_5[var_12_0].remain_num = var_0_5[var_12_0].remain_num < 0 and 0 or var_0_5[var_12_0].remain_num
+function slot0.SetCapsuleToysStatus(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if uv0[slot6[1]] then
+			uv0[slot7].remain_num = uv0[slot7].remain_num - 1
+			uv0[slot7].remain_num = uv0[slot7].remain_num < 0 and 0 or uv0[slot7].remain_num
 		end
 	end
 end
 
-function var_0_0.GetAccumulateCurrency(arg_13_0)
-	return var_0_8
+function slot0.GetAccumulateCurrency(slot0)
+	return uv0
 end
 
-function var_0_0.SetAccumulateCurrency(arg_14_0, arg_14_1)
-	var_0_8 = arg_14_1
+function slot0.SetAccumulateCurrency(slot0, slot1)
+	uv0 = slot1
 end
 
-return var_0_0
+return slot0

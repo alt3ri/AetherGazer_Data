@@ -1,78 +1,73 @@
-local var_0_0 = class("GuildImpeachTipsView", ReduxView)
+slot0 = class("GuildImpeachTipsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Club/ClubImpeachTips"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0:AddImpeachTimer()
+function slot0.OnEnter(slot0)
+	slot0:AddImpeachTimer()
 	GuildData:SetImpeachFlag()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	arg_5_0:StopImpeahTimer()
+function slot0.OnExit(slot0)
+	slot0:StopImpeahTimer()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buttonClose_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonCancel_, nil, function()
-		arg_7_0:Back()
+	slot0:AddBtnListener(slot0.buttonCancel_, nil, function ()
+		uv0:Back()
 	end)
-	arg_7_0:AddBtnListener(arg_7_0.buttonOk_, nil, function()
-		GuildAction.GuildCancelImpeach(function(arg_11_0)
-			if isSuccess(arg_11_0.result) then
-				arg_7_0:Back()
+	slot0:AddBtnListener(slot0.buttonOk_, nil, function ()
+		GuildAction.GuildCancelImpeach(function (slot0)
+			if isSuccess(slot0.result) then
+				uv0:Back()
 			else
-				ShowTips(arg_11_0.result)
+				ShowTips(slot0.result)
 			end
 		end)
 	end)
 end
 
-function var_0_0.AddImpeachTimer(arg_12_0)
-	local var_12_0 = GuildData:GetGuildInfo()
-	local var_12_1 = GetTips("CLUB_IMPEACH_CD")
+function slot0.AddImpeachTimer(slot0)
+	slot0.textCountdown_.text = string.format("%s%s", GetTips("CLUB_IMPEACH_CD"), manager.time:DescCDTime(GuildData:GetGuildInfo().impeachTime - manager.time:GetServerTime(), "%H:%M:%S"))
+	slot0.impeachTimer_ = Timer.New(function ()
+		slot0 = uv0.impeachTime - manager.time:GetServerTime()
+		uv1.textCountdown_.text = string.format("%s%s", uv2, manager.time:DescCDTime(slot0, "%H:%M:%S"))
 
-	arg_12_0.textCountdown_.text = string.format("%s%s", var_12_1, manager.time:DescCDTime(var_12_0.impeachTime - manager.time:GetServerTime(), "%H:%M:%S"))
-	arg_12_0.impeachTimer_ = Timer.New(function()
-		local var_13_0 = var_12_0.impeachTime - manager.time:GetServerTime()
-
-		arg_12_0.textCountdown_.text = string.format("%s%s", var_12_1, manager.time:DescCDTime(var_13_0, "%H:%M:%S"))
-
-		if var_13_0 <= 0 then
-			arg_12_0:StopImpeahTimer()
+		if slot0 <= 0 then
+			uv1:StopImpeahTimer()
 			manager.redPoint:setTip(RedPointConst.GUILD_IMPEACH, 0)
-			GuildAction.RequiredGuildMemberList(function()
-				return
+			GuildAction.RequiredGuildMemberList(function ()
 			end)
-			arg_12_0:Back()
+			uv1:Back()
 		end
 	end, 1, -1)
 
-	arg_12_0.impeachTimer_:Start()
+	slot0.impeachTimer_:Start()
 end
 
-function var_0_0.StopImpeahTimer(arg_15_0)
-	if arg_15_0.impeachTimer_ then
-		arg_15_0.impeachTimer_:Stop()
+function slot0.StopImpeahTimer(slot0)
+	if slot0.impeachTimer_ then
+		slot0.impeachTimer_:Stop()
 
-		arg_15_0.impeachTimer_ = nil
+		slot0.impeachTimer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

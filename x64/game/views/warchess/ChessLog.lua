@@ -1,54 +1,55 @@
-local var_0_0 = class("WarChessLog", ReduxView)
+slot0 = class("WarChessLog", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/WarChess_Battle/WarChessLog"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.viewportGo_, ChessLogItem)
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.indexItem), slot0.viewportGo_, ChessLogItem)
 end
 
-function var_0_0.UpdateData(arg_5_0)
-	arg_5_0.itemList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.itemList_ = {}
+	slot3 = WarChessData
+	slot5 = slot3
 
-	for iter_5_0, iter_5_1 in ipairs(WarChessData:GetLogs()) do
-		arg_5_0.itemList_[iter_5_0] = iter_5_1.log
+	for slot4, slot5 in ipairs(slot3.GetLogs(slot5)) do
+		slot0.itemList_[slot4] = slot5.log
 	end
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:RefreshUI(arg_6_1, arg_6_0.itemList_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot1, slot0.itemList_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.maskBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0:UpdateData()
-	arg_9_0.scrollHelper:StartScroll(#arg_9_0.itemList_)
+function slot0.OnEnter(slot0)
+	slot0:UpdateData()
+	slot0.scrollHelper:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.scrollHelper:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.scrollHelper:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

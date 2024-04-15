@@ -1,212 +1,188 @@
-local var_0_0 = class("EnemyAvatarView", ReduxView)
+slot0 = class("EnemyAvatarView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.handler_ = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.handler_ = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	if var_0_0.outlinePropID == nil then
-		var_0_0.outlinePropID = UnityEngine.Shader.PropertyToID("_OutlineThickness")
+function slot0.Init(slot0)
+	if uv0.outlinePropID == nil then
+		uv0.outlinePropID = UnityEngine.Shader.PropertyToID("_OutlineThickness")
 	end
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0.playable_ = arg_3_0:FindCom(typeof(PlayableDirector), "")
-	arg_3_0.backGo_ = arg_3_0:FindGo("back")
+function slot0.InitUI(slot0)
+	slot0.playable_ = slot0:FindCom(typeof(PlayableDirector), "")
+	slot0.backGo_ = slot0:FindGo("back")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddDragListener(arg_4_0.backGo_, function()
-		if arg_4_0.bossModel_ then
-			arg_4_0.startRot_ = arg_4_0.rotaNote_.localEulerAngles
+function slot0.AddUIListener(slot0)
+	slot0:AddDragListener(slot0.backGo_, function ()
+		if uv0.bossModel_ then
+			uv0.startRot_ = uv0.rotaNote_.localEulerAngles
 		else
-			arg_4_0.startRot_ = Vector3.zero
+			uv0.startRot_ = Vector3.zero
 		end
 
-		arg_4_0.lastDeltaX_ = 0
-	end, function(arg_6_0, arg_6_1)
-		if arg_4_0.bossModel_ then
-			local var_6_0 = arg_4_0.lastRotateY_ or arg_4_0.rotaNote_.localEulerAngles.y
-
-			if var_6_0 > 180 then
-				var_6_0 = var_6_0 - 360
+		uv0.lastDeltaX_ = 0
+	end, function (slot0, slot1)
+		if uv0.bossModel_ then
+			if (uv0.lastRotateY_ or uv0.rotaNote_.localEulerAngles.y) > 180 then
+				slot2 = slot2 - 360
 			end
 
-			local var_6_1 = var_6_0 + (arg_6_0 - (arg_4_0.lastDeltaX_ or 0)) * HeroConst.ROTATE_RATIO - var_6_0
-			local var_6_2 = var_6_1
+			slot4 = slot2 + (slot0 - (uv0.lastDeltaX_ or 0)) * HeroConst.ROTATE_RATIO - slot2
+			slot5 = slot4
 
-			if var_6_1 < -HeroConst.MAX_RORATE_ANGLE then
-				var_6_2 = -HeroConst.MAX_RORATE_ANGLE
-			elseif var_6_1 > HeroConst.MAX_RORATE_ANGLE then
-				var_6_2 = HeroConst.MAX_RORATE_ANGLE
+			if slot4 < -HeroConst.MAX_RORATE_ANGLE then
+				slot5 = -HeroConst.MAX_RORATE_ANGLE
+			elseif HeroConst.MAX_RORATE_ANGLE < slot4 then
+				slot5 = HeroConst.MAX_RORATE_ANGLE
 			end
 
-			local var_6_3 = var_6_0 + var_6_2
-
-			if var_6_3 < arg_4_0.rot_limit_[1] then
-				var_6_3 = arg_4_0.rot_limit_[1]
-			elseif var_6_3 > arg_4_0.rot_limit_[2] then
-				var_6_3 = arg_4_0.rot_limit_[2]
+			if slot2 + slot5 < uv0.rot_limit_[1] then
+				slot3 = uv0.rot_limit_[1]
+			elseif uv0.rot_limit_[2] < slot3 then
+				slot3 = uv0.rot_limit_[2]
 			end
 
-			arg_4_0.lastRotateY_ = var_6_3
-			arg_4_0.lastDeltaX_ = arg_6_0
-			arg_4_0.rotaNote_.localRotation = Quaternion.RotateTowards(arg_4_0.rotaNote_.localRotation, Quaternion.Euler(arg_4_0.startRot_.x, var_6_3, arg_4_0.startRot_.z), HeroConst.MAX_RORATE_ANGLE)
+			uv0.lastRotateY_ = slot3
+			uv0.lastDeltaX_ = slot0
+			uv0.rotaNote_.localRotation = Quaternion.RotateTowards(uv0.rotaNote_.localRotation, Quaternion.Euler(uv0.startRot_.x, slot3, uv0.startRot_.z), HeroConst.MAX_RORATE_ANGLE)
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:InitBackScene()
+function slot0.OnEnter(slot0)
+	slot0:InitBackScene()
 end
 
-function var_0_0.OnExit(arg_8_0)
-	if arg_8_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_8_0.backGround_, ASSET_TYPE.SCENE)
+function slot0.OnExit(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 	end
 
-	arg_8_0:Finish()
+	slot0:Finish()
 
-	arg_8_0.lastRotateY_ = nil
+	slot0.lastRotateY_ = nil
 end
 
-function var_0_0.SetBossID(arg_9_0, arg_9_1)
-	if arg_9_0.bossID_ == arg_9_1 then
+function slot0.SetBossID(slot0, slot1)
+	if slot0.bossID_ == slot1 then
 		return
 	end
 
-	arg_9_0:Finish()
-	arg_9_0:LoadModel(arg_9_1)
+	slot0:Finish()
+	slot0:LoadModel(slot1)
 
-	arg_9_0.bossID_ = arg_9_1
+	slot0.bossID_ = slot1
 end
 
-function var_0_0.ShowBossModel(arg_10_0, arg_10_1)
-	if arg_10_0.bossModel_ then
-		SetActive(arg_10_0.bossModel_, arg_10_1)
+function slot0.ShowBossModel(slot0, slot1)
+	if slot0.bossModel_ then
+		SetActive(slot0.bossModel_, slot1)
 	end
 end
 
-function var_0_0.InitBackScene(arg_11_0)
-	local var_11_0 = "UI/Common/BackgroundQuad"
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_11_0.backGround_ = manager.resourcePool:Get(var_11_0, ASSET_TYPE.SCENE)
-	arg_11_0.backGroundTrs_ = arg_11_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_11_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_11_1
-	local var_11_2
-	local var_11_3 = GameDisplayCfg.collect_monster_background_pos.value
-	local var_11_4 = CameraCfg.enemyFile.pictureName
-
-	arg_11_0.backGroundTrs_.localPosition = Vector3(var_11_3[1], var_11_3[2], var_11_3[3])
-	arg_11_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_11_5 = GameDisplayCfg.collect_monster_background_pos.scale
-
-	arg_11_0.backGroundTrs_.localScale = Vector3(var_11_5[1], var_11_5[2], var_11_5[3])
-	arg_11_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. var_11_4)
+	slot2, slot3 = nil
+	slot2 = GameDisplayCfg.collect_monster_background_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], slot2[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot4 = GameDisplayCfg.collect_monster_background_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(slot4[1], slot4[2], slot4[3])
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. CameraCfg.enemyFile.pictureName)
 end
 
-function var_0_0.Finish(arg_12_0)
-	if arg_12_0.animator_ then
-		if arg_12_0.playable_ then
-			arg_12_0.playable_:Stop()
+function slot0.Finish(slot0)
+	if slot0.animator_ then
+		if slot0.playable_ then
+			slot0.playable_:Stop()
 		end
 
-		local var_12_0 = arg_12_0.animator_.gameObject:GetComponent("LipSync")
-
-		if var_12_0 then
-			var_12_0:ResetEmotion(0)
+		if slot0.animator_.gameObject:GetComponent("LipSync") then
+			slot1:ResetEmotion(0)
 		end
 	end
 
-	arg_12_0.bossID_ = nil
+	slot0.bossID_ = nil
 
-	if arg_12_0.bossModel_ then
-		manager.resourcePool:DestroyOrReturn(arg_12_0.bossModel_, ASSET_TYPE.TPOSE)
+	if slot0.bossModel_ then
+		manager.resourcePool:DestroyOrReturn(slot0.bossModel_, ASSET_TYPE.TPOSE)
 
-		arg_12_0.bossModel_ = nil
-		arg_12_0.animator_ = nil
-		arg_12_0.actionTimer_ = nil
-		arg_12_0.actioning_ = false
+		slot0.bossModel_ = nil
+		slot0.animator_ = nil
+		slot0.actionTimer_ = nil
+		slot0.actioning_ = false
 	end
 end
 
-function var_0_0.AdjustOutlineThickness(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = var_0_0.outlinePropID
-
-	if isNil(arg_13_1) or var_13_0 == nil then
+function slot0.AdjustOutlineThickness(slot0, slot1, slot2)
+	if isNil(slot1) or uv0.outlinePropID == nil then
 		return
 	end
 
-	local var_13_1 = UnityEngine.MaterialPropertyBlock.New()
-	local var_13_2 = arg_13_1:GetComponentsInChildren(typeof(UnityEngine.Renderer))
+	for slot9 = 0, slot1:GetComponentsInChildren(typeof(UnityEngine.Renderer)).Length - 1 do
+		slot10 = slot5[slot9]
+		slot14 = UnityEngine.MaterialPropertyBlock.New()
 
-	for iter_13_0 = 0, var_13_2.Length - 1 do
-		local var_13_3 = var_13_2[iter_13_0]
+		slot10:GetPropertyBlock(slot14)
 
-		var_13_3:GetPropertyBlock(var_13_1)
-
-		for iter_13_1 = 0, var_13_3.sharedMaterials.Length - 1 do
-			local var_13_4 = var_13_3.sharedMaterials[iter_13_1]
-
-			if var_13_4:HasProperty(var_13_0) then
-				local var_13_5 = var_13_4:GetFloat(var_13_0)
-
-				var_13_1:SetFloat(var_13_0, var_13_5 * arg_13_2)
-				var_13_3:SetPropertyBlock(var_13_1, iter_13_1)
+		for slot14 = 0, slot10.sharedMaterials.Length - 1 do
+			if slot10.sharedMaterials[slot14]:HasProperty(slot3) then
+				slot4:SetFloat(slot3, slot15:GetFloat(slot3) * slot2)
+				slot10:SetPropertyBlock(slot4, slot14)
 			end
 		end
 	end
 end
 
-function var_0_0.InitModel(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0.bossModel_ = arg_14_1
-	arg_14_0.rotaNote_ = arg_14_1.transform
-	arg_14_0.animator_ = arg_14_0:FindCom(typeof(Animator), "", arg_14_0.bossModel_.transform)
+function slot0.InitModel(slot0, slot1, slot2)
+	slot0.bossModel_ = slot1
+	slot0.rotaNote_ = slot1.transform
+	slot0.animator_ = slot0:FindCom(typeof(Animator), "", slot0.bossModel_.transform)
 
-	if arg_14_0.animator_ == nil then
-		-- block empty
+	if slot0.animator_ == nil then
+		-- Nothing
 	end
 
-	arg_14_0:FindCom(typeof(CharacterEffect), "", arg_14_0.bossModel_.transform):ForceUpdate()
+	slot0:FindCom(typeof(CharacterEffect), "", slot0.bossModel_.transform):ForceUpdate()
 end
 
-function var_0_0.LoadModel(arg_15_0, arg_15_1)
-	local var_15_0 = CollectMonsterCfg[arg_15_1]
-	local var_15_1 = manager.resourcePool:Get("Char/" .. MonsterCfg[arg_15_1].model_name, ASSET_TYPE.TPOSE)
-	local var_15_2
-	local var_15_3
-	local var_15_4
-	local var_15_5 = var_15_0.model_pos[1]
-	local var_15_6 = var_15_0.model_rot[1]
-	local var_15_7 = var_15_0.model_scale[1]
-
-	arg_15_0.rot_limit_ = var_15_0.model_rot_limit or {
+function slot0.LoadModel(slot0, slot1)
+	slot2 = CollectMonsterCfg[slot1]
+	slot3 = manager.resourcePool:Get("Char/" .. MonsterCfg[slot1].model_name, ASSET_TYPE.TPOSE)
+	slot4, slot5, slot6 = nil
+	slot4 = slot2.model_pos[1]
+	slot5 = slot2.model_rot[1]
+	slot6 = slot2.model_scale[1]
+	slot0.rot_limit_ = slot2.model_rot_limit or {
 		-180,
 		180
 	}
-	var_15_1.transform.localPosition = Vector3(var_15_5[1], var_15_5[2], var_15_5[3])
-	var_15_1.transform.localEulerAngles = Vector3(var_15_6[1], var_15_6[2], var_15_6[3])
-	var_15_1.transform.localScale = Vector3(var_15_7[1], var_15_7[2], var_15_7[3])
+	slot3.transform.localPosition = Vector3(slot4[1], slot4[2], slot4[3])
+	slot3.transform.localEulerAngles = Vector3(slot5[1], slot5[2], slot5[3])
+	slot3.transform.localScale = Vector3(slot6[1], slot6[2], slot6[3])
 
-	arg_15_0:InitModel(var_15_1, var_15_0.id)
-	arg_15_0:AdjustOutlineThickness(var_15_1, var_15_7[1])
+	slot0:InitModel(slot3, slot2.id)
+	slot0:AdjustOutlineThickness(slot3, slot6[1])
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:RemoveAllListeners()
-	arg_16_0:Finish()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:Finish()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

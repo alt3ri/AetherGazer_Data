@@ -1,11 +1,10 @@
 HellaMainView = import("game.views.activity.Main.HellaMainView")
+slot0 = class("HellaMainReprintView", HellaMainView)
 
-local var_0_0 = class("HellaMainReprintView", HellaMainView)
-
-function var_0_0.Init(arg_1_0)
-	var_0_0.super.Init(arg_1_0)
-	SetActive(arg_1_0.skinTrialGo_, false)
-	SetActive(arg_1_0.tryGo_, false)
+function slot0.Init(slot0)
+	uv0.super.Init(slot0)
+	SetActive(slot0.skinTrialGo_, false)
+	SetActive(slot0.tryGo_, false)
 end
 
-return var_0_0
+return slot0

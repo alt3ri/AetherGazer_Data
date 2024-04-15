@@ -1,204 +1,180 @@
-local var_0_0 = singletonClass("ChessMain")
+slot0 = singletonClass("ChessMain")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.eventData_ = {}
-	arg_1_0.finalChess_ = {}
-	arg_1_0.IsExecuting_ = false
-	arg_1_0.ExecutingChess_ = nil
-	arg_1_0.chessEntities_ = {}
-	arg_1_0.cachePath_ = {}
-	arg_1_0.battleStart_ = false
-	arg_1_0.battleResult_ = false
-	arg_1_0.mutiTimes_ = nil
-	arg_1_0.selectGrid_ = nil
-	arg_1_0.map_ = nil
-	arg_1_0.bulletDirection_ = nil
-	arg_1_0.bulletEvent_ = 0
-	arg_1_0.eventQueueManager_ = ChessEventQueue.New()
-	arg_1_0.current = ChessCurrentModel.New(arg_1_0.blockerManager_)
-	arg_1_0.forceBattle = ChessForceBattleModel.New()
-	arg_1_0.mutiBattle = ChessMutiBattleModel.New()
-	arg_1_0.characterPos_ = nil
-	arg_1_0.curStoneGirdData_ = nil
-	arg_1_0.movedStoneGridData_ = nil
+function slot0.Ctor(slot0)
+	slot0.eventData_ = {}
+	slot0.finalChess_ = {}
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
+	slot0.chessEntities_ = {}
+	slot0.cachePath_ = {}
+	slot0.battleStart_ = false
+	slot0.battleResult_ = false
+	slot0.mutiTimes_ = nil
+	slot0.selectGrid_ = nil
+	slot0.map_ = nil
+	slot0.bulletDirection_ = nil
+	slot0.bulletEvent_ = 0
+	slot0.eventQueueManager_ = ChessEventQueue.New()
+	slot0.current = ChessCurrentModel.New(slot0.blockerManager_)
+	slot0.forceBattle = ChessForceBattleModel.New()
+	slot0.mutiBattle = ChessMutiBattleModel.New()
+	slot0.characterPos_ = nil
+	slot0.curStoneGirdData_ = nil
+	slot0.movedStoneGridData_ = nil
 end
 
-function var_0_0.SetUp(arg_2_0, arg_2_1)
-	arg_2_0.blockerManager_ = ChessBlockerManager.New(manager.ui.canvas)
-	arg_2_0.globalEventManager_ = ChessGlobalEventManager.New(arg_2_0)
+function slot0.SetUp(slot0, slot1)
+	slot0.blockerManager_ = ChessBlockerManager.New(manager.ui.canvas)
+	slot0.globalEventManager_ = ChessGlobalEventManager.New(slot0)
 
-	arg_2_0:LoadMap(arg_2_1)
-	arg_2_0.current:SetUp(arg_2_0.blockerManager_)
-	arg_2_0.forceBattle:SetUp(arg_2_0.map_.width)
-	arg_2_0.mutiBattle:SetUp(arg_2_0.map_.width)
+	slot0:LoadMap(slot1)
+	slot0.current:SetUp(slot0.blockerManager_)
+	slot0.forceBattle:SetUp(slot0.map_.width)
+	slot0.mutiBattle:SetUp(slot0.map_.width)
 
-	local var_2_0 = WarChessData:GetButterFlyPos()
-
-	if var_2_0 then
-		ChessLuaBridge.InitGuider(WarChessTools.GetGuiderAssetPath(arg_2_1), var_2_0[1], var_2_0[2])
+	if WarChessData:GetButterFlyPos() then
+		ChessLuaBridge.InitGuider(WarChessTools.GetGuiderAssetPath(slot1), slot2[1], slot2[2])
 	end
 
-	if not table.indexof(WarchessLevelCfg[arg_2_1].extra_gameplay, 2) then
-		local var_2_1 = WarChessData:GetCurrentIndex()
-
-		arg_2_0.characterPos_ = {
-			var_2_1.x,
-			var_2_1.z
+	if not table.indexof(WarchessLevelCfg[slot1].extra_gameplay, 2) then
+		slot3 = WarChessData:GetCurrentIndex()
+		slot0.characterPos_ = {
+			slot3.x,
+			slot3.z
 		}
 	end
 end
 
-function var_0_0.IsExecuting(arg_3_0)
-	return arg_3_0.IsExecuting_
+function slot0.IsExecuting(slot0)
+	return slot0.IsExecuting_
 end
 
-function var_0_0.ExecutingChess(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = arg_4_2.typeID
-	local var_4_1 = arg_4_2.status
-
-	if arg_4_1 == ChessConst.TIMING_WALK and not ChessTools.IsWalkEvent(var_4_0, var_4_1) then
-		arg_4_3 = ChessTools.ParseEventPollCfg({
+function slot0.ExecutingChess(slot0, slot1, slot2, slot3)
+	if slot1 == ChessConst.TIMING_WALK and not ChessTools.IsWalkEvent(slot2.typeID, slot2.status) then
+		slot0.eventQueueManager_:InsertNewEventQueue(ChessTools.ParseEventPollCfg({
 			{
 				10000
 			}
-		})
-
-		arg_4_0.eventQueueManager_:InsertNewEventQueue(arg_4_3, arg_4_1, arg_4_2)
-	elseif arg_4_1 == ChessConst.TIMING_CURRENT and not ChessTools.IsWalkEvent(var_4_0, var_4_1) then
-		arg_4_3 = ChessTools.ParseEventPollCfg({
+		}), slot1, slot2)
+	elseif slot1 == ChessConst.TIMING_CURRENT and not ChessTools.IsWalkEvent(slot4, slot5) then
+		slot0.eventQueueManager_:InsertNewEventQueue(ChessTools.ParseEventPollCfg({
 			{
 				10000
 			}
-		})
-
-		arg_4_0.eventQueueManager_:InsertNewEventQueue(arg_4_3, arg_4_1, arg_4_2)
+		}), slot1, slot2)
 	else
-		arg_4_0:CreateEventQueue(arg_4_2, arg_4_3, arg_4_1)
+		slot0:CreateEventQueue(slot2, slot3, slot1)
 	end
 
-	if arg_4_0.eventQueueManager_:CurEventTiming() then
+	if slot0.eventQueueManager_:CurEventTiming() then
 		return
 	end
 
-	if arg_4_0.eventQueueManager_:PromoteToNextEvent() then
-		arg_4_0:DoNextEvent()
+	if slot0.eventQueueManager_:PromoteToNextEvent() then
+		slot0:DoNextEvent()
 	else
-		arg_4_0:EventsEnd()
+		slot0:EventsEnd()
 	end
 end
 
-function var_0_0.LoadMap(arg_5_0, arg_5_1)
-	arg_5_0.ChapterID = arg_5_1
+function slot0.LoadMap(slot0, slot1)
+	slot0.ChapterID = slot1
 
-	if arg_5_0.map_ then
+	if slot0.map_ then
 		return
 	end
 
 	WarChessData:SetStartTime(manager.time:GetServerTime())
 
-	arg_5_0.map_ = ChessTools.LoadMap(arg_5_1)
+	slot0.map_ = ChessTools.LoadMap(slot1)
 
-	if not arg_5_0.map_ then
-		-- block empty
+	if not slot0.map_ then
+		-- Nothing
 	end
 
-	local var_5_0 = {}
+	WarChessData:SetExtendMap(slot0.map_.extendInfo)
 
-	WarChessData:SetExtendMap(arg_5_0.map_.extendInfo)
-	WarChessData:SetJsonMap(var_5_0)
+	slot6 = {}
 
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.map_.mapInfo) do
-		local var_5_1 = iter_5_1.x
-		local var_5_2 = iter_5_1.z
+	WarChessData:SetJsonMap(slot6)
 
-		var_5_0[ChessTools.TwoDToOneD(var_5_1, var_5_2)] = iter_5_1
+	for slot6, slot7 in pairs(slot0.map_.mapInfo) do
+		slot2[ChessTools.TwoDToOneD(slot7.x, slot7.z)] = slot7
 	end
 
-	local var_5_3 = WarChessData:GetCurrentWarChessMapData().mapChangeInfo
-
-	for iter_5_2, iter_5_3 in pairs(var_5_3) do
-		local var_5_4 = iter_5_3.pos.x
-		local var_5_5 = iter_5_3.pos.z
-		local var_5_6 = var_5_0[ChessTools.TwoDToOneD(var_5_4, var_5_5)]
-
-		arg_5_0:CreateChess(var_5_6, iter_5_3.status)
+	for slot7, slot8 in pairs(WarChessData:GetCurrentWarChessMapData().mapChangeInfo) do
+		slot0:CreateChess(slot2[ChessTools.TwoDToOneD(slot8.pos.x, slot8.pos.z)], slot8.status)
 	end
 
-	for iter_5_4, iter_5_5 in pairs(arg_5_0.map_.mapInfo) do
-		arg_5_0:CreateChess(iter_5_5, iter_5_5.status)
+	for slot7, slot8 in pairs(slot0.map_.mapInfo) do
+		slot0:CreateChess(slot8, slot8.status)
 	end
 end
 
-function var_0_0.CachePath(arg_6_0, arg_6_1)
-	arg_6_0.cachePath_ = arg_6_1
+function slot0.CachePath(slot0, slot1)
+	slot0.cachePath_ = slot1
 end
 
-function var_0_0.InsertGlobalEventList(arg_7_0, arg_7_1)
-	arg_7_0.globalEventManager_:InsertGlobalEventList(arg_7_1)
+function slot0.InsertGlobalEventList(slot0, slot1)
+	slot0.globalEventManager_:InsertGlobalEventList(slot1)
 end
 
-function var_0_0.ClearGlobalEventByType(arg_8_0, arg_8_1)
-	arg_8_0.globalEventManager_:ClearGlobalEventByType(arg_8_1)
+function slot0.ClearGlobalEventByType(slot0, slot1)
+	slot0.globalEventManager_:ClearGlobalEventByType(slot1)
 end
 
-function var_0_0.GetExecutingChess(arg_9_0)
-	return arg_9_0.eventQueueManager_:GetExecutingChess()
+function slot0.GetExecutingChess(slot0)
+	return slot0.eventQueueManager_:GetExecutingChess()
 end
 
-function var_0_0.CreateEventQueue(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	local var_10_0 = arg_10_1.paramList[0]
-
-	if not WarchessEventPoolCfg[var_10_0] then
-		-- block empty
+function slot0.CreateEventQueue(slot0, slot1, slot2, slot3)
+	if not WarchessEventPoolCfg[slot1.paramList[0]] then
+		-- Nothing
 	end
 
-	arg_10_0.eventQueueManager_:InsertNewEventQueue(arg_10_2, arg_10_3, arg_10_1)
+	slot0.eventQueueManager_:InsertNewEventQueue(slot2, slot3, slot1)
 end
 
-function var_0_0.InsertEventQueue(arg_11_0, arg_11_1, arg_11_2)
-	if arg_11_2 == "GLOBAL" then
-		arg_11_0.eventQueueManager_:InsertNewEventQueue(arg_11_1, "GLOBAL")
+function slot0.InsertEventQueue(slot0, slot1, slot2)
+	if slot2 == "GLOBAL" then
+		slot0.eventQueueManager_:InsertNewEventQueue(slot1, "GLOBAL")
 	else
-		arg_11_0.eventQueueManager_:InsertCurEventQueue(arg_11_1)
+		slot0.eventQueueManager_:InsertCurEventQueue(slot1)
 	end
 end
 
-function var_0_0.DoNextEvent(arg_12_0)
-	local var_12_0 = arg_12_0.eventQueueManager_:LastEventID()
-
-	if var_12_0 then
-		WarChessData:ExecuteEventOneTime(var_12_0)
+function slot0.DoNextEvent(slot0)
+	if slot0.eventQueueManager_:LastEventID() then
+		WarChessData:ExecuteEventOneTime(slot1)
 	end
 
-	if arg_12_0.eventQueueManager_:IsEventEnd() then
-		arg_12_0:EventsEnd()
+	if slot0.eventQueueManager_:IsEventEnd() then
+		slot0:EventsEnd()
 
 		return
 	end
 
-	local var_12_1, var_12_2 = arg_12_0.eventQueueManager_:GetCurFunc()
+	slot2, slot3 = slot0.eventQueueManager_:GetCurFunc()
 
-	arg_12_0.eventQueueManager_:PromoteCurEventProgress()
+	slot0.eventQueueManager_:PromoteCurEventProgress()
 
-	return var_12_1(unpack(var_12_2))
+	return slot2(unpack(slot3))
 end
 
-function var_0_0.EventsEnd(arg_13_0)
-	local var_13_0 = arg_13_0.eventQueueManager_:CurEventTiming()
-
-	if var_13_0 == ChessConst.TIMING_INTERACT then
-		arg_13_0.IsExecuting_ = false
-		arg_13_0.ExecutingChess_ = nil
+function slot0.EventsEnd(slot0)
+	if slot0.eventQueueManager_:CurEventTiming() == ChessConst.TIMING_INTERACT then
+		slot0.IsExecuting_ = false
+		slot0.ExecutingChess_ = nil
 	end
 
-	if var_13_0 ~= nil then
-		arg_13_0.globalEventManager_:ExecuteGlobalEvent(var_13_0)
+	if slot1 ~= nil then
+		slot0.globalEventManager_:ExecuteGlobalEvent(slot1)
 	end
 
-	if arg_13_0.eventQueueManager_:PromoteToNextEvent() then
-		arg_13_0:DoNextEvent()
+	if slot0.eventQueueManager_:PromoteToNextEvent() then
+		slot0:DoNextEvent()
 	else
-		arg_13_0.eventQueueManager_:Clear()
+		slot0.eventQueueManager_:Clear()
 
 		if WarChessData:GetStoneIsMoving() then
 			ChessLuaBridge.StoneContinueMove()
@@ -206,19 +182,18 @@ function var_0_0.EventsEnd(arg_13_0)
 	end
 end
 
-function var_0_0.CreateChess(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = ChessTools.ParseParameter(arg_14_1, true)
-	local var_14_1 = ChessTools.TwoDToOneD(arg_14_1.x, arg_14_1.z)
+function slot0.CreateChess(slot0, slot1, slot2)
+	slot3 = ChessTools.ParseParameter(slot1, true)
 
-	if arg_14_0.chessEntities_[var_14_1] then
+	if slot0.chessEntities_[ChessTools.TwoDToOneD(slot1.x, slot1.z)] then
 		return
 	end
 
-	for iter_14_0, iter_14_1 in pairs(var_14_0) do
-		if ChessTools.IsSavingEvent(iter_14_1.eventID) then
-			arg_14_0.chessEntities_[var_14_1] = {
-				x = arg_14_1.x,
-				z = arg_14_1.z
+	for slot8, slot9 in pairs(slot3) do
+		if ChessTools.IsSavingEvent(slot9.eventID) then
+			slot0.chessEntities_[slot4] = {
+				x = slot1.x,
+				z = slot1.z
 			}
 
 			return
@@ -226,68 +201,63 @@ function var_0_0.CreateChess(arg_14_0, arg_14_1, arg_14_2)
 	end
 end
 
-function var_0_0.ExecutingCreatedChess(arg_15_0, arg_15_1)
-	for iter_15_0, iter_15_1 in pairs(arg_15_0.chessEntities_) do
-		local var_15_0 = ChessLuaBridge.GetGridData(iter_15_1.x, iter_15_1.z)
-		local var_15_1 = ChessTools.ParseParameter(var_15_0)
-
-		for iter_15_2, iter_15_3 in pairs(var_15_1) do
-			local var_15_2 = ChessEventConfig[iter_15_3.eventID][arg_15_1]
-
-			if var_15_2 then
-				var_15_2(iter_15_0, iter_15_1, unpack(iter_15_3.params))
+function slot0.ExecutingCreatedChess(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.chessEntities_) do
+		for slot12, slot13 in pairs(ChessTools.ParseParameter(ChessLuaBridge.GetGridData(slot6.x, slot6.z))) do
+			if ChessEventConfig[slot13.eventID][slot1] then
+				slot14(slot5, slot6, unpack(slot13.params))
 			end
 		end
 	end
 end
 
-function var_0_0.SetPosition(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_0.characterPos_ and arg_16_0.characterPos_[1] == arg_16_1 and arg_16_0.characterPos_[2] == arg_16_2 then
+function slot0.SetPosition(slot0, slot1, slot2)
+	if slot0.characterPos_ and slot0.characterPos_[1] == slot1 and slot0.characterPos_[2] == slot2 then
 		return false
 	end
 
-	WarChessData:SetCurrentIndex(arg_16_1, arg_16_2)
+	WarChessData:SetCurrentIndex(slot1, slot2)
 
-	arg_16_0.characterPos_ = {
-		arg_16_1,
-		arg_16_2
+	slot0.characterPos_ = {
+		slot1,
+		slot2
 	}
 
 	return true
 end
 
-function var_0_0.SetInteractChess(arg_17_0, arg_17_1)
-	arg_17_0.IsExecuting_ = true
-	arg_17_0.ExecutingChess_ = arg_17_1
+function slot0.SetInteractChess(slot0, slot1)
+	slot0.IsExecuting_ = true
+	slot0.ExecutingChess_ = slot1
 end
 
-function var_0_0.ExecuteMove(arg_18_0)
-	WarChessAction.RoleMoveByPath(arg_18_0.cachePath_, function(arg_19_0)
-		if not isSuccess(arg_19_0) then
-			ShowTips(arg_19_0)
+function slot0.ExecuteMove(slot0)
+	WarChessAction.RoleMoveByPath(slot0.cachePath_, function (slot0)
+		if not isSuccess(slot0) then
+			ShowTips(slot0)
 			ChessLuaBridge.ClearCachePath()
 		else
 			manager.notify:CallUpdateFunc(CAMERA_MOVE, false)
 			ChessLuaBridge.MoveToCachePos()
-			arg_18_0.blockerManager_:ShowBlocker()
+			uv0.blockerManager_:ShowBlocker()
 		end
 	end)
 end
 
-function var_0_0.OnMoveEnd(arg_20_0)
-	arg_20_0.blockerManager_:HideBlocker()
-	arg_20_0:SetGridSelectOutline(nil, nil, false)
+function slot0.OnMoveEnd(slot0)
+	slot0.blockerManager_:HideBlocker()
+	slot0:SetGridSelectOutline(nil, , false)
 end
 
-function var_0_0.StopMove(arg_21_0)
+function slot0.StopMove(slot0)
 	manager.audio:StopEffect()
 
-	arg_21_0.stopMove_ = true
+	slot0.stopMove_ = true
 end
 
-function var_0_0.IsStopMove(arg_22_0)
-	if arg_22_0.stopMove_ then
-		arg_22_0.stopMove_ = false
+function slot0.IsStopMove(slot0)
+	if slot0.stopMove_ then
+		slot0.stopMove_ = false
 
 		return true
 	end
@@ -295,143 +265,132 @@ function var_0_0.IsStopMove(arg_22_0)
 	return false
 end
 
-function var_0_0.ExecuteChessTiming(arg_23_0, arg_23_1, arg_23_2)
-	local var_23_0 = arg_23_2.gridData
-	local var_23_1 = false
-	local var_23_2 = arg_23_2.isError
+function slot0.ExecuteChessTiming(slot0, slot1, slot2)
+	slot3 = slot2.gridData
+	slot4 = false
+	slot5 = slot2.isError
 
-	if arg_23_1 == ChessConst.TIMING_START then
-		arg_23_0.globalEventManager_:ExecuteGlobalEvent(ChessConst.TIMING_START)
+	if slot1 == ChessConst.TIMING_START then
+		slot0.globalEventManager_:ExecuteGlobalEvent(ChessConst.TIMING_START)
 
-		if arg_23_0.eventQueueManager_:PromoteToNextEvent() then
-			arg_23_0:DoNextEvent()
+		if slot0.eventQueueManager_:PromoteToNextEvent() then
+			slot0:DoNextEvent()
 		else
-			arg_23_0.eventQueueManager_:Clear()
+			slot0.eventQueueManager_:Clear()
 		end
-	elseif arg_23_1 == ChessConst.TIMING_CLICK then
-		arg_23_0.stopMove_ = false
+	elseif slot1 == ChessConst.TIMING_CLICK then
+		slot0.stopMove_ = false
 
-		if ChessTools.IsInteract(var_23_0.typeID, var_23_0.status) and (var_23_0.paramList.Length ~= 0 or true) then
-			local var_23_3 = ChessTools.IsShowMessage(var_23_0.paramList[0], var_23_0.status)
-
-			if var_23_3 == "" then
-				if var_23_2 then
-					ChessTools.CantReach(var_23_0.x, var_23_0.z)
-				else
-					ChessEventConfig[2][1](var_23_0)
-				end
-			elseif var_23_3[1] == 1 then
-				ChessEventConfig[3][1](var_23_0, var_23_3[2], var_23_2)
-			elseif var_23_3[1] == 2 then
-				ChessEventConfig[4][1](var_23_0, var_23_3[2], var_23_2)
+		if ChessTools.IsInteract(slot3.typeID, slot3.status) then
+			if slot3.paramList.Length == 0 then
+				-- Nothing
 			end
-		elseif var_23_2 then
-			ChessTools.CantReach(var_23_0.x, var_23_0.z)
+
+			if ChessTools.IsShowMessage(slot3.paramList[0], slot3.status) == "" then
+				if slot5 then
+					ChessTools.CantReach(slot3.x, slot3.z)
+				else
+					ChessEventConfig[2][1](slot3)
+				end
+			elseif slot6[1] == 1 then
+				ChessEventConfig[3][1](slot3, slot6[2], slot5)
+			elseif slot6[1] == 2 then
+				ChessEventConfig[4][1](slot3, slot6[2], slot5)
+			end
+		elseif slot5 then
+			ChessTools.CantReach(slot3.x, slot3.z)
 		else
 			ChessEventConfig[1][1]()
 		end
-	elseif arg_23_1 == ChessConst.TIMING_WALK then
-		local var_23_4 = ChessTools.ParseParameter(var_23_0)
+	elseif slot1 == ChessConst.TIMING_WALK then
+		slot0:ExecutingChess(slot1, slot3, ChessTools.ParseParameter(slot3))
 
-		arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_4)
-
-		local var_23_5 = arg_23_0:IsStopMove()
-
-		if var_23_5 then
-			arg_23_0.IsExecuting_ = false
-			arg_23_0.ExecutingChess_ = nil
+		if slot0:IsStopMove() then
+			slot0.IsExecuting_ = false
+			slot0.ExecutingChess_ = nil
 		end
 
-		var_23_1 = var_23_5
-	elseif arg_23_1 == ChessConst.TIMING_INTERACT then
-		var_23_0 = arg_23_0.ExecutingChess_
-
-		local var_23_6 = ChessTools.ParseParameter(var_23_0)
+		slot4 = slot7
+	elseif slot1 == ChessConst.TIMING_INTERACT then
+		slot3 = slot0.ExecutingChess_
+		slot6 = ChessTools.ParseParameter(slot3)
 
 		WarChessAction.TouchGrid({
-			x = var_23_0.x,
-			z = var_23_0.z
-		}, nil, 1, function()
-			arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_6)
+			x = slot3.x,
+			z = slot3.z
+		}, nil, 1, function ()
+			uv0:ExecutingChess(uv1, uv2, uv3)
 		end)
-	elseif arg_23_1 == ChessConst.TIMING_HIT then
-		local var_23_7 = ChessTools.ParseParameter(var_23_0, false, true)
-
-		arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_7)
-	elseif arg_23_1 == ChessConst.TIMING_CURRENT then
-		local var_23_8 = ChessTools.ParseParameter(var_23_0, false, true)
-
-		if table.length(var_23_8) == 0 and var_23_0.typeID ~= 10101 then
-			Debug.LogError(string.format("洋流状态中... 这个格子没参数:(%d,%d)", var_23_0.x, var_23_0.z))
+	elseif slot1 == ChessConst.TIMING_HIT then
+		slot0:ExecutingChess(slot1, slot3, ChessTools.ParseParameter(slot3, false, true))
+	elseif slot1 == ChessConst.TIMING_CURRENT then
+		if table.length(ChessTools.ParseParameter(slot3, false, true)) == 0 and slot3.typeID ~= 10101 then
+			Debug.LogError(string.format("洋流状态中... 这个格子没参数:(%d,%d)", slot3.x, slot3.z))
 		end
 
-		arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_8)
+		slot0:ExecutingChess(slot1, slot3, slot6)
 
-		var_23_1 = arg_23_0:IsStopMove()
-	elseif arg_23_1 == ChessConst.TIMING_CURRENT_HIT then
-		local var_23_9 = ChessTools.ParseParameter(var_23_0, false, true)
+		slot4 = slot0:IsStopMove()
+	elseif slot1 == ChessConst.TIMING_CURRENT_HIT then
+		slot6 = ChessTools.ParseParameter(slot3, false, true)
 
 		WarChessAction.TouchGrid({
-			x = var_23_0.x,
-			z = var_23_0.z
-		}, nil, 2, function()
-			arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_9)
+			x = slot3.x,
+			z = slot3.z
+		}, nil, 2, function ()
+			uv0:ExecutingChess(uv1, uv2, uv3)
 		end)
-	elseif arg_23_1 == ChessConst.TIMING_STONE_MOVE then
-		local var_23_10 = ChessTools.ParseParameter(var_23_0, false, true)
-
-		arg_23_0:ExecutingChess(arg_23_1, var_23_0, var_23_10)
+	elseif slot1 == ChessConst.TIMING_STONE_MOVE then
+		slot0:ExecutingChess(slot1, slot3, ChessTools.ParseParameter(slot3, false, true))
 	end
 
-	arg_23_0.LastState_ = arg_23_1
+	slot0.LastState_ = slot1
 
-	return var_23_1
+	return slot4
 end
 
-function var_0_0.Dispose(arg_26_0)
+function slot0.Dispose(slot0)
 	manager.windowBar:ClearWhereTag()
 
-	arg_26_0.eventData_ = {}
-	arg_26_0.finalChess_ = {}
-	arg_26_0.IsExecuting_ = false
-	arg_26_0.ExecutingChess_ = nil
-	arg_26_0.chessEntities_ = {}
-	arg_26_0.map_ = nil
-	arg_26_0.battleStart_ = false
-	arg_26_0.battleResult_ = false
-	arg_26_0.mutiTimes_ = nil
+	slot0.eventData_ = {}
+	slot0.finalChess_ = {}
+	slot0.IsExecuting_ = false
+	slot0.ExecutingChess_ = nil
+	slot0.chessEntities_ = {}
+	slot0.map_ = nil
+	slot0.battleStart_ = false
+	slot0.battleResult_ = false
+	slot0.mutiTimes_ = nil
 
-	arg_26_0.blockerManager_:Dispose()
-	arg_26_0.globalEventManager_:Dispose()
-	arg_26_0.eventQueueManager_:Clear()
-	arg_26_0.current:Dispose()
-	arg_26_0.forceBattle:Dispose()
-	arg_26_0.mutiBattle:Dispose()
+	slot0.blockerManager_:Dispose()
+	slot0.globalEventManager_:Dispose()
+	slot0.eventQueueManager_:Clear()
+	slot0.current:Dispose()
+	slot0.forceBattle:Dispose()
+	slot0.mutiBattle:Dispose()
 
-	arg_26_0.selectGrid_ = nil
-	arg_26_0.bulletDirection_ = nil
-	arg_26_0.bulletEvent_ = 0
-	arg_26_0.characterPos_ = nil
+	slot0.selectGrid_ = nil
+	slot0.bulletDirection_ = nil
+	slot0.bulletEvent_ = 0
+	slot0.characterPos_ = nil
 
-	if arg_26_0.bulletTimer_ then
-		arg_26_0.bulletTimer_:Stop()
+	if slot0.bulletTimer_ then
+		slot0.bulletTimer_:Stop()
 
-		arg_26_0.bulletTimer_ = nil
+		slot0.bulletTimer_ = nil
 	end
 end
 
-function var_0_0.BattleStart(arg_27_0, arg_27_1)
-	arg_27_0.battleStart_ = true
-	arg_27_0.battleResult_ = nil
-	arg_27_0.mutiTimes_ = arg_27_1
+function slot0.BattleStart(slot0, slot1)
+	slot0.battleStart_ = true
+	slot0.battleResult_ = nil
+	slot0.mutiTimes_ = slot1
 
-	arg_27_0:SetBattleIndex()
+	slot0:SetBattleIndex()
 
-	local var_27_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-	if var_27_0 then
-		arg_27_0.originShadowRotationImmediately = var_27_0.shadowRotationImmediately
-		var_27_0.shadowRotationImmediately = true
+	if manager.ui.mainCamera:GetComponent("CameraExtension") then
+		slot0.originShadowRotationImmediately = slot2.shadowRotationImmediately
+		slot2.shadowRotationImmediately = true
 	end
 
 	ChessLuaBridge.SetCameraControlEnable(false)
@@ -441,332 +400,325 @@ function var_0_0.BattleStart(arg_27_0, arg_27_1)
 	end
 end
 
-function var_0_0.SetBattleIndex(arg_28_0)
-	local var_28_0 = arg_28_0:GetExecutingChess()
-	local var_28_1 = var_28_0.x
-	local var_28_2 = var_28_0.z * arg_28_0.map_.width + var_28_1 + 1
+function slot0.SetBattleIndex(slot0)
+	slot1 = slot0:GetExecutingChess()
 
-	WarChessData:SetBattleIndex(var_28_2)
+	WarChessData:SetBattleIndex(slot1.z * slot0.map_.width + slot1.x + 1)
 end
 
-function var_0_0.BattleSuccess(arg_29_0)
-	arg_29_0.battleResult_ = true
+function slot0.BattleSuccess(slot0)
+	slot0.battleResult_ = true
 
-	if arg_29_0.mutiTimes_ then
-		arg_29_0.mutiTimes_ = arg_29_0.mutiTimes_ - 1
+	if slot0.mutiTimes_ then
+		slot0.mutiTimes_ = slot0.mutiTimes_ - 1
 	end
 end
 
-function var_0_0.BattleFinish(arg_30_0)
-	if arg_30_0.battleStart_ then
-		if arg_30_0.mutiTimes_ then
-			if arg_30_0.battleResult_ and arg_30_0.mutiTimes_ == 0 then
-				arg_30_0:ExecutingCreatedChess(ChessConst.EVENT.AFTER_BATTLE)
-				arg_30_0:DoNextEvent()
+function slot0.BattleFinish(slot0)
+	if slot0.battleStart_ then
+		if slot0.mutiTimes_ then
+			if slot0.battleResult_ and slot0.mutiTimes_ == 0 then
+				slot0:ExecutingCreatedChess(ChessConst.EVENT.AFTER_BATTLE)
+				slot0:DoNextEvent()
 			else
-				arg_30_0:EventsEnd()
+				slot0:EventsEnd()
 			end
-		elseif arg_30_0.battleResult_ then
-			arg_30_0:ExecutingCreatedChess(ChessConst.EVENT.AFTER_BATTLE)
-			arg_30_0:DoNextEvent()
+		elseif slot0.battleResult_ then
+			slot0:ExecutingCreatedChess(ChessConst.EVENT.AFTER_BATTLE)
+			slot0:DoNextEvent()
 		else
-			arg_30_0:EventsEnd()
+			slot0:EventsEnd()
 		end
 	end
 
-	if not arg_30_0.battleStart_ then
+	if not slot0.battleStart_ then
 		return
 	end
 
-	arg_30_0.battleStart_ = false
-	arg_30_0.battleResult_ = nil
-	arg_30_0.mutiTimes_ = nil
+	slot0.battleStart_ = false
+	slot0.battleResult_ = nil
+	slot0.mutiTimes_ = nil
 
-	local var_30_0 = manager.ui.mainCamera:GetComponent("CameraExtension")
-
-	if var_30_0 then
-		var_30_0.shadowRotationImmediately = arg_30_0.originShadowRotationImmediately
+	if manager.ui.mainCamera:GetComponent("CameraExtension") then
+		slot1.shadowRotationImmediately = slot0.originShadowRotationImmediately
 	end
 
 	ChessLuaBridge.SetCameraControlEnable(true)
 end
 
-function var_0_0.LookAtPlayerWithCurPos(arg_31_0, arg_31_1, arg_31_2, arg_31_3)
-	local var_31_0 = WarChessData:GetCurrentIndex()
+function slot0.LookAtPlayerWithCurPos(slot0, slot1, slot2, slot3)
+	slot4 = WarChessData:GetCurrentIndex()
 
-	if math.abs(var_31_0.x - arg_31_1) + math.abs(var_31_0.z - arg_31_2) > 2 then
-		ChessLuaBridge.LookAtPlayer(function()
-			if arg_31_3 then
-				arg_31_3()
+	if math.abs(slot4.x - slot1) + math.abs(slot4.z - slot2) > 2 then
+		ChessLuaBridge.LookAtPlayer(function ()
+			if uv0 then
+				uv0()
 			end
 		end)
-	elseif arg_31_3 then
-		arg_31_3()
+	elseif slot3 then
+		slot3()
 	end
 end
 
-function var_0_0.ChangeGridStatus(arg_33_0, arg_33_1, arg_33_2, arg_33_3, arg_33_4)
-	arg_33_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_33_1, arg_33_2, function()
-		ChessLuaBridge.ChangeGridStatus(arg_33_1, arg_33_2, arg_33_3, function()
-			arg_33_0:LookAtPlayerWithCurPos(arg_33_1, arg_33_2, function()
-				arg_33_0.blockerManager_:HideBlocker()
-				WarChessData:ChangeGridStatusLua(arg_33_1, arg_33_2, arg_33_3)
+function slot0.ChangeGridStatus(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		ChessLuaBridge.ChangeGridStatus(uv0, uv1, uv2, function ()
+			uv0:LookAtPlayerWithCurPos(uv1, uv2, function ()
+				uv0.blockerManager_:HideBlocker()
+				WarChessData:ChangeGridStatusLua(uv1, uv2, uv3)
 
-				if arg_33_4 then
-					arg_33_4()
+				if uv4 then
+					uv4()
 				end
 			end)
 		end)
 	end, true)
 end
 
-function var_0_0.PlayGridAnimation(arg_37_0, arg_37_1, arg_37_2, arg_37_3, arg_37_4)
-	arg_37_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_37_1, arg_37_2, function()
-		ChessLuaBridge.PlayGridAnimation(arg_37_1, arg_37_2, arg_37_3, function()
-			arg_37_0:LookAtPlayerWithCurPos(arg_37_1, arg_37_2, function()
-				arg_37_0.blockerManager_:HideBlocker()
-				arg_37_4()
+function slot0.PlayGridAnimation(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		ChessLuaBridge.PlayGridAnimation(uv0, uv1, uv2, function ()
+			uv0:LookAtPlayerWithCurPos(uv1, uv2, function ()
+				uv0.blockerManager_:HideBlocker()
+				uv1()
 			end)
 		end)
 	end, true)
 end
 
-function var_0_0.ChangeGridDirection(arg_41_0, arg_41_1, arg_41_2, arg_41_3, arg_41_4, arg_41_5)
-	arg_41_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_41_1, arg_41_2, function()
-		ChessLuaBridge.RotateGrid(arg_41_1, arg_41_2, arg_41_3 * 60, arg_41_4, function()
-			arg_41_0:LookAtPlayerWithCurPos(arg_41_1, arg_41_2, function()
-				arg_41_0.blockerManager_:HideBlocker()
-				WarChessData:ChangeGridDirection(arg_41_1, arg_41_2, arg_41_3)
+function slot0.ChangeGridDirection(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		ChessLuaBridge.RotateGrid(uv0, uv1, uv2 * 60, uv3, function ()
+			uv0:LookAtPlayerWithCurPos(uv1, uv2, function ()
+				uv0.blockerManager_:HideBlocker()
+				WarChessData:ChangeGridDirection(uv1, uv2, uv3)
 
-				if arg_41_5 then
-					arg_41_5()
+				if uv4 then
+					uv4()
 				end
 			end)
 		end)
 	end, true)
 end
 
-function var_0_0.ChangeGridByList(arg_45_0, arg_45_1, arg_45_2)
-	local var_45_0 = {}
-	local var_45_1 = {}
+function slot0.ChangeGridByList(slot0, slot1, slot2)
+	slot3 = {}
+	slot4 = {}
 
-	for iter_45_0, iter_45_1 in ipairs(arg_45_1) do
-		table.insert(var_45_0, iter_45_1.x)
-		table.insert(var_45_1, iter_45_1.z)
+	for slot8, slot9 in ipairs(slot1) do
+		table.insert(slot3, slot9.x)
+		table.insert(slot4, slot9.z)
 	end
 
-	local var_45_2 = #arg_45_1
+	slot5 = #slot1
 
-	local function var_45_3()
-		var_45_2 = var_45_2 - 1
+	function slot6()
+		uv0 = uv0 - 1
 
-		if var_45_2 <= 0 then
-			ChessLuaBridge.LookAtPlayer(function()
-				arg_45_0.blockerManager_:HideBlocker()
+		if uv0 <= 0 then
+			ChessLuaBridge.LookAtPlayer(function ()
+				uv0.blockerManager_:HideBlocker()
 
-				if arg_45_2 then
-					arg_45_2()
+				if uv1 then
+					uv1()
 				end
 			end)
 		end
 	end
 
-	arg_45_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.LookAtTarget(var_45_0, var_45_1, function()
-		for iter_48_0 = 1, #arg_45_1 do
-			local var_48_0 = arg_45_1[iter_48_0].style
-			local var_48_1 = arg_45_1[iter_48_0]
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.LookAtTarget(slot3, slot4, function ()
+		for slot3 = 1, #uv0 do
+			slot5 = uv0[slot3]
 
-			if var_48_0 == 1 then
-				ChessLuaBridge.ChangeGridStatus(var_48_1.x, var_48_1.z, var_48_1.param, var_45_3)
-			elseif var_48_0 == 2 then
-				ChessLuaBridge.ChangeGridByIndex(var_48_1.x, var_48_1.z, var_48_1.param, var_45_3)
-			elseif var_48_0 == 3 then
-				local var_48_2 = ChessLuaBridge.GetGridData(var_48_1.x, var_48_1.z)
-
-				if var_48_2.typeID == 20110 or var_48_2.typeID == 20111 then
+			if uv0[slot3].style == 1 then
+				ChessLuaBridge.ChangeGridStatus(slot5.x, slot5.z, slot5.param, uv1)
+			elseif slot4 == 2 then
+				ChessLuaBridge.ChangeGridByIndex(slot5.x, slot5.z, slot5.param, uv1)
+			elseif slot4 == 3 then
+				if ChessLuaBridge.GetGridData(slot5.x, slot5.z).typeID == 20110 or slot6.typeID == 20111 then
 					manager.audio:PlayEffect("se_story_activity_2_1_4", "se_story_activity_2_1_4_warchess_pipe_move", "")
 				end
 
-				ChessLuaBridge.RotateGrid(var_48_1.x, var_48_1.z, var_48_1.param[1] * 60, var_48_1.param[2], var_45_3)
+				ChessLuaBridge.RotateGrid(slot5.x, slot5.z, slot5.param[1] * 60, slot5.param[2], uv1)
 			end
 		end
 	end, true)
 end
 
-function var_0_0.ChangeGridByIndex(arg_49_0, arg_49_1, arg_49_2, arg_49_3, arg_49_4)
-	arg_49_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_49_1, arg_49_2, function()
-		ChessLuaBridge.ChangeGridByIndex(arg_49_1, arg_49_2, arg_49_3, function()
-			arg_49_0:LookAtPlayerWithCurPos(arg_49_1, arg_49_2, function()
-				arg_49_0.blockerManager_:HideBlocker()
-				WarChessData:ChangeGridLua(arg_49_1, arg_49_2, arg_49_3)
+function slot0.ChangeGridByIndex(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		ChessLuaBridge.ChangeGridByIndex(uv0, uv1, uv2, function ()
+			uv0:LookAtPlayerWithCurPos(uv1, uv2, function ()
+				uv0.blockerManager_:HideBlocker()
+				WarChessData:ChangeGridLua(uv1, uv2, uv3)
 
-				if arg_49_4 then
-					arg_49_4()
+				if uv4 then
+					uv4()
 				end
 			end)
 		end)
 	end, true)
 end
 
-function var_0_0.ChangeGridByIndexWithOutLook(arg_53_0, arg_53_1, arg_53_2, arg_53_3, arg_53_4)
-	arg_53_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.ChangeGridByIndex(arg_53_1, arg_53_2, arg_53_3, function()
-		arg_53_0.blockerManager_:HideBlocker()
-		WarChessData:ChangeGridLua(arg_53_1, arg_53_2, arg_53_3)
+function slot0.ChangeGridByIndexWithOutLook(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.ChangeGridByIndex(slot1, slot2, slot3, function ()
+		uv0.blockerManager_:HideBlocker()
+		WarChessData:ChangeGridLua(uv1, uv2, uv3)
 
-		if arg_53_4 then
-			arg_53_4()
+		if uv4 then
+			uv4()
 		end
 	end)
 end
 
-function var_0_0.ChangeGridByGridData(arg_55_0, arg_55_1, arg_55_2, arg_55_3, arg_55_4)
-	arg_55_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_55_1, arg_55_2, function()
-		ChessLuaBridge.ChangeGrid(arg_55_1, arg_55_2, arg_55_3, function()
-			arg_55_0:LookAtPlayerWithCurPos(arg_55_1, arg_55_2, function()
-				arg_55_0.blockerManager_:HideBlocker()
-				WarChessData:ChangeGridLua(arg_55_1, arg_55_2, 0)
+function slot0.ChangeGridByGridData(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		ChessLuaBridge.ChangeGrid(uv0, uv1, uv2, function ()
+			uv0:LookAtPlayerWithCurPos(uv1, uv2, function ()
+				uv0.blockerManager_:HideBlocker()
+				WarChessData:ChangeGridLua(uv1, uv2, 0)
 
-				if arg_55_4 then
-					arg_55_4()
+				if uv3 then
+					uv3()
 				end
 			end)
 		end)
 	end, true)
 end
 
-function var_0_0.MoveToTarget(arg_59_0, arg_59_1, arg_59_2, arg_59_3)
-	arg_59_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_59_1, arg_59_2, function()
-		arg_59_0.blockerManager_:HideBlocker()
+function slot0.MoveToTarget(slot0, slot1, slot2, slot3)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		uv0.blockerManager_:HideBlocker()
 
-		if arg_59_3 then
-			arg_59_3()
+		if uv1 then
+			uv1()
 		end
 	end)
 end
 
-function var_0_0.LookAtPlayer(arg_61_0, arg_61_1)
-	arg_61_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.LookAtPlayer(function()
-		arg_61_0.blockerManager_:HideBlocker()
+function slot0.LookAtPlayer(slot0, slot1)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.LookAtPlayer(function ()
+		uv0.blockerManager_:HideBlocker()
 
-		if arg_61_1 then
-			arg_61_1()
+		if uv1 then
+			uv1()
 		end
 	end)
 end
 
-function var_0_0.LookForSeconds(arg_63_0, arg_63_1, arg_63_2, arg_63_3, arg_63_4)
-	arg_63_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.MoveTargetSmooth(arg_63_1, arg_63_2, function()
-		TimeTools.StartAfterSeconds(arg_63_3, function()
-			ChessLuaBridge.LookAtPlayer(function()
-				arg_63_0.blockerManager_:HideBlocker()
+function slot0.LookForSeconds(slot0, slot1, slot2, slot3, slot4)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.MoveTargetSmooth(slot1, slot2, function ()
+		TimeTools.StartAfterSeconds(uv0, function ()
+			ChessLuaBridge.LookAtPlayer(function ()
+				uv0.blockerManager_:HideBlocker()
 
-				if arg_63_4 then
-					arg_63_4()
+				if uv1 then
+					uv1()
 				end
 			end)
 		end, {})
 	end)
 end
 
-function var_0_0.SetGridSelectOutline(arg_67_0, arg_67_1, arg_67_2, arg_67_3)
-	if arg_67_3 then
-		if arg_67_0.selectGrid_ then
-			ChessLuaBridge.SetGridSelectOutline(arg_67_0.selectGrid_.x, arg_67_0.selectGrid_.z, false)
+function slot0.SetGridSelectOutline(slot0, slot1, slot2, slot3)
+	if slot3 then
+		if slot0.selectGrid_ then
+			ChessLuaBridge.SetGridSelectOutline(slot0.selectGrid_.x, slot0.selectGrid_.z, false)
 		end
 
-		ChessLuaBridge.SetGridSelectOutline(arg_67_1, arg_67_2, true)
+		ChessLuaBridge.SetGridSelectOutline(slot1, slot2, true)
 
-		arg_67_0.selectGrid_ = {
-			x = arg_67_1,
-			z = arg_67_2
+		slot0.selectGrid_ = {
+			x = slot1,
+			z = slot2
 		}
-	elseif arg_67_0.selectGrid_ then
-		ChessLuaBridge.SetGridSelectOutline(arg_67_0.selectGrid_.x, arg_67_0.selectGrid_.z, false)
+	elseif slot0.selectGrid_ then
+		ChessLuaBridge.SetGridSelectOutline(slot0.selectGrid_.x, slot0.selectGrid_.z, false)
 
-		arg_67_0.selectGrid_ = nil
+		slot0.selectGrid_ = nil
 	end
 end
 
-function var_0_0.ShowBlocker(arg_68_0)
-	arg_68_0.blockerManager_:ShowBlocker()
+function slot0.ShowBlocker(slot0)
+	slot0.blockerManager_:ShowBlocker()
 end
 
-function var_0_0.HideBlocker(arg_69_0)
-	arg_69_0.blockerManager_:HideBlocker()
+function slot0.HideBlocker(slot0)
+	slot0.blockerManager_:HideBlocker()
 end
 
-local var_0_1 = 0
+slot1 = 0
 
-function var_0_0.bulletBarrierFunction(arg_70_0)
-	var_0_1 = var_0_1 + 1
+function slot0.bulletBarrierFunction(slot0)
+	uv0 = uv0 + 1
 
-	if var_0_1 == 2 then
-		arg_70_0.blockerManager_:HideBlocker()
+	if uv0 == 2 then
+		slot0.blockerManager_:HideBlocker()
 
-		var_0_1 = 0
-	elseif var_0_1 > 2 then
-		-- block empty
+		uv0 = 0
+	elseif uv0 > 2 then
+		-- Nothing
 	end
 end
 
-function var_0_0.FireBullet(arg_71_0)
+function slot0.FireBullet(slot0)
 	manager.notify:CallUpdateFunc(CAMERA_MOVE, false)
-	arg_71_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.LookAtPlayer(function()
-		WarChessAction.FireByPlayer(function()
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.LookAtPlayer(function ()
+		WarChessAction.FireByPlayer(function ()
 			ChessLuaBridge.FireByPlayer()
 
-			arg_71_0.bulletEvent_ = arg_71_0.bulletEvent_ + 1
-			arg_71_0.bulletTimer_ = TimeTools.StartAfterSeconds(1.67, function()
-				arg_71_0:bulletBarrierFunction()
+			uv0.bulletEvent_ = uv0.bulletEvent_ + 1
+			uv0.bulletTimer_ = TimeTools.StartAfterSeconds(1.67, function ()
+				uv0:bulletBarrierFunction()
 			end, {})
 		end)
 	end)
 end
 
-function var_0_0.BulletContinue(arg_75_0)
-	arg_75_0.bulletEvent_ = arg_75_0.bulletEvent_ + 1
+function slot0.BulletContinue(slot0)
+	slot0.bulletEvent_ = slot0.bulletEvent_ + 1
 end
 
-function var_0_0.OnBulletEnd(arg_76_0)
-	arg_76_0.bulletEvent_ = arg_76_0.bulletEvent_ == 0 and 0 or arg_76_0.bulletEvent_ - 1
+function slot0.OnBulletEnd(slot0)
+	slot0.bulletEvent_ = slot0.bulletEvent_ == 0 and 0 or slot0.bulletEvent_ - 1
 
-	if not arg_76_0.bulletEvent_ or arg_76_0.bulletEvent_ == 0 then
-		arg_76_0:bulletBarrierFunction()
+	if not slot0.bulletEvent_ or slot0.bulletEvent_ == 0 then
+		slot0:bulletBarrierFunction()
 	end
 end
 
-function var_0_0.SetBulletDirection(arg_77_0, arg_77_1)
-	arg_77_0.bulletDirection_ = arg_77_1
+function slot0.SetBulletDirection(slot0, slot1)
+	slot0.bulletDirection_ = slot1
 end
 
-function var_0_0.GetBulletDirection(arg_78_0)
-	return arg_78_0.bulletDirection_
+function slot0.GetBulletDirection(slot0)
+	return slot0.bulletDirection_
 end
 
-function var_0_0.SetCountDown(arg_79_0, arg_79_1)
-	if arg_79_1 then
-		ChessLuaBridge.SetCountText(arg_79_1)
+function slot0.SetCountDown(slot0, slot1)
+	if slot1 then
+		ChessLuaBridge.SetCountText(slot1)
 	else
 		ChessLuaBridge.SetCountText(0, false)
 	end
 end
 
-function var_0_0.StoneStartToMove(arg_80_0, arg_80_1, arg_80_2)
-	arg_80_0.blockerManager_:ShowBlocker()
-	ChessLuaBridge.LookAtPlayer(function()
-		ChessLuaBridge.StoneMove(arg_80_1, arg_80_2)
+function slot0.StoneStartToMove(slot0, slot1, slot2)
+	slot0.blockerManager_:ShowBlocker()
+	ChessLuaBridge.LookAtPlayer(function ()
+		ChessLuaBridge.StoneMove(uv0, uv1)
 	end)
 end
 
-return var_0_0
+return slot0

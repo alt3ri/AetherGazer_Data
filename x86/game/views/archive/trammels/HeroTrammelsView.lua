@@ -1,305 +1,257 @@
-local var_0_0 = class("HeroTrammelsView", ReduxView)
+slot0 = class("HeroTrammelsView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_coop/HeroCoopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.select_net = 1
-	arg_4_0.comboId = 1
-	arg_4_0.threeTeamskillController = ControllerUtil.GetController(arg_4_0.transform_, "threeTeamskill")
-	arg_4_0.pageController = ControllerUtil.GetController(arg_4_0.transform_, "page")
-	arg_4_0.storyController = ControllerUtil.GetController(arg_4_0.transform_, "story")
-	arg_4_0.showComboController = ControllerUtil.GetController(arg_4_0.transform_, "showCombo")
-	arg_4_0.lvupController = ControllerUtil.GetController(arg_4_0.m_comboInfoTrans, "lvup")
-	arg_4_0.comboMaxLvController = ControllerUtil.GetController(arg_4_0.m_comboInfoTrans, "comboMaxLv")
-	arg_4_0.attrList = LuaList.New(handler(arg_4_0, arg_4_0.IndexAttrItem), arg_4_0.m_attrList, HeroTrammelsAttrItem)
-	arg_4_0.netMissionList = LuaList.New(handler(arg_4_0, arg_4_0.IndexNetMissionItem), arg_4_0.m_netMissionList, HeroTrammelsNetMissionItem)
-	arg_4_0.netPartnerList = LuaList.New(handler(arg_4_0, arg_4_0.IndexNetPartnerItem), arg_4_0.m_netPartnerList, HeroTrammelsNetPartnerItem)
-	arg_4_0.comboMissionList = LuaList.New(handler(arg_4_0, arg_4_0.IndexComboMissionItem), arg_4_0.m_comboMissionList, HeroTrammelsComboMissionItem)
+	slot0.select_net = 1
+	slot0.comboId = 1
+	slot0.threeTeamskillController = ControllerUtil.GetController(slot0.transform_, "threeTeamskill")
+	slot0.pageController = ControllerUtil.GetController(slot0.transform_, "page")
+	slot0.storyController = ControllerUtil.GetController(slot0.transform_, "story")
+	slot0.showComboController = ControllerUtil.GetController(slot0.transform_, "showCombo")
+	slot0.lvupController = ControllerUtil.GetController(slot0.m_comboInfoTrans, "lvup")
+	slot0.comboMaxLvController = ControllerUtil.GetController(slot0.m_comboInfoTrans, "comboMaxLv")
+	slot0.attrList = LuaList.New(handler(slot0, slot0.IndexAttrItem), slot0.m_attrList, HeroTrammelsAttrItem)
+	slot0.netMissionList = LuaList.New(handler(slot0, slot0.IndexNetMissionItem), slot0.m_netMissionList, HeroTrammelsNetMissionItem)
+	slot0.netPartnerList = LuaList.New(handler(slot0, slot0.IndexNetPartnerItem), slot0.m_netPartnerList, HeroTrammelsNetPartnerItem)
+	slot0.comboMissionList = LuaList.New(handler(slot0, slot0.IndexComboMissionItem), slot0.m_comboMissionList, HeroTrammelsComboMissionItem)
+	slot0.switchNetItems = {}
 
-	local var_4_0 = handler(arg_4_0, arg_4_0.SwitchNetClick)
+	for slot5 = 1, 5 do
+		slot7 = HeroTrammelsSwitchNetItem.New(Object.Instantiate(slot0.m_netSwitchGo, slot0.m_netSwitchContent), slot5)
 
-	arg_4_0.switchNetItems = {}
-
-	for iter_4_0 = 1, 5 do
-		local var_4_1 = Object.Instantiate(arg_4_0.m_netSwitchGo, arg_4_0.m_netSwitchContent)
-		local var_4_2 = HeroTrammelsSwitchNetItem.New(var_4_1, iter_4_0)
-
-		var_4_2:RegistCallBack(var_4_0)
-		table.insert(arg_4_0.switchNetItems, var_4_2)
+		slot7:RegistCallBack(handler(slot0, slot0.SwitchNetClick))
+		table.insert(slot0.switchNetItems, slot7)
 	end
 
-	arg_4_0.comboClickHanle = handler(arg_4_0, arg_4_0.ComboClick)
-	arg_4_0.comboItems = {}
-	arg_4_0.partnerClickHandle = handler(arg_4_0, arg_4_0.PartnerClick)
+	slot0.comboClickHanle = handler(slot0, slot0.ComboClick)
+	slot0.comboItems = {}
+	slot0.partnerClickHandle = handler(slot0, slot0.PartnerClick)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_netBtn, function()
-		arg_5_0.pageController:SetSelectedIndex(0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_netBtn, function ()
+		uv0.pageController:SetSelectedIndex(0)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_comboBtn, function()
-		arg_5_0.pageController:SetSelectedIndex(1)
+	slot0:AddBtnListener(nil, slot0.m_comboBtn, function ()
+		uv0.pageController:SetSelectedIndex(1)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_storyBtn, function()
-		manager.story:StartStoryById(arg_5_0.storyId, function(arg_9_0)
-			if not ArchiveData:GetRelationStoryRead(arg_5_0.relationId) then
-				ArchiveAction.QueryRelationStoryReward(arg_5_0.relationId)
+	slot0:AddBtnListener(nil, slot0.m_storyBtn, function ()
+		manager.story:StartStoryById(uv0.storyId, function (slot0)
+			if not ArchiveData:GetRelationStoryRead(uv0.relationId) then
+				ArchiveAction.QueryRelationStoryReward(uv0.relationId)
 			end
 		end)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_coopBtn, function()
-		local var_10_0 = ComboSkillTools.GetHeroComboSkill(arg_5_0.heroId)
-		local var_10_1 = arg_5_0:GetComboSkillId(arg_5_0.heroId, arg_5_0.targetId)
-
-		if table.indexof(var_10_0, var_10_1) then
-			arg_5_0.comboId = var_10_1
+	slot0:AddBtnListener(nil, slot0.m_coopBtn, function ()
+		if table.indexof(ComboSkillTools.GetHeroComboSkill(uv0.heroId), uv0:GetComboSkillId(uv0.heroId, uv0.targetId)) then
+			uv0.comboId = slot1
 		end
 
-		arg_5_0:RefreshCombo()
-		arg_5_0.pageController:SetSelectedIndex(1)
+		uv0:RefreshCombo()
+		uv0.pageController:SetSelectedIndex(1)
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_comboUpLevelBtn, function()
-		if arg_5_0.comboId == 0 then
+	slot0:AddBtnListener(nil, slot0.m_comboUpLevelBtn, function ()
+		if uv0.comboId == 0 then
 			return
 		end
 
-		local var_11_0 = ComboSkillTools.GetMaxComboSkillLevel(arg_5_0.comboId)
-		local var_11_1 = ComboSkillData:GetCurComboSkillLevel(arg_5_0.comboId)
+		if ComboSkillData:GetCurComboSkillLevel(uv0.comboId) < ComboSkillTools.GetMaxComboSkillLevel(uv0.comboId) then
+			slot3 = true
 
-		if var_11_1 < var_11_0 then
-			local var_11_2 = ComboSkillLevelCfg.get_id_list_by_level[var_11_1]
-			local var_11_3 = true
-
-			for iter_11_0, iter_11_1 in ipairs(var_11_2) do
-				if not ComboSkillTools.CheckComboSkillUpContion(iter_11_1, arg_5_0.comboId) then
-					var_11_3 = false
+			for slot7, slot8 in ipairs(ComboSkillLevelCfg.get_id_list_by_level[slot1]) do
+				if not ComboSkillTools.CheckComboSkillUpContion(slot8, uv0.comboId) then
+					slot3 = false
 
 					break
 				end
 			end
 
-			if var_11_3 then
-				ComboSkillAction.QueryUpgradeComboSkillLevel(arg_5_0.comboId)
+			if slot3 then
+				ComboSkillAction.QueryUpgradeComboSkillLevel(uv0.comboId)
 			else
 				ShowTips("HERO_COMBO_SKILL_LEVEL_UP_FAIL")
 			end
 		end
 	end)
-	arg_5_0:AddBtnListener(nil, arg_5_0.m_targetHeroBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_targetHeroBtn, function ()
 		JumpTools.OpenPageByJump("/newHero", {
 			isEnter = true,
-			hid = arg_5_0.targetId
+			hid = uv0.targetId
 		}, ViewConst.SYSTEM_ID.PLAYER_INFO)
 	end)
 end
 
-function var_0_0.OnTop(arg_13_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnEnter(arg_14_0)
-	HeroTools.SetHeroNewTagRed(arg_14_0.params_.heroId, "unlockRelation", table.concat({
+function slot0.OnEnter(slot0)
+	HeroTools.SetHeroNewTagRed(slot0.params_.heroId, "unlockRelation", table.concat({
 		RedPointConst.HERO_REALTION,
 		"_",
-		arg_14_0.params_.heroId
+		slot0.params_.heroId
 	}), false)
 
-	arg_14_0.heroId = arg_14_0.params_.heroId
-	arg_14_0.comboId = 0
+	slot0.heroId = slot0.params_.heroId
+	slot0.comboId = 0
+	slot0.m_heroName.text = HeroCfg[slot0.heroId].name
+	slot0.m_heroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.heroId)
+	slot2 = ArchiveData:GetTrustLevel(slot0.heroId)
 
-	local var_14_0 = HeroCfg[arg_14_0.heroId]
-
-	arg_14_0.m_heroName.text = var_14_0.name
-	arg_14_0.m_heroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_14_0.heroId)
-
-	local var_14_1 = ArchiveData:GetTrustLevel(arg_14_0.heroId)
-
-	if arg_14_0.select_net == nil then
-		arg_14_0.select_net = 1
+	if slot0.select_net == nil then
+		slot0.select_net = 1
 	else
-		arg_14_0.select_net = math.min(var_14_1, arg_14_0.select_net)
+		slot0.select_net = math.min(slot2, slot0.select_net)
 	end
 
-	local var_14_2 = HeroRelationNetCfg.get_id_list_by_hero_id[arg_14_0.heroId][arg_14_0.select_net]
+	slot0.targetId = HeroRelationNetCfg[HeroRelationNetCfg.get_id_list_by_hero_id[slot0.heroId][slot0.select_net]].intimate[1]
 
-	arg_14_0.targetId = HeroRelationNetCfg[var_14_2].intimate[1]
+	slot0.pageController:SetSelectedIndex(0)
 
-	arg_14_0.pageController:SetSelectedIndex(0)
+	if slot0.params_.page then
+		slot0.pageController:SetSelectedIndex(slot0.params_.page)
 
-	if arg_14_0.params_.page then
-		arg_14_0.pageController:SetSelectedIndex(arg_14_0.params_.page)
-
-		arg_14_0.params_.page = nil
+		slot0.params_.page = nil
 	end
 
-	if arg_14_0.params_.comboId then
-		arg_14_0.comboId = arg_14_0.params_.comboId
-		arg_14_0.params_.comboId = nil
+	if slot0.params_.comboId then
+		slot0.comboId = slot0.params_.comboId
+		slot0.params_.comboId = nil
 	end
 
-	arg_14_0:RefreshAttr()
-	arg_14_0:Refresh()
-	arg_14_0:RefreshRedPoint()
-	manager.redPoint:bindUIandKey(arg_14_0.m_comboBtn.transform, string.format("%s_%s", RedPointConst.HERO_RELATION_COMBO_SKILL, arg_14_0.heroId))
+	slot0:RefreshAttr()
+	slot0:Refresh()
+	slot0:RefreshRedPoint()
+	manager.redPoint:bindUIandKey(slot0.m_comboBtn.transform, string.format("%s_%s", RedPointConst.HERO_RELATION_COMBO_SKILL, slot0.heroId))
 end
 
-function var_0_0.OnExit(arg_15_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.redPoint:unbindUIandKey(arg_15_0.m_comboBtn.transform)
+	manager.redPoint:unbindUIandKey(slot0.m_comboBtn.transform)
 end
 
-function var_0_0.RefreshAttr(arg_16_0)
-	local var_16_0 = HeroData:GetHeroData(arg_16_0.heroId).relation
-	local var_16_1
-	local var_16_2
+function slot0.RefreshAttr(slot0)
+	slot3 = nil
+	slot3, slot0.relationAttrData = HeroData:GetHeroData(slot0.heroId).relation:GetRelationNetAttr()
 
-	var_16_2, arg_16_0.relationAttrData = var_16_0:GetRelationNetAttr()
-
-	table.sort(arg_16_0.relationAttrData, function(arg_17_0, arg_17_1)
-		return arg_17_0[1] < arg_17_1[1]
+	table.sort(slot0.relationAttrData, function (slot0, slot1)
+		return slot0[1] < slot1[1]
 	end)
-	arg_16_0.attrList:StartScroll(#arg_16_0.relationAttrData)
+	slot0.attrList:StartScroll(#slot0.relationAttrData)
 end
 
-function var_0_0.Refresh(arg_18_0)
-	local var_18_0 = HeroCfg[arg_18_0.targetId]
+function slot0.Refresh(slot0)
+	slot0.m_targetHeroName.text = HeroCfg[slot0.targetId].name
+	slot0.m_targetHeroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.targetId)
+	slot0.m_relationLab.text = ArchiveTools.GetRelationConfig(slot0.heroId, slot0.targetId) and slot2.relation_des or ""
 
-	arg_18_0.m_targetHeroName.text = var_18_0.name
-	arg_18_0.m_targetHeroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_18_0.targetId)
-
-	local var_18_1 = ArchiveTools.GetRelationConfig(arg_18_0.heroId, arg_18_0.targetId)
-
-	arg_18_0.m_relationLab.text = var_18_1 and var_18_1.relation_des or ""
-
-	if var_18_1 and var_18_1.story_id ~= 0 and IsConditionAchieved(var_18_1.story_condtion_id, {
-		heroId = arg_18_0.heroId
+	if slot2 and slot2.story_id ~= 0 and IsConditionAchieved(slot2.story_condtion_id, {
+		heroId = slot0.heroId
 	}) then
-		arg_18_0.storyId = var_18_1.story_id
-		arg_18_0.relationId = var_18_1.id
+		slot0.storyId = slot2.story_id
+		slot0.relationId = slot2.id
 
-		arg_18_0.storyController:SetSelectedIndex(1)
+		slot0.storyController:SetSelectedIndex(1)
 
-		if not ArchiveData:GetRelationStoryRead(var_18_1.id) then
-			manager.redPoint:SetRedPointIndependent(arg_18_0.m_storyBtn.transform, true)
+		if not ArchiveData:GetRelationStoryRead(slot2.id) then
+			manager.redPoint:SetRedPointIndependent(slot0.m_storyBtn.transform, true)
 		else
-			manager.redPoint:SetRedPointIndependent(arg_18_0.m_storyBtn.transform, false)
+			manager.redPoint:SetRedPointIndependent(slot0.m_storyBtn.transform, false)
 		end
 	else
-		arg_18_0.storyController:SetSelectedIndex(0)
+		slot0.storyController:SetSelectedIndex(0)
 	end
 
-	arg_18_0:RefreshNet()
+	slot0:RefreshNet()
 
-	local var_18_2 = arg_18_0:GetComboSkillId(arg_18_0.heroId, arg_18_0.targetId)
+	if slot0:GetComboSkillId(slot0.heroId, slot0.targetId) ~= 0 then
+		slot0.m_skillLevel.text = GetTips("LEVEL") .. ComboSkillData:GetCurComboSkillLevel(slot3)
 
-	if var_18_2 ~= 0 then
-		local var_18_3 = ComboSkillData:GetCurComboSkillLevel(var_18_2)
+		if #ComboSkillCfg[slot3].cooperate_role_ids == 3 then
+			slot0.threeTeamskillController:SetSelectedIndex(1)
 
-		arg_18_0.m_skillLevel.text = GetTips("LEVEL") .. var_18_3
-
-		local var_18_4 = ComboSkillCfg[var_18_2]
-
-		if #var_18_4.cooperate_role_ids == 3 then
-			arg_18_0.threeTeamskillController:SetSelectedIndex(1)
-
-			for iter_18_0, iter_18_1 in ipairs(var_18_4.cooperate_role_ids) do
-				if iter_18_1 ~= arg_18_0.heroId and iter_18_1 ~= arg_18_0.targetId then
-					arg_18_0.m_thirdHeroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. iter_18_1)
+			for slot9, slot10 in ipairs(slot5.cooperate_role_ids) do
+				if slot10 ~= slot0.heroId and slot10 ~= slot0.targetId then
+					slot0.m_thirdHeroIcon.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot10)
 
 					break
 				end
 			end
 		else
-			arg_18_0.threeTeamskillController:SetSelectedIndex(0)
+			slot0.threeTeamskillController:SetSelectedIndex(0)
 		end
 
-		arg_18_0.showComboController:SetSelectedIndex(1)
+		slot0.showComboController:SetSelectedIndex(1)
 	else
-		arg_18_0.showComboController:SetSelectedIndex(0)
+		slot0.showComboController:SetSelectedIndex(0)
 	end
 
-	local var_18_5 = ComboSkillTools.GetHeroComboSkill(arg_18_0.heroId)
-	local var_18_6 = #var_18_5
-
-	if var_18_6 == 0 then
-		arg_18_0.pageController:SetSelectedIndex(0)
+	if #ComboSkillTools.GetHeroComboSkill(slot0.heroId) == 0 then
+		slot0.pageController:SetSelectedIndex(0)
 	else
-		for iter_18_2 = 1, var_18_6 do
-			if not arg_18_0.comboItems[iter_18_2] then
-				local var_18_7 = Object.Instantiate(arg_18_0.m_comboSkillItem, arg_18_0.m_comboSkillContent)
-				local var_18_8 = HeroTrammelsComboItem.New(var_18_7, iter_18_2)
+		for slot9 = 1, slot5 do
+			if not slot0.comboItems[slot9] then
+				slot11 = HeroTrammelsComboItem.New(Object.Instantiate(slot0.m_comboSkillItem, slot0.m_comboSkillContent), slot9)
 
-				var_18_8:RegistCallBack(arg_18_0.comboClickHanle)
+				slot11:RegistCallBack(slot0.comboClickHanle)
 
-				arg_18_0.comboItems[iter_18_2] = var_18_8
+				slot0.comboItems[slot9] = slot11
 			end
 
-			arg_18_0.comboItems[iter_18_2]:SetActive(true)
-
-			local var_18_9 = var_18_5[iter_18_2]
-
-			arg_18_0.comboItems[iter_18_2]:SetData(var_18_9)
+			slot0.comboItems[slot9]:SetActive(true)
+			slot0.comboItems[slot9]:SetData(slot4[slot9])
 		end
 
-		for iter_18_3 = var_18_6 + 1, #arg_18_0.comboItems do
-			arg_18_0.comboItems[iter_18_3]:SetActive(false)
+		for slot9 = slot5 + 1, #slot0.comboItems do
+			slot0.comboItems[slot9]:SetActive(false)
 		end
 
-		arg_18_0:RefreshCombo()
+		slot0:RefreshCombo()
 	end
 end
 
-function var_0_0.RefreshRedPoint(arg_19_0)
-	local var_19_0 = ArchiveData:GetTrustLevel(arg_19_0.heroId)
+function slot0.RefreshRedPoint(slot0)
+	for slot5, slot6 in ipairs(slot0.switchNetItems) do
+		slot8 = HeroRelationNetCfg.get_id_list_by_hero_id[slot0.heroId][slot5]
 
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0.switchNetItems) do
-		local var_19_1 = HeroRelationNetCfg.get_id_list_by_hero_id[arg_19_0.heroId][iter_19_0]
+		if slot5 <= ArchiveData:GetTrustLevel(slot0.heroId) and slot8 then
+			slot10 = false
 
-		if iter_19_0 <= var_19_0 and var_19_1 then
-			local var_19_2 = HeroRelationNetCfg[var_19_1]
-			local var_19_3 = false
-
-			for iter_19_2, iter_19_3 in ipairs(var_19_2.intimate) do
-				local var_19_4 = ArchiveTools.GetRelationConfig(arg_19_0.heroId, iter_19_3)
-
-				if var_19_4 and var_19_4.story_id ~= 0 and not ArchiveData:GetRelationStoryRead(var_19_4.id) and IsConditionAchieved(var_19_4.story_condtion_id, {
-					heroId = arg_19_0.heroId
+			for slot14, slot15 in ipairs(HeroRelationNetCfg[slot8].intimate) do
+				if ArchiveTools.GetRelationConfig(slot0.heroId, slot15) and slot16.story_id ~= 0 and not ArchiveData:GetRelationStoryRead(slot16.id) and IsConditionAchieved(slot16.story_condtion_id, {
+					heroId = slot0.heroId
 				}) then
-					var_19_3 = true
+					slot10 = true
 
 					break
 				end
 			end
 
-			if not var_19_3 then
-				local var_19_5 = HeroData:GetHeroData(arg_19_0.heroId)
-				local var_19_6 = HeroRelationNetCfg.get_id_list_by_hero_id[arg_19_0.heroId] or {}
+			if not slot10 then
+				slot11 = HeroData:GetHeroData(slot0.heroId)
 
-				for iter_19_4, iter_19_5 in ipairs(var_19_6) do
-					local var_19_7 = HeroRelationNetCfg[iter_19_5]
-
-					if var_19_7.index == iter_19_0 then
-						for iter_19_6, iter_19_7 in ipairs(var_19_7.relation_upgrade_group) do
-							local var_19_8 = HeroRelationUpgradeCfg[iter_19_7]
-
-							if not var_19_5.relation:GetIsUnlock(var_19_7.index, iter_19_6) and ArchiveTools.CheckRelationUpgradeCondition(var_19_8.condition_id, var_19_7.intimate) then
-								var_19_3 = true
+				for slot16, slot17 in ipairs(HeroRelationNetCfg.get_id_list_by_hero_id[slot0.heroId] or {}) do
+					if HeroRelationNetCfg[slot17].index == slot5 then
+						for slot22, slot23 in ipairs(slot18.relation_upgrade_group) do
+							if not slot11.relation:GetIsUnlock(slot18.index, slot22) and ArchiveTools.CheckRelationUpgradeCondition(HeroRelationUpgradeCfg[slot23].condition_id, slot18.intimate) then
+								slot10 = true
 
 								break
 							end
@@ -308,198 +260,180 @@ function var_0_0.RefreshRedPoint(arg_19_0)
 				end
 			end
 
-			manager.redPoint:SetRedPointIndependent(iter_19_1.transform_, var_19_3)
+			manager.redPoint:SetRedPointIndependent(slot6.transform_, slot10)
 		else
-			manager.redPoint:SetRedPointIndependent(iter_19_1.transform_, false)
+			manager.redPoint:SetRedPointIndependent(slot6.transform_, false)
 		end
 	end
 end
 
-function var_0_0.RefreshNet(arg_20_0)
-	local var_20_0 = ArchiveData:GetTrustLevel(arg_20_0.heroId)
+function slot0.RefreshNet(slot0)
+	slot1 = ArchiveData:GetTrustLevel(slot0.heroId)
 
-	for iter_20_0, iter_20_1 in ipairs(arg_20_0.switchNetItems) do
-		local var_20_1 = 1
+	for slot5, slot6 in ipairs(slot0.switchNetItems) do
+		slot7 = 1
 
-		if iter_20_0 == arg_20_0.select_net then
-			var_20_1 = 2
-		elseif var_20_0 < iter_20_0 then
-			var_20_1 = 0
+		if slot5 == slot0.select_net then
+			slot7 = 2
+		elseif slot1 < slot5 then
+			slot7 = 0
 		end
 
-		iter_20_1:SetData(var_20_1)
+		slot6:SetData(slot7)
 	end
 
-	arg_20_0.m_indexLab.text = "0" .. arg_20_0.select_net
+	slot0.m_indexLab.text = "0" .. slot0.select_net
 
-	local var_20_2 = HeroRelationNetCfg.get_id_list_by_hero_id[arg_20_0.heroId][arg_20_0.select_net]
+	if HeroRelationNetCfg.get_id_list_by_hero_id[slot0.heroId][slot0.select_net] then
+		slot4 = HeroRelationNetCfg[slot3]
+		slot0.netMissionData = slot4.relation_upgrade_group
+		slot0.netPartnerData = slot4.intimate
 
-	if var_20_2 then
-		local var_20_3 = HeroRelationNetCfg[var_20_2]
-
-		arg_20_0.netMissionData = var_20_3.relation_upgrade_group
-		arg_20_0.netPartnerData = var_20_3.intimate
-
-		arg_20_0.netMissionList:StartScroll(#arg_20_0.netMissionData)
-		arg_20_0.netPartnerList:StartScroll(#arg_20_0.netPartnerData)
+		slot0.netMissionList:StartScroll(#slot0.netMissionData)
+		slot0.netPartnerList:StartScroll(#slot0.netPartnerData)
 	else
-		arg_20_0.netMissionList:StartScroll(0)
-		arg_20_0.netPartnerList:StartScroll(0)
+		slot0.netMissionList:StartScroll(0)
+		slot0.netPartnerList:StartScroll(0)
 	end
 end
 
-function var_0_0.RefreshCombo(arg_21_0)
-	local var_21_0 = 0
+function slot0.RefreshCombo(slot0)
+	slot1 = 0
 
-	for iter_21_0, iter_21_1 in ipairs(arg_21_0.comboItems) do
-		iter_21_1:RefreshState(arg_21_0.comboId)
+	for slot5, slot6 in ipairs(slot0.comboItems) do
+		slot6:RefreshState(slot0.comboId)
 
-		if arg_21_0.comboId == iter_21_1:GetComboId() then
-			var_21_0 = iter_21_0
+		if slot0.comboId == slot6:GetComboId() then
+			slot1 = slot5
 		end
 	end
 
-	if arg_21_0.comboId == 0 then
-		SetActive(arg_21_0.m_comboSkillInfoGo, false)
+	if slot0.comboId == 0 then
+		SetActive(slot0.m_comboSkillInfoGo, false)
 	else
-		SetActive(arg_21_0.m_comboSkillInfoGo, true)
+		SetActive(slot0.m_comboSkillInfoGo, true)
 
-		local var_21_1 = ComboSkillTools.GetMaxComboSkillLevel(arg_21_0.comboId)
-		local var_21_2 = ComboSkillData:GetCurComboSkillLevel(arg_21_0.comboId)
-		local var_21_3 = ComboSkillCfg[arg_21_0.comboId]
-		local var_21_4 = HeroSkillCfg[var_21_3.skill_id]
+		slot3 = ComboSkillData:GetCurComboSkillLevel(slot0.comboId)
+		slot4 = ComboSkillCfg[slot0.comboId]
+		slot0.m_comboDes.text = GetCfgDescription(HeroSkillCfg[slot4.skill_id].desc[1], slot3, 2, slot4.maxLevel)
 
-		arg_21_0.m_comboDes.text = GetCfgDescription(var_21_4.desc[1], var_21_2, 2, var_21_3.maxLevel)
+		if slot3 < ComboSkillTools.GetMaxComboSkillLevel(slot0.comboId) then
+			slot0.comboMissionData = ComboSkillLevelCfg.get_id_list_by_level[slot3]
 
-		if var_21_2 < var_21_1 then
-			arg_21_0.comboMissionData = ComboSkillLevelCfg.get_id_list_by_level[var_21_2]
+			slot0.comboMissionList:StartScroll(#slot0.comboMissionData)
+			slot0.comboMaxLvController:SetSelectedIndex(1)
+			slot0.lvupController:SetSelectedIndex(1)
 
-			arg_21_0.comboMissionList:StartScroll(#arg_21_0.comboMissionData)
-			arg_21_0.comboMaxLvController:SetSelectedIndex(1)
-			arg_21_0.lvupController:SetSelectedIndex(1)
-
-			arg_21_0.m_comboUpLevelDes.text = GetTipsF("HERO_COMBO_SKILL_LEVEL_UP_BUTTON_LAB", "")
+			slot0.m_comboUpLevelDes.text = GetTipsF("HERO_COMBO_SKILL_LEVEL_UP_BUTTON_LAB", "")
 		else
-			arg_21_0.comboMaxLvController:SetSelectedIndex(0)
-			arg_21_0.lvupController:SetSelectedIndex(0)
+			slot0.comboMaxLvController:SetSelectedIndex(0)
+			slot0.lvupController:SetSelectedIndex(0)
 		end
 
-		arg_21_0.m_comboSkillInfoGo.transform:SetSiblingIndex(var_21_0 + 1)
+		slot0.m_comboSkillInfoGo.transform:SetSiblingIndex(slot1 + 1)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_21_0.m_comboSkillContent)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_comboSkillContent)
 end
 
-function var_0_0.Dispose(arg_22_0)
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.switchNetItems) do
-		iter_22_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.switchNetItems) do
+		slot5:Dispose()
 	end
 
-	arg_22_0.switchNetItems = {}
+	slot0.switchNetItems = {}
 
-	for iter_22_2, iter_22_3 in ipairs(arg_22_0.comboItems) do
-		iter_22_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.comboItems) do
+		slot5:Dispose()
 	end
 
-	arg_22_0.comboItems = {}
+	slot0.comboItems = {}
 
-	arg_22_0.attrList:Dispose()
-	arg_22_0.netMissionList:Dispose()
-	arg_22_0.netPartnerList:Dispose()
-	arg_22_0.comboMissionList:Dispose()
-	var_0_0.super.Dispose(arg_22_0)
+	slot0.attrList:Dispose()
+	slot0.netMissionList:Dispose()
+	slot0.netPartnerList:Dispose()
+	slot0.comboMissionList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SwitchNetClick(arg_23_0, arg_23_1)
-	if arg_23_1 == arg_23_0.select_net then
+function slot0.SwitchNetClick(slot0, slot1)
+	if slot1 == slot0.select_net then
 		return
 	end
 
-	if arg_23_1 > ArchiveData:GetTrustLevel(arg_23_0.heroId) then
-		ShowTips(GetTipsF("HERO_RELATION_UNLOCK_TRUST_LV", ArchiveTools.GetTrustLvDes(arg_23_1)))
+	if ArchiveData:GetTrustLevel(slot0.heroId) < slot1 then
+		ShowTips(GetTipsF("HERO_RELATION_UNLOCK_TRUST_LV", ArchiveTools.GetTrustLvDes(slot1)))
 
 		return
 	end
 
-	arg_23_0.select_net = arg_23_1
+	slot0.select_net = slot1
 
-	arg_23_0:RefreshNet()
+	slot0:RefreshNet()
 end
 
-function var_0_0.PartnerClick(arg_24_0, arg_24_1)
-	if arg_24_1 == arg_24_0.targetId then
+function slot0.PartnerClick(slot0, slot1)
+	if slot1 == slot0.targetId then
 		return
 	end
 
-	arg_24_0.targetId = arg_24_1
+	slot0.targetId = slot1
 
-	arg_24_0:Refresh()
+	slot0:Refresh()
 end
 
-function var_0_0.ComboClick(arg_25_0, arg_25_1)
-	if arg_25_1 == arg_25_0.comboId then
-		arg_25_0.comboId = 0
+function slot0.ComboClick(slot0, slot1)
+	if slot1 == slot0.comboId then
+		slot0.comboId = 0
 	else
-		arg_25_0.comboId = arg_25_1
+		slot0.comboId = slot1
 	end
 
-	arg_25_0:RefreshCombo()
+	slot0:RefreshCombo()
 end
 
-function var_0_0.GetComboSkillId(arg_26_0, arg_26_1, arg_26_2)
-	local var_26_0 = ComboSkillTools.GetHeroComboSkill(arg_26_1) or {}
-
-	for iter_26_0, iter_26_1 in ipairs(var_26_0) do
-		local var_26_1 = ComboSkillCfg[iter_26_1]
-
-		if table.keyof(var_26_1.cooperate_role_ids, arg_26_2) then
-			return iter_26_1
+function slot0.GetComboSkillId(slot0, slot1, slot2)
+	for slot7, slot8 in ipairs(ComboSkillTools.GetHeroComboSkill(slot1) or {}) do
+		if table.keyof(ComboSkillCfg[slot8].cooperate_role_ids, slot2) then
+			return slot8
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.IndexAttrItem(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = arg_27_0.relationAttrData[arg_27_1]
-
-	arg_27_2:SetData(var_27_0)
+function slot0.IndexAttrItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.relationAttrData[slot1])
 end
 
-function var_0_0.IndexNetMissionItem(arg_28_0, arg_28_1, arg_28_2)
-	local var_28_0 = arg_28_0.netMissionData[arg_28_1]
-
-	arg_28_2:SetData(var_28_0, arg_28_0.select_net, arg_28_1, arg_28_0.heroId, arg_28_0.netPartnerData)
+function slot0.IndexNetMissionItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.netMissionData[slot1], slot0.select_net, slot1, slot0.heroId, slot0.netPartnerData)
 end
 
-function var_0_0.IndexNetPartnerItem(arg_29_0, arg_29_1, arg_29_2)
-	local var_29_0 = arg_29_0.netPartnerData[arg_29_1]
-
-	arg_29_2:SetData(var_29_0, arg_29_0.targetId, arg_29_0.heroId)
-	arg_29_2:RegistCallBack(arg_29_0.partnerClickHandle)
+function slot0.IndexNetPartnerItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.netPartnerData[slot1], slot0.targetId, slot0.heroId)
+	slot2:RegistCallBack(slot0.partnerClickHandle)
 end
 
-function var_0_0.IndexComboMissionItem(arg_30_0, arg_30_1, arg_30_2)
-	local var_30_0 = arg_30_0.comboMissionData[arg_30_1]
-
-	arg_30_2:SetData(var_30_0, arg_30_0.comboId)
+function slot0.IndexComboMissionItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.comboMissionData[slot1], slot0.comboId)
 end
 
-function var_0_0.OnHeroRelationNetUnlock(arg_31_0)
-	arg_31_0.netMissionList:Refresh()
-	arg_31_0:RefreshAttr()
-	arg_31_0:RefreshRedPoint()
+function slot0.OnHeroRelationNetUnlock(slot0)
+	slot0.netMissionList:Refresh()
+	slot0:RefreshAttr()
+	slot0:RefreshRedPoint()
 end
 
-function var_0_0.OnHeroComboSkillLevelUp(arg_32_0)
-	arg_32_0:Refresh()
-	ArchiveAction.CheckComboSkillRedPoint(arg_32_0.heroId)
+function slot0.OnHeroComboSkillLevelUp(slot0)
+	slot0:Refresh()
+	ArchiveAction.CheckComboSkillRedPoint(slot0.heroId)
 end
 
-function var_0_0.OnHeroRelationStoryReward(arg_33_0)
-	manager.redPoint:SetRedPointIndependent(arg_33_0.m_storyBtn.transform, false)
-	arg_33_0:RefreshRedPoint()
-	arg_33_0.netPartnerList:Refresh()
+function slot0.OnHeroRelationStoryReward(slot0)
+	manager.redPoint:SetRedPointIndependent(slot0.m_storyBtn.transform, false)
+	slot0:RefreshRedPoint()
+	slot0.netPartnerList:Refresh()
 end
 
-return var_0_0
+return slot0

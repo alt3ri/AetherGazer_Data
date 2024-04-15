@@ -1,945 +1,747 @@
-local var_0_0 = {}
-local var_0_1 = import("game.const.ShopConst")
+slot1 = import("game.const.ShopConst")
 
-function var_0_0.GetShopRedPointKey(arg_1_0)
-	return "SHOP_" .. tostring(arg_1_0)
-end
+return {
+	GetShopRedPointKey = function (slot0)
+		return "SHOP_" .. tostring(slot0)
+	end,
+	CollectShopInGroup = function (slot0)
+		for slot5, slot6 in ipairs(slot0) do
+			-- Nothing
+		end
 
-function var_0_0.CollectShopInGroup(arg_2_0)
-	local var_2_0 = {}
+		slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0) do
-		var_2_0[iter_2_1] = true
-	end
-
-	local var_2_1 = {}
-
-	if next(var_2_0) then
-		for iter_2_2, iter_2_3 in ipairs(ShopListCfg.all) do
-			if var_2_0[ShopListCfg[iter_2_3].display_group] then
-				table.insert(var_2_1, iter_2_3)
+		if next({
+			[slot6] = true
+		}) then
+			for slot6, slot7 in ipairs(ShopListCfg.all) do
+				if slot1[ShopListCfg[slot7].display_group] then
+					table.insert(slot2, slot7)
+				end
 			end
 		end
-	end
 
-	return var_2_1
-end
+		return slot2
+	end,
+	FilterShopDataList = function (slot0, slot1)
+		slot2 = {}
 
-function var_0_0.FilterShopDataList(arg_3_0, arg_3_1)
-	arg_3_1 = arg_3_1 or false
-
-	local var_3_0 = {}
-	local var_3_1 = ShopData.GetShop(arg_3_0).shopItemIDs
-
-	for iter_3_0, iter_3_1 in pairs(var_3_1) do
-		if var_0_0.IsGoodCanDisplay(arg_3_0, iter_3_1, arg_3_1) then
-			local var_3_2 = ShopData.GetShop(arg_3_0)[iter_3_1]
-
-			table.insert(var_3_0, {
-				id = iter_3_1,
-				shopId = arg_3_0,
-				buyTime = var_3_2 ~= nil and var_3_2.buy_times or 0,
-				next_refresh_timestamp = var_3_2 ~= nil and var_3_2.next_refresh_timestamp or 0
-			})
-		end
-	end
-
-	table.sort(var_3_0, function(arg_4_0, arg_4_1)
-		return getShopCfg(arg_4_0.id).shop_sort > getShopCfg(arg_4_1.id).shop_sort
-	end)
-
-	return var_3_0
-end
-
-function var_0_0.CommonSort(arg_5_0)
-	table.sort(arg_5_0, function(arg_6_0, arg_6_1)
-		local var_6_0 = getShopCfg(arg_6_0.id)
-		local var_6_1 = getShopCfg(arg_6_1.id)
-		local var_6_2 = var_0_0.GetGoodStatus(arg_6_0.id)
-		local var_6_3 = var_0_0.GetGoodStatus(arg_6_1.id)
-
-		if var_6_2 ~= var_6_3 then
-			return var_6_2 < var_6_3
+		for slot7, slot8 in pairs(ShopData.GetShop(slot0).shopItemIDs) do
+			if uv0.IsGoodCanDisplay(slot0, slot8, slot1 or false) then
+				table.insert(slot2, {
+					id = slot8,
+					shopId = slot0,
+					buyTime = ShopData.GetShop(slot0)[slot8] ~= nil and slot9.buy_times or 0,
+					next_refresh_timestamp = slot9 ~= nil and slot9.next_refresh_timestamp or 0
+				})
+			end
 		end
 
-		if var_6_0.shop_sort ~= var_6_1.shop_sort then
-			return var_6_0.shop_sort > var_6_1.shop_sort
+		table.sort(slot2, function (slot0, slot1)
+			return getShopCfg(slot1.id).shop_sort < getShopCfg(slot0.id).shop_sort
+		end)
+
+		return slot2
+	end,
+	CommonSort = function (slot0)
+		table.sort(slot0, function (slot0, slot1)
+			slot2 = getShopCfg(slot0.id)
+			slot3 = getShopCfg(slot1.id)
+
+			if uv0.GetGoodStatus(slot0.id) ~= uv0.GetGoodStatus(slot1.id) then
+				return slot4 < slot5
+			end
+
+			if slot2.shop_sort ~= slot3.shop_sort then
+				return slot3.shop_sort < slot2.shop_sort
+			end
+
+			return slot3.goods_id < slot2.goods_id
+		end)
+
+		return slot0
+	end,
+	GetGoodStatus = function (slot0)
+		slot1 = false
+		slot4 = ShopData.GetShop(getShopCfg(slot0).shop_id)[slot0]
+
+		if ShopData.IsGoodOutOfDate(slot0) then
+			return 3
 		end
 
-		return var_6_0.goods_id > var_6_1.goods_id
-	end)
+		if slot4 ~= nil and slot2.limit_num ~= nil and slot2.limit_num ~= -1 and slot2.limit_num - (slot4.buy_times or 0) <= 0 then
+			slot1 = true
+		end
 
-	return arg_5_0
-end
+		if slot1 then
+			return 3
+		end
 
-function var_0_0.GetGoodStatus(arg_7_0)
-	local var_7_0 = false
-	local var_7_1 = getShopCfg(arg_7_0)
-	local var_7_2 = ShopData.GetShop(var_7_1.shop_id)[arg_7_0]
+		if ShopData.IsGoodUnlock(slot0) == 0 then
+			return 1
+		end
 
-	if ShopData.IsGoodOutOfDate(arg_7_0) then
-		return 3
-	end
-
-	if var_7_2 ~= nil and var_7_1.limit_num ~= nil and var_7_1.limit_num ~= -1 and var_7_1.limit_num - (var_7_2.buy_times or 0) <= 0 then
-		var_7_0 = true
-	end
-
-	if var_7_0 then
-		return 3
-	end
-
-	if ShopData.IsGoodUnlock(arg_7_0) == 0 then
-		return 1
-	end
-
-	return 0
-end
-
-function var_0_0.CheckLevelEnough(arg_8_0)
-	local var_8_0 = getShopCfg(arg_8_0)
-
-	if #var_8_0.level_limit > 0 then
-		if var_8_0.level_limit[1][1] ~= nil then
-			if var_8_0.level_limit[1][1] == 1 and PlayerData:GetPlayerInfo().userLevel < var_8_0.level_limit[1][2] then
+		return 0
+	end,
+	CheckLevelEnough = function (slot0)
+		if #getShopCfg(slot0).level_limit > 0 then
+			if slot1.level_limit[1][1] ~= nil then
+				if slot1.level_limit[1][1] == 1 and PlayerData:GetPlayerInfo().userLevel < slot1.level_limit[1][2] then
+					return false
+				end
+			elseif slot1.level_limit[1].type and slot1.level_limit[1].type == 1 and PlayerData:GetPlayerInfo().userLevel < slot1.level_limit[1].num then
 				return false
 			end
-		elseif var_8_0.level_limit[1].type and var_8_0.level_limit[1].type == 1 and PlayerData:GetPlayerInfo().userLevel < var_8_0.level_limit[1].num then
-			return false
 		end
-	end
 
-	return true
-end
+		return true
+	end,
+	IsGoodCanDisplay = function (slot0, slot1, slot2)
+		slot3 = getShopCfg(slot1)
+		slot4 = true
+		slot5 = true
+		slot6 = true
+		slot7 = true
 
-function var_0_0.IsGoodCanDisplay(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = getShopCfg(arg_9_1)
-	local var_9_1 = true
-	local var_9_2 = true
-	local var_9_3 = true
-	local var_9_4 = true
-	local var_9_5 = var_0_0.CheckSoldOut(arg_9_1)
+		if #uv0.GetNextGoods(slot1) > 0 and uv0.CheckSoldOut(slot1) then
+			slot5 = false
+		end
 
-	if #var_0_0.GetNextGoods(arg_9_1) > 0 and var_9_5 then
-		var_9_2 = false
-	end
+		if slot3.pre_goods_id ~= nil and #slot3.pre_goods_id > 0 then
+			for slot12, slot13 in ipairs(slot3.pre_goods_id) do
+				slot14 = getShopCfg(slot13)
 
-	if var_9_0.pre_goods_id ~= nil and #var_9_0.pre_goods_id > 0 then
-		for iter_9_0, iter_9_1 in ipairs(var_9_0.pre_goods_id) do
-			local var_9_6 = getShopCfg(iter_9_1)
-			local var_9_7 = ShopData.GetShop(arg_9_0)[iter_9_1]
+				if ShopData.GetShop(slot0)[slot13] ~= nil and slot14.limit_num ~= nil and slot14.limit_num ~= -1 and slot14.limit_num - (slot15.buy_times or 0) > 0 then
+					slot4 = false
 
-			if var_9_7 ~= nil and var_9_6.limit_num ~= nil and var_9_6.limit_num ~= -1 and var_9_6.limit_num - (var_9_7.buy_times or 0) > 0 then
-				var_9_1 = false
+					break
+				end
+			end
 
-				break
+			if #uv0.GetNextGoods(slot1) == 0 and slot8 and not slot2 then
+				slot6 = false
 			end
 		end
 
-		if #var_0_0.GetNextGoods(arg_9_1) == 0 and var_9_5 and not arg_9_2 then
-			var_9_3 = false
-		end
-	end
+		slot10 = false
 
-	local var_9_8 = var_0_0.CheckInSoldTime(arg_9_1)
-	local var_9_9 = (not var_0_0.GetIsTakenDown(var_9_0) or false) and (var_9_0.limit_display == 1 or ShopData.IsGoodUnlock(var_9_0.goods_id, arg_9_0) == 1)
-	local var_9_10 = false
-	local var_9_11 = HideInfoData:GetSkinHideList()[arg_9_1] or false
-
-	if var_9_0.taken_down == 0 and var_9_1 and var_9_2 and var_9_3 and var_9_8 and var_9_9 and not var_9_11 then
-		if ShopTools.GetPrice(var_9_0.goods_id) == 0 then
-			ShopData.IsGoodUnlock(var_9_0.goods_id)
-		end
-
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.CheckInSoldTime(arg_10_0)
-	local var_10_0 = getShopCfg(arg_10_0)
-	local var_10_1 = TimeMgr.GetInstance():GetServerTime()
-	local var_10_2 = true
-	local var_10_3 = true
-	local var_10_4 = #var_10_0.open_time < 2 and true or var_10_1 >= TimeMgr.GetInstance():parseTimeFromConfig(var_10_0.open_time)
-	local var_10_5 = #var_10_0.close_time < 2 and true or var_10_1 < TimeMgr.GetInstance():parseTimeFromConfig(var_10_0.close_time)
-
-	return var_10_4 and var_10_5
-end
-
-function var_0_0.GetIsTakenDown(arg_11_0)
-	if arg_11_0.taken_down == 0 then
-		local var_11_0 = ItemCfg[arg_11_0.give_id]
-
-		if var_11_0 and var_11_0.type == ItemConst.ITEM_TYPE.HERO_PIECE and HeroTools.GetIsHide(var_11_0.hero_id) then
-			return true
-		end
-
-		if var_11_0 and var_11_0.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT and ServantTools.GetIsHide(var_11_0.id) then
-			return true
-		end
-
-		if var_11_0 and var_11_0.type == ItemConst.ITEM_TYPE.EQUIP and EquipTools.GetIsHide(var_11_0.id) then
-			return true
-		end
-	else
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.CheckSoldOut(arg_12_0)
-	local var_12_0 = getShopCfg(arg_12_0)
-	local var_12_1 = ShopData.GetShop(var_12_0.shop_id)[arg_12_0]
-
-	if var_12_1 ~= nil and var_12_0.limit_num ~= nil and var_12_0.limit_num ~= -1 and var_12_0.limit_num - (var_12_1.buy_times or 0) <= 0 then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.IsGoodCanBuyInShop(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = getShopCfg(arg_13_1)
-	local var_13_1 = true
-	local var_13_2 = true
-	local var_13_3 = true
-	local var_13_4 = true
-	local var_13_5 = var_0_0.CheckSoldOut(arg_13_1)
-
-	if #var_0_0.GetNextGoods(arg_13_1) > 0 and var_13_5 then
-		var_13_2 = false
-	end
-
-	if var_13_0.pre_goods_id ~= nil and #var_13_0.pre_goods_id > 0 then
-		for iter_13_0, iter_13_1 in ipairs(var_13_0.pre_goods_id) do
-			local var_13_6 = getShopCfg(iter_13_1)
-			local var_13_7 = ShopData.GetShop(arg_13_0)[iter_13_1]
-
-			if var_13_7 ~= nil and var_13_6.limit_num ~= nil and var_13_6.limit_num ~= -1 and var_13_6.limit_num - (var_13_7.buy_times or 0) > 0 then
-				var_13_1 = false
-
-				break
+		if slot3.taken_down == 0 and slot4 and slot5 and slot6 and uv0.CheckInSoldTime(slot1) and ((not uv0.GetIsTakenDown(slot3) or false) and (slot3.limit_display == 1 or ShopData.IsGoodUnlock(slot3.goods_id, slot0) == 1)) and not (HideInfoData:GetSkinHideList()[slot1] or false) then
+			if ShopTools.GetPrice(slot3.goods_id) == 0 then
+				ShopData.IsGoodUnlock(slot3.goods_id)
 			end
-		end
 
-		if #var_0_0.GetNextGoods(arg_13_1) == 0 and var_13_5 and not arg_13_2 then
-			var_13_3 = false
-		end
-	end
-
-	local var_13_8 = var_0_0.CheckInSoldTime(arg_13_1)
-	local var_13_9 = var_13_0.limit_display == 1 or ShopData.IsGoodUnlock(var_13_0.goods_id, arg_13_0) == 1
-
-	if var_13_0.taken_down == 0 and var_13_1 and var_13_2 and var_13_3 and var_13_8 and var_13_9 then
-		if ShopTools.GetPrice(var_13_0.goods_id) == 0 then
-			ShopData.IsGoodUnlock(var_13_0.goods_id)
-		end
-
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.IsGoodCanBuy(arg_14_0, arg_14_1, arg_14_2)
-	return ShopData.GetShop(arg_14_0)[arg_14_1] and var_0_0.IsGoodCanBuyInShop(arg_14_0, arg_14_1, arg_14_2)
-end
-
-function var_0_0.GetNextGoods(arg_15_0)
-	return ShopData.GetNextGoods(arg_15_0)
-end
-
-function var_0_0.JudgeIsLvLimit(arg_16_0)
-	local var_16_0 = PlayerData:GetPlayerInfo().userLevel
-
-	for iter_16_0, iter_16_1 in ipairs(arg_16_0) do
-		if var_0_1.SHOP_LIMIT.PLAYER_LV == iter_16_1[1] and var_16_0 < iter_16_1[2] then
-			return true, iter_16_1
-		end
-	end
-
-	return false
-end
-
-function var_0_0.HaveSkin(arg_17_0)
-	local var_17_0 = SkinCfg[arg_17_0].hero
-	local var_17_1 = HeroData:GetHeroData(var_17_0)
-	local var_17_2 = {}
-
-	for iter_17_0, iter_17_1 in ipairs(var_17_1.unlocked_skin) do
-		if iter_17_1.skin_id == arg_17_0 and iter_17_1.time == 0 then
 			return true
 		end
-	end
 
-	return false
-end
+		return false
+	end,
+	CheckInSoldTime = function (slot0)
+		slot2 = TimeMgr.GetInstance():GetServerTime()
+		slot3 = true
+		slot4 = true
 
-function var_0_0.GetCostLevel(arg_18_0)
-	local var_18_0 = getShopCfg(arg_18_0)
+		return (#getShopCfg(slot0).open_time < 2 and true or TimeMgr.GetInstance():parseTimeFromConfig(slot1.open_time) <= slot2) and (#slot1.close_time < 2 and true or slot2 < TimeMgr.GetInstance():parseTimeFromConfig(slot1.close_time))
+	end,
+	GetIsTakenDown = function (slot0)
+		if slot0.taken_down == 0 then
+			if ItemCfg[slot0.give_id] and slot1.type == ItemConst.ITEM_TYPE.HERO_PIECE and HeroTools.GetIsHide(slot1.hero_id) then
+				return true
+			end
 
-	if var_0_0.GetCostCfg(arg_18_0).type == ItemConst.ITEM_TYPE.CURRENCY then
-		if var_18_0.cost_id == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE or var_18_0.cost_id == CurrencyConst.GetPlatformDiamondId() then
-			return var_0_1.COST_LEVEL.FREE_DIAMOND
+			if slot1 and slot1.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT and ServantTools.GetIsHide(slot1.id) then
+				return true
+			end
+
+			if slot1 and slot1.type == ItemConst.ITEM_TYPE.EQUIP and EquipTools.GetIsHide(slot1.id) then
+				return true
+			end
 		else
-			return var_0_1.COST_LEVEL.RECHARGE_DIAMOND
+			return true
 		end
-	else
-		return var_0_1.COST_LEVEL.MATERIAL
-	end
-end
 
-function var_0_0.DiamondEnoughMessageBox()
-	ShowMessageBox({
-		isTop = true,
-		title = GetTips("PROMPT"),
-		content = GetTips("ERROR_RECHARGE_DIAMOND_NOT_ENOUGH"),
-		OkCallback = function()
-			SDKTools.SendPaymentMessageToSDK("payment_touch", {
-				payment_pay_flower_check = 0
-			})
-			JumpTools.GoToSystem("/rechargeMain", {
-				childShopIndex = 2,
-				page = 3
-			}, ViewConst.SYSTEM_ID.RECHARGE_MAIN)
-		end,
-		CancelCallback = function()
-			SDKTools.SendPaymentMessageToSDK("payment_touch", {
-				payment_pay_flower_check = 1
-			})
+		return false
+	end,
+	CheckSoldOut = function (slot0)
+		if ShopData.GetShop(getShopCfg(slot0).shop_id)[slot0] ~= nil and slot1.limit_num ~= nil and slot1.limit_num ~= -1 and slot1.limit_num - (slot2.buy_times or 0) <= 0 then
+			return true
 		end
-	})
-end
 
-function var_0_0.DefaultOpenPopUp(arg_22_0)
-	JumpTools.OpenPopUp("rechargeDiamondExchange", {
-		getBaseNum = 1,
-		useBaseNum = 1,
-		useId = CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE,
-		getId = CurrencyConst.CURRENCY_TYPE_DIAMOND,
-		defaultNum = arg_22_0
-	}, ViewConst.SYSTEM_ID.RECHARGE_DIAMOND_EXCHANGE)
-end
+		return false
+	end,
+	IsGoodCanBuyInShop = function (slot0, slot1, slot2)
+		slot3 = getShopCfg(slot1)
+		slot4 = true
+		slot5 = true
+		slot6 = true
+		slot7 = true
 
-function var_0_0.CostEnoughJump(arg_23_0)
-	if arg_23_0 == var_0_1.COST_LEVEL.FREE_DIAMOND then
-		var_0_0.DiamondEnoughMessageBox()
-	elseif arg_23_0 == var_0_1.COST_LEVEL.RECHARGE_DIAMOND then
-		var_0_0.DefaultOpenPopUp(0)
-	elseif arg_23_0 == var_0_1.COST_LEVEL.MATERIAL then
-		ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
-	end
-end
+		if #uv0.GetNextGoods(slot1) > 0 and uv0.CheckSoldOut(slot1) then
+			slot5 = false
+		end
 
-function var_0_0.ConfirmBuyItem(arg_24_0, arg_24_1, arg_24_2, arg_24_3, arg_24_4)
-	local var_24_0 = getShopCfg(arg_24_0)
-	local var_24_1 = var_24_0.give_id and ItemCfg[var_24_0.give_id] or RechargeShopDescriptionCfg[var_24_0.description]
-	local var_24_2 = var_0_0.GetCostCfg(arg_24_0)
-	local var_24_3 = var_0_0.GetCostCount(arg_24_0)
-	local var_24_4, var_24_5, var_24_6 = var_0_0.GetPrice(arg_24_0)
-	local var_24_7 = var_0_0.GetCostLevel(arg_24_0)
+		if slot3.pre_goods_id ~= nil and #slot3.pre_goods_id > 0 then
+			for slot12, slot13 in ipairs(slot3.pre_goods_id) do
+				slot14 = getShopCfg(slot13)
 
-	ShowMessageBox({
-		title = GetTips("PROMPT"),
-		content = string.format(GetTips("CONFIRM_BUY"), GetI18NText(var_24_2.name), var_24_4 * arg_24_1, GetI18NText(var_24_1.name), arg_24_1),
-		OkCallback = function()
-			if var_24_3 < var_24_4 * arg_24_1 then
-				var_0_0.CostEnoughJump(var_24_7)
+				if ShopData.GetShop(slot0)[slot13] ~= nil and slot14.limit_num ~= nil and slot14.limit_num ~= -1 and slot14.limit_num - (slot15.buy_times or 0) > 0 then
+					slot4 = false
+
+					break
+				end
+			end
+
+			if #uv0.GetNextGoods(slot1) == 0 and slot8 and not slot2 then
+				slot6 = false
+			end
+		end
+
+		if slot3.taken_down == 0 and slot4 and slot5 and slot6 and uv0.CheckInSoldTime(slot1) and (slot3.limit_display == 1 or ShopData.IsGoodUnlock(slot3.goods_id, slot0) == 1) then
+			if ShopTools.GetPrice(slot3.goods_id) == 0 then
+				ShopData.IsGoodUnlock(slot3.goods_id)
+			end
+
+			return true
+		end
+
+		return false
+	end,
+	IsGoodCanBuy = function (slot0, slot1, slot2)
+		return ShopData.GetShop(slot0)[slot1] and uv0.IsGoodCanBuyInShop(slot0, slot1, slot2)
+	end,
+	GetNextGoods = function (slot0)
+		return ShopData.GetNextGoods(slot0)
+	end,
+	JudgeIsLvLimit = function (slot0)
+		for slot5, slot6 in ipairs(slot0) do
+			if uv0.SHOP_LIMIT.PLAYER_LV == slot6[1] and PlayerData:GetPlayerInfo().userLevel < slot6[2] then
+				return true, slot6
+			end
+		end
+
+		return false
+	end,
+	HaveSkin = function (slot0)
+		slot3 = {}
+
+		for slot7, slot8 in ipairs(HeroData:GetHeroData(SkinCfg[slot0].hero).unlocked_skin) do
+			if slot8.skin_id == slot0 and slot8.time == 0 then
+				return true
+			end
+		end
+
+		return false
+	end,
+	GetCostLevel = function (slot0)
+		slot1 = getShopCfg(slot0)
+
+		if uv0.GetCostCfg(slot0).type == ItemConst.ITEM_TYPE.CURRENCY then
+			if slot1.cost_id == CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE or slot1.cost_id == CurrencyConst.GetPlatformDiamondId() then
+				return uv1.COST_LEVEL.FREE_DIAMOND
 			else
-				if ShopData.IsGoodOutOfDate(arg_24_0) then
-					ShowTips("GOODS_HAS_BEEN_REMOVED")
-
-					return
-				end
-
-				if arg_24_2 then
-					arg_24_2(arg_24_0)
-				end
-
-				ShopAction.BuyItem({
-					{
-						goodID = arg_24_0,
-						buyNum = arg_24_1
-					}
-				}, var_24_4, arg_24_4)
+				return uv1.COST_LEVEL.RECHARGE_DIAMOND
 			end
-		end,
-		CancelCallback = arg_24_3
-	})
-end
-
-function var_0_0.ConfirmBuySkin(arg_26_0, arg_26_1, arg_26_2, arg_26_3, arg_26_4)
-	local var_26_0 = 0
-	local var_26_1
-	local var_26_2 = ""
-	local var_26_3 = var_0_0.GetCostCount(arg_26_0[1])
-	local var_26_4 = var_0_0.GetCostLevel(arg_26_0[1])
-	local var_26_5 = {}
-
-	for iter_26_0, iter_26_1 in ipairs(arg_26_0) do
-		local var_26_6 = getShopCfg(iter_26_1)
-		local var_26_7 = var_26_6.give_id and ItemCfg[var_26_6.give_id] or RechargeShopDescriptionCfg[var_26_6.description]
-		local var_26_8 = var_0_0.GetCostCfg(iter_26_1)
-		local var_26_9, var_26_10, var_26_11 = var_0_0.GetPrice(iter_26_1)
-
-		var_26_0 = var_26_0 + var_26_9 * arg_26_1[iter_26_0]
-		var_26_1 = var_26_8
-
-		if iter_26_0 == 1 then
-			var_26_2 = GetI18NText(var_26_7.name)
 		else
-			var_26_2 = var_26_2 .. "+" .. GetI18NText(var_26_7.name)
+			return uv1.COST_LEVEL.MATERIAL
 		end
-
-		table.insert(var_26_5, {
-			goodID = iter_26_1,
-			buyNum = arg_26_1[iter_26_0]
+	end,
+	DiamondEnoughMessageBox = function ()
+		ShowMessageBox({
+			isTop = true,
+			title = GetTips("PROMPT"),
+			content = GetTips("ERROR_RECHARGE_DIAMOND_NOT_ENOUGH"),
+			OkCallback = function ()
+				SDKTools.SendPaymentMessageToSDK("payment_touch", {
+					payment_pay_flower_check = 0
+				})
+				JumpTools.GoToSystem("/rechargeMain", {
+					childShopIndex = 2,
+					page = 3
+				}, ViewConst.SYSTEM_ID.RECHARGE_MAIN)
+			end,
+			CancelCallback = function ()
+				SDKTools.SendPaymentMessageToSDK("payment_touch", {
+					payment_pay_flower_check = 1
+				})
+			end
 		})
-	end
+	end,
+	DefaultOpenPopUp = function (slot0)
+		JumpTools.OpenPopUp("rechargeDiamondExchange", {
+			getBaseNum = 1,
+			useBaseNum = 1,
+			useId = CurrencyConst.CURRENCY_TYPE_RECHARGE_DIAMOND_FREE,
+			getId = CurrencyConst.CURRENCY_TYPE_DIAMOND,
+			defaultNum = slot0
+		}, ViewConst.SYSTEM_ID.RECHARGE_DIAMOND_EXCHANGE)
+	end,
+	CostEnoughJump = function (slot0)
+		if slot0 == uv0.COST_LEVEL.FREE_DIAMOND then
+			uv1.DiamondEnoughMessageBox()
+		elseif slot0 == uv0.COST_LEVEL.RECHARGE_DIAMOND then
+			uv1.DefaultOpenPopUp(0)
+		elseif slot0 == uv0.COST_LEVEL.MATERIAL then
+			ShowTips("ERROR_ITEM_NOT_ENOUGH_MATERIAL")
+		end
+	end,
+	ConfirmBuyItem = function (slot0, slot1, slot2, slot3, slot4)
+		slot8 = uv0.GetCostCount(slot0)
+		slot9, slot10, slot11 = uv0.GetPrice(slot0)
+		slot12 = uv0.GetCostLevel(slot0)
 
-	ShowMessageBox({
-		title = GetTips("PROMPT"),
-		content = string.format(GetTips("CONFIRM_BUY"), GetI18NText(var_26_1.name), var_26_0, var_26_2, arg_26_1[1]),
-		OkCallback = function()
-			if var_26_3 < var_26_0 then
-				var_0_0.CostEnoughJump(var_26_4)
-			else
-				for iter_27_0, iter_27_1 in ipairs(arg_26_0) do
-					if ShopData.IsGoodOutOfDate(iter_27_1) then
+		ShowMessageBox({
+			title = GetTips("PROMPT"),
+			content = string.format(GetTips("CONFIRM_BUY"), GetI18NText(uv0.GetCostCfg(slot0).name), slot9 * slot1, GetI18NText((getShopCfg(slot0).give_id and ItemCfg[slot5.give_id] or RechargeShopDescriptionCfg[slot5.description]).name), slot1),
+			OkCallback = function ()
+				if uv0 < uv1 * uv2 then
+					uv3.CostEnoughJump(uv4)
+				else
+					if ShopData.IsGoodOutOfDate(uv5) then
 						ShowTips("GOODS_HAS_BEEN_REMOVED")
 
 						return
 					end
+
+					if uv6 then
+						uv6(uv5)
+					end
+
+					ShopAction.BuyItem({
+						{
+							goodID = uv5,
+							buyNum = uv2
+						}
+					}, uv1, uv7)
 				end
+			end,
+			CancelCallback = slot3
+		})
+	end,
+	ConfirmBuySkin = function (slot0, slot1, slot2, slot3, slot4)
+		slot6 = nil
+		slot7 = ""
+		slot8 = uv0.GetCostCount(slot0[1])
+		slot9 = uv0.GetCostLevel(slot0[1])
 
-				ShopAction.BuyItem(var_26_5, nil, arg_26_4)
-			end
-		end,
-		CancelCallback = arg_26_3
-	})
-end
+		for slot14, slot15 in ipairs(slot0) do
+			slot17 = getShopCfg(slot15).give_id and ItemCfg[slot16.give_id] or RechargeShopDescriptionCfg[slot16.description]
+			slot19, slot20, slot21 = uv0.GetPrice(slot15)
+			slot5 = 0 + slot19 * slot1[slot14]
+			slot6 = uv0.GetCostCfg(slot15)
+			slot7 = (slot14 ~= 1 or GetI18NText(slot17.name)) and GetI18NText(slot17.name) .. "+" .. GetI18NText(slot17.name)
 
-function var_0_0.GetCostCount(arg_28_0)
-	local var_28_0 = getShopCfg(arg_28_0)
-	local var_28_1 = var_28_0.cost_id
+			table.insert({}, {
+				goodID = slot15,
+				buyNum = slot1[slot14]
+			})
+		end
 
-	if var_28_1 == 0 then
-		var_28_1 = var_28_0.cheap_cost_id
-	end
+		ShowMessageBox({
+			title = GetTips("PROMPT"),
+			content = string.format(GetTips("CONFIRM_BUY"), GetI18NText(slot6.name), slot5, slot7, slot1[1]),
+			OkCallback = function ()
+				if uv0 < uv1 then
+					uv2.CostEnoughJump(uv3)
+				else
+					for slot3, slot4 in ipairs(uv4) do
+						if ShopData.IsGoodOutOfDate(slot4) then
+							ShowTips("GOODS_HAS_BEEN_REMOVED")
 
-	return ItemTools.getItemNum(var_28_1)
-end
+							return
+						end
+					end
 
-function var_0_0.GetCostCfg(arg_29_0)
-	local var_29_0 = getShopCfg(arg_29_0)
+					ShopAction.BuyItem(uv5, nil, uv6)
+				end
+			end,
+			CancelCallback = slot3
+		})
+	end,
+	GetCostCount = function (slot0)
+		if getShopCfg(slot0).cost_id == 0 then
+			slot2 = slot1.cheap_cost_id
+		end
 
-	return ItemCfg[var_29_0.cost_id]
-end
+		return ItemTools.getItemNum(slot2)
+	end,
+	GetCostCfg = function (slot0)
+		return ItemCfg[getShopCfg(slot0).cost_id]
+	end,
+	GetCostId = function (slot0)
+		slot1, slot2, slot3 = ShopTools.IsOnDiscountArea(slot0)
+		slot4 = nil
 
-function var_0_0.GetCostId(arg_30_0)
-	local var_30_0, var_30_1, var_30_2 = ShopTools.IsOnDiscountArea(arg_30_0)
-	local var_30_3
+		return (not slot1 or not slot3 or getShopCfg(slot0).cheap_cost_id) and getShopCfg(slot0).cost_id
+	end,
+	IsOnDiscountArea = function (slot0)
+		slot1 = getShopCfg(slot0)
 
-	if var_30_0 and var_30_2 then
-		var_30_3 = getShopCfg(arg_30_0).cheap_cost_id
-	else
-		var_30_3 = getShopCfg(arg_30_0).cost_id
-	end
-
-	return var_30_3
-end
-
-function var_0_0.IsOnDiscountArea(arg_31_0)
-	local var_31_0 = getShopCfg(arg_31_0)
-
-	if var_0_0.GetDiscount(arg_31_0) ~= 100 then
-		if #var_31_0.cheap_close_time > 0 then
-			local var_31_1 = TimeMgr.GetInstance():GetServerTime()
-			local var_31_2 = TimeMgr.GetInstance():parseTimeFromConfig(var_31_0.cheap_open_time)
-			local var_31_3 = TimeMgr.GetInstance():parseTimeFromConfig(var_31_0.cheap_close_time)
-
-			if var_31_2 <= var_31_1 and var_31_1 <= var_31_3 then
-				return true, true, true
+		if uv0.GetDiscount(slot0) ~= 100 then
+			if #slot1.cheap_close_time > 0 then
+				if TimeMgr.GetInstance():parseTimeFromConfig(slot1.cheap_open_time) <= TimeMgr.GetInstance():GetServerTime() and slot2 <= TimeMgr.GetInstance():parseTimeFromConfig(slot1.cheap_close_time) then
+					return true, true, true
+				else
+					return true, true, false
+				end
 			else
-				return true, true, false
+				return true, false, true
 			end
 		else
-			return true, false, true
+			return false, false, false
 		end
-	else
-		return false, false, false
-	end
-end
+	end,
+	GetPrice = function (slot0)
+		slot3, slot4, slot5 = uv0.IsOnDiscountArea(slot0)
+		slot6 = uv0.GetDiscountPrice(slot0) == uv0.GetOriPrice(slot0) and 1 or slot1 / slot2
 
-function var_0_0.GetPrice(arg_32_0)
-	local var_32_0 = var_0_0.GetDiscountPrice(arg_32_0)
-	local var_32_1 = var_0_0.GetOriPrice(arg_32_0)
-	local var_32_2, var_32_3, var_32_4 = var_0_0.IsOnDiscountArea(arg_32_0)
-	local var_32_5 = var_32_0 == var_32_1 and 1 or var_32_0 / var_32_1
-	local var_32_6 = SettingData:GetCurrentLanguage()
+		if SettingData:GetCurrentLanguage() == "fr" or slot7 == "de" then
+			slot1 = string.gsub(tostring(slot1), "%.", ",")
+		end
 
-	if var_32_6 == "fr" or var_32_6 == "de" then
-		var_32_0 = string.gsub(tostring(var_32_0), "%.", ",")
-	end
-
-	if var_32_2 and var_32_4 then
-		return var_32_0, var_32_1, var_32_5
-	else
-		return var_32_1, var_32_1, 1
-	end
-end
-
-function var_0_0.IsRMB(arg_33_0)
-	return getShopCfg(arg_33_0).cost_type == 1
-end
-
-function var_0_0.IsSkin(arg_34_0)
-	return getShopCfg(arg_34_0).cost_type == 3
-end
-
-function var_0_0.GetDiscountLabel(arg_35_0)
-	local var_35_0 = var_0_0.GetDiscount(arg_35_0)
-
-	if SDKTools.GetIsThisServer({
-		"jp"
-	}) then
-		return GetTips("LABEL_DISCOUNT_EXTRA")
-	elseif SDKTools.GetIsThisServer({
-		"kr",
-		"en"
-	}) then
-		return string.format("%d%%%s", 100 - var_35_0, GetTips("LABEL_DISCOUNT"))
-	end
-
-	return string.format("%.1f%s", var_35_0 / 10, GetTips("LABEL_DISCOUNT"))
-end
-
-function var_0_0.GetDiscount(arg_36_0)
-	local var_36_0 = getShopCfg(arg_36_0)
-	local var_36_1
-
-	if var_36_0 and var_36_0.is_limit_time_discount and var_36_0.is_limit_time_discount == 1 then
-		if var_0_0.IsRMB(arg_36_0) then
-			local var_36_2 = PaymentCfg[var_36_0.cost_id].cost
-			local var_36_3 = PaymentCfg[var_36_0.cheap_cost_id].cost
-
-			var_36_1 = math.ceil(100 * var_36_3 / var_36_2)
+		if slot3 and slot5 then
+			return slot1, slot2, slot6
 		else
-			var_36_1 = math.ceil(100 * var_36_0.cheap_cost / var_36_0.cost)
+			return slot2, slot2, 1
 		end
-	elseif var_36_0 and var_36_0.discount and var_36_0.discount ~= 0 then
-		var_36_1 = var_36_0.discount
-	else
-		var_36_1 = 100
-	end
+	end,
+	IsRMB = function (slot0)
+		return getShopCfg(slot0).cost_type == 1
+	end,
+	IsSkin = function (slot0)
+		return getShopCfg(slot0).cost_type == 3
+	end,
+	GetDiscountLabel = function (slot0)
+		slot1 = uv0.GetDiscount(slot0)
 
-	return var_36_1
-end
+		if SDKTools.GetIsThisServer({
+			"jp"
+		}) then
+			return GetTips("LABEL_DISCOUNT_EXTRA")
+		elseif SDKTools.GetIsThisServer({
+			"kr",
+			"en"
+		}) then
+			return string.format("%d%%%s", 100 - slot1, GetTips("LABEL_DISCOUNT"))
+		end
 
-function var_0_0.GetOriPrice(arg_37_0)
-	local var_37_0 = getShopCfg(arg_37_0)
-	local var_37_1 = var_0_0.GetDiscount(arg_37_0)
+		return string.format("%.1f%s", slot1 / 10, GetTips("LABEL_DISCOUNT"))
+	end,
+	GetDiscount = function (slot0)
+		slot2 = nil
 
-	if var_37_0 and var_37_0.is_limit_time_discount and var_37_0.is_limit_time_discount == 1 or var_37_1 == 100 then
-		if var_0_0.IsRMB(arg_37_0) then
-			return PaymentCfg[var_37_0.cost_id].cost / 100
+		return (not getShopCfg(slot0) or not slot1.is_limit_time_discount or slot1.is_limit_time_discount ~= 1 or (not uv0.IsRMB(slot0) or math.ceil(100 * PaymentCfg[slot1.cheap_cost_id].cost / PaymentCfg[slot1.cost_id].cost)) and math.ceil(100 * slot1.cheap_cost / slot1.cost)) and (not slot1 or not slot1.discount or slot1.discount == 0 or slot1.discount) and 100
+	end,
+	GetOriPrice = function (slot0)
+		if getShopCfg(slot0) and slot1.is_limit_time_discount and slot1.is_limit_time_discount == 1 or uv0.GetDiscount(slot0) == 100 then
+			if uv0.IsRMB(slot0) then
+				return PaymentCfg[slot1.cost_id].cost / 100
+			else
+				return slot1.cost
+			end
 		else
-			return var_37_0.cost
-		end
-	else
-		local var_37_2
+			slot3 = nil
 
-		if var_0_0.IsRMB(arg_37_0) then
-			var_37_2 = PaymentCfg[var_37_0.cheap_cost_id].cost / 100
+			return math.ceil((uv0.IsRMB(slot0) and PaymentCfg[slot1.cheap_cost_id].cost / 100 or slot1.cheap_cost) / (slot2 / 100))
+		end
+	end,
+	GetMoneySymbol = function (slot0)
+		slot1 = getShopCfg(slot0)
+
+		if uv0.IsRMB(slot0) and PaymentCfg[slot1.cost_id] then
+			return PaymentCfg[slot1.cost_id].currency_symbol
+		end
+
+		return ""
+	end,
+	GetDiscountPrice = function (slot0)
+		if uv0.GetDiscount(slot0) ~= 100 then
+			if uv0.IsRMB(slot0) then
+				return PaymentCfg[getShopCfg(slot0).cheap_cost_id].cost / 100
+			else
+				return slot1.cheap_cost
+			end
 		else
-			var_37_2 = var_37_0.cheap_cost
+			return uv0.GetOriPrice(slot0)
 		end
-
-		return math.ceil(var_37_2 / (var_37_1 / 100))
-	end
-end
-
-function var_0_0.GetMoneySymbol(arg_38_0)
-	local var_38_0 = getShopCfg(arg_38_0)
-
-	if var_0_0.IsRMB(arg_38_0) and PaymentCfg[var_38_0.cost_id] then
-		return PaymentCfg[var_38_0.cost_id].currency_symbol
-	end
-
-	return ""
-end
-
-function var_0_0.GetDiscountPrice(arg_39_0)
-	local var_39_0 = getShopCfg(arg_39_0)
-
-	if var_0_0.GetDiscount(arg_39_0) ~= 100 then
-		if var_0_0.IsRMB(arg_39_0) then
-			return PaymentCfg[var_39_0.cheap_cost_id].cost / 100
-		else
-			return var_39_0.cheap_cost
-		end
-	else
-		return var_0_0.GetOriPrice(arg_39_0)
-	end
-end
-
-function var_0_0.IsShopOpen(arg_40_0)
-	local var_40_0 = ShopListCfg[arg_40_0]
-
-	if var_40_0.activity_id == 0 then
-		return true, 0
-	elseif ActivityData:GetActivityIsOpen(var_40_0.activity_id) then
-		return true, 1
-	else
-		local var_40_1 = ActivityData:GetActivityData(var_40_0.activity_id)
-		local var_40_2 = manager.time:GetServerTime()
-
-		if var_40_1 and var_40_2 < var_40_1.startTime then
+	end,
+	IsShopOpen = function (slot0)
+		if ShopListCfg[slot0].activity_id == 0 then
+			return true, 0
+		elseif ActivityData:GetActivityIsOpen(slot1.activity_id) then
+			return true, 1
+		elseif ActivityData:GetActivityData(slot1.activity_id) and manager.time:GetServerTime() < slot2.startTime then
 			return false, 3
 		else
 			return false, 2
 		end
-	end
-end
+	end,
+	GetGoodsIDListByItemID = function (slot0, slot1)
+		slot2 = {}
 
-function var_0_0.GetGoodsIDListByItemID(arg_41_0, arg_41_1)
-	local var_41_0 = {}
-
-	if #getShopIDListByShopID(arg_41_0) > 0 then
-		local var_41_1 = getShopIDListByShopID(arg_41_0)
-
-		for iter_41_0, iter_41_1 in ipairs(var_41_1) do
-			if getShopCfg(iter_41_1).give_id == arg_41_1 then
-				table.insert(var_41_0, iter_41_1)
-			end
-		end
-	end
-
-	return var_41_0
-end
-
-function var_0_0.IsGoodCanExchange(arg_42_0, arg_42_1)
-	for iter_42_0, iter_42_1 in ipairs(arg_42_1) do
-		if var_0_0.IsGoodCanDisplay(arg_42_0, iter_42_1) then
-			return true
-		end
-	end
-
-	return false
-end
-
-function var_0_0.CheckShopIsUnLock(arg_43_0)
-	if arg_43_0 then
-		local var_43_0 = ShopListCfg[arg_43_0].open_condition
-
-		if var_43_0 and var_43_0 > 0 and ShopListCfg[arg_43_0].display_group == 18 then
-			return IsConditionAchieved(var_43_0)
-		end
-	end
-
-	return true
-end
-
-function var_0_0.GetShopIsUnLockDesc(arg_44_0)
-	local var_44_0 = ShopListCfg[arg_44_0].open_condition
-
-	if var_44_0 and var_44_0 > 0 and ShopListCfg[arg_44_0].display_group == 18 then
-		local var_44_1, var_44_2, var_44_3 = IsConditionAchieved(var_44_0)
-		local var_44_4 = string.format(GetTips("ACTIVITY_CLUB_SP_SHOP_UNLOCK_PROGRESS"), tostring(var_44_2), tostring(var_44_3))
-
-		return GuildActivityTools.GetGuildSpConditionDesc(var_44_0) .. GetTips("DORM_CANTEEN_LEVEL_UNLOCK") .. var_44_4
-	end
-end
-
-function var_0_0.CheckDlcPurchased(arg_45_0)
-	local var_45_0 = getShopCfg(arg_45_0)
-
-	if not var_45_0 then
-		return true
-	end
-
-	local var_45_1 = var_45_0.give_id or var_45_0.description
-
-	if not var_45_0.give then
-		local var_45_2 = 1
-	end
-
-	local var_45_3
-	local var_45_4
-
-	if var_45_0.description then
-		local var_45_5 = var_45_0.description
-
-		var_45_4 = RechargeShopDescriptionCfg[var_45_5]
-	else
-		var_45_4 = ItemCfg[var_45_1]
-	end
-
-	if var_45_4 and var_45_4.type == ItemConst.ITEM_TYPE.SCENE and (SceneConst.HOME_SCENE_TYPE.LOCK == HomeSceneSettingData:GetUsedState(var_45_4.id) or SceneConst.HOME_SCENE_TYPE.TRIAL == HomeSceneSettingData:GetUsedState(var_45_4.id)) then
-		return false
-	end
-
-	return true
-end
-
-function var_0_0.GetFragmentList()
-	local var_46_0 = {}
-	local var_46_1 = HeroTools.GetCanExchangeHero()
-
-	for iter_46_0 = 1, #var_46_1 do
-		local var_46_2 = var_46_1[iter_46_0]
-		local var_46_3 = ItemCfg[var_46_2.id].rare - 2
-		local var_46_4 = GameSetting.fragment_break_num.value[var_46_3]
-
-		var_46_0[var_46_4[1]] = (var_46_0[var_46_4[1]] or 0) + var_46_2.number * var_46_4[2]
-	end
-
-	local var_46_5 = {}
-
-	for iter_46_1, iter_46_2 in pairs(var_46_0) do
-		if iter_46_2 > 0 then
-			table.insert(var_46_5, {
-				id = iter_46_1,
-				num = iter_46_2
-			})
-		end
-	end
-
-	return var_46_5
-end
-
-function var_0_0.CheckGiftSkinOwn(arg_47_0)
-	local var_47_0 = getShopCfg(arg_47_0)
-	local var_47_1 = RechargeShopDescriptionCfg[var_47_0.description]
-
-	if var_47_1.sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
-		for iter_47_0, iter_47_1 in ipairs(var_47_1.param) do
-			if iter_47_1[1] then
-				local var_47_2 = ItemCfg[iter_47_1[1]]
-
-				if ItemTools.getItemNum(iter_47_1[1]) == 1 and var_47_2.type == ItemConst.ITEM_TYPE.HERO_SKIN then
-					return true
+		if #getShopIDListByShopID(slot0) > 0 then
+			for slot7, slot8 in ipairs(getShopIDListByShopID(slot0)) do
+				if getShopCfg(slot8).give_id == slot1 then
+					table.insert(slot2, slot8)
 				end
 			end
 		end
-	end
 
-	return false
-end
-
-function var_0_0.SplitDataByShopID(arg_48_0, arg_48_1)
-	local var_48_0 = ShopListCfg[arg_48_1]
-	local var_48_1 = {
-		{},
-		{},
-		{},
-		{}
-	}
-	local var_48_2 = {}
-
-	for iter_48_0, iter_48_1 in ipairs(arg_48_0) do
-		local var_48_3 = getShopCfg(iter_48_1.id)
-		local var_48_4 = ItemCfg[var_48_3.give_id]
-
-		if var_48_4.type == ItemConst.ITEM_TYPE.HERO_PIECE then
-			table.insert(var_48_1[4], iter_48_1)
-		elseif var_48_4.type == ItemConst.ITEM_TYPE.EQUIP then
-			table.insert(var_48_1[3], iter_48_1)
-		elseif var_48_4.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
-			table.insert(var_48_1[2], iter_48_1)
-		else
-			table.insert(var_48_1[1], iter_48_1)
-		end
-	end
-
-	local var_48_5 = {
-		false,
-		false,
-		false,
-		false
-	}
-
-	for iter_48_2, iter_48_3 in ipairs(var_48_0.shop_label) do
-		var_48_5[iter_48_3] = true
-	end
-
-	for iter_48_4, iter_48_5 in ipairs(var_48_1) do
-		if var_48_5[iter_48_4] == false then
-			for iter_48_6, iter_48_7 in ipairs(var_48_1[iter_48_4]) do
-				table.insert(var_48_1[1], iter_48_5)
-			end
-
-			var_48_1[iter_48_4] = {}
-		end
-	end
-
-	for iter_48_8, iter_48_9 in ipairs(var_48_1) do
-		if #iter_48_9 > 0 then
-			var_0_0.CommonSort(iter_48_9)
-		end
-	end
-
-	local var_48_6 = {}
-
-	for iter_48_10, iter_48_11 in ipairs(var_48_1[3]) do
-		local var_48_7 = getShopCfg(iter_48_11.id)
-		local var_48_8 = EquipCfg[var_48_7.give_id]
-
-		if var_48_6[var_48_8.suit] == nil then
-			var_48_6[var_48_8.suit] = {}
-		end
-
-		if var_48_6[var_48_8.suit][var_48_8.starlevel] == nil then
-			var_48_6[var_48_8.suit][var_48_8.starlevel] = {}
-		end
-
-		table.insert(var_48_6[var_48_8.suit][var_48_8.starlevel], iter_48_11)
-	end
-
-	local var_48_9 = {}
-
-	for iter_48_12, iter_48_13 in pairs(var_48_6) do
-		table.insert(var_48_9, iter_48_12)
-	end
-
-	local var_48_10 = {}
-
-	for iter_48_14, iter_48_15 in ipairs(EquipSuitCfg.all) do
-		if var_48_6[iter_48_15] then
-			for iter_48_16, iter_48_17 in pairs(var_48_6[iter_48_15]) do
-				table.insert(var_48_10, iter_48_17)
+		return slot2
+	end,
+	IsGoodCanExchange = function (slot0, slot1)
+		for slot5, slot6 in ipairs(slot1) do
+			if uv0.IsGoodCanDisplay(slot0, slot6) then
+				return true
 			end
 		end
-	end
 
-	if #var_48_10 == 0 or #var_48_10[1] == 6 then
-		var_48_1[3] = var_48_10
-	end
-
-	local var_48_11 = {}
-
-	for iter_48_18, iter_48_19 in ipairs(var_48_1) do
-		if #iter_48_19 ~= 0 then
-			table.insert(var_48_2, iter_48_18)
+		return false
+	end,
+	CheckShopIsUnLock = function (slot0)
+		if slot0 and ShopListCfg[slot0].open_condition and slot1 > 0 and ShopListCfg[slot0].display_group == 18 then
+			return IsConditionAchieved(slot1)
 		end
-	end
 
-	for iter_48_20, iter_48_21 in ipairs(var_48_0.shop_label) do
-		table.insert(var_48_11, var_48_1[iter_48_21])
-	end
+		return true
+	end,
+	GetShopIsUnLockDesc = function (slot0)
+		if ShopListCfg[slot0].open_condition and slot1 > 0 and ShopListCfg[slot0].display_group == 18 then
+			slot2, slot3, slot4 = IsConditionAchieved(slot1)
 
-	return var_48_11, var_48_2, var_48_9
-end
+			return GuildActivityTools.GetGuildSpConditionDesc(slot1) .. GetTips("DORM_CANTEEN_LEVEL_UNLOCK") .. string.format(GetTips("ACTIVITY_CLUB_SP_SHOP_UNLOCK_PROGRESS"), tostring(slot3), tostring(slot4))
+		end
+	end,
+	CheckDlcPurchased = function (slot0)
+		if not getShopCfg(slot0) then
+			return true
+		end
 
-function var_0_0.IsPC()
-	return GameToSDK.IsPCPlatform()
-end
+		slot3 = slot1.give or 1
+		slot4, slot5 = nil
 
-function var_0_0.CheckDlcCanBuy(arg_50_0)
-	if arg_50_0 == nil or arg_50_0 == 0 then
+		if (not slot1.description or RechargeShopDescriptionCfg[slot1.description]) and ItemCfg[slot1.give_id or slot1.description] and slot5.type == ItemConst.ITEM_TYPE.SCENE and (SceneConst.HOME_SCENE_TYPE.LOCK == HomeSceneSettingData:GetUsedState(slot5.id) or SceneConst.HOME_SCENE_TYPE.TRIAL == HomeSceneSettingData:GetUsedState(slot5.id)) then
+			return false
+		end
+
+		return true
+	end,
+	GetFragmentList = function ()
+		slot0 = {}
+
+		for slot5 = 1, #HeroTools.GetCanExchangeHero() do
+			slot9 = GameSetting.fragment_break_num.value[ItemCfg[slot1[slot5].id].rare - 2]
+			slot0[slot9[1]] = (slot0[slot9[1]] or 0) + slot6.number * slot9[2]
+		end
+
+		slot2 = {}
+
+		for slot6, slot7 in pairs(slot0) do
+			if slot7 > 0 then
+				table.insert(slot2, {
+					id = slot6,
+					num = slot7
+				})
+			end
+		end
+
+		return slot2
+	end,
+	CheckGiftSkinOwn = function (slot0)
+		if RechargeShopDescriptionCfg[getShopCfg(slot0).description].sub_type == ItemConst.ITEM_SUB_TYPE.SHOP_PACKS then
+			for slot6, slot7 in ipairs(slot2.param) do
+				if slot7[1] then
+					if ItemTools.getItemNum(slot7[1]) == 1 and ItemCfg[slot7[1]].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+						return true
+					end
+				end
+			end
+		end
+
 		return false
-	end
+	end,
+	SplitDataByShopID = function (slot0, slot1)
+		slot2 = ShopListCfg[slot1]
+		slot4 = {}
 
-	local var_50_0 = getShopCfg(arg_50_0)
+		for slot8, slot9 in ipairs(slot0) do
+			if ItemCfg[getShopCfg(slot9.id).give_id].type == ItemConst.ITEM_TYPE.HERO_PIECE then
+				table.insert(({
+					{},
+					{},
+					{},
+					{}
+				})[4], slot9)
+			elseif slot11.type == ItemConst.ITEM_TYPE.EQUIP then
+				table.insert(slot3[3], slot9)
+			elseif slot11.type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+				table.insert(slot3[2], slot9)
+			else
+				table.insert(slot3[1], slot9)
+			end
+		end
 
-	if not var_50_0 then
-		return false
-	end
+		slot5 = {
+			false,
+			false,
+			false,
+			false,
+			[slot10] = true
+		}
 
-	return var_0_1.SHOP_ID.DLC_SHOP == var_50_0.shop_id
-end
+		for slot9, slot10 in ipairs(slot2.shop_label) do
+			-- Nothing
+		end
 
-function var_0_0.JumpToSkinShop(arg_51_0, arg_51_1, arg_51_2, arg_51_3)
-	local var_51_0 = 0
-	local var_51_1
+		for slot9, slot10 in ipairs(slot3) do
+			if slot5[slot9] == false then
+				for slot14, slot15 in ipairs(slot3[slot9]) do
+					table.insert(slot3[1], slot10)
+				end
 
-	if not arg_51_1 then
-		var_51_0 = var_0_0.GetGoodsIdBySkinId(arg_51_0)
-	else
-		var_51_0, var_51_1 = var_0_0.GetGoodsIdByDlcId(arg_51_3)
-	end
+				slot3[slot9] = {}
+			end
+		end
 
-	if var_51_0 == 0 then
-		ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
+		for slot9, slot10 in ipairs(slot3) do
+			if #slot10 > 0 then
+				uv0.CommonSort(slot10)
+			end
+		end
 
-		return
-	end
+		slot6 = {}
 
-	local var_51_2 = getShopCfg(var_51_0)
+		for slot10, slot11 in ipairs(slot3[3]) do
+			if slot6[EquipCfg[getShopCfg(slot11.id).give_id].suit] == nil then
+				slot6[slot13.suit] = {}
+			end
 
-	if not var_51_2 then
-		ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
+			if slot6[slot13.suit][slot13.starlevel] == nil then
+				slot6[slot13.suit][slot13.starlevel] = {}
+			end
 
-		return
-	end
+			table.insert(slot6[slot13.suit][slot13.starlevel], slot11)
+		end
 
-	local var_51_3 = false
+		for slot11, slot12 in pairs(slot6) do
+			table.insert({}, slot11)
+		end
 
-	if ShopTools.CheckShopIsUnLock(var_51_2.shop_id) and ShopTools.IsGoodCanDisplay(var_51_2.shop_id, var_51_2.goods_id) then
-		var_51_3 = true
-	end
+		slot8 = {}
 
-	if var_51_3 then
-		local var_51_4 = ShopListCfg[var_51_2.shop_id]
+		for slot12, slot13 in ipairs(EquipSuitCfg.all) do
+			if slot6[slot13] then
+				for slot17, slot18 in pairs(slot6[slot13]) do
+					table.insert(slot8, slot18)
+				end
+			end
+		end
 
-		JumpTools.GoToSystem("/rechargeMain", {
-			page = var_51_4.display_group,
-			shopListId = var_51_4.id
-		}, var_51_4.system)
+		if #slot8 == 0 or #slot8[1] == 6 then
+			slot3[3] = slot8
+		end
 
-		local var_51_5 = SkinCfg[arg_51_0]
+		slot9 = {}
 
-		if var_51_1 == var_0_1.SHOP_ID.PASSPORT_SHOP then
-			JumpTools.OpenPageByJump("shop", {
-				goodID = var_51_2.goods_id,
-				heroID = var_51_5.hero,
-				skinID = arg_51_0,
-				shopID = var_51_2.shop_id
-			})
+		for slot13, slot14 in ipairs(slot3) do
+			if #slot14 ~= 0 then
+				table.insert(slot4, slot13)
+			end
+		end
+
+		for slot13, slot14 in ipairs(slot2.shop_label) do
+			table.insert(slot9, slot3[slot14])
+		end
+
+		return slot9, slot4, slot7
+	end,
+	IsPC = function ()
+		return GameToSDK.IsPCPlatform()
+	end,
+	CheckDlcCanBuy = function (slot0)
+		if slot0 == nil or slot0 == 0 then
+			return false
+		end
+
+		if not getShopCfg(slot0) then
+			return false
+		end
+
+		return uv0.SHOP_ID.DLC_SHOP == slot1.shop_id
+	end,
+	JumpToSkinShop = function (slot0, slot1, slot2, slot3)
+		slot4 = 0
+		slot5 = nil
+
+		if not slot1 then
+			slot4 = uv0.GetGoodsIdBySkinId(slot0)
 		else
-			JumpTools.OpenPageByJump("/heroSkinPreview", {
-				isShop = true,
-				heroID = var_51_5.hero,
-				skinID = var_51_5.id,
-				goodId = var_51_2.goods_id,
-				shopID = var_51_2.shop_id,
-				isDlc = arg_51_1
-			})
+			slot4, slot5 = uv0.GetGoodsIdByDlcId(slot3)
 		end
-	else
-		ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
-	end
-end
 
-function var_0_0.GetGoodsIdBySkinId(arg_52_0)
-	local var_52_0 = var_0_0.FilterShopDataList(var_0_1.SHOP_ID.SKIN_SHOP)
+		if slot4 == 0 then
+			ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
 
-	for iter_52_0, iter_52_1 in pairs(var_52_0) do
-		if getShopCfg(iter_52_1.id).description == arg_52_0 then
-			return iter_52_1.id
+			return
+		end
+
+		if not getShopCfg(slot4) then
+			ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
+
+			return
+		end
+
+		slot7 = false
+
+		if ShopTools.CheckShopIsUnLock(slot6.shop_id) and ShopTools.IsGoodCanDisplay(slot6.shop_id, slot6.goods_id) then
+			slot7 = true
+		end
+
+		if slot7 then
+			slot8 = ShopListCfg[slot6.shop_id]
+
+			JumpTools.GoToSystem("/rechargeMain", {
+				page = slot8.display_group,
+				shopListId = slot8.id
+			}, slot8.system)
+
+			if slot5 == uv1.SHOP_ID.PASSPORT_SHOP then
+				JumpTools.OpenPageByJump("shop", {
+					goodID = slot6.goods_id,
+					heroID = SkinCfg[slot0].hero,
+					skinID = slot0,
+					shopID = slot6.shop_id
+				})
+			else
+				JumpTools.OpenPageByJump("/heroSkinPreview", {
+					isShop = true,
+					heroID = slot9.hero,
+					skinID = slot9.id,
+					goodId = slot6.goods_id,
+					shopID = slot6.shop_id,
+					isDlc = slot1
+				})
+			end
+		else
+			ShowTips(GetTips("ERROR_SHOP_GOODS_OPEN_TIME"))
+		end
+	end,
+	GetGoodsIdBySkinId = function (slot0)
+		for slot5, slot6 in pairs(uv0.FilterShopDataList(uv1.SHOP_ID.SKIN_SHOP)) do
+			if getShopCfg(slot6.id).description == slot0 then
+				return slot6.id
+			end
+		end
+	end,
+	GetGoodsIdByDlcId = function (slot0)
+		for slot5, slot6 in pairs(uv0.FilterShopDataList(uv1.SHOP_ID.SKIN_SHOP)) do
+			if getShopCfg(slot6.id).description == slot0 then
+				return slot6.id, uv1.SHOP_ID.SKIN_SHOP
+			end
+		end
+
+		for slot6, slot7 in pairs(uv0.FilterShopDataList(uv1.SHOP_ID.PASSPORT_SHOP)) do
+			if getShopCfg(slot7.id).give_id == slot0 then
+				return slot7.id, uv1.SHOP_ID.PASSPORT_SHOP
+			end
 		end
 	end
-end
-
-function var_0_0.GetGoodsIdByDlcId(arg_53_0)
-	local var_53_0 = var_0_0.FilterShopDataList(var_0_1.SHOP_ID.SKIN_SHOP)
-
-	for iter_53_0, iter_53_1 in pairs(var_53_0) do
-		if getShopCfg(iter_53_1.id).description == arg_53_0 then
-			return iter_53_1.id, var_0_1.SHOP_ID.SKIN_SHOP
-		end
-	end
-
-	local var_53_1 = var_0_0.FilterShopDataList(var_0_1.SHOP_ID.PASSPORT_SHOP)
-
-	for iter_53_2, iter_53_3 in pairs(var_53_1) do
-		if getShopCfg(iter_53_3.id).give_id == arg_53_0 then
-			return iter_53_3.id, var_0_1.SHOP_ID.PASSPORT_SHOP
-		end
-	end
-end
-
-return var_0_0
+}

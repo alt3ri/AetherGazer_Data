@@ -1,114 +1,96 @@
-local var_0_0 = {
-	UniversalSort = function(arg_1_0, arg_1_1, ...)
-		local var_1_0 = {
+function slot1(slot0, slot1)
+	return slot0 < slot1
+end
+
+function slot2(slot0)
+	return slot0
+end
+
+return {
+	UniversalSort = function (slot0, slot1, ...)
+		slot2 = {
 			...
 		}
 
-		local function var_1_1(arg_2_0, arg_2_1)
-			for iter_2_0, iter_2_1 in ipairs(var_1_0) do
-				if arg_2_0[iter_2_1] ~= arg_2_1[iter_2_1] then
-					if arg_1_1 then
-						return arg_2_0[iter_2_1] < arg_2_1[iter_2_1]
+		return table.sort(slot0, function (slot0, slot1)
+			for slot5, slot6 in ipairs(uv0) do
+				if slot0[slot6] ~= slot1[slot6] then
+					if uv1 then
+						return slot0[slot6] < slot1[slot6]
 					else
-						return arg_2_1[iter_2_1] < arg_2_0[iter_2_1]
+						return slot1[slot6] < slot0[slot6]
 					end
 				end
 			end
-		end
+		end)
+	end,
+	UniversalSortEx = function (slot0, ...)
+		slot1 = {
+			...
+		}
 
-		return table.sort(arg_1_0, var_1_1)
-	end
-}
+		return table.sort(slot0, function (slot0, slot1)
+			for slot5, slot6 in pairs(uv0) do
+				slot7 = slot6.map or uv1
 
-local function var_0_1(arg_3_0, arg_3_1)
-	return arg_3_0 < arg_3_1
-end
-
-local function var_0_2(arg_4_0)
-	return arg_4_0
-end
-
-function var_0_0.UniversalSortEx(arg_5_0, ...)
-	local var_5_0 = {
-		...
-	}
-
-	local function var_5_1(arg_6_0, arg_6_1)
-		for iter_6_0, iter_6_1 in pairs(var_5_0) do
-			local var_6_0 = iter_6_1.map or var_0_2
-			local var_6_1 = var_6_0(arg_6_0)
-			local var_6_2 = var_6_0(arg_6_1)
-			local var_6_3 = iter_6_1.ascend
-			local var_6_4 = iter_6_1.lessOp or var_0_1
-
-			if var_6_1 ~= var_6_2 then
-				if var_6_3 then
-					return var_6_4(var_6_1, var_6_2)
-				else
-					return var_6_4(var_6_2, var_6_1)
+				if slot7(slot0) ~= slot7(slot1) then
+					if slot6.ascend then
+						return slot6.lessOp or uv2(slot8, slot9)
+					else
+						return slot11(slot9, slot8)
+					end
 				end
 			end
+
+			return false
+		end)
+	end,
+	Convert2SamePosition = function (slot0, slot1)
+		slot0.position = slot1.position
+	end,
+	GenerateItems = function (slot0, slot1, slot2, slot3, slot4, slot5)
+		if not slot0.pool then
+			slot0.pool = {}
 		end
 
-		return false
-	end
+		slot6 = #slot0.pool
+		slot7 = #slot1
 
-	return table.sort(arg_5_0, var_5_1)
-end
+		while slot2 > slot7 do
+			if slot6 > 0 then
+				slot8 = slot0.pool[slot6]
 
-function var_0_0.Convert2SamePosition(arg_7_0, arg_7_1)
-	arg_7_0.position = arg_7_1.position
-end
+				slot8.transform_:SetParent(slot5)
+				table.insert(slot1, slot8)
+				table.remove(slot0.pool, slot6)
 
-function var_0_0.GenerateItems(arg_8_0, arg_8_1, arg_8_2, arg_8_3, arg_8_4, arg_8_5)
-	if not arg_8_0.pool then
-		arg_8_0.pool = {}
-	end
+				slot6 = slot6 - 1
+			else
+				table.insert(slot1, slot3.New(Object.Instantiate(slot4, slot5)))
+			end
 
-	local var_8_0 = #arg_8_0.pool
-	local var_8_1 = #arg_8_1
-
-	while var_8_1 < arg_8_2 do
-		if var_8_0 > 0 then
-			local var_8_2 = arg_8_0.pool[var_8_0]
-
-			var_8_2.transform_:SetParent(arg_8_5)
-			table.insert(arg_8_1, var_8_2)
-			table.remove(arg_8_0.pool, var_8_0)
-
-			var_8_0 = var_8_0 - 1
-		else
-			local var_8_3 = Object.Instantiate(arg_8_4, arg_8_5)
-			local var_8_4 = arg_8_3.New(var_8_3)
-
-			table.insert(arg_8_1, var_8_4)
+			slot7 = slot7 + 1
 		end
 
-		var_8_1 = var_8_1 + 1
+		while slot2 < slot7 do
+			slot1[slot7].gameObject_:SetActive(false)
+			table.insert(slot0.pool, slot1[slot7])
+			table.remove(slot1, slot7)
+
+			slot7 = slot7 - 1
+		end
+
+		for slot11 = 1, slot7 do
+			slot1[slot11].gameObject_:SetActive(true)
+		end
+	end,
+	SetCommonData = function (slot0, slot1, slot2)
+		(slot2 or clone(ItemTemplateData)).number = nil
+
+		for slot6, slot7 in pairs(slot1) do
+			slot2[slot6] = slot7
+		end
+
+		slot0:SetData(slot2)
 	end
-
-	while arg_8_2 < var_8_1 do
-		arg_8_1[var_8_1].gameObject_:SetActive(false)
-		table.insert(arg_8_0.pool, arg_8_1[var_8_1])
-		table.remove(arg_8_1, var_8_1)
-
-		var_8_1 = var_8_1 - 1
-	end
-
-	for iter_8_0 = 1, var_8_1 do
-		arg_8_1[iter_8_0].gameObject_:SetActive(true)
-	end
-end
-
-function var_0_0.SetCommonData(arg_9_0, arg_9_1, arg_9_2)
-	arg_9_2 = arg_9_2 or clone(ItemTemplateData)
-	arg_9_2.number = nil
-
-	for iter_9_0, iter_9_1 in pairs(arg_9_1) do
-		arg_9_2[iter_9_0] = iter_9_1
-	end
-
-	arg_9_0:SetData(arg_9_2)
-end
-
-return var_0_0
+}

@@ -1,35 +1,35 @@
-local var_0_0 = class("AchievementInfoButton", ReduxView)
+slot0 = class("AchievementInfoButton", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.achievementType_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.achievementType_ = slot2
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "toggle")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "toggle")
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		AchievementData:SetScrollRecord(false)
-		arg_2_0:Go("/achievementInfo", {
-			achievementType = arg_2_0.achievementType_
+		uv0:Go("/achievementInfo", {
+			achievementType = uv0.achievementType_
 		})
 	end)
 end
 
-function var_0_0.RefreshSelectType(arg_4_0, arg_4_1)
-	if arg_4_0.achievementType_ == arg_4_1 then
-		arg_4_0.controller_:SetSelectedState("on")
+function slot0.RefreshSelectType(slot0, slot1)
+	if slot0.achievementType_ == slot1 then
+		slot0.controller_:SetSelectedState("on")
 	else
-		arg_4_0.controller_:SetSelectedState("off")
+		slot0.controller_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

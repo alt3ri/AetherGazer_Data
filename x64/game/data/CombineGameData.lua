@@ -1,51 +1,47 @@
-local var_0_0 = singletonClass("CombineGameData")
-local var_0_1 = {}
+slot0 = singletonClass("CombineGameData")
+slot1 = {
+	Init = function (slot0)
+		slot0.stageDataTable = {}
+	end,
+	InitServerData = function (slot0, slot1)
+		slot0.activityId = slot1.activity_id
+		slot0.nowDay = slot1.daily_stage
 
-function var_0_0.Init(arg_1_0)
-	var_0_1:Init()
-end
+		if slot1.score_of_endless then
+			slot0.score = slot1.score_of_endless
+		end
 
-function var_0_0.GetDataByPara(arg_2_0, arg_2_1)
-	return var_0_1[arg_2_1]
-end
+		for slot5, slot6 in ipairs(slot1.reward_list) do
+			slot0.stageDataTable[slot6] = true
+		end
+	end,
+	UpdateStageData = function (slot0, slot1)
+		if slot1.score then
+			slot0.score = math.max(slot1.score, slot0.score or 0)
+		end
 
-function var_0_0.InitServerData(arg_3_0, arg_3_1)
-	var_0_1:InitServerData(arg_3_1)
-end
-
-function var_0_0.UpdateStageData(arg_4_0, arg_4_1)
-	var_0_1:UpdateStageData(arg_4_1)
-end
-
-function var_0_0.CheckHeroLock(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = ActivityCombineHeroCfg[arg_5_2]
-
-	return var_0_1.nowDay - 3 >= var_5_0.unlock_condition[1][2] and arg_5_1 == var_5_0.unlock_condition[1][1]
-end
-
-function var_0_1.Init(arg_6_0)
-	arg_6_0.stageDataTable = {}
-end
-
-function var_0_1.InitServerData(arg_7_0, arg_7_1)
-	arg_7_0.activityId = arg_7_1.activity_id
-	arg_7_0.nowDay = arg_7_1.daily_stage
-
-	if arg_7_1.score_of_endless then
-		arg_7_0.score = arg_7_1.score_of_endless
+		slot0.stageDataTable[slot1.reward_id] = true
 	end
+}
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_1.reward_list) do
-		arg_7_0.stageDataTable[iter_7_1] = true
-	end
+function slot0.Init(slot0)
+	uv0:Init()
 end
 
-function var_0_1.UpdateStageData(arg_8_0, arg_8_1)
-	if arg_8_1.score then
-		arg_8_0.score = math.max(arg_8_1.score, arg_8_0.score or 0)
-	end
-
-	arg_8_0.stageDataTable[arg_8_1.reward_id] = true
+function slot0.GetDataByPara(slot0, slot1)
+	return uv0[slot1]
 end
 
-return var_0_0
+function slot0.InitServerData(slot0, slot1)
+	uv0:InitServerData(slot1)
+end
+
+function slot0.UpdateStageData(slot0, slot1)
+	uv0:UpdateStageData(slot1)
+end
+
+function slot0.CheckHeroLock(slot0, slot1, slot2)
+	return ActivityCombineHeroCfg[slot2].unlock_condition[1][2] <= uv0.nowDay - 3 and slot1 == slot3.unlock_condition[1][1]
+end
+
+return slot0

@@ -1,126 +1,125 @@
-local var_0_0 = class("ChooseStickerTemplateView", ReduxView)
+slot0 = class("ChooseStickerTemplateView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/paster/StickerChooseTemplateUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stateCon_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.scrollList_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, StickerTemplateItem)
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.scrollList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, StickerTemplateItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.list_[arg_5_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.list_[slot1]
 
-	arg_5_2:RefreshUI(var_5_0, arg_5_0.bgID_)
+	slot2:RefreshUI(slot3, slot0.bgID_)
 
-	if var_5_0 == arg_5_0.chooseID_ then
-		arg_5_2:SetState("use")
+	if slot3 == slot0.chooseID_ then
+		slot2:SetState("use")
 	else
-		arg_5_2:SetState("change")
+		slot2:SetState("change")
 	end
 
-	arg_5_2:SetSelected(var_5_0 == arg_5_0.curID_)
-	arg_5_2:RegistClickFunc(function()
-		arg_5_0:SetTemplateID(var_5_0)
+	slot2:SetSelected(slot3 == slot0.curID_)
+	slot2:RegistClickFunc(function ()
+		uv0:SetTemplateID(uv1)
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.changeBtn_, nil, function()
-		arg_7_0.params_.temp.info[arg_7_0.index_].viewID = arg_7_0.curID_
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.changeBtn_, nil, function ()
+		uv0.params_.temp.info[uv0.index_].viewID = uv0.curID_
 
-		arg_7_0:Back(1, {
+		uv0:Back(1, {
 			resetSize = true,
 			type = 2,
-			tempInfo = arg_7_0.params_.temp,
-			index = arg_7_0.index_
+			tempInfo = uv0.params_.temp,
+			index = uv0.index_
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.index_ = arg_9_0.params_.index
-	arg_9_0.chooseID_ = arg_9_0.params_.chooseID
-	arg_9_0.bgID_ = arg_9_0.params_.temp.stickerBg
-	arg_9_0.list_ = StickViewTemplateCfg.all
+function slot0.OnEnter(slot0)
+	slot0.index_ = slot0.params_.index
+	slot0.chooseID_ = slot0.params_.chooseID
+	slot0.bgID_ = slot0.params_.temp.stickerBg
+	slot0.list_ = StickViewTemplateCfg.all
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. arg_10_0.bgID_)
+function slot0.RefreshUI(slot0)
+	slot0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. slot0.bgID_)
 
-	arg_10_0:Sortlist()
-	arg_10_0:SetTemplateID(arg_10_0.chooseID_)
-	arg_10_0.scrollList_:StartScroll(#arg_10_0.list_, table.indexof(arg_10_0.list_, arg_10_0.chooseID_))
+	slot0:Sortlist()
+	slot0:SetTemplateID(slot0.chooseID_)
+	slot0.scrollList_:StartScroll(#slot0.list_, table.indexof(slot0.list_, slot0.chooseID_))
 end
 
-function var_0_0.Sortlist(arg_11_0)
-	table.sort(arg_11_0.list_, function(arg_12_0, arg_12_1)
-		if arg_12_0 == arg_11_0.chooseID_ or arg_12_1 == arg_11_0.chooseID_ then
-			return arg_12_0 == arg_11_0.chooseID_
+function slot0.Sortlist(slot0)
+	table.sort(slot0.list_, function (slot0, slot1)
+		if slot0 == uv0.chooseID_ or slot1 == uv0.chooseID_ then
+			return slot0 == uv0.chooseID_
 		end
 
-		return arg_12_0 < arg_12_1
+		return slot0 < slot1
 	end)
 end
 
-function var_0_0.SetTemplateID(arg_13_0, arg_13_1)
-	arg_13_0.curID_ = arg_13_1
+function slot0.SetTemplateID(slot0, slot1)
+	slot0.curID_ = slot1
 
-	arg_13_0:RefreshInfo()
-	arg_13_0.scrollList_:Refresh()
+	slot0:RefreshInfo()
+	slot0.scrollList_:Refresh()
 end
 
-function var_0_0.RefreshInfo(arg_14_0)
-	arg_14_0.show_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_template_" .. arg_14_0.curID_)
+function slot0.RefreshInfo(slot0)
+	slot0.show_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_template_" .. slot0.curID_)
 
-	if arg_14_0.curID_ == arg_14_0.chooseID_ then
-		arg_14_0.stateCon_:SetSelectedState("use")
+	if slot0.curID_ == slot0.chooseID_ then
+		slot0.stateCon_:SetSelectedState("use")
 	else
-		arg_14_0.stateCon_:SetSelectedState("change")
+		slot0.stateCon_:SetSelectedState("change")
 	end
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_15_0:Back(1, {
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0:Back(1, {
 			type = 2,
-			tempInfo = arg_15_0.params_.temp
+			tempInfo = uv0.params_.temp
 		})
 	end)
 end
 
-function var_0_0.OnExit(arg_17_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	arg_18_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_18_0.scrollList_ then
-		arg_18_0.scrollList_:Dispose()
+	if slot0.scrollList_ then
+		slot0.scrollList_:Dispose()
 
-		arg_18_0.scrollList_ = nil
+		slot0.scrollList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_18_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

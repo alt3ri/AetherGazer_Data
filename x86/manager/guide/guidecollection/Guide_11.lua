@@ -1,48 +1,39 @@
-local var_0_0 = class("Guide_14", BaseGuide)
+slot0 = class("Guide_14", BaseGuide)
 
-function var_0_0.InitSteps(arg_1_0)
-	local var_1_0 = {}
+function slot0.InitSteps(slot0)
+	slot1 = {}
 
-	arg_1_0:OnGuideStart()
-	table.insert(var_1_0, 1101)
-	table.insert(var_1_0, 1102)
-	table.insert(var_1_0, 1103)
+	slot0:OnGuideStart()
+	table.insert(slot1, 1101)
+	table.insert(slot1, 1102)
+	table.insert(slot1, 1103)
 
 	if MythicData:IsShowDifficultySelectView_Guide() then
-		table.insert(var_1_0, 1104)
+		table.insert(slot1, 1104)
 	end
 
-	table.insert(var_1_0, 1105)
+	table.insert(slot1, 1105)
 
-	local var_1_1 = 1
-	local var_1_2 = arg_1_0._cfg.leaps
+	slot2 = 1
 
-	for iter_1_0, iter_1_1 in ipairs(var_1_2) do
-		local var_1_3 = iter_1_1[1]
-		local var_1_4 = iter_1_1[2]
-
+	for slot7, slot8 in ipairs(slot0._cfg.leaps) do
 		if GuideTool.SatisfyCondition({
 			{
 				"uiName",
-				var_1_3
+				slot8[1]
 			}
 		}) then
-			var_1_1 = var_1_4
+			slot2 = slot8[2]
 		end
 	end
 
-	arg_1_0._steps = {}
+	slot0._steps = {}
 
-	local var_1_5 = #var_1_0
-
-	for iter_1_2 = var_1_1, var_1_5 do
-		local var_1_6 = var_1_0[iter_1_2]
-		local var_1_7 = arg_1_0:ProduceStep(var_1_6)
-
-		if var_1_7 then
-			table.insert(arg_1_0._steps, var_1_7)
+	for slot8 = slot2, #slot1 do
+		if slot0:ProduceStep(slot1[slot8]) then
+			table.insert(slot0._steps, slot10)
 		end
 	end
 end
 
-return var_0_0
+return slot0

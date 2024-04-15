@@ -1,26 +1,25 @@
 return {
 	[20601] = {
-		[9] = function(arg_1_0, arg_1_1)
-			local var_1_0 = manager.ChessManager:GetExecutingChess().status
-			local var_1_1 = {}
-
-			if var_1_0 == 0 then
-				var_1_1[1] = {
+		[9] = function (slot0, slot1)
+			if manager.ChessManager:GetExecutingChess().status == 0 then
+				-- Nothing
+			elseif slot3 == 1 then
+				slot4[1] = {
 					eventID = 10104,
 					params = {
-						arg_1_0
-					}
-				}
-			elseif var_1_0 == 1 then
-				var_1_1[1] = {
-					eventID = 10104,
-					params = {
-						arg_1_1
+						slot1
 					}
 				}
 			end
 
-			manager.ChessManager:InsertEventQueue(var_1_1)
+			manager.ChessManager:InsertEventQueue({
+				{
+					eventID = 10104,
+					params = {
+						slot0
+					}
+				}
+			})
 			manager.ChessManager:DoNextEvent()
 		end
 	}

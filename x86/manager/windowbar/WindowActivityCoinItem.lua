@@ -1,118 +1,114 @@
-local var_0_0 = class("WindowActivityCoinItem", import("game.extend.ReduxView"))
+slot0 = class("WindowActivityCoinItem", import("game.extend.ReduxView"))
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.currencyType_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.currencyType_ = slot2
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
-	arg_2_0:RefreshUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
+	slot0:RefreshUI()
 
-	arg_2_0.isCanAdd_ = true
-	arg_2_0.isCanClick_ = false
-	arg_2_0.type_ = "black"
+	slot0.isCanAdd_ = true
+	slot0.isCanClick_ = false
+	slot0.type_ = "black"
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.typeSet_ = {
+	slot0.typeSet_ = {
 		"black",
 		"hyaline"
 	}
-	arg_3_0.typeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "type")
+	slot0.typeCon_ = ControllerUtil.GetController(slot0.transform_, "type")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(nil, nil, "OnClick")
-	arg_4_0:AddBtnListener(arg_4_0.buttonIcon_, nil, function()
-		manager.notify:Invoke(WINDOW_BAR_INFO, arg_4_0.currencyType_, arg_4_0.gameObject_)
-		arg_4_0:OnClick()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(nil, , "OnClick")
+	slot0:AddBtnListener(slot0.buttonIcon_, nil, function ()
+		manager.notify:Invoke(WINDOW_BAR_INFO, uv0.currencyType_, uv0.gameObject_)
+		uv0:OnClick()
 	end)
 end
 
-function var_0_0.OnClick(arg_6_0)
-	if arg_6_0.materialType_ then
+function slot0.OnClick(slot0)
+	if slot0.materialType_ then
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_6_0.materialType_
+			slot0.materialType_
 		})
 	end
 end
 
-function var_0_0.SetCanAdd(arg_7_0, arg_7_1)
-	if arg_7_0.isCanAdd_ == arg_7_1 then
+function slot0.SetCanAdd(slot0, slot1)
+	if slot0.isCanAdd_ == slot1 then
 		return
 	end
 
-	arg_7_0.isCanAdd_ = arg_7_1
+	slot0.isCanAdd_ = slot1
 
-	SetActive(arg_7_0.add_, arg_7_1)
+	SetActive(slot0.add_, slot1)
 end
 
-function var_0_0.SetCanClick(arg_8_0, arg_8_1)
-	arg_8_0.isCanClick_ = arg_8_1
+function slot0.SetCanClick(slot0, slot1)
+	slot0.isCanClick_ = slot1
 end
 
-function var_0_0.SetType(arg_9_0, arg_9_1)
-	if table.indexof(arg_9_0.typeSet_, arg_9_1) then
-		arg_9_0.type_ = arg_9_1
+function slot0.SetType(slot0, slot1)
+	if table.indexof(slot0.typeSet_, slot1) then
+		slot0.type_ = slot1
 
-		arg_9_0.typeCon_:SetSelectedState(arg_9_0.type_)
+		slot0.typeCon_:SetSelectedState(slot0.type_)
 	end
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.materialType_ = nil
+function slot0.RefreshUI(slot0)
+	slot0.materialType_ = nil
 
-	if arg_10_0.activity_id and ActivityCfg[arg_10_0.activity_id] and ActivityTools.GetActivityType(arg_10_0.activity_id) == ActivityTemplateConst.ACTIVITY_PUSH_BOX then
-		local var_10_0 = PushBoxTool:GetFatigueID(arg_10_0.activity_id)
-
-		arg_10_0.icon_.sprite = ItemTools.getItemLittleSprite(var_10_0)
-
-		local var_10_1 = PushBoxTool:GetFatigueMax(arg_10_0.activity_id)
-
-		arg_10_0.text_.text = ActivityPushBoxData:GetFatigue(arg_10_0.activity_id) .. "/" .. var_10_1
-		arg_10_0.materialType_ = var_10_0
+	if slot0.activity_id and ActivityCfg[slot0.activity_id] and ActivityTools.GetActivityType(slot0.activity_id) == ActivityTemplateConst.ACTIVITY_PUSH_BOX then
+		slot2 = PushBoxTool:GetFatigueID(slot0.activity_id)
+		slot0.icon_.sprite = ItemTools.getItemLittleSprite(slot2)
+		slot0.text_.text = ActivityPushBoxData:GetFatigue(slot0.activity_id) .. "/" .. PushBoxTool:GetFatigueMax(slot0.activity_id)
+		slot0.materialType_ = slot2
 
 		return
 	end
 
-	arg_10_0.icon_.sprite = nil
-	arg_10_0.text_.text = ""
+	slot0.icon_.sprite = nil
+	slot0.text_.text = ""
 end
 
-function var_0_0.SetActivityId(arg_11_0, arg_11_1)
-	arg_11_0.activity_id = arg_11_1
+function slot0.SetActivityId(slot0, slot1)
+	slot0.activity_id = slot1
 
-	arg_11_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.SetActive(arg_12_0, arg_12_1)
-	SetActive(arg_12_0.gameObject_, arg_12_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_12_1 then
-		arg_12_0:RegistEventListener(ACTIVITY_ICON_CHANGE, handler(arg_12_0, arg_12_0.RefreshUI))
-		arg_12_0:RefreshUI()
-		arg_12_0.transform_:SetAsLastSibling()
+	if slot1 then
+		slot0:RegistEventListener(ACTIVITY_ICON_CHANGE, handler(slot0, slot0.RefreshUI))
+		slot0:RefreshUI()
+		slot0.transform_:SetAsLastSibling()
 	else
-		arg_12_0:RemoveAllEventListener()
+		slot0:RemoveAllEventListener()
 	end
 end
 
-function var_0_0.UnBindListener(arg_13_0)
-	arg_13_0:RemoveAllEventListener()
+function slot0.UnBindListener(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_14_0.transform_ = nil
-	arg_14_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-return var_0_0
+return slot0

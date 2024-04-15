@@ -1,148 +1,145 @@
-local var_0_0 = class("IlluEnemyFileDetail", ReduxView)
+slot0 = class("IlluEnemyFileDetail", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/IllustratedHandbook/IlluEnemyDetailUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.itemList_ = {}
-	arg_3_0.conList_ = {}
-	arg_3_0.infoList_ = {}
-	arg_3_0.skillList_ = {}
+	slot0.itemList_ = {}
+	slot0.conList_ = {}
+	slot0.infoList_ = {}
+	slot0.skillList_ = {}
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.enemyAvatarView_ = EnemyAvatarView.New(arg_4_0, arg_4_0.displayGo_)
-	arg_4_0.riskCon_ = ControllerUtil.GetController(arg_4_0.transform_, "conName")
-	arg_4_0.toggleController_ = arg_4_0.bossInfo_.transform:GetComponent("ControllerExCollection"):GetController("toggle")
+	slot0.enemyAvatarView_ = EnemyAvatarView.New(slot0, slot0.displayGo_)
+	slot0.riskCon_ = ControllerUtil.GetController(slot0.transform_, "conName")
+	slot0.toggleController_ = slot0.bossInfo_.transform:GetComponent("ControllerExCollection"):GetController("toggle")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.dataBtn_, nil, function()
-		arg_5_0.toggleController_:SetSelectedState("data")
-		arg_5_0:RefreshInfo()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.dataBtn_, nil, function ()
+		uv0.toggleController_:SetSelectedState("data")
+		uv0:RefreshInfo()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.skillBtn_, nil, function()
-		arg_5_0.toggleController_:SetSelectedState("skill")
-		arg_5_0:RefreshSkill()
+	slot0:AddBtnListener(slot0.skillBtn_, nil, function ()
+		uv0.toggleController_:SetSelectedState("skill")
+		uv0:RefreshSkill()
 	end)
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = MonsterCfg[arg_8_0.id_]
-
-	arg_8_0.nameText_.text = GetMonsterName({
-		arg_8_0.id_
+function slot0.RefreshUI(slot0)
+	slot1 = MonsterCfg[slot0.id_]
+	slot0.nameText_.text = GetMonsterName({
+		slot0.id_
 	})
-	arg_8_0.raceText_.text = GetTips("RACE_TYPE_" .. var_8_0.race)
-	arg_8_0.descText_.text = GetI18NText(var_8_0.desc)
+	slot0.raceText_.text = GetTips("RACE_TYPE_" .. slot1.race)
+	slot0.descText_.text = GetI18NText(slot1.desc)
 
-	arg_8_0.riskCon_:SetSelectedState(var_8_0.type)
-	arg_8_0:UpdateData()
-	arg_8_0.toggleController_:SetSelectedState("data")
-	arg_8_0:RefreshInfo()
+	slot0.riskCon_:SetSelectedState(slot1.type)
+	slot0:UpdateData()
+	slot0.toggleController_:SetSelectedState("data")
+	slot0:RefreshInfo()
 end
 
-function var_0_0.RefreshInfo(arg_9_0)
-	for iter_9_0 = 1, 3 do
-		arg_9_0:UpdateItem(iter_9_0, arg_9_0.infoList_[iter_9_0])
+function slot0.RefreshInfo(slot0)
+	for slot4 = 1, 3 do
+		slot0:UpdateItem(slot4, slot0.infoList_[slot4])
 	end
 
-	for iter_9_1 = 4, #arg_9_0.itemList_ do
-		arg_9_0.itemList_[iter_9_1]:Hide()
+	for slot4 = 4, #slot0.itemList_ do
+		slot0.itemList_[slot4]:Hide()
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.contentTrs_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.contentTrs_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_9_0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 end
 
-function var_0_0.RefreshSkill(arg_10_0)
-	for iter_10_0 = 1, 6 do
-		arg_10_0:UpdateItem(iter_10_0, arg_10_0.skillList_[iter_10_0])
+function slot0.RefreshSkill(slot0)
+	for slot4 = 1, 6 do
+		slot0:UpdateItem(slot4, slot0.skillList_[slot4])
 	end
 
-	for iter_10_1 = 1, 6 do
-		if string.len(arg_10_0.skillList_[iter_10_1].name) == 0 then
-			arg_10_0.itemList_[iter_10_1]:Hide()
+	for slot4 = 1, 6 do
+		if string.len(slot0.skillList_[slot4].name) == 0 then
+			slot0.itemList_[slot4]:Hide()
 		end
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.contentTrs_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.contentTrs_)
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_10_0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrs_)
 end
 
-function var_0_0.UpdateItem(arg_11_0, arg_11_1, arg_11_2)
-	if not arg_11_0.itemList_[arg_11_1] then
-		local var_11_0 = Object.Instantiate(arg_11_0.itemGo_, arg_11_0.contentTrs_)
-
-		arg_11_0.itemList_[arg_11_1] = IlluEnemyFileDetailItem.New(var_11_0)
+function slot0.UpdateItem(slot0, slot1, slot2)
+	if not slot0.itemList_[slot1] then
+		slot0.itemList_[slot1] = IlluEnemyFileDetailItem.New(Object.Instantiate(slot0.itemGo_, slot0.contentTrs_))
 	end
 
-	arg_11_0.itemList_[arg_11_1]:RefreshUI(arg_11_2)
+	slot0.itemList_[slot1]:RefreshUI(slot2)
 end
 
-function var_0_0.OnEnter(arg_12_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 	manager.ui:SetMainCamera("enemyFile")
 
-	arg_12_0.id_ = arg_12_0.params_.id
+	slot0.id_ = slot0.params_.id
 
-	arg_12_0.enemyAvatarView_:OnEnter()
-	arg_12_0.enemyAvatarView_:SetBossID(arg_12_0.id_)
-	arg_12_0:RefreshUI()
+	slot0.enemyAvatarView_:OnEnter()
+	slot0.enemyAvatarView_:SetBossID(slot0.id_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_13_0)
+function slot0.OnExit(slot0)
 	manager.ui:ResetMainCamera()
 	manager.windowBar:HideBar()
-	arg_13_0.enemyAvatarView_:OnExit()
+	slot0.enemyAvatarView_:OnExit()
 end
 
-function var_0_0.UpdateData(arg_14_0)
-	arg_14_0.infoList_ = {}
-	arg_14_0.skillList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.infoList_ = {}
+	slot0.skillList_ = {}
 
-	for iter_14_0 = 1, 3 do
-		arg_14_0.infoList_[iter_14_0] = {
+	for slot4 = 1, 3 do
+		slot0.infoList_[slot4] = {
 			isLock = false,
-			name = string.format(GetTips("MONSTER_INFORMATION") .. iter_14_0),
-			info = MonsterCfg[arg_14_0.id_]["information" .. iter_14_0]
+			name = string.format(GetTips("MONSTER_INFORMATION") .. slot4),
+			info = MonsterCfg[slot0.id_]["information" .. slot4]
 		}
 	end
 
-	for iter_14_1 = 1, 6 do
-		arg_14_0.skillList_[iter_14_1] = {
+	for slot4 = 1, 6 do
+		slot0.skillList_[slot4] = {
 			isLock = false,
-			name = MonsterCfg[arg_14_0.id_]["skill" .. iter_14_1],
-			info = MonsterCfg[arg_14_0.id_]["skill_desc" .. iter_14_1]
+			name = MonsterCfg[slot0.id_]["skill" .. slot4],
+			info = MonsterCfg[slot0.id_]["skill_desc" .. slot4]
 		}
 	end
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.enemyAvatarView_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.enemyAvatarView_:Dispose()
 
-	arg_15_0.enemyAvatarView_ = nil
+	slot0.enemyAvatarView_ = nil
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.itemList_) do
-		iter_15_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

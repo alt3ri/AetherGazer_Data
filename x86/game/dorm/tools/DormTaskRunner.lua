@@ -1,49 +1,50 @@
-local var_0_0 = class("DormTaskRunner")
+slot0 = class("DormTaskRunner")
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.timers = {}
+function slot0.Ctor(slot0)
+	slot0.timers = {}
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.taskList, arg_2_0.taskListAdd = {}, {}
-	arg_2_0.lastUpdate = nil
-	arg_2_0.now = 0
+function slot0.Init(slot0)
+	slot0.taskListAdd = {}
+	slot0.taskList = {}
+	slot0.lastUpdate = nil
+	slot0.now = 0
 end
 
-function var_0_0.Reset(arg_3_0)
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.taskList) do
-		iter_3_1:Abort()
+function slot0.Reset(slot0)
+	for slot4, slot5 in ipairs(slot0.taskList) do
+		slot5:Abort()
 	end
 
-	for iter_3_2, iter_3_3 in ipairs(arg_3_0.taskListAdd) do
-		iter_3_3:Abort()
+	for slot4, slot5 in ipairs(slot0.taskListAdd) do
+		slot5:Abort()
 	end
 
-	arg_3_0.taskList, arg_3_0.taskListAdd = nil
+	slot0.taskListAdd = nil
+	slot0.taskList = nil
 
-	for iter_3_4, iter_3_5 in pairs(arg_3_0.timers) do
-		iter_3_5:Stop()
+	for slot4, slot5 in pairs(slot0.timers) do
+		slot5:Stop()
 	end
 
-	arg_3_0.timers = {}
+	slot0.timers = {}
 end
 
-function var_0_0.DoTask(arg_4_0, arg_4_1)
-	if arg_4_1:IsCancelled() then
-		arg_4_1:Abort()
+function slot0.DoTask(slot0, slot1)
+	if slot1:IsCancelled() then
+		slot1:Abort()
 	end
 
-	while arg_4_1.progress >= 1 and arg_4_1.progress <= #arg_4_1.taskList do
-		local var_4_0 = arg_4_1.taskList[arg_4_1.progress]
-		local var_4_1, var_4_2, var_4_3 = unpack(var_4_0)
-		local var_4_4
+	while slot1.progress >= 1 and slot1.progress <= #slot1.taskList do
+		slot3, slot4, slot5 = unpack(slot1.taskList[slot1.progress])
+		slot6 = nil
 
-		if var_4_1(var_4_3) then
-			if arg_4_1.progress ~= -1 then
-				arg_4_1.progress = arg_4_1.progress + 1
+		if slot3(slot5) then
+			if slot1.progress ~= -1 then
+				slot1.progress = slot1.progress + 1
 			end
 
-			if var_4_2 then
+			if slot4 then
 				return false
 			end
 		else
@@ -51,75 +52,74 @@ function var_0_0.DoTask(arg_4_0, arg_4_1)
 		end
 	end
 
-	if not arg_4_1:IsAborted() and arg_4_1.onComplete then
-		arg_4_1.onComplete()
+	if not slot1:IsAborted() and slot1.onComplete then
+		slot1.onComplete()
 	end
 
 	return true
 end
 
-function var_0_0.TickUpdate(arg_5_0)
-	if arg_5_0.pause then
+function slot0.TickUpdate(slot0)
+	if slot0.pause then
 		return
 	end
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.taskListAdd) do
-		table.insert(arg_5_0.taskList, iter_5_1)
+	for slot4, slot5 in ipairs(slot0.taskListAdd) do
+		table.insert(slot0.taskList, slot5)
 
-		arg_5_0.taskListAdd[iter_5_0] = nil
+		slot0.taskListAdd[slot4] = nil
 	end
 
-	arg_5_0.now = arg_5_0:Time()
-	arg_5_0.lastUpdate = arg_5_0.lastUpdate or arg_5_0.now
+	slot0.now = slot0:Time()
+	slot0.lastUpdate = slot0.lastUpdate or slot0.now
 
-	local var_5_0 = {}
+	for slot5, slot6 in ipairs(slot0.taskList) do
+		if not slot0:DoTask(slot6) then
+			table.insert({}, slot6)
 
-	for iter_5_2, iter_5_3 in ipairs(arg_5_0.taskList) do
-		if not arg_5_0:DoTask(iter_5_3) then
-			table.insert(var_5_0, iter_5_3)
-
-			arg_5_0.taskList[iter_5_2] = nil
+			slot0.taskList[slot5] = nil
 		end
 	end
 
-	arg_5_0.taskList = var_5_0, arg_5_0.taskList
-	arg_5_0.lastUpdate = arg_5_0.now
+	slot1 = slot0.taskList
+	slot0.taskList = slot1
+	slot0.lastUpdate = slot0.now
 end
 
-function var_0_0.RegisterTask(arg_6_0, arg_6_1)
-	table.insert(arg_6_0.taskListAdd, arg_6_1)
+function slot0.RegisterTask(slot0, slot1)
+	table.insert(slot0.taskListAdd, slot1)
 end
 
-function var_0_0.NewTask(arg_7_0, arg_7_1)
-	local var_7_0 = DormTask.New(arg_7_1)
+function slot0.NewTask(slot0, slot1)
+	slot2 = DormTask.New(slot1)
 
-	var_7_0:SetRunner(arg_7_0)
+	slot2:SetRunner(slot0)
 
-	return var_7_0
+	return slot2
 end
 
-function var_0_0.NewTimer(arg_8_0, ...)
-	local var_8_0 = Timer.New(...)
+function slot0.NewTimer(slot0, ...)
+	slot1 = Timer.New(...)
 
-	table.insert(arg_8_0.timers, var_8_0)
+	table.insert(slot0.timers, slot1)
 
-	return var_8_0
+	return slot1
 end
 
-function var_0_0.DeltaTime(arg_9_0)
-	if arg_9_0.lastUpdate then
-		return arg_9_0:Now() - arg_9_0.lastUpdate
+function slot0.DeltaTime(slot0)
+	if slot0.lastUpdate then
+		return slot0:Now() - slot0.lastUpdate
 	end
 
 	return 0
 end
 
-function var_0_0.Now(arg_10_0)
-	return arg_10_0.now
+function slot0.Now(slot0)
+	return slot0.now
 end
 
-function var_0_0.Time(arg_11_0)
+function slot0.Time(slot0)
 	return Time.time
 end
 
-return var_0_0
+return slot0

@@ -1,66 +1,65 @@
-local var_0_0 = class("HeroActionView", ReduxView)
+slot0 = class("HeroActionView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroActList_ = {
+	slot0.heroActList_ = {
 		"happy",
 		"sad",
 		"angry"
 	}
-	arg_3_0.punishActList_ = {
+	slot0.punishActList_ = {
 		"sheep_angry",
 		"sheep_happy"
 	}
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, HeroActionItem)
-	arg_3_0.sizeCon_ = ControllerUtil.GetController(arg_3_0.transform_, "size")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, HeroActionItem)
+	slot0.sizeCon_ = ControllerUtil.GetController(slot0.transform_, "size")
 end
 
-function var_0_0.IndexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:Refresh(arg_4_0.list_[arg_4_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.list_[slot1])
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.list_ = arg_6_0.heroActList_
+function slot0.OnEnter(slot0)
+	slot0.list_ = slot0.heroActList_
 
-	arg_6_0.scrollHelper_:StartScroll(#arg_6_0.list_)
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.RefreshList(arg_8_0, arg_8_1)
-	arg_8_0.list_ = arg_8_1 == 1 and arg_8_0.heroActList_ or arg_8_0.punishActList_
+function slot0.RefreshList(slot0, slot1)
+	slot0.list_ = slot1 == 1 and slot0.heroActList_ or slot0.punishActList_
 
-	arg_8_0.sizeCon_:SetSelectedState(arg_8_1 == 1 and "true" or "false")
-	arg_8_0.scrollHelper_:StartScroll(#arg_8_0.list_)
+	slot0.sizeCon_:SetSelectedState(slot1 == 1 and "true" or "false")
+	slot0.scrollHelper_:StartScroll(#slot0.list_)
 end
 
-function var_0_0.OnExit(arg_9_0)
-	arg_9_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0:RemoveAllListeners()
-	arg_10_0.scrollHelper_:Dispose()
-	arg_10_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

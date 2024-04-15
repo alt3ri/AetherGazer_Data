@@ -1,62 +1,56 @@
-local var_0_0 = class("PopEquipSourceView", import("game.views.pop.PopItemView"))
+slot0 = class("PopEquipSourceView", import("game.views.pop.PopItemView"))
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.equipInfo_ = arg_1_0.params_.equip_info or {}
+function slot0.OnEnter(slot0)
+	slot0.equipInfo_ = slot0.params_.equip_info or {}
 
-	var_0_0.super.OnEnter(arg_1_0)
+	uv0.super.OnEnter(slot0)
 
-	arg_1_0.itemList_ = {}
+	slot0.itemList_ = {}
 
-	arg_1_0:RefreshItem()
+	slot0:RefreshItem()
 
-	if arg_1_0.params_.suitID then
-		arg_1_0:CustomizeForSuit(arg_1_0.params_.suitID)
+	if slot0.params_.suitID then
+		slot0:CustomizeForSuit(slot0.params_.suitID)
 	end
 end
 
-function var_0_0.OnExit(arg_2_0)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.itemList_) do
-		iter_2_1:Dispose()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList_) do
+		slot5:Dispose()
 	end
 
-	arg_2_0.itemList_ = nil
+	slot0.itemList_ = nil
 
-	var_0_0.super.OnExit(arg_2_0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.CustomInitUI(arg_3_0)
-	var_0_0.super.CustomInitUI(arg_3_0)
-	arg_3_0.btnShowControllerController:SetSelectedState("hide")
-	arg_3_0.tabControllerController:SetSelectedState("source")
+function slot0.CustomInitUI(slot0)
+	uv0.super.CustomInitUI(slot0)
+	slot0.btnShowControllerController:SetSelectedState("hide")
+	slot0.tabControllerController:SetSelectedState("source")
 end
 
-function var_0_0.CustomizeForSuit(arg_4_0, arg_4_1)
-	local var_4_0 = EquipSuitCfg[arg_4_1].name
-
-	arg_4_0.nameText_.text = GetI18NText(var_4_0)
+function slot0.CustomizeForSuit(slot0, slot1)
+	slot0.nameText_.text = GetI18NText(EquipSuitCfg[slot1].name)
 end
 
-function var_0_0.RefreshItem(arg_5_0)
-	local var_5_0 = arg_5_0:GetItemID()
+function slot0.RefreshItem(slot0)
+	slot0.sourceList = ItemTools.GetItemSourceList(slot0:GetItemID())
 
-	arg_5_0.sourceList = ItemTools.GetItemSourceList(var_5_0)
-
-	arg_5_0.sourceScroll_:StartScroll(#arg_5_0.sourceList)
+	slot0.sourceScroll_:StartScroll(#slot0.sourceList)
 end
 
-function var_0_0.OnTop(arg_6_0)
-	local var_6_0 = arg_6_0:GetItemID()
-	local var_6_1 = ItemTools.GetItemSourceList(var_6_0)
+function slot0.OnTop(slot0)
+	slot2 = ItemTools.GetItemSourceList(slot0:GetItemID())
+	slot0.sourceList = slot2
 
-	arg_6_0.sourceList = var_6_1
-
-	if #var_6_1 > 0 then
-		arg_6_0.sourceScroll_:Refresh()
+	if #slot2 > 0 then
+		slot0.sourceScroll_:Refresh()
 	end
 end
 
-function var_0_0.OnJumpCallback(arg_7_0)
-	OperationRecorder.Record(arg_7_0.lastRecord_, "jump")
+function slot0.OnJumpCallback(slot0)
+	OperationRecorder.Record(slot0.lastRecord_, "jump")
 end
 
-return var_0_0
+return slot0

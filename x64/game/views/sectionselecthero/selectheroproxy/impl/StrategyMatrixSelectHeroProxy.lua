@@ -1,85 +1,78 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("StrategyMatrixSelectHeroProxy", var_0_0)
+slot1 = class("StrategyMatrixSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0, arg_1_1)
-	arg_1_0.matrix_activity_id = arg_1_1.matrix_activity_id
-	arg_1_0.nodeId = arg_1_1.nodeId
-	arg_1_0.needHeroPower = false
-	arg_1_0.needMimirPanel = false
-	arg_1_0.canChangeTeam = false
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.matrix_activity_id = slot1.matrix_activity_id
+	slot0.nodeId = slot1.nodeId
+	slot0.needHeroPower = false
+	slot0.needMimirPanel = false
+	slot0.canChangeTeam = false
 end
 
-function var_0_1.GetRaceEffect(arg_2_0)
-	local var_2_0 = {}
-	local var_2_1 = 0
-	local var_2_2 = false
-	local var_2_3 = arg_2_0:GetHeroIDList()
+function slot1.GetRaceEffect(slot0)
+	slot1 = {}
+	slot2 = 0
+	slot3 = false
 
-	for iter_2_0, iter_2_1 in pairs(var_2_3) do
-		if iter_2_1 ~= 0 then
-			local var_2_4 = HeroCfg[iter_2_1].race
+	for slot8, slot9 in pairs(slot0:GetHeroIDList()) do
+		if slot9 ~= 0 then
+			slot1[slot10] = (slot1[HeroCfg[slot9].race] or 0) + 1
 
-			var_2_0[var_2_4] = (var_2_0[var_2_4] or 0) + 1
+			if slot1[slot10] == 2 then
+				slot2 = slot10
 
-			if var_2_0[var_2_4] == 2 then
-				var_2_1 = var_2_4
-
-				if StrategyMatrixData:GetRaceEffect(arg_2_0.matrix_activity_id) then
-					var_2_2 = true
+				if StrategyMatrixData:GetRaceEffect(slot0.matrix_activity_id) then
+					slot3 = true
 				end
-			elseif var_2_0[var_2_4] == 3 then
-				var_2_2 = true
+			elseif slot1[slot10] == 3 then
+				slot3 = true
 			end
 		end
 	end
 
-	return var_2_1, var_2_0[var_2_1] or 1, var_2_2
+	return slot2, slot1[slot2] or 1, slot3
 end
 
-function var_0_1.CustomGetSkinCfg(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	if arg_3_3 ~= 0 then
-		return SkinCfg[HeroStandardSystemCfg[arg_3_3].skin_id]
+function slot1.CustomGetSkinCfg(slot0, slot1, slot2, slot3)
+	if slot3 ~= 0 then
+		return SkinCfg[HeroStandardSystemCfg[slot3].skin_id]
 	else
-		return StrategyMatrixData:GetHeroSkin(arg_3_0.matrix_activity_id, arg_3_2)
+		return StrategyMatrixData:GetHeroSkin(slot0.matrix_activity_id, slot2)
 	end
 end
 
-function var_0_1.CustomChangeHeroTeam(arg_4_0, arg_4_1)
-	StrategyMatrixData:SetMatrixBattleHeroTeam(arg_4_0.matrix_activity_id, arg_4_1)
+function slot1.CustomChangeHeroTeam(slot0, slot1)
+	StrategyMatrixData:SetMatrixBattleHeroTeam(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_1.CustomGetComboSkillID(arg_5_0)
+function slot1.CustomGetComboSkillID(slot0)
 	return ComboSkillData:GetComboSkillID(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX, nil, 1)
 end
 
-function var_0_1.CustomSetComboSkillID(arg_6_0, arg_6_1)
-	local var_6_0 = GetHeroTeamActivityID(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX)
-
-	BattleFieldAction.SetComboInfo(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX, var_6_0, arg_6_1)
+function slot1.CustomSetComboSkillID(slot0, slot1)
+	BattleFieldAction.SetComboInfo(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX, GetHeroTeamActivityID(BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_MATRIX), slot1)
 end
 
-function var_0_1.StartBattle(arg_7_0)
-	if StrategyMatrixData:GetGameState(arg_7_0.matrix_activity_id) == MatrixConst.STATE_TYPE.NOTSTARTED then
+function slot1.StartBattle(slot0)
+	if StrategyMatrixData:GetGameState(slot0.matrix_activity_id) == MatrixConst.STATE_TYPE.NOTSTARTED then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MATRIX_REFRESH_DATA"),
-			OkCallback = function()
-				StrategyMatrixAction.GotoStrategyMatrixPrepare(arg_7_0.matrix_activity_id)
+			OkCallback = function ()
+				StrategyMatrixAction.GotoStrategyMatrixPrepare(uv0.matrix_activity_id)
 			end
 		})
 	else
-		local var_7_0 = StrategyMatrixData:GetMatrixPhaseData(arg_7_0.matrix_activity_id):GetPhase()
-		local var_7_1 = arg_7_0.nodeId
+		slot4 = slot0.nodeId
 
-		if var_7_0 == 2 then
-			StrategyMatrixAction.DoEvent(arg_7_0.matrix_activity_id)
+		if StrategyMatrixData:GetMatrixPhaseData(slot0.matrix_activity_id):GetPhase() == 2 then
+			StrategyMatrixAction.DoEvent(slot0.matrix_activity_id)
 		else
-			StrategyMatrixAction.QueryNextProgress(arg_7_0.matrix_activity_id, {
-				var_7_1
+			StrategyMatrixAction.QueryNextProgress(slot0.matrix_activity_id, {
+				slot4
 			})
 		end
 	end
 end
 
-return var_0_1
+return slot1

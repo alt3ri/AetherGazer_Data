@@ -1,51 +1,48 @@
-local var_0_0 = class("EnternalMusicSettlementView", ReduxView)
+slot0 = class("EnternalMusicSettlementView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/XuHeng1stUI/Music/XH1stMusicScoreUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.difficultController_ = ControllerUtil.GetController(arg_4_0.transform_, "difficult")
-	arg_4_0.gradeController_ = ControllerUtil.GetController(arg_4_0.transform_, "grade")
-	arg_4_0.newController_ = ControllerUtil.GetController(arg_4_0.transform_, "new")
-	arg_4_0.evaluateController_ = ControllerUtil.GetController(arg_4_0.transform_, "evaluate")
+	slot0.difficultController_ = ControllerUtil.GetController(slot0.transform_, "difficult")
+	slot0.gradeController_ = ControllerUtil.GetController(slot0.transform_, "grade")
+	slot0.newController_ = ControllerUtil.GetController(slot0.transform_, "new")
+	slot0.evaluateController_ = ControllerUtil.GetController(slot0.transform_, "evaluate")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_restartBtn, nil, function()
-		local var_6_0 = MusicData:GetGameId()
-		local var_6_1 = ActivityMusicCfg[var_6_0]
-
-		if var_6_1 then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_restartBtn, nil, function ()
+		if ActivityMusicCfg[MusicData:GetGameId()] then
 			SDKTools.SendMessageToSDK("activity_music_start", {
 				is_restart = false,
-				activity_id = var_6_1.activity_id,
-				difficulty_id = var_6_1.difficult
+				activity_id = slot1.activity_id,
+				difficulty_id = slot1.difficult
 			})
 		end
 
 		MusicLuaBridge.ReStartMusicGame()
-		arg_5_0:Back()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_backBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_backBtn, nil, function ()
 		DestroyLua()
 		LuaExchangeHelper.GoToMain()
 		OpenPageUntilLoaded("/enternalMusicMain", {
 			activity_id = ActivityConst.ENTERNAL_MUSIC
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_backBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_backBtn, nil, function ()
 		DestroyLua()
 		LuaExchangeHelper.GoToMain()
 		OpenPageUntilLoaded("/enternalMusicMain", {
@@ -54,75 +51,63 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.OnTop(arg_9_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	local var_11_0 = MusicData:GetGameId()
-	local var_11_1 = ActivityMusicCfg[var_11_0]
+function slot0.RefreshUI(slot0)
+	slot2 = ActivityMusicCfg[MusicData:GetGameId()]
+	slot0.m_name.text = GetI18NText(slot2.name)
+	slot0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng1stUI/" .. slot2.icon)
 
-	arg_11_0.m_name.text = GetI18NText(var_11_1.name)
-	arg_11_0.m_bg.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/XuHeng1stUI/" .. var_11_1.icon)
-
-	if var_11_1.difficult == 2 then
-		arg_11_0.difficultController_:SetSelectedIndex(1)
-	elseif var_11_1.difficult == 9 then
-		arg_11_0.difficultController_:SetSelectedIndex(2)
+	if slot2.difficult == 2 then
+		slot0.difficultController_:SetSelectedIndex(1)
+	elseif slot2.difficult == 9 then
+		slot0.difficultController_:SetSelectedIndex(2)
 	else
-		arg_11_0.difficultController_:SetSelectedIndex(0)
+		slot0.difficultController_:SetSelectedIndex(0)
 	end
 
-	local var_11_2 = arg_11_0.params_.cur
-	local var_11_3 = arg_11_0.params_.max
+	slot3 = slot0.params_.cur
+	slot0.m_curScoreLab.text = slot3
+	slot0.m_maxScoreLab.text = slot0.params_.max
+	slot0.m_comboLab.text = MusicData:GetMaxComboHit()
+	slot0.m_accuracyLab.text = string.format("%.2f%%", slot3 / slot2.total_score * 100)
+	slot7 = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Good)
+	slot0.m_mistakeLab.text = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Miss)
+	slot0.m_preciseLab.text = slot7
+	slot0.m_perfectLab.text = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Perfect)
+	slot0.m_perfectPluasLab.text = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.PerfectPlus)
 
-	arg_11_0.m_curScoreLab.text = var_11_2
-	arg_11_0.m_maxScoreLab.text = var_11_3
-
-	local var_11_4 = var_11_2 / var_11_1.total_score * 100
-
-	arg_11_0.m_comboLab.text = MusicData:GetMaxComboHit()
-	arg_11_0.m_accuracyLab.text = string.format("%.2f%%", var_11_4)
-
-	local var_11_5 = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Miss)
-	local var_11_6 = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Good)
-
-	arg_11_0.m_mistakeLab.text = var_11_5
-	arg_11_0.m_preciseLab.text = var_11_6
-	arg_11_0.m_perfectLab.text = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.Perfect)
-	arg_11_0.m_perfectPluasLab.text = MusicData:GetGameRecord(MusicConst.MusicNodeHitRating.PerfectPlus)
-
-	if var_11_6 == 0 and var_11_5 == 0 then
-		arg_11_0.evaluateController_:SetSelectedIndex(2)
-	elseif var_11_5 == 0 then
-		arg_11_0.evaluateController_:SetSelectedIndex(1)
+	if slot7 == 0 and slot6 == 0 then
+		slot0.evaluateController_:SetSelectedIndex(2)
+	elseif slot6 == 0 then
+		slot0.evaluateController_:SetSelectedIndex(1)
 	else
-		arg_11_0.evaluateController_:SetSelectedIndex(0)
+		slot0.evaluateController_:SetSelectedIndex(0)
 	end
 
-	arg_11_0.newController_:SetSelectedIndex(arg_11_0.params_.new and 1 or 0)
+	slot0.newController_:SetSelectedIndex(slot0.params_.new and 1 or 0)
 
-	local var_11_7 = GameSetting.attach_music_grade.value
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_7) do
-		if iter_11_1 <= var_11_4 then
-			arg_11_0.gradeController_:SetSelectedIndex(iter_11_0 - 1)
+	for slot12, slot13 in ipairs(GameSetting.attach_music_grade.value) do
+		if slot13 <= slot5 then
+			slot0.gradeController_:SetSelectedIndex(slot12 - 1)
 
 			break
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

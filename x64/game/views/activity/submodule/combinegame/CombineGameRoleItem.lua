@@ -1,52 +1,49 @@
-local var_0_0 = class("CombineGameRoleItem", ReduxView)
+slot0 = class("CombineGameRoleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	arg_4_0.data = arg_4_1
-	arg_4_0.lv = arg_4_2
-	arg_4_0.type = arg_4_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.data = slot1
+	slot0.lv = slot2
+	slot0.type = slot3
 
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_5_0)
-	SetActive(arg_5_0.maskGo_, arg_5_0.lv < arg_5_0.data.lv)
+function slot0.UpdateView(slot0)
+	SetActive(slot0.maskGo_, slot0.lv < slot0.data.lv)
 
-	local var_5_0 = ActivityCombineFactorCfg[arg_5_0.data.id]
+	slot0.LvTxt_.text = "等级" .. slot0.data.lv .. "解锁"
 
-	arg_5_0.LvTxt_.text = "等级" .. arg_5_0.data.lv .. "解锁"
-
-	if arg_5_0.type == 1 then
-		local var_5_1 = ActivityCombineSkillCfg[var_5_0.effect[1]]
-
-		arg_5_0.descTxt_.text = GetI18NText(var_5_1.description)
-		arg_5_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. var_5_1.icon)
+	if slot0.type == 1 then
+		slot2 = ActivityCombineSkillCfg[ActivityCombineFactorCfg[slot0.data.id].effect[1]]
+		slot0.descTxt_.text = GetI18NText(slot2.description)
+		slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot2.icon)
 	else
-		arg_5_0.descTxt_.text = GetI18NText(var_5_0.description)
-		arg_5_0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. var_5_0.icon)
+		slot0.descTxt_.text = GetI18NText(slot1.description)
+		slot0.iconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/VersionUI/IndiaUI_2_8/combinegame/" .. slot1.icon)
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
-	Object.Destroy(arg_7_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

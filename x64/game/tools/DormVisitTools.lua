@@ -1,251 +1,208 @@
-local var_0_0 = {}
-local var_0_1
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5 = {}
+slot1, slot2, slot3, slot4 = nil
+slot5 = {}
+slot6 = false
+slot7 = nil
 
-function var_0_0.InitDormVisitData(arg_1_0, arg_1_1)
-	var_0_2 = arg_1_1.exhibition_id or 0
-end
-
-function var_0_0.InitExhibitList(arg_2_0)
-	var_0_1 = {}
-end
-
-function var_0_0.SetListIndex(arg_3_0, arg_3_1)
-	var_0_4 = arg_3_1
-end
-
-function var_0_0.GetListIndex(arg_4_0)
-	return var_0_4
-end
-
-function var_0_0.GetLayoutID(arg_5_0)
-	return var_0_3 or 0
-end
-
-function var_0_0.CheckCurIsVisitRoom(arg_6_0)
-	local var_6_0 = DormData:GetCurrectSceneID()
-
-	if var_6_0 and var_6_0 > DormConst.DORM_VISIT_ROOM_MIN then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.GetTemplateExhibitList(arg_7_0, arg_7_1)
-	if not var_0_1 then
-		var_0_1 = {}
-	end
-
-	if not var_0_1[arg_7_1] then
-		DormAction:AskFurTemplateExhibitList(arg_7_1)
-	else
-		return var_0_1[arg_7_1]
-	end
-end
-
-function var_0_0.RefreshTemplateExhibit(arg_8_0, arg_8_1, arg_8_2)
-	var_0_1[arg_8_2] = {}
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_1) do
-		repeat
-			if iter_8_1.architecture_id == 0 then
-				break
-			end
-
-			var_0_1[arg_8_2][iter_8_1.user_id] = {
-				user_id = iter_8_1.user_id,
-				nick = iter_8_1.profile_base.nick,
-				level = iter_8_1.level,
-				icon = iter_8_1.profile_base.icon,
-				iconFrame = iter_8_1.profile_base.icon_frame or 2001,
-				architecture_id = iter_8_1.architecture_id,
-				furniture_num = iter_8_1.furniture_num,
-				likeNum = iter_8_1.liked_num or 0
-			}
-			var_0_1[arg_8_2][iter_8_1.user_id].heroIDList = {}
-
-			for iter_8_2, iter_8_3 in ipairs(iter_8_1.hero_id_list) do
-				table.insert(var_0_1[arg_8_2][iter_8_1.user_id].heroIDList, iter_8_3)
-			end
-		until true
-	end
-end
-
-function var_0_0.RefreshCurTemplateExhibit(arg_9_0, arg_9_1, arg_9_2, arg_9_3)
-	var_0_5 = {}
-	var_0_5.userID = arg_9_2
-
-	local var_9_0
-
-	var_0_3 = arg_9_1.layout_uid
-
-	local var_9_1 = BackHomeCfg[arg_9_1.architecture_id].type
-
-	if var_9_1 == DormConst.BACKHOME_TYPE.PublicDorm then
-		var_9_0 = DormConst.DORM_VISIT_LOBBY
-	elseif var_9_1 == DormConst.BACKHOME_TYPE.PrivateDorm then
-		var_9_0 = DormConst.DORM_VISIT_PRIVATE
-	end
-
-	local var_9_2 = DormitoryData:GetDormMapList()
-
-	if var_9_0 then
-		local var_9_3 = {}
-		local var_9_4 = BackHomeCfg[var_9_0]
-
-		var_0_5.roomInfo = RoomInfo.New()
-		var_0_5.architecture_id = arg_9_1.architecture_id
-		var_0_5.roomInfo.id = var_9_0
-		var_0_5.roomInfo.sceneName = var_9_4.scene
-
-		local var_9_5, var_9_6, var_9_7 = DormFurnitureTools:ResolverFurnitureInfo(arg_9_1.furniture_pos_list, var_9_0)
-
-		var_0_5.specialFur = var_9_6
-		var_0_5.suitInfo = var_9_7
-		var_0_5.roomInfo.furnitureInfoS = var_9_5
-		var_0_5.likeNum = arg_9_1.liked_num or 0
-		var_0_5.todayLikeNum = arg_9_1.own_today_liked_num or 0
-
-		if arg_9_1.hero_id_list then
-			for iter_9_0, iter_9_1 in ipairs(arg_9_1.hero_id_list) do
-				table.insert(var_9_3, iter_9_1)
-			end
-		end
-
-		var_0_5.archiveIDList = var_9_3
-
-		if not arg_9_3 then
-			local var_9_8, var_9_9 = arg_9_0:GetExhibitListByUserID(arg_9_2)
-
-			var_9_8.architecture_id = arg_9_1.architecture_id or var_9_8.architecture_id
-			var_9_8.likeNum = arg_9_1.liked_num or 0
-			var_9_8.heroIDList = var_9_3
-			var_0_5.friendType = var_9_9
-
-			arg_9_0:SetIsOtherSystem(false)
-		else
-			local var_9_10 = ForeignInfoData:GetCurForeignDetailInfo()
-			local var_9_11 = 2
-			local var_9_12 = FriendsData:GetInfoByID(arg_9_2)
-
-			if var_9_12 and var_9_12.relationship == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
-				var_9_11 = 1
-			end
-
-			var_0_5.friendType = var_9_11
-			var_9_10.backhome_architecture_id = arg_9_1.architecture_id or var_9_10.backhome_architecture_id
-			var_9_10.hero_id_list = var_9_3
-		end
-	end
-
-	var_9_2[var_9_0] = var_0_5
-end
-
-function var_0_0.CheckCanSaveTemplate(arg_10_0)
-	if var_0_5 then
-		if var_0_5.friendType ~= 1 then
-			return false, "DORM_NEED_FRIEND_TEMPLATE_COPY"
-		else
+return {
+	InitDormVisitData = function (slot0, slot1)
+		uv0 = slot1.exhibition_id or 0
+	end,
+	InitExhibitList = function (slot0)
+		uv0 = {}
+	end,
+	SetListIndex = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetListIndex = function (slot0)
+		return uv0
+	end,
+	GetLayoutID = function (slot0)
+		return uv0 or 0
+	end,
+	CheckCurIsVisitRoom = function (slot0)
+		if DormData:GetCurrectSceneID() and DormConst.DORM_VISIT_ROOM_MIN < slot1 then
 			return true
 		end
-	end
-end
 
-function var_0_0.SetCurTemplateExhibit(arg_11_0, arg_11_1)
-	var_0_2 = arg_11_1
-end
+		return false
+	end,
+	GetTemplateExhibitList = function (slot0, slot1)
+		if not uv0 then
+			uv0 = {}
+		end
 
-function var_0_0.GetCurTemplateExhibit(arg_12_0)
-	if var_0_2 then
-		return var_0_2
-	end
-end
+		if not uv0[slot1] then
+			DormAction:AskFurTemplateExhibitList(slot1)
+		else
+			return uv0[slot1]
+		end
+	end,
+	RefreshTemplateExhibit = function (slot0, slot1, slot2)
+		uv0[slot2] = {}
 
-function var_0_0.GetExhibitListByUserID(arg_13_0, arg_13_1)
-	for iter_13_0, iter_13_1 in pairs(var_0_1) do
-		for iter_13_2, iter_13_3 in pairs(iter_13_1) do
-			if arg_13_1 == iter_13_2 then
-				return iter_13_3, iter_13_0
+		for slot6, slot7 in ipairs(slot1) do
+			while true do
+				if slot7.architecture_id == 0 then
+					break
+				end
+
+				uv0[slot2][slot7.user_id] = {
+					user_id = slot7.user_id,
+					nick = slot7.profile_base.nick,
+					level = slot7.level,
+					icon = slot7.profile_base.icon,
+					iconFrame = slot7.profile_base.icon_frame or 2001,
+					architecture_id = slot7.architecture_id,
+					furniture_num = slot7.furniture_num,
+					likeNum = slot7.liked_num or 0,
+					heroIDList = {}
+				}
+
+				for slot11, slot12 in ipairs(slot7.hero_id_list) do
+					table.insert(uv0[slot2][slot7.user_id].heroIDList, slot12)
+				end
+
+				break
 			end
 		end
+	end,
+	RefreshCurTemplateExhibit = function (slot0, slot1, slot2, slot3)
+		uv0 = {
+			userID = slot2
+		}
+		slot4 = nil
+		uv1 = slot1.layout_uid
+
+		if BackHomeCfg[slot1.architecture_id].type == DormConst.BACKHOME_TYPE.PublicDorm then
+			slot4 = DormConst.DORM_VISIT_LOBBY
+		elseif slot5 == DormConst.BACKHOME_TYPE.PrivateDorm then
+			slot4 = DormConst.DORM_VISIT_PRIVATE
+		end
+
+		slot6 = DormitoryData:GetDormMapList()
+
+		if slot4 then
+			slot7 = {}
+			uv0.roomInfo = RoomInfo.New()
+			uv0.architecture_id = slot1.architecture_id
+			uv0.roomInfo.id = slot4
+			uv0.roomInfo.sceneName = BackHomeCfg[slot4].scene
+			uv0.roomInfo.furnitureInfoS, uv0.specialFur, uv0.suitInfo = DormFurnitureTools:ResolverFurnitureInfo(slot1.furniture_pos_list, slot4)
+			uv0.likeNum = slot1.liked_num or 0
+			uv0.todayLikeNum = slot1.own_today_liked_num or 0
+
+			if slot1.hero_id_list then
+				for slot15, slot16 in ipairs(slot1.hero_id_list) do
+					table.insert(slot7, slot16)
+				end
+			end
+
+			uv0.archiveIDList = slot7
+
+			if not slot3 then
+				slot12, uv0.friendType = slot0:GetExhibitListByUserID(slot2)
+				slot12.architecture_id = slot1.architecture_id or slot12.architecture_id
+				slot12.likeNum = slot1.liked_num or 0
+				slot12.heroIDList = slot7
+
+				slot0:SetIsOtherSystem(false)
+			else
+				slot12 = ForeignInfoData:GetCurForeignDetailInfo()
+				slot13 = 2
+
+				if FriendsData:GetInfoByID(slot2) and slot14.relationship == FriendsConst.FRIEND_TYPE.MY_FRIENDS then
+					slot13 = 1
+				end
+
+				uv0.friendType = slot13
+				slot12.backhome_architecture_id = slot1.architecture_id or slot12.backhome_architecture_id
+				slot12.hero_id_list = slot7
+			end
+		end
+
+		slot6[slot4] = uv0
+	end,
+	CheckCanSaveTemplate = function (slot0)
+		if uv0 then
+			if uv0.friendType ~= 1 then
+				return false, "DORM_NEED_FRIEND_TEMPLATE_COPY"
+			else
+				return true
+			end
+		end
+	end,
+	SetCurTemplateExhibit = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetCurTemplateExhibit = function (slot0)
+		if uv0 then
+			return uv0
+		end
+	end,
+	GetExhibitListByUserID = function (slot0, slot1)
+		for slot5, slot6 in pairs(uv0) do
+			for slot10, slot11 in pairs(slot6) do
+				if slot1 == slot10 then
+					return slot11, slot5
+				end
+			end
+		end
+	end,
+	SetIsOtherSystem = function (slot0, slot1)
+		uv0 = slot1
+	end,
+	GetIsOtherSystem = function (slot0)
+		return uv0
+	end,
+	SetBackFunc = function (slot0, slot1)
+		function uv0()
+			BackHomeTools:OtherSystemVisitExit()
+			uv0()
+
+			uv1 = nil
+		end
+	end,
+	GetBackFunc = function (slot0)
+		return uv0
+	end,
+	GetCurVisitHeroList = function (slot0)
+		return uv0.archiveIDList
+	end,
+	GetCurVisitPlayerType = function (slot0)
+		return uv0.friendType
+	end,
+	GetVisitUserID = function (slot0)
+		slot1 = nil
+
+		if uv0 then
+			return uv0.userID
+		end
+	end,
+	GetCurVisitRoomData = function (slot0)
+		return uv0
+	end,
+	ClearVisitRoomData = function (slot0)
+		if DormitoryData:GetDormMapList()[DormConst.DORM_VISIT_LOBBY] then
+			slot1[DormConst.DORM_VISIT_LOBBY] = nil
+		end
+
+		if slot1[DormConst.DORM_VISIT_PRIVATE] then
+			slot1[DormConst.DORM_VISIT_PRIVATE] = nil
+		end
+
+		uv0 = nil
+		uv1 = nil
+	end,
+	GetTodayLikeNum = function (slot0)
+		slot1 = 0
+
+		if uv0 then
+			slot1 = uv0.todayLikeNum
+		end
+
+		return slot1
+	end,
+	Dispose = function (slot0)
+		uv0 = nil
 	end
-end
-
-local var_0_6 = false
-local var_0_7
-
-function var_0_0.SetIsOtherSystem(arg_14_0, arg_14_1)
-	var_0_6 = arg_14_1
-end
-
-function var_0_0.GetIsOtherSystem(arg_15_0)
-	return var_0_6
-end
-
-function var_0_0.SetBackFunc(arg_16_0, arg_16_1)
-	function var_0_7()
-		BackHomeTools:OtherSystemVisitExit()
-		arg_16_1()
-
-		var_0_7 = nil
-	end
-end
-
-function var_0_0.GetBackFunc(arg_18_0)
-	return var_0_7
-end
-
-function var_0_0.GetCurVisitHeroList(arg_19_0)
-	return var_0_5.archiveIDList
-end
-
-function var_0_0.GetCurVisitPlayerType(arg_20_0)
-	return var_0_5.friendType
-end
-
-function var_0_0.GetVisitUserID(arg_21_0)
-	local var_21_0
-
-	if var_0_5 then
-		return var_0_5.userID
-	end
-end
-
-function var_0_0.GetCurVisitRoomData(arg_22_0)
-	return var_0_5
-end
-
-function var_0_0.ClearVisitRoomData(arg_23_0)
-	local var_23_0 = DormitoryData:GetDormMapList()
-
-	if var_23_0[DormConst.DORM_VISIT_LOBBY] then
-		var_23_0[DormConst.DORM_VISIT_LOBBY] = nil
-	end
-
-	if var_23_0[DormConst.DORM_VISIT_PRIVATE] then
-		var_23_0[DormConst.DORM_VISIT_PRIVATE] = nil
-	end
-
-	var_0_5 = nil
-	var_0_3 = nil
-end
-
-function var_0_0.GetTodayLikeNum(arg_24_0)
-	local var_24_0 = 0
-
-	if var_0_5 then
-		var_24_0 = var_0_5.todayLikeNum
-	end
-
-	return var_24_0
-end
-
-function var_0_0.Dispose(arg_25_0)
-	var_0_1 = nil
-end
-
-return var_0_0
+}

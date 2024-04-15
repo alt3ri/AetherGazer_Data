@@ -1,4 +1,4 @@
-local var_0_0 = {
+slot0 = {
 	HZ07 = LianLianKanBridge,
 	HZ07_diaoyu1 = FishingGameBridge,
 	HZ07_xueqiu1 = SnowballGameBridge,
@@ -7,7 +7,7 @@ local var_0_0 = {
 	HZ07_kaorou1 = BarbuceGameBridge
 }
 
-function OnEnterMiniGameScene(arg_1_0)
+function OnEnterMiniGameScene(slot0)
 	Dorm.Enter()
 	LuaForUtil.UpdateCameraSetting()
 	manager.uiInit()
@@ -25,23 +25,19 @@ function OnEnterMiniGameScene(arg_1_0)
 	DormCharacterActionManager:Init()
 	DormCharacterInteractBehaviour:Init()
 
-	local var_1_0 = nullable(Dorm.minigame, "Enter")
-
-	if var_1_0 then
-		var_1_0(Dorm.minigame, arg_1_0)
+	if nullable(Dorm.minigame, "Enter") then
+		slot1(Dorm.minigame, slot0)
 	end
 end
 
-function OnExitMiniGameScene(arg_2_0, arg_2_1)
+function OnExitMiniGameScene(slot0, slot1)
 	if Dorm.lastMinigame == nil then
-		Dorm.lastMinigame, Dorm.minigame = Dorm.minigame
+		Dorm.minigame = nil
+		Dorm.lastMinigame = Dorm.minigame
 	end
 
-	local var_2_0 = Dorm.lastMinigame
-	local var_2_1 = nullable(var_2_0, "Exit")
-
-	if var_2_1 then
-		var_2_1(var_2_0, arg_2_0, arg_2_1)
+	if nullable(Dorm.lastMinigame, "Exit") then
+		slot3(slot2, slot0, slot1)
 	end
 
 	Dorm.subtitleViewStack = nil
@@ -58,26 +54,22 @@ function OnExitMiniGameScene(arg_2_0, arg_2_1)
 	Dorm.Leave()
 end
 
-DormMinigame = {}
+DormMinigame = {
+	Launch = function (slot0, slot1)
+		Dorm.minigame = slot1 or uv0[slot0]
+		Dorm.lastMinigame = Dorm.minigame
 
-function DormMinigame.Launch(arg_3_0, arg_3_1)
-	Dorm.lastMinigame, Dorm.minigame = Dorm.minigame, arg_3_1 or var_0_0[arg_3_0]
-
-	Dorm.LuaBridge.MiniGameBridge.Launch(arg_3_0)
-	DestroyLua()
-	gameContext:SetSystemLayer("battle")
-end
-
-function DormMinigame.Exit()
-	DestroyLua()
-	LuaExchangeHelper.GoToMain()
-	OpenPageUntilLoaded("/home")
-end
-
-function DormMinigame.AdjustCameraFOV(arg_5_0, arg_5_1)
-	local var_5_0 = 1 / arg_5_0 / (Screen.width / Screen.height)
-	local var_5_1 = arg_5_1 or manager.ui.mainCameraCom_.fieldOfView
-	local var_5_2 = math.max(var_5_0 * var_5_1, var_5_1)
-
-	manager.ui.mainCameraCom_.fieldOfView = var_5_2
-end
+		Dorm.LuaBridge.MiniGameBridge.Launch(slot0)
+		DestroyLua()
+		gameContext:SetSystemLayer("battle")
+	end,
+	Exit = function ()
+		DestroyLua()
+		LuaExchangeHelper.GoToMain()
+		OpenPageUntilLoaded("/home")
+	end,
+	AdjustCameraFOV = function (slot0, slot1)
+		slot3 = slot1 or manager.ui.mainCameraCom_.fieldOfView
+		manager.ui.mainCameraCom_.fieldOfView = math.max(1 / slot0 / (Screen.width / Screen.height) * slot3, slot3)
+	end
+}

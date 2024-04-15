@@ -1,78 +1,74 @@
-local var_0_0 = class("HanafudaGameOverPopView", ReduxView)
+slot0 = class("HanafudaGameOverPopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionHanafudaUI/JapanRegionHanafudaWinUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.wincontroller_ = ControllerUtil.GetController(arg_4_0.transform_, "result")
+	slot0.wincontroller_ = ControllerUtil.GetController(slot0.transform_, "result")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.backBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.backBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.callback_ = arg_8_0.params_.callback
-	arg_8_0.playerScore = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
-	arg_8_0.enemyScore = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
+function slot0.OnEnter(slot0)
+	slot0.callback_ = slot0.params_.callback
+	slot0.playerScore = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.PLAYER)
+	slot0.enemyScore = HanafudaData:GetScoreByType(HanafudaData.CARD_PLACE_TYPE.ENEMY)
 
-	arg_8_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	local var_9_0 = KagutsuchiWorkData:GetStamina()
-	local var_9_1 = math.min(GameSetting.activity_kagutsuchi_fatigue_hanafuda_card_recover.value[1], GameSetting.activity_kagutsuchi_battle_fatigue_max.value[1] - var_9_0)
-	local var_9_2 = math.max(0, var_9_1)
+function slot0.RefreshUI(slot0)
+	slot0.rewardText_.text = math.max(0, math.min(GameSetting.activity_kagutsuchi_fatigue_hanafuda_card_recover.value[1], GameSetting.activity_kagutsuchi_battle_fatigue_max.value[1] - KagutsuchiWorkData:GetStamina()))
+	slot0.currencyImg_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
+	slot0.playerScoreText_.text = slot0.playerScore
+	slot0.enemyScoreText_.text = slot0.enemyScore
 
-	arg_9_0.rewardText_.text = var_9_2
-	arg_9_0.currencyImg_.sprite = ItemTools.getItemSprite(CurrencyIdMapCfg.CURRENCY_TYPE_ACTIVITY_KAGUTSUCHI_FATIGUE.item_id)
-	arg_9_0.playerScoreText_.text = arg_9_0.playerScore
-	arg_9_0.enemyScoreText_.text = arg_9_0.enemyScore
-
-	if arg_9_0.playerScore >= arg_9_0.enemyScore then
+	if slot0.enemyScore <= slot0.playerScore then
 		SDKTools.SendMessageToSDK("activity_kagutsuchi_hanafuda_card", {
 			result = 1,
 			reach_group_id = table.toString(HanafudaData:GetPlayerCombineIDList()),
 			activity_id = HanafudaData:GetActivityID()
 		})
 		manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_win", "")
-		arg_9_0.wincontroller_:SetSelectedState("win")
-	elseif arg_9_0.playerScore < arg_9_0.enemyScore then
+		slot0.wincontroller_:SetSelectedState("win")
+	elseif slot0.playerScore < slot0.enemyScore then
 		SDKTools.SendMessageToSDK("activity_kagutsuchi_hanafuda_card", {
 			result = 2,
 			reach_group_id = table.toString(HanafudaData:GetPlayerCombineIDList()),
 			activity_id = HanafudaData:GetActivityID()
 		})
 		manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_fail", "")
-		arg_9_0.wincontroller_:SetSelectedState("lose")
+		slot0.wincontroller_:SetSelectedState("lose")
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	HanafudaData:ResetGameData()
 	HanafudaData:ResetGameState()
-	arg_10_0.callback_()
+	slot0.callback_()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

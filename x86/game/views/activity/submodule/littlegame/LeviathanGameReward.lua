@@ -1,72 +1,68 @@
-local var_0_0 = class("LeviathanGameReward", ReduxView)
+slot0 = class("LeviathanGameReward", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/SummerUI/SummerQuestEewardsPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0.itemList_ = {}
+function slot0.Init(slot0)
+	slot0.itemList_ = {}
 
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddUIListener()
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_3_0.scrollerHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, LeviathanGameRewardItem)
+	slot0.scrollerHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, LeviathanGameRewardItem)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.activityID_ = arg_6_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_6_0:UpdateDate()
-	arg_6_0.scrollerHelper_:StartScroll(#arg_6_0.itemList_)
+	slot0:UpdateDate()
+	slot0.scrollerHelper_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.IndexItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshUI(arg_8_0.itemList_[arg_8_1])
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1])
 end
 
-function var_0_0.UpdateDate(arg_9_0)
-	arg_9_0.itemList_ = deepClone(ActivityBubblesCfg.all)
+function slot0.UpdateDate(slot0)
+	slot0.itemList_ = deepClone(ActivityBubblesCfg.all)
 
-	table.sort(arg_9_0.itemList_, function(arg_10_0, arg_10_1)
-		local var_10_0 = SummerLittleGameData:GetLeviathanState(arg_10_0)
-		local var_10_1 = SummerLittleGameData:GetLeviathanState(arg_10_1)
-
-		if var_10_0 == var_10_1 then
-			return arg_10_0 < arg_10_1
+	table.sort(slot0.itemList_, function (slot0, slot1)
+		if SummerLittleGameData:GetLeviathanState(slot0) == SummerLittleGameData:GetLeviathanState(slot1) then
+			return slot0 < slot1
 		end
 
-		local var_10_2 = {
+		slot4 = {
 			[0] = 2,
 			1,
 			3
 		}
 
-		return var_10_2[var_10_0] < var_10_2[var_10_1]
+		return slot4[slot2] < slot4[slot3]
 	end)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.scrollerHelper_:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.scrollerHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnGetLeviathanReward(arg_12_0)
-	arg_12_0:UpdateDate()
-	arg_12_0.scrollerHelper_:Refresh()
+function slot0.OnGetLeviathanReward(slot0)
+	slot0:UpdateDate()
+	slot0.scrollerHelper_:Refresh()
 end
 
-return var_0_0
+return slot0

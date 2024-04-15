@@ -1,82 +1,80 @@
 BattleTeamPlayerTemplate = class("BattleTeamHeroTemplate")
 
-function BattleTeamPlayerTemplate.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.playerID = arg_1_1.player_id
+function BattleTeamPlayerTemplate.Ctor(slot0, slot1)
+	slot0.playerID = slot1.player_id
+	slot2 = slot1.player_battle_info
+	slot0.nick = slot2.nick
+	slot0.level = slot2.level
+	slot0.channel = slot2.channel
+	slot0.server = slot2.server
+	slot0.heroList = {}
 
-	local var_1_0 = arg_1_1.player_battle_info
+	for slot6, slot7 in ipairs(slot2.hero_list) do
+		slot8 = slot7.hero_base_info
+		slot10 = slot8.using_skin
+		slot11 = 0
 
-	arg_1_0.nick = var_1_0.nick
-	arg_1_0.level = var_1_0.level
-	arg_1_0.channel = var_1_0.channel
-	arg_1_0.server = var_1_0.server
-	arg_1_0.heroList = {}
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_0.hero_list) do
-		local var_1_1 = iter_1_1.hero_base_info
-		local var_1_2 = var_1_1.id
-		local var_1_3 = var_1_1.using_skin
-		local var_1_4 = 0
-
-		if iter_1_1.hero_type == 2 then
-			var_1_2 = HeroStandardSystemCfg[var_1_2].hero_id
-			var_1_4 = var_1_1.id
+		if slot7.hero_type == 2 then
+			slot9 = HeroStandardSystemCfg[slot8.id].hero_id
+			slot11 = slot8.id
 		end
 
-		local var_1_5 = {
-			id = var_1_2,
-			skin = var_1_3,
-			trialID = var_1_4,
-			star = var_1_1.star,
-			exp = var_1_1.exp,
-			level = HeroTools.CheckExp(1, var_1_1.exp),
+		slot12 = {
+			id = slot9,
+			skin = slot10,
+			trialID = slot11,
+			star = slot8.star,
+			exp = slot8.exp,
+			level = HeroTools.CheckExp(1, slot8.exp),
 			equip_list = {},
 			using_astrolabe = {},
 			skill = {},
 			skillAttrList = {},
-			break_level = var_1_1.break_level,
+			break_level = slot8.break_level,
 			weapon_info = {
-				exp = var_1_1.weapon.exp,
-				breakthrough = var_1_1.weapon.breakthrough
+				exp = slot8.weapon.exp,
+				breakthrough = slot8.weapon.breakthrough
 			},
 			transition = {},
-			weapon_module_level = var_1_1.weapon_module_level,
-			dormLevel = iter_1_1.dorm_level
+			weapon_module_level = slot8.weapon_module_level,
+			dormLevel = slot7.dorm_level,
+			servantInfo = {
+				id = slot8.servant.id,
+				stage = slot8.servant.stage
+			},
+			relation = slot13
 		}
 
-		if var_1_1.servant then
-			var_1_5.servantInfo = {
-				id = var_1_1.servant.id,
-				stage = var_1_1.servant.stage
-			}
+		if slot8.servant then
+			-- Nothing
 		else
-			var_1_5.servantInfo = {}
+			slot12.servantInfo = {}
 		end
 
-		if iter_1_1.equip_list then
-			for iter_1_2, iter_1_3 in ipairs(iter_1_1.equip_list) do
-				local var_1_6 = {}
-				local var_1_7 = {}
+		if slot7.equip_list then
+			for slot16, slot17 in ipairs(slot7.equip_list) do
+				slot18 = {}
+				slot19 = {}
 
-				if iter_1_3.enchant_slot_list then
-					for iter_1_4, iter_1_5 in ipairs(iter_1_3.enchant_slot_list) do
-						local var_1_8 = iter_1_5.id
-						local var_1_9 = iter_1_5.effect_list
-						local var_1_10 = {}
+				if slot17.enchant_slot_list then
+					for slot23, slot24 in ipairs(slot17.enchant_slot_list) do
+						slot25 = slot24.id
+						slot27 = {}
 
-						for iter_1_6, iter_1_7 in ipairs(var_1_9) do
-							table.insert(var_1_10, {
-								id = iter_1_7.id,
-								num = iter_1_7.level
+						for slot31, slot32 in ipairs(slot24.effect_list) do
+							table.insert(slot27, {
+								id = slot32.id,
+								num = slot32.level
 							})
 						end
 
-						if #var_1_10 > 0 then
-							var_1_6[iter_1_4] = var_1_10
+						if #slot27 > 0 then
+							slot18[slot23] = slot27
 						end
 
-						table.insert(var_1_7, {
-							id = var_1_8,
-							effect_list = cleanProtoTable(iter_1_5.effect_list, {
+						table.insert(slot19, {
+							id = slot25,
+							effect_list = cleanProtoTable(slot24.effect_list, {
 								"id",
 								"level"
 							}),
@@ -85,139 +83,132 @@ function BattleTeamPlayerTemplate.Ctor(arg_1_0, arg_1_1)
 					end
 				end
 
-				var_1_5.equip_list[iter_1_2] = {
-					equip_id = iter_1_3.equip_id,
-					prefab_id = iter_1_3.prefab_id,
-					exp = iter_1_3.exp,
-					now_break_level = iter_1_3.now_break_level or 0,
-					enchant = var_1_6,
-					race = iter_1_3.race,
-					enchant_slot_list = var_1_7
+				slot12.equip_list[slot16] = {
+					equip_id = slot17.equip_id,
+					prefab_id = slot17.prefab_id,
+					exp = slot17.exp,
+					now_break_level = slot17.now_break_level or 0,
+					enchant = slot18,
+					race = slot17.race,
+					enchant_slot_list = slot19
 				}
 			end
 		end
 
-		if var_1_1.using_astrolabe then
-			for iter_1_8, iter_1_9 in ipairs(var_1_1.using_astrolabe) do
-				var_1_5.using_astrolabe[iter_1_8] = iter_1_9
+		if slot8.using_astrolabe then
+			for slot16, slot17 in ipairs(slot8.using_astrolabe) do
+				slot12.using_astrolabe[slot16] = slot17
 			end
 		end
 
-		if var_1_1.skill then
-			for iter_1_10, iter_1_11 in ipairs(var_1_1.skill) do
-				var_1_5.skill[iter_1_10] = {
-					skill_id = iter_1_11.skill_id,
-					skill_level = iter_1_11.skill_level
+		if slot8.skill then
+			for slot16, slot17 in ipairs(slot8.skill) do
+				slot12.skill[slot16] = {
+					skill_id = slot17.skill_id,
+					skill_level = slot17.skill_level
 				}
 			end
 		end
 
-		if var_1_1.skill_intensify_attribute_list then
-			for iter_1_12, iter_1_13 in ipairs(var_1_1.skill_intensify_attribute_list) do
-				var_1_5.skillAttrList[iter_1_12] = {
-					index = iter_1_13.index,
-					level = iter_1_13.level
+		if slot8.skill_intensify_attribute_list then
+			for slot16, slot17 in ipairs(slot8.skill_intensify_attribute_list) do
+				slot12.skillAttrList[slot16] = {
+					index = slot17.index,
+					level = slot17.level
 				}
 			end
 		end
 
-		if var_1_1.exclusive_skill_list then
-			local var_1_11 = {}
-			local var_1_12 = {}
+		if slot8.exclusive_skill_list then
+			for slot18, slot19 in ipairs(slot8.exclusive_skill_list) do
+				slot20 = slot19.slot_id
 
-			for iter_1_14, iter_1_15 in ipairs(var_1_1.exclusive_skill_list) do
-				local var_1_13 = iter_1_15.slot_id
-
-				var_1_11[var_1_13] = {}
-				var_1_12[var_1_13] = {}
-
-				for iter_1_16, iter_1_17 in ipairs(iter_1_15.skill_list) do
-					table.insert(var_1_11[var_1_13], iter_1_17.skill_id)
-					table.insert(var_1_12[var_1_13], iter_1_17.skill_level)
+				for slot24, slot25 in ipairs(slot19.skill_list) do
+					table.insert(slot13[slot20], slot25.skill_id)
+					table.insert(slot14[slot20], slot25.skill_level)
 				end
 			end
 
-			var_1_5.transition = HeroTools.InitTransitionByCfg(var_1_11, var_1_12)
+			slot12.transition = HeroTools.InitTransitionByCfg({
+				[slot20] = {}
+			}, {
+				[slot20] = {}
+			})
 		end
 
-		local var_1_14 = HeroTrustRelationNet.New(iter_1_1.hero_id)
+		HeroTrustRelationNet.New(slot7.hero_id):InitData(slot7.trust.relation)
+		table.insert(slot0.heroList, slot12)
 
-		var_1_14:InitData(iter_1_1.trust.relation)
-
-		var_1_5.relation = var_1_14
-		var_1_5.trust = {
-			level = iter_1_1.trust.level,
-			exp = iter_1_1.trust.exp,
-			mood = iter_1_1.trust.mood
-		}, table.insert(arg_1_0.heroList, var_1_5)
-	end
-
-	local var_1_15 = arg_1_1.player_room_info
-
-	arg_1_0:UpdateRoomData(var_1_15)
-end
-
-function BattleTeamPlayerTemplate.UpdateRoomData(arg_2_0, arg_2_1)
-	arg_2_0.is_ready = arg_2_1.is_ready
-	arg_2_0.is_master = arg_2_1.is_master
-	arg_2_0.be_liked_uids = {}
-
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.be_liked_uids) do
-		table.insert(arg_2_0.be_liked_uids, iter_2_1)
-	end
-end
-
-function BattleTeamPlayerTemplate.ParseHeroViewData(arg_3_0, arg_3_1)
-	if arg_3_1 == nil then
-		arg_3_1 = 1
-	end
-
-	local var_3_0 = arg_3_0.heroList[arg_3_1]
-	local var_3_1 = {
-		id = var_3_0.id,
-		exp = var_3_0.exp,
-		level = var_3_0.level,
-		star = var_3_0.star
-	}
-
-	var_3_1.piece = 0
-	var_3_1.unlock = 1
-	var_3_1.using_skin = var_3_0.skin
-	var_3_1.break_level = var_3_0.break_level
-	var_3_1.transition = {}
-
-	for iter_3_0, iter_3_1 in pairs(var_3_0.transition) do
-		table.insert(var_3_1.transition, {
-			talent_points = 0,
-			slot_id = iter_3_0,
-			skill_list = iter_3_1
-		})
-	end
-
-	var_3_1.dormLevel = var_3_0.dormLevel
-	var_3_1.unlocked_astrolabe = var_3_0.unlock_astrolabe
-	var_3_1.using_astrolabe = var_3_0.using_astrolabe
-	var_3_1.weapon_info = {
-		level = WeaponTools.ExpToLv(var_3_0.weapon_info.exp),
-		exp = var_3_0.weapon_info.exp,
-		breakthrough = var_3_0.weapon_info.breakthrough
-	}
-
-	if var_3_0.servantInfo.id == nil or var_3_0.servantInfo.id == 0 then
-		var_3_1.servantInfo = nil
-	else
-		var_3_1.servantInfo = {
-			uid = 1,
-			locked = true,
-			id = var_3_0.servantInfo.id,
-			stage = var_3_0.servantInfo.stage
+		slot12.trust = {
+			level = slot7.trust.level,
+			exp = slot7.trust.exp,
+			mood = slot7.trust.mood
 		}
 	end
 
-	var_3_1.servant_uid = 1
-	var_3_1.moduleLevel = var_3_0.weapon_module_level
-	var_3_1.moduleAssignment = 0
-	var_3_1.equip = {
+	slot0:UpdateRoomData(slot1.player_room_info)
+end
+
+function BattleTeamPlayerTemplate.UpdateRoomData(slot0, slot1)
+	slot0.is_ready = slot1.is_ready
+	slot0.is_master = slot1.is_master
+	slot0.be_liked_uids = {}
+
+	for slot5, slot6 in ipairs(slot1.be_liked_uids) do
+		table.insert(slot0.be_liked_uids, slot6)
+	end
+end
+
+function BattleTeamPlayerTemplate.ParseHeroViewData(slot0, slot1)
+	if slot1 == nil then
+		slot1 = 1
+	end
+
+	slot2 = slot0.heroList[slot1]
+	slot3 = {
+		id = slot2.id,
+		exp = slot2.exp,
+		level = slot2.level,
+		star = slot2.star,
+		piece = 0,
+		unlock = 1,
+		using_skin = slot2.skin,
+		break_level = slot2.break_level,
+		transition = {}
+	}
+
+	for slot7, slot8 in pairs(slot2.transition) do
+		table.insert(slot3.transition, {
+			talent_points = 0,
+			slot_id = slot7,
+			skill_list = slot8
+		})
+	end
+
+	slot3.dormLevel = slot2.dormLevel
+	slot3.unlocked_astrolabe = slot2.unlock_astrolabe
+	slot3.using_astrolabe = slot2.using_astrolabe
+	slot3.weapon_info = {
+		level = WeaponTools.ExpToLv(slot2.weapon_info.exp),
+		exp = slot2.weapon_info.exp,
+		breakthrough = slot2.weapon_info.breakthrough
+	}
+
+	if slot2.servantInfo.id == nil or slot2.servantInfo.id == 0 then
+		slot3.servantInfo = nil
+	else
+		slot3.servantInfo = {
+			uid = 1,
+			locked = true,
+			id = slot2.servantInfo.id,
+			stage = slot2.servantInfo.stage
+		}
+	end
+
+	slot3.servant_uid = 1
+	slot3.moduleLevel = slot2.weapon_module_level
+	slot3.moduleAssignment = 0
+	slot3.equip = {
 		{
 			pos = 1,
 			equip_id = 0
@@ -243,46 +234,39 @@ function BattleTeamPlayerTemplate.ParseHeroViewData(arg_3_0, arg_3_1)
 			equip_id = 0
 		}
 	}
-	var_3_1.equip_struct_list = {}
+	slot3.equip_struct_list = {}
 
-	for iter_3_2, iter_3_3 in ipairs(var_3_0.equip_list) do
-		local var_3_2 = iter_3_3.equip_id
-		local var_3_3 = iter_3_3.prefab_id
-		local var_3_4 = EquipCfg[var_3_3].pos
-
-		var_3_1.equip[var_3_4].equip_id = var_3_3
-
-		local var_3_5 = {
+	for slot7, slot8 in ipairs(slot2.equip_list) do
+		slot10 = slot8.prefab_id
+		slot12 = EquipCfg[slot10].pos
+		slot3.equip[slot12].equip_id = slot10
+		slot13 = {
 			race_preview = 0,
 			is_lock = 0,
-			equip_id = var_3_2,
-			prefab_id = var_3_3,
-			exp = iter_3_3.exp,
-			hero_id = var_3_0.id,
-			now_break_level = iter_3_3.now_break_level,
-			enchant_slot_list = iter_3_3.enchant_slot_list,
-			race = iter_3_3.race
+			equip_id = slot8.equip_id,
+			prefab_id = slot10,
+			exp = slot8.exp,
+			hero_id = slot2.id,
+			now_break_level = slot8.now_break_level,
+			enchant_slot_list = slot8.enchant_slot_list,
+			race = slot8.race
 		}
-		local var_3_6 = EquipStruct.New(var_3_5.equip_id, var_3_5.prefab_id)
+		slot14 = EquipStruct.New(slot13.equip_id, slot13.prefab_id)
 
-		var_3_6:ParseServerData(var_3_5)
+		slot14:ParseServerData(slot13)
 
-		var_3_1.equip_struct_list[var_3_4] = var_3_6
+		slot3.equip_struct_list[slot12] = slot14
 	end
 
-	var_3_1.skillAttrList = var_3_0.skillAttrList
-	var_3_1.skill = {}
+	slot3.skillAttrList = slot2.skillAttrList
+	slot3.skill = {}
 
-	for iter_3_4, iter_3_5 in ipairs(var_3_0.skill) do
-		local var_3_7 = HeroTools.GetHeroSkillAddLevel(var_3_1, iter_3_5.skill_id)
-		local var_3_8 = iter_3_5.skill_level - var_3_7
-		local var_3_9 = math.max(1, var_3_8)
-
-		table.insert(var_3_1.skill, {
-			skill_id = iter_3_5.skill_id,
-			skill_level = var_3_9
+	for slot7, slot8 in ipairs(slot2.skill) do
+		table.insert(slot3.skill, {
+			skill_id = slot8.skill_id,
+			skill_level = math.max(1, slot8.skill_level - HeroTools.GetHeroSkillAddLevel(slot3, slot8.skill_id))
 		})
 	end
 
-	return var_3_1, var_3_1.servantInfo
+	return slot3, slot3.servantInfo
 end

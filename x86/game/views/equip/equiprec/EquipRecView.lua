@@ -1,118 +1,118 @@
-local var_0_0 = class("EquipRecView", ReduxView)
+slot0 = class("EquipRecView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Equip/NewEquipRecommendUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.items_ = {}
-	arg_4_0.list_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uiListGo_, EquipRecGroupItem)
+	slot0.items_ = {}
+	slot0.list_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, EquipRecGroupItem)
 end
 
-function var_0_0.indexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_1, arg_5_0.equipRecIdList_[arg_5_1], arg_5_0.heroId_)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.equipRecIdList_[slot1], slot0.heroId_)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0.list_:SetPageChangeHandler(handler(arg_6_0, arg_6_0.OnPageChange))
-	arg_6_0:AddBtnListener(arg_6_0.prevBtn_, nil, function()
-		arg_6_0.list_:SwitchToPage(arg_6_0.pageIndex_ - 1)
+function slot0.AddUIListeners(slot0)
+	slot0.list_:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
+	slot0:AddBtnListener(slot0.prevBtn_, nil, function ()
+		uv0.list_:SwitchToPage(uv0.pageIndex_ - 1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.nextBtn_, nil, function()
-		arg_6_0.list_:SwitchToPage(arg_6_0.pageIndex_ + 1)
+	slot0:AddBtnListener(slot0.nextBtn_, nil, function ()
+		uv0.list_:SwitchToPage(uv0.pageIndex_ + 1)
 	end)
 end
 
-function var_0_0.RemoveUIListeners(arg_9_0)
-	arg_9_0.list_:SetPageChangeHandler(nil)
+function slot0.RemoveUIListeners(slot0)
+	slot0.list_:SetPageChangeHandler(nil)
 end
 
-function var_0_0.OnPageChange(arg_10_0, arg_10_1)
-	arg_10_0.pageIndex_ = arg_10_1
-	arg_10_0.params_.pageIndex = arg_10_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
+	slot0.params_.pageIndex = slot1
 
-	SetActive(arg_10_0.prevBtn_.gameObject, arg_10_1 > 1)
-	SetActive(arg_10_0.nextBtn_.gameObject, arg_10_1 < 3)
+	SetActive(slot0.prevBtn_.gameObject, slot1 > 1)
+	SetActive(slot0.nextBtn_.gameObject, slot1 < 3)
 
-	if arg_10_0.params_.onPageChange then
-		arg_10_0.params_.onPageChange(arg_10_1)
+	if slot0.params_.onPageChange then
+		slot0.params_.onPageChange(slot1)
 	end
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0.heroId_ = arg_11_0.params_.hid
-	arg_11_0.cfg = EquipRecommendCfg[arg_11_0.heroId_]
-	arg_11_0.equipRecIdList_ = {
-		arg_11_0.cfg.equip_list1,
-		arg_11_0.cfg.equip_list2,
-		arg_11_0.cfg.equip_list3
+function slot0.OnEnter(slot0)
+	slot0.heroId_ = slot0.params_.hid
+	slot0.cfg = EquipRecommendCfg[slot0.heroId_]
+	slot0.equipRecIdList_ = {
+		slot0.cfg.equip_list1,
+		slot0.cfg.equip_list2,
+		slot0.cfg.equip_list3
 	}
 
-	if arg_11_0.params_.pageIndex ~= nil and arg_11_0.params_.pageIndex > 0 then
-		arg_11_0.list_:StartScroll(3, arg_11_0.params_.pageIndex, true, false)
-		arg_11_0.list_:SwitchToPage(arg_11_0.params_.pageIndex)
+	if slot0.params_.pageIndex ~= nil and slot0.params_.pageIndex > 0 then
+		slot0.list_:StartScroll(3, slot0.params_.pageIndex, true, false)
+		slot0.list_:SwitchToPage(slot0.params_.pageIndex)
 	else
-		arg_11_0.list_:StartScroll(3, 1, true, false)
-		arg_11_0.list_:SwitchToPage(1)
+		slot0.list_:StartScroll(3, 1, true, false)
+		slot0.list_:SwitchToPage(1)
 	end
 end
 
-function var_0_0.OnAddProposal(arg_12_0)
+function slot0.OnAddProposal(slot0)
 	ShowTips("SUCCESS_SAVE_EQUIP_PROPOSAL")
 end
 
-function var_0_0.OnMainHomeViewTop(arg_13_0)
-	arg_13_0.params_.pageIndex = nil
+function slot0.OnMainHomeViewTop(slot0)
+	slot0.params_.pageIndex = nil
 end
 
-function var_0_0.OnTop(arg_14_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
-	manager.windowBar:RegistBackCallBack(function()
-		arg_14_0.params_.index = 1
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0.params_.index = 1
 
-		arg_14_0:Back()
+		uv0:Back()
 
-		arg_14_0.scrollPos_ = nil
+		uv0.scrollPos_ = nil
 	end)
 end
 
-function var_0_0.OnExit(arg_16_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0:RemoveUIListeners()
-	arg_17_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveUIListeners()
+	slot0:RemoveAllListeners()
 
-	if arg_17_0.items_ then
-		for iter_17_0, iter_17_1 in ipairs(arg_17_0.items_) do
-			iter_17_1:Dispose()
+	if slot0.items_ then
+		for slot4, slot5 in ipairs(slot0.items_) do
+			slot5:Dispose()
 		end
 
-		arg_17_0.items_ = nil
+		slot0.items_ = nil
 	end
 
-	if arg_17_0.list_ then
-		arg_17_0.list_:Dispose()
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_17_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

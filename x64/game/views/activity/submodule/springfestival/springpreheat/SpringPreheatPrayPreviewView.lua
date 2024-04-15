@@ -1,97 +1,94 @@
-local var_0_0 = class("SpringPreheatPrayPreviewView", ReduxView)
+slot0 = class("SpringPreheatPrayPreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeWishSelUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.itemUiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, SpringPreheatPrayRewardItem)
-	arg_3_0.stateController_ = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.itemUiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, SpringPreheatPrayRewardItem)
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
 
-	arg_3_0.stateController_:SetSelectedState("preview")
+	slot0.stateController_:SetSelectedState("preview")
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.maskBtn_, nil, function()
-		arg_4_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.itemIdList_ = arg_6_0:GetSortedList()
+function slot0.OnEnter(slot0)
+	slot0.itemIdList_ = slot0:GetSortedList()
 
-	arg_6_0.itemUiList_:StartScroll(#arg_6_0.itemIdList_)
-	arg_6_0:RefreshUI()
+	slot0.itemUiList_:StartScroll(#slot0.itemIdList_)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_7_0)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.itemUiList_:GetItemList()) do
-		iter_7_1:OnExit()
+function slot0.OnExit(slot0)
+	slot3 = slot0.itemUiList_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.OnTop(arg_8_0)
-	SetActive(arg_8_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_9_0)
-	SetActive(arg_9_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.itemUiList_:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	slot0.itemUiList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.itemIdList_[arg_11_1]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.itemIdList_[slot1]
 
-	arg_11_2:SetClickHandler(function(arg_12_0)
-		arg_11_0:OnClickRewardItem(arg_11_1, arg_12_0)
+	slot2:SetClickHandler(function (slot0)
+		uv0:OnClickRewardItem(uv1, slot0)
 	end)
-	arg_11_2:SwitchToSelecting()
-	arg_11_2:SetSelectable(not SpringPreheatData:IsSelected(var_11_0))
-	arg_11_2:SetSelected(false)
-	arg_11_2:SetData(var_11_0)
+	slot2:SwitchToSelecting()
+	slot2:SetSelectable(not SpringPreheatData:IsSelected(slot3))
+	slot2:SetSelected(false)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.RefreshUI(arg_13_0)
-	return
+function slot0.RefreshUI(slot0)
 end
 
-function var_0_0.OnClickRewardItem(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_2:GetItemId()
-
+function slot0.OnClickRewardItem(slot0, slot1, slot2)
 	ShowPopItem(POP_ITEM, {
-		var_14_0
+		slot2:GetItemId()
 	})
 end
 
-function var_0_0.GetSortedList(arg_15_0)
-	local var_15_0 = SpringPreheatData:GetPoolItemList()
-	local var_15_1 = SpringPreheatData:GetPraySelectionFullList()
+function slot0.GetSortedList(slot0)
+	slot1 = SpringPreheatData:GetPoolItemList()
+	slot2 = SpringPreheatData:GetPraySelectionFullList()
 
-	table.sort(var_15_0, function(arg_16_0, arg_16_1)
-		local var_16_0 = SpringPreheatData:IsSelected(arg_16_0)
-		local var_16_1 = SpringPreheatData:IsSelected(arg_16_1)
-
-		if var_16_0 and var_16_1 then
-			return table.indexof(var_15_1, arg_16_0) < table.indexof(var_15_1, arg_16_1)
-		elseif var_16_0 or var_16_1 then
-			return not var_16_0
+	table.sort(slot1, function (slot0, slot1)
+		if SpringPreheatData:IsSelected(slot0) and SpringPreheatData:IsSelected(slot1) then
+			return table.indexof(uv0, slot0) < table.indexof(uv0, slot1)
+		elseif slot2 or slot3 then
+			return not slot2
 		end
 
-		return arg_16_0 < arg_16_1
+		return slot0 < slot1
 	end)
 
-	return var_15_0
+	return slot1
 end
 
-return var_0_0
+return slot0

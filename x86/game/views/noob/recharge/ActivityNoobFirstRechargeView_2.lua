@@ -1,107 +1,104 @@
-local var_0_0 = class("ActivityNoobFirstRechargeView_2", ReduxView)
+slot0 = class("ActivityNoobFirstRechargeView_2", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	local var_1_0 = Asset.Load(arg_1_0:GetUIName(arg_1_2))
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:GetUIName(slot2)), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.type_ = slot2
 
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.type_ = arg_1_2
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
+	slot0.typeController_ = ControllerUtil.GetController(slot0.transform_, "type")
+	slot0.rechargeUpdateHandler_ = handler(slot0, slot0.SetData)
 
-	arg_1_0.statusController_ = ControllerUtil.GetController(arg_1_0.transform_, "status")
-	arg_1_0.typeController_ = ControllerUtil.GetController(arg_1_0.transform_, "type")
-	arg_1_0.rechargeUpdateHandler_ = handler(arg_1_0, arg_1_0.SetData)
+	manager.notify:RegistListener(NEWBIE_RECHARGE_UPDATE, slot0.rechargeUpdateHandler_)
 
-	manager.notify:RegistListener(NEWBIE_RECHARGE_UPDATE, arg_1_0.rechargeUpdateHandler_)
-
-	arg_1_0.signItemList_ = {}
+	slot0.signItemList_ = {}
 end
 
-function var_0_0.GetUIName(arg_2_0, arg_2_1)
-	if arg_2_1 == 0 then
+function slot0.GetUIName(slot0, slot1)
+	if slot1 == 0 then
 		return "Widget/System/Activitynewbie/NewbieRecharge2UI_new"
 	else
 		return "Widget/System/Activitynewbie/NewbieRecharge2UI_old"
 	end
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	manager.notify:RemoveListener(NEWBIE_RECHARGE_UPDATE, arg_3_0.rechargeUpdateHandler_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_3_0.rechargeUpdateHandler_ = nil
+	slot4 = slot0.rechargeUpdateHandler_
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_0.signItemList_) do
-		iter_3_1:Dispose()
+	manager.notify:RemoveListener(NEWBIE_RECHARGE_UPDATE, slot4)
+
+	slot0.rechargeUpdateHandler_ = nil
+
+	for slot4, slot5 in ipairs(slot0.signItemList_) do
+		slot5:Dispose()
 	end
 
-	arg_3_0.signItemList_ = nil
+	slot0.signItemList_ = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.gameObject_ = nil
-	arg_3_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.sourceBtn_, nil, function()
-		local var_5_0 = GameSetting.newbie_first_charge_reward_18.value[2]
-
-		JumpTools.JumpToPage2(var_5_0)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.sourceBtn_, nil, function ()
+		JumpTools.JumpToPage2(GameSetting.newbie_first_charge_reward_18.value[2])
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.receiveBtn_, nil, function()
-		ActivityNewbieTools.ReceiveRechargeReward(1, 1, function(arg_7_0)
-			arg_4_0:SetData()
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		ActivityNewbieTools.ReceiveRechargeReward(1, 1, function (slot0)
+			uv0:SetData()
 		end)
 	end)
 
-	if arg_4_0.heroBtn_ then
-		arg_4_0:AddBtnListener(arg_4_0.heroBtn_, nil, function()
-			local var_8_0 = GameSetting.newbie_first_charge_reward_6.value[3][1]
-
+	if slot0.heroBtn_ then
+		slot0:AddBtnListener(slot0.heroBtn_, nil, function ()
 			JumpTools.OpenPageByJump("/heroPreviewMain", {
 				isEnter = true,
-				hid = var_8_0
+				hid = GameSetting.newbie_first_charge_reward_6.value[3][1]
 			})
 		end)
 	end
 end
 
-function var_0_0.SetData(arg_9_0)
-	arg_9_0.rewardCfg_ = GameSetting.newbie_first_charge_reward_18.value[3]
+function slot0.SetData(slot0)
+	slot0.rewardCfg_ = GameSetting.newbie_first_charge_reward_18.value[3]
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.rewardCfg_) do
-		if not arg_9_0.signItemList_[iter_9_0] then
-			arg_9_0.signItemList_[iter_9_0] = NoobRechargeSignItem.New(arg_9_0.signItemGo_, arg_9_0.contentTrans_)
+	for slot4, slot5 in ipairs(slot0.rewardCfg_) do
+		if not slot0.signItemList_[slot4] then
+			slot0.signItemList_[slot4] = NoobRechargeSignItem.New(slot0.signItemGo_, slot0.contentTrans_)
 		end
 
-		arg_9_0.signItemList_[iter_9_0]:SetData(iter_9_0, iter_9_1)
+		slot0.signItemList_[slot4]:SetData(slot4, slot5)
 	end
 
-	local var_9_0 = #arg_9_0.rewardCfg_
-	local var_9_1 = ActivityNewbieTools.GetFirstRechargeStatus()
-	local var_9_2 = var_9_1.signTimes
-	local var_9_3 = var_9_1.lastSignTimestamp
+	slot1 = #slot0.rewardCfg_
+	slot2 = ActivityNewbieTools.GetFirstRechargeStatus()
+	slot3 = slot2.signTimes
+	slot4 = slot2.lastSignTimestamp
 
-	if not var_9_1.secondGearStatus then
-		arg_9_0.statusController_:SetSelectedState("recharge")
-	elseif var_9_2 < var_9_0 and var_9_3 < manager.time:GetTodayFreshTime() then
-		arg_9_0.statusController_:SetSelectedState("complete")
+	if not slot2.secondGearStatus then
+		slot0.statusController_:SetSelectedState("recharge")
+	elseif slot3 < slot1 and slot4 < manager.time:GetTodayFreshTime() then
+		slot0.statusController_:SetSelectedState("complete")
 	else
-		arg_9_0.statusController_:SetSelectedState("received")
+		slot0.statusController_:SetSelectedState("received")
 	end
 
-	if arg_9_0.typeController_ then
-		arg_9_0.typeController_:SetSelectedIndex(arg_9_0.type_)
+	if slot0.typeController_ then
+		slot0.typeController_:SetSelectedIndex(slot0.type_)
 	end
 
 	ActivityNewbieTools.SetSelectFirstRecharge(2)
 end
 
-function var_0_0.SetActive(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

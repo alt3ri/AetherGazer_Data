@@ -1,51 +1,48 @@
-local var_0_0 = class("OsirisRecallItem", ReduxView)
+slot0 = class("OsirisRecallItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "Item")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "Item")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.m_button, nil, function()
-		manager.story:StartStoryById(arg_4_0.id, function()
-			return
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_button, nil, function ()
+		manager.story:StartStoryById(uv0.id, function ()
 		end)
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0.id = arg_7_1
+function slot0.SetData(slot0, slot1)
+	slot0.id = slot1
 
-	if PlayerData:GetPlayerInfo().storylist[arg_7_1] or false then
-		arg_7_0.m_button.interactable = true
+	if PlayerData:GetPlayerInfo().storylist[slot1] or false then
+		slot0.m_button.interactable = true
 
-		arg_7_0.stateController:SetSelectedIndex(0)
+		slot0.stateController:SetSelectedIndex(0)
 	else
-		arg_7_0.m_button.interactable = false
+		slot0.m_button.interactable = false
 
-		arg_7_0.stateController:SetSelectedIndex(1)
+		slot0.stateController:SetSelectedIndex(1)
 	end
 
-	local var_7_0 = StoryCfg[arg_7_1]
-
-	arg_7_0.m_name.text = var_7_0 and GetI18NText(var_7_0.name) or ""
+	slot0.m_name.text = StoryCfg[slot1] and GetI18NText(slot4.name) or ""
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

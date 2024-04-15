@@ -1,107 +1,104 @@
-local var_0_0 = class("BattleActivityReforgeTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleActivityReforgeTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.activityID_ = arg_1_2.activityID
-	arg_1_0.chapterActivityID_ = arg_1_2.chapterActivityID
-	arg_1_0.levelID_ = arg_1_2.levelID
-	arg_1_0.waveID_ = arg_1_2.waveID
-	arg_1_0.skillList_ = arg_1_2.skillList
-	arg_1_0.battleParams_ = arg_1_2.battleParams
-
-	local var_1_0 = ActivityReforgeData:GetWaveTeamInfo(arg_1_0.waveID_)
-
-	arg_1_0.teamID = var_1_0.teamID
-	arg_1_0.level = var_1_0.level
-	arg_1_0.teamCfg = ActivityReforgeTeamCfg[arg_1_0.teamID]
-	arg_1_0.cfg = BattleActivityReforgeCfg[arg_1_1]
+	slot0.id = slot1
+	slot0.activityID_ = slot2.activityID
+	slot0.chapterActivityID_ = slot2.chapterActivityID
+	slot0.levelID_ = slot2.levelID
+	slot0.waveID_ = slot2.waveID
+	slot0.skillList_ = slot2.skillList
+	slot0.battleParams_ = slot2.battleParams
+	slot3 = ActivityReforgeData:GetWaveTeamInfo(slot0.waveID_)
+	slot0.teamID = slot3.teamID
+	slot0.level = slot3.level
+	slot0.teamCfg = ActivityReforgeTeamCfg[slot0.teamID]
+	slot0.cfg = BattleActivityReforgeCfg[slot1]
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.InitHeroList(arg_3_0)
-	local var_3_0 = arg_3_0.teamCfg.team_info[arg_3_0.level]
+function slot0.InitHeroList(slot0)
+	slot0.heroTrialList_ = {}
+	slot0.heroList_ = {}
 
-	arg_3_0.heroList_, arg_3_0.heroTrialList_ = {}, {}
-
-	for iter_3_0, iter_3_1 in pairs(var_3_0) do
-		table.insert(arg_3_0.heroList_, HeroStandardSystemCfg[iter_3_1].hero_id)
-		table.insert(arg_3_0.heroTrialList_, iter_3_1)
+	for slot5, slot6 in pairs(slot0.teamCfg.team_info[slot0.level]) do
+		table.insert(slot0.heroList_, HeroStandardSystemCfg[slot6].hero_id)
+		table.insert(slot0.heroTrialList_, slot6)
 	end
 end
 
-function var_0_0.InitComboSkillID(arg_4_0)
-	arg_4_0.comboSkillID_ = arg_4_0.teamCfg.combo_skill_id
+function slot0.InitComboSkillID(slot0)
+	slot0.comboSkillID_ = slot0.teamCfg.combo_skill_id
 end
 
-function var_0_0.InitChipData(arg_5_0)
-	arg_5_0.chipList_ = {}
+function slot0.InitChipData(slot0)
+	slot0.chipList_ = {}
 end
 
-function var_0_0.GetComboSkillLevel(arg_6_0)
+function slot0.GetComboSkillLevel(slot0)
 	return 3
 end
 
-function var_0_0.GetDest(arg_7_0)
-	return arg_7_0.waveID_
+function slot0.GetDest(slot0)
+	return slot0.waveID_
 end
 
-function var_0_0.GetStageId(arg_8_0)
-	return arg_8_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_9_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.ACTIVITY_REFORGE
 end
 
-function var_0_0.GetMap(arg_10_0)
-	return arg_10_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_11_0)
-	return arg_11_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_12_0)
-	return arg_12_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.GetHeroTeam(arg_13_0)
-	return arg_13_0.heroList_, arg_13_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-function var_0_0.GetChapterActivityID(arg_14_0)
-	return arg_14_0.chapterActivityID_
+function slot0.GetChapterActivityID(slot0)
+	return slot0.chapterActivityID_
 end
 
-function var_0_0.GetLevelID(arg_15_0)
-	return arg_15_0.levelID_
+function slot0.GetLevelID(slot0)
+	return slot0.levelID_
 end
 
-function var_0_0.GetActivityID(arg_16_0)
-	return arg_16_0.chapterActivityID_
+function slot0.GetActivityID(slot0)
+	return slot0.chapterActivityID_
 end
 
-function var_0_0.GetMainActivityID(arg_17_0)
-	return arg_17_0.activityID_
+function slot0.GetMainActivityID(slot0)
+	return slot0.activityID_
 end
 
-function var_0_0.GetWaveID(arg_18_0)
-	return arg_18_0.waveID_
+function slot0.GetWaveID(slot0)
+	return slot0.waveID_
 end
 
-function var_0_0.GetActivityReforgeSkillList(arg_19_0)
-	return arg_19_0.skillList_
+function slot0.GetActivityReforgeSkillList(slot0)
+	return slot0.skillList_
 end
 
-function var_0_0.GetBattleParams(arg_20_0)
-	return arg_20_0.battleParams_
+function slot0.GetBattleParams(slot0)
+	return slot0.battleParams_
 end
 
-return var_0_0
+return slot0

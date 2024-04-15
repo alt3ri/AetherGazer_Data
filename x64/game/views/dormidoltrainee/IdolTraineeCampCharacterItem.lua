@@ -1,13 +1,8 @@
-local var_0_0 = import("game.views.dorm.DormView.DormCharacterItem")
-local var_0_1 = class("IdolTraineeCampCharacterItem", var_0_0)
+slot1 = class("IdolTraineeCampCharacterItem", import("game.views.dorm.DormView.DormCharacterItem"))
 
-local function var_0_2(arg_1_0)
-	local var_1_0 = DormData:GetHeroTemplateInfo(arg_1_0)
-
-	if var_1_0 then
-		local var_1_1 = var_1_0:GetHeroState()
-
-		if var_1_1 == DormEnum.DormHeroState.InCanteenEntrust or var_1_1 == DormEnum.DormHeroState.InCanteenJob then
+function slot2(slot0)
+	if DormData:GetHeroTemplateInfo(slot0) then
+		if slot1:GetHeroState() == DormEnum.DormHeroState.InCanteenEntrust or slot2 == DormEnum.DormHeroState.InCanteenJob then
 			return true
 		end
 
@@ -15,60 +10,59 @@ local function var_0_2(arg_1_0)
 	end
 end
 
-function var_0_1.OnCtor(arg_2_0, ...)
-	var_0_1.super.OnCtor(arg_2_0, ...)
-	arg_2_0:ShowMaskCallBack(var_0_2)
+function slot1.OnCtor(slot0, ...)
+	uv0.super.OnCtor(slot0, ...)
+	slot0:ShowMaskCallBack(uv1)
 end
 
-function var_0_1.AddUIListener(arg_3_0)
-	local var_3_0 = arg_3_0:FindCom("EventTriggerListener")
+function slot1.AddUIListener(slot0)
+	slot1 = slot0:FindCom("EventTriggerListener")
 
-	function var_3_0.onPointerDown()
-		if not arg_3_0.canClick and arg_3_0.dragFunc then
-			arg_3_0.dragFunc(arg_3_0.heroID)
+	function slot1.onPointerDown()
+		if not uv0.canClick and uv0.dragFunc then
+			uv0.dragFunc(uv0.heroID)
 		end
 	end
 
-	arg_3_0:AddBtnListener(arg_3_0.heroitemBtn_, nil, function()
-		if not arg_3_0.canClick and arg_3_0.downFunc then
-			arg_3_0.downFunc(arg_3_0.heroID)
-		end
-	end)
-	arg_3_0:AddBtnListenerScale(arg_3_0.recallbtnBtn_, nil, function()
-		if not arg_3_0.canClick and arg_3_0.recallHero then
-			arg_3_0.recallHero(arg_3_0.heroID)
+	slot0:AddBtnListener(slot0.heroitemBtn_, nil, function ()
+		if not uv0.canClick and uv0.downFunc then
+			uv0.downFunc(uv0.heroID)
 		end
 	end)
+	slot0:AddBtnListenerScale(slot0.recallbtnBtn_, nil, function ()
+		if not uv0.canClick and uv0.recallHero then
+			uv0.recallHero(uv0.heroID)
+		end
+	end)
 
-	function var_3_0.onBeginDrag(arg_7_0, arg_7_1)
-		arg_3_0:BeginDrag(arg_7_1)
+	function slot1.onBeginDrag(slot0, slot1)
+		uv0:BeginDrag(slot1)
 	end
 
-	function var_3_0.onEndDrag(arg_8_0, arg_8_1)
-		arg_3_0:EndDrag(arg_8_1)
+	function slot1.onEndDrag(slot0, slot1)
+		uv0:EndDrag(slot1)
 	end
 
-	function var_3_0.onDrag(arg_9_0, arg_9_1)
-		arg_3_0:Drag(arg_9_1)
+	function slot1.onDrag(slot0, slot1)
+		uv0:Drag(slot1)
 	end
 
-	arg_3_0:SetListener(var_3_0)
+	slot0:SetListener(slot1)
 
-	arg_3_0.eventTriggerListener = var_3_0
+	slot0.eventTriggerListener = slot1
 end
 
-function var_0_1.RefreshUI(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0.deployCharaView = arg_10_1
+function slot1.RefreshUI(slot0, slot1, slot2)
+	slot0.deployCharaView = slot1
 
-	var_0_1.super.RefreshUI(arg_10_0, arg_10_2, arg_10_1.selHeroID)
+	uv0.super.RefreshUI(slot0, slot2, slot1.selHeroID)
 end
 
-function var_0_1.EnableRecall(arg_11_0)
-	local var_11_0 = arg_11_0.heroID
-	local var_11_1 = arg_11_0.archiveID
+function slot1.EnableRecall(slot0)
+	slot1 = slot0.heroID
 
-	for iter_11_0, iter_11_1 in pairs(IdolTraineeCampBridge.charaAtPos) do
-		if var_11_1 == IdolTraineeCampBridge.GetCharacterArchiveID(iter_11_1) then
+	for slot6, slot7 in pairs(IdolTraineeCampBridge.charaAtPos) do
+		if slot0.archiveID == IdolTraineeCampBridge.GetCharacterArchiveID(slot7) then
 			return true
 		end
 	end
@@ -76,133 +70,112 @@ function var_0_1.EnableRecall(arg_11_0)
 	return false
 end
 
-local function var_0_3()
+function slot3()
 	manager.notify:Invoke(DORM_REFRESH_HERO_DEPLOY_LIST)
 end
 
-local function var_0_4(arg_13_0, arg_13_1)
-	local var_13_0 = IdolTraineeCampBridge.GenCharacter(arg_13_0)
+function slot4(slot0, slot1)
+	if IdolTraineeCampBridge.GenCharacter(slot0) then
+		uv0.curDragging = slot2
 
-	if var_13_0 then
-		var_0_1.curDragging = var_13_0
-
-		Dorm.DormEntityManager.SendDoActionCMD(var_13_0, "carry", nil, true, false)
+		Dorm.DormEntityManager.SendDoActionCMD(slot2, "carry", nil, true, false)
 	end
 end
 
-local function var_0_5()
-	if var_0_1.curDragging then
-		local var_14_0 = IdolTraineeCampBridge.GetCharacterHeroID(var_0_1.curDragging)
+function slot5()
+	if uv0.curDragging then
+		DormData:GetHeroTemplateInfo(IdolTraineeCampBridge.GetCharacterHeroID(uv0.curDragging)):GoToDance(nil)
+		IdolTraineeCampBridge.RemoveEntity(uv0.curDragging)
 
-		DormData:GetHeroTemplateInfo(var_14_0):GoToDance(nil)
-		IdolTraineeCampBridge.RemoveEntity(var_0_1.curDragging)
-
-		var_0_1.curDragging = nil
+		uv0.curDragging = nil
 	end
 end
 
-function var_0_1.IsDragBlocked(arg_15_0)
-	return arg_15_0.maskFunc(arg_15_0.heroID)
+function slot1.IsDragBlocked(slot0)
+	return slot0.maskFunc(slot0.heroID)
 end
 
-function var_0_1.BeginDrag(arg_16_0, arg_16_1)
-	arg_16_0.deployCharaView:BeginDragHeroList(arg_16_1, arg_16_0)
-	arg_16_0:UpdateDraggingCharaPos(arg_16_1)
+function slot1.BeginDrag(slot0, slot1)
+	slot0.deployCharaView:BeginDragHeroList(slot1, slot0)
+	slot0:UpdateDraggingCharaPos(slot1)
 end
 
-function var_0_1.Drag(arg_17_0, arg_17_1)
-	local var_17_0 = arg_17_0.deployCharaView:NotDragOutYet(arg_17_1)
-
-	if var_0_1.curDragging then
-		if var_17_0 then
-			var_0_5()
+function slot1.Drag(slot0, slot1)
+	if uv0.curDragging then
+		if slot0.deployCharaView:NotDragOutYet(slot1) then
+			uv1()
 		else
-			local var_17_1, var_17_2 = arg_17_0:CanDrop(arg_17_1)
-			local var_17_3 = var_0_1.curDragging
+			slot3, slot4 = slot0:CanDrop(slot1)
+			slot5 = uv0.curDragging
 
-			if not var_17_1 or not arg_17_0:SnapOnTarget(var_17_1, var_17_2, arg_17_1) then
-				arg_17_0:UpdateDraggingCharaPos(arg_17_1)
+			if not slot3 or not slot0:SnapOnTarget(slot3, slot4, slot1) then
+				slot0:UpdateDraggingCharaPos(slot1)
 			end
 
-			arg_17_0.deployCharaView:HoverHightDragOnTarget(var_17_1, var_17_2)
+			slot0.deployCharaView:HoverHightDragOnTarget(slot3, slot4)
 		end
-	elseif not var_17_0 and not arg_17_0:IsDragBlocked() then
-		var_0_4(arg_17_0.heroID, arg_17_1)
-		arg_17_0.deployCharaView:EndDragHeroList(arg_17_1, arg_17_0)
-		arg_17_0:UpdateDraggingCharaPos(arg_17_1)
+	elseif not slot2 and not slot0:IsDragBlocked() then
+		uv2(slot0.heroID, slot1)
+		slot0.deployCharaView:EndDragHeroList(slot1, slot0)
+		slot0:UpdateDraggingCharaPos(slot1)
 	else
-		arg_17_0.deployCharaView:DragHeroList(arg_17_1, arg_17_0)
+		slot0.deployCharaView:DragHeroList(slot1, slot0)
 	end
 end
 
-function var_0_1.EndDrag(arg_18_0, arg_18_1)
-	local var_18_0 = var_0_1.curDragging
+function slot1.EndDrag(slot0, slot1)
+	if uv0.curDragging then
+		slot3, slot4 = slot0:CanDrop(slot1)
+		slot5 = uv0.curDragging
 
-	if var_18_0 then
-		local var_18_1, var_18_2 = arg_18_0:CanDrop(arg_18_1)
-		local var_18_3 = var_0_1.curDragging
-
-		if var_18_1 then
-			arg_18_0:DropCharaOnTarget(var_18_1, var_18_2)
+		if slot3 then
+			slot0:DropCharaOnTarget(slot3, slot4)
 		else
-			IdolTraineeCampBridge.RemoveEntity(var_18_0)
+			IdolTraineeCampBridge.RemoveEntity(slot2)
 		end
 
-		arg_18_0.deployCharaView:UpdateCurHeroNum()
+		slot0.deployCharaView:UpdateCurHeroNum()
 
-		var_0_1.curDragging = nil
+		uv0.curDragging = nil
 	end
 
-	arg_18_0.deployCharaView:EndDragHeroList(arg_18_1, arg_18_0)
-	var_0_3()
+	slot0.deployCharaView:EndDragHeroList(slot1, slot0)
+	uv1()
 end
 
-function var_0_1.CanDrop(arg_19_0, arg_19_1)
-	local var_19_0 = nullable(arg_19_0.deployCharaView, "targets")
-
-	if var_19_0 then
-		local var_19_1 = arg_19_1.position
-		local var_19_2 = manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera
-
-		for iter_19_0 = #var_19_0, 1, -1 do
-			local var_19_3 = nullable(var_19_0, iter_19_0, "trs")
-
-			if UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(var_19_3, var_19_1, var_19_2) then
-				return var_19_3, iter_19_0
+function slot1.CanDrop(slot0, slot1)
+	if nullable(slot0.deployCharaView, "targets") then
+		for slot9 = #slot2, 1, -1 do
+			if UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(nullable(slot2, slot9, "trs"), slot1.position, manager.ui.canvas:GetComponent(typeof(Canvas)).worldCamera) then
+				return slot10, slot9
 			end
 		end
 	end
 end
 
-function var_0_1.DropCharaOnTarget(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = var_0_1.curDragging
-
-	if not var_20_0 then
+function slot1.DropCharaOnTarget(slot0, slot1, slot2)
+	if not uv0.curDragging then
 		return
 	end
 
-	arg_20_0:SnapOnTarget(arg_20_1, arg_20_2)
-	arg_20_0.deployCharaView:SetCharacterAtPos(var_20_0, arg_20_2)
+	slot0:SnapOnTarget(slot1, slot2)
+	slot0.deployCharaView:SetCharacterAtPos(slot3, slot2)
 end
 
-function var_0_1.SnapOnTarget(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = var_0_1.curDragging
-
-	if not var_21_0 then
+function slot1.SnapOnTarget(slot0, slot1, slot2)
+	if not uv0.curDragging then
 		return
 	end
 
-	return arg_21_0.deployCharaView:SnapCharacterOnTarget(var_21_0, arg_21_2)
+	return slot0.deployCharaView:SnapCharacterOnTarget(slot3, slot2)
 end
 
-function var_0_1.UpdateDraggingCharaPos(arg_22_0, arg_22_1)
-	if not var_0_1.curDragging then
+function slot1.UpdateDraggingCharaPos(slot0, slot1)
+	if not uv0.curDragging then
 		return
 	end
 
-	local var_22_0 = IdolTraineeCampBridge.walls
-
-	DanceGameController.UpdateCharaGrabPos(var_22_0, var_0_1.curDragging, arg_22_1)
+	DanceGameController.UpdateCharaGrabPos(IdolTraineeCampBridge.walls, uv0.curDragging, slot1)
 end
 
-return var_0_1
+return slot1

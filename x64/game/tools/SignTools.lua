@@ -1,134 +1,117 @@
-local var_0_0 = {}
+return {
+	IsCanSign = function ()
+		slot0 = BigMonthCardData:LoginPopFlag() and BigMonthCardData:HaveMonthCard() and (not BigMonthCardData:IsSignToday() or BigMonthCardData:IsNeedAccumulatSign())
 
-function var_0_0.IsCanSign()
-	local var_1_0 = BigMonthCardData:LoginPopFlag() and BigMonthCardData:HaveMonthCard() and (not BigMonthCardData:IsSignToday() or BigMonthCardData:IsNeedAccumulatSign())
+		if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SIGN) then
+			return false
+		end
 
-	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.SIGN) then
-		return false
-	end
-
-	if isPopFatigue then
-		return true
-	end
-
-	if var_1_0 then
-		return true
-	end
-
-	if var_0_0.GetDailySignIndex() ~= 0 then
-		return true
-	end
-
-	local var_1_1 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SEVEN_SIGN] or {}
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_1) do
-		if var_0_0.GetSevenDaySignIndex(iter_1_1) ~= 0 then
+		if isPopFatigue then
 			return true
 		end
-	end
 
-	return false
-end
-
-function var_0_0.GetDailySignIndex()
-	local var_2_0 = manager.time:GetDeltaToday()
-	local var_2_1 = SignData:GetDailySignInfo()
-
-	if not var_2_1 then
-		return 0
-	end
-
-	if not table.keyof(var_2_1.days, var_2_0) then
-		return table.nums(var_2_1.days) + 1
-	end
-
-	return 0
-end
-
-function var_0_0.GetSevenDaySignIndex(arg_3_0)
-	local var_3_0 = manager.time:GetTodayFreshTime()
-
-	if not ActivityData:GetActivityIsOpen(arg_3_0) then
-		return 0
-	end
-
-	local var_3_1 = SignData:GetSevenDaySignInfo(arg_3_0)
-	local var_3_2 = ActivityData:GetActivityData(arg_3_0)
-
-	if not var_3_1 or not var_3_2 then
-		return 0
-	end
-
-	local var_3_3 = ActivityCumulativeSignCfg[arg_3_0]
-
-	if var_3_3 == nil then
-		return 0
-	end
-
-	if PlayerData:GetPlayerInfo().userLevel < var_3_3.limit_level then
-		return 0
-	end
-
-	if var_3_1.signCount >= #var_3_3.config_list then
-		return 0
-	end
-
-	if var_3_0 > var_3_1.lastSignTime then
-		return var_3_1.signCount + 1
-	end
-
-	return 0
-end
-
-function var_0_0.GetDailySignState(arg_4_0)
-	local var_4_0 = manager.time:GetDeltaToday()
-	local var_4_1 = SignData:GetDailySignInfo().days
-	local var_4_2 = #var_4_1
-	local var_4_3 = 0
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_1) do
-		if var_4_3 < iter_4_1 then
-			var_4_3 = iter_4_1
+		if slot0 then
+			return true
 		end
-	end
 
-	if arg_4_0 <= var_4_2 then
-		return ActivityConst.SIGN_STATE.GETTED
-	end
+		if uv0.GetDailySignIndex() ~= 0 then
+			return true
+		end
 
-	if var_4_3 < var_4_0 and var_4_2 + 1 == arg_4_0 then
-		return ActivityConst.SIGN_STATE.CAN_GET
-	end
+		for slot5, slot6 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.SEVEN_SIGN] or {}) do
+			if uv0.GetSevenDaySignIndex(slot6) ~= 0 then
+				return true
+			end
+		end
 
-	if var_4_3 < var_4_0 and var_4_2 + 2 == arg_4_0 or var_4_3 == var_4_0 and var_4_2 + 1 == arg_4_0 then
-		return ActivityConst.SIGN_STATE.TOMORROW_GET
-	end
+		return false
+	end,
+	GetDailySignIndex = function ()
+		slot0 = manager.time:GetDeltaToday()
 
-	return ActivityConst.SIGN_STATE.NONE
-end
+		if not SignData:GetDailySignInfo() then
+			return 0
+		end
 
-function var_0_0.GetSevenDaySignState(arg_5_0, arg_5_1)
-	local var_5_0 = SignData:GetSevenDaySignInfo(arg_5_0)
+		if not table.keyof(slot1.days, slot0) then
+			return table.nums(slot1.days) + 1
+		end
 
-	if not var_5_0 then
+		return 0
+	end,
+	GetSevenDaySignIndex = function (slot0)
+		slot1 = manager.time:GetTodayFreshTime()
+
+		if not ActivityData:GetActivityIsOpen(slot0) then
+			return 0
+		end
+
+		if not SignData:GetSevenDaySignInfo(slot0) or not ActivityData:GetActivityData(slot0) then
+			return 0
+		end
+
+		if ActivityCumulativeSignCfg[slot0] == nil then
+			return 0
+		end
+
+		if PlayerData:GetPlayerInfo().userLevel < slot5.limit_level then
+			return 0
+		end
+
+		if slot3.signCount >= #slot5.config_list then
+			return 0
+		end
+
+		if slot3.lastSignTime < slot1 then
+			return slot3.signCount + 1
+		end
+
+		return 0
+	end,
+	GetDailySignState = function (slot0)
+		slot1 = manager.time:GetDeltaToday()
+		slot2 = SignData:GetDailySignInfo().days
+		slot3 = #slot2
+
+		for slot8, slot9 in ipairs(slot2) do
+			if 0 < slot9 then
+				slot4 = slot9
+			end
+		end
+
+		if slot0 <= slot3 then
+			return ActivityConst.SIGN_STATE.GETTED
+		end
+
+		if slot4 < slot1 and slot3 + 1 == slot0 then
+			return ActivityConst.SIGN_STATE.CAN_GET
+		end
+
+		if slot4 < slot1 and slot3 + 2 == slot0 or slot4 == slot1 and slot3 + 1 == slot0 then
+			return ActivityConst.SIGN_STATE.TOMORROW_GET
+		end
+
+		return ActivityConst.SIGN_STATE.NONE
+	end,
+	GetSevenDaySignState = function (slot0, slot1)
+		if not SignData:GetSevenDaySignInfo(slot0) then
+			return ActivityConst.SIGN_STATE.NONE
+		end
+
+		slot3 = manager.time:GetDeltaToday()
+
+		if slot1 <= slot2.signCount then
+			return ActivityConst.SIGN_STATE.GETTED
+		end
+
+		if slot2.lastSignTime < slot3 and slot2.signCount + 1 == slot1 then
+			return ActivityConst.SIGN_STATE.CAN_GET
+		end
+
+		if slot2.lastSignTime < slot3 and slot2.signCount + 2 == slot1 or slot2.lastSignTime == slot3 and slot2.signCount + 1 == slot1 then
+			return ActivityConst.SIGN_STATE.TOMORROW_GET
+		end
+
 		return ActivityConst.SIGN_STATE.NONE
 	end
-
-	local var_5_1 = manager.time:GetDeltaToday()
-
-	if arg_5_1 <= var_5_0.signCount then
-		return ActivityConst.SIGN_STATE.GETTED
-	end
-
-	if var_5_1 > var_5_0.lastSignTime and var_5_0.signCount + 1 == arg_5_1 then
-		return ActivityConst.SIGN_STATE.CAN_GET
-	end
-
-	if var_5_1 > var_5_0.lastSignTime and var_5_0.signCount + 2 == arg_5_1 or var_5_0.lastSignTime == var_5_1 and var_5_0.signCount + 1 == arg_5_1 then
-		return ActivityConst.SIGN_STATE.TOMORROW_GET
-	end
-
-	return ActivityConst.SIGN_STATE.NONE
-end
-
-return var_0_0
+}

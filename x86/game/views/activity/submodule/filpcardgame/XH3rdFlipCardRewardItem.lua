@@ -1,127 +1,116 @@
-local var_0_0 = class("XH3rdFlipCardRewardItem", ReduxView)
+slot0 = class("XH3rdFlipCardRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.itemList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.rewardListGo_, CommonItemView)
-	arg_2_0.rewardState_ = ControllerUtil.GetController(arg_2_0.transform_, "state")
+	slot0.itemList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.rewardListGo_, CommonItemView)
+	slot0.rewardState_ = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	arg_3_0.taskID = arg_3_1
-	arg_3_0.cfg = AssignmentCfg[arg_3_1]
-	arg_3_0.rewardCfg = arg_3_0.cfg.reward
-	arg_3_0.activityID = arg_3_0.cfg.activity_id
+function slot0.SetData(slot0, slot1)
+	slot0.taskID = slot1
+	slot0.cfg = AssignmentCfg[slot1]
+	slot0.rewardCfg = slot0.cfg.reward
+	slot0.activityID = slot0.cfg.activity_id
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.rewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_5_0.activityID) then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		TaskAction:SubmitTask(arg_5_0.taskID)
+		TaskAction:SubmitTask(uv0.taskID)
 	end)
 
-	arg_5_0.onSubmitTaskResponseHandle_ = handler(arg_5_0, arg_5_0.onSubmitTaskResponse)
+	slot0.onSubmitTaskResponseHandle_ = handler(slot0, slot0.onSubmitTaskResponse)
 
-	manager.notify:RegistListener(ON_TASK_SUBMIT_RESPONSE, arg_5_0.onSubmitTaskResponseHandle_)
+	manager.notify:RegistListener(ON_TASK_SUBMIT_RESPONSE, slot0.onSubmitTaskResponseHandle_)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshState()
-	arg_7_0:RefreshItem()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshState()
+	slot0:RefreshItem()
 end
 
-function var_0_0.RefreshState(arg_8_0)
-	local var_8_0 = TaskData2:GetTask(arg_8_0.taskID).progress >= arg_8_0.cfg.need
-	local var_8_1 = TaskData2:GetTaskComplete(arg_8_0.taskID)
+function slot0.RefreshState(slot0)
+	slot3 = TaskData2:GetTaskComplete(slot0.taskID)
 
-	if not var_8_0 then
-		arg_8_0.rewardState_:SetSelectedState("uncomplete")
-	elseif not var_8_1 then
-		arg_8_0.rewardState_:SetSelectedState("complete")
+	if not (slot0.cfg.need <= TaskData2:GetTask(slot0.taskID).progress) then
+		slot0.rewardState_:SetSelectedState("uncomplete")
+	elseif not slot3 then
+		slot0.rewardState_:SetSelectedState("complete")
 	else
-		arg_8_0.rewardState_:SetSelectedState("received")
+		slot0.rewardState_:SetSelectedState("received")
 	end
 end
 
-function var_0_0.RefreshItem(arg_9_0)
-	local var_9_0 = TaskData2:GetTask(arg_9_0.taskID)
+function slot0.RefreshItem(slot0)
+	slot1 = TaskData2:GetTask(slot0.taskID)
+	slot0.text_.text = slot0.cfg.desc
+	slot0.slider_.value = slot1.progress / slot0.cfg.need
+	slot2 = nil
+	slot0.sliderText_.text = ((slot0.cfg.need > slot1.progress or slot0.cfg.need) and slot1.progress) .. "/" .. slot0.cfg.need
 
-	arg_9_0.text_.text = arg_9_0.cfg.desc
-	arg_9_0.slider_.value = var_9_0.progress / arg_9_0.cfg.need
-
-	local var_9_1
-
-	if var_9_0.progress >= arg_9_0.cfg.need then
-		var_9_1 = arg_9_0.cfg.need
-	else
-		var_9_1 = var_9_0.progress
-	end
-
-	arg_9_0.sliderText_.text = var_9_1 .. "/" .. arg_9_0.cfg.need
-
-	arg_9_0.itemList_:StartScroll(#arg_9_0.rewardCfg)
+	slot0.itemList_:StartScroll(#slot0.rewardCfg)
 end
 
-function var_0_0.IndexItem(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = arg_10_0.rewardCfg[arg_10_1]
-	local var_10_1 = clone(ItemTemplateData)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.rewardCfg[slot1]
+	slot4 = clone(ItemTemplateData)
+	slot4.id = slot3[1]
+	slot4.number = slot3[2]
 
-	var_10_1.id = var_10_0[1]
-	var_10_1.number = var_10_0[2]
-
-	function var_10_1.clickFun(arg_11_0)
+	function slot4.clickFun(slot0)
 		ShowPopItem(POP_ITEM, {
-			arg_11_0.id,
-			arg_11_0.number
+			slot0.id,
+			slot0.number
 		})
 	end
 
-	arg_10_2:SetData(var_10_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	manager.notify:RemoveListener(ON_TASK_SUBMIT_RESPONSE, arg_12_0.onSubmitTaskResponseHandle_)
+function slot0.Dispose(slot0)
+	manager.notify:RemoveListener(ON_TASK_SUBMIT_RESPONSE, slot0.onSubmitTaskResponseHandle_)
 
-	if arg_12_0.itemList_ then
-		arg_12_0.itemList_:Dispose()
+	if slot0.itemList_ then
+		slot0.itemList_:Dispose()
 
-		arg_12_0.itemList_ = nil
+		slot0.itemList_ = nil
 	end
 
-	arg_12_0.onReceived_ = nil
+	slot0.onReceived_ = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetReveivedHandler(arg_13_0, arg_13_1)
-	arg_13_0.onReceived_ = arg_13_1
+function slot0.SetReveivedHandler(slot0, slot1)
+	slot0.onReceived_ = slot1
 end
 
-function var_0_0.onSubmitTaskResponse(arg_14_0)
-	arg_14_0:RefreshState()
+function slot0.onSubmitTaskResponse(slot0)
+	slot0:RefreshState()
 
-	if arg_14_0.onReceived_ ~= nil then
-		arg_14_0.onReceived_()
+	if slot0.onReceived_ ~= nil then
+		slot0.onReceived_()
 	end
 end
 
-return var_0_0
+return slot0

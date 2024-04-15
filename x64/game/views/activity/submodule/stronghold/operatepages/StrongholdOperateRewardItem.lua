@@ -1,89 +1,78 @@
-local var_0_0 = class("StrongholdOperateRewardItem", ReduxView)
+slot0 = class("StrongholdOperateRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardItems_ = {}
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.rewardItems_ = {}
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_rewardBtn, function()
-		StrongholdAction.QueryReward(arg_4_0.activity_id, {
-			arg_4_0.reward_id
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_rewardBtn, function ()
+		StrongholdAction.QueryReward(uv0.activity_id, {
+			uv0.reward_id
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.activity_id = arg_6_1
-	arg_6_0.reward_id = arg_6_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activity_id = slot1
+	slot0.reward_id = slot2
+	slot3 = ActivityStrongholdRewardCfg[slot0.reward_id]
+	slot5 = slot3.params[1]
+	slot6 = nil
 
-	local var_6_0 = ActivityStrongholdRewardCfg[arg_6_0.reward_id]
-	local var_6_1 = var_6_0.condition
-	local var_6_2 = var_6_0.params[1]
-	local var_6_3
-	local var_6_4 = ActivityStrongholdLevelCfg.get_id_list_by_type[var_6_1]
-
-	for iter_6_0, iter_6_1 in ipairs(var_6_4) do
-		if ActivityStrongholdLevelCfg[iter_6_1].level == var_6_2 then
-			var_6_3 = ActivityStrongholdLevelCfg[iter_6_1]
+	for slot11, slot12 in ipairs(ActivityStrongholdLevelCfg.get_id_list_by_type[slot3.condition]) do
+		if ActivityStrongholdLevelCfg[slot12].level == slot5 then
+			slot6 = ActivityStrongholdLevelCfg[slot12]
 		end
 	end
 
-	local var_6_5 = GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. var_6_1)
+	slot0.m_des.text = string.format(GetTips("ACTIVITY_STRONGHOLD_REWARD_TIP"), GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. slot4), slot5, slot6.level_des)
+	slot9, slot10, slot11, slot12 = StrongholdData:GetStrongholdLevel(slot4)
+	slot0.m_processLab.text = math.min(slot10, slot5) .. "/" .. slot5
+	slot0.m_process.fillAmount = math.min(slot10, slot5) / slot5
 
-	arg_6_0.m_des.text = string.format(GetTips("ACTIVITY_STRONGHOLD_REWARD_TIP"), var_6_5, var_6_2, var_6_3.level_des)
+	for slot17, slot18 in ipairs(slot3.reward or {}) do
+		if slot0.rewardItems_[slot17] == nil then
+			slot0.rewardItems_[slot17] = RewardItem.New(slot0.m_rewardItem, slot0.m_rewardParent)
 
-	local var_6_6, var_6_7, var_6_8, var_6_9 = StrongholdData:GetStrongholdLevel(var_6_1)
-
-	arg_6_0.m_processLab.text = math.min(var_6_7, var_6_2) .. "/" .. var_6_2
-	arg_6_0.m_process.fillAmount = math.min(var_6_7, var_6_2) / var_6_2
-
-	local var_6_10 = var_6_0.reward or {}
-
-	for iter_6_2, iter_6_3 in ipairs(var_6_10) do
-		if arg_6_0.rewardItems_[iter_6_2] == nil then
-			arg_6_0.rewardItems_[iter_6_2] = RewardItem.New(arg_6_0.m_rewardItem, arg_6_0.m_rewardParent)
-
-			arg_6_0.rewardItems_[iter_6_2]:UpdateCommonItemAni()
-			arg_6_0.rewardItems_[iter_6_2].commonItem_:RegistCallBack(function()
+			slot0.rewardItems_[slot17]:UpdateCommonItemAni()
+			slot0.rewardItems_[slot17].commonItem_:RegistCallBack(function ()
 				OperationRecorder.Record("task", "task_item")
 			end)
 		end
 
-		arg_6_0.rewardItems_[iter_6_2]:SetData(iter_6_3)
+		slot0.rewardItems_[slot17]:SetData(slot18)
 	end
 
-	for iter_6_4 = #var_6_0.reward + 1, #arg_6_0.rewardItems_ do
-		arg_6_0.rewardItems_[iter_6_4]:Show(false)
+	for slot17 = #slot3.reward + 1, #slot0.rewardItems_ do
+		slot0.rewardItems_[slot17]:Show(false)
 	end
 
-	local var_6_11 = StrongholdData:GetRewardState(arg_6_1, arg_6_2)
-
-	arg_6_0.stateController:SetSelectedIndex(var_6_11)
+	slot0.stateController:SetSelectedIndex(StrongholdData:GetRewardState(slot1, slot2))
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.rewardItems_) do
-		iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.rewardItems_) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.rewardItems_ = {}
+	slot0.rewardItems_ = {}
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

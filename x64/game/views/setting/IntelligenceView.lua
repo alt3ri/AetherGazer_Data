@@ -1,118 +1,111 @@
-local var_0_0 = class("IntelligenceView", ReduxView)
+slot0 = class("IntelligenceView", ReduxView)
 
-function var_0_0.SetActive(arg_1_0, arg_1_1)
-	if arg_1_0.gameObject_ then
-		SetActive(arg_1_0.gameObject_, arg_1_1)
+function slot0.SetActive(slot0, slot1)
+	if slot0.gameObject_ then
+		SetActive(slot0.gameObject_, slot1)
 	end
 end
 
-function var_0_0.Ctor(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-	arg_2_0.hander_ = arg_2_1
-	arg_2_0.transform_ = arg_2_2.transform
-	arg_2_0.gameObject_ = arg_2_2
-	arg_2_0.info_ = arg_2_3[1]
+function slot0.Ctor(slot0, slot1, slot2, slot3)
+	slot0.hander_ = slot1
+	slot0.transform_ = slot2.transform
+	slot0.gameObject_ = slot2
+	slot0.info_ = slot3[1]
 
-	arg_2_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.RefreshData(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.data_ = arg_3_1
-	arg_3_0.info_ = arg_3_2
+function slot0.RefreshData(slot0, slot1, slot2)
+	slot0.data_ = slot1
+	slot0.info_ = slot2
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.missions_ = {}
+	slot0.missions_ = {}
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0.missions_[iter_4_0] = {
-			go = arg_4_0[string.format("mission%dGo_", iter_4_0)],
-			on = arg_4_0[string.format("mission%dOnGo_", iter_4_0)],
-			off = arg_4_0[string.format("mission%dOffGo_", iter_4_0)],
-			name = arg_4_0[string.format("mission%dNameText_", iter_4_0)],
-			progress = arg_4_0[string.format("mission%dNumText_", iter_4_0)],
-			progressGo = arg_4_0[string.format("mission%dNumText_", iter_4_0)].gameObject
+	for slot4 = 1, 3 do
+		slot0.missions_[slot4] = {
+			go = slot0[string.format("mission%dGo_", slot4)],
+			on = slot0[string.format("mission%dOnGo_", slot4)],
+			off = slot0[string.format("mission%dOffGo_", slot4)],
+			name = slot0[string.format("mission%dNameText_", slot4)],
+			progress = slot0[string.format("mission%dNumText_", slot4)],
+			progressGo = slot0[string.format("mission%dNumText_", slot4)].gameObject
 		}
 	end
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.Init(arg_6_0)
-	arg_6_0:InitUI()
-	arg_6_0:AddUIListener()
-	arg_6_0:OnEnter()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:OnEnter()
 end
 
-function var_0_0.UpdateAllMission(arg_7_0, arg_7_1)
-	local var_7_0 = arg_7_1
+function slot0.UpdateAllMission(slot0, slot1)
+	slot2 = slot1
 
-	for iter_7_0 = 1, 3 do
-		if var_7_0 and var_7_0[iter_7_0] then
-			local var_7_1 = ThreeStarConditionCfg[var_7_0[iter_7_0].id]
+	for slot6 = 1, 3 do
+		if slot2 and slot2[slot6] then
+			slot7 = ThreeStarConditionCfg[slot2[slot6].id]
+			slot0.missions_[slot6].name.text = BattleInstance.GetStarMissionText(slot2[slot6].id, slot2[slot6].xData, slot2[slot6].yData)
+			slot9 = false
 
-			arg_7_0.missions_[iter_7_0].name.text = BattleInstance.GetStarMissionText(var_7_0[iter_7_0].id, var_7_0[iter_7_0].xData, var_7_0[iter_7_0].yData)
-
-			local var_7_2 = BattleStageData:GetStageData()[arg_7_0.info_.section]
-			local var_7_3 = false
-
-			if var_7_2 and var_7_2.stars and var_7_2.stars[iter_7_0] == 1 then
-				var_7_3 = true
+			if BattleStageData:GetStageData()[slot0.info_.section] and slot8.stars and slot8.stars[slot6] == 1 then
+				slot9 = true
 			end
 
-			SetActive(arg_7_0.missions_[iter_7_0].on, var_7_0[iter_7_0].isComplete or var_7_3)
-			SetActive(arg_7_0.missions_[iter_7_0].off, not var_7_0[iter_7_0].isComplete and not var_7_3)
+			SetActive(slot0.missions_[slot6].on, slot2[slot6].isComplete or slot9)
+			SetActive(slot0.missions_[slot6].off, not slot2[slot6].isComplete and not slot9)
 
-			if var_7_3 then
-				arg_7_0.missions_[iter_7_0].progress.text = "-/-"
+			if slot9 then
+				slot0.missions_[slot6].progress.text = "-/-"
 			else
-				arg_7_0.missions_[iter_7_0].progress.text = string.format("%d/%d", var_7_0[iter_7_0].current, var_7_0[iter_7_0].total)
+				slot0.missions_[slot6].progress.text = string.format("%d/%d", slot2[slot6].current, slot2[slot6].total)
 			end
 
-			SetActive(arg_7_0.missions_[iter_7_0].go, true)
+			SetActive(slot0.missions_[slot6].go, true)
 		else
-			SetActive(arg_7_0.missions_[iter_7_0].go, false)
+			SetActive(slot0.missions_[slot6].go, false)
 		end
 	end
 end
 
-function var_0_0.SetLevelTitle(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_1:GetStageId()
-	local var_8_1 = arg_8_1:GetType()
-	local var_8_2, var_8_3 = BattleStageTools.GetChapterSectionIndex(var_8_1, var_8_0)
+function slot0.SetLevelTitle(slot0, slot1)
+	slot4, slot5 = BattleStageTools.GetChapterSectionIndex(slot1:GetType(), slot1:GetStageId())
 
-	if var_8_2 ~= "" then
-		arg_8_0.titleText_.text = string.format("%s-%s", GetI18NText(var_8_2), GetI18NText(var_8_3))
+	if slot4 ~= "" then
+		slot0.titleText_.text = string.format("%s-%s", GetI18NText(slot4), GetI18NText(slot5))
 	else
-		arg_8_0.titleText_.text = ""
+		slot0.titleText_.text = ""
 	end
 
-	arg_8_0.nameText_.text = BattleStageTools.GetStageName(var_8_1, var_8_0)
+	slot0.nameText_.text = BattleStageTools.GetStageName(slot3, slot2)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:SetLevelTitle(arg_9_0.info_.stageData)
-	arg_9_0:UpdateAllMission(arg_9_0.info_.starMissionData)
+function slot0.RefreshUI(slot0)
+	slot0:SetLevelTitle(slot0.info_.stageData)
+	slot0:UpdateAllMission(slot0.info_.starMissionData)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_12_0)
-	arg_12_0.info_ = nil
-	arg_12_0.hander_ = nil
+function slot0.Dispose(slot0)
+	slot0.info_ = nil
+	slot0.hander_ = nil
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

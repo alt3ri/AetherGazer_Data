@@ -1,57 +1,52 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("XH3rdWaterMainView", ActivityMainBasePanel)
+slot1 = 44
 
-local var_0_0 = class("XH3rdWaterMainView", ActivityMainBasePanel)
-local var_0_1 = 44
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(Asset.Load("UI/VersionUI/XuHeng3rdUI/XH3rdWaterparkUI/XH3rdWaterparkUI"), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.activityID_ = arg_1_2
-
-	local var_1_0 = Asset.Load("UI/VersionUI/XuHeng3rdUI/XH3rdWaterparkUI/XH3rdWaterparkUI")
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.taskActivityId_ = arg_2_0:GetTaskActivityId()
+function slot0.Init(slot0)
+	slot0.taskActivityId_ = slot0:GetTaskActivityId()
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.oneclickController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "oneclick")
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uilistUilist_, XH3rdWaterMainItemView)
+	slot0.oneclickController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "oneclick")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistUilist_, XH3rdWaterMainItemView)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_1, arg_4_0.assignmentIdList_[arg_4_1], arg_4_0:GetTaskActivityId())
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.assignmentIdList_[slot1], slot0:GetTaskActivityId())
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnstartBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnstartBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/cooperationBlank/xH3rdWaterSelectAssistant", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.receiveBtn_, nil, function()
-		local var_7_0 = TaskTools:GetCanGetActivityTaskList(arg_5_0.taskActivityId_)
-		local var_7_1 = {}
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		slot1 = {}
 
-		if #var_7_0 > 0 then
-			for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-				table.insert(var_7_1, iter_7_1.id)
+		if #TaskTools:GetCanGetActivityTaskList(uv0.taskActivityId_) > 0 then
+			for slot5, slot6 in ipairs(slot0) do
+				table.insert(slot1, slot6.id)
 			end
 		end
 
-		TaskAction:SubmitTaskList(var_7_1)
+		TaskAction:SubmitTaskList(slot1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tipBtn_, nil, function()
+	slot0:AddBtnListener(slot0.tipBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_WATER_DESC",
@@ -60,45 +55,45 @@ function var_0_0.AddUIListener(arg_5_0)
 			content = GetTips("ACTIVITY_WATER_DESC")
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.shopBtn_, nil, function()
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
 		JumpTools.GoToSystem("/activityShop", {
-			shopId = var_0_1,
+			shopId = uv0,
 			showShops = {
-				var_0_1
+				uv0
 			}
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.reviewBtn_, nil, function()
+	slot0:AddBtnListener(slot0.reviewBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/xH3rdWaterReview", {
-			activityID = arg_5_0.activityID_
+			activityID = uv0.activityID_
 		})
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_11_0)
-	arg_11_0:RegistEventListener(OSIRIS_TASK_UPDATE, function()
-		arg_11_0:UpdateList()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, function ()
+		uv0:UpdateList()
 	end)
 end
 
-function var_0_0.OnTop(arg_13_0)
-	arg_13_0:UpdateBar()
+function slot0.OnTop(slot0)
+	slot0:UpdateBar()
 end
 
-function var_0_0.OnBehind(arg_14_0)
+function slot0.OnBehind(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.UpdateBar(arg_15_0)
-	if ActivityWaterData:GetCurrentSchedule(arg_15_0.activityID_) then
-		local var_15_0 = ShopListCfg[var_0_1].cost_id[1]
+function slot0.UpdateBar(slot0)
+	if ActivityWaterData:GetCurrentSchedule(slot0.activityID_) then
+		slot3 = ShopListCfg[uv0].cost_id[1]
 
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
 			HOME_BAR,
-			var_15_0
+			slot3
 		})
-		manager.windowBar:SetBarCanAdd(var_15_0, true)
+		manager.windowBar:SetBarCanAdd(slot3, true)
 	else
 		manager.windowBar:SwitchBar({
 			BACK_BAR,
@@ -109,175 +104,161 @@ function var_0_0.UpdateBar(arg_15_0)
 	manager.windowBar:SetGameHelpKey("ACTIVITY_WATER_DESC")
 end
 
-function var_0_0.OnEnter(arg_16_0)
+function slot0.OnEnter(slot0)
 	ActivityWaterAction.ReadActivityOpen()
-	arg_16_0:AddEventListeners()
-	arg_16_0:UpdateList()
-	arg_16_0:StartTimer()
-	arg_16_0:UpdateTimer()
-	manager.redPoint:bindUIandKey(arg_16_0.btnstartBtn_.transform, RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
-	manager.redPoint:bindUIandKey(arg_16_0.reviewBtn_.transform, RedPointConst.ACTIVITY_WATER_WIN_REWARD)
+	slot0:AddEventListeners()
+	slot0:UpdateList()
+	slot0:StartTimer()
+	slot0:UpdateTimer()
+	manager.redPoint:bindUIandKey(slot0.btnstartBtn_.transform, RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
+	manager.redPoint:bindUIandKey(slot0.reviewBtn_.transform, RedPointConst.ACTIVITY_WATER_WIN_REWARD)
 
-	local var_16_0 = manager.redPoint:getTipValue(RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
+	slot1 = manager.redPoint:getTipValue(RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
 end
 
-function var_0_0.StartTimer(arg_17_0)
-	if arg_17_0.timer_ == nil then
-		arg_17_0.timer_ = Timer.New(function()
-			arg_17_0:UpdateTimer()
+function slot0.StartTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:UpdateTimer()
 		end, 1, -1)
 	end
 
-	arg_17_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_19_0)
-	if arg_19_0.timer_ then
-		arg_19_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_19_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.UpdateTimer(arg_20_0)
-	local var_20_0 = ActivityData:GetActivityData(arg_20_0.activityID_).stopTime
+function slot0.UpdateTimer(slot0)
+	slot0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(ActivityData:GetActivityData(slot0.activityID_).stopTime)
 
-	arg_20_0.timeText_.text = manager.time:GetLostTimeStrWith2Unit(var_20_0)
-
-	if ActivityData:GetActivityIsOpen(arg_20_0:GetTaskActivityId()) then
-		if ActivityWaterData:IsAllScheduleOver(arg_20_0.activityID_) then
-			arg_20_0.statusController_:SetSelectedState("scheduleOver")
-			SetActive(arg_20_0.btnstartBtn_.gameObject, false)
+	if ActivityData:GetActivityIsOpen(slot0:GetTaskActivityId()) then
+		if ActivityWaterData:IsAllScheduleOver(slot0.activityID_) then
+			slot0.statusController_:SetSelectedState("scheduleOver")
+			SetActive(slot0.btnstartBtn_.gameObject, false)
 		else
-			arg_20_0.statusController_:SetSelectedState("open")
+			slot0.statusController_:SetSelectedState("open")
 		end
 	else
-		arg_20_0.statusController_:SetSelectedState("taskOver")
-		SetActive(arg_20_0.btnstartBtn_.gameObject, false)
+		slot0.statusController_:SetSelectedState("taskOver")
+		SetActive(slot0.btnstartBtn_.gameObject, false)
 	end
 
-	local var_20_1 = ShopListCfg[var_0_1]
+	if ShopListCfg[uv0] then
+		slot2 = ActivityData:GetActivityData(slot3.activity_id).stopTime
+		slot0.shopTimeText_.text = manager.time:GetLostTimeStrWith2Unit(slot2)
 
-	if var_20_1 then
-		local var_20_2 = var_20_1.activity_id
-		local var_20_3 = ActivityData:GetActivityData(var_20_2).stopTime
-
-		arg_20_0.shopTimeText_.text = manager.time:GetLostTimeStrWith2Unit(var_20_3)
-
-		if var_20_3 < manager.time:GetServerTime() then
-			SetActive(arg_20_0.shopBtn_.gameObject, false)
+		if slot2 < manager.time:GetServerTime() then
+			SetActive(slot0.shopBtn_.gameObject, false)
 		else
-			SetActive(arg_20_0.shopBtn_.gameObject, true)
+			SetActive(slot0.shopBtn_.gameObject, true)
 		end
 	end
 end
 
-function var_0_0.IsTimeOver(arg_21_0)
-	if ActivityData:GetActivityData(arg_21_0.activityID_).stopTime <= manager.time:GetServerTime() then
+function slot0.IsTimeOver(slot0)
+	if ActivityData:GetActivityData(slot0.activityID_).stopTime <= manager.time:GetServerTime() then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.UpdateList(arg_22_0)
-	if arg_22_0:IsTimeOver() or not ActivityData:GetActivityIsOpen(arg_22_0:GetTaskActivityId()) then
-		arg_22_0.uiList_:StartScroll(0)
-		arg_22_0.oneclickController_:SetSelectedState("no")
+function slot0.UpdateList(slot0)
+	if slot0:IsTimeOver() or not ActivityData:GetActivityIsOpen(slot0:GetTaskActivityId()) then
+		slot0.uiList_:StartScroll(0)
+		slot0.oneclickController_:SetSelectedState("no")
 
 		return
 	end
 
-	arg_22_0.assignmentIdList_ = {}
+	slot0.assignmentIdList_ = {}
 
-	table.insertto(arg_22_0.assignmentIdList_, AssignmentCfg.get_id_list_by_activity_id[arg_22_0.taskActivityId_], 1)
-	table.sort(arg_22_0.assignmentIdList_, function(arg_23_0, arg_23_1)
-		local var_23_0 = arg_22_0:GetTaskStatus(arg_23_0)
-		local var_23_1 = arg_22_0:GetTaskStatus(arg_23_1)
-
-		if var_23_0 ~= var_23_1 then
-			return var_23_0 < var_23_1
+	table.insertto(slot0.assignmentIdList_, AssignmentCfg.get_id_list_by_activity_id[slot0.taskActivityId_], 1)
+	table.sort(slot0.assignmentIdList_, function (slot0, slot1)
+		if uv0:GetTaskStatus(slot0) ~= uv0:GetTaskStatus(slot1) then
+			return slot2 < slot3
 		end
 
-		local var_23_2 = AssignmentCfg[arg_23_0]
-		local var_23_3 = AssignmentCfg[arg_23_1]
-
-		if var_23_2.type ~= var_23_3.type then
-			return var_23_2.type < var_23_3.type
+		if AssignmentCfg[slot0].type ~= AssignmentCfg[slot1].type then
+			return slot4.type < slot5.type
 		end
 
-		return var_23_2.id < var_23_3.id
+		return slot4.id < slot5.id
 	end)
-	arg_22_0.uiList_:StartScroll(#arg_22_0.assignmentIdList_)
+	slot0.uiList_:StartScroll(#slot0.assignmentIdList_)
 
-	if #TaskTools:GetCanGetActivityTaskList(arg_22_0.taskActivityId_) > 0 then
-		arg_22_0.oneclickController_:SetSelectedState("on")
+	if #TaskTools:GetCanGetActivityTaskList(slot0.taskActivityId_) > 0 then
+		slot0.oneclickController_:SetSelectedState("on")
 	else
-		arg_22_0.oneclickController_:SetSelectedState("off")
+		slot0.oneclickController_:SetSelectedState("off")
 	end
 end
 
-function var_0_0.GetTaskStatus(arg_24_0, arg_24_1)
-	local var_24_0 = AssignmentCfg[arg_24_1]
-	local var_24_1 = TaskData2:GetTask(arg_24_1)
+function slot0.GetTaskStatus(slot0, slot1)
+	slot2 = AssignmentCfg[slot1]
 
-	if not var_24_1 then
+	if not TaskData2:GetTask(slot1) then
 		return 0
 	end
 
-	local var_24_2 = var_24_1.progress
+	slot4 = slot3.progress
 
-	if var_24_1 ~= nil and TaskData2:GetTaskComplete(arg_24_1) then
+	if slot3 ~= nil and TaskData2:GetTaskComplete(slot1) then
 		return 3
-	elseif var_24_2 >= var_24_0.need then
+	elseif slot2.need <= slot4 then
 		return 1
 	else
 		return 2
 	end
 end
 
-function var_0_0.GetTaskActivityId(arg_25_0)
-	local var_25_0
+function slot0.GetTaskActivityId(slot0)
+	slot1 = nil
 
-	for iter_25_0, iter_25_1 in ipairs(ActivityCfg[arg_25_0.activityID_].sub_activity_list) do
-		if ActivityCfg[iter_25_1].activity_template == ActivityTemplateConst.TASK then
-			var_25_0 = iter_25_1
+	for slot5, slot6 in ipairs(ActivityCfg[slot0.activityID_].sub_activity_list) do
+		if ActivityCfg[slot6].activity_template == ActivityTemplateConst.TASK then
+			slot1 = slot6
 
 			break
 		end
 	end
 
-	return var_25_0
+	return slot1
 end
 
-function var_0_0.OnExit(arg_26_0)
-	manager.redPoint:unbindUIandKey(arg_26_0.btnstartBtn_.transform, RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
-	manager.redPoint:unbindUIandKey(arg_26_0.reviewBtn_.transform, RedPointConst.ACTIVITY_WATER_WIN_REWARD)
-	arg_26_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.btnstartBtn_.transform, RedPointConst.ACTIVITY_WATER_ENTER_GROUP)
+	manager.redPoint:unbindUIandKey(slot0.reviewBtn_.transform, RedPointConst.ACTIVITY_WATER_WIN_REWARD)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
-	arg_26_0:StopTimer()
+	slot0:StopTimer()
 end
 
-function var_0_0.Show(arg_27_0, arg_27_1)
-	SetActive(arg_27_0.gameObject_, arg_27_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_27_1 then
-		arg_27_0:UpdateList()
+	if slot1 then
+		slot0:UpdateList()
 	end
 end
 
-function var_0_0.OnMainHomeViewTop(arg_28_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_29_0)
-	if arg_29_0.uiList_ then
-		arg_29_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_29_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_29_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

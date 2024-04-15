@@ -1,49 +1,47 @@
-local var_0_0 = class("MatrixSelectBeaconItem", ReduxView)
+slot0 = class("MatrixSelectBeaconItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.index = 0
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.index = 0
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.selectController_ = ControllerUtil.GetController(arg_2_0.transform_, "select")
-	arg_2_0.maskController_ = ControllerUtil.GetController(arg_2_0.transform_, "mask")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
+	slot0.maskController_ = ControllerUtil.GetController(slot0.transform_, "mask")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_clickBtn, nil, function()
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc(arg_3_0.id, arg_3_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_clickBtn, nil, function ()
+		if uv0.clickFunc then
+			uv0.clickFunc(uv0.id, uv0)
 		end
 	end)
 end
 
-function var_0_0.Refresh(arg_5_0, arg_5_1)
-	arg_5_0.id = arg_5_1
-
-	local var_5_0 = MatrixBeaconCfg[arg_5_0.id]
-
-	arg_5_0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. var_5_0.icon)
-	arg_5_0.m_name.text = GetI18NText(var_5_0.name)
-	arg_5_0.m_des.text = GetI18NText(var_5_0.desc)
+function slot0.Refresh(slot0, slot1)
+	slot0.id = slot1
+	slot2 = MatrixBeaconCfg[slot0.id]
+	slot0.m_icon.sprite = getSpriteWithoutAtlas("TextureConfig/MatrixItem/MatrixArtifact/" .. slot2.icon)
+	slot0.m_name.text = GetI18NText(slot2.name)
+	slot0.m_des.text = GetI18NText(slot2.desc)
 end
 
-function var_0_0.SetChoice(arg_6_0, arg_6_1)
-	arg_6_0.selectController_:SetSelectedIndex(arg_6_1 and 1 or 0)
+function slot0.SetChoice(slot0, slot1)
+	slot0.selectController_:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.SetMask(arg_7_0, arg_7_1)
-	arg_7_0.maskController_:SetSelectedIndex(arg_7_1 and 1 or 0)
+function slot0.SetMask(slot0, slot1)
+	slot0.maskController_:SetSelectedIndex(slot1 and 1 or 0)
 end
 
-function var_0_0.RegistCallBack(arg_8_0, arg_8_1)
-	arg_8_0.clickFunc = arg_8_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-return var_0_0
+return slot0

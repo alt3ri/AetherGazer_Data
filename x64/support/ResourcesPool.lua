@@ -1,5 +1,4 @@
-local var_0_0 = class("ResourcesPool")
-
+slot0 = class("ResourcesPool")
 ASSET_TYPE = {
 	WEAPON = 3,
 	TPOSE = 1,
@@ -16,260 +15,233 @@ MAX_TMP_NUM_DONT_DESTROY = {
 	[ASSET_TYPE.TPOSE] = 4
 }
 
-function var_0_0.Ctor(arg_1_0)
-	arg_1_0.assetsPool_ = {}
-	arg_1_0.asyncIndex_ = 0
-	arg_1_0.asyncIndexQueue_ = {}
-	arg_1_0.asyncLoadAssetInfo_ = {}
+function slot0.Ctor(slot0)
+	slot0.assetsPool_ = {}
+	slot0.asyncIndex_ = 0
+	slot0.asyncIndexQueue_ = {}
+	slot0.asyncLoadAssetInfo_ = {}
 
-	for iter_1_0, iter_1_1 in pairs(ASSET_TYPE) do
-		arg_1_0.assetsPool_[iter_1_1] = {}
+	for slot4, slot5 in pairs(ASSET_TYPE) do
+		slot0.assetsPool_[slot5] = {}
 	end
 end
 
-function var_0_0.GetPooledAsset(arg_2_0, arg_2_1, arg_2_2)
-	arg_2_0.assetsPool_[arg_2_2] = arg_2_0.assetsPool_[arg_2_2] or {}
+function slot0.GetPooledAsset(slot0, slot1, slot2)
+	slot0.assetsPool_[slot2] = slot0.assetsPool_[slot2] or {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_0.assetsPool_[arg_2_2]) do
-		if iter_2_1.name == arg_2_1 and not iter_2_1.use then
-			iter_2_1.use = true
+	for slot6, slot7 in ipairs(slot0.assetsPool_[slot2]) do
+		if slot7.name == slot1 and not slot7.use then
+			slot7.use = true
 
-			arg_2_0:MoveResourceToEnd(arg_2_0.assetsPool_[arg_2_2], iter_2_0)
+			slot0:MoveResourceToEnd(slot0.assetsPool_[slot2], slot6)
 
-			return iter_2_1, iter_2_0
+			return slot7, slot6
 		end
 	end
 end
 
-function var_0_0.MoveResourceToEnd(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_1[arg_3_2] then
-		table.insert(arg_3_1, arg_3_1[arg_3_2])
-		table.remove(arg_3_1, arg_3_2)
+function slot0.MoveResourceToEnd(slot0, slot1, slot2)
+	if slot1[slot2] then
+		table.insert(slot1, slot1[slot2])
+		table.remove(slot1, slot2)
 	end
 end
 
-function var_0_0.AsyncLoad(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	local var_4_0 = arg_4_0:GetPooledAsset(arg_4_1, arg_4_2)
-
-	if var_4_0 then
-		SetActive(var_4_0.go, true)
-		arg_4_3(var_4_0.go)
+function slot0.AsyncLoad(slot0, slot1, slot2, slot3)
+	if slot0:GetPooledAsset(slot1, slot2) then
+		SetActive(slot4.go, true)
+		slot3(slot4.go)
 
 		return
 	end
 
-	local var_4_1 = arg_4_0.asyncIndex_
+	table.insert(slot0.asyncIndexQueue_, slot0.asyncIndex_)
 
-	table.insert(arg_4_0.asyncIndexQueue_, var_4_1)
-
-	if arg_4_0.asyncLoadAssetInfo_[arg_4_1] then
-		arg_4_0.asyncLoadAssetInfo_[arg_4_1][var_4_1] = arg_4_3
+	if slot0.asyncLoadAssetInfo_[slot1] then
+		slot0.asyncLoadAssetInfo_[slot1][slot5] = slot3
 	else
-		arg_4_0.asyncLoadAssetInfo_[arg_4_1] = {}
-		arg_4_0.asyncLoadAssetInfo_[arg_4_1][var_4_1] = arg_4_3
+		slot0.asyncLoadAssetInfo_[slot1] = {
+			[slot5] = slot3
+		}
 
-		Asset.LoadAsync(arg_4_1, function(arg_5_0)
-			local var_5_0 = 0
+		Asset.LoadAsync(slot1, function (slot0)
+			slot5 = uv1
 
-			for iter_5_0, iter_5_1 in pairs(arg_4_0.asyncLoadAssetInfo_[arg_4_1]) do
-				local var_5_1 = table.keyof(arg_4_0.asyncIndexQueue_, iter_5_0)
+			for slot5, slot6 in pairs(uv0.asyncLoadAssetInfo_[slot5]) do
+				if table.keyof(uv0.asyncIndexQueue_, slot5) then
+					slot1 = 0 + 1
 
-				if var_5_1 then
-					var_5_0 = var_5_0 + 1
-
-					table.remove(arg_4_0.asyncIndexQueue_, var_5_1)
+					table.remove(uv0.asyncIndexQueue_, slot7)
 				else
-					arg_4_0.asyncLoadAssetInfo_[arg_4_1][iter_5_0] = nil
+					uv0.asyncLoadAssetInfo_[uv1][slot5] = nil
 				end
 			end
 
-			if var_5_0 == 0 then
-				arg_4_0.asyncLoadAssetInfo_[arg_4_1] = nil
+			if slot1 == 0 then
+				uv0.asyncLoadAssetInfo_[uv1] = nil
 
 				return
 			end
 
-			local var_5_2 = Asset.Instantiate(arg_4_1)
-
-			table.insert(arg_4_0.assetsPool_[arg_4_2], {
+			table.insert(uv0.assetsPool_[uv2], {
 				use = true,
-				name = arg_4_1,
-				go = var_5_2
+				name = uv1,
+				go = Asset.Instantiate(uv1)
 			})
 
-			local var_5_3 = #arg_4_0.assetsPool_[arg_4_2]
-
-			if var_5_3 > MAX_TMP_NUM[arg_4_2] then
-				arg_4_0:DestroyNoUse(arg_4_2, var_5_3 - MAX_TMP_NUM[arg_4_2])
+			if MAX_TMP_NUM[uv2] < #uv0.assetsPool_[uv2] then
+				uv0:DestroyNoUse(uv2, slot3 - MAX_TMP_NUM[uv2])
 			end
 
-			for iter_5_2, iter_5_3 in pairs(arg_4_0.asyncLoadAssetInfo_[arg_4_1]) do
-				iter_5_3(var_5_2)
+			slot7 = uv1
+
+			for slot7, slot8 in pairs(uv0.asyncLoadAssetInfo_[slot7]) do
+				slot8(slot2)
 			end
 
-			arg_4_0.asyncLoadAssetInfo_[arg_4_1] = nil
+			uv0.asyncLoadAssetInfo_[uv1] = nil
 		end)
 	end
 
-	arg_4_0.asyncIndex_ = var_4_1 + 1
+	slot0.asyncIndex_ = slot5 + 1
 
-	return var_4_1
+	return slot5
 end
 
-function var_0_0.StopAsyncQuest(arg_6_0, arg_6_1)
-	if arg_6_1 == nil then
+function slot0.StopAsyncQuest(slot0, slot1)
+	if slot1 == nil then
 		return
 	end
 
-	local var_6_0 = table.keyof(arg_6_0.asyncIndexQueue_, arg_6_1)
-
-	if var_6_0 then
-		table.remove(arg_6_0.asyncIndexQueue_, var_6_0)
+	if table.keyof(slot0.asyncIndexQueue_, slot1) then
+		table.remove(slot0.asyncIndexQueue_, slot2)
 	end
 end
 
-function var_0_0.Get(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0:GetPooledAsset(arg_7_1, arg_7_2)
-
-	if var_7_0 then
-		if arg_7_2 == ASSET_TYPE.TPOSE then
-			arg_7_0:ResetBlendShapes(var_7_0.go)
+function slot0.Get(slot0, slot1, slot2)
+	if slot0:GetPooledAsset(slot1, slot2) then
+		if slot2 == ASSET_TYPE.TPOSE then
+			slot0:ResetBlendShapes(slot3.go)
 		end
 
-		SetActive(var_7_0.go, true)
+		SetActive(slot3.go, true)
 
-		return var_7_0.go
+		return slot3.go
 	end
 
-	local var_7_1 = Asset.Instantiate(arg_7_1)
+	slot0.assetsPool_[slot2] = slot0.assetsPool_[slot2] or {}
 
-	arg_7_0.assetsPool_[arg_7_2] = arg_7_0.assetsPool_[arg_7_2] or {}
-
-	table.insert(arg_7_0.assetsPool_[arg_7_2], {
+	table.insert(slot0.assetsPool_[slot2], {
 		use = true,
-		name = arg_7_1,
-		go = var_7_1
+		name = slot1,
+		go = Asset.Instantiate(slot1)
 	})
 
-	if arg_7_2 == ASSET_TYPE.TPOSE then
-		arg_7_0:ResetBlendShapes(var_7_1)
+	if slot2 == ASSET_TYPE.TPOSE then
+		slot0:ResetBlendShapes(slot4)
 	end
 
-	return var_7_1
+	return slot4
 end
 
-function var_0_0.DestroyOrReturn(arg_8_0, arg_8_1, arg_8_2)
-	if not arg_8_0.assetsPool_[arg_8_2] then
-		Object.DestroyImmediate(arg_8_1)
+function slot0.DestroyOrReturn(slot0, slot1, slot2)
+	if not slot0.assetsPool_[slot2] then
+		Object.DestroyImmediate(slot1)
 
 		return
 	end
 
-	arg_8_0:ResetBlendShapes(arg_8_1)
-	SetActive(arg_8_1, false)
+	slot0:ResetBlendShapes(slot1)
+	SetActive(slot1, false)
 
-	local var_8_0 = #arg_8_0.assetsPool_[arg_8_2]
-
-	for iter_8_0 = var_8_0, 1, -1 do
-		if arg_8_0.assetsPool_[arg_8_2][iter_8_0].go == arg_8_1 then
-			arg_8_0.assetsPool_[arg_8_2][iter_8_0].use = false
+	for slot7 = #slot0.assetsPool_[slot2], 1, -1 do
+		if slot0.assetsPool_[slot2][slot7].go == slot1 then
+			slot0.assetsPool_[slot2][slot7].use = false
 		end
 	end
 
-	if var_8_0 > MAX_TMP_NUM[arg_8_2] then
-		arg_8_0:DestroyNoUse(arg_8_2, var_8_0 - MAX_TMP_NUM[arg_8_2])
+	if MAX_TMP_NUM[slot2] < slot3 then
+		slot0:DestroyNoUse(slot2, slot3 - MAX_TMP_NUM[slot2])
 	end
 end
 
-function var_0_0.DestroyNoUse(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = arg_9_2 or 1
+function slot0.DestroyNoUse(slot0, slot1, slot2)
+	slot3 = slot2 or 1
 
-	if arg_9_0.assetsPool_[arg_9_1] then
-		local var_9_1 = #arg_9_0.assetsPool_[arg_9_1]
-		local var_9_2 = {}
-		local var_9_3 = {}
+	if slot0.assetsPool_[slot1] then
+		slot5 = {}
+		slot6 = {}
 
-		for iter_9_0 = 1, var_9_1 do
-			if not arg_9_0.assetsPool_[arg_9_1][iter_9_0].use then
-				if var_9_0 > 0 then
-					table.insert(var_9_2, iter_9_0)
+		for slot10 = 1, #slot0.assetsPool_[slot1] do
+			if not slot0.assetsPool_[slot1][slot10].use then
+				if slot3 > 0 then
+					table.insert(slot5, slot10)
 				end
 
-				var_9_0 = var_9_0 - 1
+				slot3 = slot3 - 1
 			else
-				local var_9_4 = arg_9_0.assetsPool_[arg_9_1][iter_9_0].name or ""
-
-				var_9_3[var_9_4] = (var_9_3[var_9_4] or 0) + 1
+				slot11 = slot0.assetsPool_[slot1][slot10].name or ""
+				slot6[slot11] = (slot6[slot11] or 0) + 1
 			end
 		end
 
-		for iter_9_1 = #var_9_2, 1, -1 do
-			local var_9_5 = arg_9_0.assetsPool_[arg_9_1][var_9_2[iter_9_1]]
+		for slot10 = #slot5, 1, -1 do
+			slot11 = slot0.assetsPool_[slot1][slot5[slot10]]
 
-			Object.DestroyImmediate(var_9_5.go)
+			Object.DestroyImmediate(slot11.go)
 
-			local var_9_6 = var_9_3[var_9_5.name] or 0
-
-			if not var_9_6 or var_9_6 <= 0 then
-				Asset.Unload(var_9_5.name)
+			if not slot6[slot11.name] and not 0 or slot12 <= 0 then
+				Asset.Unload(slot11.name)
 				manager.gc:Collect()
 			end
 
-			table.remove(arg_9_0.assetsPool_[arg_9_1], var_9_2[iter_9_1])
+			table.remove(slot0.assetsPool_[slot1], slot5[slot10])
 		end
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.assetsPool_) do
-		for iter_10_2, iter_10_3 in ipairs(iter_10_1) do
-			Object.Destroy(iter_10_3.go)
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.assetsPool_) do
+		for slot9, slot10 in ipairs(slot5) do
+			Object.Destroy(slot10.go)
 		end
 	end
 
-	arg_10_0.assetsPool_ = {}
+	slot0.assetsPool_ = {}
 
-	for iter_10_4, iter_10_5 in pairs(ASSET_TYPE) do
-		arg_10_0.assetsPool_[iter_10_5] = {}
+	for slot4, slot5 in pairs(ASSET_TYPE) do
+		slot0.assetsPool_[slot5] = {}
 	end
 end
 
-function var_0_0.ResetBlendShapes(arg_11_0, arg_11_1)
-	local var_11_0 = arg_11_1:GetComponentsInChildren(typeof(UnityEngine.Transform), true)
-	local var_11_1
+function slot0.ResetBlendShapes(slot0, slot1)
+	slot7 = UnityEngine.Transform
+	slot2 = slot1:GetComponentsInChildren(typeof(slot7), true)
+	slot3 = nil
+	slot8 = slot2
 
-	for iter_11_0, iter_11_1 in pairs(var_11_0:ToTable()) do
-		local var_11_2 = iter_11_1:GetComponent(typeof(Animator))
-
-		if var_11_2 then
-			var_11_1 = var_11_2
-			var_11_2.enabled = false
+	for slot7, slot8 in pairs(slot2.ToTable(slot8)) do
+		if slot8:GetComponent(typeof(Animator)) then
+			slot3 = slot9
+			slot9.enabled = false
 
 			break
 		end
 	end
 
-	for iter_11_2, iter_11_3 in pairs(var_11_0:ToTable()) do
-		if iter_11_3.name == "face" or iter_11_3.name == "Face" or iter_11_3.name == "Eye" then
-			local var_11_3 = iter_11_3:GetComponent(typeof(UnityEngine.SkinnedMeshRenderer))
+	slot8 = slot2
 
-			if var_11_3 then
-				local var_11_4 = var_11_3.sharedMesh
-
-				if not isNil(var_11_4) then
-					local var_11_5 = var_11_4.blendShapeCount
-
-					for iter_11_4 = 0, var_11_5 - 1 do
-						var_11_3:SetBlendShapeWeight(iter_11_4, 0)
-					end
-				end
+	for slot7, slot8 in pairs(slot2.ToTable(slot8)) do
+		if (slot8.name == "face" or slot8.name == "Face" or slot8.name == "Eye") and slot8:GetComponent(typeof(UnityEngine.SkinnedMeshRenderer)) and not isNil(slot9.sharedMesh) then
+			for slot15 = 0, slot10.blendShapeCount - 1 do
+				slot9:SetBlendShapeWeight(slot15, 0)
 			end
 		end
 	end
 
-	if var_11_1 then
-		var_11_1.enabled = true
+	if slot3 then
+		slot3.enabled = true
 	end
 end
 
-return var_0_0
+return slot0

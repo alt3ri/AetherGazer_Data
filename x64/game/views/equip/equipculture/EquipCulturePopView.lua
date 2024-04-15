@@ -1,167 +1,154 @@
-local var_0_0 = class("EquipCulturePopView", ReduxView)
+slot0 = class("EquipCulturePopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_equip/Develop/EquipupPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.attrs_ = {}
+	slot0.attrs_ = {}
 
-	for iter_4_0 = 1, 2 do
-		local var_4_0 = {}
+	for slot4 = 1, 2 do
+		slot5 = {}
 
-		ComponentBinder.GetInstance():BindCfgUI(var_4_0, arg_4_0["attr_" .. iter_4_0])
-		table.insert(arg_4_0.attrs_, var_4_0)
+		ComponentBinder.GetInstance():BindCfgUI(slot5, slot0["attr_" .. slot4])
+		table.insert(slot0.attrs_, slot5)
 	end
 
-	arg_4_0.stateController_ = arg_4_0.transCon_:GetController("state")
+	slot0.stateController_ = slot0.transCon_:GetController("state")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnBack_, nil, function()
-		SetActive(arg_5_0.oldLv_.gameObject, false)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnBack_, nil, function ()
+		SetActive(uv0.oldLv_.gameObject, false)
 		manager.notify:Invoke(EQUIP_CULTURE_SUCCESS)
-		arg_5_0:Back()
+		uv0:Back()
 
-		if arg_5_0.params_.callback then
-			arg_5_0.params_.callback()
+		if uv0.params_.callback then
+			uv0.params_.callback()
 
-			arg_5_0.params_.callback = nil
+			uv0.params_.callback = nil
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = arg_8_0.params_.type
+function slot0.RefreshUI(slot0)
+	slot1 = slot0.params_.type
 
-	SetActive(arg_8_0.oldLv_.gameObject, true)
-	arg_8_0:RefreshType(var_8_0)
+	SetActive(slot0.oldLv_.gameObject, true)
+	slot0:RefreshType(slot1)
 
-	if var_8_0 ~= "reset" then
-		local var_8_1 = arg_8_0.params_.oldEquip
-		local var_8_2 = arg_8_0.params_.newEquip
+	if slot1 ~= "reset" then
+		slot3 = slot0.params_.newEquip
 
-		if not var_8_1 or not var_8_2 then
+		if not slot0.params_.oldEquip or not slot3 then
 			return
 		end
 
-		local var_8_3 = var_8_1:GetLevel()
-		local var_8_4 = var_8_2:GetLevel()
-		local var_8_5 = EquipTools.CountEquipAttribute(var_8_1)
-		local var_8_6 = EquipTools.CountEquipAttribute(var_8_2)
-		local var_8_7 = 1
+		slot4 = slot2:GetLevel()
+		slot5 = slot3:GetLevel()
+		slot7 = EquipTools.CountEquipAttribute(slot3)
+		slot8 = 1
 
-		for iter_8_0, iter_8_1 in pairs(var_8_5) do
-			local var_8_8 = PublicAttrCfg[iter_8_0]
-			local var_8_9 = arg_8_0.attrs_[var_8_7]
-			local var_8_10 = math.floor(iter_8_1)
-			local var_8_11 = math.floor(var_8_6[iter_8_0])
+		for slot12, slot13 in pairs(EquipTools.CountEquipAttribute(slot2)) do
+			slot15 = slot0.attrs_[slot8]
+			slot16 = math.floor(slot13)
+			slot17 = math.floor(slot7[slot12])
 
-			if var_8_8.percent and var_8_8.percent == 1 then
-				var_8_10 = iter_8_1 / 10 .. "%"
-				var_8_11 = var_8_6[iter_8_0] / 10 .. "%"
+			if PublicAttrCfg[slot12].percent and slot14.percent == 1 then
+				slot16 = slot13 / 10 .. "%"
+				slot17 = slot7[slot12] / 10 .. "%"
 			end
 
-			var_8_9.name_.text = GetI18NText(var_8_8.name)
-			var_8_9.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", var_8_8.icon)
-			var_8_9.oldVal_.text = var_8_10
-			var_8_9.newVal_.text = var_8_11
-			var_8_7 = var_8_7 + 1
+			slot15.name_.text = GetI18NText(slot14.name)
+			slot15.icon_.sprite = getSprite("Atlas/SystemCommonAtlas", slot14.icon)
+			slot15.oldVal_.text = slot16
+			slot15.newVal_.text = slot17
+			slot8 = slot8 + 1
 		end
 	end
 end
 
-function var_0_0.RefreshType(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_0.params_.oldEquip
-	local var_9_1 = arg_9_0.params_.newEquip
+function slot0.RefreshType(slot0, slot1)
+	slot0.stateController_:SetSelectedState(slot1 == "reset" and "reset" or "lv")
 
-	arg_9_0.stateController_:SetSelectedState(arg_9_1 == "reset" and "reset" or "lv")
+	if slot1 == "levelup" then
+		slot0.oldLv_.text = slot0.params_.oldEquip:GetLevel()
+		slot0.newLv_.text = slot0.params_.newEquip:GetLevel()
+		slot0.mainTitle_.text = GetTips("EQUIP_LEVELUP_POP")
+	elseif slot1 == "upgrade" then
+		slot0.oldLv_.text = slot2:GetMaxLv()
+		slot0.newLv_.text = slot3:GetMaxLv()
+		slot0.mainTitle_.text = GetTips("EQUIP_UPGRADE_POP")
 
-	if arg_9_1 == "levelup" then
-		arg_9_0.oldLv_.text = var_9_0:GetLevel()
-		arg_9_0.newLv_.text = var_9_1:GetLevel()
-		arg_9_0.mainTitle_.text = GetTips("EQUIP_LEVELUP_POP")
-	elseif arg_9_1 == "upgrade" then
-		arg_9_0.oldLv_.text = var_9_0:GetMaxLv()
-		arg_9_0.newLv_.text = var_9_1:GetMaxLv()
-		arg_9_0.mainTitle_.text = GetTips("EQUIP_UPGRADE_POP")
-
-		arg_9_0:ShowUpGradeTips()
-	elseif arg_9_1 == "reset" then
-		local var_9_2 = arg_9_0.params_.heroId
-
-		arg_9_0.resetHeroIcon_.sprite = HeroTools.GetHeadSprite(var_9_2)
-		arg_9_0.resetDesc_.text = string.format(GetTips("EQUIP_HERO_RESET_POP"), HeroTools.GetHeroFullName(var_9_2))
+		slot0:ShowUpGradeTips()
+	elseif slot1 == "reset" then
+		slot4 = slot0.params_.heroId
+		slot0.resetHeroIcon_.sprite = HeroTools.GetHeadSprite(slot4)
+		slot0.resetDesc_.text = string.format(GetTips("EQUIP_HERO_RESET_POP"), HeroTools.GetHeroFullName(slot4))
 	end
 end
 
-function var_0_0.ShowUpGradeTips(arg_10_0)
-	local var_10_0
+function slot0.ShowUpGradeTips(slot0)
+	slot1 = nil
 
-	var_10_0 = Timer.New(function()
-		var_10_0:Stop()
+	Timer.New(function ()
+		uv0:Stop()
 		ShowTips("EQUIP_BREAK_SUCCESS")
-	end, 1, 0)
-
-	var_10_0:Start()
+	end, 1, 0):Start()
 end
 
-function var_0_0.RefreshSkill(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = #arg_12_1
-
-	for iter_12_0 = 1, var_12_0 do
-		if iter_12_0 > #arg_12_0.skillItems_ then
-			local var_12_1 = Object.Instantiate(arg_12_0.skillItem_, arg_12_0.skillParent_.transform)
-			local var_12_2 = var_12_1.transform
-
-			arg_12_0.skillItems_[iter_12_0] = {
-				gameObject = var_12_1,
-				icon_ = arg_12_0:FindCom(typeof(Image), "icon", var_12_2),
-				name_ = arg_12_0:FindCom(typeof(Text), "lv", var_12_2),
-				lv_ = arg_12_0:FindCom(typeof(Text), "name", var_12_2)
+function slot0.RefreshSkill(slot0, slot1, slot2)
+	for slot7 = 1, #slot1 do
+		if slot7 > #slot0.skillItems_ then
+			slot8 = Object.Instantiate(slot0.skillItem_, slot0.skillParent_.transform)
+			slot9 = slot8.transform
+			slot0.skillItems_[slot7] = {
+				gameObject = slot8,
+				icon_ = slot0:FindCom(typeof(Image), "icon", slot9),
+				name_ = slot0:FindCom(typeof(Text), "lv", slot9),
+				lv_ = slot0:FindCom(typeof(Text), "name", slot9)
 			}
 		end
 
-		local var_12_3 = arg_12_1[iter_12_0]
-		local var_12_4 = EquipSkillCfg[var_12_3.id]
-
-		arg_12_0.skillItems_[iter_12_0].icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. var_12_4.icon)
-		arg_12_0.skillItems_[iter_12_0].name_.text = GetI18NText(var_12_4.name)
-		arg_12_0.skillItems_[iter_12_0].lv_.text = GetTips("LEVEL") .. var_12_3.num
+		slot8 = slot1[slot7]
+		slot9 = EquipSkillCfg[slot8.id]
+		slot0.skillItems_[slot7].icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Equip/EquipSkillIcon/" .. slot9.icon)
+		slot0.skillItems_[slot7].name_.text = GetI18NText(slot9.name)
+		slot0.skillItems_[slot7].lv_.text = GetTips("LEVEL") .. slot8.num
 	end
 
-	for iter_12_1, iter_12_2 in ipairs(arg_12_0.skillItems_) do
-		SetActive(iter_12_2.gameObject, iter_12_1 <= var_12_0)
+	for slot7, slot8 in ipairs(slot0.skillItems_) do
+		SetActive(slot8.gameObject, slot7 <= slot3)
 	end
 end
 
-function var_0_0.GetPlayBackwardsAnimator(arg_13_0)
+function slot0.GetPlayBackwardsAnimator(slot0)
 	return {
 		{
-			arg_13_0.animator_,
+			slot0.animator_,
 			"Fx_CompopUI04_xs",
 			false
 		}
 	}, nil
 end
 
-function var_0_0.Dispose(arg_14_0)
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

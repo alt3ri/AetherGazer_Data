@@ -1,1 +1,1 @@
-return (class("ComboSkillSelectChessItem", ComboSkillSelectItem))
+return class("ComboSkillSelectChessItem", ComboSkillSelectItem)

@@ -1,91 +1,86 @@
-local var_0_0 = class("HellaParkourRewardView", ReduxView)
+slot0 = class("HellaParkourRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/HellaUI/Parkour/HellaParkourRewardUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_4_0.rewardIndexs = {}
+	slot0.rewardIndexs = {}
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.list = LuaList.New(handler(arg_5_0, arg_5_0.IndexItem), arg_5_0.m_list, HellaParkourRewardItem)
-	arg_5_0.singleController = ControllerUtil.GetController(arg_5_0.transform_, "single")
+	slot0.list = LuaList.New(handler(slot0, slot0.IndexItem), slot0.m_list, HellaParkourRewardItem)
+	slot0.singleController = ControllerUtil.GetController(slot0.transform_, "single")
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0.list:SetPageChangeHandler(handler(arg_6_0, arg_6_0.OnPageChange))
-	arg_6_0:AddBtnListener(arg_6_0.m_preBtn, nil, function()
-		arg_6_0.list:SwitchToPage(arg_6_0.pageIndex_ - 1)
+function slot0.AddUIListener(slot0)
+	slot0.list:SetPageChangeHandler(handler(slot0, slot0.OnPageChange))
+	slot0:AddBtnListener(slot0.m_preBtn, nil, function ()
+		uv0.list:SwitchToPage(uv0.pageIndex_ - 1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_nextBtn, nil, function()
-		arg_6_0.list:SwitchToPage(arg_6_0.pageIndex_ + 1)
+	slot0:AddBtnListener(slot0.m_nextBtn, nil, function ()
+		uv0.list:SwitchToPage(uv0.pageIndex_ + 1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.m_maskBtn, nil, function()
-		arg_6_0:Back()
+	slot0:AddBtnListener(slot0.m_maskBtn, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnPageChange(arg_10_0, arg_10_1)
-	arg_10_0.pageIndex_ = arg_10_1
+function slot0.OnPageChange(slot0, slot1)
+	slot0.pageIndex_ = slot1
 
-	SetActive(arg_10_0.m_preBtn.gameObject, arg_10_1 > 1)
-	SetActive(arg_10_0.m_nextBtn.gameObject, arg_10_1 < #arg_10_0.pages)
-	arg_10_0:UpdateRedPoint()
+	SetActive(slot0.m_preBtn.gameObject, slot1 > 1)
+	SetActive(slot0.m_nextBtn.gameObject, slot1 < #slot0.pages)
+	slot0:UpdateRedPoint()
 end
 
-function var_0_0.OnTop(arg_11_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({})
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	arg_12_0.parkour_activity_id = arg_12_0.params_.parkour_activity_id
+function slot0.OnEnter(slot0)
+	slot0.parkour_activity_id = slot0.params_.parkour_activity_id
 
-	if arg_12_0.params_.entrust_activity_id then
-		arg_12_0.pages = {
-			arg_12_0.params_.entrust_activity_id
+	if slot0.params_.entrust_activity_id then
+		slot0.pages = {
+			slot0.params_.entrust_activity_id
 		}
 	else
-		arg_12_0.pages = {}
+		slot0.pages = {}
 
-		local var_12_0 = ActivityCfg[arg_12_0.parkour_activity_id]
-
-		for iter_12_0, iter_12_1 in ipairs(var_12_0.sub_activity_list) do
-			if ActivityData:GetActivityIsOpen(iter_12_1) then
-				table.insert(arg_12_0.pages, iter_12_1)
+		for slot5, slot6 in ipairs(ActivityCfg[slot0.parkour_activity_id].sub_activity_list) do
+			if ActivityData:GetActivityIsOpen(slot6) then
+				table.insert(slot0.pages, slot6)
 			end
 		end
 	end
 
-	arg_12_0.list:StartScroll(#arg_12_0.pages, 1, true, false)
-	arg_12_0:OnPageChange(1)
-	arg_12_0.singleController:SetSelectedIndex(#arg_12_0.pages > 1 and 0 or 1)
-	arg_12_0:UpdateRewardIndex()
+	slot0.list:StartScroll(#slot0.pages, 1, true, false)
+	slot0:OnPageChange(1)
+	slot0.singleController:SetSelectedIndex(#slot0.pages > 1 and 0 or 1)
+	slot0:UpdateRewardIndex()
 end
 
-function var_0_0.UpdateRewardIndex(arg_13_0)
-	arg_13_0.rewardIndexs = {}
+function slot0.UpdateRewardIndex(slot0)
+	slot0.rewardIndexs = {}
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_0.pages) do
-		local var_13_0 = ParkourData:GetParkourEntrustData(iter_13_1)
-
-		if var_13_0 then
-			for iter_13_2, iter_13_3 in ipairs(var_13_0.stars) do
-				if not table.indexof(var_13_0.rewards, iter_13_3) then
-					table.insert(arg_13_0.rewardIndexs, iter_13_0)
+	for slot4, slot5 in ipairs(slot0.pages) do
+		if ParkourData:GetParkourEntrustData(slot5) then
+			for slot10, slot11 in ipairs(slot6.stars) do
+				if not table.indexof(slot6.rewards, slot11) then
+					table.insert(slot0.rewardIndexs, slot4)
 
 					break
 				end
@@ -93,39 +88,37 @@ function var_0_0.UpdateRewardIndex(arg_13_0)
 		end
 	end
 
-	arg_13_0:UpdateRedPoint()
+	slot0:UpdateRedPoint()
 end
 
-function var_0_0.UpdateRedPoint(arg_14_0)
-	local var_14_0 = false
-	local var_14_1 = false
+function slot0.UpdateRedPoint(slot0)
+	slot1 = false
+	slot2 = false
 
-	for iter_14_0, iter_14_1 in ipairs(arg_14_0.rewardIndexs) do
-		if iter_14_1 > arg_14_0.pageIndex_ then
-			var_14_1 = true
-		elseif iter_14_1 < arg_14_0.pageIndex_ then
-			var_14_0 = true
+	for slot6, slot7 in ipairs(slot0.rewardIndexs) do
+		if slot0.pageIndex_ < slot7 then
+			slot2 = true
+		elseif slot7 < slot0.pageIndex_ then
+			slot1 = true
 		end
 	end
 
-	manager.redPoint:SetRedPointIndependent(arg_14_0.m_preBtn.transform, var_14_0)
-	manager.redPoint:SetRedPointIndependent(arg_14_0.m_nextBtn.transform, var_14_1)
+	manager.redPoint:SetRedPointIndependent(slot0.m_preBtn.transform, slot1)
+	manager.redPoint:SetRedPointIndependent(slot0.m_nextBtn.transform, slot2)
 end
 
-function var_0_0.IndexItem(arg_15_0, arg_15_1, arg_15_2)
-	local var_15_0 = arg_15_0.pages[arg_15_1]
-
-	arg_15_2:SetData(var_15_0)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.pages[slot1])
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.list:Dispose()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnParkourReward(arg_17_0)
-	arg_17_0.list:StartScroll(#arg_17_0.pages, arg_17_0.pageIndex_, true, false)
-	arg_17_0:UpdateRewardIndex()
+function slot0.OnParkourReward(slot0)
+	slot0.list:StartScroll(#slot0.pages, slot0.pageIndex_, true, false)
+	slot0:UpdateRewardIndex()
 end
 
-return var_0_0
+return slot0

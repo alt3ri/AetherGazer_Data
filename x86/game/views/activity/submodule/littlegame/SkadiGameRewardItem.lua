@@ -1,98 +1,95 @@
-local var_0_0 = class("LeviathanGameRewardItem", ReduxView)
+slot0 = class("LeviathanGameRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.rewardList_ = {}
-	arg_3_0.receiveCon_ = {}
-	arg_3_0.receiveCon_[1] = ControllerUtil.GetController(arg_3_0.statebtnTrs_1, "stateBtn")
-	arg_3_0.receiveCon_[2] = ControllerUtil.GetController(arg_3_0.statebtnTrs_2, "stateBtn")
-	arg_3_0.receiveCon_[3] = ControllerUtil.GetController(arg_3_0.statebtnTrs_3, "stateBtn")
+	slot0.rewardList_ = {}
+	slot0.receiveCon_ = {
+		ControllerUtil.GetController(slot0.statebtnTrs_1, "stateBtn"),
+		ControllerUtil.GetController(slot0.statebtnTrs_2, "stateBtn"),
+		ControllerUtil.GetController(slot0.statebtnTrs_3, "stateBtn")
+	}
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	for iter_4_0 = 1, 3 do
-		arg_4_0:AddBtnListener(arg_4_0["statebtnBtn_" .. iter_4_0], nil, function()
-			SummerLittleGameAction.GetSkadiReward(arg_4_0.activityID_, iter_4_0)
+function slot0.AddUIListeners(slot0)
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["statebtnBtn_" .. slot4], nil, function ()
+			SummerLittleGameAction.GetSkadiReward(uv0.activityID_, uv1)
 		end)
 	end
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshUI(arg_7_0, arg_7_1)
-	arg_7_0.activityID_ = arg_7_1
-	arg_7_0.textText_.text = GetI18NText(ActivityCrossWaveCfg[arg_7_0.activityID_].name)
+function slot0.RefreshUI(slot0, slot1)
+	slot0.activityID_ = slot1
+	slot5 = slot0.activityID_
+	slot0.textText_.text = GetI18NText(ActivityCrossWaveCfg[slot5].name)
 
-	for iter_7_0 = 1, 3 do
-		arg_7_0:RefreshReward(iter_7_0)
-		arg_7_0:RefreshType(iter_7_0)
+	for slot5 = 1, 3 do
+		slot0:RefreshReward(slot5)
+		slot0:RefreshType(slot5)
 	end
 end
 
-function var_0_0.RefreshReward(arg_8_0, arg_8_1)
-	local var_8_0 = ActivityCrossWaveCfg[arg_8_0.activityID_].reward_item_list[arg_8_1]
-
-	for iter_8_0, iter_8_1 in ipairs(var_8_0) do
-		if not arg_8_0.rewardList_[arg_8_1] then
-			arg_8_0.rewardList_[arg_8_1] = {}
+function slot0.RefreshReward(slot0, slot1)
+	for slot6, slot7 in ipairs(ActivityCrossWaveCfg[slot0.activityID_].reward_item_list[slot1]) do
+		if not slot0.rewardList_[slot1] then
+			slot0.rewardList_[slot1] = {}
 		end
 
-		if not arg_8_0.rewardList_[arg_8_1][iter_8_0] then
-			arg_8_0.rewardList_[arg_8_1][iter_8_0] = RewardItem.New(arg_8_0.rewardItem_, arg_8_0["rewardParent_" .. arg_8_1])
+		if not slot0.rewardList_[slot1][slot6] then
+			slot0.rewardList_[slot1][slot6] = RewardItem.New(slot0.rewardItem_, slot0["rewardParent_" .. slot1])
 
-			arg_8_0.rewardList_[arg_8_1][iter_8_0]:UpdateCommonItemAni()
+			slot0.rewardList_[slot1][slot6]:UpdateCommonItemAni()
 		end
 
-		arg_8_0.rewardList_[arg_8_1][iter_8_0]:SetData(iter_8_1)
+		slot0.rewardList_[slot1][slot6]:SetData(slot7)
 	end
 
-	for iter_8_2 = #var_8_0 + 1, #arg_8_0.rewardList_[arg_8_1] do
-		arg_8_0.rewardList_[arg_8_1][iter_8_2]:Show(false)
+	for slot6 = #slot2 + 1, #slot0.rewardList_[slot1] do
+		slot0.rewardList_[slot1][slot6]:Show(false)
 	end
 end
 
-function var_0_0.RefreshType(arg_9_0, arg_9_1)
-	local var_9_0 = SummerLittleGameData:GetSkadiStars(arg_9_0.activityID_)
-	local var_9_1 = SummerLittleGameData:GetSkadiReward(arg_9_0.activityID_)
+function slot0.RefreshType(slot0, slot1)
+	slot3 = SummerLittleGameData:GetSkadiReward(slot0.activityID_)
 
-	if arg_9_1 > #var_9_0 then
-		arg_9_0.receiveCon_[arg_9_1]:SetSelectedState("unfinished")
-	elseif table.indexof(var_9_1, arg_9_1) then
-		arg_9_0.receiveCon_[arg_9_1]:SetSelectedState("rewarded")
+	if slot1 > #SummerLittleGameData:GetSkadiStars(slot0.activityID_) then
+		slot0.receiveCon_[slot1]:SetSelectedState("unfinished")
+	elseif table.indexof(slot3, slot1) then
+		slot0.receiveCon_[slot1]:SetSelectedState("rewarded")
 	else
-		arg_9_0.receiveCon_[arg_9_1]:SetSelectedState("success")
+		slot0.receiveCon_[slot1]:SetSelectedState("success")
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.rewardList_) do
-		for iter_11_2, iter_11_3 in ipairs(iter_11_1) do
-			iter_11_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.rewardList_) do
+		for slot9, slot10 in ipairs(slot5) do
+			slot10:Dispose()
 		end
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

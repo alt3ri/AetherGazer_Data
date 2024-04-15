@@ -1,41 +1,32 @@
-local var_0_0 = class("HeroTrammelsAttrItem", ReduxView)
+slot0 = class("HeroTrammelsAttrItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1)
-	local var_5_0 = PublicAttrCfg[arg_5_1[1]].name
-	local var_5_1 = ""
-
-	if PublicAttrCfg[arg_5_1[1]].percent == 1 then
-		var_5_1 = string.format("+%.2f%%", arg_5_1[2] / 10)
-	else
-		var_5_1 = string.format("+%d", arg_5_1[2])
-	end
-
-	arg_5_0.m_attrName.text = var_5_0
-	arg_5_0.m_attrAdd.text = var_5_1
+function slot0.SetData(slot0, slot1)
+	slot3 = ""
+	slot0.m_attrName.text = PublicAttrCfg[slot1[1]].name
+	slot0.m_attrAdd.text = (PublicAttrCfg[slot1[1]].percent ~= 1 or string.format("+%.2f%%", slot1[2] / 10)) and string.format("+%d", slot1[2])
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

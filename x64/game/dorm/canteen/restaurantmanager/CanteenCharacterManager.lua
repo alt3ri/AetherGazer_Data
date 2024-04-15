@@ -1,415 +1,356 @@
-local var_0_0 = singletonClass("CanteenCharacterManager")
+slot0 = singletonClass("CanteenCharacterManager")
 
-local function var_0_1(arg_1_0)
-	return function(arg_2_0)
-		return "CharDorm/" .. nullable(arg_1_0, nullable(arg_2_0, "heroID"), "model")
+function slot1(slot0)
+	return function (slot0)
+		return "CharDorm/" .. nullable(uv0, nullable(slot0, "heroID"), "model")
 	end
 end
 
-local var_0_2 = var_0_1(BackHomeHeroSkinCfg)
-local var_0_3 = var_0_1(BackHomeNpcCfg)
-local var_0_4 = var_0_1(BackHomeCustomerCfg)
+slot2 = slot1(BackHomeHeroSkinCfg)
+slot3 = slot1(BackHomeNpcCfg)
+slot4 = slot1(BackHomeCustomerCfg)
 
-local function var_0_5(arg_3_0)
-	local var_3_0 = CanteenManager.PosNamespace(arg_3_0.jobID)
-	local var_3_1 = arg_3_0.jobCharaIndex or 1
-	local var_3_2 = Dorm.storage:GetData(var_3_0, var_3_1) or Dorm.storage:PickData(var_3_0)
+function slot5(slot0)
+	slot1 = CanteenManager.PosNamespace(slot0.jobID)
 
-	return nullable(var_3_2, "transform")
+	return nullable(Dorm.storage:GetData(slot1, slot0.jobCharaIndex or 1) or Dorm.storage:PickData(slot1), "transform")
 end
 
-local var_0_6 = 1.25
-local var_0_7 = {
+slot6 = 1.25
+slot7 = {
 	[DormEnum.CharacterType.RestaurantCook] = DORM_RESTAURANT_NEW_COOK,
 	[DormEnum.CharacterType.RestaurantWaiter] = DORM_RESTAURANT_NEW_WAITER,
 	[DormEnum.CharacterType.RestaurantCashier] = DORM_RESTAURANT_NEW_CASHIER,
 	[DormEnum.CharacterType.RestaurantNormalCustomer] = DORM_RESTAURANT_NEW_CUSTOMER
 }
 
-function var_0_0.Ctor(arg_4_0)
-	local var_4_0 = EntityManager.CreateModel.New(function(arg_5_0)
-		if arg_5_0.isNpc then
-			return var_0_3(arg_5_0)
-		else
-			return var_0_2(arg_5_0)
-		end
-	end, var_0_5)
-	local var_4_1 = EntityManager.CreateModel.New(var_0_4, var_0_5)
+function slot0.Ctor(slot0)
+	slot0.workingCharaManagers = {}
 
-	arg_4_0.workingCharaManagers = {}
+	for slot6, slot7 in pairs(DormEnum.CharacterType) do
+		slot8 = EntityManager.CreateModel.New(function (slot0)
+			if slot0.isNpc then
+				return uv0(slot0)
+			else
+				return uv1(slot0)
+			end
+		end, uv2)
 
-	for iter_4_0, iter_4_1 in pairs(DormEnum.CharacterType) do
-		local var_4_2 = var_4_0
-
-		if iter_4_0 == DormEnum.CharacterType.RestaurantNormalCustomer then
-			var_4_2 = var_4_1
+		if slot6 == DormEnum.CharacterType.RestaurantNormalCustomer then
+			slot8 = EntityManager.CreateModel.New(uv3, uv2)
 		end
 
-		local var_4_3 = EntityManager.New(var_4_2)
+		slot9 = EntityManager.New(slot8)
 
-		function var_4_3.OnCreate(arg_6_0, arg_6_1, arg_6_2)
-			Dorm.DormEntityManager.StartFadeInCMD(arg_6_1, var_0_6, function()
-				if iter_4_0 ~= DormEnum.CharacterType.RestaurantNormalCustomer then
-					DormUtils.ShowCharaSpecialVfx(arg_6_1, Dorm.charaVfxActiveType)
+		function slot9.OnCreate(slot0, slot1, slot2)
+			Dorm.DormEntityManager.StartFadeInCMD(slot1, uv0, function ()
+				if uv0 ~= DormEnum.CharacterType.RestaurantNormalCustomer then
+					DormUtils.ShowCharaSpecialVfx(uv1, Dorm.charaVfxActiveType)
 				end
 			end)
-			arg_4_0:RecordEntityInfo(arg_6_1, arg_6_2)
-			manager.notify:Invoke(var_0_7[iter_4_0], arg_6_1)
+			uv2:RecordEntityInfo(slot1, slot2)
+			manager.notify:Invoke(uv3[uv1], slot1)
 		end
 
-		function var_4_3.OnRemove(arg_8_0, arg_8_1)
-			arg_4_0:RemoveEntityInfo(arg_8_1)
-			manager.notify:Invoke(DORM_CHARACTER_DISPOSE, arg_8_1, iter_4_0)
+		function slot9.OnRemove(slot0, slot1)
+			uv0:RemoveEntityInfo(slot1)
+			manager.notify:Invoke(DORM_CHARACTER_DISPOSE, slot1, uv1)
 		end
 
-		arg_4_0.workingCharaManagers[iter_4_0] = var_4_3
+		slot0.workingCharaManagers[slot6] = slot9
 	end
 
-	arg_4_0.listener = EventListener.New()
-	arg_4_0.nextCustomerIdx = 1
+	slot0.listener = EventListener.New()
+	slot0.nextCustomerIdx = 1
 end
 
-function var_0_0.RegisterEvents(arg_9_0)
-	local var_9_0 = {
-		[DORM_RESTAURANT_START_INIT] = handler(arg_9_0, arg_9_0.Init),
-		[DORM_RESTAURANT_UPDATE_CHARACTER_BY_TYPE] = handler(arg_9_0, arg_9_0.UpdateJobCharacter)
-	}
+function slot0.RegisterEvents(slot0)
+	slot5 = slot0
+	slot6 = slot0.UpdateJobCharacter
 
-	for iter_9_0, iter_9_1 in pairs(var_9_0) do
-		arg_9_0.listener:Register(iter_9_0, iter_9_1)
+	for slot5, slot6 in pairs({
+		[DORM_RESTAURANT_START_INIT] = handler(slot0, slot0.Init),
+		[DORM_RESTAURANT_UPDATE_CHARACTER_BY_TYPE] = handler(slot5, slot6)
+	}) do
+		slot0.listener:Register(slot5, slot6)
 	end
 end
 
-function var_0_0.RemoveEvents(arg_10_0)
-	arg_10_0.listener:RemoveAll()
+function slot0.RemoveEvents(slot0)
+	slot0.listener:RemoveAll()
 end
 
-function var_0_0.CheckFoodEnoughGenCustomer()
-	local var_11_0 = 0
-
-	for iter_11_0, iter_11_1 in pairs(CanteenManager.CalcCanOrderFoodList()) do
-		var_11_0 = var_11_0 + 1
+function slot0.CheckFoodEnoughGenCustomer()
+	for slot4, slot5 in pairs(CanteenManager.CalcCanOrderFoodList()) do
+		slot0 = 0 + 1
 	end
 
-	local var_11_1
+	slot1 = nil
 
-	if CanteenAIFunction:GetCurCanteenMode() == DormEnum.RestaurantMode.RestaurantManual then
-		var_11_1 = DormConst.ORDER_FOOD_NUM
-	else
-		var_11_1 = DormConst.ORDER_FOOD_AUTO_NUM
-	end
-
-	return var_11_1 <= var_11_0
+	return ((CanteenAIFunction:GetCurCanteenMode() ~= DormEnum.RestaurantMode.RestaurantManual or DormConst.ORDER_FOOD_NUM) and DormConst.ORDER_FOOD_AUTO_NUM) <= slot0
 end
 
-local function var_0_8(arg_12_0)
-	return arg_12_0 > CanteenManager.GetInstance():GetCustomerGroupCount() and var_0_0.CheckFoodEnoughGenCustomer()
+function slot8(slot0)
+	return CanteenManager.GetInstance():GetCustomerGroupCount() < slot0 and uv0.CheckFoodEnoughGenCustomer()
 end
 
-local var_0_9
+slot9 = nil
 
-local function var_0_10()
-	local var_13_0 = CanteenManager.GetInstance():GetCurPopularity()
+function slot10()
+	slot0 = CanteenManager.GetInstance():GetCurPopularity()
 
-	if var_0_9 == nil then
-		local var_13_1 = {}
-		local var_13_2 = GameSetting.dorm_canteen_customer_time.value
-		local var_13_3
+	if uv0 == nil then
+		slot1 = {}
 
-		for iter_13_0 = #var_13_2, 1, -1 do
-			local var_13_4 = var_13_2[iter_13_0][1]
+		for slot7 = #GameSetting.dorm_canteen_customer_time.value, 1, -1 do
+			slot8 = slot2[slot7][1]
 
-			table.insert(var_13_1, {
-				l = var_13_4,
-				r = var_13_3,
-				cd = var_13_2[iter_13_0][2]
+			table.insert(slot1, {
+				l = slot8,
+				r = nil,
+				cd = slot2[slot7][2]
 			})
 
-			var_13_3 = var_13_4
+			slot3 = slot8
 		end
 
-		var_0_9 = var_13_1
+		uv0 = slot1
 	end
 
-	for iter_13_1, iter_13_2 in ipairs(var_0_9) do
-		if var_13_0 >= iter_13_2.l and (iter_13_2.r == nil or var_13_0 < iter_13_2.r) then
-			return iter_13_2.cd
+	for slot4, slot5 in ipairs(uv0) do
+		if slot5.l <= slot0 and (slot5.r == nil or slot0 < slot5.r) then
+			return slot5.cd
 		end
 	end
 
 	error(string.format("人气值%d不在有效区间内，无法找到对应的客人生成间隔时间信息"))
 end
 
-function var_0_0.StartGenCustomerTask(arg_14_0, arg_14_1)
-	if arg_14_0.genCustomerTask then
-		arg_14_0:StopGenCustomerTask()
+function slot0.StartGenCustomerTask(slot0, slot1)
+	if slot0.genCustomerTask then
+		slot0:StopGenCustomerTask()
 	end
 
-	local var_14_0 = DormCharacterActionManager.taskRunner
+	slot0.genCustomerTask = DormCharacterActionManager.taskRunner:NewTask():WaitUntil(function (slot0)
+		if CanteenTools:AutoModeReadyForBusiness() and (not slot0.timer or not slot1:IsRunning()) and uv1(uv0()) then
+			slot0.timer = uv2:NewTimer(nil, uv3(), false, false)
 
-	arg_14_0.genCustomerTask = var_14_0:NewTask():WaitUntil(function(arg_15_0)
-		local var_15_0 = arg_15_0.timer
-		local var_15_1 = not var_15_0 or not var_15_0:IsRunning()
-		local var_15_2 = arg_14_1()
-
-		if CanteenTools:AutoModeReadyForBusiness() and var_15_1 and var_0_8(var_15_2) then
-			arg_15_0.timer = var_14_0:NewTimer(nil, var_0_10(), false, false)
-
-			arg_15_0.timer:Start()
-			arg_14_0:GenCustomer()
+			slot0.timer:Start()
+			uv4:GenCustomer()
 		end
 
 		return false
 	end, {})
 
-	arg_14_0.genCustomerTask:Start()
+	slot0.genCustomerTask:Start()
 end
 
-function var_0_0.StopGenCustomerTask(arg_16_0)
-	if arg_16_0.genCustomerTask then
-		arg_16_0.genCustomerTask:Abort()
+function slot0.StopGenCustomerTask(slot0)
+	if slot0.genCustomerTask then
+		slot0.genCustomerTask:Abort()
 
-		arg_16_0.genCustomerTask = nil
+		slot0.genCustomerTask = nil
 	end
 end
 
-local function var_0_11()
-	local var_17_0 = {}
-	local var_17_1 = {}
+function slot11()
+	slot0 = {}
+	slot1 = {}
 
-	for iter_17_0, iter_17_1 in pairs(BackHomeCustomerCfg.all) do
-		local var_17_2 = BackHomeCustomerCfg[iter_17_1]
+	for slot5, slot6 in pairs(BackHomeCustomerCfg.all) do
+		if next(BackHomeCustomerCfg[slot6].food_list) then
+			for slot11, slot12 in pairs(slot7.food_list) do
+				slot0[slot12] = slot0[slot12] or {}
 
-		if next(var_17_2.food_list) then
-			for iter_17_2, iter_17_3 in pairs(var_17_2.food_list) do
-				var_17_0[iter_17_3] = var_17_0[iter_17_3] or {}
-
-				table.insert(var_17_0[iter_17_3], iter_17_1)
+				table.insert(slot0[slot12], slot6)
 			end
 		else
-			table.insert(var_17_1, iter_17_1)
+			table.insert(slot1, slot6)
 		end
 	end
 
-	return var_17_0, var_17_1
+	return slot0, slot1
 end
 
-local function var_0_12(arg_18_0)
-	local var_18_0 = 0
-	local var_18_1 = {}
-
-	for iter_18_0, iter_18_1 in pairs(arg_18_0) do
-		local var_18_2 = BackHomeCustomerCfg[iter_18_1].weight
-
-		var_18_0 = var_18_0 + var_18_2
-		var_18_1[iter_18_1] = var_18_2
+function slot12(slot0)
+	for slot6, slot7 in pairs(slot0) do
+		slot1 = 0 + BackHomeCustomerCfg[slot7].weight
 	end
 
-	local var_18_3 = math.random(1, var_18_0)
-	local var_18_4
+	slot3 = math.random(1, slot1)
+	slot4 = nil
 
-	for iter_18_2, iter_18_3 in pairs(var_18_1) do
-		if var_18_3 > 0 then
-			var_18_3 = var_18_3 - iter_18_3
-			var_18_4 = iter_18_2
+	for slot8, slot9 in pairs({
+		[slot7] = slot8
+	}) do
+		if slot3 > 0 then
+			slot3 = slot3 - slot9
+			slot4 = slot8
 		else
 			break
 		end
 	end
 
-	return var_18_4
+	return slot4
 end
 
-local function var_0_13(arg_19_0, arg_19_1)
-	local var_19_0 = CanteenManager.CalcCanOrderFoodList()
-	local var_19_1 = {}
-	local var_19_2, var_19_3 = var_0_11()
+function slot13(slot0, slot1)
+	slot2 = CanteenManager.CalcCanOrderFoodList()
+	slot3 = {}
+	slot4, slot5 = uv0()
 
-	while arg_19_1 > #var_19_1 do
-		if arg_19_0 <= #var_19_1 and next(var_19_0) == nil and math.random() >= 0.5 then
+	while slot1 > #slot3 do
+		if slot0 <= #slot3 and next(slot2) == nil and math.random() >= 0.5 then
 			break
 		end
 
-		local var_19_4
-		local var_19_5 = {}
+		slot6 = nil
+		slot7 = {}
 
-		for iter_19_0, iter_19_1 in pairs(var_19_0) do
-			table.insert(var_19_5, iter_19_0)
+		for slot11, slot12 in pairs(slot2) do
+			table.insert(slot7, slot11)
 		end
 
-		if next(var_19_5) then
-			var_19_4 = var_19_2[var_19_5[math.random(#var_19_5)]]
-
-			if var_19_4 == nil or next(var_19_4) == nil or #var_19_1 == arg_19_1 - 1 and #var_19_5 > 1 then
-				var_19_4 = var_19_3
-				var_19_0 = {}
+		if next(slot7) then
+			if slot4[slot7[math.random(#slot7)]] == nil or next(slot6) == nil or #slot3 == slot1 - 1 and #slot7 > 1 then
+				slot6 = slot5
+				slot2 = {}
 			end
 		else
-			var_19_4 = BackHomeCustomerCfg.all
+			slot6 = BackHomeCustomerCfg.all
 		end
 
-		local var_19_6 = var_0_12(var_19_4)
+		slot8 = uv1(slot6)
+		slot12 = slot8
 
-		table.insert(var_19_1, var_19_6)
+		table.insert(slot3, slot12)
 
-		for iter_19_2, iter_19_3 in pairs(BackHomeCustomerCfg[var_19_6].food_list) do
-			var_19_0[iter_19_3] = nil
+		for slot12, slot13 in pairs(BackHomeCustomerCfg[slot8].food_list) do
+			slot2[slot13] = nil
 		end
 	end
 
-	return var_19_1
+	return slot3
 end
 
-function var_0_0.GenCustomer(arg_20_0)
-	local var_20_0 = DormEnum.CharacterType.RestaurantNormalCustomer
-	local var_20_1 = CanteenManager.ArrangeDinningTableForCustomer()
-	local var_20_2 = CanteenAIFunction:GetEntityData(var_20_1)
-	local var_20_3 = var_20_2.group
-	local var_20_4 = CanteenItemManager.GetItemsInItemGroup(DormEnum.ItemType.DinningChair, var_20_3)
-	local var_20_5 = var_0_13(1, #var_20_4)
-	local var_20_6 = #var_20_5
-	local var_20_7 = math.random(1, var_20_6)
-	local var_20_8 = {}
+function slot0.GenCustomer(slot0)
+	slot1 = DormEnum.CharacterType.RestaurantNormalCustomer
+	slot7 = #uv0(1, #CanteenItemManager.GetItemsInItemGroup(DormEnum.ItemType.DinningChair, CanteenAIFunction:GetEntityData(CanteenManager.ArrangeDinningTableForCustomer()).group))
+	slot9 = {}
 
-	for iter_20_0 = 1, var_20_6 do
-		local var_20_9 = math.random(1, #var_20_4)
+	for slot13 = 1, slot7 do
+		slot14 = math.random(1, #slot5)
+		slot5[#slot5] = slot5[slot14]
+		slot5[slot14] = slot5[#slot5]
 
-		var_20_4[var_20_9], var_20_4[#var_20_4] = var_20_4[#var_20_4], var_20_4[var_20_9]
-
-		local var_20_10 = table.remove(var_20_4)
-		local var_20_11 = {
-			cfgID = var_20_5[iter_20_0],
-			tableEid = var_20_1,
-			chairEid = var_20_10,
-			pay = iter_20_0 == var_20_7
-		}
-		local var_20_12 = arg_20_0:GenerateCharacterEntity(var_20_0, arg_20_0.nextCustomerIdx, {
+		table.insert(slot9, slot0:GenerateCharacterEntity(slot1, slot0.nextCustomerIdx, {
 			complex = true,
-			heroID = var_20_5[iter_20_0],
-			jobID = var_20_0,
-			jobCharaIndex = iter_20_0
-		}, var_20_11)
+			heroID = slot6[slot13],
+			jobID = slot1,
+			jobCharaIndex = slot13
+		}, {
+			cfgID = slot6[slot13],
+			tableEid = slot2,
+			chairEid = table.remove(slot5),
+			pay = slot13 == math.random(1, slot7)
+		}))
 
-		table.insert(var_20_8, var_20_12)
-
-		arg_20_0.nextCustomerIdx = arg_20_0.nextCustomerIdx + 1
+		slot0.nextCustomerIdx = slot0.nextCustomerIdx + 1
 
 		if CanteenData:GetCanteenState() == DormEnum.RestaurantMode.RestaurantManual then
 			CanteenManualData:RecordManualGenCustomerNum(1)
 		end
 	end
 
-	for iter_20_1, iter_20_2 in ipairs(var_20_8) do
-		arg_20_0.GetEntityData(iter_20_2).peer = var_20_8
+	for slot13, slot14 in ipairs(slot9) do
+		slot0.GetEntityData(slot14).peer = slot9
 	end
 
-	var_20_2.booked = var_20_8
+	slot3.booked = slot9
 
 	CanteenManager.GetInstance():OnCustomerCome()
 end
 
-local var_0_14 = DormEnum.RestaurantJobToClientMap
+slot14 = DormEnum.RestaurantJobToClientMap
+slot0.EIdNamespace = DormUtils.EIdNamespace
+slot0.IdxNamespace = DormUtils.IdxNamespace
 
-var_0_0.EIdNamespace = DormUtils.EIdNamespace
-var_0_0.IdxNamespace = DormUtils.IdxNamespace
+function slot0.Init(slot0)
+	slot0:RegisterEvents()
 
-function var_0_0.Init(arg_21_0)
-	arg_21_0:RegisterEvents()
-
-	for iter_21_0, iter_21_1 in pairs(arg_21_0.workingCharaManagers) do
-		iter_21_1:Clear()
-		iter_21_1:MapToDormStorageData(var_0_0.EIdNamespace(iter_21_0), var_0_0.IdxNamespace(iter_21_0))
+	for slot4, slot5 in pairs(slot0.workingCharaManagers) do
+		slot5:Clear()
+		slot5:MapToDormStorageData(uv0.EIdNamespace(slot4), uv0.IdxNamespace(slot4))
 	end
 
-	arg_21_0:GenerateJobCharacter(var_0_14)
+	slot0:GenerateJobCharacter(uv1)
 end
 
-function var_0_0.UpdateJobCharacter(arg_22_0, arg_22_1)
-	local var_22_0 = arg_22_0.workingCharaManagers[arg_22_1]
-
-	if var_22_0 then
-		var_22_0:Clear()
-		arg_22_0:GenerateJobCharacter({
-			arg_22_1
+function slot0.UpdateJobCharacter(slot0, slot1)
+	if slot0.workingCharaManagers[slot1] then
+		slot2:Clear()
+		slot0:GenerateJobCharacter({
+			slot1
 		})
 	end
 end
 
-function var_0_0.GenerateJobCharacter(arg_23_0, arg_23_1)
-	local var_23_0 = CanteenHeroTools:GetCanteenJobList()
+function slot0.GenerateJobCharacter(slot0, slot1)
+	for slot6, slot7 in pairs(slot1) do
+		slot8 = CanteenHeroTools:GetCanteenJobList()[DormEnum.RestaurantJobToServerMap[slot7]]
+		slot9 = slot8.heroID
 
-	for iter_23_0, iter_23_1 in pairs(arg_23_1) do
-		local var_23_1 = var_23_0[DormEnum.RestaurantJobToServerMap[iter_23_1]]
-		local var_23_2 = var_23_1.heroID
-		local var_23_3 = var_23_1.skinID
+		if slot8.skinID then
+			slot11 = nullable(BackHomeNpcCfg, slot9)
 
-		if var_23_3 then
-			local var_23_4 = nullable(BackHomeNpcCfg, var_23_2)
-			local var_23_5 = {
+			Dorm.DormEntityManager.SetEntitySpeed(slot0:GenerateCharacterEntity(slot7, 1, {
 				complex = true,
-				isNpc = var_23_4,
-				heroID = var_23_3,
-				jobID = iter_23_1
-			}
-			local var_23_6 = arg_23_0:GenerateCharacterEntity(iter_23_1, 1, var_23_5, {
-				cfgID = var_23_3,
-				heroID = var_23_2
-			})
-			local var_23_7 = var_23_4 and BackHomeNpcCfg or BackHomeHeroCfg
-
-			Dorm.DormEntityManager.SetEntitySpeed(var_23_6, var_23_7[var_23_2].speed)
+				isNpc = slot11,
+				heroID = slot10,
+				jobID = slot7
+			}, {
+				cfgID = slot10,
+				heroID = slot9
+			}), (slot11 and BackHomeNpcCfg or BackHomeHeroCfg)[slot9].speed)
 		end
 	end
 end
 
-function var_0_0.GenerateCharacterEntity(arg_24_0, arg_24_1, arg_24_2, arg_24_3, arg_24_4)
-	local var_24_0 = arg_24_0.workingCharaManagers[arg_24_1]
+function slot0.GenerateCharacterEntity(slot0, slot1, slot2, slot3, slot4)
+	slot4 = slot4 or {}
+	slot6 = slot0.workingCharaManagers[slot1]:Create(slot2, slot3, slot4)
+	slot4.eid = slot6
 
-	arg_24_4 = arg_24_4 or {}
-
-	local var_24_1 = var_24_0:Create(arg_24_2, arg_24_3, arg_24_4)
-	local var_24_2 = true
-
-	arg_24_4.eid = var_24_1
-
-	return var_24_1, var_24_2
+	return slot6, true
 end
 
-function var_0_0.RecordEntityInfo(arg_25_0, arg_25_1, arg_25_2)
-	local var_25_0 = Dorm.storage
-	local var_25_1 = DormEnum.Namespace.EntityType
-
-	var_25_0:RecordData(var_25_1, arg_25_1, nullable(arg_25_2, "jobID"))
+function slot0.RecordEntityInfo(slot0, slot1, slot2)
+	Dorm.storage:RecordData(DormEnum.Namespace.EntityType, slot1, nullable(slot2, "jobID"))
 end
 
-function var_0_0.RemoveEntityInfo(arg_26_0, arg_26_1)
-	local var_26_0 = Dorm.storage
-	local var_26_1 = DormEnum.Namespace.EntityType
-
-	var_26_0:RecordData(var_26_1, arg_26_1, nil)
+function slot0.RemoveEntityInfo(slot0, slot1)
+	Dorm.storage:RecordData(DormEnum.Namespace.EntityType, slot1, nil)
 end
 
-function var_0_0.Reset(arg_27_0)
-	arg_27_0:RemoveEvents()
-	arg_27_0:StopGenCustomerTask()
+function slot0.Reset(slot0)
+	slot0:RemoveEvents()
+	slot0:StopGenCustomerTask()
 
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.workingCharaManagers) do
-		iter_27_1:Clear()
+	for slot4, slot5 in pairs(slot0.workingCharaManagers) do
+		slot5:Clear()
 	end
 end
 
-function var_0_0.GetCharacterCount(arg_28_0, arg_28_1)
-	return arg_28_0.workingCharaManagers[arg_28_1]:EntityNum()
+function slot0.GetCharacterCount(slot0, slot1)
+	return slot0.workingCharaManagers[slot1]:EntityNum()
 end
 
-function var_0_0.FindAndRemoveEntity(arg_29_0)
-	local var_29_0 = var_0_0.GetInstance()
-
-	EntityManager.FindAndRemoveEntity(var_29_0.workingCharaManagers, arg_29_0)
+function slot0.FindAndRemoveEntity(slot0)
+	EntityManager.FindAndRemoveEntity(uv0.GetInstance().workingCharaManagers, slot0)
 end
 
-function var_0_0.GetEntityData(arg_30_0)
-	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, arg_30_0)
+function slot0.GetEntityData(slot0)
+	return Dorm.storage:GetData(DormEnum.Namespace.EntityData, slot0)
 end
 
-return var_0_0
+return slot0

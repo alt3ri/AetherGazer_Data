@@ -1,175 +1,160 @@
-local var_0_0 = class("CharacterItem", ReduxView)
+slot0 = class("CharacterItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.flag = false
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.flag = false
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "name")
-	arg_3_0.fatigueComtroller = ControllerUtil.GetController(arg_3_0.transform_, "fatigue")
-	arg_3_0.skillComtroller = ControllerUtil.GetController(arg_3_0.transform_, "skill")
-	arg_3_0.typeScroll = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uilistGo_, DormRecommendSmallItem)
-	arg_3_0.sameNameController = ControllerUtil.GetController(arg_3_0.transform_, "sameName")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "name")
+	slot0.fatigueComtroller = ControllerUtil.GetController(slot0.transform_, "fatigue")
+	slot0.skillComtroller = ControllerUtil.GetController(slot0.transform_, "skill")
+	slot0.typeScroll = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, DormRecommendSmallItem)
+	slot0.sameNameController = ControllerUtil.GetController(slot0.transform_, "sameName")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.characterbuttonBtn_, nil, function()
-		if arg_4_0.chooseFunc and arg_4_0.stateController:GetSelectedState() ~= "full" then
-			arg_4_0.chooseFunc(arg_4_0.uid_, arg_4_0.stateController, arg_4_0.fatigueComtroller)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.characterbuttonBtn_, nil, function ()
+		if uv0.chooseFunc and uv0.stateController:GetSelectedState() ~= "full" then
+			uv0.chooseFunc(uv0.uid_, uv0.stateController, uv0.fatigueComtroller)
 		end
 	end)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:RefreshUI(arg_6_0.attributeList[arg_6_1], arg_6_0.flag)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.attributeList[slot1], slot0.flag)
 end
 
-function var_0_0.RegistCallBack(arg_7_0, arg_7_1)
-	if arg_7_1 then
-		arg_7_0.chooseFunc = arg_7_1
+function slot0.RegistCallBack(slot0, slot1)
+	if slot1 then
+		slot0.chooseFunc = slot1
 	end
 end
 
-function var_0_0.RegistFullListCallBack(arg_8_0, arg_8_1)
-	if arg_8_1 then
-		arg_8_0.fullListFunc = arg_8_1
+function slot0.RegistFullListCallBack(slot0, slot1)
+	if slot1 then
+		slot0.fullListFunc = slot1
 	end
 end
 
-function var_0_0.RefreshUI(arg_9_0, arg_9_1)
-	arg_9_0.entrustPosID = CanteenEntrustData:GetCurDispatchTask().pos
-	arg_9_0.uid_ = arg_9_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.entrustPosID = CanteenEntrustData:GetCurDispatchTask().pos
+	slot0.uid_ = slot1
 
-	local var_9_0 = arg_9_0:CheckSkillCanOpen()
+	if #slot0:CheckSkillCanOpen() > 0 then
+		slot0.skillIcon.sprite = CanteenTools.GetCanteenSkillSprite(slot2[1])
 
-	if #var_9_0 > 0 then
-		local var_9_1 = var_9_0[1]
-
-		arg_9_0.skillIcon.sprite = CanteenTools.GetCanteenSkillSprite(var_9_1)
-
-		arg_9_0.skillComtroller:SetSelectedState("true")
+		slot0.skillComtroller:SetSelectedState("true")
 	else
-		arg_9_0.skillComtroller:SetSelectedState("false")
+		slot0.skillComtroller:SetSelectedState("false")
 	end
 
-	arg_9_0.maxText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
+	slot0.maxText_.text = "/" .. GameSetting.canteen_hero_fatigue_max.value[1]
+	slot3 = DormData:GetHeroFatigue(slot1)
+	slot0.curText_.text = slot3
+	slot0.headiconImg_.sprite = DormHeroTools.GetBackHomeHeadSprite(slot0.uid_)
+	slot0.progressImg_.fillAmount = 1 - math.min(slot3 / GameSetting.canteen_hero_fatigue_max.value[1], 1)
 
-	local var_9_2 = DormData:GetHeroFatigue(arg_9_1)
-
-	arg_9_0.curText_.text = var_9_2
-	arg_9_0.headiconImg_.sprite = DormHeroTools.GetBackHomeHeadSprite(arg_9_0.uid_)
-	arg_9_0.progressImg_.fillAmount = 1 - math.min(var_9_2 / GameSetting.canteen_hero_fatigue_max.value[1], 1)
-
-	local var_9_3 = GameDisplayCfg.dorm_hero_fatigue_level.value
-
-	if var_9_2 <= var_9_3[1] then
-		arg_9_0.fatigueComtroller:SetSelectedState("lack")
-	elseif var_9_2 > var_9_3[1] and var_9_2 <= var_9_3[2] then
-		arg_9_0.fatigueComtroller:SetSelectedState("middle")
+	if slot3 <= GameDisplayCfg.dorm_hero_fatigue_level.value[1] then
+		slot0.fatigueComtroller:SetSelectedState("lack")
+	elseif slot4[1] < slot3 and slot3 <= slot4[2] then
+		slot0.fatigueComtroller:SetSelectedState("middle")
 	else
-		arg_9_0.fatigueComtroller:SetSelectedState("full")
+		slot0.fatigueComtroller:SetSelectedState("full")
 	end
 
-	arg_9_0:RefreshHeroAttributes(arg_9_1)
+	slot0:RefreshHeroAttributes(slot1)
 
-	if CanteenEntrustData:CheckHasChooseEntrustCharacter(arg_9_1) or DormData:GetHeroTemplateInfo(arg_9_1).jobType ~= nil then
-		arg_9_0.stateController:SetSelectedState("full")
+	if CanteenEntrustData:CheckHasChooseEntrustCharacter(slot1) or DormData:GetHeroTemplateInfo(slot1).jobType ~= nil then
+		slot0.stateController:SetSelectedState("full")
 
 		return
 	end
 
-	arg_9_0.sameNameController:SetSelectedState("false")
+	slot0.sameNameController:SetSelectedState("false")
 
-	if CanteenEntrustData:CheckDispatchCharacterArchiveList(arg_9_1) and not CanteenEntrustData:CheckDispatchCharacterList(arg_9_1) then
-		arg_9_0.sameNameController:SetSelectedState("true")
+	if CanteenEntrustData:CheckDispatchCharacterArchiveList(slot1) and not CanteenEntrustData:CheckDispatchCharacterList(slot1) then
+		slot0.sameNameController:SetSelectedState("true")
 	end
 
-	if CanteenEntrustData:CheckDispatchCharacterList(arg_9_1) then
-		arg_9_0.stateController:SetSelectedState("select")
+	if CanteenEntrustData:CheckDispatchCharacterList(slot1) then
+		slot0.stateController:SetSelectedState("select")
 
-		arg_9_0.flag = true
+		slot0.flag = true
 	else
-		arg_9_0.flag = false
+		slot0.flag = false
 	end
 
-	arg_9_0.fullListFunc(arg_9_0.uid_, arg_9_0.stateController)
+	slot0.fullListFunc(slot0.uid_, slot0.stateController)
 end
 
-function var_0_0.CheckSkillCanOpen(arg_10_0)
-	local var_10_0 = BackHomeHeroCfg[arg_10_0.uid_].skill_list
-	local var_10_1 = GameSetting.dorm_hero_skill_unlock.value
-	local var_10_2 = {}
-	local var_10_3 = HeroData:GetHeroData(arg_10_0.uid_).level
+function slot0.CheckSkillCanOpen(slot0)
+	slot3 = {}
 
-	for iter_10_0 = 1, #var_10_0 do
-		if var_10_3 >= var_10_1[iter_10_0] then
-			table.insert(var_10_2, var_10_0[iter_10_0])
+	for slot8 = 1, #BackHomeHeroCfg[slot0.uid_].skill_list do
+		if GameSetting.dorm_hero_skill_unlock.value[slot8] <= HeroData:GetHeroData(slot0.uid_).level then
+			table.insert(slot3, slot1[slot8])
 		end
 	end
 
-	local var_10_4 = {}
+	slot5 = {}
 
-	for iter_10_1, iter_10_2 in ipairs(var_10_2) do
-		local var_10_5 = BackHomeHeroSkillCfg[iter_10_2].condition
-
-		if var_10_5 and #var_10_5 > 0 then
-			if var_10_5[1] == 3 then
-				table.insert(var_10_4, iter_10_2)
+	for slot9, slot10 in ipairs(slot3) do
+		if BackHomeHeroSkillCfg[slot10].condition and #slot12 > 0 then
+			if slot12[1] == 3 then
+				table.insert(slot5, slot10)
 			end
 		else
-			table.insert(var_10_4, iter_10_2)
+			table.insert(slot5, slot10)
 		end
 	end
 
-	return var_10_4
+	return slot5
 end
 
-function var_0_0.RefreshHeroAttributes(arg_11_0, arg_11_1)
-	arg_11_0.attributeList = {}
-
-	local var_11_0 = CanteenEntrustData:GetEntrustByPos(arg_11_0.entrustPosID).tags
-
-	arg_11_0.attributeList = {
+function slot0.RefreshHeroAttributes(slot0, slot1)
+	slot0.attributeList = {}
+	slot2 = CanteenEntrustData:GetEntrustByPos(slot0.entrustPosID).tags
+	slot0.attributeList = {
 		{
 			type = 1,
-			tag = CharactorParamCfg[arg_11_1].RangeType
+			tag = CharactorParamCfg[slot1].RangeType
 		},
 		{
 			type = 2,
-			tag = HeroCfg[arg_11_1].race
+			tag = HeroCfg[slot1].race
 		},
 		{
 			type = 3,
-			tag = HeroCfg[arg_11_1].ATK_attribute[1]
+			tag = HeroCfg[slot1].ATK_attribute[1]
 		},
 		{
 			type = 4,
-			tag = HeroCfg[arg_11_1].mechanism_type[1]
+			tag = HeroCfg[slot1].mechanism_type[1]
 		}
 	}
 
-	arg_11_0.typeScroll:StartScroll(#arg_11_0.attributeList)
+	slot0.typeScroll:StartScroll(#slot0.attributeList)
 
-	arg_11_0.uilistGo_:GetComponent("ScrollRectEx").vertical = false
+	slot0.uilistGo_:GetComponent("ScrollRectEx").vertical = false
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.typeScroll then
-		arg_12_0.typeScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.typeScroll then
+		slot0.typeScroll:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

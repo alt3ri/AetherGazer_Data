@@ -1,346 +1,315 @@
-local var_0_0 = class("HeroListFilterView", ReduxView)
+slot0 = class("HeroListFilterView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.isSelfHero_ = true
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.isSelfHero_ = true
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.curOrder_ = "desc"
-	arg_2_0.curSortType_ = 0
-	arg_2_0.curRaceIndex_ = 0
+function slot0.Init(slot0)
+	slot0.curOrder_ = "desc"
+	slot0.curSortType_ = 0
+	slot0.curRaceIndex_ = 0
 
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroSorter_ = HeroSorter.New()
-	arg_3_0.orderController_ = ControllerUtil.GetController(arg_3_0.sortBtn_.gameObject.transform, "order")
+	slot0.heroSorter_ = HeroSorter.New()
+	slot0.orderController_ = ControllerUtil.GetController(slot0.sortBtn_.gameObject.transform, "order")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.sortBtn_, nil, function()
-		local var_5_0 = arg_4_0.orderController_:GetSelectedState() == "asc" and "desc" or "asc"
-
-		arg_4_0:SortListByOrder(var_5_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.sortBtn_, nil, function ()
+		uv0:SortListByOrder(uv0.orderController_:GetSelectedState() == "asc" and "desc" or "asc")
 	end)
-	arg_4_0:AddToggleListener(arg_4_0.sortTypeDropdown_, function(arg_6_0)
-		arg_4_0:SortListByType(arg_6_0)
+	slot0:AddToggleListener(slot0.sortTypeDropdown_, function (slot0)
+		uv0:SortListByType(slot0)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.allBtn_, nil, function()
+	slot0:AddBtnListener(slot0.allBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sortHeroType", {
-			isAll = arg_4_0.isAll_,
-			sortType = arg_4_0.curSortType_,
-			sortRace = arg_4_0.curSortRace_,
-			attackType = arg_4_0.curAttackType_,
-			energyType = arg_4_0.curEnergyType_
+			isAll = uv0.isAll_,
+			sortType = uv0.curSortType_,
+			sortRace = uv0.curSortRace_,
+			attackType = uv0.curAttackType_,
+			energyType = uv0.curEnergyType_
 		})
 	end)
 end
 
-function var_0_0.SortListByOrder(arg_8_0, arg_8_1)
-	arg_8_0.curOrder_ = arg_8_1
+function slot0.SortListByOrder(slot0, slot1)
+	slot0.curOrder_ = slot1
 
-	arg_8_0.orderController_:SetSelectedState(arg_8_1)
+	slot0.orderController_:SetSelectedState(slot1)
 
-	if not arg_8_0.gameObject_.activeInHierarchy then
+	if not slot0.gameObject_.activeInHierarchy then
 		return
 	end
 
-	arg_8_0:UpdateList()
+	slot0:UpdateList()
 end
 
-function var_0_0.SortListByType(arg_9_0, arg_9_1)
-	arg_9_0.curSortType_ = arg_9_1
+function slot0.SortListByType(slot0, slot1)
+	slot0.curSortType_ = slot1
 
-	if not arg_9_0.gameObject_.activeInHierarchy then
+	if not slot0.gameObject_.activeInHierarchy then
 		return
 	end
 
-	arg_9_0:UpdateList()
+	slot0:UpdateList()
 end
 
-function var_0_0.FilterListByRace(arg_10_0, arg_10_1)
-	arg_10_0.curRaceIndex_ = arg_10_1
-	arg_10_0.displayIdList_ = {}
+function slot0.FilterListByRace(slot0, slot1)
+	slot0.curRaceIndex_ = slot1
+	slot0.displayIdList_ = {}
 
-	if arg_10_1 == 0 then
-		for iter_10_0, iter_10_1 in ipairs(arg_10_0.idList_) do
-			if not HeroTools.GetIsHide(iter_10_1) then
-				table.insert(arg_10_0.displayIdList_, iter_10_1)
+	if slot1 == 0 then
+		for slot5, slot6 in ipairs(slot0.idList_) do
+			if not HeroTools.GetIsHide(slot6) then
+				table.insert(slot0.displayIdList_, slot6)
 			end
 		end
 	else
-		for iter_10_2, iter_10_3 in ipairs(arg_10_0.idList_) do
-			if HeroCfg[iter_10_3].race == arg_10_1 and not HeroTools.GetIsHide(iter_10_3) then
-				table.insert(arg_10_0.displayIdList_, iter_10_3)
+		for slot5, slot6 in ipairs(slot0.idList_) do
+			if HeroCfg[slot6].race == slot1 and not HeroTools.GetIsHide(slot6) then
+				table.insert(slot0.displayIdList_, slot6)
 			end
 		end
 	end
 
-	if not arg_10_0.gameObject_.activeInHierarchy then
+	if not slot0.gameObject_.activeInHierarchy then
 		return
 	end
 
-	arg_10_0:UpdateList()
+	slot0:UpdateList()
 end
 
-function var_0_0.SetHeroIdList(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.idList_ = arg_11_1
-	arg_11_0.displayIdList_ = {}
-	arg_11_0.extra_ = arg_11_2
-	arg_11_0.isForeign_ = arg_11_2 and arg_11_2.isForeign
-	arg_11_0.isTemp_ = arg_11_2 and arg_11_2.isTemp
+function slot0.SetHeroIdList(slot0, slot1, slot2)
+	slot0.idList_ = slot1
+	slot0.displayIdList_ = {}
+	slot0.extra_ = slot2
+	slot0.isForeign_ = slot2 and slot2.isForeign
+	slot0.isTemp_ = slot2 and slot2.isTemp
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-		if not HeroTools.GetIsHide(iter_11_1) then
-			table.insert(arg_11_0.displayIdList_, iter_11_1)
+	for slot6, slot7 in ipairs(slot1) do
+		if not HeroTools.GetIsHide(slot7) then
+			table.insert(slot0.displayIdList_, slot7)
 		end
 	end
 
-	if arg_11_0.curRaceIndex_ ~= 0 then
-		arg_11_0:FilterListByRace(arg_11_0.curRaceIndex_)
+	if slot0.curRaceIndex_ ~= 0 then
+		slot0:FilterListByRace(slot0.curRaceIndex_)
 	end
 
-	arg_11_0:UpdateList()
+	slot0:UpdateList()
 end
 
-function var_0_0.UpdateList(arg_12_0)
-	local var_12_0 = GameSetting.unlock_hero_need.value
+function slot0.UpdateList(slot0)
+	slot1 = GameSetting.unlock_hero_need.value
 
-	arg_12_0.heroSorter_:Reset()
-	table.sort(arg_12_0.displayIdList_, function(arg_13_0, arg_13_1)
-		local var_13_0 = false
-		local var_13_1 = false
+	slot0.heroSorter_:Reset()
+	table.sort(slot0.displayIdList_, function (slot0, slot1)
+		slot2 = false
+		slot3 = false
 
-		if arg_12_0.extraSorter_ ~= nil then
-			local var_13_2, var_13_3 = arg_12_0.extraSorter_(arg_13_0, arg_13_1)
-			local var_13_4 = var_13_3
+		if uv0.extraSorter_ ~= nil then
+			slot4, slot3 = uv0.extraSorter_(slot0, slot1)
 
-			if var_13_2 then
-				return var_13_4
+			if slot4 then
+				return slot3
 			end
 		end
 
-		local var_13_5
-		local var_13_6
+		slot4, slot5 = nil
 
-		if arg_12_0.isForeign_ then
-			-- block empty
-		elseif arg_12_0.isTemp_ then
-			var_13_5 = TempHeroData:GetHeroData(arg_13_0, arg_12_0.extra_.tempHeroList)
-			var_13_6 = TempHeroData:GetHeroData(arg_13_1, arg_12_0.extra_.tempHeroList)
+		if uv0.isForeign_ then
+			-- Nothing
+		elseif uv0.isTemp_ then
+			slot4 = TempHeroData:GetHeroData(slot0, uv0.extra_.tempHeroList)
+			slot5 = TempHeroData:GetHeroData(slot1, uv0.extra_.tempHeroList)
 		else
-			var_13_5 = HeroData:GetHeroData(arg_13_0)
-			var_13_6 = HeroData:GetHeroData(arg_13_1)
+			slot4 = HeroData:GetHeroData(slot0)
+			slot5 = HeroData:GetHeroData(slot1)
 		end
 
-		if var_13_5.unlock ~= var_13_6.unlock then
-			return var_13_5.unlock > var_13_6.unlock
+		if slot4.unlock ~= slot5.unlock then
+			return slot5.unlock < slot4.unlock
 		end
 
-		if var_13_5.unlock == 0 and var_13_6.unlock == 0 then
-			local var_13_7 = var_12_0[HeroCfg[arg_13_0].rare]
-			local var_13_8 = var_12_0[HeroCfg[arg_13_1].rare]
-			local var_13_9 = var_13_7 <= var_13_5.piece and 1 or 0
-			local var_13_10 = var_13_8 <= var_13_6.piece and 1 or 0
-
-			if var_13_9 ~= var_13_10 then
-				return var_13_10 < var_13_9
-			end
+		if slot4.unlock == 0 and slot5.unlock == 0 and (uv1[HeroCfg[slot0].rare] <= slot4.piece and 1 or 0) ~= (uv1[HeroCfg[slot1].rare] <= slot5.piece and 1 or 0) then
+			return slot9 < slot8
 		end
 
-		if not arg_12_0.extra_ then
-			local var_13_11 = HeroData:IsFavorite(arg_13_0)
-			local var_13_12 = HeroData:IsFavorite(arg_13_1)
-
-			if var_13_11 ~= var_13_12 and (not var_13_11 or not var_13_12) then
-				return var_13_11 ~= false
-			end
+		if not uv0.extra_ and HeroData:IsFavorite(slot0) ~= HeroData:IsFavorite(slot1) and (not slot6 or not slot7) then
+			return slot6 ~= false
 		end
 
-		if arg_12_0.curSortType_ == 0 then
-			local var_13_13, var_13_14 = arg_12_0:FightPowerSorter(var_13_5, var_13_6)
-			local var_13_15 = var_13_14
+		if uv0.curSortType_ == 0 then
+			slot6, slot3 = uv0:FightPowerSorter(slot4, slot5)
 
-			if var_13_13 then
-				return var_13_15
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_16, var_13_17 = arg_12_0:StarSorter(var_13_5, var_13_6)
-			local var_13_18 = var_13_17
+			slot6, slot3 = uv0:StarSorter(slot4, slot5)
 
-			if var_13_16 then
-				return var_13_18
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_19, var_13_20 = arg_12_0:RareSorter(var_13_5, var_13_6)
-			local var_13_21 = var_13_20
+			slot6, slot3 = uv0:RareSorter(slot4, slot5)
 
-			if var_13_19 then
-				return var_13_21
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_22, var_13_23 = arg_12_0:LevelSorter(var_13_5, var_13_6)
-			local var_13_24 = var_13_23
+			slot6, slot3 = uv0:LevelSorter(slot4, slot5)
 
-			if var_13_22 then
-				return var_13_24
+			if slot6 then
+				return slot3
 			end
 		else
-			local var_13_25, var_13_26 = arg_12_0:StarSorter(var_13_5, var_13_6)
-			local var_13_27 = var_13_26
+			slot6, slot3 = uv0:StarSorter(slot4, slot5)
 
-			if var_13_25 then
-				return var_13_27
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_28, var_13_29 = arg_12_0:RareSorter(var_13_5, var_13_6)
-			local var_13_30 = var_13_29
+			slot6, slot3 = uv0:RareSorter(slot4, slot5)
 
-			if var_13_28 then
-				return var_13_30
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_31, var_13_32 = arg_12_0:FightPowerSorter(var_13_5, var_13_6)
-			local var_13_33 = var_13_32
+			slot6, slot3 = uv0:FightPowerSorter(slot4, slot5)
 
-			if var_13_31 then
-				return var_13_33
+			if slot6 then
+				return slot3
 			end
 
-			local var_13_34, var_13_35 = arg_12_0:LevelSorter(var_13_5, var_13_6)
-			local var_13_36 = var_13_35
+			slot6, slot3 = uv0:LevelSorter(slot4, slot5)
 
-			if var_13_34 then
-				return var_13_36
+			if slot6 then
+				return slot3
 			end
 		end
 
-		return arg_13_1 < arg_13_0
+		return slot1 < slot0
 	end)
 
-	if arg_12_0.callback_ ~= nil then
-		arg_12_0.callback_(arg_12_0.displayIdList_)
+	if slot0.callback_ ~= nil then
+		slot0.callback_(slot0.displayIdList_)
 	end
 end
 
-function var_0_0.SetListChangeHandler(arg_14_0, arg_14_1)
-	arg_14_0.callback_ = arg_14_1
+function slot0.SetListChangeHandler(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-function var_0_0.SetExtraSorter(arg_15_0, arg_15_1)
-	arg_15_0.extraSorter_ = arg_15_1
+function slot0.SetExtraSorter(slot0, slot1)
+	slot0.extraSorter_ = slot1
 end
 
-function var_0_0.SetIsSelfHero(arg_16_0, arg_16_1)
-	arg_16_0.isSelfHero_ = arg_16_1
+function slot0.SetIsSelfHero(slot0, slot1)
+	slot0.isSelfHero_ = slot1
 end
 
-function var_0_0.OnEnter(arg_17_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_18_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.FightPowerSorter(arg_19_0, arg_19_1, arg_19_2)
-	local var_19_0
-	local var_19_1
+function slot0.FightPowerSorter(slot0, slot1, slot2)
+	slot3, slot4 = nil
 
-	if arg_19_0.isForeign_ then
-		-- block empty
-	elseif arg_19_0.isTemp_ then
-		var_19_0 = TempHeroData:GetBattlePower(arg_19_1, arg_19_0.extra_)
-		var_19_1 = TempHeroData:GetBattlePower(arg_19_2, arg_19_0.extra_)
+	if slot0.isForeign_ then
+		-- Nothing
+	elseif slot0.isTemp_ then
+		slot3 = TempHeroData:GetBattlePower(slot1, slot0.extra_)
+		slot4 = TempHeroData:GetBattlePower(slot2, slot0.extra_)
 	else
-		var_19_0 = arg_19_0.heroSorter_:GetHeroPower(arg_19_1)
-		var_19_1 = arg_19_0.heroSorter_:GetHeroPower(arg_19_2)
+		slot3 = slot0.heroSorter_:GetHeroPower(slot1)
+		slot4 = slot0.heroSorter_:GetHeroPower(slot2)
 	end
 
-	if var_19_0 ~= var_19_1 then
-		if arg_19_0.curOrder_ == "desc" then
-			return true, var_19_1 < var_19_0
+	if slot3 ~= slot4 then
+		if slot0.curOrder_ == "desc" then
+			return true, slot4 < slot3
 		else
-			return true, var_19_0 < var_19_1
+			return true, slot3 < slot4
 		end
 	end
 
 	return false, false
 end
 
-function var_0_0.StarSorter(arg_20_0, arg_20_1, arg_20_2)
-	if arg_20_1.star ~= arg_20_2.star then
-		if arg_20_0.curOrder_ == "desc" then
-			return true, arg_20_1.star > arg_20_2.star
+function slot0.StarSorter(slot0, slot1, slot2)
+	if slot1.star ~= slot2.star then
+		if slot0.curOrder_ == "desc" then
+			return true, slot2.star < slot1.star
 		else
-			return true, arg_20_1.star < arg_20_2.star
+			return true, slot1.star < slot2.star
 		end
 	end
 
 	return false, false
 end
 
-function var_0_0.RareSorter(arg_21_0, arg_21_1, arg_21_2)
-	local var_21_0 = HeroCfg[arg_21_1.id]
-	local var_21_1 = HeroCfg[arg_21_2.id]
-
-	if var_21_0.rare ~= var_21_1.rare then
-		if arg_21_0.curOrder_ == "desc" then
-			return true, var_21_0.rare > var_21_1.rare
+function slot0.RareSorter(slot0, slot1, slot2)
+	if HeroCfg[slot1.id].rare ~= HeroCfg[slot2.id].rare then
+		if slot0.curOrder_ == "desc" then
+			return true, slot4.rare < slot3.rare
 		else
-			return true, var_21_0.rare < var_21_1.rare
+			return true, slot3.rare < slot4.rare
 		end
 	end
 
 	return false, false
 end
 
-function var_0_0.LevelSorter(arg_22_0, arg_22_1, arg_22_2)
-	if arg_22_1.exp ~= arg_22_2.exp then
-		if arg_22_0.curOrder_ == "desc" then
-			return true, arg_22_1.exp > arg_22_2.exp
+function slot0.LevelSorter(slot0, slot1, slot2)
+	if slot1.exp ~= slot2.exp then
+		if slot0.curOrder_ == "desc" then
+			return true, slot2.exp < slot1.exp
 		else
-			return true, arg_22_1.exp < arg_22_2.exp
+			return true, slot1.exp < slot2.exp
 		end
 	end
 
 	return false, false
 end
 
-function var_0_0.Reset(arg_23_0)
-	arg_23_0:RemoveAllListeners()
+function slot0.Reset(slot0)
+	slot0:RemoveAllListeners()
 
-	arg_23_0.sortTypeDropdown_.value = 0
+	slot0.sortTypeDropdown_.value = 0
 
-	arg_23_0.orderController_:SetSelectedState("desc")
+	slot0.orderController_:SetSelectedState("desc")
 
-	arg_23_0.curOrder_ = "desc"
-	arg_23_0.curSortType_ = 0
-	arg_23_0.curRaceIndex_ = 0
+	slot0.curOrder_ = "desc"
+	slot0.curSortType_ = 0
+	slot0.curRaceIndex_ = 0
 
-	arg_23_0:AddUIListener()
+	slot0:AddUIListener()
 end
 
-function var_0_0.ShowDropDown(arg_24_0, arg_24_1)
-	return
+function slot0.ShowDropDown(slot0, slot1)
 end
 
-function var_0_0.Dispose(arg_25_0)
-	if arg_25_0.heroSorter_ then
-		arg_25_0.heroSorter_:Reset()
+function slot0.Dispose(slot0)
+	if slot0.heroSorter_ then
+		slot0.heroSorter_:Reset()
 
-		arg_25_0.heroSorter_ = nil
+		slot0.heroSorter_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_25_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

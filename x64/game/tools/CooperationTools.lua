@@ -1,299 +1,253 @@
-local var_0_0 = {}
-local var_0_1 = {}
+slot1 = {}
+slot2 = nil
 
-function var_0_0.GotoCooperation()
-	local var_1_0 = CooperationData:GetRoomData()
+return {
+	GotoCooperation = function ()
+		if not CooperationData:GetRoomData() then
+			error("GotoCooperation with nil room")
 
-	if not var_1_0 then
-		error("GotoCooperation with nil room")
-
-		return
-	end
-
-	local var_1_1 = var_1_0.type
-	local var_1_2 = var_1_0.dest
-
-	if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == var_1_1 then
-		OpenPageUntilLoaded("/cooperationBlank/cooperation")
-	elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == var_1_1 then
-		OpenPageUntilLoaded("/cooperationBlank/strongholdCooperation")
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == var_1_1 then
-		OpenPageUntilLoaded("/cooperationBlank/xH3rdWaterCooperation")
-	else
-		OpenPageUntilLoaded("/cooperationBlank/cooperation")
-	end
-end
-
-function var_0_0.GotoCooperationEntry(arg_2_0, arg_2_1, arg_2_2)
-	if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == arg_2_0 then
-		OpenPageUntilLoaded("/cooperationBlank/demoCooperationEntry")
-	elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == arg_2_0 then
-		OpenPageUntilLoaded("/cooperationBlank/strongholdMain")
-	elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == arg_2_0 then
-		local var_2_0 = ActivityCfg.get_id_list_by_sub_activity_list[arg_2_2][1]
-
-		OpenPageUntilLoaded("/cooperationBlank/xH3rdWaterSelectAssistant", {
-			activityId = var_2_0
-		})
-	end
-end
-
-function var_0_0.GetCooperationRoomName(arg_3_0, arg_3_1, arg_3_2)
-	if BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == arg_3_0 then
-		return BattleActivityWaterCooperationCfg[arg_3_1].name
-	elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == arg_3_0 then
-		return ActivityStrongholdCfg[arg_3_1] and ActivityStrongholdCfg[arg_3_1].room_name or ""
-	else
-		return ""
-	end
-end
-
-function var_0_0.GetCooperationTeamHeroList(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = {}
-	local var_4_1 = false
-
-	if arg_4_0 == BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO then
-		local var_4_2 = ActivityCooperationDemoCfg[arg_4_1]
-
-		if var_4_2 then
-			var_4_1 = true
+			return
 		end
 
-		for iter_4_0, iter_4_1 in ipairs(var_4_2.hero_standard_system_id_list) do
-			local var_4_3 = HeroStandardSystemCfg[iter_4_1]
+		slot2 = slot0.dest
 
-			table.insert(var_4_0, {
-				id = var_4_3.hero_id,
-				trialID = iter_4_1
+		if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == slot0.type then
+			OpenPageUntilLoaded("/cooperationBlank/cooperation")
+		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == slot1 then
+			OpenPageUntilLoaded("/cooperationBlank/strongholdCooperation")
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == slot1 then
+			OpenPageUntilLoaded("/cooperationBlank/xH3rdWaterCooperation")
+		else
+			OpenPageUntilLoaded("/cooperationBlank/cooperation")
+		end
+	end,
+	GotoCooperationEntry = function (slot0, slot1, slot2)
+		if BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO == slot0 then
+			OpenPageUntilLoaded("/cooperationBlank/demoCooperationEntry")
+		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == slot0 then
+			OpenPageUntilLoaded("/cooperationBlank/strongholdMain")
+		elseif BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == slot0 then
+			OpenPageUntilLoaded("/cooperationBlank/xH3rdWaterSelectAssistant", {
+				activityId = ActivityCfg.get_id_list_by_sub_activity_list[slot2][1]
 			})
 		end
-	elseif arg_4_0 == BattleConst.STAGE_TYPE_NEW.STRONGHOLD then
-		local var_4_4 = ActivityStrongholdCfg[arg_4_1]
-		local var_4_5 = var_4_4.limit_heros
-		local var_4_6 = HeroTools.Sort(HeroData:GetHeroList())
+	end,
+	GetCooperationRoomName = function (slot0, slot1, slot2)
+		if BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION == slot0 then
+			return BattleActivityWaterCooperationCfg[slot1].name
+		elseif BattleConst.STAGE_TYPE_NEW.STRONGHOLD == slot0 then
+			return ActivityStrongholdCfg[slot1] and ActivityStrongholdCfg[slot1].room_name or ""
+		else
+			return ""
+		end
+	end,
+	GetCooperationTeamHeroList = function (slot0, slot1, slot2)
+		slot3 = {}
+		slot4 = false
 
-		for iter_4_2, iter_4_3 in pairs(var_4_6) do
-			if table.indexof(var_4_5, iter_4_3) then
-				table.insert(var_4_0, {
-					trialID = 0,
-					id = iter_4_3
+		if slot0 == BattleConst.STAGE_TYPE_NEW.COOPERATION_DEMO then
+			if ActivityCooperationDemoCfg[slot1] then
+				slot4 = true
+			end
+
+			for slot9, slot10 in ipairs(slot5.hero_standard_system_id_list) do
+				table.insert(slot3, {
+					id = HeroStandardSystemCfg[slot10].hero_id,
+					trialID = slot10
+				})
+			end
+		elseif slot0 == BattleConst.STAGE_TYPE_NEW.STRONGHOLD then
+			slot9 = HeroData
+			slot11 = slot9
+
+			for slot11, slot12 in pairs(HeroTools.Sort(slot9.GetHeroList(slot11))) do
+				if table.indexof(ActivityStrongholdCfg[slot1].limit_heros, slot12) then
+					table.insert(slot3, {
+						trialID = 0,
+						id = slot12
+					})
+				end
+			end
+
+			for slot11, slot12 in ipairs(slot5.standard_heros) do
+				table.insert(slot3, {
+					id = HeroStandardSystemCfg[slot12].hero_id,
+					trialID = slot12
+				})
+			end
+		elseif slot0 == BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION then
+			slot6, slot7 = ActivityWaterData:GetCanUseTrialList(ActivityCfg.get_id_list_by_sub_activity_list[slot2][1])
+
+			for slot11, slot12 in ipairs(slot7) do
+				table.insert(slot3, {
+					id = HeroStandardSystemCfg[slot12].hero_id,
+					trialID = slot12
 				})
 			end
 		end
 
-		for iter_4_4, iter_4_5 in ipairs(var_4_4.standard_heros) do
-			local var_4_7 = HeroStandardSystemCfg[iter_4_5]
+		if slot4 then
+			slot7 = HeroData
+			slot9 = slot7
 
-			table.insert(var_4_0, {
-				id = var_4_7.hero_id,
-				trialID = iter_4_5
-			})
-		end
-	elseif arg_4_0 == BattleConst.STAGE_TYPE_NEW.ACTIVITY_WATER_COOPERATION then
-		local var_4_8 = ActivityCfg.get_id_list_by_sub_activity_list[arg_4_2][1]
-		local var_4_9, var_4_10 = ActivityWaterData:GetCanUseTrialList(var_4_8)
-
-		for iter_4_6, iter_4_7 in ipairs(var_4_10) do
-			local var_4_11 = HeroStandardSystemCfg[iter_4_7]
-
-			table.insert(var_4_0, {
-				id = var_4_11.hero_id,
-				trialID = iter_4_7
-			})
-		end
-	end
-
-	if var_4_1 then
-		local var_4_12 = HeroTools.Sort(HeroData:GetHeroList())
-
-		for iter_4_8, iter_4_9 in pairs(var_4_12) do
-			table.insert(var_4_0, {
-				trialID = 0,
-				id = iter_4_9
-			})
-		end
-	end
-
-	return var_4_0
-end
-
-function var_0_0.RegisterInvitationValidation(arg_5_0, arg_5_1)
-	var_0_1[arg_5_0] = arg_5_1
-end
-
-function var_0_0.IsInvitationValid(arg_6_0, arg_6_1, arg_6_2)
-	if not var_0_1[arg_6_0] then
-		return true
-	end
-
-	if var_0_1[arg_6_0](arg_6_1, arg_6_2) then
-		return true
-	end
-
-	return false
-end
-
-function var_0_0.GetShowInviteRoot()
-	local var_7_0 = GameSetting.cooperation_invite_root_show_activity_template.value
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_0) do
-		local var_7_1 = ActivityCfg.get_id_list_by_activity_template[iter_7_1] or {}
-
-		for iter_7_2, iter_7_3 in ipairs(var_7_1) do
-			if ActivityData:GetActivityIsOpen(iter_7_3) then
-				return true
+			for slot9, slot10 in pairs(HeroTools.Sort(slot7.GetHeroList(slot9))) do
+				table.insert(slot3, {
+					trialID = 0,
+					id = slot10
+				})
 			end
 		end
-	end
 
-	return false
-end
+		return slot3
+	end,
+	RegisterInvitationValidation = function (slot0, slot1)
+		uv0[slot0] = slot1
+	end,
+	IsInvitationValid = function (slot0, slot1, slot2)
+		if not uv0[slot0] then
+			return true
+		end
 
-local var_0_2
+		if uv0[slot0](slot1, slot2) then
+			return true
+		end
 
-function var_0_0.ShowHeroView(arg_8_0)
-	local var_8_0 = CooperationData:GetRoomData()
-	local var_8_1 = var_8_0 and var_8_0:GetRoomPlayerData(arg_8_0)
+		return false
+	end,
+	GetShowInviteRoot = function ()
+		for slot4, slot5 in ipairs(GameSetting.cooperation_invite_root_show_activity_template.value) do
+			for slot10, slot11 in ipairs(ActivityCfg.get_id_list_by_activity_template[slot5] or {}) do
+				if ActivityData:GetActivityIsOpen(slot11) then
+					return true
+				end
+			end
+		end
 
-	if var_8_1 == nil then
-		return
-	end
+		return false
+	end,
+	ShowHeroView = function (slot0)
+		if (CooperationData:GetRoomData() and slot1:GetRoomPlayerData(slot0)) == nil then
+			return
+		end
 
-	local var_8_2 = var_8_1.heroList
-	local var_8_3 = var_8_2[1].id
-	local var_8_4 = var_8_2[1].trialID
+		slot3 = slot2.heroList
 
-	if var_8_4 and var_8_4 ~= 0 then
-		gameContext:Go("/newHero", {
-			isEnter = true,
-			isTemp = true,
-			hid = var_8_3,
-			tempHeroList = {
-				var_8_4
-			}
-		})
-	else
-		var_0_2 = clone(var_8_1)
+		if slot3[1].trialID and slot5 ~= 0 then
+			gameContext:Go("/newHero", {
+				isEnter = true,
+				isTemp = true,
+				hid = slot3[1].id,
+				tempHeroList = {
+					slot5
+				}
+			})
+		else
+			uv0 = clone(slot2)
 
-		JumpTools.OpenPageByJump("/newHero", {
-			isEnter = true,
-			notShowBar = true,
+			JumpTools.OpenPageByJump("/newHero", {
+				isEnter = true,
+				notShowBar = true,
+				isCooperation = true
+			}, ViewConst.SYSTEM_ID.PLAYER_INFO)
+		end
+	end,
+	GetCooperationHeroPower = function (slot0)
+		if (CooperationData:GetRoomData() and slot1:GetRoomPlayerData(slot0)) == nil then
+			return 0
+		end
+
+		slot3 = slot2.heroList
+		slot4 = slot3[1].id
+		uv0 = slot2
+
+		if slot3[1].trialID and slot3[1].trialID ~= 0 then
+			return getHeroPower(slot3[1].trialID, true)
+		else
+			return uv1.GetBattlePower(slot4)
+		end
+	end,
+	GetShowPlayerHeroIdList = function ()
+		if uv0 then
+			slot1 = {}
+
+			for slot5, slot6 in ipairs(uv0.heroList) do
+				table.insert(slot1, slot6.id)
+			end
+
+			return slot1
+		end
+
+		return {}
+	end,
+	GetShowPlayerHero = function (slot0)
+		for slot5, slot6 in ipairs(uv0.heroList) do
+			if slot6.id == slot0 then
+				slot7, slot8 = uv0:ParseHeroViewData(slot5)
+
+				return slot7, slot8
+			end
+		end
+
+		return nil, 
+	end,
+	GetBattlePower = function (slot0)
+		slot1, slot2 = uv0.GetShowPlayerHero(slot0)
+		slot3 = {}
+
+		for slot7 = 1, 6 do
+			if slot1.equip_struct_list[slot7] then
+				table.insert(slot3, slot1.equip_struct_list[slot7])
+			end
+		end
+
+		return calcBattlePower(slot1, slot2, slot3, slot1.trialID, {
 			isCooperation = true
-		}, ViewConst.SYSTEM_ID.PLAYER_INFO)
-	end
-end
-
-function var_0_0.GetCooperationHeroPower(arg_9_0)
-	local var_9_0 = CooperationData:GetRoomData()
-	local var_9_1 = var_9_0 and var_9_0:GetRoomPlayerData(arg_9_0)
-
-	if var_9_1 == nil then
-		return 0
-	end
-
-	local var_9_2 = var_9_1.heroList
-	local var_9_3 = var_9_2[1].id
-
-	var_0_2 = var_9_1
-
-	if var_9_2[1].trialID and var_9_2[1].trialID ~= 0 then
-		return getHeroPower(var_9_2[1].trialID, true)
-	else
-		return var_0_0.GetBattlePower(var_9_3)
-	end
-end
-
-function var_0_0.GetShowPlayerHeroIdList()
-	if var_0_2 then
-		local var_10_0 = var_0_2.heroList
-		local var_10_1 = {}
-
-		for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-			table.insert(var_10_1, iter_10_1.id)
-		end
-
-		return var_10_1
-	end
-
-	return {}
-end
-
-function var_0_0.GetShowPlayerHero(arg_11_0)
-	local var_11_0 = var_0_2.heroList
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_0) do
-		if iter_11_1.id == arg_11_0 then
-			local var_11_1, var_11_2 = var_0_2:ParseHeroViewData(iter_11_0)
-
-			return var_11_1, var_11_2
-		end
-	end
-
-	return nil, nil
-end
-
-function var_0_0.GetBattlePower(arg_12_0)
-	local var_12_0, var_12_1 = var_0_0.GetShowPlayerHero(arg_12_0)
-	local var_12_2 = {}
-
-	for iter_12_0 = 1, 6 do
-		if var_12_0.equip_struct_list[iter_12_0] then
-			table.insert(var_12_2, var_12_0.equip_struct_list[iter_12_0])
-		end
-	end
-
-	return calcBattlePower(var_12_0, var_12_1, var_12_2, var_12_0.trialID, {
-		isCooperation = true
-	})
-end
-
-function var_0_0.GetEquipInfo(arg_13_0, arg_13_1)
-	return var_0_0.GetShowPlayerHero(arg_13_0).equip_struct_list[arg_13_1]
-end
-
-function var_0_0.GetHeroSkillInfo(arg_14_0)
-	local var_14_0 = {}
-	local var_14_1 = var_0_0.GetShowPlayerHero(arg_14_0)
-
-	for iter_14_0, iter_14_1 in ipairs(var_14_1.skill) do
-		var_14_0[iter_14_1.skill_id] = iter_14_1.skill_level
-	end
-
-	local var_14_2 = {}
-
-	for iter_14_2, iter_14_3 in ipairs(HeroCfg[arg_14_0].skills) do
-		local var_14_3 = HeroTools.GetHeroSkillAddLevel(var_14_1, iter_14_3)
-
-		if SkillTools.GetIsDodgeSkill(iter_14_3) then
-			var_14_3 = 0
-		end
-
-		table.insert(var_14_2, {
-			isCanUp = false,
-			id = iter_14_3,
-			heroId = arg_14_0,
-			lv = var_14_0[iter_14_3],
-			addSkillLv = var_14_3
 		})
-	end
-
-	return var_14_2
-end
-
-function var_0_0.GetHeroServantInfo(arg_15_0)
-	local var_15_0 = {}
-	local var_15_1 = var_0_0.GetShowPlayerHero(arg_15_0)
-
-	if var_15_1.servant_uid ~= 0 then
-		return {
-			uid = 0,
-			locked = true,
-			id = var_15_1.servant_uid,
-			stage = var_15_1.servant_stage
+	end,
+	GetEquipInfo = function (slot0, slot1)
+		return uv0.GetShowPlayerHero(slot0).equip_struct_list[slot1]
+	end,
+	GetHeroSkillInfo = function (slot0)
+		slot1 = {
+			[slot7.skill_id] = slot7.skill_level
 		}
-	else
-		return nil
-	end
-end
 
-return var_0_0
+		for slot6, slot7 in ipairs(uv0.GetShowPlayerHero(slot0).skill) do
+			-- Nothing
+		end
+
+		slot3 = {}
+
+		for slot7, slot8 in ipairs(HeroCfg[slot0].skills) do
+			slot9 = HeroTools.GetHeroSkillAddLevel(slot2, slot8)
+
+			if SkillTools.GetIsDodgeSkill(slot8) then
+				slot9 = 0
+			end
+
+			table.insert(slot3, {
+				isCanUp = false,
+				id = slot8,
+				heroId = slot0,
+				lv = slot1[slot8],
+				addSkillLv = slot9
+			})
+		end
+
+		return slot3
+	end,
+	GetHeroServantInfo = function (slot0)
+		slot1 = {}
+
+		if uv0.GetShowPlayerHero(slot0).servant_uid ~= 0 then
+			return {
+				uid = 0,
+				locked = true,
+				id = slot2.servant_uid,
+				stage = slot2.servant_stage
+			}
+		else
+			return nil
+		end
+	end
+}

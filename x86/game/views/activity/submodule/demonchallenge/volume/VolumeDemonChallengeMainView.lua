@@ -1,38 +1,38 @@
-local var_0_0 = class("VolumeDemonChallengeMainView", DemonChallengeMainView)
+slot0 = class("VolumeDemonChallengeMainView", DemonChallengeMainView)
 
-function var_0_0.AddUIListener(arg_1_0)
-	arg_1_0:AddBtnListener(arg_1_0.rewardBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_1_0.activityId_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.rewardBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityId_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("demonChallengeAward", {
-			selectId = arg_1_0.curSelectId_
+			selectId = uv0.curSelectId_
 		})
 	end)
-	arg_1_0:AddBtnListener(arg_1_0.startBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_1_0.activityId_) then
+	slot0:AddBtnListener(slot0.startBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityId_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("volumeDemonChallengeDifficultySelect", {
-			selectId = arg_1_0.curSelectId_
+			selectId = uv0.curSelectId_
 		})
 	end)
 end
 
-function var_0_0.LevelRenderer(arg_4_0, arg_4_1, arg_4_2)
-	if arg_4_0.levelControllerS_[arg_4_1] == nil then
-		arg_4_0.levelControllerS_[arg_4_1] = ControllerUtil.GetController(arg_4_2.transform, "lock")
+function slot0.LevelRenderer(slot0, slot1, slot2)
+	if slot0.levelControllerS_[slot1] == nil then
+		slot0.levelControllerS_[slot1] = ControllerUtil.GetController(slot2.transform, "lock")
 	end
 
-	arg_4_0.levelControllerS_[arg_4_1]:SetSelectedState("false")
+	slot0.levelControllerS_[slot1]:SetSelectedState("false")
 
-	arg_4_0.lockTextS_[arg_4_1] = arg_4_0:FindCom(typeof(Text), "title/lock/text", arg_4_2.transform)
+	slot0.lockTextS_[slot1] = slot0:FindCom(typeof(Text), "title/lock/text", slot2.transform)
 end
 
-return var_0_0
+return slot0

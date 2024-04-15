@@ -1,140 +1,127 @@
-local var_0_0 = class("RechargeRecommendBgItemView", ReduxView)
+slot0 = class("RechargeRecommendBgItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btn_, nil, function()
-		OperationRecorder.RecordButtonTouch("shop_recommend_right_" .. arg_4_0.cfg_.goods_id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		OperationRecorder.RecordButtonTouch("shop_recommend_right_" .. uv0.cfg_.goods_id)
 
-		local var_5_0 = arg_4_0.cfg_.jump
+		slot0 = uv0.cfg_.jump
 
-		if arg_4_0.cfg_.goods_id == 0 then
-			-- block empty
+		if uv0.cfg_.goods_id == 0 then
+			-- Nothing
 		end
 
-		local var_5_1 = arg_4_0.cfg_
-		local var_5_2 = var_5_1.time[1]
-		local var_5_3 = false
+		slot3 = false
 
-		if not var_5_2 or #var_5_2[1] < 3 or #var_5_2[2] < 3 then
-			var_5_3 = true
+		if not uv0.cfg_.time[1] or #slot2[1] < 3 or #slot2[2] < 3 then
+			slot3 = true
 		end
 
-		local var_5_4 = var_5_1.time[2]
-
-		if not var_5_4 or #var_5_4[1] < 3 or #var_5_4[2] < 3 then
-			var_5_3 = true
+		if not slot1.time[2] or #slot4[1] < 3 or #slot4[2] < 3 then
+			slot3 = true
 		end
 
-		if not var_5_3 then
-			local var_5_5 = TimeMgr.GetInstance():parseTimeFromConfig(var_5_1.time[1])
-			local var_5_6 = TimeMgr.GetInstance():parseTimeFromConfig(var_5_1.time[2])
-			local var_5_7 = TimeMgr.GetInstance():GetServerTime()
+		slot3 = slot3 or TimeMgr.GetInstance():GetServerTime() < TimeMgr.GetInstance():parseTimeFromConfig(slot1.time[2]) and TimeMgr.GetInstance():parseTimeFromConfig(slot1.time[1]) <= slot7 and true or false
 
-			var_5_3 = var_5_7 < var_5_6 and var_5_5 <= var_5_7 and true or false
-		end
-
-		if arg_4_0.cfg_.jump2 ~= "" then
-			if #arg_4_0.cfg_.jump2 == 5 then
-				var_5_3 = ShopTools.IsGoodCanDisplay(arg_4_0.cfg_.jump2[5], arg_4_0.cfg_.jump2[2])
-			elseif #arg_4_0.cfg_.jump2 == 3 then
-				var_5_3 = ShopTools.IsGoodCanDisplay(arg_4_0.cfg_.jump2[3], arg_4_0.cfg_.jump2[2])
+		if uv0.cfg_.jump2 ~= "" then
+			if #uv0.cfg_.jump2 == 5 then
+				slot3 = ShopTools.IsGoodCanDisplay(uv0.cfg_.jump2[5], uv0.cfg_.jump2[2])
+			elseif #uv0.cfg_.jump2 == 3 then
+				slot3 = ShopTools.IsGoodCanDisplay(uv0.cfg_.jump2[3], uv0.cfg_.jump2[2])
 			end
 		end
 
-		if var_5_3 then
-			JumpTools.JumpToPage(var_5_0)
+		if slot3 then
+			JumpTools.JumpToPage(slot0)
 
-			if arg_4_0.cfg_.jump2 ~= nil and arg_4_0.cfg_.jump2 ~= "" then
-				if #arg_4_0.cfg_.jump2 == 5 and ShopTools.IsGoodCanBuyInShop(arg_4_0.cfg_.jump2[5], arg_4_0.cfg_.jump2[2]) and ShopTools.CheckSoldOut(arg_4_0.cfg_.jump2[2]) then
+			if uv0.cfg_.jump2 ~= nil and uv0.cfg_.jump2 ~= "" then
+				if #uv0.cfg_.jump2 == 5 and ShopTools.IsGoodCanBuyInShop(uv0.cfg_.jump2[5], uv0.cfg_.jump2[2]) and ShopTools.CheckSoldOut(uv0.cfg_.jump2[2]) then
 					ShowTips("SKIN_HAD_UNLOCKED")
 
 					return
 				end
 
-				JumpTools.JumpToPage(arg_4_0.cfg_.jump2)
+				JumpTools.JumpToPage(uv0.cfg_.jump2)
 			end
 		else
 			ShowTips("GOODS_HAS_BEEN_REMOVED")
 		end
 	end)
 
-	if arg_4_0.infoBtn_ then
-		arg_4_0:AddBtnListener(arg_4_0.infoBtn_, nil, function()
-			local var_6_0 = arg_4_0.cfg_.info_desc
-			local var_6_1 = ""
+	if slot0.infoBtn_ then
+		slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+			slot1 = ""
 
-			if var_6_0[1] == 1 then
-				var_6_1 = RechargeShopDescriptionCfg[var_6_0[2]].desc2
+			if uv0.cfg_.info_desc[1] == 1 then
+				slot1 = RechargeShopDescriptionCfg[slot0[2]].desc2
 			else
-				print("未支持对应类型的说明文本", var_6_0[1])
+				print("未支持对应类型的说明文本", slot0[1])
 			end
 
 			JumpTools.OpenPageByJump("gameHelp", {
 				title = GetTips("SHOP_GIFT_DESCRIBE"),
-				content = var_6_1
+				content = slot1
 			})
 		end)
 	end
 end
 
-function var_0_0.AddEventListeners(arg_7_0)
-	return
+function slot0.AddEventListeners(slot0)
 end
 
-function var_0_0.SetData(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0.index_ = arg_8_1
-	arg_8_0.cfg_ = arg_8_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.index_ = slot1
+	slot0.cfg_ = slot2
 
-	arg_8_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_9_0)
-	if arg_9_0.timeGo_ then
-		SetActive(arg_9_0.timeGo_, arg_9_0.cfg_.show_time ~= "")
+function slot0.UpdateView(slot0)
+	if slot0.timeGo_ then
+		SetActive(slot0.timeGo_, slot0.cfg_.show_time ~= "")
 
-		arg_9_0.timeTxt_.text = arg_9_0.cfg_.show_time
+		slot0.timeTxt_.text = slot0.cfg_.show_time
 	end
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:AddEventListeners()
+function slot0.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_0.OnExit(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.OnMainHomeViewTop(arg_12_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Hide(arg_13_0)
-	SetActive(arg_13_0.gameObject_, false)
+function slot0.Hide(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Show(arg_14_0)
-	SetActive(arg_14_0.gameObject_, true)
+function slot0.Show(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0.data_ = nil
+function slot0.Dispose(slot0)
+	slot0.data_ = nil
 
-	var_0_0.super.Dispose(arg_15_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

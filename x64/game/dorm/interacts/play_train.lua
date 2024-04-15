@@ -1,88 +1,88 @@
-local var_0_0 = {}
-local var_0_1 = "CharDorm/prop/huochetou"
-local var_0_2 = "CharDorm/prop/huochexiang"
+slot0 = {}
+slot1 = "CharDorm/prop/huochetou"
+slot2 = "CharDorm/prop/huochexiang"
 
-local function var_0_3(arg_1_0)
-	local var_1_0 = {}
+function slot3(slot0)
+	slot5 = slot0[1]
 
-	table.insert(var_1_0, arg_1_0[1])
+	table.insert({}, slot5)
 
-	for iter_1_0 = #arg_1_0, 2, -1 do
-		table.insert(var_1_0, arg_1_0[iter_1_0])
+	for slot5 = #slot0, 2, -1 do
+		table.insert(slot1, slot0[slot5])
 	end
 
-	return var_1_0
+	return slot1
 end
 
-local function var_0_4(arg_2_0)
-	return (nullable(DormUtils.GetEntityData(arg_2_0), "rail"))
+function slot4(slot0)
+	return nullable(DormUtils.GetEntityData(slot0), "rail")
 end
 
-local var_0_5 = 1.55
-local var_0_6 = 4
-local var_0_7 = "train_head"
-local var_0_8 = 1.5
-local var_0_9 = "train_head_stand"
-local var_0_10 = 1.3
+slot5 = 1.55
+slot6 = 4
+slot7 = "train_head"
+slot8 = 1.5
+slot9 = "train_head_stand"
+slot10 = 1.3
 
-return function(arg_3_0)
-	local var_3_0 = math.random() > 0.5
-	local var_3_1 = arg_3_0.entityID
-	local var_3_2 = arg_3_0.targetID
-	local var_3_3 = var_0_4(var_3_2)
+return function (slot0)
+	slot1 = math.random() > 0.5
+	slot2 = slot0.entityID
 
-	if var_3_3 and not var_3_3:HasTrainStarted() then
-		local var_3_4 = var_3_3.path
-		local var_3_5 = Dorm.DormEntityManager.QueryPosition(var_3_1)
-		local var_3_6 = var_3_3:GenerateTrain(var_0_6)
-		local var_3_7 = var_3_6[1]
+	if uv0(slot0.targetID) and not slot4:HasTrainStarted() then
+		slot5 = slot4.path
+		slot6 = Dorm.DormEntityManager.QueryPosition(slot2)
+		slot8 = slot4:GenerateTrain(uv1)[1]
 
-		Dorm.DormEntityManager.KeepAsInteractNotEnd(var_3_1, var_3_7, true)
-		Dorm.DormEntityManager.AttachToEntityCMD(var_3_1, var_3_7, "gua_start")
-		Dorm.DormEntityManager.PlayAnimeDuringInteract(var_3_1, var_0_7)
+		Dorm.DormEntityManager.KeepAsInteractNotEnd(slot2, slot8, true)
+		Dorm.DormEntityManager.AttachToEntityCMD(slot2, slot8, "gua_start")
+		Dorm.DormEntityManager.PlayAnimeDuringInteract(slot2, uv2)
 
-		for iter_3_0 = 2, var_3_3:GetTrainCartNum() do
-			DormLuaBridge.SetupFurnitureTileEntity(var_3_3:GetTrainEID(iter_3_0))
+		slot12 = slot4
+
+		for slot12 = 2, slot4.GetTrainCartNum(slot12) do
+			DormLuaBridge.SetupFurnitureTileEntity(slot4:GetTrainEID(slot12))
 		end
 
-		local var_3_8 = var_3_3:FindClosestPointOnRail(var_3_5)
-		local var_3_9 = DormCharacterActionManager.taskRunner:NewTask()
+		slot9 = slot4:FindClosestPointOnRail(slot6)
+		slot10 = DormCharacterActionManager.taskRunner:NewTask()
 
-		var_3_9:Then(function(arg_4_0)
-			for iter_4_0, iter_4_1 in ipairs(var_3_6) do
-				local var_4_0 = var_3_8 - (iter_4_0 - 1) * var_0_5 * (var_3_0 and -1 or 1)
-
-				Dorm.DormEntityManager.SendPatrolCMD(iter_4_1, var_3_4, var_3_0, var_4_0, false)
-				Dorm.DormEntityManager.SetEntitySpeed(iter_4_1, 0)
+		slot10:Then(function (slot0)
+			for slot4, slot5 in ipairs(uv0) do
+				Dorm.DormEntityManager.SendPatrolCMD(slot5, uv4, uv3, uv1 - (slot4 - 1) * uv2 * (uv3 and -1 or 1), false)
+				Dorm.DormEntityManager.SetEntitySpeed(slot5, 0)
 			end
 
 			manager.audio:PlayEffect("ui_dorm", "ui_dorm_train")
-		end):WaitForSec(var_0_8):Then(function()
-			for iter_5_0, iter_5_1 in ipairs(var_3_6) do
-				Dorm.DormEntityManager.SetEntitySpeed(iter_5_1, var_0_10)
+		end):WaitForSec(uv4):Then(function ()
+			for slot3, slot4 in ipairs(uv0) do
+				Dorm.DormEntityManager.SetEntitySpeed(slot4, uv1)
 			end
 
-			Dorm.DormEntityManager.PlayAnimeDuringInteract(var_3_1, var_0_9)
-		end):WaitUntil(function()
+			Dorm.DormEntityManager.PlayAnimeDuringInteract(uv2, uv3)
+		end):WaitUntil(function ()
 			return false
 		end)
-		var_3_9:SetOnAbort(function()
-			Dorm.DormEntityManager.KeepAsInteractNotEnd(var_3_1, var_3_7, false)
+		slot10:SetOnAbort(function ()
+			slot3 = uv1
+			slot4 = false
 
-			for iter_7_0, iter_7_1 in ipairs(var_3_6) do
-				if iter_7_1 ~= var_3_7 then
-					for iter_7_2, iter_7_3 in DormUtils.EnumerateInteractEntities(iter_7_1) do
-						Dorm.DormEntityManager.StopAllCmd(iter_7_3)
-						DormLuaBridge.TryGrabPlayerOutOfStuck(iter_7_3)
+			Dorm.DormEntityManager.KeepAsInteractNotEnd(uv0, slot3, slot4)
+
+			for slot3, slot4 in ipairs(uv2) do
+				if slot4 ~= uv1 then
+					for slot8, slot9 in DormUtils.EnumerateInteractEntities(slot4) do
+						Dorm.DormEntityManager.StopAllCmd(slot9)
+						DormLuaBridge.TryGrabPlayerOutOfStuck(slot9)
 					end
 				end
 			end
 
-			var_3_3:ClearTrain()
+			uv3:ClearTrain()
 		end)
 
-		return var_3_9
+		return slot10
 	else
-		DormLuaBridge.TryGrabPlayerOutOfStuck(var_3_1, true)
+		DormLuaBridge.TryGrabPlayerOutOfStuck(slot2, true)
 	end
 end

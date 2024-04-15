@@ -1,108 +1,95 @@
-local var_0_0 = import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView")
-local var_0_1 = class("NewGuildBossSetAssistantView", var_0_0)
+slot1 = class("NewGuildBossSetAssistantView", import("game.views.heroTeamInfo.NewHeroTeamInfoBaseView"))
 
-function var_0_1.Init(arg_1_0)
-	var_0_1.super.Init(arg_1_0)
-	arg_1_0.filterView_:SetExtraSorter(function(arg_2_0, arg_2_1, arg_2_2, arg_2_3)
-		local var_2_0 = GuildData:CheckCurrentHeroIDIsAssistant(arg_2_0.id) and 1 or 0
-		local var_2_1 = GuildData:CheckCurrentHeroIDIsAssistant(arg_2_1.id) and 1 or 0
-
-		if var_2_0 ~= var_2_1 then
-			return true, var_2_1 < var_2_0
+function slot1.Init(slot0)
+	uv0.super.Init(slot0)
+	slot0.filterView_:SetExtraSorter(function (slot0, slot1, slot2, slot3)
+		if (GuildData:CheckCurrentHeroIDIsAssistant(slot0.id) and 1 or 0) ~= (GuildData:CheckCurrentHeroIDIsAssistant(slot1.id) and 1 or 0) then
+			return true, slot5 < slot4
 		end
 
 		return false, false
 	end)
 end
 
-function var_0_1.HeadRenderer(arg_3_0, arg_3_1, arg_3_2)
-	var_0_1.super.HeadRenderer(arg_3_0, arg_3_1, arg_3_2)
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
 
-	local var_3_0 = arg_3_0.heroDataList_[arg_3_1].id
-
-	if GuildData:CheckCurrentHeroIDIsAssistant(var_3_0) then
-		arg_3_2:SetTeamMarkBg("purple")
-		arg_3_2:SetTeamMark(true, GetTips("CURRENT_ASSISTANT"))
+	if GuildData:CheckCurrentHeroIDIsAssistant(slot0.heroDataList_[slot1].id) then
+		slot2:SetTeamMarkBg("purple")
+		slot2:SetTeamMark(true, GetTips("CURRENT_ASSISTANT"))
 	else
-		arg_3_2:SetTeamMark(false)
+		slot2:SetTeamMark(false)
 	end
 end
 
-function var_0_1.OnEnter(arg_4_0)
-	var_0_1.super.OnEnter(arg_4_0)
-	arg_4_0:AddEventListeners()
+function slot1.OnEnter(slot0)
+	uv0.super.OnEnter(slot0)
+	slot0:AddEventListeners()
 end
 
-function var_0_1.OnExit(arg_5_0)
-	var_0_1.super.OnExit(arg_5_0)
-	arg_5_0:RemoveAllEventListener()
+function slot1.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_1.AddEventListeners(arg_6_0)
-	arg_6_0:RegistEventListener(GUILD_BOSS_ASSISTANT_HERO_CHANGE, function(arg_7_0)
-		arg_6_0.heroHeadList_:Refresh()
-		arg_6_0:RefreshJoinBtn()
+function slot1.AddEventListeners(slot0)
+	slot0:RegistEventListener(GUILD_BOSS_ASSISTANT_HERO_CHANGE, function (slot0)
+		uv0.heroHeadList_:Refresh()
+		uv0:RefreshJoinBtn()
 	end)
-	arg_6_0:RegistEventListener(GUILD_EXIT, function()
-		arg_6_0:Go("/home")
+	slot0:RegistEventListener(GUILD_EXIT, function ()
+		uv0:Go("/home")
 	end)
 end
 
-function var_0_1.GetHeroTeam(arg_9_0)
-	arg_9_0.lockStateList_ = {
+function slot1.GetHeroTeam(slot0)
+	slot0.lockStateList_ = {
 		false,
 		false,
 		false
 	}
 end
 
-function var_0_1.OnJoinClick(arg_10_0)
-	local var_10_0 = arg_10_0.selectHeroData_.id
-	local var_10_1 = GuildData:GetGuildInfo().id
-
-	if GuildData:CheckCurrentHeroIDIsAssistant(var_10_0) then
-		GuildAction.SetAssistHero(var_10_1, var_10_0, false)
+function slot1.OnJoinClick(slot0)
+	if GuildData:CheckCurrentHeroIDIsAssistant(slot0.selectHeroData_.id) then
+		GuildAction.SetAssistHero(GuildData:GetGuildInfo().id, slot1, false)
 
 		return
 	end
 
-	local var_10_2 = GuildData:GetCurrentBossAssistantHeroId()
-
-	if GameSetting.club_boss_assist_max_num.value[1] <= #var_10_2 then
+	if GameSetting.club_boss_assist_max_num.value[1] <= #GuildData:GetCurrentBossAssistantHeroId() then
 		ShowTips("CLUB_BOSS_ASSIST_MAX_NUM")
 	else
-		GuildAction.SetAssistHero(var_10_1, var_10_0, true)
+		GuildAction.SetAssistHero(slot2, slot1, true)
 	end
 end
 
-function var_0_1.RefreshJoinBtn(arg_11_0)
-	if GuildData:CheckCurrentHeroIDIsAssistant(arg_11_0.selectHeroData_.id) then
-		arg_11_0.joinBtnController_:SetSelectedState("currentAssistant")
+function slot1.RefreshJoinBtn(slot0)
+	if GuildData:CheckCurrentHeroIDIsAssistant(slot0.selectHeroData_.id) then
+		slot0.joinBtnController_:SetSelectedState("currentAssistant")
 
-		arg_11_0.joinBtn_.interactable = true
+		slot0.joinBtn_.interactable = true
 	else
-		arg_11_0.joinBtnController_:SetSelectedState("setAssistant")
+		slot0.joinBtnController_:SetSelectedState("setAssistant")
 
-		arg_11_0.joinBtn_.interactable = true
+		slot0.joinBtn_.interactable = true
 	end
 end
 
-function var_0_1.IsInTeam(arg_12_0, arg_12_1, arg_12_2)
-	return GuildData:CheckCurrentHeroIDIsAssistant(arg_12_1), false, -1
+function slot1.IsInTeam(slot0, slot1, slot2)
+	return GuildData:CheckCurrentHeroIDIsAssistant(slot1), false, -1
 end
 
-function var_0_1.GetDefaultHeroData(arg_13_0)
-	local var_13_0 = GuildData:GetCurrentBossAssistantHeroId()
-
-	if var_13_0 and #var_13_0 > 0 then
-		for iter_13_0, iter_13_1 in ipairs(arg_13_0.heroDataList_) do
-			if iter_13_1.id == var_13_0[1] then
-				return iter_13_1
+function slot1.GetDefaultHeroData(slot0)
+	if GuildData:GetCurrentBossAssistantHeroId() and #slot1 > 0 then
+		for slot5, slot6 in ipairs(slot0.heroDataList_) do
+			if slot6.id == slot1[1] then
+				return slot6
 			end
 		end
 	end
 
-	return arg_13_0.heroDataList_[1]
+	return slot0.heroDataList_[1]
 end
 
-return var_0_1
+return slot1

@@ -1,1 +1,1 @@
-return (class("BlankView", ReduxView))
+return class("BlankView", ReduxView)

@@ -1,59 +1,46 @@
-local var_0_0 = class("WeaponDetailView", ReduxView)
+slot0 = class("WeaponDetailView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:Init()
+	slot0:BindCfgUI()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0.constVar = {
+function slot0.Init(slot0)
+	slot0.constVar = {
 		sliderBarWidth = 387
 	}
 end
 
-function var_0_0.OnEnter(arg_3_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_4_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.ShowWeaponInfo(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.weaponnameText_.text = HeroCfg[arg_5_1].weapon_name
-	arg_5_0.nowlevelText_.text = arg_5_2.level
-	arg_5_0.toplevelText_.text = "/" .. GameSetting.weapon_exp_limit.value[arg_5_2.breakthrough + 1] or HeroConst.WEAPON_LV_MAX
-	arg_5_0.weaponstoryText_.text = HeroCfg[arg_5_1].weapon_desc
+function slot0.ShowWeaponInfo(slot0, slot1, slot2, slot3)
+	slot0.weaponnameText_.text = HeroCfg[slot1].weapon_name
+	slot0.nowlevelText_.text = slot2.level
+	slot0.toplevelText_.text = "/" .. GameSetting.weapon_exp_limit.value[slot2.breakthrough + 1] or HeroConst.WEAPON_LV_MAX
+	slot0.weaponstoryText_.text = HeroCfg[slot1].weapon_desc
+	slot0.atknumText_.text = string.format("%d", WeaponTools.WeaponAtk(slot2.level, slot2.breakthrough))
+	slot0.dcrinameText_.text, slot0.crinumText_.text = SkillTools.GetAttr(HeroCfg[slot1].weapon_break_attribute[slot2.breakthrough + 1])
+	slot8, slot9, slot10 = WeaponTools.AddWeaponExp(slot2.exp, slot2.breakthrough, 0)
 
-	local var_5_0 = WeaponTools.WeaponAtk(arg_5_2.level, arg_5_2.breakthrough)
-	local var_5_1 = HeroCfg[arg_5_1].weapon_break_attribute[arg_5_2.breakthrough + 1]
+	slot0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slot8 / GameLevelSetting[slot2.level].weapon_level_exp * slot0.constVar.sliderBarWidth)
 
-	arg_5_0.atknumText_.text = string.format("%d", var_5_0)
-
-	local var_5_2, var_5_3 = SkillTools.GetAttr(var_5_1)
-
-	arg_5_0.dcrinameText_.text = var_5_2
-	arg_5_0.crinumText_.text = var_5_3
-
-	local var_5_4, var_5_5, var_5_6 = WeaponTools.AddWeaponExp(arg_5_2.exp, arg_5_2.breakthrough, 0)
-	local var_5_7 = GameLevelSetting[arg_5_2.level].weapon_level_exp
-	local var_5_8 = var_5_4 / var_5_7 * arg_5_0.constVar.sliderBarWidth
-
-	arg_5_0.realExpTrans_:SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, var_5_8)
-
-	if arg_5_2.level >= HeroConst.WEAPON_LV_MAX then
-		arg_5_0.expShowTxt_.text = "-/-"
+	if HeroConst.WEAPON_LV_MAX <= slot2.level then
+		slot0.expShowTxt_.text = "-/-"
 	else
-		arg_5_0.expShowTxt_.text = var_5_4 .. "/" .. var_5_7
+		slot0.expShowTxt_.text = slot8 .. "/" .. slot11
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	arg_6_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

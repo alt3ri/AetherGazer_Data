@@ -1,312 +1,297 @@
-local var_0_0 = class("MainStickerView", ReduxView)
+slot0 = class("MainStickerView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/paster/StickerMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
-	arg_3_0:InitDropdownData()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
+	slot0:InitDropdownData()
 end
 
-function var_0_0.InitDropdownData(arg_4_0)
-	arg_4_0.dropDown_.options:Clear()
-	arg_4_0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_1"), nil))
-	arg_4_0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_2"), nil))
-	arg_4_0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_3"), nil))
-	arg_4_0.dropDown_:RefreshShownValue()
+function slot0.InitDropdownData(slot0)
+	slot0.dropDown_.options:Clear()
+	slot0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_1"), nil))
+	slot0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_2"), nil))
+	slot0.dropDown_.options:Add(UnityEngine.UI.Dropdown.OptionData.New(GetTips("STICKER_PRESETS_3"), nil))
+	slot0.dropDown_:RefreshShownValue()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.viewType_ = {
+	slot0.viewType_ = {
 		FOREIGN = 3,
 		EDITOR = 2,
 		SHOW = 1
 	}
-	arg_5_0.dropDown_ = arg_5_0.dropGo_:GetComponent("UIDropDown")
-	arg_5_0.stickerViewItem_ = {}
-	arg_5_0.viewCon_ = ControllerUtil.GetController(arg_5_0.transform_, "view")
+	slot0.dropDown_ = slot0.dropGo_:GetComponent("UIDropDown")
+	slot0.stickerViewItem_ = {}
+	slot0.viewCon_ = ControllerUtil.GetController(slot0.transform_, "view")
 
-	manager.redPoint:bindUIandKey(arg_5_0.stickerRedTrans_, RedPointConst.STICKER)
+	manager.redPoint:bindUIandKey(slot0.stickerRedTrans_, RedPointConst.STICKER)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddToggleListener(arg_6_0.dropDown_, function(arg_7_0)
-		arg_6_0:RefreshUI(arg_7_0 + 1)
+function slot0.AddUIListeners(slot0)
+	slot0:AddToggleListener(slot0.dropDown_, function (slot0)
+		uv0:RefreshUI(slot0 + 1)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.showBtn_, nil, function()
-		SetActive(arg_6_0.btnView_, true)
-		arg_6_0:AddClickTimer()
+	slot0:AddBtnListener(slot0.showBtn_, nil, function ()
+		SetActive(uv0.btnView_, true)
+		uv0:AddClickTimer()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.listBtn_, nil, function()
+	slot0:AddBtnListener(slot0.listBtn_, nil, function ()
 		JumpTools.GoToSystem("/stickersList")
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.editBtn_, nil, function()
-		arg_6_0.curType_ = arg_6_0.viewType_.EDITOR
-		arg_6_0.params_.tempInfo = {
-			stickerBg = arg_6_0.stickerBg_,
-			info = arg_6_0.stickerInfo_
+	slot0:AddBtnListener(slot0.editBtn_, nil, function ()
+		uv0.curType_ = uv0.viewType_.EDITOR
+		uv0.params_.tempInfo = {
+			stickerBg = uv0.stickerBg_,
+			info = uv0.stickerInfo_
 		}
 
-		arg_6_0:RefreshState()
+		uv0:RefreshState()
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.chooseBtn_, nil, function()
+	slot0:AddBtnListener(slot0.chooseBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/chooseStickerTemplate", {
-			chooseID = arg_6_0.stickerInfo_[arg_6_0.curIndex_].viewID,
-			index = arg_6_0.curIndex_,
-			temp = arg_6_0.params_.tempInfo
+			chooseID = uv0.stickerInfo_[uv0.curIndex_].viewID,
+			index = uv0.curIndex_,
+			temp = uv0.params_.tempInfo
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.bgBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/chooseStickerBg", {
-			chooseID = arg_6_0.stickerBg_,
-			temp = arg_6_0.params_.tempInfo
+			chooseID = uv0.stickerBg_,
+			temp = uv0.params_.tempInfo
 		})
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.exitBtn_, nil, function()
-		arg_6_0.curType_ = arg_6_0.viewType_.SHOW
+	slot0:AddBtnListener(slot0.exitBtn_, nil, function ()
+		uv0.curType_ = uv0.viewType_.SHOW
 
-		arg_6_0.stickerViewItem_[arg_6_0.stickerInfo_[arg_6_0.curIndex_].viewID]:Show(false)
+		uv0.stickerViewItem_[uv0.stickerInfo_[uv0.curIndex_].viewID]:Show(false)
 
-		arg_6_0.stickerBg_ = arg_6_0.params_.stickerBg
-		arg_6_0.stickerInfo_ = deepClone(arg_6_0.params_.oldInfo or {})
+		uv0.stickerBg_ = uv0.params_.stickerBg
+		uv0.stickerInfo_ = deepClone(uv0.params_.oldInfo or {})
 
-		arg_6_0:RefreshUI(arg_6_0.curIndex_)
+		uv0:RefreshUI(uv0.curIndex_)
 	end)
-	arg_6_0:AddBtnListener(arg_6_0.okBtn_, nil, function()
-		PlayerAction.ChangeStickerList(arg_6_0.params_.tempInfo)
+	slot0:AddBtnListener(slot0.okBtn_, nil, function ()
+		PlayerAction.ChangeStickerList(uv0.params_.tempInfo)
 	end)
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.curType_ = arg_15_0.params_.type or arg_15_0.viewType_.SHOW
+function slot0.OnEnter(slot0)
+	slot0.curType_ = slot0.params_.type or slot0.viewType_.SHOW
 
-	if arg_15_0.curType_ == arg_15_0.viewType_.EDITOR then
-		arg_15_0.stickerBg_ = arg_15_0.params_.tempInfo.stickerBg
-		arg_15_0.stickerInfo_ = arg_15_0.params_.tempInfo.info
+	if slot0.curType_ == slot0.viewType_.EDITOR then
+		slot0.stickerBg_ = slot0.params_.tempInfo.stickerBg
+		slot0.stickerInfo_ = slot0.params_.tempInfo.info
 	else
-		arg_15_0.params_.oldInfo = deepClone(arg_15_0.params_.stickerInfo or {})
-		arg_15_0.stickerBg_ = arg_15_0.params_.stickerBg
-		arg_15_0.stickerInfo_ = deepClone(arg_15_0.params_.oldInfo or {})
+		slot0.params_.oldInfo = deepClone(slot0.params_.stickerInfo or {})
+		slot0.stickerBg_ = slot0.params_.stickerBg
+		slot0.stickerInfo_ = deepClone(slot0.params_.oldInfo or {})
 	end
 
-	arg_15_0:BindRedPoint()
-	arg_15_0:RefreshUI(arg_15_0.params_.index or 1)
+	slot0:BindRedPoint()
+	slot0:RefreshUI(slot0.params_.index or 1)
 end
 
-function var_0_0.RefreshUI(arg_16_0, arg_16_1)
-	arg_16_0.dropDown_.value = arg_16_1 - 1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.dropDown_.value = slot1 - 1
 
-	arg_16_0:RefreshView(arg_16_1)
-	arg_16_0:RefreshState()
+	slot0:RefreshView(slot1)
+	slot0:RefreshState()
 end
 
-function var_0_0.RefreshView(arg_17_0, arg_17_1)
-	if arg_17_0.curIndex_ and arg_17_0.curIndex_ ~= arg_17_1 and arg_17_0.stickerInfo_[arg_17_0.curIndex_] and arg_17_0.stickerViewItem_[arg_17_0.stickerInfo_[arg_17_0.curIndex_].viewID] then
-		arg_17_0.stickerViewItem_[arg_17_0.stickerInfo_[arg_17_0.curIndex_].viewID]:Show(false)
+function slot0.RefreshView(slot0, slot1)
+	if slot0.curIndex_ and slot0.curIndex_ ~= slot1 and slot0.stickerInfo_[slot0.curIndex_] and slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID] then
+		slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID]:Show(false)
 	end
 
-	arg_17_0.curIndex_ = arg_17_1
-	arg_17_0.params_.index = arg_17_1
+	slot0.curIndex_ = slot1
+	slot0.params_.index = slot1
 
-	if not arg_17_0.stickerBg_ or arg_17_0.stickerBg_ == 0 then
-		arg_17_0.stickerBg_ = GameSetting.sticker_background_default.value[1]
+	if not slot0.stickerBg_ or slot0.stickerBg_ == 0 then
+		slot0.stickerBg_ = GameSetting.sticker_background_default.value[1]
 	end
 
-	arg_17_0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. arg_17_0.stickerBg_)
+	slot0.bg_.sprite = getSpriteWithoutAtlas("TextureConfig/Sticker/stickerBtn/Sticker_big_" .. slot0.stickerBg_)
 
-	if not arg_17_0.stickerInfo_[arg_17_0.curIndex_] then
-		local var_17_0 = {}
-		local var_17_1 = GameSetting.profile_sticker_template.value[1]
-		local var_17_2 = StickViewTemplateCfg[var_17_1]
-
-		for iter_17_0, iter_17_1 in ipairs(var_17_2.range_list) do
-			var_17_0[iter_17_0] = {
-				stickerID = 0,
-				size = iter_17_1[2][1]
-			}
+	if not slot0.stickerInfo_[slot0.curIndex_] then
+		for slot8, slot9 in ipairs(StickViewTemplateCfg[GameSetting.profile_sticker_template.value[1]].range_list) do
+			-- Nothing
 		end
 
-		arg_17_0.stickerInfo_[arg_17_0.curIndex_] = {
-			index = arg_17_0.curIndex_,
-			viewID = var_17_1,
-			sticker = var_17_0
+		slot0.stickerInfo_[slot0.curIndex_] = {
+			index = slot0.curIndex_,
+			viewID = slot3,
+			sticker = {
+				[slot8] = {
+					stickerID = 0,
+					size = slot9[2][1]
+				}
+			}
 		}
 	end
 
-	local var_17_3 = arg_17_0.stickerInfo_[arg_17_0.curIndex_].viewID
+	if not slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID] then
+		slot0.stickerViewItem_[slot2] = StickerView.New(slot0, Object.Instantiate(Asset.Load("Widget/System/UserInfor/paster/StickerTemplate" .. slot2), slot0.pageContainer_), slot2)
 
-	if not arg_17_0.stickerViewItem_[var_17_3] then
-		local var_17_4 = Object.Instantiate(Asset.Load("Widget/System/UserInfor/paster/StickerTemplate" .. var_17_3), arg_17_0.pageContainer_)
-
-		arg_17_0.stickerViewItem_[var_17_3] = StickerView.New(arg_17_0, var_17_4, var_17_3)
-
-		arg_17_0.stickerViewItem_[var_17_3]:RegistClickFunc(function(arg_18_0, arg_18_1)
-			if arg_17_0.curType_ ~= arg_17_0.viewType_.EDITOR then
+		slot0.stickerViewItem_[slot2]:RegistClickFunc(function (slot0, slot1)
+			if uv0.curType_ ~= uv0.viewType_.EDITOR then
 				ShowPopItem(POP_SOURCE_DES_ITEM, {
-					arg_18_0.stickerID
+					slot0.stickerID
 				}, {
-					isForeign = arg_17_0.curType_ == arg_17_0.viewType_.FOREIGN
+					isForeign = uv0.curType_ == uv0.viewType_.FOREIGN
 				})
 			else
 				JumpTools.OpenPageByJump("chooseStickers", {
-					list = arg_17_0.stickerInfo_[arg_17_0.curIndex_].sticker,
-					info = arg_18_0,
-					site = arg_18_1,
-					viewID = var_17_3
+					list = uv0.stickerInfo_[uv0.curIndex_].sticker,
+					info = slot0,
+					site = slot1,
+					viewID = uv1
 				})
 			end
 		end)
 	end
 
-	arg_17_0.stickerViewItem_[arg_17_0.stickerInfo_[arg_17_0.curIndex_].viewID]:Show(true)
+	slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID]:Show(true)
 
-	local var_17_5 = StickViewTemplateCfg[var_17_3]
-
-	for iter_17_2 = #arg_17_0.stickerInfo_[arg_17_0.curIndex_].sticker + 1, #var_17_5.range_list do
-		arg_17_0.stickerInfo_[arg_17_0.curIndex_].sticker[iter_17_2] = {
+	for slot7 = #slot0.stickerInfo_[slot0.curIndex_].sticker + 1, #StickViewTemplateCfg[slot2].range_list do
+		slot0.stickerInfo_[slot0.curIndex_].sticker[slot7] = {
 			stickerID = 0,
-			size = var_17_5.range_list[iter_17_2][2][1]
+			size = slot3.range_list[slot7][2][1]
 		}
 	end
 
-	if arg_17_0.params_.resetSize then
-		for iter_17_3, iter_17_4 in ipairs(arg_17_0.stickerInfo_[arg_17_0.curIndex_].sticker) do
-			if var_17_5.range_list[iter_17_3] then
-				iter_17_4.size = var_17_5.range_list[iter_17_3][2][1]
+	if slot0.params_.resetSize then
+		for slot7, slot8 in ipairs(slot0.stickerInfo_[slot0.curIndex_].sticker) do
+			if slot3.range_list[slot7] then
+				slot8.size = slot3.range_list[slot7][2][1]
 			end
 		end
 
-		arg_17_0.params_.resetSize = false
+		slot0.params_.resetSize = false
 	end
 
-	arg_17_0.stickerViewItem_[var_17_3]:SetData(arg_17_0.stickerInfo_[arg_17_0.curIndex_].sticker)
+	slot0.stickerViewItem_[slot2]:SetData(slot0.stickerInfo_[slot0.curIndex_].sticker)
 end
 
-function var_0_0.RefreshState(arg_19_0)
-	arg_19_0.viewCon_:SetSelectedState(arg_19_0.curType_)
-
-	local var_19_0 = arg_19_0.stickerInfo_[arg_19_0.curIndex_].viewID
-
-	arg_19_0.stickerViewItem_[var_19_0]:RefreshUI(arg_19_0.curType_ == arg_19_0.viewType_.EDITOR)
+function slot0.RefreshState(slot0)
+	slot0.viewCon_:SetSelectedState(slot0.curType_)
+	slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID]:RefreshUI(slot0.curType_ == slot0.viewType_.EDITOR)
 end
 
-function var_0_0.AddClickTimer(arg_20_0)
-	arg_20_0:StopTimer()
+function slot0.AddClickTimer(slot0)
+	slot0:StopTimer()
 
-	arg_20_0.buttonUp_ = 0
-	arg_20_0.clickTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function()
+	slot0.buttonUp_ = 0
+	slot0.clickTimer_ = FuncTimerManager.inst:CreateFuncFrameTimer(function ()
 		if Input.GetMouseButtonUp(0) then
-			arg_20_0.buttonUp_ = arg_20_0.buttonUp_ + 1
+			uv0.buttonUp_ = uv0.buttonUp_ + 1
 
-			if arg_20_0.buttonUp_ >= 2 then
-				arg_20_0:HidePop()
-				FuncTimerManager.inst:RemoveFuncTimer(arg_20_0.clickTimer_)
+			if uv0.buttonUp_ >= 2 then
+				uv0:HidePop()
+				FuncTimerManager.inst:RemoveFuncTimer(uv0.clickTimer_)
 
-				arg_20_0.clickTimer_ = nil
+				uv0.clickTimer_ = nil
 			end
 		end
 	end, -1, true)
 end
 
-function var_0_0.StopTimer(arg_22_0)
-	if arg_22_0.clickTimer_ then
-		FuncTimerManager.inst:RemoveFuncTimer(arg_22_0.clickTimer_)
+function slot0.StopTimer(slot0)
+	if slot0.clickTimer_ then
+		FuncTimerManager.inst:RemoveFuncTimer(slot0.clickTimer_)
 
-		arg_22_0.clickTimer_ = nil
+		slot0.clickTimer_ = nil
 	end
 end
 
-function var_0_0.HidePop(arg_23_0)
-	SetActive(arg_23_0.btnView_, false)
+function slot0.HidePop(slot0)
+	SetActive(slot0.btnView_, false)
 end
 
-function var_0_0.BindRedPoint(arg_24_0)
-	manager.redPoint:bindUIandKey(arg_24_0.editBtn_.transform, RedPointConst.STICKER_BG)
-	manager.redPoint:bindUIandKey(arg_24_0.bgBtn_.transform, RedPointConst.STICKER_BG)
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.editBtn_.transform, RedPointConst.STICKER_BG)
+	manager.redPoint:bindUIandKey(slot0.bgBtn_.transform, RedPointConst.STICKER_BG)
 end
 
-function var_0_0.UnBindRedPoint(arg_25_0)
-	manager.redPoint:unbindUIandKey(arg_25_0.editBtn_.transform, RedPointConst.STICKER_BG)
-	manager.redPoint:unbindUIandKey(arg_25_0.bgBtn_.transform, RedPointConst.STICKER_BG)
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.editBtn_.transform, RedPointConst.STICKER_BG)
+	manager.redPoint:unbindUIandKey(slot0.bgBtn_.transform, RedPointConst.STICKER_BG)
 end
 
-function var_0_0.OnChangeSticker(arg_26_0, arg_26_1, arg_26_2, arg_26_3)
-	local var_26_0 = arg_26_0.stickerInfo_[arg_26_0.curIndex_].sticker[arg_26_1].stickerID
+function slot0.OnChangeSticker(slot0, slot1, slot2, slot3)
+	slot4 = slot0.stickerInfo_[slot0.curIndex_].sticker[slot1].stickerID
 
-	if arg_26_2 ~= 0 then
-		for iter_26_0, iter_26_1 in ipairs(arg_26_0.stickerInfo_[arg_26_0.curIndex_].sticker) do
-			if iter_26_1 and iter_26_1.stickerID == arg_26_2 then
-				arg_26_0.stickerInfo_[arg_26_0.curIndex_].sticker[iter_26_0].stickerID = var_26_0
+	if slot2 ~= 0 then
+		for slot8, slot9 in ipairs(slot0.stickerInfo_[slot0.curIndex_].sticker) do
+			if slot9 and slot9.stickerID == slot2 then
+				slot0.stickerInfo_[slot0.curIndex_].sticker[slot8].stickerID = slot4
 
 				break
 			end
 		end
 	end
 
-	arg_26_0.stickerInfo_[arg_26_0.curIndex_].sticker[arg_26_1] = {
-		stickerID = arg_26_2,
-		size = arg_26_3
+	slot0.stickerInfo_[slot0.curIndex_].sticker[slot1] = {
+		stickerID = slot2,
+		size = slot3
 	}
 
-	local var_26_1 = arg_26_0.stickerInfo_[arg_26_0.curIndex_].viewID
-
-	arg_26_0.stickerViewItem_[var_26_1]:RefreshUI(arg_26_0.curType_ == arg_26_0.viewType_.EDITOR)
+	slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID]:RefreshUI(slot0.curType_ == slot0.viewType_.EDITOR)
 end
 
-function var_0_0.OnChangeStickerSize(arg_27_0, arg_27_1, arg_27_2, arg_27_3)
-	arg_27_0.stickerInfo_[arg_27_0.curIndex_].sticker[arg_27_1].size = arg_27_3
+function slot0.OnChangeStickerSize(slot0, slot1, slot2, slot3)
+	slot0.stickerInfo_[slot0.curIndex_].sticker[slot1].size = slot3
 
-	local var_27_0 = arg_27_0.stickerInfo_[arg_27_0.curIndex_].viewID
-
-	arg_27_0.stickerViewItem_[var_27_0]:RefreshUI(arg_27_0.curType_ == arg_27_0.viewType_.EDITOR)
+	slot0.stickerViewItem_[slot0.stickerInfo_[slot0.curIndex_].viewID]:RefreshUI(slot0.curType_ == slot0.viewType_.EDITOR)
 end
 
-function var_0_0.OnChangeStickerList(arg_28_0, arg_28_1, arg_28_2)
-	arg_28_0.curType_ = arg_28_0.viewType_.SHOW
-	arg_28_0.params_.oldInfo = arg_28_1
-	arg_28_0.params_.stickerInfo = arg_28_1
-	arg_28_0.params_.stickerBg = arg_28_2
-	arg_28_0.stickerBg_ = arg_28_2
-	arg_28_0.stickerInfo_ = deepClone(arg_28_0.params_.oldInfo)
+function slot0.OnChangeStickerList(slot0, slot1, slot2)
+	slot0.curType_ = slot0.viewType_.SHOW
+	slot0.params_.oldInfo = slot1
+	slot0.params_.stickerInfo = slot1
+	slot0.params_.stickerBg = slot2
+	slot0.stickerBg_ = slot2
+	slot0.stickerInfo_ = deepClone(slot0.params_.oldInfo)
 
-	arg_28_0:RefreshUI(arg_28_0.curIndex_)
+	slot0:RefreshUI(slot0.curIndex_)
 end
 
-function var_0_0.OnTop(arg_29_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_30_0)
-	arg_30_0:UnBindRedPoint()
+function slot0.OnExit(slot0)
+	slot0:UnBindRedPoint()
 	manager.windowBar:HideBar()
 
-	for iter_30_0, iter_30_1 in pairs(arg_30_0.stickerViewItem_) do
-		iter_30_1:OnExit()
+	for slot4, slot5 in pairs(slot0.stickerViewItem_) do
+		slot5:OnExit()
 	end
 
-	arg_30_0.params_.type = nil
+	slot0.params_.type = nil
 end
 
-function var_0_0.Dispose(arg_31_0)
-	arg_31_0:RemoveAllListeners()
-	manager.redPoint:unbindUIandKey(arg_31_0.stickerRedTrans_)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	manager.redPoint:unbindUIandKey(slot0.stickerRedTrans_)
 
-	for iter_31_0, iter_31_1 in pairs(arg_31_0.stickerViewItem_) do
-		iter_31_1:Dispose()
+	for slot4, slot5 in pairs(slot0.stickerViewItem_) do
+		slot5:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_31_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,30 +1,30 @@
-local var_0_0 = class("BackHomeCricketBuffItem", ReduxView)
+slot0 = class("BackHomeCricketBuffItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddBtnListener(arg_2_0.buffBtn_, nil, arg_2_0.OnClick, arg_2_0)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(slot0.buffBtn_, nil, slot0.OnClick, slot0)
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_0.buffID = arg_3_1.id
-	arg_3_0.buffIcon_.sprite = IdolTraineeTools:GetBuffIcon(arg_3_0.buffID)
-	arg_3_0.buffRoundText_.text = arg_3_1.duration
-	arg_3_0.showInfoFunc = arg_3_2
+function slot0.RefreshUI(slot0, slot1, slot2)
+	slot0.buffID = slot1.id
+	slot0.buffIcon_.sprite = IdolTraineeTools:GetBuffIcon(slot0.buffID)
+	slot0.buffRoundText_.text = slot1.duration
+	slot0.showInfoFunc = slot2
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnClick(arg_5_0)
-	manager.notify:CallUpdateFunc("OnBuffIconClick", arg_5_0.buffID, arg_5_0.showInfoFunc)
+function slot0.OnClick(slot0)
+	manager.notify:CallUpdateFunc("OnBuffIconClick", slot0.buffID, slot0.showInfoFunc)
 end
 
-return var_0_0
+return slot0

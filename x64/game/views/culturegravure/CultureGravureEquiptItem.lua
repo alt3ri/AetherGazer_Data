@@ -1,156 +1,142 @@
-local var_0_0 = class("CultureGravureEquiptItem", ReduxView)
+slot0 = class("CultureGravureEquiptItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 
-	arg_2_0.equiptList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexEquiptItem), arg_2_0.equiptListGo_, CultureGravureRecommendEquipItem)
-	arg_2_0.infoNumController_ = arg_2_0.equipCon_:GetController("infonum")
-	arg_2_0.equipController_ = arg_2_0.equipCon_:GetController("state")
-	arg_2_0.infoItemList_ = {}
+	slot0.equiptList_ = LuaList.New(handler(slot0, slot0.IndexEquiptItem), slot0.equiptListGo_, CultureGravureRecommendEquipItem)
+	slot0.infoNumController_ = slot0.equipCon_:GetController("infonum")
+	slot4 = "state"
+	slot0.equipController_ = slot0.equipCon_:GetController(slot4)
+	slot0.infoItemList_ = {}
 
-	for iter_2_0 = 1, 3 do
-		local var_2_0 = CultureGravureEquiptInfoItem.New(arg_2_0["infoGo" .. iter_2_0 .. "_"])
-
-		table.insert(arg_2_0.infoItemList_, var_2_0)
+	for slot4 = 1, 3 do
+		table.insert(slot0.infoItemList_, CultureGravureEquiptInfoItem.New(slot0["infoGo" .. slot4 .. "_"]))
 	end
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1, arg_3_2, arg_3_3)
-	arg_3_0.data_ = arg_3_2
-	arg_3_0.rate_ = arg_3_2.rate
-	arg_3_0.heroID_ = arg_3_3
-	arg_3_0.recommendIdList_ = arg_3_2.list
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.data_ = slot2
+	slot0.rate_ = slot2.rate
+	slot0.heroID_ = slot3
+	slot0.recommendIdList_ = slot2.list
 
-	table.sort(arg_3_0.recommendIdList_, function(arg_4_0, arg_4_1)
-		local var_4_0 = EquipCfg[arg_4_0]
-		local var_4_1 = EquipCfg[arg_4_1]
-
-		return var_4_0.pos < var_4_1.pos
+	table.sort(slot0.recommendIdList_, function (slot0, slot1)
+		return EquipCfg[slot0].pos < EquipCfg[slot1].pos
 	end)
 
-	arg_3_0.stateList_ = {}
-	arg_3_0.hasAllEquipt = true
-	arg_3_0.canAllEquipt = true
+	slot0.stateList_ = {}
+	slot0.hasAllEquipt = true
+	slot0.canAllEquipt = true
 
-	arg_3_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.equipBtn_, nil, function()
-		if arg_5_0.hasAllEquipt or not arg_5_0.canAllEquipt then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.equipBtn_, nil, function ()
+		if uv0.hasAllEquipt or not uv0.canAllEquipt then
 			return
 		end
 
-		local var_6_0 = {
+		JumpTools.OpenPageByJump("cultureGravureEquipPopView", {
 			index = 0,
-			heroId = arg_5_0.heroID_,
-			recommendIdList = arg_5_0.recommendIdList_,
-			stateList = arg_5_0.stateList_
-		}
-
-		JumpTools.OpenPageByJump("cultureGravureEquipPopView", var_6_0)
+			heroId = uv0.heroID_,
+			recommendIdList = uv0.recommendIdList_,
+			stateList = uv0.stateList_
+		})
 	end)
 end
 
-function var_0_0.InitUI(arg_7_0)
-	arg_7_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.SetCallBack(arg_8_0, arg_8_1)
-	arg_8_0.callback = arg_8_1
+function slot0.SetCallBack(slot0, slot1)
+	slot0.callback = slot1
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.rateText_.text = math.floor(arg_9_0.rate_ / 100)
+function slot0.RefreshUI(slot0)
+	slot0.rateText_.text = math.floor(slot0.rate_ / 100)
 
-	arg_9_0.equiptList_:StartScroll(#arg_9_0.recommendIdList_)
+	slot0.equiptList_:StartScroll(#slot0.recommendIdList_)
 
-	local var_9_0 = {}
-	local var_9_1 = 0
+	slot1 = {}
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_0.recommendIdList_) do
-		local var_9_2 = EquipCfg[iter_9_1]
-
-		if not var_9_0[var_9_2.suit] then
-			var_9_0[var_9_2.suit] = {}
-			var_9_1 = var_9_1 + 1
+	for slot6, slot7 in ipairs(slot0.recommendIdList_) do
+		if not slot1[EquipCfg[slot7].suit] then
+			slot1[slot8.suit] = {}
+			slot2 = 0 + 1
 		end
 
-		table.insert(var_9_0[var_9_2.suit], iter_9_1)
+		table.insert(slot1[slot8.suit], slot7)
 	end
 
-	arg_9_0.infoNumController_:SetSelectedState(var_9_1)
+	slot0.infoNumController_:SetSelectedState(slot2)
 
-	local var_9_3 = {}
+	slot3 = {}
 
-	for iter_9_2, iter_9_3 in pairs(var_9_0) do
-		table.insert(var_9_3, iter_9_3)
+	for slot7, slot8 in pairs(slot1) do
+		table.insert(slot3, slot8)
 	end
 
-	if #var_9_3 > 1 then
-		table.sort(var_9_3, function(arg_10_0, arg_10_1)
-			local var_10_0 = EquipCfg[arg_10_0[1]]
-			local var_10_1 = EquipCfg[arg_10_1[1]]
-
-			return var_10_0.pos < var_10_1.pos
+	if #slot3 > 1 then
+		table.sort(slot3, function (slot0, slot1)
+			return EquipCfg[slot0[1]].pos < EquipCfg[slot1[1]].pos
 		end)
 	end
 
-	for iter_9_4 = 1, #var_9_3 do
-		arg_9_0.infoItemList_[iter_9_4]:SetData(iter_9_4, var_9_3[iter_9_4])
+	for slot7 = 1, #slot3 do
+		slot0.infoItemList_[slot7]:SetData(slot7, slot3[slot7])
 	end
 end
 
-function var_0_0.IndexEquiptItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.recommendIdList_[arg_11_1]
-	local var_11_1 = CultureGravureData:GetHasEquipt(var_11_0)
-	local var_11_2 = CultureGravureData:GetEquiptIsEquipped(arg_11_0.heroID_, var_11_0)
+function slot0.IndexEquiptItem(slot0, slot1, slot2)
+	slot3 = slot0.recommendIdList_[slot1]
+	slot4 = CultureGravureData:GetHasEquipt(slot3)
 
-	if not var_11_2 then
-		arg_11_0.hasAllEquipt = false
+	if not CultureGravureData:GetEquiptIsEquipped(slot0.heroID_, slot3) then
+		slot0.hasAllEquipt = false
 	end
 
-	if not var_11_2 and not var_11_1 then
-		arg_11_0.canAllEquipt = false
+	if not slot5 and not slot4 then
+		slot0.canAllEquipt = false
 	end
 
-	local var_11_3 = ""
-	local var_11_4 = var_11_2 and "had" or var_11_1 and "equip" or "get"
+	slot6 = ""
+	slot6 = slot5 and "had" or slot4 and "equip" or "get"
+	slot0.stateList_[slot1] = slot6
 
-	arg_11_0.stateList_[arg_11_1] = var_11_4
+	slot2:SetData(slot1, slot3, slot0.heroID_, slot6)
 
-	arg_11_2:SetData(arg_11_1, var_11_0, arg_11_0.heroID_, var_11_4)
-
-	if arg_11_1 == #arg_11_0.recommendIdList_ then
-		SetActive(arg_11_0.btnGroup_, arg_11_0.canAllEquipt)
-		arg_11_0.equipController_:SetSelectedState(tostring(arg_11_0.hasAllEquipt))
+	if slot1 == #slot0.recommendIdList_ then
+		SetActive(slot0.btnGroup_, slot0.canAllEquipt)
+		slot0.equipController_:SetSelectedState(tostring(slot0.hasAllEquipt))
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.equiptList_ then
-		arg_12_0.equiptList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.equiptList_ then
+		slot0.equiptList_:Dispose()
 
-		arg_12_0.equiptList_ = nil
+		slot0.equiptList_ = nil
 	end
 
-	if arg_12_0.infoItemList_ then
-		for iter_12_0 = 1, #arg_12_0.infoItemList_ do
-			arg_12_0.infoItemList_[iter_12_0]:Dispose()
+	if slot0.infoItemList_ then
+		for slot4 = 1, #slot0.infoItemList_ do
+			slot0.infoItemList_[slot4]:Dispose()
 		end
 
-		arg_12_0.infoItemList_ = nil
+		slot0.infoItemList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

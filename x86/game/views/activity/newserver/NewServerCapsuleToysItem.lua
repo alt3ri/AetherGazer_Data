@@ -1,54 +1,51 @@
-local var_0_0 = class("NewServerCapsuleToysItem", ReduxView)
+slot0 = class("NewServerCapsuleToysItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	SetActive(arg_1_1, true)
-	arg_1_0:BindCfgUI()
+	SetActive(slot1, true)
+	slot0:BindCfgUI()
 
-	arg_1_0.commonItem_ = CommonItemView.New(arg_1_0.commonItemGo_)
+	slot0.commonItem_ = CommonItemView.New(slot0.commonItemGo_)
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.rewardID_ = arg_2_1
+function slot0.SetData(slot0, slot1)
+	slot0.rewardID_ = slot1
+	slot2 = NewServerCapsuleToysCfg[slot1]
+	slot4 = 0
 
-	local var_2_0 = NewServerCapsuleToysCfg[arg_2_1]
-	local var_2_1 = NewServerData:GetCapsuleToysStatus()[arg_2_1]
-	local var_2_2 = 0
-
-	if var_2_1 then
-		var_2_2 = var_2_1.remain_num
+	if NewServerData:GetCapsuleToysStatus()[slot1] then
+		slot4 = slot3.remain_num
 	end
 
-	arg_2_0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), var_2_2, var_2_0.total)
+	slot0.progressText_.text = string.format(GetTips("VERIFY_ASSETS_PROCESSING_RATE"), slot4, slot2.total)
+	slot5 = NewServerCapsuleToysCfg[slot0.rewardID_].reward
 
-	local var_2_3 = NewServerCapsuleToysCfg[arg_2_0.rewardID_].reward
+	if not slot0.itemData_ then
+		slot0.itemData_ = clone(ItemTemplateData)
 
-	if not arg_2_0.itemData_ then
-		arg_2_0.itemData_ = clone(ItemTemplateData)
-
-		function arg_2_0.itemData_.clickFun(arg_3_0)
+		function slot0.itemData_.clickFun(slot0)
 			ShowPopItem(POP_ITEM, {
-				arg_3_0.id,
-				arg_3_0.number
+				slot0.id,
+				slot0.number
 			})
 		end
 	end
 
-	arg_2_0.itemData_.id = var_2_3[1]
-	arg_2_0.itemData_.number = var_2_3[2]
-	arg_2_0.itemData_.completedFlag = var_2_2 == 0
+	slot0.itemData_.id = slot5[1]
+	slot0.itemData_.number = slot5[2]
+	slot0.itemData_.completedFlag = slot4 == 0
 
-	arg_2_0.commonItem_:SetData(arg_2_0.itemData_)
+	slot0.commonItem_:SetData(slot0.itemData_)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.commonItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.commonItem_:Dispose()
 
-	arg_4_0.commonItem_ = nil
+	slot0.commonItem_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

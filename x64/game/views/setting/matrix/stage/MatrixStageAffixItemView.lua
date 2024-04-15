@@ -1,32 +1,32 @@
-local var_0_0 = class("MatrixStageAffixItemView", ReduxView)
+slot0 = class("MatrixStageAffixItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2, slot3)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:SetData(arg_1_3)
-	arg_1_0:Show(true)
+	slot0:BindCfgUI()
+	slot0:SetData(slot3)
+	slot0:Show(true)
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.nameText_.text = getAffixName(arg_2_1)
-	arg_2_0.icon_.sprite = getAffixSprite(arg_2_1)
-	arg_2_0.desc_.text = getAffixDesc(arg_2_1)
+function slot0.SetData(slot0, slot1)
+	slot0.nameText_.text = getAffixName(slot1)
+	slot0.icon_.sprite = getAffixSprite(slot1)
+	slot0.desc_.text = getAffixDesc(slot1)
 
-	arg_2_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.Show(arg_3_0, arg_3_1)
-	SetActive(arg_3_0.gameObject_, arg_3_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	Object.Destroy(arg_4_0.gameObject_)
+function slot0.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_4_0.gameObject_ = nil
+	slot0.gameObject_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

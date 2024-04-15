@@ -1,95 +1,83 @@
-local var_0_0 = class("BackHomeCricketBattleResuleItem", ReduxView)
+slot0 = class("BackHomeCricketBattleResuleItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.RefreshUI(arg_3_0, arg_3_1)
-	local var_3_0 = BackHomeCricketBattleData:GetSingleBattleData()
+function slot0.RefreshUI(slot0, slot1)
+	slot0.type = slot1.type
+	slot0.name_.text = GetTips(BackHomeCricketConst.SCORE_DESC[slot0.type])
 
-	arg_3_0.type = arg_3_1.type
-	arg_3_0.name_.text = GetTips(BackHomeCricketConst.SCORE_DESC[arg_3_0.type])
+	if BackHomeCricketBattleData:GetSingleBattleData() then
+		slot5, slot6 = nil
 
-	if var_3_0 then
-		local var_3_1 = arg_3_1.attackData
-		local var_3_2 = arg_3_1.defendData
-		local var_3_3
-		local var_3_4
-
-		if arg_3_0.type == BackHomeCricketConst.SCORE_INDEX.TOTAL then
-			var_3_3 = var_3_1.totalNum
-			var_3_4 = var_3_2.totalNum
-		elseif arg_3_0.type == BackHomeCricketConst.SCORE_INDEX.ADVANTAGE then
-			var_3_3 = var_3_1.peculiar
-			var_3_4 = var_3_2.peculiar
-		elseif arg_3_0.type == BackHomeCricketConst.SCORE_INDEX.SKILL_SCORE then
-			var_3_3 = var_3_1.skillAdd
-			var_3_4 = var_3_2.skillAdd
-		elseif arg_3_0.type == BackHomeCricketConst.SCORE_INDEX.SKILL_DEDCUTION then
-			var_3_3 = var_3_1.skillDec
-			var_3_4 = var_3_2.skillDec
+		if slot0.type == BackHomeCricketConst.SCORE_INDEX.TOTAL then
+			slot5 = slot1.attackData.totalNum
+			slot6 = slot1.defendData.totalNum
+		elseif slot0.type == BackHomeCricketConst.SCORE_INDEX.ADVANTAGE then
+			slot5 = slot3.peculiar
+			slot6 = slot4.peculiar
+		elseif slot0.type == BackHomeCricketConst.SCORE_INDEX.SKILL_SCORE then
+			slot5 = slot3.skillAdd
+			slot6 = slot4.skillAdd
+		elseif slot0.type == BackHomeCricketConst.SCORE_INDEX.SKILL_DEDCUTION then
+			slot5 = slot3.skillDec
+			slot6 = slot4.skillDec
 		end
 
-		local var_3_5 = arg_3_0:CalculateBaseNum(var_3_3, var_3_4)
-		local var_3_6
-		local var_3_7
-		local var_3_8 = var_3_3 / var_3_5
-		local var_3_9 = var_3_4 / var_3_5
+		slot7 = slot0:CalculateBaseNum(slot5, slot6)
+		slot8, slot9 = nil
+		slot0.scorelText_.text = slot5
+		slot0.scorerText_.text = slot6
+		slot10 = LeanTween.value(slot0.bar1_.gameObject, 0, slot5 / slot7, 1)
 
-		arg_3_0.scorelText_.text = var_3_3
-		arg_3_0.scorerText_.text = var_3_4
-
-		local var_3_10 = LeanTween.value(arg_3_0.bar1_.gameObject, 0, var_3_8, 1)
-
-		var_3_10:setOnUpdate(LuaHelper.FloatAction(function(arg_4_0)
-			arg_3_0.bar1_.value = arg_4_0
+		slot10:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.bar1_.value = slot0
 		end))
-		var_3_10:setOnComplete(System.Action(function()
-			LeanTween.cancel(arg_3_0.bar1_.gameObject)
-			var_3_10:setOnUpdate(nil):setOnComplete(nil)
+		slot10:setOnComplete(System.Action(function ()
+			LeanTween.cancel(uv0.bar1_.gameObject)
+			uv1:setOnUpdate(nil):setOnComplete(nil)
 		end))
 
-		local var_3_11 = LeanTween.value(arg_3_0.bar2_.gameObject, 0, var_3_9, 1)
+		slot11 = LeanTween.value(slot0.bar2_.gameObject, 0, slot6 / slot7, 1)
 
-		var_3_11:setOnUpdate(LuaHelper.FloatAction(function(arg_6_0)
-			arg_3_0.bar2_.value = arg_6_0
+		slot11:setOnUpdate(LuaHelper.FloatAction(function (slot0)
+			uv0.bar2_.value = slot0
 		end))
-		var_3_11:setOnComplete(System.Action(function()
-			LeanTween.cancel(arg_3_0.bar2_.gameObject)
-			var_3_11:setOnUpdate(nil):setOnComplete(nil)
+		slot11:setOnComplete(System.Action(function ()
+			LeanTween.cancel(uv0.bar2_.gameObject)
+			uv1:setOnUpdate(nil):setOnComplete(nil)
 		end))
 	end
 end
 
-function var_0_0.CalculateBaseNum(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = math.max(arg_8_1, arg_8_2)
-	local var_8_1 = GameDisplayCfg.dorm_idol_score_compare_scale.value
-	local var_8_2 = -1
+function slot0.CalculateBaseNum(slot0, slot1, slot2)
+	slot5 = -1
 
-	for iter_8_0, iter_8_1 in ipairs(var_8_1) do
-		if var_8_0 < iter_8_1[1] then
-			var_8_2 = iter_8_1[2]
+	for slot9, slot10 in ipairs(GameDisplayCfg.dorm_idol_score_compare_scale.value) do
+		if math.max(slot1, slot2) < slot10[1] then
+			slot5 = slot10[2]
 
 			break
 		end
 	end
 
-	if var_8_2 < 0 then
-		var_8_2 = var_8_1[#var_8_1][2]
+	if slot5 < 0 then
+		slot5 = slot4[#slot4][2]
 	end
 
-	return math.ceil((var_8_0 + 1) / var_8_2) * var_8_2
+	return math.ceil((slot3 + 1) / slot5) * slot5
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

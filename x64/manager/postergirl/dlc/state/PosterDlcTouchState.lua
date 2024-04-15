@@ -1,26 +1,24 @@
-local var_0_0 = class("PosterDlcTouchState", PosterDlcInteractionState)
+slot0 = class("PosterDlcTouchState", PosterDlcInteractionState)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1, PosterGirlConst.InteractionKey.mainTouch)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1, PosterGirlConst.InteractionKey.mainTouch)
 end
 
-function var_0_0.Enter(arg_2_0)
-	local var_2_0 = arg_2_0.actor:GetViewDirect()
-
-	if PosterGirlConst.ViewDirect.left == var_2_0 then
-		arg_2_0.interactionKey = PosterGirlConst.InteractionKey.touch2
-	elseif PosterGirlConst.ViewDirect.right == var_2_0 then
-		arg_2_0.interactionKey = PosterGirlConst.InteractionKey.touch3
+function slot0.Enter(slot0)
+	if PosterGirlConst.ViewDirect.left == slot0.actor:GetViewDirect() then
+		slot0.interactionKey = PosterGirlConst.InteractionKey.touch2
+	elseif PosterGirlConst.ViewDirect.right == slot1 then
+		slot0.interactionKey = PosterGirlConst.InteractionKey.touch3
 	else
-		arg_2_0.interactionKey = PosterGirlConst.InteractionKey.mainTouch
+		slot0.interactionKey = PosterGirlConst.InteractionKey.mainTouch
 	end
 
-	if arg_2_0.lastInteractionKey ~= arg_2_0.interactionKey then
-		arg_2_0.lastInteractionKey = arg_2_0.interactionKey
-		arg_2_0.lastIndex = 0
+	if slot0.lastInteractionKey ~= slot0.interactionKey then
+		slot0.lastInteractionKey = slot0.interactionKey
+		slot0.lastIndex = 0
 	end
 
-	var_0_0.super.Enter(arg_2_0)
+	uv0.super.Enter(slot0)
 end
 
-return var_0_0
+return slot0

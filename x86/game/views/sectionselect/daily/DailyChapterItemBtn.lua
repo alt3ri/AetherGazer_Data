@@ -1,78 +1,76 @@
-local var_0_0 = class("DailyChapterItemBtn", ReduxView)
+slot0 = class("DailyChapterItemBtn", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.parentView_ = arg_1_1
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_2, arg_1_3.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.chapterID_ = arg_1_4
+function slot0.OnCtor(slot0, slot1, slot2, slot3, slot4)
+	slot0.parentView_ = slot1
+	slot0.gameObject_ = Object.Instantiate(slot2, slot3.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.chapterID_ = slot4
 
-	SetActive(arg_1_0.gameObject_, true)
-	arg_1_0:Init()
+	SetActive(slot0.gameObject_, true)
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListeners()
-	arg_2_0:IsLock()
-	arg_2_0:RefreshItem()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
+	slot0:IsLock()
+	slot0:RefreshItem()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	arg_3_0.parentView_ = nil
+function slot0.Dispose(slot0)
+	slot0.parentView_ = nil
 
-	Object.Destroy(arg_3_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.btn_ = nil
-	arg_3_0.gameObject_ = nil
-	arg_3_0.text_ = nil
-	arg_3_0.canvasGroup_ = nil
-	arg_3_0.unsubscribeFun = nil
-	arg_3_0.selector_ = nil
-	arg_3_0.lockGo_ = nil
+	slot0.transform_ = nil
+	slot0.btn_ = nil
+	slot0.gameObject_ = nil
+	slot0.text_ = nil
+	slot0.canvasGroup_ = nil
+	slot0.unsubscribeFun = nil
+	slot0.selector_ = nil
+	slot0.lockGo_ = nil
 
-	var_0_0.super.Dispose(arg_3_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1)
-	arg_4_0.chapterID_ = arg_4_1
+function slot0.SetData(slot0, slot1)
+	slot0.chapterID_ = slot1
 
-	arg_4_0:IsLock()
-	arg_4_0:RefreshItem()
+	slot0:IsLock()
+	slot0:RefreshItem()
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btn_, nil, function()
-		if arg_5_0.isLock_ then
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.isLock_ then
 			return
 		end
 
-		arg_5_0.parentView_:SwitchDailyChapter(arg_5_0.chapterID_)
+		uv0.parentView_:SwitchDailyChapter(uv0.chapterID_)
 	end)
 end
 
-function var_0_0.RefreshItem(arg_7_0)
-	if arg_7_0.isLock_ then
-		SetActive(arg_7_0.lockGo_, true)
+function slot0.RefreshItem(slot0)
+	if slot0.isLock_ then
+		SetActive(slot0.lockGo_, true)
 
-		arg_7_0.canvasGroup_.alpha = 0.5
+		slot0.canvasGroup_.alpha = 0.5
 	else
-		SetActive(arg_7_0.lockGo_, false)
+		SetActive(slot0.lockGo_, false)
 
-		arg_7_0.canvasGroup_.alpha = 1
+		slot0.canvasGroup_.alpha = 1
 	end
 
-	arg_7_0.text_.text = GetI18NText(ChapterCfg[arg_7_0.chapterID_].subhead)
+	slot0.text_.text = GetI18NText(ChapterCfg[slot0.chapterID_].subhead)
 end
 
-function var_0_0.SetSiblingIndex(arg_8_0, arg_8_1)
-	arg_8_0.transform_:SetSiblingIndex(arg_8_1)
+function slot0.SetSiblingIndex(slot0, slot1)
+	slot0.transform_:SetSiblingIndex(slot1)
 end
 
-function var_0_0.IsLock(arg_9_0)
-	local var_9_0 = ChapterCfg[arg_9_0.chapterID_].section_id_list[1]
-
-	arg_9_0.isLock_ = BattleStageData:GetStageData()[var_9_0] == nil
+function slot0.IsLock(slot0)
+	slot0.isLock_ = BattleStageData:GetStageData()[ChapterCfg[slot0.chapterID_].section_id_list[1]] == nil
 end
 
-return var_0_0
+return slot0

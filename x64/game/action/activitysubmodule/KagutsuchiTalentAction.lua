@@ -1,77 +1,68 @@
-local var_0_0 = {}
-
-manager.net:Bind(76001, function(arg_1_0)
-	KagutsuchiTalentData:InitData(arg_1_0)
+manager.net:Bind(76001, function (slot0)
+	KagutsuchiTalentData:InitData(slot0)
 end)
 
-function var_0_0.UpgradeTalent(arg_2_0, arg_2_1, arg_2_2)
-	manager.net:SendWithLoadingNew(76004, {
-		activity_id = KagutsuchiWorkData:GetServerActivityID(),
-		talent_id = arg_2_1
-	}, 76005, function(arg_3_0, arg_3_1)
-		arg_2_0:OnUpgradeTalent(arg_3_0, arg_3_1, arg_2_2)
-	end)
-end
+return {
+	UpgradeTalent = function (slot0, slot1, slot2)
+		manager.net:SendWithLoadingNew(76004, {
+			activity_id = KagutsuchiWorkData:GetServerActivityID(),
+			talent_id = slot1
+		}, 76005, function (slot0, slot1)
+			uv0:OnUpgradeTalent(slot0, slot1, uv1)
+		end)
+	end,
+	OnUpgradeTalent = function (slot0, slot1, slot2, slot3)
+		if not isSuccess(slot1.result) then
+			ShowTips(slot1.result)
 
-function var_0_0.OnUpgradeTalent(arg_4_0, arg_4_1, arg_4_2, arg_4_3)
-	if not isSuccess(arg_4_1.result) then
-		ShowTips(arg_4_1.result)
-
-		return
-	end
-
-	KagutsuchiTalentData:UpgradeTalent(arg_4_2.talent_id)
-	arg_4_3(arg_4_1, arg_4_2)
-end
-
-function var_0_0.InitRedPoint(arg_5_0, arg_5_1)
-	arg_5_0.BannedRedPoint_ = arg_5_0.BannedRedPoint_ or {}
-
-	local var_5_0 = manager.time:GetServerTime()
-
-	if arg_5_0.lastFreshTime_ and var_5_0 < arg_5_0.lastFreshTime_ then
-		arg_5_0.BannedRedPoint_ = {}
-	end
-
-	arg_5_0.lastFreshTime_ = manager.time:GetNextFreshTime()
-
-	local var_5_1 = arg_5_1.activity_id
-
-	arg_5_0:UpdateRedPoint(var_5_1)
-end
-
-function var_0_0.UpdateRedPoint(arg_6_0, arg_6_1)
-	local var_6_0 = ActivityTools.GetRedPointKey(arg_6_1) .. arg_6_1
-	local var_6_1 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, var_6_0)
-	local var_6_2 = ActivityData:GetActivityData(arg_6_1)
-
-	if not ActivityData:GetActivityIsOpen(arg_6_1) then
-		manager.redPoint:setTip(var_6_1, 0)
-
-		return
-	end
-
-	if arg_6_0.BannedRedPoint_[var_6_1] then
-		manager.redPoint:setTip(var_6_1, 0)
-
-		return
-	end
-
-	local var_6_3 = false
-
-	for iter_6_0, iter_6_1 in ipairs(KagutsuchiTalentData:GetTalentIdList()) do
-		if KagutsuchiTalentData:CanUpgrade(iter_6_1) then
-			var_6_3 = true
-
-			break
+			return
 		end
+
+		KagutsuchiTalentData:UpgradeTalent(slot2.talent_id)
+		slot3(slot1, slot2)
+	end,
+	InitRedPoint = function (slot0, slot1)
+		slot0.BannedRedPoint_ = slot0.BannedRedPoint_ or {}
+
+		if slot0.lastFreshTime_ and manager.time:GetServerTime() < slot0.lastFreshTime_ then
+			slot0.BannedRedPoint_ = {}
+		end
+
+		slot0.lastFreshTime_ = manager.time:GetNextFreshTime()
+
+		slot0:UpdateRedPoint(slot1.activity_id)
+	end,
+	UpdateRedPoint = function (slot0, slot1)
+		slot3 = string.format("%s_%s", RedPointConst.ACTIVITY_KAGUTSUCHI_WORK_TALENT, ActivityTools.GetRedPointKey(slot1) .. slot1)
+		slot4 = ActivityData:GetActivityData(slot1)
+
+		if not ActivityData:GetActivityIsOpen(slot1) then
+			manager.redPoint:setTip(slot3, 0)
+
+			return
+		end
+
+		if slot0.BannedRedPoint_[slot3] then
+			manager.redPoint:setTip(slot3, 0)
+
+			return
+		end
+
+		slot5 = false
+		slot8 = KagutsuchiTalentData
+		slot10 = slot8
+
+		for slot9, slot10 in ipairs(slot8.GetTalentIdList(slot10)) do
+			if KagutsuchiTalentData:CanUpgrade(slot10) then
+				slot5 = true
+
+				break
+			end
+		end
+
+		manager.redPoint:setTip(slot3, slot5 and 1 or 0)
+	end,
+	BanRedPoint = function (slot0, slot1)
+		slot0.BannedRedPoint_[slot1] = true
 	end
-
-	manager.redPoint:setTip(var_6_1, var_6_3 and 1 or 0)
-end
-
-function var_0_0.BanRedPoint(arg_7_0, arg_7_1)
-	arg_7_0.BannedRedPoint_[arg_7_1] = true
-end
-
-return var_0_0
+}

@@ -1,19 +1,19 @@
-local var_0_0 = class("ActivityMatrixProcessRewardItem", MatrixProcessRewardItem)
+slot0 = class("ActivityMatrixProcessRewardItem", MatrixProcessRewardItem)
 
-function var_0_0.SetMatrixActivityId(arg_1_0, arg_1_1)
-	arg_1_0.matrix_activity_id = arg_1_1
+function slot0.SetMatrixActivityId(slot0, slot1)
+	slot0.matrix_activity_id = slot1
 end
 
-function var_0_0.GetHeroData(arg_2_0, arg_2_1)
-	return ActivityMatrixData:GetHeroData(arg_2_0.matrix_activity_id, arg_2_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetHeroSkin(arg_3_0, arg_3_1)
-	return ActivityMatrixData:GetHeroSkin(arg_3_0.matrix_activity_id, arg_3_1)
+function slot0.GetHeroSkin(slot0, slot1)
+	return ActivityMatrixData:GetHeroSkin(slot0.matrix_activity_id, slot1)
 end
 
-function var_0_0.GetItemDes(arg_4_0, arg_4_1)
-	return MatrixTools.GetMatrixItemDes(arg_4_1, nil, arg_4_0.matrix_activity_id)
+function slot0.GetItemDes(slot0, slot1)
+	return MatrixTools.GetMatrixItemDes(slot1, nil, slot0.matrix_activity_id)
 end
 
-return var_0_0
+return slot0

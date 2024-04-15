@@ -1,217 +1,211 @@
-local var_0_0 = import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy")
-local var_0_1 = class("GuildBossSelectHeroProxy", var_0_0)
+slot1 = class("GuildBossSelectHeroProxy", import("game.views.sectionSelectHero.SelectHeroProxy.SelectHeroBaseProxy"))
 
-function var_0_1.InitCustomParams(arg_1_0, arg_1_1)
-	arg_1_0.dest = arg_1_1.dest
-	arg_1_0.needHeroAssistant = true
+function slot1.InitCustomParams(slot0, slot1)
+	slot0.dest = slot1.dest
+	slot0.needHeroAssistant = true
 end
 
-function var_0_1.CustomRefreshHeroInfoList(arg_2_0, arg_2_1, arg_2_2, arg_2_3, arg_2_4)
-	arg_2_0.reserveHeroInfoList = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS):GetCurHeroInfoList()
+function slot1.CustomRefreshHeroInfoList(slot0, slot1, slot2, slot3, slot4)
+	slot0.reserveHeroInfoList = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS):GetCurHeroInfoList()
 
-	for iter_2_0 = 1, #arg_2_0.heroInfoList do
-		if arg_2_0.reserveHeroInfoList[iter_2_0] then
-			if arg_2_0.reserveHeroInfoList[iter_2_0].type == 2 then
-				arg_2_0.heroInfoList[iter_2_0]:SetAssistantInfo(true, arg_2_0.reserveHeroInfoList[iter_2_0].info)
+	for slot9 = 1, #slot0.heroInfoList do
+		if slot0.reserveHeroInfoList[slot9] then
+			if slot0.reserveHeroInfoList[slot9].type == 2 then
+				slot0.heroInfoList[slot9]:SetAssistantInfo(true, slot0.reserveHeroInfoList[slot9].info)
 			else
-				arg_2_0.heroInfoList[iter_2_0]:SetAssistantInfo(false)
+				slot0.heroInfoList[slot9]:SetAssistantInfo(false)
 			end
 		end
 	end
 end
 
-function var_0_1.CustomChangeHeroTeam(arg_3_0, arg_3_1)
-	local var_3_0 = {}
+function slot1.CustomChangeHeroTeam(slot0, slot1)
+	slot2 = {}
 
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1) do
-		for iter_3_2, iter_3_3 in ipairs(arg_3_0.reserveHeroInfoList) do
-			if iter_3_3.type == 2 and iter_3_3.info.assist_hero_id == iter_3_1 then
-				var_3_0[iter_3_1] = iter_3_3
-			elseif iter_3_3.type == 1 and iter_3_3.heroId == iter_3_1 then
-				var_3_0[iter_3_1] = iter_3_3
+	for slot6, slot7 in ipairs(slot1) do
+		for slot11, slot12 in ipairs(slot0.reserveHeroInfoList) do
+			if slot12.type == 2 and slot12.info.assist_hero_id == slot7 then
+				slot2[slot7] = slot12
+			elseif slot12.type == 1 and slot12.heroId == slot7 then
+				slot2[slot7] = slot12
 			end
 		end
 	end
 
-	local var_3_1 = {}
-
-	for iter_3_4, iter_3_5 in pairs(arg_3_1) do
-		var_3_1[iter_3_4] = var_3_0[iter_3_5]
+	for slot7, slot8 in pairs(slot1) do
+		-- Nothing
 	end
 
-	arg_3_0.reserveHeroInfoList = var_3_1
+	slot0.reserveHeroInfoList = {
+		[slot7] = slot2[slot8]
+	}
 
-	arg_3_0:GuildBossChangeHeroTeam(arg_3_0.reserveHeroInfoList)
+	slot0:GuildBossChangeHeroTeam(slot0.reserveHeroInfoList)
 end
 
-function var_0_1.CustomApplyRroposalHeroTeam(arg_4_0, arg_4_1)
-	local var_4_0 = {}
+function slot1.CustomApplyRroposalHeroTeam(slot0, slot1)
+	for slot6, slot7 in pairs(slot1) do
+		-- Nothing
+	end
 
-	for iter_4_0, iter_4_1 in pairs(arg_4_1) do
-		var_4_0[iter_4_0] = {
+	slot0.reserveHeroInfoList = {
+		[slot6] = {
 			type = 1,
-			heroId = iter_4_1
+			heroId = slot7
 		}
-	end
+	}
 
-	arg_4_0.reserveHeroInfoList = var_4_0
-
-	arg_4_0:GuildBossChangeHeroTeam(arg_4_0.reserveHeroInfoList)
+	slot0:GuildBossChangeHeroTeam(slot0.reserveHeroInfoList)
 end
 
-function var_0_1.CustomSaveTeam(arg_5_0)
-	arg_5_0:GuildBossChangeHeroTeam(arg_5_0.reserveHeroInfoList)
+function slot1.CustomSaveTeam(slot0)
+	slot0:GuildBossChangeHeroTeam(slot0.reserveHeroInfoList)
 end
 
-function var_0_1.GuildBossChangeHeroTeam(arg_6_0, arg_6_1)
-	local var_6_0 = {}
-	local var_6_1 = {
+function slot1.GuildBossChangeHeroTeam(slot0, slot1)
+	slot3 = {
 		0,
 		0,
 		0
 	}
-	local var_6_2 = {}
-	local var_6_3 = 1
+	slot4 = {}
+	slot5 = 1
 
-	for iter_6_0 = 1, 3 do
-		if arg_6_1[iter_6_0] then
-			local var_6_4 = arg_6_1[iter_6_0]
-
-			if var_6_4.type == 1 then
-				var_6_0[var_6_3] = var_6_4.heroId
-			elseif var_6_4.type == 2 then
-				var_6_0[var_6_3] = var_6_4.info.assist_hero_id
-				var_6_2[var_6_3] = var_6_4.info.member_id
+	for slot9 = 1, 3 do
+		if slot1[slot9] then
+			if slot1[slot9].type == 1 then
+				-- Nothing
+			elseif slot10.type == 2 then
+				slot2[slot5] = slot10.info.assist_hero_id
+				slot4[slot5] = slot10.info.member_id
 			end
 
-			var_6_3 = var_6_3 + 1
+			slot5 = slot5 + 1
 		end
 	end
 
-	local var_6_5 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
+	slot6 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.GUILD_BOSS)
 
-	var_6_5:SetHeroList(arg_6_0.reserveParams, var_6_0, var_6_1)
-	var_6_5:SetOwnerID(var_6_2)
+	slot6:SetHeroList(slot0.reserveParams, {
+		[slot5] = slot10.heroId
+	}, slot3)
+	slot6:SetOwnerID(slot4)
 end
 
-function var_0_1.CustomGetSkinCfg(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	if arg_7_0.reserveHeroInfoList[arg_7_1] and arg_7_0.reserveHeroInfoList[arg_7_1].type == 2 then
-		local var_7_0 = arg_7_0.reserveHeroInfoList[arg_7_1].info.assist_hero_skin
-
-		if var_7_0 == 0 then
-			var_7_0 = arg_7_0.reserveHeroInfoList[arg_7_1].info.assist_hero_id
+function slot1.CustomGetSkinCfg(slot0, slot1, slot2, slot3)
+	if slot0.reserveHeroInfoList[slot1] and slot0.reserveHeroInfoList[slot1].type == 2 then
+		if slot0.reserveHeroInfoList[slot1].info.assist_hero_skin == 0 then
+			slot4 = slot0.reserveHeroInfoList[slot1].info.assist_hero_id
 		end
 
-		return SkinCfg[var_7_0]
+		return SkinCfg[slot4]
 	end
 
-	return HeroTools.HeroUsingSkinInfo(arg_7_0.reserveHeroInfoList[arg_7_1].heroId)
+	return HeroTools.HeroUsingSkinInfo(slot0.reserveHeroInfoList[slot1].heroId)
 end
 
-function var_0_1.CustomGetHeroPower(arg_8_0, arg_8_1, arg_8_2, arg_8_3)
-	if arg_8_0.reserveHeroInfoList[arg_8_1] and arg_8_0.reserveHeroInfoList[arg_8_1].type == 2 then
-		return arg_8_0.reserveHeroInfoList[arg_8_1].info.fight_capacity
+function slot1.CustomGetHeroPower(slot0, slot1, slot2, slot3)
+	if slot0.reserveHeroInfoList[slot1] and slot0.reserveHeroInfoList[slot1].type == 2 then
+		return slot0.reserveHeroInfoList[slot1].info.fight_capacity
 	end
 
-	return getHeroPower(arg_8_0.reserveHeroInfoList[arg_8_1].heroId, false)
+	return getHeroPower(slot0.reserveHeroInfoList[slot1].heroId, false)
 end
 
-function var_0_1.GetHeroTeamInfoRoute(arg_9_0)
+function slot1.GetHeroTeamInfoRoute(slot0)
 	return "/guildBossTeamInfo"
 end
 
-function var_0_1.GetCustomeTeamInfoParams(arg_10_0, arg_10_1)
+function slot1.GetCustomeTeamInfoParams(slot0, slot1)
 	return {
-		heroList = arg_10_0.reserveHeroInfoList
+		heroList = slot0.reserveHeroInfoList
 	}
 end
 
-function var_0_1.GetCustomeReserveProposalParams(arg_11_0)
-	local var_11_0 = arg_11_0:GetHeroIDList()
-	local var_11_1 = 1
+function slot1.GetCustomeReserveProposalParams(slot0)
+	slot1 = slot0:GetHeroIDList()
+	slot2 = 1
 
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.reserveHeroInfoList) do
-		if iter_11_1.type == 1 then
-			var_11_0[var_11_1] = var_11_0[iter_11_0]
+	for slot6, slot7 in ipairs(slot0.reserveHeroInfoList) do
+		if slot7.type == 1 then
+			slot1[slot2] = slot1[slot6]
 
-			if var_11_1 ~= iter_11_0 then
-				var_11_0[iter_11_0] = 0
+			if slot2 ~= slot6 then
+				slot1[slot6] = 0
 			end
 
-			var_11_1 = var_11_1 + 1
-		elseif iter_11_1.type == 2 then
-			var_11_0[iter_11_0] = 0
+			slot2 = slot2 + 1
+		elseif slot7.type == 2 then
+			slot1[slot6] = 0
 		end
 	end
 
 	return {
-		heroList = var_11_0
+		heroList = slot1
 	}
 end
 
-function var_0_1.GetStageData(arg_12_0)
-	local var_12_0 = BattleStageFactory.Produce(arg_12_0.stageType, arg_12_0.stageID, 1, arg_12_0.reserveParams)
-	local var_12_1 = {}
-	local var_12_2 = {}
+function slot1.GetStageData(slot0)
+	slot1 = BattleStageFactory.Produce(slot0.stageType, slot0.stageID, 1, slot0.reserveParams)
+	slot2 = {}
+	slot3 = {}
+	slot0.assistList = {}
+	slot0.assistOwnerList = {}
 
-	arg_12_0.assistList = {}
-	arg_12_0.assistOwnerList = {}
-
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.reserveHeroInfoList) do
-		if iter_12_1.type == 2 then
-			table.insert(var_12_1, iter_12_1.info.assist_hero_id)
-			table.insert(var_12_2, iter_12_1.info.member_id)
-			table.insert(arg_12_0.assistList, iter_12_1.info.assist_hero_id)
-			table.insert(arg_12_0.assistOwnerList, iter_12_1.info.member_id)
+	for slot7, slot8 in ipairs(slot0.reserveHeroInfoList) do
+		if slot8.type == 2 then
+			table.insert(slot2, slot8.info.assist_hero_id)
+			table.insert(slot3, slot8.info.member_id)
+			table.insert(slot0.assistList, slot8.info.assist_hero_id)
+			table.insert(slot0.assistOwnerList, slot8.info.member_id)
 		else
-			table.insert(var_12_1, iter_12_1.heroId)
-			table.insert(var_12_2, "0")
+			table.insert(slot2, slot8.heroId)
+			table.insert(slot3, "0")
 		end
 	end
 
-	var_12_0:SetReserveParams(arg_12_0.reserveParams)
-	var_12_0:SetGuildBossTeam(var_12_1, var_12_2)
-	var_12_0:SetMultiple(arg_12_0.multiple)
-	var_12_0:SetDest(arg_12_0.dest)
-	var_12_0:InitChipData()
+	slot1:SetReserveParams(slot0.reserveParams)
+	slot1:SetGuildBossTeam(slot2, slot3)
+	slot1:SetMultiple(slot0.multiple)
+	slot1:SetDest(slot0.dest)
+	slot1:InitChipData()
 
-	return var_12_0
+	return slot1
 end
 
-function var_0_1.LaunchBattle(arg_13_0, arg_13_1)
-	local var_13_0 = 0
+function slot1.LaunchBattle(slot0, slot1)
+	slot2 = 0
 
-	if #arg_13_0.assistList > 0 then
-		for iter_13_0, iter_13_1 in ipairs(arg_13_0.assistList) do
-			ForeignInfoAction:TryToCheckForeignHeroInfo(arg_13_0.assistOwnerList[iter_13_0], iter_13_1, 2, function()
-				var_13_0 = var_13_0 + 1
+	if #slot0.assistList > 0 then
+		for slot6, slot7 in ipairs(slot0.assistList) do
+			ForeignInfoAction:TryToCheckForeignHeroInfo(slot0.assistOwnerList[slot6], slot7, 2, function ()
+				uv0 = uv0 + 1
 
-				if var_13_0 >= #arg_13_0.assistList then
-					local var_14_0 = {}
+				if uv0 >= #uv1.assistList then
+					slot0 = {}
 
-					for iter_14_0, iter_14_1 in ipairs(arg_13_0.assistList) do
-						local var_14_1 = ForeignInfoData:GetHeroData(iter_14_1)
-						local var_14_2 = {}
+					for slot4, slot5 in ipairs(uv1.assistList) do
+						slot7 = {}
 
-						if var_14_1.using_hero_chip then
-							for iter_14_2, iter_14_3 in ipairs(var_14_1.using_hero_chip) do
-								if iter_14_3 > 0 then
-									table.insert(var_14_2, iter_14_3)
+						if ForeignInfoData:GetHeroData(slot5).using_hero_chip then
+							for slot11, slot12 in ipairs(slot6.using_hero_chip) do
+								if slot12 > 0 then
+									table.insert(slot7, slot12)
 								end
 							end
 						end
 
-						var_14_0[iter_14_1] = var_14_2
+						slot0[slot5] = slot7
 					end
 
-					arg_13_1:SetChipDic(var_14_0)
-					BattleController.GetInstance():LaunchBattle(arg_13_1)
+					uv2:SetChipDic(slot0)
+					BattleController.GetInstance():LaunchBattle(uv2)
 				end
 			end)
 		end
 	else
-		BattleController.GetInstance():LaunchBattle(arg_13_1)
+		BattleController.GetInstance():LaunchBattle(slot1)
 	end
 end
 
-return var_0_1
+return slot1

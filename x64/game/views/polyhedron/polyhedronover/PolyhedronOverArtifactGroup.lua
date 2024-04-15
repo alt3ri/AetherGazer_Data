@@ -1,74 +1,69 @@
-local var_0_0 = class("PolyhedronOverArtifactGroup", ReduxView)
+slot0 = class("PolyhedronOverArtifactGroup", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.itemList = {}
+	slot0.itemList = {}
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.m_title.text = PolyhedronTools.GetPolyhedronArtifactSubTypeDes(arg_5_1)
-	arg_5_0.group = arg_5_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot6 = slot1
+	slot0.m_title.text = PolyhedronTools.GetPolyhedronArtifactSubTypeDes(slot6)
+	slot0.group = slot2
 
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.group) do
-		if not arg_5_0.itemList[iter_5_0] then
-			local var_5_0 = Object.Instantiate(arg_5_0.m_item, arg_5_0.m_content)
-
-			table.insert(arg_5_0.itemList, PolyhedronOverArtifactItem.New(var_5_0))
+	for slot6, slot7 in ipairs(slot0.group) do
+		if not slot0.itemList[slot6] then
+			table.insert(slot0.itemList, PolyhedronOverArtifactItem.New(Object.Instantiate(slot0.m_item, slot0.m_content)))
 		end
 
-		arg_5_0.itemList[iter_5_0]:SetActive(true)
-		arg_5_0.itemList[iter_5_0]:SetData(iter_5_1)
+		slot0.itemList[slot6]:SetActive(true)
+		slot0.itemList[slot6]:SetData(slot7)
 	end
 
-	local var_5_1 = #arg_5_0.itemList
-
-	for iter_5_2 = #arg_5_0.group + 1, var_5_1 do
-		arg_5_0.itemList[iter_5_2]:SetActive(false)
+	for slot7 = #slot0.group + 1, #slot0.itemList do
+		slot0.itemList[slot7]:SetActive(false)
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.m_content)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.transform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.m_content)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.RegistCallBack(arg_6_0, arg_6_1)
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.itemList) do
-		iter_6_1:RegistCallBack(arg_6_1)
+function slot0.RegistCallBack(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.itemList) do
+		slot6:RegistCallBack(slot1)
 	end
 end
 
-function var_0_0.SetActive(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.itemList) do
-		iter_8_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in ipairs(slot0.itemList) do
+		slot5:Dispose()
 	end
 
-	arg_8_0.itemList = nil
+	slot0.itemList = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.IndexItem(arg_9_0, arg_9_1, arg_9_2)
-	return
+function slot0.IndexItem(slot0, slot1, slot2)
 end
 
-return var_0_0
+return slot0

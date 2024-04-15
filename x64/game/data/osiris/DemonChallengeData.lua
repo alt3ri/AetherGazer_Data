@@ -1,325 +1,283 @@
-local var_0_0 = singletonClass("DemonChallengeData")
+slot0 = singletonClass("DemonChallengeData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.levelIdList_ = StageGroupCfg.get_id_list_by_type[BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON]
-	arg_1_0.activityIdList_ = ChapterCfg.get_id_list_by_type[BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON]
-	arg_1_0.levelCount_ = #arg_1_0.levelIdList_
-	arg_1_0.levelDataList_ = {}
-	arg_1_0.receivedList_ = {}
-	arg_1_0.completedList_ = {}
-	arg_1_0.stageIdToIndex_ = {}
-	arg_1_0.selectDifficultyIndexList_ = {}
-	arg_1_0.selectedList_ = {}
-	arg_1_0.openTimeStamp_ = {}
-	arg_1_0.remainTimeStamp_ = 0
-	arg_1_0.test = false
+function slot0.Init(slot0)
+	slot0.levelIdList_ = StageGroupCfg.get_id_list_by_type[BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON]
+	slot0.activityIdList_ = ChapterCfg.get_id_list_by_type[BattleConst.STAGE_TYPE_NEW.OSIRIS_DEMON]
+	slot0.levelCount_ = #slot0.levelIdList_
+	slot0.levelDataList_ = {}
+	slot0.receivedList_ = {}
+	slot0.completedList_ = {}
+	slot0.stageIdToIndex_ = {}
+	slot0.selectDifficultyIndexList_ = {}
+	slot0.selectedList_ = {}
+	slot0.openTimeStamp_ = {}
+	slot0.remainTimeStamp_ = 0
+	slot0.test = false
 
-	manager.notify:RegistListener(ACTIVITY_UPDATE, handler(arg_1_0, arg_1_0.InitData))
+	manager.notify:RegistListener(ACTIVITY_UPDATE, handler(slot0, slot0.InitData))
 end
 
-function var_0_0.InitData(arg_2_0)
-	if arg_2_0.test == true then
-		for iter_2_0 = 1, arg_2_0.levelCount_ do
-			local var_2_0
-
-			var_2_0 = arg_2_0.openTimeStamp_[iter_2_0] - manager.time:GetServerTime() <= 0
+function slot0.InitData(slot0)
+	if slot0.test == true then
+		for slot4 = 1, slot0.levelCount_ do
+			slot5 = slot0.openTimeStamp_[slot4] - manager.time:GetServerTime() <= 0
 		end
 	end
 
-	for iter_2_1 = 1, arg_2_0.levelCount_ do
-		if arg_2_0.receivedList_[iter_2_1] == nil then
-			arg_2_0.receivedList_[iter_2_1] = {}
-			arg_2_0.completedList_[iter_2_1] = {}
+	for slot4 = 1, slot0.levelCount_ do
+		if slot0.receivedList_[slot4] == nil then
+			slot0.receivedList_[slot4] = {}
+			slot0.completedList_[slot4] = {}
 		end
 	end
 
-	if arg_2_0.test == false then
-		arg_2_0:UpdateTimeData()
+	if slot0.test == false then
+		slot0:UpdateTimeData()
 	end
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	local var_3_0 = arg_3_1.activity_info
-	local var_3_1 = var_3_0.activity_id
-	local var_3_2 = var_3_0.info
+function slot0.SetData(slot0, slot1)
+	slot2 = slot1.activity_info
+	slot3 = slot2.activity_id
+	slot0.levelDataList_[slot3] = slot2
+	slot5 = slot0:GetLevelIndex(slot3)
 
-	arg_3_0.levelDataList_[var_3_1] = var_3_0
+	for slot9, slot10 in ipairs(slot2.info) do
+		slot12 = slot0:GetStageId(slot5, slot10.difficulty)
 
-	local var_3_3 = arg_3_0:GetLevelIndex(var_3_1)
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_2) do
-		local var_3_4 = iter_3_1.difficulty
-		local var_3_5 = arg_3_0:GetStageId(var_3_3, var_3_4)
-
-		if iter_3_1.challenge_state == 2 and table.keyof(arg_3_0.receivedList_[var_3_3], var_3_4) == nil then
-			table.insert(arg_3_0.receivedList_[var_3_3], var_3_4)
+		if slot10.challenge_state == 2 and table.keyof(slot0.receivedList_[slot5], slot11) == nil then
+			table.insert(slot0.receivedList_[slot5], slot11)
 		end
 
-		if (iter_3_1.challenge_state == 1 or iter_3_1.challenge_state == 2) and table.keyof(arg_3_0.completedList_[var_3_3], var_3_4) == nil then
-			table.insert(arg_3_0.completedList_[var_3_3], var_3_4)
+		if (slot10.challenge_state == 1 or slot10.challenge_state == 2) and table.keyof(slot0.completedList_[slot5], slot11) == nil then
+			table.insert(slot0.completedList_[slot5], slot11)
 		end
 
-		arg_3_0.stageIdToIndex_[var_3_5] = {
-			var_3_3,
-			var_3_4
+		slot0.stageIdToIndex_[slot12] = {
+			slot5,
+			slot11
 		}
 	end
 
-	arg_3_0:CalcRedPoint()
+	slot0:CalcRedPoint()
 end
 
-function var_0_0.UpdateTimeData(arg_4_0)
-	if arg_4_0.test == true then
+function slot0.UpdateTimeData(slot0)
+	if slot0.test == true then
 		return
 	end
 
-	local var_4_0 = ActivityConst.OSIRIS_DEMON
-	local var_4_1 = ActivityData:GetActivityData(var_4_0)
-
-	if var_4_1 ~= nil then
-		arg_4_0.remainTimeStamp_ = var_4_1.stopTime
+	if ActivityData:GetActivityData(ActivityConst.OSIRIS_DEMON) ~= nil then
+		slot0.remainTimeStamp_ = slot2.stopTime
 	end
 
-	local var_4_2 = ""
+	slot3 = ""
 
-	for iter_4_0, iter_4_1 in ipairs(arg_4_0.levelIdList_) do
-		local var_4_3 = arg_4_0:GetRedPointConst(iter_4_0)
-		local var_4_4 = ActivityConst[var_4_3]
-		local var_4_5 = ActivityData:GetActivityData(var_4_4)
-
-		if var_4_5 ~= nil then
-			arg_4_0.openTimeStamp_[iter_4_0] = var_4_5.startTime
+	for slot7, slot8 in ipairs(slot0.levelIdList_) do
+		if ActivityData:GetActivityData(ActivityConst[slot0:GetRedPointConst(slot7)]) ~= nil then
+			slot0.openTimeStamp_[slot7] = slot2.startTime
 		end
 	end
 end
 
-function var_0_0.GetLevelIndex(arg_5_0, arg_5_1)
-	local var_5_0 = table.keyof(arg_5_0.activityIdList_, arg_5_1)
-
-	if var_5_0 ~= nil then
-		return var_5_0 - 1
+function slot0.GetLevelIndex(slot0, slot1)
+	if table.keyof(slot0.activityIdList_, slot1) ~= nil then
+		return slot2 - 1
 	end
 end
 
-function var_0_0.GetSubActivityID(arg_6_0, arg_6_1)
-	if arg_6_1 + 1 <= #arg_6_0.activityIdList_ then
-		return arg_6_0.activityIdList_[arg_6_1 + 1]
+function slot0.GetSubActivityID(slot0, slot1)
+	if slot1 + 1 <= #slot0.activityIdList_ then
+		return slot0.activityIdList_[slot1 + 1]
 	end
 end
 
-function var_0_0.GetLevelCount(arg_7_0)
-	return arg_7_0.levelCount_
+function slot0.GetLevelCount(slot0)
+	return slot0.levelCount_
 end
 
-function var_0_0.GetCacheSelectLevelIndex(arg_8_0)
+function slot0.GetCacheSelectLevelIndex(slot0)
 	return getData("DemonChallenge", "levelIndex")
 end
 
-function var_0_0.GetDemonChallengeCfg(arg_9_0)
-	return
+function slot0.GetDemonChallengeCfg(slot0)
 end
 
-function var_0_0.SaveSelectLevelIndex(arg_10_0, arg_10_1)
-	saveData("DemonChallenge", "levelIndex", arg_10_1)
+function slot0.SaveSelectLevelIndex(slot0, slot1)
+	saveData("DemonChallenge", "levelIndex", slot1)
 end
 
-function var_0_0.GetLevelId(arg_11_0, arg_11_1)
-	return arg_11_0.levelIdList_[arg_11_1]
+function slot0.GetLevelId(slot0, slot1)
+	return slot0.levelIdList_[slot1]
 end
 
-function var_0_0.GetStageId(arg_12_0, arg_12_1, arg_12_2)
-	local var_12_0 = arg_12_0.levelIdList_[arg_12_1]
-
-	return StageGroupCfg[var_12_0].stage_list[arg_12_2]
+function slot0.GetStageId(slot0, slot1, slot2)
+	return StageGroupCfg[slot0.levelIdList_[slot1]].stage_list[slot2]
 end
 
-function var_0_0.GetBoosId(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_0.levelIdList_[arg_13_1]
-
-	return StageGroupCfg[var_13_0].boss_id
+function slot0.GetBoosId(slot0, slot1)
+	return StageGroupCfg[slot0.levelIdList_[slot1]].boss_id
 end
 
-function var_0_0.SetReceiveList(arg_14_0, arg_14_1, arg_14_2)
-	if table.keyof(arg_14_0.receivedList_[arg_14_2], arg_14_1) == nil then
-		table.insert(arg_14_0.receivedList_[arg_14_2], arg_14_1)
-		arg_14_0:CalcRedPoint()
+function slot0.SetReceiveList(slot0, slot1, slot2)
+	if table.keyof(slot0.receivedList_[slot2], slot1) == nil then
+		table.insert(slot0.receivedList_[slot2], slot1)
+		slot0:CalcRedPoint()
 	end
 end
 
-function var_0_0.GetReceiveList(arg_15_0, arg_15_1)
-	return arg_15_0.receivedList_[arg_15_1]
+function slot0.GetReceiveList(slot0, slot1)
+	return slot0.receivedList_[slot1]
 end
 
-function var_0_0.GetCompletedList(arg_16_0, arg_16_1)
-	return arg_16_0.completedList_[arg_16_1]
+function slot0.GetCompletedList(slot0, slot1)
+	return slot0.completedList_[slot1]
 end
 
-function var_0_0.IsCompleted(arg_17_0, arg_17_1, arg_17_2)
-	local var_17_0 = arg_17_0.completedList_[arg_17_1]
-
-	if var_17_0 == nil then
-		print(string.format("**********************self.completedList_[%d] 为空***********************************", arg_17_1))
+function slot0.IsCompleted(slot0, slot1, slot2)
+	if slot0.completedList_[slot1] == nil then
+		print(string.format("**********************self.completedList_[%d] 为空***********************************", slot1))
 
 		return false
 	end
 
-	if table.keyof(var_17_0, arg_17_2) then
+	if table.keyof(slot3, slot2) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.IsCompletedLevel(arg_18_0, arg_18_1)
-	if arg_18_0.completedList_[arg_18_1] == nil then
-		print(string.format("**********************self.completedList_[%d] 为空***********************************", arg_18_1))
+function slot0.IsCompletedLevel(slot0, slot1)
+	if slot0.completedList_[slot1] == nil then
+		print(string.format("**********************self.completedList_[%d] 为空***********************************", slot1))
 
 		return false
 	end
 
-	return #arg_18_0.completedList_[arg_18_1] > 0
+	return #slot0.completedList_[slot1] > 0
 end
 
-function var_0_0.IsOpened(arg_19_0, arg_19_1)
-	return arg_19_0.openTimeStamp_[arg_19_1] - manager.time:GetServerTime() <= 0
+function slot0.IsOpened(slot0, slot1)
+	return slot0.openTimeStamp_[slot1] - manager.time:GetServerTime() <= 0
 end
 
-function var_0_0.SetSelectDifficultyIndex(arg_20_0, arg_20_1, arg_20_2)
-	arg_20_0.selectDifficultyIndexList_[arg_20_1] = arg_20_2
+function slot0.SetSelectDifficultyIndex(slot0, slot1, slot2)
+	slot0.selectDifficultyIndexList_[slot1] = slot2
 end
 
-function var_0_0.GetSelectDifficultyIndex(arg_21_0, arg_21_1)
-	return arg_21_0.selectDifficultyIndexList_[arg_21_1]
+function slot0.GetSelectDifficultyIndex(slot0, slot1)
+	return slot0.selectDifficultyIndexList_[slot1]
 end
 
-function var_0_0.GetDifficultyDes(arg_22_0, arg_22_1, arg_22_2)
-	local var_22_0 = arg_22_0:GetStageId(arg_22_1, arg_22_2)
-
-	return DemonChallengeCfg[var_22_0].difficulty_desc
+function slot0.GetDifficultyDes(slot0, slot1, slot2)
+	return DemonChallengeCfg[slot0:GetStageId(slot1, slot2)].difficulty_desc
 end
 
-function var_0_0.GetLevelName(arg_23_0, arg_23_1)
-	local var_23_0 = arg_23_0:GetStageId(arg_23_1, 1)
-
-	return BattleHeartDemonStageCfg[var_23_0].name
+function slot0.GetLevelName(slot0, slot1)
+	return BattleHeartDemonStageCfg[slot0:GetStageId(slot1, 1)].name
 end
 
-function var_0_0.GetDescText(arg_24_0, arg_24_1)
-	local var_24_0 = arg_24_0:GetStageId(arg_24_1, 1)
-
-	return BattleHeartDemonStageCfg[var_24_0].tips
+function slot0.GetDescText(slot0, slot1)
+	return BattleHeartDemonStageCfg[slot0:GetStageId(slot1, 1)].tips
 end
 
-function var_0_0.GetLevelOpenTimeByIndex(arg_25_0, arg_25_1)
-	return arg_25_0.openTimeStamp_[arg_25_1]
+function slot0.GetLevelOpenTimeByIndex(slot0, slot1)
+	return slot0.openTimeStamp_[slot1]
 end
 
-function var_0_0.GetRemainTime(arg_26_0)
-	return arg_26_0.remainTimeStamp_
+function slot0.GetRemainTime(slot0)
+	return slot0.remainTimeStamp_
 end
 
-function var_0_0.GetDropId(arg_27_0, arg_27_1, arg_27_2)
-	local var_27_0 = arg_27_0:GetStageId(arg_27_1, arg_27_2)
-
-	return BattleHeartDemonStageCfg[var_27_0].drop_lib_id
+function slot0.GetDropId(slot0, slot1, slot2)
+	return BattleHeartDemonStageCfg[slot0:GetStageId(slot1, slot2)].drop_lib_id
 end
 
-function var_0_0.GetSortedRewardIndexList(arg_28_0, arg_28_1)
-	local var_28_0 = {}
-	local var_28_1 = {}
-	local var_28_2 = arg_28_0.receivedList_[arg_28_1]
-	local var_28_3 = arg_28_0.completedList_[arg_28_1]
-	local var_28_4 = arg_28_0:GetLevelId(arg_28_1)
-	local var_28_5 = StageGroupCfg[var_28_4].stage_list
+function slot0.GetSortedRewardIndexList(slot0, slot1)
+	slot2 = {}
+	slot3 = {}
+	slot4 = slot0.receivedList_[slot1]
 
-	for iter_28_0, iter_28_1 in ipairs(var_28_5) do
-		if table.keyof(var_28_3, iter_28_0) == nil then
-			table.insert(var_28_1, iter_28_0)
-		elseif table.keyof(var_28_2, iter_28_0) == nil then
-			table.insert(var_28_0, iter_28_0)
+	for slot11, slot12 in ipairs(StageGroupCfg[slot0:GetLevelId(slot1)].stage_list) do
+		if table.keyof(slot0.completedList_[slot1], slot11) == nil then
+			table.insert(slot3, slot11)
+		elseif table.keyof(slot4, slot11) == nil then
+			table.insert(slot2, slot11)
 		end
 	end
 
-	table.insertto(var_28_0, var_28_1)
-	table.insertto(var_28_0, var_28_2)
+	table.insertto(slot2, slot3)
+	table.insertto(slot2, slot4)
 
-	return var_28_0
+	return slot2
 end
 
-function var_0_0.CalcRedPoint(arg_29_0)
-	for iter_29_0, iter_29_1 in pairs(arg_29_0.completedList_) do
-		local var_29_0 = arg_29_0:GetRedPointConst(iter_29_0)
-		local var_29_1 = false
-		local var_29_2 = arg_29_0:IsCompletedLevel(iter_29_0)
-		local var_29_3 = arg_29_0:IsOpened(iter_29_0)
+function slot0.CalcRedPoint(slot0)
+	for slot4, slot5 in pairs(slot0.completedList_) do
+		slot6 = slot0:GetRedPointConst(slot4)
+		slot7 = false
 
-		if var_29_3 and not var_29_2 and arg_29_0.selectedList_[iter_29_0] == nil then
-			var_29_1 = true
-		elseif var_29_3 and var_29_2 then
-			local var_29_4 = arg_29_0.receivedList_[iter_29_0]
-
-			for iter_29_2, iter_29_3 in ipairs(iter_29_1) do
-				if table.keyof(var_29_4, iter_29_3) == nil then
-					var_29_1 = true
+		if slot0:IsOpened(slot4) and not slot0:IsCompletedLevel(slot4) and slot0.selectedList_[slot4] == nil then
+			slot7 = true
+		elseif slot9 and slot8 then
+			for slot14, slot15 in ipairs(slot5) do
+				if table.keyof(slot0.receivedList_[slot4], slot15) == nil then
+					slot7 = true
 
 					break
 				end
 			end
 		end
 
-		if var_29_1 then
-			manager.redPoint:setTip(RedPointConst[var_29_0], 1)
+		if slot7 then
+			manager.redPoint:setTip(RedPointConst[slot6], 1)
 		else
-			manager.redPoint:setTip(RedPointConst[var_29_0], 0)
+			manager.redPoint:setTip(RedPointConst[slot6], 0)
 		end
 	end
 end
 
-function var_0_0.SaveSelected(arg_30_0, arg_30_1)
-	if arg_30_0:IsOpened(arg_30_1) then
-		arg_30_0.selectedList_[arg_30_1] = true
+function slot0.SaveSelected(slot0, slot1)
+	if slot0:IsOpened(slot1) then
+		slot0.selectedList_[slot1] = true
 
-		arg_30_0:CalcRedPoint()
+		slot0:CalcRedPoint()
 	end
 end
 
-function var_0_0.IsSelected(arg_31_0, arg_31_1)
-	if arg_31_0.selectedList_[arg_31_1] == nil then
+function slot0.IsSelected(slot0, slot1)
+	if slot0.selectedList_[slot1] == nil then
 		return false
 	else
 		return true
 	end
 end
 
-function var_0_0.GetRedPointConst(arg_32_0, arg_32_1)
-	return "OSIRIS_DEMON_LEVEL" .. tostring(arg_32_1)
+function slot0.GetRedPointConst(slot0, slot1)
+	return "OSIRIS_DEMON_LEVEL" .. tostring(slot1)
 end
 
-function var_0_0.SetAllRedPoint(arg_33_0, arg_33_1)
-	local var_33_0 = ""
+function slot0.SetAllRedPoint(slot0, slot1)
+	slot2 = ""
 
-	for iter_33_0, iter_33_1 in ipairs(arg_33_0.levelIdList_) do
-		local var_33_1 = arg_33_0:GetRedPointConst(iter_33_0)
-
-		manager.redPoint:setTip(RedPointConst[var_33_1], arg_33_1)
+	for slot6, slot7 in ipairs(slot0.levelIdList_) do
+		manager.redPoint:setTip(RedPointConst[slot0:GetRedPointConst(slot6)], slot1)
 	end
 end
 
-function var_0_0.GetRoleImg(arg_34_0, arg_34_1)
-	local var_34_0 = arg_34_0:GetStageId(arg_34_1, 1)
-	local var_34_1 = BattleHeartDemonStageCfg[var_34_0].background_1
-
-	return getSpriteWithoutAtlas("TextureConfig/VersionUI/OsirisUI/" .. var_34_1)
+function slot0.GetRoleImg(slot0, slot1)
+	return getSpriteWithoutAtlas("TextureConfig/VersionUI/OsirisUI/" .. BattleHeartDemonStageCfg[slot0:GetStageId(slot1, 1)].background_1)
 end
 
-function var_0_0.GetAnyOpen(arg_35_0)
-	for iter_35_0 = 1, arg_35_0.levelCount_ do
-		if arg_35_0:IsOpened(iter_35_0) then
-			return iter_35_0
+function slot0.GetAnyOpen(slot0)
+	for slot4 = 1, slot0.levelCount_ do
+		if slot0:IsOpened(slot4) then
+			return slot4
 		end
 	end
 
 	return -1
 end
 
-return var_0_0
+return slot0

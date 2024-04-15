@@ -1,311 +1,279 @@
-local var_0_0 = class("IndiaNianMainView", ReduxView)
+slot0 = class("IndiaNianMainView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaNianUI/IndiaNianMainUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.stageItemList_ = {}
+	slot0.stageItemList_ = {}
 
-	for iter_4_0 = 1, 8 do
-		local var_4_0 = arg_4_0["stageGo_" .. iter_4_0]
-		local var_4_1 = IndiaNianStageItem.New(var_4_0)
-
-		table.insert(arg_4_0.stageItemList_, var_4_1)
+	for slot4 = 1, 8 do
+		table.insert(slot0.stageItemList_, IndiaNianStageItem.New(slot0["stageGo_" .. slot4]))
 	end
 
-	arg_4_0.lockController_ = ControllerUtil.GetController(arg_4_0.transform_, "lock")
-	arg_4_0.stateController_ = ControllerUtil.GetController(arg_4_0.transform_, "state")
-	arg_4_0.selectController_ = ControllerUtil.GetController(arg_4_0.transform_, "select")
+	slot0.lockController_ = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.stateController_ = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.selectController_ = ControllerUtil.GetController(slot0.transform_, "select")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.shopBtn_, nil, function()
-		local var_6_0 = ActivityShopCfg[arg_5_0.activityID_]
-		local var_6_1 = {}
-
-		for iter_6_0, iter_6_1 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[var_6_0.activity_theme]) do
-			local var_6_2 = ActivityShopCfg[iter_6_1].shop_id
-			local var_6_3 = ActivityData:GetActivityData(ShopListCfg[var_6_2].activity_id)
-
-			if var_6_3 and var_6_3:IsActivitying() then
-				table.insert(var_6_1, ActivityShopCfg[iter_6_1].shop_id)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.shopBtn_, nil, function ()
+		for slot5, slot6 in ipairs(ActivityShopCfg.get_id_list_by_activity_theme[ActivityShopCfg[uv0.activityID_].activity_theme]) do
+			if ActivityData:GetActivityData(ShopListCfg[ActivityShopCfg[slot6].shop_id].activity_id) and slot8:IsActivitying() then
+				table.insert({}, ActivityShopCfg[slot6].shop_id)
 			end
 		end
 
-		local var_6_4, var_6_5 = ShopTools.IsShopOpen(var_6_0.shop_id)
+		slot2, slot3 = ShopTools.IsShopOpen(slot0.shop_id)
 
-		if var_6_4 then
+		if slot2 then
 			JumpTools.GoToSystem("/activityShop", {
-				shopId = var_6_0.shop_id,
-				showShops = var_6_1
+				shopId = slot0.shop_id,
+				showShops = slot1
 			}, ViewConst.SYSTEM_ID.SHOP)
-		elseif var_6_5 == 2 then
+		elseif slot3 == 2 then
 			ShowTips("SHOP_EXPIRED")
-		elseif var_6_5 == 3 then
+		elseif slot3 == 3 then
 			ShowTips("SHOP_NOT_OPEN")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.taskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.taskBtn_, nil, function ()
 		JumpTools.OpenPageByJump("indiaNianReward")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.maskBtn_, nil, function()
-		arg_5_0:Back()
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bossStageBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bossStageBtn_, nil, function ()
 		IndiaNianData:SetMainSelectedIndex(0)
-		arg_5_0:SetSelectedData(arg_5_0.bossCfg_)
+		uv0:SetSelectedData(uv0.bossCfg_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.tokenBtn_, nil, function()
+	slot0:AddBtnListener(slot0.tokenBtn_, nil, function ()
 		ShowPopItem(POP_ITEM, {
 			IndiaNianData:GetSelectedStageCost()[1]
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.playBtn_, nil, function()
+	slot0:AddBtnListener(slot0.playBtn_, nil, function ()
 		IndiaNianData:SetMainSelectedIndex(0)
-		arg_5_0:SetSelectedData(arg_5_0.bossCfg_)
-
-		local var_11_0 = IndiaNianData:GetSelectedStageID()
-
-		arg_5_0:Go("indiaNianStageInfo", {
-			section = var_11_0,
+		uv0:SetSelectedData(uv0.bossCfg_)
+		uv0:Go("indiaNianStageInfo", {
+			section = IndiaNianData:GetSelectedStageID(),
 			sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN,
-			callback = function()
-				arg_5_0.stateController_:SetSelectedState("main")
+			callback = function ()
+				uv0.stateController_:SetSelectedState("main")
 				IndiaNianData:SetMainSelectedIndex(-1)
-				arg_5_0:RefreshUI()
+				uv0:RefreshUI()
 			end
 		})
 
-		arg_5_0.ani_.enabled = false
+		uv0.ani_.enabled = false
 
-		arg_5_0.stateController_:SetSelectedState("detail")
+		uv0.stateController_:SetSelectedState("detail")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.detailBtn_, nil, function()
+	slot0:AddBtnListener(slot0.detailBtn_, nil, function ()
 		JumpTools.OpenPageByJump("/indiaNianDetail")
 
 		if IndiaNianData:GetHasUnlockBuff() then
-			saveData("ActivityIndiaNian" .. arg_5_0.activityID_ .. PlayerData:GetPlayerInfo().userID, "buffNum", IndiaNianData:GetClearBuffNum())
+			saveData("ActivityIndiaNian" .. uv0.activityID_ .. PlayerData:GetPlayerInfo().userID, "buffNum", IndiaNianData:GetClearBuffNum())
 			manager.redPoint:setTip(RedPointConst.ACTIVITY_INDIA_NIAN_UNLOCK, 0)
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.descBtn_, nil, function()
-		local var_14_0 = GetTips("ACTIVITY_INDIA_NIAN_DESC")
-
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_INDIA_NIAN_DESC",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_14_0
+			content = GetTips("ACTIVITY_INDIA_NIAN_DESC")
 		})
 	end)
 end
 
-function var_0_0.OnTaskListChange(arg_15_0)
-	arg_15_0:RefreshUI()
+function slot0.OnTaskListChange(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnDataUpdate(arg_16_0)
-	arg_16_0:RefreshData()
-	arg_16_0:RefreshUI()
+function slot0.OnDataUpdate(slot0)
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnEnter(arg_17_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_17_0.activityID_ = IndiaNianData:GetActivityID()
-	arg_17_0.isInited = false
+	slot0.activityID_ = IndiaNianData:GetActivityID()
+	slot0.isInited = false
 
-	arg_17_0:RefreshData()
-	arg_17_0:RefreshUI()
-	arg_17_0:AddTimer()
-	arg_17_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_17_0, arg_17_0.RefreshUI))
-	manager.redPoint:bindUIandKey(arg_17_0.taskBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_REWARD)
-	manager.redPoint:bindUIandKey(arg_17_0.detailBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_UNLOCK)
+	slot0:RefreshData()
+	slot0:RefreshUI()
+	slot0:AddTimer()
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshUI))
+	manager.redPoint:bindUIandKey(slot0.taskBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_REWARD)
+	manager.redPoint:bindUIandKey(slot0.detailBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_UNLOCK)
 end
 
-function var_0_0.SetSelectedData(arg_18_0, arg_18_1)
-	IndiaNianData:SetSelectedStage(arg_18_1.stage_id)
-	IndiaNianData:SetSelectedStageCost(arg_18_1.extra_cost)
-	IndiaNianData:SetSelectedDestID(arg_18_1.id)
-	arg_18_0:RefreshStageUI()
+function slot0.SetSelectedData(slot0, slot1)
+	IndiaNianData:SetSelectedStage(slot1.stage_id)
+	IndiaNianData:SetSelectedStageCost(slot1.extra_cost)
+	IndiaNianData:SetSelectedDestID(slot1.id)
+	slot0:RefreshStageUI()
 end
 
-function var_0_0.RefreshData(arg_19_0)
-	arg_19_0.bossCfgIDList_ = IndiaNianCfg.get_id_list_by_activity_id[arg_19_0.activityID_]
-	arg_19_0.round = IndiaNianData:GetRound()
+function slot0.RefreshData(slot0)
+	slot0.bossCfgIDList_ = IndiaNianCfg.get_id_list_by_activity_id[slot0.activityID_]
+	slot0.round = IndiaNianData:GetRound()
 
-	SetActive(arg_19_0.maskBtn_.transform.gameObject, false)
+	SetActive(slot0.maskBtn_.transform.gameObject, false)
 
-	local var_19_0 = {}
-	local var_19_1 = 1
-	local var_19_2 = IndiaNianData:GetRound()
+	slot1 = {}
+	slot2 = 1
 
-	for iter_19_0, iter_19_1 in ipairs(arg_19_0.bossCfgIDList_) do
-		local var_19_3 = IndiaNianCfg[iter_19_1]
-
-		if var_19_3.group_id == 100 and var_19_2 >= var_19_3.round and var_19_3.stage_type == 0 then
-			arg_19_0.bossCfg_ = var_19_3
-		elseif var_19_3.group_id ~= 100 and not var_19_0[var_19_3.group_id] then
-			arg_19_0.stageItemList_[var_19_1]:SetData(var_19_1, var_19_3)
-			arg_19_0.stageItemList_[var_19_1]:SetCallBack(function(arg_20_0)
-				IndiaNianData:SetMainSelectedIndex(arg_20_0)
-				arg_19_0:RefreshStageUI()
-
-				local var_20_0 = IndiaNianData:GetSelectedStageID()
-
-				arg_19_0:Go("indiaNianStageInfo", {
-					section = var_20_0,
+	for slot7, slot8 in ipairs(slot0.bossCfgIDList_) do
+		if IndiaNianCfg[slot8].group_id == 100 and slot9.round <= IndiaNianData:GetRound() and slot9.stage_type == 0 then
+			slot0.bossCfg_ = slot9
+		elseif slot9.group_id ~= 100 and not slot1[slot9.group_id] then
+			slot0.stageItemList_[slot2]:SetData(slot2, slot9)
+			slot0.stageItemList_[slot2]:SetCallBack(function (slot0)
+				IndiaNianData:SetMainSelectedIndex(slot0)
+				uv0:RefreshStageUI()
+				uv0:Go("indiaNianStageInfo", {
+					section = IndiaNianData:GetSelectedStageID(),
 					sectionType = BattleConst.STAGE_TYPE_NEW.ACTIVITY_INDIA_NIAN,
-					callback = function()
-						arg_19_0.stateController_:SetSelectedState("main")
+					callback = function ()
+						uv0.stateController_:SetSelectedState("main")
 						IndiaNianData:SetMainSelectedIndex(-1)
-						arg_19_0:RefreshUI()
+						uv0:RefreshUI()
 					end
 				})
 
-				arg_19_0.ani_.enabled = false
+				uv0.ani_.enabled = false
 
-				arg_19_0.stateController_:SetSelectedState("detail")
+				uv0.stateController_:SetSelectedState("detail")
 			end)
 
-			var_19_0[var_19_3.group_id] = true
-			var_19_1 = var_19_1 + 1
+			slot1[slot9.group_id] = true
+			slot2 = slot2 + 1
 		end
 	end
 
-	if arg_19_0.bossCfg_.stage_type == 0 and arg_19_0.bossCfg_.round < IndiaNianData:GetRound() or arg_19_0.bossCfg_.round == IndiaNianData:GetRound() and IndiaNianData:GetCurrentHpByID(arg_19_0.bossCfg_.id) == 0 then
-		local var_19_4 = IndiaNianCfg.get_id_list_by_group_id[arg_19_0.bossCfg_.group_id]
-
-		for iter_19_2, iter_19_3 in ipairs(var_19_4) do
-			local var_19_5 = IndiaNianCfg[iter_19_3]
-
-			if var_19_5.activity_id == arg_19_0.bossCfg_.activity_id and var_19_5.stage_type == 1 then
-				arg_19_0.bossCfg_ = var_19_5
+	if slot0.bossCfg_.stage_type == 0 and slot0.bossCfg_.round < IndiaNianData:GetRound() or slot0.bossCfg_.round == IndiaNianData:GetRound() and IndiaNianData:GetCurrentHpByID(slot0.bossCfg_.id) == 0 then
+		for slot9, slot10 in ipairs(IndiaNianCfg.get_id_list_by_group_id[slot0.bossCfg_.group_id]) do
+			if IndiaNianCfg[slot10].activity_id == slot0.bossCfg_.activity_id and slot11.stage_type == 1 then
+				slot0.bossCfg_ = slot11
 			end
 		end
 	end
 
-	if not arg_19_0.isInited then
-		if var_19_2 == arg_19_0.bossCfg_.round then
-			arg_19_0:SetSelectedData(arg_19_0.bossCfg_)
+	if not slot0.isInited then
+		if slot3 == slot0.bossCfg_.round then
+			slot0:SetSelectedData(slot0.bossCfg_)
 		else
-			for iter_19_4, iter_19_5 in ipairs(arg_19_0.stageItemList_) do
-				if iter_19_5.cfg_.round == var_19_2 then
-					IndiaNianData:SetSelectedStage(iter_19_5.cfg_.stage_id)
-					IndiaNianData:SetSelectedStageCost(iter_19_5.cfg_.extra_cost)
+			for slot8, slot9 in ipairs(slot0.stageItemList_) do
+				if slot9.cfg_.round == slot3 then
+					IndiaNianData:SetSelectedStage(slot9.cfg_.stage_id)
+					IndiaNianData:SetSelectedStageCost(slot9.cfg_.extra_cost)
 
-					if iter_19_5.cfg_.round < IndiaNianData:GetRound() or iter_19_5.cfg_.round == IndiaNianData:GetRound() and IndiaNianData:GetCurrentHpByID(iter_19_5.cfg_.id) == 0 then
-						local var_19_6 = IndiaNianCfg.get_id_list_by_group_id[iter_19_5.cfg_.group_id]
-
-						for iter_19_6, iter_19_7 in ipairs(var_19_6) do
-							if IndiaNianCfg[iter_19_7].activity_id == iter_19_5.cfg_.activity_id and IndiaNianCfg[iter_19_7].stage_type == 1 then
-								IndiaNianData:SetSelectedDestID(iter_19_7)
+					if slot9.cfg_.round < IndiaNianData:GetRound() or slot9.cfg_.round == IndiaNianData:GetRound() and IndiaNianData:GetCurrentHpByID(slot9.cfg_.id) == 0 then
+						for slot15, slot16 in ipairs(IndiaNianCfg.get_id_list_by_group_id[slot9.cfg_.group_id]) do
+							if IndiaNianCfg[slot16].activity_id == slot9.cfg_.activity_id and IndiaNianCfg[slot16].stage_type == 1 then
+								IndiaNianData:SetSelectedDestID(slot16)
 							end
 						end
 
 						break
 					end
 
-					IndiaNianData:SetSelectedDestID(iter_19_5.cfg_.id)
+					IndiaNianData:SetSelectedDestID(slot9.cfg_.id)
 
 					break
 				end
 			end
 		end
 
-		arg_19_0.isInited = true
+		slot0.isInited = true
 	end
 end
 
-function var_0_0.RefreshStageUI(arg_22_0)
-	local var_22_0 = not IndiaNianData:IsBossRound(IndiaNianData:GetRound())
+function slot0.RefreshStageUI(slot0)
+	slot0.selectController_:SetSelectedState(tostring(IndiaNianData:GetMainSelectedIndex() == 0 and not not IndiaNianData:IsBossRound(IndiaNianData:GetRound())))
 
-	arg_22_0.selectController_:SetSelectedState(tostring(IndiaNianData:GetMainSelectedIndex() == 0 and not var_22_0))
-
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.stageItemList_) do
-		iter_22_1:RefreshUI()
+	for slot5, slot6 in ipairs(slot0.stageItemList_) do
+		slot6:RefreshUI()
 	end
 
-	arg_22_0.lockController_:SetSelectedState(tostring(var_22_0))
+	slot0.lockController_:SetSelectedState(tostring(slot1))
 end
 
-function var_0_0.RefreshUI(arg_23_0)
-	arg_23_0:RefreshSliderBar()
-	arg_23_0:RefreshStageUI()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshSliderBar()
+	slot0:RefreshStageUI()
 
-	arg_23_0.tokenImg_.sprite = ItemTools.getItemSprite(IndiaNianData.GetSelectedStageCost()[1])
-	arg_23_0.tokenNumText_.text = ItemTools.getItemNum(IndiaNianData.GetSelectedStageCost()[1]) .. "/" .. 15
+	slot0.tokenImg_.sprite = ItemTools.getItemSprite(IndiaNianData.GetSelectedStageCost()[1])
+	slot0.tokenNumText_.text = ItemTools.getItemNum(IndiaNianData.GetSelectedStageCost()[1]) .. "/" .. 15
 end
 
-function var_0_0.RefreshSliderBar(arg_24_0)
-	local var_24_0 = IndiaNianData:GetCurrentHpByID(arg_24_0.bossCfg_.id) / IndiaNianData:GetTotalHp()
-
-	if var_24_0 < 0.01 and IndiaNianData:GetCurrentHpByID(arg_24_0.bossCfg_.id) ~= 0 then
-		var_24_0 = 0.01
+function slot0.RefreshSliderBar(slot0)
+	if IndiaNianData:GetCurrentHpByID(slot0.bossCfg_.id) / IndiaNianData:GetTotalHp() < 0.01 and IndiaNianData:GetCurrentHpByID(slot0.bossCfg_.id) ~= 0 then
+		slot1 = 0.01
 	end
 
-	arg_24_0.percentText_.text = math.ceil(var_24_0 * 100) .. "%"
-	arg_24_0.barFilImg_.fillAmount = var_24_0
-	arg_24_0.barLineTrs_.localPosition = Vector3(arg_24_0.barBgTrs_.rect.width * var_24_0 - arg_24_0.barBgTrs_.rect.width / 2, 0, 0)
+	slot0.percentText_.text = math.ceil(slot1 * 100) .. "%"
+	slot0.barFilImg_.fillAmount = slot1
+	slot0.barLineTrs_.localPosition = Vector3(slot0.barBgTrs_.rect.width * slot1 - slot0.barBgTrs_.rect.width / 2, 0, 0)
 end
 
-function var_0_0.AddTimer(arg_25_0)
-	local var_25_0 = ActivityData:GetActivityData(arg_25_0.activityID_).stopTime
-
-	arg_25_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_25_0, nil, true)
-	arg_25_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() > var_25_0 then
+function slot0.AddTimer(slot0)
+	slot0.leftTimeText_.text = manager.time:GetLostTimeStr2(ActivityData:GetActivityData(slot0.activityID_).stopTime, nil, true)
+	slot0.timer_ = Timer.New(function ()
+		if uv0 < manager.time:GetServerTime() then
 			JumpTools.OpenPageByJump("/springFestivalMainV2")
 
 			return
 		end
 
-		arg_25_0.leftTimeText_.text = manager.time:GetLostTimeStr2(var_25_0, nil, true)
+		uv1.leftTimeText_.text = manager.time:GetLostTimeStr2(uv0, nil, true)
 	end, 1, -1)
 
-	arg_25_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.OnExit(arg_27_0)
-	arg_27_0:RemoveAllEventListener()
-	manager.redPoint:unbindUIandKey(arg_27_0.taskBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_REWARD)
-	manager.redPoint:unbindUIandKey(arg_27_0.detailBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_UNLOCK)
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
+	manager.redPoint:unbindUIandKey(slot0.taskBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_REWARD)
+	manager.redPoint:unbindUIandKey(slot0.detailBtn_.transform, RedPointConst.ACTIVITY_INDIA_NIAN_UNLOCK)
 	manager.windowBar:HideBar()
-	arg_27_0.stateController_:SetSelectedState("main")
+	slot0.stateController_:SetSelectedState("main")
 
-	arg_27_0.ani_.enabled = true
+	slot0.ani_.enabled = true
 
-	arg_27_0.timer_:Stop()
+	slot0.timer_:Stop()
 
-	arg_27_0.timer_ = nil
+	slot0.timer_ = nil
 end
 
-function var_0_0.Dispose(arg_28_0)
-	var_0_0.super.Dispose(arg_28_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_28_0.stageItemList_ then
-		for iter_28_0, iter_28_1 in ipairs(arg_28_0.stageItemList_) do
-			iter_28_1:Dispose()
+	if slot0.stageItemList_ then
+		for slot4, slot5 in ipairs(slot0.stageItemList_) do
+			slot5:Dispose()
 		end
 
-		arg_28_0.stageItemList_ = nil
+		slot0.stageItemList_ = nil
 	end
 end
 
-return var_0_0
+return slot0

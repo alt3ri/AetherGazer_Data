@@ -1,50 +1,50 @@
-local var_0_0 = class("DailyFatiguePage", BaseSignPage)
-local var_0_1 = 3600
+slot0 = class("DailyFatiguePage", BaseSignPage)
+slot1 = 3600
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0.gameObject_:InjectUI(arg_1_0)
-	arg_1_0:Init()
-	arg_1_0:RegisterUIEvent()
+	slot0.gameObject_:InjectUI(slot0)
+	slot0:Init()
+	slot0:RegisterUIEvent()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0:Refresh()
+function slot0.OnEnter(slot0)
+	slot0:Refresh()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0:OnUnSelect()
+function slot0.OnExit(slot0)
+	slot0:OnUnSelect()
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0.cfg = GameSetting.daily_free_physical_strength.value
+function slot0.Init(slot0)
+	slot0.cfg = GameSetting.daily_free_physical_strength.value
 
-	if arg_4_0.cfg then
-		arg_4_0.hour_a = arg_4_0.cfg[1][1] or 11
-		arg_4_0.hour_b = arg_4_0.cfg[2][1] or 18
-		arg_4_0.morningGet = arg_4_0.cfg[1][3] or 30
-		arg_4_0.afternoonGet = arg_4_0.cfg[2][3] or 30
+	if slot0.cfg then
+		slot0.hour_a = slot0.cfg[1][1] or 11
+		slot0.hour_b = slot0.cfg[2][1] or 18
+		slot0.morningGet = slot0.cfg[1][3] or 30
+		slot0.afternoonGet = slot0.cfg[2][3] or 30
 	end
 
-	arg_4_0.status_morning = DailyFatigueData:GetStatus(arg_4_0.hour_a)
-	arg_4_0.status_afternoon = DailyFatigueData:GetStatus(arg_4_0.hour_b)
-	arg_4_0.TxtTimeMorning.text = string.format("%s : 00", arg_4_0.hour_a)
-	arg_4_0.TxtTimeAfternoon.text = string.format("%s : 00", arg_4_0.hour_b)
-	arg_4_0.TxtMorningGet.text = string.format(GetTips("FATIGUE_GET_COUNT_TIP"), arg_4_0.morningGet)
-	arg_4_0.TxtAfternoonGet.text = string.format(GetTips("FATIGUE_GET_COUNT_TIP"), arg_4_0.afternoonGet)
+	slot0.status_morning = DailyFatigueData:GetStatus(slot0.hour_a)
+	slot0.status_afternoon = DailyFatigueData:GetStatus(slot0.hour_b)
+	slot0.TxtTimeMorning.text = string.format("%s : 00", slot0.hour_a)
+	slot0.TxtTimeAfternoon.text = string.format("%s : 00", slot0.hour_b)
+	slot0.TxtMorningGet.text = string.format(GetTips("FATIGUE_GET_COUNT_TIP"), slot0.morningGet)
+	slot0.TxtAfternoonGet.text = string.format(GetTips("FATIGUE_GET_COUNT_TIP"), slot0.afternoonGet)
 
-	arg_4_0:SetActive(true)
+	slot0:SetActive(true)
 end
 
-function var_0_0.RegisterUIEvent(arg_5_0)
-	arg_5_0.BtnMorning:AddListener(handlerArg1(arg_5_0, arg_5_0.OnBtnClick, arg_5_0.hour_a))
-	arg_5_0.BtnAfternoon:AddListener(handlerArg1(arg_5_0, arg_5_0.OnBtnClick, arg_5_0.hour_b))
+function slot0.RegisterUIEvent(slot0)
+	slot0.BtnMorning:AddListener(handlerArg1(slot0, slot0.OnBtnClick, slot0.hour_a))
+	slot0.BtnAfternoon:AddListener(handlerArg1(slot0, slot0.OnBtnClick, slot0.hour_b))
 end
 
-function var_0_0.OnBtnClick(arg_6_0, arg_6_1)
-	if DailyFatigueData:GetStatus(arg_6_1) ~= ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE then
+function slot0.OnBtnClick(slot0, slot1)
+	if DailyFatigueData:GetStatus(slot1) ~= ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE then
 		return
 	end
 
@@ -54,130 +54,119 @@ function var_0_0.OnBtnClick(arg_6_0, arg_6_1)
 		return
 	end
 
-	DailyFatigueAction.ReqGetFatigue(arg_6_1)
+	DailyFatigueAction.ReqGetFatigue(slot1)
 end
 
-function var_0_0.OnSelect(arg_7_0)
-	if not arg_7_0.timer then
-		arg_7_0.timer = Timer.New(handler(arg_7_0, arg_7_0.Tick), 1, -1)
+function slot0.OnSelect(slot0)
+	if not slot0.timer then
+		slot0.timer = Timer.New(handler(slot0, slot0.Tick), 1, -1)
 
-		arg_7_0.timer:Start()
+		slot0.timer:Start()
 	end
 
-	arg_7_0.Scroll.verticalNormalizedPosition = 1
+	slot0.Scroll.verticalNormalizedPosition = 1
 
-	arg_7_0:Tick()
-	arg_7_0:StopEffect()
-	arg_7_0:Refresh()
+	slot0:Tick()
+	slot0:StopEffect()
+	slot0:Refresh()
 end
 
-function var_0_0.OnUnSelect(arg_8_0)
-	if arg_8_0.timer then
-		arg_8_0.timer:Stop()
+function slot0.OnUnSelect(slot0)
+	if slot0.timer then
+		slot0.timer:Stop()
 
-		arg_8_0.timer = nil
+		slot0.timer = nil
 	end
 end
 
-function var_0_0.Refresh(arg_9_0)
-	arg_9_0.CtrlMorning:SetSelectedIndex(arg_9_0.status_morning - 1)
-	arg_9_0.CtrlAfternoon:SetSelectedIndex(arg_9_0.status_afternoon - 1)
+function slot0.Refresh(slot0)
+	slot0.CtrlMorning:SetSelectedIndex(slot0.status_morning - 1)
+	slot0.CtrlAfternoon:SetSelectedIndex(slot0.status_afternoon - 1)
 
-	arg_9_0.TxtTalk.text = GetTips("DAILY_FATIGUE_TIPS")
+	slot0.TxtTalk.text = GetTips("DAILY_FATIGUE_TIPS")
 
-	arg_9_0.MorningRedDot:SetActive(arg_9_0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE)
-	arg_9_0.AfternoonRedDot:SetActive(arg_9_0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE)
+	slot0.MorningRedDot:SetActive(slot0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE)
+	slot0.AfternoonRedDot:SetActive(slot0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE)
 end
 
-function var_0_0.Tick(arg_10_0)
-	if not arg_10_0.cfg then
+function slot0.Tick(slot0)
+	if not slot0.cfg then
 		return
 	end
 
-	local var_10_0 = ActivityConst.DAILY_FATIGUE_STATUS
-	local var_10_1 = manager.time
-	local var_10_2 = var_10_1:GetServerTime()
-	local var_10_3 = var_10_1:GetLastZeroTime()
-	local var_10_4 = DailyFatigueData:GetStatus(arg_10_0.hour_a)
-	local var_10_5 = DailyFatigueData:GetStatus(arg_10_0.hour_b)
+	slot2 = manager.time
+	slot6 = DailyFatigueData:GetStatus(slot0.hour_b)
 
-	if var_10_4 == var_10_0.NOT_AVAILABLE then
-		local var_10_6 = var_10_3 + arg_10_0.hour_a * var_0_1
-
-		arg_10_0.TxtMorning.text = manager.time:DescCDTime(var_10_6 - var_10_2)
+	if DailyFatigueData:GetStatus(slot0.hour_a) == ActivityConst.DAILY_FATIGUE_STATUS.NOT_AVAILABLE then
+		slot0.TxtMorning.text = manager.time:DescCDTime(slot2:GetLastZeroTime() + slot0.hour_a * uv0 - slot2:GetServerTime())
 	end
 
-	if var_10_5 == var_10_0.NOT_AVAILABLE then
-		local var_10_7 = var_10_3 + arg_10_0.hour_b * var_0_1
-
-		arg_10_0.TxtAfternoon.text = manager.time:DescCDTime(var_10_7 - var_10_2)
+	if slot6 == slot1.NOT_AVAILABLE then
+		slot0.TxtAfternoon.text = manager.time:DescCDTime(slot4 + slot0.hour_b * uv0 - slot3)
 	end
 
-	local var_10_8 = arg_10_0.status_morning ~= var_10_4 or arg_10_0.status_afternoon ~= var_10_5
+	slot0.status_morning = slot5
+	slot0.status_afternoon = slot6
 
-	arg_10_0.status_morning = var_10_4
-	arg_10_0.status_afternoon = var_10_5
-
-	if var_10_8 then
-		arg_10_0:Refresh()
+	if slot0.status_morning ~= slot5 or slot0.status_afternoon ~= slot6 then
+		slot0:Refresh()
 	end
 end
 
-function var_0_0.CheckEnable(arg_11_0)
-	return arg_11_0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE or arg_11_0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE
+function slot0.CheckEnable(slot0)
+	return slot0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE or slot0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.AVAILABLE
 end
 
-function var_0_0.AutoGetReward(arg_12_0)
-	return
+function slot0.AutoGetReward(slot0)
 end
 
-function var_0_0.OnGetFatigueSuccess(arg_13_0, arg_13_1)
-	arg_13_0.status_morning = DailyFatigueData:GetStatus(arg_13_0.hour_a)
-	arg_13_0.status_afternoon = DailyFatigueData:GetStatus(arg_13_0.hour_b)
+function slot0.OnGetFatigueSuccess(slot0, slot1)
+	slot0.status_morning = DailyFatigueData:GetStatus(slot0.hour_a)
+	slot0.status_afternoon = DailyFatigueData:GetStatus(slot0.hour_b)
 
-	arg_13_0:Refresh()
-	arg_13_0:PlayEffect(arg_13_1)
+	slot0:Refresh()
+	slot0:PlayEffect(slot1)
 end
 
-function var_0_0.PlayEffect(arg_14_0, arg_14_1)
-	arg_14_0:StopEffect()
+function slot0.PlayEffect(slot0, slot1)
+	slot0:StopEffect()
 
-	if arg_14_1 == arg_14_0.hour_a then
-		arg_14_0.MorningEffect:SetActive(true)
+	if slot1 == slot0.hour_a then
+		slot0.MorningEffect:SetActive(true)
 	end
 
-	if arg_14_1 == arg_14_0.hour_b then
-		arg_14_0.AfternoonEffect:SetActive(true)
+	if slot1 == slot0.hour_b then
+		slot0.AfternoonEffect:SetActive(true)
 	end
 
-	Timer.New(handler(arg_14_0, arg_14_0.StopEffect), 2, 1)
+	Timer.New(handler(slot0, slot0.StopEffect), 2, 1)
 end
 
-function var_0_0.StopEffect(arg_15_0)
-	arg_15_0.MorningEffect:SetActive(false)
-	arg_15_0.AfternoonEffect:SetActive(false)
+function slot0.StopEffect(slot0)
+	slot0.MorningEffect:SetActive(false)
+	slot0.AfternoonEffect:SetActive(false)
 end
 
-function var_0_0.ResetAni(arg_16_0, arg_16_1, arg_16_2)
-	if arg_16_0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.CLAIMED then
-		arg_16_0.MorningAni:Play(arg_16_1, arg_16_2)
+function slot0.ResetAni(slot0, slot1, slot2)
+	if slot0.status_morning == ActivityConst.DAILY_FATIGUE_STATUS.CLAIMED then
+		slot0.MorningAni:Play(slot1, slot2)
 	end
 
-	if arg_16_0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.CLAIMED then
-		arg_16_0.AfternoonAni:Play(arg_16_1, arg_16_2)
+	if slot0.status_afternoon == ActivityConst.DAILY_FATIGUE_STATUS.CLAIMED then
+		slot0.AfternoonAni:Play(slot1, slot2)
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
+function slot0.Dispose(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 
-	arg_17_0.BtnMorning:RemoveAllListener()
-	arg_17_0.BtnAfternoon:RemoveAllListener()
-	var_0_0.super.Dispose(arg_17_0)
+	slot0.BtnMorning:RemoveAllListener()
+	slot0.BtnAfternoon:RemoveAllListener()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

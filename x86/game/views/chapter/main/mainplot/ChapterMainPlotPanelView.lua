@@ -1,57 +1,55 @@
-local var_0_0 = class("ChapterMainPanelView", ReduxView)
+slot0 = class("ChapterMainPanelView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "early")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "early")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.showChapterClientID_, arg_2_0.activityID_ = ChapterTools.GetOptimalChapterClientID()
+function slot0.OnEnter(slot0)
+	slot0.showChapterClientID_, slot0.activityID_ = ChapterTools.GetOptimalChapterClientID()
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
 		JumpTools.GoToSystem("/chapterMapContent")
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = ChapterClientCfg[arg_7_0.showChapterClientID_]
-	local var_7_1 = SpritePathCfg.ChapterPaint.path .. var_7_0.chapter_paint_2
+function slot0.RefreshUI(slot0)
+	slot1 = ChapterClientCfg[slot0.showChapterClientID_]
 
-	getSpriteWithoutAtlasAsync(var_7_1, function(arg_8_0)
-		if arg_7_0.chapterImage_ then
-			arg_7_0.chapterImage_.sprite = arg_8_0
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. slot1.chapter_paint_2, function (slot0)
+		if uv0.chapterImage_ then
+			uv0.chapterImage_.sprite = slot0
 		end
 	end)
 
-	arg_7_0.chapterNameText_.text = var_7_0.name
-	arg_7_0.chapterDescText_.text = var_7_0.desc
+	slot0.chapterNameText_.text = slot1.name
+	slot0.chapterDescText_.text = slot1.desc
 
-	arg_7_0:RefreshActivityState()
+	slot0:RefreshActivityState()
 end
 
-function var_0_0.RefreshActivityState(arg_9_0)
-	if arg_9_0.activityID_ ~= 0 then
-		arg_9_0.controller_:SetSelectedState("yes")
+function slot0.RefreshActivityState(slot0)
+	if slot0.activityID_ ~= 0 then
+		slot0.controller_:SetSelectedState("yes")
 	else
-		arg_9_0.controller_:SetSelectedState("no")
+		slot0.controller_:SetSelectedState("no")
 	end
 end
 
-return var_0_0
+return slot0

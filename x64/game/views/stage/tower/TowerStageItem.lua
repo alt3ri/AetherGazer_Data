@@ -1,108 +1,93 @@
-local var_0_0 = class("TowerStageItem", ReduxView)
+slot0 = class("TowerStageItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddClickListen()
+	slot0:initUI()
+	slot0:AddClickListen()
 end
 
-function var_0_0.initUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.stateController = ControllerUtil.GetController(arg_2_0.transform_, "state")
-	arg_2_0.romanController = ControllerUtil.GetController(arg_2_0.transform_, "roman")
-	arg_2_0.rewardList = LuaList.New(handler(arg_2_0, arg_2_0.indexItem), arg_2_0.m_rewardList, CommonItemView)
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.romanController = ControllerUtil.GetController(slot0.transform_, "roman")
+	slot0.rewardList = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_rewardList, CommonItemView)
 end
 
-function var_0_0.AddClickListen(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.m_btn, nil, function()
-		if PlayerData:GetPlayerInfo().userLevel < arg_3_0.limitLv then
-			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), arg_3_0.limitLv))
+function slot0.AddClickListen(slot0)
+	slot0:AddBtnListener(slot0.m_btn, nil, function ()
+		if PlayerData:GetPlayerInfo().userLevel < uv0.limitLv then
+			ShowTips(string.format(GetTips("PLAYER_LEVEL_UNLOCK"), uv0.limitLv))
 
 			return
 		end
 
-		SetActive(arg_3_0.m_redGo, false)
-		manager.redPoint:setTip(RedPointConst.TOWER_NEW_LEVEL + arg_3_0.chapterId, 0, RedPointStyle.SHOW_NEW_TAG)
-		RedPointAction.HandleRedPoint(RedPointConst.TOWER_NEW_LEVEL + arg_3_0.chapterId)
+		SetActive(uv0.m_redGo, false)
+		manager.redPoint:setTip(RedPointConst.TOWER_NEW_LEVEL + uv0.chapterId, 0, RedPointStyle.SHOW_NEW_TAG)
+		RedPointAction.HandleRedPoint(RedPointConst.TOWER_NEW_LEVEL + uv0.chapterId)
 		JumpTools.GoToSystem("/tower", {
-			chapterId = arg_3_0.chapterId
+			chapterId = uv0.chapterId
 		}, ViewConst.SYSTEM_ID.TOWER)
 
-		if arg_3_0.clickFunc then
-			arg_3_0.clickFunc()
+		if uv0.clickFunc then
+			uv0.clickFunc()
 		end
 	end)
 end
 
-function var_0_0.RegistCallBack(arg_5_0, arg_5_1)
-	arg_5_0.clickFunc = arg_5_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.clickFunc = slot1
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.chapterId = arg_6_1
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.chapterId = slot1
 
-	arg_6_0.romanController:SetSelectedIndex(arg_6_2)
+	slot0.romanController:SetSelectedIndex(slot2)
 
-	local var_6_0 = ChapterCfg[arg_6_1]
-	local var_6_1 = var_6_0.section_id_list
-	local var_6_2 = TowerData:GetOverId(arg_6_1)
-	local var_6_3 = #var_6_1
-	local var_6_4 = table.indexof(var_6_1, var_6_2) or 0
+	slot4 = ChapterCfg[slot1].section_id_list
+	slot6 = #slot4
+	slot7 = table.indexof(slot4, TowerData:GetOverId(slot1)) or 0
+	slot0.m_processText.text = slot7 .. "/" .. slot6
+	slot0.m_process.value = slot6 == 0 and 0 or slot7 / slot6
 
-	arg_6_0.m_processText.text = var_6_4 .. "/" .. var_6_3
-	arg_6_0.m_process.value = var_6_3 == 0 and 0 or var_6_4 / var_6_3
+	if (slot4[slot6] or 0) == 0 then
+		slot0.rewardList:StartScroll(0)
+	elseif (BattleTowerStageCfg[slot8] or {}).drop_lib_id ~= 0 then
+		slot0.rewardData = getRewardFromDropCfg(slot10, true)
 
-	local var_6_5 = var_6_1[var_6_3] or 0
-
-	if var_6_5 == 0 then
-		arg_6_0.rewardList:StartScroll(0)
+		slot0.rewardList:StartScroll(#slot0.rewardData)
 	else
-		local var_6_6 = (BattleTowerStageCfg[var_6_5] or {}).drop_lib_id
-
-		if var_6_6 ~= 0 then
-			arg_6_0.rewardData = getRewardFromDropCfg(var_6_6, true)
-
-			arg_6_0.rewardList:StartScroll(#arg_6_0.rewardData)
-		else
-			arg_6_0.rewardList:StartScroll(0)
-		end
+		slot0.rewardList:StartScroll(0)
 	end
 
-	arg_6_0.limitLv = var_6_0.level or 0
+	slot0.limitLv = slot3.level or 0
 
-	if PlayerData:GetPlayerInfo().userLevel < arg_6_0.limitLv then
-		arg_6_0.stateController:SetSelectedIndex(0)
-	elseif var_6_5 == var_6_2 then
-		arg_6_0.stateController:SetSelectedIndex(2)
+	if PlayerData:GetPlayerInfo().userLevel < slot0.limitLv then
+		slot0.stateController:SetSelectedIndex(0)
+	elseif slot8 == slot5 then
+		slot0.stateController:SetSelectedIndex(2)
 	else
-		arg_6_0.stateController:SetSelectedIndex(1)
+		slot0.stateController:SetSelectedIndex(1)
 	end
 
-	local var_6_7 = ChapterClientCfg[arg_6_1]
-	local var_6_8 = var_6_7 and var_6_7.chapter_paint or ""
+	slot0.m_role.sprite = getSpriteWithoutAtlas("TextureConfig/TowerUI/Boss/" .. (ChapterClientCfg[slot1] and slot9.chapter_paint or ""))
 
-	arg_6_0.m_role.sprite = getSpriteWithoutAtlas("TextureConfig/TowerUI/Boss/" .. var_6_8)
-
-	local var_6_9 = manager.redPoint:getTipValue(RedPointConst.TOWER_NEW_LEVEL + arg_6_0.chapterId)
-
-	SetActive(arg_6_0.m_redGo, var_6_9 > 0)
+	SetActive(slot0.m_redGo, manager.redPoint:getTipValue(RedPointConst.TOWER_NEW_LEVEL + slot0.chapterId) > 0)
 end
 
-function var_0_0.indexItem(arg_7_0, arg_7_1, arg_7_2)
-	local var_7_0 = arg_7_0.rewardData[arg_7_1]
-	local var_7_1 = rewardToItemTemplate(var_7_0)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot4 = rewardToItemTemplate(slot0.rewardData[slot1])
+	slot4.equipLevel = nil
+	slot4.number = nil
 
-	var_7_1.number, var_7_1.equipLevel = nil
-
-	arg_7_2:SetData(var_7_1)
+	slot2:SetData(slot4)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.rewardList:Dispose()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0.rewardList:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

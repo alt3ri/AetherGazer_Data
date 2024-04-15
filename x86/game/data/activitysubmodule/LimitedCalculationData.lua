@@ -1,126 +1,117 @@
-local var_0_0 = singletonClass("LimitedCalculationData")
-local var_0_1 = {}
+slot0 = singletonClass("LimitedCalculationData")
+slot1 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
+function slot0.Init(slot0)
+	uv0 = {}
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	if not var_0_1[arg_2_1.activity_id] then
-		var_0_1[arg_2_1.activity_id] = {
+function slot0.SetData(slot0, slot1)
+	if not uv0[slot1.activity_id] then
+		uv0[slot1.activity_id] = {
 			isNeed = true,
 			score = 0,
-			activityID = arg_2_1.activity_id,
-			lastDifficulty = getData("LimitedCalculation", "lastDifficulty" .. arg_2_1.activity_id) or 1
+			activityID = slot1.activity_id,
+			lastDifficulty = getData("LimitedCalculation", "lastDifficulty" .. slot1.activity_id) or 1
 		}
 	end
 
-	var_0_1[arg_2_1.activity_id].clearActivityList = {}
+	uv0[slot1.activity_id].clearActivityList = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.clear_list or {}) do
-		table.insert(var_0_1[arg_2_1.activity_id].clearActivityList, iter_2_1)
+	for slot5, slot6 in ipairs(slot1.clear_list or {}) do
+		table.insert(uv0[slot1.activity_id].clearActivityList, slot6)
 	end
 
-	var_0_1[arg_2_1.activity_id].score = math.max(var_0_1[arg_2_1.activity_id].score, arg_2_1.high_score)
+	uv0[slot1.activity_id].score = math.max(uv0[slot1.activity_id].score, slot1.high_score)
+	slot2 = {}
 
-	local var_2_0 = {}
-
-	if ActivityPointRewardCfg.get_id_list_by_activity_id[arg_2_1.activity_id] then
-		for iter_2_2, iter_2_3 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[arg_2_1.activity_id]) do
-			var_2_0[iter_2_3] = {
+	if ActivityPointRewardCfg.get_id_list_by_activity_id[slot1.activity_id] then
+		for slot6, slot7 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot1.activity_id]) do
+			slot2[slot7] = {
 				complete_flag = 0,
-				id = iter_2_3
+				id = slot7
 			}
 		end
 	end
 
-	for iter_2_4, iter_2_5 in ipairs(arg_2_1.got_reward_list) do
-		if var_2_0[iter_2_5] then
-			var_2_0[iter_2_5].complete_flag = 1
+	for slot6, slot7 in ipairs(slot1.got_reward_list) do
+		if slot2[slot7] then
+			slot2[slot7].complete_flag = 1
 		end
 	end
 
-	var_0_1[arg_2_1.activity_id].rewards = var_2_0
-	var_0_1[arg_2_1.activity_id].difficultyList = {}
+	uv0[slot1.activity_id].rewards = slot2
+	uv0[slot1.activity_id].difficultyList = {}
 
-	local var_2_1 = ActivityData:GetActivityData(arg_2_1.activity_id)
-
-	if var_2_1 then
-		for iter_2_6, iter_2_7 in ipairs(var_2_1.subActivityIdList or {}) do
-			local var_2_2 = ActivityTools.GetActivityType(iter_2_7)
-
-			if ActivityTemplateConst.LIMITED_DIFFICULTY == var_2_2 then
-				table.insert(var_0_1[arg_2_1.activity_id].difficultyList, iter_2_7)
+	if ActivityData:GetActivityData(slot1.activity_id) then
+		for slot7, slot8 in ipairs(slot3.subActivityIdList or {}) do
+			if ActivityTemplateConst.LIMITED_DIFFICULTY == ActivityTools.GetActivityType(slot8) then
+				table.insert(uv0[slot1.activity_id].difficultyList, slot8)
 			end
 		end
 	end
 end
 
-function var_0_0.GetCurDifficulty(arg_3_0, arg_3_1)
-	if var_0_1[arg_3_1] == nil then
-		print("activity data is null", arg_3_1, debug.traceback())
+function slot0.GetCurDifficulty(slot0, slot1)
+	if uv0[slot1] == nil then
+		print("activity data is null", slot1, debug.traceback())
 
 		return 1
 	end
 
-	local var_3_0 = var_0_1[arg_3_1].lastDifficulty or {}
+	if (uv0[slot1].lastDifficulty or {}) == 1 then
+		uv0[slot1].lastDifficulty = uv0[slot1].difficultyList[1]
 
-	if var_3_0 == 1 then
-		var_0_1[arg_3_1].lastDifficulty = var_0_1[arg_3_1].difficultyList[1]
-
-		return var_0_1[arg_3_1].difficultyList[1]
+		return uv0[slot1].difficultyList[1]
 	else
-		return var_3_0
+		return slot2
 	end
 end
 
-function var_0_0.SetCurDifficulty(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1[arg_4_1].lastDifficulty = arg_4_2
+function slot0.SetCurDifficulty(slot0, slot1, slot2)
+	uv0[slot1].lastDifficulty = slot2
 
-	saveData("LimitedCalculation", "lastDifficulty" .. arg_4_1, arg_4_2)
+	saveData("LimitedCalculation", "lastDifficulty" .. slot1, slot2)
 	manager.notify:CallUpdateFunc(LIMITED_DIFFICULTY_CHANGE)
 end
 
-function var_0_0.GetDifficultyList(arg_5_0, arg_5_1)
-	return var_0_1[arg_5_1].difficultyList
+function slot0.GetDifficultyList(slot0, slot1)
+	return uv0[slot1].difficultyList
 end
 
-function var_0_0.IsClearActivity(arg_6_0, arg_6_1, arg_6_2)
-	return table.keyof(var_0_1[arg_6_1].clearActivityList, arg_6_2)
+function slot0.IsClearActivity(slot0, slot1, slot2)
+	return table.keyof(uv0[slot1].clearActivityList, slot2)
 end
 
-function var_0_0.GetScore(arg_7_0, arg_7_1)
-	return var_0_1[arg_7_1] and var_0_1[arg_7_1].score
+function slot0.GetScore(slot0, slot1)
+	return uv0[slot1] and uv0[slot1].score
 end
 
-function var_0_0.GetRewardList(arg_8_0, arg_8_1)
-	local var_8_0 = {}
-
-	if ActivityPointRewardCfg.get_id_list_by_activity_id[arg_8_1] == nil then
-		return var_8_0
+function slot0.GetRewardList(slot0, slot1)
+	if ActivityPointRewardCfg.get_id_list_by_activity_id[slot1] == nil then
+		return {}
 	end
 
-	for iter_8_0, iter_8_1 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[arg_8_1]) do
-		table.insert(var_8_0, var_0_1[arg_8_1] and var_0_1[arg_8_1].rewards[iter_8_1])
+	for slot6, slot7 in ipairs(ActivityPointRewardCfg.get_id_list_by_activity_id[slot1]) do
+		table.insert(slot2, uv0[slot1] and uv0[slot1].rewards[slot7])
 	end
 
-	return var_8_0
+	return slot2
 end
 
-function var_0_0.SetRewardState(arg_9_0, arg_9_1, arg_9_2)
-	var_0_1[arg_9_1].rewards[arg_9_2].complete_flag = ActivityConst.LIMITED_CALCULATION_REWARD_STATE.REWARDED
+function slot0.SetRewardState(slot0, slot1, slot2)
+	uv0[slot1].rewards[slot2].complete_flag = ActivityConst.LIMITED_CALCULATION_REWARD_STATE.REWARDED
 end
 
-function var_0_0.GetIsNeed(arg_10_0, arg_10_1)
-	return var_0_1[arg_10_1] and var_0_1[arg_10_1].isNeed
+function slot0.GetIsNeed(slot0, slot1)
+	return uv0[slot1] and uv0[slot1].isNeed
 end
 
-function var_0_0.SetIsNeed(arg_11_0, arg_11_1, arg_11_2)
-	if var_0_1[arg_11_1].isNeed and arg_11_2 == false then
-		manager.redPoint:setTip(RedPointConst.LIMITED_CALCULATION_OPEN .. arg_11_1, 0)
+function slot0.SetIsNeed(slot0, slot1, slot2)
+	if uv0[slot1].isNeed and slot2 == false then
+		manager.redPoint:setTip(RedPointConst.LIMITED_CALCULATION_OPEN .. slot1, 0)
 	end
 
-	var_0_1[arg_11_1].isNeed = arg_11_2
+	uv0[slot1].isNeed = slot2
 end
 
-return var_0_0
+return slot0

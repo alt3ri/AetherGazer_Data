@@ -1,202 +1,180 @@
-local var_0_0 = class("SpringWelfareSystemLetterView", ReduxView)
+slot0 = class("SpringWelfareSystemLetterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/IndiaUI_2_8/IndiaWishingTree/IndiaWishingTreeLetterPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.rewardUiList_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.listGo_, SpringWelfareLetterRewardItem)
-	arg_3_0.shareController_ = ControllerUtil.GetController(arg_3_0.transform_, "share")
-	arg_3_0.arrowController_ = ControllerUtil.GetController(arg_3_0.transform_, "arrow")
+	slot0.rewardUiList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, SpringWelfareLetterRewardItem)
+	slot0.shareController_ = ControllerUtil.GetController(slot0.transform_, "share")
+	slot0.arrowController_ = ControllerUtil.GetController(slot0.transform_, "arrow")
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	arg_4_0.letterServerId_ = arg_4_0.params_.letterServerId
+function slot0.OnEnter(slot0)
+	slot0.letterServerId_ = slot0.params_.letterServerId
+	slot1 = SpringWelfareData:GetLetterData(slot0.letterServerId_)
+	slot0.firstView_ = slot0.params_.firstView
 
-	local var_4_0 = SpringWelfareData:GetLetterData(arg_4_0.letterServerId_)
-
-	arg_4_0.firstView_ = arg_4_0.params_.firstView
-
-	if arg_4_0.params_.gotReward == false then
-		arg_4_0.gotReward_ = false
-		arg_4_0.params_.gotReward = nil
+	if slot0.params_.gotReward == false then
+		slot0.gotReward_ = false
+		slot0.params_.gotReward = nil
 	end
 
-	arg_4_0.rewardList_ = SpringWelfareData:GetLetterData(arg_4_0.letterServerId_).rewardList
+	slot0.rewardList_ = SpringWelfareData:GetLetterData(slot0.letterServerId_).rewardList
 
-	arg_4_0:RefreshArrowUI()
-	arg_4_0:RefreshUI()
+	slot0:RefreshArrowUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTop(arg_5_0)
-	arg_5_0:OnEnter()
+function slot0.OnTop(slot0)
+	slot0:OnEnter()
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	AnimatorTools.Stop()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	SetActive(arg_7_0.gameObject_, true)
+function slot0.OnTop(slot0)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.OnBehind(arg_8_0)
-	SetActive(arg_8_0.gameObject_, false)
+function slot0.OnBehind(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.rewardUiList_:Dispose()
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	slot0.rewardUiList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.maskBtn_, nil, function()
-		arg_10_0:OnClickClose()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.maskBtn_, nil, function ()
+		uv0:OnClickClose()
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.shareBtn_, nil, function()
-		manager.share:Share(function()
-			arg_10_0.shareController_:SetSelectedState("false")
-		end, function()
-			arg_10_0.shareController_:SetSelectedState("true")
-		end, function()
-			return
+	slot0:AddBtnListener(slot0.shareBtn_, nil, function ()
+		manager.share:Share(function ()
+			uv0.shareController_:SetSelectedState("false")
+		end, function ()
+			uv0.shareController_:SetSelectedState("true")
+		end, function ()
 		end)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.leftArrowBtn_, nil, function()
-		arg_10_0:JumpNextLetter(-1)
+	slot0:AddBtnListener(slot0.leftArrowBtn_, nil, function ()
+		uv0:JumpNextLetter(-1)
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.rightArrowBtn_, nil, function()
-		arg_10_0:JumpNextLetter(1)
+	slot0:AddBtnListener(slot0.rightArrowBtn_, nil, function ()
+		uv0:JumpNextLetter(1)
 	end)
 end
 
-function var_0_0.IndexItem(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = arg_18_0.rewardList_[arg_18_1]
-	local var_18_1 = var_18_0[1]
-	local var_18_2 = var_18_0[2]
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot3 = slot0.rewardList_[slot1]
 
-	arg_18_2:SetClickHandler(function(arg_19_0)
+	slot2:SetClickHandler(function (slot0)
 		ShowPopItem(POP_ITEM, {
-			var_18_1
+			uv0
 		})
 	end)
-
-	local var_18_3 = not arg_18_0.firstView_ or arg_18_0.gotReward_
-
-	arg_18_2:SetData(var_18_1, var_18_2, var_18_3)
+	slot2:SetData(slot3[1], slot3[2], not slot0.firstView_ or slot0.gotReward_)
 end
 
-function var_0_0.RefreshUI(arg_20_0)
-	arg_20_0:RefreshLetterUI()
-	arg_20_0:RefreshHeroUI()
-	arg_20_0:RefreshRewardList()
-	arg_20_0.shareController_:SetSelectedState(arg_20_0.firstView_ and "false" or "true")
+function slot0.RefreshUI(slot0)
+	slot0:RefreshLetterUI()
+	slot0:RefreshHeroUI()
+	slot0:RefreshRewardList()
+	slot0.shareController_:SetSelectedState(slot0.firstView_ and "false" or "true")
 end
 
-function var_0_0.RefreshLetterUI(arg_21_0)
-	local var_21_0 = SpringWelfareData:GetLetterData(arg_21_0.letterServerId_).letterId
-
-	arg_21_0.titleText_.text = GetTips(SpringPreheatData:GetLetterTitle(var_21_0))
-	arg_21_0.contentText_.text = GetTips(SpringPreheatData:GetLetterFixedText(var_21_0, 1, 1))
+function slot0.RefreshLetterUI(slot0)
+	slot2 = SpringWelfareData:GetLetterData(slot0.letterServerId_).letterId
+	slot0.titleText_.text = GetTips(SpringPreheatData:GetLetterTitle(slot2))
+	slot0.contentText_.text = GetTips(SpringPreheatData:GetLetterFixedText(slot2, 1, 1))
 end
 
-function var_0_0.RefreshHeroUI(arg_22_0)
-	local var_22_0 = arg_22_0:GetHeroId()
-	local var_22_1 = HeroData:GetHeroData(var_22_0)
-	local var_22_2 = HeroTools.GetHeadSprite(var_22_0)
-
-	arg_22_0.heroImg_.sprite = var_22_2
-	arg_22_0.heroNameText_.text = HeroTools.GetHeroFullName(var_22_0)
+function slot0.RefreshHeroUI(slot0)
+	slot1 = slot0:GetHeroId()
+	slot2 = HeroData:GetHeroData(slot1)
+	slot0.heroImg_.sprite = HeroTools.GetHeadSprite(slot1)
+	slot0.heroNameText_.text = HeroTools.GetHeroFullName(slot1)
 end
 
-function var_0_0.RefreshRewardList(arg_23_0)
-	arg_23_0.rewardUiList_:StartScrollWithoutAnimator(#arg_23_0.rewardList_)
-	arg_23_0.rewardUiList_:Refresh()
+function slot0.RefreshRewardList(slot0)
+	slot0.rewardUiList_:StartScrollWithoutAnimator(#slot0.rewardList_)
+	slot0.rewardUiList_:Refresh()
 end
 
-function var_0_0.RefreshArrowUI(arg_24_0)
-	if arg_24_0.firstView_ then
-		arg_24_0.arrowController_:SetSelectedState("none")
+function slot0.RefreshArrowUI(slot0)
+	if slot0.firstView_ then
+		slot0.arrowController_:SetSelectedState("none")
 
 		return
 	end
 
-	local var_24_0 = arg_24_0:GetLetterIdList()
-	local var_24_1 = table.indexof(var_24_0, arg_24_0.letterServerId_)
-	local var_24_2 = #var_24_0
-	local var_24_3 = var_24_1 > 1
-	local var_24_4 = var_24_1 < var_24_2
+	slot1 = slot0:GetLetterIdList()
 
-	if var_24_3 and var_24_4 then
-		arg_24_0.arrowController_:SetSelectedState("both")
-	elseif var_24_3 then
-		arg_24_0.arrowController_:SetSelectedState("left")
-	elseif var_24_4 then
-		arg_24_0.arrowController_:SetSelectedState("right")
+	if table.indexof(slot1, slot0.letterServerId_) > 1 and slot2 < #slot1 then
+		slot0.arrowController_:SetSelectedState("both")
+	elseif slot4 then
+		slot0.arrowController_:SetSelectedState("left")
+	elseif slot5 then
+		slot0.arrowController_:SetSelectedState("right")
 	else
-		arg_24_0.arrowController_:SetSelectedState("none")
+		slot0.arrowController_:SetSelectedState("none")
 	end
 end
 
-function var_0_0.JumpNextLetter(arg_25_0, arg_25_1)
-	local var_25_0 = arg_25_0:GetLetterIdList()
-	local var_25_1 = table.indexof(var_25_0, arg_25_0.letterServerId_)
-	local var_25_2 = #var_25_0
-	local var_25_3 = var_25_1 + arg_25_1
+function slot0.JumpNextLetter(slot0, slot1)
+	slot2 = slot0:GetLetterIdList()
 
-	if var_25_3 < 1 or var_25_2 < var_25_3 then
+	if table.indexof(slot2, slot0.letterServerId_) + slot1 < 1 or #slot2 < slot5 then
 		return
 	end
 
-	arg_25_0:Back()
+	slot0:Back()
 	JumpTools.OpenPageByJump("springWelfareSystemLetter", {
-		letterServerId = var_25_0[var_25_3]
+		letterServerId = slot2[slot5]
 	})
 end
 
-function var_0_0.GetLetterIdList(arg_26_0)
+function slot0.GetLetterIdList(slot0)
 	return SpringWelfareData:GetSystemLetterIdList()
 end
 
-function var_0_0.OnClickClose(arg_27_0)
-	if not arg_27_0.firstView_ then
-		arg_27_0:Back()
+function slot0.OnClickClose(slot0)
+	if not slot0.firstView_ then
+		slot0:Back()
 
 		return
 	end
 
-	if arg_27_0.gotReward_ then
-		arg_27_0:Back()
+	if slot0.gotReward_ then
+		slot0:Back()
 
-		local var_27_0 = SpringWelfareData:GetNextNewPlayerLetterId()
-
-		if var_27_0 then
+		if SpringWelfareData:GetNextNewPlayerLetterId() then
 			JumpTools.OpenPageByJump("springWelfarePlayerLetter", {
 				firstView = true,
-				letterServerId = var_27_0
+				letterServerId = slot1
 			})
 		end
 	else
-		local var_27_1 = SpringWelfareData:GetLetterData(arg_27_0.letterServerId_)
+		SpringWelfareAction:AcquireLetterReward(SpringWelfareData:GetLetterData(slot0.letterServerId_).day, function ()
+			uv0.gotReward_ = true
 
-		SpringWelfareAction:AcquireLetterReward(var_27_1.day, function()
-			arg_27_0.gotReward_ = true
-
-			arg_27_0.rewardUiList_:Refresh()
+			uv0.rewardUiList_:Refresh()
 			SpringWelfareAction:UpdateRedPoint(SpringWelfareData:GetActivityId())
 		end)
 	end
 end
 
-function var_0_0.GetHeroId(arg_29_0)
-	return SpringWelfareData:GetLetterData(arg_29_0.letterServerId_).heroId
+function slot0.GetHeroId(slot0)
+	return SpringWelfareData:GetLetterData(slot0.letterServerId_).heroId
 end
 
-return var_0_0
+return slot0

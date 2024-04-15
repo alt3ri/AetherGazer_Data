@@ -1,354 +1,306 @@
 return {
-	GetHeroSkillInfo = function(arg_1_0, arg_1_1)
-		local var_1_0 = {}
-		local var_1_1 = arg_1_0:GetHeroData(arg_1_1)
+	GetHeroSkillInfo = function (slot0, slot1)
+		slot2 = {
+			[slot8.skill_id] = slot8.skill_level
+		}
 
-		for iter_1_0, iter_1_1 in ipairs(var_1_1.skill) do
-			var_1_0[iter_1_1.skill_id] = iter_1_1.skill_level
+		for slot7, slot8 in ipairs(slot0:GetHeroData(slot1).skill) do
+			-- Nothing
 		end
 
-		local var_1_2 = {}
+		slot4 = {}
 
-		for iter_1_2, iter_1_3 in ipairs(HeroCfg[arg_1_1].skills) do
-			local var_1_3 = HeroTools.GetHeroSkillAddLevel(var_1_1, iter_1_3)
+		for slot8, slot9 in ipairs(HeroCfg[slot1].skills) do
+			slot10 = HeroTools.GetHeroSkillAddLevel(slot3, slot9)
 
-			if SkillTools.GetIsDodgeSkill(iter_1_3) then
-				var_1_3 = 0
+			if SkillTools.GetIsDodgeSkill(slot9) then
+				slot10 = 0
 			end
 
-			table.insert(var_1_2, {
-				id = iter_1_3,
-				heroId = arg_1_1,
-				lv = var_1_0[iter_1_3],
-				isCanStarUp = SkillTools.GetIsCanUpNew(iter_1_3, var_1_0[iter_1_3], false),
-				isCanAttrUp = SkillTools.GetIsCanUpNew(iter_1_3, var_1_0[iter_1_3], true),
-				addSkillLv = var_1_3,
-				addEquipSkillLv = arg_1_0:GetTransitionAddLevel(arg_1_1, iter_1_3)
+			table.insert(slot4, {
+				id = slot9,
+				heroId = slot1,
+				lv = slot2[slot9],
+				isCanStarUp = SkillTools.GetIsCanUpNew(slot9, slot2[slot9], false),
+				isCanAttrUp = SkillTools.GetIsCanUpNew(slot9, slot2[slot9], true),
+				addSkillLv = slot10,
+				addEquipSkillLv = slot0:GetTransitionAddLevel(slot1, slot9)
 			})
 		end
 
-		if arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
-			for iter_1_4, iter_1_5 in ipairs(var_1_2) do
-				iter_1_5.lv = 1
-				iter_1_5.isCanUp = false
-				iter_1_5.addSkillLv = 0
+		if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+			for slot8, slot9 in ipairs(slot4) do
+				slot9.lv = 1
+				slot9.isCanUp = false
+				slot9.addSkillLv = 0
 			end
-		elseif arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.FORIEGN then
-			for iter_1_6, iter_1_7 in ipairs(var_1_2) do
-				iter_1_7.isCanUp = false
+		elseif slot0.viewDataType == HeroConst.HERO_DATA_TYPE.FORIEGN then
+			for slot8, slot9 in ipairs(slot4) do
+				slot9.isCanUp = false
 			end
-		elseif arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
-			for iter_1_8, iter_1_9 in ipairs(var_1_2) do
-				iter_1_9.isCanUp = false
+		elseif slot0.viewDataType == HeroConst.HERO_DATA_TYPE.ADVANCETEST then
+			for slot8, slot9 in ipairs(slot4) do
+				slot9.isCanUp = false
 			end
-		elseif arg_1_0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
-			for iter_1_10, iter_1_11 in ipairs(var_1_2) do
-				iter_1_11.isCanUp = false
+		elseif slot0.viewDataType == HeroConst.HERO_DATA_TYPE.POLYHEDRON then
+			for slot8, slot9 in ipairs(slot4) do
+				slot9.isCanUp = false
 			end
 		end
 
-		return var_1_2
+		return slot4
 	end,
-	GetSkillLv = function(arg_2_0, arg_2_1, arg_2_2)
-		if arg_2_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+	GetSkillLv = function (slot0, slot1, slot2)
+		if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
 			return 1
 		else
-			local var_2_0 = arg_2_0:GetHeroSkillInfoList(arg_2_1)
-
-			for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-				if iter_2_1.skill_id == arg_2_2 then
-					return iter_2_1.skill_level
+			for slot7, slot8 in ipairs(slot0:GetHeroSkillInfoList(slot1)) do
+				if slot8.skill_id == slot2 then
+					return slot8.skill_level
 				end
 			end
 		end
 
 		return 0
 	end,
-	GetRealSkillId = function(arg_3_0, arg_3_1, arg_3_2)
-		local var_3_0 = HeroCfg[arg_3_1]
-		local var_3_1 = arg_3_0:GetHeroData(arg_3_1)
-		local var_3_2 = arg_3_2
-		local var_3_3 = 0
-		local var_3_4 = arg_3_0:GetHeroServantInfo(arg_3_1)
+	GetRealSkillId = function (slot0, slot1, slot2)
+		slot3 = HeroCfg[slot1]
+		slot4 = slot0:GetHeroData(slot1)
+		slot5 = slot2
+		slot6 = 0
 
-		if var_3_4 then
-			var_3_3 = var_3_4.id
+		if slot0:GetHeroServantInfo(slot1) then
+			slot6 = slot7.id
 		end
 
-		for iter_3_0, iter_3_1 in pairs(var_3_0.equip_orange_skill) do
-			if iter_3_1[1] == arg_3_2 and var_3_3 == iter_3_1[2] then
-				var_3_2 = iter_3_1[3]
+		for slot11, slot12 in pairs(slot3.equip_orange_skill) do
+			if slot12[1] == slot2 and slot6 == slot12[2] then
+				slot5 = slot12[3]
 			end
 		end
 
-		for iter_3_2, iter_3_3 in pairs(var_3_0.astrolabe_skill) do
-			if iter_3_3[1] == arg_3_2 then
-				for iter_3_4, iter_3_5 in pairs(var_3_1.using_astrolabe) do
-					if iter_3_3[2] == iter_3_5 then
-						var_3_2 = iter_3_3[3]
+		for slot11, slot12 in pairs(slot3.astrolabe_skill) do
+			if slot12[1] == slot2 then
+				for slot16, slot17 in pairs(slot4.using_astrolabe) do
+					if slot12[2] == slot17 then
+						slot5 = slot12[3]
 					end
 				end
 			end
 		end
 
-		return var_3_2
+		return slot5
 	end,
-	GetTransitionAddLevel = function(arg_4_0, arg_4_1, arg_4_2)
-		local var_4_0 = arg_4_0:GetHeroData(arg_4_1)
-		local var_4_1 = HeroCfg[arg_4_1]
-		local var_4_2 = table.indexof(var_4_1.skills, arg_4_2)
+	GetTransitionAddLevel = function (slot0, slot1, slot2)
+		slot3 = slot0:GetHeroData(slot1)
 
-		if not var_4_2 then
+		if not table.indexof(HeroCfg[slot1].skills, slot2) then
 			return 0
 		end
 
-		local var_4_3 = HeroTools.GetHeroEquipSkillAddLevel(var_4_0)
-		local var_4_4 = GameSetting.exclusive_skill_level_up_type.value
-		local var_4_5 = var_4_0:GetTransitionInfoList()
-		local var_4_6 = arg_4_0:GetEquipDataList(arg_4_1)
-		local var_4_7 = 0
-		local var_4_8 = 0
+		slot6 = HeroTools.GetHeroEquipSkillAddLevel(slot3)
+		slot7 = GameSetting.exclusive_skill_level_up_type.value
+		slot10 = 0
+		slot11 = 0
 
-		for iter_4_0, iter_4_1 in ipairs(var_4_5) do
-			local var_4_9 = var_4_6[iter_4_1.slot_id]
+		for slot15, slot16 in ipairs(slot3:GetTransitionInfoList()) do
+			if slot0:GetEquipDataList(slot1)[slot16.slot_id].equip_id ~= 0 and GameSetting.exclusive_open_need.value[1] <= slot18:GetLevel() then
+				for slot23, slot24 in ipairs(slot16.skill_list) do
+					slot25 = slot24.skill_id
 
-			if var_4_9.equip_id ~= 0 and var_4_9:GetLevel() >= GameSetting.exclusive_open_need.value[1] then
-				local var_4_10 = iter_4_1.skill_list
-
-				for iter_4_2, iter_4_3 in ipairs(var_4_10) do
-					local var_4_11 = iter_4_3.skill_id
-
-					for iter_4_4, iter_4_5 in ipairs(var_4_4) do
-						if var_4_11 == iter_4_5[1] and iter_4_5[2] == var_4_2 then
-							var_4_8 = var_4_8 + iter_4_3.skill_level
-							var_4_7 = var_4_11
+					for slot29, slot30 in ipairs(slot7) do
+						if slot25 == slot30[1] and slot30[2] == slot5 then
+							slot11 = slot11 + slot24.skill_level
+							slot10 = slot25
 						end
 					end
 				end
 			end
 		end
 
-		if var_4_7 ~= 0 then
-			local var_4_12 = EquipSkillCfg[var_4_7]
+		if slot10 ~= 0 then
+			slot12 = EquipSkillCfg[slot10]
 
-			return var_4_12.upgrade / var_4_12.percent * (var_4_8 + var_4_3)
+			return slot12.upgrade / slot12.percent * (slot11 + slot6)
 		end
 
 		return 0
 	end,
-	GetSkillAttrLv = function(arg_5_0, arg_5_1, arg_5_2)
-		local var_5_0 = arg_5_0:GetHeroData(arg_5_1)
-
-		for iter_5_0, iter_5_1 in ipairs(var_5_0.skillAttrList or {}) do
-			if iter_5_1.index == arg_5_2 then
-				return iter_5_1.level
+	GetSkillAttrLv = function (slot0, slot1, slot2)
+		for slot7, slot8 in ipairs(slot0:GetHeroData(slot1).skillAttrList or {}) do
+			if slot8.index == slot2 then
+				return slot8.level
 			end
 		end
 
 		return 0
 	end,
-	GetSkillAtrrProgressValue = function(arg_6_0, arg_6_1, arg_6_2, arg_6_3)
-		if arg_6_0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
+	GetSkillAtrrProgressValue = function (slot0, slot1, slot2, slot3)
+		if slot0.viewDataType == HeroConst.HERO_DATA_TYPE.PREVIEW then
 			return 0
 		end
 
-		local var_6_0 = (arg_6_3 or arg_6_0:GetSkillAttrLv(arg_6_1, arg_6_2)) / HeroConst.MAX_SKILL_ATTR_LEVEL
-
-		if var_6_0 > 1 then
-			var_6_0 = 1
+		if (slot3 or slot0:GetSkillAttrLv(slot1, slot2)) / HeroConst.MAX_SKILL_ATTR_LEVEL > 1 then
+			slot5 = 1
 		end
 
-		return var_6_0
+		return slot5
 	end,
-	GetAdditionShowTextByType = function(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-		local var_7_0 = true
-		local var_7_1 = arg_7_0:GetHeroData(arg_7_2)
-		local var_7_2 = SkillAdditionCfg[arg_7_1]
+	GetAdditionShowTextByType = function (slot0, slot1, slot2, slot3)
+		slot4 = true
+		slot5 = slot0:GetHeroData(slot2)
 
-		if (arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONSERVANT or arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.ASTROLABE) and not var_7_2 then
+		if (slot3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONSERVANT or slot3 == HeroConst.HERO_SKILL_ADD_TYPE.ASTROLABE) and not SkillAdditionCfg[slot1] then
 			return nil, false
 		end
 
-		local var_7_3 = {}
+		slot7 = {}
 
-		if arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONSERVANT then
-			var_7_3 = arg_7_0:GetWeaponServantData(var_7_1, var_7_2)
-		elseif arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONMODULE then
-			var_7_3 = arg_7_0:GetWeaponModuleData(arg_7_2, arg_7_1)
-		elseif arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.ASTROLABE then
-			var_7_3 = arg_7_0:GetAstrolabeData(var_7_2, var_7_1)
-		elseif arg_7_3 == HeroConst.HERO_SKILL_ADD_TYPE.ATTRIBUTE then
-			var_7_3 = {}
+		if slot3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONSERVANT then
+			slot7 = slot0:GetWeaponServantData(slot5, slot6)
+		elseif slot3 == HeroConst.HERO_SKILL_ADD_TYPE.WEAPONMODULE then
+			slot7 = slot0:GetWeaponModuleData(slot2, slot1)
+		elseif slot3 == HeroConst.HERO_SKILL_ADD_TYPE.ASTROLABE then
+			slot7 = slot0:GetAstrolabeData(slot6, slot5)
+		elseif slot3 == HeroConst.HERO_SKILL_ADD_TYPE.ATTRIBUTE then
+			slot7 = {}
 		end
 
-		if not var_7_3 or not next(var_7_3) then
-			var_7_0 = false
+		if not slot7 or not next(slot7) then
+			slot4 = false
 		end
 
-		return var_7_3, var_7_0
+		return slot7, slot4
 	end,
-	GetWeaponServantData = function(arg_8_0, arg_8_1, arg_8_2)
-		local var_8_0 = {}
-		local var_8_1
-		local var_8_2 = arg_8_1:GetServantInfo()
-		local var_8_3 = var_8_2.id
-		local var_8_4 = WeaponServantCfg[var_8_3]
+	GetWeaponServantData = function (slot0, slot1, slot2)
+		slot3 = {}
+		slot4 = nil
 
-		if var_8_4 then
-			local var_8_5 = var_8_4.effect
-			local var_8_6 = false
+		if WeaponServantCfg[slot1:GetServantInfo().id] then
+			slot8 = slot7.effect
+			slot9 = false
 
-			for iter_8_0, iter_8_1 in pairs(arg_8_2.weapon_servant_id or {}) do
-				for iter_8_2, iter_8_3 in pairs(var_8_5) do
-					if iter_8_1 == iter_8_3 then
-						var_8_6 = true
+			for slot13, slot14 in pairs(slot2.weapon_servant_id or {}) do
+				for slot18, slot19 in pairs(slot8) do
+					if slot14 == slot19 then
+						slot9 = true
 					end
 				end
 			end
 
-			if var_8_6 then
-				local var_8_7 = var_8_2.stage
-				local var_8_8 = ItemCfg[var_8_3].name
-				local var_8_9 = HeroTools.GetHeroWeaponAddLevel(arg_8_1) or 0
-				local var_8_10 = arg_8_0:GetServantEffect(var_8_3, var_8_7 + var_8_9)
-
-				table.insert(var_8_0, {
-					titleName = var_8_8,
-					showDesc = var_8_10
+			if slot9 then
+				table.insert(slot3, {
+					titleName = ItemCfg[slot6].name,
+					showDesc = slot0:GetServantEffect(slot6, slot5.stage + (HeroTools.GetHeroWeaponAddLevel(slot1) or 0))
 				})
 			end
 		end
 
-		return var_8_0
+		return slot3
 	end,
-	GetWeaponModuleData = function(arg_9_0, arg_9_1, arg_9_2)
-		local var_9_0 = {}
-		local var_9_1 = arg_9_0:GetHeroData(arg_9_1).moduleLevel
-		local var_9_2 = {}
-		local var_9_3 = true
+	GetWeaponModuleData = function (slot0, slot1, slot2)
+		slot3 = {}
+		slot5 = {}
+		slot6 = true
 
-		if var_9_1 > 0 then
-			local var_9_4 = HeroTools:GetModulePowersByHeroIDAndLevel(arg_9_1, var_9_1)
-			local var_9_5 = {}
+		if slot0:GetHeroData(slot1).moduleLevel > 0 then
+			slot7 = {}
 
-			for iter_9_0, iter_9_1 in pairs(var_9_4) do
-				if getSkillIDOrServantID(iter_9_1) == arg_9_2 then
-					table.insert(var_9_5, iter_9_1)
+			for slot11, slot12 in pairs(HeroTools:GetModulePowersByHeroIDAndLevel(slot1, slot4)) do
+				if getSkillIDOrServantID(slot12) == slot2 then
+					table.insert(slot7, slot12)
 				end
 			end
 
-			local var_9_6, var_9_7, var_9_8, var_9_9 = HeroTools.GetModuleAllDes(var_9_5, arg_9_1)
+			slot8, slot9, slot10, slot11 = HeroTools.GetModuleAllDes(slot7, slot1)
 
-			if var_9_7 then
-				table.insert(var_9_0, {
-					titleName = WeaponModuleCfg[arg_9_1].name,
-					showDesc = var_9_7
+			if slot9 then
+				table.insert(slot3, {
+					titleName = WeaponModuleCfg[slot1].name,
+					showDesc = slot9
 				})
 			else
-				var_9_3 = false
+				slot6 = false
 			end
 		end
 
-		return var_9_0, var_9_3
+		return slot3, slot6
 	end,
-	GetAstrolabeData = function(arg_10_0, arg_10_1, arg_10_2)
-		local var_10_0 = {}
-		local var_10_1 = {}
+	GetAstrolabeData = function (slot0, slot1, slot2)
+		slot3 = {}
+		slot4 = {}
 
-		for iter_10_0, iter_10_1 in pairs(arg_10_1.astrolabe_id or {}) do
-			for iter_10_2, iter_10_3 in pairs(arg_10_2.using_astrolabe) do
-				if iter_10_3 == iter_10_1 then
-					table.insert(var_10_1, iter_10_3)
+		for slot8, slot9 in pairs(slot1.astrolabe_id or {}) do
+			for slot13, slot14 in pairs(slot2.using_astrolabe) do
+				if slot14 == slot9 then
+					table.insert(slot4, slot14)
 				end
 			end
 		end
 
-		for iter_10_4, iter_10_5 in pairs(var_10_1) do
-			local var_10_2 = HeroAstrolabeCfg[iter_10_5]
-			local var_10_3 = AstrolabeEffectCfg[iter_10_5]
-
-			if var_10_2 and var_10_3 then
-				local var_10_4 = string.format("%s·%s", var_10_2.suit_name, var_10_2.name)
-				local var_10_5 = AstrolabeEffectCfg[iter_10_5] and AstrolabeEffectCfg[iter_10_5].desc[1] or nil
-
-				if DescriptionCfg[var_10_5] then
-					table.insert(var_10_0, {
-						titleName = var_10_4,
-						showDesc = arg_10_0:GetAstrolabeDesc(iter_10_5, arg_10_2.id)
+		for slot8, slot9 in pairs(slot4) do
+			if HeroAstrolabeCfg[slot9] and AstrolabeEffectCfg[slot9] then
+				if DescriptionCfg[AstrolabeEffectCfg[slot9] and AstrolabeEffectCfg[slot9].desc[1] or nil] then
+					table.insert(slot3, {
+						titleName = string.format("%s·%s", slot10.suit_name, slot10.name),
+						showDesc = slot0:GetAstrolabeDesc(slot9, slot2.id)
 					})
 				end
 			end
 		end
 
-		return var_10_0
+		return slot3
 	end,
-	GetSkillAttrData = function(arg_11_0, arg_11_1, arg_11_2)
-		local var_11_0 = {}
-
-		if SkillTools.GetIsDodgeSkill(arg_11_1) then
-			return var_11_0
+	GetSkillAttrData = function (slot0, slot1, slot2)
+		if SkillTools.GetIsDodgeSkill(slot1) then
+			return {}
 		end
 
-		local var_11_1 = SkillTools.GetSkillIdIndex(arg_11_1)
-		local var_11_2 = arg_11_0:GetSkillAttrLv(arg_11_2, var_11_1)
-
-		for iter_11_0 = 1, var_11_2 do
-			local var_11_3 = SkillTools.GetSkillAttrCfg(arg_11_2, var_11_1, iter_11_0)
-
-			if var_11_3 then
-				local var_11_4 = {
-					titleName = string.format("%s%s", GetTips("LEVEL"), iter_11_0)
+		for slot9 = 1, slot0:GetSkillAttrLv(slot2, SkillTools.GetSkillIdIndex(slot1)) do
+			if SkillTools.GetSkillAttrCfg(slot2, slot4, slot9) then
+				slot11 = {
+					titleName = string.format("%s%s", GetTips("LEVEL"), slot15)
 				}
-
 				showDesc = ""
 
-				for iter_11_1, iter_11_2 in pairs(var_11_3.attr) do
-					local var_11_5 = iter_11_2[1]
-					local var_11_6 = iter_11_2[2] / 10
-					local var_11_7 = PublicAttrCfg[var_11_5] and PublicAttrCfg[var_11_5].name or ""
-
-					showDesc = string.format("%s%s<color=#F48800>%s%%</color>\n", showDesc, var_11_7, var_11_6)
+				for slot9, slot16 in pairs(slot10.attr) do
+					showDesc = string.format("%s%s<color=#F48800>%s%%</color>\n", showDesc, PublicAttrCfg[slot16[1]] and PublicAttrCfg[slot17].name or "", slot16[2] / 10)
 				end
 
-				var_11_4.showDesc = showDesc
+				slot11.showDesc = showDesc
 
-				table.insert(var_11_0, var_11_4)
+				table.insert(slot3, slot11)
 			end
 		end
 
-		return var_11_0
+		return slot3
 	end,
-	GetSkillDesc = function(arg_12_0, arg_12_1, arg_12_2, arg_12_3)
-		local var_12_0 = HeroSkillCfg[arg_12_1]
-
-		if not var_12_0 then
-			print("技能 id" .. arg_12_1 .. "没有配置")
+	GetSkillDesc = function (slot0, slot1, slot2, slot3)
+		if not HeroSkillCfg[slot1] then
+			print("技能 id" .. slot1 .. "没有配置")
 		end
 
-		arg_12_2 = arg_12_2 or 1
+		slot2 = slot2 or 1
+		slot5 = ""
+		slot6 = SkillTools.GetHeroIDBySkillID(slot1)
 
-		local var_12_1 = ""
-		local var_12_2 = SkillTools.GetHeroIDBySkillID(arg_12_1)
+		if slot4 and slot4.desc and type(slot4.desc) == "table" then
+			slot7 = slot4.desc[1]
 
-		if var_12_0 and var_12_0.desc and type(var_12_0.desc) == "table" then
-			local var_12_3 = var_12_0.desc[1]
-			local var_12_4 = arg_12_0:GetHeroData(var_12_2)
-			local var_12_5 = HeroTools:GetModulePowersByHeroIDAndLevel(var_12_2, var_12_4.moduleLevel)
-
-			if var_12_0.strengthen_desc and var_12_0.strengthen_desc[1] and table.indexof(var_12_5, var_12_0.strengthen_desc[1]) then
-				var_12_3 = var_12_0.strengthen_desc[2]
+			if slot4.strengthen_desc and slot4.strengthen_desc[1] and table.indexof(HeroTools:GetModulePowersByHeroIDAndLevel(slot6, slot0:GetHeroData(slot6).moduleLevel), slot4.strengthen_desc[1]) then
+				slot7 = slot4.strengthen_desc[2]
 			end
 
-			var_12_1 = GetCfgDescription(var_12_3, arg_12_2)
+			slot5 = GetCfgDescription(slot7, slot2)
 		end
 
-		if arg_12_3 then
-			return string.gsub(var_12_1, "%(" .. GetTips("SKILL_NEXT_LEVEL") .. ".-%)", "")
+		if slot3 then
+			return string.gsub(slot5, "%(" .. GetTips("SKILL_NEXT_LEVEL") .. ".-%)", "")
 		end
 
-		return (string.gsub(var_12_1, "下一级", GetTips("SKILL_NEXT_LEVEL")))
+		return string.gsub(slot5, "下一级", GetTips("SKILL_NEXT_LEVEL"))
 	end,
-	CheckIsSelf = function(arg_13_0)
-		return arg_13_0.isSelf == true
+	CheckIsSelf = function (slot0)
+		return slot0.isSelf == true
 	end
 }

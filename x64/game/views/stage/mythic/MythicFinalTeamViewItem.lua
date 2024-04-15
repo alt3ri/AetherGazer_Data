@@ -1,225 +1,219 @@
-local var_0_0 = class("MythicFinalTeamViewItem", ReduxView)
+slot0 = class("MythicFinalTeamViewItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.teamSwapController_ = ControllerUtil.GetController(arg_3_0.transform_, "place")
-	arg_3_0.teamChangeController_ = ControllerUtil.GetController(arg_3_0.transform_, "change")
-	arg_3_0.chipController_ = ControllerUtil.GetController(arg_3_0.chipbtnBtn_.transform, "name")
-	arg_3_0.godUpController_ = ControllerUtil.GetController(arg_3_0.godupBtn_.transform, "name")
-	arg_3_0.aoyiController_ = ControllerUtil.GetController(arg_3_0.aoyiBtn_.transform, "name")
-	arg_3_0.heroHead_ = {}
-	arg_3_0.heroHeadCon_ = {}
+	slot0.teamSwapController_ = ControllerUtil.GetController(slot0.transform_, "place")
+	slot0.teamChangeController_ = ControllerUtil.GetController(slot0.transform_, "change")
+	slot0.chipController_ = ControllerUtil.GetController(slot0.chipbtnBtn_.transform, "name")
+	slot0.godUpController_ = ControllerUtil.GetController(slot0.godupBtn_.transform, "name")
+	slot4 = "name"
+	slot0.aoyiController_ = ControllerUtil.GetController(slot0.aoyiBtn_.transform, slot4)
+	slot0.heroHead_ = {}
+	slot0.heroHeadCon_ = {}
 
-	for iter_3_0 = 1, 3 do
-		arg_3_0.heroHead_[iter_3_0] = TeamHeroShortHead.New(arg_3_0["newherohead" .. iter_3_0 .. "Btn_"].gameObject)
+	for slot4 = 1, 3 do
+		slot0.heroHead_[slot4] = TeamHeroShortHead.New(slot0["newherohead" .. slot4 .. "Btn_"].gameObject)
 
-		arg_3_0.heroHead_[iter_3_0]:SetProxy(HeroViewDataProxy.New(HeroConst.HERO_DATA_TYPE.DEFAULT))
-		arg_3_0.heroHead_[iter_3_0]:SetRedPointEnable(false)
+		slot0.heroHead_[slot4]:SetProxy(HeroViewDataProxy.New(HeroConst.HERO_DATA_TYPE.DEFAULT))
+		slot0.heroHead_[slot4]:SetRedPointEnable(false)
 
-		arg_3_0.heroHeadCon_[iter_3_0] = ControllerUtil.GetController(arg_3_0["newherohead" .. iter_3_0 .. "Btn_"].transform, "switch")
+		slot0.heroHeadCon_[slot4] = ControllerUtil.GetController(slot0["newherohead" .. slot4 .. "Btn_"].transform, "switch")
 	end
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.chipbtnBtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot4 = slot0.chipbtnBtn_
+
+	slot0:AddBtnListener(slot4, nil, function ()
 		if not MythicData:GetIsBattleIng() then
 			JumpTools.GoToSystem("/battleChipManager", {
-				stageType = arg_4_0.stageType_,
-				stageID = arg_4_0.stageID_,
-				activityID = arg_4_0.activityID_,
-				reserveParams = arg_4_0.reserveParams_
+				stageType = uv0.stageType_,
+				stageID = uv0.stageID_,
+				activityID = uv0.activityID_,
+				reserveParams = uv0.reserveParams_
 			})
 		end
 	end)
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0:AddBtnListener(arg_4_0["newherohead" .. iter_4_0 .. "Btn_"], nil, function()
+	for slot4 = 1, 3 do
+		slot0:AddBtnListener(slot0["newherohead" .. slot4 .. "Btn_"], nil, function ()
 			if not MythicData:GetIsBattleIng() then
-				arg_4_0:Go("/mythicHeroTeamInfoView", {
+				uv0:Go("/mythicHeroTeamInfoView", {
 					isEnter = false,
 					canCleanTeam = true,
-					selectHeroPos = iter_4_0,
-					stageID = arg_4_0.stageID_,
-					stageType = arg_4_0.stageType_,
-					teamLength = arg_4_0.teamLength_,
-					reserveParams = arg_4_0.reserveParams_,
+					selectHeroPos = uv1,
+					stageID = uv0.stageID_,
+					stageType = uv0.stageType_,
+					teamLength = uv0.teamLength_,
+					reserveParams = uv0.reserveParams_,
 					type = HeroConst.HERO_DATA_TYPE.DEFAULT
 				})
 			end
 		end)
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.godupBtn_, nil, function()
-		local var_7_0, var_7_1, var_7_2 = BattleTools.GetMaxRaceData(arg_4_0.heroList_)
+	slot0:AddBtnListener(slot0.godupBtn_, nil, function ()
+		slot0, slot1, slot2 = BattleTools.GetMaxRaceData(uv0.heroList_)
 
 		JumpTools.OpenPageByJump("sectionSelectRaceDescription", {
-			raceID = var_7_0,
-			sameCamp = var_7_2
+			raceID = slot0,
+			sameCamp = slot2
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.aoyiBtn_, nil, function()
+	slot0:AddBtnListener(slot0.aoyiBtn_, nil, function ()
 		JumpTools.OpenPageByJump("sectionComboSelect", {
-			stageType = arg_4_0.stageType_,
-			stageID = arg_4_0.stageID_,
-			heroList = arg_4_0.heroList_,
+			stageType = uv0.stageType_,
+			stageID = uv0.stageID_,
+			heroList = uv0.heroList_,
 			trialList = {
 				0,
 				0,
 				0
 			},
-			comboSkillID = arg_4_0.comboSkillID_,
-			sectionProxy = arg_4_0.sectionProxy_
+			comboSkillID = uv0.comboSkillID_,
+			sectionProxy = uv0.sectionProxy_
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.changebtn_, nil, function()
-		if not MythicData:GetIsBattleIng() and arg_4_0.changefunc_ then
-			arg_4_0.changefunc_(arg_4_0.teamID_)
+	slot0:AddBtnListener(slot0.changebtn_, nil, function ()
+		if not MythicData:GetIsBattleIng() and uv0.changefunc_ then
+			uv0.changefunc_(uv0.teamID_)
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.confirmbtn_, nil, function()
-		if not MythicData:GetIsBattleIng() and arg_4_0.confirmfunc_ then
-			arg_4_0.confirmfunc_(arg_4_0.teamID_)
+	slot0:AddBtnListener(slot0.confirmbtn_, nil, function ()
+		if not MythicData:GetIsBattleIng() and uv0.confirmfunc_ then
+			uv0.confirmfunc_(uv0.teamID_)
 		end
 	end)
 end
 
-function var_0_0.RefreshUI(arg_11_0, arg_11_1, arg_11_2, arg_11_3)
-	arg_11_0.teamLength_ = arg_11_3
-	arg_11_0.teamID_ = arg_11_1
-	arg_11_0.stageID_ = arg_11_2
-	arg_11_0.stageType_ = BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL
-	arg_11_0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.MYTHIC_FINAL, ReserveConst.MYTHIC_CONT_ID.FINAL_MULTI, arg_11_0.teamID_, {
+function slot0.RefreshUI(slot0, slot1, slot2, slot3)
+	slot0.teamLength_ = slot3
+	slot0.teamID_ = slot1
+	slot0.stageID_ = slot2
+	slot0.stageType_ = BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL
+	slot0.reserveParams_ = ReserveParams.New(ReserveConst.RESERVE_TYPE.MYTHIC_FINAL, ReserveConst.MYTHIC_CONT_ID.FINAL_MULTI, slot0.teamID_, {
 		stageType = BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL,
-		stageID = arg_11_2
+		stageID = slot2
 	})
 
-	if not arg_11_0.sectionProxy_ then
-		arg_11_0.sectionProxy_ = SectionSelectHeroTools.GetProxy({
-			stageType = arg_11_0.stageType_,
-			stageID = arg_11_0.stageID_
-		}, arg_11_0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
+	if not slot0.sectionProxy_ then
+		slot0.sectionProxy_ = SectionSelectHeroTools.GetProxy({
+			stageType = slot0.stageType_,
+			stageID = slot0.stageID_
+		}, slot0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
 	else
-		arg_11_0.sectionProxy_:Init({
-			stageType = arg_11_0.stageType_,
-			stageID = arg_11_0.stageID_
-		}, arg_11_0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
+		slot0.sectionProxy_:Init({
+			stageType = slot0.stageType_,
+			stageID = slot0.stageID_
+		}, slot0.reserveParams_, HeroConst.HERO_DATA_TYPE.DEFAULT)
 	end
 
-	arg_11_0.heroList_ = ReserveTools.GetHeroList(arg_11_0.reserveParams_)
+	slot0.heroList_ = ReserveTools.GetHeroList(slot0.reserveParams_)
+	slot4, slot5 = ReserveTools.GetMimirData(slot0.reserveParams_)
+	slot0.comboSkillID_ = ReserveTools.GetComboSkillID(slot0.reserveParams_)
+	slot6 = slot0:GetRaceEffect()
 
-	local var_11_0, var_11_1 = ReserveTools.GetMimirData(arg_11_0.reserveParams_)
-
-	arg_11_0.comboSkillID_ = ReserveTools.GetComboSkillID(arg_11_0.reserveParams_)
-
-	local var_11_2 = arg_11_0:GetRaceEffect()
-
-	for iter_11_0 = 1, 3 do
-		if arg_11_0.heroList_[iter_11_0] ~= 0 then
-			arg_11_0.heroHead_[iter_11_0]:SetHeroId(arg_11_0.heroList_[iter_11_0])
-			arg_11_0.heroHeadCon_[iter_11_0]:SetSelectedState("1")
+	for slot10 = 1, 3 do
+		if slot0.heroList_[slot10] ~= 0 then
+			slot0.heroHead_[slot10]:SetHeroId(slot0.heroList_[slot10])
+			slot0.heroHeadCon_[slot10]:SetSelectedState("1")
 		else
-			arg_11_0.heroHeadCon_[iter_11_0]:SetSelectedState("0")
+			slot0.heroHeadCon_[slot10]:SetSelectedState("0")
 		end
 	end
 
-	if var_11_0 == 0 then
-		arg_11_0.chipController_:SetSelectedState("false")
-		SetActive(arg_11_0.subchip1Img_.gameObject, false)
-		SetActive(arg_11_0.subchip2Img_.gameObject, false)
+	if slot4 == 0 then
+		slot0.chipController_:SetSelectedState("false")
+		SetActive(slot0.subchip1Img_.gameObject, false)
+		SetActive(slot0.subchip2Img_.gameObject, false)
 	else
-		arg_11_0.chipController_:SetSelectedState("true")
+		slot0.chipController_:SetSelectedState("true")
 
-		local var_11_3 = ChipCfg[var_11_0]
+		slot11 = "TextureConfig/Managecat_s/" .. ChipCfg[slot4].picture_id
+		slot0.chipiconImg_.sprite = getSpriteWithoutAtlas(slot11)
 
-		arg_11_0.chipiconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/Managecat_s/" .. var_11_3.picture_id)
+		for slot11 = 1, 2 do
+			if slot5[slot11] then
+				SetActive(slot0["subchip" .. slot11 .. "Img_"].gameObject, true)
 
-		for iter_11_1 = 1, 2 do
-			if var_11_1[iter_11_1] then
-				SetActive(arg_11_0["subchip" .. iter_11_1 .. "Img_"].gameObject, true)
-
-				local var_11_4 = var_11_1[iter_11_1]
-
-				arg_11_0["subchip" .. iter_11_1 .. "Img_"].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[var_11_4].picture_id)
+				slot0["subchip" .. slot11 .. "Img_"].sprite = getSpriteViaConfig("ChipSkillIcon", ChipCfg[slot5[slot11]].picture_id)
 			else
-				SetActive(arg_11_0["subchip" .. iter_11_1 .. "Img_"].gameObject, false)
+				SetActive(slot0["subchip" .. slot11 .. "Img_"].gameObject, false)
 			end
 		end
 	end
 
-	arg_11_0.godUpController_:SetSelectedState(var_11_2 == 0 and "off" or "on")
-	arg_11_0.aoyiController_:SetSelectedState(arg_11_0.comboSkillID_ == 0 and "off" or "on")
+	slot0.godUpController_:SetSelectedState(slot6 == 0 and "off" or "on")
+	slot0.aoyiController_:SetSelectedState(slot0.comboSkillID_ == 0 and "off" or "on")
 
-	arg_11_0.bianduiText_.text = GetTips("TEAM_" .. arg_11_1)
+	slot0.bianduiText_.text = GetTips("TEAM_" .. slot1)
 
 	if MythicData:GetIsBattleIng() then
-		arg_11_0.teamChangeController_:SetSelectedState("false")
+		slot0.teamChangeController_:SetSelectedState("false")
 	else
-		arg_11_0.teamChangeController_:SetSelectedState("true")
+		slot0.teamChangeController_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.GetRaceEffect(arg_12_0)
-	local var_12_0 = {}
-	local var_12_1 = 0
-	local var_12_2 = false
-	local var_12_3 = ReserveTools.GetHeroList(arg_12_0.reserveParams_)
+function slot0.GetRaceEffect(slot0)
+	slot1 = {}
+	slot2 = 0
+	slot3 = false
 
-	for iter_12_0, iter_12_1 in pairs(var_12_3) do
-		if iter_12_1 ~= 0 then
-			local var_12_4 = HeroCfg[iter_12_1].race
+	for slot8, slot9 in pairs(ReserveTools.GetHeroList(slot0.reserveParams_)) do
+		if slot9 ~= 0 then
+			slot1[slot10] = (slot1[HeroCfg[slot9].race] or 0) + 1
 
-			var_12_0[var_12_4] = (var_12_0[var_12_4] or 0) + 1
-
-			if var_12_0[var_12_4] == 2 then
-				var_12_1 = var_12_4
-			elseif var_12_0[var_12_4] == 3 then
-				var_12_2 = true
+			if slot1[slot10] == 2 then
+				slot2 = slot10
+			elseif slot1[slot10] == 3 then
+				slot3 = true
 			end
 		end
 	end
 
-	return var_12_1, var_12_2, var_12_0[var_12_1] or 1
+	return slot2, slot3, slot1[slot2] or 1
 end
 
-function var_0_0.OnChangeRefreshStatus(arg_13_0, arg_13_1)
-	if arg_13_1 == arg_13_0.teamID_ then
-		arg_13_0.teamSwapController_:SetSelectedState("select")
+function slot0.OnChangeRefreshStatus(slot0, slot1)
+	if slot1 == slot0.teamID_ then
+		slot0.teamSwapController_:SetSelectedState("select")
 	else
-		arg_13_0.teamSwapController_:SetSelectedState("change")
+		slot0.teamSwapController_:SetSelectedState("change")
 	end
 end
 
-function var_0_0.ResetState(arg_14_0)
-	arg_14_0.teamSwapController_:SetSelectedState("off")
+function slot0.ResetState(slot0)
+	slot0.teamSwapController_:SetSelectedState("off")
 end
 
-function var_0_0.RegionHandler(arg_15_0, arg_15_1, arg_15_2)
-	arg_15_0.changefunc_ = arg_15_1
-	arg_15_0.confirmfunc_ = arg_15_2
+function slot0.RegionHandler(slot0, slot1, slot2)
+	slot0.changefunc_ = slot1
+	slot0.confirmfunc_ = slot2
 end
 
-function var_0_0.Dispose(arg_16_0)
-	for iter_16_0 = 1, 3 do
-		arg_16_0.heroHead_[iter_16_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4 = 1, 3 do
+		slot0.heroHead_[slot4]:Dispose()
 	end
 
-	arg_16_0.changefunc_ = nil
-	arg_16_0.confirmfunc_ = nil
+	slot0.changefunc_ = nil
+	slot0.confirmfunc_ = nil
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

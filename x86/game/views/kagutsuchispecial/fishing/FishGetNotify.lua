@@ -1,63 +1,57 @@
-local var_0_0 = class("FishGetNotify", ReduxView)
+slot0 = class("FishGetNotify", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionKagutsuchiUI/JapanRegionFishingUI/JapanRegionFishingUpPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddBtnListener(arg_3_0.closeBtn_, nil, JumpTools.Back)
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddBtnListener(slot0.closeBtn_, nil, JumpTools.Back)
 
-	arg_3_0.cardItem = HanafudaCardView.New(arg_3_0.card_)
+	slot0.cardItem = HanafudaCardView.New(slot0.card_)
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = arg_4_0.params_.fishID
-	local var_4_1 = arg_4_0.params_.lastRarity
-	local var_4_2 = HanafudaCardCfg[var_4_0]
-	local var_4_3 = RareFishCfg[var_4_2.desc]
-	local var_4_4 = KagutsuchiFishingEventData:GetRarity(var_4_0)
-	local var_4_5, var_4_6 = KagutsuchiFishingEventData:GetNextRarity(var_4_0)
+function slot0.OnEnter(slot0)
+	slot1 = slot0.params_.fishID
+	slot5 = KagutsuchiFishingEventData:GetRarity(slot1)
+	slot6, slot7 = KagutsuchiFishingEventData:GetNextRarity(slot1)
+	slot0.tips_.text = slot6 and GetTipsF("ACTIVITY_KAGUTSUCHI_CARD_LEVEL_UP", slot7, RareFishCfg[HanafudaCardCfg[slot1].desc].name, slot6.name) or ""
 
-	arg_4_0.tips_.text = var_4_5 and GetTipsF("ACTIVITY_KAGUTSUCHI_CARD_LEVEL_UP", var_4_6, var_4_3.name, var_4_5.name) or ""
-
-	local var_4_7 = {
-		id = var_4_0,
-		race = var_4_2.race,
-		desc = var_4_2.desc,
+	slot0.cardItem:SetData(1, {
+		id = slot1,
+		race = slot3.race,
+		desc = slot3.desc,
 		placeType = HanafudaData.CARD_PLACE_TYPE.COLLECTION,
-		rarity = var_4_4.order
-	}
+		rarity = slot5.order
+	})
+	slot0.cardItem:RefreshUI(0)
 
-	arg_4_0.cardItem:SetData(1, var_4_7)
-	arg_4_0.cardItem:RefreshUI(0)
+	if slot0.params_.lastRarity ~= slot5 then
+		slot0.title_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_CARD_LEVEL_UP", slot4.name)
+		slot0.prevRarityImg_.sprite = getSprite("Atlas/Common", "star_" .. slot2.order)
 
-	if var_4_1 ~= var_4_4 then
-		arg_4_0.title_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_CARD_LEVEL_UP", var_4_3.name)
-		arg_4_0.prevRarityImg_.sprite = getSprite("Atlas/Common", "star_" .. var_4_1.order)
+		slot0.upgrade_:Play("upgrade")
 
-		arg_4_0.upgrade_:Play("upgrade")
-
-		if var_4_4 == KagutsuchiFishingEventData.EnumFishRarity.S then
+		if slot5 == KagutsuchiFishingEventData.EnumFishRarity.S then
 			manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_uptos", "")
 		else
 			manager.audio:PlayEffect("minigame_activity_2_6_1158", "minigame_activity_2_6_1158_fish_uptoa", "")
 		end
 	else
-		arg_4_0.title_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_GET", var_4_3.name)
-		arg_4_0.prevRarityImg_.sprite = arg_4_0.cardItem.rarityImg_.sprite
+		slot0.title_.text = GetTipsF("ACTIVITY_KAGUTSUCHI_FISH_GET", slot4.name)
+		slot0.prevRarityImg_.sprite = slot0.cardItem.rarityImg_.sprite
 
-		arg_4_0.upgrade_:Play("wait")
+		slot0.upgrade_:Play("wait")
 	end
 end
 
-function var_0_0.Dispose(arg_5_0)
-	var_0_0.super.Dispose(arg_5_0)
-	arg_5_0.cardItem:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.cardItem:Dispose()
 end
 
-return var_0_0
+return slot0

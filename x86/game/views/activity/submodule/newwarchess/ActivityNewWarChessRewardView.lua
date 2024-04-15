@@ -1,79 +1,72 @@
-local var_0_0 = class("ActivityNewWarChessRewardView", ReduxView)
+slot0 = class("ActivityNewWarChessRewardView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	if arg_1_0.params_.mainActivityID == ActivityConst.ACTIVITY_NEWWARCHESS_2_6 then
+function slot0.UIName(slot0)
+	if slot0.params_.mainActivityID == ActivityConst.ACTIVITY_NEWWARCHESS_2_6 then
 		return "UI/VersionUI/JapanRegionUI_2_6/JapanRegionNewWarChessRewardUI"
-	elseif arg_1_0.params_.mainActivityID == ActivityConst.ACTIVITY_2_10_NEWWARCHESS then
+	elseif slot0.params_.mainActivityID == ActivityConst.ACTIVITY_2_10_NEWWARCHESS then
 		return "UI/VersionUI/JapanRegionUI_2_10/JapanRegionUI_2_10NewWarChessRewardUI"
 	end
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	return
+function slot0.OnCtor(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_5_0)
-	arg_5_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_5_0.uiList_ = LuaList.New(handler(arg_5_0, arg_5_0.indexItem), arg_5_0.uilistGo_, ActivityNewWarChessRewardItem)
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, ActivityNewWarChessRewardItem)
 end
 
-function var_0_0.indexItem(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_2:SetData(arg_6_0.activityIds_[arg_6_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.activityIds_[slot1])
 end
 
-function var_0_0.AddUIListener(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.mainActivityID_ = arg_9_0.params_.mainActivityID
-	arg_9_0.activityIds_ = arg_9_0.params_.activityIDList
+function slot0.OnEnter(slot0)
+	slot0.mainActivityID_ = slot0.params_.mainActivityID
+	slot0.activityIds_ = slot0.params_.activityIDList
 
-	local var_9_0 = arg_9_0:GetCurScrollIndex()
-
-	arg_9_0.uiList_:StartScroll(#arg_9_0.activityIds_, var_9_0)
+	slot0.uiList_:StartScroll(#slot0.activityIds_, slot0:GetCurScrollIndex())
 end
 
-function var_0_0.GetCurScrollIndex(arg_10_0)
-	local var_10_0 = 1
+function slot0.GetCurScrollIndex(slot0)
+	slot1 = 1
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.activityIds_) do
-		local var_10_1 = NewWarChessLevelCfg.get_id_list_by_activity[iter_10_1][1]
-		local var_10_2 = NewWarChessLevelCfg[var_10_1].explore
-		local var_10_3 = NewWarChessData:GetExploreValue(var_10_1)
+	for slot5, slot6 in pairs(slot0.activityIds_) do
+		slot7 = NewWarChessLevelCfg.get_id_list_by_activity[slot6][1]
 
-		for iter_10_2, iter_10_3 in pairs(var_10_2) do
-			if iter_10_3 <= var_10_3 and not NewWarChessData:GetRewardIsGet(var_10_1, iter_10_3) then
-				var_10_0 = iter_10_0
-
-				return var_10_0
+		for slot13, slot14 in pairs(NewWarChessLevelCfg[slot7].explore) do
+			if slot14 <= NewWarChessData:GetExploreValue(slot7) and not NewWarChessData:GetRewardIsGet(slot7, slot14) then
+				return slot5
 			end
 		end
 	end
 
-	return var_10_0
+	return slot1
 end
 
-function var_0_0.Dispose(arg_11_0)
-	if arg_11_0.uiList_ then
-		arg_11_0.uiList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_11_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_11_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

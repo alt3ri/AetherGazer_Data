@@ -1,22 +1,22 @@
-local var_0_0 = class("ActivityMatrixProcessWeaponReplaceView", MatrixProcessWeaponReplaceView)
+slot0 = class("ActivityMatrixProcessWeaponReplaceView", MatrixProcessWeaponReplaceView)
 
-function var_0_0.InitUI(arg_1_0)
-	arg_1_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_1_0.item_l = ActivityMatrixProcessRewardItem.New(arg_1_0.m_item_l)
-	arg_1_0.item_r = ActivityMatrixProcessRewardItem.New(arg_1_0.m_item_r)
+	slot0.item_l = ActivityMatrixProcessRewardItem.New(slot0.m_item_l)
+	slot0.item_r = ActivityMatrixProcessRewardItem.New(slot0.m_item_r)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.matrix_activity_id = arg_2_0.params_.matrix_activity_id
+function slot0.OnEnter(slot0)
+	slot0.matrix_activity_id = slot0.params_.matrix_activity_id
 
-	arg_2_0.item_l:SetMatrixActivityId(arg_2_0.matrix_activity_id)
-	arg_2_0.item_r:SetMatrixActivityId(arg_2_0.matrix_activity_id)
-	var_0_0.super.OnEnter(arg_2_0)
+	slot0.item_l:SetMatrixActivityId(slot0.matrix_activity_id)
+	slot0.item_r:SetMatrixActivityId(slot0.matrix_activity_id)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.GetHeroData(arg_3_0, arg_3_1)
-	return ActivityMatrixData:GetHeroData(arg_3_0.matrix_activity_id, arg_3_1)
+function slot0.GetHeroData(slot0, slot1)
+	return ActivityMatrixData:GetHeroData(slot0.matrix_activity_id, slot1)
 end
 
-return var_0_0
+return slot0

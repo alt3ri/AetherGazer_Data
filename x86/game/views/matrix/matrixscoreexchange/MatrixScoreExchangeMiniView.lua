@@ -1,16 +1,15 @@
 MatrixScoreExchangeView = import("game.views.matrix.matrixScoreExchange.MatrixScoreExchangeView")
+slot0 = class("MatrixScoreExchangeMiniView", MatrixScoreExchangeView)
 
-local var_0_0 = class("MatrixScoreExchangeMiniView", MatrixScoreExchangeView)
-
-function var_0_0.UIBackCount(arg_1_0)
+function slot0.UIBackCount(slot0)
 	return 3
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/ScoreExchange/MatrixScoreExchangeMiniUI"
 end
 
-function var_0_0.OnTop(arg_3_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -29,13 +28,12 @@ function var_0_0.OnTop(arg_3_0)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_PT, true)
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_CERTIFICATION, true)
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		JumpTools.GoToSystem("/matrixBlank/matrixPrepare")
 	end)
 end
 
-function var_0_0.OnMatrixSystemOverdue(arg_5_0)
-	return
+function slot0.OnMatrixSystemOverdue(slot0)
 end
 
-return var_0_0
+return slot0

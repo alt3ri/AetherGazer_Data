@@ -1,79 +1,75 @@
-local var_0_0 = class("TagViewPanel", ReduxView)
+slot0 = class("TagViewPanel", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.tagItem_ = {}
+	slot0.tagItem_ = {}
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.RefreshData(arg_6_0, arg_6_1)
-	arg_6_0.list_ = arg_6_1
+function slot0.RefreshData(slot0, slot1)
+	slot0.list_ = slot1
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0.list_) do
-		if not arg_6_0.tagItem_[iter_6_0] then
-			local var_6_0 = Object.Instantiate(arg_6_0.tagTemplate_, arg_6_0.transform_)
+	for slot5, slot6 in ipairs(slot0.list_) do
+		if not slot0.tagItem_[slot5] then
+			slot0.tagItem_[slot5] = TagItem.New(Object.Instantiate(slot0.tagTemplate_, slot0.transform_))
 
-			arg_6_0.tagItem_[iter_6_0] = TagItem.New(var_6_0)
-
-			arg_6_0.tagItem_[iter_6_0]:RegisterClickFunction(function(arg_7_0)
-				if arg_6_0.callback_ then
-					arg_6_0.callback_(arg_7_0)
+			slot0.tagItem_[slot5]:RegisterClickFunction(function (slot0)
+				if uv0.callback_ then
+					uv0.callback_(slot0)
 				end
 			end)
 		end
 
-		arg_6_0.tagItem_[iter_6_0]:SetData(iter_6_1)
+		slot0.tagItem_[slot5]:SetData(slot6)
 	end
 
-	for iter_6_2 = #arg_6_0.list_ + 1, #arg_6_0.tagItem_ do
-		arg_6_0.tagItem_[iter_6_2]:Show(false)
-	end
-end
-
-function var_0_0.RefreshSelect(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.tagItem_) do
-		iter_8_1:RefreshSelect(arg_8_1[iter_8_1.id_] == true)
+	for slot5 = #slot0.list_ + 1, #slot0.tagItem_ do
+		slot0.tagItem_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.RegisterClickFunction(arg_9_0, arg_9_1)
-	arg_9_0.callback_ = arg_9_1
-end
-
-function var_0_0.OnExit(arg_10_0)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.tagItem_) do
-		iter_10_1:OnExit()
+function slot0.RefreshSelect(slot0, slot1)
+	for slot5, slot6 in ipairs(slot0.tagItem_) do
+		slot6:RefreshSelect(slot1[slot6.id_] == true)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0:RemoveAllEventListener()
-
-	for iter_11_0, iter_11_1 in ipairs(arg_11_0.tagItem_) do
-		iter_11_1:Dispose()
-	end
-
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.RegisterClickFunction(slot0, slot1)
+	slot0.callback_ = slot1
 end
 
-return var_0_0
+function slot0.OnExit(slot0)
+	for slot4, slot5 in ipairs(slot0.tagItem_) do
+		slot5:OnExit()
+	end
+end
+
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
+
+	for slot4, slot5 in ipairs(slot0.tagItem_) do
+		slot5:Dispose()
+	end
+
+	uv0.super.Dispose(slot0)
+end
+
+return slot0

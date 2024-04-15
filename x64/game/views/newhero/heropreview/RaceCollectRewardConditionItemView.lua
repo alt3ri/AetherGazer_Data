@@ -1,114 +1,97 @@
-local var_0_0 = class("RaceCollectRewardConditionItemView", ReduxView)
+slot0 = class("RaceCollectRewardConditionItemView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
-	arg_2_0:AddEventListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
+	slot0:AddEventListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.statusController_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "status")
-	arg_3_0.uiList_ = LuaList.New(handler(arg_3_0, arg_3_0.indexItem), arg_3_0.uiListGo_, CommonItemView)
+	slot0.statusController_ = ControllerUtil.GetController(slot0.gameObject_.transform, "status")
+	slot0.uiList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uiListGo_, CommonItemView)
 end
 
-function var_0_0.indexItem(arg_4_0, arg_4_1, arg_4_2)
-	local var_4_0 = clone(ItemTemplateData)
+function slot0.indexItem(slot0, slot1, slot2)
+	slot3 = clone(ItemTemplateData)
+	slot3.id = slot0.cfg_.reward[slot1][1]
+	slot3.number = slot0.cfg_.reward[slot1][2]
 
-	var_4_0.id = arg_4_0.cfg_.reward[arg_4_1][1]
-	var_4_0.number = arg_4_0.cfg_.reward[arg_4_1][2]
-
-	function var_4_0.clickFun(arg_5_0)
-		ShowPopItem(POP_ITEM, arg_4_0.cfg_.reward[arg_4_1])
+	function slot3.clickFun(slot0)
+		ShowPopItem(POP_ITEM, uv0.cfg_.reward[uv1])
 	end
 
-	arg_4_2:SetData(var_4_0)
+	slot2:SetData(slot3)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.getBtn_, nil, function()
-		HeroRaceCollectAction.ReceiveOneTaskReward(arg_6_0.taskId_)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.getBtn_, nil, function ()
+		HeroRaceCollectAction.ReceiveOneTaskReward(uv0.taskId_)
 	end)
 end
 
-function var_0_0.AddEventListeners(arg_8_0)
-	arg_8_0:RegistEventListener(RACE_COLLECT_REWARD_GET, function(arg_9_0)
-		if table.indexof(arg_9_0, arg_8_0.taskId_) then
-			arg_8_0:UpdateView()
+function slot0.AddEventListeners(slot0)
+	slot0:RegistEventListener(RACE_COLLECT_REWARD_GET, function (slot0)
+		if table.indexof(slot0, uv0.taskId_) then
+			uv0:UpdateView()
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_10_0, arg_10_1, arg_10_2, arg_10_3)
-	arg_10_0.index_ = arg_10_1
-	arg_10_0.taskId_ = arg_10_2
-	arg_10_0.raceId_ = arg_10_3
-	arg_10_0.cfg_ = CollectHeroRaceCfg[arg_10_2]
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.index_ = slot1
+	slot0.taskId_ = slot2
+	slot0.raceId_ = slot3
+	slot0.cfg_ = CollectHeroRaceCfg[slot2]
 
-	arg_10_0:UpdateView()
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	local var_11_0 = arg_11_0.cfg_.need
-	local var_11_1 = HeroRaceCollectData:GetHeroRaceCount(arg_11_0.raceId_)
-	local var_11_2
+function slot0.UpdateView(slot0)
+	slot3 = nil
+	slot0.conditionLabel_.text = string.format(GetTips("COLLECT_HERO_RACE_DES"), slot0.cfg_.need <= HeroRaceCollectData:GetHeroRaceCount(slot0.raceId_) and slot1 or slot2, slot1, RaceEffectCfg[slot0.raceId_].name)
 
-	if var_11_0 <= var_11_1 then
-		var_11_2 = var_11_0
-	else
-		var_11_2 = var_11_1
-	end
+	slot0.uiList_:StartScroll(#slot0.cfg_.reward)
 
-	local var_11_3 = RaceEffectCfg[arg_11_0.raceId_].name
-
-	arg_11_0.conditionLabel_.text = string.format(GetTips("COLLECT_HERO_RACE_DES"), var_11_2, var_11_0, var_11_3)
-
-	arg_11_0.uiList_:StartScroll(#arg_11_0.cfg_.reward)
-
-	local var_11_4 = HeroRaceCollectData:GetTaskState(arg_11_0.taskId_)
-
-	if var_11_4 == 0 then
-		arg_11_0.statusController_:SetSelectedState("unFinish")
-	elseif var_11_4 == 1 then
-		arg_11_0.statusController_:SetSelectedState("canGet")
-	elseif var_11_4 == 2 then
-		arg_11_0.statusController_:SetSelectedState("haveGet")
+	if HeroRaceCollectData:GetTaskState(slot0.taskId_) == 0 then
+		slot0.statusController_:SetSelectedState("unFinish")
+	elseif slot5 == 1 then
+		slot0.statusController_:SetSelectedState("canGet")
+	elseif slot5 == 2 then
+		slot0.statusController_:SetSelectedState("haveGet")
 	end
 end
 
-function var_0_0.OnEnter(arg_12_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_13_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnMainHomeViewTop(arg_14_0)
-	return
+function slot0.OnMainHomeViewTop(slot0)
 end
 
-function var_0_0.Dispose(arg_15_0)
-	arg_15_0:RemoveAllEventListener()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllEventListener()
 
-	arg_15_0.data_ = nil
+	slot0.data_ = nil
 
-	if arg_15_0.uiList_ then
-		arg_15_0.uiList_:Dispose()
+	if slot0.uiList_ then
+		slot0.uiList_:Dispose()
 
-		arg_15_0.uiList_ = nil
+		slot0.uiList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_15_0)
-	Object.Destroy(arg_15_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

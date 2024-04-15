@@ -1,244 +1,164 @@
-local var_0_0 = class("ComponentStep", BaseStep)
+slot0 = class("ComponentStep", BaseStep)
 
-function var_0_0.Init(arg_1_0, arg_1_1)
-	local var_1_0 = GuideStepCfg[arg_1_0._stepId]
+function slot0.Init(slot0, slot1)
+	slot2 = GuideStepCfg[slot0._stepId]
+	slot0._guideComponentCfg = slot2.guide_component
+	slot0._maskComponentCfg = slot2.mask_component
+	slot0._params = slot2.params
 
-	arg_1_0._guideComponentCfg = var_1_0.guide_component
-	arg_1_0._maskComponentCfg = var_1_0.mask_component
-	arg_1_0._params = var_1_0.params
-
-	if var_1_0.mask_scale == "" then
-		arg_1_0._maskScale = Vector3.New(1, 1, 1)
+	if slot2.mask_scale == "" then
+		slot0._maskScale = Vector3.New(1, 1, 1)
 	else
-		arg_1_0._maskScale = Vector3.New(var_1_0.mask_scale[1] or 1, var_1_0.mask_scale[2] or 1, 1)
+		slot0._maskScale = Vector3.New(slot2.mask_scale[1] or 1, slot2.mask_scale[2] or 1, 1)
 	end
 
-	arg_1_0._talkContent = var_1_0.talk_content
-	arg_1_0._talkAnchors = var_1_0.talk_anchors
-	arg_1_0._talkPosition = var_1_0.talk_position == "" and {} or var_1_0.talk_position
-	arg_1_0._talkAdapt = var_1_0.talk_adapt
+	slot0._talkContent = slot2.talk_content
+	slot0._talkAnchors = slot2.talk_anchors
+	slot0._talkPosition = slot2.talk_position == "" and {} or slot2.talk_position
+	slot0._talkAdapt = slot2.talk_adapt
 end
 
-function var_0_0.OnStepEnd(arg_2_0)
-	var_0_0.super.OnStepEnd(arg_2_0)
+function slot0.OnStepEnd(slot0)
+	uv0.super.OnStepEnd(slot0)
 
-	arg_2_0._component = nil
+	slot0._component = nil
 end
 
-function var_0_0.Check(arg_3_0)
-	return arg_3_0:Component() ~= nil
+function slot0.Check(slot0)
+	return slot0:Component() ~= nil
 end
 
-function var_0_0.GetShowMask(arg_4_0)
+function slot0.GetShowMask(slot0)
 	return true
 end
 
-function var_0_0.Play(arg_5_0)
+function slot0.Play(slot0)
 	manager.guide.view:Init()
 
-	local var_5_0 = arg_5_0:Component()
-	local var_5_1, var_5_2 = arg_5_0._guide:GetNarratorInfo()
+	slot2, slot3 = slot0._guide:GetNarratorInfo()
 
-	manager.guide.view:ShowTalk(arg_5_0._talkContent, arg_5_0._talkAnchors, arg_5_0._talkPosition, var_5_1, var_5_2, arg_5_0._talkAdapt)
-
-	local var_5_3 = arg_5_0:AnalyzeComponentCfg(arg_5_0._maskComponentCfg)
-	local var_5_4 = var_5_3 and var_5_3.gameObject or var_5_0.gameObject
-
-	manager.guide.view:ShowHoldMask(var_5_4, arg_5_0._maskScale)
+	manager.guide.view:ShowTalk(slot0._talkContent, slot0._talkAnchors, slot0._talkPosition, slot2, slot3, slot0._talkAdapt)
+	manager.guide.view:ShowHoldMask(slot0:AnalyzeComponentCfg(slot0._maskComponentCfg) and slot4.gameObject or slot0:Component().gameObject, slot0._maskScale)
 end
 
-function var_0_0.Component(arg_6_0)
-	if arg_6_0._component == nil then
-		arg_6_0:SetSpecialParams()
+function slot0.Component(slot0)
+	if slot0._component == nil then
+		slot0:SetSpecialParams()
 
-		arg_6_0._component = arg_6_0:AnalyzeComponentCfg(arg_6_0._guideComponentCfg)
+		slot0._component = slot0:AnalyzeComponentCfg(slot0._guideComponentCfg)
 	end
 
-	return arg_6_0._component
+	return slot0._component
 end
 
-function var_0_0.AnalyzeComponentCfg(arg_7_0, arg_7_1)
-	if arg_7_1 == "" or #arg_7_1 == 0 then
+function slot0.AnalyzeComponentCfg(slot0, slot1)
+	if slot1 == "" or #slot1 == 0 then
 		return nil
 	end
 
-	local var_7_0 = arg_7_1[1]
-	local var_7_1 = string.split(var_7_0, "_")
-	local var_7_2 = var_7_1[1]
-	local var_7_3 = var_7_1[2] and var_7_1[2] == "getcom"
+	slot3 = string.split(slot1[1], "_")
 
-	if var_7_2 == "common" then
-		local var_7_4 = arg_7_1[2]
-		local var_7_5 = arg_7_1[3]
-		local var_7_6 = arg_7_1[4]
-		local var_7_7 = arg_7_0:GetViewComponent(var_7_4, var_7_5)
-
-		if var_7_7 and var_7_3 then
-			return var_7_7:GetComponent(var_7_6)
+	if slot3[1] == "common" then
+		if slot0:GetViewComponent(slot1[2], slot1[3]) and (slot3[2] and slot3[2] == "getcom") then
+			return slot9:GetComponent(slot1[4])
 		end
 
-		return var_7_7
-	elseif var_7_2 == "child" then
-		local var_7_8 = arg_7_1[2]
-		local var_7_9 = arg_7_1[3]
-		local var_7_10 = arg_7_1[4]
-		local var_7_11 = arg_7_1[5]
-		local var_7_12 = arg_7_0:GetViewComponent(var_7_8, var_7_9)
-
-		if var_7_12 then
-			local var_7_13 = var_7_12.transform:Find(var_7_10)
-
-			if var_7_13 and var_7_3 then
-				return var_7_13:GetComponent(var_7_11)
+		return slot9
+	elseif slot4 == "child" then
+		if slot0:GetViewComponent(slot1[2], slot1[3]) then
+			if slot10.transform:Find(slot1[4]) and slot5 then
+				return slot11:GetComponent(slot1[5])
 			end
 
-			return var_7_13
+			return slot11
 		end
-	elseif var_7_2 == "listIndex" then
-		local var_7_14 = arg_7_1[2]
-		local var_7_15 = arg_7_1[3]
-		local var_7_16 = arg_7_1[4]
-		local var_7_17 = arg_7_1[5]
-		local var_7_18 = arg_7_1[6]
-		local var_7_19 = arg_7_0:GetViewComponent(var_7_14, var_7_15)
+	elseif slot4 == "listIndex" then
+		slot8 = slot1[4]
 
-		if var_7_19 then
-			local var_7_20 = var_7_19:GetItemList()
-
-			if var_7_20 and var_7_20[var_7_16] then
-				local var_7_21 = arg_7_0:GetComponentPath(var_7_20[var_7_16], var_7_17)
-
-				if var_7_21 and var_7_3 then
-					return var_7_21:GetComponent(var_7_18)
-				end
-
-				return var_7_21
+		if slot0:GetViewComponent(slot1[2], slot1[3]) and slot11:GetItemList() and slot12[slot8] then
+			if slot0:GetComponentPath(slot12[slot8], slot1[5]) and slot5 then
+				return slot13:GetComponent(slot1[6])
 			end
+
+			return slot13
 		end
-	elseif var_7_2 == "windowBar" then
+	elseif slot4 == "windowBar" then
 		if manager.windowBar:GetIsShow() then
-			local var_7_22 = arg_7_1[2]
-
-			return manager.windowBar[var_7_22]
+			return manager.windowBar[slot1[2]]
 		end
 
 		return nil
-	elseif var_7_2 == "windowBarCurrency" then
+	elseif slot4 == "windowBarCurrency" then
 		if manager.windowBar:GetIsShow() then
-			local var_7_23 = arg_7_1[2]
-			local var_7_24 = manager.windowBar.barGo_[var_7_23]
-			local var_7_25 = arg_7_1[3]
-			local var_7_26 = arg_7_1[4]
-
-			if var_7_24 then
-				local var_7_27 = arg_7_0:GetComponentPath(var_7_24, var_7_25)
-
-				if var_7_27 and var_7_3 then
-					return var_7_27:GetComponent(var_7_26)
+			if manager.windowBar.barGo_[slot1[2]] then
+				if slot0:GetComponentPath(slot7, slot1[3]) and slot5 then
+					return slot10:GetComponent(slot1[4])
 				end
 
-				return var_7_27
+				return slot10
 			end
 		end
 
 		return nil
-	elseif var_7_2 == "messageBox" then
-		local var_7_28 = manager.messageBox:GetItemList()
-
-		if var_7_28 then
-			for iter_7_0, iter_7_1 in pairs(var_7_28) do
-				if not iter_7_1:IsFree() then
-					return iter_7_1[arg_7_1[2]]
+	elseif slot4 == "messageBox" then
+		if manager.messageBox:GetItemList() then
+			for slot10, slot11 in pairs(slot6) do
+				if not slot11:IsFree() then
+					return slot11[slot1[2]]
 				end
 			end
 		end
 
 		return nil
-	elseif var_7_2 == "treeGroup" then
-		local var_7_29 = arg_7_1[2]
-		local var_7_30 = arg_7_1[3]
-		local var_7_31 = arg_7_1[4]
-		local var_7_32 = arg_7_0:GetViewComponent(var_7_29, var_7_30)
-
-		if var_7_32 then
-			local var_7_33 = var_7_32:GetGroupGameObjectById(var_7_31)
-
-			if var_7_33 then
-				local var_7_34 = var_7_33:GetComponent("UITreeGroup")
-
-				if var_7_34 then
-					return var_7_34.toggle
-				end
-			end
+	elseif slot4 == "treeGroup" then
+		if slot0:GetViewComponent(slot1[2], slot1[3]) and slot9:GetGroupGameObjectById(slot1[4]) and slot10:GetComponent("UITreeGroup") then
+			return slot11.toggle
 		end
-	elseif var_7_2 == "treeItem" then
-		local var_7_35 = arg_7_1[2]
-		local var_7_36 = arg_7_1[3]
-		local var_7_37 = arg_7_1[4]
-		local var_7_38 = arg_7_1[5]
-		local var_7_39 = arg_7_0:GetViewComponent(var_7_35, var_7_36)
-
-		if var_7_39 then
-			local var_7_40 = var_7_39:GetItemGameObjectById(var_7_37, var_7_38)
-
-			if var_7_40 then
-				local var_7_41 = var_7_40:GetComponent("UITreeItem")
-
-				if var_7_41 then
-					return var_7_41.toggle
-				end
-			end
+	elseif slot4 == "treeItem" then
+		if slot0:GetViewComponent(slot1[2], slot1[3]) and slot10:GetItemGameObjectById(slot1[4], slot1[5]) and slot11:GetComponent("UITreeItem") then
+			return slot12.toggle
 		end
 	else
-		error("guide unknown way to get component" .. var_7_2)
+		error("guide unknown way to get component" .. slot4)
 	end
 end
 
-function var_0_0.SetSpecialParams(arg_8_0)
-	if arg_8_0._params[1] == "chapterMapContent" then
-		BattleFieldAction.ChangeSelectChapterID(arg_8_0._params[2])
-	elseif arg_8_0._params[1] == "chapterMap" then
-		BattleFieldData:SetCacheChapterClient(arg_8_0._params[2], arg_8_0._params[3])
+function slot0.SetSpecialParams(slot0)
+	if slot0._params[1] == "chapterMapContent" then
+		BattleFieldAction.ChangeSelectChapterID(slot0._params[2])
+	elseif slot0._params[1] == "chapterMap" then
+		BattleFieldData:SetCacheChapterClient(slot0._params[2], slot0._params[3])
 		manager.notify:Invoke(CHANGE_DUNGEON)
-	elseif arg_8_0._params[1] == "draw" then
-		arg_8_0._guideComponentCfg[4] = GuideTool.GetPoolIndex(arg_8_0._params[2])
+	elseif slot0._params[1] == "draw" then
+		slot0._guideComponentCfg[4] = GuideTool.GetPoolIndex(slot0._params[2])
 	end
 end
 
-function var_0_0.GetViewComponent(arg_9_0, arg_9_1, arg_9_2)
-	local var_9_0 = gameContext:GetOpenPageHandler(arg_9_1)
-
-	if var_9_0 then
-		return arg_9_0:GetComponentPath(var_9_0, arg_9_2)
+function slot0.GetViewComponent(slot0, slot1, slot2)
+	if gameContext:GetOpenPageHandler(slot1) then
+		return slot0:GetComponentPath(slot3, slot2)
 	end
 
 	return nil
 end
 
-function var_0_0.GetComponentPath(arg_10_0, arg_10_1, arg_10_2)
-	local var_10_0 = #arg_10_2
-	local var_10_1 = 1
-	local var_10_2
+function slot0.GetComponentPath(slot0, slot1, slot2)
+	slot4 = 1
+	slot5 = nil
 
-	while var_10_1 <= var_10_0 do
-		local var_10_3 = arg_10_2[var_10_1]
-		local var_10_4
+	while slot4 <= #slot2 do
+		slot6 = slot2[slot4]
+		slot7 = nil
 
-		if var_10_1 == 1 then
-			var_10_4 = arg_10_1[var_10_3]
-		else
-			var_10_4 = var_10_2[var_10_3]
-		end
-
-		if var_10_4 then
-			var_10_2 = var_10_4
-			var_10_1 = var_10_1 + 1
+		if (slot4 ~= 1 or slot1[slot6]) and slot5[slot6] then
+			slot5 = slot7
+			slot4 = slot4 + 1
 		else
 			return nil
 		end
 	end
 
-	return var_10_2
+	return slot5
 end
 
-return var_0_0
+return slot0

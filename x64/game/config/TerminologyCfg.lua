@@ -267,7 +267,11 @@ return {
 	[106601] = {
 		id = 106601,
 		word = "「占卜效果」",
-		desc = "通过技能一「占卜」获得的效果，包括：\n<color=#ad25b5>死神</color>：攻击力提高；\n<color=#d7ac00>战车</color>：间歇获得怒气；\n<color=#5cb82b>恋人</color>：间歇恢复生命值。"
+		desc = [[
+通过技能一「占卜」获得的效果，包括：
+<color=#ad25b5>死神</color>：攻击力提高；
+<color=#d7ac00>战车</color>：间歇获得怒气；
+<color=#5cb82b>恋人</color>：间歇恢复生命值。]]
 	},
 	[106701] = {
 		id = 106701,

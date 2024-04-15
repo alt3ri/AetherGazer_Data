@@ -1,54 +1,54 @@
-local var_0_0 = class("DormFurBuyAndGiftView", ReduxView)
+slot0 = class("DormFurBuyAndGiftView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/BackHouseUI/Dorm/DormFurnitureInfoPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 
-	arg_3_0.heroScroll = LuaList.New(handler(arg_3_0, arg_3_0.indexHeroList), arg_3_0.uilistGo_, DormCharacterItem)
-	arg_3_0.canBuyController = arg_3_0.btn_okControllerexcollection_:GetController("default0")
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
-	arg_3_0.giveController = ControllerUtil.GetController(arg_3_0.transform_, "given")
-	arg_3_0.commonItem_ = CommonItemView.New(arg_3_0.commonitemGo_1)
+	slot0.heroScroll = LuaList.New(handler(slot0, slot0.indexHeroList), slot0.uilistGo_, DormCharacterItem)
+	slot0.canBuyController = slot0.btn_okControllerexcollection_:GetController("default0")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
+	slot0.giveController = ControllerUtil.GetController(slot0.transform_, "given")
+	slot0.commonItem_ = CommonItemView.New(slot0.commonitemGo_1)
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.furID = arg_5_0.params_.furID
-	arg_5_0.furCfg = BackHomeFurniture[arg_5_0.furID]
-	arg_5_0.state = arg_5_0.params_.state
-	arg_5_0.params_.state = nil
-	arg_5_0.needNum = arg_5_0.params_.needNum or 100
-	arg_5_0.params_.needNum = nil
-	arg_5_0.num = arg_5_0.params_.defaultNum
-	arg_5_0.roomID = DormData:GetCurrectSceneID()
+function slot0.OnEnter(slot0)
+	slot0.furID = slot0.params_.furID
+	slot0.furCfg = BackHomeFurniture[slot0.furID]
+	slot0.state = slot0.params_.state
+	slot0.params_.state = nil
+	slot0.needNum = slot0.params_.needNum or 100
+	slot0.params_.needNum = nil
+	slot0.num = slot0.params_.defaultNum
+	slot0.roomID = DormData:GetCurrectSceneID()
 
-	arg_5_0:RegisterEvents()
+	slot0:RegisterEvents()
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.OnTop(arg_7_0)
-	arg_7_0:RefreshView()
-	arg_7_0:RefreshBar()
+function slot0.OnTop(slot0)
+	slot0:RefreshView()
+	slot0:RefreshBar()
 end
 
-function var_0_0.RefreshBar(arg_8_0)
-	if arg_8_0.state == "gift" then
+function slot0.RefreshBar(slot0)
+	if slot0.state == "gift" then
 		manager.windowBar:HideBar()
-	elseif arg_8_0.state == "buy" then
+	elseif slot0.state == "buy" then
 		manager.windowBar:SwitchBar({
 			CurrencyConst.CURRENCY_TYPE_DORM_GOLD,
 			CurrencyConst.CURRENCY_TYPE_DIAMOND
@@ -57,61 +57,54 @@ function var_0_0.RefreshBar(arg_8_0)
 	end
 end
 
-function var_0_0.RefreshView(arg_9_0)
-	arg_9_0:RefreshFurInfo()
+function slot0.RefreshView(slot0)
+	slot0:RefreshFurInfo()
 
-	local var_9_0 = BackHomeFurniture[arg_9_0.furID]
-
-	if var_9_0.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-		arg_9_0:RefreshHeroList()
-		arg_9_0:RefreshGiftDesc()
+	if BackHomeFurniture[slot0.furID].is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+		slot0:RefreshHeroList()
+		slot0:RefreshGiftDesc()
 	end
 
-	arg_9_0:RefreshBuyNum()
+	slot0:RefreshBuyNum()
 
-	if arg_9_0.state == "gift" then
-		arg_9_0.stateController:SetSelectedState("gift")
+	if slot0.state == "gift" then
+		slot0.stateController:SetSelectedState("gift")
 
-		arg_9_0.buyDesc.text = GetTips("DORM_CAN_GITF_NUM")
-	elseif arg_9_0.state == "buy" then
-		arg_9_0.stateController:SetSelectedState("buy")
+		slot0.buyDesc.text = GetTips("DORM_CAN_GITF_NUM")
+	elseif slot0.state == "buy" then
+		slot0.stateController:SetSelectedState("buy")
 
-		if var_9_0.is_give ~= DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-			arg_9_0.giveController:SetSelectedState("true")
-			arg_9_0:RefreshCantGiftFurInfo()
+		if slot1.is_give ~= DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+			slot0.giveController:SetSelectedState("true")
+			slot0:RefreshCantGiftFurInfo()
 
-			arg_9_0.buyDesc.text = GetTips("DORM_CAN_BUY_AND_GITF_NUM")
+			slot0.buyDesc.text = GetTips("DORM_CAN_BUY_AND_GITF_NUM")
 		else
-			arg_9_0.giveController:SetSelectedState("false")
+			slot0.giveController:SetSelectedState("false")
 
-			arg_9_0.buyDesc.text = GetTips("DORM_CAN_BUY_NUM")
+			slot0.buyDesc.text = GetTips("DORM_CAN_BUY_NUM")
 		end
 
-		arg_9_0:RefreshCurrencyItemList()
+		slot0:RefreshCurrencyItemList()
 
-		local var_9_1 = DormitoryData:GetBuyFurCurrencyID()
-		local var_9_2 = 1
-		local var_9_3 = var_9_1 == DormConst.DORM_CURRENCY_ID and 1 or 2
+		slot3 = 1
 
-		arg_9_0:SelectCurrencyItemList(var_9_3)
+		slot0:SelectCurrencyItemList(DormitoryData:GetBuyFurCurrencyID() == DormConst.DORM_CURRENCY_ID and 1 or 2)
 	end
 end
 
-function var_0_0.RegisterEvents(arg_10_0)
-	arg_10_0:RegistEventListener(DORM_REFRESH_GIFT_FUR_LIST, function()
+function slot0.RegisterEvents(slot0)
+	slot0:RegistEventListener(DORM_REFRESH_GIFT_FUR_LIST, function ()
 		JumpTools.Back()
 	end)
-	arg_10_0:RegistEventListener(SHOP_BUY_SUCCESS, function()
-		DormitoryData:SetBuyFurCurrencyID(arg_10_0.curItmeID)
+	slot0:RegistEventListener(SHOP_BUY_SUCCESS, function ()
+		DormitoryData:SetBuyFurCurrencyID(uv0.curItmeID)
 
-		if arg_10_0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
-			local var_12_0 = HeroRecordCfg.get_id_list_by_hero_id[arg_10_0.selHeroID][1]
-			local var_12_1 = {
-				[arg_10_0.furID] = arg_10_0.progressSlr_.value
-			}
-
-			if var_12_0 then
-				DormAction:GiftFurToHero(var_12_0, var_12_1)
+		if uv0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.GIFT then
+			if HeroRecordCfg.get_id_list_by_hero_id[uv0.selHeroID][1] then
+				DormAction:GiftFurToHero(slot0, {
+					[uv0.furID] = uv0.progressSlr_.value
+				})
 			end
 		else
 			JumpTools.Back()
@@ -119,61 +112,48 @@ function var_0_0.RegisterEvents(arg_10_0)
 	end)
 end
 
-function var_0_0.RefreshFurInfo(arg_13_0)
-	local var_13_0 = DormData:GetFurNumInfo(arg_13_0.furID).num
-
-	arg_13_0.commonItem_:SetData({
-		id = arg_13_0.furID
+function slot0.RefreshFurInfo(slot0)
+	slot0.commonItem_:SetData({
+		id = slot0.furID
 	})
 
-	arg_13_0.holdNum.text = tostring(var_13_0)
-	arg_13_0.titletextText_.text = ItemTools.getItemName(arg_13_0.furID)
+	slot0.holdNum.text = tostring(DormData:GetFurNumInfo(slot0.furID).num)
+	slot0.titletextText_.text = ItemTools.getItemName(slot0.furID)
 end
 
-function var_0_0.SelectCurrencyItemList(arg_14_0, arg_14_1)
-	arg_14_0["item" .. arg_14_1].isOn = true
+function slot0.SelectCurrencyItemList(slot0, slot1)
+	slot0["item" .. slot1].isOn = true
 
-	if arg_14_1 == 1 then
-		arg_14_0.curItmeID = DormConst.DORM_CURRENCY_ID
-	elseif arg_14_1 == 2 then
-		arg_14_0.curItmeID = 1
+	if slot1 == 1 then
+		slot0.curItmeID = DormConst.DORM_CURRENCY_ID
+	elseif slot1 == 2 then
+		slot0.curItmeID = 1
 	end
 
-	arg_14_0.singleCost, arg_14_0.goodID = arg_14_0:GetLowPriceByFurID(arg_14_0.furID, arg_14_0.curItmeID)
-	arg_14_0.chooseIconImg_.sprite = ItemTools.getItemSprite(arg_14_0.curItmeID)
+	slot0.singleCost, slot0.goodID = slot0:GetLowPriceByFurID(slot0.furID, slot0.curItmeID)
+	slot0.chooseIconImg_.sprite = ItemTools.getItemSprite(slot0.curItmeID)
 
-	arg_14_0:SetfurNum(arg_14_0.num or 1)
-	arg_14_0:RefreshCost()
+	slot0:SetfurNum(slot0.num or 1)
+	slot0:RefreshCost()
 end
 
-function var_0_0.RefreshHeroList(arg_15_0)
-	arg_15_0.heroList = {}
+function slot0.RefreshHeroList(slot0)
+	slot0.heroList = {}
 
-	local var_15_0 = DormData:GetCurrectSceneID()
-
-	if BackHomeCfg[var_15_0].type == DormConst.BACKHOME_TYPE.PrivateDorm then
-		local var_15_1 = DormitoryData:GetArchiveIDViaRoomID(var_15_0)[1]
-		local var_15_2 = DormData:GetHeroInfo(var_15_1):GetHeroId()
-
-		table.insert(arg_15_0.heroList, var_15_2)
+	if BackHomeCfg[DormData:GetCurrectSceneID()].type == DormConst.BACKHOME_TYPE.PrivateDorm then
+		table.insert(slot0.heroList, DormData:GetHeroInfo(DormitoryData:GetArchiveIDViaRoomID(slot1)[1]):GetHeroId())
 	else
-		local var_15_3 = DormData:GetHeroInfoList()
-
-		for iter_15_0, iter_15_1 in pairs(var_15_3) do
-			local var_15_4 = DormData:GetHeroInfo(iter_15_0):GetHeroId()
-
-			table.insert(arg_15_0.heroList, var_15_4)
+		for slot6, slot7 in pairs(DormData:GetHeroInfoList()) do
+			table.insert(slot0.heroList, DormData:GetHeroInfo(slot6):GetHeroId())
 		end
 	end
 
-	CommonTools.UniversalSortEx(arg_15_0.heroList, {
+	CommonTools.UniversalSortEx(slot0.heroList, {
 		ascend = true,
-		map = function(arg_16_0)
-			if arg_15_0.state == "gift" then
-				local var_16_0 = DormData:GetHeroArchiveID(arg_16_0)
-
-				if DormRoomTools:GetDormIDViaArchive(var_16_0) then
-					if DormData:GetHeroTemplateInfo(arg_16_0):GetCanGiftNum(arg_15_0.furID) > 0 then
+		map = function (slot0)
+			if uv0.state == "gift" then
+				if DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0)) then
+					if DormData:GetHeroTemplateInfo(slot0):GetCanGiftNum(uv0.furID) > 0 then
 						return 1
 					else
 						return 2
@@ -181,11 +161,9 @@ function var_0_0.RefreshHeroList(arg_15_0)
 				else
 					return 3
 				end
-			elseif arg_15_0.state == "buy" then
-				local var_16_1 = DormData:GetHeroArchiveID(arg_16_0)
-
-				if DormRoomTools:GetDormIDViaArchive(var_16_1) then
-					if DormData:GetHeroTemplateInfo(arg_16_0):GetCanBuyAndGiftNum(arg_15_0.furID) > 0 then
+			elseif uv0.state == "buy" then
+				if DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0)) then
+					if DormData:GetHeroTemplateInfo(slot0):GetCanBuyAndGiftNum(uv0.furID) > 0 then
 						return 1
 					else
 						return 2
@@ -197,356 +175,311 @@ function var_0_0.RefreshHeroList(arg_15_0)
 		end
 	})
 
-	arg_15_0.selHeroID = arg_15_0.heroList[1]
+	slot0.selHeroID = slot0.heroList[1]
 
-	arg_15_0.heroScroll:StartScroll(#arg_15_0.heroList)
+	slot0.heroScroll:StartScroll(#slot0.heroList)
 end
 
-function var_0_0.RefreshCurrencyItemList(arg_17_0)
-	local var_17_0 = DormConst.DORM_CURRENCY_ID
-	local var_17_1 = 1
-
-	arg_17_0.cur1Text.text = ItemTools.getItemName(var_17_0)
-	arg_17_0.cur1icon.sprite = ItemTools.getItemSprite(var_17_0)
-	arg_17_0.cur2Text.text = ItemTools.getItemName(var_17_1)
-	arg_17_0.cur2icon.sprite = ItemTools.getItemSprite(var_17_1)
+function slot0.RefreshCurrencyItemList(slot0)
+	slot1 = DormConst.DORM_CURRENCY_ID
+	slot2 = 1
+	slot0.cur1Text.text = ItemTools.getItemName(slot1)
+	slot0.cur1icon.sprite = ItemTools.getItemSprite(slot1)
+	slot0.cur2Text.text = ItemTools.getItemName(slot2)
+	slot0.cur2icon.sprite = ItemTools.getItemSprite(slot2)
 end
 
-function var_0_0.RefreshBuyNum(arg_18_0)
-	if arg_18_0.selHeroID then
-		local var_18_0 = DormData:GetHeroTemplateInfo(arg_18_0.selHeroID)
-		local var_18_1 = var_18_0:GetGiftNum(arg_18_0.furID)
-		local var_18_2 = var_18_0:GetRoomID()
-		local var_18_3 = var_18_0:GetCanGiftNum(arg_18_0.furID)
-		local var_18_4 = BackHomeFurniture[arg_18_0.furID].give_max
+function slot0.RefreshBuyNum(slot0)
+	if slot0.selHeroID then
+		slot1 = DormData:GetHeroTemplateInfo(slot0.selHeroID)
+		slot2 = slot1:GetGiftNum(slot0.furID)
+		slot5 = BackHomeFurniture[slot0.furID].give_max
 
-		if arg_18_0.state == "gift" then
-			if var_18_2 then
-				arg_18_0.furNumMax = math.min(arg_18_0.needNum, var_18_3)
-				arg_18_0.progressSlr_.maxValue = arg_18_0.furNumMax
+		if slot0.state == "gift" then
+			if slot1:GetRoomID() then
+				slot0.furNumMax = math.min(slot0.needNum, slot1:GetCanGiftNum(slot0.furID))
+				slot0.progressSlr_.maxValue = slot0.furNumMax
 
-				arg_18_0:SetfurNum(arg_18_0.furNumMax)
+				slot0:SetfurNum(slot0.furNumMax)
 			else
-				arg_18_0.furNumMax = 0
-				arg_18_0.progressSlr_.maxValue = arg_18_0.furNumMax
+				slot0.furNumMax = 0
+				slot0.progressSlr_.maxValue = slot0.furNumMax
 
-				arg_18_0:SetfurNum(0)
+				slot0:SetfurNum(0)
 			end
-		elseif arg_18_0.state == "buy" then
-			if var_18_2 then
-				arg_18_0.furNumMax = math.min(arg_18_0.needNum, var_18_4 - var_18_1)
-				arg_18_0.progressSlr_.maxValue = arg_18_0.furNumMax
+		elseif slot0.state == "buy" then
+			if slot3 then
+				slot0.furNumMax = math.min(slot0.needNum, slot5 - slot2)
+				slot0.progressSlr_.maxValue = slot0.furNumMax
 
-				arg_18_0:SetfurNum(arg_18_0.furNumMax)
+				slot0:SetfurNum(slot0.furNumMax)
 			else
-				arg_18_0.furNumMax = 0
-				arg_18_0.progressSlr_.maxValue = arg_18_0.furNumMax
+				slot0.furNumMax = 0
+				slot0.progressSlr_.maxValue = slot0.furNumMax
 
-				arg_18_0:SetfurNum(arg_18_0.furNumMax)
+				slot0:SetfurNum(slot0.furNumMax)
 			end
 		end
 	else
-		if arg_18_0.state == "buy" and arg_18_0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
-			arg_18_0.furNumMax = arg_18_0.needNum
+		if slot0.state == "buy" and slot0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
+			slot0.furNumMax = slot0.needNum
 		else
-			arg_18_0.furNumMax = 0
+			slot0.furNumMax = 0
 		end
 
-		arg_18_0.progressSlr_.maxValue = arg_18_0.furNumMax
+		slot0.progressSlr_.maxValue = slot0.furNumMax
 	end
 end
 
-function var_0_0.RefreshGiftDesc(arg_19_0)
-	local var_19_0 = DormData:GetHeroArchiveID(arg_19_0.selHeroID)
-	local var_19_1 = HeroRecordCfg[var_19_0].name
-
-	arg_19_0.descText.text = string.format(GetTips("DORM_FURNITURE_GIFT_CONFIRM"), ItemTools.getItemName(arg_19_0.furID), var_19_1)
+function slot0.RefreshGiftDesc(slot0)
+	slot0.descText.text = string.format(GetTips("DORM_FURNITURE_GIFT_CONFIRM"), ItemTools.getItemName(slot0.furID), HeroRecordCfg[DormData:GetHeroArchiveID(slot0.selHeroID)].name)
 end
 
-function var_0_0.RefreshCantGiftFurInfo(arg_20_0)
-	arg_20_0.furTypeDesc.text = DormTools:GetFurGiftTypeDesc(arg_20_0.furID)
+function slot0.RefreshCantGiftFurInfo(slot0)
+	slot0.furTypeDesc.text = DormTools:GetFurGiftTypeDesc(slot0.furID)
 
-	local var_20_0 = ""
-	local var_20_1 = BackHomeFurniture[arg_20_0.furID].scene_id
-
-	for iter_20_0, iter_20_1 in ipairs(var_20_1) do
-		var_20_0 = var_20_0 .. DormTools:GetRoomTypeName(iter_20_1) .. " "
+	for slot6, slot7 in ipairs(BackHomeFurniture[slot0.furID].scene_id) do
+		slot1 = "" .. DormTools:GetRoomTypeName(slot7) .. " "
 	end
 
-	arg_20_0.sceneDesc.text = var_20_0
-	arg_20_0.giftMaxText.text = ""
-	arg_20_0.comfortDesc.text = tostring(BackHomeFurniture[arg_20_0.furID].dorm_exp)
-	arg_20_0.furDesc.text = ItemTools.getItemDesc(arg_20_0.furID)
+	slot0.sceneDesc.text = slot1
+	slot0.giftMaxText.text = ""
+	slot0.comfortDesc.text = tostring(BackHomeFurniture[slot0.furID].dorm_exp)
+	slot0.furDesc.text = ItemTools.getItemDesc(slot0.furID)
 end
 
-function var_0_0.SetfurNum(arg_21_0, arg_21_1)
-	arg_21_1 = math.min(arg_21_1, arg_21_0.furNumMax)
-	arg_21_0.num = arg_21_1
-	arg_21_0.numText_.text = arg_21_1 .. "/" .. arg_21_0.furNumMax
-	arg_21_0.progressSlr_.value = arg_21_1
+function slot0.SetfurNum(slot0, slot1)
+	slot1 = math.min(slot1, slot0.furNumMax)
+	slot0.num = slot1
+	slot0.numText_.text = slot1 .. "/" .. slot0.furNumMax
+	slot0.progressSlr_.value = slot1
 
-	local var_21_0 = arg_21_1 * BackHomeFurniture[arg_21_0.furID].dorm_exp
-	local var_21_1 = DormData:GetHeroArchiveID(arg_21_0.selHeroID)
-	local var_21_2 = DormRoomTools:GetDormIDViaArchive(var_21_1)
-
-	if var_21_2 then
-		local var_21_3 = DormitoryData:GetDormExp(var_21_2)
-
-		arg_21_0.comfortText_.text = GetTips("DORM_FATIGUE_INFO") .. var_21_3 .. string.format("<color=#0089E2>+%d</color>", var_21_0)
+	if DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0.selHeroID)) then
+		slot0.comfortText_.text = GetTips("DORM_FATIGUE_INFO") .. DormitoryData:GetDormExp(slot4) .. string.format("<color=#0089E2>+%d</color>", slot1 * BackHomeFurniture[slot0.furID].dorm_exp)
 	else
-		arg_21_0.comfortText_.text = GetTips("DORM_FATIGUE_INFO") .. string.format("<color=#0089E2>+%d</color>", var_21_0)
+		slot0.comfortText_.text = GetTips("DORM_FATIGUE_INFO") .. string.format("<color=#0089E2>+%d</color>", slot2)
 	end
 
-	if arg_21_0.state == "buy" then
-		arg_21_0:RefreshCost()
-	elseif arg_21_0.state == "gift" then
-		local var_21_4 = DormData:GetHeroArchiveID(arg_21_0.selHeroID)
-		local var_21_5 = DormRoomTools:GetDormIDViaArchive(var_21_4)
-
-		if (arg_21_0.selHeroID and var_21_5 or arg_21_0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT) and arg_21_0.num and arg_21_0.num > 0 and arg_21_0.furNumMax > 0 then
-			arg_21_0.canBuyController:SetSelectedState("on")
+	if slot0.state == "buy" then
+		slot0:RefreshCost()
+	elseif slot0.state == "gift" then
+		if (slot0.selHeroID and DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0.selHeroID)) or slot0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT) and slot0.num and slot0.num > 0 and slot0.furNumMax > 0 then
+			slot0.canBuyController:SetSelectedState("on")
 		else
-			arg_21_0.canBuyController:SetSelectedState("off")
+			slot0.canBuyController:SetSelectedState("off")
 		end
 	end
 end
 
-function var_0_0.RefreshCost(arg_22_0)
-	local var_22_0 = 0
+function slot0.RefreshCost(slot0)
+	slot1 = 0
 
-	if arg_22_0.singleCost then
-		var_22_0 = arg_22_0.singleCost * (arg_22_0.num or 0)
+	if slot0.singleCost then
+		slot1 = slot0.singleCost * (slot0.num or 0)
 	end
 
-	arg_22_0.curNumText_.text = tostring(var_22_0)
+	slot0.curNumText_.text = tostring(slot1)
+	slot2 = 0
 
-	local var_22_1 = 0
-
-	if arg_22_0.curItmeID then
-		var_22_1 = ItemTools.getItemNum(arg_22_0.curItmeID)
+	if slot0.curItmeID then
+		slot2 = ItemTools.getItemNum(slot0.curItmeID)
 	end
 
-	local var_22_2 = DormData:GetHeroArchiveID(arg_22_0.selHeroID)
-	local var_22_3 = DormRoomTools:GetDormIDViaArchive(var_22_2)
-
-	if (arg_22_0.selHeroID and var_22_3 or arg_22_0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT) and var_22_0 <= var_22_1 and arg_22_0.num and arg_22_0.num > 0 and arg_22_0.furNumMax > 0 then
-		arg_22_0.canBuyController:SetSelectedState("on")
+	if (slot0.selHeroID and DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0.selHeroID)) or slot0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT) and slot1 <= slot2 and slot0.num and slot0.num > 0 and slot0.furNumMax > 0 then
+		slot0.canBuyController:SetSelectedState("on")
 	else
-		arg_22_0.canBuyController:SetSelectedState("off")
+		slot0.canBuyController:SetSelectedState("off")
 	end
 end
 
-function var_0_0.GetLowPriceByFurID(arg_23_0, arg_23_1, arg_23_2)
-	local var_23_0 = getGoodListByGiveID(arg_23_1)
-	local var_23_1 = {}
+function slot0.GetLowPriceByFurID(slot0, slot1, slot2)
+	slot4 = {}
 
-	for iter_23_0, iter_23_1 in ipairs(var_23_0) do
-		if getShopCfg(iter_23_1).cost_id == arg_23_2 then
-			table.insert(var_23_1, iter_23_1)
+	for slot8, slot9 in ipairs(getGoodListByGiveID(slot1)) do
+		if getShopCfg(slot9).cost_id == slot2 then
+			table.insert(slot4, slot9)
 		end
 	end
 
-	local var_23_2
-	local var_23_3
+	slot5, slot6 = nil
 
-	for iter_23_2, iter_23_3 in ipairs(var_23_1) do
-		local var_23_4 = getShopCfg(iter_23_3).shop_id
+	for slot10, slot11 in ipairs(slot4) do
+		slot12 = getShopCfg(slot11).shop_id
 
-		var_23_3 = var_23_3 or ShopTools.GetPrice(iter_23_3, var_23_4)
-
-		if var_23_3 >= ShopTools.GetPrice(iter_23_3, var_23_4) then
-			var_23_2 = iter_23_3
+		if ShopTools.GetPrice(slot11, slot12) <= (slot6 or ShopTools.GetPrice(slot11, slot12)) then
+			slot5 = slot11
 		end
 
-		math.min(ShopTools.GetPrice(iter_23_3, var_23_4), var_23_3)
+		math.min(ShopTools.GetPrice(slot11, slot12), slot6)
 	end
 
-	return var_23_3, var_23_2
+	return slot6, slot5
 end
 
-function var_0_0.OnExit(arg_24_0)
-	arg_24_0.selHeroID = nil
+function slot0.OnExit(slot0)
+	slot0.selHeroID = nil
 
-	arg_24_0:RemoveAllEventListener()
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.AddUIListener(arg_25_0)
-	arg_25_0:AddPressingByTimeListener(arg_25_0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_25_0.furID and arg_25_0.progressSlr_.value > 0 then
-			local var_26_0 = arg_25_0.progressSlr_.value - 1
-
-			arg_25_0:SetfurNum(var_26_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddPressingByTimeListener(slot0.reduceNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.furID and uv0.progressSlr_.value > 0 then
+			uv0:SetfurNum(uv0.progressSlr_.value - 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_25_0:AddPressingByTimeListener(arg_25_0.addNumBtn_.gameObject, 3, 0.5, 0.5, function()
-		if arg_25_0.furID and arg_25_0.progressSlr_.value < arg_25_0.furNumMax then
-			local var_27_0 = arg_25_0.progressSlr_.value + 1
-
-			arg_25_0:SetfurNum(var_27_0)
+	slot0:AddPressingByTimeListener(slot0.addNumBtn_.gameObject, 3, 0.5, 0.5, function ()
+		if uv0.furID and uv0.progressSlr_.value < uv0.furNumMax then
+			uv0:SetfurNum(uv0.progressSlr_.value + 1)
 
 			return true
 		end
 
 		return false
 	end)
-	arg_25_0:AddToggleListener(arg_25_0.progressSlr_, function()
-		if arg_25_0.furID then
-			arg_25_0:SetfurNum(arg_25_0.progressSlr_.value)
+	slot0:AddToggleListener(slot0.progressSlr_, function ()
+		if uv0.furID then
+			uv0:SetfurNum(uv0.progressSlr_.value)
 		end
 	end)
-	arg_25_0:AddBtnListener(arg_25_0.confirmBtn_, nil, function()
-		arg_25_0:ClickShowTips()
+	slot0:AddBtnListener(slot0.confirmBtn_, nil, function ()
+		uv0:ClickShowTips()
 
-		if arg_25_0.state == "buy" then
-			if arg_25_0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
-				if arg_25_0.progressSlr_.value > 0 and arg_25_0.goodID then
-					if arg_25_0.curItmeID == 1 then
+		if uv0.state == "buy" then
+			if uv0.furCfg.is_give == DormConst.BACKHOME_FUR_GIVE_TYPE.NO_GIFT then
+				if uv0.progressSlr_.value > 0 and uv0.goodID then
+					if uv0.curItmeID == 1 then
 						ShowMessageBox({
 							isTop = true,
 							content = GetTips("DORM_BUY_FURNITURE_BY_DIAMOND"),
-							OkCallback = function()
+							OkCallback = function ()
 								ShopAction.BuyItem({
 									{
-										goodID = arg_25_0.goodID,
-										buyNum = arg_25_0.progressSlr_.value
+										goodID = uv0.goodID,
+										buyNum = uv0.progressSlr_.value
 									}
 								})
 							end,
-							CancelCallback = function()
-								return
+							CancelCallback = function ()
 							end
 						})
 					else
 						ShopAction.BuyItem({
 							{
-								goodID = arg_25_0.goodID,
-								buyNum = arg_25_0.progressSlr_.value
+								goodID = uv0.goodID,
+								buyNum = uv0.progressSlr_.value
 							}
 						})
 					end
 				end
-			else
-				local var_29_0 = DormData:GetHeroArchiveID(arg_25_0.selHeroID)
-				local var_29_1 = DormRoomTools:GetDormIDViaArchive(var_29_0)
-
-				if arg_25_0.selHeroID and arg_25_0.progressSlr_.value > 0 and arg_25_0.goodID and var_29_1 then
-					if arg_25_0.curItmeID == 1 then
-						ShowMessageBox({
-							isTop = true,
-							content = GetTips("DORM_BUY_FURNITURE_BY_DIAMOND"),
-							OkCallback = function()
-								ShopAction.BuyItem({
-									{
-										goodID = arg_25_0.goodID,
-										buyNum = arg_25_0.progressSlr_.value
-									}
-								})
-							end,
-							CancelCallback = function()
-								return
-							end
-						})
-					else
-						ShopAction.BuyItem({
-							{
-								goodID = arg_25_0.goodID,
-								buyNum = arg_25_0.progressSlr_.value
-							}
-						})
-					end
+			elseif uv0.selHeroID and uv0.progressSlr_.value > 0 and uv0.goodID and DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(uv0.selHeroID)) then
+				if uv0.curItmeID == 1 then
+					ShowMessageBox({
+						isTop = true,
+						content = GetTips("DORM_BUY_FURNITURE_BY_DIAMOND"),
+						OkCallback = function ()
+							ShopAction.BuyItem({
+								{
+									goodID = uv0.goodID,
+									buyNum = uv0.progressSlr_.value
+								}
+							})
+						end,
+						CancelCallback = function ()
+						end
+					})
+				else
+					ShopAction.BuyItem({
+						{
+							goodID = uv0.goodID,
+							buyNum = uv0.progressSlr_.value
+						}
+					})
 				end
 			end
-		elseif arg_25_0.state == "gift" and arg_25_0.selHeroID and arg_25_0.progressSlr_.value > 0 and arg_25_0.furID then
-			local var_29_2 = HeroRecordCfg.get_id_list_by_hero_id[arg_25_0.selHeroID][1]
-			local var_29_3 = {
-				[arg_25_0.furID] = arg_25_0.progressSlr_.value
-			}
-
-			if var_29_2 then
-				DormAction:GiftFurToHero(var_29_2, var_29_3)
+		elseif uv0.state == "gift" and uv0.selHeroID and uv0.progressSlr_.value > 0 and uv0.furID then
+			if HeroRecordCfg.get_id_list_by_hero_id[uv0.selHeroID][1] then
+				DormAction:GiftFurToHero(slot0, {
+					[uv0.furID] = uv0.progressSlr_.value
+				})
 			end
 		end
 	end)
-	arg_25_0:AddBtnListener(arg_25_0.bgMaskBtn_, nil, function()
+
+	slot4 = slot0.bgMaskBtn_
+
+	slot0:AddBtnListener(slot4, nil, function ()
 		JumpTools.Back()
 	end)
 
-	for iter_25_0 = 1, 2 do
-		arg_25_0:AddToggleListener(arg_25_0["item" .. iter_25_0], function(arg_35_0)
-			if arg_35_0 then
-				arg_25_0:SelectCurrencyItemList(iter_25_0)
+	for slot4 = 1, 2 do
+		slot0:AddToggleListener(slot0["item" .. slot4], function (slot0)
+			if slot0 then
+				uv0:SelectCurrencyItemList(uv1)
 			end
 		end)
 	end
 
-	arg_25_0:AddBtnListener(arg_25_0.btnviewBtn_, nil, function()
-		local var_36_0 = DormData:GetFurNumInfo(arg_25_0.furID).num
-
+	slot0:AddBtnListener(slot0.btnviewBtn_, nil, function ()
 		ShowPopItem(POP_ITEM, {
-			arg_25_0.furID,
-			var_36_0
+			uv0.furID,
+			DormData:GetFurNumInfo(uv0.furID).num
 		})
 	end)
 end
 
-function var_0_0.indexHeroList(arg_37_0, arg_37_1, arg_37_2)
-	arg_37_2:SetCanClickAndState(true, nil)
-	arg_37_2:ShowMaskCallBack(function(arg_38_0)
-		local var_38_0 = DormData:GetHeroArchiveID(arg_38_0)
-
-		if not DormRoomTools:GetDormIDViaArchive(var_38_0) then
+function slot0.indexHeroList(slot0, slot1, slot2)
+	slot2:SetCanClickAndState(true, nil)
+	slot2:ShowMaskCallBack(function (slot0)
+		if not DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0)) then
 			return true
 		else
-			if DormData:GetHeroTemplateInfo(arg_38_0):GetGiftNum(arg_37_0.furID) >= BackHomeFurniture[arg_37_0.furID].give_max then
+			if BackHomeFurniture[uv0.furID].give_max <= DormData:GetHeroTemplateInfo(slot0):GetGiftNum(uv0.furID) then
 				return true
 			end
 
 			return false
 		end
 	end)
-	arg_37_2:OnPointerDown(function(arg_39_0)
-		if arg_39_0 and BackHomeHeroCfg[arg_39_0] then
-			arg_37_0.selHeroID = arg_39_0
+	slot2:OnPointerDown(function (slot0)
+		if slot0 and BackHomeHeroCfg[slot0] then
+			uv0.selHeroID = slot0
 
-			arg_37_0.heroScroll:Refresh()
-			arg_37_0:RefreshBuyNum()
-			arg_37_0:RefreshGiftDesc()
+			uv0.heroScroll:Refresh()
+			uv0:RefreshBuyNum()
+			uv0:RefreshGiftDesc()
 
-			local var_39_0 = DormData:GetHeroArchiveID(arg_39_0)
-
-			if not DormRoomTools:GetDormIDViaArchive(var_39_0) then
+			if not DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0)) then
 				ShowTips(GetTips("DORM_HERO_ROOM_LOCKED"))
 
 				return
-			elseif DormData:GetHeroTemplateInfo(arg_39_0):GetGiftNum(arg_37_0.furID) >= BackHomeFurniture[arg_37_0.furID].give_max then
+			elseif BackHomeFurniture[uv0.furID].give_max <= DormData:GetHeroTemplateInfo(slot0):GetGiftNum(uv0.furID) then
 				ShowTips(GetTips("DORM_GIFT_MAX_TIPS"))
 			end
 		end
 	end)
-	arg_37_2:SelCallBack(function(arg_40_0, arg_40_1, arg_40_2)
-		if arg_40_0 == arg_40_1 then
-			arg_40_2:SetSelectedState("select")
+	slot2:SelCallBack(function (slot0, slot1, slot2)
+		if slot0 == slot1 then
+			slot2:SetSelectedState("select")
 		else
-			arg_40_2:SetSelectedState("normal")
+			slot2:SetSelectedState("normal")
 		end
 	end)
-	arg_37_2:RefreshUI(arg_37_0.heroList[arg_37_1], arg_37_0.selHeroID)
+	slot2:RefreshUI(slot0.heroList[slot1], slot0.selHeroID)
 end
 
-function var_0_0.ClickShowTips(arg_41_0)
-	if arg_41_0.selHeroID then
-		local var_41_0 = DormData:GetHeroArchiveID(arg_41_0.selHeroID)
-
-		if not DormRoomTools:GetDormIDViaArchive(var_41_0) then
+function slot0.ClickShowTips(slot0)
+	if slot0.selHeroID then
+		if not DormRoomTools:GetDormIDViaArchive(DormData:GetHeroArchiveID(slot0.selHeroID)) then
 			ShowTips(GetTips("DORM_HERO_ROOM_LOCKED"))
 
 			return false
-		elseif DormData:GetHeroTemplateInfo(arg_41_0.selHeroID):GetGiftNum(arg_41_0.furID) >= BackHomeFurniture[arg_41_0.furID].give_max then
+		elseif BackHomeFurniture[slot0.furID].give_max <= DormData:GetHeroTemplateInfo(slot0.selHeroID):GetGiftNum(slot0.furID) then
 			ShowTips(GetTips("DORM_GIFT_MAX_TIPS"))
 
 			return false
@@ -556,16 +489,16 @@ function var_0_0.ClickShowTips(arg_41_0)
 	end
 end
 
-function var_0_0.Dispose(arg_42_0)
-	if arg_42_0.heroScroll then
-		arg_42_0.heroScroll:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.heroScroll then
+		slot0.heroScroll:Dispose()
 	end
 
-	if arg_42_0.commonItem_ then
-		arg_42_0.commonItem_:Dispose()
+	if slot0.commonItem_ then
+		slot0.commonItem_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_42_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

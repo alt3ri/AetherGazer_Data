@@ -1,52 +1,51 @@
-local var_0_0 = class("ComboSkillInfoView", ReduxView)
+slot0 = class("ComboSkillInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/HeroSkill/SkillMeaningUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.comboSkillUIList_ = LuaList.New(handler(arg_3_0, arg_3_0.RefreshComboSkillItem), arg_3_0.uiList_, ComboSkillItem)
+	slot0.comboSkillUIList_ = LuaList.New(handler(slot0, slot0.RefreshComboSkillItem), slot0.uiList_, ComboSkillItem)
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 
-	arg_5_0.heroId = arg_5_0.params_.heroID
-	arg_5_0.comboSkillList_ = ComboSkillTools.GetHeroComboSkill(arg_5_0.params_.heroID)
+	slot0.heroId = slot0.params_.heroID
+	slot0.comboSkillList_ = ComboSkillTools.GetHeroComboSkill(slot0.params_.heroID)
 
-	arg_5_0.comboSkillUIList_:StartScroll(#arg_5_0.comboSkillList_, 1)
+	slot0.comboSkillUIList_:StartScroll(#slot0.comboSkillList_, 1)
 end
 
-function var_0_0.OnExit(arg_6_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_7_0.comboSkillUIList_ then
-		arg_7_0.comboSkillUIList_:Dispose()
+	if slot0.comboSkillUIList_ then
+		slot0.comboSkillUIList_:Dispose()
 
-		arg_7_0.comboSkillUIList_ = nil
+		slot0.comboSkillUIList_ = nil
 	end
 end
 
-function var_0_0.RefreshComboSkillItem(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_2:RefreshUI(arg_8_0.comboSkillList_[arg_8_1], arg_8_0.heroId)
+function slot0.RefreshComboSkillItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.comboSkillList_[slot1], slot0.heroId)
 end
 
-return var_0_0
+return slot0

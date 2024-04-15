@@ -1,149 +1,130 @@
-local var_0_0 = import("game.views.heroTeamInfo.HeroTeamInfoBaseView")
-local var_0_1 = class("HeroTeamInfoSequentailBattleView", var_0_0)
+slot1 = class("HeroTeamInfoSequentailBattleView", import("game.views.heroTeamInfo.HeroTeamInfoBaseView"))
 
-function var_0_1.OnEnter(arg_1_0)
-	arg_1_0.cacheSorterExtraHeroList_ = {}
+function slot1.OnEnter(slot0)
+	slot0.cacheSorterExtraHeroList_ = {}
 
-	var_0_1.super.OnEnter(arg_1_0)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_1.GetCacheSorterExtraHeroList(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_0.cacheSorterExtraHeroList_[arg_2_2] then
-		return arg_2_0.cacheSorterExtraHeroList_[arg_2_2]
+function slot1.GetCacheSorterExtraHeroList(slot0, slot1, slot2)
+	if slot0.cacheSorterExtraHeroList_[slot2] then
+		return slot0.cacheSorterExtraHeroList_[slot2]
 	end
 
-	local var_2_0 = arg_2_1
-	local var_2_1 = arg_2_2
-	local var_2_2 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE):GetContDataTemplateById(var_2_0)
+	slot0.cacheSorterExtraHeroList_[slot2] = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE):GetContDataTemplateById(slot1):GetHeroList(slot2)
 
-	arg_2_0.cacheSorterExtraHeroList_[arg_2_2] = var_2_2:GetHeroList(var_2_1)
-
-	return arg_2_0.cacheSorterExtraHeroList_[arg_2_2]
+	return slot0.cacheSorterExtraHeroList_[slot2]
 end
 
-function var_0_1.ExtraSorter(arg_3_0, arg_3_1, arg_3_2, arg_3_3, arg_3_4)
-	local var_3_0 = arg_3_0.heroTeam_
-	local var_3_1 = arg_3_0.heroTrialList_
-	local var_3_2 = table.keyof(SequentialBattleChapterCfg[arg_3_0.params_.activityID].stage_id, arg_3_0.params_.stageID)
-	local var_3_3 = {}
-
-	for iter_3_0, iter_3_1 in pairs(var_3_0) do
-		var_3_3[iter_3_0] = {
-			id = iter_3_1,
-			trialID = var_3_1[iter_3_0]
+function slot1.ExtraSorter(slot0, slot1, slot2, slot3, slot4)
+	slot7 = table.keyof(SequentialBattleChapterCfg[slot0.params_.activityID].stage_id, slot0.params_.stageID)
+	slot8 = {
+		[slot12] = {
+			id = slot13,
+			trialID = slot0.heroTrialList_[slot12]
 		}
+	}
+
+	for slot12, slot13 in pairs(slot0.heroTeam_) do
+		-- Nothing
 	end
 
-	local var_3_4 = false
-	local var_3_5 = false
+	slot9 = false
+	slot10 = false
 
-	for iter_3_2 = 1, #SequentialBattleChapterCfg[arg_3_0.params_.activityID].stage_id do
-		if iter_3_2 ~= var_3_2 then
-			local var_3_6 = arg_3_0:GetCacheSorterExtraHeroList(arg_3_0.params_.activityID, iter_3_2)
+	for slot14 = 1, #SequentialBattleChapterCfg[slot0.params_.activityID].stage_id do
+		if slot14 ~= slot7 then
+			slot19 = slot14
 
-			for iter_3_3, iter_3_4 in pairs(var_3_6) do
-				local var_3_7 = iter_3_4:GetHeroID()
-
-				if arg_3_1.id == var_3_7 then
-					var_3_4 = true
+			for slot19, slot20 in pairs(slot0:GetCacheSorterExtraHeroList(slot0.params_.activityID, slot19)) do
+				if slot1.id == slot20:GetHeroID() then
+					slot9 = true
 				end
 
-				if arg_3_2.id == var_3_7 then
-					var_3_5 = true
+				if slot2.id == slot21 then
+					slot10 = true
 				end
 			end
 		end
 	end
 
-	if var_3_4 ~= var_3_5 then
-		return true, var_3_5 and true or false
+	if slot9 ~= slot10 then
+		return true, slot10 and true or false
 	end
 
-	local var_3_8 = arg_3_0:indexof(var_3_3, arg_3_1)
-	local var_3_9 = arg_3_0:indexof(var_3_3, arg_3_2)
-
-	if var_3_8 ~= var_3_9 then
-		return true, var_3_8 < var_3_9
+	if slot0:indexof(slot8, slot1) ~= slot0:indexof(slot8, slot2) then
+		return true, slot11 < slot12
 	end
 
-	if arg_3_1.trialID ~= 0 or arg_3_2.trialID ~= 0 then
-		if arg_3_1.trialID ~= 0 and arg_3_2.trialID ~= 0 then
-			if arg_3_3 == 0 and arg_3_1.star ~= arg_3_2.star then
-				if arg_3_0.curOrder_ == "desc" then
-					return true, arg_3_1.star > arg_3_2.star
+	if slot1.trialID ~= 0 or slot2.trialID ~= 0 then
+		if slot1.trialID ~= 0 and slot2.trialID ~= 0 then
+			if slot3 == 0 and slot1.star ~= slot2.star then
+				if slot0.curOrder_ == "desc" then
+					return true, slot2.star < slot1.star
 				else
-					return true, arg_3_1.star < arg_3_2.star
+					return true, slot1.star < slot2.star
 				end
 			end
 
-			local var_3_10 = getHeroPower(arg_3_1.trialID, true)
-			local var_3_11 = getHeroPower(arg_3_2.trialID, true)
-
-			if var_3_10 ~= var_3_11 then
-				if arg_3_4 == "desc" then
-					return true, var_3_11 < var_3_10
+			if getHeroPower(slot1.trialID, true) ~= getHeroPower(slot2.trialID, true) then
+				if slot4 == "desc" then
+					return true, slot14 < slot13
 				else
-					return true, var_3_10 < var_3_11
+					return true, slot13 < slot14
 				end
 			else
-				return true, arg_3_1.trialID > arg_3_2.trialID
+				return true, slot2.trialID < slot1.trialID
 			end
 		else
-			return true, arg_3_1.trialID > arg_3_2.trialID
+			return true, slot2.trialID < slot1.trialID
 		end
 	end
 
 	return false, false
 end
 
-function var_0_1.HeadRenderer(arg_4_0, arg_4_1, arg_4_2)
-	var_0_1.super.HeadRenderer(arg_4_0, arg_4_1, arg_4_2)
-
-	local var_4_0 = arg_4_0.heroDataList_[arg_4_1].id
-
-	arg_4_2:SetHeroLock(table.keyof(arg_4_0.lockHeroList_, var_4_0) ~= nil)
+function slot1.HeadRenderer(slot0, slot1, slot2)
+	uv0.super.HeadRenderer(slot0, slot1, slot2)
+	slot2:SetHeroLock(table.keyof(slot0.lockHeroList_, slot0.heroDataList_[slot1].id) ~= nil)
 end
 
-function var_0_1.GetTextAndImage(arg_5_0)
-	if arg_5_0:IsSameHeroInTeam(arg_5_0.selectID_) and not arg_5_0:IsInTeam(arg_5_0.selectID_, arg_5_0.selectTrialID_) then
-		if arg_5_0.heroTeam_[arg_5_0.params_.selectHeroPos] ~= arg_5_0.selectID_ then
+function slot1.GetTextAndImage(slot0)
+	if slot0:IsSameHeroInTeam(slot0.selectID_) and not slot0:IsInTeam(slot0.selectID_, slot0.selectTrialID_) then
+		if slot0.heroTeam_[slot0.params_.selectHeroPos] ~= slot0.selectID_ then
 			return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 		else
 			return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 		end
 	end
 
-	if arg_5_0.heroTeam_[arg_5_0.params_.selectHeroPos] == 0 then
-		if arg_5_0:IsInTeam(arg_5_0.selectID_, arg_5_0.selectTrialID_) then
+	if slot0.heroTeam_[slot0.params_.selectHeroPos] == 0 then
+		if slot0:IsInTeam(slot0.selectID_, slot0.selectTrialID_) then
 			return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 		else
 			return string.format("<color=#222222>%s</color>", GetTips("JOIN_TEAM")), "0"
 		end
 	end
 
-	if arg_5_0.selectID_ == arg_5_0.heroTeam_[arg_5_0.params_.selectHeroPos] then
+	if slot0.selectID_ == slot0.heroTeam_[slot0.params_.selectHeroPos] then
 		return string.format("<color=#EBEBEB>%s</color>", GetTips("REMOVE_FROM_TEAM")), "2"
 	end
 
 	return string.format("<color=#222222>%s</color>", GetTips("CHANGE_MEMBER")), "0"
 end
 
-function var_0_1.OnJoinClick(arg_6_0)
-	if table.keyof(arg_6_0.lockHeroList_, arg_6_0.selectID_) then
-		local var_6_0 = arg_6_0.params_.activityID
-		local var_6_1 = GetTips("HERO_IN_OTHER_TEAM")
-		local var_6_2 = SequentialBattleData:GetHeroTeamData(var_6_0)
-		local var_6_3 = table.keyof(SequentialBattleChapterCfg[var_6_0].stage_id, arg_6_0.params_.stageID)
-		local var_6_4 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE):GetContDataTemplateById(var_6_0)
-		local var_6_5 = ""
+function slot1.OnJoinClick(slot0)
+	if table.keyof(slot0.lockHeroList_, slot0.selectID_) then
+		slot1 = slot0.params_.activityID
+		slot2 = GetTips("HERO_IN_OTHER_TEAM")
+		slot3 = SequentialBattleData:GetHeroTeamData(slot1)
+		slot6 = ReserveTools.GetReserveTemplateByReserveType(ReserveConst.RESERVE_TYPE.SEQUENTIAL_BATTLE):GetContDataTemplateById(slot1)
+		slot7 = ""
 
-		for iter_6_0 = 1, #SequentialBattleChapterCfg[var_6_0].stage_id do
-			if iter_6_0 ~= var_6_3 then
-				local var_6_6 = var_6_4:GetHeroList(iter_6_0)
-
-				for iter_6_1, iter_6_2 in ipairs(var_6_6) do
-					if iter_6_2:GetHeroID() == arg_6_0.selectID_ then
-						var_6_5 = GetTips(string.format("TEAM_%s", iter_6_0))
+		for slot11 = 1, #SequentialBattleChapterCfg[slot1].stage_id do
+			if slot11 ~= table.keyof(SequentialBattleChapterCfg[slot1].stage_id, slot0.params_.stageID) then
+				for slot16, slot17 in ipairs(slot6:GetHeroList(slot11)) do
+					if slot17:GetHeroID() == slot0.selectID_ then
+						slot7 = GetTips(string.format("TEAM_%s", slot11))
 					end
 				end
 			end
@@ -151,24 +132,21 @@ function var_0_1.OnJoinClick(arg_6_0)
 
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
-			content = string.format(var_6_1, var_6_5),
-			OkCallback = function()
-				var_0_1.super.OnJoinClick(arg_6_0)
+			content = string.format(slot2, slot7),
+			OkCallback = function ()
+				uv0.super.OnJoinClick(uv1)
 			end
 		})
 
 		return
 	end
 
-	var_0_1.super.OnJoinClick(arg_6_0)
+	uv0.super.OnJoinClick(slot0)
 end
 
-function var_0_1.ChangeTeam(arg_8_0, arg_8_1, arg_8_2)
-	ReserveTools.SetHeroList(arg_8_0.params_.reserveParams, arg_8_1, arg_8_2)
-
-	local var_8_0 = table.keyof(SequentialBattleChapterCfg[arg_8_0.params_.activityID].stage_id, arg_8_0.params_.stageID)
-
-	SequentialBattleTools.SaveEnabledBuff(arg_8_0.params_.activityID, var_8_0)
+function slot1.ChangeTeam(slot0, slot1, slot2)
+	ReserveTools.SetHeroList(slot0.params_.reserveParams, slot1, slot2)
+	SequentialBattleTools.SaveEnabledBuff(slot0.params_.activityID, table.keyof(SequentialBattleChapterCfg[slot0.params_.activityID].stage_id, slot0.params_.stageID))
 end
 
-return var_0_1
+return slot1

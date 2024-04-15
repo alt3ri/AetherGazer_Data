@@ -1,33 +1,29 @@
-local var_0_0 = class("SectionComboSkillBossChallengeView", import("..SectionComboSkillView"))
+slot0 = class("SectionComboSkillBossChallengeView", import("..SectionComboSkillView"))
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 end
 
-function var_0_0.SetBossIndex(arg_2_0, arg_2_1)
-	arg_2_0.bossIndex_ = arg_2_1
+function slot0.SetBossIndex(slot0, slot1)
+	slot0.bossIndex_ = slot1
 end
 
-function var_0_0.ClickComboSkillBtn(arg_3_0)
+function slot0.ClickComboSkillBtn(slot0)
 	JumpTools.OpenPageByJump("comboSkillSelectBoss", {
-		stageType = arg_3_0.stageType_,
-		stageID = arg_3_0.stageID_,
-		bossIndex = arg_3_0.bossIndex_,
-		heroList = arg_3_0.heroList_,
-		comboSkillID = arg_3_0.comboSkillID_
+		stageType = slot0.stageType_,
+		stageID = slot0.stageID_,
+		bossIndex = slot0.bossIndex_,
+		heroList = slot0.heroList_,
+		comboSkillID = slot0.comboSkillID_
 	})
 end
 
-function var_0_0.GetComboSkillID(arg_4_0)
-	local var_4_0 = BossTools.GetContID(arg_4_0.stageType_, arg_4_0.bossIndex_)
-
-	return BattleTeamData:GetComboInfo(arg_4_0.stageType_, nil, var_4_0)
+function slot0.GetComboSkillID(slot0)
+	return BattleTeamData:GetComboInfo(slot0.stageType_, nil, BossTools.GetContID(slot0.stageType_, slot0.bossIndex_))
 end
 
-function var_0_0.SetComboSkillID(arg_5_0, arg_5_1)
-	local var_5_0 = BossTools.GetContID(arg_5_0.stageType_, arg_5_0.bossIndex_)
-
-	BattleFieldAction.SetComboInfo(arg_5_0.stageType_, nil, arg_5_1, var_5_0)
+function slot0.SetComboSkillID(slot0, slot1)
+	BattleFieldAction.SetComboInfo(slot0.stageType_, nil, slot1, BossTools.GetContID(slot0.stageType_, slot0.bossIndex_))
 end
 
-return var_0_0
+return slot0

@@ -1,44 +1,41 @@
-local var_0_0 = class("AchievementStoryInfoView", ReduxView)
+slot0 = class("AchievementStoryInfoView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/AchievementsUI/AchievementStoryInfoUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_4_0)
-	local var_4_0 = AchievementStoryCfg[arg_4_0.params_.storyID]
+function slot0.OnEnter(slot0)
+	SetActive(slot0.imageBg_.gameObject, AchievementStoryCfg[slot0.params_.storyID].bg ~= "")
 
-	SetActive(arg_4_0.imageBg_.gameObject, var_4_0.bg ~= "")
-
-	if var_4_0.bg ~= "" then
-		arg_4_0.imageBg_.sprite = getSpriteViaConfig("Loading", var_4_0.bg)
+	if slot1.bg ~= "" then
+		slot0.imageBg_.sprite = getSpriteViaConfig("Loading", slot1.bg)
 	end
 
-	arg_4_0.textTitle_.text = GetI18NText(var_4_0.name)
-	arg_4_0.textContent_.text = GetI18NText(var_4_0.desc)
-	arg_4_0.scrollView_.verticalNormalizedPosition = 1
+	slot0.textTitle_.text = GetI18NText(slot1.name)
+	slot0.textContent_.text = GetI18NText(slot1.desc)
+	slot0.scrollView_.verticalNormalizedPosition = 1
 end
 
-function var_0_0.OnExit(arg_5_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.buttonClose_, nil, function()
-		arg_7_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.buttonClose_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-return var_0_0
+return slot0

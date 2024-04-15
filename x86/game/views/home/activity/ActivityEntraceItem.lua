@@ -1,73 +1,68 @@
-local var_0_0 = class("ActivityEntraceItem", ReduxView)
+slot0 = class("ActivityEntraceItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	if JumpTools.GetLinkIsLocked(ActivityEntraceCfg[arg_2_0.activityID_].jump_system) then
-		SetActive(arg_2_0.redPointGo_, false)
+function slot0.OnEnter(slot0)
+	if JumpTools.GetLinkIsLocked(ActivityEntraceCfg[slot0.activityID_].jump_system) then
+		SetActive(slot0.redPointGo_, false)
 	else
-		SetActive(arg_2_0.redPointGo_, true)
+		SetActive(slot0.redPointGo_, true)
 	end
 
-	manager.redPoint:bindUIandKey(arg_2_0.redPointGo_.transform, string.format("%s%s", RedPointConst.MAIN_ACTIVITY, arg_2_0.activityID_))
-	arg_2_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.redPointGo_.transform, string.format("%s%s", RedPointConst.MAIN_ACTIVITY, slot0.activityID_))
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.redPoint:unbindUIandKey(arg_3_0.redPointGo_.transform, string.format("%s%s", RedPointConst.MAIN_ACTIVITY, arg_3_0.activityID_))
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.redPointGo_.transform, string.format("%s%s", RedPointConst.MAIN_ACTIVITY, slot0.activityID_))
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_4_0.transform_ = nil
-	arg_4_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
-		local var_6_0 = "btn_homepage_activity" .. arg_5_0.activityID_
-		local var_6_1 = getData("SDK", var_6_0)
-		local var_6_2 = TimeMgr:GetServerTime()
-
-		if var_6_1 == nil or not TimeMgr:IsSameDay(var_6_1, var_6_2) then
-			saveData("SDK", var_6_0, TimeMgr:GetServerTime())
-			OperationRecorder.RecordButtonTouch("homepage_activity_" .. arg_5_0.activityID_)
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if getData("SDK", "btn_homepage_activity" .. uv0.activityID_) == nil or not TimeMgr:IsSameDay(slot1, TimeMgr:GetServerTime()) then
+			saveData("SDK", slot0, TimeMgr:GetServerTime())
+			OperationRecorder.RecordButtonTouch("homepage_activity_" .. uv0.activityID_)
 		end
 
-		local var_6_3 = ActivityEntraceCfg[arg_5_0.activityID_]
+		slot3 = ActivityEntraceCfg[uv0.activityID_]
 
-		ActivityVersionData:SetReprintField(var_6_3.reprint_field)
-		JumpTools.JumpToPage2(var_6_3.jump_system)
+		ActivityVersionData:SetReprintField(slot3.reprint_field)
+		JumpTools.JumpToPage2(slot3.jump_system)
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	if arg_7_0.activityID_ then
-		arg_7_0:OnExit()
+function slot0.SetData(slot0, slot1)
+	if slot0.activityID_ then
+		slot0:OnExit()
 	end
 
-	arg_7_0.activityID_ = arg_7_1
+	slot0.activityID_ = slot1
 
-	arg_7_0:OnEnter()
+	slot0:OnEnter()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	local var_8_0 = ActivityData:GetActivityData(arg_8_0.activityID_).startTime
-	local var_8_1 = ActivityEntraceCfg[arg_8_0.activityID_]
-	local var_8_2 = var_8_1.icon
+function slot0.RefreshUI(slot0)
+	slot2 = ActivityEntraceCfg[slot0.activityID_]
+	slot3 = slot2.icon
 
-	if var_8_0 + var_8_1.delay_day * 24 * 3600 < manager.time:GetServerTime() then
-		var_8_2 = var_8_1.icon2
+	if ActivityData:GetActivityData(slot0.activityID_).startTime + slot2.delay_day * 24 * 3600 < manager.time:GetServerTime() then
+		slot3 = slot2.icon2
 	end
 
-	arg_8_0.image_.sprite = getSpriteViaConfig("ActivityBannerTextures", var_8_2 .. SettingData:GetCurrentLanguageKey())
+	slot0.image_.sprite = getSpriteViaConfig("ActivityBannerTextures", slot3 .. SettingData:GetCurrentLanguageKey())
 end
 
-return var_0_0
+return slot0

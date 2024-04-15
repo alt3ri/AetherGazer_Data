@@ -1,73 +1,71 @@
-local var_0_0 = class("LimitedCalculationDifficultyView", ReduxView)
+slot0 = class("LimitedCalculationDifficultyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/VersionUI/SummerUI/SummerDifficultySelectionPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.scrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.IndexItem), arg_4_0.listGo_, DifficultySelectItem)
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listGo_, DifficultySelectItem)
 end
 
-function var_0_0.IndexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:RefreshUI(arg_5_0.activityID_, arg_5_0.list_[arg_5_1])
-	arg_5_2:SetSelected(arg_5_0.curDifficulty_)
-	arg_5_2:RegisterClickListener(function(arg_6_0)
-		arg_5_0.curDifficulty_ = arg_6_0
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.activityID_, slot0.list_[slot1])
+	slot2:SetSelected(slot0.curDifficulty_)
+	slot2:RegisterClickListener(function (slot0)
+		uv0.curDifficulty_ = slot0
 
-		arg_5_0:Back()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.AddUIListeners(arg_7_0)
-	arg_7_0:AddBtnListener(arg_7_0.bgBtn_, nil, function()
-		arg_7_0:Back()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.bgBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_9_0)
-	arg_9_0.activityID_ = arg_9_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_9_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.curDifficulty_ = LimitedCalculationData:GetCurDifficulty(arg_10_0.activityID_)
-	arg_10_0.list_ = LimitedCalculationData:GetDifficultyList(arg_10_0.activityID_)
+function slot0.RefreshUI(slot0)
+	slot0.curDifficulty_ = LimitedCalculationData:GetCurDifficulty(slot0.activityID_)
+	slot0.list_ = LimitedCalculationData:GetDifficultyList(slot0.activityID_)
 
-	local var_10_0 = table.indexof(arg_10_0.list_, arg_10_0.curDifficulty_)
-
-	if var_10_0 == 1 then
-		arg_10_0.scrollHelper_:StartScroll(#arg_10_0.list_)
+	if table.indexof(slot0.list_, slot0.curDifficulty_) == 1 then
+		slot0.scrollHelper_:StartScroll(#slot0.list_)
 	else
-		arg_10_0.scrollHelper_:StartScroll(#arg_10_0.list_, var_10_0 - 1)
+		slot0.scrollHelper_:StartScroll(#slot0.list_, slot1 - 1)
 	end
 end
 
-function var_0_0.RefreshList(arg_11_0)
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.scrollHelper_:GetItemList()) do
-		iter_11_1:SetSelected(arg_11_0.curDifficulty_)
+function slot0.RefreshList(slot0)
+	for slot4, slot5 in pairs(slot0.scrollHelper_:GetItemList()) do
+		slot5:SetSelected(slot0.curDifficulty_)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	LimitedCalculationData:SetCurDifficulty(arg_12_0.activityID_, arg_12_0.curDifficulty_)
+function slot0.OnExit(slot0)
+	LimitedCalculationData:SetCurDifficulty(slot0.activityID_, slot0.curDifficulty_)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	arg_13_0.scrollHelper_:Dispose()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.scrollHelper_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

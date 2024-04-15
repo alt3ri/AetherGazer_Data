@@ -1,124 +1,96 @@
 return {
-	Init = function(arg_1_0)
-		arg_1_0.NewSystemTagList = {}
+	Init = function (slot0)
+		slot0.NewSystemTagList = {}
 
-		arg_1_0:AddToggleList()
-		arg_1_0:AppendSystemUnlock()
+		slot0:AddToggleList()
+		slot0:AppendSystemUnlock()
 	end,
-	AddToggleList = function(arg_2_0)
-		local var_2_0 = {
+	AddToggleList = function (slot0)
+		for slot5, slot6 in ipairs({
 			BattleConst.TOGGLE.RESOURCE,
 			BattleConst.TOGGLE.EQUIP,
 			BattleConst.TOGGLE.CHALLENGE
-		}
-
-		for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-			local var_2_1 = ChapterClientCfg.get_id_list_by_toggle[iter_2_1]
-
-			for iter_2_2 = 1, #var_2_1 do
-				local var_2_2 = var_2_1[iter_2_2]
-
-				if not ChapterTools.IsChapterSystemLock(var_2_2) then
-					local var_2_3 = GetSystemIdByClientChapterId(var_2_2)
-
-					if var_2_3 and var_2_3 > 0 then
-						arg_2_0.NewSystemTagList[var_2_3] = true
-					end
+		}) do
+			for slot11 = 1, #ChapterClientCfg.get_id_list_by_toggle[slot6] do
+				if not ChapterTools.IsChapterSystemLock(slot7[slot11]) and GetSystemIdByClientChapterId(slot12) and slot13 > 0 then
+					slot0.NewSystemTagList[slot13] = true
 				end
 			end
 		end
 	end,
-	AppendSystemUnlock = function(arg_3_0)
-		local var_3_0 = {
+	AppendSystemUnlock = function (slot0)
+		for slot5, slot6 in ipairs({
 			BattleConst.TOGGLE.RESOURCE,
 			BattleConst.TOGGLE.EQUIP,
 			BattleConst.TOGGLE.CHALLENGE
-		}
-
-		for iter_3_0, iter_3_1 in ipairs(var_3_0) do
-			local var_3_1 = ChapterClientCfg.get_id_list_by_toggle[iter_3_1]
-
-			for iter_3_2 = 1, #var_3_1 do
-				local var_3_2 = var_3_1[iter_3_2]
-
-				if not ChapterTools.IsChapterSystemLock(var_3_2) then
-					local var_3_3 = GetSystemIdByClientChapterId(var_3_2)
-
-					if var_3_3 and var_3_3 > 0 then
-						local var_3_4 = ChapterTools.GetRedPoint(var_3_2)
-
-						if var_3_4 ~= RedPointConst.COMBAT_UNLL then
-							manager.redPoint:appendGroup(var_3_4, GetSystemNewRedKey(var_3_3))
-						end
-					end
+		}) do
+			for slot11 = 1, #ChapterClientCfg.get_id_list_by_toggle[slot6] do
+				if not ChapterTools.IsChapterSystemLock(slot7[slot11]) and GetSystemIdByClientChapterId(slot12) and slot13 > 0 and ChapterTools.GetRedPoint(slot12) ~= RedPointConst.COMBAT_UNLL then
+					manager.redPoint:appendGroup(slot14, GetSystemNewRedKey(slot13))
 				end
 			end
 		end
 	end,
-	InitSystemUnlockDispatch = function(arg_4_0)
-		local var_4_0 = getData("systemUnlockNewTag", "newSystem") or {}
-		local var_4_1 = false
-		local var_4_2 = {}
+	InitSystemUnlockDispatch = function (slot0)
+		slot2 = false
+		slot3 = {}
 
-		for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-			if not SystemData:GetSystemIsOpen(iter_4_1) then
-				var_4_1 = true
+		for slot7, slot8 in ipairs(getData("systemUnlockNewTag", "newSystem") or {}) do
+			if not SystemData:GetSystemIsOpen(slot8) then
+				slot2 = true
 			else
-				arg_4_0:DispatchNewTag(iter_4_1)
-				table.insert(var_4_2, iter_4_1)
+				slot0:DispatchNewTag(slot8)
+				table.insert(slot3, slot8)
 			end
 		end
 
-		if var_4_1 then
-			saveData("systemUnlockNewTag", "newSystem", var_4_2)
+		if slot2 then
+			saveData("systemUnlockNewTag", "newSystem", slot3)
 		end
 	end,
-	CheckIsSystemUnlock = function(arg_5_0, arg_5_1)
-		local var_5_0 = getData("systemUnlockNewTag", "newSystem") or {}
-		local var_5_1 = {}
+	CheckIsSystemUnlock = function (slot0, slot1)
+		slot3 = {
+			[slot8] = true
+		}
 
-		for iter_5_0, iter_5_1 in ipairs(var_5_0) do
-			var_5_1[iter_5_1] = true
+		for slot7, slot8 in ipairs(getData("systemUnlockNewTag", "newSystem") or {}) do
+			-- Nothing
 		end
 
-		for iter_5_2, iter_5_3 in ipairs(arg_5_1) do
-			if arg_5_0:CheckNeedNewTag(iter_5_3) and not var_5_1[iter_5_3] then
-				table.insert(var_5_0, iter_5_3)
-				arg_5_0:DispatchNewTag(iter_5_3)
+		for slot7, slot8 in ipairs(slot1) do
+			if slot0:CheckNeedNewTag(slot8) and not slot3[slot8] then
+				table.insert(slot2, slot8)
+				slot0:DispatchNewTag(slot8)
 			end
 		end
 
-		saveData("systemUnlockNewTag", "newSystem", var_5_0)
+		saveData("systemUnlockNewTag", "newSystem", slot2)
 	end,
-	DispatchNewTag = function(arg_6_0, arg_6_1)
-		local var_6_0 = GetSystemNewRedKey(arg_6_1)
-
-		manager.redPoint:setTip(var_6_0, 1, RedPointStyle.SHOW_NEW_TAG)
+	DispatchNewTag = function (slot0, slot1)
+		manager.redPoint:setTip(GetSystemNewRedKey(slot1), 1, RedPointStyle.SHOW_NEW_TAG)
 	end,
-	CancelNewTagByChapterId = function(arg_7_0, arg_7_1)
-		local var_7_0 = GetSystemIdByClientChapterId(arg_7_1)
-
-		if var_7_0 then
-			arg_7_0:CancelNewTag(var_7_0)
+	CancelNewTagByChapterId = function (slot0, slot1)
+		if GetSystemIdByClientChapterId(slot1) then
+			slot0:CancelNewTag(slot2)
 		end
 	end,
-	CancelNewTag = function(arg_8_0, arg_8_1)
-		local var_8_0 = GetSystemNewRedKey(arg_8_1)
-		local var_8_1 = getData("systemUnlockNewTag", "newSystem") or {}
-		local var_8_2 = {}
+	CancelNewTag = function (slot0, slot1)
+		slot2 = GetSystemNewRedKey(slot1)
 
-		for iter_8_0, iter_8_1 in ipairs(var_8_1) do
-			var_8_2[iter_8_1] = iter_8_0
+		for slot8, slot9 in ipairs(getData("systemUnlockNewTag", "newSystem") or {}) do
+			-- Nothing
 		end
 
-		if arg_8_0:CheckNeedNewTag(arg_8_1) and var_8_2[arg_8_1] then
-			table.remove(var_8_1, var_8_2[arg_8_1])
+		if slot0:CheckNeedNewTag(slot1) and ({
+			[slot9] = slot8
+		})[slot1] then
+			table.remove(slot3, slot4[slot1])
 		end
 
-		manager.redPoint:setTip(GetSystemNewRedKey(arg_8_1), 0, RedPointStyle.SHOW_NEW_TAG)
-		saveData("systemUnlockNewTag", "newSystem", var_8_1)
+		manager.redPoint:setTip(GetSystemNewRedKey(slot1), 0, RedPointStyle.SHOW_NEW_TAG)
+		saveData("systemUnlockNewTag", "newSystem", slot3)
 	end,
-	CheckNeedNewTag = function(arg_9_0, arg_9_1)
-		return arg_9_0.NewSystemTagList[arg_9_1] or false
+	CheckNeedNewTag = function (slot0, slot1)
+		return slot0.NewSystemTagList[slot1] or false
 	end
 }

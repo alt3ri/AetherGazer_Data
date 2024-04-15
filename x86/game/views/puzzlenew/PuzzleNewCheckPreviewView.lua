@@ -1,45 +1,40 @@
-local var_0_0 = class("PuzzleNewCheckPreviewView", ReduxView)
+slot0 = class("PuzzleNewCheckPreviewView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return PuzzleNewTools.GetCheckPreviewUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return PuzzleNewTools.GetCheckPreviewUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.backMask_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backMask_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.activityID_ = arg_7_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot1 = PuzzleNewCfg[slot0.activityID_]
+	slot0.originImg_.sprite = getSpriteWithoutAtlas(slot1.preview_album_id)
+	slot0.checkImg_.sprite = getSpriteWithoutAtlas(slot1.album_id)
+	slot2 = #slot1.clue_id
 
-	local var_7_0 = PuzzleNewCfg[arg_7_0.activityID_]
-
-	arg_7_0.originImg_.sprite = getSpriteWithoutAtlas(var_7_0.preview_album_id)
-	arg_7_0.checkImg_.sprite = getSpriteWithoutAtlas(var_7_0.album_id)
-
-	local var_7_1 = #var_7_0.clue_id
-	local var_7_2 = PuzzleNewData:GetCurCheckList(arg_7_0.activityID_)
-	local var_7_3 = 0
-
-	for iter_7_0, iter_7_1 in pairs(var_7_2) do
-		var_7_3 = var_7_3 + 1
+	for slot8, slot9 in pairs(PuzzleNewData:GetCurCheckList(slot0.activityID_)) do
+		slot4 = 0 + 1
 	end
 
-	arg_7_0.progressText_.text = string.format("%d/%d", var_7_3, var_7_1)
+	slot0.progressText_.text = string.format("%d/%d", slot4, slot2)
 end
 
-return var_0_0
+return slot0

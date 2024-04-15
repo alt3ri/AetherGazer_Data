@@ -1,181 +1,181 @@
-local var_0_0 = class("InfinityTaskBaseView", ReduxView)
+slot0 = class("InfinityTaskBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/OsirisUI/OsirisUITaskUI"
 end
 
-function var_0_0.GetTaskViewClass(arg_2_0)
+function slot0.GetTaskViewClass(slot0)
 	return ActivityTaskBaseView
 end
 
-function var_0_0.GetInfinityPoolViewClass(arg_3_0)
+function slot0.GetInfinityPoolViewClass(slot0)
 	return ActivityInfinityBaseView
 end
 
-function var_0_0.GetInfinityPoolItemID(arg_4_0)
+function slot0.GetInfinityPoolItemID(slot0)
 	return CurrencyConst.CURRENCY_TYPE_OSIRIS_INFINITY_COIN
 end
 
-function var_0_0.GetHelpTips(arg_5_0)
+function slot0.GetHelpTips(slot0)
 	return "ACTIVITY_OSIRIS_INFINITY_POOL_DESCRIPE"
 end
 
-function var_0_0.UIParent(arg_6_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_7_0)
-	arg_7_0:BindCfgUI()
-	arg_7_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_7_0.viewList_ = {}
-	arg_7_0.controller_ = {}
+	slot0.viewList_ = {}
+	slot0.controller_ = {}
 
-	for iter_7_0 = 1, 5 do
-		arg_7_0.controller_[iter_7_0] = ControllerUtil.GetController(arg_7_0[string.format("transformTreeItem%s_", iter_7_0)], "lock")
+	for slot4 = 1, 5 do
+		slot0.controller_[slot4] = ControllerUtil.GetController(slot0[string.format("transformTreeItem%s_", slot4)], "lock")
 	end
 
-	arg_7_0.refreshTreeItemHandler_ = handler(arg_7_0, arg_7_0.RefreshInfinityBtn)
-	arg_7_0.toggleUpdateHandler_ = handler(arg_7_0, arg_7_0.OnToggleUpdate)
-	arg_7_0.toggleListView_ = ToggleListView.New(arg_7_0.goToggleList_, {
+	slot0.refreshTreeItemHandler_ = handler(slot0, slot0.RefreshInfinityBtn)
+	slot0.toggleUpdateHandler_ = handler(slot0, slot0.OnToggleUpdate)
+	slot0.toggleListView_ = ToggleListView.New(slot0.goToggleList_, {
 		0,
 		5
 	})
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	manager.notify:RegistListener(OSIRIS_INFINITY_OPEN_CORE_ITEM, arg_8_0.refreshTreeItemHandler_)
-	manager.notify:RegistListener(TOGGLE_LIST_UPDATE, arg_8_0.toggleUpdateHandler_)
+function slot0.OnEnter(slot0)
+	manager.notify:RegistListener(OSIRIS_INFINITY_OPEN_CORE_ITEM, slot0.refreshTreeItemHandler_)
 
-	for iter_8_0, iter_8_1 in pairs(arg_8_0.viewList_) do
-		iter_8_1:OnEnter()
+	slot4 = slot0.toggleUpdateHandler_
+
+	manager.notify:RegistListener(TOGGLE_LIST_UPDATE, slot4)
+
+	for slot4, slot5 in pairs(slot0.viewList_) do
+		slot5:OnEnter()
 	end
 
-	arg_8_0.toggleListView_:OnEnter()
+	slot0.toggleListView_:OnEnter()
 
-	if arg_8_0.params_.activityType == OsirisConst.ACTIVITY_TYPE.TASK then
-		arg_8_0.toggleListView_:SetSelectOn(1)
+	if slot0.params_.activityType == OsirisConst.ACTIVITY_TYPE.TASK then
+		slot0.toggleListView_:SetSelectOn(1)
 	else
-		arg_8_0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(arg_8_0.params_.activityInfinityID))
-		arg_8_0:ChangeSelect(2)
+		slot0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(slot0.params_.activityInfinityID))
+		slot0:ChangeSelect(2)
 	end
 
-	local var_8_0 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, arg_8_0.params_.activityTaskID)
-
-	manager.redPoint:bindUIandKey(arg_8_0.transformTask_, var_8_0, {
+	manager.redPoint:bindUIandKey(slot0.transformTask_, string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot0.params_.activityTaskID), {
 		x = 0,
 		y = 0
 	})
-	arg_8_0:RefreshInfinityBtn()
+	slot0:RefreshInfinityBtn()
 end
 
-function var_0_0.OnTop(arg_9_0)
-	if arg_9_0.curActivityType ~= arg_9_0.params_.activityType then
-		if arg_9_0.params_.activityType == OsirisConst.ACTIVITY_TYPE.TASK then
-			arg_9_0.toggleListView_:SetSelectOn(1)
+function slot0.OnTop(slot0)
+	if slot0.curActivityType ~= slot0.params_.activityType then
+		if slot0.params_.activityType == OsirisConst.ACTIVITY_TYPE.TASK then
+			slot0.toggleListView_:SetSelectOn(1)
 		else
-			arg_9_0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(arg_9_0.params_.activityInfinityID))
-			arg_9_0:ChangeSelect(2)
+			slot0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(slot0.params_.activityInfinityID))
+			slot0:ChangeSelect(2)
 		end
 	end
 end
 
-function var_0_0.OnExit(arg_10_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
-	manager.notify:RemoveListener(OSIRIS_INFINITY_OPEN_CORE_ITEM, arg_10_0.refreshTreeItemHandler_)
-	manager.notify:RemoveListener(TOGGLE_LIST_UPDATE, arg_10_0.toggleUpdateHandler_)
+	manager.notify:RemoveListener(OSIRIS_INFINITY_OPEN_CORE_ITEM, slot0.refreshTreeItemHandler_)
+	manager.notify:RemoveListener(TOGGLE_LIST_UPDATE, slot0.toggleUpdateHandler_)
 
-	local var_10_0 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, arg_10_0.params_.activityTaskID)
-
-	manager.redPoint:unbindUIandKey(arg_10_0.transformTask_, var_10_0, {
+	slot5 = string.format("%s_%s", RedPointConst.ACTIVITY_TASK, slot0.params_.activityTaskID)
+	slot6 = {
 		x = 0,
 		y = 0
-	})
+	}
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_0.viewList_) do
-		iter_10_1:OnExit()
+	manager.redPoint:unbindUIandKey(slot0.transformTask_, slot5, slot6)
+
+	for slot5, slot6 in pairs(slot0.viewList_) do
+		slot6:OnExit()
 	end
 
-	arg_10_0.toggleListView_:OnExit()
+	slot0.toggleListView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_11_0)
-	var_0_0.super.Dispose(arg_11_0)
-	arg_11_0.toggleListView_:Dispose()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0.toggleListView_:Dispose()
 
-	arg_11_0.toggleListView_ = nil
-	arg_11_0.refreshTreeItemHandler_ = nil
-	arg_11_0.toggleUpdateHandler_ = nil
+	slot0.toggleListView_ = nil
+	slot0.refreshTreeItemHandler_ = nil
+	slot0.toggleUpdateHandler_ = nil
 
-	for iter_11_0, iter_11_1 in pairs(arg_11_0.viewList_) do
-		iter_11_1:Dispose()
+	for slot4, slot5 in pairs(slot0.viewList_) do
+		slot5:Dispose()
 	end
 
-	arg_11_0.viewList_ = nil
+	slot0.viewList_ = nil
 end
 
-function var_0_0.AddListeners(arg_12_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.RefreshInfinityBtn(arg_13_0)
-	local var_13_0 = OsirisInfinityPoolData:GetOpenPhase(arg_13_0.params_.activityInfinityID)
-
-	for iter_13_0 = 1, 5 do
-		arg_13_0.controller_[iter_13_0]:SetSelectedState(iter_13_0 <= var_13_0 and "false" or "true")
+function slot0.RefreshInfinityBtn(slot0)
+	for slot5 = 1, 5 do
+		slot0.controller_[slot5]:SetSelectedState(slot5 <= OsirisInfinityPoolData:GetOpenPhase(slot0.params_.activityInfinityID) and "false" or "true")
 	end
 end
 
-function var_0_0.OnToggleUpdate(arg_14_0, arg_14_1, arg_14_2)
-	arg_14_0:ChangeSelect(arg_14_1)
+function slot0.OnToggleUpdate(slot0, slot1, slot2)
+	slot0:ChangeSelect(slot1)
 
-	if arg_14_1 == 2 and arg_14_2 == nil then
-		arg_14_0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(arg_14_0.params_.activityInfinityID))
+	if slot1 == 2 and slot2 == nil then
+		slot0.toggleListView_:SetSelectOn(2, OsirisInfinityPoolData:GetClickPhaseValue(slot0.params_.activityInfinityID))
 
 		return
 	end
 
-	if arg_14_0.viewList_[arg_14_1] == nil then
-		if arg_14_1 == 1 then
-			arg_14_0.viewList_[arg_14_1] = arg_14_0:GetTaskViewClass().New(arg_14_0.goContent_, arg_14_0.params_.activityTaskID)
+	if slot0.viewList_[slot1] == nil then
+		if slot1 == 1 then
+			slot0.viewList_[slot1] = slot0:GetTaskViewClass().New(slot0.goContent_, slot0.params_.activityTaskID)
 		else
-			arg_14_0.viewList_[arg_14_1] = arg_14_0:GetInfinityPoolViewClass().New(arg_14_0.goContent_, arg_14_0.params_.activityInfinityID)
+			slot0.viewList_[slot1] = slot0:GetInfinityPoolViewClass().New(slot0.goContent_, slot0.params_.activityInfinityID)
 		end
 	end
+
+	slot7 = slot0
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR,
-		arg_14_0:GetInfinityPoolItemID()
+		slot0.GetInfinityPoolItemID(slot7)
 	})
-	manager.windowBar:SetBarCanAdd(arg_14_0:GetInfinityPoolItemID(), true)
-	manager.windowBar:SetGameHelpKey(arg_14_0:GetHelpTips())
+	manager.windowBar:SetBarCanAdd(slot0:GetInfinityPoolItemID(), true)
 
-	for iter_14_0, iter_14_1 in pairs(arg_14_0.viewList_) do
-		iter_14_1:Show(iter_14_0 == arg_14_1)
+	slot6 = slot0
+
+	manager.windowBar:SetGameHelpKey(slot0.GetHelpTips(slot6))
+
+	for slot6, slot7 in pairs(slot0.viewList_) do
+		slot7:Show(slot6 == slot1)
 	end
 
-	if arg_14_2 then
-		local var_14_0 = OsirisInfinityPoolData:GetOpenPhase(arg_14_0.params_.activityInfinityID)
-
-		if var_14_0 < arg_14_2 then
-			local var_14_1 = OsirisInfinityPoolData:GetClickPhaseValue(arg_14_0.params_.activityInfinityID)
-
-			arg_14_0.toggleListView_:SetSelectOn(2, var_14_0 < var_14_1 and var_14_0 or var_14_1)
+	if slot2 then
+		if OsirisInfinityPoolData:GetOpenPhase(slot0.params_.activityInfinityID) < slot2 then
+			slot0.toggleListView_:SetSelectOn(2, slot3 < OsirisInfinityPoolData:GetClickPhaseValue(slot0.params_.activityInfinityID) and slot3 or slot4)
 			ShowTips("INFINITY_LOCK")
 
 			return
 		end
 
-		OsirisInfinityPoolData:SetClickPhaseValue(arg_14_0.params_.activityInfinityID, arg_14_2)
-		arg_14_0.viewList_[2]:SetPhase(arg_14_2)
+		OsirisInfinityPoolData:SetClickPhaseValue(slot0.params_.activityInfinityID, slot2)
+		slot0.viewList_[2]:SetPhase(slot2)
 	end
 end
 
-function var_0_0.ChangeSelect(arg_15_0, arg_15_1)
-	arg_15_0.curActivityType = arg_15_1
-	arg_15_0.params_.activityType = arg_15_1
+function slot0.ChangeSelect(slot0, slot1)
+	slot0.curActivityType = slot1
+	slot0.params_.activityType = slot1
 end
 
-return var_0_0
+return slot0

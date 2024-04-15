@@ -1,59 +1,52 @@
-local var_0_0 = class("BattleSettlemenMultiResultModule", ReduxView)
+slot0 = class("BattleSettlemenMultiResultModule", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_0:InstView(arg_1_1)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot0:InstView(slot1)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.InstView(arg_2_0, arg_2_1)
-	local var_2_0 = "Widget/System/BattleResult/Common/Module/BattleMultipleResultContent"
-
-	return (Object.Instantiate(Asset.Load(var_2_0), arg_2_1))
+function slot0.InstView(slot0, slot1)
+	return Object.Instantiate(Asset.Load("Widget/System/BattleResult/Common/Module/BattleMultipleResultContent"), slot1)
 end
 
-function var_0_0.BuildContext(arg_3_0)
-	return
+function slot0.BuildContext(slot0)
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BuildContext()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
 
-	arg_4_0.scrollHelper = LuaList.New(handler(arg_4_0, arg_4_0.RenderItem), arg_4_0.rewardsListObj_, BattleSettlementMultiResultItem)
-	arg_4_0.scrollRect = arg_4_0.rewardsListObj_:GetComponent(typeof(ScrollRectEx))
+	slot0.scrollHelper = LuaList.New(handler(slot0, slot0.RenderItem), slot0.rewardsListObj_, BattleSettlementMultiResultItem)
+	slot0.scrollRect = slot0.rewardsListObj_:GetComponent(typeof(ScrollRectEx))
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_6_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.RenderView(arg_7_0, arg_7_1)
-	arg_7_0.stageData = arg_7_1.stageData
-	arg_7_0.rewardList = arg_7_1.rewardList
-	arg_7_0.multiple = arg_7_1.rewardTimes
+function slot0.RenderView(slot0, slot1)
+	slot0.stageData = slot1.stageData
+	slot0.rewardList = slot1.rewardList
+	slot0.multiple = slot1.rewardTimes
 
-	arg_7_0.scrollHelper:StartScroll(arg_7_0.multiple or 0)
+	slot0.scrollHelper:StartScroll(slot0.multiple or 0)
 end
 
-function var_0_0.RenderItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.rewardList[arg_8_1]
-
-	arg_8_2:TryInitScroll(arg_8_0.scrollRect)
-	arg_8_2:RenderView(arg_8_1, clone(var_8_0))
+function slot0.RenderItem(slot0, slot1, slot2)
+	slot2:TryInitScroll(slot0.scrollRect)
+	slot2:RenderView(slot1, clone(slot0.rewardList[slot1]))
 end
 
-function var_0_0.Dispose(arg_9_0)
-	arg_9_0.scrollHelper:Dispose()
+function slot0.Dispose(slot0)
+	slot0.scrollHelper:Dispose()
 
-	arg_9_0.scrollRect = nil
+	slot0.scrollRect = nil
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

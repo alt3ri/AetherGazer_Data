@@ -1,69 +1,66 @@
-local var_0_0 = class("ActivityReforgeInitiativeSkillItem", ReduxView)
+slot0 = class("ActivityReforgeInitiativeSkillItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.skillItemList_ = {}
+	slot0.skillItemList_ = {}
 end
 
-function var_0_0.SetData(arg_4_0, arg_4_1, arg_4_2, arg_4_3, arg_4_4, arg_4_5, arg_4_6, arg_4_7)
-	arg_4_0.viewType_ = arg_4_1
-	arg_4_0.skillList_ = arg_4_2
-	arg_4_0.itemSelectHandler_ = arg_4_3
-	arg_4_0.activityID_ = arg_4_4
-	arg_4_0.levelID_ = arg_4_5
-	arg_4_0.curSkillID_ = arg_4_7
-	arg_4_0.slotText_.text = string.format(GetTips("ACTIVITY_REFORGE_SLOT"), arg_4_6)
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5, slot6, slot7)
+	slot0.viewType_ = slot1
+	slot0.skillList_ = slot2
+	slot0.itemSelectHandler_ = slot3
+	slot0.activityID_ = slot4
+	slot0.levelID_ = slot5
+	slot0.curSkillID_ = slot7
+	slot0.slotText_.text = string.format(GetTips("ACTIVITY_REFORGE_SLOT"), slot6)
+	slot12 = GetTips("ACTIVITY_REFORGE_USE_MAX")
+	slot13 = ActivityReforgeData:GetInitiativeSkillUseNum(slot6) .. "/1"
+	slot0.slotNumText_.text = string.format(slot12, slot13)
 
-	local var_4_0 = ActivityReforgeData:GetInitiativeSkillUseNum(arg_4_6) .. "/1"
-
-	arg_4_0.slotNumText_.text = string.format(GetTips("ACTIVITY_REFORGE_USE_MAX"), var_4_0)
-
-	for iter_4_0, iter_4_1 in pairs(arg_4_0.skillList_) do
-		if arg_4_0.skillItemList_[iter_4_0] == nil then
-			local var_4_1 = Object.Instantiate(arg_4_0.itemGo_, arg_4_0.contentTrans_)
-
-			arg_4_0.skillItemList_[iter_4_0] = ActivityReforgeSkillItem.New(var_4_1)
+	for slot12, slot13 in pairs(slot0.skillList_) do
+		if slot0.skillItemList_[slot12] == nil then
+			slot0.skillItemList_[slot12] = ActivityReforgeSkillItem.New(Object.Instantiate(slot0.itemGo_, slot0.contentTrans_))
 		end
 
-		arg_4_0.skillItemList_[iter_4_0]:SetIsActive(true)
-		arg_4_0.skillItemList_[iter_4_0]:SetData(arg_4_0.viewType_, arg_4_0.skillList_[iter_4_0], arg_4_0.itemSelectHandler_, arg_4_0.activityID_, arg_4_0.levelID_, arg_4_0.curSkillID_)
+		slot0.skillItemList_[slot12]:SetIsActive(true)
+		slot0.skillItemList_[slot12]:SetData(slot0.viewType_, slot0.skillList_[slot12], slot0.itemSelectHandler_, slot0.activityID_, slot0.levelID_, slot0.curSkillID_)
 	end
 
-	for iter_4_2 = #arg_4_0.skillList_ + 1, #arg_4_0.skillItemList_ do
-		arg_4_0.skillItemList_[iter_4_2]:SetIsActive(false)
+	for slot12 = #slot0.skillList_ + 1, #slot0.skillItemList_ do
+		slot0.skillItemList_[slot12]:SetIsActive(false)
 	end
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_4_0.contentTrans_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.contentTrans_)
 end
 
-function var_0_0.OnExit(arg_5_0)
-	for iter_5_0, iter_5_1 in pairs(arg_5_0.skillItemList_) do
-		iter_5_1:OnExit()
+function slot0.OnExit(slot0)
+	for slot4, slot5 in pairs(slot0.skillItemList_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_6_0)
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.skillItemList_) do
-		arg_6_0.skillItemList_[iter_6_0]:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0.skillItemList_) do
+		slot0.skillItemList_[slot4]:Dispose()
 
-		arg_6_0.skillItemList_[iter_6_0] = nil
+		slot0.skillItemList_[slot4] = nil
 	end
 
-	arg_6_0.clickHandle_ = nil
+	slot0.clickHandle_ = nil
 
-	var_0_0.super.Dispose(arg_6_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,54 +1,54 @@
-local var_0_0 = class("NewWarChessHeroView", ReduxView)
+slot0 = class("NewWarChessHeroView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/NewWarChess/NewWarChessTeamUIPop"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.List_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.listGo_, NewWarChessHeroItem)
+	slot0.List_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.listGo_, NewWarChessHeroItem)
 end
 
-function var_0_0.indexItem(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_2:SetData(arg_5_0.heroInfoList_[arg_5_1])
-	arg_5_2:EnableSkillItemClick()
-	arg_5_2:BindSkillRedPoint()
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.heroInfoList_[slot1])
+	slot2:EnableSkillItemClick()
+	slot2:BindSkillRedPoint()
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.backbtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.backbtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:RefreshUI()
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0.heroInfoList_ = NewWarChessData:GetHeroInfoList()
+function slot0.RefreshUI(slot0)
+	slot0.heroInfoList_ = NewWarChessData:GetHeroInfoList()
 
-	arg_9_0.List_:StartScroll(#arg_9_0.heroInfoList_)
+	slot0.List_:StartScroll(#slot0.heroInfoList_)
 end
 
-function var_0_0.Dispose(arg_10_0)
-	var_0_0.super.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	if arg_10_0.List_ then
-		arg_10_0.List_:Dispose()
+	if slot0.List_ then
+		slot0.List_:Dispose()
 
-		arg_10_0.List_ = nil
+		slot0.List_ = nil
 	end
 end
 
-return var_0_0
+return slot0

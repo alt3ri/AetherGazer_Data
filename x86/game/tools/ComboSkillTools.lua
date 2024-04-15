@@ -1,190 +1,157 @@
-local var_0_0 = {}
-local var_0_1
+slot1 = nil
 
-function var_0_0.InitComboList()
-	var_0_1 = {}
+return {
+	InitComboList = function ()
+		uv0 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(ComboSkillCfg.all) do
-		local var_1_0 = ComboSkillCfg[iter_1_1]
+		for slot3, slot4 in ipairs(ComboSkillCfg.all) do
+			slot5 = ComboSkillCfg[slot4]
 
-		if not var_0_0.GetIsHide(iter_1_1) then
-			for iter_1_2, iter_1_3 in ipairs(var_1_0.cooperate_role_ids) do
-				var_0_1[iter_1_3] = var_0_1[iter_1_3] or {}
+			if not uv1.GetIsHide(slot4) then
+				for slot9, slot10 in ipairs(slot5.cooperate_role_ids) do
+					uv0[slot10] = uv0[slot10] or {}
 
-				table.insert(var_0_1[iter_1_3], var_1_0.id)
+					table.insert(uv0[slot10], slot5.id)
+				end
 			end
 		end
-	end
 
-	for iter_1_4, iter_1_5 in ipairs(var_0_1) do
-		table.sort(iter_1_5, var_0_0.RuleSort)
-	end
-end
-
-function var_0_0.GetIsHide(arg_2_0)
-	local var_2_0 = ComboSkillCfg[arg_2_0]
-
-	for iter_2_0, iter_2_1 in ipairs(var_2_0.cooperate_role_ids) do
-		if HeroTools.GetIsHide(iter_2_1) then
-			return true
+		for slot3, slot4 in ipairs(uv0) do
+			table.sort(slot4, uv1.RuleSort)
 		end
-	end
-
-	return false
-end
-
-function var_0_0.GetHeroComboSkill(arg_3_0)
-	if var_0_1 == nil then
-		var_0_0.InitComboList()
-	end
-
-	return var_0_1[arg_3_0]
-end
-
-function var_0_0.GetComboSkillLevel(arg_4_0)
-	local var_4_0 = ComboSkillCfg[arg_4_0]
-	local var_4_1 = GameSetting.hero_combo_skill_relate.value[1]
-	local var_4_2 = 0
-
-	for iter_4_0, iter_4_1 in ipairs(var_4_0.cooperate_role_ids) do
-		if HeroData:GetHeroList()[iter_4_1].unlock == 0 then
-			break
-		end
-
-		var_4_2 = var_4_2 + HeroTools.GetTotalSkillLv(iter_4_1, HeroCfg[iter_4_1].skills[var_4_1])
-	end
-
-	local var_4_3 = math.floor(var_4_2 / #var_4_0.cooperate_role_ids)
-
-	return var_4_3 > 0 and var_4_3 or 1
-end
-
-function var_0_0.GetMatrixComboSkillLevel(arg_5_0, arg_5_1)
-	local var_5_0 = ComboSkillCfg[arg_5_0]
-	local var_5_1 = GameSetting.hero_combo_skill_relate.value[1]
-	local var_5_2 = 0
-
-	for iter_5_0, iter_5_1 in ipairs(var_5_0.cooperate_role_ids) do
-		local var_5_3 = MatrixData:GetHeroData(iter_5_1)
-
-		var_5_2 = var_5_2 + HeroStandardSystemCfg[var_5_3:GetStandardId()].skill_lv
-	end
-
-	local var_5_4 = math.floor(var_5_2 / #var_5_0.cooperate_role_ids)
-
-	return var_5_4 > 0 and var_5_4 or 1
-end
-
-function var_0_0.GetComboSkillList(arg_6_0, arg_6_1)
-	local var_6_0 = {}
-	local var_6_1 = {}
-	local var_6_2 = {}
-
-	for iter_6_0, iter_6_1 in ipairs(arg_6_0) do
-		local var_6_3 = var_0_0.GetHeroComboSkill(iter_6_1) or {}
-
-		for iter_6_2, iter_6_3 in ipairs(var_6_3) do
-			if var_0_0.IsAllMatch(iter_6_3, arg_6_0) then
-				if not table.keyof(var_6_1, iter_6_3) then
-					table.insert(var_6_1, iter_6_3)
-				end
-			elseif arg_6_1 and not table.keyof(var_6_2, iter_6_3) then
-				table.insert(var_6_2, iter_6_3)
+	end,
+	GetIsHide = function (slot0)
+		for slot5, slot6 in ipairs(ComboSkillCfg[slot0].cooperate_role_ids) do
+			if HeroTools.GetIsHide(slot6) then
+				return true
 			end
 		end
-	end
 
-	table.sort(var_6_1, function(arg_7_0, arg_7_1)
-		if arg_7_0 == arg_7_1 then
-			return false
+		return false
+	end,
+	GetHeroComboSkill = function (slot0)
+		if uv0 == nil then
+			uv1.InitComboList()
 		end
 
-		local var_7_0 = #ComboSkillCfg[arg_7_0].cooperate_role_ids
-		local var_7_1 = #ComboSkillCfg[arg_7_1].cooperate_role_ids
+		return uv0[slot0]
+	end,
+	GetComboSkillLevel = function (slot0)
+		slot2 = GameSetting.hero_combo_skill_relate.value[1]
+		slot3 = 0
 
-		if var_7_0 == var_7_1 then
-			if table.keyof(ComboSkillCfg[arg_7_0].cooperate_role_ids, arg_6_0[1]) then
-				if table.keyof(ComboSkillCfg[arg_7_0].cooperate_role_ids, arg_6_0[2]) then
-					return true
+		for slot7, slot8 in ipairs(ComboSkillCfg[slot0].cooperate_role_ids) do
+			if HeroData:GetHeroList()[slot8].unlock == 0 then
+				break
+			end
+
+			slot3 = slot3 + HeroTools.GetTotalSkillLv(slot8, HeroCfg[slot8].skills[slot2])
+		end
+
+		return math.floor(slot3 / #slot1.cooperate_role_ids) > 0 and slot3 or 1
+	end,
+	GetMatrixComboSkillLevel = function (slot0, slot1)
+		slot3 = GameSetting.hero_combo_skill_relate.value[1]
+
+		for slot8, slot9 in ipairs(ComboSkillCfg[slot0].cooperate_role_ids) do
+			slot4 = 0 + HeroStandardSystemCfg[MatrixData:GetHeroData(slot9):GetStandardId()].skill_lv
+		end
+
+		return math.floor(slot4 / #slot2.cooperate_role_ids) > 0 and slot4 or 1
+	end,
+	GetComboSkillList = function (slot0, slot1)
+		slot2 = {}
+		slot3 = {}
+		slot4 = {}
+
+		for slot8, slot9 in ipairs(slot0) do
+			for slot14, slot15 in ipairs(uv0.GetHeroComboSkill(slot9) or {}) do
+				if uv0.IsAllMatch(slot15, slot0) then
+					if not table.keyof(slot3, slot15) then
+						table.insert(slot3, slot15)
+					end
+				elseif slot1 and not table.keyof(slot4, slot15) then
+					table.insert(slot4, slot15)
 				end
+			end
+		end
 
+		table.sort(slot3, function (slot0, slot1)
+			if slot0 == slot1 then
 				return false
-			else
+			end
+
+			if #ComboSkillCfg[slot0].cooperate_role_ids == #ComboSkillCfg[slot1].cooperate_role_ids then
+				if table.keyof(ComboSkillCfg[slot0].cooperate_role_ids, uv0[1]) then
+					if table.keyof(ComboSkillCfg[slot0].cooperate_role_ids, uv0[2]) then
+						return true
+					end
+
+					return false
+				else
+					return false
+				end
+			end
+
+			return slot3 < slot2
+		end)
+		table.insertto(slot2, slot3)
+		table.insertto(slot2, slot4)
+		table.insert(slot2, 0)
+
+		return slot2, slot3
+	end,
+	RuleSort = function (slot0, slot1)
+		return #ComboSkillCfg[slot0].cooperate_role_ids > #ComboSkillCfg[slot1].cooperate_role_ids
+	end,
+	IsAllMatch = function (slot0, slot1)
+		for slot6, slot7 in ipairs(ComboSkillCfg[slot0].cooperate_role_ids) do
+			if not table.keyof(slot1, slot7) then
 				return false
 			end
 		end
 
-		return var_7_1 < var_7_0
-	end)
-	table.insertto(var_6_0, var_6_1)
-	table.insertto(var_6_0, var_6_2)
-	table.insert(var_6_0, 0)
+		return true
+	end,
+	GetRecommendSkillID = function (slot0, slot1)
+		slot2, slot3 = uv0.GetComboSkillList(slot0, slot1)
 
-	return var_6_0, var_6_1
-end
-
-function var_0_0.RuleSort(arg_8_0, arg_8_1)
-	return #ComboSkillCfg[arg_8_0].cooperate_role_ids > #ComboSkillCfg[arg_8_1].cooperate_role_ids
-end
-
-function var_0_0.IsAllMatch(arg_9_0, arg_9_1)
-	local var_9_0 = ComboSkillCfg[arg_9_0]
-
-	for iter_9_0, iter_9_1 in ipairs(var_9_0.cooperate_role_ids) do
-		if not table.keyof(arg_9_1, iter_9_1) then
-			return false
+		return slot3[1] or 0
+	end,
+	CheckError = function (slot0, slot1, slot2)
+		if slot0 == 0 then
+			return 0
 		end
-	end
 
-	return true
-end
+		if not slot0 or not uv0.IsAllMatch(slot0, slot1) then
+			return uv0.GetRecommendSkillID(slot1, slot2)
+		end
 
-function var_0_0.GetRecommendSkillID(arg_10_0, arg_10_1)
-	local var_10_0, var_10_1 = var_0_0.GetComboSkillList(arg_10_0, arg_10_1)
+		return slot0
+	end,
+	GetMaxComboSkillLevel = function (slot0)
+		return 3
+	end,
+	CheckComboSkillUpContion = function (slot0, slot1)
+		slot2 = ComboSkillLevelCfg[slot0]
+		slot3 = slot2.target
 
-	return var_10_1[1] or 0
-end
+		if slot2.condition_type == 1 then
+			slot5 = nil
 
-function var_0_0.CheckError(arg_11_0, arg_11_1, arg_11_2)
-	if arg_11_0 == 0 then
-		return 0
-	end
+			for slot9, slot10 in ipairs(ComboSkillCfg[slot1].cooperate_role_ids) do
+				slot12 = HeroTools.GetTotalSkillLv(slot10, HeroCfg[slot10].skills[GameSetting.hero_combo_skill_relate.value[1]])
 
-	if not arg_11_0 or not var_0_0.IsAllMatch(arg_11_0, arg_11_1) then
-		return var_0_0.GetRecommendSkillID(arg_11_1, arg_11_2)
-	end
-
-	return arg_11_0
-end
-
-function var_0_0.GetMaxComboSkillLevel(arg_12_0)
-	return 3
-end
-
-function var_0_0.CheckComboSkillUpContion(arg_13_0, arg_13_1)
-	local var_13_0 = ComboSkillLevelCfg[arg_13_0]
-	local var_13_1 = var_13_0.target
-
-	if var_13_0.condition_type == 1 then
-		local var_13_2 = ComboSkillCfg[arg_13_1]
-		local var_13_3
-
-		for iter_13_0, iter_13_1 in ipairs(var_13_2.cooperate_role_ids) do
-			local var_13_4 = GameSetting.hero_combo_skill_relate.value[1]
-			local var_13_5 = HeroTools.GetTotalSkillLv(iter_13_1, HeroCfg[iter_13_1].skills[var_13_4])
-
-			if var_13_3 == nil or var_13_5 < var_13_3 then
-				var_13_3 = var_13_5
+				if slot5 == nil or slot12 < slot5 then
+					slot5 = slot12
+				end
 			end
+
+			return slot3 <= slot5, math.min(slot5, slot3), slot3
+		else
+			slot4 = ComboSkillData:GetComboSkillUpConditionProcess(slot1, slot0)
+
+			return slot3 <= slot4, math.min(slot4, slot3), slot3
 		end
-
-		return var_13_1 <= var_13_3, math.min(var_13_3, var_13_1), var_13_1
-	else
-		local var_13_6 = ComboSkillData:GetComboSkillUpConditionProcess(arg_13_1, arg_13_0)
-		local var_13_7 = math.min(var_13_6, var_13_1)
-
-		return var_13_1 <= var_13_6, var_13_7, var_13_1
 	end
-end
-
-return var_0_0
+}

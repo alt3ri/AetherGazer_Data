@@ -1,29 +1,28 @@
-local var_0_0 = class("WeaponServantHeadItem", ReduxView)
+slot0 = class("WeaponServantHeadItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.BuildContext(arg_2_0)
-	local var_2_0 = arg_2_0.gameObject_:GetComponent("ControllerExCollection")
-
-	arg_2_0.controller = {
-		comps = var_2_0,
+function slot0.BuildContext(slot0)
+	slot1 = slot0.gameObject_:GetComponent("ControllerExCollection")
+	slot0.controller = {
+		comps = slot1,
 		state = {
 			select = {
 				False = "false",
 				name = "select",
 				True = "true",
-				comps = var_2_0:GetController("select")
+				comps = slot1:GetController("select")
 			},
 			mask = {
 				False = "false",
 				name = "mask",
 				True = "true",
-				comps = var_2_0:GetController("mask")
+				comps = slot1:GetController("mask")
 			},
 			star = {
 				Star1 = "star1",
@@ -32,14 +31,14 @@ function var_0_0.BuildContext(arg_2_0)
 				Star5 = "star5",
 				Star3 = "star3",
 				Star2 = "star2",
-				comps = var_2_0:GetController("star")
+				comps = slot1:GetController("star")
 			}
 		}
 	}
-	arg_2_0.data = {
+	slot0.data = {
 		info = {}
 	}
-	arg_2_0.constVar = {
+	slot0.constVar = {
 		isShowLock = true,
 		lockImg = {
 			unlocked = "com_white_icon_26",
@@ -48,128 +47,117 @@ function var_0_0.BuildContext(arg_2_0)
 	}
 end
 
-function var_0_0.InitContext(arg_3_0)
-	arg_3_0.data.info = {}
+function slot0.InitContext(slot0)
+	slot0.data.info = {}
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:BindCfgUI()
-	arg_4_0:BuildContext()
-	arg_4_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:BuildContext()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.clickBtn_, nil, function()
-		if arg_5_0.data.clickCallback then
-			arg_5_0.data.clickCallback(arg_5_0)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.clickBtn_, nil, function ()
+		if uv0.data.clickCallback then
+			uv0.data.clickCallback(uv0)
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_8_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.RegistCallBack(arg_10_0, arg_10_1)
-	arg_10_0.data.clickCallback = arg_10_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.data.clickCallback = slot1
 end
 
-function var_0_0.OnRender(arg_11_0, arg_11_1)
-	arg_11_0:InitContext()
+function slot0.OnRender(slot0, slot1)
+	slot0:InitContext()
 
-	arg_11_0.data.info = arg_11_1
+	slot0.data.info = slot1
+	slot2 = slot1.id
+	slot0.roleIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Icon438x238/" .. slot2)
+	slot0.levelTxt_.text = slot1.number
+	slot4 = ItemCfg[slot2].rare
+	slot0.qualityImg_.sprite = getSprite("Atlas/Hero_servantAtlas", string.format("img_servantGrade_0%d", 6 - slot4))
 
-	local var_11_0 = arg_11_1.id
-	local var_11_1 = ItemCfg[var_11_0]
+	slot0:SwitchControllerState(slot0.controller.state.star.name, string.format("star%d", slot4))
 
-	arg_11_0.roleIconImg_.sprite = getSpriteWithoutAtlas("TextureConfig/WeaponServant/Icon438x238/" .. var_11_0)
-	arg_11_0.levelTxt_.text = arg_11_1.number
-
-	local var_11_2 = var_11_1.rare
-
-	arg_11_0.qualityImg_.sprite = getSprite("Atlas/Hero_servantAtlas", string.format("img_servantGrade_0%d", 6 - var_11_2))
-
-	arg_11_0:SwitchControllerState(arg_11_0.controller.state.star.name, string.format("star%d", var_11_2))
-
-	local var_11_3 = WeaponServantCfg[var_11_0].race
-
-	arg_11_0.servantGroupImg_.sprite = getSprite("Atlas/Item", string.format("icon_group_%d_c", var_11_3))
+	slot0.servantGroupImg_.sprite = getSprite("Atlas/Item", string.format("icon_group_%d_c", WeaponServantCfg[slot2].race))
 end
 
-function var_0_0.RenderEquipStatus(arg_12_0, arg_12_1, arg_12_2)
-	SetActive(arg_12_0.avatarObj_, arg_12_1 or false)
+function slot0.RenderEquipStatus(slot0, slot1, slot2)
+	SetActive(slot0.avatarObj_, slot1 or false)
 
-	if arg_12_1 then
-		arg_12_0.avatarIcon_.sprite = HeroTools.GetSmallHeadSprite(arg_12_2)
+	if slot1 then
+		slot0.avatarIcon_.sprite = HeroTools.GetSmallHeadSprite(slot2)
 	end
 end
 
-function var_0_0.ShowSelect(arg_13_0, arg_13_1)
-	local var_13_0 = arg_13_0.controller.state.select.False
+function slot0.ShowSelect(slot0, slot1)
+	slot2 = slot0.controller.state.select.False
 
-	if arg_13_1 then
-		var_13_0 = arg_13_0.controller.state.select.True
+	if slot1 then
+		slot2 = slot0.controller.state.select.True
 	end
 
-	arg_13_0:SwitchControllerState(arg_13_0.controller.state.select.name, var_13_0)
+	slot0:SwitchControllerState(slot0.controller.state.select.name, slot2)
 end
 
-function var_0_0.ShowMask(arg_14_0, arg_14_1)
-	local var_14_0 = arg_14_0.controller.state.mask.False
+function slot0.ShowMask(slot0, slot1)
+	slot2 = slot0.controller.state.mask.False
 
-	if arg_14_1 then
-		var_14_0 = arg_14_0.controller.state.mask.True
+	if slot1 then
+		slot2 = slot0.controller.state.mask.True
 	end
 
-	arg_14_0:SwitchControllerState(arg_14_0.controller.state.mask.name, var_14_0)
+	slot0:SwitchControllerState(slot0.controller.state.mask.name, slot2)
 end
 
-function var_0_0.ShowLock(arg_15_0, arg_15_1)
-	if arg_15_0.constVar.isShowLock then
-		SetActive(arg_15_0.lockRootObj_, arg_15_1)
+function slot0.ShowLock(slot0, slot1)
+	if slot0.constVar.isShowLock then
+		SetActive(slot0.lockRootObj_, slot1)
 	end
 end
 
-function var_0_0.ShowLockObj(arg_16_0, arg_16_1)
-	arg_16_0.constVar.isShowLock = arg_16_1
+function slot0.ShowLockObj(slot0, slot1)
+	slot0.constVar.isShowLock = slot1
 
-	SetActive(arg_16_0.lockRootObj_, arg_16_1 or false)
+	SetActive(slot0.lockRootObj_, slot1 or false)
 end
 
-function var_0_0.ShowRecommendTag(arg_17_0, arg_17_1)
-	SetActive(arg_17_0.recommendObj_, arg_17_1 or false)
+function slot0.ShowRecommendTag(slot0, slot1)
+	SetActive(slot0.recommendObj_, slot1 or false)
 end
 
-function var_0_0.GetItemUid(arg_18_0)
-	if arg_18_0.data.info then
-		return arg_18_0.data.info.uid
+function slot0.GetItemUid(slot0)
+	if slot0.data.info then
+		return slot0.data.info.uid
 	end
 
 	return 0
 end
 
-function var_0_0.GetIndex(arg_19_0)
-	if arg_19_0.data.info then
-		return arg_19_0.data.info.index
+function slot0.GetIndex(slot0)
+	if slot0.data.info then
+		return slot0.data.info.index
 	end
 
 	return nil
 end
 
-function var_0_0.SwitchControllerState(arg_20_0, arg_20_1, arg_20_2)
-	local var_20_0 = arg_20_0.controller.state[arg_20_1]
-
-	if var_20_0 then
-		var_20_0.comps:SetSelectedState(arg_20_2)
+function slot0.SwitchControllerState(slot0, slot1, slot2)
+	if slot0.controller.state[slot1] then
+		slot4.comps:SetSelectedState(slot2)
 	end
 end
 
-return var_0_0
+return slot0

@@ -1,110 +1,114 @@
-local var_0_0 = class("ExchangeEquipItem", ReduxView)
+slot0 = class("ExchangeEquipItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:Init()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.list1 = LuaList.New(handler(arg_3_0, arg_3_0.SetItem1), arg_3_0.listGo_, EquipExchangeItem)
+	slot0.list1 = LuaList.New(handler(slot0, slot0.SetItem1), slot0.listGo_, EquipExchangeItem)
 end
 
-function var_0_0.SetItem1(arg_4_0, arg_4_1, arg_4_2)
-	arg_4_2:SetData(arg_4_0.data[arg_4_1], arg_4_1, handler(arg_4_0, arg_4_0.ClickCallBack))
+function slot0.SetItem1(slot0, slot1, slot2)
+	slot2:SetData(slot0.data[slot1], slot1, handler(slot0, slot0.ClickCallBack))
 end
 
-function var_0_0.ClickCallBack(arg_5_0, arg_5_1, arg_5_2)
-	if arg_5_0.clickData ~= arg_5_1 then
-		arg_5_0.clickData = arg_5_1
+function slot0.ClickCallBack(slot0, slot1, slot2)
+	if slot0.clickData ~= slot1 then
+		slot0.clickData = slot1
 	else
-		arg_5_0.clickData = nil
+		slot0.clickData = nil
 	end
 
-	arg_5_0.callback(arg_5_0.index, arg_5_0.clickData)
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_5_0.transform_)
+	slot0.callback(slot0.index, slot0.clickData)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4, arg_6_5, arg_6_6)
-	arg_6_0.data = arg_6_1
-	arg_6_0.titleIndex = arg_6_2
-	arg_6_0.indexList = arg_6_3
-	arg_6_0.index = arg_6_4
-	arg_6_0.callback = arg_6_5
-	arg_6_0.loopScrollView = arg_6_6
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4, slot5, slot6)
+	slot0.data = slot1
+	slot0.titleIndex = slot2
+	slot0.indexList = slot3
+	slot0.index = slot4
+	slot0.callback = slot5
+	slot0.loopScrollView = slot6
 
-	arg_6_0:Show(true)
-	arg_6_0:UpdateView()
+	slot0:Show(true)
+	slot0:UpdateView()
 end
 
-function var_0_0.UpdateView(arg_7_0)
-	arg_7_0.list1:StartScrollWithoutAnimator(#arg_7_0.data)
+function slot0.UpdateView(slot0)
+	slot0.list1:StartScrollWithoutAnimator(#slot0.data)
 
-	arg_7_0.titleTxt_.text = ""
+	slot0.titleTxt_.text = ""
+	slot4 = false
 
-	SetActive(arg_7_0.titleGo_.gameObject, false)
+	SetActive(slot0.titleGo_.gameObject, slot4)
 
-	for iter_7_0, iter_7_1 in ipairs(arg_7_0.indexList) do
-		if arg_7_0.index == iter_7_1 then
-			SetActive(arg_7_0.titleGo_.gameObject, true)
+	for slot4, slot5 in ipairs(slot0.indexList) do
+		if slot0.index == slot5 then
+			SetActive(slot0.titleGo_.gameObject, true)
 
-			arg_7_0.titleTxt_.text = GetTips("SHOP_LABLE_3")
+			slot0.titleTxt_.text = GetTips("SHOP_LABLE_3")
 		end
 	end
 
-	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(arg_7_0.transform_)
+	UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.transform_)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0:UpdateView()
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
 end
 
-function var_0_0.OnExit(arg_9_0)
-	for iter_9_0, iter_9_1 in pairs(arg_9_0.list1:GetItemList()) do
-		iter_9_1:OnExit()
+function slot0.OnExit(slot0)
+	slot3 = slot0.list1
+	slot5 = slot3
+
+	for slot4, slot5 in pairs(slot3.GetItemList(slot5)) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_10_0)
-	arg_10_0.list1:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
-	Object.Destroy(arg_10_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0.list1:Dispose()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-function var_0_0.GetItemHeight(arg_11_0)
-	return arg_11_0.rectGo_.sizeDelta.y
+function slot0.GetItemHeight(slot0)
+	return slot0.rectGo_.sizeDelta.y
 end
 
-function var_0_0.SetAsLastSibling(arg_12_0)
-	arg_12_0.transform_:SetAsLastSibling()
+function slot0.SetAsLastSibling(slot0)
+	slot0.transform_:SetAsLastSibling()
 end
 
-function var_0_0.SetAsFirstSibling(arg_13_0)
-	arg_13_0.transform_:SetAsFirstSibling()
+function slot0.SetAsFirstSibling(slot0)
+	slot0.transform_:SetAsFirstSibling()
 end
 
-function var_0_0.GetIndex(arg_14_0)
-	return arg_14_0.index
+function slot0.GetIndex(slot0)
+	return slot0.index
 end
 
-function var_0_0.IsActive(arg_15_0)
+function slot0.IsActive(slot0)
 	return true
 end
 
-function var_0_0.IsTimeBar(arg_16_0)
+function slot0.IsTimeBar(slot0)
 	return false
 end
 
-function var_0_0.Show(arg_17_0, arg_17_1)
-	SetActive(arg_17_0.gameObject_, arg_17_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-return var_0_0
+return slot0

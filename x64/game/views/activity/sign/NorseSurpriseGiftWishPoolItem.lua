@@ -1,84 +1,81 @@
-local var_0_0 = class("NorseSurpriseGiftWishPoolItem", ReduxView)
+slot0 = class("NorseSurpriseGiftWishPoolItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateCtrl = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("state")
-	arg_3_0.magnigierCtrl = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("magnigier")
+	slot0.stateCtrl = slot0.transform_:GetComponent("ControllerExCollection"):GetController("state")
+	slot0.magnigierCtrl = slot0.transform_:GetComponent("ControllerExCollection"):GetController("magnigier")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.btnLook_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnLook_, nil, function ()
 		JumpTools.OpenPageByJump("/heroPreviewMain", {
 			isEnter = true,
-			hid = arg_4_0.heroId
+			hid = uv0.heroId
 		})
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.btn_add, nil, function()
+	slot0:AddBtnListener(slot0.btn_add, nil, function ()
 		JumpTools.OpenPageByJump("norseSurpriseGiftInStockPage")
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0:UpdateView(arg_7_1)
+function slot0.SetData(slot0, slot1)
+	slot0:UpdateView(slot1)
 end
 
-function var_0_0.SetDrawState(arg_8_0, arg_8_1)
-	for iter_8_0, iter_8_1 in ipairs(arg_8_1) do
-		if arg_8_0.heroId == iter_8_1 then
-			arg_8_0.stateCtrl:SetSelectedIndex(1)
-			arg_8_0.magnigierCtrl:SetSelectedIndex(0)
+function slot0.SetDrawState(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.heroId == slot6 then
+			slot0.stateCtrl:SetSelectedIndex(1)
+			slot0.magnigierCtrl:SetSelectedIndex(0)
 
 			break
 		end
 	end
 end
 
-function var_0_0.SetGetState(arg_9_0, arg_9_1)
-	if arg_9_1 and arg_9_0.heroId == arg_9_1 then
-		arg_9_0.stateCtrl:SetSelectedIndex(3)
-		arg_9_0.magnigierCtrl:SetSelectedIndex(0)
+function slot0.SetGetState(slot0, slot1)
+	if slot1 and slot0.heroId == slot1 then
+		slot0.stateCtrl:SetSelectedIndex(3)
+		slot0.magnigierCtrl:SetSelectedIndex(0)
 	end
 end
 
-function var_0_0.UpdateView(arg_10_0, arg_10_1)
-	arg_10_0.heroId = arg_10_1
+function slot0.UpdateView(slot0, slot1)
+	slot0.heroId = slot1
+	slot2 = HeroCfg[slot0.heroId]
+	slot3 = slot2.ATK_attribute[1]
+	slot0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. slot0.heroId)
+	slot0.atkImg_.sprite = HeroTools.GetHeroSkillAttributeIcon(slot0.heroId)
+	slot0.raceImg_.sprite = HeroTools.GetHeroRaceIcon(slot0.heroId)
+	slot0.suffixTxt_.text = GetI18NText(slot2.suffix)
+	slot0.nameTxt_.text = GetI18NText(slot2.name)
 
-	local var_10_0 = HeroCfg[arg_10_0.heroId]
-	local var_10_1 = var_10_0.ATK_attribute[1]
-
-	arg_10_0.icon_.sprite = getSpriteWithoutAtlas("TextureConfig/Character/Icon/" .. arg_10_0.heroId)
-	arg_10_0.atkImg_.sprite = HeroTools.GetHeroSkillAttributeIcon(arg_10_0.heroId)
-	arg_10_0.raceImg_.sprite = HeroTools.GetHeroRaceIcon(arg_10_0.heroId)
-	arg_10_0.suffixTxt_.text = GetI18NText(var_10_0.suffix)
-	arg_10_0.nameTxt_.text = GetI18NText(var_10_0.name)
-
-	arg_10_0.stateCtrl:SetSelectedIndex(0)
-	arg_10_0.magnigierCtrl:SetSelectedIndex(0)
+	slot0.stateCtrl:SetSelectedIndex(0)
+	slot0.magnigierCtrl:SetSelectedIndex(0)
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_12_0)
-	var_0_0.super.OnExit(arg_12_0)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

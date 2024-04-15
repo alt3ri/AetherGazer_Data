@@ -1,49 +1,49 @@
-local var_0_0 = class("MythicFinalRankHeroView", ReduxView)
+slot0 = class("MythicFinalRankHeroView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Mythic/MythicRankHeroPopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.bgbtn_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.bgbtn_, nil, function ()
 		JumpTools.Back()
 	end)
 end
 
-function var_0_0.InitUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.list_ = LuaList.New(handler(arg_6_0, arg_6_0.IndexItem), arg_6_0.listgo_, MythicFinalRankHeroItem)
+	slot0.list_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.listgo_, MythicFinalRankHeroItem)
 end
 
-function var_0_0.IndexItem(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_2:SetData(arg_7_1, arg_7_0.params_.herolist[arg_7_1], arg_7_0.userID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot1, slot0.params_.herolist[slot1], slot0.userID_)
 end
 
-function var_0_0.OnEnter(arg_8_0)
-	arg_8_0.userID_ = arg_8_0.params_.userID
-	arg_8_0.nametext_.text = GetI18NText(arg_8_0.params_.name)
+function slot0.OnEnter(slot0)
+	slot0.userID_ = slot0.params_.userID
+	slot0.nametext_.text = GetI18NText(slot0.params_.name)
 
-	arg_8_0.list_:StartScroll(#arg_8_0.params_.herolist)
+	slot0.list_:StartScroll(#slot0.params_.herolist)
 end
 
-function var_0_0.Dispose(arg_9_0)
-	if arg_9_0.list_ then
-		arg_9_0.list_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list_ then
+		slot0.list_:Dispose()
 
-		arg_9_0.list_ = nil
+		slot0.list_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_9_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

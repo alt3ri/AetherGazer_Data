@@ -1,51 +1,51 @@
-local var_0_0 = class("IlluEnemyFilesItem", ReduxView)
+slot0 = class("IlluEnemyFilesItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.controller_ = ControllerUtil.GetController(arg_3_0.gameObject_.transform, "conName")
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_0.RefreshUI(arg_4_0, arg_4_1)
-	arg_4_0.ID_ = arg_4_1.id
-	arg_4_0.nameText_.text = GetI18NText(arg_4_1.name)
-	arg_4_0.have_ = IllustratedData:GetEnemyInfo()[arg_4_0.ID_]
+function slot0.RefreshUI(slot0, slot1)
+	slot0.ID_ = slot1.id
+	slot0.nameText_.text = GetI18NText(slot1.name)
+	slot0.have_ = IllustratedData:GetEnemyInfo()[slot0.ID_]
 
-	if arg_4_0.have_ then
-		arg_4_0.controller_:SetSelectedState("1")
+	if slot0.have_ then
+		slot0.controller_:SetSelectedState("1")
 
-		arg_4_0.isView_ = IllustratedData:GetIsView(arg_4_0.ID_, CollectConst.ENEMY)
+		slot0.isView_ = IllustratedData:GetIsView(slot0.ID_, CollectConst.ENEMY)
 
-		manager.redPoint:SetRedPointIndependent(arg_4_0.transform_, arg_4_0.isView_ == 0)
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, slot0.isView_ == 0)
 	else
-		arg_4_0.controller_:SetSelectedState("0")
-		manager.redPoint:SetRedPointIndependent(arg_4_0.transform_, false)
+		slot0.controller_:SetSelectedState("0")
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 	end
 
-	arg_4_0.iconImg_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/IllustratedHandbook/boss/%s", arg_4_1.id))
+	slot0.iconImg_.sprite = getSpriteWithoutAtlas(string.format("TextureConfig/IllustratedHandbook/boss/%s", slot1.id))
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.itemBtn_, nil, function()
-		if arg_5_0.have_ then
-			if arg_5_0.isView_ == 0 then
-				IllustratedAction.ViewIllustration(arg_5_0.ID_, CollectConst.ENEMY)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.itemBtn_, nil, function ()
+		if uv0.have_ then
+			if uv0.isView_ == 0 then
+				IllustratedAction.ViewIllustration(uv0.ID_, CollectConst.ENEMY)
 			end
 
-			arg_5_0:Go("/illuEnemyFileDetail", {
-				id = arg_5_0.ID_
+			uv0:Go("/illuEnemyFileDetail", {
+				id = uv0.ID_
 			})
 		else
 			ShowTips("COLLECT_MANSTER_INFO_UNLOCK_FAILED")
@@ -53,8 +53,8 @@ function var_0_0.AddUIListener(arg_5_0)
 	end)
 end
 
-function var_0_0.Dispose(arg_7_0)
-	var_0_0.super.Dispose(arg_7_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

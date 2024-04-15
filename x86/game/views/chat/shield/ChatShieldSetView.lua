@@ -1,117 +1,113 @@
-local var_0_0 = class("ChatShieldSetView", ReduxView)
+slot0 = class("ChatShieldSetView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Chat/ChatShieldSetUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.OnCtor(arg_3_0)
-	arg_3_0:CreateSelector()
+function slot0.OnCtor(slot0)
+	slot0:CreateSelector()
 end
 
-function var_0_0.Init(arg_4_0)
-	arg_4_0:InitUI()
-	arg_4_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddListeners()
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.wordItems_ = {}
-	arg_5_0.shieldSetModel_ = arg_5_0.selector_.compute(gameStore.getState())
+function slot0.OnEnter(slot0)
+	slot0.wordItems_ = {}
+	slot0.shieldSetModel_ = slot0.selector_.compute(gameStore.getState())
 
-	arg_5_0:RefreshItem(arg_5_0.shieldSetModel_.wordCnt)
+	slot0:RefreshItem(slot0.shieldSetModel_.wordCnt)
 
-	arg_5_0.unsubscribeFun = gameStore.subscribe(function(arg_6_0)
-		arg_5_0:OnSubscribe()
+	slot0.unsubscribeFun = gameStore.subscribe(function (slot0)
+		uv0:OnSubscribe()
 	end)
 end
 
-function var_0_0.OnExit(arg_7_0)
-	arg_7_0:RemoveAllItems()
-	arg_7_0.unsubscribeFun()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllItems()
+	slot0.unsubscribeFun()
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:RemoveListeners()
-	arg_8_0:RemoveAllItems()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveListeners()
+	slot0:RemoveAllItems()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitUI(arg_9_0)
-	arg_9_0.closeBtn_ = arg_9_0:FindCom(typeof(Button), "closeBtn")
-	arg_9_0.addBtn_ = arg_9_0:FindCom(typeof(Button), "addBtn")
-	arg_9_0.inputField_ = arg_9_0:FindCom("InputField", "InputField")
+function slot0.InitUI(slot0)
+	slot0.closeBtn_ = slot0:FindCom(typeof(Button), "closeBtn")
+	slot0.addBtn_ = slot0:FindCom(typeof(Button), "addBtn")
+	slot0.inputField_ = slot0:FindCom("InputField", "InputField")
 end
 
-function var_0_0.AddListeners(arg_10_0)
-	arg_10_0:AddBtnListener(arg_10_0.closeBtn_, nil, function()
-		arg_10_0:Back()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		uv0:Back()
 	end)
-	arg_10_0:AddBtnListener(arg_10_0.addBtn_, nil, function()
-		local var_12_0 = arg_10_0.inputField_.text
-
-		if var_12_0 == "" then
+	slot0:AddBtnListener(slot0.addBtn_, nil, function ()
+		if uv0.inputField_.text == "" then
 			return ShowTips("INPUT_CHAT_CONTENT")
 		end
 
-		ActionCreators.AddShieldWord(var_12_0):next(function(arg_13_0)
-			if arg_13_0.result == 0 then
-				ActionCreators.AddShieldWordSuccess(var_12_0)
+		ActionCreators.AddShieldWord(slot0):next(function (slot0)
+			if slot0.result == 0 then
+				ActionCreators.AddShieldWordSuccess(uv0)
 			else
-				ShowTips(arg_13_0.result)
+				ShowTips(slot0.result)
 			end
-		end, function(arg_14_0)
-			print(arg_14_0)
+		end, function (slot0)
+			print(slot0)
 		end)
 	end)
 end
 
-function var_0_0.RemoveListeners(arg_15_0)
-	arg_15_0.closeBtn_.onClick:RemoveAllListeners()
-	arg_15_0.addBtn_.onClick:RemoveAllListeners()
+function slot0.RemoveListeners(slot0)
+	slot0.closeBtn_.onClick:RemoveAllListeners()
+	slot0.addBtn_.onClick:RemoveAllListeners()
 end
 
-function var_0_0.CreateSelector(arg_16_0)
-	arg_16_0.selector_ = createStructuredSelector({
-		wordCnt = function(arg_17_0)
-			return #arg_17_0.chat.shieldWordList
+function slot0.CreateSelector(slot0)
+	slot0.selector_ = createStructuredSelector({
+		wordCnt = function (slot0)
+			return #slot0.chat.shieldWordList
 		end
 	})
 end
 
-function var_0_0.OnSubscribe(arg_18_0)
-	local var_18_0 = arg_18_0.selector_.compute(gameStore.getState())
+function slot0.OnSubscribe(slot0)
+	if slot0.selector_.compute(gameStore.getState()).wordCnt ~= slot0.shieldSetModel_.wordCnt then
+		slot0:RefreshItem(slot1.wordCnt)
 
-	if var_18_0.wordCnt ~= arg_18_0.shieldSetModel_.wordCnt then
-		arg_18_0:RefreshItem(var_18_0.wordCnt)
-
-		arg_18_0.shieldSetModel_.wordCnt = var_18_0.wordCnt
+		slot0.shieldSetModel_.wordCnt = slot1.wordCnt
 	end
 end
 
-function var_0_0.RefreshItem(arg_19_0, arg_19_1)
-	for iter_19_0 = #arg_19_0.wordItems_, arg_19_1 + 1, -1 do
-		arg_19_0.wordItems_[iter_19_0]:OnExit()
-		arg_19_0.wordItems_[iter_19_0]:Dispose()
-		table.remove(arg_19_0.wordItems_, iter_19_0)
+function slot0.RefreshItem(slot0, slot1)
+	for slot5 = #slot0.wordItems_, slot1 + 1, -1 do
+		slot0.wordItems_[slot5]:OnExit()
+		slot0.wordItems_[slot5]:Dispose()
+		table.remove(slot0.wordItems_, slot5)
 	end
 
-	for iter_19_1 = #arg_19_0.wordItems_ + 1, arg_19_1 do
-		local var_19_0 = ChatShieldItemView.New(arg_19_0.gameObject_, iter_19_1)
+	for slot5 = #slot0.wordItems_ + 1, slot1 do
+		slot6 = ChatShieldItemView.New(slot0.gameObject_, slot5)
 
-		var_19_0:OnEnter()
-		table.insert(arg_19_0.wordItems_, var_19_0)
-	end
-end
-
-function var_0_0.RemoveAllItems(arg_20_0)
-	for iter_20_0 = #arg_20_0.wordItems_, 1, -1 do
-		arg_20_0.wordItems_[iter_20_0]:OnExit()
-		arg_20_0.wordItems_[iter_20_0]:Dispose()
-		table.remove(arg_20_0.wordItems_, iter_20_0)
+		slot6:OnEnter()
+		table.insert(slot0.wordItems_, slot6)
 	end
 end
 
-return var_0_0
+function slot0.RemoveAllItems(slot0)
+	for slot4 = #slot0.wordItems_, 1, -1 do
+		slot0.wordItems_[slot4]:OnExit()
+		slot0.wordItems_[slot4]:Dispose()
+		table.remove(slot0.wordItems_, slot4)
+	end
+end
+
+return slot0

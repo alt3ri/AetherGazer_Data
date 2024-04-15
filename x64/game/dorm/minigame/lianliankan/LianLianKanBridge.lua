@@ -1,32 +1,25 @@
-local var_0_0 = {}
+return {
+	Enter = function (slot0)
+		manager.ui:SetMainCamera("lianliankan")
+		manager.windowBar:SetWhereTag("lianliankan")
 
-function var_0_0.Enter(arg_1_0)
-	manager.ui:SetMainCamera("lianliankan")
-	manager.windowBar:SetWhereTag("lianliankan")
+		slot1 = DormLinkGameData:GetCurLevelID()
 
-	local var_1_0 = DormLinkGameData:GetCurLevelID()
+		LianLianKanGameManager.GetInstance():Init(slot1)
 
-	LianLianKanGameManager.GetInstance():Init(var_1_0)
+		if slot1 then
+			DormLinkGameData:InitCustomerInfo()
+			gameContext:Go("/dormLinkGamePlayView")
+		end
 
-	if var_1_0 then
-		DormLinkGameData:InitCustomerInfo()
-		gameContext:Go("/dormLinkGamePlayView")
+		uv0:UpSetCameraFOV()
+	end,
+	UpSetCameraFOV = function (slot0)
+		slot2 = CameraCfg.lianliankan.fieldOfView
+		manager.ui.mainCameraCom_.fieldOfView = math.max(1.7777777777777777 / (Screen.width / Screen.height) * slot2, slot2)
+	end,
+	Exit = function (slot0)
+		LianLianKanGameManager.GetInstance():Reset()
+		DormLinkGameData:DisposeGameInfo()
 	end
-
-	var_0_0:UpSetCameraFOV()
-end
-
-function var_0_0.UpSetCameraFOV(arg_2_0)
-	local var_2_0 = 1.7777777777777777 / (Screen.width / Screen.height)
-	local var_2_1 = CameraCfg.lianliankan.fieldOfView
-	local var_2_2 = math.max(var_2_0 * var_2_1, var_2_1)
-
-	manager.ui.mainCameraCom_.fieldOfView = var_2_2
-end
-
-function var_0_0.Exit(arg_3_0)
-	LianLianKanGameManager.GetInstance():Reset()
-	DormLinkGameData:DisposeGameInfo()
-end
-
-return var_0_0
+}

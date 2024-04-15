@@ -1,126 +1,115 @@
-local var_0_0 = singletonClass("ParkourData")
-local var_0_1 = {}
-local var_0_2 = {}
-local var_0_3 = {}
-local var_0_4 = {}
+slot0 = singletonClass("ParkourData")
+slot1 = {}
+slot2 = {}
+slot3 = {}
+slot4 = {}
 
-function var_0_0.Init(arg_1_0)
-	var_0_1 = {}
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_4 = {}
+function slot0.Init(slot0)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = {}
 end
 
-function var_0_0.InitParkourCollectData(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function slot0.InitParkourCollectData(slot0, slot1)
+	slot2 = {}
 
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.item_list) do
-		table.insert(var_2_0, iter_2_1)
+	for slot6, slot7 in ipairs(slot1.item_list) do
+		table.insert(slot2, slot7)
 	end
 
-	var_0_1[arg_2_1.activity_id] = var_2_0
+	uv0[slot1.activity_id] = slot2
 end
 
-function var_0_0.InitParkourData(arg_3_0, arg_3_1)
-	local var_3_0 = {}
-
-	for iter_3_0, iter_3_1 in ipairs(arg_3_1.achieve_star) do
-		table.insert(var_3_0, iter_3_1)
+function slot0.InitParkourData(slot0, slot1)
+	for slot6, slot7 in ipairs(slot1.achieve_star) do
+		table.insert({}, slot7)
 	end
 
-	local var_3_1 = {}
+	slot3 = {}
 
-	for iter_3_2, iter_3_3 in ipairs(arg_3_1.achieve_star_reward) do
-		table.insert(var_3_1, iter_3_3)
+	for slot7, slot8 in ipairs(slot1.achieve_star_reward) do
+		table.insert(slot3, slot8)
 	end
 
-	var_0_2[arg_3_1.activity_id] = {
-		stars = var_3_0,
-		rewards = var_3_1
+	uv0[slot1.activity_id] = {
+		stars = slot2,
+		rewards = slot3
 	}
 end
 
-function var_0_0.GetParkourEntrustData(arg_4_0, arg_4_1)
-	return var_0_2[arg_4_1]
+function slot0.GetParkourEntrustData(slot0, slot1)
+	return uv0[slot1]
 end
 
-function var_0_0.GetParkCollect(arg_5_0, arg_5_1)
-	return var_0_1[arg_5_1] or {}
+function slot0.GetParkCollect(slot0, slot1)
+	return uv0[slot1] or {}
 end
 
-function var_0_0.SetParkourEntrustReward(arg_6_0, arg_6_1, arg_6_2)
-	local var_6_0 = var_0_2[arg_6_1]
-
-	if var_6_0 then
-		table.insert(var_6_0.rewards, arg_6_2)
+function slot0.SetParkourEntrustReward(slot0, slot1, slot2)
+	if uv0[slot1] then
+		table.insert(slot3.rewards, slot2)
 	end
 end
 
-function var_0_0.GetParkourStarState(arg_7_0, arg_7_1, arg_7_2)
-	if var_0_2[arg_7_1] then
-		return not not table.indexof(var_0_2[arg_7_1].stars, arg_7_2)
+function slot0.GetParkourStarState(slot0, slot1, slot2)
+	if uv0[slot1] then
+		return not not table.indexof(uv0[slot1].stars, slot2)
 	end
 
 	return false
 end
 
-function var_0_0.GetParkourCollectList(arg_8_0)
-	return var_0_1
+function slot0.GetParkourCollectList(slot0)
+	return uv0
 end
 
-function var_0_0.GetStarCount(arg_9_0, arg_9_1)
-	local var_9_0 = var_0_2[arg_9_1]
-
-	if var_9_0 then
-		if table.indexof(var_9_0.stars, 4) then
-			return #var_9_0.stars - 1
+function slot0.GetStarCount(slot0, slot1)
+	if uv0[slot1] then
+		if table.indexof(slot2.stars, 4) then
+			return #slot2.stars - 1
 		else
-			return #var_9_0.stars
+			return #slot2.stars
 		end
 	end
 
 	return 0
 end
 
-function var_0_0.GetAllStarCount(arg_10_0, arg_10_1)
-	local var_10_0 = var_0_2[arg_10_1]
-
-	if var_10_0 then
-		return #var_10_0.stars
+function slot0.GetAllStarCount(slot0, slot1)
+	if uv0[slot1] then
+		return #slot2.stars
 	end
 
 	return 0
 end
 
-function var_0_0.SetRead(arg_11_0, arg_11_1)
-	table.insert(var_0_3, arg_11_1)
+function slot0.SetRead(slot0, slot1)
+	table.insert(uv0, slot1)
 end
 
-function var_0_0.GetRead(arg_12_0, arg_12_1)
-	return table.indexof(var_0_3, arg_12_1)
+function slot0.GetRead(slot0, slot1)
+	return table.indexof(uv0, slot1)
 end
 
-function var_0_0.GetCollectRedList(arg_13_0, arg_13_1)
-	if not var_0_4[arg_13_1] then
-		var_0_4[arg_13_1] = getData("Parkour", tostring(arg_13_1))
+function slot0.GetCollectRedList(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = getData("Parkour", tostring(slot1))
 	end
 
-	if type(var_0_4[arg_13_1]) ~= "table" then
-		var_0_4[arg_13_1] = {}
+	if type(uv0[slot1]) ~= "table" then
+		uv0[slot1] = {}
 	end
 
-	return var_0_4[arg_13_1]
+	return uv0[slot1]
 end
 
-function var_0_0.SetParkourCollectRedPoint(arg_14_0, arg_14_1, arg_14_2)
-	local var_14_0 = arg_14_0:GetCollectRedList(arg_14_1)
-	local var_14_1 = table.indexof(var_14_0, arg_14_2)
-
-	if var_14_1 then
-		table.remove(var_14_0, var_14_1)
-		saveData("Parkour", tostring(arg_14_1), var_14_0)
-		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, arg_14_1), #var_14_0 > 0 and 1 or 0)
+function slot0.SetParkourCollectRedPoint(slot0, slot1, slot2)
+	if table.indexof(slot0:GetCollectRedList(slot1), slot2) then
+		table.remove(slot3, slot4)
+		saveData("Parkour", tostring(slot1), slot3)
+		manager.redPoint:setTip(string.format("%s_%s", RedPointConst.PARKOUR_COLLECT, slot1), #slot3 > 0 and 1 or 0)
 	end
 end
 
-return var_0_0
+return slot0

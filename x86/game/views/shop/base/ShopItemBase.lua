@@ -1,197 +1,185 @@
-local var_0_0 = class("ShopItemBase", ReduxView)
+slot0 = class("ShopItemBase", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(nil, nil, "OnClick")
-	arg_3_0:AddBtnListener(arg_3_0.tipsBtn_, nil, function()
-		if ItemCfg[arg_3_0.itemCfg.id].type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, , "OnClick")
+	slot0:AddBtnListener(slot0.tipsBtn_, nil, function ()
+		if ItemCfg[uv0.itemCfg.id].type == ItemConst.ITEM_TYPE.WEAPON_SERVANT then
 			JumpTools.OpenPageByJump("/showServantView", {
 				state = "onlydetail",
-				id = arg_3_0.itemCfg.id
+				id = uv0.itemCfg.id
 			})
 		else
 			ShowPopItem(POP_SOURCE_ITEM, {
-				arg_3_0.itemCfg.id
+				uv0.itemCfg.id
 			})
 		end
 	end)
 end
 
-function var_0_0.SetPriceText(arg_5_0, arg_5_1)
-	if arg_5_1 == nil then
-		arg_5_1 = arg_5_0.goodID
+function slot0.SetPriceText(slot0, slot1)
+	if slot1 == nil then
+		slot1 = slot0.goodID
 	end
 
-	local var_5_0, var_5_1, var_5_2 = ShopTools.GetPrice(arg_5_0.goodID)
-
-	arg_5_0.priceText_.text = var_5_0
+	slot0.priceText_.text, slot3, slot4 = ShopTools.GetPrice(slot0.goodID)
 end
 
-function var_0_0.UpdatePrice(arg_6_0, arg_6_1)
-	local var_6_0 = getShopCfg(arg_6_1)
-	local var_6_1 = ShopListCfg[arg_6_0.shopID]
-	local var_6_2, var_6_3, var_6_4 = ShopTools.GetPrice(arg_6_1)
+function slot0.UpdatePrice(slot0, slot1)
+	slot2 = getShopCfg(slot1)
+	slot4, slot0.oldPriceLabel_.text, slot6 = ShopTools.GetPrice(slot1)
 
-	if var_6_1.system == "1" and arg_6_0.oldPriceLabel_ then
-		SetActive(arg_6_0.oldPriceLabel_.gameObject, true)
-
-		arg_6_0.oldPriceLabel_.text = var_6_3
-	elseif arg_6_0.oldPriceLabel_ then
-		SetActive(arg_6_0.oldPriceLabel_.gameObject, false)
+	if ShopListCfg[slot0.shopID].system == "1" and slot0.oldPriceLabel_ then
+		SetActive(slot0.oldPriceLabel_.gameObject, true)
+	elseif slot0.oldPriceLabel_ then
+		SetActive(slot0.oldPriceLabel_.gameObject, false)
 	end
 
-	arg_6_0.moneyTxt_.text = ShopTools.GetMoneySymbol(arg_6_1)
+	slot0.moneyTxt_.text = ShopTools.GetMoneySymbol(slot1)
 
-	if var_6_2 <= 0 then
-		arg_6_0.costTypeController_:SetSelectedState("free")
+	if slot4 <= 0 then
+		slot0.costTypeController_:SetSelectedState("free")
 	else
-		if ShopTools.IsRMB(arg_6_1) then
-			arg_6_0.priceText_.text = var_6_2
+		if ShopTools.IsRMB(slot1) then
+			slot0.priceText_.text = slot4
 		else
-			arg_6_0:SetCostIcon()
-			arg_6_0:SetPriceText(arg_6_1)
+			slot0:SetCostIcon()
+			slot0:SetPriceText(slot1)
 		end
 
-		if arg_6_0.isDiscountController_ then
-			arg_6_0.isDiscountController_:SetSelectedState(arg_6_0:IsOnDiscountArea(arg_6_1) and "true" or "false")
+		if slot0.isDiscountController_ then
+			slot0.isDiscountController_:SetSelectedState(slot0:IsOnDiscountArea(slot1) and "true" or "false")
 		end
 
-		arg_6_0.costTypeController_:SetSelectedState(ShopTools.IsRMB(arg_6_1) and "money" or "currency")
+		slot0.costTypeController_:SetSelectedState(ShopTools.IsRMB(slot1) and "money" or "currency")
 	end
 
-	if var_6_0.tag == ShopConst.TAGS.NEW then
-		arg_6_0.tipController_:SetSelectedState(arg_6_0:IsOnDiscountArea(arg_6_1) and "discount" or "none")
+	if slot2.tag == ShopConst.TAGS.NEW then
+		slot0.tipController_:SetSelectedState(slot0:IsOnDiscountArea(slot1) and "discount" or "none")
 	end
 
-	if ShopTools.IsRMB(arg_6_1) and ShopTools.IsPC() then
-		arg_6_0.priceText_.text = GetTips("PC_SHOP_TIPS3")
-		arg_6_0.moneyTxt_.text = ""
+	if ShopTools.IsRMB(slot1) and ShopTools.IsPC() then
+		slot0.priceText_.text = GetTips("PC_SHOP_TIPS3")
+		slot0.moneyTxt_.text = ""
 	end
 end
 
-function var_0_0.IsOnDiscountArea(arg_7_0, arg_7_1)
-	return ShopTools.IsOnDiscountArea(arg_7_1)
+function slot0.IsOnDiscountArea(slot0, slot1)
+	return ShopTools.IsOnDiscountArea(slot1)
 end
 
-function var_0_0.SetCostIcon(arg_8_0)
-	local var_8_0 = arg_8_0.shopCfg.cost_id
-
-	if var_8_0 == 0 then
-		var_8_0 = arg_8_0.shopCfg.cheap_cost_id
+function slot0.SetCostIcon(slot0)
+	if slot0.shopCfg.cost_id == 0 then
+		slot1 = slot0.shopCfg.cheap_cost_id
 	end
 
-	arg_8_0.costIcon_.sprite = ItemTools.getItemLittleSprite(var_8_0)
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(slot1)
 end
 
-function var_0_0.SetCommonItem(arg_9_0)
-	CommonTools.SetCommonData(arg_9_0.commonItem_, {
-		id = arg_9_0.itemCfg.id
-	}, arg_9_0.commonData)
+function slot0.SetCommonItem(slot0)
+	CommonTools.SetCommonData(slot0.commonItem_, {
+		id = slot0.itemCfg.id
+	}, slot0.commonData)
 end
 
-function var_0_0.SetData(arg_10_0, arg_10_1)
-	arg_10_0.data = arg_10_1
-	arg_10_0.shopCfg = getShopCfg(arg_10_1.id)
-	arg_10_0.goodID = arg_10_1.id
-	arg_10_0.dlcID = arg_10_0.shopCfg.dlc or nil
-	arg_10_0.haveDlc = arg_10_0.dlcID ~= nil and arg_10_0.dlcID ~= 0
-	arg_10_0.isExchange = arg_10_0.shopCfg.shop_refresh == 2
-	arg_10_0.shopID = arg_10_0.shopCfg.shop_id
+function slot0.SetData(slot0, slot1)
+	slot0.data = slot1
+	slot0.shopCfg = getShopCfg(slot1.id)
+	slot0.goodID = slot1.id
+	slot0.dlcID = slot0.shopCfg.dlc or nil
+	slot0.haveDlc = slot0.dlcID ~= nil and slot0.dlcID ~= 0
+	slot0.isExchange = slot0.shopCfg.shop_refresh == 2
+	slot0.shopID = slot0.shopCfg.shop_id
+	slot2 = nil
 
-	local var_10_0
-
-	if arg_10_0.shopCfg.description then
-		arg_10_0.isDesc = true
-		arg_10_0.itemCfg = RechargeShopDescriptionCfg[arg_10_0.shopCfg.description]
-		var_10_0 = arg_10_0.itemCfg.param[1]
+	if slot0.shopCfg.description then
+		slot0.isDesc = true
+		slot0.itemCfg = RechargeShopDescriptionCfg[slot0.shopCfg.description]
+		slot2 = slot0.itemCfg.param[1]
 	else
-		arg_10_0.isDesc = false
-		arg_10_0.itemCfg = ItemCfg[arg_10_0.shopCfg.give_id]
+		slot0.isDesc = false
+		slot0.itemCfg = ItemCfg[slot0.shopCfg.give_id]
 	end
 
-	if var_10_0 and SkinCfg[var_10_0] then
-		arg_10_0.skinCfg = SkinCfg[var_10_0]
-		arg_10_0.skinID = var_10_0
-		arg_10_0.heroCfg = HeroCfg[arg_10_0.skinCfg.hero]
+	if slot2 and SkinCfg[slot2] then
+		slot0.skinCfg = SkinCfg[slot2]
+		slot0.skinID = slot2
+		slot0.heroCfg = HeroCfg[slot0.skinCfg.hero]
 	end
 
-	if arg_10_0.haveDlc then
-		arg_10_0.shopDlcCfg = getShopCfg(arg_10_0.dlcID)
-		arg_10_0.itemDlcCfg = RechargeShopDescriptionCfg[arg_10_0.shopDlcCfg.description]
+	if slot0.haveDlc then
+		slot0.shopDlcCfg = getShopCfg(slot0.dlcID)
+		slot0.itemDlcCfg = RechargeShopDescriptionCfg[slot0.shopDlcCfg.description]
 
-		if arg_10_0.itemDlcCfg == nil then
-			arg_10_0.itemDlcCfg = ItemCfg[getShopCfg(arg_10_0.dlcID).give_id]
+		if slot0.itemDlcCfg == nil then
+			slot0.itemDlcCfg = ItemCfg[getShopCfg(slot0.dlcID).give_id]
 		end
 
-		arg_10_0.canBuyDlc = ShopConst.SHOP_ID.DLC_SHOP == arg_10_0.shopDlcCfg.shop_id
+		slot0.canBuyDlc = ShopConst.SHOP_ID.DLC_SHOP == slot0.shopDlcCfg.shop_id
 	end
 
-	arg_10_0.buyTime = ShopData.GetShop(arg_10_0.shopID)[arg_10_0.goodID] ~= nil and ShopData.GetShop(arg_10_0.shopID)[arg_10_0.goodID].buy_times or 0
-	arg_10_0.restNum = arg_10_0.shopCfg.limit_num - arg_10_0.buyTime
+	slot0.buyTime = ShopData.GetShop(slot0.shopID)[slot0.goodID] ~= nil and ShopData.GetShop(slot0.shopID)[slot0.goodID].buy_times or 0
+	slot0.restNum = slot0.shopCfg.limit_num - slot0.buyTime
 
-	arg_10_0:UpdateView()
-	arg_10_0:UpdateTimerView()
+	slot0:UpdateView()
+	slot0:UpdateTimerView()
 end
 
-function var_0_0.UpdateView(arg_11_0)
-	return
+function slot0.UpdateView(slot0)
 end
 
-function var_0_0.UpdateTimerView(arg_12_0)
-	return
+function slot0.UpdateTimerView(slot0)
 end
 
-function var_0_0.GetItemInfo(arg_13_0)
-	return arg_13_0.data
+function slot0.GetItemInfo(slot0)
+	return slot0.data
 end
 
-function var_0_0.RegistCallBack(arg_14_0, arg_14_1)
-	arg_14_0.callBack = arg_14_1
+function slot0.RegistCallBack(slot0, slot1)
+	slot0.callBack = slot1
 end
 
-function var_0_0.ClickFunction(arg_15_0)
-	if ItemCfg[arg_15_0.shopCfg.give_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
-		if ShopTools.HaveSkin(arg_15_0.shopCfg.give_id) then
+function slot0.ClickFunction(slot0)
+	if ItemCfg[slot0.shopCfg.give_id].type == ItemConst.ITEM_TYPE.HERO_SKIN then
+		if ShopTools.HaveSkin(slot0.shopCfg.give_id) then
 			return
 		end
-	elseif arg_15_0.shopCfg.limit_num then
-		if arg_15_0.shopCfg.limit_num ~= -1 and arg_15_0.shopCfg.limit_num <= arg_15_0.data.buyTime then
+	elseif slot0.shopCfg.limit_num then
+		if slot0.shopCfg.limit_num ~= -1 and slot0.shopCfg.limit_num <= slot0.data.buyTime then
 			return
 		end
 
-		local var_15_0, var_15_1 = ShopTools.JudgeIsLvLimit(arg_15_0.shopCfg.level_limit)
+		slot2, slot3 = ShopTools.JudgeIsLvLimit(slot0.shopCfg.level_limit)
 
-		if var_15_0 then
+		if slot2 then
 			return
 		end
 	end
 
 	JumpTools.OpenPopUp("shopBuy", {
-		goodInfo = arg_15_0.data
+		goodInfo = slot0.data
 	})
 end
 
-function var_0_0.OnEnter(arg_16_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.OnExit(arg_17_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_18_0)
-	var_0_0.super.Dispose(arg_18_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

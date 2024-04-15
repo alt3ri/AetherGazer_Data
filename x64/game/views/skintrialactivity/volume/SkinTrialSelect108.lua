@@ -1,26 +1,22 @@
-local var_0_0 = class("SkinTrialSelect108", SkinTrialActivitySelectView)
+slot0 = class("SkinTrialSelect108", SkinTrialActivitySelectView)
 
-function var_0_0.UIName(arg_1_0)
-	return "UI/VolumeIIIDownUI/SkinTrial/VolumeSkinTrialUI_" .. arg_1_0.params_.skinTrialID
+function slot0.UIName(slot0)
+	return "UI/VolumeIIIDownUI/SkinTrial/VolumeSkinTrialUI_" .. slot0.params_.skinTrialID
 end
 
-function var_0_0.RefreshUI(arg_2_0)
-	local var_2_0 = arg_2_0.skinTrialID_
-	local var_2_1 = SkinTrialTools.GetHeroStandardID(var_2_0)
-	local var_2_2 = HeroStandardSystemCfg[var_2_1].skin_id
-	local var_2_3 = HeroStandardSystemCfg[var_2_1].hero_id
+function slot0.RefreshUI(slot0)
+	slot2 = SkinTrialTools.GetHeroStandardID(slot0.skinTrialID_)
+	slot3 = HeroStandardSystemCfg[slot2].skin_id
+	slot4 = HeroStandardSystemCfg[slot2].hero_id
+	slot0.heroNameText_.text = string.format("%s·%s", GetI18NText(HeroCfg[slot4].name), GetI18NText(HeroCfg[slot4].suffix))
 
-	arg_2_0.heroNameText_.text = string.format("%s·%s", GetI18NText(HeroCfg[var_2_3].name), GetI18NText(HeroCfg[var_2_3].suffix))
-
-	local var_2_4 = SettingData:GetCurrentLanguage()
-
-	if var_2_4 == "fr" or var_2_4 == "de" then
-		arg_2_0.heroNameText_.text = string.format("%s-%s", GetI18NText(HeroCfg[var_2_3].name), GetI18NText(HeroCfg[var_2_3].suffix))
+	if SettingData:GetCurrentLanguage() == "fr" or slot5 == "de" then
+		slot0.heroNameText_.text = string.format("%s-%s", GetI18NText(HeroCfg[slot4].name), GetI18NText(HeroCfg[slot4].suffix))
 	end
 
-	arg_2_0.skinDescText_.text = GetI18NText(SkinCfg[var_2_2].desc)
+	slot0.skinDescText_.text = GetI18NText(SkinCfg[slot3].desc)
 
-	arg_2_0:RefreshReward()
+	slot0:RefreshReward()
 end
 
-return var_0_0
+return slot0

@@ -1,69 +1,66 @@
-local var_0_0 = class("ChangeNameView", ReduxView)
+slot0 = class("ChangeNameView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/UserInfor/PopupChangeNameUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:GetOrAddComponent(arg_3_0.nameinput_.gameObject, typeof(InputFieldHelper))
-	dealEnter(arg_3_0.nameinput_.gameObject)
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:GetOrAddComponent(slot0.nameinput_.gameObject, typeof(InputFieldHelper))
+	dealEnter(slot0.nameinput_.gameObject)
 
-	arg_3_0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_CHANGE_NAME_CARD)
-	arg_3_0.typeCon_ = arg_3_0.transform_:GetComponent("ControllerExCollection"):GetController("type")
+	slot0.costIcon_.sprite = ItemTools.getItemLittleSprite(CurrencyConst.CURRENCY_TYPE_CHANGE_NAME_CARD)
+	slot0.typeCon_ = slot0.transform_:GetComponent("ControllerExCollection"):GetController("type")
 end
 
-function var_0_0._onValidateInput(arg_4_0, arg_4_1, arg_4_2)
-	if #arg_4_0 >= 24 then
+function slot0._onValidateInput(slot0, slot1, slot2)
+	if #slot0 >= 24 then
 		return 0
 	end
 
-	return arg_4_2
+	return slot2
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.cancelbtnBtn_, nil, function()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.cancelbtnBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
 		JumpTools.Back()
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.iconBtn_, nil, function()
+	slot0:AddBtnListener(slot0.iconBtn_, nil, function ()
 		ShowPopItem(POP_SOURCE_ITEM, {
 			CurrencyConst.CURRENCY_TYPE_CHANGE_NAME_CARD
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.okbtnBtn_, nil, function()
-		if arg_5_0.costType_ == 1 and arg_5_0.cardHave <= 0 then
+	slot0:AddBtnListener(slot0.okbtnBtn_, nil, function ()
+		if uv0.costType_ == 1 and uv0.cardHave <= 0 then
 			ShowTips("NAME_CHANGE_CARD_INSUFFICIENT_TIPS")
 
 			return
 		end
 
-		local var_9_0 = PlayerData:GetPlayerInfo().nick
-		local var_9_1 = arg_5_0.nameinput_.text
+		slot0 = PlayerData:GetPlayerInfo().nick
 
-		if var_9_1 == "" then
+		if uv0.nameinput_.text == "" then
 			ShowTips("ERROR_USER_NAME_TOO_SHORT")
 
 			return
 		end
 
-		if var_9_0 == var_9_1 then
+		if slot0 == slot1 then
 			ShowTips("NAME_CANNOT_SAME_CURRENT")
 
 			return
 		end
 
-		local var_9_2, var_9_3 = textLimit(var_9_1, 16)
-
-		arg_5_0.nameinput_.text = var_9_2
-
-		local var_9_4 = var_9_2
+		slot2, slot3 = textLimit(slot1, 16)
+		uv0.nameinput_.text = slot2
+		slot1 = slot2
 
 		if not OperationData:IsOperationOpen(OperationConst.CHANGE_NICK) then
 			ShowTips("OPERATION_DISABLED")
@@ -71,87 +68,85 @@ function var_0_0.AddUIListener(arg_5_0)
 			return
 		end
 
-		if not nameRule(var_9_4) then
+		if not nameRule(slot1) then
 			ShowTips("ERROR_USER_NAME_SYMBOL_WORD")
 
 			return
 		end
 
-		WordVerifyBySDK(var_9_4, function(arg_10_0)
-			if not arg_10_0 then
+		WordVerifyBySDK(slot1, function (slot0)
+			if not slot0 then
 				ShowTips("ERROR_USER_NAME_VER_WORD")
 			else
-				if not var_9_3 then
+				if not uv0 then
 					return
 				end
 
-				if arg_5_0.costType_ == 1 then
+				if uv1.costType_ == 1 then
 					ShowMessageBox({
-						content = string.format(GetTips("NAME_CHANGE_CARD_WHETHER_TIPS"), var_9_4),
-						OkCallback = function()
-							PlayerAction.ChangeNickname(var_9_4, arg_5_0.costType_)
+						content = string.format(GetTips("NAME_CHANGE_CARD_WHETHER_TIPS"), uv2),
+						OkCallback = function ()
+							PlayerAction.ChangeNickname(uv0, uv1.costType_)
 						end,
-						CancelCallback = function()
-							return
+						CancelCallback = function ()
 						end
 					})
 				else
-					PlayerAction.ChangeNickname(var_9_4, arg_5_0.costType_)
+					PlayerAction.ChangeNickname(uv2, uv1.costType_)
 				end
 			end
 		end, JUDGE_MESSAGE_TYPE.PLAYER_NAME)
 	end)
 end
 
-function var_0_0.OnChangeNickname(arg_13_0, arg_13_1)
+function slot0.OnChangeNickname(slot0, slot1)
 	ShowTips("SUCCESS_CHANGE_NAME")
 	JumpTools.Back()
 end
 
-function var_0_0.Init(arg_14_0)
-	arg_14_0:InitUI()
-	arg_14_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0.nameinput_.text = ""
-	arg_15_0.costType_ = 1
+function slot0.OnEnter(slot0)
+	slot0.nameinput_.text = ""
+	slot0.costType_ = 1
 
 	if PlayerData:GetExtraChangeNickTime() <= 0 then
-		arg_15_0.tip_.text = GetTips("TIPS_REVISENAME_ONE")
+		slot0.tip_.text = GetTips("TIPS_REVISENAME_ONE")
 	else
-		arg_15_0.tip_.text = GetTips("TIPS_REVISENAME_FREE")
+		slot0.tip_.text = GetTips("TIPS_REVISENAME_FREE")
 	end
 
 	if PlayerData:GetPlayerInfo().is_changed_nick == 2 and PlayerData:GetExtraChangeNickTime() <= 0 then
-		arg_15_0.costType_ = 1
+		slot0.costType_ = 1
 
-		arg_15_0.typeCon_:SetSelectedState("card")
+		slot0.typeCon_:SetSelectedState("card")
 
-		arg_15_0.cardHave = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_CHANGE_NAME_CARD)
+		slot0.cardHave = ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_CHANGE_NAME_CARD)
 
-		if arg_15_0.cardHave > 0 then
-			arg_15_0.num_.text = arg_15_0.cardHave .. "/" .. 1
+		if slot0.cardHave > 0 then
+			slot0.num_.text = slot0.cardHave .. "/" .. 1
 		else
-			arg_15_0.num_.text = "<color=#FF0000>" .. arg_15_0.cardHave .. "</color>" .. "/" .. 1
+			slot0.num_.text = "<color=#FF0000>" .. slot0.cardHave .. "</color>" .. "/" .. 1
 		end
 	else
-		arg_15_0.costType_ = 2
+		slot0.costType_ = 2
 
-		arg_15_0.typeCon_:SetSelectedState("free")
+		slot0.typeCon_:SetSelectedState("free")
 
-		arg_15_0.tip_.text = GetTips("TIPS_REVISENAME_FREE")
+		slot0.tip_.text = GetTips("TIPS_REVISENAME_FREE")
 	end
 end
 
-function var_0_0.OnExit(arg_16_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_17_0)
-	arg_17_0:RemoveAllListeners()
-	arg_17_0.nameinput_.onValueChanged:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_17_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0.nameinput_.onValueChanged:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

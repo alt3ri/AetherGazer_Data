@@ -1,16 +1,16 @@
-local var_0_0 = singletonClass("GuildData")
+slot0 = singletonClass("GuildData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.showImpeachFlag_ = false
-	arg_1_0.recommendRefershStamptime_ = 0
-	arg_1_0.requiredMemberStamptime_ = 0
-	arg_1_0.recommendList_ = {}
-	arg_1_0.searchList_ = {}
-	arg_1_0.guildInfo_ = {}
-	arg_1_0.guildMemberList_ = {}
-	arg_1_0.guildRequestList_ = {}
-	arg_1_0.cacheGuildListInfo_ = {}
-	arg_1_0.bossData_ = {
+function slot0.Init(slot0)
+	slot0.showImpeachFlag_ = false
+	slot0.recommendRefershStamptime_ = 0
+	slot0.requiredMemberStamptime_ = 0
+	slot0.recommendList_ = {}
+	slot0.searchList_ = {}
+	slot0.guildInfo_ = {}
+	slot0.guildMemberList_ = {}
+	slot0.guildRequestList_ = {}
+	slot0.cacheGuildListInfo_ = {}
+	slot0.bossData_ = {
 		day_clear_prepose_times = 0,
 		buff_index = 1,
 		personal_score = 0,
@@ -31,10 +31,10 @@ function var_0_0.Init(arg_1_0)
 		assist_info_list = {},
 		rank_list = {}
 	}
-	arg_1_0.exitGuildTime_ = 0
-	arg_1_0.renameFreeCnt_ = 0
+	slot0.exitGuildTime_ = 0
+	slot0.renameFreeCnt_ = 0
 
-	JumpTools.SetSystemOpenCheck(ViewConst.SYSTEM_ID.GUILD_BOSS, function()
+	JumpTools.SetSystemOpenCheck(ViewConst.SYSTEM_ID.GUILD_BOSS, function ()
 		if GuildData:GetGuildInfo().id == nil or GuildData:GetGuildInfo().id == 0 then
 			return false, "NEED_JOIN_CLUB"
 		end
@@ -47,429 +47,414 @@ function var_0_0.Init(arg_1_0)
 	end)
 end
 
-function var_0_0.ParseRecommendData(arg_3_0, arg_3_1, arg_3_2)
-	if arg_3_2 then
+function slot0.ParseRecommendData(slot0, slot1, slot2)
+	if slot2 then
 		return {
-			id = arg_3_1.id,
-			icon = arg_3_1.icon,
-			name = arg_3_1.name,
-			level = arg_3_1.level,
-			member = arg_3_1.member_count,
-			maxMemberCnt = arg_3_1.member_count_limit,
-			contribute = arg_3_1.last_week_total_vitality,
-			notice = arg_3_1.notice,
-			isFree = arg_3_1.club_setting.examine_recruit_join_request_switch == 1,
-			is_requested = arg_3_2 or 0
+			id = slot1.id,
+			icon = slot1.icon,
+			name = slot1.name,
+			level = slot1.level,
+			member = slot1.member_count,
+			maxMemberCnt = slot1.member_count_limit,
+			contribute = slot1.last_week_total_vitality,
+			notice = slot1.notice,
+			isFree = slot1.club_setting.examine_recruit_join_request_switch == 1,
+			is_requested = slot2 or 0
 		}
 	else
 		return {
-			id = arg_3_1.id,
-			icon = arg_3_1.icon,
-			name = arg_3_1.name,
-			level = arg_3_1.level,
-			member = arg_3_1.member_count,
-			maxMemberCnt = arg_3_1.member_count_limit,
-			contribute = arg_3_1.last_week_total_vitality,
-			notice = arg_3_1.notice,
-			isFree = arg_3_1.club_setting.examine_recruit_join_request_switch == 1
+			id = slot1.id,
+			icon = slot1.icon,
+			name = slot1.name,
+			level = slot1.level,
+			member = slot1.member_count,
+			maxMemberCnt = slot1.member_count_limit,
+			contribute = slot1.last_week_total_vitality,
+			notice = slot1.notice,
+			isFree = slot1.club_setting.examine_recruit_join_request_switch == 1
 		}
 	end
 end
 
-function var_0_0.ParseRequestMemberData(arg_4_0, arg_4_1)
+function slot0.ParseRequestMemberData(slot0, slot1)
 	return {
 		weekContribute = 0,
 		contribute = 0,
-		id = arg_4_1.id,
-		icon = arg_4_1.base_info.icon,
-		frame = arg_4_1.base_info.icon_frame,
-		name = arg_4_1.base_info.nick,
+		id = slot1.id,
+		icon = slot1.base_info.icon,
+		frame = slot1.base_info.icon_frame,
+		name = slot1.base_info.nick,
 		post = GuildConst.GUILD_POST.TRAINEE,
-		level = arg_4_1.level,
-		offlineStamptime = arg_4_1.online_info
+		level = slot1.level,
+		offlineStamptime = slot1.online_info
 	}
 end
 
-function var_0_0.ParseMemberData(arg_5_0, arg_5_1)
-	local var_5_0 = arg_5_1.online_info
+function slot0.ParseMemberData(slot0, slot1)
+	slot2 = slot1.online_info
 
-	if arg_5_1.id == USER_ID then
-		var_5_0 = 0
+	if slot1.id == USER_ID then
+		slot2 = 0
 	end
 
 	return {
-		id = arg_5_1.id,
-		icon = arg_5_1.user_profile_base.icon,
-		frame = arg_5_1.user_profile_base.icon_frame,
-		name = arg_5_1.user_profile_base.nick,
-		post = arg_5_1.duty,
-		level = arg_5_1.level,
-		contribute = arg_5_1.total_vitality,
-		weekContribute = arg_5_1.vitality,
-		offlineStamptime = var_5_0
+		id = slot1.id,
+		icon = slot1.user_profile_base.icon,
+		frame = slot1.user_profile_base.icon_frame,
+		name = slot1.user_profile_base.nick,
+		post = slot1.duty,
+		level = slot1.level,
+		contribute = slot1.total_vitality,
+		weekContribute = slot1.vitality,
+		offlineStamptime = slot2
 	}
 end
 
-function var_0_0.InitGuildRecommendList(arg_6_0, arg_6_1)
-	arg_6_0.recommendList_ = {}
+function slot0.InitGuildRecommendList(slot0, slot1)
+	slot0.recommendList_ = {}
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1) do
-		table.insert(arg_6_0.recommendList_, arg_6_0:ParseRecommendData(iter_6_1.club_info, iter_6_1.is_requested))
+	for slot5, slot6 in ipairs(slot1) do
+		table.insert(slot0.recommendList_, slot0:ParseRecommendData(slot6.club_info, slot6.is_requested))
 	end
 end
 
-function var_0_0.AddJoinData(arg_7_0, arg_7_1)
-	if arg_7_0.recommendList_ then
-		for iter_7_0, iter_7_1 in ipairs(arg_7_0.recommendList_) do
-			if iter_7_1.id == arg_7_1 then
-				arg_7_0.recommendList_[iter_7_0].is_requested = 1
+function slot0.AddJoinData(slot0, slot1)
+	if slot0.recommendList_ then
+		for slot5, slot6 in ipairs(slot0.recommendList_) do
+			if slot6.id == slot1 then
+				slot0.recommendList_[slot5].is_requested = 1
 			end
 		end
 	end
 end
 
-function var_0_0.InitBossDataFromServer(arg_8_0, arg_8_1)
-	local var_8_0 = arg_8_1.pre_info
-	local var_8_1 = arg_8_1.info
+function slot0.InitBossDataFromServer(slot0, slot1)
+	slot2 = slot1.pre_info
+	slot3 = slot1.info
+	slot0.bossData_.initedFromServer = true
+	slot0.bossData_.day_first_clear_award_admitted = slot1.day_first_clear_award_admitted
+	slot4 = {}
 
-	arg_8_0.bossData_.initedFromServer = true
-	arg_8_0.bossData_.day_first_clear_award_admitted = arg_8_1.day_first_clear_award_admitted
+	for slot8, slot9 in ipairs(slot1.affx_list) do
+		slot10 = {}
 
-	local var_8_2 = {}
-
-	for iter_8_0, iter_8_1 in ipairs(arg_8_1.affx_list) do
-		local var_8_3 = {}
-
-		table.insert(var_8_3, iter_8_1.affix_id)
-		table.insert(var_8_3, iter_8_1.affix_level)
-		table.insert(var_8_3, iter_8_1.type)
-		table.insert(var_8_2, var_8_3)
+		table.insert(slot10, slot9.affix_id)
+		table.insert(slot10, slot9.affix_level)
+		table.insert(slot10, slot9.type)
+		table.insert(slot4, slot10)
 	end
 
-	arg_8_0.bossData_.buff_affix_list = var_8_2
-	arg_8_0.bossData_.day_first_clear_prepose = arg_8_1.day_first_clear_prepose
-	arg_8_0.bossData_.day_clear_prepose_times = arg_8_1.day_clear_prepose_times
-	arg_8_0.bossData_.preInfo = {}
+	slot0.bossData_.buff_affix_list = slot4
+	slot0.bossData_.day_first_clear_prepose = slot1.day_first_clear_prepose
+	slot0.bossData_.day_clear_prepose_times = slot1.day_clear_prepose_times
+	slot0.bossData_.preInfo = {}
 
-	for iter_8_2, iter_8_3 in ipairs(var_8_0) do
-		local var_8_4 = {
-			level_id = iter_8_3.level_id,
-			score = iter_8_3.score,
-			stage_id = iter_8_3.stage_id,
-			buff_id = iter_8_3.buff_id
+	for slot8, slot9 in ipairs(slot2) do
+		slot10 = {
+			level_id = slot9.level_id,
+			score = slot9.score,
+			stage_id = slot9.stage_id,
+			buff_id = slot9.buff_id
 		}
-
-		arg_8_0.bossData_.preInfo[var_8_4.level_id] = var_8_4
+		slot0.bossData_.preInfo[slot10.level_id] = slot10
 	end
 
-	arg_8_0.bossData_.challengeInfo = {
-		personal_score = var_8_1.personal_score,
-		boss_id = var_8_1.boss_tempalte_id,
-		difficulty = var_8_1.difficulty,
-		total_damage = var_8_1.total_damage,
+	slot0.bossData_.challengeInfo = {
+		personal_score = slot3.personal_score,
+		boss_id = slot3.boss_tempalte_id,
+		difficulty = slot3.difficulty,
+		total_damage = slot3.total_damage,
 		collective_damage_award_admitted = {},
 		personal_score_award_admitted = {},
-		damage_level = var_8_1.damage_level,
-		damage = var_8_1.damage,
-		cleared_difficulty_list = var_8_1.cleared_difficulty_list
+		damage_level = slot3.damage_level,
+		damage = slot3.damage,
+		cleared_difficulty_list = slot3.cleared_difficulty_list
 	}
 
-	for iter_8_4, iter_8_5 in pairs(var_8_1.collective_damage_award_admitted) do
-		table.insert(arg_8_0.bossData_.challengeInfo.collective_damage_award_admitted, iter_8_5)
+	for slot8, slot9 in pairs(slot3.collective_damage_award_admitted) do
+		table.insert(slot0.bossData_.challengeInfo.collective_damage_award_admitted, slot9)
 	end
 
-	for iter_8_6, iter_8_7 in ipairs(var_8_1.personal_score_award_admitted) do
-		table.insert(arg_8_0.bossData_.challengeInfo.personal_score_award_admitted, iter_8_7)
+	for slot8, slot9 in ipairs(slot3.personal_score_award_admitted) do
+		table.insert(slot0.bossData_.challengeInfo.personal_score_award_admitted, slot9)
 	end
 
 	manager.notify:Invoke(GUILD_BOSS_INIT, {})
 end
 
-function var_0_0.InitAssistInfoListFromServer(arg_9_0, arg_9_1)
-	arg_9_0.bossData_.assist_info_list = {}
+function slot0.InitAssistInfoListFromServer(slot0, slot1)
+	slot0.bossData_.assist_info_list = {}
 
-	for iter_9_0, iter_9_1 in ipairs(arg_9_1) do
-		if iter_9_1.member_id ~= tostring(PlayerData:GetPlayerInfo().userID) and HeroCfg[iter_9_1.assist_hero_id] then
-			local var_9_0 = {
-				member_id = iter_9_1.member_id,
-				member_post = iter_9_1.member_post,
-				assist_hero_id = iter_9_1.assist_hero_id,
-				assist_hero_skin = iter_9_1.assist_hero_skin,
-				fight_capacity = iter_9_1.fight_capacity,
-				hero_rare = iter_9_1.hero_rare,
-				hero_level = iter_9_1.hero_level,
-				nick = iter_9_1.nick
-			}
-
-			table.insert(arg_9_0.bossData_.assist_info_list, var_9_0)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot6.member_id ~= tostring(PlayerData:GetPlayerInfo().userID) and HeroCfg[slot6.assist_hero_id] then
+			table.insert(slot0.bossData_.assist_info_list, {
+				member_id = slot6.member_id,
+				member_post = slot6.member_post,
+				assist_hero_id = slot6.assist_hero_id,
+				assist_hero_skin = slot6.assist_hero_skin,
+				fight_capacity = slot6.fight_capacity,
+				hero_rare = slot6.hero_rare,
+				hero_level = slot6.hero_level,
+				nick = slot6.nick
+			})
 		end
 	end
 
 	manager.notify:Invoke(GUILD_ASSIST_BRIEF_UPDATE, {})
 end
 
-function var_0_0.SetAssistChipId(arg_10_0, arg_10_1, arg_10_2)
-	for iter_10_0, iter_10_1 in ipairs(arg_10_0.bossData_.assist_info_list) do
-		if tostring(iter_10_1.member_id) == tostring(arg_10_1) then
-			iter_10_1.chipId = arg_10_2
+function slot0.SetAssistChipId(slot0, slot1, slot2)
+	for slot6, slot7 in ipairs(slot0.bossData_.assist_info_list) do
+		if tostring(slot7.member_id) == tostring(slot1) then
+			slot7.chipId = slot2
 
 			break
 		end
 	end
 end
 
-function var_0_0.GetAssistantBriefList(arg_11_0)
-	return arg_11_0.bossData_.assist_info_list
+function slot0.GetAssistantBriefList(slot0)
+	return slot0.bossData_.assist_info_list
 end
 
-function var_0_0.OnBossDifficultlyChange(arg_12_0, arg_12_1)
-	arg_12_0.bossData_.challengeInfo.difficulty = arg_12_1
+function slot0.OnBossDifficultlyChange(slot0, slot1)
+	slot0.bossData_.challengeInfo.difficulty = slot1
 
-	manager.notify:Invoke(GUILD_BOSS_DIFFICULTY_CHANGE, arg_12_1)
+	manager.notify:Invoke(GUILD_BOSS_DIFFICULTY_CHANGE, slot1)
 end
 
-function var_0_0.InitGuildBossRankFromServer(arg_13_0, arg_13_1)
-	arg_13_0.bossData_.rank_list = {}
+function slot0.InitGuildBossRankFromServer(slot0, slot1)
+	slot0.bossData_.rank_list = {}
 
-	for iter_13_0, iter_13_1 in ipairs(arg_13_1) do
-		local var_13_0 = {
-			id = iter_13_1.id,
-			icon = iter_13_1.base_info.icon,
-			icon_frame = iter_13_1.base_info.icon_frame,
-			nick = iter_13_1.base_info.nick,
-			score = iter_13_1.score,
-			timestamp = iter_13_1.timestamp,
-			member_post = iter_13_1.member_post,
+	for slot5, slot6 in ipairs(slot1) do
+		slot7 = {
+			id = slot6.id,
+			icon = slot6.base_info.icon,
+			icon_frame = slot6.base_info.icon_frame,
+			nick = slot6.base_info.nick,
+			score = slot6.score,
+			timestamp = slot6.timestamp,
+			member_post = slot6.member_post,
 			hero_type_info = {}
 		}
 
-		for iter_13_2, iter_13_3 in ipairs(iter_13_1.hero_type_info) do
-			local var_13_1 = {
-				hero_id = iter_13_3.hero_id,
-				skin_id = iter_13_3.skin_id
-			}
-
-			table.insert(var_13_0.hero_type_info, var_13_1)
+		for slot11, slot12 in ipairs(slot6.hero_type_info) do
+			table.insert(slot7.hero_type_info, {
+				hero_id = slot12.hero_id,
+				skin_id = slot12.skin_id
+			})
 		end
 
-		table.insert(arg_13_0.bossData_.rank_list, var_13_0)
+		table.insert(slot0.bossData_.rank_list, slot7)
 	end
 
 	manager.notify:Invoke(GUILD_BOSS_RANK_UPDATE, {})
 end
 
-function var_0_0.UpdateBossDamage(arg_14_0, arg_14_1)
-	arg_14_0.bossData_.challengeInfo.total_damage = arg_14_1
+function slot0.UpdateBossDamage(slot0, slot1)
+	slot0.bossData_.challengeInfo.total_damage = slot1
 
 	manager.notify:Invoke(GUILD_BOSS_UPDATE, {})
 end
 
-function var_0_0.GetRankList(arg_15_0)
-	return arg_15_0.bossData_.rank_list
+function slot0.GetRankList(slot0)
+	return slot0.bossData_.rank_list
 end
 
-function var_0_0.GetBossData(arg_16_0)
-	return arg_16_0.bossData_
+function slot0.GetBossData(slot0)
+	return slot0.bossData_
 end
 
-function var_0_0.CanGetBonus(arg_17_0)
-	return arg_17_0.bossData_.day_clear_prepose_times >= 1 and not arg_17_0:IsGetFirstBossBonus()
+function slot0.CanGetBonus(slot0)
+	return slot0.bossData_.day_clear_prepose_times >= 1 and not slot0:IsGetFirstBossBonus()
 end
 
-function var_0_0.IsGetFirstBossBonus(arg_18_0)
-	return arg_18_0.bossData_.day_first_clear_award_admitted == 1
+function slot0.IsGetFirstBossBonus(slot0)
+	return slot0.bossData_.day_first_clear_award_admitted == 1
 end
 
-function var_0_0.OnGetGuildBossFirstBonus(arg_19_0)
-	arg_19_0.bossData_.day_first_clear_award_admitted = 1
+function slot0.OnGetGuildBossFirstBonus(slot0)
+	slot0.bossData_.day_first_clear_award_admitted = 1
 end
 
-function var_0_0.IsPassBossDifficulty(arg_20_0, arg_20_1)
-	if table.indexof(arg_20_0.bossData_.challengeInfo.cleared_difficulty_list, arg_20_1) then
+function slot0.IsPassBossDifficulty(slot0, slot1)
+	if table.indexof(slot0.bossData_.challengeInfo.cleared_difficulty_list, slot1) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.GetBossDifficulty(arg_21_0)
-	return arg_21_0.bossData_.challengeInfo.difficulty
+function slot0.GetBossDifficulty(slot0)
+	return slot0.bossData_.challengeInfo.difficulty
 end
 
-function var_0_0.GetLastTime(arg_22_0)
-	local var_22_0
+function slot0.GetLastTime(slot0)
+	slot1 = nil
 
 	if ActivityData:GetActivityIsOpen(ActivityConst.GUILD_BOSS_PREPARE) then
-		local var_22_1 = ActivityData:GetActivityData(ActivityConst.GUILD_BOSS_PREPARE)
-
-		return "prepose", var_22_1.stopTime
+		return "prepose", ActivityData:GetActivityData(ActivityConst.GUILD_BOSS_PREPARE).stopTime
 	else
-		local var_22_2 = ActivityData:GetActivityData(ActivityConst.GUILD_BOSS_CHALLENGE)
-
-		return "challenge", var_22_2.stopTime
+		return "challenge", ActivityData:GetActivityData(ActivityConst.GUILD_BOSS_CHALLENGE).stopTime
 	end
 end
 
-function var_0_0.GetGuildBossBuffList(arg_23_0)
-	return arg_23_0.bossData_.buff_affix_list
+function slot0.GetGuildBossBuffList(slot0)
+	return slot0.bossData_.buff_affix_list
 end
 
-function var_0_0.GetHaveGetBossBuffList(arg_24_0)
-	local var_24_0 = arg_24_0:GetGuildBossBuffList()
-	local var_24_1 = {}
+function slot0.GetHaveGetBossBuffList(slot0)
+	slot2 = {}
 
-	for iter_24_0, iter_24_1 in ipairs(var_24_0) do
-		if arg_24_0.bossData_.preInfo[iter_24_0].score >= ClubBossPreposeCfg[iter_24_0].point_max then
-			table.insert(var_24_1, iter_24_1)
+	for slot6, slot7 in ipairs(slot0:GetGuildBossBuffList()) do
+		if ClubBossPreposeCfg[slot6].point_max <= slot0.bossData_.preInfo[slot6].score then
+			table.insert(slot2, slot7)
 		end
 	end
 
-	return var_24_1
+	return slot2
 end
 
-function var_0_0.GetBossLastTime(arg_25_0)
-	return GameSetting.club_boss_prepose_max.value[1] - arg_25_0.bossData_.day_clear_prepose_times
+function slot0.GetBossLastTime(slot0)
+	return GameSetting.club_boss_prepose_max.value[1] - slot0.bossData_.day_clear_prepose_times
 end
 
-function var_0_0.OnPreposeSuccess(arg_26_0)
-	arg_26_0.bossData_.day_clear_prepose_times = arg_26_0.bossData_.day_clear_prepose_times + 1
+function slot0.OnPreposeSuccess(slot0)
+	slot0.bossData_.day_clear_prepose_times = slot0.bossData_.day_clear_prepose_times + 1
 
-	if arg_26_0.bossData_.day_clear_prepose_times > GameSetting.club_boss_prepose_max.value[1] then
-		arg_26_0.bossData_.day_clear_prepose_times = GameSetting.club_boss_prepose_max.value[1]
+	if GameSetting.club_boss_prepose_max.value[1] < slot0.bossData_.day_clear_prepose_times then
+		slot0.bossData_.day_clear_prepose_times = GameSetting.club_boss_prepose_max.value[1]
 	end
 end
 
-function var_0_0.HaveBossChallengedToday(arg_27_0)
-	return arg_27_0.bossData_.day_first_clear_prepose == 1
+function slot0.HaveBossChallengedToday(slot0)
+	return slot0.bossData_.day_first_clear_prepose == 1
 end
 
-function var_0_0.GetCurrentBossStageId(arg_28_0)
-	return ClubBossIdCfg[arg_28_0.bossData_.challengeInfo.boss_id].stage_id
+function slot0.GetCurrentBossStageId(slot0)
+	return ClubBossIdCfg[slot0.bossData_.challengeInfo.boss_id].stage_id
 end
 
-function var_0_0.GetCurBossId(arg_29_0)
-	return BossChallengeUICfg[arg_29_0.bossData_.challengeInfo.boss_id].boss_id_list[1]
+function slot0.GetCurBossId(slot0)
+	return BossChallengeUICfg[slot0.bossData_.challengeInfo.boss_id].boss_id_list[1]
 end
 
-function var_0_0.GetBossPersonalScore(arg_30_0)
-	return arg_30_0.bossData_.challengeInfo.personal_score
+function slot0.GetBossPersonalScore(slot0)
+	return slot0.bossData_.challengeInfo.personal_score
 end
 
-function var_0_0.ResetBossPersonalScore(arg_31_0, arg_31_1)
-	arg_31_0.bossData_.challengeInfo.personal_score = math.max(arg_31_0.bossData_.challengeInfo.personal_score, arg_31_1)
+function slot0.ResetBossPersonalScore(slot0, slot1)
+	slot0.bossData_.challengeInfo.personal_score = math.max(slot0.bossData_.challengeInfo.personal_score, slot1)
 end
 
-function var_0_0.GetCurrentBossAssistantHeroId(arg_32_0)
-	return arg_32_0.bossData_.currentAssistHeroId
+function slot0.GetCurrentBossAssistantHeroId(slot0)
+	return slot0.bossData_.currentAssistHeroId
 end
 
-function var_0_0.CheckCurrentHeroIDIsAssistant(arg_33_0, arg_33_1)
-	if arg_33_0.bossData_.currentAssistHeroId then
-		for iter_33_0, iter_33_1 in ipairs(arg_33_0.bossData_.currentAssistHeroId) do
-			if iter_33_1 == arg_33_1 then
+function slot0.CheckCurrentHeroIDIsAssistant(slot0, slot1)
+	if slot0.bossData_.currentAssistHeroId then
+		for slot5, slot6 in ipairs(slot0.bossData_.currentAssistHeroId) do
+			if slot6 == slot1 then
 				return true
 			end
 		end
 	end
 end
 
-function var_0_0.GetPreInfoList(arg_34_0)
-	return arg_34_0.bossData_.preInfo
+function slot0.GetPreInfoList(slot0)
+	return slot0.bossData_.preInfo
 end
 
-function var_0_0.GetCurrentBossDamage(arg_35_0)
-	return arg_35_0.bossData_.challengeInfo.total_damage
+function slot0.GetCurrentBossDamage(slot0)
+	return slot0.bossData_.challengeInfo.total_damage
 end
 
-function var_0_0.GetCurrentBossRemainHp(arg_36_0)
-	local var_36_0 = ClubBossCfg[GuildData:GetBossDifficulty()].boss_hp
-	local var_36_1 = arg_36_0.bossData_.challengeInfo.total_damage
-
-	return math.max(var_36_0 - var_36_1, 0)
+function slot0.GetCurrentBossRemainHp(slot0)
+	return math.max(ClubBossCfg[GuildData:GetBossDifficulty()].boss_hp - slot0.bossData_.challengeInfo.total_damage, 0)
 end
 
-function var_0_0.HaveGetGuildBossPersonalReward(arg_37_0, arg_37_1)
-	if table.indexof(arg_37_0.bossData_.challengeInfo.personal_score_award_admitted, arg_37_1) then
+function slot0.HaveGetGuildBossPersonalReward(slot0, slot1)
+	if table.indexof(slot0.bossData_.challengeInfo.personal_score_award_admitted, slot1) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnGuildBossPersonalRewardGet(arg_38_0, arg_38_1)
-	table.insert(arg_38_0.bossData_.challengeInfo.personal_score_award_admitted, arg_38_1)
-	manager.notify:Invoke(GUILD_BOSS_PERSONAL_REWARD_GET, arg_38_1)
+function slot0.OnGuildBossPersonalRewardGet(slot0, slot1)
+	table.insert(slot0.bossData_.challengeInfo.personal_score_award_admitted, slot1)
+	manager.notify:Invoke(GUILD_BOSS_PERSONAL_REWARD_GET, slot1)
 end
 
-function var_0_0.HaveGetGuildBossCommonReward(arg_39_0, arg_39_1)
-	if table.indexof(arg_39_0.bossData_.challengeInfo.collective_damage_award_admitted, arg_39_1) then
+function slot0.HaveGetGuildBossCommonReward(slot0, slot1)
+	if table.indexof(slot0.bossData_.challengeInfo.collective_damage_award_admitted, slot1) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnGuildBossCommonRewardGet(arg_40_0, arg_40_1)
-	table.insert(arg_40_0.bossData_.challengeInfo.collective_damage_award_admitted, arg_40_1)
-	manager.notify:Invoke(GUILD_BOSS_COMMON_REWARD_GET, arg_40_1)
+function slot0.OnGuildBossCommonRewardGet(slot0, slot1)
+	table.insert(slot0.bossData_.challengeInfo.collective_damage_award_admitted, slot1)
+	manager.notify:Invoke(GUILD_BOSS_COMMON_REWARD_GET, slot1)
 end
 
-function var_0_0.GetRecommendList(arg_41_0)
-	return arg_41_0.recommendList_
+function slot0.GetRecommendList(slot0)
+	return slot0.recommendList_
 end
 
-function var_0_0.InitSearceList(arg_42_0, arg_42_1)
-	arg_42_0.searchList_ = {}
+function slot0.InitSearceList(slot0, slot1)
+	slot0.searchList_ = {}
 
-	table.insert(arg_42_0.searchList_, arg_42_0:ParseRecommendData(arg_42_1))
+	table.insert(slot0.searchList_, slot0:ParseRecommendData(slot1))
 end
 
-function var_0_0.GetSearchList(arg_43_0)
-	return arg_43_0.searchList_
+function slot0.GetSearchList(slot0)
+	return slot0.searchList_
 end
 
-function var_0_0.InitGuildInfo(arg_44_0, arg_44_1)
-	arg_44_0.guildInfo_ = {
-		id = arg_44_1.id,
-		icon = arg_44_1.icon,
-		name = arg_44_1.name,
-		level = arg_44_1.level,
-		exp = arg_44_1.club_exp,
-		curWeekExp = arg_44_1.weekly_gain_exp or 0,
-		curWeekCoin = arg_44_1.weekly_gain_coin or 0,
-		memberCnt = arg_44_1.member_count,
-		maxMemberCnt = arg_44_1.member_count_limit,
-		notice = arg_44_1.notice,
-		captain = arg_44_1.leader.user_profile_base.nick,
-		post = arg_44_1.post,
-		impeachTime = arg_44_1.impeach_timestamp + 172800,
-		reviewFlag = arg_44_1.club_setting.examine_recruit_join_request_switch,
-		limitLevel = arg_44_1.club_setting.join_request_limit,
-		isCandidate = arg_44_1.is_candidate == 1
+function slot0.InitGuildInfo(slot0, slot1)
+	slot0.guildInfo_ = {
+		id = slot1.id,
+		icon = slot1.icon,
+		name = slot1.name,
+		level = slot1.level,
+		exp = slot1.club_exp,
+		curWeekExp = slot1.weekly_gain_exp or 0,
+		curWeekCoin = slot1.weekly_gain_coin or 0,
+		memberCnt = slot1.member_count,
+		maxMemberCnt = slot1.member_count_limit,
+		notice = slot1.notice,
+		captain = slot1.leader.user_profile_base.nick,
+		post = slot1.post,
+		impeachTime = slot1.impeach_timestamp + 172800,
+		reviewFlag = slot1.club_setting.examine_recruit_join_request_switch,
+		limitLevel = slot1.club_setting.join_request_limit,
+		isCandidate = slot1.is_candidate == 1
 	}
 
-	if arg_44_0.guildInfo_.post == GuildConst.GUILD_POST.CAPTAIN and arg_44_0.guildInfo_.impeachTime - manager.time:GetServerTime() > 0 then
+	if slot0.guildInfo_.post == GuildConst.GUILD_POST.CAPTAIN and slot0.guildInfo_.impeachTime - manager.time:GetServerTime() > 0 then
 		manager.redPoint:setTip(RedPointConst.GUILD_IMPEACH, 1)
 	end
 
-	saveData("guildInfo", "guildID", arg_44_1.id)
+	saveData("guildInfo", "guildID", slot1.id)
 end
 
-function var_0_0.SetShareTimestamp(arg_45_0, arg_45_1)
-	arg_45_0.shareRefreshTimestamp_ = arg_45_1.last_share_timestamp + GameSetting.club_share_colddown.value[1]
+function slot0.SetShareTimestamp(slot0, slot1)
+	slot0.shareRefreshTimestamp_ = slot1.last_share_timestamp + GameSetting.club_share_colddown.value[1]
 end
 
-function var_0_0.GetShareTimestamp(arg_46_0)
-	return arg_46_0.shareRefreshTimestamp_ or 0
+function slot0.GetShareTimestamp(slot0)
+	return slot0.shareRefreshTimestamp_ or 0
 end
 
-function var_0_0.SetAssistHero(arg_47_0, arg_47_1)
-	arg_47_0.bossData_.currentAssistHeroId = {}
+function slot0.SetAssistHero(slot0, slot1)
+	slot0.bossData_.currentAssistHeroId = {}
 
-	if arg_47_1 and type(arg_47_1) == "table" then
-		for iter_47_0, iter_47_1 in ipairs(arg_47_1) do
-			if HeroCfg[iter_47_1] then
-				table.insert(arg_47_0.bossData_.currentAssistHeroId, iter_47_1)
+	if slot1 and type(slot1) == "table" then
+		for slot5, slot6 in ipairs(slot1) do
+			if HeroCfg[slot6] then
+				table.insert(slot0.bossData_.currentAssistHeroId, slot6)
 			end
 		end
 	end
@@ -477,144 +462,120 @@ function var_0_0.SetAssistHero(arg_47_0, arg_47_1)
 	manager.notify:Invoke(GUILD_BOSS_ASSISTANT_HERO_CHANGE)
 end
 
-function var_0_0.GetGuildInfo(arg_48_0)
-	return arg_48_0.guildInfo_
+function slot0.GetGuildInfo(slot0)
+	return slot0.guildInfo_
 end
 
-function var_0_0.SetGuildName(arg_49_0, arg_49_1)
-	arg_49_0.guildInfo_.name = arg_49_1
+function slot0.SetGuildName(slot0, slot1)
+	slot0.guildInfo_.name = slot1
 end
 
-function var_0_0.GetRenameFreeCnt(arg_50_0)
-	return arg_50_0.renameFreeCnt_
+function slot0.GetRenameFreeCnt(slot0)
+	return slot0.renameFreeCnt_
 end
 
-function var_0_0.SetRenameFreeCnt(arg_51_0, arg_51_1)
-	arg_51_0.renameFreeCnt_ = arg_51_1
+function slot0.SetRenameFreeCnt(slot0, slot1)
+	slot0.renameFreeCnt_ = slot1
 end
 
-function var_0_0.UseRenameFree(arg_52_0)
-	arg_52_0.renameFreeCnt_ = arg_52_0.renameFreeCnt_ - 1
+function slot0.UseRenameFree(slot0)
+	slot0.renameFreeCnt_ = slot0.renameFreeCnt_ - 1
 end
 
-function var_0_0.SetGuildNotice(arg_53_0, arg_53_1)
-	arg_53_0.guildInfo_.notice = arg_53_1
+function slot0.SetGuildNotice(slot0, slot1)
+	slot0.guildInfo_.notice = slot1
 end
 
-function var_0_0.SetGuildIcon(arg_54_0, arg_54_1)
-	arg_54_0.guildInfo_.icon = arg_54_1
+function slot0.SetGuildIcon(slot0, slot1)
+	slot0.guildInfo_.icon = slot1
 end
 
-function var_0_0.RefreshWeekResources(arg_55_0)
-	arg_55_0.guildInfo_.curWeekExp = 0
-	arg_55_0.guildInfo_.curWeekCoin = 0
+function slot0.RefreshWeekResources(slot0)
+	slot0.guildInfo_.curWeekExp = 0
+	slot0.guildInfo_.curWeekCoin = 0
 end
 
-function var_0_0.ModifyEXP(arg_56_0, arg_56_1)
-	if arg_56_0.guildInfo_.id == nil then
+function slot0.ModifyEXP(slot0, slot1)
+	if slot0.guildInfo_.id == nil then
 		return
 	end
 
-	local var_56_0 = arg_56_0.guildInfo_.level
-
-	if var_56_0 >= GameSetting.club_max_level.value[1] then
+	if GameSetting.club_max_level.value[1] <= slot0.guildInfo_.level then
 		return
 	end
 
-	local var_56_1 = arg_56_0.guildInfo_.exp
-
-	for iter_56_0 = var_56_0 - 1, 1, -1 do
-		var_56_1 = var_56_1 - ClubLevelCfg[iter_56_0].club_level_exp
+	for slot7 = slot2 - 1, 1, -1 do
+		slot3 = slot0.guildInfo_.exp - ClubLevelCfg[slot7].club_level_exp
 	end
 
-	local var_56_2 = ClubLevelCfg[var_56_0].club_level_exp - var_56_1
-	local var_56_3 = ClubLevelCfg[var_56_0].max_exp_per_week - arg_56_0.guildInfo_.curWeekExp
+	slot4 = ClubLevelCfg[slot2].club_level_exp - slot3
 
-	if var_56_3 <= 0 and arg_56_1 < var_56_2 then
+	if ClubLevelCfg[slot2].max_exp_per_week - slot0.guildInfo_.curWeekExp <= 0 and slot1 < slot4 then
 		return
 	end
 
-	local var_56_4 = 0
+	slot6 = 0
+	slot6 = slot4 < slot5 and slot4 < slot1 and slot4 or slot5 < slot1 and slot5 or slot1
+	slot0.guildInfo_.exp = slot0.guildInfo_.exp + slot6
+	slot0.guildInfo_.curWeekExp = slot0.guildInfo_.curWeekExp + slot6
 
-	if var_56_2 < var_56_3 and var_56_2 < arg_56_1 then
-		var_56_4 = var_56_2
-	elseif var_56_3 < arg_56_1 then
-		var_56_4 = var_56_3
-	else
-		var_56_4 = arg_56_1
-	end
-
-	arg_56_0.guildInfo_.exp = arg_56_0.guildInfo_.exp + var_56_4
-	arg_56_0.guildInfo_.curWeekExp = arg_56_0.guildInfo_.curWeekExp + var_56_4
-
-	local var_56_5 = arg_56_0.guildInfo_.exp
-
-	for iter_56_1 = 1, GameSetting.club_max_level.value[1] do
-		var_56_5 = var_56_5 - ClubLevelCfg[iter_56_1].club_level_exp
-
-		if var_56_5 < 0 then
-			arg_56_0.guildInfo_.level = iter_56_1
+	for slot11 = 1, GameSetting.club_max_level.value[1] do
+		if slot0.guildInfo_.exp - ClubLevelCfg[slot11].club_level_exp < 0 then
+			slot0.guildInfo_.level = slot11
 
 			return
 		end
 	end
 
-	arg_56_0.guildInfo_.level = GameSetting.club_max_level.value[1]
+	slot0.guildInfo_.level = GameSetting.club_max_level.value[1]
 end
 
-function var_0_0.GetMaxWeekExp(arg_57_0)
-	local var_57_0 = arg_57_0.guildInfo_.level
-
-	if var_57_0 == nil then
+function slot0.GetMaxWeekExp(slot0)
+	if slot0.guildInfo_.level == nil then
 		return 0
 	end
 
-	return ClubLevelCfg[var_57_0].max_exp_per_week
+	return ClubLevelCfg[slot1].max_exp_per_week
 end
 
-function var_0_0.ModifyCoin(arg_58_0, arg_58_1)
-	if arg_58_0.guildInfo_.id == nil then
+function slot0.ModifyCoin(slot0, slot1)
+	if slot0.guildInfo_.id == nil then
 		return
 	end
 
-	local var_58_0 = arg_58_0.guildInfo_.level
-	local var_58_1 = ClubLevelCfg[var_58_0].max_currency_per_week - arg_58_0.guildInfo_.curWeekCoin
-
-	if var_58_1 <= 0 then
+	if ClubLevelCfg[slot0.guildInfo_.level].max_currency_per_week - slot0.guildInfo_.curWeekCoin <= 0 then
 		return
 	end
 
-	if var_58_1 < arg_58_1 then
-		arg_58_0.guildInfo_.curWeekCoin = arg_58_0.guildInfo_.curWeekCoin + var_58_1
+	if slot3 < slot1 then
+		slot0.guildInfo_.curWeekCoin = slot0.guildInfo_.curWeekCoin + slot3
 	else
-		arg_58_0.guildInfo_.curWeekCoin = arg_58_0.guildInfo_.curWeekCoin + arg_58_1
+		slot0.guildInfo_.curWeekCoin = slot0.guildInfo_.curWeekCoin + slot1
 	end
 end
 
-function var_0_0.GetMaxWeekCoin(arg_59_0)
-	local var_59_0 = arg_59_0.guildInfo_.level
-
-	if var_59_0 == nil then
+function slot0.GetMaxWeekCoin(slot0)
+	if slot0.guildInfo_.level == nil then
 		return 0
 	end
 
-	return ClubLevelCfg[var_59_0].max_currency_per_week
+	return ClubLevelCfg[slot1].max_currency_per_week
 end
 
-function var_0_0.UpdateMemberCnt(arg_60_0, arg_60_1)
-	arg_60_0.guildInfo_.memberCnt = (arg_60_0.guildInfo_.memberCnt or 0) + arg_60_1
+function slot0.UpdateMemberCnt(slot0, slot1)
+	slot0.guildInfo_.memberCnt = (slot0.guildInfo_.memberCnt or 0) + slot1
 end
 
-function var_0_0.SetGuildSetting(arg_61_0, arg_61_1, arg_61_2)
-	arg_61_0.guildInfo_.reviewFlag = arg_61_1
-	arg_61_0.guildInfo_.limitLevel = arg_61_2
+function slot0.SetGuildSetting(slot0, slot1, slot2)
+	slot0.guildInfo_.reviewFlag = slot1
+	slot0.guildInfo_.limitLevel = slot2
 end
 
-function var_0_0.ExitGuild(arg_62_0)
-	arg_62_0.guildInfo_ = {}
-	arg_62_0.guildRequestList_ = {}
-	arg_62_0.guildMemberList_ = {}
-	arg_62_0.bossData_ = {
+function slot0.ExitGuild(slot0)
+	slot0.guildInfo_ = {}
+	slot0.guildRequestList_ = {}
+	slot0.guildMemberList_ = {}
+	slot0.bossData_ = {
 		day_clear_prepose_times = 0,
 		buff_index = 1,
 		personal_score = 0,
@@ -635,7 +596,7 @@ function var_0_0.ExitGuild(arg_62_0)
 		assist_info_list = {},
 		rank_list = {}
 	}
-	arg_62_0.requiredMemberStamptime_ = 0
+	slot0.requiredMemberStamptime_ = 0
 
 	manager.redPoint:setTip(RedPointConst.GUILD_IMPEACH, 0)
 	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, 0)
@@ -644,69 +605,65 @@ function var_0_0.ExitGuild(arg_62_0)
 	saveData("guildInfo", "guildID", nil)
 end
 
-function var_0_0.GetExitTime(arg_63_0)
-	return arg_63_0.exitGuildTime_
+function slot0.GetExitTime(slot0)
+	return slot0.exitGuildTime_
 end
 
-function var_0_0.SetExitTime(arg_64_0, arg_64_1)
-	arg_64_0.exitGuildTime_ = arg_64_1
+function slot0.SetExitTime(slot0, slot1)
+	slot0.exitGuildTime_ = slot1
 end
 
-function var_0_0.InitGuildMember(arg_65_0, arg_65_1)
-	arg_65_0.guildMemberList_ = {}
+function slot0.InitGuildMember(slot0, slot1)
+	slot0.guildMemberList_ = {}
 
-	for iter_65_0, iter_65_1 in ipairs(arg_65_1) do
-		arg_65_0.guildMemberList_[iter_65_1.id] = arg_65_0:ParseMemberData(iter_65_1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.guildMemberList_[slot6.id] = slot0:ParseMemberData(slot6)
 	end
 end
 
-function var_0_0.AddMember(arg_66_0, arg_66_1)
-	local var_66_0 = arg_66_1.member
+function slot0.AddMember(slot0, slot1)
+	slot2 = slot1.member
+	slot0.guildMemberList_[slot2.id] = slot0:ParseMemberData(slot2)
 
-	arg_66_0.guildMemberList_[var_66_0.id] = arg_66_0:ParseMemberData(var_66_0)
-
-	if var_66_0.id ~= USER_ID then
-		arg_66_0:UpdateMemberCnt(1)
+	if slot2.id ~= USER_ID then
+		slot0:UpdateMemberCnt(1)
 	end
 end
 
-function var_0_0.RemoveMember(arg_67_0, arg_67_1)
-	arg_67_0.guildMemberList_[arg_67_1.id] = nil
-	arg_67_0.requiredMemberStamptime_ = 0
+function slot0.RemoveMember(slot0, slot1)
+	slot0.guildMemberList_[slot1.id] = nil
+	slot0.requiredMemberStamptime_ = 0
 
-	if arg_67_1.id ~= USER_ID then
-		arg_67_0:UpdateMemberCnt(-1)
+	if slot1.id ~= USER_ID then
+		slot0:UpdateMemberCnt(-1)
 	end
 end
 
-function var_0_0.GetGuildMemberData(arg_68_0, arg_68_1)
-	return arg_68_0.guildMemberList_[arg_68_1]
+function slot0.GetGuildMemberData(slot0, slot1)
+	return slot0.guildMemberList_[slot1]
 end
 
-function var_0_0.GetGuildMemberIDList(arg_69_0)
-	local var_69_0 = {}
+function slot0.GetGuildMemberIDList(slot0)
+	slot1 = {}
 
-	for iter_69_0, iter_69_1 in pairs(arg_69_0.guildMemberList_) do
-		table.insert(var_69_0, iter_69_0)
+	for slot5, slot6 in pairs(slot0.guildMemberList_) do
+		table.insert(slot1, slot5)
 	end
 
-	if #var_69_0 > 1 then
-		table.sort(var_69_0, function(arg_70_0, arg_70_1)
-			local var_70_0 = arg_69_0.guildMemberList_[arg_70_0]
-			local var_70_1 = arg_69_0.guildMemberList_[arg_70_1]
-
-			if var_70_0.post < var_70_1.post then
+	if #slot1 > 1 then
+		table.sort(slot1, function (slot0, slot1)
+			if uv0.guildMemberList_[slot0].post < uv0.guildMemberList_[slot1].post then
 				return true
-			elseif var_70_0.post == var_70_1.post then
-				if var_70_0.offlineStamptime == 0 and var_70_1.offlineStamptime ~= 0 or var_70_1.offlineStamptime ~= 0 and var_70_0.offlineStamptime > var_70_1.offlineStamptime then
+			elseif slot2.post == slot3.post then
+				if slot2.offlineStamptime == 0 and slot3.offlineStamptime ~= 0 or slot3.offlineStamptime ~= 0 and slot3.offlineStamptime < slot2.offlineStamptime then
 					return true
-				elseif var_70_0.offlineStamptime == var_70_1.offlineStamptime then
-					if var_70_0.weekContribute > var_70_1.weekContribute then
+				elseif slot2.offlineStamptime == slot3.offlineStamptime then
+					if slot3.weekContribute < slot2.weekContribute then
 						return true
-					elseif var_70_0.weekContribute == var_70_1.weekContribute then
-						if var_70_0.contribute > var_70_0.contribute then
+					elseif slot2.weekContribute == slot3.weekContribute then
+						if slot2.contribute < slot2.contribute then
 							return true
-						elseif var_70_0.contribute == var_70_0.contribute and tonumber(var_70_0.id) < tonumber(var_70_1.id) then
+						elseif slot2.contribute == slot2.contribute and tonumber(slot2.id) < tonumber(slot3.id) then
 							return true
 						end
 					end
@@ -717,30 +674,27 @@ function var_0_0.GetGuildMemberIDList(arg_69_0)
 		end)
 	end
 
-	return var_69_0
+	return slot1
 end
 
-function var_0_0.GetGuildContributeList(arg_71_0)
-	local var_71_0 = {}
+function slot0.GetGuildContributeList(slot0)
+	slot1 = {}
 
-	for iter_71_0, iter_71_1 in pairs(arg_71_0.guildMemberList_) do
-		table.insert(var_71_0, iter_71_0)
+	for slot5, slot6 in pairs(slot0.guildMemberList_) do
+		table.insert(slot1, slot5)
 	end
 
-	if #var_71_0 > 1 then
-		table.sort(var_71_0, function(arg_72_0, arg_72_1)
-			local var_72_0 = arg_71_0.guildMemberList_[arg_72_0]
-			local var_72_1 = arg_71_0.guildMemberList_[arg_72_1]
-
-			if var_72_0.contribute > var_72_1.contribute then
+	if #slot1 > 1 then
+		table.sort(slot1, function (slot0, slot1)
+			if uv0.guildMemberList_[slot1].contribute < uv0.guildMemberList_[slot0].contribute then
 				return true
-			elseif var_72_0.contribute == var_72_1.contribute then
-				if var_72_0.weekContribute > var_72_0.weekContribute then
+			elseif slot2.contribute == slot3.contribute then
+				if slot2.weekContribute < slot2.weekContribute then
 					return true
-				elseif var_72_0.weekContribute == var_72_0.weekContribute then
-					if var_72_0.post < var_72_1.post then
+				elseif slot2.weekContribute == slot2.weekContribute then
+					if slot2.post < slot3.post then
 						return true
-					elseif var_72_0.post == var_72_1.post and tonumber(var_72_0.id) < tonumber(var_72_1.id) then
+					elseif slot2.post == slot3.post and tonumber(slot2.id) < tonumber(slot3.id) then
 						return true
 					end
 				end
@@ -750,30 +704,27 @@ function var_0_0.GetGuildContributeList(arg_71_0)
 		end)
 	end
 
-	return var_71_0
+	return slot1
 end
 
-function var_0_0.GetGuildWeekContributeList(arg_73_0)
-	local var_73_0 = {}
+function slot0.GetGuildWeekContributeList(slot0)
+	slot1 = {}
 
-	for iter_73_0, iter_73_1 in pairs(arg_73_0.guildMemberList_) do
-		table.insert(var_73_0, iter_73_0)
+	for slot5, slot6 in pairs(slot0.guildMemberList_) do
+		table.insert(slot1, slot5)
 	end
 
-	if #var_73_0 > 1 then
-		table.sort(var_73_0, function(arg_74_0, arg_74_1)
-			local var_74_0 = arg_73_0.guildMemberList_[arg_74_0]
-			local var_74_1 = arg_73_0.guildMemberList_[arg_74_1]
-
-			if var_74_0.weekContribute > var_74_1.weekContribute then
+	if #slot1 > 1 then
+		table.sort(slot1, function (slot0, slot1)
+			if uv0.guildMemberList_[slot1].weekContribute < uv0.guildMemberList_[slot0].weekContribute then
 				return true
-			elseif var_74_0.weekContribute == var_74_1.weekContribute then
-				if var_74_0.contribute > var_74_0.contribute then
+			elseif slot2.weekContribute == slot3.weekContribute then
+				if slot2.contribute < slot2.contribute then
 					return true
-				elseif var_74_0.contribute == var_74_0.contribute then
-					if var_74_0.post < var_74_1.post then
+				elseif slot2.contribute == slot2.contribute then
+					if slot2.post < slot3.post then
 						return true
-					elseif var_74_0.post == var_74_1.post and tonumber(var_74_0.id) < tonumber(var_74_1.id) then
+					elseif slot2.post == slot3.post and tonumber(slot2.id) < tonumber(slot3.id) then
 						return true
 					end
 				end
@@ -783,196 +734,189 @@ function var_0_0.GetGuildWeekContributeList(arg_73_0)
 		end)
 	end
 
-	return var_73_0
+	return slot1
 end
 
-function var_0_0.InitGuildRequestMember(arg_75_0, arg_75_1)
-	for iter_75_0, iter_75_1 in ipairs(arg_75_1) do
-		arg_75_0.guildRequestList_[iter_75_1.id] = arg_75_0:ParseRequestMemberData(iter_75_1)
+function slot0.InitGuildRequestMember(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0.guildRequestList_[slot6.id] = slot0:ParseRequestMemberData(slot6)
 	end
 
-	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, table.length(arg_75_0.guildRequestList_))
+	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, table.length(slot0.guildRequestList_))
 end
 
-function var_0_0.GetGuildRequestData(arg_76_0, arg_76_1)
-	return arg_76_0.guildRequestList_[arg_76_1]
+function slot0.GetGuildRequestData(slot0, slot1)
+	return slot0.guildRequestList_[slot1]
 end
 
-function var_0_0.GetGuildRequestIDList(arg_77_0)
-	local var_77_0 = {}
+function slot0.GetGuildRequestIDList(slot0)
+	slot1 = {}
 
-	for iter_77_0, iter_77_1 in pairs(arg_77_0.guildRequestList_) do
-		table.insert(var_77_0, iter_77_0)
+	for slot5, slot6 in pairs(slot0.guildRequestList_) do
+		table.insert(slot1, slot5)
 	end
 
-	return var_77_0
+	return slot1
 end
 
-function var_0_0.UpdateRequestMember(arg_78_0, arg_78_1)
-	local var_78_0 = arg_78_1.member
+function slot0.UpdateRequestMember(slot0, slot1)
+	slot2 = slot1.member
 
-	if arg_78_1.type == 1 then
-		arg_78_0.guildRequestList_[arg_78_1.id] = arg_78_0:ParseRequestMemberData(arg_78_1.member)
-	elseif arg_78_1.type == 2 then
-		arg_78_0.guildRequestList_[arg_78_1.id] = nil
-	elseif arg_78_1.type == 3 then
-		arg_78_0.guildRequestList_[arg_78_1.id] = nil
+	if slot1.type == 1 then
+		slot0.guildRequestList_[slot1.id] = slot0:ParseRequestMemberData(slot1.member)
+	elseif slot1.type == 2 then
+		slot0.guildRequestList_[slot1.id] = nil
+	elseif slot1.type == 3 then
+		slot0.guildRequestList_[slot1.id] = nil
 	end
 
-	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, table.length(arg_78_0.guildRequestList_))
+	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, table.length(slot0.guildRequestList_))
 end
 
-function var_0_0.RemoveAllRequestMember(arg_79_0)
-	arg_79_0.guildRequestList_ = {}
+function slot0.RemoveAllRequestMember(slot0)
+	slot0.guildRequestList_ = {}
 
 	manager.redPoint:setTip(RedPointConst.GUILD_REQUEST, 0)
 end
 
-function var_0_0.GetCaptainID(arg_80_0)
-	for iter_80_0, iter_80_1 in pairs(arg_80_0.guildMemberList_) do
-		if iter_80_1.post == GuildConst.GUILD_POST.CAPTAIN then
-			return iter_80_1.id
+function slot0.GetCaptainID(slot0)
+	for slot4, slot5 in pairs(slot0.guildMemberList_) do
+		if slot5.post == GuildConst.GUILD_POST.CAPTAIN then
+			return slot5.id
 		end
 	end
 end
 
-function var_0_0.IsCaptainOrDeputy(arg_81_0)
-	local var_81_0 = arg_81_0.guildInfo_.post
-
-	return var_81_0 == GuildConst.GUILD_POST.CAPTAIN or var_81_0 == GuildConst.GUILD_POST.DEPUTY
+function slot0.IsCaptainOrDeputy(slot0)
+	return slot0.guildInfo_.post == GuildConst.GUILD_POST.CAPTAIN or slot1 == GuildConst.GUILD_POST.DEPUTY
 end
 
-function var_0_0.ChangedCaptain(arg_82_0, arg_82_1)
-	arg_82_0.guildInfo_.captain = arg_82_1.nick
+function slot0.ChangedCaptain(slot0, slot1)
+	slot0.guildInfo_.captain = slot1.nick
 
-	local var_82_0 = arg_82_0:GetCaptainID()
+	if slot0:GetCaptainID() then
+		slot3 = slot0.guildMemberList_[slot2]
+		slot3.post = GuildConst.GUILD_POST.MEMBER
 
-	if var_82_0 then
-		local var_82_1 = arg_82_0.guildMemberList_[var_82_0]
-
-		var_82_1.post = GuildConst.GUILD_POST.MEMBER
-
-		if var_82_1.id == USER_ID then
-			arg_82_0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
+		if slot3.id == USER_ID then
+			slot0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
 		end
 
-		arg_82_0:RemoveAllRequestMember()
+		slot0:RemoveAllRequestMember()
 	end
 
-	if arg_82_0.guildMemberList_[arg_82_1.id] then
-		arg_82_0.guildMemberList_[arg_82_1.id].post = GuildConst.GUILD_POST.CAPTAIN
+	if slot0.guildMemberList_[slot1.id] then
+		slot0.guildMemberList_[slot1.id].post = GuildConst.GUILD_POST.CAPTAIN
 	end
 
-	if arg_82_1.id == USER_ID then
-		arg_82_0.guildInfo_.post = GuildConst.GUILD_POST.CAPTAIN
-	end
-end
-
-function var_0_0.ChangedDeputy(arg_83_0, arg_83_1)
-	if arg_83_0.guildMemberList_[arg_83_1.id] then
-		arg_83_0.guildMemberList_[arg_83_1.id].post = GuildConst.GUILD_POST.DEPUTY
-	end
-
-	if arg_83_1.id == USER_ID then
-		arg_83_0.guildInfo_.post = GuildConst.GUILD_POST.DEPUTY
+	if slot1.id == USER_ID then
+		slot0.guildInfo_.post = GuildConst.GUILD_POST.CAPTAIN
 	end
 end
 
-function var_0_0.DismissDeputy(arg_84_0, arg_84_1)
-	if arg_84_0.guildMemberList_[arg_84_1.id] then
-		arg_84_0.guildMemberList_[arg_84_1.id].post = GuildConst.GUILD_POST.MEMBER
+function slot0.ChangedDeputy(slot0, slot1)
+	if slot0.guildMemberList_[slot1.id] then
+		slot0.guildMemberList_[slot1.id].post = GuildConst.GUILD_POST.DEPUTY
 	end
 
-	if arg_84_1.id == USER_ID then
-		arg_84_0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
+	if slot1.id == USER_ID then
+		slot0.guildInfo_.post = GuildConst.GUILD_POST.DEPUTY
 	end
 end
 
-function var_0_0.GetCaptainOfflineTime(arg_85_0)
-	local var_85_0 = arg_85_0:GetCaptainID()
+function slot0.DismissDeputy(slot0, slot1)
+	if slot0.guildMemberList_[slot1.id] then
+		slot0.guildMemberList_[slot1.id].post = GuildConst.GUILD_POST.MEMBER
+	end
 
-	if arg_85_0.guildMemberList_[var_85_0].offlineStamptime == 0 then
+	if slot1.id == USER_ID then
+		slot0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
+	end
+end
+
+function slot0.GetCaptainOfflineTime(slot0)
+	if slot0.guildMemberList_[slot0:GetCaptainID()].offlineStamptime == 0 then
 		return manager.time:GetServerTime()
 	end
 
-	return arg_85_0.guildMemberList_[var_85_0].offlineStamptime
+	return slot0.guildMemberList_[slot1].offlineStamptime
 end
 
-function var_0_0.ImpeachCaptain(arg_86_0, arg_86_1)
-	arg_86_0.guildInfo_.impeachTime = arg_86_1.time_stamp + 172800
+function slot0.ImpeachCaptain(slot0, slot1)
+	slot0.guildInfo_.impeachTime = slot1.time_stamp + 172800
 end
 
-function var_0_0.CancelImpeach(arg_87_0)
-	arg_87_0.guildInfo_.impeachTime = 0
+function slot0.CancelImpeach(slot0)
+	slot0.guildInfo_.impeachTime = 0
 end
 
-function var_0_0.ApplyCaptain(arg_88_0)
-	arg_88_0.guildInfo_.isCandidate = true
+function slot0.ApplyCaptain(slot0)
+	slot0.guildInfo_.isCandidate = true
 end
 
-function var_0_0.Trainee2Member(arg_89_0)
-	arg_89_0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
+function slot0.Trainee2Member(slot0)
+	slot0.guildInfo_.post = GuildConst.GUILD_POST.MEMBER
 end
 
-function var_0_0.GetCacheGuildInfo(arg_90_0, arg_90_1)
-	return arg_90_0.cacheGuildListInfo_[arg_90_1]
+function slot0.GetCacheGuildInfo(slot0, slot1)
+	return slot0.cacheGuildListInfo_[slot1]
 end
 
-function var_0_0.SetCacheGuildInfo(arg_91_0, arg_91_1)
-	arg_91_0.cacheGuildListInfo_[arg_91_1.id] = {
-		id = arg_91_1.id,
-		icon = arg_91_1.icon,
-		name = arg_91_1.name,
-		level = arg_91_1.level,
-		exp = arg_91_1.club_exp,
-		memberCnt = arg_91_1.member_count,
-		maxMemberCnt = arg_91_1.member_count_limit,
-		contribute = arg_91_1.last_week_total_vitality,
-		notice = arg_91_1.notice,
-		captain = arg_91_1.leader.user_profile_base.nick,
-		isFree = arg_91_1.club_setting.examine_recruit_join_request_switch == 1,
-		limitLevel = arg_91_1.club_setting.join_request_limit
+function slot0.SetCacheGuildInfo(slot0, slot1)
+	slot0.cacheGuildListInfo_[slot1.id] = {
+		id = slot1.id,
+		icon = slot1.icon,
+		name = slot1.name,
+		level = slot1.level,
+		exp = slot1.club_exp,
+		memberCnt = slot1.member_count,
+		maxMemberCnt = slot1.member_count_limit,
+		contribute = slot1.last_week_total_vitality,
+		notice = slot1.notice,
+		captain = slot1.leader.user_profile_base.nick,
+		isFree = slot1.club_setting.examine_recruit_join_request_switch == 1,
+		limitLevel = slot1.club_setting.join_request_limit
 	}
 end
 
-function var_0_0.GetImpeachFlag(arg_92_0)
-	return arg_92_0.showImpeachFlag_
+function slot0.GetImpeachFlag(slot0)
+	return slot0.showImpeachFlag_
 end
 
-function var_0_0.SetImpeachFlag(arg_93_0)
-	arg_93_0.showImpeachFlag_ = true
+function slot0.SetImpeachFlag(slot0)
+	slot0.showImpeachFlag_ = true
 end
 
-function var_0_0.GetRecommendRefreshStamptime(arg_94_0)
-	return arg_94_0.recommendRefershStamptime_
+function slot0.GetRecommendRefreshStamptime(slot0)
+	return slot0.recommendRefershStamptime_
 end
 
-function var_0_0.SetRecommendRefreshStamptime(arg_95_0)
-	arg_95_0.recommendRefershStamptime_ = manager.time:GetServerTime()
+function slot0.SetRecommendRefreshStamptime(slot0)
+	slot0.recommendRefershStamptime_ = manager.time:GetServerTime()
 end
 
-function var_0_0.SetRequiredMemberStamptime(arg_96_0)
-	arg_96_0.requiredMemberStamptime_ = manager.time:GetServerTime()
+function slot0.SetRequiredMemberStamptime(slot0)
+	slot0.requiredMemberStamptime_ = manager.time:GetServerTime()
 end
 
-function var_0_0.GetRequiredMemberStamptime(arg_97_0)
-	return arg_97_0.requiredMemberStamptime_
+function slot0.GetRequiredMemberStamptime(slot0)
+	return slot0.requiredMemberStamptime_
 end
 
-var_0_0.INVALID_GUILD = "0"
+slot0.INVALID_GUILD = "0"
 
-function var_0_0.IsGuildValid(arg_98_0)
-	if arg_98_0 == nil then
+function slot0.IsGuildValid(slot0)
+	if slot0 == nil then
 		return false
-	elseif type(arg_98_0) == "string" then
-		return arg_98_0 ~= "0"
-	elseif type(arg_98_0) == "userdata" then
-		return arg_98_0 ~= uint64.new(0, 0)
-	elseif type(arg_98_0) == "number" then
-		return arg_98_0 ~= 0
+	elseif type(slot0) == "string" then
+		return slot0 ~= "0"
+	elseif type(slot0) == "userdata" then
+		return slot0 ~= uint64.new(0, 0)
+	elseif type(slot0) == "number" then
+		return slot0 ~= 0
 	else
 		return false
 	end
 end
 
-return var_0_0
+return slot0

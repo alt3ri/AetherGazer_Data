@@ -1,159 +1,144 @@
-local var_0_0 = class("MatrixProcessShopView", ReduxView)
+slot0 = class("MatrixProcessShopView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "UI/Matrix/Process/MatrixProcessShopUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.matrixShopList_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.m_list, MatrixProcessShopItem)
-	arg_4_0.emptyController = ControllerUtil.GetController(arg_4_0.transform_, "empty")
+	slot0.matrixShopList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, MatrixProcessShopItem)
+	slot0.emptyController = ControllerUtil.GetController(slot0.transform_, "empty")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_sellerBtn, nil, function()
-		arg_5_0:RandomDialog(1)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_sellerBtn, nil, function ()
+		uv0:RandomDialog(1)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_refreshBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_refreshBtn, nil, function ()
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = {
 				GetTips("WHETHER_TO_CONSUME"),
 				{
 					CurrencyConst.CURRENCY_TYPE_MATRIX_COIN,
-					arg_5_0.refreshCost
+					uv0.refreshCost
 				},
-				(GetTips("MATRIX_SHOP_REFRESH"))
+				GetTips("MATRIX_SHOP_REFRESH")
 			},
-			OkCallback = function()
+			OkCallback = function ()
 				MatrixAction.QueryRefreshShopItem()
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.indexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:Refresh(arg_10_0.shops[arg_10_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:Refresh(slot0.shops[slot1])
 end
 
-function var_0_0.UpdateView(arg_11_0, arg_11_1)
-	arg_11_0.refreshCount, arg_11_0.shops = arg_11_0:GetMatrixPhaseData():GetData()
+function slot0.UpdateView(slot0, slot1)
+	slot0.refreshCount, slot0.shops = slot0:GetMatrixPhaseData():GetData()
 
-	arg_11_0.matrixShopList_:StartScroll(#arg_11_0.shops)
+	slot0.matrixShopList_:StartScroll(#slot0.shops)
 
-	if arg_11_1 then
-		arg_11_0.matrixShopList_:StartScrollByPosition(#arg_11_0.shops, arg_11_1)
+	if slot1 then
+		slot0.matrixShopList_:StartScrollByPosition(#slot0.shops, slot1)
 	else
-		arg_11_0.matrixShopList_:StartScroll(#arg_11_0.shops)
+		slot0.matrixShopList_:StartScroll(#slot0.shops)
 	end
 
-	if #arg_11_0.shops == 0 then
-		arg_11_0.emptyController:SetSelectedIndex(1)
+	if #slot0.shops == 0 then
+		slot0.emptyController:SetSelectedIndex(1)
 	else
-		arg_11_0.emptyController:SetSelectedIndex(0)
+		slot0.emptyController:SetSelectedIndex(0)
 	end
 
-	local var_11_0 = arg_11_0:GetShoRefreshTimes()
-	local var_11_1 = arg_11_0:GetShopFressRefreshTimes()
+	slot4 = slot0:GetShopFressRefreshTimes()
 
-	if var_11_0 > arg_11_0.refreshCount then
-		SetActive(arg_11_0.m_refreshContent, true)
+	if slot0.refreshCount < slot0:GetShoRefreshTimes() then
+		SetActive(slot0.m_refreshContent, true)
 
-		arg_11_0.refreshCost = 0
-		arg_11_0.m_refreshTimes.text = string.format("%d/%d", arg_11_0.refreshCount, var_11_0)
+		slot0.refreshCost = 0
+		slot0.m_refreshTimes.text = string.format("%d/%d", slot0.refreshCount, slot3)
+		slot5 = GameSetting.matrix_shop_refresh_cost_item_list.value
 
-		local var_11_2 = GameSetting.matrix_shop_refresh_cost_item_list.value
-
-		if var_11_1 <= arg_11_0.refreshCount then
-			local var_11_3 = arg_11_0.refreshCount - var_11_1
-			local var_11_4 = var_11_2[math.min(var_11_3 + 1, #var_11_2)]
-
-			arg_11_0.refreshCost = var_11_4[2]
-			arg_11_0.m_refreshIcon.sprite = ItemTools.getItemLittleSprite(arg_11_0:GetSwitchItemIcon(var_11_4[1]))
+		if slot4 <= slot0.refreshCount then
+			slot8 = slot5[math.min(slot0.refreshCount - slot4 + 1, #slot5)]
+			slot0.refreshCost = slot8[2]
+			slot0.m_refreshIcon.sprite = ItemTools.getItemLittleSprite(slot0:GetSwitchItemIcon(slot8[1]))
 		else
-			local var_11_5 = var_11_2[1]
-
-			arg_11_0.m_refreshIcon.sprite = ItemTools.getItemLittleSprite(arg_11_0:GetSwitchItemIcon(var_11_5[1]))
-			arg_11_0.refreshCost = 0
+			slot0.m_refreshIcon.sprite = ItemTools.getItemLittleSprite(slot0:GetSwitchItemIcon(slot5[1][1]))
+			slot0.refreshCost = 0
 		end
 
-		arg_11_0.m_refreshCost.text = "x" .. arg_11_0.refreshCost
+		slot0.m_refreshCost.text = "x" .. slot0.refreshCost
 	else
-		SetActive(arg_11_0.m_refreshContent, false)
+		SetActive(slot0.m_refreshContent, false)
 	end
 end
 
-function var_0_0.RandomDialog(arg_12_0, arg_12_1)
-	local var_12_0 = MatrixShopDialogCfg.get_id_list_by_type[arg_12_1]
-
-	if not var_12_0 then
+function slot0.RandomDialog(slot0, slot1)
+	if not MatrixShopDialogCfg.get_id_list_by_type[slot1] then
 		return
 	end
 
-	SetActive(arg_12_0.m_bubbleGo, true)
+	SetActive(slot0.m_bubbleGo, true)
 
-	local var_12_1 = #var_12_0
+	slot3 = #slot2
 
-	if #var_12_0 == 1 then
-		arg_12_0.curRandomIndex_ = 1
+	if #slot2 == 1 then
+		slot0.curRandomIndex_ = 1
 	else
-		local var_12_2 = math.random(2, var_12_1)
-
-		arg_12_0.curRandomIndex_ = var_12_2 == arg_12_0.curRandomIndex_ and 1 or var_12_2
+		slot0.curRandomIndex_ = math.random(2, slot3) == slot0.curRandomIndex_ and 1 or slot4
 	end
 
-	local var_12_3 = var_12_0[arg_12_0.curRandomIndex_]
-	local var_12_4 = MatrixShopDialogCfg[var_12_3]
+	slot5 = MatrixShopDialogCfg[slot2[slot0.curRandomIndex_]]
+	slot0.m_dialogText.text = GetI18NText(slot5.content)
+	slot7 = slot5.voice_name
 
-	arg_12_0.m_dialogText.text = GetI18NText(var_12_4.content)
-
-	local var_12_5 = var_12_4.voice_sheet
-	local var_12_6 = var_12_4.voice_name
-
-	if var_12_5 ~= nil and var_12_5 ~= "" and var_12_6 ~= nil and var_12_6 ~= "" then
-		manager.audio:PlayVoice(var_12_5, var_12_6, "")
+	if slot5.voice_sheet ~= nil and slot6 ~= "" and slot7 ~= nil and slot7 ~= "" then
+		manager.audio:PlayVoice(slot6, slot7, "")
 	end
 
-	if arg_12_0.timer_ == nil then
-		arg_12_0.timer_ = Timer.New(function()
-			arg_12_0:RemoveDialog()
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:RemoveDialog()
 		end, 3, 1)
 
-		arg_12_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_12_0.timer_:Reset()
+		slot0.timer_:Reset()
 	end
 end
 
-function var_0_0.RemoveDialog(arg_14_0)
-	SetActive(arg_14_0.m_bubbleGo, false)
+function slot0.RemoveDialog(slot0)
+	SetActive(slot0.m_bubbleGo, false)
 
-	if arg_14_0.timer_ then
-		arg_14_0.timer_:Stop()
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_14_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.OnEnter(arg_15_0)
-	arg_15_0:UpdateView()
-	arg_15_0:RandomDialog(2)
+function slot0.OnEnter(slot0)
+	slot0:UpdateView()
+	slot0:RandomDialog(2)
 end
 
-function var_0_0.OnTop(arg_16_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -162,12 +147,12 @@ function var_0_0.OnTop(arg_16_0)
 	})
 	manager.windowBar:SetBarCanAdd(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN, false)
 	manager.windowBar:SetGameHelpKey("MATRIX_DESCRIPE")
-	manager.windowBar:RegistBackCallBack(function()
+	manager.windowBar:RegistBackCallBack(function ()
 		ShowMessageBox({
 			isTop = true,
 			content = GetTips("MATRIX_SURE_GET_OUT_SHOP"),
-			OkCallback = function()
-				if arg_16_0:GetGameState() == MatrixConst.STATE_TYPE.STARTED then
+			OkCallback = function ()
+				if uv0:GetGameState() == MatrixConst.STATE_TYPE.STARTED then
 					MatrixAction.QueryNextProgress()
 				end
 
@@ -177,67 +162,61 @@ function var_0_0.OnTop(arg_16_0)
 	end)
 end
 
-function var_0_0.OnExit(arg_19_0)
-	arg_19_0:RemoveDialog()
+function slot0.OnExit(slot0)
+	slot0:RemoveDialog()
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.Dispose(arg_20_0)
-	if arg_20_0.matrixShopList_ then
-		arg_20_0.matrixShopList_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.matrixShopList_ then
+		slot0.matrixShopList_:Dispose()
 
-		arg_20_0.matrixShopList_ = nil
+		slot0.matrixShopList_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_20_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.OnMatrixUserUpdate(arg_21_0)
-	local var_21_0 = arg_21_0:GetGameState()
-
-	if MatrixConst.STATE_TYPE.STARTED == var_21_0 then
-		arg_21_0:UpdateView()
-	elseif MatrixConst.STATE_TYPE.NOTSTARTED == var_21_0 then
+function slot0.OnMatrixUserUpdate(slot0)
+	if MatrixConst.STATE_TYPE.STARTED == slot0:GetGameState() then
+		slot0:UpdateView()
+	elseif MatrixConst.STATE_TYPE.NOTSTARTED == slot1 then
 		JumpTools.OpenPageByJump("/matrixBlank/matrixPrepare", {
 			isTimeOut = true
 		})
 	end
 end
 
-function var_0_0.OnMatrixShopBuySuccess(arg_22_0)
-	arg_22_0:RandomDialog(3)
+function slot0.OnMatrixShopBuySuccess(slot0)
+	slot0:RandomDialog(3)
 end
 
-function var_0_0.OnMatrixSystemUpdate(arg_23_0)
-	local var_23_0 = arg_23_0.matrixShopList_:GetScrolledPosition()
-
-	arg_23_0:UpdateView(var_23_0)
+function slot0.OnMatrixSystemUpdate(slot0)
+	slot0:UpdateView(slot0.matrixShopList_:GetScrolledPosition())
 end
 
-function var_0_0.OnMatrixUserUpdate(arg_24_0)
-	local var_24_0 = arg_24_0.matrixShopList_:GetScrolledPosition()
-
-	arg_24_0:UpdateView(var_24_0)
+function slot0.OnMatrixUserUpdate(slot0)
+	slot0:UpdateView(slot0.matrixShopList_:GetScrolledPosition())
 end
 
-function var_0_0.GetGameState(arg_25_0)
+function slot0.GetGameState(slot0)
 	return MatrixData:GetGameState()
 end
 
-function var_0_0.GetMatrixPhaseData(arg_26_0)
+function slot0.GetMatrixPhaseData(slot0)
 	return MatrixData:GetMatrixPhaseData()
 end
 
-function var_0_0.GetShoRefreshTimes(arg_27_0)
+function slot0.GetShoRefreshTimes(slot0)
 	return MatrixData:GetShoRefreshTimes()
 end
 
-function var_0_0.GetShopFressRefreshTimes(arg_28_0)
+function slot0.GetShopFressRefreshTimes(slot0)
 	return MatrixData:GetShopFressRefreshTimes()
 end
 
-function var_0_0.GetSwitchItemIcon(arg_29_0, arg_29_1)
-	return arg_29_1
+function slot0.GetSwitchItemIcon(slot0, slot1)
+	return slot1
 end
 
-return var_0_0
+return slot0

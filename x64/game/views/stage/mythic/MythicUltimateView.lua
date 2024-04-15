@@ -1,87 +1,83 @@
-local var_0_0 = class("MythicUltimateView", ReduxView)
+slot0 = class("MythicUltimateView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Challenge_Mythic/MythicFinalUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0._affixMonster = {}
-	arg_4_0.isStarController = ControllerUtil.GetController(arg_4_0.transform_, "isStar")
-	arg_4_0.mosterAffixController_ = ControllerUtil.GetController(arg_4_0.m_mosterAffixController, "affix")
+	slot0._affixMonster = {}
+	slot0.isStarController = ControllerUtil.GetController(slot0.transform_, "isStar")
+	slot0.mosterAffixController_ = ControllerUtil.GetController(slot0.m_mosterAffixController, "affix")
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.m_rewardBtn, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.m_rewardBtn, nil, function ()
 		JumpTools.OpenPageByJump("mythicFinalRewardView")
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_shopBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_shopBtn, nil, function ()
 		JumpTools.GoToSystem("/shop", {
 			shopId = ShopConst.SHOP_ID.BLACK_AREA
 		}, ViewConst.SYSTEM_ID.SHOP)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_refreshBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_refreshBtn, nil, function ()
 		JumpTools.OpenPageByJump("popCostItem", {
 			costCount = 1,
 			costId = MaterialConst.MYTHIC_REFRESH_ITEM_ID,
 			content = string.format(GetTips("MYTHIC_REFRESH_CHECK"), ItemCfg[MaterialConst.MYTHIC_REFRESH_ITEM_ID].name, 1),
 			itemId = MaterialConst.MYTHIC_REFRESH_ITEM_ID,
-			popCostCallBack = handler(arg_5_0, arg_5_0.PopCostCallBack)
+			popCostCallBack = handler(uv0, uv0.PopCostCallBack)
 		})
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_difficultyBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_difficultyBtn, nil, function ()
 		if MythicData:GetFinalIsReward() == 0 then
 			JumpTools.OpenPageByJump("mythicDifficulty")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_startBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_startBtn, nil, function ()
 		if MythicData:GetIsBattleIng() then
 			gameContext:Go("/mythicFinalTeamView")
 		else
 			JumpTools.OpenPageByJump("mythicFinalLevelView")
 		end
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.m_rankBtn, nil, function()
+	slot0:AddBtnListener(slot0.m_rankBtn, nil, function ()
 		JumpTools.OpenPageByJump("/mythicFinalRankView", {
 			reset = true
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_12_0)
+function slot0.OnEnter(slot0)
 	getSpriteWithoutAtlas("TextureConfig/Item_l/40701")
-	arg_12_0:RegistEventListener(MATERIAL_MODIFY, handler(arg_12_0, arg_12_0.RefreshMaterial))
+	slot0:RegistEventListener(MATERIAL_MODIFY, handler(slot0, slot0.RefreshMaterial))
 
 	if not RankData:GetCommonRank(RankConst.RANK_ID.MYTHIC) then
 		RankAction.QueryOwnCommonRank(RankConst.RANK_ID.MYTHIC)
 	end
 
-	arg_12_0:RefreshUI()
+	slot0:RefreshUI()
 
-	local var_12_0 = MythicData:GetNextRefreshTime()
-
-	arg_12_0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(var_12_0))
-	arg_12_0.updateTimer_ = Timer.New(function()
-		local var_13_0 = MythicData:GetNextRefreshTime()
-
-		arg_12_0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(var_13_0))
+	slot0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(MythicData:GetNextRefreshTime()))
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0.cdText_.text = string.format(GetTips("TIME_DISPLAY_9"), "" .. manager.time:GetLostTimeStrWith2Unit(MythicData:GetNextRefreshTime()))
 	end, 1, -1)
 
-	arg_12_0.updateTimer_:Start()
-	manager.redPoint:bindUIandKey(arg_12_0.m_rewardBtn.transform, RedPointConst.MYTHIC_FINAL_AWARD)
+	slot0.updateTimer_:Start()
+	manager.redPoint:bindUIandKey(slot0.m_rewardBtn.transform, RedPointConst.MYTHIC_FINAL_AWARD)
 end
 
-function var_0_0.PopCostCallBack(arg_14_0)
+function slot0.PopCostCallBack(slot0)
 	if MythicData:GetFinalRewardNotGet() then
 		ShowTips("ERROR_BATTLE_MYTHIC_REWARD_NO_RECEIVED")
 
@@ -99,7 +95,7 @@ function var_0_0.PopCostCallBack(arg_14_0)
 	})
 end
 
-function var_0_0.OnTop(arg_15_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -107,43 +103,43 @@ function var_0_0.OnTop(arg_15_0)
 	})
 	manager.windowBar:SetGameHelpKey("MYTHIC_FINAL_DESC")
 	MythicData:SetIsNew(false)
-	arg_15_0:RefreshUI()
-	arg_15_0:CheckDifficultyChange()
+	slot0:RefreshUI()
+	slot0:CheckDifficultyChange()
 end
 
-function var_0_0.OnMyticUpdate(arg_16_0)
-	arg_16_0:RefreshUI()
+function slot0.OnMyticUpdate(slot0)
+	slot0:RefreshUI()
 
 	if MythicData:GetDifficulty() == 0 then
 		JumpTools.OpenPageByJump("/mythicUltimateView/mythicDifficulty", nil)
 	end
 end
 
-function var_0_0.OnMythicFinalGetReward(arg_17_0)
-	arg_17_0:RefreshUI()
+function slot0.OnMythicFinalGetReward(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnMythicFinalUpdate(arg_18_0)
-	arg_18_0:RefreshUI()
+function slot0.OnMythicFinalUpdate(slot0)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnTryToUseItem(arg_19_0, arg_19_1, arg_19_2)
-	if isSuccess(arg_19_1.result) then
+function slot0.OnTryToUseItem(slot0, slot1, slot2)
+	if isSuccess(slot1.result) then
 		MythicAction.QueryMythicInfo()
 	else
-		ShowTips(arg_19_1.result)
+		ShowTips(slot1.result)
 	end
 end
 
-function var_0_0.CheckDifficultyChange(arg_20_0)
+function slot0.CheckDifficultyChange(slot0)
 	if MythicData:GetIsNewDifficulty() then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_NEW_LEVEL_UNLOCK"),
-			OkCallback = function()
+			OkCallback = function ()
 				MythicAction:QueryMythicRead()
-				arg_20_0:CheckMail()
+				uv0:CheckMail()
 			end
 		})
 	elseif MythicData:GetIsNewHotLevel() then
@@ -151,27 +147,27 @@ function var_0_0.CheckDifficultyChange(arg_20_0)
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("MYTHIC_FINAL_LEVEL_UNLOCK"),
-			OkCallback = function()
+			OkCallback = function ()
 				MythicAction:QueryMythicFinalRead()
-				arg_20_0:CheckMail()
+				uv0:CheckMail()
 			end
 		})
 	else
-		arg_20_0:CheckMail()
+		slot0:CheckMail()
 	end
 end
 
-function var_0_0.CheckMail(arg_23_0)
+function slot0.CheckMail(slot0)
 	if PlayerData:GetUnclaimed(3) ~= nil then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("UNCLAIMED_BONUS_MAIL_TIP"),
-			OkCallback = function()
+			OkCallback = function ()
 				PlayerAction.ReadUnclaimedMessage(3)
 
 				if MythicData:IsShowDifficultySelectView() then
-					TimeTools.StartAfterSeconds(0.033, function()
+					TimeTools.StartAfterSeconds(0.033, function ()
 						JumpTools.OpenPageByJump("mythicDifficulty")
 					end, {})
 				end
@@ -180,146 +176,133 @@ function var_0_0.CheckMail(arg_23_0)
 	end
 end
 
-function var_0_0.RefreshUI(arg_26_0)
-	arg_26_0:RefreshMaterial()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshMaterial()
 
 	if MythicData:GetFinalIsReward() == 0 then
-		arg_26_0.isStarController:SetSelectedIndex(0)
+		slot0.isStarController:SetSelectedIndex(0)
 	else
-		arg_26_0.isStarController:SetSelectedIndex(1)
+		slot0.isStarController:SetSelectedIndex(1)
 	end
 
-	arg_26_0.levelText_.text = string.format(MythicFinalCfg[MythicData:GetCurHotLevelId()].level_diffuculty)
+	slot0.levelText_.text = string.format(MythicFinalCfg[MythicData:GetCurHotLevelId()].level_diffuculty)
 
-	arg_26_0:RefreshAffixItems(MythicData:GetFinalMonsterAffix(), false, arg_26_0._affixMonsterParent, arg_26_0._affixMonster, arg_26_0.mosterAffixController_)
-	arg_26_0:RefreshRank()
+	slot0:RefreshAffixItems(MythicData:GetFinalMonsterAffix(), false, slot0._affixMonsterParent, slot0._affixMonster, slot0.mosterAffixController_)
+	slot0:RefreshRank()
 end
 
-function var_0_0.RefreshMaterial(arg_27_0)
-	local var_27_0 = ItemTools.getItemNum(MaterialConst.MYTHIC_REFRESH_ITEM_ID)
+function slot0.RefreshMaterial(slot0)
+	slot0.m_refreshCountText.text = "x1"
 
-	arg_27_0.m_refreshCountText.text = "x1"
-
-	if var_27_0 > 0 then
-		SetActive(arg_27_0.m_refreshBtn.gameObject, true)
+	if ItemTools.getItemNum(MaterialConst.MYTHIC_REFRESH_ITEM_ID) > 0 then
+		SetActive(slot0.m_refreshBtn.gameObject, true)
 	else
-		SetActive(arg_27_0.m_refreshBtn.gameObject, false)
-	end
-end
-
-function var_0_0.RefreshAffixItems(arg_28_0, arg_28_1, arg_28_2, arg_28_3, arg_28_4, arg_28_5)
-	local var_28_0 = {}
-
-	arg_28_1 = arg_28_1 or {}
-
-	local var_28_1 = 0
-	local var_28_2 = math.min(#arg_28_1, 3)
-
-	for iter_28_0, iter_28_1 in ipairs(arg_28_1) do
-		local var_28_3 = clone(iter_28_1)
-
-		var_28_3.lock = false
-		var_28_1 = var_28_1 + 1
-
-		table.insert(var_28_0, var_28_3)
-	end
-
-	arg_28_5:SetSelectedState(var_28_2 .. "_" .. var_28_1)
-
-	for iter_28_2, iter_28_3 in ipairs(var_28_0) do
-		arg_28_0["affixname_" .. iter_28_2].text = getAffixName(iter_28_3)
-		arg_28_0["affixdes_" .. iter_28_2].text = getAffixDesc(iter_28_3)
-		arg_28_0["affiximage_" .. iter_28_2].sprite = getAffixSprite(iter_28_3)
-	end
-
-	for iter_28_4 = #var_28_0 + 1, #arg_28_4 do
-		arg_28_4[iter_28_4]:Show(false)
+		SetActive(slot0.m_refreshBtn.gameObject, false)
 	end
 end
 
-function var_0_0.ShowAffixInfo(arg_29_0, arg_29_1, arg_29_2)
-	arg_29_0.affixinfoTrs_:SetParent(arg_29_1)
+function slot0.RefreshAffixItems(slot0, slot1, slot2, slot3, slot4, slot5)
+	slot6 = {}
+	slot8 = math.min(#(slot1 or {}), 3)
 
-	arg_29_0.affixinfoTrs_.localPosition = Vector3(0, -60, 0)
+	for slot12, slot13 in ipairs(slot1) do
+		slot14 = clone(slot13)
+		slot14.lock = false
+		slot7 = 0 + 1
 
-	SetActive(arg_29_0.affixinfoTrs_.gameObject, true)
+		table.insert(slot6, slot14)
+	end
 
-	local var_29_0 = arg_29_0.affixcontentTrs_.transform.localPosition
+	slot13 = "_"
+	slot12 = slot8 .. slot13 .. slot7
 
-	arg_29_0.affixcontentTrs_.transform.localPosition = Vector3(261.505, var_29_0.y, 0)
+	slot5:SetSelectedState(slot12)
 
-	local var_29_1 = arg_29_0.endPoint_:TransformPoint(Vector3(0, 0, 0))
+	for slot12, slot13 in ipairs(slot6) do
+		slot0["affixname_" .. slot12].text = getAffixName(slot13)
+		slot0["affixdes_" .. slot12].text = getAffixDesc(slot13)
+		slot0["affiximage_" .. slot12].sprite = getAffixSprite(slot13)
+	end
 
-	if arg_29_0.affixcontentTrs_:TransformPoint(Vector3(0, 0, 0)).x >= var_29_1.x then
-		local var_29_2 = arg_29_0.affixinfoTrs_:InverseTransformPoint(var_29_1)
+	for slot12 = #slot6 + 1, #slot4 do
+		slot4[slot12]:Show(false)
+	end
+end
 
-		arg_29_0.affixcontentTrs_.transform.localPosition = Vector3(var_29_2.x, var_29_0.y, 0)
+function slot0.ShowAffixInfo(slot0, slot1, slot2)
+	slot0.affixinfoTrs_:SetParent(slot1)
+
+	slot0.affixinfoTrs_.localPosition = Vector3(0, -60, 0)
+
+	SetActive(slot0.affixinfoTrs_.gameObject, true)
+
+	slot0.affixcontentTrs_.transform.localPosition = Vector3(261.505, slot0.affixcontentTrs_.transform.localPosition.y, 0)
+
+	if slot0.endPoint_:TransformPoint(Vector3(0, 0, 0)).x <= slot0.affixcontentTrs_:TransformPoint(Vector3(0, 0, 0)).x then
+		slot0.affixcontentTrs_.transform.localPosition = Vector3(slot0.affixinfoTrs_:InverseTransformPoint(slot4).x, slot3.y, 0)
 	else
-		arg_29_0.affixcontentTrs_.transform.localPosition = Vector3(261.505, var_29_0.y, 0)
+		slot0.affixcontentTrs_.transform.localPosition = Vector3(261.505, slot3.y, 0)
 	end
 
-	arg_29_0.affixcontentText_.text = getAffixDesc(arg_29_2)
-	arg_29_0.affixnameText_.text = getAffixName(arg_29_2)
+	slot0.affixcontentText_.text = getAffixDesc(slot2)
+	slot0.affixnameText_.text = getAffixName(slot2)
 
-	LayoutRebuilder.ForceRebuildLayoutImmediate(arg_29_0.affixcontentTrs_)
+	LayoutRebuilder.ForceRebuildLayoutImmediate(slot0.affixcontentTrs_)
 
-	if arg_29_0.countdownTimer_ then
-		arg_29_0.countdownTimer_:Stop()
+	if slot0.countdownTimer_ then
+		slot0.countdownTimer_:Stop()
 
-		arg_29_0.countdownTimer_ = nil
+		slot0.countdownTimer_ = nil
 	end
 
-	arg_29_0.countdownTimer_ = Timer.New(function()
-		SetActive(arg_29_0.affixinfoTrs_.gameObject, false)
+	slot0.countdownTimer_ = Timer.New(function ()
+		SetActive(uv0.affixinfoTrs_.gameObject, false)
 	end, 2, 1)
 
-	arg_29_0.countdownTimer_:Start()
+	slot0.countdownTimer_:Start()
 end
 
-function var_0_0.OnExit(arg_31_0)
-	arg_31_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:RemoveAllEventListener()
 	manager.windowBar:HideBar()
 
-	if arg_31_0.updateTimer_ then
-		arg_31_0.updateTimer_:Stop()
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_31_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 
-	manager.redPoint:unbindUIandKey(arg_31_0.m_rewardBtn.transform, RedPointConst.MYTHIC_FINAL_AWARD)
+	manager.redPoint:unbindUIandKey(slot0.m_rewardBtn.transform, RedPointConst.MYTHIC_FINAL_AWARD)
 end
 
-function var_0_0.Dispose(arg_32_0)
-	for iter_32_0, iter_32_1 in pairs(arg_32_0._affixMonster) do
-		iter_32_1:Dispose()
+function slot0.Dispose(slot0)
+	for slot4, slot5 in pairs(slot0._affixMonster) do
+		slot5:Dispose()
 	end
 
-	arg_32_0._affixMonster = {}
+	slot0._affixMonster = {}
 
-	arg_32_0.super.Dispose(arg_32_0)
+	slot0.super.Dispose(slot0)
 end
 
-function var_0_0.OnMatrixCurRankUpdate(arg_33_0)
-	arg_33_0:RefreshRank()
+function slot0.OnMatrixCurRankUpdate(slot0)
+	slot0:RefreshRank()
 end
 
-function var_0_0.RefreshRank(arg_34_0)
-	local var_34_0 = RankData:GetCommonRank(RankConst.RANK_ID.MYTHIC)
-	local var_34_1 = var_34_0 and var_34_0.curRank
-
-	if var_34_1 and var_34_1.rank ~= 0 then
-		arg_34_0.m_score.text = var_34_1.score
+function slot0.RefreshRank(slot0)
+	if RankData:GetCommonRank(RankConst.RANK_ID.MYTHIC) and slot1.curRank and slot2.rank ~= 0 then
+		slot0.m_score.text = slot2.score
 	else
-		arg_34_0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
+		slot0.m_score.text = GetTips("MATRIX_RANK_NO_INFO")
 	end
 end
 
-function var_0_0.OnMythicCurRankUpdate(arg_35_0)
-	arg_35_0:RefreshRank()
+function slot0.OnMythicCurRankUpdate(slot0)
+	slot0:RefreshRank()
 end
 
-function var_0_0.OnRankUpdate(arg_36_0)
-	arg_36_0:RefreshRank()
+function slot0.OnRankUpdate(slot0)
+	slot0:RefreshRank()
 end
 
-return var_0_0
+return slot0

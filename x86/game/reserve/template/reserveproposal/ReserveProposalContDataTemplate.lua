@@ -1,34 +1,33 @@
-local var_0_0 = import("game.reserve.ReserveContDataTemplate")
-local var_0_1 = class("ReserveProposalContDataTemplate", var_0_0)
+slot1 = class("ReserveProposalContDataTemplate", import("game.reserve.ReserveContDataTemplate"))
 
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	var_0_1.super.Ctor(arg_1_0, arg_1_1, arg_1_2)
+function slot1.Ctor(slot0, slot1, slot2)
+	uv0.super.Ctor(slot0, slot1, slot2)
 
-	arg_1_0.isTemp = false
-	arg_1_0.name = ""
+	slot0.isTemp = false
+	slot0.name = ""
 end
 
-function var_0_1.SetName(arg_2_0, arg_2_1)
-	arg_2_0.name = arg_2_1
+function slot1.SetName(slot0, slot1)
+	slot0.name = slot1
 end
 
-function var_0_1.GetName(arg_3_0)
-	return arg_3_0.name
+function slot1.GetName(slot0)
+	return slot0.name
 end
 
-function var_0_1.GetIsTemp(arg_4_0)
-	return arg_4_0.isTemp
+function slot1.GetIsTemp(slot0)
+	return slot0.isTemp
 end
 
-function var_0_1.SetIsTemp(arg_5_0, arg_5_1)
-	arg_5_0.isTemp = arg_5_1
+function slot1.SetIsTemp(slot0, slot1)
+	slot0.isTemp = slot1
 end
 
-function var_0_1.Reset(arg_6_0)
-	var_0_1.super.Reset(arg_6_0)
+function slot1.Reset(slot0)
+	uv0.super.Reset(slot0)
 
-	arg_6_0.isTemp = false
-	arg_6_0.name = ""
+	slot0.isTemp = false
+	slot0.name = ""
 end
 
-return var_0_1
+return slot1

@@ -1,161 +1,137 @@
-local var_0_0 = class("BattlePolyhedronStageTemplate", BattleBaseStageTemplate)
+slot0 = class("BattlePolyhedronStageTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	var_0_0.super.Ctor(arg_1_0, arg_1_1)
+function slot0.Ctor(slot0, slot1)
+	uv0.super.Ctor(slot0, slot1)
 
-	arg_1_0.id = arg_1_1
-	arg_1_0.cfg = BattlePolyhedronStageCfg[arg_1_0.id]
+	slot0.id = slot1
+	slot0.cfg = BattlePolyhedronStageCfg[slot0.id]
 
-	if not arg_1_0.cfg then
-		error(string.format("找不到stageId为 %s 的关卡，请检查配置！！！！！！！", tostring(arg_1_0.id)))
+	if not slot0.cfg then
+		error(string.format("找不到stageId为 %s 的关卡，请检查配置！！！！！！！", tostring(slot0.id)))
 	end
 
-	arg_1_0.heroList = {
+	slot0.heroList = {
 		1084
 	}
-	arg_1_0.systemHeroList = {}
-	arg_1_0.heroTrialList_ = {}
+	slot0.systemHeroList = {}
+	slot0.heroTrialList_ = {}
 
-	arg_1_0:InitComboSkillID()
-	arg_1_0:InitChipData()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 
-	arg_1_0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
+	slot0.polyhedronInfo = PolyhedronData:GetPolyhedronInfo()
 end
 
-function var_0_0.GetDest(arg_2_0)
-	return arg_2_0.id
+function slot0.GetDest(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetStageId(arg_3_0)
-	return arg_3_0.id
+function slot0.GetStageId(slot0)
+	return slot0.id
 end
 
-function var_0_0.GetType(arg_4_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.POLYHEDRON
 end
 
-function var_0_0.GetMap(arg_5_0)
-	return arg_5_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_6_0)
-	return arg_6_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_7_0)
-	return arg_7_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.GetHeroTeam(arg_8_0)
-	return arg_8_0.heroList, arg_8_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList, slot0.heroTrialList_
 end
 
-function var_0_0.GetSystemHeroTeam(arg_9_0)
-	return arg_9_0.systemHeroList
+function slot0.GetSystemHeroTeam(slot0)
+	return slot0.systemHeroList
 end
 
-function var_0_0.GetRevive(arg_10_0)
-	local var_10_0, var_10_1 = arg_10_0.polyhedronInfo:GetReviveCount()
+function slot0.GetRevive(slot0)
+	slot1, slot2 = slot0.polyhedronInfo:GetReviveCount()
 
-	return true, 0, var_10_0, 1, var_10_1
+	return true, 0, slot1, 1, slot2
 end
 
-function var_0_0.GetAttributeFactor(arg_11_0)
-	local var_11_0 = arg_11_0.polyhedronInfo:GetTierId()
-	local var_11_1 = PolyhedronTierCfg[var_11_0]
-	local var_11_2 = 1
-	local var_11_3 = 1
-	local var_11_4 = 1
+function slot0.GetAttributeFactor(slot0)
+	slot3 = 1
+	slot4 = 1
+	slot5 = 1
 
-	if var_11_1 and var_11_1.monster_level_coefficient then
-		local var_11_5 = var_11_1.monster_level_coefficient
-		local var_11_6 = var_11_5[1] and var_11_5[1] / 1000 or 1
-
-		var_11_4, var_11_2 = var_11_5[2] and var_11_5[2] / 1000 or 1, var_11_6
+	if PolyhedronTierCfg[slot0.polyhedronInfo:GetTierId()] and slot2.monster_level_coefficient then
+		slot3 = slot2.monster_level_coefficient[1] and slot6[1] / 1000 or 1
+		slot5 = slot6[2] and slot6[2] / 1000 or 1
 	end
 
-	local var_11_7 = PolyhedronData:GetPolyhedronInfo().difficulty
-
-	for iter_11_0 = 1, var_11_7 do
-		local var_11_8 = PolyhedronDifficultyCfg[iter_11_0].params
-
-		for iter_11_1, iter_11_2 in ipairs(var_11_8) do
-			if iter_11_2[1] == 2 then
-				local var_11_9 = iter_11_2[2]
-				local var_11_10 = iter_11_2[3] / 1000
-
-				if var_11_9 == 11 then
-					var_11_2 = var_11_2 * (1 + var_11_10)
-				elseif var_11_9 == 21 then
-					var_11_3 = var_11_3 * (1 + var_11_10)
-				elseif var_11_9 == 31 then
-					var_11_4 = var_11_4 * (1 + var_11_10)
+	for slot10 = 1, PolyhedronData:GetPolyhedronInfo().difficulty do
+		for slot15, slot16 in ipairs(PolyhedronDifficultyCfg[slot10].params) do
+			if slot16[1] == 2 then
+				if slot16[2] == 11 then
+					slot3 = slot3 * (1 + slot16[3] / 1000)
+				elseif slot18 == 21 then
+					slot4 = slot4 * (1 + slot19)
+				elseif slot18 == 31 then
+					slot5 = slot5 * (1 + slot19)
 				end
 			end
 		end
 	end
 
-	return (Vector3.New(var_11_2, var_11_3, var_11_4))
+	return Vector3.New(slot3, slot4, slot5)
 end
 
-function var_0_0.UpdateRoleDatas(arg_12_0, arg_12_1)
-	arg_12_0.serverTeamPlayer = arg_12_1
-	arg_12_0.roleDataInLua = {}
+function slot0.UpdateRoleDatas(slot0, slot1)
+	slot0.serverTeamPlayer = slot1
+	slot0.roleDataInLua = {}
+	slot2 = PolyhedronData:GetPolyhedronInfo()
+	slot11 = PolyhedronHeroCfg[slot2:GetLeaderHeroId()].standard_id
+	slot12 = slot1.playerID
 
-	local var_12_0 = PolyhedronData:GetPolyhedronInfo()
-	local var_12_1 = var_12_0:GetPolyhedronLeader()
-	local var_12_2 = var_12_0:GetLeaderHeroId()
-	local var_12_3 = PolyhedronHeroCfg[var_12_2]
-	local var_12_4 = BattleController.GetInstance():SetPolyhedronHeroData(var_12_0, var_12_1, var_12_3.standard_id, arg_12_1.playerID, arg_12_1.level)
+	table.insert(slot0.roleDataInLua, BattleController.GetInstance():SetPolyhedronHeroData(slot2, slot2:GetPolyhedronLeader(), slot11, slot12, slot1.level))
 
-	table.insert(arg_12_0.roleDataInLua, var_12_4)
-
-	local var_12_5 = var_12_0:GetFightHeroList()
-
-	for iter_12_0, iter_12_1 in ipairs(var_12_5) do
-		if not var_12_0:GetHeroPolyData(iter_12_1):IsDead() and iter_12_1 ~= var_12_2 then
-			local var_12_6 = PolyhedronHeroCfg[iter_12_1]
-			local var_12_7 = BattleController.GetInstance():SetPolyhedronHeroData(var_12_0, nil, var_12_6.standard_id, arg_12_1.playerID, arg_12_1.level)
-
-			table.insert(arg_12_0.roleDataInLua, var_12_7)
+	for slot11, slot12 in ipairs(slot2:GetFightHeroList()) do
+		if not slot2:GetHeroPolyData(slot12):IsDead() and slot12 ~= slot4 then
+			table.insert(slot0.roleDataInLua, BattleController.GetInstance():SetPolyhedronHeroData(slot2, nil, PolyhedronHeroCfg[slot12].standard_id, slot1.playerID, slot1.level))
 		end
 	end
 
-	arg_12_0:SetMaxRaceData()
+	slot0:SetMaxRaceData()
 end
 
-function var_0_0.GetStageAffix(arg_13_0)
-	local var_13_0 = {}
-	local var_13_1 = {}
-	local var_13_2 = {}
-	local var_13_3 = arg_13_0.polyhedronInfo:GetTotalAffix()
+function slot0.GetStageAffix(slot0)
+	slot1 = {}
+	slot2 = {}
+	slot3 = {}
 
-	for iter_13_0, iter_13_1 in pairs(var_13_3 or {}) do
-		table.insert(var_13_0, iter_13_1[1])
-		table.insert(var_13_1, iter_13_1[2])
-		table.insert(var_13_2, iter_13_1[3])
+	for slot8, slot9 in pairs(slot0.polyhedronInfo:GetTotalAffix() or {}) do
+		table.insert(slot1, slot9[1])
+		table.insert(slot2, slot9[2])
+		table.insert(slot3, slot9[3])
 	end
 
-	return var_13_0, var_13_1, var_13_2
+	return slot1, slot2, slot3
 end
 
-function var_0_0.GetResurrectHP(arg_14_0)
-	return arg_14_0.polyhedronInfo:GetReviveHp()
+function slot0.GetResurrectHP(slot0)
+	return slot0.polyhedronInfo:GetReviveHp()
 end
 
-function var_0_0.GetResurrectImmediately(arg_15_0)
+function slot0.GetResurrectImmediately(slot0)
 	return true
 end
 
-function var_0_0.GetTargetEnemyID(arg_16_0)
-	local var_16_0 = arg_16_0.polyhedronInfo:GetRewardType()
-
-	if PolyhedronConst.REWARD_TYEP.TEAMMATE == var_16_0 then
-		local var_16_1 = arg_16_0.polyhedronInfo:GetEnlistHeroList()
-
-		for iter_16_0, iter_16_1 in ipairs(var_16_1) do
-			if iter_16_1.enlist_type == PolyhedronConst.ENLIST_TYPE.BATTLE then
-				return PolyhedronHeroCfg[iter_16_1.heroId].target_enemy
+function slot0.GetTargetEnemyID(slot0)
+	if PolyhedronConst.REWARD_TYEP.TEAMMATE == slot0.polyhedronInfo:GetRewardType() then
+		for slot6, slot7 in ipairs(slot0.polyhedronInfo:GetEnlistHeroList()) do
+			if slot7.enlist_type == PolyhedronConst.ENLIST_TYPE.BATTLE then
+				return PolyhedronHeroCfg[slot7.heroId].target_enemy
 			end
 		end
 	end
@@ -163,12 +139,12 @@ function var_0_0.GetTargetEnemyID(arg_16_0)
 	return 5050
 end
 
-function var_0_0.GetActivityID(arg_17_0)
+function slot0.GetActivityID(slot0)
 	return PolyhedronData:GetActivityID() or 0
 end
 
-function var_0_0.InitComboSkillID(arg_18_0)
-	arg_18_0.comboSkillID_ = BattleTeamData:GetComboInfo(arg_18_0:GetType(), arg_18_0:GetActivityID())
+function slot0.InitComboSkillID(slot0)
+	slot0.comboSkillID_ = BattleTeamData:GetComboInfo(slot0:GetType(), slot0:GetActivityID())
 end
 
-return var_0_0
+return slot0

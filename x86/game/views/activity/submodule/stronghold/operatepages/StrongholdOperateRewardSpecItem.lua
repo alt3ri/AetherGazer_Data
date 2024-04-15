@@ -1,75 +1,65 @@
-local var_0_0 = class("StrongholdOperateSpecRewardItem", ReduxView)
+slot0 = class("StrongholdOperateSpecRewardItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.stateController = ControllerUtil.GetController(arg_3_0.transform_, "state")
+	slot0.stateController = ControllerUtil.GetController(slot0.transform_, "state")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_rewardBtn, function()
-		local var_5_0 = StrongholdData:GetRewardState(arg_4_0.activity_id, arg_4_0.reward_id)
-
-		if var_5_0 == 0 then
-			StrongholdAction.QueryReward(arg_4_0.activity_id, {
-				arg_4_0.reward_id
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(nil, slot0.m_rewardBtn, function ()
+		if StrongholdData:GetRewardState(uv0.activity_id, uv0.reward_id) == 0 then
+			StrongholdAction.QueryReward(uv0.activity_id, {
+				uv0.reward_id
 			})
-		elseif var_5_0 == 1 then
+		elseif slot0 == 1 then
 			ShowTips("ACTIVITY_STRONGHOLD_REWARD_FAIL")
 		end
 	end)
-	arg_4_0:AddBtnListener(nil, arg_4_0.m_iconBtn, function()
+	slot0:AddBtnListener(nil, slot0.m_iconBtn, function ()
 		ShowPopItem(POP_SOURCE_ITEM, {
-			arg_4_0.item_id,
+			uv0.item_id,
 			1
 		})
 	end)
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1, arg_7_2)
-	arg_7_0.activity_id = arg_7_1
-	arg_7_0.reward_id = arg_7_2
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.activity_id = slot1
+	slot0.reward_id = slot2
+	slot3 = ActivityStrongholdRewardCfg[slot0.reward_id]
+	slot5 = slot3.params[1]
+	slot6 = nil
 
-	local var_7_0 = ActivityStrongholdRewardCfg[arg_7_0.reward_id]
-	local var_7_1 = var_7_0.condition
-	local var_7_2 = var_7_0.params[1]
-	local var_7_3
-	local var_7_4 = ActivityStrongholdLevelCfg.get_id_list_by_type[var_7_1]
-
-	for iter_7_0, iter_7_1 in ipairs(var_7_4) do
-		if ActivityStrongholdLevelCfg[iter_7_1].level == var_7_2 then
-			var_7_3 = ActivityStrongholdLevelCfg[iter_7_1]
+	for slot11, slot12 in ipairs(ActivityStrongholdLevelCfg.get_id_list_by_type[slot3.condition]) do
+		if ActivityStrongholdLevelCfg[slot12].level == slot5 then
+			slot6 = ActivityStrongholdLevelCfg[slot12]
 		end
 	end
 
-	local var_7_5 = GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. var_7_1)
+	slot0.m_des.text = string.format(GetTips("ACTIVITY_STRONGHOLD_REWARD_TIP"), GetTips("ACTIVITY_STRONGHOLD_TYPE_NAME_" .. slot4), slot5, slot6.level_des)
 
-	arg_7_0.m_des.text = string.format(GetTips("ACTIVITY_STRONGHOLD_REWARD_TIP"), var_7_5, var_7_2, var_7_3.level_des)
+	slot0.stateController:SetSelectedIndex(StrongholdData:GetRewardState(slot1, slot2))
 
-	local var_7_6 = StrongholdData:GetRewardState(arg_7_1, arg_7_2)
+	slot11 = slot3.reward[1][1]
+	slot0.item_id = slot11
 
-	arg_7_0.stateController:SetSelectedIndex(var_7_6)
-
-	local var_7_7 = var_7_0.reward[1][1]
-
-	arg_7_0.item_id = var_7_7
-
-	if ItemCfg[var_7_7] then
-		arg_7_0.m_icon.sprite = ItemTools.getItemSprite(var_7_7)
-		arg_7_0.m_title.text = ItemTools.getItemName(var_7_7)
+	if ItemCfg[slot11] then
+		slot0.m_icon.sprite = ItemTools.getItemSprite(slot11)
+		slot0.m_title.text = ItemTools.getItemName(slot11)
 	end
 end
 
-return var_0_0
+return slot0

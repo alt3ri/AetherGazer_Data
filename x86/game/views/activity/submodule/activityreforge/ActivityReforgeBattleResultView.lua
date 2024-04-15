@@ -1,73 +1,70 @@
-local var_0_0 = class("ActivityReforgeBattleResultView", ReduxView)
+slot0 = class("ActivityReforgeBattleResultView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/Version/NorseUI_3_0/NorseUI_3_0_ActivityReforge/NorseUI_3_0_ActivityReforgeBattleResultUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.timeInfoItem_ = ActivityReforgeBattleResultItem.New(arg_4_0.timeInfoGo_)
-	arg_4_0.pointInfoItem_ = ActivityReforgeBattleResultItem.New(arg_4_0.pointInfoGo_)
-	arg_4_0.goldInfoItem_ = ActivityReforgeBattleResultItem.New(arg_4_0.goldInfoGo_)
-	arg_4_0.controller_ = arg_4_0.controllerEx_:GetController("levelIndex")
+	slot0.timeInfoItem_ = ActivityReforgeBattleResultItem.New(slot0.timeInfoGo_)
+	slot0.pointInfoItem_ = ActivityReforgeBattleResultItem.New(slot0.pointInfoGo_)
+	slot0.goldInfoItem_ = ActivityReforgeBattleResultItem.New(slot0.goldInfoGo_)
+	slot0.controller_ = slot0.controllerEx_:GetController("levelIndex")
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0.IsBattleBack_ = arg_5_0.params_.IsBattleBack
-	arg_5_0.chapterActivityID_ = arg_5_0.params_.chapterActivityID
-	arg_5_0.levelID_ = arg_5_0.params_.levelID
+function slot0.OnEnter(slot0)
+	slot0.IsBattleBack_ = slot0.params_.IsBattleBack
+	slot0.chapterActivityID_ = slot0.params_.chapterActivityID
+	slot0.levelID_ = slot0.params_.levelID
 
-	local var_5_0 = ActivityReforgeChapterCfg[arg_5_0.chapterActivityID_]
+	slot0.controller_:SetSelectedState(table.indexof(ActivityReforgeChapterCfg[slot0.chapterActivityID_].level_list, slot0.levelID_))
 
-	arg_5_0.controller_:SetSelectedState(table.indexof(var_5_0.level_list, arg_5_0.levelID_))
+	slot0.levelName_.text = ActivityReforgeLevelCfg[slot0.levelID_].name
+	slot2 = ActivityReforgeGameSettingCfg[slot0.params_.activityID].bar_num_min
+	slot3 = ActivityReforgeData:GetCurFinishLevelServerData()
+	slot4 = ActivityReforgeData:GetLevelAllPlayerServerData(slot0.levelID_)
 
-	arg_5_0.levelName_.text = ActivityReforgeLevelCfg[arg_5_0.levelID_].name
-
-	local var_5_1 = ActivityReforgeGameSettingCfg[arg_5_0.params_.activityID].bar_num_min
-	local var_5_2 = ActivityReforgeData:GetCurFinishLevelServerData()
-	local var_5_3 = ActivityReforgeData:GetLevelAllPlayerServerData(arg_5_0.levelID_)
-
-	ActivityReforgeData:FinishLevel(arg_5_0.chapterActivityID_, arg_5_0.levelID_, var_5_2)
-	arg_5_0.timeInfoItem_:SetData(1, var_5_1, arg_5_0.levelID_, var_5_2.minUseSeconds, var_5_3.minUseSeconds.rangeValue, var_5_3.minUseSeconds.rangeLength)
-	arg_5_0.pointInfoItem_:SetData(2, var_5_1, arg_5_0.levelID_, var_5_2.minLosePoint, var_5_3.minLosePoint.rangeValue, var_5_3.minLosePoint.rangeLength)
-	arg_5_0.goldInfoItem_:SetData(3, var_5_1, arg_5_0.levelID_, var_5_2.minUseGold, var_5_3.minUseGold.rangeValue, var_5_3.minUseGold.rangeLength)
+	ActivityReforgeData:FinishLevel(slot0.chapterActivityID_, slot0.levelID_, slot3)
+	slot0.timeInfoItem_:SetData(1, slot2, slot0.levelID_, slot3.minUseSeconds, slot4.minUseSeconds.rangeValue, slot4.minUseSeconds.rangeLength)
+	slot0.pointInfoItem_:SetData(2, slot2, slot0.levelID_, slot3.minLosePoint, slot4.minLosePoint.rangeValue, slot4.minLosePoint.rangeLength)
+	slot0.goldInfoItem_:SetData(3, slot2, slot0.levelID_, slot3.minUseGold, slot4.minUseGold.rangeValue, slot4.minUseGold.rangeLength)
 end
 
-function var_0_0.AddUIListeners(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.btn_, nil, function()
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
 		ActivityReforgeData:ClearCurLevelData()
 
-		if arg_6_0.IsBattleBack_ then
-			BattleInstance.QuitBattle(arg_6_0.params_.stageData)
+		if uv0.IsBattleBack_ then
+			BattleInstance.QuitBattle(uv0.params_.stageData)
 		else
 			JumpTools.OpenPageByJump("/activityReforgeLevelView", {
-				activityID = arg_6_0.params_.activityID,
-				chapterActivityID = arg_6_0.params_.chapterActivityID
+				activityID = uv0.params_.activityID,
+				chapterActivityID = uv0.params_.chapterActivityID
 			})
 		end
 	end)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.timeInfoItem_:Dispose()
-	arg_8_0.pointInfoItem_:Dispose()
-	arg_8_0.goldInfoItem_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.timeInfoItem_:Dispose()
+	slot0.pointInfoItem_:Dispose()
+	slot0.goldInfoItem_:Dispose()
 
-	arg_8_0.timeInfoItem_ = nil
-	arg_8_0.pointInfoItem_ = nil
-	arg_8_0.goldInfoItem_ = nil
+	slot0.timeInfoItem_ = nil
+	slot0.pointInfoItem_ = nil
+	slot0.goldInfoItem_ = nil
 
-	arg_8_0.super.Dispose(arg_8_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

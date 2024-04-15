@@ -1,181 +1,171 @@
-local var_0_0 = class("ActivityMemoryEnterView", ReduxView)
+slot0 = class("ActivityMemoryEnterView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return ActivityMemoryTools.GetEnterUIName(arg_1_0.params_.activityID)
+function slot0.UIName(slot0)
+	return ActivityMemoryTools.GetEnterUIName(slot0.params_.activityID)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.taskItem_ = {}
+	slot0.taskItem_ = {}
 
-	local var_4_0 = SpringFestivalMemoryCfg.get_id_list_by_activity_id[arg_4_0.params_.activityID]
+	for slot5, slot6 in ipairs(SpringFestivalMemoryCfg.get_id_list_by_activity_id[slot0.params_.activityID]) do
+		slot0.taskItem_[slot5] = ActivityMemoryTaskItem.New(slot0["taskItem_" .. slot5])
 
-	for iter_4_0, iter_4_1 in ipairs(var_4_0) do
-		arg_4_0.taskItem_[iter_4_0] = ActivityMemoryTaskItem.New(arg_4_0["taskItem_" .. iter_4_0])
-
-		arg_4_0.taskItem_[iter_4_0]:SetData(iter_4_1, arg_4_0.params_.activityID)
+		slot0.taskItem_[slot5]:SetData(slot6, slot0.params_.activityID)
 	end
 end
 
-function var_0_0.AddUIListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.enterStoryBtn_, nil, function()
-		arg_5_0:PlayStory(arg_5_0.enterStoryID_)
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.enterStoryBtn_, nil, function ()
+		uv0:PlayStory(uv0.enterStoryID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.activityStoryBtn_, nil, function()
-		arg_5_0:PlayStory(arg_5_0.activityStoryID_)
+	slot0:AddBtnListener(slot0.activityStoryBtn_, nil, function ()
+		uv0:PlayStory(uv0.activityStoryID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.collectStoryBtn_, nil, function()
-		arg_5_0:PlayStory(arg_5_0.collectStoryID_)
+	slot0:AddBtnListener(slot0.collectStoryBtn_, nil, function ()
+		uv0:PlayStory(uv0.collectStoryID_)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.infoBtn_, nil, function()
-		local var_9_0 = ActivityMemoryTools.GetHelpKey(arg_5_0.activityID_)
-
-		if var_9_0 ~= "" then
+	slot0:AddBtnListener(slot0.infoBtn_, nil, function ()
+		if ActivityMemoryTools.GetHelpKey(uv0.activityID_) ~= "" then
 			JumpTools.OpenPageByJump("gameHelp", {
 				icon = "icon_i",
 				iconColor = Color(1, 1, 1),
 				title = GetTips("STAGE_DESCRIPE"),
-				content = GetTips(var_9_0),
-				key = var_9_0
+				content = GetTips(slot0),
+				key = slot0
 			})
 		end
 	end)
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0:RefreshUI()
-	manager.redPoint:setTip(RedPointConst.ACTIVITY_MEMORY_OPEN .. "_" .. arg_10_0.activityID_, 0)
-	saveData(RedPointConst.ACTIVITY_MEMORY_OPEN, tostring(arg_10_0.activityID_), true)
-	arg_10_0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(arg_10_0, arg_10_0.RefreshTask))
+function slot0.OnEnter(slot0)
+	slot0:RefreshUI()
+	manager.redPoint:setTip(RedPointConst.ACTIVITY_MEMORY_OPEN .. "_" .. slot0.activityID_, 0)
+	saveData(RedPointConst.ACTIVITY_MEMORY_OPEN, tostring(slot0.activityID_), true)
+	slot0:RegistEventListener(OSIRIS_TASK_UPDATE, handler(slot0, slot0.RefreshTask))
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0:RefreshData()
-	arg_11_0:RefreshTime()
-	arg_11_0:RefreshTask()
-	arg_11_0:RefreshStory()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshData()
+	slot0:RefreshTime()
+	slot0:RefreshTask()
+	slot0:RefreshStory()
 end
 
-function var_0_0.RefreshData(arg_12_0)
-	arg_12_0.activityID_ = arg_12_0.params_.activityID
-	arg_12_0.activityData_ = ActivityData:GetActivityData(arg_12_0.activityID_)
-	arg_12_0.startTime_ = arg_12_0.activityData_.startTime
-	arg_12_0.stopTime_ = arg_12_0.activityData_.stopTime
-	arg_12_0.enterStoryID_ = ActivityMemoryTools.GetEnterCondition(arg_12_0.activityID_)[2]
-	arg_12_0.activityStoryID_ = ActivityMemoryTools.GetActivityCondition(arg_12_0.activityID_)[2]
-	arg_12_0.collectStoryID_ = ActivityMemoryTools.GetCollectCondition(arg_12_0.activityID_)[2]
+function slot0.RefreshData(slot0)
+	slot0.activityID_ = slot0.params_.activityID
+	slot0.activityData_ = ActivityData:GetActivityData(slot0.activityID_)
+	slot0.startTime_ = slot0.activityData_.startTime
+	slot0.stopTime_ = slot0.activityData_.stopTime
+	slot0.enterStoryID_ = ActivityMemoryTools.GetEnterCondition(slot0.activityID_)[2]
+	slot0.activityStoryID_ = ActivityMemoryTools.GetActivityCondition(slot0.activityID_)[2]
+	slot0.collectStoryID_ = ActivityMemoryTools.GetCollectCondition(slot0.activityID_)[2]
 end
 
-function var_0_0.RefreshTime(arg_13_0)
-	arg_13_0:StopTimer()
+function slot0.RefreshTime(slot0)
+	slot0:StopTimer()
 
-	local var_13_0 = manager.time:GetServerTime()
-
-	if var_13_0 < arg_13_0.startTime_ then
-		arg_13_0.timeLabel_.text = GetTips("SOLO_NOT_OPEN")
-		arg_13_0.timer_ = Timer.New(function()
-			if manager.time:GetServerTime() >= arg_13_0.startTime_ then
-				arg_13_0:RefreshTime()
+	if manager.time:GetServerTime() < slot0.startTime_ then
+		slot0.timeLabel_.text = GetTips("SOLO_NOT_OPEN")
+		slot0.timer_ = Timer.New(function ()
+			if uv0.startTime_ <= manager.time:GetServerTime() then
+				uv0:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
-	elseif var_13_0 < arg_13_0.stopTime_ then
-		arg_13_0.timeLabel_.text = manager.time:GetLostTimeStr2(arg_13_0.stopTime_)
-		arg_13_0.timer_ = Timer.New(function()
-			if manager.time:GetServerTime() >= arg_13_0.stopTime_ then
-				arg_13_0:RefreshTime()
+		slot0.timer_:Start()
+	elseif slot1 < slot0.stopTime_ then
+		slot0.timeLabel_.text = manager.time:GetLostTimeStr2(slot0.stopTime_)
+		slot0.timer_ = Timer.New(function ()
+			if uv0.stopTime_ <= manager.time:GetServerTime() then
+				uv0:RefreshTime()
 
 				return
 			end
 		end, 1, -1)
 
-		arg_13_0.timer_:Start()
+		slot0.timer_:Start()
 	else
-		arg_13_0.timeLabel_.text = GetTips("TIME_OVER")
+		slot0.timeLabel_.text = GetTips("TIME_OVER")
 	end
 end
 
-function var_0_0.StopTimer(arg_16_0)
-	if arg_16_0.timer_ then
-		arg_16_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_16_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.RefreshTask(arg_17_0)
-	arg_17_0.progress_ = 0
+function slot0.RefreshTask(slot0)
+	slot0.progress_ = 0
+	slot1 = ActivityMemoryTools.GetTaskActivityID(slot0.activityID_)
 
-	local var_17_0 = ActivityMemoryTools.GetTaskActivityID(arg_17_0.activityID_)
-	local var_17_1 = SpringFestivalMemoryCfg.get_id_list_by_activity_id[arg_17_0.activityID_]
+	for slot6, slot7 in ipairs(SpringFestivalMemoryCfg.get_id_list_by_activity_id[slot0.activityID_]) do
+		slot9 = SpringFestivalMemoryCfg[slot7].task_id
 
-	for iter_17_0, iter_17_1 in ipairs(var_17_1) do
-		local var_17_2 = SpringFestivalMemoryCfg[iter_17_1].task_id
-		local var_17_3 = AssignmentCfg[var_17_2]
-		local var_17_4 = TaskData2:GetTask(var_17_2)
-
-		if var_17_4 and var_17_4.progress >= var_17_3.need then
-			arg_17_0.progress_ = arg_17_0.progress_ + 1
+		if TaskData2:GetTask(slot9) and AssignmentCfg[slot9].need <= slot11.progress then
+			slot0.progress_ = slot0.progress_ + 1
 		end
 
-		arg_17_0.taskItem_[iter_17_0]:RefreshUI()
+		slot0.taskItem_[slot6]:RefreshUI()
 	end
 
-	arg_17_0.progressTxt_.text = string.format(GetTips("SPRING_FESTIVAL_MEMORY"), arg_17_0.progress_, #var_17_1)
+	slot0.progressTxt_.text = string.format(GetTips("SPRING_FESTIVAL_MEMORY"), slot0.progress_, #slot2)
 end
 
-function var_0_0.RefreshStory(arg_18_0)
-	SetActive(arg_18_0.enterStoryBtn_.gameObject, arg_18_0.enterStoryID_ and manager.story:IsStoryPlayed(arg_18_0.enterStoryID_))
-	SetActive(arg_18_0.activityStoryBtn_.gameObject, arg_18_0.activityStoryID_ and manager.story:IsStoryPlayed(arg_18_0.activityStoryID_))
-	SetActive(arg_18_0.collectStoryBtn_.gameObject, arg_18_0.collectStoryID_ and manager.story:IsStoryPlayed(arg_18_0.collectStoryID_))
+function slot0.RefreshStory(slot0)
+	SetActive(slot0.enterStoryBtn_.gameObject, slot0.enterStoryID_ and manager.story:IsStoryPlayed(slot0.enterStoryID_))
+	SetActive(slot0.activityStoryBtn_.gameObject, slot0.activityStoryID_ and manager.story:IsStoryPlayed(slot0.activityStoryID_))
+	SetActive(slot0.collectStoryBtn_.gameObject, slot0.collectStoryID_ and manager.story:IsStoryPlayed(slot0.collectStoryID_))
 end
 
-function var_0_0.PlayStory(arg_19_0, arg_19_1, arg_19_2)
-	manager.story:StartStoryById(arg_19_1, function()
-		if arg_19_2 then
-			arg_19_2()
+function slot0.PlayStory(slot0, slot1, slot2)
+	manager.story:StartStoryById(slot1, function ()
+		if uv0 then
+			uv0()
 		end
 	end)
 end
 
-function var_0_0.OnTop(arg_21_0)
-	arg_21_0:RefreshStory()
+function slot0.OnTop(slot0)
+	slot0:RefreshStory()
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.OnExit(arg_22_0)
-	arg_22_0:StopTimer()
-	arg_22_0:RemoveAllEventListener()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
+	slot0:RemoveAllEventListener()
 
-	for iter_22_0, iter_22_1 in ipairs(arg_22_0.taskItem_) do
-		iter_22_1:OnExit()
+	for slot4, slot5 in ipairs(slot0.taskItem_) do
+		slot5:OnExit()
 	end
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_23_0, iter_23_1 in ipairs(arg_23_0.taskItem_) do
-		iter_23_1:Dispose()
+	for slot4, slot5 in ipairs(slot0.taskItem_) do
+		slot5:Dispose()
 	end
 
-	arg_23_0.super.Dispose(arg_23_0)
+	slot0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

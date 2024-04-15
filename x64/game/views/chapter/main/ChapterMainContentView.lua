@@ -1,65 +1,64 @@
-local var_0_0 = class("ChapterMainContentView", ReduxView)
+slot0 = class("ChapterMainContentView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.chapterToggle_ = arg_1_2
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.chapterToggle_ = slot2
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.mainPlotPanelView_ = ChapterMainPlotPanelView.New(arg_1_0.chapterGo_)
-	arg_1_0.subPlotPanelView_ = ChapterSubPlotPanelView.New(arg_1_0.subPlotGo_)
-	arg_1_0.lnkView_ = ChapterChallengeLnkView.New(arg_1_0.lnkPanelGo_)
+	slot0.mainPlotPanelView_ = ChapterMainPlotPanelView.New(slot0.chapterGo_)
+	slot0.subPlotPanelView_ = ChapterSubPlotPanelView.New(slot0.subPlotGo_)
+	slot0.lnkView_ = ChapterChallengeLnkView.New(slot0.lnkPanelGo_)
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.mainPlotPanelView_:OnEnter()
-	arg_2_0.subPlotPanelView_:OnEnter()
+function slot0.OnEnter(slot0)
+	slot0.mainPlotPanelView_:OnEnter()
+	slot0.subPlotPanelView_:OnEnter()
 
-	local var_2_0 = ChapterTools.GetChapterChallengeLnkList()
-	local var_2_1 = {
+	slot2 = {
 		RedPointConst.COMBAT_PLOT,
 		RedPointConst.COMBAT_SUB_PLOT
 	}
 
-	for iter_2_0, iter_2_1 in ipairs(var_2_0) do
-		table.insert(var_2_1, ChapterTools.GetRedPoint(iter_2_1))
+	for slot6, slot7 in ipairs(ChapterTools.GetChapterChallengeLnkList()) do
+		table.insert(slot2, ChapterTools.GetRedPoint(slot7))
 	end
 
-	manager.redPoint:addGroup(RedPointConst.COMBAT_MAIN, var_2_1, true)
-	manager.redPoint:bindUIandKey(arg_2_0.chapterNameGo_.transform, RedPointConst.COMBAT_PLOT)
-	arg_2_0.lnkView_:OnEnter(var_2_0)
+	manager.redPoint:addGroup(RedPointConst.COMBAT_MAIN, slot2, true)
+	manager.redPoint:bindUIandKey(slot0.chapterNameGo_.transform, RedPointConst.COMBAT_PLOT)
+	slot0.lnkView_:OnEnter(slot1)
 end
 
-function var_0_0.OnExit(arg_3_0)
-	arg_3_0.mainPlotPanelView_:OnExit()
-	arg_3_0.subPlotPanelView_:OnExit()
-	manager.redPoint:unbindUIandKey(arg_3_0.chapterNameGo_.transform, RedPointConst.COMBAT_PLOT)
-	arg_3_0.lnkView_:OnExit()
+function slot0.OnExit(slot0)
+	slot0.mainPlotPanelView_:OnExit()
+	slot0.subPlotPanelView_:OnExit()
+	manager.redPoint:unbindUIandKey(slot0.chapterNameGo_.transform, RedPointConst.COMBAT_PLOT)
+	slot0.lnkView_:OnExit()
 end
 
-function var_0_0.Dispose(arg_4_0)
-	arg_4_0.mainPlotPanelView_:Dispose()
+function slot0.Dispose(slot0)
+	slot0.mainPlotPanelView_:Dispose()
 
-	arg_4_0.mainPlotPanelView_ = nil
+	slot0.mainPlotPanelView_ = nil
 
-	arg_4_0.subPlotPanelView_:Dispose()
+	slot0.subPlotPanelView_:Dispose()
 
-	arg_4_0.subPlotPanelView_ = nil
+	slot0.subPlotPanelView_ = nil
 
-	arg_4_0.lnkView_:Dispose()
+	slot0.lnkView_:Dispose()
 
-	arg_4_0.lnkView_ = nil
+	slot0.lnkView_ = nil
 
-	var_0_0.super.Dispose(arg_4_0)
+	uv0.super.Dispose(slot0)
 
-	arg_4_0.gameObject_ = nil
-	arg_4_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.SetActive(arg_5_0, arg_5_1)
-	SetActive(arg_5_0.gameObject_, arg_5_1)
-	SetActive(arg_5_0.plotExPanel_, arg_5_1)
+function slot0.SetActive(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
+	SetActive(slot0.plotExPanel_, slot1)
 end
 
-return var_0_0
+return slot0

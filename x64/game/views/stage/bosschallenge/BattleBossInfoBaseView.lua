@@ -1,266 +1,253 @@
-local var_0_0 = class("BattleBossInfoBaseView", ReduxView)
+slot0 = class("BattleBossInfoBaseView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
-	return
+function slot0.UIName(slot0)
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddListeners()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_3_0.heroLockList_ = {}
-	arg_3_0.skillList_ = {}
-	arg_3_0.bossModel_ = {}
-	arg_3_0.bossAnimatorList_ = {}
-	arg_3_0.cacheRootMotionList_ = {}
-	arg_3_0.animatorTimer_ = {}
-	arg_3_0.loadIndexList_ = {}
-	arg_3_0.challengeUpdateHandler_ = handler(arg_3_0, arg_3_0.UpdateBossChallenge)
+	slot0.heroLockList_ = {}
+	slot0.skillList_ = {}
+	slot0.bossModel_ = {}
+	slot0.bossAnimatorList_ = {}
+	slot0.cacheRootMotionList_ = {}
+	slot0.animatorTimer_ = {}
+	slot0.loadIndexList_ = {}
+	slot0.challengeUpdateHandler_ = handler(slot0, slot0.UpdateBossChallenge)
 end
 
-function var_0_0.OnEnter(arg_4_0)
+function slot0.OnEnter(slot0)
 	manager.ui:SetMainCamera("bossChallenge")
-	arg_4_0:InitBackScene()
+	slot0:InitBackScene()
 
-	arg_4_0.exitView_ = false
-	arg_4_0.currentBossTemplateID_ = nil
+	slot0.exitView_ = false
+	slot0.currentBossTemplateID_ = nil
 
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
 		INFO_BAR
 	})
-	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_4_0.challengeUpdateHandler_)
+	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
 	BossTools.CheckTimeout()
-	arg_4_0:OnEnterExtend()
-	arg_4_0:RefreshData()
-	arg_4_0:RefreshUI()
+	slot0:OnEnterExtend()
+	slot0:RefreshData()
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_5_0)
-	arg_5_0.exitView_ = true
+function slot0.OnExit(slot0)
+	slot0.exitView_ = true
 
-	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_5_0.challengeUpdateHandler_)
-	arg_5_0:UnloadModel()
-	arg_5_0:DestroyBackScene()
+	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
+	slot0:UnloadModel()
+	slot0:DestroyBackScene()
 	manager.windowBar:HideBar()
 	manager.ui:ResetMainCamera()
 end
 
-function var_0_0.Dispose(arg_6_0)
-	var_0_0.super.Dispose(arg_6_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 
-	arg_6_0.challengeUpdateHandler_ = nil
+	slot0.challengeUpdateHandler_ = nil
 
-	for iter_6_0, iter_6_1 in pairs(arg_6_0.heroLockList_) do
-		iter_6_1:Dispose()
+	for slot4, slot5 in pairs(slot0.heroLockList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.heroLockList_ = nil
+	slot0.heroLockList_ = nil
 
-	for iter_6_2, iter_6_3 in ipairs(arg_6_0.skillList_) do
-		iter_6_3:Dispose()
+	for slot4, slot5 in ipairs(slot0.skillList_) do
+		slot5:Dispose()
 	end
 
-	arg_6_0.skillList_ = nil
+	slot0.skillList_ = nil
 end
 
-function var_0_0.AddListeners(arg_7_0)
-	return
+function slot0.AddListeners(slot0)
 end
 
-function var_0_0.RefreshData(arg_8_0)
-	return
+function slot0.RefreshData(slot0)
 end
 
-function var_0_0.RefreshUI(arg_9_0)
-	arg_9_0:RefreshText()
-	arg_9_0:LoadModel()
-	arg_9_0:RefreshSkill()
-	arg_9_0:RefreshLockHero()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshText()
+	slot0:LoadModel()
+	slot0:RefreshSkill()
+	slot0:RefreshLockHero()
 end
 
-function var_0_0.UpdateBossChallenge(arg_10_0)
+function slot0.UpdateBossChallenge(slot0)
 	BattleBossChallengeAction.BossChallengeBackEntrace()
 end
 
-function var_0_0.RefreshText(arg_11_0)
-	local var_11_0 = arg_11_0.templateID_
-	local var_11_1 = BossChallengeUICfg[var_11_0]
-
-	arg_11_0.textName_.text = GetI18NText(var_11_1.main_name)
-	arg_11_0.textDesc_.text = GetI18NText(var_11_1.descripe)
+function slot0.RefreshText(slot0)
+	slot2 = BossChallengeUICfg[slot0.templateID_]
+	slot0.textName_.text = GetI18NText(slot2.main_name)
+	slot0.textDesc_.text = GetI18NText(slot2.descripe)
 end
 
-function var_0_0.RefreshSkill(arg_12_0)
-	local var_12_0 = 1
+function slot0.RefreshSkill(slot0)
+	slot1 = 1
+	slot5 = slot0.templateID_
 
-	for iter_12_0, iter_12_1 in ipairs(BossChallengeUICfg[arg_12_0.templateID_].boss_id_list) do
-		local var_12_1 = MonsterCfg[iter_12_1]
-		local var_12_2 = GetMonsterSkillDesList({
-			iter_12_1
+	for slot5, slot6 in ipairs(BossChallengeUICfg[slot5].boss_id_list) do
+		slot7 = MonsterCfg[slot6]
+		slot8 = GetMonsterSkillDesList({
+			slot6
 		})
 
-		for iter_12_2 = 1, 6 do
-			if var_12_2[iter_12_2] then
-				if not arg_12_0.skillList_[var_12_0] then
-					arg_12_0.skillList_[var_12_0] = BattleBossChallengeSkillItem.New(arg_12_0.skillItem_, arg_12_0.skillParent_)
+		for slot12 = 1, 6 do
+			if slot8[slot12] then
+				if not slot0.skillList_[slot1] then
+					slot0.skillList_[slot1] = BattleBossChallengeSkillItem.New(slot0.skillItem_, slot0.skillParent_)
 				end
 
-				arg_12_0.skillList_[var_12_0]:RefreshUI(var_12_2[iter_12_2])
+				slot0.skillList_[slot1]:RefreshUI(slot8[slot12])
 
-				var_12_0 = var_12_0 + 1
+				slot1 = slot1 + 1
 			end
 		end
 	end
 
-	for iter_12_3 = var_12_0, #arg_12_0.skillList_ do
-		arg_12_0.skillList_[iter_12_3]:Hide()
+	for slot5 = slot1, #slot0.skillList_ do
+		slot0.skillList_[slot5]:Hide()
 	end
 end
 
-function var_0_0.RefreshLockHero(arg_13_0)
-	local var_13_0 = arg_13_0.lockHeroGroup_[arg_13_0.bossIndex_] or {}
+function slot0.RefreshLockHero(slot0)
+	slot1 = slot0.lockHeroGroup_[slot0.bossIndex_] or {}
 
-	for iter_13_0 = 1, #var_13_0 do
-		local var_13_1 = var_13_0[iter_13_0]
+	for slot5 = 1, #slot1 do
+		slot6 = slot1[slot5]
 
-		if not arg_13_0.heroLockList_[iter_13_0] then
-			arg_13_0.heroLockList_[iter_13_0] = BattleBossChallengeLockHeroItem.New(arg_13_0.heroLockItem_, arg_13_0.heroLockPanel_, var_13_1)
+		if not slot0.heroLockList_[slot5] then
+			slot0.heroLockList_[slot5] = BattleBossChallengeLockHeroItem.New(slot0.heroLockItem_, slot0.heroLockPanel_, slot6)
 		end
 
-		arg_13_0.heroLockList_[iter_13_0]:SetActive(true, var_13_1)
+		slot0.heroLockList_[slot5]:SetActive(true, slot6)
 	end
 
-	for iter_13_1 = #var_13_0 + 1, #arg_13_0.heroLockList_ do
-		arg_13_0.heroLockList_[iter_13_1]:SetActive(false)
+	for slot5 = #slot1 + 1, #slot0.heroLockList_ do
+		slot0.heroLockList_[slot5]:SetActive(false)
 	end
 
-	arg_13_0.heroLockScroll_.normalizedPosition = Vector2(0, 1)
+	slot0.heroLockScroll_.normalizedPosition = Vector2(0, 1)
 end
 
-function var_0_0.LoadModel(arg_14_0)
-	if arg_14_0.currentBossTemplateID_ == arg_14_0.templateID_ then
+function slot0.LoadModel(slot0)
+	if slot0.currentBossTemplateID_ == slot0.templateID_ then
 		return
 	end
 
-	arg_14_0.currentBossTemplateID_ = arg_14_0.templateID_
+	slot0.currentBossTemplateID_ = slot0.templateID_
 
-	arg_14_0:UnloadModel()
+	slot0:UnloadModel()
 
-	local var_14_0 = BossChallengeUICfg[arg_14_0.templateID_]
-
-	for iter_14_0, iter_14_1 in pairs(var_14_0.boss_id_list) do
-		arg_14_0.loadIndexList_[iter_14_0] = manager.resourcePool:AsyncLoad("Char/" .. MonsterCfg[iter_14_1].model_name, ASSET_TYPE.TPOSE, function(arg_15_0)
-			if arg_14_0.exitView_ or arg_14_0.currentBossTemplateID_ ~= arg_14_0.templateID_ then
-				manager.resourcePool:DestroyOrReturn(arg_15_0, ASSET_TYPE.TPOSE)
+	for slot5, slot6 in pairs(BossChallengeUICfg[slot0.templateID_].boss_id_list) do
+		slot0.loadIndexList_[slot5] = manager.resourcePool:AsyncLoad("Char/" .. MonsterCfg[slot6].model_name, ASSET_TYPE.TPOSE, function (slot0)
+			if uv0.exitView_ or uv0.currentBossTemplateID_ ~= uv0.templateID_ then
+				manager.resourcePool:DestroyOrReturn(slot0, ASSET_TYPE.TPOSE)
 
 				return
 			end
 
-			local var_15_0 = var_14_0.model_pos[iter_14_0]
-			local var_15_1 = var_14_0.model_rot[iter_14_0]
-			local var_15_2 = var_14_0.model_scale[iter_14_0]
+			slot1 = uv1.model_pos[uv2]
+			slot2 = uv1.model_rot[uv2]
+			slot3 = uv1.model_scale[uv2]
+			uv0.bossModel_[uv2] = slot0
+			uv0.bossModel_[uv2].transform.localPosition = Vector3(slot1[1], slot1[2], slot1[3])
+			uv0.bossModel_[uv2].transform.localEulerAngles = Vector3(slot2[1], slot2[2], slot2[3])
+			uv0.bossModel_[uv2].transform.localScale = Vector3(slot3[1], slot3[2], slot3[3])
+			uv0.bossAnimatorList_[uv2] = uv0.bossModel_[uv2]:GetComponent(typeof(Animator))
 
-			arg_14_0.bossModel_[iter_14_0] = arg_15_0
-			arg_14_0.bossModel_[iter_14_0].transform.localPosition = Vector3(var_15_0[1], var_15_0[2], var_15_0[3])
-			arg_14_0.bossModel_[iter_14_0].transform.localEulerAngles = Vector3(var_15_1[1], var_15_1[2], var_15_1[3])
-			arg_14_0.bossModel_[iter_14_0].transform.localScale = Vector3(var_15_2[1], var_15_2[2], var_15_2[3])
-			arg_14_0.bossAnimatorList_[iter_14_0] = arg_14_0.bossModel_[iter_14_0]:GetComponent(typeof(Animator))
-
-			arg_14_0:PlayAppearAnimation(iter_14_0, function()
-				arg_14_0.bossAnimatorList_[iter_14_0]:CrossFadeInFixedTime("stand", 0.01)
+			uv0:PlayAppearAnimation(uv2, function ()
+				uv0.bossAnimatorList_[uv1]:CrossFadeInFixedTime("stand", 0.01)
 			end)
 		end)
 	end
 end
 
-function var_0_0.UnloadModel(arg_17_0)
-	for iter_17_0, iter_17_1 in pairs(arg_17_0.bossModel_) do
-		arg_17_0.bossAnimatorList_[iter_17_0].applyRootMotion = arg_17_0.cacheRootMotionList_[iter_17_0]
+function slot0.UnloadModel(slot0)
+	for slot4, slot5 in pairs(slot0.bossModel_) do
+		slot0.bossAnimatorList_[slot4].applyRootMotion = slot0.cacheRootMotionList_[slot4]
 
-		manager.resourcePool:DestroyOrReturn(iter_17_1, ASSET_TYPE.TPOSE)
+		manager.resourcePool:DestroyOrReturn(slot5, ASSET_TYPE.TPOSE)
 	end
 
-	arg_17_0.bossModel_ = {}
-	arg_17_0.bossAnimatorList_ = {}
+	slot0.bossModel_ = {}
+	slot0.bossAnimatorList_ = {}
 
-	for iter_17_2, iter_17_3 in pairs(arg_17_0.loadIndexList_) do
-		manager.resourcePool:StopAsyncQuest(iter_17_3)
+	for slot4, slot5 in pairs(slot0.loadIndexList_) do
+		manager.resourcePool:StopAsyncQuest(slot5)
 	end
 
-	arg_17_0.loadIndexList_ = {}
+	slot0.loadIndexList_ = {}
 
-	arg_17_0:StopAllAnimatorTimer()
+	slot0:StopAllAnimatorTimer()
 end
 
-function var_0_0.PlayAppearAnimation(arg_18_0, arg_18_1, arg_18_2)
-	local var_18_0 = BossChallengeUICfg[arg_18_0.templateID_]
-	local var_18_1 = arg_18_0.bossAnimatorList_[arg_18_1]
+function slot0.PlayAppearAnimation(slot0, slot1, slot2)
+	slot4 = slot0.bossAnimatorList_[slot1]
+	slot0.cacheRootMotionList_[slot1] = slot0.bossAnimatorList_[slot1].applyRootMotion
+	slot0.bossAnimatorList_[slot1].applyRootMotion = false
 
-	arg_18_0.cacheRootMotionList_[arg_18_1] = arg_18_0.bossAnimatorList_[arg_18_1].applyRootMotion
-	arg_18_0.bossAnimatorList_[arg_18_1].applyRootMotion = false
+	if type(BossChallengeUICfg[slot0.templateID_].appear_ani) == "table" and slot3.appear_ani[slot1] ~= "" then
+		slot0.bossAnimatorList_[slot1]:Play(slot3.appear_ani[slot1])
 
-	if type(var_18_0.appear_ani) == "table" and var_18_0.appear_ani[arg_18_1] ~= "" then
-		arg_18_0.bossAnimatorList_[arg_18_1]:Play(var_18_0.appear_ani[arg_18_1])
+		slot5 = nil
+		slot5 = FrameTimer.New(function ()
+			if uv0:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
+				uv1:Stop()
+				table.removebyvalue(uv2.animatorTimer_, uv1)
 
-		local var_18_2
+				uv1 = nil
 
-		var_18_2 = FrameTimer.New(function()
-			if var_18_1:GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 then
-				var_18_2:Stop()
-				table.removebyvalue(arg_18_0.animatorTimer_, var_18_2)
-
-				var_18_2 = nil
-
-				arg_18_2()
+				uv3()
 			end
 		end, 1, -1)
 
-		table.insert(arg_18_0.animatorTimer_, var_18_2)
-		var_18_2:Start()
-	else
-		arg_18_2()
+		table.insert(slot0.animatorTimer_, slot5)
+		slot5:Start()
+
+		return
+	end
+
+	slot2()
+end
+
+function slot0.StopAllAnimatorTimer(slot0)
+	for slot4 = #slot0.animatorTimer_, 1, -1 do
+		slot0.animatorTimer_[slot4]:Stop()
+
+		slot0.animatorTimer_[slot4] = nil
 	end
 end
 
-function var_0_0.StopAllAnimatorTimer(arg_20_0)
-	for iter_20_0 = #arg_20_0.animatorTimer_, 1, -1 do
-		arg_20_0.animatorTimer_[iter_20_0]:Stop()
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-		arg_20_0.animatorTimer_[iter_20_0] = nil
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
+
+	slot2 = GameDisplayCfg.boss_background_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], slot2[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot3 = GameDisplayCfg.boss_background_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(slot3[1], slot3[2], slot3[3])
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureBg/Challenge_Boss/" .. CameraCfg.bossChallenge.pictureName)
+end
+
+function slot0.DestroyBackScene(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
+
+		slot0.backGround_ = nil
 	end
 end
 
-function var_0_0.InitBackScene(arg_21_0)
-	local var_21_0 = "UI/Common/BackgroundQuad"
-
-	arg_21_0.backGround_ = manager.resourcePool:Get(var_21_0, ASSET_TYPE.SCENE)
-	arg_21_0.backGroundTrs_ = arg_21_0.backGround_.transform
-
-	arg_21_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_21_1 = GameDisplayCfg.boss_background_pos.value
-
-	arg_21_0.backGroundTrs_.localPosition = Vector3(var_21_1[1], var_21_1[2], var_21_1[3])
-	arg_21_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_21_2 = GameDisplayCfg.boss_background_pos.scale
-
-	arg_21_0.backGroundTrs_.localScale = Vector3(var_21_2[1], var_21_2[2], var_21_2[3])
-	arg_21_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas("TextureBg/Challenge_Boss/" .. CameraCfg.bossChallenge.pictureName)
-end
-
-function var_0_0.DestroyBackScene(arg_22_0)
-	if arg_22_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_22_0.backGround_, ASSET_TYPE.SCENE)
-
-		arg_22_0.backGround_ = nil
-	end
-end
-
-return var_0_0
+return slot0

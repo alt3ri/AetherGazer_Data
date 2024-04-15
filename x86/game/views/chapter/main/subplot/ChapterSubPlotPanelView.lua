@@ -1,65 +1,61 @@
-local var_0_0 = class("ChapterSubPlotPanelView", ReduxView)
+slot0 = class("ChapterSubPlotPanelView", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "lock")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "lock")
 end
 
-function var_0_0.OnEnter(arg_2_0)
-	arg_2_0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT)
+function slot0.OnEnter(slot0)
+	slot0.isLock_ = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT)
 
-	manager.redPoint:bindUIandKey(arg_2_0.transform_, RedPointConst.COMBAT_SUB_PLOT)
-	arg_2_0:RefreshUI()
+	manager.redPoint:bindUIandKey(slot0.transform_, RedPointConst.COMBAT_SUB_PLOT)
+	slot0:RefreshUI()
 end
 
-function var_0_0.OnExit(arg_3_0)
-	manager.redPoint:unbindUIandKey(arg_3_0.transform_, RedPointConst.COMBAT_SUB_PLOT)
+function slot0.OnExit(slot0)
+	manager.redPoint:unbindUIandKey(slot0.transform_, RedPointConst.COMBAT_SUB_PLOT)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.AddListeners(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.button_, nil, function()
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
 		JumpTools.GoToSystem("/chapterSubPlotContent", {}, ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT)
 	end)
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	local var_7_0 = ChapterTools.GetOpenSubPlotClient()
-	local var_7_1 = ChapterClientCfg[var_7_0]
-	local var_7_2 = SpritePathCfg.ChapterPaint.path .. var_7_1.chapter_paint_2
+function slot0.RefreshUI(slot0)
+	slot2 = ChapterClientCfg[ChapterTools.GetOpenSubPlotClient()]
 
-	getSpriteWithoutAtlasAsync(var_7_2, function(arg_8_0)
-		if arg_7_0.chapterImage_ then
-			arg_7_0.chapterImage_.sprite = arg_8_0
+	getSpriteWithoutAtlasAsync(SpritePathCfg.ChapterPaint.path .. slot2.chapter_paint_2, function (slot0)
+		if uv0.chapterImage_ then
+			uv0.chapterImage_.sprite = slot0
 		end
 	end)
 
-	arg_7_0.chapterNameText_.text = var_7_1.name
-	arg_7_0.chapterDescText_.text = var_7_1.desc
+	slot0.chapterNameText_.text = slot2.name
+	slot0.chapterDescText_.text = slot2.desc
 
-	arg_7_0:RefreshLockState()
+	slot0:RefreshLockState()
 
-	local var_7_3 = JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT)
-
-	if var_7_3 then
-		arg_7_0.lockText_.text = JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT, var_7_3)
+	if JumpTools.IsSystemLocked(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT) then
+		slot0.lockText_.text = JumpTools.GetSystemLockedTip(ViewConst.SYSTEM_ID.BATTLE_SUB_PLOT, slot4)
 	end
 end
 
-function var_0_0.RefreshLockState(arg_9_0)
-	if arg_9_0.isLock_ then
-		arg_9_0.controller_:SetSelectedState("true")
+function slot0.RefreshLockState(slot0)
+	if slot0.isLock_ then
+		slot0.controller_:SetSelectedState("true")
 	else
-		arg_9_0.controller_:SetSelectedState("false")
+		slot0.controller_:SetSelectedState("false")
 	end
 end
 
-return var_0_0
+return slot0

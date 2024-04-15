@@ -1,107 +1,101 @@
-local var_0_0 = class("SurveyView", ReduxView)
+slot0 = class("SurveyView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Medium/InvestigateUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.surveyList_ = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.uilistGo_, SurveyItem)
-	arg_4_0.controller_ = ControllerUtil.GetController(arg_4_0.gameObject_.transform, "conName")
+	slot0.surveyList_ = LuaList.New(handler(slot0, slot0.indexItem), slot0.uilistGo_, SurveyItem)
+	slot0.controller_ = ControllerUtil.GetController(slot0.gameObject_.transform, "conName")
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.bgmaskBtn_, nil, function()
-		arg_5_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.bgmaskBtn_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateData(arg_7_0)
-	arg_7_0.itemList_ = {}
+function slot0.UpdateData(slot0)
+	slot0.itemList_ = {}
 
-	local var_7_0 = SurveyData:GetSurveyList()
-
-	for iter_7_0, iter_7_1 in pairs(var_7_0) do
-		if arg_7_0.params_.type == iter_7_1.type then
-			table.insert(arg_7_0.itemList_, iter_7_1)
+	for slot5, slot6 in pairs(SurveyData:GetSurveyList()) do
+		if slot0.params_.type == slot6.type then
+			table.insert(slot0.itemList_, slot6)
 		end
 	end
 
-	table.sort(arg_7_0.itemList_, function(arg_8_0, arg_8_1)
-		local function var_8_0(arg_9_0)
-			if arg_9_0 == 1 then
+	table.sort(slot0.itemList_, function (slot0, slot1)
+		function slot2(slot0)
+			if slot0 == 1 then
 				return 1
 			end
 
-			if arg_9_0 == 2 then
+			if slot0 == 2 then
 				return 3
 			end
 
-			if arg_9_0 == 0 then
+			if slot0 == 0 then
 				return 2
 			end
 		end
 
-		local var_8_1 = var_8_0(arg_8_0.status)
-		local var_8_2 = var_8_0(arg_8_1.status)
-
-		if var_8_1 ~= var_8_2 then
-			return var_8_1 < var_8_2
+		if slot2(slot0.status) ~= slot2(slot1.status) then
+			return slot3 < slot4
 		end
 
-		return arg_8_0.id > arg_8_1.id
+		return slot1.id < slot0.id
 	end)
 end
 
-function var_0_0.indexItem(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_2:RefreshUI(arg_10_0.itemList_[arg_10_1])
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.itemList_[slot1])
 end
 
-function var_0_0.OnEnter(arg_11_0)
-	arg_11_0:UpdateData()
+function slot0.OnEnter(slot0)
+	slot0:UpdateData()
 
-	if #arg_11_0.itemList_ <= 0 then
-		arg_11_0.controller_:SetSelectedState("false")
+	if #slot0.itemList_ <= 0 then
+		slot0.controller_:SetSelectedState("false")
 	else
-		arg_11_0.controller_:SetSelectedState("true")
-		arg_11_0.surveyList_:StartScroll(#arg_11_0.itemList_)
+		slot0.controller_:SetSelectedState("true")
+		slot0.surveyList_:StartScroll(#slot0.itemList_)
 	end
 end
 
-function var_0_0.OnExit(arg_12_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.OnGetSurveyGift(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_0:UpdateData()
-	arg_13_0.surveyList_:StartScroll(#arg_13_0.itemList_)
-	getReward2(mergeReward2(arg_13_1.item_list))
+function slot0.OnGetSurveyGift(slot0, slot1, slot2)
+	slot0:UpdateData()
+	slot0.surveyList_:StartScroll(#slot0.itemList_)
+	getReward2(mergeReward2(slot1.item_list))
 end
 
-function var_0_0.OnFinishSurvey(arg_14_0)
-	arg_14_0:UpdateData()
-	arg_14_0.surveyList_:StartScroll(#arg_14_0.itemList_)
+function slot0.OnFinishSurvey(slot0)
+	slot0:UpdateData()
+	slot0.surveyList_:StartScroll(#slot0.itemList_)
 end
 
-function var_0_0.OnExitInput(arg_15_0)
+function slot0.OnExitInput(slot0)
 	JumpTools.Back()
 
 	return true
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0.surveyList_:Dispose()
-	var_0_0.super.Dispose(arg_16_0)
+function slot0.Dispose(slot0)
+	slot0.surveyList_:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

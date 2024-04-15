@@ -1,25 +1,24 @@
 ChapterVariantSubPlotBaseItem = import("game.views.chapterVariant.base.ChapterVariantSubPlotBaseItem")
+slot0 = class("ChapterVariantThothItem", ChapterVariantSubPlotBaseItem)
 
-local var_0_0 = class("ChapterVariantThothItem", ChapterVariantSubPlotBaseItem)
-
-function var_0_0.BindRedPoint(arg_1_0)
-	manager.redPoint:bindUIandKey(arg_1_0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT_CHAPTER, arg_1_0.chapterID_))
+function slot0.BindRedPoint(slot0)
+	manager.redPoint:bindUIandKey(slot0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT_CHAPTER, slot0.chapterID_))
 end
 
-function var_0_0.UnBindRedPoint(arg_2_0)
-	manager.redPoint:unbindUIandKey(arg_2_0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT_CHAPTER, arg_2_0.chapterID_))
+function slot0.UnBindRedPoint(slot0)
+	manager.redPoint:unbindUIandKey(slot0.redPointParentTf_, string.format("%s_%s", RedPointConst.COMBAT_SUB_PLOT_CHAPTER, slot0.chapterID_))
 end
 
-function var_0_0.RefreshControllerState(arg_3_0)
-	if arg_3_0.isLock_ or arg_3_0.timeLock_ then
-		arg_3_0.controller_:SetSelectedState("timeLock")
+function slot0.RefreshControllerState(slot0)
+	if slot0.isLock_ or slot0.timeLock_ then
+		slot0.controller_:SetSelectedState("timeLock")
 
-		if arg_3_0.timeLock_ == false and arg_3_0.isLock_ then
-			arg_3_0.timerText_.text = GetTips("NEED_FINISH_PRE_NORMAL_STAGE")
+		if slot0.timeLock_ == false and slot0.isLock_ then
+			slot0.timerText_.text = GetTips("NEED_FINISH_PRE_NORMAL_STAGE")
 		end
 	else
-		arg_3_0.controller_:SetSelectedState("normal")
+		slot0.controller_:SetSelectedState("normal")
 	end
 end
 
-return var_0_0
+return slot0

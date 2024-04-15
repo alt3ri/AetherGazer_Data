@@ -1,54 +1,46 @@
-local var_0_0 = class("MatrixProcessAstrolabeRewardItem", MatrixProcessRewardItem)
+slot0 = class("MatrixProcessAstrolabeRewardItem", MatrixProcessRewardItem)
 
-function var_0_0.UpdateAstrolabePreview(arg_1_0)
-	local var_1_0 = MatrixItemCfg[arg_1_0.id]
-
-	if var_1_0.matrix_item_type ~= MatrixConst.ITEM_TYPE.ASTROLABE then
+function slot0.UpdateAstrolabePreview(slot0)
+	if MatrixItemCfg[slot0.id].matrix_item_type ~= MatrixConst.ITEM_TYPE.ASTROLABE then
 		return
 	end
 
-	local var_1_1 = var_1_0.params[1]
-	local var_1_2 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[var_1_1]
-	local var_1_3 = math.floor(var_1_0.params[1] / 1000)
-	local var_1_4 = arg_1_0:GetHeroData(var_1_3):GetAstrolabeNum(var_1_0.params[1])
-	local var_1_5 = arg_1_0:GetHeroSkin(var_1_3)
+	slot3 = HeroAstrolabeCfg.get_id_list_by_hero_astrolabe_suit_id[slot1.params[1]]
+	slot4 = math.floor(slot1.params[1] / 1000)
+	slot12 = slot0:GetHeroSkin(slot4)
+	slot0.m_heroImg.sprite = getSpriteViaConfig("HeroLittleIcon", slot12)
+	slot11 = slot0:GetHeroData(slot4):GetAstrolabeNum(slot1.params[1])
+	slot6 = math.min(3, slot11)
 
-	arg_1_0.m_heroImg.sprite = getSpriteViaConfig("HeroLittleIcon", var_1_5)
+	for slot11, slot12 in ipairs(slot0.astrolabeImgs_) do
+		if slot11 <= slot6 then
+			SetActive(slot12.gameObject, true)
 
-	local var_1_6 = math.min(3, var_1_4)
-
-	for iter_1_0, iter_1_1 in ipairs(arg_1_0.astrolabeImgs_) do
-		if iter_1_0 <= var_1_6 then
-			SetActive(iter_1_1.gameObject, true)
-
-			iter_1_1.sprite = MatrixTools.GetMatrixItemSprite(arg_1_0.id)
+			slot12.sprite = MatrixTools.GetMatrixItemSprite(slot0.id)
 		else
-			SetActive(iter_1_1.gameObject, false)
+			SetActive(slot12.gameObject, false)
 		end
 	end
 
-	if var_1_6 > 0 then
-		local var_1_7 = var_1_2[var_1_6]
-		local var_1_8 = AstrolabeEffectCfg[var_1_7].desc[1]
-		local var_1_9 = GetCfgDescription(var_1_8, 1)
+	if slot6 > 0 then
+		slot8 = slot3[slot6]
 
-		arg_1_0:SetDesc(var_1_9)
+		slot0:SetDesc(GetCfgDescription(AstrolabeEffectCfg[slot8].desc[1], 1))
 
-		local var_1_10 = HeroAstrolabeCfg[var_1_7]
-
-		arg_1_0.m_name1.text = GetI18NText(var_1_10.name)
-		arg_1_0.m_name2.text = GetI18NText(var_1_10.name)
+		slot12 = HeroAstrolabeCfg[slot8]
+		slot0.m_name1.text = GetI18NText(slot12.name)
+		slot0.m_name2.text = GetI18NText(slot12.name)
 	else
-		arg_1_0:SetDesc(var_1_0.desc)
+		slot0:SetDesc(slot1.desc)
 	end
 end
 
-function var_0_0.GetHeroData(arg_2_0, arg_2_1)
-	return MatrixData:GetHeroData(arg_2_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-function var_0_0.GetHeroSkin(arg_3_0, arg_3_1)
-	return MatrixData:GetHeroSkin(arg_3_1)
+function slot0.GetHeroSkin(slot0, slot1)
+	return MatrixData:GetHeroSkin(slot1)
 end
 
-return var_0_0
+return slot0

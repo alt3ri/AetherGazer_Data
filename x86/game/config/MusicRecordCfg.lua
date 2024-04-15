@@ -9,7 +9,16 @@ return {
 		id = 1,
 		awbName = "bgm_promotion_1_0_promise_long",
 		initAISAC = "",
-		detail = "曲名：Promise\n演唱：祈Inory\n作曲：Polymath9\n编曲：Polymath9×S9ryne\n作词：TetraCalyx\n吉他：绛舞乱丸\n混音：Mr_LTC\n母带：火花声影文化工作室\n制作：Polymath9"
+		detail = [[
+曲名：Promise
+演唱：祈Inory
+作曲：Polymath9
+编曲：Polymath9×S9ryne
+作词：TetraCalyx
+吉他：绛舞乱丸
+混音：Mr_LTC
+母带：火花声影文化工作室
+制作：Polymath9]]
 	},
 	{
 		cueName = "bgm_promotion_1_0_promise_short",
@@ -21,7 +30,16 @@ return {
 		id = 2,
 		awbName = "bgm_promotion_1_0_promise_short",
 		initAISAC = "",
-		detail = "曲名：Promise (Short Ver.)\n演唱：祈Inory\n作曲：Polymath9\n编曲：Polymath9×S9ryne\n作词：TetraCalyx\n吉他：绛舞乱丸\n混音：Mr_LTC\n母带：火花声影文化工作室\n制作：Polymath9"
+		detail = [[
+曲名：Promise (Short Ver.)
+演唱：祈Inory
+作曲：Polymath9
+编曲：Polymath9×S9ryne
+作词：TetraCalyx
+吉他：绛舞乱丸
+混音：Mr_LTC
+母带：火花声影文化工作室
+制作：Polymath9]]
 	},
 	{
 		cueName = "bgm_login",
@@ -179,7 +197,11 @@ return {
 		musicName = "Halphas (Phase 2)",
 		id = 14,
 		awbName = "bgm_boss_battle_02",
-		detail = "模仿了这么多年人工智能讲话，确实让我有点模糊了……\n你们，应该为自己能成为那位大人霸业的垫脚石而感到荣幸！\n\n作曲：CoyDe",
+		detail = [[
+模仿了这么多年人工智能讲话，确实让我有点模糊了……
+你们，应该为自己能成为那位大人霸业的垫脚石而感到荣幸！
+
+作曲：CoyDe]],
 		initAISAC = {
 			{
 				"bgm_volume",
@@ -273,7 +295,12 @@ return {
 		musicName = "Orochi (Phase 2)",
 		id = 21,
 		awbName = "bgm_boss_battle_03",
-		detail = "我曾被人人尊为神祇，亦遭人人惧之如凶灾。\n凡人皆畏我、敬我、惧我、拜我——\n须臾百年，就叫你们就忘了这片土地原本的主人是谁吗？\n\n作曲：CoyDe",
+		detail = [[
+我曾被人人尊为神祇，亦遭人人惧之如凶灾。
+凡人皆畏我、敬我、惧我、拜我——
+须臾百年，就叫你们就忘了这片土地原本的主人是谁吗？
+
+作曲：CoyDe]],
 		initAISAC = {
 			{
 				"bgm_volume",
@@ -399,7 +426,11 @@ return {
 		id = 31,
 		awbName = "bgm_activity_1_0_1_osiris_ui",
 		initAISAC = "",
-		detail = "那曾经高悬头顶的红蔷薇。\n坠于大地，徒留怨恨，流淌至今。\n\n作曲：CoyDe"
+		detail = [[
+那曾经高悬头顶的红蔷薇。
+坠于大地，徒留怨恨，流淌至今。
+
+作曲：CoyDe]]
 	},
 	{
 		cueName = "bgm_activity_1_1_hel_ui",
@@ -411,7 +442,11 @@ return {
 		id = 32,
 		awbName = "bgm_activity_1_1_hel_ui",
 		initAISAC = "",
-		detail = "再见，再见，我亲爱的海伦娜。\n\n作曲：CoyDe feat. Polymath9\n编曲：CoyDe"
+		detail = [[
+再见，再见，我亲爱的海伦娜。
+
+作曲：CoyDe feat. Polymath9
+编曲：CoyDe]]
 	},
 	{
 		cueName = "bgm_activity_1_1_hel_story_warm",
@@ -603,7 +638,13 @@ return {
 		id = 48,
 		awbName = "bgm_activity_1_2_1_summer2_battle",
 		initAISAC = "",
-		detail = "你们拒绝……梦……\n……现实……就是真的吗……？\n\n曲名：Siren: Remotum Punctum\n作曲：Polymath9\n编曲：雷声/Polymath9"
+		detail = [[
+你们拒绝……梦……
+……现实……就是真的吗……？
+
+曲名：Siren: Remotum Punctum
+作曲：Polymath9
+编曲：雷声/Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_1_2_summer1_minigame_racing",
@@ -663,7 +704,11 @@ return {
 		id = 53,
 		awbName = "bgm_activity_1_2_summer1_story_beach",
 		initAISAC = "",
-		detail = "跳动的篝火，勾勒出船长和水手的形貌。\n\n曲名：Lullaby, for a stranded heart\n作曲：Polymath9"
+		detail = [[
+跳动的篝火，勾勒出船长和水手的形貌。
+
+曲名：Lullaby, for a stranded heart
+作曲：Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_1_2_summer1_story_ghost",
@@ -698,7 +743,11 @@ return {
 		musicName = "Break through, and dive deeper (Part 1)",
 		id = 56,
 		awbName = "bgm_activity_1_2_1_summer2_story_2_1",
-		detail = "曲名：Break through, and dive deeper (Part 1)\n作曲：Polymath9\n编曲：Polymath9/雷声\n混音：雷声",
+		detail = [[
+曲名：Break through, and dive deeper (Part 1)
+作曲：Polymath9
+编曲：Polymath9/雷声
+混音：雷声]],
 		initAISAC = {
 			{
 				"phase_controller",
@@ -896,7 +945,11 @@ return {
 		id = 72,
 		awbName = "bgm_activity_1_4_boss_4025_2",
 		initAISAC = "",
-		detail = "你们真的惹恼了拉冬大人…………\n嗯嗯，想让我手下留情？我偏不，那样可就不好玩了~\n\n作曲：Tony"
+		detail = [[
+你们真的惹恼了拉冬大人…………
+嗯嗯，想让我手下留情？我偏不，那样可就不好玩了~
+
+作曲：Tony]]
 	},
 	{
 		cueName = "bgm_activity_1_4_story_source",
@@ -1004,7 +1057,11 @@ return {
 		id = 81,
 		awbName = "bgm_activity_1_5_login",
 		initAISAC = "",
-		detail = "黄沙，钢铁，雪茄。一场父与子之间的铜之决。\n\n作曲：雷声\n吉他：张宇煊"
+		detail = [[
+黄沙，钢铁，雪茄。一场父与子之间的铜之决。
+
+作曲：雷声
+吉他：张宇煊]]
 	},
 	{
 		cueName = "bgm_activity_1_5_battle_1",
@@ -1040,7 +1097,11 @@ return {
 		id = 84,
 		awbName = "bgm_activity_1_5_boss_4029",
 		initAISAC = "",
-		detail = "借来的秘密武器，潜伏的定时炸弹。\n\n作曲：雷声\n吉他：张宇煊"
+		detail = [[
+借来的秘密武器，潜伏的定时炸弹。
+
+作曲：雷声
+吉他：张宇煊]]
 	},
 	{
 		cueName = "bgm_activity_1_5_story_1",
@@ -1088,7 +1149,12 @@ return {
 		id = 88,
 		awbName = "bgm_activity_1_6_ui",
 		initAISAC = "",
-		detail = "我仍然与小昙相遇。\n在千百个梦中。\n\n作曲：Polymath9\n鼓、混音：雷声"
+		detail = [[
+我仍然与小昙相遇。
+在千百个梦中。
+
+作曲：Polymath9
+鼓、混音：雷声]]
 	},
 	{
 		cueName = "bgm_activity_1_6_battle_skzy",
@@ -1136,7 +1202,11 @@ return {
 		id = 92,
 		awbName = "bgm_activity_1_6_boss_4031_1",
 		initAISAC = "",
-		detail = "神之所以不亲自动手，那是因为对这世间仍抱有仁慈。\n倘若你们因此误会了神不具备征伐之能，那实在是愚昧得令我心痛了……\n\n作曲：Haloweak"
+		detail = [[
+神之所以不亲自动手，那是因为对这世间仍抱有仁慈。
+倘若你们因此误会了神不具备征伐之能，那实在是愚昧得令我心痛了……
+
+作曲：Haloweak]]
 	},
 	{
 		cueName = "bgm_activity_1_6_boss_4031_2",
@@ -1148,7 +1218,11 @@ return {
 		id = 93,
 		awbName = "bgm_activity_1_6_boss_4031_2",
 		initAISAC = "",
-		detail = "白与金交织连缀——洁白的武神张开她的羽翼。\n\n作曲：Haloweak\n编曲：Haloweak/Moto"
+		detail = [[
+白与金交织连缀——洁白的武神张开她的羽翼。
+
+作曲：Haloweak
+编曲：Haloweak/Moto]]
 	},
 	{
 		cueName = "bgm_activity_1_6_story_skuld",
@@ -1341,7 +1415,20 @@ return {
 		id = 107,
 		awbName = "bgm_promotion_2_0_yungexing_full",
 		initAISAC = "",
-		detail = "人间何事无由头，江河水自流。\n\n演唱：呦猫UNEKO\n作曲：Polymath9\n编曲：Polymath9 × VeetaCrush × S9ryne\n作词：大九_LN\n弦乐：国际首席爱乐乐团\n弦乐监制：李朋\n弦乐录音棚：九紫天诚录音棚\n弦乐录音师：刘婉秋\n混音：VeetaCrush\n母带：VeetaCrush\n制作：Polymath9@勇仕网络"
+		detail = [[
+人间何事无由头，江河水自流。
+
+演唱：呦猫UNEKO
+作曲：Polymath9
+编曲：Polymath9 × VeetaCrush × S9ryne
+作词：大九_LN
+弦乐：国际首席爱乐乐团
+弦乐监制：李朋
+弦乐录音棚：九紫天诚录音棚
+弦乐录音师：刘婉秋
+混音：VeetaCrush
+母带：VeetaCrush
+制作：Polymath9@勇仕网络]]
 	},
 	{
 		cueName = "bgm_promotion_2_0_yungexing_game",
@@ -1353,7 +1440,14 @@ return {
 		id = 108,
 		awbName = "bgm_promotion_2_0_yungexing_game",
 		initAISAC = "",
-		detail = "演唱：呦猫UNEKO\n作曲：Polymath9\n编曲：VeetaCrush × S9ryne feat. Polymath9\n作词：大九_LN\n混音：VeetaCrush\n母带：VeetaCrush\n制作：Polymath9@勇仕网络"
+		detail = [[
+演唱：呦猫UNEKO
+作曲：Polymath9
+编曲：VeetaCrush × S9ryne feat. Polymath9
+作词：大九_LN
+混音：VeetaCrush
+母带：VeetaCrush
+制作：Polymath9@勇仕网络]]
 	},
 	{
 		cueName = "bgm_promotion_2_0_yungexing",
@@ -1365,7 +1459,18 @@ return {
 		id = 109,
 		awbName = "bgm_promotion_2_0_yungexing",
 		initAISAC = "",
-		detail = "演唱：呦猫UNEKO\n作曲：Polymath9\n编曲：Polymath9\n作词：大九_LN\n弦乐：国际首席爱乐乐团\n弦乐监制：李朋\n弦乐录音棚：记忆时刻录音棚\n弦乐录音师：肖广一\n混音：VeetaCrush\n母带：VeetaCrush\n制作：Polymath9@勇仕网络"
+		detail = [[
+演唱：呦猫UNEKO
+作曲：Polymath9
+编曲：Polymath9
+作词：大九_LN
+弦乐：国际首席爱乐乐团
+弦乐监制：李朋
+弦乐录音棚：记忆时刻录音棚
+弦乐录音师：肖广一
+混音：VeetaCrush
+母带：VeetaCrush
+制作：Polymath9@勇仕网络]]
 	},
 	{
 		cueName = "bgm_activity_2_0_ui",
@@ -1533,7 +1638,11 @@ return {
 		id = 123,
 		awbName = "bgm_activity_2_1_battle_boss_4038_1",
 		initAISAC = "",
-		detail = "「染血亦或蒙尘，我名唯此原初。」\n\n曲名：<color=#6567f1>双星·启原</color> - <color=#8e63f5>Binary Birth\n</color>作曲：VeetaCrush"
+		detail = [[
+「染血亦或蒙尘，我名唯此原初。」
+
+曲名：<color=#6567f1>双星·启原</color> - <color=#8e63f5>Binary Birth
+</color>作曲：VeetaCrush]]
 	},
 	{
 		cueName = "bgm_activity_2_1_battle_boss_4038_2",
@@ -1545,7 +1654,11 @@ return {
 		id = 124,
 		awbName = "bgm_activity_2_1_battle_boss_4038_2",
 		initAISAC = "",
-		detail = "「所有人都在怀念有机会挽回失败的时候，所有人都对宿命裁定的未来熟视无睹。」\n\n曲名：<color=#6567f1>双星·轮舞</color> - <color=#8e63f5>Binary Gyration</color>\n作曲：S9ryne"
+		detail = [[
+「所有人都在怀念有机会挽回失败的时候，所有人都对宿命裁定的未来熟视无睹。」
+
+曲名：<color=#6567f1>双星·轮舞</color> - <color=#8e63f5>Binary Gyration</color>
+作曲：S9ryne]]
 	},
 	{
 		cueName = "bgm_activity_2_1_battle_boss_4038_3",
@@ -1557,7 +1670,12 @@ return {
 		id = 125,
 		awbName = "bgm_activity_2_1_battle_boss_4038_3",
 		initAISAC = "",
-		detail = "「我们拥有的选择很多，可最后真正能去做的事却很少。性命相托的坚持，有一个就够了。」\n\n曲名：<color=#6567f1>双星·热寂</color> - <color=#8e63f5>Binary Oblivion</color>\n作曲：Nevia feat. Polymath9\n编曲：Nevia"
+		detail = [[
+「我们拥有的选择很多，可最后真正能去做的事却很少。性命相托的坚持，有一个就够了。」
+
+曲名：<color=#6567f1>双星·热寂</color> - <color=#8e63f5>Binary Oblivion</color>
+作曲：Nevia feat. Polymath9
+编曲：Nevia]]
 	},
 	{
 		cueName = "bgm_activity_2_0_story_source_xuheng",
@@ -1605,7 +1723,15 @@ return {
 		id = 129,
 		awbName = "bgm_activity_2_1_story_farewell",
 		initAISAC = "",
-		detail = "暮落咫尺斜千里，无言长恨不忍离。\n\n作曲：Polymath9\n弦乐：国际首席爱乐乐团\n乐团艺术总监：李朋\n弦乐录音棚：金田录音棚\n录音师：王小四\n混音：VeetaCrush"
+		detail = [[
+暮落咫尺斜千里，无言长恨不忍离。
+
+作曲：Polymath9
+弦乐：国际首席爱乐乐团
+乐团艺术总监：李朋
+弦乐录音棚：金田录音棚
+录音师：王小四
+混音：VeetaCrush]]
 	},
 	{
 		cueName = "bgm_activity_2_1_story_beforebattle",
@@ -1652,7 +1778,14 @@ return {
 		musicName = "Promise (2023 Mix)",
 		id = 133,
 		awbName = "bgm_activity_2_2_battle_boss_4036_2",
-		detail = "哪怕只有这一次也好，就让我用上所有力气吧，让我握住你的手，站在你前面，然后……在有你的未来再见吧，约好了。\n\n曲名：Promise (2023 Mix)\n演唱：祈Inory\n作曲：Polymath9\n编曲/人声和声：VeetaCrush\n作词：TetraCalyx",
+		detail = [[
+哪怕只有这一次也好，就让我用上所有力气吧，让我握住你的手，站在你前面，然后……在有你的未来再见吧，约好了。
+
+曲名：Promise (2023 Mix)
+演唱：祈Inory
+作曲：Polymath9
+编曲/人声和声：VeetaCrush
+作词：TetraCalyx]],
 		initAISAC = {
 			{
 				"phase_controller",
@@ -1747,7 +1880,11 @@ return {
 		id = 140,
 		awbName = "bgm_activity_2_2_battle_boss_4036_1",
 		initAISAC = "",
-		detail = "于现实的幻象中迷失的人啊，请聆听终末的寂静，拥抱不协的凋零，等待完美的重生。\n\n曲名：失落彼岸 - Wildered Lycoris\n作曲：S9ryne"
+		detail = [[
+于现实的幻象中迷失的人啊，请聆听终末的寂静，拥抱不协的凋零，等待完美的重生。
+
+曲名：失落彼岸 - Wildered Lycoris
+作曲：S9ryne]]
 	},
 	{
 		cueName = "bgm_activity_2_2_battle_boss_4037_1",
@@ -1759,7 +1896,12 @@ return {
 		id = 141,
 		awbName = "bgm_activity_2_2_battle_boss_4037_1",
 		initAISAC = "",
-		detail = "一切的答案藏于起源，一切的意义来自真相。启示为上，剥夺世界腐朽的伪装。\n\n曲名：启示·降临 - Paradoxical Nemesis\n作曲：S9ryne feat. Polymath9\n编曲：S9ryne"
+		detail = [[
+一切的答案藏于起源，一切的意义来自真相。启示为上，剥夺世界腐朽的伪装。
+
+曲名：启示·降临 - Paradoxical Nemesis
+作曲：S9ryne feat. Polymath9
+编曲：S9ryne]]
 	},
 	{
 		cueName = "bgm_activity_2_2_battle_boss_4037_2",
@@ -1867,7 +2009,12 @@ return {
 		id = 150,
 		awbName = "bgm_activity_2_2_story_meeting",
 		initAISAC = "",
-		detail = "坐下来，喝杯茶，算算旧账，换换心情。\n没有不见光的秘密，也没有不能谈的问题。\n——喝了杯茶，一切从头开始，一切还没过去。\n\n作曲：Polymath9"
+		detail = [[
+坐下来，喝杯茶，算算旧账，换换心情。
+没有不见光的秘密，也没有不能谈的问题。
+——喝了杯茶，一切从头开始，一切还没过去。
+
+作曲：Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_2_2_story_talk",
@@ -1879,7 +2026,14 @@ return {
 		id = 151,
 		awbName = "bgm_activity_2_2_story_talk",
 		initAISAC = "",
-		detail = "我们都在寻找另一个的自己。\n藏起的、分开的、迷路的、陌生的。\n我们都在寻找完整的自己。\n终究会成长，去补全我们的无能为力。\n我们……永远是我，永远是你。\n\n作曲：Polymath9"
+		detail = [[
+我们都在寻找另一个的自己。
+藏起的、分开的、迷路的、陌生的。
+我们都在寻找完整的自己。
+终究会成长，去补全我们的无能为力。
+我们……永远是我，永远是你。
+
+作曲：Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_2_4_ui",
@@ -1999,7 +2153,17 @@ return {
 		id = 161,
 		awbName = "bgm_activity_2_6_ui_vocal",
 		initAISAC = "",
-		detail = "孤影独徘，阡陌何尽，春光倾处。\n\n演唱：小时姑娘\n作曲：Polymath9\n编曲：Polymath9 feat. HJLL\n作词：大九_LN\n录音棚：SoundHouse Studio·星光盒子录音室\n录音：杨婉芸\n人声编辑：杨婉芸\n混音：VeetaCrush"
+		detail = [[
+孤影独徘，阡陌何尽，春光倾处。
+
+演唱：小时姑娘
+作曲：Polymath9
+编曲：Polymath9 feat. HJLL
+作词：大九_LN
+录音棚：SoundHouse Studio·星光盒子录音室
+录音：杨婉芸
+人声编辑：杨婉芸
+混音：VeetaCrush]]
 	},
 	{
 		cueName = "bgm_activity_2_6_ui",
@@ -2011,7 +2175,11 @@ return {
 		id = 162,
 		awbName = "bgm_activity_2_6_ui",
 		initAISAC = "",
-		detail = "曲名：Spring's Banquet (Inst. Ver.)\n作曲：Polymath9\n编曲：Polymath9 feat. HJLL\n混音：VeetaCrush"
+		detail = [[
+曲名：Spring's Banquet (Inst. Ver.)
+作曲：Polymath9
+编曲：Polymath9 feat. HJLL
+混音：VeetaCrush]]
 	},
 	{
 		cueName = "bgm_activity_2_6_minigame_kagutsuchi",
@@ -2047,7 +2215,11 @@ return {
 		id = 165,
 		awbName = "bgm_activity_2_6_battle_karasugo_tokoyo",
 		initAISAC = "",
-		detail = "你必须了解，你必须无知，你必须找到规则，你必须破坏规则。\n你不能离开。\n\n作曲：Nevia & Project-G"
+		detail = [[
+你必须了解，你必须无知，你必须找到规则，你必须破坏规则。
+你不能离开。
+
+作曲：Nevia & Project-G]]
 	},
 	{
 		cueName = "bgm_activity_2_6_battle_biwuchang",
@@ -2153,7 +2325,12 @@ return {
 		id = 173,
 		awbName = "bgm_activity_2_7_story_death",
 		initAISAC = "",
-		detail = "「不要祈祷，神明也无法拯救我们。」\n「不要退缩，我们与神明并肩作战。」\n\n作曲：Polymath9\n混音：LousikAEy"
+		detail = [[
+「不要祈祷，神明也无法拯救我们。」
+「不要退缩，我们与神明并肩作战。」
+
+作曲：Polymath9
+混音：LousikAEy]]
 	},
 	{
 		cueName = "bgm_activity_2_6_story_izanami_piano",
@@ -2165,7 +2342,11 @@ return {
 		id = 174,
 		awbName = "bgm_activity_2_6_story_izanami_piano",
 		initAISAC = "",
-		detail = "在某个清晨，女孩主动将自己吊死在集市的入口。\n\n曲名：Spring's Banquet (Another Ver.)\n作曲：Polymath9"
+		detail = [[
+在某个清晨，女孩主动将自己吊死在集市的入口。
+
+曲名：Spring's Banquet (Another Ver.)
+作曲：Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_2_8_ui",
@@ -2237,7 +2418,11 @@ return {
 		id = 180,
 		awbName = "bgm_activity_2_8_story_meruism",
 		initAISAC = "",
-		detail = "祂赐予我们花朵，开满太阳与土地，填补创世的缺遗。\n\n曲名：Lotus Illuminat Inanitatem\n作曲：D.Yi"
+		detail = [[
+祂赐予我们花朵，开满太阳与土地，填补创世的缺遗。
+
+曲名：Lotus Illuminat Inanitatem
+作曲：D.Yi]]
 	},
 	{
 		cueName = "bgm_activity_2_8_story_jivitabad_slum",
@@ -2381,7 +2566,11 @@ return {
 		id = 192,
 		awbName = "bgm_activity_2_10_battle_boss_4022",
 		initAISAC = "",
-		detail = "「人类总是需要相信些什么才能活下去，脆弱又卑怯地盼望着神明的庇佑。现在，他们渺小的愿望就要实现了。」\n\n曲名：天下独尊 - Tenka Dokuson\n作曲：Street"
+		detail = [[
+「人类总是需要相信些什么才能活下去，脆弱又卑怯地盼望着神明的庇佑。现在，他们渺小的愿望就要实现了。」
+
+曲名：天下独尊 - Tenka Dokuson
+作曲：Street]]
 	},
 	{
 		cueName = "bgm_activity_2_10_battle_boss_4016",
@@ -2393,7 +2582,11 @@ return {
 		id = 193,
 		awbName = "bgm_activity_2_10_battle_boss_4016",
 		initAISAC = "",
-		detail = "「人类不需要神明来照亮天空。人类，有属于自己的光芒。」\n\n曲名：天上诛灭 - Tenjou Chuumetsu\n作曲：Street"
+		detail = [[
+「人类不需要神明来照亮天空。人类，有属于自己的光芒。」
+
+曲名：天上诛灭 - Tenjou Chuumetsu
+作曲：Street]]
 	},
 	{
 		cueName = "bgm_activity_2_10_story_reiten",
@@ -2453,7 +2646,12 @@ return {
 		id = 198,
 		awbName = "bgm_activity_2_10_story_buzenbo",
 		initAISAC = "",
-		detail = "残樱还尘，千年复开。\n\n曲名：Sakura no Saisei (Piano Ver.)\n作曲：Street\n钢琴改编：Polymath9"
+		detail = [[
+残樱还尘，千年复开。
+
+曲名：Sakura no Saisei (Piano Ver.)
+作曲：Street
+钢琴改编：Polymath9]]
 	},
 	{
 		cueName = "bgm_activity_2_10_story_sekhmet",
@@ -2465,7 +2663,11 @@ return {
 		id = 199,
 		awbName = "bgm_activity_2_10_story_sekhmet",
 		initAISAC = "",
-		detail = "用生命的残响忏悔吧——漠视人类的你，最终败给了人类的力量。\n\n作曲：Polymath9\n编曲：Polymath9/LousikAEy"
+		detail = [[
+用生命的残响忏悔吧——漠视人类的你，最终败给了人类的力量。
+
+作曲：Polymath9
+编曲：Polymath9/LousikAEy]]
 	},
 	{
 		cueName = "bgm_activity_2_10_minigame_special",
@@ -2504,6 +2706,40 @@ return {
 		detail = "作曲：CoyDe"
 	},
 	get_id_list_by_album = {
+		{
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			10,
+			11,
+			12,
+			13,
+			14,
+			15,
+			16,
+			17,
+			18,
+			19,
+			20,
+			21,
+			22,
+			23,
+			24,
+			25,
+			26,
+			27,
+			28,
+			29,
+			30,
+			201,
+			202
+		},
 		[16] = {
 			187,
 			188,
@@ -2703,40 +2939,6 @@ return {
 		},
 		[2] = {
 			31
-		},
-		{
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-			28,
-			29,
-			30,
-			201,
-			202
 		}
 	},
 	all = {

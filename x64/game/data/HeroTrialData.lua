@@ -1,92 +1,88 @@
-local var_0_0 = singletonClass("HeroTrialData")
+slot0 = singletonClass("HeroTrialData")
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.heroTrialStateList_ = {}
-	arg_1_0.selectActivityHeroIDList_ = {}
-	arg_1_0.stageIDToHeroTrialID_ = {}
+function slot0.Init(slot0)
+	slot0.heroTrialStateList_ = {}
+	slot0.selectActivityHeroIDList_ = {}
+	slot0.stageIDToHeroTrialID_ = {}
 end
 
-function var_0_0.InitData(arg_2_0, arg_2_1)
-	for iter_2_0, iter_2_1 in ipairs(arg_2_1.activity_info) do
-		arg_2_0.heroTrialStateList_[iter_2_1.id] = iter_2_1.challenge_state
+function slot0.InitData(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1.activity_info) do
+		slot0.heroTrialStateList_[slot6.id] = slot6.challenge_state
+		slot7 = ActivityHeroTrialCfg[slot6.id]
 
-		local var_2_0 = ActivityHeroTrialCfg[iter_2_1.id]
-
-		if iter_2_1.challenge_state <= 1 then
-			if ActivityData:GetActivityIsOpen(var_2_0.activity_id) then
-				manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, var_2_0.activity_id, var_2_0.id), 1)
+		if slot6.challenge_state <= 1 then
+			if ActivityData:GetActivityIsOpen(slot7.activity_id) then
+				manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, slot7.activity_id, slot7.id), 1)
 			end
-		elseif iter_2_1.challenge_state > 1 then
-			manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, var_2_0.activity_id, var_2_0.id), 0)
+		elseif slot6.challenge_state > 1 then
+			manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, slot7.activity_id, slot7.id), 0)
 		end
 	end
 end
 
-function var_0_0.RefreshRedData(arg_3_0)
-	if not arg_3_0.heroTrialStateList_ then
+function slot0.RefreshRedData(slot0)
+	if not slot0.heroTrialStateList_ then
 		return
 	end
 
-	for iter_3_0, iter_3_1 in pairs(arg_3_0.heroTrialStateList_) do
-		if iter_3_0 and iter_3_0 ~= 0 then
-			local var_3_0 = ActivityHeroTrialCfg[iter_3_0]
-			local var_3_1 = false
+	for slot4, slot5 in pairs(slot0.heroTrialStateList_) do
+		if slot4 and slot4 ~= 0 then
+			slot6 = ActivityHeroTrialCfg[slot4]
+			slot7 = false
 
-			if not iter_3_1 then
-				var_3_1 = true
+			if not slot5 then
+				slot7 = true
 			end
 
-			if not ActivityData:GetActivityIsOpen(var_3_0.activity_id) then
-				var_3_1 = true
+			if not ActivityData:GetActivityIsOpen(slot6.activity_id) then
+				slot7 = true
 			end
 
-			if var_3_1 then
-				manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, var_3_0.activity_id, var_3_0.id), 0)
+			if slot7 then
+				manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, slot6.activity_id, slot6.id), 0)
 			end
 		end
 	end
 end
 
-function var_0_0.ReceiveReward(arg_4_0, arg_4_1)
-	arg_4_0.heroTrialStateList_[arg_4_1] = 2
+function slot0.ReceiveReward(slot0, slot1)
+	slot0.heroTrialStateList_[slot1] = 2
+	slot2 = ActivityHeroTrialCfg[slot1]
 
-	local var_4_0 = ActivityHeroTrialCfg[arg_4_1]
-
-	manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, var_4_0.activity_id, var_4_0.id), 0)
+	manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, slot2.activity_id, slot2.id), 0)
 end
 
-function var_0_0.GetHeroTrialStateList(arg_5_0)
-	return arg_5_0.heroTrialStateList_
+function slot0.GetHeroTrialStateList(slot0)
+	return slot0.heroTrialStateList_
 end
 
-function var_0_0.SetSelectActivityHeroID(arg_6_0, arg_6_1, arg_6_2)
-	arg_6_0.selectActivityHeroIDList_[arg_6_1] = arg_6_2
+function slot0.SetSelectActivityHeroID(slot0, slot1, slot2)
+	slot0.selectActivityHeroIDList_[slot1] = slot2
 
-	if arg_6_0.heroTrialStateList_[arg_6_2] ~= 1 then
-		local var_6_0 = ActivityHeroTrialCfg[arg_6_2]
+	if slot0.heroTrialStateList_[slot2] ~= 1 then
+		slot3 = ActivityHeroTrialCfg[slot2]
 
-		manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, var_6_0.activity_id, var_6_0.id), 0)
+		manager.redPoint:setTip(string.format("%s_%s_%s", RedPointConst.HERO_TRIAL, slot3.activity_id, slot3.id), 0)
 	end
 
-	saveData("HeroTrial", "activityID_" .. tostring(arg_6_1), arg_6_2)
+	saveData("HeroTrial", "activityID_" .. tostring(slot1), slot2)
 end
 
-function var_0_0.GetSelectActivityHeroID(arg_7_0, arg_7_1)
-	if arg_7_0.selectActivityHeroIDList_[arg_7_1] == nil then
-		arg_7_0.selectActivityHeroIDList_[arg_7_1] = getData("HeroTrial", "activityID_" .. tostring(arg_7_1))
+function slot0.GetSelectActivityHeroID(slot0, slot1)
+	if slot0.selectActivityHeroIDList_[slot1] == nil then
+		slot0.selectActivityHeroIDList_[slot1] = getData("HeroTrial", "activityID_" .. tostring(slot1))
 	end
 
-	return arg_7_0.selectActivityHeroIDList_[arg_7_1]
+	return slot0.selectActivityHeroIDList_[slot1]
 end
 
-function var_0_0.SaveStageID(arg_8_0, arg_8_1)
-	local var_8_0 = ActivityHeroTrialCfg[arg_8_1].stage_id
-
-	arg_8_0.stageIDToHeroTrialID_[var_8_0] = arg_8_1
+function slot0.SaveStageID(slot0, slot1)
+	slot0.stageIDToHeroTrialID_[ActivityHeroTrialCfg[slot1].stage_id] = slot1
 end
 
-function var_0_0.GetHeroTrialID(arg_9_0, arg_9_1)
-	return arg_9_0.stageIDToHeroTrialID_[arg_9_1]
+function slot0.GetHeroTrialID(slot0, slot1)
+	return slot0.stageIDToHeroTrialID_[slot1]
 end
 
-return var_0_0
+return slot0

@@ -1,1 +1,1 @@
-return (class("SoloHeartDemonSelectHeroView", SectionSelectHeroBaseView))
+return class("SoloHeartDemonSelectHeroView", SectionSelectHeroBaseView)

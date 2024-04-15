@@ -1,24 +1,24 @@
-local var_0_0 = class("MythicChipManagerItem", ChipManagerItem)
+slot0 = class("MythicChipManagerItem", ChipManagerItem)
 
-function var_0_0.SetTeamID(arg_1_0, arg_1_1)
-	arg_1_0.teamID_ = arg_1_1
+function slot0.SetTeamID(slot0, slot1)
+	slot0.teamID_ = slot1
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		arg_2_0:Go("/mythicChipManagerView", {
-			chipManagerID = arg_2_0.chipManagerID_,
-			chessTeamID = arg_2_0.teamID_
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		uv0:Go("/mythicChipManagerView", {
+			chipManagerID = uv0.chipManagerID_,
+			chessTeamID = uv0.teamID_
 		})
 	end)
 end
 
-function var_0_0.RefreshEnabledUI(arg_4_0)
-	SetActive(arg_4_0.usingGo_, arg_4_0.chipManagerID_ == arg_4_0:GetEnabledChipManagerID())
+function slot0.RefreshEnabledUI(slot0)
+	SetActive(slot0.usingGo_, slot0.chipManagerID_ == slot0:GetEnabledChipManagerID())
 end
 
-function var_0_0.GetEnabledChipManagerID(arg_5_0)
-	return (BattleTeamData:GetMimirInfo(BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL, nil, nil, arg_5_0.teamID_))
+function slot0.GetEnabledChipManagerID(slot0)
+	return BattleTeamData:GetMimirInfo(BattleConst.STAGE_TYPE_NEW.MYTHIC_FINAL, nil, , slot0.teamID_)
 end
 
-return var_0_0
+return slot0

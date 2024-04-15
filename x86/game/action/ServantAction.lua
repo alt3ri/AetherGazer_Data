@@ -1,214 +1,186 @@
-local var_0_0 = {}
-
-manager.net:Bind(46011, function(arg_1_0)
-	WeaponServantData:InitServant(arg_1_0)
-	var_0_0.CheckRedPoint()
+manager.net:Bind(46011, function (slot0)
+	WeaponServantData:InitServant(slot0)
+	uv0.CheckRedPoint()
 end)
-manager.notify:RegistListener(MATERIAL_MODIFY, function()
-	var_0_0.CheckRedPoint()
+manager.notify:RegistListener(MATERIAL_MODIFY, function ()
+	uv0.CheckRedPoint()
 end)
-manager.notify:RegistListener(MATERIAL_LIST_UPDATE, function()
-	var_0_0.CheckRedPoint()
+manager.notify:RegistListener(MATERIAL_LIST_UPDATE, function ()
+	uv0.CheckRedPoint()
 end)
-manager.notify:RegistListener(WEAPON_SERVANT_LIST_UPDATE, function()
-	var_0_0.CheckRedPoint()
+manager.notify:RegistListener(WEAPON_SERVANT_LIST_UPDATE, function ()
+	uv0.CheckRedPoint()
 end)
 
-function var_0_0.TouchRedPoint()
-	var_0_0.touched = true
+return {
+	TouchRedPoint = function ()
+		uv0.touched = true
 
-	var_0_0.CheckRedPoint()
-end
-
-function var_0_0.CheckRedPoint()
-	do return end
-
-	if var_0_0.touched == true then
-		manager.redPoint:setTip(RedPointConst.WEAPON_SERVANT_MERGE, 0)
-
+		uv0.CheckRedPoint()
+	end,
+	CheckRedPoint = function ()
 		return
-	end
 
-	local var_6_0 = GameSetting.exclusive_weapon_servant_cost.value
-	local var_6_1 = false
+		if uv0.touched == true then
+			manager.redPoint:setTip(RedPointConst.WEAPON_SERVANT_MERGE, 0)
 
-	for iter_6_0, iter_6_1 in pairs(var_6_0) do
-		local var_6_2 = iter_6_1[2]
-		local var_6_3 = WeaponServantData:GetWeaponServantById(var_6_2[1][1])
-		local var_6_4 = 0
-
-		if var_6_3 then
-			var_6_4 = #var_6_3
+			return
 		end
 
-		if ItemTools.getItemNum(var_6_2[2][1]) >= var_6_2[2][2] and var_6_4 >= var_6_2[1][2] then
-			var_6_1 = true
+		slot1 = false
 
-			break
-		end
-	end
+		for slot5, slot6 in pairs(GameSetting.exclusive_weapon_servant_cost.value) do
+			slot9 = 0
 
-	manager.redPoint:setTip(RedPointConst.WEAPON_SERVANT_MERGE, var_6_1 and 1 or 0)
-end
+			if WeaponServantData:GetWeaponServantById(slot6[2][1][1]) then
+				slot9 = #slot8
+			end
 
-function var_0_0.ServantPromote(arg_7_0, arg_7_1, arg_7_2, arg_7_3)
-	var_0_0.costMoney = arg_7_3
+			if slot7[2][2] <= ItemTools.getItemNum(slot7[2][1]) and slot7[1][2] <= slot9 then
+				slot1 = true
 
-	manager.net:SendWithLoadingNew(46012, {
-		refined_type = arg_7_0,
-		uid = arg_7_1,
-		cost_uid = arg_7_2
-	}, 46013, var_0_0.OnServantPromote)
-end
-
-function var_0_0.OnServantPromote(arg_8_0, arg_8_1)
-	if isSuccess(arg_8_0.result) then
-		WeaponServantData:ServantPromote(arg_8_1.uid, arg_8_1.cost_uid)
-		manager.notify:Invoke(SERVANT_PROMOTE, arg_8_0, arg_8_1)
-	else
-		ShowTips(arg_8_0.result)
-	end
-end
-
-function var_0_0.ServantReplace(arg_9_0, arg_9_1)
-	manager.net:SendWithLoadingNew(46020, {
-		hero_id = arg_9_0,
-		servant_id = arg_9_1
-	}, 46021, var_0_0.OnServantReplace)
-end
-
-function var_0_0.OnServantReplace(arg_10_0, arg_10_1)
-	if isSuccess(arg_10_0.result) then
-		local var_10_0 = ServantTools.GetServantMap()[arg_10_1.servant_id]
-		local var_10_1 = HeroData:GetHeroData(arg_10_1.hero_id).servant_uid
-
-		if var_10_0 then
-			HeroAction.ServantReplace(var_10_0, 0)
-		end
-
-		HeroAction.ServantReplace(arg_10_1.hero_id, arg_10_1.servant_id)
-		manager.notify:CallUpdateFunc(SERVANT_REPLACE, arg_10_0, arg_10_1)
-		manager.notify:Invoke(SERVANT_REPLACE, arg_10_0, arg_10_1, var_10_1)
-	else
-		ShowTips(arg_10_0.result)
-	end
-end
-
-function var_0_0.ServantLock(arg_11_0)
-	local var_11_0 = WeaponServantData:GetServantDataByUID(arg_11_0).locked == 1 and 0 or 1
-
-	manager.net:SendWithLoadingNew(46014, {
-		uid = arg_11_0,
-		is_lock = var_11_0
-	}, 46015, var_0_0.OnServantLock)
-end
-
-function var_0_0.OnServantLock(arg_12_0, arg_12_1)
-	if isSuccess(arg_12_0.result) then
-		WeaponServantData:ServantLock(arg_12_1.uid, arg_12_1.is_lock)
-		manager.notify:CallUpdateFunc(SERVANT_LOCK, arg_12_0, arg_12_1)
-	else
-		ShowTips(arg_12_0.result)
-	end
-end
-
-function var_0_0.ServantMerge(arg_13_0, arg_13_1)
-	local var_13_0 = {
-		servant_id = arg_13_0,
-		cost_uid_list = arg_13_1
-	}
-	local var_13_1 = WeaponServantData:GetServantDataByUID(var_13_0.cost_uid_list[1])
-	local var_13_2 = var_13_0.cost_uid_list[1]
-	local var_13_3 = var_13_1.locked
-	local var_13_4
-	local var_13_5 = ServantTools.GetServantMap()
-
-	for iter_13_0, iter_13_1 in ipairs(var_13_0.cost_uid_list) do
-		local var_13_6 = var_13_5[iter_13_1]
-
-		if var_13_6 then
-			var_13_4 = var_13_6
-
-			break
-		end
-	end
-
-	manager.net:SendWithLoadingNew(46030, var_13_0, 46031, function(arg_14_0)
-		ServantAction.OnServantMerge(arg_14_0, var_13_0, var_13_2, var_13_3, var_13_4)
-	end)
-end
-
-function var_0_0.OnServantMerge(arg_15_0, arg_15_1, arg_15_2, arg_15_3, arg_15_4)
-	local var_15_0 = tonumber(arg_15_0.servant_uid)
-
-	if isSuccess(arg_15_0.result) then
-		local var_15_1 = WeaponServantCfg[arg_15_1.servant_id]
-		local var_15_2 = {}
-
-		for iter_15_0, iter_15_1 in ipairs(GameSetting.exclusive_weapon_servant_cost.value) do
-			if iter_15_1[1] == var_15_1.race then
-				local var_15_3 = iter_15_1[2]
+				break
 			end
 		end
 
-		WeaponServantData:ServantLock(var_15_0, arg_15_3)
-		WeaponServantData:SetServantMergeMap(arg_15_2, var_15_0)
+		manager.redPoint:setTip(RedPointConst.WEAPON_SERVANT_MERGE, slot1 and 1 or 0)
+	end,
+	ServantPromote = function (slot0, slot1, slot2, slot3)
+		uv0.costMoney = slot3
 
-		if arg_15_4 then
-			HeroData:ServantReplace(arg_15_4, var_15_0)
-		end
-
-		IllustratedAction.ModifyServantInfo(arg_15_1.servant_id)
-		manager.notify:CallUpdateFunc(SERVANT_MERGE_RESULT, arg_15_0, arg_15_1)
-	elseif TipsCfg[arg_15_0.result] then
-		ShowTips(TipsCfg[arg_15_0.result].desc)
-	else
-		ShowTips(arg_15_0.result)
-	end
-end
-
-function var_0_0.ServantDecompose(arg_16_0)
-	local var_16_0 = {}
-
-	for iter_16_0, iter_16_1 in pairs(arg_16_0) do
-		table.insert(var_16_0, iter_16_0)
-	end
-
-	manager.net:SendWithLoadingNew(46032, {
-		servant_list = var_16_0
-	}, 46033, var_0_0.OnServantDecompose)
-end
-
-function var_0_0.OnServantDecompose(arg_17_0, arg_17_1)
-	if isSuccess(arg_17_0.result) then
-		manager.notify:CallUpdateFunc(SERVANT_DECOMPOSE_RESULT, arg_17_0, arg_17_1)
-	else
-		ShowTips(arg_17_0.result)
-	end
-end
-
-function var_0_0.ModifyServantList(arg_18_0)
-	for iter_18_0, iter_18_1 in ipairs(arg_18_0) do
-		if iter_18_1.item.num == 0 then
-			WeaponServantData:RemoveServant(iter_18_1)
+		manager.net:SendWithLoadingNew(46012, {
+			refined_type = slot0,
+			uid = slot1,
+			cost_uid = slot2
+		}, 46013, uv0.OnServantPromote)
+	end,
+	OnServantPromote = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			WeaponServantData:ServantPromote(slot1.uid, slot1.cost_uid)
+			manager.notify:Invoke(SERVANT_PROMOTE, slot0, slot1)
 		else
-			var_0_0.AddNewServant(iter_18_1)
+			ShowTips(slot0.result)
 		end
+	end,
+	ServantReplace = function (slot0, slot1)
+		manager.net:SendWithLoadingNew(46020, {
+			hero_id = slot0,
+			servant_id = slot1
+		}, 46021, uv0.OnServantReplace)
+	end,
+	OnServantReplace = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			slot5 = HeroData:GetHeroData(slot1.hero_id).servant_uid
+
+			if ServantTools.GetServantMap()[slot1.servant_id] then
+				HeroAction.ServantReplace(slot3, 0)
+			end
+
+			HeroAction.ServantReplace(slot1.hero_id, slot1.servant_id)
+			manager.notify:CallUpdateFunc(SERVANT_REPLACE, slot0, slot1)
+			manager.notify:Invoke(SERVANT_REPLACE, slot0, slot1, slot5)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ServantLock = function (slot0)
+		manager.net:SendWithLoadingNew(46014, {
+			uid = slot0,
+			is_lock = WeaponServantData:GetServantDataByUID(slot0).locked == 1 and 0 or 1
+		}, 46015, uv0.OnServantLock)
+	end,
+	OnServantLock = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			WeaponServantData:ServantLock(slot1.uid, slot1.is_lock)
+			manager.notify:CallUpdateFunc(SERVANT_LOCK, slot0, slot1)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ServantMerge = function (slot0, slot1)
+		slot2 = {
+			servant_id = slot0,
+			cost_uid_list = slot1
+		}
+		slot4 = slot2.cost_uid_list[1]
+		slot5 = WeaponServantData:GetServantDataByUID(slot2.cost_uid_list[1]).locked
+		slot6 = nil
+
+		for slot11, slot12 in ipairs(slot2.cost_uid_list) do
+			if ServantTools.GetServantMap()[slot12] then
+				slot6 = slot13
+
+				break
+			end
+		end
+
+		manager.net:SendWithLoadingNew(46030, slot2, 46031, function (slot0)
+			ServantAction.OnServantMerge(slot0, uv0, uv1, uv2, uv3)
+		end)
+	end,
+	OnServantMerge = function (slot0, slot1, slot2, slot3, slot4)
+		slot5 = tonumber(slot0.servant_uid)
+
+		if isSuccess(slot0.result) then
+			slot7 = {}
+
+			for slot11, slot12 in ipairs(GameSetting.exclusive_weapon_servant_cost.value) do
+				if slot12[1] == WeaponServantCfg[slot1.servant_id].race then
+					slot7 = slot12[2]
+				end
+			end
+
+			WeaponServantData:ServantLock(slot5, slot3)
+			WeaponServantData:SetServantMergeMap(slot2, slot5)
+
+			if slot4 then
+				HeroData:ServantReplace(slot4, slot5)
+			end
+
+			IllustratedAction.ModifyServantInfo(slot1.servant_id)
+			manager.notify:CallUpdateFunc(SERVANT_MERGE_RESULT, slot0, slot1)
+		elseif TipsCfg[slot0.result] then
+			ShowTips(TipsCfg[slot0.result].desc)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ServantDecompose = function (slot0)
+		slot1 = {}
+
+		for slot5, slot6 in pairs(slot0) do
+			table.insert(slot1, slot5)
+		end
+
+		manager.net:SendWithLoadingNew(46032, {
+			servant_list = slot1
+		}, 46033, uv0.OnServantDecompose)
+	end,
+	OnServantDecompose = function (slot0, slot1)
+		if isSuccess(slot0.result) then
+			manager.notify:CallUpdateFunc(SERVANT_DECOMPOSE_RESULT, slot0, slot1)
+		else
+			ShowTips(slot0.result)
+		end
+	end,
+	ModifyServantList = function (slot0)
+		for slot4, slot5 in ipairs(slot0) do
+			if slot5.item.num == 0 then
+				WeaponServantData:RemoveServant(slot5)
+			else
+				uv0.AddNewServant(slot5)
+			end
+		end
+
+		if #slot0 > 0 then
+			manager.notify:Invoke(WEAPON_SERVANT_LIST_UPDATE)
+		end
+	end,
+	AddNewServant = function (slot0)
+		WeaponServantData:AddServant({
+			uid = slot0.uid,
+			id = slot0.item.id
+		})
+		IllustratedAction.ModifyServantInfo(slot0.item.id)
 	end
-
-	if #arg_18_0 > 0 then
-		manager.notify:Invoke(WEAPON_SERVANT_LIST_UPDATE)
-	end
-end
-
-function var_0_0.AddNewServant(arg_19_0)
-	local var_19_0 = {
-		uid = arg_19_0.uid,
-		id = arg_19_0.item.id
-	}
-
-	WeaponServantData:AddServant(var_19_0)
-	IllustratedAction.ModifyServantInfo(arg_19_0.item.id)
-end
-
-return var_0_0
+}

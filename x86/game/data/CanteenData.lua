@@ -1,332 +1,295 @@
-local var_0_0 = import("game.dorm.DormEnum")
-local var_0_1 = singletonClass("CanteenData")
-local var_0_2
-local var_0_3
-local var_0_4
-local var_0_5
-local var_0_6
-local var_0_7 = DormConst.CANTEEN_ID
+slot0 = import("game.dorm.DormEnum")
+slot1 = singletonClass("CanteenData")
+slot2, slot3, slot4, slot5, slot6 = nil
+slot7 = DormConst.CANTEEN_ID
 
-function var_0_1.InitSimpleCanteenInfo(arg_1_0, arg_1_1)
-	var_0_3 = {}
+function slot1.InitSimpleCanteenInfo(slot0, slot1)
+	uv0 = {}
 
-	for iter_1_0, iter_1_1 in ipairs(arg_1_1.canteens) do
-		local var_1_0 = iter_1_1.id
-
-		var_0_3[var_1_0] = {
-			totalEar = iter_1_1.accruing_earnings or 0
+	for slot5, slot6 in ipairs(slot1.canteens) do
+		uv0[slot6.id] = {
+			totalEar = slot6.accruing_earnings or 0
 		}
 	end
 
-	CanteenEntrustData:InitSimpleCanteenEntrustData(arg_1_1)
-	CanteenFoodData:InitSimpleCanteenFoodData(arg_1_1)
-	CanteenHeroTools:InitCanteenJobState(arg_1_1.canteens[1].careers)
-	var_0_1:InitFurnitureLevel(arg_1_1.canteen_furnitures)
+	CanteenEntrustData:InitSimpleCanteenEntrustData(slot1)
+	CanteenFoodData:InitSimpleCanteenFoodData(slot1)
+	CanteenHeroTools:InitCanteenJobState(slot1.canteens[1].careers)
+	uv1:InitFurnitureLevel(slot1.canteen_furnitures)
 end
 
-function var_0_1.InitDetailCanteenData(arg_2_0, arg_2_1)
-	var_0_1:InitCanteenMapData(arg_2_1)
-	CanteenEntrustData:InitDetailCanteenEntrustData(arg_2_1)
-	CanteenFoodData:InitDetailCanteenFoodData(arg_2_1)
-	CanteenHeroTools:InitCanteenJobState(arg_2_1.canteens[1].careers)
-	var_0_1:InitPopularity(var_0_5[var_0_7])
+function slot1.InitDetailCanteenData(slot0, slot1)
+	uv0:InitCanteenMapData(slot1)
+	CanteenEntrustData:InitDetailCanteenEntrustData(slot1)
+	CanteenFoodData:InitDetailCanteenFoodData(slot1)
+	CanteenHeroTools:InitCanteenJobState(slot1.canteens[1].careers)
+	uv0:InitPopularity(uv1[uv2])
 end
 
-function var_0_1.EnterCurSystem(arg_3_0)
+function slot1.EnterCurSystem(slot0)
 	DormTools:SystemStayTime(DormConst.BACKHOME_SYSTEM_TYPE.Canteen, false)
 end
 
-function var_0_1.ExitCurSystem(arg_4_0)
-	var_0_4 = nil
+function slot1.ExitCurSystem(slot0)
+	uv0 = nil
 
 	DormTools:SystemStayTime(DormConst.BACKHOME_SYSTEM_TYPE.Canteen, true)
 end
 
-function var_0_1.ExitBackHomeSystem(arg_5_0)
-	var_0_2 = nil
+function slot1.ExitBackHomeSystem(slot0)
+	uv0 = nil
 
 	CanteenFoodData:DisposeDetailData()
 	CanteenEntrustData:DisposeDetailData()
 end
 
-function var_0_1.InitCanteenMapData(arg_6_0, arg_6_1)
-	var_0_2 = {}
-	var_0_3 = {}
-	var_0_5 = {}
-	var_0_4 = nil
+function slot1.InitCanteenMapData(slot0, slot1)
+	uv0 = {}
+	uv1 = {}
+	uv2 = {}
+	uv3 = nil
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1.canteens) do
-		local var_6_0 = iter_6_1.id
-		local var_6_1 = BackHomeCfg[iter_6_1.id]
-
-		var_0_3[var_6_0] = {
-			totalEar = iter_6_1.accruing_earnings or 0,
-			earnings = iter_6_1.business.earnings or 0,
-			last_earnings_update_time = iter_6_1.business.last_earnings_update_time or manager.time:GetServerTime(),
-			last_receive_earnings_time = iter_6_1.business.last_receive_earnings_time or manager.time:GetServerTime()
+	for slot5, slot6 in ipairs(slot1.canteens) do
+		slot7 = slot6.id
+		uv1[slot7] = {
+			totalEar = slot6.accruing_earnings or 0,
+			earnings = slot6.business.earnings or 0,
+			last_earnings_update_time = slot6.business.last_earnings_update_time or manager.time:GetServerTime(),
+			last_receive_earnings_time = slot6.business.last_receive_earnings_time or manager.time:GetServerTime()
 		}
-		var_0_2[iter_6_1.id] = {}
-		var_0_2[iter_6_1.id].roomInfo = RoomInfo.New()
-		var_0_2[iter_6_1.id].roomInfo.id = iter_6_1.id
-		var_0_2[iter_6_1.id].roomInfo.sceneName = var_6_1.scene
-		var_0_2[iter_6_1.id].roomInfo.furnitureInfoS = {}
-		var_0_5[var_6_0] = {}
-		var_0_5[var_6_0].Popularity = {
-			dynamicNum = iter_6_1.attractive.dynamic or 0,
-			updataTime = iter_6_1.attractive.dynamic_update_time
+		uv0[slot6.id] = {
+			roomInfo = RoomInfo.New()
+		}
+		uv0[slot6.id].roomInfo.id = slot6.id
+		uv0[slot6.id].roomInfo.sceneName = BackHomeCfg[slot6.id].scene
+		uv0[slot6.id].roomInfo.furnitureInfoS = {}
+		uv2[slot7] = {
+			Popularity = {
+				dynamicNum = slot6.attractive.dynamic or 0,
+				updataTime = slot6.attractive.dynamic_update_time
+			}
 		}
 	end
 end
 
-function var_0_1.GetCanteenSceneData(arg_7_0)
-	if var_0_2[var_0_7] then
-		return var_0_2[var_0_7]
+function slot1.GetCanteenSceneData(slot0)
+	if uv0[uv1] then
+		return uv0[uv1]
 	end
 end
 
-function var_0_1.GetCurEarning(arg_8_0)
-	return var_0_3[var_0_7].totalEar
+function slot1.GetCurEarning(slot0)
+	return uv0[uv1].totalEar
 end
 
-function var_0_1.InitFurnitureLevel(arg_9_0, arg_9_1)
-	var_0_6 = {}
+function slot1.InitFurnitureLevel(slot0, slot1)
+	uv0 = {}
 
-	if arg_9_1 then
-		for iter_9_0, iter_9_1 in ipairs(arg_9_1) do
-			var_0_6[iter_9_1.uid] = {
-				level = iter_9_1.level or 1,
-				cfgID = BackHomeCanteenFurnitureIDCfg[iter_9_1.uid].type_id,
-				stringEid = BackHomeCanteenFurnitureIDCfg[iter_9_1.uid].type_id,
-				unLock = BackHomeCanteenFurnitureIDCfg[iter_9_1.uid].unLock
+	if slot1 then
+		for slot5, slot6 in ipairs(slot1) do
+			uv0[slot6.uid] = {
+				level = slot6.level or 1,
+				cfgID = BackHomeCanteenFurnitureIDCfg[slot6.uid].type_id,
+				stringEid = BackHomeCanteenFurnitureIDCfg[slot6.uid].type_id,
+				unLock = BackHomeCanteenFurnitureIDCfg[slot6.uid].unLock
 			}
 		end
 	end
 end
 
-function var_0_1.GetFurnitureLevel(arg_10_0, arg_10_1)
-	if var_0_6[arg_10_1] then
-		return var_0_6[arg_10_1].level
+function slot1.GetFurnitureLevel(slot0, slot1)
+	if uv0[slot1] then
+		return uv0[slot1].level
 	else
 		return 0
 	end
 end
 
-function var_0_1.FurLevelUpCallBack(arg_11_0, arg_11_1)
-	if not var_0_6[arg_11_1] then
-		var_0_6[arg_11_1] = {
+function slot1.FurLevelUpCallBack(slot0, slot1)
+	if not uv0[slot1] then
+		uv0[slot1] = {
 			level = 0
 		}
 	end
 
-	local var_11_0 = BackHomeCanteenFurnitureIDCfg[arg_11_1].type_id
-	local var_11_1 = BackHomeCanteenFurnitureCfg[var_11_0].skill[var_0_6[arg_11_1].level]
-
-	if var_11_1 then
-		for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-			if DormSkillData:CheckSkillIsRun(arg_11_1, iter_11_1, var_0_0.EntityType.Furniture) then
-				DormSkillData:DisposeSkillComponent(arg_11_1, iter_11_1, var_0_0.EntityType.Furniture)
+	if BackHomeCanteenFurnitureCfg[BackHomeCanteenFurnitureIDCfg[slot1].type_id].skill[uv0[slot1].level] then
+		for slot7, slot8 in ipairs(slot3) do
+			if DormSkillData:CheckSkillIsRun(slot1, slot8, uv1.EntityType.Furniture) then
+				DormSkillData:DisposeSkillComponent(slot1, slot8, uv1.EntityType.Furniture)
 			end
 		end
 	end
 
-	var_0_6[arg_11_1].level = var_0_6[arg_11_1].level + 1
+	uv0[slot1].level = uv0[slot1].level + 1
 
-	local var_11_2 = BackHomeCanteenFurnitureCfg[var_11_0].skill[var_0_6[arg_11_1].level]
-
-	if var_11_2 then
-		for iter_11_2, iter_11_3 in ipairs(var_11_2) do
-			if DormSkillData:CheckSkillIsOpen(arg_11_1, iter_11_3, var_0_0.EntityType.Furniture) then
-				DormSkillData:AddSkillComponent(arg_11_1, iter_11_3, var_0_0.EntityType.Furniture)
+	if BackHomeCanteenFurnitureCfg[slot2].skill[uv0[slot1].level] then
+		for slot8, slot9 in ipairs(slot4) do
+			if DormSkillData:CheckSkillIsOpen(slot1, slot9, uv1.EntityType.Furniture) then
+				DormSkillData:AddSkillComponent(slot1, slot9, uv1.EntityType.Furniture)
 			end
 		end
 	end
 end
 
-function var_0_1.GetFurInfoList(arg_12_0)
-	if var_0_6 then
-		return var_0_6
+function slot1.GetFurInfoList(slot0)
+	if uv0 then
+		return uv0
 	else
 		print("家具信息不存在")
 	end
 end
 
-function var_0_1.GetCanteenState(arg_13_0)
-	return var_0_4
+function slot1.GetCanteenState(slot0)
+	return uv0
 end
 
-function var_0_1.SetCanteenState(arg_14_0, arg_14_1)
-	if arg_14_1 == var_0_4 then
+function slot1.SetCanteenState(slot0, slot1)
+	if slot1 == uv0 then
 		return
 	end
 
-	CanteenAction:ChangeCanteenMode(var_0_7, arg_14_1)
+	CanteenAction:ChangeCanteenMode(uv1, slot1)
 end
 
-function var_0_1.ChangeCanteenStateSusscee(arg_15_0, arg_15_1, arg_15_2)
-	var_0_4 = arg_15_1
+function slot1.ChangeCanteenStateSusscee(slot0, slot1, slot2)
+	uv0 = slot1
 
-	if arg_15_1 == var_0_0.RestaurantMode.RestaurantManual then
+	if slot1 == uv1.RestaurantMode.RestaurantManual then
 		manager.notify:Invoke(DORM_RESTAURANT_START_MANUAL)
 		JumpTools.OpenPageByJump("dormPlayerControlView")
-		CanteenTools:SwitchCanteenBgm(var_0_0.RestaurantMode.RestaurantManual)
+		CanteenTools:SwitchCanteenBgm(uv1.RestaurantMode.RestaurantManual)
 		DormLuaBridge.ChangeRoomState(true)
 		CanteenManualData:EnterManualState()
-		manager.notify:Invoke(DORM_REFRESH_RESTAURANT_STATUS_EVENT, var_0_4)
+		manager.notify:Invoke(DORM_REFRESH_RESTAURANT_STATUS_EVENT, uv0)
 	else
-		if arg_15_2 then
+		if slot2 then
 			CanteenManualData:ExitManualState()
 		else
-			local var_15_0 = CanteenManualData:GetManualInfo()
-
-			CanteenAction:CanteenManualSettlement(var_0_7, var_15_0.manualSettlementList)
+			CanteenAction:CanteenManualSettlement(uv2, CanteenManualData:GetManualInfo().manualSettlementList)
 		end
 
-		arg_15_0:ChooseCanteenAutoState()
+		slot0:ChooseCanteenAutoState()
 		CharacterBubbleManager:Dispose()
 		DormLuaBridge.ChangeRoomState(false)
-		CanteenTools:SwitchCanteenBgm(var_0_0.RestaurantMode.RestaurantAuto)
+		CanteenTools:SwitchCanteenBgm(uv1.RestaurantMode.RestaurantAuto)
 	end
 end
 
-function var_0_1.ChooseCanteenAutoState(arg_16_0)
-	if var_0_4 == var_0_0.RestaurantMode.RestaurantManual then
+function slot1.ChooseCanteenAutoState(slot0)
+	if uv0 == uv1.RestaurantMode.RestaurantManual then
 		return
 	end
 
-	local var_16_0
+	slot1 = nil
 
-	if CanteenTools:AutoModeReadyForBusiness() then
-		var_16_0 = var_0_0.RestaurantMode.RestaurantAuto
-	else
-		var_16_0 = var_0_0.RestaurantMode.Close
-	end
-
-	if var_16_0 ~= var_0_4 then
+	if ((not CanteenTools:AutoModeReadyForBusiness() or uv1.RestaurantMode.RestaurantAuto) and uv1.RestaurantMode.Close) ~= uv0 then
 		manager.notify:Invoke(DORM_RESTAURANT_START_AUTO)
 	end
 
-	var_0_4 = var_16_0
+	uv0 = slot1
 
-	manager.notify:Invoke(DORM_REFRESH_RESTAURANT_STATUS_EVENT, var_0_4)
+	manager.notify:Invoke(DORM_REFRESH_RESTAURANT_STATUS_EVENT, uv0)
 end
 
-function var_0_1.InitPopularity(arg_17_0, arg_17_1)
-	local var_17_0 = 0
-	local var_17_1 = GameSetting.canteen_hot_reduce.value[1]
+function slot1.InitPopularity(slot0, slot1)
+	slot2 = 0
+	slot3 = GameSetting.canteen_hot_reduce.value[1]
 
-	if arg_17_1.Popularity.updataTime == 0 or not arg_17_1.Popularity.updataTime then
-		arg_17_1.Popularity.updataTime = manager.time:GetServerTime()
+	if slot1.Popularity.updataTime == 0 or not slot1.Popularity.updataTime then
+		slot1.Popularity.updataTime = manager.time:GetServerTime()
 	end
 
-	local var_17_2 = manager.time:GetServerTime() - arg_17_1.Popularity.updataTime
-	local var_17_3 = math.modf(var_17_2 / GameSetting.canteen_hot_reduce.value[2])
-	local var_17_4 = var_17_2 % GameSetting.canteen_hot_reduce.value[2]
+	slot4 = manager.time:GetServerTime() - slot1.Popularity.updataTime
+	slot6 = slot4 % GameSetting.canteen_hot_reduce.value[2]
+	slot1.Popularity.updataTime = slot1.Popularity.updataTime + math.modf(slot4 / GameSetting.canteen_hot_reduce.value[2]) * slot3
 
-	arg_17_1.Popularity.updataTime = arg_17_1.Popularity.updataTime + var_17_3 * var_17_1
-
-	if arg_17_1.Popularity.dynamicNum > 0 then
-		var_17_0 = math.max(0, arg_17_1.Popularity.dynamicNum - var_17_3 * var_17_1)
+	if slot1.Popularity.dynamicNum > 0 then
+		slot2 = math.max(0, slot1.Popularity.dynamicNum - slot5 * slot3)
 	end
 
-	arg_17_1.buffList = {}
-	arg_17_1.hightPopularityNum = 0
-	arg_17_1.dynamicNum = var_17_0
-	arg_17_1.basePopualrityNum = 0
-	arg_17_1.remainTime = var_17_4
-	arg_17_1.manualNum = 0
+	slot1.buffList = {}
+	slot1.hightPopularityNum = 0
+	slot1.dynamicNum = slot2
+	slot1.basePopualrityNum = 0
+	slot1.remainTime = slot6
+	slot1.manualNum = 0
 
-	if arg_17_0.startHotTimer == nil then
-		arg_17_0.startHotTimer = Timer.New(function()
-			arg_17_0:UpdataDynmicPopularity()
+	if slot0.startHotTimer == nil then
+		slot0.startHotTimer = Timer.New(function ()
+			uv0:UpdataDynmicPopularity()
 
-			arg_17_0.updataHotTimer = Timer.New(handler(arg_17_0, arg_17_0.UpdataDynmicPopularity), GameSetting.canteen_hot_reduce.value[2], -1)
+			uv0.updataHotTimer = Timer.New(handler(uv0, uv0.UpdataDynmicPopularity), GameSetting.canteen_hot_reduce.value[2], -1)
 
-			arg_17_0.updataHotTimer:Start()
-		end, var_0_5[var_0_7].remainTime, 1)
+			uv0.updataHotTimer:Start()
+		end, uv0[uv1].remainTime, 1)
 	end
 
-	arg_17_0.startHotTimer:Start()
+	slot0.startHotTimer:Start()
 end
 
-function var_0_1.GetPopularInfo(arg_19_0)
-	return var_0_5[var_0_7]
+function slot1.GetPopularInfo(slot0)
+	return uv0[uv1]
 end
 
-function var_0_1.GetPopularityNum(arg_20_0)
-	if not var_0_5 then
+function slot1.GetPopularityNum(slot0)
+	if not uv0 then
 		return DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.PopularRise) or 0
 	else
-		var_0_5[var_0_7].basePopualrityNum = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.PopularRise)
+		uv0[uv1].basePopualrityNum = DormSkillData:GetSkillEffect(CanteenConst.HeroSkillType.PopularRise)
 
-		local var_20_0 = CanteenManualData:GetManualPopNum()
-		local var_20_1 = var_0_5[var_0_7].dynamicNum + var_0_5[var_0_7].basePopualrityNum + var_20_0
-
-		return math.max(var_20_1, 0)
+		return math.max(uv0[uv1].dynamicNum + uv0[uv1].basePopualrityNum + CanteenManualData:GetManualPopNum(), 0)
 	end
 end
 
-function var_0_1.UpdataDynmicPopularity(arg_21_0)
-	local var_21_0 = GameSetting.canteen_hot_reduce.value[1]
-
-	var_0_5[var_0_7].dynamicNum = math.max(var_0_5[var_0_7].dynamicNum - var_21_0, 0)
-	var_0_5[var_0_7].Popularity.updataTime = manager.time:GetServerTime()
+function slot1.UpdataDynmicPopularity(slot0)
+	uv0[uv1].dynamicNum = math.max(uv0[uv1].dynamicNum - GameSetting.canteen_hot_reduce.value[1], 0)
+	uv0[uv1].Popularity.updataTime = manager.time:GetServerTime()
 
 	manager.notify:Invoke(DORM_REFRESH_POPULAR_EVENT)
 end
 
-function var_0_1.RefreshAutoAwardInfo(arg_22_0, arg_22_1)
-	if not var_0_3 then
-		var_0_3 = {}
-		var_0_3[var_0_7] = {}
+function slot1.RefreshAutoAwardInfo(slot0, slot1)
+	if not uv0 then
+		uv0 = {
+			[uv1] = {}
+		}
 	end
 
-	var_0_3[var_0_7].earnings = arg_22_1.earnings
-	var_0_3[var_0_7].last_earnings_update_time = arg_22_1.last_earnings_update_time
+	uv0[uv1].earnings = slot1.earnings
+	uv0[uv1].last_earnings_update_time = slot1.last_earnings_update_time
 end
 
-function var_0_1.GetAutoAwardNum(arg_23_0)
-	if var_0_3[var_0_7].earnings then
-		return var_0_3[var_0_7].earnings
+function slot1.GetAutoAwardNum(slot0)
+	if uv0[uv1].earnings then
+		return uv0[uv1].earnings
 	else
 		return 0
 	end
 end
 
-function var_0_1.ReceiveCurPenEarSuccess(arg_24_0, arg_24_1, arg_24_2)
-	var_0_3[var_0_7].totalEar = var_0_3[var_0_7].totalEar + arg_24_1
+function slot1.ReceiveCurPenEarSuccess(slot0, slot1, slot2)
+	uv0[uv1].totalEar = uv0[uv1].totalEar + slot1
 
-	if arg_24_2 == var_0_0.RestaurantMode.RestaurantAuto then
-		var_0_3[var_0_7].earnings = 0
-		var_0_3[var_0_7].last_receive_earnings_time = manager.time:GetServerTime()
+	if slot2 == uv2.RestaurantMode.RestaurantAuto then
+		uv0[uv1].earnings = 0
+		uv0[uv1].last_receive_earnings_time = manager.time:GetServerTime()
 	end
 end
 
-function var_0_1.GetAutoNextAwardTime(arg_25_0)
-	local var_25_0 = GameSetting.canteen_receive_time_interval.value[1]
-	local var_25_1 = var_0_3[var_0_7].last_receive_earnings_time
-	local var_25_2
+function slot1.GetAutoNextAwardTime(slot0)
+	slot3 = nil
 
-	if var_25_1 then
-		var_25_2 = var_25_1 + var_25_0
-	else
-		var_25_2 = manager.time:GetServerTime()
-	end
+	if (uv0[uv1].last_receive_earnings_time and slot2 + GameSetting.canteen_receive_time_interval.value[1] or manager.time:GetServerTime()) - manager.time:GetServerTime() > 0 then
+		slot5 = math.modf(slot4 / 3600)
 
-	local var_25_3 = var_25_2 - manager.time:GetServerTime()
-
-	if var_25_3 > 0 then
-		local var_25_4 = math.modf(var_25_3 / 3600)
-		local var_25_5 = math.floor((var_25_3 - var_25_4 * 3600) / 60)
-		local var_25_6 = (var_25_3 - var_25_4 * 3600) % 60
-
-		return var_25_4, var_25_5, var_25_6
+		return slot5, math.floor((slot4 - slot5 * 3600) / 60), (slot4 - slot5 * 3600) % 60
 	else
 		return -1, -1, -1
 	end
 end
 
-function var_0_1.RefreshCanteenDailyZero(arg_26_0)
+function slot1.RefreshCanteenDailyZero(slot0)
 	CanteenEntrustData:RefreshDailyZero()
 end
 
-return var_0_1
+return slot1

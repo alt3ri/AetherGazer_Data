@@ -1,24 +1,24 @@
-local var_0_0 = class("TowerStageView", ReduxView)
+slot0 = class("TowerStageView", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Tower/TowerStageUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiMain.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
+function slot0.Init(slot0)
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.indexItem), arg_4_0.m_list, TowerStageItem)
+	slot0.list = LuaList.New(handler(slot0, slot0.indexItem), slot0.m_list, TowerStageItem)
 end
 
-function var_0_0.OnTop(arg_5_0)
+function slot0.OnTop(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
@@ -26,38 +26,36 @@ function var_0_0.OnTop(arg_5_0)
 	})
 end
 
-function var_0_0.OnEnter(arg_6_0)
-	arg_6_0.chapterClientID_ = 401
-	arg_6_0.data = ChapterClientCfg.get_id_list_by_toggle[arg_6_0.chapterClientID_]
+function slot0.OnEnter(slot0)
+	slot0.chapterClientID_ = 401
+	slot0.data = ChapterClientCfg.get_id_list_by_toggle[slot0.chapterClientID_]
 
 	if TowerData:GetTowerStageViewScrollPos() then
-		arg_6_0.list:StartScrollByPosition(#arg_6_0.data, TowerData:GetTowerStageViewScrollPos())
+		slot0.list:StartScrollByPosition(#slot0.data, TowerData:GetTowerStageViewScrollPos())
 	else
-		arg_6_0.list:StartScroll(#arg_6_0.data)
+		slot0.list:StartScroll(#slot0.data)
 	end
 
 	TowerAction.CancelTowerRedPoint()
 end
 
-function var_0_0.OnExit(arg_7_0)
+function slot0.OnExit(slot0)
 	manager.windowBar:HideBar()
 end
 
-function var_0_0.indexItem(arg_8_0, arg_8_1, arg_8_2)
-	local var_8_0 = arg_8_0.data[arg_8_1]
-
-	arg_8_2:SetData(var_8_0, arg_8_1)
-	arg_8_2:RegistCallBack(handler(arg_8_0, arg_8_0.OnItemClick))
+function slot0.indexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.data[slot1], slot1)
+	slot2:RegistCallBack(handler(slot0, slot0.OnItemClick))
 end
 
-function var_0_0.OnItemClick(arg_9_0)
-	TowerData:CacheTowerStageViewScrollPos(arg_9_0.list:GetScrolledPosition())
+function slot0.OnItemClick(slot0)
+	TowerData:CacheTowerStageViewScrollPos(slot0.list:GetScrolledPosition())
 end
 
-function var_0_0.Dispose(arg_10_0)
+function slot0.Dispose(slot0)
 	TowerData:CacheTowerStageViewScrollPos(nil)
-	arg_10_0.list:Dispose()
-	var_0_0.super.Dispose(arg_10_0)
+	slot0.list:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

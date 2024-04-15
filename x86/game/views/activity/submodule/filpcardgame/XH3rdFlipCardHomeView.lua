@@ -1,147 +1,140 @@
 ActivityMainBasePanel = import("game.views.activity.Main.toggle.ActivityMainBasePanel")
+slot0 = class("XH3rdFlipCardHomeView", ActivityMainBasePanel)
 
-local var_0_0 = class("XH3rdFlipCardHomeView", ActivityMainBasePanel)
-
-function var_0_0.GetUIName(arg_1_0)
+function slot0.GetUIName(slot0)
 	return XH3rdFlipCardTool:GetHomeUI()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.scrollHelper_ = LuaList.New(handler(arg_3_0, arg_3_0.IndexItem), arg_3_0.scrollView_, PuzzleNewTaskItem)
-	arg_3_0.taskUpdateHandler_ = handler(arg_3_0, arg_3_0.UpdateData)
-	arg_3_0.allReceiveController_ = ControllerUtil.GetController(arg_3_0.transform_, "allReceive")
+	slot0.scrollHelper_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.scrollView_, PuzzleNewTaskItem)
+	slot0.taskUpdateHandler_ = handler(slot0, slot0.UpdateData)
+	slot0.allReceiveController_ = ControllerUtil.GetController(slot0.transform_, "allReceive")
 
-	local var_3_0 = ActivityCfg[arg_3_0.activityID_].sub_activity_list
-
-	for iter_3_0, iter_3_1 in ipairs(var_3_0) do
-		if ActivityCfg[iter_3_1].activity_template == ActivityTemplateConst.TASK then
-			arg_3_0.taskActivityID_ = iter_3_1
+	for slot5, slot6 in ipairs(ActivityCfg[slot0.activityID_].sub_activity_list) do
+		if ActivityCfg[slot6].activity_template == ActivityTemplateConst.TASK then
+			slot0.taskActivityID_ = slot6
 
 			break
 		end
 	end
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.playBtn_, nil, function()
-		if not arg_4_0:IsActivityTime() then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.playBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
 		JumpTools.OpenPageByJump("/xH3rdFlipCardGame", {
-			activityId = arg_4_0.activityID_
+			activityId = uv0.activityID_
 		})
 
 		XH3rdFlipCardAction.hasEnterGame = true
 
 		XH3rdFlipCardAction.UpdateTokenRedPoint()
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.allReceiveBtn_, nil, function()
-		if not arg_4_0:IsActivityTime() then
+	slot0:AddBtnListener(slot0.allReceiveBtn_, nil, function ()
+		if not uv0:IsActivityTime() then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		local var_6_0 = {}
+		slot0 = {}
 
-		for iter_6_0, iter_6_1 in ipairs(arg_4_0.taskDataList_) do
-			if iter_6_1.progress < AssignmentCfg[iter_6_1.id].need or iter_6_1.complete_flag >= 1 then
+		for slot4, slot5 in ipairs(uv0.taskDataList_) do
+			if slot5.progress < AssignmentCfg[slot5.id].need or slot5.complete_flag >= 1 then
 				break
 			end
 
-			var_6_0[#var_6_0 + 1] = iter_6_1.id
+			slot0[#slot0 + 1] = slot5.id
 		end
 
-		TaskAction:SubmitTaskList(var_6_0)
+		TaskAction:SubmitTaskList(slot0)
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.descBtn_, nil, function()
-		local var_7_0 = XH3rdFlipCardTool:GetHelpTips()
-
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_FLIP_CARD_EXPLAIN",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_7_0
+			content = XH3rdFlipCardTool:GetHelpTips()
 		})
 	end)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0.taskUpdateHandler_ = nil
+function slot0.Dispose(slot0)
+	slot0.taskUpdateHandler_ = nil
 
-	arg_8_0.scrollHelper_:Dispose()
+	slot0.scrollHelper_:Dispose()
 
-	arg_8_0.scrollHelper_ = nil
+	slot0.scrollHelper_ = nil
 
-	var_0_0.super.Dispose(arg_8_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.UpdateBar(arg_9_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR,
-		FlipCardCfg[arg_9_0.activityID_].cost_id
+		FlipCardCfg[slot0.activityID_].cost_id
 	})
-	manager.windowBar:SetBarCanAdd(FlipCardCfg[arg_9_0.activityID_].cost_id, true)
+	manager.windowBar:SetBarCanAdd(FlipCardCfg[slot0.activityID_].cost_id, true)
 end
 
-function var_0_0.Show(arg_10_0, arg_10_1)
-	SetActive(arg_10_0.gameObject_, arg_10_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_10_1 == true then
-		arg_10_0:RefreshUI()
-		manager.redPoint:bindUIandKey(arg_10_0.playBtnTrans_, string.format("%s_%s_challenge", RedPointConst.ACTIVITY_2_2_FLIP_CARD, arg_10_0.activityID_))
-		arg_10_0:RegistEventListener(OSIRIS_TASK_UPDATE, arg_10_0.taskUpdateHandler_)
+	if slot1 == true then
+		slot0:RefreshUI()
+		manager.redPoint:bindUIandKey(slot0.playBtnTrans_, string.format("%s_%s_challenge", RedPointConst.ACTIVITY_2_2_FLIP_CARD, slot0.activityID_))
+		slot0:RegistEventListener(OSIRIS_TASK_UPDATE, slot0.taskUpdateHandler_)
 	else
-		manager.redPoint:unbindUIandKey(arg_10_0.playBtnTrans_, string.format("%s_%s_challenge", RedPointConst.ACTIVITY_2_2_FLIP_CARD, arg_10_0.activityID_))
-		arg_10_0:RemoveAllEventListener()
+		manager.redPoint:unbindUIandKey(slot0.playBtnTrans_, string.format("%s_%s_challenge", RedPointConst.ACTIVITY_2_2_FLIP_CARD, slot0.activityID_))
+		slot0:RemoveAllEventListener()
 	end
 end
 
-function var_0_0.RefreshUI(arg_11_0)
-	arg_11_0.taskDataList_ = TaskData2:GetActivityTaskSortList(arg_11_0.taskActivityID_)
+function slot0.RefreshUI(slot0)
+	slot0.taskDataList_ = TaskData2:GetActivityTaskSortList(slot0.taskActivityID_)
 
-	arg_11_0.scrollHelper_:StartScroll(#arg_11_0.taskDataList_)
-	arg_11_0:RefreshReceiveBtn()
+	slot0.scrollHelper_:StartScroll(#slot0.taskDataList_)
+	slot0:RefreshReceiveBtn()
 end
 
-function var_0_0.RefreshReceiveBtn(arg_12_0)
-	local var_12_0 = 0
+function slot0.RefreshReceiveBtn(slot0)
+	slot1 = 0
 
-	for iter_12_0, iter_12_1 in ipairs(arg_12_0.taskDataList_) do
-		if iter_12_1.progress >= AssignmentCfg[iter_12_1.id].need and iter_12_1.complete_flag < 1 then
-			var_12_0 = 1
+	for slot5, slot6 in ipairs(slot0.taskDataList_) do
+		if AssignmentCfg[slot6.id].need <= slot6.progress and slot6.complete_flag < 1 then
+			slot1 = 1
 
 			break
 		end
 	end
 
-	arg_12_0.allReceiveController_:SetSelectedIndex(var_12_0)
+	slot0.allReceiveController_:SetSelectedIndex(slot1)
 end
 
-function var_0_0.IndexItem(arg_13_0, arg_13_1, arg_13_2)
-	local var_13_0 = arg_13_0.taskDataList_[arg_13_1].id
-
-	arg_13_2:SetData(var_13_0, arg_13_0.taskActivityID_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.taskDataList_[slot1].id, slot0.taskActivityID_)
 end
 
-function var_0_0.OnExit(arg_14_0)
-	arg_14_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 end
 
-function var_0_0.UpdateData(arg_15_0)
-	arg_15_0:RefreshUI()
+function slot0.UpdateData(slot0)
+	slot0:RefreshUI()
 end
 
-return var_0_0
+return slot0

@@ -1,36 +1,34 @@
-local var_0_0 = class("CoreVerificationRoleIcon", ReduxView)
+slot0 = class("CoreVerificationRoleIcon", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.emptyController_ = arg_2_0.mainControllerEx_:GetController("empty")
+	slot0.emptyController_ = slot0.mainControllerEx_:GetController("empty")
 end
 
-function var_0_0.SetData(arg_3_0, arg_3_1)
-	if arg_3_1 then
-		arg_3_0.emptyController_:SetSelectedState("false")
+function slot0.SetData(slot0, slot1)
+	if slot1 then
+		slot0.emptyController_:SetSelectedState("false")
 
-		local var_3_0 = HeroTools.HeroUsingSkinInfo(arg_3_1).id
-
-		if var_3_0 == 0 then
-			var_3_0 = arg_3_1
+		if HeroTools.HeroUsingSkinInfo(slot1).id == 0 then
+			slot2 = slot1
 		end
 
-		arg_3_0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. var_3_0)
+		slot0.icon_.sprite = getSpriteWithoutAtlas(SpritePathCfg.HeroLittleIcon.path .. slot2)
 	else
-		arg_3_0.emptyController_:SetSelectedState("true")
+		slot0.emptyController_:SetSelectedState("true")
 	end
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

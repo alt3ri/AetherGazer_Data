@@ -1,102 +1,100 @@
-local var_0_0 = singletonClass("QuizGameManager")
-local var_0_1 = import("game.quiz.QuizFunction")
-local var_0_2 = UnityEngine.Input
-local var_0_3 = UnityEngine.Time
-local var_0_4 = P08.Quiz.QuizPlayerInfo
-local var_0_5 = P08.Quiz.PlayerManager.Instance
+slot0 = singletonClass("QuizGameManager")
+slot1 = import("game.quiz.QuizFunction")
+slot2 = UnityEngine.Input
+slot3 = UnityEngine.Time
+slot4 = P08.Quiz.QuizPlayerInfo
+slot5 = P08.Quiz.PlayerManager.Instance
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0.questionResultDic = {}
-	arg_1_0.gestureCd = var_0_1:Cfg_GetGestureCd()
-	arg_1_0.gestureTs = 0
-	arg_1_0.emojiCd = var_0_1:Cfg_GetEmojiCd()
-	arg_1_0.emojiTs = 0
-	arg_1_0.pos_divide = 100
-	arg_1_0.syncPosInterval = var_0_1:GetSyncPosInterval()
-	arg_1_0.syncPosTimer = 0
-	arg_1_0.localPlayerId = USER_ID
+function slot0.Init(slot0)
+	slot0.questionResultDic = {}
+	slot0.gestureCd = uv0:Cfg_GetGestureCd()
+	slot0.gestureTs = 0
+	slot0.emojiCd = uv0:Cfg_GetEmojiCd()
+	slot0.emojiTs = 0
+	slot0.pos_divide = 100
+	slot0.syncPosInterval = uv0:GetSyncPosInterval()
+	slot0.syncPosTimer = 0
+	slot0.localPlayerId = USER_ID
 
-	arg_1_0:RegsiterModelChange()
-	arg_1_0:RegisterGestureChanged()
+	slot0:RegsiterModelChange()
+	slot0:RegisterGestureChanged()
 end
 
-function var_0_0.StartGame(arg_2_0, arg_2_1, arg_2_2)
-	var_0_1:OnGameStart(arg_2_1)
-	arg_2_0:AddPlayers(arg_2_2)
+function slot0.StartGame(slot0, slot1, slot2)
+	uv0:OnGameStart(slot1)
+	slot0:AddPlayers(slot2)
 
-	arg_2_0._timer = FrameTimer.New(handler(arg_2_0, arg_2_0.Update), 1, -1)
+	slot0._timer = FrameTimer.New(handler(slot0, slot0.Update), 1, -1)
 
-	arg_2_0._timer:Start()
+	slot0._timer:Start()
 end
 
-function var_0_0.InitSticker(arg_3_0, arg_3_1)
-	P08.Quiz.QuizLuaBridge.InitJoystick(arg_3_1)
+function slot0.InitSticker(slot0, slot1)
+	P08.Quiz.QuizLuaBridge.InitJoystick(slot1)
 end
 
-function var_0_0.Destroy(arg_4_0)
-	if arg_4_0._timer then
-		arg_4_0._timer:Stop()
+function slot0.Destroy(slot0)
+	if slot0._timer then
+		slot0._timer:Stop()
 
-		arg_4_0._timer = nil
+		slot0._timer = nil
 	end
 
-	arg_4_0:UnregisterModelChange()
-	arg_4_0:UnregisterGestureChanged()
+	slot0:UnregisterModelChange()
+	slot0:UnregisterGestureChanged()
 end
 
-function var_0_0.Update(arg_5_0)
-	arg_5_0:SyncLocalPlayerPosInterval()
+function slot0.Update(slot0)
+	slot0:SyncLocalPlayerPosInterval()
 end
 
-function var_0_0.AddPlayers(arg_6_0, arg_6_1)
-	local var_6_0 = var_0_1:Cfg_GetDefaultModelId()
+function slot0.AddPlayers(slot0, slot1)
+	slot2 = uv0:Cfg_GetDefaultModelId()
 
-	for iter_6_0, iter_6_1 in ipairs(arg_6_1) do
-		if iter_6_1.role_id ~= 0 then
-			var_6_0 = iter_6_1.role_id
+	for slot6, slot7 in ipairs(slot1) do
+		if slot7.role_id ~= 0 then
+			slot2 = slot7.role_id
 		end
 
-		arg_6_0:LoadPlayer(iter_6_1.uid, var_6_0, iter_6_1.nickname)
+		slot0:LoadPlayer(slot7.uid, slot2, slot7.nickname)
 	end
 
-	var_0_1:AddPlayers(arg_6_1)
-	arg_6_0:RandomInitPos(arg_6_1)
+	uv0:AddPlayers(slot1)
+	slot0:RandomInitPos(slot1)
 end
 
-function var_0_0.RemovePlayers(arg_7_0, arg_7_1)
-	for iter_7_0, iter_7_1 in ipairs(arg_7_1) do
-		arg_7_0:RemovePlayer(iter_7_1)
-		arg_7_0:RemoveQuestionResult(iter_7_1)
+function slot0.RemovePlayers(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot0:RemovePlayer(slot6)
+		slot0:RemoveQuestionResult(slot6)
 	end
 end
 
-function var_0_0.OnShowPrologue(arg_8_0, arg_8_1)
-	var_0_1:OnShowPrologue(arg_8_1)
+function slot0.OnShowPrologue(slot0, slot1)
+	uv0:OnShowPrologue(slot1)
 end
 
-function var_0_0.OnShowQuestion(arg_9_0, arg_9_1)
-	var_0_1:ShowQuestion(arg_9_1)
+function slot0.OnShowQuestion(slot0, slot1)
+	uv0:ShowQuestion(slot1)
 end
 
-function var_0_0.OnQuestionResult(arg_10_0, arg_10_1)
-	local var_10_0 = arg_10_1.player_list
-	local var_10_1 = arg_10_1.seq
-	local var_10_2 = arg_10_1.question
-	local var_10_3 = arg_10_1.answer
+function slot0.OnQuestionResult(slot0, slot1)
+	slot3 = slot1.seq
+	slot4 = slot1.question
+	slot5 = slot1.answer
 
-	for iter_10_0, iter_10_1 in ipairs(var_10_0) do
-		local var_10_4 = iter_10_1.uid
-		local var_10_5 = iter_10_1.pos.choose
-		local var_10_6 = iter_10_1.history[var_10_1]
+	for slot9, slot10 in ipairs(slot1.player_list) do
+		slot11 = slot10.uid
+		slot12 = slot10.pos.choose
 
-		if var_10_6 == nil then
-			Debug.LogError("===> OnQuestionResult error: questionSeq=" .. var_10_1 .. "  player.history.length=" .. #iter_10_1.history)
+		if slot10.history[slot3] == nil then
+			Debug.LogError("===> OnQuestionResult error: questionSeq=" .. slot3 .. "  player.history.length=" .. #slot10.history)
 
 			return
 		end
 
-		if arg_10_0.questionResultDic[var_10_4] == nil then
-			arg_10_0.questionResultDic[var_10_4] = {
+		if slot0.questionResultDic[slot11] == nil then
+			slot0.questionResultDic[slot11] = {
 				score = 0,
 				correctCounter = 0,
 				seq = 0,
@@ -104,298 +102,252 @@ function var_0_0.OnQuestionResult(arg_10_0, arg_10_1)
 			}
 		end
 
-		local var_10_7 = arg_10_0.questionResultDic[var_10_4]
+		slot0.questionResultDic[slot11].seq = slot3
 
-		var_10_7.seq = var_10_1
-
-		local var_10_8 = var_0_1:Cfg_GetSeqOfScoreBonus()
-
-		if var_10_1 == var_10_8 then
-			var_0_1:ShowScoreBonusEffect()
+		if slot3 == uv0:Cfg_GetSeqOfScoreBonus() then
+			uv0:ShowScoreBonusEffect()
 		end
 
-		if var_10_6.is_right == 1 then
-			local var_10_9 = var_0_1:Cfg_GetScore(var_10_2)
-
-			if var_10_8 <= var_10_1 then
-				var_10_9 = var_10_9 * var_0_1:Cfg_GetScoreMulti()
+		if slot13.is_right == 1 then
+			if slot15 <= slot3 then
+				slot16 = uv0:Cfg_GetScore(slot4) * uv0:Cfg_GetScoreMulti()
 			end
 
-			local var_10_10 = 0
+			slot17 = 0
 
-			if var_10_7.correctCounter > 0 then
-				local var_10_11 = GameSetting.combo_reward.value
-
-				var_10_10 = var_10_11[var_10_7.correctCounter] or var_10_11[#var_10_11]
+			if slot14.correctCounter > 0 then
+				slot17 = GameSetting.combo_reward.value[slot14.correctCounter] or slot18[#slot18]
 			end
 
-			var_10_7.score = var_10_7.score + var_10_9 + var_10_10
-			var_10_7.correctCounter = var_10_7.correctCounter + 1
+			slot14.score = slot14.score + slot16 + slot17
+			slot14.correctCounter = slot14.correctCounter + 1
 
-			if var_10_7.errorCounter ~= 0 then
-				var_10_7.errorCounter = 0
+			if slot14.errorCounter ~= 0 then
+				slot14.errorCounter = 0
 
-				arg_10_0:RestoreLastModel(var_10_4)
-				arg_10_0:ScalePlayerModel(var_10_4, 1)
+				slot0:RestoreLastModel(slot11)
+				slot0:ScalePlayerModel(slot11, 1)
 			end
 
-			var_0_1:CreateVfx_AnswerRight(var_10_4)
+			uv0:CreateVfx_AnswerRight(slot11)
 		else
-			var_10_7.correctCounter = 0
-			var_10_7.errorCounter = var_10_7.errorCounter + 1
+			slot14.correctCounter = 0
+			slot14.errorCounter = slot14.errorCounter + 1
 
-			arg_10_0:ChangePlayerModel(var_10_4, var_0_1:Cfg_GetPigModelId())
-
-			local var_10_12 = math.min(var_0_1:Cfg_GetMaxModelScale(), 1 + (var_10_7.errorCounter - 1) * var_0_1:Cfg_GetModelScaleMulti())
-
-			arg_10_0:ScalePlayerModel(var_10_4, var_10_12)
-			var_0_1:CreateVfx_AnswerError(var_10_4)
+			slot0:ChangePlayerModel(slot11, uv0:Cfg_GetPigModelId())
+			slot0:ScalePlayerModel(slot11, math.min(uv0:Cfg_GetMaxModelScale(), 1 + (slot14.errorCounter - 1) * uv0:Cfg_GetModelScaleMulti()))
+			uv0:CreateVfx_AnswerError(slot11)
 		end
 	end
 
-	var_0_1:OnQuestionResult(var_10_0, arg_10_0.questionResultDic, arg_10_1)
+	uv0:OnQuestionResult(slot2, slot0.questionResultDic, slot1)
 end
 
-function var_0_0.OnGameEnd(arg_11_0, arg_11_1)
-	arg_11_0.syncPosInterval = 99999
+function slot0.OnGameEnd(slot0, slot1)
+	slot0.syncPosInterval = 99999
 
-	var_0_1:OnEndGame(arg_11_1)
+	uv0:OnEndGame(slot1)
 end
 
-function var_0_0.SyncRemoteRole(arg_12_0, arg_12_1, arg_12_2)
-	arg_12_0:ChangePlayerModel(arg_12_1, arg_12_2)
+function slot0.SyncRemoteRole(slot0, slot1, slot2)
+	slot0:ChangePlayerModel(slot1, slot2)
 end
 
-function var_0_0.SyncLocalPlayerPosInterval(arg_13_0)
-	if arg_13_0.syncPosTimer <= 0 then
-		arg_13_0.syncPosTimer = arg_13_0.syncPosInterval
+function slot0.SyncLocalPlayerPosInterval(slot0)
+	if slot0.syncPosTimer <= 0 then
+		slot0.syncPosTimer = slot0.syncPosInterval
 
-		arg_13_0:SyncLocalPlayerPos()
+		slot0:SyncLocalPlayerPos()
 	else
-		arg_13_0.syncPosTimer = arg_13_0.syncPosTimer - var_0_3.deltaTime
+		slot0.syncPosTimer = slot0.syncPosTimer - uv0.deltaTime
 	end
 end
 
-function var_0_0.SyncLocalPlayerPos(arg_14_0)
-	if isNil(var_0_5.LocalPlayer) then
+function slot0.SyncLocalPlayerPos(slot0)
+	if isNil(uv0.LocalPlayer) then
 		Debug.LogError("[Quiz] PlayerManager.LocalPlayer is nil")
 
 		return
 	end
 
-	local var_14_0 = var_0_5.LocalPlayer:GetLocalPlayerPos()
-	local var_14_1 = var_0_5.LocalPlayer:GetChoose()
+	slot1 = uv0.LocalPlayer:GetLocalPlayerPos()
+	slot2 = uv0.LocalPlayer:GetChoose()
 
-	if var_0_1:GetState() == 3 then
-		var_0_1:SetCurChoose(var_14_1)
+	if uv1:GetState() == 3 then
+		uv1:SetCurChoose(slot2)
 	end
 
-	local var_14_2 = math.floor(var_14_0.x * arg_14_0.pos_divide)
-	local var_14_3 = math.floor(var_14_0.y * arg_14_0.pos_divide)
-	local var_14_4 = var_0_1:GetAnsList()[var_14_1] or 1
-
-	ActivityQuizAction.PushPosition(var_14_2, var_14_3, var_14_4)
+	ActivityQuizAction.PushPosition(math.floor(slot1.x * slot0.pos_divide), math.floor(slot1.y * slot0.pos_divide), uv1:GetAnsList()[slot2] or 1)
 end
 
-function var_0_0.SyncRemotePlayerPosList(arg_15_0, arg_15_1)
-	for iter_15_0, iter_15_1 in ipairs(arg_15_1) do
-		local var_15_0 = iter_15_1.uid
-		local var_15_1 = iter_15_1.pos
-		local var_15_2 = var_15_1.x / arg_15_0.pos_divide
-		local var_15_3 = var_15_1.z / arg_15_0.pos_divide
+function slot0.SyncRemotePlayerPosList(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		slot8 = slot6.pos
 
-		var_0_5:SetRemotePlayerPos(var_15_0, var_15_2, var_15_3)
+		uv0:SetRemotePlayerPos(slot6.uid, slot8.x / slot0.pos_divide, slot8.z / slot0.pos_divide)
 	end
 end
 
-function var_0_0.SyncRemotePlayerPos(arg_16_0, arg_16_1, arg_16_2)
-	local var_16_0 = arg_16_2.x / arg_16_0.pos_divide
-	local var_16_1 = arg_16_2.z / arg_16_0.pos_divide
-
-	var_0_5:SetRemotePlayerPos(arg_16_1, var_16_0, var_16_1)
+function slot0.SyncRemotePlayerPos(slot0, slot1, slot2)
+	uv0:SetRemotePlayerPos(slot1, slot2.x / slot0.pos_divide, slot2.z / slot0.pos_divide)
 end
 
-function var_0_0.RandomInitPos(arg_17_0, arg_17_1)
-	for iter_17_0, iter_17_1 in ipairs(arg_17_1) do
-		local var_17_0 = iter_17_1.uid
-		local var_17_1 = iter_17_1.seed
+function slot0.RandomInitPos(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		DRandom.ResetSeed(slot6.seed)
 
-		DRandom.ResetSeed(var_17_1)
+		slot11 = 10
+		slot12 = 6
 
-		local var_17_2 = DRandom.Random(100) / 100
-		local var_17_3 = DRandom.Random(100) / 100
-		local var_17_4 = 10
-		local var_17_5 = 6
-		local var_17_6 = var_17_2 * var_17_4 - var_17_4 * 0.5
-		local var_17_7 = var_17_3 * var_17_5 - var_17_5 * 0.5
-
-		var_0_5:FindByPlayerId(var_17_0):SetPlayerPosForce(Vector2.New(var_17_6, var_17_7), Quaternion.identity)
+		uv0:FindByPlayerId(slot6.uid):SetPlayerPosForce(Vector2.New(DRandom.Random(100) / 100 * slot11 - slot11 * 0.5, DRandom.Random(100) / 100 * slot12 - slot12 * 0.5), Quaternion.identity)
 	end
 end
 
-function var_0_0.PlayLocalGesture(arg_18_0, arg_18_1)
-	local var_18_0 = manager.time:GetServerTime()
-
-	if var_18_0 < arg_18_0.gestureTs then
+function slot0.PlayLocalGesture(slot0, slot1)
+	if manager.time:GetServerTime() < slot0.gestureTs then
 		return
 	end
 
-	arg_18_0.gestureTs = var_18_0 + arg_18_0.gestureCd
+	slot0.gestureTs = slot2 + slot0.gestureCd
+	slot3 = UnityEngine.Animator.StringToHash(slot1)
 
-	local var_18_1 = UnityEngine.Animator.StringToHash(arg_18_1)
-
-	var_0_5.LocalPlayer:PlayLocalGesture(var_18_1)
+	uv0.LocalPlayer:PlayLocalGesture(slot3)
 	manager.net:Push(77110, {
-		gesture_id = var_18_1
+		gesture_id = slot3
 	})
 end
 
-function var_0_0.SyncRemoteGesture(arg_19_0, arg_19_1, arg_19_2)
-	var_0_5:FindByPlayerId(arg_19_1):SyncRemoteGesture(arg_19_2, 0.05)
+function slot0.SyncRemoteGesture(slot0, slot1, slot2)
+	uv0:FindByPlayerId(slot1):SyncRemoteGesture(slot2, 0.05)
 end
 
-function var_0_0.PlayLocalEmoji(arg_20_0, arg_20_1)
-	local var_20_0 = manager.time:GetServerTime()
-
-	if var_20_0 < arg_20_0.emojiTs then
+function slot0.PlayLocalEmoji(slot0, slot1)
+	if manager.time:GetServerTime() < slot0.emojiTs then
 		return
 	end
 
-	arg_20_0.emojiTs = var_20_0 + arg_20_0.emojiCd
+	slot0.emojiTs = slot2 + slot0.emojiCd
 
-	var_0_1:PlayEmoji(arg_20_0.localPlayerId, arg_20_1)
+	uv0:PlayEmoji(slot0.localPlayerId, slot1)
 	manager.net:Push(77112, {
-		emoji_id = arg_20_1
+		emoji_id = slot1
 	})
 end
 
-function var_0_0.SyncRemoteEmoji(arg_21_0, arg_21_1, arg_21_2)
-	var_0_1:PlayEmoji(arg_21_1, arg_21_2)
+function slot0.SyncRemoteEmoji(slot0, slot1, slot2)
+	uv0:PlayEmoji(slot1, slot2)
 end
 
-function var_0_0.GetRemainGestureCd(arg_22_0)
-	local var_22_0 = manager.time:GetServerTime()
-
-	return math.max(0, arg_22_0.gestureTs - var_22_0)
+function slot0.GetRemainGestureCd(slot0)
+	return math.max(0, slot0.gestureTs - manager.time:GetServerTime())
 end
 
-function var_0_0.GetRemainEmojiCd(arg_23_0)
-	local var_23_0 = manager.time:GetServerTime()
-
-	return math.max(0, arg_23_0.emojiTs - var_23_0)
+function slot0.GetRemainEmojiCd(slot0)
+	return math.max(0, slot0.emojiTs - manager.time:GetServerTime())
 end
 
-function var_0_0.LoadPlayer(arg_24_0, arg_24_1, arg_24_2, arg_24_3)
-	if arg_24_0.localPlayerId == arg_24_1 then
-		arg_24_0:LoadPlayerInternal(arg_24_1, arg_24_2, arg_24_3, true)
+function slot0.LoadPlayer(slot0, slot1, slot2, slot3)
+	if slot0.localPlayerId == slot1 then
+		slot0:LoadPlayerInternal(slot1, slot2, slot3, true)
 	else
-		arg_24_0:LoadPlayerInternal(arg_24_1, arg_24_2, arg_24_3, false)
+		slot0:LoadPlayerInternal(slot1, slot2, slot3, false)
 	end
 end
 
-function var_0_0.LoadPlayerInternal(arg_25_0, arg_25_1, arg_25_2, arg_25_3, arg_25_4)
-	local var_25_0 = var_0_4()
+function slot0.LoadPlayerInternal(slot0, slot1, slot2, slot3, slot4)
+	slot5 = uv0()
+	slot5.playerUid = slot1
+	slot5.roleId = slot2
+	slot5.nickName = slot3
 
-	var_25_0.playerUid = arg_25_1
-	var_25_0.roleId = arg_25_2
-	var_25_0.nickName = arg_25_3
-
-	if arg_25_4 == true then
-		var_0_5:AddLocalPlayer(var_25_0)
-		var_0_1:CreateQNickName(arg_25_1, arg_25_3, true)
-		var_0_1:CreatePlayerShadow(arg_25_1)
+	if slot4 == true then
+		uv1:AddLocalPlayer(slot5)
+		uv2:CreateQNickName(slot1, slot3, true)
+		uv2:CreatePlayerShadow(slot1)
 	else
-		var_0_5:AddRemotePlayer(var_25_0)
-		var_0_1:CreateQNickName(arg_25_1, arg_25_3, false)
+		uv1:AddRemotePlayer(slot5)
+		uv2:CreateQNickName(slot1, slot3, false)
 	end
 end
 
-function var_0_0.RemovePlayer(arg_26_0, arg_26_1)
-	var_0_5:RemovePlayerById(arg_26_1)
-	var_0_1:OnPlayerRemoved(arg_26_1)
+function slot0.RemovePlayer(slot0, slot1)
+	uv0:RemovePlayerById(slot1)
+	uv1:OnPlayerRemoved(slot1)
 end
 
-function var_0_0.RemoveQuestionResult(arg_27_0, arg_27_1)
-	for iter_27_0, iter_27_1 in pairs(arg_27_0.questionResultDic) do
-		if iter_27_0 == arg_27_1 then
-			arg_27_0.questionResultDic[iter_27_0] = nil
+function slot0.RemoveQuestionResult(slot0, slot1)
+	for slot5, slot6 in pairs(slot0.questionResultDic) do
+		if slot5 == slot1 then
+			slot0.questionResultDic[slot5] = nil
 		end
 	end
 end
 
-function var_0_0.ChangeLocalPlayerModel(arg_28_0, arg_28_1)
-	local var_28_0 = arg_28_0.localPlayerId
-
-	arg_28_0:ChangePlayerModel(var_28_0, arg_28_1)
+function slot0.ChangeLocalPlayerModel(slot0, slot1)
+	slot0:ChangePlayerModel(slot0.localPlayerId, slot1)
 	manager.net:Push(77106, {
-		role_id = arg_28_1
+		role_id = slot1
 	})
 end
 
-function var_0_0.ChangePlayerModel(arg_29_0, arg_29_1, arg_29_2)
-	var_0_5:ChangeModel(arg_29_1, arg_29_2)
+function slot0.ChangePlayerModel(slot0, slot1, slot2)
+	uv0:ChangeModel(slot1, slot2)
 
-	if arg_29_0.localPlayerId == arg_29_1 then
-		var_0_1:SetCurHeroID(arg_29_2)
+	if slot0.localPlayerId == slot1 then
+		uv1:SetCurHeroID(slot2)
 	end
 end
 
-function var_0_0.ScalePlayerModel(arg_30_0, arg_30_1, arg_30_2)
-	var_0_5:ScaleModel(arg_30_1, arg_30_2)
+function slot0.ScalePlayerModel(slot0, slot1, slot2)
+	uv0:ScaleModel(slot1, slot2)
 end
 
-function var_0_0.RestoreLastModel(arg_31_0, arg_31_1)
-	var_0_5:RestoreLastModel(arg_31_1)
+function slot0.RestoreLastModel(slot0, slot1)
+	uv0:RestoreLastModel(slot1)
 end
 
-function var_0_0.RegsiterModelChange(arg_32_0)
-	local var_32_0 = P08.Quiz.QuizLuaBridge
-
-	if isNil(var_32_0.OnQuizPlayerModelChanged) then
-		var_32_0.OnQuizPlayerModelChanged = handler(arg_32_0, arg_32_0.OnModelChanged)
+function slot0.RegsiterModelChange(slot0)
+	if isNil(P08.Quiz.QuizLuaBridge.OnQuizPlayerModelChanged) then
+		slot1.OnQuizPlayerModelChanged = handler(slot0, slot0.OnModelChanged)
 	else
-		var_32_0.OnQuizPlayerModelChanged = var_32_0.OnQuizPlayerModelChanged + handler(arg_32_0, arg_32_0.OnModelChanged)
+		slot1.OnQuizPlayerModelChanged = slot1.OnQuizPlayerModelChanged + handler(slot0, slot0.OnModelChanged)
 	end
 end
 
-function var_0_0.UnregisterModelChange(arg_33_0)
+function slot0.UnregisterModelChange(slot0)
 	P08.Quiz.QuizLuaBridge.OnQuizPlayerModelChanged = nil
 end
 
-function var_0_0.OnModelChanged(arg_34_0, arg_34_1, arg_34_2, arg_34_3)
-	local var_34_0 = tostring(arg_34_1)
-
-	var_0_1:OnModelChanged(var_34_0, arg_34_2, arg_34_3)
+function slot0.OnModelChanged(slot0, slot1, slot2, slot3)
+	uv0:OnModelChanged(tostring(slot1), slot2, slot3)
 end
 
-function var_0_0.RegisterGestureChanged(arg_35_0)
-	local var_35_0 = P08.Quiz.QuizLuaBridge
-
-	if isNil(var_35_0.OnQuizPlayerGestureChanged) then
-		var_35_0.OnQuizPlayerGestureChanged = handler(arg_35_0, arg_35_0.OnGestureChanged)
+function slot0.RegisterGestureChanged(slot0)
+	if isNil(P08.Quiz.QuizLuaBridge.OnQuizPlayerGestureChanged) then
+		slot1.OnQuizPlayerGestureChanged = handler(slot0, slot0.OnGestureChanged)
 	else
-		var_35_0.OnQuizPlayerGestureChanged = var_35_0.OnQuizPlayerGestureChanged + handler(arg_35_0, arg_35_0.OnGestureChanged)
+		slot1.OnQuizPlayerGestureChanged = slot1.OnQuizPlayerGestureChanged + handler(slot0, slot0.OnGestureChanged)
 	end
 end
 
-function var_0_0.UnregisterGestureChanged(arg_36_0)
+function slot0.UnregisterGestureChanged(slot0)
 	P08.Quiz.QuizLuaBridge.OnQuizPlayerGestureChanged = nil
 end
 
-function var_0_0.OnGestureChanged(arg_37_0, arg_37_1, arg_37_2)
-	if tostring(arg_37_1) ~= arg_37_0.localPlayerId then
+function slot0.OnGestureChanged(slot0, slot1, slot2)
+	if tostring(slot1) ~= slot0.localPlayerId then
 		return
 	end
 
-	if arg_37_2 == -1 then
+	if slot2 == -1 then
 		manager.net:Push(77110, {
 			gesture_id = -1
 		})
 	end
 end
 
-function var_0_0.IsMultiPlayer(arg_38_0)
-	return var_0_5.PlayerList.Count > 1
+function slot0.IsMultiPlayer(slot0)
+	return uv0.PlayerList.Count > 1
 end
 
-return var_0_0
+return slot0

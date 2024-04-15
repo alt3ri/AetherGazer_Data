@@ -1,171 +1,169 @@
-local var_0_0 = class("SkinTrialMainView_2_0", ReduxView)
+slot0 = class("SkinTrialMainView_2_0", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.activityID_ = arg_1_2
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.activityID_ = slot2
+	slot0.gameObject_ = Object.Instantiate(Asset.Load(slot0:UIName()), slot1.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	local var_1_0 = Asset.Load(arg_1_0:UIName())
-
-	arg_1_0.gameObject_ = Object.Instantiate(var_1_0, arg_1_1.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddListener()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+	slot0:AddListener()
 
-	arg_2_0.scrollList_ = LuaList.New(handler(arg_2_0, arg_2_0.IndexItem), arg_2_0.uiListGo_, arg_2_0:GetItemClass())
-	arg_2_0.outOfDataHandler_ = handler(arg_2_0, arg_2_0.OnOutOfData)
+	slot0.scrollList_ = LuaList.New(handler(slot0, slot0.IndexItem), slot0.uiListGo_, slot0:GetItemClass())
+	slot0.outOfDataHandler_ = handler(slot0, slot0.OnOutOfData)
 end
 
-function var_0_0.UIName(arg_3_0)
-	return SkinTrialTools.GetMainViewUIName(arg_3_0.activityID_)
+function slot0.UIName(slot0)
+	return SkinTrialTools.GetMainViewUIName(slot0.activityID_)
 end
 
-function var_0_0.UpdateBar(arg_4_0)
+function slot0.UpdateBar(slot0)
 	manager.windowBar:SwitchBar({
 		BACK_BAR,
 		HOME_BAR
 	})
 end
 
-function var_0_0.AddListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.descBtn_, nil, function()
-		local var_6_0 = GetTips("ACTIVITY_HERO_TRIAL_DESCRIPE")
-
+function slot0.AddListener(slot0)
+	slot0:AddBtnListener(slot0.descBtn_, nil, function ()
 		JumpTools.OpenPageByJump("gameHelp", {
 			icon = "icon_i",
 			key = "ACTIVITY_SKIN_TRIAL_DESCRIPE",
 			iconColor = Color(1, 1, 1),
 			title = GetTips("STAGE_DESCRIPE"),
-			content = var_6_0
+			content = GetTips("ACTIVITY_HERO_TRIAL_DESCRIPE")
 		})
 	end)
 end
 
-function var_0_0.OnEnter(arg_7_0)
-	arg_7_0.stopTime_ = ActivityData:GetActivityData(arg_7_0.activityID_).stopTime
+function slot0.OnEnter(slot0)
+	slot0.stopTime_ = ActivityData:GetActivityData(slot0.activityID_).stopTime
 
 	SkinTrialData:SaveSkinTrialMainScrollPos(nil, "Global")
 end
 
-function var_0_0.OnExit(arg_8_0)
-	arg_8_0:StopTimer()
+function slot0.OnExit(slot0)
+	slot0:StopTimer()
 
-	arg_8_0.scrollPos_ = arg_8_0.scrollList_:GetScrolledPosition()
+	slot0.scrollPos_ = slot0.scrollList_:GetScrolledPosition()
 
-	SkinTrialData:SaveSkinTrialMainScrollPos(arg_8_0.scrollPos_, "Global")
+	SkinTrialData:SaveSkinTrialMainScrollPos(slot0.scrollPos_, "Global")
 end
 
-function var_0_0.Dispose(arg_9_0)
-	var_0_0.super.Dispose(arg_9_0)
-	arg_9_0:StopTimer()
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	slot0:StopTimer()
 
-	arg_9_0.outOfDataHandler_ = nil
+	slot0.outOfDataHandler_ = nil
 
-	arg_9_0.scrollList_:Dispose()
+	slot0.scrollList_:Dispose()
 
-	arg_9_0.scrollList_ = nil
+	slot0.scrollList_ = nil
 
-	Object.Destroy(arg_9_0.gameObject_)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_9_0.transform_ = nil
-	arg_9_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.RefreshUI(arg_10_0)
-	arg_10_0.skinTrialIDList_ = arg_10_0:GetskinTrialIDList()
+function slot0.RefreshUI(slot0)
+	slot0.skinTrialIDList_ = slot0:GetskinTrialIDList()
 
-	arg_10_0:RefreshSkinItem()
+	slot0:RefreshSkinItem()
 end
 
-function var_0_0.GetskinTrialIDList(arg_11_0)
-	local var_11_0 = {}
-	local var_11_1 = ActivityData:GetActivityData(arg_11_0.activityID_).subActivityIdList
+function slot0.GetskinTrialIDList(slot0)
+	slot1 = {}
 
-	for iter_11_0, iter_11_1 in ipairs(var_11_1) do
-		if ActivityData:GetActivityIsOpen(iter_11_1) then
-			local var_11_2 = ActivitySkinTrialCfg.get_id_list_by_activity_id[iter_11_1]
-
-			for iter_11_2, iter_11_3 in ipairs(var_11_2) do
-				table.insert(var_11_0, iter_11_3)
+	for slot6, slot7 in ipairs(ActivityData:GetActivityData(slot0.activityID_).subActivityIdList) do
+		if ActivityData:GetActivityIsOpen(slot7) then
+			for slot12, slot13 in ipairs(ActivitySkinTrialCfg.get_id_list_by_activity_id[slot7]) do
+				table.insert(slot1, slot13)
 			end
 		end
 	end
 
-	return var_11_0
+	return slot1
 end
 
-function var_0_0.RefreshSkinItem(arg_12_0)
-	local var_12_0 = arg_12_0.scrollPos_
+function slot0.RefreshSkinItem(slot0)
+	slot1 = slot0.scrollPos_
 
 	if SkinTrialData:GetSkinTrialMainScrollPos("Back") then
-		var_12_0 = SkinTrialData:GetSkinTrialMainScrollPos("Back")
+		slot1 = SkinTrialData:GetSkinTrialMainScrollPos("Back")
 
 		SkinTrialData:SaveSkinTrialMainScrollPos(nil, "Back")
 	end
 
-	arg_12_0.scrollList_:StartScrollByPosition(#arg_12_0.skinTrialIDList_, var_12_0)
+	slot0.scrollList_:StartScrollByPosition(#slot0.skinTrialIDList_, slot1)
 end
 
-function var_0_0.IndexItem(arg_13_0, arg_13_1, arg_13_2)
-	arg_13_2:SetSkinTrialID(arg_13_0.skinTrialIDList_[arg_13_1])
-	arg_13_2:SetOutOfDataHandler(arg_13_0.outOfDataHandler_)
+function slot0.IndexItem(slot0, slot1, slot2)
+	slot2:SetSkinTrialID(slot0.skinTrialIDList_[slot1])
+	slot2:SetOutOfDataHandler(slot0.outOfDataHandler_)
 end
 
-function var_0_0.GetItemClass(arg_14_0)
+function slot0.GetItemClass(slot0)
 	return SkinTrialSelectItem_2_0
 end
 
-function var_0_0.AddTimer(arg_15_0)
-	if manager.time:GetServerTime() >= arg_15_0.stopTime_ then
+function slot0.AddTimer(slot0)
+	if slot0.stopTime_ <= manager.time:GetServerTime() then
 		return
 	end
 
-	for iter_15_0, iter_15_1 in ipairs(arg_15_0.scrollList_:GetItemList()) do
-		iter_15_1:RefreshTime()
+	slot3 = slot0.scrollList_
+	slot5 = slot3
+
+	for slot4, slot5 in ipairs(slot3.GetItemList(slot5)) do
+		slot5:RefreshTime()
 	end
 
-	arg_15_0:StopTimer()
+	slot0:StopTimer()
 
-	arg_15_0.timer_ = Timer.New(function()
-		if manager.time:GetServerTime() >= arg_15_0.stopTime_ then
-			arg_15_0:StopTimer()
+	slot0.timer_ = Timer.New(function ()
+		if uv0.stopTime_ <= manager.time:GetServerTime() then
+			uv0:StopTimer()
 
 			return
 		end
 
-		for iter_16_0, iter_16_1 in ipairs(arg_15_0.scrollList_:GetItemList()) do
-			iter_16_1:RefreshTime()
+		slot2 = uv0.scrollList_
+		slot4 = slot2
+
+		for slot3, slot4 in ipairs(slot2.GetItemList(slot4)) do
+			slot4:RefreshTime()
 		end
 	end, 1, -1)
 
-	arg_15_0.timer_:Start()
+	slot0.timer_:Start()
 end
 
-function var_0_0.StopTimer(arg_17_0)
-	if arg_17_0.timer_ then
-		arg_17_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_17_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Show(arg_18_0, arg_18_1)
-	SetActive(arg_18_0.gameObject_, arg_18_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 
-	if arg_18_1 == true then
-		arg_18_0:AddTimer()
-		arg_18_0:RefreshUI()
+	if slot1 == true then
+		slot0:AddTimer()
+		slot0:RefreshUI()
 	else
-		arg_18_0:StopTimer()
+		slot0:StopTimer()
 	end
 end
 
-function var_0_0.OnOutOfData(arg_19_0)
-	arg_19_0:RefreshUI()
-	arg_19_0:AddTimer()
+function slot0.OnOutOfData(slot0)
+	slot0:RefreshUI()
+	slot0:AddTimer()
 end
 
-return var_0_0
+return slot0

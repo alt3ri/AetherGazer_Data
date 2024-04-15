@@ -1,199 +1,164 @@
-local var_0_0 = import("manager/net/BinaryReader")
-local var_0_1 = class("Protocol")
+slot1 = class("Protocol")
+slot1.protocols = {}
+slot1.binaryReader = import("manager/net/BinaryReader").New()
+slot1.ps = PackStream.New()
 
-var_0_1.protocols = {}
-var_0_1.binaryReader = var_0_0.New()
-var_0_1.ps = PackStream.New()
-
-function var_0_1.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3)
-	arg_1_0._id = arg_1_1
-	arg_1_0._name = arg_1_2
-	arg_1_0._object = arg_1_3
+function slot1.Ctor(slot0, slot1, slot2, slot3)
+	slot0._id = slot1
+	slot0._name = slot2
+	slot0._object = slot3
 end
 
-function var_0_1.GetMessage(arg_2_0)
-	return arg_2_0._object[arg_2_0._name]()
+function slot1.GetMessage(slot0)
+	return slot0._object[slot0._name]()
 end
 
-function var_0_1.GetId(arg_3_0)
-	return arg_3_0._id
+function slot1.GetId(slot0)
+	return slot0._id
 end
 
-function var_0_1.GetName(arg_4_0)
-	return arg_4_0._name
+function slot1.GetName(slot0)
+	return slot0._name
 end
 
-function var_0_1.Pack(arg_5_0, arg_5_1, arg_5_2, arg_5_3, arg_5_4)
-	local var_5_0 = arg_5_3:SerializeToString()
-	local var_5_1 = var_0_1.ps
+function slot1.Pack(slot0, slot1, slot2, slot3, slot4)
+	slot5 = slot3:SerializeToString()
 
-	if var_5_1.Length ~= 0 then
+	if uv0.ps.Length ~= 0 then
 		print("##   # pack string error !!!!!!!!!!!")
 	end
 
-	if #var_5_0 == 0 then
-		var_5_1:WriteUint32LittleEndian(9)
+	if #slot5 == 0 then
+		slot6:WriteUint32LittleEndian(9)
 	else
-		var_5_1:WriteUint32LittleEndian(9 + #var_5_0)
+		slot6:WriteUint32LittleEndian(9 + #slot5)
 	end
 
-	local var_5_2 = arg_5_4 and 7 or 8
+	slot6:WriteUint8(slot4 and 7 or 8)
+	slot6:WriteUint32LittleEndian(slot2)
+	slot6:WriteUint16LittleEndian(slot0)
+	slot6:WriteUint16LittleEndian(slot1)
+	slot6:WriteBuffer(slot5)
 
-	var_5_1:WriteUint8(var_5_2)
-	var_5_1:WriteUint32LittleEndian(arg_5_2)
-	var_5_1:WriteUint16LittleEndian(arg_5_0)
-	var_5_1:WriteUint16LittleEndian(arg_5_1)
-	var_5_1:WriteBuffer(var_5_0)
-
-	return var_5_1:ToArray()
+	return slot6:ToArray()
 end
 
-var_0_1.gameFrameTimePart1Index_ = 3
-var_0_1.gameFrameTimePart2Index_ = 4
+slot1.gameFrameTimePart1Index_ = 3
+slot1.gameFrameTimePart2Index_ = 4
 
-function var_0_1.SetSyncPlayerCount(arg_6_0)
-	var_0_1.gameFrameTimePart1Index_ = arg_6_0 + 2
-	var_0_1.gameFrameTimePart2Index_ = arg_6_0 + 3
+function slot1.SetSyncPlayerCount(slot0)
+	uv0.gameFrameTimePart1Index_ = slot0 + 2
+	uv0.gameFrameTimePart2Index_ = slot0 + 3
 end
 
-function var_0_1.ToByte(arg_7_0)
-	local var_7_0 = #arg_7_0
-	local var_7_1 = string.byte(arg_7_0, 1)
-
-	for iter_7_0 = 2, var_7_0 do
-		var_7_1 = var_7_1 .. "-" .. string.byte(arg_7_0, iter_7_0)
+function slot1.ToByte(slot0)
+	for slot6 = 2, #slot0 do
+		slot2 = string.byte(slot0, 1) .. "-" .. string.byte(slot0, slot6)
 	end
 end
 
-function var_0_1.Unpack(arg_8_0, arg_8_1)
-	if arg_8_0 ~= 65522 then
-		local var_8_0 = var_0_1.GetProtocolWithName("sc_" .. arg_8_0)
+function slot1.Unpack(slot0, slot1)
+	if slot0 ~= 65522 then
+		if uv0.GetProtocolWithName("sc_" .. slot0) ~= nil then
+			slot3 = slot2._object[slot2._name]()
 
-		if var_8_0 ~= nil then
-			local var_8_1 = var_8_0._object[var_8_0._name]()
+			slot3:ParseFromString(slot1)
 
-			var_8_1:ParseFromString(arg_8_1)
-
-			return var_8_1
+			return slot3
 		end
 	else
-		local var_8_2 = {
-			frames = {}
-		}
+		uv0.binaryReader:Initialize(slot1)
 
-		var_0_1.binaryReader:Initialize(arg_8_1)
-
-		var_8_2.currentServerFrame = var_0_1.binaryReader:Read(4)
-
-		if var_8_2.currentServerFrame == 0 then
-			var_8_2.isFirstKeyFrameUpdate = true
+		if ({
+			frames = {},
+			currentServerFrame = uv0.binaryReader:Read(4)
+		}).currentServerFrame == 0 then
+			slot2.isFirstKeyFrameUpdate = true
 		end
 
-		while not var_0_1.binaryReader:EOF() do
-			local var_8_3 = var_0_1.binaryReader:Read(4)
-			local var_8_4 = var_0_1.binaryReader:Read(1)
-			local var_8_5 = {}
-
-			var_8_2.frames[var_8_3] = {
-				playerOps = var_8_5
+		while not uv0.binaryReader:EOF() do
+			slot2.frames[uv0.binaryReader:Read(4)] = {
+				playerOps = {}
 			}
 
-			for iter_8_0 = 1, var_8_4 do
-				local var_8_6 = var_0_1.binaryReader:Read(1)
-				local var_8_7 = var_0_1.binaryReader:Read(1)
-				local var_8_8 = {}
+			for slot9 = 1, uv0.binaryReader:Read(1) do
+				slot5[uv0.binaryReader:Read(1)] = {}
 
-				var_8_5[var_8_6] = var_8_8
+				for slot16 = 1, uv0.binaryReader:Read(1) do
+					slot17 = nil
 
-				for iter_8_1 = 1, var_8_7 do
-					local var_8_9
-					local var_8_10 = var_0_1.binaryReader:Read(1)
-
-					if var_8_10 == 3 then
-						var_8_9 = var_0_1.binaryReader:Read(2)
-					else
-						var_8_9 = var_0_1.binaryReader:Read(1)
-					end
-
-					table.insert(var_8_8, {
-						opCode = var_8_9,
-						opType = var_8_10
+					table.insert(slot12, {
+						opCode = (uv0.binaryReader:Read(1) ~= 3 or uv0.binaryReader:Read(2)) and uv0.binaryReader:Read(1),
+						opType = slot18
 					})
 				end
 			end
 		end
 
-		return var_8_2
+		return slot2
 	end
 end
 
-function var_0_1.GetProtocolWithName(arg_9_0)
-	if not var_0_1.protocols[arg_9_0] then
-		local var_9_0 = string.sub(arg_9_0, 4, #arg_9_0)
-		local var_9_1 = "protocol/"
-		local var_9_2 = "p" .. string.sub(var_9_0, 1, 2) .. "_pb"
-		local var_9_3
+function slot1.GetProtocolWithName(slot0)
+	if not uv0.protocols[slot0] then
+		slot4 = nil
 
-		if require(var_9_1 .. var_9_2) then
-			local var_9_4 = Protocol.New(var_9_0, arg_9_0, package.loaded[var_9_2])
-
-			var_0_1.protocols[arg_9_0] = var_9_4
+		if require("protocol/" .. ("p" .. string.sub(string.sub(slot0, 4, #slot0), 1, 2) .. "_pb")) then
+			uv0.protocols[slot0] = Protocol.New(slot1, slot0, package.loaded[slot3])
 		end
 	end
 
-	return var_0_1.protocols[arg_9_0]
+	return uv0.protocols[slot0]
 end
 
-function var_0_1.BuildProtocolMessage(arg_10_0, arg_10_1)
-	if arg_10_1 == nil then
+function slot1.BuildProtocolMessage(slot0, slot1)
+	if slot1 == nil then
 		print("data is nil...")
 	end
 
-	for iter_10_0, iter_10_1 in pairs(arg_10_1) do
-		if type(iter_10_1) == "table" then
-			if #iter_10_1 > 0 then
-				var_0_1.BuildProtocolMessageRepeat(arg_10_0[iter_10_0], iter_10_1)
+	for slot5, slot6 in pairs(slot1) do
+		if type(slot6) == "table" then
+			if #slot6 > 0 then
+				uv0.BuildProtocolMessageRepeat(slot0[slot5], slot6)
 			else
-				var_0_1.BuildProtocolMessageNormalTable(arg_10_0[iter_10_0], iter_10_1)
+				uv0.BuildProtocolMessageNormalTable(slot0[slot5], slot6)
 			end
 		else
-			arg_10_0[iter_10_0] = iter_10_1
+			slot0[slot5] = slot6
 		end
 	end
 end
 
-function var_0_1.BuildProtocolMessageRepeat(arg_11_0, arg_11_1)
-	for iter_11_0, iter_11_1 in ipairs(arg_11_1) do
-		if arg_11_0.add then
-			local var_11_0 = arg_11_0:add()
-
-			var_0_1.BuildProtocolMessage(var_11_0, iter_11_1)
-		elseif type(iter_11_1) == "table" then
-			if #iter_11_1 > 0 or table.nums(iter_11_1) == 0 then
-				var_0_1.BuildProtocolMessageRepeat(arg_11_0[iter_11_0], iter_11_1)
+function slot1.BuildProtocolMessageRepeat(slot0, slot1)
+	for slot5, slot6 in ipairs(slot1) do
+		if slot0.add then
+			uv0.BuildProtocolMessage(slot0:add(), slot6)
+		elseif type(slot6) == "table" then
+			if #slot6 > 0 or table.nums(slot6) == 0 then
+				uv0.BuildProtocolMessageRepeat(slot0[slot5], slot6)
 			else
-				var_0_1.BuildProtocolMessageNormalTable(arg_11_0[iter_11_0], iter_11_1)
+				uv0.BuildProtocolMessageNormalTable(slot0[slot5], slot6)
 			end
 		else
-			arg_11_0:append(iter_11_1)
+			slot0:append(slot6)
 		end
 	end
 end
 
-function var_0_1.BuildProtocolMessageNormalTable(arg_12_0, arg_12_1)
-	for iter_12_0, iter_12_1 in pairs(arg_12_1) do
-		if arg_12_0.add then
-			var_0_1.BuildProtocolMessage(arg_12_0:add(), iter_12_1)
-		elseif type(iter_12_1) == "table" then
-			if #iter_12_1 > 0 or table.nums(iter_12_1) == 0 then
-				var_0_1.BuildProtocolMessageRepeat(arg_12_0[iter_12_0], iter_12_1)
+function slot1.BuildProtocolMessageNormalTable(slot0, slot1)
+	for slot5, slot6 in pairs(slot1) do
+		if slot0.add then
+			uv0.BuildProtocolMessage(slot0:add(), slot6)
+		elseif type(slot6) == "table" then
+			if #slot6 > 0 or table.nums(slot6) == 0 then
+				uv0.BuildProtocolMessageRepeat(slot0[slot5], slot6)
 			else
-				var_0_1.BuildProtocolMessageNormalTable(arg_12_0[iter_12_0], iter_12_1)
+				uv0.BuildProtocolMessageNormalTable(slot0[slot5], slot6)
 			end
 		else
-			arg_12_0[iter_12_0] = iter_12_1
+			slot0[slot5] = slot6
 		end
 	end
 end
 
-return var_0_1
+return slot1

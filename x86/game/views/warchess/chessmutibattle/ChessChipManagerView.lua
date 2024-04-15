@@ -1,35 +1,33 @@
-local var_0_0 = class("ChessChipManagerView", ChipManagerView)
+slot0 = class("ChessChipManagerView", ChipManagerView)
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.stageType_ = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS
-	arg_1_0.teamID_ = arg_1_0.params_.chessTeamID
-	arg_1_0.activityID_ = arg_1_0.params_.activityID
+function slot0.OnEnter(slot0)
+	slot0.stageType_ = BattleConst.STAGE_TYPE_NEW.STAGE_TYPE_CHESS
+	slot0.teamID_ = slot0.params_.chessTeamID
+	slot0.activityID_ = slot0.params_.activityID
 
-	arg_1_0.chipManagerUnlockView_:SetTeamInfo(arg_1_0.stageType_, arg_1_0.activityID_, nil, arg_1_0.teamID_)
-	var_0_0.super.OnEnter(arg_1_0)
+	slot0.chipManagerUnlockView_:SetTeamInfo(slot0.stageType_, slot0.activityID_, nil, slot0.teamID_)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.GetManagerUnlockView(arg_2_0)
+function slot0.GetManagerUnlockView(slot0)
 	return ChessChipManagerUnlockView
 end
 
-function var_0_0.RefreshChipManagerItem(arg_3_0, arg_3_1, arg_3_2)
-	arg_3_2:SetTeamID(arg_3_0.teamID_)
-	var_0_0.super.RefreshChipManagerItem(arg_3_0, arg_3_1, arg_3_2)
+function slot0.RefreshChipManagerItem(slot0, slot1, slot2)
+	slot2:SetTeamID(slot0.teamID_)
+	uv0.super.RefreshChipManagerItem(slot0, slot1, slot2)
 end
 
-function var_0_0.GetChipManagerItem(arg_4_0)
+function slot0.GetChipManagerItem(slot0)
 	return ChessChipManagerItem
 end
 
-function var_0_0.GetChipManagerList(arg_5_0)
-	local var_5_0 = BattleTeamData:GetMimirInfo(arg_5_0.stageType_, arg_5_0.activityID_, nil, arg_5_0.teamID_)
-
-	return ChipTools.SortChipManager(var_5_0)
+function slot0.GetChipManagerList(slot0)
+	return ChipTools.SortChipManager(BattleTeamData:GetMimirInfo(slot0.stageType_, slot0.activityID_, nil, slot0.teamID_))
 end
 
-function var_0_0.EnableChipIDFunc(arg_6_0, arg_6_1)
-	BattleFieldAction.SetMimirIDInfo(arg_6_0.stageType_, arg_6_0.activityID_, arg_6_1, nil, arg_6_0.teamID_)
+function slot0.EnableChipIDFunc(slot0, slot1)
+	BattleFieldAction.SetMimirIDInfo(slot0.stageType_, slot0.activityID_, slot1, nil, slot0.teamID_)
 end
 
-return var_0_0
+return slot0

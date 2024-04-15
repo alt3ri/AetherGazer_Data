@@ -1,155 +1,133 @@
-local var_0_0 = {}
-
-function var_0_0.LevelToExp(arg_1_0, arg_1_1)
-	if arg_1_1 == nil then
-		return 0
-	end
-
-	if var_0_0.levelToExp == nil then
-		var_0_0.levelToExp = {}
-	end
-
-	if var_0_0.levelToExp[arg_1_1] == nil then
-		var_0_0.levelToExp[arg_1_1] = {}
-
-		local var_1_0 = 0
-
-		for iter_1_0, iter_1_1 in ipairs(GameLevelSetting) do
-			var_0_0.levelToExp[arg_1_1][iter_1_0] = var_1_0
-			var_1_0 = var_1_0 + iter_1_1[arg_1_1]
+return {
+	LevelToExp = function (slot0, slot1)
+		if slot1 == nil then
+			return 0
 		end
-	end
 
-	return var_0_0.levelToExp[arg_1_1][arg_1_0]
-end
+		if uv0.levelToExp == nil then
+			uv0.levelToExp = {}
+		end
 
-function var_0_0.CheckExp(arg_2_0, arg_2_1, arg_2_2)
-	if arg_2_2 == nil then
-		return 1, 0, 0
-	elseif arg_2_2 == "user_level_exp" then
-		return var_0_0.CheckUserExp(arg_2_0, arg_2_1)
-	end
-end
+		if uv0.levelToExp[slot1] == nil then
+			uv0.levelToExp[slot1] = {}
+			slot2 = 0
 
-function var_0_0.CheckHeroExp(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = 0
-	local var_3_1 = arg_3_1
-	local var_3_2 = 0
-	local var_3_3 = arg_3_0
-	local var_3_4 = 0
+			for slot6, slot7 in ipairs(GameLevelSetting) do
+				uv0.levelToExp[slot1][slot6] = slot2
+				slot2 = slot2 + slot7[slot1]
+			end
+		end
 
-	for iter_3_0 = 1, math.min(GameLevelSetting[#GameLevelSetting.all].id, arg_3_2) do
-		local var_3_5 = GameLevelSetting[iter_3_0].hero_level_exp1
+		return uv0.levelToExp[slot1][slot0]
+	end,
+	CheckExp = function (slot0, slot1, slot2)
+		if slot2 == nil then
+			return 1, 0, 0
+		elseif slot2 == "user_level_exp" then
+			return uv0.CheckUserExp(slot0, slot1)
+		end
+	end,
+	CheckHeroExp = function (slot0, slot1, slot2)
+		slot5 = 0
+		slot6 = slot0
+		slot7 = 0
+		slot11 = GameLevelSetting[#GameLevelSetting.all].id
 
-		if iter_3_0 < arg_3_0 then
-			var_3_0 = var_3_0 + var_3_5
-			var_3_1 = var_3_1 - var_3_5
-		elseif var_3_5 <= var_3_1 then
-			var_3_1 = var_3_1 - var_3_5
-			var_3_2 = var_3_5
+		for slot11 = 1, math.min(slot11, slot2) do
+			slot13 = GameLevelSetting[slot11].hero_level_exp1
 
-			if var_3_3 < arg_3_2 then
-				var_3_0 = var_3_0 + var_3_5
-				var_3_3 = var_3_3 + 1
+			if slot11 < slot0 then
+				slot3 = 0 + slot13
+				slot4 = slot1 - slot13
+			elseif slot13 <= slot4 then
+				slot4 = slot4 - slot13
+				slot5 = slot13
+
+				if slot6 < slot2 then
+					slot3 = slot3 + slot13
+					slot6 = slot6 + 1
+				else
+					slot7 = slot4 + slot13
+					slot5 = 0
+
+					break
+				end
 			else
-				var_3_4 = var_3_1 + var_3_5
-				var_3_2 = 0
+				if slot2 <= slot6 then
+					slot7 = slot4
+					slot5 = 0
+
+					break
+				end
+
+				slot3 = slot3 + slot4
+				slot5 = slot4
 
 				break
 			end
-		else
-			if arg_3_2 <= var_3_3 then
-				var_3_4 = var_3_1
-				var_3_2 = 0
+		end
 
-				break
+		return slot6, slot5, slot4, slot3, slot7
+	end,
+	CheckUserExp = function (slot0, slot1)
+		slot2 = "user_level_exp"
+		slot4 = GameLevelSetting[slot0 + 1]
+
+		if GameLevelSetting[slot0] == nil or slot4 == nil or slot4[slot2] == 0 or uv0.GetIsCurrentMaxLv(slot0, slot2) then
+			return slot0, slot1, 0
+		end
+
+		if slot3[slot2] <= slot1 then
+			return uv0.CheckUserExp(slot0 + 1, slot1 - slot5)
+		else
+			return slot0, slot1, 0
+		end
+	end,
+	GetIsCurrentMaxLv = function (slot0, slot1)
+		if slot1 == "hero_level_exp1" then
+			return PlayerData:GetPlayerInfo().userLevel <= slot0
+		end
+
+		return GameLevelSetting[slot0 + 1] == nil
+	end,
+	GetIsMaxLv = function (slot0, slot1)
+		if not GameSetting[slot1 .. "_level_max"] then
+			print("GameSetting存在未知的记录:", slot1 .. "_level_max")
+
+			return true
+		end
+
+		return slot2.value[1] <= slot0
+	end,
+	GetMaxTotalExp = function (slot0, slot1)
+		slot2 = 1
+
+		if slot0 == "hero_level_exp1" then
+			slot2 = GameSetting.hero_level_max.value[1]
+		elseif slot0 == "user_level_exp" then
+			slot2 = GameSetting.user_level_max.value[1]
+		end
+
+		return uv0.LevelToExp(slot2, slot0)
+	end,
+	LoveExpToLevel = function (slot0)
+		for slot5 = 1, HeroConst.HERO_LOVE_LV_MAX + 1 do
+			slot6 = GameLevelSetting[slot5].hero_love_exp
+
+			if slot6 == 0 then
+				return slot5, 0, 0 + slot6
 			end
 
-			var_3_0 = var_3_0 + var_3_1
-			var_3_2 = var_3_1
-
-			break
+			if slot0 > slot6 - 1 then
+				slot0 = slot0 - slot6
+			else
+				return slot5, slot0, slot1
+			end
 		end
+	end,
+	checkLoveExp = function (slot0, slot1)
+		slot3, slot4 = uv0.LevelToExp(slot0 + slot1)
+
+		return slot3, slot4
 	end
-
-	return var_3_3, var_3_2, var_3_1, var_3_0, var_3_4
-end
-
-function var_0_0.CheckUserExp(arg_4_0, arg_4_1)
-	local var_4_0 = "user_level_exp"
-	local var_4_1 = GameLevelSetting[arg_4_0]
-	local var_4_2 = GameLevelSetting[arg_4_0 + 1]
-
-	if var_4_1 == nil or var_4_2 == nil or var_4_2[var_4_0] == 0 or var_0_0.GetIsCurrentMaxLv(arg_4_0, var_4_0) then
-		return arg_4_0, arg_4_1, 0
-	end
-
-	local var_4_3 = var_4_1[var_4_0]
-
-	if var_4_3 <= arg_4_1 then
-		return var_0_0.CheckUserExp(arg_4_0 + 1, arg_4_1 - var_4_3)
-	else
-		return arg_4_0, arg_4_1, 0
-	end
-end
-
-function var_0_0.GetIsCurrentMaxLv(arg_5_0, arg_5_1)
-	if arg_5_1 == "hero_level_exp1" then
-		return arg_5_0 >= PlayerData:GetPlayerInfo().userLevel
-	end
-
-	return GameLevelSetting[arg_5_0 + 1] == nil
-end
-
-function var_0_0.GetIsMaxLv(arg_6_0, arg_6_1)
-	local var_6_0 = GameSetting[arg_6_1 .. "_level_max"]
-
-	if not var_6_0 then
-		print("GameSetting存在未知的记录:", arg_6_1 .. "_level_max")
-
-		return true
-	end
-
-	return arg_6_0 >= var_6_0.value[1]
-end
-
-function var_0_0.GetMaxTotalExp(arg_7_0, arg_7_1)
-	local var_7_0 = 1
-
-	if arg_7_0 == "hero_level_exp1" then
-		var_7_0 = GameSetting.hero_level_max.value[1]
-	elseif arg_7_0 == "user_level_exp" then
-		var_7_0 = GameSetting.user_level_max.value[1]
-	end
-
-	return var_0_0.LevelToExp(var_7_0, arg_7_0)
-end
-
-function var_0_0.LoveExpToLevel(arg_8_0)
-	local var_8_0 = 0
-
-	for iter_8_0 = 1, HeroConst.HERO_LOVE_LV_MAX + 1 do
-		local var_8_1 = GameLevelSetting[iter_8_0].hero_love_exp
-
-		var_8_0 = var_8_0 + var_8_1
-
-		if var_8_1 == 0 then
-			return iter_8_0, 0, var_8_0
-		end
-
-		if arg_8_0 > var_8_1 - 1 then
-			arg_8_0 = arg_8_0 - var_8_1
-		else
-			return iter_8_0, arg_8_0, var_8_0
-		end
-	end
-end
-
-function var_0_0.checkLoveExp(arg_9_0, arg_9_1)
-	local var_9_0 = arg_9_0 + arg_9_1
-	local var_9_1, var_9_2 = var_0_0.LevelToExp(var_9_0)
-
-	return var_9_1, var_9_2
-end
-
-return var_0_0
+}

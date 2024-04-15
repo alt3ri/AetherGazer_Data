@@ -1,293 +1,275 @@
-local var_0_0 = class("DormDispatchMissionItem", ReduxView)
+slot0 = class("DormDispatchMissionItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.timeController = ControllerUtil.GetController(arg_3_0.transform_, "task")
-	arg_3_0.workController = ControllerUtil.GetController(arg_3_0.transform_, "workbtn")
-	arg_3_0.refreshController = ControllerUtil.GetController(arg_3_0.transform_, "refresh")
-	arg_3_0.coolController = ControllerUtil.GetController(arg_3_0.transform_, "cooling")
-	arg_3_0.levelController = ControllerUtil.GetController(arg_3_0.transform_, "level")
-	arg_3_0.lockController = ControllerUtil.GetController(arg_3_0.transform_, "lock")
-	arg_3_0.roleuilistScroll_ = LuaList.New(handler(arg_3_0, arg_3_0.indexRecommendRoleItem), arg_3_0.roleuilistUilist_, DormRecommendRoleItem)
-	arg_3_0.awarduilistScroll_ = LuaList.New(handler(arg_3_0, arg_3_0.indexAwardItem), arg_3_0.awarduilistUilist_, CommonItemView)
+	slot0.timeController = ControllerUtil.GetController(slot0.transform_, "task")
+	slot0.workController = ControllerUtil.GetController(slot0.transform_, "workbtn")
+	slot0.refreshController = ControllerUtil.GetController(slot0.transform_, "refresh")
+	slot0.coolController = ControllerUtil.GetController(slot0.transform_, "cooling")
+	slot0.levelController = ControllerUtil.GetController(slot0.transform_, "level")
+	slot0.lockController = ControllerUtil.GetController(slot0.transform_, "lock")
+	slot0.roleuilistScroll_ = LuaList.New(handler(slot0, slot0.indexRecommendRoleItem), slot0.roleuilistUilist_, DormRecommendRoleItem)
+	slot0.awarduilistScroll_ = LuaList.New(handler(slot0, slot0.indexAwardItem), slot0.awarduilistUilist_, CommonItemView)
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	arg_4_0:AddBtnListener(arg_4_0.dispatchbtnBtn_, nil, function()
-		if #arg_4_0.heroList == 0 then
-			if arg_4_0.confirmCallBack then
-				arg_4_0.confirmCallBack(arg_4_0.ID, arg_4_0.pos, arg_4_0.timeLevel)
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.dispatchbtnBtn_, nil, function ()
+		if #uv0.heroList == 0 then
+			if uv0.confirmCallBack then
+				uv0.confirmCallBack(uv0.ID, uv0.pos, uv0.timeLevel)
 			end
 		else
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("CANTEEN_TAKS_CANCEL"),
-				OkCallback = function()
-					if arg_4_0.cancelCallBack then
-						arg_4_0.cancelCallBack(arg_4_0.ID, arg_4_0.pos, arg_4_0.timeLevel)
+				OkCallback = function ()
+					if uv0.cancelCallBack then
+						uv0.cancelCallBack(uv0.ID, uv0.pos, uv0.timeLevel)
 					end
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.refreshbtnBtn_, nil, function()
-		if arg_4_0.refreshTime > 0 then
-			local var_8_0 = manager.time:GetNextFreshTime() - manager.time:GetServerTime()
-
-			ShowTips(string.format(GetTips("CANTEEN_TASK_REFRESH_COOLDOWN"), manager.time:DescCDTime(var_8_0)))
+	slot0:AddBtnListener(slot0.refreshbtnBtn_, nil, function ()
+		if uv0.refreshTime > 0 then
+			ShowTips(string.format(GetTips("CANTEEN_TASK_REFRESH_COOLDOWN"), manager.time:DescCDTime(manager.time:GetNextFreshTime() - manager.time:GetServerTime())))
 
 			return
 		else
 			ShowMessageBox({
 				title = GetTips("PROMPT"),
 				content = GetTips("CANTEEN_REFRESH_CONFIRM"),
-				OkCallback = function()
-					if arg_4_0.refreshCallBack then
-						arg_4_0.refreshCallBack(arg_4_0.pos)
+				OkCallback = function ()
+					if uv0.refreshCallBack then
+						uv0.refreshCallBack(uv0.pos)
 					end
 				end,
-				CancelCallback = function()
-					return
+				CancelCallback = function ()
 				end
 			})
 		end
 	end)
-	arg_4_0:AddBtnListener(arg_4_0.unLockBtn_, nil, function()
-		local var_11_0 = GameSetting.dorm_canteen_task_unlock.value[arg_4_0.pos][2]
 
-		if var_11_0 ~= 0 then
-			if IsConditionAchieved(var_11_0) then
-				CanteenAction:UnLockEntrust(arg_4_0.pos)
+	slot4 = nil
+
+	slot0:AddBtnListener(slot0.unLockBtn_, slot4, function ()
+		if GameSetting.dorm_canteen_task_unlock.value[uv0.pos][2] ~= 0 then
+			if IsConditionAchieved(slot0) then
+				CanteenAction:UnLockEntrust(uv0.pos)
 			else
 				ShowTips("NO_REACH_UNLOCK")
 			end
 		else
-			CanteenAction:UnLockEntrust(arg_4_0.pos)
+			CanteenAction:UnLockEntrust(uv0.pos)
 		end
 	end)
 
-	for iter_4_0 = 1, 3 do
-		arg_4_0:AddToggleListener(arg_4_0["level_" .. iter_4_0 .. "Tgl_"], function(arg_12_0)
-			if arg_12_0 then
-				if arg_4_0.heroList and #arg_4_0.heroList > 0 then
+	for slot4 = 1, 3 do
+		slot0:AddToggleListener(slot0["level_" .. slot4 .. "Tgl_"], function (slot0)
+			if slot0 then
+				if uv0.heroList and #uv0.heroList > 0 then
 					return
 				end
 
-				arg_4_0:SetTimeLevel(iter_4_0)
+				uv0:SetTimeLevel(uv1)
 			end
 		end)
 	end
 end
 
-function var_0_0.SetTimeLevel(arg_13_0, arg_13_1)
-	local var_13_0
-	local var_13_1
+function slot0.SetTimeLevel(slot0, slot1)
+	slot2 = nil
+	slot0.timeLevel = (slot1 == nil or tostring(slot1) == "userdata: NULL" or type(slot1) ~= "number") and 1 or slot1
+	slot0["level_" .. slot0.timeLevel .. "Tgl_"].isOn = true
 
-	arg_13_0.timeLevel, var_13_1 = (arg_13_1 == nil or tostring(arg_13_1) == "userdata: NULL" or type(arg_13_1) ~= "number") and 1 or arg_13_1, BackHomeCanteenTaskCfg[arg_13_0.entrust.id]
-	arg_13_0["level_" .. arg_13_0.timeLevel .. "Tgl_"].isOn = true
+	slot0:RefreshRecommendAward(slot0.entrust.id, slot0.entrust.pos, slot0.timeLevel)
 
-	arg_13_0:RefreshRecommendAward(arg_13_0.entrust.id, arg_13_0.entrust.pos, arg_13_0.timeLevel)
+	slot0.tasktimeText_.text = DormTools:MinSwitchTime(BackHomeCanteenTaskCfg[slot0.entrust.id].time[slot0.timeLevel][1])
 
-	arg_13_0.tasktimeText_.text = DormTools:MinSwitchTime(var_13_1.time[arg_13_0.timeLevel][1])
-
-	CanteenEntrustData:SetTaskTimeLevel(arg_13_0.pos, arg_13_0.timeLevel)
+	CanteenEntrustData:SetTaskTimeLevel(slot0.pos, slot0.timeLevel)
 end
 
-function var_0_0.RefreshUI(arg_14_0, arg_14_1)
-	arg_14_0.pos = arg_14_1.pos
-	arg_14_0.entrust = arg_14_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.pos = slot1.pos
+	slot0.entrust = slot1
 
-	local var_14_0 = string.format("%s_%s", RedPointConst.CANTEEN_UNLOCK_ENTRUST, arg_14_0.pos)
-
-	if manager.redPoint:getTipBoolean(var_14_0) then
-		manager.redPoint:SetRedPointIndependent(arg_14_0.transform_, true)
+	if manager.redPoint:getTipBoolean(string.format("%s_%s", RedPointConst.CANTEEN_UNLOCK_ENTRUST, slot0.pos)) then
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, true)
 	else
-		manager.redPoint:SetRedPointIndependent(arg_14_0.transform_, false)
+		manager.redPoint:SetRedPointIndependent(slot0.transform_, false)
 	end
 
-	if arg_14_1.id < 0 then
-		local var_14_1 = GameSetting.dorm_canteen_task_unlock.value[arg_14_0.pos][2]
-		local var_14_2
-		local var_14_3
-		local var_14_4
+	if slot1.id < 0 then
+		slot4, slot5, slot6 = nil
 
-		if var_14_1 ~= 0 then
-			var_14_2, var_14_3, var_14_4 = IsConditionAchieved(var_14_1)
+		if GameSetting.dorm_canteen_task_unlock.value[slot0.pos][2] ~= 0 then
+			slot4, slot5, slot6 = IsConditionAchieved(slot3)
 		else
-			var_14_2 = true
+			slot4 = true
 		end
 
-		if var_14_2 then
-			arg_14_0.lockController:SetSelectedState("canUnlock")
+		if slot4 then
+			slot0.lockController:SetSelectedState("canUnlock")
 		else
-			arg_14_0.lockController:SetSelectedState("lock")
+			slot0.lockController:SetSelectedState("lock")
 
-			arg_14_0.conditionText_.text = string.format(GetTips("DORM_CANTEEN_TASK_UNLOCK_TIPS"), var_14_3, var_14_4)
+			slot0.conditionText_.text = string.format(GetTips("DORM_CANTEEN_TASK_UNLOCK_TIPS"), slot5, slot6)
 		end
 
 		return
 	end
 
-	arg_14_0.lockController:SetSelectedState("unlock")
+	slot0.lockController:SetSelectedState("unlock")
 
-	arg_14_0.type = 1
-	arg_14_0.refreshTime = CanteenEntrustData:GetEntrustList()[arg_14_0.pos].refresh_times
+	slot0.type = 1
+	slot0.refreshTime = CanteenEntrustData:GetEntrustList()[slot0.pos].refresh_times
+	slot3 = BackHomeCanteenTaskCfg[slot1.id]
+	slot0.ID = slot1.id
+	slot0.tasknameText_.text = GetI18NText(slot3.name)
+	slot0.characternumText_.text = slot3.need[2]
+	slot0.destextText_.text = GetI18NText(slot3.desc)
+	slot0.heroList = slot1.hero_list
 
-	local var_14_5 = BackHomeCanteenTaskCfg[arg_14_1.id]
-
-	arg_14_0.ID = arg_14_1.id
-	arg_14_0.tasknameText_.text = GetI18NText(var_14_5.name)
-	arg_14_0.characternumText_.text = var_14_5.need[2]
-	arg_14_0.destextText_.text = GetI18NText(var_14_5.desc)
-	arg_14_0.heroList = arg_14_1.hero_list
-
-	for iter_14_0 = 1, 3 do
-		arg_14_0["timeText" .. iter_14_0].text = BackHomeCanteenTaskCfg[arg_14_1.id].time[iter_14_0][1] / 60
-		arg_14_0["timeTextH" .. iter_14_0].text = string.format("  (%s)", GetTips("HOUR"))
+	for slot7 = 1, 3 do
+		slot0["timeText" .. slot7].text = BackHomeCanteenTaskCfg[slot1.id].time[slot7][1] / 60
+		slot0["timeTextH" .. slot7].text = string.format("  (%s)", GetTips("HOUR"))
 	end
 
-	if #arg_14_0.heroList > 0 then
-		arg_14_0.type = 2
+	if #slot0.heroList > 0 then
+		slot0.type = 2
 
-		arg_14_0.timeController:SetSelectedState("on")
+		slot0.timeController:SetSelectedState("on")
 
-		arg_14_0.timeText_.text = CanteenEntrustData:GetEntrustLastTime(arg_14_0.pos)
-		arg_14_0.statsDecText_.text = GetTips("CANTEEN_DISPATCHED_HERO")
-		arg_14_0.hastasknameText_.text = GetI18NText(var_14_5.name)
+		slot0.timeText_.text = CanteenEntrustData:GetEntrustLastTime(slot0.pos)
+		slot0.statsDecText_.text = GetTips("CANTEEN_DISPATCHED_HERO")
+		slot0.hastasknameText_.text = GetI18NText(slot3.name)
 
-		arg_14_0.workController:SetSelectedState("off")
-		arg_14_0:SetTimeLevel(arg_14_1.timeLevel)
+		slot0.workController:SetSelectedState("off")
+		slot0:SetTimeLevel(slot1.timeLevel)
 	else
-		arg_14_0.statsDecText_.text = GetTips("CANREEN_RECOMEND_HERO")
+		slot0.statsDecText_.text = GetTips("CANREEN_RECOMEND_HERO")
 
-		arg_14_0.timeController:SetSelectedState("off")
-		arg_14_0.workController:SetSelectedState("on")
+		slot0.timeController:SetSelectedState("off")
+		slot0.workController:SetSelectedState("on")
 
-		if not arg_14_0.timeLevel then
-			arg_14_0.timeLevel = CanteenEntrustData:GetTaskTimeLevel(arg_14_0.pos)
+		if not slot0.timeLevel then
+			slot0.timeLevel = CanteenEntrustData:GetTaskTimeLevel(slot0.pos)
 		end
 
-		arg_14_0:SetTimeLevel(arg_14_0.timeLevel)
+		slot0:SetTimeLevel(slot0.timeLevel)
 	end
 
-	arg_14_0.totalReText.text = "/" .. GameDisplayCfg.dorm_canteen_refresh_max.value[1]
-	arg_14_0.curReText.text = 1 - arg_14_0.refreshTime
+	slot0.totalReText.text = "/" .. GameDisplayCfg.dorm_canteen_refresh_max.value[1]
+	slot0.curReText.text = 1 - slot0.refreshTime
 
-	if arg_14_0.refreshTime > 0 then
-		arg_14_0.coolController:SetSelectedState("on")
+	if slot0.refreshTime > 0 then
+		slot0.coolController:SetSelectedState("on")
 	end
 
-	arg_14_0.levelController:SetSelectedState(var_14_5.task_level)
+	slot0.levelController:SetSelectedState(slot3.task_level)
 end
 
-function var_0_0.RefreshTimeMessage(arg_15_0)
-	if arg_15_0.type == 2 then
-		arg_15_0.timeText_.text = CanteenEntrustData:GetEntrustLastTime(arg_15_0.pos)
+function slot0.RefreshTimeMessage(slot0)
+	if slot0.type == 2 then
+		slot0.timeText_.text = CanteenEntrustData:GetEntrustLastTime(slot0.pos)
 
-		if CanteenEntrustData:GetEntrustLastTime(arg_15_0.pos) == 0 then
+		if CanteenEntrustData:GetEntrustLastTime(slot0.pos) == 0 then
 			manager.notify:Invoke(CANTEEN_DISPATCH_TIME_OVER)
 		end
 	end
 end
 
-function var_0_0.RefreshRecommendAward(arg_16_0, arg_16_1, arg_16_2, arg_16_3)
-	if arg_16_0.type == 1 then
-		arg_16_0.recommendRoleList_ = {}
+function slot0.RefreshRecommendAward(slot0, slot1, slot2, slot3)
+	if slot0.type == 1 then
+		slot0.recommendRoleList_ = {}
 
-		local var_16_0 = CanteenEntrustData:GetEntrustList()[arg_16_2]
-
-		for iter_16_0 = 1, #var_16_0.tags do
-			table.insert(arg_16_0.recommendRoleList_, var_16_0.tags[iter_16_0])
+		for slot8 = 1, #CanteenEntrustData:GetEntrustList()[slot2].tags do
+			table.insert(slot0.recommendRoleList_, slot4.tags[slot8])
 		end
 
-		arg_16_0.roleuilistScroll_:StartScroll(#arg_16_0.recommendRoleList_)
-	elseif arg_16_0.type == 2 then
-		arg_16_0.recommendRoleList_ = arg_16_0.heroList
+		slot0.roleuilistScroll_:StartScroll(#slot0.recommendRoleList_)
+	elseif slot0.type == 2 then
+		slot0.recommendRoleList_ = slot0.heroList
 
-		arg_16_0.roleuilistScroll_:StartScroll(#arg_16_0.recommendRoleList_)
+		slot0.roleuilistScroll_:StartScroll(#slot0.recommendRoleList_)
 	end
 
-	arg_16_0.roleuilistUilist_:GetComponent("ScrollRectEx").horizontal = false
-	arg_16_0.award_list = {}
+	slot0.roleuilistUilist_:GetComponent("ScrollRectEx").horizontal = false
+	slot0.award_list = {}
 
-	local var_16_1 = BackHomeCanteenTaskCfg[arg_16_1].time[arg_16_3][2] / 100
-
-	for iter_16_1 = 1, #BackHomeCanteenTaskCfg[arg_16_1].reward_list do
-		local var_16_2 = {
-			id = BackHomeCanteenTaskCfg[arg_16_1].reward_list[iter_16_1][1],
-			number = math.floor(BackHomeCanteenTaskCfg[arg_16_1].reward_list[iter_16_1][2] * var_16_1),
-			clickFun = function(arg_17_0)
+	for slot8 = 1, #BackHomeCanteenTaskCfg[slot1].reward_list do
+		table.insert(slot0.award_list, {
+			id = BackHomeCanteenTaskCfg[slot1].reward_list[slot8][1],
+			number = math.floor(BackHomeCanteenTaskCfg[slot1].reward_list[slot8][2] * BackHomeCanteenTaskCfg[slot1].time[slot3][2] / 100),
+			clickFun = function (slot0)
 				ShowPopItem(POP_ITEM, {
-					arg_17_0.id
+					slot0.id
 				})
 			end
-		}
-
-		table.insert(arg_16_0.award_list, var_16_2)
+		})
 	end
 
-	if arg_16_0.oldID ~= arg_16_1 or arg_16_0.oldTimeLevel ~= arg_16_3 then
-		arg_16_0.awarduilistScroll_:StartScroll(#arg_16_0.award_list)
+	if slot0.oldID ~= slot1 or slot0.oldTimeLevel ~= slot3 then
+		slot0.awarduilistScroll_:StartScroll(#slot0.award_list)
 
-		arg_16_0.oldID = arg_16_1
-		arg_16_0.oldTimeLevel = arg_16_3
+		slot0.oldID = slot1
+		slot0.oldTimeLevel = slot3
 	end
 end
 
-function var_0_0.RegisterConfirmCallBack(arg_18_0, arg_18_1)
-	if arg_18_1 then
-		arg_18_0.confirmCallBack = arg_18_1
+function slot0.RegisterConfirmCallBack(slot0, slot1)
+	if slot1 then
+		slot0.confirmCallBack = slot1
 	end
 end
 
-function var_0_0.RegisterCancelCallBack(arg_19_0, arg_19_1)
-	if arg_19_1 then
-		arg_19_0.cancelCallBack = arg_19_1
+function slot0.RegisterCancelCallBack(slot0, slot1)
+	if slot1 then
+		slot0.cancelCallBack = slot1
 	end
 end
 
-function var_0_0.RegisterRefreshCallBack(arg_20_0, arg_20_1)
-	if arg_20_1 then
-		arg_20_0.refreshCallBack = arg_20_1
+function slot0.RegisterRefreshCallBack(slot0, slot1)
+	if slot1 then
+		slot0.refreshCallBack = slot1
 	end
 end
 
-function var_0_0.indexRecommendRoleItem(arg_21_0, arg_21_1, arg_21_2)
-	arg_21_2:RefreshUI(arg_21_0.recommendRoleList_[arg_21_1], arg_21_0.type)
+function slot0.indexRecommendRoleItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.recommendRoleList_[slot1], slot0.type)
 end
 
-function var_0_0.indexAwardItem(arg_22_0, arg_22_1, arg_22_2)
-	arg_22_2:SetData(arg_22_0.award_list[arg_22_1], arg_22_0.type)
+function slot0.indexAwardItem(slot0, slot1, slot2)
+	slot2:SetData(slot0.award_list[slot1], slot0.type)
 end
 
-function var_0_0.Dispose(arg_23_0)
-	arg_23_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	if arg_23_0.roleuilistScroll_ then
-		arg_23_0.roleuilistScroll_:Dispose()
+	if slot0.roleuilistScroll_ then
+		slot0.roleuilistScroll_:Dispose()
 	end
 
-	if arg_23_0.awarduilistScroll_ then
-		arg_23_0.awarduilistScroll_:Dispose()
+	if slot0.awarduilistScroll_ then
+		slot0.awarduilistScroll_:Dispose()
 	end
 
-	var_0_0.super.Dispose(arg_23_0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

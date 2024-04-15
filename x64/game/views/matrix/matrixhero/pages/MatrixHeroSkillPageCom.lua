@@ -1,35 +1,32 @@
-local var_0_0 = class("MatrixHeroSkillPageCom", MatrixHeroSkillPage)
+slot0 = class("MatrixHeroSkillPageCom", MatrixHeroSkillPage)
 
-function var_0_0.AddUIListener(arg_1_0)
-	for iter_1_0 = 1, 6 do
-		arg_1_0.skillItem_[iter_1_0]:RegistCallBack(function(arg_2_0)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, 6 do
+		slot0.skillItem_[slot4]:RegistCallBack(function (slot0)
 			JumpTools.OpenPageByJump("matrixSkillUpgrade", {
-				skillId = arg_2_0.id,
-				heroId = arg_2_0.heroId,
-				standardId = arg_1_0.standardId_,
-				servantId = arg_2_0.servantId,
-				lv = arg_2_0.lv
+				skillId = slot0.id,
+				heroId = slot0.heroId,
+				standardId = uv0.standardId_,
+				servantId = slot0.servantId,
+				lv = slot0.lv
 			})
 		end)
 	end
 
-	arg_1_0:AddBtnListener(arg_1_0.buttonComboSkill_, nil, function()
+	slot0:AddBtnListener(slot0.buttonComboSkill_, nil, function ()
 		JumpTools.OpenPageByJump("comboSkillInfo", {
-			heroID = arg_1_0.heroInfo_.id
+			heroID = uv0.heroInfo_.id
 		})
 	end)
 end
 
-function var_0_0.SetMatirxHeroInfo(arg_4_0, arg_4_1)
-	arg_4_0.standardId_ = arg_4_1
-	arg_4_0.heroId_ = HeroStandardSystemCfg[arg_4_1].hero_id
+function slot0.SetMatirxHeroInfo(slot0, slot1)
+	slot0.standardId_ = slot1
+	slot0.heroId_ = HeroStandardSystemCfg[slot1].hero_id
+	slot0.heroInfo_, slot4 = GetVirtualData(slot1)
+	slot0.heroInfo_.servantId = 0
 
-	local var_4_0, var_4_1 = GetVirtualData(arg_4_1)
-
-	arg_4_0.heroInfo_ = var_4_0
-	arg_4_0.heroInfo_.servantId = 0
-
-	arg_4_0:UpdateView()
+	slot0:UpdateView()
 end
 
-return var_0_0
+return slot0

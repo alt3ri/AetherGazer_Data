@@ -1,16 +1,16 @@
-local var_0_0 = class("MatrixProcessShopItem", ReduxView)
+slot0 = class("MatrixProcessShopItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:initUI()
-	arg_1_0:AddUIListener()
+	slot0:initUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.AddUIListener(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.m_priceBtn, nil, function()
-		if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN) < arg_2_0.priceNum then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.m_priceBtn, nil, function ()
+		if ItemTools.getItemNum(CurrencyConst.CURRENCY_TYPE_MATRIX_COIN) < uv0.priceNum then
 			ShowTips("LACK_CURRENCY")
 
 			return
@@ -19,130 +19,120 @@ function var_0_0.AddUIListener(arg_2_0)
 		ShowMessageBox({
 			title = GetTips("PROMPT"),
 			content = GetTips("MATRIX_SHOP_BUY_CONFIRM"),
-			OkCallback = function()
-				arg_2_0:OnRewardAction()
+			OkCallback = function ()
+				uv0:OnRewardAction()
 			end,
-			CancelCallback = function()
-				return
+			CancelCallback = function ()
 			end
 		})
 	end)
 end
 
-function var_0_0.initUI(arg_6_0)
-	arg_6_0:BindCfgUI()
+function slot0.initUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_6_0.rewardItem = MatrixProcessRewardItem.New(arg_6_0.m_reward)
-	arg_6_0.discountController = ControllerUtil.GetController(arg_6_0.transform_, "discount")
+	slot0.rewardItem = MatrixProcessRewardItem.New(slot0.m_reward)
+	slot0.discountController = ControllerUtil.GetController(slot0.transform_, "discount")
 end
 
-function var_0_0.Refresh(arg_7_0, arg_7_1)
-	arg_7_0.id = arg_7_1.id
-	arg_7_0.shopIndex = arg_7_1.index
-	arg_7_0.discount = arg_7_1.discount
-	arg_7_0.priceId = arg_7_1.priceId
-	arg_7_0.priceNum = arg_7_1.priceNum
-	arg_7_0.m_priceIcon.sprite = ItemTools.getItemLittleSprite(arg_7_0:GetSwitchItemIcon(arg_7_0.priceId))
-	arg_7_0.m_priceText.text = arg_7_1.priceNum
+function slot0.Refresh(slot0, slot1)
+	slot0.id = slot1.id
+	slot0.shopIndex = slot1.index
+	slot0.discount = slot1.discount
+	slot0.priceId = slot1.priceId
+	slot0.priceNum = slot1.priceNum
+	slot0.m_priceIcon.sprite = ItemTools.getItemLittleSprite(slot0:GetSwitchItemIcon(slot0.priceId))
+	slot0.m_priceText.text = slot1.priceNum
 
-	if arg_7_1.discount ~= 1 then
-		arg_7_0.m_originalText.text = arg_7_1.priceOriginal
+	if slot1.discount ~= 1 then
+		slot0.m_originalText.text = slot1.priceOriginal
 
-		arg_7_0.discountController:SetSelectedIndex(1)
+		slot0.discountController:SetSelectedIndex(1)
 	else
-		arg_7_0.discountController:SetSelectedIndex(0)
+		slot0.discountController:SetSelectedIndex(0)
 	end
 
-	arg_7_0.rewardItem:Refresh(arg_7_0.id)
+	slot0.rewardItem:Refresh(slot0.id)
 
-	arg_7_0.rewardItem.selected_ = true
+	slot0.rewardItem.selected_ = true
 
-	arg_7_0.rewardItem:UpdateAstrolabePreview()
+	slot0.rewardItem:UpdateAstrolabePreview()
 end
 
-function var_0_0.OnRewardAction(arg_8_0)
-	local var_8_0 = arg_8_0.id
-	local var_8_1 = MatrixItemCfg[var_8_0]
-
-	if not var_8_1 then
-		print("MatrixItemCfg cant find item by id :" .. var_8_0)
+function slot0.OnRewardAction(slot0)
+	if not MatrixItemCfg[slot0.id] then
+		print("MatrixItemCfg cant find item by id :" .. slot1)
 
 		return
 	end
 
-	local var_8_2 = var_8_1.matrix_item_type
+	if MatrixConst.ITEM_TYPE.ASTROLABE == slot2.matrix_item_type then
+		slot5 = slot0:GetHeroData(math.floor(slot2.params[1] / 1000))
+		slot6 = slot5:GetAstrolabeList()
 
-	if MatrixConst.ITEM_TYPE.ASTROLABE == var_8_2 then
-		local var_8_3 = math.floor(var_8_1.params[1] / 1000)
-		local var_8_4 = arg_8_0:GetHeroData(var_8_3)
-		local var_8_5 = var_8_4:GetAstrolabeList()
-
-		if var_8_4:GetAstrolabeNum(var_8_1.params[1]) >= 3 then
+		if slot5:GetAstrolabeNum(slot2.params[1]) >= 3 then
 			ShowTips(GetTips("MATRIX_NOT_GET_ASTROLABEL"))
 
 			return
 		end
 
-		if arg_8_0:GetAstrolabeMaxCount() <= #var_8_5 then
+		if slot0:GetAstrolabeMaxCount() <= #slot6 then
 			JumpTools.OpenPageByJump("matrixProcessAstrolabeReplace", {
-				heroId = var_8_3,
-				astrolabeId = var_8_0,
-				callback = function(arg_9_0)
-					MatrixAction.BuyShopItem(arg_8_0.shopIndex, var_8_4:GetStandardId(), arg_9_0)
+				heroId = slot4,
+				astrolabeId = slot1,
+				callback = function (slot0)
+					MatrixAction.BuyShopItem(uv0.shopIndex, uv1:GetStandardId(), slot0)
 				end
 			})
 		else
-			MatrixAction.BuyShopItem(arg_8_0.shopIndex, var_8_4:GetStandardId(), 0)
+			MatrixAction.BuyShopItem(slot0.shopIndex, slot5:GetStandardId(), 0)
 		end
-	elseif MatrixConst.ITEM_TYPE.EQUIP == var_8_2 then
-		JumpTools.OpenPageByJump("matrixProcessShopSelectHero", {
-			index = arg_8_0.shopIndex,
-			id = var_8_0
-		})
-	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == var_8_2 then
-		local var_8_6 = MatrixTools.GetWeaponSpecHero(var_8_1.params[1])
 
-		if var_8_6 == 0 then
+		return
+	end
+
+	if MatrixConst.ITEM_TYPE.EQUIP == slot3 then
+		JumpTools.OpenPageByJump("matrixProcessShopSelectHero", {
+			index = slot0.shopIndex,
+			id = slot1
+		})
+	elseif MatrixConst.ITEM_TYPE.WEAPON_SERVANT == slot3 then
+		if MatrixTools.GetWeaponSpecHero(slot2.params[1]) == 0 then
 			JumpTools.OpenPageByJump("matrixProcessShopSelectHero", {
-				index = arg_8_0.shopIndex,
-				id = var_8_0
+				index = slot0.shopIndex,
+				id = slot1
+			})
+		elseif slot0:GetHeroData(slot4):GetWeaponServant() ~= 0 then
+			JumpTools.OpenPageByJump("matrixProcessWeaponReplace", {
+				heroId = slot4,
+				weaponId = slot1,
+				callback = function ()
+					MatrixAction.BuyShopItem(uv0.shopIndex, uv1:GetStandardId(), uv2)
+				end
 			})
 		else
-			local var_8_7 = arg_8_0:GetHeroData(var_8_6)
-			local var_8_8 = var_8_7:GetWeaponServant()
-
-			if var_8_8 ~= 0 then
-				JumpTools.OpenPageByJump("matrixProcessWeaponReplace", {
-					heroId = var_8_6,
-					weaponId = var_8_0,
-					callback = function()
-						MatrixAction.BuyShopItem(arg_8_0.shopIndex, var_8_7:GetStandardId(), var_8_8)
-					end
-				})
-			else
-				MatrixAction.BuyShopItem(arg_8_0.shopIndex, var_8_7:GetStandardId(), 0)
-			end
+			MatrixAction.BuyShopItem(slot0.shopIndex, slot5:GetStandardId(), 0)
 		end
 	else
-		MatrixAction.BuyShopItem(arg_8_0.shopIndex, 0, 0)
+		MatrixAction.BuyShopItem(slot0.shopIndex, 0, 0)
 	end
 end
 
-function var_0_0.Dispose(arg_11_0)
-	arg_11_0.rewardItem:Dispose()
-	var_0_0.super.Dispose(arg_11_0)
+function slot0.Dispose(slot0)
+	slot0.rewardItem:Dispose()
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.GetHeroData(arg_12_0, arg_12_1)
-	return MatrixData:GetHeroData(arg_12_1)
+function slot0.GetHeroData(slot0, slot1)
+	return MatrixData:GetHeroData(slot1)
 end
 
-function var_0_0.GetAstrolabeMaxCount(arg_13_0)
+function slot0.GetAstrolabeMaxCount(slot0)
 	return MatrixData:GetAstrolabeMaxCount()
 end
 
-function var_0_0.GetSwitchItemIcon(arg_14_0, arg_14_1)
-	return arg_14_1
+function slot0.GetSwitchItemIcon(slot0, slot1)
+	return slot1
 end
 
-return var_0_0
+return slot0

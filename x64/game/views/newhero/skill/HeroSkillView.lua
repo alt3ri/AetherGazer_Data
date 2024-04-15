@@ -1,286 +1,272 @@
-local var_0_0 = class("HeroSkillView", ReduxView)
-
-var_0_0.skillAdditionType = {
+slot0 = class("HeroSkillView", ReduxView)
+slot0.skillAdditionType = {
 	astrolabe = 3,
 	weaponModule = 2,
 	attribute = 4,
 	weaponServant = 1
 }
-
-local var_0_1 = {
+slot1 = {
 	PROPERTY = 2,
 	SKILL = 1
 }
-local var_0_2 = {
-	[var_0_1.SKILL] = "skill",
-	[var_0_1.PROPERTY] = "property"
+slot2 = {
+	[slot1.SKILL] = "skill",
+	[slot1.PROPERTY] = "property"
 }
-local var_0_3 = 6
-local var_0_4 = 1.2
-local var_0_5 = 0.333
+slot3 = 6
+slot4 = 1.2
+slot5 = 0.333
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.parent = arg_1_1
-	arg_1_0.gameObject_ = arg_1_2
-	arg_1_0.transform_ = arg_1_2.transform
+function slot0.OnCtor(slot0, slot1, slot2)
+	slot0.parent = slot1
+	slot0.gameObject_ = slot2
+	slot0.transform_ = slot2.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.skillItemList = {}
+	slot0.skillItemList = {}
 
-	for iter_3_0 = 1, var_0_3 do
-		local var_3_0 = arg_3_0["skillitem" .. iter_3_0 .. "Go_"]
-
-		arg_3_0.skillItemList[iter_3_0] = HeroSkillViewItem.New(arg_3_0, var_3_0)
+	for slot4 = 1, uv0 do
+		slot0.skillItemList[slot4] = HeroSkillViewItem.New(slot0, slot0["skillitem" .. slot4 .. "Go_"])
 	end
 
-	arg_3_0.heroSkillInfo_ = HeroSkillInfoView.New(arg_3_0, arg_3_0.skillnodeGo_)
-	arg_3_0.heroSkillProperty_ = HeroSkillPropertyView.New(arg_3_0, arg_3_0.propertynodeGo_)
-	arg_3_0.showStateController_ = arg_3_0.controllerexcollection_:GetController("showState")
-	arg_3_0.previewController_ = arg_3_0.controllerexcollection_:GetController("preview")
+	slot0.heroSkillInfo_ = HeroSkillInfoView.New(slot0, slot0.skillnodeGo_)
+	slot0.heroSkillProperty_ = HeroSkillPropertyView.New(slot0, slot0.propertynodeGo_)
+	slot0.showStateController_ = slot0.controllerexcollection_:GetController("showState")
+	slot0.previewController_ = slot0.controllerexcollection_:GetController("preview")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	for iter_4_0 = 1, var_0_3 do
-		arg_4_0.skillItemList[iter_4_0]:RegistCallBack(function(arg_5_0)
-			arg_4_0:OnClickSkillItem(iter_4_0, arg_5_0)
+function slot0.AddUIListener(slot0)
+	for slot4 = 1, uv0 do
+		slot0.skillItemList[slot4]:RegistCallBack(function (slot0)
+			uv0:OnClickSkillItem(uv1, slot0)
 		end)
 	end
 
-	arg_4_0:AddBtnListener(arg_4_0.comboskillBtn_, nil, function()
+	slot0:AddBtnListener(slot0.comboskillBtn_, nil, function ()
 		manager.windowBar:HideBar()
 		JumpTools.OpenPageByJump("comboSkillInfo", {
-			heroID = arg_4_0.heroInfo.id
+			heroID = uv0.heroInfo.id
 		})
 	end)
 end
 
-function var_0_0.OnClickSkillItem(arg_7_0, arg_7_1, arg_7_2)
-	if arg_7_0.selectSkillId == arg_7_2.id then
+function slot0.OnClickSkillItem(slot0, slot1, slot2)
+	if slot0.selectSkillId == slot2.id then
 		return
 	end
 
-	arg_7_0.selectSkillId = arg_7_2.id
-	arg_7_0.selectIndex = arg_7_1
-	arg_7_0.params.skillId = arg_7_0.selectSkillId
+	slot0.selectSkillId = slot2.id
+	slot0.selectIndex = slot1
+	slot0.params.skillId = slot0.selectSkillId
 
-	arg_7_0:RefreshSelectSkill(arg_7_2.id, true)
+	slot0:RefreshSelectSkill(slot2.id, true)
 end
 
-function var_0_0.UpdateRedState(arg_8_0)
-	if not arg_8_0:CheckIsSelf() then
+function slot0.UpdateRedState(slot0)
+	if not slot0:CheckIsSelf() then
 		manager.redPoint:setRedPoint({
-			display = arg_8_0.parent.skillBtn_.transform
+			display = slot0.parent.skillBtn_.transform
 		}, false)
 		manager.redPoint:setRedPoint({
-			display = arg_8_0.parent.propertyBtn_.transform
+			display = slot0.parent.propertyBtn_.transform
 		}, false)
 
 		return
 	end
 
-	local var_8_0 = arg_8_0.skillList[arg_8_0.selectIndex]
-	local var_8_1 = var_8_0 and var_8_0.isCanStarUp or false
-	local var_8_2 = var_8_0 and var_8_0.isCanAttrUp or false
-
 	manager.redPoint:setRedPoint({
-		display = arg_8_0.parent.skillBtn_.transform
-	}, var_8_1)
+		display = slot0.parent.skillBtn_.transform
+	}, slot0.skillList[slot0.selectIndex] and slot1.isCanStarUp or false)
 	manager.redPoint:setRedPoint({
-		display = arg_8_0.parent.propertyBtn_.transform
-	}, var_8_2)
+		display = slot0.parent.propertyBtn_.transform
+	}, slot1 and slot1.isCanAttrUp or false)
 end
 
-function var_0_0.CheckIsSelf(arg_9_0)
-	arg_9_0.heroViewDataProxy = arg_9_0.params.proxy
+function slot0.CheckIsSelf(slot0)
+	slot0.heroViewDataProxy = slot0.params.proxy
 
-	if arg_9_0.heroViewDataProxy and arg_9_0.heroViewDataProxy:CheckIsSelf() then
+	if slot0.heroViewDataProxy and slot0.heroViewDataProxy:CheckIsSelf() then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.RefreshSelectSkill(arg_10_0, arg_10_1, arg_10_2)
-	arg_10_0.parent:NotHaveAttrShow(arg_10_0:isNotHaveAttrSkill(arg_10_1))
-	arg_10_0:RefreshSkillList()
-	arg_10_0:RefreshSkillInfo(arg_10_2)
-	arg_10_0:RefreshPropertyInfo(arg_10_2)
+function slot0.RefreshSelectSkill(slot0, slot1, slot2)
+	slot0.parent:NotHaveAttrShow(slot0:isNotHaveAttrSkill(slot1))
+	slot0:RefreshSkillList()
+	slot0:RefreshSkillInfo(slot2)
+	slot0:RefreshPropertyInfo(slot2)
 end
 
-function var_0_0.isNotHaveAttrSkill(arg_11_0, arg_11_1)
-	local var_11_0 = SkillTools.GetSkillIdIndex(arg_11_1)
-	local var_11_1 = SkillTools.GetSkillAttrCfg(arg_11_0.heroId, var_11_0, 2)
-
-	if not var_11_1 or not next(var_11_1) or not next(var_11_1.attr) then
+function slot0.isNotHaveAttrSkill(slot0, slot1)
+	if not SkillTools.GetSkillAttrCfg(slot0.heroId, SkillTools.GetSkillIdIndex(slot1), 2) or not next(slot3) or not next(slot3.attr) then
 		return true
 	end
 
 	return false
 end
 
-function var_0_0.OnEnter(arg_12_0, arg_12_1)
-	SetActive(arg_12_0.gameObject_, true)
+function slot0.OnEnter(slot0, slot1)
+	SetActive(slot0.gameObject_, true)
 
-	arg_12_0.params = arg_12_1
-	arg_12_0.isGoHeroMain = false
-	arg_12_0.skillAni_.enabled = true
+	slot0.params = slot1
+	slot0.isGoHeroMain = false
+	slot0.skillAni_.enabled = true
 
-	arg_12_0:InitData()
-	arg_12_0:InitViewCallback()
-	arg_12_0.heroSkillInfo_:OnEnter(arg_12_0.params.proxy)
-	arg_12_0.heroSkillProperty_:OnEnter(arg_12_0.params.proxy)
+	slot0:InitData()
+	slot0:InitViewCallback()
+	slot0.heroSkillInfo_:OnEnter(slot0.params.proxy)
 
-	for iter_12_0 = 1, 6 do
-		arg_12_0.skillItemList[iter_12_0]:SetProxy(arg_12_0.params.proxy)
+	slot5 = slot0.params.proxy
+
+	slot0.heroSkillProperty_:OnEnter(slot5)
+
+	for slot5 = 1, 6 do
+		slot0.skillItemList[slot5]:SetProxy(slot0.params.proxy)
 	end
 
-	arg_12_0:RefreshSelectSkill(arg_12_0.selectSkillId)
-	arg_12_0.previewController_:SetSelectedState(tostring(arg_12_0.heroViewDataProxy:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
+	slot0:RefreshSelectSkill(slot0.selectSkillId)
+	slot0.previewController_:SetSelectedState(tostring(slot0.heroViewDataProxy:GetViewDataType() == HeroConst.HERO_DATA_TYPE.PREVIEW))
 end
 
-function var_0_0.InitData(arg_13_0)
-	arg_13_0.selectSkillId = arg_13_0.selectSkillId or arg_13_0.params.skillId
-	arg_13_0.heroInfo = arg_13_0.params.heroInfo
-	arg_13_0.heroId = arg_13_0.heroInfo and arg_13_0.heroInfo.id or nil
-	arg_13_0.aniEndPos = arg_13_0.params.aniEndPos
-	arg_13_0.heroViewDataProxy = arg_13_0.params.proxy
-	arg_13_0.skillList = arg_13_0.heroViewDataProxy:GetHeroSkillInfo(arg_13_0.heroId)
-	arg_13_0.selectIndex = 1
+function slot0.InitData(slot0)
+	slot0.selectSkillId = slot0.selectSkillId or slot0.params.skillId
+	slot0.heroInfo = slot0.params.heroInfo
+	slot0.heroId = slot0.heroInfo and slot0.heroInfo.id or nil
+	slot0.aniEndPos = slot0.params.aniEndPos
+	slot0.heroViewDataProxy = slot0.params.proxy
+	slot0.skillList = slot0.heroViewDataProxy:GetHeroSkillInfo(slot0.heroId)
+	slot0.selectIndex = 1
 
-	for iter_13_0, iter_13_1 in pairs(arg_13_0.skillList) do
-		if iter_13_1.id == arg_13_0.selectSkillId then
-			arg_13_0.selectIndex = iter_13_0
+	for slot4, slot5 in pairs(slot0.skillList) do
+		if slot5.id == slot0.selectSkillId then
+			slot0.selectIndex = slot4
 
 			break
 		end
 	end
 
-	for iter_13_2 = 1, var_0_3 do
-		arg_13_0.skillItemList[iter_13_2]:SetProxy(arg_13_0.heroViewDataProxy)
+	for slot4 = 1, uv0 do
+		slot0.skillItemList[slot4]:SetProxy(slot0.heroViewDataProxy)
 	end
 end
 
-function var_0_0.InitViewCallback(arg_14_0)
-	arg_14_0.heroSkillInfo_:SetTempRefreshCallback(function(arg_15_0, arg_15_1, arg_15_2)
-		arg_14_0:TempSkillUpgrade(arg_15_0, arg_15_1, arg_15_2)
+function slot0.InitViewCallback(slot0)
+	slot0.heroSkillInfo_:SetTempRefreshCallback(function (slot0, slot1, slot2)
+		uv0:TempSkillUpgrade(slot0, slot1, slot2)
 	end)
 end
 
-function var_0_0.ChangeTabShow(arg_16_0, arg_16_1)
-	arg_16_0.showStateController_:SetSelectedState(var_0_2[arg_16_1])
-	arg_16_0:RefreshSkillList()
+function slot0.ChangeTabShow(slot0, slot1)
+	slot0.showStateController_:SetSelectedState(uv0[slot1])
+	slot0:RefreshSkillList()
 end
 
-function var_0_0.OnHeroSkillAttrUpgradeInView(arg_17_0, arg_17_1, arg_17_2)
-	arg_17_0:RefreshSkillData()
-	arg_17_0.heroSkillProperty_:OnHeroSkillAttrUpgradeInView(arg_17_1, arg_17_2)
-	arg_17_0.heroSkillInfo_:UpdateTargetCondition(4)
+function slot0.OnHeroSkillAttrUpgradeInView(slot0, slot1, slot2)
+	slot0:RefreshSkillData()
+	slot0.heroSkillProperty_:OnHeroSkillAttrUpgradeInView(slot1, slot2)
+	slot0.heroSkillInfo_:UpdateTargetCondition(4)
 end
 
-function var_0_0.OnHeroSkillUpgrade(arg_18_0, arg_18_1, arg_18_2)
-	arg_18_0:RefreshSkillData()
-	arg_18_0.heroSkillInfo_:OnHeroSkillUpgrade(arg_18_1, arg_18_2)
-	arg_18_0.heroSkillProperty_:RefreshUi()
+function slot0.OnHeroSkillUpgrade(slot0, slot1, slot2)
+	slot0:RefreshSkillData()
+	slot0.heroSkillInfo_:OnHeroSkillUpgrade(slot1, slot2)
+	slot0.heroSkillProperty_:RefreshUi()
 end
 
-function var_0_0.TempSkillUpgrade(arg_19_0, arg_19_1, arg_19_2, arg_19_3)
-	for iter_19_0, iter_19_1 in pairs(arg_19_0.skillList) do
-		if arg_19_1 == iter_19_1.id then
-			arg_19_0.skillList[iter_19_0].tempAddLevel = arg_19_2
+function slot0.TempSkillUpgrade(slot0, slot1, slot2, slot3)
+	for slot7, slot8 in pairs(slot0.skillList) do
+		if slot1 == slot8.id then
+			slot0.skillList[slot7].tempAddLevel = slot2
 		end
 
-		iter_19_1.isCanStarUp = SkillTools.GetIsCanUp(iter_19_1.id, iter_19_1.lv + (iter_19_1.tempAddLevel or 0), arg_19_3)
+		slot8.isCanStarUp = SkillTools.GetIsCanUp(slot8.id, slot8.lv + (slot8.tempAddLevel or 0), slot3)
 	end
 
-	arg_19_0:RefreshSkillList()
+	slot0:RefreshSkillList()
 
-	for iter_19_2, iter_19_3 in pairs(arg_19_0.skillList) do
-		if arg_19_1 == iter_19_3.id then
-			arg_19_0.skillList[iter_19_2].tempAddLevel = 0
+	for slot7, slot8 in pairs(slot0.skillList) do
+		if slot1 == slot8.id then
+			slot0.skillList[slot7].tempAddLevel = 0
 		end
 	end
 end
 
-function var_0_0.RefreshSkillData(arg_20_0)
-	arg_20_0.skillList = arg_20_0.heroViewDataProxy:GetHeroSkillInfo(arg_20_0.heroId)
+function slot0.RefreshSkillData(slot0)
+	slot0.skillList = slot0.heroViewDataProxy:GetHeroSkillInfo(slot0.heroId)
 
-	arg_20_0:RefreshSkillList()
+	slot0:RefreshSkillList()
 end
 
-function var_0_0.RefreshSkillList(arg_21_0)
-	if arg_21_0.skillList then
-		for iter_21_0 = 1, var_0_3 do
-			arg_21_0.skillItemList[iter_21_0]:RefreshData(arg_21_0.skillList[iter_21_0], arg_21_0.parent:GetSelectTabType())
+function slot0.RefreshSkillList(slot0)
+	if slot0.skillList then
+		for slot4 = 1, uv0 do
+			slot0.skillItemList[slot4]:RefreshData(slot0.skillList[slot4], slot0.parent:GetSelectTabType())
 		end
 	end
 
-	arg_21_0:UpdateRedState()
+	slot0:UpdateRedState()
 end
 
-function var_0_0.RefreshSkillInfo(arg_22_0, arg_22_1)
-	arg_22_0.heroSkillInfo_:UpdateSkillData(arg_22_0.skillList[arg_22_0.selectIndex], arg_22_1)
+function slot0.RefreshSkillInfo(slot0, slot1)
+	slot0.heroSkillInfo_:UpdateSkillData(slot0.skillList[slot0.selectIndex], slot1)
 end
 
-function var_0_0.RefreshPropertyInfo(arg_23_0, arg_23_1)
-	arg_23_0.heroSkillProperty_:UpdatePropertyData(arg_23_0.skillList[arg_23_0.selectIndex], arg_23_1)
+function slot0.RefreshPropertyInfo(slot0, slot1)
+	slot0.heroSkillProperty_:UpdatePropertyData(slot0.skillList[slot0.selectIndex], slot1)
 end
 
-function var_0_0.GetPlayBackwardsAnimator(arg_24_0)
-	if not arg_24_0.isGoHeroMain then
+function slot0.GetPlayBackwardsAnimator(slot0)
+	if not slot0.isGoHeroMain then
 		return {}, nil
 	end
 
-	local var_24_0
+	slot1 = nil
 
-	if arg_24_0.parent:isPropertyView() then
-		var_24_0 = {
-			{
-				arg_24_0.propertynodeAni_,
-				"Fx_Common_right_cx_out 1",
-				false
-			}
+	return (not slot0.parent:isPropertyView() or {
+		{
+			slot0.propertynodeAni_,
+			"Fx_Common_right_cx_out 1",
+			false
 		}
-	else
-		var_24_0 = {
-			{
-				arg_24_0.skillnodeAni_,
-				"Fx_Common_right_cx_out 1",
-				false
-			}
+	}) and {
+		{
+			slot0.skillnodeAni_,
+			"Fx_Common_right_cx_out 1",
+			false
 		}
-	end
-
-	return var_24_0, handler(arg_24_0, arg_24_0.PlayBackwardsAnimatorFun)
+	}, handler(slot0, slot0.PlayBackwardsAnimatorFun)
 end
 
-function var_0_0.PlayBackwardsAnimatorFun(arg_25_0)
+function slot0.PlayBackwardsAnimatorFun(slot0)
 	manager.heroRaiseTrack:SetViewState(HeroRaiseTrackConst.ViewType.heroRaiseCommon, {
 		2,
 		0
 	}, false)
-	arg_25_0:PlayBackAniEffect()
-	arg_25_0.skillItemList[arg_25_0.selectIndex]:UpdateSelectState(false)
+	slot0:PlayBackAniEffect()
+	slot0.skillItemList[slot0.selectIndex]:UpdateSelectState(false)
 end
 
-function var_0_0.OnExit(arg_26_0)
-	arg_26_0.selectSkillId = nil
+function slot0.OnExit(slot0)
+	slot0.selectSkillId = nil
 
-	SetActive(arg_26_0.gameObject_, false)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.OnTop(arg_27_0)
-	manager.windowBar:RegistBackCallBack(function()
-		arg_27_0.isGoHeroMain = true
+function slot0.OnTop(slot0)
+	manager.windowBar:RegistBackCallBack(function ()
+		uv0.isGoHeroMain = true
 
 		JumpTools.Back(nil, {
 			isSkillReturn = true
@@ -288,81 +274,76 @@ function var_0_0.OnTop(arg_27_0)
 	end)
 end
 
-function var_0_0.Dispose(arg_29_0)
-	if arg_29_0.exitTimer then
-		arg_29_0.exitTimer:Stop()
+function slot0.Dispose(slot0)
+	if slot0.exitTimer then
+		slot0.exitTimer:Stop()
 
-		arg_29_0.exitTimer = nil
+		slot0.exitTimer = nil
 	end
 
-	if arg_29_0.skillCxTimer then
-		arg_29_0.skillCxTimer:Stop()
+	if slot0.skillCxTimer then
+		slot0.skillCxTimer:Stop()
 
-		arg_29_0.skillCxTimer = nil
+		slot0.skillCxTimer = nil
 	end
 
-	if arg_29_0.backTween then
-		LeanTween.cancel(arg_29_0.backTween.id)
+	if slot0.backTween then
+		LeanTween.cancel(slot0.backTween.id)
 
-		arg_29_0.backTween = nil
+		slot0.backTween = nil
 	end
 
-	for iter_29_0 = 1, var_0_3 do
-		arg_29_0.skillItemList[iter_29_0]:Dispose()
+	for slot4 = 1, uv0 do
+		slot0.skillItemList[slot4]:Dispose()
 	end
 
-	arg_29_0.heroSkillInfo_:Dispose()
-	arg_29_0.heroSkillProperty_:Dispose()
-	var_0_0.super.Dispose(arg_29_0)
+	slot0.heroSkillInfo_:Dispose()
+	slot0.heroSkillProperty_:Dispose()
+	uv1.super.Dispose(slot0)
 end
 
-function var_0_0.PlaySkillCxAnim(arg_30_0)
-	if arg_30_0.skillCxTimer then
-		arg_30_0.skillCxTimer:Stop()
+function slot0.PlaySkillCxAnim(slot0)
+	if slot0.skillCxTimer then
+		slot0.skillCxTimer:Stop()
 
-		arg_30_0.skillCxTimer = nil
+		slot0.skillCxTimer = nil
 	end
 
-	arg_30_0.skillCxTimer = Timer.New(function()
-		arg_30_0.skillAni_:Play("Fx_skill_cx", 0, 0)
+	slot0.skillCxTimer = Timer.New(function ()
+		uv0.skillAni_:Play("Fx_skill_cx", 0, 0)
 	end, 0.5)
 
-	arg_30_0.skillCxTimer:Start()
+	slot0.skillCxTimer:Start()
 end
 
-function var_0_0.SetEffectState(arg_32_0, arg_32_1)
-	if arg_32_1 then
-		arg_32_0:PlayBackAniEffect()
+function slot0.SetEffectState(slot0, slot1)
+	if slot1 then
+		slot0:PlayBackAniEffect()
 
-		local var_32_0 = arg_32_0.skillnodeAni_:GetCurrentAnimatorClipInfo(0)
-
-		if arg_32_0.skillnodeAni_:GetCurrentAnimatorClipInfoCount(0) > 0 then
-			arg_32_0.skillnodeAni_:SetFloat("speed", -var_0_4)
-			arg_32_0.skillnodeAni_:Play("Fx_Common_right_cx", 0, var_32_0[0].clip.length)
+		if slot0.skillnodeAni_:GetCurrentAnimatorClipInfoCount(0) > 0 then
+			slot0.skillnodeAni_:SetFloat("speed", -uv0)
+			slot0.skillnodeAni_:Play("Fx_Common_right_cx", 0, slot0.skillnodeAni_:GetCurrentAnimatorClipInfo(0)[0].clip.length)
 		end
 
-		local var_32_1 = arg_32_0.propertynodeAni_:GetCurrentAnimatorClipInfo(0)
-
-		if arg_32_0.propertynodeAni_:GetCurrentAnimatorClipInfoCount(0) > 0 then
-			arg_32_0.propertynodeAni_:SetFloat("speed", -var_0_4)
-			arg_32_0.propertynodeAni_:Play("Fx_Common_right_cx", 0, var_32_1[0].clip.length)
+		if slot0.propertynodeAni_:GetCurrentAnimatorClipInfoCount(0) > 0 then
+			slot0.propertynodeAni_:SetFloat("speed", -uv0)
+			slot0.propertynodeAni_:Play("Fx_Common_right_cx", 0, slot0.propertynodeAni_:GetCurrentAnimatorClipInfo(0)[0].clip.length)
 		end
 	end
 end
 
-function var_0_0.PlayBackAniEffect(arg_33_0)
-	local var_33_0 = arg_33_0.skillTrs_.position
+function slot0.PlayBackAniEffect(slot0)
+	slot1 = slot0.skillTrs_.position
+	slot0.skillAni_.enabled = false
+	slot0.backTween = LeanTween.value(0, 1, uv0 / uv1):setOnUpdate(LuaHelper.FloatAction(function (slot0)
+		uv0.skillTrs_.position = Vector3.Lerp(uv1, uv0.aniEndPos, slot0)
+	end)):setOnComplete(LuaHelper.VoidAction(function ()
+		if uv0.backTween then
+			uv0.backTween:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
 
-	arg_33_0.skillAni_.enabled = false
-	arg_33_0.backTween = LeanTween.value(0, 1, var_0_5 / var_0_4):setOnUpdate(LuaHelper.FloatAction(function(arg_34_0)
-		arg_33_0.skillTrs_.position = Vector3.Lerp(var_33_0, arg_33_0.aniEndPos, arg_34_0)
-	end)):setOnComplete(LuaHelper.VoidAction(function()
-		if arg_33_0.backTween then
-			arg_33_0.backTween:setOnUpdate(nil):setOnComplete(nil):setEase(nil)
-
-			arg_33_0.backTween = nil
+			uv0.backTween = nil
 		end
 	end)):setEase(LeanTweenType.easeOutQuad)
 end
 
-return var_0_0
+return slot0

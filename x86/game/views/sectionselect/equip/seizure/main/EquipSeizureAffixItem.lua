@@ -1,33 +1,32 @@
-local var_0_0 = class("EquipSeizureAffixItem", ReduxView)
+slot0 = class("EquipSeizureAffixItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:BindCfgUI()
-	SetActive(arg_1_0.gameObject_, true)
+	slot0:BindCfgUI()
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.SetData(arg_2_0, arg_2_1)
-	arg_2_0.affixID_ = arg_2_1
+function slot0.SetData(slot0, slot1)
+	slot0.affixID_ = slot1
 
-	arg_2_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.Dispose(arg_3_0)
-	var_0_0.super.Dispose(arg_3_0)
-	Object.Destroy(arg_3_0.gameObject_)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_3_0.transform_ = nil
-	arg_3_0.gameObject_ = nil
+	slot0.transform_ = nil
+	slot0.gameObject_ = nil
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	local var_4_0 = ActivityAffixPoolCfg[arg_4_0.affixID_]
-
-	arg_4_0.nameText_.text = var_4_0.name
-	arg_4_0.descText_.text = getAffixDesc(var_4_0.affix)
-	arg_4_0.iconImage_.sprite = getAffixSprite(var_4_0.affix)
+function slot0.RefreshUI(slot0)
+	slot1 = ActivityAffixPoolCfg[slot0.affixID_]
+	slot0.nameText_.text = slot1.name
+	slot0.descText_.text = getAffixDesc(slot1.affix)
+	slot0.iconImage_.sprite = getAffixSprite(slot1.affix)
 end
 
-return var_0_0
+return slot0

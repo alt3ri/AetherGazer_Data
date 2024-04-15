@@ -1,25 +1,23 @@
-local var_0_0 = class("NewWarChessLevelItem", ReduxView)
+slot0 = class("NewWarChessLevelItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
-	arg_1_0.isOpen_ = false
-	arg_1_0.activityIsOpen_ = false
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
+	slot0.isOpen_ = false
+	slot0.activityIsOpen_ = false
 
-	arg_1_0:BindCfgUI()
+	slot0:BindCfgUI()
 
-	arg_1_0.controller_ = ControllerUtil.GetController(arg_1_0.transform_, "isopen")
+	slot0.controller_ = ControllerUtil.GetController(slot0.transform_, "isopen")
 
-	arg_1_0:AddListeners()
+	slot0:AddListeners()
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.btn_, nil, function()
-		if not arg_2_0.activityIsOpen_ then
-			if manager.time:GetServerTime() < ActivityData:GetActivityData(arg_2_0.cfg_.activity).startTime then
-				local var_3_0 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_2_0.cfg_.activity).startTime)
-
-				ShowTips(string.format(GetTips("OPEN_TIME"), var_3_0))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if not uv0.activityIsOpen_ then
+			if manager.time:GetServerTime() < ActivityData:GetActivityData(uv0.cfg_.activity).startTime then
+				ShowTips(string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(uv0.cfg_.activity).startTime)))
 			else
 				ShowTips(GetTips("TIME_OVER"))
 			end
@@ -27,150 +25,139 @@ function var_0_0.AddListeners(arg_2_0)
 			return
 		end
 
-		if not arg_2_0.isOpen_ then
-			ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[arg_2_0.cfg_.front_level_id].name_level))
+		if not uv0.isOpen_ then
+			ShowTips(string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[uv0.cfg_.front_level_id].name_level))
 
 			return
 		end
 
-		if arg_2_0.isOpen_ and arg_2_0.activityIsOpen_ then
-			if NewWarChessData:GetExploreValue(arg_2_0.chapterID_) >= 100 then
+		if uv0.isOpen_ and uv0.activityIsOpen_ then
+			if NewWarChessData:GetExploreValue(uv0.chapterID_) >= 100 then
 				ShowMessageBox({
 					title = GetTips("PROMPT"),
 					content = GetTips("ACTIVITY_NEW_WARCHESS_LEVEL_EXPLORE_MAX"),
-					OkCallback = function()
-						NewChessTools.EnterChessMap(arg_2_0.chapterID_)
+					OkCallback = function ()
+						NewChessTools.EnterChessMap(uv0.chapterID_)
 					end
 				})
 			else
-				NewChessTools.EnterChessMap(arg_2_0.chapterID_)
+				NewChessTools.EnterChessMap(uv0.chapterID_)
 			end
 		end
 	end)
 end
 
-function var_0_0.SetEventListener(arg_5_0)
-	arg_5_0:RegistEventListener(ACTIVITY_UPDATE, handler(arg_5_0, arg_5_0.OnActivityUpdate))
+function slot0.SetEventListener(slot0)
+	slot0:RegistEventListener(ACTIVITY_UPDATE, handler(slot0, slot0.OnActivityUpdate))
 end
 
-function var_0_0.RemoveEventListener(arg_6_0)
-	arg_6_0:RemoveAllEventListener()
+function slot0.RemoveEventListener(slot0)
+	slot0:RemoveAllEventListener()
 end
 
-function var_0_0.SetData(arg_7_0, arg_7_1)
-	arg_7_0.chapterID_ = arg_7_1
-	arg_7_0.cfg_ = NewWarChessLevelCfg[arg_7_1]
+function slot0.SetData(slot0, slot1)
+	slot0.chapterID_ = slot1
+	slot0.cfg_ = NewWarChessLevelCfg[slot1]
 
-	arg_7_0:RefreshUI()
-	arg_7_0:RefreshStatus()
+	slot0:RefreshUI()
+	slot0:RefreshStatus()
 end
 
-function var_0_0.RefreshUI(arg_8_0)
-	arg_8_0.nametext_.text = arg_8_0.cfg_.name_level
-	arg_8_0.bgImage_.sprite = getSpriteWithoutAtlas("TextureConfig/NewWarChess/" .. arg_8_0.cfg_.background_level)
-	arg_8_0.movePointText_.text = NewChessTools.GetMovePointText(NewWarChessData:GetMovePoint(arg_8_0.chapterID_))
-
-	local var_8_0 = NewWarChessData:GetExploreValue(arg_8_0.chapterID_) .. "<size=16>%</size>"
-
-	arg_8_0.progressText_.text = var_8_0
-	arg_8_0.progressImage_.fillAmount = NewWarChessData:GetExploreValue(arg_8_0.chapterID_) / 100
+function slot0.RefreshUI(slot0)
+	slot0.nametext_.text = slot0.cfg_.name_level
+	slot0.bgImage_.sprite = getSpriteWithoutAtlas("TextureConfig/NewWarChess/" .. slot0.cfg_.background_level)
+	slot0.movePointText_.text = NewChessTools.GetMovePointText(NewWarChessData:GetMovePoint(slot0.chapterID_))
+	slot0.progressText_.text = NewWarChessData:GetExploreValue(slot0.chapterID_) .. "<size=16>%</size>"
+	slot0.progressImage_.fillAmount = NewWarChessData:GetExploreValue(slot0.chapterID_) / 100
 end
 
-function var_0_0.RefreshStatus(arg_9_0)
-	if arg_9_0.cfg_.activity ~= 0 then
-		if ActivityData:GetActivityIsOpen(arg_9_0.cfg_.activity) then
-			arg_9_0.activityIsOpen_ = true
+function slot0.RefreshStatus(slot0)
+	if slot0.cfg_.activity ~= 0 then
+		if ActivityData:GetActivityIsOpen(slot0.cfg_.activity) then
+			slot0.activityIsOpen_ = true
 
-			local var_9_0 = arg_9_0.cfg_.front_level_id
+			if slot0.cfg_.front_level_id ~= 0 then
+				if NewWarChessData:GetLevelIsFinish(slot1) == 1 then
+					slot0.controller_:SetSelectedState("true")
 
-			if var_9_0 ~= 0 then
-				if NewWarChessData:GetLevelIsFinish(var_9_0) == 1 then
-					arg_9_0.controller_:SetSelectedState("true")
-
-					arg_9_0.isOpen_ = true
+					slot0.isOpen_ = true
 				else
-					arg_9_0.controller_:SetSelectedState("false")
+					slot0.controller_:SetSelectedState("false")
 
-					arg_9_0.lockText_.text = string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[var_9_0].name_level)
-					arg_9_0.isOpen_ = false
+					slot0.lockText_.text = string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[slot1].name_level)
+					slot0.isOpen_ = false
 				end
 			else
-				arg_9_0.controller_:SetSelectedState("true")
+				slot0.controller_:SetSelectedState("true")
 
-				arg_9_0.isOpen_ = true
+				slot0.isOpen_ = true
 			end
 		else
-			arg_9_0.activityIsOpen_ = false
+			slot0.activityIsOpen_ = false
 
-			arg_9_0.controller_:SetSelectedState("false")
+			slot0.controller_:SetSelectedState("false")
 
-			if manager.time:GetServerTime() < ActivityData:GetActivityData(arg_9_0.cfg_.activity).startTime then
-				local var_9_1 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_9_0.cfg_.activity).startTime)
+			if manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.cfg_.activity).startTime then
+				slot0.lockText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.cfg_.activity).startTime))
 
-				arg_9_0.lockText_.text = string.format(GetTips("OPEN_TIME"), var_9_1)
-
-				if manager.time:GetServerTime() < ActivityData:GetActivityData(arg_9_0.cfg_.activity).startTime then
-					local var_9_2 = manager.time:GetLostTimeStr(ActivityData:GetActivityData(arg_9_0.cfg_.activity).startTime)
-
-					arg_9_0.lockText_.text = string.format(GetTips("OPEN_TIME"), var_9_2)
+				if manager.time:GetServerTime() < ActivityData:GetActivityData(slot0.cfg_.activity).startTime then
+					slot0.lockText_.text = string.format(GetTips("OPEN_TIME"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(slot0.cfg_.activity).startTime))
 				else
-					arg_9_0.lockText_.text = GetTips("TIME_OVER")
+					slot0.lockText_.text = GetTips("TIME_OVER")
 				end
 			else
-				arg_9_0.lockText_.text = GetTips("TIME_OVER")
+				slot0.lockText_.text = GetTips("TIME_OVER")
 			end
 		end
 	else
-		arg_9_0.activityIsOpen_ = true
+		slot0.activityIsOpen_ = true
 
-		local var_9_3 = arg_9_0.cfg_.front_level_id
+		if slot0.cfg_.front_level_id ~= 0 then
+			if NewWarChessData:GetLevelIsFinish(slot1) == 1 then
+				slot0.controller_:SetSelectedState("true")
 
-		if var_9_3 ~= 0 then
-			if NewWarChessData:GetLevelIsFinish(var_9_3) == 1 then
-				arg_9_0.controller_:SetSelectedState("true")
-
-				arg_9_0.isOpen_ = true
+				slot0.isOpen_ = true
 			else
-				arg_9_0.controller_:SetSelectedState("false")
+				slot0.controller_:SetSelectedState("false")
 
-				arg_9_0.lockText_.text = string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[var_9_3].name_level)
-				arg_9_0.isOpen_ = false
+				slot0.lockText_.text = string.format(GetTips("ACTIVITY_NEW_WARCHESS_UNLOCK"), NewWarChessLevelCfg[slot1].name_level)
+				slot0.isOpen_ = false
 			end
 		else
-			arg_9_0.controller_:SetSelectedState("true")
+			slot0.controller_:SetSelectedState("true")
 
-			arg_9_0.isOpen_ = true
+			slot0.isOpen_ = true
 		end
 	end
 end
 
-function var_0_0.OnActivityUpdate(arg_10_0, arg_10_1)
-	if arg_10_1 == arg_10_0.cfg_.activity then
-		arg_10_0:RefreshStatus()
+function slot0.OnActivityUpdate(slot0, slot1)
+	if slot1 == slot0.cfg_.activity then
+		slot0:RefreshStatus()
 	end
 end
 
-function var_0_0.CreatTimer(arg_11_0)
-	if arg_11_0.timer_ == nil then
-		arg_11_0.timer_ = Timer.New(function()
-			arg_11_0:RefreshStatus()
+function slot0.CreatTimer(slot0)
+	if slot0.timer_ == nil then
+		slot0.timer_ = Timer.New(function ()
+			uv0:RefreshStatus()
 		end, 1, -1)
 
-		arg_11_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_13_0)
-	if arg_13_0.timer_ then
-		arg_13_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_13_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_14_0)
-	arg_14_0:StopTimer()
-	var_0_0.super.Dispose(arg_14_0)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

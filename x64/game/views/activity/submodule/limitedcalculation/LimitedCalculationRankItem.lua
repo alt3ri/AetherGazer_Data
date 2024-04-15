@@ -1,71 +1,64 @@
-local var_0_0 = class("LimitedCalculationRankItem", ReduxView)
+slot0 = class("LimitedCalculationRankItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListeners()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_3_0.heroCountController_ = ControllerUtil.GetController(arg_3_0.transform_, "heroCount")
-	arg_3_0.rankController_ = ControllerUtil.GetController(arg_3_0.transform_, "rank")
+	slot0.heroCountController_ = ControllerUtil.GetController(slot0.transform_, "heroCount")
+	slot0.rankController_ = ControllerUtil.GetController(slot0.transform_, "rank")
 end
 
-function var_0_0.AddUIListeners(arg_4_0)
-	return
+function slot0.AddUIListeners(slot0)
 end
 
-function var_0_0.OnEner(arg_5_0)
-	return
+function slot0.OnEner(slot0)
 end
 
-function var_0_0.RefreshUI(arg_6_0, arg_6_1)
-	arg_6_0.userID_ = arg_6_1.user_id
-	arg_6_0.name_.text = GetI18NText(arg_6_1.nick)
-	arg_6_0.icon_.sprite = ItemTools.getItemSprite(arg_6_1.portrait)
-	arg_6_0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_6_1.frame)
-	arg_6_0.rank_.text = GetI18NText(arg_6_1.rank)
-	arg_6_0.score_.text = GetI18NText(arg_6_1.score)
-	arg_6_0.difficulty_.text = GetI18NText(arg_6_1.difficulty)
+function slot0.RefreshUI(slot0, slot1)
+	slot0.userID_ = slot1.user_id
+	slot0.name_.text = GetI18NText(slot1.nick)
+	slot0.icon_.sprite = ItemTools.getItemSprite(slot1.portrait)
+	slot0.frame_.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot1.frame)
+	slot0.rank_.text = GetI18NText(slot1.rank)
+	slot0.score_.text = GetI18NText(slot1.score)
+	slot0.difficulty_.text = GetI18NText(slot1.difficulty)
+	slot3 = math.min(table.length(slot1:GetSingleSelectHeroList()), 3)
+	slot7 = slot3
 
-	local var_6_0 = arg_6_1:GetSingleSelectHeroList()
-	local var_6_1 = math.min(table.length(var_6_0), 3)
+	slot0.heroCountController_:SetSelectedState(slot7)
 
-	arg_6_0.heroCountController_:SetSelectedState(var_6_1)
-
-	for iter_6_0 = 1, var_6_1 do
-		local var_6_2 = var_6_0[iter_6_0]
-		local var_6_3 = var_6_2.skin_id
-
-		if var_6_3 == 0 then
-			var_6_3 = var_6_2.hero_id
+	for slot7 = 1, slot3 do
+		if slot2[slot7].skin_id == 0 then
+			slot9 = slot8.hero_id
 		end
 
-		arg_6_0["m_heroIcon_" .. iter_6_0].sprite = getSpriteViaConfig("HeroLittleIcon", var_6_3)
+		slot0["m_heroIcon_" .. slot7].sprite = getSpriteViaConfig("HeroLittleIcon", slot9)
 	end
 
-	if arg_6_1.rank <= 3 then
-		arg_6_0.rankController_:SetSelectedState(arg_6_1.rank)
+	if slot1.rank <= 3 then
+		slot0.rankController_:SetSelectedState(slot1.rank)
 	else
-		arg_6_0.rankController_:SetSelectedState(0)
+		slot0.rankController_:SetSelectedState(0)
 	end
 end
 
-function var_0_0.OnExit(arg_7_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:RemoveAllListeners()
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

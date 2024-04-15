@@ -1,131 +1,118 @@
-local var_0_0 = class("GuildBossAvatarView", ReduxView)
+slot0 = class("GuildBossAvatarView", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:Init()
+	slot0:Init()
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitUI()
-	arg_2_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_3_0)
-	arg_3_0.playable_ = arg_3_0:FindCom(typeof(PlayableDirector), "")
+function slot0.InitUI(slot0)
+	slot0.playable_ = slot0:FindCom(typeof(PlayableDirector), "")
 end
 
-function var_0_0.AddUIListener(arg_4_0)
-	return
+function slot0.AddUIListener(slot0)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	arg_5_0:InitBackScene()
+function slot0.OnEnter(slot0)
+	slot0:InitBackScene()
 end
 
-function var_0_0.OnExit(arg_6_0)
-	if arg_6_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_6_0.backGround_, ASSET_TYPE.SCENE)
+function slot0.OnExit(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 	end
 
-	arg_6_0:Finish()
+	slot0:Finish()
 end
 
-function var_0_0.SetBossID(arg_7_0, arg_7_1)
-	if arg_7_0.bossID_ == arg_7_1 then
+function slot0.SetBossID(slot0, slot1)
+	if slot0.bossID_ == slot1 then
 		return
 	end
 
-	arg_7_0:Finish()
-	arg_7_0:LoadModel(arg_7_1)
+	slot0:Finish()
+	slot0:LoadModel(slot1)
 
-	arg_7_0.bossID_ = arg_7_1
+	slot0.bossID_ = slot1
 end
 
-function var_0_0.ShowBossModel(arg_8_0, arg_8_1)
-	if arg_8_0.bossModel_ then
-		SetActive(arg_8_0.bossModel_, arg_8_1)
+function slot0.ShowBossModel(slot0, slot1)
+	if slot0.bossModel_ then
+		SetActive(slot0.bossModel_, slot1)
 	end
 end
 
-function var_0_0.InitBackScene(arg_9_0)
-	local var_9_0 = "UI/Common/BackgroundQuad"
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_9_0.backGround_ = manager.resourcePool:Get(var_9_0, ASSET_TYPE.SCENE)
-	arg_9_0.backGroundTrs_ = arg_9_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_9_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_9_1
-	local var_9_2
-	local var_9_3 = GameDisplayCfg.club_boss_bg_pos.value
-	local var_9_4 = CameraCfg.clubBoss.pictureName
-
-	arg_9_0.backGroundTrs_.localPosition = Vector3(var_9_3[1], var_9_3[2], var_9_3[3])
-	arg_9_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_9_5 = GameDisplayCfg.club_boss_bg_pos.scale
-
-	arg_9_0.backGroundTrs_.localScale = Vector3(var_9_5[1], var_9_5[2], var_9_5[3])
-	arg_9_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.ClubBossBg.path .. var_9_4)
+	slot2, slot3 = nil
+	slot2 = GameDisplayCfg.club_boss_bg_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], slot2[3])
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot4 = GameDisplayCfg.club_boss_bg_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(slot4[1], slot4[2], slot4[3])
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.ClubBossBg.path .. CameraCfg.clubBoss.pictureName)
 end
 
-function var_0_0.Finish(arg_10_0)
-	if arg_10_0.animator_ then
-		if arg_10_0.playable_ then
-			arg_10_0.playable_:Stop()
+function slot0.Finish(slot0)
+	if slot0.animator_ then
+		if slot0.playable_ then
+			slot0.playable_:Stop()
 		end
 
-		local var_10_0 = arg_10_0.animator_.gameObject:GetComponent("LipSync")
-
-		if var_10_0 then
-			var_10_0:ResetEmotion(0)
+		if slot0.animator_.gameObject:GetComponent("LipSync") then
+			slot1:ResetEmotion(0)
 		end
 	end
 
-	arg_10_0.bossID_ = nil
+	slot0.bossID_ = nil
 
-	if arg_10_0.bossModel_ then
-		manager.resourcePool:DestroyOrReturn(arg_10_0.bossModel_, ASSET_TYPE.TPOSE)
+	if slot0.bossModel_ then
+		manager.resourcePool:DestroyOrReturn(slot0.bossModel_, ASSET_TYPE.TPOSE)
 
-		arg_10_0.bossModel_ = nil
-		arg_10_0.animator_ = nil
-		arg_10_0.actionTimer_ = nil
-		arg_10_0.actioning_ = false
+		slot0.bossModel_ = nil
+		slot0.animator_ = nil
+		slot0.actionTimer_ = nil
+		slot0.actioning_ = false
 	end
 end
 
-function var_0_0.InitModel(arg_11_0, arg_11_1, arg_11_2)
-	arg_11_0.bossModel_ = arg_11_1
-	arg_11_0.animator_ = arg_11_0:FindCom(typeof(Animator), "", arg_11_0.bossModel_.transform)
+function slot0.InitModel(slot0, slot1, slot2)
+	slot0.bossModel_ = slot1
+	slot0.animator_ = slot0:FindCom(typeof(Animator), "", slot0.bossModel_.transform)
 
-	if arg_11_0.animator_ == nil then
-		-- block empty
+	if slot0.animator_ == nil then
+		-- Nothing
 	end
 end
 
-function var_0_0.LoadModel(arg_12_0, arg_12_1)
-	local var_12_0 = BossChallengeUICfg[arg_12_1]
-	local var_12_1 = manager.resourcePool:Get("Char/" .. MonsterCfg[var_12_0.boss_id_list[1]].model_name, ASSET_TYPE.TPOSE)
-	local var_12_2
-	local var_12_3
-	local var_12_4
-	local var_12_5 = var_12_0.model_pos[1]
-	local var_12_6 = var_12_0.model_rot[1]
-	local var_12_7 = var_12_0.model_scale[1]
+function slot0.LoadModel(slot0, slot1)
+	slot2 = BossChallengeUICfg[slot1]
+	slot3 = manager.resourcePool:Get("Char/" .. MonsterCfg[slot2.boss_id_list[1]].model_name, ASSET_TYPE.TPOSE)
+	slot4, slot5, slot6 = nil
+	slot4 = slot2.model_pos[1]
+	slot5 = slot2.model_rot[1]
+	slot6 = slot2.model_scale[1]
+	slot3.transform.localPosition = Vector3(slot4[1], slot4[2], slot4[3])
+	slot3.transform.localEulerAngles = Vector3(slot5[1], slot5[2], slot5[3])
+	slot3.transform.localScale = Vector3(slot6[1], slot6[2], slot6[3])
 
-	var_12_1.transform.localPosition = Vector3(var_12_5[1], var_12_5[2], var_12_5[3])
-	var_12_1.transform.localEulerAngles = Vector3(var_12_6[1], var_12_6[2], var_12_6[3])
-	var_12_1.transform.localScale = Vector3(var_12_7[1], var_12_7[2], var_12_7[3])
-
-	arg_12_0:InitModel(var_12_1, var_12_0.id)
+	slot0:InitModel(slot3, slot2.id)
 end
 
-function var_0_0.Dispose(arg_13_0)
-	arg_13_0:RemoveAllListeners()
-	arg_13_0:Finish()
-	var_0_0.super.Dispose(arg_13_0)
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
+	slot0:Finish()
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,76 +1,67 @@
-local var_0_0 = class("MoonPartyVisitItem", ReduxView)
+slot0 = class("MoonPartyVisitItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.statusController_ = ControllerUtil.GetController(arg_2_0.transform_, "status")
+	slot0.statusController_ = ControllerUtil.GetController(slot0.transform_, "status")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.visitBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.visitBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		MoonCakeData:SetTempVisitIndex(arg_3_0.activityID_, arg_3_0.type_, arg_3_0.index_)
+		MoonCakeData:SetTempVisitIndex(uv0.activityID_, uv0.type_, uv0.index_)
 
-		local var_4_0 = arg_3_0.visitorData_.uid
-		local var_4_1
+		slot1 = nil
 
-		if arg_3_0.type_ == MoonCakeConst.VISIT_TYPE.ALL then
-			var_4_1 = MoonCakeConst.VISIT_WAY.ALL
-		else
-			var_4_1 = MoonCakeConst.VISIT_WAY.FRIEND
-		end
-
-		MoonCakeAction.VisitParty(arg_3_0.activityID_, var_4_0, var_4_1)
+		MoonCakeAction.VisitParty(uv0.activityID_, uv0.visitorData_.uid, (uv0.type_ ~= MoonCakeConst.VISIT_TYPE.ALL or MoonCakeConst.VISIT_WAY.ALL) and MoonCakeConst.VISIT_WAY.FRIEND)
 	end)
-	arg_3_0:AddBtnListener(arg_3_0.headBtn_, nil, function()
-		if not ActivityData:GetActivityIsOpen(arg_3_0.activityID_) then
+	slot0:AddBtnListener(slot0.headBtn_, nil, function ()
+		if not ActivityData:GetActivityIsOpen(uv0.activityID_) then
 			ShowTips("TIME_OVER")
 
 			return
 		end
 
-		ForeignInfoAction:TryToCheckForeignDetailInfo(arg_3_0.visitorData_.uid)
+		ForeignInfoAction:TryToCheckForeignDetailInfo(uv0.visitorData_.uid)
 	end)
 end
 
-function var_0_0.SetData(arg_6_0, arg_6_1, arg_6_2, arg_6_3, arg_6_4)
-	arg_6_0.type_ = arg_6_1
-	arg_6_0.index_ = arg_6_2
-	arg_6_0.visitorData_ = arg_6_3
-	arg_6_0.activityID_ = arg_6_4
+function slot0.SetData(slot0, slot1, slot2, slot3, slot4)
+	slot0.type_ = slot1
+	slot0.index_ = slot2
+	slot0.visitorData_ = slot3
+	slot0.activityID_ = slot4
 
-	arg_6_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_7_0)
-	arg_7_0:RefreshPrincipal()
-	arg_7_0:RefreshStatus()
+function slot0.RefreshUI(slot0)
+	slot0:RefreshPrincipal()
+	slot0:RefreshStatus()
 end
 
-function var_0_0.RefreshPrincipal(arg_8_0)
-	arg_8_0.userName_.text = arg_8_0.visitorData_.nick
-	arg_8_0.userLevel_.text = "LV." .. arg_8_0.visitorData_.level
-	arg_8_0.userIcon.sprite = ItemTools.getItemSprite(arg_8_0.visitorData_.portrait)
-	arg_8_0.userFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. arg_8_0.visitorData_.frame)
+function slot0.RefreshPrincipal(slot0)
+	slot0.userName_.text = slot0.visitorData_.nick
+	slot0.userLevel_.text = "LV." .. slot0.visitorData_.level
+	slot0.userIcon.sprite = ItemTools.getItemSprite(slot0.visitorData_.portrait)
+	slot0.userFrame.sprite = getSpriteWithoutAtlas("TextureConfig/Frame/" .. slot0.visitorData_.frame)
 end
 
-function var_0_0.RefreshStatus(arg_9_0)
-	local var_9_0 = arg_9_0.visitorData_.isVisited
-
-	arg_9_0.statusController_:SetSelectedState(var_9_0 == true and "off" or "on")
+function slot0.RefreshStatus(slot0)
+	slot0.statusController_:SetSelectedState(slot0.visitorData_.isVisited == true and "off" or "on")
 end
 
-return var_0_0
+return slot0

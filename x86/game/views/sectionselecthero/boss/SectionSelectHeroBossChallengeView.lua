@@ -1,65 +1,63 @@
-local var_0_0 = class("SectionSelectHeroBossChallengeView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroBossChallengeView", SectionSelectHeroBaseView)
 
-function var_0_0.OnEnter(arg_1_0)
-	arg_1_0.bossIndex_ = arg_1_0.params_.bossIndex
-	arg_1_0.stageType_ = arg_1_0.params_.sectionType
-	arg_1_0.challengeUpdateHandler_ = handler(arg_1_0, arg_1_0.UpdateBossChallenge)
+function slot0.OnEnter(slot0)
+	slot0.bossIndex_ = slot0.params_.bossIndex
+	slot0.stageType_ = slot0.params_.sectionType
+	slot0.challengeUpdateHandler_ = handler(slot0, slot0.UpdateBossChallenge)
 
-	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_1_0.challengeUpdateHandler_)
-	var_0_0.super.OnEnter(arg_1_0)
+	manager.notify:RegistListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
+	uv0.super.OnEnter(slot0)
 end
 
-function var_0_0.OnTop(arg_2_0)
-	var_0_0.super.OnTop(arg_2_0)
+function slot0.OnTop(slot0)
+	uv0.super.OnTop(slot0)
 
 	if BattleBossChallengeData:GetSelectMode() == BossConst.MODE_NONE then
-		arg_2_0:UpdateBossChallenge()
+		slot0:UpdateBossChallenge()
 	end
 end
 
-function var_0_0.OnExit(arg_3_0)
-	var_0_0.super.OnExit(arg_3_0)
-	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, arg_3_0.challengeUpdateHandler_)
+function slot0.OnExit(slot0)
+	uv0.super.OnExit(slot0)
+	manager.notify:RemoveListener(BOSS_CHALLENGE_BACK_ENTRACE, slot0.challengeUpdateHandler_)
 
-	arg_3_0.challengeUpdateHandler_ = nil
+	slot0.challengeUpdateHandler_ = nil
 end
 
-function var_0_0.GoHeroInfoUI(arg_4_0, arg_4_1)
-	arg_4_0:Go("/heroTeamInfoBoss", {
+function slot0.GoHeroInfoUI(slot0, slot1)
+	slot0:Go("/heroTeamInfoBoss", {
 		isEnter = true,
-		selectHeroPos = arg_4_1,
-		stageID = arg_4_0.stageID_,
-		stageType = arg_4_0.stageType_,
-		bossIndex = arg_4_0.bossIndex_,
-		reserveParams = arg_4_0.reserveParams_
+		selectHeroPos = slot1,
+		stageID = slot0.stageID_,
+		stageType = slot0.stageType_,
+		bossIndex = slot0.bossIndex_,
+		reserveParams = slot0.reserveParams_
 	})
 end
 
-function var_0_0.StartBattle(arg_5_0)
+function slot0.StartBattle(slot0)
 	if manager.time:GetServerTime() >= BattleBossChallengeData:GetNextRefreshTime() - 300 then
 		ShowMessageBox({
 			ButtonType = "SingleBtn",
 			title = GetTips("PROMPT"),
 			content = GetTips("NEARLY_OVER"),
-			OkCallback = function()
-				return
+			OkCallback = function ()
 			end,
-			MaskCallback = function()
-				return
+			MaskCallback = function ()
 			end
 		})
 
 		return
 	end
 
-	local var_5_0 = BattleStageFactory.Produce(arg_5_0.stageType_, arg_5_0.stageID_, arg_5_0.bossIndex_, arg_5_0.reserveParams_)
+	slot1 = BattleStageFactory.Produce(slot0.stageType_, slot0.stageID_, slot0.bossIndex_, slot0.reserveParams_)
 
-	var_5_0:SetMultiple(arg_5_0.multiple_)
-	BattleController.GetInstance():LaunchBattle(var_5_0)
+	slot1:SetMultiple(slot0.multiple_)
+	BattleController.GetInstance():LaunchBattle(slot1)
 end
 
-function var_0_0.UpdateBossChallenge(arg_8_0)
+function slot0.UpdateBossChallenge(slot0)
 	BattleBossChallengeAction.BossChallengeBackEntrace()
 end
 
-return var_0_0
+return slot0

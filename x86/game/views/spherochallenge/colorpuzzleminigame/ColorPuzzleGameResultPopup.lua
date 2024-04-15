@@ -1,60 +1,58 @@
-local var_0_0 = class("ColorPuzzleGameResultPopup", ReduxView)
+slot0 = class("ColorPuzzleGameResultPopup", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/SPHeroChallenge/ColorPuzzle/ColorPuzzleResultPopup"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:BindCfgUI()
-	arg_3_0:AddBtnListener(arg_3_0.maskBtn_, nil, function()
+function slot0.Init(slot0)
+	slot0:BindCfgUI()
+
+	slot4 = nil
+
+	slot0:AddBtnListener(slot0.maskBtn_, slot4, function ()
 		JumpTools.Back()
 
-		if arg_3_0.okCallback then
-			arg_3_0.okCallback()
+		if uv0.okCallback then
+			uv0.okCallback()
 		end
 	end)
 
-	arg_3_0.rewardItem = {}
+	slot0.rewardItem = {}
 
-	for iter_3_0 = 1, arg_3_0.reward_.childCount do
-		local var_3_0 = arg_3_0.reward_:GetChild(iter_3_0 - 1).gameObject
-		local var_3_1 = {
-			gameObject = var_3_0
+	for slot4 = 1, slot0.reward_.childCount do
+		slot5 = slot0.reward_:GetChild(slot4 - 1).gameObject
+		slot6 = {
+			gameObject = slot5
 		}
 
-		arg_3_0:BindCfgUI(var_3_0, var_3_1)
+		slot0:BindCfgUI(slot5, slot6)
 
-		arg_3_0.rewardItem[iter_3_0] = var_3_1
+		slot0.rewardItem[slot4] = slot6
 	end
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	local var_5_0 = arg_5_0.params_.level
+function slot0.OnEnter(slot0)
+	slot0.okCallback = slot0.params_.okCallback
+	slot0.levelName_.text = GetI18NText(ActivityHeroChallengeColor[slot0.params_.level].name)
+	slot6 = slot0.params_.time
+	slot0.time_.text = manager.time:DescCDTime(slot6)
 
-	arg_5_0.okCallback = arg_5_0.params_.okCallback
+	for slot6, slot7 in ipairs(slot0.rewardItem) do
+		slot9 = nullable(nullable(slot0.params_.rewards, slot6), "num") or 0
 
-	local var_5_1 = ActivityHeroChallengeColor[var_5_0]
+		if slot8 and slot9 > 0 then
+			SetActive(slot7.gameObject, true)
 
-	arg_5_0.levelName_.text = GetI18NText(var_5_1.name)
-	arg_5_0.time_.text = manager.time:DescCDTime(arg_5_0.params_.time)
-
-	for iter_5_0, iter_5_1 in ipairs(arg_5_0.rewardItem) do
-		local var_5_2 = nullable(arg_5_0.params_.rewards, iter_5_0)
-		local var_5_3 = nullable(var_5_2, "num") or 0
-
-		if var_5_2 and var_5_3 > 0 then
-			SetActive(iter_5_1.gameObject, true)
-
-			iter_5_1.icon_.sprite = ItemTools.getItemLittleSprite(var_5_2.id)
-			iter_5_1.count_.text = var_5_3
+			slot7.icon_.sprite = ItemTools.getItemLittleSprite(slot8.id)
+			slot7.count_.text = slot9
 		else
-			SetActive(iter_5_1.gameObject, false)
+			SetActive(slot7.gameObject, false)
 		end
 	end
 end
 
-return var_0_0
+return slot0

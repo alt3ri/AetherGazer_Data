@@ -1,5 +1,5 @@
-local var_0_0 = class("ZumaConditionItem", ReduxView)
-local var_0_1 = {
+slot0 = class("ZumaConditionItem", ReduxView)
+slot1 = {
 	showState = {
 		unFinish = "state0",
 		name = "clear",
@@ -7,31 +7,30 @@ local var_0_1 = {
 	}
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.showStateController = arg_2_0.controllerEx_:GetController(var_0_1.showState.name)
+	slot0.showStateController = slot0.controllerEx_:GetController(uv0.showState.name)
 end
 
-function var_0_0.RefreshConditionState(arg_3_0, arg_3_1, arg_3_2)
-	local var_3_0 = ActivityPointRewardCfg[arg_3_1]
-	local var_3_1 = var_3_0.need
+function slot0.RefreshConditionState(slot0, slot1, slot2)
+	slot3 = ActivityPointRewardCfg[slot1]
+	slot4 = slot3.need
+	slot0.descText_.text = string.format(GetTips("ACTIVITY_ZUMA_LEVEL_TARGET_DESC"), slot4)
+	slot0.rewardValueText_.text = slot3.reward_item_list[1][2]
+	slot0.imageImg_.sprite = ItemTools.getItemSprite(slot3.reward_item_list[1][1])
 
-	arg_3_0.descText_.text = string.format(GetTips("ACTIVITY_ZUMA_LEVEL_TARGET_DESC"), var_3_1)
-	arg_3_0.rewardValueText_.text = var_3_0.reward_item_list[1][2]
-	arg_3_0.imageImg_.sprite = ItemTools.getItemSprite(var_3_0.reward_item_list[1][1])
-
-	arg_3_0.showStateController:SetSelectedState(arg_3_2 < var_3_1 and var_0_1.showState.unFinish or var_0_1.showState.finish)
+	slot0.showStateController:SetSelectedState(slot2 < slot4 and uv0.showState.unFinish or uv0.showState.finish)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	var_0_0.super.Dispose(arg_4_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

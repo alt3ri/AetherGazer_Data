@@ -1,20 +1,20 @@
-local var_0_0 = class("SectionSelectHeroCoreVerificationView", SectionSelectHeroBaseView)
+slot0 = class("SectionSelectHeroCoreVerificationView", SectionSelectHeroBaseView)
 
-function var_0_0.GoHeroInfoUI(arg_1_0, arg_1_1)
-	arg_1_0:Go("/heroTeamInfoCoreVerification", {
+function slot0.GoHeroInfoUI(slot0, slot1)
+	slot0:Go("/heroTeamInfoCoreVerification", {
 		isEnter = true,
-		selectHeroPos = arg_1_1,
-		stageID = arg_1_0.stageID_,
-		stageType = arg_1_0.stageType_,
-		reserveParams = arg_1_0.reserveParams_
+		selectHeroPos = slot1,
+		stageID = slot0.stageID_,
+		stageType = slot0.stageType_,
+		reserveParams = slot0.reserveParams_
 	})
 end
 
-function var_0_0.StartBattle(arg_2_0)
-	local var_2_0 = BattleStageFactory.Produce(arg_2_0.stageType_, arg_2_0.stageID_, nil, arg_2_0.reserveParams_)
+function slot0.StartBattle(slot0)
+	slot1 = BattleStageFactory.Produce(slot0.stageType_, slot0.stageID_, nil, slot0.reserveParams_)
 
-	var_2_0:SetMultiple(arg_2_0.multiple_)
-	BattleController.GetInstance():LaunchBattle(var_2_0)
+	slot1:SetMultiple(slot0.multiple_)
+	BattleController.GetInstance():LaunchBattle(slot1)
 end
 
-return var_0_0
+return slot0

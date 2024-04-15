@@ -1,134 +1,125 @@
-local var_0_0 = class("AlphaStageTaskItem", ReduxView)
-local var_0_1 = {
+slot0 = class("AlphaStageTaskItem", ReduxView)
+slot1 = {
 	"lock",
 	"receive",
 	"received"
 }
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.stateCon_ = ControllerUtil.GetController(arg_1_0.transform_, "state")
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.stateCon_ = ControllerUtil.GetController(slot0.transform_, "state")
 
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListeners()
+	slot0:InitUI()
+	slot0:AddUIListeners()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_2_0.rewardItemS_ = {}
+	slot0.rewardItemS_ = {}
 end
 
-function var_0_0.AddUIListeners(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.receiveBtn_, nil, function()
-		TaskAction:SubmitTask(arg_3_0.taskID_)
-		arg_3_0:ChangeState("received")
+function slot0.AddUIListeners(slot0)
+	slot0:AddBtnListener(slot0.receiveBtn_, nil, function ()
+		TaskAction:SubmitTask(uv0.taskID_)
+		uv0:ChangeState("received")
 	end)
 end
 
-function var_0_0.OnEnter(arg_5_0)
-	return
+function slot0.OnEnter(slot0)
 end
 
-function var_0_0.GetTaskID(arg_6_0)
-	return arg_6_0.taskID_
+function slot0.GetTaskID(slot0)
+	return slot0.taskID_
 end
 
-function var_0_0.GetTaskProgress(arg_7_0)
-	local var_7_0 = TaskData2:GetTask(arg_7_0.taskID_)
-
-	return var_7_0 and var_7_0.progress or 0
+function slot0.GetTaskProgress(slot0)
+	return TaskData2:GetTask(slot0.taskID_) and slot1.progress or 0
 end
 
-function var_0_0.RefreshUI(arg_8_0, arg_8_1)
-	arg_8_0.taskID_ = arg_8_1
+function slot0.RefreshUI(slot0, slot1)
+	slot0.taskID_ = slot1
 
-	SetActive(arg_8_0.gameObject_, true)
-	arg_8_0:RefreshState()
-	arg_8_0:RefreshReward()
-	arg_8_0:RefreshProgress()
+	SetActive(slot0.gameObject_, true)
+	slot0:RefreshState()
+	slot0:RefreshReward()
+	slot0:RefreshProgress()
 end
 
-function var_0_0.RefreshState(arg_9_0)
-	arg_9_0.stage_ = AssignmentCfg[arg_9_0.taskID_].phase
+function slot0.RefreshState(slot0)
+	slot0.stage_ = AssignmentCfg[slot0.taskID_].phase
 
-	if TaskData2:GetAssignmentPhase() > arg_9_0.stage_ then
-		arg_9_0:ChangeState("received")
-	elseif TaskData2:GetAssignmentPhase() == arg_9_0.stage_ and arg_9_0:IsTaskFinish() then
-		arg_9_0:ChangeState("receive")
+	if slot0.stage_ < TaskData2:GetAssignmentPhase() then
+		slot0:ChangeState("received")
+	elseif TaskData2:GetAssignmentPhase() == slot0.stage_ and slot0:IsTaskFinish() then
+		slot0:ChangeState("receive")
 	else
-		arg_9_0:ChangeState("lock")
+		slot0:ChangeState("lock")
 	end
 end
 
-function var_0_0.ChangeState(arg_10_0, arg_10_1)
-	arg_10_0.stateCon_:SetSelectedState(arg_10_1)
+function slot0.ChangeState(slot0, slot1)
+	slot0.stateCon_:SetSelectedState(slot1)
 end
 
-function var_0_0.IsTaskFinish(arg_11_0)
-	return TaskData2:GetTask(arg_11_0.taskID_).progress >= AssignmentCfg[arg_11_0.taskID_].need
+function slot0.IsTaskFinish(slot0)
+	return AssignmentCfg[slot0.taskID_].need <= TaskData2:GetTask(slot0.taskID_).progress
 end
 
-function var_0_0.RefreshReward(arg_12_0)
-	local var_12_0 = AssignmentCfg[arg_12_0:GetTaskID()].reward
+function slot0.RefreshReward(slot0)
+	for slot5, slot6 in ipairs(AssignmentCfg[slot0:GetTaskID()].reward) do
+		if slot0.rewardItemS_[slot5] == nil then
+			slot0.rewardItemS_[slot5] = RewardItem.New(slot0.rewardTemplates_, slot0.rewardParent_, true)
 
-	for iter_12_0, iter_12_1 in ipairs(var_12_0) do
-		if arg_12_0.rewardItemS_[iter_12_0] == nil then
-			arg_12_0.rewardItemS_[iter_12_0] = RewardItem.New(arg_12_0.rewardTemplates_, arg_12_0.rewardParent_, true)
-
-			arg_12_0.rewardItemS_[iter_12_0]:UpdateCommonItemAni()
+			slot0.rewardItemS_[slot5]:UpdateCommonItemAni()
 		end
 
-		arg_12_0.rewardItemS_[iter_12_0]:SetData(iter_12_1)
+		slot0.rewardItemS_[slot5]:SetData(slot6)
 	end
 
-	for iter_12_2 = #var_12_0 + 1, #arg_12_0.rewardItemS_ do
-		arg_12_0.rewardItemS_[iter_12_2]:Show(false)
+	for slot5 = #slot1 + 1, #slot0.rewardItemS_ do
+		slot0.rewardItemS_[slot5]:Show(false)
 	end
 end
 
-function var_0_0.RefreshProgress(arg_13_0)
-	local var_13_0 = AssignmentCfg[arg_13_0:GetTaskID()].need
-	local var_13_1 = arg_13_0:GetTaskProgress()
-
-	if var_13_0 < var_13_1 then
-		var_13_1 = var_13_0
+function slot0.RefreshProgress(slot0)
+	if AssignmentCfg[slot0:GetTaskID()].need < slot0:GetTaskProgress() then
+		slot2 = slot1
 	end
 
-	if TaskData2:GetAssignmentPhase() > arg_13_0.stage_ then
-		var_13_1 = var_13_0
+	if slot0.stage_ < TaskData2:GetAssignmentPhase() then
+		slot2 = slot1
 	end
 
-	arg_13_0.finishTasks_.text = var_13_1
-	arg_13_0.allTasks_.text = "/" .. var_13_0
+	slot0.finishTasks_.text = slot2
+	slot0.allTasks_.text = "/" .. slot1
 end
 
-function var_0_0.OnSubcribe(arg_14_0)
-	arg_14_0:RefreshProgress()
-	arg_14_0:RefreshState()
+function slot0.OnSubcribe(slot0)
+	slot0:RefreshProgress()
+	slot0:RefreshState()
 end
 
-function var_0_0.OnExit(arg_15_0)
-	return
+function slot0.OnExit(slot0)
 end
 
-function var_0_0.Dispose(arg_16_0)
-	arg_16_0:RemoveAllListeners()
+function slot0.Dispose(slot0)
+	slot0:RemoveAllListeners()
 
-	for iter_16_0 = 1, 3 do
-		arg_16_0[var_0_1[iter_16_0]] = nil
+	for slot4 = 1, 3 do
+		slot0[uv0[slot4]] = nil
 	end
 
-	for iter_16_1 = 1, #arg_16_0.rewardItemS_ do
-		arg_16_0.rewardItemS_[iter_16_1]:Dispose()
+	for slot4 = 1, #slot0.rewardItemS_ do
+		slot0.rewardItemS_[slot4]:Dispose()
 
-		arg_16_0.rewardItemS_[iter_16_1] = nil
+		slot0.rewardItemS_[slot4] = nil
 	end
 
-	arg_16_0.rewardItemS_ = nil
+	slot0.rewardItemS_ = nil
 
-	var_0_0.super.Dispose(arg_16_0)
+	uv1.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

@@ -1,179 +1,152 @@
-local var_0_0 = class("HeroSurpassPreview", ReduxView)
+slot0 = class("HeroSurpassPreview", ReduxView)
 
-function var_0_0.UIName(arg_1_0)
+function slot0.UIName(slot0)
 	return "Widget/System/Hero_transition/HeroPrintTipsUI"
 end
 
-function var_0_0.UIParent(arg_2_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.Init(arg_3_0)
-	arg_3_0:InitUI()
-	arg_3_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.surpassScrollHelper_ = LuaList.New(handler(arg_4_0, arg_4_0.SurpassNodeItem), arg_4_0.messagescrollGo_, HeroSurpassPreviewNodeItem)
+	slot0.surpassScrollHelper_ = LuaList.New(handler(slot0, slot0.SurpassNodeItem), slot0.messagescrollGo_, HeroSurpassPreviewNodeItem)
 end
 
-function var_0_0.AddUIListener(arg_5_0)
-	arg_5_0:AddBtnListener(arg_5_0.btnbgBtn_, nil, function()
-		arg_5_0.messagescrollSr_.enabled = true
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btnbgBtn_, nil, function ()
+		uv0.messagescrollSr_.enabled = true
 
-		arg_5_0.tipsnodeGo_:SetActive(false)
+		uv0.tipsnodeGo_:SetActive(false)
 	end)
-	arg_5_0:AddBtnListener(arg_5_0.closeBtn_, nil, function()
-		if arg_5_0.backCallback then
-			arg_5_0.backCallback()
+	slot0:AddBtnListener(slot0.closeBtn_, nil, function ()
+		if uv0.backCallback then
+			uv0.backCallback()
 		end
 	end)
 end
 
-function var_0_0.ClickCheckBtn(arg_8_0, arg_8_1, arg_8_2)
-	arg_8_0:RefreshTipsShow(arg_8_2)
-	arg_8_0:SetTipsPosAndShow(arg_8_1)
+function slot0.ClickCheckBtn(slot0, slot1, slot2)
+	slot0:RefreshTipsShow(slot2)
+	slot0:SetTipsPosAndShow(slot1)
 
-	arg_8_0.messagescrollSr_.enabled = false
+	slot0.messagescrollSr_.enabled = false
 end
 
-function var_0_0.RefreshTipsShow(arg_9_0, arg_9_1)
-	local var_9_0 = math.max(arg_9_1 - 1, 0)
-
-	arg_9_0.atkvaluenowText_.text = arg_9_0.heroCfg.atk_ratio[var_9_0]
-	arg_9_0.atkvalueafterText_.text = arg_9_0.heroCfg.atk_ratio[arg_9_1]
-	arg_9_0.armvaluenowText_.text = arg_9_0.heroCfg.arm_ratio[var_9_0]
-	arg_9_0.armvalueafterText_.text = arg_9_0.heroCfg.arm_ratio[arg_9_1]
-	arg_9_0.stavaluenowText_.text = arg_9_0.heroCfg.sta_ratio[var_9_0]
-	arg_9_0.stavalueafterText_.text = arg_9_0.heroCfg.sta_ratio[arg_9_1]
-	arg_9_0.atknodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[1].name))
-	arg_9_0.armnodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[2].name))
-	arg_9_0.stanodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[3].name))
+function slot0.RefreshTipsShow(slot0, slot1)
+	slot2 = math.max(slot1 - 1, 0)
+	slot0.atkvaluenowText_.text = slot0.heroCfg.atk_ratio[slot2]
+	slot0.atkvalueafterText_.text = slot0.heroCfg.atk_ratio[slot1]
+	slot0.armvaluenowText_.text = slot0.heroCfg.arm_ratio[slot2]
+	slot0.armvalueafterText_.text = slot0.heroCfg.arm_ratio[slot1]
+	slot0.stavaluenowText_.text = slot0.heroCfg.sta_ratio[slot2]
+	slot0.stavalueafterText_.text = slot0.heroCfg.sta_ratio[slot1]
+	slot0.atknodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[1].name))
+	slot0.armnodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[2].name))
+	slot0.stanodeText_.text = string.format(GetTips("EQUIP_UPGRADE_ATTR_DES"), GetI18NText(PublicAttrCfg[3].name))
 end
 
-function var_0_0.SetTipsPosAndShow(arg_10_0, arg_10_1)
-	local var_10_0 = arg_10_1.transform_.parent
-
-	if arg_10_0.tipsnodeTrs_.parent ~= var_10_0 then
-		arg_10_0.tipsnodeTrs_:SetParent(var_10_0)
+function slot0.SetTipsPosAndShow(slot0, slot1)
+	if slot0.tipsnodeTrs_.parent ~= slot1.transform_.parent then
+		slot0.tipsnodeTrs_:SetParent(slot2)
 	end
 
-	arg_10_0.tipsnodeTrs_:SetAsLastSibling()
-	arg_10_0.tipsnodeGo_:SetActive(true)
+	slot0.tipsnodeTrs_:SetAsLastSibling()
+	slot0.tipsnodeGo_:SetActive(true)
 
-	local var_10_1 = arg_10_1.transform_.localPosition
-
-	arg_10_0.tipsnodeTrs_.localPosition = Vector2(arg_10_0.tipsnodeTrs_.localPosition.x, var_10_1.y - 200)
+	slot0.tipsnodeTrs_.localPosition = Vector2(slot0.tipsnodeTrs_.localPosition.x, slot1.transform_.localPosition.y - 200)
 end
 
-function var_0_0.SurpassNodeItem(arg_11_0, arg_11_1, arg_11_2)
-	local var_11_0 = arg_11_0.starNodeList[arg_11_1 + arg_11_0.beginStarStage - 1]
-
-	arg_11_2:RefreshUI(var_11_0)
-	arg_11_2:SetClickCheckCallback(function()
-		arg_11_0:ClickCheckBtn(arg_11_2, var_11_0[1].cfg.star)
+function slot0.SurpassNodeItem(slot0, slot1, slot2)
+	slot2:RefreshUI(slot0.starNodeList[slot1 + slot0.beginStarStage - 1])
+	slot2:SetClickCheckCallback(function ()
+		uv0:ClickCheckBtn(uv1, uv2[1].cfg.star)
 	end)
 end
 
-function var_0_0.OnEnter(arg_13_0)
+function slot0.OnEnter(slot0)
 	manager.windowBar:HideBar()
 
-	arg_13_0.backCallback = arg_13_0.params_.backCallback
+	slot0.backCallback = slot0.params_.backCallback
 
-	arg_13_0:InitData()
-	arg_13_0:InitHeroStarData()
-	arg_13_0.tipsnodeGo_:SetActive(false)
+	slot0:InitData()
+	slot0:InitHeroStarData()
+	slot0.tipsnodeGo_:SetActive(false)
 end
 
-function var_0_0.InitData(arg_14_0)
-	arg_14_0.heroID = arg_14_0.params_.heroID
-	arg_14_0.heroInfo = arg_14_0.params_.heroInfo
-	arg_14_0.heroCfg = HeroCfg[arg_14_0.heroID]
+function slot0.InitData(slot0)
+	slot0.heroID = slot0.params_.heroID
+	slot0.heroInfo = slot0.params_.heroInfo
+	slot0.heroCfg = HeroCfg[slot0.heroID]
 end
 
-function var_0_0.InitHeroStarData(arg_15_0)
-	local var_15_0 = {}
-	local var_15_1 = HeroStarCfg[arg_15_0.heroCfg.unlock_star].star
+function slot0.InitHeroStarData(slot0)
+	slot1 = {}
+	slot0.beginStarStage = HeroStarCfg[slot0.heroCfg.unlock_star].star
+	slot4 = 7
 
-	arg_15_0.beginStarStage = var_15_1
+	SurpassTools.ChangeIconStarSpirte(slot0.iconImg_, HeroStarCfg[slot0.heroInfo.star].star)
 
-	local var_15_2 = table.indexof(HeroStarCfg.all, arg_15_0.heroCfg.unlock_star)
-	local var_15_3 = 7
-	local var_15_4 = arg_15_0.heroInfo.star
-	local var_15_5 = HeroStarCfg[var_15_4].star
+	slot8 = HeroStarUpTemplateCfg.get_id_list_by_template[slot0.heroCfg.star_up_skill_template]
 
-	SurpassTools.ChangeIconStarSpirte(arg_15_0.iconImg_, var_15_5)
+	for slot12 = table.indexof(HeroStarCfg.all, slot0.heroCfg.unlock_star), #HeroStarCfg.all do
+		if HeroStarCfg[HeroStarCfg.all[slot12]] then
+			slot16 = slot5 < slot13
 
-	local var_15_6 = arg_15_0.heroCfg.star_up_skill_template
-	local var_15_7 = HeroStarUpTemplateCfg.get_id_list_by_template[var_15_6]
-
-	for iter_15_0 = var_15_2, #HeroStarCfg.all do
-		local var_15_8 = HeroStarCfg.all[iter_15_0]
-		local var_15_9 = HeroStarCfg[var_15_8]
-
-		if var_15_9 then
-			local var_15_10 = var_15_9.star
-			local var_15_11 = var_15_4 < var_15_8
-
-			if not var_15_0[var_15_10] then
-				var_15_0[var_15_10] = {}
+			if not slot1[slot14.star] then
+				slot1[slot15] = {}
 			end
 
-			local var_15_12 = iter_15_0 == var_15_2 and true or false
-
-			table.insert(var_15_0[var_15_10], {
-				cfg = var_15_9,
-				isLock = var_15_11,
-				isBeginStar = var_15_12,
-				heroCfg = arg_15_0.heroCfg
+			table.insert(slot1[slot15], {
+				cfg = slot14,
+				isLock = slot16,
+				isBeginStar = slot12 == slot3 and true or false,
+				heroCfg = slot0.heroCfg
 			})
 		end
 	end
 
-	arg_15_0.starNodeList = var_15_0
-	arg_15_0.starStageNum = var_15_3 - var_15_1
+	slot0.starNodeList = slot1
+	slot0.starStageNum = slot4 - slot2
 
-	arg_15_0.surpassScrollHelper_:StartScroll(arg_15_0.starStageNum, var_15_5 - var_15_1)
+	slot0.surpassScrollHelper_:StartScroll(slot0.starStageNum, slot6 - slot2)
 end
 
-function var_0_0.OnExit(arg_16_0)
-	if arg_16_0.backGround_ then
-		manager.resourcePool:DestroyOrReturn(arg_16_0.backGround_, ASSET_TYPE.SCENE)
+function slot0.OnExit(slot0)
+	if slot0.backGround_ then
+		manager.resourcePool:DestroyOrReturn(slot0.backGround_, ASSET_TYPE.SCENE)
 	end
 end
 
-function var_0_0.Dispose(arg_17_0)
-	if arg_17_0.surpassScrollHelper_ then
-		arg_17_0.surpassScrollHelper_:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.surpassScrollHelper_ then
+		slot0.surpassScrollHelper_:Dispose()
 
-		arg_17_0.surpassScrollHelper_ = nil
+		slot0.surpassScrollHelper_ = nil
 	end
 
-	var_0_0.super.Dispose(arg_17_0)
+	uv0.super.Dispose(slot0)
 end
 
-function var_0_0.InitBackScene(arg_18_0)
-	local var_18_0 = "UI/Common/BackgroundQuad"
+function slot0.InitBackScene(slot0)
+	slot0.backGround_ = manager.resourcePool:Get("UI/Common/BackgroundQuad", ASSET_TYPE.SCENE)
+	slot0.backGroundTrs_ = slot0.backGround_.transform
 
-	arg_18_0.backGround_ = manager.resourcePool:Get(var_18_0, ASSET_TYPE.SCENE)
-	arg_18_0.backGroundTrs_ = arg_18_0.backGround_.transform
+	slot0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
 
-	arg_18_0.backGroundTrs_:SetParent(manager.ui.mainCamera.transform)
-
-	local var_18_1
-	local var_18_2
-	local var_18_3 = GameDisplayCfg.collect_monster_background_pos.value
-	local var_18_4 = CameraCfg.enemyFile.pictureName
-
-	arg_18_0.backGroundTrs_.localPosition = Vector3(var_18_3[1], var_18_3[2], 10)
-	arg_18_0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
-
-	local var_18_5 = GameDisplayCfg.collect_monster_background_pos.scale
-
-	arg_18_0.backGroundTrs_.localScale = Vector3(var_18_5[1], var_18_5[2], var_18_5[3])
-	arg_18_0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. var_18_4)
+	slot2, slot3 = nil
+	slot2 = GameDisplayCfg.collect_monster_background_pos.value
+	slot0.backGroundTrs_.localPosition = Vector3(slot2[1], slot2[2], 10)
+	slot0.backGroundTrs_.localEulerAngles = Vector3(0, 0, 0)
+	slot4 = GameDisplayCfg.collect_monster_background_pos.scale
+	slot0.backGroundTrs_.localScale = Vector3(slot4[1], slot4[2], slot4[3])
+	slot0.backGroundTrs_:Find("pic_background1"):GetComponent("SpriteRenderer").sprite = getSpriteWithoutAtlas(SpritePathCfg.Bg.path .. CameraCfg.enemyFile.pictureName)
 end
 
-return var_0_0
+return slot0

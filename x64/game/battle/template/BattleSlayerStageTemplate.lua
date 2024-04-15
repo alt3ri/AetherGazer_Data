@@ -1,65 +1,62 @@
-local var_0_0 = class("BattleSlayerStageTemplate", BattleBaseStageTemplate)
+slot0 = class("BattleSlayerStageTemplate", BattleBaseStageTemplate)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2)
-	arg_1_0.region_activity_id = arg_1_1
+function slot0.Ctor(slot0, slot1, slot2)
+	slot0.region_activity_id = slot1
+	slot4 = ActivitySlayerCfg[slot1].stage_id
 
-	local var_1_0 = ActivitySlayerCfg[arg_1_1].stage_id
+	slot0.super.Ctor(slot0, slot4)
 
-	arg_1_0.super.Ctor(arg_1_0, var_1_0)
-
-	arg_1_0.id_ = var_1_0
-	arg_1_0.activityID_ = arg_1_2
-	arg_1_0.cfg = BattleSlayerStageCfg[var_1_0]
+	slot0.id_ = slot4
+	slot0.activityID_ = slot2
+	slot0.cfg = BattleSlayerStageCfg[slot4]
 end
 
-function var_0_0.Init(arg_2_0)
-	arg_2_0:InitHeroList()
-	arg_2_0:InitComboSkillID()
-	arg_2_0:InitChipData()
+function slot0.Init(slot0)
+	slot0:InitHeroList()
+	slot0:InitComboSkillID()
+	slot0:InitChipData()
 end
 
-function var_0_0.GetDest(arg_3_0)
-	return arg_3_0.region_activity_id
+function slot0.GetDest(slot0)
+	return slot0.region_activity_id
 end
 
-function var_0_0.GetStageId(arg_4_0)
-	return arg_4_0.id_
+function slot0.GetStageId(slot0)
+	return slot0.id_
 end
 
-function var_0_0.GetType(arg_5_0)
+function slot0.GetType(slot0)
 	return BattleConst.STAGE_TYPE_NEW.SLAYER
 end
 
-function var_0_0.GetMap(arg_6_0)
-	return arg_6_0.cfg.map, false
+function slot0.GetMap(slot0)
+	return slot0.cfg.map, false
 end
 
-function var_0_0.GetAILevel(arg_7_0)
-	return arg_7_0.cfg.ai_level
+function slot0.GetAILevel(slot0)
+	return slot0.cfg.ai_level
 end
 
-function var_0_0.GetEnemyLevel(arg_8_0)
-	return arg_8_0.cfg.monster_level
+function slot0.GetEnemyLevel(slot0)
+	return slot0.cfg.monster_level
 end
 
-function var_0_0.GetStageAffix(arg_9_0)
-	local var_9_0 = ActivityTools.GetActivityTheme(arg_9_0.region_activity_id)
-	local var_9_1 = TalentTreeData:GetTalentListByTheme(var_9_0)
-	local var_9_2 = {}
-	local var_9_3 = {}
-	local var_9_4 = {}
+function slot0.GetStageAffix(slot0)
+	slot3 = {}
+	slot4 = {}
+	slot5 = {}
 
-	for iter_9_0, iter_9_1 in ipairs(var_9_1) do
-		table.insert(var_9_2, iter_9_1[1])
-		table.insert(var_9_3, iter_9_1[2])
-		table.insert(var_9_4, iter_9_1[3])
+	for slot9, slot10 in ipairs(TalentTreeData:GetTalentListByTheme(ActivityTools.GetActivityTheme(slot0.region_activity_id))) do
+		table.insert(slot3, slot10[1])
+		table.insert(slot4, slot10[2])
+		table.insert(slot5, slot10[3])
 	end
 
-	return var_9_2, var_9_3, var_9_4
+	return slot3, slot4, slot5
 end
 
-function var_0_0.GetHeroTeam(arg_10_0)
-	return arg_10_0.heroList_, arg_10_0.heroTrialList_
+function slot0.GetHeroTeam(slot0)
+	return slot0.heroList_, slot0.heroTrialList_
 end
 
-return var_0_0
+return slot0

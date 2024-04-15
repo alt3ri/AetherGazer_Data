@@ -1,52 +1,49 @@
-local var_0_0 = class("IdolTraineeHeadItem", ReduxView)
+slot0 = class("IdolTraineeHeadItem", ReduxView)
 
-function var_0_0.OnCtor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.OnCtor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	arg_1_0:InitUI()
+	slot0:InitUI()
 end
 
-function var_0_0.InitUI(arg_2_0)
-	arg_2_0:BindCfgUI()
-	arg_2_0:AddUIListener()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
+	slot0:AddUIListener()
 
-	arg_2_0.selectController_ = arg_2_0.mainControllerEx_:GetController("select")
-	arg_2_0.defendController_ = arg_2_0.mainControllerEx_:GetController("defend")
-	arg_2_0.attackController_ = arg_2_0.mainControllerEx_:GetController("attack")
+	slot0.selectController_ = slot0.mainControllerEx_:GetController("select")
+	slot0.defendController_ = slot0.mainControllerEx_:GetController("defend")
+	slot0.attackController_ = slot0.mainControllerEx_:GetController("attack")
 end
 
-function var_0_0.AddUIListener(arg_3_0)
-	arg_3_0:AddBtnListener(arg_3_0.btn_, nil, function()
-		if arg_3_0.click_ then
-			arg_3_0.click_()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.btn_, nil, function ()
+		if uv0.click_ then
+			uv0.click_()
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2, arg_5_3)
-	arg_5_0.heroID_ = arg_5_1
-	arg_5_0.click_ = arg_5_3
+function slot0.SetData(slot0, slot1, slot2, slot3)
+	slot0.heroID_ = slot1
+	slot0.click_ = slot3
+	slot0.headIcon_.sprite = IdolTraineeTools:GetHeroBattleInfoTemplate(slot1).heroIcon
 
-	local var_5_0 = IdolTraineeTools:GetHeroBattleInfoTemplate(arg_5_1)
-
-	arg_5_0.headIcon_.sprite = var_5_0.heroIcon
-
-	arg_5_0.defendController_:SetSelectedState(IdolTraineeTools:CheckHeroIsDefine(arg_5_1) and "true" or "false")
-	arg_5_0.attackController_:SetSelectedState(IdolTraineeTools:CheckHeroIsAttack(arg_5_1) and "true" or "false")
-	arg_5_0.selectController_:SetSelectedState(arg_5_1 == arg_5_2 and "true" or "false")
+	slot0.defendController_:SetSelectedState(IdolTraineeTools:CheckHeroIsDefine(slot1) and "true" or "false")
+	slot0.attackController_:SetSelectedState(IdolTraineeTools:CheckHeroIsAttack(slot1) and "true" or "false")
+	slot0.selectController_:SetSelectedState(slot1 == slot2 and "true" or "false")
 end
 
-function var_0_0.SelectOn(arg_6_0)
-	arg_6_0.selectController_:SetSelectedState("true")
+function slot0.SelectOn(slot0)
+	slot0.selectController_:SetSelectedState("true")
 end
 
-function var_0_0.SelectOff(arg_7_0)
-	arg_7_0.selectController_:SetSelectedState("false")
+function slot0.SelectOff(slot0)
+	slot0.selectController_:SetSelectedState("false")
 end
 
-function var_0_0.Dispose(arg_8_0)
-	var_0_0.super.Dispose(arg_8_0)
+function slot0.Dispose(slot0)
+	uv0.super.Dispose(slot0)
 end
 
-return var_0_0
+return slot0

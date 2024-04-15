@@ -1,348 +1,282 @@
-local var_0_0 = {}
+return {
+	InitConst = function ()
+		uv0.materialItemIdList = {}
+		uv0.fillingItemIdList = {}
+		uv0.cakeItemIdList = {}
+		uv0.giftItemIdList = {}
+		uv0.cakeRecipeDic_ = {}
+		uv0.cakeIdDicByCakeItemID_ = {}
+		uv0.subActivityIdDic_ = {}
+		uv0.mainActivityIdDic_ = {}
+		uv0.tempVisitViewParams_ = {}
+		uv0.tempDelegateViewParams_ = {}
+		uv0.tempRecordViewParams_ = {}
 
-function var_0_0.InitConst()
-	var_0_0.materialItemIdList = {}
-	var_0_0.fillingItemIdList = {}
-	var_0_0.cakeItemIdList = {}
-	var_0_0.giftItemIdList = {}
-	var_0_0.cakeRecipeDic_ = {}
-	var_0_0.cakeIdDicByCakeItemID_ = {}
-	var_0_0.subActivityIdDic_ = {}
-	var_0_0.mainActivityIdDic_ = {}
-	var_0_0.tempVisitViewParams_ = {}
-	var_0_0.tempDelegateViewParams_ = {}
-	var_0_0.tempRecordViewParams_ = {}
+		for slot4, slot5 in ipairs(ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.MOON_CAKE]) do
+			for slot12, slot13 in ipairs(ActivityCfg[slot5].sub_activity_list) do
+				if ActivityTools.GetActivityType(slot13) == ActivityTemplateConst.MOON_CAKE_MAKE then
+					-- Nothing
+				elseif ActivityTools.GetActivityType(slot13) == ActivityTemplateConst.MOON_CAKE_PARTY then
+					slot6.party_activity_id = slot13
+				elseif ActivityTools.GetActivityType(slot13) == ActivityTemplateConst.MOONBO then
+					slot6.moon_bo_activity_id = slot13
+				end
 
-	local var_1_0 = ActivityCfg.get_id_list_by_activity_template[ActivityTemplateConst.MOON_CAKE]
-
-	for iter_1_0, iter_1_1 in ipairs(var_1_0) do
-		local var_1_1 = {}
-		local var_1_2 = ActivityCfg[iter_1_1].sub_activity_list
-
-		for iter_1_2, iter_1_3 in ipairs(var_1_2) do
-			if ActivityTools.GetActivityType(iter_1_3) == ActivityTemplateConst.MOON_CAKE_MAKE then
-				var_1_1.cake_activity_id = iter_1_3
-			elseif ActivityTools.GetActivityType(iter_1_3) == ActivityTemplateConst.MOON_CAKE_PARTY then
-				var_1_1.party_activity_id = iter_1_3
-			elseif ActivityTools.GetActivityType(iter_1_3) == ActivityTemplateConst.MOONBO then
-				var_1_1.moon_bo_activity_id = iter_1_3
+				uv0.mainActivityIdDic_[slot13] = slot5
 			end
 
-			var_0_0.mainActivityIdDic_[iter_1_3] = iter_1_1
+			uv0.subActivityIdDic_[slot5] = {
+				cake_activity_id = slot13
+			}
 		end
 
-		var_0_0.subActivityIdDic_[iter_1_1] = var_1_1
-	end
+		slot2 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_FILLING]
+		slot3 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_CAKE]
+		slot4 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_CAKE_GIFT]
 
-	local var_1_3 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_FILLING_MATERIAL]
-	local var_1_4 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_FILLING]
-	local var_1_5 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_CAKE]
-	local var_1_6 = ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_CAKE_GIFT]
+		for slot8, slot9 in ipairs(ItemCfg.get_id_list_by_sub_type[ItemConst.ITEM_SUB_TYPE.MOON_FILLING_MATERIAL]) do
+			uv0.materialItemIdList[slot11] = uv0.materialItemIdList[ItemCfg[slot9].time[2][1]] or {}
 
-	for iter_1_4, iter_1_5 in ipairs(var_1_3) do
-		local var_1_7 = ItemCfg[iter_1_5].time[2][1]
-
-		var_0_0.materialItemIdList[var_1_7] = var_0_0.materialItemIdList[var_1_7] or {}
-
-		table.insert(var_0_0.materialItemIdList[var_1_7], iter_1_5)
-	end
-
-	for iter_1_6, iter_1_7 in ipairs(var_1_4) do
-		local var_1_8 = ItemCfg[iter_1_7].time[2][1]
-
-		var_0_0.fillingItemIdList[var_1_8] = var_0_0.fillingItemIdList[var_1_8] or {}
-
-		table.insert(var_0_0.fillingItemIdList[var_1_8], iter_1_7)
-	end
-
-	for iter_1_8, iter_1_9 in ipairs(var_1_5) do
-		local var_1_9 = ItemCfg[iter_1_9].time[2][1]
-
-		var_0_0.cakeItemIdList[var_1_9] = var_0_0.cakeItemIdList[var_1_9] or {}
-
-		table.insert(var_0_0.cakeItemIdList[var_1_9], iter_1_9)
-	end
-
-	for iter_1_10, iter_1_11 in ipairs(var_1_6) do
-		local var_1_10 = ItemCfg[iter_1_11].time[2][1]
-
-		var_0_0.giftItemIdList[var_1_10] = var_0_0.giftItemIdList[var_1_10] or {}
-
-		table.insert(var_0_0.giftItemIdList[var_1_10], iter_1_11)
-	end
-
-	for iter_1_12, iter_1_13 in pairs(MoonCakeCfg.get_id_list_by_activity) do
-		local var_1_11 = {}
-
-		for iter_1_14, iter_1_15 in ipairs(iter_1_13) do
-			local var_1_12 = MoonCakeCfg[iter_1_15].patties
-			local var_1_13 = MoonCakeCfg[iter_1_15].mold
-
-			var_1_11[var_1_12] = var_1_11[var_1_12] or {}
-			var_1_11[var_1_12][var_1_13] = iter_1_15
-
-			local var_1_14 = MoonCakeCfg[iter_1_15].moon_cakes
-
-			var_0_0.cakeIdDicByCakeItemID_[var_1_14] = iter_1_15
+			table.insert(uv0.materialItemIdList[slot11], slot9)
 		end
 
-		var_0_0.cakeRecipeDic_[iter_1_12] = var_1_11
-	end
-end
+		for slot8, slot9 in ipairs(slot2) do
+			uv0.fillingItemIdList[slot11] = uv0.fillingItemIdList[ItemCfg[slot9].time[2][1]] or {}
 
-function var_0_0.GetMainActivityID(arg_2_0)
-	if not var_0_0.mainActivityIdDic_[arg_2_0] then
-		-- block empty
-	end
+			table.insert(uv0.fillingItemIdList[slot11], slot9)
+		end
 
-	return var_0_0.mainActivityIdDic_[arg_2_0]
-end
+		for slot8, slot9 in ipairs(slot3) do
+			uv0.cakeItemIdList[slot11] = uv0.cakeItemIdList[ItemCfg[slot9].time[2][1]] or {}
 
-function var_0_0.GetCakeStageActivityID(arg_3_0)
-	if not var_0_0.subActivityIdDic_[arg_3_0].cake_activity_id then
-		-- block empty
-	end
+			table.insert(uv0.cakeItemIdList[slot11], slot9)
+		end
 
-	return var_0_0.subActivityIdDic_[arg_3_0].cake_activity_id
-end
+		for slot8, slot9 in ipairs(slot4) do
+			uv0.giftItemIdList[slot11] = uv0.giftItemIdList[ItemCfg[slot9].time[2][1]] or {}
 
-function var_0_0.GetPartyStageActivityID(arg_4_0)
-	if not var_0_0.subActivityIdDic_[arg_4_0].party_activity_id then
-		-- block empty
-	end
+			table.insert(uv0.giftItemIdList[slot11], slot9)
+		end
 
-	return var_0_0.subActivityIdDic_[arg_4_0].party_activity_id
-end
+		for slot8, slot9 in pairs(MoonCakeCfg.get_id_list_by_activity) do
+			slot10 = {}
 
-function var_0_0.GetMoonBoStageActivityID(arg_5_0)
-	if not var_0_0.subActivityIdDic_[arg_5_0].moon_bo_activity_id then
-		-- block empty
-	end
-
-	return var_0_0.subActivityIdDic_[arg_5_0].moon_bo_activity_id
-end
-
-function var_0_0.GetCakeRecipeDic(arg_6_0)
-	return var_0_0.cakeRecipeDic_[arg_6_0]
-end
-
-function var_0_0.GetCakeIdDicByCakeItemID()
-	return var_0_0.cakeIdDicByCakeItemID_
-end
-
-function var_0_0.GetMaterialItemIdList(arg_8_0)
-	return var_0_0.materialItemIdList[arg_8_0]
-end
-
-function var_0_0.GetFillingItemIdList(arg_9_0)
-	return var_0_0.fillingItemIdList[arg_9_0]
-end
-
-function var_0_0.GetGiftItemIdList(arg_10_0)
-	return var_0_0.giftItemIdList[arg_10_0]
-end
-
-function var_0_0.GetFillingMultiTimes(arg_11_0)
-	local var_11_0 = 0
-	local var_11_1 = 0
-	local var_11_2 = MoonCakeFillingCfg[arg_11_0].recipe
-	local var_11_3 = {}
-
-	for iter_11_0, iter_11_1 in ipairs(var_11_2) do
-		var_11_3[iter_11_0] = ItemTools.getItemNum(iter_11_1[1])
-	end
-
-	local var_11_4 = #var_11_3
-	local var_11_5 = true
-
-	while var_11_5 do
-		for iter_11_2 = 1, var_11_4 do
-			if var_11_3[iter_11_2] - var_11_2[iter_11_2][2] < 0 then
-				var_11_5 = false
-
-				break
-			else
-				var_11_3[iter_11_2] = var_11_3[iter_11_2] - var_11_2[iter_11_2][2]
+			for slot14, slot15 in ipairs(slot9) do
+				slot10[slot16] = slot10[MoonCakeCfg[slot15].patties] or {}
+				slot10[slot16][MoonCakeCfg[slot15].mold] = slot15
+				uv0.cakeIdDicByCakeItemID_[MoonCakeCfg[slot15].moon_cakes] = slot15
 			end
+
+			uv0.cakeRecipeDic_[slot8] = slot10
+		end
+	end,
+	GetMainActivityID = function (slot0)
+		if not uv0.mainActivityIdDic_[slot0] then
+			-- Nothing
 		end
 
-		if var_11_5 then
-			var_11_1 = var_11_1 + 1
-		end
-	end
-
-	local var_11_6 = var_11_1 > 0 and 1 or 0
-
-	return var_11_1, var_11_6
-end
-
-function var_0_0.GetSortedFilling(arg_12_0)
-	local var_12_0 = deepClone(MoonCakeFillingCfg.get_id_list_by_activity[arg_12_0])
-	local var_12_1 = {}
-
-	local function var_12_2(arg_13_0, arg_13_1)
-		if not var_12_1[arg_13_0] then
-			var_12_1[arg_13_0] = var_0_0.GetFillingMultiTimes(arg_13_0)
+		return uv0.mainActivityIdDic_[slot0]
+	end,
+	GetCakeStageActivityID = function (slot0)
+		if not uv0.subActivityIdDic_[slot0].cake_activity_id then
+			-- Nothing
 		end
 
-		if not var_12_1[arg_13_1] then
-			var_12_1[arg_13_1] = var_0_0.GetFillingMultiTimes(arg_13_1)
+		return uv0.subActivityIdDic_[slot0].cake_activity_id
+	end,
+	GetPartyStageActivityID = function (slot0)
+		if not uv0.subActivityIdDic_[slot0].party_activity_id then
+			-- Nothing
 		end
 
-		if var_12_1[arg_13_0] == var_12_1[arg_13_1] then
-			return arg_13_0 < arg_13_1
-		else
-			return var_12_1[arg_13_0] > var_12_1[arg_13_1]
+		return uv0.subActivityIdDic_[slot0].party_activity_id
+	end,
+	GetMoonBoStageActivityID = function (slot0)
+		if not uv0.subActivityIdDic_[slot0].moon_bo_activity_id then
+			-- Nothing
 		end
-	end
 
-	table.sort(var_12_0, var_12_2)
+		return uv0.subActivityIdDic_[slot0].moon_bo_activity_id
+	end,
+	GetCakeRecipeDic = function (slot0)
+		return uv0.cakeRecipeDic_[slot0]
+	end,
+	GetCakeIdDicByCakeItemID = function ()
+		return uv0.cakeIdDicByCakeItemID_
+	end,
+	GetMaterialItemIdList = function (slot0)
+		return uv0.materialItemIdList[slot0]
+	end,
+	GetFillingItemIdList = function (slot0)
+		return uv0.fillingItemIdList[slot0]
+	end,
+	GetGiftItemIdList = function (slot0)
+		return uv0.giftItemIdList[slot0]
+	end,
+	GetFillingMultiTimes = function (slot0)
+		slot1 = 0
+		slot2 = 0
 
-	return var_12_0
-end
+		for slot8, slot9 in ipairs(MoonCakeFillingCfg[slot0].recipe) do
+			-- Nothing
+		end
 
-function var_0_0.CanVisitNext(arg_14_0)
-	local var_14_0 = MoonCakeData:GetTempVisitIndex(arg_14_0)
+		slot5 = #{
+			[slot8] = ItemTools.getItemNum(slot9[1])
+		}
 
-	if not var_14_0 then
-		return false
-	end
-
-	local var_14_1 = var_14_0.type
-	local var_14_2 = var_14_0.index
-	local var_14_3 = {}
-
-	if var_14_1 == MoonCakeConst.VISIT_TYPE.ALL then
-		var_14_3 = MoonCakeData:GetSortedRecommendPartyList(arg_14_0)
-	elseif var_14_1 == MoonCakeConst.VISIT_TYPE.FRIEND then
-		var_14_3 = MoonCakeData:GetSortedFriendPartyList(arg_14_0)
-	end
-
-	local var_14_4 = var_14_2 + 1
-
-	if #var_14_3 > 0 and var_14_4 > #var_14_3 then
-		return false
-	end
-
-	return true
-end
-
-function var_0_0.GetSortedCakeGroupList(arg_15_0)
-	local var_15_0 = MoonCakeData:GetReceivedGroupDic(arg_15_0)
-	local var_15_1 = MoonCakeData:GetUnlockCakeDic(arg_15_0)
-	local var_15_2 = MoonCakeGroupCfg.get_id_list_by_activity[arg_15_0]
-	local var_15_3 = {}
-	local var_15_4 = {}
-	local var_15_5 = {}
-
-	for iter_15_0, iter_15_1 in ipairs(var_15_2) do
-		if var_15_0[iter_15_1] then
-			var_15_3[#var_15_3 + 1] = iter_15_1
-		else
-			local var_15_6 = true
-			local var_15_7 = MoonCakeGroupCfg[iter_15_1].collect_condition
-
-			for iter_15_2, iter_15_3 in ipairs(var_15_7) do
-				if not var_15_1[iter_15_3] then
-					var_15_5[#var_15_5 + 1] = iter_15_1
-					var_15_6 = false
+		while true do
+			for slot10 = 1, slot5 do
+				if slot4[slot10] - slot3[slot10][2] < 0 then
+					slot6 = false
 
 					break
+				else
+					slot4[slot10] = slot4[slot10] - slot3[slot10][2]
 				end
 			end
 
-			if var_15_6 then
-				var_15_4[#var_15_4 + 1] = iter_15_1
+			if slot6 then
+				slot2 = slot2 + 1
 			end
 		end
-	end
 
-	table.insertto(var_15_4, var_15_5)
-	table.insertto(var_15_4, var_15_3)
+		return slot2, slot2 > 0 and 1 or 0
+	end,
+	GetSortedFilling = function (slot0)
+		slot1 = deepClone(MoonCakeFillingCfg.get_id_list_by_activity[slot0])
+		slot2 = {}
 
-	return var_15_4
-end
+		table.sort(slot1, function (slot0, slot1)
+			if not uv0[slot0] then
+				uv0[slot0] = uv1.GetFillingMultiTimes(slot0)
+			end
 
-function var_0_0.GetCakeItemIdList(arg_16_0)
-	return var_0_0.cakeItemIdList[arg_16_0] or {}
-end
+			if not uv0[slot1] then
+				uv0[slot1] = uv1.GetFillingMultiTimes(slot1)
+			end
 
-function var_0_0.CheckPartyPlanValid(arg_17_0, arg_17_1)
-	local var_17_0 = 0
-	local var_17_1 = 0
-	local var_17_2 = false
+			if uv0[slot0] == uv0[slot1] then
+				return slot0 < slot1
+			else
+				return uv0[slot1] < uv0[slot0]
+			end
+		end)
 
-	if arg_17_1 == MoonCakeConst.PARTY_TYPE.CAKE then
-		local var_17_3 = var_0_0.GetMainActivityID(arg_17_0)
-		local var_17_4 = var_0_0.cakeItemIdList[var_17_3]
-
-		for iter_17_0, iter_17_1 in ipairs(var_17_4) do
-			var_17_0 = var_17_0 + ItemTools.getItemNum(iter_17_1)
+		return slot1
+	end,
+	CanVisitNext = function (slot0)
+		if not MoonCakeData:GetTempVisitIndex(slot0) then
+			return false
 		end
 
-		var_17_1 = GameSetting.activity_mid_autumn_party_consume_1.value[1]
-		var_17_2 = var_17_1 <= var_17_0
-	elseif arg_17_1 == MoonCakeConst.PARTY_TYPE.VISIT then
-		var_17_0 = MoonCakeData:GetTodayVisitTimes(arg_17_0)
-		var_17_1 = GameSetting.activity_mid_autumn_party_consume_2.value[1]
-		var_17_2 = var_17_1 <= var_17_0
+		slot3 = slot1.index
+		slot4 = {}
+
+		if slot1.type == MoonCakeConst.VISIT_TYPE.ALL then
+			slot4 = MoonCakeData:GetSortedRecommendPartyList(slot0)
+		elseif slot2 == MoonCakeConst.VISIT_TYPE.FRIEND then
+			slot4 = MoonCakeData:GetSortedFriendPartyList(slot0)
+		end
+
+		if #slot4 > 0 and slot3 + 1 > #slot4 then
+			return false
+		end
+
+		return true
+	end,
+	GetSortedCakeGroupList = function (slot0)
+		slot2 = MoonCakeData:GetUnlockCakeDic(slot0)
+		slot4 = {}
+		slot5 = {}
+		slot6 = {}
+
+		for slot10, slot11 in ipairs(MoonCakeGroupCfg.get_id_list_by_activity[slot0]) do
+			if MoonCakeData:GetReceivedGroupDic(slot0)[slot11] then
+				slot4[#slot4 + 1] = slot11
+			else
+				slot12 = true
+
+				for slot18, slot19 in ipairs(MoonCakeGroupCfg[slot11].collect_condition) do
+					if not slot2[slot19] then
+						slot6[#slot6 + 1] = slot11
+						slot12 = false
+
+						break
+					end
+				end
+
+				if slot12 then
+					slot5[#slot5 + 1] = slot11
+				end
+			end
+		end
+
+		table.insertto(slot5, slot6)
+		table.insertto(slot5, slot4)
+
+		return slot5
+	end,
+	GetCakeItemIdList = function (slot0)
+		return uv0.cakeItemIdList[slot0] or {}
+	end,
+	CheckPartyPlanValid = function (slot0, slot1)
+		slot2 = 0
+		slot3 = 0
+		slot4 = false
+
+		if slot1 == MoonCakeConst.PARTY_TYPE.CAKE then
+			for slot10, slot11 in ipairs(uv0.cakeItemIdList[uv0.GetMainActivityID(slot0)]) do
+				slot2 = slot2 + ItemTools.getItemNum(slot11)
+			end
+
+			slot4 = GameSetting.activity_mid_autumn_party_consume_1.value[1] <= slot2
+		elseif slot1 == MoonCakeConst.PARTY_TYPE.VISIT then
+			slot4 = GameSetting.activity_mid_autumn_party_consume_2.value[1] <= MoonCakeData:GetTodayVisitTimes(slot0)
+		end
+
+		return slot4, slot2, slot3
+	end,
+	SetTempVisitViewType = function (slot0, slot1)
+		uv0.tempVisitViewParams_[slot0] = uv0.tempVisitViewParams_[slot0] or {}
+		uv0.tempVisitViewParams_[slot0].type = slot1
+	end,
+	GetTempVisitViewType = function (slot0)
+		return uv0.tempVisitViewParams_[slot0].type
+	end,
+	SetTempVisitViewScrollPos = function (slot0, slot1)
+		uv0.tempVisitViewParams_[slot0] = uv0.tempVisitViewParams_[slot0] or {}
+		uv0.tempVisitViewParams_[slot0].scrollPos = slot1
+	end,
+	GetTempVisitViewScrollPos = function (slot0)
+		return uv0.tempVisitViewParams_[slot0].scrollPos
+	end,
+	SetTempDelegateViewPageIndex = function (slot0, slot1)
+		uv0.tempDelegateViewParams_[slot0] = uv0.tempDelegateViewParams_[slot0] or {}
+		uv0.tempDelegateViewParams_[slot0].pageIndex = slot1
+	end,
+	GetTempDelegateViewPageIndex = function (slot0)
+		return uv0.tempDelegateViewParams_[slot0].pageIndex
+	end,
+	SetTempDelegateViewScrollPos = function (slot0, slot1)
+		uv0.tempDelegateViewParams_[slot0] = uv0.tempDelegateViewParams_[slot0] or {}
+		uv0.tempDelegateViewParams_[slot0].scrollPos = slot1
+	end,
+	GetTempDelegateViewScrollPos = function (slot0)
+		return uv0.tempDelegateViewParams_[slot0].scrollPos
+	end,
+	SetTempRecordViewType = function (slot0, slot1)
+		uv0.tempRecordViewParams_[slot0] = uv0.tempRecordViewParams_[slot0] or {}
+		uv0.tempRecordViewParams_[slot0].type = slot1
+	end,
+	GetTempRecordViewType = function (slot0)
+		return uv0.tempRecordViewParams_[slot0].type
+	end,
+	SetTempRecordViewScrollPos = function (slot0, slot1)
+		uv0.tempRecordViewParams_[slot0] = uv0.tempRecordViewParams_[slot0] or {}
+		uv0.tempRecordViewParams_[slot0].scrollPos = slot1
+	end,
+	GetTempRecordViewScrollPos = function (slot0)
+		return uv0.tempRecordViewParams_[slot0].scrollPos
 	end
-
-	return var_17_2, var_17_0, var_17_1
-end
-
-function var_0_0.SetTempVisitViewType(arg_18_0, arg_18_1)
-	var_0_0.tempVisitViewParams_[arg_18_0] = var_0_0.tempVisitViewParams_[arg_18_0] or {}
-	var_0_0.tempVisitViewParams_[arg_18_0].type = arg_18_1
-end
-
-function var_0_0.GetTempVisitViewType(arg_19_0)
-	return var_0_0.tempVisitViewParams_[arg_19_0].type
-end
-
-function var_0_0.SetTempVisitViewScrollPos(arg_20_0, arg_20_1)
-	var_0_0.tempVisitViewParams_[arg_20_0] = var_0_0.tempVisitViewParams_[arg_20_0] or {}
-	var_0_0.tempVisitViewParams_[arg_20_0].scrollPos = arg_20_1
-end
-
-function var_0_0.GetTempVisitViewScrollPos(arg_21_0)
-	return var_0_0.tempVisitViewParams_[arg_21_0].scrollPos
-end
-
-function var_0_0.SetTempDelegateViewPageIndex(arg_22_0, arg_22_1)
-	var_0_0.tempDelegateViewParams_[arg_22_0] = var_0_0.tempDelegateViewParams_[arg_22_0] or {}
-	var_0_0.tempDelegateViewParams_[arg_22_0].pageIndex = arg_22_1
-end
-
-function var_0_0.GetTempDelegateViewPageIndex(arg_23_0)
-	return var_0_0.tempDelegateViewParams_[arg_23_0].pageIndex
-end
-
-function var_0_0.SetTempDelegateViewScrollPos(arg_24_0, arg_24_1)
-	var_0_0.tempDelegateViewParams_[arg_24_0] = var_0_0.tempDelegateViewParams_[arg_24_0] or {}
-	var_0_0.tempDelegateViewParams_[arg_24_0].scrollPos = arg_24_1
-end
-
-function var_0_0.GetTempDelegateViewScrollPos(arg_25_0)
-	return var_0_0.tempDelegateViewParams_[arg_25_0].scrollPos
-end
-
-function var_0_0.SetTempRecordViewType(arg_26_0, arg_26_1)
-	var_0_0.tempRecordViewParams_[arg_26_0] = var_0_0.tempRecordViewParams_[arg_26_0] or {}
-	var_0_0.tempRecordViewParams_[arg_26_0].type = arg_26_1
-end
-
-function var_0_0.GetTempRecordViewType(arg_27_0)
-	return var_0_0.tempRecordViewParams_[arg_27_0].type
-end
-
-function var_0_0.SetTempRecordViewScrollPos(arg_28_0, arg_28_1)
-	var_0_0.tempRecordViewParams_[arg_28_0] = var_0_0.tempRecordViewParams_[arg_28_0] or {}
-	var_0_0.tempRecordViewParams_[arg_28_0].scrollPos = arg_28_1
-end
-
-function var_0_0.GetTempRecordViewScrollPos(arg_29_0)
-	return var_0_0.tempRecordViewParams_[arg_29_0].scrollPos
-end
-
-return var_0_0
+}

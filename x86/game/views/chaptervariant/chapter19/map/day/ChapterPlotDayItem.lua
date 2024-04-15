@@ -1,166 +1,141 @@
-local var_0_0 = class("ChapterPlotDayItem", ReduxView)
+slot0 = class("ChapterPlotDayItem", ReduxView)
 
-function var_0_0.Ctor(arg_1_0, arg_1_1, arg_1_2, arg_1_3, arg_1_4)
-	arg_1_0.gameObject_ = Object.Instantiate(arg_1_1, arg_1_2.transform)
-	arg_1_0.transform_ = arg_1_0.gameObject_.transform
-	arg_1_0.chapterID_ = arg_1_3
-	arg_1_0.day_ = arg_1_4
+function slot0.Ctor(slot0, slot1, slot2, slot3, slot4)
+	slot0.gameObject_ = Object.Instantiate(slot1, slot2.transform)
+	slot0.transform_ = slot0.gameObject_.transform
+	slot0.chapterID_ = slot3
+	slot0.day_ = slot4
 
-	arg_1_0:BindCfgUI()
-	arg_1_0:BindCfgUI()
-	arg_1_0:BindCfgUI()
-	arg_1_0:AddListeners()
+	slot0:BindCfgUI()
+	slot0:BindCfgUI()
+	slot0:BindCfgUI()
+	slot0:AddListeners()
 
-	arg_1_0.stateController_ = arg_1_0.controllerEx_:GetController("state")
-	arg_1_0.dayImageController_ = arg_1_0.controllerEx_:GetController("default1")
-	arg_1_0.newDayController_ = arg_1_0.controllerEx_:GetController("newDay")
+	slot0.stateController_ = slot0.controllerEx_:GetController("state")
+	slot0.dayImageController_ = slot0.controllerEx_:GetController("default1")
+	slot0.newDayController_ = slot0.controllerEx_:GetController("newDay")
 
-	arg_1_0:Show(true)
+	slot0:Show(true)
 end
 
-function var_0_0.AddListeners(arg_2_0)
-	arg_2_0:AddBtnListener(arg_2_0.button_, nil, function()
-		if arg_2_0.timeLock_ then
-			local var_3_0 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_2_0.chapterID_][arg_2_0.day_][1]
-			local var_3_1 = ChapterMapCfg[var_3_0].activity_id
-			local var_3_2 = ActivityData:GetActivityData(var_3_1).startTime
-			local var_3_3 = GetTips("UNLOCK")
-
-			ShowTips(string.format(var_3_3, manager.time:GetLostTimeStr(var_3_2)))
+function slot0.AddListeners(slot0)
+	slot0:AddBtnListener(slot0.button_, nil, function ()
+		if uv0.timeLock_ then
+			ShowTips(string.format(GetTips("UNLOCK"), manager.time:GetLostTimeStr(ActivityData:GetActivityData(ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[uv0.chapterID_][uv0.day_][1]].activity_id).startTime)))
 
 			return
 		end
 
-		if arg_2_0.isLock_ then
-			local var_3_4 = ChapterTools.GetChapterDayList(arg_2_0.chapterID_)
-			local var_3_5 = var_3_4[table.keyof(var_3_4, arg_2_0.day_) - 1]
-			local var_3_6 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_2_0.chapterID_][var_3_5][1]
-			local var_3_7 = ChapterMapCfg[var_3_6]
+		if uv0.isLock_ then
+			slot0 = ChapterTools.GetChapterDayList(uv0.chapterID_)
 
-			if var_3_7.name == "" then
-				ShowTips(string.format(GetTips("CLEAR_DAY_ALL_STAGE_THEN_UNLOCK"), var_3_5))
+			if ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[uv0.chapterID_][slot0[table.keyof(slot0, uv0.day_) - 1]][1]].name == "" then
+				ShowTips(string.format(GetTips("CLEAR_DAY_ALL_STAGE_THEN_UNLOCK"), slot2))
 			else
-				ShowTips(string.format(GetTips("CLEAR_DAY_ALL_STAGE_THEN_UNLOCK_2"), var_3_7.name))
+				ShowTips(string.format(GetTips("CLEAR_DAY_ALL_STAGE_THEN_UNLOCK_2"), slot4.name))
 			end
 
 			return
 		end
 
-		if not BattleStageData:GetOperateChapterDay(arg_2_0.chapterID_, arg_2_0.day_) then
-			BattleStageAction.OperateChapterDay(arg_2_0.chapterID_, arg_2_0.day_, function()
-				BattleFieldData:SaveChapterMapDay(arg_2_0.chapterID_, arg_2_0.day_)
+		if not BattleStageData:GetOperateChapterDay(uv0.chapterID_, uv0.day_) then
+			BattleStageAction.OperateChapterDay(uv0.chapterID_, uv0.day_, function ()
+				BattleFieldData:SaveChapterMapDay(uv0.chapterID_, uv0.day_)
 				manager.notify:Invoke(CHAPTER_DAY_CHANGED)
 			end)
 		else
-			BattleFieldData:SaveChapterMapDay(arg_2_0.chapterID_, arg_2_0.day_)
+			BattleFieldData:SaveChapterMapDay(uv0.chapterID_, uv0.day_)
 			manager.notify:Invoke(CHAPTER_DAY_CHANGED)
 		end
 	end)
 end
 
-function var_0_0.SetData(arg_5_0, arg_5_1, arg_5_2)
-	arg_5_0.day_ = arg_5_1
-	arg_5_0.selectDay_ = arg_5_2
-	arg_5_0.isLock_ = not ChapterTools.IsClearPreChapterDayAllStage(arg_5_0.chapterID_, arg_5_1)
+function slot0.SetData(slot0, slot1, slot2)
+	slot0.day_ = slot1
+	slot0.selectDay_ = slot2
+	slot0.isLock_ = not ChapterTools.IsClearPreChapterDayAllStage(slot0.chapterID_, slot1)
 
-	local var_5_0 = ChapterTools.GetChapterDayList(arg_5_0.chapterID_)
-
-	if table.keyof(var_5_0, arg_5_1) == 2 then
-		local var_5_1 = var_5_0[1]
-
-		if ChapterTools.IsNeedOperateFirstDayWatch(arg_5_0.chapterID_, var_5_1) then
-			arg_5_0.isLock_ = true
-		end
+	if table.keyof(ChapterTools.GetChapterDayList(slot0.chapterID_), slot1) == 2 and ChapterTools.IsNeedOperateFirstDayWatch(slot0.chapterID_, slot3[1]) then
+		slot0.isLock_ = true
 	end
 
-	if ChapterTools.IsLastDay(arg_5_0.chapterID_, arg_5_1) and not BattleStageData:GetOperateChapterDay(arg_5_0.chapterID_, arg_5_1) then
-		arg_5_0.isLock_ = true
+	if ChapterTools.IsLastDay(slot0.chapterID_, slot1) and not BattleStageData:GetOperateChapterDay(slot0.chapterID_, slot1) then
+		slot0.isLock_ = true
 	end
 
-	local var_5_2 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_5_0.chapterID_][arg_5_1][1]
-	local var_5_3 = ChapterMapCfg[var_5_2]
+	slot0.timeLock_ = ActivityTools.GetActivityStatus(ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[slot0.chapterID_][slot1][1]].activity_id) == 0
 
-	arg_5_0.timeLock_ = ActivityTools.GetActivityStatus(var_5_3.activity_id) == 0
-
-	arg_5_0:RefreshUI()
+	slot0:RefreshUI()
 end
 
-function var_0_0.RefreshUI(arg_6_0)
-	local var_6_0 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_6_0.chapterID_][arg_6_0.day_][1]
-	local var_6_1 = ChapterMapCfg[var_6_0]
+function slot0.RefreshUI(slot0)
+	if ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[slot0.chapterID_][slot0.day_][1]].icon_id ~= "" then
+		slot0.dayImage_.sprite = getSprite("Atlas/OperationAtlas", slot2.icon_id)
 
-	if var_6_1.icon_id ~= "" then
-		arg_6_0.dayImage_.sprite = getSprite("Atlas/OperationAtlas", var_6_1.icon_id)
-
-		arg_6_0.dayImageController_:SetSelectedState("image")
+		slot0.dayImageController_:SetSelectedState("image")
 	else
-		arg_6_0.dayText_.text = string.format("%s", arg_6_0.day_)
+		slot0.dayText_.text = string.format("%s", slot0.day_)
 
-		arg_6_0.dayImageController_:SetSelectedState("num")
+		slot0.dayImageController_:SetSelectedState("num")
 	end
 
-	if arg_6_0.selectDay_ == arg_6_0.day_ then
-		arg_6_0.stateController_:SetSelectedState("select")
-	elseif arg_6_0.isLock_ or arg_6_0.timeLock_ then
-		arg_6_0.stateController_:SetSelectedState("lock")
+	if slot0.selectDay_ == slot0.day_ then
+		slot0.stateController_:SetSelectedState("select")
+	elseif slot0.isLock_ or slot0.timeLock_ then
+		slot0.stateController_:SetSelectedState("lock")
 	else
-		arg_6_0.stateController_:SetSelectedState("unlock")
+		slot0.stateController_:SetSelectedState("unlock")
 	end
 
-	arg_6_0:RefreshGuild()
-	arg_6_0:AddTimer()
+	slot0:RefreshGuild()
+	slot0:AddTimer()
 end
 
-function var_0_0.Show(arg_7_0, arg_7_1)
-	SetActive(arg_7_0.gameObject_, arg_7_1)
+function slot0.Show(slot0, slot1)
+	SetActive(slot0.gameObject_, slot1)
 end
 
-function var_0_0.Dispose(arg_8_0)
-	arg_8_0:StopTimer()
-	var_0_0.super.Dispose(arg_8_0)
-	Object.Destroy(arg_8_0.gameObject_)
+function slot0.Dispose(slot0)
+	slot0:StopTimer()
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 
-	arg_8_0.gameObject_ = nil
-	arg_8_0.transform_ = nil
+	slot0.gameObject_ = nil
+	slot0.transform_ = nil
 end
 
-function var_0_0.RefreshGuild(arg_9_0)
-	if ChapterTools.IsNeedGuildDay(arg_9_0.chapterID_, arg_9_0.day_) then
-		arg_9_0.newDayController_:SetSelectedState("true")
+function slot0.RefreshGuild(slot0)
+	if ChapterTools.IsNeedGuildDay(slot0.chapterID_, slot0.day_) then
+		slot0.newDayController_:SetSelectedState("true")
 	else
-		arg_9_0.newDayController_:SetSelectedState("false")
+		slot0.newDayController_:SetSelectedState("false")
 	end
 end
 
-function var_0_0.AddTimer(arg_10_0)
-	arg_10_0:StopTimer()
+function slot0.AddTimer(slot0)
+	slot0:StopTimer()
 
-	if arg_10_0.timeLock_ then
-		local var_10_0 = ChapterMapCfg.get_id_list_by_chapter_id_day[arg_10_0.chapterID_][arg_10_0.day_][1]
-		local var_10_1 = ChapterMapCfg[var_10_0].activity_id
+	if slot0.timeLock_ then
+		slot3 = ChapterMapCfg[ChapterMapCfg.get_id_list_by_chapter_id_day[slot0.chapterID_][slot0.day_][1]].activity_id
+		slot0.timer_ = Timer.New(function ()
+			if ActivityData:GetActivityData(uv0) and slot0.startTime <= manager.time:GetServerTime() then
+				uv1.timeLock_ = false
 
-		arg_10_0.timer_ = Timer.New(function()
-			local var_11_0 = ActivityData:GetActivityData(var_10_1)
-			local var_11_1 = manager.time:GetServerTime()
-
-			if var_11_0 and var_11_1 >= var_11_0.startTime then
-				arg_10_0.timeLock_ = false
-
-				arg_10_0:RefreshUI()
-				arg_10_0:StopTimer()
+				uv1:RefreshUI()
+				uv1:StopTimer()
 			end
 		end, 1, -1)
 
-		arg_10_0.timer_:Start()
+		slot0.timer_:Start()
 	end
 end
 
-function var_0_0.StopTimer(arg_12_0)
-	if arg_12_0.timer_ then
-		arg_12_0.timer_:Stop()
+function slot0.StopTimer(slot0)
+	if slot0.timer_ then
+		slot0.timer_:Stop()
 
-		arg_12_0.timer_ = nil
+		slot0.timer_ = nil
 	end
 end
 
-return var_0_0
+return slot0

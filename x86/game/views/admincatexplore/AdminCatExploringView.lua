@@ -1,114 +1,107 @@
-local var_0_0 = class("AdminCatExploringView", ReduxView)
+slot0 = class("AdminCatExploringView", ReduxView)
 
-function var_0_0.Init(arg_1_0)
-	arg_1_0:InitUI()
-	arg_1_0:AddUIListener()
+function slot0.Init(slot0)
+	slot0:InitUI()
+	slot0:AddUIListener()
 end
 
-function var_0_0.UIName(arg_2_0)
+function slot0.UIName(slot0)
 	return "Widget/System/ExploreUI/ExploringPopUI"
 end
 
-function var_0_0.UIParent(arg_3_0)
+function slot0.UIParent(slot0)
 	return manager.ui.uiPop.transform
 end
 
-function var_0_0.InitUI(arg_4_0)
-	arg_4_0:BindCfgUI()
+function slot0.InitUI(slot0)
+	slot0:BindCfgUI()
 
-	arg_4_0.list = LuaList.New(handler(arg_4_0, arg_4_0.SetEventData), arg_4_0.listGo_, AdminCatExploreEventView)
+	slot0.list = LuaList.New(handler(slot0, slot0.SetEventData), slot0.listGo_, AdminCatExploreEventView)
 end
 
-function var_0_0.SetEventData(arg_5_0, arg_5_1, arg_5_2)
-	local var_5_0 = arg_5_0.regionData.eventData[arg_5_1]
-
-	arg_5_2:SetData(var_5_0, arg_5_0.regionData.adminCatID, arg_5_0.regionData.startTime)
+function slot0.SetEventData(slot0, slot1, slot2)
+	slot2:SetData(slot0.regionData.eventData[slot1], slot0.regionData.adminCatID, slot0.regionData.startTime)
 end
 
-function var_0_0.AddUIListener(arg_6_0)
-	arg_6_0:AddBtnListener(arg_6_0.maskBg_, nil, function()
-		arg_6_0:Back()
+function slot0.AddUIListener(slot0)
+	slot0:AddBtnListener(slot0.maskBg_, nil, function ()
+		uv0:Back()
 	end)
 end
 
-function var_0_0.UpdateView(arg_8_0)
-	local var_8_0 = ExploreAreaCfg[arg_8_0.regionId]
-	local var_8_1 = 0
+function slot0.UpdateView(slot0)
+	slot1 = ExploreAreaCfg[slot0.regionId]
+	slot2 = 0
+	slot0.regionData = AdminCatExploreData:GetDataByPara("regionData")[slot0.regionId]
 
-	arg_8_0.regionData = AdminCatExploreData:GetDataByPara("regionData")[arg_8_0.regionId]
-
-	if arg_8_0.regionData == nil then
+	if slot0.regionData == nil then
 		return
 	end
 
-	for iter_8_0, iter_8_1 in ipairs(arg_8_0.regionData.eventData) do
-		if manager.time:GetServerTime() >= iter_8_1.time + arg_8_0.regionData.startTime then
-			var_8_1 = math.min(var_8_1 + 1, #arg_8_0.regionData.eventData)
+	for slot6, slot7 in ipairs(slot0.regionData.eventData) do
+		if manager.time:GetServerTime() >= slot7.time + slot0.regionData.startTime then
+			slot2 = math.min(slot2 + 1, #slot0.regionData.eventData)
 		end
 	end
 
-	local var_8_2 = 0
-
-	for iter_8_2, iter_8_3 in ipairs(arg_8_0.regionData.eventData) do
-		if manager.time:GetServerTime() >= iter_8_3.time + arg_8_0.regionData.startTime then
-			var_8_2 = var_8_2 + 1
+	for slot6, slot7 in ipairs(slot0.regionData.eventData) do
+		if manager.time:GetServerTime() >= slot7.time + slot0.regionData.startTime then
+			slot2 = 0 + 1
 		end
 	end
 
-	arg_8_0.regionTxt_.text = GetI18NText(var_8_0.area_name)
+	slot0.regionTxt_.text = GetI18NText(slot1.area_name)
+	slot3 = slot0.regionData.stopTime - manager.time:GetServerTime()
+	slot0.remainTxt_.text = manager.time:DescCDTime(slot3)
+	slot0.updateTimer_ = Timer.New(function ()
+		uv0 = uv1.regionData.stopTime - manager.time:GetServerTime()
+		uv1.remainTxt_.text = manager.time:DescCDTime(uv0)
 
-	local var_8_3 = arg_8_0.regionData.stopTime - manager.time:GetServerTime()
+		if uv2 < #uv1.regionData.eventData and manager.time:GetServerTime() >= uv1.regionData.eventData[uv2 + 1].time + uv1.regionData.startTime then
+			uv2 = math.min(uv2 + 1, #uv1.regionData.eventData)
 
-	arg_8_0.remainTxt_.text = manager.time:DescCDTime(var_8_3)
-	arg_8_0.updateTimer_ = Timer.New(function()
-		var_8_3 = arg_8_0.regionData.stopTime - manager.time:GetServerTime()
-		arg_8_0.remainTxt_.text = manager.time:DescCDTime(var_8_3)
-
-		if var_8_2 < #arg_8_0.regionData.eventData and manager.time:GetServerTime() >= arg_8_0.regionData.eventData[var_8_2 + 1].time + arg_8_0.regionData.startTime then
-			var_8_2 = math.min(var_8_2 + 1, #arg_8_0.regionData.eventData)
-
-			arg_8_0.list:StartScroll(var_8_2, var_8_2)
+			uv1.list:StartScroll(uv2, uv2)
 		end
 
-		if var_8_3 <= 0 then
-			arg_8_0.updateTimer_:Stop()
+		if uv0 <= 0 then
+			uv1.updateTimer_:Stop()
 
-			arg_8_0.updateTimer_ = nil
+			uv1.updateTimer_ = nil
 
-			arg_8_0:Back()
-			AdminCatExploreAction.AdminCatExploreFinish(arg_8_0.regionId)
+			uv1:Back()
+			AdminCatExploreAction.AdminCatExploreFinish(uv1.regionId)
 		end
-	end, 1, var_8_3, 1)
+	end, 1, slot3, 1)
 
-	arg_8_0.list:StartScroll(var_8_2)
-	arg_8_0.updateTimer_:Start()
+	slot0.list:StartScroll(slot2)
+	slot0.updateTimer_:Start()
 end
 
-function var_0_0.OnEnter(arg_10_0)
-	arg_10_0.regionId = arg_10_0.params_.regionId
+function slot0.OnEnter(slot0)
+	slot0.regionId = slot0.params_.regionId
 
-	arg_10_0:UpdateView()
+	slot0:UpdateView()
 	manager.audio:PlayEffect("ui_system_explore", "explore_working", "")
 	manager.audio:PlayEffect("ui_system_explore", "explore_working_loop", "")
 end
 
-function var_0_0.OnExit(arg_11_0)
-	if arg_11_0.updateTimer_ then
-		arg_11_0.updateTimer_:Stop()
+function slot0.OnExit(slot0)
+	if slot0.updateTimer_ then
+		slot0.updateTimer_:Stop()
 
-		arg_11_0.updateTimer_ = nil
+		slot0.updateTimer_ = nil
 	end
 end
 
-function var_0_0.Dispose(arg_12_0)
-	if arg_12_0.list then
-		arg_12_0.list:Dispose()
+function slot0.Dispose(slot0)
+	if slot0.list then
+		slot0.list:Dispose()
 
-		arg_12_0.list = nil
+		slot0.list = nil
 	end
 
-	var_0_0.super.Dispose(arg_12_0)
-	Object.Destroy(arg_12_0.gameObject_)
+	uv0.super.Dispose(slot0)
+	Object.Destroy(slot0.gameObject_)
 end
 
-return var_0_0
+return slot0

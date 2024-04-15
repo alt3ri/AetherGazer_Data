@@ -1,29 +1,28 @@
 ActivityInfinityPoolBaseView = import("game.views.activity.Submodule.infinityTask.base.infinity.ActivityInfinityPoolBaseView")
+slot0 = class("ActivityInfinityPoolFactoryView", ActivityInfinityPoolBaseView)
 
-local var_0_0 = class("ActivityInfinityPoolFactoryView", ActivityInfinityPoolBaseView)
-
-function var_0_0.GetAssetName(arg_1_0)
+function slot0.GetAssetName(slot0)
 	return "UI/MardukUI/catMatch/MardukInfinitypoolUI"
 end
 
-function var_0_0.GetInfinityPoolItem(arg_2_0)
+function slot0.GetInfinityPoolItem(slot0)
 	return ActivityInfinityPoolFactoryItem
 end
 
-function var_0_0.ClickRewardPreview(arg_3_0)
+function slot0.ClickRewardPreview(slot0)
 	JumpTools.OpenPageByJump("infinityRewardPreviewFactory", {
-		poolID = arg_3_0.poolID_
+		poolID = slot0.poolID_
 	})
 end
 
-function var_0_0.RefreshUI(arg_4_0)
-	var_0_0.super.RefreshUI(arg_4_0)
+function slot0.RefreshUI(slot0)
+	uv0.super.RefreshUI(slot0)
 
-	arg_4_0.phaseText_.text = GetTips(string.format("PHASE_%s", arg_4_0.phase_))
+	slot0.phaseText_.text = GetTips(string.format("PHASE_%s", slot0.phase_))
 end
 
-function var_0_0.GetRewardItem(arg_5_0, arg_5_1)
-	return RewardPoolFactoryItem.New(arg_5_0.goMainReward_, arg_5_1, true)
+function slot0.GetRewardItem(slot0, slot1)
+	return RewardPoolFactoryItem.New(slot0.goMainReward_, slot1, true)
 end
 
-return var_0_0
+return slot0

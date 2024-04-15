@@ -1,74 +1,66 @@
-local var_0_0 = class("ShareLogoView")
+slot0 = class("ShareLogoView")
 
-function var_0_0.Ctor(arg_1_0, arg_1_1)
-	arg_1_0.gameObject_ = arg_1_1
-	arg_1_0.transform_ = arg_1_1.transform
+function slot0.Ctor(slot0, slot1)
+	slot0.gameObject_ = slot1
+	slot0.transform_ = slot1.transform
 
-	ComponentBinder.GetInstance():BindCfgUI(arg_1_0, arg_1_0.gameObject_)
+	ComponentBinder.GetInstance():BindCfgUI(slot0, slot0.gameObject_)
 
-	arg_1_0.logoParent_ = {
-		[0] = arg_1_0.ltLogo_,
-		arg_1_0.lbLogo_,
-		arg_1_0.rtLogo_,
-		arg_1_0.rbLogo_
+	slot0.logoParent_ = {
+		[0] = slot0.ltLogo_,
+		slot0.lbLogo_,
+		slot0.rtLogo_,
+		slot0.rbLogo_
 	}
-	arg_1_0.cardParent_ = {
-		[0] = arg_1_0.ltCard_,
-		arg_1_0.lbCard_,
-		arg_1_0.rtCard_,
-		arg_1_0.rbCard_
+	slot0.cardParent_ = {
+		[0] = slot0.ltCard_,
+		slot0.lbCard_,
+		slot0.rtCard_,
+		slot0.rbCard_
 	}
-	arg_1_0.logoController = ControllerUtil.GetController(arg_1_0.gameObject_.transform, "logo")
+	slot0.logoController = ControllerUtil.GetController(slot0.gameObject_.transform, "logo")
 end
 
-function var_0_0.ShowLogo(arg_2_0, arg_2_1)
-	local var_2_0 = {}
+function slot0.ShowLogo(slot0, slot1)
+	slot2 = {}
+	slot2 = (slot1 or {
+		cardShowUID = true,
+		cardShowLv = true,
+		logoPos = 0,
+		cardPos = 1,
+		cardShow = true
+	}) and slot1
 
-	if not arg_2_1 then
-		var_2_0 = {
-			cardShowUID = true,
-			cardShowLv = true,
-			logoPos = 0,
-			cardPos = 1,
-			cardShow = true
-		}
-	else
-		var_2_0 = arg_2_1
-	end
+	SetActive(slot0.goCardPanel_, slot2.cardShow)
+	slot0.transformLogo_:SetParent(slot0.logoParent_[slot2.logoPos], false)
+	slot0.logoController:SetSelectedIndex(GameToSDK.CURRENT_SERVER == "kr" and 1 or 0)
 
-	SetActive(arg_2_0.goCardPanel_, var_2_0.cardShow)
-	arg_2_0.transformLogo_:SetParent(arg_2_0.logoParent_[var_2_0.logoPos], false)
-	arg_2_0.logoController:SetSelectedIndex(GameToSDK.CURRENT_SERVER == "kr" and 1 or 0)
+	if slot2.cardShow then
+		slot0.transformCard_:SetParent(slot0.cardParent_[slot2.cardPos], false)
 
-	if var_2_0.cardShow then
-		arg_2_0.transformCard_:SetParent(arg_2_0.cardParent_[var_2_0.cardPos], false)
+		slot0.textNick_.text = PlayerData:GetPlayerInfo().nick
 
-		local var_2_1 = PlayerData:GetPlayerInfo()
-
-		arg_2_0.textNick_.text = var_2_1.nick
-
-		if var_2_0.cardShowLv then
-			arg_2_0.textLv_.text = GetTips("LEVEL") .. var_2_1.userLevel
+		if slot2.cardShowLv then
+			slot0.textLv_.text = GetTips("LEVEL") .. slot3.userLevel
 		else
-			arg_2_0.textLv_.text = GetTips("LEVEL") .. "**"
+			slot0.textLv_.text = GetTips("LEVEL") .. "**"
 		end
 
-		if var_2_0.cardShowUID then
-			arg_2_0.textUID_.text = "UID：" .. USER_ID
+		if slot2.cardShowUID then
+			slot0.textUID_.text = "UID：" .. USER_ID
 		else
-			arg_2_0.textUID_.text = "UID：************"
+			slot0.textUID_.text = "UID：************"
 		end
 	end
 
-	SetActive(arg_2_0.gameObject_, true)
+	SetActive(slot0.gameObject_, true)
 end
 
-function var_0_0.HideLogo(arg_3_0)
-	SetActive(arg_3_0.gameObject_, false)
+function slot0.HideLogo(slot0)
+	SetActive(slot0.gameObject_, false)
 end
 
-function var_0_0.Dispose(arg_4_0)
-	return
+function slot0.Dispose(slot0)
 end
 
-return var_0_0
+return slot0
